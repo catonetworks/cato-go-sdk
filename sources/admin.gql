@@ -1,0 +1,39 @@
+query admin($accountId: ID!, $adminID: ID!){
+    admin(accountId: $accountId, adminID: $adminID){
+        id
+        firstName
+        lastName
+        email
+        creationDate
+        passwordNeverExpires
+        mfaEnabled
+        managedRoles{
+            role{
+                id
+                name
+                description
+                isPredefined
+            }
+            allowedEntities{
+                id
+                name
+                type
+            }
+            allowedAccounts
+        }
+        resellerRoles{
+            role{
+                id
+                name
+                description
+                isPredefined
+            }
+            allowedEntities{
+                id
+                name
+                type
+            }
+            allowedAccounts
+        }
+    }
+}

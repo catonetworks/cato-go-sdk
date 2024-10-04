@@ -1,65 +1,32 @@
-# Cato Networks Go Client SDK
+package main
 
-This client is built to support the Cato Networks GraphQL API as outlined here:
+import (
+	"context"
+	"encoding/json"
+	"fmt"
+	"net/http"
+	"os"
 
-https://www.catonetworks.com/platform/cato-api/
+	cato "github.com/routebyintuition/cato-go-sdk"
+	cato_models "github.com/routebyintuition/cato-go-sdk/models"
+	"github.com/routebyintuition/cato-go-sdk/scalars"
+)
 
-### Installation
+func main() {
+	token := os.Getenv("CATO_API_KEY")
+	accountId := os.Getenv("CATO_ACCOUNT_ID")
+	url := "https://api.catonetworks.com/api/v1/graphql2"
 
-```bash
-go install github.com/cato-networks/cato-go-sdk
-```
-
-### Client Initialization
-URL: The URL to the Cato Networks GraphQL endpoint (https://api.catonetworks.com/api/v1/graphql2)
-Token: Your API access token
-HTTP Client: Use either the default HTTP client or leverage more advanced configuration options by passing in a client.
-
-```go
-catoClient, _ := cato.New(url, token, *http.DefaultClient)
-```
-
-### Client Queries
-In this example, we are looking up Entity information regarding Cato Site data from the API. We pass in the EntityID as a string slice ([]string{}) which can leverage multiple EntityIDs.
-
-To read the returned data, we can either leverage a JSON Marshall call to read the JSON directly or perform GetItems()/GetItem() on the elements.
-
-```go
-	queryResult, err := catoClient.EntityLookup(ctx, accountId, cato_models.EntityType("site"), nil, nil, nil, nil, entityIds, nil, nil, nil)
-	if err != nil {
-		fmt.Println("error in EntityLookup: ", err)
+	if token == "" {
+		fmt.Println("no token provided")
 		os.Exit(1)
 	}
 
-	for _, val := range queryResult.EntityLookup.GetItems() {
-		fmt.Println("entity item: ", *val.Entity.Name)
+	if accountId == "" {
+		fmt.Println("no account id provided")
+		os.Exit(1)
 	}
 
-	queryResultJson, err := json.Marshal(queryResult)
-	if err != nil {
-		fmt.Println(err)
-		return
-	}
-	fmt.Println(string(queryResultJson))
-
-```
-
-### Policy Queries
-#### Note:  The Policy query has been updated as of 9/17 to support the new Cato Networks WAN query parameters in addition to the previous Internet Firewall parameters. Those who have existing code leveraging a single input parameter to the query will need to ensure that you are using version < 0.2.20
-
-```go
-
-accountId := "12345"
-queryIfwPolicy := &cato_models.InternetFirewallPolicyInput{}
-queryWanPolicy := &cato_models.WanFirewallPolicyInput{}
-queryResult, err := catoClient.Policy(ctx, queryIfwPolicy, queryWanPolicy, accountId)
-
-```
-
-### Client Mutations
-Mustations are used in GraphQL to perform a change. This can include a create/update/delete operation. In the example below, we are creating a mostly blank internet firewall rule which is named, "TestRule101". This is set to be inserted as the last rule in the policy to ALLOW any traffic to slashdot.org.
-
-```go
 	catoClient, _ := cato.New(url, token, *http.DefaultClient)
 
 	ctx := context.Background()
@@ -81,7 +48,9 @@ Mustations are used in GraphQL to perform a change. This can include a create/up
 	actionEnum := cato_models.InternetFirewallActionEnum("ALLOW")
 
 	domainList := []string{"slashdot.org"}
-	fqdnList := []string{}
+	fqdnList := []string{"www.slashdot.org"}
+
+	remoteAsnList := []scalars.Asn16{}
 
 	inputRule := cato_models.InternetFirewallAddRuleInput{
 		At: &cato_models.PolicyRulePositionInput{
@@ -89,8 +58,8 @@ Mustations are used in GraphQL to perform a change. This can include a create/up
 		},
 		Rule: &cato_models.InternetFirewallAddRuleDataInput{
 			Enabled:     false,
-			Name:        "TestRule101",
-			Description: "TestRule101",
+			Name:        "TestScalarRule01",
+			Description: "TestScalarRule01",
 			Source: &cato_models.InternetFirewallSourceInput{
 				IP:                []string{},
 				Host:              hostRefInput,
@@ -123,12 +92,20 @@ Mustations are used in GraphQL to perform a change. This can include a create/up
 				Subnet:                 []string{},
 				IPRange:                iprange,
 				GlobalIPRange:          globalIpRange,
-				RemoteAsn:              []string{},
+				RemoteAsn:              remoteAsnList,
 			},
 			Service: &cato_models.InternetFirewallServiceTypeInput{},
 			Action:  actionEnum,
 			Schedule: &cato_models.PolicyScheduleInput{
-				ActiveOn: "ALWAYS",
+				ActiveOn: "CUSTOM_RECURRING",
+				CustomRecurring: &cato_models.PolicyCustomRecurringInput{
+					// From: cato_scalars.Time("08:00"),
+					From: "10:00:00",
+					To:   "11:00:00",
+					Days: []cato_models.DayOfWeek{
+						"MONDAY",
+					},
+				},
 			},
 			Tracking: &cato_models.PolicyTrackingInput{
 				Event: &cato_models.PolicyRuleTrackingEventInput{
@@ -151,8 +128,10 @@ Mustations are used in GraphQL to perform a change. This can include a create/up
 		fmt.Println("error: ", err)
 		os.Exit(1)
 	}
-```
 
-### Examples
+	policyChangeJson, _ := json.Marshal(policyChange)
+	fmt.Println(string(policyChangeJson))
 
-Additional examples can be found in the [examples](examples/) folder.
+	fmt.Println("policyChange: ", policyChange)
+
+}

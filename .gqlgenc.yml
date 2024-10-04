@@ -1,0 +1,30 @@
+model:
+  package: cato_models
+  filename: ./models/models.go
+client:
+  package: cato_go_sdk
+  filename: ./client.go
+models:
+  Int:
+    model: github.com/99designs/gqlgen/graphql.Int64
+  Date:
+    model: github.com/99designs/gqlgen/graphql.Time
+  Asn16:
+    model: github.com/routebyintuition/cato-go-sdk/scalars.Asn16
+  Asn32:
+    model: github.com/routebyintuition/cato-go-sdk/scalars.Asn32
+  #ID:
+  #  model: github.com/routebyintuition/cato-go-sdk/scalars.ID
+  Long:
+    model: github.com/routebyintuition/cato-go-sdk/scalars.Long    
+  Port:
+    model: github.com/routebyintuition/cato-go-sdk/scalars.Port
+  Time:
+    model: github.com/routebyintuition/cato-go-sdk/scalars.Time    
+schema:
+ - cato_api.graphqls
+query:
+  - "./sources/*.gql"
+generate:
+  clientV2: true
+  clientInterfaceName: "CatoClient"

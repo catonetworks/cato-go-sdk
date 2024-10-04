@@ -1,0 +1,27 @@
+query licensing($accountId: ID!){
+    licensing(accountId: $accountId){
+        licensingInfo{
+            licenses{
+                description
+                plan
+                sku
+                status
+                startDate
+                expirationDate
+                lastUpdated
+            }
+            globalLicenseAllocations{
+                publicIps{
+                    total
+                    allocated
+                    available
+                }
+                ztnaUsers{
+                    total
+                    allocated
+                    available
+                }
+            }
+        }
+    }
+}
