@@ -7,7 +7,7 @@ import (
 	"io"
 	"strconv"
 
-	"github.com/routebyintuition/cato-go-sdk/scalars"
+	"github.com/cato-networks/cato-go-sdk/scalars"
 )
 
 type Activity interface {

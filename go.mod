@@ -1,11 +1,8 @@
-module github.com/Cato-Networks/cato-go-sdk
+module github.com/cato-networks/cato-go-sdk
 
 go 1.23.1
 
-require (
-	github.com/Yamashou/gqlgenc v0.25.2
-	github.com/routebyintuition/cato-go-sdk v0.2.7
-)
+require github.com/Yamashou/gqlgenc v0.25.2
 
 require (
 	github.com/99designs/gqlgen v0.17.54 // indirect

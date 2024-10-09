@@ -7,8 +7,8 @@ import (
 	"net/http"
 
 	"github.com/Yamashou/gqlgenc/clientv2"
-	cato_models "github.com/routebyintuition/cato-go-sdk/models"
-	"github.com/routebyintuition/cato-go-sdk/scalars"
+	cato_models "github.com/cato-networks/cato-go-sdk/models"
+	"github.com/cato-networks/cato-go-sdk/scalars"
 )
 
 type CatoClient interface {

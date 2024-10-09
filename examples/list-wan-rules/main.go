@@ -7,8 +7,8 @@ import (
 	"net/http"
 	"os"
 
-	cato "github.com/routebyintuition/cato-go-sdk"
-	cato_models "github.com/routebyintuition/cato-go-sdk/models"
+	cato "github.com/cato-networks/cato-go-sdk"
+	cato_models "github.com/cato-networks/cato-go-sdk/models"
 )
 
 func main() {
