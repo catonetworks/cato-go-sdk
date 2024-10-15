@@ -4,7 +4,7 @@ import (
 	"context"
 
 	"github.com/Yamashou/gqlgenc/clientv2"
-	cato_models "github.com/cato-networks/cato-go-sdk/models"
+	cato_models "github.com/catonetworks/cato-go-sdk/models"
 )
 
 func (c *Client) PolicyInternetFirewall(ctx context.Context, internetFirewallPolicyInput *cato_models.InternetFirewallPolicyInput, accountID string, interceptors ...clientv2.RequestInterceptor) (*Policy, error) {

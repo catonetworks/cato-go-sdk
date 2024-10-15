@@ -1,4 +1,4 @@
-module github.com/cato-networks/cato-go-sdk
+module github.com/catonetworks/cato-go-sdk
 
 go 1.23.1
 

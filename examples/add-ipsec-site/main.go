@@ -6,8 +6,8 @@ import (
 	"net/http"
 	"os"
 
-	cato "github.com/cato-networks/cato-go-sdk"
-	cato_models "github.com/cato-networks/cato-go-sdk/models"
+	cato "github.com/catonetworks/cato-go-sdk"
+	cato_models "github.com/catonetworks/cato-go-sdk/models"
 )
 
 func main() {

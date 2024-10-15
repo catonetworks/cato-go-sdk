@@ -7,7 +7,7 @@ https://www.catonetworks.com/platform/cato-api/
 ### Installation
 
 ```bash
-go install github.com/cato-networks/cato-go-sdk
+go install github.com/catonetworks/cato-go-sdk
 ```
 
 ### Client Initialization

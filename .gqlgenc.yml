@@ -10,17 +10,17 @@ models:
   Date:
     model: github.com/99designs/gqlgen/graphql.Time
   Asn16:
-    model: github.com/cato-networks/cato-go-sdk/scalars.Asn16
+    model: github.com/catonetworks/cato-go-sdk/scalars.Asn16
   Asn32:
-    model: github.com/cato-networks/cato-go-sdk/scalars.Asn32
+    model: github.com/catonetworks/cato-go-sdk/scalars.Asn32
   #ID:
-  #  model: github.com/cato-networks/cato-go-sdk/scalars.ID
+  #  model: github.com/catonetworks/cato-go-sdk/scalars.ID
   Long:
-    model: github.com/cato-networks/cato-go-sdk/scalars.Long    
+    model: github.com/catonetworks/cato-go-sdk/scalars.Long    
   Port:
-    model: github.com/cato-networks/cato-go-sdk/scalars.Port
+    model: github.com/catonetworks/cato-go-sdk/scalars.Port
   Time:
-    model: github.com/cato-networks/cato-go-sdk/scalars.Time    
+    model: github.com/catonetworks/cato-go-sdk/scalars.Time    
 schema:
  - cato_api.graphqls
 query:
