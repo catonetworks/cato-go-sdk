@@ -2783,7 +2783,7 @@ type AccountSnapshot_AccountSnapshot_Sites struct {
 	ProtoID                        *int64                                                      "json:\"protoId,omitempty\" graphql:\"protoId\""
 	ConnectivityStatusSiteSnapshot *cato_models.ConnectivityStatus                             "json:\"connectivityStatusSiteSnapshot,omitempty\" graphql:\"connectivityStatusSiteSnapshot\""
 	HaStatusSiteSnapshot           *AccountSnapshot_AccountSnapshot_Sites_HaStatusSiteSnapshot "json:\"haStatusSiteSnapshot,omitempty\" graphql:\"haStatusSiteSnapshot\""
-	OperationalStatusSiteSnapshot  *cato_models.OperationalStatus                              "json:\"operationalStatusSiteSnapshot,omitempty\" graphql:\"operationalStatusSiteSnapshot\""
+	OperationalStatusSiteSnapshot  *scalars.OperationalStatus                                  "json:\"operationalStatusSiteSnapshot,omitempty\" graphql:\"operationalStatusSiteSnapshot\""
 	LastConnected                  *string                                                     "json:\"lastConnected,omitempty\" graphql:\"lastConnected\""
 	ConnectedSince                 *string                                                     "json:\"connectedSince,omitempty\" graphql:\"connectedSince\""
 	PopName                        *string                                                     "json:\"popName,omitempty\" graphql:\"popName\""
@@ -2817,7 +2817,7 @@ func (t *AccountSnapshot_AccountSnapshot_Sites) GetHaStatusSiteSnapshot() *Accou
 	}
 	return t.HaStatusSiteSnapshot
 }
-func (t *AccountSnapshot_AccountSnapshot_Sites) GetOperationalStatusSiteSnapshot() *cato_models.OperationalStatus {
+func (t *AccountSnapshot_AccountSnapshot_Sites) GetOperationalStatusSiteSnapshot() *scalars.OperationalStatus {
 	if t == nil {
 		t = &AccountSnapshot_AccountSnapshot_Sites{}
 	}
@@ -3614,13 +3614,13 @@ func (t *AccountSnapshot_AccountSnapshot_Users_Devices) GetInternalIP() *string 
 }
 
 type AccountSnapshot_AccountSnapshot_Users_InfoUserSnapshot struct {
-	Name         *string                        "json:\"name,omitempty\" graphql:\"name\""
-	Status       *cato_models.OperationalStatus "json:\"status,omitempty\" graphql:\"status\""
-	Email        *string                        "json:\"email,omitempty\" graphql:\"email\""
-	CreationTime *string                        "json:\"creationTime,omitempty\" graphql:\"creationTime\""
-	PhoneNumber  *string                        "json:\"phoneNumber,omitempty\" graphql:\"phoneNumber\""
-	Origin       *string                        "json:\"origin,omitempty\" graphql:\"origin\""
-	AuthMethod   *string                        "json:\"authMethod,omitempty\" graphql:\"authMethod\""
+	Name         *string                    "json:\"name,omitempty\" graphql:\"name\""
+	Status       *scalars.OperationalStatus "json:\"status,omitempty\" graphql:\"status\""
+	Email        *string                    "json:\"email,omitempty\" graphql:\"email\""
+	CreationTime *string                    "json:\"creationTime,omitempty\" graphql:\"creationTime\""
+	PhoneNumber  *string                    "json:\"phoneNumber,omitempty\" graphql:\"phoneNumber\""
+	Origin       *string                    "json:\"origin,omitempty\" graphql:\"origin\""
+	AuthMethod   *string                    "json:\"authMethod,omitempty\" graphql:\"authMethod\""
 }
 
 func (t *AccountSnapshot_AccountSnapshot_Users_InfoUserSnapshot) GetName() *string {
@@ -3629,7 +3629,7 @@ func (t *AccountSnapshot_AccountSnapshot_Users_InfoUserSnapshot) GetName() *stri
 	}
 	return t.Name
 }
-func (t *AccountSnapshot_AccountSnapshot_Users_InfoUserSnapshot) GetStatus() *cato_models.OperationalStatus {
+func (t *AccountSnapshot_AccountSnapshot_Users_InfoUserSnapshot) GetStatus() *scalars.OperationalStatus {
 	if t == nil {
 		t = &AccountSnapshot_AccountSnapshot_Users_InfoUserSnapshot{}
 	}
@@ -3782,7 +3782,7 @@ func (t *AccountSnapshot_AccountSnapshot_Users_RecentConnections) GetRemoteIPInf
 type AccountSnapshot_AccountSnapshot_Users struct {
 	ID                             *string                                                         "json:\"id,omitempty\" graphql:\"id\""
 	ConnectivityStatusUserSnapshot *cato_models.ConnectivityStatus                                 "json:\"connectivityStatusUserSnapshot,omitempty\" graphql:\"connectivityStatusUserSnapshot\""
-	OperationalStatusUserSnapshot  *cato_models.OperationalStatus                                  "json:\"operationalStatusUserSnapshot,omitempty\" graphql:\"operationalStatusUserSnapshot\""
+	OperationalStatusUserSnapshot  *scalars.OperationalStatus                                      "json:\"operationalStatusUserSnapshot,omitempty\" graphql:\"operationalStatusUserSnapshot\""
 	Name                           *string                                                         "json:\"name,omitempty\" graphql:\"name\""
 	DeviceName                     *string                                                         "json:\"deviceName,omitempty\" graphql:\"deviceName\""
 	Uptime                         *int64                                                          "json:\"uptime,omitempty\" graphql:\"uptime\""
@@ -3814,7 +3814,7 @@ func (t *AccountSnapshot_AccountSnapshot_Users) GetConnectivityStatusUserSnapsho
 	}
 	return t.ConnectivityStatusUserSnapshot
 }
-func (t *AccountSnapshot_AccountSnapshot_Users) GetOperationalStatusUserSnapshot() *cato_models.OperationalStatus {
+func (t *AccountSnapshot_AccountSnapshot_Users) GetOperationalStatusUserSnapshot() *scalars.OperationalStatus {
 	if t == nil {
 		t = &AccountSnapshot_AccountSnapshot_Users{}
 	}
@@ -4450,7 +4450,7 @@ type Admins_Admins_Items struct {
 	Email                 *string                              "json:\"email,omitempty\" graphql:\"email\""
 	CreationDate          *string                              "json:\"creationDate,omitempty\" graphql:\"creationDate\""
 	ModifyDate            *string                              "json:\"modifyDate,omitempty\" graphql:\"modifyDate\""
-	Status                *cato_models.OperationalStatus       "json:\"status,omitempty\" graphql:\"status\""
+	Status                *scalars.OperationalStatus           "json:\"status,omitempty\" graphql:\"status\""
 	PasswordNeverExpires  *bool                                "json:\"passwordNeverExpires,omitempty\" graphql:\"passwordNeverExpires\""
 	MfaEnabled            *bool                                "json:\"mfaEnabled,omitempty\" graphql:\"mfaEnabled\""
 	NativeAccountID       *string                              "json:\"nativeAccountID,omitempty\" graphql:\"nativeAccountID\""
@@ -4508,7 +4508,7 @@ func (t *Admins_Admins_Items) GetModifyDate() *string {
 	}
 	return t.ModifyDate
 }
-func (t *Admins_Admins_Items) GetStatus() *cato_models.OperationalStatus {
+func (t *Admins_Admins_Items) GetStatus() *scalars.OperationalStatus {
 	if t == nil {
 		t = &Admins_Admins_Items{}
 	}

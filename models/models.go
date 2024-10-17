@@ -552,22 +552,22 @@ type AddStaticHostPayload struct {
 
 // A CC2 administrator
 type Admin struct {
-	ID                    string             `json:"id"`
-	Version               string             `json:"version"`
-	Role                  *UserRole          `json:"role,omitempty"`
-	FirstName             *string            `json:"firstName,omitempty"`
-	LastName              *string            `json:"lastName,omitempty"`
-	Email                 *string            `json:"email,omitempty"`
-	CreationDate          *string            `json:"creationDate,omitempty"`
-	ModifyDate            *string            `json:"modifyDate,omitempty"`
-	Status                *OperationalStatus `json:"status,omitempty"`
-	PasswordNeverExpires  *bool              `json:"passwordNeverExpires,omitempty"`
-	MfaEnabled            *bool              `json:"mfaEnabled,omitempty"`
-	NativeAccountID       *string            `json:"nativeAccountID,omitempty"`
-	AllowedItems          []*Entity          `json:"allowedItems,omitempty"`
-	PresentUsageAndEvents *bool              `json:"presentUsageAndEvents,omitempty"`
-	ManagedRoles          []*AdminRole       `json:"managedRoles,omitempty"`
-	ResellerRoles         []*AdminRole       `json:"resellerRoles,omitempty"`
+	ID                    string                     `json:"id"`
+	Version               string                     `json:"version"`
+	Role                  *UserRole                  `json:"role,omitempty"`
+	FirstName             *string                    `json:"firstName,omitempty"`
+	LastName              *string                    `json:"lastName,omitempty"`
+	Email                 *string                    `json:"email,omitempty"`
+	CreationDate          *string                    `json:"creationDate,omitempty"`
+	ModifyDate            *string                    `json:"modifyDate,omitempty"`
+	Status                *scalars.OperationalStatus `json:"status,omitempty"`
+	PasswordNeverExpires  *bool                      `json:"passwordNeverExpires,omitempty"`
+	MfaEnabled            *bool                      `json:"mfaEnabled,omitempty"`
+	NativeAccountID       *string                    `json:"nativeAccountID,omitempty"`
+	AllowedItems          []*Entity                  `json:"allowedItems,omitempty"`
+	PresentUsageAndEvents *bool                      `json:"presentUsageAndEvents,omitempty"`
+	ManagedRoles          []*AdminRole               `json:"managedRoles,omitempty"`
+	ResellerRoles         []*AdminRole               `json:"resellerRoles,omitempty"`
 }
 
 type AdminMutations struct {
@@ -4819,7 +4819,7 @@ type SiteSnapshot struct {
 	// Site HA readiness information
 	HaStatus *HaStatus `json:"haStatus,omitempty"`
 	// Status for a site or VPN user
-	OperationalStatus *OperationalStatus `json:"operationalStatus,omitempty"`
+	OperationalStatus *scalars.OperationalStatus `json:"operationalStatus,omitempty"`
 	// Relevant when the site is disconnected - the last time the device was connected
 	LastConnected *string `json:"lastConnected,omitempty"`
 	// For connected sites, since when are they connected
@@ -5756,7 +5756,7 @@ type UserInfo struct {
 	// Name of the VPN user
 	Name *string `json:"name,omitempty"`
 	// Status of the Client as the type STRING
-	Status *OperationalStatus `json:"status,omitempty"`
+	Status *scalars.OperationalStatus `json:"status,omitempty"`
 	// Email address of the VPN user
 	Email *string `json:"email,omitempty"`
 	// Timestamp when the VPN user was created in the account
@@ -5793,7 +5793,7 @@ type UserSnapshot struct {
 	// Connectivity to the Cato Cloud
 	ConnectivityStatus *ConnectivityStatus `json:"connectivityStatus,omitempty"`
 	// Status for a site or VPN user
-	OperationalStatus *OperationalStatus `json:"operationalStatus,omitempty"`
+	OperationalStatus *scalars.OperationalStatus `json:"operationalStatus,omitempty"`
 	// User name from configuration, same as info.name
 	Name *string `json:"name,omitempty"`
 	// The host name of the device
@@ -10284,64 +10284,6 @@ func (e *OperatingSystem) UnmarshalGQL(v interface{}) error {
 }
 
 func (e OperatingSystem) MarshalGQL(w io.Writer) {
-	fmt.Fprint(w, strconv.Quote(e.String()))
-}
-
-type OperationalStatus string
-
-const (
-	// Passing traffic
-	OperationalStatusActive OperationalStatus = "active"
-	// Disabled in the Cato Management Application
-	OperationalStatusDisabled OperationalStatus = "disabled"
-	// License has expired for this site and you can't configure it
-	OperationalStatusLocked OperationalStatus = "locked"
-	// After you create the site before it is connected to the Cato Cloud
-	OperationalStatusNew OperationalStatus = "new"
-	// For VPN users only
-	OperationalStatusPendingUserConfiguration OperationalStatus = "pending_user_configuration"
-	// For VPN users only
-	OperationalStatusPendingMfaConfiguration OperationalStatus = "pending_mfa_configuration"
-	// For VPN users only
-	OperationalStatusPendingCodeGeneration OperationalStatus = "pending_code_generation"
-)
-
-var AllOperationalStatus = []OperationalStatus{
-	OperationalStatusActive,
-	OperationalStatusDisabled,
-	OperationalStatusLocked,
-	OperationalStatusNew,
-	OperationalStatusPendingUserConfiguration,
-	OperationalStatusPendingMfaConfiguration,
-	OperationalStatusPendingCodeGeneration,
-}
-
-func (e OperationalStatus) IsValid() bool {
-	switch e {
-	case OperationalStatusActive, OperationalStatusDisabled, OperationalStatusLocked, OperationalStatusNew, OperationalStatusPendingUserConfiguration, OperationalStatusPendingMfaConfiguration, OperationalStatusPendingCodeGeneration:
-		return true
-	}
-	return false
-}
-
-func (e OperationalStatus) String() string {
-	return string(e)
-}
-
-func (e *OperationalStatus) UnmarshalGQL(v interface{}) error {
-	str, ok := v.(string)
-	if !ok {
-		return fmt.Errorf("enums must be strings")
-	}
-
-	*e = OperationalStatus(str)
-	if !e.IsValid() {
-		return fmt.Errorf("%s is not a valid OperationalStatus", str)
-	}
-	return nil
-}
-
-func (e OperationalStatus) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 

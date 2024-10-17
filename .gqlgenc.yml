@@ -16,7 +16,9 @@ models:
   #ID:
   #  model: github.com/catonetworks/cato-go-sdk/scalars.ID
   Long:
-    model: github.com/catonetworks/cato-go-sdk/scalars.Long    
+    model: github.com/catonetworks/cato-go-sdk/scalars.Long
+  OperationalStatus:
+    model: github.com/catonetworks/cato-go-sdk/scalars.OperationalStatus
   Port:
     model: github.com/catonetworks/cato-go-sdk/scalars.Port
   Time:
