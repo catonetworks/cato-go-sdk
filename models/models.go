@@ -2785,9 +2785,7 @@ type InternetFirewallDestination struct {
 	// Cato category of applications which are dynamically updated by Cato
 	AppCategory []*ApplicationCategoryRef `json:"appCategory"`
 	// Applications for the rule (pre-defined)
-	Application []*ApplicationRef          `json:"application"`
-	Container   []*ContainerRef            `json:"container"`
-	Containers  *InternetFirewallContainer `json:"containers"`
+	Application []*ApplicationRef `json:"application"`
 	// Countries
 	Country []*CountryRef `json:"country"`
 	// Custom (user-defined) applications

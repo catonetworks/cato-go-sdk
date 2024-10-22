@@ -117,6 +117,7 @@ mutation policyInternetFirewallRemoveRule ( $internetFirewallPolicyMutationInput
 								name 
 							}
 							remoteAsn
+
 						}
 
 						service  {
@@ -290,6 +291,7 @@ mutation policyInternetFirewallRemoveRule ( $internetFirewallPolicyMutationInput
 								}
 
 								remoteAsn 
+
 							}
 							service {
 								standard  {

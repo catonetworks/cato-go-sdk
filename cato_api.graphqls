@@ -2261,8 +2261,8 @@ type InternetFirewallDestination {
   appCategory: [ApplicationCategoryRef!]!
   "Applications for the rule (pre-defined)"
   application: [ApplicationRef!]!
-  container: [ContainerRef!]!
-  containers: InternetFirewallContainer!
+  # container: [ContainerRef!]!
+  # containers: InternetFirewallContainer!
   "Countries"
   country: [CountryRef!]!
   "Custom (user-defined) applications"

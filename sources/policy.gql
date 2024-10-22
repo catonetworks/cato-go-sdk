@@ -118,10 +118,6 @@ query policy ( $internetFirewallPolicyInput:InternetFirewallPolicyInput $wanFire
 								name 
 							}
 							remoteAsn
-							container {
-								id 
-								name 
-							}
 						}
 
 						service  {
@@ -295,10 +291,6 @@ query policy ( $internetFirewallPolicyInput:InternetFirewallPolicyInput $wanFire
 								}
 
 								remoteAsn 
-								container  {
-									id
-									name
-								}
 
 							}
 							service {

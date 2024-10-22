@@ -20282,24 +20282,6 @@ func (t *Policy_Policy_InternetFirewall_Policy_Rules_Rule_Destination_GlobalIPRa
 	return t.Name
 }
 
-type Policy_Policy_InternetFirewall_Policy_Rules_Rule_Destination_Container struct {
-	ID   string "json:\"id\" graphql:\"id\""
-	Name string "json:\"name\" graphql:\"name\""
-}
-
-func (t *Policy_Policy_InternetFirewall_Policy_Rules_Rule_Destination_Container) GetID() string {
-	if t == nil {
-		t = &Policy_Policy_InternetFirewall_Policy_Rules_Rule_Destination_Container{}
-	}
-	return t.ID
-}
-func (t *Policy_Policy_InternetFirewall_Policy_Rules_Rule_Destination_Container) GetName() string {
-	if t == nil {
-		t = &Policy_Policy_InternetFirewall_Policy_Rules_Rule_Destination_Container{}
-	}
-	return t.Name
-}
-
 type Policy_Policy_InternetFirewall_Policy_Rules_Rule_Destination struct {
 	Application            []*Policy_Policy_InternetFirewall_Policy_Rules_Rule_Destination_Application            "json:\"application\" graphql:\"application\""
 	CustomApp              []*Policy_Policy_InternetFirewall_Policy_Rules_Rule_Destination_CustomApp              "json:\"customApp\" graphql:\"customApp\""
@@ -20314,7 +20296,6 @@ type Policy_Policy_InternetFirewall_Policy_Rules_Rule_Destination struct {
 	IPRange                []*Policy_Policy_InternetFirewall_Policy_Rules_Rule_Destination_IPRange                "json:\"ipRange\" graphql:\"ipRange\""
 	GlobalIPRange          []*Policy_Policy_InternetFirewall_Policy_Rules_Rule_Destination_GlobalIPRange          "json:\"globalIpRange\" graphql:\"globalIpRange\""
 	RemoteAsn              []scalars.Asn16                                                                        "json:\"remoteAsn\" graphql:\"remoteAsn\""
-	Container              []*Policy_Policy_InternetFirewall_Policy_Rules_Rule_Destination_Container              "json:\"container\" graphql:\"container\""
 }
 
 func (t *Policy_Policy_InternetFirewall_Policy_Rules_Rule_Destination) GetApplication() []*Policy_Policy_InternetFirewall_Policy_Rules_Rule_Destination_Application {
@@ -20394,12 +20375,6 @@ func (t *Policy_Policy_InternetFirewall_Policy_Rules_Rule_Destination) GetRemote
 		t = &Policy_Policy_InternetFirewall_Policy_Rules_Rule_Destination{}
 	}
 	return t.RemoteAsn
-}
-func (t *Policy_Policy_InternetFirewall_Policy_Rules_Rule_Destination) GetContainer() []*Policy_Policy_InternetFirewall_Policy_Rules_Rule_Destination_Container {
-	if t == nil {
-		t = &Policy_Policy_InternetFirewall_Policy_Rules_Rule_Destination{}
-	}
-	return t.Container
 }
 
 type Policy_Policy_InternetFirewall_Policy_Rules_Rule_Service_Standard struct {
@@ -21144,24 +21119,6 @@ func (t *Policy_Policy_InternetFirewall_Policy_Rules_Rule_Exceptions_Destination
 	return t.Name
 }
 
-type Policy_Policy_InternetFirewall_Policy_Rules_Rule_Exceptions_Destination_Container struct {
-	ID   string "json:\"id\" graphql:\"id\""
-	Name string "json:\"name\" graphql:\"name\""
-}
-
-func (t *Policy_Policy_InternetFirewall_Policy_Rules_Rule_Exceptions_Destination_Container) GetID() string {
-	if t == nil {
-		t = &Policy_Policy_InternetFirewall_Policy_Rules_Rule_Exceptions_Destination_Container{}
-	}
-	return t.ID
-}
-func (t *Policy_Policy_InternetFirewall_Policy_Rules_Rule_Exceptions_Destination_Container) GetName() string {
-	if t == nil {
-		t = &Policy_Policy_InternetFirewall_Policy_Rules_Rule_Exceptions_Destination_Container{}
-	}
-	return t.Name
-}
-
 type Policy_Policy_InternetFirewall_Policy_Rules_Rule_Exceptions_Destination struct {
 	Application            []*Policy_Policy_InternetFirewall_Policy_Rules_Rule_Exceptions_Destination_Application            "json:\"application\" graphql:\"application\""
 	CustomApp              []*Policy_Policy_InternetFirewall_Policy_Rules_Rule_Exceptions_Destination_CustomApp              "json:\"customApp\" graphql:\"customApp\""
@@ -21176,7 +21133,6 @@ type Policy_Policy_InternetFirewall_Policy_Rules_Rule_Exceptions_Destination str
 	IPRange                []*Policy_Policy_InternetFirewall_Policy_Rules_Rule_Exceptions_Destination_IPRange                "json:\"ipRange\" graphql:\"ipRange\""
 	GlobalIPRange          []*Policy_Policy_InternetFirewall_Policy_Rules_Rule_Exceptions_Destination_GlobalIPRange          "json:\"globalIpRange\" graphql:\"globalIpRange\""
 	RemoteAsn              []scalars.Asn16                                                                                   "json:\"remoteAsn\" graphql:\"remoteAsn\""
-	Container              []*Policy_Policy_InternetFirewall_Policy_Rules_Rule_Exceptions_Destination_Container              "json:\"container\" graphql:\"container\""
 }
 
 func (t *Policy_Policy_InternetFirewall_Policy_Rules_Rule_Exceptions_Destination) GetApplication() []*Policy_Policy_InternetFirewall_Policy_Rules_Rule_Exceptions_Destination_Application {
@@ -21256,12 +21212,6 @@ func (t *Policy_Policy_InternetFirewall_Policy_Rules_Rule_Exceptions_Destination
 		t = &Policy_Policy_InternetFirewall_Policy_Rules_Rule_Exceptions_Destination{}
 	}
 	return t.RemoteAsn
-}
-func (t *Policy_Policy_InternetFirewall_Policy_Rules_Rule_Exceptions_Destination) GetContainer() []*Policy_Policy_InternetFirewall_Policy_Rules_Rule_Exceptions_Destination_Container {
-	if t == nil {
-		t = &Policy_Policy_InternetFirewall_Policy_Rules_Rule_Exceptions_Destination{}
-	}
-	return t.Container
 }
 
 type Policy_Policy_InternetFirewall_Policy_Rules_Rule_Exceptions_Service_Standard struct {
@@ -51987,10 +51937,6 @@ const PolicyDocument = `query policy ($internetFirewallPolicyInput: InternetFire
 								name
 							}
 							remoteAsn
-							container {
-								id
-								name
-							}
 						}
 						service {
 							standard {
@@ -52137,10 +52083,6 @@ const PolicyDocument = `query policy ($internetFirewallPolicyInput: InternetFire
 									name
 								}
 								remoteAsn
-								container {
-									id
-									name
-								}
 							}
 							service {
 								standard {
