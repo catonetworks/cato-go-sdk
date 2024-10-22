@@ -2194,7 +2194,7 @@ input InternetFirewallAddRuleDataInput {
   Logical ‘OR’ is applied within the criteria set.
   Logical ‘AND’ is applied between criteria sets.
   """
-  destination: InternetFirewallDestinationInput! = {application: [], customApp: [], appCategory: [], customCategory: [], sanctionedAppsCategory: [], country: [], domain: [], fqdn: [], ip: [], subnet: [], ipRange: [], globalIpRange: [], remoteAsn: [], container: [], containers: {fqdnContainer: [], ipAddressRangeContainer: []}}
+  destination: InternetFirewallDestinationInput! = {application: [], customApp: [], appCategory: [], customCategory: [], sanctionedAppsCategory: [], country: [], domain: [], fqdn: [], ip: [], subnet: [], ipRange: [], globalIpRange: [], remoteAsn: []}
   """
   Source Device Profile traffic matching criteria.
   Logical ‘OR’ is applied within the criteria set.
@@ -2293,8 +2293,8 @@ input InternetFirewallDestinationInput {
   appCategory: [ApplicationCategoryRefInput!]! = []
   "Applications for the rule (pre-defined)"
   application: [ApplicationRefInput!]! = []
-  container: [ContainerRefInput!]! = []
-  containers: InternetFirewallContainerInput! = {fqdnContainer: [], ipAddressRangeContainer: []}
+  # container: [ContainerRefInput!]! = []
+  # containers: InternetFirewallContainerInput! = {fqdnContainer: [], ipAddressRangeContainer: []}
   "Countries"
   country: [CountryRefInput!]! = []
   "Custom (user-defined) applications"
@@ -4448,7 +4448,7 @@ type SiteSnapshot {
   operationalStatus: OperationalStatus
   """Name of the PoP that the site is connected to"""
   popName: String
-  protoId: Int
+  protoId: ID
 }
 
 type Timeseries {

@@ -47,7 +47,7 @@ type CatoClient interface {
 	PolicyInternetFirewall(ctx context.Context, internetFirewallPolicyInput *cato_models.InternetFirewallPolicyInput, accountID string, interceptors ...clientv2.RequestInterceptor) (*Policy, error)
 	PolicyWanFirewall(ctx context.Context, wanFirewallPolicyInput *cato_models.WanFirewallPolicyInput, accountID string, interceptors ...clientv2.RequestInterceptor) (*Policy, error)
 	// End of temporary additions
-	
+
 	PolicyInternetFirewallAddRule(ctx context.Context, internetFirewallAddRuleInput cato_models.InternetFirewallAddRuleInput, accountID string, interceptors ...clientv2.RequestInterceptor) (*PolicyInternetFirewallAddRule, error)
 	PolicyWanFirewallAddRule(ctx context.Context, wanFirewallAddRuleInput cato_models.WanFirewallAddRuleInput, accountID string, interceptors ...clientv2.RequestInterceptor) (*PolicyWanFirewallAddRule, error)
 	PolicyWanFirewallAddSection(ctx context.Context, policyAddSectionInput cato_models.PolicyAddSectionInput, accountID string, interceptors ...clientv2.RequestInterceptor) (*PolicyWanFirewallAddSection, error)
@@ -2780,7 +2780,7 @@ func (t *AccountSnapshot_AccountSnapshot_Sites_InfoSiteSnapshot) GetIpsec() []*A
 
 type AccountSnapshot_AccountSnapshot_Sites struct {
 	ID                             *string                                                     "json:\"id,omitempty\" graphql:\"id\""
-	ProtoID                        *int64                                                      "json:\"protoId,omitempty\" graphql:\"protoId\""
+	ProtoID                        *string                                                     "json:\"protoId,omitempty\" graphql:\"protoId\""
 	ConnectivityStatusSiteSnapshot *cato_models.ConnectivityStatus                             "json:\"connectivityStatusSiteSnapshot,omitempty\" graphql:\"connectivityStatusSiteSnapshot\""
 	HaStatusSiteSnapshot           *AccountSnapshot_AccountSnapshot_Sites_HaStatusSiteSnapshot "json:\"haStatusSiteSnapshot,omitempty\" graphql:\"haStatusSiteSnapshot\""
 	OperationalStatusSiteSnapshot  *scalars.OperationalStatus                                  "json:\"operationalStatusSiteSnapshot,omitempty\" graphql:\"operationalStatusSiteSnapshot\""
@@ -2799,7 +2799,7 @@ func (t *AccountSnapshot_AccountSnapshot_Sites) GetID() *string {
 	}
 	return t.ID
 }
-func (t *AccountSnapshot_AccountSnapshot_Sites) GetProtoID() *int64 {
+func (t *AccountSnapshot_AccountSnapshot_Sites) GetProtoID() *string {
 	if t == nil {
 		t = &AccountSnapshot_AccountSnapshot_Sites{}
 	}
@@ -24834,78 +24834,6 @@ func (t *PolicyInternetFirewallAddRule_Policy_InternetFirewall_AddRule_Rule_Rule
 	return t.Name
 }
 
-type PolicyInternetFirewallAddRule_Policy_InternetFirewall_AddRule_Rule_Rule_Destination_Container struct {
-	ID   string "json:\"id\" graphql:\"id\""
-	Name string "json:\"name\" graphql:\"name\""
-}
-
-func (t *PolicyInternetFirewallAddRule_Policy_InternetFirewall_AddRule_Rule_Rule_Destination_Container) GetID() string {
-	if t == nil {
-		t = &PolicyInternetFirewallAddRule_Policy_InternetFirewall_AddRule_Rule_Rule_Destination_Container{}
-	}
-	return t.ID
-}
-func (t *PolicyInternetFirewallAddRule_Policy_InternetFirewall_AddRule_Rule_Rule_Destination_Container) GetName() string {
-	if t == nil {
-		t = &PolicyInternetFirewallAddRule_Policy_InternetFirewall_AddRule_Rule_Rule_Destination_Container{}
-	}
-	return t.Name
-}
-
-type PolicyInternetFirewallAddRule_Policy_InternetFirewall_AddRule_Rule_Rule_Destination_Containers_FqdnContainer struct {
-	ID   string "json:\"id\" graphql:\"id\""
-	Name string "json:\"name\" graphql:\"name\""
-}
-
-func (t *PolicyInternetFirewallAddRule_Policy_InternetFirewall_AddRule_Rule_Rule_Destination_Containers_FqdnContainer) GetID() string {
-	if t == nil {
-		t = &PolicyInternetFirewallAddRule_Policy_InternetFirewall_AddRule_Rule_Rule_Destination_Containers_FqdnContainer{}
-	}
-	return t.ID
-}
-func (t *PolicyInternetFirewallAddRule_Policy_InternetFirewall_AddRule_Rule_Rule_Destination_Containers_FqdnContainer) GetName() string {
-	if t == nil {
-		t = &PolicyInternetFirewallAddRule_Policy_InternetFirewall_AddRule_Rule_Rule_Destination_Containers_FqdnContainer{}
-	}
-	return t.Name
-}
-
-type PolicyInternetFirewallAddRule_Policy_InternetFirewall_AddRule_Rule_Rule_Destination_Containers_IPAddressRangeContainer struct {
-	ID   string "json:\"id\" graphql:\"id\""
-	Name string "json:\"name\" graphql:\"name\""
-}
-
-func (t *PolicyInternetFirewallAddRule_Policy_InternetFirewall_AddRule_Rule_Rule_Destination_Containers_IPAddressRangeContainer) GetID() string {
-	if t == nil {
-		t = &PolicyInternetFirewallAddRule_Policy_InternetFirewall_AddRule_Rule_Rule_Destination_Containers_IPAddressRangeContainer{}
-	}
-	return t.ID
-}
-func (t *PolicyInternetFirewallAddRule_Policy_InternetFirewall_AddRule_Rule_Rule_Destination_Containers_IPAddressRangeContainer) GetName() string {
-	if t == nil {
-		t = &PolicyInternetFirewallAddRule_Policy_InternetFirewall_AddRule_Rule_Rule_Destination_Containers_IPAddressRangeContainer{}
-	}
-	return t.Name
-}
-
-type PolicyInternetFirewallAddRule_Policy_InternetFirewall_AddRule_Rule_Rule_Destination_Containers struct {
-	FqdnContainer           []*PolicyInternetFirewallAddRule_Policy_InternetFirewall_AddRule_Rule_Rule_Destination_Containers_FqdnContainer           "json:\"fqdnContainer\" graphql:\"fqdnContainer\""
-	IPAddressRangeContainer []*PolicyInternetFirewallAddRule_Policy_InternetFirewall_AddRule_Rule_Rule_Destination_Containers_IPAddressRangeContainer "json:\"ipAddressRangeContainer\" graphql:\"ipAddressRangeContainer\""
-}
-
-func (t *PolicyInternetFirewallAddRule_Policy_InternetFirewall_AddRule_Rule_Rule_Destination_Containers) GetFqdnContainer() []*PolicyInternetFirewallAddRule_Policy_InternetFirewall_AddRule_Rule_Rule_Destination_Containers_FqdnContainer {
-	if t == nil {
-		t = &PolicyInternetFirewallAddRule_Policy_InternetFirewall_AddRule_Rule_Rule_Destination_Containers{}
-	}
-	return t.FqdnContainer
-}
-func (t *PolicyInternetFirewallAddRule_Policy_InternetFirewall_AddRule_Rule_Rule_Destination_Containers) GetIPAddressRangeContainer() []*PolicyInternetFirewallAddRule_Policy_InternetFirewall_AddRule_Rule_Rule_Destination_Containers_IPAddressRangeContainer {
-	if t == nil {
-		t = &PolicyInternetFirewallAddRule_Policy_InternetFirewall_AddRule_Rule_Rule_Destination_Containers{}
-	}
-	return t.IPAddressRangeContainer
-}
-
 type PolicyInternetFirewallAddRule_Policy_InternetFirewall_AddRule_Rule_Rule_Destination struct {
 	Application            []*PolicyInternetFirewallAddRule_Policy_InternetFirewall_AddRule_Rule_Rule_Destination_Application            "json:\"application\" graphql:\"application\""
 	CustomApp              []*PolicyInternetFirewallAddRule_Policy_InternetFirewall_AddRule_Rule_Rule_Destination_CustomApp              "json:\"customApp\" graphql:\"customApp\""
@@ -24920,8 +24848,6 @@ type PolicyInternetFirewallAddRule_Policy_InternetFirewall_AddRule_Rule_Rule_Des
 	IPRange                []*PolicyInternetFirewallAddRule_Policy_InternetFirewall_AddRule_Rule_Rule_Destination_IPRange                "json:\"ipRange\" graphql:\"ipRange\""
 	GlobalIPRange          []*PolicyInternetFirewallAddRule_Policy_InternetFirewall_AddRule_Rule_Rule_Destination_GlobalIPRange          "json:\"globalIpRange\" graphql:\"globalIpRange\""
 	RemoteAsn              []scalars.Asn16                                                                                               "json:\"remoteAsn\" graphql:\"remoteAsn\""
-	Container              []*PolicyInternetFirewallAddRule_Policy_InternetFirewall_AddRule_Rule_Rule_Destination_Container              "json:\"container\" graphql:\"container\""
-	Containers             PolicyInternetFirewallAddRule_Policy_InternetFirewall_AddRule_Rule_Rule_Destination_Containers                "json:\"containers\" graphql:\"containers\""
 }
 
 func (t *PolicyInternetFirewallAddRule_Policy_InternetFirewall_AddRule_Rule_Rule_Destination) GetApplication() []*PolicyInternetFirewallAddRule_Policy_InternetFirewall_AddRule_Rule_Rule_Destination_Application {
@@ -25001,18 +24927,6 @@ func (t *PolicyInternetFirewallAddRule_Policy_InternetFirewall_AddRule_Rule_Rule
 		t = &PolicyInternetFirewallAddRule_Policy_InternetFirewall_AddRule_Rule_Rule_Destination{}
 	}
 	return t.RemoteAsn
-}
-func (t *PolicyInternetFirewallAddRule_Policy_InternetFirewall_AddRule_Rule_Rule_Destination) GetContainer() []*PolicyInternetFirewallAddRule_Policy_InternetFirewall_AddRule_Rule_Rule_Destination_Container {
-	if t == nil {
-		t = &PolicyInternetFirewallAddRule_Policy_InternetFirewall_AddRule_Rule_Rule_Destination{}
-	}
-	return t.Container
-}
-func (t *PolicyInternetFirewallAddRule_Policy_InternetFirewall_AddRule_Rule_Rule_Destination) GetContainers() *PolicyInternetFirewallAddRule_Policy_InternetFirewall_AddRule_Rule_Rule_Destination_Containers {
-	if t == nil {
-		t = &PolicyInternetFirewallAddRule_Policy_InternetFirewall_AddRule_Rule_Rule_Destination{}
-	}
-	return &t.Containers
 }
 
 type PolicyInternetFirewallAddRule_Policy_InternetFirewall_AddRule_Rule_Rule_Service_Standard struct {
@@ -25757,78 +25671,6 @@ func (t *PolicyInternetFirewallAddRule_Policy_InternetFirewall_AddRule_Rule_Rule
 	return t.Name
 }
 
-type PolicyInternetFirewallAddRule_Policy_InternetFirewall_AddRule_Rule_Rule_Exceptions_Destination_Container struct {
-	ID   string "json:\"id\" graphql:\"id\""
-	Name string "json:\"name\" graphql:\"name\""
-}
-
-func (t *PolicyInternetFirewallAddRule_Policy_InternetFirewall_AddRule_Rule_Rule_Exceptions_Destination_Container) GetID() string {
-	if t == nil {
-		t = &PolicyInternetFirewallAddRule_Policy_InternetFirewall_AddRule_Rule_Rule_Exceptions_Destination_Container{}
-	}
-	return t.ID
-}
-func (t *PolicyInternetFirewallAddRule_Policy_InternetFirewall_AddRule_Rule_Rule_Exceptions_Destination_Container) GetName() string {
-	if t == nil {
-		t = &PolicyInternetFirewallAddRule_Policy_InternetFirewall_AddRule_Rule_Rule_Exceptions_Destination_Container{}
-	}
-	return t.Name
-}
-
-type PolicyInternetFirewallAddRule_Policy_InternetFirewall_AddRule_Rule_Rule_Exceptions_Destination_Containers_FqdnContainer struct {
-	ID   string "json:\"id\" graphql:\"id\""
-	Name string "json:\"name\" graphql:\"name\""
-}
-
-func (t *PolicyInternetFirewallAddRule_Policy_InternetFirewall_AddRule_Rule_Rule_Exceptions_Destination_Containers_FqdnContainer) GetID() string {
-	if t == nil {
-		t = &PolicyInternetFirewallAddRule_Policy_InternetFirewall_AddRule_Rule_Rule_Exceptions_Destination_Containers_FqdnContainer{}
-	}
-	return t.ID
-}
-func (t *PolicyInternetFirewallAddRule_Policy_InternetFirewall_AddRule_Rule_Rule_Exceptions_Destination_Containers_FqdnContainer) GetName() string {
-	if t == nil {
-		t = &PolicyInternetFirewallAddRule_Policy_InternetFirewall_AddRule_Rule_Rule_Exceptions_Destination_Containers_FqdnContainer{}
-	}
-	return t.Name
-}
-
-type PolicyInternetFirewallAddRule_Policy_InternetFirewall_AddRule_Rule_Rule_Exceptions_Destination_Containers_IPAddressRangeContainer struct {
-	ID   string "json:\"id\" graphql:\"id\""
-	Name string "json:\"name\" graphql:\"name\""
-}
-
-func (t *PolicyInternetFirewallAddRule_Policy_InternetFirewall_AddRule_Rule_Rule_Exceptions_Destination_Containers_IPAddressRangeContainer) GetID() string {
-	if t == nil {
-		t = &PolicyInternetFirewallAddRule_Policy_InternetFirewall_AddRule_Rule_Rule_Exceptions_Destination_Containers_IPAddressRangeContainer{}
-	}
-	return t.ID
-}
-func (t *PolicyInternetFirewallAddRule_Policy_InternetFirewall_AddRule_Rule_Rule_Exceptions_Destination_Containers_IPAddressRangeContainer) GetName() string {
-	if t == nil {
-		t = &PolicyInternetFirewallAddRule_Policy_InternetFirewall_AddRule_Rule_Rule_Exceptions_Destination_Containers_IPAddressRangeContainer{}
-	}
-	return t.Name
-}
-
-type PolicyInternetFirewallAddRule_Policy_InternetFirewall_AddRule_Rule_Rule_Exceptions_Destination_Containers struct {
-	FqdnContainer           []*PolicyInternetFirewallAddRule_Policy_InternetFirewall_AddRule_Rule_Rule_Exceptions_Destination_Containers_FqdnContainer           "json:\"fqdnContainer\" graphql:\"fqdnContainer\""
-	IPAddressRangeContainer []*PolicyInternetFirewallAddRule_Policy_InternetFirewall_AddRule_Rule_Rule_Exceptions_Destination_Containers_IPAddressRangeContainer "json:\"ipAddressRangeContainer\" graphql:\"ipAddressRangeContainer\""
-}
-
-func (t *PolicyInternetFirewallAddRule_Policy_InternetFirewall_AddRule_Rule_Rule_Exceptions_Destination_Containers) GetFqdnContainer() []*PolicyInternetFirewallAddRule_Policy_InternetFirewall_AddRule_Rule_Rule_Exceptions_Destination_Containers_FqdnContainer {
-	if t == nil {
-		t = &PolicyInternetFirewallAddRule_Policy_InternetFirewall_AddRule_Rule_Rule_Exceptions_Destination_Containers{}
-	}
-	return t.FqdnContainer
-}
-func (t *PolicyInternetFirewallAddRule_Policy_InternetFirewall_AddRule_Rule_Rule_Exceptions_Destination_Containers) GetIPAddressRangeContainer() []*PolicyInternetFirewallAddRule_Policy_InternetFirewall_AddRule_Rule_Rule_Exceptions_Destination_Containers_IPAddressRangeContainer {
-	if t == nil {
-		t = &PolicyInternetFirewallAddRule_Policy_InternetFirewall_AddRule_Rule_Rule_Exceptions_Destination_Containers{}
-	}
-	return t.IPAddressRangeContainer
-}
-
 type PolicyInternetFirewallAddRule_Policy_InternetFirewall_AddRule_Rule_Rule_Exceptions_Destination struct {
 	Application            []*PolicyInternetFirewallAddRule_Policy_InternetFirewall_AddRule_Rule_Rule_Exceptions_Destination_Application            "json:\"application\" graphql:\"application\""
 	CustomApp              []*PolicyInternetFirewallAddRule_Policy_InternetFirewall_AddRule_Rule_Rule_Exceptions_Destination_CustomApp              "json:\"customApp\" graphql:\"customApp\""
@@ -25843,8 +25685,6 @@ type PolicyInternetFirewallAddRule_Policy_InternetFirewall_AddRule_Rule_Rule_Exc
 	IPRange                []*PolicyInternetFirewallAddRule_Policy_InternetFirewall_AddRule_Rule_Rule_Exceptions_Destination_IPRange                "json:\"ipRange\" graphql:\"ipRange\""
 	GlobalIPRange          []*PolicyInternetFirewallAddRule_Policy_InternetFirewall_AddRule_Rule_Rule_Exceptions_Destination_GlobalIPRange          "json:\"globalIpRange\" graphql:\"globalIpRange\""
 	RemoteAsn              []scalars.Asn16                                                                                                          "json:\"remoteAsn\" graphql:\"remoteAsn\""
-	Container              []*PolicyInternetFirewallAddRule_Policy_InternetFirewall_AddRule_Rule_Rule_Exceptions_Destination_Container              "json:\"container\" graphql:\"container\""
-	Containers             PolicyInternetFirewallAddRule_Policy_InternetFirewall_AddRule_Rule_Rule_Exceptions_Destination_Containers                "json:\"containers\" graphql:\"containers\""
 }
 
 func (t *PolicyInternetFirewallAddRule_Policy_InternetFirewall_AddRule_Rule_Rule_Exceptions_Destination) GetApplication() []*PolicyInternetFirewallAddRule_Policy_InternetFirewall_AddRule_Rule_Rule_Exceptions_Destination_Application {
@@ -25924,18 +25764,6 @@ func (t *PolicyInternetFirewallAddRule_Policy_InternetFirewall_AddRule_Rule_Rule
 		t = &PolicyInternetFirewallAddRule_Policy_InternetFirewall_AddRule_Rule_Rule_Exceptions_Destination{}
 	}
 	return t.RemoteAsn
-}
-func (t *PolicyInternetFirewallAddRule_Policy_InternetFirewall_AddRule_Rule_Rule_Exceptions_Destination) GetContainer() []*PolicyInternetFirewallAddRule_Policy_InternetFirewall_AddRule_Rule_Rule_Exceptions_Destination_Container {
-	if t == nil {
-		t = &PolicyInternetFirewallAddRule_Policy_InternetFirewall_AddRule_Rule_Rule_Exceptions_Destination{}
-	}
-	return t.Container
-}
-func (t *PolicyInternetFirewallAddRule_Policy_InternetFirewall_AddRule_Rule_Rule_Exceptions_Destination) GetContainers() *PolicyInternetFirewallAddRule_Policy_InternetFirewall_AddRule_Rule_Rule_Exceptions_Destination_Containers {
-	if t == nil {
-		t = &PolicyInternetFirewallAddRule_Policy_InternetFirewall_AddRule_Rule_Rule_Exceptions_Destination{}
-	}
-	return &t.Containers
 }
 
 type PolicyInternetFirewallAddRule_Policy_InternetFirewall_AddRule_Rule_Rule_Exceptions_Service_Standard struct {
@@ -52909,20 +52737,6 @@ const PolicyInternetFirewallAddRuleDocument = `mutation policyInternetFirewallAd
 								name
 							}
 							remoteAsn
-							container {
-								id
-								name
-							}
-							containers {
-								fqdnContainer {
-									id
-									name
-								}
-								ipAddressRangeContainer {
-									id
-									name
-								}
-							}
 						}
 						service {
 							standard {
@@ -53069,20 +52883,6 @@ const PolicyInternetFirewallAddRuleDocument = `mutation policyInternetFirewallAd
 									name
 								}
 								remoteAsn
-								container {
-									id
-									name
-								}
-								containers {
-									fqdnContainer {
-										id
-										name
-									}
-									ipAddressRangeContainer {
-										id
-										name
-									}
-								}
 							}
 							service {
 								standard {

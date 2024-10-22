@@ -117,22 +117,6 @@ mutation policyInternetFirewallAddRule ( $internetFirewallAddRuleInput:InternetF
 								name 
 							}
 							remoteAsn
-							container {
-								id 
-								name 
-							}
-							containers {
-								fqdnContainer  {
-									id
-									name
-								}
-
-								ipAddressRangeContainer  {
-									id
-									name
-								}
-
-							}
 						}
 
 						service  {
@@ -306,22 +290,6 @@ mutation policyInternetFirewallAddRule ( $internetFirewallAddRuleInput:InternetF
 								}
 
 								remoteAsn 
-								container  {
-									id
-									name
-								}
-
-								containers  {
-									fqdnContainer {
-										id 
-										name 
-									}
-									ipAddressRangeContainer {
-										id 
-										name 
-									}
-								}
-
 							}
 							service {
 								standard  {

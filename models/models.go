@@ -2817,9 +2817,7 @@ type InternetFirewallDestinationInput struct {
 	// Cato category of applications which are dynamically updated by Cato
 	AppCategory []*ApplicationCategoryRefInput `json:"appCategory"`
 	// Applications for the rule (pre-defined)
-	Application []*ApplicationRefInput          `json:"application"`
-	Container   []*ContainerRefInput            `json:"container"`
-	Containers  *InternetFirewallContainerInput `json:"containers"`
+	Application []*ApplicationRefInput `json:"application"`
 	// Countries
 	Country []*CountryRefInput `json:"country"`
 	// Custom (user-defined) applications
@@ -5294,7 +5292,7 @@ type SiteSnapshot struct {
 	OperationalStatus *scalars.OperationalStatus `json:"operationalStatus,omitempty"`
 	// Name of the PoP that the site is connected to
 	PopName *string `json:"popName,omitempty"`
-	ProtoID *int64  `json:"protoId,omitempty"`
+	ProtoID *string `json:"protoId,omitempty"`
 }
 
 // Basic information about socket
