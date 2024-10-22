@@ -141,10 +141,6 @@ const PolicyDocumentInternetFirewall = `query policy ($internetFirewallPolicyInp
 								name
 							}
 							remoteAsn
-							container {
-								id
-								name
-							}
 						}
 						service {
 							standard {
@@ -291,10 +287,6 @@ const PolicyDocumentInternetFirewall = `query policy ($internetFirewallPolicyInp
 									name
 								}
 								remoteAsn
-								container {
-									id
-									name
-								}
 							}
 							service {
 								standard {
