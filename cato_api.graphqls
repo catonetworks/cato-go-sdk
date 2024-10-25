@@ -4448,7 +4448,7 @@ type SiteSnapshot {
   operationalStatus: OperationalStatus
   """Name of the PoP that the site is connected to"""
   popName: String
-  protoId: ID
+  protoId: Int
 }
 
 type Timeseries {

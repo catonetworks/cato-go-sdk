@@ -5290,7 +5290,7 @@ type SiteSnapshot struct {
 	OperationalStatus *scalars.OperationalStatus `json:"operationalStatus,omitempty"`
 	// Name of the PoP that the site is connected to
 	PopName *string `json:"popName,omitempty"`
-	ProtoID *string `json:"protoId,omitempty"`
+	ProtoID *int64  `json:"protoId,omitempty"`
 }
 
 // Basic information about socket

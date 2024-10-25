@@ -47,7 +47,7 @@ type CatoClient interface {
 	PolicyInternetFirewall(ctx context.Context, internetFirewallPolicyInput *cato_models.InternetFirewallPolicyInput, accountID string, interceptors ...clientv2.RequestInterceptor) (*Policy, error)
 	PolicyWanFirewall(ctx context.Context, wanFirewallPolicyInput *cato_models.WanFirewallPolicyInput, accountID string, interceptors ...clientv2.RequestInterceptor) (*Policy, error)
 	// End of temporary additions
-
+	
 	PolicyInternetFirewallAddRule(ctx context.Context, internetFirewallAddRuleInput cato_models.InternetFirewallAddRuleInput, accountID string, interceptors ...clientv2.RequestInterceptor) (*PolicyInternetFirewallAddRule, error)
 	PolicyWanFirewallAddRule(ctx context.Context, wanFirewallAddRuleInput cato_models.WanFirewallAddRuleInput, accountID string, interceptors ...clientv2.RequestInterceptor) (*PolicyWanFirewallAddRule, error)
 	PolicyWanFirewallAddSection(ctx context.Context, policyAddSectionInput cato_models.PolicyAddSectionInput, accountID string, interceptors ...clientv2.RequestInterceptor) (*PolicyWanFirewallAddSection, error)
@@ -2780,7 +2780,7 @@ func (t *AccountSnapshot_AccountSnapshot_Sites_InfoSiteSnapshot) GetIpsec() []*A
 
 type AccountSnapshot_AccountSnapshot_Sites struct {
 	ID                             *string                                                     "json:\"id,omitempty\" graphql:\"id\""
-	ProtoID                        *string                                                     "json:\"protoId,omitempty\" graphql:\"protoId\""
+	ProtoID                        *int64                                                      "json:\"protoId,omitempty\" graphql:\"protoId\""
 	ConnectivityStatusSiteSnapshot *cato_models.ConnectivityStatus                             "json:\"connectivityStatusSiteSnapshot,omitempty\" graphql:\"connectivityStatusSiteSnapshot\""
 	HaStatusSiteSnapshot           *AccountSnapshot_AccountSnapshot_Sites_HaStatusSiteSnapshot "json:\"haStatusSiteSnapshot,omitempty\" graphql:\"haStatusSiteSnapshot\""
 	OperationalStatusSiteSnapshot  *scalars.OperationalStatus                                  "json:\"operationalStatusSiteSnapshot,omitempty\" graphql:\"operationalStatusSiteSnapshot\""
@@ -2799,7 +2799,7 @@ func (t *AccountSnapshot_AccountSnapshot_Sites) GetID() *string {
 	}
 	return t.ID
 }
-func (t *AccountSnapshot_AccountSnapshot_Sites) GetProtoID() *string {
+func (t *AccountSnapshot_AccountSnapshot_Sites) GetProtoID() *int64 {
 	if t == nil {
 		t = &AccountSnapshot_AccountSnapshot_Sites{}
 	}
