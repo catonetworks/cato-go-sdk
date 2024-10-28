@@ -11283,18 +11283,31 @@ func (e PolicyToggleState) MarshalGQL(w io.Writer) {
 type ProtoType string
 
 const (
-	ProtoTypeCrossConnect   ProtoType = "CROSS_CONNECT"
-	ProtoTypeIpsecClient    ProtoType = "IPSEC_CLIENT"
-	ProtoTypeIpsecHost      ProtoType = "IPSEC_HOST"
-	ProtoTypeIpsecV2        ProtoType = "IPSEC_V2"
-	ProtoTypeSocketAws1500  ProtoType = "SOCKET_AWS1500"
-	ProtoTypeSocketAz1500   ProtoType = "SOCKET_AZ1500"
-	ProtoTypeSocketEsx1500  ProtoType = "SOCKET_ESX1500"
-	ProtoTypeSocketX1500    ProtoType = "SOCKET_X1500"
-	ProtoTypeSocketX1600    ProtoType = "SOCKET_X1600"
-	ProtoTypeSocketX1600Lte ProtoType = "SOCKET_X1600_LTE"
-	ProtoTypeSocketX1700    ProtoType = "SOCKET_X1700"
-	ProtoTypeVsocketVgx     ProtoType = "VSOCKET_VGX"
+	ProtoTypeCrossConnect    ProtoType = "CROSS_CONNECT"
+	ProtoTypeIpsecClient     ProtoType = "IPSEC_CLIENT"
+	ProtoTypeIpsecHost       ProtoType = "IPSEC_HOST"
+	ProtoTypeIpsecV2         ProtoType = "IPSEC_V2"
+	ProtoTypeSocketAws1500   ProtoType = "SOCKET_AWS1500"
+	ProtoTypeSocketAz1500    ProtoType = "SOCKET_AZ1500"
+	ProtoTypeSocketEsx1500   ProtoType = "SOCKET_ESX1500"
+	ProtoTypeSocketX1500     ProtoType = "SOCKET_X1500"
+	ProtoTypeSocketX1600     ProtoType = "SOCKET_X1600"
+	ProtoTypeSocketX1600Lte  ProtoType = "SOCKET_X1600_LTE"
+	ProtoTypeSocketX1700     ProtoType = "SOCKET_X1700"
+	ProtoTypeVsocketVgx      ProtoType = "VSOCKET_VGX"
+	ProtoTypeCrossConnectL2  ProtoType = "CROSS_CONNECT_L2"
+	ProtoTypeCrossConnectVrf ProtoType = "CROSS_CONNECT_VRF"
+	ProtoTypeGreTunnel       ProtoType = "GRE_TUNNEL"
+	ProtoTypeNotDefined      ProtoType = "NOT_DEFINED"
+	ProtoTypePortalListener  ProtoType = "PORTAL_LISTENER"
+	ProtoTypeSocketGcp1500   ProtoType = "SOCKET_GCP1500"
+	ProtoTypeSocketRpi64     ProtoType = "SOCKET_RPI64"
+	ProtoTypeSocketX1        ProtoType = "SOCKET_X1"
+	ProtoTypeVsocketVgs      ProtoType = "VSOCKET_VGS"
+	ProtoTypeVsocketVgxAws   ProtoType = "VSOCKET_VGX_AWS"
+	ProtoTypeVsocketVgxAzure ProtoType = "VSOCKET_VGX_AZURE"
+	ProtoTypeVsocketVgxEsx   ProtoType = "VSOCKET_VGX_ESX"
+	ProtoTypeVsocketVsh      ProtoType = "VSOCKET_VSH"
 )
 
 var AllProtoType = []ProtoType{
@@ -11310,11 +11323,24 @@ var AllProtoType = []ProtoType{
 	ProtoTypeSocketX1600Lte,
 	ProtoTypeSocketX1700,
 	ProtoTypeVsocketVgx,
+	ProtoTypeCrossConnectL2,
+	ProtoTypeCrossConnectVrf,
+	ProtoTypeGreTunnel,
+	ProtoTypeNotDefined,
+	ProtoTypePortalListener,
+	ProtoTypeSocketGcp1500,
+	ProtoTypeSocketRpi64,
+	ProtoTypeSocketX1,
+	ProtoTypeVsocketVgs,
+	ProtoTypeVsocketVgxAws,
+	ProtoTypeVsocketVgxAzure,
+	ProtoTypeVsocketVgxEsx,
+	ProtoTypeVsocketVsh,
 }
 
 func (e ProtoType) IsValid() bool {
 	switch e {
-	case ProtoTypeCrossConnect, ProtoTypeIpsecClient, ProtoTypeIpsecHost, ProtoTypeIpsecV2, ProtoTypeSocketAws1500, ProtoTypeSocketAz1500, ProtoTypeSocketEsx1500, ProtoTypeSocketX1500, ProtoTypeSocketX1600, ProtoTypeSocketX1600Lte, ProtoTypeSocketX1700, ProtoTypeVsocketVgx:
+	case ProtoTypeCrossConnect, ProtoTypeIpsecClient, ProtoTypeIpsecHost, ProtoTypeIpsecV2, ProtoTypeSocketAws1500, ProtoTypeSocketAz1500, ProtoTypeSocketEsx1500, ProtoTypeSocketX1500, ProtoTypeSocketX1600, ProtoTypeSocketX1600Lte, ProtoTypeSocketX1700, ProtoTypeVsocketVgx, ProtoTypeCrossConnectL2, ProtoTypeCrossConnectVrf, ProtoTypeGreTunnel, ProtoTypeNotDefined, ProtoTypePortalListener, ProtoTypeSocketGcp1500, ProtoTypeSocketRpi64, ProtoTypeSocketX1, ProtoTypeVsocketVgs, ProtoTypeVsocketVgxAws, ProtoTypeVsocketVgxAzure, ProtoTypeVsocketVgxEsx, ProtoTypeVsocketVsh:
 		return true
 	}
 	return false
