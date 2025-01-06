@@ -10,25 +10,12 @@ GraphQL service's schema, such as GA fields, enum values, arguments or input fie
 """
 directive @ga on FIELD_DEFINITION
 
-"""
-The @ea directive is used within the type system definition language to indicate EA portions of a
-GraphQL service's schema.
-"""
-directive @ea on FIELD_DEFINITION
-
-"""
-The @rollout directive is used within the type system definition language to indicate portions of a
-GraphQL service's schema that is gradually rolling out. This APIs will be available to all accounts after a few weeks.
-"""
-directive @rollout on FIELD_DEFINITION
-
 type Query {
   accountBySubdomain(
     accountID: ID!
     """a list of required subdomains"""
     subdomains: [String!]!
   ): [AccountDataPayload!] @ga
-  accountManagement(accountId: ID!): AccountManagementQueries
   """
   The accountMetrics query helps you analyze the state and quality of the connections
   of sites and SDP users to the Cato Cloud. This data is for the traffic inside the DTLS
@@ -136,6 +123,7 @@ type Query {
     """Additional helper fields"""
     helperFields: [String!]
   ): EntityLookupResult! @ga
+  "BETA"
   events(
     "Account ID"
     accountID: ID!
@@ -153,6 +141,7 @@ type Query {
     "Marker to use to get results from"
     marker: String
   ): EventsFeedData @ga
+  "BETA"
   eventsTimeSeries(
     "Account ID"
     accountID: ID!
@@ -166,7 +155,6 @@ type Query {
   """Retrieve the account(s) license inventory and license consumption"""
   licensing(accountId: ID!): LicensingQueries
   policy(accountId: ID!): PolicyQueries
-  site(accountId: ID!): SiteQueries!
   """
   The subdomain query helps you retrieve the URL of an account. The usage of this query supports 3 different scenarios:
   1. Regular account - Return only 1 subdomain relating to the regular account
@@ -185,12 +173,11 @@ type Query {
 }
 
 type Mutation {
-  accountManagement(accountId: ID!): AccountManagementMutations
   admin(accountId: ID!): AdminMutations!
   container(accountId: ID!): ContainerMutations
   policy(accountId: ID!): PolicyMutations
-  site(accountId: ID!): SiteMutations!
-  sites(accountId: ID!): SiteMutations! @deprecated(reason: "in favor of site")
+  site(accountId: ID!): SiteMutations! @deprecated(reason: "in favor of sites")
+  sites(accountId: ID!): SiteMutations!
 }
 
 type MicrosoftEndpoint implements Endpoint & MergedIncident {
@@ -408,11 +395,11 @@ type XDR {
   """
   Define the paging, sort, and filter arguments to define the XDR stories that are returned in the query
   """
-  stories(input: StoryInput!): StoriesData @beta
+  stories(input: StoryInput!): StoriesData
   """
   Define either the story ID, or the incident ID and producer arguments, to query the specific XDR story
   """
-  story(storyId: ID, producer: StoryProducerEnum, incidentId: ID): Story @beta
+  story(storyId: ID, producer: StoryProducerEnum, incidentId: ID): Story
 }
 
 enum StoryVerdictEnum {
@@ -617,25 +604,22 @@ enum StoryStatusEnum {
   Reopened
 }
 
-"""For XDR stories, items that happened during the lifetime of the story"""
 type TimelineItem {
   """Additional information about this timeline item"""
   additionalInfo: String
   """Data about the analyst for this timeline item (ie. name, email)"""
   analystInfo: AnalystInfo
-  """Icon for the timeline item"""
+  """Enum for the timeline category (ie. Information, Warning, Error)"""
   category: TimelineItemCategoryEnum
-  """
-  Brief summary of action related to the timeline item (ie. Story created, Status update to)
-  """
+  """Status of the timeline item"""
   context: String!
-  """Timestamp the timeline item was created"""
+  """Timestamp the story was created"""
   createdAt: DateTime!
-  """Description of the timeline item"""
-  description: String! @deprecated(reason: "use 'descriptions' instead")
-  """Description of the timeline item"""
+  """Description for the story in the timeline"""
+  description: String!
+  """Description for the story in the timeline"""
   descriptions: [String!]!
-  """Type of threat assigned by the analyst"""
+  """Enum for the type (ie. Diff, Action, Comment)"""
   type: TimelineTypeEnum!
 }
 
@@ -671,13 +655,15 @@ interface MergedIncident {
   engineType: StoryEngineTypeEnum
   """Vendor that identified the incident, such as Cato or Microsoft"""
   vendor: VendorEnum
-  """Producer (specific XDR engine and service) involved with the incident"""
+  """
+  Enum for the Producer (specific XDR engine and service) involved with the incident
+  """
   producer: StoryProducerEnum!
   """
   Full name of the Producer (specific XDR engine and service) involved with the incident
   """
   producerName: String!
-  """Connection for the incident"""
+  """Enum for the connection for this incident (ie. site, host, user)"""
   connectionType: ConnectionTypeEnum
   """
   An indication is a set of actions and behaviors for the Network or Security incident. Each producer has different indications.
@@ -699,14 +685,14 @@ interface MergedIncident {
   source: String
   """The ticket an analyst created for this story"""
   ticket: String
-  """Status for the story"""
+  """Enum for the status of this story (ie. Open, Closed, Monitoring)"""
   status: StoryStatusEnum
   """
   The value is TRUE when the story is currently being researched by Security Analysts
   """
   research: Boolean
   """Site name related to the story"""
-  siteName: String @deprecated(reason: "'siteName' is deprecated, use 'site.name' instead")
+  siteName: String
   """
   Amount of time since the story was opened (no value for closed stories)
   """
@@ -757,7 +743,7 @@ interface Anomalies implements MergedIncident {
   ticket: String
   status: StoryStatusEnum
   research: Boolean
-  siteName: String @deprecated(reason: "'siteName' is deprecated, use 'site.name' instead")
+  siteName: String
   storyDuration: Int
   description: String
   analystFeedback: AnalystFeedback
@@ -802,7 +788,7 @@ type AnomalyStats implements Anomalies & MergedIncident {
   rules: [String!]
   similarStoriesData: [SimilarStoryData!]!
   site: SiteRef
-  siteName: String @deprecated(reason: "'siteName' is deprecated, use 'site.name' instead")
+  siteName: String
   source: String
   sourceIp: String
   srcSiteId: String
@@ -848,7 +834,7 @@ type AnomalyEvents implements Anomalies & MergedIncident {
   rules: [String!]
   similarStoriesData: [SimilarStoryData!]!
   site: SiteRef
-  siteName: String @deprecated(reason: "'siteName' is deprecated, use 'site.name' instead")
+  siteName: String
   source: String
   sourceIp: String
   srcSiteId: String
@@ -891,7 +877,7 @@ type Threat implements MergedIncident {
   analystFeedback: AnalystFeedback
   """Client Class for the traffic flow"""
   clientClass: [String!]!
-  """Connection for this incident"""
+  """Enum for the connection for this incident (ie. site, host, user)"""
   connectionType: ConnectionTypeEnum
   """
   Cato's risk analysis of the story. Values are from 1 (low risk) to 10 (high risk)
@@ -929,11 +915,13 @@ type Threat implements MergedIncident {
   mitres: [Mitre!]
   """OS for device or host that is the threat target"""
   os: String
-  """Predicted threat type for the story based on Cato algorithm"""
+  """Cato’s predicted threat type for the story"""
   predictedThreatType: String
-  """Predicted verdict of the story based on Cato algorithm"""
+  """Enum for Cato’s predicted verdict of the story (ie. Malicious, Benign)"""
   predictedVerdict: StoryVerdictEnum
-  """Producer (specific XDR engine and service) involved with the incident"""
+  """
+  Enum for the Producer (specific XDR engine and service) involved with the incident
+  """
   producer: StoryProducerEnum!
   """
   Full name of the Producer (specific XDR engine and service) involved with the incident
@@ -952,7 +940,7 @@ type Threat implements MergedIncident {
   """Cato ID and name for the site"""
   site: SiteRef
   """Site name related to the story"""
-  siteName: String @deprecated(reason: "'siteName' is deprecated, use 'site.name' instead")
+  siteName: String
   """
   IP address, name of device, or SDP user on your network involved in the story
   """
@@ -963,7 +951,7 @@ type Threat implements MergedIncident {
   sourceIp: String
   """Cato ID for the site that is the source of the threat"""
   srcSiteId: String
-  """Status of this story"""
+  """Enum for the status of this story (ie. Open, Closed, Monitoring)"""
   status: StoryStatusEnum
   """
   Amount of time since the story was opened (no value for closed stories)
@@ -1009,7 +997,7 @@ type ThreatPrevention implements MergedIncident {
   riskLevel: RiskLevelEnum
   similarStoriesData: [SimilarStoryData!]!
   site: SiteRef
-  siteName: String @deprecated(reason: "'siteName' is deprecated, use 'site.name' instead")
+  siteName: String
   source: String
   sourceIp: String
   srcSiteId: String
@@ -1762,57 +1750,21 @@ type CatoActivity implements Activity {
 }
 
 type SiteMutations {
-  """Adds a new BGP peer to the specified site."""
-  addBgpPeer(input: AddBgpPeerInput!): AddBgpPeerPayload @beta
-  """
-  Add a new physical connection to a cloud interconnect site.Either connect to a partner, or a non-supported public provider
-  """
-  addCloudInterconnectPhysicalConnection(input: AddCloudInterconnectPhysicalConnectionInput!): AddCloudInterconnectPhysicalConnectionPayload @beta
-  """Add a new cloud interconnect site."""
-  addCloudInterconnectSite(input: AddCloudInterconnectSiteInput!): AddCloudInterconnectSitePayload @beta
-  addIpsecIkeV2Site(input: AddIpsecIkeV2SiteInput!): AddIpsecIkeV2SitePayload @beta
-  addIpsecIkeV2SiteTunnels(siteId: ID!, input: AddIpsecIkeV2SiteTunnelsInput!): AddIpsecIkeV2SiteTunnelsPayload @beta
+  addIpsecIkeV2Site(input: AddIpsecIkeV2SiteInput!): AddIpsecIkeV2SitePayload
+  addIpsecIkeV2SiteTunnels(siteId: ID!, input: AddIpsecIkeV2SiteTunnelsInput!): AddIpsecIkeV2SiteTunnelsPayload
   addNetworkRange(lanSocketInterfaceId: ID!, input: AddNetworkRangeInput!): AddNetworkRangePayload @ga
   addSocketSite(input: AddSocketSiteInput!): AddSocketSitePayload @ga
   addStaticHost(siteId: ID!, input: AddStaticHostInput!): AddStaticHostPayload @ga
-  """Removes an existing BGP peer configuration from a site."""
-  removeBgpPeer(input: RemoveBgpPeerInput!): RemoveBgpPeerPayload @beta
-  """Remove a physical connection from a cloud interconnect site."""
-  removeCloudInterconnectPhysicalConnection(input: RemoveCloudInterconnectPhysicalConnectionInput!): RemoveCloudInterconnectPhysicalConnectionPayload @beta
-  removeIpsecIkeV2SiteTunnels(siteId: ID!, input: RemoveIpsecIkeV2SiteTunnelsInput!): RemoveIpsecIkeV2SiteTunnelsPayload @beta
   removeNetworkRange(networkRangeId: ID!): RemoveNetworkRangePayload @ga
   removeSite(siteId: ID!): RemoveSitePayload @ga
   removeStaticHost(hostId: ID!): RemoveStaticHostPayload @ga
-  """Updates an existing BGP peer configuration."""
-  updateBgpPeer(input: UpdateBgpPeerInput!): UpdateBgpPeerPayload @beta
-  """Update an existing physical connection at a cloud interconnect site."""
-  updateCloudInterconnectPhysicalConnection(input: UpdateCloudInterconnectPhysicalConnectionInput!): UpdateCloudInterconnectPhysicalConnectionPayload @beta
   updateHa(siteId: ID!, input: UpdateHaInput!): UpdateHaPayload @ga
-  updateIpsecIkeV2SiteGeneralDetails(siteId: ID!, input: UpdateIpsecIkeV2SiteGeneralDetailsInput!): UpdateIpsecIkeV2SiteGeneralDetailsPayload @beta
-  updateIpsecIkeV2SiteTunnels(siteId: ID!, input: UpdateIpsecIkeV2SiteTunnelsInput!): UpdateIpsecIkeV2SiteTunnelsPayload @beta
+  updateIpsecIkeV2SiteGeneralDetails(siteId: ID!, input: UpdateIpsecIkeV2SiteGeneralDetailsInput!): UpdateIpsecIkeV2SiteGeneralDetailsPayload
+  updateIpsecIkeV2SiteTunnels(siteId: ID!, input: UpdateIpsecIkeV2SiteTunnelsInput!): UpdateIpsecIkeV2SiteTunnelsPayload
   updateNetworkRange(networkRangeId: ID!, input: UpdateNetworkRangeInput!): UpdateNetworkRangePayload @ga
   updateSiteGeneralDetails(siteId: ID!, input: UpdateSiteGeneralDetailsInput!): UpdateSiteGeneralDetailsPayload @ga
   updateSocketInterface(siteId: ID!, socketInterfaceId: SocketInterfaceIDEnum!, input: UpdateSocketInterfaceInput!): UpdateSocketInterfacePayload @ga
   updateStaticHost(hostId: ID!, input: UpdateStaticHostInput!): UpdateStaticHostPayload @ga
-}
-
-type SiteQueries {
-  """Retrieves details of a specific BGP peer by reference."""
-  bgpPeer(input: BgpPeerRefInput!): BgpPeer @beta
-  """Retrieves a list of all BGP peers associated with the specified site."""
-  bgpPeerList(input: BgpPeerListInput!): BgpPeerListPayload @beta
-  """
-  Check the L2 connectivity status of a cloud interconnect connection using ICMP.
-  """
-  cloudInterconnectConnectionConnectivity(input: CloudInterconnectConnectionConnectivityInput!): CloudInterconnectConnectionConnectivity @beta
-  """Get details of a physical connection at a cloud interconnect site."""
-  cloudInterconnectPhysicalConnection(input: CloudInterconnectPhysicalConnectionInput!): CloudInterconnectPhysicalConnection @beta
-  """Get the ID of a physical connection at a cloud interconnect site."""
-  cloudInterconnectPhysicalConnectionId(input: CloudInterconnectPhysicalConnectionIdInput!): CloudInterconnectPhysicalConnectionId @beta
-  """
-  Provides the BGP status of the specified site, including session and route details.
-  """
-  siteBgpStatus(input: SiteBgpStatusInput!): SiteBgpStatus @beta
 }
 
 input AddSocketSiteInput {
@@ -1880,10 +1832,8 @@ type UpdateSocketInterfacePayload {
 }
 
 input SocketInterfaceBandwidthInput {
-  downstreamBandwidth: Int
-  downstreamBandwidthMbpsPrecision: Float @beta
-  upstreamBandwidth: Int
-  upstreamBandwidthMbpsPrecision: Float @beta
+  downstreamBandwidth: Int!
+  upstreamBandwidth: Int!
 }
 
 input SocketInterfaceWanInput {
@@ -2044,11 +1994,6 @@ enum SiteConnectionTypeEnum {
   SOCKET_X1700
 }
 
-enum HaRole {
-  PRIMARY
-  SECONDARY
-}
-
 scalar IPSubnet
 
 """A from-to range (used for DHCP range, for example)"""
@@ -2157,347 +2102,13 @@ type AdminRole {
   role: RBACRole!
 }
 
-"Allowed actions"
-enum AppTenantRestrictionActionEnum {
-  "Do not inject any Headers nor Values for outgoing traffic"
-  BYPASS
-  "Inject Headers and Values for outgoing traffic"
-  INJECT_HEADERS
-}
-
-input AppTenantRestrictionAddRuleDataInput {
-  "The action applied by the App Tenant Restriction if the rule is matched"
-  action: AppTenantRestrictionActionEnum! = INJECT_HEADERS
-  "Applications for the rule (pre-defined)"
-  application: ApplicationRefInput!
-  description: String! = ""
-  enabled: Boolean!
-  "Headers and Values to Inject"
-  headers: [AppTenantRestrictionHeaderValueInput!]! = []
-  name: String!
-  "The time period specifying when the rule is enabled, otherwise it is disabled."
-  schedule: PolicyScheduleInput! = {activeOn: ALWAYS}
-  "Severity defined for the rule"
-  severity: AppTenantRestrictionSeverityEnum! = HIGH
-  """
-  Source traffic matching criteria.
-  Logical ‘OR’ is applied within the criteria set.
-  Logical ‘AND’ is applied between criteria sets.
-  """
-  source: AppTenantRestrictionSourceInput! = {ip: [], host: [], site: [], subnet: [], ipRange: [], globalIpRange: [], networkInterface: [], siteNetworkSubnet: [], floatingSubnet: [], user: [], usersGroup: [], group: [], systemGroup: [], country: []}
-}
-
-input AppTenantRestrictionAddRuleInput {
-  "Position of the rule in the policy"
-  at: PolicyRulePositionInput
-  "Parameters for the rule you are adding"
-  rule: AppTenantRestrictionAddRuleDataInput!
-}
-
-"pair of header name and value"
-type AppTenantRestrictionHeaderValue {
-  "Header to inject"
-  name: HttpHeaderName!
-  "Value to inject"
-  value: HttpHeaderValue!
-}
-
-"pair of header name and value"
-input AppTenantRestrictionHeaderValueInput {
-  "Header to inject"
-  name: HttpHeaderName!
-  "Value to inject"
-  value: HttpHeaderValue!
-}
-
-type AppTenantRestrictionPolicy implements IPolicy {
-  audit: PolicyAudit
-  enabled: Boolean!
-  revision: PolicyRevision
-  rules: [AppTenantRestrictionRulePayload!]!
-  sections: [PolicySectionPayload!]!
-}
-
-input AppTenantRestrictionPolicyInput {
-  """
-  A revision is a specific instance of the policy.
-   Unpublished revisions are working copies of the policy available to a specific
-   admin or a set of admins
-   Published revisions are revisions that were applied to the account network.
-   The last published revision is the active policy.
-  """
-  revision: PolicyRevisionInput
-}
-
-input AppTenantRestrictionPolicyMutationInput {
-  revision: PolicyMutationRevisionInput
-}
-
-type AppTenantRestrictionPolicyMutationPayload implements IPolicyMutationPayload {
-  errors: [PolicyMutationError!]!
-  policy: AppTenantRestrictionPolicy
-  status: PolicyMutationStatus!
-}
-
-type AppTenantRestrictionPolicyMutations {
-  addRule(input: AppTenantRestrictionAddRuleInput!): AppTenantRestrictionRuleMutationPayload! @beta
-  addSection(input: PolicyAddSectionInput!): PolicySectionMutationPayload! @beta
-  createPolicyRevision(input: PolicyCreateRevisionInput!): AppTenantRestrictionPolicyMutationPayload! @beta
-  discardPolicyRevision(input: PolicyDiscardRevisionInput): AppTenantRestrictionPolicyMutationPayload! @beta
-  moveRule(input: PolicyMoveRuleInput!): AppTenantRestrictionRuleMutationPayload! @beta
-  moveSection(input: PolicyMoveSectionInput!): PolicySectionMutationPayload! @beta
-  publishPolicyRevision(input: PolicyPublishRevisionInput): AppTenantRestrictionPolicyMutationPayload! @beta
-  removeRule(input: AppTenantRestrictionRemoveRuleInput!): AppTenantRestrictionRuleMutationPayload! @beta
-  removeSection(input: PolicyRemoveSectionInput!): PolicySectionMutationPayload! @beta
-  updatePolicy(input: AppTenantRestrictionPolicyUpdateInput!): AppTenantRestrictionPolicyMutationPayload! @beta
-  updateRule(input: AppTenantRestrictionUpdateRuleInput!): AppTenantRestrictionRuleMutationPayload! @beta
-  updateSection(input: PolicyUpdateSectionInput!): PolicySectionMutationPayload! @beta
-}
-
-type AppTenantRestrictionPolicyQueries {
-  policy(input: AppTenantRestrictionPolicyInput): AppTenantRestrictionPolicy! @beta
-  revisions: PolicyRevisionsPayload @beta
-}
-
-input AppTenantRestrictionPolicyUpdateInput {
-  state: PolicyToggleState
-}
-
-input AppTenantRestrictionRemoveRuleInput {
-  id: ID!
-}
-
-type AppTenantRestrictionRule implements IPolicyRule {
-  "The action applied by the App Tenant Restriction if the rule is matched"
-  action: AppTenantRestrictionActionEnum!
-  "Applications for the rule (pre-defined)"
-  application: ApplicationRef!
-  "Description for the rule"
-  description: String!
-  """
-  TRUE = Rule is enabled 
-   FALSE = Rule is disabled
-  """
-  enabled: Boolean!
-  "Headers and Values to Inject"
-  headers: [AppTenantRestrictionHeaderValue!]!
-  "Rule ID"
-  id: ID!
-  "Position / priority of rule"
-  index: Int!
-  "Name of the rule"
-  name: String!
-  "The time period specifying when the rule is enabled, otherwise it is disabled."
-  schedule: PolicySchedule!
-  "Policy section where the rule is located"
-  section: PolicySectionInfo!
-  "Severity defined for the rule"
-  severity: AppTenantRestrictionSeverityEnum!
-  """
-  Source traffic matching criteria.
-  Logical ‘OR’ is applied within the criteria set.
-  Logical ‘AND’ is applied between criteria sets.
-  """
-  source: AppTenantRestrictionSource!
-}
-
-type AppTenantRestrictionRuleMutationPayload implements IPolicyRuleMutationPayload {
-  errors: [PolicyMutationError!]!
-  rule: AppTenantRestrictionRulePayload
-  status: PolicyMutationStatus!
-}
-
-type AppTenantRestrictionRulePayload implements IPolicyRulePayload {
-  audit: PolicyElementAudit!
-  properties: [PolicyElementPropertiesEnum!]!
-  rule: AppTenantRestrictionRule!
-}
-
-"Severity options"
-enum AppTenantRestrictionSeverityEnum {
-  "High severity"
-  HIGH
-  "Low severity"
-  LOW
-  "Medium severity"
-  MEDIUM
-}
-
-"Returns the settings for Source of an App Tenant Restriction rule"
-type AppTenantRestrictionSource {
-  "Source country traffic matching criteria."
-  country: [CountryRef!]!
-  "Floating Subnets (ie. Floating Ranges) are used to identify traffic exactly matched to the route advertised by BGP. They are not associated with a specific site. This is useful in scenarios such as active-standby high availability routed via BGP."
-  floatingSubnet: [FloatingSubnetRef!]!
-  "Globally defined IP range, IP and subnet objects"
-  globalIpRange: [GlobalIpRangeRef!]!
-  "Groups defined for your account"
-  group: [GroupRef!]!
-  "Hosts and servers defined for your account"
-  host: [HostRef!]!
-  "IPv4 address"
-  ip: [IPAddress!]!
-  "Multiple separate IP addresses or an IP range"
-  ipRange: [IpAddressRange!]!
-  "Network range defined for a site"
-  networkInterface: [NetworkInterfaceRef!]!
-  "Site defined for the account"
-  site: [SiteRef!]!
-  "GlobalRange + InterfaceSubnet"
-  siteNetworkSubnet: [SiteNetworkSubnetRef!]!
-  "Subnets and network ranges defined for the LAN interfaces of a site"
-  subnet: [NetworkSubnet!]!
-  "Predefined Cato groups"
-  systemGroup: [SystemGroupRef!]!
-  "Individual users defined for the account"
-  user: [UserRef!]!
-  "Group of users"
-  usersGroup: [UsersGroupRef!]!
-}
-
-"Input of the settings for Source of an App Tenant Restriction rule"
-input AppTenantRestrictionSourceInput {
-  "Source country traffic matching criteria."
-  country: [CountryRefInput!]! = []
-  "Floating Subnets (ie. Floating Ranges) are used to identify traffic exactly matched to the route advertised by BGP. They are not associated with a specific site. This is useful in scenarios such as active-standby high availability routed via BGP."
-  floatingSubnet: [FloatingSubnetRefInput!]! = []
-  "Globally defined IP range, IP and subnet objects"
-  globalIpRange: [GlobalIpRangeRefInput!]! = []
-  "Groups defined for your account"
-  group: [GroupRefInput!]! = []
-  "Hosts and servers defined for your account"
-  host: [HostRefInput!]! = []
-  "IPv4 address"
-  ip: [IPAddress!]! = []
-  "Multiple separate IP addresses or an IP range"
-  ipRange: [IpAddressRangeInput!]! = []
-  "Network range defined for a site"
-  networkInterface: [NetworkInterfaceRefInput!]! = []
-  "Site defined for the account"
-  site: [SiteRefInput!]! = []
-  "GlobalRange + InterfaceSubnet"
-  siteNetworkSubnet: [SiteNetworkSubnetRefInput!]! = []
-  "Subnets and network ranges defined for the LAN interfaces of a site"
-  subnet: [NetworkSubnet!]! = []
-  "Predefined Cato groups"
-  systemGroup: [SystemGroupRefInput!]! = []
-  "Individual users defined for the account"
-  user: [UserRefInput!]! = []
-  "Group of users"
-  usersGroup: [UsersGroupRefInput!]! = []
-}
-
-"Input of the settings for Source of an App Tenant Restriction rule"
-input AppTenantRestrictionSourceUpdateInput {
-  "Source country traffic matching criteria."
-  country: [CountryRefInput!]
-  "Floating Subnets (ie. Floating Ranges) are used to identify traffic exactly matched to the route advertised by BGP. They are not associated with a specific site. This is useful in scenarios such as active-standby high availability routed via BGP."
-  floatingSubnet: [FloatingSubnetRefInput!]
-  "Globally defined IP range, IP and subnet objects"
-  globalIpRange: [GlobalIpRangeRefInput!]
-  "Groups defined for your account"
-  group: [GroupRefInput!]
-  "Hosts and servers defined for your account"
-  host: [HostRefInput!]
-  "IPv4 address"
-  ip: [IPAddress!]
-  "Multiple separate IP addresses or an IP range"
-  ipRange: [IpAddressRangeInput!]
-  "Network range defined for a site"
-  networkInterface: [NetworkInterfaceRefInput!]
-  "Site defined for the account"
-  site: [SiteRefInput!]
-  "GlobalRange + InterfaceSubnet"
-  siteNetworkSubnet: [SiteNetworkSubnetRefInput!]
-  "Subnets and network ranges defined for the LAN interfaces of a site"
-  subnet: [NetworkSubnet!]
-  "Predefined Cato groups"
-  systemGroup: [SystemGroupRefInput!]
-  "Individual users defined for the account"
-  user: [UserRefInput!]
-  "Group of users"
-  usersGroup: [UsersGroupRefInput!]
-}
-
-input AppTenantRestrictionUpdateRuleDataInput {
-  "The action applied by the App Tenant Restriction if the rule is matched"
-  action: AppTenantRestrictionActionEnum
-  "Applications for the rule (pre-defined)"
-  application: ApplicationRefInput
-  description: String
-  enabled: Boolean
-  "Headers and Values to Inject"
-  headers: [AppTenantRestrictionHeaderValueInput!]
-  name: String
-  "The time period specifying when the rule is enabled, otherwise it is disabled."
-  schedule: PolicyScheduleUpdateInput
-  "Severity defined for the rule"
-  severity: AppTenantRestrictionSeverityEnum
-  """
-  Source traffic matching criteria.
-  Logical ‘OR’ is applied within the criteria set.
-  Logical ‘AND’ is applied between criteria sets.
-  """
-  source: AppTenantRestrictionSourceUpdateInput
-}
-
-input AppTenantRestrictionUpdateRuleInput {
-  id: ID!
-  rule: AppTenantRestrictionUpdateRuleDataInput!
-}
-
 enum ConnectionOriginEnum {
   ANY
   REMOTE
   SITE
 }
 
-type DeviceAttributes {
-  "The category of the firewall device."
-  category: [String!]!
-  "The manufacturer of the firewall device."
-  manufacturer: [String!]!
-  "The model of the firewall device."
-  model: [String!]!
-  "The operating system of the firewall device."
-  os: [String!]!
-  "The version of the operating system of the firewall device."
-  osVersion: [String!]!
-  "The type of the firewall device."
-  type: [String!]!
-}
-
-input DeviceAttributesInput {
-  "The category of the firewall device."
-  category: [String!]! = []
-  "The manufacturer of the firewall device."
-  manufacturer: [String!]! = []
-  "The model of the firewall device."
-  model: [String!]! = []
-  "The operating system of the firewall device."
-  os: [String!]! = []
-  "The version of the operating system of the firewall device."
-  osVersion: [String!]! = []
-  "The type of the firewall device."
-  type: [String!]! = []
-}
-
-input DeviceAttributesUpdateInput {
-  "The category of the firewall device."
-  category: [String!]
-  "The manufacturer of the firewall device."
-  manufacturer: [String!]
-  "The model of the firewall device."
-  model: [String!]
-  "The operating system of the firewall device."
-  os: [String!]
-  "The version of the operating system of the firewall device."
-  osVersion: [String!]
-  "The type of the firewall device."
-  type: [String!]
-}
-
-"Shared interface for any policy"
+"Define settings for the Internet Firewall policy"
 interface IPolicy {
   "TRUE = Policy is enabled, FALSE = Policy is disabled"
   enabled: Boolean!
@@ -2592,12 +2203,6 @@ input InternetFirewallAddRuleDataInput {
   """
   device: [DeviceProfileRefInput!]! = []
   """
-  Additional device attributes such as category, type, model, and manufacturer.
-  Logical 'OR' is applied within the criteria set.
-  Logical 'AND' is applied between criteria sets.
-  """
-  deviceAttributes: DeviceAttributesInput! = {category: [], type: [], model: [], manufacturer: [], os: [], osVersion: []}
-  """
   Source device Operating System traffic matching criteria.
   Logical ‘OR’ is applied within the criteria set.
   Logical ‘AND’ is applied between criteria sets.
@@ -2657,7 +2262,8 @@ type InternetFirewallDestination {
   appCategory: [ApplicationCategoryRef!]!
   "Applications for the rule (pre-defined)"
   application: [ApplicationRef!]!
-  containers: InternetFirewallContainer!
+  # container: [ContainerRef!]!
+  # containers: InternetFirewallContainer!
   "Countries"
   country: [CountryRef!]!
   "Custom (user-defined) applications"
@@ -2688,6 +2294,7 @@ input InternetFirewallDestinationInput {
   appCategory: [ApplicationCategoryRefInput!]! = []
   "Applications for the rule (pre-defined)"
   application: [ApplicationRefInput!]! = []
+  # container: [ContainerRefInput!]! = []
   # containers: InternetFirewallContainerInput! = {fqdnContainer: [], ipAddressRangeContainer: []}
   "Countries"
   country: [CountryRefInput!]! = []
@@ -2719,7 +2326,8 @@ input InternetFirewallDestinationUpdateInput {
   appCategory: [ApplicationCategoryRefInput!]
   "Applications for the rule (pre-defined)"
   application: [ApplicationRefInput!]
-  # containers: InternetFirewallContainerUpdateInput
+  container: [ContainerRefInput!]
+  containers: InternetFirewallContainerUpdateInput
   "Countries"
   country: [CountryRefInput!]
   "Custom (user-defined) applications"
@@ -2777,7 +2385,7 @@ type InternetFirewallPolicyMutationPayload implements IPolicyMutationPayload {
 "The Internet firewall Policy information returned to the caller in the API response."
 type InternetFirewallPolicyMutations {
   "Add a new rule to the Internet Firewall policy."
-  addRule(input: InternetFirewallAddRuleInput!): InternetFirewallRuleMutationPayload! @beta
+  addRule(input: InternetFirewallAddRuleInput!): InternetFirewallRuleMutationPayload!
   """
   Add a new section to the policy.
   First section behaves as follows:
@@ -2785,38 +2393,38 @@ type InternetFirewallPolicyMutations {
   The first section containing the default system rules can be modified but not deleted.
   The first section will always remain first-in-policy, i.e. it cannot be moved, and not other sections can be moved or created before it.
   """
-  addSection(input: PolicyAddSectionInput!): PolicySectionMutationPayload! @beta
+  addSection(input: PolicyAddSectionInput!): PolicySectionMutationPayload!
   "Create the policy revision. Create a new empty policy revision."
-  createPolicyRevision(input: PolicyCreateRevisionInput!): InternetFirewallPolicyMutationPayload! @beta
+  createPolicyRevision(input: PolicyCreateRevisionInput!): InternetFirewallPolicyMutationPayload!
   "Discard the policy revision. All changes in this discarded revision are discarded, and the revision is deleted."
-  discardPolicyRevision(input: PolicyDiscardRevisionInput): InternetFirewallPolicyMutationPayload! @beta
+  discardPolicyRevision(input: PolicyDiscardRevisionInput): InternetFirewallPolicyMutationPayload!
   "Change the relative location of an existing rule within the Internet Firewall policy."
-  moveRule(input: PolicyMoveRuleInput!): InternetFirewallRuleMutationPayload! @beta
+  moveRule(input: PolicyMoveRuleInput!): InternetFirewallRuleMutationPayload!
   """
   Move a section to a new position within the policy.
    The section will be anchored in the new position, i.e. other admins will not be able to move it, or reference it when moving other sections, until the modified policy revision is published.
   """
-  moveSection(input: PolicyMoveSectionInput!): PolicySectionMutationPayload! @beta
+  moveSection(input: PolicyMoveSectionInput!): PolicySectionMutationPayload!
   "Publish the policy revision. A published revision becomes the active policy, and its content is merged with all unpublished revisions for other admins."
-  publishPolicyRevision(input: PolicyPublishRevisionInput): InternetFirewallPolicyMutationPayload! @beta
+  publishPolicyRevision(input: PolicyPublishRevisionInput): InternetFirewallPolicyMutationPayload!
   "Remove an existing rule from the Internet Firewall policy."
-  removeRule(input: InternetFirewallRemoveRuleInput!): InternetFirewallRuleMutationPayload! @beta
+  removeRule(input: InternetFirewallRemoveRuleInput!): InternetFirewallRuleMutationPayload!
   "Delete an existing section. The first section in policy cannot be deleted."
-  removeSection(input: PolicyRemoveSectionInput!): PolicySectionMutationPayload! @beta
+  removeSection(input: PolicyRemoveSectionInput!): PolicySectionMutationPayload!
   """
   Change the state of the policy, e.g. enable or disable the policy.
   Applicable to the published policy only. State changes are applied immediately and not as part of publishing a policy revision.
   """
-  updatePolicy(input: InternetFirewallPolicyUpdateInput!): InternetFirewallPolicyMutationPayload! @beta
+  updatePolicy(input: InternetFirewallPolicyUpdateInput!): InternetFirewallPolicyMutationPayload!
   "Update an existing rule of the Internet Firewall policy."
-  updateRule(input: InternetFirewallUpdateRuleInput!): InternetFirewallRuleMutationPayload! @beta
+  updateRule(input: InternetFirewallUpdateRuleInput!): InternetFirewallRuleMutationPayload!
   "Update policy section attributes"
-  updateSection(input: PolicyUpdateSectionInput!): PolicySectionMutationPayload! @beta
+  updateSection(input: PolicyUpdateSectionInput!): PolicySectionMutationPayload!
 }
 
 type InternetFirewallPolicyQueries {
-  policy(input: InternetFirewallPolicyInput): InternetFirewallPolicy! @beta
-  revisions: PolicyRevisionsPayload @beta
+  policy(input: InternetFirewallPolicyInput): InternetFirewallPolicy!
+  revisions: PolicyRevisionsPayload
 }
 
 input InternetFirewallPolicyUpdateInput {
@@ -2852,12 +2460,6 @@ type InternetFirewallRule implements IPolicyRule {
   Logical ‘AND’ is applied between criteria sets.
   """
   device: [DeviceProfileRef!]!
-  """
-  Additional device attributes such as category, type, model, and manufacturer.
-  Logical 'OR' is applied within the criteria set.
-  Logical 'AND' is applied between criteria sets.
-  """
-  deviceAttributes: DeviceAttributes!
   """
   Source device Operating System traffic matching criteria.
   Logical ‘OR’ is applied within the criteria set.
@@ -2910,8 +2512,6 @@ type InternetFirewallRuleException {
   destination: InternetFirewallDestination!
   "Source Device Profile matching criteria for the exception."
   device: [DeviceProfileRef!]!
-  "Source Device Attributes matching criteria for the exception."
-  deviceAttributes: DeviceAttributes!
   "Source device OS matching criteria for the exception."
   deviceOS: [OperatingSystem!]!
   "A unique name of the rule exception."
@@ -2929,11 +2529,9 @@ input InternetFirewallRuleExceptionInput {
   "Source country matching criteria for the exception."
   country: [CountryRefInput!]! = []
   "Destination matching criteria for the exception."
-  destination: InternetFirewallDestinationInput! = {application: [], customApp: [], appCategory: [], customCategory: [], sanctionedAppsCategory: [], country: [], domain: [], fqdn: [], ip: [], subnet: [], ipRange: [], globalIpRange: [], remoteAsn: []}
+  destination: InternetFirewallDestinationInput! = {application: [], customApp: [], appCategory: [], customCategory: [], sanctionedAppsCategory: [], country: [], domain: [], fqdn: [], ip: [], subnet: [], ipRange: [], globalIpRange: [], remoteAsn: [], container: [], containers: {fqdnContainer: [], ipAddressRangeContainer: []}}
   "Source Device Profile matching criteria for the exception."
   device: [DeviceProfileRefInput!]! = []
-  "Source Device Attributes matching criteria for the exception."
-  deviceAttributes: DeviceAttributesInput! = {category: [], type: [], model: [], manufacturer: [], os: [], osVersion: []}
   "Source device OS matching criteria for the exception."
   deviceOS: [OperatingSystem!]! = []
   "A unique name of the rule exception."
@@ -3089,12 +2687,6 @@ input InternetFirewallUpdateRuleDataInput {
   Logical ‘AND’ is applied between criteria sets.
   """
   device: [DeviceProfileRefInput!]
-  """
-  Additional device attributes such as category, type, model, and manufacturer.
-  Logical 'OR' is applied within the criteria set.
-  Logical 'AND' is applied between criteria sets.
-  """
-  deviceAttributes: DeviceAttributesUpdateInput
   """
   Source device Operating System traffic matching criteria.
   Logical ‘OR’ is applied within the criteria set.
@@ -3341,9 +2933,7 @@ enum PolicyMutationStatus {
 
 "Policies that can be configured with mutation APIs."
 type PolicyMutations {
-  appTenantRestriction(input: AppTenantRestrictionPolicyMutationInput): AppTenantRestrictionPolicyMutations
   internetFirewall(input: InternetFirewallPolicyMutationInput): InternetFirewallPolicyMutations
-  remotePortFwd(input: RemotePortFwdPolicyMutationInput): RemotePortFwdPolicyMutations
   wanFirewall(input: WanFirewallPolicyMutationInput): WanFirewallPolicyMutations
 }
 
@@ -3360,9 +2950,7 @@ input PolicyPublishRevisionInput {
 
 "policies which configuration can be read with query APIs."
 type PolicyQueries {
-  appTenantRestriction: AppTenantRestrictionPolicyQueries
   internetFirewall: InternetFirewallPolicyQueries
-  remotePortFwd: RemotePortFwdPolicyQueries
   wanFirewall: WanFirewallPolicyQueries
 }
 
@@ -3564,197 +3152,6 @@ input PolicyUpdateSectionInput {
   section: PolicyUpdateSectionInfoInput!
 }
 
-"inclusive network port range"
-input PortRangeUpdateInput {
-  from: Port
-  to: Port
-}
-
-input RemotePortFwdAddRuleDataInput {
-  description: String! = ""
-  enabled: Boolean!
-  externalIp: AllocatedIpRefInput!
-  externalPortRange: PortRangeInput!
-  forwardIcmp: Boolean! = false
-  internalIp: IPAddress!
-  internalPortRange: PortRangeInput!
-  name: String!
-  remoteIPs: RemotePortFwdRemoteIpsInput! = {ip: [], ipRange: [], subnet: [], globalIpRange: []}
-  restrictionType: RemotePortFwdRestrictionType! = ALLOW_LIST
-  tracking: PolicyRuleTrackingAlertInput! = {enabled: false, frequency: HOURLY, subscriptionGroup: [], webhook: [], mailingList: []}
-}
-
-"Rule parameters and relevant position"
-input RemotePortFwdAddRuleInput {
-  "Position of the rule in the policy"
-  at: PolicyRulePositionInput
-  "Parameters for the rule you are adding"
-  rule: RemotePortFwdAddRuleDataInput!
-}
-
-type RemotePortFwdPolicy implements IPolicy {
-  audit: PolicyAudit
-  enabled: Boolean!
-  revision: PolicyRevision
-  rules: [RemotePortFwdRulePayload!]!
-  sections: [PolicySectionPayload!]!
-}
-
-input RemotePortFwdPolicyInput {
-  """
-  A revision is a specific instance of the policy.
-   Unpublished revisions are working copies of the policy available to a specific
-   admin or a set of admins
-   Published revisions are revisions that were applied to the account network.
-   The last published revision is the active policy.
-  """
-  revision: PolicyRevisionInput
-}
-
-input RemotePortFwdPolicyMutationInput {
-  revision: PolicyMutationRevisionInput
-}
-
-"Remote port forwarding policy information provided in the API response"
-type RemotePortFwdPolicyMutationPayload implements IPolicyMutationPayload {
-  errors: [PolicyMutationError!]!
-  policy: RemotePortFwdPolicy
-  status: PolicyMutationStatus!
-}
-
-"The Remote Port Forwarding Policy information returned to the caller in the API response."
-type RemotePortFwdPolicyMutations {
-  "Add a new port forwarding rule to enable remote access to internal services."
-  addRule(input: RemotePortFwdAddRuleInput!): RemotePortFwdRuleMutationPayload! @beta
-  """
-  Add a new section to the policy.
-  First section behaves as follows:
-  When the first section is created, all the rules in the policy, including the default system rules, are automatically added to it.
-  The first section containing the default system rules can be modified but not deleted.
-  The first section will always remain first-in-policy, i.e. it cannot be moved, and not other sections can be moved or created before it.
-  """
-  addSection(input: PolicyAddSectionInput!): PolicySectionMutationPayload! @beta
-  "Create a new empty policy revision for port forwarding rules."
-  createPolicyRevision(input: PolicyCreateRevisionInput!): RemotePortFwdPolicyMutationPayload! @beta
-  "Discard the policy revision. All changes in this revision are discarded and the revision is deleted."
-  discardPolicyRevision(input: PolicyDiscardRevisionInput): RemotePortFwdPolicyMutationPayload! @beta
-  "Change the priority/position of an existing port forwarding rule."
-  moveRule(input: PolicyMoveRuleInput!): RemotePortFwdRuleMutationPayload! @beta
-  """
-  Move a section to a new position within the policy.
-  The section will be anchored in the new position, i.e. other admins will not be able to move it, or reference it when moving other sections, until the modified policy revision is published.
-  """
-  moveSection(input: PolicyMoveSectionInput!): PolicySectionMutationPayload! @beta
-  "Publish the policy revision. Published revision becomes the active policy and its rules are merged with unpublished revisions from other admins."
-  publishPolicyRevision(input: PolicyPublishRevisionInput): RemotePortFwdPolicyMutationPayload! @beta
-  "Remove an existing port forwarding rule from the policy."
-  removeRule(input: RemotePortFwdRemoveRuleInput!): RemotePortFwdRuleMutationPayload! @beta
-  "Delete an existing section. The first section in policy cannot be deleted."
-  removeSection(input: PolicyRemoveSectionInput!): PolicySectionMutationPayload! @beta
-  "Change the state of the port forwarding policy (enable/disable). Changes are applied immediately and not as part of policy revision publishing."
-  updatePolicy(input: RemotePortFwdPolicyUpdateInput!): RemotePortFwdPolicyMutationPayload! @beta
-  "Update an existing port forwarding rule configuration."
-  updateRule(input: RemotePortFwdUpdateRuleInput!): RemotePortFwdRuleMutationPayload! @beta
-  "Update policy section attributes"
-  updateSection(input: PolicyUpdateSectionInput!): PolicySectionMutationPayload! @beta
-}
-
-type RemotePortFwdPolicyQueries {
-  policy(input: RemotePortFwdPolicyInput): RemotePortFwdPolicy! @beta
-  revisions: PolicyRevisionsPayload @beta
-}
-
-input RemotePortFwdPolicyUpdateInput {
-  state: PolicyToggleState
-}
-
-type RemotePortFwdRemoteIps {
-  globalIpRange: [GlobalIpRangeRef!]!
-  ip: [IPAddress!]!
-  ipRange: [IpAddressRange!]!
-  subnet: [NetworkSubnet!]!
-}
-
-input RemotePortFwdRemoteIpsInput {
-  globalIpRange: [GlobalIpRangeRefInput!]! = []
-  ip: [IPAddress!]! = []
-  ipRange: [IpAddressRangeInput!]! = []
-  subnet: [NetworkSubnet!]! = []
-}
-
-input RemotePortFwdRemoteIpsUpdateInput {
-  globalIpRange: [GlobalIpRangeRefInput!]
-  ip: [IPAddress!]
-  ipRange: [IpAddressRangeInput!]
-  subnet: [NetworkSubnet!]
-}
-
-input RemotePortFwdRemoveRuleInput {
-  id: ID!
-}
-
-enum RemotePortFwdRestrictionType {
-  ALLOW_LIST
-  BLOCK_LIST
-}
-
-type RemotePortFwdRule implements IPolicyRule {
-  "Description for the rule"
-  description: String!
-  """
-  TRUE = Rule is enabled 
-   FALSE = Rule is disabled
-  """
-  enabled: Boolean!
-  externalIp: AllocatedIpRef!
-  externalPortRange: PortRange!
-  forwardIcmp: Boolean!
-  "Rule ID"
-  id: ID!
-  "Position / priority of rule"
-  index: Int!
-  internalIp: IPAddress!
-  internalPortRange: PortRange!
-  "Name of the rule"
-  name: String!
-  remoteIPs: RemotePortFwdRemoteIps!
-  restrictionType: RemotePortFwdRestrictionType!
-  "Policy section where the rule is located"
-  section: PolicySectionInfo!
-  tracking: PolicyRuleTrackingAlert!
-}
-
-type RemotePortFwdRuleMutationPayload implements IPolicyRuleMutationPayload {
-  errors: [PolicyMutationError!]!
-  rule: RemotePortFwdRulePayload
-  status: PolicyMutationStatus!
-}
-
-type RemotePortFwdRulePayload implements IPolicyRulePayload {
-  audit: PolicyElementAudit!
-  properties: [PolicyElementPropertiesEnum!]!
-  rule: RemotePortFwdRule!
-}
-
-input RemotePortFwdUpdateRuleDataInput {
-  description: String
-  enabled: Boolean
-  externalIp: AllocatedIpRefInput
-  externalPortRange: PortRangeUpdateInput
-  forwardIcmp: Boolean
-  internalIp: IPAddress
-  internalPortRange: PortRangeUpdateInput
-  name: String
-  remoteIPs: RemotePortFwdRemoteIpsUpdateInput
-  restrictionType: RemotePortFwdRestrictionType
-  tracking: PolicyRuleTrackingAlertUpdateInput
-}
-
-input RemotePortFwdUpdateRuleInput {
-  id: ID!
-  rule: RemotePortFwdUpdateRuleDataInput!
-}
-
 enum WanFirewallActionEnum {
   "Allow the network traffic to pass through the firewall."
   ALLOW
@@ -3794,12 +3191,6 @@ input WanFirewallAddRuleDataInput {
   Logical ‘AND’ is applied between criteria sets.
   """
   device: [DeviceProfileRefInput!]! = []
-  """
-  Additional device attributes such as category, type, model, and manufacturer.
-  Logical 'OR' is applied within the criteria set.
-  Logical 'AND' is applied between criteria sets.
-  """
-  deviceAttributes: DeviceAttributesInput! = {category: [], type: [], model: [], manufacturer: [], os: [], osVersion: []}
   """
   Source device Operating System traffic matching criteria.
   Logical ‘OR’ is applied within the criteria set.
@@ -4070,7 +3461,7 @@ type WanFirewallPolicyMutationPayload implements IPolicyMutationPayload {
 "The Wan Firewall Policy information returned to the caller in the API response."
 type WanFirewallPolicyMutations {
   "Add a new rule to the Wan Firewall policy."
-  addRule(input: WanFirewallAddRuleInput!): WanFirewallRuleMutationPayload! @beta
+  addRule(input: WanFirewallAddRuleInput!): WanFirewallRuleMutationPayload!
   """
   Add a new section to the policy.
   First section behaves as follows:
@@ -4078,35 +3469,35 @@ type WanFirewallPolicyMutations {
   The first section containing the default system rules can be modified but not deleted.
   The first section will always remain first-in-policy, i.e. it cannot be moved, and not other sections can be moved or created before it.
   """
-  addSection(input: PolicyAddSectionInput!): PolicySectionMutationPayload! @beta
-  createPolicyRevision(input: PolicyCreateRevisionInput!): WanFirewallPolicyMutationPayload! @beta
-  discardPolicyRevision(input: PolicyDiscardRevisionInput): WanFirewallPolicyMutationPayload! @beta
+  addSection(input: PolicyAddSectionInput!): PolicySectionMutationPayload!
+  createPolicyRevision(input: PolicyCreateRevisionInput!): WanFirewallPolicyMutationPayload!
+  discardPolicyRevision(input: PolicyDiscardRevisionInput): WanFirewallPolicyMutationPayload!
   "Change the relative location of an existing rule within the Wan Firewall policy."
-  moveRule(input: PolicyMoveRuleInput!): WanFirewallRuleMutationPayload! @beta
+  moveRule(input: PolicyMoveRuleInput!): WanFirewallRuleMutationPayload!
   """
   Move a section to a new position within the policy.
    The section will be anchored in the new position, i.e. other admins will not be able to move it, or reference it when moving other sections, until the modified policy revision is published.
   """
-  moveSection(input: PolicyMoveSectionInput!): PolicySectionMutationPayload! @beta
-  publishPolicyRevision(input: PolicyPublishRevisionInput): WanFirewallPolicyMutationPayload! @beta
+  moveSection(input: PolicyMoveSectionInput!): PolicySectionMutationPayload!
+  publishPolicyRevision(input: PolicyPublishRevisionInput): WanFirewallPolicyMutationPayload!
   "Remove an existing rule from the Wan Firewall policy."
-  removeRule(input: WanFirewallRemoveRuleInput!): WanFirewallRuleMutationPayload! @beta
+  removeRule(input: WanFirewallRemoveRuleInput!): WanFirewallRuleMutationPayload!
   "Delete an existing section. The first section in policy cannot be deleted."
-  removeSection(input: PolicyRemoveSectionInput!): PolicySectionMutationPayload! @beta
+  removeSection(input: PolicyRemoveSectionInput!): PolicySectionMutationPayload!
   """
   Change the state of the policy, e.g. enable or disable the policy.
   Applicable to the published policy only. State changes are applied immediately and not as part of publishing a policy revision.
   """
-  updatePolicy(input: WanFirewallPolicyUpdateInput!): WanFirewallPolicyMutationPayload! @beta
+  updatePolicy(input: WanFirewallPolicyUpdateInput!): WanFirewallPolicyMutationPayload!
   "Update an existing rule of the Wan Firewall policy."
-  updateRule(input: WanFirewallUpdateRuleInput!): WanFirewallRuleMutationPayload! @beta
+  updateRule(input: WanFirewallUpdateRuleInput!): WanFirewallRuleMutationPayload!
   "Update policy section attributes"
-  updateSection(input: PolicyUpdateSectionInput!): PolicySectionMutationPayload! @beta
+  updateSection(input: PolicyUpdateSectionInput!): PolicySectionMutationPayload!
 }
 
 type WanFirewallPolicyQueries {
-  policy(input: WanFirewallPolicyInput): WanFirewallPolicy! @beta
-  revisions: PolicyRevisionsPayload @beta
+  policy(input: WanFirewallPolicyInput): WanFirewallPolicy!
+  revisions: PolicyRevisionsPayload
 }
 
 input WanFirewallPolicyUpdateInput {
@@ -4148,12 +3539,6 @@ type WanFirewallRule implements IPolicyRule {
   Logical ‘AND’ is applied between criteria sets.
   """
   device: [DeviceProfileRef!]!
-  """
-  Additional device attributes such as category, type, model, and manufacturer.
-  Logical 'OR' is applied within the criteria set.
-  Logical 'AND' is applied between criteria sets.
-  """
-  deviceAttributes: DeviceAttributes!
   """
   Source device Operating System traffic matching criteria.
   Logical ‘OR’ is applied within the criteria set.
@@ -4209,8 +3594,6 @@ type WanFirewallRuleException {
   destination: WanFirewallDestination!
   "Source Device Profile matching criteria for the exception."
   device: [DeviceProfileRef!]!
-  "Source Device Attributes matching criteria for the exception."
-  deviceAttributes: DeviceAttributes!
   "Source device OS matching criteria for the exception."
   deviceOS: [OperatingSystem!]!
   "Direction origin matching criteria for the exception"
@@ -4235,8 +3618,6 @@ input WanFirewallRuleExceptionInput {
   destination: WanFirewallDestinationInput! = {host: [], site: [], subnet: [], ip: [], ipRange: [], globalIpRange: [], networkInterface: [], siteNetworkSubnet: [], floatingSubnet: [], user: [], usersGroup: [], group: [], systemGroup: []}
   "Source Device Profile matching criteria for the exception."
   device: [DeviceProfileRefInput!]! = []
-  "Source Device Attributes matching criteria for the exception."
-  deviceAttributes: DeviceAttributesInput! = {category: [], type: [], model: [], manufacturer: [], os: [], osVersion: []}
   "Source device OS matching criteria for the exception."
   deviceOS: [OperatingSystem!]! = []
   "Direction origin matching criteria for the exception"
@@ -4413,12 +3794,6 @@ input WanFirewallUpdateRuleDataInput {
   """
   device: [DeviceProfileRefInput!]
   """
-  Additional device attributes such as category, type, model, and manufacturer.
-  Logical 'OR' is applied within the criteria set.
-  Logical 'AND' is applied between criteria sets.
-  """
-  deviceAttributes: DeviceAttributesUpdateInput
-  """
   Source device Operating System traffic matching criteria.
   Logical ‘OR’ is applied within the criteria set.
   Logical ‘AND’ is applied between criteria sets.
@@ -4569,10 +3944,6 @@ type InterfaceInfo {
   Maximum allowed bandwidth for traffic on this port, from the Cato Cloud to the site
   """
   downstreamBandwidth: Int
-  """
-  Maximum allowed bandwidth for traffic on this port in MBPS with single decimal point, from the Cato Cloud to the site
-  """
-  downstreamBandwidthMbpsPrecision: Float @beta
   """ID for the Socket port in the Socket WebUI Monitor tab"""
   id: ID!
   """Name for the port in the Cato Management Application"""
@@ -4581,10 +3952,6 @@ type InterfaceInfo {
   Maximum allowed bandwidth on this port, for traffic from the site to the Cato Cloud
   """
   upstreamBandwidth: Int
-  """
-  Maximum allowed bandwidth on this port in MBPS with single decimal point, for traffic from the site to the Cato Cloud
-  """
-  upstreamBandwidthMbpsPrecision: Float @beta
 }
 
 """Basic Site configuration information"""
@@ -4675,17 +4042,13 @@ type RecentConnection {
 type InterfaceLinkState {
   """Shows the duplex mode for the link"""
   duplex: String
-  """Indicates if the WAN interface has an IP address"""
-  hasAddress: Boolean
-  """Indicates if the interface is connected to the Internet"""
-  hasInternet: Boolean
-  """Indicates if a connection has been established with the Cato Cloud"""
-  hasTunnel: Boolean
   """The ID for the specific Socket port, for example LAN1 or LAN2"""
   id: ID
   """Shows the maximum bandwidth configured for the link"""
   linkSpeed: String
-  """Indicates if there is a physical connection to the port"""
+  """
+  When this boolean value is true, then a cable is connected to the Socket port
+  """
   mediaIn: Boolean
   """When this boolean value is true, then the link for the port is up"""
   up: Boolean
@@ -4698,8 +4061,6 @@ type DeviceSnapshot {
   connected: Boolean
   """For connected devices (this somewhat overlaps to last duration)"""
   connectedSince: DateTime
-  """Indicates the Socket uptime"""
-  deviceUptime: Int
   """
   Shows if this is the primary or secondary Socket in high availability mode
   """
@@ -5363,17 +4724,9 @@ input LastMileBwInput {
   """
   downstream: Int
   """
-  The maximum downstream bandwidth from the Cato Cloud to the site, in Mbps with single decimal precision. This value can be used for capping the downstream traffic. It should not be set above the ISP downstream bandwidth or the site license bandwidth.
-  """
-  downstreamMbpsPrecision: Float
-  """
   The maximum upstream bandwidth, in Mbps. The Cato Cloud cannot cap this direction, and this setting is used as a best-effort indication by the Cato Cloud.
   """
   upstream: Int
-  """
-  The maximum upstream bandwidth, in Mbps with single decimal precision. The Cato Cloud cannot cap this direction, and this setting is used as a best-effort indication by the Cato Cloud.
-  """
-  upstreamMbpsPrecision: Float
 }
 
 input AddIpsecIkeV2TunnelInput {
@@ -5381,8 +4734,6 @@ input AddIpsecIkeV2TunnelInput {
   The maximum allowed bandwidth for the site. If not specified, it will be set according to the site license. If the ISP provided bandwidth is below the site bandwidth, set this parameter to the ISP bandwidth or below
   """
   lastMileBw: LastMileBwInput
-  """Tunnel name"""
-  name: String
   """
   Cato’s private IP, used for BGP routing. Applicable for sites using BGP only
   """
@@ -5395,8 +4746,6 @@ input AddIpsecIkeV2TunnelInput {
   psk: String!
   """The public IP address where the IPsec tunnel is initiated"""
   publicSiteIp: IPAddress
-  """Tunnel role"""
-  role: IPSecV2TunnelRole
 }
 
 input UpdateIpsecIkeV2TunnelInput {
@@ -5404,8 +4753,6 @@ input UpdateIpsecIkeV2TunnelInput {
   The maximum allowed bandwidth for the site. If not specified, it will be set according to the site license. If the ISP provided bandwidth is below the site bandwidth, set this parameter to the ISP bandwidth or below
   """
   lastMileBw: LastMileBwInput
-  """Tunnel name"""
-  name: String
   """
   Cato’s private IP, used for BGP routing. Applicable for sites using BGP only
   """
@@ -5418,8 +4765,6 @@ input UpdateIpsecIkeV2TunnelInput {
   psk: String
   """The public IP address where the IPsec tunnel is initiated"""
   publicSiteIp: IPAddress
-  """Tunnel role"""
-  role: IPSecV2TunnelRole
   """The ID of the tunnel"""
   tunnelId: IPSecV2InterfaceId!
 }
@@ -5462,11 +4807,6 @@ input AddIpsecIkeV2SiteTunnelsInput {
   secondary: AddIpsecIkeV2TunnelsInput
 }
 
-input RemoveIpsecIkeV2SiteTunnelsInput {
-  """The IDs of the tunnels"""
-  tunnelId: [IPSecV2InterfaceId!]!
-}
-
 type AddIpsecIkeV2SitePayload {
   """The ID of the site"""
   siteId: ID!
@@ -5499,23 +4839,10 @@ type AddIpsecIkeV2SiteTunnelPayload {
   tunnelId: IPSecV2InterfaceId
 }
 
-type RemoveIpsecIkeV2SiteTunnelPayload {
-  """The local ID for the tunnel"""
-  localId: String
-  """The ID of the tunnel"""
-  tunnelId: IPSecV2InterfaceId
-}
-
 type AddIpsecIkeV2SiteMultiTunnelPayload {
   """Cato’s FQDN for the multi-tunnel"""
   fqdn: Fqdn
   tunnels: [AddIpsecIkeV2SiteTunnelPayload!]!
-}
-
-type RemoveIpsecIkeV2SiteMultiTunnelPayload {
-  """Cato’s FQDN for the multi-tunnel"""
-  fqdn: Fqdn
-  tunnels: [RemoveIpsecIkeV2SiteTunnelPayload!]!
 }
 
 type UpdateIpsecIkeV2SiteTunnelsPayload {
@@ -5536,18 +4863,9 @@ type AddIpsecIkeV2SiteTunnelsPayload {
   siteId: ID!
 }
 
-type RemoveIpsecIkeV2SiteTunnelsPayload {
-  """Cato’s FQDN for the primary tunnel"""
-  primary: RemoveIpsecIkeV2SiteMultiTunnelPayload
-  """Cato’s FQDN for the secondary tunnel"""
-  secondary: RemoveIpsecIkeV2SiteMultiTunnelPayload
-  """The ID of the site"""
-  siteId: ID!
-}
-
 type HardwareManagementQueries {
   """Retrieve the account socket inventory"""
-  socketInventory(input: SocketInventoryInput): SocketInventoryPayload! @beta
+  socketInventory(input: SocketInventoryInput): SocketInventoryPayload!
 }
 
 input SocketInventoryInput {
@@ -5565,7 +4883,6 @@ input SocketInventoryFilterInput {
 }
 
 input SocketInventoryOrderInput {
-  accountName: SortOrderInput
   deliverySiteName: SortOrderInput
   description: SortOrderInput
   installedSite: SortOrderInput
@@ -5712,7 +5029,7 @@ enum EventFieldName {
   "Related Apps"
   app_stack
   "For Internet firewall, app for this event"
-  application @deprecated(reason: "use application_id/application_name instead")
+  application
   "Application ID of the flow"
   application_id
   "Application of the flow"
@@ -5854,8 +5171,6 @@ enum EventFieldName {
   email_subject
   "Count for events that are repeated multiple times during one minute"
   event_count
-  "Event Id"
-  event_id
   "Cato's description of the event"
   event_message
   "Sub-type for Routing, Security, Connectivity, System or Sockets Management event"
@@ -5891,7 +5206,7 @@ enum EventFieldName {
   "Indicator"
   indicator
   "Cato Internal-use only"
-  internalId @deprecated(reason: "use event_id instead")
+  internalId
   "Network protocol for this event"
   ip_protocol
   "Classifies users based on their permissions."
@@ -5904,8 +5219,6 @@ enum EventFieldName {
   is_managed
   "Is the app for this event defined as a sanctioned app? (True/False)"
   is_sanctioned_app
-  "If the events was part of the sinkhole flow"
-  is_sinkhole
   """
   The ISP related to this event (when the IP address isn't provided by the ISP, then the event message is IP Addresses are assigned statically)
   """
@@ -6030,7 +5343,7 @@ enum EventFieldName {
   "Internal port number"
   src_port
   "Name of site or user initiating the connection"
-  src_site @deprecated(reason: "use src_site_id/src_site_name instead")
+  src_site
   "Unique internal Cato ID for the site or remote user"
   src_site_id
   "Source site or remote user"
@@ -6050,8 +5363,6 @@ enum EventFieldName {
   tenant_id
   "Tenant Name"
   tenant_name
-  "Tenant Restriction Rule Name"
-  tenant_restriction_rule_name
   "For anti-malware events, malware name For IPS events, explains the reason why the traffic was blocked"
   threat_name
   "Link to external malware reference"
@@ -6284,11 +5595,11 @@ enum EntityType {
 type ContainerQueries {
   fqdn: FqdnContainerQueries!
   ipAddressRange: IpAddressRangeContainerQueries!
-  list(input: ContainerSearchInput!): ContainerSearchPayload! @beta
+  list(input: ContainerSearchInput!): ContainerSearchPayload!
 }
 
 type ContainerMutations {
-  delete(input: DeleteContainerInput!): DeleteContainerPayload! @beta
+  delete(input: DeleteContainerInput!): DeleteContainerPayload!
   fqdn: FqdnContainerMutations!
   ipAddressRange: IpAddressRangeContainerMutations!
 }
@@ -6350,16 +5661,16 @@ enum ContainerType {
 }
 
 type FqdnContainerMutations {
-  addValues(input: FqdnContainerAddValuesInput!): FqdnContainerAddValuesPayload! @beta
-  createFromFile(input: CreateFqdnContainerFromFileInput!): CreateFqdnContainerFromFilePayload! @beta
-  removeValues(input: FqdnContainerRemoveValuesInput!): FqdnContainerRemoveValuesPayload! @beta
-  updateFromFile(input: UpdateFqdnContainerFromFileInput!): UpdateFqdnContainerFromFilePayload! @beta
+  addValues(input: FqdnContainerAddValuesInput!): FqdnContainerAddValuesPayload!
+  createFromFile(input: CreateFqdnContainerFromFileInput!): CreateFqdnContainerFromFilePayload!
+  removeValues(input: FqdnContainerRemoveValuesInput!): FqdnContainerRemoveValuesPayload!
+  updateFromFile(input: UpdateFqdnContainerFromFileInput!): UpdateFqdnContainerFromFilePayload!
 }
 
 type FqdnContainerQueries {
-  downloadFile(input: DownloadFqdnContainerFileInput!): DownloadFqdnContainerFilePayload! @beta
-  search(input: FqdnContainerSearchInput!): FqdnContainerSearchPayload! @beta
-  searchFqdn(input: FqdnContainerSearchFqdnInput!): FqdnContainerSearchFqdnPayload! @beta
+  downloadFile(input: DownloadFqdnContainerFileInput!): DownloadFqdnContainerFilePayload!
+  search(input: FqdnContainerSearchInput!): FqdnContainerSearchPayload!
+  searchFqdn(input: FqdnContainerSearchFqdnInput!): FqdnContainerSearchFqdnPayload!
 }
 
 "A group with members of FQDN type"
@@ -6428,17 +5739,17 @@ input CreateFqdnContainerFromFileInput {
   description: String!
   "Name for the container"
   name: String!
-  "Multipart file containing FQDNs with fileType delimiter"
-  uploadFile: Upload
+  "Multipart file containing FQDNs with csv/newline delimiter"
+  uploadFile: Upload!
 }
 
 "Input for updating FQDN typed container from file"
 input UpdateFqdnContainerFromFileInput {
   "Description for the container"
-  description: String
+  description: String!
   "Reference to existing container by container ID or container name"
   ref: ContainerRefInput!
-  "Multipart file containing FQDNs with fileType delimiter"
+  "Multipart file containing FQDNs with csv/newline delimiter"
   uploadFile: Upload
 }
 
@@ -6474,16 +5785,16 @@ input DownloadFqdnContainerFileInput {
 }
 
 type IpAddressRangeContainerMutations {
-  addValues(input: IpAddressRangeContainerAddValuesInput!): IpAddressRangeContainerAddValuesPayload! @beta
-  createFromFile(input: CreateIpAddressRangeContainerFromFileInput!): CreateIpAddressRangeContainerFromFilePayload! @beta
-  removeValues(input: IpAddressRangeContainerRemoveValuesInput!): IpAddressRangeContainerRemoveValuesPayload! @beta
-  updateFromFile(input: UpdateIpAddressRangeContainerFromFileInput!): UpdateIpAddressRangeContainerFromFilePayload! @beta
+  addValues(input: IpAddressRangeContainerAddValuesInput!): IpAddressRangeContainerAddValuesPayload!
+  createFromFile(input: CreateIpAddressRangeContainerFromFileInput!): CreateIpAddressRangeContainerFromFilePayload!
+  removeValues(input: IpAddressRangeContainerRemoveValuesInput!): IpAddressRangeContainerRemoveValuesPayload!
+  updateFromFile(input: UpdateIpAddressRangeContainerFromFileInput!): UpdateIpAddressRangeContainerFromFilePayload!
 }
 
 type IpAddressRangeContainerQueries {
-  downloadFile(input: DownloadIpAddressRangeContainerFileInput!): DownloadIpAddressRangeContainerFilePayload! @beta
-  search(input: IpAddressRangeContainerSearchInput!): IpAddressRangeContainerSearchPayload! @beta
-  searchIpAddressRange(input: IpAddressRangeContainerSearchIpAddressRangeInput!): IpAddressRangeContainerSearchIpAddressRangePayload! @beta
+  downloadFile(input: DownloadIpAddressRangeContainerFileInput!): DownloadIpAddressRangeContainerFilePayload!
+  search(input: IpAddressRangeContainerSearchInput!): IpAddressRangeContainerSearchPayload!
+  searchIpAddressRange(input: IpAddressRangeContainerSearchIpAddressRangeInput!): IpAddressRangeContainerSearchIpAddressRangePayload!
 }
 
 "A group with members of IPAddressRange type"
@@ -6552,17 +5863,17 @@ input CreateIpAddressRangeContainerFromFileInput {
   description: String!
   "Name for the container"
   name: String!
-  "Multipart file containing IPAddressRanges with fileType delimiter"
-  uploadFile: Upload
+  "Multipart file containing IPAddressRanges with csv/newline delimiter"
+  uploadFile: Upload!
 }
 
 "Input for updating existing IPAddressRange typed container from file"
 input UpdateIpAddressRangeContainerFromFileInput {
   "Description for the container"
-  description: String
+  description: String!
   "Reference to existing container by container ID or container name"
   ref: ContainerRefInput!
-  "Multipart file containing IPAddressRanges with fileType delimiter"
+  "Multipart file containing IPAddressRanges with csv/newline delimiter"
   uploadFile: Upload
 }
 
@@ -6595,178 +5906,6 @@ input IpAddressRangeContainerSearchIpAddressRangeInput {
 input DownloadIpAddressRangeContainerFileInput {
   by: ObjectRefBy!
   input: String!
-}
-
-"""Input for adding a new cloud interconnect site."""
-input AddCloudInterconnectSiteInput {
-  """Description of the site."""
-  description: String
-  """Name of the site."""
-  name: String!
-  """Location details of the site."""
-  siteLocation: AddSiteLocationInput!
-  """Type of the site."""
-  siteType: SiteType! = BRANCH
-}
-
-"""Payload for adding a new cloud interconnect site."""
-type AddCloudInterconnectSitePayload {
-  """ID of the newly added site."""
-  siteId: ID!
-}
-
-"""
-Input for adding a new physical connection to a cloud interconnect site.
-"""
-input AddCloudInterconnectPhysicalConnectionInput {
-  """Downstream bandwidth limit."""
-  downstreamBwLimit: NetworkBandwidth!
-  """Method of encapsulation.Wither .1Q/QinQ"""
-  encapsulationMethod: TaggingMethod!
-  """High availability role of the connection."""
-  haRole: HaRole!
-  """Identifying data for the POP location."""
-  popLocation: PopLocationRefInput!
-  """Private IP address of Cato."""
-  privateCatoIp: IPAddress!
-  """Private IP address of the site."""
-  privateSiteIp: IPAddress!
-  """
-  Name of the service provider. Usually a partner, or a fabric service provider.
-  """
-  serviceProviderName: String!
-  """Identifying data for the site."""
-  site: SiteRefInput!
-  """Subnet for the connection, the BGP peering range. /30 CIDR."""
-  subnet: NetworkSubnet!
-  """Upstream bandwidth limit."""
-  upstreamBwLimit: NetworkBandwidth!
-}
-
-"""
-Payload for adding a new physical connection to a cloud interconnect site.
-"""
-type AddCloudInterconnectPhysicalConnectionPayload {
-  """ID of the newly added connection."""
-  id: ID!
-}
-
-"""
-Payload for updating an existing physical connection at a cloud interconnect site.
-"""
-type UpdateCloudInterconnectPhysicalConnectionPayload {
-  """ID of the updated connection."""
-  id: ID!
-}
-
-"""
-Input for updating an existing physical connection at a cloud interconnect site.
-"""
-input UpdateCloudInterconnectPhysicalConnectionInput {
-  """Downstream bandwidth limit."""
-  downstreamBwLimit: NetworkBandwidth
-  """Method of encapsulation."""
-  encapsulationMethod: TaggingMethod
-  """ID of the connection to be updated."""
-  id: ID!
-  """Identifying data for the POP location."""
-  popLocation: PopLocationRefInput
-  """Private IP address of Cato."""
-  privateCatoIp: IPAddress
-  """Private IP address of the site."""
-  privateSiteIp: IPAddress
-  """Name of the service provider."""
-  serviceProviderName: String
-  """Subnet for the connection."""
-  subnet: NetworkSubnet
-  """Upstream bandwidth limit."""
-  upstreamBwLimit: NetworkBandwidth
-}
-
-"""
-Input for removing a physical connection from a cloud interconnect site.
-"""
-input RemoveCloudInterconnectPhysicalConnectionInput {
-  """ID of the connection to be removed."""
-  id: ID!
-}
-
-"""
-Payload for removing a physical connection from a cloud interconnect site.
-"""
-type RemoveCloudInterconnectPhysicalConnectionPayload {
-  """ID of the removed connection."""
-  id: ID!
-}
-
-"""
-Input for getting details of a physical connection at a cloud interconnect site.
-"""
-input CloudInterconnectPhysicalConnectionInput {
-  """ID of the connection."""
-  id: ID!
-}
-
-"""Details of a physical connection at a cloud interconnect site."""
-type CloudInterconnectPhysicalConnection {
-  """C-VLAN applicable only for QINQ connections."""
-  cVlan: Vlan
-  """Downstream bandwidth limit."""
-  downstreamBwLimit: NetworkBandwidth!
-  """Method of encapsulation."""
-  encapsulationMethod: TaggingMethod!
-  """High availability role of the connection. Either Primary or Secondary."""
-  haRole: HaRole!
-  """ID of the connection."""
-  id: ID!
-  """Identifying data for the POP location."""
-  popLocation: PopLocationRef!
-  """Private IP address of Cato, used for BGP routing."""
-  privateCatoIp: IPAddress!
-  """Private IP address of the site, used for BGP routing."""
-  privateSiteIp: IPAddress!
-  """Name of the service provider."""
-  serviceProviderName: String!
-  """Identifying data for the site."""
-  site: SiteRef!
-  """Subnet for the connection."""
-  subnet: NetworkSubnet!
-  """S-VLAN applicable only for QINQ connections."""
-  sVlan: Vlan
-  """Upstream bandwidth limit."""
-  upstreamBwLimit: NetworkBandwidth!
-  """VLAN applicable only for DOT1Q connections."""
-  vlan: Vlan
-}
-
-"""
-Input for getting the ID of a physical connection at a cloud interconnect site.
-"""
-input CloudInterconnectPhysicalConnectionIdInput {
-  """High availability role of the connection."""
-  haRole: HaRole!
-  """Identifying data for the site."""
-  site: SiteRefInput!
-}
-
-"""ID of a physical connection at a cloud interconnect site."""
-type CloudInterconnectPhysicalConnectionId {
-  """ID of the connection."""
-  id: ID!
-}
-
-"""
-Input for checking the connectivity status of a cloud interconnect connection.
-"""
-input CloudInterconnectConnectionConnectivityInput {
-  """ID of the connection."""
-  id: ID!
-}
-
-"""Connectivity status of a cloud interconnect connection."""
-type CloudInterconnectConnectionConnectivity {
-  """Indicates if the connection is successful."""
-  success: Boolean!
 }
 
 enum SocketInterfaceDestType {
@@ -6826,12 +5965,6 @@ enum IPSecV2InterfaceId {
   SECONDARY1
   SECONDARY2
   SECONDARY3
-}
-
-enum IPSecV2TunnelRole {
-  WAN1
-  WAN2
-  WAN3
 }
 
 type SubDomain {
@@ -6969,6 +6102,19 @@ enum ProtoType {
   SOCKET_X1600_LTE
   SOCKET_X1700
   VSOCKET_VGX
+  CROSS_CONNECT_L2
+  CROSS_CONNECT_VRF
+  GRE_TUNNEL
+  NOT_DEFINED
+  PORTAL_LISTENER
+  SOCKET_GCP1500
+  SOCKET_RPI64
+  SOCKET_X1
+  VSOCKET_VGS
+  VSOCKET_VGX_AWS
+  VSOCKET_VGX_AZURE
+  VSOCKET_VGX_ESX
+  VSOCKET_VSH  
 }
 
 enum SocketRegistrationStatus {
@@ -7100,285 +6246,6 @@ type EntityInfo {
   helperFields: Map!
 }
 
-input BgpPeerListInput {
-  """Identifies the site whose BGP peers are listed."""
-  site: SiteRefInput!
-}
-
-type BgpPeerListPayload {
-  """BGP peers associated with the site."""
-  bgpPeer: [BgpPeer!]!
-  """Total number of BGP peers found."""
-  total: Int!
-}
-
-input AddBgpPeerInput {
-  """Advertise all routes if true."""
-  advertiseAllRoutes: Boolean! = false
-  """Advertise the default route (0.0.0.0/0) if true."""
-  advertiseDefaultRoute: Boolean! = true
-  """Advertise summarized routes if true."""
-  advertiseSummaryRoutes: Boolean! = false
-  """Enable BFD for session failure detection if true."""
-  bfdEnabled: Boolean! = false
-  """Required BFD configuration if BFD is enabled."""
-  bfdSettings: BfdSettingsInput
-  """The AS number of Cato's BGP endpoint."""
-  catoAsn: Asn16!
-  """Default action for routes not matching filters (ACCEPT or DROP)."""
-  defaultAction: BgpDefaultAction!
-  """Time (in seconds) before declaring the peer unreachable."""
-  holdTime: Int! = 60
-  """Time (in seconds) between keepalive messages."""
-  keepaliveInterval: Int! = 20
-  """MD5 authentication key for secure sessions."""
-  md5AuthKey: String
-  """Route preference metric; lower values are given precedence."""
-  metric: Int! = 100
-  """Name of the BGP configuration entity."""
-  name: String!
-  """The AS number of the peer BGP endpoint."""
-  peerAsn: Asn32!
-  """IP address of the peer BGP endpoint."""
-  peerIp: IPAddress!
-  """Perform NAT if true."""
-  performNat: Boolean! = false
-  """Information about the site where the BGP peer is being added."""
-  site: SiteRefInput!
-  """Summarized routes to advertise."""
-  summaryRoute: [BgpSummaryRouteInput!]! = []
-  """Configuration for tracking the health and status of the BGP peer."""
-  tracking: BgpTrackingInput
-}
-
-input BgpPeerRefInput {
-  """Specifies the method of identification (default is by ID)."""
-  by: ObjectRefBy! = ID
-  """Value used to identify the BGP peer (e.g., ID or name)."""
-  input: String!
-}
-
-type BgpPeer {
-  """Indicates if all routes are advertised."""
-  advertiseAllRoutes: Boolean!
-  """Indicates if the default route is advertised."""
-  advertiseDefaultRoute: Boolean!
-  """Indicates if summarized routes are advertised."""
-  advertiseSummaryRoutes: Boolean!
-  """Indicates if BFD is enabled for failure detection."""
-  bfdEnabled: Boolean!
-  """BFD configuration."""
-  bfdSettings: BfdSettings
-  """AS number of Cato's BGP endpoint."""
-  catoAsn: Asn16!
-  """IP address of Cato's BGP endpoint."""
-  catoIp: IPAddress!
-  """Default action for routes not matching filters (ACCEPT or DROP)."""
-  defaultAction: BgpDefaultAction!
-  """Time before declaring the peer unreachable."""
-  holdTime: Int!
-  """Unique identifier for the BGP peer."""
-  id: ID!
-  """Interval between keepalive messages."""
-  keepaliveInterval: Int!
-  """MD5 authentication key for secure sessions."""
-  md5AuthKey: String
-  """Metric for route preferences."""
-  metric: Int!
-  """Name of the BGP configuration entity."""
-  name: String!
-  """AS number of the peer BGP endpoint."""
-  peerAsn: Asn32!
-  """IP address of the peer BGP endpoint."""
-  peerIp: IPAddress!
-  """Indicates if NAT is performed on routes."""
-  performNat: Boolean!
-  """Site associated with this BGP peer."""
-  site: SiteRef!
-  """Summarized routes advertised to the peer."""
-  summaryRoute: [BgpSummaryRoute!]!
-  """Tracking configuration for health and availability."""
-  tracking: BgpTracking
-}
-
-input BgpTrackingInput {
-  """Frequency of health alerts."""
-  alertFrequency: PolicyRuleTrackingFrequencyEnum! = HOURLY
-  """Indicates if tracking is enabled."""
-  enabled: Boolean! = false
-  """Subscription ID associated with this tracking rule."""
-  subscriptionId: ID!
-}
-
-type BgpTracking {
-  """Frequency of health alerts."""
-  alertFrequency: PolicyRuleTrackingFrequencyEnum!
-  """Indicates if tracking is enabled."""
-  enabled: Boolean!
-  """Unique identifier for the tracking rule."""
-  id: ID!
-  """Subscription ID associated with the rule."""
-  subscriptionId: ID
-}
-
-type AddBgpPeerPayload {
-  """The BGP peer that was successfully added."""
-  bgpPeer: BgpPeer!
-}
-
-input UpdateBgpPeerInput {
-  """Update for all route advertisements."""
-  advertiseAllRoutes: Boolean
-  """Update for default route advertisement."""
-  advertiseDefaultRoute: Boolean
-  """Update for summary route advertisement."""
-  advertiseSummaryRoutes: Boolean
-  """Update to enable or disable BFD."""
-  bfdEnabled: Boolean
-  """Updated BFD settings."""
-  bfdSettings: BfdSettingsInput
-  """Updated AS number of Cato's BGP endpoint."""
-  catoAsn: Asn16
-  """Update for the default action on unmatched routes."""
-  defaultAction: BgpDefaultAction
-  """Updated hold time for the BGP session."""
-  holdTime: Int
-  """Unique identifier of the BGP peer to be updated."""
-  id: ID!
-  """Updated keepalive interval for the BGP session."""
-  keepaliveInterval: Int
-  """Updated MD5 authentication key."""
-  md5AuthKey: String
-  """Updated metric value for route preferences."""
-  metric: Int
-  """Updated name of the BGP configuration entity."""
-  name: String
-  """Updated AS number of the peer BGP endpoint."""
-  peerAsn: Asn32
-  """Updated IP address of the peer BGP endpoint."""
-  peerIp: IPAddress
-  """Update for NAT configuration."""
-  performNat: Boolean
-  """Updated summarized routes to advertise."""
-  summaryRoute: [BgpSummaryRouteInput!]
-  """Updated tracking configuration for the BGP peer."""
-  tracking: BgpTrackingInput
-}
-
-input BfdSettingsInput {
-  """Number of missed BFD packets before considering the session down."""
-  multiplier: Int! = 5
-  """
-  Time interval (in milliseconds) in which this peer expects to receive BFD packets.
-  """
-  receiveInterval: Int! = 1000
-  """Time interval (in milliseconds) between BFD packets sent by this peer."""
-  transmitInterval: Int! = 1000
-}
-
-type BfdSettings {
-  """Number of missed BFD packets before considering the session down."""
-  multiplier: Int!
-  """
-  Time interval (in milliseconds) in which this peer expects to receive BFD packets.
-  """
-  receiveInterval: Int!
-  """Time interval (in milliseconds) between BFD packets sent by this peer."""
-  transmitInterval: Int!
-}
-
-type UpdateBgpPeerPayload {
-  """The updated BGP peer object."""
-  bgpPeer: BgpPeer!
-}
-
-input RemoveBgpPeerInput {
-  """Unique identifier of the BGP peer to be removed."""
-  id: ID!
-}
-
-type RemoveBgpPeerPayload {
-  """The BGP peer that was successfully removed."""
-  bgpPeer: BgpPeer!
-}
-
-enum BgpDefaultAction {
-  """Default action to accept all unmatched routes."""
-  ACCEPT
-  """Default action to drop all unmatched routes."""
-  DROP
-}
-
-input SiteBgpStatusInput {
-  """Identifying data for the site whose BGP status is being queried."""
-  site: SiteRefInput!
-}
-
-type SiteBgpStatus {
-  """Raw BGP status information."""
-  rawStatus: [String!]!
-  """Detailed BGP status, including session and route details."""
-  status: [BgpDetailedStatus!]!
-}
-
-type BgpDetailedStatus {
-  """Status of the BFD session (if applicable)."""
-  bfdSession: String
-  """Status of the BGP session (e.g., established, down)."""
-  bgpSession: String!
-  """Routes rejected from the peer."""
-  rejectedRoutesFromPeer: [BgpRejectedRoutesFromPeer!]!
-  """IP address of the remote BGP peer."""
-  remoteIp: IPAddress!
-  """Routes received from the peer."""
-  routesFromPeer: [String!]!
-  """Routes sent to the peer."""
-  routesToPeer: [String!]!
-}
-
-type BgpSummaryRoute {
-  """Community values associated with the route."""
-  community: [BgpCommunity!]!
-  """Unique identifier of the summarized route."""
-  id: ID!
-  """Subnet of the summarized route."""
-  route: NetworkSubnet!
-}
-
-input BgpSummaryRouteInput {
-  """Community values to associate with the summarized route."""
-  community: [BgpCommunityInput!]! = []
-  """Subnet of the summarized route to be advertised."""
-  route: NetworkSubnet!
-}
-
-type BgpCommunity {
-  """Start of the community range."""
-  from: Asn16!
-  """End of the community range."""
-  to: Asn16!
-}
-
-input BgpCommunityInput {
-  """Start of the community range."""
-  from: Asn16!
-  """End of the community range."""
-  to: Asn16!
-}
-
-type BgpRejectedRoutesFromPeer {
-  """Community values associated with the rejected route."""
-  community: [BgpCommunity!]!
-  """Timestamp of the last attempt to publish the rejected route."""
-  lastPublishAttempt: DateTime
-  """Filter rule that caused the rejection."""
-  rule: String
-  """Subnet of the rejected route."""
-  subnet: NetworkSubnet
-  """Reason for rejecting the route."""
-  type: String
-}
-
 interface ObjectRef {
   "Object's unique identifier"
   id: ID!
@@ -7390,9 +6257,6 @@ enum ObjectRefBy {
   ID
   NAME
 }
-
-"Time zone identifier E.g.: America/New_York"
-scalar TimeZone
 
 "Wall time. E.g.: 12:34:56 or 12:34"
 scalar Time
@@ -7412,9 +6276,6 @@ scalar Domain
 """Fully Qualified Domain Name: An exact host name (e.g. www.example.com)"""
 scalar Fqdn
 
-"VLAN Identifier"
-scalar Vlan
-
 enum OperatingSystem {
   ANDROID
   EMBEDDED
@@ -7433,8 +6294,6 @@ scalar Asn16
 "32 bit autonomous system number [0-4294967295]"
 scalar Asn32
 
-scalar NetworkBandwidth
-
 "A Uniform Resource Locator, colloquially known as an address on the Web. E.g.: http://www.example.com/page/"
 scalar Url
 
@@ -7450,12 +6309,6 @@ enum DayOfWeek {
 
 "FF:FF:FF:FF OR FF-FF-FF-FF"
 scalar MacAddress
-
-"Http header name"
-scalar HttpHeaderName
-
-"Http header value"
-scalar HttpHeaderValue
 
 "Subnet in CIDR notation E.g.: 10.0.0.0/24"
 scalar NetworkSubnet
@@ -7553,16 +6406,6 @@ type GroupRef implements ObjectRef {
 }
 
 input GroupRefInput {
-  by: ObjectRefBy! = ID
-  input: String!
-}
-
-type AllocatedIpRef implements ObjectRef {
-  id: ID!
-  name: String!
-}
-
-input AllocatedIpRefInput {
   by: ObjectRefBy! = ID
   input: String!
 }
@@ -7746,16 +6589,6 @@ input GlobalIpRangeRefInput {
   input: String!
 }
 
-type PopLocationRef implements ObjectRef {
-  id: ID!
-  name: String!
-}
-
-input PopLocationRefInput {
-  by: ObjectRefBy! = ID
-  input: String!
-}
-
 interface IContainerRef implements ObjectRef {
   "Unique container ID"
   id: ID!
@@ -7769,6 +6602,20 @@ type FqdnContainerRef implements ObjectRef & IContainerRef {
   id: ID!
   "Name for the container"
   name: String!
+}
+
+input IpAddressRangeContainerRefInput {
+  "Defines the object identification method – by ID (default) or by name"
+  by: ObjectRefBy! = ID
+  "The object identification (ID or name) value"
+  input: String!
+}
+
+input FqdnContainerRefInput {
+  "Defines the object identification method – by ID (default) or by name"
+  by: ObjectRefBy! = ID
+  "The object identification (ID or name) value"
+  input: String!
 }
 
 "A group with members of IPAddressRange type"
@@ -7787,18 +6634,12 @@ input ContainerRefInput {
   input: String!
 }
 
-input FqdnContainerRefInput {
-  "Defines the object identification method – by ID (default) or by name"
-  by: ObjectRefBy! = ID
-  "The object identification (ID or name) value"
-  input: String!
-}
-
-input IpAddressRangeContainerRefInput {
-  "Defines the object identification method – by ID (default) or by name"
-  by: ObjectRefBy! = ID
-  "The object identification (ID or name) value"
-  input: String!
+"A group with members of a single type of entity (for example: IP, FQDN)"
+type ContainerRef implements ObjectRef {
+  "Unique container ID"
+  id: ID!
+  "Name for the container"
+  name: String!
 }
 
 input SortOrderInput {
@@ -7832,11 +6673,6 @@ input SortInput {
 enum DirectionInput {
   asc
   desc
-}
-
-enum TaggingMethod {
-  DOT1Q
-  QINQ
 }
 
 enum AppStatsFieldName {
@@ -8019,88 +6855,9 @@ type UpdateAdminPayload {
   adminID: ID!
 }
 
-type AccountManagementQueries {
-  """Read the account information"""
-  account: AccountInfo @ga
-}
-
-type AccountManagementMutations {
-  """Add a new account"""
-  addAccount(input: AddAccountInput!): AccountInfo @ga
-  """
-  Delete an existing account. The account status will become “Disabled”, and it will be scheduled for deletion
-  """
-  removeAccount(accountId: ID!): RemoveAccountPayload @ga
-  """Update existing account attributes"""
-  updateAccount(input: UpdateAccountInput!): AccountInfo @ga
-}
-
-input AddAccountInput {
-  """User-defined information as defined by an account admin"""
-  description: String
-  """The name of the account"""
-  name: String!
-  """The account tenancy (single-tenant / multi-tenant)"""
-  tenancy: AccountTenancy!
-  """The time zone of the account. Default: UTC (GMT + 0)."""
-  timezone: TimeZone!
-  """The account type (Partner / customer)"""
-  type: AccountProfileType!
-}
-
-input UpdateAccountInput {
-  """Account description"""
-  description: String
-}
-
-type AccountInfo {
-  """Audit data for the account"""
-  audit: AccountAuditData!
-  """User-defined information as defined by an account admin"""
-  description: String
-  """The ID of the account"""
-  id: ID!
-  """The name of the account"""
-  name: String!
-  """The account tenancy e.g. single-tenant / multi-tenant"""
-  tenancy: AccountTenancy!
-  """The time zone of the account. Default: UTC (GMT + 0)."""
-  timeZone: TimeZone!
-  """The account type e.g. Partner or Customer"""
-  type: AccountProfileType!
-}
-
-type AccountAuditData {
-  """The Admin / API key name used for creating the account"""
-  createdBy: String!
-  """The date when the account created"""
-  createdTime: DateTime!
-}
-
-type RemoveAccountPayload {
-  """General info of the removed account"""
-  accountInfo: AccountInfo!
-}
-
-"""enum for account type"""
-enum AccountProfileType {
-  """A customer account"""
-  CUSTOMER
-  """A partner account"""
-  PARTNER
-}
-
-"""enum for account tenancy"""
-enum AccountTenancy {
-  """Multi tenant account - default for partner accounts"""
-  MULTI_TENANT
-  """Single tenant account - default for customer accounts"""
-  SINGLE_TENANT
-}
-
 type LicensingQueries {
   """BETA"""
-  licensingInfo: LicensingInfo @beta
+  licensingInfo: LicensingInfo
 }
 
 """Public license API"""
@@ -8216,20 +6973,18 @@ enum LicenseSku {
   CATO_DATALAKE_6M
   """Cato DEM service SKU"""
   CATO_DEM
+  """Cato DEM Pro service SKU"""
+  CATO_DEM_PRO @deprecated(reason: "replaced with CATO_DEM")
   """Cato DLP service SKU"""
   CATO_DLP
   """Cato EPP service SKU"""
   CATO_EPP
   """Cato ILMM service SKU"""
   CATO_ILMM
-  """Cato IoT/OT Security service SKU"""
-  CATO_IOT_OT
   """Public IPs SKU"""
   CATO_IP_ADD
   """Cato IPS (legacy) service SKU"""
   CATO_IPS
-  """Cato Managed XDR service SKU"""
-  CATO_MANAGED_XDR
   """Cato MDR (XDR Pro) service SKU"""
   CATO_MDR
   """Cato NOCaaS service SKU"""
@@ -8261,8 +7016,6 @@ enum LicenseSku {
   CATO_SSE_SITE
   """Cato Threat Prevention (legacy) service SKU"""
   CATO_THREAT_PREVENTION
-  """Cato Advanced Threat Prevention service SKU"""
-  CATO_THREAT_PREVENTION_ADV
   """Cato XDR service SKU"""
   CATO_XDR_PRO
   """ZTNA remote users SKU"""
@@ -8715,8 +7468,8 @@ type XdrProLicense implements License & QuantifiableLicense {
   total: Int!
 }
 
-"""DEM service license details"""
-type DemLicense implements License & QuantifiableLicense {
+"""DEM Pro service license details"""
+type DemProLicense implements License & QuantifiableLicense {
   description: String
   """License expiration date"""
   expirationDate: DateTime!
@@ -8734,8 +7487,8 @@ type DemLicense implements License & QuantifiableLicense {
   total: Int!
 }
 
-"""IoT/OT Security service license details"""
-type IotOtLicense implements License {
+"""DEM service license details"""
+type DemLicense implements License & QuantifiableLicense {
   description: String
   """License expiration date"""
   expirationDate: DateTime!
@@ -8749,21 +7502,6 @@ type IotOtLicense implements License {
   startDate: DateTime
   """License activation status"""
   status: LicenseStatus!
-}
-
-"""Advanced Threat Prevention (ATP) service license details"""
-type AtpLicense implements License {
-  description: String
-  """License expiration date"""
-  expirationDate: DateTime!
-  """The date of the last update to the license"""
-  lastUpdated: DateTime
-  """License plan type"""
-  plan: LicensePlan!
-  """The license SKU"""
-  sku: LicenseSku!
-  """License start date"""
-  startDate: DateTime
-  """License activation status"""
-  status: LicenseStatus!
+  """License quantity"""
+  total: Int!
 }

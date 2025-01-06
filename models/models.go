@@ -172,7 +172,7 @@ type IContainerRef interface {
 	GetName() string
 }
 
-// Define settings for the Internet Firewall policy
+// Shared interface for any policy
 type IPolicy interface {
 	IsIPolicy()
 	// TRUE = Policy is enabled, FALSE = Policy is disabled
@@ -265,11 +265,11 @@ type MergedIncident interface {
 	GetEngineType() *StoryEngineTypeEnum
 	// Vendor that identified the incident, such as Cato or Microsoft
 	GetVendor() *VendorEnum
-	// Enum for the Producer (specific XDR engine and service) involved with the incident
+	// Producer (specific XDR engine and service) involved with the incident
 	GetProducer() StoryProducerEnum
 	// Full name of the Producer (specific XDR engine and service) involved with the incident
 	GetProducerName() string
-	// Enum for the connection for this incident (ie. site, host, user)
+	// Connection for the incident
 	GetConnectionType() *ConnectionTypeEnum
 	// An indication is a set of actions and behaviors for the Network or Security incident. Each producer has different indications.
 	GetIndication() string
@@ -285,7 +285,7 @@ type MergedIncident interface {
 	GetSource() *string
 	// The ticket an analyst created for this story
 	GetTicket() *string
-	// Enum for the status of this story (ie. Open, Closed, Monitoring)
+	// Status for the story
 	GetStatus() *StoryStatusEnum
 	// The value is TRUE when the story is currently being researched by Security Analysts
 	GetResearch() *bool
@@ -376,6 +376,13 @@ type Value interface {
 	IsValue()
 }
 
+type AccountAuditData struct {
+	// The Admin / API key name used for creating the account
+	CreatedBy string `json:"createdBy"`
+	// The date when the account created
+	CreatedTime string `json:"createdTime"`
+}
+
 type AccountDataPayload struct {
 	ID        string `json:"id"`
 	Name      string `json:"name"`
@@ -385,6 +392,37 @@ type AccountDataPayload struct {
 type AccountIDPredicate struct {
 	In    []string `json:"in,omitempty"`
 	NotIn []string `json:"not_in,omitempty"`
+}
+
+type AccountInfo struct {
+	// Audit data for the account
+	Audit *AccountAuditData `json:"audit"`
+	// User-defined information as defined by an account admin
+	Description *string `json:"description,omitempty"`
+	// The ID of the account
+	ID string `json:"id"`
+	// The name of the account
+	Name string `json:"name"`
+	// The account tenancy e.g. single-tenant / multi-tenant
+	Tenancy AccountTenancy `json:"tenancy"`
+	// The time zone of the account. Default: UTC (GMT + 0).
+	TimeZone string `json:"timeZone"`
+	// The account type e.g. Partner or Customer
+	Type AccountProfileType `json:"type"`
+}
+
+type AccountManagementMutations struct {
+	// Add a new account
+	AddAccount *AccountInfo `json:"addAccount,omitempty"`
+	// Delete an existing account. The account status will become “Disabled”, and it will be scheduled for deletion
+	RemoveAccount *RemoveAccountPayload `json:"removeAccount,omitempty"`
+	// Update existing account attributes
+	UpdateAccount *AccountInfo `json:"updateAccount,omitempty"`
+}
+
+type AccountManagementQueries struct {
+	// Read the account information
+	Account *AccountInfo `json:"account,omitempty"`
 }
 
 type AccountMetrics struct {
@@ -432,6 +470,19 @@ type AccountSnapshot struct {
 	Users []*UserSnapshot `json:"users,omitempty"`
 }
 
+type AddAccountInput struct {
+	// User-defined information as defined by an account admin
+	Description *string `json:"description,omitempty"`
+	// The name of the account
+	Name string `json:"name"`
+	// The account tenancy (single-tenant / multi-tenant)
+	Tenancy AccountTenancy `json:"tenancy"`
+	// The time zone of the account. Default: UTC (GMT + 0).
+	Timezone string `json:"timezone"`
+	// The account type (Partner / customer)
+	Type AccountProfileType `json:"type"`
+}
+
 type AddAdminInput struct {
 	Email                string                  `json:"email"`
 	FirstName            string                  `json:"firstName"`
@@ -444,6 +495,98 @@ type AddAdminInput struct {
 
 type AddAdminPayload struct {
 	AdminID string `json:"adminID"`
+}
+
+type AddBgpPeerInput struct {
+	// Advertise all routes if true.
+	AdvertiseAllRoutes bool `json:"advertiseAllRoutes"`
+	// Advertise the default route (0.0.0.0/0) if true.
+	AdvertiseDefaultRoute bool `json:"advertiseDefaultRoute"`
+	// Advertise summarized routes if true.
+	AdvertiseSummaryRoutes bool `json:"advertiseSummaryRoutes"`
+	// Enable BFD for session failure detection if true.
+	BfdEnabled bool `json:"bfdEnabled"`
+	// Required BFD configuration if BFD is enabled.
+	BfdSettings *BfdSettingsInput `json:"bfdSettings,omitempty"`
+	// The AS number of Cato's BGP endpoint.
+	CatoAsn scalars.Asn16 `json:"catoAsn"`
+	// Default action for routes not matching filters (ACCEPT or DROP).
+	DefaultAction BgpDefaultAction `json:"defaultAction"`
+	// Time (in seconds) before declaring the peer unreachable.
+	HoldTime int64 `json:"holdTime"`
+	// Time (in seconds) between keepalive messages.
+	KeepaliveInterval int64 `json:"keepaliveInterval"`
+	// MD5 authentication key for secure sessions.
+	Md5AuthKey *string `json:"md5AuthKey,omitempty"`
+	// Route preference metric; lower values are given precedence.
+	Metric int64 `json:"metric"`
+	// Name of the BGP configuration entity.
+	Name string `json:"name"`
+	// The AS number of the peer BGP endpoint.
+	PeerAsn scalars.Asn32 `json:"peerAsn"`
+	// IP address of the peer BGP endpoint.
+	PeerIP string `json:"peerIp"`
+	// Perform NAT if true.
+	PerformNat bool `json:"performNat"`
+	// Information about the site where the BGP peer is being added.
+	Site *SiteRefInput `json:"site"`
+	// Summarized routes to advertise.
+	SummaryRoute []*BgpSummaryRouteInput `json:"summaryRoute"`
+	// Configuration for tracking the health and status of the BGP peer.
+	Tracking *BgpTrackingInput `json:"tracking,omitempty"`
+}
+
+type AddBgpPeerPayload struct {
+	// The BGP peer that was successfully added.
+	BgpPeer *BgpPeer `json:"bgpPeer"`
+}
+
+// Input for adding a new physical connection to a cloud interconnect site.
+type AddCloudInterconnectPhysicalConnectionInput struct {
+	// Downstream bandwidth limit.
+	DownstreamBwLimit string `json:"downstreamBwLimit"`
+	// Method of encapsulation.Wither .1Q/QinQ
+	EncapsulationMethod TaggingMethod `json:"encapsulationMethod"`
+	// High availability role of the connection.
+	HaRole HaRole `json:"haRole"`
+	// Identifying data for the POP location.
+	PopLocation *PopLocationRefInput `json:"popLocation"`
+	// Private IP address of Cato.
+	PrivateCatoIP string `json:"privateCatoIp"`
+	// Private IP address of the site.
+	PrivateSiteIP string `json:"privateSiteIp"`
+	// Name of the service provider. Usually a partner, or a fabric service provider.
+	ServiceProviderName string `json:"serviceProviderName"`
+	// Identifying data for the site.
+	Site *SiteRefInput `json:"site"`
+	// Subnet for the connection, the BGP peering range. /30 CIDR.
+	Subnet string `json:"subnet"`
+	// Upstream bandwidth limit.
+	UpstreamBwLimit string `json:"upstreamBwLimit"`
+}
+
+// Payload for adding a new physical connection to a cloud interconnect site.
+type AddCloudInterconnectPhysicalConnectionPayload struct {
+	// ID of the newly added connection.
+	ID string `json:"id"`
+}
+
+// Input for adding a new cloud interconnect site.
+type AddCloudInterconnectSiteInput struct {
+	// Description of the site.
+	Description *string `json:"description,omitempty"`
+	// Name of the site.
+	Name string `json:"name"`
+	// Location details of the site.
+	SiteLocation *AddSiteLocationInput `json:"siteLocation"`
+	// Type of the site.
+	SiteType SiteType `json:"siteType"`
+}
+
+// Payload for adding a new cloud interconnect site.
+type AddCloudInterconnectSitePayload struct {
+	// ID of the newly added site.
+	SiteID string `json:"siteId"`
 }
 
 type AddIpsecIkeV2SiteInput struct {
@@ -495,6 +638,8 @@ type AddIpsecIkeV2SiteTunnelsPayload struct {
 type AddIpsecIkeV2TunnelInput struct {
 	// The maximum allowed bandwidth for the site. If not specified, it will be set according to the site license. If the ISP provided bandwidth is below the site bandwidth, set this parameter to the ISP bandwidth or below
 	LastMileBw *LastMileBwInput `json:"lastMileBw,omitempty"`
+	// Tunnel name
+	Name *string `json:"name,omitempty"`
 	// Cato’s private IP, used for BGP routing. Applicable for sites using BGP only
 	PrivateCatoIP *string `json:"privateCatoIp,omitempty"`
 	// Site private IP, used for BGP routing. Applicable for sites using BGP only
@@ -503,6 +648,8 @@ type AddIpsecIkeV2TunnelInput struct {
 	Psk string `json:"psk"`
 	// The public IP address where the IPsec tunnel is initiated
 	PublicSiteIP *string `json:"publicSiteIp,omitempty"`
+	// Tunnel role
+	Role *IPSecV2TunnelRole `json:"role,omitempty"`
 }
 
 type AddIpsecIkeV2TunnelsInput struct {
@@ -610,6 +757,24 @@ type AdminRole struct {
 type AdminsResult struct {
 	Items []*Admin `json:"items"`
 	Total int64    `json:"total"`
+}
+
+type AllocatedIPRef struct {
+	ID   string `json:"id"`
+	Name string `json:"name"`
+}
+
+func (AllocatedIPRef) IsObjectRef() {}
+
+// Object's unique identifier
+func (this AllocatedIPRef) GetID() string { return this.ID }
+
+// Object's unique name
+func (this AllocatedIPRef) GetName() string { return this.Name }
+
+type AllocatedIPRefInput struct {
+	By    ObjectRefBy `json:"by"`
+	Input string      `json:"input"`
 }
 
 type AnalystFeedback struct {
@@ -728,11 +893,11 @@ func (AnomalyEvents) IsMergedIncident() {}
 
 // Vendor that identified the incident, such as Cato or Microsoft
 
-// Enum for the Producer (specific XDR engine and service) involved with the incident
+// Producer (specific XDR engine and service) involved with the incident
 
 // Full name of the Producer (specific XDR engine and service) involved with the incident
 
-// Enum for the connection for this incident (ie. site, host, user)
+// Connection for the incident
 
 // An indication is a set of actions and behaviors for the Network or Security incident. Each producer has different indications.
 
@@ -748,7 +913,7 @@ func (AnomalyEvents) IsMergedIncident() {}
 
 // The ticket an analyst created for this story
 
-// Enum for the status of this story (ie. Open, Closed, Monitoring)
+// Status for the story
 
 // The value is TRUE when the story is currently being researched by Security Analysts
 
@@ -861,11 +1026,11 @@ func (AnomalyStats) IsMergedIncident() {}
 
 // Vendor that identified the incident, such as Cato or Microsoft
 
-// Enum for the Producer (specific XDR engine and service) involved with the incident
+// Producer (specific XDR engine and service) involved with the incident
 
 // Full name of the Producer (specific XDR engine and service) involved with the incident
 
-// Enum for the connection for this incident (ie. site, host, user)
+// Connection for the incident
 
 // An indication is a set of actions and behaviors for the Network or Security incident. Each producer has different indications.
 
@@ -881,7 +1046,7 @@ func (AnomalyStats) IsMergedIncident() {}
 
 // The ticket an analyst created for this story
 
-// Enum for the status of this story (ie. Open, Closed, Monitoring)
+// Status for the story
 
 // The value is TRUE when the story is currently being researched by Security Analysts
 
@@ -900,12 +1065,12 @@ func (AnomalyStats) IsMergedIncident() {}
 // Cato ID and name for the user
 
 type AppStats struct {
-	From    *string                `json:"from,omitempty"`
-	ID      *string                `json:"id,omitempty"`
-	Records []*AppStatsRecord      `json:"records,omitempty"`
-	To      *string                `json:"to,omitempty"`
-	Total   *int64                 `json:"total,omitempty"`
-	Totals  map[string]interface{} `json:"totals,omitempty"`
+	From    *string           `json:"from,omitempty"`
+	ID      *string           `json:"id,omitempty"`
+	Records []*AppStatsRecord `json:"records,omitempty"`
+	To      *string           `json:"to,omitempty"`
+	Total   *int64            `json:"total,omitempty"`
+	Totals  map[string]any    `json:"totals,omitempty"`
 }
 
 type AppStatsField struct {
@@ -922,12 +1087,12 @@ type AppStatsFilter struct {
 type AppStatsRecord struct {
 	Fields []*AppStatsField `json:"fields,omitempty"`
 	// fields in map format (see Map scalar)
-	FieldsMap       map[string]interface{} `json:"fieldsMap,omitempty"`
-	FieldsUnitTypes []UnitType             `json:"fieldsUnitTypes,omitempty"`
+	FieldsMap       map[string]any `json:"fieldsMap,omitempty"`
+	FieldsUnitTypes []UnitType     `json:"fieldsUnitTypes,omitempty"`
 	// Simplified fields, as array of name value tuples, e.g: [ [ "name", "val" ], [ "name2", "val2" ] ... ]
-	FlatFields    [][]string             `json:"flatFields,omitempty"`
-	PrevTimeFrame map[string]interface{} `json:"prevTimeFrame,omitempty"`
-	Trends        map[string]interface{} `json:"trends,omitempty"`
+	FlatFields    [][]string     `json:"flatFields,omitempty"`
+	PrevTimeFrame map[string]any `json:"prevTimeFrame,omitempty"`
+	Trends        map[string]any `json:"trends,omitempty"`
 }
 
 type AppStatsSort struct {
@@ -941,6 +1106,384 @@ type AppStatsTimeSeries struct {
 	ID          *string       `json:"id,omitempty"`
 	Timeseries  []*Timeseries `json:"timeseries,omitempty"`
 	To          *string       `json:"to,omitempty"`
+}
+
+type AppTenantRestrictionAddRuleDataInput struct {
+	// The action applied by the App Tenant Restriction if the rule is matched
+	Action AppTenantRestrictionActionEnum `json:"action"`
+	// Applications for the rule (pre-defined)
+	Application *ApplicationRefInput `json:"application"`
+	Description string               `json:"description"`
+	Enabled     bool                 `json:"enabled"`
+	// Headers and Values to Inject
+	Headers []*AppTenantRestrictionHeaderValueInput `json:"headers"`
+	Name    string                                  `json:"name"`
+	// The time period specifying when the rule is enabled, otherwise it is disabled.
+	Schedule *PolicyScheduleInput `json:"schedule"`
+	// Severity defined for the rule
+	Severity AppTenantRestrictionSeverityEnum `json:"severity"`
+	// Source traffic matching criteria.
+	// Logical ‘OR’ is applied within the criteria set.
+	// Logical ‘AND’ is applied between criteria sets.
+	Source *AppTenantRestrictionSourceInput `json:"source"`
+}
+
+type AppTenantRestrictionAddRuleInput struct {
+	// Position of the rule in the policy
+	At *PolicyRulePositionInput `json:"at,omitempty"`
+	// Parameters for the rule you are adding
+	Rule *AppTenantRestrictionAddRuleDataInput `json:"rule"`
+}
+
+// pair of header name and value
+type AppTenantRestrictionHeaderValue struct {
+	// Header to inject
+	Name string `json:"name"`
+	// Value to inject
+	Value string `json:"value"`
+}
+
+// pair of header name and value
+type AppTenantRestrictionHeaderValueInput struct {
+	// Header to inject
+	Name string `json:"name"`
+	// Value to inject
+	Value string `json:"value"`
+}
+
+type AppTenantRestrictionPolicy struct {
+	Audit    *PolicyAudit                       `json:"audit,omitempty"`
+	Enabled  bool                               `json:"enabled"`
+	Revision *PolicyRevision                    `json:"revision,omitempty"`
+	Rules    []*AppTenantRestrictionRulePayload `json:"rules"`
+	Sections []*PolicySectionPayload            `json:"sections"`
+}
+
+func (AppTenantRestrictionPolicy) IsIPolicy() {}
+
+// TRUE = Policy is enabled, FALSE = Policy is disabled
+func (this AppTenantRestrictionPolicy) GetEnabled() bool { return this.Enabled }
+
+// Return list of rules in the policy
+func (this AppTenantRestrictionPolicy) GetRules() []IPolicyRulePayload {
+	if this.Rules == nil {
+		return nil
+	}
+	interfaceSlice := make([]IPolicyRulePayload, 0, len(this.Rules))
+	for _, concrete := range this.Rules {
+		interfaceSlice = append(interfaceSlice, concrete)
+	}
+	return interfaceSlice
+}
+
+// Return sections in the policy
+func (this AppTenantRestrictionPolicy) GetSections() []*PolicySectionPayload {
+	if this.Sections == nil {
+		return nil
+	}
+	interfaceSlice := make([]*PolicySectionPayload, 0, len(this.Sections))
+	for _, concrete := range this.Sections {
+		interfaceSlice = append(interfaceSlice, concrete)
+	}
+	return interfaceSlice
+}
+
+// Audit data for the policy
+func (this AppTenantRestrictionPolicy) GetAudit() *PolicyAudit { return this.Audit }
+
+// Return data for the Policy revision
+func (this AppTenantRestrictionPolicy) GetRevision() *PolicyRevision { return this.Revision }
+
+type AppTenantRestrictionPolicyInput struct {
+	// A revision is a specific instance of the policy.
+	//  Unpublished revisions are working copies of the policy available to a specific
+	//  admin or a set of admins
+	//  Published revisions are revisions that were applied to the account network.
+	//  The last published revision is the active policy.
+	Revision *PolicyRevisionInput `json:"revision,omitempty"`
+}
+
+type AppTenantRestrictionPolicyMutationInput struct {
+	Revision *PolicyMutationRevisionInput `json:"revision,omitempty"`
+}
+
+type AppTenantRestrictionPolicyMutationPayload struct {
+	Errors []*PolicyMutationError      `json:"errors"`
+	Policy *AppTenantRestrictionPolicy `json:"policy,omitempty"`
+	Status PolicyMutationStatus        `json:"status"`
+}
+
+func (AppTenantRestrictionPolicyMutationPayload) IsIPolicyMutationPayload() {}
+
+// Data for the policy
+func (this AppTenantRestrictionPolicyMutationPayload) GetPolicy() IPolicy { return *this.Policy }
+
+// Enum for the status of the policy change
+func (this AppTenantRestrictionPolicyMutationPayload) GetStatus() PolicyMutationStatus {
+	return this.Status
+}
+
+// List of errors related to the policy change
+func (this AppTenantRestrictionPolicyMutationPayload) GetErrors() []*PolicyMutationError {
+	if this.Errors == nil {
+		return nil
+	}
+	interfaceSlice := make([]*PolicyMutationError, 0, len(this.Errors))
+	for _, concrete := range this.Errors {
+		interfaceSlice = append(interfaceSlice, concrete)
+	}
+	return interfaceSlice
+}
+
+type AppTenantRestrictionPolicyMutations struct {
+	AddRule               *AppTenantRestrictionRuleMutationPayload   `json:"addRule"`
+	AddSection            *PolicySectionMutationPayload              `json:"addSection"`
+	CreatePolicyRevision  *AppTenantRestrictionPolicyMutationPayload `json:"createPolicyRevision"`
+	DiscardPolicyRevision *AppTenantRestrictionPolicyMutationPayload `json:"discardPolicyRevision"`
+	MoveRule              *AppTenantRestrictionRuleMutationPayload   `json:"moveRule"`
+	MoveSection           *PolicySectionMutationPayload              `json:"moveSection"`
+	PublishPolicyRevision *AppTenantRestrictionPolicyMutationPayload `json:"publishPolicyRevision"`
+	RemoveRule            *AppTenantRestrictionRuleMutationPayload   `json:"removeRule"`
+	RemoveSection         *PolicySectionMutationPayload              `json:"removeSection"`
+	UpdatePolicy          *AppTenantRestrictionPolicyMutationPayload `json:"updatePolicy"`
+	UpdateRule            *AppTenantRestrictionRuleMutationPayload   `json:"updateRule"`
+	UpdateSection         *PolicySectionMutationPayload              `json:"updateSection"`
+}
+
+type AppTenantRestrictionPolicyQueries struct {
+	Policy    *AppTenantRestrictionPolicy `json:"policy"`
+	Revisions *PolicyRevisionsPayload     `json:"revisions,omitempty"`
+}
+
+type AppTenantRestrictionPolicyUpdateInput struct {
+	State *PolicyToggleState `json:"state,omitempty"`
+}
+
+type AppTenantRestrictionRemoveRuleInput struct {
+	ID string `json:"id"`
+}
+
+type AppTenantRestrictionRule struct {
+	// The action applied by the App Tenant Restriction if the rule is matched
+	Action AppTenantRestrictionActionEnum `json:"action"`
+	// Applications for the rule (pre-defined)
+	Application *ApplicationRef `json:"application"`
+	// Description for the rule
+	Description string `json:"description"`
+	// TRUE = Rule is enabled
+	//  FALSE = Rule is disabled
+	Enabled bool `json:"enabled"`
+	// Headers and Values to Inject
+	Headers []*AppTenantRestrictionHeaderValue `json:"headers"`
+	// Rule ID
+	ID string `json:"id"`
+	// Position / priority of rule
+	Index int64 `json:"index"`
+	// Name of the rule
+	Name string `json:"name"`
+	// The time period specifying when the rule is enabled, otherwise it is disabled.
+	Schedule *PolicySchedule `json:"schedule"`
+	// Policy section where the rule is located
+	Section *PolicySectionInfo `json:"section"`
+	// Severity defined for the rule
+	Severity AppTenantRestrictionSeverityEnum `json:"severity"`
+	// Source traffic matching criteria.
+	// Logical ‘OR’ is applied within the criteria set.
+	// Logical ‘AND’ is applied between criteria sets.
+	Source *AppTenantRestrictionSource `json:"source"`
+}
+
+func (AppTenantRestrictionRule) IsIPolicyRule() {}
+
+// Rule ID
+func (this AppTenantRestrictionRule) GetID() string { return this.ID }
+
+// Name of the rule
+func (this AppTenantRestrictionRule) GetName() string { return this.Name }
+
+// Description for the rule
+func (this AppTenantRestrictionRule) GetDescription() *string { return &this.Description }
+
+// Position / priority of rule
+func (this AppTenantRestrictionRule) GetIndex() int64 { return this.Index }
+
+// TRUE = Rule is enabled, FALSE = Rule is disabled
+func (this AppTenantRestrictionRule) GetEnabled() bool { return this.Enabled }
+
+// Policy section where the rule is located
+func (this AppTenantRestrictionRule) GetSection() *PolicySectionInfo { return this.Section }
+
+type AppTenantRestrictionRuleMutationPayload struct {
+	Errors []*PolicyMutationError           `json:"errors"`
+	Rule   *AppTenantRestrictionRulePayload `json:"rule,omitempty"`
+	Status PolicyMutationStatus             `json:"status"`
+}
+
+func (AppTenantRestrictionRuleMutationPayload) IsIPolicyRuleMutationPayload() {}
+
+// Returns settings for the rule
+func (this AppTenantRestrictionRuleMutationPayload) GetRule() IPolicyRulePayload { return *this.Rule }
+
+// Enum for the status of the policy change
+func (this AppTenantRestrictionRuleMutationPayload) GetStatus() PolicyMutationStatus {
+	return this.Status
+}
+
+// List of errors related to the policy change
+func (this AppTenantRestrictionRuleMutationPayload) GetErrors() []*PolicyMutationError {
+	if this.Errors == nil {
+		return nil
+	}
+	interfaceSlice := make([]*PolicyMutationError, 0, len(this.Errors))
+	for _, concrete := range this.Errors {
+		interfaceSlice = append(interfaceSlice, concrete)
+	}
+	return interfaceSlice
+}
+
+type AppTenantRestrictionRulePayload struct {
+	Audit      *PolicyElementAudit           `json:"audit"`
+	Properties []PolicyElementPropertiesEnum `json:"properties"`
+	Rule       *AppTenantRestrictionRule     `json:"rule"`
+}
+
+func (AppTenantRestrictionRulePayload) IsIPolicyRulePayload()              {}
+func (this AppTenantRestrictionRulePayload) GetAudit() *PolicyElementAudit { return this.Audit }
+
+// Rule that was changed
+func (this AppTenantRestrictionRulePayload) GetRule() IPolicyRule { return *this.Rule }
+
+// Summary of rule change, (ie. ADDED, UPDATED)
+func (this AppTenantRestrictionRulePayload) GetProperties() []PolicyElementPropertiesEnum {
+	if this.Properties == nil {
+		return nil
+	}
+	interfaceSlice := make([]PolicyElementPropertiesEnum, 0, len(this.Properties))
+	for _, concrete := range this.Properties {
+		interfaceSlice = append(interfaceSlice, concrete)
+	}
+	return interfaceSlice
+}
+
+// Returns the settings for Source of an App Tenant Restriction rule
+type AppTenantRestrictionSource struct {
+	// Source country traffic matching criteria.
+	Country []*CountryRef `json:"country"`
+	// Floating Subnets (ie. Floating Ranges) are used to identify traffic exactly matched to the route advertised by BGP. They are not associated with a specific site. This is useful in scenarios such as active-standby high availability routed via BGP.
+	FloatingSubnet []*FloatingSubnetRef `json:"floatingSubnet"`
+	// Globally defined IP range, IP and subnet objects
+	GlobalIPRange []*GlobalIPRangeRef `json:"globalIpRange"`
+	// Groups defined for your account
+	Group []*GroupRef `json:"group"`
+	// Hosts and servers defined for your account
+	Host []*HostRef `json:"host"`
+	// IPv4 address
+	IP []string `json:"ip"`
+	// Multiple separate IP addresses or an IP range
+	IPRange []*IPAddressRange `json:"ipRange"`
+	// Network range defined for a site
+	NetworkInterface []*NetworkInterfaceRef `json:"networkInterface"`
+	// Site defined for the account
+	Site []*SiteRef `json:"site"`
+	// GlobalRange + InterfaceSubnet
+	SiteNetworkSubnet []*SiteNetworkSubnetRef `json:"siteNetworkSubnet"`
+	// Subnets and network ranges defined for the LAN interfaces of a site
+	Subnet []string `json:"subnet"`
+	// Predefined Cato groups
+	SystemGroup []*SystemGroupRef `json:"systemGroup"`
+	// Individual users defined for the account
+	User []*UserRef `json:"user"`
+	// Group of users
+	UsersGroup []*UsersGroupRef `json:"usersGroup"`
+}
+
+// Input of the settings for Source of an App Tenant Restriction rule
+type AppTenantRestrictionSourceInput struct {
+	// Source country traffic matching criteria.
+	Country []*CountryRefInput `json:"country"`
+	// Floating Subnets (ie. Floating Ranges) are used to identify traffic exactly matched to the route advertised by BGP. They are not associated with a specific site. This is useful in scenarios such as active-standby high availability routed via BGP.
+	FloatingSubnet []*FloatingSubnetRefInput `json:"floatingSubnet"`
+	// Globally defined IP range, IP and subnet objects
+	GlobalIPRange []*GlobalIPRangeRefInput `json:"globalIpRange"`
+	// Groups defined for your account
+	Group []*GroupRefInput `json:"group"`
+	// Hosts and servers defined for your account
+	Host []*HostRefInput `json:"host"`
+	// IPv4 address
+	IP []string `json:"ip"`
+	// Multiple separate IP addresses or an IP range
+	IPRange []*IPAddressRangeInput `json:"ipRange"`
+	// Network range defined for a site
+	NetworkInterface []*NetworkInterfaceRefInput `json:"networkInterface"`
+	// Site defined for the account
+	Site []*SiteRefInput `json:"site"`
+	// GlobalRange + InterfaceSubnet
+	SiteNetworkSubnet []*SiteNetworkSubnetRefInput `json:"siteNetworkSubnet"`
+	// Subnets and network ranges defined for the LAN interfaces of a site
+	Subnet []string `json:"subnet"`
+	// Predefined Cato groups
+	SystemGroup []*SystemGroupRefInput `json:"systemGroup"`
+	// Individual users defined for the account
+	User []*UserRefInput `json:"user"`
+	// Group of users
+	UsersGroup []*UsersGroupRefInput `json:"usersGroup"`
+}
+
+// Input of the settings for Source of an App Tenant Restriction rule
+type AppTenantRestrictionSourceUpdateInput struct {
+	// Source country traffic matching criteria.
+	Country []*CountryRefInput `json:"country,omitempty"`
+	// Floating Subnets (ie. Floating Ranges) are used to identify traffic exactly matched to the route advertised by BGP. They are not associated with a specific site. This is useful in scenarios such as active-standby high availability routed via BGP.
+	FloatingSubnet []*FloatingSubnetRefInput `json:"floatingSubnet,omitempty"`
+	// Globally defined IP range, IP and subnet objects
+	GlobalIPRange []*GlobalIPRangeRefInput `json:"globalIpRange,omitempty"`
+	// Groups defined for your account
+	Group []*GroupRefInput `json:"group,omitempty"`
+	// Hosts and servers defined for your account
+	Host []*HostRefInput `json:"host,omitempty"`
+	// IPv4 address
+	IP []string `json:"ip,omitempty"`
+	// Multiple separate IP addresses or an IP range
+	IPRange []*IPAddressRangeInput `json:"ipRange,omitempty"`
+	// Network range defined for a site
+	NetworkInterface []*NetworkInterfaceRefInput `json:"networkInterface,omitempty"`
+	// Site defined for the account
+	Site []*SiteRefInput `json:"site,omitempty"`
+	// GlobalRange + InterfaceSubnet
+	SiteNetworkSubnet []*SiteNetworkSubnetRefInput `json:"siteNetworkSubnet,omitempty"`
+	// Subnets and network ranges defined for the LAN interfaces of a site
+	Subnet []string `json:"subnet,omitempty"`
+	// Predefined Cato groups
+	SystemGroup []*SystemGroupRefInput `json:"systemGroup,omitempty"`
+	// Individual users defined for the account
+	User []*UserRefInput `json:"user,omitempty"`
+	// Group of users
+	UsersGroup []*UsersGroupRefInput `json:"usersGroup,omitempty"`
+}
+
+type AppTenantRestrictionUpdateRuleDataInput struct {
+	// The action applied by the App Tenant Restriction if the rule is matched
+	Action *AppTenantRestrictionActionEnum `json:"action,omitempty"`
+	// Applications for the rule (pre-defined)
+	Application *ApplicationRefInput `json:"application,omitempty"`
+	Description *string              `json:"description,omitempty"`
+	Enabled     *bool                `json:"enabled,omitempty"`
+	// Headers and Values to Inject
+	Headers []*AppTenantRestrictionHeaderValueInput `json:"headers,omitempty"`
+	Name    *string                                 `json:"name,omitempty"`
+	// The time period specifying when the rule is enabled, otherwise it is disabled.
+	Schedule *PolicyScheduleUpdateInput `json:"schedule,omitempty"`
+	// Severity defined for the rule
+	Severity *AppTenantRestrictionSeverityEnum `json:"severity,omitempty"`
+	// Source traffic matching criteria.
+	// Logical ‘OR’ is applied within the criteria set.
+	// Logical ‘AND’ is applied between criteria sets.
+	Source *AppTenantRestrictionSourceUpdateInput `json:"source,omitempty"`
+}
+
+type AppTenantRestrictionUpdateRuleInput struct {
+	ID   string                                   `json:"id"`
+	Rule *AppTenantRestrictionUpdateRuleDataInput `json:"rule"`
 }
 
 type ApplicationCategoryRef struct {
@@ -979,6 +1522,44 @@ type ApplicationRefInput struct {
 	Input string      `json:"input"`
 }
 
+// Advanced Threat Prevention (ATP) service license details
+type AtpLicense struct {
+	Description *string `json:"description,omitempty"`
+	// License expiration date
+	ExpirationDate string `json:"expirationDate"`
+	// The date of the last update to the license
+	LastUpdated *string `json:"lastUpdated,omitempty"`
+	// License plan type
+	Plan LicensePlan `json:"plan"`
+	// The license SKU
+	Sku LicenseSku `json:"sku"`
+	// License start date
+	StartDate *string `json:"startDate,omitempty"`
+	// License activation status
+	Status LicenseStatus `json:"status"`
+}
+
+func (AtpLicense) IsLicense()                   {}
+func (this AtpLicense) GetDescription() *string { return this.Description }
+
+// License plan type
+func (this AtpLicense) GetPlan() LicensePlan { return this.Plan }
+
+// The license SKU
+func (this AtpLicense) GetSku() LicenseSku { return this.Sku }
+
+// License activation status
+func (this AtpLicense) GetStatus() LicenseStatus { return this.Status }
+
+// License start date
+func (this AtpLicense) GetStartDate() *string { return this.StartDate }
+
+// License expiration date
+func (this AtpLicense) GetExpirationDate() string { return this.ExpirationDate }
+
+// The date of the last update to the license
+func (this AtpLicense) GetLastUpdated() *string { return this.LastUpdated }
+
 type AuditFeed struct {
 	Accounts     []*AuditFeedAccountRecords `json:"accounts,omitempty"`
 	FetchedCount int64                      `json:"fetchedCount"`
@@ -1013,7 +1594,7 @@ type AuditRecord struct {
 	// All fields in the audit record (including the admin and object)
 	Fields []*AuditField `json:"fields,omitempty"`
 	// fields in map format (see Map scalar)
-	FieldsMap map[string]interface{} `json:"fieldsMap,omitempty"`
+	FieldsMap map[string]any `json:"fieldsMap,omitempty"`
 	// Simplified fields, as array of name value tuples, e.g: [ [ "name", "val" ], [ "name2", "val2" ] ... ]
 	FlatFields [][]string `json:"flatFields,omitempty"`
 	Object     *Entity    `json:"object,omitempty"`
@@ -1026,6 +1607,164 @@ type BGPConnection struct {
 	ConnectionName *string        `json:"connectionName,omitempty"`
 	PeerAsn        *scalars.Asn32 `json:"peerAsn,omitempty"`
 	PeerIP         *string        `json:"peerIp,omitempty"`
+}
+
+type BfdSettings struct {
+	// Number of missed BFD packets before considering the session down.
+	Multiplier int64 `json:"multiplier"`
+	// Time interval (in milliseconds) in which this peer expects to receive BFD packets.
+	ReceiveInterval int64 `json:"receiveInterval"`
+	// Time interval (in milliseconds) between BFD packets sent by this peer.
+	TransmitInterval int64 `json:"transmitInterval"`
+}
+
+type BfdSettingsInput struct {
+	// Number of missed BFD packets before considering the session down.
+	Multiplier int64 `json:"multiplier"`
+	// Time interval (in milliseconds) in which this peer expects to receive BFD packets.
+	ReceiveInterval int64 `json:"receiveInterval"`
+	// Time interval (in milliseconds) between BFD packets sent by this peer.
+	TransmitInterval int64 `json:"transmitInterval"`
+}
+
+type BgpCommunity struct {
+	// Start of the community range.
+	From scalars.Asn16 `json:"from"`
+	// End of the community range.
+	To scalars.Asn16 `json:"to"`
+}
+
+type BgpCommunityInput struct {
+	// Start of the community range.
+	From scalars.Asn16 `json:"from"`
+	// End of the community range.
+	To scalars.Asn16 `json:"to"`
+}
+
+type BgpDetailedStatus struct {
+	// Status of the BFD session (if applicable).
+	BfdSession *string `json:"bfdSession,omitempty"`
+	// Status of the BGP session (e.g., established, down).
+	BgpSession string `json:"bgpSession"`
+	// Routes rejected from the peer.
+	RejectedRoutesFromPeer []*BgpRejectedRoutesFromPeer `json:"rejectedRoutesFromPeer"`
+	// IP address of the remote BGP peer.
+	RemoteIP string `json:"remoteIp"`
+	// Routes received from the peer.
+	RoutesFromPeer []string `json:"routesFromPeer"`
+	// Routes sent to the peer.
+	RoutesToPeer []string `json:"routesToPeer"`
+}
+
+type BgpPeer struct {
+	// Indicates if all routes are advertised.
+	AdvertiseAllRoutes bool `json:"advertiseAllRoutes"`
+	// Indicates if the default route is advertised.
+	AdvertiseDefaultRoute bool `json:"advertiseDefaultRoute"`
+	// Indicates if summarized routes are advertised.
+	AdvertiseSummaryRoutes bool `json:"advertiseSummaryRoutes"`
+	// Indicates if BFD is enabled for failure detection.
+	BfdEnabled bool `json:"bfdEnabled"`
+	// BFD configuration.
+	BfdSettings *BfdSettings `json:"bfdSettings,omitempty"`
+	// AS number of Cato's BGP endpoint.
+	CatoAsn scalars.Asn16 `json:"catoAsn"`
+	// IP address of Cato's BGP endpoint.
+	CatoIP string `json:"catoIp"`
+	// Default action for routes not matching filters (ACCEPT or DROP).
+	DefaultAction BgpDefaultAction `json:"defaultAction"`
+	// Time before declaring the peer unreachable.
+	HoldTime int64 `json:"holdTime"`
+	// Unique identifier for the BGP peer.
+	ID string `json:"id"`
+	// Interval between keepalive messages.
+	KeepaliveInterval int64 `json:"keepaliveInterval"`
+	// MD5 authentication key for secure sessions.
+	Md5AuthKey *string `json:"md5AuthKey,omitempty"`
+	// Metric for route preferences.
+	Metric int64 `json:"metric"`
+	// Name of the BGP configuration entity.
+	Name string `json:"name"`
+	// AS number of the peer BGP endpoint.
+	PeerAsn scalars.Asn32 `json:"peerAsn"`
+	// IP address of the peer BGP endpoint.
+	PeerIP string `json:"peerIp"`
+	// Indicates if NAT is performed on routes.
+	PerformNat bool `json:"performNat"`
+	// Site associated with this BGP peer.
+	Site *SiteRef `json:"site"`
+	// Summarized routes advertised to the peer.
+	SummaryRoute []*BgpSummaryRoute `json:"summaryRoute"`
+	// Tracking configuration for health and availability.
+	Tracking *BgpTracking `json:"tracking,omitempty"`
+}
+
+type BgpPeerListInput struct {
+	// Identifies the site whose BGP peers are listed.
+	Site *SiteRefInput `json:"site"`
+}
+
+type BgpPeerListPayload struct {
+	// BGP peers associated with the site.
+	BgpPeer []*BgpPeer `json:"bgpPeer"`
+	// Total number of BGP peers found.
+	Total int64 `json:"total"`
+}
+
+type BgpPeerRefInput struct {
+	// Specifies the method of identification (default is by ID).
+	By ObjectRefBy `json:"by"`
+	// Value used to identify the BGP peer (e.g., ID or name).
+	Input string `json:"input"`
+}
+
+type BgpRejectedRoutesFromPeer struct {
+	// Community values associated with the rejected route.
+	Community []*BgpCommunity `json:"community"`
+	// Timestamp of the last attempt to publish the rejected route.
+	LastPublishAttempt *string `json:"lastPublishAttempt,omitempty"`
+	// Filter rule that caused the rejection.
+	Rule *string `json:"rule,omitempty"`
+	// Subnet of the rejected route.
+	Subnet *string `json:"subnet,omitempty"`
+	// Reason for rejecting the route.
+	Type *string `json:"type,omitempty"`
+}
+
+type BgpSummaryRoute struct {
+	// Community values associated with the route.
+	Community []*BgpCommunity `json:"community"`
+	// Unique identifier of the summarized route.
+	ID string `json:"id"`
+	// Subnet of the summarized route.
+	Route string `json:"route"`
+}
+
+type BgpSummaryRouteInput struct {
+	// Community values to associate with the summarized route.
+	Community []*BgpCommunityInput `json:"community"`
+	// Subnet of the summarized route to be advertised.
+	Route string `json:"route"`
+}
+
+type BgpTracking struct {
+	// Frequency of health alerts.
+	AlertFrequency PolicyRuleTrackingFrequencyEnum `json:"alertFrequency"`
+	// Indicates if tracking is enabled.
+	Enabled bool `json:"enabled"`
+	// Unique identifier for the tracking rule.
+	ID string `json:"id"`
+	// Subscription ID associated with the rule.
+	SubscriptionID *string `json:"subscriptionId,omitempty"`
+}
+
+type BgpTrackingInput struct {
+	// Frequency of health alerts.
+	AlertFrequency PolicyRuleTrackingFrequencyEnum `json:"alertFrequency"`
+	// Indicates if tracking is enabled.
+	Enabled bool `json:"enabled"`
+	// Subscription ID associated with this tracking rule.
+	SubscriptionID string `json:"subscriptionId"`
 }
 
 type BooleanPredicate struct {
@@ -1218,11 +1957,11 @@ func (CatoEndpoint) IsMergedIncident() {}
 
 // Vendor that identified the incident, such as Cato or Microsoft
 
-// Enum for the Producer (specific XDR engine and service) involved with the incident
+// Producer (specific XDR engine and service) involved with the incident
 
 // Full name of the Producer (specific XDR engine and service) involved with the incident
 
-// Enum for the connection for this incident (ie. site, host, user)
+// Connection for the incident
 
 // An indication is a set of actions and behaviors for the Network or Security incident. Each producer has different indications.
 
@@ -1238,7 +1977,7 @@ func (CatoEndpoint) IsMergedIncident() {}
 
 // The ticket an analyst created for this story
 
-// Enum for the status of this story (ie. Open, Closed, Monitoring)
+// Status for the story
 
 // The value is TRUE when the story is currently being researched by Security Analysts
 
@@ -1479,6 +2218,70 @@ type CellularInterface struct {
 	SimSlotID *int64 `json:"simSlotId,omitempty"`
 }
 
+// Connectivity status of a cloud interconnect connection.
+type CloudInterconnectConnectionConnectivity struct {
+	// Indicates if the connection is successful.
+	Success bool `json:"success"`
+}
+
+// Input for checking the connectivity status of a cloud interconnect connection.
+type CloudInterconnectConnectionConnectivityInput struct {
+	// ID of the connection.
+	ID string `json:"id"`
+}
+
+// Details of a physical connection at a cloud interconnect site.
+type CloudInterconnectPhysicalConnection struct {
+	// C-VLAN applicable only for QINQ connections.
+	CVlan *string `json:"cVlan,omitempty"`
+	// Downstream bandwidth limit.
+	DownstreamBwLimit string `json:"downstreamBwLimit"`
+	// Method of encapsulation.
+	EncapsulationMethod TaggingMethod `json:"encapsulationMethod"`
+	// High availability role of the connection. Either Primary or Secondary.
+	HaRole HaRole `json:"haRole"`
+	// ID of the connection.
+	ID string `json:"id"`
+	// Identifying data for the POP location.
+	PopLocation *PopLocationRef `json:"popLocation"`
+	// Private IP address of Cato, used for BGP routing.
+	PrivateCatoIP string `json:"privateCatoIp"`
+	// Private IP address of the site, used for BGP routing.
+	PrivateSiteIP string `json:"privateSiteIp"`
+	// Name of the service provider.
+	ServiceProviderName string `json:"serviceProviderName"`
+	// Identifying data for the site.
+	Site *SiteRef `json:"site"`
+	// Subnet for the connection.
+	Subnet string `json:"subnet"`
+	// S-VLAN applicable only for QINQ connections.
+	SVlan *string `json:"sVlan,omitempty"`
+	// Upstream bandwidth limit.
+	UpstreamBwLimit string `json:"upstreamBwLimit"`
+	// VLAN applicable only for DOT1Q connections.
+	Vlan *string `json:"vlan,omitempty"`
+}
+
+// ID of a physical connection at a cloud interconnect site.
+type CloudInterconnectPhysicalConnectionID struct {
+	// ID of the connection.
+	ID string `json:"id"`
+}
+
+// Input for getting the ID of a physical connection at a cloud interconnect site.
+type CloudInterconnectPhysicalConnectionIDInput struct {
+	// High availability role of the connection.
+	HaRole HaRole `json:"haRole"`
+	// Identifying data for the site.
+	Site *SiteRefInput `json:"site"`
+}
+
+// Input for getting details of a physical connection at a cloud interconnect site.
+type CloudInterconnectPhysicalConnectionInput struct {
+	// ID of the connection.
+	ID string `json:"id"`
+}
+
 // Audit metadata about the container
 type ContainerAudit struct {
 	// Indicates when the container was created
@@ -1502,22 +2305,6 @@ type ContainerQueries struct {
 	IPAddressRange *IPAddressRangeContainerQueries `json:"ipAddressRange"`
 	List           *ContainerSearchPayload         `json:"list"`
 }
-
-// A group with members of a single type of entity (for example: IP, FQDN)
-type ContainerRef struct {
-	// Unique container ID
-	ID string `json:"id"`
-	// Name for the container
-	Name string `json:"name"`
-}
-
-func (ContainerRef) IsObjectRef() {}
-
-// Object's unique identifier
-func (this ContainerRef) GetID() string { return this.ID }
-
-// Object's unique name
-func (this ContainerRef) GetName() string { return this.Name }
 
 // Add a container by ID or name
 type ContainerRefInput struct {
@@ -1565,8 +2352,8 @@ type CreateFqdnContainerFromFileInput struct {
 	Description string `json:"description"`
 	// Name for the container
 	Name string `json:"name"`
-	// Multipart file containing FQDNs with csv/newline delimiter
-	UploadFile graphql.Upload `json:"uploadFile"`
+	// Multipart file containing FQDNs with fileType delimiter
+	UploadFile *graphql.Upload `json:"uploadFile,omitempty"`
 }
 
 // Payload of CreateFromFile operation on FQDN typed container
@@ -1581,8 +2368,8 @@ type CreateIPAddressRangeContainerFromFileInput struct {
 	Description string `json:"description"`
 	// Name for the container
 	Name string `json:"name"`
-	// Multipart file containing IPAddressRanges with csv/newline delimiter
-	UploadFile graphql.Upload `json:"uploadFile"`
+	// Multipart file containing IPAddressRanges with fileType delimiter
+	UploadFile *graphql.Upload `json:"uploadFile,omitempty"`
 }
 
 // Payload of CreateFromFile operation on IPAddressRange typed container
@@ -1775,62 +2562,50 @@ func (DemLicense) IsQuantifiableLicense() {}
 // license quantity
 func (this DemLicense) GetTotal() int64 { return this.Total }
 
-// DEM Pro service license details
-type DemProLicense struct {
-	Description *string `json:"description,omitempty"`
-	// License expiration date
-	ExpirationDate string `json:"expirationDate"`
-	// The date of the last update to the license
-	LastUpdated *string `json:"lastUpdated,omitempty"`
-	// License plan type
-	Plan LicensePlan `json:"plan"`
-	// The license SKU
-	Sku LicenseSku `json:"sku"`
-	// License start date
-	StartDate *string `json:"startDate,omitempty"`
-	// License activation status
-	Status LicenseStatus `json:"status"`
-	// License quantity
-	Total int64 `json:"total"`
+type DeviceAttributes struct {
+	// The category of the firewall device.
+	Category []string `json:"category"`
+	// The manufacturer of the firewall device.
+	Manufacturer []string `json:"manufacturer"`
+	// The model of the firewall device.
+	Model []string `json:"model"`
+	// The operating system of the firewall device.
+	Os []string `json:"os"`
+	// The version of the operating system of the firewall device.
+	OsVersion []string `json:"osVersion"`
+	// The type of the firewall device.
+	Type []string `json:"type"`
 }
 
-func (DemProLicense) IsLicense()                   {}
-func (this DemProLicense) GetDescription() *string { return this.Description }
+type DeviceAttributesInput struct {
+	// The category of the firewall device.
+	Category []string `json:"category"`
+	// The manufacturer of the firewall device.
+	Manufacturer []string `json:"manufacturer"`
+	// The model of the firewall device.
+	Model []string `json:"model"`
+	// The operating system of the firewall device.
+	Os []string `json:"os"`
+	// The version of the operating system of the firewall device.
+	OsVersion []string `json:"osVersion"`
+	// The type of the firewall device.
+	Type []string `json:"type"`
+}
 
-// License plan type
-func (this DemProLicense) GetPlan() LicensePlan { return this.Plan }
-
-// The license SKU
-func (this DemProLicense) GetSku() LicenseSku { return this.Sku }
-
-// License activation status
-func (this DemProLicense) GetStatus() LicenseStatus { return this.Status }
-
-// License start date
-func (this DemProLicense) GetStartDate() *string { return this.StartDate }
-
-// License expiration date
-func (this DemProLicense) GetExpirationDate() string { return this.ExpirationDate }
-
-// The date of the last update to the license
-func (this DemProLicense) GetLastUpdated() *string { return this.LastUpdated }
-
-func (DemProLicense) IsQuantifiableLicense() {}
-
-// License plan type
-
-// The license SKU
-
-// License activation status
-
-// License initiation date
-
-// License expiration date
-
-// The date of the last update to the license
-
-// license quantity
-func (this DemProLicense) GetTotal() int64 { return this.Total }
+type DeviceAttributesUpdateInput struct {
+	// The category of the firewall device.
+	Category []string `json:"category,omitempty"`
+	// The manufacturer of the firewall device.
+	Manufacturer []string `json:"manufacturer,omitempty"`
+	// The model of the firewall device.
+	Model []string `json:"model,omitempty"`
+	// The operating system of the firewall device.
+	Os []string `json:"os,omitempty"`
+	// The version of the operating system of the firewall device.
+	OsVersion []string `json:"osVersion,omitempty"`
+	// The type of the firewall device.
+	Type []string `json:"type,omitempty"`
+}
 
 type DeviceProfileRef struct {
 	ID   string `json:"id"`
@@ -1855,6 +2630,8 @@ type DeviceSnapshot struct {
 	Connected *bool `json:"connected,omitempty"`
 	// For connected devices (this somewhat overlaps to last duration)
 	ConnectedSince *string `json:"connectedSince,omitempty"`
+	// Indicates the Socket uptime
+	DeviceUptime *int64 `json:"deviceUptime,omitempty"`
 	// Shows if this is the primary or secondary Socket in high availability mode
 	HaRole *string `json:"haRole,omitempty"`
 	// Unique internal Cato ID for the Socket
@@ -2059,9 +2836,9 @@ type Entity struct {
 func (Entity) IsValue() {}
 
 type EntityInfo struct {
-	Description  string                 `json:"description"`
-	Entity       *Entity                `json:"entity"`
-	HelperFields map[string]interface{} `json:"helperFields"`
+	Description  string         `json:"description"`
+	Entity       *Entity        `json:"entity"`
+	HelperFields map[string]any `json:"helperFields"`
 }
 
 type EntityInput struct {
@@ -2104,19 +2881,19 @@ type EventField struct {
 
 type EventRecord struct {
 	// fields in map format (see Map scalar)
-	FieldsMap map[string]interface{} `json:"fieldsMap,omitempty"`
+	FieldsMap map[string]any `json:"fieldsMap,omitempty"`
 	// Simplified fields, as array of name value tuples, e.g: [ [ "name", "val" ], [ "name2", "val2" ] ... ]
 	FlatFields [][]string `json:"flatFields,omitempty"`
 	Time       *string    `json:"time,omitempty"`
 }
 
 type Events struct {
-	From    *string                `json:"from,omitempty"`
-	ID      *string                `json:"id,omitempty"`
-	Records []*EventsRecord        `json:"records,omitempty"`
-	To      *string                `json:"to,omitempty"`
-	Total   *int64                 `json:"total,omitempty"`
-	Totals  map[string]interface{} `json:"totals,omitempty"`
+	From    *string         `json:"from,omitempty"`
+	ID      *string         `json:"id,omitempty"`
+	Records []*EventsRecord `json:"records,omitempty"`
+	To      *string         `json:"to,omitempty"`
+	Total   *int64          `json:"total,omitempty"`
+	Totals  map[string]any  `json:"totals,omitempty"`
 }
 
 type EventsDimension struct {
@@ -2150,12 +2927,12 @@ type EventsMeasure struct {
 type EventsRecord struct {
 	Fields []*EventField `json:"fields,omitempty"`
 	// fields in map format (see Map scalar)
-	FieldsMap       map[string]interface{} `json:"fieldsMap,omitempty"`
-	FieldsUnitTypes []UnitType             `json:"fieldsUnitTypes,omitempty"`
+	FieldsMap       map[string]any `json:"fieldsMap,omitempty"`
+	FieldsUnitTypes []UnitType     `json:"fieldsUnitTypes,omitempty"`
 	// Simplified fields, as array of name value tuples, e.g: [ [ "name", "val" ], [ "name2", "val2" ] ... ]
-	FlatFields    [][]string             `json:"flatFields,omitempty"`
-	PrevTimeFrame map[string]interface{} `json:"prevTimeFrame,omitempty"`
-	Trends        map[string]interface{} `json:"trends,omitempty"`
+	FlatFields    [][]string     `json:"flatFields,omitempty"`
+	PrevTimeFrame map[string]any `json:"prevTimeFrame,omitempty"`
+	Trends        map[string]any `json:"trends,omitempty"`
 }
 
 type EventsSort struct {
@@ -2639,22 +3416,32 @@ type InterfaceInfo struct {
 	DestType *string `json:"destType,omitempty"`
 	// Maximum allowed bandwidth for traffic on this port, from the Cato Cloud to the site
 	DownstreamBandwidth *int64 `json:"downstreamBandwidth,omitempty"`
+	// Maximum allowed bandwidth for traffic on this port in MBPS with single decimal point, from the Cato Cloud to the site
+	DownstreamBandwidthMbpsPrecision *float64 `json:"downstreamBandwidthMbpsPrecision,omitempty"`
 	// ID for the Socket port in the Socket WebUI Monitor tab
 	ID string `json:"id"`
 	// Name for the port in the Cato Management Application
 	Name *string `json:"name,omitempty"`
 	// Maximum allowed bandwidth on this port, for traffic from the site to the Cato Cloud
 	UpstreamBandwidth *int64 `json:"upstreamBandwidth,omitempty"`
+	// Maximum allowed bandwidth on this port in MBPS with single decimal point, for traffic from the site to the Cato Cloud
+	UpstreamBandwidthMbpsPrecision *float64 `json:"upstreamBandwidthMbpsPrecision,omitempty"`
 }
 
 type InterfaceLinkState struct {
 	// Shows the duplex mode for the link
 	Duplex *string `json:"duplex,omitempty"`
+	// Indicates if the WAN interface has an IP address
+	HasAddress *bool `json:"hasAddress,omitempty"`
+	// Indicates if the interface is connected to the Internet
+	HasInternet *bool `json:"hasInternet,omitempty"`
+	// Indicates if a connection has been established with the Cato Cloud
+	HasTunnel *bool `json:"hasTunnel,omitempty"`
 	// The ID for the specific Socket port, for example LAN1 or LAN2
 	ID *string `json:"id,omitempty"`
 	// Shows the maximum bandwidth configured for the link
 	LinkSpeed *string `json:"linkSpeed,omitempty"`
-	// When this boolean value is true, then a cable is connected to the Socket port
+	// Indicates if there is a physical connection to the port
 	MediaIn *bool `json:"mediaIn,omitempty"`
 	// When this boolean value is true, then the link for the port is up
 	Up *bool `json:"up,omitempty"`
@@ -2734,6 +3521,10 @@ type InternetFirewallAddRuleDataInput struct {
 	// Logical ‘OR’ is applied within the criteria set.
 	// Logical ‘AND’ is applied between criteria sets.
 	Device []*DeviceProfileRefInput `json:"device"`
+	// Additional device attributes such as category, type, model, and manufacturer.
+	// Logical 'OR' is applied within the criteria set.
+	// Logical 'AND' is applied between criteria sets.
+	DeviceAttributes *DeviceAttributesInput `json:"deviceAttributes"`
 	// Source device Operating System traffic matching criteria.
 	// Logical ‘OR’ is applied within the criteria set.
 	// Logical ‘AND’ is applied between criteria sets.
@@ -2785,7 +3576,8 @@ type InternetFirewallDestination struct {
 	// Cato category of applications which are dynamically updated by Cato
 	AppCategory []*ApplicationCategoryRef `json:"appCategory"`
 	// Applications for the rule (pre-defined)
-	Application []*ApplicationRef `json:"application"`
+	Application []*ApplicationRef          `json:"application"`
+	Containers  *InternetFirewallContainer `json:"containers"`
 	// Countries
 	Country []*CountryRef `json:"country"`
 	// Custom (user-defined) applications
@@ -2845,9 +3637,7 @@ type InternetFirewallDestinationUpdateInput struct {
 	// Cato category of applications which are dynamically updated by Cato
 	AppCategory []*ApplicationCategoryRefInput `json:"appCategory,omitempty"`
 	// Applications for the rule (pre-defined)
-	Application []*ApplicationRefInput                `json:"application,omitempty"`
-	Container   []*ContainerRefInput                  `json:"container,omitempty"`
-	Containers  *InternetFirewallContainerUpdateInput `json:"containers,omitempty"`
+	Application []*ApplicationRefInput `json:"application,omitempty"`
 	// Countries
 	Country []*CountryRefInput `json:"country,omitempty"`
 	// Custom (user-defined) applications
@@ -3023,6 +3813,10 @@ type InternetFirewallRule struct {
 	// Logical ‘OR’ is applied within the criteria set.
 	// Logical ‘AND’ is applied between criteria sets.
 	Device []*DeviceProfileRef `json:"device"`
+	// Additional device attributes such as category, type, model, and manufacturer.
+	// Logical 'OR' is applied within the criteria set.
+	// Logical 'AND' is applied between criteria sets.
+	DeviceAttributes *DeviceAttributes `json:"deviceAttributes"`
 	// Source device Operating System traffic matching criteria.
 	// Logical ‘OR’ is applied within the criteria set.
 	// Logical ‘AND’ is applied between criteria sets.
@@ -3085,6 +3879,8 @@ type InternetFirewallRuleException struct {
 	Destination *InternetFirewallDestination `json:"destination"`
 	// Source Device Profile matching criteria for the exception.
 	Device []*DeviceProfileRef `json:"device"`
+	// Source Device Attributes matching criteria for the exception.
+	DeviceAttributes *DeviceAttributes `json:"deviceAttributes"`
 	// Source device OS matching criteria for the exception.
 	DeviceOs []OperatingSystem `json:"deviceOS"`
 	// A unique name of the rule exception.
@@ -3105,6 +3901,8 @@ type InternetFirewallRuleExceptionInput struct {
 	Destination *InternetFirewallDestinationInput `json:"destination"`
 	// Source Device Profile matching criteria for the exception.
 	Device []*DeviceProfileRefInput `json:"device"`
+	// Source Device Attributes matching criteria for the exception.
+	DeviceAttributes *DeviceAttributesInput `json:"deviceAttributes"`
 	// Source device OS matching criteria for the exception.
 	DeviceOs []OperatingSystem `json:"deviceOS"`
 	// A unique name of the rule exception.
@@ -3292,6 +4090,10 @@ type InternetFirewallUpdateRuleDataInput struct {
 	// Logical ‘OR’ is applied within the criteria set.
 	// Logical ‘AND’ is applied between criteria sets.
 	Device []*DeviceProfileRefInput `json:"device,omitempty"`
+	// Additional device attributes such as category, type, model, and manufacturer.
+	// Logical 'OR' is applied within the criteria set.
+	// Logical 'AND' is applied between criteria sets.
+	DeviceAttributes *DeviceAttributesUpdateInput `json:"deviceAttributes,omitempty"`
 	// Source device Operating System traffic matching criteria.
 	// Logical ‘OR’ is applied within the criteria set.
 	// Logical ‘AND’ is applied between criteria sets.
@@ -3319,6 +4121,44 @@ type InternetFirewallUpdateRuleInput struct {
 	ID   string                               `json:"id"`
 	Rule *InternetFirewallUpdateRuleDataInput `json:"rule"`
 }
+
+// IoT/OT Security service license details
+type IotOtLicense struct {
+	Description *string `json:"description,omitempty"`
+	// License expiration date
+	ExpirationDate string `json:"expirationDate"`
+	// The date of the last update to the license
+	LastUpdated *string `json:"lastUpdated,omitempty"`
+	// License plan type
+	Plan LicensePlan `json:"plan"`
+	// The license SKU
+	Sku LicenseSku `json:"sku"`
+	// License start date
+	StartDate *string `json:"startDate,omitempty"`
+	// License activation status
+	Status LicenseStatus `json:"status"`
+}
+
+func (IotOtLicense) IsLicense()                   {}
+func (this IotOtLicense) GetDescription() *string { return this.Description }
+
+// License plan type
+func (this IotOtLicense) GetPlan() LicensePlan { return this.Plan }
+
+// The license SKU
+func (this IotOtLicense) GetSku() LicenseSku { return this.Sku }
+
+// License activation status
+func (this IotOtLicense) GetStatus() LicenseStatus { return this.Status }
+
+// License start date
+func (this IotOtLicense) GetStartDate() *string { return this.StartDate }
+
+// License expiration date
+func (this IotOtLicense) GetExpirationDate() string { return this.ExpirationDate }
+
+// The date of the last update to the license
+func (this IotOtLicense) GetLastUpdated() *string { return this.LastUpdated }
 
 // Inclusive range of IPs
 type IPAddressRange struct {
@@ -3512,8 +4352,12 @@ type IspLoaFile struct {
 type LastMileBwInput struct {
 	// The maximum downstream bandwidth from the Cato Cloud to the site, in Mbps. This value can be used for capping the downstream traffic. It should not be set above the ISP downstream bandwidth or the site license bandwidth.
 	Downstream *int64 `json:"downstream,omitempty"`
+	// The maximum downstream bandwidth from the Cato Cloud to the site, in Mbps with single decimal precision. This value can be used for capping the downstream traffic. It should not be set above the ISP downstream bandwidth or the site license bandwidth.
+	DownstreamMbpsPrecision *float64 `json:"downstreamMbpsPrecision,omitempty"`
 	// The maximum upstream bandwidth, in Mbps. The Cato Cloud cannot cap this direction, and this setting is used as a best-effort indication by the Cato Cloud.
 	Upstream *int64 `json:"upstream,omitempty"`
+	// The maximum upstream bandwidth, in Mbps with single decimal precision. The Cato Cloud cannot cap this direction, and this setting is used as a best-effort indication by the Cato Cloud.
+	UpstreamMbpsPrecision *float64 `json:"upstreamMbpsPrecision,omitempty"`
 }
 
 // Public license API
@@ -3910,11 +4754,11 @@ func (MicrosoftEndpoint) IsMergedIncident() {}
 
 // Vendor that identified the incident, such as Cato or Microsoft
 
-// Enum for the Producer (specific XDR engine and service) involved with the incident
+// Producer (specific XDR engine and service) involved with the incident
 
 // Full name of the Producer (specific XDR engine and service) involved with the incident
 
-// Enum for the connection for this incident (ie. site, host, user)
+// Connection for the incident
 
 // An indication is a set of actions and behaviors for the Network or Security incident. Each producer has different indications.
 
@@ -3930,7 +4774,7 @@ func (MicrosoftEndpoint) IsMergedIncident() {}
 
 // The ticket an analyst created for this story
 
-// Enum for the status of this story (ie. Open, Closed, Monitoring)
+// Status for the story
 
 // The value is TRUE when the story is currently being researched by Security Analysts
 
@@ -4287,13 +5131,13 @@ func (this NetworkXDRIncident) GetEngineType() *StoryEngineTypeEnum { return thi
 // Vendor that identified the incident, such as Cato or Microsoft
 func (this NetworkXDRIncident) GetVendor() *VendorEnum { return this.Vendor }
 
-// Enum for the Producer (specific XDR engine and service) involved with the incident
+// Producer (specific XDR engine and service) involved with the incident
 func (this NetworkXDRIncident) GetProducer() StoryProducerEnum { return this.Producer }
 
 // Full name of the Producer (specific XDR engine and service) involved with the incident
 func (this NetworkXDRIncident) GetProducerName() string { return this.ProducerName }
 
-// Enum for the connection for this incident (ie. site, host, user)
+// Connection for the incident
 func (this NetworkXDRIncident) GetConnectionType() *ConnectionTypeEnum { return this.ConnectionType }
 
 // An indication is a set of actions and behaviors for the Network or Security incident. Each producer has different indications.
@@ -4315,7 +5159,7 @@ func (this NetworkXDRIncident) GetSource() *string { return this.Source }
 // The ticket an analyst created for this story
 func (this NetworkXDRIncident) GetTicket() *string { return this.Ticket }
 
-// Enum for the status of this story (ie. Open, Closed, Monitoring)
+// Status for the story
 func (this NetworkXDRIncident) GetStatus() *StoryStatusEnum { return this.Status }
 
 // The value is TRUE when the story is currently being researched by Security Analysts
@@ -4584,8 +5428,10 @@ type PolicyMutationRevisionInput struct {
 
 // Policies that can be configured with mutation APIs.
 type PolicyMutations struct {
-	InternetFirewall *InternetFirewallPolicyMutations `json:"internetFirewall,omitempty"`
-	WanFirewall      *WanFirewallPolicyMutations      `json:"wanFirewall,omitempty"`
+	AppTenantRestriction *AppTenantRestrictionPolicyMutations `json:"appTenantRestriction,omitempty"`
+	InternetFirewall     *InternetFirewallPolicyMutations     `json:"internetFirewall,omitempty"`
+	RemotePortFwd        *RemotePortFwdPolicyMutations        `json:"remotePortFwd,omitempty"`
+	WanFirewall          *WanFirewallPolicyMutations          `json:"wanFirewall,omitempty"`
 }
 
 // Published revision is the active policy
@@ -4599,8 +5445,10 @@ type PolicyPublishRevisionInput struct {
 
 // policies which configuration can be read with query APIs.
 type PolicyQueries struct {
-	InternetFirewall *InternetFirewallPolicyQueries `json:"internetFirewall,omitempty"`
-	WanFirewall      *WanFirewallPolicyQueries      `json:"wanFirewall,omitempty"`
+	AppTenantRestriction *AppTenantRestrictionPolicyQueries `json:"appTenantRestriction,omitempty"`
+	InternetFirewall     *InternetFirewallPolicyQueries     `json:"internetFirewall,omitempty"`
+	RemotePortFwd        *RemotePortFwdPolicyQueries        `json:"remotePortFwd,omitempty"`
+	WanFirewall          *WanFirewallPolicyQueries          `json:"wanFirewall,omitempty"`
 }
 
 // Input for removing a section from a policy
@@ -4832,6 +5680,24 @@ type PooledBandwidthLicenseSite struct {
 	Site *SiteRef `json:"site"`
 }
 
+type PopLocationRef struct {
+	ID   string `json:"id"`
+	Name string `json:"name"`
+}
+
+func (PopLocationRef) IsObjectRef() {}
+
+// Object's unique identifier
+func (this PopLocationRef) GetID() string { return this.ID }
+
+// Object's unique name
+func (this PopLocationRef) GetName() string { return this.Name }
+
+type PopLocationRefInput struct {
+	By    ObjectRefBy `json:"by"`
+	Input string      `json:"input"`
+}
+
 // Inclusive network port range
 type PortRange struct {
 	From scalars.Port `json:"from"`
@@ -4842,6 +5708,12 @@ type PortRange struct {
 type PortRangeInput struct {
 	From scalars.Port `json:"from"`
 	To   scalars.Port `json:"to"`
+}
+
+// inclusive network port range
+type PortRangeUpdateInput struct {
+	From *scalars.Port `json:"from,omitempty"`
+	To   *scalars.Port `json:"to,omitempty"`
 }
 
 // Public IP address license
@@ -4978,8 +5850,347 @@ type RecentConnection struct {
 	RemoteIPInfo *IPInfo `json:"remoteIPInfo,omitempty"`
 }
 
+type RemotePortFwdAddRuleDataInput struct {
+	Description       string                        `json:"description"`
+	Enabled           bool                          `json:"enabled"`
+	ExternalIP        *AllocatedIPRefInput          `json:"externalIp"`
+	ExternalPortRange *PortRangeInput               `json:"externalPortRange"`
+	ForwardICMP       bool                          `json:"forwardIcmp"`
+	InternalIP        string                        `json:"internalIp"`
+	InternalPortRange *PortRangeInput               `json:"internalPortRange"`
+	Name              string                        `json:"name"`
+	RemoteIPs         *RemotePortFwdRemoteIpsInput  `json:"remoteIPs"`
+	RestrictionType   RemotePortFwdRestrictionType  `json:"restrictionType"`
+	Tracking          *PolicyRuleTrackingAlertInput `json:"tracking"`
+}
+
+// Rule parameters and relevant position
+type RemotePortFwdAddRuleInput struct {
+	// Position of the rule in the policy
+	At *PolicyRulePositionInput `json:"at,omitempty"`
+	// Parameters for the rule you are adding
+	Rule *RemotePortFwdAddRuleDataInput `json:"rule"`
+}
+
+type RemotePortFwdPolicy struct {
+	Audit    *PolicyAudit                `json:"audit,omitempty"`
+	Enabled  bool                        `json:"enabled"`
+	Revision *PolicyRevision             `json:"revision,omitempty"`
+	Rules    []*RemotePortFwdRulePayload `json:"rules"`
+	Sections []*PolicySectionPayload     `json:"sections"`
+}
+
+func (RemotePortFwdPolicy) IsIPolicy() {}
+
+// TRUE = Policy is enabled, FALSE = Policy is disabled
+func (this RemotePortFwdPolicy) GetEnabled() bool { return this.Enabled }
+
+// Return list of rules in the policy
+func (this RemotePortFwdPolicy) GetRules() []IPolicyRulePayload {
+	if this.Rules == nil {
+		return nil
+	}
+	interfaceSlice := make([]IPolicyRulePayload, 0, len(this.Rules))
+	for _, concrete := range this.Rules {
+		interfaceSlice = append(interfaceSlice, concrete)
+	}
+	return interfaceSlice
+}
+
+// Return sections in the policy
+func (this RemotePortFwdPolicy) GetSections() []*PolicySectionPayload {
+	if this.Sections == nil {
+		return nil
+	}
+	interfaceSlice := make([]*PolicySectionPayload, 0, len(this.Sections))
+	for _, concrete := range this.Sections {
+		interfaceSlice = append(interfaceSlice, concrete)
+	}
+	return interfaceSlice
+}
+
+// Audit data for the policy
+func (this RemotePortFwdPolicy) GetAudit() *PolicyAudit { return this.Audit }
+
+// Return data for the Policy revision
+func (this RemotePortFwdPolicy) GetRevision() *PolicyRevision { return this.Revision }
+
+type RemotePortFwdPolicyInput struct {
+	// A revision is a specific instance of the policy.
+	//  Unpublished revisions are working copies of the policy available to a specific
+	//  admin or a set of admins
+	//  Published revisions are revisions that were applied to the account network.
+	//  The last published revision is the active policy.
+	Revision *PolicyRevisionInput `json:"revision,omitempty"`
+}
+
+type RemotePortFwdPolicyMutationInput struct {
+	Revision *PolicyMutationRevisionInput `json:"revision,omitempty"`
+}
+
+// Remote port forwarding policy information provided in the API response
+type RemotePortFwdPolicyMutationPayload struct {
+	Errors []*PolicyMutationError `json:"errors"`
+	Policy *RemotePortFwdPolicy   `json:"policy,omitempty"`
+	Status PolicyMutationStatus   `json:"status"`
+}
+
+func (RemotePortFwdPolicyMutationPayload) IsIPolicyMutationPayload() {}
+
+// Data for the policy
+func (this RemotePortFwdPolicyMutationPayload) GetPolicy() IPolicy { return *this.Policy }
+
+// Enum for the status of the policy change
+func (this RemotePortFwdPolicyMutationPayload) GetStatus() PolicyMutationStatus { return this.Status }
+
+// List of errors related to the policy change
+func (this RemotePortFwdPolicyMutationPayload) GetErrors() []*PolicyMutationError {
+	if this.Errors == nil {
+		return nil
+	}
+	interfaceSlice := make([]*PolicyMutationError, 0, len(this.Errors))
+	for _, concrete := range this.Errors {
+		interfaceSlice = append(interfaceSlice, concrete)
+	}
+	return interfaceSlice
+}
+
+// The Remote Port Forwarding Policy information returned to the caller in the API response.
+type RemotePortFwdPolicyMutations struct {
+	// Add a new port forwarding rule to enable remote access to internal services.
+	AddRule *RemotePortFwdRuleMutationPayload `json:"addRule"`
+	// Add a new section to the policy.
+	// First section behaves as follows:
+	// When the first section is created, all the rules in the policy, including the default system rules, are automatically added to it.
+	// The first section containing the default system rules can be modified but not deleted.
+	// The first section will always remain first-in-policy, i.e. it cannot be moved, and not other sections can be moved or created before it.
+	AddSection *PolicySectionMutationPayload `json:"addSection"`
+	// Create a new empty policy revision for port forwarding rules.
+	CreatePolicyRevision *RemotePortFwdPolicyMutationPayload `json:"createPolicyRevision"`
+	// Discard the policy revision. All changes in this revision are discarded and the revision is deleted.
+	DiscardPolicyRevision *RemotePortFwdPolicyMutationPayload `json:"discardPolicyRevision"`
+	// Change the priority/position of an existing port forwarding rule.
+	MoveRule *RemotePortFwdRuleMutationPayload `json:"moveRule"`
+	// Move a section to a new position within the policy.
+	// The section will be anchored in the new position, i.e. other admins will not be able to move it, or reference it when moving other sections, until the modified policy revision is published.
+	MoveSection *PolicySectionMutationPayload `json:"moveSection"`
+	// Publish the policy revision. Published revision becomes the active policy and its rules are merged with unpublished revisions from other admins.
+	PublishPolicyRevision *RemotePortFwdPolicyMutationPayload `json:"publishPolicyRevision"`
+	// Remove an existing port forwarding rule from the policy.
+	RemoveRule *RemotePortFwdRuleMutationPayload `json:"removeRule"`
+	// Delete an existing section. The first section in policy cannot be deleted.
+	RemoveSection *PolicySectionMutationPayload `json:"removeSection"`
+	// Change the state of the port forwarding policy (enable/disable). Changes are applied immediately and not as part of policy revision publishing.
+	UpdatePolicy *RemotePortFwdPolicyMutationPayload `json:"updatePolicy"`
+	// Update an existing port forwarding rule configuration.
+	UpdateRule *RemotePortFwdRuleMutationPayload `json:"updateRule"`
+	// Update policy section attributes
+	UpdateSection *PolicySectionMutationPayload `json:"updateSection"`
+}
+
+type RemotePortFwdPolicyQueries struct {
+	Policy    *RemotePortFwdPolicy    `json:"policy"`
+	Revisions *PolicyRevisionsPayload `json:"revisions,omitempty"`
+}
+
+type RemotePortFwdPolicyUpdateInput struct {
+	State *PolicyToggleState `json:"state,omitempty"`
+}
+
+type RemotePortFwdRemoteIps struct {
+	GlobalIPRange []*GlobalIPRangeRef `json:"globalIpRange"`
+	IP            []string            `json:"ip"`
+	IPRange       []*IPAddressRange   `json:"ipRange"`
+	Subnet        []string            `json:"subnet"`
+}
+
+type RemotePortFwdRemoteIpsInput struct {
+	GlobalIPRange []*GlobalIPRangeRefInput `json:"globalIpRange"`
+	IP            []string                 `json:"ip"`
+	IPRange       []*IPAddressRangeInput   `json:"ipRange"`
+	Subnet        []string                 `json:"subnet"`
+}
+
+type RemotePortFwdRemoteIpsUpdateInput struct {
+	GlobalIPRange []*GlobalIPRangeRefInput `json:"globalIpRange,omitempty"`
+	IP            []string                 `json:"ip,omitempty"`
+	IPRange       []*IPAddressRangeInput   `json:"ipRange,omitempty"`
+	Subnet        []string                 `json:"subnet,omitempty"`
+}
+
+type RemotePortFwdRemoveRuleInput struct {
+	ID string `json:"id"`
+}
+
+type RemotePortFwdRule struct {
+	// Description for the rule
+	Description string `json:"description"`
+	// TRUE = Rule is enabled
+	//  FALSE = Rule is disabled
+	Enabled           bool            `json:"enabled"`
+	ExternalIP        *AllocatedIPRef `json:"externalIp"`
+	ExternalPortRange *PortRange      `json:"externalPortRange"`
+	ForwardICMP       bool            `json:"forwardIcmp"`
+	// Rule ID
+	ID string `json:"id"`
+	// Position / priority of rule
+	Index             int64      `json:"index"`
+	InternalIP        string     `json:"internalIp"`
+	InternalPortRange *PortRange `json:"internalPortRange"`
+	// Name of the rule
+	Name            string                       `json:"name"`
+	RemoteIPs       *RemotePortFwdRemoteIps      `json:"remoteIPs"`
+	RestrictionType RemotePortFwdRestrictionType `json:"restrictionType"`
+	// Policy section where the rule is located
+	Section  *PolicySectionInfo       `json:"section"`
+	Tracking *PolicyRuleTrackingAlert `json:"tracking"`
+}
+
+func (RemotePortFwdRule) IsIPolicyRule() {}
+
+// Rule ID
+func (this RemotePortFwdRule) GetID() string { return this.ID }
+
+// Name of the rule
+func (this RemotePortFwdRule) GetName() string { return this.Name }
+
+// Description for the rule
+func (this RemotePortFwdRule) GetDescription() *string { return &this.Description }
+
+// Position / priority of rule
+func (this RemotePortFwdRule) GetIndex() int64 { return this.Index }
+
+// TRUE = Rule is enabled, FALSE = Rule is disabled
+func (this RemotePortFwdRule) GetEnabled() bool { return this.Enabled }
+
+// Policy section where the rule is located
+func (this RemotePortFwdRule) GetSection() *PolicySectionInfo { return this.Section }
+
+type RemotePortFwdRuleMutationPayload struct {
+	Errors []*PolicyMutationError    `json:"errors"`
+	Rule   *RemotePortFwdRulePayload `json:"rule,omitempty"`
+	Status PolicyMutationStatus      `json:"status"`
+}
+
+func (RemotePortFwdRuleMutationPayload) IsIPolicyRuleMutationPayload() {}
+
+// Returns settings for the rule
+func (this RemotePortFwdRuleMutationPayload) GetRule() IPolicyRulePayload { return *this.Rule }
+
+// Enum for the status of the policy change
+func (this RemotePortFwdRuleMutationPayload) GetStatus() PolicyMutationStatus { return this.Status }
+
+// List of errors related to the policy change
+func (this RemotePortFwdRuleMutationPayload) GetErrors() []*PolicyMutationError {
+	if this.Errors == nil {
+		return nil
+	}
+	interfaceSlice := make([]*PolicyMutationError, 0, len(this.Errors))
+	for _, concrete := range this.Errors {
+		interfaceSlice = append(interfaceSlice, concrete)
+	}
+	return interfaceSlice
+}
+
+type RemotePortFwdRulePayload struct {
+	Audit      *PolicyElementAudit           `json:"audit"`
+	Properties []PolicyElementPropertiesEnum `json:"properties"`
+	Rule       *RemotePortFwdRule            `json:"rule"`
+}
+
+func (RemotePortFwdRulePayload) IsIPolicyRulePayload()              {}
+func (this RemotePortFwdRulePayload) GetAudit() *PolicyElementAudit { return this.Audit }
+
+// Rule that was changed
+func (this RemotePortFwdRulePayload) GetRule() IPolicyRule { return *this.Rule }
+
+// Summary of rule change, (ie. ADDED, UPDATED)
+func (this RemotePortFwdRulePayload) GetProperties() []PolicyElementPropertiesEnum {
+	if this.Properties == nil {
+		return nil
+	}
+	interfaceSlice := make([]PolicyElementPropertiesEnum, 0, len(this.Properties))
+	for _, concrete := range this.Properties {
+		interfaceSlice = append(interfaceSlice, concrete)
+	}
+	return interfaceSlice
+}
+
+type RemotePortFwdUpdateRuleDataInput struct {
+	Description       *string                             `json:"description,omitempty"`
+	Enabled           *bool                               `json:"enabled,omitempty"`
+	ExternalIP        *AllocatedIPRefInput                `json:"externalIp,omitempty"`
+	ExternalPortRange *PortRangeUpdateInput               `json:"externalPortRange,omitempty"`
+	ForwardICMP       *bool                               `json:"forwardIcmp,omitempty"`
+	InternalIP        *string                             `json:"internalIp,omitempty"`
+	InternalPortRange *PortRangeUpdateInput               `json:"internalPortRange,omitempty"`
+	Name              *string                             `json:"name,omitempty"`
+	RemoteIPs         *RemotePortFwdRemoteIpsUpdateInput  `json:"remoteIPs,omitempty"`
+	RestrictionType   *RemotePortFwdRestrictionType       `json:"restrictionType,omitempty"`
+	Tracking          *PolicyRuleTrackingAlertUpdateInput `json:"tracking,omitempty"`
+}
+
+type RemotePortFwdUpdateRuleInput struct {
+	ID   string                            `json:"id"`
+	Rule *RemotePortFwdUpdateRuleDataInput `json:"rule"`
+}
+
+type RemoveAccountPayload struct {
+	// General info of the removed account
+	AccountInfo *AccountInfo `json:"accountInfo"`
+}
+
 type RemoveAdminPayload struct {
 	AdminID string `json:"adminID"`
+}
+
+type RemoveBgpPeerInput struct {
+	// Unique identifier of the BGP peer to be removed.
+	ID string `json:"id"`
+}
+
+type RemoveBgpPeerPayload struct {
+	// The BGP peer that was successfully removed.
+	BgpPeer *BgpPeer `json:"bgpPeer"`
+}
+
+// Input for removing a physical connection from a cloud interconnect site.
+type RemoveCloudInterconnectPhysicalConnectionInput struct {
+	// ID of the connection to be removed.
+	ID string `json:"id"`
+}
+
+// Payload for removing a physical connection from a cloud interconnect site.
+type RemoveCloudInterconnectPhysicalConnectionPayload struct {
+	// ID of the removed connection.
+	ID string `json:"id"`
+}
+
+type RemoveIpsecIkeV2SiteMultiTunnelPayload struct {
+	// Cato’s FQDN for the multi-tunnel
+	Fqdn    *string                              `json:"fqdn,omitempty"`
+	Tunnels []*RemoveIpsecIkeV2SiteTunnelPayload `json:"tunnels"`
+}
+
+type RemoveIpsecIkeV2SiteTunnelPayload struct {
+	// The local ID for the tunnel
+	LocalID *string `json:"localId,omitempty"`
+	// The ID of the tunnel
+	TunnelID *IPSecV2InterfaceID `json:"tunnelId,omitempty"`
+}
+
+type RemoveIpsecIkeV2SiteTunnelsInput struct {
+	// The IDs of the tunnels
+	TunnelID []IPSecV2InterfaceID `json:"tunnelId"`
+}
+
+type RemoveIpsecIkeV2SiteTunnelsPayload struct {
+	// Cato’s FQDN for the primary tunnel
+	Primary *RemoveIpsecIkeV2SiteMultiTunnelPayload `json:"primary,omitempty"`
+	// Cato’s FQDN for the secondary tunnel
+	Secondary *RemoveIpsecIkeV2SiteMultiTunnelPayload `json:"secondary,omitempty"`
+	// The ID of the site
+	SiteID string `json:"siteId"`
 }
 
 type RemoveNetworkRangePayload struct {
@@ -5094,6 +6305,18 @@ type SimilarStoryData struct {
 	ThreatClassification *string  `json:"threatClassification,omitempty"`
 	ThreatTypeName       *string  `json:"threatTypeName,omitempty"`
 	Verdict              *string  `json:"verdict,omitempty"`
+}
+
+type SiteBgpStatus struct {
+	// Raw BGP status information.
+	RawStatus []string `json:"rawStatus"`
+	// Detailed BGP status, including session and route details.
+	Status []*BgpDetailedStatus `json:"status"`
+}
+
+type SiteBgpStatusInput struct {
+	// Identifying data for the site whose BGP status is being queried.
+	Site *SiteRefInput `json:"site"`
 }
 
 // Basic Site configuration information
@@ -5214,21 +6437,36 @@ type SiteMetrics struct {
 }
 
 type SiteMutations struct {
-	AddIpsecIkeV2Site                  *AddIpsecIkeV2SitePayload                  `json:"addIpsecIkeV2Site,omitempty"`
-	AddIpsecIkeV2SiteTunnels           *AddIpsecIkeV2SiteTunnelsPayload           `json:"addIpsecIkeV2SiteTunnels,omitempty"`
-	AddNetworkRange                    *AddNetworkRangePayload                    `json:"addNetworkRange,omitempty"`
-	AddSocketSite                      *AddSocketSitePayload                      `json:"addSocketSite,omitempty"`
-	AddStaticHost                      *AddStaticHostPayload                      `json:"addStaticHost,omitempty"`
-	RemoveNetworkRange                 *RemoveNetworkRangePayload                 `json:"removeNetworkRange,omitempty"`
-	RemoveSite                         *RemoveSitePayload                         `json:"removeSite,omitempty"`
-	RemoveStaticHost                   *RemoveStaticHostPayload                   `json:"removeStaticHost,omitempty"`
-	UpdateHa                           *UpdateHaPayload                           `json:"updateHa,omitempty"`
-	UpdateIpsecIkeV2SiteGeneralDetails *UpdateIpsecIkeV2SiteGeneralDetailsPayload `json:"updateIpsecIkeV2SiteGeneralDetails,omitempty"`
-	UpdateIpsecIkeV2SiteTunnels        *UpdateIpsecIkeV2SiteTunnelsPayload        `json:"updateIpsecIkeV2SiteTunnels,omitempty"`
-	UpdateNetworkRange                 *UpdateNetworkRangePayload                 `json:"updateNetworkRange,omitempty"`
-	UpdateSiteGeneralDetails           *UpdateSiteGeneralDetailsPayload           `json:"updateSiteGeneralDetails,omitempty"`
-	UpdateSocketInterface              *UpdateSocketInterfacePayload              `json:"updateSocketInterface,omitempty"`
-	UpdateStaticHost                   *UpdateStaticHostPayload                   `json:"updateStaticHost,omitempty"`
+	// Adds a new BGP peer to the specified site.
+	AddBgpPeer *AddBgpPeerPayload `json:"addBgpPeer,omitempty"`
+	// Add a new physical connection to a cloud interconnect site.Either connect to a partner, or a non-supported public provider
+	AddCloudInterconnectPhysicalConnection *AddCloudInterconnectPhysicalConnectionPayload `json:"addCloudInterconnectPhysicalConnection,omitempty"`
+	// Add a new cloud interconnect site.
+	AddCloudInterconnectSite *AddCloudInterconnectSitePayload `json:"addCloudInterconnectSite,omitempty"`
+	AddIpsecIkeV2Site        *AddIpsecIkeV2SitePayload        `json:"addIpsecIkeV2Site,omitempty"`
+	AddIpsecIkeV2SiteTunnels *AddIpsecIkeV2SiteTunnelsPayload `json:"addIpsecIkeV2SiteTunnels,omitempty"`
+	AddNetworkRange          *AddNetworkRangePayload          `json:"addNetworkRange,omitempty"`
+	AddSocketSite            *AddSocketSitePayload            `json:"addSocketSite,omitempty"`
+	AddStaticHost            *AddStaticHostPayload            `json:"addStaticHost,omitempty"`
+	// Removes an existing BGP peer configuration from a site.
+	RemoveBgpPeer *RemoveBgpPeerPayload `json:"removeBgpPeer,omitempty"`
+	// Remove a physical connection from a cloud interconnect site.
+	RemoveCloudInterconnectPhysicalConnection *RemoveCloudInterconnectPhysicalConnectionPayload `json:"removeCloudInterconnectPhysicalConnection,omitempty"`
+	RemoveIpsecIkeV2SiteTunnels               *RemoveIpsecIkeV2SiteTunnelsPayload               `json:"removeIpsecIkeV2SiteTunnels,omitempty"`
+	RemoveNetworkRange                        *RemoveNetworkRangePayload                        `json:"removeNetworkRange,omitempty"`
+	RemoveSite                                *RemoveSitePayload                                `json:"removeSite,omitempty"`
+	RemoveStaticHost                          *RemoveStaticHostPayload                          `json:"removeStaticHost,omitempty"`
+	// Updates an existing BGP peer configuration.
+	UpdateBgpPeer *UpdateBgpPeerPayload `json:"updateBgpPeer,omitempty"`
+	// Update an existing physical connection at a cloud interconnect site.
+	UpdateCloudInterconnectPhysicalConnection *UpdateCloudInterconnectPhysicalConnectionPayload `json:"updateCloudInterconnectPhysicalConnection,omitempty"`
+	UpdateHa                                  *UpdateHaPayload                                  `json:"updateHa,omitempty"`
+	UpdateIpsecIkeV2SiteGeneralDetails        *UpdateIpsecIkeV2SiteGeneralDetailsPayload        `json:"updateIpsecIkeV2SiteGeneralDetails,omitempty"`
+	UpdateIpsecIkeV2SiteTunnels               *UpdateIpsecIkeV2SiteTunnelsPayload               `json:"updateIpsecIkeV2SiteTunnels,omitempty"`
+	UpdateNetworkRange                        *UpdateNetworkRangePayload                        `json:"updateNetworkRange,omitempty"`
+	UpdateSiteGeneralDetails                  *UpdateSiteGeneralDetailsPayload                  `json:"updateSiteGeneralDetails,omitempty"`
+	UpdateSocketInterface                     *UpdateSocketInterfacePayload                     `json:"updateSocketInterface,omitempty"`
+	UpdateStaticHost                          *UpdateStaticHostPayload                          `json:"updateStaticHost,omitempty"`
 }
 
 type SiteNetworkSubnetRef struct {
@@ -5247,6 +6485,21 @@ func (this SiteNetworkSubnetRef) GetName() string { return this.Name }
 type SiteNetworkSubnetRefInput struct {
 	By    ObjectRefBy `json:"by"`
 	Input string      `json:"input"`
+}
+
+type SiteQueries struct {
+	// Retrieves details of a specific BGP peer by reference.
+	BgpPeer *BgpPeer `json:"bgpPeer,omitempty"`
+	// Retrieves a list of all BGP peers associated with the specified site.
+	BgpPeerList *BgpPeerListPayload `json:"bgpPeerList,omitempty"`
+	// Check the L2 connectivity status of a cloud interconnect connection using ICMP.
+	CloudInterconnectConnectionConnectivity *CloudInterconnectConnectionConnectivity `json:"cloudInterconnectConnectionConnectivity,omitempty"`
+	// Get details of a physical connection at a cloud interconnect site.
+	CloudInterconnectPhysicalConnection *CloudInterconnectPhysicalConnection `json:"cloudInterconnectPhysicalConnection,omitempty"`
+	// Get the ID of a physical connection at a cloud interconnect site.
+	CloudInterconnectPhysicalConnectionID *CloudInterconnectPhysicalConnectionID `json:"cloudInterconnectPhysicalConnectionId,omitempty"`
+	// Provides the BGP status of the specified site, including session and route details.
+	SiteBgpStatus *SiteBgpStatus `json:"siteBgpStatus,omitempty"`
 }
 
 type SiteRef struct {
@@ -5321,8 +6574,10 @@ type SocketInterfaceAltWanInput struct {
 }
 
 type SocketInterfaceBandwidthInput struct {
-	DownstreamBandwidth int64 `json:"downstreamBandwidth"`
-	UpstreamBandwidth   int64 `json:"upstreamBandwidth"`
+	DownstreamBandwidth              *int64   `json:"downstreamBandwidth,omitempty"`
+	DownstreamBandwidthMbpsPrecision *float64 `json:"downstreamBandwidthMbpsPrecision,omitempty"`
+	UpstreamBandwidth                *int64   `json:"upstreamBandwidth,omitempty"`
+	UpstreamBandwidthMbpsPrecision   *float64 `json:"upstreamBandwidthMbpsPrecision,omitempty"`
 }
 
 type SocketInterfaceLagInput struct {
@@ -5404,6 +6659,7 @@ type SocketInventoryItem struct {
 }
 
 type SocketInventoryOrderInput struct {
+	AccountName      *SortOrderInput `json:"accountName,omitempty"`
 	DeliverySiteName *SortOrderInput `json:"deliverySiteName,omitempty"`
 	Description      *SortOrderInput `json:"description,omitempty"`
 	InstalledSite    *SortOrderInput `json:"installedSite,omitempty"`
@@ -5618,7 +6874,7 @@ type Threat struct {
 	AnalystFeedback *AnalystFeedback `json:"analystFeedback,omitempty"`
 	// Client Class for the traffic flow
 	ClientClass []string `json:"clientClass"`
-	// Enum for the connection for this incident (ie. site, host, user)
+	// Connection for this incident
 	ConnectionType *ConnectionTypeEnum `json:"connectionType,omitempty"`
 	// Cato's risk analysis of the story. Values are from 1 (low risk) to 10 (high risk)
 	Criticality *int64 `json:"criticality,omitempty"`
@@ -5652,11 +6908,11 @@ type Threat struct {
 	Mitres []*Mitre `json:"mitres,omitempty"`
 	// OS for device or host that is the threat target
 	Os *string `json:"os,omitempty"`
-	// Cato’s predicted threat type for the story
+	// Predicted threat type for the story based on Cato algorithm
 	PredictedThreatType *string `json:"predictedThreatType,omitempty"`
-	// Enum for Cato’s predicted verdict of the story (ie. Malicious, Benign)
+	// Predicted verdict of the story based on Cato algorithm
 	PredictedVerdict *StoryVerdictEnum `json:"predictedVerdict,omitempty"`
-	// Enum for the Producer (specific XDR engine and service) involved with the incident
+	// Producer (specific XDR engine and service) involved with the incident
 	Producer StoryProducerEnum `json:"producer"`
 	// Full name of the Producer (specific XDR engine and service) involved with the incident
 	ProducerName string `json:"producerName"`
@@ -5678,7 +6934,7 @@ type Threat struct {
 	SourceIP *string `json:"sourceIp,omitempty"`
 	// Cato ID for the site that is the source of the threat
 	SrcSiteID *string `json:"srcSiteId,omitempty"`
-	// Enum for the status of this story (ie. Open, Closed, Monitoring)
+	// Status of this story
 	Status *StoryStatusEnum `json:"status,omitempty"`
 	// Amount of time since the story was opened (no value for closed stories)
 	StoryDuration *int64 `json:"storyDuration,omitempty"`
@@ -5711,13 +6967,13 @@ func (this Threat) GetEngineType() *StoryEngineTypeEnum { return this.EngineType
 // Vendor that identified the incident, such as Cato or Microsoft
 func (this Threat) GetVendor() *VendorEnum { return this.Vendor }
 
-// Enum for the Producer (specific XDR engine and service) involved with the incident
+// Producer (specific XDR engine and service) involved with the incident
 func (this Threat) GetProducer() StoryProducerEnum { return this.Producer }
 
 // Full name of the Producer (specific XDR engine and service) involved with the incident
 func (this Threat) GetProducerName() string { return this.ProducerName }
 
-// Enum for the connection for this incident (ie. site, host, user)
+// Connection for the incident
 func (this Threat) GetConnectionType() *ConnectionTypeEnum { return this.ConnectionType }
 
 // An indication is a set of actions and behaviors for the Network or Security incident. Each producer has different indications.
@@ -5739,7 +6995,7 @@ func (this Threat) GetSource() *string { return this.Source }
 // The ticket an analyst created for this story
 func (this Threat) GetTicket() *string { return this.Ticket }
 
-// Enum for the status of this story (ie. Open, Closed, Monitoring)
+// Status for the story
 func (this Threat) GetStatus() *StoryStatusEnum { return this.Status }
 
 // The value is TRUE when the story is currently being researched by Security Analysts
@@ -5827,13 +7083,13 @@ func (this ThreatPrevention) GetEngineType() *StoryEngineTypeEnum { return this.
 // Vendor that identified the incident, such as Cato or Microsoft
 func (this ThreatPrevention) GetVendor() *VendorEnum { return this.Vendor }
 
-// Enum for the Producer (specific XDR engine and service) involved with the incident
+// Producer (specific XDR engine and service) involved with the incident
 func (this ThreatPrevention) GetProducer() StoryProducerEnum { return this.Producer }
 
 // Full name of the Producer (specific XDR engine and service) involved with the incident
 func (this ThreatPrevention) GetProducerName() string { return this.ProducerName }
 
-// Enum for the connection for this incident (ie. site, host, user)
+// Connection for the incident
 func (this ThreatPrevention) GetConnectionType() *ConnectionTypeEnum { return this.ConnectionType }
 
 // An indication is a set of actions and behaviors for the Network or Security incident. Each producer has different indications.
@@ -5855,7 +7111,7 @@ func (this ThreatPrevention) GetSource() *string { return this.Source }
 // The ticket an analyst created for this story
 func (this ThreatPrevention) GetTicket() *string { return this.Ticket }
 
-// Enum for the status of this story (ie. Open, Closed, Monitoring)
+// Status for the story
 func (this ThreatPrevention) GetStatus() *StoryStatusEnum { return this.Status }
 
 // The value is TRUE when the story is currently being researched by Security Analysts
@@ -5978,22 +7234,23 @@ type TimePeriod struct {
 	Type PeriodType `json:"type"`
 }
 
+// For XDR stories, items that happened during the lifetime of the story
 type TimelineItem struct {
 	// Additional information about this timeline item
 	AdditionalInfo *string `json:"additionalInfo,omitempty"`
 	// Data about the analyst for this timeline item (ie. name, email)
 	AnalystInfo *AnalystInfo `json:"analystInfo,omitempty"`
-	// Enum for the timeline category (ie. Information, Warning, Error)
+	// Icon for the timeline item
 	Category *TimelineItemCategoryEnum `json:"category,omitempty"`
-	// Status of the timeline item
+	// Brief summary of action related to the timeline item (ie. Story created, Status update to)
 	Context string `json:"context"`
-	// Timestamp the story was created
+	// Timestamp the timeline item was created
 	CreatedAt string `json:"createdAt"`
-	// Description for the story in the timeline
+	// Description of the timeline item
 	Description string `json:"description"`
-	// Description for the story in the timeline
+	// Description of the timeline item
 	Descriptions []string `json:"descriptions"`
-	// Enum for the type (ie. Diff, Action, Comment)
+	// Type of threat assigned by the analyst
 	Type TimelineTypeEnum `json:"type"`
 }
 
@@ -6023,6 +7280,11 @@ type TimeseriesKey struct {
 	MeasureFieldName string `json:"measureFieldName"`
 }
 
+type UpdateAccountInput struct {
+	// Account description
+	Description *string `json:"description,omitempty"`
+}
+
 type UpdateAccountRoleInput struct {
 	ID   string  `json:"id"`
 	Name *string `json:"name,omitempty"`
@@ -6047,13 +7309,85 @@ type UpdateAdminRoleInput struct {
 	Role            *UpdateAccountRoleInput `json:"role"`
 }
 
+type UpdateBgpPeerInput struct {
+	// Update for all route advertisements.
+	AdvertiseAllRoutes *bool `json:"advertiseAllRoutes,omitempty"`
+	// Update for default route advertisement.
+	AdvertiseDefaultRoute *bool `json:"advertiseDefaultRoute,omitempty"`
+	// Update for summary route advertisement.
+	AdvertiseSummaryRoutes *bool `json:"advertiseSummaryRoutes,omitempty"`
+	// Update to enable or disable BFD.
+	BfdEnabled *bool `json:"bfdEnabled,omitempty"`
+	// Updated BFD settings.
+	BfdSettings *BfdSettingsInput `json:"bfdSettings,omitempty"`
+	// Updated AS number of Cato's BGP endpoint.
+	CatoAsn *scalars.Asn16 `json:"catoAsn,omitempty"`
+	// Update for the default action on unmatched routes.
+	DefaultAction *BgpDefaultAction `json:"defaultAction,omitempty"`
+	// Updated hold time for the BGP session.
+	HoldTime *int64 `json:"holdTime,omitempty"`
+	// Unique identifier of the BGP peer to be updated.
+	ID string `json:"id"`
+	// Updated keepalive interval for the BGP session.
+	KeepaliveInterval *int64 `json:"keepaliveInterval,omitempty"`
+	// Updated MD5 authentication key.
+	Md5AuthKey *string `json:"md5AuthKey,omitempty"`
+	// Updated metric value for route preferences.
+	Metric *int64 `json:"metric,omitempty"`
+	// Updated name of the BGP configuration entity.
+	Name *string `json:"name,omitempty"`
+	// Updated AS number of the peer BGP endpoint.
+	PeerAsn *scalars.Asn32 `json:"peerAsn,omitempty"`
+	// Updated IP address of the peer BGP endpoint.
+	PeerIP *string `json:"peerIp,omitempty"`
+	// Update for NAT configuration.
+	PerformNat *bool `json:"performNat,omitempty"`
+	// Updated summarized routes to advertise.
+	SummaryRoute []*BgpSummaryRouteInput `json:"summaryRoute,omitempty"`
+	// Updated tracking configuration for the BGP peer.
+	Tracking *BgpTrackingInput `json:"tracking,omitempty"`
+}
+
+type UpdateBgpPeerPayload struct {
+	// The updated BGP peer object.
+	BgpPeer *BgpPeer `json:"bgpPeer"`
+}
+
+// Input for updating an existing physical connection at a cloud interconnect site.
+type UpdateCloudInterconnectPhysicalConnectionInput struct {
+	// Downstream bandwidth limit.
+	DownstreamBwLimit *string `json:"downstreamBwLimit,omitempty"`
+	// Method of encapsulation.
+	EncapsulationMethod *TaggingMethod `json:"encapsulationMethod,omitempty"`
+	// ID of the connection to be updated.
+	ID string `json:"id"`
+	// Identifying data for the POP location.
+	PopLocation *PopLocationRefInput `json:"popLocation,omitempty"`
+	// Private IP address of Cato.
+	PrivateCatoIP *string `json:"privateCatoIp,omitempty"`
+	// Private IP address of the site.
+	PrivateSiteIP *string `json:"privateSiteIp,omitempty"`
+	// Name of the service provider.
+	ServiceProviderName *string `json:"serviceProviderName,omitempty"`
+	// Subnet for the connection.
+	Subnet *string `json:"subnet,omitempty"`
+	// Upstream bandwidth limit.
+	UpstreamBwLimit *string `json:"upstreamBwLimit,omitempty"`
+}
+
+// Payload for updating an existing physical connection at a cloud interconnect site.
+type UpdateCloudInterconnectPhysicalConnectionPayload struct {
+	// ID of the updated connection.
+	ID string `json:"id"`
+}
+
 // Input for updating FQDN typed container from file
 type UpdateFqdnContainerFromFileInput struct {
 	// Description for the container
-	Description string `json:"description"`
+	Description *string `json:"description,omitempty"`
 	// Reference to existing container by container ID or container name
 	Ref *ContainerRefInput `json:"ref"`
-	// Multipart file containing FQDNs with csv/newline delimiter
+	// Multipart file containing FQDNs with fileType delimiter
 	UploadFile *graphql.Upload `json:"uploadFile,omitempty"`
 }
 
@@ -6076,10 +7410,10 @@ type UpdateHaPayload struct {
 // Input for updating existing IPAddressRange typed container from file
 type UpdateIPAddressRangeContainerFromFileInput struct {
 	// Description for the container
-	Description string `json:"description"`
+	Description *string `json:"description,omitempty"`
 	// Reference to existing container by container ID or container name
 	Ref *ContainerRefInput `json:"ref"`
-	// Multipart file containing IPAddressRanges with csv/newline delimiter
+	// Multipart file containing IPAddressRanges with fileType delimiter
 	UploadFile *graphql.Upload `json:"uploadFile,omitempty"`
 }
 
@@ -6143,6 +7477,8 @@ type UpdateIpsecIkeV2SiteTunnelsPayload struct {
 type UpdateIpsecIkeV2TunnelInput struct {
 	// The maximum allowed bandwidth for the site. If not specified, it will be set according to the site license. If the ISP provided bandwidth is below the site bandwidth, set this parameter to the ISP bandwidth or below
 	LastMileBw *LastMileBwInput `json:"lastMileBw,omitempty"`
+	// Tunnel name
+	Name *string `json:"name,omitempty"`
 	// Cato’s private IP, used for BGP routing. Applicable for sites using BGP only
 	PrivateCatoIP *string `json:"privateCatoIp,omitempty"`
 	// Site private IP, used for BGP routing. Applicable for sites using BGP only
@@ -6151,6 +7487,8 @@ type UpdateIpsecIkeV2TunnelInput struct {
 	Psk *string `json:"psk,omitempty"`
 	// The public IP address where the IPsec tunnel is initiated
 	PublicSiteIP *string `json:"publicSiteIp,omitempty"`
+	// Tunnel role
+	Role *IPSecV2TunnelRole `json:"role,omitempty"`
 	// The ID of the tunnel
 	TunnelID IPSecV2InterfaceID `json:"tunnelId"`
 }
@@ -6366,6 +7704,10 @@ type WanFirewallAddRuleDataInput struct {
 	// Logical ‘OR’ is applied within the criteria set.
 	// Logical ‘AND’ is applied between criteria sets.
 	Device []*DeviceProfileRefInput `json:"device"`
+	// Additional device attributes such as category, type, model, and manufacturer.
+	// Logical 'OR' is applied within the criteria set.
+	// Logical 'AND' is applied between criteria sets.
+	DeviceAttributes *DeviceAttributesInput `json:"deviceAttributes"`
 	// Source device Operating System traffic matching criteria.
 	// Logical ‘OR’ is applied within the criteria set.
 	// Logical ‘AND’ is applied between criteria sets.
@@ -6728,6 +8070,10 @@ type WanFirewallRule struct {
 	// Logical ‘OR’ is applied within the criteria set.
 	// Logical ‘AND’ is applied between criteria sets.
 	Device []*DeviceProfileRef `json:"device"`
+	// Additional device attributes such as category, type, model, and manufacturer.
+	// Logical 'OR' is applied within the criteria set.
+	// Logical 'AND' is applied between criteria sets.
+	DeviceAttributes *DeviceAttributes `json:"deviceAttributes"`
 	// Source device Operating System traffic matching criteria.
 	// Logical ‘OR’ is applied within the criteria set.
 	// Logical ‘AND’ is applied between criteria sets.
@@ -6793,6 +8139,8 @@ type WanFirewallRuleException struct {
 	Destination *WanFirewallDestination `json:"destination"`
 	// Source Device Profile matching criteria for the exception.
 	Device []*DeviceProfileRef `json:"device"`
+	// Source Device Attributes matching criteria for the exception.
+	DeviceAttributes *DeviceAttributes `json:"deviceAttributes"`
 	// Source device OS matching criteria for the exception.
 	DeviceOs []OperatingSystem `json:"deviceOS"`
 	// Direction origin matching criteria for the exception
@@ -6817,6 +8165,8 @@ type WanFirewallRuleExceptionInput struct {
 	Destination *WanFirewallDestinationInput `json:"destination"`
 	// Source Device Profile matching criteria for the exception.
 	Device []*DeviceProfileRefInput `json:"device"`
+	// Source Device Attributes matching criteria for the exception.
+	DeviceAttributes *DeviceAttributesInput `json:"deviceAttributes"`
 	// Source device OS matching criteria for the exception.
 	DeviceOs []OperatingSystem `json:"deviceOS"`
 	// Direction origin matching criteria for the exception
@@ -7016,6 +8366,10 @@ type WanFirewallUpdateRuleDataInput struct {
 	// Logical ‘OR’ is applied within the criteria set.
 	// Logical ‘AND’ is applied between criteria sets.
 	Device []*DeviceProfileRefInput `json:"device,omitempty"`
+	// Additional device attributes such as category, type, model, and manufacturer.
+	// Logical 'OR' is applied within the criteria set.
+	// Logical 'AND' is applied between criteria sets.
+	DeviceAttributes *DeviceAttributesUpdateInput `json:"deviceAttributes,omitempty"`
 	// Source device Operating System traffic matching criteria.
 	// Logical ‘OR’ is applied within the criteria set.
 	// Logical ‘AND’ is applied between criteria sets.
@@ -7178,6 +8532,94 @@ type ZtnaUsersLicenseAllocations struct {
 	Total int64 `json:"total"`
 }
 
+// enum for account type
+type AccountProfileType string
+
+const (
+	// A customer account
+	AccountProfileTypeCustomer AccountProfileType = "CUSTOMER"
+	// A partner account
+	AccountProfileTypePartner AccountProfileType = "PARTNER"
+)
+
+var AllAccountProfileType = []AccountProfileType{
+	AccountProfileTypeCustomer,
+	AccountProfileTypePartner,
+}
+
+func (e AccountProfileType) IsValid() bool {
+	switch e {
+	case AccountProfileTypeCustomer, AccountProfileTypePartner:
+		return true
+	}
+	return false
+}
+
+func (e AccountProfileType) String() string {
+	return string(e)
+}
+
+func (e *AccountProfileType) UnmarshalGQL(v any) error {
+	str, ok := v.(string)
+	if !ok {
+		return fmt.Errorf("enums must be strings")
+	}
+
+	*e = AccountProfileType(str)
+	if !e.IsValid() {
+		return fmt.Errorf("%s is not a valid AccountProfileType", str)
+	}
+	return nil
+}
+
+func (e AccountProfileType) MarshalGQL(w io.Writer) {
+	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+// enum for account tenancy
+type AccountTenancy string
+
+const (
+	// Multi tenant account - default for partner accounts
+	AccountTenancyMultiTenant AccountTenancy = "MULTI_TENANT"
+	// Single tenant account - default for customer accounts
+	AccountTenancySingleTenant AccountTenancy = "SINGLE_TENANT"
+)
+
+var AllAccountTenancy = []AccountTenancy{
+	AccountTenancyMultiTenant,
+	AccountTenancySingleTenant,
+}
+
+func (e AccountTenancy) IsValid() bool {
+	switch e {
+	case AccountTenancyMultiTenant, AccountTenancySingleTenant:
+		return true
+	}
+	return false
+}
+
+func (e AccountTenancy) String() string {
+	return string(e)
+}
+
+func (e *AccountTenancy) UnmarshalGQL(v any) error {
+	str, ok := v.(string)
+	if !ok {
+		return fmt.Errorf("enums must be strings")
+	}
+
+	*e = AccountTenancy(str)
+	if !e.IsValid() {
+		return fmt.Errorf("%s is not a valid AccountTenancy", str)
+	}
+	return nil
+}
+
+func (e AccountTenancy) MarshalGQL(w io.Writer) {
+	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
 type AccountType string
 
 const (
@@ -7206,7 +8648,7 @@ func (e AccountType) String() string {
 	return string(e)
 }
 
-func (e *AccountType) UnmarshalGQL(v interface{}) error {
+func (e *AccountType) UnmarshalGQL(v any) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -7263,7 +8705,7 @@ func (e AggregationType) String() string {
 	return string(e)
 }
 
-func (e *AggregationType) UnmarshalGQL(v interface{}) error {
+func (e *AggregationType) UnmarshalGQL(v any) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -7306,7 +8748,7 @@ func (e AlertClassificationEnum) String() string {
 	return string(e)
 }
 
-func (e *AlertClassificationEnum) UnmarshalGQL(v interface{}) error {
+func (e *AlertClassificationEnum) UnmarshalGQL(v any) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -7371,7 +8813,7 @@ func (e AlertDeterminationEnum) String() string {
 	return string(e)
 }
 
-func (e *AlertDeterminationEnum) UnmarshalGQL(v interface{}) error {
+func (e *AlertDeterminationEnum) UnmarshalGQL(v any) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -7420,7 +8862,7 @@ func (e AnnotationType) String() string {
 	return string(e)
 }
 
-func (e *AnnotationType) UnmarshalGQL(v interface{}) error {
+func (e *AnnotationType) UnmarshalGQL(v any) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -7463,7 +8905,7 @@ func (e ApnMethod) String() string {
 	return string(e)
 }
 
-func (e *ApnMethod) UnmarshalGQL(v interface{}) error {
+func (e *ApnMethod) UnmarshalGQL(v any) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -7602,7 +9044,7 @@ func (e AppStatsFieldName) String() string {
 	return string(e)
 }
 
-func (e *AppStatsFieldName) UnmarshalGQL(v interface{}) error {
+func (e *AppStatsFieldName) UnmarshalGQL(v any) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -7616,6 +9058,97 @@ func (e *AppStatsFieldName) UnmarshalGQL(v interface{}) error {
 }
 
 func (e AppStatsFieldName) MarshalGQL(w io.Writer) {
+	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+// Allowed actions
+type AppTenantRestrictionActionEnum string
+
+const (
+	// Do not inject any Headers nor Values for outgoing traffic
+	AppTenantRestrictionActionEnumBypass AppTenantRestrictionActionEnum = "BYPASS"
+	// Inject Headers and Values for outgoing traffic
+	AppTenantRestrictionActionEnumInjectHeaders AppTenantRestrictionActionEnum = "INJECT_HEADERS"
+)
+
+var AllAppTenantRestrictionActionEnum = []AppTenantRestrictionActionEnum{
+	AppTenantRestrictionActionEnumBypass,
+	AppTenantRestrictionActionEnumInjectHeaders,
+}
+
+func (e AppTenantRestrictionActionEnum) IsValid() bool {
+	switch e {
+	case AppTenantRestrictionActionEnumBypass, AppTenantRestrictionActionEnumInjectHeaders:
+		return true
+	}
+	return false
+}
+
+func (e AppTenantRestrictionActionEnum) String() string {
+	return string(e)
+}
+
+func (e *AppTenantRestrictionActionEnum) UnmarshalGQL(v any) error {
+	str, ok := v.(string)
+	if !ok {
+		return fmt.Errorf("enums must be strings")
+	}
+
+	*e = AppTenantRestrictionActionEnum(str)
+	if !e.IsValid() {
+		return fmt.Errorf("%s is not a valid AppTenantRestrictionActionEnum", str)
+	}
+	return nil
+}
+
+func (e AppTenantRestrictionActionEnum) MarshalGQL(w io.Writer) {
+	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+// Severity options
+type AppTenantRestrictionSeverityEnum string
+
+const (
+	// High severity
+	AppTenantRestrictionSeverityEnumHigh AppTenantRestrictionSeverityEnum = "HIGH"
+	// Low severity
+	AppTenantRestrictionSeverityEnumLow AppTenantRestrictionSeverityEnum = "LOW"
+	// Medium severity
+	AppTenantRestrictionSeverityEnumMedium AppTenantRestrictionSeverityEnum = "MEDIUM"
+)
+
+var AllAppTenantRestrictionSeverityEnum = []AppTenantRestrictionSeverityEnum{
+	AppTenantRestrictionSeverityEnumHigh,
+	AppTenantRestrictionSeverityEnumLow,
+	AppTenantRestrictionSeverityEnumMedium,
+}
+
+func (e AppTenantRestrictionSeverityEnum) IsValid() bool {
+	switch e {
+	case AppTenantRestrictionSeverityEnumHigh, AppTenantRestrictionSeverityEnumLow, AppTenantRestrictionSeverityEnumMedium:
+		return true
+	}
+	return false
+}
+
+func (e AppTenantRestrictionSeverityEnum) String() string {
+	return string(e)
+}
+
+func (e *AppTenantRestrictionSeverityEnum) UnmarshalGQL(v any) error {
+	str, ok := v.(string)
+	if !ok {
+		return fmt.Errorf("enums must be strings")
+	}
+
+	*e = AppTenantRestrictionSeverityEnum(str)
+	if !e.IsValid() {
+		return fmt.Errorf("%s is not a valid AppTenantRestrictionSeverityEnum", str)
+	}
+	return nil
+}
+
+func (e AppTenantRestrictionSeverityEnum) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
@@ -7674,7 +9207,7 @@ func (e AuditFieldName) String() string {
 	return string(e)
 }
 
-func (e *AuditFieldName) UnmarshalGQL(v interface{}) error {
+func (e *AuditFieldName) UnmarshalGQL(v any) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -7688,6 +9221,49 @@ func (e *AuditFieldName) UnmarshalGQL(v interface{}) error {
 }
 
 func (e AuditFieldName) MarshalGQL(w io.Writer) {
+	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+type BgpDefaultAction string
+
+const (
+	// Default action to accept all unmatched routes.
+	BgpDefaultActionAccept BgpDefaultAction = "ACCEPT"
+	// Default action to drop all unmatched routes.
+	BgpDefaultActionDrop BgpDefaultAction = "DROP"
+)
+
+var AllBgpDefaultAction = []BgpDefaultAction{
+	BgpDefaultActionAccept,
+	BgpDefaultActionDrop,
+}
+
+func (e BgpDefaultAction) IsValid() bool {
+	switch e {
+	case BgpDefaultActionAccept, BgpDefaultActionDrop:
+		return true
+	}
+	return false
+}
+
+func (e BgpDefaultAction) String() string {
+	return string(e)
+}
+
+func (e *BgpDefaultAction) UnmarshalGQL(v any) error {
+	str, ok := v.(string)
+	if !ok {
+		return fmt.Errorf("enums must be strings")
+	}
+
+	*e = BgpDefaultAction(str)
+	if !e.IsValid() {
+		return fmt.Errorf("%s is not a valid BgpDefaultAction", str)
+	}
+	return nil
+}
+
+func (e BgpDefaultAction) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
@@ -7715,7 +9291,7 @@ func (e CatoEndpointEngineType) String() string {
 	return string(e)
 }
 
-func (e *CatoEndpointEngineType) UnmarshalGQL(v interface{}) error {
+func (e *CatoEndpointEngineType) UnmarshalGQL(v any) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -7756,7 +9332,7 @@ func (e CellularDisconnectionReason) String() string {
 	return string(e)
 }
 
-func (e *CellularDisconnectionReason) UnmarshalGQL(v interface{}) error {
+func (e *CellularDisconnectionReason) UnmarshalGQL(v any) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -7799,7 +9375,7 @@ func (e CellularModemStatus) String() string {
 	return string(e)
 }
 
-func (e *CellularModemStatus) UnmarshalGQL(v interface{}) error {
+func (e *CellularModemStatus) UnmarshalGQL(v any) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -7844,7 +9420,7 @@ func (e CellularNetworkType) String() string {
 	return string(e)
 }
 
-func (e *CellularNetworkType) UnmarshalGQL(v interface{}) error {
+func (e *CellularNetworkType) UnmarshalGQL(v any) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -7885,7 +9461,7 @@ func (e ConnectionMode) String() string {
 	return string(e)
 }
 
-func (e *ConnectionMode) UnmarshalGQL(v interface{}) error {
+func (e *ConnectionMode) UnmarshalGQL(v any) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -7928,7 +9504,7 @@ func (e ConnectionOriginEnum) String() string {
 	return string(e)
 }
 
-func (e *ConnectionOriginEnum) UnmarshalGQL(v interface{}) error {
+func (e *ConnectionOriginEnum) UnmarshalGQL(v any) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -7971,7 +9547,7 @@ func (e ConnectionTypeEnum) String() string {
 	return string(e)
 }
 
-func (e *ConnectionTypeEnum) UnmarshalGQL(v interface{}) error {
+func (e *ConnectionTypeEnum) UnmarshalGQL(v any) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -8014,7 +9590,7 @@ func (e ConnectivityStatus) String() string {
 	return string(e)
 }
 
-func (e *ConnectivityStatus) UnmarshalGQL(v interface{}) error {
+func (e *ConnectivityStatus) UnmarshalGQL(v any) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -8055,7 +9631,7 @@ func (e ContainerType) String() string {
 	return string(e)
 }
 
-func (e *ContainerType) UnmarshalGQL(v interface{}) error {
+func (e *ContainerType) UnmarshalGQL(v any) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -8106,7 +9682,7 @@ func (e DayOfWeek) String() string {
 	return string(e)
 }
 
-func (e *DayOfWeek) UnmarshalGQL(v interface{}) error {
+func (e *DayOfWeek) UnmarshalGQL(v any) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -8147,7 +9723,7 @@ func (e DestinationType) String() string {
 	return string(e)
 }
 
-func (e *DestinationType) UnmarshalGQL(v interface{}) error {
+func (e *DestinationType) UnmarshalGQL(v any) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -8171,14 +9747,14 @@ const (
 	DetectionSourceEnumAppGovernanceDetection        DetectionSourceEnum = "APP_GOVERNANCE_DETECTION"
 	DetectionSourceEnumAppGovernancePolicy           DetectionSourceEnum = "APP_GOVERNANCE_POLICY"
 	DetectionSourceEnumAutomatedInvestigation        DetectionSourceEnum = "AUTOMATED_INVESTIGATION"
-	DetectionSourceEnumAzureAdIDEntityProtection     DetectionSourceEnum = "AZURE_AD_IDENTITY_PROTECTION"
+	DetectionSourceEnumAzureAdIdentityProtection     DetectionSourceEnum = "AZURE_AD_IDENTITY_PROTECTION"
 	DetectionSourceEnumCloudAppSecurity              DetectionSourceEnum = "CLOUD_APP_SECURITY"
 	DetectionSourceEnumCustomDetection               DetectionSourceEnum = "CUSTOM_DETECTION"
 	DetectionSourceEnumCustomTi                      DetectionSourceEnum = "CUSTOM_TI"
 	DetectionSourceEnumManual                        DetectionSourceEnum = "MANUAL"
 	DetectionSourceEnumMicrosoftDataLossPrevention   DetectionSourceEnum = "MICROSOFT_DATA_LOSS_PREVENTION"
 	DetectionSourceEnumMicrosoftDefenderForEndpoint  DetectionSourceEnum = "MICROSOFT_DEFENDER_FOR_ENDPOINT"
-	DetectionSourceEnumMicrosoftDefenderForIDEntity  DetectionSourceEnum = "MICROSOFT_DEFENDER_FOR_IDENTITY"
+	DetectionSourceEnumMicrosoftDefenderForIdentity  DetectionSourceEnum = "MICROSOFT_DEFENDER_FOR_IDENTITY"
 	DetectionSourceEnumMicrosoftDefenderForOffice365 DetectionSourceEnum = "MICROSOFT_DEFENDER_FOR_OFFICE365"
 	DetectionSourceEnumMicrosoftThreatExperts        DetectionSourceEnum = "MICROSOFT_THREAT_EXPERTS"
 	DetectionSourceEnumMicrosoft365Defender          DetectionSourceEnum = "MICROSOFT365_DEFENDER"
@@ -8190,14 +9766,14 @@ var AllDetectionSourceEnum = []DetectionSourceEnum{
 	DetectionSourceEnumAppGovernanceDetection,
 	DetectionSourceEnumAppGovernancePolicy,
 	DetectionSourceEnumAutomatedInvestigation,
-	DetectionSourceEnumAzureAdIDEntityProtection,
+	DetectionSourceEnumAzureAdIdentityProtection,
 	DetectionSourceEnumCloudAppSecurity,
 	DetectionSourceEnumCustomDetection,
 	DetectionSourceEnumCustomTi,
 	DetectionSourceEnumManual,
 	DetectionSourceEnumMicrosoftDataLossPrevention,
 	DetectionSourceEnumMicrosoftDefenderForEndpoint,
-	DetectionSourceEnumMicrosoftDefenderForIDEntity,
+	DetectionSourceEnumMicrosoftDefenderForIdentity,
 	DetectionSourceEnumMicrosoftDefenderForOffice365,
 	DetectionSourceEnumMicrosoftThreatExperts,
 	DetectionSourceEnumMicrosoft365Defender,
@@ -8206,7 +9782,7 @@ var AllDetectionSourceEnum = []DetectionSourceEnum{
 
 func (e DetectionSourceEnum) IsValid() bool {
 	switch e {
-	case DetectionSourceEnumAntivirus, DetectionSourceEnumAppGovernanceDetection, DetectionSourceEnumAppGovernancePolicy, DetectionSourceEnumAutomatedInvestigation, DetectionSourceEnumAzureAdIDEntityProtection, DetectionSourceEnumCloudAppSecurity, DetectionSourceEnumCustomDetection, DetectionSourceEnumCustomTi, DetectionSourceEnumManual, DetectionSourceEnumMicrosoftDataLossPrevention, DetectionSourceEnumMicrosoftDefenderForEndpoint, DetectionSourceEnumMicrosoftDefenderForIDEntity, DetectionSourceEnumMicrosoftDefenderForOffice365, DetectionSourceEnumMicrosoftThreatExperts, DetectionSourceEnumMicrosoft365Defender, DetectionSourceEnumSmartScreen:
+	case DetectionSourceEnumAntivirus, DetectionSourceEnumAppGovernanceDetection, DetectionSourceEnumAppGovernancePolicy, DetectionSourceEnumAutomatedInvestigation, DetectionSourceEnumAzureAdIdentityProtection, DetectionSourceEnumCloudAppSecurity, DetectionSourceEnumCustomDetection, DetectionSourceEnumCustomTi, DetectionSourceEnumManual, DetectionSourceEnumMicrosoftDataLossPrevention, DetectionSourceEnumMicrosoftDefenderForEndpoint, DetectionSourceEnumMicrosoftDefenderForIdentity, DetectionSourceEnumMicrosoftDefenderForOffice365, DetectionSourceEnumMicrosoftThreatExperts, DetectionSourceEnumMicrosoft365Defender, DetectionSourceEnumSmartScreen:
 		return true
 	}
 	return false
@@ -8216,7 +9792,7 @@ func (e DetectionSourceEnum) String() string {
 	return string(e)
 }
 
-func (e *DetectionSourceEnum) UnmarshalGQL(v interface{}) error {
+func (e *DetectionSourceEnum) UnmarshalGQL(v any) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -8259,7 +9835,7 @@ func (e DetectionStatusEnum) String() string {
 	return string(e)
 }
 
-func (e *DetectionStatusEnum) UnmarshalGQL(v interface{}) error {
+func (e *DetectionStatusEnum) UnmarshalGQL(v any) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -8304,7 +9880,7 @@ func (e DeviceAvStatusEnum) String() string {
 	return string(e)
 }
 
-func (e *DeviceAvStatusEnum) UnmarshalGQL(v interface{}) error {
+func (e *DeviceAvStatusEnum) UnmarshalGQL(v any) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -8345,7 +9921,7 @@ func (e DeviceConfigHaRoleEnum) String() string {
 	return string(e)
 }
 
-func (e *DeviceConfigHaRoleEnum) UnmarshalGQL(v interface{}) error {
+func (e *DeviceConfigHaRoleEnum) UnmarshalGQL(v any) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -8386,7 +9962,7 @@ func (e DeviceHaRoleStateEnum) String() string {
 	return string(e)
 }
 
-func (e *DeviceHaRoleStateEnum) UnmarshalGQL(v interface{}) error {
+func (e *DeviceHaRoleStateEnum) UnmarshalGQL(v any) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -8433,7 +10009,7 @@ func (e DeviceHealthStatusEnum) String() string {
 	return string(e)
 }
 
-func (e *DeviceHealthStatusEnum) UnmarshalGQL(v interface{}) error {
+func (e *DeviceHealthStatusEnum) UnmarshalGQL(v any) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -8478,7 +10054,7 @@ func (e DhcpType) String() string {
 	return string(e)
 }
 
-func (e *DhcpType) UnmarshalGQL(v interface{}) error {
+func (e *DhcpType) UnmarshalGQL(v any) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -8519,7 +10095,7 @@ func (e DirectionEnum) String() string {
 	return string(e)
 }
 
-func (e *DirectionEnum) UnmarshalGQL(v interface{}) error {
+func (e *DirectionEnum) UnmarshalGQL(v any) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -8560,7 +10136,7 @@ func (e DirectionInput) String() string {
 	return string(e)
 }
 
-func (e *DirectionInput) UnmarshalGQL(v interface{}) error {
+func (e *DirectionInput) UnmarshalGQL(v any) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -8604,7 +10180,7 @@ func (e DpaVersion) String() string {
 	return string(e)
 }
 
-func (e *DpaVersion) UnmarshalGQL(v interface{}) error {
+func (e *DpaVersion) UnmarshalGQL(v any) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -8659,7 +10235,7 @@ func (e ElasticOperator) String() string {
 	return string(e)
 }
 
-func (e *ElasticOperator) UnmarshalGQL(v interface{}) error {
+func (e *ElasticOperator) UnmarshalGQL(v any) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -8764,7 +10340,7 @@ func (e EntityType) String() string {
 	return string(e)
 }
 
-func (e *EntityType) UnmarshalGQL(v interface{}) error {
+func (e *EntityType) UnmarshalGQL(v any) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -8807,7 +10383,7 @@ func (e EventFeedFilterFieldName) String() string {
 	return string(e)
 }
 
-func (e *EventFeedFilterFieldName) UnmarshalGQL(v interface{}) error {
+func (e *EventFeedFilterFieldName) UnmarshalGQL(v any) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -8853,7 +10429,7 @@ func (e EventFeedFilterOperator) String() string {
 	return string(e)
 }
 
-func (e *EventFeedFilterOperator) UnmarshalGQL(v interface{}) error {
+func (e *EventFeedFilterOperator) UnmarshalGQL(v any) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -9039,6 +10615,8 @@ const (
 	EventFieldNameEmailSubject EventFieldName = "email_subject"
 	// Count for events that are repeated multiple times during one minute
 	EventFieldNameEventCount EventFieldName = "event_count"
+	// Event Id
+	EventFieldNameEventID EventFieldName = "event_id"
 	// Cato's description of the event
 	EventFieldNameEventMessage EventFieldName = "event_message"
 	// Sub-type for Routing, Security, Connectivity, System or Sockets Management event
@@ -9087,6 +10665,8 @@ const (
 	EventFieldNameIsManaged EventFieldName = "is_managed"
 	// Is the app for this event defined as a sanctioned app? (True/False)
 	EventFieldNameIsSanctionedApp EventFieldName = "is_sanctioned_app"
+	// If the events was part of the sinkhole flow
+	EventFieldNameIsSinkhole EventFieldName = "is_sinkhole"
 	// The ISP related to this event (when the IP address isn't provided by the ISP, then the event message is IP Addresses are assigned statically)
 	EventFieldNameIspName EventFieldName = "ISP_name"
 	// Name defined for the public API Key in the Cato Management Application
@@ -9227,6 +10807,8 @@ const (
 	EventFieldNameTenantID EventFieldName = "tenant_id"
 	// Tenant Name
 	EventFieldNameTenantName EventFieldName = "tenant_name"
+	// Tenant Restriction Rule Name
+	EventFieldNameTenantRestrictionRuleName EventFieldName = "tenant_restriction_rule_name"
 	// For anti-malware events, malware name For IPS events, explains the reason why the traffic was blocked
 	EventFieldNameThreatName EventFieldName = "threat_name"
 	// Link to external malware reference
@@ -9388,6 +10970,7 @@ var AllEventFieldName = []EventFieldName{
 	EventFieldNameEgressSiteName,
 	EventFieldNameEmailSubject,
 	EventFieldNameEventCount,
+	EventFieldNameEventID,
 	EventFieldNameEventMessage,
 	EventFieldNameEventSubType,
 	EventFieldNameEventType,
@@ -9413,6 +10996,7 @@ var AllEventFieldName = []EventFieldName{
 	EventFieldNameIsCompliant,
 	EventFieldNameIsManaged,
 	EventFieldNameIsSanctionedApp,
+	EventFieldNameIsSinkhole,
 	EventFieldNameIspName,
 	EventFieldNameKeyName,
 	EventFieldNameLinkHealthIsCongested,
@@ -9488,6 +11072,7 @@ var AllEventFieldName = []EventFieldName{
 	EventFieldNameTCPAcceleration,
 	EventFieldNameTenantID,
 	EventFieldNameTenantName,
+	EventFieldNameTenantRestrictionRuleName,
 	EventFieldNameThreatName,
 	EventFieldNameThreatReference,
 	EventFieldNameThreatType,
@@ -9530,7 +11115,7 @@ var AllEventFieldName = []EventFieldName{
 
 func (e EventFieldName) IsValid() bool {
 	switch e {
-	case EventFieldNameAccessMethod, EventFieldNameAccountID, EventFieldNameAction, EventFieldNameAdName, EventFieldNameAlertID, EventFieldNameAlwaysOnConfiguration, EventFieldNameAnalystVerdict, EventFieldNameAPIName, EventFieldNameAPIType, EventFieldNameAppActivity, EventFieldNameAppActivityCategory, EventFieldNameAppActivityType, EventFieldNameAppStack, EventFieldNameApplication, EventFieldNameApplicationID, EventFieldNameApplicationName, EventFieldNameApplicationRisk, EventFieldNameAuthMethod, EventFieldNameAuthenticationType, EventFieldNameBgpCatoAsn, EventFieldNameBgpCatoIP, EventFieldNameBgpErrorCode, EventFieldNameBgpPeerAsn, EventFieldNameBgpPeerDescription, EventFieldNameBgpPeerIP, EventFieldNameBgpRouteCidr, EventFieldNameBgpSuberrorCode, EventFieldNameBypassDurationSec, EventFieldNameBypassMethod, EventFieldNameBypassReason, EventFieldNameCategories, EventFieldNameCatoApp, EventFieldNameClassification, EventFieldNameClientCertExpires, EventFieldNameClientCertName, EventFieldNameClientClass, EventFieldNameClientVersion, EventFieldNameCollaboratorName, EventFieldNameCollaborators, EventFieldNameConfidenceLevel, EventFieldNameConfiguredHostName, EventFieldNameCongestionAlgorithm, EventFieldNameConnectOnBoot, EventFieldNameConnectorName, EventFieldNameConnectorStatus, EventFieldNameConnectorType, EventFieldNameCriticality, EventFieldNameCustomCategories, EventFieldNameCustomCategory, EventFieldNameCustomCategoryID, EventFieldNameCustomCategoryName, EventFieldNameDestCountry, EventFieldNameDestCountryCode, EventFieldNameDestGroupID, EventFieldNameDestGroupName, EventFieldNameDestIP, EventFieldNameDestIsSiteOrVpn, EventFieldNameDestPort, EventFieldNameDestSite, EventFieldNameDestSiteID, EventFieldNameDestSiteName, EventFieldNameDeviceCategories, EventFieldNameDeviceCertificate, EventFieldNameDeviceID, EventFieldNameDeviceManufacturer, EventFieldNameDeviceModel, EventFieldNameDeviceName, EventFieldNameDeviceOsType, EventFieldNameDevicePostureProfile, EventFieldNameDevicePostureProfiles, EventFieldNameDeviceType, EventFieldNameDirectoryHostName, EventFieldNameDirectoryIP, EventFieldNameDirectorySyncResult, EventFieldNameDirectorySyncType, EventFieldNameDlpFailMode, EventFieldNameDlpProfiles, EventFieldNameDlpScanTypes, EventFieldNameDNSProtectionCategory, EventFieldNameDNSQuery, EventFieldNameDomainName, EventFieldNameEgressPopName, EventFieldNameEgressSiteName, EventFieldNameEmailSubject, EventFieldNameEventCount, EventFieldNameEventMessage, EventFieldNameEventSubType, EventFieldNameEventType, EventFieldNameFailureReason, EventFieldNameFileHash, EventFieldNameFileName, EventFieldNameFileSize, EventFieldNameFileType, EventFieldNameFinalObjectStatus, EventFieldNameFlowsCardinality, EventFieldNameFullPathURL, EventFieldNameHostIP, EventFieldNameHostMac, EventFieldNameHTTPRequestMethod, EventFieldNameIncidentAggregation, EventFieldNameIncidentID, EventFieldNameIndication, EventFieldNameIndicator, EventFieldNameInternalID, EventFieldNameIPProtocol, EventFieldNameIsAdmin, EventFieldNameIsAdminActivity, EventFieldNameIsCompliant, EventFieldNameIsManaged, EventFieldNameIsSanctionedApp, EventFieldNameIspName, EventFieldNameKeyName, EventFieldNameLinkHealthIsCongested, EventFieldNameLinkHealthJitter, EventFieldNameLinkHealthLatency, EventFieldNameLinkHealthPktLoss, EventFieldNameLinkType, EventFieldNameLoggedInUser, EventFieldNameLoginType, EventFieldNameMatchedDataTypes, EventFieldNameMitreAttackSubtechniques, EventFieldNameMitreAttackTactics, EventFieldNameMitreAttackTechniques, EventFieldNameNetworkAccess, EventFieldNameNetworkRule, EventFieldNameNotificationAPIError, EventFieldNameNotificationDescription, EventFieldNameObjectID, EventFieldNameObjectName, EventFieldNameObjectType, EventFieldNameOfficeMode, EventFieldNameOsType, EventFieldNameOsVersion, EventFieldNameOutOfBandAccess, EventFieldNameOwner, EventFieldNamePacFile, EventFieldNameParentConnectorName, EventFieldNameParentPid, EventFieldNamePid, EventFieldNamePopName, EventFieldNameProcessPath, EventFieldNameProducer, EventFieldNamePromptAction, EventFieldNamePublicIP, EventFieldNameQosPriority, EventFieldNameQosReportedTime, EventFieldNameQuarantineFolderPath, EventFieldNameRawData, EventFieldNameRecommendedActions, EventFieldNameReferenceURL, EventFieldNameRegistrationCode, EventFieldNameRiskLevel, EventFieldNameRule, EventFieldNameRuleID, EventFieldNameRuleName, EventFieldNameSeverity, EventFieldNameSharingScope, EventFieldNameSignInEventTypes, EventFieldNameSignatureID, EventFieldNameSocketInterface, EventFieldNameSocketInterfaceID, EventFieldNameSocketNewVersion, EventFieldNameSocketOldVersion, EventFieldNameSocketReset, EventFieldNameSocketRole, EventFieldNameSocketVersion, EventFieldNameSplitTunnelConfiguration, EventFieldNameSrcCountry, EventFieldNameSrcCountryCode, EventFieldNameSrcIP, EventFieldNameSrcIsSiteOrVpn, EventFieldNameSrcIspIP, EventFieldNameSrcOrDestSiteID, EventFieldNameSrcPort, EventFieldNameSrcSite, EventFieldNameSrcSiteID, EventFieldNameSrcSiteName, EventFieldNameStaticHost, EventFieldNameStatus, EventFieldNameStoryID, EventFieldNameSubnetName, EventFieldNameTargetsCardinality, EventFieldNameTCPAcceleration, EventFieldNameTenantID, EventFieldNameTenantName, EventFieldNameThreatName, EventFieldNameThreatReference, EventFieldNameThreatType, EventFieldNameThreatVerdict, EventFieldNameTime, EventFieldNameTitle, EventFieldNameTLSCertificateError, EventFieldNameTLSErrorDescription, EventFieldNameTLSErrorType, EventFieldNameTLSInspection, EventFieldNameTLSRuleName, EventFieldNameTLSVersion, EventFieldNameTrafficDirection, EventFieldNameTrigger, EventFieldNameTrustType, EventFieldNameTrustedNetworks, EventFieldNameTunnelIPProtocol, EventFieldNameTunnelProtocol, EventFieldNameUpgradeEndTime, EventFieldNameUpgradeInitiatedBy, EventFieldNameUpgradeStartTime, EventFieldNameURL, EventFieldNameUserAgent, EventFieldNameUserAwarenessMethod, EventFieldNameUserID, EventFieldNameUserName, EventFieldNameUserReferenceID, EventFieldNameVendor, EventFieldNameVendorCollaboratorID, EventFieldNameVendorDeviceID, EventFieldNameVendorDeviceName, EventFieldNameVendorEventID, EventFieldNameVendorUserID, EventFieldNameVisibleDeviceID, EventFieldNameVpnLanAccess, EventFieldNameVpnUserEmail, EventFieldNameWindowsDomainName, EventFieldNameXff:
+	case EventFieldNameAccessMethod, EventFieldNameAccountID, EventFieldNameAction, EventFieldNameAdName, EventFieldNameAlertID, EventFieldNameAlwaysOnConfiguration, EventFieldNameAnalystVerdict, EventFieldNameAPIName, EventFieldNameAPIType, EventFieldNameAppActivity, EventFieldNameAppActivityCategory, EventFieldNameAppActivityType, EventFieldNameAppStack, EventFieldNameApplication, EventFieldNameApplicationID, EventFieldNameApplicationName, EventFieldNameApplicationRisk, EventFieldNameAuthMethod, EventFieldNameAuthenticationType, EventFieldNameBgpCatoAsn, EventFieldNameBgpCatoIP, EventFieldNameBgpErrorCode, EventFieldNameBgpPeerAsn, EventFieldNameBgpPeerDescription, EventFieldNameBgpPeerIP, EventFieldNameBgpRouteCidr, EventFieldNameBgpSuberrorCode, EventFieldNameBypassDurationSec, EventFieldNameBypassMethod, EventFieldNameBypassReason, EventFieldNameCategories, EventFieldNameCatoApp, EventFieldNameClassification, EventFieldNameClientCertExpires, EventFieldNameClientCertName, EventFieldNameClientClass, EventFieldNameClientVersion, EventFieldNameCollaboratorName, EventFieldNameCollaborators, EventFieldNameConfidenceLevel, EventFieldNameConfiguredHostName, EventFieldNameCongestionAlgorithm, EventFieldNameConnectOnBoot, EventFieldNameConnectorName, EventFieldNameConnectorStatus, EventFieldNameConnectorType, EventFieldNameCriticality, EventFieldNameCustomCategories, EventFieldNameCustomCategory, EventFieldNameCustomCategoryID, EventFieldNameCustomCategoryName, EventFieldNameDestCountry, EventFieldNameDestCountryCode, EventFieldNameDestGroupID, EventFieldNameDestGroupName, EventFieldNameDestIP, EventFieldNameDestIsSiteOrVpn, EventFieldNameDestPort, EventFieldNameDestSite, EventFieldNameDestSiteID, EventFieldNameDestSiteName, EventFieldNameDeviceCategories, EventFieldNameDeviceCertificate, EventFieldNameDeviceID, EventFieldNameDeviceManufacturer, EventFieldNameDeviceModel, EventFieldNameDeviceName, EventFieldNameDeviceOsType, EventFieldNameDevicePostureProfile, EventFieldNameDevicePostureProfiles, EventFieldNameDeviceType, EventFieldNameDirectoryHostName, EventFieldNameDirectoryIP, EventFieldNameDirectorySyncResult, EventFieldNameDirectorySyncType, EventFieldNameDlpFailMode, EventFieldNameDlpProfiles, EventFieldNameDlpScanTypes, EventFieldNameDNSProtectionCategory, EventFieldNameDNSQuery, EventFieldNameDomainName, EventFieldNameEgressPopName, EventFieldNameEgressSiteName, EventFieldNameEmailSubject, EventFieldNameEventCount, EventFieldNameEventID, EventFieldNameEventMessage, EventFieldNameEventSubType, EventFieldNameEventType, EventFieldNameFailureReason, EventFieldNameFileHash, EventFieldNameFileName, EventFieldNameFileSize, EventFieldNameFileType, EventFieldNameFinalObjectStatus, EventFieldNameFlowsCardinality, EventFieldNameFullPathURL, EventFieldNameHostIP, EventFieldNameHostMac, EventFieldNameHTTPRequestMethod, EventFieldNameIncidentAggregation, EventFieldNameIncidentID, EventFieldNameIndication, EventFieldNameIndicator, EventFieldNameInternalID, EventFieldNameIPProtocol, EventFieldNameIsAdmin, EventFieldNameIsAdminActivity, EventFieldNameIsCompliant, EventFieldNameIsManaged, EventFieldNameIsSanctionedApp, EventFieldNameIsSinkhole, EventFieldNameIspName, EventFieldNameKeyName, EventFieldNameLinkHealthIsCongested, EventFieldNameLinkHealthJitter, EventFieldNameLinkHealthLatency, EventFieldNameLinkHealthPktLoss, EventFieldNameLinkType, EventFieldNameLoggedInUser, EventFieldNameLoginType, EventFieldNameMatchedDataTypes, EventFieldNameMitreAttackSubtechniques, EventFieldNameMitreAttackTactics, EventFieldNameMitreAttackTechniques, EventFieldNameNetworkAccess, EventFieldNameNetworkRule, EventFieldNameNotificationAPIError, EventFieldNameNotificationDescription, EventFieldNameObjectID, EventFieldNameObjectName, EventFieldNameObjectType, EventFieldNameOfficeMode, EventFieldNameOsType, EventFieldNameOsVersion, EventFieldNameOutOfBandAccess, EventFieldNameOwner, EventFieldNamePacFile, EventFieldNameParentConnectorName, EventFieldNameParentPid, EventFieldNamePid, EventFieldNamePopName, EventFieldNameProcessPath, EventFieldNameProducer, EventFieldNamePromptAction, EventFieldNamePublicIP, EventFieldNameQosPriority, EventFieldNameQosReportedTime, EventFieldNameQuarantineFolderPath, EventFieldNameRawData, EventFieldNameRecommendedActions, EventFieldNameReferenceURL, EventFieldNameRegistrationCode, EventFieldNameRiskLevel, EventFieldNameRule, EventFieldNameRuleID, EventFieldNameRuleName, EventFieldNameSeverity, EventFieldNameSharingScope, EventFieldNameSignInEventTypes, EventFieldNameSignatureID, EventFieldNameSocketInterface, EventFieldNameSocketInterfaceID, EventFieldNameSocketNewVersion, EventFieldNameSocketOldVersion, EventFieldNameSocketReset, EventFieldNameSocketRole, EventFieldNameSocketVersion, EventFieldNameSplitTunnelConfiguration, EventFieldNameSrcCountry, EventFieldNameSrcCountryCode, EventFieldNameSrcIP, EventFieldNameSrcIsSiteOrVpn, EventFieldNameSrcIspIP, EventFieldNameSrcOrDestSiteID, EventFieldNameSrcPort, EventFieldNameSrcSite, EventFieldNameSrcSiteID, EventFieldNameSrcSiteName, EventFieldNameStaticHost, EventFieldNameStatus, EventFieldNameStoryID, EventFieldNameSubnetName, EventFieldNameTargetsCardinality, EventFieldNameTCPAcceleration, EventFieldNameTenantID, EventFieldNameTenantName, EventFieldNameTenantRestrictionRuleName, EventFieldNameThreatName, EventFieldNameThreatReference, EventFieldNameThreatType, EventFieldNameThreatVerdict, EventFieldNameTime, EventFieldNameTitle, EventFieldNameTLSCertificateError, EventFieldNameTLSErrorDescription, EventFieldNameTLSErrorType, EventFieldNameTLSInspection, EventFieldNameTLSRuleName, EventFieldNameTLSVersion, EventFieldNameTrafficDirection, EventFieldNameTrigger, EventFieldNameTrustType, EventFieldNameTrustedNetworks, EventFieldNameTunnelIPProtocol, EventFieldNameTunnelProtocol, EventFieldNameUpgradeEndTime, EventFieldNameUpgradeInitiatedBy, EventFieldNameUpgradeStartTime, EventFieldNameURL, EventFieldNameUserAgent, EventFieldNameUserAwarenessMethod, EventFieldNameUserID, EventFieldNameUserName, EventFieldNameUserReferenceID, EventFieldNameVendor, EventFieldNameVendorCollaboratorID, EventFieldNameVendorDeviceID, EventFieldNameVendorDeviceName, EventFieldNameVendorEventID, EventFieldNameVendorUserID, EventFieldNameVisibleDeviceID, EventFieldNameVpnLanAccess, EventFieldNameVpnUserEmail, EventFieldNameWindowsDomainName, EventFieldNameXff:
 		return true
 	}
 	return false
@@ -9540,7 +11125,7 @@ func (e EventFieldName) String() string {
 	return string(e)
 }
 
-func (e *EventFieldName) UnmarshalGQL(v interface{}) error {
+func (e *EventFieldName) UnmarshalGQL(v any) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -9601,7 +11186,7 @@ func (e FilterOperator) String() string {
 	return string(e)
 }
 
-func (e *FilterOperator) UnmarshalGQL(v interface{}) error {
+func (e *FilterOperator) UnmarshalGQL(v any) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -9642,7 +11227,7 @@ func (e HaReadiness) String() string {
 	return string(e)
 }
 
-func (e *HaReadiness) UnmarshalGQL(v interface{}) error {
+func (e *HaReadiness) UnmarshalGQL(v any) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -9656,6 +11241,47 @@ func (e *HaReadiness) UnmarshalGQL(v interface{}) error {
 }
 
 func (e HaReadiness) MarshalGQL(w io.Writer) {
+	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+type HaRole string
+
+const (
+	HaRolePrimary   HaRole = "PRIMARY"
+	HaRoleSecondary HaRole = "SECONDARY"
+)
+
+var AllHaRole = []HaRole{
+	HaRolePrimary,
+	HaRoleSecondary,
+}
+
+func (e HaRole) IsValid() bool {
+	switch e {
+	case HaRolePrimary, HaRoleSecondary:
+		return true
+	}
+	return false
+}
+
+func (e HaRole) String() string {
+	return string(e)
+}
+
+func (e *HaRole) UnmarshalGQL(v any) error {
+	str, ok := v.(string)
+	if !ok {
+		return fmt.Errorf("enums must be strings")
+	}
+
+	*e = HaRole(str)
+	if !e.IsValid() {
+		return fmt.Errorf("%s is not a valid HaRole", str)
+	}
+	return nil
+}
+
+func (e HaRole) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
@@ -9683,7 +11309,7 @@ func (e HaSubStatus) String() string {
 	return string(e)
 }
 
-func (e *HaSubStatus) UnmarshalGQL(v interface{}) error {
+func (e *HaSubStatus) UnmarshalGQL(v any) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -9732,7 +11358,7 @@ func (e IPSecV2InterfaceID) String() string {
 	return string(e)
 }
 
-func (e *IPSecV2InterfaceID) UnmarshalGQL(v interface{}) error {
+func (e *IPSecV2InterfaceID) UnmarshalGQL(v any) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -9746,6 +11372,49 @@ func (e *IPSecV2InterfaceID) UnmarshalGQL(v interface{}) error {
 }
 
 func (e IPSecV2InterfaceID) MarshalGQL(w io.Writer) {
+	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+type IPSecV2TunnelRole string
+
+const (
+	IPSecV2TunnelRoleWan1 IPSecV2TunnelRole = "WAN1"
+	IPSecV2TunnelRoleWan2 IPSecV2TunnelRole = "WAN2"
+	IPSecV2TunnelRoleWan3 IPSecV2TunnelRole = "WAN3"
+)
+
+var AllIPSecV2TunnelRole = []IPSecV2TunnelRole{
+	IPSecV2TunnelRoleWan1,
+	IPSecV2TunnelRoleWan2,
+	IPSecV2TunnelRoleWan3,
+}
+
+func (e IPSecV2TunnelRole) IsValid() bool {
+	switch e {
+	case IPSecV2TunnelRoleWan1, IPSecV2TunnelRoleWan2, IPSecV2TunnelRoleWan3:
+		return true
+	}
+	return false
+}
+
+func (e IPSecV2TunnelRole) String() string {
+	return string(e)
+}
+
+func (e *IPSecV2TunnelRole) UnmarshalGQL(v any) error {
+	str, ok := v.(string)
+	if !ok {
+		return fmt.Errorf("enums must be strings")
+	}
+
+	*e = IPSecV2TunnelRole(str)
+	if !e.IsValid() {
+		return fmt.Errorf("%s is not a valid IPSecV2TunnelRole", str)
+	}
+	return nil
+}
+
+func (e IPSecV2TunnelRole) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
@@ -9777,7 +11446,7 @@ func (e IdentificationType) String() string {
 	return string(e)
 }
 
-func (e *IdentificationType) UnmarshalGQL(v interface{}) error {
+func (e *IdentificationType) UnmarshalGQL(v any) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -9822,7 +11491,7 @@ func (e IlmmOnboardingStatus) String() string {
 	return string(e)
 }
 
-func (e *IlmmOnboardingStatus) UnmarshalGQL(v interface{}) error {
+func (e *IlmmOnboardingStatus) UnmarshalGQL(v any) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -9872,7 +11541,7 @@ func (e InternetFirewallActionEnum) String() string {
 	return string(e)
 }
 
-func (e *InternetFirewallActionEnum) UnmarshalGQL(v interface{}) error {
+func (e *InternetFirewallActionEnum) UnmarshalGQL(v any) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -9920,7 +11589,7 @@ func (e IPProtocol) String() string {
 	return string(e)
 }
 
-func (e *IPProtocol) UnmarshalGQL(v interface{}) error {
+func (e *IPProtocol) UnmarshalGQL(v any) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -9971,7 +11640,7 @@ func (e IPSecCipher) String() string {
 	return string(e)
 }
 
-func (e *IPSecCipher) UnmarshalGQL(v interface{}) error {
+func (e *IPSecCipher) UnmarshalGQL(v any) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -10028,7 +11697,7 @@ func (e IPSecDHGroup) String() string {
 	return string(e)
 }
 
-func (e *IPSecDHGroup) UnmarshalGQL(v interface{}) error {
+func (e *IPSecDHGroup) UnmarshalGQL(v any) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -10079,7 +11748,7 @@ func (e IPSecHash) String() string {
 	return string(e)
 }
 
-func (e *IPSecHash) UnmarshalGQL(v interface{}) error {
+func (e *IPSecHash) UnmarshalGQL(v any) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -10121,7 +11790,7 @@ func (e LicensePlan) String() string {
 	return string(e)
 }
 
-func (e *LicensePlan) UnmarshalGQL(v interface{}) error {
+func (e *LicensePlan) UnmarshalGQL(v any) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -10157,18 +11826,20 @@ const (
 	LicenseSkuCatoDatalake6m LicenseSku = "CATO_DATALAKE_6M"
 	// Cato DEM service SKU
 	LicenseSkuCatoDem LicenseSku = "CATO_DEM"
-	// Cato DEM Pro service SKU
-	LicenseSkuCatoDemPro LicenseSku = "CATO_DEM_PRO"
 	// Cato DLP service SKU
 	LicenseSkuCatoDlp LicenseSku = "CATO_DLP"
 	// Cato EPP service SKU
 	LicenseSkuCatoEpp LicenseSku = "CATO_EPP"
 	// Cato ILMM service SKU
 	LicenseSkuCatoIlmm LicenseSku = "CATO_ILMM"
+	// Cato IoT/OT Security service SKU
+	LicenseSkuCatoIotOt LicenseSku = "CATO_IOT_OT"
 	// Public IPs SKU
 	LicenseSkuCatoIPAdd LicenseSku = "CATO_IP_ADD"
 	// Cato IPS (legacy) service SKU
 	LicenseSkuCatoIPS LicenseSku = "CATO_IPS"
+	// Cato Managed XDR service SKU
+	LicenseSkuCatoManagedXdr LicenseSku = "CATO_MANAGED_XDR"
 	// Cato MDR (XDR Pro) service SKU
 	LicenseSkuCatoMdr LicenseSku = "CATO_MDR"
 	// Cato NOCaaS service SKU
@@ -10194,6 +11865,8 @@ const (
 	LicenseSkuCatoSseSite LicenseSku = "CATO_SSE_SITE"
 	// Cato Threat Prevention (legacy) service SKU
 	LicenseSkuCatoThreatPrevention LicenseSku = "CATO_THREAT_PREVENTION"
+	// Cato Advanced Threat Prevention service SKU
+	LicenseSkuCatoThreatPreventionAdv LicenseSku = "CATO_THREAT_PREVENTION_ADV"
 	// Cato XDR service SKU
 	LicenseSkuCatoXdrPro LicenseSku = "CATO_XDR_PRO"
 	// ZTNA remote users SKU
@@ -10211,12 +11884,13 @@ var AllLicenseSku = []LicenseSku{
 	LicenseSkuCatoDatalake3m,
 	LicenseSkuCatoDatalake6m,
 	LicenseSkuCatoDem,
-	LicenseSkuCatoDemPro,
 	LicenseSkuCatoDlp,
 	LicenseSkuCatoEpp,
 	LicenseSkuCatoIlmm,
+	LicenseSkuCatoIotOt,
 	LicenseSkuCatoIPAdd,
 	LicenseSkuCatoIPS,
+	LicenseSkuCatoManagedXdr,
 	LicenseSkuCatoMdr,
 	LicenseSkuCatoNocaasHf,
 	LicenseSkuCatoPb,
@@ -10230,6 +11904,7 @@ var AllLicenseSku = []LicenseSku{
 	LicenseSkuCatoSite,
 	LicenseSkuCatoSseSite,
 	LicenseSkuCatoThreatPrevention,
+	LicenseSkuCatoThreatPreventionAdv,
 	LicenseSkuCatoXdrPro,
 	LicenseSkuCatoZtnaUsers,
 	LicenseSkuMobileUsers,
@@ -10237,7 +11912,7 @@ var AllLicenseSku = []LicenseSku{
 
 func (e LicenseSku) IsValid() bool {
 	switch e {
-	case LicenseSkuCatoAntiMalware, LicenseSkuCatoAntiMalwareNg, LicenseSkuCatoCasb, LicenseSkuCatoDatalake, LicenseSkuCatoDatalake12m, LicenseSkuCatoDatalake3m, LicenseSkuCatoDatalake6m, LicenseSkuCatoDem, LicenseSkuCatoDemPro, LicenseSkuCatoDlp, LicenseSkuCatoEpp, LicenseSkuCatoIlmm, LicenseSkuCatoIPAdd, LicenseSkuCatoIPS, LicenseSkuCatoMdr, LicenseSkuCatoNocaasHf, LicenseSkuCatoPb, LicenseSkuCatoPbSse, LicenseSkuCatoRbi, LicenseSkuCatoSaas, LicenseSkuCatoSaasSecurityAPI, LicenseSkuCatoSaasSecurityAPIAllApps, LicenseSkuCatoSaasSecurityAPIOneApp, LicenseSkuCatoSaasSecurityAPITwoApps, LicenseSkuCatoSite, LicenseSkuCatoSseSite, LicenseSkuCatoThreatPrevention, LicenseSkuCatoXdrPro, LicenseSkuCatoZtnaUsers, LicenseSkuMobileUsers:
+	case LicenseSkuCatoAntiMalware, LicenseSkuCatoAntiMalwareNg, LicenseSkuCatoCasb, LicenseSkuCatoDatalake, LicenseSkuCatoDatalake12m, LicenseSkuCatoDatalake3m, LicenseSkuCatoDatalake6m, LicenseSkuCatoDem, LicenseSkuCatoDlp, LicenseSkuCatoEpp, LicenseSkuCatoIlmm, LicenseSkuCatoIotOt, LicenseSkuCatoIPAdd, LicenseSkuCatoIPS, LicenseSkuCatoManagedXdr, LicenseSkuCatoMdr, LicenseSkuCatoNocaasHf, LicenseSkuCatoPb, LicenseSkuCatoPbSse, LicenseSkuCatoRbi, LicenseSkuCatoSaas, LicenseSkuCatoSaasSecurityAPI, LicenseSkuCatoSaasSecurityAPIAllApps, LicenseSkuCatoSaasSecurityAPIOneApp, LicenseSkuCatoSaasSecurityAPITwoApps, LicenseSkuCatoSite, LicenseSkuCatoSseSite, LicenseSkuCatoThreatPrevention, LicenseSkuCatoThreatPreventionAdv, LicenseSkuCatoXdrPro, LicenseSkuCatoZtnaUsers, LicenseSkuMobileUsers:
 		return true
 	}
 	return false
@@ -10247,7 +11922,7 @@ func (e LicenseSku) String() string {
 	return string(e)
 }
 
-func (e *LicenseSku) UnmarshalGQL(v interface{}) error {
+func (e *LicenseSku) UnmarshalGQL(v any) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -10300,7 +11975,7 @@ func (e LicenseStatus) String() string {
 	return string(e)
 }
 
-func (e *LicenseStatus) UnmarshalGQL(v interface{}) error {
+func (e *LicenseStatus) UnmarshalGQL(v any) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -10343,7 +12018,7 @@ func (e LinkConfigPrecedenceEnum) String() string {
 	return string(e)
 }
 
-func (e *LinkConfigPrecedenceEnum) UnmarshalGQL(v interface{}) error {
+func (e *LinkConfigPrecedenceEnum) UnmarshalGQL(v any) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -10388,7 +12063,7 @@ func (e LinkQualityIssueTypeEnum) String() string {
 	return string(e)
 }
 
-func (e *LinkQualityIssueTypeEnum) UnmarshalGQL(v interface{}) error {
+func (e *LinkQualityIssueTypeEnum) UnmarshalGQL(v any) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -10429,7 +12104,7 @@ func (e LinkStatusEnum) String() string {
 	return string(e)
 }
 
-func (e *LinkStatusEnum) UnmarshalGQL(v interface{}) error {
+func (e *LinkStatusEnum) UnmarshalGQL(v any) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -10504,7 +12179,7 @@ func (e LookupFilterType) String() string {
 	return string(e)
 }
 
-func (e *LookupFilterType) UnmarshalGQL(v interface{}) error {
+func (e *LookupFilterType) UnmarshalGQL(v any) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -10547,7 +12222,7 @@ func (e MsAlertStatus) String() string {
 	return string(e)
 }
 
-func (e *MsAlertStatus) UnmarshalGQL(v interface{}) error {
+func (e *MsAlertStatus) UnmarshalGQL(v any) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -10592,7 +12267,7 @@ func (e MsResourceVerdictEnum) String() string {
 	return string(e)
 }
 
-func (e *MsResourceVerdictEnum) UnmarshalGQL(v interface{}) error {
+func (e *MsResourceVerdictEnum) UnmarshalGQL(v any) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -10643,7 +12318,7 @@ func (e NetworkEventSourceEnum) String() string {
 	return string(e)
 }
 
-func (e *NetworkEventSourceEnum) UnmarshalGQL(v interface{}) error {
+func (e *NetworkEventSourceEnum) UnmarshalGQL(v any) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -10686,7 +12361,7 @@ func (e NetworkXDREventTypeEnum) String() string {
 	return string(e)
 }
 
-func (e *NetworkXDREventTypeEnum) UnmarshalGQL(v interface{}) error {
+func (e *NetworkXDREventTypeEnum) UnmarshalGQL(v any) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -10727,7 +12402,7 @@ func (e ObjectRefBy) String() string {
 	return string(e)
 }
 
-func (e *ObjectRefBy) UnmarshalGQL(v interface{}) error {
+func (e *ObjectRefBy) UnmarshalGQL(v any) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -10770,7 +12445,7 @@ func (e OnboardingStatusEnum) String() string {
 	return string(e)
 }
 
-func (e *OnboardingStatusEnum) UnmarshalGQL(v interface{}) error {
+func (e *OnboardingStatusEnum) UnmarshalGQL(v any) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -10819,7 +12494,7 @@ func (e OperatingSystem) String() string {
 	return string(e)
 }
 
-func (e *OperatingSystem) UnmarshalGQL(v interface{}) error {
+func (e *OperatingSystem) UnmarshalGQL(v any) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -10886,7 +12561,7 @@ func (e PeriodType) String() string {
 	return string(e)
 }
 
-func (e *PeriodType) UnmarshalGQL(v interface{}) error {
+func (e *PeriodType) UnmarshalGQL(v any) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -10932,7 +12607,7 @@ func (e PolicyActiveOnEnum) String() string {
 	return string(e)
 }
 
-func (e *PolicyActiveOnEnum) UnmarshalGQL(v interface{}) error {
+func (e *PolicyActiveOnEnum) UnmarshalGQL(v any) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -10992,7 +12667,7 @@ func (e PolicyElementPropertiesEnum) String() string {
 	return string(e)
 }
 
-func (e *PolicyElementPropertiesEnum) UnmarshalGQL(v interface{}) error {
+func (e *PolicyElementPropertiesEnum) UnmarshalGQL(v any) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -11034,7 +12709,7 @@ func (e PolicyMutationStatus) String() string {
 	return string(e)
 }
 
-func (e *PolicyMutationStatus) UnmarshalGQL(v interface{}) error {
+func (e *PolicyMutationStatus) UnmarshalGQL(v any) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -11076,7 +12751,7 @@ func (e PolicyRevisionType) String() string {
 	return string(e)
 }
 
-func (e *PolicyRevisionType) UnmarshalGQL(v interface{}) error {
+func (e *PolicyRevisionType) UnmarshalGQL(v any) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -11132,7 +12807,7 @@ func (e PolicyRulePositionEnum) String() string {
 	return string(e)
 }
 
-func (e *PolicyRulePositionEnum) UnmarshalGQL(v interface{}) error {
+func (e *PolicyRulePositionEnum) UnmarshalGQL(v any) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -11178,7 +12853,7 @@ func (e PolicyRuleTrackingFrequencyEnum) String() string {
 	return string(e)
 }
 
-func (e *PolicyRuleTrackingFrequencyEnum) UnmarshalGQL(v interface{}) error {
+func (e *PolicyRuleTrackingFrequencyEnum) UnmarshalGQL(v any) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -11221,7 +12896,7 @@ func (e PolicySectionPositionEnum) String() string {
 	return string(e)
 }
 
-func (e *PolicySectionPositionEnum) UnmarshalGQL(v interface{}) error {
+func (e *PolicySectionPositionEnum) UnmarshalGQL(v any) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -11263,7 +12938,7 @@ func (e PolicyToggleState) String() string {
 	return string(e)
 }
 
-func (e *PolicyToggleState) UnmarshalGQL(v interface{}) error {
+func (e *PolicyToggleState) UnmarshalGQL(v any) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -11283,31 +12958,18 @@ func (e PolicyToggleState) MarshalGQL(w io.Writer) {
 type ProtoType string
 
 const (
-	ProtoTypeCrossConnect    ProtoType = "CROSS_CONNECT"
-	ProtoTypeIpsecClient     ProtoType = "IPSEC_CLIENT"
-	ProtoTypeIpsecHost       ProtoType = "IPSEC_HOST"
-	ProtoTypeIpsecV2         ProtoType = "IPSEC_V2"
-	ProtoTypeSocketAws1500   ProtoType = "SOCKET_AWS1500"
-	ProtoTypeSocketAz1500    ProtoType = "SOCKET_AZ1500"
-	ProtoTypeSocketEsx1500   ProtoType = "SOCKET_ESX1500"
-	ProtoTypeSocketX1500     ProtoType = "SOCKET_X1500"
-	ProtoTypeSocketX1600     ProtoType = "SOCKET_X1600"
-	ProtoTypeSocketX1600Lte  ProtoType = "SOCKET_X1600_LTE"
-	ProtoTypeSocketX1700     ProtoType = "SOCKET_X1700"
-	ProtoTypeVsocketVgx      ProtoType = "VSOCKET_VGX"
-	ProtoTypeCrossConnectL2  ProtoType = "CROSS_CONNECT_L2"
-	ProtoTypeCrossConnectVrf ProtoType = "CROSS_CONNECT_VRF"
-	ProtoTypeGreTunnel       ProtoType = "GRE_TUNNEL"
-	ProtoTypeNotDefined      ProtoType = "NOT_DEFINED"
-	ProtoTypePortalListener  ProtoType = "PORTAL_LISTENER"
-	ProtoTypeSocketGcp1500   ProtoType = "SOCKET_GCP1500"
-	ProtoTypeSocketRpi64     ProtoType = "SOCKET_RPI64"
-	ProtoTypeSocketX1        ProtoType = "SOCKET_X1"
-	ProtoTypeVsocketVgs      ProtoType = "VSOCKET_VGS"
-	ProtoTypeVsocketVgxAws   ProtoType = "VSOCKET_VGX_AWS"
-	ProtoTypeVsocketVgxAzure ProtoType = "VSOCKET_VGX_AZURE"
-	ProtoTypeVsocketVgxEsx   ProtoType = "VSOCKET_VGX_ESX"
-	ProtoTypeVsocketVsh      ProtoType = "VSOCKET_VSH"
+	ProtoTypeCrossConnect   ProtoType = "CROSS_CONNECT"
+	ProtoTypeIpsecClient    ProtoType = "IPSEC_CLIENT"
+	ProtoTypeIpsecHost      ProtoType = "IPSEC_HOST"
+	ProtoTypeIpsecV2        ProtoType = "IPSEC_V2"
+	ProtoTypeSocketAWS1500  ProtoType = "SOCKET_AWS1500"
+	ProtoTypeSocketAz1500   ProtoType = "SOCKET_AZ1500"
+	ProtoTypeSocketEsx1500  ProtoType = "SOCKET_ESX1500"
+	ProtoTypeSocketX1500    ProtoType = "SOCKET_X1500"
+	ProtoTypeSocketX1600    ProtoType = "SOCKET_X1600"
+	ProtoTypeSocketX1600Lte ProtoType = "SOCKET_X1600_LTE"
+	ProtoTypeSocketX1700    ProtoType = "SOCKET_X1700"
+	ProtoTypeVsocketVgx     ProtoType = "VSOCKET_VGX"
 )
 
 var AllProtoType = []ProtoType{
@@ -11315,7 +12977,7 @@ var AllProtoType = []ProtoType{
 	ProtoTypeIpsecClient,
 	ProtoTypeIpsecHost,
 	ProtoTypeIpsecV2,
-	ProtoTypeSocketAws1500,
+	ProtoTypeSocketAWS1500,
 	ProtoTypeSocketAz1500,
 	ProtoTypeSocketEsx1500,
 	ProtoTypeSocketX1500,
@@ -11323,24 +12985,11 @@ var AllProtoType = []ProtoType{
 	ProtoTypeSocketX1600Lte,
 	ProtoTypeSocketX1700,
 	ProtoTypeVsocketVgx,
-	ProtoTypeCrossConnectL2,
-	ProtoTypeCrossConnectVrf,
-	ProtoTypeGreTunnel,
-	ProtoTypeNotDefined,
-	ProtoTypePortalListener,
-	ProtoTypeSocketGcp1500,
-	ProtoTypeSocketRpi64,
-	ProtoTypeSocketX1,
-	ProtoTypeVsocketVgs,
-	ProtoTypeVsocketVgxAws,
-	ProtoTypeVsocketVgxAzure,
-	ProtoTypeVsocketVgxEsx,
-	ProtoTypeVsocketVsh,
 }
 
 func (e ProtoType) IsValid() bool {
 	switch e {
-	case ProtoTypeCrossConnect, ProtoTypeIpsecClient, ProtoTypeIpsecHost, ProtoTypeIpsecV2, ProtoTypeSocketAws1500, ProtoTypeSocketAz1500, ProtoTypeSocketEsx1500, ProtoTypeSocketX1500, ProtoTypeSocketX1600, ProtoTypeSocketX1600Lte, ProtoTypeSocketX1700, ProtoTypeVsocketVgx, ProtoTypeCrossConnectL2, ProtoTypeCrossConnectVrf, ProtoTypeGreTunnel, ProtoTypeNotDefined, ProtoTypePortalListener, ProtoTypeSocketGcp1500, ProtoTypeSocketRpi64, ProtoTypeSocketX1, ProtoTypeVsocketVgs, ProtoTypeVsocketVgxAws, ProtoTypeVsocketVgxAzure, ProtoTypeVsocketVgxEsx, ProtoTypeVsocketVsh:
+	case ProtoTypeCrossConnect, ProtoTypeIpsecClient, ProtoTypeIpsecHost, ProtoTypeIpsecV2, ProtoTypeSocketAWS1500, ProtoTypeSocketAz1500, ProtoTypeSocketEsx1500, ProtoTypeSocketX1500, ProtoTypeSocketX1600, ProtoTypeSocketX1600Lte, ProtoTypeSocketX1700, ProtoTypeVsocketVgx:
 		return true
 	}
 	return false
@@ -11350,7 +12999,7 @@ func (e ProtoType) String() string {
 	return string(e)
 }
 
-func (e *ProtoType) UnmarshalGQL(v interface{}) error {
+func (e *ProtoType) UnmarshalGQL(v any) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -11394,7 +13043,7 @@ func (e Regionality) String() string {
 	return string(e)
 }
 
-func (e *Regionality) UnmarshalGQL(v interface{}) error {
+func (e *Regionality) UnmarshalGQL(v any) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -11471,7 +13120,7 @@ func (e RemediationStatusEnum) String() string {
 	return string(e)
 }
 
-func (e *RemediationStatusEnum) UnmarshalGQL(v interface{}) error {
+func (e *RemediationStatusEnum) UnmarshalGQL(v any) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -11485,6 +13134,47 @@ func (e *RemediationStatusEnum) UnmarshalGQL(v interface{}) error {
 }
 
 func (e RemediationStatusEnum) MarshalGQL(w io.Writer) {
+	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+type RemotePortFwdRestrictionType string
+
+const (
+	RemotePortFwdRestrictionTypeAllowList RemotePortFwdRestrictionType = "ALLOW_LIST"
+	RemotePortFwdRestrictionTypeBlockList RemotePortFwdRestrictionType = "BLOCK_LIST"
+)
+
+var AllRemotePortFwdRestrictionType = []RemotePortFwdRestrictionType{
+	RemotePortFwdRestrictionTypeAllowList,
+	RemotePortFwdRestrictionTypeBlockList,
+}
+
+func (e RemotePortFwdRestrictionType) IsValid() bool {
+	switch e {
+	case RemotePortFwdRestrictionTypeAllowList, RemotePortFwdRestrictionTypeBlockList:
+		return true
+	}
+	return false
+}
+
+func (e RemotePortFwdRestrictionType) String() string {
+	return string(e)
+}
+
+func (e *RemotePortFwdRestrictionType) UnmarshalGQL(v any) error {
+	str, ok := v.(string)
+	if !ok {
+		return fmt.Errorf("enums must be strings")
+	}
+
+	*e = RemotePortFwdRestrictionType(str)
+	if !e.IsValid() {
+		return fmt.Errorf("%s is not a valid RemotePortFwdRestrictionType", str)
+	}
+	return nil
+}
+
+func (e RemotePortFwdRestrictionType) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
@@ -11536,7 +13226,7 @@ func (e ResourceRoleEnum) String() string {
 	return string(e)
 }
 
-func (e *ResourceRoleEnum) UnmarshalGQL(v interface{}) error {
+func (e *ResourceRoleEnum) UnmarshalGQL(v any) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -11587,7 +13277,7 @@ func (e RiskLevelEnum) String() string {
 	return string(e)
 }
 
-func (e *RiskLevelEnum) UnmarshalGQL(v interface{}) error {
+func (e *RiskLevelEnum) UnmarshalGQL(v any) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -11638,7 +13328,7 @@ func (e ScanResult) String() string {
 	return string(e)
 }
 
-func (e *ScanResult) UnmarshalGQL(v interface{}) error {
+func (e *ScanResult) UnmarshalGQL(v any) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -11681,7 +13371,7 @@ func (e SeverityEnum) String() string {
 	return string(e)
 }
 
-func (e *SeverityEnum) UnmarshalGQL(v interface{}) error {
+func (e *SeverityEnum) UnmarshalGQL(v any) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -11701,7 +13391,7 @@ func (e SeverityEnum) MarshalGQL(w io.Writer) {
 type SiteConnectionTypeEnum string
 
 const (
-	SiteConnectionTypeEnumSocketAws1500  SiteConnectionTypeEnum = "SOCKET_AWS1500"
+	SiteConnectionTypeEnumSocketAWS1500  SiteConnectionTypeEnum = "SOCKET_AWS1500"
 	SiteConnectionTypeEnumSocketAz1500   SiteConnectionTypeEnum = "SOCKET_AZ1500"
 	SiteConnectionTypeEnumSocketEsx1500  SiteConnectionTypeEnum = "SOCKET_ESX1500"
 	SiteConnectionTypeEnumSocketX1500    SiteConnectionTypeEnum = "SOCKET_X1500"
@@ -11711,7 +13401,7 @@ const (
 )
 
 var AllSiteConnectionTypeEnum = []SiteConnectionTypeEnum{
-	SiteConnectionTypeEnumSocketAws1500,
+	SiteConnectionTypeEnumSocketAWS1500,
 	SiteConnectionTypeEnumSocketAz1500,
 	SiteConnectionTypeEnumSocketEsx1500,
 	SiteConnectionTypeEnumSocketX1500,
@@ -11722,7 +13412,7 @@ var AllSiteConnectionTypeEnum = []SiteConnectionTypeEnum{
 
 func (e SiteConnectionTypeEnum) IsValid() bool {
 	switch e {
-	case SiteConnectionTypeEnumSocketAws1500, SiteConnectionTypeEnumSocketAz1500, SiteConnectionTypeEnumSocketEsx1500, SiteConnectionTypeEnumSocketX1500, SiteConnectionTypeEnumSocketX1600, SiteConnectionTypeEnumSocketX1600Lte, SiteConnectionTypeEnumSocketX1700:
+	case SiteConnectionTypeEnumSocketAWS1500, SiteConnectionTypeEnumSocketAz1500, SiteConnectionTypeEnumSocketEsx1500, SiteConnectionTypeEnumSocketX1500, SiteConnectionTypeEnumSocketX1600, SiteConnectionTypeEnumSocketX1600Lte, SiteConnectionTypeEnumSocketX1700:
 		return true
 	}
 	return false
@@ -11732,7 +13422,7 @@ func (e SiteConnectionTypeEnum) String() string {
 	return string(e)
 }
 
-func (e *SiteConnectionTypeEnum) UnmarshalGQL(v interface{}) error {
+func (e *SiteConnectionTypeEnum) UnmarshalGQL(v any) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -11806,7 +13496,7 @@ func (e SiteLicenseGroup) String() string {
 	return string(e)
 }
 
-func (e *SiteLicenseGroup) UnmarshalGQL(v interface{}) error {
+func (e *SiteLicenseGroup) UnmarshalGQL(v any) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -11847,7 +13537,7 @@ func (e SiteLicenseType) String() string {
 	return string(e)
 }
 
-func (e *SiteLicenseType) UnmarshalGQL(v interface{}) error {
+func (e *SiteLicenseType) UnmarshalGQL(v any) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -11892,7 +13582,7 @@ func (e SiteType) String() string {
 	return string(e)
 }
 
-func (e *SiteType) UnmarshalGQL(v interface{}) error {
+func (e *SiteType) UnmarshalGQL(v any) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -11951,7 +13641,7 @@ func (e SocketInterfaceDestType) String() string {
 	return string(e)
 }
 
-func (e *SocketInterfaceDestType) UnmarshalGQL(v interface{}) error {
+func (e *SocketInterfaceDestType) UnmarshalGQL(v any) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -12029,7 +13719,7 @@ func (e SocketInterfaceIDEnum) String() string {
 	return string(e)
 }
 
-func (e *SocketInterfaceIDEnum) UnmarshalGQL(v interface{}) error {
+func (e *SocketInterfaceIDEnum) UnmarshalGQL(v any) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -12072,7 +13762,7 @@ func (e SocketInterfacePrecedenceEnum) String() string {
 	return string(e)
 }
 
-func (e *SocketInterfacePrecedenceEnum) UnmarshalGQL(v interface{}) error {
+func (e *SocketInterfacePrecedenceEnum) UnmarshalGQL(v any) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -12117,7 +13807,7 @@ func (e SocketInterfaceRole) String() string {
 	return string(e)
 }
 
-func (e *SocketInterfaceRole) UnmarshalGQL(v interface{}) error {
+func (e *SocketInterfaceRole) UnmarshalGQL(v any) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -12164,7 +13854,7 @@ func (e SocketInventoryItemStatus) String() string {
 	return string(e)
 }
 
-func (e *SocketInventoryItemStatus) UnmarshalGQL(v interface{}) error {
+func (e *SocketInventoryItemStatus) UnmarshalGQL(v any) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -12184,7 +13874,7 @@ func (e SocketInventoryItemStatus) MarshalGQL(w io.Writer) {
 type SocketPlatform string
 
 const (
-	SocketPlatformAws1500   SocketPlatform = "AWS1500"
+	SocketPlatformAWS1500   SocketPlatform = "AWS1500"
 	SocketPlatformAz1500    SocketPlatform = "AZ1500"
 	SocketPlatformEsx1500   SocketPlatform = "ESX1500"
 	SocketPlatformX1500     SocketPlatform = "X1500"
@@ -12197,7 +13887,7 @@ const (
 )
 
 var AllSocketPlatform = []SocketPlatform{
-	SocketPlatformAws1500,
+	SocketPlatformAWS1500,
 	SocketPlatformAz1500,
 	SocketPlatformEsx1500,
 	SocketPlatformX1500,
@@ -12211,7 +13901,7 @@ var AllSocketPlatform = []SocketPlatform{
 
 func (e SocketPlatform) IsValid() bool {
 	switch e {
-	case SocketPlatformAws1500, SocketPlatformAz1500, SocketPlatformEsx1500, SocketPlatformX1500, SocketPlatformX1500Br2, SocketPlatformX1500bBr2, SocketPlatformX1600, SocketPlatformX1600Lte, SocketPlatformX1700, SocketPlatformX1700b:
+	case SocketPlatformAWS1500, SocketPlatformAz1500, SocketPlatformEsx1500, SocketPlatformX1500, SocketPlatformX1500Br2, SocketPlatformX1500bBr2, SocketPlatformX1600, SocketPlatformX1600Lte, SocketPlatformX1700, SocketPlatformX1700b:
 		return true
 	}
 	return false
@@ -12221,7 +13911,7 @@ func (e SocketPlatform) String() string {
 	return string(e)
 }
 
-func (e *SocketPlatform) UnmarshalGQL(v interface{}) error {
+func (e *SocketPlatform) UnmarshalGQL(v any) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -12272,7 +13962,7 @@ func (e SocketRegistrationStatus) String() string {
 	return string(e)
 }
 
-func (e *SocketRegistrationStatus) UnmarshalGQL(v interface{}) error {
+func (e *SocketRegistrationStatus) UnmarshalGQL(v any) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -12329,7 +14019,7 @@ func (e SocketUpgradeStatus) String() string {
 	return string(e)
 }
 
-func (e *SocketUpgradeStatus) UnmarshalGQL(v interface{}) error {
+func (e *SocketUpgradeStatus) UnmarshalGQL(v any) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -12370,7 +14060,7 @@ func (e SortDirectionEnum) String() string {
 	return string(e)
 }
 
-func (e *SortDirectionEnum) UnmarshalGQL(v interface{}) error {
+func (e *SortDirectionEnum) UnmarshalGQL(v any) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -12411,7 +14101,7 @@ func (e SortOrder) String() string {
 	return string(e)
 }
 
-func (e *SortOrder) UnmarshalGQL(v interface{}) error {
+func (e *SortOrder) UnmarshalGQL(v any) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -12458,7 +14148,7 @@ func (e StoryEngineTypeEnum) String() string {
 	return string(e)
 }
 
-func (e *StoryEngineTypeEnum) UnmarshalGQL(v interface{}) error {
+func (e *StoryEngineTypeEnum) UnmarshalGQL(v any) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -12479,6 +14169,7 @@ type StoryProducerEnum string
 
 const (
 	StoryProducerEnumAnomalyEvents             StoryProducerEnum = "AnomalyEvents"
+	StoryProducerEnumAnomalyExperience         StoryProducerEnum = "AnomalyExperience"
 	StoryProducerEnumAnomalyStats              StoryProducerEnum = "AnomalyStats"
 	StoryProducerEnumCatoEndpointAlert         StoryProducerEnum = "CatoEndpointAlert"
 	StoryProducerEnumEntraIDAlert              StoryProducerEnum = "EntraIdAlert"
@@ -12491,6 +14182,7 @@ const (
 
 var AllStoryProducerEnum = []StoryProducerEnum{
 	StoryProducerEnumAnomalyEvents,
+	StoryProducerEnumAnomalyExperience,
 	StoryProducerEnumAnomalyStats,
 	StoryProducerEnumCatoEndpointAlert,
 	StoryProducerEnumEntraIDAlert,
@@ -12503,7 +14195,7 @@ var AllStoryProducerEnum = []StoryProducerEnum{
 
 func (e StoryProducerEnum) IsValid() bool {
 	switch e {
-	case StoryProducerEnumAnomalyEvents, StoryProducerEnumAnomalyStats, StoryProducerEnumCatoEndpointAlert, StoryProducerEnumEntraIDAlert, StoryProducerEnumMicrosoftEndpointDefender, StoryProducerEnumNetworkMonitor, StoryProducerEnumNetworkXdr, StoryProducerEnumThreatHunt, StoryProducerEnumThreatPrevention:
+	case StoryProducerEnumAnomalyEvents, StoryProducerEnumAnomalyExperience, StoryProducerEnumAnomalyStats, StoryProducerEnumCatoEndpointAlert, StoryProducerEnumEntraIDAlert, StoryProducerEnumMicrosoftEndpointDefender, StoryProducerEnumNetworkMonitor, StoryProducerEnumNetworkXdr, StoryProducerEnumThreatHunt, StoryProducerEnumThreatPrevention:
 		return true
 	}
 	return false
@@ -12513,7 +14205,7 @@ func (e StoryProducerEnum) String() string {
 	return string(e)
 }
 
-func (e *StoryProducerEnum) UnmarshalGQL(v interface{}) error {
+func (e *StoryProducerEnum) UnmarshalGQL(v any) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -12576,7 +14268,7 @@ func (e StorySortFieldName) String() string {
 	return string(e)
 }
 
-func (e *StorySortFieldName) UnmarshalGQL(v interface{}) error {
+func (e *StorySortFieldName) UnmarshalGQL(v any) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -12625,7 +14317,7 @@ func (e StoryStatusEnum) String() string {
 	return string(e)
 }
 
-func (e *StoryStatusEnum) UnmarshalGQL(v interface{}) error {
+func (e *StoryStatusEnum) UnmarshalGQL(v any) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -12670,7 +14362,7 @@ func (e StoryVerdictEnum) String() string {
 	return string(e)
 }
 
-func (e *StoryVerdictEnum) UnmarshalGQL(v interface{}) error {
+func (e *StoryVerdictEnum) UnmarshalGQL(v any) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -12717,7 +14409,7 @@ func (e SubnetType) String() string {
 	return string(e)
 }
 
-func (e *SubnetType) UnmarshalGQL(v interface{}) error {
+func (e *SubnetType) UnmarshalGQL(v any) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -12731,6 +14423,47 @@ func (e *SubnetType) UnmarshalGQL(v interface{}) error {
 }
 
 func (e SubnetType) MarshalGQL(w io.Writer) {
+	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+type TaggingMethod string
+
+const (
+	TaggingMethodDot1q TaggingMethod = "DOT1Q"
+	TaggingMethodQinq  TaggingMethod = "QINQ"
+)
+
+var AllTaggingMethod = []TaggingMethod{
+	TaggingMethodDot1q,
+	TaggingMethodQinq,
+}
+
+func (e TaggingMethod) IsValid() bool {
+	switch e {
+	case TaggingMethodDot1q, TaggingMethodQinq:
+		return true
+	}
+	return false
+}
+
+func (e TaggingMethod) String() string {
+	return string(e)
+}
+
+func (e *TaggingMethod) UnmarshalGQL(v any) error {
+	str, ok := v.(string)
+	if !ok {
+		return fmt.Errorf("enums must be strings")
+	}
+
+	*e = TaggingMethod(str)
+	if !e.IsValid() {
+		return fmt.Errorf("%s is not a valid TaggingMethod", str)
+	}
+	return nil
+}
+
+func (e TaggingMethod) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
@@ -12762,7 +14495,7 @@ func (e TargetType) String() string {
 	return string(e)
 }
 
-func (e *TargetType) UnmarshalGQL(v interface{}) error {
+func (e *TargetType) UnmarshalGQL(v any) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -12805,7 +14538,7 @@ func (e TimeFrameModifier) String() string {
 	return string(e)
 }
 
-func (e *TimeFrameModifier) UnmarshalGQL(v interface{}) error {
+func (e *TimeFrameModifier) UnmarshalGQL(v any) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -12848,7 +14581,7 @@ func (e TimelineItemCategoryEnum) String() string {
 	return string(e)
 }
 
-func (e *TimelineItemCategoryEnum) UnmarshalGQL(v interface{}) error {
+func (e *TimelineItemCategoryEnum) UnmarshalGQL(v any) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -12891,7 +14624,7 @@ func (e TimelineTypeEnum) String() string {
 	return string(e)
 }
 
-func (e *TimelineTypeEnum) UnmarshalGQL(v interface{}) error {
+func (e *TimelineTypeEnum) UnmarshalGQL(v any) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -12996,7 +14729,7 @@ func (e TimeseriesMetricType) String() string {
 	return string(e)
 }
 
-func (e *TimeseriesMetricType) UnmarshalGQL(v interface{}) error {
+func (e *TimeseriesMetricType) UnmarshalGQL(v any) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -13037,7 +14770,7 @@ func (e TrafficDirectionEnum) String() string {
 	return string(e)
 }
 
-func (e *TrafficDirectionEnum) UnmarshalGQL(v interface{}) error {
+func (e *TrafficDirectionEnum) UnmarshalGQL(v any) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -13101,7 +14834,7 @@ func (e UnitType) String() string {
 	return string(e)
 }
 
-func (e *UnitType) UnmarshalGQL(v interface{}) error {
+func (e *UnitType) UnmarshalGQL(v any) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -13152,7 +14885,7 @@ func (e UserRole) String() string {
 	return string(e)
 }
 
-func (e *UserRole) UnmarshalGQL(v interface{}) error {
+func (e *UserRole) UnmarshalGQL(v any) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -13193,7 +14926,7 @@ func (e VendorEnum) String() string {
 	return string(e)
 }
 
-func (e *VendorEnum) UnmarshalGQL(v interface{}) error {
+func (e *VendorEnum) UnmarshalGQL(v any) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -13234,7 +14967,7 @@ func (e VrrpType) String() string {
 	return string(e)
 }
 
-func (e *VrrpType) UnmarshalGQL(v interface{}) error {
+func (e *VrrpType) UnmarshalGQL(v any) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -13280,7 +15013,7 @@ func (e WanFirewallActionEnum) String() string {
 	return string(e)
 }
 
-func (e *WanFirewallActionEnum) UnmarshalGQL(v interface{}) error {
+func (e *WanFirewallActionEnum) UnmarshalGQL(v any) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -13321,7 +15054,7 @@ func (e WanFirewallDirectionEnum) String() string {
 	return string(e)
 }
 
-func (e *WanFirewallDirectionEnum) UnmarshalGQL(v interface{}) error {
+func (e *WanFirewallDirectionEnum) UnmarshalGQL(v any) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -13376,7 +15109,7 @@ func (e ZtnaUsersLicenseGroup) String() string {
 	return string(e)
 }
 
-func (e *ZtnaUsersLicenseGroup) UnmarshalGQL(v interface{}) error {
+func (e *ZtnaUsersLicenseGroup) UnmarshalGQL(v any) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
