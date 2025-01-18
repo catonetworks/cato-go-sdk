@@ -1,0 +1,149 @@
+query site ( $cloudInterconnectPhysicalConnectionInput:CloudInterconnectPhysicalConnectionInput! $cloudInterconnectPhysicalConnectionIdInput:CloudInterconnectPhysicalConnectionIdInput! $cloudInterconnectConnectionConnectivityInput:CloudInterconnectConnectionConnectivityInput! $bgpPeerRefInput:BgpPeerRefInput! $bgpPeerListInput:BgpPeerListInput! $siteBgpStatusInput:SiteBgpStatusInput! $accountId:ID! ) {
+	site ( accountId:$accountId  ) {
+		cloudInterconnectPhysicalConnection ( input:$cloudInterconnectPhysicalConnectionInput  )  {
+			id
+			site {
+				id 
+				name 
+			}
+			haRole
+			popLocation {
+				id 
+				name 
+			}
+			serviceProviderName
+			encapsulationMethod
+			subnet
+			privateCatoIp
+			privateSiteIp
+			upstreamBwLimit
+			downstreamBwLimit
+			vlan
+			sVlan
+			cVlan
+		}
+
+		cloudInterconnectPhysicalConnectionId ( input:$cloudInterconnectPhysicalConnectionIdInput  )  {
+			id
+		}
+
+		cloudInterconnectConnectionConnectivity ( input:$cloudInterconnectConnectionConnectivityInput  )  {
+			success
+		}
+
+		bgpPeer ( input:$bgpPeerRefInput  )  {
+			site {
+				id 
+				name 
+			}
+			id
+			name
+			peerAsn
+			catoAsn
+			peerIp
+			catoIp
+			advertiseDefaultRoute
+			advertiseAllRoutes
+			advertiseSummaryRoutes
+			summaryRoute {
+				id 
+				route 
+				community  {
+					from
+					to
+				}
+
+			}
+			defaultAction
+			performNat
+			md5AuthKey
+			metric
+			holdTime
+			keepaliveInterval
+			bfdEnabled
+			bfdSettingsBgpPeer: bfdSettings {
+				transmitInterval 
+				receiveInterval 
+				multiplier 
+			}
+			trackingBgpPeer: tracking {
+				id 
+				enabled 
+				alertFrequency 
+				subscriptionId 
+			}
+		}
+
+		bgpPeerList ( input:$bgpPeerListInput  )  {
+			bgpPeerBgpPeerListPayload: bgpPeer {
+				site  {
+					id
+					name
+				}
+
+				id 
+				name 
+				peerAsn 
+				catoAsn 
+				peerIp 
+				catoIp 
+				advertiseDefaultRoute 
+				advertiseAllRoutes 
+				advertiseSummaryRoutes 
+				summaryRoute  {
+					id
+					route
+					community {
+						from 
+						to 
+					}
+				}
+
+				defaultAction 
+				performNat 
+				md5AuthKey 
+				metric 
+				holdTime 
+				keepaliveInterval 
+				bfdEnabled 
+				bfdSettings  {
+					transmitInterval
+					receiveInterval
+					multiplier
+				}
+
+				tracking  {
+					id
+					enabled
+					alertFrequency
+					subscriptionId
+				}
+
+			}
+			total
+		}
+
+		siteBgpStatus ( input:$siteBgpStatusInput  )  {
+			status {
+				remoteIp 
+				bgpSession 
+				bfdSession 
+				routesFromPeer 
+				routesToPeer 
+				rejectedRoutesFromPeer  {
+					subnet
+					type
+					community {
+						from 
+						to 
+					}
+					rule
+					lastPublishAttempt
+				}
+
+			}
+			rawStatus
+		}
+
+	}	
+}

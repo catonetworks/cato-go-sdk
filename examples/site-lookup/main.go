@@ -14,7 +14,7 @@ import (
 func main() {
 	token := os.Getenv("CATO_API_KEY")
 	accountId := os.Getenv("CATO_ACCOUNT_ID")
-	siteId := os.Getenv("CATO_SITE_ID")
+	// siteId := os.Getenv("CATO_SITE_ID")
 	url := "https://api.catonetworks.com/api/v1/graphql2"
 
 	if token == "" {
@@ -31,7 +31,7 @@ func main() {
 
 	ctx := context.Background()
 
-	entityIds := []string{siteId}
+	entityIds := []string{}
 
 	queryResult, err := catoClient.EntityLookup(ctx, accountId, cato_models.EntityType("site"), nil, nil, nil, nil, entityIds, nil, nil, nil)
 	if err != nil {
@@ -39,9 +39,9 @@ func main() {
 		os.Exit(1)
 	}
 
-	for _, val := range queryResult.EntityLookup.GetItems() {
-		fmt.Println("entity item: ", *val.Entity.Name)
-	}
+	//for _, val := range queryResult.EntityLookup.GetItems() {
+	//	fmt.Println("entity item: ", *val.Entity.Name)
+	//}
 
 	queryResultJson, err := json.Marshal(queryResult)
 	if err != nil {
