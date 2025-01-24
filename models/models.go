@@ -3541,7 +3541,7 @@ type InternetFirewallAddRuleDataInput struct {
 	// Destination service traffic matching criteria.
 	// Logical ‘OR’ is applied within the criteria set.
 	// Logical ‘AND’ is applied between criteria sets.
-	Service *InternetFirewallServiceTypeInput `json:"service"`
+	Service *InternetFirewallServiceTypeInput `json:"service,omitempty"`
 	// Source traffic matching criteria.
 	// Logical ‘OR’ is applied within the criteria set.
 	// Logical ‘AND’ is applied between criteria sets.
