@@ -3524,7 +3524,9 @@ type InternetFirewallAddRuleDataInput struct {
 	// Additional device attributes such as category, type, model, and manufacturer.
 	// Logical 'OR' is applied within the criteria set.
 	// Logical 'AND' is applied between criteria sets.
-	DeviceAttributes *DeviceAttributesInput `json:"deviceAttributes"`
+	//
+	// deviceAttributes: DeviceAttributesInput! = {category: [], type: [], model: [], manufacturer: [], os: [], osVersion: []}
+	//
 	// Source device Operating System traffic matching criteria.
 	// Logical ‘OR’ is applied within the criteria set.
 	// Logical ‘AND’ is applied between criteria sets.
@@ -3539,7 +3541,7 @@ type InternetFirewallAddRuleDataInput struct {
 	// Destination service traffic matching criteria.
 	// Logical ‘OR’ is applied within the criteria set.
 	// Logical ‘AND’ is applied between criteria sets.
-	Service *InternetFirewallServiceTypeInput `json:"service"`
+	Service *InternetFirewallServiceTypeInput `json:"service,omitempty"`
 	// Source traffic matching criteria.
 	// Logical ‘OR’ is applied within the criteria set.
 	// Logical ‘AND’ is applied between criteria sets.
@@ -3880,7 +3882,9 @@ type InternetFirewallRuleException struct {
 	// Source Device Profile matching criteria for the exception.
 	Device []*DeviceProfileRef `json:"device"`
 	// Source Device Attributes matching criteria for the exception.
-	DeviceAttributes *DeviceAttributes `json:"deviceAttributes"`
+	//
+	// deviceAttributes: DeviceAttributes!
+	//
 	// Source device OS matching criteria for the exception.
 	DeviceOs []OperatingSystem `json:"deviceOS"`
 	// A unique name of the rule exception.
@@ -3902,7 +3906,9 @@ type InternetFirewallRuleExceptionInput struct {
 	// Source Device Profile matching criteria for the exception.
 	Device []*DeviceProfileRefInput `json:"device"`
 	// Source Device Attributes matching criteria for the exception.
-	DeviceAttributes *DeviceAttributesInput `json:"deviceAttributes"`
+	//
+	// deviceAttributes: DeviceAttributesInput! = {category: [], type: [], model: [], manufacturer: [], os: [], osVersion: []}
+	//
 	// Source device OS matching criteria for the exception.
 	DeviceOs []OperatingSystem `json:"deviceOS"`
 	// A unique name of the rule exception.
@@ -4093,7 +4099,11 @@ type InternetFirewallUpdateRuleDataInput struct {
 	// Additional device attributes such as category, type, model, and manufacturer.
 	// Logical 'OR' is applied within the criteria set.
 	// Logical 'AND' is applied between criteria sets.
-	DeviceAttributes *DeviceAttributesUpdateInput `json:"deviceAttributes,omitempty"`
+	//
+	//
+	// deviceAttributes: DeviceAttributesUpdateInput
+	//
+	//
 	// Source device Operating System traffic matching criteria.
 	// Logical ‘OR’ is applied within the criteria set.
 	// Logical ‘AND’ is applied between criteria sets.
@@ -7707,7 +7717,9 @@ type WanFirewallAddRuleDataInput struct {
 	// Additional device attributes such as category, type, model, and manufacturer.
 	// Logical 'OR' is applied within the criteria set.
 	// Logical 'AND' is applied between criteria sets.
-	DeviceAttributes *DeviceAttributesInput `json:"deviceAttributes"`
+	//
+	// deviceAttributes: DeviceAttributesInput! = {category: [], type: [], model: [], manufacturer: [], os: [], osVersion: []}
+	//
 	// Source device Operating System traffic matching criteria.
 	// Logical ‘OR’ is applied within the criteria set.
 	// Logical ‘AND’ is applied between criteria sets.
@@ -8140,7 +8152,9 @@ type WanFirewallRuleException struct {
 	// Source Device Profile matching criteria for the exception.
 	Device []*DeviceProfileRef `json:"device"`
 	// Source Device Attributes matching criteria for the exception.
-	DeviceAttributes *DeviceAttributes `json:"deviceAttributes"`
+	//
+	// deviceAttributes: DeviceAttributes!
+	//
 	// Source device OS matching criteria for the exception.
 	DeviceOs []OperatingSystem `json:"deviceOS"`
 	// Direction origin matching criteria for the exception
@@ -8166,7 +8180,9 @@ type WanFirewallRuleExceptionInput struct {
 	// Source Device Profile matching criteria for the exception.
 	Device []*DeviceProfileRefInput `json:"device"`
 	// Source Device Attributes matching criteria for the exception.
-	DeviceAttributes *DeviceAttributesInput `json:"deviceAttributes"`
+	//
+	// deviceAttributes: DeviceAttributesInput! = {category: [], type: [], model: [], manufacturer: [], os: [], osVersion: []}
+	//
 	// Source device OS matching criteria for the exception.
 	DeviceOs []OperatingSystem `json:"deviceOS"`
 	// Direction origin matching criteria for the exception
@@ -8369,7 +8385,9 @@ type WanFirewallUpdateRuleDataInput struct {
 	// Additional device attributes such as category, type, model, and manufacturer.
 	// Logical 'OR' is applied within the criteria set.
 	// Logical 'AND' is applied between criteria sets.
-	DeviceAttributes *DeviceAttributesUpdateInput `json:"deviceAttributes,omitempty"`
+	//
+	// deviceAttributes: DeviceAttributesUpdateInput
+	//
 	// Source device Operating System traffic matching criteria.
 	// Logical ‘OR’ is applied within the criteria set.
 	// Logical ‘AND’ is applied between criteria sets.

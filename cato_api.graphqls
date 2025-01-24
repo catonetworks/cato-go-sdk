@@ -2595,9 +2595,9 @@ input InternetFirewallAddRuleDataInput {
   Additional device attributes such as category, type, model, and manufacturer.
   Logical 'OR' is applied within the criteria set.
   Logical 'AND' is applied between criteria sets.
-  """
+
   deviceAttributes: DeviceAttributesInput! = {category: [], type: [], model: [], manufacturer: [], os: [], osVersion: []}
-  """
+
   Source device Operating System traffic matching criteria.
   Logical ‘OR’ is applied within the criteria set.
   Logical ‘AND’ is applied between criteria sets.
@@ -2617,7 +2617,7 @@ input InternetFirewallAddRuleDataInput {
   Logical ‘OR’ is applied within the criteria set.
   Logical ‘AND’ is applied between criteria sets.
   """
-  service: InternetFirewallServiceTypeInput! = {standard: [], custom: []}
+  service: InternetFirewallServiceTypeInput = {standard: [], custom: []}
   """
   Source traffic matching criteria.
   Logical ‘OR’ is applied within the criteria set.
@@ -2910,9 +2910,13 @@ type InternetFirewallRuleException {
   destination: InternetFirewallDestination!
   "Source Device Profile matching criteria for the exception."
   device: [DeviceProfileRef!]!
-  "Source Device Attributes matching criteria for the exception."
+  """
+  Source Device Attributes matching criteria for the exception.
+
   deviceAttributes: DeviceAttributes!
-  "Source device OS matching criteria for the exception."
+
+  Source device OS matching criteria for the exception.
+  """
   deviceOS: [OperatingSystem!]!
   "A unique name of the rule exception."
   name: String!
@@ -2932,9 +2936,13 @@ input InternetFirewallRuleExceptionInput {
   destination: InternetFirewallDestinationInput! = {application: [], customApp: [], appCategory: [], customCategory: [], sanctionedAppsCategory: [], country: [], domain: [], fqdn: [], ip: [], subnet: [], ipRange: [], globalIpRange: [], remoteAsn: []}
   "Source Device Profile matching criteria for the exception."
   device: [DeviceProfileRefInput!]! = []
-  "Source Device Attributes matching criteria for the exception."
+  """
+  Source Device Attributes matching criteria for the exception.
+
   deviceAttributes: DeviceAttributesInput! = {category: [], type: [], model: [], manufacturer: [], os: [], osVersion: []}
-  "Source device OS matching criteria for the exception."
+
+  Source device OS matching criteria for the exception.
+  """
   deviceOS: [OperatingSystem!]! = []
   "A unique name of the rule exception."
   name: String!
@@ -3093,9 +3101,11 @@ input InternetFirewallUpdateRuleDataInput {
   Additional device attributes such as category, type, model, and manufacturer.
   Logical 'OR' is applied within the criteria set.
   Logical 'AND' is applied between criteria sets.
-  """
+
+
   deviceAttributes: DeviceAttributesUpdateInput
-  """
+
+
   Source device Operating System traffic matching criteria.
   Logical ‘OR’ is applied within the criteria set.
   Logical ‘AND’ is applied between criteria sets.
@@ -3798,9 +3808,9 @@ input WanFirewallAddRuleDataInput {
   Additional device attributes such as category, type, model, and manufacturer.
   Logical 'OR' is applied within the criteria set.
   Logical 'AND' is applied between criteria sets.
-  """
+
   deviceAttributes: DeviceAttributesInput! = {category: [], type: [], model: [], manufacturer: [], os: [], osVersion: []}
-  """
+
   Source device Operating System traffic matching criteria.
   Logical ‘OR’ is applied within the criteria set.
   Logical ‘AND’ is applied between criteria sets.
@@ -4209,9 +4219,13 @@ type WanFirewallRuleException {
   destination: WanFirewallDestination!
   "Source Device Profile matching criteria for the exception."
   device: [DeviceProfileRef!]!
-  "Source Device Attributes matching criteria for the exception."
+  """
+  Source Device Attributes matching criteria for the exception.
+
   deviceAttributes: DeviceAttributes!
-  "Source device OS matching criteria for the exception."
+
+  Source device OS matching criteria for the exception.
+  """
   deviceOS: [OperatingSystem!]!
   "Direction origin matching criteria for the exception"
   direction: WanFirewallDirectionEnum!
@@ -4235,9 +4249,13 @@ input WanFirewallRuleExceptionInput {
   destination: WanFirewallDestinationInput! = {host: [], site: [], subnet: [], ip: [], ipRange: [], globalIpRange: [], networkInterface: [], siteNetworkSubnet: [], floatingSubnet: [], user: [], usersGroup: [], group: [], systemGroup: []}
   "Source Device Profile matching criteria for the exception."
   device: [DeviceProfileRefInput!]! = []
-  "Source Device Attributes matching criteria for the exception."
+  """
+  Source Device Attributes matching criteria for the exception.
+
   deviceAttributes: DeviceAttributesInput! = {category: [], type: [], model: [], manufacturer: [], os: [], osVersion: []}
-  "Source device OS matching criteria for the exception."
+
+  Source device OS matching criteria for the exception.
+  """
   deviceOS: [OperatingSystem!]! = []
   "Direction origin matching criteria for the exception"
   direction: WanFirewallDirectionEnum! = TO
@@ -4416,9 +4434,9 @@ input WanFirewallUpdateRuleDataInput {
   Additional device attributes such as category, type, model, and manufacturer.
   Logical 'OR' is applied within the criteria set.
   Logical 'AND' is applied between criteria sets.
-  """
+
   deviceAttributes: DeviceAttributesUpdateInput
-  """
+
   Source device Operating System traffic matching criteria.
   Logical ‘OR’ is applied within the criteria set.
   Logical ‘AND’ is applied between criteria sets.
