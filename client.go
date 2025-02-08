@@ -51,6 +51,7 @@ type CatoClient interface {
 	// Temporary entries to support independent calls for IFW and WAN Policies
 	PolicyInternetFirewall(ctx context.Context, internetFirewallPolicyInput *cato_models.InternetFirewallPolicyInput, accountID string, interceptors ...clientv2.RequestInterceptor) (*Policy, error)
 	PolicyWanFirewall(ctx context.Context, wanFirewallPolicyInput *cato_models.WanFirewallPolicyInput, accountID string, interceptors ...clientv2.RequestInterceptor) (*Policy, error)
+	XdrStoriesList(ctx context.Context, storyInput cato_models.StoryInput, accountID string, interceptors ...clientv2.RequestInterceptor) (*Xdr, error)
 	// End of temporary additions
 
 	PolicyInternetFirewallAddRule(ctx context.Context, internetFirewallAddRuleInput cato_models.InternetFirewallAddRuleInput, accountID string, interceptors ...clientv2.RequestInterceptor) (*PolicyInternetFirewallAddRule, error)
