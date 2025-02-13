@@ -7,6 +7,7 @@ import (
 	"os"
 
 	cato "github.com/catonetworks/cato-go-sdk"
+	cato_models "github.com/catonetworks/cato-go-sdk/models"
 )
 
 func main() {
@@ -28,8 +29,16 @@ func main() {
 
 	ctx := context.Background()
 
-	// AccountSnapshot(ctx context.Context, siteIDs []string, userIDs []string, accountID *string, interceptors ...clientv2.RequestInterceptor) (*AccountSnapshot, error)
-	queryResult, err := catoClient.AccountSnapshot(ctx, nil, nil, &accountId)
+	xdrStoriesInput := cato_models.StoryInput{
+		Filter: []*cato_models.StoryFilterInput{},
+		Paging: &cato_models.PagingInput{
+			From:  0,
+			Limit: 1000,
+		},
+		Sort: []*cato_models.StorySortInput{},
+	}
+
+	queryResult, err := catoClient.XdrStoriesList(ctx, xdrStoriesInput, accountId)
 	if err != nil {
 		fmt.Println("policy query error: ", err)
 		return
@@ -41,4 +50,5 @@ func main() {
 		return
 	}
 	fmt.Println(string(queryResultJson))
+
 }

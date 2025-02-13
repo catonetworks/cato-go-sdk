@@ -4,7 +4,6 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
-	"net/http"
 	"os"
 
 	cato "github.com/catonetworks/cato-go-sdk"
@@ -27,7 +26,7 @@ func main() {
 		os.Exit(1)
 	}
 
-	catoClient, _ := cato.New(url, token, *http.DefaultClient)
+	catoClient, _ := cato.New(url, token, nil)
 
 	ctx := context.Background()
 
@@ -58,8 +57,8 @@ func main() {
 		},
 		Rule: &cato_models.InternetFirewallAddRuleDataInput{
 			Enabled:     false,
-			Name:        "TestScalarRule06",
-			Description: "TestScalarRule06",
+			Name:        "TestScalarRule07",
+			Description: "TestScalarRule07",
 			Source: &cato_models.InternetFirewallSourceInput{
 				IP:                []string{},
 				Host:              hostRefInput,
@@ -94,8 +93,15 @@ func main() {
 				GlobalIPRange:          globalIpRange,
 				RemoteAsn:              remoteAsnList,
 			},
-			Service: &cato_models.InternetFirewallServiceTypeInput{},
-			Action:  actionEnum,
+			Service: &cato_models.InternetFirewallServiceTypeInput{
+				Standard: []*cato_models.ServiceRefInput{
+					&cato_models.ServiceRefInput{
+						By:    "NAME",
+						Input: "Agora",
+					},
+				},
+			},
+			Action: actionEnum,
 			Schedule: &cato_models.PolicyScheduleInput{
 				ActiveOn: "CUSTOM_RECURRING",
 				CustomRecurring: &cato_models.PolicyCustomRecurringInput{
@@ -127,6 +133,13 @@ func main() {
 	if err != nil {
 		fmt.Println("error: ", err)
 		os.Exit(1)
+	}
+
+	publishDataIfEnabled := &cato_models.PolicyPublishRevisionInput{}
+	_, err = catoClient.PolicyInternetFirewallPublishPolicyRevision(ctx, &cato_models.InternetFirewallPolicyMutationInput{}, publishDataIfEnabled, accountId)
+	if err != nil {
+		fmt.Println("policy publish query error: ", err)
+		return
 	}
 
 	policyChangeJson, _ := json.Marshal(policyChange)

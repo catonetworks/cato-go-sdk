@@ -4,7 +4,6 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
-	"net/http"
 	"os"
 
 	cato "github.com/catonetworks/cato-go-sdk"
@@ -26,18 +25,19 @@ func main() {
 		os.Exit(1)
 	}
 
-	catoClient, _ := cato.New(url, token, *http.DefaultClient)
+	catoClient, _ := cato.New(url, token, nil)
 
 	ctx := context.Background()
 
 	queryIfwPolicy := &cato_models.InternetFirewallPolicyInput{}
+
 	queryResult, err := catoClient.PolicyInternetFirewall(ctx, queryIfwPolicy, accountId)
 	if err != nil {
 		fmt.Println("policy query error: ", err)
 		return
 	}
 
-	queryResultJson, err := json.Marshal(queryResult)
+	queryResultJson, err := json.Marshal(queryResult.GetPolicy().InternetFirewall.Policy.Enabled)
 	if err != nil {
 		fmt.Println(err)
 		return

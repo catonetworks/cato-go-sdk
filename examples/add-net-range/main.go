@@ -7,6 +7,7 @@ import (
 	"os"
 
 	cato "github.com/catonetworks/cato-go-sdk"
+	cato_models "github.com/catonetworks/cato-go-sdk/models"
 )
 
 func main() {
@@ -28,17 +29,18 @@ func main() {
 
 	ctx := context.Background()
 
-	// AccountSnapshot(ctx context.Context, siteIDs []string, userIDs []string, accountID *string, interceptors ...clientv2.RequestInterceptor) (*AccountSnapshot, error)
-	queryResult, err := catoClient.AccountSnapshot(ctx, nil, nil, &accountId)
+	inputRange := cato_models.AddNetworkRangeInput{}
+
+	policyChange, err := catoClient.SiteAddNetworkRange(ctx, "", inputRange, accountId)
+
 	if err != nil {
-		fmt.Println("policy query error: ", err)
-		return
+		fmt.Println("error: ", err)
+		os.Exit(1)
 	}
 
-	queryResultJson, err := json.Marshal(queryResult)
-	if err != nil {
-		fmt.Println(err)
-		return
-	}
-	fmt.Println(string(queryResultJson))
+	policyChangeJson, _ := json.Marshal(policyChange)
+	fmt.Println(string(policyChangeJson))
+
+	fmt.Println("policyChange: ", policyChange)
+
 }

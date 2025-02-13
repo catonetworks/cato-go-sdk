@@ -4,7 +4,6 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
-	"net/http"
 	"os"
 
 	cato "github.com/catonetworks/cato-go-sdk"
@@ -27,20 +26,33 @@ func main() {
 	}
 
 	//  EntityLookup(ctx context.Context, accountID string, typeArg cato_models.EntityType, limit *int64, from *int64, parent *cato_models.EntityInput, search *string, entityIDs []string, sort []*cato_models.SortInput, filters []*cato_models.LookupFilterInput, helperFields []string, interceptors ...clientv2.RequestInterceptor) (*EntityLookup, error)
-	catoClient, _ := cato.New(url, token, *http.DefaultClient)
+	catoClient, _ := cato.New(url, token, nil)
 
 	ctx := context.Background()
 
-	queryResult, err := catoClient.EntityLookup(ctx, accountId, cato_models.EntityType("site"), nil, nil, nil, nil, nil, nil, nil, nil)
-	if err != nil {
-		fmt.Println("policy query error: ", err)
-		return
+	rout := func(finished chan bool) {
+		for i := 0; i < 200; i++ {
+			fmt.Println("for count: ", i)
+			queryResult, err := catoClient.EntityLookup(ctx, accountId, cato_models.EntityType("networkInterface"), nil, nil, nil, nil, nil, nil, nil, nil)
+			if err != nil {
+				fmt.Println("policy query error: ", err)
+			}
+
+			queryResultJson, err := json.Marshal(queryResult)
+			if err != nil {
+				fmt.Println("queryResult error: ", err)
+			}
+			fmt.Println(string(queryResultJson))
+		}
+		finished <- true
 	}
 
-	queryResultJson, err := json.Marshal(queryResult)
-	if err != nil {
-		fmt.Println(err)
-		return
-	}
-	fmt.Println(string(queryResultJson))
+	finished1 := make(chan bool)
+	finished2 := make(chan bool)
+
+	go rout(finished1)
+	go rout(finished2)
+
+	<-finished1
+	<-finished2
 }
