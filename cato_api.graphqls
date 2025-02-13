@@ -7027,6 +7027,7 @@ enum SocketUpgradeStatus {
 
 enum SocketPlatform {
   AWS1500
+  GCP1500
   AZ1500
   ESX1500
   X1500

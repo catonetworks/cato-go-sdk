@@ -13919,6 +13919,7 @@ type SocketPlatform string
 
 const (
 	SocketPlatformAWS1500   SocketPlatform = "AWS1500"
+	SocketPlatformGCP1500   SocketPlatform = "GCP1500"
 	SocketPlatformAz1500    SocketPlatform = "AZ1500"
 	SocketPlatformEsx1500   SocketPlatform = "ESX1500"
 	SocketPlatformX1500     SocketPlatform = "X1500"
@@ -13932,6 +13933,7 @@ const (
 
 var AllSocketPlatform = []SocketPlatform{
 	SocketPlatformAWS1500,
+	SocketPlatformGCP1500,
 	SocketPlatformAz1500,
 	SocketPlatformEsx1500,
 	SocketPlatformX1500,
@@ -13945,7 +13947,7 @@ var AllSocketPlatform = []SocketPlatform{
 
 func (e SocketPlatform) IsValid() bool {
 	switch e {
-	case SocketPlatformAWS1500, SocketPlatformAz1500, SocketPlatformEsx1500, SocketPlatformX1500, SocketPlatformX1500Br2, SocketPlatformX1500bBr2, SocketPlatformX1600, SocketPlatformX1600Lte, SocketPlatformX1700, SocketPlatformX1700b:
+	case SocketPlatformAWS1500, SocketPlatformGCP1500, SocketPlatformAz1500, SocketPlatformEsx1500, SocketPlatformX1500, SocketPlatformX1500Br2, SocketPlatformX1500bBr2, SocketPlatformX1600, SocketPlatformX1600Lte, SocketPlatformX1700, SocketPlatformX1700b:
 		return true
 	}
 	return false
