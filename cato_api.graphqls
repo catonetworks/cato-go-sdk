@@ -6258,6 +6258,8 @@ enum EntityType {
   """Any entity (matches everything)"""
   any
   "Pooled licenses available for use"
+  apiKey
+  "added by joe"
   availablePooledUsage
   "Site licenses available for use"
   availableSiteUsage
@@ -6290,6 +6292,10 @@ enum EntityType {
   site
   "union of the globalRange and a Subnet"
   siteRange
+  "added by joe"
+  socketInterface
+  "added by joe"
+  subnet
   """
   Time zone, which is a geographical region where clocks are set to the same time
   """

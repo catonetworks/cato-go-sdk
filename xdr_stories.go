@@ -38,7 +38,12 @@ const XdrStoriesDocumentList = `query xdr ( $storyInput:StoryInput! $accountID:I
 				accountId 
 				accountName 
 				updatedAt 
-				createdAt 
+				createdAt
+				incident  {
+					id
+					firstSignal
+					lastSignal
+					}
 				}
 			}
 		}

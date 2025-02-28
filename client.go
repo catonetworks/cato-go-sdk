@@ -47,13 +47,6 @@ type CatoClient interface {
 	PolicyInternetFirewallUpdateSection(ctx context.Context, internetFirewallPolicyMutationInput *cato_models.InternetFirewallPolicyMutationInput, policyUpdateSectionInput cato_models.PolicyUpdateSectionInput, accountID string, interceptors ...clientv2.RequestInterceptor) (*PolicyInternetFirewallUpdateSection, error)
 	PolicyInternetFirewallUpdatePolicy(ctx context.Context, internetFirewallPolicyMutationInput *cato_models.InternetFirewallPolicyMutationInput, internetFirewallPolicyUpdateInput cato_models.InternetFirewallPolicyUpdateInput, accountID string, interceptors ...clientv2.RequestInterceptor) (*PolicyInternetFirewallUpdatePolicy, error)
 	Policy(ctx context.Context, internetFirewallPolicyInput *cato_models.InternetFirewallPolicyInput, wanFirewallPolicyInput *cato_models.WanFirewallPolicyInput, accountID string, interceptors ...clientv2.RequestInterceptor) (*Policy, error)
-
-	// Temporary entries to support independent calls for IFW and WAN Policies
-	PolicyInternetFirewall(ctx context.Context, internetFirewallPolicyInput *cato_models.InternetFirewallPolicyInput, accountID string, interceptors ...clientv2.RequestInterceptor) (*Policy, error)
-	PolicyWanFirewall(ctx context.Context, wanFirewallPolicyInput *cato_models.WanFirewallPolicyInput, accountID string, interceptors ...clientv2.RequestInterceptor) (*Policy, error)
-	XdrStoriesList(ctx context.Context, storyInput cato_models.StoryInput, accountID string, interceptors ...clientv2.RequestInterceptor) (*Xdr, error)
-	// End of temporary additions
-		
 	PolicyInternetFirewallAddRule(ctx context.Context, internetFirewallAddRuleInput cato_models.InternetFirewallAddRuleInput, accountID string, interceptors ...clientv2.RequestInterceptor) (*PolicyInternetFirewallAddRule, error)
 	PolicyWanFirewallAddRule(ctx context.Context, wanFirewallAddRuleInput cato_models.WanFirewallAddRuleInput, accountID string, interceptors ...clientv2.RequestInterceptor) (*PolicyWanFirewallAddRule, error)
 	PolicyWanFirewallAddSection(ctx context.Context, policyAddSectionInput cato_models.PolicyAddSectionInput, accountID string, interceptors ...clientv2.RequestInterceptor) (*PolicyWanFirewallAddSection, error)

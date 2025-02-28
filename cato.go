@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"context"
 	"encoding/json"
+	"fmt"
 	"io"
 	"log"
 	"net/http"
@@ -72,9 +73,15 @@ func New(url string, token string, httpClient *http.Client, headers ...string) (
 }
 
 func baseRetryPolicy(ctx context.Context, resp *http.Response, err error) (bool, error) {
+
 	// do not retry on context.Canceled or context.DeadlineExceeded
 	if ctx.Err() != nil {
 		return false, ctx.Err()
+	}
+
+	// in the event of connection errors, we do not get a response.
+	if resp == nil {
+		return false, fmt.Errorf("connection error")
 	}
 
 	// 429 Too Many Requests is recoverable. Sometimes the server puts

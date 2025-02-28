@@ -10282,6 +10282,8 @@ const (
 	// Any entity (matches everything)
 	EntityTypeAny EntityType = "any"
 	// Pooled licenses available for use
+	EntityTypeAPIKey EntityType = "apiKey"
+	// added by joe
 	EntityTypeAvailablePooledUsage EntityType = "availablePooledUsage"
 	// Site licenses available for use
 	EntityTypeAvailableSiteUsage EntityType = "availableSiteUsage"
@@ -10312,6 +10314,10 @@ const (
 	EntityTypeSite EntityType = "site"
 	// union of the globalRange and a Subnet
 	EntityTypeSiteRange EntityType = "siteRange"
+	// added by joe
+	EntityTypeSocketInterface EntityType = "socketInterface"
+	// added by joe
+	EntityTypeSubnet EntityType = "subnet"
 	// Time zone, which is a geographical region where clocks are set to the same time
 	EntityTypeTimezone EntityType = "timezone"
 	// A reference to the configured VPN User within Account
@@ -10324,6 +10330,7 @@ var AllEntityType = []EntityType{
 	EntityTypeAdmin,
 	EntityTypeAllocatedIP,
 	EntityTypeAny,
+	EntityTypeAPIKey,
 	EntityTypeAvailablePooledUsage,
 	EntityTypeAvailableSiteUsage,
 	EntityTypeCity,
@@ -10341,6 +10348,8 @@ var AllEntityType = []EntityType{
 	EntityTypeSimpleService,
 	EntityTypeSite,
 	EntityTypeSiteRange,
+	EntityTypeSocketInterface,
+	EntityTypeSubnet,
 	EntityTypeTimezone,
 	EntityTypeVpnUser,
 	EntityTypeWebhookSubscription,
@@ -10348,7 +10357,7 @@ var AllEntityType = []EntityType{
 
 func (e EntityType) IsValid() bool {
 	switch e {
-	case EntityTypeAccount, EntityTypeAdmin, EntityTypeAllocatedIP, EntityTypeAny, EntityTypeAvailablePooledUsage, EntityTypeAvailableSiteUsage, EntityTypeCity, EntityTypeCountry, EntityTypeCountryState, EntityTypeDhcpRelayGroup, EntityTypeGroupSubscription, EntityTypeHost, EntityTypeLanFirewall, EntityTypeLocalRouting, EntityTypeLocation, EntityTypeMailingListSubscription, EntityTypeNetworkInterface, EntityTypePortProtocol, EntityTypeSimpleService, EntityTypeSite, EntityTypeSiteRange, EntityTypeTimezone, EntityTypeVpnUser, EntityTypeWebhookSubscription:
+	case EntityTypeAccount, EntityTypeAdmin, EntityTypeAllocatedIP, EntityTypeAny, EntityTypeAPIKey, EntityTypeAvailablePooledUsage, EntityTypeAvailableSiteUsage, EntityTypeCity, EntityTypeCountry, EntityTypeCountryState, EntityTypeDhcpRelayGroup, EntityTypeGroupSubscription, EntityTypeHost, EntityTypeLanFirewall, EntityTypeLocalRouting, EntityTypeLocation, EntityTypeMailingListSubscription, EntityTypeNetworkInterface, EntityTypePortProtocol, EntityTypeSimpleService, EntityTypeSite, EntityTypeSiteRange, EntityTypeSocketInterface, EntityTypeSubnet, EntityTypeTimezone, EntityTypeVpnUser, EntityTypeWebhookSubscription:
 		return true
 	}
 	return false
