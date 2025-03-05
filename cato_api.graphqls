@@ -6296,6 +6296,10 @@ enum EntityType {
   socketInterface
   "added by joe"
   subnet
+  "added by joe"
+  casbRule
+  "Added by joe"
+  networkRule
   """
   Time zone, which is a geographical region where clocks are set to the same time
   """

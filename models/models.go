@@ -10318,6 +10318,10 @@ const (
 	EntityTypeSocketInterface EntityType = "socketInterface"
 	// added by joe
 	EntityTypeSubnet EntityType = "subnet"
+	// added by joe
+	EntityTypeCasbRule EntityType = "casbRule"
+	// Added by joe
+	EntityTypeNetworkRule EntityType = "networkRule"
 	// Time zone, which is a geographical region where clocks are set to the same time
 	EntityTypeTimezone EntityType = "timezone"
 	// A reference to the configured VPN User within Account
@@ -10350,6 +10354,8 @@ var AllEntityType = []EntityType{
 	EntityTypeSiteRange,
 	EntityTypeSocketInterface,
 	EntityTypeSubnet,
+	EntityTypeCasbRule,
+	EntityTypeNetworkRule,
 	EntityTypeTimezone,
 	EntityTypeVpnUser,
 	EntityTypeWebhookSubscription,
@@ -10357,7 +10363,7 @@ var AllEntityType = []EntityType{
 
 func (e EntityType) IsValid() bool {
 	switch e {
-	case EntityTypeAccount, EntityTypeAdmin, EntityTypeAllocatedIP, EntityTypeAny, EntityTypeAPIKey, EntityTypeAvailablePooledUsage, EntityTypeAvailableSiteUsage, EntityTypeCity, EntityTypeCountry, EntityTypeCountryState, EntityTypeDhcpRelayGroup, EntityTypeGroupSubscription, EntityTypeHost, EntityTypeLanFirewall, EntityTypeLocalRouting, EntityTypeLocation, EntityTypeMailingListSubscription, EntityTypeNetworkInterface, EntityTypePortProtocol, EntityTypeSimpleService, EntityTypeSite, EntityTypeSiteRange, EntityTypeSocketInterface, EntityTypeSubnet, EntityTypeTimezone, EntityTypeVpnUser, EntityTypeWebhookSubscription:
+	case EntityTypeAccount, EntityTypeAdmin, EntityTypeAllocatedIP, EntityTypeAny, EntityTypeAPIKey, EntityTypeAvailablePooledUsage, EntityTypeAvailableSiteUsage, EntityTypeCity, EntityTypeCountry, EntityTypeCountryState, EntityTypeDhcpRelayGroup, EntityTypeGroupSubscription, EntityTypeHost, EntityTypeLanFirewall, EntityTypeLocalRouting, EntityTypeLocation, EntityTypeMailingListSubscription, EntityTypeNetworkInterface, EntityTypePortProtocol, EntityTypeSimpleService, EntityTypeSite, EntityTypeSiteRange, EntityTypeSocketInterface, EntityTypeSubnet, EntityTypeCasbRule, EntityTypeNetworkRule, EntityTypeTimezone, EntityTypeVpnUser, EntityTypeWebhookSubscription:
 		return true
 	}
 	return false
