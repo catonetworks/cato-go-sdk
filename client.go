@@ -4960,31 +4960,6 @@ func (t *AuditFeed_AuditFeed_Accounts_Records_APIKey) GetType() *cato_models.Ent
 	return &t.Type
 }
 
-type AuditFeed_AuditFeed_Accounts_Records_Object struct {
-	ID   string                 "json:\"id\" graphql:\"id\""
-	Name *string                "json:\"name,omitempty\" graphql:\"name\""
-	Type cato_models.EntityType "json:\"type\" graphql:\"type\""
-}
-
-func (t *AuditFeed_AuditFeed_Accounts_Records_Object) GetID() string {
-	if t == nil {
-		t = &AuditFeed_AuditFeed_Accounts_Records_Object{}
-	}
-	return t.ID
-}
-func (t *AuditFeed_AuditFeed_Accounts_Records_Object) GetName() *string {
-	if t == nil {
-		t = &AuditFeed_AuditFeed_Accounts_Records_Object{}
-	}
-	return t.Name
-}
-func (t *AuditFeed_AuditFeed_Accounts_Records_Object) GetType() *cato_models.EntityType {
-	if t == nil {
-		t = &AuditFeed_AuditFeed_Accounts_Records_Object{}
-	}
-	return &t.Type
-}
-
 type AuditFeed_AuditFeed_Accounts_Records_Account_Entity struct {
 	ID   string                 "json:\"id\" graphql:\"id\""
 	Name *string                "json:\"name,omitempty\" graphql:\"name\""
@@ -5139,7 +5114,6 @@ type AuditFeed_AuditFeed_Accounts_Records struct {
 	Fields     []*AuditFeed_AuditFeed_Accounts_Records_Fields "json:\"fields,omitempty\" graphql:\"fields\""
 	FieldsMap  map[string]any                                 "json:\"fieldsMap,omitempty\" graphql:\"fieldsMap\""
 	FlatFields [][]string                                     "json:\"flatFields,omitempty\" graphql:\"flatFields\""
-	Object     *AuditFeed_AuditFeed_Accounts_Records_Object   "json:\"object,omitempty\" graphql:\"object\""
 	Time       *string                                        "json:\"time,omitempty\" graphql:\"time\""
 }
 
@@ -5178,12 +5152,6 @@ func (t *AuditFeed_AuditFeed_Accounts_Records) GetFlatFields() [][]string {
 		t = &AuditFeed_AuditFeed_Accounts_Records{}
 	}
 	return t.FlatFields
-}
-func (t *AuditFeed_AuditFeed_Accounts_Records) GetObject() *AuditFeed_AuditFeed_Accounts_Records_Object {
-	if t == nil {
-		t = &AuditFeed_AuditFeed_Accounts_Records{}
-	}
-	return t.Object
 }
 func (t *AuditFeed_AuditFeed_Accounts_Records) GetTime() *string {
 	if t == nil {
@@ -56247,11 +56215,6 @@ const AuditFeedDocument = `query auditFeed ($fieldNames: [AuditFieldName!], $acc
 					type
 				}
 				apiKey {
-					id
-					name
-					type
-				}
-				object {
 					id
 					name
 					type

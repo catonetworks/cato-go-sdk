@@ -6298,8 +6298,16 @@ enum EntityType {
   subnet
   "added by joe"
   casbRule
-  "Added by joe"
+  "added by joe"
   networkRule
+  "added by joe"
+  group
+  "added by joe"
+  usersGroup
+  "added by joe"
+  ip
+  "added by joe"
+  interfaceSubnet
   """
   Time zone, which is a geographical region where clocks are set to the same time
   """

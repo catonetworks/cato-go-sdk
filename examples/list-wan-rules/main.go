@@ -25,7 +25,11 @@ func main() {
 		os.Exit(1)
 	}
 
-	catoClient, _ := cato.New(url, token, nil, "testheader01", "testval01", "testheader02", "testval02")
+	headers := map[string]string{}
+	headers["testheader01"] = "testval01"
+	headers["testheader02"] = "testval02"
+
+	catoClient, _ := cato.New(url, token, accountId, nil, headers)
 
 	ctx := context.Background()
 

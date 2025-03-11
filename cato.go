@@ -40,7 +40,7 @@ type Errors struct {
 }
 
 // New function as wrapper to client
-func New(url string, token string, httpClient *http.Client, headers ...string) (*Client, error) {
+func New(url string, token string, accountId string, httpClient *http.Client, headers map[string]string) (*Client, error) {
 
 	// if an HTTP client is not provided, leverage the retry-enabled HTTP client
 	// which allows for built-in support for rate limit and exponential backoff/retry
@@ -55,14 +55,18 @@ func New(url string, token string, httpClient *http.Client, headers ...string) (
 
 	catoClient := &Client{
 		Client: clientv2.NewClient(httpClient, url, nil,
-			func(ctx context.Context, req *http.Request, gqlInfo *clientv2.GQLRequestInfo, res interface{}, next clientv2.RequestInterceptorFunc) error {
+			func(ctx context.Context, req *http.Request, gqlInfo *clientv2.GQLRequestInfo, res any, next clientv2.RequestInterceptorFunc) error {
 				req.Header.Set("x-api-key", token)
+				req.Header.Set("x-account-id", accountId)
 
-				if len(headers) != 0 && len(headers)%2 == 0 {
-					for i := 0; i < len(headers); i++ {
-						req.Header.Set(headers[i], headers[i+1])
-						i++
-					}
+				for key, val := range headers {
+					req.Header.Set(key, val)
+				}
+
+				// set a user-agent if not set by client
+				_, exists := headers["User-Agent"]
+				if !exists {
+					req.Header.Set("User-Agent", "Cato_Go_SDK/v0")
 				}
 
 				return next(ctx, req, gqlInfo, res)

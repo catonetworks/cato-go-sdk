@@ -4,6 +4,7 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"math"
 	"os"
 
 	cato "github.com/catonetworks/cato-go-sdk"
@@ -25,7 +26,7 @@ func main() {
 		os.Exit(1)
 	}
 
-	catoClient, _ := cato.New(url, token, nil)
+	catoClient, _ := cato.New(url, token, accountId, nil, nil)
 
 	ctx := context.Background()
 
@@ -33,18 +34,49 @@ func main() {
 		Filter: []*cato_models.StoryFilterInput{},
 		Paging: &cato_models.PagingInput{
 			From:  0,
-			Limit: 1000,
+			Limit: 80,
 		},
 		Sort: []*cato_models.StorySortInput{},
 	}
+	loopDone := false
+	totalCount := int64(math.MaxInt64)
 
-	queryResult, err := catoClient.XdrStoriesList(ctx, xdrStoriesInput, accountId)
+	queryInitialResult, err := catoClient.XdrStoriesList(ctx, xdrStoriesInput, accountId)
 	if err != nil {
-		fmt.Println("policy query error: ", err)
+		fmt.Println("XdrStoriesList initial query error: ", err)
 		return
 	}
 
-	queryResultJson, err := json.Marshal(queryResult)
+	if queryInitialResult.Xdr.Stories.Paging.Total < xdrStoriesInput.Paging.Limit {
+		loopDone = true
+	}
+
+	for !loopDone {
+
+		fmt.Println("Total Count: ", xdrStoriesInput.Paging.From+xdrStoriesInput.Paging.Limit, totalCount)
+		if xdrStoriesInput.Paging.From+xdrStoriesInput.Paging.Limit >= totalCount {
+			xdrStoriesInput.Paging.Limit = totalCount - xdrStoriesInput.Paging.From
+			fmt.Println("Math: ", xdrStoriesInput.Paging.Limit)
+			loopDone = true
+			break
+		} else {
+			xdrStoriesInput.Paging.From += xdrStoriesInput.Paging.Limit
+		}
+
+		queryResult, err := catoClient.XdrStoriesList(ctx, xdrStoriesInput, accountId)
+		if err != nil {
+			fmt.Println("XdrStoriesList loop query error: ", err)
+			return
+		}
+
+		fmt.Println("Query: ", xdrStoriesInput.Paging.From, xdrStoriesInput.Paging.Limit)
+		fmt.Println("Status: ", queryResult.Xdr.Stories.Paging.From, queryResult.Xdr.Stories.Paging.Limit, queryResult.Xdr.Stories.Paging.Total)
+		totalCount = queryResult.Xdr.Stories.Paging.Total
+
+		queryInitialResult.Xdr.Stories.Items = append(queryInitialResult.Xdr.Stories.Items, queryResult.GetXdr().GetStories().GetItems()...)
+	}
+
+	queryResultJson, err := json.Marshal(queryInitialResult)
 	if err != nil {
 		fmt.Println(err)
 		return

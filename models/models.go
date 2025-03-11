@@ -10320,8 +10320,16 @@ const (
 	EntityTypeSubnet EntityType = "subnet"
 	// added by joe
 	EntityTypeCasbRule EntityType = "casbRule"
-	// Added by joe
+	// added by joe
 	EntityTypeNetworkRule EntityType = "networkRule"
+	// added by joe
+	EntityTypeGroup EntityType = "group"
+	// added by joe
+	EntityTypeUsersGroup EntityType = "usersGroup"
+	// added by joe
+	EntityTypeIP EntityType = "ip"
+	// added by joe
+	EntityTypeInterfaceSubnet EntityType = "interfaceSubnet"
 	// Time zone, which is a geographical region where clocks are set to the same time
 	EntityTypeTimezone EntityType = "timezone"
 	// A reference to the configured VPN User within Account
@@ -10356,6 +10364,10 @@ var AllEntityType = []EntityType{
 	EntityTypeSubnet,
 	EntityTypeCasbRule,
 	EntityTypeNetworkRule,
+	EntityTypeGroup,
+	EntityTypeUsersGroup,
+	EntityTypeIP,
+	EntityTypeInterfaceSubnet,
 	EntityTypeTimezone,
 	EntityTypeVpnUser,
 	EntityTypeWebhookSubscription,
@@ -10363,7 +10375,7 @@ var AllEntityType = []EntityType{
 
 func (e EntityType) IsValid() bool {
 	switch e {
-	case EntityTypeAccount, EntityTypeAdmin, EntityTypeAllocatedIP, EntityTypeAny, EntityTypeAPIKey, EntityTypeAvailablePooledUsage, EntityTypeAvailableSiteUsage, EntityTypeCity, EntityTypeCountry, EntityTypeCountryState, EntityTypeDhcpRelayGroup, EntityTypeGroupSubscription, EntityTypeHost, EntityTypeLanFirewall, EntityTypeLocalRouting, EntityTypeLocation, EntityTypeMailingListSubscription, EntityTypeNetworkInterface, EntityTypePortProtocol, EntityTypeSimpleService, EntityTypeSite, EntityTypeSiteRange, EntityTypeSocketInterface, EntityTypeSubnet, EntityTypeCasbRule, EntityTypeNetworkRule, EntityTypeTimezone, EntityTypeVpnUser, EntityTypeWebhookSubscription:
+	case EntityTypeAccount, EntityTypeAdmin, EntityTypeAllocatedIP, EntityTypeAny, EntityTypeAPIKey, EntityTypeAvailablePooledUsage, EntityTypeAvailableSiteUsage, EntityTypeCity, EntityTypeCountry, EntityTypeCountryState, EntityTypeDhcpRelayGroup, EntityTypeGroupSubscription, EntityTypeHost, EntityTypeLanFirewall, EntityTypeLocalRouting, EntityTypeLocation, EntityTypeMailingListSubscription, EntityTypeNetworkInterface, EntityTypePortProtocol, EntityTypeSimpleService, EntityTypeSite, EntityTypeSiteRange, EntityTypeSocketInterface, EntityTypeSubnet, EntityTypeCasbRule, EntityTypeNetworkRule, EntityTypeGroup, EntityTypeUsersGroup, EntityTypeIP, EntityTypeInterfaceSubnet, EntityTypeTimezone, EntityTypeVpnUser, EntityTypeWebhookSubscription:
 		return true
 	}
 	return false

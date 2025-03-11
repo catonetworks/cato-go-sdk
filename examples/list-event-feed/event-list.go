@@ -35,33 +35,40 @@ func main() {
 
 		// "last.P2M"
 		fmt.Println("CURRENT_MARKER: ", marker)
-		auditData, err := catoClient.AuditFeed(ctx, nil, []string{accountId}, nil, "last.P2M", nil, &marker)
+		eventsData, err := catoClient.EventsFeed(ctx, nil, []string{accountId}, nil, &marker)
 		if err != nil {
 			fmt.Println("error in auditfeed: ", err)
 			return
 		}
 
-		if auditData.GetAuditFeed() == nil {
+		queryResultRespJson, err := json.Marshal(eventsData)
+		if err != nil {
+			fmt.Println(err)
+			return
+		}
+		fmt.Println(string(queryResultRespJson))
+
+		if eventsData.GetEventsFeed() == nil {
 			fmt.Println("GetAuditFeed is empty...maybe an error....")
 			return
 		}
 
-		if len(auditData.AuditFeed.Accounts[0].Records) == 0 {
+		if len(eventsData.EventsFeed.Accounts[0].Records) == 0 {
 			fmt.Println("nothing to process...skipping....")
 			return
 		}
 
-		queryResultJson, err := json.Marshal(auditData)
+		queryResultJson, err := json.Marshal(eventsData)
 		if err != nil {
 			fmt.Println(err)
 			return
 		}
 		fmt.Println(string(queryResultJson))
 
-		if !strings.EqualFold(marker, *auditData.AuditFeed.Marker) {
+		if !strings.EqualFold(marker, *eventsData.EventsFeed.Marker) {
 
 			// fmt.Println("updating marker to (*auditData.AuditFeed.Marker): ", *auditData.AuditFeed.Marker)
-			marker = *auditData.AuditFeed.Marker
+			marker = *eventsData.EventsFeed.Marker
 
 		} else {
 			// fmt.Println("end of auditfeed loop...exiting...")

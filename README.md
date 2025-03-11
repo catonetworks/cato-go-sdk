@@ -16,7 +16,7 @@ Token: Your API access token
 HTTP Client: Use either the default HTTP client or leverage more advanced configuration options by passing in a client.
 
 ```go
-catoClient, _ := cato.New(url, token, *http.DefaultClient)
+catoClient, _ := cato.New(url, token, accountId, nil, nil)
 ```
 
 ### Client Queries
@@ -60,7 +60,7 @@ queryResult, err := catoClient.Policy(ctx, queryIfwPolicy, queryWanPolicy, accou
 Mustations are used in GraphQL to perform a change. This can include a create/update/delete operation. In the example below, we are creating a mostly blank internet firewall rule which is named, "TestRule101". This is set to be inserted as the last rule in the policy to ALLOW any traffic to slashdot.org.
 
 ```go
-	catoClient, _ := cato.New(url, token, *http.DefaultClient)
+	catoClient, _ := cato.New(url, token, accountId, nil, nil)
 
 	ctx := context.Background()
 

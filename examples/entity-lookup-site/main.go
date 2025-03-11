@@ -26,7 +26,7 @@ func main() {
 	}
 
 	//  EntityLookup(ctx context.Context, accountID string, typeArg cato_models.EntityType, limit *int64, from *int64, parent *cato_models.EntityInput, search *string, entityIDs []string, sort []*cato_models.SortInput, filters []*cato_models.LookupFilterInput, helperFields []string, interceptors ...clientv2.RequestInterceptor) (*EntityLookup, error)
-	catoClient, _ := cato.New(url, token, nil)
+	catoClient, _ := cato.New(url, token, accountId, nil, nil)
 
 	ctx := context.Background()
 

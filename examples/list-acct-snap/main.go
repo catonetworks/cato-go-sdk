@@ -24,7 +24,7 @@ func main() {
 		os.Exit(1)
 	}
 
-	catoClient, _ := cato.New(url, token, nil)
+	catoClient, _ := cato.New(url, token, accountId, nil, nil)
 
 	ctx := context.Background()
 
