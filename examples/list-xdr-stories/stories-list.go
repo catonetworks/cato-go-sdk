@@ -53,10 +53,8 @@ func main() {
 
 	for !loopDone {
 
-		fmt.Println("Total Count: ", xdrStoriesInput.Paging.From+xdrStoriesInput.Paging.Limit, totalCount)
 		if xdrStoriesInput.Paging.From+xdrStoriesInput.Paging.Limit >= totalCount {
 			xdrStoriesInput.Paging.Limit = totalCount - xdrStoriesInput.Paging.From
-			fmt.Println("Math: ", xdrStoriesInput.Paging.Limit)
 			loopDone = true
 			break
 		} else {
@@ -69,8 +67,6 @@ func main() {
 			return
 		}
 
-		fmt.Println("Query: ", xdrStoriesInput.Paging.From, xdrStoriesInput.Paging.Limit)
-		fmt.Println("Status: ", queryResult.Xdr.Stories.Paging.From, queryResult.Xdr.Stories.Paging.Limit, queryResult.Xdr.Stories.Paging.Total)
 		totalCount = queryResult.Xdr.Stories.Paging.Total
 
 		queryInitialResult.Xdr.Stories.Items = append(queryInitialResult.Xdr.Stories.Items, queryResult.GetXdr().GetStories().GetItems()...)

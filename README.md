@@ -11,6 +11,9 @@ go install github.com/catonetworks/cato-go-sdk
 ```
 
 ### Client Initialization
+
+UPDATE: as of version 0.2.0, the client instantiation call has changed along with the format of additional HTTP headers passed to the client.
+
 URL: The URL to the Cato Networks GraphQL endpoint (https://api.catonetworks.com/api/v1/graphql2)
 Token: Your API access token
 HTTP Client: Use either the default HTTP client or leverage more advanced configuration options by passing in a client.

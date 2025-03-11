@@ -37,9 +37,9 @@ func main() {
 		return
 	}
 
-	queryResultJson, err := json.Marshal(queryResult.GetPolicy().InternetFirewall.Policy.Enabled)
+	queryResultJson, err := json.Marshal(queryResult)
 	if err != nil {
-		fmt.Println(err)
+		fmt.Println("error in json.Marshal: ", err)
 		return
 	}
 	fmt.Println(string(queryResultJson))
