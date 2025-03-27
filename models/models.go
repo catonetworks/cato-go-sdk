@@ -18,6 +18,13 @@ type Activity interface {
 	GetParentResourceID() string
 }
 
+type ActorRef interface {
+	IsObjectRef()
+	IsActorRef()
+	GetID() string
+	GetName() string
+}
+
 type Anomalies interface {
 	IsMergedIncident()
 	IsAnomalies()
@@ -599,6 +606,8 @@ type AddIpsecIkeV2SiteInput struct {
 	SiteLocation *AddSiteLocationInput `json:"siteLocation"`
 	// Valid values are: BRANCH, HEADQUARTERS,	CLOUD_DC, and DATACENTER.
 	SiteType SiteType `json:"siteType"`
+	// VLAN ID for native range
+	Vlan *string `json:"vlan,omitempty"`
 }
 
 type AddIpsecIkeV2SiteMultiTunnelPayload struct {
@@ -685,6 +694,36 @@ type AddNetworkRangePayload struct {
 	NetworkRangeID string `json:"networkRangeId"`
 }
 
+type AddSecondaryAWSVSocketInput struct {
+	// The IP address of LAN interface
+	EniIPAddress string `json:"eniIpAddress"`
+	// The subnet of the LAN interface
+	EniIPSubnet string `json:"eniIpSubnet"`
+	// The ID of the LAN route table
+	RouteTableID string `json:"routeTableId"`
+	// Information about the site where the secondary AWS VSocket is being added.
+	Site *SiteRefInput `json:"site"`
+}
+
+type AddSecondaryAWSVSocketPayload struct {
+	// The secondary socket id
+	ID string `json:"id"`
+}
+
+type AddSecondaryAzureVSocketInput struct {
+	// The floating IP address
+	FloatingIP string `json:"floatingIp"`
+	// The IP address of the interface
+	InterfaceIP string `json:"interfaceIp"`
+	// Information about the site where the secondary Azure VSocket is being added.
+	Site *SiteRefInput `json:"site"`
+}
+
+type AddSecondaryAzureVSocketPayload struct {
+	// The secondary socket id
+	ID string `json:"id"`
+}
+
 type AddSiteLocationInput struct {
 	// optional address
 	Address *string `json:"address,omitempty"`
@@ -699,13 +738,19 @@ type AddSiteLocationInput struct {
 }
 
 type AddSocketSiteInput struct {
-	ConnectionType     SiteConnectionTypeEnum `json:"connectionType"`
-	Description        *string                `json:"description,omitempty"`
-	Name               string                 `json:"name"`
-	NativeNetworkRange string                 `json:"nativeNetworkRange"`
-	SiteLocation       *AddSiteLocationInput  `json:"siteLocation"`
-	SiteType           SiteType               `json:"siteType"`
-	TranslatedSubnet   *string                `json:"translatedSubnet,omitempty"`
+	ConnectionType SiteConnectionTypeEnum `json:"connectionType"`
+	Description    *string                `json:"description,omitempty"`
+	// The name of the site
+	Name string `json:"name"`
+	// The native range of the site
+	NativeNetworkRange string `json:"nativeNetworkRange"`
+	// The location of the site
+	SiteLocation *AddSiteLocationInput `json:"siteLocation"`
+	// Valid values are: BRANCH, HEADQUARTERS,	CLOUD_DC, and DATACENTER.
+	SiteType         SiteType `json:"siteType"`
+	TranslatedSubnet *string  `json:"translatedSubnet,omitempty"`
+	// VLAN ID for native range
+	Vlan *string `json:"vlan,omitempty"`
 }
 
 type AddSocketSitePayload struct {
@@ -720,6 +765,18 @@ type AddStaticHostInput struct {
 
 type AddStaticHostPayload struct {
 	HostID string `json:"hostId"`
+}
+
+type AddStoryCommentInput struct {
+	// The relevant Story
+	StoryID string `json:"storyId"`
+	// Enter the text for the XDR story comment
+	Text string `json:"text"`
+}
+
+type AddStoryCommentPayload struct {
+	// Add a new comment to the XDR story
+	Comment *StoryComment `json:"comment"`
 }
 
 // A CC2 administrator
@@ -747,6 +804,21 @@ type AdminMutations struct {
 	RemoveAdmin *RemoveAdminPayload `json:"removeAdmin,omitempty"`
 	UpdateAdmin *UpdateAdminPayload `json:"updateAdmin,omitempty"`
 }
+
+type AdminRef struct {
+	ID   string `json:"id"`
+	Name string `json:"name"`
+}
+
+func (AdminRef) IsActorRef()          {}
+func (this AdminRef) GetID() string   { return this.ID }
+func (this AdminRef) GetName() string { return this.Name }
+
+func (AdminRef) IsObjectRef() {}
+
+// Object's unique identifier
+
+// Object's unique name
 
 type AdminRole struct {
 	AllowedAccounts []string  `json:"allowedAccounts,omitempty"`
@@ -783,6 +855,28 @@ type AnalystFeedback struct {
 	ThreatClassification *string                    `json:"threatClassification,omitempty"`
 	ThreatType           *AnalystFeedbackThreatType `json:"threatType,omitempty"`
 	Verdict              *StoryVerdictEnum          `json:"verdict,omitempty"`
+}
+
+type AnalystFeedbackInput struct {
+	// Free text for the analyst to enter additional information about the XDR story
+	AdditionalInfo *string `json:"additionalInfo,omitempty"`
+	// Enum for analyst to assign the severity of a Malicious XDR story
+	Severity *SeverityEnum `json:"severity,omitempty"`
+	// Enum for the current status of the XDR story.
+	Status *StoryStatusEnum `json:"status,omitempty"`
+	// The relevant Story
+	StoryID string `json:"storyId"`
+	// More detailed description of the type of threat. For example, the Anonymizer threatType can be assigned the Bitorrent Client threatClassification.
+	ThreatClassification *string `json:"threatClassification,omitempty"`
+	// Type of threat for the XDR story that is assigned by the analyst
+	ThreatType *StoryThreatType `json:"threatType,omitempty"`
+	// Enum for analyst to assign the verdict of the XDR story
+	Verdict *StoryVerdictEnum `json:"verdict,omitempty"`
+}
+
+type AnalystFeedbackPayload struct {
+	// Data related to the actions and information that an analyst adds to the XDR story
+	Story *Story `json:"story,omitempty"`
 }
 
 type AnalystFeedbackThreatType struct {
@@ -1063,6 +1157,21 @@ func (AnomalyStats) IsMergedIncident() {}
 // Cato ID and name for the site
 
 // Cato ID and name for the user
+
+type APIKeyRef struct {
+	ID   string `json:"id"`
+	Name string `json:"name"`
+}
+
+func (APIKeyRef) IsActorRef()          {}
+func (this APIKeyRef) GetID() string   { return this.ID }
+func (this APIKeyRef) GetName() string { return this.Name }
+
+func (APIKeyRef) IsObjectRef() {}
+
+// Object's unique identifier
+
+// Object's unique name
 
 type AppStats struct {
 	From    *string           `json:"from,omitempty"`
@@ -1607,6 +1716,24 @@ type BGPConnection struct {
 	ConnectionName *string        `json:"connectionName,omitempty"`
 	PeerAsn        *scalars.Asn32 `json:"peerAsn,omitempty"`
 	PeerIP         *string        `json:"peerIp,omitempty"`
+}
+
+type BandwidthManagementRef struct {
+	ID   string `json:"id"`
+	Name string `json:"name"`
+}
+
+func (BandwidthManagementRef) IsObjectRef() {}
+
+// Object's unique identifier
+func (this BandwidthManagementRef) GetID() string { return this.ID }
+
+// Object's unique name
+func (this BandwidthManagementRef) GetName() string { return this.Name }
+
+type BandwidthManagementRefInput struct {
+	By    ObjectRefBy `json:"by"`
+	Input string      `json:"input"`
 }
 
 type BfdSettings struct {
@@ -2350,6 +2477,8 @@ type CountryRefInput struct {
 type CreateFqdnContainerFromFileInput struct {
 	// Description for the container
 	Description string `json:"description"`
+	// File type that will be uploaded
+	FileType ContainerFileType `json:"fileType"`
 	// Name for the container
 	Name string `json:"name"`
 	// Multipart file containing FQDNs with fileType delimiter
@@ -2366,6 +2495,8 @@ type CreateFqdnContainerFromFilePayload struct {
 type CreateIPAddressRangeContainerFromFileInput struct {
 	// Description for the container
 	Description string `json:"description"`
+	// File type that will be uploaded
+	FileType ContainerFileType `json:"fileType"`
 	// Name for the container
 	Name string `json:"name"`
 	// Multipart file containing IPAddressRanges with fileType delimiter
@@ -2428,6 +2559,18 @@ type CustomServiceInput struct {
 	Protocol  IPProtocol      `json:"protocol"`
 }
 
+type CustomServiceIP struct {
+	IP      *string         `json:"ip,omitempty"`
+	IPRange *IPAddressRange `json:"ipRange,omitempty"`
+	Name    string          `json:"name"`
+}
+
+type CustomServiceIPInput struct {
+	IP      *string              `json:"ip,omitempty"`
+	IPRange *IPAddressRangeInput `json:"ipRange,omitempty"`
+	Name    string               `json:"name"`
+}
+
 type DataLakeLicense struct {
 	Description *string `json:"description,omitempty"`
 	// The version of the Data Processing Agreement (DPA) that your company signed with Cato.
@@ -2488,6 +2631,18 @@ func (DataLakeLicense) IsQuantifiableLicense() {}
 // license quantity
 func (this DataLakeLicense) GetTotal() int64 { return this.Total }
 
+type DateTimeFilterInput struct {
+	Between []string `json:"between,omitempty"`
+	Eq      *string  `json:"eq,omitempty"`
+	Gt      *string  `json:"gt,omitempty"`
+	Gte     *string  `json:"gte,omitempty"`
+	In      []string `json:"in,omitempty"`
+	Lt      *string  `json:"lt,omitempty"`
+	Lte     *string  `json:"lte,omitempty"`
+	Neq     *string  `json:"neq,omitempty"`
+	Nin     []string `json:"nin,omitempty"`
+}
+
 type DateValue struct {
 	Date *string `json:"date,omitempty"`
 }
@@ -2503,6 +2658,30 @@ type DeleteContainerInput struct {
 type DeleteContainerPayload struct {
 	// The data of the container before it was deleted
 	Container Container `json:"container"`
+}
+
+// Delete report input
+type DeleteReportInput struct {
+	//  File hash (SHA-256) to be deleted
+	FileHash string `json:"fileHash"`
+}
+
+// Delete report response
+type DeleteReportPayload struct {
+	//  File hash (SHA-256)
+	FileHash string `json:"fileHash"`
+}
+
+type DeleteStoryCommentInput struct {
+	// The comment ID
+	CommentID string `json:"commentId"`
+	// The relevant Story
+	StoryID string `json:"storyId"`
+}
+
+type DeleteStoryCommentPayload struct {
+	// Delete an existing comment from an XDR story
+	Comment *StoryComment `json:"comment"`
 }
 
 // DEM service license details
@@ -2763,6 +2942,269 @@ type DownloadIPAddressRangeContainerFilePayload struct {
 	ID string `json:"id"`
 	// Name for the container
 	Name string `json:"name"`
+}
+
+type DynamicIPAllocationAddRuleDataInput struct {
+	Country     []*CountryRefInput              `json:"country"`
+	Description string                          `json:"description"`
+	Enabled     bool                            `json:"enabled"`
+	Name        string                          `json:"name"`
+	Platform    []OperatingSystem               `json:"platform"`
+	Range       *DynamicIPAllocationRangeInput  `json:"range"`
+	Source      *DynamicIPAllocationSourceInput `json:"source"`
+}
+
+type DynamicIPAllocationAddRuleInput struct {
+	// Position of the rule in the policy
+	At *PolicyRulePositionInput `json:"at,omitempty"`
+	// Parameters for the rule you are adding
+	Rule *DynamicIPAllocationAddRuleDataInput `json:"rule"`
+}
+
+type DynamicIPAllocationPolicy struct {
+	Audit    *PolicyAudit                      `json:"audit,omitempty"`
+	Enabled  bool                              `json:"enabled"`
+	Revision *PolicyRevision                   `json:"revision,omitempty"`
+	Rules    []*DynamicIPAllocationRulePayload `json:"rules"`
+	Sections []*PolicySectionPayload           `json:"sections"`
+}
+
+func (DynamicIPAllocationPolicy) IsIPolicy() {}
+
+// TRUE = Policy is enabled, FALSE = Policy is disabled
+func (this DynamicIPAllocationPolicy) GetEnabled() bool { return this.Enabled }
+
+// Return list of rules in the policy
+func (this DynamicIPAllocationPolicy) GetRules() []IPolicyRulePayload {
+	if this.Rules == nil {
+		return nil
+	}
+	interfaceSlice := make([]IPolicyRulePayload, 0, len(this.Rules))
+	for _, concrete := range this.Rules {
+		interfaceSlice = append(interfaceSlice, concrete)
+	}
+	return interfaceSlice
+}
+
+// Return sections in the policy
+func (this DynamicIPAllocationPolicy) GetSections() []*PolicySectionPayload {
+	if this.Sections == nil {
+		return nil
+	}
+	interfaceSlice := make([]*PolicySectionPayload, 0, len(this.Sections))
+	for _, concrete := range this.Sections {
+		interfaceSlice = append(interfaceSlice, concrete)
+	}
+	return interfaceSlice
+}
+
+// Audit data for the policy
+func (this DynamicIPAllocationPolicy) GetAudit() *PolicyAudit { return this.Audit }
+
+// Return data for the Policy revision
+func (this DynamicIPAllocationPolicy) GetRevision() *PolicyRevision { return this.Revision }
+
+type DynamicIPAllocationPolicyInput struct {
+	// A revision is a specific instance of the policy.
+	//  Unpublished revisions are working copies of the policy available to a specific
+	//  admin or a set of admins
+	//  Published revisions are revisions that were applied to the account network.
+	//  The last published revision is the active policy.
+	Revision *PolicyRevisionInput `json:"revision,omitempty"`
+}
+
+type DynamicIPAllocationPolicyMutationInput struct {
+	Revision *PolicyMutationRevisionInput `json:"revision,omitempty"`
+}
+
+type DynamicIPAllocationPolicyMutationPayload struct {
+	Errors []*PolicyMutationError     `json:"errors"`
+	Policy *DynamicIPAllocationPolicy `json:"policy,omitempty"`
+	Status PolicyMutationStatus       `json:"status"`
+}
+
+func (DynamicIPAllocationPolicyMutationPayload) IsIPolicyMutationPayload() {}
+
+// Data for the policy
+func (this DynamicIPAllocationPolicyMutationPayload) GetPolicy() IPolicy { return *this.Policy }
+
+// Enum for the status of the policy change
+func (this DynamicIPAllocationPolicyMutationPayload) GetStatus() PolicyMutationStatus {
+	return this.Status
+}
+
+// List of errors related to the policy change
+func (this DynamicIPAllocationPolicyMutationPayload) GetErrors() []*PolicyMutationError {
+	if this.Errors == nil {
+		return nil
+	}
+	interfaceSlice := make([]*PolicyMutationError, 0, len(this.Errors))
+	for _, concrete := range this.Errors {
+		interfaceSlice = append(interfaceSlice, concrete)
+	}
+	return interfaceSlice
+}
+
+type DynamicIPAllocationPolicyMutations struct {
+	AddRule               *DynamicIPAllocationRuleMutationPayload   `json:"addRule"`
+	AddSection            *PolicySectionMutationPayload             `json:"addSection"`
+	CreatePolicyRevision  *DynamicIPAllocationPolicyMutationPayload `json:"createPolicyRevision"`
+	DiscardPolicyRevision *DynamicIPAllocationPolicyMutationPayload `json:"discardPolicyRevision"`
+	MoveRule              *DynamicIPAllocationRuleMutationPayload   `json:"moveRule"`
+	MoveSection           *PolicySectionMutationPayload             `json:"moveSection"`
+	PublishPolicyRevision *DynamicIPAllocationPolicyMutationPayload `json:"publishPolicyRevision"`
+	RemoveRule            *DynamicIPAllocationRuleMutationPayload   `json:"removeRule"`
+	RemoveSection         *PolicySectionMutationPayload             `json:"removeSection"`
+	UpdatePolicy          *DynamicIPAllocationPolicyMutationPayload `json:"updatePolicy"`
+	UpdateRule            *DynamicIPAllocationRuleMutationPayload   `json:"updateRule"`
+	UpdateSection         *PolicySectionMutationPayload             `json:"updateSection"`
+}
+
+type DynamicIPAllocationPolicyQueries struct {
+	Policy    *DynamicIPAllocationPolicy `json:"policy"`
+	Revisions *PolicyRevisionsPayload    `json:"revisions,omitempty"`
+}
+
+type DynamicIPAllocationPolicyUpdateInput struct {
+	State *PolicyToggleState `json:"state,omitempty"`
+}
+
+type DynamicIPAllocationRange struct {
+	GlobalIPRange *GlobalIPRangeRef `json:"globalIpRange"`
+}
+
+type DynamicIPAllocationRangeInput struct {
+	GlobalIPRange *GlobalIPRangeRefInput `json:"globalIpRange"`
+}
+
+type DynamicIPAllocationRangeUpdateInput struct {
+	GlobalIPRange *GlobalIPRangeRefInput `json:"globalIpRange,omitempty"`
+}
+
+type DynamicIPAllocationRemoveRuleInput struct {
+	ID string `json:"id"`
+}
+
+type DynamicIPAllocationRule struct {
+	Country []*CountryRef `json:"country"`
+	// Description for the rule
+	Description string `json:"description"`
+	// TRUE = Rule is enabled
+	//  FALSE = Rule is disabled
+	Enabled bool `json:"enabled"`
+	// Rule ID
+	ID string `json:"id"`
+	// Position / priority of rule
+	Index int64 `json:"index"`
+	// Name of the rule
+	Name     string                    `json:"name"`
+	Platform []OperatingSystem         `json:"platform"`
+	Range    *DynamicIPAllocationRange `json:"range"`
+	// Policy section where the rule is located
+	Section *PolicySectionInfo         `json:"section"`
+	Source  *DynamicIPAllocationSource `json:"source"`
+}
+
+func (DynamicIPAllocationRule) IsIPolicyRule() {}
+
+// Rule ID
+func (this DynamicIPAllocationRule) GetID() string { return this.ID }
+
+// Name of the rule
+func (this DynamicIPAllocationRule) GetName() string { return this.Name }
+
+// Description for the rule
+func (this DynamicIPAllocationRule) GetDescription() *string { return &this.Description }
+
+// Position / priority of rule
+func (this DynamicIPAllocationRule) GetIndex() int64 { return this.Index }
+
+// TRUE = Rule is enabled, FALSE = Rule is disabled
+func (this DynamicIPAllocationRule) GetEnabled() bool { return this.Enabled }
+
+// Policy section where the rule is located
+func (this DynamicIPAllocationRule) GetSection() *PolicySectionInfo { return this.Section }
+
+type DynamicIPAllocationRuleMutationPayload struct {
+	Errors []*PolicyMutationError          `json:"errors"`
+	Rule   *DynamicIPAllocationRulePayload `json:"rule,omitempty"`
+	Status PolicyMutationStatus            `json:"status"`
+}
+
+func (DynamicIPAllocationRuleMutationPayload) IsIPolicyRuleMutationPayload() {}
+
+// Returns settings for the rule
+func (this DynamicIPAllocationRuleMutationPayload) GetRule() IPolicyRulePayload { return *this.Rule }
+
+// Enum for the status of the policy change
+func (this DynamicIPAllocationRuleMutationPayload) GetStatus() PolicyMutationStatus {
+	return this.Status
+}
+
+// List of errors related to the policy change
+func (this DynamicIPAllocationRuleMutationPayload) GetErrors() []*PolicyMutationError {
+	if this.Errors == nil {
+		return nil
+	}
+	interfaceSlice := make([]*PolicyMutationError, 0, len(this.Errors))
+	for _, concrete := range this.Errors {
+		interfaceSlice = append(interfaceSlice, concrete)
+	}
+	return interfaceSlice
+}
+
+type DynamicIPAllocationRulePayload struct {
+	Audit      *PolicyElementAudit           `json:"audit"`
+	Properties []PolicyElementPropertiesEnum `json:"properties"`
+	Rule       *DynamicIPAllocationRule      `json:"rule"`
+}
+
+func (DynamicIPAllocationRulePayload) IsIPolicyRulePayload()              {}
+func (this DynamicIPAllocationRulePayload) GetAudit() *PolicyElementAudit { return this.Audit }
+
+// Rule that was changed
+func (this DynamicIPAllocationRulePayload) GetRule() IPolicyRule { return *this.Rule }
+
+// Summary of rule change, (ie. ADDED, UPDATED)
+func (this DynamicIPAllocationRulePayload) GetProperties() []PolicyElementPropertiesEnum {
+	if this.Properties == nil {
+		return nil
+	}
+	interfaceSlice := make([]PolicyElementPropertiesEnum, 0, len(this.Properties))
+	for _, concrete := range this.Properties {
+		interfaceSlice = append(interfaceSlice, concrete)
+	}
+	return interfaceSlice
+}
+
+type DynamicIPAllocationSource struct {
+	User       []*UserRef       `json:"user"`
+	UsersGroup []*UsersGroupRef `json:"usersGroup"`
+}
+
+type DynamicIPAllocationSourceInput struct {
+	User       []*UserRefInput       `json:"user"`
+	UsersGroup []*UsersGroupRefInput `json:"usersGroup"`
+}
+
+type DynamicIPAllocationSourceUpdateInput struct {
+	User       []*UserRefInput       `json:"user,omitempty"`
+	UsersGroup []*UsersGroupRefInput `json:"usersGroup,omitempty"`
+}
+
+type DynamicIPAllocationUpdateRuleDataInput struct {
+	Country     []*CountryRefInput                    `json:"country,omitempty"`
+	Description *string                               `json:"description,omitempty"`
+	Enabled     *bool                                 `json:"enabled,omitempty"`
+	Name        *string                               `json:"name,omitempty"`
+	Platform    []OperatingSystem                     `json:"platform,omitempty"`
+	Range       *DynamicIPAllocationRangeUpdateInput  `json:"range,omitempty"`
+	Source      *DynamicIPAllocationSourceUpdateInput `json:"source,omitempty"`
+}
+
+type DynamicIPAllocationUpdateRuleInput struct {
+	ID   string                                  `json:"id"`
+	Rule *DynamicIPAllocationUpdateRuleDataInput `json:"rule"`
 }
 
 // End Point Protection (EPP) license details
@@ -3426,6 +3868,8 @@ type InterfaceInfo struct {
 	UpstreamBandwidth *int64 `json:"upstreamBandwidth,omitempty"`
 	// Maximum allowed bandwidth on this port in MBPS with single decimal point, for traffic from the site to the Cato Cloud
 	UpstreamBandwidthMbpsPrecision *float64 `json:"upstreamBandwidthMbpsPrecision,omitempty"`
+	// Role for the WAN interface
+	WanRole *SocketInterfaceWanRole `json:"wanRole,omitempty"`
 }
 
 type InterfaceLinkState struct {
@@ -5439,9 +5883,12 @@ type PolicyMutationRevisionInput struct {
 // Policies that can be configured with mutation APIs.
 type PolicyMutations struct {
 	AppTenantRestriction *AppTenantRestrictionPolicyMutations `json:"appTenantRestriction,omitempty"`
+	DynamicIPAllocation  *DynamicIPAllocationPolicyMutations  `json:"dynamicIpAllocation,omitempty"`
 	InternetFirewall     *InternetFirewallPolicyMutations     `json:"internetFirewall,omitempty"`
 	RemotePortFwd        *RemotePortFwdPolicyMutations        `json:"remotePortFwd,omitempty"`
+	SocketLan            *SocketLanPolicyMutations            `json:"socketLan,omitempty"`
 	WanFirewall          *WanFirewallPolicyMutations          `json:"wanFirewall,omitempty"`
+	WanNetwork           *WanNetworkPolicyMutations           `json:"wanNetwork,omitempty"`
 }
 
 // Published revision is the active policy
@@ -6290,6 +6737,72 @@ type SanctionedAppsCategoryRefInput struct {
 	Input string      `json:"input"`
 }
 
+type SandboxMutations struct {
+	//  Delete a sandbox report
+	DeleteReport *DeleteReportPayload `json:"deleteReport"`
+	//  Upload a file for sandbox analysis
+	UploadFile *UploadFilePayload `json:"uploadFile"`
+}
+
+type SandboxQueries struct {
+	//  Get a list of sandbox reports
+	Reports *SandboxReportsPayload `json:"reports"`
+}
+
+// Sandbox report meta-data
+type SandboxReport struct {
+	//  Report creation date
+	CreationDate string `json:"creationDate"`
+	//  Report download URL (if ready)
+	DownloadURL *string `json:"downloadUrl,omitempty"`
+	//  Report expiration date
+	ExpirationDate *string `json:"expirationDate,omitempty"`
+	//  File hash (SHA-256)
+	FileHash string `json:"fileHash"`
+	//  File name
+	FileName *string `json:"fileName,omitempty"`
+	//  Sandbox analysis status
+	Status SandboxStatus `json:"status"`
+	//  Sandbox verdict
+	Verdict *SandboxVerdict `json:"verdict,omitempty"`
+}
+
+// Sandbox reports query filter
+type SandboxReportsFilterInput struct {
+	//  File hash filter
+	FileHash []*StringFilterInput `json:"fileHash,omitempty"`
+	//  File name filter
+	FileName []*StringFilterInput `json:"fileName,omitempty"`
+	//  Report creation date filter
+	ReportCreateDate []*DateTimeFilterInput `json:"reportCreateDate,omitempty"`
+}
+
+// Sandbox reports query input
+type SandboxReportsInput struct {
+	//  Query filter criteria
+	Filter *SandboxReportsFilterInput `json:"filter,omitempty"`
+	//  Query pagination criteria
+	Paging *PagingInput `json:"paging"`
+	//  Query sorting criteria
+	Sort *SandboxReportsSortInput `json:"sort"`
+}
+
+// Output of sandbox reports query
+type SandboxReportsPayload struct {
+	//  Pagination information
+	PageInfo *PageInfo `json:"pageInfo"`
+	//  List of sandbox reports
+	Report []*SandboxReport `json:"report"`
+}
+
+// Sandbox reports query sorting
+type SandboxReportsSortInput struct {
+	//  Sort by file name
+	FileName *SortOrderInput `json:"fileName,omitempty"`
+	//  Sort by report creation date
+	ReportCreateDate *SortOrderInput `json:"reportCreateDate,omitempty"`
+}
+
 type ServiceRef struct {
 	ID   string `json:"id"`
 	Name string `json:"name"`
@@ -6315,6 +6828,14 @@ type SimilarStoryData struct {
 	ThreatClassification *string  `json:"threatClassification,omitempty"`
 	ThreatTypeName       *string  `json:"threatTypeName,omitempty"`
 	Verdict              *string  `json:"verdict,omitempty"`
+}
+
+type SimpleService struct {
+	Name SimpleServiceType `json:"name"`
+}
+
+type SimpleServiceInput struct {
+	Name SimpleServiceType `json:"name"`
 }
 
 type SiteBgpStatus struct {
@@ -6456,6 +6977,10 @@ type SiteMutations struct {
 	AddIpsecIkeV2Site        *AddIpsecIkeV2SitePayload        `json:"addIpsecIkeV2Site,omitempty"`
 	AddIpsecIkeV2SiteTunnels *AddIpsecIkeV2SiteTunnelsPayload `json:"addIpsecIkeV2SiteTunnels,omitempty"`
 	AddNetworkRange          *AddNetworkRangePayload          `json:"addNetworkRange,omitempty"`
+	// Add a secondary AWS vSocket to an existing site
+	AddSecondaryAWSVSocket *AddSecondaryAWSVSocketPayload `json:"addSecondaryAwsVSocket,omitempty"`
+	// Add a secondary Azure vSocket to an existing site
+	AddSecondaryAzureVSocket *AddSecondaryAzureVSocketPayload `json:"addSecondaryAzureVSocket,omitempty"`
 	AddSocketSite            *AddSocketSitePayload            `json:"addSocketSite,omitempty"`
 	AddStaticHost            *AddStaticHostPayload            `json:"addStaticHost,omitempty"`
 	// Removes an existing BGP peer configuration from a site.
@@ -6686,6 +7211,496 @@ type SocketInventoryPayload struct {
 	PageInfo *PageInfo              `json:"pageInfo"`
 }
 
+type SocketLanAddRuleDataInput struct {
+	Description string `json:"description"`
+	// Destination traffic matching criteria.
+	// Logical ‘OR’ is applied within the criteria set.
+	// Logical ‘AND’ is applied between criteria sets.
+	Destination *SocketLanDestinationInput `json:"destination"`
+	// Direction of the traffic initiator matching criteria.
+	Direction SocketLanDirection `json:"direction"`
+	Enabled   bool               `json:"enabled"`
+	Name      string             `json:"name"`
+	// Optionally, enable NAT on the outgoing interface. This translates all originating IPs to one NAT IP.
+	Nat *SocketLanNatSettingsInput `json:"nat"`
+	// Destination service matching criteria for the rule. Port/Protocol based.
+	Service *SocketLanServiceInput `json:"service"`
+	// The sites the policy will be enforced on.
+	// Socket sites only, with Socket v22 onwards.
+	Site *SocketLanSiteInput `json:"site"`
+	// Source traffic matching criteria.
+	// Logical ‘OR’ is applied within the criteria set.
+	// Logical ‘AND’ is applied between criteria sets.
+	Source *SocketLanSourceInput `json:"source"`
+	// The transport of the matching traffic.
+	// Either govern traffic to be routed locally (LAN), or to the PoP(WAN).
+	// Traffic is send to the WAN by default.
+	// Traffic routed in the LAN, enforced by the LAN Firewall rules.
+	Transport SocketLanTransportType `json:"transport"`
+}
+
+type SocketLanAddRuleInput struct {
+	// Position of the rule in the policy
+	At *PolicyRulePositionInput `json:"at,omitempty"`
+	// Parameters for the rule you are adding
+	Rule *SocketLanAddRuleDataInput `json:"rule"`
+}
+
+// Returns the settings for Destination of a Wan Firewall rule.
+type SocketLanDestination struct {
+	FloatingSubnet    []*FloatingSubnetRef    `json:"floatingSubnet"`
+	GlobalIPRange     []*GlobalIPRangeRef     `json:"globalIpRange"`
+	Group             []*GroupRef             `json:"group"`
+	Host              []*HostRef              `json:"host"`
+	IP                []string                `json:"ip"`
+	IPRange           []*IPAddressRange       `json:"ipRange"`
+	NetworkInterface  []*NetworkInterfaceRef  `json:"networkInterface"`
+	SiteNetworkSubnet []*SiteNetworkSubnetRef `json:"siteNetworkSubnet"`
+	Subnet            []string                `json:"subnet"`
+	SystemGroup       []*SystemGroupRef       `json:"systemGroup"`
+	Vlan              []string                `json:"vlan"`
+}
+
+// Input of the settings for Destination of a Wan Firewall rule.
+type SocketLanDestinationInput struct {
+	FloatingSubnet    []*FloatingSubnetRefInput    `json:"floatingSubnet"`
+	GlobalIPRange     []*GlobalIPRangeRefInput     `json:"globalIpRange"`
+	Group             []*GroupRefInput             `json:"group"`
+	Host              []*HostRefInput              `json:"host"`
+	IP                []string                     `json:"ip"`
+	IPRange           []*IPAddressRangeInput       `json:"ipRange"`
+	NetworkInterface  []*NetworkInterfaceRefInput  `json:"networkInterface"`
+	SiteNetworkSubnet []*SiteNetworkSubnetRefInput `json:"siteNetworkSubnet"`
+	Subnet            []string                     `json:"subnet"`
+	SystemGroup       []*SystemGroupRefInput       `json:"systemGroup"`
+	Vlan              []string                     `json:"vlan"`
+}
+
+// Input of the settings for Destination of a Wan Firewall rule.
+type SocketLanDestinationUpdateInput struct {
+	FloatingSubnet    []*FloatingSubnetRefInput    `json:"floatingSubnet,omitempty"`
+	GlobalIPRange     []*GlobalIPRangeRefInput     `json:"globalIpRange,omitempty"`
+	Group             []*GroupRefInput             `json:"group,omitempty"`
+	Host              []*HostRefInput              `json:"host,omitempty"`
+	IP                []string                     `json:"ip,omitempty"`
+	IPRange           []*IPAddressRangeInput       `json:"ipRange,omitempty"`
+	NetworkInterface  []*NetworkInterfaceRefInput  `json:"networkInterface,omitempty"`
+	SiteNetworkSubnet []*SiteNetworkSubnetRefInput `json:"siteNetworkSubnet,omitempty"`
+	Subnet            []string                     `json:"subnet,omitempty"`
+	SystemGroup       []*SystemGroupRefInput       `json:"systemGroup,omitempty"`
+	Vlan              []string                     `json:"vlan,omitempty"`
+}
+
+// Defines NAT settings for the socket LAN policy.
+type SocketLanNatSettings struct {
+	// Indicates if NAT is enabled.
+	Enabled bool             `json:"enabled"`
+	NatType SocketLanNatType `json:"natType"`
+}
+
+// Defines NAT settings for the socket LAN policy.
+type SocketLanNatSettingsInput struct {
+	// Indicates if NAT is enabled.
+	Enabled bool             `json:"enabled"`
+	NatType SocketLanNatType `json:"natType"`
+}
+
+// Defines NAT settings for the socket LAN policy.
+type SocketLanNatSettingsUpdateInput struct {
+	// Indicates if NAT is enabled.
+	Enabled *bool             `json:"enabled,omitempty"`
+	NatType *SocketLanNatType `json:"natType,omitempty"`
+}
+
+type SocketLanPolicy struct {
+	Audit    *PolicyAudit            `json:"audit,omitempty"`
+	Enabled  bool                    `json:"enabled"`
+	Revision *PolicyRevision         `json:"revision,omitempty"`
+	Rules    []*SocketLanRulePayload `json:"rules"`
+	Sections []*PolicySectionPayload `json:"sections"`
+}
+
+func (SocketLanPolicy) IsIPolicy() {}
+
+// TRUE = Policy is enabled, FALSE = Policy is disabled
+func (this SocketLanPolicy) GetEnabled() bool { return this.Enabled }
+
+// Return list of rules in the policy
+func (this SocketLanPolicy) GetRules() []IPolicyRulePayload {
+	if this.Rules == nil {
+		return nil
+	}
+	interfaceSlice := make([]IPolicyRulePayload, 0, len(this.Rules))
+	for _, concrete := range this.Rules {
+		interfaceSlice = append(interfaceSlice, concrete)
+	}
+	return interfaceSlice
+}
+
+// Return sections in the policy
+func (this SocketLanPolicy) GetSections() []*PolicySectionPayload {
+	if this.Sections == nil {
+		return nil
+	}
+	interfaceSlice := make([]*PolicySectionPayload, 0, len(this.Sections))
+	for _, concrete := range this.Sections {
+		interfaceSlice = append(interfaceSlice, concrete)
+	}
+	return interfaceSlice
+}
+
+// Audit data for the policy
+func (this SocketLanPolicy) GetAudit() *PolicyAudit { return this.Audit }
+
+// Return data for the Policy revision
+func (this SocketLanPolicy) GetRevision() *PolicyRevision { return this.Revision }
+
+type SocketLanPolicyInput struct {
+	// A revision is a specific instance of the policy.
+	//  Unpublished revisions are working copies of the policy available to a specific
+	//  admin or a set of admins
+	//  Published revisions are revisions that were applied to the account network.
+	//  The last published revision is the active policy.
+	Revision *PolicyRevisionInput `json:"revision,omitempty"`
+}
+
+type SocketLanPolicyMutationInput struct {
+	Revision *PolicyMutationRevisionInput `json:"revision,omitempty"`
+}
+
+type SocketLanPolicyMutationPayload struct {
+	Errors []*PolicyMutationError `json:"errors"`
+	Policy *SocketLanPolicy       `json:"policy,omitempty"`
+	Status PolicyMutationStatus   `json:"status"`
+}
+
+func (SocketLanPolicyMutationPayload) IsIPolicyMutationPayload() {}
+
+// Data for the policy
+func (this SocketLanPolicyMutationPayload) GetPolicy() IPolicy { return *this.Policy }
+
+// Enum for the status of the policy change
+func (this SocketLanPolicyMutationPayload) GetStatus() PolicyMutationStatus { return this.Status }
+
+// List of errors related to the policy change
+func (this SocketLanPolicyMutationPayload) GetErrors() []*PolicyMutationError {
+	if this.Errors == nil {
+		return nil
+	}
+	interfaceSlice := make([]*PolicyMutationError, 0, len(this.Errors))
+	for _, concrete := range this.Errors {
+		interfaceSlice = append(interfaceSlice, concrete)
+	}
+	return interfaceSlice
+}
+
+type SocketLanPolicyMutations struct {
+	AddRule               *SocketLanRuleMutationPayload   `json:"addRule"`
+	AddSection            *PolicySectionMutationPayload   `json:"addSection"`
+	CreatePolicyRevision  *SocketLanPolicyMutationPayload `json:"createPolicyRevision"`
+	DiscardPolicyRevision *SocketLanPolicyMutationPayload `json:"discardPolicyRevision"`
+	MoveRule              *SocketLanRuleMutationPayload   `json:"moveRule"`
+	MoveSection           *PolicySectionMutationPayload   `json:"moveSection"`
+	PublishPolicyRevision *SocketLanPolicyMutationPayload `json:"publishPolicyRevision"`
+	RemoveRule            *SocketLanRuleMutationPayload   `json:"removeRule"`
+	RemoveSection         *PolicySectionMutationPayload   `json:"removeSection"`
+	UpdatePolicy          *SocketLanPolicyMutationPayload `json:"updatePolicy"`
+	UpdateRule            *SocketLanRuleMutationPayload   `json:"updateRule"`
+	UpdateSection         *PolicySectionMutationPayload   `json:"updateSection"`
+}
+
+type SocketLanPolicyQueries struct {
+	Policy    *SocketLanPolicy        `json:"policy"`
+	Revisions *PolicyRevisionsPayload `json:"revisions,omitempty"`
+}
+
+type SocketLanPolicyUpdateInput struct {
+	State *PolicyToggleState `json:"state,omitempty"`
+}
+
+type SocketLanRemoveRuleInput struct {
+	ID string `json:"id"`
+}
+
+type SocketLanRule struct {
+	// Description for the rule
+	Description string `json:"description"`
+	// Destination traffic matching criteria.
+	// Logical ‘OR’ is applied within the criteria set.
+	// Logical ‘AND’ is applied between criteria sets.
+	Destination *SocketLanDestination `json:"destination"`
+	// Direction of the traffic initiator matching criteria.
+	Direction SocketLanDirection `json:"direction"`
+	// TRUE = Rule is enabled
+	//  FALSE = Rule is disabled
+	Enabled bool `json:"enabled"`
+	// Rule ID
+	ID string `json:"id"`
+	// Position / priority of rule
+	Index int64 `json:"index"`
+	// Name of the rule
+	Name string `json:"name"`
+	// Optionally, enable NAT on the outgoing interface. This translates all originating IPs to one NAT IP.
+	Nat *SocketLanNatSettings `json:"nat"`
+	// Policy section where the rule is located
+	Section *PolicySectionInfo `json:"section"`
+	// Destination service matching criteria for the rule. Port/Protocol based.
+	Service *SocketLanService `json:"service"`
+	// The sites the policy will be enforced on.
+	// Socket sites only, with Socket v22 onwards.
+	Site *SocketLanSite `json:"site"`
+	// Source traffic matching criteria.
+	// Logical ‘OR’ is applied within the criteria set.
+	// Logical ‘AND’ is applied between criteria sets.
+	Source *SocketLanSource `json:"source"`
+	// The transport of the matching traffic.
+	// Either govern traffic to be routed locally (LAN), or to the PoP(WAN).
+	// Traffic is send to the WAN by default.
+	// Traffic routed in the LAN, enforced by the LAN Firewall rules.
+	Transport SocketLanTransportType `json:"transport"`
+}
+
+func (SocketLanRule) IsIPolicyRule() {}
+
+// Rule ID
+func (this SocketLanRule) GetID() string { return this.ID }
+
+// Name of the rule
+func (this SocketLanRule) GetName() string { return this.Name }
+
+// Description for the rule
+func (this SocketLanRule) GetDescription() *string { return &this.Description }
+
+// Position / priority of rule
+func (this SocketLanRule) GetIndex() int64 { return this.Index }
+
+// TRUE = Rule is enabled, FALSE = Rule is disabled
+func (this SocketLanRule) GetEnabled() bool { return this.Enabled }
+
+// Policy section where the rule is located
+func (this SocketLanRule) GetSection() *PolicySectionInfo { return this.Section }
+
+type SocketLanRuleMutationPayload struct {
+	Errors []*PolicyMutationError `json:"errors"`
+	Rule   *SocketLanRulePayload  `json:"rule,omitempty"`
+	Status PolicyMutationStatus   `json:"status"`
+}
+
+func (SocketLanRuleMutationPayload) IsIPolicyRuleMutationPayload() {}
+
+// Returns settings for the rule
+func (this SocketLanRuleMutationPayload) GetRule() IPolicyRulePayload { return *this.Rule }
+
+// Enum for the status of the policy change
+func (this SocketLanRuleMutationPayload) GetStatus() PolicyMutationStatus { return this.Status }
+
+// List of errors related to the policy change
+func (this SocketLanRuleMutationPayload) GetErrors() []*PolicyMutationError {
+	if this.Errors == nil {
+		return nil
+	}
+	interfaceSlice := make([]*PolicyMutationError, 0, len(this.Errors))
+	for _, concrete := range this.Errors {
+		interfaceSlice = append(interfaceSlice, concrete)
+	}
+	return interfaceSlice
+}
+
+type SocketLanRulePayload struct {
+	Audit      *PolicyElementAudit           `json:"audit"`
+	Properties []PolicyElementPropertiesEnum `json:"properties"`
+	Rule       *SocketLanRule                `json:"rule"`
+}
+
+func (SocketLanRulePayload) IsIPolicyRulePayload()              {}
+func (this SocketLanRulePayload) GetAudit() *PolicyElementAudit { return this.Audit }
+
+// Rule that was changed
+func (this SocketLanRulePayload) GetRule() IPolicyRule { return *this.Rule }
+
+// Summary of rule change, (ie. ADDED, UPDATED)
+func (this SocketLanRulePayload) GetProperties() []PolicyElementPropertiesEnum {
+	if this.Properties == nil {
+		return nil
+	}
+	interfaceSlice := make([]PolicyElementPropertiesEnum, 0, len(this.Properties))
+	for _, concrete := range this.Properties {
+		interfaceSlice = append(interfaceSlice, concrete)
+	}
+	return interfaceSlice
+}
+
+// Defines services used in the socket LAN policy.
+type SocketLanService struct {
+	// Custom Port/Protocol service.
+	Custom []*CustomService `json:"custom"`
+	// List of L4 based services.
+	Simple []*SimpleService `json:"simple"`
+}
+
+// Defines services used in the socket LAN policy.
+type SocketLanServiceInput struct {
+	// Custom Port/Protocol service.
+	Custom []*CustomServiceInput `json:"custom"`
+	// List of L4 based services.
+	Simple []*SimpleServiceInput `json:"simple"`
+}
+
+// Defines services used in the socket LAN policy.
+type SocketLanServiceUpdateInput struct {
+	// Custom Port/Protocol service.
+	Custom []*CustomServiceInput `json:"custom,omitempty"`
+	// List of L4 based services.
+	Simple []*SimpleServiceInput `json:"simple,omitempty"`
+}
+
+// Represents the site configurations in the socket LAN policy.
+type SocketLanSite struct {
+	// The group of sites the policy will be enforced on.
+	// Socket sites only, with Socket v22 onwards.
+	Group []*GroupRef `json:"group"`
+	// The sites the policy will be enforced on.
+	// Socket sites only, with Socket v22 onwards.
+	Site []*SiteRef `json:"site"`
+}
+
+// Represents the site configurations in the socket LAN policy.
+type SocketLanSiteInput struct {
+	// The group of sites the policy will be enforced on.
+	// Socket sites only, with Socket v22 onwards.
+	Group []*GroupRefInput `json:"group"`
+	// The sites the policy will be enforced on.
+	// Socket sites only, with Socket v22 onwards.
+	Site []*SiteRefInput `json:"site"`
+}
+
+// Represents the site configurations in the socket LAN policy.
+type SocketLanSiteUpdateInput struct {
+	// The group of sites the policy will be enforced on.
+	// Socket sites only, with Socket v22 onwards.
+	Group []*GroupRefInput `json:"group,omitempty"`
+	// The sites the policy will be enforced on.
+	// Socket sites only, with Socket v22 onwards.
+	Site []*SiteRefInput `json:"site,omitempty"`
+}
+
+// Defines sources for the socket LAN policy.
+type SocketLanSource struct {
+	// Floating Subnets (ie. Floating Ranges) are used to identify traffic exactly matched to the route advertised by BGP.
+	// They are not associated with a specific site.
+	// This is useful in scenarios such as active-standby high availability routed via BGP.
+	FloatingSubnet []*FloatingSubnetRef `json:"floatingSubnet"`
+	// Globally defined IP range, IP and subnet objects.
+	GlobalIPRange []*GlobalIPRangeRef `json:"globalIpRange"`
+	// Predefined Cato groups, Socket sites/objects only.
+	Group []*GroupRef `json:"group"`
+	// Hosts and servers defined for your under Socket sites.
+	Host []*HostRef `json:"host"`
+	// IP address.
+	IP []string `json:"ip"`
+	// Multiple separate IP addresses or an IP range.
+	IPRange []*IPAddressRange `json:"ipRange"`
+	// Network range defined for a site.
+	NetworkInterface []*NetworkInterfaceRef `json:"networkInterface"`
+	// GlobalRange + InterfaceSubnet
+	SiteNetworkSubnet []*SiteNetworkSubnetRef `json:"siteNetworkSubnet"`
+	// Subnets and network ranges defined for the LAN interfaces of a site.
+	Subnet []string `json:"subnet"`
+	// Predefined Cato groups.
+	SystemGroup []*SystemGroupRef `json:"systemGroup"`
+	// VLAN ID matching criteria.
+	Vlan []string `json:"vlan"`
+}
+
+// Defines sources for the socket LAN policy.
+type SocketLanSourceInput struct {
+	// Floating Subnets (ie. Floating Ranges) are used to identify traffic exactly matched to the route advertised by BGP.
+	// They are not associated with a specific site.
+	// This is useful in scenarios such as active-standby high availability routed via BGP.
+	FloatingSubnet []*FloatingSubnetRefInput `json:"floatingSubnet"`
+	// Globally defined IP range, IP and subnet objects.
+	GlobalIPRange []*GlobalIPRangeRefInput `json:"globalIpRange"`
+	// Predefined Cato groups, Socket sites/objects only.
+	Group []*GroupRefInput `json:"group"`
+	// Hosts and servers defined for your under Socket sites.
+	Host []*HostRefInput `json:"host"`
+	// IP address.
+	IP []string `json:"ip"`
+	// Multiple separate IP addresses or an IP range.
+	IPRange []*IPAddressRangeInput `json:"ipRange"`
+	// Network range defined for a site.
+	NetworkInterface []*NetworkInterfaceRefInput `json:"networkInterface"`
+	// GlobalRange + InterfaceSubnet
+	SiteNetworkSubnet []*SiteNetworkSubnetRefInput `json:"siteNetworkSubnet"`
+	// Subnets and network ranges defined for the LAN interfaces of a site.
+	Subnet []string `json:"subnet"`
+	// Predefined Cato groups.
+	SystemGroup []*SystemGroupRefInput `json:"systemGroup"`
+	// VLAN ID matching criteria.
+	Vlan []string `json:"vlan"`
+}
+
+// Defines sources for the socket LAN policy.
+type SocketLanSourceUpdateInput struct {
+	// Floating Subnets (ie. Floating Ranges) are used to identify traffic exactly matched to the route advertised by BGP.
+	// They are not associated with a specific site.
+	// This is useful in scenarios such as active-standby high availability routed via BGP.
+	FloatingSubnet []*FloatingSubnetRefInput `json:"floatingSubnet,omitempty"`
+	// Globally defined IP range, IP and subnet objects.
+	GlobalIPRange []*GlobalIPRangeRefInput `json:"globalIpRange,omitempty"`
+	// Predefined Cato groups, Socket sites/objects only.
+	Group []*GroupRefInput `json:"group,omitempty"`
+	// Hosts and servers defined for your under Socket sites.
+	Host []*HostRefInput `json:"host,omitempty"`
+	// IP address.
+	IP []string `json:"ip,omitempty"`
+	// Multiple separate IP addresses or an IP range.
+	IPRange []*IPAddressRangeInput `json:"ipRange,omitempty"`
+	// Network range defined for a site.
+	NetworkInterface []*NetworkInterfaceRefInput `json:"networkInterface,omitempty"`
+	// GlobalRange + InterfaceSubnet
+	SiteNetworkSubnet []*SiteNetworkSubnetRefInput `json:"siteNetworkSubnet,omitempty"`
+	// Subnets and network ranges defined for the LAN interfaces of a site.
+	Subnet []string `json:"subnet,omitempty"`
+	// Predefined Cato groups.
+	SystemGroup []*SystemGroupRefInput `json:"systemGroup,omitempty"`
+	// VLAN ID matching criteria.
+	Vlan []string `json:"vlan,omitempty"`
+}
+
+type SocketLanUpdateRuleDataInput struct {
+	Description *string `json:"description,omitempty"`
+	// Destination traffic matching criteria.
+	// Logical ‘OR’ is applied within the criteria set.
+	// Logical ‘AND’ is applied between criteria sets.
+	Destination *SocketLanDestinationUpdateInput `json:"destination,omitempty"`
+	// Direction of the traffic initiator matching criteria.
+	Direction *SocketLanDirection `json:"direction,omitempty"`
+	Enabled   *bool               `json:"enabled,omitempty"`
+	Name      *string             `json:"name,omitempty"`
+	// Optionally, enable NAT on the outgoing interface. This translates all originating IPs to one NAT IP.
+	Nat *SocketLanNatSettingsUpdateInput `json:"nat,omitempty"`
+	// Destination service matching criteria for the rule. Port/Protocol based.
+	Service *SocketLanServiceUpdateInput `json:"service,omitempty"`
+	// The sites the policy will be enforced on.
+	// Socket sites only, with Socket v22 onwards.
+	Site *SocketLanSiteUpdateInput `json:"site,omitempty"`
+	// Source traffic matching criteria.
+	// Logical ‘OR’ is applied within the criteria set.
+	// Logical ‘AND’ is applied between criteria sets.
+	Source *SocketLanSourceUpdateInput `json:"source,omitempty"`
+	// The transport of the matching traffic.
+	// Either govern traffic to be routed locally (LAN), or to the PoP(WAN).
+	// Traffic is send to the WAN by default.
+	// Traffic routed in the LAN, enforced by the LAN Firewall rules.
+	Transport *SocketLanTransportType `json:"transport,omitempty"`
+}
+
+type SocketLanUpdateRuleInput struct {
+	ID   string                        `json:"id"`
+	Rule *SocketLanUpdateRuleDataInput `json:"rule"`
+}
+
 type SortInput struct {
 	Field *string         `json:"field,omitempty"`
 	Order *DirectionInput `json:"order,omitempty"`
@@ -6728,9 +7743,17 @@ type Story struct {
 	UpdatedAt string `json:"updatedAt"`
 }
 
+type StoryComment struct {
+	Actor     ActorRef     `json:"actor"`
+	CreatedAt scalars.Time `json:"createdAt"`
+	ID        string       `json:"id"`
+	Text      string       `json:"text"`
+}
+
 type StoryDrillDownFilter struct {
-	Name  string `json:"name"`
-	Value string `json:"value"`
+	Name   string   `json:"name"`
+	Value  string   `json:"value"`
+	Values []string `json:"values"`
 }
 
 type StoryFilterInput struct {
@@ -6783,9 +7806,22 @@ type StoryStatusPredicate struct {
 	NotIn []StoryStatusEnum `json:"not_in,omitempty"`
 }
 
+type StoryThreatType struct {
+	Details           *string `json:"details,omitempty"`
+	Name              string  `json:"name"`
+	RecommendedAction *string `json:"recommendedAction,omitempty"`
+}
+
 type StoryVerdictPredicate struct {
 	In    []StoryVerdictEnum `json:"in,omitempty"`
 	NotIn []StoryVerdictEnum `json:"not_in,omitempty"`
+}
+
+type StringFilterInput struct {
+	Eq  *string  `json:"eq,omitempty"`
+	In  []string `json:"in,omitempty"`
+	Neq *string  `json:"neq,omitempty"`
+	Nin []string `json:"nin,omitempty"`
 }
 
 type StringPredicate struct {
@@ -7395,6 +8431,8 @@ type UpdateCloudInterconnectPhysicalConnectionPayload struct {
 type UpdateFqdnContainerFromFileInput struct {
 	// Description for the container
 	Description *string `json:"description,omitempty"`
+	// File type that will be uploaded
+	FileType ContainerFileType `json:"fileType"`
 	// Reference to existing container by container ID or container name
 	Ref *ContainerRefInput `json:"ref"`
 	// Multipart file containing FQDNs with fileType delimiter
@@ -7421,6 +8459,8 @@ type UpdateHaPayload struct {
 type UpdateIPAddressRangeContainerFromFileInput struct {
 	// Description for the container
 	Description *string `json:"description,omitempty"`
+	// File type that will be uploaded
+	FileType ContainerFileType `json:"fileType"`
 	// Reference to existing container by container ID or container name
 	Ref *ContainerRefInput `json:"ref"`
 	// Multipart file containing IPAddressRanges with fileType delimiter
@@ -7587,6 +8627,18 @@ type UpdateStaticHostInput struct {
 
 type UpdateStaticHostPayload struct {
 	HostID string `json:"hostId"`
+}
+
+// Upload file input
+type UploadFileInput struct {
+	//  Uploaded file name
+	FileName string `json:"fileName"`
+}
+
+// Upload file response
+type UploadFilePayload struct {
+	//  Upload URL (HTTP PUT)
+	UploadURL *string `json:"uploadUrl,omitempty"`
 }
 
 // Basic User configuration information
@@ -8152,9 +9204,7 @@ type WanFirewallRuleException struct {
 	// Source Device Profile matching criteria for the exception.
 	Device []*DeviceProfileRef `json:"device"`
 	// Source Device Attributes matching criteria for the exception.
-	//
-	// deviceAttributes: DeviceAttributes!
-	//
+	DeviceAttributes *DeviceAttributes `json:"deviceAttributes"`
 	// Source device OS matching criteria for the exception.
 	DeviceOs []OperatingSystem `json:"deviceOS"`
 	// Direction origin matching criteria for the exception
@@ -8417,11 +9467,523 @@ type WanFirewallUpdateRuleInput struct {
 	Rule *WanFirewallUpdateRuleDataInput `json:"rule"`
 }
 
+type WanNetworkAddRuleDataInput struct {
+	// The application or category of traffic for the rule.
+	Application *WanNetworkRuleApplicationInput `json:"application"`
+	// The bandwidth priority (QoS) for the rule.
+	BandwidthPriority *BandwidthManagementRefInput `json:"bandwidthPriority"`
+	// The configuration of the rule.
+	Configuration *WanNetworkRuleConfigurationInput `json:"configuration"`
+	Description   string                            `json:"description"`
+	// The destination of the traffic for the rule.
+	Destination *WanNetworkRuleDestinationInput `json:"destination"`
+	Enabled     bool                            `json:"enabled"`
+	// Exceptions to the rule.
+	Exceptions []*WanNetworkRuleExceptionInput `json:"exceptions"`
+	Name       string                          `json:"name"`
+	// Defines the routing method for the rule. By default, traffic will egress from connected PoP.
+	RouteType WanNetworkRuleRouteType `json:"routeType"`
+	// Specifies if the rule is for Internet (outbound) or WAN (wanbound) traffic.
+	RuleType WanNetworkRuleType `json:"ruleType"`
+	// The source of the traffic for the rule.
+	Source *WanNetworkRuleSourceInput `json:"source"`
+}
+
+type WanNetworkAddRuleInput struct {
+	// Position of the rule in the policy
+	At *PolicyRulePositionInput `json:"at,omitempty"`
+	// Parameters for the rule you are adding
+	Rule *WanNetworkAddRuleDataInput `json:"rule"`
+}
+
+type WanNetworkPolicy struct {
+	Audit    *PolicyAudit             `json:"audit,omitempty"`
+	Enabled  bool                     `json:"enabled"`
+	Revision *PolicyRevision          `json:"revision,omitempty"`
+	Rules    []*WanNetworkRulePayload `json:"rules"`
+	Sections []*PolicySectionPayload  `json:"sections"`
+}
+
+func (WanNetworkPolicy) IsIPolicy() {}
+
+// TRUE = Policy is enabled, FALSE = Policy is disabled
+func (this WanNetworkPolicy) GetEnabled() bool { return this.Enabled }
+
+// Return list of rules in the policy
+func (this WanNetworkPolicy) GetRules() []IPolicyRulePayload {
+	if this.Rules == nil {
+		return nil
+	}
+	interfaceSlice := make([]IPolicyRulePayload, 0, len(this.Rules))
+	for _, concrete := range this.Rules {
+		interfaceSlice = append(interfaceSlice, concrete)
+	}
+	return interfaceSlice
+}
+
+// Return sections in the policy
+func (this WanNetworkPolicy) GetSections() []*PolicySectionPayload {
+	if this.Sections == nil {
+		return nil
+	}
+	interfaceSlice := make([]*PolicySectionPayload, 0, len(this.Sections))
+	for _, concrete := range this.Sections {
+		interfaceSlice = append(interfaceSlice, concrete)
+	}
+	return interfaceSlice
+}
+
+// Audit data for the policy
+func (this WanNetworkPolicy) GetAudit() *PolicyAudit { return this.Audit }
+
+// Return data for the Policy revision
+func (this WanNetworkPolicy) GetRevision() *PolicyRevision { return this.Revision }
+
+type WanNetworkPolicyInput struct {
+	// A revision is a specific instance of the policy.
+	//  Unpublished revisions are working copies of the policy available to a specific
+	//  admin or a set of admins
+	//  Published revisions are revisions that were applied to the account network.
+	//  The last published revision is the active policy.
+	Revision *PolicyRevisionInput `json:"revision,omitempty"`
+}
+
+type WanNetworkPolicyMutationInput struct {
+	Revision *PolicyMutationRevisionInput `json:"revision,omitempty"`
+}
+
+type WanNetworkPolicyMutationPayload struct {
+	Errors []*PolicyMutationError `json:"errors"`
+	Policy *WanNetworkPolicy      `json:"policy,omitempty"`
+	Status PolicyMutationStatus   `json:"status"`
+}
+
+func (WanNetworkPolicyMutationPayload) IsIPolicyMutationPayload() {}
+
+// Data for the policy
+func (this WanNetworkPolicyMutationPayload) GetPolicy() IPolicy { return *this.Policy }
+
+// Enum for the status of the policy change
+func (this WanNetworkPolicyMutationPayload) GetStatus() PolicyMutationStatus { return this.Status }
+
+// List of errors related to the policy change
+func (this WanNetworkPolicyMutationPayload) GetErrors() []*PolicyMutationError {
+	if this.Errors == nil {
+		return nil
+	}
+	interfaceSlice := make([]*PolicyMutationError, 0, len(this.Errors))
+	for _, concrete := range this.Errors {
+		interfaceSlice = append(interfaceSlice, concrete)
+	}
+	return interfaceSlice
+}
+
+type WanNetworkPolicyMutations struct {
+	AddRule               *WanNetworkRuleMutationPayload   `json:"addRule"`
+	AddSection            *PolicySectionMutationPayload    `json:"addSection"`
+	CreatePolicyRevision  *WanNetworkPolicyMutationPayload `json:"createPolicyRevision"`
+	DiscardPolicyRevision *WanNetworkPolicyMutationPayload `json:"discardPolicyRevision"`
+	MoveRule              *WanNetworkRuleMutationPayload   `json:"moveRule"`
+	MoveSection           *PolicySectionMutationPayload    `json:"moveSection"`
+	PublishPolicyRevision *WanNetworkPolicyMutationPayload `json:"publishPolicyRevision"`
+	RemoveRule            *WanNetworkRuleMutationPayload   `json:"removeRule"`
+	RemoveSection         *PolicySectionMutationPayload    `json:"removeSection"`
+	UpdatePolicy          *WanNetworkPolicyMutationPayload `json:"updatePolicy"`
+	UpdateRule            *WanNetworkRuleMutationPayload   `json:"updateRule"`
+	UpdateSection         *PolicySectionMutationPayload    `json:"updateSection"`
+}
+
+type WanNetworkPolicyQueries struct {
+	Policy    *WanNetworkPolicy       `json:"policy"`
+	Revisions *PolicyRevisionsPayload `json:"revisions,omitempty"`
+}
+
+type WanNetworkPolicyUpdateInput struct {
+	State *PolicyToggleState `json:"state,omitempty"`
+}
+
+type WanNetworkRemoveRuleInput struct {
+	ID string `json:"id"`
+}
+
+type WanNetworkRule struct {
+	// The application or category of traffic for the rule.
+	Application *WanNetworkRuleApplication `json:"application"`
+	// The bandwidth priority (QoS) for the rule.
+	BandwidthPriority *BandwidthManagementRef `json:"bandwidthPriority"`
+	// The configuration of the rule.
+	Configuration *WanNetworkRuleConfiguration `json:"configuration"`
+	// Description for the rule
+	Description string `json:"description"`
+	// The destination of the traffic for the rule.
+	Destination *WanNetworkRuleDestination `json:"destination"`
+	// TRUE = Rule is enabled
+	//  FALSE = Rule is disabled
+	Enabled bool `json:"enabled"`
+	// Exceptions to the rule.
+	Exceptions []*WanNetworkRuleException `json:"exceptions"`
+	// Rule ID
+	ID string `json:"id"`
+	// Position / priority of rule
+	Index int64 `json:"index"`
+	// Name of the rule
+	Name string `json:"name"`
+	// Defines the routing method for the rule. By default, traffic will egress from connected PoP.
+	RouteType WanNetworkRuleRouteType `json:"routeType"`
+	// Specifies if the rule is for Internet (outbound) or WAN (wanbound) traffic.
+	RuleType WanNetworkRuleType `json:"ruleType"`
+	// Policy section where the rule is located
+	Section *PolicySectionInfo `json:"section"`
+	// The source of the traffic for the rule.
+	Source *WanNetworkRuleSource `json:"source"`
+}
+
+func (WanNetworkRule) IsIPolicyRule() {}
+
+// Rule ID
+func (this WanNetworkRule) GetID() string { return this.ID }
+
+// Name of the rule
+func (this WanNetworkRule) GetName() string { return this.Name }
+
+// Description for the rule
+func (this WanNetworkRule) GetDescription() *string { return &this.Description }
+
+// Position / priority of rule
+func (this WanNetworkRule) GetIndex() int64 { return this.Index }
+
+// TRUE = Rule is enabled, FALSE = Rule is disabled
+func (this WanNetworkRule) GetEnabled() bool { return this.Enabled }
+
+// Policy section where the rule is located
+func (this WanNetworkRule) GetSection() *PolicySectionInfo { return this.Section }
+
+type WanNetworkRuleApplication struct {
+	AppCategory     []*ApplicationCategoryRef `json:"appCategory"`
+	Application     []*ApplicationRef         `json:"application"`
+	CustomApp       []*CustomApplicationRef   `json:"customApp"`
+	CustomCategory  []*CustomCategoryRef      `json:"customCategory"`
+	CustomService   []*CustomService          `json:"customService"`
+	CustomServiceIP []*CustomServiceIP        `json:"customServiceIp"`
+	Domain          []string                  `json:"domain"`
+	Fqdn            []string                  `json:"fqdn"`
+	Service         []*ServiceRef             `json:"service"`
+}
+
+type WanNetworkRuleApplicationInput struct {
+	AppCategory     []*ApplicationCategoryRefInput `json:"appCategory"`
+	Application     []*ApplicationRefInput         `json:"application"`
+	CustomApp       []*CustomApplicationRefInput   `json:"customApp"`
+	CustomCategory  []*CustomCategoryRefInput      `json:"customCategory"`
+	CustomService   []*CustomServiceInput          `json:"customService"`
+	CustomServiceIP []*CustomServiceIPInput        `json:"customServiceIp"`
+	Domain          []string                       `json:"domain"`
+	Fqdn            []string                       `json:"fqdn"`
+	Service         []*ServiceRefInput             `json:"service"`
+}
+
+type WanNetworkRuleApplicationUpdateInput struct {
+	AppCategory     []*ApplicationCategoryRefInput `json:"appCategory,omitempty"`
+	Application     []*ApplicationRefInput         `json:"application,omitempty"`
+	CustomApp       []*CustomApplicationRefInput   `json:"customApp,omitempty"`
+	CustomCategory  []*CustomCategoryRefInput      `json:"customCategory,omitempty"`
+	CustomService   []*CustomServiceInput          `json:"customService,omitempty"`
+	CustomServiceIP []*CustomServiceIPInput        `json:"customServiceIp,omitempty"`
+	Domain          []string                       `json:"domain,omitempty"`
+	Fqdn            []string                       `json:"fqdn,omitempty"`
+	Service         []*ServiceRefInput             `json:"service,omitempty"`
+}
+
+type WanNetworkRuleConfiguration struct {
+	// Indicates if TCP acceleration is enabled.
+	ActiveTCPAcceleration bool `json:"activeTcpAcceleration"`
+	// The allocated IP for NAT routing. Taken from IP Allocation, per PoP.
+	AllocationIP []*AllocatedIPRef `json:"allocationIp"`
+	// The site for backhaul routing option.
+	BackhaulingSite []*SiteRef `json:"backhaulingSite"`
+	// Indicates if packet loss mitigation is enabled.
+	PacketLossMitigation bool `json:"packetLossMitigation"`
+	// The PoP location for routing and egressing from Cato Cloud.
+	PopLocation []*PopLocationRef `json:"popLocation"`
+	// Indicates if the source port should be preserved.
+	PreserveSourcePort bool `json:"preserveSourcePort"`
+	// The primary transport method.
+	PrimaryTransport *WanNetworkRuleTransport `json:"primaryTransport"`
+	// The secondary transport method.
+	SecondaryTransport *WanNetworkRuleTransport `json:"secondaryTransport"`
+}
+
+type WanNetworkRuleConfigurationInput struct {
+	// Indicates if TCP acceleration is enabled.
+	ActiveTCPAcceleration bool `json:"activeTcpAcceleration"`
+	// The allocated IP for NAT routing. Taken from IP Allocation, per PoP.
+	AllocationIP []*AllocatedIPRefInput `json:"allocationIp"`
+	// The site for backhaul routing option.
+	BackhaulingSite []*SiteRefInput `json:"backhaulingSite"`
+	// Indicates if packet loss mitigation is enabled.
+	PacketLossMitigation bool `json:"packetLossMitigation"`
+	// The PoP location for routing and egressing from Cato Cloud.
+	PopLocation []*PopLocationRefInput `json:"popLocation"`
+	// Indicates if the source port should be preserved.
+	PreserveSourcePort bool `json:"preserveSourcePort"`
+	// The primary transport method.
+	PrimaryTransport *WanNetworkRuleTransportInput `json:"primaryTransport"`
+	// The secondary transport method.
+	SecondaryTransport *WanNetworkRuleTransportInput `json:"secondaryTransport"`
+}
+
+type WanNetworkRuleConfigurationUpdateInput struct {
+	// Indicates if TCP acceleration is enabled.
+	ActiveTCPAcceleration *bool `json:"activeTcpAcceleration,omitempty"`
+	// The allocated IP for NAT routing. Taken from IP Allocation, per PoP.
+	AllocationIP []*AllocatedIPRefInput `json:"allocationIp,omitempty"`
+	// The site for backhaul routing option.
+	BackhaulingSite []*SiteRefInput `json:"backhaulingSite,omitempty"`
+	// Indicates if packet loss mitigation is enabled.
+	PacketLossMitigation *bool `json:"packetLossMitigation,omitempty"`
+	// The PoP location for routing and egressing from Cato Cloud.
+	PopLocation []*PopLocationRefInput `json:"popLocation,omitempty"`
+	// Indicates if the source port should be preserved.
+	PreserveSourcePort *bool `json:"preserveSourcePort,omitempty"`
+	// The primary transport method.
+	PrimaryTransport *WanNetworkRuleTransportUpdateInput `json:"primaryTransport,omitempty"`
+	// The secondary transport method.
+	SecondaryTransport *WanNetworkRuleTransportUpdateInput `json:"secondaryTransport,omitempty"`
+}
+
+type WanNetworkRuleDestination struct {
+	FloatingSubnet    []*FloatingSubnetRef    `json:"floatingSubnet"`
+	GlobalIPRange     []*GlobalIPRangeRef     `json:"globalIpRange"`
+	Group             []*GroupRef             `json:"group"`
+	Host              []*HostRef              `json:"host"`
+	IP                []string                `json:"ip"`
+	IPRange           []*IPAddressRange       `json:"ipRange"`
+	NetworkInterface  []*NetworkInterfaceRef  `json:"networkInterface"`
+	Site              []*SiteRef              `json:"site"`
+	SiteNetworkSubnet []*SiteNetworkSubnetRef `json:"siteNetworkSubnet"`
+	Subnet            []string                `json:"subnet"`
+	SystemGroup       []*SystemGroupRef       `json:"systemGroup"`
+	User              []*UserRef              `json:"user"`
+	UsersGroup        []*UsersGroupRef        `json:"usersGroup"`
+}
+
+type WanNetworkRuleDestinationInput struct {
+	FloatingSubnet    []*FloatingSubnetRefInput    `json:"floatingSubnet"`
+	GlobalIPRange     []*GlobalIPRangeRefInput     `json:"globalIpRange"`
+	Group             []*GroupRefInput             `json:"group"`
+	Host              []*HostRefInput              `json:"host"`
+	IP                []string                     `json:"ip"`
+	IPRange           []*IPAddressRangeInput       `json:"ipRange"`
+	NetworkInterface  []*NetworkInterfaceRefInput  `json:"networkInterface"`
+	Site              []*SiteRefInput              `json:"site"`
+	SiteNetworkSubnet []*SiteNetworkSubnetRefInput `json:"siteNetworkSubnet"`
+	Subnet            []string                     `json:"subnet"`
+	SystemGroup       []*SystemGroupRefInput       `json:"systemGroup"`
+	User              []*UserRefInput              `json:"user"`
+	UsersGroup        []*UsersGroupRefInput        `json:"usersGroup"`
+}
+
+type WanNetworkRuleDestinationUpdateInput struct {
+	FloatingSubnet    []*FloatingSubnetRefInput    `json:"floatingSubnet,omitempty"`
+	GlobalIPRange     []*GlobalIPRangeRefInput     `json:"globalIpRange,omitempty"`
+	Group             []*GroupRefInput             `json:"group,omitempty"`
+	Host              []*HostRefInput              `json:"host,omitempty"`
+	IP                []string                     `json:"ip,omitempty"`
+	IPRange           []*IPAddressRangeInput       `json:"ipRange,omitempty"`
+	NetworkInterface  []*NetworkInterfaceRefInput  `json:"networkInterface,omitempty"`
+	Site              []*SiteRefInput              `json:"site,omitempty"`
+	SiteNetworkSubnet []*SiteNetworkSubnetRefInput `json:"siteNetworkSubnet,omitempty"`
+	Subnet            []string                     `json:"subnet,omitempty"`
+	SystemGroup       []*SystemGroupRefInput       `json:"systemGroup,omitempty"`
+	User              []*UserRefInput              `json:"user,omitempty"`
+	UsersGroup        []*UsersGroupRefInput        `json:"usersGroup,omitempty"`
+}
+
+type WanNetworkRuleException struct {
+	// The application or category of traffic for the rule.
+	Application *WanNetworkRuleApplication `json:"application"`
+	// The destination of the traffic for the rule.
+	Destination *WanNetworkRuleDestination `json:"destination"`
+	// The name of the network rule.
+	Name string `json:"name"`
+	// The source of the traffic for the rule.
+	Source *WanNetworkRuleSource `json:"source"`
+}
+
+type WanNetworkRuleExceptionInput struct {
+	// The application or category of traffic for the rule.
+	Application *WanNetworkRuleApplicationInput `json:"application"`
+	// The destination of the traffic for the rule.
+	Destination *WanNetworkRuleDestinationInput `json:"destination"`
+	// The name of the network rule.
+	Name string `json:"name"`
+	// The source of the traffic for the rule.
+	Source *WanNetworkRuleSourceInput `json:"source"`
+}
+
+type WanNetworkRuleMutationPayload struct {
+	Errors []*PolicyMutationError `json:"errors"`
+	Rule   *WanNetworkRulePayload `json:"rule,omitempty"`
+	Status PolicyMutationStatus   `json:"status"`
+}
+
+func (WanNetworkRuleMutationPayload) IsIPolicyRuleMutationPayload() {}
+
+// Returns settings for the rule
+func (this WanNetworkRuleMutationPayload) GetRule() IPolicyRulePayload { return *this.Rule }
+
+// Enum for the status of the policy change
+func (this WanNetworkRuleMutationPayload) GetStatus() PolicyMutationStatus { return this.Status }
+
+// List of errors related to the policy change
+func (this WanNetworkRuleMutationPayload) GetErrors() []*PolicyMutationError {
+	if this.Errors == nil {
+		return nil
+	}
+	interfaceSlice := make([]*PolicyMutationError, 0, len(this.Errors))
+	for _, concrete := range this.Errors {
+		interfaceSlice = append(interfaceSlice, concrete)
+	}
+	return interfaceSlice
+}
+
+type WanNetworkRulePayload struct {
+	Audit      *PolicyElementAudit           `json:"audit"`
+	Properties []PolicyElementPropertiesEnum `json:"properties"`
+	Rule       *WanNetworkRule               `json:"rule"`
+}
+
+func (WanNetworkRulePayload) IsIPolicyRulePayload()              {}
+func (this WanNetworkRulePayload) GetAudit() *PolicyElementAudit { return this.Audit }
+
+// Rule that was changed
+func (this WanNetworkRulePayload) GetRule() IPolicyRule { return *this.Rule }
+
+// Summary of rule change, (ie. ADDED, UPDATED)
+func (this WanNetworkRulePayload) GetProperties() []PolicyElementPropertiesEnum {
+	if this.Properties == nil {
+		return nil
+	}
+	interfaceSlice := make([]PolicyElementPropertiesEnum, 0, len(this.Properties))
+	for _, concrete := range this.Properties {
+		interfaceSlice = append(interfaceSlice, concrete)
+	}
+	return interfaceSlice
+}
+
+type WanNetworkRuleSource struct {
+	FloatingSubnet    []*FloatingSubnetRef    `json:"floatingSubnet"`
+	GlobalIPRange     []*GlobalIPRangeRef     `json:"globalIpRange"`
+	Group             []*GroupRef             `json:"group"`
+	Host              []*HostRef              `json:"host"`
+	IP                []string                `json:"ip"`
+	IPRange           []*IPAddressRange       `json:"ipRange"`
+	NetworkInterface  []*NetworkInterfaceRef  `json:"networkInterface"`
+	Site              []*SiteRef              `json:"site"`
+	SiteNetworkSubnet []*SiteNetworkSubnetRef `json:"siteNetworkSubnet"`
+	Subnet            []string                `json:"subnet"`
+	SystemGroup       []*SystemGroupRef       `json:"systemGroup"`
+	User              []*UserRef              `json:"user"`
+	UsersGroup        []*UsersGroupRef        `json:"usersGroup"`
+}
+
+type WanNetworkRuleSourceInput struct {
+	FloatingSubnet    []*FloatingSubnetRefInput    `json:"floatingSubnet"`
+	GlobalIPRange     []*GlobalIPRangeRefInput     `json:"globalIpRange"`
+	Group             []*GroupRefInput             `json:"group"`
+	Host              []*HostRefInput              `json:"host"`
+	IP                []string                     `json:"ip"`
+	IPRange           []*IPAddressRangeInput       `json:"ipRange"`
+	NetworkInterface  []*NetworkInterfaceRefInput  `json:"networkInterface"`
+	Site              []*SiteRefInput              `json:"site"`
+	SiteNetworkSubnet []*SiteNetworkSubnetRefInput `json:"siteNetworkSubnet"`
+	Subnet            []string                     `json:"subnet"`
+	SystemGroup       []*SystemGroupRefInput       `json:"systemGroup"`
+	User              []*UserRefInput              `json:"user"`
+	UsersGroup        []*UsersGroupRefInput        `json:"usersGroup"`
+}
+
+type WanNetworkRuleSourceUpdateInput struct {
+	FloatingSubnet    []*FloatingSubnetRefInput    `json:"floatingSubnet,omitempty"`
+	GlobalIPRange     []*GlobalIPRangeRefInput     `json:"globalIpRange,omitempty"`
+	Group             []*GroupRefInput             `json:"group,omitempty"`
+	Host              []*HostRefInput              `json:"host,omitempty"`
+	IP                []string                     `json:"ip,omitempty"`
+	IPRange           []*IPAddressRangeInput       `json:"ipRange,omitempty"`
+	NetworkInterface  []*NetworkInterfaceRefInput  `json:"networkInterface,omitempty"`
+	Site              []*SiteRefInput              `json:"site,omitempty"`
+	SiteNetworkSubnet []*SiteNetworkSubnetRefInput `json:"siteNetworkSubnet,omitempty"`
+	Subnet            []string                     `json:"subnet,omitempty"`
+	SystemGroup       []*SystemGroupRefInput       `json:"systemGroup,omitempty"`
+	User              []*UserRefInput              `json:"user,omitempty"`
+	UsersGroup        []*UsersGroupRefInput        `json:"usersGroup,omitempty"`
+}
+
+type WanNetworkRuleTransport struct {
+	// The primary interface role.
+	PrimaryInterfaceRole WanNetworkRuleInterfaceRole `json:"primaryInterfaceRole"`
+	// The secondary interface role.
+	SecondaryInterfaceRole WanNetworkRuleInterfaceRole `json:"secondaryInterfaceRole"`
+	TransportType          WanNetworkRuleTransportType `json:"transportType"`
+}
+
+type WanNetworkRuleTransportInput struct {
+	// The primary interface role.
+	PrimaryInterfaceRole WanNetworkRuleInterfaceRole `json:"primaryInterfaceRole"`
+	// The secondary interface role.
+	SecondaryInterfaceRole WanNetworkRuleInterfaceRole `json:"secondaryInterfaceRole"`
+	TransportType          WanNetworkRuleTransportType `json:"transportType"`
+}
+
+type WanNetworkRuleTransportUpdateInput struct {
+	// The primary interface role.
+	PrimaryInterfaceRole *WanNetworkRuleInterfaceRole `json:"primaryInterfaceRole,omitempty"`
+	// The secondary interface role.
+	SecondaryInterfaceRole *WanNetworkRuleInterfaceRole `json:"secondaryInterfaceRole,omitempty"`
+	TransportType          *WanNetworkRuleTransportType `json:"transportType,omitempty"`
+}
+
+type WanNetworkUpdateRuleDataInput struct {
+	// The application or category of traffic for the rule.
+	Application *WanNetworkRuleApplicationUpdateInput `json:"application,omitempty"`
+	// The bandwidth priority (QoS) for the rule.
+	BandwidthPriority *BandwidthManagementRefInput `json:"bandwidthPriority,omitempty"`
+	// The configuration of the rule.
+	Configuration *WanNetworkRuleConfigurationUpdateInput `json:"configuration,omitempty"`
+	Description   *string                                 `json:"description,omitempty"`
+	// The destination of the traffic for the rule.
+	Destination *WanNetworkRuleDestinationUpdateInput `json:"destination,omitempty"`
+	Enabled     *bool                                 `json:"enabled,omitempty"`
+	// Exceptions to the rule.
+	Exceptions []*WanNetworkRuleExceptionInput `json:"exceptions,omitempty"`
+	Name       *string                         `json:"name,omitempty"`
+	// Defines the routing method for the rule. By default, traffic will egress from connected PoP.
+	RouteType *WanNetworkRuleRouteType `json:"routeType,omitempty"`
+	// Specifies if the rule is for Internet (outbound) or WAN (wanbound) traffic.
+	RuleType *WanNetworkRuleType `json:"ruleType,omitempty"`
+	// The source of the traffic for the rule.
+	Source *WanNetworkRuleSourceUpdateInput `json:"source,omitempty"`
+}
+
+type WanNetworkUpdateRuleInput struct {
+	ID   string                         `json:"id"`
+	Rule *WanNetworkUpdateRuleDataInput `json:"rule"`
+}
+
 type Xdr struct {
 	// Define the paging, sort, and filter arguments to define the XDR stories that are returned in the query
 	Stories *StoriesData `json:"stories,omitempty"`
 	// Define either the story ID, or the incident ID and producer arguments, to query the specific XDR story
 	Story *Story `json:"story,omitempty"`
+}
+
+type XdrMutations struct {
+	// Post comments that help track the story investigation
+	AddStoryComment *AddStoryCommentPayload `json:"addStoryComment,omitempty"`
+	// Manage Story Actions, such as the story Verdict, Type, and Classification. You can also enter Additional Info that is relevant to the story.
+	AnalystFeedback *AnalystFeedbackPayload `json:"analystFeedback,omitempty"`
+	// Delete a previously posted comment using the comment ID.
+	DeleteStoryComment *DeleteStoryCommentPayload `json:"deleteStoryComment,omitempty"`
 }
 
 // XDR Pro (extended detection and response) service license details
@@ -9625,6 +11187,47 @@ func (e ConnectivityStatus) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
+type ContainerFileType string
+
+const (
+	ContainerFileTypeCSV  ContainerFileType = "CSV"
+	ContainerFileTypeStix ContainerFileType = "STIX"
+)
+
+var AllContainerFileType = []ContainerFileType{
+	ContainerFileTypeCSV,
+	ContainerFileTypeStix,
+}
+
+func (e ContainerFileType) IsValid() bool {
+	switch e {
+	case ContainerFileTypeCSV, ContainerFileTypeStix:
+		return true
+	}
+	return false
+}
+
+func (e ContainerFileType) String() string {
+	return string(e)
+}
+
+func (e *ContainerFileType) UnmarshalGQL(v any) error {
+	str, ok := v.(string)
+	if !ok {
+		return fmt.Errorf("enums must be strings")
+	}
+
+	*e = ContainerFileType(str)
+	if !e.IsValid() {
+		return fmt.Errorf("%s is not a valid ContainerFileType", str)
+	}
+	return nil
+}
+
+func (e ContainerFileType) MarshalGQL(w io.Writer) {
+	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
 type ContainerType string
 
 const (
@@ -10521,7 +12124,7 @@ const (
 	EventFieldNameApplication EventFieldName = "application"
 	// Application ID of the flow
 	EventFieldNameApplicationID EventFieldName = "application_id"
-	// Application of the flow
+	// The name of the application associated with the flow
 	EventFieldNameApplicationName EventFieldName = "application_name"
 	// Application risk score
 	EventFieldNameApplicationRisk EventFieldName = "application_risk"
@@ -10553,7 +12156,7 @@ const (
 	EventFieldNameBypassReason EventFieldName = "bypass_reason"
 	// Cato system category
 	EventFieldNameCategories EventFieldName = "categories"
-	// Cato App
+	// Cato application name
 	EventFieldNameCatoApp        EventFieldName = "cato_app"
 	EventFieldNameClassification EventFieldName = "classification"
 	// Expiration date for Client certificate
@@ -10576,12 +12179,18 @@ const (
 	EventFieldNameCongestionAlgorithm EventFieldName = "congestion_algorithm"
 	// Connect on boot Enabled/Disabled
 	EventFieldNameConnectOnBoot EventFieldName = "connect_on_boot"
+	// Connection Origin
+	EventFieldNameConnectionOrigin EventFieldName = "connection_origin"
 	// For SaaS Security API, name of the connector
 	EventFieldNameConnectorName EventFieldName = "connector_name"
 	// For SaaS Security API, status of the connector
 	EventFieldNameConnectorStatus EventFieldName = "connector_status"
 	// For SaaS Security API, SaaS app for the connector
 	EventFieldNameConnectorType EventFieldName = "connector_type"
+	// IoC Container Name
+	EventFieldNameContainerName EventFieldName = "container_name"
+	// An external system identifier used for correlation between related Cato entities. Example: external ticket id that correlates Cato XDR stories.
+	EventFieldNameCorrelationID EventFieldName = "correlation_id"
 	// Criticality
 	EventFieldNameCriticality EventFieldName = "criticality"
 	// Unique Cato ID for the custom category
@@ -10600,17 +12209,27 @@ const (
 	EventFieldNameDestGroupID EventFieldName = "dest_group_id"
 	// Identifies the target group involved in an activity
 	EventFieldNameDestGroupName EventFieldName = "dest_group_name"
-	// For Internet traffic, destination host IP address
+	// Destination IP address
 	EventFieldNameDestIP EventFieldName = "dest_ip"
 	// For WAN traffic, destination is site or SDP user
 	EventFieldNameDestIsSiteOrVpn EventFieldName = "dest_is_site_or_vpn"
-	// For Internet traffic, destination host port
+	// The destination process ID
+	EventFieldNameDestPid EventFieldName = "dest_pid"
+	// Destination port
 	EventFieldNameDestPort EventFieldName = "dest_port"
+	// Destination process command line
+	EventFieldNameDestProcessCmdline EventFieldName = "dest_process_cmdline"
+	// Destination process parent file path
+	EventFieldNameDestProcessParentPath EventFieldName = "dest_process_parent_path"
+	// Destination process parent process ID
+	EventFieldNameDestProcessParentPid EventFieldName = "dest_process_parent_pid"
+	// Destination process file path
+	EventFieldNameDestProcessPath EventFieldName = "dest_process_path"
 	// For WAN traffic, name of destination site or SDP user
 	EventFieldNameDestSite EventFieldName = "dest_site"
 	// Unique internal Cato ID for the destination site or remote user
 	EventFieldNameDestSiteID EventFieldName = "dest_site_id"
-	// For Internet traffic, destination host IP address
+	// The name of the destination site
 	EventFieldNameDestSiteName EventFieldName = "dest_site_name"
 	// Device Categories
 	EventFieldNameDeviceCategories EventFieldName = "device_categories"
@@ -10640,11 +12259,13 @@ const (
 	EventFieldNameDirectorySyncResult EventFieldName = "directory_sync_result"
 	// Type of LDAP Domain Controller sync event
 	EventFieldNameDirectorySyncType EventFieldName = "directory_sync_type"
-	// DLP fail mode
+	// If policy is set to disinfect, return the result of this action
+	EventFieldNameDisinfectResult EventFieldName = "disinfect_result"
+	// Describes the behavior when the DLP system encounters a failure
 	EventFieldNameDlpFailMode EventFieldName = "dlp_fail_mode"
 	// DLP profiles related to the event
 	EventFieldNameDlpProfiles EventFieldName = "dlp_profiles"
-	// Data Classifiers
+	// Defines the scanning methods used by the DLP system
 	EventFieldNameDlpScanTypes EventFieldName = "dlp_scan_types"
 	// Cato’s DNS Protection type that matched the DNS request
 	EventFieldNameDNSProtectionCategory EventFieldName = "dns_protection_category"
@@ -10658,6 +12279,12 @@ const (
 	EventFieldNameEgressSiteName EventFieldName = "egress_site_name"
 	// Email Subject
 	EventFieldNameEmailSubject EventFieldName = "email_subject"
+	// The ID for the endpoint
+	EventFieldNameEndpointID EventFieldName = "endpoint_id"
+	// The Endpoint Protection Engine that detected the malware
+	EventFieldNameEppEngineType EventFieldName = "epp_engine_type"
+	// The profile assigned to the endpoint upon detection of the malware
+	EventFieldNameEppProfile EventFieldName = "epp_profile"
 	// Count for events that are repeated multiple times during one minute
 	EventFieldNameEventCount EventFieldName = "event_count"
 	// Event Id
@@ -10673,6 +12300,8 @@ const (
 	EventFieldNameFileHash EventFieldName = "file_hash"
 	// File name
 	EventFieldNameFileName EventFieldName = "file_name"
+	// The file operation when this event occurred
+	EventFieldNameFileOperation EventFieldName = "file_operation"
 	// File size
 	EventFieldNameFileSize EventFieldName = "file_size"
 	// File type
@@ -10716,11 +12345,13 @@ const (
 	EventFieldNameIspName EventFieldName = "ISP_name"
 	// Name defined for the public API Key in the Cato Management Application
 	EventFieldNameKeyName EventFieldName = "key_name"
+	// A list of labels providing additional context for the event
+	EventFieldNameLabels EventFieldName = "labels"
 	// Data that measures the congestion for a specific link
 	EventFieldNameLinkHealthIsCongested EventFieldName = "link_health_is_congested"
 	// Data that measures the jitter for a specific link
 	EventFieldNameLinkHealthJitter EventFieldName = "link_health_jitter"
-	// Data that measures the latency for a specific link
+	// Round Trip Delay in Milliseconds that it takes a packet to travel between the source and the PoP
 	EventFieldNameLinkHealthLatency EventFieldName = "link_health_latency"
 	// Data that measures the packet loss for a specific link
 	EventFieldNameLinkHealthPktLoss EventFieldName = "link_health_pkt_loss"
@@ -10764,19 +12395,25 @@ const (
 	EventFieldNameParentPid           EventFieldName = "parent_pid"
 	EventFieldNamePid                 EventFieldName = "pid"
 	// Name of PoP location
-	EventFieldNamePopName     EventFieldName = "pop_name"
+	EventFieldNamePopName EventFieldName = "pop_name"
+	// Precedence
+	EventFieldNamePrecedence  EventFieldName = "precedence"
 	EventFieldNameProcessPath EventFieldName = "process_path"
+	// Indicate how many processes are part of this event
+	EventFieldNameProcessesCount EventFieldName = "processes_count"
 	// Producer
 	EventFieldNameProducer EventFieldName = "producer"
 	// Prompt Page Selected Action
 	EventFieldNamePromptAction EventFieldName = "prompt_action"
-	// Used Public IP
+	// Public source IP
 	EventFieldNamePublicIP EventFieldName = "public_ip"
 	// QoS Priority value
 	EventFieldNameQosPriority EventFieldName = "qos_priority"
 	// For QoS, the time that this QoS event started. The event is generated when the QoS event finishes
 	EventFieldNameQosReportedTime      EventFieldName = "qos_reported_time"
 	EventFieldNameQuarantineFolderPath EventFieldName = "quarantine_folder_path"
+	// A Unique ID for the quarantined file
+	EventFieldNameQuarantineUUID EventFieldName = "quarantine_uuid"
 	// Raw Data
 	EventFieldNameRawData            EventFieldName = "raw_data"
 	EventFieldNameRecommendedActions EventFieldName = "recommended_actions"
@@ -10829,8 +12466,18 @@ const (
 	// Source or destination site or remote user ID.
 	// This field can only be used in filter.
 	EventFieldNameSrcOrDestSiteID EventFieldName = "src_or_dest_site_id"
+	// Source process ID
+	EventFieldNameSrcPid EventFieldName = "src_pid"
 	// Internal port number
 	EventFieldNameSrcPort EventFieldName = "src_port"
+	// Source process command line
+	EventFieldNameSrcProcessCmdline EventFieldName = "src_process_cmdline"
+	// Source process parent file path
+	EventFieldNameSrcProcessParentPath EventFieldName = "src_process_parent_path"
+	// Source process parent process ID
+	EventFieldNameSrcProcessParentPid EventFieldName = "src_process_parent_pid"
+	// Source process file path
+	EventFieldNameSrcProcessPath EventFieldName = "src_process_path"
 	// Name of site or user initiating the connection
 	EventFieldNameSrcSite EventFieldName = "src_site"
 	// Unique internal Cato ID for the site or remote user
@@ -10848,7 +12495,7 @@ const (
 	EventFieldNameTargetsCardinality EventFieldName = "targets_cardinality"
 	// Shows if traffic was TCP accelerated or not
 	EventFieldNameTCPAcceleration EventFieldName = "tcp_acceleration"
-	// Tenant Id
+	// Unique identifier for the tenant within a multi-tenant environment
 	EventFieldNameTenantID EventFieldName = "tenant_id"
 	// Tenant Name
 	EventFieldNameTenantName EventFieldName = "tenant_name"
@@ -10879,6 +12526,10 @@ const (
 	EventFieldNameTLSVersion EventFieldName = "tls_version"
 	// Direction of network traffic for this event, values are inbound or outbound
 	EventFieldNameTrafficDirection EventFieldName = "traffic_direction"
+	// Translated Client IP
+	EventFieldNameTranslatedClientIP EventFieldName = "translated_client_ip"
+	// Translated Server IP
+	EventFieldNameTranslatedServerIP EventFieldName = "translated_server_ip"
 	// Trigger
 	EventFieldNameTrigger EventFieldName = "trigger"
 	// Trust Type
@@ -10907,7 +12558,8 @@ const (
 	EventFieldNameUserName EventFieldName = "user_name"
 	// For Block/Prompt page, reference ID to report incorrect category
 	EventFieldNameUserReferenceID EventFieldName = "user_reference_id"
-	EventFieldNameVendor          EventFieldName = "vendor"
+	// The vendor that identified the incident, such as Cato or Microsoft
+	EventFieldNameVendor EventFieldName = "vendor"
 	// Shows the id of the target user involved in an activity
 	EventFieldNameVendorCollaboratorID EventFieldName = "vendor_collaborator_id"
 	// Vendor Device Id
@@ -10973,9 +12625,12 @@ var AllEventFieldName = []EventFieldName{
 	EventFieldNameConfiguredHostName,
 	EventFieldNameCongestionAlgorithm,
 	EventFieldNameConnectOnBoot,
+	EventFieldNameConnectionOrigin,
 	EventFieldNameConnectorName,
 	EventFieldNameConnectorStatus,
 	EventFieldNameConnectorType,
+	EventFieldNameContainerName,
+	EventFieldNameCorrelationID,
 	EventFieldNameCriticality,
 	EventFieldNameCustomCategories,
 	EventFieldNameCustomCategory,
@@ -10987,7 +12642,12 @@ var AllEventFieldName = []EventFieldName{
 	EventFieldNameDestGroupName,
 	EventFieldNameDestIP,
 	EventFieldNameDestIsSiteOrVpn,
+	EventFieldNameDestPid,
 	EventFieldNameDestPort,
+	EventFieldNameDestProcessCmdline,
+	EventFieldNameDestProcessParentPath,
+	EventFieldNameDestProcessParentPid,
+	EventFieldNameDestProcessPath,
 	EventFieldNameDestSite,
 	EventFieldNameDestSiteID,
 	EventFieldNameDestSiteName,
@@ -11005,6 +12665,7 @@ var AllEventFieldName = []EventFieldName{
 	EventFieldNameDirectoryIP,
 	EventFieldNameDirectorySyncResult,
 	EventFieldNameDirectorySyncType,
+	EventFieldNameDisinfectResult,
 	EventFieldNameDlpFailMode,
 	EventFieldNameDlpProfiles,
 	EventFieldNameDlpScanTypes,
@@ -11014,6 +12675,9 @@ var AllEventFieldName = []EventFieldName{
 	EventFieldNameEgressPopName,
 	EventFieldNameEgressSiteName,
 	EventFieldNameEmailSubject,
+	EventFieldNameEndpointID,
+	EventFieldNameEppEngineType,
+	EventFieldNameEppProfile,
 	EventFieldNameEventCount,
 	EventFieldNameEventID,
 	EventFieldNameEventMessage,
@@ -11022,6 +12686,7 @@ var AllEventFieldName = []EventFieldName{
 	EventFieldNameFailureReason,
 	EventFieldNameFileHash,
 	EventFieldNameFileName,
+	EventFieldNameFileOperation,
 	EventFieldNameFileSize,
 	EventFieldNameFileType,
 	EventFieldNameFinalObjectStatus,
@@ -11044,6 +12709,7 @@ var AllEventFieldName = []EventFieldName{
 	EventFieldNameIsSinkhole,
 	EventFieldNameIspName,
 	EventFieldNameKeyName,
+	EventFieldNameLabels,
 	EventFieldNameLinkHealthIsCongested,
 	EventFieldNameLinkHealthJitter,
 	EventFieldNameLinkHealthLatency,
@@ -11072,13 +12738,16 @@ var AllEventFieldName = []EventFieldName{
 	EventFieldNameParentPid,
 	EventFieldNamePid,
 	EventFieldNamePopName,
+	EventFieldNamePrecedence,
 	EventFieldNameProcessPath,
+	EventFieldNameProcessesCount,
 	EventFieldNameProducer,
 	EventFieldNamePromptAction,
 	EventFieldNamePublicIP,
 	EventFieldNameQosPriority,
 	EventFieldNameQosReportedTime,
 	EventFieldNameQuarantineFolderPath,
+	EventFieldNameQuarantineUUID,
 	EventFieldNameRawData,
 	EventFieldNameRecommendedActions,
 	EventFieldNameReferenceURL,
@@ -11105,7 +12774,12 @@ var AllEventFieldName = []EventFieldName{
 	EventFieldNameSrcIsSiteOrVpn,
 	EventFieldNameSrcIspIP,
 	EventFieldNameSrcOrDestSiteID,
+	EventFieldNameSrcPid,
 	EventFieldNameSrcPort,
+	EventFieldNameSrcProcessCmdline,
+	EventFieldNameSrcProcessParentPath,
+	EventFieldNameSrcProcessParentPid,
+	EventFieldNameSrcProcessPath,
 	EventFieldNameSrcSite,
 	EventFieldNameSrcSiteID,
 	EventFieldNameSrcSiteName,
@@ -11131,6 +12805,8 @@ var AllEventFieldName = []EventFieldName{
 	EventFieldNameTLSRuleName,
 	EventFieldNameTLSVersion,
 	EventFieldNameTrafficDirection,
+	EventFieldNameTranslatedClientIP,
+	EventFieldNameTranslatedServerIP,
 	EventFieldNameTrigger,
 	EventFieldNameTrustType,
 	EventFieldNameTrustedNetworks,
@@ -11160,7 +12836,7 @@ var AllEventFieldName = []EventFieldName{
 
 func (e EventFieldName) IsValid() bool {
 	switch e {
-	case EventFieldNameAccessMethod, EventFieldNameAccountID, EventFieldNameAction, EventFieldNameAdName, EventFieldNameAlertID, EventFieldNameAlwaysOnConfiguration, EventFieldNameAnalystVerdict, EventFieldNameAPIName, EventFieldNameAPIType, EventFieldNameAppActivity, EventFieldNameAppActivityCategory, EventFieldNameAppActivityType, EventFieldNameAppStack, EventFieldNameApplication, EventFieldNameApplicationID, EventFieldNameApplicationName, EventFieldNameApplicationRisk, EventFieldNameAuthMethod, EventFieldNameAuthenticationType, EventFieldNameBgpCatoAsn, EventFieldNameBgpCatoIP, EventFieldNameBgpErrorCode, EventFieldNameBgpPeerAsn, EventFieldNameBgpPeerDescription, EventFieldNameBgpPeerIP, EventFieldNameBgpRouteCidr, EventFieldNameBgpSuberrorCode, EventFieldNameBypassDurationSec, EventFieldNameBypassMethod, EventFieldNameBypassReason, EventFieldNameCategories, EventFieldNameCatoApp, EventFieldNameClassification, EventFieldNameClientCertExpires, EventFieldNameClientCertName, EventFieldNameClientClass, EventFieldNameClientVersion, EventFieldNameCollaboratorName, EventFieldNameCollaborators, EventFieldNameConfidenceLevel, EventFieldNameConfiguredHostName, EventFieldNameCongestionAlgorithm, EventFieldNameConnectOnBoot, EventFieldNameConnectorName, EventFieldNameConnectorStatus, EventFieldNameConnectorType, EventFieldNameCriticality, EventFieldNameCustomCategories, EventFieldNameCustomCategory, EventFieldNameCustomCategoryID, EventFieldNameCustomCategoryName, EventFieldNameDestCountry, EventFieldNameDestCountryCode, EventFieldNameDestGroupID, EventFieldNameDestGroupName, EventFieldNameDestIP, EventFieldNameDestIsSiteOrVpn, EventFieldNameDestPort, EventFieldNameDestSite, EventFieldNameDestSiteID, EventFieldNameDestSiteName, EventFieldNameDeviceCategories, EventFieldNameDeviceCertificate, EventFieldNameDeviceID, EventFieldNameDeviceManufacturer, EventFieldNameDeviceModel, EventFieldNameDeviceName, EventFieldNameDeviceOsType, EventFieldNameDevicePostureProfile, EventFieldNameDevicePostureProfiles, EventFieldNameDeviceType, EventFieldNameDirectoryHostName, EventFieldNameDirectoryIP, EventFieldNameDirectorySyncResult, EventFieldNameDirectorySyncType, EventFieldNameDlpFailMode, EventFieldNameDlpProfiles, EventFieldNameDlpScanTypes, EventFieldNameDNSProtectionCategory, EventFieldNameDNSQuery, EventFieldNameDomainName, EventFieldNameEgressPopName, EventFieldNameEgressSiteName, EventFieldNameEmailSubject, EventFieldNameEventCount, EventFieldNameEventID, EventFieldNameEventMessage, EventFieldNameEventSubType, EventFieldNameEventType, EventFieldNameFailureReason, EventFieldNameFileHash, EventFieldNameFileName, EventFieldNameFileSize, EventFieldNameFileType, EventFieldNameFinalObjectStatus, EventFieldNameFlowsCardinality, EventFieldNameFullPathURL, EventFieldNameHostIP, EventFieldNameHostMac, EventFieldNameHTTPRequestMethod, EventFieldNameIncidentAggregation, EventFieldNameIncidentID, EventFieldNameIndication, EventFieldNameIndicator, EventFieldNameInternalID, EventFieldNameIPProtocol, EventFieldNameIsAdmin, EventFieldNameIsAdminActivity, EventFieldNameIsCompliant, EventFieldNameIsManaged, EventFieldNameIsSanctionedApp, EventFieldNameIsSinkhole, EventFieldNameIspName, EventFieldNameKeyName, EventFieldNameLinkHealthIsCongested, EventFieldNameLinkHealthJitter, EventFieldNameLinkHealthLatency, EventFieldNameLinkHealthPktLoss, EventFieldNameLinkType, EventFieldNameLoggedInUser, EventFieldNameLoginType, EventFieldNameMatchedDataTypes, EventFieldNameMitreAttackSubtechniques, EventFieldNameMitreAttackTactics, EventFieldNameMitreAttackTechniques, EventFieldNameNetworkAccess, EventFieldNameNetworkRule, EventFieldNameNotificationAPIError, EventFieldNameNotificationDescription, EventFieldNameObjectID, EventFieldNameObjectName, EventFieldNameObjectType, EventFieldNameOfficeMode, EventFieldNameOsType, EventFieldNameOsVersion, EventFieldNameOutOfBandAccess, EventFieldNameOwner, EventFieldNamePacFile, EventFieldNameParentConnectorName, EventFieldNameParentPid, EventFieldNamePid, EventFieldNamePopName, EventFieldNameProcessPath, EventFieldNameProducer, EventFieldNamePromptAction, EventFieldNamePublicIP, EventFieldNameQosPriority, EventFieldNameQosReportedTime, EventFieldNameQuarantineFolderPath, EventFieldNameRawData, EventFieldNameRecommendedActions, EventFieldNameReferenceURL, EventFieldNameRegistrationCode, EventFieldNameRiskLevel, EventFieldNameRule, EventFieldNameRuleID, EventFieldNameRuleName, EventFieldNameSeverity, EventFieldNameSharingScope, EventFieldNameSignInEventTypes, EventFieldNameSignatureID, EventFieldNameSocketInterface, EventFieldNameSocketInterfaceID, EventFieldNameSocketNewVersion, EventFieldNameSocketOldVersion, EventFieldNameSocketReset, EventFieldNameSocketRole, EventFieldNameSocketVersion, EventFieldNameSplitTunnelConfiguration, EventFieldNameSrcCountry, EventFieldNameSrcCountryCode, EventFieldNameSrcIP, EventFieldNameSrcIsSiteOrVpn, EventFieldNameSrcIspIP, EventFieldNameSrcOrDestSiteID, EventFieldNameSrcPort, EventFieldNameSrcSite, EventFieldNameSrcSiteID, EventFieldNameSrcSiteName, EventFieldNameStaticHost, EventFieldNameStatus, EventFieldNameStoryID, EventFieldNameSubnetName, EventFieldNameTargetsCardinality, EventFieldNameTCPAcceleration, EventFieldNameTenantID, EventFieldNameTenantName, EventFieldNameTenantRestrictionRuleName, EventFieldNameThreatName, EventFieldNameThreatReference, EventFieldNameThreatType, EventFieldNameThreatVerdict, EventFieldNameTime, EventFieldNameTitle, EventFieldNameTLSCertificateError, EventFieldNameTLSErrorDescription, EventFieldNameTLSErrorType, EventFieldNameTLSInspection, EventFieldNameTLSRuleName, EventFieldNameTLSVersion, EventFieldNameTrafficDirection, EventFieldNameTrigger, EventFieldNameTrustType, EventFieldNameTrustedNetworks, EventFieldNameTunnelIPProtocol, EventFieldNameTunnelProtocol, EventFieldNameUpgradeEndTime, EventFieldNameUpgradeInitiatedBy, EventFieldNameUpgradeStartTime, EventFieldNameURL, EventFieldNameUserAgent, EventFieldNameUserAwarenessMethod, EventFieldNameUserID, EventFieldNameUserName, EventFieldNameUserReferenceID, EventFieldNameVendor, EventFieldNameVendorCollaboratorID, EventFieldNameVendorDeviceID, EventFieldNameVendorDeviceName, EventFieldNameVendorEventID, EventFieldNameVendorUserID, EventFieldNameVisibleDeviceID, EventFieldNameVpnLanAccess, EventFieldNameVpnUserEmail, EventFieldNameWindowsDomainName, EventFieldNameXff:
+	case EventFieldNameAccessMethod, EventFieldNameAccountID, EventFieldNameAction, EventFieldNameAdName, EventFieldNameAlertID, EventFieldNameAlwaysOnConfiguration, EventFieldNameAnalystVerdict, EventFieldNameAPIName, EventFieldNameAPIType, EventFieldNameAppActivity, EventFieldNameAppActivityCategory, EventFieldNameAppActivityType, EventFieldNameAppStack, EventFieldNameApplication, EventFieldNameApplicationID, EventFieldNameApplicationName, EventFieldNameApplicationRisk, EventFieldNameAuthMethod, EventFieldNameAuthenticationType, EventFieldNameBgpCatoAsn, EventFieldNameBgpCatoIP, EventFieldNameBgpErrorCode, EventFieldNameBgpPeerAsn, EventFieldNameBgpPeerDescription, EventFieldNameBgpPeerIP, EventFieldNameBgpRouteCidr, EventFieldNameBgpSuberrorCode, EventFieldNameBypassDurationSec, EventFieldNameBypassMethod, EventFieldNameBypassReason, EventFieldNameCategories, EventFieldNameCatoApp, EventFieldNameClassification, EventFieldNameClientCertExpires, EventFieldNameClientCertName, EventFieldNameClientClass, EventFieldNameClientVersion, EventFieldNameCollaboratorName, EventFieldNameCollaborators, EventFieldNameConfidenceLevel, EventFieldNameConfiguredHostName, EventFieldNameCongestionAlgorithm, EventFieldNameConnectOnBoot, EventFieldNameConnectionOrigin, EventFieldNameConnectorName, EventFieldNameConnectorStatus, EventFieldNameConnectorType, EventFieldNameContainerName, EventFieldNameCorrelationID, EventFieldNameCriticality, EventFieldNameCustomCategories, EventFieldNameCustomCategory, EventFieldNameCustomCategoryID, EventFieldNameCustomCategoryName, EventFieldNameDestCountry, EventFieldNameDestCountryCode, EventFieldNameDestGroupID, EventFieldNameDestGroupName, EventFieldNameDestIP, EventFieldNameDestIsSiteOrVpn, EventFieldNameDestPid, EventFieldNameDestPort, EventFieldNameDestProcessCmdline, EventFieldNameDestProcessParentPath, EventFieldNameDestProcessParentPid, EventFieldNameDestProcessPath, EventFieldNameDestSite, EventFieldNameDestSiteID, EventFieldNameDestSiteName, EventFieldNameDeviceCategories, EventFieldNameDeviceCertificate, EventFieldNameDeviceID, EventFieldNameDeviceManufacturer, EventFieldNameDeviceModel, EventFieldNameDeviceName, EventFieldNameDeviceOsType, EventFieldNameDevicePostureProfile, EventFieldNameDevicePostureProfiles, EventFieldNameDeviceType, EventFieldNameDirectoryHostName, EventFieldNameDirectoryIP, EventFieldNameDirectorySyncResult, EventFieldNameDirectorySyncType, EventFieldNameDisinfectResult, EventFieldNameDlpFailMode, EventFieldNameDlpProfiles, EventFieldNameDlpScanTypes, EventFieldNameDNSProtectionCategory, EventFieldNameDNSQuery, EventFieldNameDomainName, EventFieldNameEgressPopName, EventFieldNameEgressSiteName, EventFieldNameEmailSubject, EventFieldNameEndpointID, EventFieldNameEppEngineType, EventFieldNameEppProfile, EventFieldNameEventCount, EventFieldNameEventID, EventFieldNameEventMessage, EventFieldNameEventSubType, EventFieldNameEventType, EventFieldNameFailureReason, EventFieldNameFileHash, EventFieldNameFileName, EventFieldNameFileOperation, EventFieldNameFileSize, EventFieldNameFileType, EventFieldNameFinalObjectStatus, EventFieldNameFlowsCardinality, EventFieldNameFullPathURL, EventFieldNameHostIP, EventFieldNameHostMac, EventFieldNameHTTPRequestMethod, EventFieldNameIncidentAggregation, EventFieldNameIncidentID, EventFieldNameIndication, EventFieldNameIndicator, EventFieldNameInternalID, EventFieldNameIPProtocol, EventFieldNameIsAdmin, EventFieldNameIsAdminActivity, EventFieldNameIsCompliant, EventFieldNameIsManaged, EventFieldNameIsSanctionedApp, EventFieldNameIsSinkhole, EventFieldNameIspName, EventFieldNameKeyName, EventFieldNameLabels, EventFieldNameLinkHealthIsCongested, EventFieldNameLinkHealthJitter, EventFieldNameLinkHealthLatency, EventFieldNameLinkHealthPktLoss, EventFieldNameLinkType, EventFieldNameLoggedInUser, EventFieldNameLoginType, EventFieldNameMatchedDataTypes, EventFieldNameMitreAttackSubtechniques, EventFieldNameMitreAttackTactics, EventFieldNameMitreAttackTechniques, EventFieldNameNetworkAccess, EventFieldNameNetworkRule, EventFieldNameNotificationAPIError, EventFieldNameNotificationDescription, EventFieldNameObjectID, EventFieldNameObjectName, EventFieldNameObjectType, EventFieldNameOfficeMode, EventFieldNameOsType, EventFieldNameOsVersion, EventFieldNameOutOfBandAccess, EventFieldNameOwner, EventFieldNamePacFile, EventFieldNameParentConnectorName, EventFieldNameParentPid, EventFieldNamePid, EventFieldNamePopName, EventFieldNamePrecedence, EventFieldNameProcessPath, EventFieldNameProcessesCount, EventFieldNameProducer, EventFieldNamePromptAction, EventFieldNamePublicIP, EventFieldNameQosPriority, EventFieldNameQosReportedTime, EventFieldNameQuarantineFolderPath, EventFieldNameQuarantineUUID, EventFieldNameRawData, EventFieldNameRecommendedActions, EventFieldNameReferenceURL, EventFieldNameRegistrationCode, EventFieldNameRiskLevel, EventFieldNameRule, EventFieldNameRuleID, EventFieldNameRuleName, EventFieldNameSeverity, EventFieldNameSharingScope, EventFieldNameSignInEventTypes, EventFieldNameSignatureID, EventFieldNameSocketInterface, EventFieldNameSocketInterfaceID, EventFieldNameSocketNewVersion, EventFieldNameSocketOldVersion, EventFieldNameSocketReset, EventFieldNameSocketRole, EventFieldNameSocketVersion, EventFieldNameSplitTunnelConfiguration, EventFieldNameSrcCountry, EventFieldNameSrcCountryCode, EventFieldNameSrcIP, EventFieldNameSrcIsSiteOrVpn, EventFieldNameSrcIspIP, EventFieldNameSrcOrDestSiteID, EventFieldNameSrcPid, EventFieldNameSrcPort, EventFieldNameSrcProcessCmdline, EventFieldNameSrcProcessParentPath, EventFieldNameSrcProcessParentPid, EventFieldNameSrcProcessPath, EventFieldNameSrcSite, EventFieldNameSrcSiteID, EventFieldNameSrcSiteName, EventFieldNameStaticHost, EventFieldNameStatus, EventFieldNameStoryID, EventFieldNameSubnetName, EventFieldNameTargetsCardinality, EventFieldNameTCPAcceleration, EventFieldNameTenantID, EventFieldNameTenantName, EventFieldNameTenantRestrictionRuleName, EventFieldNameThreatName, EventFieldNameThreatReference, EventFieldNameThreatType, EventFieldNameThreatVerdict, EventFieldNameTime, EventFieldNameTitle, EventFieldNameTLSCertificateError, EventFieldNameTLSErrorDescription, EventFieldNameTLSErrorType, EventFieldNameTLSInspection, EventFieldNameTLSRuleName, EventFieldNameTLSVersion, EventFieldNameTrafficDirection, EventFieldNameTranslatedClientIP, EventFieldNameTranslatedServerIP, EventFieldNameTrigger, EventFieldNameTrustType, EventFieldNameTrustedNetworks, EventFieldNameTunnelIPProtocol, EventFieldNameTunnelProtocol, EventFieldNameUpgradeEndTime, EventFieldNameUpgradeInitiatedBy, EventFieldNameUpgradeStartTime, EventFieldNameURL, EventFieldNameUserAgent, EventFieldNameUserAwarenessMethod, EventFieldNameUserID, EventFieldNameUserName, EventFieldNameUserReferenceID, EventFieldNameVendor, EventFieldNameVendorCollaboratorID, EventFieldNameVendorDeviceID, EventFieldNameVendorDeviceName, EventFieldNameVendorEventID, EventFieldNameVendorUserID, EventFieldNameVisibleDeviceID, EventFieldNameVpnLanAccess, EventFieldNameVpnUserEmail, EventFieldNameWindowsDomainName, EventFieldNameXff:
 		return true
 	}
 	return false
@@ -13365,6 +15041,106 @@ func (e RiskLevelEnum) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
+// Sandbox analysis status
+type SandboxStatus string
+
+const (
+	//  Report has expired
+	SandboxStatusExpired SandboxStatus = "EXPIRED"
+	//  Analysis has failed
+	SandboxStatusFailed SandboxStatus = "FAILED"
+	//  File is being analyzed
+	SandboxStatusInProgress SandboxStatus = "IN_PROGRESS"
+	//  File is pending analysis
+	SandboxStatusPending SandboxStatus = "PENDING"
+	//  Analysis is complete - report is ready
+	SandboxStatusReady SandboxStatus = "READY"
+)
+
+var AllSandboxStatus = []SandboxStatus{
+	SandboxStatusExpired,
+	SandboxStatusFailed,
+	SandboxStatusInProgress,
+	SandboxStatusPending,
+	SandboxStatusReady,
+}
+
+func (e SandboxStatus) IsValid() bool {
+	switch e {
+	case SandboxStatusExpired, SandboxStatusFailed, SandboxStatusInProgress, SandboxStatusPending, SandboxStatusReady:
+		return true
+	}
+	return false
+}
+
+func (e SandboxStatus) String() string {
+	return string(e)
+}
+
+func (e *SandboxStatus) UnmarshalGQL(v any) error {
+	str, ok := v.(string)
+	if !ok {
+		return fmt.Errorf("enums must be strings")
+	}
+
+	*e = SandboxStatus(str)
+	if !e.IsValid() {
+		return fmt.Errorf("%s is not a valid SandboxStatus", str)
+	}
+	return nil
+}
+
+func (e SandboxStatus) MarshalGQL(w io.Writer) {
+	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+// Sandbox analysis verdict
+type SandboxVerdict string
+
+const (
+	//  File is clean
+	SandboxVerdictBenign SandboxVerdict = "BENIGN"
+	//  File is malicious
+	SandboxVerdictMalicious SandboxVerdict = "MALICIOUS"
+	//  File is suspicious
+	SandboxVerdictSuspicious SandboxVerdict = "SUSPICIOUS"
+)
+
+var AllSandboxVerdict = []SandboxVerdict{
+	SandboxVerdictBenign,
+	SandboxVerdictMalicious,
+	SandboxVerdictSuspicious,
+}
+
+func (e SandboxVerdict) IsValid() bool {
+	switch e {
+	case SandboxVerdictBenign, SandboxVerdictMalicious, SandboxVerdictSuspicious:
+		return true
+	}
+	return false
+}
+
+func (e SandboxVerdict) String() string {
+	return string(e)
+}
+
+func (e *SandboxVerdict) UnmarshalGQL(v any) error {
+	str, ok := v.(string)
+	if !ok {
+		return fmt.Errorf("enums must be strings")
+	}
+
+	*e = SandboxVerdict(str)
+	if !e.IsValid() {
+		return fmt.Errorf("%s is not a valid SandboxVerdict", str)
+	}
+	return nil
+}
+
+func (e SandboxVerdict) MarshalGQL(w io.Writer) {
+	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
 type ScanResult string
 
 const (
@@ -13456,6 +15232,61 @@ func (e *SeverityEnum) UnmarshalGQL(v any) error {
 }
 
 func (e SeverityEnum) MarshalGQL(w io.Writer) {
+	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+type SimpleServiceType string
+
+const (
+	SimpleServiceTypeDNSTCP SimpleServiceType = "DNS_TCP"
+	SimpleServiceTypeDNSUDP SimpleServiceType = "DNS_UDP"
+	SimpleServiceTypeFtp    SimpleServiceType = "FTP"
+	SimpleServiceTypeHTTP   SimpleServiceType = "HTTP"
+	SimpleServiceTypeHTTPS  SimpleServiceType = "HTTPS"
+	SimpleServiceTypeMysql  SimpleServiceType = "MYSQL"
+	SimpleServiceTypeRdp    SimpleServiceType = "RDP"
+	SimpleServiceTypeSMTP   SimpleServiceType = "SMTP"
+	SimpleServiceTypeSSH    SimpleServiceType = "SSH"
+)
+
+var AllSimpleServiceType = []SimpleServiceType{
+	SimpleServiceTypeDNSTCP,
+	SimpleServiceTypeDNSUDP,
+	SimpleServiceTypeFtp,
+	SimpleServiceTypeHTTP,
+	SimpleServiceTypeHTTPS,
+	SimpleServiceTypeMysql,
+	SimpleServiceTypeRdp,
+	SimpleServiceTypeSMTP,
+	SimpleServiceTypeSSH,
+}
+
+func (e SimpleServiceType) IsValid() bool {
+	switch e {
+	case SimpleServiceTypeDNSTCP, SimpleServiceTypeDNSUDP, SimpleServiceTypeFtp, SimpleServiceTypeHTTP, SimpleServiceTypeHTTPS, SimpleServiceTypeMysql, SimpleServiceTypeRdp, SimpleServiceTypeSMTP, SimpleServiceTypeSSH:
+		return true
+	}
+	return false
+}
+
+func (e SimpleServiceType) String() string {
+	return string(e)
+}
+
+func (e *SimpleServiceType) UnmarshalGQL(v any) error {
+	str, ok := v.(string)
+	if !ok {
+		return fmt.Errorf("enums must be strings")
+	}
+
+	*e = SimpleServiceType(str)
+	if !e.IsValid() {
+		return fmt.Errorf("%s is not a valid SimpleServiceType", str)
+	}
+	return nil
+}
+
+func (e SimpleServiceType) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
@@ -13895,6 +15726,53 @@ func (e SocketInterfaceRole) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
+type SocketInterfaceWanRole string
+
+const (
+	SocketInterfaceWanRoleNone SocketInterfaceWanRole = "NONE"
+	SocketInterfaceWanRoleWan1 SocketInterfaceWanRole = "WAN_1"
+	SocketInterfaceWanRoleWan2 SocketInterfaceWanRole = "WAN_2"
+	SocketInterfaceWanRoleWan3 SocketInterfaceWanRole = "WAN_3"
+	SocketInterfaceWanRoleWan4 SocketInterfaceWanRole = "WAN_4"
+)
+
+var AllSocketInterfaceWanRole = []SocketInterfaceWanRole{
+	SocketInterfaceWanRoleNone,
+	SocketInterfaceWanRoleWan1,
+	SocketInterfaceWanRoleWan2,
+	SocketInterfaceWanRoleWan3,
+	SocketInterfaceWanRoleWan4,
+}
+
+func (e SocketInterfaceWanRole) IsValid() bool {
+	switch e {
+	case SocketInterfaceWanRoleNone, SocketInterfaceWanRoleWan1, SocketInterfaceWanRoleWan2, SocketInterfaceWanRoleWan3, SocketInterfaceWanRoleWan4:
+		return true
+	}
+	return false
+}
+
+func (e SocketInterfaceWanRole) String() string {
+	return string(e)
+}
+
+func (e *SocketInterfaceWanRole) UnmarshalGQL(v any) error {
+	str, ok := v.(string)
+	if !ok {
+		return fmt.Errorf("enums must be strings")
+	}
+
+	*e = SocketInterfaceWanRole(str)
+	if !e.IsValid() {
+		return fmt.Errorf("%s is not a valid SocketInterfaceWanRole", str)
+	}
+	return nil
+}
+
+func (e SocketInterfaceWanRole) MarshalGQL(w io.Writer) {
+	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
 type SocketInventoryItemStatus string
 
 const (
@@ -13939,6 +15817,131 @@ func (e *SocketInventoryItemStatus) UnmarshalGQL(v any) error {
 }
 
 func (e SocketInventoryItemStatus) MarshalGQL(w io.Writer) {
+	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+type SocketLanDirection string
+
+const (
+	// Specifies two-way direction.
+	SocketLanDirectionBoth SocketLanDirection = "BOTH"
+	// Specifies one-way direction.
+	SocketLanDirectionTo SocketLanDirection = "TO"
+)
+
+var AllSocketLanDirection = []SocketLanDirection{
+	SocketLanDirectionBoth,
+	SocketLanDirectionTo,
+}
+
+func (e SocketLanDirection) IsValid() bool {
+	switch e {
+	case SocketLanDirectionBoth, SocketLanDirectionTo:
+		return true
+	}
+	return false
+}
+
+func (e SocketLanDirection) String() string {
+	return string(e)
+}
+
+func (e *SocketLanDirection) UnmarshalGQL(v any) error {
+	str, ok := v.(string)
+	if !ok {
+		return fmt.Errorf("enums must be strings")
+	}
+
+	*e = SocketLanDirection(str)
+	if !e.IsValid() {
+		return fmt.Errorf("%s is not a valid SocketLanDirection", str)
+	}
+	return nil
+}
+
+func (e SocketLanDirection) MarshalGQL(w io.Writer) {
+	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+type SocketLanNatType string
+
+const (
+	SocketLanNatTypeDynamicPat SocketLanNatType = "DYNAMIC_PAT"
+)
+
+var AllSocketLanNatType = []SocketLanNatType{
+	SocketLanNatTypeDynamicPat,
+}
+
+func (e SocketLanNatType) IsValid() bool {
+	switch e {
+	case SocketLanNatTypeDynamicPat:
+		return true
+	}
+	return false
+}
+
+func (e SocketLanNatType) String() string {
+	return string(e)
+}
+
+func (e *SocketLanNatType) UnmarshalGQL(v any) error {
+	str, ok := v.(string)
+	if !ok {
+		return fmt.Errorf("enums must be strings")
+	}
+
+	*e = SocketLanNatType(str)
+	if !e.IsValid() {
+		return fmt.Errorf("%s is not a valid SocketLanNatType", str)
+	}
+	return nil
+}
+
+func (e SocketLanNatType) MarshalGQL(w io.Writer) {
+	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+type SocketLanTransportType string
+
+const (
+	// Specifies LAN transport type, routed locally for  inspection of LAN Firewall.
+	SocketLanTransportTypeLan SocketLanTransportType = "LAN"
+	// Specifies WAN transport type, send to the PoP for inspection of WAN Firewall.
+	SocketLanTransportTypeWan SocketLanTransportType = "WAN"
+)
+
+var AllSocketLanTransportType = []SocketLanTransportType{
+	SocketLanTransportTypeLan,
+	SocketLanTransportTypeWan,
+}
+
+func (e SocketLanTransportType) IsValid() bool {
+	switch e {
+	case SocketLanTransportTypeLan, SocketLanTransportTypeWan:
+		return true
+	}
+	return false
+}
+
+func (e SocketLanTransportType) String() string {
+	return string(e)
+}
+
+func (e *SocketLanTransportType) UnmarshalGQL(v any) error {
+	str, ok := v.(string)
+	if !ok {
+		return fmt.Errorf("enums must be strings")
+	}
+
+	*e = SocketLanTransportType(str)
+	if !e.IsValid() {
+		return fmt.Errorf("%s is not a valid SocketLanTransportType", str)
+	}
+	return nil
+}
+
+func (e SocketLanTransportType) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
@@ -15141,6 +17144,220 @@ func (e *WanFirewallDirectionEnum) UnmarshalGQL(v any) error {
 }
 
 func (e WanFirewallDirectionEnum) MarshalGQL(w io.Writer) {
+	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+type WanNetworkRuleInterfaceRole string
+
+const (
+	// Automatic interface role.
+	WanNetworkRuleInterfaceRoleAutomatic WanNetworkRuleInterfaceRole = "AUTOMATIC"
+	// No interface role.
+	WanNetworkRuleInterfaceRoleNone WanNetworkRuleInterfaceRole = "NONE"
+	// WAN1 interface role.
+	WanNetworkRuleInterfaceRoleWan1 WanNetworkRuleInterfaceRole = "WAN1"
+	// WAN2 interface role.
+	WanNetworkRuleInterfaceRoleWan2 WanNetworkRuleInterfaceRole = "WAN2"
+	// WAN3 interface role.
+	WanNetworkRuleInterfaceRoleWan3 WanNetworkRuleInterfaceRole = "WAN3"
+	// WAN4 interface role.
+	WanNetworkRuleInterfaceRoleWan4 WanNetworkRuleInterfaceRole = "WAN4"
+	// WAN5 interface role.
+	WanNetworkRuleInterfaceRoleWan5 WanNetworkRuleInterfaceRole = "WAN5"
+	// WAN6 interface role.
+	WanNetworkRuleInterfaceRoleWan6 WanNetworkRuleInterfaceRole = "WAN6"
+)
+
+var AllWanNetworkRuleInterfaceRole = []WanNetworkRuleInterfaceRole{
+	WanNetworkRuleInterfaceRoleAutomatic,
+	WanNetworkRuleInterfaceRoleNone,
+	WanNetworkRuleInterfaceRoleWan1,
+	WanNetworkRuleInterfaceRoleWan2,
+	WanNetworkRuleInterfaceRoleWan3,
+	WanNetworkRuleInterfaceRoleWan4,
+	WanNetworkRuleInterfaceRoleWan5,
+	WanNetworkRuleInterfaceRoleWan6,
+}
+
+func (e WanNetworkRuleInterfaceRole) IsValid() bool {
+	switch e {
+	case WanNetworkRuleInterfaceRoleAutomatic, WanNetworkRuleInterfaceRoleNone, WanNetworkRuleInterfaceRoleWan1, WanNetworkRuleInterfaceRoleWan2, WanNetworkRuleInterfaceRoleWan3, WanNetworkRuleInterfaceRoleWan4, WanNetworkRuleInterfaceRoleWan5, WanNetworkRuleInterfaceRoleWan6:
+		return true
+	}
+	return false
+}
+
+func (e WanNetworkRuleInterfaceRole) String() string {
+	return string(e)
+}
+
+func (e *WanNetworkRuleInterfaceRole) UnmarshalGQL(v any) error {
+	str, ok := v.(string)
+	if !ok {
+		return fmt.Errorf("enums must be strings")
+	}
+
+	*e = WanNetworkRuleInterfaceRole(str)
+	if !e.IsValid() {
+		return fmt.Errorf("%s is not a valid WanNetworkRuleInterfaceRole", str)
+	}
+	return nil
+}
+
+func (e WanNetworkRuleInterfaceRole) MarshalGQL(w io.Writer) {
+	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+type WanNetworkRuleRouteType string
+
+const (
+	// Backhaul routing.
+	WanNetworkRuleRouteTypeBackhaul WanNetworkRuleRouteType = "BACKHAUL"
+	// Backhaul hairpinning routing.
+	WanNetworkRuleRouteTypeBackhaulHairpinning WanNetworkRuleRouteType = "BACKHAUL_HAIRPINNING"
+	// NAT routing.
+	WanNetworkRuleRouteTypeNat WanNetworkRuleRouteType = "NAT"
+	// No routing.
+	WanNetworkRuleRouteTypeNone WanNetworkRuleRouteType = "NONE"
+	// Optimized routing. Smart Egress using closest destination
+	WanNetworkRuleRouteTypeOptimized WanNetworkRuleRouteType = "OPTIMIZED"
+	// Route via a specific path.
+	WanNetworkRuleRouteTypeVia WanNetworkRuleRouteType = "VIA"
+)
+
+var AllWanNetworkRuleRouteType = []WanNetworkRuleRouteType{
+	WanNetworkRuleRouteTypeBackhaul,
+	WanNetworkRuleRouteTypeBackhaulHairpinning,
+	WanNetworkRuleRouteTypeNat,
+	WanNetworkRuleRouteTypeNone,
+	WanNetworkRuleRouteTypeOptimized,
+	WanNetworkRuleRouteTypeVia,
+}
+
+func (e WanNetworkRuleRouteType) IsValid() bool {
+	switch e {
+	case WanNetworkRuleRouteTypeBackhaul, WanNetworkRuleRouteTypeBackhaulHairpinning, WanNetworkRuleRouteTypeNat, WanNetworkRuleRouteTypeNone, WanNetworkRuleRouteTypeOptimized, WanNetworkRuleRouteTypeVia:
+		return true
+	}
+	return false
+}
+
+func (e WanNetworkRuleRouteType) String() string {
+	return string(e)
+}
+
+func (e *WanNetworkRuleRouteType) UnmarshalGQL(v any) error {
+	str, ok := v.(string)
+	if !ok {
+		return fmt.Errorf("enums must be strings")
+	}
+
+	*e = WanNetworkRuleRouteType(str)
+	if !e.IsValid() {
+		return fmt.Errorf("%s is not a valid WanNetworkRuleRouteType", str)
+	}
+	return nil
+}
+
+func (e WanNetworkRuleRouteType) MarshalGQL(w io.Writer) {
+	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+type WanNetworkRuleTransportType string
+
+const (
+	// Alternative WAN transport type.
+	WanNetworkRuleTransportTypeAlternativeWan WanNetworkRuleTransportType = "ALTERNATIVE_WAN"
+	// Automatic transport type.
+	WanNetworkRuleTransportTypeAutomatic WanNetworkRuleTransportType = "AUTOMATIC"
+	// No transport type.
+	WanNetworkRuleTransportTypeNone WanNetworkRuleTransportType = "NONE"
+	// Off-cloud transport type.
+	WanNetworkRuleTransportTypeOffCloud WanNetworkRuleTransportType = "OFF_CLOUD"
+	// WAN transport type.
+	WanNetworkRuleTransportTypeWan WanNetworkRuleTransportType = "WAN"
+)
+
+var AllWanNetworkRuleTransportType = []WanNetworkRuleTransportType{
+	WanNetworkRuleTransportTypeAlternativeWan,
+	WanNetworkRuleTransportTypeAutomatic,
+	WanNetworkRuleTransportTypeNone,
+	WanNetworkRuleTransportTypeOffCloud,
+	WanNetworkRuleTransportTypeWan,
+}
+
+func (e WanNetworkRuleTransportType) IsValid() bool {
+	switch e {
+	case WanNetworkRuleTransportTypeAlternativeWan, WanNetworkRuleTransportTypeAutomatic, WanNetworkRuleTransportTypeNone, WanNetworkRuleTransportTypeOffCloud, WanNetworkRuleTransportTypeWan:
+		return true
+	}
+	return false
+}
+
+func (e WanNetworkRuleTransportType) String() string {
+	return string(e)
+}
+
+func (e *WanNetworkRuleTransportType) UnmarshalGQL(v any) error {
+	str, ok := v.(string)
+	if !ok {
+		return fmt.Errorf("enums must be strings")
+	}
+
+	*e = WanNetworkRuleTransportType(str)
+	if !e.IsValid() {
+		return fmt.Errorf("%s is not a valid WanNetworkRuleTransportType", str)
+	}
+	return nil
+}
+
+func (e WanNetworkRuleTransportType) MarshalGQL(w io.Writer) {
+	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+type WanNetworkRuleType string
+
+const (
+	// Inbound Internet transport type.
+	WanNetworkRuleTypeInboundInternet WanNetworkRuleType = "INBOUND_INTERNET"
+	// Internet transport type.
+	WanNetworkRuleTypeInternet WanNetworkRuleType = "INTERNET"
+	// WAN transport type.
+	WanNetworkRuleTypeWan WanNetworkRuleType = "WAN"
+)
+
+var AllWanNetworkRuleType = []WanNetworkRuleType{
+	WanNetworkRuleTypeInboundInternet,
+	WanNetworkRuleTypeInternet,
+	WanNetworkRuleTypeWan,
+}
+
+func (e WanNetworkRuleType) IsValid() bool {
+	switch e {
+	case WanNetworkRuleTypeInboundInternet, WanNetworkRuleTypeInternet, WanNetworkRuleTypeWan:
+		return true
+	}
+	return false
+}
+
+func (e WanNetworkRuleType) String() string {
+	return string(e)
+}
+
+func (e *WanNetworkRuleType) UnmarshalGQL(v any) error {
+	str, ok := v.(string)
+	if !ok {
+		return fmt.Errorf("enums must be strings")
+	}
+
+	*e = WanNetworkRuleType(str)
+	if !e.IsValid() {
+		return fmt.Errorf("%s is not a valid WanNetworkRuleType", str)
+	}
+	return nil
+}
+
+func (e WanNetworkRuleType) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 

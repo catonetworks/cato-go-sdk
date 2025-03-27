@@ -1856,7 +1856,7 @@ type SiteMutations {
   """Add a secondary AWS vSocket to an existing site"""
   addSecondaryAwsVSocket(input: AddSecondaryAwsVSocketInput!): AddSecondaryAwsVSocketPayload @beta
   """Add a secondary Azure vSocket to an existing site"""
-  addSecondaryAzureVSocket(input: AddSecondaryAzureVSocketInput!): AddSecondaryAzureVSocketPayload @beta  
+  addSecondaryAzureVSocket(input: AddSecondaryAzureVSocketInput!): AddSecondaryAzureVSocketPayload @beta
   addSocketSite(input: AddSocketSiteInput!): AddSocketSitePayload @ga
   addStaticHost(siteId: ID!, input: AddStaticHostInput!): AddStaticHostPayload @ga
   """Removes an existing BGP peer configuration from a site."""
@@ -2085,7 +2085,7 @@ input UpdateNetworkRangeInput {
   rangeType: SubnetType
   subnet: IPSubnet
   translatedSubnet: IPSubnet
-  """Only relevant for VLAN network rangeType"""
+  """Only relevant for NATIVE and VLAN network rangeType"""
   vlan: Int
 }
 
@@ -2859,7 +2859,7 @@ input InternetFirewallAddRuleDataInput {
   Logical ‘OR’ is applied within the criteria set.
   Logical ‘AND’ is applied between criteria sets.
   """
-  destination: InternetFirewallDestinationInput! = {application: [], customApp: [], appCategory: [], customCategory: [], sanctionedAppsCategory: [], country: [], domain: [], fqdn: [], ip: [], subnet: [], ipRange: [], globalIpRange: [], remoteAsn: []}
+  destination: InternetFirewallDestinationInput! = {application: [], customApp: [], appCategory: [], customCategory: [], sanctionedAppsCategory: [], country: [], domain: [], fqdn: [], ip: [], subnet: [], ipRange: [], globalIpRange: [], remoteAsn: [], containers: {fqdnContainer: [], ipAddressRangeContainer: []}}
   """
   Source Device Profile traffic matching criteria.
   Logical ‘OR’ is applied within the criteria set.
@@ -2870,9 +2870,9 @@ input InternetFirewallAddRuleDataInput {
   Additional device attributes such as category, type, model, and manufacturer.
   Logical 'OR' is applied within the criteria set.
   Logical 'AND' is applied between criteria sets.
-
+  """
   deviceAttributes: DeviceAttributesInput! = {category: [], type: [], model: [], manufacturer: [], os: [], osVersion: []}
-
+  """
   Source device Operating System traffic matching criteria.
   Logical ‘OR’ is applied within the criteria set.
   Logical ‘AND’ is applied between criteria sets.
@@ -2892,7 +2892,7 @@ input InternetFirewallAddRuleDataInput {
   Logical ‘OR’ is applied within the criteria set.
   Logical ‘AND’ is applied between criteria sets.
   """
-  service: InternetFirewallServiceTypeInput = {standard: [], custom: []}
+  service: InternetFirewallServiceTypeInput! = {standard: [], custom: []}
   """
   Source traffic matching criteria.
   Logical ‘OR’ is applied within the criteria set.
@@ -2963,7 +2963,7 @@ input InternetFirewallDestinationInput {
   appCategory: [ApplicationCategoryRefInput!]! = []
   "Applications for the rule (pre-defined)"
   application: [ApplicationRefInput!]! = []
-  # containers: InternetFirewallContainerInput! = {fqdnContainer: [], ipAddressRangeContainer: []}
+  containers: InternetFirewallContainerInput! = {fqdnContainer: [], ipAddressRangeContainer: []}
   "Countries"
   country: [CountryRefInput!]! = []
   "Custom (user-defined) applications"
@@ -2994,7 +2994,7 @@ input InternetFirewallDestinationUpdateInput {
   appCategory: [ApplicationCategoryRefInput!]
   "Applications for the rule (pre-defined)"
   application: [ApplicationRefInput!]
-  # containers: InternetFirewallContainerUpdateInput
+  containers: InternetFirewallContainerUpdateInput
   "Countries"
   country: [CountryRefInput!]
   "Custom (user-defined) applications"
@@ -3185,13 +3185,9 @@ type InternetFirewallRuleException {
   destination: InternetFirewallDestination!
   "Source Device Profile matching criteria for the exception."
   device: [DeviceProfileRef!]!
-  """
-  Source Device Attributes matching criteria for the exception.
-
+  "Source Device Attributes matching criteria for the exception."
   deviceAttributes: DeviceAttributes!
-
-  Source device OS matching criteria for the exception.
-  """
+  "Source device OS matching criteria for the exception."
   deviceOS: [OperatingSystem!]!
   "A unique name of the rule exception."
   name: String!
@@ -3208,16 +3204,12 @@ input InternetFirewallRuleExceptionInput {
   "Source country matching criteria for the exception."
   country: [CountryRefInput!]! = []
   "Destination matching criteria for the exception."
-  destination: InternetFirewallDestinationInput! = {application: [], customApp: [], appCategory: [], customCategory: [], sanctionedAppsCategory: [], country: [], domain: [], fqdn: [], ip: [], subnet: [], ipRange: [], globalIpRange: [], remoteAsn: []}
+  destination: InternetFirewallDestinationInput! = {application: [], customApp: [], appCategory: [], customCategory: [], sanctionedAppsCategory: [], country: [], domain: [], fqdn: [], ip: [], subnet: [], ipRange: [], globalIpRange: [], remoteAsn: [], containers: {fqdnContainer: [], ipAddressRangeContainer: []}}
   "Source Device Profile matching criteria for the exception."
   device: [DeviceProfileRefInput!]! = []
-  """
-  Source Device Attributes matching criteria for the exception.
-
+  "Source Device Attributes matching criteria for the exception."
   deviceAttributes: DeviceAttributesInput! = {category: [], type: [], model: [], manufacturer: [], os: [], osVersion: []}
-
-  Source device OS matching criteria for the exception.
-  """
+  "Source device OS matching criteria for the exception."
   deviceOS: [OperatingSystem!]! = []
   "A unique name of the rule exception."
   name: String!
@@ -3376,11 +3368,9 @@ input InternetFirewallUpdateRuleDataInput {
   Additional device attributes such as category, type, model, and manufacturer.
   Logical 'OR' is applied within the criteria set.
   Logical 'AND' is applied between criteria sets.
-
-
+  """
   deviceAttributes: DeviceAttributesUpdateInput
-
-
+  """
   Source device Operating System traffic matching criteria.
   Logical ‘OR’ is applied within the criteria set.
   Logical ‘AND’ is applied between criteria sets.
@@ -3649,9 +3639,12 @@ input PolicyPublishRevisionInput {
 "policies which configuration can be read with query APIs."
 type PolicyQueries {
   appTenantRestriction: AppTenantRestrictionPolicyQueries
+  dynamicIpAllocation: DynamicIpAllocationPolicyQueries
   internetFirewall: InternetFirewallPolicyQueries
   remotePortFwd: RemotePortFwdPolicyQueries
+  socketLan: SocketLanPolicyQueries
   wanFirewall: WanFirewallPolicyQueries
+  wanNetwork: WanNetworkPolicyQueries
 }
 
 "Input for removing a section from a policy"
@@ -4042,7 +4035,6 @@ input RemotePortFwdUpdateRuleInput {
   id: ID!
   rule: RemotePortFwdUpdateRuleDataInput!
 }
-
 
 input SocketLanAddRuleDataInput {
   description: String! = ""
@@ -4528,9 +4520,9 @@ input WanFirewallAddRuleDataInput {
   Additional device attributes such as category, type, model, and manufacturer.
   Logical 'OR' is applied within the criteria set.
   Logical 'AND' is applied between criteria sets.
-
+  """
   deviceAttributes: DeviceAttributesInput! = {category: [], type: [], model: [], manufacturer: [], os: [], osVersion: []}
-
+  """
   Source device Operating System traffic matching criteria.
   Logical ‘OR’ is applied within the criteria set.
   Logical ‘AND’ is applied between criteria sets.
@@ -4965,13 +4957,9 @@ input WanFirewallRuleExceptionInput {
   destination: WanFirewallDestinationInput! = {host: [], site: [], subnet: [], ip: [], ipRange: [], globalIpRange: [], networkInterface: [], siteNetworkSubnet: [], floatingSubnet: [], user: [], usersGroup: [], group: [], systemGroup: []}
   "Source Device Profile matching criteria for the exception."
   device: [DeviceProfileRefInput!]! = []
-  """
-  Source Device Attributes matching criteria for the exception.
-
+  "Source Device Attributes matching criteria for the exception."
   deviceAttributes: DeviceAttributesInput! = {category: [], type: [], model: [], manufacturer: [], os: [], osVersion: []}
-
-  Source device OS matching criteria for the exception.
-  """
+  "Source device OS matching criteria for the exception."
   deviceOS: [OperatingSystem!]! = []
   "Direction origin matching criteria for the exception"
   direction: WanFirewallDirectionEnum! = TO
@@ -5150,9 +5138,9 @@ input WanFirewallUpdateRuleDataInput {
   Additional device attributes such as category, type, model, and manufacturer.
   Logical 'OR' is applied within the criteria set.
   Logical 'AND' is applied between criteria sets.
-
+  """
   deviceAttributes: DeviceAttributesUpdateInput
-
+  """
   Source device Operating System traffic matching criteria.
   Logical ‘OR’ is applied within the criteria set.
   Logical ‘AND’ is applied between criteria sets.
@@ -6282,7 +6270,7 @@ type SiteSnapshot {
   operationalStatus: OperationalStatus
   """Name of the PoP that the site is connected to"""
   popName: String
-  protoId: Int
+  protoId: ID
 }
 
 type Timeseries {
@@ -7487,8 +7475,6 @@ enum EntityType {
   """Any entity (matches everything)"""
   any
   "Pooled licenses available for use"
-  apiKey
-  "added by joe"
   availablePooledUsage
   "Site licenses available for use"
   availableSiteUsage
@@ -7521,22 +7507,6 @@ enum EntityType {
   site
   "union of the globalRange and a Subnet"
   siteRange
-  "added by joe"
-  socketInterface
-  "added by joe"
-  subnet
-  "added by joe"
-  casbRule
-  "added by joe"
-  networkRule
-  "added by joe"
-  group
-  "added by joe"
-  usersGroup
-  "added by joe"
-  ip
-  "added by joe"
-  interfaceSubnet
   """
   Time zone, which is a geographical region where clocks are set to the same time
   """
@@ -8247,19 +8217,6 @@ enum ProtoType {
   SOCKET_X1600_LTE
   SOCKET_X1700
   VSOCKET_VGX
-  CROSS_CONNECT_L2
-  CROSS_CONNECT_VRF
-  GRE_TUNNEL
-  NOT_DEFINED
-  PORTAL_LISTENER
-  SOCKET_GCP1500
-  SOCKET_RPI64
-  SOCKET_X1
-  VSOCKET_VGS
-  VSOCKET_VGX_AWS
-  VSOCKET_VGX_AZURE
-  VSOCKET_VGX_ESX
-  VSOCKET_VSH   
 }
 
 enum SocketRegistrationStatus {
@@ -8287,7 +8244,6 @@ enum SocketUpgradeStatus {
 
 enum SocketPlatform {
   AWS1500
-  GCP1500
   AZ1500
   ESX1500
   X1500

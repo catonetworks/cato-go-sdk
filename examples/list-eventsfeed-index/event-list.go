@@ -2,10 +2,10 @@ package main
 
 import (
 	"context"
-	"encoding/json"
 	"fmt"
 	"os"
 	"strings"
+	"time"
 
 	cato "github.com/catonetworks/cato-go-sdk"
 )
@@ -35,38 +35,35 @@ func main() {
 	ctx := context.Background()
 
 	marker := ""
+	fetchedCount := int64(0)
+	now := time.Now()
 
 	for {
 
 		// "last.P2M"
 		fmt.Println("CURRENT_MARKER: ", marker)
-		auditData, err := catoClient.AuditFeed(ctx, nil, []string{accountId}, nil, "last.P2M", nil, &marker)
+		eventsData, err := catoClient.EventsFeedIndex(ctx, []string{accountId}, &marker)
 		if err != nil {
-			fmt.Println("error in auditfeed: ", err)
+			fmt.Println("error in EventsFeedIndex: ", err)
 			return
 		}
 
-		if auditData.GetAuditFeed() == nil {
-			fmt.Println("GetAuditFeed is empty...maybe an error....")
-			return
-		}
+		fetchedCount += eventsData.EventsFeed.FetchedCount
 
-		if len(auditData.AuditFeed.Accounts[0].Records) == 0 {
-			fmt.Println("nothing to process...skipping....")
-			return
-		}
+		// queryResultJson, err := json.Marshal(eventsData)
+		// if err != nil {
+		// 	fmt.Println(err)
+		// 	return
+		// }
+		// fmt.Println(string(queryResultJson))
 
-		queryResultJson, err := json.Marshal(auditData)
-		if err != nil {
-			fmt.Println(err)
-			return
-		}
-		fmt.Println(string(queryResultJson))
+		fmt.Println("time elapse:", time.Since(now))
+		fmt.Println("fetchedCount: ", fetchedCount)
 
-		if !strings.EqualFold(marker, *auditData.AuditFeed.Marker) {
+		if !strings.EqualFold(marker, *eventsData.EventsFeed.Marker) {
 
 			// fmt.Println("updating marker to (*auditData.AuditFeed.Marker): ", *auditData.AuditFeed.Marker)
-			marker = *auditData.AuditFeed.Marker
+			marker = *eventsData.EventsFeed.Marker
 
 		} else {
 			// fmt.Println("end of auditfeed loop...exiting...")
