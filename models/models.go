@@ -245,6 +245,7 @@ type IPolicyRulePayload interface {
 // An interface containing properties that are common to all license types
 type License interface {
 	IsLicense()
+	GetID() *string
 	GetDescription() *string
 	// License plan type
 	GetPlan() LicensePlan
@@ -349,6 +350,7 @@ type ProcessResource interface {
 type QuantifiableLicense interface {
 	IsLicense()
 	IsQuantifiableLicense()
+	GetID() *string
 	GetDescription() *string
 	// License plan type
 	GetPlan() LicensePlan
@@ -1631,8 +1633,28 @@ type ApplicationRefInput struct {
 	Input string      `json:"input"`
 }
 
+type AssignSiteBwLicenseInput struct {
+	// The site the license is assigned to
+	Site *SiteRefInput `json:"site"`
+	// The license that is being assigned
+	LicenseID string `json:"licenseId"`
+	// Specifies the bandwidth (in Mbps) to allocate to the site when using a pooled bandwidth license.
+	//     This field should not be used if a site license is used.
+	Bw *int64 `json:"bw,omitempty"`
+}
+
+type AssignSiteBwLicensePayload struct {
+	License License `json:"license"`
+}
+
+type AssignSiteBwLicensePayloadParent struct {
+	AssignSiteBwLicensePayload *AssignSiteBwLicensePayload `json:"assignSiteBwLicensePayload"`
+	License                    License                     `json:"license"`
+}
+
 // Advanced Threat Prevention (ATP) service license details
 type AtpLicense struct {
+	ID          *string `json:"id,omitempty"`
 	Description *string `json:"description,omitempty"`
 	// License expiration date
 	ExpirationDate string `json:"expirationDate"`
@@ -1649,6 +1671,7 @@ type AtpLicense struct {
 }
 
 func (AtpLicense) IsLicense()                   {}
+func (this AtpLicense) GetID() *string          { return this.ID }
 func (this AtpLicense) GetDescription() *string { return this.Description }
 
 // License plan type
@@ -1900,6 +1923,7 @@ type BooleanPredicate struct {
 
 // Cloud Access Security Broker (CASB) service license details
 type CasbLicense struct {
+	ID          *string `json:"id,omitempty"`
 	Description *string `json:"description,omitempty"`
 	// License expiration date
 	ExpirationDate string `json:"expirationDate"`
@@ -1916,6 +1940,7 @@ type CasbLicense struct {
 }
 
 func (CasbLicense) IsLicense()                   {}
+func (this CasbLicense) GetID() *string          { return this.ID }
 func (this CasbLicense) GetDescription() *string { return this.Description }
 
 // License plan type
@@ -2572,6 +2597,7 @@ type CustomServiceIPInput struct {
 }
 
 type DataLakeLicense struct {
+	ID          *string `json:"id,omitempty"`
 	Description *string `json:"description,omitempty"`
 	// The version of the Data Processing Agreement (DPA) that your company signed with Cato.
 	DpaVersion DpaVersion `json:"dpaVersion"`
@@ -2594,6 +2620,7 @@ type DataLakeLicense struct {
 }
 
 func (DataLakeLicense) IsLicense()                   {}
+func (this DataLakeLicense) GetID() *string          { return this.ID }
 func (this DataLakeLicense) GetDescription() *string { return this.Description }
 
 // License plan type
@@ -2686,6 +2713,7 @@ type DeleteStoryCommentPayload struct {
 
 // DEM service license details
 type DemLicense struct {
+	ID          *string `json:"id,omitempty"`
 	Description *string `json:"description,omitempty"`
 	// License expiration date
 	ExpirationDate string `json:"expirationDate"`
@@ -2704,6 +2732,7 @@ type DemLicense struct {
 }
 
 func (DemLicense) IsLicense()                   {}
+func (this DemLicense) GetID() *string          { return this.ID }
 func (this DemLicense) GetDescription() *string { return this.Description }
 
 // License plan type
@@ -2876,6 +2905,7 @@ type DimensionKey struct {
 
 // Data Loss Prevention (DLP) Service license details
 type DlpLicense struct {
+	ID          *string `json:"id,omitempty"`
 	Description *string `json:"description,omitempty"`
 	// License expiration date
 	ExpirationDate string `json:"expirationDate"`
@@ -2892,6 +2922,7 @@ type DlpLicense struct {
 }
 
 func (DlpLicense) IsLicense()                   {}
+func (this DlpLicense) GetID() *string          { return this.ID }
 func (this DlpLicense) GetDescription() *string { return this.Description }
 
 // License plan type
@@ -3209,6 +3240,7 @@ type DynamicIPAllocationUpdateRuleInput struct {
 
 // End Point Protection (EPP) license details
 type EndpointProtectionLicense struct {
+	ID          *string `json:"id,omitempty"`
 	Description *string `json:"description,omitempty"`
 	// License expiration date
 	ExpirationDate string `json:"expirationDate"`
@@ -3227,6 +3259,7 @@ type EndpointProtectionLicense struct {
 }
 
 func (EndpointProtectionLicense) IsLicense()                   {}
+func (this EndpointProtectionLicense) GetID() *string          { return this.ID }
 func (this EndpointProtectionLicense) GetDescription() *string { return this.Description }
 
 // License plan type
@@ -3720,6 +3753,7 @@ type IlmmIspDetails struct {
 
 // Intelligent Last Mile Monitoring (ILMM) License details
 type IlmmLicense struct {
+	ID          *string `json:"id,omitempty"`
 	Description *string `json:"description,omitempty"`
 	// License expiration date
 	ExpirationDate string `json:"expirationDate"`
@@ -3738,6 +3772,7 @@ type IlmmLicense struct {
 }
 
 func (IlmmLicense) IsLicense()                   {}
+func (this IlmmLicense) GetID() *string          { return this.ID }
 func (this IlmmLicense) GetDescription() *string { return this.Description }
 
 // License plan type
@@ -4578,6 +4613,7 @@ type InternetFirewallUpdateRuleInput struct {
 
 // IoT/OT Security service license details
 type IotOtLicense struct {
+	ID          *string `json:"id,omitempty"`
 	Description *string `json:"description,omitempty"`
 	// License expiration date
 	ExpirationDate string `json:"expirationDate"`
@@ -4594,6 +4630,7 @@ type IotOtLicense struct {
 }
 
 func (IotOtLicense) IsLicense()                   {}
+func (this IotOtLicense) GetID() *string          { return this.ID }
 func (this IotOtLicense) GetDescription() *string { return this.Description }
 
 // License plan type
@@ -4750,6 +4787,7 @@ type IPAddressRangeInput struct {
 
 // Intrusion Prevention System (IPS) service license (Legacy license, replaced by TP)
 type IpsLicense struct {
+	ID          *string `json:"id,omitempty"`
 	Description *string `json:"description,omitempty"`
 	// License expiration date
 	ExpirationDate string `json:"expirationDate"`
@@ -4766,6 +4804,7 @@ type IpsLicense struct {
 }
 
 func (IpsLicense) IsLicense()                   {}
+func (this IpsLicense) GetID() *string          { return this.ID }
 func (this IpsLicense) GetDescription() *string { return this.Description }
 
 // License plan type
@@ -4841,6 +4880,7 @@ type LookupFilterInput struct {
 
 // Anti-Malware service license details (Legacy license, replaced by TP)
 type MalwareProtectionLicense struct {
+	ID          *string `json:"id,omitempty"`
 	Description *string `json:"description,omitempty"`
 	// License expiration date
 	ExpirationDate string `json:"expirationDate"`
@@ -4857,6 +4897,7 @@ type MalwareProtectionLicense struct {
 }
 
 func (MalwareProtectionLicense) IsLicense()                   {}
+func (this MalwareProtectionLicense) GetID() *string          { return this.ID }
 func (this MalwareProtectionLicense) GetDescription() *string { return this.Description }
 
 // License plan type
@@ -4879,6 +4920,7 @@ func (this MalwareProtectionLicense) GetLastUpdated() *string { return this.Last
 
 // Managed XDR service license details
 type ManagedXdrLicense struct {
+	ID          *string `json:"id,omitempty"`
 	Description *string `json:"description,omitempty"`
 	// License expiration date
 	ExpirationDate string `json:"expirationDate"`
@@ -4895,6 +4937,7 @@ type ManagedXdrLicense struct {
 }
 
 func (ManagedXdrLicense) IsLicense()                   {}
+func (this ManagedXdrLicense) GetID() *string          { return this.ID }
 func (this ManagedXdrLicense) GetDescription() *string { return this.Description }
 
 // License plan type
@@ -5434,6 +5477,7 @@ type Mutation struct {
 
 // NOC as a Service (NOCaaS) service license details
 type NOCaaSLicense struct {
+	ID          *string `json:"id,omitempty"`
 	Description *string `json:"description,omitempty"`
 	// License expiration date
 	ExpirationDate string `json:"expirationDate"`
@@ -5450,6 +5494,7 @@ type NOCaaSLicense struct {
 }
 
 func (NOCaaSLicense) IsLicense()                   {}
+func (this NOCaaSLicense) GetID() *string          { return this.ID }
 func (this NOCaaSLicense) GetDescription() *string { return this.Description }
 
 // License plan type
@@ -5644,6 +5689,7 @@ func (this NetworkXDRIncident) GetPredictedThreatType() *string        { return 
 
 // NG Anti-Malware service license details (Legacy license, replaced by TP)
 type NextGenMalwareProtectionLicense struct {
+	ID          *string `json:"id,omitempty"`
 	Description *string `json:"description,omitempty"`
 	// License expiration date
 	ExpirationDate string `json:"expirationDate"`
@@ -5660,6 +5706,7 @@ type NextGenMalwareProtectionLicense struct {
 }
 
 func (NextGenMalwareProtectionLicense) IsLicense()                   {}
+func (this NextGenMalwareProtectionLicense) GetID() *string          { return this.ID }
 func (this NextGenMalwareProtectionLicense) GetDescription() *string { return this.Description }
 
 // License plan type
@@ -6065,6 +6112,7 @@ type PolicyUpdateSectionInput struct {
 }
 
 type PooledBandwidthLicense struct {
+	ID *string `json:"id,omitempty"`
 	// Accounts that this license is assigned to (and the license usage within each account)
 	Accounts []*PartnerPooledBandwidthLicenseAccount `json:"accounts"`
 	// allocated bandwidth, in Mbps, for all the sites assigned to this license.
@@ -6093,6 +6141,7 @@ type PooledBandwidthLicense struct {
 }
 
 func (PooledBandwidthLicense) IsLicense()                   {}
+func (this PooledBandwidthLicense) GetID() *string          { return this.ID }
 func (this PooledBandwidthLicense) GetDescription() *string { return this.Description }
 
 // License plan type
@@ -6175,6 +6224,7 @@ type PortRangeUpdateInput struct {
 
 // Public IP address license
 type PublicIpsLicense struct {
+	ID          *string `json:"id,omitempty"`
 	Description *string `json:"description,omitempty"`
 	// License expiration date
 	ExpirationDate string `json:"expirationDate"`
@@ -6193,6 +6243,7 @@ type PublicIpsLicense struct {
 }
 
 func (PublicIpsLicense) IsLicense()                   {}
+func (this PublicIpsLicense) GetID() *string          { return this.ID }
 func (this PublicIpsLicense) GetDescription() *string { return this.Description }
 
 // License plan type
@@ -6254,6 +6305,7 @@ type RbacGroup struct {
 
 // Remote Browser Isolation (RBI) service license details
 type RbiLicense struct {
+	ID          *string `json:"id,omitempty"`
 	Description *string `json:"description,omitempty"`
 	// License expiration date
 	ExpirationDate string `json:"expirationDate"`
@@ -6270,6 +6322,7 @@ type RbiLicense struct {
 }
 
 func (RbiLicense) IsLicense()                   {}
+func (this RbiLicense) GetID() *string          { return this.ID }
 func (this RbiLicense) GetDescription() *string { return this.Description }
 
 // License plan type
@@ -6654,6 +6707,22 @@ type RemoveNetworkRangePayload struct {
 	NetworkRangeID string `json:"networkRangeId"`
 }
 
+type RemoveSiteBwLicenseInput struct {
+	// The site to remove the licenses from
+	Site *SiteRefInput `json:"site"`
+	// The license that is being removed
+	LicenseID string `json:"licenseId"`
+}
+
+type RemoveSiteBwLicensePayload struct {
+	License License `json:"license"`
+}
+
+type RemoveSiteBwLicensePayloadParent struct {
+	RemoveSiteBwLicensePayloadParent *RemoveSiteBwLicensePayloadParent `json:"removeSiteBwLicensePayloadParent"`
+	License                          License                           `json:"license"`
+}
+
 type RemoveSitePayload struct {
 	SiteID string `json:"siteId"`
 }
@@ -6662,8 +6731,25 @@ type RemoveStaticHostPayload struct {
 	HostID string `json:"hostId"`
 }
 
+type ReplaceSiteBwLicenseInput struct {
+	// The site to replace the licenses for
+	Site *SiteRefInput `json:"site"`
+	// The license that is being assigned
+	LicenseIDToAdd string `json:"licenseIdToAdd"`
+	// The license that is being removed
+	LicenseIDToRemove string `json:"licenseIdToRemove"`
+	// Specifies the bandwidth (in Mbps) to allocate to the site when using a pooled bandwidth license.
+	//     This field should not be used if a site license is used.
+	Bw *int64 `json:"bw,omitempty"`
+}
+
+type ReplaceSiteBwLicensePayload struct {
+	License License `json:"license"`
+}
+
 // SaaS Security API service license details
 type SaasSecurityAPILicense struct {
+	ID          *string `json:"id,omitempty"`
 	Description *string `json:"description,omitempty"`
 	// License expiration date
 	ExpirationDate string `json:"expirationDate"`
@@ -6682,6 +6768,7 @@ type SaasSecurityAPILicense struct {
 }
 
 func (SaasSecurityAPILicense) IsLicense()                   {}
+func (this SaasSecurityAPILicense) GetID() *string          { return this.ID }
 func (this SaasSecurityAPILicense) GetDescription() *string { return this.Description }
 
 // License plan type
@@ -6884,6 +6971,7 @@ type SiteInfo struct {
 
 // Site bandwidth license
 type SiteLicense struct {
+	ID          *string `json:"id,omitempty"`
 	Description *string `json:"description,omitempty"`
 	// License expiration date
 	ExpirationDate string `json:"expirationDate"`
@@ -6910,6 +6998,7 @@ type SiteLicense struct {
 }
 
 func (SiteLicense) IsLicense()                   {}
+func (this SiteLicense) GetID() *string          { return this.ID }
 func (this SiteLicense) GetDescription() *string { return this.Description }
 
 // License plan type
@@ -7002,6 +7091,15 @@ type SiteMutations struct {
 	UpdateSiteGeneralDetails                  *UpdateSiteGeneralDetailsPayload                  `json:"updateSiteGeneralDetails,omitempty"`
 	UpdateSocketInterface                     *UpdateSocketInterfacePayload                     `json:"updateSocketInterface,omitempty"`
 	UpdateStaticHost                          *UpdateStaticHostPayload                          `json:"updateStaticHost,omitempty"`
+	// Assign a license to an existing site
+	AssignSiteBwLicense *AssignSiteBwLicensePayloadParent `json:"assignSiteBwLicense,omitempty"`
+	// Update the bandwidth allocation of an assigned pool license of an existing site (does not apply for site license allocation)
+	UpdateSiteBwLicense *UpdateSiteBwLicensePayload `json:"updateSiteBwLicense,omitempty"`
+	// Replace an existing license of a site. This API is used to make sure the site
+	//     will always have a license to avoid traffic drop for sites without licenses.
+	ReplaceSiteBwLicense *ReplaceSiteBwLicensePayload `json:"replaceSiteBwLicense,omitempty"`
+	// Remove a license from a site
+	RemoveSiteBwLicense *RemoveSiteBwLicensePayloadParent `json:"removeSiteBwLicense,omitempty"`
 }
 
 type SiteNetworkSubnetRef struct {
@@ -8215,6 +8313,7 @@ type ThreatPreventionEvents struct {
 
 // Threat Prevention (TP) license details
 type ThreatPreventionLicense struct {
+	ID          *string `json:"id,omitempty"`
 	Description *string `json:"description,omitempty"`
 	// License expiration date
 	ExpirationDate string `json:"expirationDate"`
@@ -8231,6 +8330,7 @@ type ThreatPreventionLicense struct {
 }
 
 func (ThreatPreventionLicense) IsLicense()                   {}
+func (this ThreatPreventionLicense) GetID() *string          { return this.ID }
 func (this ThreatPreventionLicense) GetDescription() *string { return this.Description }
 
 // License plan type
@@ -8574,6 +8674,19 @@ type UpdateNetworkRangeInput struct {
 
 type UpdateNetworkRangePayload struct {
 	NetworkRangeID string `json:"networkRangeId"`
+}
+
+type UpdateSiteBwLicenseInput struct {
+	// The site the license is being assigned to
+	Site *SiteRefInput `json:"site"`
+	// The license that is being assigned
+	LicenseID string `json:"licenseId"`
+	// Specifies the bandwidth (in Mbps) to allocate to the site when using a pooled bandwidth license.
+	Bw int64 `json:"bw"`
+}
+
+type UpdateSiteBwLicensePayload struct {
+	License License `json:"license"`
 }
 
 type UpdateSiteGeneralDetailsInput struct {
@@ -9988,6 +10101,7 @@ type XdrMutations struct {
 
 // XDR Pro (extended detection and response) service license details
 type XdrProLicense struct {
+	ID          *string `json:"id,omitempty"`
 	Description *string `json:"description,omitempty"`
 	// License expiration date
 	ExpirationDate string `json:"expirationDate"`
@@ -10006,6 +10120,7 @@ type XdrProLicense struct {
 }
 
 func (XdrProLicense) IsLicense()                   {}
+func (this XdrProLicense) GetID() *string          { return this.ID }
 func (this XdrProLicense) GetDescription() *string { return this.Description }
 
 // License plan type
@@ -10045,6 +10160,7 @@ func (this XdrProLicense) GetTotal() int64 { return this.Total }
 
 // ZTNA remote users license
 type ZtnaUsersLicense struct {
+	ID          *string `json:"id,omitempty"`
 	Description *string `json:"description,omitempty"`
 	// License expiration date
 	ExpirationDate string `json:"expirationDate"`
@@ -10065,6 +10181,7 @@ type ZtnaUsersLicense struct {
 }
 
 func (ZtnaUsersLicense) IsLicense()                   {}
+func (this ZtnaUsersLicense) GetID() *string          { return this.ID }
 func (this ZtnaUsersLicense) GetDescription() *string { return this.Description }
 
 // License plan type

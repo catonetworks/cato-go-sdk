@@ -9648,6 +9648,7 @@ enum LicenseStatus {
 An interface containing properties that are common to all license types
 """
 interface License {
+  id: String
   description: String
   """License plan type"""
   plan: LicensePlan!
@@ -9664,6 +9665,7 @@ interface License {
 }
 
 interface QuantifiableLicense implements License {
+  id: String
   description: String
   """License plan type"""
   plan: LicensePlan!
@@ -9754,6 +9756,7 @@ enum LicenseSku {
 }
 
 type DataLakeLicense implements License & QuantifiableLicense {
+  id: String
   description: String
   """
   The version of the Data Processing Agreement (DPA) that your company signed with Cato.
@@ -9790,6 +9793,7 @@ enum DpaVersion {
 
 """Public IP address license"""
 type PublicIpsLicense implements License & QuantifiableLicense {
+  id: String
   description: String
   """License expiration date"""
   expirationDate: DateTime!
@@ -9809,6 +9813,7 @@ type PublicIpsLicense implements License & QuantifiableLicense {
 
 """Site bandwidth license"""
 type SiteLicense implements License & QuantifiableLicense {
+  id: String
   description: String
   """License expiration date"""
   expirationDate: DateTime!
@@ -9837,6 +9842,7 @@ type SiteLicense implements License & QuantifiableLicense {
 }
 
 type PooledBandwidthLicense implements License & QuantifiableLicense {
+  id: String
   """
   Accounts that this license is assigned to (and the license usage within each account)
   """
@@ -9920,6 +9926,7 @@ enum SiteLicenseType {
 
 """ZTNA remote users license"""
 type ZtnaUsersLicense implements License & QuantifiableLicense {
+  id: String
   description: String
   """License expiration date"""
   expirationDate: DateTime!
@@ -9966,6 +9973,7 @@ enum Regionality {
 
 """End Point Protection (EPP) license details"""
 type EndpointProtectionLicense implements License & QuantifiableLicense {
+  id: String
   description: String
   """License expiration date"""
   expirationDate: DateTime!
@@ -9985,6 +9993,7 @@ type EndpointProtectionLicense implements License & QuantifiableLicense {
 
 """Intelligent Last Mile Monitoring (ILMM) License details"""
 type IlmmLicense implements License & QuantifiableLicense {
+  id: String
   description: String
   """License expiration date"""
   expirationDate: DateTime!
@@ -10006,6 +10015,7 @@ type IlmmLicense implements License & QuantifiableLicense {
 Intrusion Prevention System (IPS) service license (Legacy license, replaced by TP)
 """
 type IpsLicense implements License {
+  id: String
   description: String
   """License expiration date"""
   expirationDate: DateTime!
@@ -10023,6 +10033,7 @@ type IpsLicense implements License {
 
 """Anti-Malware service license details (Legacy license, replaced by TP)"""
 type MalwareProtectionLicense implements License {
+  id: String
   description: String
   """License expiration date"""
   expirationDate: DateTime!
@@ -10042,6 +10053,7 @@ type MalwareProtectionLicense implements License {
 NG Anti-Malware service license details (Legacy license, replaced by TP)
 """
 type NextGenMalwareProtectionLicense implements License {
+  id: String
   description: String
   """License expiration date"""
   expirationDate: DateTime!
@@ -10059,6 +10071,7 @@ type NextGenMalwareProtectionLicense implements License {
 
 """Threat Prevention (TP) license details"""
 type ThreatPreventionLicense implements License {
+  id: String
   description: String
   """License expiration date"""
   expirationDate: DateTime!
@@ -10076,6 +10089,7 @@ type ThreatPreventionLicense implements License {
 
 """NOC as a Service (NOCaaS) service license details"""
 type NOCaaSLicense implements License {
+  id: String
   description: String
   """License expiration date"""
   expirationDate: DateTime!
@@ -10093,6 +10107,7 @@ type NOCaaSLicense implements License {
 
 """Cloud Access Security Broker (CASB) service license details"""
 type CasbLicense implements License {
+  id: String
   description: String
   """License expiration date"""
   expirationDate: DateTime!
@@ -10110,6 +10125,7 @@ type CasbLicense implements License {
 
 """Data Loss Prevention (DLP) Service license details"""
 type DlpLicense implements License {
+  id: String
   description: String
   """License expiration date"""
   expirationDate: DateTime!
@@ -10127,6 +10143,7 @@ type DlpLicense implements License {
 
 """Managed XDR service license details"""
 type ManagedXdrLicense implements License {
+  id: String
   description: String
   """License expiration date"""
   expirationDate: DateTime!
@@ -10144,6 +10161,7 @@ type ManagedXdrLicense implements License {
 
 """Remote Browser Isolation (RBI) service license details"""
 type RbiLicense implements License {
+  id: String
   description: String
   """License expiration date"""
   expirationDate: DateTime!
@@ -10161,6 +10179,7 @@ type RbiLicense implements License {
 
 """SaaS Security API service license details"""
 type SaasSecurityApiLicense implements License & QuantifiableLicense {
+  id: String
   description: String
   """License expiration date"""
   expirationDate: DateTime!
@@ -10180,6 +10199,7 @@ type SaasSecurityApiLicense implements License & QuantifiableLicense {
 
 """XDR Pro (extended detection and response) service license details"""
 type XdrProLicense implements License & QuantifiableLicense {
+  id: String
   description: String
   """License expiration date"""
   expirationDate: DateTime!
@@ -10199,6 +10219,7 @@ type XdrProLicense implements License & QuantifiableLicense {
 
 """DEM service license details"""
 type DemLicense implements License & QuantifiableLicense {
+  id: String
   description: String
   """License expiration date"""
   expirationDate: DateTime!
@@ -10218,6 +10239,7 @@ type DemLicense implements License & QuantifiableLicense {
 
 """IoT/OT Security service license details"""
 type IotOtLicense implements License {
+  id: String
   description: String
   """License expiration date"""
   expirationDate: DateTime!
@@ -10235,6 +10257,7 @@ type IotOtLicense implements License {
 
 """Advanced Threat Prevention (ATP) service license details"""
 type AtpLicense implements License {
+  id: String
   description: String
   """License expiration date"""
   expirationDate: DateTime!
@@ -10248,4 +10271,77 @@ type AtpLicense implements License {
   startDate: DateTime
   """License activation status"""
   status: LicenseStatus!
+}
+
+##################
+# Site Namespace #
+##################
+extend type SiteMutations {
+    """Assign a license to an existing site"""
+    assignSiteBwLicense(input: AssignSiteBwLicenseInput!): AssignSiteBwLicensePayloadParent
+    """Update the bandwidth allocation of an assigned pool license of an existing site (does not apply for site license allocation)"""
+    updateSiteBwLicense(input: UpdateSiteBwLicenseInput!): UpdateSiteBwLicensePayload
+    """Replace an existing license of a site. This API is used to make sure the site
+    will always have a license to avoid traffic drop for sites without licenses."""
+    replaceSiteBwLicense(input: ReplaceSiteBwLicenseInput!): ReplaceSiteBwLicensePayload
+    """Remove a license from a site"""
+    removeSiteBwLicense(input: RemoveSiteBwLicenseInput!): RemoveSiteBwLicensePayloadParent
+}
+input AssignSiteBwLicenseInput {
+    """The site the license is assigned to"""
+    site: SiteRefInput!
+    """The license that is being assigned"""
+    licenseId: ID!
+    """Specifies the bandwidth (in Mbps) to allocate to the site when using a pooled bandwidth license.
+    This field should not be used if a site license is used."""
+    bw: Int
+}
+
+type AssignSiteBwLicensePayloadParent {
+  assignSiteBwLicensePayload: AssignSiteBwLicensePayload!
+  license: License!
+}
+
+type AssignSiteBwLicensePayload {
+    license: License!
+}
+
+type RemoveSiteBwLicensePayloadParent {
+  removeSiteBwLicensePayloadParent: RemoveSiteBwLicensePayloadParent!
+  license: License!
+}
+
+input UpdateSiteBwLicenseInput {
+    """The site the license is being assigned to"""
+    site: SiteRefInput!
+    """The license that is being assigned"""
+    licenseId: ID!
+    """Specifies the bandwidth (in Mbps) to allocate to the site when using a pooled bandwidth license."""
+    bw: Int!
+}
+type UpdateSiteBwLicensePayload {
+    license: License!
+}
+input ReplaceSiteBwLicenseInput {
+    """The site to replace the licenses for"""
+    site: SiteRefInput!
+    """The license that is being assigned"""
+    licenseIdToAdd: ID!
+    """The license that is being removed"""
+    licenseIdToRemove: ID!
+    """Specifies the bandwidth (in Mbps) to allocate to the site when using a pooled bandwidth license.
+    This field should not be used if a site license is used."""
+    bw: Int
+}
+type ReplaceSiteBwLicensePayload {
+    license: License!
+}
+input RemoveSiteBwLicenseInput {
+    """The site to remove the licenses from"""
+    site: SiteRefInput!
+    """The license that is being removed"""
+    licenseId: ID!
+}
+type RemoveSiteBwLicensePayload {
+    license: License!
 }

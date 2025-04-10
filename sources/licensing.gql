@@ -1,27 +1,60 @@
-query licensing($accountId: ID!){
-    licensing(accountId: $accountId){
-        licensingInfo{
-            licenses{
-                description
-                plan
-                sku
-                status
-                startDate
-                expirationDate
-                lastUpdated
-            }
-            globalLicenseAllocations{
-                publicIps{
-                    total
-                    allocated
-                    available
-                }
-                ztnaUsers{
-                    total
-                    allocated
-                    available
-                }
-            }
-        }
+query licensing($accountId: ID!) {
+licensing(accountId: $accountId) {
+licensingInfo {
+    __typename
+    globalLicenseAllocations {
+      publicIps {
+        allocated
+        available
+      }
+      ztnaUsers {
+        total
+        allocated
+        available
+      }
     }
+    licenses{
+      __typename
+      id
+      sku
+      plan
+      status
+      expirationDate
+      startDate
+      lastUpdated
+      ... on QuantifiableLicense {
+        total
+      }
+      ... on DataLakeLicense {
+        __typename
+        dpaVersion
+      }
+      ... on PooledBandwidthLicense {
+        siteLicenseGroup
+        siteLicenseType
+        allocatedBandwidth
+        sites {
+          site {
+            id
+            name
+          }
+          allocatedBandwidth
+        }
+      }
+      ... on SiteLicense {
+         __typename
+        siteLicenseGroup
+        regionality
+        siteLicenseType
+        site {
+            id
+            name
+          }
+      }
+      ... on ZtnaUsersLicense {
+         ztnaUsersLicenseGroup
+      }
+    }
+  }
+  }
 }
