@@ -6057,9 +6057,417 @@ func (t *HardwareManagement_HardwareManagement) GetSocketInventory() *HardwareMa
 	return &t.SocketInventory
 }
 
+type Licensing_Licensing_LicensingInfo_Licenses_DataLakeLicense struct {
+	DpaVersion      cato_models.DpaVersion "json:\"dpaVersion\" graphql:\"dpaVersion\""
+	RetentionPeriod *int64                 "json:\"retentionPeriod,omitempty\" graphql:\"retentionPeriod\""
+	Total           int64                  "json:\"total\" graphql:\"total\""
+}
+
+func (t *Licensing_Licensing_LicensingInfo_Licenses_DataLakeLicense) GetDpaVersion() *cato_models.DpaVersion {
+	if t == nil {
+		t = &Licensing_Licensing_LicensingInfo_Licenses_DataLakeLicense{}
+	}
+	return &t.DpaVersion
+}
+func (t *Licensing_Licensing_LicensingInfo_Licenses_DataLakeLicense) GetRetentionPeriod() *int64 {
+	if t == nil {
+		t = &Licensing_Licensing_LicensingInfo_Licenses_DataLakeLicense{}
+	}
+	return t.RetentionPeriod
+}
+func (t *Licensing_Licensing_LicensingInfo_Licenses_DataLakeLicense) GetTotal() int64 {
+	if t == nil {
+		t = &Licensing_Licensing_LicensingInfo_Licenses_DataLakeLicense{}
+	}
+	return t.Total
+}
+
+type Licensing_Licensing_LicensingInfo_Licenses_PublicIpsLicense struct {
+	Total int64 "json:\"total\" graphql:\"total\""
+}
+
+func (t *Licensing_Licensing_LicensingInfo_Licenses_PublicIpsLicense) GetTotal() int64 {
+	if t == nil {
+		t = &Licensing_Licensing_LicensingInfo_Licenses_PublicIpsLicense{}
+	}
+	return t.Total
+}
+
+type Licensing_Licensing_LicensingInfo_Licenses_SiteLicense_Site struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *Licensing_Licensing_LicensingInfo_Licenses_SiteLicense_Site) GetID() string {
+	if t == nil {
+		t = &Licensing_Licensing_LicensingInfo_Licenses_SiteLicense_Site{}
+	}
+	return t.ID
+}
+func (t *Licensing_Licensing_LicensingInfo_Licenses_SiteLicense_Site) GetName() string {
+	if t == nil {
+		t = &Licensing_Licensing_LicensingInfo_Licenses_SiteLicense_Site{}
+	}
+	return t.Name
+}
+
+type Licensing_Licensing_LicensingInfo_Licenses_SiteLicense struct {
+	SiteLicenseGroup cato_models.SiteLicenseGroup                                 "json:\"siteLicenseGroup\" graphql:\"siteLicenseGroup\""
+	Regionality      *cato_models.Regionality                                     "json:\"regionality,omitempty\" graphql:\"regionality\""
+	SiteLicenseType  cato_models.SiteLicenseType                                  "json:\"siteLicenseType\" graphql:\"siteLicenseType\""
+	Total            int64                                                        "json:\"total\" graphql:\"total\""
+	Site             *Licensing_Licensing_LicensingInfo_Licenses_SiteLicense_Site "json:\"site,omitempty\" graphql:\"site\""
+}
+
+func (t *Licensing_Licensing_LicensingInfo_Licenses_SiteLicense) GetSiteLicenseGroup() *cato_models.SiteLicenseGroup {
+	if t == nil {
+		t = &Licensing_Licensing_LicensingInfo_Licenses_SiteLicense{}
+	}
+	return &t.SiteLicenseGroup
+}
+func (t *Licensing_Licensing_LicensingInfo_Licenses_SiteLicense) GetRegionality() *cato_models.Regionality {
+	if t == nil {
+		t = &Licensing_Licensing_LicensingInfo_Licenses_SiteLicense{}
+	}
+	return t.Regionality
+}
+func (t *Licensing_Licensing_LicensingInfo_Licenses_SiteLicense) GetSiteLicenseType() *cato_models.SiteLicenseType {
+	if t == nil {
+		t = &Licensing_Licensing_LicensingInfo_Licenses_SiteLicense{}
+	}
+	return &t.SiteLicenseType
+}
+func (t *Licensing_Licensing_LicensingInfo_Licenses_SiteLicense) GetTotal() int64 {
+	if t == nil {
+		t = &Licensing_Licensing_LicensingInfo_Licenses_SiteLicense{}
+	}
+	return t.Total
+}
+func (t *Licensing_Licensing_LicensingInfo_Licenses_SiteLicense) GetSite() *Licensing_Licensing_LicensingInfo_Licenses_SiteLicense_Site {
+	if t == nil {
+		t = &Licensing_Licensing_LicensingInfo_Licenses_SiteLicense{}
+	}
+	return t.Site
+}
+
+type Licensing_Licensing_LicensingInfo_Licenses_PooledBandwidthLicense_Sites_SitePooledBandwidthLicenseSite struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *Licensing_Licensing_LicensingInfo_Licenses_PooledBandwidthLicense_Sites_SitePooledBandwidthLicenseSite) GetID() string {
+	if t == nil {
+		t = &Licensing_Licensing_LicensingInfo_Licenses_PooledBandwidthLicense_Sites_SitePooledBandwidthLicenseSite{}
+	}
+	return t.ID
+}
+func (t *Licensing_Licensing_LicensingInfo_Licenses_PooledBandwidthLicense_Sites_SitePooledBandwidthLicenseSite) GetName() string {
+	if t == nil {
+		t = &Licensing_Licensing_LicensingInfo_Licenses_PooledBandwidthLicense_Sites_SitePooledBandwidthLicenseSite{}
+	}
+	return t.Name
+}
+
+type Licensing_Licensing_LicensingInfo_Licenses_PooledBandwidthLicense_Sites struct {
+	AllocatedBandwidth             int64                                                                                                  "json:\"allocatedBandwidth\" graphql:\"allocatedBandwidth\""
+	SitePooledBandwidthLicenseSite Licensing_Licensing_LicensingInfo_Licenses_PooledBandwidthLicense_Sites_SitePooledBandwidthLicenseSite "json:\"sitePooledBandwidthLicenseSite\" graphql:\"sitePooledBandwidthLicenseSite\""
+}
+
+func (t *Licensing_Licensing_LicensingInfo_Licenses_PooledBandwidthLicense_Sites) GetAllocatedBandwidth() int64 {
+	if t == nil {
+		t = &Licensing_Licensing_LicensingInfo_Licenses_PooledBandwidthLicense_Sites{}
+	}
+	return t.AllocatedBandwidth
+}
+func (t *Licensing_Licensing_LicensingInfo_Licenses_PooledBandwidthLicense_Sites) GetSitePooledBandwidthLicenseSite() *Licensing_Licensing_LicensingInfo_Licenses_PooledBandwidthLicense_Sites_SitePooledBandwidthLicenseSite {
+	if t == nil {
+		t = &Licensing_Licensing_LicensingInfo_Licenses_PooledBandwidthLicense_Sites{}
+	}
+	return &t.SitePooledBandwidthLicenseSite
+}
+
+type Licensing_Licensing_LicensingInfo_Licenses_PooledBandwidthLicense_Accounts_Account struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *Licensing_Licensing_LicensingInfo_Licenses_PooledBandwidthLicense_Accounts_Account) GetID() string {
+	if t == nil {
+		t = &Licensing_Licensing_LicensingInfo_Licenses_PooledBandwidthLicense_Accounts_Account{}
+	}
+	return t.ID
+}
+func (t *Licensing_Licensing_LicensingInfo_Licenses_PooledBandwidthLicense_Accounts_Account) GetName() string {
+	if t == nil {
+		t = &Licensing_Licensing_LicensingInfo_Licenses_PooledBandwidthLicense_Accounts_Account{}
+	}
+	return t.Name
+}
+
+type Licensing_Licensing_LicensingInfo_Licenses_PooledBandwidthLicense_Accounts struct {
+	Account            Licensing_Licensing_LicensingInfo_Licenses_PooledBandwidthLicense_Accounts_Account "json:\"account\" graphql:\"account\""
+	AllocatedBandwidth int64                                                                              "json:\"allocatedBandwidth\" graphql:\"allocatedBandwidth\""
+}
+
+func (t *Licensing_Licensing_LicensingInfo_Licenses_PooledBandwidthLicense_Accounts) GetAccount() *Licensing_Licensing_LicensingInfo_Licenses_PooledBandwidthLicense_Accounts_Account {
+	if t == nil {
+		t = &Licensing_Licensing_LicensingInfo_Licenses_PooledBandwidthLicense_Accounts{}
+	}
+	return &t.Account
+}
+func (t *Licensing_Licensing_LicensingInfo_Licenses_PooledBandwidthLicense_Accounts) GetAllocatedBandwidth() int64 {
+	if t == nil {
+		t = &Licensing_Licensing_LicensingInfo_Licenses_PooledBandwidthLicense_Accounts{}
+	}
+	return t.AllocatedBandwidth
+}
+
+type Licensing_Licensing_LicensingInfo_Licenses_PooledBandwidthLicense struct {
+	SiteLicenseGroup   cato_models.SiteLicenseGroup                                                  "json:\"siteLicenseGroup\" graphql:\"siteLicenseGroup\""
+	SiteLicenseType    cato_models.SiteLicenseType                                                   "json:\"siteLicenseType\" graphql:\"siteLicenseType\""
+	Total              int64                                                                         "json:\"total\" graphql:\"total\""
+	AllocatedBandwidth int64                                                                         "json:\"allocatedBandwidth\" graphql:\"allocatedBandwidth\""
+	Sites              []*Licensing_Licensing_LicensingInfo_Licenses_PooledBandwidthLicense_Sites    "json:\"sites\" graphql:\"sites\""
+	Accounts           []*Licensing_Licensing_LicensingInfo_Licenses_PooledBandwidthLicense_Accounts "json:\"accounts\" graphql:\"accounts\""
+}
+
+func (t *Licensing_Licensing_LicensingInfo_Licenses_PooledBandwidthLicense) GetSiteLicenseGroup() *cato_models.SiteLicenseGroup {
+	if t == nil {
+		t = &Licensing_Licensing_LicensingInfo_Licenses_PooledBandwidthLicense{}
+	}
+	return &t.SiteLicenseGroup
+}
+func (t *Licensing_Licensing_LicensingInfo_Licenses_PooledBandwidthLicense) GetSiteLicenseType() *cato_models.SiteLicenseType {
+	if t == nil {
+		t = &Licensing_Licensing_LicensingInfo_Licenses_PooledBandwidthLicense{}
+	}
+	return &t.SiteLicenseType
+}
+func (t *Licensing_Licensing_LicensingInfo_Licenses_PooledBandwidthLicense) GetTotal() int64 {
+	if t == nil {
+		t = &Licensing_Licensing_LicensingInfo_Licenses_PooledBandwidthLicense{}
+	}
+	return t.Total
+}
+func (t *Licensing_Licensing_LicensingInfo_Licenses_PooledBandwidthLicense) GetAllocatedBandwidth() int64 {
+	if t == nil {
+		t = &Licensing_Licensing_LicensingInfo_Licenses_PooledBandwidthLicense{}
+	}
+	return t.AllocatedBandwidth
+}
+func (t *Licensing_Licensing_LicensingInfo_Licenses_PooledBandwidthLicense) GetSites() []*Licensing_Licensing_LicensingInfo_Licenses_PooledBandwidthLicense_Sites {
+	if t == nil {
+		t = &Licensing_Licensing_LicensingInfo_Licenses_PooledBandwidthLicense{}
+	}
+	return t.Sites
+}
+func (t *Licensing_Licensing_LicensingInfo_Licenses_PooledBandwidthLicense) GetAccounts() []*Licensing_Licensing_LicensingInfo_Licenses_PooledBandwidthLicense_Accounts {
+	if t == nil {
+		t = &Licensing_Licensing_LicensingInfo_Licenses_PooledBandwidthLicense{}
+	}
+	return t.Accounts
+}
+
+type Licensing_Licensing_LicensingInfo_Licenses_ZtnaUsersLicense struct {
+	ZtnaUsersLicenseGroup cato_models.ZtnaUsersLicenseGroup "json:\"ztnaUsersLicenseGroup\" graphql:\"ztnaUsersLicenseGroup\""
+	Total                 int64                             "json:\"total\" graphql:\"total\""
+}
+
+func (t *Licensing_Licensing_LicensingInfo_Licenses_ZtnaUsersLicense) GetZtnaUsersLicenseGroup() *cato_models.ZtnaUsersLicenseGroup {
+	if t == nil {
+		t = &Licensing_Licensing_LicensingInfo_Licenses_ZtnaUsersLicense{}
+	}
+	return &t.ZtnaUsersLicenseGroup
+}
+func (t *Licensing_Licensing_LicensingInfo_Licenses_ZtnaUsersLicense) GetTotal() int64 {
+	if t == nil {
+		t = &Licensing_Licensing_LicensingInfo_Licenses_ZtnaUsersLicense{}
+	}
+	return t.Total
+}
+
+type Licensing_Licensing_LicensingInfo_Licenses_EndpointProtectionLicense struct {
+	Total int64 "json:\"total\" graphql:\"total\""
+}
+
+func (t *Licensing_Licensing_LicensingInfo_Licenses_EndpointProtectionLicense) GetTotal() int64 {
+	if t == nil {
+		t = &Licensing_Licensing_LicensingInfo_Licenses_EndpointProtectionLicense{}
+	}
+	return t.Total
+}
+
+type Licensing_Licensing_LicensingInfo_Licenses_IlmmLicense struct {
+	Total int64 "json:\"total\" graphql:\"total\""
+}
+
+func (t *Licensing_Licensing_LicensingInfo_Licenses_IlmmLicense) GetTotal() int64 {
+	if t == nil {
+		t = &Licensing_Licensing_LicensingInfo_Licenses_IlmmLicense{}
+	}
+	return t.Total
+}
+
+type Licensing_Licensing_LicensingInfo_Licenses_SaasSecurityAPILicense struct {
+	Total int64 "json:\"total\" graphql:\"total\""
+}
+
+func (t *Licensing_Licensing_LicensingInfo_Licenses_SaasSecurityAPILicense) GetTotal() int64 {
+	if t == nil {
+		t = &Licensing_Licensing_LicensingInfo_Licenses_SaasSecurityAPILicense{}
+	}
+	return t.Total
+}
+
+type Licensing_Licensing_LicensingInfo_Licenses_XdrProLicense struct {
+	Total int64 "json:\"total\" graphql:\"total\""
+}
+
+func (t *Licensing_Licensing_LicensingInfo_Licenses_XdrProLicense) GetTotal() int64 {
+	if t == nil {
+		t = &Licensing_Licensing_LicensingInfo_Licenses_XdrProLicense{}
+	}
+	return t.Total
+}
+
+type Licensing_Licensing_LicensingInfo_Licenses_DemLicense struct {
+	Total int64 "json:\"total\" graphql:\"total\""
+}
+
+func (t *Licensing_Licensing_LicensingInfo_Licenses_DemLicense) GetTotal() int64 {
+	if t == nil {
+		t = &Licensing_Licensing_LicensingInfo_Licenses_DemLicense{}
+	}
+	return t.Total
+}
+
+type Licensing_Licensing_LicensingInfo_Licenses struct {
+	DataLakeLicense           Licensing_Licensing_LicensingInfo_Licenses_DataLakeLicense           "graphql:\"... on DataLakeLicense\""
+	DemLicense                Licensing_Licensing_LicensingInfo_Licenses_DemLicense                "graphql:\"... on DemLicense\""
+	EndpointProtectionLicense Licensing_Licensing_LicensingInfo_Licenses_EndpointProtectionLicense "graphql:\"... on EndpointProtectionLicense\""
+	IlmmLicense               Licensing_Licensing_LicensingInfo_Licenses_IlmmLicense               "graphql:\"... on IlmmLicense\""
+	PooledBandwidthLicense    Licensing_Licensing_LicensingInfo_Licenses_PooledBandwidthLicense    "graphql:\"... on PooledBandwidthLicense\""
+	PublicIpsLicense          Licensing_Licensing_LicensingInfo_Licenses_PublicIpsLicense          "graphql:\"... on PublicIpsLicense\""
+	SaasSecurityAPILicense    Licensing_Licensing_LicensingInfo_Licenses_SaasSecurityAPILicense    "graphql:\"... on SaasSecurityApiLicense\""
+	SiteLicense               Licensing_Licensing_LicensingInfo_Licenses_SiteLicense               "graphql:\"... on SiteLicense\""
+	XdrProLicense             Licensing_Licensing_LicensingInfo_Licenses_XdrProLicense             "graphql:\"... on XdrProLicense\""
+	ZtnaUsersLicense          Licensing_Licensing_LicensingInfo_Licenses_ZtnaUsersLicense          "graphql:\"... on ZtnaUsersLicense\""
+	Description               *string                                                              "json:\"description,omitempty\" graphql:\"description\""
+	ExpirationDate            string                                                               "json:\"expirationDate\" graphql:\"expirationDate\""
+	LastUpdated               *string                                                              "json:\"lastUpdated,omitempty\" graphql:\"lastUpdated\""
+	Plan                      cato_models.LicensePlan                                              "json:\"plan\" graphql:\"plan\""
+	Sku                       cato_models.LicenseSku                                               "json:\"sku\" graphql:\"sku\""
+	StartDate                 *string                                                              "json:\"startDate,omitempty\" graphql:\"startDate\""
+	Status                    cato_models.LicenseStatus                                            "json:\"status\" graphql:\"status\""
+}
+
+func (t *Licensing_Licensing_LicensingInfo_Licenses) GetDataLakeLicense() *Licensing_Licensing_LicensingInfo_Licenses_DataLakeLicense {
+	if t == nil {
+		t = &Licensing_Licensing_LicensingInfo_Licenses{}
+	}
+	return &t.DataLakeLicense
+}
+func (t *Licensing_Licensing_LicensingInfo_Licenses) GetDemLicense() *Licensing_Licensing_LicensingInfo_Licenses_DemLicense {
+	if t == nil {
+		t = &Licensing_Licensing_LicensingInfo_Licenses{}
+	}
+	return &t.DemLicense
+}
+func (t *Licensing_Licensing_LicensingInfo_Licenses) GetEndpointProtectionLicense() *Licensing_Licensing_LicensingInfo_Licenses_EndpointProtectionLicense {
+	if t == nil {
+		t = &Licensing_Licensing_LicensingInfo_Licenses{}
+	}
+	return &t.EndpointProtectionLicense
+}
+func (t *Licensing_Licensing_LicensingInfo_Licenses) GetIlmmLicense() *Licensing_Licensing_LicensingInfo_Licenses_IlmmLicense {
+	if t == nil {
+		t = &Licensing_Licensing_LicensingInfo_Licenses{}
+	}
+	return &t.IlmmLicense
+}
+func (t *Licensing_Licensing_LicensingInfo_Licenses) GetPooledBandwidthLicense() *Licensing_Licensing_LicensingInfo_Licenses_PooledBandwidthLicense {
+	if t == nil {
+		t = &Licensing_Licensing_LicensingInfo_Licenses{}
+	}
+	return &t.PooledBandwidthLicense
+}
+func (t *Licensing_Licensing_LicensingInfo_Licenses) GetPublicIpsLicense() *Licensing_Licensing_LicensingInfo_Licenses_PublicIpsLicense {
+	if t == nil {
+		t = &Licensing_Licensing_LicensingInfo_Licenses{}
+	}
+	return &t.PublicIpsLicense
+}
+func (t *Licensing_Licensing_LicensingInfo_Licenses) GetSaasSecurityAPILicense() *Licensing_Licensing_LicensingInfo_Licenses_SaasSecurityAPILicense {
+	if t == nil {
+		t = &Licensing_Licensing_LicensingInfo_Licenses{}
+	}
+	return &t.SaasSecurityAPILicense
+}
+func (t *Licensing_Licensing_LicensingInfo_Licenses) GetSiteLicense() *Licensing_Licensing_LicensingInfo_Licenses_SiteLicense {
+	if t == nil {
+		t = &Licensing_Licensing_LicensingInfo_Licenses{}
+	}
+	return &t.SiteLicense
+}
+func (t *Licensing_Licensing_LicensingInfo_Licenses) GetXdrProLicense() *Licensing_Licensing_LicensingInfo_Licenses_XdrProLicense {
+	if t == nil {
+		t = &Licensing_Licensing_LicensingInfo_Licenses{}
+	}
+	return &t.XdrProLicense
+}
+func (t *Licensing_Licensing_LicensingInfo_Licenses) GetZtnaUsersLicense() *Licensing_Licensing_LicensingInfo_Licenses_ZtnaUsersLicense {
+	if t == nil {
+		t = &Licensing_Licensing_LicensingInfo_Licenses{}
+	}
+	return &t.ZtnaUsersLicense
+}
+func (t *Licensing_Licensing_LicensingInfo_Licenses) GetDescription() *string {
+	if t == nil {
+		t = &Licensing_Licensing_LicensingInfo_Licenses{}
+	}
+	return t.Description
+}
+func (t *Licensing_Licensing_LicensingInfo_Licenses) GetExpirationDate() string {
+	if t == nil {
+		t = &Licensing_Licensing_LicensingInfo_Licenses{}
+	}
+	return t.ExpirationDate
+}
+func (t *Licensing_Licensing_LicensingInfo_Licenses) GetLastUpdated() *string {
+	if t == nil {
+		t = &Licensing_Licensing_LicensingInfo_Licenses{}
+	}
+	return t.LastUpdated
+}
+func (t *Licensing_Licensing_LicensingInfo_Licenses) GetPlan() *cato_models.LicensePlan {
+	if t == nil {
+		t = &Licensing_Licensing_LicensingInfo_Licenses{}
+	}
+	return &t.Plan
+}
+func (t *Licensing_Licensing_LicensingInfo_Licenses) GetSku() *cato_models.LicenseSku {
+	if t == nil {
+		t = &Licensing_Licensing_LicensingInfo_Licenses{}
+	}
+	return &t.Sku
+}
+func (t *Licensing_Licensing_LicensingInfo_Licenses) GetStartDate() *string {
+	if t == nil {
+		t = &Licensing_Licensing_LicensingInfo_Licenses{}
+	}
+	return t.StartDate
+}
+func (t *Licensing_Licensing_LicensingInfo_Licenses) GetStatus() *cato_models.LicenseStatus {
+	if t == nil {
+		t = &Licensing_Licensing_LicensingInfo_Licenses{}
+	}
+	return &t.Status
+}
+
 type Licensing_Licensing_LicensingInfo_GlobalLicenseAllocations_PublicIps struct {
 	Allocated int64 "json:\"allocated\" graphql:\"allocated\""
 	Available int64 "json:\"available\" graphql:\"available\""
+	Total     int64 "json:\"total\" graphql:\"total\""
 }
 
 func (t *Licensing_Licensing_LicensingInfo_GlobalLicenseAllocations_PublicIps) GetAllocated() int64 {
@@ -6073,6 +6481,12 @@ func (t *Licensing_Licensing_LicensingInfo_GlobalLicenseAllocations_PublicIps) G
 		t = &Licensing_Licensing_LicensingInfo_GlobalLicenseAllocations_PublicIps{}
 	}
 	return t.Available
+}
+func (t *Licensing_Licensing_LicensingInfo_GlobalLicenseAllocations_PublicIps) GetTotal() int64 {
+	if t == nil {
+		t = &Licensing_Licensing_LicensingInfo_GlobalLicenseAllocations_PublicIps{}
+	}
+	return t.Total
 }
 
 type Licensing_Licensing_LicensingInfo_GlobalLicenseAllocations_ZtnaUsers struct {
@@ -6118,278 +6532,11 @@ func (t *Licensing_Licensing_LicensingInfo_GlobalLicenseAllocations) GetZtnaUser
 	return t.ZtnaUsers
 }
 
-type Licensing_Licensing_LicensingInfo_Licenses_QuantifiableLicense struct {
-	Total int64 "json:\"total\" graphql:\"total\""
-}
-
-func (t *Licensing_Licensing_LicensingInfo_Licenses_QuantifiableLicense) GetTotal() int64 {
-	if t == nil {
-		t = &Licensing_Licensing_LicensingInfo_Licenses_QuantifiableLicense{}
-	}
-	return t.Total
-}
-
-type Licensing_Licensing_LicensingInfo_Licenses_DataLakeLicense struct {
-	Typename   *string                "json:\"__typename,omitempty\" graphql:\"__typename\""
-	DpaVersion cato_models.DpaVersion "json:\"dpaVersion\" graphql:\"dpaVersion\""
-}
-
-func (t *Licensing_Licensing_LicensingInfo_Licenses_DataLakeLicense) GetTypename() *string {
-	if t == nil {
-		t = &Licensing_Licensing_LicensingInfo_Licenses_DataLakeLicense{}
-	}
-	return t.Typename
-}
-func (t *Licensing_Licensing_LicensingInfo_Licenses_DataLakeLicense) GetDpaVersion() *cato_models.DpaVersion {
-	if t == nil {
-		t = &Licensing_Licensing_LicensingInfo_Licenses_DataLakeLicense{}
-	}
-	return &t.DpaVersion
-}
-
-type Licensing_Licensing_LicensingInfo_Licenses_PooledBandwidthLicense_Sites_Site struct {
-	ID   string "json:\"id\" graphql:\"id\""
-	Name string "json:\"name\" graphql:\"name\""
-}
-
-func (t *Licensing_Licensing_LicensingInfo_Licenses_PooledBandwidthLicense_Sites_Site) GetID() string {
-	if t == nil {
-		t = &Licensing_Licensing_LicensingInfo_Licenses_PooledBandwidthLicense_Sites_Site{}
-	}
-	return t.ID
-}
-func (t *Licensing_Licensing_LicensingInfo_Licenses_PooledBandwidthLicense_Sites_Site) GetName() string {
-	if t == nil {
-		t = &Licensing_Licensing_LicensingInfo_Licenses_PooledBandwidthLicense_Sites_Site{}
-	}
-	return t.Name
-}
-
-type Licensing_Licensing_LicensingInfo_Licenses_PooledBandwidthLicense_Sites struct {
-	AllocatedBandwidth int64                                                                        "json:\"allocatedBandwidth\" graphql:\"allocatedBandwidth\""
-	Site               Licensing_Licensing_LicensingInfo_Licenses_PooledBandwidthLicense_Sites_Site "json:\"site\" graphql:\"site\""
-}
-
-func (t *Licensing_Licensing_LicensingInfo_Licenses_PooledBandwidthLicense_Sites) GetAllocatedBandwidth() int64 {
-	if t == nil {
-		t = &Licensing_Licensing_LicensingInfo_Licenses_PooledBandwidthLicense_Sites{}
-	}
-	return t.AllocatedBandwidth
-}
-func (t *Licensing_Licensing_LicensingInfo_Licenses_PooledBandwidthLicense_Sites) GetSite() *Licensing_Licensing_LicensingInfo_Licenses_PooledBandwidthLicense_Sites_Site {
-	if t == nil {
-		t = &Licensing_Licensing_LicensingInfo_Licenses_PooledBandwidthLicense_Sites{}
-	}
-	return &t.Site
-}
-
-type Licensing_Licensing_LicensingInfo_Licenses_PooledBandwidthLicense struct {
-	SiteLicenseGroup   cato_models.SiteLicenseGroup                                               "json:\"siteLicenseGroup\" graphql:\"siteLicenseGroup\""
-	SiteLicenseType    cato_models.SiteLicenseType                                                "json:\"siteLicenseType\" graphql:\"siteLicenseType\""
-	AllocatedBandwidth int64                                                                      "json:\"allocatedBandwidth\" graphql:\"allocatedBandwidth\""
-	Sites              []*Licensing_Licensing_LicensingInfo_Licenses_PooledBandwidthLicense_Sites "json:\"sites\" graphql:\"sites\""
-}
-
-func (t *Licensing_Licensing_LicensingInfo_Licenses_PooledBandwidthLicense) GetSiteLicenseGroup() *cato_models.SiteLicenseGroup {
-	if t == nil {
-		t = &Licensing_Licensing_LicensingInfo_Licenses_PooledBandwidthLicense{}
-	}
-	return &t.SiteLicenseGroup
-}
-func (t *Licensing_Licensing_LicensingInfo_Licenses_PooledBandwidthLicense) GetSiteLicenseType() *cato_models.SiteLicenseType {
-	if t == nil {
-		t = &Licensing_Licensing_LicensingInfo_Licenses_PooledBandwidthLicense{}
-	}
-	return &t.SiteLicenseType
-}
-func (t *Licensing_Licensing_LicensingInfo_Licenses_PooledBandwidthLicense) GetAllocatedBandwidth() int64 {
-	if t == nil {
-		t = &Licensing_Licensing_LicensingInfo_Licenses_PooledBandwidthLicense{}
-	}
-	return t.AllocatedBandwidth
-}
-func (t *Licensing_Licensing_LicensingInfo_Licenses_PooledBandwidthLicense) GetSites() []*Licensing_Licensing_LicensingInfo_Licenses_PooledBandwidthLicense_Sites {
-	if t == nil {
-		t = &Licensing_Licensing_LicensingInfo_Licenses_PooledBandwidthLicense{}
-	}
-	return t.Sites
-}
-
-type Licensing_Licensing_LicensingInfo_Licenses_SiteLicense_Site struct {
-	ID   string "json:\"id\" graphql:\"id\""
-	Name string "json:\"name\" graphql:\"name\""
-}
-
-func (t *Licensing_Licensing_LicensingInfo_Licenses_SiteLicense_Site) GetID() string {
-	if t == nil {
-		t = &Licensing_Licensing_LicensingInfo_Licenses_SiteLicense_Site{}
-	}
-	return t.ID
-}
-func (t *Licensing_Licensing_LicensingInfo_Licenses_SiteLicense_Site) GetName() string {
-	if t == nil {
-		t = &Licensing_Licensing_LicensingInfo_Licenses_SiteLicense_Site{}
-	}
-	return t.Name
-}
-
-type Licensing_Licensing_LicensingInfo_Licenses_SiteLicense struct {
-	Typename         *string                                                      "json:\"__typename,omitempty\" graphql:\"__typename\""
-	SiteLicenseGroup cato_models.SiteLicenseGroup                                 "json:\"siteLicenseGroup\" graphql:\"siteLicenseGroup\""
-	Regionality      *cato_models.Regionality                                     "json:\"regionality,omitempty\" graphql:\"regionality\""
-	SiteLicenseType  cato_models.SiteLicenseType                                  "json:\"siteLicenseType\" graphql:\"siteLicenseType\""
-	Site             *Licensing_Licensing_LicensingInfo_Licenses_SiteLicense_Site "json:\"site,omitempty\" graphql:\"site\""
-}
-
-func (t *Licensing_Licensing_LicensingInfo_Licenses_SiteLicense) GetTypename() *string {
-	if t == nil {
-		t = &Licensing_Licensing_LicensingInfo_Licenses_SiteLicense{}
-	}
-	return t.Typename
-}
-func (t *Licensing_Licensing_LicensingInfo_Licenses_SiteLicense) GetSiteLicenseGroup() *cato_models.SiteLicenseGroup {
-	if t == nil {
-		t = &Licensing_Licensing_LicensingInfo_Licenses_SiteLicense{}
-	}
-	return &t.SiteLicenseGroup
-}
-func (t *Licensing_Licensing_LicensingInfo_Licenses_SiteLicense) GetRegionality() *cato_models.Regionality {
-	if t == nil {
-		t = &Licensing_Licensing_LicensingInfo_Licenses_SiteLicense{}
-	}
-	return t.Regionality
-}
-func (t *Licensing_Licensing_LicensingInfo_Licenses_SiteLicense) GetSiteLicenseType() *cato_models.SiteLicenseType {
-	if t == nil {
-		t = &Licensing_Licensing_LicensingInfo_Licenses_SiteLicense{}
-	}
-	return &t.SiteLicenseType
-}
-func (t *Licensing_Licensing_LicensingInfo_Licenses_SiteLicense) GetSite() *Licensing_Licensing_LicensingInfo_Licenses_SiteLicense_Site {
-	if t == nil {
-		t = &Licensing_Licensing_LicensingInfo_Licenses_SiteLicense{}
-	}
-	return t.Site
-}
-
-type Licensing_Licensing_LicensingInfo_Licenses_ZtnaUsersLicense struct {
-	ZtnaUsersLicenseGroup cato_models.ZtnaUsersLicenseGroup "json:\"ztnaUsersLicenseGroup\" graphql:\"ztnaUsersLicenseGroup\""
-}
-
-func (t *Licensing_Licensing_LicensingInfo_Licenses_ZtnaUsersLicense) GetZtnaUsersLicenseGroup() *cato_models.ZtnaUsersLicenseGroup {
-	if t == nil {
-		t = &Licensing_Licensing_LicensingInfo_Licenses_ZtnaUsersLicense{}
-	}
-	return &t.ZtnaUsersLicenseGroup
-}
-
-type Licensing_Licensing_LicensingInfo_Licenses struct {
-	DataLakeLicense        Licensing_Licensing_LicensingInfo_Licenses_DataLakeLicense        "graphql:\"... on DataLakeLicense\""
-	PooledBandwidthLicense Licensing_Licensing_LicensingInfo_Licenses_PooledBandwidthLicense "graphql:\"... on PooledBandwidthLicense\""
-	QuantifiableLicense    Licensing_Licensing_LicensingInfo_Licenses_QuantifiableLicense    "graphql:\"... on QuantifiableLicense\""
-	SiteLicense            Licensing_Licensing_LicensingInfo_Licenses_SiteLicense            "graphql:\"... on SiteLicense\""
-	ZtnaUsersLicense       Licensing_Licensing_LicensingInfo_Licenses_ZtnaUsersLicense       "graphql:\"... on ZtnaUsersLicense\""
-	Typename               *string                                                           "json:\"__typename,omitempty\" graphql:\"__typename\""
-	ExpirationDate         string                                                            "json:\"expirationDate\" graphql:\"expirationDate\""
-	ID                     *string                                                           "json:\"id,omitempty\" graphql:\"id\""
-	LastUpdated            *string                                                           "json:\"lastUpdated,omitempty\" graphql:\"lastUpdated\""
-	Plan                   cato_models.LicensePlan                                           "json:\"plan\" graphql:\"plan\""
-	Sku                    cato_models.LicenseSku                                            "json:\"sku\" graphql:\"sku\""
-	StartDate              *string                                                           "json:\"startDate,omitempty\" graphql:\"startDate\""
-	Status                 cato_models.LicenseStatus                                         "json:\"status\" graphql:\"status\""
-}
-
-func (t *Licensing_Licensing_LicensingInfo_Licenses) GetDataLakeLicense() *Licensing_Licensing_LicensingInfo_Licenses_DataLakeLicense {
-	if t == nil {
-		t = &Licensing_Licensing_LicensingInfo_Licenses{}
-	}
-	return &t.DataLakeLicense
-}
-func (t *Licensing_Licensing_LicensingInfo_Licenses) GetPooledBandwidthLicense() *Licensing_Licensing_LicensingInfo_Licenses_PooledBandwidthLicense {
-	if t == nil {
-		t = &Licensing_Licensing_LicensingInfo_Licenses{}
-	}
-	return &t.PooledBandwidthLicense
-}
-func (t *Licensing_Licensing_LicensingInfo_Licenses) GetQuantifiableLicense() *Licensing_Licensing_LicensingInfo_Licenses_QuantifiableLicense {
-	if t == nil {
-		t = &Licensing_Licensing_LicensingInfo_Licenses{}
-	}
-	return &t.QuantifiableLicense
-}
-func (t *Licensing_Licensing_LicensingInfo_Licenses) GetSiteLicense() *Licensing_Licensing_LicensingInfo_Licenses_SiteLicense {
-	if t == nil {
-		t = &Licensing_Licensing_LicensingInfo_Licenses{}
-	}
-	return &t.SiteLicense
-}
-func (t *Licensing_Licensing_LicensingInfo_Licenses) GetZtnaUsersLicense() *Licensing_Licensing_LicensingInfo_Licenses_ZtnaUsersLicense {
-	if t == nil {
-		t = &Licensing_Licensing_LicensingInfo_Licenses{}
-	}
-	return &t.ZtnaUsersLicense
-}
-func (t *Licensing_Licensing_LicensingInfo_Licenses) GetTypename() *string {
-	if t == nil {
-		t = &Licensing_Licensing_LicensingInfo_Licenses{}
-	}
-	return t.Typename
-}
-func (t *Licensing_Licensing_LicensingInfo_Licenses) GetExpirationDate() string {
-	if t == nil {
-		t = &Licensing_Licensing_LicensingInfo_Licenses{}
-	}
-	return t.ExpirationDate
-}
-func (t *Licensing_Licensing_LicensingInfo_Licenses) GetID() *string {
-	if t == nil {
-		t = &Licensing_Licensing_LicensingInfo_Licenses{}
-	}
-	return t.ID
-}
-func (t *Licensing_Licensing_LicensingInfo_Licenses) GetLastUpdated() *string {
-	if t == nil {
-		t = &Licensing_Licensing_LicensingInfo_Licenses{}
-	}
-	return t.LastUpdated
-}
-func (t *Licensing_Licensing_LicensingInfo_Licenses) GetPlan() *cato_models.LicensePlan {
-	if t == nil {
-		t = &Licensing_Licensing_LicensingInfo_Licenses{}
-	}
-	return &t.Plan
-}
-func (t *Licensing_Licensing_LicensingInfo_Licenses) GetSku() *cato_models.LicenseSku {
-	if t == nil {
-		t = &Licensing_Licensing_LicensingInfo_Licenses{}
-	}
-	return &t.Sku
-}
-func (t *Licensing_Licensing_LicensingInfo_Licenses) GetStartDate() *string {
-	if t == nil {
-		t = &Licensing_Licensing_LicensingInfo_Licenses{}
-	}
-	return t.StartDate
-}
-func (t *Licensing_Licensing_LicensingInfo_Licenses) GetStatus() *cato_models.LicenseStatus {
-	if t == nil {
-		t = &Licensing_Licensing_LicensingInfo_Licenses{}
-	}
-	return &t.Status
-}
-
 type Licensing_Licensing_LicensingInfo struct {
-	Typename                 *string                                                    "json:\"__typename,omitempty\" graphql:\"__typename\""
 	GlobalLicenseAllocations Licensing_Licensing_LicensingInfo_GlobalLicenseAllocations "json:\"globalLicenseAllocations\" graphql:\"globalLicenseAllocations\""
 	Licenses                 []*Licensing_Licensing_LicensingInfo_Licenses              "json:\"licenses\" graphql:\"licenses\""
 }
 
-func (t *Licensing_Licensing_LicensingInfo) GetTypename() *string {
-	if t == nil {
-		t = &Licensing_Licensing_LicensingInfo{}
-	}
-	return t.Typename
-}
 func (t *Licensing_Licensing_LicensingInfo) GetGlobalLicenseAllocations() *Licensing_Licensing_LicensingInfo_GlobalLicenseAllocations {
 	if t == nil {
 		t = &Licensing_Licensing_LicensingInfo{}
@@ -57539,9 +57686,75 @@ func (c *Client) HardwareManagement(ctx context.Context, input *cato_models.Sock
 const LicensingDocument = `query licensing ($accountId: ID!) {
 	licensing(accountId: $accountId) {
 		licensingInfo {
-			__typename
+			licenses {
+				description
+				plan
+				sku
+				status
+				startDate
+				expirationDate
+				lastUpdated
+				... on DataLakeLicense {
+					dpaVersion
+					retentionPeriod
+					total
+				}
+				... on PublicIpsLicense {
+					total
+				}
+				... on SiteLicense {
+					siteLicenseGroup
+					regionality
+					siteLicenseType
+					total
+					site {
+						id
+						name
+					}
+				}
+				... on PooledBandwidthLicense {
+					siteLicenseGroup
+					siteLicenseType
+					total
+					allocatedBandwidth
+					sites {
+						sitePooledBandwidthLicenseSite: site {
+							id
+							name
+						}
+						allocatedBandwidth
+					}
+					accounts {
+						account {
+							id
+							name
+						}
+						allocatedBandwidth
+					}
+				}
+				... on ZtnaUsersLicense {
+					ztnaUsersLicenseGroup
+					total
+				}
+				... on EndpointProtectionLicense {
+					total
+				}
+				... on IlmmLicense {
+					total
+				}
+				... on SaasSecurityApiLicense {
+					total
+				}
+				... on XdrProLicense {
+					total
+				}
+				... on DemLicense {
+					total
+				}
+			}
 			globalLicenseAllocations {
 				publicIps {
+					total
 					allocated
 					available
 				}
@@ -57549,48 +57762,6 @@ const LicensingDocument = `query licensing ($accountId: ID!) {
 					total
 					allocated
 					available
-				}
-			}
-			licenses {
-				__typename
-				id
-				sku
-				plan
-				status
-				expirationDate
-				startDate
-				lastUpdated
-				... on QuantifiableLicense {
-					total
-				}
-				... on DataLakeLicense {
-					__typename
-					dpaVersion
-				}
-				... on PooledBandwidthLicense {
-					siteLicenseGroup
-					siteLicenseType
-					allocatedBandwidth
-					sites {
-						site {
-							id
-							name
-						}
-						allocatedBandwidth
-					}
-				}
-				... on SiteLicense {
-					__typename
-					siteLicenseGroup
-					regionality
-					siteLicenseType
-					site {
-						id
-						name
-					}
-				}
-				... on ZtnaUsersLicense {
-					ztnaUsersLicenseGroup
 				}
 			}
 		}

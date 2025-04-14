@@ -1,60 +1,90 @@
-query licensing($accountId: ID!) {
-licensing(accountId: $accountId) {
-licensingInfo {
-    __typename
-    globalLicenseAllocations {
-      publicIps {
-        allocated
-        available
-      }
-      ztnaUsers {
-        total
-        allocated
-        available
-      }
-    }
-    licenses{
-      __typename
-      id
-      sku
-      plan
-      status
-      expirationDate
-      startDate
-      lastUpdated
-      ... on QuantifiableLicense {
-        total
-      }
-      ... on DataLakeLicense {
-        __typename
-        dpaVersion
-      }
-      ... on PooledBandwidthLicense {
-        siteLicenseGroup
-        siteLicenseType
-        allocatedBandwidth
-        sites {
-          site {
-            id
-            name
-          }
-          allocatedBandwidth
-        }
-      }
-      ... on SiteLicense {
-         __typename
-        siteLicenseGroup
-        regionality
-        siteLicenseType
-        site {
-            id
-            name
-          }
-      }
-      ... on ZtnaUsersLicense {
-         ztnaUsersLicenseGroup
-      }
-    }
-  }
-  }
+query licensing ( $accountId:ID! ) {
+	licensing ( accountId:$accountId  ) {
+		licensingInfo  {
+			licenses {
+				description 
+				plan 
+				sku 
+				status 
+				startDate 
+				expirationDate 
+				lastUpdated 
+				... on DataLakeLicense {
+					dpaVersion 
+					retentionPeriod 
+					total 
+				}
+				... on PublicIpsLicense {
+					total 
+				}
+				... on SiteLicense {
+					siteLicenseGroup 
+					regionality 
+					siteLicenseType 
+					total 
+					site  {
+						id
+						name
+					}
+
+				}
+				... on PooledBandwidthLicense {
+					siteLicenseGroup 
+					siteLicenseType 
+					total 
+					allocatedBandwidth 
+					sites  {
+						sitePooledBandwidthLicenseSite: site {
+							id 
+							name 
+						}
+						allocatedBandwidth
+					}
+
+					accounts  {
+						account {
+							id 
+							name 
+						}
+						allocatedBandwidth
+					}
+
+				}
+				... on ZtnaUsersLicense {
+					ztnaUsersLicenseGroup 
+					total 
+				}
+				... on EndpointProtectionLicense {
+					total 
+				}
+				... on IlmmLicense {
+					total 
+				}
+				... on SaasSecurityApiLicense {
+					total 
+				}
+				... on XdrProLicense {
+					total 
+				}
+				... on DemLicense {
+					total 
+				}
+			}
+			globalLicenseAllocations {
+				publicIps  {
+					total
+					allocated
+					available
+				}
+
+				ztnaUsers  {
+					total
+					allocated
+					available
+				}
+
+			}
+		}
+
+	}	
 }
