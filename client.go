@@ -6354,6 +6354,7 @@ type Licensing_Licensing_LicensingInfo_Licenses struct {
 	ZtnaUsersLicense          Licensing_Licensing_LicensingInfo_Licenses_ZtnaUsersLicense          "graphql:\"... on ZtnaUsersLicense\""
 	Description               *string                                                              "json:\"description,omitempty\" graphql:\"description\""
 	ExpirationDate            string                                                               "json:\"expirationDate\" graphql:\"expirationDate\""
+	ID                        *string                                                              "json:\"id,omitempty\" graphql:\"id\""
 	LastUpdated               *string                                                              "json:\"lastUpdated,omitempty\" graphql:\"lastUpdated\""
 	Plan                      cato_models.LicensePlan                                              "json:\"plan\" graphql:\"plan\""
 	Sku                       cato_models.LicenseSku                                               "json:\"sku\" graphql:\"sku\""
@@ -6432,6 +6433,12 @@ func (t *Licensing_Licensing_LicensingInfo_Licenses) GetExpirationDate() string 
 		t = &Licensing_Licensing_LicensingInfo_Licenses{}
 	}
 	return t.ExpirationDate
+}
+func (t *Licensing_Licensing_LicensingInfo_Licenses) GetID() *string {
+	if t == nil {
+		t = &Licensing_Licensing_LicensingInfo_Licenses{}
+	}
+	return t.ID
 }
 func (t *Licensing_Licensing_LicensingInfo_Licenses) GetLastUpdated() *string {
 	if t == nil {
@@ -57687,6 +57694,7 @@ const LicensingDocument = `query licensing ($accountId: ID!) {
 	licensing(accountId: $accountId) {
 		licensingInfo {
 			licenses {
+				id
 				description
 				plan
 				sku

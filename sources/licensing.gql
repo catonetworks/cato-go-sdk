@@ -2,6 +2,7 @@ query licensing ( $accountId:ID! ) {
 	licensing ( accountId:$accountId  ) {
 		licensingInfo  {
 			licenses {
+                id
 				description 
 				plan 
 				sku 
