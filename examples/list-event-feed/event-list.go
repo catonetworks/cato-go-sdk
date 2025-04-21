@@ -31,6 +31,21 @@ func main() {
 
 	marker := ""
 
+	eventsMarkerData, err := catoClient.EventsFeedIndex(ctx, []string{accountId}, &marker)
+	if err != nil {
+		fmt.Println("error in auditfeed: ", err)
+		return
+	}
+
+	marker = *eventsMarkerData.EventsFeed.Marker
+
+	queryResultJson, err := json.Marshal(eventsMarkerData)
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+	fmt.Println(string(queryResultJson))
+
 	for {
 
 		// "last.P2M"

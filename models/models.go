@@ -1647,11 +1647,6 @@ type AssignSiteBwLicensePayload struct {
 	License License `json:"license"`
 }
 
-type AssignSiteBwLicensePayloadParent struct {
-	AssignSiteBwLicensePayload *AssignSiteBwLicensePayload `json:"assignSiteBwLicensePayload"`
-	License                    License                     `json:"license"`
-}
-
 // Advanced Threat Prevention (ATP) service license details
 type AtpLicense struct {
 	ID          *string `json:"id,omitempty"`
@@ -5950,9 +5945,12 @@ type PolicyPublishRevisionInput struct {
 // policies which configuration can be read with query APIs.
 type PolicyQueries struct {
 	AppTenantRestriction *AppTenantRestrictionPolicyQueries `json:"appTenantRestriction,omitempty"`
+	DynamicIPAllocation  *DynamicIPAllocationPolicyQueries  `json:"dynamicIpAllocation,omitempty"`
 	InternetFirewall     *InternetFirewallPolicyQueries     `json:"internetFirewall,omitempty"`
 	RemotePortFwd        *RemotePortFwdPolicyQueries        `json:"remotePortFwd,omitempty"`
+	SocketLan            *SocketLanPolicyQueries            `json:"socketLan,omitempty"`
 	WanFirewall          *WanFirewallPolicyQueries          `json:"wanFirewall,omitempty"`
+	WanNetwork           *WanNetworkPolicyQueries           `json:"wanNetwork,omitempty"`
 }
 
 // Input for removing a section from a policy
@@ -6718,11 +6716,6 @@ type RemoveSiteBwLicensePayload struct {
 	License License `json:"license"`
 }
 
-type RemoveSiteBwLicensePayloadParent struct {
-	RemoveSiteBwLicensePayloadParent *RemoveSiteBwLicensePayloadParent `json:"removeSiteBwLicensePayloadParent"`
-	License                          License                           `json:"license"`
-}
-
 type RemoveSitePayload struct {
 	SiteID string `json:"siteId"`
 }
@@ -6844,6 +6837,8 @@ type SandboxReport struct {
 	DownloadURL *string `json:"downloadUrl,omitempty"`
 	//  Report expiration date
 	ExpirationDate *string `json:"expirationDate,omitempty"`
+	//  Sandbox analysis failure reason (if any)
+	FailureReason *SandboxFailureReason `json:"failureReason,omitempty"`
 	//  File hash (SHA-256)
 	FileHash string `json:"fileHash"`
 	//  File name
@@ -7092,14 +7087,14 @@ type SiteMutations struct {
 	UpdateSocketInterface                     *UpdateSocketInterfacePayload                     `json:"updateSocketInterface,omitempty"`
 	UpdateStaticHost                          *UpdateStaticHostPayload                          `json:"updateStaticHost,omitempty"`
 	// Assign a license to an existing site
-	AssignSiteBwLicense *AssignSiteBwLicensePayloadParent `json:"assignSiteBwLicense,omitempty"`
+	AssignSiteBwLicense *AssignSiteBwLicensePayload `json:"assignSiteBwLicense,omitempty"`
 	// Update the bandwidth allocation of an assigned pool license of an existing site (does not apply for site license allocation)
 	UpdateSiteBwLicense *UpdateSiteBwLicensePayload `json:"updateSiteBwLicense,omitempty"`
 	// Replace an existing license of a site. This API is used to make sure the site
 	//     will always have a license to avoid traffic drop for sites without licenses.
 	ReplaceSiteBwLicense *ReplaceSiteBwLicensePayload `json:"replaceSiteBwLicense,omitempty"`
 	// Remove a license from a site
-	RemoveSiteBwLicense *RemoveSiteBwLicensePayloadParent `json:"removeSiteBwLicense,omitempty"`
+	RemoveSiteBwLicense *RemoveSiteBwLicensePayload `json:"removeSiteBwLicense,omitempty"`
 }
 
 type SiteNetworkSubnetRef struct {
@@ -15155,6 +15150,59 @@ func (e *RiskLevelEnum) UnmarshalGQL(v any) error {
 }
 
 func (e RiskLevelEnum) MarshalGQL(w io.Writer) {
+	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+// Sandbox analysis failure reason
+type SandboxFailureReason string
+
+const (
+	//  Failed to fetch report from sandbox service after 10 minutes
+	SandboxFailureReasonAnalysisTimeout SandboxFailureReason = "ANALYSIS_TIMEOUT"
+	//  Internal server error
+	SandboxFailureReasonInternalError SandboxFailureReason = "INTERNAL_ERROR"
+	//  Invalid file size (0 or too large)
+	SandboxFailureReasonInvalidFileSize SandboxFailureReason = "INVALID_FILE_SIZE"
+	//  Failed to submit file for sandbox analysis
+	SandboxFailureReasonSubmissionError SandboxFailureReason = "SUBMISSION_ERROR"
+	//  Unsupported file type
+	SandboxFailureReasonUnsupportedFileType SandboxFailureReason = "UNSUPPORTED_FILE_TYPE"
+)
+
+var AllSandboxFailureReason = []SandboxFailureReason{
+	SandboxFailureReasonAnalysisTimeout,
+	SandboxFailureReasonInternalError,
+	SandboxFailureReasonInvalidFileSize,
+	SandboxFailureReasonSubmissionError,
+	SandboxFailureReasonUnsupportedFileType,
+}
+
+func (e SandboxFailureReason) IsValid() bool {
+	switch e {
+	case SandboxFailureReasonAnalysisTimeout, SandboxFailureReasonInternalError, SandboxFailureReasonInvalidFileSize, SandboxFailureReasonSubmissionError, SandboxFailureReasonUnsupportedFileType:
+		return true
+	}
+	return false
+}
+
+func (e SandboxFailureReason) String() string {
+	return string(e)
+}
+
+func (e *SandboxFailureReason) UnmarshalGQL(v any) error {
+	str, ok := v.(string)
+	if !ok {
+		return fmt.Errorf("enums must be strings")
+	}
+
+	*e = SandboxFailureReason(str)
+	if !e.IsValid() {
+		return fmt.Errorf("%s is not a valid SandboxFailureReason", str)
+	}
+	return nil
+}
+
+func (e SandboxFailureReason) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 

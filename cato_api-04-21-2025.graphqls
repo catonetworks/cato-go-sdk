@@ -1856,7 +1856,7 @@ type SiteMutations {
   """Add a secondary AWS vSocket to an existing site"""
   addSecondaryAwsVSocket(input: AddSecondaryAwsVSocketInput!): AddSecondaryAwsVSocketPayload @beta
   """Add a secondary Azure vSocket to an existing site"""
-  addSecondaryAzureVSocket(input: AddSecondaryAzureVSocketInput!): AddSecondaryAzureVSocketPayload @beta  
+  addSecondaryAzureVSocket(input: AddSecondaryAzureVSocketInput!): AddSecondaryAzureVSocketPayload @beta
   addSocketSite(input: AddSocketSiteInput!): AddSocketSitePayload @ga
   addStaticHost(siteId: ID!, input: AddStaticHostInput!): AddStaticHostPayload @ga
   """Removes an existing BGP peer configuration from a site."""
@@ -1878,6 +1878,25 @@ type SiteMutations {
   updateSiteGeneralDetails(siteId: ID!, input: UpdateSiteGeneralDetailsInput!): UpdateSiteGeneralDetailsPayload @ga
   updateSocketInterface(siteId: ID!, socketInterfaceId: SocketInterfaceIDEnum!, input: UpdateSocketInterfaceInput!): UpdateSocketInterfacePayload @ga
   updateStaticHost(hostId: ID!, input: UpdateStaticHostInput!): UpdateStaticHostPayload @ga
+}
+
+type SiteQueries {
+  """Retrieves details of a specific BGP peer by reference."""
+  bgpPeer(input: BgpPeerRefInput!): BgpPeer @beta
+  """Retrieves a list of all BGP peers associated with the specified site."""
+  bgpPeerList(input: BgpPeerListInput!): BgpPeerListPayload @beta
+  """
+  Check the L2 connectivity status of a cloud interconnect connection using ICMP.
+  """
+  cloudInterconnectConnectionConnectivity(input: CloudInterconnectConnectionConnectivityInput!): CloudInterconnectConnectionConnectivity @beta
+  """Get details of a physical connection at a cloud interconnect site."""
+  cloudInterconnectPhysicalConnection(input: CloudInterconnectPhysicalConnectionInput!): CloudInterconnectPhysicalConnection @beta
+  """Get the ID of a physical connection at a cloud interconnect site."""
+  cloudInterconnectPhysicalConnectionId(input: CloudInterconnectPhysicalConnectionIdInput!): CloudInterconnectPhysicalConnectionId @beta
+  """
+  Provides the BGP status of the specified site, including session and route details.
+  """
+  siteBgpStatus(input: SiteBgpStatusInput!): SiteBgpStatus @beta
 }
 
 input AddSecondaryAwsVSocketInput {
@@ -1912,25 +1931,6 @@ type AddSecondaryAwsVSocketPayload {
 type AddSecondaryAzureVSocketPayload {
   """The secondary socket id"""
   id: ID!
-}
-
-type SiteQueries {
-  """Retrieves details of a specific BGP peer by reference."""
-  bgpPeer(input: BgpPeerRefInput!): BgpPeer @beta
-  """Retrieves a list of all BGP peers associated with the specified site."""
-  bgpPeerList(input: BgpPeerListInput!): BgpPeerListPayload @beta
-  """
-  Check the L2 connectivity status of a cloud interconnect connection using ICMP.
-  """
-  cloudInterconnectConnectionConnectivity(input: CloudInterconnectConnectionConnectivityInput!): CloudInterconnectConnectionConnectivity @beta
-  """Get details of a physical connection at a cloud interconnect site."""
-  cloudInterconnectPhysicalConnection(input: CloudInterconnectPhysicalConnectionInput!): CloudInterconnectPhysicalConnection @beta
-  """Get the ID of a physical connection at a cloud interconnect site."""
-  cloudInterconnectPhysicalConnectionId(input: CloudInterconnectPhysicalConnectionIdInput!): CloudInterconnectPhysicalConnectionId @beta
-  """
-  Provides the BGP status of the specified site, including session and route details.
-  """
-  siteBgpStatus(input: SiteBgpStatusInput!): SiteBgpStatus @beta
 }
 
 input AddSocketSiteInput {
@@ -2085,7 +2085,7 @@ input UpdateNetworkRangeInput {
   rangeType: SubnetType
   subnet: IPSubnet
   translatedSubnet: IPSubnet
-  """Only relevant for VLAN network rangeType"""
+  """Only relevant for NATIVE and VLAN network rangeType"""
   vlan: Int
 }
 
@@ -2859,7 +2859,7 @@ input InternetFirewallAddRuleDataInput {
   Logical ‘OR’ is applied within the criteria set.
   Logical ‘AND’ is applied between criteria sets.
   """
-  destination: InternetFirewallDestinationInput! = {application: [], customApp: [], appCategory: [], customCategory: [], sanctionedAppsCategory: [], country: [], domain: [], fqdn: [], ip: [], subnet: [], ipRange: [], globalIpRange: [], remoteAsn: []}
+  destination: InternetFirewallDestinationInput! = {application: [], customApp: [], appCategory: [], customCategory: [], sanctionedAppsCategory: [], country: [], domain: [], fqdn: [], ip: [], subnet: [], ipRange: [], globalIpRange: [], remoteAsn: [], containers: {fqdnContainer: [], ipAddressRangeContainer: []}}
   """
   Source Device Profile traffic matching criteria.
   Logical ‘OR’ is applied within the criteria set.
@@ -2870,9 +2870,9 @@ input InternetFirewallAddRuleDataInput {
   Additional device attributes such as category, type, model, and manufacturer.
   Logical 'OR' is applied within the criteria set.
   Logical 'AND' is applied between criteria sets.
-
+  """
   deviceAttributes: DeviceAttributesInput! = {category: [], type: [], model: [], manufacturer: [], os: [], osVersion: []}
-
+  """
   Source device Operating System traffic matching criteria.
   Logical ‘OR’ is applied within the criteria set.
   Logical ‘AND’ is applied between criteria sets.
@@ -2892,7 +2892,7 @@ input InternetFirewallAddRuleDataInput {
   Logical ‘OR’ is applied within the criteria set.
   Logical ‘AND’ is applied between criteria sets.
   """
-  service: InternetFirewallServiceTypeInput = {standard: [], custom: []}
+  service: InternetFirewallServiceTypeInput! = {standard: [], custom: []}
   """
   Source traffic matching criteria.
   Logical ‘OR’ is applied within the criteria set.
@@ -2950,7 +2950,7 @@ type InternetFirewallDestination {
   "A range of IPs. Every IP within the range will be matched"
   ipRange: [IpAddressRange!]!
   "Remote Autonomous System Number (ASN)"
-  remoteAsn: [Asn16!]!
+  remoteAsn: [Asn32!]!
   "Sanctioned Cloud Applications - apps that are approved and generally represent an understood and acceptable level of risk in your organization."
   sanctionedAppsCategory: [SanctionedAppsCategoryRef!]!
   "Network subnets in CIDR notation"
@@ -2963,7 +2963,7 @@ input InternetFirewallDestinationInput {
   appCategory: [ApplicationCategoryRefInput!]! = []
   "Applications for the rule (pre-defined)"
   application: [ApplicationRefInput!]! = []
-  # containers: InternetFirewallContainerInput! = {fqdnContainer: [], ipAddressRangeContainer: []}
+  containers: InternetFirewallContainerInput! = {fqdnContainer: [], ipAddressRangeContainer: []}
   "Countries"
   country: [CountryRefInput!]! = []
   "Custom (user-defined) applications"
@@ -2981,7 +2981,7 @@ input InternetFirewallDestinationInput {
   "A range of IPs. Every IP within the range will be matched"
   ipRange: [IpAddressRangeInput!]! = []
   "Remote Autonomous System Number (ASN)"
-  remoteAsn: [Asn16!]! = []
+  remoteAsn: [Asn32!]! = []
   "Sanctioned Cloud Applications - apps that are approved and generally represent an understood and acceptable level of risk in your organization."
   sanctionedAppsCategory: [SanctionedAppsCategoryRefInput!]! = []
   "Network subnets in CIDR notation"
@@ -2994,7 +2994,7 @@ input InternetFirewallDestinationUpdateInput {
   appCategory: [ApplicationCategoryRefInput!]
   "Applications for the rule (pre-defined)"
   application: [ApplicationRefInput!]
-  # containers: InternetFirewallContainerUpdateInput
+  containers: InternetFirewallContainerUpdateInput
   "Countries"
   country: [CountryRefInput!]
   "Custom (user-defined) applications"
@@ -3012,7 +3012,7 @@ input InternetFirewallDestinationUpdateInput {
   "A range of IPs. Every IP within the range will be matched"
   ipRange: [IpAddressRangeInput!]
   "Remote Autonomous System Number (ASN)"
-  remoteAsn: [Asn16!]
+  remoteAsn: [Asn32!]
   "Sanctioned Cloud Applications - apps that are approved and generally represent an understood and acceptable level of risk in your organization."
   sanctionedAppsCategory: [SanctionedAppsCategoryRefInput!]
   "Network subnets in CIDR notation"
@@ -3185,13 +3185,9 @@ type InternetFirewallRuleException {
   destination: InternetFirewallDestination!
   "Source Device Profile matching criteria for the exception."
   device: [DeviceProfileRef!]!
-  """
-  Source Device Attributes matching criteria for the exception.
-
+  "Source Device Attributes matching criteria for the exception."
   deviceAttributes: DeviceAttributes!
-
-  Source device OS matching criteria for the exception.
-  """
+  "Source device OS matching criteria for the exception."
   deviceOS: [OperatingSystem!]!
   "A unique name of the rule exception."
   name: String!
@@ -3208,16 +3204,12 @@ input InternetFirewallRuleExceptionInput {
   "Source country matching criteria for the exception."
   country: [CountryRefInput!]! = []
   "Destination matching criteria for the exception."
-  destination: InternetFirewallDestinationInput! = {application: [], customApp: [], appCategory: [], customCategory: [], sanctionedAppsCategory: [], country: [], domain: [], fqdn: [], ip: [], subnet: [], ipRange: [], globalIpRange: [], remoteAsn: []}
+  destination: InternetFirewallDestinationInput! = {application: [], customApp: [], appCategory: [], customCategory: [], sanctionedAppsCategory: [], country: [], domain: [], fqdn: [], ip: [], subnet: [], ipRange: [], globalIpRange: [], remoteAsn: [], containers: {fqdnContainer: [], ipAddressRangeContainer: []}}
   "Source Device Profile matching criteria for the exception."
   device: [DeviceProfileRefInput!]! = []
-  """
-  Source Device Attributes matching criteria for the exception.
-
+  "Source Device Attributes matching criteria for the exception."
   deviceAttributes: DeviceAttributesInput! = {category: [], type: [], model: [], manufacturer: [], os: [], osVersion: []}
-
-  Source device OS matching criteria for the exception.
-  """
+  "Source device OS matching criteria for the exception."
   deviceOS: [OperatingSystem!]! = []
   "A unique name of the rule exception."
   name: String!
@@ -3376,11 +3368,9 @@ input InternetFirewallUpdateRuleDataInput {
   Additional device attributes such as category, type, model, and manufacturer.
   Logical 'OR' is applied within the criteria set.
   Logical 'AND' is applied between criteria sets.
-
-
+  """
   deviceAttributes: DeviceAttributesUpdateInput
-
-
+  """
   Source device Operating System traffic matching criteria.
   Logical ‘OR’ is applied within the criteria set.
   Logical ‘AND’ is applied between criteria sets.
@@ -4046,7 +4036,6 @@ input RemotePortFwdUpdateRuleInput {
   rule: RemotePortFwdUpdateRuleDataInput!
 }
 
-
 input SocketLanAddRuleDataInput {
   description: String! = ""
   """
@@ -4531,9 +4520,9 @@ input WanFirewallAddRuleDataInput {
   Additional device attributes such as category, type, model, and manufacturer.
   Logical 'OR' is applied within the criteria set.
   Logical 'AND' is applied between criteria sets.
-
+  """
   deviceAttributes: DeviceAttributesInput! = {category: [], type: [], model: [], manufacturer: [], os: [], osVersion: []}
-
+  """
   Source device Operating System traffic matching criteria.
   Logical ‘OR’ is applied within the criteria set.
   Logical ‘AND’ is applied between criteria sets.
@@ -4968,13 +4957,9 @@ input WanFirewallRuleExceptionInput {
   destination: WanFirewallDestinationInput! = {host: [], site: [], subnet: [], ip: [], ipRange: [], globalIpRange: [], networkInterface: [], siteNetworkSubnet: [], floatingSubnet: [], user: [], usersGroup: [], group: [], systemGroup: []}
   "Source Device Profile matching criteria for the exception."
   device: [DeviceProfileRefInput!]! = []
-  """
-  Source Device Attributes matching criteria for the exception.
-
+  "Source Device Attributes matching criteria for the exception."
   deviceAttributes: DeviceAttributesInput! = {category: [], type: [], model: [], manufacturer: [], os: [], osVersion: []}
-
-  Source device OS matching criteria for the exception.
-  """
+  "Source device OS matching criteria for the exception."
   deviceOS: [OperatingSystem!]! = []
   "Direction origin matching criteria for the exception"
   direction: WanFirewallDirectionEnum! = TO
@@ -5153,9 +5138,9 @@ input WanFirewallUpdateRuleDataInput {
   Additional device attributes such as category, type, model, and manufacturer.
   Logical 'OR' is applied within the criteria set.
   Logical 'AND' is applied between criteria sets.
-
+  """
   deviceAttributes: DeviceAttributesUpdateInput
-
+  """
   Source device Operating System traffic matching criteria.
   Logical ‘OR’ is applied within the criteria set.
   Logical ‘AND’ is applied between criteria sets.
@@ -6285,7 +6270,7 @@ type SiteSnapshot {
   operationalStatus: OperationalStatus
   """Name of the PoP that the site is connected to"""
   popName: String
-  protoId: Int
+  protoId: ID
 }
 
 type Timeseries {
@@ -7490,8 +7475,6 @@ enum EntityType {
   """Any entity (matches everything)"""
   any
   "Pooled licenses available for use"
-  apiKey
-  "added by joe"
   availablePooledUsage
   "Site licenses available for use"
   availableSiteUsage
@@ -7524,22 +7507,6 @@ enum EntityType {
   site
   "union of the globalRange and a Subnet"
   siteRange
-  "added by joe"
-  socketInterface
-  "added by joe"
-  subnet
-  "added by joe"
-  casbRule
-  "added by joe"
-  networkRule
-  "added by joe"
-  group
-  "added by joe"
-  usersGroup
-  "added by joe"
-  ip
-  "added by joe"
-  interfaceSubnet
   """
   Time zone, which is a geographical region where clocks are set to the same time
   """
@@ -8250,19 +8217,6 @@ enum ProtoType {
   SOCKET_X1600_LTE
   SOCKET_X1700
   VSOCKET_VGX
-  CROSS_CONNECT_L2
-  CROSS_CONNECT_VRF
-  GRE_TUNNEL
-  NOT_DEFINED
-  PORTAL_LISTENER
-  SOCKET_GCP1500
-  SOCKET_RPI64
-  SOCKET_X1
-  VSOCKET_VGS
-  VSOCKET_VGX_AWS
-  VSOCKET_VGX_AZURE
-  VSOCKET_VGX_ESX
-  VSOCKET_VSH   
 }
 
 enum SocketRegistrationStatus {
@@ -8290,7 +8244,6 @@ enum SocketUpgradeStatus {
 
 enum SocketPlatform {
   AWS1500
-  GCP1500
   AZ1500
   ESX1500
   X1500
@@ -9364,7 +9317,7 @@ input AddAdminInput {
   firstName: String!
   lastName: String!
   managedRoles: [UpdateAdminRoleInput!]
-  mfaEnabled: Boolean!
+  mfaEnabled: Boolean @deprecated(reason: "It is recommended to always require MFA when using User Credential authentication.")
   passwordNeverExpires: Boolean!
   resellerRoles: [UpdateAdminRoleInput!]
 }
@@ -9373,7 +9326,7 @@ input UpdateAdminInput {
   firstName: String
   lastName: String
   managedRoles: [UpdateAdminRoleInput!]
-  mfaEnabled: Boolean
+  mfaEnabled: Boolean @deprecated(reason: "It is recommended to always require MFA when using User Credential authentication.")
   passwordNeverExpires: Boolean
   resellerRoles: [UpdateAdminRoleInput!]
 }
@@ -9667,7 +9620,6 @@ enum LicenseStatus {
 An interface containing properties that are common to all license types
 """
 interface License {
-  id: String
   description: String
   """License plan type"""
   plan: LicensePlan!
@@ -9684,7 +9636,6 @@ interface License {
 }
 
 interface QuantifiableLicense implements License {
-  id: String
   description: String
   """License plan type"""
   plan: LicensePlan!
@@ -9775,7 +9726,6 @@ enum LicenseSku {
 }
 
 type DataLakeLicense implements License & QuantifiableLicense {
-  id: String
   description: String
   """
   The version of the Data Processing Agreement (DPA) that your company signed with Cato.
@@ -9812,7 +9762,6 @@ enum DpaVersion {
 
 """Public IP address license"""
 type PublicIpsLicense implements License & QuantifiableLicense {
-  id: String
   description: String
   """License expiration date"""
   expirationDate: DateTime!
@@ -9832,7 +9781,6 @@ type PublicIpsLicense implements License & QuantifiableLicense {
 
 """Site bandwidth license"""
 type SiteLicense implements License & QuantifiableLicense {
-  id: String
   description: String
   """License expiration date"""
   expirationDate: DateTime!
@@ -9861,7 +9809,6 @@ type SiteLicense implements License & QuantifiableLicense {
 }
 
 type PooledBandwidthLicense implements License & QuantifiableLicense {
-  id: String
   """
   Accounts that this license is assigned to (and the license usage within each account)
   """
@@ -9945,7 +9892,6 @@ enum SiteLicenseType {
 
 """ZTNA remote users license"""
 type ZtnaUsersLicense implements License & QuantifiableLicense {
-  id: String
   description: String
   """License expiration date"""
   expirationDate: DateTime!
@@ -9992,7 +9938,6 @@ enum Regionality {
 
 """End Point Protection (EPP) license details"""
 type EndpointProtectionLicense implements License & QuantifiableLicense {
-  id: String
   description: String
   """License expiration date"""
   expirationDate: DateTime!
@@ -10012,7 +9957,6 @@ type EndpointProtectionLicense implements License & QuantifiableLicense {
 
 """Intelligent Last Mile Monitoring (ILMM) License details"""
 type IlmmLicense implements License & QuantifiableLicense {
-  id: String
   description: String
   """License expiration date"""
   expirationDate: DateTime!
@@ -10034,7 +9978,6 @@ type IlmmLicense implements License & QuantifiableLicense {
 Intrusion Prevention System (IPS) service license (Legacy license, replaced by TP)
 """
 type IpsLicense implements License {
-  id: String
   description: String
   """License expiration date"""
   expirationDate: DateTime!
@@ -10052,7 +9995,6 @@ type IpsLicense implements License {
 
 """Anti-Malware service license details (Legacy license, replaced by TP)"""
 type MalwareProtectionLicense implements License {
-  id: String
   description: String
   """License expiration date"""
   expirationDate: DateTime!
@@ -10072,7 +10014,6 @@ type MalwareProtectionLicense implements License {
 NG Anti-Malware service license details (Legacy license, replaced by TP)
 """
 type NextGenMalwareProtectionLicense implements License {
-  id: String
   description: String
   """License expiration date"""
   expirationDate: DateTime!
@@ -10090,7 +10031,6 @@ type NextGenMalwareProtectionLicense implements License {
 
 """Threat Prevention (TP) license details"""
 type ThreatPreventionLicense implements License {
-  id: String
   description: String
   """License expiration date"""
   expirationDate: DateTime!
@@ -10108,7 +10048,6 @@ type ThreatPreventionLicense implements License {
 
 """NOC as a Service (NOCaaS) service license details"""
 type NOCaaSLicense implements License {
-  id: String
   description: String
   """License expiration date"""
   expirationDate: DateTime!
@@ -10126,7 +10065,6 @@ type NOCaaSLicense implements License {
 
 """Cloud Access Security Broker (CASB) service license details"""
 type CasbLicense implements License {
-  id: String
   description: String
   """License expiration date"""
   expirationDate: DateTime!
@@ -10144,7 +10082,6 @@ type CasbLicense implements License {
 
 """Data Loss Prevention (DLP) Service license details"""
 type DlpLicense implements License {
-  id: String
   description: String
   """License expiration date"""
   expirationDate: DateTime!
@@ -10162,7 +10099,6 @@ type DlpLicense implements License {
 
 """Managed XDR service license details"""
 type ManagedXdrLicense implements License {
-  id: String
   description: String
   """License expiration date"""
   expirationDate: DateTime!
@@ -10180,7 +10116,6 @@ type ManagedXdrLicense implements License {
 
 """Remote Browser Isolation (RBI) service license details"""
 type RbiLicense implements License {
-  id: String
   description: String
   """License expiration date"""
   expirationDate: DateTime!
@@ -10198,7 +10133,6 @@ type RbiLicense implements License {
 
 """SaaS Security API service license details"""
 type SaasSecurityApiLicense implements License & QuantifiableLicense {
-  id: String
   description: String
   """License expiration date"""
   expirationDate: DateTime!
@@ -10218,7 +10152,6 @@ type SaasSecurityApiLicense implements License & QuantifiableLicense {
 
 """XDR Pro (extended detection and response) service license details"""
 type XdrProLicense implements License & QuantifiableLicense {
-  id: String
   description: String
   """License expiration date"""
   expirationDate: DateTime!
@@ -10238,7 +10171,6 @@ type XdrProLicense implements License & QuantifiableLicense {
 
 """DEM service license details"""
 type DemLicense implements License & QuantifiableLicense {
-  id: String
   description: String
   """License expiration date"""
   expirationDate: DateTime!
@@ -10258,7 +10190,6 @@ type DemLicense implements License & QuantifiableLicense {
 
 """IoT/OT Security service license details"""
 type IotOtLicense implements License {
-  id: String
   description: String
   """License expiration date"""
   expirationDate: DateTime!
@@ -10276,7 +10207,6 @@ type IotOtLicense implements License {
 
 """Advanced Threat Prevention (ATP) service license details"""
 type AtpLicense implements License {
-  id: String
   description: String
   """License expiration date"""
   expirationDate: DateTime!
@@ -10290,67 +10220,4 @@ type AtpLicense implements License {
   startDate: DateTime
   """License activation status"""
   status: LicenseStatus!
-}
-
-##################
-# Site Namespace #
-##################
-extend type SiteMutations {
-    """Assign a license to an existing site"""
-    assignSiteBwLicense(input: AssignSiteBwLicenseInput!): AssignSiteBwLicensePayload
-    """Update the bandwidth allocation of an assigned pool license of an existing site (does not apply for site license allocation)"""
-    updateSiteBwLicense(input: UpdateSiteBwLicenseInput!): UpdateSiteBwLicensePayload
-    """Replace an existing license of a site. This API is used to make sure the site
-    will always have a license to avoid traffic drop for sites without licenses."""
-    replaceSiteBwLicense(input: ReplaceSiteBwLicenseInput!): ReplaceSiteBwLicensePayload
-    """Remove a license from a site"""
-    removeSiteBwLicense(input: RemoveSiteBwLicenseInput!): RemoveSiteBwLicensePayload
-}
-input AssignSiteBwLicenseInput {
-    """The site the license is assigned to"""
-    site: SiteRefInput!
-    """The license that is being assigned"""
-    licenseId: ID!
-    """Specifies the bandwidth (in Mbps) to allocate to the site when using a pooled bandwidth license.
-    This field should not be used if a site license is used."""
-    bw: Int
-}
-
-type AssignSiteBwLicensePayload {
-    license: License!
-}
-
-input UpdateSiteBwLicenseInput {
-    """The site the license is being assigned to"""
-    site: SiteRefInput!
-    """The license that is being assigned"""
-    licenseId: ID!
-    """Specifies the bandwidth (in Mbps) to allocate to the site when using a pooled bandwidth license."""
-    bw: Int!
-}
-type UpdateSiteBwLicensePayload {
-    license: License!
-}
-input ReplaceSiteBwLicenseInput {
-    """The site to replace the licenses for"""
-    site: SiteRefInput!
-    """The license that is being assigned"""
-    licenseIdToAdd: ID!
-    """The license that is being removed"""
-    licenseIdToRemove: ID!
-    """Specifies the bandwidth (in Mbps) to allocate to the site when using a pooled bandwidth license.
-    This field should not be used if a site license is used."""
-    bw: Int
-}
-type ReplaceSiteBwLicensePayload {
-    license: License!
-}
-input RemoveSiteBwLicenseInput {
-    """The site to remove the licenses from"""
-    site: SiteRefInput!
-    """The license that is being removed"""
-    licenseId: ID!
-}
-type RemoveSiteBwLicensePayload {
-    license: License!
 }

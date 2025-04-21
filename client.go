@@ -5066,7 +5066,6 @@ func (t *AssignSiteBwLicense_Sites_AssignSiteBwLicense_License) GetStatus() *cat
 
 type AssignSiteBwLicense_Sites_AssignSiteBwLicense struct {
 	License AssignSiteBwLicense_Sites_AssignSiteBwLicense_License "json:\"license\" graphql:\"license\""
-	AssignSiteBwLicense *AssignSiteBwLicense_Sites_AssignSiteBwLicense "json:\"assignSiteBwLicense,omitempty\" graphql:\"assignSiteBwLicense\""
 }
 
 func (t *AssignSiteBwLicense_Sites_AssignSiteBwLicense) GetLicense() *AssignSiteBwLicense_Sites_AssignSiteBwLicense_License {
@@ -49210,7 +49209,6 @@ func (t *RemoveSiteBwLicense_Sites_RemoveSiteBwLicense_License) GetStatus() *cat
 
 type RemoveSiteBwLicense_Sites_RemoveSiteBwLicense struct {
 	License RemoveSiteBwLicense_Sites_RemoveSiteBwLicense_License "json:\"license\" graphql:\"license\""
-	RemoveSiteBwLicense *RemoveSiteBwLicense_Sites_RemoveSiteBwLicense "json:\"removeSiteBwLicense,omitempty\" graphql:\"removeSiteBwLicense\""
 }
 
 func (t *RemoveSiteBwLicense_Sites_RemoveSiteBwLicense) GetLicense() *RemoveSiteBwLicense_Sites_RemoveSiteBwLicense_License {
@@ -49390,7 +49388,6 @@ func (t *ReplaceSiteBwLicense_Sites_ReplaceSiteBwLicense_License) GetStatus() *c
 
 type ReplaceSiteBwLicense_Sites_ReplaceSiteBwLicense struct {
 	License ReplaceSiteBwLicense_Sites_ReplaceSiteBwLicense_License "json:\"license\" graphql:\"license\""
-	ReplaceSiteBwLicense *ReplaceSiteBwLicense_Sites_ReplaceSiteBwLicense "json:\"replaceSiteBwLicense,omitempty\" graphql:\"replaceSiteBwLicense\""
 }
 
 func (t *ReplaceSiteBwLicense_Sites_ReplaceSiteBwLicense) GetLicense() *ReplaceSiteBwLicense_Sites_ReplaceSiteBwLicense_License {
@@ -50118,7 +50115,6 @@ func (t *UpdateSiteBwLicense_Sites_UpdateSiteBwLicense_License) GetStatus() *cat
 
 type UpdateSiteBwLicense_Sites_UpdateSiteBwLicense struct {
 	License UpdateSiteBwLicense_Sites_UpdateSiteBwLicense_License "json:\"license\" graphql:\"license\""
-	UpdateSiteBwLicense *UpdateSiteBwLicense_Sites_UpdateSiteBwLicense "json:\"updateSiteBwLicense,omitempty\" graphql:\"updateSiteBwLicense\""
 }
 
 func (t *UpdateSiteBwLicense_Sites_UpdateSiteBwLicense) GetLicense() *UpdateSiteBwLicense_Sites_UpdateSiteBwLicense_License {
