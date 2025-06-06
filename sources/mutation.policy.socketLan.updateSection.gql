@@ -1,0 +1,27 @@
+mutation policySocketLanUpdateSection ( $socketLanPolicyMutationInput:SocketLanPolicyMutationInput $policyUpdateSectionInput:PolicyUpdateSectionInput! $accountId:ID! ) {
+	policy ( accountId:$accountId  ) {
+		socketLan ( input:$socketLanPolicyMutationInput  )  {
+			updateSection ( input:$policyUpdateSectionInput   ) {
+				section  {
+					audit {
+						updatedTime 
+						updatedBy 
+					}
+					section {
+						id 
+						name 
+					}
+					properties
+				}
+
+				status 
+				errors  {
+					errorMessage
+					errorCode
+				}
+
+			}
+		}
+
+	}	
+}

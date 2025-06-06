@@ -1931,7 +1931,7 @@ type SiteMutations {
   """Add a secondary AWS vSocket to an existing site"""
   addSecondaryAwsVSocket(input: AddSecondaryAwsVSocketInput!): AddSecondaryAwsVSocketPayload @beta
   """Add a secondary Azure vSocket to an existing site"""
-  addSecondaryAzureVSocket(input: AddSecondaryAzureVSocketInput!): AddSecondaryAzureVSocketPayload @beta  
+  addSecondaryAzureVSocket(input: AddSecondaryAzureVSocketInput!): AddSecondaryAzureVSocketPayload @beta
   addSocketSite(input: AddSocketSiteInput!): AddSocketSitePayload @ga
   addStaticHost(siteId: ID!, input: AddStaticHostInput!): AddStaticHostPayload @ga
   """Removes an existing BGP peer configuration from a site."""
@@ -2007,8 +2007,6 @@ type AddSecondaryAzureVSocketPayload {
   """The secondary socket id"""
   id: ID!
 }
-
-
 
 input AddSocketSiteInput {
   """"""
@@ -2242,6 +2240,7 @@ enum SiteConnectionTypeEnum {
   SOCKET_AWS1500
   SOCKET_AZ1500
   SOCKET_ESX1500
+  SOCKET_GCP1500
   SOCKET_X1500
   SOCKET_X1600
   SOCKET_X1600_LTE
@@ -2938,7 +2937,7 @@ input InternetFirewallAddRuleDataInput {
   Logical ‘OR’ is applied within the criteria set.
   Logical ‘AND’ is applied between criteria sets.
   """
-  destination: InternetFirewallDestinationInput! = {application: [], customApp: [], appCategory: [], customCategory: [], sanctionedAppsCategory: [], country: [], domain: [], fqdn: [], ip: [], subnet: [], ipRange: [], globalIpRange: [], remoteAsn: []}
+  destination: InternetFirewallDestinationInput! = {application: [], customApp: [], appCategory: [], customCategory: [], sanctionedAppsCategory: [], country: [], domain: [], fqdn: [], ip: [], subnet: [], ipRange: [], globalIpRange: [], remoteAsn: [], containers: {fqdnContainer: [], ipAddressRangeContainer: []}}
   """
   Source Device Profile traffic matching criteria.
   Logical ‘OR’ is applied within the criteria set.
@@ -2949,9 +2948,9 @@ input InternetFirewallAddRuleDataInput {
   Additional device attributes such as category, type, model, and manufacturer.
   Logical 'OR' is applied within the criteria set.
   Logical 'AND' is applied between criteria sets.
-
+  """
   deviceAttributes: DeviceAttributesInput! = {category: [], type: [], model: [], manufacturer: [], os: [], osVersion: []}
-
+  """
   Source device Operating System traffic matching criteria.
   Logical ‘OR’ is applied within the criteria set.
   Logical ‘AND’ is applied between criteria sets.
@@ -2971,7 +2970,7 @@ input InternetFirewallAddRuleDataInput {
   Logical ‘OR’ is applied within the criteria set.
   Logical ‘AND’ is applied between criteria sets.
   """
-  service: InternetFirewallServiceTypeInput = {standard: [], custom: []}
+  service: InternetFirewallServiceTypeInput! = {standard: [], custom: []}
   """
   Source traffic matching criteria.
   Logical ‘OR’ is applied within the criteria set.
@@ -3029,7 +3028,7 @@ type InternetFirewallDestination {
   "A range of IPs. Every IP within the range will be matched"
   ipRange: [IpAddressRange!]!
   "Remote Autonomous System Number (ASN)"
-  remoteAsn: [Asn16!]!
+  remoteAsn: [Asn32!]!
   "Sanctioned Cloud Applications - apps that are approved and generally represent an understood and acceptable level of risk in your organization."
   sanctionedAppsCategory: [SanctionedAppsCategoryRef!]!
   "Network subnets in CIDR notation"
@@ -3042,7 +3041,7 @@ input InternetFirewallDestinationInput {
   appCategory: [ApplicationCategoryRefInput!]! = []
   "Applications for the rule (pre-defined)"
   application: [ApplicationRefInput!]! = []
-  # containers: InternetFirewallContainerInput! = {fqdnContainer: [], ipAddressRangeContainer: []}
+  containers: InternetFirewallContainerInput! = {fqdnContainer: [], ipAddressRangeContainer: []}
   "Countries"
   country: [CountryRefInput!]! = []
   "Custom (user-defined) applications"
@@ -3060,20 +3059,20 @@ input InternetFirewallDestinationInput {
   "A range of IPs. Every IP within the range will be matched"
   ipRange: [IpAddressRangeInput!]! = []
   "Remote Autonomous System Number (ASN)"
-  remoteAsn: [Asn16!]! = []
+  remoteAsn: [Asn32!]! = []
   "Sanctioned Cloud Applications - apps that are approved and generally represent an understood and acceptable level of risk in your organization."
   sanctionedAppsCategory: [SanctionedAppsCategoryRefInput!]! = []
   "Network subnets in CIDR notation"
   subnet: [NetworkSubnet!]! = []
 }
 
-"Destination match criteria set"
+"Input of the settings for Destination of an Internet Firewall rule. To specify 'ANY' destination, an empty list must be provided for each match criteria field (e.g. application: [], country: [], etc...)"
 input InternetFirewallDestinationUpdateInput {
   "Cato category of applications which are dynamically updated by Cato"
   appCategory: [ApplicationCategoryRefInput!]
   "Applications for the rule (pre-defined)"
   application: [ApplicationRefInput!]
-  # containers: InternetFirewallContainerUpdateInput
+  containers: InternetFirewallContainerUpdateInput
   "Countries"
   country: [CountryRefInput!]
   "Custom (user-defined) applications"
@@ -3091,7 +3090,7 @@ input InternetFirewallDestinationUpdateInput {
   "A range of IPs. Every IP within the range will be matched"
   ipRange: [IpAddressRangeInput!]
   "Remote Autonomous System Number (ASN)"
-  remoteAsn: [Asn16!]
+  remoteAsn: [Asn32!]
   "Sanctioned Cloud Applications - apps that are approved and generally represent an understood and acceptable level of risk in your organization."
   sanctionedAppsCategory: [SanctionedAppsCategoryRefInput!]
   "Network subnets in CIDR notation"
@@ -3264,13 +3263,9 @@ type InternetFirewallRuleException {
   destination: InternetFirewallDestination!
   "Source Device Profile matching criteria for the exception."
   device: [DeviceProfileRef!]!
-  """
-  Source Device Attributes matching criteria for the exception.
-
+  "Source Device Attributes matching criteria for the exception."
   deviceAttributes: DeviceAttributes!
-
-  Source device OS matching criteria for the exception.
-  """
+  "Source device OS matching criteria for the exception."
   deviceOS: [OperatingSystem!]!
   "A unique name of the rule exception."
   name: String!
@@ -3287,16 +3282,12 @@ input InternetFirewallRuleExceptionInput {
   "Source country matching criteria for the exception."
   country: [CountryRefInput!]! = []
   "Destination matching criteria for the exception."
-  destination: InternetFirewallDestinationInput! = {application: [], customApp: [], appCategory: [], customCategory: [], sanctionedAppsCategory: [], country: [], domain: [], fqdn: [], ip: [], subnet: [], ipRange: [], globalIpRange: [], remoteAsn: []}
+  destination: InternetFirewallDestinationInput! = {application: [], customApp: [], appCategory: [], customCategory: [], sanctionedAppsCategory: [], country: [], domain: [], fqdn: [], ip: [], subnet: [], ipRange: [], globalIpRange: [], remoteAsn: [], containers: {fqdnContainer: [], ipAddressRangeContainer: []}}
   "Source Device Profile matching criteria for the exception."
   device: [DeviceProfileRefInput!]! = []
-  """
-  Source Device Attributes matching criteria for the exception.
-
+  "Source Device Attributes matching criteria for the exception."
   deviceAttributes: DeviceAttributesInput! = {category: [], type: [], model: [], manufacturer: [], os: [], osVersion: []}
-
-  Source device OS matching criteria for the exception.
-  """
+  "Source device OS matching criteria for the exception."
   deviceOS: [OperatingSystem!]! = []
   "A unique name of the rule exception."
   name: String!
@@ -3319,19 +3310,19 @@ type InternetFirewallRulePayload implements IPolicyRulePayload {
   rule: InternetFirewallRule!
 }
 
-"Add the Service Type to which this Internet Firewall rule applies"
+"Returns the Service Type to which this Internet Firewall rule applies"
 type InternetFirewallServiceType {
   custom: [CustomService!]!
   standard: [ServiceRef!]!
 }
 
-"Add the Service Type to which this Internet Firewall rule applies"
+"Input of the Service Type to which this Internet Firewall rule applies. To specify 'ANY' source, an empty list must be provided for each match criteria field (e.g. standard: [], custom: [], etc...)"
 input InternetFirewallServiceTypeInput {
   custom: [CustomServiceInput!]! = []
   standard: [ServiceRefInput!]! = []
 }
 
-"Add the Service Type to which this Internet Firewall rule applies"
+"Input of the Service Type to which this Internet Firewall rule applies. To specify 'ANY' source, an empty list must be provided for each match criteria field (e.g. standard: [], custom: [], etc...)"
 input InternetFirewallServiceTypeUpdateInput {
   custom: [CustomServiceInput!]
   standard: [ServiceRefInput!]
@@ -3367,7 +3358,7 @@ type InternetFirewallSource {
   usersGroup: [UsersGroupRef!]!
 }
 
-"Input of the settings for Source of an Internet Firewall rule"
+"Input of the settings for Source of an Internet Firewall rule. To specify 'ANY' source, an empty list must be provided for each match criteria field (e.g. ip: [], group: [], etc...)"
 input InternetFirewallSourceInput {
   "Floating Subnets (ie. Floating Ranges) are used to identify traffic exactly matched to the route advertised by BGP. They are not associated with a specific site. This is useful in scenarios such as active-standby high availability routed via BGP."
   floatingSubnet: [FloatingSubnetRefInput!]! = []
@@ -3397,7 +3388,7 @@ input InternetFirewallSourceInput {
   usersGroup: [UsersGroupRefInput!]! = []
 }
 
-"Input of the settings for Source of an Internet Firewall rule"
+"Input of the settings for Source of an Internet Firewall rule. To specify 'ANY' source, an empty list must be provided for each match criteria field (e.g. ip: [], group: [], etc...)"
 input InternetFirewallSourceUpdateInput {
   "Floating Subnets (ie. Floating Ranges) are used to identify traffic exactly matched to the route advertised by BGP. They are not associated with a specific site. This is useful in scenarios such as active-standby high availability routed via BGP."
   floatingSubnet: [FloatingSubnetRefInput!]
@@ -3455,11 +3446,9 @@ input InternetFirewallUpdateRuleDataInput {
   Additional device attributes such as category, type, model, and manufacturer.
   Logical 'OR' is applied within the criteria set.
   Logical 'AND' is applied between criteria sets.
-
-
+  """
   deviceAttributes: DeviceAttributesUpdateInput
-
-
+  """
   Source device Operating System traffic matching criteria.
   Logical ‘OR’ is applied within the criteria set.
   Logical ‘AND’ is applied between criteria sets.
@@ -4151,7 +4140,6 @@ input RemotePortFwdUpdateRuleInput {
   rule: RemotePortFwdUpdateRuleDataInput!
 }
 
-
 input SocketLanAddRuleDataInput {
   description: String! = ""
   """
@@ -4729,6 +4717,7 @@ type SocketLanRule implements IPolicyRule {
    FALSE = Rule is disabled
   """
   enabled: Boolean!
+  firewall: [SocketLanFirewallRulePayload!]!
   "Rule ID"
   id: ID!
   "Position / priority of rule"
@@ -5020,9 +5009,9 @@ input WanFirewallAddRuleDataInput {
   Additional device attributes such as category, type, model, and manufacturer.
   Logical 'OR' is applied within the criteria set.
   Logical 'AND' is applied between criteria sets.
-
+  """
   deviceAttributes: DeviceAttributesInput! = {category: [], type: [], model: [], manufacturer: [], os: [], osVersion: []}
-
+  """
   Source device Operating System traffic matching criteria.
   Logical ‘OR’ is applied within the criteria set.
   Logical ‘AND’ is applied between criteria sets.
@@ -5186,7 +5175,7 @@ type WanFirewallDestination {
   usersGroup: [UsersGroupRef!]!
 }
 
-"Input of the settings for Destination of a Wan Firewall rule"
+"Input of the settings for Destination of a Wan Firewall rule. To specify 'ANY' destination, an empty list must be provided for each match criteria field (e.g. ip: [], group: [], etc...)"
 input WanFirewallDestinationInput {
   """
   Floating Subnets (ie. Floating Ranges) are used to identify traffic exactly matched to the route advertised by BGP.
@@ -5220,7 +5209,7 @@ input WanFirewallDestinationInput {
   usersGroup: [UsersGroupRefInput!]! = []
 }
 
-"Input of the settings for Destination of a Wan Firewall rule"
+"Input of the settings for Destination of a Wan Firewall rule. To specify 'ANY' destination, an empty list must be provided for each match criteria field (e.g. ip: [], group: [], etc...)"
 input WanFirewallDestinationUpdateInput {
   """
   Floating Subnets (ie. Floating Ranges) are used to identify traffic exactly matched to the route advertised by BGP.
@@ -5457,13 +5446,9 @@ input WanFirewallRuleExceptionInput {
   destination: WanFirewallDestinationInput! = {host: [], site: [], subnet: [], ip: [], ipRange: [], globalIpRange: [], networkInterface: [], siteNetworkSubnet: [], floatingSubnet: [], user: [], usersGroup: [], group: [], systemGroup: []}
   "Source Device Profile matching criteria for the exception."
   device: [DeviceProfileRefInput!]! = []
-  """
-  Source Device Attributes matching criteria for the exception.
-
+  "Source Device Attributes matching criteria for the exception."
   deviceAttributes: DeviceAttributesInput! = {category: [], type: [], model: [], manufacturer: [], os: [], osVersion: []}
-
-  Source device OS matching criteria for the exception.
-  """
+  "Source device OS matching criteria for the exception."
   deviceOS: [OperatingSystem!]! = []
   "Direction origin matching criteria for the exception"
   direction: WanFirewallDirectionEnum! = TO
@@ -5488,19 +5473,19 @@ type WanFirewallRulePayload implements IPolicyRulePayload {
   rule: WanFirewallRule!
 }
 
-"Add the Service Type to which this Internet Firewall rule applies"
+"Returns the Service Type to which this Wan Firewall rule applies"
 type WanFirewallServiceType {
   custom: [CustomService!]!
   standard: [ServiceRef!]!
 }
 
-"Add the Service Type to which this Internet Firewall rule applies"
+"Input of the Service Type to which this Wan Firewall rule applies. To specify 'ANY' source, an empty list must be provided for each match criteria field (e.g. standard: [], custom: [], etc...)"
 input WanFirewallServiceTypeInput {
   custom: [CustomServiceInput!]! = []
   standard: [ServiceRefInput!]! = []
 }
 
-"Add the Service Type to which this Internet Firewall rule applies"
+"Input of the Service Type to which this Wan Firewall rule applies. To specify 'ANY' source, an empty list must be provided for each match criteria field (e.g. standard: [], custom: [], etc...)"
 input WanFirewallServiceTypeUpdateInput {
   custom: [CustomServiceInput!]
   standard: [ServiceRefInput!]
@@ -5540,7 +5525,7 @@ type WanFirewallSource {
   usersGroup: [UsersGroupRef!]!
 }
 
-"Input of the settings for Source of an Wan Firewall rule"
+"Input of the settings for Source of an Wan Firewall rule. To specify 'ANY' source, an empty list must be provided for each match criteria field (e.g. ip: [], group: [], etc...)"
 input WanFirewallSourceInput {
   """
   Floating Subnets (ie. Floating Ranges) are used to identify traffic exactly matched to the route advertised by BGP.
@@ -5574,7 +5559,7 @@ input WanFirewallSourceInput {
   usersGroup: [UsersGroupRefInput!]! = []
 }
 
-"Input of the settings for Source of an Wan Firewall rule"
+"Input of the settings for Source of an Wan Firewall rule. To specify 'ANY' source, an empty list must be provided for each match criteria field (e.g. ip: [], group: [], etc...)"
 input WanFirewallSourceUpdateInput {
   """
   Floating Subnets (ie. Floating Ranges) are used to identify traffic exactly matched to the route advertised by BGP.
@@ -5642,9 +5627,9 @@ input WanFirewallUpdateRuleDataInput {
   Additional device attributes such as category, type, model, and manufacturer.
   Logical 'OR' is applied within the criteria set.
   Logical 'AND' is applied between criteria sets.
-
+  """
   deviceAttributes: DeviceAttributesUpdateInput
-
+  """
   Source device Operating System traffic matching criteria.
   Logical ‘OR’ is applied within the criteria set.
   Logical ‘AND’ is applied between criteria sets.
@@ -6268,7 +6253,7 @@ type InterfaceInfo {
 """Basic Site configuration information"""
 type SiteInfo {
   """Address of the physical site location"""
-  address: String  
+  address: String
   """City of the physical site location"""
   cityName: String
   """
@@ -6776,7 +6761,7 @@ type SiteSnapshot {
   operationalStatus: OperationalStatus
   """Name of the PoP that the site is connected to"""
   popName: String
-  protoId: Int
+  protoId: ID
 }
 
 type Timeseries {
@@ -7387,15 +7372,18 @@ enum EventFieldName {
   "Firewall, QoS or LAG action"
   action
   "A list of actions taken, if more than one action was taken as defined by a policy"
-  actions_taken  
+  actions_taken
   "Active Directory name"
   ad_name
+  "A unique identifier of the alert notification"
   alert_id
   "Always-on Configuration"
   always_on_configuration
   "Analyst Verdict"
   analyst_verdict
+  "The name of the API, e.g. eventsFeed"
   api_name
+  "Specifies whether the API is a query (read) or a mutation (create/update/delete)"
   api_type
   "Name of application activity"
   app_activity
@@ -7425,8 +7413,6 @@ enum EventFieldName {
   bgp_error_code
   "BGP ASN for remote peer"
   bgp_peer_asn
-  "Description from Cato Management Application for BGP peer"
-  bgp_peer_description @deprecated(reason: "Planned end-of-life (EoL) date: April 15, 2025.")
   "BGP IP for remote peer"
   bgp_peer_ip
   "CIDR for BGP route"
@@ -7443,6 +7429,7 @@ enum EventFieldName {
   categories
   "Cato application name"
   cato_app
+  "Activity classification, e.g. FALSE_POSITIVE"
   classification
   "Expiration date for Client certificate"
   client_cert_expires
@@ -7524,7 +7511,7 @@ enum EventFieldName {
   • on_end_disinfect: the event is triggered upon detection and followed disinfection;
   • on_inject: the event is triggered upon code injection.
   """
-  detection_stage  
+  detection_stage
   "Device Categories"
   device_categories
   "Device Certificate Validated/Not Validated"
@@ -7589,6 +7576,7 @@ enum EventFieldName {
   event_sub_type
   "Routing, Security, Connectivity, System or Sockets Management event"
   event_type
+  "Provides details about why a specific action or process failed"
   failure_reason
   "File hash"
   file_hash
@@ -7600,13 +7588,14 @@ enum EventFieldName {
   file_size
   "File type"
   file_type
+  "The final status for this object after performing actions as defined by the policy"
   final_object_status
   "Amount of flows for a given incident"
   flows_cardinality
   "Full path URL application activity"
   full_path_url
   "An identifier for a guest user using Cato through a Captive Portal"
-  guest_user  
+  guest_user
   "IP address of host related to event"
   host_ip
   "MAC address of host related to event"
@@ -7622,7 +7611,7 @@ enum EventFieldName {
   "Indicator"
   indicator
   "The initial status of the object, before any policy was applied"
-  initial_object_status  
+  initial_object_status
   "Cato Internal-use only"
   internalId @deprecated(reason: "use event_id instead. Planned end-of-life (EoL) date: May 1, 2025.")
   "Network protocol for this event"
@@ -7639,9 +7628,7 @@ enum EventFieldName {
   is_sanctioned_app
   "If the events was part of the sinkhole flow"
   is_sinkhole
-  """
-  The ISP related to this event (when the IP address isn't provided by the ISP, then the event message is IP Addresses are assigned statically)
-  """
+  "The ISP related to this event (when the IP address isn't provided by the ISP, then the event message is IP Addresses are assigned statically)"
   ISP_name
   "Name defined for the public API Key in the Cato Management Application"
   key_name
@@ -7657,6 +7644,7 @@ enum EventFieldName {
   link_health_pkt_loss
   "Link type – Cato, Alt. WAN or LAG"
   link_type
+  "The user logged into this endpoint during this event"
   logged_in_user
   "Login action, values are: User portal (myvpn.catonetworks.com) or VPN client (Client or site traffic)"
   login_type
@@ -7676,8 +7664,11 @@ enum EventFieldName {
   notification_api_error
   "For SaaS Security API, description of Apps Security Notification"
   notification_description
+  "Unique identifier by the 3rd party App of the object being referenced"
   object_id
+  "The name of the object for this event (for example: file name)"
   object_name
+  "Specifies the type of object being acted upon (e.g., file, folder)"
   object_type
   "Office mode Enabled/Disabled"
   office_mode
@@ -7685,6 +7676,7 @@ enum EventFieldName {
   os_type
   "OS version for the device (such as 14.3.0)"
   os_version
+  "Indicate if the Access to the 3rd Party SaaS App occurs without passing through Cato Cloud (direct access to saas App)"
   out_of_band_access
   "For SaaS Security API, email address of the file owner"
   owner
@@ -7692,13 +7684,10 @@ enum EventFieldName {
   pac_file
   "For SaaS Security API, parent Microsoft 365 connector"
   parent_connector_name
-  parent_pid @deprecated(reason: "use src_process_parent_pid instead. Planned end-of-life (EoL) date: March 1, 2025.")
-  pid @deprecated(reason: "use src_pid instead. Planned end-of-life (EoL) date: March 1, 2025.")
   "Name of PoP location"
   pop_name
   "Precedence"
   precedence
-  process_path @deprecated(reason: "use src_process_path instead. Planned end-of-life (EoL) date: March 1, 2025.")
   "Indicate how many processes are part of this event"
   processes_count
   "Producer"
@@ -7711,11 +7700,13 @@ enum EventFieldName {
   qos_priority
   "For QoS, the time that this QoS event started. The event is generated when the QoS event finishes"
   qos_reported_time
+  "Specifies the path to a quarantine folder for isolated files"
   quarantine_folder_path
   "A Unique ID for the quarantined file"
   quarantine_uuid
   "Raw Data"
   raw_data
+  "Textual recommendation of the steps to take"
   recommended_actions
   "The URL that links directly to the object involved in the activity"
   reference_url
@@ -7750,7 +7741,7 @@ enum EventFieldName {
   "For Socket HA events, indicates if the Socket is primary or secondary"
   socket_role
   "Socket serial number"
-  socket_serial  
+  socket_serial
   "Socket version number"
   socket_version
   "Split Tunnel Configuration"
@@ -7790,6 +7781,10 @@ enum EventFieldName {
   src_site_name
   "Static host"
   static_host
+  """
+  The story status.
+  Possible values: Open, Pending Analysis, Pending more info, Closed, Reopened, Monitoring
+  """
   status
   "Story Id"
   story_id
@@ -7811,21 +7806,21 @@ enum EventFieldName {
   • Suspicious - the event is suspicious. It may be malicious, but there is not enough information
   • Malware - the event is malicious activity
   """
-  threat_confidence  
+  threat_confidence
   "For anti-malware events, malware name For IPS events, explains the reason why the traffic was blocked"
   threat_name
   "Link to external malware reference"
   threat_reference
   "The higher the score, the more dangerous the event. In range between 1 - 100 inclusive"
-  threat_score  
+  threat_score
   "Type of malware event"
   threat_type
   "Result of malware event (clean indicates a safe file)"
   threat_verdict
-  "Time stamp of event (Linux epoch format)"
+  "Time stamp of the event (Linux epoch format)"
   time
   "Time stamp of the event (Human-readable format)"
-  time_str  
+  time_str
   "A short summary of the activity"
   title
   "TLS Certificate Error"
@@ -7886,6 +7881,7 @@ enum EventFieldName {
   vendor_device_name
   "Vendor Event Id"
   vendor_event_id
+  "Identifies the user in the vendor’s system"
   vendor_user_id
   "Unique Cato Visible ID for devices"
   visible_device_id
@@ -7934,6 +7930,9 @@ Use the EventFieldName for events, and AuditFieldName for audit
 """
 input FieldNameInput {
   AuditFieldName: AuditFieldName
+  """
+  <span class="deprecation-reason">use AuditFieldName instead. Planned end-of-life (EoL): June 08, 2025</span>
+  """
   EventFieldName: EventFieldName
 }
 
@@ -8012,8 +8011,6 @@ enum EntityType {
   """Any entity (matches everything)"""
   any
   "Pooled licenses available for use"
-  apiKey
-  "added by joe"
   availablePooledUsage
   "Site licenses available for use"
   availableSiteUsage
@@ -8046,22 +8043,6 @@ enum EntityType {
   site
   "union of the globalRange and a Subnet"
   siteRange
-  "added by joe"
-  socketInterface
-  "added by joe"
-  subnet
-  "added by joe"
-  casbRule
-  "added by joe"
-  networkRule
-  "added by joe"
-  group
-  "added by joe"
-  usersGroup
-  "added by joe"
-  ip
-  "added by joe"
-  interfaceSubnet
   """
   Time zone, which is a geographical region where clocks are set to the same time
   """
@@ -8767,24 +8748,12 @@ enum ProtoType {
   SOCKET_AWS1500
   SOCKET_AZ1500
   SOCKET_ESX1500
+  SOCKET_GCP1500
   SOCKET_X1500
   SOCKET_X1600
   SOCKET_X1600_LTE
   SOCKET_X1700
   VSOCKET_VGX
-  CROSS_CONNECT_L2
-  CROSS_CONNECT_VRF
-  GRE_TUNNEL
-  NOT_DEFINED
-  PORTAL_LISTENER
-  SOCKET_GCP1500
-  SOCKET_RPI64
-  SOCKET_X1
-  VSOCKET_VGS
-  VSOCKET_VGX_AWS
-  VSOCKET_VGX_AZURE
-  VSOCKET_VGX_ESX
-  VSOCKET_VSH   
 }
 
 enum SocketRegistrationStatus {
@@ -8812,9 +8781,9 @@ enum SocketUpgradeStatus {
 
 enum SocketPlatform {
   AWS1500
-  GCP1500
   AZ1500
   ESX1500
+  GCP1500
   X1500
   X1500_BR2
   X1500B_BR2
@@ -10126,7 +10095,7 @@ input AddAdminInput {
   firstName: String!
   lastName: String!
   managedRoles: [UpdateAdminRoleInput!]
-  mfaEnabled: Boolean!
+  mfaEnabled: Boolean @deprecated(reason: "It is recommended to always require MFA when using User Credential authentication.")
   passwordNeverExpires: Boolean!
   resellerRoles: [UpdateAdminRoleInput!]
 }
@@ -10135,7 +10104,7 @@ input UpdateAdminInput {
   firstName: String
   lastName: String
   managedRoles: [UpdateAdminRoleInput!]
-  mfaEnabled: Boolean
+  mfaEnabled: Boolean @deprecated(reason: "It is recommended to always require MFA when using User Credential authentication.")
   passwordNeverExpires: Boolean
   resellerRoles: [UpdateAdminRoleInput!]
 }
@@ -10233,7 +10202,7 @@ enum AccountTenancy {
 
 type SandboxQueries {
   " Get a list of sandbox reports "
-  reports(input: SandboxReportsInput): SandboxReportsPayload! @beta
+  reports(input: SandboxReportsInput!): SandboxReportsPayload! @beta
 }
 
 type SandboxMutations {
@@ -10429,7 +10398,6 @@ enum LicenseStatus {
 An interface containing properties that are common to all license types
 """
 interface License {
-  id: String
   description: String
   """License plan type"""
   plan: LicensePlan!
@@ -10446,7 +10414,6 @@ interface License {
 }
 
 interface QuantifiableLicense implements License {
-  id: String
   description: String
   """License plan type"""
   plan: LicensePlan!
@@ -10537,7 +10504,6 @@ enum LicenseSku {
 }
 
 type DataLakeLicense implements License & QuantifiableLicense {
-  id: String
   description: String
   """
   The version of the Data Processing Agreement (DPA) that your company signed with Cato.
@@ -10574,7 +10540,6 @@ enum DpaVersion {
 
 """Public IP address license"""
 type PublicIpsLicense implements License & QuantifiableLicense {
-  id: String
   description: String
   """License expiration date"""
   expirationDate: DateTime!
@@ -10594,7 +10559,6 @@ type PublicIpsLicense implements License & QuantifiableLicense {
 
 """Site bandwidth license"""
 type SiteLicense implements License & QuantifiableLicense {
-  id: String
   description: String
   """License expiration date"""
   expirationDate: DateTime!
@@ -10623,7 +10587,6 @@ type SiteLicense implements License & QuantifiableLicense {
 }
 
 type PooledBandwidthLicense implements License & QuantifiableLicense {
-  id: String
   """
   Accounts that this license is assigned to (and the license usage within each account)
   """
@@ -10707,7 +10670,6 @@ enum SiteLicenseType {
 
 """ZTNA remote users license"""
 type ZtnaUsersLicense implements License & QuantifiableLicense {
-  id: String
   description: String
   """License expiration date"""
   expirationDate: DateTime!
@@ -10754,7 +10716,6 @@ enum Regionality {
 
 """End Point Protection (EPP) license details"""
 type EndpointProtectionLicense implements License & QuantifiableLicense {
-  id: String
   description: String
   """License expiration date"""
   expirationDate: DateTime!
@@ -10774,7 +10735,6 @@ type EndpointProtectionLicense implements License & QuantifiableLicense {
 
 """Intelligent Last Mile Monitoring (ILMM) License details"""
 type IlmmLicense implements License & QuantifiableLicense {
-  id: String
   description: String
   """License expiration date"""
   expirationDate: DateTime!
@@ -10796,7 +10756,6 @@ type IlmmLicense implements License & QuantifiableLicense {
 Intrusion Prevention System (IPS) service license (Legacy license, replaced by TP)
 """
 type IpsLicense implements License {
-  id: String
   description: String
   """License expiration date"""
   expirationDate: DateTime!
@@ -10814,7 +10773,6 @@ type IpsLicense implements License {
 
 """Anti-Malware service license details (Legacy license, replaced by TP)"""
 type MalwareProtectionLicense implements License {
-  id: String
   description: String
   """License expiration date"""
   expirationDate: DateTime!
@@ -10834,7 +10792,6 @@ type MalwareProtectionLicense implements License {
 NG Anti-Malware service license details (Legacy license, replaced by TP)
 """
 type NextGenMalwareProtectionLicense implements License {
-  id: String
   description: String
   """License expiration date"""
   expirationDate: DateTime!
@@ -10852,7 +10809,6 @@ type NextGenMalwareProtectionLicense implements License {
 
 """Threat Prevention (TP) license details"""
 type ThreatPreventionLicense implements License {
-  id: String
   description: String
   """License expiration date"""
   expirationDate: DateTime!
@@ -10870,7 +10826,6 @@ type ThreatPreventionLicense implements License {
 
 """NOC as a Service (NOCaaS) service license details"""
 type NOCaaSLicense implements License {
-  id: String
   description: String
   """License expiration date"""
   expirationDate: DateTime!
@@ -10888,7 +10843,6 @@ type NOCaaSLicense implements License {
 
 """Cloud Access Security Broker (CASB) service license details"""
 type CasbLicense implements License {
-  id: String
   description: String
   """License expiration date"""
   expirationDate: DateTime!
@@ -10906,7 +10860,6 @@ type CasbLicense implements License {
 
 """Data Loss Prevention (DLP) Service license details"""
 type DlpLicense implements License {
-  id: String
   description: String
   """License expiration date"""
   expirationDate: DateTime!
@@ -10924,7 +10877,6 @@ type DlpLicense implements License {
 
 """Managed XDR service license details"""
 type ManagedXdrLicense implements License {
-  id: String
   description: String
   """License expiration date"""
   expirationDate: DateTime!
@@ -10942,7 +10894,6 @@ type ManagedXdrLicense implements License {
 
 """Remote Browser Isolation (RBI) service license details"""
 type RbiLicense implements License {
-  id: String
   description: String
   """License expiration date"""
   expirationDate: DateTime!
@@ -10960,7 +10911,6 @@ type RbiLicense implements License {
 
 """SaaS Security API service license details"""
 type SaasSecurityApiLicense implements License & QuantifiableLicense {
-  id: String
   description: String
   """License expiration date"""
   expirationDate: DateTime!
@@ -10980,7 +10930,6 @@ type SaasSecurityApiLicense implements License & QuantifiableLicense {
 
 """XDR Pro (extended detection and response) service license details"""
 type XdrProLicense implements License & QuantifiableLicense {
-  id: String
   description: String
   """License expiration date"""
   expirationDate: DateTime!
@@ -11000,7 +10949,6 @@ type XdrProLicense implements License & QuantifiableLicense {
 
 """DEM service license details"""
 type DemLicense implements License & QuantifiableLicense {
-  id: String
   description: String
   """License expiration date"""
   expirationDate: DateTime!
@@ -11020,7 +10968,6 @@ type DemLicense implements License & QuantifiableLicense {
 
 """IoT/OT Security service license details"""
 type IotOtLicense implements License {
-  id: String
   description: String
   """License expiration date"""
   expirationDate: DateTime!
@@ -11038,7 +10985,6 @@ type IotOtLicense implements License {
 
 """Advanced Threat Prevention (ATP) service license details"""
 type AtpLicense implements License {
-  id: String
   description: String
   """License expiration date"""
   expirationDate: DateTime!
@@ -11697,67 +11643,4 @@ type CatalogApplication {
   standardPorts: [CustomService!]!
   type: CatalogApplicationType!
   website: Url
-}
-
-##################
-# Site Namespace #
-##################
-extend type SiteMutations {
-    """Assign a license to an existing site"""
-    assignSiteBwLicense(input: AssignSiteBwLicenseInput!): AssignSiteBwLicensePayload
-    """Update the bandwidth allocation of an assigned pool license of an existing site (does not apply for site license allocation)"""
-    updateSiteBwLicense(input: UpdateSiteBwLicenseInput!): UpdateSiteBwLicensePayload
-    """Replace an existing license of a site. This API is used to make sure the site
-    will always have a license to avoid traffic drop for sites without licenses."""
-    replaceSiteBwLicense(input: ReplaceSiteBwLicenseInput!): ReplaceSiteBwLicensePayload
-    """Remove a license from a site"""
-    removeSiteBwLicense(input: RemoveSiteBwLicenseInput!): RemoveSiteBwLicensePayload
-}
-input AssignSiteBwLicenseInput {
-    """The site the license is assigned to"""
-    site: SiteRefInput!
-    """The license that is being assigned"""
-    licenseId: ID!
-    """Specifies the bandwidth (in Mbps) to allocate to the site when using a pooled bandwidth license.
-    This field should not be used if a site license is used."""
-    bw: Int
-}
-
-type AssignSiteBwLicensePayload {
-    license: License!
-}
-
-input UpdateSiteBwLicenseInput {
-    """The site the license is being assigned to"""
-    site: SiteRefInput!
-    """The license that is being assigned"""
-    licenseId: ID!
-    """Specifies the bandwidth (in Mbps) to allocate to the site when using a pooled bandwidth license."""
-    bw: Int!
-}
-type UpdateSiteBwLicensePayload {
-    license: License!
-}
-input ReplaceSiteBwLicenseInput {
-    """The site to replace the licenses for"""
-    site: SiteRefInput!
-    """The license that is being assigned"""
-    licenseIdToAdd: ID!
-    """The license that is being removed"""
-    licenseIdToRemove: ID!
-    """Specifies the bandwidth (in Mbps) to allocate to the site when using a pooled bandwidth license.
-    This field should not be used if a site license is used."""
-    bw: Int
-}
-type ReplaceSiteBwLicensePayload {
-    license: License!
-}
-input RemoveSiteBwLicenseInput {
-    """The site to remove the licenses from"""
-    site: SiteRefInput!
-    """The license that is being removed"""
-    licenseId: ID!
-}
-type RemoveSiteBwLicensePayload {
-    license: License!
 }

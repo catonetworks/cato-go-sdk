@@ -30,9 +30,13 @@ func main() {
 
 	ctx := context.Background()
 
-	entityIds := []string{"91634"}
+	// entityIds := []string{}
 
-	queryResult, err := catoClient.EntityLookup(ctx, accountId, cato_models.EntityType("site"), nil, nil, nil, nil, entityIds, nil, nil, nil)
+	lookupFilter := &cato_models.EntityInput{
+		ID:   "132227",
+		Type: "site",
+	}
+	queryResult, err := catoClient.EntityLookup(ctx, accountId, cato_models.EntityType("networkInterface"), nil, nil, lookupFilter, nil, nil, nil, nil, nil)
 	if err != nil {
 		fmt.Println("error in EntityLookup: ", err)
 		os.Exit(1)

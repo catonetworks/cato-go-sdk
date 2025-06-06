@@ -13,8 +13,7 @@ import (
 func main() {
 	token := os.Getenv("CATO_API_KEY")
 	accountId := os.Getenv("CATO_ACCOUNT_ID")
-	// siteId := os.Getenv("CATO_SITE_BGP_ID")
-	url := "https://api.catonetworks.com/api/v1/graphql2"
+	url := os.Getenv("CATO_API_URL")
 
 	if token == "" {
 		fmt.Println("no token provided")

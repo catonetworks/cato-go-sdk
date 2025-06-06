@@ -14,7 +14,7 @@ func main() {
 	accountId := os.Getenv("CATO_ACCOUNT_ID")
 	storyId := os.Getenv("CATO_XDR_STORY_ID")
 	incidentId := os.Getenv("CATO_XDR_INCIDENT_ID")
-	url := "https://api.catonetworks.com/api/v1/graphql2"
+	url := os.Getenv("CATO_API_URL")
 
 	if token == "" {
 		fmt.Println("no token provided")

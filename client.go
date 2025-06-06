@@ -30,6 +30,18 @@ type CatoClient interface {
 	EventsTimeSeries(ctx context.Context, perSecond *bool, withMissingData *bool, buckets int64, accountID string, timeFrame string, measures []*cato_models.EventsMeasure, dimensions []*cato_models.EventsDimension, filters []*cato_models.EventsFilter, interceptors ...clientv2.RequestInterceptor) (*EventsTimeSeries, error)
 	HardwareManagement(ctx context.Context, input *cato_models.SocketInventoryInput, accountID string, interceptors ...clientv2.RequestInterceptor) (*HardwareManagement, error)
 	Licensing(ctx context.Context, accountID string, interceptors ...clientv2.RequestInterceptor) (*Licensing, error)
+	PolicySocketLanAddRule(ctx context.Context, socketLanAddRuleInput cato_models.SocketLanAddRuleInput, accountID string, interceptors ...clientv2.RequestInterceptor) (*PolicySocketLanAddRule, error)
+	PolicySocketLanAddSection(ctx context.Context, policyAddSectionInput cato_models.PolicyAddSectionInput, accountID string, interceptors ...clientv2.RequestInterceptor) (*PolicySocketLanAddSection, error)
+	PolicySocketLanCreatePolicyRevision(ctx context.Context, socketLanPolicyMutationInput *cato_models.SocketLanPolicyMutationInput, policyCreateRevisionInput cato_models.PolicyCreateRevisionInput, accountID string, interceptors ...clientv2.RequestInterceptor) (*PolicySocketLanCreatePolicyRevision, error)
+	PolicySocketLanDiscardPolicyRevision(ctx context.Context, socketLanPolicyMutationInput *cato_models.SocketLanPolicyMutationInput, policyDiscardRevisionInput *cato_models.PolicyDiscardRevisionInput, accountID string, interceptors ...clientv2.RequestInterceptor) (*PolicySocketLanDiscardPolicyRevision, error)
+	PolicySocketLanMoveRule(ctx context.Context, policyMoveRuleInput cato_models.PolicyMoveRuleInput, accountID string, interceptors ...clientv2.RequestInterceptor) (*PolicySocketLanMoveRule, error)
+	PolicySocketLanMoveSection(ctx context.Context, policyMoveSectionInput cato_models.PolicyMoveSectionInput, accountID string, interceptors ...clientv2.RequestInterceptor) (*PolicySocketLanMoveSection, error)
+	PolicySocketLanPublishPolicyRevision(ctx context.Context, socketLanPolicyMutationInput *cato_models.SocketLanPolicyMutationInput, policyPublishRevisionInput *cato_models.PolicyPublishRevisionInput, accountID string, interceptors ...clientv2.RequestInterceptor) (*PolicySocketLanPublishPolicyRevision, error)
+	PolicySocketLanRemoveRule(ctx context.Context, socketLanPolicyMutationInput *cato_models.SocketLanPolicyMutationInput, socketLanRemoveRuleInput cato_models.SocketLanRemoveRuleInput, accountID string, interceptors ...clientv2.RequestInterceptor) (*PolicySocketLanRemoveRule, error)
+	PolicySocketLanRemoveSection(ctx context.Context, socketLanPolicyMutationInput *cato_models.SocketLanPolicyMutationInput, policyRemoveSectionInput cato_models.PolicyRemoveSectionInput, accountID string, interceptors ...clientv2.RequestInterceptor) (*PolicySocketLanRemoveSection, error)
+	PolicySocketLanUpdatePolicy(ctx context.Context, socketLanPolicyMutationInput *cato_models.SocketLanPolicyMutationInput, socketLanPolicyUpdateInput cato_models.SocketLanPolicyUpdateInput, accountID string, interceptors ...clientv2.RequestInterceptor) (*PolicySocketLanUpdatePolicy, error)
+	PolicySocketLanUpdateRule(ctx context.Context, socketLanPolicyMutationInput *cato_models.SocketLanPolicyMutationInput, socketLanUpdateRuleInput cato_models.SocketLanUpdateRuleInput, accountID string, interceptors ...clientv2.RequestInterceptor) (*PolicySocketLanUpdateRule, error)
+	PolicySocketLanUpdateSection(ctx context.Context, socketLanPolicyMutationInput *cato_models.SocketLanPolicyMutationInput, policyUpdateSectionInput cato_models.PolicyUpdateSectionInput, accountID string, interceptors ...clientv2.RequestInterceptor) (*PolicySocketLanUpdateSection, error)
 	SiteAddBgpPeer(ctx context.Context, addBgpPeerInput cato_models.AddBgpPeerInput, accountID string, interceptors ...clientv2.RequestInterceptor) (*SiteAddBgpPeer, error)
 	SiteRemoveBgpPeer(ctx context.Context, removeBgpPeerInput cato_models.RemoveBgpPeerInput, accountID string, interceptors ...clientv2.RequestInterceptor) (*SiteRemoveBgpPeer, error)
 	SiteUpdateBgpPeer(ctx context.Context, updateBgpPeerInput cato_models.UpdateBgpPeerInput, accountID string, interceptors ...clientv2.RequestInterceptor) (*SiteUpdateBgpPeer, error)
@@ -6565,6 +6577,7686 @@ func (t *Licensing_Licensing) GetLicensingInfo() *Licensing_Licensing_LicensingI
 		t = &Licensing_Licensing{}
 	}
 	return t.LicensingInfo
+}
+
+type PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Audit struct {
+	UpdatedBy   string "json:\"updatedBy\" graphql:\"updatedBy\""
+	UpdatedTime string "json:\"updatedTime\" graphql:\"updatedTime\""
+}
+
+func (t *PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Audit) GetUpdatedBy() string {
+	if t == nil {
+		t = &PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Audit{}
+	}
+	return t.UpdatedBy
+}
+func (t *PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Audit) GetUpdatedTime() string {
+	if t == nil {
+		t = &PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Audit{}
+	}
+	return t.UpdatedTime
+}
+
+type PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Rule_Section struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Rule_Section) GetID() string {
+	if t == nil {
+		t = &PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Rule_Section{}
+	}
+	return t.ID
+}
+func (t *PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Rule_Section) GetName() string {
+	if t == nil {
+		t = &PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Rule_Section{}
+	}
+	return t.Name
+}
+
+type PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Rule_Site_Site struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Rule_Site_Site) GetID() string {
+	if t == nil {
+		t = &PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Rule_Site_Site{}
+	}
+	return t.ID
+}
+func (t *PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Rule_Site_Site) GetName() string {
+	if t == nil {
+		t = &PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Rule_Site_Site{}
+	}
+	return t.Name
+}
+
+type PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Rule_Site_Group struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Rule_Site_Group) GetID() string {
+	if t == nil {
+		t = &PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Rule_Site_Group{}
+	}
+	return t.ID
+}
+func (t *PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Rule_Site_Group) GetName() string {
+	if t == nil {
+		t = &PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Rule_Site_Group{}
+	}
+	return t.Name
+}
+
+type PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Rule_Site struct {
+	Group []*PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Rule_Site_Group "json:\"group\" graphql:\"group\""
+	Site  []*PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Rule_Site_Site  "json:\"site\" graphql:\"site\""
+}
+
+func (t *PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Rule_Site) GetGroup() []*PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Rule_Site_Group {
+	if t == nil {
+		t = &PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Rule_Site{}
+	}
+	return t.Group
+}
+func (t *PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Rule_Site) GetSite() []*PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Rule_Site_Site {
+	if t == nil {
+		t = &PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Rule_Site{}
+	}
+	return t.Site
+}
+
+type PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Rule_Source_IPRange struct {
+	From string "json:\"from\" graphql:\"from\""
+	To   string "json:\"to\" graphql:\"to\""
+}
+
+func (t *PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Rule_Source_IPRange) GetFrom() string {
+	if t == nil {
+		t = &PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Rule_Source_IPRange{}
+	}
+	return t.From
+}
+func (t *PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Rule_Source_IPRange) GetTo() string {
+	if t == nil {
+		t = &PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Rule_Source_IPRange{}
+	}
+	return t.To
+}
+
+type PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Rule_Source_Group struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Rule_Source_Group) GetID() string {
+	if t == nil {
+		t = &PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Rule_Source_Group{}
+	}
+	return t.ID
+}
+func (t *PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Rule_Source_Group) GetName() string {
+	if t == nil {
+		t = &PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Rule_Source_Group{}
+	}
+	return t.Name
+}
+
+type PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Rule_Source_NetworkInterface struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Rule_Source_NetworkInterface) GetID() string {
+	if t == nil {
+		t = &PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Rule_Source_NetworkInterface{}
+	}
+	return t.ID
+}
+func (t *PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Rule_Source_NetworkInterface) GetName() string {
+	if t == nil {
+		t = &PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Rule_Source_NetworkInterface{}
+	}
+	return t.Name
+}
+
+type PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Rule_Source_SystemGroup struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Rule_Source_SystemGroup) GetID() string {
+	if t == nil {
+		t = &PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Rule_Source_SystemGroup{}
+	}
+	return t.ID
+}
+func (t *PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Rule_Source_SystemGroup) GetName() string {
+	if t == nil {
+		t = &PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Rule_Source_SystemGroup{}
+	}
+	return t.Name
+}
+
+type PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Rule_Source_Host struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Rule_Source_Host) GetID() string {
+	if t == nil {
+		t = &PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Rule_Source_Host{}
+	}
+	return t.ID
+}
+func (t *PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Rule_Source_Host) GetName() string {
+	if t == nil {
+		t = &PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Rule_Source_Host{}
+	}
+	return t.Name
+}
+
+type PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Rule_Source_GlobalIPRange struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Rule_Source_GlobalIPRange) GetID() string {
+	if t == nil {
+		t = &PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Rule_Source_GlobalIPRange{}
+	}
+	return t.ID
+}
+func (t *PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Rule_Source_GlobalIPRange) GetName() string {
+	if t == nil {
+		t = &PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Rule_Source_GlobalIPRange{}
+	}
+	return t.Name
+}
+
+type PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Rule_Source_FloatingSubnet struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Rule_Source_FloatingSubnet) GetID() string {
+	if t == nil {
+		t = &PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Rule_Source_FloatingSubnet{}
+	}
+	return t.ID
+}
+func (t *PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Rule_Source_FloatingSubnet) GetName() string {
+	if t == nil {
+		t = &PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Rule_Source_FloatingSubnet{}
+	}
+	return t.Name
+}
+
+type PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Rule_Source_SiteNetworkSubnet struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Rule_Source_SiteNetworkSubnet) GetID() string {
+	if t == nil {
+		t = &PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Rule_Source_SiteNetworkSubnet{}
+	}
+	return t.ID
+}
+func (t *PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Rule_Source_SiteNetworkSubnet) GetName() string {
+	if t == nil {
+		t = &PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Rule_Source_SiteNetworkSubnet{}
+	}
+	return t.Name
+}
+
+type PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Rule_Source struct {
+	FloatingSubnet    []*PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Rule_Source_FloatingSubnet    "json:\"floatingSubnet\" graphql:\"floatingSubnet\""
+	GlobalIPRange     []*PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Rule_Source_GlobalIPRange     "json:\"globalIpRange\" graphql:\"globalIpRange\""
+	Group             []*PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Rule_Source_Group             "json:\"group\" graphql:\"group\""
+	Host              []*PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Rule_Source_Host              "json:\"host\" graphql:\"host\""
+	IP                []string                                                                              "json:\"ip\" graphql:\"ip\""
+	IPRange           []*PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Rule_Source_IPRange           "json:\"ipRange\" graphql:\"ipRange\""
+	NetworkInterface  []*PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Rule_Source_NetworkInterface  "json:\"networkInterface\" graphql:\"networkInterface\""
+	SiteNetworkSubnet []*PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Rule_Source_SiteNetworkSubnet "json:\"siteNetworkSubnet\" graphql:\"siteNetworkSubnet\""
+	Subnet            []string                                                                              "json:\"subnet\" graphql:\"subnet\""
+	SystemGroup       []*PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Rule_Source_SystemGroup       "json:\"systemGroup\" graphql:\"systemGroup\""
+	Vlan              []string                                                                              "json:\"vlan\" graphql:\"vlan\""
+}
+
+func (t *PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Rule_Source) GetFloatingSubnet() []*PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Rule_Source_FloatingSubnet {
+	if t == nil {
+		t = &PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Rule_Source{}
+	}
+	return t.FloatingSubnet
+}
+func (t *PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Rule_Source) GetGlobalIPRange() []*PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Rule_Source_GlobalIPRange {
+	if t == nil {
+		t = &PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Rule_Source{}
+	}
+	return t.GlobalIPRange
+}
+func (t *PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Rule_Source) GetGroup() []*PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Rule_Source_Group {
+	if t == nil {
+		t = &PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Rule_Source{}
+	}
+	return t.Group
+}
+func (t *PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Rule_Source) GetHost() []*PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Rule_Source_Host {
+	if t == nil {
+		t = &PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Rule_Source{}
+	}
+	return t.Host
+}
+func (t *PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Rule_Source) GetIP() []string {
+	if t == nil {
+		t = &PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Rule_Source{}
+	}
+	return t.IP
+}
+func (t *PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Rule_Source) GetIPRange() []*PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Rule_Source_IPRange {
+	if t == nil {
+		t = &PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Rule_Source{}
+	}
+	return t.IPRange
+}
+func (t *PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Rule_Source) GetNetworkInterface() []*PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Rule_Source_NetworkInterface {
+	if t == nil {
+		t = &PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Rule_Source{}
+	}
+	return t.NetworkInterface
+}
+func (t *PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Rule_Source) GetSiteNetworkSubnet() []*PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Rule_Source_SiteNetworkSubnet {
+	if t == nil {
+		t = &PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Rule_Source{}
+	}
+	return t.SiteNetworkSubnet
+}
+func (t *PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Rule_Source) GetSubnet() []string {
+	if t == nil {
+		t = &PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Rule_Source{}
+	}
+	return t.Subnet
+}
+func (t *PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Rule_Source) GetSystemGroup() []*PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Rule_Source_SystemGroup {
+	if t == nil {
+		t = &PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Rule_Source{}
+	}
+	return t.SystemGroup
+}
+func (t *PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Rule_Source) GetVlan() []string {
+	if t == nil {
+		t = &PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Rule_Source{}
+	}
+	return t.Vlan
+}
+
+type PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Rule_Destination_IPRange struct {
+	From string "json:\"from\" graphql:\"from\""
+	To   string "json:\"to\" graphql:\"to\""
+}
+
+func (t *PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Rule_Destination_IPRange) GetFrom() string {
+	if t == nil {
+		t = &PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Rule_Destination_IPRange{}
+	}
+	return t.From
+}
+func (t *PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Rule_Destination_IPRange) GetTo() string {
+	if t == nil {
+		t = &PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Rule_Destination_IPRange{}
+	}
+	return t.To
+}
+
+type PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Rule_Destination_NetworkInterface struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Rule_Destination_NetworkInterface) GetID() string {
+	if t == nil {
+		t = &PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Rule_Destination_NetworkInterface{}
+	}
+	return t.ID
+}
+func (t *PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Rule_Destination_NetworkInterface) GetName() string {
+	if t == nil {
+		t = &PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Rule_Destination_NetworkInterface{}
+	}
+	return t.Name
+}
+
+type PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Rule_Destination_SystemGroup struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Rule_Destination_SystemGroup) GetID() string {
+	if t == nil {
+		t = &PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Rule_Destination_SystemGroup{}
+	}
+	return t.ID
+}
+func (t *PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Rule_Destination_SystemGroup) GetName() string {
+	if t == nil {
+		t = &PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Rule_Destination_SystemGroup{}
+	}
+	return t.Name
+}
+
+type PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Rule_Destination_Host struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Rule_Destination_Host) GetID() string {
+	if t == nil {
+		t = &PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Rule_Destination_Host{}
+	}
+	return t.ID
+}
+func (t *PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Rule_Destination_Host) GetName() string {
+	if t == nil {
+		t = &PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Rule_Destination_Host{}
+	}
+	return t.Name
+}
+
+type PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Rule_Destination_GlobalIPRange struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Rule_Destination_GlobalIPRange) GetID() string {
+	if t == nil {
+		t = &PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Rule_Destination_GlobalIPRange{}
+	}
+	return t.ID
+}
+func (t *PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Rule_Destination_GlobalIPRange) GetName() string {
+	if t == nil {
+		t = &PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Rule_Destination_GlobalIPRange{}
+	}
+	return t.Name
+}
+
+type PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Rule_Destination_Group struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Rule_Destination_Group) GetID() string {
+	if t == nil {
+		t = &PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Rule_Destination_Group{}
+	}
+	return t.ID
+}
+func (t *PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Rule_Destination_Group) GetName() string {
+	if t == nil {
+		t = &PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Rule_Destination_Group{}
+	}
+	return t.Name
+}
+
+type PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Rule_Destination_FloatingSubnet struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Rule_Destination_FloatingSubnet) GetID() string {
+	if t == nil {
+		t = &PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Rule_Destination_FloatingSubnet{}
+	}
+	return t.ID
+}
+func (t *PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Rule_Destination_FloatingSubnet) GetName() string {
+	if t == nil {
+		t = &PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Rule_Destination_FloatingSubnet{}
+	}
+	return t.Name
+}
+
+type PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Rule_Destination_SiteNetworkSubnet struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Rule_Destination_SiteNetworkSubnet) GetID() string {
+	if t == nil {
+		t = &PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Rule_Destination_SiteNetworkSubnet{}
+	}
+	return t.ID
+}
+func (t *PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Rule_Destination_SiteNetworkSubnet) GetName() string {
+	if t == nil {
+		t = &PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Rule_Destination_SiteNetworkSubnet{}
+	}
+	return t.Name
+}
+
+type PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Rule_Destination struct {
+	FloatingSubnet    []*PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Rule_Destination_FloatingSubnet    "json:\"floatingSubnet\" graphql:\"floatingSubnet\""
+	GlobalIPRange     []*PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Rule_Destination_GlobalIPRange     "json:\"globalIpRange\" graphql:\"globalIpRange\""
+	Group             []*PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Rule_Destination_Group             "json:\"group\" graphql:\"group\""
+	Host              []*PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Rule_Destination_Host              "json:\"host\" graphql:\"host\""
+	IP                []string                                                                                   "json:\"ip\" graphql:\"ip\""
+	IPRange           []*PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Rule_Destination_IPRange           "json:\"ipRange\" graphql:\"ipRange\""
+	NetworkInterface  []*PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Rule_Destination_NetworkInterface  "json:\"networkInterface\" graphql:\"networkInterface\""
+	SiteNetworkSubnet []*PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Rule_Destination_SiteNetworkSubnet "json:\"siteNetworkSubnet\" graphql:\"siteNetworkSubnet\""
+	Subnet            []string                                                                                   "json:\"subnet\" graphql:\"subnet\""
+	SystemGroup       []*PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Rule_Destination_SystemGroup       "json:\"systemGroup\" graphql:\"systemGroup\""
+	Vlan              []string                                                                                   "json:\"vlan\" graphql:\"vlan\""
+}
+
+func (t *PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Rule_Destination) GetFloatingSubnet() []*PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Rule_Destination_FloatingSubnet {
+	if t == nil {
+		t = &PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Rule_Destination{}
+	}
+	return t.FloatingSubnet
+}
+func (t *PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Rule_Destination) GetGlobalIPRange() []*PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Rule_Destination_GlobalIPRange {
+	if t == nil {
+		t = &PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Rule_Destination{}
+	}
+	return t.GlobalIPRange
+}
+func (t *PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Rule_Destination) GetGroup() []*PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Rule_Destination_Group {
+	if t == nil {
+		t = &PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Rule_Destination{}
+	}
+	return t.Group
+}
+func (t *PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Rule_Destination) GetHost() []*PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Rule_Destination_Host {
+	if t == nil {
+		t = &PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Rule_Destination{}
+	}
+	return t.Host
+}
+func (t *PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Rule_Destination) GetIP() []string {
+	if t == nil {
+		t = &PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Rule_Destination{}
+	}
+	return t.IP
+}
+func (t *PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Rule_Destination) GetIPRange() []*PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Rule_Destination_IPRange {
+	if t == nil {
+		t = &PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Rule_Destination{}
+	}
+	return t.IPRange
+}
+func (t *PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Rule_Destination) GetNetworkInterface() []*PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Rule_Destination_NetworkInterface {
+	if t == nil {
+		t = &PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Rule_Destination{}
+	}
+	return t.NetworkInterface
+}
+func (t *PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Rule_Destination) GetSiteNetworkSubnet() []*PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Rule_Destination_SiteNetworkSubnet {
+	if t == nil {
+		t = &PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Rule_Destination{}
+	}
+	return t.SiteNetworkSubnet
+}
+func (t *PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Rule_Destination) GetSubnet() []string {
+	if t == nil {
+		t = &PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Rule_Destination{}
+	}
+	return t.Subnet
+}
+func (t *PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Rule_Destination) GetSystemGroup() []*PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Rule_Destination_SystemGroup {
+	if t == nil {
+		t = &PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Rule_Destination{}
+	}
+	return t.SystemGroup
+}
+func (t *PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Rule_Destination) GetVlan() []string {
+	if t == nil {
+		t = &PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Rule_Destination{}
+	}
+	return t.Vlan
+}
+
+type PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Rule_Service_Simple struct {
+	Name cato_models.SimpleServiceType "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Rule_Service_Simple) GetName() *cato_models.SimpleServiceType {
+	if t == nil {
+		t = &PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Rule_Service_Simple{}
+	}
+	return &t.Name
+}
+
+type PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Rule_Service_Custom_PortRange struct {
+	From scalars.Port "json:\"from\" graphql:\"from\""
+	To   scalars.Port "json:\"to\" graphql:\"to\""
+}
+
+func (t *PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Rule_Service_Custom_PortRange) GetFrom() *scalars.Port {
+	if t == nil {
+		t = &PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Rule_Service_Custom_PortRange{}
+	}
+	return &t.From
+}
+func (t *PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Rule_Service_Custom_PortRange) GetTo() *scalars.Port {
+	if t == nil {
+		t = &PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Rule_Service_Custom_PortRange{}
+	}
+	return &t.To
+}
+
+type PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Rule_Service_Custom struct {
+	Port      []scalars.Port                                                                      "json:\"port,omitempty\" graphql:\"port\""
+	PortRange *PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Rule_Service_Custom_PortRange "json:\"portRange,omitempty\" graphql:\"portRange\""
+	Protocol  cato_models.IPProtocol                                                              "json:\"protocol\" graphql:\"protocol\""
+}
+
+func (t *PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Rule_Service_Custom) GetPort() []scalars.Port {
+	if t == nil {
+		t = &PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Rule_Service_Custom{}
+	}
+	return t.Port
+}
+func (t *PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Rule_Service_Custom) GetPortRange() *PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Rule_Service_Custom_PortRange {
+	if t == nil {
+		t = &PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Rule_Service_Custom{}
+	}
+	return t.PortRange
+}
+func (t *PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Rule_Service_Custom) GetProtocol() *cato_models.IPProtocol {
+	if t == nil {
+		t = &PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Rule_Service_Custom{}
+	}
+	return &t.Protocol
+}
+
+type PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Rule_Service struct {
+	Custom []*PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Rule_Service_Custom "json:\"custom\" graphql:\"custom\""
+	Simple []*PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Rule_Service_Simple "json:\"simple\" graphql:\"simple\""
+}
+
+func (t *PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Rule_Service) GetCustom() []*PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Rule_Service_Custom {
+	if t == nil {
+		t = &PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Rule_Service{}
+	}
+	return t.Custom
+}
+func (t *PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Rule_Service) GetSimple() []*PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Rule_Service_Simple {
+	if t == nil {
+		t = &PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Rule_Service{}
+	}
+	return t.Simple
+}
+
+type PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Rule_Nat struct {
+	Enabled bool                         "json:\"enabled\" graphql:\"enabled\""
+	NatType cato_models.SocketLanNatType "json:\"natType\" graphql:\"natType\""
+}
+
+func (t *PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Rule_Nat) GetEnabled() bool {
+	if t == nil {
+		t = &PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Rule_Nat{}
+	}
+	return t.Enabled
+}
+func (t *PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Rule_Nat) GetNatType() *cato_models.SocketLanNatType {
+	if t == nil {
+		t = &PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Rule_Nat{}
+	}
+	return &t.NatType
+}
+
+type PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Rule struct {
+	Description string                                                                "json:\"description\" graphql:\"description\""
+	Destination PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Rule_Destination "json:\"destination\" graphql:\"destination\""
+	Direction   cato_models.SocketLanDirection                                        "json:\"direction\" graphql:\"direction\""
+	Enabled     bool                                                                  "json:\"enabled\" graphql:\"enabled\""
+	ID          string                                                                "json:\"id\" graphql:\"id\""
+	Index       int64                                                                 "json:\"index\" graphql:\"index\""
+	Name        string                                                                "json:\"name\" graphql:\"name\""
+	Nat         PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Rule_Nat         "json:\"nat\" graphql:\"nat\""
+	Section     PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Rule_Section     "json:\"section\" graphql:\"section\""
+	Service     PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Rule_Service     "json:\"service\" graphql:\"service\""
+	Site        PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Rule_Site        "json:\"site\" graphql:\"site\""
+	Source      PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Rule_Source      "json:\"source\" graphql:\"source\""
+	Transport   cato_models.SocketLanTransportType                                    "json:\"transport\" graphql:\"transport\""
+}
+
+func (t *PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Rule) GetDescription() string {
+	if t == nil {
+		t = &PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Rule{}
+	}
+	return t.Description
+}
+func (t *PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Rule) GetDestination() *PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Rule_Destination {
+	if t == nil {
+		t = &PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Rule{}
+	}
+	return &t.Destination
+}
+func (t *PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Rule) GetDirection() *cato_models.SocketLanDirection {
+	if t == nil {
+		t = &PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Rule{}
+	}
+	return &t.Direction
+}
+func (t *PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Rule) GetEnabled() bool {
+	if t == nil {
+		t = &PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Rule{}
+	}
+	return t.Enabled
+}
+func (t *PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Rule) GetID() string {
+	if t == nil {
+		t = &PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Rule{}
+	}
+	return t.ID
+}
+func (t *PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Rule) GetIndex() int64 {
+	if t == nil {
+		t = &PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Rule{}
+	}
+	return t.Index
+}
+func (t *PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Rule) GetName() string {
+	if t == nil {
+		t = &PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Rule{}
+	}
+	return t.Name
+}
+func (t *PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Rule) GetNat() *PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Rule_Nat {
+	if t == nil {
+		t = &PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Rule{}
+	}
+	return &t.Nat
+}
+func (t *PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Rule) GetSection() *PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Rule_Section {
+	if t == nil {
+		t = &PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Rule{}
+	}
+	return &t.Section
+}
+func (t *PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Rule) GetService() *PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Rule_Service {
+	if t == nil {
+		t = &PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Rule{}
+	}
+	return &t.Service
+}
+func (t *PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Rule) GetSite() *PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Rule_Site {
+	if t == nil {
+		t = &PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Rule{}
+	}
+	return &t.Site
+}
+func (t *PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Rule) GetSource() *PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Rule_Source {
+	if t == nil {
+		t = &PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Rule{}
+	}
+	return &t.Source
+}
+func (t *PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Rule) GetTransport() *cato_models.SocketLanTransportType {
+	if t == nil {
+		t = &PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Rule{}
+	}
+	return &t.Transport
+}
+
+type PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule struct {
+	Audit      PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Audit "json:\"audit\" graphql:\"audit\""
+	Properties []cato_models.PolicyElementPropertiesEnum                  "json:\"properties\" graphql:\"properties\""
+	Rule       PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Rule  "json:\"rule\" graphql:\"rule\""
+}
+
+func (t *PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule) GetAudit() *PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Audit {
+	if t == nil {
+		t = &PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule{}
+	}
+	return &t.Audit
+}
+func (t *PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule) GetProperties() []cato_models.PolicyElementPropertiesEnum {
+	if t == nil {
+		t = &PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule{}
+	}
+	return t.Properties
+}
+func (t *PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule) GetRule() *PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule_Rule {
+	if t == nil {
+		t = &PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule{}
+	}
+	return &t.Rule
+}
+
+type PolicySocketLanAddRule_Policy_SocketLan_AddRule_Errors struct {
+	ErrorCode    *string "json:\"errorCode,omitempty\" graphql:\"errorCode\""
+	ErrorMessage *string "json:\"errorMessage,omitempty\" graphql:\"errorMessage\""
+}
+
+func (t *PolicySocketLanAddRule_Policy_SocketLan_AddRule_Errors) GetErrorCode() *string {
+	if t == nil {
+		t = &PolicySocketLanAddRule_Policy_SocketLan_AddRule_Errors{}
+	}
+	return t.ErrorCode
+}
+func (t *PolicySocketLanAddRule_Policy_SocketLan_AddRule_Errors) GetErrorMessage() *string {
+	if t == nil {
+		t = &PolicySocketLanAddRule_Policy_SocketLan_AddRule_Errors{}
+	}
+	return t.ErrorMessage
+}
+
+type PolicySocketLanAddRule_Policy_SocketLan_AddRule struct {
+	Errors []*PolicySocketLanAddRule_Policy_SocketLan_AddRule_Errors "json:\"errors\" graphql:\"errors\""
+	Rule   *PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule     "json:\"rule,omitempty\" graphql:\"rule\""
+	Status cato_models.PolicyMutationStatus                          "json:\"status\" graphql:\"status\""
+}
+
+func (t *PolicySocketLanAddRule_Policy_SocketLan_AddRule) GetErrors() []*PolicySocketLanAddRule_Policy_SocketLan_AddRule_Errors {
+	if t == nil {
+		t = &PolicySocketLanAddRule_Policy_SocketLan_AddRule{}
+	}
+	return t.Errors
+}
+func (t *PolicySocketLanAddRule_Policy_SocketLan_AddRule) GetRule() *PolicySocketLanAddRule_Policy_SocketLan_AddRule_Rule {
+	if t == nil {
+		t = &PolicySocketLanAddRule_Policy_SocketLan_AddRule{}
+	}
+	return t.Rule
+}
+func (t *PolicySocketLanAddRule_Policy_SocketLan_AddRule) GetStatus() *cato_models.PolicyMutationStatus {
+	if t == nil {
+		t = &PolicySocketLanAddRule_Policy_SocketLan_AddRule{}
+	}
+	return &t.Status
+}
+
+type PolicySocketLanAddRule_Policy_SocketLan struct {
+	AddRule PolicySocketLanAddRule_Policy_SocketLan_AddRule "json:\"addRule\" graphql:\"addRule\""
+}
+
+func (t *PolicySocketLanAddRule_Policy_SocketLan) GetAddRule() *PolicySocketLanAddRule_Policy_SocketLan_AddRule {
+	if t == nil {
+		t = &PolicySocketLanAddRule_Policy_SocketLan{}
+	}
+	return &t.AddRule
+}
+
+type PolicySocketLanAddRule_Policy struct {
+	SocketLan *PolicySocketLanAddRule_Policy_SocketLan "json:\"socketLan,omitempty\" graphql:\"socketLan\""
+}
+
+func (t *PolicySocketLanAddRule_Policy) GetSocketLan() *PolicySocketLanAddRule_Policy_SocketLan {
+	if t == nil {
+		t = &PolicySocketLanAddRule_Policy{}
+	}
+	return t.SocketLan
+}
+
+type PolicySocketLanAddSection_Policy_SocketLan_AddSection_Section_Audit struct {
+	UpdatedBy   string "json:\"updatedBy\" graphql:\"updatedBy\""
+	UpdatedTime string "json:\"updatedTime\" graphql:\"updatedTime\""
+}
+
+func (t *PolicySocketLanAddSection_Policy_SocketLan_AddSection_Section_Audit) GetUpdatedBy() string {
+	if t == nil {
+		t = &PolicySocketLanAddSection_Policy_SocketLan_AddSection_Section_Audit{}
+	}
+	return t.UpdatedBy
+}
+func (t *PolicySocketLanAddSection_Policy_SocketLan_AddSection_Section_Audit) GetUpdatedTime() string {
+	if t == nil {
+		t = &PolicySocketLanAddSection_Policy_SocketLan_AddSection_Section_Audit{}
+	}
+	return t.UpdatedTime
+}
+
+type PolicySocketLanAddSection_Policy_SocketLan_AddSection_Section_Section struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicySocketLanAddSection_Policy_SocketLan_AddSection_Section_Section) GetID() string {
+	if t == nil {
+		t = &PolicySocketLanAddSection_Policy_SocketLan_AddSection_Section_Section{}
+	}
+	return t.ID
+}
+func (t *PolicySocketLanAddSection_Policy_SocketLan_AddSection_Section_Section) GetName() string {
+	if t == nil {
+		t = &PolicySocketLanAddSection_Policy_SocketLan_AddSection_Section_Section{}
+	}
+	return t.Name
+}
+
+type PolicySocketLanAddSection_Policy_SocketLan_AddSection_Section struct {
+	Audit      PolicySocketLanAddSection_Policy_SocketLan_AddSection_Section_Audit   "json:\"audit\" graphql:\"audit\""
+	Properties []cato_models.PolicyElementPropertiesEnum                             "json:\"properties\" graphql:\"properties\""
+	Section    PolicySocketLanAddSection_Policy_SocketLan_AddSection_Section_Section "json:\"section\" graphql:\"section\""
+}
+
+func (t *PolicySocketLanAddSection_Policy_SocketLan_AddSection_Section) GetAudit() *PolicySocketLanAddSection_Policy_SocketLan_AddSection_Section_Audit {
+	if t == nil {
+		t = &PolicySocketLanAddSection_Policy_SocketLan_AddSection_Section{}
+	}
+	return &t.Audit
+}
+func (t *PolicySocketLanAddSection_Policy_SocketLan_AddSection_Section) GetProperties() []cato_models.PolicyElementPropertiesEnum {
+	if t == nil {
+		t = &PolicySocketLanAddSection_Policy_SocketLan_AddSection_Section{}
+	}
+	return t.Properties
+}
+func (t *PolicySocketLanAddSection_Policy_SocketLan_AddSection_Section) GetSection() *PolicySocketLanAddSection_Policy_SocketLan_AddSection_Section_Section {
+	if t == nil {
+		t = &PolicySocketLanAddSection_Policy_SocketLan_AddSection_Section{}
+	}
+	return &t.Section
+}
+
+type PolicySocketLanAddSection_Policy_SocketLan_AddSection_Errors struct {
+	ErrorCode    *string "json:\"errorCode,omitempty\" graphql:\"errorCode\""
+	ErrorMessage *string "json:\"errorMessage,omitempty\" graphql:\"errorMessage\""
+}
+
+func (t *PolicySocketLanAddSection_Policy_SocketLan_AddSection_Errors) GetErrorCode() *string {
+	if t == nil {
+		t = &PolicySocketLanAddSection_Policy_SocketLan_AddSection_Errors{}
+	}
+	return t.ErrorCode
+}
+func (t *PolicySocketLanAddSection_Policy_SocketLan_AddSection_Errors) GetErrorMessage() *string {
+	if t == nil {
+		t = &PolicySocketLanAddSection_Policy_SocketLan_AddSection_Errors{}
+	}
+	return t.ErrorMessage
+}
+
+type PolicySocketLanAddSection_Policy_SocketLan_AddSection struct {
+	Errors  []*PolicySocketLanAddSection_Policy_SocketLan_AddSection_Errors "json:\"errors\" graphql:\"errors\""
+	Section *PolicySocketLanAddSection_Policy_SocketLan_AddSection_Section  "json:\"section,omitempty\" graphql:\"section\""
+	Status  cato_models.PolicyMutationStatus                                "json:\"status\" graphql:\"status\""
+}
+
+func (t *PolicySocketLanAddSection_Policy_SocketLan_AddSection) GetErrors() []*PolicySocketLanAddSection_Policy_SocketLan_AddSection_Errors {
+	if t == nil {
+		t = &PolicySocketLanAddSection_Policy_SocketLan_AddSection{}
+	}
+	return t.Errors
+}
+func (t *PolicySocketLanAddSection_Policy_SocketLan_AddSection) GetSection() *PolicySocketLanAddSection_Policy_SocketLan_AddSection_Section {
+	if t == nil {
+		t = &PolicySocketLanAddSection_Policy_SocketLan_AddSection{}
+	}
+	return t.Section
+}
+func (t *PolicySocketLanAddSection_Policy_SocketLan_AddSection) GetStatus() *cato_models.PolicyMutationStatus {
+	if t == nil {
+		t = &PolicySocketLanAddSection_Policy_SocketLan_AddSection{}
+	}
+	return &t.Status
+}
+
+type PolicySocketLanAddSection_Policy_SocketLan struct {
+	AddSection PolicySocketLanAddSection_Policy_SocketLan_AddSection "json:\"addSection\" graphql:\"addSection\""
+}
+
+func (t *PolicySocketLanAddSection_Policy_SocketLan) GetAddSection() *PolicySocketLanAddSection_Policy_SocketLan_AddSection {
+	if t == nil {
+		t = &PolicySocketLanAddSection_Policy_SocketLan{}
+	}
+	return &t.AddSection
+}
+
+type PolicySocketLanAddSection_Policy struct {
+	SocketLan *PolicySocketLanAddSection_Policy_SocketLan "json:\"socketLan,omitempty\" graphql:\"socketLan\""
+}
+
+func (t *PolicySocketLanAddSection_Policy) GetSocketLan() *PolicySocketLanAddSection_Policy_SocketLan {
+	if t == nil {
+		t = &PolicySocketLanAddSection_Policy{}
+	}
+	return t.SocketLan
+}
+
+type PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Audit struct {
+	UpdatedBy   string "json:\"updatedBy\" graphql:\"updatedBy\""
+	UpdatedTime string "json:\"updatedTime\" graphql:\"updatedTime\""
+}
+
+func (t *PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Audit) GetUpdatedBy() string {
+	if t == nil {
+		t = &PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Audit{}
+	}
+	return t.UpdatedBy
+}
+func (t *PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Audit) GetUpdatedTime() string {
+	if t == nil {
+		t = &PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Audit{}
+	}
+	return t.UpdatedTime
+}
+
+type PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Rule_Section struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Rule_Section) GetID() string {
+	if t == nil {
+		t = &PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Rule_Section{}
+	}
+	return t.ID
+}
+func (t *PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Rule_Section) GetName() string {
+	if t == nil {
+		t = &PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Rule_Section{}
+	}
+	return t.Name
+}
+
+type PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Rule_Site_Site struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Rule_Site_Site) GetID() string {
+	if t == nil {
+		t = &PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Rule_Site_Site{}
+	}
+	return t.ID
+}
+func (t *PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Rule_Site_Site) GetName() string {
+	if t == nil {
+		t = &PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Rule_Site_Site{}
+	}
+	return t.Name
+}
+
+type PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Rule_Site_Group struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Rule_Site_Group) GetID() string {
+	if t == nil {
+		t = &PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Rule_Site_Group{}
+	}
+	return t.ID
+}
+func (t *PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Rule_Site_Group) GetName() string {
+	if t == nil {
+		t = &PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Rule_Site_Group{}
+	}
+	return t.Name
+}
+
+type PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Rule_Site struct {
+	Group []*PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Rule_Site_Group "json:\"group\" graphql:\"group\""
+	Site  []*PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Rule_Site_Site  "json:\"site\" graphql:\"site\""
+}
+
+func (t *PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Rule_Site) GetGroup() []*PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Rule_Site_Group {
+	if t == nil {
+		t = &PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Rule_Site{}
+	}
+	return t.Group
+}
+func (t *PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Rule_Site) GetSite() []*PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Rule_Site_Site {
+	if t == nil {
+		t = &PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Rule_Site{}
+	}
+	return t.Site
+}
+
+type PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Rule_Source_IPRange struct {
+	From string "json:\"from\" graphql:\"from\""
+	To   string "json:\"to\" graphql:\"to\""
+}
+
+func (t *PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Rule_Source_IPRange) GetFrom() string {
+	if t == nil {
+		t = &PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Rule_Source_IPRange{}
+	}
+	return t.From
+}
+func (t *PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Rule_Source_IPRange) GetTo() string {
+	if t == nil {
+		t = &PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Rule_Source_IPRange{}
+	}
+	return t.To
+}
+
+type PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Rule_Source_Group struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Rule_Source_Group) GetID() string {
+	if t == nil {
+		t = &PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Rule_Source_Group{}
+	}
+	return t.ID
+}
+func (t *PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Rule_Source_Group) GetName() string {
+	if t == nil {
+		t = &PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Rule_Source_Group{}
+	}
+	return t.Name
+}
+
+type PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Rule_Source_NetworkInterface struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Rule_Source_NetworkInterface) GetID() string {
+	if t == nil {
+		t = &PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Rule_Source_NetworkInterface{}
+	}
+	return t.ID
+}
+func (t *PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Rule_Source_NetworkInterface) GetName() string {
+	if t == nil {
+		t = &PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Rule_Source_NetworkInterface{}
+	}
+	return t.Name
+}
+
+type PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Rule_Source_SystemGroup struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Rule_Source_SystemGroup) GetID() string {
+	if t == nil {
+		t = &PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Rule_Source_SystemGroup{}
+	}
+	return t.ID
+}
+func (t *PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Rule_Source_SystemGroup) GetName() string {
+	if t == nil {
+		t = &PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Rule_Source_SystemGroup{}
+	}
+	return t.Name
+}
+
+type PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Rule_Source_Host struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Rule_Source_Host) GetID() string {
+	if t == nil {
+		t = &PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Rule_Source_Host{}
+	}
+	return t.ID
+}
+func (t *PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Rule_Source_Host) GetName() string {
+	if t == nil {
+		t = &PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Rule_Source_Host{}
+	}
+	return t.Name
+}
+
+type PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Rule_Source_GlobalIPRange struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Rule_Source_GlobalIPRange) GetID() string {
+	if t == nil {
+		t = &PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Rule_Source_GlobalIPRange{}
+	}
+	return t.ID
+}
+func (t *PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Rule_Source_GlobalIPRange) GetName() string {
+	if t == nil {
+		t = &PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Rule_Source_GlobalIPRange{}
+	}
+	return t.Name
+}
+
+type PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Rule_Source_FloatingSubnet struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Rule_Source_FloatingSubnet) GetID() string {
+	if t == nil {
+		t = &PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Rule_Source_FloatingSubnet{}
+	}
+	return t.ID
+}
+func (t *PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Rule_Source_FloatingSubnet) GetName() string {
+	if t == nil {
+		t = &PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Rule_Source_FloatingSubnet{}
+	}
+	return t.Name
+}
+
+type PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Rule_Source_SiteNetworkSubnet struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Rule_Source_SiteNetworkSubnet) GetID() string {
+	if t == nil {
+		t = &PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Rule_Source_SiteNetworkSubnet{}
+	}
+	return t.ID
+}
+func (t *PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Rule_Source_SiteNetworkSubnet) GetName() string {
+	if t == nil {
+		t = &PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Rule_Source_SiteNetworkSubnet{}
+	}
+	return t.Name
+}
+
+type PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Rule_Source struct {
+	FloatingSubnet    []*PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Rule_Source_FloatingSubnet    "json:\"floatingSubnet\" graphql:\"floatingSubnet\""
+	GlobalIPRange     []*PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Rule_Source_GlobalIPRange     "json:\"globalIpRange\" graphql:\"globalIpRange\""
+	Group             []*PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Rule_Source_Group             "json:\"group\" graphql:\"group\""
+	Host              []*PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Rule_Source_Host              "json:\"host\" graphql:\"host\""
+	IP                []string                                                                                                                "json:\"ip\" graphql:\"ip\""
+	IPRange           []*PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Rule_Source_IPRange           "json:\"ipRange\" graphql:\"ipRange\""
+	NetworkInterface  []*PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Rule_Source_NetworkInterface  "json:\"networkInterface\" graphql:\"networkInterface\""
+	SiteNetworkSubnet []*PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Rule_Source_SiteNetworkSubnet "json:\"siteNetworkSubnet\" graphql:\"siteNetworkSubnet\""
+	Subnet            []string                                                                                                                "json:\"subnet\" graphql:\"subnet\""
+	SystemGroup       []*PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Rule_Source_SystemGroup       "json:\"systemGroup\" graphql:\"systemGroup\""
+	Vlan              []string                                                                                                                "json:\"vlan\" graphql:\"vlan\""
+}
+
+func (t *PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Rule_Source) GetFloatingSubnet() []*PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Rule_Source_FloatingSubnet {
+	if t == nil {
+		t = &PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Rule_Source{}
+	}
+	return t.FloatingSubnet
+}
+func (t *PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Rule_Source) GetGlobalIPRange() []*PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Rule_Source_GlobalIPRange {
+	if t == nil {
+		t = &PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Rule_Source{}
+	}
+	return t.GlobalIPRange
+}
+func (t *PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Rule_Source) GetGroup() []*PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Rule_Source_Group {
+	if t == nil {
+		t = &PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Rule_Source{}
+	}
+	return t.Group
+}
+func (t *PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Rule_Source) GetHost() []*PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Rule_Source_Host {
+	if t == nil {
+		t = &PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Rule_Source{}
+	}
+	return t.Host
+}
+func (t *PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Rule_Source) GetIP() []string {
+	if t == nil {
+		t = &PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Rule_Source{}
+	}
+	return t.IP
+}
+func (t *PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Rule_Source) GetIPRange() []*PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Rule_Source_IPRange {
+	if t == nil {
+		t = &PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Rule_Source{}
+	}
+	return t.IPRange
+}
+func (t *PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Rule_Source) GetNetworkInterface() []*PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Rule_Source_NetworkInterface {
+	if t == nil {
+		t = &PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Rule_Source{}
+	}
+	return t.NetworkInterface
+}
+func (t *PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Rule_Source) GetSiteNetworkSubnet() []*PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Rule_Source_SiteNetworkSubnet {
+	if t == nil {
+		t = &PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Rule_Source{}
+	}
+	return t.SiteNetworkSubnet
+}
+func (t *PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Rule_Source) GetSubnet() []string {
+	if t == nil {
+		t = &PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Rule_Source{}
+	}
+	return t.Subnet
+}
+func (t *PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Rule_Source) GetSystemGroup() []*PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Rule_Source_SystemGroup {
+	if t == nil {
+		t = &PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Rule_Source{}
+	}
+	return t.SystemGroup
+}
+func (t *PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Rule_Source) GetVlan() []string {
+	if t == nil {
+		t = &PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Rule_Source{}
+	}
+	return t.Vlan
+}
+
+type PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Rule_Destination_IPRange struct {
+	From string "json:\"from\" graphql:\"from\""
+	To   string "json:\"to\" graphql:\"to\""
+}
+
+func (t *PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Rule_Destination_IPRange) GetFrom() string {
+	if t == nil {
+		t = &PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Rule_Destination_IPRange{}
+	}
+	return t.From
+}
+func (t *PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Rule_Destination_IPRange) GetTo() string {
+	if t == nil {
+		t = &PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Rule_Destination_IPRange{}
+	}
+	return t.To
+}
+
+type PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Rule_Destination_NetworkInterface struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Rule_Destination_NetworkInterface) GetID() string {
+	if t == nil {
+		t = &PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Rule_Destination_NetworkInterface{}
+	}
+	return t.ID
+}
+func (t *PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Rule_Destination_NetworkInterface) GetName() string {
+	if t == nil {
+		t = &PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Rule_Destination_NetworkInterface{}
+	}
+	return t.Name
+}
+
+type PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Rule_Destination_SystemGroup struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Rule_Destination_SystemGroup) GetID() string {
+	if t == nil {
+		t = &PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Rule_Destination_SystemGroup{}
+	}
+	return t.ID
+}
+func (t *PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Rule_Destination_SystemGroup) GetName() string {
+	if t == nil {
+		t = &PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Rule_Destination_SystemGroup{}
+	}
+	return t.Name
+}
+
+type PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Rule_Destination_Host struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Rule_Destination_Host) GetID() string {
+	if t == nil {
+		t = &PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Rule_Destination_Host{}
+	}
+	return t.ID
+}
+func (t *PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Rule_Destination_Host) GetName() string {
+	if t == nil {
+		t = &PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Rule_Destination_Host{}
+	}
+	return t.Name
+}
+
+type PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Rule_Destination_GlobalIPRange struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Rule_Destination_GlobalIPRange) GetID() string {
+	if t == nil {
+		t = &PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Rule_Destination_GlobalIPRange{}
+	}
+	return t.ID
+}
+func (t *PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Rule_Destination_GlobalIPRange) GetName() string {
+	if t == nil {
+		t = &PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Rule_Destination_GlobalIPRange{}
+	}
+	return t.Name
+}
+
+type PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Rule_Destination_Group struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Rule_Destination_Group) GetID() string {
+	if t == nil {
+		t = &PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Rule_Destination_Group{}
+	}
+	return t.ID
+}
+func (t *PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Rule_Destination_Group) GetName() string {
+	if t == nil {
+		t = &PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Rule_Destination_Group{}
+	}
+	return t.Name
+}
+
+type PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Rule_Destination_FloatingSubnet struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Rule_Destination_FloatingSubnet) GetID() string {
+	if t == nil {
+		t = &PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Rule_Destination_FloatingSubnet{}
+	}
+	return t.ID
+}
+func (t *PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Rule_Destination_FloatingSubnet) GetName() string {
+	if t == nil {
+		t = &PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Rule_Destination_FloatingSubnet{}
+	}
+	return t.Name
+}
+
+type PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Rule_Destination_SiteNetworkSubnet struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Rule_Destination_SiteNetworkSubnet) GetID() string {
+	if t == nil {
+		t = &PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Rule_Destination_SiteNetworkSubnet{}
+	}
+	return t.ID
+}
+func (t *PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Rule_Destination_SiteNetworkSubnet) GetName() string {
+	if t == nil {
+		t = &PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Rule_Destination_SiteNetworkSubnet{}
+	}
+	return t.Name
+}
+
+type PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Rule_Destination struct {
+	FloatingSubnet    []*PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Rule_Destination_FloatingSubnet    "json:\"floatingSubnet\" graphql:\"floatingSubnet\""
+	GlobalIPRange     []*PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Rule_Destination_GlobalIPRange     "json:\"globalIpRange\" graphql:\"globalIpRange\""
+	Group             []*PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Rule_Destination_Group             "json:\"group\" graphql:\"group\""
+	Host              []*PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Rule_Destination_Host              "json:\"host\" graphql:\"host\""
+	IP                []string                                                                                                                     "json:\"ip\" graphql:\"ip\""
+	IPRange           []*PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Rule_Destination_IPRange           "json:\"ipRange\" graphql:\"ipRange\""
+	NetworkInterface  []*PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Rule_Destination_NetworkInterface  "json:\"networkInterface\" graphql:\"networkInterface\""
+	SiteNetworkSubnet []*PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Rule_Destination_SiteNetworkSubnet "json:\"siteNetworkSubnet\" graphql:\"siteNetworkSubnet\""
+	Subnet            []string                                                                                                                     "json:\"subnet\" graphql:\"subnet\""
+	SystemGroup       []*PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Rule_Destination_SystemGroup       "json:\"systemGroup\" graphql:\"systemGroup\""
+	Vlan              []string                                                                                                                     "json:\"vlan\" graphql:\"vlan\""
+}
+
+func (t *PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Rule_Destination) GetFloatingSubnet() []*PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Rule_Destination_FloatingSubnet {
+	if t == nil {
+		t = &PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Rule_Destination{}
+	}
+	return t.FloatingSubnet
+}
+func (t *PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Rule_Destination) GetGlobalIPRange() []*PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Rule_Destination_GlobalIPRange {
+	if t == nil {
+		t = &PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Rule_Destination{}
+	}
+	return t.GlobalIPRange
+}
+func (t *PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Rule_Destination) GetGroup() []*PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Rule_Destination_Group {
+	if t == nil {
+		t = &PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Rule_Destination{}
+	}
+	return t.Group
+}
+func (t *PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Rule_Destination) GetHost() []*PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Rule_Destination_Host {
+	if t == nil {
+		t = &PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Rule_Destination{}
+	}
+	return t.Host
+}
+func (t *PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Rule_Destination) GetIP() []string {
+	if t == nil {
+		t = &PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Rule_Destination{}
+	}
+	return t.IP
+}
+func (t *PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Rule_Destination) GetIPRange() []*PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Rule_Destination_IPRange {
+	if t == nil {
+		t = &PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Rule_Destination{}
+	}
+	return t.IPRange
+}
+func (t *PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Rule_Destination) GetNetworkInterface() []*PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Rule_Destination_NetworkInterface {
+	if t == nil {
+		t = &PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Rule_Destination{}
+	}
+	return t.NetworkInterface
+}
+func (t *PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Rule_Destination) GetSiteNetworkSubnet() []*PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Rule_Destination_SiteNetworkSubnet {
+	if t == nil {
+		t = &PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Rule_Destination{}
+	}
+	return t.SiteNetworkSubnet
+}
+func (t *PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Rule_Destination) GetSubnet() []string {
+	if t == nil {
+		t = &PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Rule_Destination{}
+	}
+	return t.Subnet
+}
+func (t *PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Rule_Destination) GetSystemGroup() []*PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Rule_Destination_SystemGroup {
+	if t == nil {
+		t = &PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Rule_Destination{}
+	}
+	return t.SystemGroup
+}
+func (t *PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Rule_Destination) GetVlan() []string {
+	if t == nil {
+		t = &PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Rule_Destination{}
+	}
+	return t.Vlan
+}
+
+type PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Rule_Service_Simple struct {
+	Name cato_models.SimpleServiceType "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Rule_Service_Simple) GetName() *cato_models.SimpleServiceType {
+	if t == nil {
+		t = &PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Rule_Service_Simple{}
+	}
+	return &t.Name
+}
+
+type PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Rule_Service_Custom_PortRangeCustomService struct {
+	From scalars.Port "json:\"from\" graphql:\"from\""
+	To   scalars.Port "json:\"to\" graphql:\"to\""
+}
+
+func (t *PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Rule_Service_Custom_PortRangeCustomService) GetFrom() *scalars.Port {
+	if t == nil {
+		t = &PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Rule_Service_Custom_PortRangeCustomService{}
+	}
+	return &t.From
+}
+func (t *PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Rule_Service_Custom_PortRangeCustomService) GetTo() *scalars.Port {
+	if t == nil {
+		t = &PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Rule_Service_Custom_PortRangeCustomService{}
+	}
+	return &t.To
+}
+
+type PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Rule_Service_Custom struct {
+	Port                   []scalars.Port                                                                                                                     "json:\"port,omitempty\" graphql:\"port\""
+	PortRangeCustomService *PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Rule_Service_Custom_PortRangeCustomService "json:\"portRangeCustomService,omitempty\" graphql:\"portRangeCustomService\""
+	Protocol               cato_models.IPProtocol                                                                                                             "json:\"protocol\" graphql:\"protocol\""
+}
+
+func (t *PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Rule_Service_Custom) GetPort() []scalars.Port {
+	if t == nil {
+		t = &PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Rule_Service_Custom{}
+	}
+	return t.Port
+}
+func (t *PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Rule_Service_Custom) GetPortRangeCustomService() *PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Rule_Service_Custom_PortRangeCustomService {
+	if t == nil {
+		t = &PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Rule_Service_Custom{}
+	}
+	return t.PortRangeCustomService
+}
+func (t *PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Rule_Service_Custom) GetProtocol() *cato_models.IPProtocol {
+	if t == nil {
+		t = &PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Rule_Service_Custom{}
+	}
+	return &t.Protocol
+}
+
+type PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Rule_Service struct {
+	Custom []*PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Rule_Service_Custom "json:\"custom\" graphql:\"custom\""
+	Simple []*PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Rule_Service_Simple "json:\"simple\" graphql:\"simple\""
+}
+
+func (t *PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Rule_Service) GetCustom() []*PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Rule_Service_Custom {
+	if t == nil {
+		t = &PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Rule_Service{}
+	}
+	return t.Custom
+}
+func (t *PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Rule_Service) GetSimple() []*PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Rule_Service_Simple {
+	if t == nil {
+		t = &PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Rule_Service{}
+	}
+	return t.Simple
+}
+
+type PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Rule_Nat struct {
+	Enabled bool                         "json:\"enabled\" graphql:\"enabled\""
+	NatType cato_models.SocketLanNatType "json:\"natType\" graphql:\"natType\""
+}
+
+func (t *PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Rule_Nat) GetEnabled() bool {
+	if t == nil {
+		t = &PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Rule_Nat{}
+	}
+	return t.Enabled
+}
+func (t *PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Rule_Nat) GetNatType() *cato_models.SocketLanNatType {
+	if t == nil {
+		t = &PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Rule_Nat{}
+	}
+	return &t.NatType
+}
+
+type PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Rule struct {
+	Description string                                                                                                  "json:\"description\" graphql:\"description\""
+	Destination PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Rule_Destination "json:\"destination\" graphql:\"destination\""
+	Direction   cato_models.SocketLanDirection                                                                          "json:\"direction\" graphql:\"direction\""
+	Enabled     bool                                                                                                    "json:\"enabled\" graphql:\"enabled\""
+	ID          string                                                                                                  "json:\"id\" graphql:\"id\""
+	Index       int64                                                                                                   "json:\"index\" graphql:\"index\""
+	Name        string                                                                                                  "json:\"name\" graphql:\"name\""
+	Nat         PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Rule_Nat         "json:\"nat\" graphql:\"nat\""
+	Section     PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Rule_Section     "json:\"section\" graphql:\"section\""
+	Service     PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Rule_Service     "json:\"service\" graphql:\"service\""
+	Site        PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Rule_Site        "json:\"site\" graphql:\"site\""
+	Source      PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Rule_Source      "json:\"source\" graphql:\"source\""
+	Transport   cato_models.SocketLanTransportType                                                                      "json:\"transport\" graphql:\"transport\""
+}
+
+func (t *PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Rule) GetDescription() string {
+	if t == nil {
+		t = &PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Rule{}
+	}
+	return t.Description
+}
+func (t *PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Rule) GetDestination() *PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Rule_Destination {
+	if t == nil {
+		t = &PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Rule{}
+	}
+	return &t.Destination
+}
+func (t *PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Rule) GetDirection() *cato_models.SocketLanDirection {
+	if t == nil {
+		t = &PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Rule{}
+	}
+	return &t.Direction
+}
+func (t *PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Rule) GetEnabled() bool {
+	if t == nil {
+		t = &PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Rule{}
+	}
+	return t.Enabled
+}
+func (t *PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Rule) GetID() string {
+	if t == nil {
+		t = &PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Rule{}
+	}
+	return t.ID
+}
+func (t *PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Rule) GetIndex() int64 {
+	if t == nil {
+		t = &PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Rule{}
+	}
+	return t.Index
+}
+func (t *PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Rule) GetName() string {
+	if t == nil {
+		t = &PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Rule{}
+	}
+	return t.Name
+}
+func (t *PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Rule) GetNat() *PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Rule_Nat {
+	if t == nil {
+		t = &PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Rule{}
+	}
+	return &t.Nat
+}
+func (t *PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Rule) GetSection() *PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Rule_Section {
+	if t == nil {
+		t = &PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Rule{}
+	}
+	return &t.Section
+}
+func (t *PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Rule) GetService() *PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Rule_Service {
+	if t == nil {
+		t = &PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Rule{}
+	}
+	return &t.Service
+}
+func (t *PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Rule) GetSite() *PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Rule_Site {
+	if t == nil {
+		t = &PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Rule{}
+	}
+	return &t.Site
+}
+func (t *PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Rule) GetSource() *PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Rule_Source {
+	if t == nil {
+		t = &PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Rule{}
+	}
+	return &t.Source
+}
+func (t *PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Rule) GetTransport() *cato_models.SocketLanTransportType {
+	if t == nil {
+		t = &PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Rule{}
+	}
+	return &t.Transport
+}
+
+type PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules struct {
+	Audit      PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Audit "json:\"audit\" graphql:\"audit\""
+	Properties []cato_models.PolicyElementPropertiesEnum                                                    "json:\"properties\" graphql:\"properties\""
+	Rule       PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Rule  "json:\"rule\" graphql:\"rule\""
+}
+
+func (t *PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules) GetAudit() *PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Audit {
+	if t == nil {
+		t = &PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules{}
+	}
+	return &t.Audit
+}
+func (t *PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules) GetProperties() []cato_models.PolicyElementPropertiesEnum {
+	if t == nil {
+		t = &PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules{}
+	}
+	return t.Properties
+}
+func (t *PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules) GetRule() *PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Rule {
+	if t == nil {
+		t = &PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules{}
+	}
+	return &t.Rule
+}
+
+type PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Sections_Audit struct {
+	UpdatedBy   string "json:\"updatedBy\" graphql:\"updatedBy\""
+	UpdatedTime string "json:\"updatedTime\" graphql:\"updatedTime\""
+}
+
+func (t *PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Sections_Audit) GetUpdatedBy() string {
+	if t == nil {
+		t = &PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Sections_Audit{}
+	}
+	return t.UpdatedBy
+}
+func (t *PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Sections_Audit) GetUpdatedTime() string {
+	if t == nil {
+		t = &PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Sections_Audit{}
+	}
+	return t.UpdatedTime
+}
+
+type PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Sections_Section struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Sections_Section) GetID() string {
+	if t == nil {
+		t = &PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Sections_Section{}
+	}
+	return t.ID
+}
+func (t *PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Sections_Section) GetName() string {
+	if t == nil {
+		t = &PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Sections_Section{}
+	}
+	return t.Name
+}
+
+type PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Sections struct {
+	Audit      PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Sections_Audit   "json:\"audit\" graphql:\"audit\""
+	Properties []cato_models.PolicyElementPropertiesEnum                                                         "json:\"properties\" graphql:\"properties\""
+	Section    PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Sections_Section "json:\"section\" graphql:\"section\""
+}
+
+func (t *PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Sections) GetAudit() *PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Sections_Audit {
+	if t == nil {
+		t = &PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Sections{}
+	}
+	return &t.Audit
+}
+func (t *PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Sections) GetProperties() []cato_models.PolicyElementPropertiesEnum {
+	if t == nil {
+		t = &PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Sections{}
+	}
+	return t.Properties
+}
+func (t *PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Sections) GetSection() *PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Sections_Section {
+	if t == nil {
+		t = &PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Sections{}
+	}
+	return &t.Section
+}
+
+type PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_AuditSocketLanPolicy struct {
+	PublishedBy   string "json:\"publishedBy\" graphql:\"publishedBy\""
+	PublishedTime string "json:\"publishedTime\" graphql:\"publishedTime\""
+}
+
+func (t *PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_AuditSocketLanPolicy) GetPublishedBy() string {
+	if t == nil {
+		t = &PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_AuditSocketLanPolicy{}
+	}
+	return t.PublishedBy
+}
+func (t *PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_AuditSocketLanPolicy) GetPublishedTime() string {
+	if t == nil {
+		t = &PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_AuditSocketLanPolicy{}
+	}
+	return t.PublishedTime
+}
+
+type PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_RevisionSocketLanPolicy struct {
+	Changes     int64  "json:\"changes\" graphql:\"changes\""
+	CreatedTime string "json:\"createdTime\" graphql:\"createdTime\""
+	Description string "json:\"description\" graphql:\"description\""
+	ID          string "json:\"id\" graphql:\"id\""
+	Name        string "json:\"name\" graphql:\"name\""
+	UpdatedTime string "json:\"updatedTime\" graphql:\"updatedTime\""
+}
+
+func (t *PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_RevisionSocketLanPolicy) GetChanges() int64 {
+	if t == nil {
+		t = &PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_RevisionSocketLanPolicy{}
+	}
+	return t.Changes
+}
+func (t *PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_RevisionSocketLanPolicy) GetCreatedTime() string {
+	if t == nil {
+		t = &PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_RevisionSocketLanPolicy{}
+	}
+	return t.CreatedTime
+}
+func (t *PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_RevisionSocketLanPolicy) GetDescription() string {
+	if t == nil {
+		t = &PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_RevisionSocketLanPolicy{}
+	}
+	return t.Description
+}
+func (t *PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_RevisionSocketLanPolicy) GetID() string {
+	if t == nil {
+		t = &PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_RevisionSocketLanPolicy{}
+	}
+	return t.ID
+}
+func (t *PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_RevisionSocketLanPolicy) GetName() string {
+	if t == nil {
+		t = &PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_RevisionSocketLanPolicy{}
+	}
+	return t.Name
+}
+func (t *PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_RevisionSocketLanPolicy) GetUpdatedTime() string {
+	if t == nil {
+		t = &PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_RevisionSocketLanPolicy{}
+	}
+	return t.UpdatedTime
+}
+
+type PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy struct {
+	AuditSocketLanPolicy    *PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_AuditSocketLanPolicy    "json:\"auditSocketLanPolicy,omitempty\" graphql:\"auditSocketLanPolicy\""
+	Enabled                 bool                                                                                                      "json:\"enabled\" graphql:\"enabled\""
+	RevisionSocketLanPolicy *PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_RevisionSocketLanPolicy "json:\"revisionSocketLanPolicy,omitempty\" graphql:\"revisionSocketLanPolicy\""
+	Rules                   []*PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules                 "json:\"rules\" graphql:\"rules\""
+	Sections                []*PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Sections              "json:\"sections\" graphql:\"sections\""
+}
+
+func (t *PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy) GetAuditSocketLanPolicy() *PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_AuditSocketLanPolicy {
+	if t == nil {
+		t = &PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy{}
+	}
+	return t.AuditSocketLanPolicy
+}
+func (t *PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy) GetEnabled() bool {
+	if t == nil {
+		t = &PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy{}
+	}
+	return t.Enabled
+}
+func (t *PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy) GetRevisionSocketLanPolicy() *PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_RevisionSocketLanPolicy {
+	if t == nil {
+		t = &PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy{}
+	}
+	return t.RevisionSocketLanPolicy
+}
+func (t *PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy) GetRules() []*PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules {
+	if t == nil {
+		t = &PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy{}
+	}
+	return t.Rules
+}
+func (t *PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy) GetSections() []*PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Sections {
+	if t == nil {
+		t = &PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy{}
+	}
+	return t.Sections
+}
+
+type PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Errors struct {
+	ErrorCode    *string "json:\"errorCode,omitempty\" graphql:\"errorCode\""
+	ErrorMessage *string "json:\"errorMessage,omitempty\" graphql:\"errorMessage\""
+}
+
+func (t *PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Errors) GetErrorCode() *string {
+	if t == nil {
+		t = &PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Errors{}
+	}
+	return t.ErrorCode
+}
+func (t *PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Errors) GetErrorMessage() *string {
+	if t == nil {
+		t = &PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Errors{}
+	}
+	return t.ErrorMessage
+}
+
+type PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision struct {
+	Errors []*PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Errors "json:\"errors\" graphql:\"errors\""
+	Policy *PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy   "json:\"policy,omitempty\" graphql:\"policy\""
+	Status cato_models.PolicyMutationStatus                                                    "json:\"status\" graphql:\"status\""
+}
+
+func (t *PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision) GetErrors() []*PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Errors {
+	if t == nil {
+		t = &PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision{}
+	}
+	return t.Errors
+}
+func (t *PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision) GetPolicy() *PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy {
+	if t == nil {
+		t = &PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision{}
+	}
+	return t.Policy
+}
+func (t *PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision) GetStatus() *cato_models.PolicyMutationStatus {
+	if t == nil {
+		t = &PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision{}
+	}
+	return &t.Status
+}
+
+type PolicySocketLanCreatePolicyRevision_Policy_SocketLan struct {
+	CreatePolicyRevision PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision "json:\"createPolicyRevision\" graphql:\"createPolicyRevision\""
+}
+
+func (t *PolicySocketLanCreatePolicyRevision_Policy_SocketLan) GetCreatePolicyRevision() *PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision {
+	if t == nil {
+		t = &PolicySocketLanCreatePolicyRevision_Policy_SocketLan{}
+	}
+	return &t.CreatePolicyRevision
+}
+
+type PolicySocketLanCreatePolicyRevision_Policy struct {
+	SocketLan *PolicySocketLanCreatePolicyRevision_Policy_SocketLan "json:\"socketLan,omitempty\" graphql:\"socketLan\""
+}
+
+func (t *PolicySocketLanCreatePolicyRevision_Policy) GetSocketLan() *PolicySocketLanCreatePolicyRevision_Policy_SocketLan {
+	if t == nil {
+		t = &PolicySocketLanCreatePolicyRevision_Policy{}
+	}
+	return t.SocketLan
+}
+
+type PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Audit struct {
+	UpdatedBy   string "json:\"updatedBy\" graphql:\"updatedBy\""
+	UpdatedTime string "json:\"updatedTime\" graphql:\"updatedTime\""
+}
+
+func (t *PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Audit) GetUpdatedBy() string {
+	if t == nil {
+		t = &PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Audit{}
+	}
+	return t.UpdatedBy
+}
+func (t *PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Audit) GetUpdatedTime() string {
+	if t == nil {
+		t = &PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Audit{}
+	}
+	return t.UpdatedTime
+}
+
+type PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Rule_Section struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Rule_Section) GetID() string {
+	if t == nil {
+		t = &PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Rule_Section{}
+	}
+	return t.ID
+}
+func (t *PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Rule_Section) GetName() string {
+	if t == nil {
+		t = &PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Rule_Section{}
+	}
+	return t.Name
+}
+
+type PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Rule_Site_Site struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Rule_Site_Site) GetID() string {
+	if t == nil {
+		t = &PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Rule_Site_Site{}
+	}
+	return t.ID
+}
+func (t *PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Rule_Site_Site) GetName() string {
+	if t == nil {
+		t = &PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Rule_Site_Site{}
+	}
+	return t.Name
+}
+
+type PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Rule_Site_Group struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Rule_Site_Group) GetID() string {
+	if t == nil {
+		t = &PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Rule_Site_Group{}
+	}
+	return t.ID
+}
+func (t *PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Rule_Site_Group) GetName() string {
+	if t == nil {
+		t = &PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Rule_Site_Group{}
+	}
+	return t.Name
+}
+
+type PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Rule_Site struct {
+	Group []*PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Rule_Site_Group "json:\"group\" graphql:\"group\""
+	Site  []*PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Rule_Site_Site  "json:\"site\" graphql:\"site\""
+}
+
+func (t *PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Rule_Site) GetGroup() []*PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Rule_Site_Group {
+	if t == nil {
+		t = &PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Rule_Site{}
+	}
+	return t.Group
+}
+func (t *PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Rule_Site) GetSite() []*PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Rule_Site_Site {
+	if t == nil {
+		t = &PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Rule_Site{}
+	}
+	return t.Site
+}
+
+type PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Rule_Source_IPRange struct {
+	From string "json:\"from\" graphql:\"from\""
+	To   string "json:\"to\" graphql:\"to\""
+}
+
+func (t *PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Rule_Source_IPRange) GetFrom() string {
+	if t == nil {
+		t = &PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Rule_Source_IPRange{}
+	}
+	return t.From
+}
+func (t *PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Rule_Source_IPRange) GetTo() string {
+	if t == nil {
+		t = &PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Rule_Source_IPRange{}
+	}
+	return t.To
+}
+
+type PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Rule_Source_Group struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Rule_Source_Group) GetID() string {
+	if t == nil {
+		t = &PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Rule_Source_Group{}
+	}
+	return t.ID
+}
+func (t *PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Rule_Source_Group) GetName() string {
+	if t == nil {
+		t = &PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Rule_Source_Group{}
+	}
+	return t.Name
+}
+
+type PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Rule_Source_NetworkInterface struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Rule_Source_NetworkInterface) GetID() string {
+	if t == nil {
+		t = &PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Rule_Source_NetworkInterface{}
+	}
+	return t.ID
+}
+func (t *PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Rule_Source_NetworkInterface) GetName() string {
+	if t == nil {
+		t = &PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Rule_Source_NetworkInterface{}
+	}
+	return t.Name
+}
+
+type PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Rule_Source_SystemGroup struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Rule_Source_SystemGroup) GetID() string {
+	if t == nil {
+		t = &PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Rule_Source_SystemGroup{}
+	}
+	return t.ID
+}
+func (t *PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Rule_Source_SystemGroup) GetName() string {
+	if t == nil {
+		t = &PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Rule_Source_SystemGroup{}
+	}
+	return t.Name
+}
+
+type PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Rule_Source_Host struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Rule_Source_Host) GetID() string {
+	if t == nil {
+		t = &PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Rule_Source_Host{}
+	}
+	return t.ID
+}
+func (t *PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Rule_Source_Host) GetName() string {
+	if t == nil {
+		t = &PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Rule_Source_Host{}
+	}
+	return t.Name
+}
+
+type PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Rule_Source_GlobalIPRange struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Rule_Source_GlobalIPRange) GetID() string {
+	if t == nil {
+		t = &PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Rule_Source_GlobalIPRange{}
+	}
+	return t.ID
+}
+func (t *PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Rule_Source_GlobalIPRange) GetName() string {
+	if t == nil {
+		t = &PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Rule_Source_GlobalIPRange{}
+	}
+	return t.Name
+}
+
+type PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Rule_Source_FloatingSubnet struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Rule_Source_FloatingSubnet) GetID() string {
+	if t == nil {
+		t = &PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Rule_Source_FloatingSubnet{}
+	}
+	return t.ID
+}
+func (t *PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Rule_Source_FloatingSubnet) GetName() string {
+	if t == nil {
+		t = &PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Rule_Source_FloatingSubnet{}
+	}
+	return t.Name
+}
+
+type PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Rule_Source_SiteNetworkSubnet struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Rule_Source_SiteNetworkSubnet) GetID() string {
+	if t == nil {
+		t = &PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Rule_Source_SiteNetworkSubnet{}
+	}
+	return t.ID
+}
+func (t *PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Rule_Source_SiteNetworkSubnet) GetName() string {
+	if t == nil {
+		t = &PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Rule_Source_SiteNetworkSubnet{}
+	}
+	return t.Name
+}
+
+type PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Rule_Source struct {
+	FloatingSubnet    []*PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Rule_Source_FloatingSubnet    "json:\"floatingSubnet\" graphql:\"floatingSubnet\""
+	GlobalIPRange     []*PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Rule_Source_GlobalIPRange     "json:\"globalIpRange\" graphql:\"globalIpRange\""
+	Group             []*PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Rule_Source_Group             "json:\"group\" graphql:\"group\""
+	Host              []*PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Rule_Source_Host              "json:\"host\" graphql:\"host\""
+	IP                []string                                                                                                                  "json:\"ip\" graphql:\"ip\""
+	IPRange           []*PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Rule_Source_IPRange           "json:\"ipRange\" graphql:\"ipRange\""
+	NetworkInterface  []*PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Rule_Source_NetworkInterface  "json:\"networkInterface\" graphql:\"networkInterface\""
+	SiteNetworkSubnet []*PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Rule_Source_SiteNetworkSubnet "json:\"siteNetworkSubnet\" graphql:\"siteNetworkSubnet\""
+	Subnet            []string                                                                                                                  "json:\"subnet\" graphql:\"subnet\""
+	SystemGroup       []*PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Rule_Source_SystemGroup       "json:\"systemGroup\" graphql:\"systemGroup\""
+	Vlan              []string                                                                                                                  "json:\"vlan\" graphql:\"vlan\""
+}
+
+func (t *PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Rule_Source) GetFloatingSubnet() []*PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Rule_Source_FloatingSubnet {
+	if t == nil {
+		t = &PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Rule_Source{}
+	}
+	return t.FloatingSubnet
+}
+func (t *PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Rule_Source) GetGlobalIPRange() []*PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Rule_Source_GlobalIPRange {
+	if t == nil {
+		t = &PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Rule_Source{}
+	}
+	return t.GlobalIPRange
+}
+func (t *PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Rule_Source) GetGroup() []*PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Rule_Source_Group {
+	if t == nil {
+		t = &PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Rule_Source{}
+	}
+	return t.Group
+}
+func (t *PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Rule_Source) GetHost() []*PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Rule_Source_Host {
+	if t == nil {
+		t = &PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Rule_Source{}
+	}
+	return t.Host
+}
+func (t *PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Rule_Source) GetIP() []string {
+	if t == nil {
+		t = &PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Rule_Source{}
+	}
+	return t.IP
+}
+func (t *PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Rule_Source) GetIPRange() []*PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Rule_Source_IPRange {
+	if t == nil {
+		t = &PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Rule_Source{}
+	}
+	return t.IPRange
+}
+func (t *PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Rule_Source) GetNetworkInterface() []*PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Rule_Source_NetworkInterface {
+	if t == nil {
+		t = &PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Rule_Source{}
+	}
+	return t.NetworkInterface
+}
+func (t *PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Rule_Source) GetSiteNetworkSubnet() []*PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Rule_Source_SiteNetworkSubnet {
+	if t == nil {
+		t = &PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Rule_Source{}
+	}
+	return t.SiteNetworkSubnet
+}
+func (t *PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Rule_Source) GetSubnet() []string {
+	if t == nil {
+		t = &PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Rule_Source{}
+	}
+	return t.Subnet
+}
+func (t *PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Rule_Source) GetSystemGroup() []*PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Rule_Source_SystemGroup {
+	if t == nil {
+		t = &PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Rule_Source{}
+	}
+	return t.SystemGroup
+}
+func (t *PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Rule_Source) GetVlan() []string {
+	if t == nil {
+		t = &PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Rule_Source{}
+	}
+	return t.Vlan
+}
+
+type PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Rule_Destination_IPRange struct {
+	From string "json:\"from\" graphql:\"from\""
+	To   string "json:\"to\" graphql:\"to\""
+}
+
+func (t *PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Rule_Destination_IPRange) GetFrom() string {
+	if t == nil {
+		t = &PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Rule_Destination_IPRange{}
+	}
+	return t.From
+}
+func (t *PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Rule_Destination_IPRange) GetTo() string {
+	if t == nil {
+		t = &PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Rule_Destination_IPRange{}
+	}
+	return t.To
+}
+
+type PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Rule_Destination_NetworkInterface struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Rule_Destination_NetworkInterface) GetID() string {
+	if t == nil {
+		t = &PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Rule_Destination_NetworkInterface{}
+	}
+	return t.ID
+}
+func (t *PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Rule_Destination_NetworkInterface) GetName() string {
+	if t == nil {
+		t = &PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Rule_Destination_NetworkInterface{}
+	}
+	return t.Name
+}
+
+type PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Rule_Destination_SystemGroup struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Rule_Destination_SystemGroup) GetID() string {
+	if t == nil {
+		t = &PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Rule_Destination_SystemGroup{}
+	}
+	return t.ID
+}
+func (t *PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Rule_Destination_SystemGroup) GetName() string {
+	if t == nil {
+		t = &PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Rule_Destination_SystemGroup{}
+	}
+	return t.Name
+}
+
+type PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Rule_Destination_Host struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Rule_Destination_Host) GetID() string {
+	if t == nil {
+		t = &PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Rule_Destination_Host{}
+	}
+	return t.ID
+}
+func (t *PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Rule_Destination_Host) GetName() string {
+	if t == nil {
+		t = &PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Rule_Destination_Host{}
+	}
+	return t.Name
+}
+
+type PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Rule_Destination_GlobalIPRange struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Rule_Destination_GlobalIPRange) GetID() string {
+	if t == nil {
+		t = &PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Rule_Destination_GlobalIPRange{}
+	}
+	return t.ID
+}
+func (t *PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Rule_Destination_GlobalIPRange) GetName() string {
+	if t == nil {
+		t = &PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Rule_Destination_GlobalIPRange{}
+	}
+	return t.Name
+}
+
+type PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Rule_Destination_Group struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Rule_Destination_Group) GetID() string {
+	if t == nil {
+		t = &PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Rule_Destination_Group{}
+	}
+	return t.ID
+}
+func (t *PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Rule_Destination_Group) GetName() string {
+	if t == nil {
+		t = &PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Rule_Destination_Group{}
+	}
+	return t.Name
+}
+
+type PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Rule_Destination_FloatingSubnet struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Rule_Destination_FloatingSubnet) GetID() string {
+	if t == nil {
+		t = &PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Rule_Destination_FloatingSubnet{}
+	}
+	return t.ID
+}
+func (t *PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Rule_Destination_FloatingSubnet) GetName() string {
+	if t == nil {
+		t = &PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Rule_Destination_FloatingSubnet{}
+	}
+	return t.Name
+}
+
+type PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Rule_Destination_SiteNetworkSubnet struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Rule_Destination_SiteNetworkSubnet) GetID() string {
+	if t == nil {
+		t = &PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Rule_Destination_SiteNetworkSubnet{}
+	}
+	return t.ID
+}
+func (t *PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Rule_Destination_SiteNetworkSubnet) GetName() string {
+	if t == nil {
+		t = &PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Rule_Destination_SiteNetworkSubnet{}
+	}
+	return t.Name
+}
+
+type PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Rule_Destination struct {
+	FloatingSubnet    []*PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Rule_Destination_FloatingSubnet    "json:\"floatingSubnet\" graphql:\"floatingSubnet\""
+	GlobalIPRange     []*PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Rule_Destination_GlobalIPRange     "json:\"globalIpRange\" graphql:\"globalIpRange\""
+	Group             []*PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Rule_Destination_Group             "json:\"group\" graphql:\"group\""
+	Host              []*PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Rule_Destination_Host              "json:\"host\" graphql:\"host\""
+	IP                []string                                                                                                                       "json:\"ip\" graphql:\"ip\""
+	IPRange           []*PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Rule_Destination_IPRange           "json:\"ipRange\" graphql:\"ipRange\""
+	NetworkInterface  []*PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Rule_Destination_NetworkInterface  "json:\"networkInterface\" graphql:\"networkInterface\""
+	SiteNetworkSubnet []*PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Rule_Destination_SiteNetworkSubnet "json:\"siteNetworkSubnet\" graphql:\"siteNetworkSubnet\""
+	Subnet            []string                                                                                                                       "json:\"subnet\" graphql:\"subnet\""
+	SystemGroup       []*PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Rule_Destination_SystemGroup       "json:\"systemGroup\" graphql:\"systemGroup\""
+	Vlan              []string                                                                                                                       "json:\"vlan\" graphql:\"vlan\""
+}
+
+func (t *PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Rule_Destination) GetFloatingSubnet() []*PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Rule_Destination_FloatingSubnet {
+	if t == nil {
+		t = &PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Rule_Destination{}
+	}
+	return t.FloatingSubnet
+}
+func (t *PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Rule_Destination) GetGlobalIPRange() []*PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Rule_Destination_GlobalIPRange {
+	if t == nil {
+		t = &PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Rule_Destination{}
+	}
+	return t.GlobalIPRange
+}
+func (t *PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Rule_Destination) GetGroup() []*PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Rule_Destination_Group {
+	if t == nil {
+		t = &PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Rule_Destination{}
+	}
+	return t.Group
+}
+func (t *PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Rule_Destination) GetHost() []*PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Rule_Destination_Host {
+	if t == nil {
+		t = &PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Rule_Destination{}
+	}
+	return t.Host
+}
+func (t *PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Rule_Destination) GetIP() []string {
+	if t == nil {
+		t = &PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Rule_Destination{}
+	}
+	return t.IP
+}
+func (t *PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Rule_Destination) GetIPRange() []*PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Rule_Destination_IPRange {
+	if t == nil {
+		t = &PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Rule_Destination{}
+	}
+	return t.IPRange
+}
+func (t *PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Rule_Destination) GetNetworkInterface() []*PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Rule_Destination_NetworkInterface {
+	if t == nil {
+		t = &PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Rule_Destination{}
+	}
+	return t.NetworkInterface
+}
+func (t *PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Rule_Destination) GetSiteNetworkSubnet() []*PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Rule_Destination_SiteNetworkSubnet {
+	if t == nil {
+		t = &PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Rule_Destination{}
+	}
+	return t.SiteNetworkSubnet
+}
+func (t *PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Rule_Destination) GetSubnet() []string {
+	if t == nil {
+		t = &PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Rule_Destination{}
+	}
+	return t.Subnet
+}
+func (t *PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Rule_Destination) GetSystemGroup() []*PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Rule_Destination_SystemGroup {
+	if t == nil {
+		t = &PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Rule_Destination{}
+	}
+	return t.SystemGroup
+}
+func (t *PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Rule_Destination) GetVlan() []string {
+	if t == nil {
+		t = &PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Rule_Destination{}
+	}
+	return t.Vlan
+}
+
+type PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Rule_Service_Simple struct {
+	Name cato_models.SimpleServiceType "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Rule_Service_Simple) GetName() *cato_models.SimpleServiceType {
+	if t == nil {
+		t = &PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Rule_Service_Simple{}
+	}
+	return &t.Name
+}
+
+type PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Rule_Service_Custom_PortRangeCustomService struct {
+	From scalars.Port "json:\"from\" graphql:\"from\""
+	To   scalars.Port "json:\"to\" graphql:\"to\""
+}
+
+func (t *PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Rule_Service_Custom_PortRangeCustomService) GetFrom() *scalars.Port {
+	if t == nil {
+		t = &PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Rule_Service_Custom_PortRangeCustomService{}
+	}
+	return &t.From
+}
+func (t *PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Rule_Service_Custom_PortRangeCustomService) GetTo() *scalars.Port {
+	if t == nil {
+		t = &PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Rule_Service_Custom_PortRangeCustomService{}
+	}
+	return &t.To
+}
+
+type PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Rule_Service_Custom struct {
+	Port                   []scalars.Port                                                                                                                       "json:\"port,omitempty\" graphql:\"port\""
+	PortRangeCustomService *PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Rule_Service_Custom_PortRangeCustomService "json:\"portRangeCustomService,omitempty\" graphql:\"portRangeCustomService\""
+	Protocol               cato_models.IPProtocol                                                                                                               "json:\"protocol\" graphql:\"protocol\""
+}
+
+func (t *PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Rule_Service_Custom) GetPort() []scalars.Port {
+	if t == nil {
+		t = &PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Rule_Service_Custom{}
+	}
+	return t.Port
+}
+func (t *PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Rule_Service_Custom) GetPortRangeCustomService() *PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Rule_Service_Custom_PortRangeCustomService {
+	if t == nil {
+		t = &PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Rule_Service_Custom{}
+	}
+	return t.PortRangeCustomService
+}
+func (t *PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Rule_Service_Custom) GetProtocol() *cato_models.IPProtocol {
+	if t == nil {
+		t = &PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Rule_Service_Custom{}
+	}
+	return &t.Protocol
+}
+
+type PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Rule_Service struct {
+	Custom []*PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Rule_Service_Custom "json:\"custom\" graphql:\"custom\""
+	Simple []*PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Rule_Service_Simple "json:\"simple\" graphql:\"simple\""
+}
+
+func (t *PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Rule_Service) GetCustom() []*PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Rule_Service_Custom {
+	if t == nil {
+		t = &PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Rule_Service{}
+	}
+	return t.Custom
+}
+func (t *PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Rule_Service) GetSimple() []*PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Rule_Service_Simple {
+	if t == nil {
+		t = &PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Rule_Service{}
+	}
+	return t.Simple
+}
+
+type PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Rule_Nat struct {
+	Enabled bool                         "json:\"enabled\" graphql:\"enabled\""
+	NatType cato_models.SocketLanNatType "json:\"natType\" graphql:\"natType\""
+}
+
+func (t *PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Rule_Nat) GetEnabled() bool {
+	if t == nil {
+		t = &PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Rule_Nat{}
+	}
+	return t.Enabled
+}
+func (t *PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Rule_Nat) GetNatType() *cato_models.SocketLanNatType {
+	if t == nil {
+		t = &PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Rule_Nat{}
+	}
+	return &t.NatType
+}
+
+type PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Rule struct {
+	Description string                                                                                                    "json:\"description\" graphql:\"description\""
+	Destination PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Rule_Destination "json:\"destination\" graphql:\"destination\""
+	Direction   cato_models.SocketLanDirection                                                                            "json:\"direction\" graphql:\"direction\""
+	Enabled     bool                                                                                                      "json:\"enabled\" graphql:\"enabled\""
+	ID          string                                                                                                    "json:\"id\" graphql:\"id\""
+	Index       int64                                                                                                     "json:\"index\" graphql:\"index\""
+	Name        string                                                                                                    "json:\"name\" graphql:\"name\""
+	Nat         PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Rule_Nat         "json:\"nat\" graphql:\"nat\""
+	Section     PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Rule_Section     "json:\"section\" graphql:\"section\""
+	Service     PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Rule_Service     "json:\"service\" graphql:\"service\""
+	Site        PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Rule_Site        "json:\"site\" graphql:\"site\""
+	Source      PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Rule_Source      "json:\"source\" graphql:\"source\""
+	Transport   cato_models.SocketLanTransportType                                                                        "json:\"transport\" graphql:\"transport\""
+}
+
+func (t *PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Rule) GetDescription() string {
+	if t == nil {
+		t = &PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Rule{}
+	}
+	return t.Description
+}
+func (t *PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Rule) GetDestination() *PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Rule_Destination {
+	if t == nil {
+		t = &PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Rule{}
+	}
+	return &t.Destination
+}
+func (t *PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Rule) GetDirection() *cato_models.SocketLanDirection {
+	if t == nil {
+		t = &PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Rule{}
+	}
+	return &t.Direction
+}
+func (t *PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Rule) GetEnabled() bool {
+	if t == nil {
+		t = &PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Rule{}
+	}
+	return t.Enabled
+}
+func (t *PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Rule) GetID() string {
+	if t == nil {
+		t = &PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Rule{}
+	}
+	return t.ID
+}
+func (t *PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Rule) GetIndex() int64 {
+	if t == nil {
+		t = &PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Rule{}
+	}
+	return t.Index
+}
+func (t *PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Rule) GetName() string {
+	if t == nil {
+		t = &PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Rule{}
+	}
+	return t.Name
+}
+func (t *PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Rule) GetNat() *PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Rule_Nat {
+	if t == nil {
+		t = &PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Rule{}
+	}
+	return &t.Nat
+}
+func (t *PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Rule) GetSection() *PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Rule_Section {
+	if t == nil {
+		t = &PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Rule{}
+	}
+	return &t.Section
+}
+func (t *PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Rule) GetService() *PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Rule_Service {
+	if t == nil {
+		t = &PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Rule{}
+	}
+	return &t.Service
+}
+func (t *PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Rule) GetSite() *PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Rule_Site {
+	if t == nil {
+		t = &PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Rule{}
+	}
+	return &t.Site
+}
+func (t *PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Rule) GetSource() *PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Rule_Source {
+	if t == nil {
+		t = &PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Rule{}
+	}
+	return &t.Source
+}
+func (t *PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Rule) GetTransport() *cato_models.SocketLanTransportType {
+	if t == nil {
+		t = &PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Rule{}
+	}
+	return &t.Transport
+}
+
+type PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules struct {
+	Audit      PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Audit "json:\"audit\" graphql:\"audit\""
+	Properties []cato_models.PolicyElementPropertiesEnum                                                      "json:\"properties\" graphql:\"properties\""
+	Rule       PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Rule  "json:\"rule\" graphql:\"rule\""
+}
+
+func (t *PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules) GetAudit() *PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Audit {
+	if t == nil {
+		t = &PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules{}
+	}
+	return &t.Audit
+}
+func (t *PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules) GetProperties() []cato_models.PolicyElementPropertiesEnum {
+	if t == nil {
+		t = &PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules{}
+	}
+	return t.Properties
+}
+func (t *PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules) GetRule() *PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules_Rule {
+	if t == nil {
+		t = &PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules{}
+	}
+	return &t.Rule
+}
+
+type PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Sections_Audit struct {
+	UpdatedBy   string "json:\"updatedBy\" graphql:\"updatedBy\""
+	UpdatedTime string "json:\"updatedTime\" graphql:\"updatedTime\""
+}
+
+func (t *PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Sections_Audit) GetUpdatedBy() string {
+	if t == nil {
+		t = &PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Sections_Audit{}
+	}
+	return t.UpdatedBy
+}
+func (t *PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Sections_Audit) GetUpdatedTime() string {
+	if t == nil {
+		t = &PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Sections_Audit{}
+	}
+	return t.UpdatedTime
+}
+
+type PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Sections_Section struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Sections_Section) GetID() string {
+	if t == nil {
+		t = &PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Sections_Section{}
+	}
+	return t.ID
+}
+func (t *PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Sections_Section) GetName() string {
+	if t == nil {
+		t = &PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Sections_Section{}
+	}
+	return t.Name
+}
+
+type PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Sections struct {
+	Audit      PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Sections_Audit   "json:\"audit\" graphql:\"audit\""
+	Properties []cato_models.PolicyElementPropertiesEnum                                                           "json:\"properties\" graphql:\"properties\""
+	Section    PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Sections_Section "json:\"section\" graphql:\"section\""
+}
+
+func (t *PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Sections) GetAudit() *PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Sections_Audit {
+	if t == nil {
+		t = &PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Sections{}
+	}
+	return &t.Audit
+}
+func (t *PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Sections) GetProperties() []cato_models.PolicyElementPropertiesEnum {
+	if t == nil {
+		t = &PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Sections{}
+	}
+	return t.Properties
+}
+func (t *PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Sections) GetSection() *PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Sections_Section {
+	if t == nil {
+		t = &PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Sections{}
+	}
+	return &t.Section
+}
+
+type PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_AuditSocketLanPolicy struct {
+	PublishedBy   string "json:\"publishedBy\" graphql:\"publishedBy\""
+	PublishedTime string "json:\"publishedTime\" graphql:\"publishedTime\""
+}
+
+func (t *PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_AuditSocketLanPolicy) GetPublishedBy() string {
+	if t == nil {
+		t = &PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_AuditSocketLanPolicy{}
+	}
+	return t.PublishedBy
+}
+func (t *PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_AuditSocketLanPolicy) GetPublishedTime() string {
+	if t == nil {
+		t = &PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_AuditSocketLanPolicy{}
+	}
+	return t.PublishedTime
+}
+
+type PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_RevisionSocketLanPolicy struct {
+	Changes     int64  "json:\"changes\" graphql:\"changes\""
+	CreatedTime string "json:\"createdTime\" graphql:\"createdTime\""
+	Description string "json:\"description\" graphql:\"description\""
+	ID          string "json:\"id\" graphql:\"id\""
+	Name        string "json:\"name\" graphql:\"name\""
+	UpdatedTime string "json:\"updatedTime\" graphql:\"updatedTime\""
+}
+
+func (t *PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_RevisionSocketLanPolicy) GetChanges() int64 {
+	if t == nil {
+		t = &PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_RevisionSocketLanPolicy{}
+	}
+	return t.Changes
+}
+func (t *PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_RevisionSocketLanPolicy) GetCreatedTime() string {
+	if t == nil {
+		t = &PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_RevisionSocketLanPolicy{}
+	}
+	return t.CreatedTime
+}
+func (t *PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_RevisionSocketLanPolicy) GetDescription() string {
+	if t == nil {
+		t = &PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_RevisionSocketLanPolicy{}
+	}
+	return t.Description
+}
+func (t *PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_RevisionSocketLanPolicy) GetID() string {
+	if t == nil {
+		t = &PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_RevisionSocketLanPolicy{}
+	}
+	return t.ID
+}
+func (t *PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_RevisionSocketLanPolicy) GetName() string {
+	if t == nil {
+		t = &PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_RevisionSocketLanPolicy{}
+	}
+	return t.Name
+}
+func (t *PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_RevisionSocketLanPolicy) GetUpdatedTime() string {
+	if t == nil {
+		t = &PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_RevisionSocketLanPolicy{}
+	}
+	return t.UpdatedTime
+}
+
+type PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy struct {
+	AuditSocketLanPolicy    *PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_AuditSocketLanPolicy    "json:\"auditSocketLanPolicy,omitempty\" graphql:\"auditSocketLanPolicy\""
+	Enabled                 bool                                                                                                        "json:\"enabled\" graphql:\"enabled\""
+	RevisionSocketLanPolicy *PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_RevisionSocketLanPolicy "json:\"revisionSocketLanPolicy,omitempty\" graphql:\"revisionSocketLanPolicy\""
+	Rules                   []*PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules                 "json:\"rules\" graphql:\"rules\""
+	Sections                []*PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Sections              "json:\"sections\" graphql:\"sections\""
+}
+
+func (t *PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy) GetAuditSocketLanPolicy() *PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_AuditSocketLanPolicy {
+	if t == nil {
+		t = &PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy{}
+	}
+	return t.AuditSocketLanPolicy
+}
+func (t *PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy) GetEnabled() bool {
+	if t == nil {
+		t = &PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy{}
+	}
+	return t.Enabled
+}
+func (t *PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy) GetRevisionSocketLanPolicy() *PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_RevisionSocketLanPolicy {
+	if t == nil {
+		t = &PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy{}
+	}
+	return t.RevisionSocketLanPolicy
+}
+func (t *PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy) GetRules() []*PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Rules {
+	if t == nil {
+		t = &PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy{}
+	}
+	return t.Rules
+}
+func (t *PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy) GetSections() []*PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy_Sections {
+	if t == nil {
+		t = &PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy{}
+	}
+	return t.Sections
+}
+
+type PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Errors struct {
+	ErrorCode    *string "json:\"errorCode,omitempty\" graphql:\"errorCode\""
+	ErrorMessage *string "json:\"errorMessage,omitempty\" graphql:\"errorMessage\""
+}
+
+func (t *PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Errors) GetErrorCode() *string {
+	if t == nil {
+		t = &PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Errors{}
+	}
+	return t.ErrorCode
+}
+func (t *PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Errors) GetErrorMessage() *string {
+	if t == nil {
+		t = &PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Errors{}
+	}
+	return t.ErrorMessage
+}
+
+type PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision struct {
+	Errors []*PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Errors "json:\"errors\" graphql:\"errors\""
+	Policy *PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy   "json:\"policy,omitempty\" graphql:\"policy\""
+	Status cato_models.PolicyMutationStatus                                                      "json:\"status\" graphql:\"status\""
+}
+
+func (t *PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision) GetErrors() []*PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Errors {
+	if t == nil {
+		t = &PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision{}
+	}
+	return t.Errors
+}
+func (t *PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision) GetPolicy() *PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision_Policy {
+	if t == nil {
+		t = &PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision{}
+	}
+	return t.Policy
+}
+func (t *PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision) GetStatus() *cato_models.PolicyMutationStatus {
+	if t == nil {
+		t = &PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision{}
+	}
+	return &t.Status
+}
+
+type PolicySocketLanDiscardPolicyRevision_Policy_SocketLan struct {
+	DiscardPolicyRevision PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision "json:\"discardPolicyRevision\" graphql:\"discardPolicyRevision\""
+}
+
+func (t *PolicySocketLanDiscardPolicyRevision_Policy_SocketLan) GetDiscardPolicyRevision() *PolicySocketLanDiscardPolicyRevision_Policy_SocketLan_DiscardPolicyRevision {
+	if t == nil {
+		t = &PolicySocketLanDiscardPolicyRevision_Policy_SocketLan{}
+	}
+	return &t.DiscardPolicyRevision
+}
+
+type PolicySocketLanDiscardPolicyRevision_Policy struct {
+	SocketLan *PolicySocketLanDiscardPolicyRevision_Policy_SocketLan "json:\"socketLan,omitempty\" graphql:\"socketLan\""
+}
+
+func (t *PolicySocketLanDiscardPolicyRevision_Policy) GetSocketLan() *PolicySocketLanDiscardPolicyRevision_Policy_SocketLan {
+	if t == nil {
+		t = &PolicySocketLanDiscardPolicyRevision_Policy{}
+	}
+	return t.SocketLan
+}
+
+type PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Audit struct {
+	UpdatedBy   string "json:\"updatedBy\" graphql:\"updatedBy\""
+	UpdatedTime string "json:\"updatedTime\" graphql:\"updatedTime\""
+}
+
+func (t *PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Audit) GetUpdatedBy() string {
+	if t == nil {
+		t = &PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Audit{}
+	}
+	return t.UpdatedBy
+}
+func (t *PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Audit) GetUpdatedTime() string {
+	if t == nil {
+		t = &PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Audit{}
+	}
+	return t.UpdatedTime
+}
+
+type PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Rule_Section struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Rule_Section) GetID() string {
+	if t == nil {
+		t = &PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Rule_Section{}
+	}
+	return t.ID
+}
+func (t *PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Rule_Section) GetName() string {
+	if t == nil {
+		t = &PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Rule_Section{}
+	}
+	return t.Name
+}
+
+type PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Rule_Site_Site struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Rule_Site_Site) GetID() string {
+	if t == nil {
+		t = &PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Rule_Site_Site{}
+	}
+	return t.ID
+}
+func (t *PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Rule_Site_Site) GetName() string {
+	if t == nil {
+		t = &PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Rule_Site_Site{}
+	}
+	return t.Name
+}
+
+type PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Rule_Site_Group struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Rule_Site_Group) GetID() string {
+	if t == nil {
+		t = &PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Rule_Site_Group{}
+	}
+	return t.ID
+}
+func (t *PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Rule_Site_Group) GetName() string {
+	if t == nil {
+		t = &PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Rule_Site_Group{}
+	}
+	return t.Name
+}
+
+type PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Rule_Site struct {
+	Group []*PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Rule_Site_Group "json:\"group\" graphql:\"group\""
+	Site  []*PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Rule_Site_Site  "json:\"site\" graphql:\"site\""
+}
+
+func (t *PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Rule_Site) GetGroup() []*PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Rule_Site_Group {
+	if t == nil {
+		t = &PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Rule_Site{}
+	}
+	return t.Group
+}
+func (t *PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Rule_Site) GetSite() []*PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Rule_Site_Site {
+	if t == nil {
+		t = &PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Rule_Site{}
+	}
+	return t.Site
+}
+
+type PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Rule_Source_IPRange struct {
+	From string "json:\"from\" graphql:\"from\""
+	To   string "json:\"to\" graphql:\"to\""
+}
+
+func (t *PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Rule_Source_IPRange) GetFrom() string {
+	if t == nil {
+		t = &PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Rule_Source_IPRange{}
+	}
+	return t.From
+}
+func (t *PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Rule_Source_IPRange) GetTo() string {
+	if t == nil {
+		t = &PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Rule_Source_IPRange{}
+	}
+	return t.To
+}
+
+type PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Rule_Source_Group struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Rule_Source_Group) GetID() string {
+	if t == nil {
+		t = &PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Rule_Source_Group{}
+	}
+	return t.ID
+}
+func (t *PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Rule_Source_Group) GetName() string {
+	if t == nil {
+		t = &PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Rule_Source_Group{}
+	}
+	return t.Name
+}
+
+type PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Rule_Source_NetworkInterface struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Rule_Source_NetworkInterface) GetID() string {
+	if t == nil {
+		t = &PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Rule_Source_NetworkInterface{}
+	}
+	return t.ID
+}
+func (t *PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Rule_Source_NetworkInterface) GetName() string {
+	if t == nil {
+		t = &PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Rule_Source_NetworkInterface{}
+	}
+	return t.Name
+}
+
+type PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Rule_Source_SystemGroup struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Rule_Source_SystemGroup) GetID() string {
+	if t == nil {
+		t = &PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Rule_Source_SystemGroup{}
+	}
+	return t.ID
+}
+func (t *PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Rule_Source_SystemGroup) GetName() string {
+	if t == nil {
+		t = &PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Rule_Source_SystemGroup{}
+	}
+	return t.Name
+}
+
+type PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Rule_Source_Host struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Rule_Source_Host) GetID() string {
+	if t == nil {
+		t = &PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Rule_Source_Host{}
+	}
+	return t.ID
+}
+func (t *PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Rule_Source_Host) GetName() string {
+	if t == nil {
+		t = &PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Rule_Source_Host{}
+	}
+	return t.Name
+}
+
+type PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Rule_Source_GlobalIPRange struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Rule_Source_GlobalIPRange) GetID() string {
+	if t == nil {
+		t = &PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Rule_Source_GlobalIPRange{}
+	}
+	return t.ID
+}
+func (t *PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Rule_Source_GlobalIPRange) GetName() string {
+	if t == nil {
+		t = &PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Rule_Source_GlobalIPRange{}
+	}
+	return t.Name
+}
+
+type PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Rule_Source_FloatingSubnet struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Rule_Source_FloatingSubnet) GetID() string {
+	if t == nil {
+		t = &PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Rule_Source_FloatingSubnet{}
+	}
+	return t.ID
+}
+func (t *PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Rule_Source_FloatingSubnet) GetName() string {
+	if t == nil {
+		t = &PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Rule_Source_FloatingSubnet{}
+	}
+	return t.Name
+}
+
+type PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Rule_Source_SiteNetworkSubnet struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Rule_Source_SiteNetworkSubnet) GetID() string {
+	if t == nil {
+		t = &PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Rule_Source_SiteNetworkSubnet{}
+	}
+	return t.ID
+}
+func (t *PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Rule_Source_SiteNetworkSubnet) GetName() string {
+	if t == nil {
+		t = &PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Rule_Source_SiteNetworkSubnet{}
+	}
+	return t.Name
+}
+
+type PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Rule_Source struct {
+	FloatingSubnet    []*PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Rule_Source_FloatingSubnet    "json:\"floatingSubnet\" graphql:\"floatingSubnet\""
+	GlobalIPRange     []*PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Rule_Source_GlobalIPRange     "json:\"globalIpRange\" graphql:\"globalIpRange\""
+	Group             []*PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Rule_Source_Group             "json:\"group\" graphql:\"group\""
+	Host              []*PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Rule_Source_Host              "json:\"host\" graphql:\"host\""
+	IP                []string                                                                                "json:\"ip\" graphql:\"ip\""
+	IPRange           []*PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Rule_Source_IPRange           "json:\"ipRange\" graphql:\"ipRange\""
+	NetworkInterface  []*PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Rule_Source_NetworkInterface  "json:\"networkInterface\" graphql:\"networkInterface\""
+	SiteNetworkSubnet []*PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Rule_Source_SiteNetworkSubnet "json:\"siteNetworkSubnet\" graphql:\"siteNetworkSubnet\""
+	Subnet            []string                                                                                "json:\"subnet\" graphql:\"subnet\""
+	SystemGroup       []*PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Rule_Source_SystemGroup       "json:\"systemGroup\" graphql:\"systemGroup\""
+	Vlan              []string                                                                                "json:\"vlan\" graphql:\"vlan\""
+}
+
+func (t *PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Rule_Source) GetFloatingSubnet() []*PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Rule_Source_FloatingSubnet {
+	if t == nil {
+		t = &PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Rule_Source{}
+	}
+	return t.FloatingSubnet
+}
+func (t *PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Rule_Source) GetGlobalIPRange() []*PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Rule_Source_GlobalIPRange {
+	if t == nil {
+		t = &PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Rule_Source{}
+	}
+	return t.GlobalIPRange
+}
+func (t *PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Rule_Source) GetGroup() []*PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Rule_Source_Group {
+	if t == nil {
+		t = &PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Rule_Source{}
+	}
+	return t.Group
+}
+func (t *PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Rule_Source) GetHost() []*PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Rule_Source_Host {
+	if t == nil {
+		t = &PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Rule_Source{}
+	}
+	return t.Host
+}
+func (t *PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Rule_Source) GetIP() []string {
+	if t == nil {
+		t = &PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Rule_Source{}
+	}
+	return t.IP
+}
+func (t *PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Rule_Source) GetIPRange() []*PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Rule_Source_IPRange {
+	if t == nil {
+		t = &PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Rule_Source{}
+	}
+	return t.IPRange
+}
+func (t *PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Rule_Source) GetNetworkInterface() []*PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Rule_Source_NetworkInterface {
+	if t == nil {
+		t = &PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Rule_Source{}
+	}
+	return t.NetworkInterface
+}
+func (t *PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Rule_Source) GetSiteNetworkSubnet() []*PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Rule_Source_SiteNetworkSubnet {
+	if t == nil {
+		t = &PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Rule_Source{}
+	}
+	return t.SiteNetworkSubnet
+}
+func (t *PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Rule_Source) GetSubnet() []string {
+	if t == nil {
+		t = &PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Rule_Source{}
+	}
+	return t.Subnet
+}
+func (t *PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Rule_Source) GetSystemGroup() []*PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Rule_Source_SystemGroup {
+	if t == nil {
+		t = &PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Rule_Source{}
+	}
+	return t.SystemGroup
+}
+func (t *PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Rule_Source) GetVlan() []string {
+	if t == nil {
+		t = &PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Rule_Source{}
+	}
+	return t.Vlan
+}
+
+type PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Rule_Destination_IPRange struct {
+	From string "json:\"from\" graphql:\"from\""
+	To   string "json:\"to\" graphql:\"to\""
+}
+
+func (t *PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Rule_Destination_IPRange) GetFrom() string {
+	if t == nil {
+		t = &PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Rule_Destination_IPRange{}
+	}
+	return t.From
+}
+func (t *PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Rule_Destination_IPRange) GetTo() string {
+	if t == nil {
+		t = &PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Rule_Destination_IPRange{}
+	}
+	return t.To
+}
+
+type PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Rule_Destination_NetworkInterface struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Rule_Destination_NetworkInterface) GetID() string {
+	if t == nil {
+		t = &PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Rule_Destination_NetworkInterface{}
+	}
+	return t.ID
+}
+func (t *PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Rule_Destination_NetworkInterface) GetName() string {
+	if t == nil {
+		t = &PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Rule_Destination_NetworkInterface{}
+	}
+	return t.Name
+}
+
+type PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Rule_Destination_SystemGroup struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Rule_Destination_SystemGroup) GetID() string {
+	if t == nil {
+		t = &PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Rule_Destination_SystemGroup{}
+	}
+	return t.ID
+}
+func (t *PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Rule_Destination_SystemGroup) GetName() string {
+	if t == nil {
+		t = &PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Rule_Destination_SystemGroup{}
+	}
+	return t.Name
+}
+
+type PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Rule_Destination_Host struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Rule_Destination_Host) GetID() string {
+	if t == nil {
+		t = &PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Rule_Destination_Host{}
+	}
+	return t.ID
+}
+func (t *PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Rule_Destination_Host) GetName() string {
+	if t == nil {
+		t = &PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Rule_Destination_Host{}
+	}
+	return t.Name
+}
+
+type PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Rule_Destination_GlobalIPRange struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Rule_Destination_GlobalIPRange) GetID() string {
+	if t == nil {
+		t = &PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Rule_Destination_GlobalIPRange{}
+	}
+	return t.ID
+}
+func (t *PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Rule_Destination_GlobalIPRange) GetName() string {
+	if t == nil {
+		t = &PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Rule_Destination_GlobalIPRange{}
+	}
+	return t.Name
+}
+
+type PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Rule_Destination_Group struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Rule_Destination_Group) GetID() string {
+	if t == nil {
+		t = &PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Rule_Destination_Group{}
+	}
+	return t.ID
+}
+func (t *PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Rule_Destination_Group) GetName() string {
+	if t == nil {
+		t = &PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Rule_Destination_Group{}
+	}
+	return t.Name
+}
+
+type PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Rule_Destination_FloatingSubnet struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Rule_Destination_FloatingSubnet) GetID() string {
+	if t == nil {
+		t = &PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Rule_Destination_FloatingSubnet{}
+	}
+	return t.ID
+}
+func (t *PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Rule_Destination_FloatingSubnet) GetName() string {
+	if t == nil {
+		t = &PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Rule_Destination_FloatingSubnet{}
+	}
+	return t.Name
+}
+
+type PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Rule_Destination_SiteNetworkSubnet struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Rule_Destination_SiteNetworkSubnet) GetID() string {
+	if t == nil {
+		t = &PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Rule_Destination_SiteNetworkSubnet{}
+	}
+	return t.ID
+}
+func (t *PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Rule_Destination_SiteNetworkSubnet) GetName() string {
+	if t == nil {
+		t = &PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Rule_Destination_SiteNetworkSubnet{}
+	}
+	return t.Name
+}
+
+type PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Rule_Destination struct {
+	FloatingSubnet    []*PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Rule_Destination_FloatingSubnet    "json:\"floatingSubnet\" graphql:\"floatingSubnet\""
+	GlobalIPRange     []*PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Rule_Destination_GlobalIPRange     "json:\"globalIpRange\" graphql:\"globalIpRange\""
+	Group             []*PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Rule_Destination_Group             "json:\"group\" graphql:\"group\""
+	Host              []*PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Rule_Destination_Host              "json:\"host\" graphql:\"host\""
+	IP                []string                                                                                     "json:\"ip\" graphql:\"ip\""
+	IPRange           []*PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Rule_Destination_IPRange           "json:\"ipRange\" graphql:\"ipRange\""
+	NetworkInterface  []*PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Rule_Destination_NetworkInterface  "json:\"networkInterface\" graphql:\"networkInterface\""
+	SiteNetworkSubnet []*PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Rule_Destination_SiteNetworkSubnet "json:\"siteNetworkSubnet\" graphql:\"siteNetworkSubnet\""
+	Subnet            []string                                                                                     "json:\"subnet\" graphql:\"subnet\""
+	SystemGroup       []*PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Rule_Destination_SystemGroup       "json:\"systemGroup\" graphql:\"systemGroup\""
+	Vlan              []string                                                                                     "json:\"vlan\" graphql:\"vlan\""
+}
+
+func (t *PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Rule_Destination) GetFloatingSubnet() []*PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Rule_Destination_FloatingSubnet {
+	if t == nil {
+		t = &PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Rule_Destination{}
+	}
+	return t.FloatingSubnet
+}
+func (t *PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Rule_Destination) GetGlobalIPRange() []*PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Rule_Destination_GlobalIPRange {
+	if t == nil {
+		t = &PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Rule_Destination{}
+	}
+	return t.GlobalIPRange
+}
+func (t *PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Rule_Destination) GetGroup() []*PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Rule_Destination_Group {
+	if t == nil {
+		t = &PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Rule_Destination{}
+	}
+	return t.Group
+}
+func (t *PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Rule_Destination) GetHost() []*PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Rule_Destination_Host {
+	if t == nil {
+		t = &PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Rule_Destination{}
+	}
+	return t.Host
+}
+func (t *PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Rule_Destination) GetIP() []string {
+	if t == nil {
+		t = &PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Rule_Destination{}
+	}
+	return t.IP
+}
+func (t *PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Rule_Destination) GetIPRange() []*PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Rule_Destination_IPRange {
+	if t == nil {
+		t = &PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Rule_Destination{}
+	}
+	return t.IPRange
+}
+func (t *PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Rule_Destination) GetNetworkInterface() []*PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Rule_Destination_NetworkInterface {
+	if t == nil {
+		t = &PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Rule_Destination{}
+	}
+	return t.NetworkInterface
+}
+func (t *PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Rule_Destination) GetSiteNetworkSubnet() []*PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Rule_Destination_SiteNetworkSubnet {
+	if t == nil {
+		t = &PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Rule_Destination{}
+	}
+	return t.SiteNetworkSubnet
+}
+func (t *PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Rule_Destination) GetSubnet() []string {
+	if t == nil {
+		t = &PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Rule_Destination{}
+	}
+	return t.Subnet
+}
+func (t *PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Rule_Destination) GetSystemGroup() []*PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Rule_Destination_SystemGroup {
+	if t == nil {
+		t = &PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Rule_Destination{}
+	}
+	return t.SystemGroup
+}
+func (t *PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Rule_Destination) GetVlan() []string {
+	if t == nil {
+		t = &PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Rule_Destination{}
+	}
+	return t.Vlan
+}
+
+type PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Rule_Service_Simple struct {
+	Name cato_models.SimpleServiceType "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Rule_Service_Simple) GetName() *cato_models.SimpleServiceType {
+	if t == nil {
+		t = &PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Rule_Service_Simple{}
+	}
+	return &t.Name
+}
+
+type PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Rule_Service_Custom_PortRange struct {
+	From scalars.Port "json:\"from\" graphql:\"from\""
+	To   scalars.Port "json:\"to\" graphql:\"to\""
+}
+
+func (t *PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Rule_Service_Custom_PortRange) GetFrom() *scalars.Port {
+	if t == nil {
+		t = &PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Rule_Service_Custom_PortRange{}
+	}
+	return &t.From
+}
+func (t *PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Rule_Service_Custom_PortRange) GetTo() *scalars.Port {
+	if t == nil {
+		t = &PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Rule_Service_Custom_PortRange{}
+	}
+	return &t.To
+}
+
+type PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Rule_Service_Custom struct {
+	Port      []scalars.Port                                                                        "json:\"port,omitempty\" graphql:\"port\""
+	PortRange *PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Rule_Service_Custom_PortRange "json:\"portRange,omitempty\" graphql:\"portRange\""
+	Protocol  cato_models.IPProtocol                                                                "json:\"protocol\" graphql:\"protocol\""
+}
+
+func (t *PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Rule_Service_Custom) GetPort() []scalars.Port {
+	if t == nil {
+		t = &PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Rule_Service_Custom{}
+	}
+	return t.Port
+}
+func (t *PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Rule_Service_Custom) GetPortRange() *PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Rule_Service_Custom_PortRange {
+	if t == nil {
+		t = &PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Rule_Service_Custom{}
+	}
+	return t.PortRange
+}
+func (t *PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Rule_Service_Custom) GetProtocol() *cato_models.IPProtocol {
+	if t == nil {
+		t = &PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Rule_Service_Custom{}
+	}
+	return &t.Protocol
+}
+
+type PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Rule_Service struct {
+	Custom []*PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Rule_Service_Custom "json:\"custom\" graphql:\"custom\""
+	Simple []*PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Rule_Service_Simple "json:\"simple\" graphql:\"simple\""
+}
+
+func (t *PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Rule_Service) GetCustom() []*PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Rule_Service_Custom {
+	if t == nil {
+		t = &PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Rule_Service{}
+	}
+	return t.Custom
+}
+func (t *PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Rule_Service) GetSimple() []*PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Rule_Service_Simple {
+	if t == nil {
+		t = &PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Rule_Service{}
+	}
+	return t.Simple
+}
+
+type PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Rule_Nat struct {
+	Enabled bool                         "json:\"enabled\" graphql:\"enabled\""
+	NatType cato_models.SocketLanNatType "json:\"natType\" graphql:\"natType\""
+}
+
+func (t *PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Rule_Nat) GetEnabled() bool {
+	if t == nil {
+		t = &PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Rule_Nat{}
+	}
+	return t.Enabled
+}
+func (t *PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Rule_Nat) GetNatType() *cato_models.SocketLanNatType {
+	if t == nil {
+		t = &PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Rule_Nat{}
+	}
+	return &t.NatType
+}
+
+type PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Rule struct {
+	Description string                                                                  "json:\"description\" graphql:\"description\""
+	Destination PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Rule_Destination "json:\"destination\" graphql:\"destination\""
+	Direction   cato_models.SocketLanDirection                                          "json:\"direction\" graphql:\"direction\""
+	Enabled     bool                                                                    "json:\"enabled\" graphql:\"enabled\""
+	ID          string                                                                  "json:\"id\" graphql:\"id\""
+	Index       int64                                                                   "json:\"index\" graphql:\"index\""
+	Name        string                                                                  "json:\"name\" graphql:\"name\""
+	Nat         PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Rule_Nat         "json:\"nat\" graphql:\"nat\""
+	Section     PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Rule_Section     "json:\"section\" graphql:\"section\""
+	Service     PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Rule_Service     "json:\"service\" graphql:\"service\""
+	Site        PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Rule_Site        "json:\"site\" graphql:\"site\""
+	Source      PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Rule_Source      "json:\"source\" graphql:\"source\""
+	Transport   cato_models.SocketLanTransportType                                      "json:\"transport\" graphql:\"transport\""
+}
+
+func (t *PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Rule) GetDescription() string {
+	if t == nil {
+		t = &PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Rule{}
+	}
+	return t.Description
+}
+func (t *PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Rule) GetDestination() *PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Rule_Destination {
+	if t == nil {
+		t = &PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Rule{}
+	}
+	return &t.Destination
+}
+func (t *PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Rule) GetDirection() *cato_models.SocketLanDirection {
+	if t == nil {
+		t = &PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Rule{}
+	}
+	return &t.Direction
+}
+func (t *PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Rule) GetEnabled() bool {
+	if t == nil {
+		t = &PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Rule{}
+	}
+	return t.Enabled
+}
+func (t *PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Rule) GetID() string {
+	if t == nil {
+		t = &PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Rule{}
+	}
+	return t.ID
+}
+func (t *PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Rule) GetIndex() int64 {
+	if t == nil {
+		t = &PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Rule{}
+	}
+	return t.Index
+}
+func (t *PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Rule) GetName() string {
+	if t == nil {
+		t = &PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Rule{}
+	}
+	return t.Name
+}
+func (t *PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Rule) GetNat() *PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Rule_Nat {
+	if t == nil {
+		t = &PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Rule{}
+	}
+	return &t.Nat
+}
+func (t *PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Rule) GetSection() *PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Rule_Section {
+	if t == nil {
+		t = &PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Rule{}
+	}
+	return &t.Section
+}
+func (t *PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Rule) GetService() *PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Rule_Service {
+	if t == nil {
+		t = &PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Rule{}
+	}
+	return &t.Service
+}
+func (t *PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Rule) GetSite() *PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Rule_Site {
+	if t == nil {
+		t = &PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Rule{}
+	}
+	return &t.Site
+}
+func (t *PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Rule) GetSource() *PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Rule_Source {
+	if t == nil {
+		t = &PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Rule{}
+	}
+	return &t.Source
+}
+func (t *PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Rule) GetTransport() *cato_models.SocketLanTransportType {
+	if t == nil {
+		t = &PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Rule{}
+	}
+	return &t.Transport
+}
+
+type PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule struct {
+	Audit      PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Audit "json:\"audit\" graphql:\"audit\""
+	Properties []cato_models.PolicyElementPropertiesEnum                    "json:\"properties\" graphql:\"properties\""
+	Rule       PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Rule  "json:\"rule\" graphql:\"rule\""
+}
+
+func (t *PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule) GetAudit() *PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Audit {
+	if t == nil {
+		t = &PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule{}
+	}
+	return &t.Audit
+}
+func (t *PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule) GetProperties() []cato_models.PolicyElementPropertiesEnum {
+	if t == nil {
+		t = &PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule{}
+	}
+	return t.Properties
+}
+func (t *PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule) GetRule() *PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule_Rule {
+	if t == nil {
+		t = &PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule{}
+	}
+	return &t.Rule
+}
+
+type PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Errors struct {
+	ErrorCode    *string "json:\"errorCode,omitempty\" graphql:\"errorCode\""
+	ErrorMessage *string "json:\"errorMessage,omitempty\" graphql:\"errorMessage\""
+}
+
+func (t *PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Errors) GetErrorCode() *string {
+	if t == nil {
+		t = &PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Errors{}
+	}
+	return t.ErrorCode
+}
+func (t *PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Errors) GetErrorMessage() *string {
+	if t == nil {
+		t = &PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Errors{}
+	}
+	return t.ErrorMessage
+}
+
+type PolicySocketLanMoveRule_Policy_SocketLan_MoveRule struct {
+	Errors []*PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Errors "json:\"errors\" graphql:\"errors\""
+	Rule   *PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule     "json:\"rule,omitempty\" graphql:\"rule\""
+	Status cato_models.PolicyMutationStatus                            "json:\"status\" graphql:\"status\""
+}
+
+func (t *PolicySocketLanMoveRule_Policy_SocketLan_MoveRule) GetErrors() []*PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Errors {
+	if t == nil {
+		t = &PolicySocketLanMoveRule_Policy_SocketLan_MoveRule{}
+	}
+	return t.Errors
+}
+func (t *PolicySocketLanMoveRule_Policy_SocketLan_MoveRule) GetRule() *PolicySocketLanMoveRule_Policy_SocketLan_MoveRule_Rule {
+	if t == nil {
+		t = &PolicySocketLanMoveRule_Policy_SocketLan_MoveRule{}
+	}
+	return t.Rule
+}
+func (t *PolicySocketLanMoveRule_Policy_SocketLan_MoveRule) GetStatus() *cato_models.PolicyMutationStatus {
+	if t == nil {
+		t = &PolicySocketLanMoveRule_Policy_SocketLan_MoveRule{}
+	}
+	return &t.Status
+}
+
+type PolicySocketLanMoveRule_Policy_SocketLan struct {
+	MoveRule PolicySocketLanMoveRule_Policy_SocketLan_MoveRule "json:\"moveRule\" graphql:\"moveRule\""
+}
+
+func (t *PolicySocketLanMoveRule_Policy_SocketLan) GetMoveRule() *PolicySocketLanMoveRule_Policy_SocketLan_MoveRule {
+	if t == nil {
+		t = &PolicySocketLanMoveRule_Policy_SocketLan{}
+	}
+	return &t.MoveRule
+}
+
+type PolicySocketLanMoveRule_Policy struct {
+	SocketLan *PolicySocketLanMoveRule_Policy_SocketLan "json:\"socketLan,omitempty\" graphql:\"socketLan\""
+}
+
+func (t *PolicySocketLanMoveRule_Policy) GetSocketLan() *PolicySocketLanMoveRule_Policy_SocketLan {
+	if t == nil {
+		t = &PolicySocketLanMoveRule_Policy{}
+	}
+	return t.SocketLan
+}
+
+type PolicySocketLanMoveSection_Policy_SocketLan_MoveSection_Section_Audit struct {
+	UpdatedBy   string "json:\"updatedBy\" graphql:\"updatedBy\""
+	UpdatedTime string "json:\"updatedTime\" graphql:\"updatedTime\""
+}
+
+func (t *PolicySocketLanMoveSection_Policy_SocketLan_MoveSection_Section_Audit) GetUpdatedBy() string {
+	if t == nil {
+		t = &PolicySocketLanMoveSection_Policy_SocketLan_MoveSection_Section_Audit{}
+	}
+	return t.UpdatedBy
+}
+func (t *PolicySocketLanMoveSection_Policy_SocketLan_MoveSection_Section_Audit) GetUpdatedTime() string {
+	if t == nil {
+		t = &PolicySocketLanMoveSection_Policy_SocketLan_MoveSection_Section_Audit{}
+	}
+	return t.UpdatedTime
+}
+
+type PolicySocketLanMoveSection_Policy_SocketLan_MoveSection_Section_Section struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicySocketLanMoveSection_Policy_SocketLan_MoveSection_Section_Section) GetID() string {
+	if t == nil {
+		t = &PolicySocketLanMoveSection_Policy_SocketLan_MoveSection_Section_Section{}
+	}
+	return t.ID
+}
+func (t *PolicySocketLanMoveSection_Policy_SocketLan_MoveSection_Section_Section) GetName() string {
+	if t == nil {
+		t = &PolicySocketLanMoveSection_Policy_SocketLan_MoveSection_Section_Section{}
+	}
+	return t.Name
+}
+
+type PolicySocketLanMoveSection_Policy_SocketLan_MoveSection_Section struct {
+	Audit      PolicySocketLanMoveSection_Policy_SocketLan_MoveSection_Section_Audit   "json:\"audit\" graphql:\"audit\""
+	Properties []cato_models.PolicyElementPropertiesEnum                               "json:\"properties\" graphql:\"properties\""
+	Section    PolicySocketLanMoveSection_Policy_SocketLan_MoveSection_Section_Section "json:\"section\" graphql:\"section\""
+}
+
+func (t *PolicySocketLanMoveSection_Policy_SocketLan_MoveSection_Section) GetAudit() *PolicySocketLanMoveSection_Policy_SocketLan_MoveSection_Section_Audit {
+	if t == nil {
+		t = &PolicySocketLanMoveSection_Policy_SocketLan_MoveSection_Section{}
+	}
+	return &t.Audit
+}
+func (t *PolicySocketLanMoveSection_Policy_SocketLan_MoveSection_Section) GetProperties() []cato_models.PolicyElementPropertiesEnum {
+	if t == nil {
+		t = &PolicySocketLanMoveSection_Policy_SocketLan_MoveSection_Section{}
+	}
+	return t.Properties
+}
+func (t *PolicySocketLanMoveSection_Policy_SocketLan_MoveSection_Section) GetSection() *PolicySocketLanMoveSection_Policy_SocketLan_MoveSection_Section_Section {
+	if t == nil {
+		t = &PolicySocketLanMoveSection_Policy_SocketLan_MoveSection_Section{}
+	}
+	return &t.Section
+}
+
+type PolicySocketLanMoveSection_Policy_SocketLan_MoveSection_Errors struct {
+	ErrorCode    *string "json:\"errorCode,omitempty\" graphql:\"errorCode\""
+	ErrorMessage *string "json:\"errorMessage,omitempty\" graphql:\"errorMessage\""
+}
+
+func (t *PolicySocketLanMoveSection_Policy_SocketLan_MoveSection_Errors) GetErrorCode() *string {
+	if t == nil {
+		t = &PolicySocketLanMoveSection_Policy_SocketLan_MoveSection_Errors{}
+	}
+	return t.ErrorCode
+}
+func (t *PolicySocketLanMoveSection_Policy_SocketLan_MoveSection_Errors) GetErrorMessage() *string {
+	if t == nil {
+		t = &PolicySocketLanMoveSection_Policy_SocketLan_MoveSection_Errors{}
+	}
+	return t.ErrorMessage
+}
+
+type PolicySocketLanMoveSection_Policy_SocketLan_MoveSection struct {
+	Errors  []*PolicySocketLanMoveSection_Policy_SocketLan_MoveSection_Errors "json:\"errors\" graphql:\"errors\""
+	Section *PolicySocketLanMoveSection_Policy_SocketLan_MoveSection_Section  "json:\"section,omitempty\" graphql:\"section\""
+	Status  cato_models.PolicyMutationStatus                                  "json:\"status\" graphql:\"status\""
+}
+
+func (t *PolicySocketLanMoveSection_Policy_SocketLan_MoveSection) GetErrors() []*PolicySocketLanMoveSection_Policy_SocketLan_MoveSection_Errors {
+	if t == nil {
+		t = &PolicySocketLanMoveSection_Policy_SocketLan_MoveSection{}
+	}
+	return t.Errors
+}
+func (t *PolicySocketLanMoveSection_Policy_SocketLan_MoveSection) GetSection() *PolicySocketLanMoveSection_Policy_SocketLan_MoveSection_Section {
+	if t == nil {
+		t = &PolicySocketLanMoveSection_Policy_SocketLan_MoveSection{}
+	}
+	return t.Section
+}
+func (t *PolicySocketLanMoveSection_Policy_SocketLan_MoveSection) GetStatus() *cato_models.PolicyMutationStatus {
+	if t == nil {
+		t = &PolicySocketLanMoveSection_Policy_SocketLan_MoveSection{}
+	}
+	return &t.Status
+}
+
+type PolicySocketLanMoveSection_Policy_SocketLan struct {
+	MoveSection PolicySocketLanMoveSection_Policy_SocketLan_MoveSection "json:\"moveSection\" graphql:\"moveSection\""
+}
+
+func (t *PolicySocketLanMoveSection_Policy_SocketLan) GetMoveSection() *PolicySocketLanMoveSection_Policy_SocketLan_MoveSection {
+	if t == nil {
+		t = &PolicySocketLanMoveSection_Policy_SocketLan{}
+	}
+	return &t.MoveSection
+}
+
+type PolicySocketLanMoveSection_Policy struct {
+	SocketLan *PolicySocketLanMoveSection_Policy_SocketLan "json:\"socketLan,omitempty\" graphql:\"socketLan\""
+}
+
+func (t *PolicySocketLanMoveSection_Policy) GetSocketLan() *PolicySocketLanMoveSection_Policy_SocketLan {
+	if t == nil {
+		t = &PolicySocketLanMoveSection_Policy{}
+	}
+	return t.SocketLan
+}
+
+type PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Audit struct {
+	UpdatedBy   string "json:\"updatedBy\" graphql:\"updatedBy\""
+	UpdatedTime string "json:\"updatedTime\" graphql:\"updatedTime\""
+}
+
+func (t *PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Audit) GetUpdatedBy() string {
+	if t == nil {
+		t = &PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Audit{}
+	}
+	return t.UpdatedBy
+}
+func (t *PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Audit) GetUpdatedTime() string {
+	if t == nil {
+		t = &PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Audit{}
+	}
+	return t.UpdatedTime
+}
+
+type PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Rule_Section struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Rule_Section) GetID() string {
+	if t == nil {
+		t = &PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Rule_Section{}
+	}
+	return t.ID
+}
+func (t *PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Rule_Section) GetName() string {
+	if t == nil {
+		t = &PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Rule_Section{}
+	}
+	return t.Name
+}
+
+type PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Rule_Site_Site struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Rule_Site_Site) GetID() string {
+	if t == nil {
+		t = &PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Rule_Site_Site{}
+	}
+	return t.ID
+}
+func (t *PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Rule_Site_Site) GetName() string {
+	if t == nil {
+		t = &PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Rule_Site_Site{}
+	}
+	return t.Name
+}
+
+type PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Rule_Site_Group struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Rule_Site_Group) GetID() string {
+	if t == nil {
+		t = &PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Rule_Site_Group{}
+	}
+	return t.ID
+}
+func (t *PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Rule_Site_Group) GetName() string {
+	if t == nil {
+		t = &PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Rule_Site_Group{}
+	}
+	return t.Name
+}
+
+type PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Rule_Site struct {
+	Group []*PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Rule_Site_Group "json:\"group\" graphql:\"group\""
+	Site  []*PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Rule_Site_Site  "json:\"site\" graphql:\"site\""
+}
+
+func (t *PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Rule_Site) GetGroup() []*PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Rule_Site_Group {
+	if t == nil {
+		t = &PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Rule_Site{}
+	}
+	return t.Group
+}
+func (t *PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Rule_Site) GetSite() []*PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Rule_Site_Site {
+	if t == nil {
+		t = &PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Rule_Site{}
+	}
+	return t.Site
+}
+
+type PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Rule_Source_IPRange struct {
+	From string "json:\"from\" graphql:\"from\""
+	To   string "json:\"to\" graphql:\"to\""
+}
+
+func (t *PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Rule_Source_IPRange) GetFrom() string {
+	if t == nil {
+		t = &PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Rule_Source_IPRange{}
+	}
+	return t.From
+}
+func (t *PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Rule_Source_IPRange) GetTo() string {
+	if t == nil {
+		t = &PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Rule_Source_IPRange{}
+	}
+	return t.To
+}
+
+type PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Rule_Source_Group struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Rule_Source_Group) GetID() string {
+	if t == nil {
+		t = &PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Rule_Source_Group{}
+	}
+	return t.ID
+}
+func (t *PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Rule_Source_Group) GetName() string {
+	if t == nil {
+		t = &PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Rule_Source_Group{}
+	}
+	return t.Name
+}
+
+type PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Rule_Source_NetworkInterface struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Rule_Source_NetworkInterface) GetID() string {
+	if t == nil {
+		t = &PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Rule_Source_NetworkInterface{}
+	}
+	return t.ID
+}
+func (t *PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Rule_Source_NetworkInterface) GetName() string {
+	if t == nil {
+		t = &PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Rule_Source_NetworkInterface{}
+	}
+	return t.Name
+}
+
+type PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Rule_Source_SystemGroup struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Rule_Source_SystemGroup) GetID() string {
+	if t == nil {
+		t = &PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Rule_Source_SystemGroup{}
+	}
+	return t.ID
+}
+func (t *PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Rule_Source_SystemGroup) GetName() string {
+	if t == nil {
+		t = &PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Rule_Source_SystemGroup{}
+	}
+	return t.Name
+}
+
+type PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Rule_Source_Host struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Rule_Source_Host) GetID() string {
+	if t == nil {
+		t = &PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Rule_Source_Host{}
+	}
+	return t.ID
+}
+func (t *PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Rule_Source_Host) GetName() string {
+	if t == nil {
+		t = &PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Rule_Source_Host{}
+	}
+	return t.Name
+}
+
+type PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Rule_Source_GlobalIPRange struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Rule_Source_GlobalIPRange) GetID() string {
+	if t == nil {
+		t = &PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Rule_Source_GlobalIPRange{}
+	}
+	return t.ID
+}
+func (t *PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Rule_Source_GlobalIPRange) GetName() string {
+	if t == nil {
+		t = &PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Rule_Source_GlobalIPRange{}
+	}
+	return t.Name
+}
+
+type PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Rule_Source_FloatingSubnet struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Rule_Source_FloatingSubnet) GetID() string {
+	if t == nil {
+		t = &PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Rule_Source_FloatingSubnet{}
+	}
+	return t.ID
+}
+func (t *PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Rule_Source_FloatingSubnet) GetName() string {
+	if t == nil {
+		t = &PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Rule_Source_FloatingSubnet{}
+	}
+	return t.Name
+}
+
+type PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Rule_Source_SiteNetworkSubnet struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Rule_Source_SiteNetworkSubnet) GetID() string {
+	if t == nil {
+		t = &PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Rule_Source_SiteNetworkSubnet{}
+	}
+	return t.ID
+}
+func (t *PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Rule_Source_SiteNetworkSubnet) GetName() string {
+	if t == nil {
+		t = &PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Rule_Source_SiteNetworkSubnet{}
+	}
+	return t.Name
+}
+
+type PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Rule_Source struct {
+	FloatingSubnet    []*PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Rule_Source_FloatingSubnet    "json:\"floatingSubnet\" graphql:\"floatingSubnet\""
+	GlobalIPRange     []*PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Rule_Source_GlobalIPRange     "json:\"globalIpRange\" graphql:\"globalIpRange\""
+	Group             []*PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Rule_Source_Group             "json:\"group\" graphql:\"group\""
+	Host              []*PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Rule_Source_Host              "json:\"host\" graphql:\"host\""
+	IP                []string                                                                                                                  "json:\"ip\" graphql:\"ip\""
+	IPRange           []*PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Rule_Source_IPRange           "json:\"ipRange\" graphql:\"ipRange\""
+	NetworkInterface  []*PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Rule_Source_NetworkInterface  "json:\"networkInterface\" graphql:\"networkInterface\""
+	SiteNetworkSubnet []*PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Rule_Source_SiteNetworkSubnet "json:\"siteNetworkSubnet\" graphql:\"siteNetworkSubnet\""
+	Subnet            []string                                                                                                                  "json:\"subnet\" graphql:\"subnet\""
+	SystemGroup       []*PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Rule_Source_SystemGroup       "json:\"systemGroup\" graphql:\"systemGroup\""
+	Vlan              []string                                                                                                                  "json:\"vlan\" graphql:\"vlan\""
+}
+
+func (t *PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Rule_Source) GetFloatingSubnet() []*PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Rule_Source_FloatingSubnet {
+	if t == nil {
+		t = &PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Rule_Source{}
+	}
+	return t.FloatingSubnet
+}
+func (t *PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Rule_Source) GetGlobalIPRange() []*PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Rule_Source_GlobalIPRange {
+	if t == nil {
+		t = &PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Rule_Source{}
+	}
+	return t.GlobalIPRange
+}
+func (t *PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Rule_Source) GetGroup() []*PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Rule_Source_Group {
+	if t == nil {
+		t = &PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Rule_Source{}
+	}
+	return t.Group
+}
+func (t *PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Rule_Source) GetHost() []*PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Rule_Source_Host {
+	if t == nil {
+		t = &PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Rule_Source{}
+	}
+	return t.Host
+}
+func (t *PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Rule_Source) GetIP() []string {
+	if t == nil {
+		t = &PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Rule_Source{}
+	}
+	return t.IP
+}
+func (t *PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Rule_Source) GetIPRange() []*PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Rule_Source_IPRange {
+	if t == nil {
+		t = &PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Rule_Source{}
+	}
+	return t.IPRange
+}
+func (t *PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Rule_Source) GetNetworkInterface() []*PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Rule_Source_NetworkInterface {
+	if t == nil {
+		t = &PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Rule_Source{}
+	}
+	return t.NetworkInterface
+}
+func (t *PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Rule_Source) GetSiteNetworkSubnet() []*PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Rule_Source_SiteNetworkSubnet {
+	if t == nil {
+		t = &PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Rule_Source{}
+	}
+	return t.SiteNetworkSubnet
+}
+func (t *PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Rule_Source) GetSubnet() []string {
+	if t == nil {
+		t = &PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Rule_Source{}
+	}
+	return t.Subnet
+}
+func (t *PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Rule_Source) GetSystemGroup() []*PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Rule_Source_SystemGroup {
+	if t == nil {
+		t = &PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Rule_Source{}
+	}
+	return t.SystemGroup
+}
+func (t *PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Rule_Source) GetVlan() []string {
+	if t == nil {
+		t = &PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Rule_Source{}
+	}
+	return t.Vlan
+}
+
+type PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Rule_Destination_IPRange struct {
+	From string "json:\"from\" graphql:\"from\""
+	To   string "json:\"to\" graphql:\"to\""
+}
+
+func (t *PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Rule_Destination_IPRange) GetFrom() string {
+	if t == nil {
+		t = &PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Rule_Destination_IPRange{}
+	}
+	return t.From
+}
+func (t *PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Rule_Destination_IPRange) GetTo() string {
+	if t == nil {
+		t = &PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Rule_Destination_IPRange{}
+	}
+	return t.To
+}
+
+type PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Rule_Destination_NetworkInterface struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Rule_Destination_NetworkInterface) GetID() string {
+	if t == nil {
+		t = &PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Rule_Destination_NetworkInterface{}
+	}
+	return t.ID
+}
+func (t *PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Rule_Destination_NetworkInterface) GetName() string {
+	if t == nil {
+		t = &PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Rule_Destination_NetworkInterface{}
+	}
+	return t.Name
+}
+
+type PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Rule_Destination_SystemGroup struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Rule_Destination_SystemGroup) GetID() string {
+	if t == nil {
+		t = &PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Rule_Destination_SystemGroup{}
+	}
+	return t.ID
+}
+func (t *PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Rule_Destination_SystemGroup) GetName() string {
+	if t == nil {
+		t = &PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Rule_Destination_SystemGroup{}
+	}
+	return t.Name
+}
+
+type PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Rule_Destination_Host struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Rule_Destination_Host) GetID() string {
+	if t == nil {
+		t = &PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Rule_Destination_Host{}
+	}
+	return t.ID
+}
+func (t *PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Rule_Destination_Host) GetName() string {
+	if t == nil {
+		t = &PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Rule_Destination_Host{}
+	}
+	return t.Name
+}
+
+type PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Rule_Destination_GlobalIPRange struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Rule_Destination_GlobalIPRange) GetID() string {
+	if t == nil {
+		t = &PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Rule_Destination_GlobalIPRange{}
+	}
+	return t.ID
+}
+func (t *PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Rule_Destination_GlobalIPRange) GetName() string {
+	if t == nil {
+		t = &PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Rule_Destination_GlobalIPRange{}
+	}
+	return t.Name
+}
+
+type PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Rule_Destination_Group struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Rule_Destination_Group) GetID() string {
+	if t == nil {
+		t = &PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Rule_Destination_Group{}
+	}
+	return t.ID
+}
+func (t *PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Rule_Destination_Group) GetName() string {
+	if t == nil {
+		t = &PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Rule_Destination_Group{}
+	}
+	return t.Name
+}
+
+type PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Rule_Destination_FloatingSubnet struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Rule_Destination_FloatingSubnet) GetID() string {
+	if t == nil {
+		t = &PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Rule_Destination_FloatingSubnet{}
+	}
+	return t.ID
+}
+func (t *PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Rule_Destination_FloatingSubnet) GetName() string {
+	if t == nil {
+		t = &PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Rule_Destination_FloatingSubnet{}
+	}
+	return t.Name
+}
+
+type PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Rule_Destination_SiteNetworkSubnet struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Rule_Destination_SiteNetworkSubnet) GetID() string {
+	if t == nil {
+		t = &PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Rule_Destination_SiteNetworkSubnet{}
+	}
+	return t.ID
+}
+func (t *PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Rule_Destination_SiteNetworkSubnet) GetName() string {
+	if t == nil {
+		t = &PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Rule_Destination_SiteNetworkSubnet{}
+	}
+	return t.Name
+}
+
+type PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Rule_Destination struct {
+	FloatingSubnet    []*PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Rule_Destination_FloatingSubnet    "json:\"floatingSubnet\" graphql:\"floatingSubnet\""
+	GlobalIPRange     []*PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Rule_Destination_GlobalIPRange     "json:\"globalIpRange\" graphql:\"globalIpRange\""
+	Group             []*PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Rule_Destination_Group             "json:\"group\" graphql:\"group\""
+	Host              []*PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Rule_Destination_Host              "json:\"host\" graphql:\"host\""
+	IP                []string                                                                                                                       "json:\"ip\" graphql:\"ip\""
+	IPRange           []*PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Rule_Destination_IPRange           "json:\"ipRange\" graphql:\"ipRange\""
+	NetworkInterface  []*PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Rule_Destination_NetworkInterface  "json:\"networkInterface\" graphql:\"networkInterface\""
+	SiteNetworkSubnet []*PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Rule_Destination_SiteNetworkSubnet "json:\"siteNetworkSubnet\" graphql:\"siteNetworkSubnet\""
+	Subnet            []string                                                                                                                       "json:\"subnet\" graphql:\"subnet\""
+	SystemGroup       []*PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Rule_Destination_SystemGroup       "json:\"systemGroup\" graphql:\"systemGroup\""
+	Vlan              []string                                                                                                                       "json:\"vlan\" graphql:\"vlan\""
+}
+
+func (t *PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Rule_Destination) GetFloatingSubnet() []*PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Rule_Destination_FloatingSubnet {
+	if t == nil {
+		t = &PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Rule_Destination{}
+	}
+	return t.FloatingSubnet
+}
+func (t *PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Rule_Destination) GetGlobalIPRange() []*PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Rule_Destination_GlobalIPRange {
+	if t == nil {
+		t = &PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Rule_Destination{}
+	}
+	return t.GlobalIPRange
+}
+func (t *PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Rule_Destination) GetGroup() []*PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Rule_Destination_Group {
+	if t == nil {
+		t = &PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Rule_Destination{}
+	}
+	return t.Group
+}
+func (t *PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Rule_Destination) GetHost() []*PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Rule_Destination_Host {
+	if t == nil {
+		t = &PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Rule_Destination{}
+	}
+	return t.Host
+}
+func (t *PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Rule_Destination) GetIP() []string {
+	if t == nil {
+		t = &PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Rule_Destination{}
+	}
+	return t.IP
+}
+func (t *PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Rule_Destination) GetIPRange() []*PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Rule_Destination_IPRange {
+	if t == nil {
+		t = &PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Rule_Destination{}
+	}
+	return t.IPRange
+}
+func (t *PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Rule_Destination) GetNetworkInterface() []*PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Rule_Destination_NetworkInterface {
+	if t == nil {
+		t = &PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Rule_Destination{}
+	}
+	return t.NetworkInterface
+}
+func (t *PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Rule_Destination) GetSiteNetworkSubnet() []*PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Rule_Destination_SiteNetworkSubnet {
+	if t == nil {
+		t = &PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Rule_Destination{}
+	}
+	return t.SiteNetworkSubnet
+}
+func (t *PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Rule_Destination) GetSubnet() []string {
+	if t == nil {
+		t = &PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Rule_Destination{}
+	}
+	return t.Subnet
+}
+func (t *PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Rule_Destination) GetSystemGroup() []*PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Rule_Destination_SystemGroup {
+	if t == nil {
+		t = &PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Rule_Destination{}
+	}
+	return t.SystemGroup
+}
+func (t *PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Rule_Destination) GetVlan() []string {
+	if t == nil {
+		t = &PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Rule_Destination{}
+	}
+	return t.Vlan
+}
+
+type PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Rule_Service_Simple struct {
+	Name cato_models.SimpleServiceType "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Rule_Service_Simple) GetName() *cato_models.SimpleServiceType {
+	if t == nil {
+		t = &PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Rule_Service_Simple{}
+	}
+	return &t.Name
+}
+
+type PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Rule_Service_Custom_PortRangeCustomService struct {
+	From scalars.Port "json:\"from\" graphql:\"from\""
+	To   scalars.Port "json:\"to\" graphql:\"to\""
+}
+
+func (t *PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Rule_Service_Custom_PortRangeCustomService) GetFrom() *scalars.Port {
+	if t == nil {
+		t = &PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Rule_Service_Custom_PortRangeCustomService{}
+	}
+	return &t.From
+}
+func (t *PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Rule_Service_Custom_PortRangeCustomService) GetTo() *scalars.Port {
+	if t == nil {
+		t = &PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Rule_Service_Custom_PortRangeCustomService{}
+	}
+	return &t.To
+}
+
+type PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Rule_Service_Custom struct {
+	Port                   []scalars.Port                                                                                                                       "json:\"port,omitempty\" graphql:\"port\""
+	PortRangeCustomService *PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Rule_Service_Custom_PortRangeCustomService "json:\"portRangeCustomService,omitempty\" graphql:\"portRangeCustomService\""
+	Protocol               cato_models.IPProtocol                                                                                                               "json:\"protocol\" graphql:\"protocol\""
+}
+
+func (t *PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Rule_Service_Custom) GetPort() []scalars.Port {
+	if t == nil {
+		t = &PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Rule_Service_Custom{}
+	}
+	return t.Port
+}
+func (t *PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Rule_Service_Custom) GetPortRangeCustomService() *PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Rule_Service_Custom_PortRangeCustomService {
+	if t == nil {
+		t = &PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Rule_Service_Custom{}
+	}
+	return t.PortRangeCustomService
+}
+func (t *PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Rule_Service_Custom) GetProtocol() *cato_models.IPProtocol {
+	if t == nil {
+		t = &PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Rule_Service_Custom{}
+	}
+	return &t.Protocol
+}
+
+type PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Rule_Service struct {
+	Custom []*PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Rule_Service_Custom "json:\"custom\" graphql:\"custom\""
+	Simple []*PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Rule_Service_Simple "json:\"simple\" graphql:\"simple\""
+}
+
+func (t *PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Rule_Service) GetCustom() []*PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Rule_Service_Custom {
+	if t == nil {
+		t = &PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Rule_Service{}
+	}
+	return t.Custom
+}
+func (t *PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Rule_Service) GetSimple() []*PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Rule_Service_Simple {
+	if t == nil {
+		t = &PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Rule_Service{}
+	}
+	return t.Simple
+}
+
+type PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Rule_Nat struct {
+	Enabled bool                         "json:\"enabled\" graphql:\"enabled\""
+	NatType cato_models.SocketLanNatType "json:\"natType\" graphql:\"natType\""
+}
+
+func (t *PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Rule_Nat) GetEnabled() bool {
+	if t == nil {
+		t = &PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Rule_Nat{}
+	}
+	return t.Enabled
+}
+func (t *PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Rule_Nat) GetNatType() *cato_models.SocketLanNatType {
+	if t == nil {
+		t = &PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Rule_Nat{}
+	}
+	return &t.NatType
+}
+
+type PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Rule struct {
+	Description string                                                                                                    "json:\"description\" graphql:\"description\""
+	Destination PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Rule_Destination "json:\"destination\" graphql:\"destination\""
+	Direction   cato_models.SocketLanDirection                                                                            "json:\"direction\" graphql:\"direction\""
+	Enabled     bool                                                                                                      "json:\"enabled\" graphql:\"enabled\""
+	ID          string                                                                                                    "json:\"id\" graphql:\"id\""
+	Index       int64                                                                                                     "json:\"index\" graphql:\"index\""
+	Name        string                                                                                                    "json:\"name\" graphql:\"name\""
+	Nat         PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Rule_Nat         "json:\"nat\" graphql:\"nat\""
+	Section     PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Rule_Section     "json:\"section\" graphql:\"section\""
+	Service     PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Rule_Service     "json:\"service\" graphql:\"service\""
+	Site        PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Rule_Site        "json:\"site\" graphql:\"site\""
+	Source      PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Rule_Source      "json:\"source\" graphql:\"source\""
+	Transport   cato_models.SocketLanTransportType                                                                        "json:\"transport\" graphql:\"transport\""
+}
+
+func (t *PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Rule) GetDescription() string {
+	if t == nil {
+		t = &PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Rule{}
+	}
+	return t.Description
+}
+func (t *PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Rule) GetDestination() *PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Rule_Destination {
+	if t == nil {
+		t = &PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Rule{}
+	}
+	return &t.Destination
+}
+func (t *PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Rule) GetDirection() *cato_models.SocketLanDirection {
+	if t == nil {
+		t = &PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Rule{}
+	}
+	return &t.Direction
+}
+func (t *PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Rule) GetEnabled() bool {
+	if t == nil {
+		t = &PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Rule{}
+	}
+	return t.Enabled
+}
+func (t *PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Rule) GetID() string {
+	if t == nil {
+		t = &PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Rule{}
+	}
+	return t.ID
+}
+func (t *PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Rule) GetIndex() int64 {
+	if t == nil {
+		t = &PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Rule{}
+	}
+	return t.Index
+}
+func (t *PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Rule) GetName() string {
+	if t == nil {
+		t = &PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Rule{}
+	}
+	return t.Name
+}
+func (t *PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Rule) GetNat() *PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Rule_Nat {
+	if t == nil {
+		t = &PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Rule{}
+	}
+	return &t.Nat
+}
+func (t *PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Rule) GetSection() *PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Rule_Section {
+	if t == nil {
+		t = &PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Rule{}
+	}
+	return &t.Section
+}
+func (t *PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Rule) GetService() *PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Rule_Service {
+	if t == nil {
+		t = &PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Rule{}
+	}
+	return &t.Service
+}
+func (t *PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Rule) GetSite() *PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Rule_Site {
+	if t == nil {
+		t = &PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Rule{}
+	}
+	return &t.Site
+}
+func (t *PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Rule) GetSource() *PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Rule_Source {
+	if t == nil {
+		t = &PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Rule{}
+	}
+	return &t.Source
+}
+func (t *PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Rule) GetTransport() *cato_models.SocketLanTransportType {
+	if t == nil {
+		t = &PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Rule{}
+	}
+	return &t.Transport
+}
+
+type PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules struct {
+	Audit      PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Audit "json:\"audit\" graphql:\"audit\""
+	Properties []cato_models.PolicyElementPropertiesEnum                                                      "json:\"properties\" graphql:\"properties\""
+	Rule       PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Rule  "json:\"rule\" graphql:\"rule\""
+}
+
+func (t *PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules) GetAudit() *PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Audit {
+	if t == nil {
+		t = &PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules{}
+	}
+	return &t.Audit
+}
+func (t *PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules) GetProperties() []cato_models.PolicyElementPropertiesEnum {
+	if t == nil {
+		t = &PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules{}
+	}
+	return t.Properties
+}
+func (t *PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules) GetRule() *PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules_Rule {
+	if t == nil {
+		t = &PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules{}
+	}
+	return &t.Rule
+}
+
+type PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Sections_Audit struct {
+	UpdatedBy   string "json:\"updatedBy\" graphql:\"updatedBy\""
+	UpdatedTime string "json:\"updatedTime\" graphql:\"updatedTime\""
+}
+
+func (t *PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Sections_Audit) GetUpdatedBy() string {
+	if t == nil {
+		t = &PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Sections_Audit{}
+	}
+	return t.UpdatedBy
+}
+func (t *PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Sections_Audit) GetUpdatedTime() string {
+	if t == nil {
+		t = &PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Sections_Audit{}
+	}
+	return t.UpdatedTime
+}
+
+type PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Sections_Section struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Sections_Section) GetID() string {
+	if t == nil {
+		t = &PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Sections_Section{}
+	}
+	return t.ID
+}
+func (t *PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Sections_Section) GetName() string {
+	if t == nil {
+		t = &PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Sections_Section{}
+	}
+	return t.Name
+}
+
+type PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Sections struct {
+	Audit      PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Sections_Audit   "json:\"audit\" graphql:\"audit\""
+	Properties []cato_models.PolicyElementPropertiesEnum                                                           "json:\"properties\" graphql:\"properties\""
+	Section    PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Sections_Section "json:\"section\" graphql:\"section\""
+}
+
+func (t *PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Sections) GetAudit() *PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Sections_Audit {
+	if t == nil {
+		t = &PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Sections{}
+	}
+	return &t.Audit
+}
+func (t *PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Sections) GetProperties() []cato_models.PolicyElementPropertiesEnum {
+	if t == nil {
+		t = &PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Sections{}
+	}
+	return t.Properties
+}
+func (t *PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Sections) GetSection() *PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Sections_Section {
+	if t == nil {
+		t = &PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Sections{}
+	}
+	return &t.Section
+}
+
+type PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_AuditSocketLanPolicy struct {
+	PublishedBy   string "json:\"publishedBy\" graphql:\"publishedBy\""
+	PublishedTime string "json:\"publishedTime\" graphql:\"publishedTime\""
+}
+
+func (t *PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_AuditSocketLanPolicy) GetPublishedBy() string {
+	if t == nil {
+		t = &PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_AuditSocketLanPolicy{}
+	}
+	return t.PublishedBy
+}
+func (t *PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_AuditSocketLanPolicy) GetPublishedTime() string {
+	if t == nil {
+		t = &PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_AuditSocketLanPolicy{}
+	}
+	return t.PublishedTime
+}
+
+type PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_RevisionSocketLanPolicy struct {
+	Changes     int64  "json:\"changes\" graphql:\"changes\""
+	CreatedTime string "json:\"createdTime\" graphql:\"createdTime\""
+	Description string "json:\"description\" graphql:\"description\""
+	ID          string "json:\"id\" graphql:\"id\""
+	Name        string "json:\"name\" graphql:\"name\""
+	UpdatedTime string "json:\"updatedTime\" graphql:\"updatedTime\""
+}
+
+func (t *PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_RevisionSocketLanPolicy) GetChanges() int64 {
+	if t == nil {
+		t = &PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_RevisionSocketLanPolicy{}
+	}
+	return t.Changes
+}
+func (t *PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_RevisionSocketLanPolicy) GetCreatedTime() string {
+	if t == nil {
+		t = &PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_RevisionSocketLanPolicy{}
+	}
+	return t.CreatedTime
+}
+func (t *PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_RevisionSocketLanPolicy) GetDescription() string {
+	if t == nil {
+		t = &PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_RevisionSocketLanPolicy{}
+	}
+	return t.Description
+}
+func (t *PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_RevisionSocketLanPolicy) GetID() string {
+	if t == nil {
+		t = &PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_RevisionSocketLanPolicy{}
+	}
+	return t.ID
+}
+func (t *PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_RevisionSocketLanPolicy) GetName() string {
+	if t == nil {
+		t = &PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_RevisionSocketLanPolicy{}
+	}
+	return t.Name
+}
+func (t *PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_RevisionSocketLanPolicy) GetUpdatedTime() string {
+	if t == nil {
+		t = &PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_RevisionSocketLanPolicy{}
+	}
+	return t.UpdatedTime
+}
+
+type PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy struct {
+	AuditSocketLanPolicy    *PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_AuditSocketLanPolicy    "json:\"auditSocketLanPolicy,omitempty\" graphql:\"auditSocketLanPolicy\""
+	Enabled                 bool                                                                                                        "json:\"enabled\" graphql:\"enabled\""
+	RevisionSocketLanPolicy *PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_RevisionSocketLanPolicy "json:\"revisionSocketLanPolicy,omitempty\" graphql:\"revisionSocketLanPolicy\""
+	Rules                   []*PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules                 "json:\"rules\" graphql:\"rules\""
+	Sections                []*PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Sections              "json:\"sections\" graphql:\"sections\""
+}
+
+func (t *PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy) GetAuditSocketLanPolicy() *PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_AuditSocketLanPolicy {
+	if t == nil {
+		t = &PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy{}
+	}
+	return t.AuditSocketLanPolicy
+}
+func (t *PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy) GetEnabled() bool {
+	if t == nil {
+		t = &PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy{}
+	}
+	return t.Enabled
+}
+func (t *PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy) GetRevisionSocketLanPolicy() *PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_RevisionSocketLanPolicy {
+	if t == nil {
+		t = &PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy{}
+	}
+	return t.RevisionSocketLanPolicy
+}
+func (t *PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy) GetRules() []*PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Rules {
+	if t == nil {
+		t = &PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy{}
+	}
+	return t.Rules
+}
+func (t *PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy) GetSections() []*PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy_Sections {
+	if t == nil {
+		t = &PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy{}
+	}
+	return t.Sections
+}
+
+type PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Errors struct {
+	ErrorCode    *string "json:\"errorCode,omitempty\" graphql:\"errorCode\""
+	ErrorMessage *string "json:\"errorMessage,omitempty\" graphql:\"errorMessage\""
+}
+
+func (t *PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Errors) GetErrorCode() *string {
+	if t == nil {
+		t = &PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Errors{}
+	}
+	return t.ErrorCode
+}
+func (t *PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Errors) GetErrorMessage() *string {
+	if t == nil {
+		t = &PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Errors{}
+	}
+	return t.ErrorMessage
+}
+
+type PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision struct {
+	Errors []*PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Errors "json:\"errors\" graphql:\"errors\""
+	Policy *PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy   "json:\"policy,omitempty\" graphql:\"policy\""
+	Status cato_models.PolicyMutationStatus                                                      "json:\"status\" graphql:\"status\""
+}
+
+func (t *PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision) GetErrors() []*PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Errors {
+	if t == nil {
+		t = &PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision{}
+	}
+	return t.Errors
+}
+func (t *PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision) GetPolicy() *PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision_Policy {
+	if t == nil {
+		t = &PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision{}
+	}
+	return t.Policy
+}
+func (t *PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision) GetStatus() *cato_models.PolicyMutationStatus {
+	if t == nil {
+		t = &PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision{}
+	}
+	return &t.Status
+}
+
+type PolicySocketLanPublishPolicyRevision_Policy_SocketLan struct {
+	PublishPolicyRevision PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision "json:\"publishPolicyRevision\" graphql:\"publishPolicyRevision\""
+}
+
+func (t *PolicySocketLanPublishPolicyRevision_Policy_SocketLan) GetPublishPolicyRevision() *PolicySocketLanPublishPolicyRevision_Policy_SocketLan_PublishPolicyRevision {
+	if t == nil {
+		t = &PolicySocketLanPublishPolicyRevision_Policy_SocketLan{}
+	}
+	return &t.PublishPolicyRevision
+}
+
+type PolicySocketLanPublishPolicyRevision_Policy struct {
+	SocketLan *PolicySocketLanPublishPolicyRevision_Policy_SocketLan "json:\"socketLan,omitempty\" graphql:\"socketLan\""
+}
+
+func (t *PolicySocketLanPublishPolicyRevision_Policy) GetSocketLan() *PolicySocketLanPublishPolicyRevision_Policy_SocketLan {
+	if t == nil {
+		t = &PolicySocketLanPublishPolicyRevision_Policy{}
+	}
+	return t.SocketLan
+}
+
+type PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Audit struct {
+	UpdatedBy   string "json:\"updatedBy\" graphql:\"updatedBy\""
+	UpdatedTime string "json:\"updatedTime\" graphql:\"updatedTime\""
+}
+
+func (t *PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Audit) GetUpdatedBy() string {
+	if t == nil {
+		t = &PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Audit{}
+	}
+	return t.UpdatedBy
+}
+func (t *PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Audit) GetUpdatedTime() string {
+	if t == nil {
+		t = &PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Audit{}
+	}
+	return t.UpdatedTime
+}
+
+type PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Rule_Section struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Rule_Section) GetID() string {
+	if t == nil {
+		t = &PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Rule_Section{}
+	}
+	return t.ID
+}
+func (t *PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Rule_Section) GetName() string {
+	if t == nil {
+		t = &PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Rule_Section{}
+	}
+	return t.Name
+}
+
+type PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Rule_Site_Site struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Rule_Site_Site) GetID() string {
+	if t == nil {
+		t = &PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Rule_Site_Site{}
+	}
+	return t.ID
+}
+func (t *PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Rule_Site_Site) GetName() string {
+	if t == nil {
+		t = &PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Rule_Site_Site{}
+	}
+	return t.Name
+}
+
+type PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Rule_Site_Group struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Rule_Site_Group) GetID() string {
+	if t == nil {
+		t = &PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Rule_Site_Group{}
+	}
+	return t.ID
+}
+func (t *PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Rule_Site_Group) GetName() string {
+	if t == nil {
+		t = &PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Rule_Site_Group{}
+	}
+	return t.Name
+}
+
+type PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Rule_Site struct {
+	Group []*PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Rule_Site_Group "json:\"group\" graphql:\"group\""
+	Site  []*PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Rule_Site_Site  "json:\"site\" graphql:\"site\""
+}
+
+func (t *PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Rule_Site) GetGroup() []*PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Rule_Site_Group {
+	if t == nil {
+		t = &PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Rule_Site{}
+	}
+	return t.Group
+}
+func (t *PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Rule_Site) GetSite() []*PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Rule_Site_Site {
+	if t == nil {
+		t = &PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Rule_Site{}
+	}
+	return t.Site
+}
+
+type PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Rule_Source_IPRange struct {
+	From string "json:\"from\" graphql:\"from\""
+	To   string "json:\"to\" graphql:\"to\""
+}
+
+func (t *PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Rule_Source_IPRange) GetFrom() string {
+	if t == nil {
+		t = &PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Rule_Source_IPRange{}
+	}
+	return t.From
+}
+func (t *PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Rule_Source_IPRange) GetTo() string {
+	if t == nil {
+		t = &PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Rule_Source_IPRange{}
+	}
+	return t.To
+}
+
+type PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Rule_Source_Group struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Rule_Source_Group) GetID() string {
+	if t == nil {
+		t = &PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Rule_Source_Group{}
+	}
+	return t.ID
+}
+func (t *PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Rule_Source_Group) GetName() string {
+	if t == nil {
+		t = &PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Rule_Source_Group{}
+	}
+	return t.Name
+}
+
+type PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Rule_Source_NetworkInterface struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Rule_Source_NetworkInterface) GetID() string {
+	if t == nil {
+		t = &PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Rule_Source_NetworkInterface{}
+	}
+	return t.ID
+}
+func (t *PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Rule_Source_NetworkInterface) GetName() string {
+	if t == nil {
+		t = &PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Rule_Source_NetworkInterface{}
+	}
+	return t.Name
+}
+
+type PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Rule_Source_SystemGroup struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Rule_Source_SystemGroup) GetID() string {
+	if t == nil {
+		t = &PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Rule_Source_SystemGroup{}
+	}
+	return t.ID
+}
+func (t *PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Rule_Source_SystemGroup) GetName() string {
+	if t == nil {
+		t = &PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Rule_Source_SystemGroup{}
+	}
+	return t.Name
+}
+
+type PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Rule_Source_Host struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Rule_Source_Host) GetID() string {
+	if t == nil {
+		t = &PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Rule_Source_Host{}
+	}
+	return t.ID
+}
+func (t *PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Rule_Source_Host) GetName() string {
+	if t == nil {
+		t = &PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Rule_Source_Host{}
+	}
+	return t.Name
+}
+
+type PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Rule_Source_GlobalIPRange struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Rule_Source_GlobalIPRange) GetID() string {
+	if t == nil {
+		t = &PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Rule_Source_GlobalIPRange{}
+	}
+	return t.ID
+}
+func (t *PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Rule_Source_GlobalIPRange) GetName() string {
+	if t == nil {
+		t = &PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Rule_Source_GlobalIPRange{}
+	}
+	return t.Name
+}
+
+type PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Rule_Source_FloatingSubnet struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Rule_Source_FloatingSubnet) GetID() string {
+	if t == nil {
+		t = &PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Rule_Source_FloatingSubnet{}
+	}
+	return t.ID
+}
+func (t *PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Rule_Source_FloatingSubnet) GetName() string {
+	if t == nil {
+		t = &PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Rule_Source_FloatingSubnet{}
+	}
+	return t.Name
+}
+
+type PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Rule_Source_SiteNetworkSubnet struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Rule_Source_SiteNetworkSubnet) GetID() string {
+	if t == nil {
+		t = &PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Rule_Source_SiteNetworkSubnet{}
+	}
+	return t.ID
+}
+func (t *PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Rule_Source_SiteNetworkSubnet) GetName() string {
+	if t == nil {
+		t = &PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Rule_Source_SiteNetworkSubnet{}
+	}
+	return t.Name
+}
+
+type PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Rule_Source struct {
+	FloatingSubnet    []*PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Rule_Source_FloatingSubnet    "json:\"floatingSubnet\" graphql:\"floatingSubnet\""
+	GlobalIPRange     []*PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Rule_Source_GlobalIPRange     "json:\"globalIpRange\" graphql:\"globalIpRange\""
+	Group             []*PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Rule_Source_Group             "json:\"group\" graphql:\"group\""
+	Host              []*PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Rule_Source_Host              "json:\"host\" graphql:\"host\""
+	IP                []string                                                                                    "json:\"ip\" graphql:\"ip\""
+	IPRange           []*PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Rule_Source_IPRange           "json:\"ipRange\" graphql:\"ipRange\""
+	NetworkInterface  []*PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Rule_Source_NetworkInterface  "json:\"networkInterface\" graphql:\"networkInterface\""
+	SiteNetworkSubnet []*PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Rule_Source_SiteNetworkSubnet "json:\"siteNetworkSubnet\" graphql:\"siteNetworkSubnet\""
+	Subnet            []string                                                                                    "json:\"subnet\" graphql:\"subnet\""
+	SystemGroup       []*PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Rule_Source_SystemGroup       "json:\"systemGroup\" graphql:\"systemGroup\""
+	Vlan              []string                                                                                    "json:\"vlan\" graphql:\"vlan\""
+}
+
+func (t *PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Rule_Source) GetFloatingSubnet() []*PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Rule_Source_FloatingSubnet {
+	if t == nil {
+		t = &PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Rule_Source{}
+	}
+	return t.FloatingSubnet
+}
+func (t *PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Rule_Source) GetGlobalIPRange() []*PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Rule_Source_GlobalIPRange {
+	if t == nil {
+		t = &PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Rule_Source{}
+	}
+	return t.GlobalIPRange
+}
+func (t *PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Rule_Source) GetGroup() []*PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Rule_Source_Group {
+	if t == nil {
+		t = &PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Rule_Source{}
+	}
+	return t.Group
+}
+func (t *PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Rule_Source) GetHost() []*PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Rule_Source_Host {
+	if t == nil {
+		t = &PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Rule_Source{}
+	}
+	return t.Host
+}
+func (t *PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Rule_Source) GetIP() []string {
+	if t == nil {
+		t = &PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Rule_Source{}
+	}
+	return t.IP
+}
+func (t *PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Rule_Source) GetIPRange() []*PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Rule_Source_IPRange {
+	if t == nil {
+		t = &PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Rule_Source{}
+	}
+	return t.IPRange
+}
+func (t *PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Rule_Source) GetNetworkInterface() []*PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Rule_Source_NetworkInterface {
+	if t == nil {
+		t = &PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Rule_Source{}
+	}
+	return t.NetworkInterface
+}
+func (t *PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Rule_Source) GetSiteNetworkSubnet() []*PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Rule_Source_SiteNetworkSubnet {
+	if t == nil {
+		t = &PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Rule_Source{}
+	}
+	return t.SiteNetworkSubnet
+}
+func (t *PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Rule_Source) GetSubnet() []string {
+	if t == nil {
+		t = &PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Rule_Source{}
+	}
+	return t.Subnet
+}
+func (t *PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Rule_Source) GetSystemGroup() []*PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Rule_Source_SystemGroup {
+	if t == nil {
+		t = &PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Rule_Source{}
+	}
+	return t.SystemGroup
+}
+func (t *PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Rule_Source) GetVlan() []string {
+	if t == nil {
+		t = &PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Rule_Source{}
+	}
+	return t.Vlan
+}
+
+type PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Rule_Destination_IPRange struct {
+	From string "json:\"from\" graphql:\"from\""
+	To   string "json:\"to\" graphql:\"to\""
+}
+
+func (t *PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Rule_Destination_IPRange) GetFrom() string {
+	if t == nil {
+		t = &PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Rule_Destination_IPRange{}
+	}
+	return t.From
+}
+func (t *PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Rule_Destination_IPRange) GetTo() string {
+	if t == nil {
+		t = &PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Rule_Destination_IPRange{}
+	}
+	return t.To
+}
+
+type PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Rule_Destination_NetworkInterface struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Rule_Destination_NetworkInterface) GetID() string {
+	if t == nil {
+		t = &PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Rule_Destination_NetworkInterface{}
+	}
+	return t.ID
+}
+func (t *PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Rule_Destination_NetworkInterface) GetName() string {
+	if t == nil {
+		t = &PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Rule_Destination_NetworkInterface{}
+	}
+	return t.Name
+}
+
+type PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Rule_Destination_SystemGroup struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Rule_Destination_SystemGroup) GetID() string {
+	if t == nil {
+		t = &PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Rule_Destination_SystemGroup{}
+	}
+	return t.ID
+}
+func (t *PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Rule_Destination_SystemGroup) GetName() string {
+	if t == nil {
+		t = &PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Rule_Destination_SystemGroup{}
+	}
+	return t.Name
+}
+
+type PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Rule_Destination_Host struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Rule_Destination_Host) GetID() string {
+	if t == nil {
+		t = &PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Rule_Destination_Host{}
+	}
+	return t.ID
+}
+func (t *PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Rule_Destination_Host) GetName() string {
+	if t == nil {
+		t = &PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Rule_Destination_Host{}
+	}
+	return t.Name
+}
+
+type PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Rule_Destination_GlobalIPRange struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Rule_Destination_GlobalIPRange) GetID() string {
+	if t == nil {
+		t = &PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Rule_Destination_GlobalIPRange{}
+	}
+	return t.ID
+}
+func (t *PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Rule_Destination_GlobalIPRange) GetName() string {
+	if t == nil {
+		t = &PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Rule_Destination_GlobalIPRange{}
+	}
+	return t.Name
+}
+
+type PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Rule_Destination_Group struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Rule_Destination_Group) GetID() string {
+	if t == nil {
+		t = &PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Rule_Destination_Group{}
+	}
+	return t.ID
+}
+func (t *PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Rule_Destination_Group) GetName() string {
+	if t == nil {
+		t = &PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Rule_Destination_Group{}
+	}
+	return t.Name
+}
+
+type PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Rule_Destination_FloatingSubnet struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Rule_Destination_FloatingSubnet) GetID() string {
+	if t == nil {
+		t = &PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Rule_Destination_FloatingSubnet{}
+	}
+	return t.ID
+}
+func (t *PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Rule_Destination_FloatingSubnet) GetName() string {
+	if t == nil {
+		t = &PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Rule_Destination_FloatingSubnet{}
+	}
+	return t.Name
+}
+
+type PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Rule_Destination_SiteNetworkSubnet struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Rule_Destination_SiteNetworkSubnet) GetID() string {
+	if t == nil {
+		t = &PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Rule_Destination_SiteNetworkSubnet{}
+	}
+	return t.ID
+}
+func (t *PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Rule_Destination_SiteNetworkSubnet) GetName() string {
+	if t == nil {
+		t = &PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Rule_Destination_SiteNetworkSubnet{}
+	}
+	return t.Name
+}
+
+type PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Rule_Destination struct {
+	FloatingSubnet    []*PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Rule_Destination_FloatingSubnet    "json:\"floatingSubnet\" graphql:\"floatingSubnet\""
+	GlobalIPRange     []*PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Rule_Destination_GlobalIPRange     "json:\"globalIpRange\" graphql:\"globalIpRange\""
+	Group             []*PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Rule_Destination_Group             "json:\"group\" graphql:\"group\""
+	Host              []*PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Rule_Destination_Host              "json:\"host\" graphql:\"host\""
+	IP                []string                                                                                         "json:\"ip\" graphql:\"ip\""
+	IPRange           []*PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Rule_Destination_IPRange           "json:\"ipRange\" graphql:\"ipRange\""
+	NetworkInterface  []*PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Rule_Destination_NetworkInterface  "json:\"networkInterface\" graphql:\"networkInterface\""
+	SiteNetworkSubnet []*PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Rule_Destination_SiteNetworkSubnet "json:\"siteNetworkSubnet\" graphql:\"siteNetworkSubnet\""
+	Subnet            []string                                                                                         "json:\"subnet\" graphql:\"subnet\""
+	SystemGroup       []*PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Rule_Destination_SystemGroup       "json:\"systemGroup\" graphql:\"systemGroup\""
+	Vlan              []string                                                                                         "json:\"vlan\" graphql:\"vlan\""
+}
+
+func (t *PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Rule_Destination) GetFloatingSubnet() []*PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Rule_Destination_FloatingSubnet {
+	if t == nil {
+		t = &PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Rule_Destination{}
+	}
+	return t.FloatingSubnet
+}
+func (t *PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Rule_Destination) GetGlobalIPRange() []*PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Rule_Destination_GlobalIPRange {
+	if t == nil {
+		t = &PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Rule_Destination{}
+	}
+	return t.GlobalIPRange
+}
+func (t *PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Rule_Destination) GetGroup() []*PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Rule_Destination_Group {
+	if t == nil {
+		t = &PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Rule_Destination{}
+	}
+	return t.Group
+}
+func (t *PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Rule_Destination) GetHost() []*PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Rule_Destination_Host {
+	if t == nil {
+		t = &PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Rule_Destination{}
+	}
+	return t.Host
+}
+func (t *PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Rule_Destination) GetIP() []string {
+	if t == nil {
+		t = &PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Rule_Destination{}
+	}
+	return t.IP
+}
+func (t *PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Rule_Destination) GetIPRange() []*PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Rule_Destination_IPRange {
+	if t == nil {
+		t = &PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Rule_Destination{}
+	}
+	return t.IPRange
+}
+func (t *PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Rule_Destination) GetNetworkInterface() []*PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Rule_Destination_NetworkInterface {
+	if t == nil {
+		t = &PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Rule_Destination{}
+	}
+	return t.NetworkInterface
+}
+func (t *PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Rule_Destination) GetSiteNetworkSubnet() []*PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Rule_Destination_SiteNetworkSubnet {
+	if t == nil {
+		t = &PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Rule_Destination{}
+	}
+	return t.SiteNetworkSubnet
+}
+func (t *PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Rule_Destination) GetSubnet() []string {
+	if t == nil {
+		t = &PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Rule_Destination{}
+	}
+	return t.Subnet
+}
+func (t *PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Rule_Destination) GetSystemGroup() []*PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Rule_Destination_SystemGroup {
+	if t == nil {
+		t = &PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Rule_Destination{}
+	}
+	return t.SystemGroup
+}
+func (t *PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Rule_Destination) GetVlan() []string {
+	if t == nil {
+		t = &PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Rule_Destination{}
+	}
+	return t.Vlan
+}
+
+type PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Rule_Service_Simple struct {
+	Name cato_models.SimpleServiceType "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Rule_Service_Simple) GetName() *cato_models.SimpleServiceType {
+	if t == nil {
+		t = &PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Rule_Service_Simple{}
+	}
+	return &t.Name
+}
+
+type PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Rule_Service_Custom_PortRange struct {
+	From scalars.Port "json:\"from\" graphql:\"from\""
+	To   scalars.Port "json:\"to\" graphql:\"to\""
+}
+
+func (t *PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Rule_Service_Custom_PortRange) GetFrom() *scalars.Port {
+	if t == nil {
+		t = &PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Rule_Service_Custom_PortRange{}
+	}
+	return &t.From
+}
+func (t *PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Rule_Service_Custom_PortRange) GetTo() *scalars.Port {
+	if t == nil {
+		t = &PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Rule_Service_Custom_PortRange{}
+	}
+	return &t.To
+}
+
+type PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Rule_Service_Custom struct {
+	Port      []scalars.Port                                                                            "json:\"port,omitempty\" graphql:\"port\""
+	PortRange *PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Rule_Service_Custom_PortRange "json:\"portRange,omitempty\" graphql:\"portRange\""
+	Protocol  cato_models.IPProtocol                                                                    "json:\"protocol\" graphql:\"protocol\""
+}
+
+func (t *PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Rule_Service_Custom) GetPort() []scalars.Port {
+	if t == nil {
+		t = &PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Rule_Service_Custom{}
+	}
+	return t.Port
+}
+func (t *PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Rule_Service_Custom) GetPortRange() *PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Rule_Service_Custom_PortRange {
+	if t == nil {
+		t = &PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Rule_Service_Custom{}
+	}
+	return t.PortRange
+}
+func (t *PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Rule_Service_Custom) GetProtocol() *cato_models.IPProtocol {
+	if t == nil {
+		t = &PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Rule_Service_Custom{}
+	}
+	return &t.Protocol
+}
+
+type PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Rule_Service struct {
+	Custom []*PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Rule_Service_Custom "json:\"custom\" graphql:\"custom\""
+	Simple []*PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Rule_Service_Simple "json:\"simple\" graphql:\"simple\""
+}
+
+func (t *PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Rule_Service) GetCustom() []*PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Rule_Service_Custom {
+	if t == nil {
+		t = &PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Rule_Service{}
+	}
+	return t.Custom
+}
+func (t *PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Rule_Service) GetSimple() []*PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Rule_Service_Simple {
+	if t == nil {
+		t = &PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Rule_Service{}
+	}
+	return t.Simple
+}
+
+type PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Rule_Nat struct {
+	Enabled bool                         "json:\"enabled\" graphql:\"enabled\""
+	NatType cato_models.SocketLanNatType "json:\"natType\" graphql:\"natType\""
+}
+
+func (t *PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Rule_Nat) GetEnabled() bool {
+	if t == nil {
+		t = &PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Rule_Nat{}
+	}
+	return t.Enabled
+}
+func (t *PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Rule_Nat) GetNatType() *cato_models.SocketLanNatType {
+	if t == nil {
+		t = &PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Rule_Nat{}
+	}
+	return &t.NatType
+}
+
+type PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Rule struct {
+	Description string                                                                      "json:\"description\" graphql:\"description\""
+	Destination PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Rule_Destination "json:\"destination\" graphql:\"destination\""
+	Direction   cato_models.SocketLanDirection                                              "json:\"direction\" graphql:\"direction\""
+	Enabled     bool                                                                        "json:\"enabled\" graphql:\"enabled\""
+	ID          string                                                                      "json:\"id\" graphql:\"id\""
+	Index       int64                                                                       "json:\"index\" graphql:\"index\""
+	Name        string                                                                      "json:\"name\" graphql:\"name\""
+	Nat         PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Rule_Nat         "json:\"nat\" graphql:\"nat\""
+	Section     PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Rule_Section     "json:\"section\" graphql:\"section\""
+	Service     PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Rule_Service     "json:\"service\" graphql:\"service\""
+	Site        PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Rule_Site        "json:\"site\" graphql:\"site\""
+	Source      PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Rule_Source      "json:\"source\" graphql:\"source\""
+	Transport   cato_models.SocketLanTransportType                                          "json:\"transport\" graphql:\"transport\""
+}
+
+func (t *PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Rule) GetDescription() string {
+	if t == nil {
+		t = &PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Rule{}
+	}
+	return t.Description
+}
+func (t *PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Rule) GetDestination() *PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Rule_Destination {
+	if t == nil {
+		t = &PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Rule{}
+	}
+	return &t.Destination
+}
+func (t *PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Rule) GetDirection() *cato_models.SocketLanDirection {
+	if t == nil {
+		t = &PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Rule{}
+	}
+	return &t.Direction
+}
+func (t *PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Rule) GetEnabled() bool {
+	if t == nil {
+		t = &PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Rule{}
+	}
+	return t.Enabled
+}
+func (t *PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Rule) GetID() string {
+	if t == nil {
+		t = &PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Rule{}
+	}
+	return t.ID
+}
+func (t *PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Rule) GetIndex() int64 {
+	if t == nil {
+		t = &PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Rule{}
+	}
+	return t.Index
+}
+func (t *PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Rule) GetName() string {
+	if t == nil {
+		t = &PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Rule{}
+	}
+	return t.Name
+}
+func (t *PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Rule) GetNat() *PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Rule_Nat {
+	if t == nil {
+		t = &PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Rule{}
+	}
+	return &t.Nat
+}
+func (t *PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Rule) GetSection() *PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Rule_Section {
+	if t == nil {
+		t = &PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Rule{}
+	}
+	return &t.Section
+}
+func (t *PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Rule) GetService() *PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Rule_Service {
+	if t == nil {
+		t = &PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Rule{}
+	}
+	return &t.Service
+}
+func (t *PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Rule) GetSite() *PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Rule_Site {
+	if t == nil {
+		t = &PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Rule{}
+	}
+	return &t.Site
+}
+func (t *PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Rule) GetSource() *PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Rule_Source {
+	if t == nil {
+		t = &PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Rule{}
+	}
+	return &t.Source
+}
+func (t *PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Rule) GetTransport() *cato_models.SocketLanTransportType {
+	if t == nil {
+		t = &PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Rule{}
+	}
+	return &t.Transport
+}
+
+type PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule struct {
+	Audit      PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Audit "json:\"audit\" graphql:\"audit\""
+	Properties []cato_models.PolicyElementPropertiesEnum                        "json:\"properties\" graphql:\"properties\""
+	Rule       PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Rule  "json:\"rule\" graphql:\"rule\""
+}
+
+func (t *PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule) GetAudit() *PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Audit {
+	if t == nil {
+		t = &PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule{}
+	}
+	return &t.Audit
+}
+func (t *PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule) GetProperties() []cato_models.PolicyElementPropertiesEnum {
+	if t == nil {
+		t = &PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule{}
+	}
+	return t.Properties
+}
+func (t *PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule) GetRule() *PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule_Rule {
+	if t == nil {
+		t = &PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule{}
+	}
+	return &t.Rule
+}
+
+type PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Errors struct {
+	ErrorCode    *string "json:\"errorCode,omitempty\" graphql:\"errorCode\""
+	ErrorMessage *string "json:\"errorMessage,omitempty\" graphql:\"errorMessage\""
+}
+
+func (t *PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Errors) GetErrorCode() *string {
+	if t == nil {
+		t = &PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Errors{}
+	}
+	return t.ErrorCode
+}
+func (t *PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Errors) GetErrorMessage() *string {
+	if t == nil {
+		t = &PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Errors{}
+	}
+	return t.ErrorMessage
+}
+
+type PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule struct {
+	Errors []*PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Errors "json:\"errors\" graphql:\"errors\""
+	Rule   *PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule     "json:\"rule,omitempty\" graphql:\"rule\""
+	Status cato_models.PolicyMutationStatus                                "json:\"status\" graphql:\"status\""
+}
+
+func (t *PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule) GetErrors() []*PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Errors {
+	if t == nil {
+		t = &PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule{}
+	}
+	return t.Errors
+}
+func (t *PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule) GetRule() *PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule_Rule {
+	if t == nil {
+		t = &PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule{}
+	}
+	return t.Rule
+}
+func (t *PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule) GetStatus() *cato_models.PolicyMutationStatus {
+	if t == nil {
+		t = &PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule{}
+	}
+	return &t.Status
+}
+
+type PolicySocketLanRemoveRule_Policy_SocketLan struct {
+	RemoveRule PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule "json:\"removeRule\" graphql:\"removeRule\""
+}
+
+func (t *PolicySocketLanRemoveRule_Policy_SocketLan) GetRemoveRule() *PolicySocketLanRemoveRule_Policy_SocketLan_RemoveRule {
+	if t == nil {
+		t = &PolicySocketLanRemoveRule_Policy_SocketLan{}
+	}
+	return &t.RemoveRule
+}
+
+type PolicySocketLanRemoveRule_Policy struct {
+	SocketLan *PolicySocketLanRemoveRule_Policy_SocketLan "json:\"socketLan,omitempty\" graphql:\"socketLan\""
+}
+
+func (t *PolicySocketLanRemoveRule_Policy) GetSocketLan() *PolicySocketLanRemoveRule_Policy_SocketLan {
+	if t == nil {
+		t = &PolicySocketLanRemoveRule_Policy{}
+	}
+	return t.SocketLan
+}
+
+type PolicySocketLanRemoveSection_Policy_SocketLan_RemoveSection_Section_Audit struct {
+	UpdatedBy   string "json:\"updatedBy\" graphql:\"updatedBy\""
+	UpdatedTime string "json:\"updatedTime\" graphql:\"updatedTime\""
+}
+
+func (t *PolicySocketLanRemoveSection_Policy_SocketLan_RemoveSection_Section_Audit) GetUpdatedBy() string {
+	if t == nil {
+		t = &PolicySocketLanRemoveSection_Policy_SocketLan_RemoveSection_Section_Audit{}
+	}
+	return t.UpdatedBy
+}
+func (t *PolicySocketLanRemoveSection_Policy_SocketLan_RemoveSection_Section_Audit) GetUpdatedTime() string {
+	if t == nil {
+		t = &PolicySocketLanRemoveSection_Policy_SocketLan_RemoveSection_Section_Audit{}
+	}
+	return t.UpdatedTime
+}
+
+type PolicySocketLanRemoveSection_Policy_SocketLan_RemoveSection_Section_Section struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicySocketLanRemoveSection_Policy_SocketLan_RemoveSection_Section_Section) GetID() string {
+	if t == nil {
+		t = &PolicySocketLanRemoveSection_Policy_SocketLan_RemoveSection_Section_Section{}
+	}
+	return t.ID
+}
+func (t *PolicySocketLanRemoveSection_Policy_SocketLan_RemoveSection_Section_Section) GetName() string {
+	if t == nil {
+		t = &PolicySocketLanRemoveSection_Policy_SocketLan_RemoveSection_Section_Section{}
+	}
+	return t.Name
+}
+
+type PolicySocketLanRemoveSection_Policy_SocketLan_RemoveSection_Section struct {
+	Audit      PolicySocketLanRemoveSection_Policy_SocketLan_RemoveSection_Section_Audit   "json:\"audit\" graphql:\"audit\""
+	Properties []cato_models.PolicyElementPropertiesEnum                                   "json:\"properties\" graphql:\"properties\""
+	Section    PolicySocketLanRemoveSection_Policy_SocketLan_RemoveSection_Section_Section "json:\"section\" graphql:\"section\""
+}
+
+func (t *PolicySocketLanRemoveSection_Policy_SocketLan_RemoveSection_Section) GetAudit() *PolicySocketLanRemoveSection_Policy_SocketLan_RemoveSection_Section_Audit {
+	if t == nil {
+		t = &PolicySocketLanRemoveSection_Policy_SocketLan_RemoveSection_Section{}
+	}
+	return &t.Audit
+}
+func (t *PolicySocketLanRemoveSection_Policy_SocketLan_RemoveSection_Section) GetProperties() []cato_models.PolicyElementPropertiesEnum {
+	if t == nil {
+		t = &PolicySocketLanRemoveSection_Policy_SocketLan_RemoveSection_Section{}
+	}
+	return t.Properties
+}
+func (t *PolicySocketLanRemoveSection_Policy_SocketLan_RemoveSection_Section) GetSection() *PolicySocketLanRemoveSection_Policy_SocketLan_RemoveSection_Section_Section {
+	if t == nil {
+		t = &PolicySocketLanRemoveSection_Policy_SocketLan_RemoveSection_Section{}
+	}
+	return &t.Section
+}
+
+type PolicySocketLanRemoveSection_Policy_SocketLan_RemoveSection_Errors struct {
+	ErrorCode    *string "json:\"errorCode,omitempty\" graphql:\"errorCode\""
+	ErrorMessage *string "json:\"errorMessage,omitempty\" graphql:\"errorMessage\""
+}
+
+func (t *PolicySocketLanRemoveSection_Policy_SocketLan_RemoveSection_Errors) GetErrorCode() *string {
+	if t == nil {
+		t = &PolicySocketLanRemoveSection_Policy_SocketLan_RemoveSection_Errors{}
+	}
+	return t.ErrorCode
+}
+func (t *PolicySocketLanRemoveSection_Policy_SocketLan_RemoveSection_Errors) GetErrorMessage() *string {
+	if t == nil {
+		t = &PolicySocketLanRemoveSection_Policy_SocketLan_RemoveSection_Errors{}
+	}
+	return t.ErrorMessage
+}
+
+type PolicySocketLanRemoveSection_Policy_SocketLan_RemoveSection struct {
+	Errors  []*PolicySocketLanRemoveSection_Policy_SocketLan_RemoveSection_Errors "json:\"errors\" graphql:\"errors\""
+	Section *PolicySocketLanRemoveSection_Policy_SocketLan_RemoveSection_Section  "json:\"section,omitempty\" graphql:\"section\""
+	Status  cato_models.PolicyMutationStatus                                      "json:\"status\" graphql:\"status\""
+}
+
+func (t *PolicySocketLanRemoveSection_Policy_SocketLan_RemoveSection) GetErrors() []*PolicySocketLanRemoveSection_Policy_SocketLan_RemoveSection_Errors {
+	if t == nil {
+		t = &PolicySocketLanRemoveSection_Policy_SocketLan_RemoveSection{}
+	}
+	return t.Errors
+}
+func (t *PolicySocketLanRemoveSection_Policy_SocketLan_RemoveSection) GetSection() *PolicySocketLanRemoveSection_Policy_SocketLan_RemoveSection_Section {
+	if t == nil {
+		t = &PolicySocketLanRemoveSection_Policy_SocketLan_RemoveSection{}
+	}
+	return t.Section
+}
+func (t *PolicySocketLanRemoveSection_Policy_SocketLan_RemoveSection) GetStatus() *cato_models.PolicyMutationStatus {
+	if t == nil {
+		t = &PolicySocketLanRemoveSection_Policy_SocketLan_RemoveSection{}
+	}
+	return &t.Status
+}
+
+type PolicySocketLanRemoveSection_Policy_SocketLan struct {
+	RemoveSection PolicySocketLanRemoveSection_Policy_SocketLan_RemoveSection "json:\"removeSection\" graphql:\"removeSection\""
+}
+
+func (t *PolicySocketLanRemoveSection_Policy_SocketLan) GetRemoveSection() *PolicySocketLanRemoveSection_Policy_SocketLan_RemoveSection {
+	if t == nil {
+		t = &PolicySocketLanRemoveSection_Policy_SocketLan{}
+	}
+	return &t.RemoveSection
+}
+
+type PolicySocketLanRemoveSection_Policy struct {
+	SocketLan *PolicySocketLanRemoveSection_Policy_SocketLan "json:\"socketLan,omitempty\" graphql:\"socketLan\""
+}
+
+func (t *PolicySocketLanRemoveSection_Policy) GetSocketLan() *PolicySocketLanRemoveSection_Policy_SocketLan {
+	if t == nil {
+		t = &PolicySocketLanRemoveSection_Policy{}
+	}
+	return t.SocketLan
+}
+
+type PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Audit struct {
+	UpdatedBy   string "json:\"updatedBy\" graphql:\"updatedBy\""
+	UpdatedTime string "json:\"updatedTime\" graphql:\"updatedTime\""
+}
+
+func (t *PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Audit) GetUpdatedBy() string {
+	if t == nil {
+		t = &PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Audit{}
+	}
+	return t.UpdatedBy
+}
+func (t *PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Audit) GetUpdatedTime() string {
+	if t == nil {
+		t = &PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Audit{}
+	}
+	return t.UpdatedTime
+}
+
+type PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Rule_Section struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Rule_Section) GetID() string {
+	if t == nil {
+		t = &PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Rule_Section{}
+	}
+	return t.ID
+}
+func (t *PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Rule_Section) GetName() string {
+	if t == nil {
+		t = &PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Rule_Section{}
+	}
+	return t.Name
+}
+
+type PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Rule_Site_Site struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Rule_Site_Site) GetID() string {
+	if t == nil {
+		t = &PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Rule_Site_Site{}
+	}
+	return t.ID
+}
+func (t *PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Rule_Site_Site) GetName() string {
+	if t == nil {
+		t = &PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Rule_Site_Site{}
+	}
+	return t.Name
+}
+
+type PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Rule_Site_Group struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Rule_Site_Group) GetID() string {
+	if t == nil {
+		t = &PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Rule_Site_Group{}
+	}
+	return t.ID
+}
+func (t *PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Rule_Site_Group) GetName() string {
+	if t == nil {
+		t = &PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Rule_Site_Group{}
+	}
+	return t.Name
+}
+
+type PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Rule_Site struct {
+	Group []*PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Rule_Site_Group "json:\"group\" graphql:\"group\""
+	Site  []*PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Rule_Site_Site  "json:\"site\" graphql:\"site\""
+}
+
+func (t *PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Rule_Site) GetGroup() []*PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Rule_Site_Group {
+	if t == nil {
+		t = &PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Rule_Site{}
+	}
+	return t.Group
+}
+func (t *PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Rule_Site) GetSite() []*PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Rule_Site_Site {
+	if t == nil {
+		t = &PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Rule_Site{}
+	}
+	return t.Site
+}
+
+type PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Rule_Source_IPRange struct {
+	From string "json:\"from\" graphql:\"from\""
+	To   string "json:\"to\" graphql:\"to\""
+}
+
+func (t *PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Rule_Source_IPRange) GetFrom() string {
+	if t == nil {
+		t = &PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Rule_Source_IPRange{}
+	}
+	return t.From
+}
+func (t *PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Rule_Source_IPRange) GetTo() string {
+	if t == nil {
+		t = &PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Rule_Source_IPRange{}
+	}
+	return t.To
+}
+
+type PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Rule_Source_Group struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Rule_Source_Group) GetID() string {
+	if t == nil {
+		t = &PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Rule_Source_Group{}
+	}
+	return t.ID
+}
+func (t *PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Rule_Source_Group) GetName() string {
+	if t == nil {
+		t = &PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Rule_Source_Group{}
+	}
+	return t.Name
+}
+
+type PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Rule_Source_NetworkInterface struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Rule_Source_NetworkInterface) GetID() string {
+	if t == nil {
+		t = &PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Rule_Source_NetworkInterface{}
+	}
+	return t.ID
+}
+func (t *PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Rule_Source_NetworkInterface) GetName() string {
+	if t == nil {
+		t = &PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Rule_Source_NetworkInterface{}
+	}
+	return t.Name
+}
+
+type PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Rule_Source_SystemGroup struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Rule_Source_SystemGroup) GetID() string {
+	if t == nil {
+		t = &PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Rule_Source_SystemGroup{}
+	}
+	return t.ID
+}
+func (t *PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Rule_Source_SystemGroup) GetName() string {
+	if t == nil {
+		t = &PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Rule_Source_SystemGroup{}
+	}
+	return t.Name
+}
+
+type PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Rule_Source_Host struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Rule_Source_Host) GetID() string {
+	if t == nil {
+		t = &PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Rule_Source_Host{}
+	}
+	return t.ID
+}
+func (t *PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Rule_Source_Host) GetName() string {
+	if t == nil {
+		t = &PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Rule_Source_Host{}
+	}
+	return t.Name
+}
+
+type PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Rule_Source_GlobalIPRange struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Rule_Source_GlobalIPRange) GetID() string {
+	if t == nil {
+		t = &PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Rule_Source_GlobalIPRange{}
+	}
+	return t.ID
+}
+func (t *PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Rule_Source_GlobalIPRange) GetName() string {
+	if t == nil {
+		t = &PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Rule_Source_GlobalIPRange{}
+	}
+	return t.Name
+}
+
+type PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Rule_Source_FloatingSubnet struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Rule_Source_FloatingSubnet) GetID() string {
+	if t == nil {
+		t = &PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Rule_Source_FloatingSubnet{}
+	}
+	return t.ID
+}
+func (t *PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Rule_Source_FloatingSubnet) GetName() string {
+	if t == nil {
+		t = &PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Rule_Source_FloatingSubnet{}
+	}
+	return t.Name
+}
+
+type PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Rule_Source_SiteNetworkSubnet struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Rule_Source_SiteNetworkSubnet) GetID() string {
+	if t == nil {
+		t = &PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Rule_Source_SiteNetworkSubnet{}
+	}
+	return t.ID
+}
+func (t *PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Rule_Source_SiteNetworkSubnet) GetName() string {
+	if t == nil {
+		t = &PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Rule_Source_SiteNetworkSubnet{}
+	}
+	return t.Name
+}
+
+type PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Rule_Source struct {
+	FloatingSubnet    []*PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Rule_Source_FloatingSubnet    "json:\"floatingSubnet\" graphql:\"floatingSubnet\""
+	GlobalIPRange     []*PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Rule_Source_GlobalIPRange     "json:\"globalIpRange\" graphql:\"globalIpRange\""
+	Group             []*PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Rule_Source_Group             "json:\"group\" graphql:\"group\""
+	Host              []*PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Rule_Source_Host              "json:\"host\" graphql:\"host\""
+	IP                []string                                                                                                "json:\"ip\" graphql:\"ip\""
+	IPRange           []*PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Rule_Source_IPRange           "json:\"ipRange\" graphql:\"ipRange\""
+	NetworkInterface  []*PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Rule_Source_NetworkInterface  "json:\"networkInterface\" graphql:\"networkInterface\""
+	SiteNetworkSubnet []*PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Rule_Source_SiteNetworkSubnet "json:\"siteNetworkSubnet\" graphql:\"siteNetworkSubnet\""
+	Subnet            []string                                                                                                "json:\"subnet\" graphql:\"subnet\""
+	SystemGroup       []*PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Rule_Source_SystemGroup       "json:\"systemGroup\" graphql:\"systemGroup\""
+	Vlan              []string                                                                                                "json:\"vlan\" graphql:\"vlan\""
+}
+
+func (t *PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Rule_Source) GetFloatingSubnet() []*PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Rule_Source_FloatingSubnet {
+	if t == nil {
+		t = &PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Rule_Source{}
+	}
+	return t.FloatingSubnet
+}
+func (t *PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Rule_Source) GetGlobalIPRange() []*PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Rule_Source_GlobalIPRange {
+	if t == nil {
+		t = &PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Rule_Source{}
+	}
+	return t.GlobalIPRange
+}
+func (t *PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Rule_Source) GetGroup() []*PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Rule_Source_Group {
+	if t == nil {
+		t = &PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Rule_Source{}
+	}
+	return t.Group
+}
+func (t *PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Rule_Source) GetHost() []*PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Rule_Source_Host {
+	if t == nil {
+		t = &PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Rule_Source{}
+	}
+	return t.Host
+}
+func (t *PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Rule_Source) GetIP() []string {
+	if t == nil {
+		t = &PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Rule_Source{}
+	}
+	return t.IP
+}
+func (t *PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Rule_Source) GetIPRange() []*PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Rule_Source_IPRange {
+	if t == nil {
+		t = &PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Rule_Source{}
+	}
+	return t.IPRange
+}
+func (t *PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Rule_Source) GetNetworkInterface() []*PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Rule_Source_NetworkInterface {
+	if t == nil {
+		t = &PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Rule_Source{}
+	}
+	return t.NetworkInterface
+}
+func (t *PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Rule_Source) GetSiteNetworkSubnet() []*PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Rule_Source_SiteNetworkSubnet {
+	if t == nil {
+		t = &PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Rule_Source{}
+	}
+	return t.SiteNetworkSubnet
+}
+func (t *PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Rule_Source) GetSubnet() []string {
+	if t == nil {
+		t = &PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Rule_Source{}
+	}
+	return t.Subnet
+}
+func (t *PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Rule_Source) GetSystemGroup() []*PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Rule_Source_SystemGroup {
+	if t == nil {
+		t = &PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Rule_Source{}
+	}
+	return t.SystemGroup
+}
+func (t *PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Rule_Source) GetVlan() []string {
+	if t == nil {
+		t = &PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Rule_Source{}
+	}
+	return t.Vlan
+}
+
+type PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Rule_Destination_IPRange struct {
+	From string "json:\"from\" graphql:\"from\""
+	To   string "json:\"to\" graphql:\"to\""
+}
+
+func (t *PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Rule_Destination_IPRange) GetFrom() string {
+	if t == nil {
+		t = &PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Rule_Destination_IPRange{}
+	}
+	return t.From
+}
+func (t *PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Rule_Destination_IPRange) GetTo() string {
+	if t == nil {
+		t = &PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Rule_Destination_IPRange{}
+	}
+	return t.To
+}
+
+type PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Rule_Destination_NetworkInterface struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Rule_Destination_NetworkInterface) GetID() string {
+	if t == nil {
+		t = &PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Rule_Destination_NetworkInterface{}
+	}
+	return t.ID
+}
+func (t *PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Rule_Destination_NetworkInterface) GetName() string {
+	if t == nil {
+		t = &PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Rule_Destination_NetworkInterface{}
+	}
+	return t.Name
+}
+
+type PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Rule_Destination_SystemGroup struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Rule_Destination_SystemGroup) GetID() string {
+	if t == nil {
+		t = &PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Rule_Destination_SystemGroup{}
+	}
+	return t.ID
+}
+func (t *PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Rule_Destination_SystemGroup) GetName() string {
+	if t == nil {
+		t = &PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Rule_Destination_SystemGroup{}
+	}
+	return t.Name
+}
+
+type PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Rule_Destination_Host struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Rule_Destination_Host) GetID() string {
+	if t == nil {
+		t = &PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Rule_Destination_Host{}
+	}
+	return t.ID
+}
+func (t *PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Rule_Destination_Host) GetName() string {
+	if t == nil {
+		t = &PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Rule_Destination_Host{}
+	}
+	return t.Name
+}
+
+type PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Rule_Destination_GlobalIPRange struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Rule_Destination_GlobalIPRange) GetID() string {
+	if t == nil {
+		t = &PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Rule_Destination_GlobalIPRange{}
+	}
+	return t.ID
+}
+func (t *PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Rule_Destination_GlobalIPRange) GetName() string {
+	if t == nil {
+		t = &PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Rule_Destination_GlobalIPRange{}
+	}
+	return t.Name
+}
+
+type PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Rule_Destination_Group struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Rule_Destination_Group) GetID() string {
+	if t == nil {
+		t = &PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Rule_Destination_Group{}
+	}
+	return t.ID
+}
+func (t *PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Rule_Destination_Group) GetName() string {
+	if t == nil {
+		t = &PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Rule_Destination_Group{}
+	}
+	return t.Name
+}
+
+type PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Rule_Destination_FloatingSubnet struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Rule_Destination_FloatingSubnet) GetID() string {
+	if t == nil {
+		t = &PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Rule_Destination_FloatingSubnet{}
+	}
+	return t.ID
+}
+func (t *PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Rule_Destination_FloatingSubnet) GetName() string {
+	if t == nil {
+		t = &PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Rule_Destination_FloatingSubnet{}
+	}
+	return t.Name
+}
+
+type PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Rule_Destination_SiteNetworkSubnet struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Rule_Destination_SiteNetworkSubnet) GetID() string {
+	if t == nil {
+		t = &PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Rule_Destination_SiteNetworkSubnet{}
+	}
+	return t.ID
+}
+func (t *PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Rule_Destination_SiteNetworkSubnet) GetName() string {
+	if t == nil {
+		t = &PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Rule_Destination_SiteNetworkSubnet{}
+	}
+	return t.Name
+}
+
+type PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Rule_Destination struct {
+	FloatingSubnet    []*PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Rule_Destination_FloatingSubnet    "json:\"floatingSubnet\" graphql:\"floatingSubnet\""
+	GlobalIPRange     []*PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Rule_Destination_GlobalIPRange     "json:\"globalIpRange\" graphql:\"globalIpRange\""
+	Group             []*PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Rule_Destination_Group             "json:\"group\" graphql:\"group\""
+	Host              []*PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Rule_Destination_Host              "json:\"host\" graphql:\"host\""
+	IP                []string                                                                                                     "json:\"ip\" graphql:\"ip\""
+	IPRange           []*PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Rule_Destination_IPRange           "json:\"ipRange\" graphql:\"ipRange\""
+	NetworkInterface  []*PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Rule_Destination_NetworkInterface  "json:\"networkInterface\" graphql:\"networkInterface\""
+	SiteNetworkSubnet []*PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Rule_Destination_SiteNetworkSubnet "json:\"siteNetworkSubnet\" graphql:\"siteNetworkSubnet\""
+	Subnet            []string                                                                                                     "json:\"subnet\" graphql:\"subnet\""
+	SystemGroup       []*PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Rule_Destination_SystemGroup       "json:\"systemGroup\" graphql:\"systemGroup\""
+	Vlan              []string                                                                                                     "json:\"vlan\" graphql:\"vlan\""
+}
+
+func (t *PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Rule_Destination) GetFloatingSubnet() []*PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Rule_Destination_FloatingSubnet {
+	if t == nil {
+		t = &PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Rule_Destination{}
+	}
+	return t.FloatingSubnet
+}
+func (t *PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Rule_Destination) GetGlobalIPRange() []*PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Rule_Destination_GlobalIPRange {
+	if t == nil {
+		t = &PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Rule_Destination{}
+	}
+	return t.GlobalIPRange
+}
+func (t *PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Rule_Destination) GetGroup() []*PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Rule_Destination_Group {
+	if t == nil {
+		t = &PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Rule_Destination{}
+	}
+	return t.Group
+}
+func (t *PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Rule_Destination) GetHost() []*PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Rule_Destination_Host {
+	if t == nil {
+		t = &PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Rule_Destination{}
+	}
+	return t.Host
+}
+func (t *PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Rule_Destination) GetIP() []string {
+	if t == nil {
+		t = &PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Rule_Destination{}
+	}
+	return t.IP
+}
+func (t *PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Rule_Destination) GetIPRange() []*PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Rule_Destination_IPRange {
+	if t == nil {
+		t = &PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Rule_Destination{}
+	}
+	return t.IPRange
+}
+func (t *PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Rule_Destination) GetNetworkInterface() []*PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Rule_Destination_NetworkInterface {
+	if t == nil {
+		t = &PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Rule_Destination{}
+	}
+	return t.NetworkInterface
+}
+func (t *PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Rule_Destination) GetSiteNetworkSubnet() []*PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Rule_Destination_SiteNetworkSubnet {
+	if t == nil {
+		t = &PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Rule_Destination{}
+	}
+	return t.SiteNetworkSubnet
+}
+func (t *PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Rule_Destination) GetSubnet() []string {
+	if t == nil {
+		t = &PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Rule_Destination{}
+	}
+	return t.Subnet
+}
+func (t *PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Rule_Destination) GetSystemGroup() []*PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Rule_Destination_SystemGroup {
+	if t == nil {
+		t = &PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Rule_Destination{}
+	}
+	return t.SystemGroup
+}
+func (t *PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Rule_Destination) GetVlan() []string {
+	if t == nil {
+		t = &PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Rule_Destination{}
+	}
+	return t.Vlan
+}
+
+type PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Rule_Service_Simple struct {
+	Name cato_models.SimpleServiceType "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Rule_Service_Simple) GetName() *cato_models.SimpleServiceType {
+	if t == nil {
+		t = &PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Rule_Service_Simple{}
+	}
+	return &t.Name
+}
+
+type PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Rule_Service_Custom_PortRangeCustomService struct {
+	From scalars.Port "json:\"from\" graphql:\"from\""
+	To   scalars.Port "json:\"to\" graphql:\"to\""
+}
+
+func (t *PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Rule_Service_Custom_PortRangeCustomService) GetFrom() *scalars.Port {
+	if t == nil {
+		t = &PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Rule_Service_Custom_PortRangeCustomService{}
+	}
+	return &t.From
+}
+func (t *PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Rule_Service_Custom_PortRangeCustomService) GetTo() *scalars.Port {
+	if t == nil {
+		t = &PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Rule_Service_Custom_PortRangeCustomService{}
+	}
+	return &t.To
+}
+
+type PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Rule_Service_Custom struct {
+	Port                   []scalars.Port                                                                                                     "json:\"port,omitempty\" graphql:\"port\""
+	PortRangeCustomService *PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Rule_Service_Custom_PortRangeCustomService "json:\"portRangeCustomService,omitempty\" graphql:\"portRangeCustomService\""
+	Protocol               cato_models.IPProtocol                                                                                             "json:\"protocol\" graphql:\"protocol\""
+}
+
+func (t *PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Rule_Service_Custom) GetPort() []scalars.Port {
+	if t == nil {
+		t = &PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Rule_Service_Custom{}
+	}
+	return t.Port
+}
+func (t *PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Rule_Service_Custom) GetPortRangeCustomService() *PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Rule_Service_Custom_PortRangeCustomService {
+	if t == nil {
+		t = &PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Rule_Service_Custom{}
+	}
+	return t.PortRangeCustomService
+}
+func (t *PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Rule_Service_Custom) GetProtocol() *cato_models.IPProtocol {
+	if t == nil {
+		t = &PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Rule_Service_Custom{}
+	}
+	return &t.Protocol
+}
+
+type PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Rule_Service struct {
+	Custom []*PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Rule_Service_Custom "json:\"custom\" graphql:\"custom\""
+	Simple []*PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Rule_Service_Simple "json:\"simple\" graphql:\"simple\""
+}
+
+func (t *PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Rule_Service) GetCustom() []*PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Rule_Service_Custom {
+	if t == nil {
+		t = &PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Rule_Service{}
+	}
+	return t.Custom
+}
+func (t *PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Rule_Service) GetSimple() []*PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Rule_Service_Simple {
+	if t == nil {
+		t = &PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Rule_Service{}
+	}
+	return t.Simple
+}
+
+type PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Rule_Nat struct {
+	Enabled bool                         "json:\"enabled\" graphql:\"enabled\""
+	NatType cato_models.SocketLanNatType "json:\"natType\" graphql:\"natType\""
+}
+
+func (t *PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Rule_Nat) GetEnabled() bool {
+	if t == nil {
+		t = &PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Rule_Nat{}
+	}
+	return t.Enabled
+}
+func (t *PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Rule_Nat) GetNatType() *cato_models.SocketLanNatType {
+	if t == nil {
+		t = &PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Rule_Nat{}
+	}
+	return &t.NatType
+}
+
+type PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Rule struct {
+	Description string                                                                                  "json:\"description\" graphql:\"description\""
+	Destination PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Rule_Destination "json:\"destination\" graphql:\"destination\""
+	Direction   cato_models.SocketLanDirection                                                          "json:\"direction\" graphql:\"direction\""
+	Enabled     bool                                                                                    "json:\"enabled\" graphql:\"enabled\""
+	ID          string                                                                                  "json:\"id\" graphql:\"id\""
+	Index       int64                                                                                   "json:\"index\" graphql:\"index\""
+	Name        string                                                                                  "json:\"name\" graphql:\"name\""
+	Nat         PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Rule_Nat         "json:\"nat\" graphql:\"nat\""
+	Section     PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Rule_Section     "json:\"section\" graphql:\"section\""
+	Service     PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Rule_Service     "json:\"service\" graphql:\"service\""
+	Site        PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Rule_Site        "json:\"site\" graphql:\"site\""
+	Source      PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Rule_Source      "json:\"source\" graphql:\"source\""
+	Transport   cato_models.SocketLanTransportType                                                      "json:\"transport\" graphql:\"transport\""
+}
+
+func (t *PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Rule) GetDescription() string {
+	if t == nil {
+		t = &PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Rule{}
+	}
+	return t.Description
+}
+func (t *PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Rule) GetDestination() *PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Rule_Destination {
+	if t == nil {
+		t = &PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Rule{}
+	}
+	return &t.Destination
+}
+func (t *PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Rule) GetDirection() *cato_models.SocketLanDirection {
+	if t == nil {
+		t = &PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Rule{}
+	}
+	return &t.Direction
+}
+func (t *PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Rule) GetEnabled() bool {
+	if t == nil {
+		t = &PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Rule{}
+	}
+	return t.Enabled
+}
+func (t *PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Rule) GetID() string {
+	if t == nil {
+		t = &PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Rule{}
+	}
+	return t.ID
+}
+func (t *PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Rule) GetIndex() int64 {
+	if t == nil {
+		t = &PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Rule{}
+	}
+	return t.Index
+}
+func (t *PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Rule) GetName() string {
+	if t == nil {
+		t = &PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Rule{}
+	}
+	return t.Name
+}
+func (t *PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Rule) GetNat() *PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Rule_Nat {
+	if t == nil {
+		t = &PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Rule{}
+	}
+	return &t.Nat
+}
+func (t *PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Rule) GetSection() *PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Rule_Section {
+	if t == nil {
+		t = &PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Rule{}
+	}
+	return &t.Section
+}
+func (t *PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Rule) GetService() *PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Rule_Service {
+	if t == nil {
+		t = &PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Rule{}
+	}
+	return &t.Service
+}
+func (t *PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Rule) GetSite() *PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Rule_Site {
+	if t == nil {
+		t = &PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Rule{}
+	}
+	return &t.Site
+}
+func (t *PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Rule) GetSource() *PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Rule_Source {
+	if t == nil {
+		t = &PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Rule{}
+	}
+	return &t.Source
+}
+func (t *PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Rule) GetTransport() *cato_models.SocketLanTransportType {
+	if t == nil {
+		t = &PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Rule{}
+	}
+	return &t.Transport
+}
+
+type PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules struct {
+	Audit      PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Audit "json:\"audit\" graphql:\"audit\""
+	Properties []cato_models.PolicyElementPropertiesEnum                                    "json:\"properties\" graphql:\"properties\""
+	Rule       PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Rule  "json:\"rule\" graphql:\"rule\""
+}
+
+func (t *PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules) GetAudit() *PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Audit {
+	if t == nil {
+		t = &PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules{}
+	}
+	return &t.Audit
+}
+func (t *PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules) GetProperties() []cato_models.PolicyElementPropertiesEnum {
+	if t == nil {
+		t = &PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules{}
+	}
+	return t.Properties
+}
+func (t *PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules) GetRule() *PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules_Rule {
+	if t == nil {
+		t = &PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules{}
+	}
+	return &t.Rule
+}
+
+type PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Sections_Audit struct {
+	UpdatedBy   string "json:\"updatedBy\" graphql:\"updatedBy\""
+	UpdatedTime string "json:\"updatedTime\" graphql:\"updatedTime\""
+}
+
+func (t *PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Sections_Audit) GetUpdatedBy() string {
+	if t == nil {
+		t = &PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Sections_Audit{}
+	}
+	return t.UpdatedBy
+}
+func (t *PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Sections_Audit) GetUpdatedTime() string {
+	if t == nil {
+		t = &PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Sections_Audit{}
+	}
+	return t.UpdatedTime
+}
+
+type PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Sections_Section struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Sections_Section) GetID() string {
+	if t == nil {
+		t = &PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Sections_Section{}
+	}
+	return t.ID
+}
+func (t *PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Sections_Section) GetName() string {
+	if t == nil {
+		t = &PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Sections_Section{}
+	}
+	return t.Name
+}
+
+type PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Sections struct {
+	Audit      PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Sections_Audit   "json:\"audit\" graphql:\"audit\""
+	Properties []cato_models.PolicyElementPropertiesEnum                                         "json:\"properties\" graphql:\"properties\""
+	Section    PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Sections_Section "json:\"section\" graphql:\"section\""
+}
+
+func (t *PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Sections) GetAudit() *PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Sections_Audit {
+	if t == nil {
+		t = &PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Sections{}
+	}
+	return &t.Audit
+}
+func (t *PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Sections) GetProperties() []cato_models.PolicyElementPropertiesEnum {
+	if t == nil {
+		t = &PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Sections{}
+	}
+	return t.Properties
+}
+func (t *PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Sections) GetSection() *PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Sections_Section {
+	if t == nil {
+		t = &PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Sections{}
+	}
+	return &t.Section
+}
+
+type PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_AuditSocketLanPolicy struct {
+	PublishedBy   string "json:\"publishedBy\" graphql:\"publishedBy\""
+	PublishedTime string "json:\"publishedTime\" graphql:\"publishedTime\""
+}
+
+func (t *PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_AuditSocketLanPolicy) GetPublishedBy() string {
+	if t == nil {
+		t = &PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_AuditSocketLanPolicy{}
+	}
+	return t.PublishedBy
+}
+func (t *PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_AuditSocketLanPolicy) GetPublishedTime() string {
+	if t == nil {
+		t = &PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_AuditSocketLanPolicy{}
+	}
+	return t.PublishedTime
+}
+
+type PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_RevisionSocketLanPolicy struct {
+	Changes     int64  "json:\"changes\" graphql:\"changes\""
+	CreatedTime string "json:\"createdTime\" graphql:\"createdTime\""
+	Description string "json:\"description\" graphql:\"description\""
+	ID          string "json:\"id\" graphql:\"id\""
+	Name        string "json:\"name\" graphql:\"name\""
+	UpdatedTime string "json:\"updatedTime\" graphql:\"updatedTime\""
+}
+
+func (t *PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_RevisionSocketLanPolicy) GetChanges() int64 {
+	if t == nil {
+		t = &PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_RevisionSocketLanPolicy{}
+	}
+	return t.Changes
+}
+func (t *PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_RevisionSocketLanPolicy) GetCreatedTime() string {
+	if t == nil {
+		t = &PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_RevisionSocketLanPolicy{}
+	}
+	return t.CreatedTime
+}
+func (t *PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_RevisionSocketLanPolicy) GetDescription() string {
+	if t == nil {
+		t = &PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_RevisionSocketLanPolicy{}
+	}
+	return t.Description
+}
+func (t *PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_RevisionSocketLanPolicy) GetID() string {
+	if t == nil {
+		t = &PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_RevisionSocketLanPolicy{}
+	}
+	return t.ID
+}
+func (t *PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_RevisionSocketLanPolicy) GetName() string {
+	if t == nil {
+		t = &PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_RevisionSocketLanPolicy{}
+	}
+	return t.Name
+}
+func (t *PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_RevisionSocketLanPolicy) GetUpdatedTime() string {
+	if t == nil {
+		t = &PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_RevisionSocketLanPolicy{}
+	}
+	return t.UpdatedTime
+}
+
+type PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy struct {
+	AuditSocketLanPolicy    *PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_AuditSocketLanPolicy    "json:\"auditSocketLanPolicy,omitempty\" graphql:\"auditSocketLanPolicy\""
+	Enabled                 bool                                                                                      "json:\"enabled\" graphql:\"enabled\""
+	RevisionSocketLanPolicy *PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_RevisionSocketLanPolicy "json:\"revisionSocketLanPolicy,omitempty\" graphql:\"revisionSocketLanPolicy\""
+	Rules                   []*PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules                 "json:\"rules\" graphql:\"rules\""
+	Sections                []*PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Sections              "json:\"sections\" graphql:\"sections\""
+}
+
+func (t *PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy) GetAuditSocketLanPolicy() *PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_AuditSocketLanPolicy {
+	if t == nil {
+		t = &PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy{}
+	}
+	return t.AuditSocketLanPolicy
+}
+func (t *PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy) GetEnabled() bool {
+	if t == nil {
+		t = &PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy{}
+	}
+	return t.Enabled
+}
+func (t *PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy) GetRevisionSocketLanPolicy() *PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_RevisionSocketLanPolicy {
+	if t == nil {
+		t = &PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy{}
+	}
+	return t.RevisionSocketLanPolicy
+}
+func (t *PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy) GetRules() []*PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Rules {
+	if t == nil {
+		t = &PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy{}
+	}
+	return t.Rules
+}
+func (t *PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy) GetSections() []*PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy_Sections {
+	if t == nil {
+		t = &PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy{}
+	}
+	return t.Sections
+}
+
+type PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Errors struct {
+	ErrorCode    *string "json:\"errorCode,omitempty\" graphql:\"errorCode\""
+	ErrorMessage *string "json:\"errorMessage,omitempty\" graphql:\"errorMessage\""
+}
+
+func (t *PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Errors) GetErrorCode() *string {
+	if t == nil {
+		t = &PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Errors{}
+	}
+	return t.ErrorCode
+}
+func (t *PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Errors) GetErrorMessage() *string {
+	if t == nil {
+		t = &PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Errors{}
+	}
+	return t.ErrorMessage
+}
+
+type PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy struct {
+	Errors []*PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Errors "json:\"errors\" graphql:\"errors\""
+	Policy *PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy   "json:\"policy,omitempty\" graphql:\"policy\""
+	Status cato_models.PolicyMutationStatus                                    "json:\"status\" graphql:\"status\""
+}
+
+func (t *PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy) GetErrors() []*PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Errors {
+	if t == nil {
+		t = &PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy{}
+	}
+	return t.Errors
+}
+func (t *PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy) GetPolicy() *PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy_Policy {
+	if t == nil {
+		t = &PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy{}
+	}
+	return t.Policy
+}
+func (t *PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy) GetStatus() *cato_models.PolicyMutationStatus {
+	if t == nil {
+		t = &PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy{}
+	}
+	return &t.Status
+}
+
+type PolicySocketLanUpdatePolicy_Policy_SocketLan struct {
+	UpdatePolicy PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy "json:\"updatePolicy\" graphql:\"updatePolicy\""
+}
+
+func (t *PolicySocketLanUpdatePolicy_Policy_SocketLan) GetUpdatePolicy() *PolicySocketLanUpdatePolicy_Policy_SocketLan_UpdatePolicy {
+	if t == nil {
+		t = &PolicySocketLanUpdatePolicy_Policy_SocketLan{}
+	}
+	return &t.UpdatePolicy
+}
+
+type PolicySocketLanUpdatePolicy_Policy struct {
+	SocketLan *PolicySocketLanUpdatePolicy_Policy_SocketLan "json:\"socketLan,omitempty\" graphql:\"socketLan\""
+}
+
+func (t *PolicySocketLanUpdatePolicy_Policy) GetSocketLan() *PolicySocketLanUpdatePolicy_Policy_SocketLan {
+	if t == nil {
+		t = &PolicySocketLanUpdatePolicy_Policy{}
+	}
+	return t.SocketLan
+}
+
+type PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Audit struct {
+	UpdatedBy   string "json:\"updatedBy\" graphql:\"updatedBy\""
+	UpdatedTime string "json:\"updatedTime\" graphql:\"updatedTime\""
+}
+
+func (t *PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Audit) GetUpdatedBy() string {
+	if t == nil {
+		t = &PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Audit{}
+	}
+	return t.UpdatedBy
+}
+func (t *PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Audit) GetUpdatedTime() string {
+	if t == nil {
+		t = &PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Audit{}
+	}
+	return t.UpdatedTime
+}
+
+type PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Rule_Section struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Rule_Section) GetID() string {
+	if t == nil {
+		t = &PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Rule_Section{}
+	}
+	return t.ID
+}
+func (t *PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Rule_Section) GetName() string {
+	if t == nil {
+		t = &PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Rule_Section{}
+	}
+	return t.Name
+}
+
+type PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Rule_Site_Site struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Rule_Site_Site) GetID() string {
+	if t == nil {
+		t = &PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Rule_Site_Site{}
+	}
+	return t.ID
+}
+func (t *PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Rule_Site_Site) GetName() string {
+	if t == nil {
+		t = &PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Rule_Site_Site{}
+	}
+	return t.Name
+}
+
+type PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Rule_Site_Group struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Rule_Site_Group) GetID() string {
+	if t == nil {
+		t = &PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Rule_Site_Group{}
+	}
+	return t.ID
+}
+func (t *PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Rule_Site_Group) GetName() string {
+	if t == nil {
+		t = &PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Rule_Site_Group{}
+	}
+	return t.Name
+}
+
+type PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Rule_Site struct {
+	Group []*PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Rule_Site_Group "json:\"group\" graphql:\"group\""
+	Site  []*PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Rule_Site_Site  "json:\"site\" graphql:\"site\""
+}
+
+func (t *PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Rule_Site) GetGroup() []*PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Rule_Site_Group {
+	if t == nil {
+		t = &PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Rule_Site{}
+	}
+	return t.Group
+}
+func (t *PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Rule_Site) GetSite() []*PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Rule_Site_Site {
+	if t == nil {
+		t = &PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Rule_Site{}
+	}
+	return t.Site
+}
+
+type PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Rule_Source_IPRange struct {
+	From string "json:\"from\" graphql:\"from\""
+	To   string "json:\"to\" graphql:\"to\""
+}
+
+func (t *PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Rule_Source_IPRange) GetFrom() string {
+	if t == nil {
+		t = &PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Rule_Source_IPRange{}
+	}
+	return t.From
+}
+func (t *PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Rule_Source_IPRange) GetTo() string {
+	if t == nil {
+		t = &PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Rule_Source_IPRange{}
+	}
+	return t.To
+}
+
+type PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Rule_Source_Group struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Rule_Source_Group) GetID() string {
+	if t == nil {
+		t = &PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Rule_Source_Group{}
+	}
+	return t.ID
+}
+func (t *PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Rule_Source_Group) GetName() string {
+	if t == nil {
+		t = &PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Rule_Source_Group{}
+	}
+	return t.Name
+}
+
+type PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Rule_Source_NetworkInterface struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Rule_Source_NetworkInterface) GetID() string {
+	if t == nil {
+		t = &PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Rule_Source_NetworkInterface{}
+	}
+	return t.ID
+}
+func (t *PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Rule_Source_NetworkInterface) GetName() string {
+	if t == nil {
+		t = &PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Rule_Source_NetworkInterface{}
+	}
+	return t.Name
+}
+
+type PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Rule_Source_SystemGroup struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Rule_Source_SystemGroup) GetID() string {
+	if t == nil {
+		t = &PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Rule_Source_SystemGroup{}
+	}
+	return t.ID
+}
+func (t *PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Rule_Source_SystemGroup) GetName() string {
+	if t == nil {
+		t = &PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Rule_Source_SystemGroup{}
+	}
+	return t.Name
+}
+
+type PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Rule_Source_Host struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Rule_Source_Host) GetID() string {
+	if t == nil {
+		t = &PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Rule_Source_Host{}
+	}
+	return t.ID
+}
+func (t *PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Rule_Source_Host) GetName() string {
+	if t == nil {
+		t = &PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Rule_Source_Host{}
+	}
+	return t.Name
+}
+
+type PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Rule_Source_GlobalIPRange struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Rule_Source_GlobalIPRange) GetID() string {
+	if t == nil {
+		t = &PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Rule_Source_GlobalIPRange{}
+	}
+	return t.ID
+}
+func (t *PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Rule_Source_GlobalIPRange) GetName() string {
+	if t == nil {
+		t = &PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Rule_Source_GlobalIPRange{}
+	}
+	return t.Name
+}
+
+type PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Rule_Source_FloatingSubnet struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Rule_Source_FloatingSubnet) GetID() string {
+	if t == nil {
+		t = &PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Rule_Source_FloatingSubnet{}
+	}
+	return t.ID
+}
+func (t *PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Rule_Source_FloatingSubnet) GetName() string {
+	if t == nil {
+		t = &PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Rule_Source_FloatingSubnet{}
+	}
+	return t.Name
+}
+
+type PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Rule_Source_SiteNetworkSubnet struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Rule_Source_SiteNetworkSubnet) GetID() string {
+	if t == nil {
+		t = &PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Rule_Source_SiteNetworkSubnet{}
+	}
+	return t.ID
+}
+func (t *PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Rule_Source_SiteNetworkSubnet) GetName() string {
+	if t == nil {
+		t = &PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Rule_Source_SiteNetworkSubnet{}
+	}
+	return t.Name
+}
+
+type PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Rule_Source struct {
+	FloatingSubnet    []*PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Rule_Source_FloatingSubnet    "json:\"floatingSubnet\" graphql:\"floatingSubnet\""
+	GlobalIPRange     []*PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Rule_Source_GlobalIPRange     "json:\"globalIpRange\" graphql:\"globalIpRange\""
+	Group             []*PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Rule_Source_Group             "json:\"group\" graphql:\"group\""
+	Host              []*PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Rule_Source_Host              "json:\"host\" graphql:\"host\""
+	IP                []string                                                                                    "json:\"ip\" graphql:\"ip\""
+	IPRange           []*PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Rule_Source_IPRange           "json:\"ipRange\" graphql:\"ipRange\""
+	NetworkInterface  []*PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Rule_Source_NetworkInterface  "json:\"networkInterface\" graphql:\"networkInterface\""
+	SiteNetworkSubnet []*PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Rule_Source_SiteNetworkSubnet "json:\"siteNetworkSubnet\" graphql:\"siteNetworkSubnet\""
+	Subnet            []string                                                                                    "json:\"subnet\" graphql:\"subnet\""
+	SystemGroup       []*PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Rule_Source_SystemGroup       "json:\"systemGroup\" graphql:\"systemGroup\""
+	Vlan              []string                                                                                    "json:\"vlan\" graphql:\"vlan\""
+}
+
+func (t *PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Rule_Source) GetFloatingSubnet() []*PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Rule_Source_FloatingSubnet {
+	if t == nil {
+		t = &PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Rule_Source{}
+	}
+	return t.FloatingSubnet
+}
+func (t *PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Rule_Source) GetGlobalIPRange() []*PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Rule_Source_GlobalIPRange {
+	if t == nil {
+		t = &PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Rule_Source{}
+	}
+	return t.GlobalIPRange
+}
+func (t *PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Rule_Source) GetGroup() []*PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Rule_Source_Group {
+	if t == nil {
+		t = &PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Rule_Source{}
+	}
+	return t.Group
+}
+func (t *PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Rule_Source) GetHost() []*PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Rule_Source_Host {
+	if t == nil {
+		t = &PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Rule_Source{}
+	}
+	return t.Host
+}
+func (t *PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Rule_Source) GetIP() []string {
+	if t == nil {
+		t = &PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Rule_Source{}
+	}
+	return t.IP
+}
+func (t *PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Rule_Source) GetIPRange() []*PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Rule_Source_IPRange {
+	if t == nil {
+		t = &PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Rule_Source{}
+	}
+	return t.IPRange
+}
+func (t *PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Rule_Source) GetNetworkInterface() []*PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Rule_Source_NetworkInterface {
+	if t == nil {
+		t = &PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Rule_Source{}
+	}
+	return t.NetworkInterface
+}
+func (t *PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Rule_Source) GetSiteNetworkSubnet() []*PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Rule_Source_SiteNetworkSubnet {
+	if t == nil {
+		t = &PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Rule_Source{}
+	}
+	return t.SiteNetworkSubnet
+}
+func (t *PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Rule_Source) GetSubnet() []string {
+	if t == nil {
+		t = &PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Rule_Source{}
+	}
+	return t.Subnet
+}
+func (t *PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Rule_Source) GetSystemGroup() []*PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Rule_Source_SystemGroup {
+	if t == nil {
+		t = &PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Rule_Source{}
+	}
+	return t.SystemGroup
+}
+func (t *PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Rule_Source) GetVlan() []string {
+	if t == nil {
+		t = &PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Rule_Source{}
+	}
+	return t.Vlan
+}
+
+type PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Rule_Destination_IPRange struct {
+	From string "json:\"from\" graphql:\"from\""
+	To   string "json:\"to\" graphql:\"to\""
+}
+
+func (t *PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Rule_Destination_IPRange) GetFrom() string {
+	if t == nil {
+		t = &PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Rule_Destination_IPRange{}
+	}
+	return t.From
+}
+func (t *PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Rule_Destination_IPRange) GetTo() string {
+	if t == nil {
+		t = &PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Rule_Destination_IPRange{}
+	}
+	return t.To
+}
+
+type PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Rule_Destination_NetworkInterface struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Rule_Destination_NetworkInterface) GetID() string {
+	if t == nil {
+		t = &PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Rule_Destination_NetworkInterface{}
+	}
+	return t.ID
+}
+func (t *PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Rule_Destination_NetworkInterface) GetName() string {
+	if t == nil {
+		t = &PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Rule_Destination_NetworkInterface{}
+	}
+	return t.Name
+}
+
+type PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Rule_Destination_SystemGroup struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Rule_Destination_SystemGroup) GetID() string {
+	if t == nil {
+		t = &PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Rule_Destination_SystemGroup{}
+	}
+	return t.ID
+}
+func (t *PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Rule_Destination_SystemGroup) GetName() string {
+	if t == nil {
+		t = &PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Rule_Destination_SystemGroup{}
+	}
+	return t.Name
+}
+
+type PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Rule_Destination_Host struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Rule_Destination_Host) GetID() string {
+	if t == nil {
+		t = &PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Rule_Destination_Host{}
+	}
+	return t.ID
+}
+func (t *PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Rule_Destination_Host) GetName() string {
+	if t == nil {
+		t = &PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Rule_Destination_Host{}
+	}
+	return t.Name
+}
+
+type PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Rule_Destination_GlobalIPRange struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Rule_Destination_GlobalIPRange) GetID() string {
+	if t == nil {
+		t = &PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Rule_Destination_GlobalIPRange{}
+	}
+	return t.ID
+}
+func (t *PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Rule_Destination_GlobalIPRange) GetName() string {
+	if t == nil {
+		t = &PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Rule_Destination_GlobalIPRange{}
+	}
+	return t.Name
+}
+
+type PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Rule_Destination_Group struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Rule_Destination_Group) GetID() string {
+	if t == nil {
+		t = &PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Rule_Destination_Group{}
+	}
+	return t.ID
+}
+func (t *PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Rule_Destination_Group) GetName() string {
+	if t == nil {
+		t = &PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Rule_Destination_Group{}
+	}
+	return t.Name
+}
+
+type PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Rule_Destination_FloatingSubnet struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Rule_Destination_FloatingSubnet) GetID() string {
+	if t == nil {
+		t = &PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Rule_Destination_FloatingSubnet{}
+	}
+	return t.ID
+}
+func (t *PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Rule_Destination_FloatingSubnet) GetName() string {
+	if t == nil {
+		t = &PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Rule_Destination_FloatingSubnet{}
+	}
+	return t.Name
+}
+
+type PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Rule_Destination_SiteNetworkSubnet struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Rule_Destination_SiteNetworkSubnet) GetID() string {
+	if t == nil {
+		t = &PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Rule_Destination_SiteNetworkSubnet{}
+	}
+	return t.ID
+}
+func (t *PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Rule_Destination_SiteNetworkSubnet) GetName() string {
+	if t == nil {
+		t = &PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Rule_Destination_SiteNetworkSubnet{}
+	}
+	return t.Name
+}
+
+type PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Rule_Destination struct {
+	FloatingSubnet    []*PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Rule_Destination_FloatingSubnet    "json:\"floatingSubnet\" graphql:\"floatingSubnet\""
+	GlobalIPRange     []*PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Rule_Destination_GlobalIPRange     "json:\"globalIpRange\" graphql:\"globalIpRange\""
+	Group             []*PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Rule_Destination_Group             "json:\"group\" graphql:\"group\""
+	Host              []*PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Rule_Destination_Host              "json:\"host\" graphql:\"host\""
+	IP                []string                                                                                         "json:\"ip\" graphql:\"ip\""
+	IPRange           []*PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Rule_Destination_IPRange           "json:\"ipRange\" graphql:\"ipRange\""
+	NetworkInterface  []*PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Rule_Destination_NetworkInterface  "json:\"networkInterface\" graphql:\"networkInterface\""
+	SiteNetworkSubnet []*PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Rule_Destination_SiteNetworkSubnet "json:\"siteNetworkSubnet\" graphql:\"siteNetworkSubnet\""
+	Subnet            []string                                                                                         "json:\"subnet\" graphql:\"subnet\""
+	SystemGroup       []*PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Rule_Destination_SystemGroup       "json:\"systemGroup\" graphql:\"systemGroup\""
+	Vlan              []string                                                                                         "json:\"vlan\" graphql:\"vlan\""
+}
+
+func (t *PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Rule_Destination) GetFloatingSubnet() []*PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Rule_Destination_FloatingSubnet {
+	if t == nil {
+		t = &PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Rule_Destination{}
+	}
+	return t.FloatingSubnet
+}
+func (t *PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Rule_Destination) GetGlobalIPRange() []*PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Rule_Destination_GlobalIPRange {
+	if t == nil {
+		t = &PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Rule_Destination{}
+	}
+	return t.GlobalIPRange
+}
+func (t *PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Rule_Destination) GetGroup() []*PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Rule_Destination_Group {
+	if t == nil {
+		t = &PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Rule_Destination{}
+	}
+	return t.Group
+}
+func (t *PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Rule_Destination) GetHost() []*PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Rule_Destination_Host {
+	if t == nil {
+		t = &PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Rule_Destination{}
+	}
+	return t.Host
+}
+func (t *PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Rule_Destination) GetIP() []string {
+	if t == nil {
+		t = &PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Rule_Destination{}
+	}
+	return t.IP
+}
+func (t *PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Rule_Destination) GetIPRange() []*PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Rule_Destination_IPRange {
+	if t == nil {
+		t = &PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Rule_Destination{}
+	}
+	return t.IPRange
+}
+func (t *PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Rule_Destination) GetNetworkInterface() []*PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Rule_Destination_NetworkInterface {
+	if t == nil {
+		t = &PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Rule_Destination{}
+	}
+	return t.NetworkInterface
+}
+func (t *PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Rule_Destination) GetSiteNetworkSubnet() []*PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Rule_Destination_SiteNetworkSubnet {
+	if t == nil {
+		t = &PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Rule_Destination{}
+	}
+	return t.SiteNetworkSubnet
+}
+func (t *PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Rule_Destination) GetSubnet() []string {
+	if t == nil {
+		t = &PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Rule_Destination{}
+	}
+	return t.Subnet
+}
+func (t *PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Rule_Destination) GetSystemGroup() []*PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Rule_Destination_SystemGroup {
+	if t == nil {
+		t = &PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Rule_Destination{}
+	}
+	return t.SystemGroup
+}
+func (t *PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Rule_Destination) GetVlan() []string {
+	if t == nil {
+		t = &PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Rule_Destination{}
+	}
+	return t.Vlan
+}
+
+type PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Rule_Service_Simple struct {
+	Name cato_models.SimpleServiceType "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Rule_Service_Simple) GetName() *cato_models.SimpleServiceType {
+	if t == nil {
+		t = &PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Rule_Service_Simple{}
+	}
+	return &t.Name
+}
+
+type PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Rule_Service_Custom_PortRange struct {
+	From scalars.Port "json:\"from\" graphql:\"from\""
+	To   scalars.Port "json:\"to\" graphql:\"to\""
+}
+
+func (t *PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Rule_Service_Custom_PortRange) GetFrom() *scalars.Port {
+	if t == nil {
+		t = &PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Rule_Service_Custom_PortRange{}
+	}
+	return &t.From
+}
+func (t *PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Rule_Service_Custom_PortRange) GetTo() *scalars.Port {
+	if t == nil {
+		t = &PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Rule_Service_Custom_PortRange{}
+	}
+	return &t.To
+}
+
+type PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Rule_Service_Custom struct {
+	Port      []scalars.Port                                                                            "json:\"port,omitempty\" graphql:\"port\""
+	PortRange *PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Rule_Service_Custom_PortRange "json:\"portRange,omitempty\" graphql:\"portRange\""
+	Protocol  cato_models.IPProtocol                                                                    "json:\"protocol\" graphql:\"protocol\""
+}
+
+func (t *PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Rule_Service_Custom) GetPort() []scalars.Port {
+	if t == nil {
+		t = &PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Rule_Service_Custom{}
+	}
+	return t.Port
+}
+func (t *PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Rule_Service_Custom) GetPortRange() *PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Rule_Service_Custom_PortRange {
+	if t == nil {
+		t = &PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Rule_Service_Custom{}
+	}
+	return t.PortRange
+}
+func (t *PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Rule_Service_Custom) GetProtocol() *cato_models.IPProtocol {
+	if t == nil {
+		t = &PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Rule_Service_Custom{}
+	}
+	return &t.Protocol
+}
+
+type PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Rule_Service struct {
+	Custom []*PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Rule_Service_Custom "json:\"custom\" graphql:\"custom\""
+	Simple []*PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Rule_Service_Simple "json:\"simple\" graphql:\"simple\""
+}
+
+func (t *PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Rule_Service) GetCustom() []*PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Rule_Service_Custom {
+	if t == nil {
+		t = &PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Rule_Service{}
+	}
+	return t.Custom
+}
+func (t *PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Rule_Service) GetSimple() []*PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Rule_Service_Simple {
+	if t == nil {
+		t = &PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Rule_Service{}
+	}
+	return t.Simple
+}
+
+type PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Rule_Nat struct {
+	Enabled                     bool                         "json:\"enabled\" graphql:\"enabled\""
+	NatTypeSocketLanNatSettings cato_models.SocketLanNatType "json:\"natTypeSocketLanNatSettings\" graphql:\"natTypeSocketLanNatSettings\""
+}
+
+func (t *PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Rule_Nat) GetEnabled() bool {
+	if t == nil {
+		t = &PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Rule_Nat{}
+	}
+	return t.Enabled
+}
+func (t *PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Rule_Nat) GetNatTypeSocketLanNatSettings() *cato_models.SocketLanNatType {
+	if t == nil {
+		t = &PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Rule_Nat{}
+	}
+	return &t.NatTypeSocketLanNatSettings
+}
+
+type PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Rule struct {
+	Description string                                                                      "json:\"description\" graphql:\"description\""
+	Destination PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Rule_Destination "json:\"destination\" graphql:\"destination\""
+	Direction   cato_models.SocketLanDirection                                              "json:\"direction\" graphql:\"direction\""
+	Enabled     bool                                                                        "json:\"enabled\" graphql:\"enabled\""
+	ID          string                                                                      "json:\"id\" graphql:\"id\""
+	Index       int64                                                                       "json:\"index\" graphql:\"index\""
+	Name        string                                                                      "json:\"name\" graphql:\"name\""
+	Nat         PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Rule_Nat         "json:\"nat\" graphql:\"nat\""
+	Section     PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Rule_Section     "json:\"section\" graphql:\"section\""
+	Service     PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Rule_Service     "json:\"service\" graphql:\"service\""
+	Site        PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Rule_Site        "json:\"site\" graphql:\"site\""
+	Source      PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Rule_Source      "json:\"source\" graphql:\"source\""
+	Transport   cato_models.SocketLanTransportType                                          "json:\"transport\" graphql:\"transport\""
+}
+
+func (t *PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Rule) GetDescription() string {
+	if t == nil {
+		t = &PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Rule{}
+	}
+	return t.Description
+}
+func (t *PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Rule) GetDestination() *PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Rule_Destination {
+	if t == nil {
+		t = &PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Rule{}
+	}
+	return &t.Destination
+}
+func (t *PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Rule) GetDirection() *cato_models.SocketLanDirection {
+	if t == nil {
+		t = &PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Rule{}
+	}
+	return &t.Direction
+}
+func (t *PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Rule) GetEnabled() bool {
+	if t == nil {
+		t = &PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Rule{}
+	}
+	return t.Enabled
+}
+func (t *PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Rule) GetID() string {
+	if t == nil {
+		t = &PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Rule{}
+	}
+	return t.ID
+}
+func (t *PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Rule) GetIndex() int64 {
+	if t == nil {
+		t = &PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Rule{}
+	}
+	return t.Index
+}
+func (t *PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Rule) GetName() string {
+	if t == nil {
+		t = &PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Rule{}
+	}
+	return t.Name
+}
+func (t *PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Rule) GetNat() *PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Rule_Nat {
+	if t == nil {
+		t = &PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Rule{}
+	}
+	return &t.Nat
+}
+func (t *PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Rule) GetSection() *PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Rule_Section {
+	if t == nil {
+		t = &PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Rule{}
+	}
+	return &t.Section
+}
+func (t *PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Rule) GetService() *PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Rule_Service {
+	if t == nil {
+		t = &PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Rule{}
+	}
+	return &t.Service
+}
+func (t *PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Rule) GetSite() *PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Rule_Site {
+	if t == nil {
+		t = &PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Rule{}
+	}
+	return &t.Site
+}
+func (t *PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Rule) GetSource() *PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Rule_Source {
+	if t == nil {
+		t = &PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Rule{}
+	}
+	return &t.Source
+}
+func (t *PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Rule) GetTransport() *cato_models.SocketLanTransportType {
+	if t == nil {
+		t = &PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Rule{}
+	}
+	return &t.Transport
+}
+
+type PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule struct {
+	Audit      PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Audit "json:\"audit\" graphql:\"audit\""
+	Properties []cato_models.PolicyElementPropertiesEnum                        "json:\"properties\" graphql:\"properties\""
+	Rule       PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Rule  "json:\"rule\" graphql:\"rule\""
+}
+
+func (t *PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule) GetAudit() *PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Audit {
+	if t == nil {
+		t = &PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule{}
+	}
+	return &t.Audit
+}
+func (t *PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule) GetProperties() []cato_models.PolicyElementPropertiesEnum {
+	if t == nil {
+		t = &PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule{}
+	}
+	return t.Properties
+}
+func (t *PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule) GetRule() *PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule_Rule {
+	if t == nil {
+		t = &PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule{}
+	}
+	return &t.Rule
+}
+
+type PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Errors struct {
+	ErrorCode    *string "json:\"errorCode,omitempty\" graphql:\"errorCode\""
+	ErrorMessage *string "json:\"errorMessage,omitempty\" graphql:\"errorMessage\""
+}
+
+func (t *PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Errors) GetErrorCode() *string {
+	if t == nil {
+		t = &PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Errors{}
+	}
+	return t.ErrorCode
+}
+func (t *PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Errors) GetErrorMessage() *string {
+	if t == nil {
+		t = &PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Errors{}
+	}
+	return t.ErrorMessage
+}
+
+type PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule struct {
+	Errors []*PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Errors "json:\"errors\" graphql:\"errors\""
+	Rule   *PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule     "json:\"rule,omitempty\" graphql:\"rule\""
+	Status cato_models.PolicyMutationStatus                                "json:\"status\" graphql:\"status\""
+}
+
+func (t *PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule) GetErrors() []*PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Errors {
+	if t == nil {
+		t = &PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule{}
+	}
+	return t.Errors
+}
+func (t *PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule) GetRule() *PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule_Rule {
+	if t == nil {
+		t = &PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule{}
+	}
+	return t.Rule
+}
+func (t *PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule) GetStatus() *cato_models.PolicyMutationStatus {
+	if t == nil {
+		t = &PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule{}
+	}
+	return &t.Status
+}
+
+type PolicySocketLanUpdateRule_Policy_SocketLan struct {
+	UpdateRule PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule "json:\"updateRule\" graphql:\"updateRule\""
+}
+
+func (t *PolicySocketLanUpdateRule_Policy_SocketLan) GetUpdateRule() *PolicySocketLanUpdateRule_Policy_SocketLan_UpdateRule {
+	if t == nil {
+		t = &PolicySocketLanUpdateRule_Policy_SocketLan{}
+	}
+	return &t.UpdateRule
+}
+
+type PolicySocketLanUpdateRule_Policy struct {
+	SocketLan *PolicySocketLanUpdateRule_Policy_SocketLan "json:\"socketLan,omitempty\" graphql:\"socketLan\""
+}
+
+func (t *PolicySocketLanUpdateRule_Policy) GetSocketLan() *PolicySocketLanUpdateRule_Policy_SocketLan {
+	if t == nil {
+		t = &PolicySocketLanUpdateRule_Policy{}
+	}
+	return t.SocketLan
+}
+
+type PolicySocketLanUpdateSection_Policy_SocketLan_UpdateSection_Section_Audit struct {
+	UpdatedBy   string "json:\"updatedBy\" graphql:\"updatedBy\""
+	UpdatedTime string "json:\"updatedTime\" graphql:\"updatedTime\""
+}
+
+func (t *PolicySocketLanUpdateSection_Policy_SocketLan_UpdateSection_Section_Audit) GetUpdatedBy() string {
+	if t == nil {
+		t = &PolicySocketLanUpdateSection_Policy_SocketLan_UpdateSection_Section_Audit{}
+	}
+	return t.UpdatedBy
+}
+func (t *PolicySocketLanUpdateSection_Policy_SocketLan_UpdateSection_Section_Audit) GetUpdatedTime() string {
+	if t == nil {
+		t = &PolicySocketLanUpdateSection_Policy_SocketLan_UpdateSection_Section_Audit{}
+	}
+	return t.UpdatedTime
+}
+
+type PolicySocketLanUpdateSection_Policy_SocketLan_UpdateSection_Section_Section struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicySocketLanUpdateSection_Policy_SocketLan_UpdateSection_Section_Section) GetID() string {
+	if t == nil {
+		t = &PolicySocketLanUpdateSection_Policy_SocketLan_UpdateSection_Section_Section{}
+	}
+	return t.ID
+}
+func (t *PolicySocketLanUpdateSection_Policy_SocketLan_UpdateSection_Section_Section) GetName() string {
+	if t == nil {
+		t = &PolicySocketLanUpdateSection_Policy_SocketLan_UpdateSection_Section_Section{}
+	}
+	return t.Name
+}
+
+type PolicySocketLanUpdateSection_Policy_SocketLan_UpdateSection_Section struct {
+	Audit      PolicySocketLanUpdateSection_Policy_SocketLan_UpdateSection_Section_Audit   "json:\"audit\" graphql:\"audit\""
+	Properties []cato_models.PolicyElementPropertiesEnum                                   "json:\"properties\" graphql:\"properties\""
+	Section    PolicySocketLanUpdateSection_Policy_SocketLan_UpdateSection_Section_Section "json:\"section\" graphql:\"section\""
+}
+
+func (t *PolicySocketLanUpdateSection_Policy_SocketLan_UpdateSection_Section) GetAudit() *PolicySocketLanUpdateSection_Policy_SocketLan_UpdateSection_Section_Audit {
+	if t == nil {
+		t = &PolicySocketLanUpdateSection_Policy_SocketLan_UpdateSection_Section{}
+	}
+	return &t.Audit
+}
+func (t *PolicySocketLanUpdateSection_Policy_SocketLan_UpdateSection_Section) GetProperties() []cato_models.PolicyElementPropertiesEnum {
+	if t == nil {
+		t = &PolicySocketLanUpdateSection_Policy_SocketLan_UpdateSection_Section{}
+	}
+	return t.Properties
+}
+func (t *PolicySocketLanUpdateSection_Policy_SocketLan_UpdateSection_Section) GetSection() *PolicySocketLanUpdateSection_Policy_SocketLan_UpdateSection_Section_Section {
+	if t == nil {
+		t = &PolicySocketLanUpdateSection_Policy_SocketLan_UpdateSection_Section{}
+	}
+	return &t.Section
+}
+
+type PolicySocketLanUpdateSection_Policy_SocketLan_UpdateSection_Errors struct {
+	ErrorCode    *string "json:\"errorCode,omitempty\" graphql:\"errorCode\""
+	ErrorMessage *string "json:\"errorMessage,omitempty\" graphql:\"errorMessage\""
+}
+
+func (t *PolicySocketLanUpdateSection_Policy_SocketLan_UpdateSection_Errors) GetErrorCode() *string {
+	if t == nil {
+		t = &PolicySocketLanUpdateSection_Policy_SocketLan_UpdateSection_Errors{}
+	}
+	return t.ErrorCode
+}
+func (t *PolicySocketLanUpdateSection_Policy_SocketLan_UpdateSection_Errors) GetErrorMessage() *string {
+	if t == nil {
+		t = &PolicySocketLanUpdateSection_Policy_SocketLan_UpdateSection_Errors{}
+	}
+	return t.ErrorMessage
+}
+
+type PolicySocketLanUpdateSection_Policy_SocketLan_UpdateSection struct {
+	Errors  []*PolicySocketLanUpdateSection_Policy_SocketLan_UpdateSection_Errors "json:\"errors\" graphql:\"errors\""
+	Section *PolicySocketLanUpdateSection_Policy_SocketLan_UpdateSection_Section  "json:\"section,omitempty\" graphql:\"section\""
+	Status  cato_models.PolicyMutationStatus                                      "json:\"status\" graphql:\"status\""
+}
+
+func (t *PolicySocketLanUpdateSection_Policy_SocketLan_UpdateSection) GetErrors() []*PolicySocketLanUpdateSection_Policy_SocketLan_UpdateSection_Errors {
+	if t == nil {
+		t = &PolicySocketLanUpdateSection_Policy_SocketLan_UpdateSection{}
+	}
+	return t.Errors
+}
+func (t *PolicySocketLanUpdateSection_Policy_SocketLan_UpdateSection) GetSection() *PolicySocketLanUpdateSection_Policy_SocketLan_UpdateSection_Section {
+	if t == nil {
+		t = &PolicySocketLanUpdateSection_Policy_SocketLan_UpdateSection{}
+	}
+	return t.Section
+}
+func (t *PolicySocketLanUpdateSection_Policy_SocketLan_UpdateSection) GetStatus() *cato_models.PolicyMutationStatus {
+	if t == nil {
+		t = &PolicySocketLanUpdateSection_Policy_SocketLan_UpdateSection{}
+	}
+	return &t.Status
+}
+
+type PolicySocketLanUpdateSection_Policy_SocketLan struct {
+	UpdateSection PolicySocketLanUpdateSection_Policy_SocketLan_UpdateSection "json:\"updateSection\" graphql:\"updateSection\""
+}
+
+func (t *PolicySocketLanUpdateSection_Policy_SocketLan) GetUpdateSection() *PolicySocketLanUpdateSection_Policy_SocketLan_UpdateSection {
+	if t == nil {
+		t = &PolicySocketLanUpdateSection_Policy_SocketLan{}
+	}
+	return &t.UpdateSection
+}
+
+type PolicySocketLanUpdateSection_Policy struct {
+	SocketLan *PolicySocketLanUpdateSection_Policy_SocketLan "json:\"socketLan,omitempty\" graphql:\"socketLan\""
+}
+
+func (t *PolicySocketLanUpdateSection_Policy) GetSocketLan() *PolicySocketLanUpdateSection_Policy_SocketLan {
+	if t == nil {
+		t = &PolicySocketLanUpdateSection_Policy{}
+	}
+	return t.SocketLan
 }
 
 type SiteAddBgpPeer_Site_AddBgpPeer_BgpPeer_SiteRefSite struct {
@@ -55711,6 +63403,138 @@ func (t *Licensing) GetLicensing() *Licensing_Licensing {
 	return t.Licensing
 }
 
+type PolicySocketLanAddRule struct {
+	Policy *PolicySocketLanAddRule_Policy "json:\"policy,omitempty\" graphql:\"policy\""
+}
+
+func (t *PolicySocketLanAddRule) GetPolicy() *PolicySocketLanAddRule_Policy {
+	if t == nil {
+		t = &PolicySocketLanAddRule{}
+	}
+	return t.Policy
+}
+
+type PolicySocketLanAddSection struct {
+	Policy *PolicySocketLanAddSection_Policy "json:\"policy,omitempty\" graphql:\"policy\""
+}
+
+func (t *PolicySocketLanAddSection) GetPolicy() *PolicySocketLanAddSection_Policy {
+	if t == nil {
+		t = &PolicySocketLanAddSection{}
+	}
+	return t.Policy
+}
+
+type PolicySocketLanCreatePolicyRevision struct {
+	Policy *PolicySocketLanCreatePolicyRevision_Policy "json:\"policy,omitempty\" graphql:\"policy\""
+}
+
+func (t *PolicySocketLanCreatePolicyRevision) GetPolicy() *PolicySocketLanCreatePolicyRevision_Policy {
+	if t == nil {
+		t = &PolicySocketLanCreatePolicyRevision{}
+	}
+	return t.Policy
+}
+
+type PolicySocketLanDiscardPolicyRevision struct {
+	Policy *PolicySocketLanDiscardPolicyRevision_Policy "json:\"policy,omitempty\" graphql:\"policy\""
+}
+
+func (t *PolicySocketLanDiscardPolicyRevision) GetPolicy() *PolicySocketLanDiscardPolicyRevision_Policy {
+	if t == nil {
+		t = &PolicySocketLanDiscardPolicyRevision{}
+	}
+	return t.Policy
+}
+
+type PolicySocketLanMoveRule struct {
+	Policy *PolicySocketLanMoveRule_Policy "json:\"policy,omitempty\" graphql:\"policy\""
+}
+
+func (t *PolicySocketLanMoveRule) GetPolicy() *PolicySocketLanMoveRule_Policy {
+	if t == nil {
+		t = &PolicySocketLanMoveRule{}
+	}
+	return t.Policy
+}
+
+type PolicySocketLanMoveSection struct {
+	Policy *PolicySocketLanMoveSection_Policy "json:\"policy,omitempty\" graphql:\"policy\""
+}
+
+func (t *PolicySocketLanMoveSection) GetPolicy() *PolicySocketLanMoveSection_Policy {
+	if t == nil {
+		t = &PolicySocketLanMoveSection{}
+	}
+	return t.Policy
+}
+
+type PolicySocketLanPublishPolicyRevision struct {
+	Policy *PolicySocketLanPublishPolicyRevision_Policy "json:\"policy,omitempty\" graphql:\"policy\""
+}
+
+func (t *PolicySocketLanPublishPolicyRevision) GetPolicy() *PolicySocketLanPublishPolicyRevision_Policy {
+	if t == nil {
+		t = &PolicySocketLanPublishPolicyRevision{}
+	}
+	return t.Policy
+}
+
+type PolicySocketLanRemoveRule struct {
+	Policy *PolicySocketLanRemoveRule_Policy "json:\"policy,omitempty\" graphql:\"policy\""
+}
+
+func (t *PolicySocketLanRemoveRule) GetPolicy() *PolicySocketLanRemoveRule_Policy {
+	if t == nil {
+		t = &PolicySocketLanRemoveRule{}
+	}
+	return t.Policy
+}
+
+type PolicySocketLanRemoveSection struct {
+	Policy *PolicySocketLanRemoveSection_Policy "json:\"policy,omitempty\" graphql:\"policy\""
+}
+
+func (t *PolicySocketLanRemoveSection) GetPolicy() *PolicySocketLanRemoveSection_Policy {
+	if t == nil {
+		t = &PolicySocketLanRemoveSection{}
+	}
+	return t.Policy
+}
+
+type PolicySocketLanUpdatePolicy struct {
+	Policy *PolicySocketLanUpdatePolicy_Policy "json:\"policy,omitempty\" graphql:\"policy\""
+}
+
+func (t *PolicySocketLanUpdatePolicy) GetPolicy() *PolicySocketLanUpdatePolicy_Policy {
+	if t == nil {
+		t = &PolicySocketLanUpdatePolicy{}
+	}
+	return t.Policy
+}
+
+type PolicySocketLanUpdateRule struct {
+	Policy *PolicySocketLanUpdateRule_Policy "json:\"policy,omitempty\" graphql:\"policy\""
+}
+
+func (t *PolicySocketLanUpdateRule) GetPolicy() *PolicySocketLanUpdateRule_Policy {
+	if t == nil {
+		t = &PolicySocketLanUpdateRule{}
+	}
+	return t.Policy
+}
+
+type PolicySocketLanUpdateSection struct {
+	Policy *PolicySocketLanUpdateSection_Policy "json:\"policy,omitempty\" graphql:\"policy\""
+}
+
+func (t *PolicySocketLanUpdateSection) GetPolicy() *PolicySocketLanUpdateSection_Policy {
+	if t == nil {
+		t = &PolicySocketLanUpdateSection{}
+	}
+	return t.Policy
+}
+
 type SiteAddBgpPeer struct {
 	Site SiteAddBgpPeer_Site "json:\"site\" graphql:\"site\""
 }
@@ -57780,6 +65604,1526 @@ func (c *Client) Licensing(ctx context.Context, accountID string, interceptors .
 
 	var res Licensing
 	if err := c.Client.Post(ctx, "licensing", LicensingDocument, &res, vars, interceptors...); err != nil {
+		if c.Client.ParseDataWhenErrors {
+			return &res, err
+		}
+
+		return nil, err
+	}
+
+	return &res, nil
+}
+
+const PolicySocketLanAddRuleDocument = `mutation policySocketLanAddRule ($socketLanAddRuleInput: SocketLanAddRuleInput!, $accountId: ID!) {
+	policy(accountId: $accountId) {
+		socketLan {
+			addRule(input: $socketLanAddRuleInput) {
+				rule {
+					audit {
+						updatedTime
+						updatedBy
+					}
+					rule {
+						id
+						name
+						description
+						index
+						section {
+							id
+							name
+						}
+						enabled
+						site {
+							site {
+								id
+								name
+							}
+							group {
+								id
+								name
+							}
+						}
+						source {
+							vlan
+							ipRange {
+								from
+								to
+							}
+							group {
+								id
+								name
+							}
+							subnet
+							networkInterface {
+								id
+								name
+							}
+							systemGroup {
+								id
+								name
+							}
+							host {
+								id
+								name
+							}
+							ip
+							globalIpRange {
+								id
+								name
+							}
+							floatingSubnet {
+								id
+								name
+							}
+							siteNetworkSubnet {
+								id
+								name
+							}
+						}
+						destination {
+							vlan
+							ipRange {
+								from
+								to
+							}
+							subnet
+							networkInterface {
+								id
+								name
+							}
+							systemGroup {
+								id
+								name
+							}
+							host {
+								id
+								name
+							}
+							ip
+							globalIpRange {
+								id
+								name
+							}
+							group {
+								id
+								name
+							}
+							floatingSubnet {
+								id
+								name
+							}
+							siteNetworkSubnet {
+								id
+								name
+							}
+						}
+						direction
+						service {
+							simple {
+								name
+							}
+							custom {
+								port
+								portRange {
+									from
+									to
+								}
+								protocol
+							}
+						}
+						nat {
+							enabled
+							natType
+						}
+						transport
+					}
+					properties
+				}
+				status
+				errors {
+					errorMessage
+					errorCode
+				}
+			}
+		}
+	}
+}
+`
+
+func (c *Client) PolicySocketLanAddRule(ctx context.Context, socketLanAddRuleInput cato_models.SocketLanAddRuleInput, accountID string, interceptors ...clientv2.RequestInterceptor) (*PolicySocketLanAddRule, error) {
+	vars := map[string]any{
+		"socketLanAddRuleInput": socketLanAddRuleInput,
+		"accountId":             accountID,
+	}
+
+	var res PolicySocketLanAddRule
+	if err := c.Client.Post(ctx, "policySocketLanAddRule", PolicySocketLanAddRuleDocument, &res, vars, interceptors...); err != nil {
+		if c.Client.ParseDataWhenErrors {
+			return &res, err
+		}
+
+		return nil, err
+	}
+
+	return &res, nil
+}
+
+const PolicySocketLanAddSectionDocument = `mutation policySocketLanAddSection ($policyAddSectionInput: PolicyAddSectionInput!, $accountId: ID!) {
+	policy(accountId: $accountId) {
+		socketLan {
+			addSection(input: $policyAddSectionInput) {
+				section {
+					audit {
+						updatedTime
+						updatedBy
+					}
+					section {
+						id
+						name
+					}
+					properties
+				}
+				status
+				errors {
+					errorMessage
+					errorCode
+				}
+			}
+		}
+	}
+}
+`
+
+func (c *Client) PolicySocketLanAddSection(ctx context.Context, policyAddSectionInput cato_models.PolicyAddSectionInput, accountID string, interceptors ...clientv2.RequestInterceptor) (*PolicySocketLanAddSection, error) {
+	vars := map[string]any{
+		"policyAddSectionInput": policyAddSectionInput,
+		"accountId":             accountID,
+	}
+
+	var res PolicySocketLanAddSection
+	if err := c.Client.Post(ctx, "policySocketLanAddSection", PolicySocketLanAddSectionDocument, &res, vars, interceptors...); err != nil {
+		if c.Client.ParseDataWhenErrors {
+			return &res, err
+		}
+
+		return nil, err
+	}
+
+	return &res, nil
+}
+
+const PolicySocketLanCreatePolicyRevisionDocument = `mutation policySocketLanCreatePolicyRevision ($socketLanPolicyMutationInput: SocketLanPolicyMutationInput, $policyCreateRevisionInput: PolicyCreateRevisionInput!, $accountId: ID!) {
+	policy(accountId: $accountId) {
+		socketLan(input: $socketLanPolicyMutationInput) {
+			createPolicyRevision(input: $policyCreateRevisionInput) {
+				policy {
+					enabled
+					rules {
+						audit {
+							updatedTime
+							updatedBy
+						}
+						rule {
+							id
+							name
+							description
+							index
+							section {
+								id
+								name
+							}
+							enabled
+							site {
+								site {
+									id
+									name
+								}
+								group {
+									id
+									name
+								}
+							}
+							source {
+								vlan
+								ipRange {
+									from
+									to
+								}
+								group {
+									id
+									name
+								}
+								subnet
+								networkInterface {
+									id
+									name
+								}
+								systemGroup {
+									id
+									name
+								}
+								host {
+									id
+									name
+								}
+								ip
+								globalIpRange {
+									id
+									name
+								}
+								floatingSubnet {
+									id
+									name
+								}
+								siteNetworkSubnet {
+									id
+									name
+								}
+							}
+							destination {
+								vlan
+								ipRange {
+									from
+									to
+								}
+								subnet
+								networkInterface {
+									id
+									name
+								}
+								systemGroup {
+									id
+									name
+								}
+								host {
+									id
+									name
+								}
+								ip
+								globalIpRange {
+									id
+									name
+								}
+								group {
+									id
+									name
+								}
+								floatingSubnet {
+									id
+									name
+								}
+								siteNetworkSubnet {
+									id
+									name
+								}
+							}
+							direction
+							service {
+								simple {
+									name
+								}
+								custom {
+									port
+									portRangeCustomService: portRange {
+										from
+										to
+									}
+									protocol
+								}
+							}
+							nat {
+								enabled
+								natType
+							}
+							transport
+						}
+						properties
+					}
+					sections {
+						audit {
+							updatedTime
+							updatedBy
+						}
+						section {
+							id
+							name
+						}
+						properties
+					}
+					auditSocketLanPolicy: audit {
+						publishedTime
+						publishedBy
+					}
+					revisionSocketLanPolicy: revision {
+						id
+						name
+						description
+						changes
+						createdTime
+						updatedTime
+					}
+				}
+				status
+				errors {
+					errorMessage
+					errorCode
+				}
+			}
+		}
+	}
+}
+`
+
+func (c *Client) PolicySocketLanCreatePolicyRevision(ctx context.Context, socketLanPolicyMutationInput *cato_models.SocketLanPolicyMutationInput, policyCreateRevisionInput cato_models.PolicyCreateRevisionInput, accountID string, interceptors ...clientv2.RequestInterceptor) (*PolicySocketLanCreatePolicyRevision, error) {
+	vars := map[string]any{
+		"socketLanPolicyMutationInput": socketLanPolicyMutationInput,
+		"policyCreateRevisionInput":    policyCreateRevisionInput,
+		"accountId":                    accountID,
+	}
+
+	var res PolicySocketLanCreatePolicyRevision
+	if err := c.Client.Post(ctx, "policySocketLanCreatePolicyRevision", PolicySocketLanCreatePolicyRevisionDocument, &res, vars, interceptors...); err != nil {
+		if c.Client.ParseDataWhenErrors {
+			return &res, err
+		}
+
+		return nil, err
+	}
+
+	return &res, nil
+}
+
+const PolicySocketLanDiscardPolicyRevisionDocument = `mutation policySocketLanDiscardPolicyRevision ($socketLanPolicyMutationInput: SocketLanPolicyMutationInput, $policyDiscardRevisionInput: PolicyDiscardRevisionInput, $accountId: ID!) {
+	policy(accountId: $accountId) {
+		socketLan(input: $socketLanPolicyMutationInput) {
+			discardPolicyRevision(input: $policyDiscardRevisionInput) {
+				policy {
+					enabled
+					rules {
+						audit {
+							updatedTime
+							updatedBy
+						}
+						rule {
+							id
+							name
+							description
+							index
+							section {
+								id
+								name
+							}
+							enabled
+							site {
+								site {
+									id
+									name
+								}
+								group {
+									id
+									name
+								}
+							}
+							source {
+								vlan
+								ipRange {
+									from
+									to
+								}
+								group {
+									id
+									name
+								}
+								subnet
+								networkInterface {
+									id
+									name
+								}
+								systemGroup {
+									id
+									name
+								}
+								host {
+									id
+									name
+								}
+								ip
+								globalIpRange {
+									id
+									name
+								}
+								floatingSubnet {
+									id
+									name
+								}
+								siteNetworkSubnet {
+									id
+									name
+								}
+							}
+							destination {
+								vlan
+								ipRange {
+									from
+									to
+								}
+								subnet
+								networkInterface {
+									id
+									name
+								}
+								systemGroup {
+									id
+									name
+								}
+								host {
+									id
+									name
+								}
+								ip
+								globalIpRange {
+									id
+									name
+								}
+								group {
+									id
+									name
+								}
+								floatingSubnet {
+									id
+									name
+								}
+								siteNetworkSubnet {
+									id
+									name
+								}
+							}
+							direction
+							service {
+								simple {
+									name
+								}
+								custom {
+									port
+									portRangeCustomService: portRange {
+										from
+										to
+									}
+									protocol
+								}
+							}
+							nat {
+								enabled
+								natType
+							}
+							transport
+						}
+						properties
+					}
+					sections {
+						audit {
+							updatedTime
+							updatedBy
+						}
+						section {
+							id
+							name
+						}
+						properties
+					}
+					auditSocketLanPolicy: audit {
+						publishedTime
+						publishedBy
+					}
+					revisionSocketLanPolicy: revision {
+						id
+						name
+						description
+						changes
+						createdTime
+						updatedTime
+					}
+				}
+				status
+				errors {
+					errorMessage
+					errorCode
+				}
+			}
+		}
+	}
+}
+`
+
+func (c *Client) PolicySocketLanDiscardPolicyRevision(ctx context.Context, socketLanPolicyMutationInput *cato_models.SocketLanPolicyMutationInput, policyDiscardRevisionInput *cato_models.PolicyDiscardRevisionInput, accountID string, interceptors ...clientv2.RequestInterceptor) (*PolicySocketLanDiscardPolicyRevision, error) {
+	vars := map[string]any{
+		"socketLanPolicyMutationInput": socketLanPolicyMutationInput,
+		"policyDiscardRevisionInput":   policyDiscardRevisionInput,
+		"accountId":                    accountID,
+	}
+
+	var res PolicySocketLanDiscardPolicyRevision
+	if err := c.Client.Post(ctx, "policySocketLanDiscardPolicyRevision", PolicySocketLanDiscardPolicyRevisionDocument, &res, vars, interceptors...); err != nil {
+		if c.Client.ParseDataWhenErrors {
+			return &res, err
+		}
+
+		return nil, err
+	}
+
+	return &res, nil
+}
+
+const PolicySocketLanMoveRuleDocument = `mutation policySocketLanMoveRule ($policyMoveRuleInput: PolicyMoveRuleInput!, $accountId: ID!) {
+	policy(accountId: $accountId) {
+		socketLan {
+			moveRule(input: $policyMoveRuleInput) {
+				rule {
+					audit {
+						updatedTime
+						updatedBy
+					}
+					rule {
+						id
+						name
+						description
+						index
+						section {
+							id
+							name
+						}
+						enabled
+						site {
+							site {
+								id
+								name
+							}
+							group {
+								id
+								name
+							}
+						}
+						source {
+							vlan
+							ipRange {
+								from
+								to
+							}
+							group {
+								id
+								name
+							}
+							subnet
+							networkInterface {
+								id
+								name
+							}
+							systemGroup {
+								id
+								name
+							}
+							host {
+								id
+								name
+							}
+							ip
+							globalIpRange {
+								id
+								name
+							}
+							floatingSubnet {
+								id
+								name
+							}
+							siteNetworkSubnet {
+								id
+								name
+							}
+						}
+						destination {
+							vlan
+							ipRange {
+								from
+								to
+							}
+							subnet
+							networkInterface {
+								id
+								name
+							}
+							systemGroup {
+								id
+								name
+							}
+							host {
+								id
+								name
+							}
+							ip
+							globalIpRange {
+								id
+								name
+							}
+							group {
+								id
+								name
+							}
+							floatingSubnet {
+								id
+								name
+							}
+							siteNetworkSubnet {
+								id
+								name
+							}
+						}
+						direction
+						service {
+							simple {
+								name
+							}
+							custom {
+								port
+								portRange {
+									from
+									to
+								}
+								protocol
+							}
+						}
+						nat {
+							enabled
+							natType
+						}
+						transport
+					}
+					properties
+				}
+				status
+				errors {
+					errorMessage
+					errorCode
+				}
+			}
+		}
+	}
+}
+`
+
+func (c *Client) PolicySocketLanMoveRule(ctx context.Context, policyMoveRuleInput cato_models.PolicyMoveRuleInput, accountID string, interceptors ...clientv2.RequestInterceptor) (*PolicySocketLanMoveRule, error) {
+	vars := map[string]any{
+		"policyMoveRuleInput": policyMoveRuleInput,
+		"accountId":           accountID,
+	}
+
+	var res PolicySocketLanMoveRule
+	if err := c.Client.Post(ctx, "policySocketLanMoveRule", PolicySocketLanMoveRuleDocument, &res, vars, interceptors...); err != nil {
+		if c.Client.ParseDataWhenErrors {
+			return &res, err
+		}
+
+		return nil, err
+	}
+
+	return &res, nil
+}
+
+const PolicySocketLanMoveSectionDocument = `mutation policySocketLanMoveSection ($policyMoveSectionInput: PolicyMoveSectionInput!, $accountId: ID!) {
+	policy(accountId: $accountId) {
+		socketLan {
+			moveSection(input: $policyMoveSectionInput) {
+				section {
+					audit {
+						updatedTime
+						updatedBy
+					}
+					section {
+						id
+						name
+					}
+					properties
+				}
+				status
+				errors {
+					errorMessage
+					errorCode
+				}
+			}
+		}
+	}
+}
+`
+
+func (c *Client) PolicySocketLanMoveSection(ctx context.Context, policyMoveSectionInput cato_models.PolicyMoveSectionInput, accountID string, interceptors ...clientv2.RequestInterceptor) (*PolicySocketLanMoveSection, error) {
+	vars := map[string]any{
+		"policyMoveSectionInput": policyMoveSectionInput,
+		"accountId":              accountID,
+	}
+
+	var res PolicySocketLanMoveSection
+	if err := c.Client.Post(ctx, "policySocketLanMoveSection", PolicySocketLanMoveSectionDocument, &res, vars, interceptors...); err != nil {
+		if c.Client.ParseDataWhenErrors {
+			return &res, err
+		}
+
+		return nil, err
+	}
+
+	return &res, nil
+}
+
+const PolicySocketLanPublishPolicyRevisionDocument = `mutation policySocketLanPublishPolicyRevision ($socketLanPolicyMutationInput: SocketLanPolicyMutationInput, $policyPublishRevisionInput: PolicyPublishRevisionInput, $accountId: ID!) {
+	policy(accountId: $accountId) {
+		socketLan(input: $socketLanPolicyMutationInput) {
+			publishPolicyRevision(input: $policyPublishRevisionInput) {
+				policy {
+					enabled
+					rules {
+						audit {
+							updatedTime
+							updatedBy
+						}
+						rule {
+							id
+							name
+							description
+							index
+							section {
+								id
+								name
+							}
+							enabled
+							site {
+								site {
+									id
+									name
+								}
+								group {
+									id
+									name
+								}
+							}
+							source {
+								vlan
+								ipRange {
+									from
+									to
+								}
+								group {
+									id
+									name
+								}
+								subnet
+								networkInterface {
+									id
+									name
+								}
+								systemGroup {
+									id
+									name
+								}
+								host {
+									id
+									name
+								}
+								ip
+								globalIpRange {
+									id
+									name
+								}
+								floatingSubnet {
+									id
+									name
+								}
+								siteNetworkSubnet {
+									id
+									name
+								}
+							}
+							destination {
+								vlan
+								ipRange {
+									from
+									to
+								}
+								subnet
+								networkInterface {
+									id
+									name
+								}
+								systemGroup {
+									id
+									name
+								}
+								host {
+									id
+									name
+								}
+								ip
+								globalIpRange {
+									id
+									name
+								}
+								group {
+									id
+									name
+								}
+								floatingSubnet {
+									id
+									name
+								}
+								siteNetworkSubnet {
+									id
+									name
+								}
+							}
+							direction
+							service {
+								simple {
+									name
+								}
+								custom {
+									port
+									portRangeCustomService: portRange {
+										from
+										to
+									}
+									protocol
+								}
+							}
+							nat {
+								enabled
+								natType
+							}
+							transport
+						}
+						properties
+					}
+					sections {
+						audit {
+							updatedTime
+							updatedBy
+						}
+						section {
+							id
+							name
+						}
+						properties
+					}
+					auditSocketLanPolicy: audit {
+						publishedTime
+						publishedBy
+					}
+					revisionSocketLanPolicy: revision {
+						id
+						name
+						description
+						changes
+						createdTime
+						updatedTime
+					}
+				}
+				status
+				errors {
+					errorMessage
+					errorCode
+				}
+			}
+		}
+	}
+}
+`
+
+func (c *Client) PolicySocketLanPublishPolicyRevision(ctx context.Context, socketLanPolicyMutationInput *cato_models.SocketLanPolicyMutationInput, policyPublishRevisionInput *cato_models.PolicyPublishRevisionInput, accountID string, interceptors ...clientv2.RequestInterceptor) (*PolicySocketLanPublishPolicyRevision, error) {
+	vars := map[string]any{
+		"socketLanPolicyMutationInput": socketLanPolicyMutationInput,
+		"policyPublishRevisionInput":   policyPublishRevisionInput,
+		"accountId":                    accountID,
+	}
+
+	var res PolicySocketLanPublishPolicyRevision
+	if err := c.Client.Post(ctx, "policySocketLanPublishPolicyRevision", PolicySocketLanPublishPolicyRevisionDocument, &res, vars, interceptors...); err != nil {
+		if c.Client.ParseDataWhenErrors {
+			return &res, err
+		}
+
+		return nil, err
+	}
+
+	return &res, nil
+}
+
+const PolicySocketLanRemoveRuleDocument = `mutation policySocketLanRemoveRule ($socketLanPolicyMutationInput: SocketLanPolicyMutationInput, $socketLanRemoveRuleInput: SocketLanRemoveRuleInput!, $accountId: ID!) {
+	policy(accountId: $accountId) {
+		socketLan(input: $socketLanPolicyMutationInput) {
+			removeRule(input: $socketLanRemoveRuleInput) {
+				rule {
+					audit {
+						updatedTime
+						updatedBy
+					}
+					rule {
+						id
+						name
+						description
+						index
+						section {
+							id
+							name
+						}
+						enabled
+						site {
+							site {
+								id
+								name
+							}
+							group {
+								id
+								name
+							}
+						}
+						source {
+							vlan
+							ipRange {
+								from
+								to
+							}
+							group {
+								id
+								name
+							}
+							subnet
+							networkInterface {
+								id
+								name
+							}
+							systemGroup {
+								id
+								name
+							}
+							host {
+								id
+								name
+							}
+							ip
+							globalIpRange {
+								id
+								name
+							}
+							floatingSubnet {
+								id
+								name
+							}
+							siteNetworkSubnet {
+								id
+								name
+							}
+						}
+						destination {
+							vlan
+							ipRange {
+								from
+								to
+							}
+							subnet
+							networkInterface {
+								id
+								name
+							}
+							systemGroup {
+								id
+								name
+							}
+							host {
+								id
+								name
+							}
+							ip
+							globalIpRange {
+								id
+								name
+							}
+							group {
+								id
+								name
+							}
+							floatingSubnet {
+								id
+								name
+							}
+							siteNetworkSubnet {
+								id
+								name
+							}
+						}
+						direction
+						service {
+							simple {
+								name
+							}
+							custom {
+								port
+								portRange {
+									from
+									to
+								}
+								protocol
+							}
+						}
+						nat {
+							enabled
+							natType
+						}
+						transport
+					}
+					properties
+				}
+				status
+				errors {
+					errorMessage
+					errorCode
+				}
+			}
+		}
+	}
+}
+`
+
+func (c *Client) PolicySocketLanRemoveRule(ctx context.Context, socketLanPolicyMutationInput *cato_models.SocketLanPolicyMutationInput, socketLanRemoveRuleInput cato_models.SocketLanRemoveRuleInput, accountID string, interceptors ...clientv2.RequestInterceptor) (*PolicySocketLanRemoveRule, error) {
+	vars := map[string]any{
+		"socketLanPolicyMutationInput": socketLanPolicyMutationInput,
+		"socketLanRemoveRuleInput":     socketLanRemoveRuleInput,
+		"accountId":                    accountID,
+	}
+
+	var res PolicySocketLanRemoveRule
+	if err := c.Client.Post(ctx, "policySocketLanRemoveRule", PolicySocketLanRemoveRuleDocument, &res, vars, interceptors...); err != nil {
+		if c.Client.ParseDataWhenErrors {
+			return &res, err
+		}
+
+		return nil, err
+	}
+
+	return &res, nil
+}
+
+const PolicySocketLanRemoveSectionDocument = `mutation policySocketLanRemoveSection ($socketLanPolicyMutationInput: SocketLanPolicyMutationInput, $policyRemoveSectionInput: PolicyRemoveSectionInput!, $accountId: ID!) {
+	policy(accountId: $accountId) {
+		socketLan(input: $socketLanPolicyMutationInput) {
+			removeSection(input: $policyRemoveSectionInput) {
+				section {
+					audit {
+						updatedTime
+						updatedBy
+					}
+					section {
+						id
+						name
+					}
+					properties
+				}
+				status
+				errors {
+					errorMessage
+					errorCode
+				}
+			}
+		}
+	}
+}
+`
+
+func (c *Client) PolicySocketLanRemoveSection(ctx context.Context, socketLanPolicyMutationInput *cato_models.SocketLanPolicyMutationInput, policyRemoveSectionInput cato_models.PolicyRemoveSectionInput, accountID string, interceptors ...clientv2.RequestInterceptor) (*PolicySocketLanRemoveSection, error) {
+	vars := map[string]any{
+		"socketLanPolicyMutationInput": socketLanPolicyMutationInput,
+		"policyRemoveSectionInput":     policyRemoveSectionInput,
+		"accountId":                    accountID,
+	}
+
+	var res PolicySocketLanRemoveSection
+	if err := c.Client.Post(ctx, "policySocketLanRemoveSection", PolicySocketLanRemoveSectionDocument, &res, vars, interceptors...); err != nil {
+		if c.Client.ParseDataWhenErrors {
+			return &res, err
+		}
+
+		return nil, err
+	}
+
+	return &res, nil
+}
+
+const PolicySocketLanUpdatePolicyDocument = `mutation policySocketLanUpdatePolicy ($socketLanPolicyMutationInput: SocketLanPolicyMutationInput, $socketLanPolicyUpdateInput: SocketLanPolicyUpdateInput!, $accountId: ID!) {
+	policy(accountId: $accountId) {
+		socketLan(input: $socketLanPolicyMutationInput) {
+			updatePolicy(input: $socketLanPolicyUpdateInput) {
+				policy {
+					enabled
+					rules {
+						audit {
+							updatedTime
+							updatedBy
+						}
+						rule {
+							id
+							name
+							description
+							index
+							section {
+								id
+								name
+							}
+							enabled
+							site {
+								site {
+									id
+									name
+								}
+								group {
+									id
+									name
+								}
+							}
+							source {
+								vlan
+								ipRange {
+									from
+									to
+								}
+								group {
+									id
+									name
+								}
+								subnet
+								networkInterface {
+									id
+									name
+								}
+								systemGroup {
+									id
+									name
+								}
+								host {
+									id
+									name
+								}
+								ip
+								globalIpRange {
+									id
+									name
+								}
+								floatingSubnet {
+									id
+									name
+								}
+								siteNetworkSubnet {
+									id
+									name
+								}
+							}
+							destination {
+								vlan
+								ipRange {
+									from
+									to
+								}
+								subnet
+								networkInterface {
+									id
+									name
+								}
+								systemGroup {
+									id
+									name
+								}
+								host {
+									id
+									name
+								}
+								ip
+								globalIpRange {
+									id
+									name
+								}
+								group {
+									id
+									name
+								}
+								floatingSubnet {
+									id
+									name
+								}
+								siteNetworkSubnet {
+									id
+									name
+								}
+							}
+							direction
+							service {
+								simple {
+									name
+								}
+								custom {
+									port
+									portRangeCustomService: portRange {
+										from
+										to
+									}
+									protocol
+								}
+							}
+							nat {
+								enabled
+								natType
+							}
+							transport
+						}
+						properties
+					}
+					sections {
+						audit {
+							updatedTime
+							updatedBy
+						}
+						section {
+							id
+							name
+						}
+						properties
+					}
+					auditSocketLanPolicy: audit {
+						publishedTime
+						publishedBy
+					}
+					revisionSocketLanPolicy: revision {
+						id
+						name
+						description
+						changes
+						createdTime
+						updatedTime
+					}
+				}
+				status
+				errors {
+					errorMessage
+					errorCode
+				}
+			}
+		}
+	}
+}
+`
+
+func (c *Client) PolicySocketLanUpdatePolicy(ctx context.Context, socketLanPolicyMutationInput *cato_models.SocketLanPolicyMutationInput, socketLanPolicyUpdateInput cato_models.SocketLanPolicyUpdateInput, accountID string, interceptors ...clientv2.RequestInterceptor) (*PolicySocketLanUpdatePolicy, error) {
+	vars := map[string]any{
+		"socketLanPolicyMutationInput": socketLanPolicyMutationInput,
+		"socketLanPolicyUpdateInput":   socketLanPolicyUpdateInput,
+		"accountId":                    accountID,
+	}
+
+	var res PolicySocketLanUpdatePolicy
+	if err := c.Client.Post(ctx, "policySocketLanUpdatePolicy", PolicySocketLanUpdatePolicyDocument, &res, vars, interceptors...); err != nil {
+		if c.Client.ParseDataWhenErrors {
+			return &res, err
+		}
+
+		return nil, err
+	}
+
+	return &res, nil
+}
+
+const PolicySocketLanUpdateRuleDocument = `mutation policySocketLanUpdateRule ($socketLanPolicyMutationInput: SocketLanPolicyMutationInput, $socketLanUpdateRuleInput: SocketLanUpdateRuleInput!, $accountId: ID!) {
+	policy(accountId: $accountId) {
+		socketLan(input: $socketLanPolicyMutationInput) {
+			updateRule(input: $socketLanUpdateRuleInput) {
+				rule {
+					audit {
+						updatedTime
+						updatedBy
+					}
+					rule {
+						id
+						name
+						description
+						index
+						section {
+							id
+							name
+						}
+						enabled
+						site {
+							site {
+								id
+								name
+							}
+							group {
+								id
+								name
+							}
+						}
+						source {
+							vlan
+							ipRange {
+								from
+								to
+							}
+							group {
+								id
+								name
+							}
+							subnet
+							networkInterface {
+								id
+								name
+							}
+							systemGroup {
+								id
+								name
+							}
+							host {
+								id
+								name
+							}
+							ip
+							globalIpRange {
+								id
+								name
+							}
+							floatingSubnet {
+								id
+								name
+							}
+							siteNetworkSubnet {
+								id
+								name
+							}
+						}
+						destination {
+							vlan
+							ipRange {
+								from
+								to
+							}
+							subnet
+							networkInterface {
+								id
+								name
+							}
+							systemGroup {
+								id
+								name
+							}
+							host {
+								id
+								name
+							}
+							ip
+							globalIpRange {
+								id
+								name
+							}
+							group {
+								id
+								name
+							}
+							floatingSubnet {
+								id
+								name
+							}
+							siteNetworkSubnet {
+								id
+								name
+							}
+						}
+						direction
+						service {
+							simple {
+								name
+							}
+							custom {
+								port
+								portRange {
+									from
+									to
+								}
+								protocol
+							}
+						}
+						nat {
+							enabled
+							natTypeSocketLanNatSettings: natType
+						}
+						transport
+					}
+					properties
+				}
+				status
+				errors {
+					errorMessage
+					errorCode
+				}
+			}
+		}
+	}
+}
+`
+
+func (c *Client) PolicySocketLanUpdateRule(ctx context.Context, socketLanPolicyMutationInput *cato_models.SocketLanPolicyMutationInput, socketLanUpdateRuleInput cato_models.SocketLanUpdateRuleInput, accountID string, interceptors ...clientv2.RequestInterceptor) (*PolicySocketLanUpdateRule, error) {
+	vars := map[string]any{
+		"socketLanPolicyMutationInput": socketLanPolicyMutationInput,
+		"socketLanUpdateRuleInput":     socketLanUpdateRuleInput,
+		"accountId":                    accountID,
+	}
+
+	var res PolicySocketLanUpdateRule
+	if err := c.Client.Post(ctx, "policySocketLanUpdateRule", PolicySocketLanUpdateRuleDocument, &res, vars, interceptors...); err != nil {
+		if c.Client.ParseDataWhenErrors {
+			return &res, err
+		}
+
+		return nil, err
+	}
+
+	return &res, nil
+}
+
+const PolicySocketLanUpdateSectionDocument = `mutation policySocketLanUpdateSection ($socketLanPolicyMutationInput: SocketLanPolicyMutationInput, $policyUpdateSectionInput: PolicyUpdateSectionInput!, $accountId: ID!) {
+	policy(accountId: $accountId) {
+		socketLan(input: $socketLanPolicyMutationInput) {
+			updateSection(input: $policyUpdateSectionInput) {
+				section {
+					audit {
+						updatedTime
+						updatedBy
+					}
+					section {
+						id
+						name
+					}
+					properties
+				}
+				status
+				errors {
+					errorMessage
+					errorCode
+				}
+			}
+		}
+	}
+}
+`
+
+func (c *Client) PolicySocketLanUpdateSection(ctx context.Context, socketLanPolicyMutationInput *cato_models.SocketLanPolicyMutationInput, policyUpdateSectionInput cato_models.PolicyUpdateSectionInput, accountID string, interceptors ...clientv2.RequestInterceptor) (*PolicySocketLanUpdateSection, error) {
+	vars := map[string]any{
+		"socketLanPolicyMutationInput": socketLanPolicyMutationInput,
+		"policyUpdateSectionInput":     policyUpdateSectionInput,
+		"accountId":                    accountID,
+	}
+
+	var res PolicySocketLanUpdateSection
+	if err := c.Client.Post(ctx, "policySocketLanUpdateSection", PolicySocketLanUpdateSectionDocument, &res, vars, interceptors...); err != nil {
 		if c.Client.ParseDataWhenErrors {
 			return &res, err
 		}
@@ -66818,6 +76162,18 @@ var DocumentOperationNames = map[string]string{
 	EventsTimeSeriesDocument:                            "eventsTimeSeries",
 	HardwareManagementDocument:                          "hardwareManagement",
 	LicensingDocument:                                   "licensing",
+	PolicySocketLanAddRuleDocument:                      "policySocketLanAddRule",
+	PolicySocketLanAddSectionDocument:                   "policySocketLanAddSection",
+	PolicySocketLanCreatePolicyRevisionDocument:         "policySocketLanCreatePolicyRevision",
+	PolicySocketLanDiscardPolicyRevisionDocument:        "policySocketLanDiscardPolicyRevision",
+	PolicySocketLanMoveRuleDocument:                     "policySocketLanMoveRule",
+	PolicySocketLanMoveSectionDocument:                  "policySocketLanMoveSection",
+	PolicySocketLanPublishPolicyRevisionDocument:        "policySocketLanPublishPolicyRevision",
+	PolicySocketLanRemoveRuleDocument:                   "policySocketLanRemoveRule",
+	PolicySocketLanRemoveSectionDocument:                "policySocketLanRemoveSection",
+	PolicySocketLanUpdatePolicyDocument:                 "policySocketLanUpdatePolicy",
+	PolicySocketLanUpdateRuleDocument:                   "policySocketLanUpdateRule",
+	PolicySocketLanUpdateSectionDocument:                "policySocketLanUpdateSection",
 	SiteAddBgpPeerDocument:                              "siteAddBgpPeer",
 	SiteRemoveBgpPeerDocument:                           "siteRemoveBgpPeer",
 	SiteUpdateBgpPeerDocument:                           "siteUpdateBgpPeer",

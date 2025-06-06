@@ -7,14 +7,12 @@ import (
 	"os"
 
 	cato "github.com/catonetworks/cato-go-sdk"
-	cato_models "github.com/catonetworks/cato-go-sdk/models"
 )
 
 func main() {
 	token := os.Getenv("CATO_API_KEY")
 	accountId := os.Getenv("CATO_ACCOUNT_ID")
-	// siteId := os.Getenv("CATO_SITE_ID")
-	url := "https://api.catonetworks.com/api/v1/graphql2"
+	url := os.Getenv("CATO_API_URL")
 
 	if token == "" {
 		fmt.Println("no token provided")
@@ -30,17 +28,11 @@ func main() {
 
 	ctx := context.Background()
 
-	entityIds := []string{"91634"}
-
-	queryResult, err := catoClient.EntityLookup(ctx, accountId, cato_models.EntityType("site"), nil, nil, nil, nil, entityIds, nil, nil, nil)
+	queryResult, err := catoClient.AccountSnapshot(ctx, nil, nil, &accountId)
 	if err != nil {
-		fmt.Println("error in EntityLookup: ", err)
-		os.Exit(1)
+		fmt.Println("query error: ", err)
+		return
 	}
-
-	//for _, val := range queryResult.EntityLookup.GetItems() {
-	//	fmt.Println("entity item: ", *val.Entity.Name)
-	//}
 
 	queryResultJson, err := json.Marshal(queryResult)
 	if err != nil {

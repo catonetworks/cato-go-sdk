@@ -7,6 +7,7 @@ import (
 	"os"
 
 	cato "github.com/catonetworks/cato-go-sdk"
+	cato_models "github.com/catonetworks/cato-go-sdk/models"
 )
 
 func main() {
@@ -28,11 +29,10 @@ func main() {
 
 	ctx := context.Background()
 
-	// AccountSnapshot(ctx context.Context, siteIDs []string, userIDs []string, accountID *string, interceptors ...clientv2.RequestInterceptor) (*AccountSnapshot, error)
-	queryResult, err := catoClient.AccountSnapshot(ctx, nil, nil, &accountId)
+	queryResult, err := catoClient.EntityLookupMinimal(ctx, accountId, cato_models.EntityType("dhcpRelayGroup"), nil, nil, nil, nil, nil)
 	if err != nil {
-		fmt.Println("policy query error: ", err)
-		return
+		fmt.Println("error in EntityLookup: ", err)
+		os.Exit(1)
 	}
 
 	queryResultJson, err := json.Marshal(queryResult)

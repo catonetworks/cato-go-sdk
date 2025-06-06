@@ -1,0 +1,144 @@
+mutation policySocketLanMoveRule ( $policyMoveRuleInput:PolicyMoveRuleInput! $accountId:ID! ) {
+	policy ( accountId:$accountId  ) {
+		socketLan  {
+			moveRule ( input:$policyMoveRuleInput   ) {
+				rule  {
+					audit {
+						updatedTime 
+						updatedBy 
+					}
+					rule {
+						id 
+						name 
+						description 
+						index 
+						section  {
+							id
+							name
+						}
+
+						enabled 
+						site  {
+							site {
+								id 
+								name 
+							}
+							group {
+								id 
+								name 
+							}
+						}
+
+						source  {
+							vlan
+							ipRange {
+								from 
+								to 
+							}
+							group {
+								id 
+								name 
+							}
+							subnet
+							networkInterface {
+								id 
+								name 
+							}
+							systemGroup {
+								id 
+								name 
+							}
+							host {
+								id 
+								name 
+							}
+							ip
+							globalIpRange {
+								id 
+								name 
+							}
+							floatingSubnet {
+								id 
+								name 
+							}
+							siteNetworkSubnet {
+								id 
+								name 
+							}
+						}
+
+						destination  {
+							vlan
+							ipRange {
+								from 
+								to 
+							}
+							subnet
+							networkInterface {
+								id 
+								name 
+							}
+							systemGroup {
+								id 
+								name 
+							}
+							host {
+								id 
+								name 
+							}
+							ip
+							globalIpRange {
+								id 
+								name 
+							}
+							group {
+								id 
+								name 
+							}
+							floatingSubnet {
+								id 
+								name 
+							}
+							siteNetworkSubnet {
+								id 
+								name 
+							}
+						}
+
+						direction 
+						service  {
+							simple {
+								name 
+							}
+							custom {
+								port 
+								portRange  {
+									from
+									to
+								}
+
+								protocol 
+							}
+						}
+
+						nat  {
+							enabled
+							natType
+						}
+
+						transport 
+					}
+					properties
+				}
+
+				status 
+				errors  {
+					errorMessage
+					errorCode
+				}
+
+			}
+		}
+
+	}	
+}

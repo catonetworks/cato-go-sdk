@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"io"
 	"strconv"
+	"time"
 
 	"github.com/99designs/gqlgen/graphql"
 	"github.com/catonetworks/cato-go-sdk/scalars"
@@ -88,6 +89,12 @@ type DeviceDetails interface {
 	GetDeviceName() *string
 	GetOsDetails() *OsDetails
 	GetLoggedOnUsers() []EndpointUser
+	GetExternalIP() *string
+	GetLocalIP() *string
+}
+
+type DeviceNetworkRef interface {
+	IsDeviceNetworkRef()
 }
 
 type Endpoint interface {
@@ -145,6 +152,8 @@ type EndpointAlert interface {
 	GetResources() []EndpointResource
 	GetActivities() []Activity
 	GetCriticality() *int64
+	GetExternalIP() *string
+	GetLocalIP() *string
 }
 
 type EndpointResource interface {
@@ -398,6 +407,11 @@ type AccountDataPayload struct {
 	Subdomain string `json:"subdomain"`
 }
 
+type AccountFilter struct {
+	AccountInclusion *AccountInclusion `json:"accountInclusion,omitempty"`
+	In               []string          `json:"in,omitempty"`
+}
+
 type AccountIDPredicate struct {
 	In    []string `json:"in,omitempty"`
 	NotIn []string `json:"not_in,omitempty"`
@@ -451,6 +465,7 @@ type AccountMetrics struct {
 	Users []*SiteMetrics `json:"users,omitempty"`
 }
 
+// A reference identifying the Account object. ID: Unique Account Identifier, Name: The Account Name
 type AccountRef struct {
 	ID   string `json:"id"`
 	Name string `json:"name"`
@@ -521,6 +536,8 @@ type AddBgpPeerInput struct {
 	CatoAsn scalars.Asn16 `json:"catoAsn"`
 	// Default action for routes not matching filters (ACCEPT or DROP).
 	DefaultAction BgpDefaultAction `json:"defaultAction"`
+	// Excluded rules from the default action.
+	DefaultActionExclusion []*BgpFilterRuleInput `json:"defaultActionExclusion"`
 	// Time (in seconds) before declaring the peer unreachable.
 	HoldTime int64 `json:"holdTime"`
 	// Time (in seconds) between keepalive messages.
@@ -679,7 +696,8 @@ type AddNetworkRangeInput struct {
 	// Only relevant for NATIVE, VLAN rangeType
 	DhcpSettings *NetworkDhcpSettingsInput `json:"dhcpSettings,omitempty"`
 	// Only relevant for ROUTED_ROUTE rangeType
-	Gateway *string `json:"gateway,omitempty"`
+	Gateway      *string `json:"gateway,omitempty"`
+	InternetOnly *bool   `json:"internetOnly,omitempty"`
 	// Only relevant for NATIVE, SECONDARY_NATIVE, DIRECT_ROUTE, VLAN rangeType
 	LocalIP *string `json:"localIp,omitempty"`
 	// BETA - Only relevant for NATIVE, DIRECT_ROUTE and VLAN rangeType
@@ -781,6 +799,21 @@ type AddStoryCommentPayload struct {
 	Comment *StoryComment `json:"comment"`
 }
 
+type AddressInput struct {
+	// City
+	CityName string `json:"cityName"`
+	// Company name (recipient)
+	CompanyName string `json:"companyName"`
+	// Country
+	CountryName string `json:"countryName"`
+	// State (only for USA and Canada)
+	StateName *string `json:"stateName,omitempty"`
+	// Street name and number
+	Street string `json:"street"`
+	// Zip Code
+	ZipCode string `json:"zipCode"`
+}
+
 // A CC2 administrator
 type Admin struct {
 	AllowedItems          []*Entity                  `json:"allowedItems,omitempty"`
@@ -807,6 +840,7 @@ type AdminMutations struct {
 	UpdateAdmin *UpdateAdminPayload `json:"updateAdmin,omitempty"`
 }
 
+// A reference identifying the Admin object. ID: Unique Admin Identifier, Name: The Admin Name
 type AdminRef struct {
 	ID   string `json:"id"`
 	Name string `json:"name"`
@@ -833,6 +867,7 @@ type AdminsResult struct {
 	Total int64    `json:"total"`
 }
 
+// A reference identifying the AllocatedIp object. ID: Unique AllocatedIp Identifier, Name: The AllocatedIp Name
 type AllocatedIPRef struct {
 	ID   string `json:"id"`
 	Name string `json:"name"`
@@ -894,6 +929,7 @@ type AnalystInfo struct {
 	Name *string `json:"name,omitempty"`
 }
 
+// The `AnomalyEvents` object represents a data structure used in GraphQL queries or mutations, containing fields related to security anomalies, such as analyst feedback, connection type, criticality, description, and various identifiers and metrics, to provide detailed information about potential security incidents.
 type AnomalyEvents struct {
 	AnalystFeedback     *AnalystFeedback        `json:"analystFeedback,omitempty"`
 	BreakdownField      *string                 `json:"breakdownField,omitempty"`
@@ -1027,6 +1063,7 @@ func (AnomalyEvents) IsMergedIncident() {}
 
 // Cato ID and name for the user
 
+// The `AnomalyStats` object is a GraphQL type that represents statistical data related to anomalies, including fields such as analyst feedback, connection type, criticality, device information, and various metrics, along with associated metadata like timestamps, status, and predicted verdicts.
 type AnomalyStats struct {
 	AnalystFeedback     *AnalystFeedback        `json:"analystFeedback,omitempty"`
 	BreakdownField      *string                 `json:"breakdownField,omitempty"`
@@ -1160,6 +1197,7 @@ func (AnomalyStats) IsMergedIncident() {}
 
 // Cato ID and name for the user
 
+// A reference identifying the ApiKey object. ID: Unique ApiKey Identifier, Name: The ApiKey Name
 type APIKeyRef struct {
 	ID   string `json:"id"`
 	Name string `json:"name"`
@@ -1597,6 +1635,7 @@ type AppTenantRestrictionUpdateRuleInput struct {
 	Rule *AppTenantRestrictionUpdateRuleDataInput `json:"rule"`
 }
 
+// A reference identifying the ApplicationCategory object. ID: Unique ApplicationCategory Identifier, Name: The ApplicationCategory Name
 type ApplicationCategoryRef struct {
 	ID   string `json:"id"`
 	Name string `json:"name"`
@@ -1615,6 +1654,7 @@ type ApplicationCategoryRefInput struct {
 	Input string      `json:"input"`
 }
 
+// A reference identifying the Application object. ID: Unique Application Identifier, Name: The Application Name
 type ApplicationRef struct {
 	ID   string `json:"id"`
 	Name string `json:"name"`
@@ -1779,6 +1819,22 @@ type BgpCommunity struct {
 	To scalars.Asn16 `json:"to"`
 }
 
+type BgpCommunityFilterRule struct {
+	// Community values to match.
+	Community []*BgpCommunity `json:"community"`
+	// Unique identifier of the community filter rule.
+	ID string `json:"id"`
+	// Predicate to apply to the community filter (e.g., EQUAL, NOT_EQUAL).
+	Predicate BgpCommunityFilterPredicate `json:"predicate"`
+}
+
+type BgpCommunityFilterRuleInput struct {
+	// Community values to match.
+	Community []*BgpCommunityInput `json:"community"`
+	// Predicate to apply to the community filter (e.g., EQUAL, NOT_EQUAL).
+	Predicate *BgpCommunityFilterPredicate `json:"predicate,omitempty"`
+}
+
 type BgpCommunityInput struct {
 	// Start of the community range.
 	From scalars.Asn16 `json:"from"`
@@ -1801,6 +1857,24 @@ type BgpDetailedStatus struct {
 	RoutesToPeer []string `json:"routesToPeer"`
 }
 
+type BgpFilterRule struct {
+	// Exact and inclusive filter rule. Please choose only one filter rule type.
+	BgpRouteExactAndInclusiveFilterRule *BgpRouteExactAndInclusiveFilterRule `json:"bgpRouteExactAndInclusiveFilterRule,omitempty"`
+	// Exact route filter rule. Please choose only one filter rule type.
+	BgpRouteExactFilterRule *BgpRouteExactFilterRule `json:"bgpRouteExactFilterRule,omitempty"`
+	// Community filter rule. Please choose only one filter rule type.
+	CommunityFilterRule *BgpCommunityFilterRule `json:"communityFilterRule,omitempty"`
+}
+
+type BgpFilterRuleInput struct {
+	// Input for exact and inclusive filter rule.
+	BgpRouteExactAndInclusiveFilterRule *BgpRouteExactAndInclusiveFilterRuleInput `json:"bgpRouteExactAndInclusiveFilterRule,omitempty"`
+	// Input for exact route filter rule.
+	BgpRouteExactFilterRule *BgpRouteExactFilterRuleInput `json:"bgpRouteExactFilterRule,omitempty"`
+	// Input for community filter rule.
+	CommunityFilterRule *BgpCommunityFilterRuleInput `json:"communityFilterRule,omitempty"`
+}
+
 type BgpPeer struct {
 	// Indicates if all routes are advertised.
 	AdvertiseAllRoutes bool `json:"advertiseAllRoutes"`
@@ -1818,6 +1892,8 @@ type BgpPeer struct {
 	CatoIP string `json:"catoIp"`
 	// Default action for routes not matching filters (ACCEPT or DROP).
 	DefaultAction BgpDefaultAction `json:"defaultAction"`
+	// Rules excluded from the default action.
+	DefaultActionExclusion []*BgpFilterRule `json:"defaultActionExclusion"`
 	// Time before declaring the peer unreachable.
 	HoldTime int64 `json:"holdTime"`
 	// Unique identifier for the BGP peer.
@@ -1876,6 +1952,54 @@ type BgpRejectedRoutesFromPeer struct {
 	Type *string `json:"type,omitempty"`
 }
 
+type BgpRouteExactAndInclusiveFilterRule struct {
+	// Minimum prefix length for the filter rule.
+	Ge *int64 `json:"ge,omitempty"`
+	// Global IP ranges to include.
+	GlobalIPRange []*GlobalIPRangeRef `json:"globalIpRange"`
+	// Global IP ranges to exclude.
+	GlobalIPRangeException []*GlobalIPRangeRef `json:"globalIpRangeException"`
+	// Unique identifier of the filter rule.
+	ID string `json:"id"`
+	// Maximum prefix length for the filter rule.
+	Le *int64 `json:"le,omitempty"`
+	// Network subnets to include.
+	NetworkSubnet []string `json:"networkSubnet"`
+	// Network subnets to exclude.
+	NetworkSubnetException []string `json:"networkSubnetException"`
+}
+
+type BgpRouteExactAndInclusiveFilterRuleInput struct {
+	// Minimum prefix length for the filter rule.
+	Ge *int64 `json:"ge,omitempty"`
+	// Global IP ranges to include.
+	GlobalIPRange []*GlobalIPRangeRefInput `json:"globalIpRange"`
+	// Global IP ranges to exclude.
+	GlobalIPRangeException []*GlobalIPRangeRefInput `json:"globalIpRangeException"`
+	// Maximum prefix length for the filter rule.
+	Le *int64 `json:"le,omitempty"`
+	// Network subnets to include.
+	NetworkSubnet []string `json:"networkSubnet"`
+	// Network subnets to exclude.
+	NetworkSubnetException []string `json:"networkSubnetException"`
+}
+
+type BgpRouteExactFilterRule struct {
+	// Global IP ranges to include.
+	GlobalIPRange []*GlobalIPRangeRef `json:"globalIpRange"`
+	// Unique identifier of the exact filter rule.
+	ID string `json:"id"`
+	// Network subnets to include.
+	NetworkSubnet []string `json:"networkSubnet"`
+}
+
+type BgpRouteExactFilterRuleInput struct {
+	// Global IP ranges to include.
+	GlobalIPRange []*GlobalIPRangeRefInput `json:"globalIpRange"`
+	// Network subnets to include.
+	NetworkSubnet []string `json:"networkSubnet"`
+}
+
 type BgpSummaryRoute struct {
 	// Community values associated with the route.
 	Community []*BgpCommunity `json:"community"`
@@ -1910,6 +2034,11 @@ type BgpTrackingInput struct {
 	Enabled bool `json:"enabled"`
 	// Subscription ID associated with this tracking rule.
 	SubscriptionID string `json:"subscriptionId"`
+}
+
+type BooleanFilterInput struct {
+	Eq  *bool `json:"eq,omitempty"`
+	Neq *bool `json:"neq,omitempty"`
 }
 
 type BooleanPredicate struct {
@@ -1956,6 +2085,167 @@ func (this CasbLicense) GetExpirationDate() string { return this.ExpirationDate 
 // The date of the last update to the license
 func (this CasbLicense) GetLastUpdated() *string { return this.LastUpdated }
 
+type CatalogApplication struct {
+	Activity             []*CatalogApplicationActivity           `json:"activity"`
+	Capability           []CatalogApplicationCapability          `json:"capability"`
+	Category             []*ApplicationCategoryRef               `json:"category"`
+	City                 *string                                 `json:"city,omitempty"`
+	ComplianceAttributes *CatalogApplicationComplianceAttributes `json:"complianceAttributes"`
+	Description          *string                                 `json:"description,omitempty"`
+	DescriptionSummary   *string                                 `json:"descriptionSummary,omitempty"`
+	ID                   string                                  `json:"id"`
+	IpoStatus            *string                                 `json:"ipoStatus,omitempty"`
+	Name                 string                                  `json:"name"`
+	NumOfEmployees       *EmployeeRange                          `json:"numOfEmployees,omitempty"`
+	OriginCountry        *CountryRef                             `json:"originCountry,omitempty"`
+	RecentlyAdded        bool                                    `json:"recentlyAdded"`
+	Region               *string                                 `json:"region,omitempty"`
+	Risk                 *string                                 `json:"risk,omitempty"`
+	Sanctioned           bool                                    `json:"sanctioned"`
+	SecurityAttributes   *CatalogApplicationSecurityAttributes   `json:"securityAttributes"`
+	StandardPorts        []*CustomService                        `json:"standardPorts"`
+	Type                 CatalogApplicationType                  `json:"type"`
+	Website              *string                                 `json:"website,omitempty"`
+}
+
+type CatalogApplicationActivity struct {
+	Fields []*CatalogApplicationActivityField `json:"fields"`
+	ID     string                             `json:"id"`
+	Name   string                             `json:"name"`
+}
+
+type CatalogApplicationActivityField struct {
+	ID                string                                    `json:"id"`
+	Name              string                                    `json:"name"`
+	PossibleOperators []CatalogApplicationActivityFieldOperator `json:"possibleOperators"`
+	PossibleValues    []string                                  `json:"possibleValues"`
+}
+
+type CatalogApplicationActivityFilterInput struct {
+	HasAny []*CatalogApplicationActivityRefInput `json:"hasAny,omitempty"`
+}
+
+type CatalogApplicationActivityRefInput struct {
+	By    ObjectRefBy `json:"by"`
+	Input string      `json:"input"`
+}
+
+type CatalogApplicationCapabilityFilterInput struct {
+	HasAny []CatalogApplicationCapability `json:"hasAny,omitempty"`
+}
+
+type CatalogApplicationCategoryFilterInput struct {
+	HasAny []*ApplicationCategoryRefInput `json:"hasAny,omitempty"`
+}
+
+type CatalogApplicationCategorySortInput struct {
+	Name *SortOrderInput `json:"name,omitempty"`
+}
+
+type CatalogApplicationComplianceAttributes struct {
+	Hippa    CatalogApplicationAttribute `json:"hippa"`
+	Isae3402 CatalogApplicationAttribute `json:"isae3402"`
+	Iso27001 CatalogApplicationAttribute `json:"iso27001"`
+	PciDss   CatalogApplicationAttribute `json:"pciDss"`
+	Soc1     CatalogApplicationAttribute `json:"soc1"`
+	Soc2     CatalogApplicationAttribute `json:"soc2"`
+	Soc3     CatalogApplicationAttribute `json:"soc3"`
+	Sox      CatalogApplicationAttribute `json:"sox"`
+}
+
+type CatalogApplicationContentType struct {
+	ID   string `json:"id"`
+	Name string `json:"name"`
+}
+
+type CatalogApplicationContentTypeFilterInput struct {
+	ID   []*IDFilterInput     `json:"id,omitempty"`
+	Name []*StringFilterInput `json:"name,omitempty"`
+}
+
+type CatalogApplicationContentTypeGroup struct {
+	ContentType []*CatalogApplicationContentType `json:"contentType"`
+	ID          string                           `json:"id"`
+	Name        string                           `json:"name"`
+}
+
+type CatalogApplicationContentTypeGroupFilterInput struct {
+	ContentType []*CatalogApplicationContentTypeFilterInput `json:"contentType,omitempty"`
+	ID          []*IDFilterInput                            `json:"id,omitempty"`
+	Name        []*StringFilterInput                        `json:"name,omitempty"`
+}
+
+type CatalogApplicationContentTypeGroupListInput struct {
+	Filter []*CatalogApplicationContentTypeGroupFilterInput `json:"filter,omitempty"`
+	Paging *PagingInput                                     `json:"paging,omitempty"`
+	Sort   *CatalogApplicationContentTypeGroupSortInput     `json:"sort,omitempty"`
+}
+
+type CatalogApplicationContentTypeGroupListPayload struct {
+	ContentTypeGroup []*CatalogApplicationContentTypeGroup `json:"contentTypeGroup"`
+	PageInfo         *PageInfo                             `json:"pageInfo"`
+}
+
+type CatalogApplicationContentTypeGroupSortInput struct {
+	Name *SortOrderInput `json:"name,omitempty"`
+}
+
+type CatalogApplicationFilterInput struct {
+	Activity      []*CatalogApplicationActivityFilterInput   `json:"activity,omitempty"`
+	Capability    []*CatalogApplicationCapabilityFilterInput `json:"capability,omitempty"`
+	Category      []*CatalogApplicationCategoryFilterInput   `json:"category,omitempty"`
+	ID            []*IDFilterInput                           `json:"id,omitempty"`
+	Name          []*StringFilterInput                       `json:"name,omitempty"`
+	RecentlyAdded []*BooleanFilterInput                      `json:"recentlyAdded,omitempty"`
+	Risk          []*IntFilterInput                          `json:"risk,omitempty"`
+	Type          []*CatalogApplicationTypeFilterInput       `json:"type,omitempty"`
+}
+
+type CatalogApplicationListInput struct {
+	Filter []*CatalogApplicationFilterInput `json:"filter,omitempty"`
+	Paging *PagingInput                     `json:"paging,omitempty"`
+	Sort   *CatalogApplicationSortInput     `json:"sort,omitempty"`
+}
+
+type CatalogApplicationListPayload struct {
+	Application []*CatalogApplication `json:"application"`
+	PageInfo    *PageInfo             `json:"pageInfo"`
+}
+
+type CatalogApplicationSecurityAttributes struct {
+	AuditTrail          CatalogApplicationAttribute `json:"auditTrail"`
+	EncryptionAtRest    CatalogApplicationAttribute `json:"encryptionAtRest"`
+	HTTPSecurityHeaders CatalogApplicationAttribute `json:"httpSecurityHeaders"`
+	Mfa                 CatalogApplicationAttribute `json:"mfa"`
+	Rbac                CatalogApplicationAttribute `json:"rbac"`
+	RememberPassword    CatalogApplicationAttribute `json:"rememberPassword"`
+	Sso                 CatalogApplicationAttribute `json:"sso"`
+	TLSEnforcement      CatalogApplicationAttribute `json:"tlsEnforcement"`
+	TrustedCertificate  CatalogApplicationAttribute `json:"trustedCertificate"`
+}
+
+type CatalogApplicationSortInput struct {
+	Category    *CatalogApplicationCategorySortInput `json:"category,omitempty"`
+	Description *SortOrderInput                      `json:"description,omitempty"`
+	Name        *SortOrderInput                      `json:"name,omitempty"`
+	Risk        *SortOrderInput                      `json:"risk,omitempty"`
+	Type        *SortOrderInput                      `json:"type,omitempty"`
+}
+
+type CatalogApplicationTypeFilterInput struct {
+	Eq  *CatalogApplicationType  `json:"eq,omitempty"`
+	In  []CatalogApplicationType `json:"in,omitempty"`
+	Neq *CatalogApplicationType  `json:"neq,omitempty"`
+	Nin []CatalogApplicationType `json:"nin,omitempty"`
+}
+
+type CatalogQueries struct {
+	CatalogApplication     *CatalogApplication                            `json:"catalogApplication,omitempty"`
+	CatalogApplicationList *CatalogApplicationListPayload                 `json:"catalogApplicationList,omitempty"`
+	ContentTypeGroupList   *CatalogApplicationContentTypeGroupListPayload `json:"contentTypeGroupList,omitempty"`
+}
+
+// CatoActivity is an object type representing an activity in a Cato alert, containing unique identifiers for the activity itself, the preceding resource, and the involved resource.
 type CatoActivity struct {
 	// Unique Cato ID for this activity
 	ID string `json:"id"`
@@ -1970,6 +2260,7 @@ func (this CatoActivity) GetID() string               { return this.ID }
 func (this CatoActivity) GetResourceID() string       { return this.ResourceID }
 func (this CatoActivity) GetParentResourceID() string { return this.ParentResourceID }
 
+// The `CatoEndpoint` object represents a comprehensive data structure used in GraphQL queries or mutations to encapsulate details about a security incident detected by an Endpoint Protection Platform (EPP). It includes fields such as threat alerts, analyst feedback, connection type, criticality score, device details, timestamps for incident signals, and various enums and strings that describe the incident's status, source, and producer.
 type CatoEndpoint struct {
 	// Details for the threat detected by the EPP
 	Alerts []*CatoEndpointAlert `json:"alerts"`
@@ -2142,6 +2433,7 @@ func (CatoEndpoint) IsMergedIncident() {}
 
 // Cato ID and name for the user
 
+// The `CatoEndpointAlert` object represents an alert generated by Cato's endpoint protection system, detailing information about detected threats, including associated activities, threat description, criticality level, endpoint protection profile, and remediation status.
 type CatoEndpointAlert struct {
 	// Unique Cato IDs for the activities related to the alert
 	Activities []*CatoActivity `json:"activities"`
@@ -2155,8 +2447,10 @@ type CatoEndpointAlert struct {
 	EndpointProtectionProfile *string `json:"endpointProtectionProfile,omitempty"`
 	// Enum for the EPP engine related to this story
 	EngineType *CatoEndpointEngineType `json:"engineType,omitempty"`
+	ExternalIP *string                 `json:"externalIp,omitempty"`
 	// Unique Cato ID for the Endpoint Protection story
-	ID string `json:"id"`
+	ID      string  `json:"id"`
+	LocalIP *string `json:"localIp,omitempty"`
 	// MITRE ATT&CK® sub-technique for the threat
 	MitreSubTechnique []*Mitre `json:"mitreSubTechnique"`
 	// MITRE ATT&CK® technique for the threat
@@ -2218,12 +2512,17 @@ func (this CatoEndpointAlert) GetActivities() []Activity {
 	return interfaceSlice
 }
 func (this CatoEndpointAlert) GetCriticality() *int64 { return this.Criticality }
+func (this CatoEndpointAlert) GetExternalIP() *string { return this.ExternalIP }
+func (this CatoEndpointAlert) GetLocalIP() *string    { return this.LocalIP }
 
+// The `CatoEndpointDeviceDetails` object represents detailed information about a device, including its name, unique ID, logged-on users, MAC address, and operating system details.
 type CatoEndpointDeviceDetails struct {
 	// Name of the device
 	DeviceName *string `json:"deviceName,omitempty"`
+	ExternalIP *string `json:"externalIp,omitempty"`
 	// Unique Cato ID for this story
-	ID string `json:"id"`
+	ID      string  `json:"id"`
+	LocalIP *string `json:"localIp,omitempty"`
 	// Data for one or more users logged in to the device
 	LoggedOnUsers []EndpointUser `json:"loggedOnUsers"`
 	// MAC address of the device
@@ -2246,7 +2545,10 @@ func (this CatoEndpointDeviceDetails) GetLoggedOnUsers() []EndpointUser {
 	}
 	return interfaceSlice
 }
+func (this CatoEndpointDeviceDetails) GetExternalIP() *string { return this.ExternalIP }
+func (this CatoEndpointDeviceDetails) GetLocalIP() *string    { return this.LocalIP }
 
+// The `CatoEndpointUser` is a GraphQL object type representing a user, with fields for a unique identifier (`id`) and a username (`name`), both of which are required.
 type CatoEndpointUser struct {
 	// ID for the user
 	ID string `json:"id"`
@@ -2258,6 +2560,7 @@ func (CatoEndpointUser) IsEndpointUser()      {}
 func (this CatoEndpointUser) GetID() string   { return this.ID }
 func (this CatoEndpointUser) GetName() string { return this.Name }
 
+// The `CatoFileResource` is a GraphQL object type that represents a file resource with fields for its creation timestamp, detection and remediation statuses, file details, and a unique identifier.
 type CatoFileResource struct {
 	// Timestamp that the this file resource was used
 	CreatedDateTime *string `json:"createdDateTime,omitempty"`
@@ -2291,6 +2594,7 @@ func (CatoFileResource) IsFileResource() {}
 func (this CatoFileResource) GetFileDetails() *FileDetails             { return this.FileDetails }
 func (this CatoFileResource) GetDetectionStatus() *DetectionStatusEnum { return this.DetectionStatus }
 
+// The `CatoProcessResource` is a GraphQL object type that represents a process resource, including details such as a unique Cato ID, the timestamp of usage, associated file details, command line information, process ID, remediation status, and the related user account.
 type CatoProcessResource struct {
 	// Timestamp that the this resource was used
 	CreatedDateTime *string `json:"createdDateTime,omitempty"`
@@ -2429,6 +2733,24 @@ type CloudInterconnectPhysicalConnectionInput struct {
 	ID string `json:"id"`
 }
 
+type ContactDetails struct {
+	// Contact email address
+	Email *string `json:"email,omitempty"`
+	// Contact name
+	Name *string `json:"name,omitempty"`
+	// Contact phone number
+	Phone *string `json:"phone,omitempty"`
+}
+
+type ContactDetailsInput struct {
+	// Contact email address
+	Email *string `json:"email,omitempty"`
+	// Contact name
+	Name *string `json:"name,omitempty"`
+	// Contact phone number
+	Phone *string `json:"phone,omitempty"`
+}
+
 // Audit metadata about the container
 type ContainerAudit struct {
 	// Indicates when the container was created
@@ -2475,6 +2797,7 @@ type ContainerSearchPayload struct {
 	Containers []Container `json:"containers"`
 }
 
+// A reference identifying the Country object. ID: Unique Country Identifier, Name: The Country Name
 type CountryRef struct {
 	ID   string `json:"id"`
 	Name string `json:"name"`
@@ -2529,6 +2852,7 @@ type CreateIPAddressRangeContainerFromFilePayload struct {
 	Container *IPAddressRangeContainer `json:"container"`
 }
 
+// A reference identifying the CustomApplication object. ID: Unique CustomApplication Identifier, Name: The CustomApplication Name
 type CustomApplicationRef struct {
 	ID   string `json:"id"`
 	Name string `json:"name"`
@@ -2547,6 +2871,7 @@ type CustomApplicationRefInput struct {
 	Input string      `json:"input"`
 }
 
+// A reference identifying the CustomCategory object. ID: Unique CustomCategory Identifier, Name: The CustomCategory Name
 type CustomCategoryRef struct {
 	ID   string `json:"id"`
 	Name string `json:"name"`
@@ -2765,6 +3090,17 @@ func (DemLicense) IsQuantifiableLicense() {}
 // license quantity
 func (this DemLicense) GetTotal() int64 { return this.Total }
 
+type DeviceAttributeCatalogInput struct {
+	Filter *StringFilterInput `json:"filter,omitempty"`
+	Paging *PagingInput       `json:"paging,omitempty"`
+	Sort   *SortOrderInput    `json:"sort,omitempty"`
+}
+
+type DeviceAttributeCatalogPayload struct {
+	Items    []string  `json:"items"`
+	PageInfo *PageInfo `json:"pageInfo"`
+}
+
 type DeviceAttributes struct {
 	// The category of the firewall device.
 	Category []string `json:"category"`
@@ -2778,6 +3114,14 @@ type DeviceAttributes struct {
 	OsVersion []string `json:"osVersion"`
 	// The type of the firewall device.
 	Type []string `json:"type"`
+}
+
+type DeviceAttributesCatalogQueries struct {
+	Category     *DeviceAttributeCatalogPayload `json:"category"`
+	Manufacturer *DeviceAttributeCatalogPayload `json:"manufacturer"`
+	Model        *DeviceAttributeCatalogPayload `json:"model"`
+	Os           *DeviceAttributeCatalogPayload `json:"os"`
+	Type         *DeviceAttributeCatalogPayload `json:"type"`
 }
 
 type DeviceAttributesInput struct {
@@ -2810,6 +3154,94 @@ type DeviceAttributesUpdateInput struct {
 	Type []string `json:"type,omitempty"`
 }
 
+type DeviceCategoryFilterInput struct {
+	Eq  *DeviceCategory  `json:"eq,omitempty"`
+	In  []DeviceCategory `json:"in,omitempty"`
+	Neq *DeviceCategory  `json:"neq,omitempty"`
+	Nin []DeviceCategory `json:"nin,omitempty"`
+}
+
+type DeviceConfidenceLevelFilterInput struct {
+	Eq  *DeviceConfidenceLevel  `json:"eq,omitempty"`
+	In  []DeviceConfidenceLevel `json:"in,omitempty"`
+	Neq *DeviceConfidenceLevel  `json:"neq,omitempty"`
+	Nin []DeviceConfidenceLevel `json:"nin,omitempty"`
+}
+
+type DeviceConnectionProfile struct {
+	DestApps    []string `json:"destApps"`
+	DestDomains []string `json:"destDomains"`
+	DestHosts   []string `json:"destHosts"`
+	Directions  []string `json:"directions"`
+}
+
+type DeviceHw struct {
+	Manufacturer *string `json:"manufacturer,omitempty"`
+	Model        *string `json:"model,omitempty"`
+	Type         *string `json:"type,omitempty"`
+}
+
+type DeviceHwFilterInput struct {
+	Manufacturer []*StringFilterInput `json:"manufacturer,omitempty"`
+	Model        []*StringFilterInput `json:"model,omitempty"`
+	Type         []*StringFilterInput `json:"type,omitempty"`
+}
+
+type DeviceHwSortOrderInput struct {
+	Manufacturer *SortOrderInput `json:"manufacturer,omitempty"`
+	Model        *SortOrderInput `json:"model,omitempty"`
+	Type         *SortOrderInput `json:"type,omitempty"`
+}
+
+type DeviceNetwork struct {
+	NetworkName *string `json:"networkName,omitempty"`
+	Subnet      *string `json:"subnet,omitempty"`
+}
+
+type DeviceNetworkFilterInput struct {
+	NetworkName []*StringFilterInput `json:"networkName,omitempty"`
+	Subnet      []*StringFilterInput `json:"subnet,omitempty"`
+}
+
+type DeviceNetworkSortOrderInput struct {
+	NetworkName *SortOrderInput `json:"networkName,omitempty"`
+	Subnet      *SortOrderInput `json:"subnet,omitempty"`
+}
+
+type DeviceNic struct {
+	MacAddress *string `json:"macAddress,omitempty"`
+	Vendor     *string `json:"vendor,omitempty"`
+}
+
+type DeviceNicFilterInput struct {
+	MacAddress []*MacAddressFilterInput `json:"macAddress,omitempty"`
+	Vendor     []*StringFilterInput     `json:"vendor,omitempty"`
+}
+
+type DeviceNicSortOrderInput struct {
+	MacAddress *SortOrderInput `json:"macAddress,omitempty"`
+	Vendor     *SortOrderInput `json:"vendor,omitempty"`
+}
+
+type DeviceOs struct {
+	Product *string `json:"product,omitempty"`
+	Vendor  *string `json:"vendor,omitempty"`
+	Version *string `json:"version,omitempty"`
+}
+
+type DeviceOsFilterInput struct {
+	Product []*StringFilterInput `json:"product,omitempty"`
+	Vendor  []*StringFilterInput `json:"vendor,omitempty"`
+	Version []*StringFilterInput `json:"version,omitempty"`
+}
+
+type DeviceOsSortOrderInput struct {
+	Product *SortOrderInput `json:"product,omitempty"`
+	Vendor  *SortOrderInput `json:"vendor,omitempty"`
+	Version *SortOrderInput `json:"version,omitempty"`
+}
+
+// A reference identifying the DeviceProfile object. ID: Unique DeviceProfile Identifier, Name: The DeviceProfile Name
 type DeviceProfileRef struct {
 	ID   string `json:"id"`
 	Name string `json:"name"`
@@ -2826,6 +3258,11 @@ func (this DeviceProfileRef) GetName() string { return this.Name }
 type DeviceProfileRefInput struct {
 	By    ObjectRefBy `json:"by"`
 	Input string      `json:"input"`
+}
+
+type DeviceSiteSortOrderInput struct {
+	ID   *SortOrderInput `json:"id,omitempty"`
+	Name *SortOrderInput `json:"name,omitempty"`
 }
 
 type DeviceSnapshot struct {
@@ -2878,6 +3315,83 @@ type DeviceSnapshot struct {
 	Version *string `json:"version,omitempty"`
 	// Device major version
 	VersionNumber *int64 `json:"versionNumber,omitempty"`
+}
+
+type DeviceSortInput struct {
+	Categories *SortOrderInput              `json:"categories,omitempty"`
+	Category   *SortOrderInput              `json:"category,omitempty"`
+	Confidence *SortOrderInput              `json:"confidence,omitempty"`
+	FirstSeen  *SortOrderInput              `json:"firstSeen,omitempty"`
+	Hw         *DeviceHwSortOrderInput      `json:"hw,omitempty"`
+	ID         *SortOrderInput              `json:"id,omitempty"`
+	IP         *SortOrderInput              `json:"ip,omitempty"`
+	LastSeen   *SortOrderInput              `json:"lastSeen,omitempty"`
+	Name       *SortOrderInput              `json:"name,omitempty"`
+	Network    *DeviceNetworkSortOrderInput `json:"network,omitempty"`
+	Nic        *DeviceNicSortOrderInput     `json:"nic,omitempty"`
+	Os         *DeviceOsSortOrderInput      `json:"os,omitempty"`
+	RiskScore  *SortOrderInput              `json:"riskScore,omitempty"`
+	Site       *DeviceSiteSortOrderInput    `json:"site,omitempty"`
+	User       *DeviceUserSortOrderInput    `json:"user,omitempty"`
+}
+
+type DeviceUserSortOrderInput struct {
+	ID   *SortOrderInput `json:"id,omitempty"`
+	Name *SortOrderInput `json:"name,omitempty"`
+}
+
+type DeviceV2 struct {
+	Categories        []DeviceV2Category       `json:"categories"`
+	Category          *string                  `json:"category,omitempty"`
+	Confidence        *DeviceConfidenceLevel   `json:"confidence,omitempty"`
+	ConnectionProfile *DeviceConnectionProfile `json:"connectionProfile,omitempty"`
+	FirstSeen         *string                  `json:"firstSeen,omitempty"`
+	Hw                *DeviceHw                `json:"hw,omitempty"`
+	ID                string                   `json:"id"`
+	IP                *string                  `json:"ip,omitempty"`
+	LastSeen          *string                  `json:"lastSeen,omitempty"`
+	Name              *string                  `json:"name,omitempty"`
+	Network           *DeviceNetwork           `json:"network,omitempty"`
+	NetworkInfo       DeviceNetworkRef         `json:"networkInfo,omitempty"`
+	Nic               *DeviceNic               `json:"nic,omitempty"`
+	Os                *DeviceOs                `json:"os,omitempty"`
+	RiskScore         *int64                   `json:"riskScore,omitempty"`
+	Site              *SiteRef                 `json:"site,omitempty"`
+	User              *UserRef                 `json:"user,omitempty"`
+}
+
+type DeviceV2FilterInput struct {
+	Categories []*DeviceCategoryFilterInput        `json:"categories,omitempty"`
+	Category   []*StringFilterInput                `json:"category,omitempty"`
+	Confidence []*DeviceConfidenceLevelFilterInput `json:"confidence,omitempty"`
+	FirstSeen  []*DateTimeFilterInput              `json:"firstSeen,omitempty"`
+	Hw         *DeviceHwFilterInput                `json:"hw,omitempty"`
+	ID         []*IDFilterInput                    `json:"id,omitempty"`
+	IP         []*StringFilterInput                `json:"ip,omitempty"`
+	LastSeen   []*DateTimeFilterInput              `json:"lastSeen,omitempty"`
+	Name       []*StringFilterInput                `json:"name,omitempty"`
+	Network    *DeviceNetworkFilterInput           `json:"network,omitempty"`
+	Nic        *DeviceNicFilterInput               `json:"nic,omitempty"`
+	Os         *DeviceOsFilterInput                `json:"os,omitempty"`
+	RiskScore  []*IntFilterInput                   `json:"riskScore,omitempty"`
+	Site       []*SiteRefFilterInput               `json:"site,omitempty"`
+	User       []*UserRefFilterInput               `json:"user,omitempty"`
+}
+
+type DeviceV2Input struct {
+	Filter []*DeviceV2FilterInput `json:"filter,omitempty"`
+	Paging *PagingInput           `json:"paging"`
+	Sort   *DeviceSortInput       `json:"sort"`
+}
+
+type DevicesPayload struct {
+	Device []*DeviceV2 `json:"device"`
+	Paging *PageInfo   `json:"paging"`
+}
+
+type DevicesQueries struct {
+	AttributesCatalog *DeviceAttributesCatalogQueries `json:"attributesCatalog"`
+	List              *DevicesPayload                 `json:"list,omitempty"`
 }
 
 type Dimension struct {
@@ -3617,6 +4131,7 @@ type GetAdminPayload struct {
 	ResellerRoles        []*AdminRole `json:"resellerRoles,omitempty"`
 }
 
+// A reference identifying the GlobalIpRange object. ID: Unique GlobalIpRange Identifier, Name: The GlobalIpRange Name
 type GlobalIPRangeRef struct {
 	ID   string `json:"id"`
 	Name string `json:"name"`
@@ -3643,6 +4158,22 @@ type GlobalLicenseAllocations struct {
 	ZtnaUsers *ZtnaUsersLicenseAllocations `json:"ztnaUsers,omitempty"`
 }
 
+type GlobalRangeRef struct {
+	ID   string `json:"id"`
+	Name string `json:"name"`
+}
+
+func (GlobalRangeRef) IsDeviceNetworkRef() {}
+
+func (GlobalRangeRef) IsObjectRef() {}
+
+// Object's unique identifier
+func (this GlobalRangeRef) GetID() string { return this.ID }
+
+// Object's unique name
+func (this GlobalRangeRef) GetName() string { return this.Name }
+
+// A reference identifying the Group object. ID: Unique Group Identifier, Name: The Group Name
 type GroupRef struct {
 	ID   string `json:"id"`
 	Name string `json:"name"`
@@ -3669,11 +4200,113 @@ type HaStatus struct {
 	WanConnectivity *HaSubStatus `json:"wanConnectivity,omitempty"`
 }
 
+type Hardware struct {
+	// Cma account
+	Account *AccountRef `json:"account,omitempty"`
+	// Id
+	ID string `json:"id"`
+	// Last modified
+	LastModified *string `json:"lastModified,omitempty"`
+	// Crm License Id
+	LicenseID *string `json:"licenseId,omitempty"`
+	// License start date
+	LicenseStartDate *time.Time `json:"licenseStartDate,omitempty"`
+	// Product Mac address
+	MacAddress *string `json:"macAddress,omitempty"`
+	// Product model
+	Model *string `json:"model,omitempty"`
+	// Product order number
+	PoNumber *string `json:"poNumber,omitempty"`
+	// Product type
+	ProductType *string `json:"productType,omitempty"`
+	// Quote ID where the product was purchased
+	QuoteID *string `json:"quoteId,omitempty"`
+	// Serial number
+	SerialNumber *string `json:"serialNumber,omitempty"`
+	// Shipping details
+	ShippingDetail *ShippingDetails `json:"shippingDetail,omitempty"`
+	// Shipping tracking data
+	ShippingTracking *ShippingTracking `json:"shippingTracking,omitempty"`
+	// The site’s country
+	SiteCountryName *string `json:"siteCountryName,omitempty"`
+	// Validation details
+	Validation *HardwareValidation `json:"validation,omitempty"`
+}
+
+type HardwareFilterInput struct {
+	Account     []*AccountFilter     `json:"account,omitempty"`
+	CountryName []*StringFilterInput `json:"countryName,omitempty"`
+	// Will run contains operation for the provided text on the following fields productType,
+	// sfId, quoteId, model, zipCode, country, city, state, street, companyName, contactName,
+	// trackingUrl, trackingNumber and comment with OR between them
+	FreeText         *FreeTextFilterInput         `json:"freeText,omitempty"`
+	ID               []*IDFilterInput             `json:"id,omitempty"`
+	LicenseStartDate []*DateTimeFilterInput       `json:"licenseStartDate,omitempty"`
+	Product          []*StringFilterInput         `json:"product,omitempty"`
+	SerialNumber     []*StringFilterInput         `json:"serialNumber,omitempty"`
+	ShippingStatus   []*ShippingStatusFilterInput `json:"shippingStatus,omitempty"`
+	ValidAddress     *BooleanFilterInput          `json:"validAddress,omitempty"`
+}
+
 type HardwareManagementQueries struct {
 	// Retrieve the account socket inventory
 	SocketInventory *SocketInventoryPayload `json:"socketInventory"`
 }
 
+type HardwareMutations struct {
+	// Set Shipping details for a list of hardware
+	UpdateHardwareShipping *HardwarePayload `json:"updateHardwareShipping,omitempty"`
+}
+
+type HardwarePayload struct {
+	// The results
+	Items []*Hardware `json:"items"`
+	// Pagination details
+	PageInfo *PageInfo `json:"pageInfo,omitempty"`
+}
+
+type HardwareQueries struct {
+	// Retrieve the account hardware items
+	Hardware *HardwarePayload `json:"hardware,omitempty"`
+}
+
+type HardwareSearchInput struct {
+	Filter *HardwareFilterInput `json:"filter,omitempty"`
+	Paging *PagingInput         `json:"paging,omitempty"`
+	Sort   *HardwareSortInput   `json:"sort,omitempty"`
+}
+
+type HardwareShippingDetailsInput struct {
+	// The shipping details
+	Details *ShippingDetailsInput `json:"details"`
+	// Power cable type (for sockets only)
+	PowerCable *string `json:"powerCable,omitempty"`
+}
+
+type HardwareSortInput struct {
+	AccountName *SortOrderInput `json:"accountName,omitempty"`
+	Country     *SortOrderInput `json:"country,omitempty"`
+	Incoterms   *SortOrderInput `json:"incoterms,omitempty"`
+	LicenseID   *SortOrderInput `json:"licenseId,omitempty"`
+	// Default sort field
+	LicenseStartDate *SortOrderInput `json:"licenseStartDate,omitempty"`
+	ProductType      *SortOrderInput `json:"productType,omitempty"`
+	QuoteID          *SortOrderInput `json:"quoteId,omitempty"`
+	ShippingDate     *SortOrderInput `json:"shippingDate,omitempty"`
+	ShippingStatus   *SortOrderInput `json:"shippingStatus,omitempty"`
+	SiteName         *SortOrderInput `json:"siteName,omitempty"`
+}
+
+type HardwareValidation struct {
+	// Address validation details
+	AddressValidationStatus *AddressValidationStatus `json:"addressValidationStatus,omitempty"`
+	// Complete item
+	Completed bool `json:"completed"`
+	// Incomplete reason
+	IncompleteReason *string `json:"incompleteReason,omitempty"`
+}
+
+// A reference identifying the Host object. ID: Unique Host Identifier, Name: The Host Name
 type HostRef struct {
 	ID   string `json:"id"`
 	Name string `json:"name"`
@@ -3722,6 +4355,13 @@ type IPSecInfo struct {
 	IsPrimary *bool `json:"isPrimary,omitempty"`
 	// The destination IP address for the IPsec tunnel (in the site)
 	RemoteIP *string `json:"remoteIP,omitempty"`
+}
+
+type IDFilterInput struct {
+	Eq  *string  `json:"eq,omitempty"`
+	In  []string `json:"in,omitempty"`
+	Neq *string  `json:"neq,omitempty"`
+	Nin []string `json:"nin,omitempty"`
 }
 
 type IlmmContact struct {
@@ -3870,6 +4510,18 @@ type IncidentTimeseries struct {
 	// Identifies what unit of data this timeseries represents. Note that toRate is only available for particular types
 	// of data to make sense.
 	Units *UnitType `json:"units,omitempty"`
+}
+
+type IntFilterInput struct {
+	Between []int64 `json:"between,omitempty"`
+	Eq      *int64  `json:"eq,omitempty"`
+	Gt      *int64  `json:"gt,omitempty"`
+	Gte     *int64  `json:"gte,omitempty"`
+	In      []int64 `json:"in,omitempty"`
+	Lt      *int64  `json:"lt,omitempty"`
+	Lte     *int64  `json:"lte,omitempty"`
+	Neq     *int64  `json:"neq,omitempty"`
+	Nin     []int64 `json:"nin,omitempty"`
 }
 
 type IntPredicate struct {
@@ -4047,7 +4699,7 @@ type InternetFirewallContainerUpdateInput struct {
 	IPAddressRangeContainer []*IPAddressRangeContainerRefInput `json:"ipAddressRangeContainer,omitempty"`
 }
 
-// Destination match criteria set
+// Returns the settings for Destination of an Internet Firewall rule
 type InternetFirewallDestination struct {
 	// Cato category of applications which are dynamically updated by Cato
 	AppCategory []*ApplicationCategoryRef `json:"appCategory"`
@@ -4078,7 +4730,7 @@ type InternetFirewallDestination struct {
 	Subnet []string `json:"subnet"`
 }
 
-// Destination match criteria set
+// Input of the settings for Destination of an Internet Firewall rule. To specify 'ANY' destination, an empty list must be provided for each match criteria field (e.g. application: [], country: [], etc...)
 type InternetFirewallDestinationInput struct {
 	// Cato category of applications which are dynamically updated by Cato
 	AppCategory []*ApplicationCategoryRefInput `json:"appCategory"`
@@ -4873,6 +5525,13 @@ type LookupFilterInput struct {
 	Value  *string           `json:"value,omitempty"`
 }
 
+type MacAddressFilterInput struct {
+	Eq  *string  `json:"eq,omitempty"`
+	In  []string `json:"in,omitempty"`
+	Neq *string  `json:"neq,omitempty"`
+	Nin []string `json:"nin,omitempty"`
+}
+
 // Anti-Malware service license details (Legacy license, replaced by TP)
 type MalwareProtectionLicense struct {
 	ID          *string `json:"id,omitempty"`
@@ -5012,6 +5671,7 @@ type Metrics struct {
 	Rtt *int64 `json:"rtt,omitempty"`
 }
 
+// The `MicrosoftActivity` object represents an activity within Microsoft services, containing fields such as action type, timestamps for the first and last activity, and identifiers for the activity and its associated resources.
 type MicrosoftActivity struct {
 	Action                *string `json:"action,omitempty"`
 	FirstActivityDateTime *string `json:"firstActivityDateTime,omitempty"`
@@ -5026,6 +5686,7 @@ func (this MicrosoftActivity) GetID() string               { return this.ID }
 func (this MicrosoftActivity) GetResourceID() string       { return this.ResourceID }
 func (this MicrosoftActivity) GetParentResourceID() string { return this.ParentResourceID }
 
+// The `MicrosoftDefenderEndpointAlert` object represents an alert generated by Microsoft Defender for Endpoint, containing details such as activities, classification, criticality, detection source, and recommended actions, among other attributes, to help in identifying and managing security threats.
 type MicrosoftDefenderEndpointAlert struct {
 	Activities            []*MicrosoftActivity        `json:"activities"`
 	AlertWebURL           *string                     `json:"alertWebUrl,omitempty"`
@@ -5039,6 +5700,7 @@ type MicrosoftDefenderEndpointAlert struct {
 	DestinationURL        *string                     `json:"destinationUrl,omitempty"`
 	DetectionSource       *DetectionSourceEnum        `json:"detectionSource,omitempty"`
 	Determination         *AlertDeterminationEnum     `json:"determination,omitempty"`
+	ExternalIP            *string                     `json:"externalIp,omitempty"`
 	FirstActivityDateTime *string                     `json:"firstActivityDateTime,omitempty"`
 	ID                    string                      `json:"id"`
 	LastActivityDateTime  *string                     `json:"lastActivityDateTime,omitempty"`
@@ -5105,15 +5767,20 @@ func (this MicrosoftDefenderEndpointAlert) GetActivities() []Activity {
 	return interfaceSlice
 }
 func (this MicrosoftDefenderEndpointAlert) GetCriticality() *int64 { return this.Criticality }
+func (this MicrosoftDefenderEndpointAlert) GetExternalIP() *string { return this.ExternalIP }
+func (this MicrosoftDefenderEndpointAlert) GetLocalIP() *string    { return this.LocalIP }
 
+// The `MicrosoftDeviceDetails` object represents detailed information about a Microsoft device, including its antivirus status, Azure AD device ID, device name, first seen date and time, health status, IP interfaces, logged-on users, onboarding status, operating system details, and RBAC group.
 type MicrosoftDeviceDetails struct {
 	AvStatus          *DeviceAvStatusEnum     `json:"avStatus,omitempty"`
 	AzureAdDeviceID   *string                 `json:"azureAdDeviceId,omitempty"`
 	DeviceName        *string                 `json:"deviceName,omitempty"`
+	ExternalIP        *string                 `json:"externalIp,omitempty"`
 	FirstSeenDateTime *string                 `json:"firstSeenDateTime,omitempty"`
 	HealthStatus      *DeviceHealthStatusEnum `json:"healthStatus,omitempty"`
 	ID                string                  `json:"id"`
 	IPInterfaces      []string                `json:"ipInterfaces"`
+	LocalIP           *string                 `json:"localIp,omitempty"`
 	LoggedOnUsers     []EndpointUser          `json:"loggedOnUsers"`
 	OnboardingStatus  *OnboardingStatusEnum   `json:"onboardingStatus,omitempty"`
 	OsDetails         *OsDetails              `json:"osDetails,omitempty"`
@@ -5134,7 +5801,10 @@ func (this MicrosoftDeviceDetails) GetLoggedOnUsers() []EndpointUser {
 	}
 	return interfaceSlice
 }
+func (this MicrosoftDeviceDetails) GetExternalIP() *string { return this.ExternalIP }
+func (this MicrosoftDeviceDetails) GetLocalIP() *string    { return this.LocalIP }
 
+// The `MicrosoftEndpoint` object represents a comprehensive data structure used in GraphQL queries or mutations, containing fields related to security alerts, device details, threat predictions, and other metadata associated with Microsoft's security ecosystem.
 type MicrosoftEndpoint struct {
 	Alerts              []*MicrosoftDefenderEndpointAlert `json:"alerts"`
 	AnalystFeedback     *AnalystFeedback                  `json:"analystFeedback,omitempty"`
@@ -5284,6 +5954,7 @@ func (MicrosoftEndpoint) IsMergedIncident() {}
 
 // Cato ID and name for the user
 
+// The `MicrosoftEndpointUser` object represents a user associated with a Microsoft endpoint, containing fields such as account name, domain name, unique identifier, user name, principal name, and user security identifier.
 type MicrosoftEndpointUser struct {
 	AccountName   *string `json:"accountName,omitempty"`
 	DomainName    *string `json:"domainName,omitempty"`
@@ -5297,6 +5968,7 @@ func (MicrosoftEndpointUser) IsEndpointUser()      {}
 func (this MicrosoftEndpointUser) GetID() string   { return this.ID }
 func (this MicrosoftEndpointUser) GetName() string { return this.Name }
 
+// The `MicrosoftFileResource` object represents a file resource in a Microsoft system, containing fields such as creation date, detection and remediation status, file details, unique identifier, roles, tags, and a verdict on the file's status.
 type MicrosoftFileResource struct {
 	CreatedDateTime          *string                `json:"createdDateTime,omitempty"`
 	DetectionStatus          *DetectionStatusEnum   `json:"detectionStatus,omitempty"`
@@ -5350,6 +6022,7 @@ func (this MicrosoftFileResource) GetRoles() []ResourceRoleEnum {
 }
 func (this MicrosoftFileResource) GetVerdict() *MsResourceVerdictEnum { return this.Verdict }
 
+// The `MicrosoftProcessResource` object represents a process resource in a Microsoft environment, containing fields such as creation date, process ID, command line details, remediation status, roles, tags, user account information, and a verdict on the process's nature.
 type MicrosoftProcessResource struct {
 	CreatedDateTime          *string                `json:"createdDateTime,omitempty"`
 	ID                       string                 `json:"id"`
@@ -5405,6 +6078,7 @@ func (this MicrosoftProcessResource) GetProcessCommandLine() *string { return th
 func (this MicrosoftProcessResource) GetImageFile() *FileDetails     { return this.ImageFile }
 func (this MicrosoftProcessResource) GetUserAccount() EndpointUser   { return this.UserAccount }
 
+// The `MicrosoftRegistryResource` object represents a registry resource in a Microsoft environment, containing fields such as creation date, hive, key, remediation status, roles, tags, and verdict, which are used to manage and assess the resource's status and attributes.
 type MicrosoftRegistryResource struct {
 	CreatedDateTime          *string                `json:"createdDateTime,omitempty"`
 	Hive                     *string                `json:"hive,omitempty"`
@@ -5516,6 +6190,7 @@ type NetworkDhcpSettingsInput struct {
 	RelayGroupID *string  `json:"relayGroupId,omitempty"`
 }
 
+// A reference identifying the NetworkInterface object. ID: Unique NetworkInterface Identifier, Name: The NetworkInterface Name
 type NetworkInterfaceRef struct {
 	ID   string `json:"id"`
 	Name string `json:"name"`
@@ -5561,6 +6236,7 @@ type NetworkTimelineEvent struct {
 	Validated            string                    `json:"validated"`
 }
 
+// The `NetworkXDRIncident` object represents a detailed incident report within a network, containing various fields such as incident ID, description, criticality, timeline events, and associated metadata like connection type, site information, and predicted threat type, used for analyzing and managing network security incidents.
 type NetworkXDRIncident struct {
 	Acknowledged            *bool                     `json:"acknowledged,omitempty"`
 	AnalystFeedback         *AnalystFeedback          `json:"analystFeedback,omitempty"`
@@ -5837,6 +6513,12 @@ type PolicyMoveSectionInput struct {
 	To *PolicySectionPositionInput `json:"to,omitempty"`
 }
 
+// Move the sub rule to a different position in the policy
+type PolicyMoveSubRuleInput struct {
+	ID string                      `json:"id"`
+	To *PolicySubRulePositionInput `json:"to"`
+}
+
 // The `PolicyMutationError` enum defines various error messages related to policy publishing in the policy platform service.
 //
 // ## Policy Errors
@@ -6085,6 +6767,14 @@ type PolicySectionPositionInput struct {
 	Ref      *string                   `json:"ref,omitempty"`
 }
 
+// Parameters required to define the rule position
+type PolicySubRulePositionInput struct {
+	// Position relative to a policy, a section or another rule
+	Position PolicySubRulePositionEnum `json:"position"`
+	// The identifier of the sub-rule relative to which the position of the added rule is defined
+	Ref string `json:"ref"`
+}
+
 type PolicyTracking struct {
 	Alert *PolicyRuleTrackingAlert `json:"alert"`
 	Event *PolicyRuleTrackingEvent `json:"event"`
@@ -6184,6 +6874,7 @@ type PooledBandwidthLicenseSite struct {
 	Site *SiteRef `json:"site"`
 }
 
+// A reference identifying the PopLocation object. ID: Unique PopLocation Identifier, Name: The PopLocation Name
 type PopLocationRef struct {
 	ID   string `json:"id"`
 	Name string `json:"name"`
@@ -6799,6 +7490,7 @@ func (SaasSecurityAPILicense) IsQuantifiableLicense() {}
 // license quantity
 func (this SaasSecurityAPILicense) GetTotal() int64 { return this.Total }
 
+// A reference identifying the SanctionedAppsCategory object. ID: Unique SanctionedAppsCategory Identifier, Name: The SanctionedAppsCategory Name
 type SanctionedAppsCategoryRef struct {
 	ID   string `json:"id"`
 	Name string `json:"name"`
@@ -6885,6 +7577,7 @@ type SandboxReportsSortInput struct {
 	ReportCreateDate *SortOrderInput `json:"reportCreateDate,omitempty"`
 }
 
+// A reference identifying the Service object. ID: Unique Service Identifier, Name: The Service Name
 type ServiceRef struct {
 	ID   string `json:"id"`
 	Name string `json:"name"`
@@ -6901,6 +7594,68 @@ func (this ServiceRef) GetName() string { return this.Name }
 type ServiceRefInput struct {
 	By    ObjectRefBy `json:"by"`
 	Input string      `json:"input"`
+}
+
+type ShippingDetails struct {
+	// City
+	CityName *string `json:"cityName,omitempty"`
+	// Comment
+	Comment *string `json:"comment,omitempty"`
+	// Company name (recipient)
+	CompanyName *string `json:"companyName,omitempty"`
+	// Delivery contact detail
+	Contact *ContactDetails `json:"contact,omitempty"`
+	// Country
+	CountryName *string `json:"countryName,omitempty"`
+	// Shipping method
+	Incoterms *string `json:"incoterms,omitempty"`
+	// Delivery instruction (required for EXW incoterms)
+	Instruction *string `json:"instruction,omitempty"`
+	// Power cable type (for sockets only)
+	PowerCable *string `json:"powerCable,omitempty"`
+	// State (only for USA and Canada)
+	StateName *string `json:"stateName,omitempty"`
+	// Street name and number
+	Street *string `json:"street,omitempty"`
+	// Vat id (required for Brazil)
+	VatID *string `json:"vatId,omitempty"`
+	// Zip Code
+	ZipCode *string `json:"zipCode,omitempty"`
+}
+
+type ShippingDetailsInput struct {
+	// Address for delivery
+	Address *AddressInput `json:"address,omitempty"`
+	// Comment
+	Comment *string `json:"comment,omitempty"`
+	// Delivery contact detail
+	Contact *ContactDetailsInput `json:"contact,omitempty"`
+	// Shipping method
+	Incoterms *string `json:"incoterms,omitempty"`
+	// Delivery instruction (required for EXW incoterms)
+	Instruction *string `json:"instruction,omitempty"`
+	// Vat id (required for Brazil)
+	VatID *string `json:"vatId,omitempty"`
+}
+
+type ShippingStatusFilterInput struct {
+	Eq  *ShippingStatus  `json:"eq,omitempty"`
+	In  []ShippingStatus `json:"in,omitempty"`
+	Neq *ShippingStatus  `json:"neq,omitempty"`
+	Nin []ShippingStatus `json:"nin,omitempty"`
+}
+
+type ShippingTracking struct {
+	// Carrier (shipping company)
+	Carrier *string `json:"carrier,omitempty"`
+	// Shipping date
+	ShippingDate *time.Time `json:"shippingDate,omitempty"`
+	// Shipping status
+	ShippingStatus *ShippingStatus `json:"shippingStatus,omitempty"`
+	// Tracking number
+	TrackingNumber *string `json:"trackingNumber,omitempty"`
+	// Tracking url
+	TrackingURL *string `json:"trackingUrl,omitempty"`
 }
 
 type SimilarStoryData struct {
@@ -6934,6 +7689,8 @@ type SiteBgpStatusInput struct {
 
 // Basic Site configuration information
 type SiteInfo struct {
+	// Address of the physical site location
+	Address *string `json:"address,omitempty"`
 	// City of the physical site location
 	CityName *string `json:"cityName,omitempty"`
 	// The Connection Type field defines how the site connects to the Cato Cloud, such as X1500 Socket or AWS vSocket (array with nested fields)
@@ -7097,10 +7854,13 @@ type SiteMutations struct {
 	RemoveSiteBwLicense *RemoveSiteBwLicensePayload `json:"removeSiteBwLicense,omitempty"`
 }
 
+// A reference identifying the SiteNetworkSubnet object. ID: Unique SiteNetworkSubnet Identifier, Name: The SiteNetworkSubnet Name
 type SiteNetworkSubnetRef struct {
 	ID   string `json:"id"`
 	Name string `json:"name"`
 }
+
+func (SiteNetworkSubnetRef) IsDeviceNetworkRef() {}
 
 func (SiteNetworkSubnetRef) IsObjectRef() {}
 
@@ -7130,6 +7890,7 @@ type SiteQueries struct {
 	SiteBgpStatus *SiteBgpStatus `json:"siteBgpStatus,omitempty"`
 }
 
+// A reference identifying the Site object. ID: Unique Site Identifier, Name: The Site Name
 type SiteRef struct {
 	ID   string `json:"id"`
 	Name string `json:"name"`
@@ -7142,6 +7903,13 @@ func (this SiteRef) GetID() string { return this.ID }
 
 // Object's unique name
 func (this SiteRef) GetName() string { return this.Name }
+
+type SiteRefFilterInput struct {
+	Eq  *SiteRefInput   `json:"eq,omitempty"`
+	In  []*SiteRefInput `json:"in,omitempty"`
+	Neq *SiteRefInput   `json:"neq,omitempty"`
+	Nin []*SiteRefInput `json:"nin,omitempty"`
+}
 
 type SiteRefInput struct {
 	By    ObjectRefBy `json:"by"`
@@ -7384,6 +8152,421 @@ type SocketLanDestinationUpdateInput struct {
 	Vlan              []string                     `json:"vlan,omitempty"`
 }
 
+type SocketLanFirewallAddRuleDataInput struct {
+	// Action to take when the rule is matched (ALLOW or BLOCK).
+	Action SocketLanFirewallAction `json:"action"`
+	// Application traffic matching criteria.
+	Application *SocketLanFirewallApplicationInput `json:"application"`
+	Description string                             `json:"description"`
+	// Defines destinations for the socket LAN firewall.
+	// Also, inherited by Network Rule above.
+	Destination *SocketLanFirewallDestinationInput `json:"destination"`
+	// Direction of the traffic (TO or BOTH).
+	Direction SocketLanFirewallDirection `json:"direction"`
+	Enabled   bool                       `json:"enabled"`
+	Name      string                     `json:"name"`
+	// Service traffic matching criteria.
+	Service *SocketLanFirewallServiceTypeInput `json:"service"`
+	// Defines sources for the socket LAN firewall.
+	// Also, inherited by Network Rule above.
+	Source *SocketLanFirewallSourceInput `json:"source"`
+	// Tracking information when the rule is matched, such as events and notifications.
+	Tracking *PolicyTrackingInput `json:"tracking"`
+}
+
+type SocketLanFirewallAddRuleInput struct {
+	// Position of the rule in the policy
+	At *PolicySubRulePositionInput `json:"at,omitempty"`
+	// Parameters for the rule you are adding
+	Rule *SocketLanFirewallAddRuleDataInput `json:"rule"`
+}
+
+// Defines applications for the socket LAN firewall.
+type SocketLanFirewallApplication struct {
+	// Applications matching criteria for this rule.
+	Application []*ApplicationRef `json:"application"`
+	// Custom applications that can be matched by
+	CustomApp     []*CustomApplicationRef `json:"customApp"`
+	Domain        []string                `json:"domain"`
+	Fqdn          []string                `json:"fqdn"`
+	GlobalIPRange []*GlobalIPRangeRef     `json:"globalIpRange"`
+	IP            []string                `json:"ip"`
+	IPRange       []*IPAddressRange       `json:"ipRange"`
+	Subnet        []string                `json:"subnet"`
+}
+
+// Defines applications for the socket LAN firewall.
+type SocketLanFirewallApplicationInput struct {
+	// Applications matching criteria for this rule.
+	Application []*ApplicationRefInput `json:"application"`
+	// Custom applications that can be matched by
+	CustomApp     []*CustomApplicationRefInput `json:"customApp"`
+	Domain        []string                     `json:"domain"`
+	Fqdn          []string                     `json:"fqdn"`
+	GlobalIPRange []*GlobalIPRangeRefInput     `json:"globalIpRange"`
+	IP            []string                     `json:"ip"`
+	IPRange       []*IPAddressRangeInput       `json:"ipRange"`
+	Subnet        []string                     `json:"subnet"`
+}
+
+// Defines applications for the socket LAN firewall.
+type SocketLanFirewallApplicationUpdateInput struct {
+	// Applications matching criteria for this rule.
+	Application []*ApplicationRefInput `json:"application,omitempty"`
+	// Custom applications that can be matched by
+	CustomApp     []*CustomApplicationRefInput `json:"customApp,omitempty"`
+	Domain        []string                     `json:"domain,omitempty"`
+	Fqdn          []string                     `json:"fqdn,omitempty"`
+	GlobalIPRange []*GlobalIPRangeRefInput     `json:"globalIpRange,omitempty"`
+	IP            []string                     `json:"ip,omitempty"`
+	IPRange       []*IPAddressRangeInput       `json:"ipRange,omitempty"`
+	Subnet        []string                     `json:"subnet,omitempty"`
+}
+
+// Defines destinations for the socket LAN firewall.
+type SocketLanFirewallDestination struct {
+	// Floating subnets used to identify traffic based on specific criteria.
+	FloatingSubnet []*FloatingSubnetRef `json:"floatingSubnet"`
+	// Global IP ranges defined for your account.
+	GlobalIPRange []*GlobalIPRangeRef `json:"globalIpRange"`
+	// Groups defined for your account.
+	Group []*GroupRef `json:"group"`
+	// Hosts and servers defined for your account.
+	Host []*HostRef `json:"host"`
+	// IPv4 addresses.
+	IP []string `json:"ip"`
+	// Multiple separate IP addresses or an IP range.
+	IPRange []*IPAddressRange `json:"ipRange"`
+	// Network interfaces defined for your site.
+	NetworkInterface []*NetworkInterfaceRef `json:"networkInterface"`
+	// Sites defined for your account.
+	Site []*SiteRef `json:"site"`
+	// Subnets specific to a site defined for your account.
+	SiteNetworkSubnet []*SiteNetworkSubnetRef `json:"siteNetworkSubnet"`
+	// Subnets to which traffic is directed.
+	Subnet []string `json:"subnet"`
+	// Predefined system groups in your account.
+	SystemGroup []*SystemGroupRef `json:"systemGroup"`
+	// VLAN ID matching criteria.
+	Vlan []string `json:"vlan"`
+}
+
+// Defines destinations for the socket LAN firewall.
+type SocketLanFirewallDestinationInput struct {
+	// Floating subnets used to identify traffic based on specific criteria.
+	FloatingSubnet []*FloatingSubnetRefInput `json:"floatingSubnet"`
+	// Global IP ranges defined for your account.
+	GlobalIPRange []*GlobalIPRangeRefInput `json:"globalIpRange"`
+	// Groups defined for your account.
+	Group []*GroupRefInput `json:"group"`
+	// Hosts and servers defined for your account.
+	Host []*HostRefInput `json:"host"`
+	// IPv4 addresses.
+	IP []string `json:"ip"`
+	// Multiple separate IP addresses or an IP range.
+	IPRange []*IPAddressRangeInput `json:"ipRange"`
+	// Network interfaces defined for your site.
+	NetworkInterface []*NetworkInterfaceRefInput `json:"networkInterface"`
+	// Sites defined for your account.
+	Site []*SiteRefInput `json:"site"`
+	// Subnets specific to a site defined for your account.
+	SiteNetworkSubnet []*SiteNetworkSubnetRefInput `json:"siteNetworkSubnet"`
+	// Subnets to which traffic is directed.
+	Subnet []string `json:"subnet"`
+	// Predefined system groups in your account.
+	SystemGroup []*SystemGroupRefInput `json:"systemGroup"`
+	// VLAN ID matching criteria.
+	Vlan []string `json:"vlan"`
+}
+
+// Defines destinations for the socket LAN firewall.
+type SocketLanFirewallDestinationUpdateInput struct {
+	// Floating subnets used to identify traffic based on specific criteria.
+	FloatingSubnet []*FloatingSubnetRefInput `json:"floatingSubnet,omitempty"`
+	// Global IP ranges defined for your account.
+	GlobalIPRange []*GlobalIPRangeRefInput `json:"globalIpRange,omitempty"`
+	// Groups defined for your account.
+	Group []*GroupRefInput `json:"group,omitempty"`
+	// Hosts and servers defined for your account.
+	Host []*HostRefInput `json:"host,omitempty"`
+	// IPv4 addresses.
+	IP []string `json:"ip,omitempty"`
+	// Multiple separate IP addresses or an IP range.
+	IPRange []*IPAddressRangeInput `json:"ipRange,omitempty"`
+	// Network interfaces defined for your site.
+	NetworkInterface []*NetworkInterfaceRefInput `json:"networkInterface,omitempty"`
+	// Sites defined for your account.
+	Site []*SiteRefInput `json:"site,omitempty"`
+	// Subnets specific to a site defined for your account.
+	SiteNetworkSubnet []*SiteNetworkSubnetRefInput `json:"siteNetworkSubnet,omitempty"`
+	// Subnets to which traffic is directed.
+	Subnet []string `json:"subnet,omitempty"`
+	// Predefined system groups in your account.
+	SystemGroup []*SystemGroupRefInput `json:"systemGroup,omitempty"`
+	// VLAN ID matching criteria.
+	Vlan []string `json:"vlan,omitempty"`
+}
+
+type SocketLanFirewallPolicyMutations struct {
+	AddRule    *SocketLanFirewallRuleMutationPayload `json:"addRule"`
+	MoveRule   *SocketLanFirewallRuleMutationPayload `json:"moveRule"`
+	RemoveRule *SocketLanFirewallRuleMutationPayload `json:"removeRule"`
+	UpdateRule *SocketLanFirewallRuleMutationPayload `json:"updateRule"`
+}
+
+type SocketLanFirewallRemoveRuleInput struct {
+	ID string `json:"id"`
+}
+
+type SocketLanFirewallRule struct {
+	// Action to take when the rule is matched (ALLOW or BLOCK).
+	Action SocketLanFirewallAction `json:"action"`
+	// Application traffic matching criteria.
+	Application *SocketLanFirewallApplication `json:"application"`
+	// Description for the rule
+	Description string `json:"description"`
+	// Defines destinations for the socket LAN firewall.
+	// Also, inherited by Network Rule above.
+	Destination *SocketLanFirewallDestination `json:"destination"`
+	// Direction of the traffic (TO or BOTH).
+	Direction SocketLanFirewallDirection `json:"direction"`
+	// TRUE = Rule is enabled
+	//  FALSE = Rule is disabled
+	Enabled bool `json:"enabled"`
+	// Rule ID
+	ID string `json:"id"`
+	// Position / priority of rule
+	Index int64 `json:"index"`
+	// Name of the rule
+	Name string `json:"name"`
+	// Policy section where the rule is located
+	Section *PolicySectionInfo `json:"section"`
+	// Service traffic matching criteria.
+	Service *SocketLanFirewallServiceType `json:"service"`
+	// Defines sources for the socket LAN firewall.
+	// Also, inherited by Network Rule above.
+	Source *SocketLanFirewallSource `json:"source"`
+	// Tracking information when the rule is matched, such as events and notifications.
+	Tracking *PolicyTracking `json:"tracking"`
+}
+
+func (SocketLanFirewallRule) IsIPolicyRule() {}
+
+// Rule ID
+func (this SocketLanFirewallRule) GetID() string { return this.ID }
+
+// Name of the rule
+func (this SocketLanFirewallRule) GetName() string { return this.Name }
+
+// Description for the rule
+func (this SocketLanFirewallRule) GetDescription() *string { return &this.Description }
+
+// Position / priority of rule
+func (this SocketLanFirewallRule) GetIndex() int64 { return this.Index }
+
+// TRUE = Rule is enabled, FALSE = Rule is disabled
+func (this SocketLanFirewallRule) GetEnabled() bool { return this.Enabled }
+
+// Policy section where the rule is located
+func (this SocketLanFirewallRule) GetSection() *PolicySectionInfo { return this.Section }
+
+type SocketLanFirewallRuleMutationPayload struct {
+	Errors []*PolicyMutationError        `json:"errors"`
+	Rule   *SocketLanFirewallRulePayload `json:"rule,omitempty"`
+	Status PolicyMutationStatus          `json:"status"`
+}
+
+func (SocketLanFirewallRuleMutationPayload) IsIPolicyRuleMutationPayload() {}
+
+// Returns settings for the rule
+func (this SocketLanFirewallRuleMutationPayload) GetRule() IPolicyRulePayload { return *this.Rule }
+
+// Enum for the status of the policy change
+func (this SocketLanFirewallRuleMutationPayload) GetStatus() PolicyMutationStatus { return this.Status }
+
+// List of errors related to the policy change
+func (this SocketLanFirewallRuleMutationPayload) GetErrors() []*PolicyMutationError {
+	if this.Errors == nil {
+		return nil
+	}
+	interfaceSlice := make([]*PolicyMutationError, 0, len(this.Errors))
+	for _, concrete := range this.Errors {
+		interfaceSlice = append(interfaceSlice, concrete)
+	}
+	return interfaceSlice
+}
+
+type SocketLanFirewallRulePayload struct {
+	Audit      *PolicyElementAudit           `json:"audit"`
+	Properties []PolicyElementPropertiesEnum `json:"properties"`
+	Rule       *SocketLanFirewallRule        `json:"rule"`
+}
+
+func (SocketLanFirewallRulePayload) IsIPolicyRulePayload()              {}
+func (this SocketLanFirewallRulePayload) GetAudit() *PolicyElementAudit { return this.Audit }
+
+// Rule that was changed
+func (this SocketLanFirewallRulePayload) GetRule() IPolicyRule { return *this.Rule }
+
+// Summary of rule change, (ie. ADDED, UPDATED)
+func (this SocketLanFirewallRulePayload) GetProperties() []PolicyElementPropertiesEnum {
+	if this.Properties == nil {
+		return nil
+	}
+	interfaceSlice := make([]PolicyElementPropertiesEnum, 0, len(this.Properties))
+	for _, concrete := range this.Properties {
+		interfaceSlice = append(interfaceSlice, concrete)
+	}
+	return interfaceSlice
+}
+
+// Defines services used in the socket LAN firewall.
+type SocketLanFirewallServiceType struct {
+	// Custom services defined for this rule.
+	Custom []*CustomService `json:"custom"`
+	// Simple services allowed by the firewall rule.
+	Simple []*SimpleService `json:"simple"`
+	// Standard services allowed by the firewall rule.
+	Standard []*ServiceRef `json:"standard"`
+}
+
+// Defines services used in the socket LAN firewall.
+type SocketLanFirewallServiceTypeInput struct {
+	// Custom services defined for this rule.
+	Custom []*CustomServiceInput `json:"custom"`
+	// Simple services allowed by the firewall rule.
+	Simple []*SimpleServiceInput `json:"simple"`
+	// Standard services allowed by the firewall rule.
+	Standard []*ServiceRefInput `json:"standard"`
+}
+
+// Defines services used in the socket LAN firewall.
+type SocketLanFirewallServiceTypeUpdateInput struct {
+	// Custom services defined for this rule.
+	Custom []*CustomServiceInput `json:"custom,omitempty"`
+	// Simple services allowed by the firewall rule.
+	Simple []*SimpleServiceInput `json:"simple,omitempty"`
+	// Standard services allowed by the firewall rule.
+	Standard []*ServiceRefInput `json:"standard,omitempty"`
+}
+
+// Defines sources for the socket LAN firewall.
+type SocketLanFirewallSource struct {
+	// Floating subnets used to identify traffic based on specific criteria.
+	FloatingSubnet []*FloatingSubnetRef `json:"floatingSubnet"`
+	// Global IP ranges defined for your account.
+	GlobalIPRange []*GlobalIPRangeRef `json:"globalIpRange"`
+	// Groups defined for your account.
+	Group []*GroupRef `json:"group"`
+	// Hosts and servers defined for your account.
+	Host []*HostRef `json:"host"`
+	// IPv4 addresses.
+	IP []string `json:"ip"`
+	// Multiple separate IP addresses or an IP range.
+	IPRange []*IPAddressRange `json:"ipRange"`
+	// MAC addresses of devices matching criteria.
+	Mac []string `json:"mac"`
+	// Network interfaces defined for your site.
+	NetworkInterface []*NetworkInterfaceRef `json:"networkInterface"`
+	// Sites defined for your account.
+	Site []*SiteRef `json:"site"`
+	// Subnets specific to a site defined for your account.
+	SiteNetworkSubnet []*SiteNetworkSubnetRef `json:"siteNetworkSubnet"`
+	// Subnets from which traffic originates.
+	Subnet []string `json:"subnet"`
+	// Predefined system groups in your account.
+	SystemGroup []*SystemGroupRef `json:"systemGroup"`
+	// VLAN ID matching criteria.
+	Vlan []string `json:"vlan"`
+}
+
+// Defines sources for the socket LAN firewall.
+type SocketLanFirewallSourceInput struct {
+	// Floating subnets used to identify traffic based on specific criteria.
+	FloatingSubnet []*FloatingSubnetRefInput `json:"floatingSubnet"`
+	// Global IP ranges defined for your account.
+	GlobalIPRange []*GlobalIPRangeRefInput `json:"globalIpRange"`
+	// Groups defined for your account.
+	Group []*GroupRefInput `json:"group"`
+	// Hosts and servers defined for your account.
+	Host []*HostRefInput `json:"host"`
+	// IPv4 addresses.
+	IP []string `json:"ip"`
+	// Multiple separate IP addresses or an IP range.
+	IPRange []*IPAddressRangeInput `json:"ipRange"`
+	// MAC addresses of devices matching criteria.
+	Mac []string `json:"mac"`
+	// Network interfaces defined for your site.
+	NetworkInterface []*NetworkInterfaceRefInput `json:"networkInterface"`
+	// Sites defined for your account.
+	Site []*SiteRefInput `json:"site"`
+	// Subnets specific to a site defined for your account.
+	SiteNetworkSubnet []*SiteNetworkSubnetRefInput `json:"siteNetworkSubnet"`
+	// Subnets from which traffic originates.
+	Subnet []string `json:"subnet"`
+	// Predefined system groups in your account.
+	SystemGroup []*SystemGroupRefInput `json:"systemGroup"`
+	// VLAN ID matching criteria.
+	Vlan []string `json:"vlan"`
+}
+
+// Defines sources for the socket LAN firewall.
+type SocketLanFirewallSourceUpdateInput struct {
+	// Floating subnets used to identify traffic based on specific criteria.
+	FloatingSubnet []*FloatingSubnetRefInput `json:"floatingSubnet,omitempty"`
+	// Global IP ranges defined for your account.
+	GlobalIPRange []*GlobalIPRangeRefInput `json:"globalIpRange,omitempty"`
+	// Groups defined for your account.
+	Group []*GroupRefInput `json:"group,omitempty"`
+	// Hosts and servers defined for your account.
+	Host []*HostRefInput `json:"host,omitempty"`
+	// IPv4 addresses.
+	IP []string `json:"ip,omitempty"`
+	// Multiple separate IP addresses or an IP range.
+	IPRange []*IPAddressRangeInput `json:"ipRange,omitempty"`
+	// MAC addresses of devices matching criteria.
+	Mac []string `json:"mac,omitempty"`
+	// Network interfaces defined for your site.
+	NetworkInterface []*NetworkInterfaceRefInput `json:"networkInterface,omitempty"`
+	// Sites defined for your account.
+	Site []*SiteRefInput `json:"site,omitempty"`
+	// Subnets specific to a site defined for your account.
+	SiteNetworkSubnet []*SiteNetworkSubnetRefInput `json:"siteNetworkSubnet,omitempty"`
+	// Subnets from which traffic originates.
+	Subnet []string `json:"subnet,omitempty"`
+	// Predefined system groups in your account.
+	SystemGroup []*SystemGroupRefInput `json:"systemGroup,omitempty"`
+	// VLAN ID matching criteria.
+	Vlan []string `json:"vlan,omitempty"`
+}
+
+type SocketLanFirewallUpdateRuleDataInput struct {
+	// Action to take when the rule is matched (ALLOW or BLOCK).
+	Action *SocketLanFirewallAction `json:"action,omitempty"`
+	// Application traffic matching criteria.
+	Application *SocketLanFirewallApplicationUpdateInput `json:"application,omitempty"`
+	Description *string                                  `json:"description,omitempty"`
+	// Defines destinations for the socket LAN firewall.
+	// Also, inherited by Network Rule above.
+	Destination *SocketLanFirewallDestinationUpdateInput `json:"destination,omitempty"`
+	// Direction of the traffic (TO or BOTH).
+	Direction *SocketLanFirewallDirection `json:"direction,omitempty"`
+	Enabled   *bool                       `json:"enabled,omitempty"`
+	Name      *string                     `json:"name,omitempty"`
+	// Service traffic matching criteria.
+	Service *SocketLanFirewallServiceTypeUpdateInput `json:"service,omitempty"`
+	// Defines sources for the socket LAN firewall.
+	// Also, inherited by Network Rule above.
+	Source *SocketLanFirewallSourceUpdateInput `json:"source,omitempty"`
+	// Tracking information when the rule is matched, such as events and notifications.
+	Tracking *PolicyTrackingUpdateInput `json:"tracking,omitempty"`
+}
+
+type SocketLanFirewallUpdateRuleInput struct {
+	ID   string                                `json:"id"`
+	Rule *SocketLanFirewallUpdateRuleDataInput `json:"rule"`
+}
+
 // Defines NAT settings for the socket LAN policy.
 type SocketLanNatSettings struct {
 	// Indicates if NAT is enabled.
@@ -7488,18 +8671,19 @@ func (this SocketLanPolicyMutationPayload) GetErrors() []*PolicyMutationError {
 }
 
 type SocketLanPolicyMutations struct {
-	AddRule               *SocketLanRuleMutationPayload   `json:"addRule"`
-	AddSection            *PolicySectionMutationPayload   `json:"addSection"`
-	CreatePolicyRevision  *SocketLanPolicyMutationPayload `json:"createPolicyRevision"`
-	DiscardPolicyRevision *SocketLanPolicyMutationPayload `json:"discardPolicyRevision"`
-	MoveRule              *SocketLanRuleMutationPayload   `json:"moveRule"`
-	MoveSection           *PolicySectionMutationPayload   `json:"moveSection"`
-	PublishPolicyRevision *SocketLanPolicyMutationPayload `json:"publishPolicyRevision"`
-	RemoveRule            *SocketLanRuleMutationPayload   `json:"removeRule"`
-	RemoveSection         *PolicySectionMutationPayload   `json:"removeSection"`
-	UpdatePolicy          *SocketLanPolicyMutationPayload `json:"updatePolicy"`
-	UpdateRule            *SocketLanRuleMutationPayload   `json:"updateRule"`
-	UpdateSection         *PolicySectionMutationPayload   `json:"updateSection"`
+	AddRule               *SocketLanRuleMutationPayload     `json:"addRule"`
+	AddSection            *PolicySectionMutationPayload     `json:"addSection"`
+	CreatePolicyRevision  *SocketLanPolicyMutationPayload   `json:"createPolicyRevision"`
+	DiscardPolicyRevision *SocketLanPolicyMutationPayload   `json:"discardPolicyRevision"`
+	Firewall              *SocketLanFirewallPolicyMutations `json:"firewall"`
+	MoveRule              *SocketLanRuleMutationPayload     `json:"moveRule"`
+	MoveSection           *PolicySectionMutationPayload     `json:"moveSection"`
+	PublishPolicyRevision *SocketLanPolicyMutationPayload   `json:"publishPolicyRevision"`
+	RemoveRule            *SocketLanRuleMutationPayload     `json:"removeRule"`
+	RemoveSection         *PolicySectionMutationPayload     `json:"removeSection"`
+	UpdatePolicy          *SocketLanPolicyMutationPayload   `json:"updatePolicy"`
+	UpdateRule            *SocketLanRuleMutationPayload     `json:"updateRule"`
+	UpdateSection         *PolicySectionMutationPayload     `json:"updateSection"`
 }
 
 type SocketLanPolicyQueries struct {
@@ -7936,6 +9120,7 @@ type SubDomain struct {
 	SubDomain   string `json:"subDomain"`
 }
 
+// A reference identifying the SubscriptionGroup object. ID: Unique SubscriptionGroup Identifier, Name: The SubscriptionGroup Name
 type SubscriptionGroupRef struct {
 	ID   string `json:"id"`
 	Name string `json:"name"`
@@ -7954,6 +9139,7 @@ type SubscriptionGroupRefInput struct {
 	Input string      `json:"input"`
 }
 
+// A reference identifying the SubscriptionMailingList object. ID: Unique SubscriptionMailingList Identifier, Name: The SubscriptionMailingList Name
 type SubscriptionMailingListRef struct {
 	ID   string `json:"id"`
 	Name string `json:"name"`
@@ -7972,6 +9158,7 @@ type SubscriptionMailingListRefInput struct {
 	Input string      `json:"input"`
 }
 
+// A reference identifying the SubscriptionWebhook object. ID: Unique SubscriptionWebhook Identifier, Name: The SubscriptionWebhook Name
 type SubscriptionWebhookRef struct {
 	ID   string `json:"id"`
 	Name string `json:"name"`
@@ -7990,6 +9177,7 @@ type SubscriptionWebhookRefInput struct {
 	Input string      `json:"input"`
 }
 
+// A reference identifying the SystemGroup object. ID: Unique SystemGroup Identifier, Name: The SystemGroup Name
 type SystemGroupRef struct {
 	ID   string `json:"id"`
 	Name string `json:"name"`
@@ -8008,6 +9196,7 @@ type SystemGroupRefInput struct {
 	Input string      `json:"input"`
 }
 
+// The "Threat" object represents a comprehensive data structure used in GraphQL queries or mutations to encapsulate various attributes and metadata related to a threat incident, including details about the threat's origin, nature, risk assessment, and associated network traffic flows.
 type Threat struct {
 	// Fields related to analysts research of the threat incident
 	AnalystFeedback *AnalystFeedback `json:"analystFeedback,omitempty"`
@@ -8163,6 +9352,7 @@ func (this Threat) GetUser() *UserRef                      { return this.User }
 func (this Threat) GetPredictedVerdict() *StoryVerdictEnum { return this.PredictedVerdict }
 func (this Threat) GetPredictedThreatType() *string        { return this.PredictedThreatType }
 
+// The `ThreatPrevention` object is a GraphQL type that represents the details of a threat prevention incident, including fields such as analyst feedback, client class, connection type, criticality, description, device name, and various other attributes related to the incident's signals, events, and status.
 type ThreatPrevention struct {
 	AnalystFeedback         *AnalystFeedback          `json:"analystFeedback,omitempty"`
 	ClientClass             []string                  `json:"clientClass"`
@@ -8465,6 +9655,8 @@ type UpdateBgpPeerInput struct {
 	CatoAsn *scalars.Asn16 `json:"catoAsn,omitempty"`
 	// Update for the default action on unmatched routes.
 	DefaultAction *BgpDefaultAction `json:"defaultAction,omitempty"`
+	// Updated rules excluded from the default action.
+	DefaultActionExclusion []*BgpFilterRuleInput `json:"defaultActionExclusion,omitempty"`
 	// Updated hold time for the BGP session.
 	HoldTime *int64 `json:"holdTime,omitempty"`
 	// Unique identifier of the BGP peer to be updated.
@@ -8548,6 +9740,13 @@ type UpdateHaInput struct {
 
 type UpdateHaPayload struct {
 	SiteID string `json:"siteId"`
+}
+
+type UpdateHardwareShippingInput struct {
+	//  The shipping details to update
+	Details *HardwareShippingDetailsInput `json:"details"`
+	//  The ids of items to update
+	Ids []string `json:"ids"`
 }
 
 // Input for updating existing IPAddressRange typed container from file
@@ -8654,7 +9853,8 @@ type UpdateNetworkRangeInput struct {
 	// Only relevant for NATIVE, VLAN rangeType
 	DhcpSettings *NetworkDhcpSettingsInput `json:"dhcpSettings,omitempty"`
 	// Only relevant for ROUTED_ROUTE rangeType
-	Gateway *string `json:"gateway,omitempty"`
+	Gateway      *string `json:"gateway,omitempty"`
+	InternetOnly *bool   `json:"internetOnly,omitempty"`
 	// Only relevant for NATIVE, SECONDARY_NATIVE, DIRECT_ROUTE, VLAN rangeType
 	LocalIP *string `json:"localIp,omitempty"`
 	// BETA - Only relevant for NATIVE, DIRECT_ROUTE and VLAN rangeType
@@ -8663,7 +9863,7 @@ type UpdateNetworkRangeInput struct {
 	RangeType        *SubnetType `json:"rangeType,omitempty"`
 	Subnet           *string     `json:"subnet,omitempty"`
 	TranslatedSubnet *string     `json:"translatedSubnet,omitempty"`
-	// Only relevant for VLAN network rangeType
+	// Only relevant for NATIVE and VLAN network rangeType
 	Vlan *int64 `json:"vlan,omitempty"`
 }
 
@@ -8767,6 +9967,7 @@ type UserInfo struct {
 	Status *scalars.OperationalStatus `json:"status,omitempty"`
 }
 
+// A reference identifying the User object. ID: Unique User Identifier, Name: The User Name
 type UserRef struct {
 	ID   string `json:"id"`
 	Name string `json:"name"`
@@ -8779,6 +9980,13 @@ func (this UserRef) GetID() string { return this.ID }
 
 // Object's unique name
 func (this UserRef) GetName() string { return this.Name }
+
+type UserRefFilterInput struct {
+	Eq  *UserRefInput   `json:"eq,omitempty"`
+	In  []*UserRefInput `json:"in,omitempty"`
+	Neq *UserRefInput   `json:"neq,omitempty"`
+	Nin []*UserRefInput `json:"nin,omitempty"`
+}
 
 type UserRefInput struct {
 	By    ObjectRefBy `json:"by"`
@@ -8829,6 +10037,7 @@ type UserSnapshot struct {
 	VersionNumber *int64 `json:"versionNumber,omitempty"`
 }
 
+// A reference identifying the UsersGroup object. ID: Unique UsersGroup Identifier, Name: The UsersGroup Name
 type UsersGroupRef struct {
 	ID   string `json:"id"`
 	Name string `json:"name"`
@@ -10224,6 +11433,47 @@ type ZtnaUsersLicenseAllocations struct {
 	Total int64 `json:"total"`
 }
 
+type AccountInclusion string
+
+const (
+	AccountInclusionAllAccounts         AccountInclusion = "ALL_ACCOUNTS"
+	AccountInclusionManagedAccountsOnly AccountInclusion = "MANAGED_ACCOUNTS_ONLY"
+)
+
+var AllAccountInclusion = []AccountInclusion{
+	AccountInclusionAllAccounts,
+	AccountInclusionManagedAccountsOnly,
+}
+
+func (e AccountInclusion) IsValid() bool {
+	switch e {
+	case AccountInclusionAllAccounts, AccountInclusionManagedAccountsOnly:
+		return true
+	}
+	return false
+}
+
+func (e AccountInclusion) String() string {
+	return string(e)
+}
+
+func (e *AccountInclusion) UnmarshalGQL(v any) error {
+	str, ok := v.(string)
+	if !ok {
+		return fmt.Errorf("enums must be strings")
+	}
+
+	*e = AccountInclusion(str)
+	if !e.IsValid() {
+		return fmt.Errorf("%s is not a valid AccountInclusion", str)
+	}
+	return nil
+}
+
+func (e AccountInclusion) MarshalGQL(w io.Writer) {
+	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
 // enum for account type
 type AccountProfileType string
 
@@ -10354,6 +11604,49 @@ func (e *AccountType) UnmarshalGQL(v any) error {
 }
 
 func (e AccountType) MarshalGQL(w io.Writer) {
+	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+type AddressValidationStatus string
+
+const (
+	AddressValidationStatusInvalid AddressValidationStatus = "INVALID"
+	AddressValidationStatusNa      AddressValidationStatus = "NA"
+	AddressValidationStatusValid   AddressValidationStatus = "VALID"
+)
+
+var AllAddressValidationStatus = []AddressValidationStatus{
+	AddressValidationStatusInvalid,
+	AddressValidationStatusNa,
+	AddressValidationStatusValid,
+}
+
+func (e AddressValidationStatus) IsValid() bool {
+	switch e {
+	case AddressValidationStatusInvalid, AddressValidationStatusNa, AddressValidationStatusValid:
+		return true
+	}
+	return false
+}
+
+func (e AddressValidationStatus) String() string {
+	return string(e)
+}
+
+func (e *AddressValidationStatus) UnmarshalGQL(v any) error {
+	str, ok := v.(string)
+	if !ok {
+		return fmt.Errorf("enums must be strings")
+	}
+
+	*e = AddressValidationStatus(str)
+	if !e.IsValid() {
+		return fmt.Errorf("%s is not a valid AddressValidationStatus", str)
+	}
+	return nil
+}
+
+func (e AddressValidationStatus) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
@@ -10916,6 +12209,49 @@ func (e AuditFieldName) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
+type BgpCommunityFilterPredicate string
+
+const (
+	// Matches exactly the specified community value.
+	BgpCommunityFilterPredicateEqual BgpCommunityFilterPredicate = "EQUAL"
+	// Matches any community value except the specified one.
+	BgpCommunityFilterPredicateNotEqual BgpCommunityFilterPredicate = "NOT_EQUAL"
+)
+
+var AllBgpCommunityFilterPredicate = []BgpCommunityFilterPredicate{
+	BgpCommunityFilterPredicateEqual,
+	BgpCommunityFilterPredicateNotEqual,
+}
+
+func (e BgpCommunityFilterPredicate) IsValid() bool {
+	switch e {
+	case BgpCommunityFilterPredicateEqual, BgpCommunityFilterPredicateNotEqual:
+		return true
+	}
+	return false
+}
+
+func (e BgpCommunityFilterPredicate) String() string {
+	return string(e)
+}
+
+func (e *BgpCommunityFilterPredicate) UnmarshalGQL(v any) error {
+	str, ok := v.(string)
+	if !ok {
+		return fmt.Errorf("enums must be strings")
+	}
+
+	*e = BgpCommunityFilterPredicate(str)
+	if !e.IsValid() {
+		return fmt.Errorf("%s is not a valid BgpCommunityFilterPredicate", str)
+	}
+	return nil
+}
+
+func (e BgpCommunityFilterPredicate) MarshalGQL(w io.Writer) {
+	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
 type BgpDefaultAction string
 
 const (
@@ -10956,6 +12292,192 @@ func (e *BgpDefaultAction) UnmarshalGQL(v any) error {
 }
 
 func (e BgpDefaultAction) MarshalGQL(w io.Writer) {
+	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+type CatalogApplicationActivityFieldOperator string
+
+const (
+	CatalogApplicationActivityFieldOperatorContains    CatalogApplicationActivityFieldOperator = "CONTAINS"
+	CatalogApplicationActivityFieldOperatorGreaterThan CatalogApplicationActivityFieldOperator = "GREATER_THAN"
+	CatalogApplicationActivityFieldOperatorIn          CatalogApplicationActivityFieldOperator = "IN"
+	CatalogApplicationActivityFieldOperatorIs          CatalogApplicationActivityFieldOperator = "IS"
+	CatalogApplicationActivityFieldOperatorLessEquals  CatalogApplicationActivityFieldOperator = "LESS_EQUALS"
+)
+
+var AllCatalogApplicationActivityFieldOperator = []CatalogApplicationActivityFieldOperator{
+	CatalogApplicationActivityFieldOperatorContains,
+	CatalogApplicationActivityFieldOperatorGreaterThan,
+	CatalogApplicationActivityFieldOperatorIn,
+	CatalogApplicationActivityFieldOperatorIs,
+	CatalogApplicationActivityFieldOperatorLessEquals,
+}
+
+func (e CatalogApplicationActivityFieldOperator) IsValid() bool {
+	switch e {
+	case CatalogApplicationActivityFieldOperatorContains, CatalogApplicationActivityFieldOperatorGreaterThan, CatalogApplicationActivityFieldOperatorIn, CatalogApplicationActivityFieldOperatorIs, CatalogApplicationActivityFieldOperatorLessEquals:
+		return true
+	}
+	return false
+}
+
+func (e CatalogApplicationActivityFieldOperator) String() string {
+	return string(e)
+}
+
+func (e *CatalogApplicationActivityFieldOperator) UnmarshalGQL(v any) error {
+	str, ok := v.(string)
+	if !ok {
+		return fmt.Errorf("enums must be strings")
+	}
+
+	*e = CatalogApplicationActivityFieldOperator(str)
+	if !e.IsValid() {
+		return fmt.Errorf("%s is not a valid CatalogApplicationActivityFieldOperator", str)
+	}
+	return nil
+}
+
+func (e CatalogApplicationActivityFieldOperator) MarshalGQL(w io.Writer) {
+	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+type CatalogApplicationAttribute string
+
+const (
+	CatalogApplicationAttributeSupported   CatalogApplicationAttribute = "SUPPORTED"
+	CatalogApplicationAttributeUnknown     CatalogApplicationAttribute = "UNKNOWN"
+	CatalogApplicationAttributeUnsupported CatalogApplicationAttribute = "UNSUPPORTED"
+)
+
+var AllCatalogApplicationAttribute = []CatalogApplicationAttribute{
+	CatalogApplicationAttributeSupported,
+	CatalogApplicationAttributeUnknown,
+	CatalogApplicationAttributeUnsupported,
+}
+
+func (e CatalogApplicationAttribute) IsValid() bool {
+	switch e {
+	case CatalogApplicationAttributeSupported, CatalogApplicationAttributeUnknown, CatalogApplicationAttributeUnsupported:
+		return true
+	}
+	return false
+}
+
+func (e CatalogApplicationAttribute) String() string {
+	return string(e)
+}
+
+func (e *CatalogApplicationAttribute) UnmarshalGQL(v any) error {
+	str, ok := v.(string)
+	if !ok {
+		return fmt.Errorf("enums must be strings")
+	}
+
+	*e = CatalogApplicationAttribute(str)
+	if !e.IsValid() {
+		return fmt.Errorf("%s is not a valid CatalogApplicationAttribute", str)
+	}
+	return nil
+}
+
+func (e CatalogApplicationAttribute) MarshalGQL(w io.Writer) {
+	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+type CatalogApplicationCapability string
+
+const (
+	CatalogApplicationCapabilityAntiMalwareInline    CatalogApplicationCapability = "ANTI_MALWARE_INLINE"
+	CatalogApplicationCapabilityAppControlAPI        CatalogApplicationCapability = "APP_CONTROL_API"
+	CatalogApplicationCapabilityAppControlInline     CatalogApplicationCapability = "APP_CONTROL_INLINE"
+	CatalogApplicationCapabilityDataProtectionAPI    CatalogApplicationCapability = "DATA_PROTECTION_API"
+	CatalogApplicationCapabilityDataProtectionInline CatalogApplicationCapability = "DATA_PROTECTION_INLINE"
+	CatalogApplicationCapabilityFileControlInline    CatalogApplicationCapability = "FILE_CONTROL_INLINE"
+	CatalogApplicationCapabilityFirewallIntline      CatalogApplicationCapability = "FIREWALL_INTLINE"
+	CatalogApplicationCapabilityLanFirewall          CatalogApplicationCapability = "LAN_FIREWALL"
+)
+
+var AllCatalogApplicationCapability = []CatalogApplicationCapability{
+	CatalogApplicationCapabilityAntiMalwareInline,
+	CatalogApplicationCapabilityAppControlAPI,
+	CatalogApplicationCapabilityAppControlInline,
+	CatalogApplicationCapabilityDataProtectionAPI,
+	CatalogApplicationCapabilityDataProtectionInline,
+	CatalogApplicationCapabilityFileControlInline,
+	CatalogApplicationCapabilityFirewallIntline,
+	CatalogApplicationCapabilityLanFirewall,
+}
+
+func (e CatalogApplicationCapability) IsValid() bool {
+	switch e {
+	case CatalogApplicationCapabilityAntiMalwareInline, CatalogApplicationCapabilityAppControlAPI, CatalogApplicationCapabilityAppControlInline, CatalogApplicationCapabilityDataProtectionAPI, CatalogApplicationCapabilityDataProtectionInline, CatalogApplicationCapabilityFileControlInline, CatalogApplicationCapabilityFirewallIntline, CatalogApplicationCapabilityLanFirewall:
+		return true
+	}
+	return false
+}
+
+func (e CatalogApplicationCapability) String() string {
+	return string(e)
+}
+
+func (e *CatalogApplicationCapability) UnmarshalGQL(v any) error {
+	str, ok := v.(string)
+	if !ok {
+		return fmt.Errorf("enums must be strings")
+	}
+
+	*e = CatalogApplicationCapability(str)
+	if !e.IsValid() {
+		return fmt.Errorf("%s is not a valid CatalogApplicationCapability", str)
+	}
+	return nil
+}
+
+func (e CatalogApplicationCapability) MarshalGQL(w io.Writer) {
+	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+type CatalogApplicationType string
+
+const (
+	CatalogApplicationTypeApplication      CatalogApplicationType = "APPLICATION"
+	CatalogApplicationTypeCloudApplication CatalogApplicationType = "CLOUD_APPLICATION"
+	CatalogApplicationTypeService          CatalogApplicationType = "SERVICE"
+)
+
+var AllCatalogApplicationType = []CatalogApplicationType{
+	CatalogApplicationTypeApplication,
+	CatalogApplicationTypeCloudApplication,
+	CatalogApplicationTypeService,
+}
+
+func (e CatalogApplicationType) IsValid() bool {
+	switch e {
+	case CatalogApplicationTypeApplication, CatalogApplicationTypeCloudApplication, CatalogApplicationTypeService:
+		return true
+	}
+	return false
+}
+
+func (e CatalogApplicationType) String() string {
+	return string(e)
+}
+
+func (e *CatalogApplicationType) UnmarshalGQL(v any) error {
+	str, ok := v.(string)
+	if !ok {
+		return fmt.Errorf("enums must be strings")
+	}
+
+	*e = CatalogApplicationType(str)
+	if !e.IsValid() {
+		return fmt.Errorf("%s is not a valid CatalogApplicationType", str)
+	}
+	return nil
+}
+
+func (e CatalogApplicationType) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
@@ -11630,6 +13152,98 @@ func (e DeviceAvStatusEnum) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
+type DeviceCategory string
+
+const (
+	DeviceCategoryIoT        DeviceCategory = "IoT"
+	DeviceCategoryMobile     DeviceCategory = "Mobile"
+	DeviceCategoryNetworking DeviceCategory = "Networking"
+	DeviceCategoryOt         DeviceCategory = "OT"
+	DeviceCategoryPc         DeviceCategory = "PC"
+	DeviceCategoryServer     DeviceCategory = "Server"
+)
+
+var AllDeviceCategory = []DeviceCategory{
+	DeviceCategoryIoT,
+	DeviceCategoryMobile,
+	DeviceCategoryNetworking,
+	DeviceCategoryOt,
+	DeviceCategoryPc,
+	DeviceCategoryServer,
+}
+
+func (e DeviceCategory) IsValid() bool {
+	switch e {
+	case DeviceCategoryIoT, DeviceCategoryMobile, DeviceCategoryNetworking, DeviceCategoryOt, DeviceCategoryPc, DeviceCategoryServer:
+		return true
+	}
+	return false
+}
+
+func (e DeviceCategory) String() string {
+	return string(e)
+}
+
+func (e *DeviceCategory) UnmarshalGQL(v any) error {
+	str, ok := v.(string)
+	if !ok {
+		return fmt.Errorf("enums must be strings")
+	}
+
+	*e = DeviceCategory(str)
+	if !e.IsValid() {
+		return fmt.Errorf("%s is not a valid DeviceCategory", str)
+	}
+	return nil
+}
+
+func (e DeviceCategory) MarshalGQL(w io.Writer) {
+	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+type DeviceConfidenceLevel string
+
+const (
+	DeviceConfidenceLevelHigh   DeviceConfidenceLevel = "HIGH"
+	DeviceConfidenceLevelLow    DeviceConfidenceLevel = "LOW"
+	DeviceConfidenceLevelMedium DeviceConfidenceLevel = "MEDIUM"
+)
+
+var AllDeviceConfidenceLevel = []DeviceConfidenceLevel{
+	DeviceConfidenceLevelHigh,
+	DeviceConfidenceLevelLow,
+	DeviceConfidenceLevelMedium,
+}
+
+func (e DeviceConfidenceLevel) IsValid() bool {
+	switch e {
+	case DeviceConfidenceLevelHigh, DeviceConfidenceLevelLow, DeviceConfidenceLevelMedium:
+		return true
+	}
+	return false
+}
+
+func (e DeviceConfidenceLevel) String() string {
+	return string(e)
+}
+
+func (e *DeviceConfidenceLevel) UnmarshalGQL(v any) error {
+	str, ok := v.(string)
+	if !ok {
+		return fmt.Errorf("enums must be strings")
+	}
+
+	*e = DeviceConfidenceLevel(str)
+	if !e.IsValid() {
+		return fmt.Errorf("%s is not a valid DeviceConfidenceLevel", str)
+	}
+	return nil
+}
+
+func (e DeviceConfidenceLevel) MarshalGQL(w io.Writer) {
+	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
 type DeviceConfigHaRoleEnum string
 
 const (
@@ -11756,6 +13370,55 @@ func (e *DeviceHealthStatusEnum) UnmarshalGQL(v any) error {
 }
 
 func (e DeviceHealthStatusEnum) MarshalGQL(w io.Writer) {
+	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+type DeviceV2Category string
+
+const (
+	DeviceV2CategoryIot        DeviceV2Category = "IOT"
+	DeviceV2CategoryMobile     DeviceV2Category = "MOBILE"
+	DeviceV2CategoryNetworking DeviceV2Category = "NETWORKING"
+	DeviceV2CategoryOt         DeviceV2Category = "OT"
+	DeviceV2CategoryPc         DeviceV2Category = "PC"
+	DeviceV2CategoryServer     DeviceV2Category = "SERVER"
+)
+
+var AllDeviceV2Category = []DeviceV2Category{
+	DeviceV2CategoryIot,
+	DeviceV2CategoryMobile,
+	DeviceV2CategoryNetworking,
+	DeviceV2CategoryOt,
+	DeviceV2CategoryPc,
+	DeviceV2CategoryServer,
+}
+
+func (e DeviceV2Category) IsValid() bool {
+	switch e {
+	case DeviceV2CategoryIot, DeviceV2CategoryMobile, DeviceV2CategoryNetworking, DeviceV2CategoryOt, DeviceV2CategoryPc, DeviceV2CategoryServer:
+		return true
+	}
+	return false
+}
+
+func (e DeviceV2Category) String() string {
+	return string(e)
+}
+
+func (e *DeviceV2Category) UnmarshalGQL(v any) error {
+	str, ok := v.(string)
+	if !ok {
+		return fmt.Errorf("enums must be strings")
+	}
+
+	*e = DeviceV2Category(str)
+	if !e.IsValid() {
+		return fmt.Errorf("%s is not a valid DeviceV2Category", str)
+	}
+	return nil
+}
+
+func (e DeviceV2Category) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
@@ -11982,6 +13645,70 @@ func (e *ElasticOperator) UnmarshalGQL(v any) error {
 }
 
 func (e ElasticOperator) MarshalGQL(w io.Writer) {
+	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+type EmployeeRange string
+
+const (
+	// 1-10 employees
+	EmployeeRangeBetween00001_00010 EmployeeRange = "BETWEEN_00001_00010"
+	// 11-50 employees
+	EmployeeRangeBetween00011_00050 EmployeeRange = "BETWEEN_00011_00050"
+	// 51-100 employees
+	EmployeeRangeBetween00051_00100 EmployeeRange = "BETWEEN_00051_00100"
+	// 101-250 employees
+	EmployeeRangeBetween00101_00250 EmployeeRange = "BETWEEN_00101_00250"
+	// 251-500 employees
+	EmployeeRangeBetween00251_00500 EmployeeRange = "BETWEEN_00251_00500"
+	// 501-1,000 employees
+	EmployeeRangeBetween00501_01000 EmployeeRange = "BETWEEN_00501_01000"
+	// 1,001-5,000 employees
+	EmployeeRangeBetween01001_05000 EmployeeRange = "BETWEEN_01001_05000"
+	// 5,001-10,000 employees
+	EmployeeRangeBetween05001_10000 EmployeeRange = "BETWEEN_05001_10000"
+	// 10,000+ employees
+	EmployeeRangeBetween10001Max EmployeeRange = "BETWEEN_10001_MAX"
+)
+
+var AllEmployeeRange = []EmployeeRange{
+	EmployeeRangeBetween00001_00010,
+	EmployeeRangeBetween00011_00050,
+	EmployeeRangeBetween00051_00100,
+	EmployeeRangeBetween00101_00250,
+	EmployeeRangeBetween00251_00500,
+	EmployeeRangeBetween00501_01000,
+	EmployeeRangeBetween01001_05000,
+	EmployeeRangeBetween05001_10000,
+	EmployeeRangeBetween10001Max,
+}
+
+func (e EmployeeRange) IsValid() bool {
+	switch e {
+	case EmployeeRangeBetween00001_00010, EmployeeRangeBetween00011_00050, EmployeeRangeBetween00051_00100, EmployeeRangeBetween00101_00250, EmployeeRangeBetween00251_00500, EmployeeRangeBetween00501_01000, EmployeeRangeBetween01001_05000, EmployeeRangeBetween05001_10000, EmployeeRangeBetween10001Max:
+		return true
+	}
+	return false
+}
+
+func (e EmployeeRange) String() string {
+	return string(e)
+}
+
+func (e *EmployeeRange) UnmarshalGQL(v any) error {
+	str, ok := v.(string)
+	if !ok {
+		return fmt.Errorf("enums must be strings")
+	}
+
+	*e = EmployeeRange(str)
+	if !e.IsValid() {
+		return fmt.Errorf("%s is not a valid EmployeeRange", str)
+	}
+	return nil
+}
+
+func (e EmployeeRange) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
@@ -12215,6 +13942,8 @@ const (
 	EventFieldNameAccountID EventFieldName = "account_id"
 	// Firewall, QoS or LAG action
 	EventFieldNameAction EventFieldName = "action"
+	// A list of actions taken, if more than one action was taken as defined by a policy
+	EventFieldNameActionsTaken EventFieldName = "actions_taken"
 	// Active Directory name
 	EventFieldNameAdName  EventFieldName = "ad_name"
 	EventFieldNameAlertID EventFieldName = "alert_id"
@@ -12343,6 +14072,13 @@ const (
 	EventFieldNameDestSiteID EventFieldName = "dest_site_id"
 	// The name of the destination site
 	EventFieldNameDestSiteName EventFieldName = "dest_site_name"
+	// Short description of the detection
+	EventFieldNameDetectionName EventFieldName = "detection_name"
+	// Triggered when malware has been detected EPP Behavioral engines and has been dealt with:
+	// • on_detection: the event is triggered upon malware detection;
+	// • on_end_disinfect: the event is triggered upon detection and followed disinfection;
+	// • on_inject: the event is triggered upon code injection.
+	EventFieldNameDetectionStage EventFieldName = "detection_stage"
 	// Device Categories
 	EventFieldNameDeviceCategories EventFieldName = "device_categories"
 	// Device Certificate Validated/Not Validated
@@ -12423,6 +14159,8 @@ const (
 	EventFieldNameFlowsCardinality EventFieldName = "flows_cardinality"
 	// Full path URL application activity
 	EventFieldNameFullPathURL EventFieldName = "full_path_url"
+	// An identifier for a guest user using Cato through a Captive Portal
+	EventFieldNameGuestUser EventFieldName = "guest_user"
 	// IP address of host related to event
 	EventFieldNameHostIP EventFieldName = "host_ip"
 	// MAC address of host related to event
@@ -12437,6 +14175,8 @@ const (
 	EventFieldNameIndication EventFieldName = "indication"
 	// Indicator
 	EventFieldNameIndicator EventFieldName = "indicator"
+	// The initial status of the object, before any policy was applied
+	EventFieldNameInitialObjectStatus EventFieldName = "initial_object_status"
 	// Cato Internal-use only
 	EventFieldNameInternalID EventFieldName = "internalId"
 	// Network protocol for this event
@@ -12561,6 +14301,8 @@ const (
 	EventFieldNameSocketReset EventFieldName = "socket_reset"
 	// For Socket HA events, indicates if the Socket is primary or secondary
 	EventFieldNameSocketRole EventFieldName = "socket_role"
+	// Socket serial number
+	EventFieldNameSocketSerial EventFieldName = "socket_serial"
 	// Socket version number
 	EventFieldNameSocketVersion EventFieldName = "socket_version"
 	// Split Tunnel Configuration
@@ -12613,16 +14355,26 @@ const (
 	EventFieldNameTenantName EventFieldName = "tenant_name"
 	// Tenant Restriction Rule Name
 	EventFieldNameTenantRestrictionRuleName EventFieldName = "tenant_restriction_rule_name"
+	// Contains the detection risk level. Could be one of the following:
+	// • Info - this is information-only event, the activity is not malicious;
+	// • Suspicious - the event is suspicious. It may be malicious, but there is not enough information
+	// • Malware - the event is malicious activity
+	EventFieldNameThreatConfidence EventFieldName = "threat_confidence"
 	// For anti-malware events, malware name For IPS events, explains the reason why the traffic was blocked
 	EventFieldNameThreatName EventFieldName = "threat_name"
 	// Link to external malware reference
 	EventFieldNameThreatReference EventFieldName = "threat_reference"
+	// The higher the score, the more dangerous the event. In range between 1 - 100 inclusive
+	EventFieldNameThreatScore EventFieldName = "threat_score"
 	// Type of malware event
 	EventFieldNameThreatType EventFieldName = "threat_type"
 	// Result of malware event (clean indicates a safe file)
 	EventFieldNameThreatVerdict EventFieldName = "threat_verdict"
 	// Time stamp of event (Linux epoch format)
-	EventFieldNameTime  EventFieldName = "time"
+	EventFieldNameTime EventFieldName = "time"
+	// Time stamp of the event (Human-readable format)
+	EventFieldNameTimeStr EventFieldName = "time_str"
+	// A short summary of the activity
 	EventFieldNameTitle EventFieldName = "title"
 	// TLS Certificate Error
 	EventFieldNameTLSCertificateError EventFieldName = "tls_certificate_error"
@@ -12670,6 +14422,8 @@ const (
 	EventFieldNameUserName EventFieldName = "user_name"
 	// For Block/Prompt page, reference ID to report incorrect category
 	EventFieldNameUserReferenceID EventFieldName = "user_reference_id"
+	// User risk level category
+	EventFieldNameUserRiskLevel EventFieldName = "user_risk_level"
 	// The vendor that identified the incident, such as Cato or Microsoft
 	EventFieldNameVendor EventFieldName = "vendor"
 	// Shows the id of the target user involved in an activity
@@ -12697,6 +14451,7 @@ var AllEventFieldName = []EventFieldName{
 	EventFieldNameAccessMethod,
 	EventFieldNameAccountID,
 	EventFieldNameAction,
+	EventFieldNameActionsTaken,
 	EventFieldNameAdName,
 	EventFieldNameAlertID,
 	EventFieldNameAlwaysOnConfiguration,
@@ -12763,6 +14518,8 @@ var AllEventFieldName = []EventFieldName{
 	EventFieldNameDestSite,
 	EventFieldNameDestSiteID,
 	EventFieldNameDestSiteName,
+	EventFieldNameDetectionName,
+	EventFieldNameDetectionStage,
 	EventFieldNameDeviceCategories,
 	EventFieldNameDeviceCertificate,
 	EventFieldNameDeviceID,
@@ -12804,6 +14561,7 @@ var AllEventFieldName = []EventFieldName{
 	EventFieldNameFinalObjectStatus,
 	EventFieldNameFlowsCardinality,
 	EventFieldNameFullPathURL,
+	EventFieldNameGuestUser,
 	EventFieldNameHostIP,
 	EventFieldNameHostMac,
 	EventFieldNameHTTPRequestMethod,
@@ -12811,6 +14569,7 @@ var AllEventFieldName = []EventFieldName{
 	EventFieldNameIncidentID,
 	EventFieldNameIndication,
 	EventFieldNameIndicator,
+	EventFieldNameInitialObjectStatus,
 	EventFieldNameInternalID,
 	EventFieldNameIPProtocol,
 	EventFieldNameIsAdmin,
@@ -12878,6 +14637,7 @@ var AllEventFieldName = []EventFieldName{
 	EventFieldNameSocketOldVersion,
 	EventFieldNameSocketReset,
 	EventFieldNameSocketRole,
+	EventFieldNameSocketSerial,
 	EventFieldNameSocketVersion,
 	EventFieldNameSplitTunnelConfiguration,
 	EventFieldNameSrcCountry,
@@ -12904,11 +14664,14 @@ var AllEventFieldName = []EventFieldName{
 	EventFieldNameTenantID,
 	EventFieldNameTenantName,
 	EventFieldNameTenantRestrictionRuleName,
+	EventFieldNameThreatConfidence,
 	EventFieldNameThreatName,
 	EventFieldNameThreatReference,
+	EventFieldNameThreatScore,
 	EventFieldNameThreatType,
 	EventFieldNameThreatVerdict,
 	EventFieldNameTime,
+	EventFieldNameTimeStr,
 	EventFieldNameTitle,
 	EventFieldNameTLSCertificateError,
 	EventFieldNameTLSErrorDescription,
@@ -12933,6 +14696,7 @@ var AllEventFieldName = []EventFieldName{
 	EventFieldNameUserID,
 	EventFieldNameUserName,
 	EventFieldNameUserReferenceID,
+	EventFieldNameUserRiskLevel,
 	EventFieldNameVendor,
 	EventFieldNameVendorCollaboratorID,
 	EventFieldNameVendorDeviceID,
@@ -12948,7 +14712,7 @@ var AllEventFieldName = []EventFieldName{
 
 func (e EventFieldName) IsValid() bool {
 	switch e {
-	case EventFieldNameAccessMethod, EventFieldNameAccountID, EventFieldNameAction, EventFieldNameAdName, EventFieldNameAlertID, EventFieldNameAlwaysOnConfiguration, EventFieldNameAnalystVerdict, EventFieldNameAPIName, EventFieldNameAPIType, EventFieldNameAppActivity, EventFieldNameAppActivityCategory, EventFieldNameAppActivityType, EventFieldNameAppStack, EventFieldNameApplication, EventFieldNameApplicationID, EventFieldNameApplicationName, EventFieldNameApplicationRisk, EventFieldNameAuthMethod, EventFieldNameAuthenticationType, EventFieldNameBgpCatoAsn, EventFieldNameBgpCatoIP, EventFieldNameBgpErrorCode, EventFieldNameBgpPeerAsn, EventFieldNameBgpPeerDescription, EventFieldNameBgpPeerIP, EventFieldNameBgpRouteCidr, EventFieldNameBgpSuberrorCode, EventFieldNameBypassDurationSec, EventFieldNameBypassMethod, EventFieldNameBypassReason, EventFieldNameCategories, EventFieldNameCatoApp, EventFieldNameClassification, EventFieldNameClientCertExpires, EventFieldNameClientCertName, EventFieldNameClientClass, EventFieldNameClientVersion, EventFieldNameCollaboratorName, EventFieldNameCollaborators, EventFieldNameConfidenceLevel, EventFieldNameConfiguredHostName, EventFieldNameCongestionAlgorithm, EventFieldNameConnectOnBoot, EventFieldNameConnectionOrigin, EventFieldNameConnectorName, EventFieldNameConnectorStatus, EventFieldNameConnectorType, EventFieldNameContainerName, EventFieldNameCorrelationID, EventFieldNameCriticality, EventFieldNameCustomCategories, EventFieldNameCustomCategory, EventFieldNameCustomCategoryID, EventFieldNameCustomCategoryName, EventFieldNameDestCountry, EventFieldNameDestCountryCode, EventFieldNameDestGroupID, EventFieldNameDestGroupName, EventFieldNameDestIP, EventFieldNameDestIsSiteOrVpn, EventFieldNameDestPid, EventFieldNameDestPort, EventFieldNameDestProcessCmdline, EventFieldNameDestProcessParentPath, EventFieldNameDestProcessParentPid, EventFieldNameDestProcessPath, EventFieldNameDestSite, EventFieldNameDestSiteID, EventFieldNameDestSiteName, EventFieldNameDeviceCategories, EventFieldNameDeviceCertificate, EventFieldNameDeviceID, EventFieldNameDeviceManufacturer, EventFieldNameDeviceModel, EventFieldNameDeviceName, EventFieldNameDeviceOsType, EventFieldNameDevicePostureProfile, EventFieldNameDevicePostureProfiles, EventFieldNameDeviceType, EventFieldNameDirectoryHostName, EventFieldNameDirectoryIP, EventFieldNameDirectorySyncResult, EventFieldNameDirectorySyncType, EventFieldNameDisinfectResult, EventFieldNameDlpFailMode, EventFieldNameDlpProfiles, EventFieldNameDlpScanTypes, EventFieldNameDNSProtectionCategory, EventFieldNameDNSQuery, EventFieldNameDomainName, EventFieldNameEgressPopName, EventFieldNameEgressSiteName, EventFieldNameEmailSubject, EventFieldNameEndpointID, EventFieldNameEppEngineType, EventFieldNameEppProfile, EventFieldNameEventCount, EventFieldNameEventID, EventFieldNameEventMessage, EventFieldNameEventSubType, EventFieldNameEventType, EventFieldNameFailureReason, EventFieldNameFileHash, EventFieldNameFileName, EventFieldNameFileOperation, EventFieldNameFileSize, EventFieldNameFileType, EventFieldNameFinalObjectStatus, EventFieldNameFlowsCardinality, EventFieldNameFullPathURL, EventFieldNameHostIP, EventFieldNameHostMac, EventFieldNameHTTPRequestMethod, EventFieldNameIncidentAggregation, EventFieldNameIncidentID, EventFieldNameIndication, EventFieldNameIndicator, EventFieldNameInternalID, EventFieldNameIPProtocol, EventFieldNameIsAdmin, EventFieldNameIsAdminActivity, EventFieldNameIsCompliant, EventFieldNameIsManaged, EventFieldNameIsSanctionedApp, EventFieldNameIsSinkhole, EventFieldNameIspName, EventFieldNameKeyName, EventFieldNameLabels, EventFieldNameLinkHealthIsCongested, EventFieldNameLinkHealthJitter, EventFieldNameLinkHealthLatency, EventFieldNameLinkHealthPktLoss, EventFieldNameLinkType, EventFieldNameLoggedInUser, EventFieldNameLoginType, EventFieldNameMatchedDataTypes, EventFieldNameMitreAttackSubtechniques, EventFieldNameMitreAttackTactics, EventFieldNameMitreAttackTechniques, EventFieldNameNetworkAccess, EventFieldNameNetworkRule, EventFieldNameNotificationAPIError, EventFieldNameNotificationDescription, EventFieldNameObjectID, EventFieldNameObjectName, EventFieldNameObjectType, EventFieldNameOfficeMode, EventFieldNameOsType, EventFieldNameOsVersion, EventFieldNameOutOfBandAccess, EventFieldNameOwner, EventFieldNamePacFile, EventFieldNameParentConnectorName, EventFieldNameParentPid, EventFieldNamePid, EventFieldNamePopName, EventFieldNamePrecedence, EventFieldNameProcessPath, EventFieldNameProcessesCount, EventFieldNameProducer, EventFieldNamePromptAction, EventFieldNamePublicIP, EventFieldNameQosPriority, EventFieldNameQosReportedTime, EventFieldNameQuarantineFolderPath, EventFieldNameQuarantineUUID, EventFieldNameRawData, EventFieldNameRecommendedActions, EventFieldNameReferenceURL, EventFieldNameRegistrationCode, EventFieldNameRiskLevel, EventFieldNameRule, EventFieldNameRuleID, EventFieldNameRuleName, EventFieldNameSeverity, EventFieldNameSharingScope, EventFieldNameSignInEventTypes, EventFieldNameSignatureID, EventFieldNameSocketInterface, EventFieldNameSocketInterfaceID, EventFieldNameSocketNewVersion, EventFieldNameSocketOldVersion, EventFieldNameSocketReset, EventFieldNameSocketRole, EventFieldNameSocketVersion, EventFieldNameSplitTunnelConfiguration, EventFieldNameSrcCountry, EventFieldNameSrcCountryCode, EventFieldNameSrcIP, EventFieldNameSrcIsSiteOrVpn, EventFieldNameSrcIspIP, EventFieldNameSrcOrDestSiteID, EventFieldNameSrcPid, EventFieldNameSrcPort, EventFieldNameSrcProcessCmdline, EventFieldNameSrcProcessParentPath, EventFieldNameSrcProcessParentPid, EventFieldNameSrcProcessPath, EventFieldNameSrcSite, EventFieldNameSrcSiteID, EventFieldNameSrcSiteName, EventFieldNameStaticHost, EventFieldNameStatus, EventFieldNameStoryID, EventFieldNameSubnetName, EventFieldNameTargetsCardinality, EventFieldNameTCPAcceleration, EventFieldNameTenantID, EventFieldNameTenantName, EventFieldNameTenantRestrictionRuleName, EventFieldNameThreatName, EventFieldNameThreatReference, EventFieldNameThreatType, EventFieldNameThreatVerdict, EventFieldNameTime, EventFieldNameTitle, EventFieldNameTLSCertificateError, EventFieldNameTLSErrorDescription, EventFieldNameTLSErrorType, EventFieldNameTLSInspection, EventFieldNameTLSRuleName, EventFieldNameTLSVersion, EventFieldNameTrafficDirection, EventFieldNameTranslatedClientIP, EventFieldNameTranslatedServerIP, EventFieldNameTrigger, EventFieldNameTrustType, EventFieldNameTrustedNetworks, EventFieldNameTunnelIPProtocol, EventFieldNameTunnelProtocol, EventFieldNameUpgradeEndTime, EventFieldNameUpgradeInitiatedBy, EventFieldNameUpgradeStartTime, EventFieldNameURL, EventFieldNameUserAgent, EventFieldNameUserAwarenessMethod, EventFieldNameUserID, EventFieldNameUserName, EventFieldNameUserReferenceID, EventFieldNameVendor, EventFieldNameVendorCollaboratorID, EventFieldNameVendorDeviceID, EventFieldNameVendorDeviceName, EventFieldNameVendorEventID, EventFieldNameVendorUserID, EventFieldNameVisibleDeviceID, EventFieldNameVpnLanAccess, EventFieldNameVpnUserEmail, EventFieldNameWindowsDomainName, EventFieldNameXff:
+	case EventFieldNameAccessMethod, EventFieldNameAccountID, EventFieldNameAction, EventFieldNameActionsTaken, EventFieldNameAdName, EventFieldNameAlertID, EventFieldNameAlwaysOnConfiguration, EventFieldNameAnalystVerdict, EventFieldNameAPIName, EventFieldNameAPIType, EventFieldNameAppActivity, EventFieldNameAppActivityCategory, EventFieldNameAppActivityType, EventFieldNameAppStack, EventFieldNameApplication, EventFieldNameApplicationID, EventFieldNameApplicationName, EventFieldNameApplicationRisk, EventFieldNameAuthMethod, EventFieldNameAuthenticationType, EventFieldNameBgpCatoAsn, EventFieldNameBgpCatoIP, EventFieldNameBgpErrorCode, EventFieldNameBgpPeerAsn, EventFieldNameBgpPeerDescription, EventFieldNameBgpPeerIP, EventFieldNameBgpRouteCidr, EventFieldNameBgpSuberrorCode, EventFieldNameBypassDurationSec, EventFieldNameBypassMethod, EventFieldNameBypassReason, EventFieldNameCategories, EventFieldNameCatoApp, EventFieldNameClassification, EventFieldNameClientCertExpires, EventFieldNameClientCertName, EventFieldNameClientClass, EventFieldNameClientVersion, EventFieldNameCollaboratorName, EventFieldNameCollaborators, EventFieldNameConfidenceLevel, EventFieldNameConfiguredHostName, EventFieldNameCongestionAlgorithm, EventFieldNameConnectOnBoot, EventFieldNameConnectionOrigin, EventFieldNameConnectorName, EventFieldNameConnectorStatus, EventFieldNameConnectorType, EventFieldNameContainerName, EventFieldNameCorrelationID, EventFieldNameCriticality, EventFieldNameCustomCategories, EventFieldNameCustomCategory, EventFieldNameCustomCategoryID, EventFieldNameCustomCategoryName, EventFieldNameDestCountry, EventFieldNameDestCountryCode, EventFieldNameDestGroupID, EventFieldNameDestGroupName, EventFieldNameDestIP, EventFieldNameDestIsSiteOrVpn, EventFieldNameDestPid, EventFieldNameDestPort, EventFieldNameDestProcessCmdline, EventFieldNameDestProcessParentPath, EventFieldNameDestProcessParentPid, EventFieldNameDestProcessPath, EventFieldNameDestSite, EventFieldNameDestSiteID, EventFieldNameDestSiteName, EventFieldNameDetectionName, EventFieldNameDetectionStage, EventFieldNameDeviceCategories, EventFieldNameDeviceCertificate, EventFieldNameDeviceID, EventFieldNameDeviceManufacturer, EventFieldNameDeviceModel, EventFieldNameDeviceName, EventFieldNameDeviceOsType, EventFieldNameDevicePostureProfile, EventFieldNameDevicePostureProfiles, EventFieldNameDeviceType, EventFieldNameDirectoryHostName, EventFieldNameDirectoryIP, EventFieldNameDirectorySyncResult, EventFieldNameDirectorySyncType, EventFieldNameDisinfectResult, EventFieldNameDlpFailMode, EventFieldNameDlpProfiles, EventFieldNameDlpScanTypes, EventFieldNameDNSProtectionCategory, EventFieldNameDNSQuery, EventFieldNameDomainName, EventFieldNameEgressPopName, EventFieldNameEgressSiteName, EventFieldNameEmailSubject, EventFieldNameEndpointID, EventFieldNameEppEngineType, EventFieldNameEppProfile, EventFieldNameEventCount, EventFieldNameEventID, EventFieldNameEventMessage, EventFieldNameEventSubType, EventFieldNameEventType, EventFieldNameFailureReason, EventFieldNameFileHash, EventFieldNameFileName, EventFieldNameFileOperation, EventFieldNameFileSize, EventFieldNameFileType, EventFieldNameFinalObjectStatus, EventFieldNameFlowsCardinality, EventFieldNameFullPathURL, EventFieldNameGuestUser, EventFieldNameHostIP, EventFieldNameHostMac, EventFieldNameHTTPRequestMethod, EventFieldNameIncidentAggregation, EventFieldNameIncidentID, EventFieldNameIndication, EventFieldNameIndicator, EventFieldNameInitialObjectStatus, EventFieldNameInternalID, EventFieldNameIPProtocol, EventFieldNameIsAdmin, EventFieldNameIsAdminActivity, EventFieldNameIsCompliant, EventFieldNameIsManaged, EventFieldNameIsSanctionedApp, EventFieldNameIsSinkhole, EventFieldNameIspName, EventFieldNameKeyName, EventFieldNameLabels, EventFieldNameLinkHealthIsCongested, EventFieldNameLinkHealthJitter, EventFieldNameLinkHealthLatency, EventFieldNameLinkHealthPktLoss, EventFieldNameLinkType, EventFieldNameLoggedInUser, EventFieldNameLoginType, EventFieldNameMatchedDataTypes, EventFieldNameMitreAttackSubtechniques, EventFieldNameMitreAttackTactics, EventFieldNameMitreAttackTechniques, EventFieldNameNetworkAccess, EventFieldNameNetworkRule, EventFieldNameNotificationAPIError, EventFieldNameNotificationDescription, EventFieldNameObjectID, EventFieldNameObjectName, EventFieldNameObjectType, EventFieldNameOfficeMode, EventFieldNameOsType, EventFieldNameOsVersion, EventFieldNameOutOfBandAccess, EventFieldNameOwner, EventFieldNamePacFile, EventFieldNameParentConnectorName, EventFieldNameParentPid, EventFieldNamePid, EventFieldNamePopName, EventFieldNamePrecedence, EventFieldNameProcessPath, EventFieldNameProcessesCount, EventFieldNameProducer, EventFieldNamePromptAction, EventFieldNamePublicIP, EventFieldNameQosPriority, EventFieldNameQosReportedTime, EventFieldNameQuarantineFolderPath, EventFieldNameQuarantineUUID, EventFieldNameRawData, EventFieldNameRecommendedActions, EventFieldNameReferenceURL, EventFieldNameRegistrationCode, EventFieldNameRiskLevel, EventFieldNameRule, EventFieldNameRuleID, EventFieldNameRuleName, EventFieldNameSeverity, EventFieldNameSharingScope, EventFieldNameSignInEventTypes, EventFieldNameSignatureID, EventFieldNameSocketInterface, EventFieldNameSocketInterfaceID, EventFieldNameSocketNewVersion, EventFieldNameSocketOldVersion, EventFieldNameSocketReset, EventFieldNameSocketRole, EventFieldNameSocketSerial, EventFieldNameSocketVersion, EventFieldNameSplitTunnelConfiguration, EventFieldNameSrcCountry, EventFieldNameSrcCountryCode, EventFieldNameSrcIP, EventFieldNameSrcIsSiteOrVpn, EventFieldNameSrcIspIP, EventFieldNameSrcOrDestSiteID, EventFieldNameSrcPid, EventFieldNameSrcPort, EventFieldNameSrcProcessCmdline, EventFieldNameSrcProcessParentPath, EventFieldNameSrcProcessParentPid, EventFieldNameSrcProcessPath, EventFieldNameSrcSite, EventFieldNameSrcSiteID, EventFieldNameSrcSiteName, EventFieldNameStaticHost, EventFieldNameStatus, EventFieldNameStoryID, EventFieldNameSubnetName, EventFieldNameTargetsCardinality, EventFieldNameTCPAcceleration, EventFieldNameTenantID, EventFieldNameTenantName, EventFieldNameTenantRestrictionRuleName, EventFieldNameThreatConfidence, EventFieldNameThreatName, EventFieldNameThreatReference, EventFieldNameThreatScore, EventFieldNameThreatType, EventFieldNameThreatVerdict, EventFieldNameTime, EventFieldNameTimeStr, EventFieldNameTitle, EventFieldNameTLSCertificateError, EventFieldNameTLSErrorDescription, EventFieldNameTLSErrorType, EventFieldNameTLSInspection, EventFieldNameTLSRuleName, EventFieldNameTLSVersion, EventFieldNameTrafficDirection, EventFieldNameTranslatedClientIP, EventFieldNameTranslatedServerIP, EventFieldNameTrigger, EventFieldNameTrustType, EventFieldNameTrustedNetworks, EventFieldNameTunnelIPProtocol, EventFieldNameTunnelProtocol, EventFieldNameUpgradeEndTime, EventFieldNameUpgradeInitiatedBy, EventFieldNameUpgradeStartTime, EventFieldNameURL, EventFieldNameUserAgent, EventFieldNameUserAwarenessMethod, EventFieldNameUserID, EventFieldNameUserName, EventFieldNameUserReferenceID, EventFieldNameUserRiskLevel, EventFieldNameVendor, EventFieldNameVendorCollaboratorID, EventFieldNameVendorDeviceID, EventFieldNameVendorDeviceName, EventFieldNameVendorEventID, EventFieldNameVendorUserID, EventFieldNameVisibleDeviceID, EventFieldNameVpnLanAccess, EventFieldNameVpnUserEmail, EventFieldNameWindowsDomainName, EventFieldNameXff:
 		return true
 	}
 	return false
@@ -14746,6 +16510,56 @@ func (e PolicySectionPositionEnum) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
+// Enum for the position of a rule within a policy
+type PolicySubRulePositionEnum string
+
+const (
+	// The rule position is after the pre-existing specified rule
+	PolicySubRulePositionEnumAfterSubRule PolicySubRulePositionEnum = "AFTER_SUB_RULE"
+	// The rule position is before the pre-existing specified rule
+	PolicySubRulePositionEnumBeforeSubRule PolicySubRulePositionEnum = "BEFORE_SUB_RULE"
+	// The rule position is first in the specified rule
+	PolicySubRulePositionEnumFirstInRule PolicySubRulePositionEnum = "FIRST_IN_RULE"
+	// The rule position is last in the specified rule
+	PolicySubRulePositionEnumLastInRule PolicySubRulePositionEnum = "LAST_IN_RULE"
+)
+
+var AllPolicySubRulePositionEnum = []PolicySubRulePositionEnum{
+	PolicySubRulePositionEnumAfterSubRule,
+	PolicySubRulePositionEnumBeforeSubRule,
+	PolicySubRulePositionEnumFirstInRule,
+	PolicySubRulePositionEnumLastInRule,
+}
+
+func (e PolicySubRulePositionEnum) IsValid() bool {
+	switch e {
+	case PolicySubRulePositionEnumAfterSubRule, PolicySubRulePositionEnumBeforeSubRule, PolicySubRulePositionEnumFirstInRule, PolicySubRulePositionEnumLastInRule:
+		return true
+	}
+	return false
+}
+
+func (e PolicySubRulePositionEnum) String() string {
+	return string(e)
+}
+
+func (e *PolicySubRulePositionEnum) UnmarshalGQL(v any) error {
+	str, ok := v.(string)
+	if !ok {
+		return fmt.Errorf("enums must be strings")
+	}
+
+	*e = PolicySubRulePositionEnum(str)
+	if !e.IsValid() {
+		return fmt.Errorf("%s is not a valid PolicySubRulePositionEnum", str)
+	}
+	return nil
+}
+
+func (e PolicySubRulePositionEnum) MarshalGQL(w io.Writer) {
+	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
 // Enum for the state of a policy
 type PolicyToggleState string
 
@@ -15400,6 +17214,51 @@ func (e SeverityEnum) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
+type ShippingStatus string
+
+const (
+	ShippingStatusConfirmShipping ShippingStatus = "CONFIRM_SHIPPING"
+	ShippingStatusDelivered       ShippingStatus = "DELIVERED"
+	ShippingStatusInTransit       ShippingStatus = "IN_TRANSIT"
+	ShippingStatusPendingInfo     ShippingStatus = "PENDING_INFO"
+)
+
+var AllShippingStatus = []ShippingStatus{
+	ShippingStatusConfirmShipping,
+	ShippingStatusDelivered,
+	ShippingStatusInTransit,
+	ShippingStatusPendingInfo,
+}
+
+func (e ShippingStatus) IsValid() bool {
+	switch e {
+	case ShippingStatusConfirmShipping, ShippingStatusDelivered, ShippingStatusInTransit, ShippingStatusPendingInfo:
+		return true
+	}
+	return false
+}
+
+func (e ShippingStatus) String() string {
+	return string(e)
+}
+
+func (e *ShippingStatus) UnmarshalGQL(v any) error {
+	str, ok := v.(string)
+	if !ok {
+		return fmt.Errorf("enums must be strings")
+	}
+
+	*e = ShippingStatus(str)
+	if !e.IsValid() {
+		return fmt.Errorf("%s is not a valid ShippingStatus", str)
+	}
+	return nil
+}
+
+func (e ShippingStatus) MarshalGQL(w io.Writer) {
+	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
 type SimpleServiceType string
 
 const (
@@ -16025,6 +17884,90 @@ func (e *SocketLanDirection) UnmarshalGQL(v any) error {
 }
 
 func (e SocketLanDirection) MarshalGQL(w io.Writer) {
+	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+type SocketLanFirewallAction string
+
+const (
+	SocketLanFirewallActionAllow SocketLanFirewallAction = "ALLOW"
+	SocketLanFirewallActionBlock SocketLanFirewallAction = "BLOCK"
+)
+
+var AllSocketLanFirewallAction = []SocketLanFirewallAction{
+	SocketLanFirewallActionAllow,
+	SocketLanFirewallActionBlock,
+}
+
+func (e SocketLanFirewallAction) IsValid() bool {
+	switch e {
+	case SocketLanFirewallActionAllow, SocketLanFirewallActionBlock:
+		return true
+	}
+	return false
+}
+
+func (e SocketLanFirewallAction) String() string {
+	return string(e)
+}
+
+func (e *SocketLanFirewallAction) UnmarshalGQL(v any) error {
+	str, ok := v.(string)
+	if !ok {
+		return fmt.Errorf("enums must be strings")
+	}
+
+	*e = SocketLanFirewallAction(str)
+	if !e.IsValid() {
+		return fmt.Errorf("%s is not a valid SocketLanFirewallAction", str)
+	}
+	return nil
+}
+
+func (e SocketLanFirewallAction) MarshalGQL(w io.Writer) {
+	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+type SocketLanFirewallDirection string
+
+const (
+	// Specifies two-way direction.
+	SocketLanFirewallDirectionBoth SocketLanFirewallDirection = "BOTH"
+	// Specifies one-way direction.
+	SocketLanFirewallDirectionTo SocketLanFirewallDirection = "TO"
+)
+
+var AllSocketLanFirewallDirection = []SocketLanFirewallDirection{
+	SocketLanFirewallDirectionBoth,
+	SocketLanFirewallDirectionTo,
+}
+
+func (e SocketLanFirewallDirection) IsValid() bool {
+	switch e {
+	case SocketLanFirewallDirectionBoth, SocketLanFirewallDirectionTo:
+		return true
+	}
+	return false
+}
+
+func (e SocketLanFirewallDirection) String() string {
+	return string(e)
+}
+
+func (e *SocketLanFirewallDirection) UnmarshalGQL(v any) error {
+	str, ok := v.(string)
+	if !ok {
+		return fmt.Errorf("enums must be strings")
+	}
+
+	*e = SocketLanFirewallDirection(str)
+	if !e.IsValid() {
+		return fmt.Errorf("%s is not a valid SocketLanFirewallDirection", str)
+	}
+	return nil
+}
+
+func (e SocketLanFirewallDirection) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 

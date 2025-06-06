@@ -1,0 +1,187 @@
+mutation policySocketLanPublishPolicyRevision ( $socketLanPolicyMutationInput:SocketLanPolicyMutationInput $policyPublishRevisionInput:PolicyPublishRevisionInput $accountId:ID! ) {
+	policy ( accountId:$accountId  ) {
+		socketLan ( input:$socketLanPolicyMutationInput  )  {
+			publishPolicyRevision ( input:$policyPublishRevisionInput   ) {
+				policy  {
+					enabled
+					rules {
+						audit  {
+							updatedTime
+							updatedBy
+						}
+
+						rule  {
+							id
+							name
+							description
+							index
+							section {
+								id 
+								name 
+							}
+							enabled
+							site {
+								site  {
+									id
+									name
+								}
+
+								group  {
+									id
+									name
+								}
+
+							}
+							source {
+								vlan 
+								ipRange  {
+									from
+									to
+								}
+
+								group  {
+									id
+									name
+								}
+
+								subnet 
+								networkInterface  {
+									id
+									name
+								}
+
+								systemGroup  {
+									id
+									name
+								}
+
+								host  {
+									id
+									name
+								}
+
+								ip 
+								globalIpRange  {
+									id
+									name
+								}
+
+								floatingSubnet  {
+									id
+									name
+								}
+
+								siteNetworkSubnet  {
+									id
+									name
+								}
+
+							}
+							destination {
+								vlan 
+								ipRange  {
+									from
+									to
+								}
+
+								subnet 
+								networkInterface  {
+									id
+									name
+								}
+
+								systemGroup  {
+									id
+									name
+								}
+
+								host  {
+									id
+									name
+								}
+
+								ip 
+								globalIpRange  {
+									id
+									name
+								}
+
+								group  {
+									id
+									name
+								}
+
+								floatingSubnet  {
+									id
+									name
+								}
+
+								siteNetworkSubnet  {
+									id
+									name
+								}
+
+							}
+							direction
+							service {
+								simple  {
+									name
+								}
+
+								custom  {
+									port
+									portRangeCustomService: portRange {
+										from 
+										to 
+									}
+									protocol
+								}
+
+							}
+							nat {
+								enabled 
+								natType 
+							}
+							transport
+						}
+
+						properties 
+					}
+					sections {
+						audit  {
+							updatedTime
+							updatedBy
+						}
+
+						section  {
+							id
+							name
+						}
+
+						properties 
+					}
+					auditSocketLanPolicy: audit {
+						publishedTime 
+						publishedBy 
+					}
+					revisionSocketLanPolicy: revision {
+						id 
+						name 
+						description 
+						changes 
+						createdTime 
+						updatedTime 
+					}
+				}
+
+				status 
+				errors  {
+					errorMessage
+					errorCode
+				}
+
+			}
+		}
+
+	}	
+}
