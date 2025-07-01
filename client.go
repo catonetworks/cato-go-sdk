@@ -1963,11 +1963,14 @@ func (t *AccountSnapshot_AccountSnapshot_Sites_Devices_Interfaces_TunnelRemoteIP
 }
 
 type AccountSnapshot_AccountSnapshot_Sites_Devices_Interfaces_InfoInterfaceSnapshot struct {
-	DestType            *string "json:\"destType,omitempty\" graphql:\"destType\""
-	DownstreamBandwidth *int64  "json:\"downstreamBandwidth,omitempty\" graphql:\"downstreamBandwidth\""
-	ID                  string  "json:\"id\" graphql:\"id\""
-	Name                *string "json:\"name,omitempty\" graphql:\"name\""
-	UpstreamBandwidth   *int64  "json:\"upstreamBandwidth,omitempty\" graphql:\"upstreamBandwidth\""
+	DestType                         *string                             "json:\"destType,omitempty\" graphql:\"destType\""
+	DownstreamBandwidth              *int64                              "json:\"downstreamBandwidth,omitempty\" graphql:\"downstreamBandwidth\""
+	DownstreamBandwidthMbpsPrecision *float64                            "json:\"downstreamBandwidthMbpsPrecision,omitempty\" graphql:\"downstreamBandwidthMbpsPrecision\""
+	ID                               string                              "json:\"id\" graphql:\"id\""
+	Name                             *string                             "json:\"name,omitempty\" graphql:\"name\""
+	UpstreamBandwidth                *int64                              "json:\"upstreamBandwidth,omitempty\" graphql:\"upstreamBandwidth\""
+	UpstreamBandwidthMbpsPrecision   *float64                            "json:\"upstreamBandwidthMbpsPrecision,omitempty\" graphql:\"upstreamBandwidthMbpsPrecision\""
+	WanRole                          *cato_models.SocketInterfaceWanRole "json:\"wanRole,omitempty\" graphql:\"wanRole\""
 }
 
 func (t *AccountSnapshot_AccountSnapshot_Sites_Devices_Interfaces_InfoInterfaceSnapshot) GetDestType() *string {
@@ -1981,6 +1984,12 @@ func (t *AccountSnapshot_AccountSnapshot_Sites_Devices_Interfaces_InfoInterfaceS
 		t = &AccountSnapshot_AccountSnapshot_Sites_Devices_Interfaces_InfoInterfaceSnapshot{}
 	}
 	return t.DownstreamBandwidth
+}
+func (t *AccountSnapshot_AccountSnapshot_Sites_Devices_Interfaces_InfoInterfaceSnapshot) GetDownstreamBandwidthMbpsPrecision() *float64 {
+	if t == nil {
+		t = &AccountSnapshot_AccountSnapshot_Sites_Devices_Interfaces_InfoInterfaceSnapshot{}
+	}
+	return t.DownstreamBandwidthMbpsPrecision
 }
 func (t *AccountSnapshot_AccountSnapshot_Sites_Devices_Interfaces_InfoInterfaceSnapshot) GetID() string {
 	if t == nil {
@@ -1999,6 +2008,18 @@ func (t *AccountSnapshot_AccountSnapshot_Sites_Devices_Interfaces_InfoInterfaceS
 		t = &AccountSnapshot_AccountSnapshot_Sites_Devices_Interfaces_InfoInterfaceSnapshot{}
 	}
 	return t.UpstreamBandwidth
+}
+func (t *AccountSnapshot_AccountSnapshot_Sites_Devices_Interfaces_InfoInterfaceSnapshot) GetUpstreamBandwidthMbpsPrecision() *float64 {
+	if t == nil {
+		t = &AccountSnapshot_AccountSnapshot_Sites_Devices_Interfaces_InfoInterfaceSnapshot{}
+	}
+	return t.UpstreamBandwidthMbpsPrecision
+}
+func (t *AccountSnapshot_AccountSnapshot_Sites_Devices_Interfaces_InfoInterfaceSnapshot) GetWanRole() *cato_models.SocketInterfaceWanRole {
+	if t == nil {
+		t = &AccountSnapshot_AccountSnapshot_Sites_Devices_Interfaces_InfoInterfaceSnapshot{}
+	}
+	return t.WanRole
 }
 
 type AccountSnapshot_AccountSnapshot_Sites_Devices_Interfaces_CellularInterfaceInfoInterfaceSnapshot struct {
@@ -2386,11 +2407,14 @@ func (t *AccountSnapshot_AccountSnapshot_Sites_Devices_SocketInfo) GetVersionUpd
 }
 
 type AccountSnapshot_AccountSnapshot_Sites_Devices_InterfacesLinkState struct {
-	Duplex    *string "json:\"duplex,omitempty\" graphql:\"duplex\""
-	ID        *string "json:\"id,omitempty\" graphql:\"id\""
-	LinkSpeed *string "json:\"linkSpeed,omitempty\" graphql:\"linkSpeed\""
-	MediaIn   *bool   "json:\"mediaIn,omitempty\" graphql:\"mediaIn\""
-	Up        *bool   "json:\"up,omitempty\" graphql:\"up\""
+	Duplex      *string "json:\"duplex,omitempty\" graphql:\"duplex\""
+	HasAddress  *bool   "json:\"hasAddress,omitempty\" graphql:\"hasAddress\""
+	HasInternet *bool   "json:\"hasInternet,omitempty\" graphql:\"hasInternet\""
+	HasTunnel   *bool   "json:\"hasTunnel,omitempty\" graphql:\"hasTunnel\""
+	ID          *string "json:\"id,omitempty\" graphql:\"id\""
+	LinkSpeed   *string "json:\"linkSpeed,omitempty\" graphql:\"linkSpeed\""
+	MediaIn     *bool   "json:\"mediaIn,omitempty\" graphql:\"mediaIn\""
+	Up          *bool   "json:\"up,omitempty\" graphql:\"up\""
 }
 
 func (t *AccountSnapshot_AccountSnapshot_Sites_Devices_InterfacesLinkState) GetDuplex() *string {
@@ -2398,6 +2422,24 @@ func (t *AccountSnapshot_AccountSnapshot_Sites_Devices_InterfacesLinkState) GetD
 		t = &AccountSnapshot_AccountSnapshot_Sites_Devices_InterfacesLinkState{}
 	}
 	return t.Duplex
+}
+func (t *AccountSnapshot_AccountSnapshot_Sites_Devices_InterfacesLinkState) GetHasAddress() *bool {
+	if t == nil {
+		t = &AccountSnapshot_AccountSnapshot_Sites_Devices_InterfacesLinkState{}
+	}
+	return t.HasAddress
+}
+func (t *AccountSnapshot_AccountSnapshot_Sites_Devices_InterfacesLinkState) GetHasInternet() *bool {
+	if t == nil {
+		t = &AccountSnapshot_AccountSnapshot_Sites_Devices_InterfacesLinkState{}
+	}
+	return t.HasInternet
+}
+func (t *AccountSnapshot_AccountSnapshot_Sites_Devices_InterfacesLinkState) GetHasTunnel() *bool {
+	if t == nil {
+		t = &AccountSnapshot_AccountSnapshot_Sites_Devices_InterfacesLinkState{}
+	}
+	return t.HasTunnel
 }
 func (t *AccountSnapshot_AccountSnapshot_Sites_Devices_InterfacesLinkState) GetID() *string {
 	if t == nil {
@@ -2427,6 +2469,7 @@ func (t *AccountSnapshot_AccountSnapshot_Sites_Devices_InterfacesLinkState) GetU
 type AccountSnapshot_AccountSnapshot_Sites_Devices struct {
 	Connected           *bool                                                                "json:\"connected,omitempty\" graphql:\"connected\""
 	ConnectedSince      *string                                                              "json:\"connectedSince,omitempty\" graphql:\"connectedSince\""
+	DeviceUptime        *int64                                                               "json:\"deviceUptime,omitempty\" graphql:\"deviceUptime\""
 	HaRole              *string                                                              "json:\"haRole,omitempty\" graphql:\"haRole\""
 	ID                  *string                                                              "json:\"id,omitempty\" graphql:\"id\""
 	Identifier          *string                                                              "json:\"identifier,omitempty\" graphql:\"identifier\""
@@ -2461,6 +2504,12 @@ func (t *AccountSnapshot_AccountSnapshot_Sites_Devices) GetConnectedSince() *str
 		t = &AccountSnapshot_AccountSnapshot_Sites_Devices{}
 	}
 	return t.ConnectedSince
+}
+func (t *AccountSnapshot_AccountSnapshot_Sites_Devices) GetDeviceUptime() *int64 {
+	if t == nil {
+		t = &AccountSnapshot_AccountSnapshot_Sites_Devices{}
+	}
+	return t.DeviceUptime
 }
 func (t *AccountSnapshot_AccountSnapshot_Sites_Devices) GetHaRole() *string {
 	if t == nil {
@@ -2590,11 +2639,14 @@ func (t *AccountSnapshot_AccountSnapshot_Sites_Devices) GetVersionNumber() *int6
 }
 
 type AccountSnapshot_AccountSnapshot_Sites_InfoSiteSnapshot_Interfaces struct {
-	DestType            *string "json:\"destType,omitempty\" graphql:\"destType\""
-	DownstreamBandwidth *int64  "json:\"downstreamBandwidth,omitempty\" graphql:\"downstreamBandwidth\""
-	ID                  string  "json:\"id\" graphql:\"id\""
-	Name                *string "json:\"name,omitempty\" graphql:\"name\""
-	UpstreamBandwidth   *int64  "json:\"upstreamBandwidth,omitempty\" graphql:\"upstreamBandwidth\""
+	DestType                         *string                             "json:\"destType,omitempty\" graphql:\"destType\""
+	DownstreamBandwidth              *int64                              "json:\"downstreamBandwidth,omitempty\" graphql:\"downstreamBandwidth\""
+	DownstreamBandwidthMbpsPrecision *float64                            "json:\"downstreamBandwidthMbpsPrecision,omitempty\" graphql:\"downstreamBandwidthMbpsPrecision\""
+	ID                               string                              "json:\"id\" graphql:\"id\""
+	Name                             *string                             "json:\"name,omitempty\" graphql:\"name\""
+	UpstreamBandwidth                *int64                              "json:\"upstreamBandwidth,omitempty\" graphql:\"upstreamBandwidth\""
+	UpstreamBandwidthMbpsPrecision   *float64                            "json:\"upstreamBandwidthMbpsPrecision,omitempty\" graphql:\"upstreamBandwidthMbpsPrecision\""
+	WanRoleInterfaceInfo             *cato_models.SocketInterfaceWanRole "json:\"wanRoleInterfaceInfo,omitempty\" graphql:\"wanRoleInterfaceInfo\""
 }
 
 func (t *AccountSnapshot_AccountSnapshot_Sites_InfoSiteSnapshot_Interfaces) GetDestType() *string {
@@ -2608,6 +2660,12 @@ func (t *AccountSnapshot_AccountSnapshot_Sites_InfoSiteSnapshot_Interfaces) GetD
 		t = &AccountSnapshot_AccountSnapshot_Sites_InfoSiteSnapshot_Interfaces{}
 	}
 	return t.DownstreamBandwidth
+}
+func (t *AccountSnapshot_AccountSnapshot_Sites_InfoSiteSnapshot_Interfaces) GetDownstreamBandwidthMbpsPrecision() *float64 {
+	if t == nil {
+		t = &AccountSnapshot_AccountSnapshot_Sites_InfoSiteSnapshot_Interfaces{}
+	}
+	return t.DownstreamBandwidthMbpsPrecision
 }
 func (t *AccountSnapshot_AccountSnapshot_Sites_InfoSiteSnapshot_Interfaces) GetID() string {
 	if t == nil {
@@ -2626,6 +2684,18 @@ func (t *AccountSnapshot_AccountSnapshot_Sites_InfoSiteSnapshot_Interfaces) GetU
 		t = &AccountSnapshot_AccountSnapshot_Sites_InfoSiteSnapshot_Interfaces{}
 	}
 	return t.UpstreamBandwidth
+}
+func (t *AccountSnapshot_AccountSnapshot_Sites_InfoSiteSnapshot_Interfaces) GetUpstreamBandwidthMbpsPrecision() *float64 {
+	if t == nil {
+		t = &AccountSnapshot_AccountSnapshot_Sites_InfoSiteSnapshot_Interfaces{}
+	}
+	return t.UpstreamBandwidthMbpsPrecision
+}
+func (t *AccountSnapshot_AccountSnapshot_Sites_InfoSiteSnapshot_Interfaces) GetWanRoleInterfaceInfo() *cato_models.SocketInterfaceWanRole {
+	if t == nil {
+		t = &AccountSnapshot_AccountSnapshot_Sites_InfoSiteSnapshot_Interfaces{}
+	}
+	return t.WanRoleInterfaceInfo
 }
 
 type AccountSnapshot_AccountSnapshot_Sites_InfoSiteSnapshot_Sockets struct {
@@ -2707,20 +2777,35 @@ func (t *AccountSnapshot_AccountSnapshot_Sites_InfoSiteSnapshot_Ipsec) GetRemote
 }
 
 type AccountSnapshot_AccountSnapshot_Sites_InfoSiteSnapshot struct {
-	ConnType     *cato_models.ProtoType                                               "json:\"connType,omitempty\" graphql:\"connType\""
-	CountryCode  *string                                                              "json:\"countryCode,omitempty\" graphql:\"countryCode\""
-	CountryName  *string                                                              "json:\"countryName,omitempty\" graphql:\"countryName\""
-	CreationTime *string                                                              "json:\"creationTime,omitempty\" graphql:\"creationTime\""
-	Description  *string                                                              "json:\"description,omitempty\" graphql:\"description\""
-	Interfaces   []*AccountSnapshot_AccountSnapshot_Sites_InfoSiteSnapshot_Interfaces "json:\"interfaces,omitempty\" graphql:\"interfaces\""
-	Ipsec        []*AccountSnapshot_AccountSnapshot_Sites_InfoSiteSnapshot_Ipsec      "json:\"ipsec,omitempty\" graphql:\"ipsec\""
-	IsHa         *bool                                                                "json:\"isHA,omitempty\" graphql:\"isHA\""
-	Name         *string                                                              "json:\"name,omitempty\" graphql:\"name\""
-	Region       *string                                                              "json:\"region,omitempty\" graphql:\"region\""
-	Sockets      []*AccountSnapshot_AccountSnapshot_Sites_InfoSiteSnapshot_Sockets    "json:\"sockets,omitempty\" graphql:\"sockets\""
-	Type         *cato_models.SiteType                                                "json:\"type,omitempty\" graphql:\"type\""
+	Address          *string                                                              "json:\"address,omitempty\" graphql:\"address\""
+	CityName         *string                                                              "json:\"cityName,omitempty\" graphql:\"cityName\""
+	ConnType         *cato_models.ProtoType                                               "json:\"connType,omitempty\" graphql:\"connType\""
+	CountryCode      *string                                                              "json:\"countryCode,omitempty\" graphql:\"countryCode\""
+	CountryName      *string                                                              "json:\"countryName,omitempty\" graphql:\"countryName\""
+	CountryStateName *string                                                              "json:\"countryStateName,omitempty\" graphql:\"countryStateName\""
+	CreationTime     *string                                                              "json:\"creationTime,omitempty\" graphql:\"creationTime\""
+	Description      *string                                                              "json:\"description,omitempty\" graphql:\"description\""
+	Interfaces       []*AccountSnapshot_AccountSnapshot_Sites_InfoSiteSnapshot_Interfaces "json:\"interfaces,omitempty\" graphql:\"interfaces\""
+	Ipsec            []*AccountSnapshot_AccountSnapshot_Sites_InfoSiteSnapshot_Ipsec      "json:\"ipsec,omitempty\" graphql:\"ipsec\""
+	IsHa             *bool                                                                "json:\"isHA,omitempty\" graphql:\"isHA\""
+	Name             *string                                                              "json:\"name,omitempty\" graphql:\"name\""
+	Region           *string                                                              "json:\"region,omitempty\" graphql:\"region\""
+	Sockets          []*AccountSnapshot_AccountSnapshot_Sites_InfoSiteSnapshot_Sockets    "json:\"sockets,omitempty\" graphql:\"sockets\""
+	Type             *cato_models.SiteType                                                "json:\"type,omitempty\" graphql:\"type\""
 }
 
+func (t *AccountSnapshot_AccountSnapshot_Sites_InfoSiteSnapshot) GetAddress() *string {
+	if t == nil {
+		t = &AccountSnapshot_AccountSnapshot_Sites_InfoSiteSnapshot{}
+	}
+	return t.Address
+}
+func (t *AccountSnapshot_AccountSnapshot_Sites_InfoSiteSnapshot) GetCityName() *string {
+	if t == nil {
+		t = &AccountSnapshot_AccountSnapshot_Sites_InfoSiteSnapshot{}
+	}
+	return t.CityName
+}
 func (t *AccountSnapshot_AccountSnapshot_Sites_InfoSiteSnapshot) GetConnType() *cato_models.ProtoType {
 	if t == nil {
 		t = &AccountSnapshot_AccountSnapshot_Sites_InfoSiteSnapshot{}
@@ -2738,6 +2823,12 @@ func (t *AccountSnapshot_AccountSnapshot_Sites_InfoSiteSnapshot) GetCountryName(
 		t = &AccountSnapshot_AccountSnapshot_Sites_InfoSiteSnapshot{}
 	}
 	return t.CountryName
+}
+func (t *AccountSnapshot_AccountSnapshot_Sites_InfoSiteSnapshot) GetCountryStateName() *string {
+	if t == nil {
+		t = &AccountSnapshot_AccountSnapshot_Sites_InfoSiteSnapshot{}
+	}
+	return t.CountryStateName
 }
 func (t *AccountSnapshot_AccountSnapshot_Sites_InfoSiteSnapshot) GetCreationTime() *string {
 	if t == nil {
@@ -3003,11 +3094,14 @@ func (t *AccountSnapshot_AccountSnapshot_Users_Devices_Interfaces_TunnelRemoteIP
 }
 
 type AccountSnapshot_AccountSnapshot_Users_Devices_Interfaces_InfoInterfaceSnapshot struct {
-	DestType            *string "json:\"destType,omitempty\" graphql:\"destType\""
-	DownstreamBandwidth *int64  "json:\"downstreamBandwidth,omitempty\" graphql:\"downstreamBandwidth\""
-	ID                  string  "json:\"id\" graphql:\"id\""
-	Name                *string "json:\"name,omitempty\" graphql:\"name\""
-	UpstreamBandwidth   *int64  "json:\"upstreamBandwidth,omitempty\" graphql:\"upstreamBandwidth\""
+	DestType                         *string                             "json:\"destType,omitempty\" graphql:\"destType\""
+	DownstreamBandwidth              *int64                              "json:\"downstreamBandwidth,omitempty\" graphql:\"downstreamBandwidth\""
+	DownstreamBandwidthMbpsPrecision *float64                            "json:\"downstreamBandwidthMbpsPrecision,omitempty\" graphql:\"downstreamBandwidthMbpsPrecision\""
+	ID                               string                              "json:\"id\" graphql:\"id\""
+	Name                             *string                             "json:\"name,omitempty\" graphql:\"name\""
+	UpstreamBandwidth                *int64                              "json:\"upstreamBandwidth,omitempty\" graphql:\"upstreamBandwidth\""
+	UpstreamBandwidthMbpsPrecision   *float64                            "json:\"upstreamBandwidthMbpsPrecision,omitempty\" graphql:\"upstreamBandwidthMbpsPrecision\""
+	WanRole                          *cato_models.SocketInterfaceWanRole "json:\"wanRole,omitempty\" graphql:\"wanRole\""
 }
 
 func (t *AccountSnapshot_AccountSnapshot_Users_Devices_Interfaces_InfoInterfaceSnapshot) GetDestType() *string {
@@ -3021,6 +3115,12 @@ func (t *AccountSnapshot_AccountSnapshot_Users_Devices_Interfaces_InfoInterfaceS
 		t = &AccountSnapshot_AccountSnapshot_Users_Devices_Interfaces_InfoInterfaceSnapshot{}
 	}
 	return t.DownstreamBandwidth
+}
+func (t *AccountSnapshot_AccountSnapshot_Users_Devices_Interfaces_InfoInterfaceSnapshot) GetDownstreamBandwidthMbpsPrecision() *float64 {
+	if t == nil {
+		t = &AccountSnapshot_AccountSnapshot_Users_Devices_Interfaces_InfoInterfaceSnapshot{}
+	}
+	return t.DownstreamBandwidthMbpsPrecision
 }
 func (t *AccountSnapshot_AccountSnapshot_Users_Devices_Interfaces_InfoInterfaceSnapshot) GetID() string {
 	if t == nil {
@@ -3039,6 +3139,18 @@ func (t *AccountSnapshot_AccountSnapshot_Users_Devices_Interfaces_InfoInterfaceS
 		t = &AccountSnapshot_AccountSnapshot_Users_Devices_Interfaces_InfoInterfaceSnapshot{}
 	}
 	return t.UpstreamBandwidth
+}
+func (t *AccountSnapshot_AccountSnapshot_Users_Devices_Interfaces_InfoInterfaceSnapshot) GetUpstreamBandwidthMbpsPrecision() *float64 {
+	if t == nil {
+		t = &AccountSnapshot_AccountSnapshot_Users_Devices_Interfaces_InfoInterfaceSnapshot{}
+	}
+	return t.UpstreamBandwidthMbpsPrecision
+}
+func (t *AccountSnapshot_AccountSnapshot_Users_Devices_Interfaces_InfoInterfaceSnapshot) GetWanRole() *cato_models.SocketInterfaceWanRole {
+	if t == nil {
+		t = &AccountSnapshot_AccountSnapshot_Users_Devices_Interfaces_InfoInterfaceSnapshot{}
+	}
+	return t.WanRole
 }
 
 type AccountSnapshot_AccountSnapshot_Users_Devices_Interfaces_CellularInterfaceInfoInterfaceSnapshot struct {
@@ -3426,11 +3538,14 @@ func (t *AccountSnapshot_AccountSnapshot_Users_Devices_SocketInfo) GetVersionUpd
 }
 
 type AccountSnapshot_AccountSnapshot_Users_Devices_InterfacesLinkState struct {
-	Duplex    *string "json:\"duplex,omitempty\" graphql:\"duplex\""
-	ID        *string "json:\"id,omitempty\" graphql:\"id\""
-	LinkSpeed *string "json:\"linkSpeed,omitempty\" graphql:\"linkSpeed\""
-	MediaIn   *bool   "json:\"mediaIn,omitempty\" graphql:\"mediaIn\""
-	Up        *bool   "json:\"up,omitempty\" graphql:\"up\""
+	Duplex      *string "json:\"duplex,omitempty\" graphql:\"duplex\""
+	HasAddress  *bool   "json:\"hasAddress,omitempty\" graphql:\"hasAddress\""
+	HasInternet *bool   "json:\"hasInternet,omitempty\" graphql:\"hasInternet\""
+	HasTunnel   *bool   "json:\"hasTunnel,omitempty\" graphql:\"hasTunnel\""
+	ID          *string "json:\"id,omitempty\" graphql:\"id\""
+	LinkSpeed   *string "json:\"linkSpeed,omitempty\" graphql:\"linkSpeed\""
+	MediaIn     *bool   "json:\"mediaIn,omitempty\" graphql:\"mediaIn\""
+	Up          *bool   "json:\"up,omitempty\" graphql:\"up\""
 }
 
 func (t *AccountSnapshot_AccountSnapshot_Users_Devices_InterfacesLinkState) GetDuplex() *string {
@@ -3438,6 +3553,24 @@ func (t *AccountSnapshot_AccountSnapshot_Users_Devices_InterfacesLinkState) GetD
 		t = &AccountSnapshot_AccountSnapshot_Users_Devices_InterfacesLinkState{}
 	}
 	return t.Duplex
+}
+func (t *AccountSnapshot_AccountSnapshot_Users_Devices_InterfacesLinkState) GetHasAddress() *bool {
+	if t == nil {
+		t = &AccountSnapshot_AccountSnapshot_Users_Devices_InterfacesLinkState{}
+	}
+	return t.HasAddress
+}
+func (t *AccountSnapshot_AccountSnapshot_Users_Devices_InterfacesLinkState) GetHasInternet() *bool {
+	if t == nil {
+		t = &AccountSnapshot_AccountSnapshot_Users_Devices_InterfacesLinkState{}
+	}
+	return t.HasInternet
+}
+func (t *AccountSnapshot_AccountSnapshot_Users_Devices_InterfacesLinkState) GetHasTunnel() *bool {
+	if t == nil {
+		t = &AccountSnapshot_AccountSnapshot_Users_Devices_InterfacesLinkState{}
+	}
+	return t.HasTunnel
 }
 func (t *AccountSnapshot_AccountSnapshot_Users_Devices_InterfacesLinkState) GetID() *string {
 	if t == nil {
@@ -3467,6 +3600,7 @@ func (t *AccountSnapshot_AccountSnapshot_Users_Devices_InterfacesLinkState) GetU
 type AccountSnapshot_AccountSnapshot_Users_Devices struct {
 	Connected           *bool                                                                "json:\"connected,omitempty\" graphql:\"connected\""
 	ConnectedSince      *string                                                              "json:\"connectedSince,omitempty\" graphql:\"connectedSince\""
+	DeviceUptime        *int64                                                               "json:\"deviceUptime,omitempty\" graphql:\"deviceUptime\""
 	HaRole              *string                                                              "json:\"haRole,omitempty\" graphql:\"haRole\""
 	ID                  *string                                                              "json:\"id,omitempty\" graphql:\"id\""
 	Identifier          *string                                                              "json:\"identifier,omitempty\" graphql:\"identifier\""
@@ -3501,6 +3635,12 @@ func (t *AccountSnapshot_AccountSnapshot_Users_Devices) GetConnectedSince() *str
 		t = &AccountSnapshot_AccountSnapshot_Users_Devices{}
 	}
 	return t.ConnectedSince
+}
+func (t *AccountSnapshot_AccountSnapshot_Users_Devices) GetDeviceUptime() *int64 {
+	if t == nil {
+		t = &AccountSnapshot_AccountSnapshot_Users_Devices{}
+	}
+	return t.DeviceUptime
 }
 func (t *AccountSnapshot_AccountSnapshot_Users_Devices) GetHaRole() *string {
 	if t == nil {
@@ -64526,7 +64666,10 @@ const AccountSnapshotDocument = `query accountSnapshot ($siteIDs: [ID!], $userID
 						name
 						upstreamBandwidth
 						downstreamBandwidth
+						upstreamBandwidthMbpsPrecision
+						downstreamBandwidthMbpsPrecision
 						destType
+						wanRole
 					}
 					cellularInterfaceInfoInterfaceSnapshot: cellularInterfaceInfo {
 						networkType
@@ -64571,6 +64714,7 @@ const AccountSnapshotDocument = `query accountSnapshot ($siteIDs: [ID!], $userID
 					}
 				}
 				type
+				deviceUptime
 				socketInfo {
 					id
 					serial
@@ -64585,6 +64729,9 @@ const AccountSnapshotDocument = `query accountSnapshot ($siteIDs: [ID!], $userID
 					mediaIn
 					linkSpeed
 					duplex
+					hasAddress
+					hasInternet
+					hasTunnel
 				}
 				osType
 				osVersion
@@ -64602,6 +64749,9 @@ const AccountSnapshotDocument = `query accountSnapshot ($siteIDs: [ID!], $userID
 				countryCode
 				region
 				countryName
+				countryStateName
+				cityName
+				address
 				isHA
 				connType
 				creationTime
@@ -64610,7 +64760,10 @@ const AccountSnapshotDocument = `query accountSnapshot ($siteIDs: [ID!], $userID
 					name
 					upstreamBandwidth
 					downstreamBandwidth
+					upstreamBandwidthMbpsPrecision
+					downstreamBandwidthMbpsPrecision
 					destType
+					wanRoleInterfaceInfo: wanRole
 				}
 				sockets {
 					id
@@ -64690,7 +64843,10 @@ const AccountSnapshotDocument = `query accountSnapshot ($siteIDs: [ID!], $userID
 						name
 						upstreamBandwidth
 						downstreamBandwidth
+						upstreamBandwidthMbpsPrecision
+						downstreamBandwidthMbpsPrecision
 						destType
+						wanRole
 					}
 					cellularInterfaceInfoInterfaceSnapshot: cellularInterfaceInfo {
 						networkType
@@ -64735,6 +64891,7 @@ const AccountSnapshotDocument = `query accountSnapshot ($siteIDs: [ID!], $userID
 					}
 				}
 				type
+				deviceUptime
 				socketInfo {
 					id
 					serial
@@ -64749,6 +64906,9 @@ const AccountSnapshotDocument = `query accountSnapshot ($siteIDs: [ID!], $userID
 					mediaIn
 					linkSpeed
 					duplex
+					hasAddress
+					hasInternet
+					hasTunnel
 				}
 				osType
 				osVersion
