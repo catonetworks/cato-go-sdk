@@ -6621,6 +6621,11 @@ enum SocketInterfaceWanRole {
   WAN_2
   WAN_3
   WAN_4
+  none
+  wan_1
+  wan_2
+  wan_3
+  wan_4  
 }
 
 enum CellularModemStatus {

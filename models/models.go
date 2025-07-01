@@ -17753,11 +17753,16 @@ func (e SocketInterfaceRole) MarshalGQL(w io.Writer) {
 type SocketInterfaceWanRole string
 
 const (
-	SocketInterfaceWanRoleNone SocketInterfaceWanRole = "NONE"
-	SocketInterfaceWanRoleWan1 SocketInterfaceWanRole = "WAN_1"
-	SocketInterfaceWanRoleWan2 SocketInterfaceWanRole = "WAN_2"
-	SocketInterfaceWanRoleWan3 SocketInterfaceWanRole = "WAN_3"
-	SocketInterfaceWanRoleWan4 SocketInterfaceWanRole = "WAN_4"
+	SocketInterfaceWanRoleNone  SocketInterfaceWanRole = "NONE"
+	SocketInterfaceWanRoleWan1  SocketInterfaceWanRole = "WAN_1"
+	SocketInterfaceWanRoleWan2  SocketInterfaceWanRole = "WAN_2"
+	SocketInterfaceWanRoleWan3  SocketInterfaceWanRole = "WAN_3"
+	SocketInterfaceWanRoleWan4  SocketInterfaceWanRole = "WAN_4"
+	SocketInterfaceWanRolenone  SocketInterfaceWanRole = "none"
+	SocketInterfaceWanRolewan_1 SocketInterfaceWanRole = "wan_1"
+	SocketInterfaceWanRolewan_2 SocketInterfaceWanRole = "wan_2"
+	SocketInterfaceWanRolewan_3 SocketInterfaceWanRole = "wan_3"
+	SocketInterfaceWanRolewan_4 SocketInterfaceWanRole = "wan_4"
 )
 
 var AllSocketInterfaceWanRole = []SocketInterfaceWanRole{
@@ -17766,11 +17771,16 @@ var AllSocketInterfaceWanRole = []SocketInterfaceWanRole{
 	SocketInterfaceWanRoleWan2,
 	SocketInterfaceWanRoleWan3,
 	SocketInterfaceWanRoleWan4,
+	SocketInterfaceWanRolenone,
+	SocketInterfaceWanRolewan_1,
+	SocketInterfaceWanRolewan_2,
+	SocketInterfaceWanRolewan_3,
+	SocketInterfaceWanRolewan_4,
 }
 
 func (e SocketInterfaceWanRole) IsValid() bool {
 	switch e {
-	case SocketInterfaceWanRoleNone, SocketInterfaceWanRoleWan1, SocketInterfaceWanRoleWan2, SocketInterfaceWanRoleWan3, SocketInterfaceWanRoleWan4:
+	case SocketInterfaceWanRoleNone, SocketInterfaceWanRoleWan1, SocketInterfaceWanRoleWan2, SocketInterfaceWanRoleWan3, SocketInterfaceWanRoleWan4, SocketInterfaceWanRolenone, SocketInterfaceWanRolewan_1, SocketInterfaceWanRolewan_2, SocketInterfaceWanRolewan_3, SocketInterfaceWanRolewan_4:
 		return true
 	}
 	return false
