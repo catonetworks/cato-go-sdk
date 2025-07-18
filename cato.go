@@ -58,7 +58,6 @@ func New(url string, token string, accountId string, httpClient *http.Client, he
 			func(ctx context.Context, req *http.Request, gqlInfo *clientv2.GQLRequestInfo, res any, next clientv2.RequestInterceptorFunc) error {
 				req.Header.Set("x-api-key", token)
 				req.Header.Set("x-account-id", accountId)
-
 				for key, val := range headers {
 					req.Header.Set(key, val)
 				}

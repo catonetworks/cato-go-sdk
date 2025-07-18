@@ -714,7 +714,7 @@ type AddNetworkRangePayload struct {
 	NetworkRangeID string `json:"networkRangeId"`
 }
 
-type AddSecondaryAWSVSocketInput struct {
+type AddSecondaryAwsVSocketInput struct {
 	// The IP address of LAN interface
 	EniIPAddress string `json:"eniIpAddress"`
 	// The subnet of the LAN interface
@@ -725,7 +725,7 @@ type AddSecondaryAWSVSocketInput struct {
 	Site *SiteRefInput `json:"site"`
 }
 
-type AddSecondaryAWSVSocketPayload struct {
+type AddSecondaryAwsVSocketPayload struct {
 	// The secondary socket id
 	ID string `json:"id"`
 }
@@ -1214,12 +1214,12 @@ func (APIKeyRef) IsObjectRef() {}
 // Object's unique name
 
 type AppStats struct {
-	From    *string           `json:"from,omitempty"`
-	ID      *string           `json:"id,omitempty"`
-	Records []*AppStatsRecord `json:"records,omitempty"`
-	To      *string           `json:"to,omitempty"`
-	Total   *int64            `json:"total,omitempty"`
-	Totals  map[string]any    `json:"totals,omitempty"`
+	From    *string                `json:"from,omitempty"`
+	ID      *string                `json:"id,omitempty"`
+	Records []*AppStatsRecord      `json:"records,omitempty"`
+	To      *string                `json:"to,omitempty"`
+	Total   *int64                 `json:"total,omitempty"`
+	Totals  map[string]interface{} `json:"totals,omitempty"`
 }
 
 type AppStatsField struct {
@@ -1236,12 +1236,12 @@ type AppStatsFilter struct {
 type AppStatsRecord struct {
 	Fields []*AppStatsField `json:"fields,omitempty"`
 	// fields in map format (see Map scalar)
-	FieldsMap       map[string]any `json:"fieldsMap,omitempty"`
-	FieldsUnitTypes []UnitType     `json:"fieldsUnitTypes,omitempty"`
+	FieldsMap       map[string]interface{} `json:"fieldsMap,omitempty"`
+	FieldsUnitTypes []UnitType             `json:"fieldsUnitTypes,omitempty"`
 	// Simplified fields, as array of name value tuples, e.g: [ [ "name", "val" ], [ "name2", "val2" ] ... ]
-	FlatFields    [][]string     `json:"flatFields,omitempty"`
-	PrevTimeFrame map[string]any `json:"prevTimeFrame,omitempty"`
-	Trends        map[string]any `json:"trends,omitempty"`
+	FlatFields    [][]string             `json:"flatFields,omitempty"`
+	PrevTimeFrame map[string]interface{} `json:"prevTimeFrame,omitempty"`
+	Trends        map[string]interface{} `json:"trends,omitempty"`
 }
 
 type AppStatsSort struct {
@@ -1761,7 +1761,7 @@ type AuditRecord struct {
 	// All fields in the audit record (including the admin and object)
 	Fields []*AuditField `json:"fields,omitempty"`
 	// fields in map format (see Map scalar)
-	FieldsMap map[string]any `json:"fieldsMap,omitempty"`
+	FieldsMap map[string]interface{} `json:"fieldsMap,omitempty"`
 	// Simplified fields, as array of name value tuples, e.g: [ [ "name", "val" ], [ "name2", "val2" ] ... ]
 	FlatFields [][]string `json:"flatFields,omitempty"`
 	Object     *Entity    `json:"object,omitempty"`
@@ -3820,9 +3820,9 @@ type Entity struct {
 func (Entity) IsValue() {}
 
 type EntityInfo struct {
-	Description  string         `json:"description"`
-	Entity       *Entity        `json:"entity"`
-	HelperFields map[string]any `json:"helperFields"`
+	Description  string                 `json:"description"`
+	Entity       *Entity                `json:"entity"`
+	HelperFields map[string]interface{} `json:"helperFields"`
 }
 
 type EntityInput struct {
@@ -3865,19 +3865,19 @@ type EventField struct {
 
 type EventRecord struct {
 	// fields in map format (see Map scalar)
-	FieldsMap map[string]any `json:"fieldsMap,omitempty"`
+	FieldsMap map[string]interface{} `json:"fieldsMap,omitempty"`
 	// Simplified fields, as array of name value tuples, e.g: [ [ "name", "val" ], [ "name2", "val2" ] ... ]
 	FlatFields [][]string `json:"flatFields,omitempty"`
 	Time       *string    `json:"time,omitempty"`
 }
 
 type Events struct {
-	From    *string         `json:"from,omitempty"`
-	ID      *string         `json:"id,omitempty"`
-	Records []*EventsRecord `json:"records,omitempty"`
-	To      *string         `json:"to,omitempty"`
-	Total   *int64          `json:"total,omitempty"`
-	Totals  map[string]any  `json:"totals,omitempty"`
+	From    *string                `json:"from,omitempty"`
+	ID      *string                `json:"id,omitempty"`
+	Records []*EventsRecord        `json:"records,omitempty"`
+	To      *string                `json:"to,omitempty"`
+	Total   *int64                 `json:"total,omitempty"`
+	Totals  map[string]interface{} `json:"totals,omitempty"`
 }
 
 type EventsDimension struct {
@@ -3911,12 +3911,12 @@ type EventsMeasure struct {
 type EventsRecord struct {
 	Fields []*EventField `json:"fields,omitempty"`
 	// fields in map format (see Map scalar)
-	FieldsMap       map[string]any `json:"fieldsMap,omitempty"`
-	FieldsUnitTypes []UnitType     `json:"fieldsUnitTypes,omitempty"`
+	FieldsMap       map[string]interface{} `json:"fieldsMap,omitempty"`
+	FieldsUnitTypes []UnitType             `json:"fieldsUnitTypes,omitempty"`
 	// Simplified fields, as array of name value tuples, e.g: [ [ "name", "val" ], [ "name2", "val2" ] ... ]
-	FlatFields    [][]string     `json:"flatFields,omitempty"`
-	PrevTimeFrame map[string]any `json:"prevTimeFrame,omitempty"`
-	Trends        map[string]any `json:"trends,omitempty"`
+	FlatFields    [][]string             `json:"flatFields,omitempty"`
+	PrevTimeFrame map[string]interface{} `json:"prevTimeFrame,omitempty"`
+	Trends        map[string]interface{} `json:"trends,omitempty"`
 }
 
 type EventsSort struct {
@@ -7819,7 +7819,7 @@ type SiteMutations struct {
 	AddIpsecIkeV2SiteTunnels *AddIpsecIkeV2SiteTunnelsPayload `json:"addIpsecIkeV2SiteTunnels,omitempty"`
 	AddNetworkRange          *AddNetworkRangePayload          `json:"addNetworkRange,omitempty"`
 	// Add a secondary AWS vSocket to an existing site
-	AddSecondaryAWSVSocket *AddSecondaryAWSVSocketPayload `json:"addSecondaryAwsVSocket,omitempty"`
+	AddSecondaryAwsVSocket *AddSecondaryAwsVSocketPayload `json:"addSecondaryAwsVSocket,omitempty"`
 	// Add a secondary Azure vSocket to an existing site
 	AddSecondaryAzureVSocket *AddSecondaryAzureVSocketPayload `json:"addSecondaryAzureVSocket,omitempty"`
 	AddSocketSite            *AddSocketSitePayload            `json:"addSocketSite,omitempty"`
@@ -11457,7 +11457,7 @@ func (e AccountInclusion) String() string {
 	return string(e)
 }
 
-func (e *AccountInclusion) UnmarshalGQL(v any) error {
+func (e *AccountInclusion) UnmarshalGQL(v interface{}) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -11501,7 +11501,7 @@ func (e AccountProfileType) String() string {
 	return string(e)
 }
 
-func (e *AccountProfileType) UnmarshalGQL(v any) error {
+func (e *AccountProfileType) UnmarshalGQL(v interface{}) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -11545,7 +11545,7 @@ func (e AccountTenancy) String() string {
 	return string(e)
 }
 
-func (e *AccountTenancy) UnmarshalGQL(v any) error {
+func (e *AccountTenancy) UnmarshalGQL(v interface{}) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -11590,7 +11590,7 @@ func (e AccountType) String() string {
 	return string(e)
 }
 
-func (e *AccountType) UnmarshalGQL(v any) error {
+func (e *AccountType) UnmarshalGQL(v interface{}) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -11633,7 +11633,7 @@ func (e AddressValidationStatus) String() string {
 	return string(e)
 }
 
-func (e *AddressValidationStatus) UnmarshalGQL(v any) error {
+func (e *AddressValidationStatus) UnmarshalGQL(v interface{}) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -11690,7 +11690,7 @@ func (e AggregationType) String() string {
 	return string(e)
 }
 
-func (e *AggregationType) UnmarshalGQL(v any) error {
+func (e *AggregationType) UnmarshalGQL(v interface{}) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -11733,7 +11733,7 @@ func (e AlertClassificationEnum) String() string {
 	return string(e)
 }
 
-func (e *AlertClassificationEnum) UnmarshalGQL(v any) error {
+func (e *AlertClassificationEnum) UnmarshalGQL(v interface{}) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -11798,7 +11798,7 @@ func (e AlertDeterminationEnum) String() string {
 	return string(e)
 }
 
-func (e *AlertDeterminationEnum) UnmarshalGQL(v any) error {
+func (e *AlertDeterminationEnum) UnmarshalGQL(v interface{}) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -11847,7 +11847,7 @@ func (e AnnotationType) String() string {
 	return string(e)
 }
 
-func (e *AnnotationType) UnmarshalGQL(v any) error {
+func (e *AnnotationType) UnmarshalGQL(v interface{}) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -11890,7 +11890,7 @@ func (e ApnMethod) String() string {
 	return string(e)
 }
 
-func (e *ApnMethod) UnmarshalGQL(v any) error {
+func (e *ApnMethod) UnmarshalGQL(v interface{}) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -12029,7 +12029,7 @@ func (e AppStatsFieldName) String() string {
 	return string(e)
 }
 
-func (e *AppStatsFieldName) UnmarshalGQL(v any) error {
+func (e *AppStatsFieldName) UnmarshalGQL(v interface{}) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -12073,7 +12073,7 @@ func (e AppTenantRestrictionActionEnum) String() string {
 	return string(e)
 }
 
-func (e *AppTenantRestrictionActionEnum) UnmarshalGQL(v any) error {
+func (e *AppTenantRestrictionActionEnum) UnmarshalGQL(v interface{}) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -12120,7 +12120,7 @@ func (e AppTenantRestrictionSeverityEnum) String() string {
 	return string(e)
 }
 
-func (e *AppTenantRestrictionSeverityEnum) UnmarshalGQL(v any) error {
+func (e *AppTenantRestrictionSeverityEnum) UnmarshalGQL(v interface{}) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -12192,7 +12192,7 @@ func (e AuditFieldName) String() string {
 	return string(e)
 }
 
-func (e *AuditFieldName) UnmarshalGQL(v any) error {
+func (e *AuditFieldName) UnmarshalGQL(v interface{}) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -12235,7 +12235,7 @@ func (e BgpCommunityFilterPredicate) String() string {
 	return string(e)
 }
 
-func (e *BgpCommunityFilterPredicate) UnmarshalGQL(v any) error {
+func (e *BgpCommunityFilterPredicate) UnmarshalGQL(v interface{}) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -12278,7 +12278,7 @@ func (e BgpDefaultAction) String() string {
 	return string(e)
 }
 
-func (e *BgpDefaultAction) UnmarshalGQL(v any) error {
+func (e *BgpDefaultAction) UnmarshalGQL(v interface{}) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -12325,7 +12325,7 @@ func (e CatalogApplicationActivityFieldOperator) String() string {
 	return string(e)
 }
 
-func (e *CatalogApplicationActivityFieldOperator) UnmarshalGQL(v any) error {
+func (e *CatalogApplicationActivityFieldOperator) UnmarshalGQL(v interface{}) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -12368,7 +12368,7 @@ func (e CatalogApplicationAttribute) String() string {
 	return string(e)
 }
 
-func (e *CatalogApplicationAttribute) UnmarshalGQL(v any) error {
+func (e *CatalogApplicationAttribute) UnmarshalGQL(v interface{}) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -12421,7 +12421,7 @@ func (e CatalogApplicationCapability) String() string {
 	return string(e)
 }
 
-func (e *CatalogApplicationCapability) UnmarshalGQL(v any) error {
+func (e *CatalogApplicationCapability) UnmarshalGQL(v interface{}) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -12464,7 +12464,7 @@ func (e CatalogApplicationType) String() string {
 	return string(e)
 }
 
-func (e *CatalogApplicationType) UnmarshalGQL(v any) error {
+func (e *CatalogApplicationType) UnmarshalGQL(v interface{}) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -12505,7 +12505,7 @@ func (e CatoEndpointEngineType) String() string {
 	return string(e)
 }
 
-func (e *CatoEndpointEngineType) UnmarshalGQL(v any) error {
+func (e *CatoEndpointEngineType) UnmarshalGQL(v interface{}) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -12546,7 +12546,7 @@ func (e CellularDisconnectionReason) String() string {
 	return string(e)
 }
 
-func (e *CellularDisconnectionReason) UnmarshalGQL(v any) error {
+func (e *CellularDisconnectionReason) UnmarshalGQL(v interface{}) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -12589,7 +12589,7 @@ func (e CellularModemStatus) String() string {
 	return string(e)
 }
 
-func (e *CellularModemStatus) UnmarshalGQL(v any) error {
+func (e *CellularModemStatus) UnmarshalGQL(v interface{}) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -12634,7 +12634,7 @@ func (e CellularNetworkType) String() string {
 	return string(e)
 }
 
-func (e *CellularNetworkType) UnmarshalGQL(v any) error {
+func (e *CellularNetworkType) UnmarshalGQL(v interface{}) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -12675,7 +12675,7 @@ func (e ConnectionMode) String() string {
 	return string(e)
 }
 
-func (e *ConnectionMode) UnmarshalGQL(v any) error {
+func (e *ConnectionMode) UnmarshalGQL(v interface{}) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -12718,7 +12718,7 @@ func (e ConnectionOriginEnum) String() string {
 	return string(e)
 }
 
-func (e *ConnectionOriginEnum) UnmarshalGQL(v any) error {
+func (e *ConnectionOriginEnum) UnmarshalGQL(v interface{}) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -12761,7 +12761,7 @@ func (e ConnectionTypeEnum) String() string {
 	return string(e)
 }
 
-func (e *ConnectionTypeEnum) UnmarshalGQL(v any) error {
+func (e *ConnectionTypeEnum) UnmarshalGQL(v interface{}) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -12804,7 +12804,7 @@ func (e ConnectivityStatus) String() string {
 	return string(e)
 }
 
-func (e *ConnectivityStatus) UnmarshalGQL(v any) error {
+func (e *ConnectivityStatus) UnmarshalGQL(v interface{}) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -12845,7 +12845,7 @@ func (e ContainerFileType) String() string {
 	return string(e)
 }
 
-func (e *ContainerFileType) UnmarshalGQL(v any) error {
+func (e *ContainerFileType) UnmarshalGQL(v interface{}) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -12886,7 +12886,7 @@ func (e ContainerType) String() string {
 	return string(e)
 }
 
-func (e *ContainerType) UnmarshalGQL(v any) error {
+func (e *ContainerType) UnmarshalGQL(v interface{}) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -12937,7 +12937,7 @@ func (e DayOfWeek) String() string {
 	return string(e)
 }
 
-func (e *DayOfWeek) UnmarshalGQL(v any) error {
+func (e *DayOfWeek) UnmarshalGQL(v interface{}) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -12978,7 +12978,7 @@ func (e DestinationType) String() string {
 	return string(e)
 }
 
-func (e *DestinationType) UnmarshalGQL(v any) error {
+func (e *DestinationType) UnmarshalGQL(v interface{}) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -13002,14 +13002,14 @@ const (
 	DetectionSourceEnumAppGovernanceDetection        DetectionSourceEnum = "APP_GOVERNANCE_DETECTION"
 	DetectionSourceEnumAppGovernancePolicy           DetectionSourceEnum = "APP_GOVERNANCE_POLICY"
 	DetectionSourceEnumAutomatedInvestigation        DetectionSourceEnum = "AUTOMATED_INVESTIGATION"
-	DetectionSourceEnumAzureAdIdentityProtection     DetectionSourceEnum = "AZURE_AD_IDENTITY_PROTECTION"
+	DetectionSourceEnumAzureAdIDEntityProtection     DetectionSourceEnum = "AZURE_AD_IDENTITY_PROTECTION"
 	DetectionSourceEnumCloudAppSecurity              DetectionSourceEnum = "CLOUD_APP_SECURITY"
 	DetectionSourceEnumCustomDetection               DetectionSourceEnum = "CUSTOM_DETECTION"
 	DetectionSourceEnumCustomTi                      DetectionSourceEnum = "CUSTOM_TI"
 	DetectionSourceEnumManual                        DetectionSourceEnum = "MANUAL"
 	DetectionSourceEnumMicrosoftDataLossPrevention   DetectionSourceEnum = "MICROSOFT_DATA_LOSS_PREVENTION"
 	DetectionSourceEnumMicrosoftDefenderForEndpoint  DetectionSourceEnum = "MICROSOFT_DEFENDER_FOR_ENDPOINT"
-	DetectionSourceEnumMicrosoftDefenderForIdentity  DetectionSourceEnum = "MICROSOFT_DEFENDER_FOR_IDENTITY"
+	DetectionSourceEnumMicrosoftDefenderForIDEntity  DetectionSourceEnum = "MICROSOFT_DEFENDER_FOR_IDENTITY"
 	DetectionSourceEnumMicrosoftDefenderForOffice365 DetectionSourceEnum = "MICROSOFT_DEFENDER_FOR_OFFICE365"
 	DetectionSourceEnumMicrosoftThreatExperts        DetectionSourceEnum = "MICROSOFT_THREAT_EXPERTS"
 	DetectionSourceEnumMicrosoft365Defender          DetectionSourceEnum = "MICROSOFT365_DEFENDER"
@@ -13021,14 +13021,14 @@ var AllDetectionSourceEnum = []DetectionSourceEnum{
 	DetectionSourceEnumAppGovernanceDetection,
 	DetectionSourceEnumAppGovernancePolicy,
 	DetectionSourceEnumAutomatedInvestigation,
-	DetectionSourceEnumAzureAdIdentityProtection,
+	DetectionSourceEnumAzureAdIDEntityProtection,
 	DetectionSourceEnumCloudAppSecurity,
 	DetectionSourceEnumCustomDetection,
 	DetectionSourceEnumCustomTi,
 	DetectionSourceEnumManual,
 	DetectionSourceEnumMicrosoftDataLossPrevention,
 	DetectionSourceEnumMicrosoftDefenderForEndpoint,
-	DetectionSourceEnumMicrosoftDefenderForIdentity,
+	DetectionSourceEnumMicrosoftDefenderForIDEntity,
 	DetectionSourceEnumMicrosoftDefenderForOffice365,
 	DetectionSourceEnumMicrosoftThreatExperts,
 	DetectionSourceEnumMicrosoft365Defender,
@@ -13037,7 +13037,7 @@ var AllDetectionSourceEnum = []DetectionSourceEnum{
 
 func (e DetectionSourceEnum) IsValid() bool {
 	switch e {
-	case DetectionSourceEnumAntivirus, DetectionSourceEnumAppGovernanceDetection, DetectionSourceEnumAppGovernancePolicy, DetectionSourceEnumAutomatedInvestigation, DetectionSourceEnumAzureAdIdentityProtection, DetectionSourceEnumCloudAppSecurity, DetectionSourceEnumCustomDetection, DetectionSourceEnumCustomTi, DetectionSourceEnumManual, DetectionSourceEnumMicrosoftDataLossPrevention, DetectionSourceEnumMicrosoftDefenderForEndpoint, DetectionSourceEnumMicrosoftDefenderForIdentity, DetectionSourceEnumMicrosoftDefenderForOffice365, DetectionSourceEnumMicrosoftThreatExperts, DetectionSourceEnumMicrosoft365Defender, DetectionSourceEnumSmartScreen:
+	case DetectionSourceEnumAntivirus, DetectionSourceEnumAppGovernanceDetection, DetectionSourceEnumAppGovernancePolicy, DetectionSourceEnumAutomatedInvestigation, DetectionSourceEnumAzureAdIDEntityProtection, DetectionSourceEnumCloudAppSecurity, DetectionSourceEnumCustomDetection, DetectionSourceEnumCustomTi, DetectionSourceEnumManual, DetectionSourceEnumMicrosoftDataLossPrevention, DetectionSourceEnumMicrosoftDefenderForEndpoint, DetectionSourceEnumMicrosoftDefenderForIDEntity, DetectionSourceEnumMicrosoftDefenderForOffice365, DetectionSourceEnumMicrosoftThreatExperts, DetectionSourceEnumMicrosoft365Defender, DetectionSourceEnumSmartScreen:
 		return true
 	}
 	return false
@@ -13047,7 +13047,7 @@ func (e DetectionSourceEnum) String() string {
 	return string(e)
 }
 
-func (e *DetectionSourceEnum) UnmarshalGQL(v any) error {
+func (e *DetectionSourceEnum) UnmarshalGQL(v interface{}) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -13090,7 +13090,7 @@ func (e DetectionStatusEnum) String() string {
 	return string(e)
 }
 
-func (e *DetectionStatusEnum) UnmarshalGQL(v any) error {
+func (e *DetectionStatusEnum) UnmarshalGQL(v interface{}) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -13135,7 +13135,7 @@ func (e DeviceAvStatusEnum) String() string {
 	return string(e)
 }
 
-func (e *DeviceAvStatusEnum) UnmarshalGQL(v any) error {
+func (e *DeviceAvStatusEnum) UnmarshalGQL(v interface{}) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -13184,7 +13184,7 @@ func (e DeviceCategory) String() string {
 	return string(e)
 }
 
-func (e *DeviceCategory) UnmarshalGQL(v any) error {
+func (e *DeviceCategory) UnmarshalGQL(v interface{}) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -13227,7 +13227,7 @@ func (e DeviceConfidenceLevel) String() string {
 	return string(e)
 }
 
-func (e *DeviceConfidenceLevel) UnmarshalGQL(v any) error {
+func (e *DeviceConfidenceLevel) UnmarshalGQL(v interface{}) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -13268,7 +13268,7 @@ func (e DeviceConfigHaRoleEnum) String() string {
 	return string(e)
 }
 
-func (e *DeviceConfigHaRoleEnum) UnmarshalGQL(v any) error {
+func (e *DeviceConfigHaRoleEnum) UnmarshalGQL(v interface{}) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -13309,7 +13309,7 @@ func (e DeviceHaRoleStateEnum) String() string {
 	return string(e)
 }
 
-func (e *DeviceHaRoleStateEnum) UnmarshalGQL(v any) error {
+func (e *DeviceHaRoleStateEnum) UnmarshalGQL(v interface{}) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -13356,7 +13356,7 @@ func (e DeviceHealthStatusEnum) String() string {
 	return string(e)
 }
 
-func (e *DeviceHealthStatusEnum) UnmarshalGQL(v any) error {
+func (e *DeviceHealthStatusEnum) UnmarshalGQL(v interface{}) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -13405,7 +13405,7 @@ func (e DeviceV2Category) String() string {
 	return string(e)
 }
 
-func (e *DeviceV2Category) UnmarshalGQL(v any) error {
+func (e *DeviceV2Category) UnmarshalGQL(v interface{}) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -13450,7 +13450,7 @@ func (e DhcpType) String() string {
 	return string(e)
 }
 
-func (e *DhcpType) UnmarshalGQL(v any) error {
+func (e *DhcpType) UnmarshalGQL(v interface{}) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -13491,7 +13491,7 @@ func (e DirectionEnum) String() string {
 	return string(e)
 }
 
-func (e *DirectionEnum) UnmarshalGQL(v any) error {
+func (e *DirectionEnum) UnmarshalGQL(v interface{}) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -13532,7 +13532,7 @@ func (e DirectionInput) String() string {
 	return string(e)
 }
 
-func (e *DirectionInput) UnmarshalGQL(v any) error {
+func (e *DirectionInput) UnmarshalGQL(v interface{}) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -13576,7 +13576,7 @@ func (e DpaVersion) String() string {
 	return string(e)
 }
 
-func (e *DpaVersion) UnmarshalGQL(v any) error {
+func (e *DpaVersion) UnmarshalGQL(v interface{}) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -13631,7 +13631,7 @@ func (e ElasticOperator) String() string {
 	return string(e)
 }
 
-func (e *ElasticOperator) UnmarshalGQL(v any) error {
+func (e *ElasticOperator) UnmarshalGQL(v interface{}) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -13695,7 +13695,7 @@ func (e EmployeeRange) String() string {
 	return string(e)
 }
 
-func (e *EmployeeRange) UnmarshalGQL(v any) error {
+func (e *EmployeeRange) UnmarshalGQL(v interface{}) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -13827,7 +13827,7 @@ func (e EntityType) String() string {
 	return string(e)
 }
 
-func (e *EntityType) UnmarshalGQL(v any) error {
+func (e *EntityType) UnmarshalGQL(v interface{}) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -13870,7 +13870,7 @@ func (e EventFeedFilterFieldName) String() string {
 	return string(e)
 }
 
-func (e *EventFeedFilterFieldName) UnmarshalGQL(v any) error {
+func (e *EventFeedFilterFieldName) UnmarshalGQL(v interface{}) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -13916,7 +13916,7 @@ func (e EventFeedFilterOperator) String() string {
 	return string(e)
 }
 
-func (e *EventFeedFilterOperator) UnmarshalGQL(v any) error {
+func (e *EventFeedFilterOperator) UnmarshalGQL(v interface{}) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -14722,7 +14722,7 @@ func (e EventFieldName) String() string {
 	return string(e)
 }
 
-func (e *EventFieldName) UnmarshalGQL(v any) error {
+func (e *EventFieldName) UnmarshalGQL(v interface{}) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -14783,7 +14783,7 @@ func (e FilterOperator) String() string {
 	return string(e)
 }
 
-func (e *FilterOperator) UnmarshalGQL(v any) error {
+func (e *FilterOperator) UnmarshalGQL(v interface{}) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -14824,7 +14824,7 @@ func (e HaReadiness) String() string {
 	return string(e)
 }
 
-func (e *HaReadiness) UnmarshalGQL(v any) error {
+func (e *HaReadiness) UnmarshalGQL(v interface{}) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -14865,7 +14865,7 @@ func (e HaRole) String() string {
 	return string(e)
 }
 
-func (e *HaRole) UnmarshalGQL(v any) error {
+func (e *HaRole) UnmarshalGQL(v interface{}) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -14906,7 +14906,7 @@ func (e HaSubStatus) String() string {
 	return string(e)
 }
 
-func (e *HaSubStatus) UnmarshalGQL(v any) error {
+func (e *HaSubStatus) UnmarshalGQL(v interface{}) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -14955,7 +14955,7 @@ func (e IPSecV2InterfaceID) String() string {
 	return string(e)
 }
 
-func (e *IPSecV2InterfaceID) UnmarshalGQL(v any) error {
+func (e *IPSecV2InterfaceID) UnmarshalGQL(v interface{}) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -14998,7 +14998,7 @@ func (e IPSecV2TunnelRole) String() string {
 	return string(e)
 }
 
-func (e *IPSecV2TunnelRole) UnmarshalGQL(v any) error {
+func (e *IPSecV2TunnelRole) UnmarshalGQL(v interface{}) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -15043,7 +15043,7 @@ func (e IdentificationType) String() string {
 	return string(e)
 }
 
-func (e *IdentificationType) UnmarshalGQL(v any) error {
+func (e *IdentificationType) UnmarshalGQL(v interface{}) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -15088,7 +15088,7 @@ func (e IlmmOnboardingStatus) String() string {
 	return string(e)
 }
 
-func (e *IlmmOnboardingStatus) UnmarshalGQL(v any) error {
+func (e *IlmmOnboardingStatus) UnmarshalGQL(v interface{}) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -15138,7 +15138,7 @@ func (e InternetFirewallActionEnum) String() string {
 	return string(e)
 }
 
-func (e *InternetFirewallActionEnum) UnmarshalGQL(v any) error {
+func (e *InternetFirewallActionEnum) UnmarshalGQL(v interface{}) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -15186,7 +15186,7 @@ func (e IPProtocol) String() string {
 	return string(e)
 }
 
-func (e *IPProtocol) UnmarshalGQL(v any) error {
+func (e *IPProtocol) UnmarshalGQL(v interface{}) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -15237,7 +15237,7 @@ func (e IPSecCipher) String() string {
 	return string(e)
 }
 
-func (e *IPSecCipher) UnmarshalGQL(v any) error {
+func (e *IPSecCipher) UnmarshalGQL(v interface{}) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -15294,7 +15294,7 @@ func (e IPSecDHGroup) String() string {
 	return string(e)
 }
 
-func (e *IPSecDHGroup) UnmarshalGQL(v any) error {
+func (e *IPSecDHGroup) UnmarshalGQL(v interface{}) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -15345,7 +15345,7 @@ func (e IPSecHash) String() string {
 	return string(e)
 }
 
-func (e *IPSecHash) UnmarshalGQL(v any) error {
+func (e *IPSecHash) UnmarshalGQL(v interface{}) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -15387,7 +15387,7 @@ func (e LicensePlan) String() string {
 	return string(e)
 }
 
-func (e *LicensePlan) UnmarshalGQL(v any) error {
+func (e *LicensePlan) UnmarshalGQL(v interface{}) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -15519,7 +15519,7 @@ func (e LicenseSku) String() string {
 	return string(e)
 }
 
-func (e *LicenseSku) UnmarshalGQL(v any) error {
+func (e *LicenseSku) UnmarshalGQL(v interface{}) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -15572,7 +15572,7 @@ func (e LicenseStatus) String() string {
 	return string(e)
 }
 
-func (e *LicenseStatus) UnmarshalGQL(v any) error {
+func (e *LicenseStatus) UnmarshalGQL(v interface{}) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -15615,7 +15615,7 @@ func (e LinkConfigPrecedenceEnum) String() string {
 	return string(e)
 }
 
-func (e *LinkConfigPrecedenceEnum) UnmarshalGQL(v any) error {
+func (e *LinkConfigPrecedenceEnum) UnmarshalGQL(v interface{}) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -15660,7 +15660,7 @@ func (e LinkQualityIssueTypeEnum) String() string {
 	return string(e)
 }
 
-func (e *LinkQualityIssueTypeEnum) UnmarshalGQL(v any) error {
+func (e *LinkQualityIssueTypeEnum) UnmarshalGQL(v interface{}) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -15701,7 +15701,7 @@ func (e LinkStatusEnum) String() string {
 	return string(e)
 }
 
-func (e *LinkStatusEnum) UnmarshalGQL(v any) error {
+func (e *LinkStatusEnum) UnmarshalGQL(v interface{}) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -15776,7 +15776,7 @@ func (e LookupFilterType) String() string {
 	return string(e)
 }
 
-func (e *LookupFilterType) UnmarshalGQL(v any) error {
+func (e *LookupFilterType) UnmarshalGQL(v interface{}) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -15819,7 +15819,7 @@ func (e MsAlertStatus) String() string {
 	return string(e)
 }
 
-func (e *MsAlertStatus) UnmarshalGQL(v any) error {
+func (e *MsAlertStatus) UnmarshalGQL(v interface{}) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -15864,7 +15864,7 @@ func (e MsResourceVerdictEnum) String() string {
 	return string(e)
 }
 
-func (e *MsResourceVerdictEnum) UnmarshalGQL(v any) error {
+func (e *MsResourceVerdictEnum) UnmarshalGQL(v interface{}) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -15915,7 +15915,7 @@ func (e NetworkEventSourceEnum) String() string {
 	return string(e)
 }
 
-func (e *NetworkEventSourceEnum) UnmarshalGQL(v any) error {
+func (e *NetworkEventSourceEnum) UnmarshalGQL(v interface{}) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -15958,7 +15958,7 @@ func (e NetworkXDREventTypeEnum) String() string {
 	return string(e)
 }
 
-func (e *NetworkXDREventTypeEnum) UnmarshalGQL(v any) error {
+func (e *NetworkXDREventTypeEnum) UnmarshalGQL(v interface{}) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -15999,7 +15999,7 @@ func (e ObjectRefBy) String() string {
 	return string(e)
 }
 
-func (e *ObjectRefBy) UnmarshalGQL(v any) error {
+func (e *ObjectRefBy) UnmarshalGQL(v interface{}) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -16042,7 +16042,7 @@ func (e OnboardingStatusEnum) String() string {
 	return string(e)
 }
 
-func (e *OnboardingStatusEnum) UnmarshalGQL(v any) error {
+func (e *OnboardingStatusEnum) UnmarshalGQL(v interface{}) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -16091,7 +16091,7 @@ func (e OperatingSystem) String() string {
 	return string(e)
 }
 
-func (e *OperatingSystem) UnmarshalGQL(v any) error {
+func (e *OperatingSystem) UnmarshalGQL(v interface{}) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -16158,7 +16158,7 @@ func (e PeriodType) String() string {
 	return string(e)
 }
 
-func (e *PeriodType) UnmarshalGQL(v any) error {
+func (e *PeriodType) UnmarshalGQL(v interface{}) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -16204,7 +16204,7 @@ func (e PolicyActiveOnEnum) String() string {
 	return string(e)
 }
 
-func (e *PolicyActiveOnEnum) UnmarshalGQL(v any) error {
+func (e *PolicyActiveOnEnum) UnmarshalGQL(v interface{}) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -16264,7 +16264,7 @@ func (e PolicyElementPropertiesEnum) String() string {
 	return string(e)
 }
 
-func (e *PolicyElementPropertiesEnum) UnmarshalGQL(v any) error {
+func (e *PolicyElementPropertiesEnum) UnmarshalGQL(v interface{}) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -16306,7 +16306,7 @@ func (e PolicyMutationStatus) String() string {
 	return string(e)
 }
 
-func (e *PolicyMutationStatus) UnmarshalGQL(v any) error {
+func (e *PolicyMutationStatus) UnmarshalGQL(v interface{}) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -16348,7 +16348,7 @@ func (e PolicyRevisionType) String() string {
 	return string(e)
 }
 
-func (e *PolicyRevisionType) UnmarshalGQL(v any) error {
+func (e *PolicyRevisionType) UnmarshalGQL(v interface{}) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -16404,7 +16404,7 @@ func (e PolicyRulePositionEnum) String() string {
 	return string(e)
 }
 
-func (e *PolicyRulePositionEnum) UnmarshalGQL(v any) error {
+func (e *PolicyRulePositionEnum) UnmarshalGQL(v interface{}) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -16450,7 +16450,7 @@ func (e PolicyRuleTrackingFrequencyEnum) String() string {
 	return string(e)
 }
 
-func (e *PolicyRuleTrackingFrequencyEnum) UnmarshalGQL(v any) error {
+func (e *PolicyRuleTrackingFrequencyEnum) UnmarshalGQL(v interface{}) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -16493,7 +16493,7 @@ func (e PolicySectionPositionEnum) String() string {
 	return string(e)
 }
 
-func (e *PolicySectionPositionEnum) UnmarshalGQL(v any) error {
+func (e *PolicySectionPositionEnum) UnmarshalGQL(v interface{}) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -16543,7 +16543,7 @@ func (e PolicySubRulePositionEnum) String() string {
 	return string(e)
 }
 
-func (e *PolicySubRulePositionEnum) UnmarshalGQL(v any) error {
+func (e *PolicySubRulePositionEnum) UnmarshalGQL(v interface{}) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -16585,7 +16585,7 @@ func (e PolicyToggleState) String() string {
 	return string(e)
 }
 
-func (e *PolicyToggleState) UnmarshalGQL(v any) error {
+func (e *PolicyToggleState) UnmarshalGQL(v interface{}) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -16609,7 +16609,7 @@ const (
 	ProtoTypeIpsecClient     ProtoType = "IPSEC_CLIENT"
 	ProtoTypeIpsecHost       ProtoType = "IPSEC_HOST"
 	ProtoTypeIpsecV2         ProtoType = "IPSEC_V2"
-	ProtoTypeSocketAWS1500   ProtoType = "SOCKET_AWS1500"
+	ProtoTypeSocketAws1500   ProtoType = "SOCKET_AWS1500"
 	ProtoTypeSocketAz1500    ProtoType = "SOCKET_AZ1500"
 	ProtoTypeSocketEsx1500   ProtoType = "SOCKET_ESX1500"
 	ProtoTypeSocketX1500     ProtoType = "SOCKET_X1500"
@@ -16622,11 +16622,11 @@ const (
 	ProtoTypeGreTunnel       ProtoType = "GRE_TUNNEL"
 	ProtoTypeNotDefined      ProtoType = "NOT_DEFINED"
 	ProtoTypePortalListener  ProtoType = "PORTAL_LISTENER"
-	ProtoTypeSocketGCP1500   ProtoType = "SOCKET_GCP1500"
+	ProtoTypeSocketGcp1500   ProtoType = "SOCKET_GCP1500"
 	ProtoTypeSocketRpi64     ProtoType = "SOCKET_RPI64"
 	ProtoTypeSocketX1        ProtoType = "SOCKET_X1"
 	ProtoTypeVsocketVgs      ProtoType = "VSOCKET_VGS"
-	ProtoTypeVsocketVgxAWS   ProtoType = "VSOCKET_VGX_AWS"
+	ProtoTypeVsocketVgxAws   ProtoType = "VSOCKET_VGX_AWS"
 	ProtoTypeVsocketVgxAzure ProtoType = "VSOCKET_VGX_AZURE"
 	ProtoTypeVsocketVgxEsx   ProtoType = "VSOCKET_VGX_ESX"
 	ProtoTypeVsocketVsh      ProtoType = "VSOCKET_VSH"
@@ -16637,7 +16637,7 @@ var AllProtoType = []ProtoType{
 	ProtoTypeIpsecClient,
 	ProtoTypeIpsecHost,
 	ProtoTypeIpsecV2,
-	ProtoTypeSocketAWS1500,
+	ProtoTypeSocketAws1500,
 	ProtoTypeSocketAz1500,
 	ProtoTypeSocketEsx1500,
 	ProtoTypeSocketX1500,
@@ -16650,11 +16650,11 @@ var AllProtoType = []ProtoType{
 	ProtoTypeGreTunnel,
 	ProtoTypeNotDefined,
 	ProtoTypePortalListener,
-	ProtoTypeSocketGCP1500,
+	ProtoTypeSocketGcp1500,
 	ProtoTypeSocketRpi64,
 	ProtoTypeSocketX1,
 	ProtoTypeVsocketVgs,
-	ProtoTypeVsocketVgxAWS,
+	ProtoTypeVsocketVgxAws,
 	ProtoTypeVsocketVgxAzure,
 	ProtoTypeVsocketVgxEsx,
 	ProtoTypeVsocketVsh,
@@ -16662,7 +16662,7 @@ var AllProtoType = []ProtoType{
 
 func (e ProtoType) IsValid() bool {
 	switch e {
-	case ProtoTypeCrossConnect, ProtoTypeIpsecClient, ProtoTypeIpsecHost, ProtoTypeIpsecV2, ProtoTypeSocketAWS1500, ProtoTypeSocketAz1500, ProtoTypeSocketEsx1500, ProtoTypeSocketX1500, ProtoTypeSocketX1600, ProtoTypeSocketX1600Lte, ProtoTypeSocketX1700, ProtoTypeVsocketVgx, ProtoTypeCrossConnectL2, ProtoTypeCrossConnectVrf, ProtoTypeGreTunnel, ProtoTypeNotDefined, ProtoTypePortalListener, ProtoTypeSocketGCP1500, ProtoTypeSocketRpi64, ProtoTypeSocketX1, ProtoTypeVsocketVgs, ProtoTypeVsocketVgxAWS, ProtoTypeVsocketVgxAzure, ProtoTypeVsocketVgxEsx, ProtoTypeVsocketVsh:
+	case ProtoTypeCrossConnect, ProtoTypeIpsecClient, ProtoTypeIpsecHost, ProtoTypeIpsecV2, ProtoTypeSocketAws1500, ProtoTypeSocketAz1500, ProtoTypeSocketEsx1500, ProtoTypeSocketX1500, ProtoTypeSocketX1600, ProtoTypeSocketX1600Lte, ProtoTypeSocketX1700, ProtoTypeVsocketVgx, ProtoTypeCrossConnectL2, ProtoTypeCrossConnectVrf, ProtoTypeGreTunnel, ProtoTypeNotDefined, ProtoTypePortalListener, ProtoTypeSocketGcp1500, ProtoTypeSocketRpi64, ProtoTypeSocketX1, ProtoTypeVsocketVgs, ProtoTypeVsocketVgxAws, ProtoTypeVsocketVgxAzure, ProtoTypeVsocketVgxEsx, ProtoTypeVsocketVsh:
 		return true
 	}
 	return false
@@ -16672,7 +16672,7 @@ func (e ProtoType) String() string {
 	return string(e)
 }
 
-func (e *ProtoType) UnmarshalGQL(v any) error {
+func (e *ProtoType) UnmarshalGQL(v interface{}) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -16716,7 +16716,7 @@ func (e Regionality) String() string {
 	return string(e)
 }
 
-func (e *Regionality) UnmarshalGQL(v any) error {
+func (e *Regionality) UnmarshalGQL(v interface{}) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -16793,7 +16793,7 @@ func (e RemediationStatusEnum) String() string {
 	return string(e)
 }
 
-func (e *RemediationStatusEnum) UnmarshalGQL(v any) error {
+func (e *RemediationStatusEnum) UnmarshalGQL(v interface{}) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -16834,7 +16834,7 @@ func (e RemotePortFwdRestrictionType) String() string {
 	return string(e)
 }
 
-func (e *RemotePortFwdRestrictionType) UnmarshalGQL(v any) error {
+func (e *RemotePortFwdRestrictionType) UnmarshalGQL(v interface{}) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -16899,7 +16899,7 @@ func (e ResourceRoleEnum) String() string {
 	return string(e)
 }
 
-func (e *ResourceRoleEnum) UnmarshalGQL(v any) error {
+func (e *ResourceRoleEnum) UnmarshalGQL(v interface{}) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -16950,7 +16950,7 @@ func (e RiskLevelEnum) String() string {
 	return string(e)
 }
 
-func (e *RiskLevelEnum) UnmarshalGQL(v any) error {
+func (e *RiskLevelEnum) UnmarshalGQL(v interface{}) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -17003,7 +17003,7 @@ func (e SandboxFailureReason) String() string {
 	return string(e)
 }
 
-func (e *SandboxFailureReason) UnmarshalGQL(v any) error {
+func (e *SandboxFailureReason) UnmarshalGQL(v interface{}) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -17056,7 +17056,7 @@ func (e SandboxStatus) String() string {
 	return string(e)
 }
 
-func (e *SandboxStatus) UnmarshalGQL(v any) error {
+func (e *SandboxStatus) UnmarshalGQL(v interface{}) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -17103,7 +17103,7 @@ func (e SandboxVerdict) String() string {
 	return string(e)
 }
 
-func (e *SandboxVerdict) UnmarshalGQL(v any) error {
+func (e *SandboxVerdict) UnmarshalGQL(v interface{}) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -17154,7 +17154,7 @@ func (e ScanResult) String() string {
 	return string(e)
 }
 
-func (e *ScanResult) UnmarshalGQL(v any) error {
+func (e *ScanResult) UnmarshalGQL(v interface{}) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -17197,7 +17197,7 @@ func (e SeverityEnum) String() string {
 	return string(e)
 }
 
-func (e *SeverityEnum) UnmarshalGQL(v any) error {
+func (e *SeverityEnum) UnmarshalGQL(v interface{}) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -17242,7 +17242,7 @@ func (e ShippingStatus) String() string {
 	return string(e)
 }
 
-func (e *ShippingStatus) UnmarshalGQL(v any) error {
+func (e *ShippingStatus) UnmarshalGQL(v interface{}) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -17297,7 +17297,7 @@ func (e SimpleServiceType) String() string {
 	return string(e)
 }
 
-func (e *SimpleServiceType) UnmarshalGQL(v any) error {
+func (e *SimpleServiceType) UnmarshalGQL(v interface{}) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -17317,7 +17317,7 @@ func (e SimpleServiceType) MarshalGQL(w io.Writer) {
 type SiteConnectionTypeEnum string
 
 const (
-	SiteConnectionTypeEnumSocketAWS1500  SiteConnectionTypeEnum = "SOCKET_AWS1500"
+	SiteConnectionTypeEnumSocketAws1500  SiteConnectionTypeEnum = "SOCKET_AWS1500"
 	SiteConnectionTypeEnumSocketAz1500   SiteConnectionTypeEnum = "SOCKET_AZ1500"
 	SiteConnectionTypeEnumSocketEsx1500  SiteConnectionTypeEnum = "SOCKET_ESX1500"
 	SiteConnectionTypeEnumSocketX1500    SiteConnectionTypeEnum = "SOCKET_X1500"
@@ -17327,7 +17327,7 @@ const (
 )
 
 var AllSiteConnectionTypeEnum = []SiteConnectionTypeEnum{
-	SiteConnectionTypeEnumSocketAWS1500,
+	SiteConnectionTypeEnumSocketAws1500,
 	SiteConnectionTypeEnumSocketAz1500,
 	SiteConnectionTypeEnumSocketEsx1500,
 	SiteConnectionTypeEnumSocketX1500,
@@ -17338,7 +17338,7 @@ var AllSiteConnectionTypeEnum = []SiteConnectionTypeEnum{
 
 func (e SiteConnectionTypeEnum) IsValid() bool {
 	switch e {
-	case SiteConnectionTypeEnumSocketAWS1500, SiteConnectionTypeEnumSocketAz1500, SiteConnectionTypeEnumSocketEsx1500, SiteConnectionTypeEnumSocketX1500, SiteConnectionTypeEnumSocketX1600, SiteConnectionTypeEnumSocketX1600Lte, SiteConnectionTypeEnumSocketX1700:
+	case SiteConnectionTypeEnumSocketAws1500, SiteConnectionTypeEnumSocketAz1500, SiteConnectionTypeEnumSocketEsx1500, SiteConnectionTypeEnumSocketX1500, SiteConnectionTypeEnumSocketX1600, SiteConnectionTypeEnumSocketX1600Lte, SiteConnectionTypeEnumSocketX1700:
 		return true
 	}
 	return false
@@ -17348,7 +17348,7 @@ func (e SiteConnectionTypeEnum) String() string {
 	return string(e)
 }
 
-func (e *SiteConnectionTypeEnum) UnmarshalGQL(v any) error {
+func (e *SiteConnectionTypeEnum) UnmarshalGQL(v interface{}) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -17422,7 +17422,7 @@ func (e SiteLicenseGroup) String() string {
 	return string(e)
 }
 
-func (e *SiteLicenseGroup) UnmarshalGQL(v any) error {
+func (e *SiteLicenseGroup) UnmarshalGQL(v interface{}) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -17463,7 +17463,7 @@ func (e SiteLicenseType) String() string {
 	return string(e)
 }
 
-func (e *SiteLicenseType) UnmarshalGQL(v any) error {
+func (e *SiteLicenseType) UnmarshalGQL(v interface{}) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -17508,7 +17508,7 @@ func (e SiteType) String() string {
 	return string(e)
 }
 
-func (e *SiteType) UnmarshalGQL(v any) error {
+func (e *SiteType) UnmarshalGQL(v interface{}) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -17567,7 +17567,7 @@ func (e SocketInterfaceDestType) String() string {
 	return string(e)
 }
 
-func (e *SocketInterfaceDestType) UnmarshalGQL(v any) error {
+func (e *SocketInterfaceDestType) UnmarshalGQL(v interface{}) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -17645,7 +17645,7 @@ func (e SocketInterfaceIDEnum) String() string {
 	return string(e)
 }
 
-func (e *SocketInterfaceIDEnum) UnmarshalGQL(v any) error {
+func (e *SocketInterfaceIDEnum) UnmarshalGQL(v interface{}) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -17688,7 +17688,7 @@ func (e SocketInterfacePrecedenceEnum) String() string {
 	return string(e)
 }
 
-func (e *SocketInterfacePrecedenceEnum) UnmarshalGQL(v any) error {
+func (e *SocketInterfacePrecedenceEnum) UnmarshalGQL(v interface{}) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -17733,7 +17733,7 @@ func (e SocketInterfaceRole) String() string {
 	return string(e)
 }
 
-func (e *SocketInterfaceRole) UnmarshalGQL(v any) error {
+func (e *SocketInterfaceRole) UnmarshalGQL(v interface{}) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -17790,7 +17790,7 @@ func (e SocketInterfaceWanRole) String() string {
 	return string(e)
 }
 
-func (e *SocketInterfaceWanRole) UnmarshalGQL(v any) error {
+func (e *SocketInterfaceWanRole) UnmarshalGQL(v interface{}) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -17837,7 +17837,7 @@ func (e SocketInventoryItemStatus) String() string {
 	return string(e)
 }
 
-func (e *SocketInventoryItemStatus) UnmarshalGQL(v any) error {
+func (e *SocketInventoryItemStatus) UnmarshalGQL(v interface{}) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -17880,7 +17880,7 @@ func (e SocketLanDirection) String() string {
 	return string(e)
 }
 
-func (e *SocketLanDirection) UnmarshalGQL(v any) error {
+func (e *SocketLanDirection) UnmarshalGQL(v interface{}) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -17921,7 +17921,7 @@ func (e SocketLanFirewallAction) String() string {
 	return string(e)
 }
 
-func (e *SocketLanFirewallAction) UnmarshalGQL(v any) error {
+func (e *SocketLanFirewallAction) UnmarshalGQL(v interface{}) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -17964,7 +17964,7 @@ func (e SocketLanFirewallDirection) String() string {
 	return string(e)
 }
 
-func (e *SocketLanFirewallDirection) UnmarshalGQL(v any) error {
+func (e *SocketLanFirewallDirection) UnmarshalGQL(v interface{}) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -18003,7 +18003,7 @@ func (e SocketLanNatType) String() string {
 	return string(e)
 }
 
-func (e *SocketLanNatType) UnmarshalGQL(v any) error {
+func (e *SocketLanNatType) UnmarshalGQL(v interface{}) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -18046,7 +18046,7 @@ func (e SocketLanTransportType) String() string {
 	return string(e)
 }
 
-func (e *SocketLanTransportType) UnmarshalGQL(v any) error {
+func (e *SocketLanTransportType) UnmarshalGQL(v interface{}) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -18066,8 +18066,8 @@ func (e SocketLanTransportType) MarshalGQL(w io.Writer) {
 type SocketPlatform string
 
 const (
-	SocketPlatformAWS1500   SocketPlatform = "AWS1500"
-	SocketPlatformGCP1500   SocketPlatform = "GCP1500"
+	SocketPlatformAws1500   SocketPlatform = "AWS1500"
+	SocketPlatformGcp1500   SocketPlatform = "GCP1500"
 	SocketPlatformAz1500    SocketPlatform = "AZ1500"
 	SocketPlatformEsx1500   SocketPlatform = "ESX1500"
 	SocketPlatformX1500     SocketPlatform = "X1500"
@@ -18080,8 +18080,8 @@ const (
 )
 
 var AllSocketPlatform = []SocketPlatform{
-	SocketPlatformAWS1500,
-	SocketPlatformGCP1500,
+	SocketPlatformAws1500,
+	SocketPlatformGcp1500,
 	SocketPlatformAz1500,
 	SocketPlatformEsx1500,
 	SocketPlatformX1500,
@@ -18095,7 +18095,7 @@ var AllSocketPlatform = []SocketPlatform{
 
 func (e SocketPlatform) IsValid() bool {
 	switch e {
-	case SocketPlatformAWS1500, SocketPlatformGCP1500, SocketPlatformAz1500, SocketPlatformEsx1500, SocketPlatformX1500, SocketPlatformX1500Br2, SocketPlatformX1500bBr2, SocketPlatformX1600, SocketPlatformX1600Lte, SocketPlatformX1700, SocketPlatformX1700b:
+	case SocketPlatformAws1500, SocketPlatformGcp1500, SocketPlatformAz1500, SocketPlatformEsx1500, SocketPlatformX1500, SocketPlatformX1500Br2, SocketPlatformX1500bBr2, SocketPlatformX1600, SocketPlatformX1600Lte, SocketPlatformX1700, SocketPlatformX1700b:
 		return true
 	}
 	return false
@@ -18105,7 +18105,7 @@ func (e SocketPlatform) String() string {
 	return string(e)
 }
 
-func (e *SocketPlatform) UnmarshalGQL(v any) error {
+func (e *SocketPlatform) UnmarshalGQL(v interface{}) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -18156,7 +18156,7 @@ func (e SocketRegistrationStatus) String() string {
 	return string(e)
 }
 
-func (e *SocketRegistrationStatus) UnmarshalGQL(v any) error {
+func (e *SocketRegistrationStatus) UnmarshalGQL(v interface{}) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -18213,7 +18213,7 @@ func (e SocketUpgradeStatus) String() string {
 	return string(e)
 }
 
-func (e *SocketUpgradeStatus) UnmarshalGQL(v any) error {
+func (e *SocketUpgradeStatus) UnmarshalGQL(v interface{}) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -18254,7 +18254,7 @@ func (e SortDirectionEnum) String() string {
 	return string(e)
 }
 
-func (e *SortDirectionEnum) UnmarshalGQL(v any) error {
+func (e *SortDirectionEnum) UnmarshalGQL(v interface{}) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -18295,7 +18295,7 @@ func (e SortOrder) String() string {
 	return string(e)
 }
 
-func (e *SortOrder) UnmarshalGQL(v any) error {
+func (e *SortOrder) UnmarshalGQL(v interface{}) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -18342,7 +18342,7 @@ func (e StoryEngineTypeEnum) String() string {
 	return string(e)
 }
 
-func (e *StoryEngineTypeEnum) UnmarshalGQL(v any) error {
+func (e *StoryEngineTypeEnum) UnmarshalGQL(v interface{}) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -18399,7 +18399,7 @@ func (e StoryProducerEnum) String() string {
 	return string(e)
 }
 
-func (e *StoryProducerEnum) UnmarshalGQL(v any) error {
+func (e *StoryProducerEnum) UnmarshalGQL(v interface{}) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -18462,7 +18462,7 @@ func (e StorySortFieldName) String() string {
 	return string(e)
 }
 
-func (e *StorySortFieldName) UnmarshalGQL(v any) error {
+func (e *StorySortFieldName) UnmarshalGQL(v interface{}) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -18511,7 +18511,7 @@ func (e StoryStatusEnum) String() string {
 	return string(e)
 }
 
-func (e *StoryStatusEnum) UnmarshalGQL(v any) error {
+func (e *StoryStatusEnum) UnmarshalGQL(v interface{}) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -18556,7 +18556,7 @@ func (e StoryVerdictEnum) String() string {
 	return string(e)
 }
 
-func (e *StoryVerdictEnum) UnmarshalGQL(v any) error {
+func (e *StoryVerdictEnum) UnmarshalGQL(v interface{}) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -18603,7 +18603,7 @@ func (e SubnetType) String() string {
 	return string(e)
 }
 
-func (e *SubnetType) UnmarshalGQL(v any) error {
+func (e *SubnetType) UnmarshalGQL(v interface{}) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -18644,7 +18644,7 @@ func (e TaggingMethod) String() string {
 	return string(e)
 }
 
-func (e *TaggingMethod) UnmarshalGQL(v any) error {
+func (e *TaggingMethod) UnmarshalGQL(v interface{}) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -18689,7 +18689,7 @@ func (e TargetType) String() string {
 	return string(e)
 }
 
-func (e *TargetType) UnmarshalGQL(v any) error {
+func (e *TargetType) UnmarshalGQL(v interface{}) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -18732,7 +18732,7 @@ func (e TimeFrameModifier) String() string {
 	return string(e)
 }
 
-func (e *TimeFrameModifier) UnmarshalGQL(v any) error {
+func (e *TimeFrameModifier) UnmarshalGQL(v interface{}) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -18775,7 +18775,7 @@ func (e TimelineItemCategoryEnum) String() string {
 	return string(e)
 }
 
-func (e *TimelineItemCategoryEnum) UnmarshalGQL(v any) error {
+func (e *TimelineItemCategoryEnum) UnmarshalGQL(v interface{}) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -18818,7 +18818,7 @@ func (e TimelineTypeEnum) String() string {
 	return string(e)
 }
 
-func (e *TimelineTypeEnum) UnmarshalGQL(v any) error {
+func (e *TimelineTypeEnum) UnmarshalGQL(v interface{}) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -18923,7 +18923,7 @@ func (e TimeseriesMetricType) String() string {
 	return string(e)
 }
 
-func (e *TimeseriesMetricType) UnmarshalGQL(v any) error {
+func (e *TimeseriesMetricType) UnmarshalGQL(v interface{}) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -18964,7 +18964,7 @@ func (e TrafficDirectionEnum) String() string {
 	return string(e)
 }
 
-func (e *TrafficDirectionEnum) UnmarshalGQL(v any) error {
+func (e *TrafficDirectionEnum) UnmarshalGQL(v interface{}) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -19028,7 +19028,7 @@ func (e UnitType) String() string {
 	return string(e)
 }
 
-func (e *UnitType) UnmarshalGQL(v any) error {
+func (e *UnitType) UnmarshalGQL(v interface{}) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -19079,7 +19079,7 @@ func (e UserRole) String() string {
 	return string(e)
 }
 
-func (e *UserRole) UnmarshalGQL(v any) error {
+func (e *UserRole) UnmarshalGQL(v interface{}) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -19120,7 +19120,7 @@ func (e VendorEnum) String() string {
 	return string(e)
 }
 
-func (e *VendorEnum) UnmarshalGQL(v any) error {
+func (e *VendorEnum) UnmarshalGQL(v interface{}) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -19161,7 +19161,7 @@ func (e VrrpType) String() string {
 	return string(e)
 }
 
-func (e *VrrpType) UnmarshalGQL(v any) error {
+func (e *VrrpType) UnmarshalGQL(v interface{}) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -19207,7 +19207,7 @@ func (e WanFirewallActionEnum) String() string {
 	return string(e)
 }
 
-func (e *WanFirewallActionEnum) UnmarshalGQL(v any) error {
+func (e *WanFirewallActionEnum) UnmarshalGQL(v interface{}) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -19248,7 +19248,7 @@ func (e WanFirewallDirectionEnum) String() string {
 	return string(e)
 }
 
-func (e *WanFirewallDirectionEnum) UnmarshalGQL(v any) error {
+func (e *WanFirewallDirectionEnum) UnmarshalGQL(v interface{}) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -19309,7 +19309,7 @@ func (e WanNetworkRuleInterfaceRole) String() string {
 	return string(e)
 }
 
-func (e *WanNetworkRuleInterfaceRole) UnmarshalGQL(v any) error {
+func (e *WanNetworkRuleInterfaceRole) UnmarshalGQL(v interface{}) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -19364,7 +19364,7 @@ func (e WanNetworkRuleRouteType) String() string {
 	return string(e)
 }
 
-func (e *WanNetworkRuleRouteType) UnmarshalGQL(v any) error {
+func (e *WanNetworkRuleRouteType) UnmarshalGQL(v interface{}) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -19416,7 +19416,7 @@ func (e WanNetworkRuleTransportType) String() string {
 	return string(e)
 }
 
-func (e *WanNetworkRuleTransportType) UnmarshalGQL(v any) error {
+func (e *WanNetworkRuleTransportType) UnmarshalGQL(v interface{}) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -19462,7 +19462,7 @@ func (e WanNetworkRuleType) String() string {
 	return string(e)
 }
 
-func (e *WanNetworkRuleType) UnmarshalGQL(v any) error {
+func (e *WanNetworkRuleType) UnmarshalGQL(v interface{}) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -19517,7 +19517,7 @@ func (e ZtnaUsersLicenseGroup) String() string {
 	return string(e)
 }
 
-func (e *ZtnaUsersLicenseGroup) UnmarshalGQL(v any) error {
+func (e *ZtnaUsersLicenseGroup) UnmarshalGQL(v interface{}) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")

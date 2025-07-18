@@ -1,0 +1,17 @@
+query accountManagement ( $accountId:ID! ) {
+	accountManagement ( accountId:$accountId  ) {
+		account  {
+			id
+			name
+			description
+			timeZone
+			type
+			tenancy
+			audit {
+				createdBy 
+				createdTime 
+			}
+		}
+
+	}	
+}

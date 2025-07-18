@@ -7,15 +7,14 @@ import (
 	"os"
 
 	cato "github.com/catonetworks/cato-go-sdk"
-	cato_models "github.com/catonetworks/cato-go-sdk/models"
 )
 
 func main() {
 	token := os.Getenv("CATO_API_KEY")
 	accountId := os.Getenv("CATO_ACCOUNT_ID")
 	url := os.Getenv("CATO_API_URL")
-	siteId := os.Getenv("CATO_SITE_ID")
-	licenseId := os.Getenv("CATO_LICENSE_ID")
+	// siteId := os.Getenv("CATO_SITE_ID")
+	// licenseId := os.Getenv("CATO_LICENSE_ID")
 
 	if token == "" {
 		fmt.Println("no token provided")
@@ -36,14 +35,20 @@ func main() {
 
 	ctx := context.Background()
 
-	input := cato_models.AssignSiteBwLicenseInput{}
-	siteRef := &cato_models.SiteRefInput{}
-	siteRef.By = "ID"
-	siteRef.Input = siteId
-	input.LicenseID = licenseId
-	input.Site = siteRef
+	// input := cato_models.LicensingInfo{}
+	// siteRef := &cato_models.SiteRefInput{}
+	// siteRef.By = "ID"
+	// siteRef.Input = siteId
+	// input.LicenseID = licenseId
+	// input.Site = siteRef
 
-	licData, err := catoClient.AssignSiteBwLicense(ctx, accountId, input)
+	// licData, err := catoClient.AssignSiteBwLicense(ctx, accountId, input)
+	// if err != nil {
+	// 	fmt.Println("error in auditfeed: ", err)
+	// 	return
+	// }
+
+	licData, err := catoClient.Licensing(ctx, accountId)
 	if err != nil {
 		fmt.Println("error in auditfeed: ", err)
 		return

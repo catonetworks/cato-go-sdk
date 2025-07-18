@@ -1,5 +1,6 @@
 query policy ( $internetFirewallPolicyInput:InternetFirewallPolicyInput $wanFirewallPolicyInput:WanFirewallPolicyInput $accountId:ID! ) {
 	policy ( accountId:$accountId  ) {
+		
 		internetFirewall  {
 			policy ( input:$internetFirewallPolicyInput   ) {
 				enabled 
