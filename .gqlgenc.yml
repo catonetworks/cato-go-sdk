@@ -23,8 +23,6 @@ models:
     model: github.com/catonetworks/cato-go-sdk/scalars.Port
   Time:
     model: github.com/catonetworks/cato-go-sdk/scalars.Time
-  Map:
-    model: map[string]interface{}
 schema:
  - cato_api.graphqls
 query:
