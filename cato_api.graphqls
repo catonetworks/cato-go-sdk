@@ -2169,6 +2169,8 @@ input UpdateNetworkRangeInput {
 }
 
 input NetworkDhcpSettingsInput {
+  """Only relevant for DHCP range"""
+  dhcpMicrosegmentation: Boolean  
   dhcpType: DhcpType!
   ipRange: IPRange
   relayGroupId: ID
@@ -2242,6 +2244,7 @@ enum SiteConnectionTypeEnum {
   SOCKET_AWS1500
   SOCKET_AZ1500
   SOCKET_ESX1500
+  SOCKET_GCP1500
   SOCKET_X1500
   SOCKET_X1600
   SOCKET_X1600_LTE
@@ -2924,6 +2927,8 @@ enum InternetFirewallActionEnum {
 input InternetFirewallAddRuleDataInput {
   "The action applied by the Internet Firewall if the rule is matched"
   action: InternetFirewallActionEnum! = BLOCK
+  "The time period during which the rule is active, outside this period, the rule is inactive"
+  activePeriod: PolicyRuleActivePeriodInput! = {useEffectiveFrom: false, useExpiresAt: false}
   "Connection origin of the traffic"
   connectionOrigin: ConnectionOriginEnum! = ANY
   """
@@ -3184,6 +3189,8 @@ input InternetFirewallRemoveRuleInput {
 type InternetFirewallRule implements IPolicyRule {
   "The action applied by the Internet Firewall if the rule is matched"
   action: InternetFirewallActionEnum!
+  "The time period during which the rule is active, outside this period, the rule is inactive"
+  activePeriod: PolicyRuleActivePeriod!
   "Connection origin of the traffic"
   connectionOrigin: ConnectionOriginEnum!
   """
@@ -3430,6 +3437,8 @@ input InternetFirewallSourceUpdateInput {
 input InternetFirewallUpdateRuleDataInput {
   "The action applied by the Internet Firewall if the rule is matched"
   action: InternetFirewallActionEnum
+  "The time period during which the rule is active, outside this period, the rule is inactive"
+  activePeriod: PolicyRuleActivePeriodUpdateInput
   "Connection origin of the traffic"
   connectionOrigin: ConnectionOriginEnum
   """
@@ -3716,6 +3725,7 @@ type PolicyMutations {
   internetFirewall(input: InternetFirewallPolicyMutationInput): InternetFirewallPolicyMutations
   remotePortFwd(input: RemotePortFwdPolicyMutationInput): RemotePortFwdPolicyMutations
   socketLan(input: SocketLanPolicyMutationInput): SocketLanPolicyMutations
+  terminalServer(input: TerminalServerPolicyMutationInput): TerminalServerPolicyMutations
   wanFirewall(input: WanFirewallPolicyMutationInput): WanFirewallPolicyMutations
   wanNetwork(input: WanNetworkPolicyMutationInput): WanNetworkPolicyMutations
 }
@@ -3738,6 +3748,7 @@ type PolicyQueries {
   internetFirewall: InternetFirewallPolicyQueries
   remotePortFwd: RemotePortFwdPolicyQueries
   socketLan: SocketLanPolicyQueries
+  terminalServer: TerminalServerPolicyQueries
   wanFirewall: WanFirewallPolicyQueries
   wanNetwork: WanNetworkPolicyQueries
 }
@@ -3772,6 +3783,36 @@ enum PolicyRevisionType {
 "Returns data for publishing the policy"
 type PolicyRevisionsPayload {
   revision: [PolicyRevision!]!
+}
+
+"Returns the time period during which the rule is active, outside this period, the rule is inactive"
+type PolicyRuleActivePeriod {
+  "The time the rule becomes active, if not used, default null"
+  effectiveFrom: DateTime
+  "The time the rule expires, if not used, default null"
+  expiresAt: DateTime
+  useEffectiveFrom: Boolean!
+  useExpiresAt: Boolean!
+}
+
+"Input of the time period during which the rule is active, outside this period, the rule is inactive"
+input PolicyRuleActivePeriodInput {
+  "The time the rule becomes active, if not used, default null"
+  effectiveFrom: DateTime
+  "The time the rule expires, if not used, default null"
+  expiresAt: DateTime
+  useEffectiveFrom: Boolean! = false
+  useExpiresAt: Boolean! = false
+}
+
+"Input of the time period during which the rule is active, outside this period, the rule is inactive"
+input PolicyRuleActivePeriodUpdateInput {
+  "The time the rule becomes active, if not used, default null"
+  effectiveFrom: DateTime
+  "The time the rule expires, if not used, default null"
+  expiresAt: DateTime
+  useEffectiveFrom: Boolean
+  useExpiresAt: Boolean
 }
 
 "Enum for the position of a rule within a policy"
@@ -4729,6 +4770,7 @@ type SocketLanRule implements IPolicyRule {
    FALSE = Rule is disabled
   """
   enabled: Boolean!
+  firewall: [SocketLanFirewallRulePayload!]!
   "Rule ID"
   id: ID!
   "Position / priority of rule"
@@ -4977,6 +5019,153 @@ input SocketLanUpdateRuleInput {
   rule: SocketLanUpdateRuleDataInput!
 }
 
+input TerminalServerAddRuleDataInput {
+  """
+  Allowed Host IP range.
+  all the other IPs will be blocked by the pop.
+  Globally defined IP range
+  """
+  allowedHostIP: GlobalIpRangeRefInput!
+  description: String! = ""
+  enabled: Boolean!
+  """
+  Exclude traffic IP Range.
+  all traffic to those Ips will be excluded from the GRE tunnel.
+  Globally defined IP range
+  """
+  excludeTraffic: [GlobalIpRangeRefInput!]! = []
+  name: String!
+}
+
+input TerminalServerAddRuleInput {
+  "Position of the rule in the policy"
+  at: PolicyRulePositionInput
+  "Parameters for the rule you are adding"
+  rule: TerminalServerAddRuleDataInput!
+}
+
+type TerminalServerPolicy implements IPolicy {
+  audit: PolicyAudit
+  enabled: Boolean!
+  revision: PolicyRevision
+  rules: [TerminalServerRulePayload!]!
+  sections: [PolicySectionPayload!]!
+}
+
+input TerminalServerPolicyInput {
+  """
+  A revision is a specific instance of the policy.
+   Unpublished revisions are working copies of the policy available to a specific
+   admin or a set of admins
+   Published revisions are revisions that were applied to the account network.
+   The last published revision is the active policy.
+  """
+  revision: PolicyRevisionInput
+}
+
+input TerminalServerPolicyMutationInput {
+  revision: PolicyMutationRevisionInput
+}
+
+type TerminalServerPolicyMutationPayload implements IPolicyMutationPayload {
+  errors: [PolicyMutationError!]!
+  policy: TerminalServerPolicy
+  status: PolicyMutationStatus!
+}
+
+type TerminalServerPolicyMutations {
+  addRule(input: TerminalServerAddRuleInput!): TerminalServerRuleMutationPayload! @beta
+  addSection(input: PolicyAddSectionInput!): PolicySectionMutationPayload! @beta
+  createPolicyRevision(input: PolicyCreateRevisionInput!): TerminalServerPolicyMutationPayload! @beta
+  discardPolicyRevision(input: PolicyDiscardRevisionInput): TerminalServerPolicyMutationPayload! @beta
+  moveRule(input: PolicyMoveRuleInput!): TerminalServerRuleMutationPayload! @beta
+  moveSection(input: PolicyMoveSectionInput!): PolicySectionMutationPayload! @beta
+  publishPolicyRevision(input: PolicyPublishRevisionInput): TerminalServerPolicyMutationPayload! @beta
+  removeRule(input: TerminalServerRemoveRuleInput!): TerminalServerRuleMutationPayload! @beta
+  removeSection(input: PolicyRemoveSectionInput!): PolicySectionMutationPayload! @beta
+  updatePolicy(input: TerminalServerPolicyUpdateInput!): TerminalServerPolicyMutationPayload! @beta
+  updateRule(input: TerminalServerUpdateRuleInput!): TerminalServerRuleMutationPayload! @beta
+  updateSection(input: PolicyUpdateSectionInput!): PolicySectionMutationPayload! @beta
+}
+
+type TerminalServerPolicyQueries {
+  policy(input: TerminalServerPolicyInput): TerminalServerPolicy! @beta
+  revisions: PolicyRevisionsPayload @beta
+}
+
+input TerminalServerPolicyUpdateInput {
+  state: PolicyToggleState
+}
+
+input TerminalServerRemoveRuleInput {
+  id: ID!
+}
+
+type TerminalServerRule implements IPolicyRule {
+  """
+  Allowed Host IP range.
+  all the other IPs will be blocked by the pop.
+  Globally defined IP range
+  """
+  allowedHostIP: GlobalIpRangeRef!
+  "Description for the rule"
+  description: String!
+  """
+  TRUE = Rule is enabled 
+   FALSE = Rule is disabled
+  """
+  enabled: Boolean!
+  """
+  Exclude traffic IP Range.
+  all traffic to those Ips will be excluded from the GRE tunnel.
+  Globally defined IP range
+  """
+  excludeTraffic: [GlobalIpRangeRef!]!
+  "Rule ID"
+  id: ID!
+  "Position / priority of rule"
+  index: Int!
+  "Name of the rule"
+  name: String!
+  "Policy section where the rule is located"
+  section: PolicySectionInfo!
+}
+
+type TerminalServerRuleMutationPayload implements IPolicyRuleMutationPayload {
+  errors: [PolicyMutationError!]!
+  rule: TerminalServerRulePayload
+  status: PolicyMutationStatus!
+}
+
+type TerminalServerRulePayload implements IPolicyRulePayload {
+  audit: PolicyElementAudit!
+  properties: [PolicyElementPropertiesEnum!]!
+  rule: TerminalServerRule!
+}
+
+input TerminalServerUpdateRuleDataInput {
+  """
+  Allowed Host IP range.
+  all the other IPs will be blocked by the pop.
+  Globally defined IP range
+  """
+  allowedHostIP: GlobalIpRangeRefInput
+  description: String
+  enabled: Boolean
+  """
+  Exclude traffic IP Range.
+  all traffic to those Ips will be excluded from the GRE tunnel.
+  Globally defined IP range
+  """
+  excludeTraffic: [GlobalIpRangeRefInput!]
+  name: String
+}
+
+input TerminalServerUpdateRuleInput {
+  id: ID!
+  rule: TerminalServerUpdateRuleDataInput!
+}
+
 enum WanFirewallActionEnum {
   "Allow the network traffic to pass through the firewall."
   ALLOW
@@ -4989,6 +5178,8 @@ enum WanFirewallActionEnum {
 input WanFirewallAddRuleDataInput {
   "The action applied by the Internet Firewall if the rule is matched"
   action: WanFirewallActionEnum! = BLOCK
+  "The time period during which the rule is active, outside this period, the rule is inactive"
+  activePeriod: PolicyRuleActivePeriodInput! = {useEffectiveFrom: false, useExpiresAt: false}
   """
   Application traffic matching criteria.
   Logical ‘OR’ is applied within the criteria set.
@@ -5186,7 +5377,7 @@ type WanFirewallDestination {
   usersGroup: [UsersGroupRef!]!
 }
 
-"Input of the settings for Destination of a Wan Firewall rule"
+"Input of the settings for Destination of a Wan Firewall rule. To specify 'ANY' destination, an empty list must be provided for each match criteria field (e.g. ip: [], group: [], etc...)"
 input WanFirewallDestinationInput {
   """
   Floating Subnets (ie. Floating Ranges) are used to identify traffic exactly matched to the route advertised by BGP.
@@ -5220,7 +5411,7 @@ input WanFirewallDestinationInput {
   usersGroup: [UsersGroupRefInput!]! = []
 }
 
-"Input of the settings for Destination of a Wan Firewall rule"
+"Input of the settings for Destination of a Wan Firewall rule. To specify 'ANY' destination, an empty list must be provided for each match criteria field (e.g. ip: [], group: [], etc...)"
 input WanFirewallDestinationUpdateInput {
   """
   Floating Subnets (ie. Floating Ranges) are used to identify traffic exactly matched to the route advertised by BGP.
@@ -5342,6 +5533,8 @@ input WanFirewallRemoveRuleInput {
 type WanFirewallRule implements IPolicyRule {
   "The action applied by the Internet Firewall if the rule is matched"
   action: WanFirewallActionEnum!
+  "The time period during which the rule is active, outside this period, the rule is inactive"
+  activePeriod: PolicyRuleActivePeriod!
   """
   Application traffic matching criteria.
   Logical ‘OR’ is applied within the criteria set.
@@ -5457,13 +5650,9 @@ input WanFirewallRuleExceptionInput {
   destination: WanFirewallDestinationInput! = {host: [], site: [], subnet: [], ip: [], ipRange: [], globalIpRange: [], networkInterface: [], siteNetworkSubnet: [], floatingSubnet: [], user: [], usersGroup: [], group: [], systemGroup: []}
   "Source Device Profile matching criteria for the exception."
   device: [DeviceProfileRefInput!]! = []
-  """
-  Source Device Attributes matching criteria for the exception.
-
+  "Source Device Attributes matching criteria for the exception."
   deviceAttributes: DeviceAttributesInput! = {category: [], type: [], model: [], manufacturer: [], os: [], osVersion: []}
-
-  Source device OS matching criteria for the exception.
-  """
+  "Source device OS matching criteria for the exception."
   deviceOS: [OperatingSystem!]! = []
   "Direction origin matching criteria for the exception"
   direction: WanFirewallDirectionEnum! = TO
@@ -5488,19 +5677,19 @@ type WanFirewallRulePayload implements IPolicyRulePayload {
   rule: WanFirewallRule!
 }
 
-"Add the Service Type to which this Internet Firewall rule applies"
+"Returns the Service Type to which this Wan Firewall rule applies"
 type WanFirewallServiceType {
   custom: [CustomService!]!
   standard: [ServiceRef!]!
 }
 
-"Add the Service Type to which this Internet Firewall rule applies"
+"Input of the Service Type to which this Wan Firewall rule applies. To specify 'ANY' source, an empty list must be provided for each match criteria field (e.g. standard: [], custom: [], etc...)"
 input WanFirewallServiceTypeInput {
   custom: [CustomServiceInput!]! = []
   standard: [ServiceRefInput!]! = []
 }
 
-"Add the Service Type to which this Internet Firewall rule applies"
+"Input of the Service Type to which this Wan Firewall rule applies. To specify 'ANY' source, an empty list must be provided for each match criteria field (e.g. standard: [], custom: [], etc...)"
 input WanFirewallServiceTypeUpdateInput {
   custom: [CustomServiceInput!]
   standard: [ServiceRefInput!]
@@ -5540,7 +5729,7 @@ type WanFirewallSource {
   usersGroup: [UsersGroupRef!]!
 }
 
-"Input of the settings for Source of an Wan Firewall rule"
+"Input of the settings for Source of an Wan Firewall rule. To specify 'ANY' source, an empty list must be provided for each match criteria field (e.g. ip: [], group: [], etc...)"
 input WanFirewallSourceInput {
   """
   Floating Subnets (ie. Floating Ranges) are used to identify traffic exactly matched to the route advertised by BGP.
@@ -5574,7 +5763,7 @@ input WanFirewallSourceInput {
   usersGroup: [UsersGroupRefInput!]! = []
 }
 
-"Input of the settings for Source of an Wan Firewall rule"
+"Input of the settings for Source of an Wan Firewall rule. To specify 'ANY' source, an empty list must be provided for each match criteria field (e.g. ip: [], group: [], etc...)"
 input WanFirewallSourceUpdateInput {
   """
   Floating Subnets (ie. Floating Ranges) are used to identify traffic exactly matched to the route advertised by BGP.
@@ -5611,6 +5800,8 @@ input WanFirewallSourceUpdateInput {
 input WanFirewallUpdateRuleDataInput {
   "The action applied by the Internet Firewall if the rule is matched"
   action: WanFirewallActionEnum
+  "The time period during which the rule is active, outside this period, the rule is inactive"
+  activePeriod: PolicyRuleActivePeriodUpdateInput
   """
   Application traffic matching criteria.
   Logical ‘OR’ is applied within the criteria set.
@@ -6268,7 +6459,7 @@ type InterfaceInfo {
 """Basic Site configuration information"""
 type SiteInfo {
   """Address of the physical site location"""
-  address: String  
+  address: String
   """City of the physical site location"""
   cityName: String
   """
@@ -8677,8 +8868,14 @@ type EntityLookupResult {
   total: Int
 }
 
+enum AdminType {
+  LOGIN
+  SERVICE_PRINCIPLE
+}
+
 """A CC2 administrator"""
 type Admin {
+  adminType: AdminType
   allowedItems: [Entity!]
   creationDate: DateTime
   email: String
@@ -8817,9 +9014,9 @@ enum SocketUpgradeStatus {
 
 enum SocketPlatform {
   AWS1500
-  GCP1500
   AZ1500
   ESX1500
+  GCP1500
   X1500
   X1500_BR2
   X1500B_BR2
@@ -9352,6 +9549,9 @@ enum OperatingSystem {
 "Email address. E.g.: user@company.org"
 scalar Email
 
+"Phone number. E.g.: +1 505 333 4070"
+scalar Phone
+
 "Network port number. Must be in range [0-65535] E.g.: 433, 8080, 80, etc.."
 scalar Port
 
@@ -9470,12 +9670,6 @@ input SimpleServiceInput {
 input AccountFilter {
   accountInclusion: AccountInclusion
   in: [ID!]
-}
-
-type CatalogQueries {
-  catalogApplication(input: ApplicationRefInput!): CatalogApplication @beta
-  catalogApplicationList(input: CatalogApplicationListInput!): CatalogApplicationListPayload @beta
-  contentTypeGroupList(input: CatalogApplicationContentTypeGroupListInput!): CatalogApplicationContentTypeGroupListPayload @beta
 }
 
 """
@@ -9957,6 +10151,30 @@ input BooleanFilterInput {
   neq: Boolean
 }
 
+enum AddressValidationStatus {
+  INVALID
+  NA
+  VALID
+}
+
+type ContactDetails {
+  "Contact email address"
+  email: Email
+  "Contact name"
+  name: String
+  "Contact phone number"
+  phone: Phone
+}
+
+input ContactDetailsInput {
+  "Contact email address"
+  email: Email
+  "Contact name"
+  name: String
+  "Contact phone number"
+  phone: Phone
+}
+
 input PagingInput {
   from: Int! = 0
   limit: Int! = 100
@@ -9984,6 +10202,17 @@ enum AppStatsFieldName {
   app
   "The application name"
   application
+  "Application description"
+  application_description
+  "The application identifier"
+  application_id
+  "The application name"
+  application_name
+  application_risk_level
+  "The application risk score assigned by Cato"
+  application_risk_score
+  "Cato system categories of the application"
+  categories
   "Cato system category of the application"
   category
   "Application description"
@@ -10014,6 +10243,8 @@ enum AppStatsFieldName {
   ip
   "indicates whether the application is considered cloud app/SaaS app"
   is_cloud_app
+  "Is the application defined as sanctioned?"
+  is_sanctioned_app
   "new cloud application identifier"
   new_app
   ""
@@ -10032,12 +10263,20 @@ enum AppStatsFieldName {
   src_ip
   "Source is site or remote user"
   src_is_site_or_vpn
+  "Site country code alpha2"
+  src_site_country_code
   "Source site or remote user identifier"
   src_site_id
   "Source site or remote user name"
   src_site_name
+  "Site state code"
+  src_site_state
   "Name of subnet as defined in Cato Management Application"
   subnet
+  "Name of subnet as defined in Cato Management Application"
+  subnet_name
+  "Top level domain"
+  tld
   "the total sum of upstream and downstream data in bytes"
   traffic
   "Traffic direction"
@@ -10115,6 +10354,7 @@ type AdminMutations {
 }
 
 type GetAdminPayload {
+  adminType: AdminType!
   creationDate: String!
   email: String!
   firstName: String!
@@ -10127,6 +10367,7 @@ type GetAdminPayload {
 }
 
 input AddAdminInput {
+  adminType: AdminType
   email: String!
   firstName: String!
   lastName: String!
@@ -10236,9 +10477,59 @@ enum AccountTenancy {
   SINGLE_TENANT
 }
 
+"""Input parameters for querying available versions."""
+input AvailableVersionListInput {
+  """List of platforms to retrieve available versions for."""
+  platforms: [String!]!
+}
+
+"""Input for bulk site upgrade requests."""
+input StartSiteUpgradeInput {
+  upgrades: [SiteUpgradeRequest!]!
+}
+
+"""Represents a single site upgrade request."""
+input SiteUpgradeRequest {
+  site: SiteRefInput!
+  """Target version to upgrade the site's sockets to."""
+  targetVersion: String!
+}
+
+"""Response payload for available versions query."""
+type AvailableVersionListPayload {
+  """List of available versions for each requested platform."""
+  items: [PlatformVersions!]!
+}
+
+"""Represents available versions for a specific platform."""
+type PlatformVersions {
+  """The platform for which versions are retrieved."""
+  platform: String!
+  """List of available socket versions for this platform."""
+  versions: [String!]!
+}
+
+"""Wrapper for site upgrade response."""
+type StartSiteUpgradePayload {
+  """List of individual site upgrade results."""
+  results: [SiteUpgradeResult!]!
+}
+
+"""Represents the result of an upgrade request."""
+type SiteUpgradeResult {
+  site: BulkUpgradeSiteInfo!
+  """The requested version for this site."""
+  targetVersion: String!
+}
+
+type BulkUpgradeSiteInfo {
+  id: ID!
+  name: String!
+}
+
 type SandboxQueries {
   " Get a list of sandbox reports "
-  reports(input: SandboxReportsInput): SandboxReportsPayload! @beta
+  reports(input: SandboxReportsInput!): SandboxReportsPayload! @beta
 }
 
 type SandboxMutations {
@@ -10373,10 +10664,31 @@ type LicensingQueries {
 
 """Public license API"""
 type LicensingInfo {
+  atp: [AtpLicense!]!
+  casb: [CasbLicense!]!
+  dataLake: [DataLakeLicense!]!
+  dem: [DemLicense!]!
+  dlp: [DlpLicense!]!
+  endpointProtection: [EndpointProtectionLicense!]!
   """License usage and allocation across the managed accounts"""
   globalLicenseAllocations: GlobalLicenseAllocations!
+  ilmm: [IlmmLicense!]!
+  iotOt: [IotOtLicense!]!
+  ips: [IpsLicense!]!
   """License inventory"""
-  licenses: [License!]!
+  licenses: [License!]! @deprecated(reason: "please use individual license type fields")
+  malwareProtection: [MalwareProtectionLicense!]!
+  managedXdr: [ManagedXdrLicense!]!
+  nextGenMalwareProtection: [NextGenMalwareProtectionLicense!]!
+  nocaas: [NOCaaSLicense!]!
+  pooledBandwidth: [PooledBandwidthLicense!]!
+  publicIps: [PublicIpsLicense!]!
+  rbi: [RbiLicense!]!
+  saasSecurityApi: [SaasSecurityApiLicense!]!
+  site: [SiteLicense!]!
+  threatPrevention: [ThreatPreventionLicense!]!
+  xdrPro: [XdrProLicense!]!
+  ztnaUsers: [ZtnaUsersLicense!]!
 }
 
 """License usage and allocation across all accounts"""
@@ -10500,7 +10812,7 @@ enum LicenseSku {
   CATO_IPS
   """Cato Managed XDR service SKU"""
   CATO_MANAGED_XDR
-  """Cato MDR (XDR Pro) service SKU"""
+  """Cato MDR service SKU"""
   CATO_MDR
   """Cato NOCaaS service SKU"""
   CATO_NOCAAS_HF
@@ -10535,6 +10847,8 @@ enum LicenseSku {
   CATO_THREAT_PREVENTION_ADV
   """Cato XDR service SKU"""
   CATO_XDR_PRO
+  """Cato XOps service SKU"""
+  CATO_XOPS
   """ZTNA remote users SKU"""
   CATO_ZTNA_USERS
   """ZTNA remote users SKU"""
@@ -10927,6 +11241,24 @@ type DlpLicense implements License {
   status: LicenseStatus!
 }
 
+"""MDR service license details"""
+type MdrLicense implements License {
+  id: String
+  description: String
+  """License expiration date"""
+  expirationDate: DateTime!
+  """The date of the last update to the license"""
+  lastUpdated: DateTime
+  """License plan type"""
+  plan: LicensePlan!
+  """The license SKU"""
+  sku: LicenseSku!
+  """License start date"""
+  startDate: DateTime
+  """License activation status"""
+  status: LicenseStatus!
+}
+
 """Managed XDR service license details"""
 type ManagedXdrLicense implements License {
   id: String
@@ -11059,6 +11391,24 @@ type AtpLicense implements License {
   status: LicenseStatus!
 }
 
+"""XOps service license details"""
+type XOpsLicense implements License {
+  id: String
+  description: String
+  """License expiration date"""
+  expirationDate: DateTime!
+  """The date of the last update to the license"""
+  lastUpdated: DateTime
+  """License plan type"""
+  plan: LicensePlan!
+  """The license SKU"""
+  sku: LicenseSku!
+  """License start date"""
+  startDate: DateTime
+  """License activation status"""
+  status: LicenseStatus!
+}
+
 type HardwareQueries {
   """Retrieve the account hardware items"""
   hardware(input: HardwareSearchInput): HardwarePayload @beta
@@ -11074,12 +11424,6 @@ enum ShippingStatus {
   DELIVERED
   IN_TRANSIT
   PENDING_INFO
-}
-
-enum AddressValidationStatus {
-  INVALID
-  NA
-  VALID
 }
 
 input HardwareSearchInput {
@@ -11125,21 +11469,12 @@ input AddressInput {
   zipCode: String!
 }
 
-input ContactDetailsInput {
-  """Contact email address"""
-  email: Email
-  """Contact name"""
-  name: String
-  """Contact phone number"""
-  phone: String
-}
-
 input HardwareFilterInput {
   account: [AccountFilter!]
   countryName: [StringFilterInput!]
   """
   Will run contains operation for the provided text on the following fields productType,
-  sfId, quoteId, model, zipCode, country, city, state, street, companyName, contactName,
+  sfId, siteName, quoteId, model, zipCode, country, city, state, street, companyName, contactName,
   trackingUrl, trackingNumber and comment with OR between them
   """
   freeText: FreeTextFilterInput
@@ -11206,15 +11541,6 @@ type ShippingDetails {
   zipCode: String
 }
 
-type ContactDetails {
-  """Contact email address"""
-  email: Email
-  """Contact name"""
-  name: String
-  """Contact phone number"""
-  phone: String
-}
-
 type ShippingTracking {
   """Carrier (shipping company)"""
   carrier: String
@@ -11279,6 +11605,8 @@ type HardwareValidation {
 
 type DevicesQueries {
   attributesCatalog: DeviceAttributesCatalogQueries! @beta
+  csvExport: ExportJobResponse! @beta
+  csvExportStatus(jobId: ID!): ExportStatusResponse! @beta
   list(input: DeviceV2Input): DevicesPayload @beta
 }
 
@@ -11360,7 +11688,7 @@ enum DeviceConfidenceLevel {
 input DeviceV2Input {
   filter: [DeviceV2FilterInput!]
   paging: PagingInput! = {limit: 100, from: 0}
-  sort: DeviceSortInput! = {id: {direction: ASC, priority: 1}}
+  sort: DeviceSortInput! = {lastSeen: {direction: DESC, priority: 1}}
 }
 
 type DevicesPayload {
@@ -11496,6 +11824,33 @@ type DeviceAttributesCatalogQueries {
 type DeviceAttributeCatalogPayload {
   items: [String!]!
   pageInfo: PageInfo!
+}
+
+type ExportJobResponse {
+  jobId: ID!
+  message: String
+}
+
+type ExportStatusResponse {
+  downloadUrl: String
+  expiresAt: DateTime
+  jobId: ID!
+  message: String
+  progress: Float
+  status: ExportJobStatus!
+}
+
+enum ExportJobStatus {
+  COMPLETED
+  FAILED
+  IN_PROGRESS
+  PENDING
+}
+
+type CatalogQueries {
+  catalogApplication(input: ApplicationRefInput!): CatalogApplication @beta
+  catalogApplicationList(input: CatalogApplicationListInput!): CatalogApplicationListPayload @beta
+  contentTypeGroupList(input: CatalogApplicationContentTypeGroupListInput!): CatalogApplicationContentTypeGroupListPayload @beta
 }
 
 type CatalogApplicationContentType {
@@ -11702,6 +12057,47 @@ type CatalogApplication {
   standardPorts: [CustomService!]!
   type: CatalogApplicationType!
   website: Url
+}
+
+enum SocketAddOnType {
+  FOUR_10G_FIBER
+  FOUR_1G_COPPER
+  TWO_10G_FIBER
+  TWO_1G_FIBER
+}
+
+
+type SocketAddOnCard {
+  expansionSlotNumber: SocketAddOnExpansionSlotNumber!
+  type: SocketAddOnType!
+}
+
+input SocketAddOnCardInput {
+  expansionSlotNumber: SocketAddOnExpansionSlotNumber!
+  type: SocketAddOnType!
+}
+
+enum SocketAddOnExpansionSlotNumber {
+  SLOT_1
+  SLOT_2
+}
+
+type AddSocketAddOnCardPayload {
+  addOns: [SocketAddOnCard!]!
+}
+
+input AddSocketAddOnCardInput {
+  addOns: [SocketAddOnCardInput!]!
+  site: SiteRefInput!
+}
+
+type RemoveSocketAddOnCardPayload {
+  addOns: [SocketAddOnCard!]!
+}
+
+input RemoveSocketAddOnCardInput {
+  expansionSlotNumbers: [SocketAddOnExpansionSlotNumber!]!
+  site: SiteRefInput!
 }
 
 ##################

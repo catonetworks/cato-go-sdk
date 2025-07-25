@@ -508,6 +508,7 @@ type AddAccountInput struct {
 }
 
 type AddAdminInput struct {
+	AdminType            *AdminType              `json:"adminType,omitempty"`
 	Email                string                  `json:"email"`
 	FirstName            string                  `json:"firstName"`
 	LastName             string                  `json:"lastName"`
@@ -714,7 +715,7 @@ type AddNetworkRangePayload struct {
 	NetworkRangeID string `json:"networkRangeId"`
 }
 
-type AddSecondaryAwsVSocketInput struct {
+type AddSecondaryAWSVSocketInput struct {
 	// The IP address of LAN interface
 	EniIPAddress string `json:"eniIpAddress"`
 	// The subnet of the LAN interface
@@ -725,7 +726,7 @@ type AddSecondaryAwsVSocketInput struct {
 	Site *SiteRefInput `json:"site"`
 }
 
-type AddSecondaryAwsVSocketPayload struct {
+type AddSecondaryAWSVSocketPayload struct {
 	// The secondary socket id
 	ID string `json:"id"`
 }
@@ -755,6 +756,15 @@ type AddSiteLocationInput struct {
 	StateCode *string `json:"stateCode,omitempty"`
 	// time zone
 	Timezone string `json:"timezone"`
+}
+
+type AddSocketAddOnCardInput struct {
+	AddOns []*SocketAddOnCardInput `json:"addOns"`
+	Site   *SiteRefInput           `json:"site"`
+}
+
+type AddSocketAddOnCardPayload struct {
+	AddOns []*SocketAddOnCard `json:"addOns"`
 }
 
 type AddSocketSiteInput struct {
@@ -816,6 +826,7 @@ type AddressInput struct {
 
 // A CC2 administrator
 type Admin struct {
+	AdminType             *AdminType                 `json:"adminType,omitempty"`
 	AllowedItems          []*Entity                  `json:"allowedItems,omitempty"`
 	CreationDate          *string                    `json:"creationDate,omitempty"`
 	Email                 *string                    `json:"email,omitempty"`
@@ -1214,12 +1225,12 @@ func (APIKeyRef) IsObjectRef() {}
 // Object's unique name
 
 type AppStats struct {
-	From    *string                `json:"from,omitempty"`
-	ID      *string                `json:"id,omitempty"`
-	Records []*AppStatsRecord      `json:"records,omitempty"`
-	To      *string                `json:"to,omitempty"`
-	Total   *int64                 `json:"total,omitempty"`
-	Totals  map[string]interface{} `json:"totals,omitempty"`
+	From    *string           `json:"from,omitempty"`
+	ID      *string           `json:"id,omitempty"`
+	Records []*AppStatsRecord `json:"records,omitempty"`
+	To      *string           `json:"to,omitempty"`
+	Total   *int64            `json:"total,omitempty"`
+	Totals  map[string]any    `json:"totals,omitempty"`
 }
 
 type AppStatsField struct {
@@ -1236,12 +1247,12 @@ type AppStatsFilter struct {
 type AppStatsRecord struct {
 	Fields []*AppStatsField `json:"fields,omitempty"`
 	// fields in map format (see Map scalar)
-	FieldsMap       map[string]interface{} `json:"fieldsMap,omitempty"`
-	FieldsUnitTypes []UnitType             `json:"fieldsUnitTypes,omitempty"`
+	FieldsMap       map[string]any `json:"fieldsMap,omitempty"`
+	FieldsUnitTypes []UnitType     `json:"fieldsUnitTypes,omitempty"`
 	// Simplified fields, as array of name value tuples, e.g: [ [ "name", "val" ], [ "name2", "val2" ] ... ]
-	FlatFields    [][]string             `json:"flatFields,omitempty"`
-	PrevTimeFrame map[string]interface{} `json:"prevTimeFrame,omitempty"`
-	Trends        map[string]interface{} `json:"trends,omitempty"`
+	FlatFields    [][]string     `json:"flatFields,omitempty"`
+	PrevTimeFrame map[string]any `json:"prevTimeFrame,omitempty"`
+	Trends        map[string]any `json:"trends,omitempty"`
 }
 
 type AppStatsSort struct {
@@ -1761,11 +1772,23 @@ type AuditRecord struct {
 	// All fields in the audit record (including the admin and object)
 	Fields []*AuditField `json:"fields,omitempty"`
 	// fields in map format (see Map scalar)
-	FieldsMap map[string]interface{} `json:"fieldsMap,omitempty"`
+	FieldsMap map[string]any `json:"fieldsMap,omitempty"`
 	// Simplified fields, as array of name value tuples, e.g: [ [ "name", "val" ], [ "name2", "val2" ] ... ]
 	FlatFields [][]string `json:"flatFields,omitempty"`
 	Object     *Entity    `json:"object,omitempty"`
 	Time       *string    `json:"time,omitempty"`
+}
+
+// Input parameters for querying available versions.
+type AvailableVersionListInput struct {
+	// List of platforms to retrieve available versions for.
+	Platforms []string `json:"platforms"`
+}
+
+// Response payload for available versions query.
+type AvailableVersionListPayload struct {
+	// List of available versions for each requested platform.
+	Items []*PlatformVersions `json:"items"`
 }
 
 type BGPConnection struct {
@@ -2043,6 +2066,11 @@ type BooleanFilterInput struct {
 
 type BooleanPredicate struct {
 	Is string `json:"is"`
+}
+
+type BulkUpgradeSiteInfo struct {
+	ID   string `json:"id"`
+	Name string `json:"name"`
 }
 
 // Cloud Access Security Broker (CASB) service license details
@@ -3391,6 +3419,8 @@ type DevicesPayload struct {
 
 type DevicesQueries struct {
 	AttributesCatalog *DeviceAttributesCatalogQueries `json:"attributesCatalog"`
+	CSVExport         *ExportJobResponse              `json:"csvExport"`
+	CSVExportStatus   *ExportStatusResponse           `json:"csvExportStatus"`
 	List              *DevicesPayload                 `json:"list,omitempty"`
 }
 
@@ -3820,9 +3850,9 @@ type Entity struct {
 func (Entity) IsValue() {}
 
 type EntityInfo struct {
-	Description  string                 `json:"description"`
-	Entity       *Entity                `json:"entity"`
-	HelperFields map[string]interface{} `json:"helperFields"`
+	Description  string         `json:"description"`
+	Entity       *Entity        `json:"entity"`
+	HelperFields map[string]any `json:"helperFields"`
 }
 
 type EntityInput struct {
@@ -3865,19 +3895,19 @@ type EventField struct {
 
 type EventRecord struct {
 	// fields in map format (see Map scalar)
-	FieldsMap map[string]interface{} `json:"fieldsMap,omitempty"`
+	FieldsMap map[string]any `json:"fieldsMap,omitempty"`
 	// Simplified fields, as array of name value tuples, e.g: [ [ "name", "val" ], [ "name2", "val2" ] ... ]
 	FlatFields [][]string `json:"flatFields,omitempty"`
 	Time       *string    `json:"time,omitempty"`
 }
 
 type Events struct {
-	From    *string                `json:"from,omitempty"`
-	ID      *string                `json:"id,omitempty"`
-	Records []*EventsRecord        `json:"records,omitempty"`
-	To      *string                `json:"to,omitempty"`
-	Total   *int64                 `json:"total,omitempty"`
-	Totals  map[string]interface{} `json:"totals,omitempty"`
+	From    *string         `json:"from,omitempty"`
+	ID      *string         `json:"id,omitempty"`
+	Records []*EventsRecord `json:"records,omitempty"`
+	To      *string         `json:"to,omitempty"`
+	Total   *int64          `json:"total,omitempty"`
+	Totals  map[string]any  `json:"totals,omitempty"`
 }
 
 type EventsDimension struct {
@@ -3911,12 +3941,12 @@ type EventsMeasure struct {
 type EventsRecord struct {
 	Fields []*EventField `json:"fields,omitempty"`
 	// fields in map format (see Map scalar)
-	FieldsMap       map[string]interface{} `json:"fieldsMap,omitempty"`
-	FieldsUnitTypes []UnitType             `json:"fieldsUnitTypes,omitempty"`
+	FieldsMap       map[string]any `json:"fieldsMap,omitempty"`
+	FieldsUnitTypes []UnitType     `json:"fieldsUnitTypes,omitempty"`
 	// Simplified fields, as array of name value tuples, e.g: [ [ "name", "val" ], [ "name2", "val2" ] ... ]
-	FlatFields    [][]string             `json:"flatFields,omitempty"`
-	PrevTimeFrame map[string]interface{} `json:"prevTimeFrame,omitempty"`
-	Trends        map[string]interface{} `json:"trends,omitempty"`
+	FlatFields    [][]string     `json:"flatFields,omitempty"`
+	PrevTimeFrame map[string]any `json:"prevTimeFrame,omitempty"`
+	Trends        map[string]any `json:"trends,omitempty"`
 }
 
 type EventsSort struct {
@@ -3930,6 +3960,20 @@ type EventsTimeSeries struct {
 	ID          *string       `json:"id,omitempty"`
 	Timeseries  []*Timeseries `json:"timeseries,omitempty"`
 	To          *string       `json:"to,omitempty"`
+}
+
+type ExportJobResponse struct {
+	JobID   string  `json:"jobId"`
+	Message *string `json:"message,omitempty"`
+}
+
+type ExportStatusResponse struct {
+	DownloadURL *string         `json:"downloadUrl,omitempty"`
+	ExpiresAt   *string         `json:"expiresAt,omitempty"`
+	JobID       string          `json:"jobId"`
+	Message     *string         `json:"message,omitempty"`
+	Progress    *float64        `json:"progress,omitempty"`
+	Status      ExportJobStatus `json:"status"`
 }
 
 type Extra struct {
@@ -4120,6 +4164,7 @@ type Gaussian struct {
 }
 
 type GetAdminPayload struct {
+	AdminType            AdminType    `json:"adminType"`
 	CreationDate         string       `json:"creationDate"`
 	Email                string       `json:"email"`
 	FirstName            string       `json:"firstName"`
@@ -4237,7 +4282,7 @@ type HardwareFilterInput struct {
 	Account     []*AccountFilter     `json:"account,omitempty"`
 	CountryName []*StringFilterInput `json:"countryName,omitempty"`
 	// Will run contains operation for the provided text on the following fields productType,
-	// sfId, quoteId, model, zipCode, country, city, state, street, companyName, contactName,
+	// sfId, siteName, quoteId, model, zipCode, country, city, state, street, companyName, contactName,
 	// trackingUrl, trackingNumber and comment with OR between them
 	FreeText         *FreeTextFilterInput         `json:"freeText,omitempty"`
 	ID               []*IDFilterInput             `json:"id,omitempty"`
@@ -4632,6 +4677,8 @@ type InterfaceSnapshot struct {
 type InternetFirewallAddRuleDataInput struct {
 	// The action applied by the Internet Firewall if the rule is matched
 	Action InternetFirewallActionEnum `json:"action"`
+	// The time period during which the rule is active, outside this period, the rule is inactive
+	ActivePeriod *PolicyRuleActivePeriodInput `json:"activePeriod"`
 	// Connection origin of the traffic
 	ConnectionOrigin ConnectionOriginEnum `json:"connectionOrigin"`
 	// Source country traffic matching criteria.
@@ -4925,6 +4972,8 @@ type InternetFirewallRemoveRuleInput struct {
 type InternetFirewallRule struct {
 	// The action applied by the Internet Firewall if the rule is matched
 	Action InternetFirewallActionEnum `json:"action"`
+	// The time period during which the rule is active, outside this period, the rule is inactive
+	ActivePeriod *PolicyRuleActivePeriod `json:"activePeriod"`
 	// Connection origin of the traffic
 	ConnectionOrigin ConnectionOriginEnum `json:"connectionOrigin"`
 	// Source country traffic matching criteria.
@@ -5207,6 +5256,8 @@ type InternetFirewallSourceUpdateInput struct {
 type InternetFirewallUpdateRuleDataInput struct {
 	// The action applied by the Internet Firewall if the rule is matched
 	Action *InternetFirewallActionEnum `json:"action,omitempty"`
+	// The time period during which the rule is active, outside this period, the rule is inactive
+	ActivePeriod *PolicyRuleActivePeriodUpdateInput `json:"activePeriod,omitempty"`
 	// Connection origin of the traffic
 	ConnectionOrigin *ConnectionOriginEnum `json:"connectionOrigin,omitempty"`
 	// Source country traffic matching criteria.
@@ -5502,10 +5553,31 @@ type LastMileBwInput struct {
 
 // Public license API
 type LicensingInfo struct {
+	Atp                []*AtpLicense                `json:"atp"`
+	Casb               []*CasbLicense               `json:"casb"`
+	DataLake           []*DataLakeLicense           `json:"dataLake"`
+	Dem                []*DemLicense                `json:"dem"`
+	Dlp                []*DlpLicense                `json:"dlp"`
+	EndpointProtection []*EndpointProtectionLicense `json:"endpointProtection"`
 	// License usage and allocation across the managed accounts
 	GlobalLicenseAllocations *GlobalLicenseAllocations `json:"globalLicenseAllocations"`
+	Ilmm                     []*IlmmLicense            `json:"ilmm"`
+	IotOt                    []*IotOtLicense           `json:"iotOt"`
+	Ips                      []*IpsLicense             `json:"ips"`
 	// License inventory
-	Licenses []License `json:"licenses"`
+	Licenses                 []License                          `json:"licenses"`
+	MalwareProtection        []*MalwareProtectionLicense        `json:"malwareProtection"`
+	ManagedXdr               []*ManagedXdrLicense               `json:"managedXdr"`
+	NextGenMalwareProtection []*NextGenMalwareProtectionLicense `json:"nextGenMalwareProtection"`
+	Nocaas                   []*NOCaaSLicense                   `json:"nocaas"`
+	PooledBandwidth          []*PooledBandwidthLicense          `json:"pooledBandwidth"`
+	PublicIps                []*PublicIpsLicense                `json:"publicIps"`
+	Rbi                      []*RbiLicense                      `json:"rbi"`
+	SaasSecurityAPI          []*SaasSecurityAPILicense          `json:"saasSecurityApi"`
+	Site                     []*SiteLicense                     `json:"site"`
+	ThreatPrevention         []*ThreatPreventionLicense         `json:"threatPrevention"`
+	XdrPro                   []*XdrProLicense                   `json:"xdrPro"`
+	ZtnaUsers                []*ZtnaUsersLicense                `json:"ztnaUsers"`
 }
 
 type LicensingQueries struct {
@@ -5611,6 +5683,46 @@ func (this ManagedXdrLicense) GetExpirationDate() string { return this.Expiratio
 
 // The date of the last update to the license
 func (this ManagedXdrLicense) GetLastUpdated() *string { return this.LastUpdated }
+
+// MDR service license details
+type MdrLicense struct {
+	ID          *string `json:"id,omitempty"`
+	Description *string `json:"description,omitempty"`
+	// License expiration date
+	ExpirationDate string `json:"expirationDate"`
+	// The date of the last update to the license
+	LastUpdated *string `json:"lastUpdated,omitempty"`
+	// License plan type
+	Plan LicensePlan `json:"plan"`
+	// The license SKU
+	Sku LicenseSku `json:"sku"`
+	// License start date
+	StartDate *string `json:"startDate,omitempty"`
+	// License activation status
+	Status LicenseStatus `json:"status"`
+}
+
+func (MdrLicense) IsLicense()                   {}
+func (this MdrLicense) GetID() *string          { return this.ID }
+func (this MdrLicense) GetDescription() *string { return this.Description }
+
+// License plan type
+func (this MdrLicense) GetPlan() LicensePlan { return this.Plan }
+
+// The license SKU
+func (this MdrLicense) GetSku() LicenseSku { return this.Sku }
+
+// License activation status
+func (this MdrLicense) GetStatus() LicenseStatus { return this.Status }
+
+// License start date
+func (this MdrLicense) GetStartDate() *string { return this.StartDate }
+
+// License expiration date
+func (this MdrLicense) GetExpirationDate() string { return this.ExpirationDate }
+
+// The date of the last update to the license
+func (this MdrLicense) GetLastUpdated() *string { return this.LastUpdated }
 
 type Measure struct {
 	AggType   AggregationType   `json:"aggType"`
@@ -6185,9 +6297,11 @@ func (this NOCaaSLicense) GetExpirationDate() string { return this.ExpirationDat
 func (this NOCaaSLicense) GetLastUpdated() *string { return this.LastUpdated }
 
 type NetworkDhcpSettingsInput struct {
-	DhcpType     DhcpType `json:"dhcpType"`
-	IPRange      *string  `json:"ipRange,omitempty"`
-	RelayGroupID *string  `json:"relayGroupId,omitempty"`
+	// Only relevant for DHCP range
+	DhcpMicrosegmentation *bool    `json:"dhcpMicrosegmentation,omitempty"`
+	DhcpType              DhcpType `json:"dhcpType"`
+	IPRange               *string  `json:"ipRange,omitempty"`
+	RelayGroupID          *string  `json:"relayGroupId,omitempty"`
 }
 
 // A reference identifying the NetworkInterface object. ID: Unique NetworkInterface Identifier, Name: The NetworkInterface Name
@@ -6429,6 +6543,14 @@ type PartnerPooledBandwidthLicenseAccount struct {
 	AllocatedBandwidth int64 `json:"allocatedBandwidth"`
 }
 
+// Represents available versions for a specific platform.
+type PlatformVersions struct {
+	// The platform for which versions are retrieved.
+	Platform string `json:"platform"`
+	// List of available socket versions for this platform.
+	Versions []string `json:"versions"`
+}
+
 // Input for adding section info to a policy
 type PolicyAddSectionInfoInput struct {
 	Name string `json:"name"`
@@ -6611,6 +6733,7 @@ type PolicyMutations struct {
 	InternetFirewall     *InternetFirewallPolicyMutations     `json:"internetFirewall,omitempty"`
 	RemotePortFwd        *RemotePortFwdPolicyMutations        `json:"remotePortFwd,omitempty"`
 	SocketLan            *SocketLanPolicyMutations            `json:"socketLan,omitempty"`
+	TerminalServer       *TerminalServerPolicyMutations       `json:"terminalServer,omitempty"`
 	WanFirewall          *WanFirewallPolicyMutations          `json:"wanFirewall,omitempty"`
 	WanNetwork           *WanNetworkPolicyMutations           `json:"wanNetwork,omitempty"`
 }
@@ -6631,6 +6754,7 @@ type PolicyQueries struct {
 	InternetFirewall     *InternetFirewallPolicyQueries     `json:"internetFirewall,omitempty"`
 	RemotePortFwd        *RemotePortFwdPolicyQueries        `json:"remotePortFwd,omitempty"`
 	SocketLan            *SocketLanPolicyQueries            `json:"socketLan,omitempty"`
+	TerminalServer       *TerminalServerPolicyQueries       `json:"terminalServer,omitempty"`
 	WanFirewall          *WanFirewallPolicyQueries          `json:"wanFirewall,omitempty"`
 	WanNetwork           *WanNetworkPolicyQueries           `json:"wanNetwork,omitempty"`
 }
@@ -6659,6 +6783,36 @@ type PolicyRevisionInput struct {
 // Returns data for publishing the policy
 type PolicyRevisionsPayload struct {
 	Revision []*PolicyRevision `json:"revision"`
+}
+
+// Returns the time period during which the rule is active, outside this period, the rule is inactive
+type PolicyRuleActivePeriod struct {
+	// The time the rule becomes active, if not used, default null
+	EffectiveFrom *string `json:"effectiveFrom,omitempty"`
+	// The time the rule expires, if not used, default null
+	ExpiresAt        *string `json:"expiresAt,omitempty"`
+	UseEffectiveFrom bool    `json:"useEffectiveFrom"`
+	UseExpiresAt     bool    `json:"useExpiresAt"`
+}
+
+// Input of the time period during which the rule is active, outside this period, the rule is inactive
+type PolicyRuleActivePeriodInput struct {
+	// The time the rule becomes active, if not used, default null
+	EffectiveFrom *string `json:"effectiveFrom,omitempty"`
+	// The time the rule expires, if not used, default null
+	ExpiresAt        *string `json:"expiresAt,omitempty"`
+	UseEffectiveFrom bool    `json:"useEffectiveFrom"`
+	UseExpiresAt     bool    `json:"useExpiresAt"`
+}
+
+// Input of the time period during which the rule is active, outside this period, the rule is inactive
+type PolicyRuleActivePeriodUpdateInput struct {
+	// The time the rule becomes active, if not used, default null
+	EffectiveFrom *string `json:"effectiveFrom,omitempty"`
+	// The time the rule expires, if not used, default null
+	ExpiresAt        *string `json:"expiresAt,omitempty"`
+	UseEffectiveFrom *bool   `json:"useEffectiveFrom,omitempty"`
+	UseExpiresAt     *bool   `json:"useExpiresAt,omitempty"`
 }
 
 // Parameters required to define the rule position
@@ -7411,6 +7565,15 @@ type RemoveSitePayload struct {
 	SiteID string `json:"siteId"`
 }
 
+type RemoveSocketAddOnCardInput struct {
+	ExpansionSlotNumbers []SocketAddOnExpansionSlotNumber `json:"expansionSlotNumbers"`
+	Site                 *SiteRefInput                    `json:"site"`
+}
+
+type RemoveSocketAddOnCardPayload struct {
+	AddOns []*SocketAddOnCard `json:"addOns"`
+}
+
 type RemoveStaticHostPayload struct {
 	HostID string `json:"hostId"`
 }
@@ -7819,7 +7982,7 @@ type SiteMutations struct {
 	AddIpsecIkeV2SiteTunnels *AddIpsecIkeV2SiteTunnelsPayload `json:"addIpsecIkeV2SiteTunnels,omitempty"`
 	AddNetworkRange          *AddNetworkRangePayload          `json:"addNetworkRange,omitempty"`
 	// Add a secondary AWS vSocket to an existing site
-	AddSecondaryAwsVSocket *AddSecondaryAwsVSocketPayload `json:"addSecondaryAwsVSocket,omitempty"`
+	AddSecondaryAWSVSocket *AddSecondaryAWSVSocketPayload `json:"addSecondaryAwsVSocket,omitempty"`
 	// Add a secondary Azure vSocket to an existing site
 	AddSecondaryAzureVSocket *AddSecondaryAzureVSocketPayload `json:"addSecondaryAzureVSocket,omitempty"`
 	AddSocketSite            *AddSocketSitePayload            `json:"addSocketSite,omitempty"`
@@ -7940,6 +8103,30 @@ type SiteSnapshot struct {
 	// Name of the PoP that the site is connected to
 	PopName *string `json:"popName,omitempty"`
 	ProtoID *int64  `json:"protoId,omitempty"`
+}
+
+// Represents a single site upgrade request.
+type SiteUpgradeRequest struct {
+	Site *SiteRefInput `json:"site"`
+	// Target version to upgrade the site's sockets to.
+	TargetVersion string `json:"targetVersion"`
+}
+
+// Represents the result of an upgrade request.
+type SiteUpgradeResult struct {
+	Site *BulkUpgradeSiteInfo `json:"site"`
+	// The requested version for this site.
+	TargetVersion string `json:"targetVersion"`
+}
+
+type SocketAddOnCard struct {
+	ExpansionSlotNumber SocketAddOnExpansionSlotNumber `json:"expansionSlotNumber"`
+	Type                SocketAddOnType                `json:"type"`
+}
+
+type SocketAddOnCardInput struct {
+	ExpansionSlotNumber SocketAddOnExpansionSlotNumber `json:"expansionSlotNumber"`
+	Type                SocketAddOnType                `json:"type"`
 }
 
 // Basic information about socket
@@ -8710,7 +8897,8 @@ type SocketLanRule struct {
 	Direction SocketLanDirection `json:"direction"`
 	// TRUE = Rule is enabled
 	//  FALSE = Rule is disabled
-	Enabled bool `json:"enabled"`
+	Enabled  bool                            `json:"enabled"`
+	Firewall []*SocketLanFirewallRulePayload `json:"firewall"`
 	// Rule ID
 	ID string `json:"id"`
 	// Position / priority of rule
@@ -8988,6 +9176,17 @@ type SortOrderInput struct {
 	Priority  int64     `json:"priority"`
 }
 
+// Input for bulk site upgrade requests.
+type StartSiteUpgradeInput struct {
+	Upgrades []*SiteUpgradeRequest `json:"upgrades"`
+}
+
+// Wrapper for site upgrade response.
+type StartSiteUpgradePayload struct {
+	// List of individual site upgrade results.
+	Results []*SiteUpgradeResult `json:"results"`
+}
+
 type StoriesData struct {
 	// Fields returned from the Story query
 	Items []*Story `json:"items"`
@@ -9194,6 +9393,250 @@ func (this SystemGroupRef) GetName() string { return this.Name }
 type SystemGroupRefInput struct {
 	By    ObjectRefBy `json:"by"`
 	Input string      `json:"input"`
+}
+
+type TerminalServerAddRuleDataInput struct {
+	// Allowed Host IP range.
+	// all the other IPs will be blocked by the pop.
+	// Globally defined IP range
+	AllowedHostIP *GlobalIPRangeRefInput `json:"allowedHostIP"`
+	Description   string                 `json:"description"`
+	Enabled       bool                   `json:"enabled"`
+	// Exclude traffic IP Range.
+	// all traffic to those Ips will be excluded from the GRE tunnel.
+	// Globally defined IP range
+	ExcludeTraffic []*GlobalIPRangeRefInput `json:"excludeTraffic"`
+	Name           string                   `json:"name"`
+}
+
+type TerminalServerAddRuleInput struct {
+	// Position of the rule in the policy
+	At *PolicyRulePositionInput `json:"at,omitempty"`
+	// Parameters for the rule you are adding
+	Rule *TerminalServerAddRuleDataInput `json:"rule"`
+}
+
+type TerminalServerPolicy struct {
+	Audit    *PolicyAudit                 `json:"audit,omitempty"`
+	Enabled  bool                         `json:"enabled"`
+	Revision *PolicyRevision              `json:"revision,omitempty"`
+	Rules    []*TerminalServerRulePayload `json:"rules"`
+	Sections []*PolicySectionPayload      `json:"sections"`
+}
+
+func (TerminalServerPolicy) IsIPolicy() {}
+
+// TRUE = Policy is enabled, FALSE = Policy is disabled
+func (this TerminalServerPolicy) GetEnabled() bool { return this.Enabled }
+
+// Return list of rules in the policy
+func (this TerminalServerPolicy) GetRules() []IPolicyRulePayload {
+	if this.Rules == nil {
+		return nil
+	}
+	interfaceSlice := make([]IPolicyRulePayload, 0, len(this.Rules))
+	for _, concrete := range this.Rules {
+		interfaceSlice = append(interfaceSlice, concrete)
+	}
+	return interfaceSlice
+}
+
+// Return sections in the policy
+func (this TerminalServerPolicy) GetSections() []*PolicySectionPayload {
+	if this.Sections == nil {
+		return nil
+	}
+	interfaceSlice := make([]*PolicySectionPayload, 0, len(this.Sections))
+	for _, concrete := range this.Sections {
+		interfaceSlice = append(interfaceSlice, concrete)
+	}
+	return interfaceSlice
+}
+
+// Audit data for the policy
+func (this TerminalServerPolicy) GetAudit() *PolicyAudit { return this.Audit }
+
+// Return data for the Policy revision
+func (this TerminalServerPolicy) GetRevision() *PolicyRevision { return this.Revision }
+
+type TerminalServerPolicyInput struct {
+	// A revision is a specific instance of the policy.
+	//  Unpublished revisions are working copies of the policy available to a specific
+	//  admin or a set of admins
+	//  Published revisions are revisions that were applied to the account network.
+	//  The last published revision is the active policy.
+	Revision *PolicyRevisionInput `json:"revision,omitempty"`
+}
+
+type TerminalServerPolicyMutationInput struct {
+	Revision *PolicyMutationRevisionInput `json:"revision,omitempty"`
+}
+
+type TerminalServerPolicyMutationPayload struct {
+	Errors []*PolicyMutationError `json:"errors"`
+	Policy *TerminalServerPolicy  `json:"policy,omitempty"`
+	Status PolicyMutationStatus   `json:"status"`
+}
+
+func (TerminalServerPolicyMutationPayload) IsIPolicyMutationPayload() {}
+
+// Data for the policy
+func (this TerminalServerPolicyMutationPayload) GetPolicy() IPolicy { return *this.Policy }
+
+// Enum for the status of the policy change
+func (this TerminalServerPolicyMutationPayload) GetStatus() PolicyMutationStatus { return this.Status }
+
+// List of errors related to the policy change
+func (this TerminalServerPolicyMutationPayload) GetErrors() []*PolicyMutationError {
+	if this.Errors == nil {
+		return nil
+	}
+	interfaceSlice := make([]*PolicyMutationError, 0, len(this.Errors))
+	for _, concrete := range this.Errors {
+		interfaceSlice = append(interfaceSlice, concrete)
+	}
+	return interfaceSlice
+}
+
+type TerminalServerPolicyMutations struct {
+	AddRule               *TerminalServerRuleMutationPayload   `json:"addRule"`
+	AddSection            *PolicySectionMutationPayload        `json:"addSection"`
+	CreatePolicyRevision  *TerminalServerPolicyMutationPayload `json:"createPolicyRevision"`
+	DiscardPolicyRevision *TerminalServerPolicyMutationPayload `json:"discardPolicyRevision"`
+	MoveRule              *TerminalServerRuleMutationPayload   `json:"moveRule"`
+	MoveSection           *PolicySectionMutationPayload        `json:"moveSection"`
+	PublishPolicyRevision *TerminalServerPolicyMutationPayload `json:"publishPolicyRevision"`
+	RemoveRule            *TerminalServerRuleMutationPayload   `json:"removeRule"`
+	RemoveSection         *PolicySectionMutationPayload        `json:"removeSection"`
+	UpdatePolicy          *TerminalServerPolicyMutationPayload `json:"updatePolicy"`
+	UpdateRule            *TerminalServerRuleMutationPayload   `json:"updateRule"`
+	UpdateSection         *PolicySectionMutationPayload        `json:"updateSection"`
+}
+
+type TerminalServerPolicyQueries struct {
+	Policy    *TerminalServerPolicy   `json:"policy"`
+	Revisions *PolicyRevisionsPayload `json:"revisions,omitempty"`
+}
+
+type TerminalServerPolicyUpdateInput struct {
+	State *PolicyToggleState `json:"state,omitempty"`
+}
+
+type TerminalServerRemoveRuleInput struct {
+	ID string `json:"id"`
+}
+
+type TerminalServerRule struct {
+	// Allowed Host IP range.
+	// all the other IPs will be blocked by the pop.
+	// Globally defined IP range
+	AllowedHostIP *GlobalIPRangeRef `json:"allowedHostIP"`
+	// Description for the rule
+	Description string `json:"description"`
+	// TRUE = Rule is enabled
+	//  FALSE = Rule is disabled
+	Enabled bool `json:"enabled"`
+	// Exclude traffic IP Range.
+	// all traffic to those Ips will be excluded from the GRE tunnel.
+	// Globally defined IP range
+	ExcludeTraffic []*GlobalIPRangeRef `json:"excludeTraffic"`
+	// Rule ID
+	ID string `json:"id"`
+	// Position / priority of rule
+	Index int64 `json:"index"`
+	// Name of the rule
+	Name string `json:"name"`
+	// Policy section where the rule is located
+	Section *PolicySectionInfo `json:"section"`
+}
+
+func (TerminalServerRule) IsIPolicyRule() {}
+
+// Rule ID
+func (this TerminalServerRule) GetID() string { return this.ID }
+
+// Name of the rule
+func (this TerminalServerRule) GetName() string { return this.Name }
+
+// Description for the rule
+func (this TerminalServerRule) GetDescription() *string { return &this.Description }
+
+// Position / priority of rule
+func (this TerminalServerRule) GetIndex() int64 { return this.Index }
+
+// TRUE = Rule is enabled, FALSE = Rule is disabled
+func (this TerminalServerRule) GetEnabled() bool { return this.Enabled }
+
+// Policy section where the rule is located
+func (this TerminalServerRule) GetSection() *PolicySectionInfo { return this.Section }
+
+type TerminalServerRuleMutationPayload struct {
+	Errors []*PolicyMutationError     `json:"errors"`
+	Rule   *TerminalServerRulePayload `json:"rule,omitempty"`
+	Status PolicyMutationStatus       `json:"status"`
+}
+
+func (TerminalServerRuleMutationPayload) IsIPolicyRuleMutationPayload() {}
+
+// Returns settings for the rule
+func (this TerminalServerRuleMutationPayload) GetRule() IPolicyRulePayload { return *this.Rule }
+
+// Enum for the status of the policy change
+func (this TerminalServerRuleMutationPayload) GetStatus() PolicyMutationStatus { return this.Status }
+
+// List of errors related to the policy change
+func (this TerminalServerRuleMutationPayload) GetErrors() []*PolicyMutationError {
+	if this.Errors == nil {
+		return nil
+	}
+	interfaceSlice := make([]*PolicyMutationError, 0, len(this.Errors))
+	for _, concrete := range this.Errors {
+		interfaceSlice = append(interfaceSlice, concrete)
+	}
+	return interfaceSlice
+}
+
+type TerminalServerRulePayload struct {
+	Audit      *PolicyElementAudit           `json:"audit"`
+	Properties []PolicyElementPropertiesEnum `json:"properties"`
+	Rule       *TerminalServerRule           `json:"rule"`
+}
+
+func (TerminalServerRulePayload) IsIPolicyRulePayload()              {}
+func (this TerminalServerRulePayload) GetAudit() *PolicyElementAudit { return this.Audit }
+
+// Rule that was changed
+func (this TerminalServerRulePayload) GetRule() IPolicyRule { return *this.Rule }
+
+// Summary of rule change, (ie. ADDED, UPDATED)
+func (this TerminalServerRulePayload) GetProperties() []PolicyElementPropertiesEnum {
+	if this.Properties == nil {
+		return nil
+	}
+	interfaceSlice := make([]PolicyElementPropertiesEnum, 0, len(this.Properties))
+	for _, concrete := range this.Properties {
+		interfaceSlice = append(interfaceSlice, concrete)
+	}
+	return interfaceSlice
+}
+
+type TerminalServerUpdateRuleDataInput struct {
+	// Allowed Host IP range.
+	// all the other IPs will be blocked by the pop.
+	// Globally defined IP range
+	AllowedHostIP *GlobalIPRangeRefInput `json:"allowedHostIP,omitempty"`
+	Description   *string                `json:"description,omitempty"`
+	Enabled       *bool                  `json:"enabled,omitempty"`
+	// Exclude traffic IP Range.
+	// all traffic to those Ips will be excluded from the GRE tunnel.
+	// Globally defined IP range
+	ExcludeTraffic []*GlobalIPRangeRefInput `json:"excludeTraffic,omitempty"`
+	Name           *string                  `json:"name,omitempty"`
+}
+
+type TerminalServerUpdateRuleInput struct {
+	ID   string                             `json:"id"`
+	Rule *TerminalServerUpdateRuleDataInput `json:"rule"`
 }
 
 // The "Threat" object represents a comprehensive data structure used in GraphQL queries or mutations to encapsulate various attributes and metadata related to a threat incident, including details about the threat's origin, nature, risk assessment, and associated network traffic flows.
@@ -10064,6 +10507,8 @@ type VendorPredicate struct {
 type WanFirewallAddRuleDataInput struct {
 	// The action applied by the Internet Firewall if the rule is matched
 	Action WanFirewallActionEnum `json:"action"`
+	// The time period during which the rule is active, outside this period, the rule is inactive
+	ActivePeriod *PolicyRuleActivePeriodInput `json:"activePeriod"`
 	// Application traffic matching criteria.
 	// Logical ‘OR’ is applied within the criteria set.
 	// Logical ‘AND’ is applied between criteria sets.
@@ -10237,7 +10682,7 @@ type WanFirewallDestination struct {
 	UsersGroup []*UsersGroupRef `json:"usersGroup"`
 }
 
-// Input of the settings for Destination of a Wan Firewall rule
+// Input of the settings for Destination of a Wan Firewall rule. To specify 'ANY' destination, an empty list must be provided for each match criteria field (e.g. ip: [], group: [], etc...)
 type WanFirewallDestinationInput struct {
 	// Floating Subnets (ie. Floating Ranges) are used to identify traffic exactly matched to the route advertised by BGP.
 	// They are not associated with a specific site.
@@ -10269,7 +10714,7 @@ type WanFirewallDestinationInput struct {
 	UsersGroup []*UsersGroupRefInput `json:"usersGroup"`
 }
 
-// Input of the settings for Destination of a Wan Firewall rule
+// Input of the settings for Destination of a Wan Firewall rule. To specify 'ANY' destination, an empty list must be provided for each match criteria field (e.g. ip: [], group: [], etc...)
 type WanFirewallDestinationUpdateInput struct {
 	// Floating Subnets (ie. Floating Ranges) are used to identify traffic exactly matched to the route advertised by BGP.
 	// They are not associated with a specific site.
@@ -10431,6 +10876,8 @@ type WanFirewallRemoveRuleInput struct {
 type WanFirewallRule struct {
 	// The action applied by the Internet Firewall if the rule is matched
 	Action WanFirewallActionEnum `json:"action"`
+	// The time period during which the rule is active, outside this period, the rule is inactive
+	ActivePeriod *PolicyRuleActivePeriod `json:"activePeriod"`
 	// Application traffic matching criteria.
 	// Logical ‘OR’ is applied within the criteria set.
 	// Logical ‘AND’ is applied between criteria sets.
@@ -10547,9 +10994,7 @@ type WanFirewallRuleExceptionInput struct {
 	// Source Device Profile matching criteria for the exception.
 	Device []*DeviceProfileRefInput `json:"device"`
 	// Source Device Attributes matching criteria for the exception.
-	//
-	// deviceAttributes: DeviceAttributesInput! = {category: [], type: [], model: [], manufacturer: [], os: [], osVersion: []}
-	//
+	DeviceAttributes *DeviceAttributesInput `json:"deviceAttributes"`
 	// Source device OS matching criteria for the exception.
 	DeviceOs []OperatingSystem `json:"deviceOS"`
 	// Direction origin matching criteria for the exception
@@ -10613,19 +11058,19 @@ func (this WanFirewallRulePayload) GetProperties() []PolicyElementPropertiesEnum
 	return interfaceSlice
 }
 
-// Add the Service Type to which this Internet Firewall rule applies
+// Returns the Service Type to which this Wan Firewall rule applies
 type WanFirewallServiceType struct {
 	Custom   []*CustomService `json:"custom"`
 	Standard []*ServiceRef    `json:"standard"`
 }
 
-// Add the Service Type to which this Internet Firewall rule applies
+// Input of the Service Type to which this Wan Firewall rule applies. To specify 'ANY' source, an empty list must be provided for each match criteria field (e.g. standard: [], custom: [], etc...)
 type WanFirewallServiceTypeInput struct {
 	Custom   []*CustomServiceInput `json:"custom"`
 	Standard []*ServiceRefInput    `json:"standard"`
 }
 
-// Add the Service Type to which this Internet Firewall rule applies
+// Input of the Service Type to which this Wan Firewall rule applies. To specify 'ANY' source, an empty list must be provided for each match criteria field (e.g. standard: [], custom: [], etc...)
 type WanFirewallServiceTypeUpdateInput struct {
 	Custom   []*CustomServiceInput `json:"custom,omitempty"`
 	Standard []*ServiceRefInput    `json:"standard,omitempty"`
@@ -10663,7 +11108,7 @@ type WanFirewallSource struct {
 	UsersGroup []*UsersGroupRef `json:"usersGroup"`
 }
 
-// Input of the settings for Source of an Wan Firewall rule
+// Input of the settings for Source of an Wan Firewall rule. To specify 'ANY' source, an empty list must be provided for each match criteria field (e.g. ip: [], group: [], etc...)
 type WanFirewallSourceInput struct {
 	// Floating Subnets (ie. Floating Ranges) are used to identify traffic exactly matched to the route advertised by BGP.
 	// They are not associated with a specific site.
@@ -10695,7 +11140,7 @@ type WanFirewallSourceInput struct {
 	UsersGroup []*UsersGroupRefInput `json:"usersGroup"`
 }
 
-// Input of the settings for Source of an Wan Firewall rule
+// Input of the settings for Source of an Wan Firewall rule. To specify 'ANY' source, an empty list must be provided for each match criteria field (e.g. ip: [], group: [], etc...)
 type WanFirewallSourceUpdateInput struct {
 	// Floating Subnets (ie. Floating Ranges) are used to identify traffic exactly matched to the route advertised by BGP.
 	// They are not associated with a specific site.
@@ -10730,6 +11175,8 @@ type WanFirewallSourceUpdateInput struct {
 type WanFirewallUpdateRuleDataInput struct {
 	// The action applied by the Internet Firewall if the rule is matched
 	Action *WanFirewallActionEnum `json:"action,omitempty"`
+	// The time period during which the rule is active, outside this period, the rule is inactive
+	ActivePeriod *PolicyRuleActivePeriodUpdateInput `json:"activePeriod,omitempty"`
 	// Application traffic matching criteria.
 	// Logical ‘OR’ is applied within the criteria set.
 	// Logical ‘AND’ is applied between criteria sets.
@@ -11294,6 +11741,46 @@ type Xdr struct {
 	Story *Story `json:"story,omitempty"`
 }
 
+// XOps service license details
+type XOpsLicense struct {
+	ID          *string `json:"id,omitempty"`
+	Description *string `json:"description,omitempty"`
+	// License expiration date
+	ExpirationDate string `json:"expirationDate"`
+	// The date of the last update to the license
+	LastUpdated *string `json:"lastUpdated,omitempty"`
+	// License plan type
+	Plan LicensePlan `json:"plan"`
+	// The license SKU
+	Sku LicenseSku `json:"sku"`
+	// License start date
+	StartDate *string `json:"startDate,omitempty"`
+	// License activation status
+	Status LicenseStatus `json:"status"`
+}
+
+func (XOpsLicense) IsLicense()                   {}
+func (this XOpsLicense) GetID() *string          { return this.ID }
+func (this XOpsLicense) GetDescription() *string { return this.Description }
+
+// License plan type
+func (this XOpsLicense) GetPlan() LicensePlan { return this.Plan }
+
+// The license SKU
+func (this XOpsLicense) GetSku() LicenseSku { return this.Sku }
+
+// License activation status
+func (this XOpsLicense) GetStatus() LicenseStatus { return this.Status }
+
+// License start date
+func (this XOpsLicense) GetStartDate() *string { return this.StartDate }
+
+// License expiration date
+func (this XOpsLicense) GetExpirationDate() string { return this.ExpirationDate }
+
+// The date of the last update to the license
+func (this XOpsLicense) GetLastUpdated() *string { return this.LastUpdated }
+
 type XdrMutations struct {
 	// Post comments that help track the story investigation
 	AddStoryComment *AddStoryCommentPayload `json:"addStoryComment,omitempty"`
@@ -11457,7 +11944,7 @@ func (e AccountInclusion) String() string {
 	return string(e)
 }
 
-func (e *AccountInclusion) UnmarshalGQL(v interface{}) error {
+func (e *AccountInclusion) UnmarshalGQL(v any) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -11501,7 +11988,7 @@ func (e AccountProfileType) String() string {
 	return string(e)
 }
 
-func (e *AccountProfileType) UnmarshalGQL(v interface{}) error {
+func (e *AccountProfileType) UnmarshalGQL(v any) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -11545,7 +12032,7 @@ func (e AccountTenancy) String() string {
 	return string(e)
 }
 
-func (e *AccountTenancy) UnmarshalGQL(v interface{}) error {
+func (e *AccountTenancy) UnmarshalGQL(v any) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -11590,7 +12077,7 @@ func (e AccountType) String() string {
 	return string(e)
 }
 
-func (e *AccountType) UnmarshalGQL(v interface{}) error {
+func (e *AccountType) UnmarshalGQL(v any) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -11633,7 +12120,7 @@ func (e AddressValidationStatus) String() string {
 	return string(e)
 }
 
-func (e *AddressValidationStatus) UnmarshalGQL(v interface{}) error {
+func (e *AddressValidationStatus) UnmarshalGQL(v any) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -11647,6 +12134,47 @@ func (e *AddressValidationStatus) UnmarshalGQL(v interface{}) error {
 }
 
 func (e AddressValidationStatus) MarshalGQL(w io.Writer) {
+	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+type AdminType string
+
+const (
+	AdminTypeLogin            AdminType = "LOGIN"
+	AdminTypeServicePrinciple AdminType = "SERVICE_PRINCIPLE"
+)
+
+var AllAdminType = []AdminType{
+	AdminTypeLogin,
+	AdminTypeServicePrinciple,
+}
+
+func (e AdminType) IsValid() bool {
+	switch e {
+	case AdminTypeLogin, AdminTypeServicePrinciple:
+		return true
+	}
+	return false
+}
+
+func (e AdminType) String() string {
+	return string(e)
+}
+
+func (e *AdminType) UnmarshalGQL(v any) error {
+	str, ok := v.(string)
+	if !ok {
+		return fmt.Errorf("enums must be strings")
+	}
+
+	*e = AdminType(str)
+	if !e.IsValid() {
+		return fmt.Errorf("%s is not a valid AdminType", str)
+	}
+	return nil
+}
+
+func (e AdminType) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
@@ -11690,7 +12218,7 @@ func (e AggregationType) String() string {
 	return string(e)
 }
 
-func (e *AggregationType) UnmarshalGQL(v interface{}) error {
+func (e *AggregationType) UnmarshalGQL(v any) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -11733,7 +12261,7 @@ func (e AlertClassificationEnum) String() string {
 	return string(e)
 }
 
-func (e *AlertClassificationEnum) UnmarshalGQL(v interface{}) error {
+func (e *AlertClassificationEnum) UnmarshalGQL(v any) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -11798,7 +12326,7 @@ func (e AlertDeterminationEnum) String() string {
 	return string(e)
 }
 
-func (e *AlertDeterminationEnum) UnmarshalGQL(v interface{}) error {
+func (e *AlertDeterminationEnum) UnmarshalGQL(v any) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -11847,7 +12375,7 @@ func (e AnnotationType) String() string {
 	return string(e)
 }
 
-func (e *AnnotationType) UnmarshalGQL(v interface{}) error {
+func (e *AnnotationType) UnmarshalGQL(v any) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -11890,7 +12418,7 @@ func (e ApnMethod) String() string {
 	return string(e)
 }
 
-func (e *ApnMethod) UnmarshalGQL(v interface{}) error {
+func (e *ApnMethod) UnmarshalGQL(v any) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -11916,6 +12444,17 @@ const (
 	AppStatsFieldNameApp AppStatsFieldName = "app"
 	// The application name
 	AppStatsFieldNameApplication AppStatsFieldName = "application"
+	// Application description
+	AppStatsFieldNameApplicationDescription AppStatsFieldName = "application_description"
+	// The application identifier
+	AppStatsFieldNameApplicationID AppStatsFieldName = "application_id"
+	// The application name
+	AppStatsFieldNameApplicationName      AppStatsFieldName = "application_name"
+	AppStatsFieldNameApplicationRiskLevel AppStatsFieldName = "application_risk_level"
+	// The application risk score assigned by Cato
+	AppStatsFieldNameApplicationRiskScore AppStatsFieldName = "application_risk_score"
+	// Cato system categories of the application
+	AppStatsFieldNameCategories AppStatsFieldName = "categories"
 	// Cato system category of the application
 	AppStatsFieldNameCategory AppStatsFieldName = "category"
 	// Application description
@@ -11942,6 +12481,8 @@ const (
 	AppStatsFieldNameIP         AppStatsFieldName = "ip"
 	// indicates whether the application is considered cloud app/SaaS app
 	AppStatsFieldNameIsCloudApp AppStatsFieldName = "is_cloud_app"
+	// Is the application defined as sanctioned?
+	AppStatsFieldNameIsSanctionedApp AppStatsFieldName = "is_sanctioned_app"
 	// new cloud application identifier
 	AppStatsFieldNameNewApp    AppStatsFieldName = "new_app"
 	AppStatsFieldNameRiskLevel AppStatsFieldName = "risk_level"
@@ -11959,12 +12500,20 @@ const (
 	AppStatsFieldNameSrcIP AppStatsFieldName = "src_ip"
 	// Source is site or remote user
 	AppStatsFieldNameSrcIsSiteOrVpn AppStatsFieldName = "src_is_site_or_vpn"
+	// Site country code alpha2
+	AppStatsFieldNameSrcSiteCountryCode AppStatsFieldName = "src_site_country_code"
 	// Source site or remote user identifier
 	AppStatsFieldNameSrcSiteID AppStatsFieldName = "src_site_id"
 	// Source site or remote user name
 	AppStatsFieldNameSrcSiteName AppStatsFieldName = "src_site_name"
+	// Site state code
+	AppStatsFieldNameSrcSiteState AppStatsFieldName = "src_site_state"
 	// Name of subnet as defined in Cato Management Application
 	AppStatsFieldNameSubnet AppStatsFieldName = "subnet"
+	// Name of subnet as defined in Cato Management Application
+	AppStatsFieldNameSubnetName AppStatsFieldName = "subnet_name"
+	// Top level domain
+	AppStatsFieldNameTld AppStatsFieldName = "tld"
 	// the total sum of upstream and downstream data in bytes
 	AppStatsFieldNameTraffic AppStatsFieldName = "traffic"
 	// Traffic direction
@@ -11982,6 +12531,12 @@ var AllAppStatsFieldName = []AppStatsFieldName{
 	AppStatsFieldNameAdName,
 	AppStatsFieldNameApp,
 	AppStatsFieldNameApplication,
+	AppStatsFieldNameApplicationDescription,
+	AppStatsFieldNameApplicationID,
+	AppStatsFieldNameApplicationName,
+	AppStatsFieldNameApplicationRiskLevel,
+	AppStatsFieldNameApplicationRiskScore,
+	AppStatsFieldNameCategories,
 	AppStatsFieldNameCategory,
 	AppStatsFieldNameDescription,
 	AppStatsFieldNameDestIP,
@@ -11997,6 +12552,7 @@ var AllAppStatsFieldName = []AppStatsFieldName{
 	AppStatsFieldNameHqLocation,
 	AppStatsFieldNameIP,
 	AppStatsFieldNameIsCloudApp,
+	AppStatsFieldNameIsSanctionedApp,
 	AppStatsFieldNameNewApp,
 	AppStatsFieldNameRiskLevel,
 	AppStatsFieldNameRiskScore,
@@ -12006,9 +12562,13 @@ var AllAppStatsFieldName = []AppStatsFieldName{
 	AppStatsFieldNameSocketInterface,
 	AppStatsFieldNameSrcIP,
 	AppStatsFieldNameSrcIsSiteOrVpn,
+	AppStatsFieldNameSrcSiteCountryCode,
 	AppStatsFieldNameSrcSiteID,
 	AppStatsFieldNameSrcSiteName,
+	AppStatsFieldNameSrcSiteState,
 	AppStatsFieldNameSubnet,
+	AppStatsFieldNameSubnetName,
+	AppStatsFieldNameTld,
 	AppStatsFieldNameTraffic,
 	AppStatsFieldNameTrafficDirection,
 	AppStatsFieldNameUpstream,
@@ -12019,7 +12579,7 @@ var AllAppStatsFieldName = []AppStatsFieldName{
 
 func (e AppStatsFieldName) IsValid() bool {
 	switch e {
-	case AppStatsFieldNameAdName, AppStatsFieldNameApp, AppStatsFieldNameApplication, AppStatsFieldNameCategory, AppStatsFieldNameDescription, AppStatsFieldNameDestIP, AppStatsFieldNameDestIsSiteOrVpn, AppStatsFieldNameDestSite, AppStatsFieldNameDestSiteID, AppStatsFieldNameDestSiteName, AppStatsFieldNameDeviceName, AppStatsFieldNameDiscoveredApp, AppStatsFieldNameDomain, AppStatsFieldNameDownstream, AppStatsFieldNameFlowsCreated, AppStatsFieldNameHqLocation, AppStatsFieldNameIP, AppStatsFieldNameIsCloudApp, AppStatsFieldNameNewApp, AppStatsFieldNameRiskLevel, AppStatsFieldNameRiskScore, AppStatsFieldNameSanctioned, AppStatsFieldNameSiteCountry, AppStatsFieldNameSiteState, AppStatsFieldNameSocketInterface, AppStatsFieldNameSrcIP, AppStatsFieldNameSrcIsSiteOrVpn, AppStatsFieldNameSrcSiteID, AppStatsFieldNameSrcSiteName, AppStatsFieldNameSubnet, AppStatsFieldNameTraffic, AppStatsFieldNameTrafficDirection, AppStatsFieldNameUpstream, AppStatsFieldNameUserID, AppStatsFieldNameUserName, AppStatsFieldNameVpnUserID:
+	case AppStatsFieldNameAdName, AppStatsFieldNameApp, AppStatsFieldNameApplication, AppStatsFieldNameApplicationDescription, AppStatsFieldNameApplicationID, AppStatsFieldNameApplicationName, AppStatsFieldNameApplicationRiskLevel, AppStatsFieldNameApplicationRiskScore, AppStatsFieldNameCategories, AppStatsFieldNameCategory, AppStatsFieldNameDescription, AppStatsFieldNameDestIP, AppStatsFieldNameDestIsSiteOrVpn, AppStatsFieldNameDestSite, AppStatsFieldNameDestSiteID, AppStatsFieldNameDestSiteName, AppStatsFieldNameDeviceName, AppStatsFieldNameDiscoveredApp, AppStatsFieldNameDomain, AppStatsFieldNameDownstream, AppStatsFieldNameFlowsCreated, AppStatsFieldNameHqLocation, AppStatsFieldNameIP, AppStatsFieldNameIsCloudApp, AppStatsFieldNameIsSanctionedApp, AppStatsFieldNameNewApp, AppStatsFieldNameRiskLevel, AppStatsFieldNameRiskScore, AppStatsFieldNameSanctioned, AppStatsFieldNameSiteCountry, AppStatsFieldNameSiteState, AppStatsFieldNameSocketInterface, AppStatsFieldNameSrcIP, AppStatsFieldNameSrcIsSiteOrVpn, AppStatsFieldNameSrcSiteCountryCode, AppStatsFieldNameSrcSiteID, AppStatsFieldNameSrcSiteName, AppStatsFieldNameSrcSiteState, AppStatsFieldNameSubnet, AppStatsFieldNameSubnetName, AppStatsFieldNameTld, AppStatsFieldNameTraffic, AppStatsFieldNameTrafficDirection, AppStatsFieldNameUpstream, AppStatsFieldNameUserID, AppStatsFieldNameUserName, AppStatsFieldNameVpnUserID:
 		return true
 	}
 	return false
@@ -12029,7 +12589,7 @@ func (e AppStatsFieldName) String() string {
 	return string(e)
 }
 
-func (e *AppStatsFieldName) UnmarshalGQL(v interface{}) error {
+func (e *AppStatsFieldName) UnmarshalGQL(v any) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -12073,7 +12633,7 @@ func (e AppTenantRestrictionActionEnum) String() string {
 	return string(e)
 }
 
-func (e *AppTenantRestrictionActionEnum) UnmarshalGQL(v interface{}) error {
+func (e *AppTenantRestrictionActionEnum) UnmarshalGQL(v any) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -12120,7 +12680,7 @@ func (e AppTenantRestrictionSeverityEnum) String() string {
 	return string(e)
 }
 
-func (e *AppTenantRestrictionSeverityEnum) UnmarshalGQL(v interface{}) error {
+func (e *AppTenantRestrictionSeverityEnum) UnmarshalGQL(v any) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -12192,7 +12752,7 @@ func (e AuditFieldName) String() string {
 	return string(e)
 }
 
-func (e *AuditFieldName) UnmarshalGQL(v interface{}) error {
+func (e *AuditFieldName) UnmarshalGQL(v any) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -12235,7 +12795,7 @@ func (e BgpCommunityFilterPredicate) String() string {
 	return string(e)
 }
 
-func (e *BgpCommunityFilterPredicate) UnmarshalGQL(v interface{}) error {
+func (e *BgpCommunityFilterPredicate) UnmarshalGQL(v any) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -12278,7 +12838,7 @@ func (e BgpDefaultAction) String() string {
 	return string(e)
 }
 
-func (e *BgpDefaultAction) UnmarshalGQL(v interface{}) error {
+func (e *BgpDefaultAction) UnmarshalGQL(v any) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -12325,7 +12885,7 @@ func (e CatalogApplicationActivityFieldOperator) String() string {
 	return string(e)
 }
 
-func (e *CatalogApplicationActivityFieldOperator) UnmarshalGQL(v interface{}) error {
+func (e *CatalogApplicationActivityFieldOperator) UnmarshalGQL(v any) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -12368,7 +12928,7 @@ func (e CatalogApplicationAttribute) String() string {
 	return string(e)
 }
 
-func (e *CatalogApplicationAttribute) UnmarshalGQL(v interface{}) error {
+func (e *CatalogApplicationAttribute) UnmarshalGQL(v any) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -12421,7 +12981,7 @@ func (e CatalogApplicationCapability) String() string {
 	return string(e)
 }
 
-func (e *CatalogApplicationCapability) UnmarshalGQL(v interface{}) error {
+func (e *CatalogApplicationCapability) UnmarshalGQL(v any) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -12464,7 +13024,7 @@ func (e CatalogApplicationType) String() string {
 	return string(e)
 }
 
-func (e *CatalogApplicationType) UnmarshalGQL(v interface{}) error {
+func (e *CatalogApplicationType) UnmarshalGQL(v any) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -12505,7 +13065,7 @@ func (e CatoEndpointEngineType) String() string {
 	return string(e)
 }
 
-func (e *CatoEndpointEngineType) UnmarshalGQL(v interface{}) error {
+func (e *CatoEndpointEngineType) UnmarshalGQL(v any) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -12546,7 +13106,7 @@ func (e CellularDisconnectionReason) String() string {
 	return string(e)
 }
 
-func (e *CellularDisconnectionReason) UnmarshalGQL(v interface{}) error {
+func (e *CellularDisconnectionReason) UnmarshalGQL(v any) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -12589,7 +13149,7 @@ func (e CellularModemStatus) String() string {
 	return string(e)
 }
 
-func (e *CellularModemStatus) UnmarshalGQL(v interface{}) error {
+func (e *CellularModemStatus) UnmarshalGQL(v any) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -12634,7 +13194,7 @@ func (e CellularNetworkType) String() string {
 	return string(e)
 }
 
-func (e *CellularNetworkType) UnmarshalGQL(v interface{}) error {
+func (e *CellularNetworkType) UnmarshalGQL(v any) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -12675,7 +13235,7 @@ func (e ConnectionMode) String() string {
 	return string(e)
 }
 
-func (e *ConnectionMode) UnmarshalGQL(v interface{}) error {
+func (e *ConnectionMode) UnmarshalGQL(v any) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -12718,7 +13278,7 @@ func (e ConnectionOriginEnum) String() string {
 	return string(e)
 }
 
-func (e *ConnectionOriginEnum) UnmarshalGQL(v interface{}) error {
+func (e *ConnectionOriginEnum) UnmarshalGQL(v any) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -12761,7 +13321,7 @@ func (e ConnectionTypeEnum) String() string {
 	return string(e)
 }
 
-func (e *ConnectionTypeEnum) UnmarshalGQL(v interface{}) error {
+func (e *ConnectionTypeEnum) UnmarshalGQL(v any) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -12804,7 +13364,7 @@ func (e ConnectivityStatus) String() string {
 	return string(e)
 }
 
-func (e *ConnectivityStatus) UnmarshalGQL(v interface{}) error {
+func (e *ConnectivityStatus) UnmarshalGQL(v any) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -12845,7 +13405,7 @@ func (e ContainerFileType) String() string {
 	return string(e)
 }
 
-func (e *ContainerFileType) UnmarshalGQL(v interface{}) error {
+func (e *ContainerFileType) UnmarshalGQL(v any) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -12886,7 +13446,7 @@ func (e ContainerType) String() string {
 	return string(e)
 }
 
-func (e *ContainerType) UnmarshalGQL(v interface{}) error {
+func (e *ContainerType) UnmarshalGQL(v any) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -12937,7 +13497,7 @@ func (e DayOfWeek) String() string {
 	return string(e)
 }
 
-func (e *DayOfWeek) UnmarshalGQL(v interface{}) error {
+func (e *DayOfWeek) UnmarshalGQL(v any) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -12978,7 +13538,7 @@ func (e DestinationType) String() string {
 	return string(e)
 }
 
-func (e *DestinationType) UnmarshalGQL(v interface{}) error {
+func (e *DestinationType) UnmarshalGQL(v any) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -13002,14 +13562,14 @@ const (
 	DetectionSourceEnumAppGovernanceDetection        DetectionSourceEnum = "APP_GOVERNANCE_DETECTION"
 	DetectionSourceEnumAppGovernancePolicy           DetectionSourceEnum = "APP_GOVERNANCE_POLICY"
 	DetectionSourceEnumAutomatedInvestigation        DetectionSourceEnum = "AUTOMATED_INVESTIGATION"
-	DetectionSourceEnumAzureAdIDEntityProtection     DetectionSourceEnum = "AZURE_AD_IDENTITY_PROTECTION"
+	DetectionSourceEnumAzureAdIdentityProtection     DetectionSourceEnum = "AZURE_AD_IDENTITY_PROTECTION"
 	DetectionSourceEnumCloudAppSecurity              DetectionSourceEnum = "CLOUD_APP_SECURITY"
 	DetectionSourceEnumCustomDetection               DetectionSourceEnum = "CUSTOM_DETECTION"
 	DetectionSourceEnumCustomTi                      DetectionSourceEnum = "CUSTOM_TI"
 	DetectionSourceEnumManual                        DetectionSourceEnum = "MANUAL"
 	DetectionSourceEnumMicrosoftDataLossPrevention   DetectionSourceEnum = "MICROSOFT_DATA_LOSS_PREVENTION"
 	DetectionSourceEnumMicrosoftDefenderForEndpoint  DetectionSourceEnum = "MICROSOFT_DEFENDER_FOR_ENDPOINT"
-	DetectionSourceEnumMicrosoftDefenderForIDEntity  DetectionSourceEnum = "MICROSOFT_DEFENDER_FOR_IDENTITY"
+	DetectionSourceEnumMicrosoftDefenderForIdentity  DetectionSourceEnum = "MICROSOFT_DEFENDER_FOR_IDENTITY"
 	DetectionSourceEnumMicrosoftDefenderForOffice365 DetectionSourceEnum = "MICROSOFT_DEFENDER_FOR_OFFICE365"
 	DetectionSourceEnumMicrosoftThreatExperts        DetectionSourceEnum = "MICROSOFT_THREAT_EXPERTS"
 	DetectionSourceEnumMicrosoft365Defender          DetectionSourceEnum = "MICROSOFT365_DEFENDER"
@@ -13021,14 +13581,14 @@ var AllDetectionSourceEnum = []DetectionSourceEnum{
 	DetectionSourceEnumAppGovernanceDetection,
 	DetectionSourceEnumAppGovernancePolicy,
 	DetectionSourceEnumAutomatedInvestigation,
-	DetectionSourceEnumAzureAdIDEntityProtection,
+	DetectionSourceEnumAzureAdIdentityProtection,
 	DetectionSourceEnumCloudAppSecurity,
 	DetectionSourceEnumCustomDetection,
 	DetectionSourceEnumCustomTi,
 	DetectionSourceEnumManual,
 	DetectionSourceEnumMicrosoftDataLossPrevention,
 	DetectionSourceEnumMicrosoftDefenderForEndpoint,
-	DetectionSourceEnumMicrosoftDefenderForIDEntity,
+	DetectionSourceEnumMicrosoftDefenderForIdentity,
 	DetectionSourceEnumMicrosoftDefenderForOffice365,
 	DetectionSourceEnumMicrosoftThreatExperts,
 	DetectionSourceEnumMicrosoft365Defender,
@@ -13037,7 +13597,7 @@ var AllDetectionSourceEnum = []DetectionSourceEnum{
 
 func (e DetectionSourceEnum) IsValid() bool {
 	switch e {
-	case DetectionSourceEnumAntivirus, DetectionSourceEnumAppGovernanceDetection, DetectionSourceEnumAppGovernancePolicy, DetectionSourceEnumAutomatedInvestigation, DetectionSourceEnumAzureAdIDEntityProtection, DetectionSourceEnumCloudAppSecurity, DetectionSourceEnumCustomDetection, DetectionSourceEnumCustomTi, DetectionSourceEnumManual, DetectionSourceEnumMicrosoftDataLossPrevention, DetectionSourceEnumMicrosoftDefenderForEndpoint, DetectionSourceEnumMicrosoftDefenderForIDEntity, DetectionSourceEnumMicrosoftDefenderForOffice365, DetectionSourceEnumMicrosoftThreatExperts, DetectionSourceEnumMicrosoft365Defender, DetectionSourceEnumSmartScreen:
+	case DetectionSourceEnumAntivirus, DetectionSourceEnumAppGovernanceDetection, DetectionSourceEnumAppGovernancePolicy, DetectionSourceEnumAutomatedInvestigation, DetectionSourceEnumAzureAdIdentityProtection, DetectionSourceEnumCloudAppSecurity, DetectionSourceEnumCustomDetection, DetectionSourceEnumCustomTi, DetectionSourceEnumManual, DetectionSourceEnumMicrosoftDataLossPrevention, DetectionSourceEnumMicrosoftDefenderForEndpoint, DetectionSourceEnumMicrosoftDefenderForIdentity, DetectionSourceEnumMicrosoftDefenderForOffice365, DetectionSourceEnumMicrosoftThreatExperts, DetectionSourceEnumMicrosoft365Defender, DetectionSourceEnumSmartScreen:
 		return true
 	}
 	return false
@@ -13047,7 +13607,7 @@ func (e DetectionSourceEnum) String() string {
 	return string(e)
 }
 
-func (e *DetectionSourceEnum) UnmarshalGQL(v interface{}) error {
+func (e *DetectionSourceEnum) UnmarshalGQL(v any) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -13090,7 +13650,7 @@ func (e DetectionStatusEnum) String() string {
 	return string(e)
 }
 
-func (e *DetectionStatusEnum) UnmarshalGQL(v interface{}) error {
+func (e *DetectionStatusEnum) UnmarshalGQL(v any) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -13135,7 +13695,7 @@ func (e DeviceAvStatusEnum) String() string {
 	return string(e)
 }
 
-func (e *DeviceAvStatusEnum) UnmarshalGQL(v interface{}) error {
+func (e *DeviceAvStatusEnum) UnmarshalGQL(v any) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -13184,7 +13744,7 @@ func (e DeviceCategory) String() string {
 	return string(e)
 }
 
-func (e *DeviceCategory) UnmarshalGQL(v interface{}) error {
+func (e *DeviceCategory) UnmarshalGQL(v any) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -13227,7 +13787,7 @@ func (e DeviceConfidenceLevel) String() string {
 	return string(e)
 }
 
-func (e *DeviceConfidenceLevel) UnmarshalGQL(v interface{}) error {
+func (e *DeviceConfidenceLevel) UnmarshalGQL(v any) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -13268,7 +13828,7 @@ func (e DeviceConfigHaRoleEnum) String() string {
 	return string(e)
 }
 
-func (e *DeviceConfigHaRoleEnum) UnmarshalGQL(v interface{}) error {
+func (e *DeviceConfigHaRoleEnum) UnmarshalGQL(v any) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -13309,7 +13869,7 @@ func (e DeviceHaRoleStateEnum) String() string {
 	return string(e)
 }
 
-func (e *DeviceHaRoleStateEnum) UnmarshalGQL(v interface{}) error {
+func (e *DeviceHaRoleStateEnum) UnmarshalGQL(v any) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -13356,7 +13916,7 @@ func (e DeviceHealthStatusEnum) String() string {
 	return string(e)
 }
 
-func (e *DeviceHealthStatusEnum) UnmarshalGQL(v interface{}) error {
+func (e *DeviceHealthStatusEnum) UnmarshalGQL(v any) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -13405,7 +13965,7 @@ func (e DeviceV2Category) String() string {
 	return string(e)
 }
 
-func (e *DeviceV2Category) UnmarshalGQL(v interface{}) error {
+func (e *DeviceV2Category) UnmarshalGQL(v any) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -13450,7 +14010,7 @@ func (e DhcpType) String() string {
 	return string(e)
 }
 
-func (e *DhcpType) UnmarshalGQL(v interface{}) error {
+func (e *DhcpType) UnmarshalGQL(v any) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -13491,7 +14051,7 @@ func (e DirectionEnum) String() string {
 	return string(e)
 }
 
-func (e *DirectionEnum) UnmarshalGQL(v interface{}) error {
+func (e *DirectionEnum) UnmarshalGQL(v any) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -13532,7 +14092,7 @@ func (e DirectionInput) String() string {
 	return string(e)
 }
 
-func (e *DirectionInput) UnmarshalGQL(v interface{}) error {
+func (e *DirectionInput) UnmarshalGQL(v any) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -13576,7 +14136,7 @@ func (e DpaVersion) String() string {
 	return string(e)
 }
 
-func (e *DpaVersion) UnmarshalGQL(v interface{}) error {
+func (e *DpaVersion) UnmarshalGQL(v any) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -13631,7 +14191,7 @@ func (e ElasticOperator) String() string {
 	return string(e)
 }
 
-func (e *ElasticOperator) UnmarshalGQL(v interface{}) error {
+func (e *ElasticOperator) UnmarshalGQL(v any) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -13695,7 +14255,7 @@ func (e EmployeeRange) String() string {
 	return string(e)
 }
 
-func (e *EmployeeRange) UnmarshalGQL(v interface{}) error {
+func (e *EmployeeRange) UnmarshalGQL(v any) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -13827,7 +14387,7 @@ func (e EntityType) String() string {
 	return string(e)
 }
 
-func (e *EntityType) UnmarshalGQL(v interface{}) error {
+func (e *EntityType) UnmarshalGQL(v any) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -13870,7 +14430,7 @@ func (e EventFeedFilterFieldName) String() string {
 	return string(e)
 }
 
-func (e *EventFeedFilterFieldName) UnmarshalGQL(v interface{}) error {
+func (e *EventFeedFilterFieldName) UnmarshalGQL(v any) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -13916,7 +14476,7 @@ func (e EventFeedFilterOperator) String() string {
 	return string(e)
 }
 
-func (e *EventFeedFilterOperator) UnmarshalGQL(v interface{}) error {
+func (e *EventFeedFilterOperator) UnmarshalGQL(v any) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -14722,7 +15282,7 @@ func (e EventFieldName) String() string {
 	return string(e)
 }
 
-func (e *EventFieldName) UnmarshalGQL(v interface{}) error {
+func (e *EventFieldName) UnmarshalGQL(v any) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -14736,6 +15296,51 @@ func (e *EventFieldName) UnmarshalGQL(v interface{}) error {
 }
 
 func (e EventFieldName) MarshalGQL(w io.Writer) {
+	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+type ExportJobStatus string
+
+const (
+	ExportJobStatusCompleted  ExportJobStatus = "COMPLETED"
+	ExportJobStatusFailed     ExportJobStatus = "FAILED"
+	ExportJobStatusInProgress ExportJobStatus = "IN_PROGRESS"
+	ExportJobStatusPending    ExportJobStatus = "PENDING"
+)
+
+var AllExportJobStatus = []ExportJobStatus{
+	ExportJobStatusCompleted,
+	ExportJobStatusFailed,
+	ExportJobStatusInProgress,
+	ExportJobStatusPending,
+}
+
+func (e ExportJobStatus) IsValid() bool {
+	switch e {
+	case ExportJobStatusCompleted, ExportJobStatusFailed, ExportJobStatusInProgress, ExportJobStatusPending:
+		return true
+	}
+	return false
+}
+
+func (e ExportJobStatus) String() string {
+	return string(e)
+}
+
+func (e *ExportJobStatus) UnmarshalGQL(v any) error {
+	str, ok := v.(string)
+	if !ok {
+		return fmt.Errorf("enums must be strings")
+	}
+
+	*e = ExportJobStatus(str)
+	if !e.IsValid() {
+		return fmt.Errorf("%s is not a valid ExportJobStatus", str)
+	}
+	return nil
+}
+
+func (e ExportJobStatus) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
@@ -14783,7 +15388,7 @@ func (e FilterOperator) String() string {
 	return string(e)
 }
 
-func (e *FilterOperator) UnmarshalGQL(v interface{}) error {
+func (e *FilterOperator) UnmarshalGQL(v any) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -14824,7 +15429,7 @@ func (e HaReadiness) String() string {
 	return string(e)
 }
 
-func (e *HaReadiness) UnmarshalGQL(v interface{}) error {
+func (e *HaReadiness) UnmarshalGQL(v any) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -14865,7 +15470,7 @@ func (e HaRole) String() string {
 	return string(e)
 }
 
-func (e *HaRole) UnmarshalGQL(v interface{}) error {
+func (e *HaRole) UnmarshalGQL(v any) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -14906,7 +15511,7 @@ func (e HaSubStatus) String() string {
 	return string(e)
 }
 
-func (e *HaSubStatus) UnmarshalGQL(v interface{}) error {
+func (e *HaSubStatus) UnmarshalGQL(v any) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -14955,7 +15560,7 @@ func (e IPSecV2InterfaceID) String() string {
 	return string(e)
 }
 
-func (e *IPSecV2InterfaceID) UnmarshalGQL(v interface{}) error {
+func (e *IPSecV2InterfaceID) UnmarshalGQL(v any) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -14998,7 +15603,7 @@ func (e IPSecV2TunnelRole) String() string {
 	return string(e)
 }
 
-func (e *IPSecV2TunnelRole) UnmarshalGQL(v interface{}) error {
+func (e *IPSecV2TunnelRole) UnmarshalGQL(v any) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -15043,7 +15648,7 @@ func (e IdentificationType) String() string {
 	return string(e)
 }
 
-func (e *IdentificationType) UnmarshalGQL(v interface{}) error {
+func (e *IdentificationType) UnmarshalGQL(v any) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -15088,7 +15693,7 @@ func (e IlmmOnboardingStatus) String() string {
 	return string(e)
 }
 
-func (e *IlmmOnboardingStatus) UnmarshalGQL(v interface{}) error {
+func (e *IlmmOnboardingStatus) UnmarshalGQL(v any) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -15138,7 +15743,7 @@ func (e InternetFirewallActionEnum) String() string {
 	return string(e)
 }
 
-func (e *InternetFirewallActionEnum) UnmarshalGQL(v interface{}) error {
+func (e *InternetFirewallActionEnum) UnmarshalGQL(v any) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -15186,7 +15791,7 @@ func (e IPProtocol) String() string {
 	return string(e)
 }
 
-func (e *IPProtocol) UnmarshalGQL(v interface{}) error {
+func (e *IPProtocol) UnmarshalGQL(v any) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -15237,7 +15842,7 @@ func (e IPSecCipher) String() string {
 	return string(e)
 }
 
-func (e *IPSecCipher) UnmarshalGQL(v interface{}) error {
+func (e *IPSecCipher) UnmarshalGQL(v any) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -15294,7 +15899,7 @@ func (e IPSecDHGroup) String() string {
 	return string(e)
 }
 
-func (e *IPSecDHGroup) UnmarshalGQL(v interface{}) error {
+func (e *IPSecDHGroup) UnmarshalGQL(v any) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -15345,7 +15950,7 @@ func (e IPSecHash) String() string {
 	return string(e)
 }
 
-func (e *IPSecHash) UnmarshalGQL(v interface{}) error {
+func (e *IPSecHash) UnmarshalGQL(v any) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -15387,7 +15992,7 @@ func (e LicensePlan) String() string {
 	return string(e)
 }
 
-func (e *LicensePlan) UnmarshalGQL(v interface{}) error {
+func (e *LicensePlan) UnmarshalGQL(v any) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -15437,7 +16042,7 @@ const (
 	LicenseSkuCatoIPS LicenseSku = "CATO_IPS"
 	// Cato Managed XDR service SKU
 	LicenseSkuCatoManagedXdr LicenseSku = "CATO_MANAGED_XDR"
-	// Cato MDR (XDR Pro) service SKU
+	// Cato MDR service SKU
 	LicenseSkuCatoMdr LicenseSku = "CATO_MDR"
 	// Cato NOCaaS service SKU
 	LicenseSkuCatoNocaasHf LicenseSku = "CATO_NOCAAS_HF"
@@ -15466,6 +16071,8 @@ const (
 	LicenseSkuCatoThreatPreventionAdv LicenseSku = "CATO_THREAT_PREVENTION_ADV"
 	// Cato XDR service SKU
 	LicenseSkuCatoXdrPro LicenseSku = "CATO_XDR_PRO"
+	// Cato XOps service SKU
+	LicenseSkuCatoXops LicenseSku = "CATO_XOPS"
 	// ZTNA remote users SKU
 	LicenseSkuCatoZtnaUsers LicenseSku = "CATO_ZTNA_USERS"
 	// ZTNA remote users SKU
@@ -15503,13 +16110,14 @@ var AllLicenseSku = []LicenseSku{
 	LicenseSkuCatoThreatPrevention,
 	LicenseSkuCatoThreatPreventionAdv,
 	LicenseSkuCatoXdrPro,
+	LicenseSkuCatoXops,
 	LicenseSkuCatoZtnaUsers,
 	LicenseSkuMobileUsers,
 }
 
 func (e LicenseSku) IsValid() bool {
 	switch e {
-	case LicenseSkuCatoAntiMalware, LicenseSkuCatoAntiMalwareNg, LicenseSkuCatoCasb, LicenseSkuCatoDatalake, LicenseSkuCatoDatalake12m, LicenseSkuCatoDatalake3m, LicenseSkuCatoDatalake6m, LicenseSkuCatoDem, LicenseSkuCatoDlp, LicenseSkuCatoEpp, LicenseSkuCatoIlmm, LicenseSkuCatoIotOt, LicenseSkuCatoIPAdd, LicenseSkuCatoIPS, LicenseSkuCatoManagedXdr, LicenseSkuCatoMdr, LicenseSkuCatoNocaasHf, LicenseSkuCatoPb, LicenseSkuCatoPbSse, LicenseSkuCatoRbi, LicenseSkuCatoSaas, LicenseSkuCatoSaasSecurityAPI, LicenseSkuCatoSaasSecurityAPIAllApps, LicenseSkuCatoSaasSecurityAPIOneApp, LicenseSkuCatoSaasSecurityAPITwoApps, LicenseSkuCatoSite, LicenseSkuCatoSseSite, LicenseSkuCatoThreatPrevention, LicenseSkuCatoThreatPreventionAdv, LicenseSkuCatoXdrPro, LicenseSkuCatoZtnaUsers, LicenseSkuMobileUsers:
+	case LicenseSkuCatoAntiMalware, LicenseSkuCatoAntiMalwareNg, LicenseSkuCatoCasb, LicenseSkuCatoDatalake, LicenseSkuCatoDatalake12m, LicenseSkuCatoDatalake3m, LicenseSkuCatoDatalake6m, LicenseSkuCatoDem, LicenseSkuCatoDlp, LicenseSkuCatoEpp, LicenseSkuCatoIlmm, LicenseSkuCatoIotOt, LicenseSkuCatoIPAdd, LicenseSkuCatoIPS, LicenseSkuCatoManagedXdr, LicenseSkuCatoMdr, LicenseSkuCatoNocaasHf, LicenseSkuCatoPb, LicenseSkuCatoPbSse, LicenseSkuCatoRbi, LicenseSkuCatoSaas, LicenseSkuCatoSaasSecurityAPI, LicenseSkuCatoSaasSecurityAPIAllApps, LicenseSkuCatoSaasSecurityAPIOneApp, LicenseSkuCatoSaasSecurityAPITwoApps, LicenseSkuCatoSite, LicenseSkuCatoSseSite, LicenseSkuCatoThreatPrevention, LicenseSkuCatoThreatPreventionAdv, LicenseSkuCatoXdrPro, LicenseSkuCatoXops, LicenseSkuCatoZtnaUsers, LicenseSkuMobileUsers:
 		return true
 	}
 	return false
@@ -15519,7 +16127,7 @@ func (e LicenseSku) String() string {
 	return string(e)
 }
 
-func (e *LicenseSku) UnmarshalGQL(v interface{}) error {
+func (e *LicenseSku) UnmarshalGQL(v any) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -15572,7 +16180,7 @@ func (e LicenseStatus) String() string {
 	return string(e)
 }
 
-func (e *LicenseStatus) UnmarshalGQL(v interface{}) error {
+func (e *LicenseStatus) UnmarshalGQL(v any) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -15615,7 +16223,7 @@ func (e LinkConfigPrecedenceEnum) String() string {
 	return string(e)
 }
 
-func (e *LinkConfigPrecedenceEnum) UnmarshalGQL(v interface{}) error {
+func (e *LinkConfigPrecedenceEnum) UnmarshalGQL(v any) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -15660,7 +16268,7 @@ func (e LinkQualityIssueTypeEnum) String() string {
 	return string(e)
 }
 
-func (e *LinkQualityIssueTypeEnum) UnmarshalGQL(v interface{}) error {
+func (e *LinkQualityIssueTypeEnum) UnmarshalGQL(v any) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -15701,7 +16309,7 @@ func (e LinkStatusEnum) String() string {
 	return string(e)
 }
 
-func (e *LinkStatusEnum) UnmarshalGQL(v interface{}) error {
+func (e *LinkStatusEnum) UnmarshalGQL(v any) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -15776,7 +16384,7 @@ func (e LookupFilterType) String() string {
 	return string(e)
 }
 
-func (e *LookupFilterType) UnmarshalGQL(v interface{}) error {
+func (e *LookupFilterType) UnmarshalGQL(v any) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -15819,7 +16427,7 @@ func (e MsAlertStatus) String() string {
 	return string(e)
 }
 
-func (e *MsAlertStatus) UnmarshalGQL(v interface{}) error {
+func (e *MsAlertStatus) UnmarshalGQL(v any) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -15864,7 +16472,7 @@ func (e MsResourceVerdictEnum) String() string {
 	return string(e)
 }
 
-func (e *MsResourceVerdictEnum) UnmarshalGQL(v interface{}) error {
+func (e *MsResourceVerdictEnum) UnmarshalGQL(v any) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -15915,7 +16523,7 @@ func (e NetworkEventSourceEnum) String() string {
 	return string(e)
 }
 
-func (e *NetworkEventSourceEnum) UnmarshalGQL(v interface{}) error {
+func (e *NetworkEventSourceEnum) UnmarshalGQL(v any) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -15958,7 +16566,7 @@ func (e NetworkXDREventTypeEnum) String() string {
 	return string(e)
 }
 
-func (e *NetworkXDREventTypeEnum) UnmarshalGQL(v interface{}) error {
+func (e *NetworkXDREventTypeEnum) UnmarshalGQL(v any) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -15999,7 +16607,7 @@ func (e ObjectRefBy) String() string {
 	return string(e)
 }
 
-func (e *ObjectRefBy) UnmarshalGQL(v interface{}) error {
+func (e *ObjectRefBy) UnmarshalGQL(v any) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -16042,7 +16650,7 @@ func (e OnboardingStatusEnum) String() string {
 	return string(e)
 }
 
-func (e *OnboardingStatusEnum) UnmarshalGQL(v interface{}) error {
+func (e *OnboardingStatusEnum) UnmarshalGQL(v any) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -16091,7 +16699,7 @@ func (e OperatingSystem) String() string {
 	return string(e)
 }
 
-func (e *OperatingSystem) UnmarshalGQL(v interface{}) error {
+func (e *OperatingSystem) UnmarshalGQL(v any) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -16158,7 +16766,7 @@ func (e PeriodType) String() string {
 	return string(e)
 }
 
-func (e *PeriodType) UnmarshalGQL(v interface{}) error {
+func (e *PeriodType) UnmarshalGQL(v any) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -16204,7 +16812,7 @@ func (e PolicyActiveOnEnum) String() string {
 	return string(e)
 }
 
-func (e *PolicyActiveOnEnum) UnmarshalGQL(v interface{}) error {
+func (e *PolicyActiveOnEnum) UnmarshalGQL(v any) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -16264,7 +16872,7 @@ func (e PolicyElementPropertiesEnum) String() string {
 	return string(e)
 }
 
-func (e *PolicyElementPropertiesEnum) UnmarshalGQL(v interface{}) error {
+func (e *PolicyElementPropertiesEnum) UnmarshalGQL(v any) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -16306,7 +16914,7 @@ func (e PolicyMutationStatus) String() string {
 	return string(e)
 }
 
-func (e *PolicyMutationStatus) UnmarshalGQL(v interface{}) error {
+func (e *PolicyMutationStatus) UnmarshalGQL(v any) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -16348,7 +16956,7 @@ func (e PolicyRevisionType) String() string {
 	return string(e)
 }
 
-func (e *PolicyRevisionType) UnmarshalGQL(v interface{}) error {
+func (e *PolicyRevisionType) UnmarshalGQL(v any) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -16404,7 +17012,7 @@ func (e PolicyRulePositionEnum) String() string {
 	return string(e)
 }
 
-func (e *PolicyRulePositionEnum) UnmarshalGQL(v interface{}) error {
+func (e *PolicyRulePositionEnum) UnmarshalGQL(v any) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -16450,7 +17058,7 @@ func (e PolicyRuleTrackingFrequencyEnum) String() string {
 	return string(e)
 }
 
-func (e *PolicyRuleTrackingFrequencyEnum) UnmarshalGQL(v interface{}) error {
+func (e *PolicyRuleTrackingFrequencyEnum) UnmarshalGQL(v any) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -16493,7 +17101,7 @@ func (e PolicySectionPositionEnum) String() string {
 	return string(e)
 }
 
-func (e *PolicySectionPositionEnum) UnmarshalGQL(v interface{}) error {
+func (e *PolicySectionPositionEnum) UnmarshalGQL(v any) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -16543,7 +17151,7 @@ func (e PolicySubRulePositionEnum) String() string {
 	return string(e)
 }
 
-func (e *PolicySubRulePositionEnum) UnmarshalGQL(v interface{}) error {
+func (e *PolicySubRulePositionEnum) UnmarshalGQL(v any) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -16585,7 +17193,7 @@ func (e PolicyToggleState) String() string {
 	return string(e)
 }
 
-func (e *PolicyToggleState) UnmarshalGQL(v interface{}) error {
+func (e *PolicyToggleState) UnmarshalGQL(v any) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -16609,7 +17217,7 @@ const (
 	ProtoTypeIpsecClient     ProtoType = "IPSEC_CLIENT"
 	ProtoTypeIpsecHost       ProtoType = "IPSEC_HOST"
 	ProtoTypeIpsecV2         ProtoType = "IPSEC_V2"
-	ProtoTypeSocketAws1500   ProtoType = "SOCKET_AWS1500"
+	ProtoTypeSocketAWS1500   ProtoType = "SOCKET_AWS1500"
 	ProtoTypeSocketAz1500    ProtoType = "SOCKET_AZ1500"
 	ProtoTypeSocketEsx1500   ProtoType = "SOCKET_ESX1500"
 	ProtoTypeSocketX1500     ProtoType = "SOCKET_X1500"
@@ -16622,11 +17230,11 @@ const (
 	ProtoTypeGreTunnel       ProtoType = "GRE_TUNNEL"
 	ProtoTypeNotDefined      ProtoType = "NOT_DEFINED"
 	ProtoTypePortalListener  ProtoType = "PORTAL_LISTENER"
-	ProtoTypeSocketGcp1500   ProtoType = "SOCKET_GCP1500"
+	ProtoTypeSocketGCP1500   ProtoType = "SOCKET_GCP1500"
 	ProtoTypeSocketRpi64     ProtoType = "SOCKET_RPI64"
 	ProtoTypeSocketX1        ProtoType = "SOCKET_X1"
 	ProtoTypeVsocketVgs      ProtoType = "VSOCKET_VGS"
-	ProtoTypeVsocketVgxAws   ProtoType = "VSOCKET_VGX_AWS"
+	ProtoTypeVsocketVgxAWS   ProtoType = "VSOCKET_VGX_AWS"
 	ProtoTypeVsocketVgxAzure ProtoType = "VSOCKET_VGX_AZURE"
 	ProtoTypeVsocketVgxEsx   ProtoType = "VSOCKET_VGX_ESX"
 	ProtoTypeVsocketVsh      ProtoType = "VSOCKET_VSH"
@@ -16637,7 +17245,7 @@ var AllProtoType = []ProtoType{
 	ProtoTypeIpsecClient,
 	ProtoTypeIpsecHost,
 	ProtoTypeIpsecV2,
-	ProtoTypeSocketAws1500,
+	ProtoTypeSocketAWS1500,
 	ProtoTypeSocketAz1500,
 	ProtoTypeSocketEsx1500,
 	ProtoTypeSocketX1500,
@@ -16650,11 +17258,11 @@ var AllProtoType = []ProtoType{
 	ProtoTypeGreTunnel,
 	ProtoTypeNotDefined,
 	ProtoTypePortalListener,
-	ProtoTypeSocketGcp1500,
+	ProtoTypeSocketGCP1500,
 	ProtoTypeSocketRpi64,
 	ProtoTypeSocketX1,
 	ProtoTypeVsocketVgs,
-	ProtoTypeVsocketVgxAws,
+	ProtoTypeVsocketVgxAWS,
 	ProtoTypeVsocketVgxAzure,
 	ProtoTypeVsocketVgxEsx,
 	ProtoTypeVsocketVsh,
@@ -16662,7 +17270,7 @@ var AllProtoType = []ProtoType{
 
 func (e ProtoType) IsValid() bool {
 	switch e {
-	case ProtoTypeCrossConnect, ProtoTypeIpsecClient, ProtoTypeIpsecHost, ProtoTypeIpsecV2, ProtoTypeSocketAws1500, ProtoTypeSocketAz1500, ProtoTypeSocketEsx1500, ProtoTypeSocketX1500, ProtoTypeSocketX1600, ProtoTypeSocketX1600Lte, ProtoTypeSocketX1700, ProtoTypeVsocketVgx, ProtoTypeCrossConnectL2, ProtoTypeCrossConnectVrf, ProtoTypeGreTunnel, ProtoTypeNotDefined, ProtoTypePortalListener, ProtoTypeSocketGcp1500, ProtoTypeSocketRpi64, ProtoTypeSocketX1, ProtoTypeVsocketVgs, ProtoTypeVsocketVgxAws, ProtoTypeVsocketVgxAzure, ProtoTypeVsocketVgxEsx, ProtoTypeVsocketVsh:
+	case ProtoTypeCrossConnect, ProtoTypeIpsecClient, ProtoTypeIpsecHost, ProtoTypeIpsecV2, ProtoTypeSocketAWS1500, ProtoTypeSocketAz1500, ProtoTypeSocketEsx1500, ProtoTypeSocketX1500, ProtoTypeSocketX1600, ProtoTypeSocketX1600Lte, ProtoTypeSocketX1700, ProtoTypeVsocketVgx, ProtoTypeCrossConnectL2, ProtoTypeCrossConnectVrf, ProtoTypeGreTunnel, ProtoTypeNotDefined, ProtoTypePortalListener, ProtoTypeSocketGCP1500, ProtoTypeSocketRpi64, ProtoTypeSocketX1, ProtoTypeVsocketVgs, ProtoTypeVsocketVgxAWS, ProtoTypeVsocketVgxAzure, ProtoTypeVsocketVgxEsx, ProtoTypeVsocketVsh:
 		return true
 	}
 	return false
@@ -16672,7 +17280,7 @@ func (e ProtoType) String() string {
 	return string(e)
 }
 
-func (e *ProtoType) UnmarshalGQL(v interface{}) error {
+func (e *ProtoType) UnmarshalGQL(v any) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -16716,7 +17324,7 @@ func (e Regionality) String() string {
 	return string(e)
 }
 
-func (e *Regionality) UnmarshalGQL(v interface{}) error {
+func (e *Regionality) UnmarshalGQL(v any) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -16793,7 +17401,7 @@ func (e RemediationStatusEnum) String() string {
 	return string(e)
 }
 
-func (e *RemediationStatusEnum) UnmarshalGQL(v interface{}) error {
+func (e *RemediationStatusEnum) UnmarshalGQL(v any) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -16834,7 +17442,7 @@ func (e RemotePortFwdRestrictionType) String() string {
 	return string(e)
 }
 
-func (e *RemotePortFwdRestrictionType) UnmarshalGQL(v interface{}) error {
+func (e *RemotePortFwdRestrictionType) UnmarshalGQL(v any) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -16899,7 +17507,7 @@ func (e ResourceRoleEnum) String() string {
 	return string(e)
 }
 
-func (e *ResourceRoleEnum) UnmarshalGQL(v interface{}) error {
+func (e *ResourceRoleEnum) UnmarshalGQL(v any) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -16950,7 +17558,7 @@ func (e RiskLevelEnum) String() string {
 	return string(e)
 }
 
-func (e *RiskLevelEnum) UnmarshalGQL(v interface{}) error {
+func (e *RiskLevelEnum) UnmarshalGQL(v any) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -17003,7 +17611,7 @@ func (e SandboxFailureReason) String() string {
 	return string(e)
 }
 
-func (e *SandboxFailureReason) UnmarshalGQL(v interface{}) error {
+func (e *SandboxFailureReason) UnmarshalGQL(v any) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -17056,7 +17664,7 @@ func (e SandboxStatus) String() string {
 	return string(e)
 }
 
-func (e *SandboxStatus) UnmarshalGQL(v interface{}) error {
+func (e *SandboxStatus) UnmarshalGQL(v any) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -17103,7 +17711,7 @@ func (e SandboxVerdict) String() string {
 	return string(e)
 }
 
-func (e *SandboxVerdict) UnmarshalGQL(v interface{}) error {
+func (e *SandboxVerdict) UnmarshalGQL(v any) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -17154,7 +17762,7 @@ func (e ScanResult) String() string {
 	return string(e)
 }
 
-func (e *ScanResult) UnmarshalGQL(v interface{}) error {
+func (e *ScanResult) UnmarshalGQL(v any) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -17197,7 +17805,7 @@ func (e SeverityEnum) String() string {
 	return string(e)
 }
 
-func (e *SeverityEnum) UnmarshalGQL(v interface{}) error {
+func (e *SeverityEnum) UnmarshalGQL(v any) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -17242,7 +17850,7 @@ func (e ShippingStatus) String() string {
 	return string(e)
 }
 
-func (e *ShippingStatus) UnmarshalGQL(v interface{}) error {
+func (e *ShippingStatus) UnmarshalGQL(v any) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -17297,7 +17905,7 @@ func (e SimpleServiceType) String() string {
 	return string(e)
 }
 
-func (e *SimpleServiceType) UnmarshalGQL(v interface{}) error {
+func (e *SimpleServiceType) UnmarshalGQL(v any) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -17317,9 +17925,10 @@ func (e SimpleServiceType) MarshalGQL(w io.Writer) {
 type SiteConnectionTypeEnum string
 
 const (
-	SiteConnectionTypeEnumSocketAws1500  SiteConnectionTypeEnum = "SOCKET_AWS1500"
+	SiteConnectionTypeEnumSocketAWS1500  SiteConnectionTypeEnum = "SOCKET_AWS1500"
 	SiteConnectionTypeEnumSocketAz1500   SiteConnectionTypeEnum = "SOCKET_AZ1500"
 	SiteConnectionTypeEnumSocketEsx1500  SiteConnectionTypeEnum = "SOCKET_ESX1500"
+	SiteConnectionTypeEnumSocketGCP1500  SiteConnectionTypeEnum = "SOCKET_GCP1500"
 	SiteConnectionTypeEnumSocketX1500    SiteConnectionTypeEnum = "SOCKET_X1500"
 	SiteConnectionTypeEnumSocketX1600    SiteConnectionTypeEnum = "SOCKET_X1600"
 	SiteConnectionTypeEnumSocketX1600Lte SiteConnectionTypeEnum = "SOCKET_X1600_LTE"
@@ -17327,9 +17936,10 @@ const (
 )
 
 var AllSiteConnectionTypeEnum = []SiteConnectionTypeEnum{
-	SiteConnectionTypeEnumSocketAws1500,
+	SiteConnectionTypeEnumSocketAWS1500,
 	SiteConnectionTypeEnumSocketAz1500,
 	SiteConnectionTypeEnumSocketEsx1500,
+	SiteConnectionTypeEnumSocketGCP1500,
 	SiteConnectionTypeEnumSocketX1500,
 	SiteConnectionTypeEnumSocketX1600,
 	SiteConnectionTypeEnumSocketX1600Lte,
@@ -17338,7 +17948,7 @@ var AllSiteConnectionTypeEnum = []SiteConnectionTypeEnum{
 
 func (e SiteConnectionTypeEnum) IsValid() bool {
 	switch e {
-	case SiteConnectionTypeEnumSocketAws1500, SiteConnectionTypeEnumSocketAz1500, SiteConnectionTypeEnumSocketEsx1500, SiteConnectionTypeEnumSocketX1500, SiteConnectionTypeEnumSocketX1600, SiteConnectionTypeEnumSocketX1600Lte, SiteConnectionTypeEnumSocketX1700:
+	case SiteConnectionTypeEnumSocketAWS1500, SiteConnectionTypeEnumSocketAz1500, SiteConnectionTypeEnumSocketEsx1500, SiteConnectionTypeEnumSocketGCP1500, SiteConnectionTypeEnumSocketX1500, SiteConnectionTypeEnumSocketX1600, SiteConnectionTypeEnumSocketX1600Lte, SiteConnectionTypeEnumSocketX1700:
 		return true
 	}
 	return false
@@ -17348,7 +17958,7 @@ func (e SiteConnectionTypeEnum) String() string {
 	return string(e)
 }
 
-func (e *SiteConnectionTypeEnum) UnmarshalGQL(v interface{}) error {
+func (e *SiteConnectionTypeEnum) UnmarshalGQL(v any) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -17422,7 +18032,7 @@ func (e SiteLicenseGroup) String() string {
 	return string(e)
 }
 
-func (e *SiteLicenseGroup) UnmarshalGQL(v interface{}) error {
+func (e *SiteLicenseGroup) UnmarshalGQL(v any) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -17463,7 +18073,7 @@ func (e SiteLicenseType) String() string {
 	return string(e)
 }
 
-func (e *SiteLicenseType) UnmarshalGQL(v interface{}) error {
+func (e *SiteLicenseType) UnmarshalGQL(v any) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -17508,7 +18118,7 @@ func (e SiteType) String() string {
 	return string(e)
 }
 
-func (e *SiteType) UnmarshalGQL(v interface{}) error {
+func (e *SiteType) UnmarshalGQL(v any) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -17522,6 +18132,92 @@ func (e *SiteType) UnmarshalGQL(v interface{}) error {
 }
 
 func (e SiteType) MarshalGQL(w io.Writer) {
+	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+type SocketAddOnExpansionSlotNumber string
+
+const (
+	SocketAddOnExpansionSlotNumberSlot1 SocketAddOnExpansionSlotNumber = "SLOT_1"
+	SocketAddOnExpansionSlotNumberSlot2 SocketAddOnExpansionSlotNumber = "SLOT_2"
+)
+
+var AllSocketAddOnExpansionSlotNumber = []SocketAddOnExpansionSlotNumber{
+	SocketAddOnExpansionSlotNumberSlot1,
+	SocketAddOnExpansionSlotNumberSlot2,
+}
+
+func (e SocketAddOnExpansionSlotNumber) IsValid() bool {
+	switch e {
+	case SocketAddOnExpansionSlotNumberSlot1, SocketAddOnExpansionSlotNumberSlot2:
+		return true
+	}
+	return false
+}
+
+func (e SocketAddOnExpansionSlotNumber) String() string {
+	return string(e)
+}
+
+func (e *SocketAddOnExpansionSlotNumber) UnmarshalGQL(v any) error {
+	str, ok := v.(string)
+	if !ok {
+		return fmt.Errorf("enums must be strings")
+	}
+
+	*e = SocketAddOnExpansionSlotNumber(str)
+	if !e.IsValid() {
+		return fmt.Errorf("%s is not a valid SocketAddOnExpansionSlotNumber", str)
+	}
+	return nil
+}
+
+func (e SocketAddOnExpansionSlotNumber) MarshalGQL(w io.Writer) {
+	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+type SocketAddOnType string
+
+const (
+	SocketAddOnTypeFour10gFiber SocketAddOnType = "FOUR_10G_FIBER"
+	SocketAddOnTypeFour1gCopper SocketAddOnType = "FOUR_1G_COPPER"
+	SocketAddOnTypeTwo10gFiber  SocketAddOnType = "TWO_10G_FIBER"
+	SocketAddOnTypeTwo1gFiber   SocketAddOnType = "TWO_1G_FIBER"
+)
+
+var AllSocketAddOnType = []SocketAddOnType{
+	SocketAddOnTypeFour10gFiber,
+	SocketAddOnTypeFour1gCopper,
+	SocketAddOnTypeTwo10gFiber,
+	SocketAddOnTypeTwo1gFiber,
+}
+
+func (e SocketAddOnType) IsValid() bool {
+	switch e {
+	case SocketAddOnTypeFour10gFiber, SocketAddOnTypeFour1gCopper, SocketAddOnTypeTwo10gFiber, SocketAddOnTypeTwo1gFiber:
+		return true
+	}
+	return false
+}
+
+func (e SocketAddOnType) String() string {
+	return string(e)
+}
+
+func (e *SocketAddOnType) UnmarshalGQL(v any) error {
+	str, ok := v.(string)
+	if !ok {
+		return fmt.Errorf("enums must be strings")
+	}
+
+	*e = SocketAddOnType(str)
+	if !e.IsValid() {
+		return fmt.Errorf("%s is not a valid SocketAddOnType", str)
+	}
+	return nil
+}
+
+func (e SocketAddOnType) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
@@ -17567,7 +18263,7 @@ func (e SocketInterfaceDestType) String() string {
 	return string(e)
 }
 
-func (e *SocketInterfaceDestType) UnmarshalGQL(v interface{}) error {
+func (e *SocketInterfaceDestType) UnmarshalGQL(v any) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -17645,7 +18341,7 @@ func (e SocketInterfaceIDEnum) String() string {
 	return string(e)
 }
 
-func (e *SocketInterfaceIDEnum) UnmarshalGQL(v interface{}) error {
+func (e *SocketInterfaceIDEnum) UnmarshalGQL(v any) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -17688,7 +18384,7 @@ func (e SocketInterfacePrecedenceEnum) String() string {
 	return string(e)
 }
 
-func (e *SocketInterfacePrecedenceEnum) UnmarshalGQL(v interface{}) error {
+func (e *SocketInterfacePrecedenceEnum) UnmarshalGQL(v any) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -17733,7 +18429,7 @@ func (e SocketInterfaceRole) String() string {
 	return string(e)
 }
 
-func (e *SocketInterfaceRole) UnmarshalGQL(v interface{}) error {
+func (e *SocketInterfaceRole) UnmarshalGQL(v any) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -17790,7 +18486,7 @@ func (e SocketInterfaceWanRole) String() string {
 	return string(e)
 }
 
-func (e *SocketInterfaceWanRole) UnmarshalGQL(v interface{}) error {
+func (e *SocketInterfaceWanRole) UnmarshalGQL(v any) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -17837,7 +18533,7 @@ func (e SocketInventoryItemStatus) String() string {
 	return string(e)
 }
 
-func (e *SocketInventoryItemStatus) UnmarshalGQL(v interface{}) error {
+func (e *SocketInventoryItemStatus) UnmarshalGQL(v any) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -17880,7 +18576,7 @@ func (e SocketLanDirection) String() string {
 	return string(e)
 }
 
-func (e *SocketLanDirection) UnmarshalGQL(v interface{}) error {
+func (e *SocketLanDirection) UnmarshalGQL(v any) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -17921,7 +18617,7 @@ func (e SocketLanFirewallAction) String() string {
 	return string(e)
 }
 
-func (e *SocketLanFirewallAction) UnmarshalGQL(v interface{}) error {
+func (e *SocketLanFirewallAction) UnmarshalGQL(v any) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -17964,7 +18660,7 @@ func (e SocketLanFirewallDirection) String() string {
 	return string(e)
 }
 
-func (e *SocketLanFirewallDirection) UnmarshalGQL(v interface{}) error {
+func (e *SocketLanFirewallDirection) UnmarshalGQL(v any) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -18003,7 +18699,7 @@ func (e SocketLanNatType) String() string {
 	return string(e)
 }
 
-func (e *SocketLanNatType) UnmarshalGQL(v interface{}) error {
+func (e *SocketLanNatType) UnmarshalGQL(v any) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -18046,7 +18742,7 @@ func (e SocketLanTransportType) String() string {
 	return string(e)
 }
 
-func (e *SocketLanTransportType) UnmarshalGQL(v interface{}) error {
+func (e *SocketLanTransportType) UnmarshalGQL(v any) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -18066,10 +18762,10 @@ func (e SocketLanTransportType) MarshalGQL(w io.Writer) {
 type SocketPlatform string
 
 const (
-	SocketPlatformAws1500   SocketPlatform = "AWS1500"
-	SocketPlatformGcp1500   SocketPlatform = "GCP1500"
+	SocketPlatformAWS1500   SocketPlatform = "AWS1500"
 	SocketPlatformAz1500    SocketPlatform = "AZ1500"
 	SocketPlatformEsx1500   SocketPlatform = "ESX1500"
+	SocketPlatformGCP1500   SocketPlatform = "GCP1500"
 	SocketPlatformX1500     SocketPlatform = "X1500"
 	SocketPlatformX1500Br2  SocketPlatform = "X1500_BR2"
 	SocketPlatformX1500bBr2 SocketPlatform = "X1500B_BR2"
@@ -18080,10 +18776,10 @@ const (
 )
 
 var AllSocketPlatform = []SocketPlatform{
-	SocketPlatformAws1500,
-	SocketPlatformGcp1500,
+	SocketPlatformAWS1500,
 	SocketPlatformAz1500,
 	SocketPlatformEsx1500,
+	SocketPlatformGCP1500,
 	SocketPlatformX1500,
 	SocketPlatformX1500Br2,
 	SocketPlatformX1500bBr2,
@@ -18095,7 +18791,7 @@ var AllSocketPlatform = []SocketPlatform{
 
 func (e SocketPlatform) IsValid() bool {
 	switch e {
-	case SocketPlatformAws1500, SocketPlatformGcp1500, SocketPlatformAz1500, SocketPlatformEsx1500, SocketPlatformX1500, SocketPlatformX1500Br2, SocketPlatformX1500bBr2, SocketPlatformX1600, SocketPlatformX1600Lte, SocketPlatformX1700, SocketPlatformX1700b:
+	case SocketPlatformAWS1500, SocketPlatformAz1500, SocketPlatformEsx1500, SocketPlatformGCP1500, SocketPlatformX1500, SocketPlatformX1500Br2, SocketPlatformX1500bBr2, SocketPlatformX1600, SocketPlatformX1600Lte, SocketPlatformX1700, SocketPlatformX1700b:
 		return true
 	}
 	return false
@@ -18105,7 +18801,7 @@ func (e SocketPlatform) String() string {
 	return string(e)
 }
 
-func (e *SocketPlatform) UnmarshalGQL(v interface{}) error {
+func (e *SocketPlatform) UnmarshalGQL(v any) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -18156,7 +18852,7 @@ func (e SocketRegistrationStatus) String() string {
 	return string(e)
 }
 
-func (e *SocketRegistrationStatus) UnmarshalGQL(v interface{}) error {
+func (e *SocketRegistrationStatus) UnmarshalGQL(v any) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -18213,7 +18909,7 @@ func (e SocketUpgradeStatus) String() string {
 	return string(e)
 }
 
-func (e *SocketUpgradeStatus) UnmarshalGQL(v interface{}) error {
+func (e *SocketUpgradeStatus) UnmarshalGQL(v any) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -18254,7 +18950,7 @@ func (e SortDirectionEnum) String() string {
 	return string(e)
 }
 
-func (e *SortDirectionEnum) UnmarshalGQL(v interface{}) error {
+func (e *SortDirectionEnum) UnmarshalGQL(v any) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -18295,7 +18991,7 @@ func (e SortOrder) String() string {
 	return string(e)
 }
 
-func (e *SortOrder) UnmarshalGQL(v interface{}) error {
+func (e *SortOrder) UnmarshalGQL(v any) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -18342,7 +19038,7 @@ func (e StoryEngineTypeEnum) String() string {
 	return string(e)
 }
 
-func (e *StoryEngineTypeEnum) UnmarshalGQL(v interface{}) error {
+func (e *StoryEngineTypeEnum) UnmarshalGQL(v any) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -18399,7 +19095,7 @@ func (e StoryProducerEnum) String() string {
 	return string(e)
 }
 
-func (e *StoryProducerEnum) UnmarshalGQL(v interface{}) error {
+func (e *StoryProducerEnum) UnmarshalGQL(v any) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -18462,7 +19158,7 @@ func (e StorySortFieldName) String() string {
 	return string(e)
 }
 
-func (e *StorySortFieldName) UnmarshalGQL(v interface{}) error {
+func (e *StorySortFieldName) UnmarshalGQL(v any) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -18511,7 +19207,7 @@ func (e StoryStatusEnum) String() string {
 	return string(e)
 }
 
-func (e *StoryStatusEnum) UnmarshalGQL(v interface{}) error {
+func (e *StoryStatusEnum) UnmarshalGQL(v any) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -18556,7 +19252,7 @@ func (e StoryVerdictEnum) String() string {
 	return string(e)
 }
 
-func (e *StoryVerdictEnum) UnmarshalGQL(v interface{}) error {
+func (e *StoryVerdictEnum) UnmarshalGQL(v any) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -18603,7 +19299,7 @@ func (e SubnetType) String() string {
 	return string(e)
 }
 
-func (e *SubnetType) UnmarshalGQL(v interface{}) error {
+func (e *SubnetType) UnmarshalGQL(v any) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -18644,7 +19340,7 @@ func (e TaggingMethod) String() string {
 	return string(e)
 }
 
-func (e *TaggingMethod) UnmarshalGQL(v interface{}) error {
+func (e *TaggingMethod) UnmarshalGQL(v any) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -18689,7 +19385,7 @@ func (e TargetType) String() string {
 	return string(e)
 }
 
-func (e *TargetType) UnmarshalGQL(v interface{}) error {
+func (e *TargetType) UnmarshalGQL(v any) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -18732,7 +19428,7 @@ func (e TimeFrameModifier) String() string {
 	return string(e)
 }
 
-func (e *TimeFrameModifier) UnmarshalGQL(v interface{}) error {
+func (e *TimeFrameModifier) UnmarshalGQL(v any) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -18775,7 +19471,7 @@ func (e TimelineItemCategoryEnum) String() string {
 	return string(e)
 }
 
-func (e *TimelineItemCategoryEnum) UnmarshalGQL(v interface{}) error {
+func (e *TimelineItemCategoryEnum) UnmarshalGQL(v any) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -18818,7 +19514,7 @@ func (e TimelineTypeEnum) String() string {
 	return string(e)
 }
 
-func (e *TimelineTypeEnum) UnmarshalGQL(v interface{}) error {
+func (e *TimelineTypeEnum) UnmarshalGQL(v any) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -18923,7 +19619,7 @@ func (e TimeseriesMetricType) String() string {
 	return string(e)
 }
 
-func (e *TimeseriesMetricType) UnmarshalGQL(v interface{}) error {
+func (e *TimeseriesMetricType) UnmarshalGQL(v any) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -18964,7 +19660,7 @@ func (e TrafficDirectionEnum) String() string {
 	return string(e)
 }
 
-func (e *TrafficDirectionEnum) UnmarshalGQL(v interface{}) error {
+func (e *TrafficDirectionEnum) UnmarshalGQL(v any) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -19028,7 +19724,7 @@ func (e UnitType) String() string {
 	return string(e)
 }
 
-func (e *UnitType) UnmarshalGQL(v interface{}) error {
+func (e *UnitType) UnmarshalGQL(v any) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -19079,7 +19775,7 @@ func (e UserRole) String() string {
 	return string(e)
 }
 
-func (e *UserRole) UnmarshalGQL(v interface{}) error {
+func (e *UserRole) UnmarshalGQL(v any) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -19120,7 +19816,7 @@ func (e VendorEnum) String() string {
 	return string(e)
 }
 
-func (e *VendorEnum) UnmarshalGQL(v interface{}) error {
+func (e *VendorEnum) UnmarshalGQL(v any) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -19161,7 +19857,7 @@ func (e VrrpType) String() string {
 	return string(e)
 }
 
-func (e *VrrpType) UnmarshalGQL(v interface{}) error {
+func (e *VrrpType) UnmarshalGQL(v any) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -19207,7 +19903,7 @@ func (e WanFirewallActionEnum) String() string {
 	return string(e)
 }
 
-func (e *WanFirewallActionEnum) UnmarshalGQL(v interface{}) error {
+func (e *WanFirewallActionEnum) UnmarshalGQL(v any) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -19248,7 +19944,7 @@ func (e WanFirewallDirectionEnum) String() string {
 	return string(e)
 }
 
-func (e *WanFirewallDirectionEnum) UnmarshalGQL(v interface{}) error {
+func (e *WanFirewallDirectionEnum) UnmarshalGQL(v any) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -19309,7 +20005,7 @@ func (e WanNetworkRuleInterfaceRole) String() string {
 	return string(e)
 }
 
-func (e *WanNetworkRuleInterfaceRole) UnmarshalGQL(v interface{}) error {
+func (e *WanNetworkRuleInterfaceRole) UnmarshalGQL(v any) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -19364,7 +20060,7 @@ func (e WanNetworkRuleRouteType) String() string {
 	return string(e)
 }
 
-func (e *WanNetworkRuleRouteType) UnmarshalGQL(v interface{}) error {
+func (e *WanNetworkRuleRouteType) UnmarshalGQL(v any) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -19416,7 +20112,7 @@ func (e WanNetworkRuleTransportType) String() string {
 	return string(e)
 }
 
-func (e *WanNetworkRuleTransportType) UnmarshalGQL(v interface{}) error {
+func (e *WanNetworkRuleTransportType) UnmarshalGQL(v any) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -19462,7 +20158,7 @@ func (e WanNetworkRuleType) String() string {
 	return string(e)
 }
 
-func (e *WanNetworkRuleType) UnmarshalGQL(v interface{}) error {
+func (e *WanNetworkRuleType) UnmarshalGQL(v any) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -19517,7 +20213,7 @@ func (e ZtnaUsersLicenseGroup) String() string {
 	return string(e)
 }
 
-func (e *ZtnaUsersLicenseGroup) UnmarshalGQL(v interface{}) error {
+func (e *ZtnaUsersLicenseGroup) UnmarshalGQL(v any) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
