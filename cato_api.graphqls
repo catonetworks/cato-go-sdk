@@ -10737,6 +10737,10 @@ enum LicenseStatus {
   """
   SCHEDULED
   """
+  Added by Joe
+  """
+  PENDING
+  """
   A license that is active before its start date, for partners and customers to verify the relevant configurations
   """
   STAGING

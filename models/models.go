@@ -16156,6 +16156,8 @@ const (
 	LicenseStatusLocked LicenseStatus = "LOCKED"
 	// An existing license with a future start date that is not currently active
 	LicenseStatusScheduled LicenseStatus = "SCHEDULED"
+	// Added by Joe
+	LicenseStatusPending LicenseStatus = "PENDING"
 	// A license that is active before its start date, for partners and customers to verify the relevant configurations
 	LicenseStatusStaging LicenseStatus = "STAGING"
 )
@@ -16165,12 +16167,13 @@ var AllLicenseStatus = []LicenseStatus{
 	LicenseStatusDisabled,
 	LicenseStatusLocked,
 	LicenseStatusScheduled,
+	LicenseStatusPending,
 	LicenseStatusStaging,
 }
 
 func (e LicenseStatus) IsValid() bool {
 	switch e {
-	case LicenseStatusActive, LicenseStatusDisabled, LicenseStatusLocked, LicenseStatusScheduled, LicenseStatusStaging:
+	case LicenseStatusActive, LicenseStatusDisabled, LicenseStatusLocked, LicenseStatusScheduled, LicenseStatusPending, LicenseStatusStaging:
 		return true
 	}
 	return false
