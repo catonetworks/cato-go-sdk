@@ -84,6 +84,15 @@ query policy(
             }
 
             deviceOS
+            deviceAttributes {
+              category
+              type
+              model
+              manufacturer
+              os
+              osVersion
+            }
+
             destination {
               application {
                 id
@@ -122,6 +131,17 @@ query policy(
                 name
               }
               remoteAsn
+              containers {
+                fqdnContainer {
+                  id
+                  name
+                }
+
+                ipAddressRangeContainer {
+                  id
+                  name
+                }
+              }
             }
 
             service {
@@ -176,6 +196,13 @@ query policy(
                 to
                 days
               }
+            }
+
+            activePeriod {
+              useEffectiveFrom
+              effectiveFrom
+              useExpiresAt
+              expiresAt
             }
 
             exceptions {
@@ -247,6 +274,14 @@ query policy(
                 id
                 name
               }
+              deviceAttributes {
+                category
+                type
+                model
+                manufacturer
+                os
+                osVersion
+              }
               destination {
                 application {
                   id
@@ -293,6 +328,16 @@ query policy(
                 }
 
                 remoteAsn
+                containers {
+                  fqdnContainer {
+                    id
+                    name
+                  }
+                  ipAddressRangeContainer {
+                    id
+                    name
+                  }
+                }
               }
               service {
                 standard {

@@ -5057,9 +5057,7 @@ type InternetFirewallRuleException struct {
 	// Source Device Profile matching criteria for the exception.
 	Device []*DeviceProfileRef `json:"device"`
 	// Source Device Attributes matching criteria for the exception.
-	//
-	// deviceAttributes: DeviceAttributes!
-	//
+	DeviceAttributes *DeviceAttributes `json:"deviceAttributes"`
 	// Source device OS matching criteria for the exception.
 	DeviceOs []OperatingSystem `json:"deviceOS"`
 	// A unique name of the rule exception.
