@@ -1,7 +1,7 @@
-mutation policyWanFirewallUpdateRule ( $wanFirewallUpdateRuleInput:WanFirewallUpdateRuleInput! $accountId:ID! ) {
+mutation policyInternetFirewallAddRule ( $internetFirewallAddRuleInput:InternetFirewallAddRuleInput! $accountId:ID! ) {
 	policy ( accountId:$accountId  ) {
-		wanFirewall  {
-			updateRule ( input:$wanFirewallUpdateRuleInput   ) {
+		internetFirewall  {
+			addRule ( input:$internetFirewallAddRuleInput   ) {
 				rule  {
 					audit {
 						updatedTime 
@@ -19,6 +19,7 @@ mutation policyWanFirewallUpdateRule ( $wanFirewallUpdateRuleInput:WanFirewallUp
 
 						enabled 
 						source  {
+							ip
 							host {
 								id 
 								name 
@@ -28,7 +29,6 @@ mutation policyWanFirewallUpdateRule ( $wanFirewallUpdateRuleInput:WanFirewallUp
 								name 
 							}
 							subnet
-							ip
 							ipRange {
 								from 
 								to 
@@ -80,64 +80,15 @@ mutation policyWanFirewallUpdateRule ( $wanFirewallUpdateRuleInput:WanFirewallUp
 
 						deviceOS 
 						destination  {
-							host {
-								id 
-								name 
-							}
-							site {
-								id 
-								name 
-							}
-							subnet
-							ip
-							ipRange {
-								from 
-								to 
-							}
-							globalIpRange {
-								id 
-								name 
-							}
-							networkInterface {
-								id 
-								name 
-							}
-							siteNetworkSubnet {
-								id 
-								name 
-							}
-							floatingSubnet {
-								id 
-								name 
-							}
-							user {
-								id 
-								name 
-							}
-							usersGroup {
-								id 
-								name 
-							}
-							group {
-								id 
-								name 
-							}
-							systemGroup {
-								id 
-								name 
-							}
-						}
-
-						application  {
 							application {
 								id 
 								name 
 							}
-							appCategory {
+							customApp {
 								id 
 								name 
 							}
-							customApp {
+							appCategory {
 								id 
 								name 
 							}
@@ -146,6 +97,10 @@ mutation policyWanFirewallUpdateRule ( $wanFirewallUpdateRuleInput:WanFirewallUp
 								name 
 							}
 							sanctionedAppsCategory {
+								id 
+								name 
+							}
+							country {
 								id 
 								name 
 							}
@@ -161,6 +116,7 @@ mutation policyWanFirewallUpdateRule ( $wanFirewallUpdateRuleInput:WanFirewallUp
 								id 
 								name 
 							}
+							remoteAsn
 						}
 
 						service  {
@@ -206,7 +162,7 @@ mutation policyWanFirewallUpdateRule ( $wanFirewallUpdateRuleInput:WanFirewallUp
 						}
 
 						schedule  {
-							activeOnPolicySchedule: activeOn
+							activeOn
 							customTimeframePolicySchedule: customTimeframe {
 								from 
 								to 
@@ -218,10 +174,17 @@ mutation policyWanFirewallUpdateRule ( $wanFirewallUpdateRuleInput:WanFirewallUp
 							}
 						}
 
-						direction 
+						activePeriod  {
+							useEffectiveFrom
+							effectiveFrom
+							useExpiresAt
+							expiresAt
+						}						
+
 						exceptions  {
 							name
 							source {
+								ip 
 								host  {
 									id
 									name
@@ -233,7 +196,6 @@ mutation policyWanFirewallUpdateRule ( $wanFirewallUpdateRuleInput:WanFirewallUp
 								}
 
 								subnet 
-								ip 
 								ipRange  {
 									from
 									to
@@ -281,65 +243,6 @@ mutation policyWanFirewallUpdateRule ( $wanFirewallUpdateRuleInput:WanFirewallUp
 
 							}
 							deviceOS
-							destination {
-								host  {
-									id
-									name
-								}
-
-								site  {
-									id
-									name
-								}
-
-								subnet 
-								ip 
-								ipRange  {
-									from
-									to
-								}
-
-								globalIpRange  {
-									id
-									name
-								}
-
-								networkInterface  {
-									id
-									name
-								}
-
-								siteNetworkSubnet  {
-									id
-									name
-								}
-
-								floatingSubnet  {
-									id
-									name
-								}
-
-								user  {
-									id
-									name
-								}
-
-								usersGroup  {
-									id
-									name
-								}
-
-								group  {
-									id
-									name
-								}
-
-								systemGroup  {
-									id
-									name
-								}
-
-							}
 							country {
 								id 
 								name 
@@ -348,18 +251,18 @@ mutation policyWanFirewallUpdateRule ( $wanFirewallUpdateRuleInput:WanFirewallUp
 								id 
 								name 
 							}
-							application {
+							destination {
 								application  {
 									id
 									name
 								}
 
-								appCategory  {
+								customApp  {
 									id
 									name
 								}
 
-								customApp  {
+								appCategory  {
 									id
 									name
 								}
@@ -370,6 +273,11 @@ mutation policyWanFirewallUpdateRule ( $wanFirewallUpdateRuleInput:WanFirewallUp
 								}
 
 								sanctionedAppsCategory  {
+									id
+									name
+								}
+
+								country  {
 									id
 									name
 								}
@@ -388,6 +296,7 @@ mutation policyWanFirewallUpdateRule ( $wanFirewallUpdateRuleInput:WanFirewallUp
 									name
 								}
 
+								remoteAsn 
 							}
 							service {
 								standard  {
@@ -405,8 +314,7 @@ mutation policyWanFirewallUpdateRule ( $wanFirewallUpdateRuleInput:WanFirewallUp
 								}
 
 							}
-							connectionOriginWanFirewallRuleException: connectionOrigin
-							directionWanFirewallRuleException: direction
+							connectionOrigin
 						}
 
 					}

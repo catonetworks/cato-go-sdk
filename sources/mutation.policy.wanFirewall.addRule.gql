@@ -1,7 +1,7 @@
-mutation policyInternetFirewallAddRule ( $internetFirewallAddRuleInput:InternetFirewallAddRuleInput! $accountId:ID! ) {
+mutation policyWanFirewallAddRule ( $wanFirewallAddRuleInput:WanFirewallAddRuleInput! $accountId:ID! ) {
 	policy ( accountId:$accountId  ) {
-		internetFirewall  {
-			addRule ( input:$internetFirewallAddRuleInput   ) {
+		wanFirewall  {
+			addRule ( input:$wanFirewallAddRuleInput   ) {
 				rule  {
 					audit {
 						updatedTime 
@@ -19,7 +19,6 @@ mutation policyInternetFirewallAddRule ( $internetFirewallAddRuleInput:InternetF
 
 						enabled 
 						source  {
-							ip
 							host {
 								id 
 								name 
@@ -29,6 +28,7 @@ mutation policyInternetFirewallAddRule ( $internetFirewallAddRuleInput:InternetF
 								name 
 							}
 							subnet
+							ip
 							ipRange {
 								from 
 								to 
@@ -80,15 +80,64 @@ mutation policyInternetFirewallAddRule ( $internetFirewallAddRuleInput:InternetF
 
 						deviceOS 
 						destination  {
+							host {
+								id 
+								name 
+							}
+							site {
+								id 
+								name 
+							}
+							subnet
+							ip
+							ipRange {
+								from 
+								to 
+							}
+							globalIpRange {
+								id 
+								name 
+							}
+							networkInterface {
+								id 
+								name 
+							}
+							siteNetworkSubnet {
+								id 
+								name 
+							}
+							floatingSubnet {
+								id 
+								name 
+							}
+							user {
+								id 
+								name 
+							}
+							usersGroup {
+								id 
+								name 
+							}
+							group {
+								id 
+								name 
+							}
+							systemGroup {
+								id 
+								name 
+							}
+						}
+
+						application  {
 							application {
 								id 
 								name 
 							}
-							customApp {
+							appCategory {
 								id 
 								name 
 							}
-							appCategory {
+							customApp {
 								id 
 								name 
 							}
@@ -97,10 +146,6 @@ mutation policyInternetFirewallAddRule ( $internetFirewallAddRuleInput:InternetF
 								name 
 							}
 							sanctionedAppsCategory {
-								id 
-								name 
-							}
-							country {
 								id 
 								name 
 							}
@@ -116,7 +161,6 @@ mutation policyInternetFirewallAddRule ( $internetFirewallAddRuleInput:InternetF
 								id 
 								name 
 							}
-							remoteAsn
 						}
 
 						service  {
@@ -174,10 +218,17 @@ mutation policyInternetFirewallAddRule ( $internetFirewallAddRuleInput:InternetF
 							}
 						}
 
+						activePeriod  {
+							useEffectiveFrom
+							effectiveFrom
+							useExpiresAt
+							expiresAt
+						}
+
+						direction 
 						exceptions  {
 							name
 							source {
-								ip 
 								host  {
 									id
 									name
@@ -189,6 +240,7 @@ mutation policyInternetFirewallAddRule ( $internetFirewallAddRuleInput:InternetF
 								}
 
 								subnet 
+								ip 
 								ipRange  {
 									from
 									to
@@ -236,6 +288,65 @@ mutation policyInternetFirewallAddRule ( $internetFirewallAddRuleInput:InternetF
 
 							}
 							deviceOS
+							destination {
+								host  {
+									id
+									name
+								}
+
+								site  {
+									id
+									name
+								}
+
+								subnet 
+								ip 
+								ipRange  {
+									from
+									to
+								}
+
+								globalIpRange  {
+									id
+									name
+								}
+
+								networkInterface  {
+									id
+									name
+								}
+
+								siteNetworkSubnet  {
+									id
+									name
+								}
+
+								floatingSubnet  {
+									id
+									name
+								}
+
+								user  {
+									id
+									name
+								}
+
+								usersGroup  {
+									id
+									name
+								}
+
+								group  {
+									id
+									name
+								}
+
+								systemGroup  {
+									id
+									name
+								}
+
+							}
 							country {
 								id 
 								name 
@@ -244,18 +355,18 @@ mutation policyInternetFirewallAddRule ( $internetFirewallAddRuleInput:InternetF
 								id 
 								name 
 							}
-							destination {
+							application {
 								application  {
 									id
 									name
 								}
 
-								customApp  {
+								appCategory  {
 									id
 									name
 								}
 
-								appCategory  {
+								customApp  {
 									id
 									name
 								}
@@ -266,11 +377,6 @@ mutation policyInternetFirewallAddRule ( $internetFirewallAddRuleInput:InternetF
 								}
 
 								sanctionedAppsCategory  {
-									id
-									name
-								}
-
-								country  {
 									id
 									name
 								}
@@ -289,7 +395,6 @@ mutation policyInternetFirewallAddRule ( $internetFirewallAddRuleInput:InternetF
 									name
 								}
 
-								remoteAsn 
 							}
 							service {
 								standard  {
@@ -308,6 +413,7 @@ mutation policyInternetFirewallAddRule ( $internetFirewallAddRuleInput:InternetF
 
 							}
 							connectionOrigin
+							direction
 						}
 
 					}
