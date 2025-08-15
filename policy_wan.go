@@ -359,6 +359,14 @@ const PolicyDocumentWanFirewall = `query policy ($wanFirewallPolicyInput: WanFir
 								days
 							}
 						}
+
+						activePeriod {
+              				useEffectiveFrom
+              				effectiveFrom
+              				useExpiresAt
+              				expiresAt
+            			}
+
 						direction
 						exceptions {
 							name

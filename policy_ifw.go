@@ -319,6 +319,14 @@ const PolicyDocumentInternetFirewall = `query policy ($internetFirewallPolicyInp
 								days
 							}
 						}
+						
+						activePeriod {
+              				useEffectiveFrom
+              				effectiveFrom
+              				useExpiresAt
+              				expiresAt
+            			}
+
 						exceptions {
 							name
 							source {
