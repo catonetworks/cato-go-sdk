@@ -229,6 +229,14 @@ const PolicyDocumentWanFirewall = `query policy ($wanFirewallPolicyInput: WanFir
 							name
 						}
 						deviceOS
+						deviceAttributes  {
+							category
+							type
+							model
+							manufacturer
+							os
+							osVersion
+						}						
 						destination {
 							host {
 								id
@@ -419,6 +427,14 @@ const PolicyDocumentWanFirewall = `query policy ($wanFirewallPolicyInput: WanFir
 								}
 							}
 							deviceOS
+							deviceAttributes  {
+								category
+								type
+								model
+								manufacturer
+								os
+								osVersion
+							}							
 							destination {
 								host {
 									id

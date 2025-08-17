@@ -232,6 +232,14 @@ const PolicyDocumentInternetFirewall = `query policy ($internetFirewallPolicyInp
 							name
 						}
 						deviceOS
+						deviceAttributes  {
+							category
+							type
+							model
+							manufacturer
+							os
+							osVersion
+						}						
 						destination {
 							application {
 								id
@@ -378,6 +386,14 @@ const PolicyDocumentInternetFirewall = `query policy ($internetFirewallPolicyInp
 								}
 							}
 							deviceOS
+							deviceAttributes  {
+								category
+								type
+								model
+								manufacturer
+								os
+								osVersion
+							}							
 							country {
 								id
 								name
