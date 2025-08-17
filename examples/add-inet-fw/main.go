@@ -56,6 +56,9 @@ func main() {
 
 	remoteAsnList := []scalars.Asn16{}
 
+	effectiveFrom := "2025-08-09T00:00:00Z"
+	expiresAt := "2026-12-31T23:57:59Z"
+
 	inputRule := cato_models.InternetFirewallAddRuleInput{
 		At: &cato_models.PolicyRulePositionInput{
 			Position: &position,
@@ -117,6 +120,12 @@ func main() {
 						"MONDAY",
 					},
 				},
+			},
+			ActivePeriod: &cato_models.PolicyRuleActivePeriodInput{
+				UseEffectiveFrom: true,
+				UseExpiresAt:     true,
+				EffectiveFrom:    &effectiveFrom,
+				ExpiresAt:        &expiresAt,
 			},
 			Tracking: &cato_models.PolicyTrackingInput{
 				Event: &cato_models.PolicyRuleTrackingEventInput{

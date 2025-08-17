@@ -79,6 +79,14 @@ mutation policyWanFirewallAddRule ( $wanFirewallAddRuleInput:WanFirewallAddRuleI
 						}
 
 						deviceOS 
+						deviceAttributes  {
+							category
+							type
+							model
+							manufacturer
+							os
+							osVersion
+						}						
 						destination  {
 							host {
 								id 
@@ -288,6 +296,14 @@ mutation policyWanFirewallAddRule ( $wanFirewallAddRuleInput:WanFirewallAddRuleI
 
 							}
 							deviceOS
+							deviceAttributes  {
+								category
+								type
+								model
+								manufacturer
+								os
+								osVersion
+							}							
 							destination {
 								host  {
 									id
