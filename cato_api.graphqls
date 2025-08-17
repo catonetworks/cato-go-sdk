@@ -3465,9 +3465,9 @@ input InternetFirewallUpdateRuleDataInput {
   Logical 'OR' is applied within the criteria set.
   Logical 'AND' is applied between criteria sets.
 
-
+  """
   deviceAttributes: DeviceAttributesUpdateInput
-
+  """
 
   Source device Operating System traffic matching criteria.
   Logical ‘OR’ is applied within the criteria set.

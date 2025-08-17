@@ -5272,11 +5272,7 @@ type InternetFirewallUpdateRuleDataInput struct {
 	// Additional device attributes such as category, type, model, and manufacturer.
 	// Logical 'OR' is applied within the criteria set.
 	// Logical 'AND' is applied between criteria sets.
-	//
-	//
-	// deviceAttributes: DeviceAttributesUpdateInput
-	//
-	//
+	DeviceAttributes *DeviceAttributesUpdateInput `json:"deviceAttributes,omitempty"`
 	// Source device Operating System traffic matching criteria.
 	// Logical ‘OR’ is applied within the criteria set.
 	// Logical ‘AND’ is applied between criteria sets.
