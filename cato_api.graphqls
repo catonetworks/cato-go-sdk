@@ -2954,9 +2954,9 @@ input InternetFirewallAddRuleDataInput {
   Additional device attributes such as category, type, model, and manufacturer.
   Logical 'OR' is applied within the criteria set.
   Logical 'AND' is applied between criteria sets.
-
+  """
   deviceAttributes: DeviceAttributesInput! = {category: [], type: [], model: [], manufacturer: [], os: [], osVersion: []}
-
+  """
   Source device Operating System traffic matching criteria.
   Logical ‘OR’ is applied within the criteria set.
   Logical ‘AND’ is applied between criteria sets.
@@ -5211,9 +5211,9 @@ input WanFirewallAddRuleDataInput {
   Additional device attributes such as category, type, model, and manufacturer.
   Logical 'OR' is applied within the criteria set.
   Logical 'AND' is applied between criteria sets.
-
+  """
   deviceAttributes: DeviceAttributesInput! = {category: [], type: [], model: [], manufacturer: [], os: [], osVersion: []}
-
+  """
   Source device Operating System traffic matching criteria.
   Logical ‘OR’ is applied within the criteria set.
   Logical ‘AND’ is applied between criteria sets.
@@ -5833,9 +5833,9 @@ input WanFirewallUpdateRuleDataInput {
   Additional device attributes such as category, type, model, and manufacturer.
   Logical 'OR' is applied within the criteria set.
   Logical 'AND' is applied between criteria sets.
-
+  """
   deviceAttributes: DeviceAttributesUpdateInput
-
+  """
   Source device Operating System traffic matching criteria.
   Logical ‘OR’ is applied within the criteria set.
   Logical ‘AND’ is applied between criteria sets.

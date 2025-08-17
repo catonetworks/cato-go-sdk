@@ -4697,9 +4697,7 @@ type InternetFirewallAddRuleDataInput struct {
 	// Additional device attributes such as category, type, model, and manufacturer.
 	// Logical 'OR' is applied within the criteria set.
 	// Logical 'AND' is applied between criteria sets.
-	//
-	// deviceAttributes: DeviceAttributesInput! = {category: [], type: [], model: [], manufacturer: [], os: [], osVersion: []}
-	//
+	DeviceAttributes *DeviceAttributesInput `json:"deviceAttributes"`
 	// Source device Operating System traffic matching criteria.
 	// Logical ‘OR’ is applied within the criteria set.
 	// Logical ‘AND’ is applied between criteria sets.
@@ -10529,9 +10527,7 @@ type WanFirewallAddRuleDataInput struct {
 	// Additional device attributes such as category, type, model, and manufacturer.
 	// Logical 'OR' is applied within the criteria set.
 	// Logical 'AND' is applied between criteria sets.
-	//
-	// deviceAttributes: DeviceAttributesInput! = {category: [], type: [], model: [], manufacturer: [], os: [], osVersion: []}
-	//
+	DeviceAttributes *DeviceAttributesInput `json:"deviceAttributes"`
 	// Source device Operating System traffic matching criteria.
 	// Logical ‘OR’ is applied within the criteria set.
 	// Logical ‘AND’ is applied between criteria sets.
@@ -11197,9 +11193,7 @@ type WanFirewallUpdateRuleDataInput struct {
 	// Additional device attributes such as category, type, model, and manufacturer.
 	// Logical 'OR' is applied within the criteria set.
 	// Logical 'AND' is applied between criteria sets.
-	//
-	// deviceAttributes: DeviceAttributesUpdateInput
-	//
+	DeviceAttributes *DeviceAttributesUpdateInput `json:"deviceAttributes,omitempty"`
 	// Source device Operating System traffic matching criteria.
 	// Logical ‘OR’ is applied within the criteria set.
 	// Logical ‘AND’ is applied between criteria sets.
