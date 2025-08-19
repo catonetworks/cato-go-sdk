@@ -3299,9 +3299,9 @@ input InternetFirewallRuleExceptionInput {
   device: [DeviceProfileRefInput!]! = []
   """
   Source Device Attributes matching criteria for the exception.
-
+  """
   deviceAttributes: DeviceAttributesInput! = {category: [], type: [], model: [], manufacturer: [], os: [], osVersion: []}
-
+  """
   Source device OS matching criteria for the exception.
   """
   deviceOS: [OperatingSystem!]! = []
