@@ -270,14 +270,7 @@ query internetFirewallPolicy($accountId: ID!) {
                 id
                 name
               }
-              deviceAttributes {
-                category
-                type
-                model
-                manufacturer
-                os
-                osVersion
-              }
+
               destination {
                 application {
                   id

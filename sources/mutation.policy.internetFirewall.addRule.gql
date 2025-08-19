@@ -251,14 +251,7 @@ mutation policyInternetFirewallAddRule ( $internetFirewallAddRuleInput:InternetF
 
 							}
 							deviceOS
-							deviceAttributes  {
-								category
-								type
-								model
-								manufacturer
-								os
-								osVersion
-							}							
+						
 							country {
 								id 
 								name 

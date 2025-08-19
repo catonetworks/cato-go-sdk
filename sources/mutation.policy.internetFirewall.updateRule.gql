@@ -251,14 +251,7 @@ mutation policyInternetFirewallUpdateRule ( $internetFirewallPolicyMutationInput
 
 							}
 							deviceOS
-							deviceAttributes  {
-								category
-								type
-								model
-								manufacturer
-								os
-								osVersion
-							}							
+						
 							country {
 								id 
 								name 

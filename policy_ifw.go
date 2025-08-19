@@ -386,14 +386,7 @@ const PolicyDocumentInternetFirewall = `query policy ($internetFirewallPolicyInp
 								}
 							}
 							deviceOS
-							deviceAttributes  {
-								category
-								type
-								model
-								manufacturer
-								os
-								osVersion
-							}							
+						
 							country {
 								id
 								name
