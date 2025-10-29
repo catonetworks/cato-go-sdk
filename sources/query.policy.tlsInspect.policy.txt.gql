@@ -1,0 +1,183 @@
+query tlsinspectpolicy ( $accountId:ID! ) {
+  policy ( accountId:$accountId  ) {
+    tlsInspect  {
+      policy  {
+        enabled 
+        rules  {
+          audit  {
+            updatedTime 
+            updatedBy 
+          }
+          rule  {
+            id 
+            name 
+            description 
+            index 
+            section  {
+              id
+              name
+            }
+
+            enabled 
+            source  {
+              user  {
+                id 
+                name 
+              }
+              floatingSubnet  {
+                id 
+                name 
+              }
+              globalIpRange  {
+                id 
+                name 
+              }
+              group  {
+                id 
+                name 
+              }
+              host  {
+                id 
+                name 
+              }
+              subnet
+              ipRangeTlsInspectSource: ipRange  {
+                from 
+                to 
+              }
+              networkInterface  {
+                id 
+                name 
+              }
+              site  {
+                id 
+                name 
+              }
+              systemGroup  {
+                id 
+                name 
+              }
+              usersGroup  {
+                id 
+                name 
+              }
+              ip
+              siteNetworkSubnet  {
+                id 
+                name 
+              }
+            }
+
+            platform 
+            country  {
+              id
+              name
+            }
+
+            devicePostureProfile  {
+              id
+              name
+            }
+
+            connectionOrigin 
+            application  {
+              application  {
+                id 
+                name 
+              }
+              appCategory  {
+                id 
+                name 
+              }
+              country  {
+                id 
+                name 
+              }
+              customApp  {
+                id 
+                name 
+              }
+              customCategory  {
+                id 
+                name 
+              }
+              customServiceIp  {
+                name 
+                ip 
+                ipRange  {
+                  from
+                  to
+                }
+
+              }
+              domain
+              fqdn
+              subnet
+              ip
+              ipRangeTlsInspectApplication: ipRange  {
+                from 
+                to 
+              }
+              globalIpRange  {
+                id 
+                name 
+              }
+              customService  {
+                port 
+                portRange  {
+                  from
+                  to
+                }
+
+                protocol 
+              }
+              remoteAsn
+              service  {
+                id 
+                name 
+              }
+              tlsInspectCategory
+            }
+
+            action 
+            untrustedCertificateAction 
+          }
+          properties
+        }
+
+        sections  {
+          audit  {
+            updatedTime 
+            updatedBy 
+          }
+          section  {
+            id 
+            name 
+          }
+          properties
+        }
+
+        audit  {
+          publishedTime
+          publishedBy
+        }
+
+        revision  {
+          id
+          name
+          description
+          changes
+          createdTime
+          updatedTime
+        }
+
+        additionalAttributes  {
+          defaultRuleAction
+          defaultRuleUntrustedCertificateAction
+        }
+
+      }
+    }
+
+  }  
+}

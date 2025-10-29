@@ -1,0 +1,27 @@
+mutation policyTlsInspectRemoveSection ( $policyRemoveSectionInput:PolicyRemoveSectionInput! $accountId:ID! ) {
+  policy ( accountId:$accountId  ) {
+    tlsInspect  {
+      removeSection ( input:$policyRemoveSectionInput   )  {
+        section  {
+          audit  {
+            updatedTime 
+            updatedBy 
+          }
+          section  {
+            id 
+            name 
+          }
+          properties
+        }
+
+        status 
+        errors  {
+          errorMessage
+          errorCode
+        }
+
+      }
+    }
+
+  }  
+}

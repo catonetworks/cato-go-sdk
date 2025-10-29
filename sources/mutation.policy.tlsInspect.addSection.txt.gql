@@ -1,0 +1,27 @@
+mutation policyTlsInspectAddSection ( $policyAddSectionInput:PolicyAddSectionInput! $accountId:ID! ) {
+  policy ( accountId:$accountId  ) {
+    tlsInspect  {
+      addSection ( input:$policyAddSectionInput   )  {
+        section  {
+          audit  {
+            updatedTime 
+            updatedBy 
+          }
+          section  {
+            id 
+            name 
+          }
+          properties
+        }
+
+        status 
+        errors  {
+          errorMessage
+          errorCode
+        }
+
+      }
+    }
+
+  }  
+}
