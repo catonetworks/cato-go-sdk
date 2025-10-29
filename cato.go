@@ -43,7 +43,7 @@ type Errors struct {
 func New(url string, token string, accountId string, httpClient *http.Client, headers map[string]string) (*Client, error) {
 
 	// if an HTTP client is not provided, leverage the retry-enabled HTTP client
-	// which allows for built-in support for rate limit and exponential backoff/retry
+	// which allows for built-in support for rate limit and exponential backoff/retryconfiguration profile
 	if httpClient == nil {
 		retryClient := retryablehttp.NewClient()
 		retryClient.RetryMax = defaultRetryMax

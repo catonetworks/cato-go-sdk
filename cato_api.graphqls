@@ -101,6 +101,7 @@ type Query {
   catalogs(accountId: ID!): CatalogQueries
   container(accountId: ID!): ContainerQueries
   devices(accountId: ID!): DevicesQueries! @beta
+  enterpriseDirectory(accountId: ID!): EnterpriseDirectoryQueries @ea
   """Lookup entities with a specific type, potentially filtered and paged"""
   entityLookup(
     """The account ID (or 0 for non-authenticated requests)"""
@@ -163,14 +164,43 @@ type Query {
     dimensions: [EventsDimension]
     filters: [EventsFilter!]
   ): EventsTimeSeries @ga
+  """Fetch group configuration for your account"""
+  groups(accountId: ID!): GroupsQueries @rollout
   hardware(accountId: ID!): HardwareQueries
   """Retrieve the account hardware inventory"""
   hardwareManagement(accountId: ID!): HardwareManagementQueries
   """Retrieve the account(s) license inventory and license consumption"""
   licensing(accountId: ID!): LicensingQueries
   policy(accountId: ID!): PolicyQueries
+  popLocations(accountId: ID!): PopLocationQueries
   sandbox(accountId: ID!): SandboxQueries @rollout
+  servicePrincipalAdmin(accountId: ID!, adminID: ID!): GetServicePrincipalAdminPayload @ga
   site(accountId: ID!): SiteQueries!
+  """
+  Provides historical metrics for physical and logical interfaces on Cato Sockets.
+  This API enables detailed monitoring of LAN, WAN, Tunnel, Bypass, and Off-Cloud traffic, including throughput, bandwidth usage, and cellular signal quality.
+  """
+  socketPortMetrics(
+    "Account ID"
+    accountID: ID!
+    timeFrame: TimeFrame!
+    measures: [SocketPortMetricsMeasure]
+    dimensions: [SocketPortMetricsDimension]
+    filters: [SocketPortMetricsFilter!]
+    sort: [SocketPortMetricsSort!]
+  ): SocketPortMetrics @ga
+  """
+  Provides historical time series metrics for physical and logical interfaces on Cato Sockets.
+  This API enables detailed monitoring of LAN, WAN, Tunnel, Bypass, and Off-Cloud traffic, including throughput, bandwidth usage, and cellular signal quality.
+  """
+  socketPortMetricsTimeSeries(
+    "Account ID"
+    accountID: ID!
+    timeFrame: TimeFrame!
+    measures: [SocketPortMetricsMeasure]
+    dimensions: [SocketPortMetricsDimension]
+    filters: [SocketPortMetricsFilter!]
+  ): SocketPortMetricsTimeSeries @ga
   """
   The subdomain query helps you retrieve the URL of an account. The usage of this query supports 3 different scenarios:
   1. Regular account - Return only 1 subdomain relating to the regular account
@@ -192,7 +222,11 @@ type Mutation {
   accountManagement(accountId: ID!): AccountManagementMutations
   admin(accountId: ID!): AdminMutations!
   container(accountId: ID!): ContainerMutations
+  enterpriseDirectory(accountId: ID!): EnterpriseDirectoryMutations @ea
+  """Mutations for creating, updating, or deleting groups"""
+  groups(accountId: ID!): GroupsMutations @rollout
   hardware(accountId: ID!): HardwareMutations
+  licensing(accountId: ID!): LicensingMutations
   policy(accountId: ID!): PolicyMutations
   sandbox(accountId: ID!): SandboxMutations @rollout
   site(accountId: ID!): SiteMutations!
@@ -320,6 +354,7 @@ interface MicrosoftEndpointResource implements EndpointResource {
 The `MicrosoftProcessResource` object represents a process resource in a Microsoft environment, containing fields such as creation date, process ID, command line details, remediation status, roles, tags, user account information, and a verdict on the process's nature.
 """
 type MicrosoftProcessResource implements ProcessResource & MicrosoftEndpointResource & EndpointResource {
+  action: String
   createdDateTime: DateTime
   id: ID!
   imageFile: FileDetails
@@ -363,6 +398,27 @@ type MicrosoftRegistryResource implements RegistryResource & MicrosoftEndpointRe
   value: String
   valueName: String
   valueType: String
+  verdict: MsResourceVerdictEnum
+}
+
+"""
+The `MicrosoftNetworkResource` object represents a registry resource in a Microsoft environment, containing fields such as creation date, remediation status, roles, tags, and verdict, which are used to manage and assess the resource's status and attributes.
+"""
+type MicrosoftNetworkResource implements MicrosoftEndpointResource & NetworkResource & EndpointResource {
+  action: String
+  createdDateTime: DateTime
+  destinationIp: String
+  destinationPort: Int
+  dnsRequest: String
+  dnsResponse: String
+  id: ID!
+  method: String
+  remediationStatus: RemediationStatusEnum
+  remediationStatusDetails: String
+  roles: [ResourceRoleEnum!]!
+  sourcePort: Int
+  tags: [String!]!
+  url: String
   verdict: MsResourceVerdictEnum
 }
 
@@ -1366,6 +1422,118 @@ type NetworkXDRIncident implements MergedIncident {
   vendor: VendorEnum
 }
 
+type AiOperationsIncident implements MergedIncident {
+  accountOperationIncident: AccountOperationsIncident
+  analystFeedback: AnalystFeedback
+  connectionType: ConnectionTypeEnum
+  criticality: Int
+  description: String
+  engineType: StoryEngineTypeEnum
+  eventsGraphQuery: EventsGraphQuery
+  firstSignal: DateTime!
+  flowLastTime: DateTime! @deprecated(reason: "use 'lastSignal' instead")
+  flowStartTime: DateTime! @deprecated(reason: "use 'firstSignal' instead")
+  id: ID!
+  indication: String!
+  ioa: String! @deprecated(reason: "'ioa' is deprecated, use 'indication' instead")
+  lastSignal: DateTime!
+  occurrences: Int
+  predictedThreatType: String
+  predictedVerdict: StoryVerdictEnum
+  producer: StoryProducerEnum!
+  producerName: String!
+  queryName: String
+  research: Boolean
+  riskScore: Int! @deprecated(reason: "'riskScore' is deprecated, use 'criticality' instead")
+  similarStoriesData: [SimilarStoryData!]!
+  site: SiteRef
+  siteName: String @deprecated(reason: "'siteName' is deprecated, use 'site.name' instead")
+  source: String
+  sourceIp: String
+  status: StoryStatusEnum
+  storyDuration: Int
+  ticket: String
+  type: AiOperationsIncidentTypeEnum
+  user: UserRef
+  vendor: VendorEnum
+}
+
+type EventsGraphQuery {
+  timeSeriesEvents: TimeSeriesEvents
+  type: GraphType!
+}
+
+enum GraphType {
+  ANALYTICS
+}
+
+type TimeSeriesEvents {
+  accountID: String!
+  buckets: Int!
+  dimensions: [GraphEventsDimension!]!
+  filters: [GraphEventsFilter!]!
+  measures: [GraphEventsMeasure!]!
+  timeFrame: TimeFrame!
+}
+
+type GraphEventsMeasure {
+  aggType: String!
+  fieldName: String!
+  trend: Boolean
+}
+
+type GraphEventsDimension {
+  fieldName: String!
+}
+
+type GraphEventsFilter {
+  fieldName: String!
+  operator: String!
+  values: [String!]!
+}
+
+type AccountOperationsIncident {
+  incidentTimeline: [AccountOperationsTimelineBase!]!
+  metadata: [AccountOperationsMetadata!]!
+}
+
+interface AccountOperationsTimelineBase {
+  id: ID!
+  created: Time!
+  validated: Time!
+  description: String!
+  type: AccountOperationsTimelineType!
+}
+
+type AccountOperationsTimelineEvent implements AccountOperationsTimelineBase {
+  created: Time!
+  description: String!
+  eventIds: [String!]!
+  id: ID!
+  muted: Boolean!
+  type: AccountOperationsTimelineType!
+  validated: Time!
+}
+
+enum AccountOperationsTimelineType {
+  Action
+  Event
+}
+
+enum AiOperationsIncidentTypeEnum {
+  Account
+}
+
+type AccountOperationsMetadata {
+  key: String!
+  type: MetadataType!
+  value: String!
+}
+
+enum MetadataType {
+  TXT
+}
+
 enum ScanResult {
   BYPASS_BY_CONTENT_RULE
   BYPASS_BY_OTHER
@@ -1462,7 +1630,8 @@ enum StoryProducerEnum {
   CatoEndpointAlert
   EntraIdAlert
   MicrosoftEndpointDefender
-  NetworkMonitor
+  NetworkMonitor @deprecated(reason: "No longer supported")
+  """The producer of the Site Operations stories"""
   NetworkXDR
   ThreatHunt
   ThreatPrevention
@@ -1496,6 +1665,8 @@ type IncidentTimeseries {
     "whether to normalize the data into per second (i.e. divide by granularity)"
     perSecond: Boolean = true
   ): [[Float!]]
+  """The parameter by which the timeseries data is grouped"""
+  groupBy: String
   """
   Specific information about the timeseries, used to build its name, title etc
   """
@@ -1709,6 +1880,19 @@ enum DetectionStatusEnum {
   BLOCKED
   DETECTED
   PREVENTED
+}
+
+interface NetworkResource implements EndpointResource {
+  id: ID!
+  createdDateTime: DateTime
+  remediationStatus: RemediationStatusEnum
+  dnsRequest: String
+  dnsResponse: String
+  destinationIp: String
+  destinationPort: Int
+  sourcePort: Int
+  url: String
+  method: String
 }
 
 """
@@ -1931,17 +2115,41 @@ type SiteMutations {
   """Add a secondary AWS vSocket to an existing site"""
   addSecondaryAwsVSocket(input: AddSecondaryAwsVSocketInput!): AddSecondaryAwsVSocketPayload @beta
   """Add a secondary Azure vSocket to an existing site"""
-  addSecondaryAzureVSocket(input: AddSecondaryAzureVSocketInput!): AddSecondaryAzureVSocketPayload @beta  
+  addSecondaryAzureVSocket(input: AddSecondaryAzureVSocketInput!): AddSecondaryAzureVSocketPayload @beta
+  addSocketAddOnCard(input: AddSocketAddOnCardInput!): AddSocketAddOnCardPayload @rollout @beta
   addSocketSite(input: AddSocketSiteInput!): AddSocketSitePayload @ga
   addStaticHost(siteId: ID!, input: AddStaticHostInput!): AddStaticHostPayload @ga
+  """
+  Assign a license to an existing site // License-to-site assignment will be removed starting in 2026 with the transition to a new pricing model.
+  """
+  assignSiteBwLicense(input: AssignSiteBwLicenseInput!): AssignSiteBwLicensePayload @beta
   """Removes an existing BGP peer configuration from a site."""
   removeBgpPeer(input: RemoveBgpPeerInput!): RemoveBgpPeerPayload @beta
   """Remove a physical connection from a cloud interconnect site."""
   removeCloudInterconnectPhysicalConnection(input: RemoveCloudInterconnectPhysicalConnectionInput!): RemoveCloudInterconnectPhysicalConnectionPayload @beta
   removeIpsecIkeV2SiteTunnels(siteId: ID!, input: RemoveIpsecIkeV2SiteTunnelsInput!): RemoveIpsecIkeV2SiteTunnelsPayload @beta
   removeNetworkRange(networkRangeId: ID!): RemoveNetworkRangePayload @ga
+  """Remove the secondary AWS vSocket from an existing site"""
+  removeSecondaryAwsVSocket(socketId: ID!): RemoveSecondaryAwsVSocketPayload @beta
+  """Remove the secondary Azure vSocket from an existing site"""
+  removeSecondaryAzureVSocket(socketId: ID!): RemoveSecondaryAzureVSocketPayload @beta
   removeSite(siteId: ID!): RemoveSitePayload @ga
+  """
+  Remove a license from a site // License-to-site assignment will be removed starting in 2026 with the transition to a new pricing model.
+  """
+  removeSiteBwLicense(input: RemoveSiteBwLicenseInput!): RemoveSiteBwLicensePayload @beta
+  removeSocketAddOnCard(input: RemoveSocketAddOnCardInput!): RemoveSocketAddOnCardPayload @beta
   removeStaticHost(hostId: ID!): RemoveStaticHostPayload @ga
+  """
+  Replace an existing license of a site. This API is used to make sure the site
+  will always have a license to avoid traffic drop for sites without licenses. // License-to-site assignment will be removed starting in 2026 with the transition to a new pricing model.
+  """
+  replaceSiteBwLicense(input: ReplaceSiteBwLicenseInput!): ReplaceSiteBwLicensePayload @beta
+  """
+  Requests an upgrade for multiple sites to specific versions.
+  Returns the result of the request.
+  """
+  startSiteUpgrade(input: StartSiteUpgradeInput!): StartSiteUpgradePayload @rollout @beta
   """Updates an existing BGP peer configuration."""
   updateBgpPeer(input: UpdateBgpPeerInput!): UpdateBgpPeerPayload @beta
   """Update an existing physical connection at a cloud interconnect site."""
@@ -1950,12 +2158,22 @@ type SiteMutations {
   updateIpsecIkeV2SiteGeneralDetails(siteId: ID!, input: UpdateIpsecIkeV2SiteGeneralDetailsInput!): UpdateIpsecIkeV2SiteGeneralDetailsPayload @beta
   updateIpsecIkeV2SiteTunnels(siteId: ID!, input: UpdateIpsecIkeV2SiteTunnelsInput!): UpdateIpsecIkeV2SiteTunnelsPayload @beta
   updateNetworkRange(networkRangeId: ID!, input: UpdateNetworkRangeInput!): UpdateNetworkRangePayload @ga
+  """Update the secondary AWS vSocket from in an existing site"""
+  updateSecondaryAwsVSocket(input: UpdateSecondaryAwsVSocketInput!): UpdateSecondaryAwsVSocketPayload @beta
+  """Update the secondary Azure vSocket in an existing site"""
+  updateSecondaryAzureVSocket(input: UpdateSecondaryAzureVSocketInput!): UpdateSecondaryAzureVSocketPayload @beta
+  """
+  Update the bandwidth allocation of an assigned pool license of an existing site (does not apply for site license allocation) // License-to-site assignment will be removed starting in 2026 with the transition to a new pricing model.
+  """
+  updateSiteBwLicense(input: UpdateSiteBwLicenseInput!): UpdateSiteBwLicensePayload @beta
   updateSiteGeneralDetails(siteId: ID!, input: UpdateSiteGeneralDetailsInput!): UpdateSiteGeneralDetailsPayload @ga
   updateSocketInterface(siteId: ID!, socketInterfaceId: SocketInterfaceIDEnum!, input: UpdateSocketInterfaceInput!): UpdateSocketInterfacePayload @ga
   updateStaticHost(hostId: ID!, input: UpdateStaticHostInput!): UpdateStaticHostPayload @ga
 }
 
 type SiteQueries {
+  """Retrieves available socket versions for the specified platforms."""
+  availableVersionList(input: AvailableVersionListInput!): AvailableVersionListPayload @rollout @beta
   """Retrieves details of a specific BGP peer by reference."""
   bgpPeer(input: BgpPeerRefInput!): BgpPeer @beta
   """Retrieves a list of all BGP peers associated with the specified site."""
@@ -1968,10 +2186,15 @@ type SiteQueries {
   cloudInterconnectPhysicalConnection(input: CloudInterconnectPhysicalConnectionInput!): CloudInterconnectPhysicalConnection @beta
   """Get the ID of a physical connection at a cloud interconnect site."""
   cloudInterconnectPhysicalConnectionId(input: CloudInterconnectPhysicalConnectionIdInput!): CloudInterconnectPhysicalConnectionId @beta
+  """Retrieves details of a specific secondary AWS vSocket."""
+  secondaryAwsVSocket(socketId: ID!): SecondaryAwsVSocket @beta
+  """Retrieves details of a specific secondary Azure vSocket."""
+  secondaryAzureVSocket(socketId: ID!): SecondaryAzureVSocket @beta
   """
   Provides the BGP status of the specified site, including session and route details.
   """
   siteBgpStatus(input: SiteBgpStatusInput!): SiteBgpStatus @beta
+  siteGeneralDetails(site: SiteRefInput!): SiteGeneralDetailsPayload @beta
 }
 
 input AddSecondaryAwsVSocketInput {
@@ -2008,7 +2231,164 @@ type AddSecondaryAzureVSocketPayload {
   id: ID!
 }
 
+type RemoveSecondaryAwsVSocketPayload {
+  secondaryAwsVSocket: SecondaryAwsVSocket!
+}
 
+type RemoveSecondaryAzureVSocketPayload {
+  secondaryAzureVSocket: SecondaryAzureVSocket!
+}
+
+type SecondaryAzureVSocket {
+  """The floating IP address"""
+  floatingIp: IPAddress!
+  """The ID of the secondary vSocket"""
+  id: ID!
+  """The IP address of the interface"""
+  interfaceIp: IPAddress!
+  """
+  Information about the site where the secondary Azure vSocket is being added.
+  """
+  site: SiteRef!
+}
+
+type SecondaryAwsVSocket {
+  """The ID of the secondary vSocket"""
+  id: ID!
+  """The IP address of the secondary vSocket"""
+  ipAddress: IPAddress!
+  """The ID of the secondary vSocket route table"""
+  routeTableId: String!
+  """Site associated with this secondary vSocket."""
+  site: SiteRef!
+  """The subnet of the secondary vSocket"""
+  subnet: NetworkSubnet!
+}
+
+input UpdateSecondaryAzureVSocketInput {
+  """The floating IP address"""
+  floatingIp: IPAddress
+  """The ID of the secondary vSocket"""
+  id: ID!
+  """The IP address of the interface"""
+  interfaceIp: IPAddress
+}
+
+type UpdateSecondaryAzureVSocketPayload {
+  """The updated secondary Azure vSocket object."""
+  secondaryAzureVSocket: SecondaryAzureVSocket!
+}
+
+input UpdateSecondaryAwsVSocketInput {
+  """The ID of the secondary vSocket"""
+  id: ID!
+  """The IP address of the secondary vSocket"""
+  ipAddress: IPAddress
+  """The ID of the secondary vSocket route table"""
+  routeTableId: String
+  """The subnet of the secondary vSocket"""
+  subnet: NetworkSubnet
+}
+
+type UpdateSecondaryAwsVSocketPayload {
+  """The updated secondary AWS vSocket object."""
+  secondaryAwsVSocket: SecondaryAwsVSocket!
+}
+
+enum SocketPortMetricsFieldName {
+  "Unique identifier of the account that owns the site."
+  account_id
+  "Total bytes received downstream (from the network to the device)."
+  bytes_downstream
+  "Combined total of upstream and downstream bytes."
+  bytes_total
+  "Total bytes sent upstream (from the device to the network)."
+  bytes_upstream
+  "Reference Signal Received Power – measures LTE/5G signal strength (dBm)."
+  cellular_rsrp
+  "Reference Signal Received Quality – a key LTE/5G metric for link quality (dB)."
+  cellular_rsrq
+  "Received Signal Strength Indicator – legacy strength metric (dBm)."
+  cellular_rssi
+  "Generic signal strength indicator (often maps to bars or percentage)."
+  cellular_signal_strength
+  "Signal to Interference + Noise Ratio – LTE/5G metric for signal clarity (dB)."
+  cellular_sinr
+  "Unique identifier of the Socket (Cato edge device)."
+  device_id
+  "Indicates the high-availability (HA) role of the device (e.g., active, standby)."
+  ha_role
+  "Type of physical interface (e.g., ethernet, cellular)."
+  physical_interface_type
+  "SIM card number (for cellular interfaces)."
+  sim_num
+  "Unique identifier of the site where the socket is deployed."
+  site_id
+  "Human-readable name of the site."
+  site_name
+  "The name or ID of the physical or logical interface on the Socket device (e.g., eth0, cell1)."
+  socket_interface
+  "Describes the interface role such as primary, backup, cellular, or none."
+  socket_interface_role
+  "Current download throughput in Mbps."
+  throughput_downstream
+  "Current upload throughput in Mbps."
+  throughput_upstream
+  "Type of transport used by the interface (e.g., wired, lte, 5g, wifi)."
+  transport_type
+}
+
+type SocketPortMetrics {
+  from: DateTime
+  id: ID
+  records(limit: Int, from: Int): [SocketPortMetricsRecord!]
+  to: DateTime
+  total: Int
+  totals: Map
+}
+
+type SocketPortMetricsRecord {
+  fields: [SocketPortMetricsField!]
+  "fields in map format (see Map scalar)"
+  fieldsMap: Map
+  fieldsUnitTypes: [UnitType!]
+  prevTimeFrame: Map
+  trends: Map
+}
+
+type SocketPortMetricsTimeSeries {
+  from: DateTime
+  granularity: Int
+  id: ID
+  timeseries(buckets: Int!): [Timeseries!]
+  to: DateTime
+}
+
+type SocketPortMetricsField {
+  name: SocketPortMetricsFieldName!
+  value: Value!
+}
+
+input SocketPortMetricsMeasure {
+  aggType: AggregationType!
+  fieldName: SocketPortMetricsFieldName!
+  trend: Boolean
+}
+
+input SocketPortMetricsDimension {
+  fieldName: SocketPortMetricsFieldName!
+}
+
+input SocketPortMetricsFilter {
+  fieldName: SocketPortMetricsFieldName!
+  operator: FilterOperator!
+  values: [String!]!
+}
+
+input SocketPortMetricsSort {
+  fieldName: SocketPortMetricsFieldName!
+  order: DirectionEnum!
+}
 
 input AddSocketSiteInput {
   """"""
@@ -2038,21 +2418,6 @@ input AddSiteLocationInput {
   stateCode: String
   """time zone"""
   timezone: String!
-}
-
-input UpdateSiteGeneralDetailsInput {
-  description: String
-  name: String
-  siteLocation: UpdateSiteLocationInput
-  siteType: SiteType
-}
-
-input UpdateSiteLocationInput {
-  address: String
-  cityName: String
-  countryCode: String
-  stateCode: String
-  timezone: String
 }
 
 input UpdateSocketInterfaceInput {
@@ -2170,7 +2535,7 @@ input UpdateNetworkRangeInput {
 
 input NetworkDhcpSettingsInput {
   """Only relevant for DHCP range"""
-  dhcpMicrosegmentation: Boolean  
+  dhcpMicrosegmentation: Boolean
   dhcpType: DhcpType!
   ipRange: IPRange
   relayGroupId: ID
@@ -2199,10 +2564,6 @@ type RemoveSitePayload {
 }
 
 type AddSocketSitePayload {
-  siteId: ID!
-}
-
-type UpdateSiteGeneralDetailsPayload {
   siteId: ID!
 }
 
@@ -2260,9 +2621,6 @@ scalar IPSubnet
 
 """A from-to range (used for DHCP range, for example)"""
 scalar IPRange
-
-"""A key value pairs object { "key1": "value1", "key2": "value2" }"""
-scalar Map
 
 """
 Enter the time frame for the data that the query returns.
@@ -2362,6 +2720,148 @@ type AdminRole {
   allowedAccounts: [ID!]
   allowedEntities: [Entity!]
   role: RBACRole!
+}
+
+enum AntiMalwareFileHashAction {
+  "Block file download by filehash action"
+  BLOCK
+  "Bypass file download by filehash action"
+  BYPASS
+}
+
+input AntiMalwareFileHashAddRuleDataInput {
+  "The action when the file hash is matched: [BLOCK | BYPASS]"
+  action: AntiMalwareFileHashAction! = BLOCK
+  description: String! = ""
+  enabled: Boolean!
+  "The date when the block or bypass action expires"
+  expirationDate: DateTime!
+  "The name of the file"
+  fileName: String!
+  name: String!
+  "The file's unique SHA-256 hash identifier"
+  sha256: SHA_256!
+}
+
+input AntiMalwareFileHashAddRuleInput {
+  "Position of the rule in the policy"
+  at: PolicyRulePositionInput
+  "Parameters for the rule you are adding"
+  rule: AntiMalwareFileHashAddRuleDataInput!
+}
+
+type AntiMalwareFileHashPolicy implements IPolicy {
+  audit: PolicyAudit
+  enabled: Boolean!
+  revision: PolicyRevision
+  rules: [AntiMalwareFileHashRulePayload!]!
+  sections: [PolicySectionPayload!]!
+}
+
+input AntiMalwareFileHashPolicyInput {
+  """
+  A revision is a specific instance of the policy.
+   Unpublished revisions are working copies of the policy available to a specific
+   admin or a set of admins
+   Published revisions are revisions that were applied to the account network.
+   The last published revision is the active policy.
+  """
+  revision: PolicyRevisionInput
+}
+
+input AntiMalwareFileHashPolicyMutationInput {
+  revision: PolicyMutationRevisionInput
+}
+
+type AntiMalwareFileHashPolicyMutationPayload implements IPolicyMutationPayload {
+  errors: [PolicyMutationError!]!
+  policy: AntiMalwareFileHashPolicy
+  status: PolicyMutationStatus!
+}
+
+type AntiMalwareFileHashPolicyMutations {
+  addRule(input: AntiMalwareFileHashAddRuleInput!): AntiMalwareFileHashRuleMutationPayload! @beta
+  addSection(input: PolicyAddSectionInput!): PolicySectionMutationPayload! @beta
+  createPolicyRevision(input: PolicyCreateRevisionInput!): AntiMalwareFileHashPolicyMutationPayload! @beta
+  discardPolicyRevision(input: PolicyDiscardRevisionInput): AntiMalwareFileHashPolicyMutationPayload! @beta
+  moveRule(input: PolicyMoveRuleInput!): AntiMalwareFileHashRuleMutationPayload! @beta
+  moveSection(input: PolicyMoveSectionInput!): PolicySectionMutationPayload! @beta
+  publishPolicyRevision(input: PolicyPublishRevisionInput): AntiMalwareFileHashPolicyMutationPayload! @beta
+  removeRule(input: AntiMalwareFileHashRemoveRuleInput!): AntiMalwareFileHashRuleMutationPayload! @beta
+  removeSection(input: PolicyRemoveSectionInput!): PolicySectionMutationPayload! @beta
+  updatePolicy(input: AntiMalwareFileHashPolicyUpdateInput!): AntiMalwareFileHashPolicyMutationPayload! @beta
+  updateRule(input: AntiMalwareFileHashUpdateRuleInput!): AntiMalwareFileHashRuleMutationPayload! @beta
+  updateSection(input: PolicyUpdateSectionInput!): PolicySectionMutationPayload! @beta
+}
+
+type AntiMalwareFileHashPolicyQueries {
+  policy(input: AntiMalwareFileHashPolicyInput): AntiMalwareFileHashPolicy! @beta
+  revisions: PolicyRevisionsPayload @beta
+}
+
+input AntiMalwareFileHashPolicyUpdateInput {
+  state: PolicyToggleState
+}
+
+input AntiMalwareFileHashRemoveRuleInput {
+  id: ID!
+}
+
+type AntiMalwareFileHashRule implements IPolicyRule {
+  "The action when the file hash is matched: [BLOCK | BYPASS]"
+  action: AntiMalwareFileHashAction!
+  "Description for the rule"
+  description: String!
+  """
+  TRUE = Rule is enabled 
+   FALSE = Rule is disabled
+  """
+  enabled: Boolean!
+  "The date when the block or bypass action expires"
+  expirationDate: DateTime!
+  "The name of the file"
+  fileName: String!
+  "Rule ID"
+  id: ID!
+  "Position / priority of rule"
+  index: Int!
+  "Name of the rule"
+  name: String!
+  "Policy section where the rule is located"
+  section: PolicySectionInfo!
+  "The file's unique SHA-256 hash identifier"
+  sha256: SHA_256!
+}
+
+type AntiMalwareFileHashRuleMutationPayload implements IPolicyRuleMutationPayload {
+  errors: [PolicyMutationError!]!
+  rule: AntiMalwareFileHashRulePayload
+  status: PolicyMutationStatus!
+}
+
+type AntiMalwareFileHashRulePayload implements IPolicyRulePayload {
+  audit: PolicyElementAudit!
+  properties: [PolicyElementPropertiesEnum!]!
+  rule: AntiMalwareFileHashRule!
+}
+
+input AntiMalwareFileHashUpdateRuleDataInput {
+  "The action when the file hash is matched: [BLOCK | BYPASS]"
+  action: AntiMalwareFileHashAction
+  description: String
+  enabled: Boolean
+  "The date when the block or bypass action expires"
+  expirationDate: DateTime
+  "The name of the file"
+  fileName: String
+  name: String
+  "The file's unique SHA-256 hash identifier"
+  sha256: SHA_256
+}
+
+input AntiMalwareFileHashUpdateRuleInput {
+  id: ID!
+  rule: AntiMalwareFileHashUpdateRuleDataInput!
 }
 
 "Allowed actions"
@@ -2985,14 +3485,6 @@ input InternetFirewallAddRuleDataInput {
   source: InternetFirewallSourceInput! = {ip: [], host: [], site: [], subnet: [], ipRange: [], globalIpRange: [], networkInterface: [], siteNetworkSubnet: [], floatingSubnet: [], user: [], usersGroup: [], group: [], systemGroup: []}
   "Tracking information when the rule is matched, such as events and notifications"
   tracking: PolicyTrackingInput! = {event: {enabled: false}, alert: {enabled: false, frequency: HOURLY, subscriptionGroup: [], webhook: [], mailingList: []}}
-}
-
-"Rule parameters and relevant position"
-input InternetFirewallAddRuleInput {
-  "Position of the rule in the policy"
-  at: PolicyRulePositionInput
-  "Parameters for the rule you are adding"
-  rule: InternetFirewallAddRuleDataInput!
 }
 
 type InternetFirewallContainer {
@@ -3720,12 +4212,15 @@ enum PolicyMutationStatus {
 
 "Policies that can be configured with mutation APIs."
 type PolicyMutations {
+  antiMalwareFileHash(input: AntiMalwareFileHashPolicyMutationInput): AntiMalwareFileHashPolicyMutations
+  applicationControl(input: ApplicationControlPolicyMutationInput): ApplicationControlPolicyMutations
   appTenantRestriction(input: AppTenantRestrictionPolicyMutationInput): AppTenantRestrictionPolicyMutations
   dynamicIpAllocation(input: DynamicIpAllocationPolicyMutationInput): DynamicIpAllocationPolicyMutations
   internetFirewall(input: InternetFirewallPolicyMutationInput): InternetFirewallPolicyMutations
   remotePortFwd(input: RemotePortFwdPolicyMutationInput): RemotePortFwdPolicyMutations
   socketLan(input: SocketLanPolicyMutationInput): SocketLanPolicyMutations
   terminalServer(input: TerminalServerPolicyMutationInput): TerminalServerPolicyMutations
+  tlsInspect(input: TlsInspectPolicyMutationInput): TlsInspectPolicyMutations
   wanFirewall(input: WanFirewallPolicyMutationInput): WanFirewallPolicyMutations
   wanNetwork(input: WanNetworkPolicyMutationInput): WanNetworkPolicyMutations
 }
@@ -3743,12 +4238,15 @@ input PolicyPublishRevisionInput {
 
 "policies which configuration can be read with query APIs."
 type PolicyQueries {
+  antiMalwareFileHash: AntiMalwareFileHashPolicyQueries
+  applicationControl: ApplicationControlPolicyQueries
   appTenantRestriction: AppTenantRestrictionPolicyQueries
   dynamicIpAllocation: DynamicIpAllocationPolicyQueries
   internetFirewall: InternetFirewallPolicyQueries
   remotePortFwd: RemotePortFwdPolicyQueries
   socketLan: SocketLanPolicyQueries
   terminalServer: TerminalServerPolicyQueries
+  tlsInspect: TlsInspectPolicyQueries
   wanFirewall: WanFirewallPolicyQueries
   wanNetwork: WanNetworkPolicyQueries
 }
@@ -4192,7 +4690,6 @@ input RemotePortFwdUpdateRuleInput {
   rule: RemotePortFwdUpdateRuleDataInput!
 }
 
-
 input SocketLanAddRuleDataInput {
   description: String! = ""
   """
@@ -4264,759 +4761,6 @@ input SocketLanDestinationInput {
   subnet: [NetworkSubnet!]! = []
   systemGroup: [SystemGroupRefInput!]! = []
   vlan: [Vlan!]! = []
-}
-
-"Input of the settings for Destination of a Wan Firewall rule."
-input SocketLanDestinationUpdateInput {
-  floatingSubnet: [FloatingSubnetRefInput!]
-  globalIpRange: [GlobalIpRangeRefInput!]
-  group: [GroupRefInput!]
-  host: [HostRefInput!]
-  ip: [IPAddress!]
-  ipRange: [IpAddressRangeInput!]
-  networkInterface: [NetworkInterfaceRefInput!]
-  siteNetworkSubnet: [SiteNetworkSubnetRefInput!]
-  subnet: [NetworkSubnet!]
-  systemGroup: [SystemGroupRefInput!]
-  vlan: [Vlan!]
-}
-
-enum SocketLanDirection {
-  "Specifies two-way direction."
-  BOTH
-  "Specifies one-way direction."
-  TO
-}
-
-enum SocketLanFirewallAction {
-  ALLOW
-  BLOCK
-}
-
-input SocketLanFirewallAddRuleDataInput {
-  "Action to take when the rule is matched (ALLOW or BLOCK)."
-  action: SocketLanFirewallAction! = ALLOW
-  "Application traffic matching criteria."
-  application: SocketLanFirewallApplicationInput! = {application: [], customApp: [], domain: [], fqdn: [], ip: [], subnet: [], ipRange: [], globalIpRange: []}
-  description: String! = ""
-  """
-  Defines destinations for the socket LAN firewall.
-  Also, inherited by Network Rule above.
-  """
-  destination: SocketLanFirewallDestinationInput! = {vlan: [], ipRange: [], subnet: [], site: [], networkInterface: [], systemGroup: [], host: [], ip: [], globalIpRange: [], group: [], floatingSubnet: [], siteNetworkSubnet: []}
-  "Direction of the traffic (TO or BOTH)."
-  direction: SocketLanFirewallDirection! = TO
-  enabled: Boolean!
-  name: String!
-  "Service traffic matching criteria."
-  service: SocketLanFirewallServiceTypeInput! = {simple: [], standard: [], custom: []}
-  """
-  Defines sources for the socket LAN firewall.
-  Also, inherited by Network Rule above.
-  """
-  source: SocketLanFirewallSourceInput! = {vlan: [], mac: [], ipRange: [], group: [], subnet: [], site: [], networkInterface: [], systemGroup: [], host: [], ip: [], globalIpRange: [], floatingSubnet: [], siteNetworkSubnet: []}
-  "Tracking information when the rule is matched, such as events and notifications."
-  tracking: PolicyTrackingInput! = {event: {enabled: false}, alert: {enabled: false, frequency: HOURLY, subscriptionGroup: [], webhook: [], mailingList: []}}
-}
-
-input SocketLanFirewallAddRuleInput {
-  "Position of the rule in the policy"
-  at: PolicySubRulePositionInput
-  "Parameters for the rule you are adding"
-  rule: SocketLanFirewallAddRuleDataInput!
-}
-
-"Defines applications for the socket LAN firewall."
-type SocketLanFirewallApplication {
-  "Applications matching criteria for this rule."
-  application: [ApplicationRef!]!
-  "Custom applications that can be matched by"
-  customApp: [CustomApplicationRef!]!
-  domain: [Domain!]!
-  fqdn: [Fqdn!]!
-  globalIpRange: [GlobalIpRangeRef!]!
-  ip: [IPAddress!]!
-  ipRange: [IpAddressRange!]!
-  subnet: [NetworkSubnet!]!
-}
-
-"Defines applications for the socket LAN firewall."
-input SocketLanFirewallApplicationInput {
-  "Applications matching criteria for this rule."
-  application: [ApplicationRefInput!]! = []
-  "Custom applications that can be matched by"
-  customApp: [CustomApplicationRefInput!]! = []
-  domain: [Domain!]! = []
-  fqdn: [Fqdn!]! = []
-  globalIpRange: [GlobalIpRangeRefInput!]! = []
-  ip: [IPAddress!]! = []
-  ipRange: [IpAddressRangeInput!]! = []
-  subnet: [NetworkSubnet!]! = []
-}
-
-"Defines applications for the socket LAN firewall."
-input SocketLanFirewallApplicationUpdateInput {
-  "Applications matching criteria for this rule."
-  application: [ApplicationRefInput!]
-  "Custom applications that can be matched by"
-  customApp: [CustomApplicationRefInput!]
-  domain: [Domain!]
-  fqdn: [Fqdn!]
-  globalIpRange: [GlobalIpRangeRefInput!]
-  ip: [IPAddress!]
-  ipRange: [IpAddressRangeInput!]
-  subnet: [NetworkSubnet!]
-}
-
-"Defines destinations for the socket LAN firewall."
-type SocketLanFirewallDestination {
-  "Floating subnets used to identify traffic based on specific criteria."
-  floatingSubnet: [FloatingSubnetRef!]!
-  "Global IP ranges defined for your account."
-  globalIpRange: [GlobalIpRangeRef!]!
-  "Groups defined for your account."
-  group: [GroupRef!]!
-  "Hosts and servers defined for your account."
-  host: [HostRef!]!
-  "IPv4 addresses."
-  ip: [IPAddress!]!
-  "Multiple separate IP addresses or an IP range."
-  ipRange: [IpAddressRange!]!
-  "Network interfaces defined for your site."
-  networkInterface: [NetworkInterfaceRef!]!
-  "Sites defined for your account."
-  site: [SiteRef!]!
-  "Subnets specific to a site defined for your account."
-  siteNetworkSubnet: [SiteNetworkSubnetRef!]!
-  "Subnets to which traffic is directed."
-  subnet: [NetworkSubnet!]!
-  "Predefined system groups in your account."
-  systemGroup: [SystemGroupRef!]!
-  "VLAN ID matching criteria."
-  vlan: [Vlan!]!
-}
-
-"Defines destinations for the socket LAN firewall."
-input SocketLanFirewallDestinationInput {
-  "Floating subnets used to identify traffic based on specific criteria."
-  floatingSubnet: [FloatingSubnetRefInput!]! = []
-  "Global IP ranges defined for your account."
-  globalIpRange: [GlobalIpRangeRefInput!]! = []
-  "Groups defined for your account."
-  group: [GroupRefInput!]! = []
-  "Hosts and servers defined for your account."
-  host: [HostRefInput!]! = []
-  "IPv4 addresses."
-  ip: [IPAddress!]! = []
-  "Multiple separate IP addresses or an IP range."
-  ipRange: [IpAddressRangeInput!]! = []
-  "Network interfaces defined for your site."
-  networkInterface: [NetworkInterfaceRefInput!]! = []
-  "Sites defined for your account."
-  site: [SiteRefInput!]! = []
-  "Subnets specific to a site defined for your account."
-  siteNetworkSubnet: [SiteNetworkSubnetRefInput!]! = []
-  "Subnets to which traffic is directed."
-  subnet: [NetworkSubnet!]! = []
-  "Predefined system groups in your account."
-  systemGroup: [SystemGroupRefInput!]! = []
-  "VLAN ID matching criteria."
-  vlan: [Vlan!]! = []
-}
-
-"Defines destinations for the socket LAN firewall."
-input SocketLanFirewallDestinationUpdateInput {
-  "Floating subnets used to identify traffic based on specific criteria."
-  floatingSubnet: [FloatingSubnetRefInput!]
-  "Global IP ranges defined for your account."
-  globalIpRange: [GlobalIpRangeRefInput!]
-  "Groups defined for your account."
-  group: [GroupRefInput!]
-  "Hosts and servers defined for your account."
-  host: [HostRefInput!]
-  "IPv4 addresses."
-  ip: [IPAddress!]
-  "Multiple separate IP addresses or an IP range."
-  ipRange: [IpAddressRangeInput!]
-  "Network interfaces defined for your site."
-  networkInterface: [NetworkInterfaceRefInput!]
-  "Sites defined for your account."
-  site: [SiteRefInput!]
-  "Subnets specific to a site defined for your account."
-  siteNetworkSubnet: [SiteNetworkSubnetRefInput!]
-  "Subnets to which traffic is directed."
-  subnet: [NetworkSubnet!]
-  "Predefined system groups in your account."
-  systemGroup: [SystemGroupRefInput!]
-  "VLAN ID matching criteria."
-  vlan: [Vlan!]
-}
-
-enum SocketLanFirewallDirection {
-  "Specifies two-way direction."
-  BOTH
-  "Specifies one-way direction."
-  TO
-}
-
-type SocketLanFirewallPolicyMutations {
-  addRule(input: SocketLanFirewallAddRuleInput!): SocketLanFirewallRuleMutationPayload! @beta
-  moveRule(input: PolicyMoveSubRuleInput!): SocketLanFirewallRuleMutationPayload! @beta
-  removeRule(input: SocketLanFirewallRemoveRuleInput!): SocketLanFirewallRuleMutationPayload! @beta
-  updateRule(input: SocketLanFirewallUpdateRuleInput!): SocketLanFirewallRuleMutationPayload! @beta
-}
-
-input SocketLanFirewallRemoveRuleInput {
-  id: ID!
-}
-
-type SocketLanFirewallRule implements IPolicyRule {
-  "Action to take when the rule is matched (ALLOW or BLOCK)."
-  action: SocketLanFirewallAction!
-  "Application traffic matching criteria."
-  application: SocketLanFirewallApplication!
-  "Description for the rule"
-  description: String!
-  """
-  Defines destinations for the socket LAN firewall.
-  Also, inherited by Network Rule above.
-  """
-  destination: SocketLanFirewallDestination!
-  "Direction of the traffic (TO or BOTH)."
-  direction: SocketLanFirewallDirection!
-  """
-  TRUE = Rule is enabled 
-   FALSE = Rule is disabled
-  """
-  enabled: Boolean!
-  "Rule ID"
-  id: ID!
-  "Position / priority of rule"
-  index: Int!
-  "Name of the rule"
-  name: String!
-  "Policy section where the rule is located"
-  section: PolicySectionInfo!
-  "Service traffic matching criteria."
-  service: SocketLanFirewallServiceType!
-  """
-  Defines sources for the socket LAN firewall.
-  Also, inherited by Network Rule above.
-  """
-  source: SocketLanFirewallSource!
-  "Tracking information when the rule is matched, such as events and notifications."
-  tracking: PolicyTracking!
-}
-
-type SocketLanFirewallRuleMutationPayload implements IPolicyRuleMutationPayload {
-  errors: [PolicyMutationError!]!
-  rule: SocketLanFirewallRulePayload
-  status: PolicyMutationStatus!
-}
-
-type SocketLanFirewallRulePayload implements IPolicyRulePayload {
-  audit: PolicyElementAudit!
-  properties: [PolicyElementPropertiesEnum!]!
-  rule: SocketLanFirewallRule!
-}
-
-"Defines services used in the socket LAN firewall."
-type SocketLanFirewallServiceType {
-  "Custom services defined for this rule."
-  custom: [CustomService!]!
-  "Simple services allowed by the firewall rule."
-  simple: [SimpleService!]!
-  "Standard services allowed by the firewall rule."
-  standard: [ServiceRef!]!
-}
-
-"Defines services used in the socket LAN firewall."
-input SocketLanFirewallServiceTypeInput {
-  "Custom services defined for this rule."
-  custom: [CustomServiceInput!]! = []
-  "Simple services allowed by the firewall rule."
-  simple: [SimpleServiceInput!]! = []
-  "Standard services allowed by the firewall rule."
-  standard: [ServiceRefInput!]! = []
-}
-
-"Defines services used in the socket LAN firewall."
-input SocketLanFirewallServiceTypeUpdateInput {
-  "Custom services defined for this rule."
-  custom: [CustomServiceInput!]
-  "Simple services allowed by the firewall rule."
-  simple: [SimpleServiceInput!]
-  "Standard services allowed by the firewall rule."
-  standard: [ServiceRefInput!]
-}
-
-"Defines sources for the socket LAN firewall."
-type SocketLanFirewallSource {
-  "Floating subnets used to identify traffic based on specific criteria."
-  floatingSubnet: [FloatingSubnetRef!]!
-  "Global IP ranges defined for your account."
-  globalIpRange: [GlobalIpRangeRef!]!
-  "Groups defined for your account."
-  group: [GroupRef!]!
-  "Hosts and servers defined for your account."
-  host: [HostRef!]!
-  "IPv4 addresses."
-  ip: [IPAddress!]!
-  "Multiple separate IP addresses or an IP range."
-  ipRange: [IpAddressRange!]!
-  "MAC addresses of devices matching criteria."
-  mac: [MacAddress!]!
-  "Network interfaces defined for your site."
-  networkInterface: [NetworkInterfaceRef!]!
-  "Sites defined for your account."
-  site: [SiteRef!]!
-  "Subnets specific to a site defined for your account."
-  siteNetworkSubnet: [SiteNetworkSubnetRef!]!
-  "Subnets from which traffic originates."
-  subnet: [NetworkSubnet!]!
-  "Predefined system groups in your account."
-  systemGroup: [SystemGroupRef!]!
-  "VLAN ID matching criteria."
-  vlan: [Vlan!]!
-}
-
-"Defines sources for the socket LAN firewall."
-input SocketLanFirewallSourceInput {
-  "Floating subnets used to identify traffic based on specific criteria."
-  floatingSubnet: [FloatingSubnetRefInput!]! = []
-  "Global IP ranges defined for your account."
-  globalIpRange: [GlobalIpRangeRefInput!]! = []
-  "Groups defined for your account."
-  group: [GroupRefInput!]! = []
-  "Hosts and servers defined for your account."
-  host: [HostRefInput!]! = []
-  "IPv4 addresses."
-  ip: [IPAddress!]! = []
-  "Multiple separate IP addresses or an IP range."
-  ipRange: [IpAddressRangeInput!]! = []
-  "MAC addresses of devices matching criteria."
-  mac: [MacAddress!]! = []
-  "Network interfaces defined for your site."
-  networkInterface: [NetworkInterfaceRefInput!]! = []
-  "Sites defined for your account."
-  site: [SiteRefInput!]! = []
-  "Subnets specific to a site defined for your account."
-  siteNetworkSubnet: [SiteNetworkSubnetRefInput!]! = []
-  "Subnets from which traffic originates."
-  subnet: [NetworkSubnet!]! = []
-  "Predefined system groups in your account."
-  systemGroup: [SystemGroupRefInput!]! = []
-  "VLAN ID matching criteria."
-  vlan: [Vlan!]! = []
-}
-
-"Defines sources for the socket LAN firewall."
-input SocketLanFirewallSourceUpdateInput {
-  "Floating subnets used to identify traffic based on specific criteria."
-  floatingSubnet: [FloatingSubnetRefInput!]
-  "Global IP ranges defined for your account."
-  globalIpRange: [GlobalIpRangeRefInput!]
-  "Groups defined for your account."
-  group: [GroupRefInput!]
-  "Hosts and servers defined for your account."
-  host: [HostRefInput!]
-  "IPv4 addresses."
-  ip: [IPAddress!]
-  "Multiple separate IP addresses or an IP range."
-  ipRange: [IpAddressRangeInput!]
-  "MAC addresses of devices matching criteria."
-  mac: [MacAddress!]
-  "Network interfaces defined for your site."
-  networkInterface: [NetworkInterfaceRefInput!]
-  "Sites defined for your account."
-  site: [SiteRefInput!]
-  "Subnets specific to a site defined for your account."
-  siteNetworkSubnet: [SiteNetworkSubnetRefInput!]
-  "Subnets from which traffic originates."
-  subnet: [NetworkSubnet!]
-  "Predefined system groups in your account."
-  systemGroup: [SystemGroupRefInput!]
-  "VLAN ID matching criteria."
-  vlan: [Vlan!]
-}
-
-input SocketLanFirewallUpdateRuleDataInput {
-  "Action to take when the rule is matched (ALLOW or BLOCK)."
-  action: SocketLanFirewallAction
-  "Application traffic matching criteria."
-  application: SocketLanFirewallApplicationUpdateInput
-  description: String
-  """
-  Defines destinations for the socket LAN firewall.
-  Also, inherited by Network Rule above.
-  """
-  destination: SocketLanFirewallDestinationUpdateInput
-  "Direction of the traffic (TO or BOTH)."
-  direction: SocketLanFirewallDirection
-  enabled: Boolean
-  name: String
-  "Service traffic matching criteria."
-  service: SocketLanFirewallServiceTypeUpdateInput
-  """
-  Defines sources for the socket LAN firewall.
-  Also, inherited by Network Rule above.
-  """
-  source: SocketLanFirewallSourceUpdateInput
-  "Tracking information when the rule is matched, such as events and notifications."
-  tracking: PolicyTrackingUpdateInput
-}
-
-input SocketLanFirewallUpdateRuleInput {
-  id: ID!
-  rule: SocketLanFirewallUpdateRuleDataInput!
-}
-
-"Defines NAT settings for the socket LAN policy."
-type SocketLanNatSettings {
-  "Indicates if NAT is enabled."
-  enabled: Boolean!
-  natType: SocketLanNatType!
-}
-
-"Defines NAT settings for the socket LAN policy."
-input SocketLanNatSettingsInput {
-  "Indicates if NAT is enabled."
-  enabled: Boolean! = false
-  natType: SocketLanNatType! = DYNAMIC_PAT
-}
-
-"Defines NAT settings for the socket LAN policy."
-input SocketLanNatSettingsUpdateInput {
-  "Indicates if NAT is enabled."
-  enabled: Boolean
-  natType: SocketLanNatType
-}
-
-enum SocketLanNatType {
-  DYNAMIC_PAT
-}
-
-type SocketLanPolicy implements IPolicy {
-  audit: PolicyAudit
-  enabled: Boolean!
-  revision: PolicyRevision
-  rules: [SocketLanRulePayload!]!
-  sections: [PolicySectionPayload!]!
-}
-
-input SocketLanPolicyInput {
-  """
-  A revision is a specific instance of the policy.
-   Unpublished revisions are working copies of the policy available to a specific
-   admin or a set of admins
-   Published revisions are revisions that were applied to the account network.
-   The last published revision is the active policy.
-  """
-  revision: PolicyRevisionInput
-}
-
-input SocketLanPolicyMutationInput {
-  revision: PolicyMutationRevisionInput
-}
-
-type SocketLanPolicyMutationPayload implements IPolicyMutationPayload {
-  errors: [PolicyMutationError!]!
-  policy: SocketLanPolicy
-  status: PolicyMutationStatus!
-}
-
-type SocketLanPolicyMutations {
-  addRule(input: SocketLanAddRuleInput!): SocketLanRuleMutationPayload! @beta
-  addSection(input: PolicyAddSectionInput!): PolicySectionMutationPayload! @beta
-  createPolicyRevision(input: PolicyCreateRevisionInput!): SocketLanPolicyMutationPayload! @beta
-  discardPolicyRevision(input: PolicyDiscardRevisionInput): SocketLanPolicyMutationPayload! @beta
-  firewall: SocketLanFirewallPolicyMutations!
-  moveRule(input: PolicyMoveRuleInput!): SocketLanRuleMutationPayload! @beta
-  moveSection(input: PolicyMoveSectionInput!): PolicySectionMutationPayload! @beta
-  publishPolicyRevision(input: PolicyPublishRevisionInput): SocketLanPolicyMutationPayload! @beta
-  removeRule(input: SocketLanRemoveRuleInput!): SocketLanRuleMutationPayload! @beta
-  removeSection(input: PolicyRemoveSectionInput!): PolicySectionMutationPayload! @beta
-  updatePolicy(input: SocketLanPolicyUpdateInput!): SocketLanPolicyMutationPayload! @beta
-  updateRule(input: SocketLanUpdateRuleInput!): SocketLanRuleMutationPayload! @beta
-  updateSection(input: PolicyUpdateSectionInput!): PolicySectionMutationPayload! @beta
-}
-
-type SocketLanPolicyQueries {
-  policy(input: SocketLanPolicyInput): SocketLanPolicy! @beta
-  revisions: PolicyRevisionsPayload @beta
-}
-
-input SocketLanPolicyUpdateInput {
-  state: PolicyToggleState
-}
-
-input SocketLanRemoveRuleInput {
-  id: ID!
-}
-
-type SocketLanRule implements IPolicyRule {
-  "Description for the rule"
-  description: String!
-  """
-  Destination traffic matching criteria.
-  Logical ‘OR’ is applied within the criteria set.
-  Logical ‘AND’ is applied between criteria sets.
-  """
-  destination: SocketLanDestination!
-  "Direction of the traffic initiator matching criteria. "
-  direction: SocketLanDirection!
-  """
-  TRUE = Rule is enabled 
-   FALSE = Rule is disabled
-  """
-  enabled: Boolean!
-  firewall: [SocketLanFirewallRulePayload!]!
-  "Rule ID"
-  id: ID!
-  "Position / priority of rule"
-  index: Int!
-  "Name of the rule"
-  name: String!
-  "Optionally, enable NAT on the outgoing interface. This translates all originating IPs to one NAT IP."
-  nat: SocketLanNatSettings!
-  "Policy section where the rule is located"
-  section: PolicySectionInfo!
-  "Destination service matching criteria for the rule. Port/Protocol based."
-  service: SocketLanService!
-  """
-  The sites the policy will be enforced on.
-  Socket sites only, with Socket v22 onwards.
-  """
-  site: SocketLanSite!
-  """
-  Source traffic matching criteria.
-  Logical ‘OR’ is applied within the criteria set.
-  Logical ‘AND’ is applied between criteria sets.
-  """
-  source: SocketLanSource!
-  """
-  The transport of the matching traffic.
-  Either govern traffic to be routed locally (LAN), or to the PoP(WAN).
-  Traffic is send to the WAN by default.
-  Traffic routed in the LAN, enforced by the LAN Firewall rules.
-  """
-  transport: SocketLanTransportType!
-}
-
-type SocketLanRuleMutationPayload implements IPolicyRuleMutationPayload {
-  errors: [PolicyMutationError!]!
-  rule: SocketLanRulePayload
-  status: PolicyMutationStatus!
-}
-
-type SocketLanRulePayload implements IPolicyRulePayload {
-  audit: PolicyElementAudit!
-  properties: [PolicyElementPropertiesEnum!]!
-  rule: SocketLanRule!
-}
-
-"Defines services used in the socket LAN policy."
-type SocketLanService {
-  "Custom Port/Protocol service."
-  custom: [CustomService!]!
-  "List of L4 based services."
-  simple: [SimpleService!]!
-}
-
-"Defines services used in the socket LAN policy."
-input SocketLanServiceInput {
-  "Custom Port/Protocol service."
-  custom: [CustomServiceInput!]! = []
-  "List of L4 based services."
-  simple: [SimpleServiceInput!]! = []
-}
-
-"Defines services used in the socket LAN policy."
-input SocketLanServiceUpdateInput {
-  "Custom Port/Protocol service."
-  custom: [CustomServiceInput!]
-  "List of L4 based services."
-  simple: [SimpleServiceInput!]
-}
-
-"Represents the site configurations in the socket LAN policy."
-type SocketLanSite {
-  """
-  The group of sites the policy will be enforced on.
-  Socket sites only, with Socket v22 onwards.
-  """
-  group: [GroupRef!]!
-  """
-  The sites the policy will be enforced on.
-  Socket sites only, with Socket v22 onwards.
-  """
-  site: [SiteRef!]!
-}
-
-"Represents the site configurations in the socket LAN policy."
-input SocketLanSiteInput {
-  """
-  The group of sites the policy will be enforced on.
-  Socket sites only, with Socket v22 onwards.
-  """
-  group: [GroupRefInput!]! = []
-  """
-  The sites the policy will be enforced on.
-  Socket sites only, with Socket v22 onwards.
-  """
-  site: [SiteRefInput!]! = []
-}
-
-"Represents the site configurations in the socket LAN policy."
-input SocketLanSiteUpdateInput {
-  """
-  The group of sites the policy will be enforced on.
-  Socket sites only, with Socket v22 onwards.
-  """
-  group: [GroupRefInput!]
-  """
-  The sites the policy will be enforced on.
-  Socket sites only, with Socket v22 onwards.
-  """
-  site: [SiteRefInput!]
-}
-
-"Defines sources for the socket LAN policy."
-type SocketLanSource {
-  """
-  Floating Subnets (ie. Floating Ranges) are used to identify traffic exactly matched to the route advertised by BGP.
-  They are not associated with a specific site.
-  This is useful in scenarios such as active-standby high availability routed via BGP.
-  """
-  floatingSubnet: [FloatingSubnetRef!]!
-  "Globally defined IP range, IP and subnet objects."
-  globalIpRange: [GlobalIpRangeRef!]!
-  "Predefined Cato groups, Socket sites/objects only."
-  group: [GroupRef!]!
-  "Hosts and servers defined for your under Socket sites."
-  host: [HostRef!]!
-  "IP address."
-  ip: [IPAddress!]!
-  "Multiple separate IP addresses or an IP range."
-  ipRange: [IpAddressRange!]!
-  "Network range defined for a site."
-  networkInterface: [NetworkInterfaceRef!]!
-  "GlobalRange + InterfaceSubnet"
-  siteNetworkSubnet: [SiteNetworkSubnetRef!]!
-  "Subnets and network ranges defined for the LAN interfaces of a site."
-  subnet: [NetworkSubnet!]!
-  "Predefined Cato groups."
-  systemGroup: [SystemGroupRef!]!
-  "VLAN ID matching criteria."
-  vlan: [Vlan!]!
-}
-
-"Defines sources for the socket LAN policy."
-input SocketLanSourceInput {
-  """
-  Floating Subnets (ie. Floating Ranges) are used to identify traffic exactly matched to the route advertised by BGP.
-  They are not associated with a specific site.
-  This is useful in scenarios such as active-standby high availability routed via BGP.
-  """
-  floatingSubnet: [FloatingSubnetRefInput!]! = []
-  "Globally defined IP range, IP and subnet objects."
-  globalIpRange: [GlobalIpRangeRefInput!]! = []
-  "Predefined Cato groups, Socket sites/objects only."
-  group: [GroupRefInput!]! = []
-  "Hosts and servers defined for your under Socket sites."
-  host: [HostRefInput!]! = []
-  "IP address."
-  ip: [IPAddress!]! = []
-  "Multiple separate IP addresses or an IP range."
-  ipRange: [IpAddressRangeInput!]! = []
-  "Network range defined for a site."
-  networkInterface: [NetworkInterfaceRefInput!]! = []
-  "GlobalRange + InterfaceSubnet"
-  siteNetworkSubnet: [SiteNetworkSubnetRefInput!]! = []
-  "Subnets and network ranges defined for the LAN interfaces of a site."
-  subnet: [NetworkSubnet!]! = []
-  "Predefined Cato groups."
-  systemGroup: [SystemGroupRefInput!]! = []
-  "VLAN ID matching criteria."
-  vlan: [Vlan!]! = []
-}
-
-"Defines sources for the socket LAN policy."
-input SocketLanSourceUpdateInput {
-  """
-  Floating Subnets (ie. Floating Ranges) are used to identify traffic exactly matched to the route advertised by BGP.
-  They are not associated with a specific site.
-  This is useful in scenarios such as active-standby high availability routed via BGP.
-  """
-  floatingSubnet: [FloatingSubnetRefInput!]
-  "Globally defined IP range, IP and subnet objects."
-  globalIpRange: [GlobalIpRangeRefInput!]
-  "Predefined Cato groups, Socket sites/objects only."
-  group: [GroupRefInput!]
-  "Hosts and servers defined for your under Socket sites."
-  host: [HostRefInput!]
-  "IP address."
-  ip: [IPAddress!]
-  "Multiple separate IP addresses or an IP range."
-  ipRange: [IpAddressRangeInput!]
-  "Network range defined for a site."
-  networkInterface: [NetworkInterfaceRefInput!]
-  "GlobalRange + InterfaceSubnet"
-  siteNetworkSubnet: [SiteNetworkSubnetRefInput!]
-  "Subnets and network ranges defined for the LAN interfaces of a site."
-  subnet: [NetworkSubnet!]
-  "Predefined Cato groups."
-  systemGroup: [SystemGroupRefInput!]
-  "VLAN ID matching criteria."
-  vlan: [Vlan!]
-}
-
-enum SocketLanTransportType {
-  "Specifies LAN transport type, routed locally for  inspection of LAN Firewall."
-  LAN
-  "Specifies WAN transport type, send to the PoP for inspection of WAN Firewall."
-  WAN
-}
-
-input SocketLanUpdateRuleDataInput {
-  description: String
-  """
-  Destination traffic matching criteria.
-  Logical ‘OR’ is applied within the criteria set.
-  Logical ‘AND’ is applied between criteria sets.
-  """
-  destination: SocketLanDestinationUpdateInput
-  "Direction of the traffic initiator matching criteria. "
-  direction: SocketLanDirection
-  enabled: Boolean
-  name: String
-  "Optionally, enable NAT on the outgoing interface. This translates all originating IPs to one NAT IP."
-  nat: SocketLanNatSettingsUpdateInput
-  "Destination service matching criteria for the rule. Port/Protocol based."
-  service: SocketLanServiceUpdateInput
-  """
-  The sites the policy will be enforced on.
-  Socket sites only, with Socket v22 onwards.
-  """
-  site: SocketLanSiteUpdateInput
-  """
-  Source traffic matching criteria.
-  Logical ‘OR’ is applied within the criteria set.
-  Logical ‘AND’ is applied between criteria sets.
-  """
-  source: SocketLanSourceUpdateInput
-  """
-  The transport of the matching traffic.
-  Either govern traffic to be routed locally (LAN), or to the PoP(WAN).
-  Traffic is send to the WAN by default.
-  Traffic routed in the LAN, enforced by the LAN Firewall rules.
-  """
-  transport: SocketLanTransportType
-}
-
-input SocketLanUpdateRuleInput {
-  id: ID!
-  rule: SocketLanUpdateRuleDataInput!
 }
 
 input TerminalServerAddRuleDataInput {
@@ -8969,6 +8713,7 @@ enum ProtoType {
   SOCKET_AWS1500
   SOCKET_AZ1500
   SOCKET_ESX1500
+  SOCKET_GCP1500
   SOCKET_X1500
   SOCKET_X1600
   SOCKET_X1600_LTE
@@ -8979,7 +8724,6 @@ enum ProtoType {
   GRE_TUNNEL
   NOT_DEFINED
   PORTAL_LISTENER
-  SOCKET_GCP1500
   SOCKET_RPI64
   SOCKET_X1
   VSOCKET_VGS
@@ -9519,6 +9263,16 @@ scalar DateTime
 "2006-01-02"
 scalar Date
 
+"""
+A generic key-value map.
+
+Represents an arbitrary JSON object, e.g.:
+{ "key1": "value1", "key2": "value2" }
+
+Keys must be strings, and values can be of any valid JSON type (string, number, boolean, array, or object).
+"""
+scalar Map
+
 "An IPv4 IP address"
 scalar IPAddress
 
@@ -9531,11 +9285,14 @@ scalar Domain
 """Fully Qualified Domain Name: An exact host name (e.g. www.example.com)"""
 scalar Fqdn
 
-"VLAN Identifier"
+"VLAN Identifier. A number in the range 1-4094 used to uniquely identify a Virtual Local Area Network (VLAN) in networking environments"
 scalar Vlan
 
 "Application Risk"
 scalar ApplicationRisk
+
+"A 64-character hex string representing a SHA-256 hash. Typically used for secure validation and cryptographic integrity checks"
+scalar SHA_256
 
 enum OperatingSystem {
   ANDROID
@@ -9610,6 +9367,16 @@ type PortRange {
 input PortRangeInput {
   from: Port!
   to: Port!
+}
+
+input IPAddressFilterInput {
+  between: [IPAddress!]
+  eq: IPAddress
+  in: [IPAddress!]
+  neq: IPAddress
+  nin: [IPAddress!]
+  nwithin: NetworkSubnet
+  within: NetworkSubnet
 }
 
 enum IpProtocol {
@@ -9730,6 +9497,11 @@ A reference identifying the ApiKey object. ID: Unique ApiKey Identifier, Name: T
 type ApiKeyRef implements ActorRef & ObjectRef {
   id: ID!
   name: String!
+}
+
+input ActorRefInput {
+  by: ObjectRefBy! = ID
+  input: String!
 }
 
 """
@@ -10003,6 +9775,76 @@ input GlobalIpRangeRefInput {
   input: String!
 }
 
+type StringValueSetRef implements ObjectRef {
+  id: ID!
+  name: String!
+}
+
+input StringValueSetRefInput {
+  by: ObjectRefBy! = ID
+  input: String!
+}
+
+type ApplicationControlActivityRef implements ObjectRef {
+  id: ID!
+  name: String!
+}
+
+input ApplicationControlActivityRefInput {
+  by: ObjectRefBy! = ID
+  input: String!
+}
+
+type ApplicationControlActivityFieldRef implements ObjectRef {
+  id: ID!
+  name: String!
+}
+
+input ApplicationControlActivityFieldRefInput {
+  by: ObjectRefBy! = ID
+  input: String!
+}
+
+type ApplicationControlContentTypeRef implements ObjectRef {
+  id: ID!
+  name: String!
+}
+
+input ApplicationControlContentTypeRefInput {
+  by: ObjectRefBy! = ID
+  input: String!
+}
+
+type ApplicationControlContentTypeGroupRef implements ObjectRef {
+  id: ID!
+  name: String!
+}
+
+input ApplicationControlContentTypeGroupRefInput {
+  by: ObjectRefBy! = ID
+  input: String!
+}
+
+type DlpContentProfileRef implements ObjectRef {
+  id: ID!
+  name: String!
+}
+
+input DlpContentProfileRefInput {
+  by: ObjectRefBy! = ID
+  input: String!
+}
+
+type DlpEdmProfileRef implements ObjectRef {
+  id: ID!
+  name: String!
+}
+
+input DlpEdmProfileRefInput {
+  by: ObjectRefBy! = ID
+  input: String!
+}
+
 type BandwidthManagementRef implements ObjectRef {
   id: ID!
   name: String!
@@ -10034,7 +9876,7 @@ interface IContainerRef implements ObjectRef {
 }
 
 "A group with members of FQDN type"
-type FqdnContainerRef implements ObjectRef & IContainerRef {
+type FqdnContainerRef implements ObjectRef {
   "Unique container ID"
   id: ID!
   "Name for the container"
@@ -10042,7 +9884,7 @@ type FqdnContainerRef implements ObjectRef & IContainerRef {
 }
 
 "A group with members of IPAddressRange type"
-type IpAddressRangeContainerRef implements ObjectRef & IContainerRef {
+type IpAddressRangeContainerRef implements ObjectRef {
   "Unique container ID"
   id: ID!
   "Name for the container"
@@ -10118,6 +9960,14 @@ input StringFilterInput {
   nin: [String!]
 }
 
+input AdvancedStringFilterInput {
+  eq: String
+  in: [String!]
+  neq: String
+  nin: [String!]
+  regex: String
+}
+
 input IntFilterInput {
   between: [Int!]
   eq: Int
@@ -10151,10 +10001,40 @@ input BooleanFilterInput {
   neq: Boolean
 }
 
+type AuditingMetadata {
+  updatedBy: ActorRef!
+  updatedTime: DateTime!
+}
+
+input AuditingMetadataFilterInput {
+  updatedBy: ActorRefInput
+  updatedTime: DateTimeFilterInput
+}
+
+input AuditingMetadataSortInput {
+  updatedBy: SortOrderInput
+  updatedTime: SortOrderInput
+}
+
 enum AddressValidationStatus {
   INVALID
   NA
   VALID
+}
+
+type PostalAddress {
+  "Address validation status"
+  addressValidated: AddressValidationStatus!
+  "City"
+  cityName: String
+  "Country"
+  country: CountryRef!
+  "State (only for USA)"
+  stateName: String
+  "Street name and number"
+  street: String
+  "Zip Code"
+  zipCode: String
 }
 
 type ContactDetails {
@@ -10166,6 +10046,19 @@ type ContactDetails {
   phone: Phone
 }
 
+input PostalAddressInput {
+  "City"
+  cityName: String
+  "Country"
+  country: CountryRefInput!
+  "State (only for USA)"
+  stateName: String
+  "Street name and number"
+  street: String
+  "Zip Code"
+  zipCode: String
+}
+
 input ContactDetailsInput {
   "Contact email address"
   email: Email
@@ -10173,6 +10066,14 @@ input ContactDetailsInput {
   name: String
   "Contact phone number"
   phone: Phone
+}
+
+"System categories for TLS inspection policy"
+enum TlsInspectSystemCategory {
+  "High-popularity cloud apps that were analyzed by Cato's security team and confirmed to be safe for inspection."
+  POPULAR_CLOUD_APPS
+  "Top domains found to be broadly TLS-inspected across the Cato cloud. TLS-inspecting these domains is likely to be safe."
+  SAFE_TO_INSPECT_DOMAINS
 }
 
 input PagingInput {
@@ -10195,28 +10096,38 @@ enum TaggingMethod {
   QINQ
 }
 
+input TaggingMethodFilterInput {
+  eq: TaggingMethod
+  in: [TaggingMethod!]
+  neq: TaggingMethod
+  nin: [TaggingMethod!]
+}
+
 enum AppStatsFieldName {
   "Active Directory name"
   ad_name
   "The application identifier"
-  app
+  app @deprecated(reason: "use application_id instead")
   "The application name"
-  application
+  application @deprecated(reason: "use application_name instead")
   "Application description"
   application_description
   "The application identifier"
   application_id
   "The application name"
   application_name
+  ""
   application_risk_level
   "The application risk score assigned by Cato"
   application_risk_score
   "Cato system categories of the application"
   categories
   "Cato system category of the application"
-  category
+  category @deprecated(reason: "use categories instead")
+  "For hosts configured with a static IP in the Cato Management Application, the host name"
+  configured_host_name
   "Application description"
-  description
+  description @deprecated(reason: "use application_description instead")
   "IP for destination host or Cato Client"
   dest_ip
   "Destination is site or remote user"
@@ -10232,7 +10143,7 @@ enum AppStatsFieldName {
   ""
   discovered_app
   ""
-  domain
+  domain @deprecated(reason: "user tld instead")
   "data downloaded from cloud applications"
   downstream
   ""
@@ -10245,24 +10156,32 @@ enum AppStatsFieldName {
   is_cloud_app
   "Is the application defined as sanctioned?"
   is_sanctioned_app
+  "The ISP related to this event (when the IP address isn't provided by the ISP, then the event message is IP Addresses are assigned statically)"
+  ISP_name
   "new cloud application identifier"
   new_app
   ""
-  risk_level
+  risk_level @deprecated(reason: "use application_risk_level instead")
   "the application risk score assigned by Cato"
-  risk_score
+  risk_score @deprecated(reason: "use application_risk_score instead")
   "Is the application defined as sanctioned?"
-  sanctioned
+  sanctioned @deprecated(reason: "use is_sanctioned_app instead")
   "Country in which the source host is located"
   site_country
   "State in which the source host is located"
   site_state
   "Name for Socket interface"
   socket_interface
+  "Country in which the source host is located (detected via public IP address)"
+  src_country
+  "Country Code of country in which the source host is located (detected via public IP address)"
+  src_country_code
   "IP for source host or Cato Client"
   src_ip
   "Source is site or remote user"
   src_is_site_or_vpn
+  "IP address provided by ISP to site or Client"
+  src_isp_ip
   "Site country code alpha2"
   src_site_country_code
   "Source site or remote user identifier"
@@ -10272,13 +10191,13 @@ enum AppStatsFieldName {
   "Site state code"
   src_site_state
   "Name of subnet as defined in Cato Management Application"
-  subnet
+  subnet @deprecated(reason: "use subnet_name instead")
   "Name of subnet as defined in Cato Management Application"
   subnet_name
   "Top level domain"
   tld
   "the total sum of upstream and downstream data in bytes"
-  traffic
+  traffic @deprecated(reason: "use traffic_direction instead")
   "Traffic direction"
   traffic_direction
   "data uploaded to cloud applications"
@@ -10349,8 +10268,11 @@ input AppStatsSort {
 
 type AdminMutations {
   addAdmin(input: AddAdminInput!): AddAdminPayload @ga
+  addServicePrincipalAdmin(input: AddServicePrincipalAdminInput!): AddServicePrincipalAdminPayload @ga
   removeAdmin(adminID: ID!): RemoveAdminPayload @ga
+  removeServicePrincipalAdmin(adminID: ID!): RemoveServicePrincipalAdminPayload @ga
   updateAdmin(adminID: ID!, input: UpdateAdminInput!): UpdateAdminPayload @ga
+  updateServicePrincipalAdmin(adminID: ID!, input: UpdateServicePrincipalAdminInput!): UpdateServicePrincipalAdminPayload @ga
 }
 
 type GetAdminPayload {
@@ -10366,14 +10288,31 @@ type GetAdminPayload {
   resellerRoles: [AdminRole!]
 }
 
+type GetServicePrincipalAdminPayload {
+  adminType: AdminType!
+  creationDate: String!
+  email: String
+  id: ID!
+  managedRoles: [AdminRole!]
+  name: String!
+  resellerRoles: [AdminRole!]
+}
+
 input AddAdminInput {
   adminType: AdminType
-  email: String!
+  email: String
   firstName: String!
   lastName: String!
   managedRoles: [UpdateAdminRoleInput!]
-  mfaEnabled: Boolean!
+  mfaEnabled: Boolean @deprecated(reason: "It is recommended to always require MFA when using User Credential authentication.")
   passwordNeverExpires: Boolean!
+  resellerRoles: [UpdateAdminRoleInput!]
+}
+
+input AddServicePrincipalAdminInput {
+  email: String
+  managedRoles: [UpdateAdminRoleInput!]
+  name: String!
   resellerRoles: [UpdateAdminRoleInput!]
 }
 
@@ -10381,12 +10320,22 @@ input UpdateAdminInput {
   firstName: String
   lastName: String
   managedRoles: [UpdateAdminRoleInput!]
-  mfaEnabled: Boolean
+  mfaEnabled: Boolean @deprecated(reason: "It is recommended to always require MFA when using User Credential authentication.")
   passwordNeverExpires: Boolean
   resellerRoles: [UpdateAdminRoleInput!]
 }
 
+input UpdateServicePrincipalAdminInput {
+  managedRoles: [UpdateAdminRoleInput!]
+  name: String
+  resellerRoles: [UpdateAdminRoleInput!]
+}
+
 type AddAdminPayload {
+  adminID: ID!
+}
+
+type AddServicePrincipalAdminPayload {
   adminID: ID!
 }
 
@@ -10398,6 +10347,14 @@ type UpdateAdminPayload {
   adminID: ID!
 }
 
+type RemoveServicePrincipalAdminPayload {
+  adminID: ID!
+}
+
+type UpdateServicePrincipalAdminPayload {
+  adminID: ID!
+}
+
 type AccountManagementQueries {
   """Read the account information"""
   account: AccountInfo @ga
@@ -10406,6 +10363,10 @@ type AccountManagementQueries {
 type AccountManagementMutations {
   """Add a new account"""
   addAccount(input: AddAccountInput!): AccountInfo @ga
+  """
+  Sets the account status to "Disabled" for accounts with plan = "Trial" and status = "Active" or "Locked".
+  """
+  disableAccount(accountId: ID!): DisableAccountPayload @beta
   """
   Delete an existing account. The account status will become “Disabled”, and it will be scheduled for deletion
   """
@@ -10441,6 +10402,10 @@ type AccountInfo {
   id: ID!
   """The name of the account"""
   name: String!
+  """The account plan"""
+  plan: AccountPlan
+  """The account status"""
+  status: AccountStatus!
   """The account tenancy e.g. single-tenant / multi-tenant"""
   tenancy: AccountTenancy!
   """The time zone of the account. Default: UTC (GMT + 0)."""
@@ -10461,6 +10426,11 @@ type RemoveAccountPayload {
   accountInfo: AccountInfo!
 }
 
+type DisableAccountPayload {
+  """General info of the disabled account"""
+  accountInfo: AccountInfo!
+}
+
 """enum for account type"""
 enum AccountProfileType {
   """A customer account"""
@@ -10475,6 +10445,13 @@ enum AccountTenancy {
   MULTI_TENANT
   """Single tenant account - default for customer accounts"""
   SINGLE_TENANT
+}
+
+"""enum that shows account license status"""
+enum AccountStatus {
+  ACTIVE
+  DISABLED
+  LOCKED
 }
 
 """Input parameters for querying available versions."""
@@ -10512,7 +10489,16 @@ type PlatformVersions {
 """Wrapper for site upgrade response."""
 type StartSiteUpgradePayload {
   """List of individual site upgrade results."""
-  results: [SiteUpgradeResult!]!
+  results: [SiteUpgradeInfo!]!
+}
+
+"""Information about a site upgrade."""
+type SiteUpgradeInfo {
+  """The scheduled UTC time for the upgrade."""
+  scheduledAt: String!
+  site: SiteRef!
+  """The requested version for this site."""
+  targetVersion: String!
 }
 
 """Represents the result of an upgrade request."""
@@ -10657,9 +10643,859 @@ input DeleteReportInput {
   fileHash: String!
 }
 
+type PopLocationQueries {
+  popLocationList(input: PopLocationFilterInput): PopLocationPayload @beta
+}
+
+type PopLocationPayload {
+  """
+  The actual list of PoP locations matching the given filter criteria. Each entry is a non-null PopLocation object.
+  """
+  items: [PopLocation!]!
+}
+
+type PopLocation {
+  """
+  Lists the available cloud interconnect options (e.g., AWS Direct Connect, Azure ExpressRoute) at this PoP.
+  Each entry in the list is a PopLocationCloudInterconnect object describing interconnect capabilities.
+  """
+  cloudInterconnect: [PopLocationCloudInterconnect!]!
+  """
+  Reference to the country where the PoP resides. Links to a CountryRef object that may contain name, ISO code, or additional geopolitical metadata
+  """
+  country: CountryRef!
+  """
+  User-facing name of the PoP (e.g., for dashboards or UI displays). Often formatted for readability
+  """
+  displayName: String!
+  """
+  Unique identifier for the PoP location. Globally unique across the Cato platform
+  """
+  id: ID!
+  """
+  indicates whether the PoP is a private location (customer-owned or dedicated) as opposed to part of the public/shared Cato cloud
+  """
+  isPrivate: Boolean!
+  """
+  Internal name of the PoP location, used for system-level identification. Usually the city of the PoP
+  """
+  name: String!
+}
+
+input PopLocationFilterInput {
+  """
+  Filters PoPs based on their geographical country. Useful for regional filtering or compliance.
+  """
+  country: CountryRefFilterInput
+  """PoP location's unique identifier (ID)."""
+  id: IdFilterInput
+  """Filter by setting - cloud interconnect tags (e.g.,1Q or QinQ)."""
+  interconnectTagging: PopLocationCloudInterconnectFilterInput
+  """
+  Filters based on whether a PoP is private or public and a part of the Cato Cloud (public or reserved for a specific partner/customer).
+  """
+  isPrivate: BooleanFilterInput
+  """Filter by name of the PoP Location, usually represented by the city."""
+  name: StringFilterInput
+  """
+  Filters for PoPs marked as “primary,” likely signifying main or preferred locations in a geographic area.
+  """
+  primary: BooleanFilterInput
+  """
+  Filters PoPs based on regional licensing rules or designations, possibly aligning with regional compliance or pricing.
+  """
+  siteLicenseRegion: StringFilterInput
+}
+
+type PopLocationCloudInterconnect {
+  providerName: String!
+  taggingMethod: TaggingMethod!
+}
+
+input PopLocationCloudInterconnectFilterInput {
+  taggingMethod: TaggingMethodFilterInput
+}
+
+input CountryRefFilterInput {
+  eq: CountryRefInput
+  in: [CountryRefInput!]
+  neq: CountryRefInput
+  nin: [CountryRefInput!]
+}
+
+"Input of the settings for Destination of a Wan Firewall rule."
+input SocketLanDestinationUpdateInput {
+  floatingSubnet: [FloatingSubnetRefInput!]
+  globalIpRange: [GlobalIpRangeRefInput!]
+  group: [GroupRefInput!]
+  host: [HostRefInput!]
+  ip: [IPAddress!]
+  ipRange: [IpAddressRangeInput!]
+  networkInterface: [NetworkInterfaceRefInput!]
+  siteNetworkSubnet: [SiteNetworkSubnetRefInput!]
+  subnet: [NetworkSubnet!]
+  systemGroup: [SystemGroupRefInput!]
+  vlan: [Vlan!]
+}
+
+enum SocketLanDirection {
+  "Specifies two-way direction."
+  BOTH
+  "Specifies one-way direction."
+  TO
+}
+
+enum SocketLanFirewallAction {
+  ALLOW
+  BLOCK
+}
+
+input SocketLanFirewallAddRuleDataInput {
+  "Action to take when the rule is matched (ALLOW or BLOCK)."
+  action: SocketLanFirewallAction! = ALLOW
+  "Application traffic matching criteria."
+  application: SocketLanFirewallApplicationInput! = {application: [], customApp: [], domain: [], fqdn: [], ip: [], subnet: [], ipRange: [], globalIpRange: []}
+  description: String! = ""
+  """
+  Defines destinations for the socket LAN firewall.
+  Also, inherited by Network Rule above.
+  """
+  destination: SocketLanFirewallDestinationInput! = {vlan: [], ipRange: [], subnet: [], site: [], networkInterface: [], systemGroup: [], host: [], ip: [], globalIpRange: [], group: [], floatingSubnet: [], siteNetworkSubnet: []}
+  "Direction of the traffic (TO or BOTH)."
+  direction: SocketLanFirewallDirection! = TO
+  enabled: Boolean!
+  name: String!
+  "Service traffic matching criteria."
+  service: SocketLanFirewallServiceTypeInput! = {simple: [], standard: [], custom: []}
+  """
+  Defines sources for the socket LAN firewall.
+  Also, inherited by Network Rule above.
+  """
+  source: SocketLanFirewallSourceInput! = {vlan: [], mac: [], ipRange: [], group: [], subnet: [], site: [], networkInterface: [], systemGroup: [], host: [], ip: [], globalIpRange: [], floatingSubnet: [], siteNetworkSubnet: []}
+  "Tracking information when the rule is matched, such as events and notifications."
+  tracking: PolicyTrackingInput! = {event: {enabled: false}, alert: {enabled: false, frequency: HOURLY, subscriptionGroup: [], webhook: [], mailingList: []}}
+}
+
+input SocketLanFirewallAddRuleInput {
+  "Position of the rule in the policy"
+  at: PolicySubRulePositionInput
+  "Parameters for the rule you are adding"
+  rule: SocketLanFirewallAddRuleDataInput!
+}
+
+"Defines applications for the socket LAN firewall."
+type SocketLanFirewallApplication {
+  "Applications matching criteria for this rule."
+  application: [ApplicationRef!]!
+  "Custom applications that can be matched by"
+  customApp: [CustomApplicationRef!]!
+  domain: [Domain!]!
+  fqdn: [Fqdn!]!
+  globalIpRange: [GlobalIpRangeRef!]!
+  ip: [IPAddress!]!
+  ipRange: [IpAddressRange!]!
+  subnet: [NetworkSubnet!]!
+}
+
+"Defines applications for the socket LAN firewall."
+input SocketLanFirewallApplicationInput {
+  "Applications matching criteria for this rule."
+  application: [ApplicationRefInput!]! = []
+  "Custom applications that can be matched by"
+  customApp: [CustomApplicationRefInput!]! = []
+  domain: [Domain!]! = []
+  fqdn: [Fqdn!]! = []
+  globalIpRange: [GlobalIpRangeRefInput!]! = []
+  ip: [IPAddress!]! = []
+  ipRange: [IpAddressRangeInput!]! = []
+  subnet: [NetworkSubnet!]! = []
+}
+
+"Defines applications for the socket LAN firewall."
+input SocketLanFirewallApplicationUpdateInput {
+  "Applications matching criteria for this rule."
+  application: [ApplicationRefInput!]
+  "Custom applications that can be matched by"
+  customApp: [CustomApplicationRefInput!]
+  domain: [Domain!]
+  fqdn: [Fqdn!]
+  globalIpRange: [GlobalIpRangeRefInput!]
+  ip: [IPAddress!]
+  ipRange: [IpAddressRangeInput!]
+  subnet: [NetworkSubnet!]
+}
+
+"Defines destinations for the socket LAN firewall."
+type SocketLanFirewallDestination {
+  "Floating subnets used to identify traffic based on specific criteria."
+  floatingSubnet: [FloatingSubnetRef!]!
+  "Global IP ranges defined for your account."
+  globalIpRange: [GlobalIpRangeRef!]!
+  "Groups defined for your account."
+  group: [GroupRef!]!
+  "Hosts and servers defined for your account."
+  host: [HostRef!]!
+  "IPv4 addresses."
+  ip: [IPAddress!]!
+  "Multiple separate IP addresses or an IP range."
+  ipRange: [IpAddressRange!]!
+  "Network interfaces defined for your site."
+  networkInterface: [NetworkInterfaceRef!]!
+  "Sites defined for your account."
+  site: [SiteRef!]!
+  "Subnets specific to a site defined for your account."
+  siteNetworkSubnet: [SiteNetworkSubnetRef!]!
+  "Subnets to which traffic is directed."
+  subnet: [NetworkSubnet!]!
+  "Predefined system groups in your account."
+  systemGroup: [SystemGroupRef!]!
+  "VLAN ID matching criteria."
+  vlan: [Vlan!]!
+}
+
+"Defines destinations for the socket LAN firewall."
+input SocketLanFirewallDestinationInput {
+  "Floating subnets used to identify traffic based on specific criteria."
+  floatingSubnet: [FloatingSubnetRefInput!]! = []
+  "Global IP ranges defined for your account."
+  globalIpRange: [GlobalIpRangeRefInput!]! = []
+  "Groups defined for your account."
+  group: [GroupRefInput!]! = []
+  "Hosts and servers defined for your account."
+  host: [HostRefInput!]! = []
+  "IPv4 addresses."
+  ip: [IPAddress!]! = []
+  "Multiple separate IP addresses or an IP range."
+  ipRange: [IpAddressRangeInput!]! = []
+  "Network interfaces defined for your site."
+  networkInterface: [NetworkInterfaceRefInput!]! = []
+  "Sites defined for your account."
+  site: [SiteRefInput!]! = []
+  "Subnets specific to a site defined for your account."
+  siteNetworkSubnet: [SiteNetworkSubnetRefInput!]! = []
+  "Subnets to which traffic is directed."
+  subnet: [NetworkSubnet!]! = []
+  "Predefined system groups in your account."
+  systemGroup: [SystemGroupRefInput!]! = []
+  "VLAN ID matching criteria."
+  vlan: [Vlan!]! = []
+}
+
+"Defines destinations for the socket LAN firewall."
+input SocketLanFirewallDestinationUpdateInput {
+  "Floating subnets used to identify traffic based on specific criteria."
+  floatingSubnet: [FloatingSubnetRefInput!]
+  "Global IP ranges defined for your account."
+  globalIpRange: [GlobalIpRangeRefInput!]
+  "Groups defined for your account."
+  group: [GroupRefInput!]
+  "Hosts and servers defined for your account."
+  host: [HostRefInput!]
+  "IPv4 addresses."
+  ip: [IPAddress!]
+  "Multiple separate IP addresses or an IP range."
+  ipRange: [IpAddressRangeInput!]
+  "Network interfaces defined for your site."
+  networkInterface: [NetworkInterfaceRefInput!]
+  "Sites defined for your account."
+  site: [SiteRefInput!]
+  "Subnets specific to a site defined for your account."
+  siteNetworkSubnet: [SiteNetworkSubnetRefInput!]
+  "Subnets to which traffic is directed."
+  subnet: [NetworkSubnet!]
+  "Predefined system groups in your account."
+  systemGroup: [SystemGroupRefInput!]
+  "VLAN ID matching criteria."
+  vlan: [Vlan!]
+}
+
+enum SocketLanFirewallDirection {
+  "Specifies two-way direction."
+  BOTH
+  "Specifies one-way direction."
+  TO
+}
+
+type SocketLanFirewallPolicyMutations {
+  addRule(input: SocketLanFirewallAddRuleInput!): SocketLanFirewallRuleMutationPayload! @beta
+  moveRule(input: PolicyMoveSubRuleInput!): SocketLanFirewallRuleMutationPayload! @beta
+  removeRule(input: SocketLanFirewallRemoveRuleInput!): SocketLanFirewallRuleMutationPayload! @beta
+  updateRule(input: SocketLanFirewallUpdateRuleInput!): SocketLanFirewallRuleMutationPayload! @beta
+}
+
+input SocketLanFirewallRemoveRuleInput {
+  id: ID!
+}
+
+type SocketLanFirewallRule implements IPolicyRule {
+  "Action to take when the rule is matched (ALLOW or BLOCK)."
+  action: SocketLanFirewallAction!
+  "Application traffic matching criteria."
+  application: SocketLanFirewallApplication!
+  "Description for the rule"
+  description: String!
+  """
+  Defines destinations for the socket LAN firewall.
+  Also, inherited by Network Rule above.
+  """
+  destination: SocketLanFirewallDestination!
+  "Direction of the traffic (TO or BOTH)."
+  direction: SocketLanFirewallDirection!
+  """
+  TRUE = Rule is enabled 
+   FALSE = Rule is disabled
+  """
+  enabled: Boolean!
+  "Rule ID"
+  id: ID!
+  "Position / priority of rule"
+  index: Int!
+  "Name of the rule"
+  name: String!
+  "Policy section where the rule is located"
+  section: PolicySectionInfo!
+  "Service traffic matching criteria."
+  service: SocketLanFirewallServiceType!
+  """
+  Defines sources for the socket LAN firewall.
+  Also, inherited by Network Rule above.
+  """
+  source: SocketLanFirewallSource!
+  "Tracking information when the rule is matched, such as events and notifications."
+  tracking: PolicyTracking!
+}
+
+type SocketLanFirewallRuleMutationPayload implements IPolicyRuleMutationPayload {
+  errors: [PolicyMutationError!]!
+  rule: SocketLanFirewallRulePayload
+  status: PolicyMutationStatus!
+}
+
+type SocketLanFirewallRulePayload implements IPolicyRulePayload {
+  audit: PolicyElementAudit!
+  properties: [PolicyElementPropertiesEnum!]!
+  rule: SocketLanFirewallRule!
+}
+
+"Defines services used in the socket LAN firewall."
+type SocketLanFirewallServiceType {
+  "Custom services defined for this rule."
+  custom: [CustomService!]!
+  "Simple services allowed by the firewall rule."
+  simple: [SimpleService!]!
+  "Standard services allowed by the firewall rule."
+  standard: [ServiceRef!]!
+}
+
+"Defines services used in the socket LAN firewall."
+input SocketLanFirewallServiceTypeInput {
+  "Custom services defined for this rule."
+  custom: [CustomServiceInput!]! = []
+  "Simple services allowed by the firewall rule."
+  simple: [SimpleServiceInput!]! = []
+  "Standard services allowed by the firewall rule."
+  standard: [ServiceRefInput!]! = []
+}
+
+"Defines services used in the socket LAN firewall."
+input SocketLanFirewallServiceTypeUpdateInput {
+  "Custom services defined for this rule."
+  custom: [CustomServiceInput!]
+  "Simple services allowed by the firewall rule."
+  simple: [SimpleServiceInput!]
+  "Standard services allowed by the firewall rule."
+  standard: [ServiceRefInput!]
+}
+
+"Defines sources for the socket LAN firewall."
+type SocketLanFirewallSource {
+  "Floating subnets used to identify traffic based on specific criteria."
+  floatingSubnet: [FloatingSubnetRef!]!
+  "Global IP ranges defined for your account."
+  globalIpRange: [GlobalIpRangeRef!]!
+  "Groups defined for your account."
+  group: [GroupRef!]!
+  "Hosts and servers defined for your account."
+  host: [HostRef!]!
+  "IPv4 addresses."
+  ip: [IPAddress!]!
+  "Multiple separate IP addresses or an IP range."
+  ipRange: [IpAddressRange!]!
+  "MAC addresses of devices matching criteria."
+  mac: [MacAddress!]!
+  "Network interfaces defined for your site."
+  networkInterface: [NetworkInterfaceRef!]!
+  "Sites defined for your account."
+  site: [SiteRef!]!
+  "Subnets specific to a site defined for your account."
+  siteNetworkSubnet: [SiteNetworkSubnetRef!]!
+  "Subnets from which traffic originates."
+  subnet: [NetworkSubnet!]!
+  "Predefined system groups in your account."
+  systemGroup: [SystemGroupRef!]!
+  "VLAN ID matching criteria."
+  vlan: [Vlan!]!
+}
+
+"Defines sources for the socket LAN firewall."
+input SocketLanFirewallSourceInput {
+  "Floating subnets used to identify traffic based on specific criteria."
+  floatingSubnet: [FloatingSubnetRefInput!]! = []
+  "Global IP ranges defined for your account."
+  globalIpRange: [GlobalIpRangeRefInput!]! = []
+  "Groups defined for your account."
+  group: [GroupRefInput!]! = []
+  "Hosts and servers defined for your account."
+  host: [HostRefInput!]! = []
+  "IPv4 addresses."
+  ip: [IPAddress!]! = []
+  "Multiple separate IP addresses or an IP range."
+  ipRange: [IpAddressRangeInput!]! = []
+  "MAC addresses of devices matching criteria."
+  mac: [MacAddress!]! = []
+  "Network interfaces defined for your site."
+  networkInterface: [NetworkInterfaceRefInput!]! = []
+  "Sites defined for your account."
+  site: [SiteRefInput!]! = []
+  "Subnets specific to a site defined for your account."
+  siteNetworkSubnet: [SiteNetworkSubnetRefInput!]! = []
+  "Subnets from which traffic originates."
+  subnet: [NetworkSubnet!]! = []
+  "Predefined system groups in your account."
+  systemGroup: [SystemGroupRefInput!]! = []
+  "VLAN ID matching criteria."
+  vlan: [Vlan!]! = []
+}
+
+"Defines sources for the socket LAN firewall."
+input SocketLanFirewallSourceUpdateInput {
+  "Floating subnets used to identify traffic based on specific criteria."
+  floatingSubnet: [FloatingSubnetRefInput!]
+  "Global IP ranges defined for your account."
+  globalIpRange: [GlobalIpRangeRefInput!]
+  "Groups defined for your account."
+  group: [GroupRefInput!]
+  "Hosts and servers defined for your account."
+  host: [HostRefInput!]
+  "IPv4 addresses."
+  ip: [IPAddress!]
+  "Multiple separate IP addresses or an IP range."
+  ipRange: [IpAddressRangeInput!]
+  "MAC addresses of devices matching criteria."
+  mac: [MacAddress!]
+  "Network interfaces defined for your site."
+  networkInterface: [NetworkInterfaceRefInput!]
+  "Sites defined for your account."
+  site: [SiteRefInput!]
+  "Subnets specific to a site defined for your account."
+  siteNetworkSubnet: [SiteNetworkSubnetRefInput!]
+  "Subnets from which traffic originates."
+  subnet: [NetworkSubnet!]
+  "Predefined system groups in your account."
+  systemGroup: [SystemGroupRefInput!]
+  "VLAN ID matching criteria."
+  vlan: [Vlan!]
+}
+
+input SocketLanFirewallUpdateRuleDataInput {
+  "Action to take when the rule is matched (ALLOW or BLOCK)."
+  action: SocketLanFirewallAction
+  "Application traffic matching criteria."
+  application: SocketLanFirewallApplicationUpdateInput
+  description: String
+  """
+  Defines destinations for the socket LAN firewall.
+  Also, inherited by Network Rule above.
+  """
+  destination: SocketLanFirewallDestinationUpdateInput
+  "Direction of the traffic (TO or BOTH)."
+  direction: SocketLanFirewallDirection
+  enabled: Boolean
+  name: String
+  "Service traffic matching criteria."
+  service: SocketLanFirewallServiceTypeUpdateInput
+  """
+  Defines sources for the socket LAN firewall.
+  Also, inherited by Network Rule above.
+  """
+  source: SocketLanFirewallSourceUpdateInput
+  "Tracking information when the rule is matched, such as events and notifications."
+  tracking: PolicyTrackingUpdateInput
+}
+
+input SocketLanFirewallUpdateRuleInput {
+  id: ID!
+  rule: SocketLanFirewallUpdateRuleDataInput!
+}
+
+"Defines NAT settings for the socket LAN policy."
+type SocketLanNatSettings {
+  "Indicates if NAT is enabled."
+  enabled: Boolean!
+  natType: SocketLanNatType!
+}
+
+"Defines NAT settings for the socket LAN policy."
+input SocketLanNatSettingsInput {
+  "Indicates if NAT is enabled."
+  enabled: Boolean! = false
+  natType: SocketLanNatType! = DYNAMIC_PAT
+}
+
+"Defines NAT settings for the socket LAN policy."
+input SocketLanNatSettingsUpdateInput {
+  "Indicates if NAT is enabled."
+  enabled: Boolean
+  natType: SocketLanNatType
+}
+
+enum SocketLanNatType {
+  DYNAMIC_PAT
+}
+
+type SocketLanPolicy implements IPolicy {
+  audit: PolicyAudit
+  enabled: Boolean!
+  revision: PolicyRevision
+  rules: [SocketLanRulePayload!]!
+  sections: [PolicySectionPayload!]!
+}
+
+input SocketLanPolicyInput {
+  """
+  A revision is a specific instance of the policy.
+   Unpublished revisions are working copies of the policy available to a specific
+   admin or a set of admins
+   Published revisions are revisions that were applied to the account network.
+   The last published revision is the active policy.
+  """
+  revision: PolicyRevisionInput
+}
+
+input SocketLanPolicyMutationInput {
+  revision: PolicyMutationRevisionInput
+}
+
+type SocketLanPolicyMutationPayload implements IPolicyMutationPayload {
+  errors: [PolicyMutationError!]!
+  policy: SocketLanPolicy
+  status: PolicyMutationStatus!
+}
+
+type SocketLanPolicyMutations {
+  addRule(input: SocketLanAddRuleInput!): SocketLanRuleMutationPayload! @beta
+  addSection(input: PolicyAddSectionInput!): PolicySectionMutationPayload! @beta
+  createPolicyRevision(input: PolicyCreateRevisionInput!): SocketLanPolicyMutationPayload! @beta
+  discardPolicyRevision(input: PolicyDiscardRevisionInput): SocketLanPolicyMutationPayload! @beta
+  firewall: SocketLanFirewallPolicyMutations!
+  moveRule(input: PolicyMoveRuleInput!): SocketLanRuleMutationPayload! @beta
+  moveSection(input: PolicyMoveSectionInput!): PolicySectionMutationPayload! @beta
+  publishPolicyRevision(input: PolicyPublishRevisionInput): SocketLanPolicyMutationPayload! @beta
+  removeRule(input: SocketLanRemoveRuleInput!): SocketLanRuleMutationPayload! @beta
+  removeSection(input: PolicyRemoveSectionInput!): PolicySectionMutationPayload! @beta
+  updatePolicy(input: SocketLanPolicyUpdateInput!): SocketLanPolicyMutationPayload! @beta
+  updateRule(input: SocketLanUpdateRuleInput!): SocketLanRuleMutationPayload! @beta
+  updateSection(input: PolicyUpdateSectionInput!): PolicySectionMutationPayload! @beta
+}
+
+type SocketLanPolicyQueries {
+  policy(input: SocketLanPolicyInput): SocketLanPolicy! @beta
+  revisions: PolicyRevisionsPayload @beta
+}
+
+input SocketLanPolicyUpdateInput {
+  state: PolicyToggleState
+}
+
+input SocketLanRemoveRuleInput {
+  id: ID!
+}
+
+type SocketLanRule implements IPolicyRule {
+  "Description for the rule"
+  description: String!
+  """
+  Destination traffic matching criteria.
+  Logical ‘OR’ is applied within the criteria set.
+  Logical ‘AND’ is applied between criteria sets.
+  """
+  destination: SocketLanDestination!
+  "Direction of the traffic initiator matching criteria. "
+  direction: SocketLanDirection!
+  """
+  TRUE = Rule is enabled 
+   FALSE = Rule is disabled
+  """
+  enabled: Boolean!
+  firewall: [SocketLanFirewallRulePayload!]!
+  "Rule ID"
+  id: ID!
+  "Position / priority of rule"
+  index: Int!
+  "Name of the rule"
+  name: String!
+  "Optionally, enable NAT on the outgoing interface. This translates all originating IPs to one NAT IP."
+  nat: SocketLanNatSettings!
+  "Policy section where the rule is located"
+  section: PolicySectionInfo!
+  "Destination service matching criteria for the rule. Port/Protocol based."
+  service: SocketLanService!
+  """
+  The sites the policy will be enforced on.
+  Socket sites only, with Socket v22 onwards.
+  """
+  site: SocketLanSite!
+  """
+  Source traffic matching criteria.
+  Logical ‘OR’ is applied within the criteria set.
+  Logical ‘AND’ is applied between criteria sets.
+  """
+  source: SocketLanSource!
+  """
+  The transport of the matching traffic.
+  Either govern traffic to be routed locally (LAN), or to the PoP(WAN).
+  Traffic is send to the WAN by default.
+  Traffic routed in the LAN, enforced by the LAN Firewall rules.
+  """
+  transport: SocketLanTransportType!
+}
+
+type SocketLanRuleMutationPayload implements IPolicyRuleMutationPayload {
+  errors: [PolicyMutationError!]!
+  rule: SocketLanRulePayload
+  status: PolicyMutationStatus!
+}
+
+type SocketLanRulePayload implements IPolicyRulePayload {
+  audit: PolicyElementAudit!
+  properties: [PolicyElementPropertiesEnum!]!
+  rule: SocketLanRule!
+}
+
+"Defines services used in the socket LAN policy."
+type SocketLanService {
+  "Custom Port/Protocol service."
+  custom: [CustomService!]!
+  "List of L4 based services."
+  simple: [SimpleService!]!
+}
+
+"Defines services used in the socket LAN policy."
+input SocketLanServiceInput {
+  "Custom Port/Protocol service."
+  custom: [CustomServiceInput!]! = []
+  "List of L4 based services."
+  simple: [SimpleServiceInput!]! = []
+}
+
+"Defines services used in the socket LAN policy."
+input SocketLanServiceUpdateInput {
+  "Custom Port/Protocol service."
+  custom: [CustomServiceInput!]
+  "List of L4 based services."
+  simple: [SimpleServiceInput!]
+}
+
+"Represents the site configurations in the socket LAN policy."
+type SocketLanSite {
+  """
+  The group of sites the policy will be enforced on.
+  Socket sites only, with Socket v22 onwards.
+  """
+  group: [GroupRef!]!
+  """
+  The sites the policy will be enforced on.
+  Socket sites only, with Socket v22 onwards.
+  """
+  site: [SiteRef!]!
+}
+
+"Represents the site configurations in the socket LAN policy."
+input SocketLanSiteInput {
+  """
+  The group of sites the policy will be enforced on.
+  Socket sites only, with Socket v22 onwards.
+  """
+  group: [GroupRefInput!]! = []
+  """
+  The sites the policy will be enforced on.
+  Socket sites only, with Socket v22 onwards.
+  """
+  site: [SiteRefInput!]! = []
+}
+
+"Represents the site configurations in the socket LAN policy."
+input SocketLanSiteUpdateInput {
+  """
+  The group of sites the policy will be enforced on.
+  Socket sites only, with Socket v22 onwards.
+  """
+  group: [GroupRefInput!]
+  """
+  The sites the policy will be enforced on.
+  Socket sites only, with Socket v22 onwards.
+  """
+  site: [SiteRefInput!]
+}
+
+"Defines sources for the socket LAN policy."
+type SocketLanSource {
+  """
+  Floating Subnets (ie. Floating Ranges) are used to identify traffic exactly matched to the route advertised by BGP.
+  They are not associated with a specific site.
+  This is useful in scenarios such as active-standby high availability routed via BGP.
+  """
+  floatingSubnet: [FloatingSubnetRef!]!
+  "Globally defined IP range, IP and subnet objects."
+  globalIpRange: [GlobalIpRangeRef!]!
+  "Predefined Cato groups, Socket sites/objects only."
+  group: [GroupRef!]!
+  "Hosts and servers defined for your under Socket sites."
+  host: [HostRef!]!
+  "IP address."
+  ip: [IPAddress!]!
+  "Multiple separate IP addresses or an IP range."
+  ipRange: [IpAddressRange!]!
+  "Network range defined for a site."
+  networkInterface: [NetworkInterfaceRef!]!
+  "GlobalRange + InterfaceSubnet"
+  siteNetworkSubnet: [SiteNetworkSubnetRef!]!
+  "Subnets and network ranges defined for the LAN interfaces of a site."
+  subnet: [NetworkSubnet!]!
+  "Predefined Cato groups."
+  systemGroup: [SystemGroupRef!]!
+  "VLAN ID matching criteria."
+  vlan: [Vlan!]!
+}
+
+"Defines sources for the socket LAN policy."
+input SocketLanSourceInput {
+  """
+  Floating Subnets (ie. Floating Ranges) are used to identify traffic exactly matched to the route advertised by BGP.
+  They are not associated with a specific site.
+  This is useful in scenarios such as active-standby high availability routed via BGP.
+  """
+  floatingSubnet: [FloatingSubnetRefInput!]! = []
+  "Globally defined IP range, IP and subnet objects."
+  globalIpRange: [GlobalIpRangeRefInput!]! = []
+  "Predefined Cato groups, Socket sites/objects only."
+  group: [GroupRefInput!]! = []
+  "Hosts and servers defined for your under Socket sites."
+  host: [HostRefInput!]! = []
+  "IP address."
+  ip: [IPAddress!]! = []
+  "Multiple separate IP addresses or an IP range."
+  ipRange: [IpAddressRangeInput!]! = []
+  "Network range defined for a site."
+  networkInterface: [NetworkInterfaceRefInput!]! = []
+  "GlobalRange + InterfaceSubnet"
+  siteNetworkSubnet: [SiteNetworkSubnetRefInput!]! = []
+  "Subnets and network ranges defined for the LAN interfaces of a site."
+  subnet: [NetworkSubnet!]! = []
+  "Predefined Cato groups."
+  systemGroup: [SystemGroupRefInput!]! = []
+  "VLAN ID matching criteria."
+  vlan: [Vlan!]! = []
+}
+
+"Defines sources for the socket LAN policy."
+input SocketLanSourceUpdateInput {
+  """
+  Floating Subnets (ie. Floating Ranges) are used to identify traffic exactly matched to the route advertised by BGP.
+  They are not associated with a specific site.
+  This is useful in scenarios such as active-standby high availability routed via BGP.
+  """
+  floatingSubnet: [FloatingSubnetRefInput!]
+  "Globally defined IP range, IP and subnet objects."
+  globalIpRange: [GlobalIpRangeRefInput!]
+  "Predefined Cato groups, Socket sites/objects only."
+  group: [GroupRefInput!]
+  "Hosts and servers defined for your under Socket sites."
+  host: [HostRefInput!]
+  "IP address."
+  ip: [IPAddress!]
+  "Multiple separate IP addresses or an IP range."
+  ipRange: [IpAddressRangeInput!]
+  "Network range defined for a site."
+  networkInterface: [NetworkInterfaceRefInput!]
+  "GlobalRange + InterfaceSubnet"
+  siteNetworkSubnet: [SiteNetworkSubnetRefInput!]
+  "Subnets and network ranges defined for the LAN interfaces of a site."
+  subnet: [NetworkSubnet!]
+  "Predefined Cato groups."
+  systemGroup: [SystemGroupRefInput!]
+  "VLAN ID matching criteria."
+  vlan: [Vlan!]
+}
+
+enum SocketLanTransportType {
+  "Specifies LAN transport type, routed locally for  inspection of LAN Firewall."
+  LAN
+  "Specifies WAN transport type, send to the PoP for inspection of WAN Firewall."
+  WAN
+}
+
+input SocketLanUpdateRuleDataInput {
+  description: String
+  """
+  Destination traffic matching criteria.
+  Logical ‘OR’ is applied within the criteria set.
+  Logical ‘AND’ is applied between criteria sets.
+  """
+  destination: SocketLanDestinationUpdateInput
+  "Direction of the traffic initiator matching criteria. "
+  direction: SocketLanDirection
+  enabled: Boolean
+  name: String
+  "Optionally, enable NAT on the outgoing interface. This translates all originating IPs to one NAT IP."
+  nat: SocketLanNatSettingsUpdateInput
+  "Destination service matching criteria for the rule. Port/Protocol based."
+  service: SocketLanServiceUpdateInput
+  """
+  The sites the policy will be enforced on.
+  Socket sites only, with Socket v22 onwards.
+  """
+  site: SocketLanSiteUpdateInput
+  """
+  Source traffic matching criteria.
+  Logical ‘OR’ is applied within the criteria set.
+  Logical ‘AND’ is applied between criteria sets.
+  """
+  source: SocketLanSourceUpdateInput
+  """
+  The transport of the matching traffic.
+  Either govern traffic to be routed locally (LAN), or to the PoP(WAN).
+  Traffic is send to the WAN by default.
+  Traffic routed in the LAN, enforced by the LAN Firewall rules.
+  """
+  transport: SocketLanTransportType
+}
+
+input SocketLanUpdateRuleInput {
+  id: ID!
+  rule: SocketLanUpdateRuleDataInput!
+}
+
 type LicensingQueries {
   """BETA"""
   licensingInfo: LicensingInfo @beta
+}
+
+type LicensingMutations {
+  """BETA"""
+  updateCommercialLicense(input: UpdateCommercialLicenseInput!): UpdateCommercialLicensePayload @beta
+}
+
+input UpdateCommercialLicenseInput {
+  """The unique identifier of the license to update"""
+  licenseId: ID!
+  """The desired start date for the license activation"""
+  startDate: DateTime
+}
+
+type UpdateCommercialLicensePayload {
+  """The license that was modified"""
+  license: License!
 }
 
 """Public license API"""
@@ -10679,6 +11515,7 @@ type LicensingInfo {
   licenses: [License!]! @deprecated(reason: "please use individual license type fields")
   malwareProtection: [MalwareProtectionLicense!]!
   managedXdr: [ManagedXdrLicense!]!
+  mdr: [MdrLicense!]!
   nextGenMalwareProtection: [NextGenMalwareProtectionLicense!]!
   nocaas: [NOCaaSLicense!]!
   pooledBandwidth: [PooledBandwidthLicense!]!
@@ -10688,6 +11525,7 @@ type LicensingInfo {
   site: [SiteLicense!]!
   threatPrevention: [ThreatPreventionLicense!]!
   xdrPro: [XdrProLicense!]!
+  xOps: [XOpsLicense!]!
   ztnaUsers: [ZtnaUsersLicense!]!
 }
 
@@ -10722,6 +11560,12 @@ enum LicensePlan {
   TRIAL
 }
 
+"""enum that shows account license status"""
+enum AccountPlan {
+  COMMERCIAL
+  TRIAL
+}
+
 """
 enum for account plan status – the current license status within the license lifecycle
 """
@@ -10732,14 +11576,12 @@ enum LicenseStatus {
   DISABLED
   """A license in a grace period"""
   LOCKED
+  """The license is pending customer activation by setting a start date"""
+  PENDING
   """
   An existing license with a future start date that is not currently active
   """
   SCHEDULED
-  """
-  Added by Joe
-  """
-  PENDING
   """
   A license that is active before its start date, for partners and customers to verify the relevant configurations
   """
@@ -10747,7 +11589,7 @@ enum LicenseStatus {
 }
 
 """
-An interface containing properties that are common to all license types
+The unique identifier for the license. If this value is not available, you can contact Cato Support, who may be able to assist in retrieving it.
 """
 interface License {
   id: String
@@ -11413,6 +12255,66 @@ type XOpsLicense implements License {
   status: LicenseStatus!
 }
 
+input AssignSiteBwLicenseInput {
+  """
+  Specifies the bandwidth (in Mbps) to allocate to the site when using a pooled bandwidth license.
+  This field should not be used if a site license is used.
+  """
+  bw: Int
+  """The license that is being assigned"""
+  licenseId: ID!
+  """The site the license is assigned to"""
+  site: SiteRefInput!
+}
+
+type AssignSiteBwLicensePayload {
+  license: License!
+}
+
+input UpdateSiteBwLicenseInput {
+  """
+  Specifies the bandwidth (in Mbps) to allocate to the site when using a pooled bandwidth license.
+  """
+  bw: Int!
+  """The license that is being assigned"""
+  licenseId: ID!
+  """The site the license is being assigned to"""
+  site: SiteRefInput!
+}
+
+type UpdateSiteBwLicensePayload {
+  license: License!
+}
+
+input ReplaceSiteBwLicenseInput {
+  """
+  Specifies the bandwidth (in Mbps) to allocate to the site when using a pooled bandwidth license.
+  This field should not be used if a site license is used.
+  """
+  bw: Int
+  """The license that is being assigned"""
+  licenseIdToAdd: ID!
+  """The license that is being removed"""
+  licenseIdToRemove: ID!
+  """The site to replace the licenses for"""
+  site: SiteRefInput!
+}
+
+type ReplaceSiteBwLicensePayload {
+  license: License!
+}
+
+input RemoveSiteBwLicenseInput {
+  """The license that is being removed"""
+  licenseId: ID!
+  """The site to remove the licenses from"""
+  site: SiteRefInput!
+}
+
+type RemoveSiteBwLicensePayload {
+  license: License!
+}
+
 type HardwareQueries {
   """Retrieve the account hardware items"""
   hardware(input: HardwareSearchInput): HardwarePayload @beta
@@ -11465,7 +12367,7 @@ input AddressInput {
   companyName: String!
   """Country"""
   countryName: String!
-  """State (only for USA and Canada)"""
+  """State (required only for USA)"""
   stateName: String
   """Street name and number"""
   street: String!
@@ -11475,6 +12377,7 @@ input AddressInput {
 
 input HardwareFilterInput {
   account: [AccountFilter!]
+  countryCode: StringFilterInput
   countryName: [StringFilterInput!]
   """
   Will run contains operation for the provided text on the following fields productType,
@@ -11535,7 +12438,7 @@ type ShippingDetails {
   instruction: String
   """Power cable type (for sockets only)"""
   powerCable: String
-  """State (only for USA and Canada)"""
+  """State (required only for USA)"""
   stateName: String
   """Street name and number"""
   street: String
@@ -11555,7 +12458,7 @@ type ShippingTracking {
   """Tracking number"""
   trackingNumber: String
   """Tracking url"""
-  trackingUrl: Url
+  trackingUrl: String
 }
 
 type HardwarePayload {
@@ -11576,6 +12479,8 @@ type Hardware {
   licenseId: ID
   """License start date"""
   licenseStartDate: Date
+  """Reference to the Enterprise Directory address"""
+  locationId: ID
   """Product Mac address"""
   macAddress: String
   """Product model"""
@@ -11607,61 +12512,648 @@ type HardwareValidation {
   incompleteReason: String
 }
 
+"""Queries for reading groups-related information"""
+type GroupsQueries {
+  """
+  Get a specific group configuration. The group can be identified by ID or name.
+  """
+  group(input: GroupRefInput!): Group @beta
+  """
+  Get a list of groups, with optional filters and sorting.
+  This query only returns basic information for each group (e.g. name, ID).
+  To view full configuration details, including members, use the `group` query for each result.
+  """
+  groupList(input: GroupListInput = {paging: {limit: 100, from: 0}, sort: {name: {direction: ASC, priority: 1}}}): GroupListPayload @beta
+  """Check which policies use the group."""
+  whereUsed(input: GroupRefInput!): GroupWhereUsedPayload @beta
+}
+
+"""
+A group is a collection of typed members (e.g., sites, hosts).
+Groups can include members of different types.
+
+When you update a group or use it in a policy, the system verifies that all members are allowed in the policy's scope.
+If a group is used in a policy that doesn’t support certain member types, you can't add those types to the group.
+If a group already includes unsupported types, you can only assign it to a policy that supports those types.
+A member type is valid if it's supported in the group and allowed in the policy scope.
+"""
+type Group {
+  """Contains creation and modification metadata for the group"""
+  audit: AuditingMetadata!
+  """Optional free-text description for documentation or context"""
+  description: String
+  """Unique ID for the group."""
+  id: ID!
+  """
+  Lists the members in this group. Supports paging, filtering, and sorting by type and name
+  """
+  members(input: GroupMembersListInput! = {paging: {limit: 100, from: 0}, sort: {name: {direction: ASC, priority: 2}, type: {direction: ASC, priority: 1}}}): GroupMembersListPayload!
+  """
+  Total number of group members. When paging and filtering is used, this number may be higher than the number of members returned by the query
+  """
+  membersCount: Int!
+  """
+  Breakdown of member count by type (e.g., number of sites, hosts, etc.).
+  """
+  membersCountPerType: [GroupMemberTypeCount!]!
+  """Name of the group (not guaranteed to be globally unique)."""
+  name: String!
+}
+
+"""
+Describes where the group is used across policies and scopes.
+
+Includes a list of policy scopes where the group is applied,
+and identifies any member types that are not supported in those policy scopes.
+"""
+type GroupWhereUsedPayload {
+  """
+  Member types in the group that are not valid in one or more scopes where the group is used.
+  """
+  invalidMemberTypes: [InvalidGroupMemberTypeInScope!]!
+  """
+  List of scopes where the group is used. Each scope indicates the policy type and field.
+  """
+  usage: [GroupScope!]!
+  """Value is True if the group is used in at least one policy or scope."""
+  used: Boolean!
+}
+
+"""
+Represents a member type in the group that is not supported in one or more scopes.
+Each scope indicates where the member type is not allowed.
+"""
+type InvalidGroupMemberTypeInScope {
+  """
+  List of scopes (policy type and field) where this member type is not supported.
+  """
+  scope: [GroupScope!]!
+  """The unsupported member type (e.g., site, host, etc.)"""
+  type: GroupMemberRefType!
+}
+
+"""
+The scope (context) in which a group is used or supported.
+Includes the policy type and the specific field name(s) where the group is used.
+"""
+type GroupScope {
+  """
+  The specific fields within the policy where the group is used (e.g., 'source', 'destination').
+  """
+  field: [String!]!
+  """The type of policy (e.g.,WAN Firewall)."""
+  type: String!
+}
+
+"""
+A list of group members, pagination details, applied filters, and sorting information.
+"""
+type GroupMembersListPayload {
+  """
+  List of members that matched the query (including filtering, sorting, and paging).
+  """
+  items: [GroupMemberRefTyped!]!
+  """Pagination information for the result set (e.g., offset, total count)."""
+  paging: PageInfo!
+}
+
+"""
+Filter, sort, and pagination applied when fetching the the list of group members.
+"""
+input GroupMembersListInput {
+  filter: [GroupMembersListFilterInput!]
+  paging: PagingInput! = {limit: 100, from: 0}
+  sort: GroupMembersListSortInput! = {name: {direction: ASC, priority: 2}, type: {direction: ASC, priority: 1}}
+}
+
+"""Filters to narrow down group members that are fetched."""
+input GroupMembersListFilterInput {
+  """Filter group members by name"""
+  name: [AdvancedStringFilterInput!]
+  """Filter group members by type"""
+  type: [GroupMemberRefTypeFilterInput!]
+}
+
+"""
+Sort group members by one or more fields.
+If multiple fields are specified, the system uses their priority to determine order. For example, type with priority 1 will be used first, then name with priority 2.
+"""
+input GroupMembersListSortInput {
+  """Sort by member name"""
+  name: SortOrderInput
+  """Sort by member type"""
+  type: SortOrderInput
+}
+
+"""
+Reference to a group member, including its ID, name, and type.
+Used when listing or identifying members within a group.
+"""
+type GroupMemberRefTyped implements ObjectRef {
+  "Object's unique identifier"
+  id: ID!
+  "Object's unique name"
+  name: String!
+  type: GroupMemberRefType!
+}
+
+"""A reference to a group member, used when adding or filtering members."""
+input GroupMemberRefTypedInput {
+  """Whether to resolve the reference by ID or name. Defaults to ID."""
+  by: ObjectRefBy! = ID
+  """The value of the member identifier (ID or name)"""
+  input: String!
+  """The member type."""
+  type: GroupMemberRefType!
+}
+
+"""Counts how many members of each type the group contains."""
+type GroupMemberTypeCount {
+  """Number of members of this type that belong to the group"""
+  membersCount: Int!
+  """The member type (e.g., SITE, HOST)"""
+  type: GroupMemberRefType!
+}
+
+"""List groups with optional filters, sorting, and pagination."""
+input GroupListInput {
+  """Filter groups by ID, name, member, audit data, or free-text"""
+  filter: [GroupListFilterInput!]
+  """Pagination settings"""
+  paging: PagingInput! = {limit: 100, from: 0}
+  """Sorting options, default behavior is ascending by name"""
+  sort: GroupListSortInput! = {name: {direction: ASC, priority: 1}}
+}
+
+"""Apply filters when fetching the list of groups."""
+input GroupListFilterInput {
+  """Filter by audit metadata (e.g., created by)"""
+  audit: [AuditingMetadataFilterInput!]
+  """Free-text search across textual fields like name"""
+  freeText: FreeTextFilterInput
+  """Filter by group ID"""
+  id: [IdFilterInput!]
+  """Filter groups that include specific members"""
+  member: [GroupMemberFilterInput!]
+  """Filter by group name"""
+  name: [AdvancedStringFilterInput!]
+}
+
+"""Filter groups by member reference."""
+input GroupMemberFilterInput {
+  """Member reference used to identify the groups it belongs to"""
+  ref: GroupMemberRefTypedInput!
+}
+
+"""Member types that can be referenced in a group."""
+enum GroupMemberRefType {
+  FLOATING_SUBNET
+  GLOBAL_IP_RANGE
+  HOST
+  NETWORK_INTERFACE
+  SITE
+  SITE_NETWORK_SUBNET
+}
+
+"""Filter member types using the supported operators"""
+input GroupMemberRefTypeFilterInput {
+  """Match if member type equals this value"""
+  eq: GroupMemberRefType
+  """Match if member type is in this list"""
+  in: [GroupMemberRefType!]
+  """Match if member type does not equal this value"""
+  neq: GroupMemberRefType
+  """Match if member type is not in this list"""
+  nin: [GroupMemberRefType!]
+}
+
+"""Sort groups by name or audit metadata"""
+input GroupListSortInput {
+  """Sort groups by audit metadata (e.g., creation time)"""
+  audit: AuditingMetadataSortInput
+  """ort groups by name"""
+  name: SortOrderInput
+}
+
+"""
+A list of groups returned by the groupList query, with pagination info.
+"""
+type GroupListPayload {
+  """The list of fetched groups"""
+  items: [Group!]!
+  """Pagination that was applied during the fetch"""
+  paging: PageInfo!
+}
+
+"""Operations for managing groups"""
+type GroupsMutations {
+  """Create a new group"""
+  createGroup(input: CreateGroupInput!): CreateGroupPayload @beta
+  """Delete a group"""
+  deleteGroup(input: GroupRefInput!): DeleteGroupPayload @beta
+  """
+  Update an existing group, including attributes such as name, description, and member items
+  """
+  updateGroup(input: UpdateGroupInput!): UpdateGroupPayload @beta
+}
+
+"""Create a new group"""
+input CreateGroupInput {
+  """Optional description for the group"""
+  description: String
+  """
+  Initial list of members for the new group. There is a maximum of 500 members per createGroup mutation
+  """
+  members: [GroupMemberRefTypedInput!]
+  """The name of the new group"""
+  name: String!
+}
+
+"""The created group object."""
+type CreateGroupPayload {
+  group: Group!
+}
+
+"""
+Update attributes for a group. Only the provided fields are updated - the other fields are not changed
+Note: You can only update a total of 500 group members at one time, this means 'membersToAdd + membersToRemove' or 'members' must be less than 500
+"""
+input UpdateGroupInput {
+  """New description for the group, if changing"""
+  description: String
+  """Specify the group you’re updating"""
+  group: GroupRefInput!
+  """Replaces all members in the group with this list of members"""
+  members: [GroupMemberRefTypedInput!]
+  """
+  Adds members to the existing set of members. Can't be used together with the 'members' field
+  """
+  membersToAdd: [GroupMemberRefTypedInput!]
+  """
+  Removes members from the group. Can't be used together with the 'members' field
+  """
+  membersToRemove: [GroupMemberRefTypedInput!]
+  """New name for the group, if changing"""
+  name: String
+}
+
+"""The updated group object"""
+type UpdateGroupPayload {
+  """Updated group"""
+  group: Group!
+}
+
+"""The deleted group object"""
+type DeleteGroupPayload {
+  """The group that was deleted"""
+  group: Group!
+}
+
+type SiteGeneralDetailsPayload {
+  description: String
+  """Only relevant for socket sites"""
+  preferredPopLocation: SitePreferredPopLocation
+  site: SiteRef!
+  siteLocation: SiteLocation!
+  siteType: SiteType!
+}
+
+type SiteLocation {
+  address: String
+  cityName: String
+  countryCode: String!
+  stateCode: String
+  timezone: String!
+}
+
+type SitePreferredPopLocation {
+  """
+  Forces the socket to connect exclusively to the configured PoP locations
+  """
+  preferredOnly: Boolean!
+  primary: PopLocationRef
+  secondary: PopLocationRef
+}
+
+input UpdateSiteGeneralDetailsInput {
+  description: String
+  name: String
+  """Only relevant for socket sites"""
+  preferredPopLocation: UpdateSitePreferredPopLocationInput
+  siteLocation: UpdateSiteLocationInput
+  siteType: SiteType
+}
+
+input UpdateSiteLocationInput {
+  address: String
+  cityName: String
+  countryCode: String
+  stateCode: String
+  timezone: String
+}
+
+input UpdateSitePreferredPopLocationInput {
+  """
+  Forces the socket to connect exclusively to the configured PoP locations
+  """
+  preferredOnly: Boolean!
+  """
+  Set the location reference to -1, `Automatic`, or null to enable automatic selection.
+  Set the location reference to -2 or `None` to disable the preferred PoP location (only allowed for secondary).
+  """
+  primary: PopLocationRefInput
+  secondary: PopLocationRefInput
+}
+
+type UpdateSiteGeneralDetailsPayload {
+  siteId: ID!
+}
+
+"Rule parameters and relevant position"
+input InternetFirewallAddRuleInput {
+  "Position of the rule in the policy"
+  at: PolicyRulePositionInput
+  "Parameters for the rule you are adding"
+  rule: InternetFirewallAddRuleDataInput!
+}
+
+type EnterpriseDirectoryQueries {
+  """Retrieve the account location items"""
+  locationList(input: EnterpriseDirectoryLocationListInput): EnterpriseDirectoryLocationListPayload! @beta
+}
+
+type EnterpriseDirectoryMutations {
+  archiveLocation(locationId: ID): EnterpriseDirectoryArchiveLocationPayload @beta
+  createLocation(input: EnterpriseDirectoryCreateLocationInput!): EnterpriseDirectoryCreateLocationPayload @beta
+  restoreLocation(locationId: ID): EnterpriseDirectoryRestoreLocationPayload @beta
+  updateLocation(input: EnterpriseDirectoryUpdateLocationInput!): EnterpriseDirectoryUpdateLocationPayload @beta
+}
+
+type EnterpriseDirectoryLocationListPayload {
+  """The results"""
+  items: [Location!]!
+  """Pagination details"""
+  pageInfo: PageInfo
+}
+
+type EnterpriseDirectoryCreateLocationPayload {
+  """The created location"""
+  location: Location!
+}
+
+type EnterpriseDirectoryUpdateLocationPayload {
+  """The updated location"""
+  location: Location!
+}
+
+type EnterpriseDirectoryArchiveLocationPayload {
+  """The archived location"""
+  location: Location!
+}
+
+type EnterpriseDirectoryRestoreLocationPayload {
+  """The restored location"""
+  location: Location!
+}
+
+type Location {
+  """Cma account"""
+  account: AccountRef!
+  """Is archived"""
+  archived: Boolean!
+  """Audit data"""
+  audit: AuditingMetadata!
+  """Business unit"""
+  businessUnit: String
+  """Location description"""
+  description: String
+  """Location details"""
+  details: LocationDetails!
+  """Location id"""
+  id: ID!
+  """Location name"""
+  name: String!
+  """Location type"""
+  type: LocationType!
+}
+
+type LocationDetails {
+  """Company name (recipient)"""
+  companyName: String
+  """Delivery contact detail"""
+  contact: ContactDetails
+  """Postal location"""
+  postalAddress: PostalAddress!
+  """Is shipping location"""
+  shippingLocation: Boolean!
+  """Vat id (required for Brazil)"""
+  vatId: String
+}
+
+input EnterpriseDirectoryLocationListInput {
+  filter: LocationFilterInput
+  paging: PagingInput = {limit: 100, from: 0}
+  sort: LocationSortInput = {name: {direction: ASC, priority: 1}}
+}
+
+input LocationSortInput {
+  country: SortOrderInput
+  """Default sort field"""
+  name: SortOrderInput
+  type: SortOrderInput
+}
+
+input LocationFilterInput {
+  account: [AccountFilter!]
+  countryCode: [StringFilterInput!]
+  """
+  Will use contains operator for the provided text on the location fields
+  """
+  freeText: FreeTextFilterInput
+  id: [IdFilterInput!]
+  includeArchived: Boolean = false
+  isShippingLocation: Boolean
+  name: [StringFilterInput!]
+  type: [LocationTypeFilterInput!]
+}
+
+input LocationTypeFilterInput {
+  eq: LocationType
+  in: [LocationType!]
+  neq: LocationType
+  nin: [LocationType!]
+}
+
+input EnterpriseDirectoryCreateLocationInput {
+  """Business unit"""
+  businessUnit: String
+  """Description"""
+  description: String
+  """Location details"""
+  details: CreateLocationDetailsInput!
+  """Location name"""
+  name: String!
+  """Location type"""
+  type: LocationType!
+}
+
+input EnterpriseDirectoryUpdateLocationInput {
+  """Business unit"""
+  businessUnit: String
+  """Description"""
+  description: String
+  """Location details"""
+  details: UpdateLocationDetailsInput
+  """Location id"""
+  id: ID!
+  """Location name"""
+  name: String
+  """Location type"""
+  type: LocationType
+}
+
+input CreateLocationDetailsInput {
+  """Company name (recipient)"""
+  companyName: String
+  """Delivery contact detail"""
+  contact: ContactDetailsInput
+  """Postal location"""
+  postalAddress: PostalAddressInput!
+  """Vat id (required for Brazil)"""
+  vatId: String
+}
+
+input UpdateLocationDetailsInput {
+  """Company name (recipient)"""
+  companyName: String
+  """Delivery contact detail"""
+  contact: ContactDetailsInput
+  """Postal location"""
+  postalAddress: PostalAddressInput
+  """Vat id (required for Brazil)"""
+  vatId: String
+}
+
+enum LocationType {
+  BRANCH
+  CLOUD_DATA_CENTER
+  DATA_CENTER
+  HEADQUARTERS
+  OTHER
+  WAREHOUSE
+}
+
 type DevicesQueries {
   attributesCatalog: DeviceAttributesCatalogQueries! @beta
-  csvExport: ExportJobResponse! @beta
+  csvExport(input: DeviceCsvExportInput): ExportJobResponse! @beta
   csvExportStatus(jobId: ID!): ExportStatusResponse! @beta
   list(input: DeviceV2Input): DevicesPayload @beta
 }
 
 type DeviceV2 {
-  categories: [DeviceV2Category!]! @deprecated(reason: "Use 'category' instead")
+  "Device category grouping based on role or type"
   category: String
+  "Compliance posture of the device according to policy/integration checks (e.g., 'compliant', 'noncompliant', 'unknown')"
+  complianceState: String
+  "Confidence score for device classification accuracy"
   confidence: DeviceConfidenceLevel
+  "Profile describing how the device connects to the network"
   connectionProfile: DeviceConnectionProfile
+  "Timestamp of when the device was first detected"
   firstSeen: DateTime
+  "Hardware information for the device"
   hw: DeviceHw
+  "Unique identifier for the device record"
   id: ID!
-  ip: String
+  ip: String @deprecated(reason: "Use ipAddress instead")
+  "Current or last known IP address of the device"
+  ipAddress: IPAddress
+  "True/false flag showing whether the device is under admin management"
+  isManaged: Boolean!
+  "Timestamp of the most recent device activity"
   lastSeen: DateTime
+  "Human-readable name of the device"
   name: String
+  "Information about the network environment the device connects to"
   network: DeviceNetwork
+  "Reference to the device's network (Rename to 'network' after fe is aligned)"
   networkInfo: DeviceNetworkRef
+  "Network interface card details for the device"
   nic: DeviceNic
+  "The origins (e.g., integrations, data feeds) that detected the device"
+  originTypes: [OriginType!]!
+  "Operating system details of the device"
   os: DeviceOs
+  "Numerical value representing the device's security risk"
   riskScore: Int
+  "Reference to the site where the device is located"
   site: SiteRef
+  "Reference to the user linked with this device"
   user: UserRef
+}
+
+"The origins (e.g., integrations, data feeds) that detected the device"
+enum OriginType {
+  "Device details reported by the Armis security platform"
+  Armis
+  "Device information provided by the Cato Networks platform"
+  CatoNetworks
+  "Device data gathered from Claroty's security platform"
+  Claroty
+  "Device details provided by CrowdStrike endpoint security"
+  Crowdstrike
+  "Device data collected from Microsoft Intune MDM"
+  MicrosoftIntune
+  "Device information from SentinelOne endpoint platform"
+  SentinelOne
+  "Origin of the device data could not be determined"
+  Unknown
+  "Device information identified through Zoom integration"
+  Zoom
 }
 
 union DeviceNetworkRef = SiteNetworkSubnetRef | GlobalRangeRef
 
 type DeviceNic {
+  "The unique MAC address of the device's network interface card"
   macAddress: MacAddress
+  "Manufacturer of the network interface (e.g., Intel, Broadcom)"
   vendor: String
 }
 
 type DeviceOs {
+  "Name of the operating system product (e.g., Windows, iOS)"
   product: String
+  "Vendor or publisher of the operating system"
   vendor: String
+  "Specific version or release of the operating system"
   version: String
 }
 
 type DeviceHw {
+  "Brand or vendor that produced the device"
   manufacturer: String
+  "Specific hardware model identifier"
   model: String
+  "Hardware type of the device (e.g., laptop, printer)"
   type: String
 }
 
 type DeviceNetwork {
+  "Name of the associated network"
   networkName: String
+  "Subnet in which the device resides"
   subnet: String
 }
 
 type DeviceConnectionProfile {
+  "List of applications the device communicates with"
   destApps: [String!]!
+  "Domains contacted by the device"
   destDomains: [String!]!
+  "Destination hosts accessed by the device"
   destHosts: [String!]!
+  "Traffic direction indicators (e.g., inbound, outbound)"
   directions: [String!]!
 }
 
@@ -11684,37 +13176,59 @@ enum DeviceCategory {
 }
 
 enum DeviceConfidenceLevel {
+  "Device classification is strongly validated by multiple signals"
   HIGH
+  "Device classification has minimal supporting evidence"
   LOW
+  "Device classification has moderate supporting signals"
   MEDIUM
 }
 
 input DeviceV2Input {
+  "List of filter conditions applied to narrow down devices"
   filter: [DeviceV2FilterInput!]
+  "Paging input to control results (default limit = 100)"
   paging: PagingInput! = {limit: 100, from: 0}
-  sort: DeviceSortInput! = {lastSeen: {direction: DESC, priority: 1}}
+  "Sorting configuration (default: sort by id descending)"
+  sort: DeviceSortInput! = {id: {direction: DESC, priority: 1}}
 }
 
 type DevicesPayload {
+  "List of devices returned by the query"
   device: [DeviceV2!]!
+  "Metadata describing pagination details"
   paging: PageInfo!
 }
 
+"Input for sorting devices by various fields"
 input DeviceSortInput {
-  categories: SortOrderInput @deprecated(reason: "Use 'category' instead")
+  "Sort by device category"
   category: SortOrderInput
+  "Sort by classification confidence level"
   confidence: SortOrderInput
+  "Sort by first detection timestamp"
   firstSeen: SortOrderInput
+  "Sort by hardware fields"
   hw: DeviceHwSortOrderInput
+  "Sort by device unique identifier"
   id: SortOrderInput
+  "Sort by IP address"
   ip: SortOrderInput
+  "Sort by last activity timestamp"
   lastSeen: SortOrderInput
+  "Sort by device name"
   name: SortOrderInput
+  "Sort by network fields"
   network: DeviceNetworkSortOrderInput
+  "Sort by network interface fields"
   nic: DeviceNicSortOrderInput
+  "Sort by operating system fields"
   os: DeviceOsSortOrderInput
+  "Sort by security risk score"
   riskScore: SortOrderInput
+  "Sort by site-related fields"
   site: DeviceSiteSortOrderInput
+  "Sort by user-related fields"
   user: DeviceUserSortOrderInput
 }
 
@@ -11750,23 +13264,45 @@ input DeviceNetworkSortOrderInput {
   subnet: SortOrderInput
 }
 
+"Input for filtering devices by various criteria"
 input DeviceV2FilterInput {
-  categories: [DeviceCategoryFilterInput!] @deprecated(reason: "Use 'category' instead")
+  "Filter by device category"
   category: [StringFilterInput!]
+  "Filter by compliance state criteria"
+  complianceState: [StringFilterInput!]
+  "Filter by classification confidence level"
   confidence: [DeviceConfidenceLevelFilterInput!]
+  "Filter by first detection timestamp"
   firstSeen: [DateTimeFilterInput!]
+  "Filter by hardware criteria"
   hw: DeviceHwFilterInput
+  "Filter by device unique identifier"
   id: [IdFilterInput!]
-  ip: [StringFilterInput!]
+  ip: [StringFilterInput!] @deprecated(reason: "Use ipAddress instead")
+  "Filter by IP address"
+  ipAddress: [IPAddressFilterInput!]
+  "Filter by management status"
+  isManaged: [BooleanFilterInput!]
+  "Filter by last activity timestamp"
   lastSeen: [DateTimeFilterInput!]
+  "Filter by device name"
   name: [StringFilterInput!]
+  "Filter by network criteria"
   network: DeviceNetworkFilterInput
+  "Filter by network interface criteria"
   nic: DeviceNicFilterInput
+  originTypes: [OriginTypeFilterInput!]
+  "Filter by operating system criteria"
   os: DeviceOsFilterInput
+  "Filter by security risk score"
   riskScore: [IntFilterInput!]
+  "Filter by site reference"
   site: [SiteRefFilterInput!]
+  "Filter by user reference"
   user: [UserRefFilterInput!]
 }
+
+"Filter input for device confidence level with equality and inclusion operators"
 
 input DeviceCategoryFilterInput {
   eq: DeviceCategory
@@ -11776,10 +13312,23 @@ input DeviceCategoryFilterInput {
 }
 
 input DeviceConfidenceLevelFilterInput {
+  "Equals - exact confidence level match"
   eq: DeviceConfidenceLevel
+  "In - match any of the specified confidence levels"
   in: [DeviceConfidenceLevel!]
+  "Not equals - exclude specific confidence level"
   neq: DeviceConfidenceLevel
+  "Not in - exclude all specified confidence levels"
   nin: [DeviceConfidenceLevel!]
+}
+
+input OriginTypeFilterInput {
+  "Has all - include devices that have all specified origin types"
+  hasAll: [OriginType!]
+  "In - include devices that have any of the specified origin types"
+  in: [OriginType!]
+  "Not in - exclude devices that have any of the specified origin types"
+  nin: [OriginType!]
 }
 
 input MacAddressFilterInput {
@@ -11830,25 +13379,57 @@ type DeviceAttributeCatalogPayload {
   pageInfo: PageInfo!
 }
 
+"Response returned when initiating a CSV export job"
 type ExportJobResponse {
+  "Unique identifier for the export job"
   jobId: ID!
+  "Status message about the export job initiation"
   message: String
 }
 
+"Response containing the current status and details of an export job"
 type ExportStatusResponse {
+  "Download URL (available when status is COMPLETED)"
   downloadUrl: String
+  "Timestamp when the download URL expires"
   expiresAt: DateTime
+  "Unique identifier for the export job"
   jobId: ID!
+  "Status message describing current state"
   message: String
+  "Completion percentage (0-100%)"
   progress: Float
+  "Current status of the export job"
   status: ExportJobStatus!
 }
 
+"Status values for export job lifecycle"
 enum ExportJobStatus {
+  "Export job finished successfully and file is ready for download"
   COMPLETED
+  "Export job encountered an error and could not complete"
   FAILED
+  "Export job is currently being processed"
   IN_PROGRESS
+  "Export job has been queued but not yet started"
   PENDING
+}
+
+"Input for CSV export with optional filtering"
+input DeviceCsvExportInput {
+  "Filter devices by various criteria before export"
+  filter: [DeviceV2FilterInput!]
+}
+
+type TunnelConfig {
+  """The Local ID of the IPsec tunnel, specific to this tunnel"""
+  localId: String
+  """Unique identifier for each tunnel"""
+  tunnelId: String
+  """
+  The destination IP address for the IPsec tunnel (in the site), specific to this tunnel
+  """
+  tunnelRemoteIdentifier: String
 }
 
 type CatalogQueries {
@@ -12063,6 +13644,1427 @@ type CatalogApplication {
   website: Url
 }
 
+"Access method matching configuration"
+type ApplicationControlAccessMethod {
+  "Specifies the access method type"
+  accessMethod: ApplicationControlAccessMethodType!
+  "Defines the comparison operator"
+  operator: ApplicationControlOperator!
+  "Specifies the comparison value (used with all operators except IN)"
+  value: String
+  "References a set of values (used only with IN operator)"
+  valueSet: StringValueSetRef
+}
+
+"Access method matching configuration"
+input ApplicationControlAccessMethodInput {
+  "Specifies the access method type"
+  accessMethod: ApplicationControlAccessMethodType! = USER_AGENT
+  "Defines the comparison operator"
+  operator: ApplicationControlOperator! = IS
+  "Specifies the comparison value (used with all operators except IN)"
+  value: String
+  "References a set of values (used only with IN operator)"
+  valueSet: StringValueSetRefInput
+}
+
+"Application Control Access Method Type"
+enum ApplicationControlAccessMethodType {
+  "User agent identification method"
+  USER_AGENT
+}
+
+"Application Control Action"
+enum ApplicationControlAction {
+  "Permit the action"
+  ALLOW
+  "Prevent the action"
+  BLOCK
+  "Log the action without enforcement"
+  MONITOR
+}
+
+"Activity matching configuration"
+type ApplicationControlActivity {
+  "References the application control activity type"
+  activity: ApplicationControlActivityRef!
+  "References specific application control activity fields associated with the activity type"
+  field: ApplicationControlActivityFieldRef
+  "Defines the operator used for comparisons"
+  operator: ApplicationControlOperator
+  "Specifies the comparison value (used with all operators except IN)"
+  value: String
+  "References a set of values (used only with IN operator)"
+  valueSet: StringValueSetRef
+}
+
+"Activity matching configuration"
+input ApplicationControlActivityInput {
+  "References the application control activity type"
+  activity: ApplicationControlActivityRefInput!
+  "References specific application control activity fields associated with the activity type"
+  field: ApplicationControlActivityFieldRefInput
+  "Defines the operator used for comparisons"
+  operator: ApplicationControlOperator = IS
+  "Specifies the comparison value (used with all operators except IN)"
+  value: String
+  "References a set of values (used only with IN operator)"
+  valueSet: StringValueSetRefInput
+}
+
+input ApplicationControlAddRuleDataInput {
+  "Defines application control settings. Must only be used when ruleType is APPLICATION"
+  applicationRule: ApplicationControlApplicationRuleInput = {application: {applicationType: []}, applicationActivitySatisfy: ANY, applicationActivity: [], applicationContext: {applicationTenant: []}, accessMethod: [], source: {country: [], host: [], site: [], subnet: [], ip: [], ipRange: [], globalIpRange: [], networkInterface: [], siteNetworkSubnet: [], floatingSubnet: [], user: [], usersGroup: [], group: [], systemGroup: []}, device: [], action: BLOCK, tracking: {event: {enabled: false}, alert: {enabled: false, frequency: HOURLY, subscriptionGroup: [], webhook: [], mailingList: []}}, schedule: {activeOn: ALWAYS}, severity: HIGH, applicationCriteriaSatisfy: ANY, applicationCriteria: {attributes: {complianceAttributes: {iso27001: ANY, sox: ANY, hippa: ANY, soc1: ANY, soc2: ANY, soc3: ANY, isae3402: ANY, pciDss: ANY}, securityAttributes: {mfa: ANY, encryptionAtRest: ANY, auditTrail: ANY, rbac: ANY, rememberPassword: ANY, sso: ANY, trustedCertificate: ANY, tlsEnforcement: ANY, httpSecurityHeaders: ANY}}, originCountry: [], risk: []}}
+  "Defines data control settings. Must only be used when ruleType is DATA"
+  dataRule: ApplicationControlDataRuleInput = {application: {applicationType: []}, applicationContext: {applicationTenant: []}, applicationActivitySatisfy: ANY, applicationActivity: [], accessMethod: [], source: {country: [], host: [], site: [], subnet: [], ip: [], ipRange: [], globalIpRange: [], networkInterface: [], siteNetworkSubnet: [], floatingSubnet: [], user: [], usersGroup: [], group: [], systemGroup: []}, device: [], action: BLOCK, tracking: {event: {enabled: false}, alert: {enabled: false, frequency: HOURLY, subscriptionGroup: [], webhook: [], mailingList: []}}, schedule: {activeOn: ALWAYS}, severity: HIGH, fileAttributeSatisfy: ANY, fileAttribute: [], dlpProfile: {contentProfile: [], edmProfile: []}}
+  description: String! = ""
+  enabled: Boolean!
+  "Defines file control settings. Must only be used when ruleType is FILE"
+  fileRule: ApplicationControlFileRuleInput = {application: {applicationType: []}, applicationActivitySatisfy: ANY, applicationActivity: [], accessMethod: [], source: {country: [], host: [], site: [], subnet: [], ip: [], ipRange: [], globalIpRange: [], networkInterface: [], siteNetworkSubnet: [], floatingSubnet: [], user: [], usersGroup: [], group: [], systemGroup: []}, device: [], action: BLOCK, tracking: {event: {enabled: false}, alert: {enabled: false, frequency: HOURLY, subscriptionGroup: [], webhook: [], mailingList: []}}, schedule: {activeOn: ALWAYS}, severity: HIGH, fileAttributeSatisfy: ANY, fileAttribute: []}
+  name: String!
+  """
+  Determines which rule configuration to use.
+  When set to APPLICATION, only applicationRule should be used.
+  When set to DATA, only dataRule should be used.
+  When set to FILE, only fileRule should be used
+  """
+  ruleType: ApplicationControlRuleType! = APPLICATION
+}
+
+input ApplicationControlAddRuleInput {
+  "Position of the rule in the policy"
+  at: PolicyRulePositionInput
+  "Parameters for the rule you are adding"
+  rule: ApplicationControlAddRuleDataInput!
+}
+
+"Application matching configuration. Only one of the following fields should be filled - the others must remain empty."
+type ApplicationControlApplication {
+  "Cato category of applications which are dynamically updated by Cato"
+  appCategory: ApplicationCategoryRef
+  "Applications for the rule (pre-defined)"
+  application: ApplicationRef
+  "Application types"
+  applicationType: [ApplicationType!]!
+  "Custom (user-defined) applications"
+  customApp: CustomApplicationRef
+  "Custom Categories – Groups of objects such as predefined and custom applications, predefined and custom services, domains, FQDNs etc."
+  customCategory: CustomCategoryRef
+  "Sanctioned Cloud Applications - apps that are approved and generally represent an understood and acceptable level of risk in your organization."
+  sanctionedAppsCategory: SanctionedAppsCategoryRef
+}
+
+"Application matching configuration. Only one of the following fields should be filled - the others must remain empty."
+input ApplicationControlApplicationInput {
+  "Cato category of applications which are dynamically updated by Cato"
+  appCategory: ApplicationCategoryRefInput
+  "Applications for the rule (pre-defined)"
+  application: ApplicationRefInput
+  "Application types"
+  applicationType: [ApplicationType!]! = []
+  "Custom (user-defined) applications"
+  customApp: CustomApplicationRefInput
+  "Custom Categories – Groups of objects such as predefined and custom applications, predefined and custom services, domains, FQDNs etc."
+  customCategory: CustomCategoryRefInput
+  "Sanctioned Cloud Applications - apps that are approved and generally represent an understood and acceptable level of risk in your organization."
+  sanctionedAppsCategory: SanctionedAppsCategoryRefInput
+}
+
+"Configuration for application-based control rules"
+type ApplicationControlApplicationRule {
+  "Defines access method criteria with OR logic within sets and AND between sets"
+  accessMethod: [ApplicationControlAccessMethod!]!
+  "Defines the enforcement action when rule conditions match"
+  action: ApplicationControlAction!
+  "Defines application matching criteria with OR logic within sets and AND between sets"
+  application: ApplicationControlApplication!
+  "Defines activity matching criteria using activitySatisfy logic within sets and AND between sets"
+  applicationActivity: [ApplicationControlActivity!]!
+  "Determines whether ANY or ALL activity criteria must match"
+  applicationActivitySatisfy: ApplicationControlSatisfy!
+  "Defines application context criteria with OR logic within sets and AND between sets"
+  applicationContext: ApplicationControlContext!
+  "Defines custom criteria using applicationCriteriaSatisfy logic within sets and AND between sets"
+  applicationCriteria: ApplicationControlCriteria!
+  "Determines whether ANY or ALL criteria must match"
+  applicationCriteriaSatisfy: ApplicationControlSatisfy!
+  "Defines device profile criteria with OR logic within sets and AND between sets"
+  device: [DeviceProfileRef!]!
+  "Defines time periods when the rule is active"
+  schedule: PolicySchedule!
+  "Indicates the rule's severity level"
+  severity: ApplicationControlSeverity!
+  "Defines source traffic criteria with OR logic within sets and AND between sets"
+  source: ApplicationControlSource!
+  "Specifies event logging and notification settings"
+  tracking: PolicyTracking!
+}
+
+"Configuration for application-based control rules"
+input ApplicationControlApplicationRuleInput {
+  "Defines access method criteria with OR logic within sets and AND between sets"
+  accessMethod: [ApplicationControlAccessMethodInput!]! = []
+  "Defines the enforcement action when rule conditions match"
+  action: ApplicationControlAction! = BLOCK
+  "Defines application matching criteria with OR logic within sets and AND between sets"
+  application: ApplicationControlApplicationInput! = {applicationType: []}
+  "Defines activity matching criteria using activitySatisfy logic within sets and AND between sets"
+  applicationActivity: [ApplicationControlActivityInput!]! = []
+  "Determines whether ANY or ALL activity criteria must match"
+  applicationActivitySatisfy: ApplicationControlSatisfy! = ANY
+  "Defines application context criteria with OR logic within sets and AND between sets"
+  applicationContext: ApplicationControlContextInput! = {applicationTenant: []}
+  "Defines custom criteria using applicationCriteriaSatisfy logic within sets and AND between sets"
+  applicationCriteria: ApplicationControlCriteriaInput! = {attributes: {complianceAttributes: {iso27001: ANY, sox: ANY, hippa: ANY, soc1: ANY, soc2: ANY, soc3: ANY, isae3402: ANY, pciDss: ANY}, securityAttributes: {mfa: ANY, encryptionAtRest: ANY, auditTrail: ANY, rbac: ANY, rememberPassword: ANY, sso: ANY, trustedCertificate: ANY, tlsEnforcement: ANY, httpSecurityHeaders: ANY}}, originCountry: [], risk: []}
+  "Determines whether ANY or ALL criteria must match"
+  applicationCriteriaSatisfy: ApplicationControlSatisfy! = ANY
+  "Defines device profile criteria with OR logic within sets and AND between sets"
+  device: [DeviceProfileRefInput!]! = []
+  "Defines time periods when the rule is active"
+  schedule: PolicyScheduleInput! = {activeOn: ALWAYS}
+  "Indicates the rule's severity level"
+  severity: ApplicationControlSeverity! = HIGH
+  "Defines source traffic criteria with OR logic within sets and AND between sets"
+  source: ApplicationControlSourceInput! = {country: [], host: [], site: [], subnet: [], ip: [], ipRange: [], globalIpRange: [], networkInterface: [], siteNetworkSubnet: [], floatingSubnet: [], user: [], usersGroup: [], group: [], systemGroup: []}
+  "Specifies event logging and notification settings"
+  tracking: PolicyTrackingInput! = {event: {enabled: false}, alert: {enabled: false, frequency: HOURLY, subscriptionGroup: [], webhook: [], mailingList: []}}
+}
+
+"Configuration for application-based control rules"
+input ApplicationControlApplicationRuleUpdateInput {
+  "Defines access method criteria with OR logic within sets and AND between sets"
+  accessMethod: [ApplicationControlAccessMethodInput!]
+  "Defines the enforcement action when rule conditions match"
+  action: ApplicationControlAction
+  "Defines application matching criteria with OR logic within sets and AND between sets"
+  application: ApplicationControlApplicationUpdateInput
+  "Defines activity matching criteria using activitySatisfy logic within sets and AND between sets"
+  applicationActivity: [ApplicationControlActivityInput!]
+  "Determines whether ANY or ALL activity criteria must match"
+  applicationActivitySatisfy: ApplicationControlSatisfy
+  "Defines application context criteria with OR logic within sets and AND between sets"
+  applicationContext: ApplicationControlContextUpdateInput
+  "Defines custom criteria using applicationCriteriaSatisfy logic within sets and AND between sets"
+  applicationCriteria: ApplicationControlCriteriaUpdateInput
+  "Determines whether ANY or ALL criteria must match"
+  applicationCriteriaSatisfy: ApplicationControlSatisfy
+  "Defines device profile criteria with OR logic within sets and AND between sets"
+  device: [DeviceProfileRefInput!]
+  "Defines time periods when the rule is active"
+  schedule: PolicyScheduleUpdateInput
+  "Indicates the rule's severity level"
+  severity: ApplicationControlSeverity
+  "Defines source traffic criteria with OR logic within sets and AND between sets"
+  source: ApplicationControlSourceUpdateInput
+  "Specifies event logging and notification settings"
+  tracking: PolicyTrackingUpdateInput
+}
+
+"Application matching configuration. Only one of the following fields should be filled - the others must remain empty."
+input ApplicationControlApplicationUpdateInput {
+  "Cato category of applications which are dynamically updated by Cato"
+  appCategory: ApplicationCategoryRefInput
+  "Applications for the rule (pre-defined)"
+  application: ApplicationRefInput
+  "Application types"
+  applicationType: [ApplicationType!]
+  "Custom (user-defined) applications"
+  customApp: CustomApplicationRefInput
+  "Custom Categories – Groups of objects such as predefined and custom applications, predefined and custom services, domains, FQDNs etc."
+  customCategory: CustomCategoryRefInput
+  "Sanctioned Cloud Applications - apps that are approved and generally represent an understood and acceptable level of risk in your organization."
+  sanctionedAppsCategory: SanctionedAppsCategoryRefInput
+}
+
+"Attribute Value"
+enum ApplicationControlAttributeValue {
+  "Any Value"
+  ANY
+  "Not Supported"
+  NOT_SUPPORTED
+  "Supported"
+  SUPPORTED
+}
+
+"Application attributes, such as compliance and security, see the app catalog for details"
+type ApplicationControlAttributes {
+  "Compliance attributes"
+  complianceAttributes: ApplicationControlComplianceAttributes!
+  "Security attributes"
+  securityAttributes: ApplicationControlSecurityAttributes!
+}
+
+"Application attributes, such as compliance and security, see the app catalog for details"
+input ApplicationControlAttributesInput {
+  "Compliance attributes"
+  complianceAttributes: ApplicationControlComplianceAttributesInput! = {iso27001: ANY, sox: ANY, hippa: ANY, soc1: ANY, soc2: ANY, soc3: ANY, isae3402: ANY, pciDss: ANY}
+  "Security attributes"
+  securityAttributes: ApplicationControlSecurityAttributesInput! = {mfa: ANY, encryptionAtRest: ANY, auditTrail: ANY, rbac: ANY, rememberPassword: ANY, sso: ANY, trustedCertificate: ANY, tlsEnforcement: ANY, httpSecurityHeaders: ANY}
+}
+
+"Application attributes, such as compliance and security, see the app catalog for details"
+input ApplicationControlAttributesUpdateInput {
+  "Compliance attributes"
+  complianceAttributes: ApplicationControlComplianceAttributesUpdateInput
+  "Security attributes"
+  securityAttributes: ApplicationControlSecurityAttributesUpdateInput
+}
+
+"Compliance attributes"
+type ApplicationControlComplianceAttributes {
+  "HIPAA"
+  hippa: ApplicationControlAttributeValue!
+  "ISAE 3402"
+  isae3402: ApplicationControlAttributeValue!
+  "ISO 27001"
+  iso27001: ApplicationControlAttributeValue!
+  "PCI DSS"
+  pciDss: ApplicationControlAttributeValue!
+  "SOC 1"
+  soc1: ApplicationControlAttributeValue!
+  "SOC 2"
+  soc2: ApplicationControlAttributeValue!
+  "SOC 3"
+  soc3: ApplicationControlAttributeValue!
+  "SOX"
+  sox: ApplicationControlAttributeValue!
+}
+
+"Compliance attributes"
+input ApplicationControlComplianceAttributesInput {
+  "HIPAA"
+  hippa: ApplicationControlAttributeValue! = ANY
+  "ISAE 3402"
+  isae3402: ApplicationControlAttributeValue! = ANY
+  "ISO 27001"
+  iso27001: ApplicationControlAttributeValue! = ANY
+  "PCI DSS"
+  pciDss: ApplicationControlAttributeValue! = ANY
+  "SOC 1"
+  soc1: ApplicationControlAttributeValue! = ANY
+  "SOC 2"
+  soc2: ApplicationControlAttributeValue! = ANY
+  "SOC 3"
+  soc3: ApplicationControlAttributeValue! = ANY
+  "SOX"
+  sox: ApplicationControlAttributeValue! = ANY
+}
+
+"Compliance attributes"
+input ApplicationControlComplianceAttributesUpdateInput {
+  "HIPAA"
+  hippa: ApplicationControlAttributeValue
+  "ISAE 3402"
+  isae3402: ApplicationControlAttributeValue
+  "ISO 27001"
+  iso27001: ApplicationControlAttributeValue
+  "PCI DSS"
+  pciDss: ApplicationControlAttributeValue
+  "SOC 1"
+  soc1: ApplicationControlAttributeValue
+  "SOC 2"
+  soc2: ApplicationControlAttributeValue
+  "SOC 3"
+  soc3: ApplicationControlAttributeValue
+  "SOX"
+  sox: ApplicationControlAttributeValue
+}
+
+"Additional attributes for application control"
+type ApplicationControlConfig {
+  "Data Control Enabled"
+  dataControlEnabled: PolicyToggleState!
+}
+
+input ApplicationControlConfigInput {
+  "Data Control Enabled"
+  dataControlEnabled: PolicyToggleState! = ENABLED
+}
+
+type ApplicationControlContext {
+  "Defines the name of the application tenant to which the policy rule applies"
+  applicationTenant: [ApplicationControlTenant!]!
+}
+
+input ApplicationControlContextInput {
+  "Defines the name of the application tenant to which the policy rule applies"
+  applicationTenant: [ApplicationControlTenantInput!]! = []
+}
+
+input ApplicationControlContextUpdateInput {
+  "Defines the name of the application tenant to which the policy rule applies"
+  applicationTenant: [ApplicationControlTenantInput!]
+}
+
+"Application criteria configuration"
+type ApplicationControlCriteria {
+  "Application attributes, such as compliance and security, see the app catalog for details"
+  attributes: ApplicationControlAttributes!
+  "Application registered country of origin"
+  originCountry: [CountryRef!]!
+  "Application risk"
+  risk: [ApplicationControlRiskCriteria!]!
+}
+
+"Application criteria configuration"
+input ApplicationControlCriteriaInput {
+  "Application attributes, such as compliance and security, see the app catalog for details"
+  attributes: ApplicationControlAttributesInput! = {complianceAttributes: {iso27001: ANY, sox: ANY, hippa: ANY, soc1: ANY, soc2: ANY, soc3: ANY, isae3402: ANY, pciDss: ANY}, securityAttributes: {mfa: ANY, encryptionAtRest: ANY, auditTrail: ANY, rbac: ANY, rememberPassword: ANY, sso: ANY, trustedCertificate: ANY, tlsEnforcement: ANY, httpSecurityHeaders: ANY}}
+  "Application registered country of origin"
+  originCountry: [CountryRefInput!]! = []
+  "Application risk"
+  risk: [ApplicationControlRiskCriteriaInput!]! = []
+}
+
+"Application criteria configuration"
+input ApplicationControlCriteriaUpdateInput {
+  "Application attributes, such as compliance and security, see the app catalog for details"
+  attributes: ApplicationControlAttributesUpdateInput
+  "Application registered country of origin"
+  originCountry: [CountryRefInput!]
+  "Application risk"
+  risk: [ApplicationControlRiskCriteriaInput!]
+}
+
+"Configuration for data-based control rules"
+type ApplicationControlDataRule {
+  "Defines access method criteria with OR logic within sets and AND between sets"
+  accessMethod: [ApplicationControlAccessMethod!]!
+  "Defines the enforcement action when rule conditions match"
+  action: ApplicationControlAction!
+  "Defines application matching criteria with OR logic within sets and AND between sets"
+  application: ApplicationControlApplication!
+  "Defines activity matching criteria using activitySatisfy logic within sets and AND between sets"
+  applicationActivity: [ApplicationControlActivity!]!
+  "Determines whether ANY or ALL activity criteria must match"
+  applicationActivitySatisfy: ApplicationControlSatisfy!
+  "Defines application context criteria with OR logic within sets and AND between sets"
+  applicationContext: ApplicationControlContext!
+  "Defines device profile criteria with OR logic within sets and AND between sets"
+  device: [DeviceProfileRef!]!
+  "Specifies DLP profile matching criteria with OR logic within sets and AND between sets"
+  dlpProfile: ApplicationControlDlpProfile!
+  "Defines file attribute criteria using fileAttributeSatisfy logic within sets and AND between sets"
+  fileAttribute: [ApplicationControlFileAttribute!]!
+  "Determines whether ANY or ALL file attribute criteria must match"
+  fileAttributeSatisfy: ApplicationControlSatisfy!
+  "Defines time periods when the rule is active"
+  schedule: PolicySchedule!
+  "Indicates the rule's severity level"
+  severity: ApplicationControlSeverity!
+  "Defines source traffic criteria with OR logic within sets and AND between sets"
+  source: ApplicationControlSource!
+  "Specifies event logging and notification settings"
+  tracking: PolicyTracking!
+}
+
+"Configuration for data-based control rules"
+input ApplicationControlDataRuleInput {
+  "Defines access method criteria with OR logic within sets and AND between sets"
+  accessMethod: [ApplicationControlAccessMethodInput!]! = []
+  "Defines the enforcement action when rule conditions match"
+  action: ApplicationControlAction! = BLOCK
+  "Defines application matching criteria with OR logic within sets and AND between sets"
+  application: ApplicationControlApplicationInput! = {applicationType: []}
+  "Defines activity matching criteria using activitySatisfy logic within sets and AND between sets"
+  applicationActivity: [ApplicationControlActivityInput!]! = []
+  "Determines whether ANY or ALL activity criteria must match"
+  applicationActivitySatisfy: ApplicationControlSatisfy! = ANY
+  "Defines application context criteria with OR logic within sets and AND between sets"
+  applicationContext: ApplicationControlContextInput! = {applicationTenant: []}
+  "Defines device profile criteria with OR logic within sets and AND between sets"
+  device: [DeviceProfileRefInput!]! = []
+  "Specifies DLP profile matching criteria with OR logic within sets and AND between sets"
+  dlpProfile: ApplicationControlDlpProfileInput! = {contentProfile: [], edmProfile: []}
+  "Defines file attribute criteria using fileAttributeSatisfy logic within sets and AND between sets"
+  fileAttribute: [ApplicationControlFileAttributeInput!]! = []
+  "Determines whether ANY or ALL file attribute criteria must match"
+  fileAttributeSatisfy: ApplicationControlSatisfy! = ANY
+  "Defines time periods when the rule is active"
+  schedule: PolicyScheduleInput! = {activeOn: ALWAYS}
+  "Indicates the rule's severity level"
+  severity: ApplicationControlSeverity! = HIGH
+  "Defines source traffic criteria with OR logic within sets and AND between sets"
+  source: ApplicationControlSourceInput! = {country: [], host: [], site: [], subnet: [], ip: [], ipRange: [], globalIpRange: [], networkInterface: [], siteNetworkSubnet: [], floatingSubnet: [], user: [], usersGroup: [], group: [], systemGroup: []}
+  "Specifies event logging and notification settings"
+  tracking: PolicyTrackingInput! = {event: {enabled: false}, alert: {enabled: false, frequency: HOURLY, subscriptionGroup: [], webhook: [], mailingList: []}}
+}
+
+"Configuration for data-based control rules"
+input ApplicationControlDataRuleUpdateInput {
+  "Defines access method criteria with OR logic within sets and AND between sets"
+  accessMethod: [ApplicationControlAccessMethodInput!]
+  "Defines the enforcement action when rule conditions match"
+  action: ApplicationControlAction
+  "Defines application matching criteria with OR logic within sets and AND between sets"
+  application: ApplicationControlApplicationUpdateInput
+  "Defines activity matching criteria using activitySatisfy logic within sets and AND between sets"
+  applicationActivity: [ApplicationControlActivityInput!]
+  "Determines whether ANY or ALL activity criteria must match"
+  applicationActivitySatisfy: ApplicationControlSatisfy
+  "Defines application context criteria with OR logic within sets and AND between sets"
+  applicationContext: ApplicationControlContextUpdateInput
+  "Defines device profile criteria with OR logic within sets and AND between sets"
+  device: [DeviceProfileRefInput!]
+  "Specifies DLP profile matching criteria with OR logic within sets and AND between sets"
+  dlpProfile: ApplicationControlDlpProfileUpdateInput
+  "Defines file attribute criteria using fileAttributeSatisfy logic within sets and AND between sets"
+  fileAttribute: [ApplicationControlFileAttributeInput!]
+  "Determines whether ANY or ALL file attribute criteria must match"
+  fileAttributeSatisfy: ApplicationControlSatisfy
+  "Defines time periods when the rule is active"
+  schedule: PolicyScheduleUpdateInput
+  "Indicates the rule's severity level"
+  severity: ApplicationControlSeverity
+  "Defines source traffic criteria with OR logic within sets and AND between sets"
+  source: ApplicationControlSourceUpdateInput
+  "Specifies event logging and notification settings"
+  tracking: PolicyTrackingUpdateInput
+}
+
+"DLP profile configuration"
+type ApplicationControlDlpProfile {
+  "References DLP content matching profiles"
+  contentProfile: [DlpContentProfileRef!]!
+  "References DLP exact data matching profiles"
+  edmProfile: [DlpEdmProfileRef!]!
+}
+
+"DLP profile configuration"
+input ApplicationControlDlpProfileInput {
+  "References DLP content matching profiles"
+  contentProfile: [DlpContentProfileRefInput!]! = []
+  "References DLP exact data matching profiles"
+  edmProfile: [DlpEdmProfileRefInput!]! = []
+}
+
+"DLP profile configuration"
+input ApplicationControlDlpProfileUpdateInput {
+  "References DLP content matching profiles"
+  contentProfile: [DlpContentProfileRefInput!]
+  "References DLP exact data matching profiles"
+  edmProfile: [DlpEdmProfileRefInput!]
+}
+
+"File attribute matching configuration"
+type ApplicationControlFileAttribute {
+  "Specifies the content types groups (used only with Content Type attribute)"
+  contentTypeGroupValues: [ApplicationControlContentTypeGroupRef!]!
+  "Specifies the content types (used only with Content Type attribute)"
+  contentTypeValues: [ApplicationControlContentTypeRef!]!
+  "Specifies the file attribute type"
+  fileAttribute: ApplicationControlFileAttributeType!
+  "Defines the comparison operator"
+  operator: ApplicationControlOperator!
+  "Specifies the comparison value (used with all attributes except Content Type)"
+  value: String
+}
+
+"File attribute matching configuration"
+input ApplicationControlFileAttributeInput {
+  "Specifies the content types groups (used only with Content Type attribute)"
+  contentTypeGroupValues: [ApplicationControlContentTypeGroupRefInput!]! = []
+  "Specifies the content types (used only with Content Type attribute)"
+  contentTypeValues: [ApplicationControlContentTypeRefInput!]! = []
+  "Specifies the file attribute type"
+  fileAttribute: ApplicationControlFileAttributeType! = CONTENT_TYPE
+  "Defines the comparison operator"
+  operator: ApplicationControlOperator! = IS
+  "Specifies the comparison value (used with all attributes except Content Type)"
+  value: String
+}
+
+"Application Control File Attribute Type"
+enum ApplicationControlFileAttributeType {
+  "File encryption status"
+  CONTENT_IS_ENCRYPTED
+  "File Size"
+  CONTENT_SIZE
+  "File type classification"
+  CONTENT_TYPE
+}
+
+"Configuration for file-based control rules"
+type ApplicationControlFileRule {
+  "Defines access method criteria with OR logic within sets and AND between sets"
+  accessMethod: [ApplicationControlAccessMethod!]!
+  "Defines the enforcement action when rule conditions match"
+  action: ApplicationControlAction!
+  "Defines application matching criteria with OR logic within sets and AND between sets"
+  application: ApplicationControlApplication!
+  "Defines activity matching criteria using activitySatisfy logic within sets and AND between sets"
+  applicationActivity: [ApplicationControlActivity!]!
+  "Determines whether ANY or ALL activity criteria must match"
+  applicationActivitySatisfy: ApplicationControlSatisfy!
+  "Defines device profile criteria with OR logic within sets and AND between sets"
+  device: [DeviceProfileRef!]!
+  "Defines file attribute criteria using fileAttributeSatisfy logic within sets and AND between sets"
+  fileAttribute: [ApplicationControlFileAttribute!]!
+  "Determines whether ANY or ALL file attribute criteria must match"
+  fileAttributeSatisfy: ApplicationControlSatisfy!
+  "Defines time periods when the rule is active"
+  schedule: PolicySchedule!
+  "Indicates the rule's severity level"
+  severity: ApplicationControlSeverity!
+  "Defines source traffic criteria with OR logic within sets and AND between sets"
+  source: ApplicationControlSource!
+  "Specifies event logging and notification settings"
+  tracking: PolicyTracking!
+}
+
+"Configuration for file-based control rules"
+input ApplicationControlFileRuleInput {
+  "Defines access method criteria with OR logic within sets and AND between sets"
+  accessMethod: [ApplicationControlAccessMethodInput!]! = []
+  "Defines the enforcement action when rule conditions match"
+  action: ApplicationControlAction! = BLOCK
+  "Defines application matching criteria with OR logic within sets and AND between sets"
+  application: ApplicationControlApplicationInput! = {applicationType: []}
+  "Defines activity matching criteria using activitySatisfy logic within sets and AND between sets"
+  applicationActivity: [ApplicationControlActivityInput!]! = []
+  "Determines whether ANY or ALL activity criteria must match"
+  applicationActivitySatisfy: ApplicationControlSatisfy! = ANY
+  "Defines device profile criteria with OR logic within sets and AND between sets"
+  device: [DeviceProfileRefInput!]! = []
+  "Defines file attribute criteria using fileAttributeSatisfy logic within sets and AND between sets"
+  fileAttribute: [ApplicationControlFileAttributeInput!]! = []
+  "Determines whether ANY or ALL file attribute criteria must match"
+  fileAttributeSatisfy: ApplicationControlSatisfy! = ANY
+  "Defines time periods when the rule is active"
+  schedule: PolicyScheduleInput! = {activeOn: ALWAYS}
+  "Indicates the rule's severity level"
+  severity: ApplicationControlSeverity! = HIGH
+  "Defines source traffic criteria with OR logic within sets and AND between sets"
+  source: ApplicationControlSourceInput! = {country: [], host: [], site: [], subnet: [], ip: [], ipRange: [], globalIpRange: [], networkInterface: [], siteNetworkSubnet: [], floatingSubnet: [], user: [], usersGroup: [], group: [], systemGroup: []}
+  "Specifies event logging and notification settings"
+  tracking: PolicyTrackingInput! = {event: {enabled: false}, alert: {enabled: false, frequency: HOURLY, subscriptionGroup: [], webhook: [], mailingList: []}}
+}
+
+"Configuration for file-based control rules"
+input ApplicationControlFileRuleUpdateInput {
+  "Defines access method criteria with OR logic within sets and AND between sets"
+  accessMethod: [ApplicationControlAccessMethodInput!]
+  "Defines the enforcement action when rule conditions match"
+  action: ApplicationControlAction
+  "Defines application matching criteria with OR logic within sets and AND between sets"
+  application: ApplicationControlApplicationUpdateInput
+  "Defines activity matching criteria using activitySatisfy logic within sets and AND between sets"
+  applicationActivity: [ApplicationControlActivityInput!]
+  "Determines whether ANY or ALL activity criteria must match"
+  applicationActivitySatisfy: ApplicationControlSatisfy
+  "Defines device profile criteria with OR logic within sets and AND between sets"
+  device: [DeviceProfileRefInput!]
+  "Defines file attribute criteria using fileAttributeSatisfy logic within sets and AND between sets"
+  fileAttribute: [ApplicationControlFileAttributeInput!]
+  "Determines whether ANY or ALL file attribute criteria must match"
+  fileAttributeSatisfy: ApplicationControlSatisfy
+  "Defines time periods when the rule is active"
+  schedule: PolicyScheduleUpdateInput
+  "Indicates the rule's severity level"
+  severity: ApplicationControlSeverity
+  "Defines source traffic criteria with OR logic within sets and AND between sets"
+  source: ApplicationControlSourceUpdateInput
+  "Specifies event logging and notification settings"
+  tracking: PolicyTrackingUpdateInput
+}
+
+"Application Control Operator"
+enum ApplicationControlOperator {
+  "Substring match comparison"
+  CONTAINS
+  "Numerical greater than comparison"
+  GREATER_THAN
+  "Set membership comparison"
+  IN
+  "Exact match comparison"
+  IS
+  "Numerical less than or equal comparison"
+  LESS_THAN_OR_EQUAL
+}
+
+type ApplicationControlPolicy implements IPolicy {
+  additionalAttributes: ApplicationControlConfig
+  audit: PolicyAudit
+  enabled: Boolean!
+  revision: PolicyRevision
+  rules: [ApplicationControlRulePayload!]!
+  sections: [PolicySectionPayload!]!
+}
+
+input ApplicationControlPolicyInput {
+  """
+  A revision is a specific instance of the policy.
+   Unpublished revisions are working copies of the policy available to a specific
+   admin or a set of admins
+   Published revisions are revisions that were applied to the account network.
+   The last published revision is the active policy.
+  """
+  revision: PolicyRevisionInput
+}
+
+input ApplicationControlPolicyMutationInput {
+  revision: PolicyMutationRevisionInput
+}
+
+type ApplicationControlPolicyMutationPayload implements IPolicyMutationPayload {
+  errors: [PolicyMutationError!]!
+  policy: ApplicationControlPolicy
+  status: PolicyMutationStatus!
+}
+
+type ApplicationControlPolicyMutations {
+  addRule(input: ApplicationControlAddRuleInput!): ApplicationControlRuleMutationPayload! @beta
+  addSection(input: PolicyAddSectionInput!): PolicySectionMutationPayload! @beta
+  createPolicyRevision(input: PolicyCreateRevisionInput!): ApplicationControlPolicyMutationPayload! @beta
+  discardPolicyRevision(input: PolicyDiscardRevisionInput): ApplicationControlPolicyMutationPayload! @beta
+  moveRule(input: PolicyMoveRuleInput!): ApplicationControlRuleMutationPayload! @beta
+  moveSection(input: PolicyMoveSectionInput!): PolicySectionMutationPayload! @beta
+  publishPolicyRevision(input: PolicyPublishRevisionInput): ApplicationControlPolicyMutationPayload! @beta
+  removeRule(input: ApplicationControlRemoveRuleInput!): ApplicationControlRuleMutationPayload! @beta
+  removeSection(input: PolicyRemoveSectionInput!): PolicySectionMutationPayload! @beta
+  updatePolicy(input: ApplicationControlPolicyUpdateInput!): ApplicationControlPolicyMutationPayload! @beta
+  updateRule(input: ApplicationControlUpdateRuleInput!): ApplicationControlRuleMutationPayload! @beta
+  updateSection(input: PolicyUpdateSectionInput!): PolicySectionMutationPayload! @beta
+}
+
+type ApplicationControlPolicyQueries {
+  policy(input: ApplicationControlPolicyInput): ApplicationControlPolicy! @beta
+  revisions: PolicyRevisionsPayload @beta
+}
+
+input ApplicationControlPolicyUpdateInput {
+  additionalAttributes: ApplicationControlConfigInput
+  state: PolicyToggleState
+}
+
+input ApplicationControlRemoveRuleInput {
+  id: ID!
+}
+
+"Application risk"
+type ApplicationControlRiskCriteria {
+  "Application risk"
+  risk: ApplicationRisk!
+  "Application risk operator"
+  riskOperator: ApplicationControlOperator!
+}
+
+"Application risk"
+input ApplicationControlRiskCriteriaInput {
+  "Application risk"
+  risk: ApplicationRisk!
+  "Application risk operator"
+  riskOperator: ApplicationControlOperator! = IS
+}
+
+type ApplicationControlRule implements IPolicyRule {
+  "Defines application control settings. Must only be used when ruleType is APPLICATION"
+  applicationRule: ApplicationControlApplicationRule
+  "Defines data control settings. Must only be used when ruleType is DATA"
+  dataRule: ApplicationControlDataRule
+  "Description for the rule"
+  description: String!
+  """
+  TRUE = Rule is enabled 
+   FALSE = Rule is disabled
+  """
+  enabled: Boolean!
+  "Defines file control settings. Must only be used when ruleType is FILE"
+  fileRule: ApplicationControlFileRule
+  "Rule ID"
+  id: ID!
+  "Position / priority of rule"
+  index: Int!
+  "Name of the rule"
+  name: String!
+  """
+  Determines which rule configuration to use.
+  When set to APPLICATION, only applicationRule should be used.
+  When set to DATA, only dataRule should be used.
+  When set to FILE, only fileRule should be used
+  """
+  ruleType: ApplicationControlRuleType!
+  "Policy section where the rule is located"
+  section: PolicySectionInfo!
+}
+
+type ApplicationControlRuleMutationPayload implements IPolicyRuleMutationPayload {
+  errors: [PolicyMutationError!]!
+  rule: ApplicationControlRulePayload
+  status: PolicyMutationStatus!
+}
+
+type ApplicationControlRulePayload implements IPolicyRulePayload {
+  audit: PolicyElementAudit!
+  properties: [PolicyElementPropertiesEnum!]!
+  rule: ApplicationControlRule!
+}
+
+"Application Control Rule Type"
+enum ApplicationControlRuleType {
+  "Specifies an application control rule"
+  APPLICATION
+  "Specifies an data control rule"
+  DATA
+  "Specifies an file control rule"
+  FILE
+}
+
+"Application Control Satisfy"
+enum ApplicationControlSatisfy {
+  "Match only if all criteria are met"
+  ALL
+  "Match if any criteria are met"
+  ANY
+}
+
+"Security attributes"
+type ApplicationControlSecurityAttributes {
+  "Audit trail"
+  auditTrail: ApplicationControlAttributeValue!
+  "Encryption at rest"
+  encryptionAtRest: ApplicationControlAttributeValue!
+  "Http security headers"
+  httpSecurityHeaders: ApplicationControlAttributeValue!
+  "MFA"
+  mfa: ApplicationControlAttributeValue!
+  "RBAC"
+  rbac: ApplicationControlAttributeValue!
+  "Remember password"
+  rememberPassword: ApplicationControlAttributeValue!
+  "SSO"
+  sso: ApplicationControlAttributeValue!
+  "TLS enforcement"
+  tlsEnforcement: ApplicationControlAttributeValue!
+  "Trusted certificate"
+  trustedCertificate: ApplicationControlAttributeValue!
+}
+
+"Security attributes"
+input ApplicationControlSecurityAttributesInput {
+  "Audit trail"
+  auditTrail: ApplicationControlAttributeValue! = ANY
+  "Encryption at rest"
+  encryptionAtRest: ApplicationControlAttributeValue! = ANY
+  "Http security headers"
+  httpSecurityHeaders: ApplicationControlAttributeValue! = ANY
+  "MFA"
+  mfa: ApplicationControlAttributeValue! = ANY
+  "RBAC"
+  rbac: ApplicationControlAttributeValue! = ANY
+  "Remember password"
+  rememberPassword: ApplicationControlAttributeValue! = ANY
+  "SSO"
+  sso: ApplicationControlAttributeValue! = ANY
+  "TLS enforcement"
+  tlsEnforcement: ApplicationControlAttributeValue! = ANY
+  "Trusted certificate"
+  trustedCertificate: ApplicationControlAttributeValue! = ANY
+}
+
+"Security attributes"
+input ApplicationControlSecurityAttributesUpdateInput {
+  "Audit trail"
+  auditTrail: ApplicationControlAttributeValue
+  "Encryption at rest"
+  encryptionAtRest: ApplicationControlAttributeValue
+  "Http security headers"
+  httpSecurityHeaders: ApplicationControlAttributeValue
+  "MFA"
+  mfa: ApplicationControlAttributeValue
+  "RBAC"
+  rbac: ApplicationControlAttributeValue
+  "Remember password"
+  rememberPassword: ApplicationControlAttributeValue
+  "SSO"
+  sso: ApplicationControlAttributeValue
+  "TLS enforcement"
+  tlsEnforcement: ApplicationControlAttributeValue
+  "Trusted certificate"
+  trustedCertificate: ApplicationControlAttributeValue
+}
+
+"Severity level"
+enum ApplicationControlSeverity {
+  "Indicates a high severity level"
+  HIGH
+  "Indicates a low severity level"
+  LOW
+  "Indicates a medium severity level"
+  MEDIUM
+}
+
+"Source traffic matching configuration"
+type ApplicationControlSource {
+  "Country traffic matching criteria"
+  country: [CountryRef!]!
+  """
+  Floating Subnets (ie. Floating Ranges) are used to identify traffic exactly matched to the route advertised by BGP.
+  They are not associated with a specific site.
+  This is useful in scenarios such as active-standby high availability routed via BGP.
+  """
+  floatingSubnet: [FloatingSubnetRef!]!
+  "Globally defined IP range, IP and subnet objects"
+  globalIpRange: [GlobalIpRangeRef!]!
+  "Groups defined for your account"
+  group: [GroupRef!]!
+  "Hosts and servers defined for your account"
+  host: [HostRef!]!
+  "IPv4 address"
+  ip: [IPAddress!]!
+  "Multiple separate IP addresses or an IP range"
+  ipRange: [IpAddressRange!]!
+  "Network range defined for a site"
+  networkInterface: [NetworkInterfaceRef!]!
+  "Site defined for the account"
+  site: [SiteRef!]!
+  "GlobalRange + InterfaceSubnet"
+  siteNetworkSubnet: [SiteNetworkSubnetRef!]!
+  "Subnets and network ranges defined for the LAN interfaces of a site"
+  subnet: [NetworkSubnet!]!
+  "Predefined Cato groups"
+  systemGroup: [SystemGroupRef!]!
+  "Individual users defined for the account"
+  user: [UserRef!]!
+  "Group of users"
+  usersGroup: [UsersGroupRef!]!
+}
+
+"Source traffic matching configuration"
+input ApplicationControlSourceInput {
+  "Country traffic matching criteria"
+  country: [CountryRefInput!]! = []
+  """
+  Floating Subnets (ie. Floating Ranges) are used to identify traffic exactly matched to the route advertised by BGP.
+  They are not associated with a specific site.
+  This is useful in scenarios such as active-standby high availability routed via BGP.
+  """
+  floatingSubnet: [FloatingSubnetRefInput!]! = []
+  "Globally defined IP range, IP and subnet objects"
+  globalIpRange: [GlobalIpRangeRefInput!]! = []
+  "Groups defined for your account"
+  group: [GroupRefInput!]! = []
+  "Hosts and servers defined for your account"
+  host: [HostRefInput!]! = []
+  "IPv4 address"
+  ip: [IPAddress!]! = []
+  "Multiple separate IP addresses or an IP range"
+  ipRange: [IpAddressRangeInput!]! = []
+  "Network range defined for a site"
+  networkInterface: [NetworkInterfaceRefInput!]! = []
+  "Site defined for the account"
+  site: [SiteRefInput!]! = []
+  "GlobalRange + InterfaceSubnet"
+  siteNetworkSubnet: [SiteNetworkSubnetRefInput!]! = []
+  "Subnets and network ranges defined for the LAN interfaces of a site"
+  subnet: [NetworkSubnet!]! = []
+  "Predefined Cato groups"
+  systemGroup: [SystemGroupRefInput!]! = []
+  "Individual users defined for the account"
+  user: [UserRefInput!]! = []
+  "Group of users"
+  usersGroup: [UsersGroupRefInput!]! = []
+}
+
+"Source traffic matching configuration"
+input ApplicationControlSourceUpdateInput {
+  "Country traffic matching criteria"
+  country: [CountryRefInput!]
+  """
+  Floating Subnets (ie. Floating Ranges) are used to identify traffic exactly matched to the route advertised by BGP.
+  They are not associated with a specific site.
+  This is useful in scenarios such as active-standby high availability routed via BGP.
+  """
+  floatingSubnet: [FloatingSubnetRefInput!]
+  "Globally defined IP range, IP and subnet objects"
+  globalIpRange: [GlobalIpRangeRefInput!]
+  "Groups defined for your account"
+  group: [GroupRefInput!]
+  "Hosts and servers defined for your account"
+  host: [HostRefInput!]
+  "IPv4 address"
+  ip: [IPAddress!]
+  "Multiple separate IP addresses or an IP range"
+  ipRange: [IpAddressRangeInput!]
+  "Network range defined for a site"
+  networkInterface: [NetworkInterfaceRefInput!]
+  "Site defined for the account"
+  site: [SiteRefInput!]
+  "GlobalRange + InterfaceSubnet"
+  siteNetworkSubnet: [SiteNetworkSubnetRefInput!]
+  "Subnets and network ranges defined for the LAN interfaces of a site"
+  subnet: [NetworkSubnet!]
+  "Predefined Cato groups"
+  systemGroup: [SystemGroupRefInput!]
+  "Individual users defined for the account"
+  user: [UserRefInput!]
+  "Group of users"
+  usersGroup: [UsersGroupRefInput!]
+}
+
+"Tenant matching configuration"
+type ApplicationControlTenant {
+  "Defines the operator used for comparisons"
+  operator: ApplicationControlOperator
+  "Specifies the comparison value"
+  value: String
+  "References a set of values (used only with IN operator)"
+  valueSet: StringValueSetRef
+}
+
+"Tenant matching configuration"
+input ApplicationControlTenantInput {
+  "Defines the operator used for comparisons"
+  operator: ApplicationControlOperator = IS
+  "Specifies the comparison value"
+  value: String
+  "References a set of values (used only with IN operator)"
+  valueSet: StringValueSetRefInput
+}
+
+input ApplicationControlUpdateRuleDataInput {
+  "Defines application control settings. Must only be used when ruleType is APPLICATION"
+  applicationRule: ApplicationControlApplicationRuleUpdateInput
+  "Defines data control settings. Must only be used when ruleType is DATA"
+  dataRule: ApplicationControlDataRuleUpdateInput
+  description: String
+  enabled: Boolean
+  "Defines file control settings. Must only be used when ruleType is FILE"
+  fileRule: ApplicationControlFileRuleUpdateInput
+  name: String
+  """
+  Determines which rule configuration to use.
+  When set to APPLICATION, only applicationRule should be used.
+  When set to DATA, only dataRule should be used.
+  When set to FILE, only fileRule should be used
+  """
+  ruleType: ApplicationControlRuleType
+}
+
+input ApplicationControlUpdateRuleInput {
+  id: ID!
+  rule: ApplicationControlUpdateRuleDataInput!
+}
+
+"Application Type"
+enum ApplicationType {
+  "Application"
+  APPLICATION
+  "Cloud Application type"
+  CLOUD_APPLICATION
+  "Service"
+  SERVICE
+}
+
+enum TlsInspectAction {
+  BYPASS
+  INSPECT
+}
+
+input TlsInspectAddRuleDataInput {
+  "Action to be taken on the traffic."
+  action: TlsInspectAction! = INSPECT
+  "Application matching criteria for."
+  application: TlsInspectApplicationInput! = {application: [], appCategory: [], country: [], customApp: [], customCategory: [], customServiceIp: [], domain: [], fqdn: [], subnet: [], ip: [], ipRange: [], globalIpRange: [], customService: [], remoteAsn: [], service: [], tlsInspectCategory: []}
+  "Connection origin of the traffic"
+  connectionOrigin: ConnectionOriginEnum! = ANY
+  "Country traffic matching criteria."
+  country: [CountryRefInput!]! = []
+  description: String! = ""
+  "Device Profile traffic matching criteria."
+  devicePostureProfile: [DeviceProfileRefInput!]! = []
+  enabled: Boolean!
+  name: String!
+  "Operating System traffic matching criteria."
+  platform: [OperatingSystem!]! = []
+  "Source traffic matching criteria."
+  source: TlsInspectSourceInput! = {user: [], floatingSubnet: [], globalIpRange: [], group: [], host: [], subnet: [], ipRange: [], networkInterface: [], site: [], systemGroup: [], usersGroup: [], ip: [], siteNetworkSubnet: []}
+  "Action to be taken on the traffic when an untrusted certificate is detected."
+  untrustedCertificateAction: TlsInspectUntrustedCertificateAction! = ALLOW
+}
+
+input TlsInspectAddRuleInput {
+  "Position of the rule in the policy"
+  at: PolicyRulePositionInput
+  "Parameters for the rule you are adding"
+  rule: TlsInspectAddRuleDataInput!
+}
+
+"Application match criteria set"
+type TlsInspectApplication {
+  "Cato category of applications which are dynamically updated by Cato"
+  appCategory: [ApplicationCategoryRef!]!
+  "Applications for the rule (pre-defined)"
+  application: [ApplicationRef!]!
+  "Countries matching criteria for the rule"
+  country: [CountryRef!]!
+  "Custom (user-defined) applications"
+  customApp: [CustomApplicationRef!]!
+  "Custom Categories – Groups of objects such as predefined and custom applications, predefined and custom services, domains, FQDNs etc."
+  customCategory: [CustomCategoryRef!]!
+  "Returns data for Custom Service defined by a combination of L4 ports and an IP Protocol Example: TCP/80, UDP/53"
+  customService: [CustomService!]!
+  "Returns data for Custom Service defined by a combination of L4 ports and an IP Protocol Example: google:8.8.8.8"
+  customServiceIp: [CustomServiceIp!]!
+  """
+  A Second-Level Domain (SLD).
+  It matches all Top-Level Domains (TLD), and subdomains that include the Domain.
+  Example: example.com.
+  """
+  domain: [Domain!]!
+  "An exact match of the fully qualified domain (FQDN). Example: www.my.example.com."
+  fqdn: [Fqdn!]!
+  "Globally defined IP range, IP and subnet objects"
+  globalIpRange: [GlobalIpRangeRef!]!
+  "IPv4 addresses"
+  ip: [IPAddress!]!
+  "A range of IPs. Every IP within the range will be matched"
+  ipRange: [IpAddressRange!]!
+  "Remote Autonomous System Number (ASN)"
+  remoteAsn: [Asn32!]!
+  "Add the Service Type to which this TLS inspection rule applies"
+  service: [ServiceRef!]!
+  "Subnets and network ranges defined for the LAN interfaces of a site"
+  subnet: [NetworkSubnet!]!
+  "System categories for TLS inspection policy"
+  tlsInspectCategory: [TlsInspectSystemCategory!]!
+}
+
+"Application match criteria set"
+input TlsInspectApplicationInput {
+  "Cato category of applications which are dynamically updated by Cato"
+  appCategory: [ApplicationCategoryRefInput!]! = []
+  "Applications for the rule (pre-defined)"
+  application: [ApplicationRefInput!]! = []
+  "Countries matching criteria for the rule"
+  country: [CountryRefInput!]! = []
+  "Custom (user-defined) applications"
+  customApp: [CustomApplicationRefInput!]! = []
+  "Custom Categories – Groups of objects such as predefined and custom applications, predefined and custom services, domains, FQDNs etc."
+  customCategory: [CustomCategoryRefInput!]! = []
+  "Returns data for Custom Service defined by a combination of L4 ports and an IP Protocol Example: TCP/80, UDP/53"
+  customService: [CustomServiceInput!]! = []
+  "Returns data for Custom Service defined by a combination of L4 ports and an IP Protocol Example: google:8.8.8.8"
+  customServiceIp: [CustomServiceIpInput!]! = []
+  """
+  A Second-Level Domain (SLD).
+  It matches all Top-Level Domains (TLD), and subdomains that include the Domain.
+  Example: example.com.
+  """
+  domain: [Domain!]! = []
+  "An exact match of the fully qualified domain (FQDN). Example: www.my.example.com."
+  fqdn: [Fqdn!]! = []
+  "Globally defined IP range, IP and subnet objects"
+  globalIpRange: [GlobalIpRangeRefInput!]! = []
+  "IPv4 addresses"
+  ip: [IPAddress!]! = []
+  "A range of IPs. Every IP within the range will be matched"
+  ipRange: [IpAddressRangeInput!]! = []
+  "Remote Autonomous System Number (ASN)"
+  remoteAsn: [Asn32!]! = []
+  "Add the Service Type to which this TLS inspection rule applies"
+  service: [ServiceRefInput!]! = []
+  "Subnets and network ranges defined for the LAN interfaces of a site"
+  subnet: [NetworkSubnet!]! = []
+  "System categories for TLS inspection policy"
+  tlsInspectCategory: [TlsInspectSystemCategory!]! = []
+}
+
+"Application match criteria set"
+input TlsInspectApplicationUpdateInput {
+  "Cato category of applications which are dynamically updated by Cato"
+  appCategory: [ApplicationCategoryRefInput!]
+  "Applications for the rule (pre-defined)"
+  application: [ApplicationRefInput!]
+  "Countries matching criteria for the rule"
+  country: [CountryRefInput!]
+  "Custom (user-defined) applications"
+  customApp: [CustomApplicationRefInput!]
+  "Custom Categories – Groups of objects such as predefined and custom applications, predefined and custom services, domains, FQDNs etc."
+  customCategory: [CustomCategoryRefInput!]
+  "Returns data for Custom Service defined by a combination of L4 ports and an IP Protocol Example: TCP/80, UDP/53"
+  customService: [CustomServiceInput!]
+  "Returns data for Custom Service defined by a combination of L4 ports and an IP Protocol Example: google:8.8.8.8"
+  customServiceIp: [CustomServiceIpInput!]
+  """
+  A Second-Level Domain (SLD).
+  It matches all Top-Level Domains (TLD), and subdomains that include the Domain.
+  Example: example.com.
+  """
+  domain: [Domain!]
+  "An exact match of the fully qualified domain (FQDN). Example: www.my.example.com."
+  fqdn: [Fqdn!]
+  "Globally defined IP range, IP and subnet objects"
+  globalIpRange: [GlobalIpRangeRefInput!]
+  "IPv4 addresses"
+  ip: [IPAddress!]
+  "A range of IPs. Every IP within the range will be matched"
+  ipRange: [IpAddressRangeInput!]
+  "Remote Autonomous System Number (ASN)"
+  remoteAsn: [Asn32!]
+  "Add the Service Type to which this TLS inspection rule applies"
+  service: [ServiceRefInput!]
+  "Subnets and network ranges defined for the LAN interfaces of a site"
+  subnet: [NetworkSubnet!]
+  "System categories for TLS inspection policy"
+  tlsInspectCategory: [TlsInspectSystemCategory!]
+}
+
+"Default rule settings for the TLS Inspection policy"
+type TlsInspectConfig {
+  "Action to take on traffic that matches the default rule"
+  defaultRuleAction: TlsInspectAction!
+  "Action to take when an untrusted certificate is detected for traffic matching the default rule"
+  defaultRuleUntrustedCertificateAction: TlsInspectUntrustedCertificateAction!
+}
+
+input TlsInspectConfigInput {
+  "Action to take on traffic that matches the default rule"
+  defaultRuleAction: TlsInspectAction! = INSPECT
+  "Action to take when an untrusted certificate is detected for traffic matching the default rule"
+  defaultRuleUntrustedCertificateAction: TlsInspectUntrustedCertificateAction! = ALLOW
+}
+
+type TlsInspectPolicy implements IPolicy {
+  additionalAttributes: TlsInspectConfig
+  audit: PolicyAudit
+  enabled: Boolean!
+  revision: PolicyRevision
+  rules: [TlsInspectRulePayload!]!
+  sections: [PolicySectionPayload!]!
+}
+
+input TlsInspectPolicyInput {
+  """
+  A revision is a specific instance of the policy.
+   Unpublished revisions are working copies of the policy available to a specific
+   admin or a set of admins
+   Published revisions are revisions that were applied to the account network.
+   The last published revision is the active policy.
+  """
+  revision: PolicyRevisionInput
+}
+
+input TlsInspectPolicyMutationInput {
+  revision: PolicyMutationRevisionInput
+}
+
+type TlsInspectPolicyMutationPayload implements IPolicyMutationPayload {
+  errors: [PolicyMutationError!]!
+  policy: TlsInspectPolicy
+  status: PolicyMutationStatus!
+}
+
+type TlsInspectPolicyMutations {
+  addRule(input: TlsInspectAddRuleInput!): TlsInspectRuleMutationPayload! @beta
+  addSection(input: PolicyAddSectionInput!): PolicySectionMutationPayload! @beta
+  createPolicyRevision(input: PolicyCreateRevisionInput!): TlsInspectPolicyMutationPayload! @beta
+  discardPolicyRevision(input: PolicyDiscardRevisionInput): TlsInspectPolicyMutationPayload! @beta
+  moveRule(input: PolicyMoveRuleInput!): TlsInspectRuleMutationPayload! @beta
+  moveSection(input: PolicyMoveSectionInput!): PolicySectionMutationPayload! @beta
+  publishPolicyRevision(input: PolicyPublishRevisionInput): TlsInspectPolicyMutationPayload! @beta
+  removeRule(input: TlsInspectRemoveRuleInput!): TlsInspectRuleMutationPayload! @beta
+  removeSection(input: PolicyRemoveSectionInput!): PolicySectionMutationPayload! @beta
+  updatePolicy(input: TlsInspectPolicyUpdateInput!): TlsInspectPolicyMutationPayload! @beta
+  updateRule(input: TlsInspectUpdateRuleInput!): TlsInspectRuleMutationPayload! @beta
+  updateSection(input: PolicyUpdateSectionInput!): PolicySectionMutationPayload! @beta
+}
+
+type TlsInspectPolicyQueries {
+  policy(input: TlsInspectPolicyInput): TlsInspectPolicy! @beta
+  revisions: PolicyRevisionsPayload @beta
+}
+
+input TlsInspectPolicyUpdateInput {
+  additionalAttributes: TlsInspectConfigInput
+  state: PolicyToggleState
+}
+
+input TlsInspectRemoveRuleInput {
+  id: ID!
+}
+
+type TlsInspectRule implements IPolicyRule {
+  "Action to be taken on the traffic."
+  action: TlsInspectAction!
+  "Application matching criteria for."
+  application: TlsInspectApplication!
+  "Connection origin of the traffic"
+  connectionOrigin: ConnectionOriginEnum!
+  "Country traffic matching criteria."
+  country: [CountryRef!]!
+  "Description for the rule"
+  description: String!
+  "Device Profile traffic matching criteria."
+  devicePostureProfile: [DeviceProfileRef!]!
+  """
+  TRUE = Rule is enabled 
+   FALSE = Rule is disabled
+  """
+  enabled: Boolean!
+  "Rule ID"
+  id: ID!
+  "Position / priority of rule"
+  index: Int!
+  "Name of the rule"
+  name: String!
+  "Operating System traffic matching criteria."
+  platform: [OperatingSystem!]!
+  "Policy section where the rule is located"
+  section: PolicySectionInfo!
+  "Source traffic matching criteria."
+  source: TlsInspectSource!
+  "Action to be taken on the traffic when an untrusted certificate is detected."
+  untrustedCertificateAction: TlsInspectUntrustedCertificateAction!
+}
+
+type TlsInspectRuleMutationPayload implements IPolicyRuleMutationPayload {
+  errors: [PolicyMutationError!]!
+  rule: TlsInspectRulePayload
+  status: PolicyMutationStatus!
+}
+
+type TlsInspectRulePayload implements IPolicyRulePayload {
+  audit: PolicyElementAudit!
+  properties: [PolicyElementPropertiesEnum!]!
+  rule: TlsInspectRule!
+}
+
+"Returns the settings for Source of an TLS inspection rule"
+type TlsInspectSource {
+  """
+  Floating Subnets (ie. Floating Ranges) are used to identify traffic exactly matched to the route advertised by BGP.
+  They are not associated with a specific site.
+  This is useful in scenarios such as active-standby high availability routed via BGP.
+  """
+  floatingSubnet: [FloatingSubnetRef!]!
+  "Globally defined IP range, IP and subnet objects"
+  globalIpRange: [GlobalIpRangeRef!]!
+  "Groups defined for your account"
+  group: [GroupRef!]!
+  "Hosts and servers defined for your account"
+  host: [HostRef!]!
+  "IPv4 addresses"
+  ip: [IPAddress!]!
+  "Multiple separate IP addresses or an IP range"
+  ipRange: [IpAddressRange!]!
+  "Network range defined for a site"
+  networkInterface: [NetworkInterfaceRef!]!
+  "Site defined for the account"
+  site: [SiteRef!]!
+  "GlobalRange + InterfaceSubnet"
+  siteNetworkSubnet: [SiteNetworkSubnetRef!]!
+  "Subnets and network ranges defined for the LAN interfaces of a site"
+  subnet: [NetworkSubnet!]!
+  "Predefined Cato groups"
+  systemGroup: [SystemGroupRef!]!
+  "Individual users defined for the account"
+  user: [UserRef!]!
+  "Group of users"
+  usersGroup: [UsersGroupRef!]!
+}
+
+"Input of the settings for Source of an TLS inspection rule"
+input TlsInspectSourceInput {
+  """
+  Floating Subnets (ie. Floating Ranges) are used to identify traffic exactly matched to the route advertised by BGP.
+  They are not associated with a specific site.
+  This is useful in scenarios such as active-standby high availability routed via BGP.
+  """
+  floatingSubnet: [FloatingSubnetRefInput!]! = []
+  "Globally defined IP range, IP and subnet objects"
+  globalIpRange: [GlobalIpRangeRefInput!]! = []
+  "Groups defined for your account"
+  group: [GroupRefInput!]! = []
+  "Hosts and servers defined for your account"
+  host: [HostRefInput!]! = []
+  "IPv4 addresses"
+  ip: [IPAddress!]! = []
+  "Multiple separate IP addresses or an IP range"
+  ipRange: [IpAddressRangeInput!]! = []
+  "Network range defined for a site"
+  networkInterface: [NetworkInterfaceRefInput!]! = []
+  "Site defined for the account"
+  site: [SiteRefInput!]! = []
+  "GlobalRange + InterfaceSubnet"
+  siteNetworkSubnet: [SiteNetworkSubnetRefInput!]! = []
+  "Subnets and network ranges defined for the LAN interfaces of a site"
+  subnet: [NetworkSubnet!]! = []
+  "Predefined Cato groups"
+  systemGroup: [SystemGroupRefInput!]! = []
+  "Individual users defined for the account"
+  user: [UserRefInput!]! = []
+  "Group of users"
+  usersGroup: [UsersGroupRefInput!]! = []
+}
+
+"Input of the settings for Source of an TLS inspection rule"
+input TlsInspectSourceUpdateInput {
+  """
+  Floating Subnets (ie. Floating Ranges) are used to identify traffic exactly matched to the route advertised by BGP.
+  They are not associated with a specific site.
+  This is useful in scenarios such as active-standby high availability routed via BGP.
+  """
+  floatingSubnet: [FloatingSubnetRefInput!]
+  "Globally defined IP range, IP and subnet objects"
+  globalIpRange: [GlobalIpRangeRefInput!]
+  "Groups defined for your account"
+  group: [GroupRefInput!]
+  "Hosts and servers defined for your account"
+  host: [HostRefInput!]
+  "IPv4 addresses"
+  ip: [IPAddress!]
+  "Multiple separate IP addresses or an IP range"
+  ipRange: [IpAddressRangeInput!]
+  "Network range defined for a site"
+  networkInterface: [NetworkInterfaceRefInput!]
+  "Site defined for the account"
+  site: [SiteRefInput!]
+  "GlobalRange + InterfaceSubnet"
+  siteNetworkSubnet: [SiteNetworkSubnetRefInput!]
+  "Subnets and network ranges defined for the LAN interfaces of a site"
+  subnet: [NetworkSubnet!]
+  "Predefined Cato groups"
+  systemGroup: [SystemGroupRefInput!]
+  "Individual users defined for the account"
+  user: [UserRefInput!]
+  "Group of users"
+  usersGroup: [UsersGroupRefInput!]
+}
+
+enum TlsInspectUntrustedCertificateAction {
+  ALLOW
+  BLOCK
+  PROMPT
+}
+
+input TlsInspectUpdateRuleDataInput {
+  "Action to be taken on the traffic."
+  action: TlsInspectAction
+  "Application matching criteria for."
+  application: TlsInspectApplicationUpdateInput
+  "Connection origin of the traffic"
+  connectionOrigin: ConnectionOriginEnum
+  "Country traffic matching criteria."
+  country: [CountryRefInput!]
+  description: String
+  "Device Profile traffic matching criteria."
+  devicePostureProfile: [DeviceProfileRefInput!]
+  enabled: Boolean
+  name: String
+  "Operating System traffic matching criteria."
+  platform: [OperatingSystem!]
+  "Source traffic matching criteria."
+  source: TlsInspectSourceUpdateInput
+  "Action to be taken on the traffic when an untrusted certificate is detected."
+  untrustedCertificateAction: TlsInspectUntrustedCertificateAction
+}
+
+input TlsInspectUpdateRuleInput {
+  id: ID!
+  rule: TlsInspectUpdateRuleDataInput!
+}
+
 enum SocketAddOnType {
   FOUR_10G_FIBER
   FOUR_1G_COPPER
@@ -12104,65 +15106,3 @@ input RemoveSocketAddOnCardInput {
   site: SiteRefInput!
 }
 
-##################
-# Site Namespace #
-##################
-extend type SiteMutations {
-    """Assign a license to an existing site"""
-    assignSiteBwLicense(input: AssignSiteBwLicenseInput!): AssignSiteBwLicensePayload
-    """Update the bandwidth allocation of an assigned pool license of an existing site (does not apply for site license allocation)"""
-    updateSiteBwLicense(input: UpdateSiteBwLicenseInput!): UpdateSiteBwLicensePayload
-    """Replace an existing license of a site. This API is used to make sure the site
-    will always have a license to avoid traffic drop for sites without licenses."""
-    replaceSiteBwLicense(input: ReplaceSiteBwLicenseInput!): ReplaceSiteBwLicensePayload
-    """Remove a license from a site"""
-    removeSiteBwLicense(input: RemoveSiteBwLicenseInput!): RemoveSiteBwLicensePayload
-}
-input AssignSiteBwLicenseInput {
-    """The site the license is assigned to"""
-    site: SiteRefInput!
-    """The license that is being assigned"""
-    licenseId: ID!
-    """Specifies the bandwidth (in Mbps) to allocate to the site when using a pooled bandwidth license.
-    This field should not be used if a site license is used."""
-    bw: Int
-}
-
-type AssignSiteBwLicensePayload {
-    license: License!
-}
-
-input UpdateSiteBwLicenseInput {
-    """The site the license is being assigned to"""
-    site: SiteRefInput!
-    """The license that is being assigned"""
-    licenseId: ID!
-    """Specifies the bandwidth (in Mbps) to allocate to the site when using a pooled bandwidth license."""
-    bw: Int!
-}
-type UpdateSiteBwLicensePayload {
-    license: License!
-}
-input ReplaceSiteBwLicenseInput {
-    """The site to replace the licenses for"""
-    site: SiteRefInput!
-    """The license that is being assigned"""
-    licenseIdToAdd: ID!
-    """The license that is being removed"""
-    licenseIdToRemove: ID!
-    """Specifies the bandwidth (in Mbps) to allocate to the site when using a pooled bandwidth license.
-    This field should not be used if a site license is used."""
-    bw: Int
-}
-type ReplaceSiteBwLicensePayload {
-    license: License!
-}
-input RemoveSiteBwLicenseInput {
-    """The site to remove the licenses from"""
-    site: SiteRefInput!
-    """The license that is being removed"""
-    licenseId: ID!
-}
-type RemoveSiteBwLicensePayload {
-    license: License!
-}
