@@ -73,11 +73,7 @@ func main() {
 		},
 	}
 
-	wanNetworkPolicyMutationInput := &cato_models.WanNetworkPolicyMutationInput{
-		// Add revision information if needed
-	}
-
-	result, err := catoClient.PolicyWanNetworkAddRule(ctx, accountId, wanNetworkAddRuleInput, wanNetworkPolicyMutationInput)
+	result, err := catoClient.PolicyWanNetworkAddRule(ctx, wanNetworkAddRuleInput, accountId)
 	if err != nil {
 		fmt.Println("error adding WAN network rule: ", err)
 		os.Exit(1)
@@ -89,14 +85,14 @@ func main() {
 	fmt.Println(string(resultJson))
 
 	// Access specific fields
-	if result.Policy.WanNetwork.AddRule.WanNetworkRulePayloadRule != nil {
-		rule := result.Policy.WanNetwork.AddRule.WanNetworkRulePayloadRule
+	if result.Policy.WanNetwork.AddRule.Rule != nil {
+		rule := result.Policy.WanNetwork.AddRule.Rule
 		fmt.Printf("\nRule Details:\n")
 		fmt.Printf("ID: %s\n", rule.Rule.ID)
 		fmt.Printf("Name: %s\n", rule.Rule.Name)
 		fmt.Printf("Description: %s\n", rule.Rule.Description)
 		fmt.Printf("Enabled: %t\n", rule.Rule.Enabled)
-		fmt.Printf("Rule Type: %s\n", rule.Rule.WanNetworkRuleTypeRuleType)
+		fmt.Printf("Rule Type: %s\n", rule.Rule.RuleType)
 		fmt.Printf("Updated by: %s\n", rule.Audit.UpdatedBy)
 		fmt.Printf("Updated time: %s\n", rule.Audit.UpdatedTime)
 	}
@@ -105,9 +101,10 @@ func main() {
 	// Read the new WAN network rule //
 	///////////////////////////////////
 
-	if result.Policy.WanNetwork.AddRule.WanNetworkRulePayloadRule != nil {
-		ruleId := result.Policy.WanNetwork.AddRule.WanNetworkRulePayloadRule.Rule.ID
-		ruleName := result.Policy.WanNetwork.AddRule.WanNetworkRulePayloadRule.Rule.Name
+	if result.Policy.WanNetwork.AddRule.Rule != nil {
+		rule := result.Policy.WanNetwork.AddRule.Rule
+		ruleId := rule.Rule.ID
+		ruleName := rule.Rule.Name
 
 		fmt.Printf("\n======================================\n")
 		fmt.Printf("Reading WAN Network Section\n")
@@ -197,7 +194,7 @@ func main() {
 		}
 
 		// Perform the update
-		updateResult, err := catoClient.PolicyWanNetworkUpdateRule(ctx, accountId, wanNetworkUpdateRuleInput, wanNetworkPolicyMutationInput)
+		updateResult, err := catoClient.PolicyWanNetworkUpdateRule(ctx, wanNetworkUpdateRuleInput, accountId)
 		if err != nil {
 			fmt.Println("error updating WAN network rule: ", err)
 			os.Exit(1)
@@ -209,23 +206,23 @@ func main() {
 		fmt.Println(string(updateResultJson))
 
 		// Access specific fields from update result
-		if updateResult.Policy.WanNetwork.UpdateRule.WanNetworkRulePayloadRule != nil {
-			updatedRule := updateResult.Policy.WanNetwork.UpdateRule.WanNetworkRulePayloadRule
+		if updateResult.Policy.WanNetwork.UpdateRule.Rule != nil {
+			updatedRule := updateResult.Policy.WanNetwork.UpdateRule.Rule
 			fmt.Printf("\nUpdated Rule Details:\n")
 			fmt.Printf("ID: %s\n", updatedRule.Rule.ID)
 			fmt.Printf("Name: %s\n", updatedRule.Rule.Name)
 			fmt.Printf("Description: %s\n", updatedRule.Rule.Description)
 			fmt.Printf("Enabled: %t\n", updatedRule.Rule.Enabled)
-			fmt.Printf("Rule Type: %s\n", updatedRule.Rule.WanNetworkRuleTypeRuleType)
-			fmt.Printf("Route Type: %s\n", updatedRule.Rule.WanNetworkRuleRouteTypeRouteType)
+			fmt.Printf("Rule Type: %s\n", updatedRule.Rule.RuleType)
+			fmt.Printf("Route Type: %s\n", updatedRule.Rule.RouteType)
 			fmt.Printf("Updated by: %s\n", updatedRule.Audit.UpdatedBy)
 			fmt.Printf("Updated time: %s\n", updatedRule.Audit.UpdatedTime)
 		}
 
 		// Check for any update errors
-		if len(updateResult.Policy.WanNetwork.UpdateRule.PolicyMutationErrorErrors) > 0 {
+		if len(updateResult.Policy.WanNetwork.UpdateRule.Errors) > 0 {
 			fmt.Printf("\nUpdate Errors:\n")
-			for _, err := range updateResult.Policy.WanNetwork.UpdateRule.PolicyMutationErrorErrors {
+			for _, err := range updateResult.Policy.WanNetwork.UpdateRule.Errors {
 				fmt.Printf("- %s (Code: %s)\n", *err.ErrorMessage, *err.ErrorCode)
 			}
 		} else {
@@ -252,7 +249,7 @@ func main() {
 		}
 
 		// Perform the delete operation
-		deleteResult, err := catoClient.PolicyWanNetworkRemoveRule(ctx, accountId, wanNetworkRemoveRuleInput, wanNetworkPolicyMutationInput)
+		deleteResult, err := catoClient.PolicyWanNetworkRemoveRule(ctx, wanNetworkRemoveRuleInput, accountId)
 		if err != nil {
 			fmt.Println("error deleting WAN network rule: ", err)
 			os.Exit(1)
@@ -264,12 +261,12 @@ func main() {
 		fmt.Println(string(deleteResultJson))
 
 		// Access specific fields from delete result
-		fmt.Printf("\nDeletion Status: %s\n", deleteResult.Policy.WanNetwork.RemoveRule.PolicyMutationStatusStatus)
+		fmt.Printf("\nDeletion Status: %s\n", deleteResult.Policy.WanNetwork.RemoveRule.Status)
 
 		// Check for any delete errors
-		if len(deleteResult.Policy.WanNetwork.RemoveRule.PolicyMutationErrorErrors) > 0 {
+		if len(deleteResult.Policy.WanNetwork.RemoveRule.Errors) > 0 {
 			fmt.Printf("\nDelete Errors:\n")
-			for _, err := range deleteResult.Policy.WanNetwork.RemoveRule.PolicyMutationErrorErrors {
+			for _, err := range deleteResult.Policy.WanNetwork.RemoveRule.Errors {
 				fmt.Printf("- %s (Code: %s)\n", *err.ErrorMessage, *err.ErrorCode)
 			}
 		} else {
@@ -282,12 +279,7 @@ func main() {
 		// Publish the WAN network policy   //
 		//////////////////////////////////////
 
-		// Publish the policy revision to make changes live
-		policyPublishRevisionInput := &cato_models.PolicyPublishRevisionInput{
-			// Add revision information if needed
-		}
-
-		publishResult, err := catoClient.PolicyWanNetworkPublishPolicyRevision(ctx, accountId, policyPublishRevisionInput, wanNetworkPolicyMutationInput)
+		publishResult, err := catoClient.PolicyWanNetworkPublishPolicyRevision(ctx, accountId)
 		if err != nil {
 			fmt.Println("error publishing WAN network policy revision: ", err)
 			os.Exit(1)
@@ -299,12 +291,12 @@ func main() {
 		fmt.Println(string(publishResultJson))
 
 		// Access specific fields
-		fmt.Printf("\nPublish Status: %s\n", publishResult.Policy.WanNetwork.PublishPolicyRevision.PolicyMutationStatusStatus)
+		fmt.Printf("\nPublish Status: %s\n", publishResult.Policy.WanNetwork.PublishPolicyRevision.Status)
 
 		// Check for any errors
-		if len(publishResult.Policy.WanNetwork.PublishPolicyRevision.PolicyMutationErrorErrors) > 0 {
+		if len(publishResult.Policy.WanNetwork.PublishPolicyRevision.Errors) > 0 {
 			fmt.Printf("\nPublish Errors:\n")
-			errorsJson, _ := json.MarshalIndent(publishResult.Policy.WanNetwork.PublishPolicyRevision.PolicyMutationErrorErrors, "", "  ")
+			errorsJson, _ := json.MarshalIndent(publishResult.Policy.WanNetwork.PublishPolicyRevision.Errors, "", "  ")
 			fmt.Println(string(errorsJson))
 		} else {
 			fmt.Printf("\nThe WAN network policy revision has been successfully published and is now live.\n")
