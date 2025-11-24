@@ -1,0 +1,27 @@
+mutation policyRemotePortFwdMoveSection ( $policyMoveSectionInput:PolicyMoveSectionInput! $accountId:ID! ) {
+  policy ( accountId:$accountId  ) {
+    remotePortFwd  {
+      moveSection ( input:$policyMoveSectionInput   )  {
+        section  {
+          audit  {
+            updatedTime 
+            updatedBy 
+          }
+          section  {
+            id 
+            name 
+          }
+          properties
+        }
+
+        status 
+        errors  {
+          errorMessage
+          errorCode
+        }
+
+      }
+    }
+
+  }  
+}

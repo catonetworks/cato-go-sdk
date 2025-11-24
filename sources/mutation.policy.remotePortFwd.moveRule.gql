@@ -1,0 +1,88 @@
+mutation policyRemotePortFwdMoveRule ( $policyMoveRuleInput:PolicyMoveRuleInput! $accountId:ID! ) {
+  policy ( accountId:$accountId  ) {
+    remotePortFwd  {
+      moveRule ( input:$policyMoveRuleInput   )  {
+        rule  {
+          audit  {
+            updatedTime 
+            updatedBy 
+          }
+          rule  {
+            id 
+            name 
+            description 
+            index 
+            section  {
+              id
+              name
+            }
+
+            enabled 
+            forwardIcmp 
+            externalIp  {
+              id
+              name
+            }
+
+            externalPortRange  {
+              from
+              to
+            }
+
+            internalIp 
+            internalPortRange  {
+              from
+              to
+            }
+
+            remoteIPs  {
+              ip
+              ipRange  {
+                from 
+                to 
+              }
+              subnet
+              globalIpRange  {
+                id 
+                name 
+              }
+            }
+
+            restrictionType 
+            tracking  {
+              enabled
+              frequency
+              subscriptionGroup  {
+                id 
+                name 
+              }
+              webhook  {
+                id 
+                name 
+              }
+              mailingList  {
+                id 
+                name 
+              }
+            }
+
+          }
+          properties
+        }
+
+        status 
+        errors  {
+          errorMessage
+          errorCode
+        }
+
+      }
+    }
+
+  }  
+}
+
+
+
+
+

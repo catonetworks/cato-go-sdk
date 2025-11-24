@@ -1,0 +1,26 @@
+mutation groupsUpdateGroup ( $updateGroupInput:UpdateGroupInput! $accountId:ID! ) {
+  groups ( accountId:$accountId  ) {
+    updateGroup ( input:$updateGroupInput  )  {
+      group  {
+        id 
+        name 
+        description 
+        audit  {
+          updatedTime
+          updatedBy  {
+            id 
+            name 
+          }
+        }
+
+        membersCount 
+        membersCountPerType  {
+          typeGroupMemberTypeCount: type
+          membersCount
+        }
+
+      }
+    }
+
+  }  
+}

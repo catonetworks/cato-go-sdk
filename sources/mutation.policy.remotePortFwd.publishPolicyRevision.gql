@@ -1,0 +1,112 @@
+mutation policyRemotePortFwdPublishPolicyRevision ( $accountId:ID! ) {
+  policy ( accountId:$accountId  ) {
+    remotePortFwd  {
+      publishPolicyRevision  {
+        policy  {
+          enabled
+          rules  {
+            audit  {
+              updatedTime
+              updatedBy
+            }
+
+            rule  {
+              id
+              name
+              description
+              index
+              section  {
+                id 
+                name 
+              }
+              enabled
+              forwardIcmp
+              externalIp  {
+                id 
+                name 
+              }
+              externalPortRange  {
+                from 
+                to 
+              }
+              internalIp
+              internalPortRange  {
+                from 
+                to 
+              }
+              remoteIPs  {
+                ip 
+                ipRange  {
+                  from
+                  to
+                }
+
+                subnet 
+                globalIpRange  {
+                  id
+                  name
+                }
+
+              }
+              restrictionType
+              tracking  {
+                enabled 
+                frequency 
+                subscriptionGroup  {
+                  id
+                  name
+                }
+
+                webhook  {
+                  id
+                  name
+                }
+
+                mailingList  {
+                  id
+                  name
+                }
+
+              }
+            }
+
+            properties 
+          }
+          sections  {
+            audit  {
+              updatedTime
+              updatedBy
+            }
+
+            section  {
+              id
+              name
+            }
+
+            properties 
+          }
+          auditRemotePortFwdPolicy: audit  {
+            publishedTime 
+            publishedBy 
+          }
+          revisionRemotePortFwdPolicy: revision  {
+            id 
+            name 
+            description 
+            changes 
+            createdTime 
+            updatedTime 
+          }
+        }
+
+        status 
+        errors  {
+          errorMessage
+          errorCode
+        }
+
+      }
+    }
+
+  }  
+}

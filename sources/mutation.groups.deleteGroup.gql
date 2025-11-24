@@ -1,0 +1,26 @@
+mutation groupsDeleteGroup ( $groupRefInput:GroupRefInput! $accountId:ID! ) {
+  groups ( accountId:$accountId  ) {
+    deleteGroup ( input:$groupRefInput  )  {
+      group  {
+        id 
+        name 
+        description 
+        audit  {
+          updatedTime
+          updatedBy  {
+            id 
+            name 
+          }
+        }
+
+        membersCount 
+        membersCountPerType  {
+          typeGroupMemberTypeCount: type
+          membersCount
+        }
+
+      }
+    }
+
+  }  
+}

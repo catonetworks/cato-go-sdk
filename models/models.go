@@ -92,6 +92,10 @@ type Container interface {
 	GetAudit() *ContainerAudit
 }
 
+type DegradedStatusArgs interface {
+	IsDegradedStatusArgs()
+}
+
 type DeviceDetails interface {
 	IsDeviceDetails()
 	GetID() string
@@ -260,9 +264,10 @@ type IPolicyRulePayload interface {
 	GetProperties() []PolicyElementPropertiesEnum
 }
 
-// The unique identifier for the license. If this value is not available, you can contact Cato Support, who may be able to assist in retrieving it.
+// An interface containing properties that are common to all license types
 type License interface {
 	IsLicense()
+	// The unique identifier for the license. If this value is not available, you can contact Cato Support, who may be able to assist in retrieving it.
 	GetID() *string
 	GetDescription() *string
 	// License plan type
@@ -383,6 +388,7 @@ type ProcessResource interface {
 type QuantifiableLicense interface {
 	IsLicense()
 	IsQuantifiableLicense()
+	// The unique identifier for the license. If this value is not available, you can contact Cato Support, who may be able to assist in retrieving it.
 	GetID() *string
 	GetDescription() *string
 	// License plan type
@@ -498,6 +504,7 @@ type AccountMetrics struct {
 type AccountOperationsIncident struct {
 	IncidentTimeline []AccountOperationsTimelineBase `json:"incidentTimeline"`
 	Metadata         []*AccountOperationsMetadata    `json:"metadata"`
+	Playbooks        []*AiOperationsPlaybook         `json:"playbooks"`
 }
 
 type AccountOperationsMetadata struct {
@@ -1074,6 +1081,12 @@ func (this AiOperationsIncident) GetPredictedVerdict() *StoryVerdictEnum {
 	return this.PredictedVerdict
 }
 func (this AiOperationsIncident) GetPredictedThreatType() *string { return this.PredictedThreatType }
+
+type AiOperationsPlaybook struct {
+	Description string  `json:"description"`
+	Link        *string `json:"link,omitempty"`
+	Title       string  `json:"title"`
+}
 
 // A reference identifying the AllocatedIp object. ID: Unique AllocatedIp Identifier, Name: The AllocatedIp Name
 type AllocatedIPRef struct {
@@ -3242,10 +3255,11 @@ type AssignSiteBwLicensePayload struct {
 
 // Advanced Threat Prevention (ATP) service license details
 type AtpLicense struct {
-	ID          *string `json:"id,omitempty"`
 	Description *string `json:"description,omitempty"`
 	// License expiration date
 	ExpirationDate string `json:"expirationDate"`
+	// The unique identifier for the license. If this value is not available, you can contact Cato Support, who may be able to assist in retrieving it.
+	ID *string `json:"id,omitempty"`
 	// The date of the last update to the license
 	LastUpdated *string `json:"lastUpdated,omitempty"`
 	// License plan type
@@ -3258,7 +3272,9 @@ type AtpLicense struct {
 	Status LicenseStatus `json:"status"`
 }
 
-func (AtpLicense) IsLicense()                   {}
+func (AtpLicense) IsLicense() {}
+
+// The unique identifier for the license. If this value is not available, you can contact Cato Support, who may be able to assist in retrieving it.
 func (this AtpLicense) GetID() *string          { return this.ID }
 func (this AtpLicense) GetDescription() *string { return this.Description }
 
@@ -3632,10 +3648,11 @@ type BulkUpgradeSiteInfo struct {
 
 // Cloud Access Security Broker (CASB) service license details
 type CasbLicense struct {
-	ID          *string `json:"id,omitempty"`
 	Description *string `json:"description,omitempty"`
 	// License expiration date
 	ExpirationDate string `json:"expirationDate"`
+	// The unique identifier for the license. If this value is not available, you can contact Cato Support, who may be able to assist in retrieving it.
+	ID *string `json:"id,omitempty"`
 	// The date of the last update to the license
 	LastUpdated *string `json:"lastUpdated,omitempty"`
 	// License plan type
@@ -3648,7 +3665,9 @@ type CasbLicense struct {
 	Status LicenseStatus `json:"status"`
 }
 
-func (CasbLicense) IsLicense()                   {}
+func (CasbLicense) IsLicense() {}
+
+// The unique identifier for the license. If this value is not available, you can contact Cato Support, who may be able to assist in retrieving it.
 func (this CasbLicense) GetID() *string          { return this.ID }
 func (this CasbLicense) GetDescription() *string { return this.Description }
 
@@ -4426,6 +4445,18 @@ type CreateFqdnContainerFromFilePayload struct {
 	Container *FqdnContainer `json:"container"`
 }
 
+type CreateFqdnContainerFromListInput struct {
+	Description string   `json:"description"`
+	Name        string   `json:"name"`
+	Values      []string `json:"values"`
+}
+
+// Payload of CreateFromList operation on FQDN typed container
+type CreateFqdnContainerFromListPayload struct {
+	// Container with members of type FQDN
+	Container *FqdnContainer `json:"container"`
+}
+
 // Create a new group
 type CreateGroupInput struct {
 	// Optional description for the group
@@ -4455,6 +4486,18 @@ type CreateIPAddressRangeContainerFromFileInput struct {
 
 // Payload of CreateFromFile operation on IPAddressRange typed container
 type CreateIPAddressRangeContainerFromFilePayload struct {
+	// Container with members of type IPAddressRange
+	Container *IPAddressRangeContainer `json:"container"`
+}
+
+type CreateIPAddressRangeContainerFromListInput struct {
+	Description string                 `json:"description"`
+	Name        string                 `json:"name"`
+	Values      []*IPAddressRangeInput `json:"values"`
+}
+
+// Payload of CreateFromList operation on IPAddressRange typed container
+type CreateIPAddressRangeContainerFromListPayload struct {
 	// Container with members of type IPAddressRange
 	Container *IPAddressRangeContainer `json:"container"`
 }
@@ -4535,12 +4578,13 @@ type CustomServiceIPInput struct {
 }
 
 type DataLakeLicense struct {
-	ID          *string `json:"id,omitempty"`
 	Description *string `json:"description,omitempty"`
 	// The version of the Data Processing Agreement (DPA) that your company signed with Cato.
 	DpaVersion DpaVersion `json:"dpaVersion"`
 	// License expiration date
 	ExpirationDate string `json:"expirationDate"`
+	// The unique identifier for the license. If this value is not available, you can contact Cato Support, who may be able to assist in retrieving it.
+	ID *string `json:"id,omitempty"`
 	// The date of the last update to the license
 	LastUpdated *string `json:"lastUpdated,omitempty"`
 	// License plan type
@@ -4557,7 +4601,9 @@ type DataLakeLicense struct {
 	Total int64 `json:"total"`
 }
 
-func (DataLakeLicense) IsLicense()                   {}
+func (DataLakeLicense) IsLicense() {}
+
+// The unique identifier for the license. If this value is not available, you can contact Cato Support, who may be able to assist in retrieving it.
 func (this DataLakeLicense) GetID() *string          { return this.ID }
 func (this DataLakeLicense) GetDescription() *string { return this.Description }
 
@@ -4580,6 +4626,8 @@ func (this DataLakeLicense) GetExpirationDate() string { return this.ExpirationD
 func (this DataLakeLicense) GetLastUpdated() *string { return this.LastUpdated }
 
 func (DataLakeLicense) IsQuantifiableLicense() {}
+
+// The unique identifier for the license. If this value is not available, you can contact Cato Support, who may be able to assist in retrieving it.
 
 // License plan type
 
@@ -4613,6 +4661,54 @@ type DateValue struct {
 }
 
 func (DateValue) IsValue() {}
+
+type DegradedDetail struct {
+	Args   DegradedStatusArgs   `json:"args,omitempty"`
+	Reason DegradedStatusReason `json:"reason"`
+}
+
+type DegradedStatus struct {
+	DegradedDetails []*DegradedDetail `json:"degradedDetails"`
+	IsDegraded      bool              `json:"isDegraded"`
+}
+
+type DegradedStatusBasicDataArgs struct {
+	DeviceName        string  `json:"deviceName"`
+	LastConnectedDate *string `json:"lastConnectedDate,omitempty"`
+}
+
+func (DegradedStatusBasicDataArgs) IsDegradedStatusArgs() {}
+
+type DegradedStatusLastConnectedArgs struct {
+	LastConnectedDate *string `json:"lastConnectedDate,omitempty"`
+}
+
+func (DegradedStatusLastConnectedArgs) IsDegradedStatusArgs() {}
+
+type DegradedStatusMultiTunnelArgs struct {
+	DeviceName        string  `json:"deviceName"`
+	LastConnectedDate *string `json:"lastConnectedDate,omitempty"`
+	TunnelID          string  `json:"tunnelID"`
+	TunnelName        string  `json:"tunnelName"`
+}
+
+func (DegradedStatusMultiTunnelArgs) IsDegradedStatusArgs() {}
+
+type DegradedStatusSocketArgs struct {
+	DeviceName        string  `json:"deviceName"`
+	LastConnectedDate *string `json:"lastConnectedDate,omitempty"`
+	PortID            string  `json:"portID"`
+	PortName          string  `json:"portName"`
+}
+
+func (DegradedStatusSocketArgs) IsDegradedStatusArgs() {}
+
+type DegradedStatusSocketVersionsArgs struct {
+	PrimaryVersion   string `json:"primaryVersion"`
+	SecondaryVersion string `json:"secondaryVersion"`
+}
+
+func (DegradedStatusSocketVersionsArgs) IsDegradedStatusArgs() {}
 
 // Identification of container for delete operation
 type DeleteContainerInput struct {
@@ -4657,10 +4753,11 @@ type DeleteStoryCommentPayload struct {
 
 // DEM service license details
 type DemLicense struct {
-	ID          *string `json:"id,omitempty"`
 	Description *string `json:"description,omitempty"`
 	// License expiration date
 	ExpirationDate string `json:"expirationDate"`
+	// The unique identifier for the license. If this value is not available, you can contact Cato Support, who may be able to assist in retrieving it.
+	ID *string `json:"id,omitempty"`
 	// The date of the last update to the license
 	LastUpdated *string `json:"lastUpdated,omitempty"`
 	// License plan type
@@ -4675,7 +4772,9 @@ type DemLicense struct {
 	Total int64 `json:"total"`
 }
 
-func (DemLicense) IsLicense()                   {}
+func (DemLicense) IsLicense() {}
+
+// The unique identifier for the license. If this value is not available, you can contact Cato Support, who may be able to assist in retrieving it.
 func (this DemLicense) GetID() *string          { return this.ID }
 func (this DemLicense) GetDescription() *string { return this.Description }
 
@@ -4698,6 +4797,8 @@ func (this DemLicense) GetExpirationDate() string { return this.ExpirationDate }
 func (this DemLicense) GetLastUpdated() *string { return this.LastUpdated }
 
 func (DemLicense) IsQuantifiableLicense() {}
+
+// The unique identifier for the license. If this value is not available, you can contact Cato Support, who may be able to assist in retrieving it.
 
 // License plan type
 
@@ -4930,7 +5031,7 @@ type DeviceSnapshot struct {
 	// Snapshot data for outbound facing interfaces
 	Interfaces []*InterfaceSnapshot `json:"interfaces,omitempty"`
 	// Information of the link state of various interfaces in the devices. Unlike the `interfacess` field, it contains
-	//    all links of the device, not just the outbound facing ones
+	// all links of the device, not just the outbound facing ones
 	InterfacesLinkState []*InterfaceLinkState `json:"interfacesLinkState,omitempty"`
 	// Device's internal IP in the account's routing table
 	InternalIP *string `json:"internalIP,omitempty"`
@@ -5167,10 +5268,11 @@ type DlpEdmProfileRefInput struct {
 
 // Data Loss Prevention (DLP) Service license details
 type DlpLicense struct {
-	ID          *string `json:"id,omitempty"`
 	Description *string `json:"description,omitempty"`
 	// License expiration date
 	ExpirationDate string `json:"expirationDate"`
+	// The unique identifier for the license. If this value is not available, you can contact Cato Support, who may be able to assist in retrieving it.
+	ID *string `json:"id,omitempty"`
 	// The date of the last update to the license
 	LastUpdated *string `json:"lastUpdated,omitempty"`
 	// License plan type
@@ -5183,7 +5285,9 @@ type DlpLicense struct {
 	Status LicenseStatus `json:"status"`
 }
 
-func (DlpLicense) IsLicense()                   {}
+func (DlpLicense) IsLicense() {}
+
+// The unique identifier for the license. If this value is not available, you can contact Cato Support, who may be able to assist in retrieving it.
 func (this DlpLicense) GetID() *string          { return this.ID }
 func (this DlpLicense) GetDescription() *string { return this.Description }
 
@@ -5502,10 +5606,11 @@ type DynamicIPAllocationUpdateRuleInput struct {
 
 // End Point Protection (EPP) license details
 type EndpointProtectionLicense struct {
-	ID          *string `json:"id,omitempty"`
 	Description *string `json:"description,omitempty"`
 	// License expiration date
 	ExpirationDate string `json:"expirationDate"`
+	// The unique identifier for the license. If this value is not available, you can contact Cato Support, who may be able to assist in retrieving it.
+	ID *string `json:"id,omitempty"`
 	// The date of the last update to the license
 	LastUpdated *string `json:"lastUpdated,omitempty"`
 	// License plan type
@@ -5520,7 +5625,9 @@ type EndpointProtectionLicense struct {
 	Total int64 `json:"total"`
 }
 
-func (EndpointProtectionLicense) IsLicense()                   {}
+func (EndpointProtectionLicense) IsLicense() {}
+
+// The unique identifier for the license. If this value is not available, you can contact Cato Support, who may be able to assist in retrieving it.
 func (this EndpointProtectionLicense) GetID() *string          { return this.ID }
 func (this EndpointProtectionLicense) GetDescription() *string { return this.Description }
 
@@ -5543,6 +5650,8 @@ func (this EndpointProtectionLicense) GetExpirationDate() string { return this.E
 func (this EndpointProtectionLicense) GetLastUpdated() *string { return this.LastUpdated }
 
 func (EndpointProtectionLicense) IsQuantifiableLicense() {}
+
+// The unique identifier for the license. If this value is not available, you can contact Cato Support, who may be able to assist in retrieving it.
 
 // License plan type
 
@@ -5887,8 +5996,10 @@ type FqdnContainerAddValuesPayload struct {
 type FqdnContainerMutations struct {
 	AddValues      *FqdnContainerAddValuesPayload      `json:"addValues"`
 	CreateFromFile *CreateFqdnContainerFromFilePayload `json:"createFromFile"`
+	CreateFromList *CreateFqdnContainerFromListPayload `json:"createFromList"`
 	RemoveValues   *FqdnContainerRemoveValuesPayload   `json:"removeValues"`
 	UpdateFromFile *UpdateFqdnContainerFromFilePayload `json:"updateFromFile"`
+	UpdateFromList *UpdateFqdnContainerFromListPayload `json:"updateFromList"`
 }
 
 type FqdnContainerQueries struct {
@@ -6438,6 +6549,8 @@ type IPSecInfo struct {
 	IsPrimary *bool `json:"isPrimary,omitempty"`
 	// The destination IP address for the IPsec tunnel (in the site)
 	RemoteIP *string `json:"remoteIP,omitempty"`
+	// List of tunnels configured on the device
+	TunnelConfig []*TunnelConfig `json:"tunnelConfig"`
 }
 
 type IDFilterInput struct {
@@ -6471,10 +6584,11 @@ type IlmmIspDetails struct {
 
 // Intelligent Last Mile Monitoring (ILMM) License details
 type IlmmLicense struct {
-	ID          *string `json:"id,omitempty"`
 	Description *string `json:"description,omitempty"`
 	// License expiration date
 	ExpirationDate string `json:"expirationDate"`
+	// The unique identifier for the license. If this value is not available, you can contact Cato Support, who may be able to assist in retrieving it.
+	ID *string `json:"id,omitempty"`
 	// The date of the last update to the license
 	LastUpdated *string `json:"lastUpdated,omitempty"`
 	// License plan type
@@ -6489,7 +6603,9 @@ type IlmmLicense struct {
 	Total int64 `json:"total"`
 }
 
-func (IlmmLicense) IsLicense()                   {}
+func (IlmmLicense) IsLicense() {}
+
+// The unique identifier for the license. If this value is not available, you can contact Cato Support, who may be able to assist in retrieving it.
 func (this IlmmLicense) GetID() *string          { return this.ID }
 func (this IlmmLicense) GetDescription() *string { return this.Description }
 
@@ -6512,6 +6628,8 @@ func (this IlmmLicense) GetExpirationDate() string { return this.ExpirationDate 
 func (this IlmmLicense) GetLastUpdated() *string { return this.LastUpdated }
 
 func (IlmmLicense) IsQuantifiableLicense() {}
+
+// The unique identifier for the license. If this value is not available, you can contact Cato Support, who may be able to assist in retrieving it.
 
 // License plan type
 
@@ -6683,6 +6801,8 @@ type InterfaceMetrics struct {
 }
 
 type InterfaceSnapshot struct {
+	// State of the BGP tunnel to the Cato Cloud
+	BgpState *BgpState `json:"bgpState,omitempty"`
 	// Information about cellular (LTE) interface
 	CellularInterfaceInfo *CellularInterface `json:"cellularInterfaceInfo,omitempty"`
 	// Shows if the WAN link is connected to the PoP
@@ -6845,7 +6965,7 @@ type InternetFirewallDestinationInput struct {
 	Subnet []string `json:"subnet"`
 }
 
-// Destination match criteria set
+// Input of the settings for Destination of an Internet Firewall rule. To specify 'ANY' destination, an empty list must be provided for each match criteria field (e.g. application: [], country: [], etc...)
 type InternetFirewallDestinationUpdateInput struct {
 	// Cato category of applications which are dynamically updated by Cato
 	AppCategory []*ApplicationCategoryRefInput `json:"appCategory,omitempty"`
@@ -7095,9 +7215,7 @@ type InternetFirewallRuleException struct {
 	// Source Device Profile matching criteria for the exception.
 	Device []*DeviceProfileRef `json:"device"`
 	// Source Device Attributes matching criteria for the exception.
-	//
-	// deviceAttributes: DeviceAttributes!
-	//
+	DeviceAttributes *DeviceAttributes `json:"deviceAttributes"`
 	// Source device OS matching criteria for the exception.
 	DeviceOs []OperatingSystem `json:"deviceOS"`
 	// A unique name of the rule exception.
@@ -7119,9 +7237,7 @@ type InternetFirewallRuleExceptionInput struct {
 	// Source Device Profile matching criteria for the exception.
 	Device []*DeviceProfileRefInput `json:"device"`
 	// Source Device Attributes matching criteria for the exception.
-	//
-	// deviceAttributes: DeviceAttributesInput! = {category: [], type: [], model: [], manufacturer: [], os: [], osVersion: []}
-	//
+	DeviceAttributes *DeviceAttributesInput `json:"deviceAttributes"`
 	// Source device OS matching criteria for the exception.
 	DeviceOs []OperatingSystem `json:"deviceOS"`
 	// A unique name of the rule exception.
@@ -7183,19 +7299,19 @@ func (this InternetFirewallRulePayload) GetProperties() []PolicyElementPropertie
 	return interfaceSlice
 }
 
-// Add the Service Type to which this Internet Firewall rule applies
+// Returns the Service Type to which this Internet Firewall rule applies
 type InternetFirewallServiceType struct {
 	Custom   []*CustomService `json:"custom"`
 	Standard []*ServiceRef    `json:"standard"`
 }
 
-// Add the Service Type to which this Internet Firewall rule applies
+// Input of the Service Type to which this Internet Firewall rule applies. To specify 'ANY' source, an empty list must be provided for each match criteria field (e.g. standard: [], custom: [], etc...)
 type InternetFirewallServiceTypeInput struct {
 	Custom   []*CustomServiceInput `json:"custom"`
 	Standard []*ServiceRefInput    `json:"standard"`
 }
 
-// Add the Service Type to which this Internet Firewall rule applies
+// Input of the Service Type to which this Internet Firewall rule applies. To specify 'ANY' source, an empty list must be provided for each match criteria field (e.g. standard: [], custom: [], etc...)
 type InternetFirewallServiceTypeUpdateInput struct {
 	Custom   []*CustomServiceInput `json:"custom,omitempty"`
 	Standard []*ServiceRefInput    `json:"standard,omitempty"`
@@ -7231,7 +7347,7 @@ type InternetFirewallSource struct {
 	UsersGroup []*UsersGroupRef `json:"usersGroup"`
 }
 
-// Input of the settings for Source of an Internet Firewall rule
+// Input of the settings for Source of an Internet Firewall rule. To specify 'ANY' source, an empty list must be provided for each match criteria field (e.g. ip: [], group: [], etc...)
 type InternetFirewallSourceInput struct {
 	// Floating Subnets (ie. Floating Ranges) are used to identify traffic exactly matched to the route advertised by BGP. They are not associated with a specific site. This is useful in scenarios such as active-standby high availability routed via BGP.
 	FloatingSubnet []*FloatingSubnetRefInput `json:"floatingSubnet"`
@@ -7261,7 +7377,7 @@ type InternetFirewallSourceInput struct {
 	UsersGroup []*UsersGroupRefInput `json:"usersGroup"`
 }
 
-// Input of the settings for Source of an Internet Firewall rule
+// Input of the settings for Source of an Internet Firewall rule. To specify 'ANY' source, an empty list must be provided for each match criteria field (e.g. ip: [], group: [], etc...)
 type InternetFirewallSourceUpdateInput struct {
 	// Floating Subnets (ie. Floating Ranges) are used to identify traffic exactly matched to the route advertised by BGP. They are not associated with a specific site. This is useful in scenarios such as active-standby high availability routed via BGP.
 	FloatingSubnet []*FloatingSubnetRefInput `json:"floatingSubnet,omitempty"`
@@ -7354,10 +7470,11 @@ type InvalidGroupMemberTypeInScope struct {
 
 // IoT/OT Security service license details
 type IotOtLicense struct {
-	ID          *string `json:"id,omitempty"`
 	Description *string `json:"description,omitempty"`
 	// License expiration date
 	ExpirationDate string `json:"expirationDate"`
+	// The unique identifier for the license. If this value is not available, you can contact Cato Support, who may be able to assist in retrieving it.
+	ID *string `json:"id,omitempty"`
 	// The date of the last update to the license
 	LastUpdated *string `json:"lastUpdated,omitempty"`
 	// License plan type
@@ -7370,7 +7487,9 @@ type IotOtLicense struct {
 	Status LicenseStatus `json:"status"`
 }
 
-func (IotOtLicense) IsLicense()                   {}
+func (IotOtLicense) IsLicense() {}
+
+// The unique identifier for the license. If this value is not available, you can contact Cato Support, who may be able to assist in retrieving it.
 func (this IotOtLicense) GetID() *string          { return this.ID }
 func (this IotOtLicense) GetDescription() *string { return this.Description }
 
@@ -7445,8 +7564,10 @@ type IPAddressRangeContainerAddValuesPayload struct {
 type IPAddressRangeContainerMutations struct {
 	AddValues      *IPAddressRangeContainerAddValuesPayload      `json:"addValues"`
 	CreateFromFile *CreateIPAddressRangeContainerFromFilePayload `json:"createFromFile"`
+	CreateFromList *CreateIPAddressRangeContainerFromListPayload `json:"createFromList"`
 	RemoveValues   *IPAddressRangeContainerRemoveValuesPayload   `json:"removeValues"`
 	UpdateFromFile *UpdateIPAddressRangeContainerFromFilePayload `json:"updateFromFile"`
+	UpdateFromList *UpdateIPAddressRangeContainerFromListPayload `json:"updateFromList"`
 }
 
 type IPAddressRangeContainerQueries struct {
@@ -7522,10 +7643,11 @@ type IPAddressRangeInput struct {
 
 // Intrusion Prevention System (IPS) service license (Legacy license, replaced by TP)
 type IpsLicense struct {
-	ID          *string `json:"id,omitempty"`
 	Description *string `json:"description,omitempty"`
 	// License expiration date
 	ExpirationDate string `json:"expirationDate"`
+	// The unique identifier for the license. If this value is not available, you can contact Cato Support, who may be able to assist in retrieving it.
+	ID *string `json:"id,omitempty"`
 	// The date of the last update to the license
 	LastUpdated *string `json:"lastUpdated,omitempty"`
 	// License plan type
@@ -7538,7 +7660,9 @@ type IpsLicense struct {
 	Status LicenseStatus `json:"status"`
 }
 
-func (IpsLicense) IsLicense()                   {}
+func (IpsLicense) IsLicense() {}
+
+// The unique identifier for the license. If this value is not available, you can contact Cato Support, who may be able to assist in retrieving it.
 func (this IpsLicense) GetID() *string          { return this.ID }
 func (this IpsLicense) GetDescription() *string { return this.Description }
 
@@ -7710,10 +7834,11 @@ type MacAddressFilterInput struct {
 
 // Anti-Malware service license details (Legacy license, replaced by TP)
 type MalwareProtectionLicense struct {
-	ID          *string `json:"id,omitempty"`
 	Description *string `json:"description,omitempty"`
 	// License expiration date
 	ExpirationDate string `json:"expirationDate"`
+	// The unique identifier for the license. If this value is not available, you can contact Cato Support, who may be able to assist in retrieving it.
+	ID *string `json:"id,omitempty"`
 	// The date of the last update to the license
 	LastUpdated *string `json:"lastUpdated,omitempty"`
 	// License plan type
@@ -7726,7 +7851,9 @@ type MalwareProtectionLicense struct {
 	Status LicenseStatus `json:"status"`
 }
 
-func (MalwareProtectionLicense) IsLicense()                   {}
+func (MalwareProtectionLicense) IsLicense() {}
+
+// The unique identifier for the license. If this value is not available, you can contact Cato Support, who may be able to assist in retrieving it.
 func (this MalwareProtectionLicense) GetID() *string          { return this.ID }
 func (this MalwareProtectionLicense) GetDescription() *string { return this.Description }
 
@@ -7750,10 +7877,11 @@ func (this MalwareProtectionLicense) GetLastUpdated() *string { return this.Last
 
 // Managed XDR service license details
 type ManagedXdrLicense struct {
-	ID          *string `json:"id,omitempty"`
 	Description *string `json:"description,omitempty"`
 	// License expiration date
 	ExpirationDate string `json:"expirationDate"`
+	// The unique identifier for the license. If this value is not available, you can contact Cato Support, who may be able to assist in retrieving it.
+	ID *string `json:"id,omitempty"`
 	// The date of the last update to the license
 	LastUpdated *string `json:"lastUpdated,omitempty"`
 	// License plan type
@@ -7766,7 +7894,9 @@ type ManagedXdrLicense struct {
 	Status LicenseStatus `json:"status"`
 }
 
-func (ManagedXdrLicense) IsLicense()                   {}
+func (ManagedXdrLicense) IsLicense() {}
+
+// The unique identifier for the license. If this value is not available, you can contact Cato Support, who may be able to assist in retrieving it.
 func (this ManagedXdrLicense) GetID() *string          { return this.ID }
 func (this ManagedXdrLicense) GetDescription() *string { return this.Description }
 
@@ -7790,10 +7920,11 @@ func (this ManagedXdrLicense) GetLastUpdated() *string { return this.LastUpdated
 
 // MDR service license details
 type MdrLicense struct {
-	ID          *string `json:"id,omitempty"`
 	Description *string `json:"description,omitempty"`
 	// License expiration date
 	ExpirationDate string `json:"expirationDate"`
+	// The unique identifier for the license. If this value is not available, you can contact Cato Support, who may be able to assist in retrieving it.
+	ID *string `json:"id,omitempty"`
 	// The date of the last update to the license
 	LastUpdated *string `json:"lastUpdated,omitempty"`
 	// License plan type
@@ -7806,7 +7937,9 @@ type MdrLicense struct {
 	Status LicenseStatus `json:"status"`
 }
 
-func (MdrLicense) IsLicense()                   {}
+func (MdrLicense) IsLicense() {}
+
+// The unique identifier for the license. If this value is not available, you can contact Cato Support, who may be able to assist in retrieving it.
 func (this MdrLicense) GetID() *string          { return this.ID }
 func (this MdrLicense) GetDescription() *string { return this.Description }
 
@@ -8426,10 +8559,11 @@ type Mutation struct {
 
 // NOC as a Service (NOCaaS) service license details
 type NOCaaSLicense struct {
-	ID          *string `json:"id,omitempty"`
 	Description *string `json:"description,omitempty"`
 	// License expiration date
 	ExpirationDate string `json:"expirationDate"`
+	// The unique identifier for the license. If this value is not available, you can contact Cato Support, who may be able to assist in retrieving it.
+	ID *string `json:"id,omitempty"`
 	// The date of the last update to the license
 	LastUpdated *string `json:"lastUpdated,omitempty"`
 	// License plan type
@@ -8442,7 +8576,9 @@ type NOCaaSLicense struct {
 	Status LicenseStatus `json:"status"`
 }
 
-func (NOCaaSLicense) IsLicense()                   {}
+func (NOCaaSLicense) IsLicense() {}
+
+// The unique identifier for the license. If this value is not available, you can contact Cato Support, who may be able to assist in retrieving it.
 func (this NOCaaSLicense) GetID() *string          { return this.ID }
 func (this NOCaaSLicense) GetDescription() *string { return this.Description }
 
@@ -8642,10 +8778,11 @@ func (this NetworkXDRIncident) GetPredictedThreatType() *string        { return 
 
 // NG Anti-Malware service license details (Legacy license, replaced by TP)
 type NextGenMalwareProtectionLicense struct {
-	ID          *string `json:"id,omitempty"`
 	Description *string `json:"description,omitempty"`
 	// License expiration date
 	ExpirationDate string `json:"expirationDate"`
+	// The unique identifier for the license. If this value is not available, you can contact Cato Support, who may be able to assist in retrieving it.
+	ID *string `json:"id,omitempty"`
 	// The date of the last update to the license
 	LastUpdated *string `json:"lastUpdated,omitempty"`
 	// License plan type
@@ -8658,7 +8795,9 @@ type NextGenMalwareProtectionLicense struct {
 	Status LicenseStatus `json:"status"`
 }
 
-func (NextGenMalwareProtectionLicense) IsLicense()                   {}
+func (NextGenMalwareProtectionLicense) IsLicense() {}
+
+// The unique identifier for the license. If this value is not available, you can contact Cato Support, who may be able to assist in retrieving it.
 func (this NextGenMalwareProtectionLicense) GetID() *string          { return this.ID }
 func (this NextGenMalwareProtectionLicense) GetDescription() *string { return this.Description }
 
@@ -8903,7 +9042,6 @@ type PolicyMutationRevisionInput struct {
 	ID *string `json:"id,omitempty"`
 }
 
-// Policies that can be configured with mutation APIs.
 type PolicyMutations struct {
 	AntiMalwareFileHash  *AntiMalwareFileHashPolicyMutations  `json:"antiMalwareFileHash,omitempty"`
 	ApplicationControl   *ApplicationControlPolicyMutations   `json:"applicationControl,omitempty"`
@@ -9137,7 +9275,6 @@ type PolicyUpdateSectionInput struct {
 }
 
 type PooledBandwidthLicense struct {
-	ID *string `json:"id,omitempty"`
 	// Accounts that this license is assigned to (and the license usage within each account)
 	Accounts []*PartnerPooledBandwidthLicenseAccount `json:"accounts"`
 	// allocated bandwidth, in Mbps, for all the sites assigned to this license.
@@ -9145,6 +9282,8 @@ type PooledBandwidthLicense struct {
 	Description        *string `json:"description,omitempty"`
 	// License expiration date
 	ExpirationDate string `json:"expirationDate"`
+	// The unique identifier for the license. If this value is not available, you can contact Cato Support, who may be able to assist in retrieving it.
+	ID *string `json:"id,omitempty"`
 	// The date of the last update to the license
 	LastUpdated *string `json:"lastUpdated,omitempty"`
 	// License plan type
@@ -9165,7 +9304,9 @@ type PooledBandwidthLicense struct {
 	Total int64 `json:"total"`
 }
 
-func (PooledBandwidthLicense) IsLicense()                   {}
+func (PooledBandwidthLicense) IsLicense() {}
+
+// The unique identifier for the license. If this value is not available, you can contact Cato Support, who may be able to assist in retrieving it.
 func (this PooledBandwidthLicense) GetID() *string          { return this.ID }
 func (this PooledBandwidthLicense) GetDescription() *string { return this.Description }
 
@@ -9188,6 +9329,8 @@ func (this PooledBandwidthLicense) GetExpirationDate() string { return this.Expi
 func (this PooledBandwidthLicense) GetLastUpdated() *string { return this.LastUpdated }
 
 func (PooledBandwidthLicense) IsQuantifiableLicense() {}
+
+// The unique identifier for the license. If this value is not available, you can contact Cato Support, who may be able to assist in retrieving it.
 
 // License plan type
 
@@ -9293,7 +9436,6 @@ type PortRangeInput struct {
 	To   scalars.Port `json:"to"`
 }
 
-// inclusive network port range
 type PortRangeUpdateInput struct {
 	From *scalars.Port `json:"from,omitempty"`
 	To   *scalars.Port `json:"to,omitempty"`
@@ -9329,10 +9471,11 @@ type PostalAddressInput struct {
 
 // Public IP address license
 type PublicIpsLicense struct {
-	ID          *string `json:"id,omitempty"`
 	Description *string `json:"description,omitempty"`
 	// License expiration date
 	ExpirationDate string `json:"expirationDate"`
+	// The unique identifier for the license. If this value is not available, you can contact Cato Support, who may be able to assist in retrieving it.
+	ID *string `json:"id,omitempty"`
 	// The date of the last update to the license
 	LastUpdated *string `json:"lastUpdated,omitempty"`
 	// License plan type
@@ -9347,7 +9490,9 @@ type PublicIpsLicense struct {
 	Total int64 `json:"total"`
 }
 
-func (PublicIpsLicense) IsLicense()                   {}
+func (PublicIpsLicense) IsLicense() {}
+
+// The unique identifier for the license. If this value is not available, you can contact Cato Support, who may be able to assist in retrieving it.
 func (this PublicIpsLicense) GetID() *string          { return this.ID }
 func (this PublicIpsLicense) GetDescription() *string { return this.Description }
 
@@ -9370,6 +9515,8 @@ func (this PublicIpsLicense) GetExpirationDate() string { return this.Expiration
 func (this PublicIpsLicense) GetLastUpdated() *string { return this.LastUpdated }
 
 func (PublicIpsLicense) IsQuantifiableLicense() {}
+
+// The unique identifier for the license. If this value is not available, you can contact Cato Support, who may be able to assist in retrieving it.
 
 // License plan type
 
@@ -9410,10 +9557,11 @@ type RbacGroup struct {
 
 // Remote Browser Isolation (RBI) service license details
 type RbiLicense struct {
-	ID          *string `json:"id,omitempty"`
 	Description *string `json:"description,omitempty"`
 	// License expiration date
 	ExpirationDate string `json:"expirationDate"`
+	// The unique identifier for the license. If this value is not available, you can contact Cato Support, who may be able to assist in retrieving it.
+	ID *string `json:"id,omitempty"`
 	// The date of the last update to the license
 	LastUpdated *string `json:"lastUpdated,omitempty"`
 	// License plan type
@@ -9426,7 +9574,9 @@ type RbiLicense struct {
 	Status LicenseStatus `json:"status"`
 }
 
-func (RbiLicense) IsLicense()                   {}
+func (RbiLicense) IsLicense() {}
+
+// The unique identifier for the license. If this value is not available, you can contact Cato Support, who may be able to assist in retrieving it.
 func (this RbiLicense) GetID() *string          { return this.ID }
 func (this RbiLicense) GetDescription() *string { return this.Description }
 
@@ -9870,10 +10020,11 @@ type ReplaceSiteBwLicensePayload struct {
 
 // SaaS Security API service license details
 type SaasSecurityAPILicense struct {
-	ID          *string `json:"id,omitempty"`
 	Description *string `json:"description,omitempty"`
 	// License expiration date
 	ExpirationDate string `json:"expirationDate"`
+	// The unique identifier for the license. If this value is not available, you can contact Cato Support, who may be able to assist in retrieving it.
+	ID *string `json:"id,omitempty"`
 	// The date of the last update to the license
 	LastUpdated *string `json:"lastUpdated,omitempty"`
 	// License plan type
@@ -9888,7 +10039,9 @@ type SaasSecurityAPILicense struct {
 	Total int64 `json:"total"`
 }
 
-func (SaasSecurityAPILicense) IsLicense()                   {}
+func (SaasSecurityAPILicense) IsLicense() {}
+
+// The unique identifier for the license. If this value is not available, you can contact Cato Support, who may be able to assist in retrieving it.
 func (this SaasSecurityAPILicense) GetID() *string          { return this.ID }
 func (this SaasSecurityAPILicense) GetDescription() *string { return this.Description }
 
@@ -9911,6 +10064,8 @@ func (this SaasSecurityAPILicense) GetExpirationDate() string { return this.Expi
 func (this SaasSecurityAPILicense) GetLastUpdated() *string { return this.LastUpdated }
 
 func (SaasSecurityAPILicense) IsQuantifiableLicense() {}
+
+// The unique identifier for the license. If this value is not available, you can contact Cato Support, who may be able to assist in retrieving it.
 
 // License plan type
 
@@ -10193,10 +10348,11 @@ type SiteInfo struct {
 
 // Site bandwidth license
 type SiteLicense struct {
-	ID          *string `json:"id,omitempty"`
 	Description *string `json:"description,omitempty"`
 	// License expiration date
 	ExpirationDate string `json:"expirationDate"`
+	// The unique identifier for the license. If this value is not available, you can contact Cato Support, who may be able to assist in retrieving it.
+	ID *string `json:"id,omitempty"`
 	// The date of the last update to the license
 	LastUpdated *string `json:"lastUpdated,omitempty"`
 	// License plan type
@@ -10219,7 +10375,9 @@ type SiteLicense struct {
 	Total int64 `json:"total"`
 }
 
-func (SiteLicense) IsLicense()                   {}
+func (SiteLicense) IsLicense() {}
+
+// The unique identifier for the license. If this value is not available, you can contact Cato Support, who may be able to assist in retrieving it.
 func (this SiteLicense) GetID() *string          { return this.ID }
 func (this SiteLicense) GetDescription() *string { return this.Description }
 
@@ -10242,6 +10400,8 @@ func (this SiteLicense) GetExpirationDate() string { return this.ExpirationDate 
 func (this SiteLicense) GetLastUpdated() *string { return this.LastUpdated }
 
 func (SiteLicense) IsQuantifiableLicense() {}
+
+// The unique identifier for the license. If this value is not available, you can contact Cato Support, who may be able to assist in retrieving it.
 
 // License plan type
 
@@ -10428,6 +10588,8 @@ type SiteSnapshot struct {
 	ConnectedSince *string `json:"connectedSince,omitempty"`
 	// Connectivity to the Cato Cloud
 	ConnectivityStatus *ConnectivityStatus `json:"connectivityStatus,omitempty"`
+	// Degraded status and details
+	DegradedStatus *DegradedStatus `json:"degradedStatus,omitempty"`
 	// Data related to the Sockets for a site
 	Devices []*DeviceSnapshot `json:"devices,omitempty"`
 	// Site HA readiness information
@@ -10541,7 +10703,7 @@ type SocketInterfaceWanInput struct {
 
 type SocketInventoryFilterInput struct {
 	// Will run contains operation for the provided text on the following fields serialNumber,socketMac,socketVersion,installedSite,
-	// shippingCompany,trackingNumber,deliverySiteName,description with OR between them
+	// shippingCompany,trackingNumber,deliverySiteName,description,hardwareVersion with OR between them
 	FreeText *FreeTextFilterInput `json:"freeText,omitempty"`
 }
 
@@ -10560,6 +10722,8 @@ type SocketInventoryItem struct {
 	DeliverySiteName *string `json:"deliverySiteName,omitempty"`
 	// Description
 	Description *string `json:"description,omitempty"`
+	// Hardware Version
+	HardwareVersion *string `json:"hardwareVersion,omitempty"`
 	// ID
 	ID string `json:"id"`
 	// Is primary socket
@@ -10596,6 +10760,7 @@ type SocketInventoryOrderInput struct {
 	AccountName      *SortOrderInput `json:"accountName,omitempty"`
 	DeliverySiteName *SortOrderInput `json:"deliverySiteName,omitempty"`
 	Description      *SortOrderInput `json:"description,omitempty"`
+	HardwareVersion  *SortOrderInput `json:"hardwareVersion,omitempty"`
 	InstalledSite    *SortOrderInput `json:"installedSite,omitempty"`
 	SerialNumber     *SortOrderInput `json:"serialNumber,omitempty"`
 	ShippingCompany  *SortOrderInput `json:"shippingCompany,omitempty"`
@@ -12369,10 +12534,11 @@ type ThreatPreventionEvents struct {
 
 // Threat Prevention (TP) license details
 type ThreatPreventionLicense struct {
-	ID          *string `json:"id,omitempty"`
 	Description *string `json:"description,omitempty"`
 	// License expiration date
 	ExpirationDate string `json:"expirationDate"`
+	// The unique identifier for the license. If this value is not available, you can contact Cato Support, who may be able to assist in retrieving it.
+	ID *string `json:"id,omitempty"`
 	// The date of the last update to the license
 	LastUpdated *string `json:"lastUpdated,omitempty"`
 	// License plan type
@@ -12385,7 +12551,9 @@ type ThreatPreventionLicense struct {
 	Status LicenseStatus `json:"status"`
 }
 
-func (ThreatPreventionLicense) IsLicense()                   {}
+func (ThreatPreventionLicense) IsLicense() {}
+
+// The unique identifier for the license. If this value is not available, you can contact Cato Support, who may be able to assist in retrieving it.
 func (this ThreatPreventionLicense) GetID() *string          { return this.ID }
 func (this ThreatPreventionLicense) GetDescription() *string { return this.Description }
 
@@ -13128,6 +13296,18 @@ type UpdateFqdnContainerFromFilePayload struct {
 	Container *FqdnContainer `json:"container"`
 }
 
+type UpdateFqdnContainerFromListInput struct {
+	Description string             `json:"description"`
+	Ref         *ContainerRefInput `json:"ref"`
+	Values      []string           `json:"values,omitempty"`
+}
+
+// Payload of UpdateFromList operation on FQDN typed container
+type UpdateFqdnContainerFromListPayload struct {
+	// Container with members of type FQDN
+	Container *FqdnContainer `json:"container"`
+}
+
 // Update attributes for a group. Only the provided fields are updated - the other fields are not changed
 // Note: You can only update a total of 500 group members at one time, this means 'membersToAdd + membersToRemove' or 'members' must be less than 500
 type UpdateGroupInput struct {
@@ -13182,6 +13362,18 @@ type UpdateIPAddressRangeContainerFromFileInput struct {
 
 // Payload of UpdateFromFile operation on IPAddressRange typed container
 type UpdateIPAddressRangeContainerFromFilePayload struct {
+	// Container with members of type IPAddressRange
+	Container *IPAddressRangeContainer `json:"container"`
+}
+
+type UpdateIPAddressRangeContainerFromListInput struct {
+	Description string                 `json:"description"`
+	Ref         *ContainerRefInput     `json:"ref"`
+	Values      []*IPAddressRangeInput `json:"values,omitempty"`
+}
+
+// Payload of UpdateFromList operation on IPAddressRange typed container
+type UpdateIPAddressRangeContainerFromListPayload struct {
 	// Container with members of type IPAddressRange
 	Container *IPAddressRangeContainer `json:"container"`
 }
@@ -14777,10 +14969,11 @@ type Xdr struct {
 
 // XOps service license details
 type XOpsLicense struct {
-	ID          *string `json:"id,omitempty"`
 	Description *string `json:"description,omitempty"`
 	// License expiration date
 	ExpirationDate string `json:"expirationDate"`
+	// The unique identifier for the license. If this value is not available, you can contact Cato Support, who may be able to assist in retrieving it.
+	ID *string `json:"id,omitempty"`
 	// The date of the last update to the license
 	LastUpdated *string `json:"lastUpdated,omitempty"`
 	// License plan type
@@ -14793,7 +14986,9 @@ type XOpsLicense struct {
 	Status LicenseStatus `json:"status"`
 }
 
-func (XOpsLicense) IsLicense()                   {}
+func (XOpsLicense) IsLicense() {}
+
+// The unique identifier for the license. If this value is not available, you can contact Cato Support, who may be able to assist in retrieving it.
 func (this XOpsLicense) GetID() *string          { return this.ID }
 func (this XOpsLicense) GetDescription() *string { return this.Description }
 
@@ -14826,10 +15021,11 @@ type XdrMutations struct {
 
 // XDR Pro (extended detection and response) service license details
 type XdrProLicense struct {
-	ID          *string `json:"id,omitempty"`
 	Description *string `json:"description,omitempty"`
 	// License expiration date
 	ExpirationDate string `json:"expirationDate"`
+	// The unique identifier for the license. If this value is not available, you can contact Cato Support, who may be able to assist in retrieving it.
+	ID *string `json:"id,omitempty"`
 	// The date of the last update to the license
 	LastUpdated *string `json:"lastUpdated,omitempty"`
 	// License plan type
@@ -14844,7 +15040,9 @@ type XdrProLicense struct {
 	Total int64 `json:"total"`
 }
 
-func (XdrProLicense) IsLicense()                   {}
+func (XdrProLicense) IsLicense() {}
+
+// The unique identifier for the license. If this value is not available, you can contact Cato Support, who may be able to assist in retrieving it.
 func (this XdrProLicense) GetID() *string          { return this.ID }
 func (this XdrProLicense) GetDescription() *string { return this.Description }
 
@@ -14868,6 +15066,8 @@ func (this XdrProLicense) GetLastUpdated() *string { return this.LastUpdated }
 
 func (XdrProLicense) IsQuantifiableLicense() {}
 
+// The unique identifier for the license. If this value is not available, you can contact Cato Support, who may be able to assist in retrieving it.
+
 // License plan type
 
 // The license SKU
@@ -14885,10 +15085,11 @@ func (this XdrProLicense) GetTotal() int64 { return this.Total }
 
 // ZTNA remote users license
 type ZtnaUsersLicense struct {
-	ID          *string `json:"id,omitempty"`
 	Description *string `json:"description,omitempty"`
 	// License expiration date
 	ExpirationDate string `json:"expirationDate"`
+	// The unique identifier for the license. If this value is not available, you can contact Cato Support, who may be able to assist in retrieving it.
+	ID *string `json:"id,omitempty"`
 	// The date of the last update to the license
 	LastUpdated *string `json:"lastUpdated,omitempty"`
 	// License plan type
@@ -14905,7 +15106,9 @@ type ZtnaUsersLicense struct {
 	ZtnaUsersLicenseGroup ZtnaUsersLicenseGroup `json:"ztnaUsersLicenseGroup"`
 }
 
-func (ZtnaUsersLicense) IsLicense()                   {}
+func (ZtnaUsersLicense) IsLicense() {}
+
+// The unique identifier for the license. If this value is not available, you can contact Cato Support, who may be able to assist in retrieving it.
 func (this ZtnaUsersLicense) GetID() *string          { return this.ID }
 func (this ZtnaUsersLicense) GetDescription() *string { return this.Description }
 
@@ -14928,6 +15131,8 @@ func (this ZtnaUsersLicense) GetExpirationDate() string { return this.Expiration
 func (this ZtnaUsersLicense) GetLastUpdated() *string { return this.LastUpdated }
 
 func (ZtnaUsersLicense) IsQuantifiableLicense() {}
+
+// The unique identifier for the license. If this value is not available, you can contact Cato Support, who may be able to assist in retrieving it.
 
 // License plan type
 
@@ -16533,6 +16738,57 @@ func (e BgpDefaultAction) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
+type BgpState string
+
+const (
+	BgpStateActive      BgpState = "Active"
+	BgpStateConnect     BgpState = "Connect"
+	BgpStateEstablished BgpState = "Established"
+	BgpStateIdle        BgpState = "Idle"
+	BgpStateOpenConfirm BgpState = "OpenConfirm"
+	BgpStateOpenSent    BgpState = "OpenSent"
+	BgpStateStateMax    BgpState = "StateMAX"
+)
+
+var AllBgpState = []BgpState{
+	BgpStateActive,
+	BgpStateConnect,
+	BgpStateEstablished,
+	BgpStateIdle,
+	BgpStateOpenConfirm,
+	BgpStateOpenSent,
+	BgpStateStateMax,
+}
+
+func (e BgpState) IsValid() bool {
+	switch e {
+	case BgpStateActive, BgpStateConnect, BgpStateEstablished, BgpStateIdle, BgpStateOpenConfirm, BgpStateOpenSent, BgpStateStateMax:
+		return true
+	}
+	return false
+}
+
+func (e BgpState) String() string {
+	return string(e)
+}
+
+func (e *BgpState) UnmarshalGQL(v any) error {
+	str, ok := v.(string)
+	if !ok {
+		return fmt.Errorf("enums must be strings")
+	}
+
+	*e = BgpState(str)
+	if !e.IsValid() {
+		return fmt.Errorf("%s is not a valid BgpState", str)
+	}
+	return nil
+}
+
+func (e BgpState) MarshalGQL(w io.Writer) {
+	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
 type CatalogApplicationActivityFieldOperator string
 
 const (
@@ -17189,6 +17445,67 @@ func (e *DayOfWeek) UnmarshalGQL(v any) error {
 }
 
 func (e DayOfWeek) MarshalGQL(w io.Writer) {
+	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+type DegradedStatusReason string
+
+const (
+	DegradedStatusReasonAltWanDisconnected                        DegradedStatusReason = "ALT_WAN_DISCONNECTED"
+	DegradedStatusReasonCrossConnectCircuitDisconnected           DegradedStatusReason = "CROSS_CONNECT_CIRCUIT_DISCONNECTED"
+	DegradedStatusReasonHaNotReadyIncompatibleMajorSocketVersions DegradedStatusReason = "HA_NOT_READY_INCOMPATIBLE_MAJOR_SOCKET_VERSIONS"
+	DegradedStatusReasonHaNotReadyNoKeepalive                     DegradedStatusReason = "HA_NOT_READY_NO_KEEPALIVE"
+	DegradedStatusReasonHaNotReadySocketDisconnected              DegradedStatusReason = "HA_NOT_READY_SOCKET_DISCONNECTED"
+	DegradedStatusReasonIpsecMultiTunnelTunnelDisconnected        DegradedStatusReason = "IPSEC_MULTI_TUNNEL_TUNNEL_DISCONNECTED"
+	DegradedStatusReasonIpsecTunnelDisconnected                   DegradedStatusReason = "IPSEC_TUNNEL_DISCONNECTED"
+	DegradedStatusReasonLanDisconnected                           DegradedStatusReason = "LAN_DISCONNECTED"
+	DegradedStatusReasonLanLagDisconnected                        DegradedStatusReason = "LAN_LAG_DISCONNECTED"
+	DegradedStatusReasonLanLagMemberDisconnected                  DegradedStatusReason = "LAN_LAG_MEMBER_DISCONNECTED"
+	DegradedStatusReasonWanDisconnected                           DegradedStatusReason = "WAN_DISCONNECTED"
+	DegradedStatusReasonWanTunnelDisconnected                     DegradedStatusReason = "WAN_TUNNEL_DISCONNECTED"
+)
+
+var AllDegradedStatusReason = []DegradedStatusReason{
+	DegradedStatusReasonAltWanDisconnected,
+	DegradedStatusReasonCrossConnectCircuitDisconnected,
+	DegradedStatusReasonHaNotReadyIncompatibleMajorSocketVersions,
+	DegradedStatusReasonHaNotReadyNoKeepalive,
+	DegradedStatusReasonHaNotReadySocketDisconnected,
+	DegradedStatusReasonIpsecMultiTunnelTunnelDisconnected,
+	DegradedStatusReasonIpsecTunnelDisconnected,
+	DegradedStatusReasonLanDisconnected,
+	DegradedStatusReasonLanLagDisconnected,
+	DegradedStatusReasonLanLagMemberDisconnected,
+	DegradedStatusReasonWanDisconnected,
+	DegradedStatusReasonWanTunnelDisconnected,
+}
+
+func (e DegradedStatusReason) IsValid() bool {
+	switch e {
+	case DegradedStatusReasonAltWanDisconnected, DegradedStatusReasonCrossConnectCircuitDisconnected, DegradedStatusReasonHaNotReadyIncompatibleMajorSocketVersions, DegradedStatusReasonHaNotReadyNoKeepalive, DegradedStatusReasonHaNotReadySocketDisconnected, DegradedStatusReasonIpsecMultiTunnelTunnelDisconnected, DegradedStatusReasonIpsecTunnelDisconnected, DegradedStatusReasonLanDisconnected, DegradedStatusReasonLanLagDisconnected, DegradedStatusReasonLanLagMemberDisconnected, DegradedStatusReasonWanDisconnected, DegradedStatusReasonWanTunnelDisconnected:
+		return true
+	}
+	return false
+}
+
+func (e DegradedStatusReason) String() string {
+	return string(e)
+}
+
+func (e *DegradedStatusReason) UnmarshalGQL(v any) error {
+	str, ok := v.(string)
+	if !ok {
+		return fmt.Errorf("enums must be strings")
+	}
+
+	*e = DegradedStatusReason(str)
+	if !e.IsValid() {
+		return fmt.Errorf("%s is not a valid DegradedStatusReason", str)
+	}
+	return nil
+}
+
+func (e DegradedStatusReason) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
@@ -18185,15 +18502,22 @@ const (
 	EventFieldNameAction EventFieldName = "action"
 	// A list of actions taken, if more than one action was taken as defined by a policy
 	EventFieldNameActionsTaken EventFieldName = "actions_taken"
+	// The activity resource ID being referenced with resource type.
+	EventFieldNameActivityResourceID EventFieldName = "activity_resource_id"
+	// Defines the type of entity performing the action, helping to distinguish between different categories of users.
+	EventFieldNameActorType EventFieldName = "actor_type"
 	// Active Directory name
-	EventFieldNameAdName  EventFieldName = "ad_name"
+	EventFieldNameAdName EventFieldName = "ad_name"
+	// A unique identifier of the alert notification
 	EventFieldNameAlertID EventFieldName = "alert_id"
 	// Always-on Configuration
 	EventFieldNameAlwaysOnConfiguration EventFieldName = "always_on_configuration"
 	// Analyst Verdict
 	EventFieldNameAnalystVerdict EventFieldName = "analyst_verdict"
-	EventFieldNameAPIName        EventFieldName = "api_name"
-	EventFieldNameAPIType        EventFieldName = "api_type"
+	// The name of the API, e.g. eventsFeed
+	EventFieldNameAPIName EventFieldName = "api_name"
+	// Specifies whether the API is a query (read) or a mutation (create/update/delete)
+	EventFieldNameAPIType EventFieldName = "api_type"
 	// Name of application activity
 	EventFieldNameAppActivity EventFieldName = "app_activity"
 	// SaaS user activities into categories.
@@ -18202,8 +18526,6 @@ const (
 	EventFieldNameAppActivityType EventFieldName = "app_activity_type"
 	// Related Apps
 	EventFieldNameAppStack EventFieldName = "app_stack"
-	// For Internet firewall, app for this event
-	EventFieldNameApplication EventFieldName = "application"
 	// Application ID of the flow
 	EventFieldNameApplicationID EventFieldName = "application_id"
 	// The name of the application associated with the flow
@@ -18222,8 +18544,6 @@ const (
 	EventFieldNameBgpErrorCode EventFieldName = "bgp_error_code"
 	// BGP ASN for remote peer
 	EventFieldNameBgpPeerAsn EventFieldName = "bgp_peer_asn"
-	// Description from Cato Management Application for BGP peer
-	EventFieldNameBgpPeerDescription EventFieldName = "bgp_peer_description"
 	// BGP IP for remote peer
 	EventFieldNameBgpPeerIP EventFieldName = "bgp_peer_ip"
 	// CIDR for BGP route
@@ -18239,7 +18559,8 @@ const (
 	// Cato system category
 	EventFieldNameCategories EventFieldName = "categories"
 	// Cato application name
-	EventFieldNameCatoApp        EventFieldName = "cato_app"
+	EventFieldNameCatoApp EventFieldName = "cato_app"
+	// Activity classification, e.g. FALSE_POSITIVE
 	EventFieldNameClassification EventFieldName = "classification"
 	// Expiration date for Client certificate
 	EventFieldNameClientCertExpires EventFieldName = "client_cert_expires"
@@ -18247,6 +18568,10 @@ const (
 	EventFieldNameClientCertName EventFieldName = "client_cert_name"
 	// Type of process generating this traffic
 	EventFieldNameClientClass EventFieldName = "client_class"
+	// Admins can configure the Client connection mode to control which types of traffic are routed and protected by Cato. The available options are:
+	// All Ports and Protocols – Secures all application traffic across any port or protocol.
+	// Web-only (HTTPS) – Secures only browser-based traffic over HTTPS.
+	EventFieldNameClientConnectionMode EventFieldName = "client_connection_mode"
 	// Socket or SDP Client version
 	EventFieldNameClientVersion EventFieldName = "client_version"
 	// Shows the display name of the target user involved in an activity
@@ -18275,10 +18600,6 @@ const (
 	EventFieldNameCorrelationID EventFieldName = "correlation_id"
 	// Criticality
 	EventFieldNameCriticality EventFieldName = "criticality"
-	// Unique Cato ID for the custom category
-	EventFieldNameCustomCategories EventFieldName = "custom_categories"
-	// Name for the custom category defined in the Cato Management Application
-	EventFieldNameCustomCategory EventFieldName = "custom_category"
 	// Custom category ID
 	EventFieldNameCustomCategoryID EventFieldName = "custom_category_id"
 	// Custom category name
@@ -18307,8 +18628,6 @@ const (
 	EventFieldNameDestProcessParentPid EventFieldName = "dest_process_parent_pid"
 	// Destination process file path
 	EventFieldNameDestProcessPath EventFieldName = "dest_process_path"
-	// For WAN traffic, name of destination site or SDP user
-	EventFieldNameDestSite EventFieldName = "dest_site"
 	// Unique internal Cato ID for the destination site or remote user
 	EventFieldNameDestSiteID EventFieldName = "dest_site_id"
 	// The name of the destination site
@@ -18336,8 +18655,6 @@ const (
 	EventFieldNameDeviceOsType EventFieldName = "device_os_type"
 	// Device posture profiles
 	EventFieldNameDevicePostureProfile EventFieldName = "device_posture_profile"
-	// Device posture profiles
-	EventFieldNameDevicePostureProfiles EventFieldName = "device_posture_profiles"
 	// Device Type
 	EventFieldNameDeviceType EventFieldName = "device_type"
 	// Host name of Domain Controller that created LDAP event
@@ -18370,6 +18687,8 @@ const (
 	EventFieldNameEmailSubject EventFieldName = "email_subject"
 	// The ID for the endpoint
 	EventFieldNameEndpointID EventFieldName = "endpoint_id"
+	// The engine type associated with the event
+	EventFieldNameEngineType EventFieldName = "engine_type"
 	// The Endpoint Protection Engine that detected the malware
 	EventFieldNameEppEngineType EventFieldName = "epp_engine_type"
 	// The profile assigned to the endpoint upon detection of the malware
@@ -18383,7 +18702,8 @@ const (
 	// Sub-type for Routing, Security, Connectivity, System or Sockets Management event
 	EventFieldNameEventSubType EventFieldName = "event_sub_type"
 	// Routing, Security, Connectivity, System or Sockets Management event
-	EventFieldNameEventType     EventFieldName = "event_type"
+	EventFieldNameEventType EventFieldName = "event_type"
+	// Provides details about why a specific action or process failed
 	EventFieldNameFailureReason EventFieldName = "failure_reason"
 	// File hash
 	EventFieldNameFileHash EventFieldName = "file_hash"
@@ -18394,7 +18714,8 @@ const (
 	// File size
 	EventFieldNameFileSize EventFieldName = "file_size"
 	// File type
-	EventFieldNameFileType          EventFieldName = "file_type"
+	EventFieldNameFileType EventFieldName = "file_type"
+	// The final status for this object after performing actions as defined by the policy
 	EventFieldNameFinalObjectStatus EventFieldName = "final_object_status"
 	// Amount of flows for a given incident
 	EventFieldNameFlowsCardinality EventFieldName = "flows_cardinality"
@@ -18449,7 +18770,8 @@ const (
 	// Data that measures the packet loss for a specific link
 	EventFieldNameLinkHealthPktLoss EventFieldName = "link_health_pkt_loss"
 	// Link type – Cato, Alt. WAN or LAG
-	EventFieldNameLinkType     EventFieldName = "link_type"
+	EventFieldNameLinkType EventFieldName = "link_type"
+	// The user logged into this endpoint during this event
 	EventFieldNameLoggedInUser EventFieldName = "logged_in_user"
 	// Login action, values are: User portal (myvpn.catonetworks.com) or VPN client (Client or site traffic)
 	EventFieldNameLoginType EventFieldName = "login_type"
@@ -18469,15 +18791,19 @@ const (
 	EventFieldNameNotificationAPIError EventFieldName = "notification_api_error"
 	// For SaaS Security API, description of Apps Security Notification
 	EventFieldNameNotificationDescription EventFieldName = "notification_description"
-	EventFieldNameObjectID                EventFieldName = "object_id"
-	EventFieldNameObjectName              EventFieldName = "object_name"
-	EventFieldNameObjectType              EventFieldName = "object_type"
+	// Unique identifier by the 3rd party App of the object being referenced
+	EventFieldNameObjectID EventFieldName = "object_id"
+	// The name of the object for this event (for example: file name)
+	EventFieldNameObjectName EventFieldName = "object_name"
+	// Specifies the type of object being acted upon (e.g., file, folder)
+	EventFieldNameObjectType EventFieldName = "object_type"
 	// Office mode Enabled/Disabled
 	EventFieldNameOfficeMode EventFieldName = "office_mode"
 	// Host OS or tunnel device
 	EventFieldNameOsType EventFieldName = "os_type"
 	// OS version for the device (such as 14.3.0)
-	EventFieldNameOsVersion       EventFieldName = "os_version"
+	EventFieldNameOsVersion EventFieldName = "os_version"
+	// Indicate if the Access to the 3rd Party SaaS App occurs without passing through Cato Cloud (direct access to saas App)
 	EventFieldNameOutOfBandAccess EventFieldName = "out_of_band_access"
 	// For SaaS Security API, email address of the file owner
 	EventFieldNameOwner EventFieldName = "owner"
@@ -18485,43 +18811,56 @@ const (
 	EventFieldNamePacFile EventFieldName = "pac_file"
 	// For SaaS Security API, parent Microsoft 365 connector
 	EventFieldNameParentConnectorName EventFieldName = "parent_connector_name"
-	EventFieldNameParentPid           EventFieldName = "parent_pid"
-	EventFieldNamePid                 EventFieldName = "pid"
 	// Name of PoP location
 	EventFieldNamePopName EventFieldName = "pop_name"
 	// Precedence
-	EventFieldNamePrecedence  EventFieldName = "precedence"
-	EventFieldNameProcessPath EventFieldName = "process_path"
+	EventFieldNamePrecedence EventFieldName = "precedence"
 	// Indicate how many processes are part of this event
 	EventFieldNameProcessesCount EventFieldName = "processes_count"
 	// Producer
 	EventFieldNameProducer EventFieldName = "producer"
+	// Related project name(s)
+	EventFieldNameProjects EventFieldName = "projects"
 	// Prompt Page Selected Action
 	EventFieldNamePromptAction EventFieldName = "prompt_action"
+	// The name of the provider, for example cloud provider - AWS
+	EventFieldNameProviderName EventFieldName = "provider_name"
 	// Public source IP
 	EventFieldNamePublicIP EventFieldName = "public_ip"
 	// QoS Priority value
 	EventFieldNameQosPriority EventFieldName = "qos_priority"
 	// For QoS, the time that this QoS event started. The event is generated when the QoS event finishes
-	EventFieldNameQosReportedTime      EventFieldName = "qos_reported_time"
+	EventFieldNameQosReportedTime EventFieldName = "qos_reported_time"
+	// Specifies the path to a quarantine folder for isolated files
 	EventFieldNameQuarantineFolderPath EventFieldName = "quarantine_folder_path"
 	// A Unique ID for the quarantined file
 	EventFieldNameQuarantineUUID EventFieldName = "quarantine_uuid"
 	// Raw Data
-	EventFieldNameRawData            EventFieldName = "raw_data"
+	EventFieldNameRawData EventFieldName = "raw_data"
+	// Textual recommendation of the steps to take
 	EventFieldNameRecommendedActions EventFieldName = "recommended_actions"
 	// The URL that links directly to the object involved in the activity
 	EventFieldNameReferenceURL EventFieldName = "reference_url"
+	// Referer URL from the HTTP request header indicating the source of the request.
+	EventFieldNameRefererURL EventFieldName = "referer_url"
+	// The region of the object
+	EventFieldNameRegionName EventFieldName = "region_name"
 	// Registration code used the first time that a SDP user authenticates (the code is partially obfuscated)
 	EventFieldNameRegistrationCode EventFieldName = "registration_code"
+	// The ID of the resource in the cloud provider
+	EventFieldNameResourceID EventFieldName = "resource_id"
+	// The specific name or identifier of the resource.
+	EventFieldNameResourceName EventFieldName = "resource_name"
+	// The type of resource being referenced.
+	EventFieldNameResourceType EventFieldName = "resource_type"
 	// (IPS or SAM event) Indicates the overall impact of a threat for the host or network: Low – ie. adware Medium – ie. network scans High – ie. spyware or worms
 	EventFieldNameRiskLevel EventFieldName = "risk_level"
-	// Name of security rule related to the event
-	EventFieldNameRule EventFieldName = "rule"
 	// Unique Cato ID for the security rule related to the event
 	EventFieldNameRuleID EventFieldName = "rule_id"
 	// Rule name
 	EventFieldNameRuleName EventFieldName = "rule_name"
+	// Indicates the internal vendor service or module that produced the data reported in this event
+	EventFieldNameServiceName EventFieldName = "service_name"
 	// Severity defined for the rule
 	EventFieldNameSeverity EventFieldName = "severity"
 	// Sharing Options for the file (such as SharePoint)
@@ -18558,9 +18897,6 @@ const (
 	EventFieldNameSrcIsSiteOrVpn EventFieldName = "src_is_site_or_vpn"
 	// IP address provided by ISP to site or Client
 	EventFieldNameSrcIspIP EventFieldName = "src_isp_ip"
-	// Source or destination site or remote user ID.
-	// This field can only be used in filter.
-	EventFieldNameSrcOrDestSiteID EventFieldName = "src_or_dest_site_id"
 	// Source process ID
 	EventFieldNameSrcPid EventFieldName = "src_pid"
 	// Internal port number
@@ -18573,19 +18909,21 @@ const (
 	EventFieldNameSrcProcessParentPid EventFieldName = "src_process_parent_pid"
 	// Source process file path
 	EventFieldNameSrcProcessPath EventFieldName = "src_process_path"
-	// Name of site or user initiating the connection
-	EventFieldNameSrcSite EventFieldName = "src_site"
 	// Unique internal Cato ID for the site or remote user
 	EventFieldNameSrcSiteID EventFieldName = "src_site_id"
 	// Source site or remote user
 	EventFieldNameSrcSiteName EventFieldName = "src_site_name"
 	// Static host
 	EventFieldNameStaticHost EventFieldName = "static_host"
-	EventFieldNameStatus     EventFieldName = "status"
+	// The story status.
+	// Possible values: Open, Pending Analysis, Pending more info, Closed, Reopened, Monitoring
+	EventFieldNameStatus EventFieldName = "status"
 	// Story Id
 	EventFieldNameStoryID EventFieldName = "story_id"
 	// Name of subnet as defined in Cato Management Application
 	EventFieldNameSubnetName EventFieldName = "subnet_name"
+	// The name of the subscription
+	EventFieldNameSubscriptionName EventFieldName = "subscription_name"
 	// Number of targets (servers) associated with this event
 	EventFieldNameTargetsCardinality EventFieldName = "targets_cardinality"
 	// Shows if traffic was TCP accelerated or not
@@ -18611,7 +18949,7 @@ const (
 	EventFieldNameThreatType EventFieldName = "threat_type"
 	// Result of malware event (clean indicates a safe file)
 	EventFieldNameThreatVerdict EventFieldName = "threat_verdict"
-	// Time stamp of event (Linux epoch format)
+	// Time stamp of the event (Linux epoch format)
 	EventFieldNameTime EventFieldName = "time"
 	// Time stamp of the event (Human-readable format)
 	EventFieldNameTimeStr EventFieldName = "time_str"
@@ -18661,6 +18999,8 @@ const (
 	EventFieldNameUserID EventFieldName = "user_id"
 	// User that generated the event
 	EventFieldNameUserName EventFieldName = "user_name"
+	// Identifies the origin of the user’s connection.
+	EventFieldNameUserOrigin EventFieldName = "user_origin"
 	// For Block/Prompt page, reference ID to report incorrect category
 	EventFieldNameUserReferenceID EventFieldName = "user_reference_id"
 	// User risk level category
@@ -18675,7 +19015,14 @@ const (
 	EventFieldNameVendorDeviceName EventFieldName = "vendor_device_name"
 	// Vendor Event Id
 	EventFieldNameVendorEventID EventFieldName = "vendor_event_id"
-	EventFieldNameVendorUserID  EventFieldName = "vendor_user_id"
+	// Third party vendor policy description
+	EventFieldNameVendorPolicyDescription EventFieldName = "vendor_policy_description"
+	// Third party vendor policy ID
+	EventFieldNameVendorPolicyID EventFieldName = "vendor_policy_id"
+	// Third party vendor policy name
+	EventFieldNameVendorPolicyName EventFieldName = "vendor_policy_name"
+	// Identifies the user in the vendor’s system
+	EventFieldNameVendorUserID EventFieldName = "vendor_user_id"
 	// Unique Cato Visible ID for devices
 	EventFieldNameVisibleDeviceID EventFieldName = "visible_device_id"
 	// Lan access Allowed / Blocked
@@ -18693,6 +19040,8 @@ var AllEventFieldName = []EventFieldName{
 	EventFieldNameAccountID,
 	EventFieldNameAction,
 	EventFieldNameActionsTaken,
+	EventFieldNameActivityResourceID,
+	EventFieldNameActorType,
 	EventFieldNameAdName,
 	EventFieldNameAlertID,
 	EventFieldNameAlwaysOnConfiguration,
@@ -18703,7 +19052,6 @@ var AllEventFieldName = []EventFieldName{
 	EventFieldNameAppActivityCategory,
 	EventFieldNameAppActivityType,
 	EventFieldNameAppStack,
-	EventFieldNameApplication,
 	EventFieldNameApplicationID,
 	EventFieldNameApplicationName,
 	EventFieldNameApplicationRisk,
@@ -18713,7 +19061,6 @@ var AllEventFieldName = []EventFieldName{
 	EventFieldNameBgpCatoIP,
 	EventFieldNameBgpErrorCode,
 	EventFieldNameBgpPeerAsn,
-	EventFieldNameBgpPeerDescription,
 	EventFieldNameBgpPeerIP,
 	EventFieldNameBgpRouteCidr,
 	EventFieldNameBgpSuberrorCode,
@@ -18726,6 +19073,7 @@ var AllEventFieldName = []EventFieldName{
 	EventFieldNameClientCertExpires,
 	EventFieldNameClientCertName,
 	EventFieldNameClientClass,
+	EventFieldNameClientConnectionMode,
 	EventFieldNameClientVersion,
 	EventFieldNameCollaboratorName,
 	EventFieldNameCollaborators,
@@ -18740,8 +19088,6 @@ var AllEventFieldName = []EventFieldName{
 	EventFieldNameContainerName,
 	EventFieldNameCorrelationID,
 	EventFieldNameCriticality,
-	EventFieldNameCustomCategories,
-	EventFieldNameCustomCategory,
 	EventFieldNameCustomCategoryID,
 	EventFieldNameCustomCategoryName,
 	EventFieldNameDestCountry,
@@ -18756,7 +19102,6 @@ var AllEventFieldName = []EventFieldName{
 	EventFieldNameDestProcessParentPath,
 	EventFieldNameDestProcessParentPid,
 	EventFieldNameDestProcessPath,
-	EventFieldNameDestSite,
 	EventFieldNameDestSiteID,
 	EventFieldNameDestSiteName,
 	EventFieldNameDetectionName,
@@ -18769,7 +19114,6 @@ var AllEventFieldName = []EventFieldName{
 	EventFieldNameDeviceName,
 	EventFieldNameDeviceOsType,
 	EventFieldNameDevicePostureProfile,
-	EventFieldNameDevicePostureProfiles,
 	EventFieldNameDeviceType,
 	EventFieldNameDirectoryHostName,
 	EventFieldNameDirectoryIP,
@@ -18786,6 +19130,7 @@ var AllEventFieldName = []EventFieldName{
 	EventFieldNameEgressSiteName,
 	EventFieldNameEmailSubject,
 	EventFieldNameEndpointID,
+	EventFieldNameEngineType,
 	EventFieldNameEppEngineType,
 	EventFieldNameEppProfile,
 	EventFieldNameEventCount,
@@ -18847,14 +19192,13 @@ var AllEventFieldName = []EventFieldName{
 	EventFieldNameOwner,
 	EventFieldNamePacFile,
 	EventFieldNameParentConnectorName,
-	EventFieldNameParentPid,
-	EventFieldNamePid,
 	EventFieldNamePopName,
 	EventFieldNamePrecedence,
-	EventFieldNameProcessPath,
 	EventFieldNameProcessesCount,
 	EventFieldNameProducer,
+	EventFieldNameProjects,
 	EventFieldNamePromptAction,
+	EventFieldNameProviderName,
 	EventFieldNamePublicIP,
 	EventFieldNameQosPriority,
 	EventFieldNameQosReportedTime,
@@ -18863,11 +19207,16 @@ var AllEventFieldName = []EventFieldName{
 	EventFieldNameRawData,
 	EventFieldNameRecommendedActions,
 	EventFieldNameReferenceURL,
+	EventFieldNameRefererURL,
+	EventFieldNameRegionName,
 	EventFieldNameRegistrationCode,
+	EventFieldNameResourceID,
+	EventFieldNameResourceName,
+	EventFieldNameResourceType,
 	EventFieldNameRiskLevel,
-	EventFieldNameRule,
 	EventFieldNameRuleID,
 	EventFieldNameRuleName,
+	EventFieldNameServiceName,
 	EventFieldNameSeverity,
 	EventFieldNameSharingScope,
 	EventFieldNameSignInEventTypes,
@@ -18886,20 +19235,19 @@ var AllEventFieldName = []EventFieldName{
 	EventFieldNameSrcIP,
 	EventFieldNameSrcIsSiteOrVpn,
 	EventFieldNameSrcIspIP,
-	EventFieldNameSrcOrDestSiteID,
 	EventFieldNameSrcPid,
 	EventFieldNameSrcPort,
 	EventFieldNameSrcProcessCmdline,
 	EventFieldNameSrcProcessParentPath,
 	EventFieldNameSrcProcessParentPid,
 	EventFieldNameSrcProcessPath,
-	EventFieldNameSrcSite,
 	EventFieldNameSrcSiteID,
 	EventFieldNameSrcSiteName,
 	EventFieldNameStaticHost,
 	EventFieldNameStatus,
 	EventFieldNameStoryID,
 	EventFieldNameSubnetName,
+	EventFieldNameSubscriptionName,
 	EventFieldNameTargetsCardinality,
 	EventFieldNameTCPAcceleration,
 	EventFieldNameTenantID,
@@ -18936,6 +19284,7 @@ var AllEventFieldName = []EventFieldName{
 	EventFieldNameUserAwarenessMethod,
 	EventFieldNameUserID,
 	EventFieldNameUserName,
+	EventFieldNameUserOrigin,
 	EventFieldNameUserReferenceID,
 	EventFieldNameUserRiskLevel,
 	EventFieldNameVendor,
@@ -18943,6 +19292,9 @@ var AllEventFieldName = []EventFieldName{
 	EventFieldNameVendorDeviceID,
 	EventFieldNameVendorDeviceName,
 	EventFieldNameVendorEventID,
+	EventFieldNameVendorPolicyDescription,
+	EventFieldNameVendorPolicyID,
+	EventFieldNameVendorPolicyName,
 	EventFieldNameVendorUserID,
 	EventFieldNameVisibleDeviceID,
 	EventFieldNameVpnLanAccess,
@@ -18953,7 +19305,7 @@ var AllEventFieldName = []EventFieldName{
 
 func (e EventFieldName) IsValid() bool {
 	switch e {
-	case EventFieldNameAccessMethod, EventFieldNameAccountID, EventFieldNameAction, EventFieldNameActionsTaken, EventFieldNameAdName, EventFieldNameAlertID, EventFieldNameAlwaysOnConfiguration, EventFieldNameAnalystVerdict, EventFieldNameAPIName, EventFieldNameAPIType, EventFieldNameAppActivity, EventFieldNameAppActivityCategory, EventFieldNameAppActivityType, EventFieldNameAppStack, EventFieldNameApplication, EventFieldNameApplicationID, EventFieldNameApplicationName, EventFieldNameApplicationRisk, EventFieldNameAuthMethod, EventFieldNameAuthenticationType, EventFieldNameBgpCatoAsn, EventFieldNameBgpCatoIP, EventFieldNameBgpErrorCode, EventFieldNameBgpPeerAsn, EventFieldNameBgpPeerDescription, EventFieldNameBgpPeerIP, EventFieldNameBgpRouteCidr, EventFieldNameBgpSuberrorCode, EventFieldNameBypassDurationSec, EventFieldNameBypassMethod, EventFieldNameBypassReason, EventFieldNameCategories, EventFieldNameCatoApp, EventFieldNameClassification, EventFieldNameClientCertExpires, EventFieldNameClientCertName, EventFieldNameClientClass, EventFieldNameClientVersion, EventFieldNameCollaboratorName, EventFieldNameCollaborators, EventFieldNameConfidenceLevel, EventFieldNameConfiguredHostName, EventFieldNameCongestionAlgorithm, EventFieldNameConnectOnBoot, EventFieldNameConnectionOrigin, EventFieldNameConnectorName, EventFieldNameConnectorStatus, EventFieldNameConnectorType, EventFieldNameContainerName, EventFieldNameCorrelationID, EventFieldNameCriticality, EventFieldNameCustomCategories, EventFieldNameCustomCategory, EventFieldNameCustomCategoryID, EventFieldNameCustomCategoryName, EventFieldNameDestCountry, EventFieldNameDestCountryCode, EventFieldNameDestGroupID, EventFieldNameDestGroupName, EventFieldNameDestIP, EventFieldNameDestIsSiteOrVpn, EventFieldNameDestPid, EventFieldNameDestPort, EventFieldNameDestProcessCmdline, EventFieldNameDestProcessParentPath, EventFieldNameDestProcessParentPid, EventFieldNameDestProcessPath, EventFieldNameDestSite, EventFieldNameDestSiteID, EventFieldNameDestSiteName, EventFieldNameDetectionName, EventFieldNameDetectionStage, EventFieldNameDeviceCategories, EventFieldNameDeviceCertificate, EventFieldNameDeviceID, EventFieldNameDeviceManufacturer, EventFieldNameDeviceModel, EventFieldNameDeviceName, EventFieldNameDeviceOsType, EventFieldNameDevicePostureProfile, EventFieldNameDevicePostureProfiles, EventFieldNameDeviceType, EventFieldNameDirectoryHostName, EventFieldNameDirectoryIP, EventFieldNameDirectorySyncResult, EventFieldNameDirectorySyncType, EventFieldNameDisinfectResult, EventFieldNameDlpFailMode, EventFieldNameDlpProfiles, EventFieldNameDlpScanTypes, EventFieldNameDNSProtectionCategory, EventFieldNameDNSQuery, EventFieldNameDomainName, EventFieldNameEgressPopName, EventFieldNameEgressSiteName, EventFieldNameEmailSubject, EventFieldNameEndpointID, EventFieldNameEppEngineType, EventFieldNameEppProfile, EventFieldNameEventCount, EventFieldNameEventID, EventFieldNameEventMessage, EventFieldNameEventSubType, EventFieldNameEventType, EventFieldNameFailureReason, EventFieldNameFileHash, EventFieldNameFileName, EventFieldNameFileOperation, EventFieldNameFileSize, EventFieldNameFileType, EventFieldNameFinalObjectStatus, EventFieldNameFlowsCardinality, EventFieldNameFullPathURL, EventFieldNameGuestUser, EventFieldNameHostIP, EventFieldNameHostMac, EventFieldNameHTTPRequestMethod, EventFieldNameIncidentAggregation, EventFieldNameIncidentID, EventFieldNameIndication, EventFieldNameIndicator, EventFieldNameInitialObjectStatus, EventFieldNameInternalID, EventFieldNameIPProtocol, EventFieldNameIsAdmin, EventFieldNameIsAdminActivity, EventFieldNameIsCompliant, EventFieldNameIsManaged, EventFieldNameIsSanctionedApp, EventFieldNameIsSinkhole, EventFieldNameIspName, EventFieldNameKeyName, EventFieldNameLabels, EventFieldNameLinkHealthIsCongested, EventFieldNameLinkHealthJitter, EventFieldNameLinkHealthLatency, EventFieldNameLinkHealthPktLoss, EventFieldNameLinkType, EventFieldNameLoggedInUser, EventFieldNameLoginType, EventFieldNameMatchedDataTypes, EventFieldNameMitreAttackSubtechniques, EventFieldNameMitreAttackTactics, EventFieldNameMitreAttackTechniques, EventFieldNameNetworkAccess, EventFieldNameNetworkRule, EventFieldNameNotificationAPIError, EventFieldNameNotificationDescription, EventFieldNameObjectID, EventFieldNameObjectName, EventFieldNameObjectType, EventFieldNameOfficeMode, EventFieldNameOsType, EventFieldNameOsVersion, EventFieldNameOutOfBandAccess, EventFieldNameOwner, EventFieldNamePacFile, EventFieldNameParentConnectorName, EventFieldNameParentPid, EventFieldNamePid, EventFieldNamePopName, EventFieldNamePrecedence, EventFieldNameProcessPath, EventFieldNameProcessesCount, EventFieldNameProducer, EventFieldNamePromptAction, EventFieldNamePublicIP, EventFieldNameQosPriority, EventFieldNameQosReportedTime, EventFieldNameQuarantineFolderPath, EventFieldNameQuarantineUUID, EventFieldNameRawData, EventFieldNameRecommendedActions, EventFieldNameReferenceURL, EventFieldNameRegistrationCode, EventFieldNameRiskLevel, EventFieldNameRule, EventFieldNameRuleID, EventFieldNameRuleName, EventFieldNameSeverity, EventFieldNameSharingScope, EventFieldNameSignInEventTypes, EventFieldNameSignatureID, EventFieldNameSocketInterface, EventFieldNameSocketInterfaceID, EventFieldNameSocketNewVersion, EventFieldNameSocketOldVersion, EventFieldNameSocketReset, EventFieldNameSocketRole, EventFieldNameSocketSerial, EventFieldNameSocketVersion, EventFieldNameSplitTunnelConfiguration, EventFieldNameSrcCountry, EventFieldNameSrcCountryCode, EventFieldNameSrcIP, EventFieldNameSrcIsSiteOrVpn, EventFieldNameSrcIspIP, EventFieldNameSrcOrDestSiteID, EventFieldNameSrcPid, EventFieldNameSrcPort, EventFieldNameSrcProcessCmdline, EventFieldNameSrcProcessParentPath, EventFieldNameSrcProcessParentPid, EventFieldNameSrcProcessPath, EventFieldNameSrcSite, EventFieldNameSrcSiteID, EventFieldNameSrcSiteName, EventFieldNameStaticHost, EventFieldNameStatus, EventFieldNameStoryID, EventFieldNameSubnetName, EventFieldNameTargetsCardinality, EventFieldNameTCPAcceleration, EventFieldNameTenantID, EventFieldNameTenantName, EventFieldNameTenantRestrictionRuleName, EventFieldNameThreatConfidence, EventFieldNameThreatName, EventFieldNameThreatReference, EventFieldNameThreatScore, EventFieldNameThreatType, EventFieldNameThreatVerdict, EventFieldNameTime, EventFieldNameTimeStr, EventFieldNameTitle, EventFieldNameTLSCertificateError, EventFieldNameTLSErrorDescription, EventFieldNameTLSErrorType, EventFieldNameTLSInspection, EventFieldNameTLSRuleName, EventFieldNameTLSVersion, EventFieldNameTrafficDirection, EventFieldNameTranslatedClientIP, EventFieldNameTranslatedServerIP, EventFieldNameTrigger, EventFieldNameTrustType, EventFieldNameTrustedNetworks, EventFieldNameTunnelIPProtocol, EventFieldNameTunnelProtocol, EventFieldNameUpgradeEndTime, EventFieldNameUpgradeInitiatedBy, EventFieldNameUpgradeStartTime, EventFieldNameURL, EventFieldNameUserAgent, EventFieldNameUserAwarenessMethod, EventFieldNameUserID, EventFieldNameUserName, EventFieldNameUserReferenceID, EventFieldNameUserRiskLevel, EventFieldNameVendor, EventFieldNameVendorCollaboratorID, EventFieldNameVendorDeviceID, EventFieldNameVendorDeviceName, EventFieldNameVendorEventID, EventFieldNameVendorUserID, EventFieldNameVisibleDeviceID, EventFieldNameVpnLanAccess, EventFieldNameVpnUserEmail, EventFieldNameWindowsDomainName, EventFieldNameXff:
+	case EventFieldNameAccessMethod, EventFieldNameAccountID, EventFieldNameAction, EventFieldNameActionsTaken, EventFieldNameActivityResourceID, EventFieldNameActorType, EventFieldNameAdName, EventFieldNameAlertID, EventFieldNameAlwaysOnConfiguration, EventFieldNameAnalystVerdict, EventFieldNameAPIName, EventFieldNameAPIType, EventFieldNameAppActivity, EventFieldNameAppActivityCategory, EventFieldNameAppActivityType, EventFieldNameAppStack, EventFieldNameApplicationID, EventFieldNameApplicationName, EventFieldNameApplicationRisk, EventFieldNameAuthMethod, EventFieldNameAuthenticationType, EventFieldNameBgpCatoAsn, EventFieldNameBgpCatoIP, EventFieldNameBgpErrorCode, EventFieldNameBgpPeerAsn, EventFieldNameBgpPeerIP, EventFieldNameBgpRouteCidr, EventFieldNameBgpSuberrorCode, EventFieldNameBypassDurationSec, EventFieldNameBypassMethod, EventFieldNameBypassReason, EventFieldNameCategories, EventFieldNameCatoApp, EventFieldNameClassification, EventFieldNameClientCertExpires, EventFieldNameClientCertName, EventFieldNameClientClass, EventFieldNameClientConnectionMode, EventFieldNameClientVersion, EventFieldNameCollaboratorName, EventFieldNameCollaborators, EventFieldNameConfidenceLevel, EventFieldNameConfiguredHostName, EventFieldNameCongestionAlgorithm, EventFieldNameConnectOnBoot, EventFieldNameConnectionOrigin, EventFieldNameConnectorName, EventFieldNameConnectorStatus, EventFieldNameConnectorType, EventFieldNameContainerName, EventFieldNameCorrelationID, EventFieldNameCriticality, EventFieldNameCustomCategoryID, EventFieldNameCustomCategoryName, EventFieldNameDestCountry, EventFieldNameDestCountryCode, EventFieldNameDestGroupID, EventFieldNameDestGroupName, EventFieldNameDestIP, EventFieldNameDestIsSiteOrVpn, EventFieldNameDestPid, EventFieldNameDestPort, EventFieldNameDestProcessCmdline, EventFieldNameDestProcessParentPath, EventFieldNameDestProcessParentPid, EventFieldNameDestProcessPath, EventFieldNameDestSiteID, EventFieldNameDestSiteName, EventFieldNameDetectionName, EventFieldNameDetectionStage, EventFieldNameDeviceCategories, EventFieldNameDeviceCertificate, EventFieldNameDeviceID, EventFieldNameDeviceManufacturer, EventFieldNameDeviceModel, EventFieldNameDeviceName, EventFieldNameDeviceOsType, EventFieldNameDevicePostureProfile, EventFieldNameDeviceType, EventFieldNameDirectoryHostName, EventFieldNameDirectoryIP, EventFieldNameDirectorySyncResult, EventFieldNameDirectorySyncType, EventFieldNameDisinfectResult, EventFieldNameDlpFailMode, EventFieldNameDlpProfiles, EventFieldNameDlpScanTypes, EventFieldNameDNSProtectionCategory, EventFieldNameDNSQuery, EventFieldNameDomainName, EventFieldNameEgressPopName, EventFieldNameEgressSiteName, EventFieldNameEmailSubject, EventFieldNameEndpointID, EventFieldNameEngineType, EventFieldNameEppEngineType, EventFieldNameEppProfile, EventFieldNameEventCount, EventFieldNameEventID, EventFieldNameEventMessage, EventFieldNameEventSubType, EventFieldNameEventType, EventFieldNameFailureReason, EventFieldNameFileHash, EventFieldNameFileName, EventFieldNameFileOperation, EventFieldNameFileSize, EventFieldNameFileType, EventFieldNameFinalObjectStatus, EventFieldNameFlowsCardinality, EventFieldNameFullPathURL, EventFieldNameGuestUser, EventFieldNameHostIP, EventFieldNameHostMac, EventFieldNameHTTPRequestMethod, EventFieldNameIncidentAggregation, EventFieldNameIncidentID, EventFieldNameIndication, EventFieldNameIndicator, EventFieldNameInitialObjectStatus, EventFieldNameInternalID, EventFieldNameIPProtocol, EventFieldNameIsAdmin, EventFieldNameIsAdminActivity, EventFieldNameIsCompliant, EventFieldNameIsManaged, EventFieldNameIsSanctionedApp, EventFieldNameIsSinkhole, EventFieldNameIspName, EventFieldNameKeyName, EventFieldNameLabels, EventFieldNameLinkHealthIsCongested, EventFieldNameLinkHealthJitter, EventFieldNameLinkHealthLatency, EventFieldNameLinkHealthPktLoss, EventFieldNameLinkType, EventFieldNameLoggedInUser, EventFieldNameLoginType, EventFieldNameMatchedDataTypes, EventFieldNameMitreAttackSubtechniques, EventFieldNameMitreAttackTactics, EventFieldNameMitreAttackTechniques, EventFieldNameNetworkAccess, EventFieldNameNetworkRule, EventFieldNameNotificationAPIError, EventFieldNameNotificationDescription, EventFieldNameObjectID, EventFieldNameObjectName, EventFieldNameObjectType, EventFieldNameOfficeMode, EventFieldNameOsType, EventFieldNameOsVersion, EventFieldNameOutOfBandAccess, EventFieldNameOwner, EventFieldNamePacFile, EventFieldNameParentConnectorName, EventFieldNamePopName, EventFieldNamePrecedence, EventFieldNameProcessesCount, EventFieldNameProducer, EventFieldNameProjects, EventFieldNamePromptAction, EventFieldNameProviderName, EventFieldNamePublicIP, EventFieldNameQosPriority, EventFieldNameQosReportedTime, EventFieldNameQuarantineFolderPath, EventFieldNameQuarantineUUID, EventFieldNameRawData, EventFieldNameRecommendedActions, EventFieldNameReferenceURL, EventFieldNameRefererURL, EventFieldNameRegionName, EventFieldNameRegistrationCode, EventFieldNameResourceID, EventFieldNameResourceName, EventFieldNameResourceType, EventFieldNameRiskLevel, EventFieldNameRuleID, EventFieldNameRuleName, EventFieldNameServiceName, EventFieldNameSeverity, EventFieldNameSharingScope, EventFieldNameSignInEventTypes, EventFieldNameSignatureID, EventFieldNameSocketInterface, EventFieldNameSocketInterfaceID, EventFieldNameSocketNewVersion, EventFieldNameSocketOldVersion, EventFieldNameSocketReset, EventFieldNameSocketRole, EventFieldNameSocketSerial, EventFieldNameSocketVersion, EventFieldNameSplitTunnelConfiguration, EventFieldNameSrcCountry, EventFieldNameSrcCountryCode, EventFieldNameSrcIP, EventFieldNameSrcIsSiteOrVpn, EventFieldNameSrcIspIP, EventFieldNameSrcPid, EventFieldNameSrcPort, EventFieldNameSrcProcessCmdline, EventFieldNameSrcProcessParentPath, EventFieldNameSrcProcessParentPid, EventFieldNameSrcProcessPath, EventFieldNameSrcSiteID, EventFieldNameSrcSiteName, EventFieldNameStaticHost, EventFieldNameStatus, EventFieldNameStoryID, EventFieldNameSubnetName, EventFieldNameSubscriptionName, EventFieldNameTargetsCardinality, EventFieldNameTCPAcceleration, EventFieldNameTenantID, EventFieldNameTenantName, EventFieldNameTenantRestrictionRuleName, EventFieldNameThreatConfidence, EventFieldNameThreatName, EventFieldNameThreatReference, EventFieldNameThreatScore, EventFieldNameThreatType, EventFieldNameThreatVerdict, EventFieldNameTime, EventFieldNameTimeStr, EventFieldNameTitle, EventFieldNameTLSCertificateError, EventFieldNameTLSErrorDescription, EventFieldNameTLSErrorType, EventFieldNameTLSInspection, EventFieldNameTLSRuleName, EventFieldNameTLSVersion, EventFieldNameTrafficDirection, EventFieldNameTranslatedClientIP, EventFieldNameTranslatedServerIP, EventFieldNameTrigger, EventFieldNameTrustType, EventFieldNameTrustedNetworks, EventFieldNameTunnelIPProtocol, EventFieldNameTunnelProtocol, EventFieldNameUpgradeEndTime, EventFieldNameUpgradeInitiatedBy, EventFieldNameUpgradeStartTime, EventFieldNameURL, EventFieldNameUserAgent, EventFieldNameUserAwarenessMethod, EventFieldNameUserID, EventFieldNameUserName, EventFieldNameUserOrigin, EventFieldNameUserReferenceID, EventFieldNameUserRiskLevel, EventFieldNameVendor, EventFieldNameVendorCollaboratorID, EventFieldNameVendorDeviceID, EventFieldNameVendorDeviceName, EventFieldNameVendorEventID, EventFieldNameVendorPolicyDescription, EventFieldNameVendorPolicyID, EventFieldNameVendorPolicyName, EventFieldNameVendorUserID, EventFieldNameVisibleDeviceID, EventFieldNameVpnLanAccess, EventFieldNameVpnUserEmail, EventFieldNameWindowsDomainName, EventFieldNameXff:
 		return true
 	}
 	return false
@@ -21509,6 +21861,8 @@ type SandboxFailureReason string
 const (
 	//  Failed to fetch report from sandbox service after 10 minutes
 	SandboxFailureReasonAnalysisTimeout SandboxFailureReason = "ANALYSIS_TIMEOUT"
+	//  Reached configured queued limit for account
+	SandboxFailureReasonExceedRateLimit SandboxFailureReason = "EXCEED_RATE_LIMIT"
 	//  Internal server error
 	SandboxFailureReasonInternalError SandboxFailureReason = "INTERNAL_ERROR"
 	//  Invalid file size (0 or too large)
@@ -21521,6 +21875,7 @@ const (
 
 var AllSandboxFailureReason = []SandboxFailureReason{
 	SandboxFailureReasonAnalysisTimeout,
+	SandboxFailureReasonExceedRateLimit,
 	SandboxFailureReasonInternalError,
 	SandboxFailureReasonInvalidFileSize,
 	SandboxFailureReasonSubmissionError,
@@ -21529,7 +21884,7 @@ var AllSandboxFailureReason = []SandboxFailureReason{
 
 func (e SandboxFailureReason) IsValid() bool {
 	switch e {
-	case SandboxFailureReasonAnalysisTimeout, SandboxFailureReasonInternalError, SandboxFailureReasonInvalidFileSize, SandboxFailureReasonSubmissionError, SandboxFailureReasonUnsupportedFileType:
+	case SandboxFailureReasonAnalysisTimeout, SandboxFailureReasonExceedRateLimit, SandboxFailureReasonInternalError, SandboxFailureReasonInvalidFileSize, SandboxFailureReasonSubmissionError, SandboxFailureReasonUnsupportedFileType:
 		return true
 	}
 	return false
@@ -21568,6 +21923,8 @@ const (
 	SandboxStatusInProgress SandboxStatus = "IN_PROGRESS"
 	//  File is pending analysis
 	SandboxStatusPending SandboxStatus = "PENDING"
+	//  File is queued for retry after throttling
+	SandboxStatusQueued SandboxStatus = "QUEUED"
 	//  Analysis is complete - report is ready
 	SandboxStatusReady SandboxStatus = "READY"
 )
@@ -21577,12 +21934,13 @@ var AllSandboxStatus = []SandboxStatus{
 	SandboxStatusFailed,
 	SandboxStatusInProgress,
 	SandboxStatusPending,
+	SandboxStatusQueued,
 	SandboxStatusReady,
 }
 
 func (e SandboxStatus) IsValid() bool {
 	switch e {
-	case SandboxStatusExpired, SandboxStatusFailed, SandboxStatusInProgress, SandboxStatusPending, SandboxStatusReady:
+	case SandboxStatusExpired, SandboxStatusFailed, SandboxStatusInProgress, SandboxStatusPending, SandboxStatusQueued, SandboxStatusReady:
 		return true
 	}
 	return false
