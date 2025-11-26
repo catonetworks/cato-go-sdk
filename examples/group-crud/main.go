@@ -106,6 +106,15 @@ func main() {
 		Input: groupID,
 	}
 
+	groupListInput := &cato_models.GroupListInput{
+		Filter: []*cato_models.GroupListFilterInput{},
+		Paging: &cato_models.PagingInput{
+			Limit: 1000,
+			From:  0,
+		},
+		Sort: &cato_models.GroupListSortInput{},
+	}
+
 	groupMembersListInput := cato_models.GroupMembersListInput{
 		Filter: []*cato_models.GroupMembersListFilterInput{},
 		Paging: &cato_models.PagingInput{
@@ -115,12 +124,21 @@ func main() {
 		Sort: &cato_models.GroupMembersListSortInput{},
 	}
 
+	readGroupResult, err := catoClient.GroupsList(ctx, groupListInput, accountId)
+	if err != nil {
+		fmt.Println("error reading GroupsList: ", err)
+	} else {
+		readJson, _ := json.MarshalIndent(readGroupResult, "", "  ")
+		fmt.Println("GroupList read successfully:")
+		fmt.Println(string(readJson))
+	}
+
 	readResult, err := catoClient.GroupsMembers(ctx, groupRef, groupMembersListInput, accountId)
 	if err != nil {
-		fmt.Println("error reading group: ", err)
+		fmt.Println("error reading GroupsMembers: ", err)
 	} else {
 		readJson, _ := json.MarshalIndent(readResult, "", "  ")
-		fmt.Println("Group read successfully:")
+		fmt.Println("GroupMembers read successfully:")
 		fmt.Println(string(readJson))
 	}
 
