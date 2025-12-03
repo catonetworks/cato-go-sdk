@@ -50,31 +50,31 @@ func main() {
 				Input: "1474041",
 				Type:  cato_models.GroupMemberRefTypeFloatingSubnet,
 			},
-			{
-				By:    cato_models.ObjectRefByName,
-				Input: "global_ip_range",
-				Type:  cato_models.GroupMemberRefTypeGlobalIPRange,
-			},
-			{
-				By:    cato_models.ObjectRefByID,
-				Input: "2528580",
-				Type:  cato_models.GroupMemberRefTypeHost,
-			},
-			{
-				By:    cato_models.ObjectRefByID,
-				Input: "124986",
-				Type:  cato_models.GroupMemberRefTypeNetworkInterface,
-			},
-			{
-				By:    cato_models.ObjectRefByName,
-				Input: "ipsec-dev-site",
-				Type:  cato_models.GroupMemberRefTypeSite,
-			},
-			{
-				By:    cato_models.ObjectRefByID,
-				Input: "UzU4OTI1Mw==",
-				Type:  cato_models.GroupMemberRefTypeSiteNetworkSubnet,
-			},
+			// {
+			// 	By:    cato_models.ObjectRefByName,
+			// 	Input: "global_ip_range",
+			// 	Type:  cato_models.GroupMemberRefTypeGlobalIPRange,
+			// },
+			// {
+			// 	By:    cato_models.ObjectRefByID,
+			// 	Input: "2528580",
+			// 	Type:  cato_models.GroupMemberRefTypeHost,
+			// },
+			// {
+			// 	By:    cato_models.ObjectRefByID,
+			// 	Input: "124986",
+			// 	Type:  cato_models.GroupMemberRefTypeNetworkInterface,
+			// },
+			// {
+			// 	By:    cato_models.ObjectRefByName,
+			// 	Input: "ipsec-dev-site",
+			// 	Type:  cato_models.GroupMemberRefTypeSite,
+			// },
+			// {
+			// 	By:    cato_models.ObjectRefByID,
+			// 	Input: "UzU4OTI1Mw==",
+			// 	Type:  cato_models.GroupMemberRefTypeSiteNetworkSubnet,
+			// },
 		},
 	}
 
@@ -107,21 +107,20 @@ func main() {
 	}
 
 	groupListInput := &cato_models.GroupListInput{
-		Filter: []*cato_models.GroupListFilterInput{},
+		Filter: []*cato_models.GroupListFilterInput{
+			{
+				ID: []*cato_models.IDFilterInput{
+					{
+						Eq: &groupID,
+					},
+				},
+			},
+		},
 		Paging: &cato_models.PagingInput{
 			Limit: 1000,
 			From:  0,
 		},
 		Sort: &cato_models.GroupListSortInput{},
-	}
-
-	groupMembersListInput := cato_models.GroupMembersListInput{
-		Filter: []*cato_models.GroupMembersListFilterInput{},
-		Paging: &cato_models.PagingInput{
-			Limit: 1000,
-			From:  0,
-		},
-		Sort: &cato_models.GroupMembersListSortInput{},
 	}
 
 	readGroupResult, err := catoClient.GroupsList(ctx, groupListInput, accountId)
@@ -133,6 +132,15 @@ func main() {
 		fmt.Println(string(readJson))
 	}
 
+	groupMembersListInput := cato_models.GroupMembersListInput{
+		Filter: []*cato_models.GroupMembersListFilterInput{},
+		Paging: &cato_models.PagingInput{
+			Limit: 1000,
+			From:  0,
+		},
+		Sort: &cato_models.GroupMembersListSortInput{},
+	}
+
 	readResult, err := catoClient.GroupsMembers(ctx, groupRef, groupMembersListInput, accountId)
 	if err != nil {
 		fmt.Println("error reading GroupsMembers: ", err)
@@ -142,30 +150,109 @@ func main() {
 		fmt.Println(string(readJson))
 	}
 
-	/////////////////
-	// Update Group //
-	/////////////////
-	fmt.Println("\nUpdating group...")
+	/////////////////////////////////
+	// Update Group Adding Members //
+	/////////////////////////////////
+	fmt.Println("\nUpdating group adding members...")
 
-	newDescription := "Updated group description via SDK"
-	newName := "Updated_Example_SDK_Group"
+	newDescription := "Updated group description and adding members via SDK"
+	newName := "Updated_Example_SDK_Group_Add"
 
-	updateGroupInput := cato_models.UpdateGroupInput{
+	updateGroupInputAdd := cato_models.UpdateGroupInput{
 		Group:       &cato_models.GroupRefInput{By: cato_models.ObjectRefByID, Input: groupID},
 		Description: &newDescription,
 		Name:        &newName,
+		MembersToAdd: []*cato_models.GroupMemberRefTypedInput{
+			{
+				By:    cato_models.ObjectRefByName,
+				Input: "global_ip_range",
+				Type:  cato_models.GroupMemberRefTypeGlobalIPRange,
+			},
+			{
+				By:    cato_models.ObjectRefByID,
+				Input: "2528580",
+				Type:  cato_models.GroupMemberRefTypeHost,
+			},
+			{
+				By:    cato_models.ObjectRefByID,
+				Input: "124986",
+				Type:  cato_models.GroupMemberRefTypeNetworkInterface,
+			},
+			{
+				By:    cato_models.ObjectRefByName,
+				Input: "ipsec-dev-site",
+				Type:  cato_models.GroupMemberRefTypeSite,
+			},
+			{
+				By:    cato_models.ObjectRefByID,
+				Input: "UzU4OTI1Mw==",
+				Type:  cato_models.GroupMemberRefTypeSiteNetworkSubnet,
+			},
+		},
 	}
 
-	updateResult, err := catoClient.GroupsUpdateGroup(ctx, updateGroupInput, accountId)
+	updateAddResult, err := catoClient.GroupsUpdateGroup(ctx, updateGroupInputAdd, accountId)
 	if err != nil {
-		fmt.Println("error updating group: ", err)
+		fmt.Println("error updating group adding members: ", err)
 		os.Exit(1)
 	}
 
 	// Print the result
-	updateJson, _ := json.MarshalIndent(updateResult, "", "  ")
+	updateAddJson, _ := json.MarshalIndent(updateAddResult, "", "  ")
 	fmt.Println("Group updated successfully:")
-	fmt.Println(string(updateJson))
+	fmt.Println(string(updateAddJson))
+
+	//////////////////////////////
+	// Update Group Removing Members //
+	//////////////////////////////
+	fmt.Println("\nUpdating group removing members...")
+
+	newDescription = "Updated group description and removing members via SDK"
+	newName = "Updated_Example_SDK_Group_Remove"
+
+	updateGroupInputRemove := cato_models.UpdateGroupInput{
+		Group:       &cato_models.GroupRefInput{By: cato_models.ObjectRefByID, Input: groupID},
+		Description: &newDescription,
+		Name:        &newName,
+		MembersToRemove: []*cato_models.GroupMemberRefTypedInput{
+			{
+				By:    cato_models.ObjectRefByName,
+				Input: "global_ip_range",
+				Type:  cato_models.GroupMemberRefTypeGlobalIPRange,
+			},
+			{
+				By:    cato_models.ObjectRefByID,
+				Input: "2528580",
+				Type:  cato_models.GroupMemberRefTypeHost,
+			},
+			{
+				By:    cato_models.ObjectRefByID,
+				Input: "124986",
+				Type:  cato_models.GroupMemberRefTypeNetworkInterface,
+			},
+			{
+				By:    cato_models.ObjectRefByName,
+				Input: "ipsec-dev-site",
+				Type:  cato_models.GroupMemberRefTypeSite,
+			},
+			{
+				By:    cato_models.ObjectRefByID,
+				Input: "UzU4OTI1Mw==",
+				Type:  cato_models.GroupMemberRefTypeSiteNetworkSubnet,
+			},
+		},
+	}
+
+	updateRemoveResult, err := catoClient.GroupsUpdateGroup(ctx, updateGroupInputRemove, accountId)
+	if err != nil {
+		fmt.Println("error updating group removing members: ", err)
+		os.Exit(1)
+	}
+
+	// Print the result
+	updateRemoveJson, _ := json.MarshalIndent(updateRemoveResult, "", "  ")
+	fmt.Println("Group updated successfully:")
+	fmt.Println(string(updateRemoveJson))
 
 	/////////////////
 	// Delete Group //
