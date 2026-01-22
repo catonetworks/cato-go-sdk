@@ -23056,6 +23056,7 @@ const (
 	SocketPlatformX1500Br2  SocketPlatform = "X1500_BR2"
 	SocketPlatformX1500bBr2 SocketPlatform = "X1500B_BR2"
 	SocketPlatformX1600     SocketPlatform = "X1600"
+	SocketPlatformX1600_5g  SocketPlatform = "X1600_5G"
 	SocketPlatformX1600Lte  SocketPlatform = "X1600_LTE"
 	SocketPlatformX1700     SocketPlatform = "X1700"
 	SocketPlatformX1700b    SocketPlatform = "X1700B"
@@ -23070,6 +23071,7 @@ var AllSocketPlatform = []SocketPlatform{
 	SocketPlatformX1500Br2,
 	SocketPlatformX1500bBr2,
 	SocketPlatformX1600,
+	SocketPlatformX1600_5g,
 	SocketPlatformX1600Lte,
 	SocketPlatformX1700,
 	SocketPlatformX1700b,
@@ -23077,7 +23079,7 @@ var AllSocketPlatform = []SocketPlatform{
 
 func (e SocketPlatform) IsValid() bool {
 	switch e {
-	case SocketPlatformAWS1500, SocketPlatformAz1500, SocketPlatformEsx1500, SocketPlatformGCP1500, SocketPlatformX1500, SocketPlatformX1500Br2, SocketPlatformX1500bBr2, SocketPlatformX1600, SocketPlatformX1600Lte, SocketPlatformX1700, SocketPlatformX1700b:
+	case SocketPlatformAWS1500, SocketPlatformAz1500, SocketPlatformEsx1500, SocketPlatformGCP1500, SocketPlatformX1500, SocketPlatformX1500Br2, SocketPlatformX1500bBr2, SocketPlatformX1600, SocketPlatformX1600_5g, SocketPlatformX1600Lte, SocketPlatformX1700, SocketPlatformX1700b:
 		return true
 	}
 	return false

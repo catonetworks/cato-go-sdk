@@ -4422,6 +4422,7 @@ enum SocketPlatform {
   X1500_BR2
   X1500B_BR2
   X1600
+  X1600_5G
   X1600_LTE
   X1700
   X1700B
