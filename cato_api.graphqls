@@ -22,6 +22,39 @@ GraphQL service's schema that is gradually rolling out. This APIs will be availa
 """
 directive @rollout on FIELD_DEFINITION
 
+directive @requireAuth(type: EntityType, edit: Boolean)  on ARGUMENT_DEFINITION | FIELD_DEFINITION | INPUT_FIELD_DEFINITION
+
+directive @requireTag(tag: AccountTag!, rollout: TagRolloutStrategy!)  on FIELD_DEFINITION | INPUT_FIELD_DEFINITION | ENUM_VALUE
+
+directive @namespace(name: String)  on FIELD_DEFINITION
+
+directive @publicApi(documented: Boolean!)  on FIELD_DEFINITION | ENUM_VALUE | INPUT_FIELD_DEFINITION | ARGUMENT_DEFINITION | OBJECT
+
+directive @join__enumValue(graph: join__Graph!) repeatable on ENUM_VALUE
+
+directive @join__type(
+  graph: join__Graph!
+  key: join__FieldSet
+  extension: Boolean! = false
+  resolvable: Boolean! = true
+  isInterfaceObject: Boolean! = false
+) repeatable on OBJECT | INTERFACE | UNION | ENUM | INPUT_OBJECT | SCALAR
+
+directive @systemType(domain: SystemDomain!)  on OBJECT | SCALAR | ENUM
+
+directive @join__implements(
+  graph: join__Graph!
+  interface: String!
+) repeatable on OBJECT | INTERFACE
+
+directive @authorize(resource: RBACResource!, action: RBACAction, gqlOp: GraphQLOperation)  on FIELD_DEFINITION | INPUT_FIELD_DEFINITION | ENUM_VALUE
+
+directive @goField(forceResolver: Boolean, name: String)  on INPUT_FIELD_DEFINITION | FIELD_DEFINITION
+
+directive @join__graph(name: String!, url: String!) on ENUM_VALUE
+
+scalar join__FieldSet
+
 type Query {
   accountBySubdomain(
     accountID: ID!
@@ -216,6 +249,11 @@ type Query {
     managedAccount: Boolean
   ): [SubDomain!]! @ga
   xdr(accountID: ID!): XDR!
+
+  ztnaAppConnector(accountId: ID! @requireAuth(type: account)): ZtnaAppConnectorQueries
+  @requireTag(tag: ZTNA_APP_CONNECTORS_API, rollout: GRADUAL)
+  @namespace
+  @publicApi(documented: false)
 }
 
 type Mutation {
@@ -232,6 +270,10 @@ type Mutation {
   site(accountId: ID!): SiteMutations!
   sites(accountId: ID!): SiteMutations! @deprecated(reason: "in favor of site")
   xdr(accountId: ID!): XdrMutations!
+  ztnaAppConnector(accountId: ID! @requireAuth(type: account, edit: true)): ZtnaAppConnectorMutations
+  @requireTag(tag: ZTNA_APP_CONNECTORS_API, rollout: GRADUAL)
+  @namespace
+  @publicApi(documented: false)
 }
 
 """
@@ -15334,4 +15376,1054 @@ input TerminalServerUpdateRuleDataInput {
 input TerminalServerUpdateRuleInput {
   id: ID!
   rule: TerminalServerUpdateRuleDataInput!
+}
+
+type ZtnaAppConnectorQueries {
+    "Retrieve a single ZTNA App Connector"
+    ztnaAppConnector(input: ZtnaAppConnectorRefInput!): ZtnaAppConnector
+    @authorize(resource: AuthenticationProtectedResource)
+    @goField(forceResolver: true)
+
+    "Paged list of ZTNA App Connectors, with optional filtering by group name(s)"
+    ztnaAppConnectorList(input: ZtnaAppConnectorListInput!): ZtnaAppConnectorListPayload
+    @authorize(resource: AuthenticationProtectedResource)
+    @goField(forceResolver: true)
+
+    "List connector group names, with optional free-text search and paging"
+    ztnaAppConnectorGroupList(input: ZtnaAppConnectorGroupListInput): ZtnaAppConnectorGroupListPayload
+    @authorize(resource: AuthenticationProtectedResource)
+    @goField(forceResolver: true)
+}
+
+input ZtnaAppConnectorGroupListInput {
+    "Optional search filter for group names"
+    filter: ZtnaAppConnectorGroupListFilterInput
+    paging: PagingInput = { limit: 100, from: 0 }
+}
+
+"Filter object for connector group listing"
+input ZtnaAppConnectorGroupListFilterInput {
+    "Case-insensitive free-text search over group names"
+    search: FreeTextFilterInput
+}
+
+
+input ZtnaAppConnectorListInput {
+    "Optional search filter for group names"
+    filter: ZtnaAppConnectorListFilterInput
+    paging: PagingInput = { limit: 100, from: 0 }
+}
+
+input ZtnaAppConnectorListFilterInput {
+    "Filter by app connector name"
+    name: [StringFilterInput!]
+    "Case-insensitive free-text search over app connector names"
+    searchName: FreeTextFilterInput
+    "Filter by group name"
+    groupName: [StringFilterInput!]
+    "Case-insensitive free-text search over group names"
+    searchGroupName: FreeTextFilterInput
+    "Filter by socket assignment status"
+    isAssigned: BooleanFilterInput
+    "Filter by connector type"
+    type: ZtnaAppConnectorTypeFilterInput
+}
+
+"Filter input for ZTNA App Connector type"
+input ZtnaAppConnectorTypeFilterInput {
+    eq: ZtnaAppConnectorType
+    in: [ZtnaAppConnectorType!]
+    neq: ZtnaAppConnectorType
+    nin: [ZtnaAppConnectorType!]
+}
+
+type ZtnaAppConnectorListPayload {
+    "Current page of connectors"
+    ztnaAppConnector: [ZtnaAppConnector!]!
+    pageInfo: PageInfo!
+}
+
+type ZtnaAppConnectorGroupListPayload {
+    items: [String!]!
+    pageInfo: PageInfo!
+}
+
+type ZtnaAppConnectorMutations {
+    "Create a new ZTNA App Connector"
+    addZtnaAppConnector(input: AddZtnaAppConnectorInput!): AddZtnaAppConnectorPayload!
+    @authorize(resource: AuthenticationProtectedResource)
+    @goField(forceResolver: true)
+
+    "Update an existing ZTNA App Connector"
+    updateZtnaAppConnector(input: UpdateZtnaAppConnectorInput!): UpdateZtnaAppConnectorPayload!
+    @authorize(resource: AuthenticationProtectedResource)
+    @goField(forceResolver: true)
+
+    """
+    Remove an existing ZTNA App Connector by reference
+    Returns the removed resource
+    """
+    removeZtnaAppConnector(input: RemoveZtnaAppConnectorInput!): RemoveZtnaAppConnectorPayload!
+    @authorize(resource: AuthenticationProtectedResource)
+    @goField(forceResolver: true)
+
+    "Assign a socket to a ZTNA App Connector"
+    assignSocketToZtnaAppConnector(input: AssignSocketToZtnaAppConnectorInput!): AssignSocketToZtnaAppConnectorPayload!
+    @authorize(resource: AuthenticationProtectedResource)
+    @goField(forceResolver: true)
+
+    "Unassign a socket from a ZTNA App Connector"
+    unassignSocketFromZtnaAppConnector(input: UnassignSocketFromZtnaAppConnectorInput!): UnassignSocketFromZtnaAppConnectorPayload!
+    @authorize(resource: AuthenticationProtectedResource)
+    @goField(forceResolver: true)
+
+    upgradeZtnaAppConnector(input: UpgradeZtnaAppConnectorInput!): UpgradeZtnaAppConnectorPayload!
+    @authorize(resource: AuthenticationProtectedResource)
+    @goField(forceResolver: true)
+}
+
+type ZtnaAppConnector {
+    "The unique ID of the ZTNA App Connector"
+    id: ID!
+    "The unique name of the ZTNA App Connector"
+    name: String!
+    "Optional description of the ZTNA App Connector (max 250 characters)"
+    description: String
+    "Unique serial number of the ZTNA App Connector"
+    serialNumber: String
+    "Connector type"
+    type: ZtnaAppConnectorType!
+    "Socket model of the ZTNA App Connector"
+    socketModel: SocketModel
+    "name of the ZTNA App Connector group"
+    groupName: String!
+    "Physical location of the connector"
+    address: PostalAddress!
+    timezone: TimeZone! # todo add validation that the timezone is a real timezone and understand what is acceptable
+    "Preferred PoP locations settings"
+    preferredPopLocation: ZtnaAppConnectorPreferredPopLocation
+    "List of private applications associated with this connector"
+    privateAppRef: [PrivateApplicationRef!]!
+}
+
+"""
+Input for creating a new ZTNA App Connector
+"""
+input AddZtnaAppConnectorInput {
+    name: String!
+    "Optional description of the ZTNA App Connector (max 250 characters)"
+    description: String
+    "name of the ZTNA App Connector group. if not exists, it will be created"
+    groupName: String!
+    "Connector type"
+    type: ZtnaAppConnectorType!
+    "Physical location of the connector"
+    address: PostalAddressInput!
+    timezone: TimeZone!
+    """Preferred PoP locations settings"""
+    preferredPopLocation: ZtnaAppConnectorPreferredPopLocationInput! = {preferredOnly: false, automatic: true}
+}
+
+input UpdateZtnaAppConnectorInput {
+    "The unique ID of the ZTNA App Connector"
+    id: ID!
+    "The unique name of the ZTNA App Connector"
+    name: String
+    "Optional description of the ZTNA App Connector (max 250 characters)"
+    description: String
+    "name of the ZTNA App Connector group. if not exists, it will be created"
+    groupName: String
+    "Physical location of the connector"
+    address: PostalAddressInput
+    timezone: TimeZone
+    "Preferred PoP locations settings"
+    preferredPopLocation: ZtnaAppConnectorPreferredPopLocationInput
+}
+
+type RemoveZtnaAppConnectorPayload {
+    "The removed connector resource"
+    ztnaAppConnector: ZtnaAppConnector!
+}
+
+input RemoveZtnaAppConnectorInput {
+    "Connector reference to remove"
+    ztnaAppConnector: ZtnaAppConnectorRefInput!
+}
+
+type UpdateZtnaAppConnectorPayload {
+    "The updated connector resource"
+    ztnaAppConnector: ZtnaAppConnector!
+}
+
+enum ZtnaAppConnectorType{
+    "virtualized socket"
+    VIRTUAL,
+    "physical socket"
+    PHYSICAL
+}
+
+type AddZtnaAppConnectorPayload {
+    ztnaAppConnector: ZtnaAppConnector!
+}
+
+type ZtnaAppConnectorPreferredPopLocation {
+    """
+    When `true`, restrict connector attachment **exclusively** to the configured
+    PoP locations (primary/secondary). When `false`, configured PoPs are treated as
+    preferences only, and the platform may attach to other healthy PoPs
+    """
+    preferredOnly: Boolean!
+    """
+    When true, preferred PoPs are automatic: primary/secondary must be null and preferredOnly must be false.
+    When false only primary required and secondary optional. If preferredOnly enabled and no secondary, primary is required.
+    """
+    automatic: Boolean!
+    "Primary preferred PoP location reference"
+    primary: PopLocationRef # todo findout is it possible to have null here but to have the secondary?
+    "Secondary preferred PoP location reference (fallback)"
+    secondary: PopLocationRef
+}
+
+input ZtnaAppConnectorPreferredPopLocationInput {
+    """
+    When `true`, restrict connector attachment **exclusively** to the configured
+    PoP locations (primary/secondary). When `false`, configured PoPs are treated as
+    preferences only, and the platform may attach to other healthy PoPs
+    """
+    preferredOnly: Boolean!
+    """
+    When true, preferred PoPs are automatic: primary/secondary must be null and preferredOnly must be false.
+    When false only primary required and secondary optional. If preferredOnly enabled and no secondary, primary is required.
+    """
+    automatic: Boolean!
+    """
+    Primary preferred PoP location reference input
+    """
+    primary: PopLocationRefInput
+    """
+    Secondary preferred PoP location reference input
+    """
+    secondary: PopLocationRefInput
+}
+
+input AssignSocketToZtnaAppConnectorInput {
+    "Reference to the ZTNA App Connector"
+    ztnaAppConnector: ZtnaAppConnectorRefInput!
+    "Socket to assign"
+    socketSerial: String!
+    "Optional description of the ZTNA App Connector (max 250 characters)"
+    description: String! = ""
+}
+
+type AssignSocketToZtnaAppConnectorPayload {
+    "The updated connector with the assigned socket"
+    ztnaAppConnector: ZtnaAppConnector!
+}
+
+input UnassignSocketFromZtnaAppConnectorInput {
+    "Reference to the ZTNA App Connector"
+    ztnaAppConnector: ZtnaAppConnectorRefInput!
+}
+
+input UpgradeZtnaAppConnectorInput {
+    upgrades: [ZtnaAppConnectorUpgradeRequest!]!
+}
+
+input ZtnaAppConnectorUpgradeRequest {
+    "Reference to the ZTNA App Connector"
+    ztnaAppConnector: ZtnaAppConnectorRefInput!
+    "Target version to upgrade to"
+    targetVersion: String!
+}
+
+type UnassignSocketFromZtnaAppConnectorPayload {
+    "The updated connector with the socket unassigned"
+    ztnaAppConnector: ZtnaAppConnector!
+}
+
+type UpgradeZtnaAppConnectorPayload {
+    "List of upgraded connectors"
+    upgrades: [ZtnaAppConnectorUpgradeInfo!]!
+}
+
+type ZtnaAppConnectorUpgradeInfo {
+    ztnaAppConnector: ZtnaAppConnectorRef!
+    tagetVersion: String!
+}
+input ZtnaAppConnectorRefInput @join__type(graph: FE_API)  {
+  """
+  Selector for the reference mode (defaults to ID)
+  """
+  by: ObjectRefBy! = ID
+  """
+  The reference value (e.g., ID string)
+  """
+  input: String!
+}
+
+enum SocketModel @join__type(graph: FE_API)  {
+  X1500 @join__enumValue(graph: FE_API) 
+  X1600 @join__enumValue(graph: FE_API) 
+  X1600_LTE @join__enumValue(graph: FE_API) 
+  X1700 @join__enumValue(graph: FE_API) 
+  AWS @join__enumValue(graph: FE_API) 
+  AZURE @join__enumValue(graph: FE_API) 
+  ESX @join__enumValue(graph: FE_API) 
+  GCP @join__enumValue(graph: FE_API) 
+}
+
+"""
+A reference identifying of the PrivateApplication object. ID: Unique PrivateApplication Identifier, Name: The PrivateApplication Name
+"""
+type PrivateApplicationRef implements ObjectRef @systemType(domain: Access)  @join__type(graph: FE_API)  @join__implements(graph: FE_API, interface: "ObjectRef")  {
+  id: ID!
+  name: String!
+}
+
+type ZtnaAppConnectorRef implements ObjectRef @join__type(graph: FE_API)  @join__implements(graph: FE_API, interface: "ObjectRef")  {
+  """
+  Unique ZTNA app connector ID
+  """
+  id: ID!
+  """
+  Name for the ZTNA app connector
+  """
+  name: String!
+}
+
+enum RBACResource @join__type(graph: FE_API)  {
+  Public @join__enumValue(graph: FE_API) 
+  AuthenticationProtectedResource @join__enumValue(graph: FE_API) 
+  Accounts @join__enumValue(graph: FE_API) 
+  ZtnaAppConnector @join__enumValue(graph: FE_API) 
+  AppsCatalog @join__enumValue(graph: FE_API) 
+  CustomApplications @join__enumValue(graph: FE_API) 
+  AssetManagement @join__enumValue(graph: FE_API) 
+  DeviceDashboard @join__enumValue(graph: FE_API) 
+  EnterpriseDirectory @join__enumValue(graph: FE_API) 
+  BillingDocuments @join__enumValue(graph: FE_API) 
+  DlpConfiguration @join__enumValue(graph: FE_API) 
+  ForensicsDlp @join__enumValue(graph: FE_API) 
+  Groups @join__enumValue(graph: FE_API) 
+  SocketsInventory @join__enumValue(graph: FE_API) 
+  License @join__enumValue(graph: FE_API) 
+  LicenseInventory @join__enumValue(graph: FE_API) 
+  PartnerLicenses @join__enumValue(graph: FE_API) 
+  Notifications @join__enumValue(graph: FE_API) 
+  OnlinePurchase @join__enumValue(graph: FE_API) 
+  PopLocations @join__enumValue(graph: FE_API) 
+  Byoip @join__enumValue(graph: FE_API) 
+  IPAllocation @join__enumValue(graph: FE_API) 
+  PopMonitoring @join__enumValue(graph: FE_API) 
+  SandboxReports @join__enumValue(graph: FE_API) 
+  """
+  Permission key for bandwidth usage queries.
+  """
+  BandwidthUsage @join__enumValue(graph: FE_API) 
+  """
+  Permission key for user usage queries.
+  """
+  UsersUsage @join__enumValue(graph: FE_API) 
+  PrivateApplication @join__enumValue(graph: FE_API) 
+  Account @join__enumValue(graph: FE_API) 
+  AccountNonNullFieldHack @join__enumValue(graph: FE_API) 
+  AdminGUI @join__enumValue(graph: FE_API) 
+  Administrators @join__enumValue(graph: FE_API) 
+  AdministratorsApiKeysManagement @join__enumValue(graph: FE_API) 
+  LoginRestrictions @join__enumValue(graph: FE_API) 
+  EmailNotifications @join__enumValue(graph: FE_API) 
+  MailingLists @join__enumValue(graph: FE_API) 
+  ApiManagement @join__enumValue(graph: FE_API) 
+  SystemSettings @join__enumValue(graph: FE_API) 
+  LogExporter @join__enumValue(graph: FE_API) 
+  TrafficLogger @join__enumValue(graph: FE_API) 
+  ManagementApplicationBranding @join__enumValue(graph: FE_API) 
+  BrowserAccessBranding @join__enumValue(graph: FE_API) 
+  Branding @join__enumValue(graph: FE_API) 
+  RbiBranding @join__enumValue(graph: FE_API) 
+  OnlinePurchaseSettings @join__enumValue(graph: FE_API) 
+  RolesAndPermissions @join__enumValue(graph: FE_API) 
+  ILMM @join__enumValue(graph: FE_API) 
+  Tickets @join__enumValue(graph: FE_API) 
+  OpenAI @join__enumValue(graph: FE_API) 
+  AccountInfo @join__enumValue(graph: FE_API) 
+  ExternalAccess @join__enumValue(graph: FE_API) 
+  PartnerExternalAccess @join__enumValue(graph: FE_API) 
+  PartnerDashboard @join__enumValue(graph: FE_API) 
+  CaptivePortal @join__enumValue(graph: FE_API) 
+  SystemOverview @join__enumValue(graph: FE_API) 
+  Sites @join__enumValue(graph: FE_API) 
+  NetworkRules @join__enumValue(graph: FE_API) 
+  SocketLanNetwork @join__enumValue(graph: FE_API) 
+  DhcpSettings @join__enumValue(graph: FE_API) 
+  LastMileMonitoring @join__enumValue(graph: FE_API) 
+  SocketBypass @join__enumValue(graph: FE_API) 
+  FloatingRanges @join__enumValue(graph: FE_API) 
+  GlobalIPRanges @join__enumValue(graph: FE_API) 
+  DnsSettings @join__enumValue(graph: FE_API) 
+  ConnectionSLA @join__enumValue(graph: FE_API) 
+  RemotePortFw @join__enumValue(graph: FE_API) 
+  LinkHealthRules @join__enumValue(graph: FE_API) 
+  ForwardProxy @join__enumValue(graph: FE_API) 
+  Categories @join__enumValue(graph: FE_API) 
+  AccountGeneralProperties @join__enumValue(graph: FE_API) 
+  ThreatsCatalog @join__enumValue(graph: FE_API) 
+  IoACatalog @join__enumValue(graph: FE_API) 
+  IntegrationsCatalog @join__enumValue(graph: FE_API) 
+  Topology @join__enumValue(graph: FE_API) 
+  Events @join__enumValue(graph: FE_API) 
+  ThreatsDashboard @join__enumValue(graph: FE_API) 
+  MitreAttack @join__enumValue(graph: FE_API) 
+  CloudAppsDashboard @join__enumValue(graph: FE_API) 
+  CloudActivitiesDashboard @join__enumValue(graph: FE_API) 
+  GenAiDashboard @join__enumValue(graph: FE_API) 
+  NetworkDashboard @join__enumValue(graph: FE_API) 
+  ExperienceMonitoring @join__enumValue(graph: FE_API) 
+  DlpDashboard @join__enumValue(graph: FE_API) 
+  SaasSecurityApiDashboard @join__enumValue(graph: FE_API) 
+  ApplicationAnalytics @join__enumValue(graph: FE_API) 
+  AuditTrail @join__enumValue(graph: FE_API) 
+  RoutingTable @join__enumValue(graph: FE_API) 
+  SitesOverview @join__enumValue(graph: FE_API) 
+  SdpUsersOverview @join__enumValue(graph: FE_API) 
+  Tuneup @join__enumValue(graph: FE_API) 
+  TuneupCatalog @join__enumValue(graph: FE_API) 
+  UsersDashboard @join__enumValue(graph: FE_API) 
+  ProtectedEndpoints @join__enumValue(graph: FE_API) 
+  EndpointProtectionDashboard @join__enumValue(graph: FE_API) 
+  Reports @join__enumValue(graph: FE_API) 
+  DetectionAndResponse @join__enumValue(graph: FE_API) 
+  DetectionAndResponseConfiguration @join__enumValue(graph: FE_API) 
+  XopsMuteStories @join__enumValue(graph: FE_API) 
+  XopsResponsePolicy @join__enumValue(graph: FE_API) 
+  XopsActionCenter @join__enumValue(graph: FE_API) 
+  Cas @join__enumValue(graph: FE_API) 
+  CasDashboard @join__enumValue(graph: FE_API) 
+  UsersAndUserGroups @join__enumValue(graph: FE_API) 
+  DirectoryServices @join__enumValue(graph: FE_API) 
+  UserAwareness @join__enumValue(graph: FE_API) 
+  BrowserAccess @join__enumValue(graph: FE_API) 
+  ClientAccess @join__enumValue(graph: FE_API) 
+  SingleSignOn @join__enumValue(graph: FE_API) 
+  UserAuthentication @join__enumValue(graph: FE_API) 
+  LicenseAssignment @join__enumValue(graph: FE_API) 
+  DevicePosture @join__enumValue(graph: FE_API) 
+  ClientConnectivityPolicy @join__enumValue(graph: FE_API) 
+  MacAuthentication @join__enumValue(graph: FE_API) 
+  ClientCustomization @join__enumValue(graph: FE_API) 
+  AlwaysOnPolicy @join__enumValue(graph: FE_API) 
+  DnsPolicy @join__enumValue(graph: FE_API) 
+  ClientRollout @join__enumValue(graph: FE_API) 
+  SdpIpAllocationPolicy @join__enumValue(graph: FE_API) 
+  TrustedNetworks @join__enumValue(graph: FE_API) 
+  SdpSplitTunnel @join__enumValue(graph: FE_API) 
+  ProxyConfigurationPolicy @join__enumValue(graph: FE_API) 
+  ClientUpgrade @join__enumValue(graph: FE_API) 
+  ClientManagement @join__enumValue(graph: FE_API) 
+  AntiTamperExclusionPolicy @join__enumValue(graph: FE_API) 
+  PrivateAccessPolicy @join__enumValue(graph: FE_API) 
+  InternetFirewall @join__enumValue(graph: FE_API) 
+  WanFirewall @join__enumValue(graph: FE_API) 
+  LanFirewall @join__enumValue(graph: FE_API) 
+  SocketLanFirewall @join__enumValue(graph: FE_API) 
+  IPS @join__enumValue(graph: FE_API) 
+  AntiMalware @join__enumValue(graph: FE_API) 
+  ContentRestrictions @join__enumValue(graph: FE_API) 
+  TLSInspection @join__enumValue(graph: FE_API) 
+  Certificates @join__enumValue(graph: FE_API) 
+  CertificateManagement @join__enumValue(graph: FE_API) 
+  ApplicationControl @join__enumValue(graph: FE_API) 
+  SaasSecurityAPI @join__enumValue(graph: FE_API) 
+  RedirectPageCustomization @join__enumValue(graph: FE_API) 
+  DnsProtection @join__enumValue(graph: FE_API) 
+  EndpointProtection @join__enumValue(graph: FE_API) 
+  EndpointConnector @join__enumValue(graph: FE_API) 
+  RBI @join__enumValue(graph: FE_API) 
+  LinkFailover @join__enumValue(graph: FE_API) 
+  FeatureTags @join__enumValue(graph: FE_API) 
+  AssignAdminToPredefinedRoles @join__enumValue(graph: FE_API) 
+  SupportAccess @join__enumValue(graph: FE_API) 
+  ExceptionalAccess @join__enumValue(graph: FE_API) 
+  EmergencyAccess @join__enumValue(graph: FE_API) 
+  DynamicIpAllocation @join__enumValue(graph: FE_API) 
+  ClientNotificationBranding @join__enumValue(graph: FE_API) 
+  AiSecurity @join__enumValue(graph: FE_API) 
+  BrowserExtensionPolicy @join__enumValue(graph: FE_API) 
+  UserEducation @join__enumValue(graph: FE_API) 
+}
+enum RBACAction @join__type(graph: FE_API)  {
+  NONE @join__enumValue(graph: FE_API) 
+  VIEW @join__enumValue(graph: FE_API) 
+  EDIT @join__enumValue(graph: FE_API) 
+}
+enum GraphQLOperation @join__type(graph: FE_API)  {
+  query @join__enumValue(graph: FE_API) 
+  subscription @join__enumValue(graph: FE_API) 
+  mutation @join__enumValue(graph: FE_API) 
+}
+
+enum join__Graph {
+  FE_API @join__graph(name: "fe-api", url: "http://fe-api/api/v1/graphql") 
+}
+
+enum AccountTag @join__type(graph: FE_API)  {
+  DEVELOPMENT @join__enumValue(graph: FE_API) 
+  SECOND_ADD_ON_SOCKET_X1700B @join__enumValue(graph: FE_API) 
+  ZTNA_APP_CONNECTORS_API @join__enumValue(graph: FE_API) 
+  ENTERPRISE_DIRECTORY @join__enumValue(graph: FE_API) 
+  FINANCIAL_DOCUMENT_VIEW @join__enumValue(graph: FE_API) 
+  SHAPER_MAX_BANDWIDTH_CONFIGURATION @join__enumValue(graph: FE_API) 
+  SOCKET_SWITCH_HA_ROLE @join__enumValue(graph: FE_API) 
+  POC_SOCKET_REQUEST @join__enumValue(graph: FE_API) 
+  SANDBOX_REPORT @join__enumValue(graph: FE_API) 
+  GCP_HA_SUPPORT @join__enumValue(graph: FE_API) 
+  BULK_SOCKET_UPGRADE @join__enumValue(graph: FE_API) 
+  SCHEDULED_BULK_UPGRADE @join__enumValue(graph: FE_API) 
+  SOCKET_WIFI @join__enumValue(graph: FE_API) 
+  ZTNA_PRIVATE_APPLICATION @join__enumValue(graph: FE_API) 
+  RBAC @join__enumValue(graph: FE_API) 
+  APIKEY_RBAC @join__enumValue(graph: FE_API) 
+  APIKEY_RBAC_RESELLERS @join__enumValue(graph: FE_API) 
+  APIKEY_CREATE_SERVICE_PRINCIPLE @join__enumValue(graph: FE_API) 
+  QOS_ALERTS @join__enumValue(graph: FE_API) 
+  GRE @join__enumValue(graph: FE_API) 
+  TRAFFIC_LOGGING @join__enumValue(graph: FE_API) 
+  DEMO @join__enumValue(graph: FE_API) 
+  STATIC_HOST_AND_USER_COUPLING @join__enumValue(graph: FE_API) 
+  AWS_EGRESS_IP @join__enumValue(graph: FE_API) 
+  AWS_AD @join__enumValue(graph: FE_API) 
+  JUMPCLOUD_AD @join__enumValue(graph: FE_API) 
+  LAYER_2_WAN @join__enumValue(graph: FE_API) 
+  ISP_CONFIG_IPS @join__enumValue(graph: FE_API) 
+  NEW_SOCKET_VER_NUM @join__enumValue(graph: FE_API) 
+  OFFICE_365 @join__enumValue(graph: FE_API) 
+  ICMP_KEEP_ALIVE @join__enumValue(graph: FE_API) 
+  VIRGIN_SYMBOLS @join__enumValue(graph: FE_API) 
+  IPSEC_3DES @join__enumValue(graph: FE_API) 
+  ALLOW_EMPTY_IP_IN_RPF @join__enumValue(graph: FE_API) 
+  ALLOW_CHINA_RPF @join__enumValue(graph: FE_API) 
+  PPS_RPF_UI @join__enumValue(graph: FE_API) 
+  ALT_WAN_RECOVERY @join__enumValue(graph: FE_API) 
+  SDP_CONFIGURATION @join__enumValue(graph: FE_API) 
+  ACCESS_MULTIPLE_IP_RANGES @join__enumValue(graph: FE_API) 
+  ACCESS_MULTIPLE_IP_RANGES_ROLLBACK @join__enumValue(graph: FE_API) 
+  ADD_SOURCE_RANGES_PREDICATE @join__enumValue(graph: FE_API) 
+  ADD_SOURCE_RANGES_PREDICATE_CCP @join__enumValue(graph: FE_API) 
+  MAC_ADDRESS_AUTHENTICATION @join__enumValue(graph: FE_API) 
+  SR_MANAGED_MODE @join__enumValue(graph: FE_API) 
+  SOCKET_AUTOMATION_TEST @join__enumValue(graph: FE_API) 
+  IPSEC_FW_INIT @join__enumValue(graph: FE_API) 
+  OKTA_AD @join__enumValue(graph: FE_API) 
+  ONELOGIN_AD @join__enumValue(graph: FE_API) 
+  ADMIN_DEFAULT_MFA @join__enumValue(graph: FE_API) 
+  ADMIN_AREA_PERMISSION @join__enumValue(graph: FE_API) 
+  IEPL_NNI @join__enumValue(graph: FE_API) 
+  SCIM @join__enumValue(graph: FE_API) 
+  VPN_CLIENT_POLICY @join__enumValue(graph: FE_API) 
+  DATA_RETENTION_PERIOD_IN_DAYS @join__enumValue(graph: FE_API) 
+  DEPRECATE_DEVICE_AUTHENTICATION @join__enumValue(graph: FE_API) 
+  ALLOW_LINUX_CERTIFICATE @join__enumValue(graph: FE_API) 
+  ALLOW_INVALID_DOMAINS @join__enumValue(graph: FE_API) 
+  NFE @join__enumValue(graph: FE_API) 
+  BACKHAULING @join__enumValue(graph: FE_API) 
+  EPP_SHELLCODE_EAF_WINDOWS @join__enumValue(graph: FE_API) 
+  EPP_EDR_MODULE @join__enumValue(graph: FE_API) 
+  MFA_AND_SSO @join__enumValue(graph: FE_API) 
+  IWELCOME @join__enumValue(graph: FE_API) 
+  APPCUES @join__enumValue(graph: FE_API) 
+  DISABLE_APPCUES @join__enumValue(graph: FE_API) 
+  DISABLE_FULL_STORY @join__enumValue(graph: FE_API) 
+  ENABLE_FULL_STORY_FOR_SYSTEM_SUB_DOMAIN_ACCOUNT @join__enumValue(graph: FE_API) 
+  DISABLE_DATADOG_BROWSER_LOGS @join__enumValue(graph: FE_API) 
+  DISABLE_DATADOG_RUM @join__enumValue(graph: FE_API) 
+  ENABLE_USERFLOW @join__enumValue(graph: FE_API) 
+  DISABLE_USERFLOW @join__enumValue(graph: FE_API) 
+  USERFLOW_TEST @join__enumValue(graph: FE_API) 
+  CUSTOM_PRESET @join__enumValue(graph: FE_API) 
+  IMAGE_UPLOAD_CROPPER @join__enumValue(graph: FE_API) 
+  NEW_CATOMAP_OVERVIEW_PAGE @join__enumValue(graph: FE_API) 
+  DHCP_LEASE_TIME @join__enumValue(graph: FE_API) 
+  CAS_ENABLE_ALL_AD @join__enumValue(graph: FE_API) 
+  DISABLE_CAS_FILES_SKIP @join__enumValue(graph: FE_API) 
+  CAS_ENABLE_SP_REMOVE_SHARE @join__enumValue(graph: FE_API) 
+  CAS_ENABLE_BASE_URL_OVERRIDE @join__enumValue(graph: FE_API) 
+  CAS_ENABLE_ENTRA_CHECKS @join__enumValue(graph: FE_API) 
+  CAS_CASB_LICENSE_ENFORCEMENT @join__enumValue(graph: FE_API) 
+  CAS_OOB_POLLER_CLIENT @join__enumValue(graph: FE_API) 
+  CAS_AZURE_UPDATE_AD_SUBSCRIPTIONS @join__enumValue(graph: FE_API) 
+  CAS_AZURE_DELETE_FAILED_AD_SUBSCRIPTIONS @join__enumValue(graph: FE_API) 
+  CAS_AZURE_DELETE_EXPIRED_APPLICATION_CERTIFICATES @join__enumValue(graph: FE_API) 
+  OOB_CONSENT_FLOW @join__enumValue(graph: FE_API) 
+  ENABLE_KMS_SERVICE @join__enumValue(graph: FE_API) 
+  OOB_MULTI_PUBLISHERS @join__enumValue(graph: FE_API) 
+  OOB_TEST_CONNECTOR_INTERNAL @join__enumValue(graph: FE_API) 
+  OOB_ACTION @join__enumValue(graph: FE_API) 
+  OOB_SYNC_ACTION @join__enumValue(graph: FE_API) 
+  OOB_MS_INTUNE @join__enumValue(graph: FE_API) 
+  OOB_ARMIS @join__enumValue(graph: FE_API) 
+  SSPM_PLUGINS @join__enumValue(graph: FE_API) 
+  OOB_CROWDSTRIKE_DEVICE @join__enumValue(graph: FE_API) 
+  OOB_GENERIC_SCHEMA_WITH_PREFIX @join__enumValue(graph: FE_API) 
+  OOB_COLLECTION_ENV_VARS_UPDATE @join__enumValue(graph: FE_API) 
+  OOB_JUNIPER_DEVICE_MGMT @join__enumValue(graph: FE_API) 
+  OOB_MS_DEFENDER_DEVICE_MGMT @join__enumValue(graph: FE_API) 
+  OOB_DYNAMIC_CATALOG @join__enumValue(graph: FE_API) 
+  AUDIT_PREP @join__enumValue(graph: FE_API) 
+  OOB_EDR_DEFENDER_2_0 @join__enumValue(graph: FE_API) 
+  OOB_GOOGLE_DRIVE_LABELS @join__enumValue(graph: FE_API) 
+  ENABLE_CAS_DISK_DOWNLOAD @join__enumValue(graph: FE_API) 
+  CAS_DLP_LARGE_FILE_SCAN_50MB @join__enumValue(graph: FE_API) 
+  CAS_DLP_LARGE_FILE_SCAN_75MB @join__enumValue(graph: FE_API) 
+  CAS_DLP_LARGE_FILE_SCAN_100MB @join__enumValue(graph: FE_API) 
+  CAS_DLP_LARGE_FILE_SCAN_250MB @join__enumValue(graph: FE_API) 
+  CAS_DLP_LARGE_FILE_SCAN_500MB @join__enumValue(graph: FE_API) 
+  CAS_LARGE_FILE_SCAN_75MB @join__enumValue(graph: FE_API) 
+  CAS_LARGE_FILE_SCAN_100MB @join__enumValue(graph: FE_API) 
+  CAS_LARGE_FILE_SCAN_250MB @join__enumValue(graph: FE_API) 
+  CAS_LARGE_FILE_SCAN_500MB @join__enumValue(graph: FE_API) 
+  CAS_ENABLE_FILE_SCANNING_EXTENDED_LIMIT @join__enumValue(graph: FE_API) 
+  CAS_ENABLE_AZURE_NEW_GRAPH_SDK @join__enumValue(graph: FE_API) 
+  CAS_GOOGLE_DRIVE_FILES_DOWNLOAD_EXPORT_LINKS @join__enumValue(graph: FE_API) 
+  OOB_DEFENDER_MIGRATION_PHASE_0 @join__enumValue(graph: FE_API) 
+  OOB_DEFENDER_MIGRATION_PHASE_1 @join__enumValue(graph: FE_API) 
+  OOB_DEFENDER_MIGRATION_PHASE_2 @join__enumValue(graph: FE_API) 
+  PING_SSO @join__enumValue(graph: FE_API) 
+  PING_FEDERATE_SSO @join__enumValue(graph: FE_API) 
+  LAN_BLOCKING @join__enumValue(graph: FE_API) 
+  CASB_GENERIC_UPLOAD @join__enumValue(graph: FE_API) 
+  PASS_MIGRATED @join__enumValue(graph: FE_API) 
+  SCIM_UA_HYBRID @join__enumValue(graph: FE_API) 
+  DNS_PROTECTION @join__enumValue(graph: FE_API) 
+  EMBEDDED_BEST_PRACTICE @join__enumValue(graph: FE_API) 
+  ADMIN_LOGIN_SSO_ONLY @join__enumValue(graph: FE_API) 
+  DLP_CUSTOM_DATA @join__enumValue(graph: FE_API) 
+  DLP_IMAGE_ML_CLASSIFIER @join__enumValue(graph: FE_API) 
+  DLP_INLINE_IMAGE_ML_CLASSIFIER @join__enumValue(graph: FE_API) 
+  AGENT_BASED_UA @join__enumValue(graph: FE_API) 
+  PING_FEDERATE_INHERITANCE @join__enumValue(graph: FE_API) 
+  CANARY_USERS_CONFIGURATION @join__enumValue(graph: FE_API) 
+  ANDROID_ALWAYS_ON @join__enumValue(graph: FE_API) 
+  LINUX_ALWAYS_ON @join__enumValue(graph: FE_API) 
+  PPS_DNS_SETTINGS_UI @join__enumValue(graph: FE_API) 
+  PPS_ALWAYS_ON_UI @join__enumValue(graph: FE_API) 
+  PPS_CLIENT_CONNECTIVITY_UI @join__enumValue(graph: FE_API) 
+  DEVICE_POSTURE_DOMAIN_CHECK @join__enumValue(graph: FE_API) 
+  DLP_REGEX_CUSTOM_DATA @join__enumValue(graph: FE_API) 
+  MITRE_ATTACK_FRAMEWORK @join__enumValue(graph: FE_API) 
+  ZENDESK_TICKETS_PAGE_TICKET_DETAILS @join__enumValue(graph: FE_API) 
+  ZENDESK_USE_PLAYGROUND_SITE @join__enumValue(graph: FE_API) 
+  PPS_DYNAMIC_IP_ALLOCATION_UI @join__enumValue(graph: FE_API) 
+  PPS_PROXY_CONFIGURATION_UI @join__enumValue(graph: FE_API) 
+  ACCESS_ROLLOUT_PAGE @join__enumValue(graph: FE_API) 
+  LINUX_CLIENT_UPGRADE @join__enumValue(graph: FE_API) 
+  DEPRECATE_ALL_AUTH_USERS @join__enumValue(graph: FE_API) 
+  SIMILAR_LOGIN_HINT @join__enumValue(graph: FE_API) 
+  DEVICE_CERTIFICATE_OID @join__enumValue(graph: FE_API) 
+  XDR_PRO @join__enumValue(graph: FE_API) 
+  XDR_RESPONSE_POLICY_WEBHOOK @join__enumValue(graph: FE_API) 
+  XDR_CDR_STORIES @join__enumValue(graph: FE_API) 
+  XDR_CYERA_STORIES @join__enumValue(graph: FE_API) 
+  XDR_STORY_DETAILS_HIGHLIGHTS @join__enumValue(graph: FE_API) 
+  XDR_MS_DEFENDER_2_0 @join__enumValue(graph: FE_API) 
+  XDR_WORKBENCH_CATO_TABLE @join__enumValue(graph: FE_API) 
+  XOPS_OVERVIEW @join__enumValue(graph: FE_API) 
+  XDR_RESPONSE_POLICY_ACTION @join__enumValue(graph: FE_API) 
+  XDR_CONFIGURATION_TAB_SPECIFIC_RBAC @join__enumValue(graph: FE_API) 
+  SITEOPS_NEW_NAME @join__enumValue(graph: FE_API) 
+  UNIFIED_USER @join__enumValue(graph: FE_API) 
+  AUTHENTICATION_FLOWS @join__enumValue(graph: FE_API) 
+  UU_CONNECTION_ORIGIN @join__enumValue(graph: FE_API) 
+  SEAMLESS_AUTHENTICATION @join__enumValue(graph: FE_API) 
+  LIMIT_LDAP_USER_MEMBERSHIP_CHANGES @join__enumValue(graph: FE_API) 
+  CATO_CERTIFICATE_2024 @join__enumValue(graph: FE_API) 
+  CATO_CERTIFICATE_2024_BANNER @join__enumValue(graph: FE_API) 
+  ADD_TLS_CERTS_2015_2024 @join__enumValue(graph: FE_API) 
+  DELETE_TLS_CERT_2015 @join__enumValue(graph: FE_API) 
+  MANAGED_TLSI @join__enumValue(graph: FE_API) 
+  TLSI_HIJACK_RULES @join__enumValue(graph: FE_API) 
+  HEALTH_RULES_FILTER_USERS_SELECTION @join__enumValue(graph: FE_API) 
+  BLOCK_PAGE_POWERED_BY @join__enumValue(graph: FE_API) 
+  BLOCK_PAGE_REFERENCE_ID @join__enumValue(graph: FE_API) 
+  USER_EDUCATION_TEMPLATE @join__enumValue(graph: FE_API) 
+  AWS_LOCATION_MAP_PROVIDER_ENABLED @join__enumValue(graph: FE_API) 
+  AZURE_CONFIRMATION_PAGE @join__enumValue(graph: FE_API) 
+  CROSS_CONNECT @join__enumValue(graph: FE_API) 
+  CUSTOM_IP_RANGES @join__enumValue(graph: FE_API) 
+  NEW_TOPOLOGY_PAGE @join__enumValue(graph: FE_API) 
+  FOUR_WAN @join__enumValue(graph: FE_API) 
+  AWS_HA_ALT_WAN @join__enumValue(graph: FE_API) 
+  CONGESTION_ALERTS @join__enumValue(graph: FE_API) 
+  ASSIGN_SOCKET_INVENTORY @join__enumValue(graph: FE_API) 
+  SOCKET_UPGRADE_SPLIT_DOWNLOAD @join__enumValue(graph: FE_API) 
+  BGP_AS4 @join__enumValue(graph: FE_API) 
+  BFD_XCONNECT @join__enumValue(graph: FE_API) 
+  BFD_IPSEC @join__enumValue(graph: FE_API) 
+  NAT_POLICY_IPSEC @join__enumValue(graph: FE_API) 
+  NAT_POLICY_XCONNECT @join__enumValue(graph: FE_API) 
+  NAT_POLICY_SOCKET @join__enumValue(graph: FE_API) 
+  X1600_LTE_SUPPORT @join__enumValue(graph: FE_API) 
+  X1600_CELLULAR_VISIBILITY @join__enumValue(graph: FE_API) 
+  QINQ @join__enumValue(graph: FE_API) 
+  CHINA_CMI_ACCOUNT_GP @join__enumValue(graph: FE_API) 
+  XDR_NETWORK_HEALTH_RULE @join__enumValue(graph: FE_API) 
+  FQDN_BIDIRECTIONAL @join__enumValue(graph: FE_API) 
+  USER_PROBE_INTERVAL @join__enumValue(graph: FE_API) 
+  NEW_DH_IPSEC @join__enumValue(graph: FE_API) 
+  DEM_NEW_UI_DRILLDOWN @join__enumValue(graph: FE_API) 
+  DEM_FEEDBACK @join__enumValue(graph: FE_API) 
+  SOCKET_INTERNET_ONLY @join__enumValue(graph: FE_API) 
+  IPSEC_XCONNECT_INTERNET_ONLY @join__enumValue(graph: FE_API) 
+  SOCKET_BGP_FILTERS @join__enumValue(graph: FE_API) 
+  IPSEC_XCONNECT_BGP_FILTERS @join__enumValue(graph: FE_API) 
+  ACCOUNT_METRICS_FILTER_BY_DEVICE_ID @join__enumValue(graph: FE_API) 
+  ACTIVE_ACTIVE_IPSEC @join__enumValue(graph: FE_API) 
+  MULTIPLE_DHCP_NATIVE_RANGE @join__enumValue(graph: FE_API) 
+  VSOCKET_GCP @join__enumValue(graph: FE_API) 
+  KBPS_SUPPORT @join__enumValue(graph: FE_API) 
+  POP_IPSEC_SITE_MAINTENANCE_POLICY @join__enumValue(graph: FE_API) 
+  POP_SOCKET_SITE_MAINTENANCE_POLICY @join__enumValue(graph: FE_API) 
+  TRACEROUTE_FOR_CMA @join__enumValue(graph: FE_API) 
+  PPS_NETWORK_RULES_UI @join__enumValue(graph: FE_API) 
+  PPS_NETWORK_RULES_MIGRATION @join__enumValue(graph: FE_API) 
+  PPS_LAN_NETWORK_RULES_UI @join__enumValue(graph: FE_API) 
+  PPS_LAN_NETWORK_RULES_MIGRATION @join__enumValue(graph: FE_API) 
+  PPS_SOCKET_BYPASS_UI @join__enumValue(graph: FE_API) 
+  PPS_SOCKET_BYPASS_MIGRATION @join__enumValue(graph: FE_API) 
+  PPS_NETWORK_POLICIES_HIT_COUNTER @join__enumValue(graph: FE_API) 
+  PPS_WAN_NETWORK_POLICY_HIT_COUNTER @join__enumValue(graph: FE_API) 
+  PPS_SOCKET_LAN_NETWORK_POLICY_HIT_COUNTER @join__enumValue(graph: FE_API) 
+  PPS_SOCKET_LAN_FIREWALL_POLICY_HIT_COUNTER @join__enumValue(graph: FE_API) 
+  PPS_SOCKET_BYPASS_POLICY_HIT_COUNTER @join__enumValue(graph: FE_API) 
+  POP_LOCATION_TABLE @join__enumValue(graph: FE_API) 
+  POP_MONITORING @join__enumValue(graph: FE_API) 
+  POP_MONITORING_SYSTEM @join__enumValue(graph: FE_API) 
+  POP_MONITORING_HISTORIC @join__enumValue(graph: FE_API) 
+  POP_MONITORING_FILTERS @join__enumValue(graph: FE_API) 
+  POP_MONITORING_P2 @join__enumValue(graph: FE_API) 
+  POP_LOCATION_P2 @join__enumValue(graph: FE_API) 
+  CMA_STATUS_PAGE @join__enumValue(graph: FE_API) 
+  L7_LAN_FW @join__enumValue(graph: FE_API) 
+  AWS_HA_BGP @join__enumValue(graph: FE_API) 
+  BYOIP_1 @join__enumValue(graph: FE_API) 
+  BYOIP_2 @join__enumValue(graph: FE_API) 
+  IPSEC_ACTIVE_ACTIVE_6_TUNNELS @join__enumValue(graph: FE_API) 
+  IPSEC_ACTIVE_ACTIVE_BGP @join__enumValue(graph: FE_API) 
+  ILMM_XDR_REPORTS @join__enumValue(graph: FE_API) 
+  NETWORK_STORY_REPORT @join__enumValue(graph: FE_API) 
+  EXPORT_LMM_DATA @join__enumValue(graph: FE_API) 
+  POPMANAGER_CALLS_DIRECTLY_TO_POP @join__enumValue(graph: FE_API) 
+  SOCKET_BYPASS_APP_BASED @join__enumValue(graph: FE_API) 
+  OFF_CLOUD_ENHANCEMENTS @join__enumValue(graph: FE_API) 
+  EXPORT_ISP_DATA @join__enumValue(graph: FE_API) 
+  ACTION_IPSEC_BGP_STATUS @join__enumValue(graph: FE_API) 
+  ACCOUNT_SITES_LIST_NEW_SOCKET_VERSIONS @join__enumValue(graph: FE_API) 
+  BYPASS_OFFCLOUD_TRANSPORT_CHINA_VALIDATION @join__enumValue(graph: FE_API) 
+  ACCOUNT_SITES_LIST_NEW_COLUMN_GROUPS @join__enumValue(graph: FE_API) 
+  NEW_GROUPS_WAN_NETWORK @join__enumValue(graph: FE_API) 
+  NEW_GROUPS_SOCKET_LAN @join__enumValue(graph: FE_API) 
+  ACCOUNT_OPERATIONS_STORIES @join__enumValue(graph: FE_API) 
+  BGP_CONNECTIVITY_STATUS @join__enumValue(graph: FE_API) 
+  ASSIGN_BEFORE_REGISTER @join__enumValue(graph: FE_API) 
+  LIMIT_SITES_COUNT_FOR_NONE_HUB_AND_SPOKE @join__enumValue(graph: FE_API) 
+  REALTIME_DISCARDED_AS_PERCENTAGE @join__enumValue(graph: FE_API) 
+  CONNECTION_TYPE_GENERAL_PAGE_SEPARATION @join__enumValue(graph: FE_API) 
+  BURSTING_LICENSE_ANALYTICS @join__enumValue(graph: FE_API) 
+  SITE_GENERAL_DETAILS_IN_SITE_SERVICE_WRITE @join__enumValue(graph: FE_API) 
+  LAN_FW_USERS_DEVICES @join__enumValue(graph: FE_API) 
+  DEVICE_NETWORK_RULES @join__enumValue(graph: FE_API) 
+  APP_CONNECTORS_ANALYTICS @join__enumValue(graph: FE_API) 
+  APP_CONNECTORS_CONFIGURATION @join__enumValue(graph: FE_API) 
+  FORWARD_PROXY @join__enumValue(graph: FE_API) 
+  DLP_SENSITIVITY_LABELS @join__enumValue(graph: FE_API) 
+  DLP_CONFIGURATION_NESTED_TABS @join__enumValue(graph: FE_API) 
+  API_CONTAINER_ON_K8S @join__enumValue(graph: FE_API) 
+  GRADUAL_ROLLOUT_DUMMY_TAG @join__enumValue(graph: FE_API) 
+  GRADUAL_ROLLOUT_ROLLBACK @join__enumValue(graph: FE_API) 
+  DISABLE_REGIONAL_ROLLOUT @join__enumValue(graph: FE_API) 
+  PAGE_INFO_NETWORKING @join__enumValue(graph: FE_API) 
+  VIRTUALIZATION_AND_DND_EXTENSIONS @join__enumValue(graph: FE_API) 
+  EXPLICIT_SYSTEM_RULES @join__enumValue(graph: FE_API) 
+  TLS_INSPECTION_UNTRUSTED_CERT @join__enumValue(graph: FE_API) 
+  OVERRIDE_DC @join__enumValue(graph: FE_API) 
+  PPS_INTERNET_FW_PLAYGROUND @join__enumValue(graph: FE_API) 
+  PPS_INTERNET_FW_UI @join__enumValue(graph: FE_API) 
+  PPS_INTERNET_FW_MIGRATION @join__enumValue(graph: FE_API) 
+  PPS_RPF_UI_SYSTEM_TYPES @join__enumValue(graph: FE_API) 
+  NEW_TRACKING_FORM @join__enumValue(graph: FE_API) 
+  RPF_NEW_TRACKING_FORM @join__enumValue(graph: FE_API) 
+  PPS_WAN_FW_UI @join__enumValue(graph: FE_API) 
+  PPS_HIT_COUNT @join__enumValue(graph: FE_API) 
+  HIT_COUNT_RESET @join__enumValue(graph: FE_API) 
+  RULE_EXP_FW @join__enumValue(graph: FE_API) 
+  PPS_RULE_EXP_FW_BP @join__enumValue(graph: FE_API) 
+  IOC_SYNC_URL @join__enumValue(graph: FE_API) 
+  APPLICTION_CONTROL_TENANT_AWARENESS @join__enumValue(graph: FE_API) 
+  PPS_UNUSED_RULES_CHECK @join__enumValue(graph: FE_API) 
+  DLP_OCR_LANGUAGES @join__enumValue(graph: FE_API) 
+  PPS_TENANT_RESTRICTION_MIGRATION @join__enumValue(graph: FE_API) 
+  PPS_TENANT_RESTRICTION_UI @join__enumValue(graph: FE_API) 
+  PPS_APPLICATION_CONTROL_MIGRATION @join__enumValue(graph: FE_API) 
+  PPS_APPLICATION_CONTROL_UI @join__enumValue(graph: FE_API) 
+  PPS_TLS_INSPECT_MIGRATION @join__enumValue(graph: FE_API) 
+  PPS_TLS_INSPECT_UI @join__enumValue(graph: FE_API) 
+  PPS_AI_SECURITY_UI @join__enumValue(graph: FE_API) 
+  DLP_CUSTOM_ML_CLASSIFIER @join__enumValue(graph: FE_API) 
+  FORENSICS_DLP @join__enumValue(graph: FE_API) 
+  FORENSICS_EVENTS @join__enumValue(graph: FE_API) 
+  TLS_ENFORCE @join__enumValue(graph: FE_API) 
+  PRESERVE_TABLE_SCROLL @join__enumValue(graph: FE_API) 
+  DEVICE_DRILLDOWN_DRAWER @join__enumValue(graph: FE_API) 
+  DEVICE_EXPORT @join__enumValue(graph: FE_API) 
+  DEVICES_SUNBURST_EXPERIMENTS @join__enumValue(graph: FE_API) 
+  CLIENT_NOTIFICATION_CUSTOMIZATION @join__enumValue(graph: FE_API) 
+  APP_DATA_PROXY @join__enumValue(graph: FE_API) 
+  APPS_OVERVIEW @join__enumValue(graph: FE_API) 
+  APPS_INVENTORY @join__enumValue(graph: FE_API) 
+  ENABLE_AI_SECURITY @join__enumValue(graph: FE_API) 
+  USE_NEW_CUSTOM_APPS @join__enumValue(graph: FE_API) 
+  NEW_CUSTOM_APPS_UI @join__enumValue(graph: FE_API) 
+  PPS_ANTI_TAMPER_EXCLUSION_UI @join__enumValue(graph: FE_API) 
+  PPS_BROWSER_EXTENSION_POLICY_UI @join__enumValue(graph: FE_API) 
+  DEVICES_NEW_MAP @join__enumValue(graph: FE_API) 
+  DEVICES_SANKEY @join__enumValue(graph: FE_API) 
+  BROWSER_EXT_DOWNLOAD_POLICY @join__enumValue(graph: FE_API) 
+  BROWSER_EXT_COPY_POLICY @join__enumValue(graph: FE_API) 
+  BROWSER_EXT_PASTE_POLICY @join__enumValue(graph: FE_API) 
+  BROWSER_EXT_WATERMARK_POLICY @join__enumValue(graph: FE_API) 
+  BROWSER_EXT_PRINT_POLICY @join__enumValue(graph: FE_API) 
+  BROWSER_EXT_TYPING_POLICY @join__enumValue(graph: FE_API) 
+  BROWSER_EXT_FILE_UPLOAD_POLICY @join__enumValue(graph: FE_API) 
+  TRIAL_SITE_BANDWIDTH @join__enumValue(graph: FE_API) 
+  APP_STATS_REPORT @join__enumValue(graph: FE_API) 
+  APP_STATS_PER_USER_REPORT @join__enumValue(graph: FE_API) 
+  APP_STATS_PER_SITE_REPORT @join__enumValue(graph: FE_API) 
+  CON_STATS_BW_REPORT @join__enumValue(graph: FE_API) 
+  MUI_V5 @join__enumValue(graph: FE_API) 
+  SCHEDULE_REPORT_PER_MINUTE @join__enumValue(graph: FE_API) 
+  SCHEDULE_REPORT_SUBSCRIPTION @join__enumValue(graph: FE_API) 
+  EXTERNAL_ACCESS_PAGE @join__enumValue(graph: FE_API) 
+  MFA_FAIL_OPEN_POLICY @join__enumValue(graph: FE_API) 
+  SUBSCRIPTIONS_GROUP_PAGE @join__enumValue(graph: FE_API) 
+  INTEGRATIONS_SUPPORT @join__enumValue(graph: FE_API) 
+  MFA_ENFORCEMENT @join__enumValue(graph: FE_API) 
+  ACCOUNT_MIGRATION_TESTING_TAG @join__enumValue(graph: FE_API) 
+  DUMMY_TAG_ADDED_BY_MIGRATION @join__enumValue(graph: FE_API) 
+  MFA_BY_DEFAULT @join__enumValue(graph: FE_API) 
+  DEM_UNDERLAY_PROBE @join__enumValue(graph: FE_API) 
+  DEM_UNDERLAY_SOCKET_PROBE @join__enumValue(graph: FE_API) 
+  DEM_UNDERLAY_CLIENT_PROBE @join__enumValue(graph: FE_API) 
+  DEM_TOPOLOGIES @join__enumValue(graph: FE_API) 
+  DEM_3RD_PARTY_AP_EVENTS @join__enumValue(graph: FE_API) 
+  DEM_SHADOW_MONITORING @join__enumValue(graph: FE_API) 
+  OOB_METRICS_ZOOM_SCORE @join__enumValue(graph: FE_API) 
+  USER_PROFILE_WIDGET @join__enumValue(graph: FE_API) 
+  CMAPLAT_PUBLIC_API_EXT_ACCESS @join__enumValue(graph: FE_API) 
+  CMAPLAT_REAL_IP @join__enumValue(graph: FE_API) 
+  CMAPLAT_CRA_REMOVAL @join__enumValue(graph: FE_API) 
+  CONTACT_US_BUTTON @join__enumValue(graph: FE_API) 
+  CONTACT_US_BUTTON_IOT @join__enumValue(graph: FE_API) 
+  CONTACT_US_BUTTON_CASB @join__enumValue(graph: FE_API) 
+  CONTACT_US_BUTTON_XOPS @join__enumValue(graph: FE_API) 
+  CONTACT_US_BUTTON_GENAI @join__enumValue(graph: FE_API) 
+  CONTACT_US_BUTTON_DLP @join__enumValue(graph: FE_API) 
+  COPILOT_MANAGER_ROUTE @join__enumValue(graph: FE_API) 
+  COPILOT_MULTI_AGENT @join__enumValue(graph: FE_API) 
+  COPILOT_DATA_AGENT @join__enumValue(graph: FE_API) 
+  COPILOT_CONTACT_SUPPORT @join__enumValue(graph: FE_API) 
+  COPILOT_DYNAMIC_AGENT @join__enumValue(graph: FE_API) 
+  COPILOT_FULL_SCREEN @join__enumValue(graph: FE_API) 
+  COPILOT_SPEECH_RECOGNITION @join__enumValue(graph: FE_API) 
+  COPILOT_USER_STOP @join__enumValue(graph: FE_API) 
+  COPILOT_SHOW_CHARTS @join__enumValue(graph: FE_API) 
+  COPILOT_NON_MODAL_DRAWER @join__enumValue(graph: FE_API) 
+  WEBHOOK_RESPONSE_CORRELATION_ID_MAPPING @join__enumValue(graph: FE_API) 
+  WEBHOOKS_NEW_UI @join__enumValue(graph: FE_API) 
+  NEW_LICENSE_MODEL @join__enumValue(graph: FE_API) 
+  REGIONAL_BANDWIDTH_ALLOCATION @join__enumValue(graph: FE_API) 
+  CPA_MANAGED_ACCOUNT @join__enumValue(graph: FE_API) 
+  SKIP_STRICT_SITE_LICENSE_ENFORCEMENT @join__enumValue(graph: FE_API) 
+  RESELLER_WITH_PLAN @join__enumValue(graph: FE_API) 
+  SUPPORT_REGIONAL_BW_LICENSE @join__enumValue(graph: FE_API) 
+  ZTNA_USERS_LICENSE @join__enumValue(graph: FE_API) 
+  LICENSE_EVENT_MANAGED_ACCOUNT @join__enumValue(graph: FE_API) 
+  LICENSES_NEW_SERVICES_PAGE @join__enumValue(graph: FE_API) 
+  ALLOW_RESELLER_TO_DISABLE_ACCOUNTS @join__enumValue(graph: FE_API) 
+  BURSTING_LICENSE_FLOWS_ALLOWED @join__enumValue(graph: FE_API) 
+  XDR_MDR_2024 @join__enumValue(graph: FE_API) 
+  ACCOUNT_INFO @join__enumValue(graph: FE_API) 
+  PARTIAL_XDR_DETECTION_REPORT @join__enumValue(graph: FE_API) 
+  DEVICES_UNIFIED_ENGINE @join__enumValue(graph: FE_API) 
+  DEVICES_CONTENT_EARLY_AVAILABILITY @join__enumValue(graph: FE_API) 
+  CDP_AS_APPSTATS @join__enumValue(graph: FE_API) 
+  CUSTOM_HOMEPAGE @join__enumValue(graph: FE_API) 
+  ACA_SUPPORT_CONSENT @join__enumValue(graph: FE_API) 
+  CLIENT_COLLECT_EVENT_LOGS @join__enumValue(graph: FE_API) 
+  ALWAYS_ON_ANTI_TAMPER @join__enumValue(graph: FE_API) 
+  ALWAYS_ON_DEVICE_POSTURE_SUPPORT @join__enumValue(graph: FE_API) 
+  DETECTED_NETWORK_SUPPORT @join__enumValue(graph: FE_API) 
+  SPLIT_TUNNEL_DNS_SUFFIX @join__enumValue(graph: FE_API) 
+  PPS_PRIVATE_ACCESS_UI @join__enumValue(graph: FE_API) 
+  SPLIT_TUNNEL_PAC_FILE @join__enumValue(graph: FE_API) 
+  CLIENT_FQDN_BASED_SPLIT @join__enumValue(graph: FE_API) 
+  RESET_FLOWS @join__enumValue(graph: FE_API) 
+  CAS_CONNECTORS_ADVANCED_WARNING @join__enumValue(graph: FE_API) 
+  CONNECTORS_NEW_PLATFORM @join__enumValue(graph: FE_API) 
+  INTEGRATIONS_TAB_ON_GENERIC_API @join__enumValue(graph: FE_API) 
+  FORCE_REAUTHENTICATION @join__enumValue(graph: FE_API) 
+  USER_SERVICE_EXPORT_ALL_USERS @join__enumValue(graph: FE_API) 
+  PARTNER_SUMMARY_DASHBOARD @join__enumValue(graph: FE_API) 
+  CUSTOMER_OVERVIEW_DASHBOARD @join__enumValue(graph: FE_API) 
+  WAN_FW_IOC_INGESTION @join__enumValue(graph: FE_API) 
+  DEM_NETWORK_PATH_ANALYSIS @join__enumValue(graph: FE_API) 
+  DEM_AGGREGATION @join__enumValue(graph: FE_API) 
+  DEM_PATH_ANALYSIS_TIMEFRAME @join__enumValue(graph: FE_API) 
+  APP_STATS_USER_FILTER @join__enumValue(graph: FE_API) 
+  SITE_XDR_DEGRADED_STATE @join__enumValue(graph: FE_API) 
+  CLIENTLESS_SSH_APPLICATION @join__enumValue(graph: FE_API) 
+  CLIENTLESS_RDP_APPLICATION @join__enumValue(graph: FE_API) 
+  NEW_CLIENTLESS_POLICY @join__enumValue(graph: FE_API) 
+  NATURAL_LANGUAGE_SEARCH_STORIES_WORKBENCH @join__enumValue(graph: FE_API) 
+  NATURAL_LANGUAGE_SEARCH_STORIES_SINGLE_ACCOUNT @join__enumValue(graph: FE_API) 
+  NEW_FILTER_BAR_THREATS_DASHBOARD @join__enumValue(graph: FE_API) 
+  LAZY_LOADING_DASHBOARD_WIDGETS @join__enumValue(graph: FE_API) 
+  NATURAL_LANGUAGE_SEARCH_DEM @join__enumValue(graph: FE_API) 
+  FW_DEVICES_NEW_ATTRIBUTES @join__enumValue(graph: FE_API) 
+  FW_UI_INCREASE_POLL_INTERVAL @join__enumValue(graph: FE_API) 
+  RESET_RISK_SCORE @join__enumValue(graph: FE_API) 
+  SERVER_K8S @join__enumValue(graph: FE_API) 
+  SERVER_INFRA_LEAN_API_GW @join__enumValue(graph: FE_API) 
+  EXCLUDE_MOVE_LDAP_TO_K8S @join__enumValue(graph: FE_API) 
+  EVENTS_THROTTLING_IS_NOT_SILENT @join__enumValue(graph: FE_API) 
+  EVENTS_LOG_INTEGRATION_AZURE_MONITOR @join__enumValue(graph: FE_API) 
+  CAS_OOB_DATA_EXPORT_MICROSOFT_SENTINEL @join__enumValue(graph: FE_API) 
+  CAS_OOB_DATA_EXPORT_SPLUNK @join__enumValue(graph: FE_API) 
+  CAS_OOB_DATA_EXPORT_CRODWSTRIKE_FALCON_NG_SIEM @join__enumValue(graph: FE_API) 
+  CLIENTLESS_VNC_APPLICATION @join__enumValue(graph: FE_API) 
+  CAS_PARTIAL_DISABLE_OOB_EVENT @join__enumValue(graph: FE_API) 
+  REMOVE_LOCAL_PORT_FORWARDING @join__enumValue(graph: FE_API) 
+  CMAPLAT_IAM_GET_ADMIN_PERMISSIONS @join__enumValue(graph: FE_API) 
+  CMAPLAT_IAM_SITES_CHECK_AUTH @join__enumValue(graph: FE_API) 
+  CMAPLAT_IAM_USER_ALLOWED_ITEMS @join__enumValue(graph: FE_API) 
+  CUSTOMIZED_APP_RISK @join__enumValue(graph: FE_API) 
+  AUTO_IFW @join__enumValue(graph: FE_API) 
+  AUTO_WAN_FW @join__enumValue(graph: FE_API) 
+  AUTO_RPF @join__enumValue(graph: FE_API) 
+  SYSTEM_USER_ASSETS_ENABLED @join__enumValue(graph: FE_API) 
+  CATO_TABLE_INTERNET_FIREWALL @join__enumValue(graph: FE_API) 
+  CATO_TABLE_WAN_FIREWALL @join__enumValue(graph: FE_API) 
+  NETWORK_EVENTS_SILENT_MODE @join__enumValue(graph: FE_API) 
+  NETWORK_XDR_DB_STATE @join__enumValue(graph: FE_API) 
+  OOB_DEPLOYMENT_PHASE_1 @join__enumValue(graph: FE_API) 
+  OOB_INTERNAL_ACCOUNTS @join__enumValue(graph: FE_API) 
+  OOB_EA_ACCOUNTS @join__enumValue(graph: FE_API) 
+  SHOW_LEGACY_CRA @join__enumValue(graph: FE_API) 
+  USER_AUTHENTICATION_STATE @join__enumValue(graph: FE_API) 
+  REDUCE_STORIES @join__enumValue(graph: FE_API) 
+  HIGHLIGHTS_BAR @join__enumValue(graph: FE_API) 
+  HIGHLIGHTS_BAR_PARTNER_OVRVIEW @join__enumValue(graph: FE_API) 
+  PPS_UA_TERMINAL_SERVER_UI @join__enumValue(graph: FE_API) 
+  GEN_AI_DASHBOARD @join__enumValue(graph: FE_API) 
+  PPS_SPLIT_TUNNEL_UI @join__enumValue(graph: FE_API) 
+  CYBERARK_SSO_PROVIDER @join__enumValue(graph: FE_API) 
+  HENNGE_SSO_PROVIDER @join__enumValue(graph: FE_API) 
+  FORGEROCK_SSO_PROVIDER @join__enumValue(graph: FE_API) 
+  INTUNE_DEVICE_POSTURE_CHECK @join__enumValue(graph: FE_API) 
+  ECHARTS_PIE_ACCOUNT_SITES @join__enumValue(graph: FE_API) 
+  PPS_AV_HASH_MIGRATION @join__enumValue(graph: FE_API) 
+  PPS_AV_HASH_UI @join__enumValue(graph: FE_API) 
+  IFW_WIZARD @join__enumValue(graph: FE_API) 
+  IFW_PRE_DEFINED_POLICY @join__enumValue(graph: FE_API) 
+  WAN_FW_PRE_DEFINED_POLICY @join__enumValue(graph: FE_API) 
+  CASB_PRE_DEFINED_POLICY @join__enumValue(graph: FE_API) 
+  TLS_PRE_DEFINED_POLICY @join__enumValue(graph: FE_API) 
+  TENANT_PRE_DEFINED_POLICY @join__enumValue(graph: FE_API) 
+  AUTO_CONTRADICT_IFW @join__enumValue(graph: FE_API) 
+  NEW_AZURE_SSO_CREATION_FLOW @join__enumValue(graph: FE_API) 
+  ENABLE_NEW_UPLOADER @join__enumValue(graph: FE_API) 
+  USER_RISK_SCORE_DASHBOARD @join__enumValue(graph: FE_API) 
+  SSO_PROVIDER_DYNAMIC_WHITELIST_DOMAINS @join__enumValue(graph: FE_API) 
+  ACCOUNT_DYNAMIC_WHITELIST @join__enumValue(graph: FE_API) 
+  CATO_CLIENT_CONTROL_PLANE @join__enumValue(graph: FE_API) 
+  DYNAMIC_STEERING @join__enumValue(graph: FE_API) 
+  NEW_GROUPS_INTERNET_FIREWALL @join__enumValue(graph: FE_API) 
+  NEW_GROUPS_WAN_FIREWALL @join__enumValue(graph: FE_API) 
+  FE_NAVIGATION_V_1_2 @join__enumValue(graph: FE_API) 
+  CONTAINERS_ADVANCED_FLOW @join__enumValue(graph: FE_API) 
+  PUBLISH_DP_CHECKS_TO_REVLITE @join__enumValue(graph: FE_API) 
+  HEALTH_ALERTS_NEW_SUBTYPES @join__enumValue(graph: FE_API) 
+  IFW_PPS_RBAC @join__enumValue(graph: FE_API) 
+  WAN_FW_PPS_RBAC @join__enumValue(graph: FE_API) 
+  AUTH_WITHOUT_LICENSE_USER_PORTAL @join__enumValue(graph: FE_API) 
+  US_SUPPORT_LINK_EXPIRATION_FEATURE @join__enumValue(graph: FE_API) 
+  FLOATING_LICENSE @join__enumValue(graph: FE_API) 
+  MULTIPLE_AO_BYPASS_CODE_DURATION @join__enumValue(graph: FE_API) 
+  LAN_LACP_SUPPORT @join__enumValue(graph: FE_API) 
+  NOTIFICATION_PARTNERS @join__enumValue(graph: FE_API) 
+  HIDE_DATA_PROTECTION_APIS_TAB @join__enumValue(graph: FE_API) 
+  IGNORE_WINDOWS_THUMBPRINTS_VERIFICATION @join__enumValue(graph: FE_API) 
+  TUNEUP_PAGE_REVAMP @join__enumValue(graph: FE_API) 
+  REPORTS_TIME_ZONE @join__enumValue(graph: FE_API) 
+  IPS_LAN @join__enumValue(graph: FE_API) 
+  DRAWER_BELOW_TOP_BAR @join__enumValue(graph: FE_API) 
+  TUNEUP_CHECK_DRAWER @join__enumValue(graph: FE_API) 
+  TUNEUP_REMEDIATION_DRAWER @join__enumValue(graph: FE_API) 
+  TUNEUP_PLAYGROUND @join__enumValue(graph: FE_API) 
+  ACCESS_LOGIN_AND_USERS_GROUP_CC2_DEPRECATION @join__enumValue(graph: FE_API) 
+  SOCKET_LINK_SLA @join__enumValue(graph: FE_API) 
+  NEW_SOCKET_TABLE @join__enumValue(graph: FE_API) 
+  PORT_AND_HA_ALERTS @join__enumValue(graph: FE_API) 
+  POP_MONITORING_USERS_HEALTH @join__enumValue(graph: FE_API) 
+  SOCKET_PROBE_TRACEROUTE @join__enumValue(graph: FE_API) 
+  DEM_CONFIG_SAMPLES @join__enumValue(graph: FE_API) 
+  NEW_IP_ALLOCATION @join__enumValue(graph: FE_API) 
+  ENTERPRISE_BROWSER_WINDOWS_CLIENT_UPGRADE @join__enumValue(graph: FE_API) 
+  ENTERPRISE_BROWSER_MAC_CLIENT_UPGRADE @join__enumValue(graph: FE_API) 
+  WINDOWS_ARM_CLIENT_UPGRADE @join__enumValue(graph: FE_API) 
+  PPS_SDP_STATIC_IP_ALLOCATION_UI @join__enumValue(graph: FE_API) 
+  USERS_SERVICE_NEW_PRICING_MODEL @join__enumValue(graph: FE_API) 
+  DHCP_RELAY_MICROSEGMENTATION_SUPPORT @join__enumValue(graph: FE_API) 
+  AV_LARGE_FILE_SCAN @join__enumValue(graph: FE_API) 
+  DLP_LARGE_FILE_SCAN @join__enumValue(graph: FE_API) 
+  FILE_SCAN_LIMIT_50M @join__enumValue(graph: FE_API) 
+  FILE_SCAN_LIMIT_100M @join__enumValue(graph: FE_API) 
+  FILE_SCAN_LIMIT_250M @join__enumValue(graph: FE_API) 
+  FILE_SCAN_LIMIT_500M @join__enumValue(graph: FE_API) 
+  USER_ADDITIONAL_ATTRIBUTES @join__enumValue(graph: FE_API) 
+  BGP_DEFAULT_ROUTE_COMMUNITIES_FOR_INTERCONNECT @join__enumValue(graph: FE_API) 
+  FW_POLICY_CONNECTION_ORIGIN_UI @join__enumValue(graph: FE_API) 
+  FW_POLICY_BROWSER_EXTENSION_ORIGIN @join__enumValue(graph: FE_API) 
+  FW_POLICY_CATO_BROWSER_ORIGIN @join__enumValue(graph: FE_API) 
+  CMA_PERFORMANCE_CLOUD_ACCESS_CONFIGURATION @join__enumValue(graph: FE_API) 
+  SUPPORT_INTERCONNECT_VLAN_CONFIGURATION @join__enumValue(graph: FE_API) 
+  ADAPTIVE_THREAT_PREVENTION @join__enumValue(graph: FE_API) 
+  CLIENT_ROLLOUT_AUTHZ @join__enumValue(graph: FE_API) 
+  AZURE_NEW_REDIRECT_URL @join__enumValue(graph: FE_API) 
+  BROWSER_ACCESS_SNAT_IP @join__enumValue(graph: FE_API) 
+  ENTERPRISE_BROWSER_SETTINGS @join__enumValue(graph: FE_API) 
+  OOB_DLP_POLICY_PAGE_QUERY_GENRIC_APPS @join__enumValue(graph: FE_API) 
+  SCIM_DIR_DELETION_AND_ENTITY_STATE_SYNC @join__enumValue(graph: FE_API) 
+}
+
+"""
+Specifies the rollout strategy for a required tag in the @requireTag directive.
+"""
+enum TagRolloutStrategy @join__type(graph: FE_API)  {
+  """
+  Indicates the most common rollout strategy where the tag is automatically rolled out to all customers using a
+  gradual, automated rollout plan.
+  """
+  GRADUAL @join__enumValue(graph: FE_API) 
+  """
+  Used for early access scenarios when specific customer feedback is needed. In this case, the tag is assigned
+  manually to selected accounts following prior communication.
+  """
+  EA @join__enumValue(graph: FE_API) 
+}
+
+enum SystemDomain @join__type(graph: FE_API)  {
+  Security @join__enumValue(graph: FE_API) 
+  Network @join__enumValue(graph: FE_API) 
+  Access @join__enumValue(graph: FE_API) 
+  Management @join__enumValue(graph: FE_API) 
+  CPA @join__enumValue(graph: FE_API) 
 }

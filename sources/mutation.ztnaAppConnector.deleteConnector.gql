@@ -1,0 +1,10 @@
+mutation appConnectorDeleteConnector($accountId: ID!, $connectorRef: RemoveZtnaAppConnectorInput!) {
+  ztnaAppConnector(accountId: $accountId) {
+    removeZtnaAppConnector(input: $connectorRef) {
+      ztnaAppConnector {
+        id
+        name
+      }
+    }
+  }
+}

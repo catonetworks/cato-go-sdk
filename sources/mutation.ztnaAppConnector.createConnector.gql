@@ -1,0 +1,9 @@
+mutation appConnectorCreateConnector($accountId: ID!, $newConnector: AddZtnaAppConnectorInput!) {
+  ztnaAppConnector(accountId: $accountId) {
+    addZtnaAppConnector(input: $newConnector) {
+      ztnaAppConnector {
+        id
+      }
+    }
+  }
+}

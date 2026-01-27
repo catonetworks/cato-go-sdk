@@ -890,6 +890,26 @@ type AddStoryCommentPayload struct {
 	Comment *StoryComment `json:"comment"`
 }
 
+// Input for creating a new ZTNA App Connector
+type AddZtnaAppConnectorInput struct {
+	Name string `json:"name"`
+	// Optional description of the ZTNA App Connector (max 250 characters)
+	Description *string `json:"description,omitempty"`
+	// name of the ZTNA App Connector group. if not exists, it will be created
+	GroupName string `json:"groupName"`
+	// Connector type
+	Type ZtnaAppConnectorType `json:"type"`
+	// Physical location of the connector
+	Address  *PostalAddressInput `json:"address"`
+	Timezone string              `json:"timezone"`
+	// Preferred PoP locations settings
+	PreferredPopLocation *ZtnaAppConnectorPreferredPopLocationInput `json:"preferredPopLocation"`
+}
+
+type AddZtnaAppConnectorPayload struct {
+	ZtnaAppConnector *ZtnaAppConnector `json:"ztnaAppConnector"`
+}
+
 type AddressInput struct {
 	// City
 	CityName string `json:"cityName"`
@@ -3251,6 +3271,20 @@ type AssignSiteBwLicenseInput struct {
 
 type AssignSiteBwLicensePayload struct {
 	License License `json:"license"`
+}
+
+type AssignSocketToZtnaAppConnectorInput struct {
+	// Reference to the ZTNA App Connector
+	ZtnaAppConnector *ZtnaAppConnectorRefInput `json:"ztnaAppConnector"`
+	// Socket to assign
+	SocketSerial string `json:"socketSerial"`
+	// Optional description of the ZTNA App Connector (max 250 characters)
+	Description string `json:"description"`
+}
+
+type AssignSocketToZtnaAppConnectorPayload struct {
+	// The updated connector with the assigned socket
+	ZtnaAppConnector *ZtnaAppConnector `json:"ztnaAppConnector"`
 }
 
 // Advanced Threat Prevention (ATP) service license details
@@ -9469,6 +9503,20 @@ type PostalAddressInput struct {
 	ZipCode *string `json:"zipCode,omitempty"`
 }
 
+// A reference identifying of the PrivateApplication object. ID: Unique PrivateApplication Identifier, Name: The PrivateApplication Name
+type PrivateApplicationRef struct {
+	ID   string `json:"id"`
+	Name string `json:"name"`
+}
+
+func (PrivateApplicationRef) IsObjectRef() {}
+
+// Object's unique identifier
+func (this PrivateApplicationRef) GetID() string { return this.ID }
+
+// Object's unique name
+func (this PrivateApplicationRef) GetName() string { return this.Name }
+
 // Public IP address license
 type PublicIpsLicense struct {
 	Description *string `json:"description,omitempty"`
@@ -10000,6 +10048,16 @@ type RemoveSocketAddOnCardPayload struct {
 
 type RemoveStaticHostPayload struct {
 	HostID string `json:"hostId"`
+}
+
+type RemoveZtnaAppConnectorInput struct {
+	// Connector reference to remove
+	ZtnaAppConnector *ZtnaAppConnectorRefInput `json:"ztnaAppConnector"`
+}
+
+type RemoveZtnaAppConnectorPayload struct {
+	// The removed connector resource
+	ZtnaAppConnector *ZtnaAppConnector `json:"ztnaAppConnector"`
 }
 
 type ReplaceSiteBwLicenseInput struct {
@@ -13163,6 +13221,16 @@ type TunnelConfig struct {
 	TunnelRemoteIdentifier *string `json:"tunnelRemoteIdentifier,omitempty"`
 }
 
+type UnassignSocketFromZtnaAppConnectorInput struct {
+	// Reference to the ZTNA App Connector
+	ZtnaAppConnector *ZtnaAppConnectorRefInput `json:"ztnaAppConnector"`
+}
+
+type UnassignSocketFromZtnaAppConnectorPayload struct {
+	// The updated connector with the socket unassigned
+	ZtnaAppConnector *ZtnaAppConnector `json:"ztnaAppConnector"`
+}
+
 type UpdateAccountInput struct {
 	// Account description
 	Description *string `json:"description,omitempty"`
@@ -13608,6 +13676,36 @@ type UpdateStaticHostInput struct {
 
 type UpdateStaticHostPayload struct {
 	HostID string `json:"hostId"`
+}
+
+type UpdateZtnaAppConnectorInput struct {
+	// The unique ID of the ZTNA App Connector
+	ID string `json:"id"`
+	// The unique name of the ZTNA App Connector
+	Name *string `json:"name,omitempty"`
+	// Optional description of the ZTNA App Connector (max 250 characters)
+	Description *string `json:"description,omitempty"`
+	// name of the ZTNA App Connector group. if not exists, it will be created
+	GroupName *string `json:"groupName,omitempty"`
+	// Physical location of the connector
+	Address  *PostalAddressInput `json:"address,omitempty"`
+	Timezone *string             `json:"timezone,omitempty"`
+	// Preferred PoP locations settings
+	PreferredPopLocation *ZtnaAppConnectorPreferredPopLocationInput `json:"preferredPopLocation,omitempty"`
+}
+
+type UpdateZtnaAppConnectorPayload struct {
+	// The updated connector resource
+	ZtnaAppConnector *ZtnaAppConnector `json:"ztnaAppConnector"`
+}
+
+type UpgradeZtnaAppConnectorInput struct {
+	Upgrades []*ZtnaAppConnectorUpgradeRequest `json:"upgrades"`
+}
+
+type UpgradeZtnaAppConnectorPayload struct {
+	// List of upgraded connectors
+	Upgrades []*ZtnaAppConnectorUpgradeInfo `json:"upgrades"`
 }
 
 // Upload file input
@@ -15083,6 +15181,168 @@ func (XdrProLicense) IsQuantifiableLicense() {}
 // license quantity
 func (this XdrProLicense) GetTotal() int64 { return this.Total }
 
+type ZtnaAppConnector struct {
+	// The unique ID of the ZTNA App Connector
+	ID string `json:"id"`
+	// The unique name of the ZTNA App Connector
+	Name string `json:"name"`
+	// Optional description of the ZTNA App Connector (max 250 characters)
+	Description *string `json:"description,omitempty"`
+	// Unique serial number of the ZTNA App Connector
+	SerialNumber *string `json:"serialNumber,omitempty"`
+	// Connector type
+	Type ZtnaAppConnectorType `json:"type"`
+	// Socket model of the ZTNA App Connector
+	SocketModel *SocketModel `json:"socketModel,omitempty"`
+	// name of the ZTNA App Connector group
+	GroupName string `json:"groupName"`
+	// Physical location of the connector
+	Address  *PostalAddress `json:"address"`
+	Timezone string         `json:"timezone"`
+	// Preferred PoP locations settings
+	PreferredPopLocation *ZtnaAppConnectorPreferredPopLocation `json:"preferredPopLocation,omitempty"`
+	// List of private applications associated with this connector
+	PrivateAppRef []*PrivateApplicationRef `json:"privateAppRef"`
+}
+
+// Filter object for connector group listing
+type ZtnaAppConnectorGroupListFilterInput struct {
+	// Case-insensitive free-text search over group names
+	Search *FreeTextFilterInput `json:"search,omitempty"`
+}
+
+type ZtnaAppConnectorGroupListInput struct {
+	// Optional search filter for group names
+	Filter *ZtnaAppConnectorGroupListFilterInput `json:"filter,omitempty"`
+	Paging *PagingInput                          `json:"paging,omitempty"`
+}
+
+type ZtnaAppConnectorGroupListPayload struct {
+	Items    []string  `json:"items"`
+	PageInfo *PageInfo `json:"pageInfo"`
+}
+
+type ZtnaAppConnectorListFilterInput struct {
+	// Filter by app connector name
+	Name []*StringFilterInput `json:"name,omitempty"`
+	// Case-insensitive free-text search over app connector names
+	SearchName *FreeTextFilterInput `json:"searchName,omitempty"`
+	// Filter by group name
+	GroupName []*StringFilterInput `json:"groupName,omitempty"`
+	// Case-insensitive free-text search over group names
+	SearchGroupName *FreeTextFilterInput `json:"searchGroupName,omitempty"`
+	// Filter by socket assignment status
+	IsAssigned *BooleanFilterInput `json:"isAssigned,omitempty"`
+	// Filter by connector type
+	Type *ZtnaAppConnectorTypeFilterInput `json:"type,omitempty"`
+}
+
+type ZtnaAppConnectorListInput struct {
+	// Optional search filter for group names
+	Filter *ZtnaAppConnectorListFilterInput `json:"filter,omitempty"`
+	Paging *PagingInput                     `json:"paging,omitempty"`
+}
+
+type ZtnaAppConnectorListPayload struct {
+	// Current page of connectors
+	ZtnaAppConnector []*ZtnaAppConnector `json:"ztnaAppConnector"`
+	PageInfo         *PageInfo           `json:"pageInfo"`
+}
+
+type ZtnaAppConnectorMutations struct {
+	// Create a new ZTNA App Connector
+	AddZtnaAppConnector *AddZtnaAppConnectorPayload `json:"addZtnaAppConnector"`
+	// Update an existing ZTNA App Connector
+	UpdateZtnaAppConnector *UpdateZtnaAppConnectorPayload `json:"updateZtnaAppConnector"`
+	// Remove an existing ZTNA App Connector by reference
+	// Returns the removed resource
+	RemoveZtnaAppConnector *RemoveZtnaAppConnectorPayload `json:"removeZtnaAppConnector"`
+	// Assign a socket to a ZTNA App Connector
+	AssignSocketToZtnaAppConnector *AssignSocketToZtnaAppConnectorPayload `json:"assignSocketToZtnaAppConnector"`
+	// Unassign a socket from a ZTNA App Connector
+	UnassignSocketFromZtnaAppConnector *UnassignSocketFromZtnaAppConnectorPayload `json:"unassignSocketFromZtnaAppConnector"`
+	UpgradeZtnaAppConnector            *UpgradeZtnaAppConnectorPayload            `json:"upgradeZtnaAppConnector"`
+}
+
+type ZtnaAppConnectorPreferredPopLocation struct {
+	// When `true`, restrict connector attachment **exclusively** to the configured
+	// PoP locations (primary/secondary). When `false`, configured PoPs are treated as
+	// preferences only, and the platform may attach to other healthy PoPs
+	PreferredOnly bool `json:"preferredOnly"`
+	// When true, preferred PoPs are automatic: primary/secondary must be null and preferredOnly must be false.
+	// When false only primary required and secondary optional. If preferredOnly enabled and no secondary, primary is required.
+	Automatic bool `json:"automatic"`
+	// Primary preferred PoP location reference
+	Primary *PopLocationRef `json:"primary,omitempty"`
+	// Secondary preferred PoP location reference (fallback)
+	Secondary *PopLocationRef `json:"secondary,omitempty"`
+}
+
+type ZtnaAppConnectorPreferredPopLocationInput struct {
+	// When `true`, restrict connector attachment **exclusively** to the configured
+	// PoP locations (primary/secondary). When `false`, configured PoPs are treated as
+	// preferences only, and the platform may attach to other healthy PoPs
+	PreferredOnly bool `json:"preferredOnly"`
+	// When true, preferred PoPs are automatic: primary/secondary must be null and preferredOnly must be false.
+	// When false only primary required and secondary optional. If preferredOnly enabled and no secondary, primary is required.
+	Automatic bool `json:"automatic"`
+	// Primary preferred PoP location reference input
+	Primary *PopLocationRefInput `json:"primary,omitempty"`
+	// Secondary preferred PoP location reference input
+	Secondary *PopLocationRefInput `json:"secondary,omitempty"`
+}
+
+type ZtnaAppConnectorQueries struct {
+	// Retrieve a single ZTNA App Connector
+	ZtnaAppConnector *ZtnaAppConnector `json:"ztnaAppConnector,omitempty"`
+	// Paged list of ZTNA App Connectors, with optional filtering by group name(s)
+	ZtnaAppConnectorList *ZtnaAppConnectorListPayload `json:"ztnaAppConnectorList,omitempty"`
+	// List connector group names, with optional free-text search and paging
+	ZtnaAppConnectorGroupList *ZtnaAppConnectorGroupListPayload `json:"ztnaAppConnectorGroupList,omitempty"`
+}
+
+type ZtnaAppConnectorRef struct {
+	// Unique ZTNA app connector ID
+	ID string `json:"id"`
+	// Name for the ZTNA app connector
+	Name string `json:"name"`
+}
+
+func (ZtnaAppConnectorRef) IsObjectRef() {}
+
+// Object's unique identifier
+func (this ZtnaAppConnectorRef) GetID() string { return this.ID }
+
+// Object's unique name
+func (this ZtnaAppConnectorRef) GetName() string { return this.Name }
+
+type ZtnaAppConnectorRefInput struct {
+	// Selector for the reference mode (defaults to ID)
+	By ObjectRefBy `json:"by"`
+	// The reference value (e.g., ID string)
+	Input string `json:"input"`
+}
+
+// Filter input for ZTNA App Connector type
+type ZtnaAppConnectorTypeFilterInput struct {
+	Eq  *ZtnaAppConnectorType  `json:"eq,omitempty"`
+	In  []ZtnaAppConnectorType `json:"in,omitempty"`
+	Neq *ZtnaAppConnectorType  `json:"neq,omitempty"`
+	Nin []ZtnaAppConnectorType `json:"nin,omitempty"`
+}
+
+type ZtnaAppConnectorUpgradeInfo struct {
+	ZtnaAppConnector *ZtnaAppConnectorRef `json:"ztnaAppConnector"`
+	TagetVersion     string               `json:"tagetVersion"`
+}
+
+type ZtnaAppConnectorUpgradeRequest struct {
+	// Reference to the ZTNA App Connector
+	ZtnaAppConnector *ZtnaAppConnectorRefInput `json:"ztnaAppConnector"`
+	// Target version to upgrade to
+	TargetVersion string `json:"targetVersion"`
+}
+
 // ZTNA remote users license
 type ZtnaUsersLicense struct {
 	Description *string `json:"description,omitempty"`
@@ -15368,6 +15628,1113 @@ func (e *AccountStatus) UnmarshalGQL(v any) error {
 }
 
 func (e AccountStatus) MarshalGQL(w io.Writer) {
+	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+type AccountTag string
+
+const (
+	AccountTagDevelopment                                  AccountTag = "DEVELOPMENT"
+	AccountTagSecondAddOnSocketX1700b                      AccountTag = "SECOND_ADD_ON_SOCKET_X1700B"
+	AccountTagZtnaAppConnectorsAPI                         AccountTag = "ZTNA_APP_CONNECTORS_API"
+	AccountTagEnterpriseDirectory                          AccountTag = "ENTERPRISE_DIRECTORY"
+	AccountTagFinancialDocumentView                        AccountTag = "FINANCIAL_DOCUMENT_VIEW"
+	AccountTagShaperMaxBandwidthConfiguration              AccountTag = "SHAPER_MAX_BANDWIDTH_CONFIGURATION"
+	AccountTagSocketSwitchHaRole                           AccountTag = "SOCKET_SWITCH_HA_ROLE"
+	AccountTagPocSocketRequest                             AccountTag = "POC_SOCKET_REQUEST"
+	AccountTagSandboxReport                                AccountTag = "SANDBOX_REPORT"
+	AccountTagGCPHaSupport                                 AccountTag = "GCP_HA_SUPPORT"
+	AccountTagBulkSocketUpgrade                            AccountTag = "BULK_SOCKET_UPGRADE"
+	AccountTagScheduledBulkUpgrade                         AccountTag = "SCHEDULED_BULK_UPGRADE"
+	AccountTagSocketWifi                                   AccountTag = "SOCKET_WIFI"
+	AccountTagZtnaPrivateApplication                       AccountTag = "ZTNA_PRIVATE_APPLICATION"
+	AccountTagRbac                                         AccountTag = "RBAC"
+	AccountTagAPIKeyRbac                                   AccountTag = "APIKEY_RBAC"
+	AccountTagAPIKeyRbacResellers                          AccountTag = "APIKEY_RBAC_RESELLERS"
+	AccountTagAPIKeyCreateServicePrinciple                 AccountTag = "APIKEY_CREATE_SERVICE_PRINCIPLE"
+	AccountTagQosAlerts                                    AccountTag = "QOS_ALERTS"
+	AccountTagGre                                          AccountTag = "GRE"
+	AccountTagTrafficLogging                               AccountTag = "TRAFFIC_LOGGING"
+	AccountTagDemo                                         AccountTag = "DEMO"
+	AccountTagStaticHostAndUserCoupling                    AccountTag = "STATIC_HOST_AND_USER_COUPLING"
+	AccountTagAWSEgressIP                                  AccountTag = "AWS_EGRESS_IP"
+	AccountTagAWSAd                                        AccountTag = "AWS_AD"
+	AccountTagJumpcloudAd                                  AccountTag = "JUMPCLOUD_AD"
+	AccountTagLayer2Wan                                    AccountTag = "LAYER_2_WAN"
+	AccountTagIspConfigIPS                                 AccountTag = "ISP_CONFIG_IPS"
+	AccountTagNewSocketVerNum                              AccountTag = "NEW_SOCKET_VER_NUM"
+	AccountTagOffice365                                    AccountTag = "OFFICE_365"
+	AccountTagICMPKeepAlive                                AccountTag = "ICMP_KEEP_ALIVE"
+	AccountTagVirginSymbols                                AccountTag = "VIRGIN_SYMBOLS"
+	AccountTagIpsec3des                                    AccountTag = "IPSEC_3DES"
+	AccountTagAllowEmptyIPInRpf                            AccountTag = "ALLOW_EMPTY_IP_IN_RPF"
+	AccountTagAllowChinaRpf                                AccountTag = "ALLOW_CHINA_RPF"
+	AccountTagPpsRpfUI                                     AccountTag = "PPS_RPF_UI"
+	AccountTagAltWanRecovery                               AccountTag = "ALT_WAN_RECOVERY"
+	AccountTagSdpConfiguration                             AccountTag = "SDP_CONFIGURATION"
+	AccountTagAccessMultipleIPRanges                       AccountTag = "ACCESS_MULTIPLE_IP_RANGES"
+	AccountTagAccessMultipleIPRangesRollback               AccountTag = "ACCESS_MULTIPLE_IP_RANGES_ROLLBACK"
+	AccountTagAddSourceRangesPredicate                     AccountTag = "ADD_SOURCE_RANGES_PREDICATE"
+	AccountTagAddSourceRangesPredicateCcp                  AccountTag = "ADD_SOURCE_RANGES_PREDICATE_CCP"
+	AccountTagMacAddressAuthentication                     AccountTag = "MAC_ADDRESS_AUTHENTICATION"
+	AccountTagSrManagedMode                                AccountTag = "SR_MANAGED_MODE"
+	AccountTagSocketAutomationTest                         AccountTag = "SOCKET_AUTOMATION_TEST"
+	AccountTagIpsecFwInit                                  AccountTag = "IPSEC_FW_INIT"
+	AccountTagOktaAd                                       AccountTag = "OKTA_AD"
+	AccountTagOneloginAd                                   AccountTag = "ONELOGIN_AD"
+	AccountTagAdminDefaultMfa                              AccountTag = "ADMIN_DEFAULT_MFA"
+	AccountTagAdminAreaPermission                          AccountTag = "ADMIN_AREA_PERMISSION"
+	AccountTagIeplNni                                      AccountTag = "IEPL_NNI"
+	AccountTagScim                                         AccountTag = "SCIM"
+	AccountTagVpnClientPolicy                              AccountTag = "VPN_CLIENT_POLICY"
+	AccountTagDataRetentionPeriodInDays                    AccountTag = "DATA_RETENTION_PERIOD_IN_DAYS"
+	AccountTagDeprecateDeviceAuthentication                AccountTag = "DEPRECATE_DEVICE_AUTHENTICATION"
+	AccountTagAllowLinuxCertificate                        AccountTag = "ALLOW_LINUX_CERTIFICATE"
+	AccountTagAllowInvalidDomains                          AccountTag = "ALLOW_INVALID_DOMAINS"
+	AccountTagNfe                                          AccountTag = "NFE"
+	AccountTagBackhauling                                  AccountTag = "BACKHAULING"
+	AccountTagEppShellcodeEafWindows                       AccountTag = "EPP_SHELLCODE_EAF_WINDOWS"
+	AccountTagEppEdrModule                                 AccountTag = "EPP_EDR_MODULE"
+	AccountTagMfaAndSso                                    AccountTag = "MFA_AND_SSO"
+	AccountTagIwelcome                                     AccountTag = "IWELCOME"
+	AccountTagAppcues                                      AccountTag = "APPCUES"
+	AccountTagDisableAppcues                               AccountTag = "DISABLE_APPCUES"
+	AccountTagDisableFullStory                             AccountTag = "DISABLE_FULL_STORY"
+	AccountTagEnableFullStoryForSystemSubDomainAccount     AccountTag = "ENABLE_FULL_STORY_FOR_SYSTEM_SUB_DOMAIN_ACCOUNT"
+	AccountTagDisableDatadogBrowserLogs                    AccountTag = "DISABLE_DATADOG_BROWSER_LOGS"
+	AccountTagDisableDatadogRum                            AccountTag = "DISABLE_DATADOG_RUM"
+	AccountTagEnableUserflow                               AccountTag = "ENABLE_USERFLOW"
+	AccountTagDisableUserflow                              AccountTag = "DISABLE_USERFLOW"
+	AccountTagUserflowTest                                 AccountTag = "USERFLOW_TEST"
+	AccountTagCustomPreset                                 AccountTag = "CUSTOM_PRESET"
+	AccountTagImageUploadCropper                           AccountTag = "IMAGE_UPLOAD_CROPPER"
+	AccountTagNewCatomapOverviewPage                       AccountTag = "NEW_CATOMAP_OVERVIEW_PAGE"
+	AccountTagDhcpLeaseTime                                AccountTag = "DHCP_LEASE_TIME"
+	AccountTagCasEnableAllAd                               AccountTag = "CAS_ENABLE_ALL_AD"
+	AccountTagDisableCasFilesSkip                          AccountTag = "DISABLE_CAS_FILES_SKIP"
+	AccountTagCasEnableSpRemoveShare                       AccountTag = "CAS_ENABLE_SP_REMOVE_SHARE"
+	AccountTagCasEnableBaseURLOverride                     AccountTag = "CAS_ENABLE_BASE_URL_OVERRIDE"
+	AccountTagCasEnableEntraChecks                         AccountTag = "CAS_ENABLE_ENTRA_CHECKS"
+	AccountTagCasCasbLicenseEnforcement                    AccountTag = "CAS_CASB_LICENSE_ENFORCEMENT"
+	AccountTagCasOobPollerClient                           AccountTag = "CAS_OOB_POLLER_CLIENT"
+	AccountTagCasAzureUpdateAdSubscriptions                AccountTag = "CAS_AZURE_UPDATE_AD_SUBSCRIPTIONS"
+	AccountTagCasAzureDeleteFailedAdSubscriptions          AccountTag = "CAS_AZURE_DELETE_FAILED_AD_SUBSCRIPTIONS"
+	AccountTagCasAzureDeleteExpiredApplicationCertificates AccountTag = "CAS_AZURE_DELETE_EXPIRED_APPLICATION_CERTIFICATES"
+	AccountTagOobConsentFlow                               AccountTag = "OOB_CONSENT_FLOW"
+	AccountTagEnableKmsService                             AccountTag = "ENABLE_KMS_SERVICE"
+	AccountTagOobMultiPublishers                           AccountTag = "OOB_MULTI_PUBLISHERS"
+	AccountTagOobTestConnectorInternal                     AccountTag = "OOB_TEST_CONNECTOR_INTERNAL"
+	AccountTagOobAction                                    AccountTag = "OOB_ACTION"
+	AccountTagOobSyncAction                                AccountTag = "OOB_SYNC_ACTION"
+	AccountTagOobMsIntune                                  AccountTag = "OOB_MS_INTUNE"
+	AccountTagOobArmis                                     AccountTag = "OOB_ARMIS"
+	AccountTagSspmPlugins                                  AccountTag = "SSPM_PLUGINS"
+	AccountTagOobCrowdstrikeDevice                         AccountTag = "OOB_CROWDSTRIKE_DEVICE"
+	AccountTagOobGenericSchemaWithPrefix                   AccountTag = "OOB_GENERIC_SCHEMA_WITH_PREFIX"
+	AccountTagOobCollectionEnvVarsUpdate                   AccountTag = "OOB_COLLECTION_ENV_VARS_UPDATE"
+	AccountTagOobJuniperDeviceMgmt                         AccountTag = "OOB_JUNIPER_DEVICE_MGMT"
+	AccountTagOobMsDefenderDeviceMgmt                      AccountTag = "OOB_MS_DEFENDER_DEVICE_MGMT"
+	AccountTagOobDynamicCatalog                            AccountTag = "OOB_DYNAMIC_CATALOG"
+	AccountTagAuditPrep                                    AccountTag = "AUDIT_PREP"
+	AccountTagOobEdrDefender2_0                            AccountTag = "OOB_EDR_DEFENDER_2_0"
+	AccountTagOobGoogleDriveLabels                         AccountTag = "OOB_GOOGLE_DRIVE_LABELS"
+	AccountTagEnableCasDiskDownload                        AccountTag = "ENABLE_CAS_DISK_DOWNLOAD"
+	AccountTagCasDlpLargeFileScan50mb                      AccountTag = "CAS_DLP_LARGE_FILE_SCAN_50MB"
+	AccountTagCasDlpLargeFileScan75mb                      AccountTag = "CAS_DLP_LARGE_FILE_SCAN_75MB"
+	AccountTagCasDlpLargeFileScan100mb                     AccountTag = "CAS_DLP_LARGE_FILE_SCAN_100MB"
+	AccountTagCasDlpLargeFileScan250mb                     AccountTag = "CAS_DLP_LARGE_FILE_SCAN_250MB"
+	AccountTagCasDlpLargeFileScan500mb                     AccountTag = "CAS_DLP_LARGE_FILE_SCAN_500MB"
+	AccountTagCasLargeFileScan75mb                         AccountTag = "CAS_LARGE_FILE_SCAN_75MB"
+	AccountTagCasLargeFileScan100mb                        AccountTag = "CAS_LARGE_FILE_SCAN_100MB"
+	AccountTagCasLargeFileScan250mb                        AccountTag = "CAS_LARGE_FILE_SCAN_250MB"
+	AccountTagCasLargeFileScan500mb                        AccountTag = "CAS_LARGE_FILE_SCAN_500MB"
+	AccountTagCasEnableFileScanningExtendedLimit           AccountTag = "CAS_ENABLE_FILE_SCANNING_EXTENDED_LIMIT"
+	AccountTagCasEnableAzureNewGraphSdk                    AccountTag = "CAS_ENABLE_AZURE_NEW_GRAPH_SDK"
+	AccountTagCasGoogleDriveFilesDownloadExportLinks       AccountTag = "CAS_GOOGLE_DRIVE_FILES_DOWNLOAD_EXPORT_LINKS"
+	AccountTagOobDefenderMigrationPhase0                   AccountTag = "OOB_DEFENDER_MIGRATION_PHASE_0"
+	AccountTagOobDefenderMigrationPhase1                   AccountTag = "OOB_DEFENDER_MIGRATION_PHASE_1"
+	AccountTagOobDefenderMigrationPhase2                   AccountTag = "OOB_DEFENDER_MIGRATION_PHASE_2"
+	AccountTagPingSso                                      AccountTag = "PING_SSO"
+	AccountTagPingFederateSso                              AccountTag = "PING_FEDERATE_SSO"
+	AccountTagLanBlocking                                  AccountTag = "LAN_BLOCKING"
+	AccountTagCasbGenericUpload                            AccountTag = "CASB_GENERIC_UPLOAD"
+	AccountTagPassMigrated                                 AccountTag = "PASS_MIGRATED"
+	AccountTagScimUaHybrid                                 AccountTag = "SCIM_UA_HYBRID"
+	AccountTagDNSProtection                                AccountTag = "DNS_PROTECTION"
+	AccountTagEmbeddedBestPractice                         AccountTag = "EMBEDDED_BEST_PRACTICE"
+	AccountTagAdminLoginSsoOnly                            AccountTag = "ADMIN_LOGIN_SSO_ONLY"
+	AccountTagDlpCustomData                                AccountTag = "DLP_CUSTOM_DATA"
+	AccountTagDlpImageMlClassifier                         AccountTag = "DLP_IMAGE_ML_CLASSIFIER"
+	AccountTagDlpInlineImageMlClassifier                   AccountTag = "DLP_INLINE_IMAGE_ML_CLASSIFIER"
+	AccountTagAgentBasedUa                                 AccountTag = "AGENT_BASED_UA"
+	AccountTagPingFederateInheritance                      AccountTag = "PING_FEDERATE_INHERITANCE"
+	AccountTagCanaryUsersConfiguration                     AccountTag = "CANARY_USERS_CONFIGURATION"
+	AccountTagAndroidAlwaysOn                              AccountTag = "ANDROID_ALWAYS_ON"
+	AccountTagLinuxAlwaysOn                                AccountTag = "LINUX_ALWAYS_ON"
+	AccountTagPpsDNSSettingsUI                             AccountTag = "PPS_DNS_SETTINGS_UI"
+	AccountTagPpsAlwaysOnUI                                AccountTag = "PPS_ALWAYS_ON_UI"
+	AccountTagPpsClientConnectivityUI                      AccountTag = "PPS_CLIENT_CONNECTIVITY_UI"
+	AccountTagDevicePostureDomainCheck                     AccountTag = "DEVICE_POSTURE_DOMAIN_CHECK"
+	AccountTagDlpRegexCustomData                           AccountTag = "DLP_REGEX_CUSTOM_DATA"
+	AccountTagMitreAttackFramework                         AccountTag = "MITRE_ATTACK_FRAMEWORK"
+	AccountTagZendeskTicketsPageTicketDetails              AccountTag = "ZENDESK_TICKETS_PAGE_TICKET_DETAILS"
+	AccountTagZendeskUsePlaygroundSite                     AccountTag = "ZENDESK_USE_PLAYGROUND_SITE"
+	AccountTagPpsDynamicIPAllocationUI                     AccountTag = "PPS_DYNAMIC_IP_ALLOCATION_UI"
+	AccountTagPpsProxyConfigurationUI                      AccountTag = "PPS_PROXY_CONFIGURATION_UI"
+	AccountTagAccessRolloutPage                            AccountTag = "ACCESS_ROLLOUT_PAGE"
+	AccountTagLinuxClientUpgrade                           AccountTag = "LINUX_CLIENT_UPGRADE"
+	AccountTagDeprecateAllAuthUsers                        AccountTag = "DEPRECATE_ALL_AUTH_USERS"
+	AccountTagSimilarLoginHint                             AccountTag = "SIMILAR_LOGIN_HINT"
+	AccountTagDeviceCertificateOid                         AccountTag = "DEVICE_CERTIFICATE_OID"
+	AccountTagXdrPro                                       AccountTag = "XDR_PRO"
+	AccountTagXdrResponsePolicyWebhook                     AccountTag = "XDR_RESPONSE_POLICY_WEBHOOK"
+	AccountTagXdrCdrStories                                AccountTag = "XDR_CDR_STORIES"
+	AccountTagXdrCyeraStories                              AccountTag = "XDR_CYERA_STORIES"
+	AccountTagXdrStoryDetailsHighlights                    AccountTag = "XDR_STORY_DETAILS_HIGHLIGHTS"
+	AccountTagXdrMsDefender2_0                             AccountTag = "XDR_MS_DEFENDER_2_0"
+	AccountTagXdrWorkbenchCatoTable                        AccountTag = "XDR_WORKBENCH_CATO_TABLE"
+	AccountTagXopsOverview                                 AccountTag = "XOPS_OVERVIEW"
+	AccountTagXdrResponsePolicyAction                      AccountTag = "XDR_RESPONSE_POLICY_ACTION"
+	AccountTagXdrConfigurationTabSpecificRbac              AccountTag = "XDR_CONFIGURATION_TAB_SPECIFIC_RBAC"
+	AccountTagSiteopsNewName                               AccountTag = "SITEOPS_NEW_NAME"
+	AccountTagUnifiedUser                                  AccountTag = "UNIFIED_USER"
+	AccountTagAuthenticationFlows                          AccountTag = "AUTHENTICATION_FLOWS"
+	AccountTagUuConnectionOrigin                           AccountTag = "UU_CONNECTION_ORIGIN"
+	AccountTagSeamlessAuthentication                       AccountTag = "SEAMLESS_AUTHENTICATION"
+	AccountTagLimitLdapUserMembershipChanges               AccountTag = "LIMIT_LDAP_USER_MEMBERSHIP_CHANGES"
+	AccountTagCatoCertificate2024                          AccountTag = "CATO_CERTIFICATE_2024"
+	AccountTagCatoCertificate2024Banner                    AccountTag = "CATO_CERTIFICATE_2024_BANNER"
+	AccountTagAddTLSCerts2015_2024                         AccountTag = "ADD_TLS_CERTS_2015_2024"
+	AccountTagDeleteTLSCert2015                            AccountTag = "DELETE_TLS_CERT_2015"
+	AccountTagManagedTLSI                                  AccountTag = "MANAGED_TLSI"
+	AccountTagTLSIHijackRules                              AccountTag = "TLSI_HIJACK_RULES"
+	AccountTagHealthRulesFilterUsersSelection              AccountTag = "HEALTH_RULES_FILTER_USERS_SELECTION"
+	AccountTagBlockPagePoweredBy                           AccountTag = "BLOCK_PAGE_POWERED_BY"
+	AccountTagBlockPageReferenceID                         AccountTag = "BLOCK_PAGE_REFERENCE_ID"
+	AccountTagUserEducationTemplate                        AccountTag = "USER_EDUCATION_TEMPLATE"
+	AccountTagAWSLocationMapProviderEnabled                AccountTag = "AWS_LOCATION_MAP_PROVIDER_ENABLED"
+	AccountTagAzureConfirmationPage                        AccountTag = "AZURE_CONFIRMATION_PAGE"
+	AccountTagCrossConnect                                 AccountTag = "CROSS_CONNECT"
+	AccountTagCustomIPRanges                               AccountTag = "CUSTOM_IP_RANGES"
+	AccountTagNewTopologyPage                              AccountTag = "NEW_TOPOLOGY_PAGE"
+	AccountTagFourWan                                      AccountTag = "FOUR_WAN"
+	AccountTagAWSHaAltWan                                  AccountTag = "AWS_HA_ALT_WAN"
+	AccountTagCongestionAlerts                             AccountTag = "CONGESTION_ALERTS"
+	AccountTagAssignSocketInventory                        AccountTag = "ASSIGN_SOCKET_INVENTORY"
+	AccountTagSocketUpgradeSplitDownload                   AccountTag = "SOCKET_UPGRADE_SPLIT_DOWNLOAD"
+	AccountTagBgpAs4                                       AccountTag = "BGP_AS4"
+	AccountTagBfdXconnect                                  AccountTag = "BFD_XCONNECT"
+	AccountTagBfdIpsec                                     AccountTag = "BFD_IPSEC"
+	AccountTagNatPolicyIpsec                               AccountTag = "NAT_POLICY_IPSEC"
+	AccountTagNatPolicyXconnect                            AccountTag = "NAT_POLICY_XCONNECT"
+	AccountTagNatPolicySocket                              AccountTag = "NAT_POLICY_SOCKET"
+	AccountTagX1600LteSupport                              AccountTag = "X1600_LTE_SUPPORT"
+	AccountTagX1600CellularVisibility                      AccountTag = "X1600_CELLULAR_VISIBILITY"
+	AccountTagQinq                                         AccountTag = "QINQ"
+	AccountTagChinaCmiAccountGp                            AccountTag = "CHINA_CMI_ACCOUNT_GP"
+	AccountTagXdrNetworkHealthRule                         AccountTag = "XDR_NETWORK_HEALTH_RULE"
+	AccountTagFqdnBidirectional                            AccountTag = "FQDN_BIDIRECTIONAL"
+	AccountTagUserProbeInterval                            AccountTag = "USER_PROBE_INTERVAL"
+	AccountTagNewDhIpsec                                   AccountTag = "NEW_DH_IPSEC"
+	AccountTagDemNewUIDrilldown                            AccountTag = "DEM_NEW_UI_DRILLDOWN"
+	AccountTagDemFeedback                                  AccountTag = "DEM_FEEDBACK"
+	AccountTagSocketInternetOnly                           AccountTag = "SOCKET_INTERNET_ONLY"
+	AccountTagIpsecXconnectInternetOnly                    AccountTag = "IPSEC_XCONNECT_INTERNET_ONLY"
+	AccountTagSocketBgpFilters                             AccountTag = "SOCKET_BGP_FILTERS"
+	AccountTagIpsecXconnectBgpFilters                      AccountTag = "IPSEC_XCONNECT_BGP_FILTERS"
+	AccountTagAccountMetricsFilterByDeviceID               AccountTag = "ACCOUNT_METRICS_FILTER_BY_DEVICE_ID"
+	AccountTagActiveActiveIpsec                            AccountTag = "ACTIVE_ACTIVE_IPSEC"
+	AccountTagMultipleDhcpNativeRange                      AccountTag = "MULTIPLE_DHCP_NATIVE_RANGE"
+	AccountTagVsocketGCP                                   AccountTag = "VSOCKET_GCP"
+	AccountTagKbpsSupport                                  AccountTag = "KBPS_SUPPORT"
+	AccountTagPopIpsecSiteMaintenancePolicy                AccountTag = "POP_IPSEC_SITE_MAINTENANCE_POLICY"
+	AccountTagPopSocketSiteMaintenancePolicy               AccountTag = "POP_SOCKET_SITE_MAINTENANCE_POLICY"
+	AccountTagTracerouteForCma                             AccountTag = "TRACEROUTE_FOR_CMA"
+	AccountTagPpsNetworkRulesUI                            AccountTag = "PPS_NETWORK_RULES_UI"
+	AccountTagPpsNetworkRulesMigration                     AccountTag = "PPS_NETWORK_RULES_MIGRATION"
+	AccountTagPpsLanNetworkRulesUI                         AccountTag = "PPS_LAN_NETWORK_RULES_UI"
+	AccountTagPpsLanNetworkRulesMigration                  AccountTag = "PPS_LAN_NETWORK_RULES_MIGRATION"
+	AccountTagPpsSocketBypassUI                            AccountTag = "PPS_SOCKET_BYPASS_UI"
+	AccountTagPpsSocketBypassMigration                     AccountTag = "PPS_SOCKET_BYPASS_MIGRATION"
+	AccountTagPpsNetworkPoliciesHitCounter                 AccountTag = "PPS_NETWORK_POLICIES_HIT_COUNTER"
+	AccountTagPpsWanNetworkPolicyHitCounter                AccountTag = "PPS_WAN_NETWORK_POLICY_HIT_COUNTER"
+	AccountTagPpsSocketLanNetworkPolicyHitCounter          AccountTag = "PPS_SOCKET_LAN_NETWORK_POLICY_HIT_COUNTER"
+	AccountTagPpsSocketLanFirewallPolicyHitCounter         AccountTag = "PPS_SOCKET_LAN_FIREWALL_POLICY_HIT_COUNTER"
+	AccountTagPpsSocketBypassPolicyHitCounter              AccountTag = "PPS_SOCKET_BYPASS_POLICY_HIT_COUNTER"
+	AccountTagPopLocationTable                             AccountTag = "POP_LOCATION_TABLE"
+	AccountTagPopMonitoring                                AccountTag = "POP_MONITORING"
+	AccountTagPopMonitoringSystem                          AccountTag = "POP_MONITORING_SYSTEM"
+	AccountTagPopMonitoringHistoric                        AccountTag = "POP_MONITORING_HISTORIC"
+	AccountTagPopMonitoringFilters                         AccountTag = "POP_MONITORING_FILTERS"
+	AccountTagPopMonitoringP2                              AccountTag = "POP_MONITORING_P2"
+	AccountTagPopLocationP2                                AccountTag = "POP_LOCATION_P2"
+	AccountTagCmaStatusPage                                AccountTag = "CMA_STATUS_PAGE"
+	AccountTagL7LanFw                                      AccountTag = "L7_LAN_FW"
+	AccountTagAWSHaBgp                                     AccountTag = "AWS_HA_BGP"
+	AccountTagByoip1                                       AccountTag = "BYOIP_1"
+	AccountTagByoip2                                       AccountTag = "BYOIP_2"
+	AccountTagIpsecActiveActive6Tunnels                    AccountTag = "IPSEC_ACTIVE_ACTIVE_6_TUNNELS"
+	AccountTagIpsecActiveActiveBgp                         AccountTag = "IPSEC_ACTIVE_ACTIVE_BGP"
+	AccountTagIlmmXdrReports                               AccountTag = "ILMM_XDR_REPORTS"
+	AccountTagNetworkStoryReport                           AccountTag = "NETWORK_STORY_REPORT"
+	AccountTagExportLmmData                                AccountTag = "EXPORT_LMM_DATA"
+	AccountTagPopmanagerCallsDirectlyToPop                 AccountTag = "POPMANAGER_CALLS_DIRECTLY_TO_POP"
+	AccountTagSocketBypassAppBased                         AccountTag = "SOCKET_BYPASS_APP_BASED"
+	AccountTagOffCloudEnhancements                         AccountTag = "OFF_CLOUD_ENHANCEMENTS"
+	AccountTagExportIspData                                AccountTag = "EXPORT_ISP_DATA"
+	AccountTagActionIpsecBgpStatus                         AccountTag = "ACTION_IPSEC_BGP_STATUS"
+	AccountTagAccountSitesListNewSocketVersions            AccountTag = "ACCOUNT_SITES_LIST_NEW_SOCKET_VERSIONS"
+	AccountTagBypassOffcloudTransportChinaValidation       AccountTag = "BYPASS_OFFCLOUD_TRANSPORT_CHINA_VALIDATION"
+	AccountTagAccountSitesListNewColumnGroups              AccountTag = "ACCOUNT_SITES_LIST_NEW_COLUMN_GROUPS"
+	AccountTagNewGroupsWanNetwork                          AccountTag = "NEW_GROUPS_WAN_NETWORK"
+	AccountTagNewGroupsSocketLan                           AccountTag = "NEW_GROUPS_SOCKET_LAN"
+	AccountTagAccountOperationsStories                     AccountTag = "ACCOUNT_OPERATIONS_STORIES"
+	AccountTagBgpConnectivityStatus                        AccountTag = "BGP_CONNECTIVITY_STATUS"
+	AccountTagAssignBeforeRegister                         AccountTag = "ASSIGN_BEFORE_REGISTER"
+	AccountTagLimitSitesCountForNoneHubAndSpoke            AccountTag = "LIMIT_SITES_COUNT_FOR_NONE_HUB_AND_SPOKE"
+	AccountTagRealtimeDiscardedAsPercentage                AccountTag = "REALTIME_DISCARDED_AS_PERCENTAGE"
+	AccountTagConnectionTypeGeneralPageSeparation          AccountTag = "CONNECTION_TYPE_GENERAL_PAGE_SEPARATION"
+	AccountTagBurstingLicenseAnalytics                     AccountTag = "BURSTING_LICENSE_ANALYTICS"
+	AccountTagSiteGeneralDetailsInSiteServiceWrite         AccountTag = "SITE_GENERAL_DETAILS_IN_SITE_SERVICE_WRITE"
+	AccountTagLanFwUsersDevices                            AccountTag = "LAN_FW_USERS_DEVICES"
+	AccountTagDeviceNetworkRules                           AccountTag = "DEVICE_NETWORK_RULES"
+	AccountTagAppConnectorsAnalytics                       AccountTag = "APP_CONNECTORS_ANALYTICS"
+	AccountTagAppConnectorsConfiguration                   AccountTag = "APP_CONNECTORS_CONFIGURATION"
+	AccountTagForwardProxy                                 AccountTag = "FORWARD_PROXY"
+	AccountTagDlpSensitivityLabels                         AccountTag = "DLP_SENSITIVITY_LABELS"
+	AccountTagDlpConfigurationNestedTabs                   AccountTag = "DLP_CONFIGURATION_NESTED_TABS"
+	AccountTagAPIContainerOnK8s                            AccountTag = "API_CONTAINER_ON_K8S"
+	AccountTagGradualRolloutDummyTag                       AccountTag = "GRADUAL_ROLLOUT_DUMMY_TAG"
+	AccountTagGradualRolloutRollback                       AccountTag = "GRADUAL_ROLLOUT_ROLLBACK"
+	AccountTagDisableRegionalRollout                       AccountTag = "DISABLE_REGIONAL_ROLLOUT"
+	AccountTagPageInfoNetworking                           AccountTag = "PAGE_INFO_NETWORKING"
+	AccountTagVirtualizationAndDndExtensions               AccountTag = "VIRTUALIZATION_AND_DND_EXTENSIONS"
+	AccountTagExplicitSystemRules                          AccountTag = "EXPLICIT_SYSTEM_RULES"
+	AccountTagTLSInspectionUntrustedCert                   AccountTag = "TLS_INSPECTION_UNTRUSTED_CERT"
+	AccountTagOverrideDc                                   AccountTag = "OVERRIDE_DC"
+	AccountTagPpsInternetFwPlayground                      AccountTag = "PPS_INTERNET_FW_PLAYGROUND"
+	AccountTagPpsInternetFwUI                              AccountTag = "PPS_INTERNET_FW_UI"
+	AccountTagPpsInternetFwMigration                       AccountTag = "PPS_INTERNET_FW_MIGRATION"
+	AccountTagPpsRpfUISystemTypes                          AccountTag = "PPS_RPF_UI_SYSTEM_TYPES"
+	AccountTagNewTrackingForm                              AccountTag = "NEW_TRACKING_FORM"
+	AccountTagRpfNewTrackingForm                           AccountTag = "RPF_NEW_TRACKING_FORM"
+	AccountTagPpsWanFwUI                                   AccountTag = "PPS_WAN_FW_UI"
+	AccountTagPpsHitCount                                  AccountTag = "PPS_HIT_COUNT"
+	AccountTagHitCountReset                                AccountTag = "HIT_COUNT_RESET"
+	AccountTagRuleExpFw                                    AccountTag = "RULE_EXP_FW"
+	AccountTagPpsRuleExpFwBp                               AccountTag = "PPS_RULE_EXP_FW_BP"
+	AccountTagIocSyncURL                                   AccountTag = "IOC_SYNC_URL"
+	AccountTagApplictionControlTenantAwareness             AccountTag = "APPLICTION_CONTROL_TENANT_AWARENESS"
+	AccountTagPpsUnusedRulesCheck                          AccountTag = "PPS_UNUSED_RULES_CHECK"
+	AccountTagDlpOcrLanguages                              AccountTag = "DLP_OCR_LANGUAGES"
+	AccountTagPpsTenantRestrictionMigration                AccountTag = "PPS_TENANT_RESTRICTION_MIGRATION"
+	AccountTagPpsTenantRestrictionUI                       AccountTag = "PPS_TENANT_RESTRICTION_UI"
+	AccountTagPpsApplicationControlMigration               AccountTag = "PPS_APPLICATION_CONTROL_MIGRATION"
+	AccountTagPpsApplicationControlUI                      AccountTag = "PPS_APPLICATION_CONTROL_UI"
+	AccountTagPpsTLSInspectMigration                       AccountTag = "PPS_TLS_INSPECT_MIGRATION"
+	AccountTagPpsTLSInspectUI                              AccountTag = "PPS_TLS_INSPECT_UI"
+	AccountTagPpsAiSecurityUI                              AccountTag = "PPS_AI_SECURITY_UI"
+	AccountTagDlpCustomMlClassifier                        AccountTag = "DLP_CUSTOM_ML_CLASSIFIER"
+	AccountTagForensicsDlp                                 AccountTag = "FORENSICS_DLP"
+	AccountTagForensicsEvents                              AccountTag = "FORENSICS_EVENTS"
+	AccountTagTLSEnforce                                   AccountTag = "TLS_ENFORCE"
+	AccountTagPreserveTableScroll                          AccountTag = "PRESERVE_TABLE_SCROLL"
+	AccountTagDeviceDrilldownDrawer                        AccountTag = "DEVICE_DRILLDOWN_DRAWER"
+	AccountTagDeviceExport                                 AccountTag = "DEVICE_EXPORT"
+	AccountTagDevicesSunburstExperiments                   AccountTag = "DEVICES_SUNBURST_EXPERIMENTS"
+	AccountTagClientNotificationCustomization              AccountTag = "CLIENT_NOTIFICATION_CUSTOMIZATION"
+	AccountTagAppDataProxy                                 AccountTag = "APP_DATA_PROXY"
+	AccountTagAppsOverview                                 AccountTag = "APPS_OVERVIEW"
+	AccountTagAppsInventory                                AccountTag = "APPS_INVENTORY"
+	AccountTagEnableAiSecurity                             AccountTag = "ENABLE_AI_SECURITY"
+	AccountTagUseNewCustomApps                             AccountTag = "USE_NEW_CUSTOM_APPS"
+	AccountTagNewCustomAppsUI                              AccountTag = "NEW_CUSTOM_APPS_UI"
+	AccountTagPpsAntiTamperExclusionUI                     AccountTag = "PPS_ANTI_TAMPER_EXCLUSION_UI"
+	AccountTagPpsBrowserExtensionPolicyUI                  AccountTag = "PPS_BROWSER_EXTENSION_POLICY_UI"
+	AccountTagDevicesNewMap                                AccountTag = "DEVICES_NEW_MAP"
+	AccountTagDevicesSankey                                AccountTag = "DEVICES_SANKEY"
+	AccountTagBrowserExtDownloadPolicy                     AccountTag = "BROWSER_EXT_DOWNLOAD_POLICY"
+	AccountTagBrowserExtCopyPolicy                         AccountTag = "BROWSER_EXT_COPY_POLICY"
+	AccountTagBrowserExtPastePolicy                        AccountTag = "BROWSER_EXT_PASTE_POLICY"
+	AccountTagBrowserExtWatermarkPolicy                    AccountTag = "BROWSER_EXT_WATERMARK_POLICY"
+	AccountTagBrowserExtPrintPolicy                        AccountTag = "BROWSER_EXT_PRINT_POLICY"
+	AccountTagBrowserExtTypingPolicy                       AccountTag = "BROWSER_EXT_TYPING_POLICY"
+	AccountTagBrowserExtFileUploadPolicy                   AccountTag = "BROWSER_EXT_FILE_UPLOAD_POLICY"
+	AccountTagTrialSiteBandwidth                           AccountTag = "TRIAL_SITE_BANDWIDTH"
+	AccountTagAppStatsReport                               AccountTag = "APP_STATS_REPORT"
+	AccountTagAppStatsPerUserReport                        AccountTag = "APP_STATS_PER_USER_REPORT"
+	AccountTagAppStatsPerSiteReport                        AccountTag = "APP_STATS_PER_SITE_REPORT"
+	AccountTagConStatsBwReport                             AccountTag = "CON_STATS_BW_REPORT"
+	AccountTagMuiV5                                        AccountTag = "MUI_V5"
+	AccountTagScheduleReportPerMinute                      AccountTag = "SCHEDULE_REPORT_PER_MINUTE"
+	AccountTagScheduleReportSubscription                   AccountTag = "SCHEDULE_REPORT_SUBSCRIPTION"
+	AccountTagExternalAccessPage                           AccountTag = "EXTERNAL_ACCESS_PAGE"
+	AccountTagMfaFailOpenPolicy                            AccountTag = "MFA_FAIL_OPEN_POLICY"
+	AccountTagSubscriptionsGroupPage                       AccountTag = "SUBSCRIPTIONS_GROUP_PAGE"
+	AccountTagIntegrationsSupport                          AccountTag = "INTEGRATIONS_SUPPORT"
+	AccountTagMfaEnforcement                               AccountTag = "MFA_ENFORCEMENT"
+	AccountTagAccountMigrationTestingTag                   AccountTag = "ACCOUNT_MIGRATION_TESTING_TAG"
+	AccountTagDummyTagAddedByMigration                     AccountTag = "DUMMY_TAG_ADDED_BY_MIGRATION"
+	AccountTagMfaByDefault                                 AccountTag = "MFA_BY_DEFAULT"
+	AccountTagDemUnderlayProbe                             AccountTag = "DEM_UNDERLAY_PROBE"
+	AccountTagDemUnderlaySocketProbe                       AccountTag = "DEM_UNDERLAY_SOCKET_PROBE"
+	AccountTagDemUnderlayClientProbe                       AccountTag = "DEM_UNDERLAY_CLIENT_PROBE"
+	AccountTagDemTopologies                                AccountTag = "DEM_TOPOLOGIES"
+	AccountTagDem3rdPartyApEvents                          AccountTag = "DEM_3RD_PARTY_AP_EVENTS"
+	AccountTagDemShadowMonitoring                          AccountTag = "DEM_SHADOW_MONITORING"
+	AccountTagOobMetricsZoomScore                          AccountTag = "OOB_METRICS_ZOOM_SCORE"
+	AccountTagUserProfileWidget                            AccountTag = "USER_PROFILE_WIDGET"
+	AccountTagCmaplatPublicAPIExtAccess                    AccountTag = "CMAPLAT_PUBLIC_API_EXT_ACCESS"
+	AccountTagCmaplatRealIP                                AccountTag = "CMAPLAT_REAL_IP"
+	AccountTagCmaplatCraRemoval                            AccountTag = "CMAPLAT_CRA_REMOVAL"
+	AccountTagContactUsButton                              AccountTag = "CONTACT_US_BUTTON"
+	AccountTagContactUsButtonIot                           AccountTag = "CONTACT_US_BUTTON_IOT"
+	AccountTagContactUsButtonCasb                          AccountTag = "CONTACT_US_BUTTON_CASB"
+	AccountTagContactUsButtonXops                          AccountTag = "CONTACT_US_BUTTON_XOPS"
+	AccountTagContactUsButtonGenai                         AccountTag = "CONTACT_US_BUTTON_GENAI"
+	AccountTagContactUsButtonDlp                           AccountTag = "CONTACT_US_BUTTON_DLP"
+	AccountTagCopilotManagerRoute                          AccountTag = "COPILOT_MANAGER_ROUTE"
+	AccountTagCopilotMultiAgent                            AccountTag = "COPILOT_MULTI_AGENT"
+	AccountTagCopilotDataAgent                             AccountTag = "COPILOT_DATA_AGENT"
+	AccountTagCopilotContactSupport                        AccountTag = "COPILOT_CONTACT_SUPPORT"
+	AccountTagCopilotDynamicAgent                          AccountTag = "COPILOT_DYNAMIC_AGENT"
+	AccountTagCopilotFullScreen                            AccountTag = "COPILOT_FULL_SCREEN"
+	AccountTagCopilotSpeechRecognition                     AccountTag = "COPILOT_SPEECH_RECOGNITION"
+	AccountTagCopilotUserStop                              AccountTag = "COPILOT_USER_STOP"
+	AccountTagCopilotShowCharts                            AccountTag = "COPILOT_SHOW_CHARTS"
+	AccountTagCopilotNonModalDrawer                        AccountTag = "COPILOT_NON_MODAL_DRAWER"
+	AccountTagWebhookResponseCorrelationIDMapping          AccountTag = "WEBHOOK_RESPONSE_CORRELATION_ID_MAPPING"
+	AccountTagWebhooksNewUI                                AccountTag = "WEBHOOKS_NEW_UI"
+	AccountTagNewLicenseModel                              AccountTag = "NEW_LICENSE_MODEL"
+	AccountTagRegionalBandwidthAllocation                  AccountTag = "REGIONAL_BANDWIDTH_ALLOCATION"
+	AccountTagCpaManagedAccount                            AccountTag = "CPA_MANAGED_ACCOUNT"
+	AccountTagSkipStrictSiteLicenseEnforcement             AccountTag = "SKIP_STRICT_SITE_LICENSE_ENFORCEMENT"
+	AccountTagResellerWithPlan                             AccountTag = "RESELLER_WITH_PLAN"
+	AccountTagSupportRegionalBwLicense                     AccountTag = "SUPPORT_REGIONAL_BW_LICENSE"
+	AccountTagZtnaUsersLicense                             AccountTag = "ZTNA_USERS_LICENSE"
+	AccountTagLicenseEventManagedAccount                   AccountTag = "LICENSE_EVENT_MANAGED_ACCOUNT"
+	AccountTagLicensesNewServicesPage                      AccountTag = "LICENSES_NEW_SERVICES_PAGE"
+	AccountTagAllowResellerToDisableAccounts               AccountTag = "ALLOW_RESELLER_TO_DISABLE_ACCOUNTS"
+	AccountTagBurstingLicenseFlowsAllowed                  AccountTag = "BURSTING_LICENSE_FLOWS_ALLOWED"
+	AccountTagXdrMdr2024                                   AccountTag = "XDR_MDR_2024"
+	AccountTagAccountInfo                                  AccountTag = "ACCOUNT_INFO"
+	AccountTagPartialXdrDetectionReport                    AccountTag = "PARTIAL_XDR_DETECTION_REPORT"
+	AccountTagDevicesUnifiedEngine                         AccountTag = "DEVICES_UNIFIED_ENGINE"
+	AccountTagDevicesContentEarlyAvailability              AccountTag = "DEVICES_CONTENT_EARLY_AVAILABILITY"
+	AccountTagCdpAsAppstats                                AccountTag = "CDP_AS_APPSTATS"
+	AccountTagCustomHomepage                               AccountTag = "CUSTOM_HOMEPAGE"
+	AccountTagAcaSupportConsent                            AccountTag = "ACA_SUPPORT_CONSENT"
+	AccountTagClientCollectEventLogs                       AccountTag = "CLIENT_COLLECT_EVENT_LOGS"
+	AccountTagAlwaysOnAntiTamper                           AccountTag = "ALWAYS_ON_ANTI_TAMPER"
+	AccountTagAlwaysOnDevicePostureSupport                 AccountTag = "ALWAYS_ON_DEVICE_POSTURE_SUPPORT"
+	AccountTagDetectedNetworkSupport                       AccountTag = "DETECTED_NETWORK_SUPPORT"
+	AccountTagSplitTunnelDNSSuffix                         AccountTag = "SPLIT_TUNNEL_DNS_SUFFIX"
+	AccountTagPpsPrivateAccessUI                           AccountTag = "PPS_PRIVATE_ACCESS_UI"
+	AccountTagSplitTunnelPacFile                           AccountTag = "SPLIT_TUNNEL_PAC_FILE"
+	AccountTagClientFqdnBasedSplit                         AccountTag = "CLIENT_FQDN_BASED_SPLIT"
+	AccountTagResetFlows                                   AccountTag = "RESET_FLOWS"
+	AccountTagCasConnectorsAdvancedWarning                 AccountTag = "CAS_CONNECTORS_ADVANCED_WARNING"
+	AccountTagConnectorsNewPlatform                        AccountTag = "CONNECTORS_NEW_PLATFORM"
+	AccountTagIntegrationsTabOnGenericAPI                  AccountTag = "INTEGRATIONS_TAB_ON_GENERIC_API"
+	AccountTagForceReauthentication                        AccountTag = "FORCE_REAUTHENTICATION"
+	AccountTagUserServiceExportAllUsers                    AccountTag = "USER_SERVICE_EXPORT_ALL_USERS"
+	AccountTagPartnerSummaryDashboard                      AccountTag = "PARTNER_SUMMARY_DASHBOARD"
+	AccountTagCustomerOverviewDashboard                    AccountTag = "CUSTOMER_OVERVIEW_DASHBOARD"
+	AccountTagWanFwIocIngestion                            AccountTag = "WAN_FW_IOC_INGESTION"
+	AccountTagDemNetworkPathAnalysis                       AccountTag = "DEM_NETWORK_PATH_ANALYSIS"
+	AccountTagDemAggregation                               AccountTag = "DEM_AGGREGATION"
+	AccountTagDemPathAnalysisTimeframe                     AccountTag = "DEM_PATH_ANALYSIS_TIMEFRAME"
+	AccountTagAppStatsUserFilter                           AccountTag = "APP_STATS_USER_FILTER"
+	AccountTagSiteXdrDegradedState                         AccountTag = "SITE_XDR_DEGRADED_STATE"
+	AccountTagClientlessSSHApplication                     AccountTag = "CLIENTLESS_SSH_APPLICATION"
+	AccountTagClientlessRdpApplication                     AccountTag = "CLIENTLESS_RDP_APPLICATION"
+	AccountTagNewClientlessPolicy                          AccountTag = "NEW_CLIENTLESS_POLICY"
+	AccountTagNaturalLanguageSearchStoriesWorkbench        AccountTag = "NATURAL_LANGUAGE_SEARCH_STORIES_WORKBENCH"
+	AccountTagNaturalLanguageSearchStoriesSingleAccount    AccountTag = "NATURAL_LANGUAGE_SEARCH_STORIES_SINGLE_ACCOUNT"
+	AccountTagNewFilterBarThreatsDashboard                 AccountTag = "NEW_FILTER_BAR_THREATS_DASHBOARD"
+	AccountTagLazyLoadingDashboardWidgets                  AccountTag = "LAZY_LOADING_DASHBOARD_WIDGETS"
+	AccountTagNaturalLanguageSearchDem                     AccountTag = "NATURAL_LANGUAGE_SEARCH_DEM"
+	AccountTagFwDevicesNewAttributes                       AccountTag = "FW_DEVICES_NEW_ATTRIBUTES"
+	AccountTagFwUIIncreasePollInterval                     AccountTag = "FW_UI_INCREASE_POLL_INTERVAL"
+	AccountTagResetRiskScore                               AccountTag = "RESET_RISK_SCORE"
+	AccountTagServerK8s                                    AccountTag = "SERVER_K8S"
+	AccountTagServerInfraLeanAPIGw                         AccountTag = "SERVER_INFRA_LEAN_API_GW"
+	AccountTagExcludeMoveLdapToK8s                         AccountTag = "EXCLUDE_MOVE_LDAP_TO_K8S"
+	AccountTagEventsThrottlingIsNotSilent                  AccountTag = "EVENTS_THROTTLING_IS_NOT_SILENT"
+	AccountTagEventsLogIntegrationAzureMonitor             AccountTag = "EVENTS_LOG_INTEGRATION_AZURE_MONITOR"
+	AccountTagCasOobDataExportMicrosoftSentinel            AccountTag = "CAS_OOB_DATA_EXPORT_MICROSOFT_SENTINEL"
+	AccountTagCasOobDataExportSplunk                       AccountTag = "CAS_OOB_DATA_EXPORT_SPLUNK"
+	AccountTagCasOobDataExportCrodwstrikeFalconNgSiem      AccountTag = "CAS_OOB_DATA_EXPORT_CRODWSTRIKE_FALCON_NG_SIEM"
+	AccountTagClientlessVncApplication                     AccountTag = "CLIENTLESS_VNC_APPLICATION"
+	AccountTagCasPartialDisableOobEvent                    AccountTag = "CAS_PARTIAL_DISABLE_OOB_EVENT"
+	AccountTagRemoveLocalPortForwarding                    AccountTag = "REMOVE_LOCAL_PORT_FORWARDING"
+	AccountTagCmaplatIamGetAdminPermissions                AccountTag = "CMAPLAT_IAM_GET_ADMIN_PERMISSIONS"
+	AccountTagCmaplatIamSitesCheckAuth                     AccountTag = "CMAPLAT_IAM_SITES_CHECK_AUTH"
+	AccountTagCmaplatIamUserAllowedItems                   AccountTag = "CMAPLAT_IAM_USER_ALLOWED_ITEMS"
+	AccountTagCustomizedAppRisk                            AccountTag = "CUSTOMIZED_APP_RISK"
+	AccountTagAutoIfw                                      AccountTag = "AUTO_IFW"
+	AccountTagAutoWanFw                                    AccountTag = "AUTO_WAN_FW"
+	AccountTagAutoRpf                                      AccountTag = "AUTO_RPF"
+	AccountTagSystemUserAssetsEnabled                      AccountTag = "SYSTEM_USER_ASSETS_ENABLED"
+	AccountTagCatoTableInternetFirewall                    AccountTag = "CATO_TABLE_INTERNET_FIREWALL"
+	AccountTagCatoTableWanFirewall                         AccountTag = "CATO_TABLE_WAN_FIREWALL"
+	AccountTagNetworkEventsSilentMode                      AccountTag = "NETWORK_EVENTS_SILENT_MODE"
+	AccountTagNetworkXdrDbState                            AccountTag = "NETWORK_XDR_DB_STATE"
+	AccountTagOobDeploymentPhase1                          AccountTag = "OOB_DEPLOYMENT_PHASE_1"
+	AccountTagOobInternalAccounts                          AccountTag = "OOB_INTERNAL_ACCOUNTS"
+	AccountTagOobEaAccounts                                AccountTag = "OOB_EA_ACCOUNTS"
+	AccountTagShowLegacyCra                                AccountTag = "SHOW_LEGACY_CRA"
+	AccountTagUserAuthenticationState                      AccountTag = "USER_AUTHENTICATION_STATE"
+	AccountTagReduceStories                                AccountTag = "REDUCE_STORIES"
+	AccountTagHighlightsBar                                AccountTag = "HIGHLIGHTS_BAR"
+	AccountTagHighlightsBarPartnerOvrview                  AccountTag = "HIGHLIGHTS_BAR_PARTNER_OVRVIEW"
+	AccountTagPpsUaTerminalServerUI                        AccountTag = "PPS_UA_TERMINAL_SERVER_UI"
+	AccountTagGenAiDashboard                               AccountTag = "GEN_AI_DASHBOARD"
+	AccountTagPpsSplitTunnelUI                             AccountTag = "PPS_SPLIT_TUNNEL_UI"
+	AccountTagCyberarkSsoProvider                          AccountTag = "CYBERARK_SSO_PROVIDER"
+	AccountTagHenngeSsoProvider                            AccountTag = "HENNGE_SSO_PROVIDER"
+	AccountTagForgerockSsoProvider                         AccountTag = "FORGEROCK_SSO_PROVIDER"
+	AccountTagIntuneDevicePostureCheck                     AccountTag = "INTUNE_DEVICE_POSTURE_CHECK"
+	AccountTagEchartsPieAccountSites                       AccountTag = "ECHARTS_PIE_ACCOUNT_SITES"
+	AccountTagPpsAvHashMigration                           AccountTag = "PPS_AV_HASH_MIGRATION"
+	AccountTagPpsAvHashUI                                  AccountTag = "PPS_AV_HASH_UI"
+	AccountTagIfwWizard                                    AccountTag = "IFW_WIZARD"
+	AccountTagIfwPreDefinedPolicy                          AccountTag = "IFW_PRE_DEFINED_POLICY"
+	AccountTagWanFwPreDefinedPolicy                        AccountTag = "WAN_FW_PRE_DEFINED_POLICY"
+	AccountTagCasbPreDefinedPolicy                         AccountTag = "CASB_PRE_DEFINED_POLICY"
+	AccountTagTLSPreDefinedPolicy                          AccountTag = "TLS_PRE_DEFINED_POLICY"
+	AccountTagTenantPreDefinedPolicy                       AccountTag = "TENANT_PRE_DEFINED_POLICY"
+	AccountTagAutoContradictIfw                            AccountTag = "AUTO_CONTRADICT_IFW"
+	AccountTagNewAzureSsoCreationFlow                      AccountTag = "NEW_AZURE_SSO_CREATION_FLOW"
+	AccountTagEnableNewUploader                            AccountTag = "ENABLE_NEW_UPLOADER"
+	AccountTagUserRiskScoreDashboard                       AccountTag = "USER_RISK_SCORE_DASHBOARD"
+	AccountTagSsoProviderDynamicWhitelistDomains           AccountTag = "SSO_PROVIDER_DYNAMIC_WHITELIST_DOMAINS"
+	AccountTagAccountDynamicWhitelist                      AccountTag = "ACCOUNT_DYNAMIC_WHITELIST"
+	AccountTagCatoClientControlPlane                       AccountTag = "CATO_CLIENT_CONTROL_PLANE"
+	AccountTagDynamicSteering                              AccountTag = "DYNAMIC_STEERING"
+	AccountTagNewGroupsInternetFirewall                    AccountTag = "NEW_GROUPS_INTERNET_FIREWALL"
+	AccountTagNewGroupsWanFirewall                         AccountTag = "NEW_GROUPS_WAN_FIREWALL"
+	AccountTagFeNavigationV1_2                             AccountTag = "FE_NAVIGATION_V_1_2"
+	AccountTagContainersAdvancedFlow                       AccountTag = "CONTAINERS_ADVANCED_FLOW"
+	AccountTagPublishDpChecksToRevlite                     AccountTag = "PUBLISH_DP_CHECKS_TO_REVLITE"
+	AccountTagHealthAlertsNewSubtypes                      AccountTag = "HEALTH_ALERTS_NEW_SUBTYPES"
+	AccountTagIfwPpsRbac                                   AccountTag = "IFW_PPS_RBAC"
+	AccountTagWanFwPpsRbac                                 AccountTag = "WAN_FW_PPS_RBAC"
+	AccountTagAuthWithoutLicenseUserPortal                 AccountTag = "AUTH_WITHOUT_LICENSE_USER_PORTAL"
+	AccountTagUsSupportLinkExpirationFeature               AccountTag = "US_SUPPORT_LINK_EXPIRATION_FEATURE"
+	AccountTagFloatingLicense                              AccountTag = "FLOATING_LICENSE"
+	AccountTagMultipleAoBypassCodeDuration                 AccountTag = "MULTIPLE_AO_BYPASS_CODE_DURATION"
+	AccountTagLanLacpSupport                               AccountTag = "LAN_LACP_SUPPORT"
+	AccountTagNotificationPartners                         AccountTag = "NOTIFICATION_PARTNERS"
+	AccountTagHideDataProtectionAPISTab                    AccountTag = "HIDE_DATA_PROTECTION_APIS_TAB"
+	AccountTagIgnoreWindowsThumbprintsVerification         AccountTag = "IGNORE_WINDOWS_THUMBPRINTS_VERIFICATION"
+	AccountTagTuneupPageRevamp                             AccountTag = "TUNEUP_PAGE_REVAMP"
+	AccountTagReportsTimeZone                              AccountTag = "REPORTS_TIME_ZONE"
+	AccountTagIPSLan                                       AccountTag = "IPS_LAN"
+	AccountTagDrawerBelowTopBar                            AccountTag = "DRAWER_BELOW_TOP_BAR"
+	AccountTagTuneupCheckDrawer                            AccountTag = "TUNEUP_CHECK_DRAWER"
+	AccountTagTuneupRemediationDrawer                      AccountTag = "TUNEUP_REMEDIATION_DRAWER"
+	AccountTagTuneupPlayground                             AccountTag = "TUNEUP_PLAYGROUND"
+	AccountTagAccessLoginAndUsersGroupCc2Deprecation       AccountTag = "ACCESS_LOGIN_AND_USERS_GROUP_CC2_DEPRECATION"
+	AccountTagSocketLinkSLA                                AccountTag = "SOCKET_LINK_SLA"
+	AccountTagNewSocketTable                               AccountTag = "NEW_SOCKET_TABLE"
+	AccountTagPortAndHaAlerts                              AccountTag = "PORT_AND_HA_ALERTS"
+	AccountTagPopMonitoringUsersHealth                     AccountTag = "POP_MONITORING_USERS_HEALTH"
+	AccountTagSocketProbeTraceroute                        AccountTag = "SOCKET_PROBE_TRACEROUTE"
+	AccountTagDemConfigSamples                             AccountTag = "DEM_CONFIG_SAMPLES"
+	AccountTagNewIPAllocation                              AccountTag = "NEW_IP_ALLOCATION"
+	AccountTagEnterpriseBrowserWindowsClientUpgrade        AccountTag = "ENTERPRISE_BROWSER_WINDOWS_CLIENT_UPGRADE"
+	AccountTagEnterpriseBrowserMacClientUpgrade            AccountTag = "ENTERPRISE_BROWSER_MAC_CLIENT_UPGRADE"
+	AccountTagWindowsArmClientUpgrade                      AccountTag = "WINDOWS_ARM_CLIENT_UPGRADE"
+	AccountTagPpsSdpStaticIPAllocationUI                   AccountTag = "PPS_SDP_STATIC_IP_ALLOCATION_UI"
+	AccountTagUsersServiceNewPricingModel                  AccountTag = "USERS_SERVICE_NEW_PRICING_MODEL"
+	AccountTagDhcpRelayMicrosegmentationSupport            AccountTag = "DHCP_RELAY_MICROSEGMENTATION_SUPPORT"
+	AccountTagAvLargeFileScan                              AccountTag = "AV_LARGE_FILE_SCAN"
+	AccountTagDlpLargeFileScan                             AccountTag = "DLP_LARGE_FILE_SCAN"
+	AccountTagFileScanLimit50m                             AccountTag = "FILE_SCAN_LIMIT_50M"
+	AccountTagFileScanLimit100m                            AccountTag = "FILE_SCAN_LIMIT_100M"
+	AccountTagFileScanLimit250m                            AccountTag = "FILE_SCAN_LIMIT_250M"
+	AccountTagFileScanLimit500m                            AccountTag = "FILE_SCAN_LIMIT_500M"
+	AccountTagUserAdditionalAttributes                     AccountTag = "USER_ADDITIONAL_ATTRIBUTES"
+	AccountTagBgpDefaultRouteCommunitiesForInterconnect    AccountTag = "BGP_DEFAULT_ROUTE_COMMUNITIES_FOR_INTERCONNECT"
+	AccountTagFwPolicyConnectionOriginUI                   AccountTag = "FW_POLICY_CONNECTION_ORIGIN_UI"
+	AccountTagFwPolicyBrowserExtensionOrigin               AccountTag = "FW_POLICY_BROWSER_EXTENSION_ORIGIN"
+	AccountTagFwPolicyCatoBrowserOrigin                    AccountTag = "FW_POLICY_CATO_BROWSER_ORIGIN"
+	AccountTagCmaPerformanceCloudAccessConfiguration       AccountTag = "CMA_PERFORMANCE_CLOUD_ACCESS_CONFIGURATION"
+	AccountTagSupportInterconnectVlanConfiguration         AccountTag = "SUPPORT_INTERCONNECT_VLAN_CONFIGURATION"
+	AccountTagAdaptiveThreatPrevention                     AccountTag = "ADAPTIVE_THREAT_PREVENTION"
+	AccountTagClientRolloutAuthz                           AccountTag = "CLIENT_ROLLOUT_AUTHZ"
+	AccountTagAzureNewRedirectURL                          AccountTag = "AZURE_NEW_REDIRECT_URL"
+	AccountTagBrowserAccessSnatIP                          AccountTag = "BROWSER_ACCESS_SNAT_IP"
+	AccountTagEnterpriseBrowserSettings                    AccountTag = "ENTERPRISE_BROWSER_SETTINGS"
+	AccountTagOobDlpPolicyPageQueryGenricApps              AccountTag = "OOB_DLP_POLICY_PAGE_QUERY_GENRIC_APPS"
+	AccountTagScimDirDeletionAndEntityStateSync            AccountTag = "SCIM_DIR_DELETION_AND_ENTITY_STATE_SYNC"
+)
+
+var AllAccountTag = []AccountTag{
+	AccountTagDevelopment,
+	AccountTagSecondAddOnSocketX1700b,
+	AccountTagZtnaAppConnectorsAPI,
+	AccountTagEnterpriseDirectory,
+	AccountTagFinancialDocumentView,
+	AccountTagShaperMaxBandwidthConfiguration,
+	AccountTagSocketSwitchHaRole,
+	AccountTagPocSocketRequest,
+	AccountTagSandboxReport,
+	AccountTagGCPHaSupport,
+	AccountTagBulkSocketUpgrade,
+	AccountTagScheduledBulkUpgrade,
+	AccountTagSocketWifi,
+	AccountTagZtnaPrivateApplication,
+	AccountTagRbac,
+	AccountTagAPIKeyRbac,
+	AccountTagAPIKeyRbacResellers,
+	AccountTagAPIKeyCreateServicePrinciple,
+	AccountTagQosAlerts,
+	AccountTagGre,
+	AccountTagTrafficLogging,
+	AccountTagDemo,
+	AccountTagStaticHostAndUserCoupling,
+	AccountTagAWSEgressIP,
+	AccountTagAWSAd,
+	AccountTagJumpcloudAd,
+	AccountTagLayer2Wan,
+	AccountTagIspConfigIPS,
+	AccountTagNewSocketVerNum,
+	AccountTagOffice365,
+	AccountTagICMPKeepAlive,
+	AccountTagVirginSymbols,
+	AccountTagIpsec3des,
+	AccountTagAllowEmptyIPInRpf,
+	AccountTagAllowChinaRpf,
+	AccountTagPpsRpfUI,
+	AccountTagAltWanRecovery,
+	AccountTagSdpConfiguration,
+	AccountTagAccessMultipleIPRanges,
+	AccountTagAccessMultipleIPRangesRollback,
+	AccountTagAddSourceRangesPredicate,
+	AccountTagAddSourceRangesPredicateCcp,
+	AccountTagMacAddressAuthentication,
+	AccountTagSrManagedMode,
+	AccountTagSocketAutomationTest,
+	AccountTagIpsecFwInit,
+	AccountTagOktaAd,
+	AccountTagOneloginAd,
+	AccountTagAdminDefaultMfa,
+	AccountTagAdminAreaPermission,
+	AccountTagIeplNni,
+	AccountTagScim,
+	AccountTagVpnClientPolicy,
+	AccountTagDataRetentionPeriodInDays,
+	AccountTagDeprecateDeviceAuthentication,
+	AccountTagAllowLinuxCertificate,
+	AccountTagAllowInvalidDomains,
+	AccountTagNfe,
+	AccountTagBackhauling,
+	AccountTagEppShellcodeEafWindows,
+	AccountTagEppEdrModule,
+	AccountTagMfaAndSso,
+	AccountTagIwelcome,
+	AccountTagAppcues,
+	AccountTagDisableAppcues,
+	AccountTagDisableFullStory,
+	AccountTagEnableFullStoryForSystemSubDomainAccount,
+	AccountTagDisableDatadogBrowserLogs,
+	AccountTagDisableDatadogRum,
+	AccountTagEnableUserflow,
+	AccountTagDisableUserflow,
+	AccountTagUserflowTest,
+	AccountTagCustomPreset,
+	AccountTagImageUploadCropper,
+	AccountTagNewCatomapOverviewPage,
+	AccountTagDhcpLeaseTime,
+	AccountTagCasEnableAllAd,
+	AccountTagDisableCasFilesSkip,
+	AccountTagCasEnableSpRemoveShare,
+	AccountTagCasEnableBaseURLOverride,
+	AccountTagCasEnableEntraChecks,
+	AccountTagCasCasbLicenseEnforcement,
+	AccountTagCasOobPollerClient,
+	AccountTagCasAzureUpdateAdSubscriptions,
+	AccountTagCasAzureDeleteFailedAdSubscriptions,
+	AccountTagCasAzureDeleteExpiredApplicationCertificates,
+	AccountTagOobConsentFlow,
+	AccountTagEnableKmsService,
+	AccountTagOobMultiPublishers,
+	AccountTagOobTestConnectorInternal,
+	AccountTagOobAction,
+	AccountTagOobSyncAction,
+	AccountTagOobMsIntune,
+	AccountTagOobArmis,
+	AccountTagSspmPlugins,
+	AccountTagOobCrowdstrikeDevice,
+	AccountTagOobGenericSchemaWithPrefix,
+	AccountTagOobCollectionEnvVarsUpdate,
+	AccountTagOobJuniperDeviceMgmt,
+	AccountTagOobMsDefenderDeviceMgmt,
+	AccountTagOobDynamicCatalog,
+	AccountTagAuditPrep,
+	AccountTagOobEdrDefender2_0,
+	AccountTagOobGoogleDriveLabels,
+	AccountTagEnableCasDiskDownload,
+	AccountTagCasDlpLargeFileScan50mb,
+	AccountTagCasDlpLargeFileScan75mb,
+	AccountTagCasDlpLargeFileScan100mb,
+	AccountTagCasDlpLargeFileScan250mb,
+	AccountTagCasDlpLargeFileScan500mb,
+	AccountTagCasLargeFileScan75mb,
+	AccountTagCasLargeFileScan100mb,
+	AccountTagCasLargeFileScan250mb,
+	AccountTagCasLargeFileScan500mb,
+	AccountTagCasEnableFileScanningExtendedLimit,
+	AccountTagCasEnableAzureNewGraphSdk,
+	AccountTagCasGoogleDriveFilesDownloadExportLinks,
+	AccountTagOobDefenderMigrationPhase0,
+	AccountTagOobDefenderMigrationPhase1,
+	AccountTagOobDefenderMigrationPhase2,
+	AccountTagPingSso,
+	AccountTagPingFederateSso,
+	AccountTagLanBlocking,
+	AccountTagCasbGenericUpload,
+	AccountTagPassMigrated,
+	AccountTagScimUaHybrid,
+	AccountTagDNSProtection,
+	AccountTagEmbeddedBestPractice,
+	AccountTagAdminLoginSsoOnly,
+	AccountTagDlpCustomData,
+	AccountTagDlpImageMlClassifier,
+	AccountTagDlpInlineImageMlClassifier,
+	AccountTagAgentBasedUa,
+	AccountTagPingFederateInheritance,
+	AccountTagCanaryUsersConfiguration,
+	AccountTagAndroidAlwaysOn,
+	AccountTagLinuxAlwaysOn,
+	AccountTagPpsDNSSettingsUI,
+	AccountTagPpsAlwaysOnUI,
+	AccountTagPpsClientConnectivityUI,
+	AccountTagDevicePostureDomainCheck,
+	AccountTagDlpRegexCustomData,
+	AccountTagMitreAttackFramework,
+	AccountTagZendeskTicketsPageTicketDetails,
+	AccountTagZendeskUsePlaygroundSite,
+	AccountTagPpsDynamicIPAllocationUI,
+	AccountTagPpsProxyConfigurationUI,
+	AccountTagAccessRolloutPage,
+	AccountTagLinuxClientUpgrade,
+	AccountTagDeprecateAllAuthUsers,
+	AccountTagSimilarLoginHint,
+	AccountTagDeviceCertificateOid,
+	AccountTagXdrPro,
+	AccountTagXdrResponsePolicyWebhook,
+	AccountTagXdrCdrStories,
+	AccountTagXdrCyeraStories,
+	AccountTagXdrStoryDetailsHighlights,
+	AccountTagXdrMsDefender2_0,
+	AccountTagXdrWorkbenchCatoTable,
+	AccountTagXopsOverview,
+	AccountTagXdrResponsePolicyAction,
+	AccountTagXdrConfigurationTabSpecificRbac,
+	AccountTagSiteopsNewName,
+	AccountTagUnifiedUser,
+	AccountTagAuthenticationFlows,
+	AccountTagUuConnectionOrigin,
+	AccountTagSeamlessAuthentication,
+	AccountTagLimitLdapUserMembershipChanges,
+	AccountTagCatoCertificate2024,
+	AccountTagCatoCertificate2024Banner,
+	AccountTagAddTLSCerts2015_2024,
+	AccountTagDeleteTLSCert2015,
+	AccountTagManagedTLSI,
+	AccountTagTLSIHijackRules,
+	AccountTagHealthRulesFilterUsersSelection,
+	AccountTagBlockPagePoweredBy,
+	AccountTagBlockPageReferenceID,
+	AccountTagUserEducationTemplate,
+	AccountTagAWSLocationMapProviderEnabled,
+	AccountTagAzureConfirmationPage,
+	AccountTagCrossConnect,
+	AccountTagCustomIPRanges,
+	AccountTagNewTopologyPage,
+	AccountTagFourWan,
+	AccountTagAWSHaAltWan,
+	AccountTagCongestionAlerts,
+	AccountTagAssignSocketInventory,
+	AccountTagSocketUpgradeSplitDownload,
+	AccountTagBgpAs4,
+	AccountTagBfdXconnect,
+	AccountTagBfdIpsec,
+	AccountTagNatPolicyIpsec,
+	AccountTagNatPolicyXconnect,
+	AccountTagNatPolicySocket,
+	AccountTagX1600LteSupport,
+	AccountTagX1600CellularVisibility,
+	AccountTagQinq,
+	AccountTagChinaCmiAccountGp,
+	AccountTagXdrNetworkHealthRule,
+	AccountTagFqdnBidirectional,
+	AccountTagUserProbeInterval,
+	AccountTagNewDhIpsec,
+	AccountTagDemNewUIDrilldown,
+	AccountTagDemFeedback,
+	AccountTagSocketInternetOnly,
+	AccountTagIpsecXconnectInternetOnly,
+	AccountTagSocketBgpFilters,
+	AccountTagIpsecXconnectBgpFilters,
+	AccountTagAccountMetricsFilterByDeviceID,
+	AccountTagActiveActiveIpsec,
+	AccountTagMultipleDhcpNativeRange,
+	AccountTagVsocketGCP,
+	AccountTagKbpsSupport,
+	AccountTagPopIpsecSiteMaintenancePolicy,
+	AccountTagPopSocketSiteMaintenancePolicy,
+	AccountTagTracerouteForCma,
+	AccountTagPpsNetworkRulesUI,
+	AccountTagPpsNetworkRulesMigration,
+	AccountTagPpsLanNetworkRulesUI,
+	AccountTagPpsLanNetworkRulesMigration,
+	AccountTagPpsSocketBypassUI,
+	AccountTagPpsSocketBypassMigration,
+	AccountTagPpsNetworkPoliciesHitCounter,
+	AccountTagPpsWanNetworkPolicyHitCounter,
+	AccountTagPpsSocketLanNetworkPolicyHitCounter,
+	AccountTagPpsSocketLanFirewallPolicyHitCounter,
+	AccountTagPpsSocketBypassPolicyHitCounter,
+	AccountTagPopLocationTable,
+	AccountTagPopMonitoring,
+	AccountTagPopMonitoringSystem,
+	AccountTagPopMonitoringHistoric,
+	AccountTagPopMonitoringFilters,
+	AccountTagPopMonitoringP2,
+	AccountTagPopLocationP2,
+	AccountTagCmaStatusPage,
+	AccountTagL7LanFw,
+	AccountTagAWSHaBgp,
+	AccountTagByoip1,
+	AccountTagByoip2,
+	AccountTagIpsecActiveActive6Tunnels,
+	AccountTagIpsecActiveActiveBgp,
+	AccountTagIlmmXdrReports,
+	AccountTagNetworkStoryReport,
+	AccountTagExportLmmData,
+	AccountTagPopmanagerCallsDirectlyToPop,
+	AccountTagSocketBypassAppBased,
+	AccountTagOffCloudEnhancements,
+	AccountTagExportIspData,
+	AccountTagActionIpsecBgpStatus,
+	AccountTagAccountSitesListNewSocketVersions,
+	AccountTagBypassOffcloudTransportChinaValidation,
+	AccountTagAccountSitesListNewColumnGroups,
+	AccountTagNewGroupsWanNetwork,
+	AccountTagNewGroupsSocketLan,
+	AccountTagAccountOperationsStories,
+	AccountTagBgpConnectivityStatus,
+	AccountTagAssignBeforeRegister,
+	AccountTagLimitSitesCountForNoneHubAndSpoke,
+	AccountTagRealtimeDiscardedAsPercentage,
+	AccountTagConnectionTypeGeneralPageSeparation,
+	AccountTagBurstingLicenseAnalytics,
+	AccountTagSiteGeneralDetailsInSiteServiceWrite,
+	AccountTagLanFwUsersDevices,
+	AccountTagDeviceNetworkRules,
+	AccountTagAppConnectorsAnalytics,
+	AccountTagAppConnectorsConfiguration,
+	AccountTagForwardProxy,
+	AccountTagDlpSensitivityLabels,
+	AccountTagDlpConfigurationNestedTabs,
+	AccountTagAPIContainerOnK8s,
+	AccountTagGradualRolloutDummyTag,
+	AccountTagGradualRolloutRollback,
+	AccountTagDisableRegionalRollout,
+	AccountTagPageInfoNetworking,
+	AccountTagVirtualizationAndDndExtensions,
+	AccountTagExplicitSystemRules,
+	AccountTagTLSInspectionUntrustedCert,
+	AccountTagOverrideDc,
+	AccountTagPpsInternetFwPlayground,
+	AccountTagPpsInternetFwUI,
+	AccountTagPpsInternetFwMigration,
+	AccountTagPpsRpfUISystemTypes,
+	AccountTagNewTrackingForm,
+	AccountTagRpfNewTrackingForm,
+	AccountTagPpsWanFwUI,
+	AccountTagPpsHitCount,
+	AccountTagHitCountReset,
+	AccountTagRuleExpFw,
+	AccountTagPpsRuleExpFwBp,
+	AccountTagIocSyncURL,
+	AccountTagApplictionControlTenantAwareness,
+	AccountTagPpsUnusedRulesCheck,
+	AccountTagDlpOcrLanguages,
+	AccountTagPpsTenantRestrictionMigration,
+	AccountTagPpsTenantRestrictionUI,
+	AccountTagPpsApplicationControlMigration,
+	AccountTagPpsApplicationControlUI,
+	AccountTagPpsTLSInspectMigration,
+	AccountTagPpsTLSInspectUI,
+	AccountTagPpsAiSecurityUI,
+	AccountTagDlpCustomMlClassifier,
+	AccountTagForensicsDlp,
+	AccountTagForensicsEvents,
+	AccountTagTLSEnforce,
+	AccountTagPreserveTableScroll,
+	AccountTagDeviceDrilldownDrawer,
+	AccountTagDeviceExport,
+	AccountTagDevicesSunburstExperiments,
+	AccountTagClientNotificationCustomization,
+	AccountTagAppDataProxy,
+	AccountTagAppsOverview,
+	AccountTagAppsInventory,
+	AccountTagEnableAiSecurity,
+	AccountTagUseNewCustomApps,
+	AccountTagNewCustomAppsUI,
+	AccountTagPpsAntiTamperExclusionUI,
+	AccountTagPpsBrowserExtensionPolicyUI,
+	AccountTagDevicesNewMap,
+	AccountTagDevicesSankey,
+	AccountTagBrowserExtDownloadPolicy,
+	AccountTagBrowserExtCopyPolicy,
+	AccountTagBrowserExtPastePolicy,
+	AccountTagBrowserExtWatermarkPolicy,
+	AccountTagBrowserExtPrintPolicy,
+	AccountTagBrowserExtTypingPolicy,
+	AccountTagBrowserExtFileUploadPolicy,
+	AccountTagTrialSiteBandwidth,
+	AccountTagAppStatsReport,
+	AccountTagAppStatsPerUserReport,
+	AccountTagAppStatsPerSiteReport,
+	AccountTagConStatsBwReport,
+	AccountTagMuiV5,
+	AccountTagScheduleReportPerMinute,
+	AccountTagScheduleReportSubscription,
+	AccountTagExternalAccessPage,
+	AccountTagMfaFailOpenPolicy,
+	AccountTagSubscriptionsGroupPage,
+	AccountTagIntegrationsSupport,
+	AccountTagMfaEnforcement,
+	AccountTagAccountMigrationTestingTag,
+	AccountTagDummyTagAddedByMigration,
+	AccountTagMfaByDefault,
+	AccountTagDemUnderlayProbe,
+	AccountTagDemUnderlaySocketProbe,
+	AccountTagDemUnderlayClientProbe,
+	AccountTagDemTopologies,
+	AccountTagDem3rdPartyApEvents,
+	AccountTagDemShadowMonitoring,
+	AccountTagOobMetricsZoomScore,
+	AccountTagUserProfileWidget,
+	AccountTagCmaplatPublicAPIExtAccess,
+	AccountTagCmaplatRealIP,
+	AccountTagCmaplatCraRemoval,
+	AccountTagContactUsButton,
+	AccountTagContactUsButtonIot,
+	AccountTagContactUsButtonCasb,
+	AccountTagContactUsButtonXops,
+	AccountTagContactUsButtonGenai,
+	AccountTagContactUsButtonDlp,
+	AccountTagCopilotManagerRoute,
+	AccountTagCopilotMultiAgent,
+	AccountTagCopilotDataAgent,
+	AccountTagCopilotContactSupport,
+	AccountTagCopilotDynamicAgent,
+	AccountTagCopilotFullScreen,
+	AccountTagCopilotSpeechRecognition,
+	AccountTagCopilotUserStop,
+	AccountTagCopilotShowCharts,
+	AccountTagCopilotNonModalDrawer,
+	AccountTagWebhookResponseCorrelationIDMapping,
+	AccountTagWebhooksNewUI,
+	AccountTagNewLicenseModel,
+	AccountTagRegionalBandwidthAllocation,
+	AccountTagCpaManagedAccount,
+	AccountTagSkipStrictSiteLicenseEnforcement,
+	AccountTagResellerWithPlan,
+	AccountTagSupportRegionalBwLicense,
+	AccountTagZtnaUsersLicense,
+	AccountTagLicenseEventManagedAccount,
+	AccountTagLicensesNewServicesPage,
+	AccountTagAllowResellerToDisableAccounts,
+	AccountTagBurstingLicenseFlowsAllowed,
+	AccountTagXdrMdr2024,
+	AccountTagAccountInfo,
+	AccountTagPartialXdrDetectionReport,
+	AccountTagDevicesUnifiedEngine,
+	AccountTagDevicesContentEarlyAvailability,
+	AccountTagCdpAsAppstats,
+	AccountTagCustomHomepage,
+	AccountTagAcaSupportConsent,
+	AccountTagClientCollectEventLogs,
+	AccountTagAlwaysOnAntiTamper,
+	AccountTagAlwaysOnDevicePostureSupport,
+	AccountTagDetectedNetworkSupport,
+	AccountTagSplitTunnelDNSSuffix,
+	AccountTagPpsPrivateAccessUI,
+	AccountTagSplitTunnelPacFile,
+	AccountTagClientFqdnBasedSplit,
+	AccountTagResetFlows,
+	AccountTagCasConnectorsAdvancedWarning,
+	AccountTagConnectorsNewPlatform,
+	AccountTagIntegrationsTabOnGenericAPI,
+	AccountTagForceReauthentication,
+	AccountTagUserServiceExportAllUsers,
+	AccountTagPartnerSummaryDashboard,
+	AccountTagCustomerOverviewDashboard,
+	AccountTagWanFwIocIngestion,
+	AccountTagDemNetworkPathAnalysis,
+	AccountTagDemAggregation,
+	AccountTagDemPathAnalysisTimeframe,
+	AccountTagAppStatsUserFilter,
+	AccountTagSiteXdrDegradedState,
+	AccountTagClientlessSSHApplication,
+	AccountTagClientlessRdpApplication,
+	AccountTagNewClientlessPolicy,
+	AccountTagNaturalLanguageSearchStoriesWorkbench,
+	AccountTagNaturalLanguageSearchStoriesSingleAccount,
+	AccountTagNewFilterBarThreatsDashboard,
+	AccountTagLazyLoadingDashboardWidgets,
+	AccountTagNaturalLanguageSearchDem,
+	AccountTagFwDevicesNewAttributes,
+	AccountTagFwUIIncreasePollInterval,
+	AccountTagResetRiskScore,
+	AccountTagServerK8s,
+	AccountTagServerInfraLeanAPIGw,
+	AccountTagExcludeMoveLdapToK8s,
+	AccountTagEventsThrottlingIsNotSilent,
+	AccountTagEventsLogIntegrationAzureMonitor,
+	AccountTagCasOobDataExportMicrosoftSentinel,
+	AccountTagCasOobDataExportSplunk,
+	AccountTagCasOobDataExportCrodwstrikeFalconNgSiem,
+	AccountTagClientlessVncApplication,
+	AccountTagCasPartialDisableOobEvent,
+	AccountTagRemoveLocalPortForwarding,
+	AccountTagCmaplatIamGetAdminPermissions,
+	AccountTagCmaplatIamSitesCheckAuth,
+	AccountTagCmaplatIamUserAllowedItems,
+	AccountTagCustomizedAppRisk,
+	AccountTagAutoIfw,
+	AccountTagAutoWanFw,
+	AccountTagAutoRpf,
+	AccountTagSystemUserAssetsEnabled,
+	AccountTagCatoTableInternetFirewall,
+	AccountTagCatoTableWanFirewall,
+	AccountTagNetworkEventsSilentMode,
+	AccountTagNetworkXdrDbState,
+	AccountTagOobDeploymentPhase1,
+	AccountTagOobInternalAccounts,
+	AccountTagOobEaAccounts,
+	AccountTagShowLegacyCra,
+	AccountTagUserAuthenticationState,
+	AccountTagReduceStories,
+	AccountTagHighlightsBar,
+	AccountTagHighlightsBarPartnerOvrview,
+	AccountTagPpsUaTerminalServerUI,
+	AccountTagGenAiDashboard,
+	AccountTagPpsSplitTunnelUI,
+	AccountTagCyberarkSsoProvider,
+	AccountTagHenngeSsoProvider,
+	AccountTagForgerockSsoProvider,
+	AccountTagIntuneDevicePostureCheck,
+	AccountTagEchartsPieAccountSites,
+	AccountTagPpsAvHashMigration,
+	AccountTagPpsAvHashUI,
+	AccountTagIfwWizard,
+	AccountTagIfwPreDefinedPolicy,
+	AccountTagWanFwPreDefinedPolicy,
+	AccountTagCasbPreDefinedPolicy,
+	AccountTagTLSPreDefinedPolicy,
+	AccountTagTenantPreDefinedPolicy,
+	AccountTagAutoContradictIfw,
+	AccountTagNewAzureSsoCreationFlow,
+	AccountTagEnableNewUploader,
+	AccountTagUserRiskScoreDashboard,
+	AccountTagSsoProviderDynamicWhitelistDomains,
+	AccountTagAccountDynamicWhitelist,
+	AccountTagCatoClientControlPlane,
+	AccountTagDynamicSteering,
+	AccountTagNewGroupsInternetFirewall,
+	AccountTagNewGroupsWanFirewall,
+	AccountTagFeNavigationV1_2,
+	AccountTagContainersAdvancedFlow,
+	AccountTagPublishDpChecksToRevlite,
+	AccountTagHealthAlertsNewSubtypes,
+	AccountTagIfwPpsRbac,
+	AccountTagWanFwPpsRbac,
+	AccountTagAuthWithoutLicenseUserPortal,
+	AccountTagUsSupportLinkExpirationFeature,
+	AccountTagFloatingLicense,
+	AccountTagMultipleAoBypassCodeDuration,
+	AccountTagLanLacpSupport,
+	AccountTagNotificationPartners,
+	AccountTagHideDataProtectionAPISTab,
+	AccountTagIgnoreWindowsThumbprintsVerification,
+	AccountTagTuneupPageRevamp,
+	AccountTagReportsTimeZone,
+	AccountTagIPSLan,
+	AccountTagDrawerBelowTopBar,
+	AccountTagTuneupCheckDrawer,
+	AccountTagTuneupRemediationDrawer,
+	AccountTagTuneupPlayground,
+	AccountTagAccessLoginAndUsersGroupCc2Deprecation,
+	AccountTagSocketLinkSLA,
+	AccountTagNewSocketTable,
+	AccountTagPortAndHaAlerts,
+	AccountTagPopMonitoringUsersHealth,
+	AccountTagSocketProbeTraceroute,
+	AccountTagDemConfigSamples,
+	AccountTagNewIPAllocation,
+	AccountTagEnterpriseBrowserWindowsClientUpgrade,
+	AccountTagEnterpriseBrowserMacClientUpgrade,
+	AccountTagWindowsArmClientUpgrade,
+	AccountTagPpsSdpStaticIPAllocationUI,
+	AccountTagUsersServiceNewPricingModel,
+	AccountTagDhcpRelayMicrosegmentationSupport,
+	AccountTagAvLargeFileScan,
+	AccountTagDlpLargeFileScan,
+	AccountTagFileScanLimit50m,
+	AccountTagFileScanLimit100m,
+	AccountTagFileScanLimit250m,
+	AccountTagFileScanLimit500m,
+	AccountTagUserAdditionalAttributes,
+	AccountTagBgpDefaultRouteCommunitiesForInterconnect,
+	AccountTagFwPolicyConnectionOriginUI,
+	AccountTagFwPolicyBrowserExtensionOrigin,
+	AccountTagFwPolicyCatoBrowserOrigin,
+	AccountTagCmaPerformanceCloudAccessConfiguration,
+	AccountTagSupportInterconnectVlanConfiguration,
+	AccountTagAdaptiveThreatPrevention,
+	AccountTagClientRolloutAuthz,
+	AccountTagAzureNewRedirectURL,
+	AccountTagBrowserAccessSnatIP,
+	AccountTagEnterpriseBrowserSettings,
+	AccountTagOobDlpPolicyPageQueryGenricApps,
+	AccountTagScimDirDeletionAndEntityStateSync,
+}
+
+func (e AccountTag) IsValid() bool {
+	switch e {
+	case AccountTagDevelopment, AccountTagSecondAddOnSocketX1700b, AccountTagZtnaAppConnectorsAPI, AccountTagEnterpriseDirectory, AccountTagFinancialDocumentView, AccountTagShaperMaxBandwidthConfiguration, AccountTagSocketSwitchHaRole, AccountTagPocSocketRequest, AccountTagSandboxReport, AccountTagGCPHaSupport, AccountTagBulkSocketUpgrade, AccountTagScheduledBulkUpgrade, AccountTagSocketWifi, AccountTagZtnaPrivateApplication, AccountTagRbac, AccountTagAPIKeyRbac, AccountTagAPIKeyRbacResellers, AccountTagAPIKeyCreateServicePrinciple, AccountTagQosAlerts, AccountTagGre, AccountTagTrafficLogging, AccountTagDemo, AccountTagStaticHostAndUserCoupling, AccountTagAWSEgressIP, AccountTagAWSAd, AccountTagJumpcloudAd, AccountTagLayer2Wan, AccountTagIspConfigIPS, AccountTagNewSocketVerNum, AccountTagOffice365, AccountTagICMPKeepAlive, AccountTagVirginSymbols, AccountTagIpsec3des, AccountTagAllowEmptyIPInRpf, AccountTagAllowChinaRpf, AccountTagPpsRpfUI, AccountTagAltWanRecovery, AccountTagSdpConfiguration, AccountTagAccessMultipleIPRanges, AccountTagAccessMultipleIPRangesRollback, AccountTagAddSourceRangesPredicate, AccountTagAddSourceRangesPredicateCcp, AccountTagMacAddressAuthentication, AccountTagSrManagedMode, AccountTagSocketAutomationTest, AccountTagIpsecFwInit, AccountTagOktaAd, AccountTagOneloginAd, AccountTagAdminDefaultMfa, AccountTagAdminAreaPermission, AccountTagIeplNni, AccountTagScim, AccountTagVpnClientPolicy, AccountTagDataRetentionPeriodInDays, AccountTagDeprecateDeviceAuthentication, AccountTagAllowLinuxCertificate, AccountTagAllowInvalidDomains, AccountTagNfe, AccountTagBackhauling, AccountTagEppShellcodeEafWindows, AccountTagEppEdrModule, AccountTagMfaAndSso, AccountTagIwelcome, AccountTagAppcues, AccountTagDisableAppcues, AccountTagDisableFullStory, AccountTagEnableFullStoryForSystemSubDomainAccount, AccountTagDisableDatadogBrowserLogs, AccountTagDisableDatadogRum, AccountTagEnableUserflow, AccountTagDisableUserflow, AccountTagUserflowTest, AccountTagCustomPreset, AccountTagImageUploadCropper, AccountTagNewCatomapOverviewPage, AccountTagDhcpLeaseTime, AccountTagCasEnableAllAd, AccountTagDisableCasFilesSkip, AccountTagCasEnableSpRemoveShare, AccountTagCasEnableBaseURLOverride, AccountTagCasEnableEntraChecks, AccountTagCasCasbLicenseEnforcement, AccountTagCasOobPollerClient, AccountTagCasAzureUpdateAdSubscriptions, AccountTagCasAzureDeleteFailedAdSubscriptions, AccountTagCasAzureDeleteExpiredApplicationCertificates, AccountTagOobConsentFlow, AccountTagEnableKmsService, AccountTagOobMultiPublishers, AccountTagOobTestConnectorInternal, AccountTagOobAction, AccountTagOobSyncAction, AccountTagOobMsIntune, AccountTagOobArmis, AccountTagSspmPlugins, AccountTagOobCrowdstrikeDevice, AccountTagOobGenericSchemaWithPrefix, AccountTagOobCollectionEnvVarsUpdate, AccountTagOobJuniperDeviceMgmt, AccountTagOobMsDefenderDeviceMgmt, AccountTagOobDynamicCatalog, AccountTagAuditPrep, AccountTagOobEdrDefender2_0, AccountTagOobGoogleDriveLabels, AccountTagEnableCasDiskDownload, AccountTagCasDlpLargeFileScan50mb, AccountTagCasDlpLargeFileScan75mb, AccountTagCasDlpLargeFileScan100mb, AccountTagCasDlpLargeFileScan250mb, AccountTagCasDlpLargeFileScan500mb, AccountTagCasLargeFileScan75mb, AccountTagCasLargeFileScan100mb, AccountTagCasLargeFileScan250mb, AccountTagCasLargeFileScan500mb, AccountTagCasEnableFileScanningExtendedLimit, AccountTagCasEnableAzureNewGraphSdk, AccountTagCasGoogleDriveFilesDownloadExportLinks, AccountTagOobDefenderMigrationPhase0, AccountTagOobDefenderMigrationPhase1, AccountTagOobDefenderMigrationPhase2, AccountTagPingSso, AccountTagPingFederateSso, AccountTagLanBlocking, AccountTagCasbGenericUpload, AccountTagPassMigrated, AccountTagScimUaHybrid, AccountTagDNSProtection, AccountTagEmbeddedBestPractice, AccountTagAdminLoginSsoOnly, AccountTagDlpCustomData, AccountTagDlpImageMlClassifier, AccountTagDlpInlineImageMlClassifier, AccountTagAgentBasedUa, AccountTagPingFederateInheritance, AccountTagCanaryUsersConfiguration, AccountTagAndroidAlwaysOn, AccountTagLinuxAlwaysOn, AccountTagPpsDNSSettingsUI, AccountTagPpsAlwaysOnUI, AccountTagPpsClientConnectivityUI, AccountTagDevicePostureDomainCheck, AccountTagDlpRegexCustomData, AccountTagMitreAttackFramework, AccountTagZendeskTicketsPageTicketDetails, AccountTagZendeskUsePlaygroundSite, AccountTagPpsDynamicIPAllocationUI, AccountTagPpsProxyConfigurationUI, AccountTagAccessRolloutPage, AccountTagLinuxClientUpgrade, AccountTagDeprecateAllAuthUsers, AccountTagSimilarLoginHint, AccountTagDeviceCertificateOid, AccountTagXdrPro, AccountTagXdrResponsePolicyWebhook, AccountTagXdrCdrStories, AccountTagXdrCyeraStories, AccountTagXdrStoryDetailsHighlights, AccountTagXdrMsDefender2_0, AccountTagXdrWorkbenchCatoTable, AccountTagXopsOverview, AccountTagXdrResponsePolicyAction, AccountTagXdrConfigurationTabSpecificRbac, AccountTagSiteopsNewName, AccountTagUnifiedUser, AccountTagAuthenticationFlows, AccountTagUuConnectionOrigin, AccountTagSeamlessAuthentication, AccountTagLimitLdapUserMembershipChanges, AccountTagCatoCertificate2024, AccountTagCatoCertificate2024Banner, AccountTagAddTLSCerts2015_2024, AccountTagDeleteTLSCert2015, AccountTagManagedTLSI, AccountTagTLSIHijackRules, AccountTagHealthRulesFilterUsersSelection, AccountTagBlockPagePoweredBy, AccountTagBlockPageReferenceID, AccountTagUserEducationTemplate, AccountTagAWSLocationMapProviderEnabled, AccountTagAzureConfirmationPage, AccountTagCrossConnect, AccountTagCustomIPRanges, AccountTagNewTopologyPage, AccountTagFourWan, AccountTagAWSHaAltWan, AccountTagCongestionAlerts, AccountTagAssignSocketInventory, AccountTagSocketUpgradeSplitDownload, AccountTagBgpAs4, AccountTagBfdXconnect, AccountTagBfdIpsec, AccountTagNatPolicyIpsec, AccountTagNatPolicyXconnect, AccountTagNatPolicySocket, AccountTagX1600LteSupport, AccountTagX1600CellularVisibility, AccountTagQinq, AccountTagChinaCmiAccountGp, AccountTagXdrNetworkHealthRule, AccountTagFqdnBidirectional, AccountTagUserProbeInterval, AccountTagNewDhIpsec, AccountTagDemNewUIDrilldown, AccountTagDemFeedback, AccountTagSocketInternetOnly, AccountTagIpsecXconnectInternetOnly, AccountTagSocketBgpFilters, AccountTagIpsecXconnectBgpFilters, AccountTagAccountMetricsFilterByDeviceID, AccountTagActiveActiveIpsec, AccountTagMultipleDhcpNativeRange, AccountTagVsocketGCP, AccountTagKbpsSupport, AccountTagPopIpsecSiteMaintenancePolicy, AccountTagPopSocketSiteMaintenancePolicy, AccountTagTracerouteForCma, AccountTagPpsNetworkRulesUI, AccountTagPpsNetworkRulesMigration, AccountTagPpsLanNetworkRulesUI, AccountTagPpsLanNetworkRulesMigration, AccountTagPpsSocketBypassUI, AccountTagPpsSocketBypassMigration, AccountTagPpsNetworkPoliciesHitCounter, AccountTagPpsWanNetworkPolicyHitCounter, AccountTagPpsSocketLanNetworkPolicyHitCounter, AccountTagPpsSocketLanFirewallPolicyHitCounter, AccountTagPpsSocketBypassPolicyHitCounter, AccountTagPopLocationTable, AccountTagPopMonitoring, AccountTagPopMonitoringSystem, AccountTagPopMonitoringHistoric, AccountTagPopMonitoringFilters, AccountTagPopMonitoringP2, AccountTagPopLocationP2, AccountTagCmaStatusPage, AccountTagL7LanFw, AccountTagAWSHaBgp, AccountTagByoip1, AccountTagByoip2, AccountTagIpsecActiveActive6Tunnels, AccountTagIpsecActiveActiveBgp, AccountTagIlmmXdrReports, AccountTagNetworkStoryReport, AccountTagExportLmmData, AccountTagPopmanagerCallsDirectlyToPop, AccountTagSocketBypassAppBased, AccountTagOffCloudEnhancements, AccountTagExportIspData, AccountTagActionIpsecBgpStatus, AccountTagAccountSitesListNewSocketVersions, AccountTagBypassOffcloudTransportChinaValidation, AccountTagAccountSitesListNewColumnGroups, AccountTagNewGroupsWanNetwork, AccountTagNewGroupsSocketLan, AccountTagAccountOperationsStories, AccountTagBgpConnectivityStatus, AccountTagAssignBeforeRegister, AccountTagLimitSitesCountForNoneHubAndSpoke, AccountTagRealtimeDiscardedAsPercentage, AccountTagConnectionTypeGeneralPageSeparation, AccountTagBurstingLicenseAnalytics, AccountTagSiteGeneralDetailsInSiteServiceWrite, AccountTagLanFwUsersDevices, AccountTagDeviceNetworkRules, AccountTagAppConnectorsAnalytics, AccountTagAppConnectorsConfiguration, AccountTagForwardProxy, AccountTagDlpSensitivityLabels, AccountTagDlpConfigurationNestedTabs, AccountTagAPIContainerOnK8s, AccountTagGradualRolloutDummyTag, AccountTagGradualRolloutRollback, AccountTagDisableRegionalRollout, AccountTagPageInfoNetworking, AccountTagVirtualizationAndDndExtensions, AccountTagExplicitSystemRules, AccountTagTLSInspectionUntrustedCert, AccountTagOverrideDc, AccountTagPpsInternetFwPlayground, AccountTagPpsInternetFwUI, AccountTagPpsInternetFwMigration, AccountTagPpsRpfUISystemTypes, AccountTagNewTrackingForm, AccountTagRpfNewTrackingForm, AccountTagPpsWanFwUI, AccountTagPpsHitCount, AccountTagHitCountReset, AccountTagRuleExpFw, AccountTagPpsRuleExpFwBp, AccountTagIocSyncURL, AccountTagApplictionControlTenantAwareness, AccountTagPpsUnusedRulesCheck, AccountTagDlpOcrLanguages, AccountTagPpsTenantRestrictionMigration, AccountTagPpsTenantRestrictionUI, AccountTagPpsApplicationControlMigration, AccountTagPpsApplicationControlUI, AccountTagPpsTLSInspectMigration, AccountTagPpsTLSInspectUI, AccountTagPpsAiSecurityUI, AccountTagDlpCustomMlClassifier, AccountTagForensicsDlp, AccountTagForensicsEvents, AccountTagTLSEnforce, AccountTagPreserveTableScroll, AccountTagDeviceDrilldownDrawer, AccountTagDeviceExport, AccountTagDevicesSunburstExperiments, AccountTagClientNotificationCustomization, AccountTagAppDataProxy, AccountTagAppsOverview, AccountTagAppsInventory, AccountTagEnableAiSecurity, AccountTagUseNewCustomApps, AccountTagNewCustomAppsUI, AccountTagPpsAntiTamperExclusionUI, AccountTagPpsBrowserExtensionPolicyUI, AccountTagDevicesNewMap, AccountTagDevicesSankey, AccountTagBrowserExtDownloadPolicy, AccountTagBrowserExtCopyPolicy, AccountTagBrowserExtPastePolicy, AccountTagBrowserExtWatermarkPolicy, AccountTagBrowserExtPrintPolicy, AccountTagBrowserExtTypingPolicy, AccountTagBrowserExtFileUploadPolicy, AccountTagTrialSiteBandwidth, AccountTagAppStatsReport, AccountTagAppStatsPerUserReport, AccountTagAppStatsPerSiteReport, AccountTagConStatsBwReport, AccountTagMuiV5, AccountTagScheduleReportPerMinute, AccountTagScheduleReportSubscription, AccountTagExternalAccessPage, AccountTagMfaFailOpenPolicy, AccountTagSubscriptionsGroupPage, AccountTagIntegrationsSupport, AccountTagMfaEnforcement, AccountTagAccountMigrationTestingTag, AccountTagDummyTagAddedByMigration, AccountTagMfaByDefault, AccountTagDemUnderlayProbe, AccountTagDemUnderlaySocketProbe, AccountTagDemUnderlayClientProbe, AccountTagDemTopologies, AccountTagDem3rdPartyApEvents, AccountTagDemShadowMonitoring, AccountTagOobMetricsZoomScore, AccountTagUserProfileWidget, AccountTagCmaplatPublicAPIExtAccess, AccountTagCmaplatRealIP, AccountTagCmaplatCraRemoval, AccountTagContactUsButton, AccountTagContactUsButtonIot, AccountTagContactUsButtonCasb, AccountTagContactUsButtonXops, AccountTagContactUsButtonGenai, AccountTagContactUsButtonDlp, AccountTagCopilotManagerRoute, AccountTagCopilotMultiAgent, AccountTagCopilotDataAgent, AccountTagCopilotContactSupport, AccountTagCopilotDynamicAgent, AccountTagCopilotFullScreen, AccountTagCopilotSpeechRecognition, AccountTagCopilotUserStop, AccountTagCopilotShowCharts, AccountTagCopilotNonModalDrawer, AccountTagWebhookResponseCorrelationIDMapping, AccountTagWebhooksNewUI, AccountTagNewLicenseModel, AccountTagRegionalBandwidthAllocation, AccountTagCpaManagedAccount, AccountTagSkipStrictSiteLicenseEnforcement, AccountTagResellerWithPlan, AccountTagSupportRegionalBwLicense, AccountTagZtnaUsersLicense, AccountTagLicenseEventManagedAccount, AccountTagLicensesNewServicesPage, AccountTagAllowResellerToDisableAccounts, AccountTagBurstingLicenseFlowsAllowed, AccountTagXdrMdr2024, AccountTagAccountInfo, AccountTagPartialXdrDetectionReport, AccountTagDevicesUnifiedEngine, AccountTagDevicesContentEarlyAvailability, AccountTagCdpAsAppstats, AccountTagCustomHomepage, AccountTagAcaSupportConsent, AccountTagClientCollectEventLogs, AccountTagAlwaysOnAntiTamper, AccountTagAlwaysOnDevicePostureSupport, AccountTagDetectedNetworkSupport, AccountTagSplitTunnelDNSSuffix, AccountTagPpsPrivateAccessUI, AccountTagSplitTunnelPacFile, AccountTagClientFqdnBasedSplit, AccountTagResetFlows, AccountTagCasConnectorsAdvancedWarning, AccountTagConnectorsNewPlatform, AccountTagIntegrationsTabOnGenericAPI, AccountTagForceReauthentication, AccountTagUserServiceExportAllUsers, AccountTagPartnerSummaryDashboard, AccountTagCustomerOverviewDashboard, AccountTagWanFwIocIngestion, AccountTagDemNetworkPathAnalysis, AccountTagDemAggregation, AccountTagDemPathAnalysisTimeframe, AccountTagAppStatsUserFilter, AccountTagSiteXdrDegradedState, AccountTagClientlessSSHApplication, AccountTagClientlessRdpApplication, AccountTagNewClientlessPolicy, AccountTagNaturalLanguageSearchStoriesWorkbench, AccountTagNaturalLanguageSearchStoriesSingleAccount, AccountTagNewFilterBarThreatsDashboard, AccountTagLazyLoadingDashboardWidgets, AccountTagNaturalLanguageSearchDem, AccountTagFwDevicesNewAttributes, AccountTagFwUIIncreasePollInterval, AccountTagResetRiskScore, AccountTagServerK8s, AccountTagServerInfraLeanAPIGw, AccountTagExcludeMoveLdapToK8s, AccountTagEventsThrottlingIsNotSilent, AccountTagEventsLogIntegrationAzureMonitor, AccountTagCasOobDataExportMicrosoftSentinel, AccountTagCasOobDataExportSplunk, AccountTagCasOobDataExportCrodwstrikeFalconNgSiem, AccountTagClientlessVncApplication, AccountTagCasPartialDisableOobEvent, AccountTagRemoveLocalPortForwarding, AccountTagCmaplatIamGetAdminPermissions, AccountTagCmaplatIamSitesCheckAuth, AccountTagCmaplatIamUserAllowedItems, AccountTagCustomizedAppRisk, AccountTagAutoIfw, AccountTagAutoWanFw, AccountTagAutoRpf, AccountTagSystemUserAssetsEnabled, AccountTagCatoTableInternetFirewall, AccountTagCatoTableWanFirewall, AccountTagNetworkEventsSilentMode, AccountTagNetworkXdrDbState, AccountTagOobDeploymentPhase1, AccountTagOobInternalAccounts, AccountTagOobEaAccounts, AccountTagShowLegacyCra, AccountTagUserAuthenticationState, AccountTagReduceStories, AccountTagHighlightsBar, AccountTagHighlightsBarPartnerOvrview, AccountTagPpsUaTerminalServerUI, AccountTagGenAiDashboard, AccountTagPpsSplitTunnelUI, AccountTagCyberarkSsoProvider, AccountTagHenngeSsoProvider, AccountTagForgerockSsoProvider, AccountTagIntuneDevicePostureCheck, AccountTagEchartsPieAccountSites, AccountTagPpsAvHashMigration, AccountTagPpsAvHashUI, AccountTagIfwWizard, AccountTagIfwPreDefinedPolicy, AccountTagWanFwPreDefinedPolicy, AccountTagCasbPreDefinedPolicy, AccountTagTLSPreDefinedPolicy, AccountTagTenantPreDefinedPolicy, AccountTagAutoContradictIfw, AccountTagNewAzureSsoCreationFlow, AccountTagEnableNewUploader, AccountTagUserRiskScoreDashboard, AccountTagSsoProviderDynamicWhitelistDomains, AccountTagAccountDynamicWhitelist, AccountTagCatoClientControlPlane, AccountTagDynamicSteering, AccountTagNewGroupsInternetFirewall, AccountTagNewGroupsWanFirewall, AccountTagFeNavigationV1_2, AccountTagContainersAdvancedFlow, AccountTagPublishDpChecksToRevlite, AccountTagHealthAlertsNewSubtypes, AccountTagIfwPpsRbac, AccountTagWanFwPpsRbac, AccountTagAuthWithoutLicenseUserPortal, AccountTagUsSupportLinkExpirationFeature, AccountTagFloatingLicense, AccountTagMultipleAoBypassCodeDuration, AccountTagLanLacpSupport, AccountTagNotificationPartners, AccountTagHideDataProtectionAPISTab, AccountTagIgnoreWindowsThumbprintsVerification, AccountTagTuneupPageRevamp, AccountTagReportsTimeZone, AccountTagIPSLan, AccountTagDrawerBelowTopBar, AccountTagTuneupCheckDrawer, AccountTagTuneupRemediationDrawer, AccountTagTuneupPlayground, AccountTagAccessLoginAndUsersGroupCc2Deprecation, AccountTagSocketLinkSLA, AccountTagNewSocketTable, AccountTagPortAndHaAlerts, AccountTagPopMonitoringUsersHealth, AccountTagSocketProbeTraceroute, AccountTagDemConfigSamples, AccountTagNewIPAllocation, AccountTagEnterpriseBrowserWindowsClientUpgrade, AccountTagEnterpriseBrowserMacClientUpgrade, AccountTagWindowsArmClientUpgrade, AccountTagPpsSdpStaticIPAllocationUI, AccountTagUsersServiceNewPricingModel, AccountTagDhcpRelayMicrosegmentationSupport, AccountTagAvLargeFileScan, AccountTagDlpLargeFileScan, AccountTagFileScanLimit50m, AccountTagFileScanLimit100m, AccountTagFileScanLimit250m, AccountTagFileScanLimit500m, AccountTagUserAdditionalAttributes, AccountTagBgpDefaultRouteCommunitiesForInterconnect, AccountTagFwPolicyConnectionOriginUI, AccountTagFwPolicyBrowserExtensionOrigin, AccountTagFwPolicyCatoBrowserOrigin, AccountTagCmaPerformanceCloudAccessConfiguration, AccountTagSupportInterconnectVlanConfiguration, AccountTagAdaptiveThreatPrevention, AccountTagClientRolloutAuthz, AccountTagAzureNewRedirectURL, AccountTagBrowserAccessSnatIP, AccountTagEnterpriseBrowserSettings, AccountTagOobDlpPolicyPageQueryGenricApps, AccountTagScimDirDeletionAndEntityStateSync:
+		return true
+	}
+	return false
+}
+
+func (e AccountTag) String() string {
+	return string(e)
+}
+
+func (e *AccountTag) UnmarshalGQL(v any) error {
+	str, ok := v.(string)
+	if !ok {
+		return fmt.Errorf("enums must be strings")
+	}
+
+	*e = AccountTag(str)
+	if !e.IsValid() {
+		return fmt.Errorf("%s is not a valid AccountTag", str)
+	}
+	return nil
+}
+
+func (e AccountTag) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
@@ -19443,6 +20810,49 @@ func (e FilterOperator) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
+type GraphQLOperation string
+
+const (
+	GraphQLOperationQuery        GraphQLOperation = "query"
+	GraphQLOperationSubscription GraphQLOperation = "subscription"
+	GraphQLOperationMutation     GraphQLOperation = "mutation"
+)
+
+var AllGraphQLOperation = []GraphQLOperation{
+	GraphQLOperationQuery,
+	GraphQLOperationSubscription,
+	GraphQLOperationMutation,
+}
+
+func (e GraphQLOperation) IsValid() bool {
+	switch e {
+	case GraphQLOperationQuery, GraphQLOperationSubscription, GraphQLOperationMutation:
+		return true
+	}
+	return false
+}
+
+func (e GraphQLOperation) String() string {
+	return string(e)
+}
+
+func (e *GraphQLOperation) UnmarshalGQL(v any) error {
+	str, ok := v.(string)
+	if !ok {
+		return fmt.Errorf("enums must be strings")
+	}
+
+	*e = GraphQLOperation(str)
+	if !e.IsValid() {
+		return fmt.Errorf("%s is not a valid GraphQLOperation", str)
+	}
+	return nil
+}
+
+func (e GraphQLOperation) MarshalGQL(w io.Writer) {
+	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
 type GraphType string
 
 const (
@@ -21577,6 +22987,392 @@ func (e ProtoType) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
+type RBACAction string
+
+const (
+	RBACActionNone RBACAction = "NONE"
+	RBACActionView RBACAction = "VIEW"
+	RBACActionEdit RBACAction = "EDIT"
+)
+
+var AllRBACAction = []RBACAction{
+	RBACActionNone,
+	RBACActionView,
+	RBACActionEdit,
+}
+
+func (e RBACAction) IsValid() bool {
+	switch e {
+	case RBACActionNone, RBACActionView, RBACActionEdit:
+		return true
+	}
+	return false
+}
+
+func (e RBACAction) String() string {
+	return string(e)
+}
+
+func (e *RBACAction) UnmarshalGQL(v any) error {
+	str, ok := v.(string)
+	if !ok {
+		return fmt.Errorf("enums must be strings")
+	}
+
+	*e = RBACAction(str)
+	if !e.IsValid() {
+		return fmt.Errorf("%s is not a valid RBACAction", str)
+	}
+	return nil
+}
+
+func (e RBACAction) MarshalGQL(w io.Writer) {
+	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+type RBACResource string
+
+const (
+	RBACResourcePublic                          RBACResource = "Public"
+	RBACResourceAuthenticationProtectedResource RBACResource = "AuthenticationProtectedResource"
+	RBACResourceAccounts                        RBACResource = "Accounts"
+	RBACResourceZtnaAppConnector                RBACResource = "ZtnaAppConnector"
+	RBACResourceAppsCatalog                     RBACResource = "AppsCatalog"
+	RBACResourceCustomApplications              RBACResource = "CustomApplications"
+	RBACResourceAssetManagement                 RBACResource = "AssetManagement"
+	RBACResourceDeviceDashboard                 RBACResource = "DeviceDashboard"
+	RBACResourceEnterpriseDirectory             RBACResource = "EnterpriseDirectory"
+	RBACResourceBillingDocuments                RBACResource = "BillingDocuments"
+	RBACResourceDlpConfiguration                RBACResource = "DlpConfiguration"
+	RBACResourceForensicsDlp                    RBACResource = "ForensicsDlp"
+	RBACResourceGroups                          RBACResource = "Groups"
+	RBACResourceSocketsInventory                RBACResource = "SocketsInventory"
+	RBACResourceLicense                         RBACResource = "License"
+	RBACResourceLicenseInventory                RBACResource = "LicenseInventory"
+	RBACResourcePartnerLicenses                 RBACResource = "PartnerLicenses"
+	RBACResourceNotifications                   RBACResource = "Notifications"
+	RBACResourceOnlinePurchase                  RBACResource = "OnlinePurchase"
+	RBACResourcePopLocations                    RBACResource = "PopLocations"
+	RBACResourceByoip                           RBACResource = "Byoip"
+	RBACResourceIPAllocation                    RBACResource = "IPAllocation"
+	RBACResourcePopMonitoring                   RBACResource = "PopMonitoring"
+	RBACResourceSandboxReports                  RBACResource = "SandboxReports"
+	// Permission key for bandwidth usage queries.
+	RBACResourceBandwidthUsage RBACResource = "BandwidthUsage"
+	// Permission key for user usage queries.
+	RBACResourceUsersUsage                        RBACResource = "UsersUsage"
+	RBACResourcePrivateApplication                RBACResource = "PrivateApplication"
+	RBACResourceAccount                           RBACResource = "Account"
+	RBACResourceAccountNonNullFieldHack           RBACResource = "AccountNonNullFieldHack"
+	RBACResourceAdminGui                          RBACResource = "AdminGUI"
+	RBACResourceAdministrators                    RBACResource = "Administrators"
+	RBACResourceAdministratorsAPIKeysManagement   RBACResource = "AdministratorsApiKeysManagement"
+	RBACResourceLoginRestrictions                 RBACResource = "LoginRestrictions"
+	RBACResourceEmailNotifications                RBACResource = "EmailNotifications"
+	RBACResourceMailingLists                      RBACResource = "MailingLists"
+	RBACResourceAPIManagement                     RBACResource = "ApiManagement"
+	RBACResourceSystemSettings                    RBACResource = "SystemSettings"
+	RBACResourceLogExporter                       RBACResource = "LogExporter"
+	RBACResourceTrafficLogger                     RBACResource = "TrafficLogger"
+	RBACResourceManagementApplicationBranding     RBACResource = "ManagementApplicationBranding"
+	RBACResourceBrowserAccessBranding             RBACResource = "BrowserAccessBranding"
+	RBACResourceBranding                          RBACResource = "Branding"
+	RBACResourceRbiBranding                       RBACResource = "RbiBranding"
+	RBACResourceOnlinePurchaseSettings            RBACResource = "OnlinePurchaseSettings"
+	RBACResourceRolesAndPermissions               RBACResource = "RolesAndPermissions"
+	RBACResourceIlmm                              RBACResource = "ILMM"
+	RBACResourceTickets                           RBACResource = "Tickets"
+	RBACResourceOpenAi                            RBACResource = "OpenAI"
+	RBACResourceAccountInfo                       RBACResource = "AccountInfo"
+	RBACResourceExternalAccess                    RBACResource = "ExternalAccess"
+	RBACResourcePartnerExternalAccess             RBACResource = "PartnerExternalAccess"
+	RBACResourcePartnerDashboard                  RBACResource = "PartnerDashboard"
+	RBACResourceCaptivePortal                     RBACResource = "CaptivePortal"
+	RBACResourceSystemOverview                    RBACResource = "SystemOverview"
+	RBACResourceSites                             RBACResource = "Sites"
+	RBACResourceNetworkRules                      RBACResource = "NetworkRules"
+	RBACResourceSocketLanNetwork                  RBACResource = "SocketLanNetwork"
+	RBACResourceDhcpSettings                      RBACResource = "DhcpSettings"
+	RBACResourceLastMileMonitoring                RBACResource = "LastMileMonitoring"
+	RBACResourceSocketBypass                      RBACResource = "SocketBypass"
+	RBACResourceFloatingRanges                    RBACResource = "FloatingRanges"
+	RBACResourceGlobalIPRanges                    RBACResource = "GlobalIPRanges"
+	RBACResourceDNSSettings                       RBACResource = "DnsSettings"
+	RBACResourceConnectionSLA                     RBACResource = "ConnectionSLA"
+	RBACResourceRemotePortFw                      RBACResource = "RemotePortFw"
+	RBACResourceLinkHealthRules                   RBACResource = "LinkHealthRules"
+	RBACResourceForwardProxy                      RBACResource = "ForwardProxy"
+	RBACResourceCategories                        RBACResource = "Categories"
+	RBACResourceAccountGeneralProperties          RBACResource = "AccountGeneralProperties"
+	RBACResourceThreatsCatalog                    RBACResource = "ThreatsCatalog"
+	RBACResourceIoACatalog                        RBACResource = "IoACatalog"
+	RBACResourceIntegrationsCatalog               RBACResource = "IntegrationsCatalog"
+	RBACResourceTopology                          RBACResource = "Topology"
+	RBACResourceEvents                            RBACResource = "Events"
+	RBACResourceThreatsDashboard                  RBACResource = "ThreatsDashboard"
+	RBACResourceMitreAttack                       RBACResource = "MitreAttack"
+	RBACResourceCloudAppsDashboard                RBACResource = "CloudAppsDashboard"
+	RBACResourceCloudActivitiesDashboard          RBACResource = "CloudActivitiesDashboard"
+	RBACResourceGenAiDashboard                    RBACResource = "GenAiDashboard"
+	RBACResourceNetworkDashboard                  RBACResource = "NetworkDashboard"
+	RBACResourceExperienceMonitoring              RBACResource = "ExperienceMonitoring"
+	RBACResourceDlpDashboard                      RBACResource = "DlpDashboard"
+	RBACResourceSaasSecurityAPIDashboard          RBACResource = "SaasSecurityApiDashboard"
+	RBACResourceApplicationAnalytics              RBACResource = "ApplicationAnalytics"
+	RBACResourceAuditTrail                        RBACResource = "AuditTrail"
+	RBACResourceRoutingTable                      RBACResource = "RoutingTable"
+	RBACResourceSitesOverview                     RBACResource = "SitesOverview"
+	RBACResourceSdpUsersOverview                  RBACResource = "SdpUsersOverview"
+	RBACResourceTuneup                            RBACResource = "Tuneup"
+	RBACResourceTuneupCatalog                     RBACResource = "TuneupCatalog"
+	RBACResourceUsersDashboard                    RBACResource = "UsersDashboard"
+	RBACResourceProtectedEndpoints                RBACResource = "ProtectedEndpoints"
+	RBACResourceEndpointProtectionDashboard       RBACResource = "EndpointProtectionDashboard"
+	RBACResourceReports                           RBACResource = "Reports"
+	RBACResourceDetectionAndResponse              RBACResource = "DetectionAndResponse"
+	RBACResourceDetectionAndResponseConfiguration RBACResource = "DetectionAndResponseConfiguration"
+	RBACResourceXopsMuteStories                   RBACResource = "XopsMuteStories"
+	RBACResourceXopsResponsePolicy                RBACResource = "XopsResponsePolicy"
+	RBACResourceXopsActionCenter                  RBACResource = "XopsActionCenter"
+	RBACResourceCas                               RBACResource = "Cas"
+	RBACResourceCasDashboard                      RBACResource = "CasDashboard"
+	RBACResourceUsersAndUserGroups                RBACResource = "UsersAndUserGroups"
+	RBACResourceDirectoryServices                 RBACResource = "DirectoryServices"
+	RBACResourceUserAwareness                     RBACResource = "UserAwareness"
+	RBACResourceBrowserAccess                     RBACResource = "BrowserAccess"
+	RBACResourceClientAccess                      RBACResource = "ClientAccess"
+	RBACResourceSingleSignOn                      RBACResource = "SingleSignOn"
+	RBACResourceUserAuthentication                RBACResource = "UserAuthentication"
+	RBACResourceLicenseAssignment                 RBACResource = "LicenseAssignment"
+	RBACResourceDevicePosture                     RBACResource = "DevicePosture"
+	RBACResourceClientConnectivityPolicy          RBACResource = "ClientConnectivityPolicy"
+	RBACResourceMacAuthentication                 RBACResource = "MacAuthentication"
+	RBACResourceClientCustomization               RBACResource = "ClientCustomization"
+	RBACResourceAlwaysOnPolicy                    RBACResource = "AlwaysOnPolicy"
+	RBACResourceDNSPolicy                         RBACResource = "DnsPolicy"
+	RBACResourceClientRollout                     RBACResource = "ClientRollout"
+	RBACResourceSdpIPAllocationPolicy             RBACResource = "SdpIpAllocationPolicy"
+	RBACResourceTrustedNetworks                   RBACResource = "TrustedNetworks"
+	RBACResourceSdpSplitTunnel                    RBACResource = "SdpSplitTunnel"
+	RBACResourceProxyConfigurationPolicy          RBACResource = "ProxyConfigurationPolicy"
+	RBACResourceClientUpgrade                     RBACResource = "ClientUpgrade"
+	RBACResourceClientManagement                  RBACResource = "ClientManagement"
+	RBACResourceAntiTamperExclusionPolicy         RBACResource = "AntiTamperExclusionPolicy"
+	RBACResourcePrivateAccessPolicy               RBACResource = "PrivateAccessPolicy"
+	RBACResourceInternetFirewall                  RBACResource = "InternetFirewall"
+	RBACResourceWanFirewall                       RBACResource = "WanFirewall"
+	RBACResourceLanFirewall                       RBACResource = "LanFirewall"
+	RBACResourceSocketLanFirewall                 RBACResource = "SocketLanFirewall"
+	RBACResourceIPS                               RBACResource = "IPS"
+	RBACResourceAntiMalware                       RBACResource = "AntiMalware"
+	RBACResourceContentRestrictions               RBACResource = "ContentRestrictions"
+	RBACResourceTLSInspection                     RBACResource = "TLSInspection"
+	RBACResourceCertificates                      RBACResource = "Certificates"
+	RBACResourceCertificateManagement             RBACResource = "CertificateManagement"
+	RBACResourceApplicationControl                RBACResource = "ApplicationControl"
+	RBACResourceSaasSecurityAPI                   RBACResource = "SaasSecurityAPI"
+	RBACResourceRedirectPageCustomization         RBACResource = "RedirectPageCustomization"
+	RBACResourceDNSProtection                     RBACResource = "DnsProtection"
+	RBACResourceEndpointProtection                RBACResource = "EndpointProtection"
+	RBACResourceEndpointConnector                 RBACResource = "EndpointConnector"
+	RBACResourceRbi                               RBACResource = "RBI"
+	RBACResourceLinkFailover                      RBACResource = "LinkFailover"
+	RBACResourceFeatureTags                       RBACResource = "FeatureTags"
+	RBACResourceAssignAdminToPredefinedRoles      RBACResource = "AssignAdminToPredefinedRoles"
+	RBACResourceSupportAccess                     RBACResource = "SupportAccess"
+	RBACResourceExceptionalAccess                 RBACResource = "ExceptionalAccess"
+	RBACResourceEmergencyAccess                   RBACResource = "EmergencyAccess"
+	RBACResourceDynamicIPAllocation               RBACResource = "DynamicIpAllocation"
+	RBACResourceClientNotificationBranding        RBACResource = "ClientNotificationBranding"
+	RBACResourceAiSecurity                        RBACResource = "AiSecurity"
+	RBACResourceBrowserExtensionPolicy            RBACResource = "BrowserExtensionPolicy"
+	RBACResourceUserEducation                     RBACResource = "UserEducation"
+)
+
+var AllRBACResource = []RBACResource{
+	RBACResourcePublic,
+	RBACResourceAuthenticationProtectedResource,
+	RBACResourceAccounts,
+	RBACResourceZtnaAppConnector,
+	RBACResourceAppsCatalog,
+	RBACResourceCustomApplications,
+	RBACResourceAssetManagement,
+	RBACResourceDeviceDashboard,
+	RBACResourceEnterpriseDirectory,
+	RBACResourceBillingDocuments,
+	RBACResourceDlpConfiguration,
+	RBACResourceForensicsDlp,
+	RBACResourceGroups,
+	RBACResourceSocketsInventory,
+	RBACResourceLicense,
+	RBACResourceLicenseInventory,
+	RBACResourcePartnerLicenses,
+	RBACResourceNotifications,
+	RBACResourceOnlinePurchase,
+	RBACResourcePopLocations,
+	RBACResourceByoip,
+	RBACResourceIPAllocation,
+	RBACResourcePopMonitoring,
+	RBACResourceSandboxReports,
+	RBACResourceBandwidthUsage,
+	RBACResourceUsersUsage,
+	RBACResourcePrivateApplication,
+	RBACResourceAccount,
+	RBACResourceAccountNonNullFieldHack,
+	RBACResourceAdminGui,
+	RBACResourceAdministrators,
+	RBACResourceAdministratorsAPIKeysManagement,
+	RBACResourceLoginRestrictions,
+	RBACResourceEmailNotifications,
+	RBACResourceMailingLists,
+	RBACResourceAPIManagement,
+	RBACResourceSystemSettings,
+	RBACResourceLogExporter,
+	RBACResourceTrafficLogger,
+	RBACResourceManagementApplicationBranding,
+	RBACResourceBrowserAccessBranding,
+	RBACResourceBranding,
+	RBACResourceRbiBranding,
+	RBACResourceOnlinePurchaseSettings,
+	RBACResourceRolesAndPermissions,
+	RBACResourceIlmm,
+	RBACResourceTickets,
+	RBACResourceOpenAi,
+	RBACResourceAccountInfo,
+	RBACResourceExternalAccess,
+	RBACResourcePartnerExternalAccess,
+	RBACResourcePartnerDashboard,
+	RBACResourceCaptivePortal,
+	RBACResourceSystemOverview,
+	RBACResourceSites,
+	RBACResourceNetworkRules,
+	RBACResourceSocketLanNetwork,
+	RBACResourceDhcpSettings,
+	RBACResourceLastMileMonitoring,
+	RBACResourceSocketBypass,
+	RBACResourceFloatingRanges,
+	RBACResourceGlobalIPRanges,
+	RBACResourceDNSSettings,
+	RBACResourceConnectionSLA,
+	RBACResourceRemotePortFw,
+	RBACResourceLinkHealthRules,
+	RBACResourceForwardProxy,
+	RBACResourceCategories,
+	RBACResourceAccountGeneralProperties,
+	RBACResourceThreatsCatalog,
+	RBACResourceIoACatalog,
+	RBACResourceIntegrationsCatalog,
+	RBACResourceTopology,
+	RBACResourceEvents,
+	RBACResourceThreatsDashboard,
+	RBACResourceMitreAttack,
+	RBACResourceCloudAppsDashboard,
+	RBACResourceCloudActivitiesDashboard,
+	RBACResourceGenAiDashboard,
+	RBACResourceNetworkDashboard,
+	RBACResourceExperienceMonitoring,
+	RBACResourceDlpDashboard,
+	RBACResourceSaasSecurityAPIDashboard,
+	RBACResourceApplicationAnalytics,
+	RBACResourceAuditTrail,
+	RBACResourceRoutingTable,
+	RBACResourceSitesOverview,
+	RBACResourceSdpUsersOverview,
+	RBACResourceTuneup,
+	RBACResourceTuneupCatalog,
+	RBACResourceUsersDashboard,
+	RBACResourceProtectedEndpoints,
+	RBACResourceEndpointProtectionDashboard,
+	RBACResourceReports,
+	RBACResourceDetectionAndResponse,
+	RBACResourceDetectionAndResponseConfiguration,
+	RBACResourceXopsMuteStories,
+	RBACResourceXopsResponsePolicy,
+	RBACResourceXopsActionCenter,
+	RBACResourceCas,
+	RBACResourceCasDashboard,
+	RBACResourceUsersAndUserGroups,
+	RBACResourceDirectoryServices,
+	RBACResourceUserAwareness,
+	RBACResourceBrowserAccess,
+	RBACResourceClientAccess,
+	RBACResourceSingleSignOn,
+	RBACResourceUserAuthentication,
+	RBACResourceLicenseAssignment,
+	RBACResourceDevicePosture,
+	RBACResourceClientConnectivityPolicy,
+	RBACResourceMacAuthentication,
+	RBACResourceClientCustomization,
+	RBACResourceAlwaysOnPolicy,
+	RBACResourceDNSPolicy,
+	RBACResourceClientRollout,
+	RBACResourceSdpIPAllocationPolicy,
+	RBACResourceTrustedNetworks,
+	RBACResourceSdpSplitTunnel,
+	RBACResourceProxyConfigurationPolicy,
+	RBACResourceClientUpgrade,
+	RBACResourceClientManagement,
+	RBACResourceAntiTamperExclusionPolicy,
+	RBACResourcePrivateAccessPolicy,
+	RBACResourceInternetFirewall,
+	RBACResourceWanFirewall,
+	RBACResourceLanFirewall,
+	RBACResourceSocketLanFirewall,
+	RBACResourceIPS,
+	RBACResourceAntiMalware,
+	RBACResourceContentRestrictions,
+	RBACResourceTLSInspection,
+	RBACResourceCertificates,
+	RBACResourceCertificateManagement,
+	RBACResourceApplicationControl,
+	RBACResourceSaasSecurityAPI,
+	RBACResourceRedirectPageCustomization,
+	RBACResourceDNSProtection,
+	RBACResourceEndpointProtection,
+	RBACResourceEndpointConnector,
+	RBACResourceRbi,
+	RBACResourceLinkFailover,
+	RBACResourceFeatureTags,
+	RBACResourceAssignAdminToPredefinedRoles,
+	RBACResourceSupportAccess,
+	RBACResourceExceptionalAccess,
+	RBACResourceEmergencyAccess,
+	RBACResourceDynamicIPAllocation,
+	RBACResourceClientNotificationBranding,
+	RBACResourceAiSecurity,
+	RBACResourceBrowserExtensionPolicy,
+	RBACResourceUserEducation,
+}
+
+func (e RBACResource) IsValid() bool {
+	switch e {
+	case RBACResourcePublic, RBACResourceAuthenticationProtectedResource, RBACResourceAccounts, RBACResourceZtnaAppConnector, RBACResourceAppsCatalog, RBACResourceCustomApplications, RBACResourceAssetManagement, RBACResourceDeviceDashboard, RBACResourceEnterpriseDirectory, RBACResourceBillingDocuments, RBACResourceDlpConfiguration, RBACResourceForensicsDlp, RBACResourceGroups, RBACResourceSocketsInventory, RBACResourceLicense, RBACResourceLicenseInventory, RBACResourcePartnerLicenses, RBACResourceNotifications, RBACResourceOnlinePurchase, RBACResourcePopLocations, RBACResourceByoip, RBACResourceIPAllocation, RBACResourcePopMonitoring, RBACResourceSandboxReports, RBACResourceBandwidthUsage, RBACResourceUsersUsage, RBACResourcePrivateApplication, RBACResourceAccount, RBACResourceAccountNonNullFieldHack, RBACResourceAdminGui, RBACResourceAdministrators, RBACResourceAdministratorsAPIKeysManagement, RBACResourceLoginRestrictions, RBACResourceEmailNotifications, RBACResourceMailingLists, RBACResourceAPIManagement, RBACResourceSystemSettings, RBACResourceLogExporter, RBACResourceTrafficLogger, RBACResourceManagementApplicationBranding, RBACResourceBrowserAccessBranding, RBACResourceBranding, RBACResourceRbiBranding, RBACResourceOnlinePurchaseSettings, RBACResourceRolesAndPermissions, RBACResourceIlmm, RBACResourceTickets, RBACResourceOpenAi, RBACResourceAccountInfo, RBACResourceExternalAccess, RBACResourcePartnerExternalAccess, RBACResourcePartnerDashboard, RBACResourceCaptivePortal, RBACResourceSystemOverview, RBACResourceSites, RBACResourceNetworkRules, RBACResourceSocketLanNetwork, RBACResourceDhcpSettings, RBACResourceLastMileMonitoring, RBACResourceSocketBypass, RBACResourceFloatingRanges, RBACResourceGlobalIPRanges, RBACResourceDNSSettings, RBACResourceConnectionSLA, RBACResourceRemotePortFw, RBACResourceLinkHealthRules, RBACResourceForwardProxy, RBACResourceCategories, RBACResourceAccountGeneralProperties, RBACResourceThreatsCatalog, RBACResourceIoACatalog, RBACResourceIntegrationsCatalog, RBACResourceTopology, RBACResourceEvents, RBACResourceThreatsDashboard, RBACResourceMitreAttack, RBACResourceCloudAppsDashboard, RBACResourceCloudActivitiesDashboard, RBACResourceGenAiDashboard, RBACResourceNetworkDashboard, RBACResourceExperienceMonitoring, RBACResourceDlpDashboard, RBACResourceSaasSecurityAPIDashboard, RBACResourceApplicationAnalytics, RBACResourceAuditTrail, RBACResourceRoutingTable, RBACResourceSitesOverview, RBACResourceSdpUsersOverview, RBACResourceTuneup, RBACResourceTuneupCatalog, RBACResourceUsersDashboard, RBACResourceProtectedEndpoints, RBACResourceEndpointProtectionDashboard, RBACResourceReports, RBACResourceDetectionAndResponse, RBACResourceDetectionAndResponseConfiguration, RBACResourceXopsMuteStories, RBACResourceXopsResponsePolicy, RBACResourceXopsActionCenter, RBACResourceCas, RBACResourceCasDashboard, RBACResourceUsersAndUserGroups, RBACResourceDirectoryServices, RBACResourceUserAwareness, RBACResourceBrowserAccess, RBACResourceClientAccess, RBACResourceSingleSignOn, RBACResourceUserAuthentication, RBACResourceLicenseAssignment, RBACResourceDevicePosture, RBACResourceClientConnectivityPolicy, RBACResourceMacAuthentication, RBACResourceClientCustomization, RBACResourceAlwaysOnPolicy, RBACResourceDNSPolicy, RBACResourceClientRollout, RBACResourceSdpIPAllocationPolicy, RBACResourceTrustedNetworks, RBACResourceSdpSplitTunnel, RBACResourceProxyConfigurationPolicy, RBACResourceClientUpgrade, RBACResourceClientManagement, RBACResourceAntiTamperExclusionPolicy, RBACResourcePrivateAccessPolicy, RBACResourceInternetFirewall, RBACResourceWanFirewall, RBACResourceLanFirewall, RBACResourceSocketLanFirewall, RBACResourceIPS, RBACResourceAntiMalware, RBACResourceContentRestrictions, RBACResourceTLSInspection, RBACResourceCertificates, RBACResourceCertificateManagement, RBACResourceApplicationControl, RBACResourceSaasSecurityAPI, RBACResourceRedirectPageCustomization, RBACResourceDNSProtection, RBACResourceEndpointProtection, RBACResourceEndpointConnector, RBACResourceRbi, RBACResourceLinkFailover, RBACResourceFeatureTags, RBACResourceAssignAdminToPredefinedRoles, RBACResourceSupportAccess, RBACResourceExceptionalAccess, RBACResourceEmergencyAccess, RBACResourceDynamicIPAllocation, RBACResourceClientNotificationBranding, RBACResourceAiSecurity, RBACResourceBrowserExtensionPolicy, RBACResourceUserEducation:
+		return true
+	}
+	return false
+}
+
+func (e RBACResource) String() string {
+	return string(e)
+}
+
+func (e *RBACResource) UnmarshalGQL(v any) error {
+	str, ok := v.(string)
+	if !ok {
+		return fmt.Errorf("enums must be strings")
+	}
+
+	*e = RBACResource(str)
+	if !e.IsValid() {
+		return fmt.Errorf("%s is not a valid RBACResource", str)
+	}
+	return nil
+}
+
+func (e RBACResource) MarshalGQL(w io.Writer) {
+	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
 // REGIONAL and GLOBAL licenses for MOROCCO, CHINA, and VIETNAM group values
 type Regionality string
 
@@ -23045,6 +24841,59 @@ func (e SocketLanTransportType) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
+type SocketModel string
+
+const (
+	SocketModelX1500    SocketModel = "X1500"
+	SocketModelX1600    SocketModel = "X1600"
+	SocketModelX1600Lte SocketModel = "X1600_LTE"
+	SocketModelX1700    SocketModel = "X1700"
+	SocketModelAWS      SocketModel = "AWS"
+	SocketModelAzure    SocketModel = "AZURE"
+	SocketModelEsx      SocketModel = "ESX"
+	SocketModelGCP      SocketModel = "GCP"
+)
+
+var AllSocketModel = []SocketModel{
+	SocketModelX1500,
+	SocketModelX1600,
+	SocketModelX1600Lte,
+	SocketModelX1700,
+	SocketModelAWS,
+	SocketModelAzure,
+	SocketModelEsx,
+	SocketModelGCP,
+}
+
+func (e SocketModel) IsValid() bool {
+	switch e {
+	case SocketModelX1500, SocketModelX1600, SocketModelX1600Lte, SocketModelX1700, SocketModelAWS, SocketModelAzure, SocketModelEsx, SocketModelGCP:
+		return true
+	}
+	return false
+}
+
+func (e SocketModel) String() string {
+	return string(e)
+}
+
+func (e *SocketModel) UnmarshalGQL(v any) error {
+	str, ok := v.(string)
+	if !ok {
+		return fmt.Errorf("enums must be strings")
+	}
+
+	*e = SocketModel(str)
+	if !e.IsValid() {
+		return fmt.Errorf("%s is not a valid SocketModel", str)
+	}
+	return nil
+}
+
+func (e SocketModel) MarshalGQL(w io.Writer) {
+	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
 type SocketPlatform string
 
 const (
@@ -23699,6 +25548,99 @@ func (e *SubnetType) UnmarshalGQL(v any) error {
 }
 
 func (e SubnetType) MarshalGQL(w io.Writer) {
+	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+type SystemDomain string
+
+const (
+	SystemDomainSecurity   SystemDomain = "Security"
+	SystemDomainNetwork    SystemDomain = "Network"
+	SystemDomainAccess     SystemDomain = "Access"
+	SystemDomainManagement SystemDomain = "Management"
+	SystemDomainCpa        SystemDomain = "CPA"
+)
+
+var AllSystemDomain = []SystemDomain{
+	SystemDomainSecurity,
+	SystemDomainNetwork,
+	SystemDomainAccess,
+	SystemDomainManagement,
+	SystemDomainCpa,
+}
+
+func (e SystemDomain) IsValid() bool {
+	switch e {
+	case SystemDomainSecurity, SystemDomainNetwork, SystemDomainAccess, SystemDomainManagement, SystemDomainCpa:
+		return true
+	}
+	return false
+}
+
+func (e SystemDomain) String() string {
+	return string(e)
+}
+
+func (e *SystemDomain) UnmarshalGQL(v any) error {
+	str, ok := v.(string)
+	if !ok {
+		return fmt.Errorf("enums must be strings")
+	}
+
+	*e = SystemDomain(str)
+	if !e.IsValid() {
+		return fmt.Errorf("%s is not a valid SystemDomain", str)
+	}
+	return nil
+}
+
+func (e SystemDomain) MarshalGQL(w io.Writer) {
+	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+// Specifies the rollout strategy for a required tag in the @requireTag directive.
+type TagRolloutStrategy string
+
+const (
+	// Indicates the most common rollout strategy where the tag is automatically rolled out to all customers using a
+	// gradual, automated rollout plan.
+	TagRolloutStrategyGradual TagRolloutStrategy = "GRADUAL"
+	// Used for early access scenarios when specific customer feedback is needed. In this case, the tag is assigned
+	// manually to selected accounts following prior communication.
+	TagRolloutStrategyEa TagRolloutStrategy = "EA"
+)
+
+var AllTagRolloutStrategy = []TagRolloutStrategy{
+	TagRolloutStrategyGradual,
+	TagRolloutStrategyEa,
+}
+
+func (e TagRolloutStrategy) IsValid() bool {
+	switch e {
+	case TagRolloutStrategyGradual, TagRolloutStrategyEa:
+		return true
+	}
+	return false
+}
+
+func (e TagRolloutStrategy) String() string {
+	return string(e)
+}
+
+func (e *TagRolloutStrategy) UnmarshalGQL(v any) error {
+	str, ok := v.(string)
+	if !ok {
+		return fmt.Errorf("enums must be strings")
+	}
+
+	*e = TagRolloutStrategy(str)
+	if !e.IsValid() {
+		return fmt.Errorf("%s is not a valid TagRolloutStrategy", str)
+	}
+	return nil
+}
+
+func (e TagRolloutStrategy) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
@@ -24689,6 +26631,49 @@ func (e WanNetworkRuleType) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
+type ZtnaAppConnectorType string
+
+const (
+	// virtualized socket
+	ZtnaAppConnectorTypeVirtual ZtnaAppConnectorType = "VIRTUAL"
+	// physical socket
+	ZtnaAppConnectorTypePhysical ZtnaAppConnectorType = "PHYSICAL"
+)
+
+var AllZtnaAppConnectorType = []ZtnaAppConnectorType{
+	ZtnaAppConnectorTypeVirtual,
+	ZtnaAppConnectorTypePhysical,
+}
+
+func (e ZtnaAppConnectorType) IsValid() bool {
+	switch e {
+	case ZtnaAppConnectorTypeVirtual, ZtnaAppConnectorTypePhysical:
+		return true
+	}
+	return false
+}
+
+func (e ZtnaAppConnectorType) String() string {
+	return string(e)
+}
+
+func (e *ZtnaAppConnectorType) UnmarshalGQL(v any) error {
+	str, ok := v.(string)
+	if !ok {
+		return fmt.Errorf("enums must be strings")
+	}
+
+	*e = ZtnaAppConnectorType(str)
+	if !e.IsValid() {
+		return fmt.Errorf("%s is not a valid ZtnaAppConnectorType", str)
+	}
+	return nil
+}
+
+func (e ZtnaAppConnectorType) MarshalGQL(w io.Writer) {
+	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
 // Geographical regions that can be associated with a remote user license
 type ZtnaUsersLicenseGroup string
 
@@ -24741,5 +26726,44 @@ func (e *ZtnaUsersLicenseGroup) UnmarshalGQL(v any) error {
 }
 
 func (e ZtnaUsersLicenseGroup) MarshalGQL(w io.Writer) {
+	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+type JoinGraph string
+
+const (
+	JoinGraphFeAPI JoinGraph = "FE_API"
+)
+
+var AllJoinGraph = []JoinGraph{
+	JoinGraphFeAPI,
+}
+
+func (e JoinGraph) IsValid() bool {
+	switch e {
+	case JoinGraphFeAPI:
+		return true
+	}
+	return false
+}
+
+func (e JoinGraph) String() string {
+	return string(e)
+}
+
+func (e *JoinGraph) UnmarshalGQL(v any) error {
+	str, ok := v.(string)
+	if !ok {
+		return fmt.Errorf("enums must be strings")
+	}
+
+	*e = JoinGraph(str)
+	if !e.IsValid() {
+		return fmt.Errorf("%s is not a valid join__Graph", str)
+	}
+	return nil
+}
+
+func (e JoinGraph) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
