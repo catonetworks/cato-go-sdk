@@ -1,0 +1,9 @@
+mutation privateAppCreatePrivateApp($accountID: ID!, $input: CreatePrivateApplicationInput!) {
+  privateApplication(accountId: $accountID) {
+    createPrivateApplication(input: $input) {
+      application {
+        id
+      }
+    }
+  }
+}

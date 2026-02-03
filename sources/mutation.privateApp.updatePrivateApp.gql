@@ -1,0 +1,34 @@
+query privateAppReadPrivateApp($accountID: ID!, $input: PrivateApplicationRefInput!) {
+  privateApplication(accountId: $accountID) {
+    privateApplication(input: $input) {
+      id
+      creationTime
+      name
+      description
+      internalAppAddress
+      probingEnabled
+      published
+      allowIcmpProtocol
+      publishedAppDomain {
+        id
+        creationTime
+        catoIp
+        connectorGroupName
+      }
+      privateAppProbing {
+        id
+        type
+        interval
+        faultThresholdDown
+      }
+      protocolPorts {
+        port
+        portRange {
+          from
+          to
+        }
+        protocol
+      }
+    }
+  }
+}

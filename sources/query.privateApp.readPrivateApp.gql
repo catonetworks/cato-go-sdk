@@ -1,0 +1,9 @@
+mutation privateAppUpdatePrivateApp($accountID: ID!, $input: UpdatePrivateApplicationInput!) {
+  privateApplication(accountId: $accountID) {
+    updatePrivateApplication(input: $input) {
+      application {
+        id
+      }
+    }
+  }
+}

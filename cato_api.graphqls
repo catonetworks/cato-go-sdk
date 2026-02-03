@@ -254,6 +254,8 @@ type Query {
   @requireTag(tag: ZTNA_APP_CONNECTORS_API, rollout: GRADUAL)
   @namespace
   @publicApi(documented: false)
+
+  privateApplication(accountId: ID!): AccessPrivateApplicationQueries
 }
 
 type Mutation {
@@ -274,6 +276,7 @@ type Mutation {
   @requireTag(tag: ZTNA_APP_CONNECTORS_API, rollout: GRADUAL)
   @namespace
   @publicApi(documented: false)
+  privateApplication(accountId: ID!): AccessPrivateApplicationMutations
 }
 
 """
@@ -16427,3 +16430,114 @@ enum SystemDomain @join__type(graph: FE_API)  {
   Management @join__enumValue(graph: FE_API) 
   CPA @join__enumValue(graph: FE_API) 
 }
+
+type AccessPrivateApplicationQueries {
+  privateApplication(input: PrivateApplicationRefInput!): PrivateApplication
+  privateApplicationList: PrivateApplicationListPayload
+}
+
+
+input PrivateApplicationRefInput {
+  by: ObjectRefBy! = ID
+  input: String!
+}
+
+type PrivateApplication {
+  id: ID!
+  creationTime: DateTime!
+  name: String!
+  description: String
+  internalAppAddress: IPAddressOrFqdn!
+  probingEnabled: Boolean!
+  published: Boolean!
+  allowIcmpProtocol: Boolean!
+  publishedAppDomain: PublishedAppDomain
+  privateAppProbing: PrivateAppProbing
+  protocolPorts: [CustomService!]!
+}
+
+type PrivateApplicationListPayload {
+  applications: [PrivateApplication!]!
+}
+
+"""An IPv4 IP address or Fqdn type"""
+scalar IPAddressOrFqdn
+
+type PublishedAppDomain {
+  id: ID!
+  creationTime: DateTime!
+  publishedAppDomain: String!
+  catoIp: IPAddress
+  connectorGroupName: String
+}
+
+type PrivateAppProbing {
+  id: ID!
+  type: String!
+  interval: Int!
+  faultThresholdDown: Int!
+}
+
+type AccessPrivateApplicationMutations {
+  createPrivateApplication(input: CreatePrivateApplicationInput!): CreatePrivateApplicationPayload
+  updatePrivateApplication(input: UpdatePrivateApplicationInput!): UpdatePrivateApplicationPayload
+  deletePrivateApplication(input: DeletePrivateApplicationInput!): DeletePrivateApplicationPayload
+}
+
+input CreatePrivateApplicationInput {
+  name: String!
+  description: String
+  connectorGroupName: String
+  internalAppAddress: IPAddressOrFqdn!
+  probingEnabled: Boolean! = true
+  published: Boolean! = false
+  allowIcmpProtocol: Boolean! = true
+  protocolPorts: [CustomServiceInput!]
+  publishedAppDomain: PublishedAppDomainInput
+  privateAppProbing: PrivateAppProbingInput
+}
+
+input DeletePrivateApplicationInput {
+  privateApplication: PrivateApplicationRefInput!
+}
+input UpdatePrivateApplicationInput {
+  id: ID!
+  name: String
+  description: String
+  connectorGroupName: String
+  internalAppAddress: IPAddressOrFqdn
+  probingEnabled: Boolean
+  published: Boolean
+  allowIcmpProtocol: Boolean
+  protocolPorts: [CustomServiceInput!]
+  publishedAppDomain: PublishedAppDomainInput
+  privateAppProbing: PrivateAppProbingInput
+}
+
+type CreatePrivateApplicationPayload {
+  application: PrivateApplication!
+}
+
+type UpdatePrivateApplicationPayload {
+  application: PrivateApplication!
+}
+
+type DeletePrivateApplicationPayload {
+  application: ID!
+}
+
+input PublishedAppDomainInput {
+  id: ID
+  creationTime: DateTime
+  publishedAppDomain: String
+  catoIp: IPAddress
+  connectorGroupName: String
+}
+
+input PrivateAppProbingInput {
+  id: ID
+  type: String
+  interval: Int
+  faultThresholdDown: Int
+}
+

@@ -424,6 +424,17 @@ type Value interface {
 	IsValue()
 }
 
+type AccessPrivateApplicationMutations struct {
+	CreatePrivateApplication *CreatePrivateApplicationPayload `json:"createPrivateApplication,omitempty"`
+	UpdatePrivateApplication *UpdatePrivateApplicationPayload `json:"updatePrivateApplication,omitempty"`
+	DeletePrivateApplication *DeletePrivateApplicationPayload `json:"deletePrivateApplication,omitempty"`
+}
+
+type AccessPrivateApplicationQueries struct {
+	PrivateApplication     *PrivateApplication            `json:"privateApplication,omitempty"`
+	PrivateApplicationList *PrivateApplicationListPayload `json:"privateApplicationList,omitempty"`
+}
+
 type AccountAuditData struct {
 	// The Admin / API key name used for creating the account
 	CreatedBy string `json:"createdBy"`
@@ -4547,6 +4558,23 @@ type CreateLocationDetailsInput struct {
 	VatID *string `json:"vatId,omitempty"`
 }
 
+type CreatePrivateApplicationInput struct {
+	Name               string                   `json:"name"`
+	Description        *string                  `json:"description,omitempty"`
+	ConnectorGroupName *string                  `json:"connectorGroupName,omitempty"`
+	InternalAppAddress string                   `json:"internalAppAddress"`
+	ProbingEnabled     bool                     `json:"probingEnabled"`
+	Published          bool                     `json:"published"`
+	AllowICMPProtocol  bool                     `json:"allowIcmpProtocol"`
+	ProtocolPorts      []*CustomServiceInput    `json:"protocolPorts,omitempty"`
+	PublishedAppDomain *PublishedAppDomainInput `json:"publishedAppDomain,omitempty"`
+	PrivateAppProbing  *PrivateAppProbingInput  `json:"privateAppProbing,omitempty"`
+}
+
+type CreatePrivateApplicationPayload struct {
+	Application *PrivateApplication `json:"application"`
+}
+
 // A reference identifying the CustomApplication object. ID: Unique CustomApplication Identifier, Name: The CustomApplication Name
 type CustomApplicationRef struct {
 	ID   string `json:"id"`
@@ -4759,6 +4787,14 @@ type DeleteContainerPayload struct {
 type DeleteGroupPayload struct {
 	// The group that was deleted
 	Group *Group `json:"group"`
+}
+
+type DeletePrivateApplicationInput struct {
+	PrivateApplication *PrivateApplicationRefInput `json:"privateApplication"`
+}
+
+type DeletePrivateApplicationPayload struct {
+	Application string `json:"application"`
 }
 
 // Delete report input
@@ -9503,6 +9539,38 @@ type PostalAddressInput struct {
 	ZipCode *string `json:"zipCode,omitempty"`
 }
 
+type PrivateAppProbing struct {
+	ID                 string `json:"id"`
+	Type               string `json:"type"`
+	Interval           int64  `json:"interval"`
+	FaultThresholdDown int64  `json:"faultThresholdDown"`
+}
+
+type PrivateAppProbingInput struct {
+	ID                 *string `json:"id,omitempty"`
+	Type               *string `json:"type,omitempty"`
+	Interval           *int64  `json:"interval,omitempty"`
+	FaultThresholdDown *int64  `json:"faultThresholdDown,omitempty"`
+}
+
+type PrivateApplication struct {
+	ID                 string              `json:"id"`
+	CreationTime       string              `json:"creationTime"`
+	Name               string              `json:"name"`
+	Description        *string             `json:"description,omitempty"`
+	InternalAppAddress string              `json:"internalAppAddress"`
+	ProbingEnabled     bool                `json:"probingEnabled"`
+	Published          bool                `json:"published"`
+	AllowICMPProtocol  bool                `json:"allowIcmpProtocol"`
+	PublishedAppDomain *PublishedAppDomain `json:"publishedAppDomain,omitempty"`
+	PrivateAppProbing  *PrivateAppProbing  `json:"privateAppProbing,omitempty"`
+	ProtocolPorts      []*CustomService    `json:"protocolPorts"`
+}
+
+type PrivateApplicationListPayload struct {
+	Applications []*PrivateApplication `json:"applications"`
+}
+
 // A reference identifying of the PrivateApplication object. ID: Unique PrivateApplication Identifier, Name: The PrivateApplication Name
 type PrivateApplicationRef struct {
 	ID   string `json:"id"`
@@ -9516,6 +9584,11 @@ func (this PrivateApplicationRef) GetID() string { return this.ID }
 
 // Object's unique name
 func (this PrivateApplicationRef) GetName() string { return this.Name }
+
+type PrivateApplicationRefInput struct {
+	By    ObjectRefBy `json:"by"`
+	Input string      `json:"input"`
+}
 
 // Public IP address license
 type PublicIpsLicense struct {
@@ -9586,6 +9659,22 @@ type PublicIpsLicenseAllocations struct {
 	Allocated int64 `json:"allocated"`
 	Available int64 `json:"available"`
 	Total     int64 `json:"total"`
+}
+
+type PublishedAppDomain struct {
+	ID                 string  `json:"id"`
+	CreationTime       string  `json:"creationTime"`
+	PublishedAppDomain string  `json:"publishedAppDomain"`
+	CatoIP             *string `json:"catoIp,omitempty"`
+	ConnectorGroupName *string `json:"connectorGroupName,omitempty"`
+}
+
+type PublishedAppDomainInput struct {
+	ID                 *string `json:"id,omitempty"`
+	CreationTime       *string `json:"creationTime,omitempty"`
+	PublishedAppDomain *string `json:"publishedAppDomain,omitempty"`
+	CatoIP             *string `json:"catoIp,omitempty"`
+	ConnectorGroupName *string `json:"connectorGroupName,omitempty"`
 }
 
 type Query struct {
@@ -13559,6 +13648,24 @@ type UpdateNetworkRangeInput struct {
 
 type UpdateNetworkRangePayload struct {
 	NetworkRangeID string `json:"networkRangeId"`
+}
+
+type UpdatePrivateApplicationInput struct {
+	ID                 string                   `json:"id"`
+	Name               *string                  `json:"name,omitempty"`
+	Description        *string                  `json:"description,omitempty"`
+	ConnectorGroupName *string                  `json:"connectorGroupName,omitempty"`
+	InternalAppAddress *string                  `json:"internalAppAddress,omitempty"`
+	ProbingEnabled     *bool                    `json:"probingEnabled,omitempty"`
+	Published          *bool                    `json:"published,omitempty"`
+	AllowICMPProtocol  *bool                    `json:"allowIcmpProtocol,omitempty"`
+	ProtocolPorts      []*CustomServiceInput    `json:"protocolPorts,omitempty"`
+	PublishedAppDomain *PublishedAppDomainInput `json:"publishedAppDomain,omitempty"`
+	PrivateAppProbing  *PrivateAppProbingInput  `json:"privateAppProbing,omitempty"`
+}
+
+type UpdatePrivateApplicationPayload struct {
+	Application *PrivateApplication `json:"application"`
 }
 
 type UpdateSecondaryAWSVSocketInput struct {
