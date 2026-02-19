@@ -3,7 +3,7 @@ package cato_go_sdk
 import (
 	"context"
 
-	"github.com/Yamashou/gqlgenc/clientv2"
+	"github.com/gqlgo/gqlgenc/clientv2"
 )
 
 type Xdr_Story struct {

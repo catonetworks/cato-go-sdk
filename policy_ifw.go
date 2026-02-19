@@ -3,7 +3,7 @@ package cato_go_sdk
 import (
 	"context"
 
-	"github.com/Yamashou/gqlgenc/clientv2"
+	"github.com/gqlgo/gqlgenc/clientv2"
 	cato_models "github.com/catonetworks/cato-go-sdk/models"
 )
 

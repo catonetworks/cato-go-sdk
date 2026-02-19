@@ -8,6 +8,7 @@ import (
 
 	cato "github.com/catonetworks/cato-go-sdk"
 	cato_models "github.com/catonetworks/cato-go-sdk/models"
+	"github.com/catonetworks/cato-go-sdk/scalars"
 )
 
 func main() {
@@ -43,14 +44,45 @@ func main() {
 			Name:                       "Example TLS Inspection Rule",
 			Description:                "Example TLS inspection rule created via SDK",
 			Enabled:                    true,
-			Action:                     cato_models.TLSInspectActionInspect,
-			UntrustedCertificateAction: cato_models.TLSInspectUntrustedCertificateActionBlock,
-			ConnectionOrigin:           cato_models.ConnectionOriginEnumAny,
-			Source:                     &cato_models.TLSInspectSourceInput{},
-			Application:                &cato_models.TLSInspectApplicationInput{},
-			Country:                    []*cato_models.CountryRefInput{},
-			DevicePostureProfile:       []*cato_models.DeviceProfileRefInput{},
-			Platform:                   []cato_models.OperatingSystem{},
+		Action:                     cato_models.TLSInspectActionInspect,
+		UntrustedCertificateAction: cato_models.TLSInspectUntrustedCertificateActionBlock,
+		ConnectionOrigin:           cato_models.ConnectionOriginEnumAny,
+		Source: &cato_models.TLSInspectSourceInput{
+			FloatingSubnet:    []*cato_models.FloatingSubnetRefInput{},
+			GlobalIPRange:     []*cato_models.GlobalIPRangeRefInput{},
+			Group:             []*cato_models.GroupRefInput{},
+			Host:              []*cato_models.HostRefInput{},
+			IP:                []string{},
+			IPRange:           []*cato_models.IPAddressRangeInput{},
+			NetworkInterface:  []*cato_models.NetworkInterfaceRefInput{},
+			Site:              []*cato_models.SiteRefInput{},
+			SiteNetworkSubnet: []*cato_models.SiteNetworkSubnetRefInput{},
+			Subnet:            []string{},
+			SystemGroup:       []*cato_models.SystemGroupRefInput{},
+			User:              []*cato_models.UserRefInput{},
+			UsersGroup:        []*cato_models.UsersGroupRefInput{},
+		},
+		Application: &cato_models.TLSInspectApplicationInput{
+			AppCategory:        []*cato_models.ApplicationCategoryRefInput{},
+			Application:        []*cato_models.ApplicationRefInput{},
+			Country:            []*cato_models.CountryRefInput{},
+			CustomApp:          []*cato_models.CustomApplicationRefInput{},
+			CustomCategory:     []*cato_models.CustomCategoryRefInput{},
+			CustomService:      []*cato_models.CustomServiceInput{},
+			CustomServiceIP:    []*cato_models.CustomServiceIPInput{},
+			Domain:             []string{},
+			Fqdn:               []string{},
+			GlobalIPRange:      []*cato_models.GlobalIPRangeRefInput{},
+			IP:                 []string{},
+			IPRange:            []*cato_models.IPAddressRangeInput{},
+			RemoteAsn:          []scalars.Asn32{},
+			Service:            []*cato_models.ServiceRefInput{},
+			Subnet:             []string{},
+			TLSInspectCategory: []cato_models.TLSInspectSystemCategory{},
+		},
+		Country:              []*cato_models.CountryRefInput{},
+		DevicePostureProfile: []*cato_models.DeviceProfileRefInput{},
+		Platform:             []cato_models.OperatingSystem{},
 		},
 		At: &cato_models.PolicyRulePositionInput{
 			Position: &position,
@@ -69,8 +101,8 @@ func main() {
 	fmt.Println(string(resultJson))
 
 	// Access specific fields
-	if result.Policy.TlsInspect.AddRule.Rule != nil {
-		rule := result.Policy.TlsInspect.AddRule.Rule
+	if result.Policy.TLSInspect.AddRule.Rule != nil {
+		rule := result.Policy.TLSInspect.AddRule.Rule
 		fmt.Printf("\nRule Details:\n")
 		fmt.Printf("ID: %s\n", rule.Rule.ID)
 		fmt.Printf("Name: %s\n", rule.Rule.Name)
@@ -86,8 +118,8 @@ func main() {
 	// Read the new TLS inspection rule //
 	//////////////////////////////////////////
 
-	if result.Policy.TlsInspect.AddRule.Rule != nil {
-		rule := result.Policy.TlsInspect.AddRule.Rule
+	if result.Policy.TLSInspect.AddRule.Rule != nil {
+		rule := result.Policy.TLSInspect.AddRule.Rule
 		ruleId := rule.Rule.ID
 		ruleName := rule.Rule.Name
 
@@ -106,10 +138,10 @@ func main() {
 		fmt.Printf("Rule Name: %s\n", ruleName)
 
 		// Display properties if available
-		if len(policyResult.Policy..TLSInspect.Policy.Sections) > 0 {
-			fmt.Printf("Total sections in policy: %d\n", len(policyResult.Policy.TlsInspect.Policy.Sections))
+		if len(policyResult.Policy.TLSInspect.Policy.Sections) > 0 {
+			fmt.Printf("Total sections in policy: %d\n", len(policyResult.Policy.TLSInspect.Policy.Sections))
 			// Look for our specific rule
-			for _, rule := range policyResult.Policy.TlsInspect.Policy.Rules {
+			for _, rule := range policyResult.Policy.TLSInspect.Policy.Rules {
 				if rule.Rule.ID == ruleId {
 					fmt.Printf("Found our rule: %s\n", rule.Rule.Name)
 					break
@@ -154,7 +186,7 @@ func main() {
 		}
 
 		// Perform the update
-		updateResult, err := catoClient.PolicyTlsInspectUpdateRule(ctx, tlsInspectUpdateRuleInput, accountId)
+		updateResult, err := catoClient.PolicyTLSInspectUpdateRule(ctx, tlsInspectUpdateRuleInput, accountId)
 		if err != nil {
 			fmt.Println("error updating TLS inspection rule: ", err)
 			os.Exit(1)
@@ -166,8 +198,8 @@ func main() {
 		fmt.Println(string(updateResultJson))
 
 		// Access specific fields from update result
-		if updateResult.Policy.TlsInspect.UpdateRule.Rule != nil {
-			updatedRule := updateResult.Policy.TlsInspect.UpdateRule.Rule
+		if updateResult.Policy.TLSInspect.UpdateRule.Rule != nil {
+			updatedRule := updateResult.Policy.TLSInspect.UpdateRule.Rule
 			fmt.Printf("\nUpdated Rule Details:\n")
 			fmt.Printf("ID: %s\n", updatedRule.Rule.ID)
 			fmt.Printf("Name: %s\n", updatedRule.Rule.Name)
@@ -181,9 +213,9 @@ func main() {
 		}
 
 		// Check for any update errors
-		if len(updateResult.Policy.TlsInspect.UpdateRule.Errors) > 0 {
+		if len(updateResult.Policy.TLSInspect.UpdateRule.Errors) > 0 {
 			fmt.Printf("\nUpdate Errors:\n")
-			for _, err := range updateResult.Policy.TlsInspect.UpdateRule.Errors {
+			for _, err := range updateResult.Policy.TLSInspect.UpdateRule.Errors {
 				fmt.Printf("- %s (Code: %s)\n", *err.ErrorMessage, *err.ErrorCode)
 			}
 		} else {
@@ -209,7 +241,7 @@ func main() {
 		}
 
 		// Perform the delete operation
-		deleteResult, err := catoClient.PolicyTlsInspectRemoveRule(ctx, tlsInspectRemoveRuleInput, accountId)
+		deleteResult, err := catoClient.PolicyTLSInspectRemoveRule(ctx, tlsInspectRemoveRuleInput, accountId)
 		if err != nil {
 			fmt.Println("error deleting TLS inspection rule: ", err)
 			os.Exit(1)
@@ -221,12 +253,12 @@ func main() {
 		fmt.Println(string(deleteResultJson))
 
 		// Access specific fields from delete result
-		fmt.Printf("\nDeletion Status: %s\n", deleteResult.Policy.TlsInspect.RemoveRule.Status)
+		fmt.Printf("\nDeletion Status: %s\n", deleteResult.Policy.TLSInspect.RemoveRule.Status)
 
 		// Check for any delete errors
-		if len(deleteResult.Policy.TlsInspect.RemoveRule.Errors) > 0 {
+		if len(deleteResult.Policy.TLSInspect.RemoveRule.Errors) > 0 {
 			fmt.Printf("\nDelete Errors:\n")
-			for _, err := range deleteResult.Policy.TlsInspect.RemoveRule.Errors {
+			for _, err := range deleteResult.Policy.TLSInspect.RemoveRule.Errors {
 				fmt.Printf("- %s (Code: %s)\n", *err.ErrorMessage, *err.ErrorCode)
 			}
 		} else {
@@ -239,7 +271,7 @@ func main() {
 		// Publish the TLS inspection policy   //
 		/////////////////////////////////////////////
 
-		publishResult, err := catoClient.PolicyTlsInspectPublishPolicyRevision(ctx, accountId)
+	publishResult, err := catoClient.PolicyTLSInspectPublishPolicyRevision(ctx, accountId)
 		if err != nil {
 			fmt.Println("error publishing TLS inspection policy revision: ", err)
 			os.Exit(1)
@@ -251,12 +283,12 @@ func main() {
 		fmt.Println(string(publishResultJson))
 
 		// Access specific fields
-		fmt.Printf("\nPublish Status: %s\n", publishResult.Policy.TlsInspect.PublishPolicyRevision.Status)
+		fmt.Printf("\nPublish Status: %s\n", publishResult.Policy.TLSInspect.PublishPolicyRevision.Status)
 
 		// Check for any errors
-		if len(publishResult.Policy.TlsInspect.PublishPolicyRevision.Errors) > 0 {
+		if len(publishResult.Policy.TLSInspect.PublishPolicyRevision.Errors) > 0 {
 			fmt.Printf("\nPublish Errors:\n")
-			errorsJson, _ := json.MarshalIndent(publishResult.Policy.TlsInspect.PublishPolicyRevision.Errors, "", "  ")
+			errorsJson, _ := json.MarshalIndent(publishResult.Policy.TLSInspect.PublishPolicyRevision.Errors, "", "  ")
 			fmt.Println(string(errorsJson))
 		} else {
 			fmt.Printf("\nThe TLS inspection policy revision has been successfully published and is now live.\n")

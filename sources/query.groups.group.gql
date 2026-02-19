@@ -1,0 +1,22 @@
+query groupsGroup($input: GroupRefInput!, $accountId: ID!) {
+    groups(accountId: $accountId) {
+        group(input: $input) {
+            id
+            name
+            description
+            audit {
+                updatedTime
+            }
+            members {
+                items {
+                    id
+                    name
+                    type
+                }
+                paging {
+                    total
+                }
+            }
+        }
+    }
+}
