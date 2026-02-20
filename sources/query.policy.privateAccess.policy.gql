@@ -1,0 +1,126 @@
+query policyReadPrivateAccessPolicy($accountID: ID!) {
+  policy(accountId: $accountID) {
+    privateAccess {
+      policy {
+        enabled
+        rules {
+          rule {
+            id
+            name
+            description
+            index
+            enabled
+            section {
+              id
+              name
+              subPolicyId
+            }
+            platform
+            country {
+              id
+              name
+            }
+            source {
+              user {
+                id
+                name
+              }
+              usersGroup {
+                id
+                name
+              }
+            }
+            connectionOrigin
+            action {
+              action
+            }
+            device {
+              id
+              name
+            }
+            userAttributes {
+              riskScore {
+                category
+                operator
+              }
+            }
+            schedule {
+              activeOn
+              customRecurring {
+                days
+                from
+                to
+              }
+              customTimeframe {
+                from
+                to
+              }
+            }
+            activePeriod {
+              useEffectiveFrom
+              effectiveFrom
+              useExpiresAt
+              expiresAt
+            }
+            applications {
+              application {
+                id
+                name
+              }
+            }
+            tracking {
+              event {
+                enabled
+              }
+              alert {
+                enabled
+                frequency
+                subscriptionGroup {
+                  id
+                  name
+                }
+                webhook {
+                  id
+                  name
+                }
+                mailingList {
+                  id
+                  name
+                }
+              }
+            }
+          }
+          audit {
+            updatedBy
+            updatedTime
+          }
+          properties
+        }
+        sections {
+          section {
+            id
+            name
+            subPolicyId
+          }
+          properties
+          audit {
+            updatedBy
+            updatedTime
+          }
+          access {
+            action
+          }
+        }
+        revision {
+          changes
+          updatedTime
+          id
+        }
+        audit {
+          publishedTime
+          publishedBy
+        }
+      }
+    }
+  }
+}

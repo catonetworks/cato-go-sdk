@@ -1,0 +1,18 @@
+mutation policyPrivateAccessUpdateRule ( $accountID: ID!, $input: PrivateAccessUpdateRuleInput! ) {
+  policy ( accountId: $accountID ) {
+    privateAccess {
+      updateRule(input: $input) {
+        rule {
+          rule {
+            id
+          }
+        }
+        status
+        errors {
+          errorCode
+          errorMessage
+        }
+      }
+    }
+  }
+}

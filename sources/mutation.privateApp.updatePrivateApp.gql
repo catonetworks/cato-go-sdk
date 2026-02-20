@@ -1,33 +1,8 @@
-query privateAppReadPrivateApp($accountID: ID!, $input: PrivateApplicationRefInput!) {
+mutation privateAppUpdatePrivateApp($accountID: ID!, $input: UpdatePrivateApplicationInput!) {
   privateApplication(accountId: $accountID) {
-    privateApplication(input: $input) {
-      id
-      creationTime
-      name
-      description
-      internalAppAddress
-      probingEnabled
-      published
-      allowIcmpProtocol
-      publishedAppDomain {
+    updatePrivateApplication(input: $input) {
+      application {
         id
-        creationTime
-        catoIp
-        connectorGroupName
-      }
-      privateAppProbing {
-        id
-        type
-        interval
-        faultThresholdDown
-      }
-      protocolPorts {
-        port
-        portRange {
-          from
-          to
-        }
-        protocol
       }
     }
   }

@@ -2784,7 +2784,24 @@ type PolicyMutations {
   tlsInspect(input: TlsInspectPolicyMutationInput): TlsInspectPolicyMutations
   wanFirewall(input: WanFirewallPolicyMutationInput): WanFirewallPolicyMutations
   wanNetwork(input: WanNetworkPolicyMutationInput): WanNetworkPolicyMutations
+  privateAccess(input: PrivateAccessPolicyMutationInput): PrivateAccessPolicyMutations
 }
+
+type PrivateAccessPolicyMutations {
+  addRule(input: PrivateAccessAddRuleInput!): PrivateAccessRuleMutationPayload!
+  updateRule(input: PrivateAccessUpdateRuleInput!): PrivateAccessRuleMutationPayload!
+  removeRule(input: PrivateAccessRemoveRuleInput!): PrivateAccessRuleMutationPayload!
+  moveRule(input: PolicyMoveRuleInput!): PrivateAccessRuleMutationPayload!
+  addSection(input: PolicyAddSectionInput!): PolicySectionMutationPayload!
+  updateSection(input: PolicyUpdateSectionInput!): PolicySectionMutationPayload!
+  removeSection(input: PolicyRemoveSectionInput!): PolicySectionMutationPayload!
+  moveSection(input: PolicyMoveSectionInput!): PolicySectionMutationPayload!
+  createPolicyRevision(input: PolicyCreateRevisionInput!): PrivateAccessPolicyMutationPayload!
+  publishPolicyRevision(input: PolicyPublishRevisionInput): PrivateAccessPolicyMutationPayload!
+  discardPolicyRevision(input: PolicyDiscardRevisionInput): PrivateAccessPolicyMutationPayload!
+  updatePolicy(input: PrivateAccessPolicyUpdateInput!): PrivateAccessPolicyMutationPayload!
+}
+
 
 type AccountMetrics {
   """Starting time"""
@@ -6361,6 +6378,7 @@ type PolicyQueries {
   tlsInspect: TlsInspectPolicyQueries
   wanFirewall: WanFirewallPolicyQueries
   wanNetwork: WanNetworkPolicyQueries
+  privateAccess: PrivateAccessPolicyQueries
 }
 
 type SandboxQueries {
@@ -7084,6 +7102,7 @@ input PolicyScheduleUpdateInput {
 type PolicySectionInfo {
   id: ID!
   name: String!
+  subPolicyId: ID
 }
 
 type PolicySectionMutationPayload {
@@ -7096,6 +7115,7 @@ type PolicySectionPayload {
   audit: PolicyElementAudit!
   properties: [PolicyElementPropertiesEnum!]!
   section: PolicySectionInfo!
+  access: EntityAccess
 }
 
 enum PolicySectionPositionEnum {
@@ -16541,3 +16561,255 @@ input PrivateAppProbingInput {
   faultThresholdDown: Int
 }
 
+type PrivateAccessPolicyQueries {
+  policy(input: PrivateAccessPolicyInput): PrivateAccessPolicy!
+  revisions: PolicyRevisionsPayload
+}
+
+input PrivateAccessPolicyInput {
+  """
+  A revision is a specific instance of the policy.
+   Unpublished revisions are working copies of the policy available to a specific
+   admin or a set of admins
+   Published revisions are revisions that were applied to the account network.
+   The last published revision is the active policy.
+  """
+  revision: PolicyRevisionInput
+}
+
+type PrivateAccessPolicy implements IPolicy {
+  enabled: Boolean!
+  rules: [PrivateAccessRulePayload!]!
+  sections: [PolicySectionPayload!]!
+  audit: PolicyAudit
+  revision: PolicyRevision
+}
+
+type PrivateAccessRulePayload implements IPolicyRulePayload {
+  audit: PolicyElementAudit!
+  rule: PrivateAccessRule!
+  properties: [PolicyElementPropertiesEnum!]!
+}
+
+type PrivateAccessRule implements IPolicyRule {
+  """Rule ID"""
+  id: ID!
+
+  """Name of the rule"""
+  name: String!
+
+  """Description for the rule"""
+  description: String!
+
+  """Position / priority of rule"""
+  index: Int!
+
+  """Policy section where the rule is located"""
+  section: PolicySectionInfo!
+
+  """
+  TRUE = Rule is enabled 
+   FALSE = Rule is disabled
+  """
+  enabled: Boolean!
+  source: PrivateAccessPolicySource!
+  platform: [OperatingSystem!]!
+  country: [CountryRef!]!
+  applications: PrivateAccessPolicyApplication!
+  connectionOrigin: [PrivateAccessPolicyOriginEnum!]!
+  action: PrivateAccessPolicyAction!
+  tracking: PolicyTracking!
+  device: [DeviceProfileRef!]!
+  userAttributes: PrivateAccessUserAttributes!
+  schedule: PolicySchedule!
+  activePeriod: PolicyRuleActivePeriod!
+}
+
+type PrivateAccessPolicySource {
+  user: [UserRef!]!
+  usersGroup: [UsersGroupRef!]!
+}
+
+type PrivateAccessPolicyApplication {
+  application: [PrivateApplicationRef!]!
+}
+
+"""Defines Origin of the connection"""
+enum PrivateAccessPolicyOriginEnum {
+  ANY
+
+  """Any Remote option"""
+  REMOTE
+
+  """User is connecting from the Browser Extension"""
+  REMOTE_EXTENSION
+
+  """User is connecting from the SDP client"""
+  REMOTE_CLIENT
+
+  """User is connecting from the Enterprise Browser"""
+  REMOTE_BROWSER
+
+  """User is connecting from the Application Portal"""
+  REMOTE_PORTAL
+
+  """User is connecting from Site"""
+  SITE
+}
+
+type PrivateAccessPolicyAction {
+  action: PrivateAccessPolicyActionEnum!
+}
+
+enum PrivateAccessPolicyActionEnum {
+  ALLOW
+  BLOCK
+}
+
+interface UserAttributes {
+  """Matcher for a user's risk score category."""
+  riskScore: RiskScoreCondition!
+}
+
+type RiskScoreCondition {
+  category: RiskScoreCategory!
+  operator: RiskScoreOperator!
+}
+
+enum RiskScoreCategory {
+  ANY
+  LOW
+  MEDIUM
+  HIGH
+  CRITICAL
+}
+
+enum RiskScoreOperator {
+  GTE
+  LTE
+}
+
+type EntityAccess {
+  action: RBACAction!
+}
+
+input PrivateAccessAddRuleInput {
+  """Parameters for the rule you are adding"""
+  rule: PrivateAccessAddRuleDataInput!
+
+  """Position of the rule in the policy"""
+  at: PolicyRulePositionInput
+}
+
+input PrivateAccessAddRuleDataInput {
+  enabled: Boolean!
+  name: String!
+  description: String! = ""
+  source: PrivateAccessPolicySourceInput! = {user: [], usersGroup: []}
+  platform: [OperatingSystem!]! = []
+  country: [CountryRefInput!]! = []
+  applications: PrivateAccessPolicyApplicationInput!
+  connectionOrigin: [PrivateAccessPolicyOriginEnum!]! = []
+  action: PrivateAccessPolicyActionInput! = {action: ALLOW}
+  tracking: PolicyTrackingInput! = {event: {enabled: false}, alert: {enabled: false, frequency: HOURLY, subscriptionGroup: [], webhook: [], mailingList: []}}
+  device: [DeviceProfileRefInput!]! = []
+  userAttributes: UserAttributesInput! = {riskScore: {category: ANY, operator: GTE}}
+  schedule: PolicyScheduleInput! = {activeOn: ALWAYS}
+  activePeriod: PolicyRuleActivePeriodInput! = {useEffectiveFrom: false, useExpiresAt: false}
+}
+
+input PrivateAccessPolicySourceInput {
+  user: [UserRefInput!]! = []
+  usersGroup: [UsersGroupRefInput!]! = []
+}
+
+input PrivateAccessPolicyApplicationInput {
+  application: [PrivateApplicationRefInput!]! = []
+}
+
+input PrivateAccessPolicyActionInput {
+  action: PrivateAccessPolicyActionEnum! = ALLOW
+}
+input UserAttributesInput {
+  """Matcher for a user's risk score category."""
+  riskScore: RiskScoreConditionInput! = {category: ANY, operator: GTE}
+}
+
+input RiskScoreConditionInput {
+  category: RiskScoreCategory! = ANY
+  operator: RiskScoreOperator! = GTE
+}
+
+input PrivateAccessPolicyMutationInput {
+  revision: PolicyMutationRevisionInput
+}
+
+type PrivateAccessRuleMutationPayload implements IPolicyRuleMutationPayload {
+  rule: PrivateAccessRulePayload
+  status: PolicyMutationStatus!
+  errors: [PolicyMutationError!]!
+}
+
+input PrivateAccessUpdateRuleInput {
+  id: ID!
+  rule: PrivateAccessUpdateRuleDataInput!
+}
+
+input PrivateAccessRemoveRuleInput {
+  id: ID!
+}
+
+type PrivateAccessPolicyMutationPayload implements IPolicyMutationPayload {
+  policy: PrivateAccessPolicy
+  status: PolicyMutationStatus!
+  errors: [PolicyMutationError!]!
+}
+
+input PrivateAccessPolicyUpdateInput {
+  state: PolicyToggleState
+}
+
+input PrivateAccessUpdateRuleDataInput {
+  enabled: Boolean
+  name: String
+  description: String
+  source: PrivateAccessPolicySourceUpdateInput
+  platform: [OperatingSystem!]
+  country: [CountryRefInput!]
+  applications: PrivateAccessPolicyApplicationUpdateInput
+  connectionOrigin: [PrivateAccessPolicyOriginEnum!]
+  action: PrivateAccessPolicyActionUpdateInput
+  tracking: PolicyTrackingUpdateInput
+  device: [DeviceProfileRefInput!]
+  userAttributes: UserAttributesUpdateInput
+  schedule: PolicyScheduleUpdateInput
+  activePeriod: PolicyRuleActivePeriodUpdateInput
+}
+
+input PrivateAccessPolicySourceUpdateInput {
+  user: [UserRefInput!]
+  usersGroup: [UsersGroupRefInput!]
+}
+
+input PrivateAccessPolicyActionUpdateInput {
+  action: PrivateAccessPolicyActionEnum
+}
+
+input PrivateAccessPolicyApplicationUpdateInput {
+  application: [PrivateApplicationRefInput!]
+}
+
+input UserAttributesUpdateInput {
+  """Matcher for a user's risk score category."""
+  riskScore: RiskScoreConditionUpdateInput
+}
+
+input RiskScoreConditionUpdateInput {
+  category: RiskScoreCategory
+  operator: RiskScoreOperator
+}
+
+type PrivateAccessUserAttributes implements UserAttributes {
+  """Matcher for a user's risk score category."""
+  riskScore: RiskScoreCondition!
+}

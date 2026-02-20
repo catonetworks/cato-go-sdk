@@ -420,6 +420,12 @@ type RegistryResource interface {
 	GetValueType() *string
 }
 
+type UserAttributes interface {
+	IsUserAttributes()
+	// Matcher for a user's risk score category.
+	GetRiskScore() *RiskScoreCondition
+}
+
 type Value interface {
 	IsValue()
 }
@@ -5824,6 +5830,10 @@ type Entity struct {
 
 func (Entity) IsValue() {}
 
+type EntityAccess struct {
+	Action RBACAction `json:"action"`
+}
+
 type EntityInfo struct {
 	Description  string         `json:"description"`
 	Entity       *Entity        `json:"entity"`
@@ -9124,6 +9134,7 @@ type PolicyMutations struct {
 	TLSInspect           *TLSInspectPolicyMutations           `json:"tlsInspect,omitempty"`
 	WanFirewall          *WanFirewallPolicyMutations          `json:"wanFirewall,omitempty"`
 	WanNetwork           *WanNetworkPolicyMutations           `json:"wanNetwork,omitempty"`
+	PrivateAccess        *PrivateAccessPolicyMutations        `json:"privateAccess,omitempty"`
 }
 
 // Published revision is the active policy
@@ -9148,6 +9159,7 @@ type PolicyQueries struct {
 	TLSInspect           *TLSInspectPolicyQueries           `json:"tlsInspect,omitempty"`
 	WanFirewall          *WanFirewallPolicyQueries          `json:"wanFirewall,omitempty"`
 	WanNetwork           *WanNetworkPolicyQueries           `json:"wanNetwork,omitempty"`
+	PrivateAccess        *PrivateAccessPolicyQueries        `json:"privateAccess,omitempty"`
 }
 
 // Input for removing a section from a policy
@@ -9291,8 +9303,9 @@ type PolicyScheduleUpdateInput struct {
 
 // Define settings for a policy section
 type PolicySectionInfo struct {
-	ID   string `json:"id"`
-	Name string `json:"name"`
+	ID          string  `json:"id"`
+	Name        string  `json:"name"`
+	SubPolicyID *string `json:"subPolicyId,omitempty"`
 }
 
 type PolicySectionMutationPayload struct {
@@ -9305,6 +9318,7 @@ type PolicySectionPayload struct {
 	Audit      *PolicyElementAudit           `json:"audit"`
 	Properties []PolicyElementPropertiesEnum `json:"properties"`
 	Section    *PolicySectionInfo            `json:"section"`
+	Access     *EntityAccess                 `json:"access,omitempty"`
 }
 
 type PolicySectionPositionInput struct {
@@ -9538,6 +9552,308 @@ type PostalAddressInput struct {
 	// Zip Code
 	ZipCode *string `json:"zipCode,omitempty"`
 }
+
+type PrivateAccessAddRuleDataInput struct {
+	Enabled          bool                                 `json:"enabled"`
+	Name             string                               `json:"name"`
+	Description      string                               `json:"description"`
+	Source           *PrivateAccessPolicySourceInput      `json:"source"`
+	Platform         []OperatingSystem                    `json:"platform"`
+	Country          []*CountryRefInput                   `json:"country"`
+	Applications     *PrivateAccessPolicyApplicationInput `json:"applications"`
+	ConnectionOrigin []PrivateAccessPolicyOriginEnum      `json:"connectionOrigin"`
+	Action           *PrivateAccessPolicyActionInput      `json:"action"`
+	Tracking         *PolicyTrackingInput                 `json:"tracking"`
+	Device           []*DeviceProfileRefInput             `json:"device"`
+	UserAttributes   *UserAttributesInput                 `json:"userAttributes"`
+	Schedule         *PolicyScheduleInput                 `json:"schedule"`
+	ActivePeriod     *PolicyRuleActivePeriodInput         `json:"activePeriod"`
+}
+
+type PrivateAccessAddRuleInput struct {
+	// Parameters for the rule you are adding
+	Rule *PrivateAccessAddRuleDataInput `json:"rule"`
+	// Position of the rule in the policy
+	At *PolicyRulePositionInput `json:"at,omitempty"`
+}
+
+type PrivateAccessPolicy struct {
+	Enabled  bool                        `json:"enabled"`
+	Rules    []*PrivateAccessRulePayload `json:"rules"`
+	Sections []*PolicySectionPayload     `json:"sections"`
+	Audit    *PolicyAudit                `json:"audit,omitempty"`
+	Revision *PolicyRevision             `json:"revision,omitempty"`
+}
+
+func (PrivateAccessPolicy) IsIPolicy() {}
+
+// TRUE = Policy is enabled, FALSE = Policy is disabled
+func (this PrivateAccessPolicy) GetEnabled() bool { return this.Enabled }
+
+// Return list of rules in the policy
+func (this PrivateAccessPolicy) GetRules() []IPolicyRulePayload {
+	if this.Rules == nil {
+		return nil
+	}
+	interfaceSlice := make([]IPolicyRulePayload, 0, len(this.Rules))
+	for _, concrete := range this.Rules {
+		interfaceSlice = append(interfaceSlice, concrete)
+	}
+	return interfaceSlice
+}
+
+// Return sections in the policy
+func (this PrivateAccessPolicy) GetSections() []*PolicySectionPayload {
+	if this.Sections == nil {
+		return nil
+	}
+	interfaceSlice := make([]*PolicySectionPayload, 0, len(this.Sections))
+	for _, concrete := range this.Sections {
+		interfaceSlice = append(interfaceSlice, concrete)
+	}
+	return interfaceSlice
+}
+
+// Audit data for the policy
+func (this PrivateAccessPolicy) GetAudit() *PolicyAudit { return this.Audit }
+
+// Return data for the Policy revision
+func (this PrivateAccessPolicy) GetRevision() *PolicyRevision { return this.Revision }
+
+type PrivateAccessPolicyAction struct {
+	Action PrivateAccessPolicyActionEnum `json:"action"`
+}
+
+type PrivateAccessPolicyActionInput struct {
+	Action PrivateAccessPolicyActionEnum `json:"action"`
+}
+
+type PrivateAccessPolicyActionUpdateInput struct {
+	Action *PrivateAccessPolicyActionEnum `json:"action,omitempty"`
+}
+
+type PrivateAccessPolicyApplication struct {
+	Application []*PrivateApplicationRef `json:"application"`
+}
+
+type PrivateAccessPolicyApplicationInput struct {
+	Application []*PrivateApplicationRefInput `json:"application"`
+}
+
+type PrivateAccessPolicyApplicationUpdateInput struct {
+	Application []*PrivateApplicationRefInput `json:"application,omitempty"`
+}
+
+type PrivateAccessPolicyInput struct {
+	// A revision is a specific instance of the policy.
+	//  Unpublished revisions are working copies of the policy available to a specific
+	//  admin or a set of admins
+	//  Published revisions are revisions that were applied to the account network.
+	//  The last published revision is the active policy.
+	Revision *PolicyRevisionInput `json:"revision,omitempty"`
+}
+
+type PrivateAccessPolicyMutationInput struct {
+	Revision *PolicyMutationRevisionInput `json:"revision,omitempty"`
+}
+
+type PrivateAccessPolicyMutationPayload struct {
+	Policy *PrivateAccessPolicy   `json:"policy,omitempty"`
+	Status PolicyMutationStatus   `json:"status"`
+	Errors []*PolicyMutationError `json:"errors"`
+}
+
+func (PrivateAccessPolicyMutationPayload) IsIPolicyMutationPayload() {}
+
+// Data for the policy
+func (this PrivateAccessPolicyMutationPayload) GetPolicy() IPolicy { return *this.Policy }
+
+// Enum for the status of the policy change
+func (this PrivateAccessPolicyMutationPayload) GetStatus() PolicyMutationStatus { return this.Status }
+
+// List of errors related to the policy change
+func (this PrivateAccessPolicyMutationPayload) GetErrors() []*PolicyMutationError {
+	if this.Errors == nil {
+		return nil
+	}
+	interfaceSlice := make([]*PolicyMutationError, 0, len(this.Errors))
+	for _, concrete := range this.Errors {
+		interfaceSlice = append(interfaceSlice, concrete)
+	}
+	return interfaceSlice
+}
+
+type PrivateAccessPolicyMutations struct {
+	AddRule               *PrivateAccessRuleMutationPayload   `json:"addRule"`
+	UpdateRule            *PrivateAccessRuleMutationPayload   `json:"updateRule"`
+	RemoveRule            *PrivateAccessRuleMutationPayload   `json:"removeRule"`
+	MoveRule              *PrivateAccessRuleMutationPayload   `json:"moveRule"`
+	AddSection            *PolicySectionMutationPayload       `json:"addSection"`
+	UpdateSection         *PolicySectionMutationPayload       `json:"updateSection"`
+	RemoveSection         *PolicySectionMutationPayload       `json:"removeSection"`
+	MoveSection           *PolicySectionMutationPayload       `json:"moveSection"`
+	CreatePolicyRevision  *PrivateAccessPolicyMutationPayload `json:"createPolicyRevision"`
+	PublishPolicyRevision *PrivateAccessPolicyMutationPayload `json:"publishPolicyRevision"`
+	DiscardPolicyRevision *PrivateAccessPolicyMutationPayload `json:"discardPolicyRevision"`
+	UpdatePolicy          *PrivateAccessPolicyMutationPayload `json:"updatePolicy"`
+}
+
+type PrivateAccessPolicyQueries struct {
+	Policy    *PrivateAccessPolicy    `json:"policy"`
+	Revisions *PolicyRevisionsPayload `json:"revisions,omitempty"`
+}
+
+type PrivateAccessPolicySource struct {
+	User       []*UserRef       `json:"user"`
+	UsersGroup []*UsersGroupRef `json:"usersGroup"`
+}
+
+type PrivateAccessPolicySourceInput struct {
+	User       []*UserRefInput       `json:"user"`
+	UsersGroup []*UsersGroupRefInput `json:"usersGroup"`
+}
+
+type PrivateAccessPolicySourceUpdateInput struct {
+	User       []*UserRefInput       `json:"user,omitempty"`
+	UsersGroup []*UsersGroupRefInput `json:"usersGroup,omitempty"`
+}
+
+type PrivateAccessPolicyUpdateInput struct {
+	State *PolicyToggleState `json:"state,omitempty"`
+}
+
+type PrivateAccessRemoveRuleInput struct {
+	ID string `json:"id"`
+}
+
+type PrivateAccessRule struct {
+	// Rule ID
+	ID string `json:"id"`
+	// Name of the rule
+	Name string `json:"name"`
+	// Description for the rule
+	Description string `json:"description"`
+	// Position / priority of rule
+	Index int64 `json:"index"`
+	// Policy section where the rule is located
+	Section *PolicySectionInfo `json:"section"`
+	// TRUE = Rule is enabled
+	//  FALSE = Rule is disabled
+	Enabled          bool                            `json:"enabled"`
+	Source           *PrivateAccessPolicySource      `json:"source"`
+	Platform         []OperatingSystem               `json:"platform"`
+	Country          []*CountryRef                   `json:"country"`
+	Applications     *PrivateAccessPolicyApplication `json:"applications"`
+	ConnectionOrigin []PrivateAccessPolicyOriginEnum `json:"connectionOrigin"`
+	Action           *PrivateAccessPolicyAction      `json:"action"`
+	Tracking         *PolicyTracking                 `json:"tracking"`
+	Device           []*DeviceProfileRef             `json:"device"`
+	UserAttributes   *PrivateAccessUserAttributes    `json:"userAttributes"`
+	Schedule         *PolicySchedule                 `json:"schedule"`
+	ActivePeriod     *PolicyRuleActivePeriod         `json:"activePeriod"`
+}
+
+func (PrivateAccessRule) IsIPolicyRule() {}
+
+// Rule ID
+func (this PrivateAccessRule) GetID() string { return this.ID }
+
+// Name of the rule
+func (this PrivateAccessRule) GetName() string { return this.Name }
+
+// Description for the rule
+func (this PrivateAccessRule) GetDescription() *string { return &this.Description }
+
+// Position / priority of rule
+func (this PrivateAccessRule) GetIndex() int64 { return this.Index }
+
+// TRUE = Rule is enabled, FALSE = Rule is disabled
+func (this PrivateAccessRule) GetEnabled() bool { return this.Enabled }
+
+// Policy section where the rule is located
+func (this PrivateAccessRule) GetSection() *PolicySectionInfo { return this.Section }
+
+type PrivateAccessRuleMutationPayload struct {
+	Rule   *PrivateAccessRulePayload `json:"rule,omitempty"`
+	Status PolicyMutationStatus      `json:"status"`
+	Errors []*PolicyMutationError    `json:"errors"`
+}
+
+func (PrivateAccessRuleMutationPayload) IsIPolicyRuleMutationPayload() {}
+
+// Returns settings for the rule
+func (this PrivateAccessRuleMutationPayload) GetRule() IPolicyRulePayload { return *this.Rule }
+
+// Enum for the status of the policy change
+func (this PrivateAccessRuleMutationPayload) GetStatus() PolicyMutationStatus { return this.Status }
+
+// List of errors related to the policy change
+func (this PrivateAccessRuleMutationPayload) GetErrors() []*PolicyMutationError {
+	if this.Errors == nil {
+		return nil
+	}
+	interfaceSlice := make([]*PolicyMutationError, 0, len(this.Errors))
+	for _, concrete := range this.Errors {
+		interfaceSlice = append(interfaceSlice, concrete)
+	}
+	return interfaceSlice
+}
+
+type PrivateAccessRulePayload struct {
+	Audit      *PolicyElementAudit           `json:"audit"`
+	Rule       *PrivateAccessRule            `json:"rule"`
+	Properties []PolicyElementPropertiesEnum `json:"properties"`
+}
+
+func (PrivateAccessRulePayload) IsIPolicyRulePayload()              {}
+func (this PrivateAccessRulePayload) GetAudit() *PolicyElementAudit { return this.Audit }
+
+// Rule that was changed
+func (this PrivateAccessRulePayload) GetRule() IPolicyRule { return *this.Rule }
+
+// Summary of rule change, (ie. ADDED, UPDATED)
+func (this PrivateAccessRulePayload) GetProperties() []PolicyElementPropertiesEnum {
+	if this.Properties == nil {
+		return nil
+	}
+	interfaceSlice := make([]PolicyElementPropertiesEnum, 0, len(this.Properties))
+	for _, concrete := range this.Properties {
+		interfaceSlice = append(interfaceSlice, concrete)
+	}
+	return interfaceSlice
+}
+
+type PrivateAccessUpdateRuleDataInput struct {
+	Enabled          *bool                                      `json:"enabled,omitempty"`
+	Name             *string                                    `json:"name,omitempty"`
+	Description      *string                                    `json:"description,omitempty"`
+	Source           *PrivateAccessPolicySourceUpdateInput      `json:"source,omitempty"`
+	Platform         []OperatingSystem                          `json:"platform,omitempty"`
+	Country          []*CountryRefInput                         `json:"country,omitempty"`
+	Applications     *PrivateAccessPolicyApplicationUpdateInput `json:"applications,omitempty"`
+	ConnectionOrigin []PrivateAccessPolicyOriginEnum            `json:"connectionOrigin,omitempty"`
+	Action           *PrivateAccessPolicyActionUpdateInput      `json:"action,omitempty"`
+	Tracking         *PolicyTrackingUpdateInput                 `json:"tracking,omitempty"`
+	Device           []*DeviceProfileRefInput                   `json:"device,omitempty"`
+	UserAttributes   *UserAttributesUpdateInput                 `json:"userAttributes,omitempty"`
+	Schedule         *PolicyScheduleUpdateInput                 `json:"schedule,omitempty"`
+	ActivePeriod     *PolicyRuleActivePeriodUpdateInput         `json:"activePeriod,omitempty"`
+}
+
+type PrivateAccessUpdateRuleInput struct {
+	ID   string                            `json:"id"`
+	Rule *PrivateAccessUpdateRuleDataInput `json:"rule"`
+}
+
+type PrivateAccessUserAttributes struct {
+	// Matcher for a user's risk score category.
+	RiskScore *RiskScoreCondition `json:"riskScore"`
+}
+
+func (PrivateAccessUserAttributes) IsUserAttributes() {}
+
+// Matcher for a user's risk score category.
+func (this PrivateAccessUserAttributes) GetRiskScore() *RiskScoreCondition { return this.RiskScore }
 
 type PrivateAppProbing struct {
 	ID                 string `json:"id"`
@@ -10163,6 +10479,21 @@ type ReplaceSiteBwLicenseInput struct {
 
 type ReplaceSiteBwLicensePayload struct {
 	License License `json:"license"`
+}
+
+type RiskScoreCondition struct {
+	Category RiskScoreCategory `json:"category"`
+	Operator RiskScoreOperator `json:"operator"`
+}
+
+type RiskScoreConditionInput struct {
+	Category RiskScoreCategory `json:"category"`
+	Operator RiskScoreOperator `json:"operator"`
+}
+
+type RiskScoreConditionUpdateInput struct {
+	Category *RiskScoreCategory `json:"category,omitempty"`
+	Operator *RiskScoreOperator `json:"operator,omitempty"`
 }
 
 // SaaS Security API service license details
@@ -13825,6 +14156,16 @@ type UploadFileInput struct {
 type UploadFilePayload struct {
 	//  Upload URL (HTTP PUT)
 	UploadURL *string `json:"uploadUrl,omitempty"`
+}
+
+type UserAttributesInput struct {
+	// Matcher for a user's risk score category.
+	RiskScore *RiskScoreConditionInput `json:"riskScore"`
+}
+
+type UserAttributesUpdateInput struct {
+	// Matcher for a user's risk score category.
+	RiskScore *RiskScoreConditionUpdateInput `json:"riskScore,omitempty"`
 }
 
 // Basic User configuration information
@@ -23007,6 +23348,105 @@ func (e PolicyToggleState) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
+type PrivateAccessPolicyActionEnum string
+
+const (
+	PrivateAccessPolicyActionEnumAllow PrivateAccessPolicyActionEnum = "ALLOW"
+	PrivateAccessPolicyActionEnumBlock PrivateAccessPolicyActionEnum = "BLOCK"
+)
+
+var AllPrivateAccessPolicyActionEnum = []PrivateAccessPolicyActionEnum{
+	PrivateAccessPolicyActionEnumAllow,
+	PrivateAccessPolicyActionEnumBlock,
+}
+
+func (e PrivateAccessPolicyActionEnum) IsValid() bool {
+	switch e {
+	case PrivateAccessPolicyActionEnumAllow, PrivateAccessPolicyActionEnumBlock:
+		return true
+	}
+	return false
+}
+
+func (e PrivateAccessPolicyActionEnum) String() string {
+	return string(e)
+}
+
+func (e *PrivateAccessPolicyActionEnum) UnmarshalGQL(v any) error {
+	str, ok := v.(string)
+	if !ok {
+		return fmt.Errorf("enums must be strings")
+	}
+
+	*e = PrivateAccessPolicyActionEnum(str)
+	if !e.IsValid() {
+		return fmt.Errorf("%s is not a valid PrivateAccessPolicyActionEnum", str)
+	}
+	return nil
+}
+
+func (e PrivateAccessPolicyActionEnum) MarshalGQL(w io.Writer) {
+	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+// Defines Origin of the connection
+type PrivateAccessPolicyOriginEnum string
+
+const (
+	PrivateAccessPolicyOriginEnumAny PrivateAccessPolicyOriginEnum = "ANY"
+	// Any Remote option
+	PrivateAccessPolicyOriginEnumRemote PrivateAccessPolicyOriginEnum = "REMOTE"
+	// User is connecting from the Browser Extension
+	PrivateAccessPolicyOriginEnumRemoteExtension PrivateAccessPolicyOriginEnum = "REMOTE_EXTENSION"
+	// User is connecting from the SDP client
+	PrivateAccessPolicyOriginEnumRemoteClient PrivateAccessPolicyOriginEnum = "REMOTE_CLIENT"
+	// User is connecting from the Enterprise Browser
+	PrivateAccessPolicyOriginEnumRemoteBrowser PrivateAccessPolicyOriginEnum = "REMOTE_BROWSER"
+	// User is connecting from the Application Portal
+	PrivateAccessPolicyOriginEnumRemotePortal PrivateAccessPolicyOriginEnum = "REMOTE_PORTAL"
+	// User is connecting from Site
+	PrivateAccessPolicyOriginEnumSite PrivateAccessPolicyOriginEnum = "SITE"
+)
+
+var AllPrivateAccessPolicyOriginEnum = []PrivateAccessPolicyOriginEnum{
+	PrivateAccessPolicyOriginEnumAny,
+	PrivateAccessPolicyOriginEnumRemote,
+	PrivateAccessPolicyOriginEnumRemoteExtension,
+	PrivateAccessPolicyOriginEnumRemoteClient,
+	PrivateAccessPolicyOriginEnumRemoteBrowser,
+	PrivateAccessPolicyOriginEnumRemotePortal,
+	PrivateAccessPolicyOriginEnumSite,
+}
+
+func (e PrivateAccessPolicyOriginEnum) IsValid() bool {
+	switch e {
+	case PrivateAccessPolicyOriginEnumAny, PrivateAccessPolicyOriginEnumRemote, PrivateAccessPolicyOriginEnumRemoteExtension, PrivateAccessPolicyOriginEnumRemoteClient, PrivateAccessPolicyOriginEnumRemoteBrowser, PrivateAccessPolicyOriginEnumRemotePortal, PrivateAccessPolicyOriginEnumSite:
+		return true
+	}
+	return false
+}
+
+func (e PrivateAccessPolicyOriginEnum) String() string {
+	return string(e)
+}
+
+func (e *PrivateAccessPolicyOriginEnum) UnmarshalGQL(v any) error {
+	str, ok := v.(string)
+	if !ok {
+		return fmt.Errorf("enums must be strings")
+	}
+
+	*e = PrivateAccessPolicyOriginEnum(str)
+	if !e.IsValid() {
+		return fmt.Errorf("%s is not a valid PrivateAccessPolicyOriginEnum", str)
+	}
+	return nil
+}
+
+func (e PrivateAccessPolicyOriginEnum) MarshalGQL(w io.Writer) {
+	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
 type ProtoType string
 
 const (
@@ -23755,6 +24195,94 @@ func (e *RiskLevelEnum) UnmarshalGQL(v any) error {
 }
 
 func (e RiskLevelEnum) MarshalGQL(w io.Writer) {
+	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+type RiskScoreCategory string
+
+const (
+	RiskScoreCategoryAny      RiskScoreCategory = "ANY"
+	RiskScoreCategoryLow      RiskScoreCategory = "LOW"
+	RiskScoreCategoryMedium   RiskScoreCategory = "MEDIUM"
+	RiskScoreCategoryHigh     RiskScoreCategory = "HIGH"
+	RiskScoreCategoryCritical RiskScoreCategory = "CRITICAL"
+)
+
+var AllRiskScoreCategory = []RiskScoreCategory{
+	RiskScoreCategoryAny,
+	RiskScoreCategoryLow,
+	RiskScoreCategoryMedium,
+	RiskScoreCategoryHigh,
+	RiskScoreCategoryCritical,
+}
+
+func (e RiskScoreCategory) IsValid() bool {
+	switch e {
+	case RiskScoreCategoryAny, RiskScoreCategoryLow, RiskScoreCategoryMedium, RiskScoreCategoryHigh, RiskScoreCategoryCritical:
+		return true
+	}
+	return false
+}
+
+func (e RiskScoreCategory) String() string {
+	return string(e)
+}
+
+func (e *RiskScoreCategory) UnmarshalGQL(v any) error {
+	str, ok := v.(string)
+	if !ok {
+		return fmt.Errorf("enums must be strings")
+	}
+
+	*e = RiskScoreCategory(str)
+	if !e.IsValid() {
+		return fmt.Errorf("%s is not a valid RiskScoreCategory", str)
+	}
+	return nil
+}
+
+func (e RiskScoreCategory) MarshalGQL(w io.Writer) {
+	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+type RiskScoreOperator string
+
+const (
+	RiskScoreOperatorGte RiskScoreOperator = "GTE"
+	RiskScoreOperatorLte RiskScoreOperator = "LTE"
+)
+
+var AllRiskScoreOperator = []RiskScoreOperator{
+	RiskScoreOperatorGte,
+	RiskScoreOperatorLte,
+}
+
+func (e RiskScoreOperator) IsValid() bool {
+	switch e {
+	case RiskScoreOperatorGte, RiskScoreOperatorLte:
+		return true
+	}
+	return false
+}
+
+func (e RiskScoreOperator) String() string {
+	return string(e)
+}
+
+func (e *RiskScoreOperator) UnmarshalGQL(v any) error {
+	str, ok := v.(string)
+	if !ok {
+		return fmt.Errorf("enums must be strings")
+	}
+
+	*e = RiskScoreOperator(str)
+	if !e.IsValid() {
+		return fmt.Errorf("%s is not a valid RiskScoreOperator", str)
+	}
+	return nil
+}
+
+func (e RiskScoreOperator) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 

@@ -106,7 +106,7 @@ func main() {
 		fmt.Printf("Rule Name: %s\n", ruleName)
 
 		// Display properties if available
-		if len(policyResult.Policy..TLSInspect.Policy.Sections) > 0 {
+		if len(policyResult.Policy.TLSInspect.Policy.Sections) > 0 {
 			fmt.Printf("Total sections in policy: %d\n", len(policyResult.Policy.TlsInspect.Policy.Sections))
 			// Look for our specific rule
 			for _, rule := range policyResult.Policy.TlsInspect.Policy.Rules {

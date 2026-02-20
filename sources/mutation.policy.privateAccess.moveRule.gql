@@ -1,0 +1,18 @@
+mutation policyPrivateAccessMoveRule ( $accountID: ID!, $input: PolicyMoveRuleInput! ) {
+  policy ( accountId: $accountID ) {
+    privateAccess {
+      moveRule(input: $input) {
+        rule {
+          rule {
+            id
+          }
+        }
+        status
+        errors {
+          errorCode
+          errorMessage
+        }
+      }
+    }
+  }
+}

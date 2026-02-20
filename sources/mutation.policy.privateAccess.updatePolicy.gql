@@ -1,0 +1,13 @@
+mutation policyPrivateAccessUpdatePolicy ( $accountID: ID!, $input: PrivateAccessPolicyUpdateInput! ) {
+  policy ( accountId: $accountID ) {
+    privateAccess {
+      updatePolicy(input: $input) {
+        status
+        errors {
+          errorCode
+          errorMessage
+        }
+      }
+    }
+  }
+}
