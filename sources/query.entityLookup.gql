@@ -1,0 +1,14 @@
+query entityLookup($accountID: ID!, $type: EntityType!, $limit: Int, $from: Int, $parent: EntityInput, $search: String, $entityIDs: [ID!], $sort: [SortInput], $filters: [LookupFilterInput], $helperFields: [String!]){
+    entityLookup(accountID: $accountID, type: $type, limit: $limit, from: $from, parent: $parent, search: $search, entityIDs: $entityIDs, sort: $sort, filters: $filters, helperFields: $helperFields){
+        items{
+            entity{
+                id
+                name
+                type
+            }
+            description
+            helperFields
+        }
+        total
+    }
+}
