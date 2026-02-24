@@ -11,7 +11,7 @@ import (
 	"regexp"
 	"time"
 
-	"github.com/gqlgo/gqlgenc/clientv2"
+	"github.com/Yamashou/gqlgenc/clientv2"
 	"github.com/hashicorp/go-retryablehttp"
 )
 
