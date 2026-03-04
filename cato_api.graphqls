@@ -2174,6 +2174,7 @@ type SiteMutations {
   """
   updateSiteBwLicense(input: UpdateSiteBwLicenseInput!): UpdateSiteBwLicensePayload @beta
   updateSiteGeneralDetails(siteId: ID!, input: UpdateSiteGeneralDetailsInput!): UpdateSiteGeneralDetailsPayload @ga
+  updateSiteSocketConfiguration(input: UpdateSiteSocketConfigurationInput!): UpdateSiteSocketConfigurationPayload @beta
   updateSocketInterface(siteId: ID!, socketInterfaceId: SocketInterfaceIDEnum!, input: UpdateSocketInterfaceInput!): UpdateSocketInterfacePayload @ga
   updateStaticHost(hostId: ID!, input: UpdateStaticHostInput!): UpdateStaticHostPayload @ga
 }
@@ -2395,6 +2396,42 @@ input SocketPortMetricsFilter {
 input SocketPortMetricsSort {
   fieldName: SocketPortMetricsFieldName!
   order: DirectionEnum!
+}
+
+input UpdateSiteSocketConfigurationInput {
+  """Configuration for the primary Socket of the site."""
+  primarySocketConfiguration: SocketConfigurationInput
+  """Configuration for the secondary Socket of the site."""
+  secondarySocketConfiguration: SocketConfigurationInput
+  """Identifies the site."""
+  site: SiteRefInput!
+}
+
+input SocketConfigurationInput {
+  """A description for the Socket."""
+  description: String
+}
+
+input SiteSocketConfigurationInput {
+  """Identifies the site."""
+  site: SiteRefInput!
+}
+
+type SocketConfiguration {
+  """A description for the Socket."""
+  description: String
+}
+
+type UpdateSiteSocketConfigurationPayload {
+  """The updated Socket configuration for the site."""
+  siteSocketConfiguration: SiteSocketConfiguration!
+}
+
+type SiteSocketConfiguration {
+  """Configuration for the primary Socket of the site."""
+  primarySocketConfiguration: SocketConfiguration!
+  """Configuration for the secondary Socket of the site."""
+  secondarySocketConfiguration: SocketConfiguration
 }
 
 input AddSocketSiteInput {
@@ -3479,7 +3516,6 @@ Use the EventFieldName for events, and AuditFieldName for audit
 """
 input FieldNameInput {
   AuditFieldName: AuditFieldName
-  EventFieldName: EventFieldName
 }
 
 input AuditFieldFilterInput {
@@ -4422,6 +4458,7 @@ enum SocketPlatform {
   X1500_BR2
   X1500B_BR2
   X1600
+  X1600_5G
   X1600_LTE
   X1700
   X1700B
@@ -5558,6 +5595,46 @@ input IpAddressRangeContainerRefInput {
   input: String!
 }
 
+"A group with members of a single type of entity (for example: IP, FQDN)"
+type ContainerRef implements ObjectRef {
+  "Unique container ID"
+  id: ID!
+  "Name for the container"
+  name: String!
+}
+
+"""Referring a location object"""
+type LocationRef implements ObjectRef {
+  id: ID!
+  name: String!
+}
+
+"""Referring an invoice object"""
+type InvoiceRef implements ObjectRef {
+  id: ID!
+  name: String!
+}
+
+"A reference identifying the UserNotificationTemplate object. ID: Unique UserNotificationTemplate Identifier, Name: The UserNotificationTemplate Name"
+type UserNotificationTemplateRef implements ObjectRef {
+  id: ID!
+  name: String!
+}
+
+"A reference identifying the UserNotificationAiSecurityTemplate object. ID: Unique UserNotificationAiSecurityTemplate Identifier, Name: The UserNotificationAiSecurityTemplate Name"
+type UserNotificationAiSecurityTemplateRef implements ObjectRef {
+  id: ID!
+  name: String!
+}
+
+"""
+A reference identifying the Application Connector object. ID: Unique Application Connector Identifier, Name: The Application Connector Name
+"""
+type ApplicationConnectorCatalogEntityRef implements ObjectRef {
+  id: ID!
+  name: String!
+}
+
 enum AccountInclusion {
   ALL_ACCOUNTS
   MANAGED_ACCOUNTS_ONLY
@@ -5699,7 +5776,7 @@ input PostalAddressInput {
   "State (only for USA)"
   stateName: String
   "Street name and number"
-  street: String
+  street: String @deprecated(reason: "replaced by address1 and address2")
   "Zip Code"
   zipCode: String
 }
@@ -5711,6 +5788,12 @@ input ContactDetailsInput {
   name: String
   "Contact phone number"
   phone: Phone
+}
+
+enum RBACAction {
+  EDIT
+  NONE
+  VIEW
 }
 
 "System categories for TLS inspection policy"
@@ -5762,111 +5845,202 @@ input BgpCommunityInput {
   to: Asn16!
 }
 
+type EntityAccess {
+  action: RBACAction!
+}
+
+type ZtnaAppConnectorRef implements ObjectRef {
+  "Unique ZTNA app connector ID"
+  id: ID!
+  "Name for the ZTNA app connector"
+  name: String!
+}
+
 enum AppStatsFieldName {
-  "Active Directory name"
+  "Account ID. CMA Name: Account ID"
+  account_id
+  "Account name. CMA Name: Account Name"
+  account_name
+  "Active Directory name. CMA Name: Ad Name"
   ad_name
-  "The application identifier"
-  app @deprecated(reason: "use application_id instead")
-  "The application name"
-  application @deprecated(reason: "use application_name instead")
-  "Application description"
+  "AI Proxy rule name. CMA Name: AI Proxy Rule Name"
+  ai_proxy_rule_name
+  "Application ID of the flow, in legacy format. CMA Name: Appid"
+  app @deprecated(reason: "use application_id instead. Planned end-of-life (EoL) date: June 30, 2026.")
+  "The application identifier. CMA Name: Application"
+  application @deprecated(reason: "use application_name instead. Planned end-of-life (EoL) date: June 30, 2026.")
+  "Description of the application. CMA Name: Application Description"
   application_description
-  "The application identifier"
+  "Application ID of the flow. CMA Name: Application ID"
   application_id
-  "The application name"
+  "Application of the flow. CMA Name: Application Name"
   application_name
-  ""
+  "Application risk level based on the application risk score. CMA Name: Application Risk Level"
   application_risk_level
-  "The application risk score assigned by Cato"
+  "Risk score of the application, based on Cato's risk assessment. CMA Name: Application Risk Score"
   application_risk_score
-  "Cato system categories of the application"
+  "Application type (Custom, Private or System). CMA Name: Application Type"
+  application_type
+  "Cato system category. CMA Name: Categories"
   categories
-  "Cato system category of the application"
-  category @deprecated(reason: "use categories instead")
-  "For hosts configured with a static IP in the Cato Management Application, the host name"
+  "Cato system category of the application. CMA Name: Category"
+  category @deprecated(reason: "use categories instead. Planned end-of-life (EoL) date: June 30, 2026.")
+  "Type of process generating this traffic. CMA Name: Client Class"
+  client_class
+  "Socket or SDP Client version. CMA Name: Client Version"
+  client_version
+  "For hosts configured with a static IP in the Cato Management Application, the host name. CMA Name: Configured Host Name"
   configured_host_name
-  "Application description"
-  description @deprecated(reason: "use application_description instead")
-  "IP for destination host or Cato Client"
+  "Connection Origin. CMA Name: Connection Origin"
+  connection_origin
+  "Application description. CMA Name: Description"
+  description @deprecated(reason: "use application_description instead. Planned end-of-life (EoL) date: June 30, 2026.")
+  "For Internet traffic, country where the destination host is located. CMA Name: Destination Country"
+  dest_country
+  "For Internet traffic, destination host IP address. CMA Name: Dest Ip"
   dest_ip
-  "Destination is site or remote user"
+  "For WAN traffic, destination is site or SDP user. CMA Name: Dest Is Site Or Vpn"
   dest_is_site_or_vpn
-  "Destination site or remote user identifier"
+  "Destination port. CMA Name: Destination Port"
+  dest_port
+  "Destination Site or VPN user ID (proto). CMA Name: Dest Site"
   dest_site
-  "Destination Site or remote user identifier"
+  "Unique internal Cato ID for the destination site or remote user. CMA Name: Dest Site ID"
   dest_site_id
-  "Destination Site or remote user name"
+  "For Internet traffic, destination host IP address. CMA Name: Dest Site Name"
   dest_site_name
-  "Name for device related to the traffic"
+  "Device Categories. CMA Name: Device Category"
+  device_categories
+  "Unique Cato ID for devices. CMA Name: Device ID"
+  device_id
+  "Device Manufacturer. CMA Name: Device Manufacturer"
+  device_manufacturer
+  "Device Model. CMA Name: Device Model"
+  device_model
+  "Name for device related to the traffic. CMA Name: Device Name"
   device_name
-  ""
+  "Device OS Type. CMA Name: Device OS Type"
+  device_os_type
+  "Device posture profiles. CMA Name: Device Posture Profile"
+  device_posture_profile
+  "Device Type. CMA Name: Device Type"
+  device_type
+  "Total SaaS apps discovered ever until the To in the timeframe. CMA Name: Discovered App"
   discovered_app
-  ""
-  domain @deprecated(reason: "user tld instead")
-  "data downloaded from cloud applications"
+  "Domain name. CMA Name: Domain Name"
+  domain @deprecated(reason: "use tld instead. Planned end-of-life (EoL) date: July 1, 2026.")
+  "Bytes sent from the destination to the host. CMA Name: Downstream"
   downstream
-  ""
+  "Duration of the flow in ms. Only available for native flows data integration created in the CMA (e.g. Sentinel). Not available in the appstats or appstatsTimeSeries API."
+  duration
+  "Egress PoP Name. CMA Name: Egress PoP Name"
+  egress_pop_name
+  "Egress Site Name for backhauling traffic. CMA Name: Egress Site"
+  egress_site_name
+  "Uniquely identifies a traffic flow and enables correlation of events and other records related to the same flow. Only available for native flows data integration created in the CMA (e.g. Sentinel). Not available in the appstats or appstatsTimeSeries API."
+  flow_id
+  "Time stamp of the flow start (Linux epoch format). Only available for native flows data integration created in the CMA (e.g. Sentinel). Not available in the appstats or appstatsTimeSeries API."
+  flow_start_time
+  "Number of flows created for this event. CMA Name: Flows Created"
   flows_created
-  "the country in which the registered application headquarteres is located"
+  "Full path URL application activity. CMA Name: Full Path URL"
+  full_path_url
+  "IP address of host related to event. CMA Name: Host IP"
+  host_ip
+  "MAC address of host related to event. CMA Name: Host MAC Address"
+  host_mac
+  "Country of the application headquarters. CMA Name: Hq Location"
   hq_location
-  ""
-  ip
-  "indicates whether the application is considered cloud app/SaaS app"
+  "HTTP request method (ie. Get, Post). CMA Name: Request Method"
+  http_request_method
+  "Local IP address of the host. CMA Name: Local Ip"
+  ip @deprecated(reason: "use src_ip/dest_ip instead. Planned end-of-life (EoL) date: July 1, 2026.")
+  "Network protocol for this event. CMA Name: IP Protocol"
+  ip_protocol
+  "Is the application a cloud application? (True/False). CMA Name: Is Cloud App"
   is_cloud_app
-  "Is the application defined as sanctioned?"
+  "Is last sample for flow. Only available for native flows data integration created in the CMA (e.g. Sentinel). Not available in the appstats or appstatsTimeSeries API."
+  is_flow_terminated
+  "Is the app for this event defined as a sanctioned app? (True/False). CMA Name: Is Sanctioned App"
   is_sanctioned_app
-  "The ISP related to this event (when the IP address isn't provided by the ISP, then the event message is IP Addresses are assigned statically)"
+  "The ISP related to this event (when the IP address isn't provided by the ISP, then the event message is IP Addresses are assigned statically). CMA Name: ISP Name"
   ISP_name
-  "new cloud application identifier"
+  "Matched network rule. CMA Name: Network Rule"
+  network_rule
+  "new_app. CMA Name: New App"
   new_app
-  ""
-  risk_level @deprecated(reason: "use application_risk_level instead")
-  "the application risk score assigned by Cato"
-  risk_score @deprecated(reason: "use application_risk_score instead")
-  "Is the application defined as sanctioned?"
-  sanctioned @deprecated(reason: "use is_sanctioned_app instead")
-  "Country in which the source host is located"
+  "OS version for the device (such as 14.3.0). CMA Name: OS Version"
+  os_version
+  "Name of PoP location. CMA Name: Pop Name"
+  pop_name
+  "QoS Priority value. CMA Name: QoS Priority"
+  qos_priority
+  "risk_level. CMA Name: Risk Level"
+  risk_level @deprecated(reason: "use application_risk_level instead. Planned end-of-life (EoL) date: June 30, 2026.")
+  "The application risk score assigned by Cato. CMA Name: Risk Score"
+  risk_score @deprecated(reason: "use application_risk_score instead. Planned end-of-life (EoL) date: June 30, 2026.")
+  "Is the application defined as sanctioned?. CMA Name: Sanctioned"
+  sanctioned @deprecated(reason: "use is_sanctioned_app instead. Planned end-of-life (EoL) date: June 30, 2026.")
+  "Country in which the source host is located. CMA Name: Site Country"
   site_country
-  "State in which the source host is located"
+  "State in which the source host is located. CMA Name: Site State"
   site_state
-  "Name for Socket interface"
+  "Name for Socket interface. CMA Name: Socket Interface"
   socket_interface
-  "Country in which the source host is located (detected via public IP address)"
+  "Country in which the source host is located (detected via public IP address). CMA Name: Source Country"
   src_country
-  "Country Code of country in which the source host is located (detected via public IP address)"
+  "Country Code of country in which the source host is located (detected via public IP address). CMA Name: Source Country Code"
   src_country_code
-  "IP for source host or Cato Client"
+  "IP for host or Cato Client. CMA Name: Src Ip"
   src_ip
-  "Source is site or remote user"
+  "Source type: site or remote user. CMA Name: Src Is Site Or Vpn"
   src_is_site_or_vpn
-  "IP address provided by ISP to site or Client"
+  "IP address provided by ISP to site or Client. CMA Name: Source ISP IP"
   src_isp_ip
-  "Site country code alpha2"
+  "Internal port number. CMA Name: Source Port"
+  src_port
+  "Site country code alpha2. CMA Name: Src Site Country Code"
   src_site_country_code
-  "Source site or remote user identifier"
+  "Unique internal Cato ID for the site or remote user. CMA Name: Src Site ID"
   src_site_id
-  "Source site or remote user name"
+  "Source site or remote user. CMA Name: Src Site Name"
   src_site_name
-  "Site state code"
+  "Site state code. CMA Name: Src Site State"
   src_site_state
-  "Name of subnet as defined in Cato Management Application"
-  subnet @deprecated(reason: "use subnet_name instead")
-  "Name of subnet as defined in Cato Management Application"
+  "Name of subnet as defined in Cato Management Application. CMA Name: Subnet"
+  subnet @deprecated(reason: "use subnet_name instead. Planned end-of-life (EoL) date: June 30, 2026.")
+  "Name of subnet as defined in Cato Management Application. CMA Name: Subnet Name"
   subnet_name
-  "Top level domain"
+  "Shows if traffic was TCP accelerated or not. CMA Name: TCP Acceleration"
+  tcp_acceleration
+  "Time stamp of the flow update (Human-readable format). Only available for native flows data integration created in the CMA (e.g. Sentinel). Not available in the appstats or appstatsTimeSeries API."
+  time_str
+  "Top Level Domain of the host name. CMA Name: Tld"
   tld
-  "the total sum of upstream and downstream data in bytes"
-  traffic @deprecated(reason: "use traffic_direction instead")
-  "Traffic direction"
+  "Shows if traffic was TLS inspected or not. CMA Name: TLS Inspection"
+  tls_inspection
+  "TLS Inspection rule name. CMA Name: TLS Rule Name"
+  tls_rule_name
+  "The total sum of upstream and downstream data in bytes. CMA Name: Traffic"
+  traffic
+  "Direction of network traffic for this event, values are inbound or outbound. CMA Name: Traffic Direction"
   traffic_direction
-  "data uploaded to cloud applications"
+  "Translated Client IP. CMA Name: Translated Client IP"
+  translated_client_ip
+  "Translated Server IP. CMA Name: Translated Server IP"
+  translated_server_ip
+  "Bytes sent from the host to the destination. CMA Name: Upstream"
   upstream
-  "User identifier"
+  "Method used to get identity with User Awareness (such as Identity Agent). CMA Name: User Awareness Method"
+  user_awareness_method
+  "User ID. CMA Name: User ID"
   user_id
-  "User name"
+  "User that generated the event. CMA Name: User Name"
   user_name
-  ""
-  vpn_user_id @deprecated(reason: "use user_id instead")
+  "User’s email address. CMA Name: SDP User Email"
+  vpn_user_email
+  "User ID. CMA Name: Vpn User ID"
+  vpn_user_id @deprecated(reason: "use user_id instead. Planned end-of-life (EoL) date: June 30, 2026.")
 }
 
 type AppStats {
@@ -6741,6 +6915,31 @@ enum PolicyElementPropertiesEnum {
   UPDATED
 }
 
+interface PolicyInfo {
+  id: String!
+  name: String!
+  description: String!
+  enabled: Boolean!
+  audit: PolicyAudit!
+}
+
+enum PolicyLevelEnum {
+  MAIN
+  SUB_POLICY
+}
+
+input PolicyLevelEnumFilterInput {
+  eq: PolicyLevelEnum
+  in: [PolicyLevelEnum!]
+  neq: PolicyLevelEnum
+  nin: [PolicyLevelEnum!]
+}
+
+interface PolicyListPayload {
+  items: [PolicyInfo!]!
+  paging: PageInfo!
+}
+
 "Move the rule to a different position in the policy"
 input PolicyMoveRuleInput {
   id: ID!
@@ -6863,6 +7062,13 @@ to other admins, and rules locked by the revision become unlocked
 input PolicyPublishRevisionInput {
   description: String
   name: String
+}
+
+interface PolicyRef implements ObjectRef {
+  "Policy's unique identifier"
+  id: ID!
+  "Policy's unique name"
+  name: String!
 }
 
 "Input for removing a section from a policy"
@@ -9996,7 +10202,7 @@ type InternetFirewallDestination {
   "A range of IPs. Every IP within the range will be matched"
   ipRange: [IpAddressRange!]!
   "Remote Autonomous System Number (ASN)"
-  remoteAsn: [Asn16!]!
+  remoteAsn: [Asn32!]!
   "Sanctioned Cloud Applications - apps that are approved and generally represent an understood and acceptable level of risk in your organization."
   sanctionedAppsCategory: [SanctionedAppsCategoryRef!]!
   "Network subnets in CIDR notation"
@@ -10027,7 +10233,7 @@ input InternetFirewallDestinationInput {
   "A range of IPs. Every IP within the range will be matched"
   ipRange: [IpAddressRangeInput!]! = []
   "Remote Autonomous System Number (ASN)"
-  remoteAsn: [Asn16!]! = []
+  remoteAsn: [Asn32!]! = []
   "Sanctioned Cloud Applications - apps that are approved and generally represent an understood and acceptable level of risk in your organization."
   sanctionedAppsCategory: [SanctionedAppsCategoryRefInput!]! = []
   "Network subnets in CIDR notation"
@@ -10058,7 +10264,7 @@ input InternetFirewallDestinationUpdateInput {
   "A range of IPs. Every IP within the range will be matched"
   ipRange: [IpAddressRangeInput!]
   "Remote Autonomous System Number (ASN)"
-  remoteAsn: [Asn16!]
+  remoteAsn: [Asn32!]
   "Sanctioned Cloud Applications - apps that are approved and generally represent an understood and acceptable level of risk in your organization."
   sanctionedAppsCategory: [SanctionedAppsCategoryRefInput!]
   "Network subnets in CIDR notation"
@@ -10066,11 +10272,27 @@ input InternetFirewallDestinationUpdateInput {
 }
 
 type InternetFirewallPolicy implements IPolicy {
+  "Holds the complete set of access capabilities and limitations associated with the entity."
+  access: EntityAccess!
   audit: PolicyAudit
+  "Description for the policy"
+  description: String!
   enabled: Boolean!
+  "Policy ID"
+  id: ID!
+  "Name of the policy, the default name for the policy containing all sub-policies is 'Main'"
+  name: String!
   revision: PolicyRevision
   rules: [InternetFirewallRulePayload!]!
   sections: [PolicySectionPayload!]!
+}
+
+type InternetFirewallPolicyInfo implements PolicyInfo {
+  audit: PolicyAudit!
+  description: String!
+  enabled: Boolean!
+  id: String!
+  name: String!
 }
 
 input InternetFirewallPolicyInput {
@@ -10082,6 +10304,28 @@ input InternetFirewallPolicyInput {
    The last published revision is the active policy.
   """
   revision: PolicyRevisionInput
+}
+
+input InternetFirewallPolicyListFilterInput {
+  id: [IdFilterInput!]
+  name: [StringFilterInput!]
+  policyLevel: [PolicyLevelEnumFilterInput!]
+}
+
+input InternetFirewallPolicyListInput {
+  filter: InternetFirewallPolicyListFilterInput
+  paging: PagingInput! = {limit: 100, from: 0}
+  sort: InternetFirewallPolicyListSortInput! = {name: {direction: ASC, priority: 1}, policyLevel: {direction: ASC, priority: 2}}
+}
+
+type InternetFirewallPolicyListPayload implements PolicyListPayload {
+  items: [InternetFirewallPolicyInfo!]!
+  paging: PageInfo!
+}
+
+input InternetFirewallPolicyListSortInput {
+  name: SortOrderInput
+  policyLevel: SortOrderInput
 }
 
 input InternetFirewallPolicyMutationInput {
@@ -10137,6 +10381,8 @@ type InternetFirewallPolicyMutations {
 
 type InternetFirewallPolicyQueries {
   policy(input: InternetFirewallPolicyInput): InternetFirewallPolicy! @beta
+  "Provides a list of all policies of Internet Firewall with filtering, pagination and sorting capabilities"
+  policyList(input: InternetFirewallPolicyListInput! = {sort: {name: {direction: ASC, priority: 1}, policyLevel: {direction: ASC, priority: 2}}, paging: {limit: 100, from: 0}}): InternetFirewallPolicyListPayload! @beta
   revisions: PolicyRevisionsPayload @beta
 }
 
@@ -10927,10 +11173,25 @@ enum WanFirewallDirectionEnum {
 
 type WanFirewallPolicy implements IPolicy {
   audit: PolicyAudit
+  "Description for the policy"
+  description: String!
   enabled: Boolean!
+  "Policy ID"
+  id: String!
+  "Name of the policy, the default name for the policy containing all sub-policies is 'Main'"
+  name: String!
   revision: PolicyRevision
   rules: [WanFirewallRulePayload!]!
   sections: [PolicySectionPayload!]!
+}
+
+type WanFirewallPolicyInfo implements PolicyInfo {
+  audit: PolicyAudit!
+  description: String!
+  enabled: Boolean!
+  id: String!
+  name: String!
+  policyLevel: PolicyLevelEnum!
 }
 
 input WanFirewallPolicyInput {
@@ -10942,6 +11203,28 @@ input WanFirewallPolicyInput {
    The last published revision is the active policy.
   """
   revision: PolicyRevisionInput
+}
+
+input WanFirewallPolicyListFilterInput {
+  id: [IdFilterInput!]
+  name: [StringFilterInput!]
+  policyLevel: [PolicyLevelEnumFilterInput!]
+}
+
+input WanFirewallPolicyListInput {
+  filter: WanFirewallPolicyListFilterInput
+  paging: PagingInput! = {limit: 100, from: 0}
+  sort: WanFirewallPolicyListSortInput! = {name: {direction: ASC, priority: 1}, policyLevel: {direction: ASC, priority: 2}}
+}
+
+type WanFirewallPolicyListPayload implements PolicyListPayload {
+  items: [WanFirewallPolicyInfo!]!
+  paging: PageInfo!
+}
+
+input WanFirewallPolicyListSortInput {
+  name: SortOrderInput
+  policyLevel: SortOrderInput
 }
 
 input WanFirewallPolicyMutationInput {
@@ -10994,7 +11277,19 @@ type WanFirewallPolicyMutations {
 
 type WanFirewallPolicyQueries {
   policy(input: WanFirewallPolicyInput): WanFirewallPolicy! @beta
+  "Provides a list of all policies of Wan Firewall with filtering, pagination and sorting capabilities"
+  policyList(input: WanFirewallPolicyListInput! = {sort: {name: {direction: ASC, priority: 1}, policyLevel: {direction: ASC, priority: 2}}, paging: {limit: 100, from: 0}}): WanFirewallPolicyListPayload! @beta
   revisions: PolicyRevisionsPayload @beta
+}
+
+type WanFirewallPolicyRef implements PolicyRef & ObjectRef {
+  id: ID!
+  name: String!
+}
+
+input WanFirewallPolicyRefInput {
+  by: ObjectRefBy!
+  input: String!
 }
 
 input WanFirewallPolicyUpdateInput {
@@ -11444,7 +11739,9 @@ enum EventFieldName {
   connect_on_boot
   "Connection Origin"
   connection_origin
-  "For SaaS Security API, name of the connector"
+  "For SaaS Security API, unique identifier of the connector. CMA Name: Connector ID"
+  connector_id
+  "For SaaS Security API, name of the connector. CMA Name: Connector Name"
   connector_name
   "For SaaS Security API, status of the connector"
   connector_status
@@ -11454,7 +11751,9 @@ enum EventFieldName {
   container_name
   "An external system identifier used for correlation between related Cato entities. Example: external ticket id that correlates Cato XDR stories."
   correlation_id
-  "Criticality"
+  "CPU Core ID. CMA Name: Cpu Core ID"
+  cpu_core_id
+  "Criticality. CMA Name: Criticality"
   criticality
   "Custom category ID"
   custom_category_id
@@ -11535,9 +11834,21 @@ enum EventFieldName {
   dns_protection_category
   "Domain queried in the DNS request"
   dns_query
-  "Domain name based on the SSL SNI, HTTP host name, or DNS name"
+  "Type of record (ie. DNS record: A, AAAA, MX, or PTR). CMA Name: Dns Record Type"
+  dns_record_type
+  "Domain name based on the SSL SNI, HTTP host name, or DNS name. CMA Name: Domain Name"
   domain_name
-  "Egress PoP Name"
+  "Duration in milliseconds between the start and end of a transaction or operation. For example, in DNS or HTTP events, this reflects the time between the request and the corresponding response. CMA Name: Duration Ms"
+  duration_ms
+  "Dynamic Control IDs applied in the event. CMA Name: Dynamic Control IDs"
+  dynamic_control_ids
+  "Dynamic control names applied in the event. CMA Name: Dynamic Control Names"
+  dynamic_control_names
+  "The scope of the dynamic control Applied in the event. CMA Name: Dynamic Control Scope"
+  dynamic_control_scope
+  "Dynamic control threat categories applied in the event. CMA Name: Dynamic Control Threat Categories"
+  dynamic_control_threat_categories
+  "Egress PoP Name. CMA Name: Egress PoP Name"
   egress_pop_name
   "Egress Site Name for backhauling traffic"
   egress_site_name
@@ -11547,9 +11858,9 @@ enum EventFieldName {
   endpoint_id
   "The engine type associated with the event"
   engine_type
-  "The Endpoint Protection Engine that detected the malware"
-  epp_engine_type
-  "The profile assigned to the endpoint upon detection of the malware"
+  "The Endpoint Protection Engine that detected the malware. CMA Name: Engine Type"
+  epp_engine_type @deprecated(reason: "use engine_type instead. Planned end-of-life (EoL) date: April 1, 2026.")
+  "The profile assigned to the endpoint upon detection of the malware. CMA Name: Endpoint Protection Profile"
   epp_profile
   "Count for events that are repeated multiple times during one minute"
   event_count
@@ -11569,17 +11880,31 @@ enum EventFieldName {
   file_name
   "The file operation when this event occurred"
   file_operation
-  "File size"
+  "File path. CMA Name: File Path"
+  file_path
+  "File size. CMA Name: File Size (bytes)"
   file_size
-  "File type"
+  "File Topic - The topic of the file content, as classified by the DLP auto-classification engine. CMA Name: File Topic"
+  file_topic
+  "File Topic Category - The category associated with the classified file topic, as determined by the DLP auto-classification engine. CMA Name: File Topic Category"
+  file_topic_category
+  "File type. CMA Name: File Type"
   file_type
   "The final status for this object after performing actions as defined by the policy"
   final_object_status
-  "Amount of flows for a given incident"
+  "Uniquely identifies a traffic flow and enables correlation of events and other records related to the same flow. Only available for native data integration created in the CMA (e.g. Sentinel) and eventsFeed API. Not available in the events or eventsTimeSeries API."
+  flow_id
+  "Amount of flows for a given incident. CMA Name: Flows Cardinality"
   flows_cardinality
   "Full path URL application activity"
   full_path_url
-  "An identifier for a guest user using Cato through a Captive Portal"
+  "A unique identifier for the AI Security Guard associated with the event. CMA Name: Guard ID"
+  guard_id
+  "The name of the AI Security Guard associated with the event. CMA Name: Guard Name"
+  guard_name
+  "The type of AI Security Guard associated with the event. CMA Name: Guard Type"
+  guard_type
+  "An identifier for a guest user using Cato through a Captive Portal. CMA Name: Guest User"
   guest_user
   "IP address of host related to event"
   host_ip
@@ -11587,7 +11912,9 @@ enum EventFieldName {
   host_mac
   "HTTP request method (ie. Get, Post)"
   http_request_method
-  "For MDR service, a true/false value that indicates if this event is: A summary that aggregates many events (true) Raw network flows for a single event (false)"
+  "HTTP status code returned (ie. for DNS request, DNS-over-HTTPS (DoH) server when DoH is used). CMA Name: Http Response Code"
+  http_response_code
+  "For MDR service, a true/false value that indicates if this event is: A summary that aggregates many events (true) Raw network flows for a single event (false). CMA Name: Incident Aggregation"
   incident_aggregation
   "Unique Cato ID that identifies this security incident"
   incident_id
@@ -11619,7 +11946,9 @@ enum EventFieldName {
   key_name
   "A list of labels providing additional context for the event"
   labels
-  "Data that measures the congestion for a specific link"
+  "Role of the conversation participant for the analyzed turn (user, assistant, or tool call). CMA Name: Last Turn Role"
+  last_turn_role
+  "Data that measures the congestion for a specific link. CMA Name: Link Health is Congested"
   link_health_is_congested
   "Data that measures the jitter for a specific link"
   link_health_jitter
@@ -11635,17 +11964,21 @@ enum EventFieldName {
   login_type
   "Matched DLP data types related to the event"
   matched_data_types
-  "Mitre attack subtechniques"
+  "Unique identifier used to correlate request and response events for the same message. CMA Name: Message ID"
+  message_id
+  "Mitre attack subtechniques. CMA Name: Mitre Attack Subtechniques"
   mitre_attack_subtechniques
   "Mitre attack tactics"
   mitre_attack_tactics
   "Mitre attack techniques"
   mitre_attack_techniques
-  "Network Access"
+  "Flow NAT error reason. CMA Name: NAT Error"
+  nat_error
+  "Network Access. CMA Name: Network Access"
   network_access
-  "Matched network rule"
+  "Matched network rule. CMA Name: Network Rule"
   network_rule
-  "For SaaS Security API, API Error of Apps Security Notification"
+  "For SaaS Security API, API Error of Apps Security Notification. CMA Name: Notification API Error"
   notification_api_error
   "For SaaS Security API, description of Apps Security Notification"
   notification_description
@@ -11663,7 +11996,9 @@ enum EventFieldName {
   os_version
   "Indicate if the Access to the 3rd Party SaaS App occurs without passing through Cato Cloud (direct access to saas App)"
   out_of_band_access
-  "For SaaS Security API, email address of the file owner"
+  "Name of the on-prem deployment  environment where the event originated from. CMA Name: Outpost Environment Name"
+  outpost_environment_name
+  "For SaaS Security API, email address of the file owner. CMA Name: Owner"
   owner
   "Pac File Enabled/Disabled"
   pac_file
@@ -11705,21 +12040,33 @@ enum EventFieldName {
   region_name
   "Registration code used the first time that a SDP user authenticates (the code is partially obfuscated)"
   registration_code
-  "The ID of the resource in the cloud provider"
+  "Request packet size in bytes (ie. DNS request packet). CMA Name: Request Size"
+  request_size
+  "The ID of the resource in the cloud provider. CMA Name: The ID of the resource"
   resource_id
   "The specific name or identifier of the resource."
   resource_name
   "The type of resource being referenced."
   resource_type
-  "(IPS or SAM event) Indicates the overall impact of a threat for the host or network: Low – ie. adware Medium – ie. network scans High – ie. spyware or worms"
+  "Response packet size in bytes (ie. DNS response packet). CMA Name: Response Size"
+  response_size
+  "(IPS or SAM event) Indicates the overall impact of a threat for the host or network: Low – ie. adware Medium – ie. network scans High – ie. spyware or worms. CMA Name: Risk Level"
   risk_level
-  "Unique Cato ID for the security rule related to the event"
+  "The time when the rule is no longer in active. CMA Name: Rule Expiration Time"
+  rule_expiration_time
+  "Unique Cato ID for the security rule related to the event. CMA Name: Rule ID"
   rule_id
   "Rule name"
   rule_name
-  "Indicates the internal vendor service or module that produced the data reported in this event"
+  "Secondary socket serial number. CMA Name: Secondary Socket Serial"
+  secondary_socket_serial
+  "Server IP address. CMA Name: Server IP"
+  server_ip
+  "Indicates the internal vendor service or module that produced the data reported in this event. CMA Name: Service Name"
   service_name
-  "Severity defined for the rule"
+  "Unique identifier for grouping multiple messages within the same session. CMA Name: Session ID"
+  session_id
+  "Severity defined for the rule. CMA Name: Severity"
   severity
   "Sharing Options for the file (such as SharePoint)"
   sharing_scope
@@ -11829,9 +12176,13 @@ enum EventFieldName {
   tls_rule_name
   "TLS Version"
   tls_version
-  "Direction of network traffic for this event, values are inbound or outbound"
+  "Total number of tokens processed. CMA Name: Total Tokens"
+  total_tokens
+  "Direction of network traffic for this event, values are inbound or outbound. CMA Name: Traffic Direction"
   traffic_direction
-  "Translated Client IP"
+  "Total transaction size in bytes, including both the request and response. CMA Name: Transaction Size"
+  transaction_size
+  "Translated Client IP. CMA Name: Translated Client IP"
   translated_client_ip
   "Translated Server IP"
   translated_server_ip
@@ -11877,13 +12228,17 @@ enum EventFieldName {
   vendor_device_name
   "Vendor Event Id"
   vendor_event_id
-  "Third party vendor policy description"
+  "Identifies the organization in the vendor’s system. CMA Name: Vendor Org ID"
+  vendor_org_id
+  "Third party vendor policy description. CMA Name: Vendor Policy Description"
   vendor_policy_description
   "Third party vendor policy ID"
   vendor_policy_id
-  "Third party vendor policy name"
+  "Third party vendor policy name. CMA Name: Vendor Policy Name"
   vendor_policy_name
-  "Identifies the user in the vendor’s system"
+  "Identifies the site in the vendor’s system. CMA Name: Vendor Site ID"
+  vendor_site_id
+  "Identifies the user in the vendor’s system. CMA Name: Vendor User ID"
   vendor_user_id
   "Unique Cato Visible ID for devices"
   visible_device_id @deprecated(reason: "use device_id instead. Planned end-of-life (EoL) date: April 1, 2026.")
@@ -11891,9 +12246,35 @@ enum EventFieldName {
   vpn_lan_access
   "User’s email address"
   vpn_user_email
-  "For LDAP sync events, name of the AD domain"
+  "WiFi authentication type. CMA Name: Wifi Authentication Type"
+  wifi_authentication_type
+  "WiFi BSSID (Basic Service Set Identifier). CMA Name: Wifi Bssid"
+  wifi_bssid
+  "WiFi channel. CMA Name: Wifi Channel"
+  wifi_channel
+  "WiFi authentication failure reason. CMA Name: WiFi Auth Failure Reason"
+  wifi_description
+  "Wifi Event Reason Code. CMA Name: Wifi Event Reason Code"
+  wifi_event_reason_code
+  "Wifi Event Type. CMA Name: Wifi Event Type"
+  wifi_event_type
+  "Wifi Event Type Code. CMA Name: Wifi Event Type Code"
+  wifi_event_type_code
+  "Wifi  Protocol. CMA Name: Wifi Protocol"
+  wifi_protocol
+  "WiFi radio band. CMA Name: Wifi Radio Band"
+  wifi_radio_band
+  "Wifi Security Protocols. CMA Name: Wifi Security"
+  wifi_security
+  "WiFi signal strength. CMA Name: Wifi Signal Strength"
+  wifi_signal_strength
+  "WiFi SSID (Service Set Identifier). CMA Name: Wifi Ssid"
+  wifi_ssid
+  "Wifi milliseconds since association to the Access Point. CMA Name: Wifi Time Since Assoc Ms"
+  wifi_time_since_assoc_ms
+  "For LDAP sync events, name of the AD domain. CMA Name: Windows Domain Name"
   windows_domain_name
-  "XFF HTTP header indicates the original IP address for the connections"
+  "XFF HTTP header indicates the original IP address for the connections. CMA Name: XFF"
   xff
 }
 
@@ -12122,6 +12503,10 @@ enum OriginType {
   Claroty
   "Device details provided by CrowdStrike endpoint security"
   Crowdstrike
+  "Device information from Juniper Mist network infrastructure platform"
+  JuniperMist
+  "Device information from Microsoft Defender endpoint platform"
+  MicrosoftDefender
   "Device data collected from Microsoft Intune MDM"
   MicrosoftIntune
   "Device information from SentinelOne endpoint platform"
@@ -12132,7 +12517,7 @@ enum OriginType {
   Zoom
 }
 
-union DeviceNetworkRef = SiteNetworkSubnetRef | GlobalRangeRef
+union DeviceNetworkRef = SiteNetworkSubnetRef | GlobalRangeRef | GlobalIpRangeRef | FloatingSubnetRef
 
 type DeviceNic {
   "The unique MAC address of the device's network interface card"
@@ -12388,10 +12773,47 @@ input DeviceAttributeCatalogInput {
 
 type DeviceAttributesCatalogQueries {
   category(sort: SortOrderInput): DeviceAttributeCatalogPayload!
+  compliance(input: DeviceComplianceCatalogInput): DeviceComplianceCatalogPayload!
   manufacturer(input: DeviceAttributeCatalogInput): DeviceAttributeCatalogPayload!
   model(input: DeviceAttributeCatalogInput): DeviceAttributeCatalogPayload!
   os(input: DeviceAttributeCatalogInput): DeviceAttributeCatalogPayload!
   type(input: DeviceAttributeCatalogInput): DeviceAttributeCatalogPayload!
+}
+
+type DeviceComplianceCatalogPayload {
+  items: [DeviceComplianceCatalogItem!]!
+  pageInfo: PageInfo!
+}
+
+type DeviceComplianceCatalogItem {
+  applicationConnector: ApplicationConnectorCatalogEntityRef!
+  state: String!
+}
+
+input DeviceComplianceCatalogInput {
+  filter: DeviceComplianceFilterInput
+  paging: PagingInput
+  sort: DeviceComplianceSortInput
+}
+
+input DeviceComplianceFilterInput {
+  applicationConnector: ApplicationConnectorCatalogEntityRefFilterInput
+  state: StringFilterInput
+}
+
+input ApplicationConnectorCatalogEntityRefFilterInput {
+  id: IdFilterInput
+  name: StringFilterInput
+}
+
+input DeviceComplianceSortInput {
+  applicationConnector: ApplicationConnectorCatalogEntityRefSortOrderInput
+  state: SortOrderInput
+}
+
+input ApplicationConnectorCatalogEntityRefSortOrderInput {
+  id: SortOrderInput
+  name: SortOrderInput
 }
 
 type DeviceAttributeCatalogPayload {
@@ -12439,6 +12861,81 @@ enum ExportJobStatus {
 input DeviceCsvExportInput {
   "Filter devices by various criteria before export"
   filter: [DeviceV2FilterInput!]
+}
+
+"Information about automatic synchronization of the container"
+type ContainerSyncData {
+  "File type that is synchronized"
+  fileType: ContainerFileType
+  "Notifications for sync data"
+  notifications: ContainerSyncDataNotification!
+  "Interval of time between synchronizations"
+  timeInterval: Int!
+  "Unit of time for the interval"
+  timeUnit: ContainerSyncDataTimeUnit!
+  "URL from which the container is synchronized"
+  url: Url!
+}
+
+type ContainerSyncDataNotification {
+  mailingList: [SubscriptionMailingListRef!]!
+  subscriptionGroup: [SubscriptionGroupRef!]!
+  webhook: [SubscriptionWebhookRef!]!
+}
+
+"Audit information about the last synchronization of the container"
+type ContainerSyncDataAudit {
+  "Error message, only if last sync had an error"
+  errorMsg: String
+  "Timestamp of the last attempt sync"
+  lastSyncAttempt: DateTime!
+  "Timestamp of the last successful sync"
+  lastSynced: DateTime!
+}
+
+enum ContainerSyncDataTimeUnit {
+  DAY
+  HOUR
+}
+
+type TestContainerFromUrlPayload {
+  sizeInvalid: Int!
+  sizeValid: Int!
+  topInvalid: [String!]!
+  topValid: [String!]!
+}
+
+"Create synchronization data for a container"
+input CreateContainerSyncDataInput {
+  notifications: CreateContainerSyncDataNotificationInput!
+  timeInterval: Int!
+  timeUnit: ContainerSyncDataTimeUnit!
+  url: Url!
+}
+
+input CreateContainerSyncDataNotificationInput {
+  mailingList: [SubscriptionMailingListRefInput!]! = []
+  subscriptionGroup: [SubscriptionGroupRefInput!]! = []
+  webhook: [SubscriptionWebhookRefInput!]! = []
+}
+
+"Update synchronization data for a container"
+input UpdateContainerSyncDataInput {
+  notifications: UpdateContainerSyncDataNotificationInput
+  timeInterval: Int
+  timeUnit: ContainerSyncDataTimeUnit
+  url: Url
+}
+
+input UpdateContainerSyncDataNotificationInput {
+  mailingList: [SubscriptionMailingListRefInput!]! = []
+  subscriptionGroup: [SubscriptionGroupRefInput!]! = []
+  webhook: [SubscriptionWebhookRefInput!]! = []
+}
+
+input TestContainerFromUrlInput {
+  fileType: ContainerFileType! = CSV
+  url: Url!
 }
 
 type AccountSnapshot {
@@ -13124,10 +13621,14 @@ input CatalogApplicationFilterInput {
   activity: [CatalogApplicationActivityFilterInput!]
   capability: [CatalogApplicationCapabilityFilterInput!]
   category: [CatalogApplicationCategoryFilterInput!]
+  """Free-text search across name, activity and activity fields """
+  freeText: FreeTextFilterInput
   id: [IdFilterInput!]
   name: [StringFilterInput!]
+  originCountry: [StringFilterInput!]
   recentlyAdded: [BooleanFilterInput!]
   risk: [IntFilterInput!]
+  tenantActivity: [BooleanFilterInput!]
   type: [CatalogApplicationTypeFilterInput!]
 }
 
@@ -13211,6 +13712,9 @@ enum CatalogApplicationAttribute {
 }
 
 enum CatalogApplicationCapability {
+  AI_SECURITY_API_INTEGRATION
+  AI_SECURITY_BROWSER_PLUGIN
+  AI_SECURITY_NETWORK_PROXY
   ANTI_MALWARE_INLINE
   APP_CONTROL_API
   APP_CONTROL_INLINE
@@ -13222,26 +13726,124 @@ enum CatalogApplicationCapability {
 }
 
 type CatalogApplicationComplianceAttributes {
+  c5Attestation: CatalogApplicationAttribute
+  cjis: CatalogApplicationAttribute
+  cobit: CatalogApplicationAttribute
+  coppa: CatalogApplicationAttribute
+  csaStar: CatalogApplicationAttribute
+  cyberEssentialsPlusUk: CatalogApplicationAttribute
+  euUsDataPrivacyFramework: CatalogApplicationAttribute
+  fedRamp: CatalogApplicationAttribute
+  ferpa: CatalogApplicationAttribute
+  ffiec: CatalogApplicationAttribute
+  finra: CatalogApplicationAttribute
+  fisma: CatalogApplicationAttribute
+  gapp: CatalogApplicationAttribute
+  gdpr: CatalogApplicationAttribute
+  glba: CatalogApplicationAttribute
   hippa: CatalogApplicationAttribute!
+  hitrustCsf: CatalogApplicationAttribute
   isae3402: CatalogApplicationAttribute!
   iso27001: CatalogApplicationAttribute!
+  iso27002: CatalogApplicationAttribute
+  iso27017: CatalogApplicationAttribute
+  iso27018: CatalogApplicationAttribute
+  iso9000: CatalogApplicationAttribute
+  iso9001: CatalogApplicationAttribute
+  itar: CatalogApplicationAttribute
+  japanPrivacyMark: CatalogApplicationAttribute
+  jerichoForumCommandments: CatalogApplicationAttribute
+  nistSp80053: CatalogApplicationAttribute
   pciDss: CatalogApplicationAttribute!
   soc1: CatalogApplicationAttribute!
   soc2: CatalogApplicationAttribute!
   soc3: CatalogApplicationAttribute!
   sox: CatalogApplicationAttribute!
+  trustArcPrivacy: CatalogApplicationAttribute
+}
+
+enum CatalogApplicationDataRetentionPolicy {
+  CONFIGURABLE_BY_USER
+  DAYS_1_30
+  DELETION_UPON_REQUEST
+  MONTHS_1_12
+  MORE_THAN_1_YEAR
+  UNKNOWN
+  WHILE_ACCOUNT_IS_ACTIVE
+}
+
+enum CatalogApplicationDataDeletionPolicy {
+  AFTER_ACCOUNT_DELETION
+  IMMEDIATE_ON_REQUEST
+  MORE_THAN_90_DAYS
+  NOT_OFFERED
+  UNKNOWN
+  WITHIN_30_DAYS
+  WITHIN_90_DAYS
+}
+
+enum CatalogApplicationDataOwnership {
+  CUSTOMER_OWNS_DATA
+  SHARED_OWNERSHIP
+  UNKNOWN
+  VENDOR_OWNS_DATA
+}
+
+enum CatalogApplicationEncryptionStrengthAtRest {
+  ENCRYPTION_128_BIT
+  ENCRYPTION_192_BIT
+  ENCRYPTION_256_BIT
+  ENCRYPTION_GT_256_BIT
+  ENCRYPTION_NOT_DISCLOSED
+  ENCRYPTION_UNKNOWN
+}
+
+enum CatalogApplicationWeakCipherSupport {
+  DES_3
+  MULTIPLE_WEAK_CIPHERS
+  NONE
+  RC4
+  SHA_1
+  TLS_1_0_1_1
+  UNKNOWN
+}
+
+enum CatalogApplicationTlsVersionSupport {
+  TLS_1_1_OR_OLDER
+  TLS_1_2
+  TLS_1_2_PLUS
+  TLS_1_3
+  UNKNOWN
 }
 
 type CatalogApplicationSecurityAttributes {
   auditTrail: CatalogApplicationAttribute!
+  dataDeletionPolicy: CatalogApplicationDataDeletionPolicy
+  dataOwnership: CatalogApplicationDataOwnership
+  dataRetentionPolicy: CatalogApplicationDataRetentionPolicy
+  dataSegregatedByTenant: CatalogApplicationAttribute
+  disasterRecovery: CatalogApplicationAttribute
   encryptionAtRest: CatalogApplicationAttribute!
+  encryptionInTransit: CatalogApplicationAttribute
+  encryptionStrengthAtRest: CatalogApplicationEncryptionStrengthAtRest
   httpSecurityHeaders: CatalogApplicationAttribute!
   mfa: CatalogApplicationAttribute!
+  physicalDataCenterSecurity: CatalogApplicationAttribute
+  privacyPolicyUrl: String
   rbac: CatalogApplicationAttribute!
   rememberPassword: CatalogApplicationAttribute!
   sso: CatalogApplicationAttribute!
+  termsOfUseCustomerProtectionUrl: String
   tlsEnforcement: CatalogApplicationAttribute!
+  tlsVersionSupport: CatalogApplicationTlsVersionSupport
   trustedCertificate: CatalogApplicationAttribute!
+  weakCipherSupport: CatalogApplicationWeakCipherSupport
+}
+
+type CatalogApplicationIdentityAccessManagementAttributes {
+  accessControlEnforcement: CatalogApplicationAttribute
+  ipBasedAccessRestrictions: CatalogApplicationAttribute
+  samlAuthentication: CatalogApplicationAttribute
 }
 
 enum EmployeeRange {
@@ -13265,8 +13867,42 @@ enum EmployeeRange {
   BETWEEN_10001_MAX
 }
 
+enum AiSecurityRisk {
+  CRITICAL
+  HIGH
+  LOW
+  MEDIUM
+}
+
+enum AiSecurityScope {
+  EMBEDDED
+  NATIVE
+}
+
+enum AiSecurityDataUsagePolicyType {
+  GENERAL_DATA_USAGE
+  NO_DATA_USAGE
+  NOT_MENTIONED
+  TRAINS_ON_DATA
+}
+
+type AiSecurityDataUsagePolicy {
+  description: String
+  reference: String
+  referenceType: String
+  referenceUrl: String
+  type: AiSecurityDataUsagePolicyType
+}
+
+type AiSecurityAttributes {
+  dataUsagePolicy: AiSecurityDataUsagePolicy
+  risk: AiSecurityRisk
+  scope: AiSecurityScope
+}
+
 type CatalogApplication {
   activity: [CatalogApplicationActivity!]!
+  aiSecurity: AiSecurityAttributes
   capability: [CatalogApplicationCapability!]!
   category: [ApplicationCategoryRef!]!
   city: String
@@ -13274,6 +13910,7 @@ type CatalogApplication {
   description: String
   descriptionSummary: String
   id: ID!
+  identityAccessManagementAttributes: CatalogApplicationIdentityAccessManagementAttributes
   ipoStatus: String
   name: String!
   numOfEmployees: EmployeeRange
@@ -13284,6 +13921,7 @@ type CatalogApplication {
   sanctioned: Boolean!
   securityAttributes: CatalogApplicationSecurityAttributes!
   standardPorts: [CustomService!]!
+  tenantActivity: [CatalogApplicationActivity!]!
   type: CatalogApplicationType!
   website: Url
 }
@@ -14998,6 +15636,21 @@ input TlsInspectUpdateRuleInput {
   rule: TlsInspectUpdateRuleDataInput!
 }
 
+"""
+A reference identifying the AiSecurityDataProfile object. ID: Unique AiSecurityDataProfile Identifier, Name: The AiSecurityDataProfile Name
+TODO: rename data to Content
+"""
+type AiSecurityDataProfileRef implements ObjectRef {
+  id: ID!
+  name: String!
+}
+
+"A reference identifying the Guard object. ID: Unique Guard Identifier, Name: The Guard Name"
+type AiSecurityGuardRef implements ObjectRef {
+  id: ID!
+  name: String!
+}
+
 enum SocketAddOnType {
   FOUR_10G_FIBER
   FOUR_1G_COPPER
@@ -15036,6 +15689,301 @@ type RemoveSocketAddOnCardPayload {
 input RemoveSocketAddOnCardInput {
   expansionSlotNumbers: [SocketAddOnExpansionSlotNumber!]!
   site: SiteRefInput!
+}
+
+"Specifies the level of protection against tampering"
+enum AntiTamperModeEnum {
+  "Tampering attempts are logged, but changes are permitted"
+  MONITOR
+  "No protection. Users are allowed to make changes"
+  OFF
+  "Changes are blocked. Users are not allowed to make modifications"
+  PROTECT
+}
+
+"The action applied by the client connectivity if the rule is matched"
+enum ClientConnectivityActionEnum {
+  "Allow WAN and Internet"
+  ALLOW
+  "Allow Internet"
+  ALLOW_INTERNET
+  "Block"
+  BLOCK
+}
+
+input ClientConnectivityAddRuleDataInput {
+  "The action applied by the client connectivity if the rule is matched"
+  action: ClientConnectivityActionEnum! = ALLOW
+  "User confidence level"
+  confidenceLevel: ClientConnectivityConfidenceLevelEnum! = HIGH
+  """
+  Connection origin matching criteria.
+  Logical 'OR' is applied within the criteria set.
+  Logical 'AND' is applied between criteria sets.
+  """
+  connectionOrigin: [ClientConnectivityOriginEnum!]! = []
+  """
+  Country traffic matching criteria.
+  Logical ‘OR’ is applied within the criteria set.
+  Logical ‘AND’ is applied between criteria sets.
+  """
+  country: [CountryRefInput!]! = []
+  description: String! = ""
+  """
+  Device Profile traffic matching criteria.
+  Logical ‘OR’ is applied within the criteria set.
+  Logical ‘AND’ is applied between criteria sets.
+  """
+  device: [DeviceProfileRefInput!]! = []
+  enabled: Boolean!
+  name: String!
+  """
+  Source device Operating System traffic matching criteria.
+  Logical ‘OR’ is applied within the criteria set.
+  Logical ‘AND’ is applied between criteria sets.
+  """
+  platform: [OperatingSystem!]! = []
+  """
+  Source traffic matching criteria.
+  Logical ‘OR’ is applied within the criteria set.
+  Logical ‘AND’ is applied between criteria sets.
+  """
+  source: ClientConnectivitySourceInput! = {user: [], usersGroup: []}
+  "Public ISP IP Range matching criteria."
+  sourceRange: [ClientConnectivitySourceRangeInput!]! = []
+}
+
+input ClientConnectivityAddRuleInput {
+  "Position of the rule in the policy"
+  at: PolicyRulePositionInput
+  "Parameters for the rule you are adding"
+  rule: ClientConnectivityAddRuleDataInput!
+}
+
+"Describe how reliable the user's authentication is"
+enum ClientConnectivityConfidenceLevelEnum {
+  "The user has authenticated the Client and the Cato token is either valid or expired"
+  ANY
+  "High Confidence - User authenticated and the token is valid"
+  HIGH
+  "Low Confidence - User authenticated, but the token has expired"
+  LOW
+}
+
+"Defines Origin of the connection"
+enum ClientConnectivityOriginEnum {
+  "Any connection origin"
+  ANY
+  "User is connecting from the client"
+  REMOTE
+  "User is connecting from the browser extension"
+  REMOTE_EXTENSION
+}
+
+type ClientConnectivityPolicy implements IPolicy {
+  audit: PolicyAudit
+  enabled: Boolean!
+  revision: PolicyRevision
+  rules: [ClientConnectivityRulePayload!]!
+  sections: [PolicySectionPayload!]!
+}
+
+input ClientConnectivityPolicyInput {
+  """
+  A revision is a specific instance of the policy.
+   Unpublished revisions are working copies of the policy available to a specific
+   admin or a set of admins
+   Published revisions are revisions that were applied to the account network.
+   The last published revision is the active policy.
+  """
+  revision: PolicyRevisionInput
+}
+
+input ClientConnectivityPolicyMutationInput {
+  revision: PolicyMutationRevisionInput
+}
+
+type ClientConnectivityPolicyMutationPayload implements IPolicyMutationPayload {
+  errors: [PolicyMutationError!]!
+  policy: ClientConnectivityPolicy
+  status: PolicyMutationStatus!
+}
+
+type ClientConnectivityPolicyMutations {
+  addRule(input: ClientConnectivityAddRuleInput!): ClientConnectivityRuleMutationPayload! @beta
+  addSection(input: PolicyAddSectionInput!): PolicySectionMutationPayload! @beta
+  createPolicyRevision(input: PolicyCreateRevisionInput!): ClientConnectivityPolicyMutationPayload! @beta
+  discardPolicyRevision(input: PolicyDiscardRevisionInput): ClientConnectivityPolicyMutationPayload! @beta
+  moveRule(input: PolicyMoveRuleInput!): ClientConnectivityRuleMutationPayload! @beta
+  moveSection(input: PolicyMoveSectionInput!): PolicySectionMutationPayload! @beta
+  publishPolicyRevision(input: PolicyPublishRevisionInput): ClientConnectivityPolicyMutationPayload! @beta
+  removeRule(input: ClientConnectivityRemoveRuleInput!): ClientConnectivityRuleMutationPayload! @beta
+  removeSection(input: PolicyRemoveSectionInput!): PolicySectionMutationPayload! @beta
+  updatePolicy(input: ClientConnectivityPolicyUpdateInput!): ClientConnectivityPolicyMutationPayload! @beta
+  updateRule(input: ClientConnectivityUpdateRuleInput!): ClientConnectivityRuleMutationPayload! @beta
+  updateSection(input: PolicyUpdateSectionInput!): PolicySectionMutationPayload! @beta
+}
+
+type ClientConnectivityPolicyQueries {
+  policy(input: ClientConnectivityPolicyInput): ClientConnectivityPolicy! @beta
+  revisions: PolicyRevisionsPayload @beta
+}
+
+input ClientConnectivityPolicyUpdateInput {
+  state: PolicyToggleState
+}
+
+input ClientConnectivityRemoveRuleInput {
+  id: ID!
+}
+
+type ClientConnectivityRule implements IPolicyRule {
+  "The action applied by the client connectivity if the rule is matched"
+  action: ClientConnectivityActionEnum!
+  "User confidence level"
+  confidenceLevel: ClientConnectivityConfidenceLevelEnum!
+  """
+  Connection origin matching criteria.
+  Logical 'OR' is applied within the criteria set.
+  Logical 'AND' is applied between criteria sets.
+  """
+  connectionOrigin: [ClientConnectivityOriginEnum!]!
+  """
+  Country traffic matching criteria.
+  Logical ‘OR’ is applied within the criteria set.
+  Logical ‘AND’ is applied between criteria sets.
+  """
+  country: [CountryRef!]!
+  "Description for the rule"
+  description: String!
+  """
+  Device Profile traffic matching criteria.
+  Logical ‘OR’ is applied within the criteria set.
+  Logical ‘AND’ is applied between criteria sets.
+  """
+  device: [DeviceProfileRef!]!
+  """
+  TRUE = Rule is enabled 
+   FALSE = Rule is disabled
+  """
+  enabled: Boolean!
+  "Rule ID"
+  id: ID!
+  "Position / priority of rule"
+  index: Int!
+  "Name of the rule"
+  name: String!
+  """
+  Source device Operating System traffic matching criteria.
+  Logical ‘OR’ is applied within the criteria set.
+  Logical ‘AND’ is applied between criteria sets.
+  """
+  platform: [OperatingSystem!]!
+  "Policy section where the rule is located"
+  section: PolicySectionInfo!
+  """
+  Source traffic matching criteria.
+  Logical ‘OR’ is applied within the criteria set.
+  Logical ‘AND’ is applied between criteria sets.
+  """
+  source: ClientConnectivitySource!
+  "Public ISP IP Range matching criteria."
+  sourceRange: [ClientConnectivitySourceRange!]!
+}
+
+type ClientConnectivityRuleMutationPayload implements IPolicyRuleMutationPayload {
+  errors: [PolicyMutationError!]!
+  rule: ClientConnectivityRulePayload
+  status: PolicyMutationStatus!
+}
+
+type ClientConnectivityRulePayload implements IPolicyRulePayload {
+  audit: PolicyElementAudit!
+  properties: [PolicyElementPropertiesEnum!]!
+  rule: ClientConnectivityRule!
+}
+
+"Users or user groups that the policy will apply on"
+type ClientConnectivitySource {
+  "Individual users defined for the account"
+  user: [UserRef!]!
+  "Group of users"
+  usersGroup: [UsersGroupRef!]!
+}
+
+"Users or user groups that the policy will apply on"
+input ClientConnectivitySourceInput {
+  "Individual users defined for the account"
+  user: [UserRefInput!]! = []
+  "Group of users"
+  usersGroup: [UsersGroupRefInput!]! = []
+}
+
+"Public ISP IP Range for source matching"
+type ClientConnectivitySourceRange {
+  "Globally defined IP range"
+  globalIpRange: GlobalIpRangeRef!
+}
+
+"Public ISP IP Range for source matching"
+input ClientConnectivitySourceRangeInput {
+  "Globally defined IP range"
+  globalIpRange: GlobalIpRangeRefInput!
+}
+
+"Users or user groups that the policy will apply on"
+input ClientConnectivitySourceUpdateInput {
+  "Individual users defined for the account"
+  user: [UserRefInput!]
+  "Group of users"
+  usersGroup: [UsersGroupRefInput!]
+}
+
+input ClientConnectivityUpdateRuleDataInput {
+  "The action applied by the client connectivity if the rule is matched"
+  action: ClientConnectivityActionEnum
+  "User confidence level"
+  confidenceLevel: ClientConnectivityConfidenceLevelEnum
+  """
+  Connection origin matching criteria.
+  Logical 'OR' is applied within the criteria set.
+  Logical 'AND' is applied between criteria sets.
+  """
+  connectionOrigin: [ClientConnectivityOriginEnum!]
+  """
+  Country traffic matching criteria.
+  Logical ‘OR’ is applied within the criteria set.
+  Logical ‘AND’ is applied between criteria sets.
+  """
+  country: [CountryRefInput!]
+  description: String
+  """
+  Device Profile traffic matching criteria.
+  Logical ‘OR’ is applied within the criteria set.
+  Logical ‘AND’ is applied between criteria sets.
+  """
+  device: [DeviceProfileRefInput!]
+  enabled: Boolean
+  name: String
+  """
+  Source device Operating System traffic matching criteria.
+  Logical ‘OR’ is applied within the criteria set.
+  Logical ‘AND’ is applied between criteria sets.
+  """
+  platform: [OperatingSystem!]
+  """
+  Source traffic matching criteria.
+  Logical ‘OR’ is applied within the criteria set.
+  Logical ‘AND’ is applied between criteria sets.
+  """
+  source: ClientConnectivitySourceUpdateInput
+  "Public ISP IP Range matching criteria."
+  sourceRange: [ClientConnectivitySourceRangeInput!]
+}
+
+input ClientConnectivityUpdateRuleInput {
+  id: ID!
+  rule: ClientConnectivityUpdateRuleDataInput!
 }
 
 input DynamicIpAllocationAddRuleDataInput {
@@ -15188,6 +16136,318 @@ input DynamicIpAllocationUpdateRuleInput {
   rule: DynamicIpAllocationUpdateRuleDataInput!
 }
 
+"The action applied by the split tunnel if the rule is matched"
+enum SplitTunnelActionEnum {
+  "Route all traffic to Cato - Will be Deprecated by ROUTE_ALL_TO_CATO_EXCEPT"
+  EXCLUDE
+  "Route all traffic Out-of-Tunnel - Will be Deprecated by ROUTE_ONLY_SELECTED"
+  INCLUDE
+  OFF
+  "Route all traffic to Cato - Not yet supported"
+  ROUTE_ALL_TO_CATO_EXCEPT
+  "Route all traffic Out-of-Tunnel - Not yet supported"
+  ROUTE_ONLY_SELECTED
+  "User choose routing preference"
+  USER_DEFINED
+}
+
+input SplitTunnelAddRuleDataInput {
+  "The action applied by the split tunnel if the rule is matched"
+  action: SplitTunnelActionEnum! = EXCLUDE
+  """
+  Country traffic matching criteria.
+  Logical ‘OR’ is applied within the criteria set.
+  Logical ‘AND’ is applied between criteria sets.
+  """
+  country: [CountryRefInput!]! = []
+  coverage: SplitTunnelCoverageEnum = ALL
+  description: String! = ""
+  """
+  Destination traffic matching criteria.
+  Logical ‘OR’ is applied within the criteria set.
+  Logical ‘AND’ is applied between criteria sets.
+  """
+  destination: SplitTunnelDestinationInput! = {application: [], globalIpRange: []}
+  dnsExclusion: SplitTunnelDnsExclusionInput = {domain: []}
+  enabled: Boolean!
+  name: String!
+  """
+  Source device Operating System traffic matching criteria.
+  Logical ‘OR’ is applied within the criteria set.
+  Logical ‘AND’ is applied between criteria sets.
+  """
+  platform: [OperatingSystem!]! = []
+  routingPriority: SplitTunnelRoutingPriorityEnum! = LAN
+  """
+  Source traffic matching criteria.
+  Logical ‘OR’ is applied within the criteria set.
+  Logical ‘AND’ is applied between criteria sets.
+  """
+  source: SplitTunnelSourceInput! = {user: [], usersGroup: []}
+  sourceNetwork: SplitTunnelSourceNetworkInput! = {sourceNetworkType: ANY}
+}
+
+input SplitTunnelAddRuleInput {
+  "Position of the rule in the policy"
+  at: PolicyRulePositionInput
+  "Parameters for the rule you are adding"
+  rule: SplitTunnelAddRuleDataInput!
+}
+
+enum SplitTunnelCoverageEnum {
+  "All Ports and Protocols"
+  ALL
+  "Web-only (PAC based)"
+  WEB_ONLY
+}
+
+"Destination match criteria set"
+type SplitTunnelDestination {
+  "Applications for the rule (pre-defined)"
+  application: [ApplicationRef!]!
+  "Globally defined IP range"
+  globalIpRange: [GlobalIpRangeRef!]!
+}
+
+"Destination match criteria set"
+input SplitTunnelDestinationInput {
+  "Applications for the rule (pre-defined)"
+  application: [ApplicationRefInput!]! = []
+  "Globally defined IP range"
+  globalIpRange: [GlobalIpRangeRefInput!]! = []
+}
+
+"Destination match criteria set"
+input SplitTunnelDestinationUpdateInput {
+  "Applications for the rule (pre-defined)"
+  application: [ApplicationRefInput!]
+  "Globally defined IP range"
+  globalIpRange: [GlobalIpRangeRefInput!]
+}
+
+type SplitTunnelDnsExclusion {
+  "A Second-Level Domain (SLD). It matches all Top-Level Domains (TLD), and subdomains that include the Domain. Example: example.com."
+  domain: [Domain!]!
+}
+
+input SplitTunnelDnsExclusionInput {
+  "A Second-Level Domain (SLD). It matches all Top-Level Domains (TLD), and subdomains that include the Domain. Example: example.com."
+  domain: [Domain!]! = []
+}
+
+input SplitTunnelDnsExclusionUpdateInput {
+  "A Second-Level Domain (SLD). It matches all Top-Level Domains (TLD), and subdomains that include the Domain. Example: example.com."
+  domain: [Domain!]
+}
+
+type SplitTunnelPolicy implements IPolicy {
+  audit: PolicyAudit
+  enabled: Boolean!
+  revision: PolicyRevision
+  rules: [SplitTunnelRulePayload!]!
+  sections: [PolicySectionPayload!]!
+}
+
+input SplitTunnelPolicyInput {
+  """
+  A revision is a specific instance of the policy.
+   Unpublished revisions are working copies of the policy available to a specific
+   admin or a set of admins
+   Published revisions are revisions that were applied to the account network.
+   The last published revision is the active policy.
+  """
+  revision: PolicyRevisionInput
+}
+
+input SplitTunnelPolicyMutationInput {
+  revision: PolicyMutationRevisionInput
+}
+
+type SplitTunnelPolicyMutationPayload implements IPolicyMutationPayload {
+  errors: [PolicyMutationError!]!
+  policy: SplitTunnelPolicy
+  status: PolicyMutationStatus!
+}
+
+type SplitTunnelPolicyMutations {
+  addRule(input: SplitTunnelAddRuleInput!): SplitTunnelRuleMutationPayload! @beta
+  addSection(input: PolicyAddSectionInput!): PolicySectionMutationPayload! @beta
+  createPolicyRevision(input: PolicyCreateRevisionInput!): SplitTunnelPolicyMutationPayload! @beta
+  discardPolicyRevision(input: PolicyDiscardRevisionInput): SplitTunnelPolicyMutationPayload! @beta
+  moveRule(input: PolicyMoveRuleInput!): SplitTunnelRuleMutationPayload! @beta
+  moveSection(input: PolicyMoveSectionInput!): PolicySectionMutationPayload! @beta
+  publishPolicyRevision(input: PolicyPublishRevisionInput): SplitTunnelPolicyMutationPayload! @beta
+  removeRule(input: SplitTunnelRemoveRuleInput!): SplitTunnelRuleMutationPayload! @beta
+  removeSection(input: PolicyRemoveSectionInput!): PolicySectionMutationPayload! @beta
+  updatePolicy(input: SplitTunnelPolicyUpdateInput!): SplitTunnelPolicyMutationPayload! @beta
+  updateRule(input: SplitTunnelUpdateRuleInput!): SplitTunnelRuleMutationPayload! @beta
+  updateSection(input: PolicyUpdateSectionInput!): PolicySectionMutationPayload! @beta
+}
+
+type SplitTunnelPolicyQueries {
+  policy(input: SplitTunnelPolicyInput): SplitTunnelPolicy! @beta
+  revisions: PolicyRevisionsPayload @beta
+}
+
+input SplitTunnelPolicyUpdateInput {
+  state: PolicyToggleState
+}
+
+input SplitTunnelRemoveRuleInput {
+  id: ID!
+}
+
+"The action applied by the split tunnel if the rule is matched"
+enum SplitTunnelRoutingPriorityEnum {
+  LAN
+  TUNNEL
+}
+
+type SplitTunnelRule implements IPolicyRule {
+  "The action applied by the split tunnel if the rule is matched"
+  action: SplitTunnelActionEnum!
+  """
+  Country traffic matching criteria.
+  Logical ‘OR’ is applied within the criteria set.
+  Logical ‘AND’ is applied between criteria sets.
+  """
+  country: [CountryRef!]!
+  coverage: SplitTunnelCoverageEnum
+  "Description for the rule"
+  description: String!
+  """
+  Destination traffic matching criteria.
+  Logical ‘OR’ is applied within the criteria set.
+  Logical ‘AND’ is applied between criteria sets.
+  """
+  destination: SplitTunnelDestination!
+  dnsExclusion: SplitTunnelDnsExclusion
+  """
+  TRUE = Rule is enabled 
+   FALSE = Rule is disabled
+  """
+  enabled: Boolean!
+  "Rule ID"
+  id: ID!
+  "Position / priority of rule"
+  index: Int!
+  "Name of the rule"
+  name: String!
+  """
+  Source device Operating System traffic matching criteria.
+  Logical ‘OR’ is applied within the criteria set.
+  Logical ‘AND’ is applied between criteria sets.
+  """
+  platform: [OperatingSystem!]!
+  routingPriority: SplitTunnelRoutingPriorityEnum!
+  "Policy section where the rule is located"
+  section: PolicySectionInfo!
+  """
+  Source traffic matching criteria.
+  Logical ‘OR’ is applied within the criteria set.
+  Logical ‘AND’ is applied between criteria sets.
+  """
+  source: SplitTunnelSource!
+  sourceNetwork: SplitTunnelSourceNetwork!
+}
+
+type SplitTunnelRuleMutationPayload implements IPolicyRuleMutationPayload {
+  errors: [PolicyMutationError!]!
+  rule: SplitTunnelRulePayload
+  status: PolicyMutationStatus!
+}
+
+type SplitTunnelRulePayload implements IPolicyRulePayload {
+  audit: PolicyElementAudit!
+  properties: [PolicyElementPropertiesEnum!]!
+  rule: SplitTunnelRule!
+}
+
+"Returns the settings for Source of an Split Tunnel rule"
+type SplitTunnelSource {
+  "Individual users defined for the account"
+  user: [UserRef!]!
+  "Group of users"
+  usersGroup: [UsersGroupRef!]!
+}
+
+"Input of the settings for Source of an Split Tunnel rule"
+input SplitTunnelSourceInput {
+  "Individual users defined for the account"
+  user: [UserRefInput!]! = []
+  "Group of users"
+  usersGroup: [UsersGroupRefInput!]! = []
+}
+
+type SplitTunnelSourceNetwork {
+  sourceNetworkType: SplitTunnelSourceNetworkTypeEnum!
+}
+
+input SplitTunnelSourceNetworkInput {
+  sourceNetworkType: SplitTunnelSourceNetworkTypeEnum! = ANY
+}
+
+enum SplitTunnelSourceNetworkTypeEnum {
+  ANY
+  "Any Managed Network"
+  ANY_MANAGED_NETWORK
+  "Any Unmanaged Network"
+  ANY_UNMANAGED_NETWORK
+}
+
+input SplitTunnelSourceNetworkUpdateInput {
+  sourceNetworkType: SplitTunnelSourceNetworkTypeEnum
+}
+
+"Input of the settings for Source of an Split Tunnel rule"
+input SplitTunnelSourceUpdateInput {
+  "Individual users defined for the account"
+  user: [UserRefInput!]
+  "Group of users"
+  usersGroup: [UsersGroupRefInput!]
+}
+
+input SplitTunnelUpdateRuleDataInput {
+  "The action applied by the split tunnel if the rule is matched"
+  action: SplitTunnelActionEnum
+  """
+  Country traffic matching criteria.
+  Logical ‘OR’ is applied within the criteria set.
+  Logical ‘AND’ is applied between criteria sets.
+  """
+  country: [CountryRefInput!]
+  coverage: SplitTunnelCoverageEnum
+  description: String
+  """
+  Destination traffic matching criteria.
+  Logical ‘OR’ is applied within the criteria set.
+  Logical ‘AND’ is applied between criteria sets.
+  """
+  destination: SplitTunnelDestinationUpdateInput
+  dnsExclusion: SplitTunnelDnsExclusionUpdateInput
+  enabled: Boolean
+  name: String
+  """
+  Source device Operating System traffic matching criteria.
+  Logical ‘OR’ is applied within the criteria set.
+  Logical ‘AND’ is applied between criteria sets.
+  """
+  platform: [OperatingSystem!]
+  routingPriority: SplitTunnelRoutingPriorityEnum
+  """
+  Source traffic matching criteria.
+  Logical ‘OR’ is applied within the criteria set.
+  Logical ‘AND’ is applied between criteria sets.
+  """
+  source: SplitTunnelSourceUpdateInput
+  sourceNetwork: SplitTunnelSourceNetworkUpdateInput
+}
+
+input SplitTunnelUpdateRuleInput {
+  id: ID!
+  rule: SplitTunnelUpdateRuleDataInput!
+}
+
 input TerminalServerAddRuleDataInput {
   """
   Allowed Host IP range.
@@ -15333,4 +16593,263 @@ input TerminalServerUpdateRuleDataInput {
 input TerminalServerUpdateRuleInput {
   id: ID!
   rule: TerminalServerUpdateRuleDataInput!
+}
+
+input ZtnaAlwaysOnAddRuleDataInput {
+  "The action applied by the Always On rule"
+  action: ZtnaAlwaysOnRuleActionEnum! = ENFORCE
+  "Allow Direct internet access until a connection to the pop is established"
+  allowFailOpen: Boolean! = false
+  "Allow user to bypass Always On"
+  allowUserBypass: Boolean! = false
+  "Specifies the level of protection against tampering"
+  antiTamperMode: AntiTamperModeEnum = OFF
+  "Bypass disconnection duration"
+  bypassDuration: ZtnaAlwaysOnTimeInput!
+  description: String! = ""
+  """
+  Device Profile traffic matching criteria.
+  Logical ‘OR’ is applied within the criteria set.
+  Logical ‘AND’ is applied between criteria sets.
+  """
+  devicePostureProfile: [DeviceProfileRefInput!]! = []
+  enabled: Boolean!
+  name: String!
+  """
+  Source device Operating System traffic matching criteria.
+  Logical ‘OR’ is applied within the criteria set.
+  Logical ‘AND’ is applied between criteria sets.
+  """
+  platform: [OperatingSystem!]! = []
+  """
+  Source traffic matching criteria.
+  Logical ‘OR’ is applied within the criteria set.
+  Logical ‘AND’ is applied between criteria sets.
+  """
+  source: ZtnaAlwaysOnSourceInput! = {user: [], usersGroup: []}
+}
+
+input ZtnaAlwaysOnAddRuleInput {
+  "Position of the rule in the policy"
+  at: PolicyRulePositionInput
+  "Parameters for the rule you are adding"
+  rule: ZtnaAlwaysOnAddRuleDataInput!
+}
+
+type ZtnaAlwaysOnPolicy implements IPolicy {
+  audit: PolicyAudit
+  enabled: Boolean!
+  revision: PolicyRevision
+  rules: [ZtnaAlwaysOnRulePayload!]!
+  sections: [PolicySectionPayload!]!
+}
+
+input ZtnaAlwaysOnPolicyInput {
+  """
+  A revision is a specific instance of the policy.
+   Unpublished revisions are working copies of the policy available to a specific
+   admin or a set of admins
+   Published revisions are revisions that were applied to the account network.
+   The last published revision is the active policy.
+  """
+  revision: PolicyRevisionInput
+}
+
+input ZtnaAlwaysOnPolicyMutationInput {
+  revision: PolicyMutationRevisionInput
+}
+
+type ZtnaAlwaysOnPolicyMutationPayload implements IPolicyMutationPayload {
+  errors: [PolicyMutationError!]!
+  policy: ZtnaAlwaysOnPolicy
+  status: PolicyMutationStatus!
+}
+
+type ZtnaAlwaysOnPolicyMutations {
+  addRule(input: ZtnaAlwaysOnAddRuleInput!): ZtnaAlwaysOnRuleMutationPayload! @beta
+  addSection(input: PolicyAddSectionInput!): PolicySectionMutationPayload! @beta
+  createPolicyRevision(input: PolicyCreateRevisionInput!): ZtnaAlwaysOnPolicyMutationPayload! @beta
+  discardPolicyRevision(input: PolicyDiscardRevisionInput): ZtnaAlwaysOnPolicyMutationPayload! @beta
+  moveRule(input: PolicyMoveRuleInput!): ZtnaAlwaysOnRuleMutationPayload! @beta
+  moveSection(input: PolicyMoveSectionInput!): PolicySectionMutationPayload! @beta
+  publishPolicyRevision(input: PolicyPublishRevisionInput): ZtnaAlwaysOnPolicyMutationPayload! @beta
+  removeRule(input: ZtnaAlwaysOnRemoveRuleInput!): ZtnaAlwaysOnRuleMutationPayload! @beta
+  removeSection(input: PolicyRemoveSectionInput!): PolicySectionMutationPayload! @beta
+  updatePolicy(input: ZtnaAlwaysOnPolicyUpdateInput!): ZtnaAlwaysOnPolicyMutationPayload! @beta
+  updateRule(input: ZtnaAlwaysOnUpdateRuleInput!): ZtnaAlwaysOnRuleMutationPayload! @beta
+  updateSection(input: PolicyUpdateSectionInput!): PolicySectionMutationPayload! @beta
+}
+
+type ZtnaAlwaysOnPolicyQueries {
+  policy(input: ZtnaAlwaysOnPolicyInput): ZtnaAlwaysOnPolicy! @beta
+  revisions: PolicyRevisionsPayload @beta
+}
+
+input ZtnaAlwaysOnPolicyUpdateInput {
+  state: PolicyToggleState
+}
+
+input ZtnaAlwaysOnRemoveRuleInput {
+  id: ID!
+}
+
+type ZtnaAlwaysOnRule implements IPolicyRule {
+  "The action applied by the Always On rule"
+  action: ZtnaAlwaysOnRuleActionEnum!
+  "Allow Direct internet access until a connection to the pop is established"
+  allowFailOpen: Boolean!
+  "Allow user to bypass Always On"
+  allowUserBypass: Boolean!
+  "Specifies the level of protection against tampering"
+  antiTamperMode: AntiTamperModeEnum
+  "Bypass disconnection duration"
+  bypassDuration: ZtnaAlwaysOnTime!
+  "Description for the rule"
+  description: String!
+  """
+  Device Profile traffic matching criteria.
+  Logical ‘OR’ is applied within the criteria set.
+  Logical ‘AND’ is applied between criteria sets.
+  """
+  devicePostureProfile: [DeviceProfileRef!]!
+  """
+  TRUE = Rule is enabled 
+   FALSE = Rule is disabled
+  """
+  enabled: Boolean!
+  "Rule ID"
+  id: ID!
+  "Position / priority of rule"
+  index: Int!
+  "Name of the rule"
+  name: String!
+  """
+  Source device Operating System traffic matching criteria.
+  Logical ‘OR’ is applied within the criteria set.
+  Logical ‘AND’ is applied between criteria sets.
+  """
+  platform: [OperatingSystem!]!
+  "Policy section where the rule is located"
+  section: PolicySectionInfo!
+  """
+  Source traffic matching criteria.
+  Logical ‘OR’ is applied within the criteria set.
+  Logical ‘AND’ is applied between criteria sets.
+  """
+  source: ZtnaAlwaysOnSource!
+}
+
+"The action applied by the Always on policy if the rule is matched"
+enum ZtnaAlwaysOnRuleActionEnum {
+  "Enforce always on policy."
+  ENFORCE
+  "On demand always on policy."
+  IGNORE
+}
+
+type ZtnaAlwaysOnRuleMutationPayload implements IPolicyRuleMutationPayload {
+  errors: [PolicyMutationError!]!
+  rule: ZtnaAlwaysOnRulePayload
+  status: PolicyMutationStatus!
+}
+
+type ZtnaAlwaysOnRulePayload implements IPolicyRulePayload {
+  audit: PolicyElementAudit!
+  properties: [PolicyElementPropertiesEnum!]!
+  rule: ZtnaAlwaysOnRule!
+}
+
+"Returns the settings for Source of an Always On rule"
+type ZtnaAlwaysOnSource {
+  "Individual users defined for the account"
+  user: [UserRef!]!
+  "Group of users"
+  usersGroup: [UsersGroupRef!]!
+}
+
+"Input of the settings for Source of an Always On rule"
+input ZtnaAlwaysOnSourceInput {
+  "Individual users defined for the account"
+  user: [UserRefInput!]! = []
+  "Group of users"
+  usersGroup: [UsersGroupRefInput!]! = []
+}
+
+"Input of the settings for Source of an Always On rule"
+input ZtnaAlwaysOnSourceUpdateInput {
+  "Individual users defined for the account"
+  user: [UserRefInput!]
+  "Group of users"
+  usersGroup: [UsersGroupRefInput!]
+}
+
+"Return the disconnection duration time"
+type ZtnaAlwaysOnTime {
+  "Duration time value"
+  time: Int!
+  "Time unit for the duration"
+  unit: ZtnaAlwaysOnTimeUnit!
+}
+
+"Return the disconnection duration time"
+input ZtnaAlwaysOnTimeInput {
+  "Duration time value"
+  time: Int!
+  "Time unit for the duration"
+  unit: ZtnaAlwaysOnTimeUnit! = MINUTES
+}
+
+"Return the time unit of the duration time"
+enum ZtnaAlwaysOnTimeUnit {
+  "Time in hours"
+  HOURS
+  "Time in minutes"
+  MINUTES
+}
+
+"Return the disconnection duration time"
+input ZtnaAlwaysOnTimeUpdateInput {
+  "Duration time value"
+  time: Int
+  "Time unit for the duration"
+  unit: ZtnaAlwaysOnTimeUnit
+}
+
+input ZtnaAlwaysOnUpdateRuleDataInput {
+  "The action applied by the Always On rule"
+  action: ZtnaAlwaysOnRuleActionEnum
+  "Allow Direct internet access until a connection to the pop is established"
+  allowFailOpen: Boolean
+  "Allow user to bypass Always On"
+  allowUserBypass: Boolean
+  "Specifies the level of protection against tampering"
+  antiTamperMode: AntiTamperModeEnum
+  "Bypass disconnection duration"
+  bypassDuration: ZtnaAlwaysOnTimeUpdateInput
+  description: String
+  """
+  Device Profile traffic matching criteria.
+  Logical ‘OR’ is applied within the criteria set.
+  Logical ‘AND’ is applied between criteria sets.
+  """
+  devicePostureProfile: [DeviceProfileRefInput!]
+  enabled: Boolean
+  name: String
+  """
+  Source device Operating System traffic matching criteria.
+  Logical ‘OR’ is applied within the criteria set.
+  Logical ‘AND’ is applied between criteria sets.
+  """
+  platform: [OperatingSystem!]
+  """
+  Source traffic matching criteria.
+  Logical ‘OR’ is applied within the criteria set.
+  Logical ‘AND’ is applied between criteria sets.
+  """
+  source: ZtnaAlwaysOnSourceUpdateInput
+}
+
+input ZtnaAlwaysOnUpdateRuleInput {
+  id: ID!
+  rule: ZtnaAlwaysOnUpdateRuleDataInput!
 }

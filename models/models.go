@@ -374,6 +374,30 @@ type ObjectRef interface {
 	GetName() string
 }
 
+type PolicyInfo interface {
+	IsPolicyInfo()
+	GetID() string
+	GetName() string
+	GetDescription() string
+	GetEnabled() bool
+	GetAudit() *PolicyAudit
+}
+
+type PolicyListPayload interface {
+	IsPolicyListPayload()
+	GetItems() []PolicyInfo
+	GetPaging() *PageInfo
+}
+
+type PolicyRef interface {
+	IsObjectRef()
+	IsPolicyRef()
+	// Policy's unique identifier
+	GetID() string
+	// Policy's unique name
+	GetName() string
+}
+
 type ProcessResource interface {
 	IsEndpointResource()
 	IsProcessResource()
@@ -1088,6 +1112,49 @@ type AiOperationsPlaybook struct {
 	Link        *string `json:"link,omitempty"`
 	Title       string  `json:"title"`
 }
+
+type AiSecurityAttributes struct {
+	DataUsagePolicy *AiSecurityDataUsagePolicy `json:"dataUsagePolicy,omitempty"`
+	Risk            *AiSecurityRisk            `json:"risk,omitempty"`
+	Scope           *AiSecurityScope           `json:"scope,omitempty"`
+}
+
+// A reference identifying the AiSecurityDataProfile object. ID: Unique AiSecurityDataProfile Identifier, Name: The AiSecurityDataProfile Name
+// TODO: rename data to Content
+type AiSecurityDataProfileRef struct {
+	ID   string `json:"id"`
+	Name string `json:"name"`
+}
+
+func (AiSecurityDataProfileRef) IsObjectRef() {}
+
+// Object's unique identifier
+func (this AiSecurityDataProfileRef) GetID() string { return this.ID }
+
+// Object's unique name
+func (this AiSecurityDataProfileRef) GetName() string { return this.Name }
+
+type AiSecurityDataUsagePolicy struct {
+	Description   *string                        `json:"description,omitempty"`
+	Reference     *string                        `json:"reference,omitempty"`
+	ReferenceType *string                        `json:"referenceType,omitempty"`
+	ReferenceURL  *string                        `json:"referenceUrl,omitempty"`
+	Type          *AiSecurityDataUsagePolicyType `json:"type,omitempty"`
+}
+
+// A reference identifying the Guard object. ID: Unique Guard Identifier, Name: The Guard Name
+type AiSecurityGuardRef struct {
+	ID   string `json:"id"`
+	Name string `json:"name"`
+}
+
+func (AiSecurityGuardRef) IsObjectRef() {}
+
+// Object's unique identifier
+func (this AiSecurityGuardRef) GetID() string { return this.ID }
+
+// Object's unique name
+func (this AiSecurityGuardRef) GetName() string { return this.Name }
 
 // A reference identifying the AllocatedIp object. ID: Unique AllocatedIp Identifier, Name: The AllocatedIp Name
 type AllocatedIPRef struct {
@@ -2122,6 +2189,30 @@ func (this ApplicationCategoryRef) GetName() string { return this.Name }
 type ApplicationCategoryRefInput struct {
 	By    ObjectRefBy `json:"by"`
 	Input string      `json:"input"`
+}
+
+// A reference identifying the Application Connector object. ID: Unique Application Connector Identifier, Name: The Application Connector Name
+type ApplicationConnectorCatalogEntityRef struct {
+	ID   string `json:"id"`
+	Name string `json:"name"`
+}
+
+func (ApplicationConnectorCatalogEntityRef) IsObjectRef() {}
+
+// Object's unique identifier
+func (this ApplicationConnectorCatalogEntityRef) GetID() string { return this.ID }
+
+// Object's unique name
+func (this ApplicationConnectorCatalogEntityRef) GetName() string { return this.Name }
+
+type ApplicationConnectorCatalogEntityRefFilterInput struct {
+	ID   *IDFilterInput     `json:"id,omitempty"`
+	Name *StringFilterInput `json:"name,omitempty"`
+}
+
+type ApplicationConnectorCatalogEntityRefSortOrderInput struct {
+	ID   *SortOrderInput `json:"id,omitempty"`
+	Name *SortOrderInput `json:"name,omitempty"`
 }
 
 // Access method matching configuration
@@ -3691,26 +3782,29 @@ func (this CasbLicense) GetExpirationDate() string { return this.ExpirationDate 
 func (this CasbLicense) GetLastUpdated() *string { return this.LastUpdated }
 
 type CatalogApplication struct {
-	Activity             []*CatalogApplicationActivity           `json:"activity"`
-	Capability           []CatalogApplicationCapability          `json:"capability"`
-	Category             []*ApplicationCategoryRef               `json:"category"`
-	City                 *string                                 `json:"city,omitempty"`
-	ComplianceAttributes *CatalogApplicationComplianceAttributes `json:"complianceAttributes"`
-	Description          *string                                 `json:"description,omitempty"`
-	DescriptionSummary   *string                                 `json:"descriptionSummary,omitempty"`
-	ID                   string                                  `json:"id"`
-	IpoStatus            *string                                 `json:"ipoStatus,omitempty"`
-	Name                 string                                  `json:"name"`
-	NumOfEmployees       *EmployeeRange                          `json:"numOfEmployees,omitempty"`
-	OriginCountry        *CountryRef                             `json:"originCountry,omitempty"`
-	RecentlyAdded        bool                                    `json:"recentlyAdded"`
-	Region               *string                                 `json:"region,omitempty"`
-	Risk                 *string                                 `json:"risk,omitempty"`
-	Sanctioned           bool                                    `json:"sanctioned"`
-	SecurityAttributes   *CatalogApplicationSecurityAttributes   `json:"securityAttributes"`
-	StandardPorts        []*CustomService                        `json:"standardPorts"`
-	Type                 CatalogApplicationType                  `json:"type"`
-	Website              *string                                 `json:"website,omitempty"`
+	Activity                           []*CatalogApplicationActivity                         `json:"activity"`
+	AiSecurity                         *AiSecurityAttributes                                 `json:"aiSecurity,omitempty"`
+	Capability                         []CatalogApplicationCapability                        `json:"capability"`
+	Category                           []*ApplicationCategoryRef                             `json:"category"`
+	City                               *string                                               `json:"city,omitempty"`
+	ComplianceAttributes               *CatalogApplicationComplianceAttributes               `json:"complianceAttributes"`
+	Description                        *string                                               `json:"description,omitempty"`
+	DescriptionSummary                 *string                                               `json:"descriptionSummary,omitempty"`
+	ID                                 string                                                `json:"id"`
+	IdentityAccessManagementAttributes *CatalogApplicationIdentityAccessManagementAttributes `json:"identityAccessManagementAttributes,omitempty"`
+	IpoStatus                          *string                                               `json:"ipoStatus,omitempty"`
+	Name                               string                                                `json:"name"`
+	NumOfEmployees                     *EmployeeRange                                        `json:"numOfEmployees,omitempty"`
+	OriginCountry                      *CountryRef                                           `json:"originCountry,omitempty"`
+	RecentlyAdded                      bool                                                  `json:"recentlyAdded"`
+	Region                             *string                                               `json:"region,omitempty"`
+	Risk                               *string                                               `json:"risk,omitempty"`
+	Sanctioned                         bool                                                  `json:"sanctioned"`
+	SecurityAttributes                 *CatalogApplicationSecurityAttributes                 `json:"securityAttributes"`
+	StandardPorts                      []*CustomService                                      `json:"standardPorts"`
+	TenantActivity                     []*CatalogApplicationActivity                         `json:"tenantActivity"`
+	Type                               CatalogApplicationType                                `json:"type"`
+	Website                            *string                                               `json:"website,omitempty"`
 }
 
 type CatalogApplicationActivity struct {
@@ -3748,14 +3842,40 @@ type CatalogApplicationCategorySortInput struct {
 }
 
 type CatalogApplicationComplianceAttributes struct {
-	Hippa    CatalogApplicationAttribute `json:"hippa"`
-	Isae3402 CatalogApplicationAttribute `json:"isae3402"`
-	Iso27001 CatalogApplicationAttribute `json:"iso27001"`
-	PciDss   CatalogApplicationAttribute `json:"pciDss"`
-	Soc1     CatalogApplicationAttribute `json:"soc1"`
-	Soc2     CatalogApplicationAttribute `json:"soc2"`
-	Soc3     CatalogApplicationAttribute `json:"soc3"`
-	Sox      CatalogApplicationAttribute `json:"sox"`
+	C5Attestation            *CatalogApplicationAttribute `json:"c5Attestation,omitempty"`
+	Cjis                     *CatalogApplicationAttribute `json:"cjis,omitempty"`
+	Cobit                    *CatalogApplicationAttribute `json:"cobit,omitempty"`
+	Coppa                    *CatalogApplicationAttribute `json:"coppa,omitempty"`
+	CsaStar                  *CatalogApplicationAttribute `json:"csaStar,omitempty"`
+	CyberEssentialsPlusUk    *CatalogApplicationAttribute `json:"cyberEssentialsPlusUk,omitempty"`
+	EuUsDataPrivacyFramework *CatalogApplicationAttribute `json:"euUsDataPrivacyFramework,omitempty"`
+	FedRamp                  *CatalogApplicationAttribute `json:"fedRamp,omitempty"`
+	Ferpa                    *CatalogApplicationAttribute `json:"ferpa,omitempty"`
+	Ffiec                    *CatalogApplicationAttribute `json:"ffiec,omitempty"`
+	Finra                    *CatalogApplicationAttribute `json:"finra,omitempty"`
+	Fisma                    *CatalogApplicationAttribute `json:"fisma,omitempty"`
+	Gapp                     *CatalogApplicationAttribute `json:"gapp,omitempty"`
+	Gdpr                     *CatalogApplicationAttribute `json:"gdpr,omitempty"`
+	Glba                     *CatalogApplicationAttribute `json:"glba,omitempty"`
+	Hippa                    CatalogApplicationAttribute  `json:"hippa"`
+	HitrustCsf               *CatalogApplicationAttribute `json:"hitrustCsf,omitempty"`
+	Isae3402                 CatalogApplicationAttribute  `json:"isae3402"`
+	Iso27001                 CatalogApplicationAttribute  `json:"iso27001"`
+	Iso27002                 *CatalogApplicationAttribute `json:"iso27002,omitempty"`
+	Iso27017                 *CatalogApplicationAttribute `json:"iso27017,omitempty"`
+	Iso27018                 *CatalogApplicationAttribute `json:"iso27018,omitempty"`
+	Iso9000                  *CatalogApplicationAttribute `json:"iso9000,omitempty"`
+	Iso9001                  *CatalogApplicationAttribute `json:"iso9001,omitempty"`
+	Itar                     *CatalogApplicationAttribute `json:"itar,omitempty"`
+	JapanPrivacyMark         *CatalogApplicationAttribute `json:"japanPrivacyMark,omitempty"`
+	JerichoForumCommandments *CatalogApplicationAttribute `json:"jerichoForumCommandments,omitempty"`
+	NistSp80053              *CatalogApplicationAttribute `json:"nistSp80053,omitempty"`
+	PciDss                   CatalogApplicationAttribute  `json:"pciDss"`
+	Soc1                     CatalogApplicationAttribute  `json:"soc1"`
+	Soc2                     CatalogApplicationAttribute  `json:"soc2"`
+	Soc3                     CatalogApplicationAttribute  `json:"soc3"`
+	Sox                      CatalogApplicationAttribute  `json:"sox"`
+	TrustArcPrivacy          *CatalogApplicationAttribute `json:"trustArcPrivacy,omitempty"`
 }
 
 type CatalogApplicationContentType struct {
@@ -3796,14 +3916,24 @@ type CatalogApplicationContentTypeGroupSortInput struct {
 }
 
 type CatalogApplicationFilterInput struct {
-	Activity      []*CatalogApplicationActivityFilterInput   `json:"activity,omitempty"`
-	Capability    []*CatalogApplicationCapabilityFilterInput `json:"capability,omitempty"`
-	Category      []*CatalogApplicationCategoryFilterInput   `json:"category,omitempty"`
-	ID            []*IDFilterInput                           `json:"id,omitempty"`
-	Name          []*StringFilterInput                       `json:"name,omitempty"`
-	RecentlyAdded []*BooleanFilterInput                      `json:"recentlyAdded,omitempty"`
-	Risk          []*IntFilterInput                          `json:"risk,omitempty"`
-	Type          []*CatalogApplicationTypeFilterInput       `json:"type,omitempty"`
+	Activity   []*CatalogApplicationActivityFilterInput   `json:"activity,omitempty"`
+	Capability []*CatalogApplicationCapabilityFilterInput `json:"capability,omitempty"`
+	Category   []*CatalogApplicationCategoryFilterInput   `json:"category,omitempty"`
+	// Free-text search across name, activity and activity fields
+	FreeText       *FreeTextFilterInput                 `json:"freeText,omitempty"`
+	ID             []*IDFilterInput                     `json:"id,omitempty"`
+	Name           []*StringFilterInput                 `json:"name,omitempty"`
+	OriginCountry  []*StringFilterInput                 `json:"originCountry,omitempty"`
+	RecentlyAdded  []*BooleanFilterInput                `json:"recentlyAdded,omitempty"`
+	Risk           []*IntFilterInput                    `json:"risk,omitempty"`
+	TenantActivity []*BooleanFilterInput                `json:"tenantActivity,omitempty"`
+	Type           []*CatalogApplicationTypeFilterInput `json:"type,omitempty"`
+}
+
+type CatalogApplicationIdentityAccessManagementAttributes struct {
+	AccessControlEnforcement  *CatalogApplicationAttribute `json:"accessControlEnforcement,omitempty"`
+	IPBasedAccessRestrictions *CatalogApplicationAttribute `json:"ipBasedAccessRestrictions,omitempty"`
+	SamlAuthentication        *CatalogApplicationAttribute `json:"samlAuthentication,omitempty"`
 }
 
 type CatalogApplicationListInput struct {
@@ -3818,15 +3948,27 @@ type CatalogApplicationListPayload struct {
 }
 
 type CatalogApplicationSecurityAttributes struct {
-	AuditTrail          CatalogApplicationAttribute `json:"auditTrail"`
-	EncryptionAtRest    CatalogApplicationAttribute `json:"encryptionAtRest"`
-	HTTPSecurityHeaders CatalogApplicationAttribute `json:"httpSecurityHeaders"`
-	Mfa                 CatalogApplicationAttribute `json:"mfa"`
-	Rbac                CatalogApplicationAttribute `json:"rbac"`
-	RememberPassword    CatalogApplicationAttribute `json:"rememberPassword"`
-	Sso                 CatalogApplicationAttribute `json:"sso"`
-	TLSEnforcement      CatalogApplicationAttribute `json:"tlsEnforcement"`
-	TrustedCertificate  CatalogApplicationAttribute `json:"trustedCertificate"`
+	AuditTrail                      CatalogApplicationAttribute                 `json:"auditTrail"`
+	DataDeletionPolicy              *CatalogApplicationDataDeletionPolicy       `json:"dataDeletionPolicy,omitempty"`
+	DataOwnership                   *CatalogApplicationDataOwnership            `json:"dataOwnership,omitempty"`
+	DataRetentionPolicy             *CatalogApplicationDataRetentionPolicy      `json:"dataRetentionPolicy,omitempty"`
+	DataSegregatedByTenant          *CatalogApplicationAttribute                `json:"dataSegregatedByTenant,omitempty"`
+	DisasterRecovery                *CatalogApplicationAttribute                `json:"disasterRecovery,omitempty"`
+	EncryptionAtRest                CatalogApplicationAttribute                 `json:"encryptionAtRest"`
+	EncryptionInTransit             *CatalogApplicationAttribute                `json:"encryptionInTransit,omitempty"`
+	EncryptionStrengthAtRest        *CatalogApplicationEncryptionStrengthAtRest `json:"encryptionStrengthAtRest,omitempty"`
+	HTTPSecurityHeaders             CatalogApplicationAttribute                 `json:"httpSecurityHeaders"`
+	Mfa                             CatalogApplicationAttribute                 `json:"mfa"`
+	PhysicalDataCenterSecurity      *CatalogApplicationAttribute                `json:"physicalDataCenterSecurity,omitempty"`
+	PrivacyPolicyURL                *string                                     `json:"privacyPolicyUrl,omitempty"`
+	Rbac                            CatalogApplicationAttribute                 `json:"rbac"`
+	RememberPassword                CatalogApplicationAttribute                 `json:"rememberPassword"`
+	Sso                             CatalogApplicationAttribute                 `json:"sso"`
+	TermsOfUseCustomerProtectionURL *string                                     `json:"termsOfUseCustomerProtectionUrl,omitempty"`
+	TLSEnforcement                  CatalogApplicationAttribute                 `json:"tlsEnforcement"`
+	TLSVersionSupport               *CatalogApplicationTLSVersionSupport        `json:"tlsVersionSupport,omitempty"`
+	TrustedCertificate              CatalogApplicationAttribute                 `json:"trustedCertificate"`
+	WeakCipherSupport               *CatalogApplicationWeakCipherSupport        `json:"weakCipherSupport,omitempty"`
 }
 
 type CatalogApplicationSortInput struct {
@@ -4274,6 +4416,344 @@ type CellularInterface struct {
 	SimSlotID *int64 `json:"simSlotId,omitempty"`
 }
 
+type ClientConnectivityAddRuleDataInput struct {
+	// The action applied by the client connectivity if the rule is matched
+	Action ClientConnectivityActionEnum `json:"action"`
+	// User confidence level
+	ConfidenceLevel ClientConnectivityConfidenceLevelEnum `json:"confidenceLevel"`
+	// Connection origin matching criteria.
+	// Logical 'OR' is applied within the criteria set.
+	// Logical 'AND' is applied between criteria sets.
+	ConnectionOrigin []ClientConnectivityOriginEnum `json:"connectionOrigin"`
+	// Country traffic matching criteria.
+	// Logical ‘OR’ is applied within the criteria set.
+	// Logical ‘AND’ is applied between criteria sets.
+	Country     []*CountryRefInput `json:"country"`
+	Description string             `json:"description"`
+	// Device Profile traffic matching criteria.
+	// Logical ‘OR’ is applied within the criteria set.
+	// Logical ‘AND’ is applied between criteria sets.
+	Device  []*DeviceProfileRefInput `json:"device"`
+	Enabled bool                     `json:"enabled"`
+	Name    string                   `json:"name"`
+	// Source device Operating System traffic matching criteria.
+	// Logical ‘OR’ is applied within the criteria set.
+	// Logical ‘AND’ is applied between criteria sets.
+	Platform []OperatingSystem `json:"platform"`
+	// Source traffic matching criteria.
+	// Logical ‘OR’ is applied within the criteria set.
+	// Logical ‘AND’ is applied between criteria sets.
+	Source *ClientConnectivitySourceInput `json:"source"`
+	// Public ISP IP Range matching criteria.
+	SourceRange []*ClientConnectivitySourceRangeInput `json:"sourceRange"`
+}
+
+type ClientConnectivityAddRuleInput struct {
+	// Position of the rule in the policy
+	At *PolicyRulePositionInput `json:"at,omitempty"`
+	// Parameters for the rule you are adding
+	Rule *ClientConnectivityAddRuleDataInput `json:"rule"`
+}
+
+type ClientConnectivityPolicy struct {
+	Audit    *PolicyAudit                     `json:"audit,omitempty"`
+	Enabled  bool                             `json:"enabled"`
+	Revision *PolicyRevision                  `json:"revision,omitempty"`
+	Rules    []*ClientConnectivityRulePayload `json:"rules"`
+	Sections []*PolicySectionPayload          `json:"sections"`
+}
+
+func (ClientConnectivityPolicy) IsIPolicy() {}
+
+// TRUE = Policy is enabled, FALSE = Policy is disabled
+func (this ClientConnectivityPolicy) GetEnabled() bool { return this.Enabled }
+
+// Return list of rules in the policy
+func (this ClientConnectivityPolicy) GetRules() []IPolicyRulePayload {
+	if this.Rules == nil {
+		return nil
+	}
+	interfaceSlice := make([]IPolicyRulePayload, 0, len(this.Rules))
+	for _, concrete := range this.Rules {
+		interfaceSlice = append(interfaceSlice, concrete)
+	}
+	return interfaceSlice
+}
+
+// Return sections in the policy
+func (this ClientConnectivityPolicy) GetSections() []*PolicySectionPayload {
+	if this.Sections == nil {
+		return nil
+	}
+	interfaceSlice := make([]*PolicySectionPayload, 0, len(this.Sections))
+	for _, concrete := range this.Sections {
+		interfaceSlice = append(interfaceSlice, concrete)
+	}
+	return interfaceSlice
+}
+
+// Audit data for the policy
+func (this ClientConnectivityPolicy) GetAudit() *PolicyAudit { return this.Audit }
+
+// Return data for the Policy revision
+func (this ClientConnectivityPolicy) GetRevision() *PolicyRevision { return this.Revision }
+
+type ClientConnectivityPolicyInput struct {
+	// A revision is a specific instance of the policy.
+	//  Unpublished revisions are working copies of the policy available to a specific
+	//  admin or a set of admins
+	//  Published revisions are revisions that were applied to the account network.
+	//  The last published revision is the active policy.
+	Revision *PolicyRevisionInput `json:"revision,omitempty"`
+}
+
+type ClientConnectivityPolicyMutationInput struct {
+	Revision *PolicyMutationRevisionInput `json:"revision,omitempty"`
+}
+
+type ClientConnectivityPolicyMutationPayload struct {
+	Errors []*PolicyMutationError    `json:"errors"`
+	Policy *ClientConnectivityPolicy `json:"policy,omitempty"`
+	Status PolicyMutationStatus      `json:"status"`
+}
+
+func (ClientConnectivityPolicyMutationPayload) IsIPolicyMutationPayload() {}
+
+// Data for the policy
+func (this ClientConnectivityPolicyMutationPayload) GetPolicy() IPolicy { return *this.Policy }
+
+// Enum for the status of the policy change
+func (this ClientConnectivityPolicyMutationPayload) GetStatus() PolicyMutationStatus {
+	return this.Status
+}
+
+// List of errors related to the policy change
+func (this ClientConnectivityPolicyMutationPayload) GetErrors() []*PolicyMutationError {
+	if this.Errors == nil {
+		return nil
+	}
+	interfaceSlice := make([]*PolicyMutationError, 0, len(this.Errors))
+	for _, concrete := range this.Errors {
+		interfaceSlice = append(interfaceSlice, concrete)
+	}
+	return interfaceSlice
+}
+
+type ClientConnectivityPolicyMutations struct {
+	AddRule               *ClientConnectivityRuleMutationPayload   `json:"addRule"`
+	AddSection            *PolicySectionMutationPayload            `json:"addSection"`
+	CreatePolicyRevision  *ClientConnectivityPolicyMutationPayload `json:"createPolicyRevision"`
+	DiscardPolicyRevision *ClientConnectivityPolicyMutationPayload `json:"discardPolicyRevision"`
+	MoveRule              *ClientConnectivityRuleMutationPayload   `json:"moveRule"`
+	MoveSection           *PolicySectionMutationPayload            `json:"moveSection"`
+	PublishPolicyRevision *ClientConnectivityPolicyMutationPayload `json:"publishPolicyRevision"`
+	RemoveRule            *ClientConnectivityRuleMutationPayload   `json:"removeRule"`
+	RemoveSection         *PolicySectionMutationPayload            `json:"removeSection"`
+	UpdatePolicy          *ClientConnectivityPolicyMutationPayload `json:"updatePolicy"`
+	UpdateRule            *ClientConnectivityRuleMutationPayload   `json:"updateRule"`
+	UpdateSection         *PolicySectionMutationPayload            `json:"updateSection"`
+}
+
+type ClientConnectivityPolicyQueries struct {
+	Policy    *ClientConnectivityPolicy `json:"policy"`
+	Revisions *PolicyRevisionsPayload   `json:"revisions,omitempty"`
+}
+
+type ClientConnectivityPolicyUpdateInput struct {
+	State *PolicyToggleState `json:"state,omitempty"`
+}
+
+type ClientConnectivityRemoveRuleInput struct {
+	ID string `json:"id"`
+}
+
+type ClientConnectivityRule struct {
+	// The action applied by the client connectivity if the rule is matched
+	Action ClientConnectivityActionEnum `json:"action"`
+	// User confidence level
+	ConfidenceLevel ClientConnectivityConfidenceLevelEnum `json:"confidenceLevel"`
+	// Connection origin matching criteria.
+	// Logical 'OR' is applied within the criteria set.
+	// Logical 'AND' is applied between criteria sets.
+	ConnectionOrigin []ClientConnectivityOriginEnum `json:"connectionOrigin"`
+	// Country traffic matching criteria.
+	// Logical ‘OR’ is applied within the criteria set.
+	// Logical ‘AND’ is applied between criteria sets.
+	Country []*CountryRef `json:"country"`
+	// Description for the rule
+	Description string `json:"description"`
+	// Device Profile traffic matching criteria.
+	// Logical ‘OR’ is applied within the criteria set.
+	// Logical ‘AND’ is applied between criteria sets.
+	Device []*DeviceProfileRef `json:"device"`
+	// TRUE = Rule is enabled
+	//  FALSE = Rule is disabled
+	Enabled bool `json:"enabled"`
+	// Rule ID
+	ID string `json:"id"`
+	// Position / priority of rule
+	Index int64 `json:"index"`
+	// Name of the rule
+	Name string `json:"name"`
+	// Source device Operating System traffic matching criteria.
+	// Logical ‘OR’ is applied within the criteria set.
+	// Logical ‘AND’ is applied between criteria sets.
+	Platform []OperatingSystem `json:"platform"`
+	// Policy section where the rule is located
+	Section *PolicySectionInfo `json:"section"`
+	// Source traffic matching criteria.
+	// Logical ‘OR’ is applied within the criteria set.
+	// Logical ‘AND’ is applied between criteria sets.
+	Source *ClientConnectivitySource `json:"source"`
+	// Public ISP IP Range matching criteria.
+	SourceRange []*ClientConnectivitySourceRange `json:"sourceRange"`
+}
+
+func (ClientConnectivityRule) IsIPolicyRule() {}
+
+// Rule ID
+func (this ClientConnectivityRule) GetID() string { return this.ID }
+
+// Name of the rule
+func (this ClientConnectivityRule) GetName() string { return this.Name }
+
+// Description for the rule
+func (this ClientConnectivityRule) GetDescription() *string { return &this.Description }
+
+// Position / priority of rule
+func (this ClientConnectivityRule) GetIndex() int64 { return this.Index }
+
+// TRUE = Rule is enabled, FALSE = Rule is disabled
+func (this ClientConnectivityRule) GetEnabled() bool { return this.Enabled }
+
+// Policy section where the rule is located
+func (this ClientConnectivityRule) GetSection() *PolicySectionInfo { return this.Section }
+
+type ClientConnectivityRuleMutationPayload struct {
+	Errors []*PolicyMutationError         `json:"errors"`
+	Rule   *ClientConnectivityRulePayload `json:"rule,omitempty"`
+	Status PolicyMutationStatus           `json:"status"`
+}
+
+func (ClientConnectivityRuleMutationPayload) IsIPolicyRuleMutationPayload() {}
+
+// Returns settings for the rule
+func (this ClientConnectivityRuleMutationPayload) GetRule() IPolicyRulePayload { return *this.Rule }
+
+// Enum for the status of the policy change
+func (this ClientConnectivityRuleMutationPayload) GetStatus() PolicyMutationStatus {
+	return this.Status
+}
+
+// List of errors related to the policy change
+func (this ClientConnectivityRuleMutationPayload) GetErrors() []*PolicyMutationError {
+	if this.Errors == nil {
+		return nil
+	}
+	interfaceSlice := make([]*PolicyMutationError, 0, len(this.Errors))
+	for _, concrete := range this.Errors {
+		interfaceSlice = append(interfaceSlice, concrete)
+	}
+	return interfaceSlice
+}
+
+type ClientConnectivityRulePayload struct {
+	Audit      *PolicyElementAudit           `json:"audit"`
+	Properties []PolicyElementPropertiesEnum `json:"properties"`
+	Rule       *ClientConnectivityRule       `json:"rule"`
+}
+
+func (ClientConnectivityRulePayload) IsIPolicyRulePayload()              {}
+func (this ClientConnectivityRulePayload) GetAudit() *PolicyElementAudit { return this.Audit }
+
+// Rule that was changed
+func (this ClientConnectivityRulePayload) GetRule() IPolicyRule { return *this.Rule }
+
+// Summary of rule change, (ie. ADDED, UPDATED)
+func (this ClientConnectivityRulePayload) GetProperties() []PolicyElementPropertiesEnum {
+	if this.Properties == nil {
+		return nil
+	}
+	interfaceSlice := make([]PolicyElementPropertiesEnum, 0, len(this.Properties))
+	for _, concrete := range this.Properties {
+		interfaceSlice = append(interfaceSlice, concrete)
+	}
+	return interfaceSlice
+}
+
+// Users or user groups that the policy will apply on
+type ClientConnectivitySource struct {
+	// Individual users defined for the account
+	User []*UserRef `json:"user"`
+	// Group of users
+	UsersGroup []*UsersGroupRef `json:"usersGroup"`
+}
+
+// Users or user groups that the policy will apply on
+type ClientConnectivitySourceInput struct {
+	// Individual users defined for the account
+	User []*UserRefInput `json:"user"`
+	// Group of users
+	UsersGroup []*UsersGroupRefInput `json:"usersGroup"`
+}
+
+// Public ISP IP Range for source matching
+type ClientConnectivitySourceRange struct {
+	// Globally defined IP range
+	GlobalIPRange *GlobalIPRangeRef `json:"globalIpRange"`
+}
+
+// Public ISP IP Range for source matching
+type ClientConnectivitySourceRangeInput struct {
+	// Globally defined IP range
+	GlobalIPRange *GlobalIPRangeRefInput `json:"globalIpRange"`
+}
+
+// Users or user groups that the policy will apply on
+type ClientConnectivitySourceUpdateInput struct {
+	// Individual users defined for the account
+	User []*UserRefInput `json:"user,omitempty"`
+	// Group of users
+	UsersGroup []*UsersGroupRefInput `json:"usersGroup,omitempty"`
+}
+
+type ClientConnectivityUpdateRuleDataInput struct {
+	// The action applied by the client connectivity if the rule is matched
+	Action *ClientConnectivityActionEnum `json:"action,omitempty"`
+	// User confidence level
+	ConfidenceLevel *ClientConnectivityConfidenceLevelEnum `json:"confidenceLevel,omitempty"`
+	// Connection origin matching criteria.
+	// Logical 'OR' is applied within the criteria set.
+	// Logical 'AND' is applied between criteria sets.
+	ConnectionOrigin []ClientConnectivityOriginEnum `json:"connectionOrigin,omitempty"`
+	// Country traffic matching criteria.
+	// Logical ‘OR’ is applied within the criteria set.
+	// Logical ‘AND’ is applied between criteria sets.
+	Country     []*CountryRefInput `json:"country,omitempty"`
+	Description *string            `json:"description,omitempty"`
+	// Device Profile traffic matching criteria.
+	// Logical ‘OR’ is applied within the criteria set.
+	// Logical ‘AND’ is applied between criteria sets.
+	Device  []*DeviceProfileRefInput `json:"device,omitempty"`
+	Enabled *bool                    `json:"enabled,omitempty"`
+	Name    *string                  `json:"name,omitempty"`
+	// Source device Operating System traffic matching criteria.
+	// Logical ‘OR’ is applied within the criteria set.
+	// Logical ‘AND’ is applied between criteria sets.
+	Platform []OperatingSystem `json:"platform,omitempty"`
+	// Source traffic matching criteria.
+	// Logical ‘OR’ is applied within the criteria set.
+	// Logical ‘AND’ is applied between criteria sets.
+	Source *ClientConnectivitySourceUpdateInput `json:"source,omitempty"`
+	// Public ISP IP Range matching criteria.
+	SourceRange []*ClientConnectivitySourceRangeInput `json:"sourceRange,omitempty"`
+}
+
+type ClientConnectivityUpdateRuleInput struct {
+	ID   string                                 `json:"id"`
+	Rule *ClientConnectivityUpdateRuleDataInput `json:"rule"`
+}
+
 // Connectivity status of a cloud interconnect connection.
 type CloudInterconnectConnectionConnectivity struct {
 	// Indicates if the connection is successful.
@@ -4380,6 +4860,22 @@ type ContainerQueries struct {
 	List           *ContainerSearchPayload         `json:"list"`
 }
 
+// A group with members of a single type of entity (for example: IP, FQDN)
+type ContainerRef struct {
+	// Unique container ID
+	ID string `json:"id"`
+	// Name for the container
+	Name string `json:"name"`
+}
+
+func (ContainerRef) IsObjectRef() {}
+
+// Object's unique identifier
+func (this ContainerRef) GetID() string { return this.ID }
+
+// Object's unique name
+func (this ContainerRef) GetName() string { return this.Name }
+
 // Add a container by ID or name
 type ContainerRefInput struct {
 	// Defines the object identification method – by ID (default) or by name
@@ -4400,6 +4896,36 @@ type ContainerSearchInput struct {
 type ContainerSearchPayload struct {
 	// A list of matched containers
 	Containers []Container `json:"containers"`
+}
+
+// Information about automatic synchronization of the container
+type ContainerSyncData struct {
+	// File type that is synchronized
+	FileType *ContainerFileType `json:"fileType,omitempty"`
+	// Notifications for sync data
+	Notifications *ContainerSyncDataNotification `json:"notifications"`
+	// Interval of time between synchronizations
+	TimeInterval int64 `json:"timeInterval"`
+	// Unit of time for the interval
+	TimeUnit ContainerSyncDataTimeUnit `json:"timeUnit"`
+	// URL from which the container is synchronized
+	URL string `json:"url"`
+}
+
+// Audit information about the last synchronization of the container
+type ContainerSyncDataAudit struct {
+	// Error message, only if last sync had an error
+	ErrorMsg *string `json:"errorMsg,omitempty"`
+	// Timestamp of the last attempt sync
+	LastSyncAttempt string `json:"lastSyncAttempt"`
+	// Timestamp of the last successful sync
+	LastSynced string `json:"lastSynced"`
+}
+
+type ContainerSyncDataNotification struct {
+	MailingList       []*SubscriptionMailingListRef `json:"mailingList"`
+	SubscriptionGroup []*SubscriptionGroupRef       `json:"subscriptionGroup"`
+	Webhook           []*SubscriptionWebhookRef     `json:"webhook"`
 }
 
 // A reference identifying the Country object. ID: Unique Country Identifier, Name: The Country Name
@@ -4426,6 +4952,20 @@ type CountryRefFilterInput struct {
 type CountryRefInput struct {
 	By    ObjectRefBy `json:"by"`
 	Input string      `json:"input"`
+}
+
+// Create synchronization data for a container
+type CreateContainerSyncDataInput struct {
+	Notifications *CreateContainerSyncDataNotificationInput `json:"notifications"`
+	TimeInterval  int64                                     `json:"timeInterval"`
+	TimeUnit      ContainerSyncDataTimeUnit                 `json:"timeUnit"`
+	URL           string                                    `json:"url"`
+}
+
+type CreateContainerSyncDataNotificationInput struct {
+	MailingList       []*SubscriptionMailingListRefInput `json:"mailingList"`
+	SubscriptionGroup []*SubscriptionGroupRefInput       `json:"subscriptionGroup"`
+	Webhook           []*SubscriptionWebhookRefInput     `json:"webhook"`
 }
 
 // Input for creating FQDN typed container from file
@@ -4843,11 +5383,12 @@ type DeviceAttributes struct {
 }
 
 type DeviceAttributesCatalogQueries struct {
-	Category     *DeviceAttributeCatalogPayload `json:"category"`
-	Manufacturer *DeviceAttributeCatalogPayload `json:"manufacturer"`
-	Model        *DeviceAttributeCatalogPayload `json:"model"`
-	Os           *DeviceAttributeCatalogPayload `json:"os"`
-	Type         *DeviceAttributeCatalogPayload `json:"type"`
+	Category     *DeviceAttributeCatalogPayload  `json:"category"`
+	Compliance   *DeviceComplianceCatalogPayload `json:"compliance"`
+	Manufacturer *DeviceAttributeCatalogPayload  `json:"manufacturer"`
+	Model        *DeviceAttributeCatalogPayload  `json:"model"`
+	Os           *DeviceAttributeCatalogPayload  `json:"os"`
+	Type         *DeviceAttributeCatalogPayload  `json:"type"`
 }
 
 type DeviceAttributesInput struct {
@@ -4886,6 +5427,32 @@ type DeviceCategoryFilterInput struct {
 	In  []DeviceCategory `json:"in,omitempty"`
 	Neq *DeviceCategory  `json:"neq,omitempty"`
 	Nin []DeviceCategory `json:"nin,omitempty"`
+}
+
+type DeviceComplianceCatalogInput struct {
+	Filter *DeviceComplianceFilterInput `json:"filter,omitempty"`
+	Paging *PagingInput                 `json:"paging,omitempty"`
+	Sort   *DeviceComplianceSortInput   `json:"sort,omitempty"`
+}
+
+type DeviceComplianceCatalogItem struct {
+	ApplicationConnector *ApplicationConnectorCatalogEntityRef `json:"applicationConnector"`
+	State                string                                `json:"state"`
+}
+
+type DeviceComplianceCatalogPayload struct {
+	Items    []*DeviceComplianceCatalogItem `json:"items"`
+	PageInfo *PageInfo                      `json:"pageInfo"`
+}
+
+type DeviceComplianceFilterInput struct {
+	ApplicationConnector *ApplicationConnectorCatalogEntityRefFilterInput `json:"applicationConnector,omitempty"`
+	State                *StringFilterInput                               `json:"state,omitempty"`
+}
+
+type DeviceComplianceSortInput struct {
+	ApplicationConnector *ApplicationConnectorCatalogEntityRefSortOrderInput `json:"applicationConnector,omitempty"`
+	State                *SortOrderInput                                     `json:"state,omitempty"`
 }
 
 type DeviceConfidenceLevelFilterInput struct {
@@ -5755,6 +6322,10 @@ type Entity struct {
 
 func (Entity) IsValue() {}
 
+type EntityAccess struct {
+	Action RBACAction `json:"action"`
+}
+
 type EntityInfo struct {
 	Description  string         `json:"description"`
 	Entity       *Entity        `json:"entity"`
@@ -5907,7 +6478,6 @@ type Extra struct {
 // Use the EventFieldName for events, and AuditFieldName for audit
 type FieldNameInput struct {
 	AuditFieldName *AuditFieldName `json:"AuditFieldName,omitempty"`
-	EventFieldName *EventFieldName `json:"EventFieldName,omitempty"`
 }
 
 type FileDetails struct {
@@ -5931,6 +6501,8 @@ type FloatingSubnetRef struct {
 	// Name for the Floating Subnet
 	Name string `json:"name"`
 }
+
+func (FloatingSubnetRef) IsDeviceNetworkRef() {}
 
 func (FloatingSubnetRef) IsObjectRef() {}
 
@@ -6108,6 +6680,8 @@ type GlobalIPRangeRef struct {
 	ID   string `json:"id"`
 	Name string `json:"name"`
 }
+
+func (GlobalIPRangeRef) IsDeviceNetworkRef() {}
 
 func (GlobalIPRangeRef) IsObjectRef() {}
 
@@ -6929,7 +7503,7 @@ type InternetFirewallDestination struct {
 	// A range of IPs. Every IP within the range will be matched
 	IPRange []*IPAddressRange `json:"ipRange"`
 	// Remote Autonomous System Number (ASN)
-	RemoteAsn []scalars.Asn16 `json:"remoteAsn"`
+	RemoteAsn []scalars.Asn32 `json:"remoteAsn"`
 	// Sanctioned Cloud Applications - apps that are approved and generally represent an understood and acceptable level of risk in your organization.
 	SanctionedAppsCategory []*SanctionedAppsCategoryRef `json:"sanctionedAppsCategory"`
 	// Network subnets in CIDR notation
@@ -6959,7 +7533,7 @@ type InternetFirewallDestinationInput struct {
 	// A range of IPs. Every IP within the range will be matched
 	IPRange []*IPAddressRangeInput `json:"ipRange"`
 	// Remote Autonomous System Number (ASN)
-	RemoteAsn []scalars.Asn16 `json:"remoteAsn"`
+	RemoteAsn []scalars.Asn32 `json:"remoteAsn"`
 	// Sanctioned Cloud Applications - apps that are approved and generally represent an understood and acceptable level of risk in your organization.
 	SanctionedAppsCategory []*SanctionedAppsCategoryRefInput `json:"sanctionedAppsCategory"`
 	// Network subnets in CIDR notation
@@ -6989,7 +7563,7 @@ type InternetFirewallDestinationUpdateInput struct {
 	// A range of IPs. Every IP within the range will be matched
 	IPRange []*IPAddressRangeInput `json:"ipRange,omitempty"`
 	// Remote Autonomous System Number (ASN)
-	RemoteAsn []scalars.Asn16 `json:"remoteAsn,omitempty"`
+	RemoteAsn []scalars.Asn32 `json:"remoteAsn,omitempty"`
 	// Sanctioned Cloud Applications - apps that are approved and generally represent an understood and acceptable level of risk in your organization.
 	SanctionedAppsCategory []*SanctionedAppsCategoryRefInput `json:"sanctionedAppsCategory,omitempty"`
 	// Network subnets in CIDR notation
@@ -6997,8 +7571,16 @@ type InternetFirewallDestinationUpdateInput struct {
 }
 
 type InternetFirewallPolicy struct {
-	Audit    *PolicyAudit                   `json:"audit,omitempty"`
-	Enabled  bool                           `json:"enabled"`
+	// Holds the complete set of access capabilities and limitations associated with the entity.
+	Access *EntityAccess `json:"access"`
+	Audit  *PolicyAudit  `json:"audit,omitempty"`
+	// Description for the policy
+	Description string `json:"description"`
+	Enabled     bool   `json:"enabled"`
+	// Policy ID
+	ID string `json:"id"`
+	// Name of the policy, the default name for the policy containing all sub-policies is 'Main'
+	Name     string                         `json:"name"`
 	Revision *PolicyRevision                `json:"revision,omitempty"`
 	Rules    []*InternetFirewallRulePayload `json:"rules"`
 	Sections []*PolicySectionPayload        `json:"sections"`
@@ -7039,6 +7621,21 @@ func (this InternetFirewallPolicy) GetAudit() *PolicyAudit { return this.Audit }
 // Return data for the Policy revision
 func (this InternetFirewallPolicy) GetRevision() *PolicyRevision { return this.Revision }
 
+type InternetFirewallPolicyInfo struct {
+	Audit       *PolicyAudit `json:"audit"`
+	Description string       `json:"description"`
+	Enabled     bool         `json:"enabled"`
+	ID          string       `json:"id"`
+	Name        string       `json:"name"`
+}
+
+func (InternetFirewallPolicyInfo) IsPolicyInfo()               {}
+func (this InternetFirewallPolicyInfo) GetID() string          { return this.ID }
+func (this InternetFirewallPolicyInfo) GetName() string        { return this.Name }
+func (this InternetFirewallPolicyInfo) GetDescription() string { return this.Description }
+func (this InternetFirewallPolicyInfo) GetEnabled() bool       { return this.Enabled }
+func (this InternetFirewallPolicyInfo) GetAudit() *PolicyAudit { return this.Audit }
+
 type InternetFirewallPolicyInput struct {
 	// A revision is a specific instance of the policy.
 	//  Unpublished revisions are working copies of the policy available to a specific
@@ -7046,6 +7643,41 @@ type InternetFirewallPolicyInput struct {
 	//  Published revisions are revisions that were applied to the account network.
 	//  The last published revision is the active policy.
 	Revision *PolicyRevisionInput `json:"revision,omitempty"`
+}
+
+type InternetFirewallPolicyListFilterInput struct {
+	ID          []*IDFilterInput              `json:"id,omitempty"`
+	Name        []*StringFilterInput          `json:"name,omitempty"`
+	PolicyLevel []*PolicyLevelEnumFilterInput `json:"policyLevel,omitempty"`
+}
+
+type InternetFirewallPolicyListInput struct {
+	Filter *InternetFirewallPolicyListFilterInput `json:"filter,omitempty"`
+	Paging *PagingInput                           `json:"paging"`
+	Sort   *InternetFirewallPolicyListSortInput   `json:"sort"`
+}
+
+type InternetFirewallPolicyListPayload struct {
+	Items  []*InternetFirewallPolicyInfo `json:"items"`
+	Paging *PageInfo                     `json:"paging"`
+}
+
+func (InternetFirewallPolicyListPayload) IsPolicyListPayload() {}
+func (this InternetFirewallPolicyListPayload) GetItems() []PolicyInfo {
+	if this.Items == nil {
+		return nil
+	}
+	interfaceSlice := make([]PolicyInfo, 0, len(this.Items))
+	for _, concrete := range this.Items {
+		interfaceSlice = append(interfaceSlice, concrete)
+	}
+	return interfaceSlice
+}
+func (this InternetFirewallPolicyListPayload) GetPaging() *PageInfo { return this.Paging }
+
+type InternetFirewallPolicyListSortInput struct {
+	Name        *SortOrderInput `json:"name,omitempty"`
+	PolicyLevel *SortOrderInput `json:"policyLevel,omitempty"`
 }
 
 type InternetFirewallPolicyMutationInput struct {
@@ -7116,8 +7748,10 @@ type InternetFirewallPolicyMutations struct {
 }
 
 type InternetFirewallPolicyQueries struct {
-	Policy    *InternetFirewallPolicy `json:"policy"`
-	Revisions *PolicyRevisionsPayload `json:"revisions,omitempty"`
+	Policy *InternetFirewallPolicy `json:"policy"`
+	// Provides a list of all policies of Internet Firewall with filtering, pagination and sorting capabilities
+	PolicyList *InternetFirewallPolicyListPayload `json:"policyList"`
+	Revisions  *PolicyRevisionsPayload            `json:"revisions,omitempty"`
 }
 
 type InternetFirewallPolicyUpdateInput struct {
@@ -7469,6 +8103,20 @@ type InvalidGroupMemberTypeInScope struct {
 	Type GroupMemberRefType `json:"type"`
 }
 
+// Referring an invoice object
+type InvoiceRef struct {
+	ID   string `json:"id"`
+	Name string `json:"name"`
+}
+
+func (InvoiceRef) IsObjectRef() {}
+
+// Object's unique identifier
+func (this InvoiceRef) GetID() string { return this.ID }
+
+// Object's unique name
+func (this InvoiceRef) GetName() string { return this.Name }
+
 // IoT/OT Security service license details
 type IotOtLicense struct {
 	Description *string `json:"description,omitempty"`
@@ -7806,6 +8454,20 @@ type LocationFilterInput struct {
 	Name               []*StringFilterInput       `json:"name,omitempty"`
 	Type               []*LocationTypeFilterInput `json:"type,omitempty"`
 }
+
+// Referring a location object
+type LocationRef struct {
+	ID   string `json:"id"`
+	Name string `json:"name"`
+}
+
+func (LocationRef) IsObjectRef() {}
+
+// Object's unique identifier
+func (this LocationRef) GetID() string { return this.ID }
+
+// Object's unique name
+func (this LocationRef) GetName() string { return this.Name }
 
 type LocationSortInput struct {
 	Country *SortOrderInput `json:"country,omitempty"`
@@ -8938,6 +9600,13 @@ type PolicyElementAudit struct {
 	UpdatedBy string `json:"updatedBy"`
 	// The last date and time the rule was updated
 	UpdatedTime string `json:"updatedTime"`
+}
+
+type PolicyLevelEnumFilterInput struct {
+	Eq  *PolicyLevelEnum  `json:"eq,omitempty"`
+	In  []PolicyLevelEnum `json:"in,omitempty"`
+	Neq *PolicyLevelEnum  `json:"neq,omitempty"`
+	Nin []PolicyLevelEnum `json:"nin,omitempty"`
 }
 
 // Move the rule to a different position in the policy
@@ -10500,10 +11169,11 @@ type SiteMutations struct {
 	// Update the secondary Azure vSocket in an existing site
 	UpdateSecondaryAzureVSocket *UpdateSecondaryAzureVSocketPayload `json:"updateSecondaryAzureVSocket,omitempty"`
 	// Update the bandwidth allocation of an assigned pool license of an existing site (does not apply for site license allocation) // License-to-site assignment will be removed starting in 2026 with the transition to a new pricing model.
-	UpdateSiteBwLicense      *UpdateSiteBwLicensePayload      `json:"updateSiteBwLicense,omitempty"`
-	UpdateSiteGeneralDetails *UpdateSiteGeneralDetailsPayload `json:"updateSiteGeneralDetails,omitempty"`
-	UpdateSocketInterface    *UpdateSocketInterfacePayload    `json:"updateSocketInterface,omitempty"`
-	UpdateStaticHost         *UpdateStaticHostPayload         `json:"updateStaticHost,omitempty"`
+	UpdateSiteBwLicense           *UpdateSiteBwLicensePayload           `json:"updateSiteBwLicense,omitempty"`
+	UpdateSiteGeneralDetails      *UpdateSiteGeneralDetailsPayload      `json:"updateSiteGeneralDetails,omitempty"`
+	UpdateSiteSocketConfiguration *UpdateSiteSocketConfigurationPayload `json:"updateSiteSocketConfiguration,omitempty"`
+	UpdateSocketInterface         *UpdateSocketInterfacePayload         `json:"updateSocketInterface,omitempty"`
+	UpdateStaticHost              *UpdateStaticHostPayload              `json:"updateStaticHost,omitempty"`
 }
 
 // A reference identifying the SiteNetworkSubnet object. ID: Unique SiteNetworkSubnet Identifier, Name: The SiteNetworkSubnet Name
@@ -10610,6 +11280,18 @@ type SiteSnapshot struct {
 	ProtoID *int64  `json:"protoId,omitempty"`
 }
 
+type SiteSocketConfiguration struct {
+	// Configuration for the primary Socket of the site.
+	PrimarySocketConfiguration *SocketConfiguration `json:"primarySocketConfiguration"`
+	// Configuration for the secondary Socket of the site.
+	SecondarySocketConfiguration *SocketConfiguration `json:"secondarySocketConfiguration,omitempty"`
+}
+
+type SiteSocketConfigurationInput struct {
+	// Identifies the site.
+	Site *SiteRefInput `json:"site"`
+}
+
 // Information about a site upgrade.
 type SiteUpgradeInfo struct {
 	// The scheduled UTC time for the upgrade.
@@ -10641,6 +11323,16 @@ type SocketAddOnCard struct {
 type SocketAddOnCardInput struct {
 	ExpansionSlotNumber SocketAddOnExpansionSlotNumber `json:"expansionSlotNumber"`
 	Type                SocketAddOnType                `json:"type"`
+}
+
+type SocketConfiguration struct {
+	// A description for the Socket.
+	Description *string `json:"description,omitempty"`
+}
+
+type SocketConfigurationInput struct {
+	// A description for the Socket.
+	Description *string `json:"description,omitempty"`
 }
 
 // Basic information about socket
@@ -11745,6 +12437,367 @@ type SortOrderInput struct {
 	Priority  int64     `json:"priority"`
 }
 
+type SplitTunnelAddRuleDataInput struct {
+	// The action applied by the split tunnel if the rule is matched
+	Action SplitTunnelActionEnum `json:"action"`
+	// Country traffic matching criteria.
+	// Logical ‘OR’ is applied within the criteria set.
+	// Logical ‘AND’ is applied between criteria sets.
+	Country     []*CountryRefInput       `json:"country"`
+	Coverage    *SplitTunnelCoverageEnum `json:"coverage,omitempty"`
+	Description string                   `json:"description"`
+	// Destination traffic matching criteria.
+	// Logical ‘OR’ is applied within the criteria set.
+	// Logical ‘AND’ is applied between criteria sets.
+	Destination  *SplitTunnelDestinationInput  `json:"destination"`
+	DNSExclusion *SplitTunnelDNSExclusionInput `json:"dnsExclusion,omitempty"`
+	Enabled      bool                          `json:"enabled"`
+	Name         string                        `json:"name"`
+	// Source device Operating System traffic matching criteria.
+	// Logical ‘OR’ is applied within the criteria set.
+	// Logical ‘AND’ is applied between criteria sets.
+	Platform        []OperatingSystem              `json:"platform"`
+	RoutingPriority SplitTunnelRoutingPriorityEnum `json:"routingPriority"`
+	// Source traffic matching criteria.
+	// Logical ‘OR’ is applied within the criteria set.
+	// Logical ‘AND’ is applied between criteria sets.
+	Source        *SplitTunnelSourceInput        `json:"source"`
+	SourceNetwork *SplitTunnelSourceNetworkInput `json:"sourceNetwork"`
+}
+
+type SplitTunnelAddRuleInput struct {
+	// Position of the rule in the policy
+	At *PolicyRulePositionInput `json:"at,omitempty"`
+	// Parameters for the rule you are adding
+	Rule *SplitTunnelAddRuleDataInput `json:"rule"`
+}
+
+// Destination match criteria set
+type SplitTunnelDestination struct {
+	// Applications for the rule (pre-defined)
+	Application []*ApplicationRef `json:"application"`
+	// Globally defined IP range
+	GlobalIPRange []*GlobalIPRangeRef `json:"globalIpRange"`
+}
+
+// Destination match criteria set
+type SplitTunnelDestinationInput struct {
+	// Applications for the rule (pre-defined)
+	Application []*ApplicationRefInput `json:"application"`
+	// Globally defined IP range
+	GlobalIPRange []*GlobalIPRangeRefInput `json:"globalIpRange"`
+}
+
+// Destination match criteria set
+type SplitTunnelDestinationUpdateInput struct {
+	// Applications for the rule (pre-defined)
+	Application []*ApplicationRefInput `json:"application,omitempty"`
+	// Globally defined IP range
+	GlobalIPRange []*GlobalIPRangeRefInput `json:"globalIpRange,omitempty"`
+}
+
+type SplitTunnelDNSExclusion struct {
+	// A Second-Level Domain (SLD). It matches all Top-Level Domains (TLD), and subdomains that include the Domain. Example: example.com.
+	Domain []string `json:"domain"`
+}
+
+type SplitTunnelDNSExclusionInput struct {
+	// A Second-Level Domain (SLD). It matches all Top-Level Domains (TLD), and subdomains that include the Domain. Example: example.com.
+	Domain []string `json:"domain"`
+}
+
+type SplitTunnelDNSExclusionUpdateInput struct {
+	// A Second-Level Domain (SLD). It matches all Top-Level Domains (TLD), and subdomains that include the Domain. Example: example.com.
+	Domain []string `json:"domain,omitempty"`
+}
+
+type SplitTunnelPolicy struct {
+	Audit    *PolicyAudit              `json:"audit,omitempty"`
+	Enabled  bool                      `json:"enabled"`
+	Revision *PolicyRevision           `json:"revision,omitempty"`
+	Rules    []*SplitTunnelRulePayload `json:"rules"`
+	Sections []*PolicySectionPayload   `json:"sections"`
+}
+
+func (SplitTunnelPolicy) IsIPolicy() {}
+
+// TRUE = Policy is enabled, FALSE = Policy is disabled
+func (this SplitTunnelPolicy) GetEnabled() bool { return this.Enabled }
+
+// Return list of rules in the policy
+func (this SplitTunnelPolicy) GetRules() []IPolicyRulePayload {
+	if this.Rules == nil {
+		return nil
+	}
+	interfaceSlice := make([]IPolicyRulePayload, 0, len(this.Rules))
+	for _, concrete := range this.Rules {
+		interfaceSlice = append(interfaceSlice, concrete)
+	}
+	return interfaceSlice
+}
+
+// Return sections in the policy
+func (this SplitTunnelPolicy) GetSections() []*PolicySectionPayload {
+	if this.Sections == nil {
+		return nil
+	}
+	interfaceSlice := make([]*PolicySectionPayload, 0, len(this.Sections))
+	for _, concrete := range this.Sections {
+		interfaceSlice = append(interfaceSlice, concrete)
+	}
+	return interfaceSlice
+}
+
+// Audit data for the policy
+func (this SplitTunnelPolicy) GetAudit() *PolicyAudit { return this.Audit }
+
+// Return data for the Policy revision
+func (this SplitTunnelPolicy) GetRevision() *PolicyRevision { return this.Revision }
+
+type SplitTunnelPolicyInput struct {
+	// A revision is a specific instance of the policy.
+	//  Unpublished revisions are working copies of the policy available to a specific
+	//  admin or a set of admins
+	//  Published revisions are revisions that were applied to the account network.
+	//  The last published revision is the active policy.
+	Revision *PolicyRevisionInput `json:"revision,omitempty"`
+}
+
+type SplitTunnelPolicyMutationInput struct {
+	Revision *PolicyMutationRevisionInput `json:"revision,omitempty"`
+}
+
+type SplitTunnelPolicyMutationPayload struct {
+	Errors []*PolicyMutationError `json:"errors"`
+	Policy *SplitTunnelPolicy     `json:"policy,omitempty"`
+	Status PolicyMutationStatus   `json:"status"`
+}
+
+func (SplitTunnelPolicyMutationPayload) IsIPolicyMutationPayload() {}
+
+// Data for the policy
+func (this SplitTunnelPolicyMutationPayload) GetPolicy() IPolicy { return *this.Policy }
+
+// Enum for the status of the policy change
+func (this SplitTunnelPolicyMutationPayload) GetStatus() PolicyMutationStatus { return this.Status }
+
+// List of errors related to the policy change
+func (this SplitTunnelPolicyMutationPayload) GetErrors() []*PolicyMutationError {
+	if this.Errors == nil {
+		return nil
+	}
+	interfaceSlice := make([]*PolicyMutationError, 0, len(this.Errors))
+	for _, concrete := range this.Errors {
+		interfaceSlice = append(interfaceSlice, concrete)
+	}
+	return interfaceSlice
+}
+
+type SplitTunnelPolicyMutations struct {
+	AddRule               *SplitTunnelRuleMutationPayload   `json:"addRule"`
+	AddSection            *PolicySectionMutationPayload     `json:"addSection"`
+	CreatePolicyRevision  *SplitTunnelPolicyMutationPayload `json:"createPolicyRevision"`
+	DiscardPolicyRevision *SplitTunnelPolicyMutationPayload `json:"discardPolicyRevision"`
+	MoveRule              *SplitTunnelRuleMutationPayload   `json:"moveRule"`
+	MoveSection           *PolicySectionMutationPayload     `json:"moveSection"`
+	PublishPolicyRevision *SplitTunnelPolicyMutationPayload `json:"publishPolicyRevision"`
+	RemoveRule            *SplitTunnelRuleMutationPayload   `json:"removeRule"`
+	RemoveSection         *PolicySectionMutationPayload     `json:"removeSection"`
+	UpdatePolicy          *SplitTunnelPolicyMutationPayload `json:"updatePolicy"`
+	UpdateRule            *SplitTunnelRuleMutationPayload   `json:"updateRule"`
+	UpdateSection         *PolicySectionMutationPayload     `json:"updateSection"`
+}
+
+type SplitTunnelPolicyQueries struct {
+	Policy    *SplitTunnelPolicy      `json:"policy"`
+	Revisions *PolicyRevisionsPayload `json:"revisions,omitempty"`
+}
+
+type SplitTunnelPolicyUpdateInput struct {
+	State *PolicyToggleState `json:"state,omitempty"`
+}
+
+type SplitTunnelRemoveRuleInput struct {
+	ID string `json:"id"`
+}
+
+type SplitTunnelRule struct {
+	// The action applied by the split tunnel if the rule is matched
+	Action SplitTunnelActionEnum `json:"action"`
+	// Country traffic matching criteria.
+	// Logical ‘OR’ is applied within the criteria set.
+	// Logical ‘AND’ is applied between criteria sets.
+	Country  []*CountryRef            `json:"country"`
+	Coverage *SplitTunnelCoverageEnum `json:"coverage,omitempty"`
+	// Description for the rule
+	Description string `json:"description"`
+	// Destination traffic matching criteria.
+	// Logical ‘OR’ is applied within the criteria set.
+	// Logical ‘AND’ is applied between criteria sets.
+	Destination  *SplitTunnelDestination  `json:"destination"`
+	DNSExclusion *SplitTunnelDNSExclusion `json:"dnsExclusion,omitempty"`
+	// TRUE = Rule is enabled
+	//  FALSE = Rule is disabled
+	Enabled bool `json:"enabled"`
+	// Rule ID
+	ID string `json:"id"`
+	// Position / priority of rule
+	Index int64 `json:"index"`
+	// Name of the rule
+	Name string `json:"name"`
+	// Source device Operating System traffic matching criteria.
+	// Logical ‘OR’ is applied within the criteria set.
+	// Logical ‘AND’ is applied between criteria sets.
+	Platform        []OperatingSystem              `json:"platform"`
+	RoutingPriority SplitTunnelRoutingPriorityEnum `json:"routingPriority"`
+	// Policy section where the rule is located
+	Section *PolicySectionInfo `json:"section"`
+	// Source traffic matching criteria.
+	// Logical ‘OR’ is applied within the criteria set.
+	// Logical ‘AND’ is applied between criteria sets.
+	Source        *SplitTunnelSource        `json:"source"`
+	SourceNetwork *SplitTunnelSourceNetwork `json:"sourceNetwork"`
+}
+
+func (SplitTunnelRule) IsIPolicyRule() {}
+
+// Rule ID
+func (this SplitTunnelRule) GetID() string { return this.ID }
+
+// Name of the rule
+func (this SplitTunnelRule) GetName() string { return this.Name }
+
+// Description for the rule
+func (this SplitTunnelRule) GetDescription() *string { return &this.Description }
+
+// Position / priority of rule
+func (this SplitTunnelRule) GetIndex() int64 { return this.Index }
+
+// TRUE = Rule is enabled, FALSE = Rule is disabled
+func (this SplitTunnelRule) GetEnabled() bool { return this.Enabled }
+
+// Policy section where the rule is located
+func (this SplitTunnelRule) GetSection() *PolicySectionInfo { return this.Section }
+
+type SplitTunnelRuleMutationPayload struct {
+	Errors []*PolicyMutationError  `json:"errors"`
+	Rule   *SplitTunnelRulePayload `json:"rule,omitempty"`
+	Status PolicyMutationStatus    `json:"status"`
+}
+
+func (SplitTunnelRuleMutationPayload) IsIPolicyRuleMutationPayload() {}
+
+// Returns settings for the rule
+func (this SplitTunnelRuleMutationPayload) GetRule() IPolicyRulePayload { return *this.Rule }
+
+// Enum for the status of the policy change
+func (this SplitTunnelRuleMutationPayload) GetStatus() PolicyMutationStatus { return this.Status }
+
+// List of errors related to the policy change
+func (this SplitTunnelRuleMutationPayload) GetErrors() []*PolicyMutationError {
+	if this.Errors == nil {
+		return nil
+	}
+	interfaceSlice := make([]*PolicyMutationError, 0, len(this.Errors))
+	for _, concrete := range this.Errors {
+		interfaceSlice = append(interfaceSlice, concrete)
+	}
+	return interfaceSlice
+}
+
+type SplitTunnelRulePayload struct {
+	Audit      *PolicyElementAudit           `json:"audit"`
+	Properties []PolicyElementPropertiesEnum `json:"properties"`
+	Rule       *SplitTunnelRule              `json:"rule"`
+}
+
+func (SplitTunnelRulePayload) IsIPolicyRulePayload()              {}
+func (this SplitTunnelRulePayload) GetAudit() *PolicyElementAudit { return this.Audit }
+
+// Rule that was changed
+func (this SplitTunnelRulePayload) GetRule() IPolicyRule { return *this.Rule }
+
+// Summary of rule change, (ie. ADDED, UPDATED)
+func (this SplitTunnelRulePayload) GetProperties() []PolicyElementPropertiesEnum {
+	if this.Properties == nil {
+		return nil
+	}
+	interfaceSlice := make([]PolicyElementPropertiesEnum, 0, len(this.Properties))
+	for _, concrete := range this.Properties {
+		interfaceSlice = append(interfaceSlice, concrete)
+	}
+	return interfaceSlice
+}
+
+// Returns the settings for Source of an Split Tunnel rule
+type SplitTunnelSource struct {
+	// Individual users defined for the account
+	User []*UserRef `json:"user"`
+	// Group of users
+	UsersGroup []*UsersGroupRef `json:"usersGroup"`
+}
+
+// Input of the settings for Source of an Split Tunnel rule
+type SplitTunnelSourceInput struct {
+	// Individual users defined for the account
+	User []*UserRefInput `json:"user"`
+	// Group of users
+	UsersGroup []*UsersGroupRefInput `json:"usersGroup"`
+}
+
+type SplitTunnelSourceNetwork struct {
+	SourceNetworkType SplitTunnelSourceNetworkTypeEnum `json:"sourceNetworkType"`
+}
+
+type SplitTunnelSourceNetworkInput struct {
+	SourceNetworkType SplitTunnelSourceNetworkTypeEnum `json:"sourceNetworkType"`
+}
+
+type SplitTunnelSourceNetworkUpdateInput struct {
+	SourceNetworkType *SplitTunnelSourceNetworkTypeEnum `json:"sourceNetworkType,omitempty"`
+}
+
+// Input of the settings for Source of an Split Tunnel rule
+type SplitTunnelSourceUpdateInput struct {
+	// Individual users defined for the account
+	User []*UserRefInput `json:"user,omitempty"`
+	// Group of users
+	UsersGroup []*UsersGroupRefInput `json:"usersGroup,omitempty"`
+}
+
+type SplitTunnelUpdateRuleDataInput struct {
+	// The action applied by the split tunnel if the rule is matched
+	Action *SplitTunnelActionEnum `json:"action,omitempty"`
+	// Country traffic matching criteria.
+	// Logical ‘OR’ is applied within the criteria set.
+	// Logical ‘AND’ is applied between criteria sets.
+	Country     []*CountryRefInput       `json:"country,omitempty"`
+	Coverage    *SplitTunnelCoverageEnum `json:"coverage,omitempty"`
+	Description *string                  `json:"description,omitempty"`
+	// Destination traffic matching criteria.
+	// Logical ‘OR’ is applied within the criteria set.
+	// Logical ‘AND’ is applied between criteria sets.
+	Destination  *SplitTunnelDestinationUpdateInput  `json:"destination,omitempty"`
+	DNSExclusion *SplitTunnelDNSExclusionUpdateInput `json:"dnsExclusion,omitempty"`
+	Enabled      *bool                               `json:"enabled,omitempty"`
+	Name         *string                             `json:"name,omitempty"`
+	// Source device Operating System traffic matching criteria.
+	// Logical ‘OR’ is applied within the criteria set.
+	// Logical ‘AND’ is applied between criteria sets.
+	Platform        []OperatingSystem               `json:"platform,omitempty"`
+	RoutingPriority *SplitTunnelRoutingPriorityEnum `json:"routingPriority,omitempty"`
+	// Source traffic matching criteria.
+	// Logical ‘OR’ is applied within the criteria set.
+	// Logical ‘AND’ is applied between criteria sets.
+	Source        *SplitTunnelSourceUpdateInput        `json:"source,omitempty"`
+	SourceNetwork *SplitTunnelSourceNetworkUpdateInput `json:"sourceNetwork,omitempty"`
+}
+
+type SplitTunnelUpdateRuleInput struct {
+	ID   string                          `json:"id"`
+	Rule *SplitTunnelUpdateRuleDataInput `json:"rule"`
+}
+
 // Input for bulk site upgrade requests.
 type StartSiteUpgradeInput struct {
 	Upgrades []*SiteUpgradeRequest `json:"upgrades"`
@@ -12231,6 +13284,18 @@ type TerminalServerUpdateRuleDataInput struct {
 type TerminalServerUpdateRuleInput struct {
 	ID   string                             `json:"id"`
 	Rule *TerminalServerUpdateRuleDataInput `json:"rule"`
+}
+
+type TestContainerFromURLInput struct {
+	FileType ContainerFileType `json:"fileType"`
+	URL      string            `json:"url"`
+}
+
+type TestContainerFromURLPayload struct {
+	SizeInvalid int64    `json:"sizeInvalid"`
+	SizeValid   int64    `json:"sizeValid"`
+	TopInvalid  []string `json:"topInvalid"`
+	TopValid    []string `json:"topValid"`
 }
 
 // The "Threat" object represents a comprehensive data structure used in GraphQL queries or mutations to encapsulate various attributes and metadata related to a threat incident, including details about the threat's origin, nature, risk assessment, and associated network traffic flows.
@@ -13279,6 +14344,20 @@ type UpdateCommercialLicensePayload struct {
 	License License `json:"license"`
 }
 
+// Update synchronization data for a container
+type UpdateContainerSyncDataInput struct {
+	Notifications *UpdateContainerSyncDataNotificationInput `json:"notifications,omitempty"`
+	TimeInterval  *int64                                    `json:"timeInterval,omitempty"`
+	TimeUnit      *ContainerSyncDataTimeUnit                `json:"timeUnit,omitempty"`
+	URL           *string                                   `json:"url,omitempty"`
+}
+
+type UpdateContainerSyncDataNotificationInput struct {
+	MailingList       []*SubscriptionMailingListRefInput `json:"mailingList"`
+	SubscriptionGroup []*SubscriptionGroupRefInput       `json:"subscriptionGroup"`
+	Webhook           []*SubscriptionWebhookRefInput     `json:"webhook"`
+}
+
 // Input for updating FQDN typed container from file
 type UpdateFqdnContainerFromFileInput struct {
 	// Description for the container
@@ -13577,6 +14656,20 @@ type UpdateSitePreferredPopLocationInput struct {
 	Secondary *PopLocationRefInput `json:"secondary,omitempty"`
 }
 
+type UpdateSiteSocketConfigurationInput struct {
+	// Configuration for the primary Socket of the site.
+	PrimarySocketConfiguration *SocketConfigurationInput `json:"primarySocketConfiguration,omitempty"`
+	// Configuration for the secondary Socket of the site.
+	SecondarySocketConfiguration *SocketConfigurationInput `json:"secondarySocketConfiguration,omitempty"`
+	// Identifies the site.
+	Site *SiteRefInput `json:"site"`
+}
+
+type UpdateSiteSocketConfigurationPayload struct {
+	// The updated Socket configuration for the site.
+	SiteSocketConfiguration *SiteSocketConfiguration `json:"siteSocketConfiguration"`
+}
+
 type UpdateSocketInterfaceInput struct {
 	// Only relevant for ALTERNATIVE, LAYER_2_WAN
 	AltWan *SocketInterfaceAltWanInput `json:"altWan,omitempty"`
@@ -13640,6 +14733,34 @@ type UserInfo struct {
 	// Status of the Client as the type STRING
 	Status *scalars.OperationalStatus `json:"status,omitempty"`
 }
+
+// A reference identifying the UserNotificationAiSecurityTemplate object. ID: Unique UserNotificationAiSecurityTemplate Identifier, Name: The UserNotificationAiSecurityTemplate Name
+type UserNotificationAiSecurityTemplateRef struct {
+	ID   string `json:"id"`
+	Name string `json:"name"`
+}
+
+func (UserNotificationAiSecurityTemplateRef) IsObjectRef() {}
+
+// Object's unique identifier
+func (this UserNotificationAiSecurityTemplateRef) GetID() string { return this.ID }
+
+// Object's unique name
+func (this UserNotificationAiSecurityTemplateRef) GetName() string { return this.Name }
+
+// A reference identifying the UserNotificationTemplate object. ID: Unique UserNotificationTemplate Identifier, Name: The UserNotificationTemplate Name
+type UserNotificationTemplateRef struct {
+	ID   string `json:"id"`
+	Name string `json:"name"`
+}
+
+func (UserNotificationTemplateRef) IsObjectRef() {}
+
+// Object's unique identifier
+func (this UserNotificationTemplateRef) GetID() string { return this.ID }
+
+// Object's unique name
+func (this UserNotificationTemplateRef) GetName() string { return this.Name }
 
 // A reference identifying the User object. ID: Unique User Identifier, Name: The User Name
 type UserRef struct {
@@ -13976,8 +15097,14 @@ type WanFirewallDestinationUpdateInput struct {
 }
 
 type WanFirewallPolicy struct {
-	Audit    *PolicyAudit              `json:"audit,omitempty"`
-	Enabled  bool                      `json:"enabled"`
+	Audit *PolicyAudit `json:"audit,omitempty"`
+	// Description for the policy
+	Description string `json:"description"`
+	Enabled     bool   `json:"enabled"`
+	// Policy ID
+	ID string `json:"id"`
+	// Name of the policy, the default name for the policy containing all sub-policies is 'Main'
+	Name     string                    `json:"name"`
 	Revision *PolicyRevision           `json:"revision,omitempty"`
 	Rules    []*WanFirewallRulePayload `json:"rules"`
 	Sections []*PolicySectionPayload   `json:"sections"`
@@ -14018,6 +15145,22 @@ func (this WanFirewallPolicy) GetAudit() *PolicyAudit { return this.Audit }
 // Return data for the Policy revision
 func (this WanFirewallPolicy) GetRevision() *PolicyRevision { return this.Revision }
 
+type WanFirewallPolicyInfo struct {
+	Audit       *PolicyAudit    `json:"audit"`
+	Description string          `json:"description"`
+	Enabled     bool            `json:"enabled"`
+	ID          string          `json:"id"`
+	Name        string          `json:"name"`
+	PolicyLevel PolicyLevelEnum `json:"policyLevel"`
+}
+
+func (WanFirewallPolicyInfo) IsPolicyInfo()               {}
+func (this WanFirewallPolicyInfo) GetID() string          { return this.ID }
+func (this WanFirewallPolicyInfo) GetName() string        { return this.Name }
+func (this WanFirewallPolicyInfo) GetDescription() string { return this.Description }
+func (this WanFirewallPolicyInfo) GetEnabled() bool       { return this.Enabled }
+func (this WanFirewallPolicyInfo) GetAudit() *PolicyAudit { return this.Audit }
+
 type WanFirewallPolicyInput struct {
 	// A revision is a specific instance of the policy.
 	//  Unpublished revisions are working copies of the policy available to a specific
@@ -14025,6 +15168,41 @@ type WanFirewallPolicyInput struct {
 	//  Published revisions are revisions that were applied to the account network.
 	//  The last published revision is the active policy.
 	Revision *PolicyRevisionInput `json:"revision,omitempty"`
+}
+
+type WanFirewallPolicyListFilterInput struct {
+	ID          []*IDFilterInput              `json:"id,omitempty"`
+	Name        []*StringFilterInput          `json:"name,omitempty"`
+	PolicyLevel []*PolicyLevelEnumFilterInput `json:"policyLevel,omitempty"`
+}
+
+type WanFirewallPolicyListInput struct {
+	Filter *WanFirewallPolicyListFilterInput `json:"filter,omitempty"`
+	Paging *PagingInput                      `json:"paging"`
+	Sort   *WanFirewallPolicyListSortInput   `json:"sort"`
+}
+
+type WanFirewallPolicyListPayload struct {
+	Items  []*WanFirewallPolicyInfo `json:"items"`
+	Paging *PageInfo                `json:"paging"`
+}
+
+func (WanFirewallPolicyListPayload) IsPolicyListPayload() {}
+func (this WanFirewallPolicyListPayload) GetItems() []PolicyInfo {
+	if this.Items == nil {
+		return nil
+	}
+	interfaceSlice := make([]PolicyInfo, 0, len(this.Items))
+	for _, concrete := range this.Items {
+		interfaceSlice = append(interfaceSlice, concrete)
+	}
+	return interfaceSlice
+}
+func (this WanFirewallPolicyListPayload) GetPaging() *PageInfo { return this.Paging }
+
+type WanFirewallPolicyListSortInput struct {
+	Name        *SortOrderInput `json:"name,omitempty"`
+	PolicyLevel *SortOrderInput `json:"policyLevel,omitempty"`
 }
 
 type WanFirewallPolicyMutationInput struct {
@@ -14090,8 +15268,34 @@ type WanFirewallPolicyMutations struct {
 }
 
 type WanFirewallPolicyQueries struct {
-	Policy    *WanFirewallPolicy      `json:"policy"`
-	Revisions *PolicyRevisionsPayload `json:"revisions,omitempty"`
+	Policy *WanFirewallPolicy `json:"policy"`
+	// Provides a list of all policies of Wan Firewall with filtering, pagination and sorting capabilities
+	PolicyList *WanFirewallPolicyListPayload `json:"policyList"`
+	Revisions  *PolicyRevisionsPayload       `json:"revisions,omitempty"`
+}
+
+type WanFirewallPolicyRef struct {
+	ID   string `json:"id"`
+	Name string `json:"name"`
+}
+
+func (WanFirewallPolicyRef) IsObjectRef() {}
+
+// Object's unique identifier
+func (this WanFirewallPolicyRef) GetID() string { return this.ID }
+
+// Object's unique name
+func (this WanFirewallPolicyRef) GetName() string { return this.Name }
+
+func (WanFirewallPolicyRef) IsPolicyRef() {}
+
+// Policy's unique identifier
+
+// Policy's unique name
+
+type WanFirewallPolicyRefInput struct {
+	By    ObjectRefBy `json:"by"`
+	Input string      `json:"input"`
 }
 
 type WanFirewallPolicyUpdateInput struct {
@@ -15084,6 +16288,355 @@ func (XdrProLicense) IsQuantifiableLicense() {}
 // license quantity
 func (this XdrProLicense) GetTotal() int64 { return this.Total }
 
+type ZtnaAlwaysOnAddRuleDataInput struct {
+	// The action applied by the Always On rule
+	Action ZtnaAlwaysOnRuleActionEnum `json:"action"`
+	// Allow Direct internet access until a connection to the pop is established
+	AllowFailOpen bool `json:"allowFailOpen"`
+	// Allow user to bypass Always On
+	AllowUserBypass bool `json:"allowUserBypass"`
+	// Specifies the level of protection against tampering
+	AntiTamperMode *AntiTamperModeEnum `json:"antiTamperMode,omitempty"`
+	// Bypass disconnection duration
+	BypassDuration *ZtnaAlwaysOnTimeInput `json:"bypassDuration"`
+	Description    string                 `json:"description"`
+	// Device Profile traffic matching criteria.
+	// Logical ‘OR’ is applied within the criteria set.
+	// Logical ‘AND’ is applied between criteria sets.
+	DevicePostureProfile []*DeviceProfileRefInput `json:"devicePostureProfile"`
+	Enabled              bool                     `json:"enabled"`
+	Name                 string                   `json:"name"`
+	// Source device Operating System traffic matching criteria.
+	// Logical ‘OR’ is applied within the criteria set.
+	// Logical ‘AND’ is applied between criteria sets.
+	Platform []OperatingSystem `json:"platform"`
+	// Source traffic matching criteria.
+	// Logical ‘OR’ is applied within the criteria set.
+	// Logical ‘AND’ is applied between criteria sets.
+	Source *ZtnaAlwaysOnSourceInput `json:"source"`
+}
+
+type ZtnaAlwaysOnAddRuleInput struct {
+	// Position of the rule in the policy
+	At *PolicyRulePositionInput `json:"at,omitempty"`
+	// Parameters for the rule you are adding
+	Rule *ZtnaAlwaysOnAddRuleDataInput `json:"rule"`
+}
+
+type ZtnaAlwaysOnPolicy struct {
+	Audit    *PolicyAudit               `json:"audit,omitempty"`
+	Enabled  bool                       `json:"enabled"`
+	Revision *PolicyRevision            `json:"revision,omitempty"`
+	Rules    []*ZtnaAlwaysOnRulePayload `json:"rules"`
+	Sections []*PolicySectionPayload    `json:"sections"`
+}
+
+func (ZtnaAlwaysOnPolicy) IsIPolicy() {}
+
+// TRUE = Policy is enabled, FALSE = Policy is disabled
+func (this ZtnaAlwaysOnPolicy) GetEnabled() bool { return this.Enabled }
+
+// Return list of rules in the policy
+func (this ZtnaAlwaysOnPolicy) GetRules() []IPolicyRulePayload {
+	if this.Rules == nil {
+		return nil
+	}
+	interfaceSlice := make([]IPolicyRulePayload, 0, len(this.Rules))
+	for _, concrete := range this.Rules {
+		interfaceSlice = append(interfaceSlice, concrete)
+	}
+	return interfaceSlice
+}
+
+// Return sections in the policy
+func (this ZtnaAlwaysOnPolicy) GetSections() []*PolicySectionPayload {
+	if this.Sections == nil {
+		return nil
+	}
+	interfaceSlice := make([]*PolicySectionPayload, 0, len(this.Sections))
+	for _, concrete := range this.Sections {
+		interfaceSlice = append(interfaceSlice, concrete)
+	}
+	return interfaceSlice
+}
+
+// Audit data for the policy
+func (this ZtnaAlwaysOnPolicy) GetAudit() *PolicyAudit { return this.Audit }
+
+// Return data for the Policy revision
+func (this ZtnaAlwaysOnPolicy) GetRevision() *PolicyRevision { return this.Revision }
+
+type ZtnaAlwaysOnPolicyInput struct {
+	// A revision is a specific instance of the policy.
+	//  Unpublished revisions are working copies of the policy available to a specific
+	//  admin or a set of admins
+	//  Published revisions are revisions that were applied to the account network.
+	//  The last published revision is the active policy.
+	Revision *PolicyRevisionInput `json:"revision,omitempty"`
+}
+
+type ZtnaAlwaysOnPolicyMutationInput struct {
+	Revision *PolicyMutationRevisionInput `json:"revision,omitempty"`
+}
+
+type ZtnaAlwaysOnPolicyMutationPayload struct {
+	Errors []*PolicyMutationError `json:"errors"`
+	Policy *ZtnaAlwaysOnPolicy    `json:"policy,omitempty"`
+	Status PolicyMutationStatus   `json:"status"`
+}
+
+func (ZtnaAlwaysOnPolicyMutationPayload) IsIPolicyMutationPayload() {}
+
+// Data for the policy
+func (this ZtnaAlwaysOnPolicyMutationPayload) GetPolicy() IPolicy { return *this.Policy }
+
+// Enum for the status of the policy change
+func (this ZtnaAlwaysOnPolicyMutationPayload) GetStatus() PolicyMutationStatus { return this.Status }
+
+// List of errors related to the policy change
+func (this ZtnaAlwaysOnPolicyMutationPayload) GetErrors() []*PolicyMutationError {
+	if this.Errors == nil {
+		return nil
+	}
+	interfaceSlice := make([]*PolicyMutationError, 0, len(this.Errors))
+	for _, concrete := range this.Errors {
+		interfaceSlice = append(interfaceSlice, concrete)
+	}
+	return interfaceSlice
+}
+
+type ZtnaAlwaysOnPolicyMutations struct {
+	AddRule               *ZtnaAlwaysOnRuleMutationPayload   `json:"addRule"`
+	AddSection            *PolicySectionMutationPayload      `json:"addSection"`
+	CreatePolicyRevision  *ZtnaAlwaysOnPolicyMutationPayload `json:"createPolicyRevision"`
+	DiscardPolicyRevision *ZtnaAlwaysOnPolicyMutationPayload `json:"discardPolicyRevision"`
+	MoveRule              *ZtnaAlwaysOnRuleMutationPayload   `json:"moveRule"`
+	MoveSection           *PolicySectionMutationPayload      `json:"moveSection"`
+	PublishPolicyRevision *ZtnaAlwaysOnPolicyMutationPayload `json:"publishPolicyRevision"`
+	RemoveRule            *ZtnaAlwaysOnRuleMutationPayload   `json:"removeRule"`
+	RemoveSection         *PolicySectionMutationPayload      `json:"removeSection"`
+	UpdatePolicy          *ZtnaAlwaysOnPolicyMutationPayload `json:"updatePolicy"`
+	UpdateRule            *ZtnaAlwaysOnRuleMutationPayload   `json:"updateRule"`
+	UpdateSection         *PolicySectionMutationPayload      `json:"updateSection"`
+}
+
+type ZtnaAlwaysOnPolicyQueries struct {
+	Policy    *ZtnaAlwaysOnPolicy     `json:"policy"`
+	Revisions *PolicyRevisionsPayload `json:"revisions,omitempty"`
+}
+
+type ZtnaAlwaysOnPolicyUpdateInput struct {
+	State *PolicyToggleState `json:"state,omitempty"`
+}
+
+type ZtnaAlwaysOnRemoveRuleInput struct {
+	ID string `json:"id"`
+}
+
+type ZtnaAlwaysOnRule struct {
+	// The action applied by the Always On rule
+	Action ZtnaAlwaysOnRuleActionEnum `json:"action"`
+	// Allow Direct internet access until a connection to the pop is established
+	AllowFailOpen bool `json:"allowFailOpen"`
+	// Allow user to bypass Always On
+	AllowUserBypass bool `json:"allowUserBypass"`
+	// Specifies the level of protection against tampering
+	AntiTamperMode *AntiTamperModeEnum `json:"antiTamperMode,omitempty"`
+	// Bypass disconnection duration
+	BypassDuration *ZtnaAlwaysOnTime `json:"bypassDuration"`
+	// Description for the rule
+	Description string `json:"description"`
+	// Device Profile traffic matching criteria.
+	// Logical ‘OR’ is applied within the criteria set.
+	// Logical ‘AND’ is applied between criteria sets.
+	DevicePostureProfile []*DeviceProfileRef `json:"devicePostureProfile"`
+	// TRUE = Rule is enabled
+	//  FALSE = Rule is disabled
+	Enabled bool `json:"enabled"`
+	// Rule ID
+	ID string `json:"id"`
+	// Position / priority of rule
+	Index int64 `json:"index"`
+	// Name of the rule
+	Name string `json:"name"`
+	// Source device Operating System traffic matching criteria.
+	// Logical ‘OR’ is applied within the criteria set.
+	// Logical ‘AND’ is applied between criteria sets.
+	Platform []OperatingSystem `json:"platform"`
+	// Policy section where the rule is located
+	Section *PolicySectionInfo `json:"section"`
+	// Source traffic matching criteria.
+	// Logical ‘OR’ is applied within the criteria set.
+	// Logical ‘AND’ is applied between criteria sets.
+	Source *ZtnaAlwaysOnSource `json:"source"`
+}
+
+func (ZtnaAlwaysOnRule) IsIPolicyRule() {}
+
+// Rule ID
+func (this ZtnaAlwaysOnRule) GetID() string { return this.ID }
+
+// Name of the rule
+func (this ZtnaAlwaysOnRule) GetName() string { return this.Name }
+
+// Description for the rule
+func (this ZtnaAlwaysOnRule) GetDescription() *string { return &this.Description }
+
+// Position / priority of rule
+func (this ZtnaAlwaysOnRule) GetIndex() int64 { return this.Index }
+
+// TRUE = Rule is enabled, FALSE = Rule is disabled
+func (this ZtnaAlwaysOnRule) GetEnabled() bool { return this.Enabled }
+
+// Policy section where the rule is located
+func (this ZtnaAlwaysOnRule) GetSection() *PolicySectionInfo { return this.Section }
+
+type ZtnaAlwaysOnRuleMutationPayload struct {
+	Errors []*PolicyMutationError   `json:"errors"`
+	Rule   *ZtnaAlwaysOnRulePayload `json:"rule,omitempty"`
+	Status PolicyMutationStatus     `json:"status"`
+}
+
+func (ZtnaAlwaysOnRuleMutationPayload) IsIPolicyRuleMutationPayload() {}
+
+// Returns settings for the rule
+func (this ZtnaAlwaysOnRuleMutationPayload) GetRule() IPolicyRulePayload { return *this.Rule }
+
+// Enum for the status of the policy change
+func (this ZtnaAlwaysOnRuleMutationPayload) GetStatus() PolicyMutationStatus { return this.Status }
+
+// List of errors related to the policy change
+func (this ZtnaAlwaysOnRuleMutationPayload) GetErrors() []*PolicyMutationError {
+	if this.Errors == nil {
+		return nil
+	}
+	interfaceSlice := make([]*PolicyMutationError, 0, len(this.Errors))
+	for _, concrete := range this.Errors {
+		interfaceSlice = append(interfaceSlice, concrete)
+	}
+	return interfaceSlice
+}
+
+type ZtnaAlwaysOnRulePayload struct {
+	Audit      *PolicyElementAudit           `json:"audit"`
+	Properties []PolicyElementPropertiesEnum `json:"properties"`
+	Rule       *ZtnaAlwaysOnRule             `json:"rule"`
+}
+
+func (ZtnaAlwaysOnRulePayload) IsIPolicyRulePayload()              {}
+func (this ZtnaAlwaysOnRulePayload) GetAudit() *PolicyElementAudit { return this.Audit }
+
+// Rule that was changed
+func (this ZtnaAlwaysOnRulePayload) GetRule() IPolicyRule { return *this.Rule }
+
+// Summary of rule change, (ie. ADDED, UPDATED)
+func (this ZtnaAlwaysOnRulePayload) GetProperties() []PolicyElementPropertiesEnum {
+	if this.Properties == nil {
+		return nil
+	}
+	interfaceSlice := make([]PolicyElementPropertiesEnum, 0, len(this.Properties))
+	for _, concrete := range this.Properties {
+		interfaceSlice = append(interfaceSlice, concrete)
+	}
+	return interfaceSlice
+}
+
+// Returns the settings for Source of an Always On rule
+type ZtnaAlwaysOnSource struct {
+	// Individual users defined for the account
+	User []*UserRef `json:"user"`
+	// Group of users
+	UsersGroup []*UsersGroupRef `json:"usersGroup"`
+}
+
+// Input of the settings for Source of an Always On rule
+type ZtnaAlwaysOnSourceInput struct {
+	// Individual users defined for the account
+	User []*UserRefInput `json:"user"`
+	// Group of users
+	UsersGroup []*UsersGroupRefInput `json:"usersGroup"`
+}
+
+// Input of the settings for Source of an Always On rule
+type ZtnaAlwaysOnSourceUpdateInput struct {
+	// Individual users defined for the account
+	User []*UserRefInput `json:"user,omitempty"`
+	// Group of users
+	UsersGroup []*UsersGroupRefInput `json:"usersGroup,omitempty"`
+}
+
+// Return the disconnection duration time
+type ZtnaAlwaysOnTime struct {
+	// Duration time value
+	Time int64 `json:"time"`
+	// Time unit for the duration
+	Unit ZtnaAlwaysOnTimeUnit `json:"unit"`
+}
+
+// Return the disconnection duration time
+type ZtnaAlwaysOnTimeInput struct {
+	// Duration time value
+	Time int64 `json:"time"`
+	// Time unit for the duration
+	Unit ZtnaAlwaysOnTimeUnit `json:"unit"`
+}
+
+// Return the disconnection duration time
+type ZtnaAlwaysOnTimeUpdateInput struct {
+	// Duration time value
+	Time *int64 `json:"time,omitempty"`
+	// Time unit for the duration
+	Unit *ZtnaAlwaysOnTimeUnit `json:"unit,omitempty"`
+}
+
+type ZtnaAlwaysOnUpdateRuleDataInput struct {
+	// The action applied by the Always On rule
+	Action *ZtnaAlwaysOnRuleActionEnum `json:"action,omitempty"`
+	// Allow Direct internet access until a connection to the pop is established
+	AllowFailOpen *bool `json:"allowFailOpen,omitempty"`
+	// Allow user to bypass Always On
+	AllowUserBypass *bool `json:"allowUserBypass,omitempty"`
+	// Specifies the level of protection against tampering
+	AntiTamperMode *AntiTamperModeEnum `json:"antiTamperMode,omitempty"`
+	// Bypass disconnection duration
+	BypassDuration *ZtnaAlwaysOnTimeUpdateInput `json:"bypassDuration,omitempty"`
+	Description    *string                      `json:"description,omitempty"`
+	// Device Profile traffic matching criteria.
+	// Logical ‘OR’ is applied within the criteria set.
+	// Logical ‘AND’ is applied between criteria sets.
+	DevicePostureProfile []*DeviceProfileRefInput `json:"devicePostureProfile,omitempty"`
+	Enabled              *bool                    `json:"enabled,omitempty"`
+	Name                 *string                  `json:"name,omitempty"`
+	// Source device Operating System traffic matching criteria.
+	// Logical ‘OR’ is applied within the criteria set.
+	// Logical ‘AND’ is applied between criteria sets.
+	Platform []OperatingSystem `json:"platform,omitempty"`
+	// Source traffic matching criteria.
+	// Logical ‘OR’ is applied within the criteria set.
+	// Logical ‘AND’ is applied between criteria sets.
+	Source *ZtnaAlwaysOnSourceUpdateInput `json:"source,omitempty"`
+}
+
+type ZtnaAlwaysOnUpdateRuleInput struct {
+	ID   string                           `json:"id"`
+	Rule *ZtnaAlwaysOnUpdateRuleDataInput `json:"rule"`
+}
+
+type ZtnaAppConnectorRef struct {
+	// Unique ZTNA app connector ID
+	ID string `json:"id"`
+	// Name for the ZTNA app connector
+	Name string `json:"name"`
+}
+
+func (ZtnaAppConnectorRef) IsObjectRef() {}
+
+// Object's unique identifier
+func (this ZtnaAppConnectorRef) GetID() string { return this.ID }
+
+// Object's unique name
+func (this ZtnaAppConnectorRef) GetName() string { return this.Name }
+
 // ZTNA remote users license
 type ZtnaUsersLicense struct {
 	Description *string `json:"description,omitempty"`
@@ -15795,6 +17348,179 @@ func (e AiOperationsIncidentTypeEnum) MarshalJSON() ([]byte, error) {
 	return buf.Bytes(), nil
 }
 
+type AiSecurityDataUsagePolicyType string
+
+const (
+	AiSecurityDataUsagePolicyTypeGeneralDataUsage AiSecurityDataUsagePolicyType = "GENERAL_DATA_USAGE"
+	AiSecurityDataUsagePolicyTypeNoDataUsage      AiSecurityDataUsagePolicyType = "NO_DATA_USAGE"
+	AiSecurityDataUsagePolicyTypeNotMentioned     AiSecurityDataUsagePolicyType = "NOT_MENTIONED"
+	AiSecurityDataUsagePolicyTypeTrainsOnData     AiSecurityDataUsagePolicyType = "TRAINS_ON_DATA"
+)
+
+var AllAiSecurityDataUsagePolicyType = []AiSecurityDataUsagePolicyType{
+	AiSecurityDataUsagePolicyTypeGeneralDataUsage,
+	AiSecurityDataUsagePolicyTypeNoDataUsage,
+	AiSecurityDataUsagePolicyTypeNotMentioned,
+	AiSecurityDataUsagePolicyTypeTrainsOnData,
+}
+
+func (e AiSecurityDataUsagePolicyType) IsValid() bool {
+	switch e {
+	case AiSecurityDataUsagePolicyTypeGeneralDataUsage, AiSecurityDataUsagePolicyTypeNoDataUsage, AiSecurityDataUsagePolicyTypeNotMentioned, AiSecurityDataUsagePolicyTypeTrainsOnData:
+		return true
+	}
+	return false
+}
+
+func (e AiSecurityDataUsagePolicyType) String() string {
+	return string(e)
+}
+
+func (e *AiSecurityDataUsagePolicyType) UnmarshalGQL(v any) error {
+	str, ok := v.(string)
+	if !ok {
+		return fmt.Errorf("enums must be strings")
+	}
+
+	*e = AiSecurityDataUsagePolicyType(str)
+	if !e.IsValid() {
+		return fmt.Errorf("%s is not a valid AiSecurityDataUsagePolicyType", str)
+	}
+	return nil
+}
+
+func (e AiSecurityDataUsagePolicyType) MarshalGQL(w io.Writer) {
+	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+func (e *AiSecurityDataUsagePolicyType) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e AiSecurityDataUsagePolicyType) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
+}
+
+type AiSecurityRisk string
+
+const (
+	AiSecurityRiskCritical AiSecurityRisk = "CRITICAL"
+	AiSecurityRiskHigh     AiSecurityRisk = "HIGH"
+	AiSecurityRiskLow      AiSecurityRisk = "LOW"
+	AiSecurityRiskMedium   AiSecurityRisk = "MEDIUM"
+)
+
+var AllAiSecurityRisk = []AiSecurityRisk{
+	AiSecurityRiskCritical,
+	AiSecurityRiskHigh,
+	AiSecurityRiskLow,
+	AiSecurityRiskMedium,
+}
+
+func (e AiSecurityRisk) IsValid() bool {
+	switch e {
+	case AiSecurityRiskCritical, AiSecurityRiskHigh, AiSecurityRiskLow, AiSecurityRiskMedium:
+		return true
+	}
+	return false
+}
+
+func (e AiSecurityRisk) String() string {
+	return string(e)
+}
+
+func (e *AiSecurityRisk) UnmarshalGQL(v any) error {
+	str, ok := v.(string)
+	if !ok {
+		return fmt.Errorf("enums must be strings")
+	}
+
+	*e = AiSecurityRisk(str)
+	if !e.IsValid() {
+		return fmt.Errorf("%s is not a valid AiSecurityRisk", str)
+	}
+	return nil
+}
+
+func (e AiSecurityRisk) MarshalGQL(w io.Writer) {
+	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+func (e *AiSecurityRisk) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e AiSecurityRisk) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
+}
+
+type AiSecurityScope string
+
+const (
+	AiSecurityScopeEmbedded AiSecurityScope = "EMBEDDED"
+	AiSecurityScopeNative   AiSecurityScope = "NATIVE"
+)
+
+var AllAiSecurityScope = []AiSecurityScope{
+	AiSecurityScopeEmbedded,
+	AiSecurityScopeNative,
+}
+
+func (e AiSecurityScope) IsValid() bool {
+	switch e {
+	case AiSecurityScopeEmbedded, AiSecurityScopeNative:
+		return true
+	}
+	return false
+}
+
+func (e AiSecurityScope) String() string {
+	return string(e)
+}
+
+func (e *AiSecurityScope) UnmarshalGQL(v any) error {
+	str, ok := v.(string)
+	if !ok {
+		return fmt.Errorf("enums must be strings")
+	}
+
+	*e = AiSecurityScope(str)
+	if !e.IsValid() {
+		return fmt.Errorf("%s is not a valid AiSecurityScope", str)
+	}
+	return nil
+}
+
+func (e AiSecurityScope) MarshalGQL(w io.Writer) {
+	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+func (e *AiSecurityScope) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e AiSecurityScope) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
+}
+
 type AlertClassificationEnum string
 
 const (
@@ -16051,6 +17777,67 @@ func (e AntiMalwareFileHashAction) MarshalJSON() ([]byte, error) {
 	return buf.Bytes(), nil
 }
 
+// Specifies the level of protection against tampering
+type AntiTamperModeEnum string
+
+const (
+	// Tampering attempts are logged, but changes are permitted
+	AntiTamperModeEnumMonitor AntiTamperModeEnum = "MONITOR"
+	// No protection. Users are allowed to make changes
+	AntiTamperModeEnumOff AntiTamperModeEnum = "OFF"
+	// Changes are blocked. Users are not allowed to make modifications
+	AntiTamperModeEnumProtect AntiTamperModeEnum = "PROTECT"
+)
+
+var AllAntiTamperModeEnum = []AntiTamperModeEnum{
+	AntiTamperModeEnumMonitor,
+	AntiTamperModeEnumOff,
+	AntiTamperModeEnumProtect,
+}
+
+func (e AntiTamperModeEnum) IsValid() bool {
+	switch e {
+	case AntiTamperModeEnumMonitor, AntiTamperModeEnumOff, AntiTamperModeEnumProtect:
+		return true
+	}
+	return false
+}
+
+func (e AntiTamperModeEnum) String() string {
+	return string(e)
+}
+
+func (e *AntiTamperModeEnum) UnmarshalGQL(v any) error {
+	str, ok := v.(string)
+	if !ok {
+		return fmt.Errorf("enums must be strings")
+	}
+
+	*e = AntiTamperModeEnum(str)
+	if !e.IsValid() {
+		return fmt.Errorf("%s is not a valid AntiTamperModeEnum", str)
+	}
+	return nil
+}
+
+func (e AntiTamperModeEnum) MarshalGQL(w io.Writer) {
+	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+func (e *AntiTamperModeEnum) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e AntiTamperModeEnum) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
+}
+
 type ApnMethod string
 
 const (
@@ -16111,107 +17898,197 @@ func (e ApnMethod) MarshalJSON() ([]byte, error) {
 type AppStatsFieldName string
 
 const (
-	// Active Directory name
+	// Account ID. CMA Name: Account ID
+	AppStatsFieldNameAccountID AppStatsFieldName = "account_id"
+	// Account name. CMA Name: Account Name
+	AppStatsFieldNameAccountName AppStatsFieldName = "account_name"
+	// Active Directory name. CMA Name: Ad Name
 	AppStatsFieldNameAdName AppStatsFieldName = "ad_name"
-	// The application identifier
+	// AI Proxy rule name. CMA Name: AI Proxy Rule Name
+	AppStatsFieldNameAiProxyRuleName AppStatsFieldName = "ai_proxy_rule_name"
+	// Application ID of the flow, in legacy format. CMA Name: Appid
 	AppStatsFieldNameApp AppStatsFieldName = "app"
-	// The application name
+	// The application identifier. CMA Name: Application
 	AppStatsFieldNameApplication AppStatsFieldName = "application"
-	// Application description
+	// Description of the application. CMA Name: Application Description
 	AppStatsFieldNameApplicationDescription AppStatsFieldName = "application_description"
-	// The application identifier
+	// Application ID of the flow. CMA Name: Application ID
 	AppStatsFieldNameApplicationID AppStatsFieldName = "application_id"
-	// The application name
-	AppStatsFieldNameApplicationName      AppStatsFieldName = "application_name"
+	// Application of the flow. CMA Name: Application Name
+	AppStatsFieldNameApplicationName AppStatsFieldName = "application_name"
+	// Application risk level based on the application risk score. CMA Name: Application Risk Level
 	AppStatsFieldNameApplicationRiskLevel AppStatsFieldName = "application_risk_level"
-	// The application risk score assigned by Cato
+	// Risk score of the application, based on Cato's risk assessment. CMA Name: Application Risk Score
 	AppStatsFieldNameApplicationRiskScore AppStatsFieldName = "application_risk_score"
-	// Cato system categories of the application
+	// Application type (Custom, Private or System). CMA Name: Application Type
+	AppStatsFieldNameApplicationType AppStatsFieldName = "application_type"
+	// Cato system category. CMA Name: Categories
 	AppStatsFieldNameCategories AppStatsFieldName = "categories"
-	// Cato system category of the application
+	// Cato system category of the application. CMA Name: Category
 	AppStatsFieldNameCategory AppStatsFieldName = "category"
-	// For hosts configured with a static IP in the Cato Management Application, the host name
+	// Type of process generating this traffic. CMA Name: Client Class
+	AppStatsFieldNameClientClass AppStatsFieldName = "client_class"
+	// Socket or SDP Client version. CMA Name: Client Version
+	AppStatsFieldNameClientVersion AppStatsFieldName = "client_version"
+	// For hosts configured with a static IP in the Cato Management Application, the host name. CMA Name: Configured Host Name
 	AppStatsFieldNameConfiguredHostName AppStatsFieldName = "configured_host_name"
-	// Application description
+	// Connection Origin. CMA Name: Connection Origin
+	AppStatsFieldNameConnectionOrigin AppStatsFieldName = "connection_origin"
+	// Application description. CMA Name: Description
 	AppStatsFieldNameDescription AppStatsFieldName = "description"
-	// IP for destination host or Cato Client
+	// For Internet traffic, country where the destination host is located. CMA Name: Destination Country
+	AppStatsFieldNameDestCountry AppStatsFieldName = "dest_country"
+	// For Internet traffic, destination host IP address. CMA Name: Dest Ip
 	AppStatsFieldNameDestIP AppStatsFieldName = "dest_ip"
-	// Destination is site or remote user
+	// For WAN traffic, destination is site or SDP user. CMA Name: Dest Is Site Or Vpn
 	AppStatsFieldNameDestIsSiteOrVpn AppStatsFieldName = "dest_is_site_or_vpn"
-	// Destination site or remote user identifier
+	// Destination port. CMA Name: Destination Port
+	AppStatsFieldNameDestPort AppStatsFieldName = "dest_port"
+	// Destination Site or VPN user ID (proto). CMA Name: Dest Site
 	AppStatsFieldNameDestSite AppStatsFieldName = "dest_site"
-	// Destination Site or remote user identifier
+	// Unique internal Cato ID for the destination site or remote user. CMA Name: Dest Site ID
 	AppStatsFieldNameDestSiteID AppStatsFieldName = "dest_site_id"
-	// Destination Site or remote user name
+	// For Internet traffic, destination host IP address. CMA Name: Dest Site Name
 	AppStatsFieldNameDestSiteName AppStatsFieldName = "dest_site_name"
-	// Name for device related to the traffic
-	AppStatsFieldNameDeviceName    AppStatsFieldName = "device_name"
+	// Device Categories. CMA Name: Device Category
+	AppStatsFieldNameDeviceCategories AppStatsFieldName = "device_categories"
+	// Unique Cato ID for devices. CMA Name: Device ID
+	AppStatsFieldNameDeviceID AppStatsFieldName = "device_id"
+	// Device Manufacturer. CMA Name: Device Manufacturer
+	AppStatsFieldNameDeviceManufacturer AppStatsFieldName = "device_manufacturer"
+	// Device Model. CMA Name: Device Model
+	AppStatsFieldNameDeviceModel AppStatsFieldName = "device_model"
+	// Name for device related to the traffic. CMA Name: Device Name
+	AppStatsFieldNameDeviceName AppStatsFieldName = "device_name"
+	// Device OS Type. CMA Name: Device OS Type
+	AppStatsFieldNameDeviceOsType AppStatsFieldName = "device_os_type"
+	// Device posture profiles. CMA Name: Device Posture Profile
+	AppStatsFieldNameDevicePostureProfile AppStatsFieldName = "device_posture_profile"
+	// Device Type. CMA Name: Device Type
+	AppStatsFieldNameDeviceType AppStatsFieldName = "device_type"
+	// Total SaaS apps discovered ever until the To in the timeframe. CMA Name: Discovered App
 	AppStatsFieldNameDiscoveredApp AppStatsFieldName = "discovered_app"
-	AppStatsFieldNameDomain        AppStatsFieldName = "domain"
-	// data downloaded from cloud applications
-	AppStatsFieldNameDownstream   AppStatsFieldName = "downstream"
+	// Domain name. CMA Name: Domain Name
+	AppStatsFieldNameDomain AppStatsFieldName = "domain"
+	// Bytes sent from the destination to the host. CMA Name: Downstream
+	AppStatsFieldNameDownstream AppStatsFieldName = "downstream"
+	// Duration of the flow in ms. Only available for native flows data integration created in the CMA (e.g. Sentinel). Not available in the appstats or appstatsTimeSeries API.
+	AppStatsFieldNameDuration AppStatsFieldName = "duration"
+	// Egress PoP Name. CMA Name: Egress PoP Name
+	AppStatsFieldNameEgressPopName AppStatsFieldName = "egress_pop_name"
+	// Egress Site Name for backhauling traffic. CMA Name: Egress Site
+	AppStatsFieldNameEgressSiteName AppStatsFieldName = "egress_site_name"
+	// Uniquely identifies a traffic flow and enables correlation of events and other records related to the same flow. Only available for native flows data integration created in the CMA (e.g. Sentinel). Not available in the appstats or appstatsTimeSeries API.
+	AppStatsFieldNameFlowID AppStatsFieldName = "flow_id"
+	// Time stamp of the flow start (Linux epoch format). Only available for native flows data integration created in the CMA (e.g. Sentinel). Not available in the appstats or appstatsTimeSeries API.
+	AppStatsFieldNameFlowStartTime AppStatsFieldName = "flow_start_time"
+	// Number of flows created for this event. CMA Name: Flows Created
 	AppStatsFieldNameFlowsCreated AppStatsFieldName = "flows_created"
-	// the country in which the registered application headquarteres is located
+	// Full path URL application activity. CMA Name: Full Path URL
+	AppStatsFieldNameFullPathURL AppStatsFieldName = "full_path_url"
+	// IP address of host related to event. CMA Name: Host IP
+	AppStatsFieldNameHostIP AppStatsFieldName = "host_ip"
+	// MAC address of host related to event. CMA Name: Host MAC Address
+	AppStatsFieldNameHostMac AppStatsFieldName = "host_mac"
+	// Country of the application headquarters. CMA Name: Hq Location
 	AppStatsFieldNameHqLocation AppStatsFieldName = "hq_location"
-	AppStatsFieldNameIP         AppStatsFieldName = "ip"
-	// indicates whether the application is considered cloud app/SaaS app
+	// HTTP request method (ie. Get, Post). CMA Name: Request Method
+	AppStatsFieldNameHTTPRequestMethod AppStatsFieldName = "http_request_method"
+	// Local IP address of the host. CMA Name: Local Ip
+	AppStatsFieldNameIP AppStatsFieldName = "ip"
+	// Network protocol for this event. CMA Name: IP Protocol
+	AppStatsFieldNameIPProtocol AppStatsFieldName = "ip_protocol"
+	// Is the application a cloud application? (True/False). CMA Name: Is Cloud App
 	AppStatsFieldNameIsCloudApp AppStatsFieldName = "is_cloud_app"
-	// Is the application defined as sanctioned?
+	// Is last sample for flow. Only available for native flows data integration created in the CMA (e.g. Sentinel). Not available in the appstats or appstatsTimeSeries API.
+	AppStatsFieldNameIsFlowTerminated AppStatsFieldName = "is_flow_terminated"
+	// Is the app for this event defined as a sanctioned app? (True/False). CMA Name: Is Sanctioned App
 	AppStatsFieldNameIsSanctionedApp AppStatsFieldName = "is_sanctioned_app"
-	// The ISP related to this event (when the IP address isn't provided by the ISP, then the event message is IP Addresses are assigned statically)
+	// The ISP related to this event (when the IP address isn't provided by the ISP, then the event message is IP Addresses are assigned statically). CMA Name: ISP Name
 	AppStatsFieldNameIspName AppStatsFieldName = "ISP_name"
-	// new cloud application identifier
-	AppStatsFieldNameNewApp    AppStatsFieldName = "new_app"
+	// Matched network rule. CMA Name: Network Rule
+	AppStatsFieldNameNetworkRule AppStatsFieldName = "network_rule"
+	// new_app. CMA Name: New App
+	AppStatsFieldNameNewApp AppStatsFieldName = "new_app"
+	// OS version for the device (such as 14.3.0). CMA Name: OS Version
+	AppStatsFieldNameOsVersion AppStatsFieldName = "os_version"
+	// Name of PoP location. CMA Name: Pop Name
+	AppStatsFieldNamePopName AppStatsFieldName = "pop_name"
+	// QoS Priority value. CMA Name: QoS Priority
+	AppStatsFieldNameQosPriority AppStatsFieldName = "qos_priority"
+	// risk_level. CMA Name: Risk Level
 	AppStatsFieldNameRiskLevel AppStatsFieldName = "risk_level"
-	// the application risk score assigned by Cato
+	// The application risk score assigned by Cato. CMA Name: Risk Score
 	AppStatsFieldNameRiskScore AppStatsFieldName = "risk_score"
-	// Is the application defined as sanctioned?
+	// Is the application defined as sanctioned?. CMA Name: Sanctioned
 	AppStatsFieldNameSanctioned AppStatsFieldName = "sanctioned"
-	// Country in which the source host is located
+	// Country in which the source host is located. CMA Name: Site Country
 	AppStatsFieldNameSiteCountry AppStatsFieldName = "site_country"
-	// State in which the source host is located
+	// State in which the source host is located. CMA Name: Site State
 	AppStatsFieldNameSiteState AppStatsFieldName = "site_state"
-	// Name for Socket interface
+	// Name for Socket interface. CMA Name: Socket Interface
 	AppStatsFieldNameSocketInterface AppStatsFieldName = "socket_interface"
-	// Country in which the source host is located (detected via public IP address)
+	// Country in which the source host is located (detected via public IP address). CMA Name: Source Country
 	AppStatsFieldNameSrcCountry AppStatsFieldName = "src_country"
-	// Country Code of country in which the source host is located (detected via public IP address)
+	// Country Code of country in which the source host is located (detected via public IP address). CMA Name: Source Country Code
 	AppStatsFieldNameSrcCountryCode AppStatsFieldName = "src_country_code"
-	// IP for source host or Cato Client
+	// IP for host or Cato Client. CMA Name: Src Ip
 	AppStatsFieldNameSrcIP AppStatsFieldName = "src_ip"
-	// Source is site or remote user
+	// Source type: site or remote user. CMA Name: Src Is Site Or Vpn
 	AppStatsFieldNameSrcIsSiteOrVpn AppStatsFieldName = "src_is_site_or_vpn"
-	// IP address provided by ISP to site or Client
+	// IP address provided by ISP to site or Client. CMA Name: Source ISP IP
 	AppStatsFieldNameSrcIspIP AppStatsFieldName = "src_isp_ip"
-	// Site country code alpha2
+	// Internal port number. CMA Name: Source Port
+	AppStatsFieldNameSrcPort AppStatsFieldName = "src_port"
+	// Site country code alpha2. CMA Name: Src Site Country Code
 	AppStatsFieldNameSrcSiteCountryCode AppStatsFieldName = "src_site_country_code"
-	// Source site or remote user identifier
+	// Unique internal Cato ID for the site or remote user. CMA Name: Src Site ID
 	AppStatsFieldNameSrcSiteID AppStatsFieldName = "src_site_id"
-	// Source site or remote user name
+	// Source site or remote user. CMA Name: Src Site Name
 	AppStatsFieldNameSrcSiteName AppStatsFieldName = "src_site_name"
-	// Site state code
+	// Site state code. CMA Name: Src Site State
 	AppStatsFieldNameSrcSiteState AppStatsFieldName = "src_site_state"
-	// Name of subnet as defined in Cato Management Application
+	// Name of subnet as defined in Cato Management Application. CMA Name: Subnet
 	AppStatsFieldNameSubnet AppStatsFieldName = "subnet"
-	// Name of subnet as defined in Cato Management Application
+	// Name of subnet as defined in Cato Management Application. CMA Name: Subnet Name
 	AppStatsFieldNameSubnetName AppStatsFieldName = "subnet_name"
-	// Top level domain
+	// Shows if traffic was TCP accelerated or not. CMA Name: TCP Acceleration
+	AppStatsFieldNameTCPAcceleration AppStatsFieldName = "tcp_acceleration"
+	// Time stamp of the flow update (Human-readable format). Only available for native flows data integration created in the CMA (e.g. Sentinel). Not available in the appstats or appstatsTimeSeries API.
+	AppStatsFieldNameTimeStr AppStatsFieldName = "time_str"
+	// Top Level Domain of the host name. CMA Name: Tld
 	AppStatsFieldNameTld AppStatsFieldName = "tld"
-	// the total sum of upstream and downstream data in bytes
+	// Shows if traffic was TLS inspected or not. CMA Name: TLS Inspection
+	AppStatsFieldNameTLSInspection AppStatsFieldName = "tls_inspection"
+	// TLS Inspection rule name. CMA Name: TLS Rule Name
+	AppStatsFieldNameTLSRuleName AppStatsFieldName = "tls_rule_name"
+	// The total sum of upstream and downstream data in bytes. CMA Name: Traffic
 	AppStatsFieldNameTraffic AppStatsFieldName = "traffic"
-	// Traffic direction
+	// Direction of network traffic for this event, values are inbound or outbound. CMA Name: Traffic Direction
 	AppStatsFieldNameTrafficDirection AppStatsFieldName = "traffic_direction"
-	// data uploaded to cloud applications
+	// Translated Client IP. CMA Name: Translated Client IP
+	AppStatsFieldNameTranslatedClientIP AppStatsFieldName = "translated_client_ip"
+	// Translated Server IP. CMA Name: Translated Server IP
+	AppStatsFieldNameTranslatedServerIP AppStatsFieldName = "translated_server_ip"
+	// Bytes sent from the host to the destination. CMA Name: Upstream
 	AppStatsFieldNameUpstream AppStatsFieldName = "upstream"
-	// User identifier
+	// Method used to get identity with User Awareness (such as Identity Agent). CMA Name: User Awareness Method
+	AppStatsFieldNameUserAwarenessMethod AppStatsFieldName = "user_awareness_method"
+	// User ID. CMA Name: User ID
 	AppStatsFieldNameUserID AppStatsFieldName = "user_id"
-	// User name
-	AppStatsFieldNameUserName  AppStatsFieldName = "user_name"
+	// User that generated the event. CMA Name: User Name
+	AppStatsFieldNameUserName AppStatsFieldName = "user_name"
+	// User’s email address. CMA Name: SDP User Email
+	AppStatsFieldNameVpnUserEmail AppStatsFieldName = "vpn_user_email"
+	// User ID. CMA Name: Vpn User ID
 	AppStatsFieldNameVpnUserID AppStatsFieldName = "vpn_user_id"
 )
 
 var AllAppStatsFieldName = []AppStatsFieldName{
+	AppStatsFieldNameAccountID,
+	AppStatsFieldNameAccountName,
 	AppStatsFieldNameAdName,
+	AppStatsFieldNameAiProxyRuleName,
 	AppStatsFieldNameApp,
 	AppStatsFieldNameApplication,
 	AppStatsFieldNameApplicationDescription,
@@ -16219,26 +18096,54 @@ var AllAppStatsFieldName = []AppStatsFieldName{
 	AppStatsFieldNameApplicationName,
 	AppStatsFieldNameApplicationRiskLevel,
 	AppStatsFieldNameApplicationRiskScore,
+	AppStatsFieldNameApplicationType,
 	AppStatsFieldNameCategories,
 	AppStatsFieldNameCategory,
+	AppStatsFieldNameClientClass,
+	AppStatsFieldNameClientVersion,
 	AppStatsFieldNameConfiguredHostName,
+	AppStatsFieldNameConnectionOrigin,
 	AppStatsFieldNameDescription,
+	AppStatsFieldNameDestCountry,
 	AppStatsFieldNameDestIP,
 	AppStatsFieldNameDestIsSiteOrVpn,
+	AppStatsFieldNameDestPort,
 	AppStatsFieldNameDestSite,
 	AppStatsFieldNameDestSiteID,
 	AppStatsFieldNameDestSiteName,
+	AppStatsFieldNameDeviceCategories,
+	AppStatsFieldNameDeviceID,
+	AppStatsFieldNameDeviceManufacturer,
+	AppStatsFieldNameDeviceModel,
 	AppStatsFieldNameDeviceName,
+	AppStatsFieldNameDeviceOsType,
+	AppStatsFieldNameDevicePostureProfile,
+	AppStatsFieldNameDeviceType,
 	AppStatsFieldNameDiscoveredApp,
 	AppStatsFieldNameDomain,
 	AppStatsFieldNameDownstream,
+	AppStatsFieldNameDuration,
+	AppStatsFieldNameEgressPopName,
+	AppStatsFieldNameEgressSiteName,
+	AppStatsFieldNameFlowID,
+	AppStatsFieldNameFlowStartTime,
 	AppStatsFieldNameFlowsCreated,
+	AppStatsFieldNameFullPathURL,
+	AppStatsFieldNameHostIP,
+	AppStatsFieldNameHostMac,
 	AppStatsFieldNameHqLocation,
+	AppStatsFieldNameHTTPRequestMethod,
 	AppStatsFieldNameIP,
+	AppStatsFieldNameIPProtocol,
 	AppStatsFieldNameIsCloudApp,
+	AppStatsFieldNameIsFlowTerminated,
 	AppStatsFieldNameIsSanctionedApp,
 	AppStatsFieldNameIspName,
+	AppStatsFieldNameNetworkRule,
 	AppStatsFieldNameNewApp,
+	AppStatsFieldNameOsVersion,
+	AppStatsFieldNamePopName,
+	AppStatsFieldNameQosPriority,
 	AppStatsFieldNameRiskLevel,
 	AppStatsFieldNameRiskScore,
 	AppStatsFieldNameSanctioned,
@@ -16250,24 +18155,33 @@ var AllAppStatsFieldName = []AppStatsFieldName{
 	AppStatsFieldNameSrcIP,
 	AppStatsFieldNameSrcIsSiteOrVpn,
 	AppStatsFieldNameSrcIspIP,
+	AppStatsFieldNameSrcPort,
 	AppStatsFieldNameSrcSiteCountryCode,
 	AppStatsFieldNameSrcSiteID,
 	AppStatsFieldNameSrcSiteName,
 	AppStatsFieldNameSrcSiteState,
 	AppStatsFieldNameSubnet,
 	AppStatsFieldNameSubnetName,
+	AppStatsFieldNameTCPAcceleration,
+	AppStatsFieldNameTimeStr,
 	AppStatsFieldNameTld,
+	AppStatsFieldNameTLSInspection,
+	AppStatsFieldNameTLSRuleName,
 	AppStatsFieldNameTraffic,
 	AppStatsFieldNameTrafficDirection,
+	AppStatsFieldNameTranslatedClientIP,
+	AppStatsFieldNameTranslatedServerIP,
 	AppStatsFieldNameUpstream,
+	AppStatsFieldNameUserAwarenessMethod,
 	AppStatsFieldNameUserID,
 	AppStatsFieldNameUserName,
+	AppStatsFieldNameVpnUserEmail,
 	AppStatsFieldNameVpnUserID,
 }
 
 func (e AppStatsFieldName) IsValid() bool {
 	switch e {
-	case AppStatsFieldNameAdName, AppStatsFieldNameApp, AppStatsFieldNameApplication, AppStatsFieldNameApplicationDescription, AppStatsFieldNameApplicationID, AppStatsFieldNameApplicationName, AppStatsFieldNameApplicationRiskLevel, AppStatsFieldNameApplicationRiskScore, AppStatsFieldNameCategories, AppStatsFieldNameCategory, AppStatsFieldNameConfiguredHostName, AppStatsFieldNameDescription, AppStatsFieldNameDestIP, AppStatsFieldNameDestIsSiteOrVpn, AppStatsFieldNameDestSite, AppStatsFieldNameDestSiteID, AppStatsFieldNameDestSiteName, AppStatsFieldNameDeviceName, AppStatsFieldNameDiscoveredApp, AppStatsFieldNameDomain, AppStatsFieldNameDownstream, AppStatsFieldNameFlowsCreated, AppStatsFieldNameHqLocation, AppStatsFieldNameIP, AppStatsFieldNameIsCloudApp, AppStatsFieldNameIsSanctionedApp, AppStatsFieldNameIspName, AppStatsFieldNameNewApp, AppStatsFieldNameRiskLevel, AppStatsFieldNameRiskScore, AppStatsFieldNameSanctioned, AppStatsFieldNameSiteCountry, AppStatsFieldNameSiteState, AppStatsFieldNameSocketInterface, AppStatsFieldNameSrcCountry, AppStatsFieldNameSrcCountryCode, AppStatsFieldNameSrcIP, AppStatsFieldNameSrcIsSiteOrVpn, AppStatsFieldNameSrcIspIP, AppStatsFieldNameSrcSiteCountryCode, AppStatsFieldNameSrcSiteID, AppStatsFieldNameSrcSiteName, AppStatsFieldNameSrcSiteState, AppStatsFieldNameSubnet, AppStatsFieldNameSubnetName, AppStatsFieldNameTld, AppStatsFieldNameTraffic, AppStatsFieldNameTrafficDirection, AppStatsFieldNameUpstream, AppStatsFieldNameUserID, AppStatsFieldNameUserName, AppStatsFieldNameVpnUserID:
+	case AppStatsFieldNameAccountID, AppStatsFieldNameAccountName, AppStatsFieldNameAdName, AppStatsFieldNameAiProxyRuleName, AppStatsFieldNameApp, AppStatsFieldNameApplication, AppStatsFieldNameApplicationDescription, AppStatsFieldNameApplicationID, AppStatsFieldNameApplicationName, AppStatsFieldNameApplicationRiskLevel, AppStatsFieldNameApplicationRiskScore, AppStatsFieldNameApplicationType, AppStatsFieldNameCategories, AppStatsFieldNameCategory, AppStatsFieldNameClientClass, AppStatsFieldNameClientVersion, AppStatsFieldNameConfiguredHostName, AppStatsFieldNameConnectionOrigin, AppStatsFieldNameDescription, AppStatsFieldNameDestCountry, AppStatsFieldNameDestIP, AppStatsFieldNameDestIsSiteOrVpn, AppStatsFieldNameDestPort, AppStatsFieldNameDestSite, AppStatsFieldNameDestSiteID, AppStatsFieldNameDestSiteName, AppStatsFieldNameDeviceCategories, AppStatsFieldNameDeviceID, AppStatsFieldNameDeviceManufacturer, AppStatsFieldNameDeviceModel, AppStatsFieldNameDeviceName, AppStatsFieldNameDeviceOsType, AppStatsFieldNameDevicePostureProfile, AppStatsFieldNameDeviceType, AppStatsFieldNameDiscoveredApp, AppStatsFieldNameDomain, AppStatsFieldNameDownstream, AppStatsFieldNameDuration, AppStatsFieldNameEgressPopName, AppStatsFieldNameEgressSiteName, AppStatsFieldNameFlowID, AppStatsFieldNameFlowStartTime, AppStatsFieldNameFlowsCreated, AppStatsFieldNameFullPathURL, AppStatsFieldNameHostIP, AppStatsFieldNameHostMac, AppStatsFieldNameHqLocation, AppStatsFieldNameHTTPRequestMethod, AppStatsFieldNameIP, AppStatsFieldNameIPProtocol, AppStatsFieldNameIsCloudApp, AppStatsFieldNameIsFlowTerminated, AppStatsFieldNameIsSanctionedApp, AppStatsFieldNameIspName, AppStatsFieldNameNetworkRule, AppStatsFieldNameNewApp, AppStatsFieldNameOsVersion, AppStatsFieldNamePopName, AppStatsFieldNameQosPriority, AppStatsFieldNameRiskLevel, AppStatsFieldNameRiskScore, AppStatsFieldNameSanctioned, AppStatsFieldNameSiteCountry, AppStatsFieldNameSiteState, AppStatsFieldNameSocketInterface, AppStatsFieldNameSrcCountry, AppStatsFieldNameSrcCountryCode, AppStatsFieldNameSrcIP, AppStatsFieldNameSrcIsSiteOrVpn, AppStatsFieldNameSrcIspIP, AppStatsFieldNameSrcPort, AppStatsFieldNameSrcSiteCountryCode, AppStatsFieldNameSrcSiteID, AppStatsFieldNameSrcSiteName, AppStatsFieldNameSrcSiteState, AppStatsFieldNameSubnet, AppStatsFieldNameSubnetName, AppStatsFieldNameTCPAcceleration, AppStatsFieldNameTimeStr, AppStatsFieldNameTld, AppStatsFieldNameTLSInspection, AppStatsFieldNameTLSRuleName, AppStatsFieldNameTraffic, AppStatsFieldNameTrafficDirection, AppStatsFieldNameTranslatedClientIP, AppStatsFieldNameTranslatedServerIP, AppStatsFieldNameUpstream, AppStatsFieldNameUserAwarenessMethod, AppStatsFieldNameUserID, AppStatsFieldNameUserName, AppStatsFieldNameVpnUserEmail, AppStatsFieldNameVpnUserID:
 		return true
 	}
 	return false
@@ -17359,17 +19273,23 @@ func (e CatalogApplicationAttribute) MarshalJSON() ([]byte, error) {
 type CatalogApplicationCapability string
 
 const (
-	CatalogApplicationCapabilityAntiMalwareInline    CatalogApplicationCapability = "ANTI_MALWARE_INLINE"
-	CatalogApplicationCapabilityAppControlAPI        CatalogApplicationCapability = "APP_CONTROL_API"
-	CatalogApplicationCapabilityAppControlInline     CatalogApplicationCapability = "APP_CONTROL_INLINE"
-	CatalogApplicationCapabilityDataProtectionAPI    CatalogApplicationCapability = "DATA_PROTECTION_API"
-	CatalogApplicationCapabilityDataProtectionInline CatalogApplicationCapability = "DATA_PROTECTION_INLINE"
-	CatalogApplicationCapabilityFileControlInline    CatalogApplicationCapability = "FILE_CONTROL_INLINE"
-	CatalogApplicationCapabilityFirewallIntline      CatalogApplicationCapability = "FIREWALL_INTLINE"
-	CatalogApplicationCapabilityLanFirewall          CatalogApplicationCapability = "LAN_FIREWALL"
+	CatalogApplicationCapabilityAiSecurityAPIIntegration CatalogApplicationCapability = "AI_SECURITY_API_INTEGRATION"
+	CatalogApplicationCapabilityAiSecurityBrowserPlugin  CatalogApplicationCapability = "AI_SECURITY_BROWSER_PLUGIN"
+	CatalogApplicationCapabilityAiSecurityNetworkProxy   CatalogApplicationCapability = "AI_SECURITY_NETWORK_PROXY"
+	CatalogApplicationCapabilityAntiMalwareInline        CatalogApplicationCapability = "ANTI_MALWARE_INLINE"
+	CatalogApplicationCapabilityAppControlAPI            CatalogApplicationCapability = "APP_CONTROL_API"
+	CatalogApplicationCapabilityAppControlInline         CatalogApplicationCapability = "APP_CONTROL_INLINE"
+	CatalogApplicationCapabilityDataProtectionAPI        CatalogApplicationCapability = "DATA_PROTECTION_API"
+	CatalogApplicationCapabilityDataProtectionInline     CatalogApplicationCapability = "DATA_PROTECTION_INLINE"
+	CatalogApplicationCapabilityFileControlInline        CatalogApplicationCapability = "FILE_CONTROL_INLINE"
+	CatalogApplicationCapabilityFirewallIntline          CatalogApplicationCapability = "FIREWALL_INTLINE"
+	CatalogApplicationCapabilityLanFirewall              CatalogApplicationCapability = "LAN_FIREWALL"
 )
 
 var AllCatalogApplicationCapability = []CatalogApplicationCapability{
+	CatalogApplicationCapabilityAiSecurityAPIIntegration,
+	CatalogApplicationCapabilityAiSecurityBrowserPlugin,
+	CatalogApplicationCapabilityAiSecurityNetworkProxy,
 	CatalogApplicationCapabilityAntiMalwareInline,
 	CatalogApplicationCapabilityAppControlAPI,
 	CatalogApplicationCapabilityAppControlInline,
@@ -17382,7 +19302,7 @@ var AllCatalogApplicationCapability = []CatalogApplicationCapability{
 
 func (e CatalogApplicationCapability) IsValid() bool {
 	switch e {
-	case CatalogApplicationCapabilityAntiMalwareInline, CatalogApplicationCapabilityAppControlAPI, CatalogApplicationCapabilityAppControlInline, CatalogApplicationCapabilityDataProtectionAPI, CatalogApplicationCapabilityDataProtectionInline, CatalogApplicationCapabilityFileControlInline, CatalogApplicationCapabilityFirewallIntline, CatalogApplicationCapabilityLanFirewall:
+	case CatalogApplicationCapabilityAiSecurityAPIIntegration, CatalogApplicationCapabilityAiSecurityBrowserPlugin, CatalogApplicationCapabilityAiSecurityNetworkProxy, CatalogApplicationCapabilityAntiMalwareInline, CatalogApplicationCapabilityAppControlAPI, CatalogApplicationCapabilityAppControlInline, CatalogApplicationCapabilityDataProtectionAPI, CatalogApplicationCapabilityDataProtectionInline, CatalogApplicationCapabilityFileControlInline, CatalogApplicationCapabilityFirewallIntline, CatalogApplicationCapabilityLanFirewall:
 		return true
 	}
 	return false
@@ -17418,6 +19338,319 @@ func (e *CatalogApplicationCapability) UnmarshalJSON(b []byte) error {
 }
 
 func (e CatalogApplicationCapability) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
+}
+
+type CatalogApplicationDataDeletionPolicy string
+
+const (
+	CatalogApplicationDataDeletionPolicyAfterAccountDeletion CatalogApplicationDataDeletionPolicy = "AFTER_ACCOUNT_DELETION"
+	CatalogApplicationDataDeletionPolicyImmediateOnRequest   CatalogApplicationDataDeletionPolicy = "IMMEDIATE_ON_REQUEST"
+	CatalogApplicationDataDeletionPolicyMoreThan90Days       CatalogApplicationDataDeletionPolicy = "MORE_THAN_90_DAYS"
+	CatalogApplicationDataDeletionPolicyNotOffered           CatalogApplicationDataDeletionPolicy = "NOT_OFFERED"
+	CatalogApplicationDataDeletionPolicyUnknown              CatalogApplicationDataDeletionPolicy = "UNKNOWN"
+	CatalogApplicationDataDeletionPolicyWithin30Days         CatalogApplicationDataDeletionPolicy = "WITHIN_30_DAYS"
+	CatalogApplicationDataDeletionPolicyWithin90Days         CatalogApplicationDataDeletionPolicy = "WITHIN_90_DAYS"
+)
+
+var AllCatalogApplicationDataDeletionPolicy = []CatalogApplicationDataDeletionPolicy{
+	CatalogApplicationDataDeletionPolicyAfterAccountDeletion,
+	CatalogApplicationDataDeletionPolicyImmediateOnRequest,
+	CatalogApplicationDataDeletionPolicyMoreThan90Days,
+	CatalogApplicationDataDeletionPolicyNotOffered,
+	CatalogApplicationDataDeletionPolicyUnknown,
+	CatalogApplicationDataDeletionPolicyWithin30Days,
+	CatalogApplicationDataDeletionPolicyWithin90Days,
+}
+
+func (e CatalogApplicationDataDeletionPolicy) IsValid() bool {
+	switch e {
+	case CatalogApplicationDataDeletionPolicyAfterAccountDeletion, CatalogApplicationDataDeletionPolicyImmediateOnRequest, CatalogApplicationDataDeletionPolicyMoreThan90Days, CatalogApplicationDataDeletionPolicyNotOffered, CatalogApplicationDataDeletionPolicyUnknown, CatalogApplicationDataDeletionPolicyWithin30Days, CatalogApplicationDataDeletionPolicyWithin90Days:
+		return true
+	}
+	return false
+}
+
+func (e CatalogApplicationDataDeletionPolicy) String() string {
+	return string(e)
+}
+
+func (e *CatalogApplicationDataDeletionPolicy) UnmarshalGQL(v any) error {
+	str, ok := v.(string)
+	if !ok {
+		return fmt.Errorf("enums must be strings")
+	}
+
+	*e = CatalogApplicationDataDeletionPolicy(str)
+	if !e.IsValid() {
+		return fmt.Errorf("%s is not a valid CatalogApplicationDataDeletionPolicy", str)
+	}
+	return nil
+}
+
+func (e CatalogApplicationDataDeletionPolicy) MarshalGQL(w io.Writer) {
+	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+func (e *CatalogApplicationDataDeletionPolicy) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e CatalogApplicationDataDeletionPolicy) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
+}
+
+type CatalogApplicationDataOwnership string
+
+const (
+	CatalogApplicationDataOwnershipCustomerOwnsData CatalogApplicationDataOwnership = "CUSTOMER_OWNS_DATA"
+	CatalogApplicationDataOwnershipSharedOwnership  CatalogApplicationDataOwnership = "SHARED_OWNERSHIP"
+	CatalogApplicationDataOwnershipUnknown          CatalogApplicationDataOwnership = "UNKNOWN"
+	CatalogApplicationDataOwnershipVendorOwnsData   CatalogApplicationDataOwnership = "VENDOR_OWNS_DATA"
+)
+
+var AllCatalogApplicationDataOwnership = []CatalogApplicationDataOwnership{
+	CatalogApplicationDataOwnershipCustomerOwnsData,
+	CatalogApplicationDataOwnershipSharedOwnership,
+	CatalogApplicationDataOwnershipUnknown,
+	CatalogApplicationDataOwnershipVendorOwnsData,
+}
+
+func (e CatalogApplicationDataOwnership) IsValid() bool {
+	switch e {
+	case CatalogApplicationDataOwnershipCustomerOwnsData, CatalogApplicationDataOwnershipSharedOwnership, CatalogApplicationDataOwnershipUnknown, CatalogApplicationDataOwnershipVendorOwnsData:
+		return true
+	}
+	return false
+}
+
+func (e CatalogApplicationDataOwnership) String() string {
+	return string(e)
+}
+
+func (e *CatalogApplicationDataOwnership) UnmarshalGQL(v any) error {
+	str, ok := v.(string)
+	if !ok {
+		return fmt.Errorf("enums must be strings")
+	}
+
+	*e = CatalogApplicationDataOwnership(str)
+	if !e.IsValid() {
+		return fmt.Errorf("%s is not a valid CatalogApplicationDataOwnership", str)
+	}
+	return nil
+}
+
+func (e CatalogApplicationDataOwnership) MarshalGQL(w io.Writer) {
+	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+func (e *CatalogApplicationDataOwnership) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e CatalogApplicationDataOwnership) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
+}
+
+type CatalogApplicationDataRetentionPolicy string
+
+const (
+	CatalogApplicationDataRetentionPolicyConfigurableByUser   CatalogApplicationDataRetentionPolicy = "CONFIGURABLE_BY_USER"
+	CatalogApplicationDataRetentionPolicyDays1_30             CatalogApplicationDataRetentionPolicy = "DAYS_1_30"
+	CatalogApplicationDataRetentionPolicyDeletionUponRequest  CatalogApplicationDataRetentionPolicy = "DELETION_UPON_REQUEST"
+	CatalogApplicationDataRetentionPolicyMonths1_12           CatalogApplicationDataRetentionPolicy = "MONTHS_1_12"
+	CatalogApplicationDataRetentionPolicyMoreThan1Year        CatalogApplicationDataRetentionPolicy = "MORE_THAN_1_YEAR"
+	CatalogApplicationDataRetentionPolicyUnknown              CatalogApplicationDataRetentionPolicy = "UNKNOWN"
+	CatalogApplicationDataRetentionPolicyWhileAccountIsActive CatalogApplicationDataRetentionPolicy = "WHILE_ACCOUNT_IS_ACTIVE"
+)
+
+var AllCatalogApplicationDataRetentionPolicy = []CatalogApplicationDataRetentionPolicy{
+	CatalogApplicationDataRetentionPolicyConfigurableByUser,
+	CatalogApplicationDataRetentionPolicyDays1_30,
+	CatalogApplicationDataRetentionPolicyDeletionUponRequest,
+	CatalogApplicationDataRetentionPolicyMonths1_12,
+	CatalogApplicationDataRetentionPolicyMoreThan1Year,
+	CatalogApplicationDataRetentionPolicyUnknown,
+	CatalogApplicationDataRetentionPolicyWhileAccountIsActive,
+}
+
+func (e CatalogApplicationDataRetentionPolicy) IsValid() bool {
+	switch e {
+	case CatalogApplicationDataRetentionPolicyConfigurableByUser, CatalogApplicationDataRetentionPolicyDays1_30, CatalogApplicationDataRetentionPolicyDeletionUponRequest, CatalogApplicationDataRetentionPolicyMonths1_12, CatalogApplicationDataRetentionPolicyMoreThan1Year, CatalogApplicationDataRetentionPolicyUnknown, CatalogApplicationDataRetentionPolicyWhileAccountIsActive:
+		return true
+	}
+	return false
+}
+
+func (e CatalogApplicationDataRetentionPolicy) String() string {
+	return string(e)
+}
+
+func (e *CatalogApplicationDataRetentionPolicy) UnmarshalGQL(v any) error {
+	str, ok := v.(string)
+	if !ok {
+		return fmt.Errorf("enums must be strings")
+	}
+
+	*e = CatalogApplicationDataRetentionPolicy(str)
+	if !e.IsValid() {
+		return fmt.Errorf("%s is not a valid CatalogApplicationDataRetentionPolicy", str)
+	}
+	return nil
+}
+
+func (e CatalogApplicationDataRetentionPolicy) MarshalGQL(w io.Writer) {
+	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+func (e *CatalogApplicationDataRetentionPolicy) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e CatalogApplicationDataRetentionPolicy) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
+}
+
+type CatalogApplicationEncryptionStrengthAtRest string
+
+const (
+	CatalogApplicationEncryptionStrengthAtRestEncryption128Bit       CatalogApplicationEncryptionStrengthAtRest = "ENCRYPTION_128_BIT"
+	CatalogApplicationEncryptionStrengthAtRestEncryption192Bit       CatalogApplicationEncryptionStrengthAtRest = "ENCRYPTION_192_BIT"
+	CatalogApplicationEncryptionStrengthAtRestEncryption256Bit       CatalogApplicationEncryptionStrengthAtRest = "ENCRYPTION_256_BIT"
+	CatalogApplicationEncryptionStrengthAtRestEncryptionGt256Bit     CatalogApplicationEncryptionStrengthAtRest = "ENCRYPTION_GT_256_BIT"
+	CatalogApplicationEncryptionStrengthAtRestEncryptionNotDisclosed CatalogApplicationEncryptionStrengthAtRest = "ENCRYPTION_NOT_DISCLOSED"
+	CatalogApplicationEncryptionStrengthAtRestEncryptionUnknown      CatalogApplicationEncryptionStrengthAtRest = "ENCRYPTION_UNKNOWN"
+)
+
+var AllCatalogApplicationEncryptionStrengthAtRest = []CatalogApplicationEncryptionStrengthAtRest{
+	CatalogApplicationEncryptionStrengthAtRestEncryption128Bit,
+	CatalogApplicationEncryptionStrengthAtRestEncryption192Bit,
+	CatalogApplicationEncryptionStrengthAtRestEncryption256Bit,
+	CatalogApplicationEncryptionStrengthAtRestEncryptionGt256Bit,
+	CatalogApplicationEncryptionStrengthAtRestEncryptionNotDisclosed,
+	CatalogApplicationEncryptionStrengthAtRestEncryptionUnknown,
+}
+
+func (e CatalogApplicationEncryptionStrengthAtRest) IsValid() bool {
+	switch e {
+	case CatalogApplicationEncryptionStrengthAtRestEncryption128Bit, CatalogApplicationEncryptionStrengthAtRestEncryption192Bit, CatalogApplicationEncryptionStrengthAtRestEncryption256Bit, CatalogApplicationEncryptionStrengthAtRestEncryptionGt256Bit, CatalogApplicationEncryptionStrengthAtRestEncryptionNotDisclosed, CatalogApplicationEncryptionStrengthAtRestEncryptionUnknown:
+		return true
+	}
+	return false
+}
+
+func (e CatalogApplicationEncryptionStrengthAtRest) String() string {
+	return string(e)
+}
+
+func (e *CatalogApplicationEncryptionStrengthAtRest) UnmarshalGQL(v any) error {
+	str, ok := v.(string)
+	if !ok {
+		return fmt.Errorf("enums must be strings")
+	}
+
+	*e = CatalogApplicationEncryptionStrengthAtRest(str)
+	if !e.IsValid() {
+		return fmt.Errorf("%s is not a valid CatalogApplicationEncryptionStrengthAtRest", str)
+	}
+	return nil
+}
+
+func (e CatalogApplicationEncryptionStrengthAtRest) MarshalGQL(w io.Writer) {
+	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+func (e *CatalogApplicationEncryptionStrengthAtRest) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e CatalogApplicationEncryptionStrengthAtRest) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
+}
+
+type CatalogApplicationTLSVersionSupport string
+
+const (
+	CatalogApplicationTLSVersionSupportTLS1_1OrOlder CatalogApplicationTLSVersionSupport = "TLS_1_1_OR_OLDER"
+	CatalogApplicationTLSVersionSupportTLS1_2        CatalogApplicationTLSVersionSupport = "TLS_1_2"
+	CatalogApplicationTLSVersionSupportTLS1_2Plus    CatalogApplicationTLSVersionSupport = "TLS_1_2_PLUS"
+	CatalogApplicationTLSVersionSupportTLS1_3        CatalogApplicationTLSVersionSupport = "TLS_1_3"
+	CatalogApplicationTLSVersionSupportUnknown       CatalogApplicationTLSVersionSupport = "UNKNOWN"
+)
+
+var AllCatalogApplicationTLSVersionSupport = []CatalogApplicationTLSVersionSupport{
+	CatalogApplicationTLSVersionSupportTLS1_1OrOlder,
+	CatalogApplicationTLSVersionSupportTLS1_2,
+	CatalogApplicationTLSVersionSupportTLS1_2Plus,
+	CatalogApplicationTLSVersionSupportTLS1_3,
+	CatalogApplicationTLSVersionSupportUnknown,
+}
+
+func (e CatalogApplicationTLSVersionSupport) IsValid() bool {
+	switch e {
+	case CatalogApplicationTLSVersionSupportTLS1_1OrOlder, CatalogApplicationTLSVersionSupportTLS1_2, CatalogApplicationTLSVersionSupportTLS1_2Plus, CatalogApplicationTLSVersionSupportTLS1_3, CatalogApplicationTLSVersionSupportUnknown:
+		return true
+	}
+	return false
+}
+
+func (e CatalogApplicationTLSVersionSupport) String() string {
+	return string(e)
+}
+
+func (e *CatalogApplicationTLSVersionSupport) UnmarshalGQL(v any) error {
+	str, ok := v.(string)
+	if !ok {
+		return fmt.Errorf("enums must be strings")
+	}
+
+	*e = CatalogApplicationTLSVersionSupport(str)
+	if !e.IsValid() {
+		return fmt.Errorf("%s is not a valid CatalogApplicationTlsVersionSupport", str)
+	}
+	return nil
+}
+
+func (e CatalogApplicationTLSVersionSupport) MarshalGQL(w io.Writer) {
+	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+func (e *CatalogApplicationTLSVersionSupport) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e CatalogApplicationTLSVersionSupport) MarshalJSON() ([]byte, error) {
 	var buf bytes.Buffer
 	e.MarshalGQL(&buf)
 	return buf.Bytes(), nil
@@ -17475,6 +19708,71 @@ func (e *CatalogApplicationType) UnmarshalJSON(b []byte) error {
 }
 
 func (e CatalogApplicationType) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
+}
+
+type CatalogApplicationWeakCipherSupport string
+
+const (
+	CatalogApplicationWeakCipherSupportDes3                CatalogApplicationWeakCipherSupport = "DES_3"
+	CatalogApplicationWeakCipherSupportMultipleWeakCiphers CatalogApplicationWeakCipherSupport = "MULTIPLE_WEAK_CIPHERS"
+	CatalogApplicationWeakCipherSupportNone                CatalogApplicationWeakCipherSupport = "NONE"
+	CatalogApplicationWeakCipherSupportRc4                 CatalogApplicationWeakCipherSupport = "RC4"
+	CatalogApplicationWeakCipherSupportSha1                CatalogApplicationWeakCipherSupport = "SHA_1"
+	CatalogApplicationWeakCipherSupportTLS1_0_1_1          CatalogApplicationWeakCipherSupport = "TLS_1_0_1_1"
+	CatalogApplicationWeakCipherSupportUnknown             CatalogApplicationWeakCipherSupport = "UNKNOWN"
+)
+
+var AllCatalogApplicationWeakCipherSupport = []CatalogApplicationWeakCipherSupport{
+	CatalogApplicationWeakCipherSupportDes3,
+	CatalogApplicationWeakCipherSupportMultipleWeakCiphers,
+	CatalogApplicationWeakCipherSupportNone,
+	CatalogApplicationWeakCipherSupportRc4,
+	CatalogApplicationWeakCipherSupportSha1,
+	CatalogApplicationWeakCipherSupportTLS1_0_1_1,
+	CatalogApplicationWeakCipherSupportUnknown,
+}
+
+func (e CatalogApplicationWeakCipherSupport) IsValid() bool {
+	switch e {
+	case CatalogApplicationWeakCipherSupportDes3, CatalogApplicationWeakCipherSupportMultipleWeakCiphers, CatalogApplicationWeakCipherSupportNone, CatalogApplicationWeakCipherSupportRc4, CatalogApplicationWeakCipherSupportSha1, CatalogApplicationWeakCipherSupportTLS1_0_1_1, CatalogApplicationWeakCipherSupportUnknown:
+		return true
+	}
+	return false
+}
+
+func (e CatalogApplicationWeakCipherSupport) String() string {
+	return string(e)
+}
+
+func (e *CatalogApplicationWeakCipherSupport) UnmarshalGQL(v any) error {
+	str, ok := v.(string)
+	if !ok {
+		return fmt.Errorf("enums must be strings")
+	}
+
+	*e = CatalogApplicationWeakCipherSupport(str)
+	if !e.IsValid() {
+		return fmt.Errorf("%s is not a valid CatalogApplicationWeakCipherSupport", str)
+	}
+	return nil
+}
+
+func (e CatalogApplicationWeakCipherSupport) MarshalGQL(w io.Writer) {
+	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+func (e *CatalogApplicationWeakCipherSupport) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e CatalogApplicationWeakCipherSupport) MarshalJSON() ([]byte, error) {
 	var buf bytes.Buffer
 	e.MarshalGQL(&buf)
 	return buf.Bytes(), nil
@@ -17701,6 +19999,189 @@ func (e *CellularNetworkType) UnmarshalJSON(b []byte) error {
 }
 
 func (e CellularNetworkType) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
+}
+
+// The action applied by the client connectivity if the rule is matched
+type ClientConnectivityActionEnum string
+
+const (
+	// Allow WAN and Internet
+	ClientConnectivityActionEnumAllow ClientConnectivityActionEnum = "ALLOW"
+	// Allow Internet
+	ClientConnectivityActionEnumAllowInternet ClientConnectivityActionEnum = "ALLOW_INTERNET"
+	// Block
+	ClientConnectivityActionEnumBlock ClientConnectivityActionEnum = "BLOCK"
+)
+
+var AllClientConnectivityActionEnum = []ClientConnectivityActionEnum{
+	ClientConnectivityActionEnumAllow,
+	ClientConnectivityActionEnumAllowInternet,
+	ClientConnectivityActionEnumBlock,
+}
+
+func (e ClientConnectivityActionEnum) IsValid() bool {
+	switch e {
+	case ClientConnectivityActionEnumAllow, ClientConnectivityActionEnumAllowInternet, ClientConnectivityActionEnumBlock:
+		return true
+	}
+	return false
+}
+
+func (e ClientConnectivityActionEnum) String() string {
+	return string(e)
+}
+
+func (e *ClientConnectivityActionEnum) UnmarshalGQL(v any) error {
+	str, ok := v.(string)
+	if !ok {
+		return fmt.Errorf("enums must be strings")
+	}
+
+	*e = ClientConnectivityActionEnum(str)
+	if !e.IsValid() {
+		return fmt.Errorf("%s is not a valid ClientConnectivityActionEnum", str)
+	}
+	return nil
+}
+
+func (e ClientConnectivityActionEnum) MarshalGQL(w io.Writer) {
+	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+func (e *ClientConnectivityActionEnum) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e ClientConnectivityActionEnum) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
+}
+
+// Describe how reliable the user's authentication is
+type ClientConnectivityConfidenceLevelEnum string
+
+const (
+	// The user has authenticated the Client and the Cato token is either valid or expired
+	ClientConnectivityConfidenceLevelEnumAny ClientConnectivityConfidenceLevelEnum = "ANY"
+	// High Confidence - User authenticated and the token is valid
+	ClientConnectivityConfidenceLevelEnumHigh ClientConnectivityConfidenceLevelEnum = "HIGH"
+	// Low Confidence - User authenticated, but the token has expired
+	ClientConnectivityConfidenceLevelEnumLow ClientConnectivityConfidenceLevelEnum = "LOW"
+)
+
+var AllClientConnectivityConfidenceLevelEnum = []ClientConnectivityConfidenceLevelEnum{
+	ClientConnectivityConfidenceLevelEnumAny,
+	ClientConnectivityConfidenceLevelEnumHigh,
+	ClientConnectivityConfidenceLevelEnumLow,
+}
+
+func (e ClientConnectivityConfidenceLevelEnum) IsValid() bool {
+	switch e {
+	case ClientConnectivityConfidenceLevelEnumAny, ClientConnectivityConfidenceLevelEnumHigh, ClientConnectivityConfidenceLevelEnumLow:
+		return true
+	}
+	return false
+}
+
+func (e ClientConnectivityConfidenceLevelEnum) String() string {
+	return string(e)
+}
+
+func (e *ClientConnectivityConfidenceLevelEnum) UnmarshalGQL(v any) error {
+	str, ok := v.(string)
+	if !ok {
+		return fmt.Errorf("enums must be strings")
+	}
+
+	*e = ClientConnectivityConfidenceLevelEnum(str)
+	if !e.IsValid() {
+		return fmt.Errorf("%s is not a valid ClientConnectivityConfidenceLevelEnum", str)
+	}
+	return nil
+}
+
+func (e ClientConnectivityConfidenceLevelEnum) MarshalGQL(w io.Writer) {
+	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+func (e *ClientConnectivityConfidenceLevelEnum) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e ClientConnectivityConfidenceLevelEnum) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
+}
+
+// Defines Origin of the connection
+type ClientConnectivityOriginEnum string
+
+const (
+	// Any connection origin
+	ClientConnectivityOriginEnumAny ClientConnectivityOriginEnum = "ANY"
+	// User is connecting from the client
+	ClientConnectivityOriginEnumRemote ClientConnectivityOriginEnum = "REMOTE"
+	// User is connecting from the browser extension
+	ClientConnectivityOriginEnumRemoteExtension ClientConnectivityOriginEnum = "REMOTE_EXTENSION"
+)
+
+var AllClientConnectivityOriginEnum = []ClientConnectivityOriginEnum{
+	ClientConnectivityOriginEnumAny,
+	ClientConnectivityOriginEnumRemote,
+	ClientConnectivityOriginEnumRemoteExtension,
+}
+
+func (e ClientConnectivityOriginEnum) IsValid() bool {
+	switch e {
+	case ClientConnectivityOriginEnumAny, ClientConnectivityOriginEnumRemote, ClientConnectivityOriginEnumRemoteExtension:
+		return true
+	}
+	return false
+}
+
+func (e ClientConnectivityOriginEnum) String() string {
+	return string(e)
+}
+
+func (e *ClientConnectivityOriginEnum) UnmarshalGQL(v any) error {
+	str, ok := v.(string)
+	if !ok {
+		return fmt.Errorf("enums must be strings")
+	}
+
+	*e = ClientConnectivityOriginEnum(str)
+	if !e.IsValid() {
+		return fmt.Errorf("%s is not a valid ClientConnectivityOriginEnum", str)
+	}
+	return nil
+}
+
+func (e ClientConnectivityOriginEnum) MarshalGQL(w io.Writer) {
+	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+func (e *ClientConnectivityOriginEnum) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e ClientConnectivityOriginEnum) MarshalJSON() ([]byte, error) {
 	var buf bytes.Buffer
 	e.MarshalGQL(&buf)
 	return buf.Bytes(), nil
@@ -17982,6 +20463,61 @@ func (e *ContainerFileType) UnmarshalJSON(b []byte) error {
 }
 
 func (e ContainerFileType) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
+}
+
+type ContainerSyncDataTimeUnit string
+
+const (
+	ContainerSyncDataTimeUnitDay  ContainerSyncDataTimeUnit = "DAY"
+	ContainerSyncDataTimeUnitHour ContainerSyncDataTimeUnit = "HOUR"
+)
+
+var AllContainerSyncDataTimeUnit = []ContainerSyncDataTimeUnit{
+	ContainerSyncDataTimeUnitDay,
+	ContainerSyncDataTimeUnitHour,
+}
+
+func (e ContainerSyncDataTimeUnit) IsValid() bool {
+	switch e {
+	case ContainerSyncDataTimeUnitDay, ContainerSyncDataTimeUnitHour:
+		return true
+	}
+	return false
+}
+
+func (e ContainerSyncDataTimeUnit) String() string {
+	return string(e)
+}
+
+func (e *ContainerSyncDataTimeUnit) UnmarshalGQL(v any) error {
+	str, ok := v.(string)
+	if !ok {
+		return fmt.Errorf("enums must be strings")
+	}
+
+	*e = ContainerSyncDataTimeUnit(str)
+	if !e.IsValid() {
+		return fmt.Errorf("%s is not a valid ContainerSyncDataTimeUnit", str)
+	}
+	return nil
+}
+
+func (e ContainerSyncDataTimeUnit) MarshalGQL(w io.Writer) {
+	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+func (e *ContainerSyncDataTimeUnit) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e ContainerSyncDataTimeUnit) MarshalJSON() ([]byte, error) {
 	var buf bytes.Buffer
 	e.MarshalGQL(&buf)
 	return buf.Bytes(), nil
@@ -19527,7 +22063,9 @@ const (
 	EventFieldNameConnectOnBoot EventFieldName = "connect_on_boot"
 	// Connection Origin
 	EventFieldNameConnectionOrigin EventFieldName = "connection_origin"
-	// For SaaS Security API, name of the connector
+	// For SaaS Security API, unique identifier of the connector. CMA Name: Connector ID
+	EventFieldNameConnectorID EventFieldName = "connector_id"
+	// For SaaS Security API, name of the connector. CMA Name: Connector Name
 	EventFieldNameConnectorName EventFieldName = "connector_name"
 	// For SaaS Security API, status of the connector
 	EventFieldNameConnectorStatus EventFieldName = "connector_status"
@@ -19537,7 +22075,9 @@ const (
 	EventFieldNameContainerName EventFieldName = "container_name"
 	// An external system identifier used for correlation between related Cato entities. Example: external ticket id that correlates Cato XDR stories.
 	EventFieldNameCorrelationID EventFieldName = "correlation_id"
-	// Criticality
+	// CPU Core ID. CMA Name: Cpu Core ID
+	EventFieldNameCPUCoreID EventFieldName = "cpu_core_id"
+	// Criticality. CMA Name: Criticality
 	EventFieldNameCriticality EventFieldName = "criticality"
 	// Custom category ID
 	EventFieldNameCustomCategoryID EventFieldName = "custom_category_id"
@@ -19616,9 +22156,21 @@ const (
 	EventFieldNameDNSProtectionCategory EventFieldName = "dns_protection_category"
 	// Domain queried in the DNS request
 	EventFieldNameDNSQuery EventFieldName = "dns_query"
-	// Domain name based on the SSL SNI, HTTP host name, or DNS name
+	// Type of record (ie. DNS record: A, AAAA, MX, or PTR). CMA Name: Dns Record Type
+	EventFieldNameDNSRecordType EventFieldName = "dns_record_type"
+	// Domain name based on the SSL SNI, HTTP host name, or DNS name. CMA Name: Domain Name
 	EventFieldNameDomainName EventFieldName = "domain_name"
-	// Egress PoP Name
+	// Duration in milliseconds between the start and end of a transaction or operation. For example, in DNS or HTTP events, this reflects the time between the request and the corresponding response. CMA Name: Duration Ms
+	EventFieldNameDurationMs EventFieldName = "duration_ms"
+	// Dynamic Control IDs applied in the event. CMA Name: Dynamic Control IDs
+	EventFieldNameDynamicControlIds EventFieldName = "dynamic_control_ids"
+	// Dynamic control names applied in the event. CMA Name: Dynamic Control Names
+	EventFieldNameDynamicControlNames EventFieldName = "dynamic_control_names"
+	// The scope of the dynamic control Applied in the event. CMA Name: Dynamic Control Scope
+	EventFieldNameDynamicControlScope EventFieldName = "dynamic_control_scope"
+	// Dynamic control threat categories applied in the event. CMA Name: Dynamic Control Threat Categories
+	EventFieldNameDynamicControlThreatCategories EventFieldName = "dynamic_control_threat_categories"
+	// Egress PoP Name. CMA Name: Egress PoP Name
 	EventFieldNameEgressPopName EventFieldName = "egress_pop_name"
 	// Egress Site Name for backhauling traffic
 	EventFieldNameEgressSiteName EventFieldName = "egress_site_name"
@@ -19628,9 +22180,9 @@ const (
 	EventFieldNameEndpointID EventFieldName = "endpoint_id"
 	// The engine type associated with the event
 	EventFieldNameEngineType EventFieldName = "engine_type"
-	// The Endpoint Protection Engine that detected the malware
+	// The Endpoint Protection Engine that detected the malware. CMA Name: Engine Type
 	EventFieldNameEppEngineType EventFieldName = "epp_engine_type"
-	// The profile assigned to the endpoint upon detection of the malware
+	// The profile assigned to the endpoint upon detection of the malware. CMA Name: Endpoint Protection Profile
 	EventFieldNameEppProfile EventFieldName = "epp_profile"
 	// Count for events that are repeated multiple times during one minute
 	EventFieldNameEventCount EventFieldName = "event_count"
@@ -19650,17 +22202,31 @@ const (
 	EventFieldNameFileName EventFieldName = "file_name"
 	// The file operation when this event occurred
 	EventFieldNameFileOperation EventFieldName = "file_operation"
-	// File size
+	// File path. CMA Name: File Path
+	EventFieldNameFilePath EventFieldName = "file_path"
+	// File size. CMA Name: File Size (bytes)
 	EventFieldNameFileSize EventFieldName = "file_size"
-	// File type
+	// File Topic - The topic of the file content, as classified by the DLP auto-classification engine. CMA Name: File Topic
+	EventFieldNameFileTopic EventFieldName = "file_topic"
+	// File Topic Category - The category associated with the classified file topic, as determined by the DLP auto-classification engine. CMA Name: File Topic Category
+	EventFieldNameFileTopicCategory EventFieldName = "file_topic_category"
+	// File type. CMA Name: File Type
 	EventFieldNameFileType EventFieldName = "file_type"
 	// The final status for this object after performing actions as defined by the policy
 	EventFieldNameFinalObjectStatus EventFieldName = "final_object_status"
-	// Amount of flows for a given incident
+	// Uniquely identifies a traffic flow and enables correlation of events and other records related to the same flow. Only available for native data integration created in the CMA (e.g. Sentinel) and eventsFeed API. Not available in the events or eventsTimeSeries API.
+	EventFieldNameFlowID EventFieldName = "flow_id"
+	// Amount of flows for a given incident. CMA Name: Flows Cardinality
 	EventFieldNameFlowsCardinality EventFieldName = "flows_cardinality"
 	// Full path URL application activity
 	EventFieldNameFullPathURL EventFieldName = "full_path_url"
-	// An identifier for a guest user using Cato through a Captive Portal
+	// A unique identifier for the AI Security Guard associated with the event. CMA Name: Guard ID
+	EventFieldNameGuardID EventFieldName = "guard_id"
+	// The name of the AI Security Guard associated with the event. CMA Name: Guard Name
+	EventFieldNameGuardName EventFieldName = "guard_name"
+	// The type of AI Security Guard associated with the event. CMA Name: Guard Type
+	EventFieldNameGuardType EventFieldName = "guard_type"
+	// An identifier for a guest user using Cato through a Captive Portal. CMA Name: Guest User
 	EventFieldNameGuestUser EventFieldName = "guest_user"
 	// IP address of host related to event
 	EventFieldNameHostIP EventFieldName = "host_ip"
@@ -19668,7 +22234,9 @@ const (
 	EventFieldNameHostMac EventFieldName = "host_mac"
 	// HTTP request method (ie. Get, Post)
 	EventFieldNameHTTPRequestMethod EventFieldName = "http_request_method"
-	// For MDR service, a true/false value that indicates if this event is: A summary that aggregates many events (true) Raw network flows for a single event (false)
+	// HTTP status code returned (ie. for DNS request, DNS-over-HTTPS (DoH) server when DoH is used). CMA Name: Http Response Code
+	EventFieldNameHTTPResponseCode EventFieldName = "http_response_code"
+	// For MDR service, a true/false value that indicates if this event is: A summary that aggregates many events (true) Raw network flows for a single event (false). CMA Name: Incident Aggregation
 	EventFieldNameIncidentAggregation EventFieldName = "incident_aggregation"
 	// Unique Cato ID that identifies this security incident
 	EventFieldNameIncidentID EventFieldName = "incident_id"
@@ -19700,7 +22268,9 @@ const (
 	EventFieldNameKeyName EventFieldName = "key_name"
 	// A list of labels providing additional context for the event
 	EventFieldNameLabels EventFieldName = "labels"
-	// Data that measures the congestion for a specific link
+	// Role of the conversation participant for the analyzed turn (user, assistant, or tool call). CMA Name: Last Turn Role
+	EventFieldNameLastTurnRole EventFieldName = "last_turn_role"
+	// Data that measures the congestion for a specific link. CMA Name: Link Health is Congested
 	EventFieldNameLinkHealthIsCongested EventFieldName = "link_health_is_congested"
 	// Data that measures the jitter for a specific link
 	EventFieldNameLinkHealthJitter EventFieldName = "link_health_jitter"
@@ -19716,17 +22286,21 @@ const (
 	EventFieldNameLoginType EventFieldName = "login_type"
 	// Matched DLP data types related to the event
 	EventFieldNameMatchedDataTypes EventFieldName = "matched_data_types"
-	// Mitre attack subtechniques
+	// Unique identifier used to correlate request and response events for the same message. CMA Name: Message ID
+	EventFieldNameMessageID EventFieldName = "message_id"
+	// Mitre attack subtechniques. CMA Name: Mitre Attack Subtechniques
 	EventFieldNameMitreAttackSubtechniques EventFieldName = "mitre_attack_subtechniques"
 	// Mitre attack tactics
 	EventFieldNameMitreAttackTactics EventFieldName = "mitre_attack_tactics"
 	// Mitre attack techniques
 	EventFieldNameMitreAttackTechniques EventFieldName = "mitre_attack_techniques"
-	// Network Access
+	// Flow NAT error reason. CMA Name: NAT Error
+	EventFieldNameNatError EventFieldName = "nat_error"
+	// Network Access. CMA Name: Network Access
 	EventFieldNameNetworkAccess EventFieldName = "network_access"
-	// Matched network rule
+	// Matched network rule. CMA Name: Network Rule
 	EventFieldNameNetworkRule EventFieldName = "network_rule"
-	// For SaaS Security API, API Error of Apps Security Notification
+	// For SaaS Security API, API Error of Apps Security Notification. CMA Name: Notification API Error
 	EventFieldNameNotificationAPIError EventFieldName = "notification_api_error"
 	// For SaaS Security API, description of Apps Security Notification
 	EventFieldNameNotificationDescription EventFieldName = "notification_description"
@@ -19744,7 +22318,9 @@ const (
 	EventFieldNameOsVersion EventFieldName = "os_version"
 	// Indicate if the Access to the 3rd Party SaaS App occurs without passing through Cato Cloud (direct access to saas App)
 	EventFieldNameOutOfBandAccess EventFieldName = "out_of_band_access"
-	// For SaaS Security API, email address of the file owner
+	// Name of the on-prem deployment  environment where the event originated from. CMA Name: Outpost Environment Name
+	EventFieldNameOutpostEnvironmentName EventFieldName = "outpost_environment_name"
+	// For SaaS Security API, email address of the file owner. CMA Name: Owner
 	EventFieldNameOwner EventFieldName = "owner"
 	// Pac File Enabled/Disabled
 	EventFieldNamePacFile EventFieldName = "pac_file"
@@ -19786,21 +22362,33 @@ const (
 	EventFieldNameRegionName EventFieldName = "region_name"
 	// Registration code used the first time that a SDP user authenticates (the code is partially obfuscated)
 	EventFieldNameRegistrationCode EventFieldName = "registration_code"
-	// The ID of the resource in the cloud provider
+	// Request packet size in bytes (ie. DNS request packet). CMA Name: Request Size
+	EventFieldNameRequestSize EventFieldName = "request_size"
+	// The ID of the resource in the cloud provider. CMA Name: The ID of the resource
 	EventFieldNameResourceID EventFieldName = "resource_id"
 	// The specific name or identifier of the resource.
 	EventFieldNameResourceName EventFieldName = "resource_name"
 	// The type of resource being referenced.
 	EventFieldNameResourceType EventFieldName = "resource_type"
-	// (IPS or SAM event) Indicates the overall impact of a threat for the host or network: Low – ie. adware Medium – ie. network scans High – ie. spyware or worms
+	// Response packet size in bytes (ie. DNS response packet). CMA Name: Response Size
+	EventFieldNameResponseSize EventFieldName = "response_size"
+	// (IPS or SAM event) Indicates the overall impact of a threat for the host or network: Low – ie. adware Medium – ie. network scans High – ie. spyware or worms. CMA Name: Risk Level
 	EventFieldNameRiskLevel EventFieldName = "risk_level"
-	// Unique Cato ID for the security rule related to the event
+	// The time when the rule is no longer in active. CMA Name: Rule Expiration Time
+	EventFieldNameRuleExpirationTime EventFieldName = "rule_expiration_time"
+	// Unique Cato ID for the security rule related to the event. CMA Name: Rule ID
 	EventFieldNameRuleID EventFieldName = "rule_id"
 	// Rule name
 	EventFieldNameRuleName EventFieldName = "rule_name"
-	// Indicates the internal vendor service or module that produced the data reported in this event
+	// Secondary socket serial number. CMA Name: Secondary Socket Serial
+	EventFieldNameSecondarySocketSerial EventFieldName = "secondary_socket_serial"
+	// Server IP address. CMA Name: Server IP
+	EventFieldNameServerIP EventFieldName = "server_ip"
+	// Indicates the internal vendor service or module that produced the data reported in this event. CMA Name: Service Name
 	EventFieldNameServiceName EventFieldName = "service_name"
-	// Severity defined for the rule
+	// Unique identifier for grouping multiple messages within the same session. CMA Name: Session ID
+	EventFieldNameSessionID EventFieldName = "session_id"
+	// Severity defined for the rule. CMA Name: Severity
 	EventFieldNameSeverity EventFieldName = "severity"
 	// Sharing Options for the file (such as SharePoint)
 	EventFieldNameSharingScope EventFieldName = "sharing_scope"
@@ -19906,9 +22494,13 @@ const (
 	EventFieldNameTLSRuleName EventFieldName = "tls_rule_name"
 	// TLS Version
 	EventFieldNameTLSVersion EventFieldName = "tls_version"
-	// Direction of network traffic for this event, values are inbound or outbound
+	// Total number of tokens processed. CMA Name: Total Tokens
+	EventFieldNameTotalTokens EventFieldName = "total_tokens"
+	// Direction of network traffic for this event, values are inbound or outbound. CMA Name: Traffic Direction
 	EventFieldNameTrafficDirection EventFieldName = "traffic_direction"
-	// Translated Client IP
+	// Total transaction size in bytes, including both the request and response. CMA Name: Transaction Size
+	EventFieldNameTransactionSize EventFieldName = "transaction_size"
+	// Translated Client IP. CMA Name: Translated Client IP
 	EventFieldNameTranslatedClientIP EventFieldName = "translated_client_ip"
 	// Translated Server IP
 	EventFieldNameTranslatedServerIP EventFieldName = "translated_server_ip"
@@ -19954,13 +22546,17 @@ const (
 	EventFieldNameVendorDeviceName EventFieldName = "vendor_device_name"
 	// Vendor Event Id
 	EventFieldNameVendorEventID EventFieldName = "vendor_event_id"
-	// Third party vendor policy description
+	// Identifies the organization in the vendor’s system. CMA Name: Vendor Org ID
+	EventFieldNameVendorOrgID EventFieldName = "vendor_org_id"
+	// Third party vendor policy description. CMA Name: Vendor Policy Description
 	EventFieldNameVendorPolicyDescription EventFieldName = "vendor_policy_description"
 	// Third party vendor policy ID
 	EventFieldNameVendorPolicyID EventFieldName = "vendor_policy_id"
-	// Third party vendor policy name
+	// Third party vendor policy name. CMA Name: Vendor Policy Name
 	EventFieldNameVendorPolicyName EventFieldName = "vendor_policy_name"
-	// Identifies the user in the vendor’s system
+	// Identifies the site in the vendor’s system. CMA Name: Vendor Site ID
+	EventFieldNameVendorSiteID EventFieldName = "vendor_site_id"
+	// Identifies the user in the vendor’s system. CMA Name: Vendor User ID
 	EventFieldNameVendorUserID EventFieldName = "vendor_user_id"
 	// Unique Cato Visible ID for devices
 	EventFieldNameVisibleDeviceID EventFieldName = "visible_device_id"
@@ -19968,9 +22564,35 @@ const (
 	EventFieldNameVpnLanAccess EventFieldName = "vpn_lan_access"
 	// User’s email address
 	EventFieldNameVpnUserEmail EventFieldName = "vpn_user_email"
-	// For LDAP sync events, name of the AD domain
+	// WiFi authentication type. CMA Name: Wifi Authentication Type
+	EventFieldNameWifiAuthenticationType EventFieldName = "wifi_authentication_type"
+	// WiFi BSSID (Basic Service Set Identifier). CMA Name: Wifi Bssid
+	EventFieldNameWifiBssid EventFieldName = "wifi_bssid"
+	// WiFi channel. CMA Name: Wifi Channel
+	EventFieldNameWifiChannel EventFieldName = "wifi_channel"
+	// WiFi authentication failure reason. CMA Name: WiFi Auth Failure Reason
+	EventFieldNameWifiDescription EventFieldName = "wifi_description"
+	// Wifi Event Reason Code. CMA Name: Wifi Event Reason Code
+	EventFieldNameWifiEventReasonCode EventFieldName = "wifi_event_reason_code"
+	// Wifi Event Type. CMA Name: Wifi Event Type
+	EventFieldNameWifiEventType EventFieldName = "wifi_event_type"
+	// Wifi Event Type Code. CMA Name: Wifi Event Type Code
+	EventFieldNameWifiEventTypeCode EventFieldName = "wifi_event_type_code"
+	// Wifi  Protocol. CMA Name: Wifi Protocol
+	EventFieldNameWifiProtocol EventFieldName = "wifi_protocol"
+	// WiFi radio band. CMA Name: Wifi Radio Band
+	EventFieldNameWifiRadioBand EventFieldName = "wifi_radio_band"
+	// Wifi Security Protocols. CMA Name: Wifi Security
+	EventFieldNameWifiSecurity EventFieldName = "wifi_security"
+	// WiFi signal strength. CMA Name: Wifi Signal Strength
+	EventFieldNameWifiSignalStrength EventFieldName = "wifi_signal_strength"
+	// WiFi SSID (Service Set Identifier). CMA Name: Wifi Ssid
+	EventFieldNameWifiSsid EventFieldName = "wifi_ssid"
+	// Wifi milliseconds since association to the Access Point. CMA Name: Wifi Time Since Assoc Ms
+	EventFieldNameWifiTimeSinceAssocMs EventFieldName = "wifi_time_since_assoc_ms"
+	// For LDAP sync events, name of the AD domain. CMA Name: Windows Domain Name
 	EventFieldNameWindowsDomainName EventFieldName = "windows_domain_name"
-	// XFF HTTP header indicates the original IP address for the connections
+	// XFF HTTP header indicates the original IP address for the connections. CMA Name: XFF
 	EventFieldNameXff EventFieldName = "xff"
 )
 
@@ -20021,11 +22643,13 @@ var AllEventFieldName = []EventFieldName{
 	EventFieldNameCongestionAlgorithm,
 	EventFieldNameConnectOnBoot,
 	EventFieldNameConnectionOrigin,
+	EventFieldNameConnectorID,
 	EventFieldNameConnectorName,
 	EventFieldNameConnectorStatus,
 	EventFieldNameConnectorType,
 	EventFieldNameContainerName,
 	EventFieldNameCorrelationID,
+	EventFieldNameCPUCoreID,
 	EventFieldNameCriticality,
 	EventFieldNameCustomCategoryID,
 	EventFieldNameCustomCategoryName,
@@ -20064,7 +22688,13 @@ var AllEventFieldName = []EventFieldName{
 	EventFieldNameDlpScanTypes,
 	EventFieldNameDNSProtectionCategory,
 	EventFieldNameDNSQuery,
+	EventFieldNameDNSRecordType,
 	EventFieldNameDomainName,
+	EventFieldNameDurationMs,
+	EventFieldNameDynamicControlIds,
+	EventFieldNameDynamicControlNames,
+	EventFieldNameDynamicControlScope,
+	EventFieldNameDynamicControlThreatCategories,
 	EventFieldNameEgressPopName,
 	EventFieldNameEgressSiteName,
 	EventFieldNameEmailSubject,
@@ -20081,15 +22711,23 @@ var AllEventFieldName = []EventFieldName{
 	EventFieldNameFileHash,
 	EventFieldNameFileName,
 	EventFieldNameFileOperation,
+	EventFieldNameFilePath,
 	EventFieldNameFileSize,
+	EventFieldNameFileTopic,
+	EventFieldNameFileTopicCategory,
 	EventFieldNameFileType,
 	EventFieldNameFinalObjectStatus,
+	EventFieldNameFlowID,
 	EventFieldNameFlowsCardinality,
 	EventFieldNameFullPathURL,
+	EventFieldNameGuardID,
+	EventFieldNameGuardName,
+	EventFieldNameGuardType,
 	EventFieldNameGuestUser,
 	EventFieldNameHostIP,
 	EventFieldNameHostMac,
 	EventFieldNameHTTPRequestMethod,
+	EventFieldNameHTTPResponseCode,
 	EventFieldNameIncidentAggregation,
 	EventFieldNameIncidentID,
 	EventFieldNameIndication,
@@ -20106,6 +22744,7 @@ var AllEventFieldName = []EventFieldName{
 	EventFieldNameIspName,
 	EventFieldNameKeyName,
 	EventFieldNameLabels,
+	EventFieldNameLastTurnRole,
 	EventFieldNameLinkHealthIsCongested,
 	EventFieldNameLinkHealthJitter,
 	EventFieldNameLinkHealthLatency,
@@ -20114,9 +22753,11 @@ var AllEventFieldName = []EventFieldName{
 	EventFieldNameLoggedInUser,
 	EventFieldNameLoginType,
 	EventFieldNameMatchedDataTypes,
+	EventFieldNameMessageID,
 	EventFieldNameMitreAttackSubtechniques,
 	EventFieldNameMitreAttackTactics,
 	EventFieldNameMitreAttackTechniques,
+	EventFieldNameNatError,
 	EventFieldNameNetworkAccess,
 	EventFieldNameNetworkRule,
 	EventFieldNameNotificationAPIError,
@@ -20128,6 +22769,7 @@ var AllEventFieldName = []EventFieldName{
 	EventFieldNameOsType,
 	EventFieldNameOsVersion,
 	EventFieldNameOutOfBandAccess,
+	EventFieldNameOutpostEnvironmentName,
 	EventFieldNameOwner,
 	EventFieldNamePacFile,
 	EventFieldNameParentConnectorName,
@@ -20149,13 +22791,19 @@ var AllEventFieldName = []EventFieldName{
 	EventFieldNameRefererURL,
 	EventFieldNameRegionName,
 	EventFieldNameRegistrationCode,
+	EventFieldNameRequestSize,
 	EventFieldNameResourceID,
 	EventFieldNameResourceName,
 	EventFieldNameResourceType,
+	EventFieldNameResponseSize,
 	EventFieldNameRiskLevel,
+	EventFieldNameRuleExpirationTime,
 	EventFieldNameRuleID,
 	EventFieldNameRuleName,
+	EventFieldNameSecondarySocketSerial,
+	EventFieldNameServerIP,
 	EventFieldNameServiceName,
+	EventFieldNameSessionID,
 	EventFieldNameSeverity,
 	EventFieldNameSharingScope,
 	EventFieldNameSignInEventTypes,
@@ -20207,7 +22855,9 @@ var AllEventFieldName = []EventFieldName{
 	EventFieldNameTLSInspection,
 	EventFieldNameTLSRuleName,
 	EventFieldNameTLSVersion,
+	EventFieldNameTotalTokens,
 	EventFieldNameTrafficDirection,
+	EventFieldNameTransactionSize,
 	EventFieldNameTranslatedClientIP,
 	EventFieldNameTranslatedServerIP,
 	EventFieldNameTrigger,
@@ -20231,20 +22881,35 @@ var AllEventFieldName = []EventFieldName{
 	EventFieldNameVendorDeviceID,
 	EventFieldNameVendorDeviceName,
 	EventFieldNameVendorEventID,
+	EventFieldNameVendorOrgID,
 	EventFieldNameVendorPolicyDescription,
 	EventFieldNameVendorPolicyID,
 	EventFieldNameVendorPolicyName,
+	EventFieldNameVendorSiteID,
 	EventFieldNameVendorUserID,
 	EventFieldNameVisibleDeviceID,
 	EventFieldNameVpnLanAccess,
 	EventFieldNameVpnUserEmail,
+	EventFieldNameWifiAuthenticationType,
+	EventFieldNameWifiBssid,
+	EventFieldNameWifiChannel,
+	EventFieldNameWifiDescription,
+	EventFieldNameWifiEventReasonCode,
+	EventFieldNameWifiEventType,
+	EventFieldNameWifiEventTypeCode,
+	EventFieldNameWifiProtocol,
+	EventFieldNameWifiRadioBand,
+	EventFieldNameWifiSecurity,
+	EventFieldNameWifiSignalStrength,
+	EventFieldNameWifiSsid,
+	EventFieldNameWifiTimeSinceAssocMs,
 	EventFieldNameWindowsDomainName,
 	EventFieldNameXff,
 }
 
 func (e EventFieldName) IsValid() bool {
 	switch e {
-	case EventFieldNameAccessMethod, EventFieldNameAccountID, EventFieldNameAction, EventFieldNameActionsTaken, EventFieldNameActivityResourceID, EventFieldNameActorType, EventFieldNameAdName, EventFieldNameAlertID, EventFieldNameAlwaysOnConfiguration, EventFieldNameAnalystVerdict, EventFieldNameAPIName, EventFieldNameAPIType, EventFieldNameAppActivity, EventFieldNameAppActivityCategory, EventFieldNameAppActivityType, EventFieldNameAppStack, EventFieldNameApplicationID, EventFieldNameApplicationName, EventFieldNameApplicationRisk, EventFieldNameAuthMethod, EventFieldNameAuthenticationType, EventFieldNameBgpCatoAsn, EventFieldNameBgpCatoIP, EventFieldNameBgpErrorCode, EventFieldNameBgpPeerAsn, EventFieldNameBgpPeerIP, EventFieldNameBgpRouteCidr, EventFieldNameBgpSuberrorCode, EventFieldNameBypassDurationSec, EventFieldNameBypassMethod, EventFieldNameBypassReason, EventFieldNameCategories, EventFieldNameCatoApp, EventFieldNameClassification, EventFieldNameClientCertExpires, EventFieldNameClientCertName, EventFieldNameClientClass, EventFieldNameClientConnectionMode, EventFieldNameClientVersion, EventFieldNameCollaboratorName, EventFieldNameCollaborators, EventFieldNameConfidenceLevel, EventFieldNameConfiguredHostName, EventFieldNameCongestionAlgorithm, EventFieldNameConnectOnBoot, EventFieldNameConnectionOrigin, EventFieldNameConnectorName, EventFieldNameConnectorStatus, EventFieldNameConnectorType, EventFieldNameContainerName, EventFieldNameCorrelationID, EventFieldNameCriticality, EventFieldNameCustomCategoryID, EventFieldNameCustomCategoryName, EventFieldNameDestCountry, EventFieldNameDestCountryCode, EventFieldNameDestGroupID, EventFieldNameDestGroupName, EventFieldNameDestIP, EventFieldNameDestIsSiteOrVpn, EventFieldNameDestPid, EventFieldNameDestPort, EventFieldNameDestProcessCmdline, EventFieldNameDestProcessParentPath, EventFieldNameDestProcessParentPid, EventFieldNameDestProcessPath, EventFieldNameDestSiteID, EventFieldNameDestSiteName, EventFieldNameDetectionName, EventFieldNameDetectionStage, EventFieldNameDeviceCategories, EventFieldNameDeviceCertificate, EventFieldNameDeviceID, EventFieldNameDeviceManufacturer, EventFieldNameDeviceModel, EventFieldNameDeviceName, EventFieldNameDeviceOsType, EventFieldNameDevicePostureProfile, EventFieldNameDeviceType, EventFieldNameDirectoryHostName, EventFieldNameDirectoryIP, EventFieldNameDirectorySyncResult, EventFieldNameDirectorySyncType, EventFieldNameDisinfectResult, EventFieldNameDlpFailMode, EventFieldNameDlpProfiles, EventFieldNameDlpScanTypes, EventFieldNameDNSProtectionCategory, EventFieldNameDNSQuery, EventFieldNameDomainName, EventFieldNameEgressPopName, EventFieldNameEgressSiteName, EventFieldNameEmailSubject, EventFieldNameEndpointID, EventFieldNameEngineType, EventFieldNameEppEngineType, EventFieldNameEppProfile, EventFieldNameEventCount, EventFieldNameEventID, EventFieldNameEventMessage, EventFieldNameEventSubType, EventFieldNameEventType, EventFieldNameFailureReason, EventFieldNameFileHash, EventFieldNameFileName, EventFieldNameFileOperation, EventFieldNameFileSize, EventFieldNameFileType, EventFieldNameFinalObjectStatus, EventFieldNameFlowsCardinality, EventFieldNameFullPathURL, EventFieldNameGuestUser, EventFieldNameHostIP, EventFieldNameHostMac, EventFieldNameHTTPRequestMethod, EventFieldNameIncidentAggregation, EventFieldNameIncidentID, EventFieldNameIndication, EventFieldNameIndicator, EventFieldNameInitialObjectStatus, EventFieldNameInternalID, EventFieldNameIPProtocol, EventFieldNameIsAdmin, EventFieldNameIsAdminActivity, EventFieldNameIsCompliant, EventFieldNameIsManaged, EventFieldNameIsSanctionedApp, EventFieldNameIsSinkhole, EventFieldNameIspName, EventFieldNameKeyName, EventFieldNameLabels, EventFieldNameLinkHealthIsCongested, EventFieldNameLinkHealthJitter, EventFieldNameLinkHealthLatency, EventFieldNameLinkHealthPktLoss, EventFieldNameLinkType, EventFieldNameLoggedInUser, EventFieldNameLoginType, EventFieldNameMatchedDataTypes, EventFieldNameMitreAttackSubtechniques, EventFieldNameMitreAttackTactics, EventFieldNameMitreAttackTechniques, EventFieldNameNetworkAccess, EventFieldNameNetworkRule, EventFieldNameNotificationAPIError, EventFieldNameNotificationDescription, EventFieldNameObjectID, EventFieldNameObjectName, EventFieldNameObjectType, EventFieldNameOfficeMode, EventFieldNameOsType, EventFieldNameOsVersion, EventFieldNameOutOfBandAccess, EventFieldNameOwner, EventFieldNamePacFile, EventFieldNameParentConnectorName, EventFieldNamePopName, EventFieldNamePrecedence, EventFieldNameProcessesCount, EventFieldNameProducer, EventFieldNameProjects, EventFieldNamePromptAction, EventFieldNameProviderName, EventFieldNamePublicIP, EventFieldNameQosPriority, EventFieldNameQosReportedTime, EventFieldNameQuarantineFolderPath, EventFieldNameQuarantineUUID, EventFieldNameRawData, EventFieldNameRecommendedActions, EventFieldNameReferenceURL, EventFieldNameRefererURL, EventFieldNameRegionName, EventFieldNameRegistrationCode, EventFieldNameResourceID, EventFieldNameResourceName, EventFieldNameResourceType, EventFieldNameRiskLevel, EventFieldNameRuleID, EventFieldNameRuleName, EventFieldNameServiceName, EventFieldNameSeverity, EventFieldNameSharingScope, EventFieldNameSignInEventTypes, EventFieldNameSignatureID, EventFieldNameSocketInterface, EventFieldNameSocketInterfaceID, EventFieldNameSocketNewVersion, EventFieldNameSocketOldVersion, EventFieldNameSocketReset, EventFieldNameSocketRole, EventFieldNameSocketSerial, EventFieldNameSocketVersion, EventFieldNameSplitTunnelConfiguration, EventFieldNameSrcCountry, EventFieldNameSrcCountryCode, EventFieldNameSrcIP, EventFieldNameSrcIsSiteOrVpn, EventFieldNameSrcIspIP, EventFieldNameSrcPid, EventFieldNameSrcPort, EventFieldNameSrcProcessCmdline, EventFieldNameSrcProcessParentPath, EventFieldNameSrcProcessParentPid, EventFieldNameSrcProcessPath, EventFieldNameSrcSiteID, EventFieldNameSrcSiteName, EventFieldNameStaticHost, EventFieldNameStatus, EventFieldNameStoryID, EventFieldNameSubnetName, EventFieldNameSubscriptionName, EventFieldNameTargetsCardinality, EventFieldNameTCPAcceleration, EventFieldNameTenantID, EventFieldNameTenantName, EventFieldNameTenantRestrictionRuleName, EventFieldNameThreatConfidence, EventFieldNameThreatName, EventFieldNameThreatReference, EventFieldNameThreatScore, EventFieldNameThreatType, EventFieldNameThreatVerdict, EventFieldNameTime, EventFieldNameTimeStr, EventFieldNameTitle, EventFieldNameTLSCertificateError, EventFieldNameTLSErrorDescription, EventFieldNameTLSErrorType, EventFieldNameTLSInspection, EventFieldNameTLSRuleName, EventFieldNameTLSVersion, EventFieldNameTrafficDirection, EventFieldNameTranslatedClientIP, EventFieldNameTranslatedServerIP, EventFieldNameTrigger, EventFieldNameTrustType, EventFieldNameTrustedNetworks, EventFieldNameTunnelIPProtocol, EventFieldNameTunnelProtocol, EventFieldNameUpgradeEndTime, EventFieldNameUpgradeInitiatedBy, EventFieldNameUpgradeStartTime, EventFieldNameURL, EventFieldNameUserAgent, EventFieldNameUserAwarenessMethod, EventFieldNameUserID, EventFieldNameUserName, EventFieldNameUserOrigin, EventFieldNameUserReferenceID, EventFieldNameUserRiskLevel, EventFieldNameVendor, EventFieldNameVendorCollaboratorID, EventFieldNameVendorDeviceID, EventFieldNameVendorDeviceName, EventFieldNameVendorEventID, EventFieldNameVendorPolicyDescription, EventFieldNameVendorPolicyID, EventFieldNameVendorPolicyName, EventFieldNameVendorUserID, EventFieldNameVisibleDeviceID, EventFieldNameVpnLanAccess, EventFieldNameVpnUserEmail, EventFieldNameWindowsDomainName, EventFieldNameXff:
+	case EventFieldNameAccessMethod, EventFieldNameAccountID, EventFieldNameAction, EventFieldNameActionsTaken, EventFieldNameActivityResourceID, EventFieldNameActorType, EventFieldNameAdName, EventFieldNameAlertID, EventFieldNameAlwaysOnConfiguration, EventFieldNameAnalystVerdict, EventFieldNameAPIName, EventFieldNameAPIType, EventFieldNameAppActivity, EventFieldNameAppActivityCategory, EventFieldNameAppActivityType, EventFieldNameAppStack, EventFieldNameApplicationID, EventFieldNameApplicationName, EventFieldNameApplicationRisk, EventFieldNameAuthMethod, EventFieldNameAuthenticationType, EventFieldNameBgpCatoAsn, EventFieldNameBgpCatoIP, EventFieldNameBgpErrorCode, EventFieldNameBgpPeerAsn, EventFieldNameBgpPeerIP, EventFieldNameBgpRouteCidr, EventFieldNameBgpSuberrorCode, EventFieldNameBypassDurationSec, EventFieldNameBypassMethod, EventFieldNameBypassReason, EventFieldNameCategories, EventFieldNameCatoApp, EventFieldNameClassification, EventFieldNameClientCertExpires, EventFieldNameClientCertName, EventFieldNameClientClass, EventFieldNameClientConnectionMode, EventFieldNameClientVersion, EventFieldNameCollaboratorName, EventFieldNameCollaborators, EventFieldNameConfidenceLevel, EventFieldNameConfiguredHostName, EventFieldNameCongestionAlgorithm, EventFieldNameConnectOnBoot, EventFieldNameConnectionOrigin, EventFieldNameConnectorID, EventFieldNameConnectorName, EventFieldNameConnectorStatus, EventFieldNameConnectorType, EventFieldNameContainerName, EventFieldNameCorrelationID, EventFieldNameCPUCoreID, EventFieldNameCriticality, EventFieldNameCustomCategoryID, EventFieldNameCustomCategoryName, EventFieldNameDestCountry, EventFieldNameDestCountryCode, EventFieldNameDestGroupID, EventFieldNameDestGroupName, EventFieldNameDestIP, EventFieldNameDestIsSiteOrVpn, EventFieldNameDestPid, EventFieldNameDestPort, EventFieldNameDestProcessCmdline, EventFieldNameDestProcessParentPath, EventFieldNameDestProcessParentPid, EventFieldNameDestProcessPath, EventFieldNameDestSiteID, EventFieldNameDestSiteName, EventFieldNameDetectionName, EventFieldNameDetectionStage, EventFieldNameDeviceCategories, EventFieldNameDeviceCertificate, EventFieldNameDeviceID, EventFieldNameDeviceManufacturer, EventFieldNameDeviceModel, EventFieldNameDeviceName, EventFieldNameDeviceOsType, EventFieldNameDevicePostureProfile, EventFieldNameDeviceType, EventFieldNameDirectoryHostName, EventFieldNameDirectoryIP, EventFieldNameDirectorySyncResult, EventFieldNameDirectorySyncType, EventFieldNameDisinfectResult, EventFieldNameDlpFailMode, EventFieldNameDlpProfiles, EventFieldNameDlpScanTypes, EventFieldNameDNSProtectionCategory, EventFieldNameDNSQuery, EventFieldNameDNSRecordType, EventFieldNameDomainName, EventFieldNameDurationMs, EventFieldNameDynamicControlIds, EventFieldNameDynamicControlNames, EventFieldNameDynamicControlScope, EventFieldNameDynamicControlThreatCategories, EventFieldNameEgressPopName, EventFieldNameEgressSiteName, EventFieldNameEmailSubject, EventFieldNameEndpointID, EventFieldNameEngineType, EventFieldNameEppEngineType, EventFieldNameEppProfile, EventFieldNameEventCount, EventFieldNameEventID, EventFieldNameEventMessage, EventFieldNameEventSubType, EventFieldNameEventType, EventFieldNameFailureReason, EventFieldNameFileHash, EventFieldNameFileName, EventFieldNameFileOperation, EventFieldNameFilePath, EventFieldNameFileSize, EventFieldNameFileTopic, EventFieldNameFileTopicCategory, EventFieldNameFileType, EventFieldNameFinalObjectStatus, EventFieldNameFlowID, EventFieldNameFlowsCardinality, EventFieldNameFullPathURL, EventFieldNameGuardID, EventFieldNameGuardName, EventFieldNameGuardType, EventFieldNameGuestUser, EventFieldNameHostIP, EventFieldNameHostMac, EventFieldNameHTTPRequestMethod, EventFieldNameHTTPResponseCode, EventFieldNameIncidentAggregation, EventFieldNameIncidentID, EventFieldNameIndication, EventFieldNameIndicator, EventFieldNameInitialObjectStatus, EventFieldNameInternalID, EventFieldNameIPProtocol, EventFieldNameIsAdmin, EventFieldNameIsAdminActivity, EventFieldNameIsCompliant, EventFieldNameIsManaged, EventFieldNameIsSanctionedApp, EventFieldNameIsSinkhole, EventFieldNameIspName, EventFieldNameKeyName, EventFieldNameLabels, EventFieldNameLastTurnRole, EventFieldNameLinkHealthIsCongested, EventFieldNameLinkHealthJitter, EventFieldNameLinkHealthLatency, EventFieldNameLinkHealthPktLoss, EventFieldNameLinkType, EventFieldNameLoggedInUser, EventFieldNameLoginType, EventFieldNameMatchedDataTypes, EventFieldNameMessageID, EventFieldNameMitreAttackSubtechniques, EventFieldNameMitreAttackTactics, EventFieldNameMitreAttackTechniques, EventFieldNameNatError, EventFieldNameNetworkAccess, EventFieldNameNetworkRule, EventFieldNameNotificationAPIError, EventFieldNameNotificationDescription, EventFieldNameObjectID, EventFieldNameObjectName, EventFieldNameObjectType, EventFieldNameOfficeMode, EventFieldNameOsType, EventFieldNameOsVersion, EventFieldNameOutOfBandAccess, EventFieldNameOutpostEnvironmentName, EventFieldNameOwner, EventFieldNamePacFile, EventFieldNameParentConnectorName, EventFieldNamePopName, EventFieldNamePrecedence, EventFieldNameProcessesCount, EventFieldNameProducer, EventFieldNameProjects, EventFieldNamePromptAction, EventFieldNameProviderName, EventFieldNamePublicIP, EventFieldNameQosPriority, EventFieldNameQosReportedTime, EventFieldNameQuarantineFolderPath, EventFieldNameQuarantineUUID, EventFieldNameRawData, EventFieldNameRecommendedActions, EventFieldNameReferenceURL, EventFieldNameRefererURL, EventFieldNameRegionName, EventFieldNameRegistrationCode, EventFieldNameRequestSize, EventFieldNameResourceID, EventFieldNameResourceName, EventFieldNameResourceType, EventFieldNameResponseSize, EventFieldNameRiskLevel, EventFieldNameRuleExpirationTime, EventFieldNameRuleID, EventFieldNameRuleName, EventFieldNameSecondarySocketSerial, EventFieldNameServerIP, EventFieldNameServiceName, EventFieldNameSessionID, EventFieldNameSeverity, EventFieldNameSharingScope, EventFieldNameSignInEventTypes, EventFieldNameSignatureID, EventFieldNameSocketInterface, EventFieldNameSocketInterfaceID, EventFieldNameSocketNewVersion, EventFieldNameSocketOldVersion, EventFieldNameSocketReset, EventFieldNameSocketRole, EventFieldNameSocketSerial, EventFieldNameSocketVersion, EventFieldNameSplitTunnelConfiguration, EventFieldNameSrcCountry, EventFieldNameSrcCountryCode, EventFieldNameSrcIP, EventFieldNameSrcIsSiteOrVpn, EventFieldNameSrcIspIP, EventFieldNameSrcPid, EventFieldNameSrcPort, EventFieldNameSrcProcessCmdline, EventFieldNameSrcProcessParentPath, EventFieldNameSrcProcessParentPid, EventFieldNameSrcProcessPath, EventFieldNameSrcSiteID, EventFieldNameSrcSiteName, EventFieldNameStaticHost, EventFieldNameStatus, EventFieldNameStoryID, EventFieldNameSubnetName, EventFieldNameSubscriptionName, EventFieldNameTargetsCardinality, EventFieldNameTCPAcceleration, EventFieldNameTenantID, EventFieldNameTenantName, EventFieldNameTenantRestrictionRuleName, EventFieldNameThreatConfidence, EventFieldNameThreatName, EventFieldNameThreatReference, EventFieldNameThreatScore, EventFieldNameThreatType, EventFieldNameThreatVerdict, EventFieldNameTime, EventFieldNameTimeStr, EventFieldNameTitle, EventFieldNameTLSCertificateError, EventFieldNameTLSErrorDescription, EventFieldNameTLSErrorType, EventFieldNameTLSInspection, EventFieldNameTLSRuleName, EventFieldNameTLSVersion, EventFieldNameTotalTokens, EventFieldNameTrafficDirection, EventFieldNameTransactionSize, EventFieldNameTranslatedClientIP, EventFieldNameTranslatedServerIP, EventFieldNameTrigger, EventFieldNameTrustType, EventFieldNameTrustedNetworks, EventFieldNameTunnelIPProtocol, EventFieldNameTunnelProtocol, EventFieldNameUpgradeEndTime, EventFieldNameUpgradeInitiatedBy, EventFieldNameUpgradeStartTime, EventFieldNameURL, EventFieldNameUserAgent, EventFieldNameUserAwarenessMethod, EventFieldNameUserID, EventFieldNameUserName, EventFieldNameUserOrigin, EventFieldNameUserReferenceID, EventFieldNameUserRiskLevel, EventFieldNameVendor, EventFieldNameVendorCollaboratorID, EventFieldNameVendorDeviceID, EventFieldNameVendorDeviceName, EventFieldNameVendorEventID, EventFieldNameVendorOrgID, EventFieldNameVendorPolicyDescription, EventFieldNameVendorPolicyID, EventFieldNameVendorPolicyName, EventFieldNameVendorSiteID, EventFieldNameVendorUserID, EventFieldNameVisibleDeviceID, EventFieldNameVpnLanAccess, EventFieldNameVpnUserEmail, EventFieldNameWifiAuthenticationType, EventFieldNameWifiBssid, EventFieldNameWifiChannel, EventFieldNameWifiDescription, EventFieldNameWifiEventReasonCode, EventFieldNameWifiEventType, EventFieldNameWifiEventTypeCode, EventFieldNameWifiProtocol, EventFieldNameWifiRadioBand, EventFieldNameWifiSecurity, EventFieldNameWifiSignalStrength, EventFieldNameWifiSsid, EventFieldNameWifiTimeSinceAssocMs, EventFieldNameWindowsDomainName, EventFieldNameXff:
 		return true
 	}
 	return false
@@ -22347,6 +25012,10 @@ const (
 	OriginTypeClaroty OriginType = "Claroty"
 	// Device details provided by CrowdStrike endpoint security
 	OriginTypeCrowdstrike OriginType = "Crowdstrike"
+	// Device information from Juniper Mist network infrastructure platform
+	OriginTypeJuniperMist OriginType = "JuniperMist"
+	// Device information from Microsoft Defender endpoint platform
+	OriginTypeMicrosoftDefender OriginType = "MicrosoftDefender"
 	// Device data collected from Microsoft Intune MDM
 	OriginTypeMicrosoftIntune OriginType = "MicrosoftIntune"
 	// Device information from SentinelOne endpoint platform
@@ -22362,6 +25031,8 @@ var AllOriginType = []OriginType{
 	OriginTypeCatoNetworks,
 	OriginTypeClaroty,
 	OriginTypeCrowdstrike,
+	OriginTypeJuniperMist,
+	OriginTypeMicrosoftDefender,
 	OriginTypeMicrosoftIntune,
 	OriginTypeSentinelOne,
 	OriginTypeUnknown,
@@ -22370,7 +25041,7 @@ var AllOriginType = []OriginType{
 
 func (e OriginType) IsValid() bool {
 	switch e {
-	case OriginTypeArmis, OriginTypeCatoNetworks, OriginTypeClaroty, OriginTypeCrowdstrike, OriginTypeMicrosoftIntune, OriginTypeSentinelOne, OriginTypeUnknown, OriginTypeZoom:
+	case OriginTypeArmis, OriginTypeCatoNetworks, OriginTypeClaroty, OriginTypeCrowdstrike, OriginTypeJuniperMist, OriginTypeMicrosoftDefender, OriginTypeMicrosoftIntune, OriginTypeSentinelOne, OriginTypeUnknown, OriginTypeZoom:
 		return true
 	}
 	return false
@@ -22621,6 +25292,61 @@ func (e *PolicyElementPropertiesEnum) UnmarshalJSON(b []byte) error {
 }
 
 func (e PolicyElementPropertiesEnum) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
+}
+
+type PolicyLevelEnum string
+
+const (
+	PolicyLevelEnumMain      PolicyLevelEnum = "MAIN"
+	PolicyLevelEnumSubPolicy PolicyLevelEnum = "SUB_POLICY"
+)
+
+var AllPolicyLevelEnum = []PolicyLevelEnum{
+	PolicyLevelEnumMain,
+	PolicyLevelEnumSubPolicy,
+}
+
+func (e PolicyLevelEnum) IsValid() bool {
+	switch e {
+	case PolicyLevelEnumMain, PolicyLevelEnumSubPolicy:
+		return true
+	}
+	return false
+}
+
+func (e PolicyLevelEnum) String() string {
+	return string(e)
+}
+
+func (e *PolicyLevelEnum) UnmarshalGQL(v any) error {
+	str, ok := v.(string)
+	if !ok {
+		return fmt.Errorf("enums must be strings")
+	}
+
+	*e = PolicyLevelEnum(str)
+	if !e.IsValid() {
+		return fmt.Errorf("%s is not a valid PolicyLevelEnum", str)
+	}
+	return nil
+}
+
+func (e PolicyLevelEnum) MarshalGQL(w io.Writer) {
+	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+func (e *PolicyLevelEnum) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e PolicyLevelEnum) MarshalJSON() ([]byte, error) {
 	var buf bytes.Buffer
 	e.MarshalGQL(&buf)
 	return buf.Bytes(), nil
@@ -23141,6 +25867,63 @@ func (e *ProtoType) UnmarshalJSON(b []byte) error {
 }
 
 func (e ProtoType) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
+}
+
+type RBACAction string
+
+const (
+	RBACActionEdit RBACAction = "EDIT"
+	RBACActionNone RBACAction = "NONE"
+	RBACActionView RBACAction = "VIEW"
+)
+
+var AllRBACAction = []RBACAction{
+	RBACActionEdit,
+	RBACActionNone,
+	RBACActionView,
+}
+
+func (e RBACAction) IsValid() bool {
+	switch e {
+	case RBACActionEdit, RBACActionNone, RBACActionView:
+		return true
+	}
+	return false
+}
+
+func (e RBACAction) String() string {
+	return string(e)
+}
+
+func (e *RBACAction) UnmarshalGQL(v any) error {
+	str, ok := v.(string)
+	if !ok {
+		return fmt.Errorf("enums must be strings")
+	}
+
+	*e = RBACAction(str)
+	if !e.IsValid() {
+		return fmt.Errorf("%s is not a valid RBACAction", str)
+	}
+	return nil
+}
+
+func (e RBACAction) MarshalGQL(w io.Writer) {
+	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+func (e *RBACAction) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e RBACAction) MarshalJSON() ([]byte, error) {
 	var buf bytes.Buffer
 	e.MarshalGQL(&buf)
 	return buf.Bytes(), nil
@@ -25031,6 +27814,7 @@ const (
 	SocketPlatformX1500Br2  SocketPlatform = "X1500_BR2"
 	SocketPlatformX1500bBr2 SocketPlatform = "X1500B_BR2"
 	SocketPlatformX1600     SocketPlatform = "X1600"
+	SocketPlatformX1600_5g  SocketPlatform = "X1600_5G"
 	SocketPlatformX1600Lte  SocketPlatform = "X1600_LTE"
 	SocketPlatformX1700     SocketPlatform = "X1700"
 	SocketPlatformX1700b    SocketPlatform = "X1700B"
@@ -25045,6 +27829,7 @@ var AllSocketPlatform = []SocketPlatform{
 	SocketPlatformX1500Br2,
 	SocketPlatformX1500bBr2,
 	SocketPlatformX1600,
+	SocketPlatformX1600_5g,
 	SocketPlatformX1600Lte,
 	SocketPlatformX1700,
 	SocketPlatformX1700b,
@@ -25052,7 +27837,7 @@ var AllSocketPlatform = []SocketPlatform{
 
 func (e SocketPlatform) IsValid() bool {
 	switch e {
-	case SocketPlatformAWS1500, SocketPlatformAz1500, SocketPlatformEsx1500, SocketPlatformGCP1500, SocketPlatformX1500, SocketPlatformX1500Br2, SocketPlatformX1500bBr2, SocketPlatformX1600, SocketPlatformX1600Lte, SocketPlatformX1700, SocketPlatformX1700b:
+	case SocketPlatformAWS1500, SocketPlatformAz1500, SocketPlatformEsx1500, SocketPlatformGCP1500, SocketPlatformX1500, SocketPlatformX1500Br2, SocketPlatformX1500bBr2, SocketPlatformX1600, SocketPlatformX1600_5g, SocketPlatformX1600Lte, SocketPlatformX1700, SocketPlatformX1700b:
 		return true
 	}
 	return false
@@ -25445,6 +28230,247 @@ func (e *SortOrder) UnmarshalJSON(b []byte) error {
 }
 
 func (e SortOrder) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
+}
+
+// The action applied by the split tunnel if the rule is matched
+type SplitTunnelActionEnum string
+
+const (
+	// Route all traffic to Cato - Will be Deprecated by ROUTE_ALL_TO_CATO_EXCEPT
+	SplitTunnelActionEnumExclude SplitTunnelActionEnum = "EXCLUDE"
+	// Route all traffic Out-of-Tunnel - Will be Deprecated by ROUTE_ONLY_SELECTED
+	SplitTunnelActionEnumInclude SplitTunnelActionEnum = "INCLUDE"
+	SplitTunnelActionEnumOff     SplitTunnelActionEnum = "OFF"
+	// Route all traffic to Cato - Not yet supported
+	SplitTunnelActionEnumRouteAllToCatoExcept SplitTunnelActionEnum = "ROUTE_ALL_TO_CATO_EXCEPT"
+	// Route all traffic Out-of-Tunnel - Not yet supported
+	SplitTunnelActionEnumRouteOnlySelected SplitTunnelActionEnum = "ROUTE_ONLY_SELECTED"
+	// User choose routing preference
+	SplitTunnelActionEnumUserDefined SplitTunnelActionEnum = "USER_DEFINED"
+)
+
+var AllSplitTunnelActionEnum = []SplitTunnelActionEnum{
+	SplitTunnelActionEnumExclude,
+	SplitTunnelActionEnumInclude,
+	SplitTunnelActionEnumOff,
+	SplitTunnelActionEnumRouteAllToCatoExcept,
+	SplitTunnelActionEnumRouteOnlySelected,
+	SplitTunnelActionEnumUserDefined,
+}
+
+func (e SplitTunnelActionEnum) IsValid() bool {
+	switch e {
+	case SplitTunnelActionEnumExclude, SplitTunnelActionEnumInclude, SplitTunnelActionEnumOff, SplitTunnelActionEnumRouteAllToCatoExcept, SplitTunnelActionEnumRouteOnlySelected, SplitTunnelActionEnumUserDefined:
+		return true
+	}
+	return false
+}
+
+func (e SplitTunnelActionEnum) String() string {
+	return string(e)
+}
+
+func (e *SplitTunnelActionEnum) UnmarshalGQL(v any) error {
+	str, ok := v.(string)
+	if !ok {
+		return fmt.Errorf("enums must be strings")
+	}
+
+	*e = SplitTunnelActionEnum(str)
+	if !e.IsValid() {
+		return fmt.Errorf("%s is not a valid SplitTunnelActionEnum", str)
+	}
+	return nil
+}
+
+func (e SplitTunnelActionEnum) MarshalGQL(w io.Writer) {
+	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+func (e *SplitTunnelActionEnum) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e SplitTunnelActionEnum) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
+}
+
+type SplitTunnelCoverageEnum string
+
+const (
+	// All Ports and Protocols
+	SplitTunnelCoverageEnumAll SplitTunnelCoverageEnum = "ALL"
+	// Web-only (PAC based)
+	SplitTunnelCoverageEnumWebOnly SplitTunnelCoverageEnum = "WEB_ONLY"
+)
+
+var AllSplitTunnelCoverageEnum = []SplitTunnelCoverageEnum{
+	SplitTunnelCoverageEnumAll,
+	SplitTunnelCoverageEnumWebOnly,
+}
+
+func (e SplitTunnelCoverageEnum) IsValid() bool {
+	switch e {
+	case SplitTunnelCoverageEnumAll, SplitTunnelCoverageEnumWebOnly:
+		return true
+	}
+	return false
+}
+
+func (e SplitTunnelCoverageEnum) String() string {
+	return string(e)
+}
+
+func (e *SplitTunnelCoverageEnum) UnmarshalGQL(v any) error {
+	str, ok := v.(string)
+	if !ok {
+		return fmt.Errorf("enums must be strings")
+	}
+
+	*e = SplitTunnelCoverageEnum(str)
+	if !e.IsValid() {
+		return fmt.Errorf("%s is not a valid SplitTunnelCoverageEnum", str)
+	}
+	return nil
+}
+
+func (e SplitTunnelCoverageEnum) MarshalGQL(w io.Writer) {
+	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+func (e *SplitTunnelCoverageEnum) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e SplitTunnelCoverageEnum) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
+}
+
+// The action applied by the split tunnel if the rule is matched
+type SplitTunnelRoutingPriorityEnum string
+
+const (
+	SplitTunnelRoutingPriorityEnumLan    SplitTunnelRoutingPriorityEnum = "LAN"
+	SplitTunnelRoutingPriorityEnumTunnel SplitTunnelRoutingPriorityEnum = "TUNNEL"
+)
+
+var AllSplitTunnelRoutingPriorityEnum = []SplitTunnelRoutingPriorityEnum{
+	SplitTunnelRoutingPriorityEnumLan,
+	SplitTunnelRoutingPriorityEnumTunnel,
+}
+
+func (e SplitTunnelRoutingPriorityEnum) IsValid() bool {
+	switch e {
+	case SplitTunnelRoutingPriorityEnumLan, SplitTunnelRoutingPriorityEnumTunnel:
+		return true
+	}
+	return false
+}
+
+func (e SplitTunnelRoutingPriorityEnum) String() string {
+	return string(e)
+}
+
+func (e *SplitTunnelRoutingPriorityEnum) UnmarshalGQL(v any) error {
+	str, ok := v.(string)
+	if !ok {
+		return fmt.Errorf("enums must be strings")
+	}
+
+	*e = SplitTunnelRoutingPriorityEnum(str)
+	if !e.IsValid() {
+		return fmt.Errorf("%s is not a valid SplitTunnelRoutingPriorityEnum", str)
+	}
+	return nil
+}
+
+func (e SplitTunnelRoutingPriorityEnum) MarshalGQL(w io.Writer) {
+	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+func (e *SplitTunnelRoutingPriorityEnum) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e SplitTunnelRoutingPriorityEnum) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
+}
+
+type SplitTunnelSourceNetworkTypeEnum string
+
+const (
+	SplitTunnelSourceNetworkTypeEnumAny SplitTunnelSourceNetworkTypeEnum = "ANY"
+	// Any Managed Network
+	SplitTunnelSourceNetworkTypeEnumAnyManagedNetwork SplitTunnelSourceNetworkTypeEnum = "ANY_MANAGED_NETWORK"
+	// Any Unmanaged Network
+	SplitTunnelSourceNetworkTypeEnumAnyUnmanagedNetwork SplitTunnelSourceNetworkTypeEnum = "ANY_UNMANAGED_NETWORK"
+)
+
+var AllSplitTunnelSourceNetworkTypeEnum = []SplitTunnelSourceNetworkTypeEnum{
+	SplitTunnelSourceNetworkTypeEnumAny,
+	SplitTunnelSourceNetworkTypeEnumAnyManagedNetwork,
+	SplitTunnelSourceNetworkTypeEnumAnyUnmanagedNetwork,
+}
+
+func (e SplitTunnelSourceNetworkTypeEnum) IsValid() bool {
+	switch e {
+	case SplitTunnelSourceNetworkTypeEnumAny, SplitTunnelSourceNetworkTypeEnumAnyManagedNetwork, SplitTunnelSourceNetworkTypeEnumAnyUnmanagedNetwork:
+		return true
+	}
+	return false
+}
+
+func (e SplitTunnelSourceNetworkTypeEnum) String() string {
+	return string(e)
+}
+
+func (e *SplitTunnelSourceNetworkTypeEnum) UnmarshalGQL(v any) error {
+	str, ok := v.(string)
+	if !ok {
+		return fmt.Errorf("enums must be strings")
+	}
+
+	*e = SplitTunnelSourceNetworkTypeEnum(str)
+	if !e.IsValid() {
+		return fmt.Errorf("%s is not a valid SplitTunnelSourceNetworkTypeEnum", str)
+	}
+	return nil
+}
+
+func (e SplitTunnelSourceNetworkTypeEnum) MarshalGQL(w io.Writer) {
+	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+func (e *SplitTunnelSourceNetworkTypeEnum) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e SplitTunnelSourceNetworkTypeEnum) MarshalJSON() ([]byte, error) {
 	var buf bytes.Buffer
 	e.MarshalGQL(&buf)
 	return buf.Bytes(), nil
@@ -27105,6 +30131,122 @@ func (e *WanNetworkRuleType) UnmarshalJSON(b []byte) error {
 }
 
 func (e WanNetworkRuleType) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
+}
+
+// The action applied by the Always on policy if the rule is matched
+type ZtnaAlwaysOnRuleActionEnum string
+
+const (
+	// Enforce always on policy.
+	ZtnaAlwaysOnRuleActionEnumEnforce ZtnaAlwaysOnRuleActionEnum = "ENFORCE"
+	// On demand always on policy.
+	ZtnaAlwaysOnRuleActionEnumIgnore ZtnaAlwaysOnRuleActionEnum = "IGNORE"
+)
+
+var AllZtnaAlwaysOnRuleActionEnum = []ZtnaAlwaysOnRuleActionEnum{
+	ZtnaAlwaysOnRuleActionEnumEnforce,
+	ZtnaAlwaysOnRuleActionEnumIgnore,
+}
+
+func (e ZtnaAlwaysOnRuleActionEnum) IsValid() bool {
+	switch e {
+	case ZtnaAlwaysOnRuleActionEnumEnforce, ZtnaAlwaysOnRuleActionEnumIgnore:
+		return true
+	}
+	return false
+}
+
+func (e ZtnaAlwaysOnRuleActionEnum) String() string {
+	return string(e)
+}
+
+func (e *ZtnaAlwaysOnRuleActionEnum) UnmarshalGQL(v any) error {
+	str, ok := v.(string)
+	if !ok {
+		return fmt.Errorf("enums must be strings")
+	}
+
+	*e = ZtnaAlwaysOnRuleActionEnum(str)
+	if !e.IsValid() {
+		return fmt.Errorf("%s is not a valid ZtnaAlwaysOnRuleActionEnum", str)
+	}
+	return nil
+}
+
+func (e ZtnaAlwaysOnRuleActionEnum) MarshalGQL(w io.Writer) {
+	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+func (e *ZtnaAlwaysOnRuleActionEnum) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e ZtnaAlwaysOnRuleActionEnum) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
+}
+
+// Return the time unit of the duration time
+type ZtnaAlwaysOnTimeUnit string
+
+const (
+	// Time in hours
+	ZtnaAlwaysOnTimeUnitHours ZtnaAlwaysOnTimeUnit = "HOURS"
+	// Time in minutes
+	ZtnaAlwaysOnTimeUnitMinutes ZtnaAlwaysOnTimeUnit = "MINUTES"
+)
+
+var AllZtnaAlwaysOnTimeUnit = []ZtnaAlwaysOnTimeUnit{
+	ZtnaAlwaysOnTimeUnitHours,
+	ZtnaAlwaysOnTimeUnitMinutes,
+}
+
+func (e ZtnaAlwaysOnTimeUnit) IsValid() bool {
+	switch e {
+	case ZtnaAlwaysOnTimeUnitHours, ZtnaAlwaysOnTimeUnitMinutes:
+		return true
+	}
+	return false
+}
+
+func (e ZtnaAlwaysOnTimeUnit) String() string {
+	return string(e)
+}
+
+func (e *ZtnaAlwaysOnTimeUnit) UnmarshalGQL(v any) error {
+	str, ok := v.(string)
+	if !ok {
+		return fmt.Errorf("enums must be strings")
+	}
+
+	*e = ZtnaAlwaysOnTimeUnit(str)
+	if !e.IsValid() {
+		return fmt.Errorf("%s is not a valid ZtnaAlwaysOnTimeUnit", str)
+	}
+	return nil
+}
+
+func (e ZtnaAlwaysOnTimeUnit) MarshalGQL(w io.Writer) {
+	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+func (e *ZtnaAlwaysOnTimeUnit) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e ZtnaAlwaysOnTimeUnit) MarshalJSON() ([]byte, error) {
 	var buf bytes.Buffer
 	e.MarshalGQL(&buf)
 	return buf.Bytes(), nil
