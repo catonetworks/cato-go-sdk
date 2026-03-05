@@ -1,0 +1,53 @@
+query auditFeed($fieldNames: [AuditFieldName!], $accountIDs: [ID!], $ids: [ID!], $timeFrame: TimeFrame!, $filters: [AuditFieldFilterInput!], $marker: String){
+    auditFeed(accountIDs: $accountIDs, ids: $ids, timeFrame: $timeFrame, filters: $filters, marker: $marker){
+        from
+        to
+        marker
+        fetchedCount
+        hasMore
+        accounts{
+            id
+            records(fieldNames: $fieldNames){
+                admin{
+                    id
+                    name
+                    type
+                }
+                apiKey{
+                    id
+                    name
+                    type
+                }
+                account{
+                    entity{
+                        id
+                        name
+                        type
+                    }
+                    description
+                    helperFields
+                }
+                time
+                fields{
+                    name
+                    value{
+                        __typename
+                        ... on StringValue {
+                            string
+                        }
+                        ... on DateValue {
+                            date
+                        }
+                        ... on Entity {
+                            id
+                            name
+                            type
+                        }
+                    }
+                }
+                fieldsMap
+                flatFields
+            }
+        }
+    }
+}

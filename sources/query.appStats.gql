@@ -1,0 +1,33 @@
+query appStats($limit: Int, $from: Int, $accountID: ID!, $timeFrame: TimeFrame!, $measures: [Measure], $dimensions: [Dimension], $filters: [AppStatsFilter!], $sort: [AppStatsSort!]){
+    appStats(accountID: $accountID, timeFrame: $timeFrame, measures: $measures, dimensions: $dimensions, filters: $filters, sort: $sort){
+        id
+        from
+        to
+        total
+        totals
+        records(limit: $limit, from: $from){
+            fields{
+                name
+                value{
+                    __typename
+                    ... on StringValue {
+                        string
+                    }
+                    ... on DateValue {
+                        date
+                    }
+                    ... on Entity {
+                        id
+                        name
+                        type
+                    }
+                }
+            }
+            fieldsUnitTypes
+            fieldsMap
+            trends
+            prevTimeFrame
+            flatFields
+        }
+    }
+}

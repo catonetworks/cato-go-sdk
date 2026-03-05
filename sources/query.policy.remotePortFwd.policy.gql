@@ -1,0 +1,93 @@
+query remotePortFwdPolicy ( $accountId:ID! ) {
+  policy ( accountId:$accountId  ) {
+    remotePortFwd  {
+      policy  {
+        enabled
+        rules  {
+          audit  {
+            updatedTime
+            updatedBy
+          }
+          rule  {
+            id
+            name
+            description
+            index
+            section {
+              id
+              name
+            }
+            enabled
+            internalIp
+            internalPortRange {
+              from
+              to
+            }
+            externalIp {
+              id
+              name
+            }
+            externalPortRange {
+              from
+              to
+            }
+            remoteIPs {
+                ip
+                subnet
+                ipRange {
+                    from
+                    to
+                }
+                globalIpRange {
+                    id
+                    name
+                }
+            }
+            restrictionType
+            forwardIcmp
+            tracking {
+                enabled
+                frequency
+                subscriptionGroup {
+                    id
+                    name
+                }
+                mailingList {
+                    id
+                    name
+                }
+                webhook {
+                    id
+                    name
+                }
+            }
+          }
+          properties
+        }
+        sections {
+          audit {
+            updatedTime
+            updatedBy
+          }
+          section {
+            id
+            name
+          }
+          properties
+        }
+        audit {
+          publishedTime
+          publishedBy
+        }
+        revision {
+            id
+            name
+            description
+            changes
+            createdTime
+            updatedTime
+        }
+      }
+    }
+  }
+}

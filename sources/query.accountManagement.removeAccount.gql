@@ -1,0 +1,18 @@
+mutation accountManagementRemoveAccount($accountIdToRemove: ID!, $accountId: ID!) {
+    accountManagement(accountId: $accountId) {
+        removeAccount(accountId: $accountIdToRemove) {
+            accountInfo {
+                id
+                name
+                description
+                timeZone
+                type
+                tenancy
+                audit {
+                    createdBy
+                    createdTime
+                }
+            }
+        }
+    }
+}

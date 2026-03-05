@@ -1,0 +1,11 @@
+query accountRoles($accountID: ID!, $accountType: AccountType){
+    accountRoles(accountID: $accountID, accountType: $accountType){
+        items{
+            id
+            name
+            description
+            isPredefined
+        }
+        total
+    }
+}

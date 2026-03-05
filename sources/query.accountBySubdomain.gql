@@ -1,0 +1,7 @@
+query accountBySubdomain($accountID: ID!, $subdomains: [String!]!){
+    accountBySubdomain(accountID: $accountID, subdomains: $subdomains){
+        id
+        name
+        subdomain
+    }
+}

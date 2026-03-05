@@ -1,0 +1,15 @@
+query eventsFeed($fieldNames: [EventFieldName!], $accountIDs: [ID!], $filters: [EventFeedFieldFilterInput!], $marker: String){
+    eventsFeed(accountIDs: $accountIDs, filters: $filters, marker: $marker){
+        marker
+        fetchedCount
+        accounts{
+            id
+            errorString
+            records(fieldNames: $fieldNames){
+                time
+                fieldsMap
+                flatFields
+            }
+        }
+    }
+}

@@ -1,0 +1,31 @@
+query hardwareManagement($input: SocketInventoryInput, $accountId: ID!){
+    hardwareManagement(accountId: $accountId){
+        socketInventory(input: $input){
+            items{
+                id
+                status
+                serialNumber
+                socketMac
+                socketVersion
+                site{
+                    id
+                    name
+                }
+                account{
+                    id
+                    name
+                }
+                shippingDate
+                socketType
+                trackingUrl
+                trackingNumber
+                shippingCompany
+                deliverySiteName
+                description
+            }
+            pageInfo{
+                total
+            }
+        }
+    }
+}
