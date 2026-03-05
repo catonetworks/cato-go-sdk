@@ -10090,6 +10090,7 @@ enum InternetFirewallActionEnum {
   PROMPT
   "Apply Remote Browser Isolation (RBI) to the network traffic"
   RBI
+  CAPTIVE_PORTAL
 }
 
 input InternetFirewallAddRuleDataInput {

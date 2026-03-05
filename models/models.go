@@ -22317,7 +22317,8 @@ const (
 	// Requests user confirmation to allow or block network traffic.
 	InternetFirewallActionEnumPrompt InternetFirewallActionEnum = "PROMPT"
 	// Apply Remote Browser Isolation (RBI) to the network traffic
-	InternetFirewallActionEnumRbi InternetFirewallActionEnum = "RBI"
+	InternetFirewallActionEnumRbi           InternetFirewallActionEnum = "RBI"
+	InternetFirewallActionEnumCaptivePortal InternetFirewallActionEnum = "CAPTIVE_PORTAL"
 )
 
 var AllInternetFirewallActionEnum = []InternetFirewallActionEnum{
@@ -22325,11 +22326,12 @@ var AllInternetFirewallActionEnum = []InternetFirewallActionEnum{
 	InternetFirewallActionEnumBlock,
 	InternetFirewallActionEnumPrompt,
 	InternetFirewallActionEnumRbi,
+	InternetFirewallActionEnumCaptivePortal,
 }
 
 func (e InternetFirewallActionEnum) IsValid() bool {
 	switch e {
-	case InternetFirewallActionEnumAllow, InternetFirewallActionEnumBlock, InternetFirewallActionEnumPrompt, InternetFirewallActionEnumRbi:
+	case InternetFirewallActionEnumAllow, InternetFirewallActionEnumBlock, InternetFirewallActionEnumPrompt, InternetFirewallActionEnumRbi, InternetFirewallActionEnumCaptivePortal:
 		return true
 	}
 	return false
