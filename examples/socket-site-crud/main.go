@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"encoding/json"
 	"fmt"
 	"os"
 
@@ -56,14 +57,14 @@ func main() {
 		fmt.Println("✓ Site updated successfully")
 	}
 
-	// Step 3: Clean up - remove the site
-	fmt.Println("\nStep 3: Cleaning up - removing site...")
-	err = deleteSite(ctx, catoClient, accountId, siteID)
-	if err != nil {
-		fmt.Printf("Error deleting site: %v\n", err)
-	} else {
-		fmt.Println("✓ Site deleted successfully")
-	}
+	// // Step 3: Clean up - remove the site
+	// fmt.Println("\nStep 3: Cleaning up - removing site...")
+	// err = deleteSite(ctx, catoClient, accountId, siteID)
+	// if err != nil {
+	// 	fmt.Printf("Error deleting site: %v\n", err)
+	// } else {
+	// 	fmt.Println("✓ Site deleted successfully")
+	// }
 
 	fmt.Println("\n=== Test Complete ===")
 }
@@ -76,9 +77,9 @@ func createSocketSite(ctx context.Context, client *cato.Client, accountId string
 	stateCode := "US-CA"
 
 	input := cato_models.AddSocketSiteInput{
-		Name:           "SOCKET_X1500_default",
-		SiteType:       cato_models.SiteTypeDatacenter,
-		ConnectionType: cato_models.SiteConnectionTypeEnumSocketX1500,
+		Name:               "SOCKET_X1600_default",
+		SiteType:           cato_models.SiteTypeDatacenter,
+		ConnectionType:     cato_models.SiteConnectionTypeEnumSocketX1600,
 		NativeNetworkRange: "192.160.151.0/24",
 		SiteLocation: &cato_models.AddSiteLocationInput{
 			City:        &city,
@@ -100,6 +101,32 @@ func createSocketSite(ctx context.Context, client *cato.Client, accountId string
 	}
 
 	siteID := resp.Site.AddSocketSite.SiteID
+
+	// Exchange socket ports - move interface from INT_5 to INT_6
+	exchangeInput := cato_models.ExchangeSocketPortsInput{
+		Site: &cato_models.SiteRefInput{
+			By:    cato_models.ObjectRefByID,
+			Input: siteID,
+		},
+		FirstInterface: &cato_models.SocketInterfaceRefInput{
+			InterfaceID: cato_models.SocketInterfaceIDEnumInt5,
+		},
+		SecondInterface: &cato_models.SocketInterfaceRefInput{
+			InterfaceID: cato_models.SocketInterfaceIDEnumInt6,
+		},
+	}
+
+	exchangeResult, err := client.SiteExchangeSocketPorts(ctx, accountId, exchangeInput)
+	if err != nil {
+		fmt.Println("SiteExchangeSocketPorts error: ", err)
+		os.Exit(1)
+	}
+
+	exchangeResultJson, err := json.Marshal(exchangeResult)
+	if err != nil {
+		fmt.Println("SiteExchangeSocketPorts marshal error: ", err)
+	}
+	fmt.Println(string(exchangeResultJson))
 
 	// Get the native range ID
 	nativeRangeID, err := getNativeRangeID(ctx, client, accountId, siteID)
@@ -127,8 +154,8 @@ func createSocketSite(ctx context.Context, client *cato.Client, accountId string
 	}
 
 	// Update socket interface with LAG configuration
-	interfaceName := "LAN1"
-	lagMinLinks := int64(2)
+	interfaceName := "INT_6"
+	lagMinLinks := int64(1)
 
 	updateInterfaceInput := cato_models.UpdateSocketInterfaceInput{
 		Name:     &interfaceName,
@@ -143,7 +170,7 @@ func createSocketSite(ctx context.Context, client *cato.Client, accountId string
 	}
 
 	fmt.Printf("Updating socket interface with: %+v\n", updateInterfaceInput)
-	_, err = client.SiteUpdateSocketInterface(ctx, siteID, cato_models.SocketInterfaceIDEnumLan1, updateInterfaceInput, accountId)
+	_, err = client.SiteUpdateSocketInterface(ctx, siteID, cato_models.SocketInterfaceIDEnumInt6, updateInterfaceInput, accountId)
 	if err != nil {
 		return siteID, nativeRangeID, fmt.Errorf("failed to update socket interface: %w", err)
 	}
@@ -174,7 +201,7 @@ func updateSiteNetworkRange(ctx context.Context, client *cato.Client, accountId,
 
 	fmt.Printf("Updating network range with: %+v\n", updateNetworkRangeInput)
 	resp, err := client.SiteUpdateNetworkRange(ctx, nativeRangeID, updateNetworkRangeInput, accountId)
-	
+
 	// Check response even if no error
 	if resp != nil {
 		fmt.Printf("API Response: %+v\n", resp)
@@ -182,7 +209,7 @@ func updateSiteNetworkRange(ctx context.Context, client *cato.Client, accountId,
 			return fmt.Errorf("API returned null updateNetworkRange - this indicates a GraphQL error (likely: DHCP Range should be included in the native range)")
 		}
 	}
-	
+
 	if err != nil {
 		return fmt.Errorf("failed to update network range: %w", err)
 	}
