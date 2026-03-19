@@ -72,6 +72,8 @@ func New(url string, token string, accountId string, httpClient *http.Client, he
 			}),
 	}
 
+	catoClient.Client.CustomDo = catoClient.do
+
 	return catoClient, nil
 }
 
