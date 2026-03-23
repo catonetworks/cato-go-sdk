@@ -36,7 +36,7 @@ func main() {
 
 	inputRule := cato_models.AddSocketSiteInput{
 		Name:               "TestSiteExample",
-		ConnectionType:     "SOCKET_X1500",
+		ConnectionType:     "SOCKET_X1600",
 		SiteType:           "BRANCH",
 		Description:        &siteDescription,
 		NativeNetworkRange: "10.99.0.0/16",
@@ -49,14 +49,14 @@ func main() {
 		},
 	}
 
-	policyChange, err := catoClient.SiteAddSocketSite(ctx, inputRule, accountId)
+	addSocketSite, err := catoClient.SiteAddSocketSite(ctx, inputRule, accountId)
 
 	if err != nil {
 		fmt.Println("error: ", err)
 		os.Exit(1)
 	}
 
-	queryResultJson, err := json.Marshal(policyChange)
+	queryResultJson, err := json.Marshal(addSocketSite)
 	if err != nil {
 		fmt.Println("SiteAddSocketSite error: ", err)
 	}

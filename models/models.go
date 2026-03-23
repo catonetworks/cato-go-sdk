@@ -649,6 +649,8 @@ type AddBgpPeerInput struct {
 	DefaultAction BgpDefaultAction `json:"defaultAction"`
 	// Excluded rules from the default action.
 	DefaultActionExclusion []*BgpFilterRuleInput `json:"defaultActionExclusion"`
+	// Community values to associate with the default route.
+	DefaultRouteCommunities []*BgpCommunityInput `json:"defaultRouteCommunities"`
 	// Time (in seconds) before declaring the peer unreachable.
 	HoldTime int64 `json:"holdTime"`
 	// Time (in seconds) between keepalive messages.
@@ -3634,6 +3636,8 @@ type BgpPeer struct {
 	DefaultAction BgpDefaultAction `json:"defaultAction"`
 	// Rules excluded from the default action.
 	DefaultActionExclusion []*BgpFilterRule `json:"defaultActionExclusion"`
+	// Community values associated with the default route.
+	DefaultRouteCommunities []*BgpCommunity `json:"defaultRouteCommunities"`
 	// Time before declaring the peer unreachable.
 	HoldTime int64 `json:"holdTime"`
 	// Unique identifier for the BGP peer.
@@ -5851,6 +5855,19 @@ type DevicesQueries struct {
 	List              *DevicesPayload                 `json:"list,omitempty"`
 }
 
+type DhcpRelayGroupRef struct {
+	ID   string `json:"id"`
+	Name string `json:"name"`
+}
+
+func (DhcpRelayGroupRef) IsObjectRef() {}
+
+// Object's unique identifier
+func (this DhcpRelayGroupRef) GetID() string { return this.ID }
+
+// Object's unique name
+func (this DhcpRelayGroupRef) GetName() string { return this.Name }
+
 type Dimension struct {
 	FieldName AppStatsFieldName `json:"fieldName"`
 }
@@ -6520,6 +6537,26 @@ type EventsTimeSeries struct {
 	To          *string       `json:"to,omitempty"`
 }
 
+type ExchangeSocketPortsInput struct {
+	// The first socket interface to swap.
+	FirstInterface *SocketInterfaceRefInput `json:"firstInterface"`
+	// The second socket interface to swap.
+	SecondInterface *SocketInterfaceRefInput `json:"secondInterface"`
+	// The site where the ports are exchanged.
+	Site *SiteRefInput `json:"site"`
+}
+
+type ExchangeSocketPortsPayload struct {
+	// The updated socket interfaces after the exchange.
+	Interfaces []*ExchangedSocketInterface `json:"interfaces"`
+}
+
+// Minimal socket interface data returned after an exchange.
+type ExchangedSocketInterface struct {
+	InterfaceID SocketInterfaceIDEnum `json:"interfaceId"`
+	Name        string                `json:"name"`
+}
+
 // Response returned when initiating a CSV export job
 type ExportJobResponse struct {
 	// Unique identifier for the export job
@@ -7127,6 +7164,7 @@ type HardwareSortInput struct {
 	LicenseStartDate *SortOrderInput `json:"licenseStartDate,omitempty"`
 	ProductType      *SortOrderInput `json:"productType,omitempty"`
 	QuoteID          *SortOrderInput `json:"quoteId,omitempty"`
+	SerialNumber     *SortOrderInput `json:"serialNumber,omitempty"`
 	ShippingDate     *SortOrderInput `json:"shippingDate,omitempty"`
 	ShippingStatus   *SortOrderInput `json:"shippingStatus,omitempty"`
 	SiteName         *SortOrderInput `json:"siteName,omitempty"`
@@ -10146,6 +10184,19 @@ type PopLocationFilterInput struct {
 	SiteLicenseRegion *StringFilterInput `json:"siteLicenseRegion,omitempty"`
 }
 
+type PopLocationMachineRef struct {
+	ID   string `json:"id"`
+	Name string `json:"name"`
+}
+
+func (PopLocationMachineRef) IsObjectRef() {}
+
+// Object's unique identifier
+func (this PopLocationMachineRef) GetID() string { return this.ID }
+
+// Object's unique name
+func (this PopLocationMachineRef) GetName() string { return this.Name }
+
 type PopLocationPayload struct {
 	// The actual list of PoP locations matching the given filter criteria. Each entry is a non-null PopLocation object.
 	Items []*PopLocation `json:"items"`
@@ -10174,6 +10225,19 @@ type PopLocationRefInput struct {
 	Input string      `json:"input"`
 }
 
+type PopLocationServiceUnitRef struct {
+	ID   string `json:"id"`
+	Name string `json:"name"`
+}
+
+func (PopLocationServiceUnitRef) IsObjectRef() {}
+
+// Object's unique identifier
+func (this PopLocationServiceUnitRef) GetID() string { return this.ID }
+
+// Object's unique name
+func (this PopLocationServiceUnitRef) GetName() string { return this.Name }
+
 // Inclusive network port range
 type PortRange struct {
 	From scalars.Port `json:"from"`
@@ -10192,6 +10256,10 @@ type PortRangeUpdateInput struct {
 }
 
 type PostalAddress struct {
+	// Primary address
+	Address1 *string `json:"address1,omitempty"`
+	// Secondary address (unit number)
+	Address2 *string `json:"address2,omitempty"`
 	// Address validation status
 	AddressValidated AddressValidationStatus `json:"addressValidated"`
 	// City
@@ -10207,6 +10275,10 @@ type PostalAddress struct {
 }
 
 type PostalAddressInput struct {
+	// Primary address
+	Address1 *string `json:"address1,omitempty"`
+	// Secondary address (unit number)
+	Address2 *string `json:"address2,omitempty"`
 	// City
 	CityName *string `json:"cityName,omitempty"`
 	// Country
@@ -11604,6 +11676,8 @@ type SiteMutations struct {
 	AddStaticHost            *AddStaticHostPayload            `json:"addStaticHost,omitempty"`
 	// Assign a license to an existing site // License-to-site assignment will be removed starting in 2026 with the transition to a new pricing model.
 	AssignSiteBwLicense *AssignSiteBwLicensePayload `json:"assignSiteBwLicense,omitempty"`
+	// Exchanges two socket ports on a site by swapping their interface assignments.
+	ExchangeSocketPorts *ExchangeSocketPortsPayload `json:"exchangeSocketPorts,omitempty"`
 	// Removes an existing BGP peer configuration from a site.
 	RemoveBgpPeer *RemoveBgpPeerPayload `json:"removeBgpPeer,omitempty"`
 	// Remove a physical connection from a cloud interconnect site.
@@ -11691,8 +11765,9 @@ type SiteQueries struct {
 	// Retrieves details of a specific secondary Azure vSocket.
 	SecondaryAzureVSocket *SecondaryAzureVSocket `json:"secondaryAzureVSocket,omitempty"`
 	// Provides the BGP status of the specified site, including session and route details.
-	SiteBgpStatus      *SiteBgpStatus             `json:"siteBgpStatus,omitempty"`
-	SiteGeneralDetails *SiteGeneralDetailsPayload `json:"siteGeneralDetails,omitempty"`
+	SiteBgpStatus           *SiteBgpStatus             `json:"siteBgpStatus,omitempty"`
+	SiteGeneralDetails      *SiteGeneralDetailsPayload `json:"siteGeneralDetails,omitempty"`
+	SiteSocketConfiguration *SiteSocketConfiguration   `json:"siteSocketConfiguration,omitempty"`
 }
 
 // A reference identifying the Site object. ID: Unique Site Identifier, Name: The Site Name
@@ -11852,6 +11927,12 @@ type SocketInterfaceOffCloudInput struct {
 	Enabled          bool    `json:"enabled"`
 	PublicIP         *string `json:"publicIp,omitempty"`
 	PublicStaticPort *int64  `json:"publicStaticPort,omitempty"`
+}
+
+// Reference to a socket interface within a site.
+type SocketInterfaceRefInput struct {
+	// Interface identifier (e.g., WAN1, LAN1, USB1).
+	InterfaceID SocketInterfaceIDEnum `json:"interfaceId"`
 }
 
 type SocketInterfaceVrrpInput struct {
@@ -13276,6 +13357,13 @@ type StartSiteUpgradeInput struct {
 type StartSiteUpgradePayload struct {
 	// List of individual site upgrade results.
 	Results []*SiteUpgradeInfo `json:"results"`
+}
+
+type StatusCount struct {
+	ConfirmShipping *int64 `json:"CONFIRM_SHIPPING,omitempty"`
+	Delivered       *int64 `json:"DELIVERED,omitempty"`
+	InTransit       *int64 `json:"IN_TRANSIT,omitempty"`
+	PendingInfo     *int64 `json:"PENDING_INFO,omitempty"`
 }
 
 type StoriesData struct {
@@ -14752,6 +14840,8 @@ type UpdateBgpPeerInput struct {
 	DefaultAction *BgpDefaultAction `json:"defaultAction,omitempty"`
 	// Updated rules excluded from the default action.
 	DefaultActionExclusion []*BgpFilterRuleInput `json:"defaultActionExclusion,omitempty"`
+	// Community values to associate with the default route.
+	DefaultRouteCommunities []*BgpCommunityInput `json:"defaultRouteCommunities,omitempty"`
 	// Updated hold time for the BGP session.
 	HoldTime *int64 `json:"holdTime,omitempty"`
 	// Unique identifier of the BGP peer to be updated.
@@ -22971,7 +23061,8 @@ const (
 	// Requests user confirmation to allow or block network traffic.
 	InternetFirewallActionEnumPrompt InternetFirewallActionEnum = "PROMPT"
 	// Apply Remote Browser Isolation (RBI) to the network traffic
-	InternetFirewallActionEnumRbi           InternetFirewallActionEnum = "RBI"
+	InternetFirewallActionEnumRbi InternetFirewallActionEnum = "RBI"
+	// Added by brian
 	InternetFirewallActionEnumCaptivePortal InternetFirewallActionEnum = "CAPTIVE_PORTAL"
 )
 

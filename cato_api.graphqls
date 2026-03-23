@@ -2134,7 +2134,11 @@ type SiteMutations {
   Assign a license to an existing site // License-to-site assignment will be removed starting in 2026 with the transition to a new pricing model.
   """
   assignSiteBwLicense(input: AssignSiteBwLicenseInput!): AssignSiteBwLicensePayload @beta
-  """Removes an existing BGP peer configuration from a site."""
+  """
+  Exchanges two socket ports on a site by swapping their interface assignments.
+  """
+  exchangeSocketPorts(input: ExchangeSocketPortsInput!): ExchangeSocketPortsPayload @beta
+"""Removes an existing BGP peer configuration from a site."""
   removeBgpPeer(input: RemoveBgpPeerInput!): RemoveBgpPeerPayload @beta
   """Remove a physical connection from a cloud interconnect site."""
   removeCloudInterconnectPhysicalConnection(input: RemoveCloudInterconnectPhysicalConnectionInput!): RemoveCloudInterconnectPhysicalConnectionPayload @beta
@@ -2207,6 +2211,7 @@ type SiteQueries {
   """
   siteBgpStatus(input: SiteBgpStatusInput!): SiteBgpStatus @beta
   siteGeneralDetails(site: SiteRefInput!): SiteGeneralDetailsPayload @beta
+  siteSocketConfiguration(input: SiteSocketConfigurationInput!): SiteSocketConfiguration @beta
 }
 
 input AddSecondaryAwsVSocketInput {
@@ -2305,6 +2310,32 @@ input UpdateSecondaryAwsVSocketInput {
 type UpdateSecondaryAwsVSocketPayload {
   """The updated secondary AWS vSocket object."""
   secondaryAwsVSocket: SecondaryAwsVSocket!
+}
+
+input ExchangeSocketPortsInput {
+  """The first socket interface to swap."""
+  firstInterface: SocketInterfaceRefInput!
+  """The second socket interface to swap."""
+  secondInterface: SocketInterfaceRefInput!
+  """The site where the ports are exchanged."""
+  site: SiteRefInput!
+}
+
+"""Reference to a socket interface within a site."""
+input SocketInterfaceRefInput {
+  """Interface identifier (e.g., WAN1, LAN1, USB1)."""
+  interfaceId: SocketInterfaceIDEnum!
+}
+
+type ExchangeSocketPortsPayload {
+  """The updated socket interfaces after the exchange."""
+  interfaces: [ExchangedSocketInterface!]!
+}
+
+"""Minimal socket interface data returned after an exchange."""
+type ExchangedSocketInterface {
+  interfaceId: SocketInterfaceIDEnum!
+  name: String!
 }
 
 enum SocketPortMetricsFieldName {
@@ -4591,6 +4622,8 @@ input AddBgpPeerInput {
   defaultAction: BgpDefaultAction!
   """Excluded rules from the default action."""
   defaultActionExclusion: [BgpFilterRuleInput!]! = []
+  """Community values to associate with the default route."""
+  defaultRouteCommunities: [BgpCommunityInput!]! = []
   """Time (in seconds) before declaring the peer unreachable."""
   holdTime: Int! = 60
   """Time (in seconds) between keepalive messages."""
@@ -4641,6 +4674,8 @@ type BgpPeer {
   defaultAction: BgpDefaultAction!
   """Rules excluded from the default action."""
   defaultActionExclusion: [BgpFilterRule!]!
+  """Community values associated with the default route."""
+  defaultRouteCommunities: [BgpCommunity!]!
   """Time before declaring the peer unreachable."""
   holdTime: Int!
   """Unique identifier for the BGP peer."""
@@ -4709,6 +4744,8 @@ input UpdateBgpPeerInput {
   defaultAction: BgpDefaultAction
   """Updated rules excluded from the default action."""
   defaultActionExclusion: [BgpFilterRuleInput!]
+  """Community values to associate with the default route."""
+  defaultRouteCommunities: [BgpCommunityInput!]
   """Updated hold time for the BGP session."""
   holdTime: Int
   """Unique identifier of the BGP peer to be updated."""
@@ -5228,6 +5265,11 @@ type AllocatedIpRef implements ObjectRef {
 input AllocatedIpRefInput {
   by: ObjectRefBy! = ID
   input: String!
+}
+
+type DhcpRelayGroupRef implements ObjectRef {
+  id: ID!
+  name: String!
 }
 
 """
@@ -5750,6 +5792,10 @@ enum AddressValidationStatus {
 }
 
 type PostalAddress {
+  "Primary address"
+  address1: String
+  "Secondary address (unit number)"
+  address2: String
   "Address validation status"
   addressValidated: AddressValidationStatus!
   "City"
@@ -5759,7 +5805,7 @@ type PostalAddress {
   "State (only for USA)"
   stateName: String
   "Street name and number"
-  street: String
+  street: String @deprecated(reason: "replaced by address1 and address2")
   "Zip Code"
   zipCode: String
 }
@@ -5774,6 +5820,10 @@ type ContactDetails {
 }
 
 input PostalAddressInput {
+  "Primary address"
+  address1: String
+  "Secondary address (unit number)"
+  address2: String
   "City"
   cityName: String
   "Country"
@@ -5859,193 +5909,6 @@ type ZtnaAppConnectorRef implements ObjectRef {
   id: ID!
   "Name for the ZTNA app connector"
   name: String!
-}
-
-enum AppStatsFieldName {
-  "Account ID. CMA Name: Account ID"
-  account_id
-  "Account name. CMA Name: Account Name"
-  account_name
-  "Active Directory name. CMA Name: Ad Name"
-  ad_name
-  "AI Proxy rule name. CMA Name: AI Proxy Rule Name"
-  ai_proxy_rule_name
-  "Application ID of the flow, in legacy format. CMA Name: Appid"
-  app @deprecated(reason: "use application_id instead. Planned end-of-life (EoL) date: June 30, 2026.")
-  "The application identifier. CMA Name: Application"
-  application @deprecated(reason: "use application_name instead. Planned end-of-life (EoL) date: June 30, 2026.")
-  "Description of the application. CMA Name: Application Description"
-  application_description
-  "Application ID of the flow. CMA Name: Application ID"
-  application_id
-  "Application of the flow. CMA Name: Application Name"
-  application_name
-  "Application risk level based on the application risk score. CMA Name: Application Risk Level"
-  application_risk_level
-  "Risk score of the application, based on Cato's risk assessment. CMA Name: Application Risk Score"
-  application_risk_score
-  "Application type (Custom, Private or System). CMA Name: Application Type"
-  application_type
-  "Cato system category. CMA Name: Categories"
-  categories
-  "Cato system category of the application. CMA Name: Category"
-  category @deprecated(reason: "use categories instead. Planned end-of-life (EoL) date: June 30, 2026.")
-  "Type of process generating this traffic. CMA Name: Client Class"
-  client_class
-  "Socket or SDP Client version. CMA Name: Client Version"
-  client_version
-  "For hosts configured with a static IP in the Cato Management Application, the host name. CMA Name: Configured Host Name"
-  configured_host_name
-  "Connection Origin. CMA Name: Connection Origin"
-  connection_origin
-  "Application description. CMA Name: Description"
-  description @deprecated(reason: "use application_description instead. Planned end-of-life (EoL) date: June 30, 2026.")
-  "For Internet traffic, country where the destination host is located. CMA Name: Destination Country"
-  dest_country
-  "For Internet traffic, destination host IP address. CMA Name: Dest Ip"
-  dest_ip
-  "For WAN traffic, destination is site or SDP user. CMA Name: Dest Is Site Or Vpn"
-  dest_is_site_or_vpn
-  "Destination port. CMA Name: Destination Port"
-  dest_port
-  "Destination Site or VPN user ID (proto). CMA Name: Dest Site"
-  dest_site
-  "Unique internal Cato ID for the destination site or remote user. CMA Name: Dest Site ID"
-  dest_site_id
-  "For Internet traffic, destination host IP address. CMA Name: Dest Site Name"
-  dest_site_name
-  "Device Categories. CMA Name: Device Category"
-  device_categories
-  "Unique Cato ID for devices. CMA Name: Device ID"
-  device_id
-  "Device Manufacturer. CMA Name: Device Manufacturer"
-  device_manufacturer
-  "Device Model. CMA Name: Device Model"
-  device_model
-  "Name for device related to the traffic. CMA Name: Device Name"
-  device_name
-  "Device OS Type. CMA Name: Device OS Type"
-  device_os_type
-  "Device posture profiles. CMA Name: Device Posture Profile"
-  device_posture_profile
-  "Device Type. CMA Name: Device Type"
-  device_type
-  "Total SaaS apps discovered ever until the To in the timeframe. CMA Name: Discovered App"
-  discovered_app
-  "Domain name. CMA Name: Domain Name"
-  domain @deprecated(reason: "use tld instead. Planned end-of-life (EoL) date: July 1, 2026.")
-  "Bytes sent from the destination to the host. CMA Name: Downstream"
-  downstream
-  "Duration of the flow in ms. Only available for native flows data integration created in the CMA (e.g. Sentinel). Not available in the appstats or appstatsTimeSeries API."
-  duration
-  "Egress PoP Name. CMA Name: Egress PoP Name"
-  egress_pop_name
-  "Egress Site Name for backhauling traffic. CMA Name: Egress Site"
-  egress_site_name
-  "Uniquely identifies a traffic flow and enables correlation of events and other records related to the same flow. Only available for native flows data integration created in the CMA (e.g. Sentinel). Not available in the appstats or appstatsTimeSeries API."
-  flow_id
-  "Time stamp of the flow start (Linux epoch format). Only available for native flows data integration created in the CMA (e.g. Sentinel). Not available in the appstats or appstatsTimeSeries API."
-  flow_start_time
-  "Number of flows created for this event. CMA Name: Flows Created"
-  flows_created
-  "Full path URL application activity. CMA Name: Full Path URL"
-  full_path_url
-  "IP address of host related to event. CMA Name: Host IP"
-  host_ip
-  "MAC address of host related to event. CMA Name: Host MAC Address"
-  host_mac
-  "Country of the application headquarters. CMA Name: Hq Location"
-  hq_location
-  "HTTP request method (ie. Get, Post). CMA Name: Request Method"
-  http_request_method
-  "Local IP address of the host. CMA Name: Local Ip"
-  ip @deprecated(reason: "use src_ip/dest_ip instead. Planned end-of-life (EoL) date: July 1, 2026.")
-  "Network protocol for this event. CMA Name: IP Protocol"
-  ip_protocol
-  "Is the application a cloud application? (True/False). CMA Name: Is Cloud App"
-  is_cloud_app
-  "Is last sample for flow. Only available for native flows data integration created in the CMA (e.g. Sentinel). Not available in the appstats or appstatsTimeSeries API."
-  is_flow_terminated
-  "Is the app for this event defined as a sanctioned app? (True/False). CMA Name: Is Sanctioned App"
-  is_sanctioned_app
-  "The ISP related to this event (when the IP address isn't provided by the ISP, then the event message is IP Addresses are assigned statically). CMA Name: ISP Name"
-  ISP_name
-  "Matched network rule. CMA Name: Network Rule"
-  network_rule
-  "new_app. CMA Name: New App"
-  new_app
-  "OS version for the device (such as 14.3.0). CMA Name: OS Version"
-  os_version
-  "Name of PoP location. CMA Name: Pop Name"
-  pop_name
-  "QoS Priority value. CMA Name: QoS Priority"
-  qos_priority
-  "risk_level. CMA Name: Risk Level"
-  risk_level @deprecated(reason: "use application_risk_level instead. Planned end-of-life (EoL) date: June 30, 2026.")
-  "The application risk score assigned by Cato. CMA Name: Risk Score"
-  risk_score @deprecated(reason: "use application_risk_score instead. Planned end-of-life (EoL) date: June 30, 2026.")
-  "Is the application defined as sanctioned?. CMA Name: Sanctioned"
-  sanctioned @deprecated(reason: "use is_sanctioned_app instead. Planned end-of-life (EoL) date: June 30, 2026.")
-  "Country in which the source host is located. CMA Name: Site Country"
-  site_country
-  "State in which the source host is located. CMA Name: Site State"
-  site_state
-  "Name for Socket interface. CMA Name: Socket Interface"
-  socket_interface
-  "Country in which the source host is located (detected via public IP address). CMA Name: Source Country"
-  src_country
-  "Country Code of country in which the source host is located (detected via public IP address). CMA Name: Source Country Code"
-  src_country_code
-  "IP for host or Cato Client. CMA Name: Src Ip"
-  src_ip
-  "Source type: site or remote user. CMA Name: Src Is Site Or Vpn"
-  src_is_site_or_vpn
-  "IP address provided by ISP to site or Client. CMA Name: Source ISP IP"
-  src_isp_ip
-  "Internal port number. CMA Name: Source Port"
-  src_port
-  "Site country code alpha2. CMA Name: Src Site Country Code"
-  src_site_country_code
-  "Unique internal Cato ID for the site or remote user. CMA Name: Src Site ID"
-  src_site_id
-  "Source site or remote user. CMA Name: Src Site Name"
-  src_site_name
-  "Site state code. CMA Name: Src Site State"
-  src_site_state
-  "Name of subnet as defined in Cato Management Application. CMA Name: Subnet"
-  subnet @deprecated(reason: "use subnet_name instead. Planned end-of-life (EoL) date: June 30, 2026.")
-  "Name of subnet as defined in Cato Management Application. CMA Name: Subnet Name"
-  subnet_name
-  "Shows if traffic was TCP accelerated or not. CMA Name: TCP Acceleration"
-  tcp_acceleration
-  "Time stamp of the flow update (Human-readable format). Only available for native flows data integration created in the CMA (e.g. Sentinel). Not available in the appstats or appstatsTimeSeries API."
-  time_str
-  "Top Level Domain of the host name. CMA Name: Tld"
-  tld
-  "Shows if traffic was TLS inspected or not. CMA Name: TLS Inspection"
-  tls_inspection
-  "TLS Inspection rule name. CMA Name: TLS Rule Name"
-  tls_rule_name
-  "The total sum of upstream and downstream data in bytes. CMA Name: Traffic"
-  traffic
-  "Direction of network traffic for this event, values are inbound or outbound. CMA Name: Traffic Direction"
-  traffic_direction
-  "Translated Client IP. CMA Name: Translated Client IP"
-  translated_client_ip
-  "Translated Server IP. CMA Name: Translated Server IP"
-  translated_server_ip
-  "Bytes sent from the host to the destination. CMA Name: Upstream"
-  upstream
-  "Method used to get identity with User Awareness (such as Identity Agent). CMA Name: User Awareness Method"
-  user_awareness_method
-  "User ID. CMA Name: User ID"
-  user_id
-  "User that generated the event. CMA Name: User Name"
-  user_name
-  "User’s email address. CMA Name: SDP User Email"
-  vpn_user_email
-  "User ID. CMA Name: Vpn User ID"
-  vpn_user_id @deprecated(reason: "use user_id instead. Planned end-of-life (EoL) date: June 30, 2026.")
 }
 
 type AppStats {
@@ -6629,6 +6492,16 @@ input UploadFileInput {
 input DeleteReportInput {
   " File hash (SHA-256) to be deleted "
   fileHash: String!
+}
+
+type PopLocationMachineRef implements ObjectRef {
+  id: ID!
+  name: String!
+}
+
+type PopLocationServiceUnitRef implements ObjectRef {
+  id: ID!
+  name: String!
 }
 
 type PopLocationQueries {
@@ -9628,6 +9501,7 @@ input HardwareSortInput {
   licenseStartDate: SortOrderInput
   productType: SortOrderInput
   quoteId: SortOrderInput
+  serialNumber: SortOrderInput
   shippingDate: SortOrderInput
   shippingStatus: SortOrderInput
   siteName: SortOrderInput
@@ -9729,6 +9603,13 @@ type HardwareValidation {
   completed: Boolean!
   """Incomplete reason"""
   incompleteReason: String
+}
+
+type StatusCount {
+  CONFIRM_SHIPPING: Int
+  DELIVERED: Int
+  IN_TRANSIT: Int
+  PENDING_INFO: Int
 }
 
 """Queries for reading groups-related information"""
@@ -10098,6 +9979,7 @@ enum InternetFirewallActionEnum {
   PROMPT
   "Apply Remote Browser Isolation (RBI) to the network traffic"
   RBI
+  "Added by brian"
   CAPTIVE_PORTAL
 }
 
@@ -13586,6 +13468,193 @@ type CatalogQueries {
   catalogApplication(input: ApplicationRefInput!): CatalogApplication @beta
   catalogApplicationList(input: CatalogApplicationListInput!): CatalogApplicationListPayload @beta
   contentTypeGroupList(input: CatalogApplicationContentTypeGroupListInput!): CatalogApplicationContentTypeGroupListPayload @beta
+}
+
+enum AppStatsFieldName {
+  "Account ID. CMA Name: Account ID"
+  account_id
+  "Account name. CMA Name: Account Name"
+  account_name
+  "Active Directory name. CMA Name: Ad Name"
+  ad_name
+  "AI Proxy rule name. CMA Name: AI Proxy Rule Name"
+  ai_proxy_rule_name
+  "Application ID of the flow, in legacy format. CMA Name: Appid"
+  app @deprecated(reason: "use application_id instead. Planned end-of-life (EoL) date: June 30, 2026.")
+  "The application identifier. CMA Name: Application"
+  application @deprecated(reason: "use application_name instead. Planned end-of-life (EoL) date: June 30, 2026.")
+  "Description of the application. CMA Name: Application Description"
+  application_description
+  "Application ID of the flow. CMA Name: Application ID"
+  application_id
+  "Application of the flow. CMA Name: Application Name"
+  application_name
+  "Application risk level based on the application risk score. CMA Name: Application Risk Level"
+  application_risk_level
+  "Risk score of the application, based on Cato's risk assessment. CMA Name: Application Risk Score"
+  application_risk_score
+  "Application type (Custom, Private or System). CMA Name: Application Type"
+  application_type
+  "Cato system category. CMA Name: Categories"
+  categories
+  "Cato system category of the application. CMA Name: Category"
+  category @deprecated(reason: "use categories instead. Planned end-of-life (EoL) date: June 30, 2026.")
+  "Type of process generating this traffic. CMA Name: Client Class"
+  client_class
+  "Socket or SDP Client version. CMA Name: Client Version"
+  client_version
+  "For hosts configured with a static IP in the Cato Management Application, the host name. CMA Name: Configured Host Name"
+  configured_host_name
+  "Connection Origin. CMA Name: Connection Origin"
+  connection_origin
+  "Application description. CMA Name: Description"
+  description @deprecated(reason: "use application_description instead. Planned end-of-life (EoL) date: June 30, 2026.")
+  "For Internet traffic, country where the destination host is located. CMA Name: Destination Country"
+  dest_country
+  "For Internet traffic, destination host IP address. CMA Name: Dest Ip"
+  dest_ip
+  "For WAN traffic, destination is site or SDP user. CMA Name: Dest Is Site Or Vpn"
+  dest_is_site_or_vpn
+  "Destination port. CMA Name: Destination Port"
+  dest_port
+  "Destination Site or VPN user ID (proto). CMA Name: Dest Site"
+  dest_site
+  "Unique internal Cato ID for the destination site or remote user. CMA Name: Dest Site ID"
+  dest_site_id
+  "For Internet traffic, destination host IP address. CMA Name: Dest Site Name"
+  dest_site_name
+  "Device Categories. CMA Name: Device Category"
+  device_categories
+  "Unique Cato ID for devices. CMA Name: Device ID"
+  device_id
+  "Device Manufacturer. CMA Name: Device Manufacturer"
+  device_manufacturer
+  "Device Model. CMA Name: Device Model"
+  device_model
+  "Name for device related to the traffic. CMA Name: Device Name"
+  device_name
+  "Device OS Type. CMA Name: Device OS Type"
+  device_os_type
+  "Device posture profiles. CMA Name: Device Posture Profile"
+  device_posture_profile
+  "Device Type. CMA Name: Device Type"
+  device_type
+  "Total SaaS apps discovered ever until the To in the timeframe. CMA Name: Discovered App"
+  discovered_app
+  "Domain name. CMA Name: Domain Name"
+  domain @deprecated(reason: "use tld instead. Planned end-of-life (EoL) date: July 1, 2026.")
+  "Bytes sent from the destination to the host. CMA Name: Downstream"
+  downstream
+  "Duration of the flow in ms. Only available for native flows data integration created in the CMA (e.g. Sentinel). Not available in the appstats or appstatsTimeSeries API."
+  duration
+  "Egress PoP Name. CMA Name: Egress PoP Name"
+  egress_pop_name
+  "Egress Site Name for backhauling traffic. CMA Name: Egress Site"
+  egress_site_name
+  "Uniquely identifies a traffic flow and enables correlation of events and other records related to the same flow. Only available for native flows data integration created in the CMA (e.g. Sentinel). Not available in the appstats or appstatsTimeSeries API."
+  flow_id
+  "Time stamp of the flow start (Linux epoch format). Only available for native flows data integration created in the CMA (e.g. Sentinel). Not available in the appstats or appstatsTimeSeries API."
+  flow_start_time
+  "Number of flows created for this event. CMA Name: Flows Created"
+  flows_created
+  "Full path URL application activity. CMA Name: Full Path URL"
+  full_path_url
+  "IP address of host related to event. CMA Name: Host IP"
+  host_ip
+  "MAC address of host related to event. CMA Name: Host MAC Address"
+  host_mac
+  "Country of the application headquarters. CMA Name: Hq Location"
+  hq_location
+  "HTTP request method (ie. Get, Post). CMA Name: Request Method"
+  http_request_method
+  "Local IP address of the host. CMA Name: Local Ip"
+  ip @deprecated(reason: "use src_ip/dest_ip instead. Planned end-of-life (EoL) date: July 1, 2026.")
+  "Network protocol for this event. CMA Name: IP Protocol"
+  ip_protocol
+  "Is the application a cloud application? (True/False). CMA Name: Is Cloud App"
+  is_cloud_app
+  "Is last sample for flow. Only available for native flows data integration created in the CMA (e.g. Sentinel). Not available in the appstats or appstatsTimeSeries API."
+  is_flow_terminated
+  "Is the app for this event defined as a sanctioned app? (True/False). CMA Name: Is Sanctioned App"
+  is_sanctioned_app
+  "The ISP related to this event (when the IP address isn't provided by the ISP, then the event message is IP Addresses are assigned statically). CMA Name: ISP Name"
+  ISP_name
+  "Matched network rule. CMA Name: Network Rule"
+  network_rule
+  "new_app. CMA Name: New App"
+  new_app
+  "OS version for the device (such as 14.3.0). CMA Name: OS Version"
+  os_version
+  "Name of PoP location. CMA Name: Pop Name"
+  pop_name
+  "QoS Priority value. CMA Name: QoS Priority"
+  qos_priority
+  "risk_level. CMA Name: Risk Level"
+  risk_level @deprecated(reason: "use application_risk_level instead. Planned end-of-life (EoL) date: June 30, 2026.")
+  "The application risk score assigned by Cato. CMA Name: Risk Score"
+  risk_score @deprecated(reason: "use application_risk_score instead. Planned end-of-life (EoL) date: June 30, 2026.")
+  "Is the application defined as sanctioned?. CMA Name: Sanctioned"
+  sanctioned @deprecated(reason: "use is_sanctioned_app instead. Planned end-of-life (EoL) date: June 30, 2026.")
+  "Country in which the source host is located. CMA Name: Site Country"
+  site_country
+  "State in which the source host is located. CMA Name: Site State"
+  site_state
+  "Name for Socket interface. CMA Name: Socket Interface"
+  socket_interface
+  "Country in which the source host is located (detected via public IP address). CMA Name: Source Country"
+  src_country
+  "Country Code of country in which the source host is located (detected via public IP address). CMA Name: Source Country Code"
+  src_country_code
+  "IP for host or Cato Client. CMA Name: Src Ip"
+  src_ip
+  "Source type: site or remote user. CMA Name: Src Is Site Or Vpn"
+  src_is_site_or_vpn
+  "IP address provided by ISP to site or Client. CMA Name: Source ISP IP"
+  src_isp_ip
+  "Internal port number. CMA Name: Source Port"
+  src_port
+  "Site country code alpha2. CMA Name: Src Site Country Code"
+  src_site_country_code
+  "Unique internal Cato ID for the site or remote user. CMA Name: Src Site ID"
+  src_site_id
+  "Source site or remote user. CMA Name: Src Site Name"
+  src_site_name
+  "Site state code. CMA Name: Src Site State"
+  src_site_state
+  "Name of subnet as defined in Cato Management Application. CMA Name: Subnet"
+  subnet @deprecated(reason: "use subnet_name instead. Planned end-of-life (EoL) date: June 30, 2026.")
+  "Name of subnet as defined in Cato Management Application. CMA Name: Subnet Name"
+  subnet_name
+  "Shows if traffic was TCP accelerated or not. CMA Name: TCP Acceleration"
+  tcp_acceleration
+  "Time stamp of the flow update (Human-readable format). Only available for native flows data integration created in the CMA (e.g. Sentinel). Not available in the appstats or appstatsTimeSeries API."
+  time_str
+  "Top Level Domain of the host name. CMA Name: Tld"
+  tld
+  "Shows if traffic was TLS inspected or not. CMA Name: TLS Inspection"
+  tls_inspection
+  "TLS Inspection rule name. CMA Name: TLS Rule Name"
+  tls_rule_name
+  "The total sum of upstream and downstream data in bytes. CMA Name: Traffic"
+  traffic
+  "Direction of network traffic for this event, values are inbound or outbound. CMA Name: Traffic Direction"
+  traffic_direction
+  "Translated Client IP. CMA Name: Translated Client IP"
+  translated_client_ip
+  "Translated Server IP. CMA Name: Translated Server IP"
+  translated_server_ip
+  "Bytes sent from the host to the destination. CMA Name: Upstream"
+  upstream
+  "Method used to get identity with User Awareness (such as Identity Agent). CMA Name: User Awareness Method"
+  user_awareness_method
+  "User ID. CMA Name: User ID"
+  user_id
+  "User that generated the event. CMA Name: User Name"
+  user_name
+  "User’s email address. CMA Name: SDP User Email"
+  vpn_user_email
+  "User ID. CMA Name: Vpn User ID"
+  vpn_user_id @deprecated(reason: "use user_id instead. Planned end-of-life (EoL) date: June 30, 2026.")
 }
 
 type CatalogApplicationContentType {
