@@ -53,26 +53,27 @@ func New(url string, token string, accountId string, httpClient *http.Client, he
 		httpClient = retryClient.StandardClient()
 	}
 
-	catoClient := &Client{
-		Client: clientv2.NewClient(httpClient, url, nil,
-			func(ctx context.Context, req *http.Request, gqlInfo *clientv2.GQLRequestInfo, res any, next clientv2.RequestInterceptorFunc) error {
-				req.Header.Set("x-api-key", token)
-				req.Header.Set("x-account-id", accountId)
-				for key, val := range headers {
-					req.Header.Set(key, val)
-				}
+	gqlClient := clientv2.NewClient(httpClient, url, nil,
+		func(ctx context.Context, req *http.Request, gqlInfo *clientv2.GQLRequestInfo, res any, next clientv2.RequestInterceptorFunc) error {
+			req.Header.Set("x-api-key", token)
+			req.Header.Set("x-account-id", accountId)
+			for key, val := range headers {
+				req.Header.Set(key, val)
+			}
 
-				// set a user-agent if not set by client
-				_, exists := headers["User-Agent"]
-				if !exists {
-					req.Header.Set("User-Agent", "Cato_Go_SDK/v0")
-				}
+			// set a user-agent if not set by client
+			_, exists := headers["User-Agent"]
+			if !exists {
+				req.Header.Set("User-Agent", "Cato_Go_SDK/v0")
+			}
 
-				return next(ctx, req, gqlInfo, res)
-			}),
+			return next(ctx, req, gqlInfo, res)
+		})
+	gqlClient.CustomDo = func(ctx context.Context, req *http.Request, gqlInfo *clientv2.GQLRequestInfo, res any) error {
+		return executeGQLWithTrace(ctx, gqlClient, req, gqlInfo, res)
 	}
 
-	return catoClient, nil
+	return &Client{Client: gqlClient}, nil
 }
 
 func baseRetryPolicy(ctx context.Context, resp *http.Response, err error) (bool, error) {
