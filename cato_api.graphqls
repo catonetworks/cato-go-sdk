@@ -2208,6 +2208,7 @@ type SiteQueries {
   siteBgpStatus(input: SiteBgpStatusInput!): SiteBgpStatus @beta
   siteGeneralDetails(site: SiteRefInput!): SiteGeneralDetailsPayload @beta
   siteSocketConfiguration(input: SiteSocketConfigurationInput!): SiteSocketConfiguration @beta
+  networkRangeList(input: NetworkRangeListInput!): NetworkRangeListPayload
 }
 
 input AddSecondaryAwsVSocketInput {
@@ -16923,3 +16924,48 @@ input ZtnaAlwaysOnUpdateRuleInput {
   id: ID!
   rule: ZtnaAlwaysOnUpdateRuleDataInput!
 }
+
+input NetworkRangeListInput {
+  site: SiteRefInput!
+}
+
+type NetworkRangeListPayload {
+  items: [NetworkRange!]!
+  total: Int!
+}
+
+type NetworkRange {
+  azureFloatingIp: IPAddress
+  dhcpSettings: NetworkRangeDhcpSettings
+  gateway: IPAddress
+  internetOnly: Boolean!
+  localIp: IPAddress
+  mdnsReflector: Boolean!
+  name: String!
+  networkRangeId: ID!
+  rangeType: SubnetType!
+  subnet: IPSubnet!
+  translatedSubnet: IPSubnet
+  vlan: Int
+}
+
+type NetworkRangeDhcpSettings {
+  dhcpMicrosegmentation: Boolean!
+  dhcpType: DhcpType!
+  ipRange: IPRange
+  leaseTimeSettings: DhcpLeaseTimeSettings
+  relayGroupId: ID
+}
+
+type DhcpLeaseTimeSettings {
+  leaseTime: Int!
+  timeUnit: LeaseTimeMeasureUnit!
+}
+
+enum LeaseTimeMeasureUnit {
+  DAYS
+  HOURS
+  MINUTES
+  SECONDS
+}
+
