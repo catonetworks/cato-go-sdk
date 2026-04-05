@@ -11336,6 +11336,7 @@ type SiteQueries struct {
 	SiteGeneralDetails      *SiteGeneralDetailsPayload `json:"siteGeneralDetails,omitempty"`
 	SiteSocketConfiguration *SiteSocketConfiguration   `json:"siteSocketConfiguration,omitempty"`
 	NetworkRangeList        *NetworkRangeListPayload   `json:"networkRangeList,omitempty"`
+	NetworkRange            *NetworkRange              `json:"networkRange,omitempty"`
 }
 
 // A reference identifying the Site object. ID: Unique Site Identifier, Name: The Site Name

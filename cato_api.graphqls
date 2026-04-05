@@ -2209,6 +2209,7 @@ type SiteQueries {
   siteGeneralDetails(site: SiteRefInput!): SiteGeneralDetailsPayload @beta
   siteSocketConfiguration(input: SiteSocketConfigurationInput!): SiteSocketConfiguration @beta
   networkRangeList(input: NetworkRangeListInput!): NetworkRangeListPayload
+  networkRange(networkRangeId: ID!): NetworkRange
 }
 
 input AddSecondaryAwsVSocketInput {
