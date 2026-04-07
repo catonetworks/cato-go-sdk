@@ -3,7 +3,6 @@
 package cato_models
 
 import (
-	"bytes"
 	"fmt"
 	"io"
 	"strconv"
@@ -16844,20 +16843,6 @@ func (e AccountInclusion) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
-func (e *AccountInclusion) UnmarshalJSON(b []byte) error {
-	s, err := strconv.Unquote(string(b))
-	if err != nil {
-		return err
-	}
-	return e.UnmarshalGQL(s)
-}
-
-func (e AccountInclusion) MarshalJSON() ([]byte, error) {
-	var buf bytes.Buffer
-	e.MarshalGQL(&buf)
-	return buf.Bytes(), nil
-}
-
 type AccountOperationsTimelineType string
 
 const (
@@ -16897,20 +16882,6 @@ func (e *AccountOperationsTimelineType) UnmarshalGQL(v any) error {
 
 func (e AccountOperationsTimelineType) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
-}
-
-func (e *AccountOperationsTimelineType) UnmarshalJSON(b []byte) error {
-	s, err := strconv.Unquote(string(b))
-	if err != nil {
-		return err
-	}
-	return e.UnmarshalGQL(s)
-}
-
-func (e AccountOperationsTimelineType) MarshalJSON() ([]byte, error) {
-	var buf bytes.Buffer
-	e.MarshalGQL(&buf)
-	return buf.Bytes(), nil
 }
 
 // enum that shows account license status
@@ -16953,20 +16924,6 @@ func (e *AccountPlan) UnmarshalGQL(v any) error {
 
 func (e AccountPlan) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
-}
-
-func (e *AccountPlan) UnmarshalJSON(b []byte) error {
-	s, err := strconv.Unquote(string(b))
-	if err != nil {
-		return err
-	}
-	return e.UnmarshalGQL(s)
-}
-
-func (e AccountPlan) MarshalJSON() ([]byte, error) {
-	var buf bytes.Buffer
-	e.MarshalGQL(&buf)
-	return buf.Bytes(), nil
 }
 
 // enum for account type
@@ -17013,20 +16970,6 @@ func (e AccountProfileType) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
-func (e *AccountProfileType) UnmarshalJSON(b []byte) error {
-	s, err := strconv.Unquote(string(b))
-	if err != nil {
-		return err
-	}
-	return e.UnmarshalGQL(s)
-}
-
-func (e AccountProfileType) MarshalJSON() ([]byte, error) {
-	var buf bytes.Buffer
-	e.MarshalGQL(&buf)
-	return buf.Bytes(), nil
-}
-
 // enum that shows account license status
 type AccountStatus string
 
@@ -17071,20 +17014,6 @@ func (e AccountStatus) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
-func (e *AccountStatus) UnmarshalJSON(b []byte) error {
-	s, err := strconv.Unquote(string(b))
-	if err != nil {
-		return err
-	}
-	return e.UnmarshalGQL(s)
-}
-
-func (e AccountStatus) MarshalJSON() ([]byte, error) {
-	var buf bytes.Buffer
-	e.MarshalGQL(&buf)
-	return buf.Bytes(), nil
-}
-
 // enum for account tenancy
 type AccountTenancy string
 
@@ -17127,20 +17056,6 @@ func (e *AccountTenancy) UnmarshalGQL(v any) error {
 
 func (e AccountTenancy) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
-}
-
-func (e *AccountTenancy) UnmarshalJSON(b []byte) error {
-	s, err := strconv.Unquote(string(b))
-	if err != nil {
-		return err
-	}
-	return e.UnmarshalGQL(s)
-}
-
-func (e AccountTenancy) MarshalJSON() ([]byte, error) {
-	var buf bytes.Buffer
-	e.MarshalGQL(&buf)
-	return buf.Bytes(), nil
 }
 
 type AccountType string
@@ -17188,20 +17103,6 @@ func (e AccountType) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
-func (e *AccountType) UnmarshalJSON(b []byte) error {
-	s, err := strconv.Unquote(string(b))
-	if err != nil {
-		return err
-	}
-	return e.UnmarshalGQL(s)
-}
-
-func (e AccountType) MarshalJSON() ([]byte, error) {
-	var buf bytes.Buffer
-	e.MarshalGQL(&buf)
-	return buf.Bytes(), nil
-}
-
 type AddressValidationStatus string
 
 const (
@@ -17245,20 +17146,6 @@ func (e AddressValidationStatus) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
-func (e *AddressValidationStatus) UnmarshalJSON(b []byte) error {
-	s, err := strconv.Unquote(string(b))
-	if err != nil {
-		return err
-	}
-	return e.UnmarshalGQL(s)
-}
-
-func (e AddressValidationStatus) MarshalJSON() ([]byte, error) {
-	var buf bytes.Buffer
-	e.MarshalGQL(&buf)
-	return buf.Bytes(), nil
-}
-
 type AdminType string
 
 const (
@@ -17298,20 +17185,6 @@ func (e *AdminType) UnmarshalGQL(v any) error {
 
 func (e AdminType) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
-}
-
-func (e *AdminType) UnmarshalJSON(b []byte) error {
-	s, err := strconv.Unquote(string(b))
-	if err != nil {
-		return err
-	}
-	return e.UnmarshalGQL(s)
-}
-
-func (e AdminType) MarshalJSON() ([]byte, error) {
-	var buf bytes.Buffer
-	e.MarshalGQL(&buf)
-	return buf.Bytes(), nil
 }
 
 type AggregationType string
@@ -17371,20 +17244,6 @@ func (e AggregationType) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
-func (e *AggregationType) UnmarshalJSON(b []byte) error {
-	s, err := strconv.Unquote(string(b))
-	if err != nil {
-		return err
-	}
-	return e.UnmarshalGQL(s)
-}
-
-func (e AggregationType) MarshalJSON() ([]byte, error) {
-	var buf bytes.Buffer
-	e.MarshalGQL(&buf)
-	return buf.Bytes(), nil
-}
-
 type AiOperationsIncidentTypeEnum string
 
 const (
@@ -17422,20 +17281,6 @@ func (e *AiOperationsIncidentTypeEnum) UnmarshalGQL(v any) error {
 
 func (e AiOperationsIncidentTypeEnum) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
-}
-
-func (e *AiOperationsIncidentTypeEnum) UnmarshalJSON(b []byte) error {
-	s, err := strconv.Unquote(string(b))
-	if err != nil {
-		return err
-	}
-	return e.UnmarshalGQL(s)
-}
-
-func (e AiOperationsIncidentTypeEnum) MarshalJSON() ([]byte, error) {
-	var buf bytes.Buffer
-	e.MarshalGQL(&buf)
-	return buf.Bytes(), nil
 }
 
 type AiSecurityDataUsagePolicyType string
@@ -17483,20 +17328,6 @@ func (e AiSecurityDataUsagePolicyType) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
-func (e *AiSecurityDataUsagePolicyType) UnmarshalJSON(b []byte) error {
-	s, err := strconv.Unquote(string(b))
-	if err != nil {
-		return err
-	}
-	return e.UnmarshalGQL(s)
-}
-
-func (e AiSecurityDataUsagePolicyType) MarshalJSON() ([]byte, error) {
-	var buf bytes.Buffer
-	e.MarshalGQL(&buf)
-	return buf.Bytes(), nil
-}
-
 type AiSecurityRisk string
 
 const (
@@ -17542,20 +17373,6 @@ func (e AiSecurityRisk) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
-func (e *AiSecurityRisk) UnmarshalJSON(b []byte) error {
-	s, err := strconv.Unquote(string(b))
-	if err != nil {
-		return err
-	}
-	return e.UnmarshalGQL(s)
-}
-
-func (e AiSecurityRisk) MarshalJSON() ([]byte, error) {
-	var buf bytes.Buffer
-	e.MarshalGQL(&buf)
-	return buf.Bytes(), nil
-}
-
 type AiSecurityScope string
 
 const (
@@ -17595,20 +17412,6 @@ func (e *AiSecurityScope) UnmarshalGQL(v any) error {
 
 func (e AiSecurityScope) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
-}
-
-func (e *AiSecurityScope) UnmarshalJSON(b []byte) error {
-	s, err := strconv.Unquote(string(b))
-	if err != nil {
-		return err
-	}
-	return e.UnmarshalGQL(s)
-}
-
-func (e AiSecurityScope) MarshalJSON() ([]byte, error) {
-	var buf bytes.Buffer
-	e.MarshalGQL(&buf)
-	return buf.Bytes(), nil
 }
 
 type AlertClassificationEnum string
@@ -17652,20 +17455,6 @@ func (e *AlertClassificationEnum) UnmarshalGQL(v any) error {
 
 func (e AlertClassificationEnum) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
-}
-
-func (e *AlertClassificationEnum) UnmarshalJSON(b []byte) error {
-	s, err := strconv.Unquote(string(b))
-	if err != nil {
-		return err
-	}
-	return e.UnmarshalGQL(s)
-}
-
-func (e AlertClassificationEnum) MarshalJSON() ([]byte, error) {
-	var buf bytes.Buffer
-	e.MarshalGQL(&buf)
-	return buf.Bytes(), nil
 }
 
 type AlertDeterminationEnum string
@@ -17733,20 +17522,6 @@ func (e AlertDeterminationEnum) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
-func (e *AlertDeterminationEnum) UnmarshalJSON(b []byte) error {
-	s, err := strconv.Unquote(string(b))
-	if err != nil {
-		return err
-	}
-	return e.UnmarshalGQL(s)
-}
-
-func (e AlertDeterminationEnum) MarshalJSON() ([]byte, error) {
-	var buf bytes.Buffer
-	e.MarshalGQL(&buf)
-	return buf.Bytes(), nil
-}
-
 type AnnotationType string
 
 const (
@@ -17796,20 +17571,6 @@ func (e AnnotationType) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
-func (e *AnnotationType) UnmarshalJSON(b []byte) error {
-	s, err := strconv.Unquote(string(b))
-	if err != nil {
-		return err
-	}
-	return e.UnmarshalGQL(s)
-}
-
-func (e AnnotationType) MarshalJSON() ([]byte, error) {
-	var buf bytes.Buffer
-	e.MarshalGQL(&buf)
-	return buf.Bytes(), nil
-}
-
 type AntiMalwareFileHashAction string
 
 const (
@@ -17851,20 +17612,6 @@ func (e *AntiMalwareFileHashAction) UnmarshalGQL(v any) error {
 
 func (e AntiMalwareFileHashAction) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
-}
-
-func (e *AntiMalwareFileHashAction) UnmarshalJSON(b []byte) error {
-	s, err := strconv.Unquote(string(b))
-	if err != nil {
-		return err
-	}
-	return e.UnmarshalGQL(s)
-}
-
-func (e AntiMalwareFileHashAction) MarshalJSON() ([]byte, error) {
-	var buf bytes.Buffer
-	e.MarshalGQL(&buf)
-	return buf.Bytes(), nil
 }
 
 // Specifies the level of protection against tampering
@@ -17914,20 +17661,6 @@ func (e AntiTamperModeEnum) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
-func (e *AntiTamperModeEnum) UnmarshalJSON(b []byte) error {
-	s, err := strconv.Unquote(string(b))
-	if err != nil {
-		return err
-	}
-	return e.UnmarshalGQL(s)
-}
-
-func (e AntiTamperModeEnum) MarshalJSON() ([]byte, error) {
-	var buf bytes.Buffer
-	e.MarshalGQL(&buf)
-	return buf.Bytes(), nil
-}
-
 type ApnMethod string
 
 const (
@@ -17969,20 +17702,6 @@ func (e *ApnMethod) UnmarshalGQL(v any) error {
 
 func (e ApnMethod) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
-}
-
-func (e *ApnMethod) UnmarshalJSON(b []byte) error {
-	s, err := strconv.Unquote(string(b))
-	if err != nil {
-		return err
-	}
-	return e.UnmarshalGQL(s)
-}
-
-func (e ApnMethod) MarshalJSON() ([]byte, error) {
-	var buf bytes.Buffer
-	e.MarshalGQL(&buf)
-	return buf.Bytes(), nil
 }
 
 type AppStatsFieldName string
@@ -18298,20 +18017,6 @@ func (e AppStatsFieldName) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
-func (e *AppStatsFieldName) UnmarshalJSON(b []byte) error {
-	s, err := strconv.Unquote(string(b))
-	if err != nil {
-		return err
-	}
-	return e.UnmarshalGQL(s)
-}
-
-func (e AppStatsFieldName) MarshalJSON() ([]byte, error) {
-	var buf bytes.Buffer
-	e.MarshalGQL(&buf)
-	return buf.Bytes(), nil
-}
-
 // Allowed actions
 type AppTenantRestrictionActionEnum string
 
@@ -18354,20 +18059,6 @@ func (e *AppTenantRestrictionActionEnum) UnmarshalGQL(v any) error {
 
 func (e AppTenantRestrictionActionEnum) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
-}
-
-func (e *AppTenantRestrictionActionEnum) UnmarshalJSON(b []byte) error {
-	s, err := strconv.Unquote(string(b))
-	if err != nil {
-		return err
-	}
-	return e.UnmarshalGQL(s)
-}
-
-func (e AppTenantRestrictionActionEnum) MarshalJSON() ([]byte, error) {
-	var buf bytes.Buffer
-	e.MarshalGQL(&buf)
-	return buf.Bytes(), nil
 }
 
 // Severity options
@@ -18417,20 +18108,6 @@ func (e AppTenantRestrictionSeverityEnum) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
-func (e *AppTenantRestrictionSeverityEnum) UnmarshalJSON(b []byte) error {
-	s, err := strconv.Unquote(string(b))
-	if err != nil {
-		return err
-	}
-	return e.UnmarshalGQL(s)
-}
-
-func (e AppTenantRestrictionSeverityEnum) MarshalJSON() ([]byte, error) {
-	var buf bytes.Buffer
-	e.MarshalGQL(&buf)
-	return buf.Bytes(), nil
-}
-
 // Application Control Access Method Type
 type ApplicationControlAccessMethodType string
 
@@ -18470,20 +18147,6 @@ func (e *ApplicationControlAccessMethodType) UnmarshalGQL(v any) error {
 
 func (e ApplicationControlAccessMethodType) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
-}
-
-func (e *ApplicationControlAccessMethodType) UnmarshalJSON(b []byte) error {
-	s, err := strconv.Unquote(string(b))
-	if err != nil {
-		return err
-	}
-	return e.UnmarshalGQL(s)
-}
-
-func (e ApplicationControlAccessMethodType) MarshalJSON() ([]byte, error) {
-	var buf bytes.Buffer
-	e.MarshalGQL(&buf)
-	return buf.Bytes(), nil
 }
 
 // Application Control Action
@@ -18533,20 +18196,6 @@ func (e ApplicationControlAction) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
-func (e *ApplicationControlAction) UnmarshalJSON(b []byte) error {
-	s, err := strconv.Unquote(string(b))
-	if err != nil {
-		return err
-	}
-	return e.UnmarshalGQL(s)
-}
-
-func (e ApplicationControlAction) MarshalJSON() ([]byte, error) {
-	var buf bytes.Buffer
-	e.MarshalGQL(&buf)
-	return buf.Bytes(), nil
-}
-
 // Attribute Value
 type ApplicationControlAttributeValue string
 
@@ -18594,20 +18243,6 @@ func (e ApplicationControlAttributeValue) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
-func (e *ApplicationControlAttributeValue) UnmarshalJSON(b []byte) error {
-	s, err := strconv.Unquote(string(b))
-	if err != nil {
-		return err
-	}
-	return e.UnmarshalGQL(s)
-}
-
-func (e ApplicationControlAttributeValue) MarshalJSON() ([]byte, error) {
-	var buf bytes.Buffer
-	e.MarshalGQL(&buf)
-	return buf.Bytes(), nil
-}
-
 // Application Control File Attribute Type
 type ApplicationControlFileAttributeType string
 
@@ -18653,20 +18288,6 @@ func (e *ApplicationControlFileAttributeType) UnmarshalGQL(v any) error {
 
 func (e ApplicationControlFileAttributeType) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
-}
-
-func (e *ApplicationControlFileAttributeType) UnmarshalJSON(b []byte) error {
-	s, err := strconv.Unquote(string(b))
-	if err != nil {
-		return err
-	}
-	return e.UnmarshalGQL(s)
-}
-
-func (e ApplicationControlFileAttributeType) MarshalJSON() ([]byte, error) {
-	var buf bytes.Buffer
-	e.MarshalGQL(&buf)
-	return buf.Bytes(), nil
 }
 
 // Application Control Operator
@@ -18722,20 +18343,6 @@ func (e ApplicationControlOperator) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
-func (e *ApplicationControlOperator) UnmarshalJSON(b []byte) error {
-	s, err := strconv.Unquote(string(b))
-	if err != nil {
-		return err
-	}
-	return e.UnmarshalGQL(s)
-}
-
-func (e ApplicationControlOperator) MarshalJSON() ([]byte, error) {
-	var buf bytes.Buffer
-	e.MarshalGQL(&buf)
-	return buf.Bytes(), nil
-}
-
 // Application Control Rule Type
 type ApplicationControlRuleType string
 
@@ -18783,20 +18390,6 @@ func (e ApplicationControlRuleType) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
-func (e *ApplicationControlRuleType) UnmarshalJSON(b []byte) error {
-	s, err := strconv.Unquote(string(b))
-	if err != nil {
-		return err
-	}
-	return e.UnmarshalGQL(s)
-}
-
-func (e ApplicationControlRuleType) MarshalJSON() ([]byte, error) {
-	var buf bytes.Buffer
-	e.MarshalGQL(&buf)
-	return buf.Bytes(), nil
-}
-
 // Application Control Satisfy
 type ApplicationControlSatisfy string
 
@@ -18839,20 +18432,6 @@ func (e *ApplicationControlSatisfy) UnmarshalGQL(v any) error {
 
 func (e ApplicationControlSatisfy) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
-}
-
-func (e *ApplicationControlSatisfy) UnmarshalJSON(b []byte) error {
-	s, err := strconv.Unquote(string(b))
-	if err != nil {
-		return err
-	}
-	return e.UnmarshalGQL(s)
-}
-
-func (e ApplicationControlSatisfy) MarshalJSON() ([]byte, error) {
-	var buf bytes.Buffer
-	e.MarshalGQL(&buf)
-	return buf.Bytes(), nil
 }
 
 // Severity level
@@ -18902,20 +18481,6 @@ func (e ApplicationControlSeverity) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
-func (e *ApplicationControlSeverity) UnmarshalJSON(b []byte) error {
-	s, err := strconv.Unquote(string(b))
-	if err != nil {
-		return err
-	}
-	return e.UnmarshalGQL(s)
-}
-
-func (e ApplicationControlSeverity) MarshalJSON() ([]byte, error) {
-	var buf bytes.Buffer
-	e.MarshalGQL(&buf)
-	return buf.Bytes(), nil
-}
-
 // Application Type
 type ApplicationType string
 
@@ -18961,20 +18526,6 @@ func (e *ApplicationType) UnmarshalGQL(v any) error {
 
 func (e ApplicationType) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
-}
-
-func (e *ApplicationType) UnmarshalJSON(b []byte) error {
-	s, err := strconv.Unquote(string(b))
-	if err != nil {
-		return err
-	}
-	return e.UnmarshalGQL(s)
-}
-
-func (e ApplicationType) MarshalJSON() ([]byte, error) {
-	var buf bytes.Buffer
-	e.MarshalGQL(&buf)
-	return buf.Bytes(), nil
 }
 
 type AuditFieldName string
@@ -19049,20 +18600,6 @@ func (e AuditFieldName) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
-func (e *AuditFieldName) UnmarshalJSON(b []byte) error {
-	s, err := strconv.Unquote(string(b))
-	if err != nil {
-		return err
-	}
-	return e.UnmarshalGQL(s)
-}
-
-func (e AuditFieldName) MarshalJSON() ([]byte, error) {
-	var buf bytes.Buffer
-	e.MarshalGQL(&buf)
-	return buf.Bytes(), nil
-}
-
 type BgpCommunityFilterPredicate string
 
 const (
@@ -19106,20 +18643,6 @@ func (e BgpCommunityFilterPredicate) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
-func (e *BgpCommunityFilterPredicate) UnmarshalJSON(b []byte) error {
-	s, err := strconv.Unquote(string(b))
-	if err != nil {
-		return err
-	}
-	return e.UnmarshalGQL(s)
-}
-
-func (e BgpCommunityFilterPredicate) MarshalJSON() ([]byte, error) {
-	var buf bytes.Buffer
-	e.MarshalGQL(&buf)
-	return buf.Bytes(), nil
-}
-
 type BgpDefaultAction string
 
 const (
@@ -19161,20 +18684,6 @@ func (e *BgpDefaultAction) UnmarshalGQL(v any) error {
 
 func (e BgpDefaultAction) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
-}
-
-func (e *BgpDefaultAction) UnmarshalJSON(b []byte) error {
-	s, err := strconv.Unquote(string(b))
-	if err != nil {
-		return err
-	}
-	return e.UnmarshalGQL(s)
-}
-
-func (e BgpDefaultAction) MarshalJSON() ([]byte, error) {
-	var buf bytes.Buffer
-	e.MarshalGQL(&buf)
-	return buf.Bytes(), nil
 }
 
 type BgpState string
@@ -19228,20 +18737,6 @@ func (e BgpState) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
-func (e *BgpState) UnmarshalJSON(b []byte) error {
-	s, err := strconv.Unquote(string(b))
-	if err != nil {
-		return err
-	}
-	return e.UnmarshalGQL(s)
-}
-
-func (e BgpState) MarshalJSON() ([]byte, error) {
-	var buf bytes.Buffer
-	e.MarshalGQL(&buf)
-	return buf.Bytes(), nil
-}
-
 type CatalogApplicationActivityFieldOperator string
 
 const (
@@ -19289,20 +18784,6 @@ func (e CatalogApplicationActivityFieldOperator) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
-func (e *CatalogApplicationActivityFieldOperator) UnmarshalJSON(b []byte) error {
-	s, err := strconv.Unquote(string(b))
-	if err != nil {
-		return err
-	}
-	return e.UnmarshalGQL(s)
-}
-
-func (e CatalogApplicationActivityFieldOperator) MarshalJSON() ([]byte, error) {
-	var buf bytes.Buffer
-	e.MarshalGQL(&buf)
-	return buf.Bytes(), nil
-}
-
 type CatalogApplicationAttribute string
 
 const (
@@ -19344,20 +18825,6 @@ func (e *CatalogApplicationAttribute) UnmarshalGQL(v any) error {
 
 func (e CatalogApplicationAttribute) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
-}
-
-func (e *CatalogApplicationAttribute) UnmarshalJSON(b []byte) error {
-	s, err := strconv.Unquote(string(b))
-	if err != nil {
-		return err
-	}
-	return e.UnmarshalGQL(s)
-}
-
-func (e CatalogApplicationAttribute) MarshalJSON() ([]byte, error) {
-	var buf bytes.Buffer
-	e.MarshalGQL(&buf)
-	return buf.Bytes(), nil
 }
 
 type CatalogApplicationCapability string
@@ -19419,20 +18886,6 @@ func (e CatalogApplicationCapability) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
-func (e *CatalogApplicationCapability) UnmarshalJSON(b []byte) error {
-	s, err := strconv.Unquote(string(b))
-	if err != nil {
-		return err
-	}
-	return e.UnmarshalGQL(s)
-}
-
-func (e CatalogApplicationCapability) MarshalJSON() ([]byte, error) {
-	var buf bytes.Buffer
-	e.MarshalGQL(&buf)
-	return buf.Bytes(), nil
-}
-
 type CatalogApplicationDataDeletionPolicy string
 
 const (
@@ -19484,20 +18937,6 @@ func (e CatalogApplicationDataDeletionPolicy) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
-func (e *CatalogApplicationDataDeletionPolicy) UnmarshalJSON(b []byte) error {
-	s, err := strconv.Unquote(string(b))
-	if err != nil {
-		return err
-	}
-	return e.UnmarshalGQL(s)
-}
-
-func (e CatalogApplicationDataDeletionPolicy) MarshalJSON() ([]byte, error) {
-	var buf bytes.Buffer
-	e.MarshalGQL(&buf)
-	return buf.Bytes(), nil
-}
-
 type CatalogApplicationDataOwnership string
 
 const (
@@ -19541,20 +18980,6 @@ func (e *CatalogApplicationDataOwnership) UnmarshalGQL(v any) error {
 
 func (e CatalogApplicationDataOwnership) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
-}
-
-func (e *CatalogApplicationDataOwnership) UnmarshalJSON(b []byte) error {
-	s, err := strconv.Unquote(string(b))
-	if err != nil {
-		return err
-	}
-	return e.UnmarshalGQL(s)
-}
-
-func (e CatalogApplicationDataOwnership) MarshalJSON() ([]byte, error) {
-	var buf bytes.Buffer
-	e.MarshalGQL(&buf)
-	return buf.Bytes(), nil
 }
 
 type CatalogApplicationDataRetentionPolicy string
@@ -19608,20 +19033,6 @@ func (e CatalogApplicationDataRetentionPolicy) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
-func (e *CatalogApplicationDataRetentionPolicy) UnmarshalJSON(b []byte) error {
-	s, err := strconv.Unquote(string(b))
-	if err != nil {
-		return err
-	}
-	return e.UnmarshalGQL(s)
-}
-
-func (e CatalogApplicationDataRetentionPolicy) MarshalJSON() ([]byte, error) {
-	var buf bytes.Buffer
-	e.MarshalGQL(&buf)
-	return buf.Bytes(), nil
-}
-
 type CatalogApplicationEncryptionStrengthAtRest string
 
 const (
@@ -19671,20 +19082,6 @@ func (e CatalogApplicationEncryptionStrengthAtRest) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
-func (e *CatalogApplicationEncryptionStrengthAtRest) UnmarshalJSON(b []byte) error {
-	s, err := strconv.Unquote(string(b))
-	if err != nil {
-		return err
-	}
-	return e.UnmarshalGQL(s)
-}
-
-func (e CatalogApplicationEncryptionStrengthAtRest) MarshalJSON() ([]byte, error) {
-	var buf bytes.Buffer
-	e.MarshalGQL(&buf)
-	return buf.Bytes(), nil
-}
-
 type CatalogApplicationTLSVersionSupport string
 
 const (
@@ -19732,20 +19129,6 @@ func (e CatalogApplicationTLSVersionSupport) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
-func (e *CatalogApplicationTLSVersionSupport) UnmarshalJSON(b []byte) error {
-	s, err := strconv.Unquote(string(b))
-	if err != nil {
-		return err
-	}
-	return e.UnmarshalGQL(s)
-}
-
-func (e CatalogApplicationTLSVersionSupport) MarshalJSON() ([]byte, error) {
-	var buf bytes.Buffer
-	e.MarshalGQL(&buf)
-	return buf.Bytes(), nil
-}
-
 type CatalogApplicationType string
 
 const (
@@ -19787,20 +19170,6 @@ func (e *CatalogApplicationType) UnmarshalGQL(v any) error {
 
 func (e CatalogApplicationType) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
-}
-
-func (e *CatalogApplicationType) UnmarshalJSON(b []byte) error {
-	s, err := strconv.Unquote(string(b))
-	if err != nil {
-		return err
-	}
-	return e.UnmarshalGQL(s)
-}
-
-func (e CatalogApplicationType) MarshalJSON() ([]byte, error) {
-	var buf bytes.Buffer
-	e.MarshalGQL(&buf)
-	return buf.Bytes(), nil
 }
 
 type CatalogApplicationWeakCipherSupport string
@@ -19854,20 +19223,6 @@ func (e CatalogApplicationWeakCipherSupport) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
-func (e *CatalogApplicationWeakCipherSupport) UnmarshalJSON(b []byte) error {
-	s, err := strconv.Unquote(string(b))
-	if err != nil {
-		return err
-	}
-	return e.UnmarshalGQL(s)
-}
-
-func (e CatalogApplicationWeakCipherSupport) MarshalJSON() ([]byte, error) {
-	var buf bytes.Buffer
-	e.MarshalGQL(&buf)
-	return buf.Bytes(), nil
-}
-
 type CatoEndpointEngineType string
 
 const (
@@ -19909,20 +19264,6 @@ func (e CatoEndpointEngineType) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
-func (e *CatoEndpointEngineType) UnmarshalJSON(b []byte) error {
-	s, err := strconv.Unquote(string(b))
-	if err != nil {
-		return err
-	}
-	return e.UnmarshalGQL(s)
-}
-
-func (e CatoEndpointEngineType) MarshalJSON() ([]byte, error) {
-	var buf bytes.Buffer
-	e.MarshalGQL(&buf)
-	return buf.Bytes(), nil
-}
-
 type CellularDisconnectionReason string
 
 const (
@@ -19962,20 +19303,6 @@ func (e *CellularDisconnectionReason) UnmarshalGQL(v any) error {
 
 func (e CellularDisconnectionReason) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
-}
-
-func (e *CellularDisconnectionReason) UnmarshalJSON(b []byte) error {
-	s, err := strconv.Unquote(string(b))
-	if err != nil {
-		return err
-	}
-	return e.UnmarshalGQL(s)
-}
-
-func (e CellularDisconnectionReason) MarshalJSON() ([]byte, error) {
-	var buf bytes.Buffer
-	e.MarshalGQL(&buf)
-	return buf.Bytes(), nil
 }
 
 type CellularModemStatus string
@@ -20021,20 +19348,6 @@ func (e CellularModemStatus) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
-func (e *CellularModemStatus) UnmarshalJSON(b []byte) error {
-	s, err := strconv.Unquote(string(b))
-	if err != nil {
-		return err
-	}
-	return e.UnmarshalGQL(s)
-}
-
-func (e CellularModemStatus) MarshalJSON() ([]byte, error) {
-	var buf bytes.Buffer
-	e.MarshalGQL(&buf)
-	return buf.Bytes(), nil
-}
-
 type CellularNetworkType string
 
 const (
@@ -20078,20 +19391,6 @@ func (e *CellularNetworkType) UnmarshalGQL(v any) error {
 
 func (e CellularNetworkType) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
-}
-
-func (e *CellularNetworkType) UnmarshalJSON(b []byte) error {
-	s, err := strconv.Unquote(string(b))
-	if err != nil {
-		return err
-	}
-	return e.UnmarshalGQL(s)
-}
-
-func (e CellularNetworkType) MarshalJSON() ([]byte, error) {
-	var buf bytes.Buffer
-	e.MarshalGQL(&buf)
-	return buf.Bytes(), nil
 }
 
 // The action applied by the client connectivity if the rule is matched
@@ -20141,20 +19440,6 @@ func (e ClientConnectivityActionEnum) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
-func (e *ClientConnectivityActionEnum) UnmarshalJSON(b []byte) error {
-	s, err := strconv.Unquote(string(b))
-	if err != nil {
-		return err
-	}
-	return e.UnmarshalGQL(s)
-}
-
-func (e ClientConnectivityActionEnum) MarshalJSON() ([]byte, error) {
-	var buf bytes.Buffer
-	e.MarshalGQL(&buf)
-	return buf.Bytes(), nil
-}
-
 // Describe how reliable the user's authentication is
 type ClientConnectivityConfidenceLevelEnum string
 
@@ -20200,20 +19485,6 @@ func (e *ClientConnectivityConfidenceLevelEnum) UnmarshalGQL(v any) error {
 
 func (e ClientConnectivityConfidenceLevelEnum) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
-}
-
-func (e *ClientConnectivityConfidenceLevelEnum) UnmarshalJSON(b []byte) error {
-	s, err := strconv.Unquote(string(b))
-	if err != nil {
-		return err
-	}
-	return e.UnmarshalGQL(s)
-}
-
-func (e ClientConnectivityConfidenceLevelEnum) MarshalJSON() ([]byte, error) {
-	var buf bytes.Buffer
-	e.MarshalGQL(&buf)
-	return buf.Bytes(), nil
 }
 
 // Defines Origin of the connection
@@ -20263,20 +19534,6 @@ func (e ClientConnectivityOriginEnum) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
-func (e *ClientConnectivityOriginEnum) UnmarshalJSON(b []byte) error {
-	s, err := strconv.Unquote(string(b))
-	if err != nil {
-		return err
-	}
-	return e.UnmarshalGQL(s)
-}
-
-func (e ClientConnectivityOriginEnum) MarshalJSON() ([]byte, error) {
-	var buf bytes.Buffer
-	e.MarshalGQL(&buf)
-	return buf.Bytes(), nil
-}
-
 type ConnectionMode string
 
 const (
@@ -20316,20 +19573,6 @@ func (e *ConnectionMode) UnmarshalGQL(v any) error {
 
 func (e ConnectionMode) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
-}
-
-func (e *ConnectionMode) UnmarshalJSON(b []byte) error {
-	s, err := strconv.Unquote(string(b))
-	if err != nil {
-		return err
-	}
-	return e.UnmarshalGQL(s)
-}
-
-func (e ConnectionMode) MarshalJSON() ([]byte, error) {
-	var buf bytes.Buffer
-	e.MarshalGQL(&buf)
-	return buf.Bytes(), nil
 }
 
 type ConnectionOriginEnum string
@@ -20375,20 +19618,6 @@ func (e ConnectionOriginEnum) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
-func (e *ConnectionOriginEnum) UnmarshalJSON(b []byte) error {
-	s, err := strconv.Unquote(string(b))
-	if err != nil {
-		return err
-	}
-	return e.UnmarshalGQL(s)
-}
-
-func (e ConnectionOriginEnum) MarshalJSON() ([]byte, error) {
-	var buf bytes.Buffer
-	e.MarshalGQL(&buf)
-	return buf.Bytes(), nil
-}
-
 type ConnectionTypeEnum string
 
 const (
@@ -20430,20 +19659,6 @@ func (e *ConnectionTypeEnum) UnmarshalGQL(v any) error {
 
 func (e ConnectionTypeEnum) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
-}
-
-func (e *ConnectionTypeEnum) UnmarshalJSON(b []byte) error {
-	s, err := strconv.Unquote(string(b))
-	if err != nil {
-		return err
-	}
-	return e.UnmarshalGQL(s)
-}
-
-func (e ConnectionTypeEnum) MarshalJSON() ([]byte, error) {
-	var buf bytes.Buffer
-	e.MarshalGQL(&buf)
-	return buf.Bytes(), nil
 }
 
 type ConnectivityStatus string
@@ -20489,20 +19704,6 @@ func (e ConnectivityStatus) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
-func (e *ConnectivityStatus) UnmarshalJSON(b []byte) error {
-	s, err := strconv.Unquote(string(b))
-	if err != nil {
-		return err
-	}
-	return e.UnmarshalGQL(s)
-}
-
-func (e ConnectivityStatus) MarshalJSON() ([]byte, error) {
-	var buf bytes.Buffer
-	e.MarshalGQL(&buf)
-	return buf.Bytes(), nil
-}
-
 type ContainerFileType string
 
 const (
@@ -20542,20 +19743,6 @@ func (e *ContainerFileType) UnmarshalGQL(v any) error {
 
 func (e ContainerFileType) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
-}
-
-func (e *ContainerFileType) UnmarshalJSON(b []byte) error {
-	s, err := strconv.Unquote(string(b))
-	if err != nil {
-		return err
-	}
-	return e.UnmarshalGQL(s)
-}
-
-func (e ContainerFileType) MarshalJSON() ([]byte, error) {
-	var buf bytes.Buffer
-	e.MarshalGQL(&buf)
-	return buf.Bytes(), nil
 }
 
 type ContainerSyncDataTimeUnit string
@@ -20599,20 +19786,6 @@ func (e ContainerSyncDataTimeUnit) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
-func (e *ContainerSyncDataTimeUnit) UnmarshalJSON(b []byte) error {
-	s, err := strconv.Unquote(string(b))
-	if err != nil {
-		return err
-	}
-	return e.UnmarshalGQL(s)
-}
-
-func (e ContainerSyncDataTimeUnit) MarshalJSON() ([]byte, error) {
-	var buf bytes.Buffer
-	e.MarshalGQL(&buf)
-	return buf.Bytes(), nil
-}
-
 type ContainerType string
 
 const (
@@ -20652,20 +19825,6 @@ func (e *ContainerType) UnmarshalGQL(v any) error {
 
 func (e ContainerType) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
-}
-
-func (e *ContainerType) UnmarshalJSON(b []byte) error {
-	s, err := strconv.Unquote(string(b))
-	if err != nil {
-		return err
-	}
-	return e.UnmarshalGQL(s)
-}
-
-func (e ContainerType) MarshalJSON() ([]byte, error) {
-	var buf bytes.Buffer
-	e.MarshalGQL(&buf)
-	return buf.Bytes(), nil
 }
 
 type DayOfWeek string
@@ -20717,20 +19876,6 @@ func (e *DayOfWeek) UnmarshalGQL(v any) error {
 
 func (e DayOfWeek) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
-}
-
-func (e *DayOfWeek) UnmarshalJSON(b []byte) error {
-	s, err := strconv.Unquote(string(b))
-	if err != nil {
-		return err
-	}
-	return e.UnmarshalGQL(s)
-}
-
-func (e DayOfWeek) MarshalJSON() ([]byte, error) {
-	var buf bytes.Buffer
-	e.MarshalGQL(&buf)
-	return buf.Bytes(), nil
 }
 
 type DegradedStatusReason string
@@ -20794,20 +19939,6 @@ func (e DegradedStatusReason) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
-func (e *DegradedStatusReason) UnmarshalJSON(b []byte) error {
-	s, err := strconv.Unquote(string(b))
-	if err != nil {
-		return err
-	}
-	return e.UnmarshalGQL(s)
-}
-
-func (e DegradedStatusReason) MarshalJSON() ([]byte, error) {
-	var buf bytes.Buffer
-	e.MarshalGQL(&buf)
-	return buf.Bytes(), nil
-}
-
 type DestinationType string
 
 const (
@@ -20847,20 +19978,6 @@ func (e *DestinationType) UnmarshalGQL(v any) error {
 
 func (e DestinationType) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
-}
-
-func (e *DestinationType) UnmarshalJSON(b []byte) error {
-	s, err := strconv.Unquote(string(b))
-	if err != nil {
-		return err
-	}
-	return e.UnmarshalGQL(s)
-}
-
-func (e DestinationType) MarshalJSON() ([]byte, error) {
-	var buf bytes.Buffer
-	e.MarshalGQL(&buf)
-	return buf.Bytes(), nil
 }
 
 type DetectionSourceEnum string
@@ -20932,20 +20049,6 @@ func (e DetectionSourceEnum) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
-func (e *DetectionSourceEnum) UnmarshalJSON(b []byte) error {
-	s, err := strconv.Unquote(string(b))
-	if err != nil {
-		return err
-	}
-	return e.UnmarshalGQL(s)
-}
-
-func (e DetectionSourceEnum) MarshalJSON() ([]byte, error) {
-	var buf bytes.Buffer
-	e.MarshalGQL(&buf)
-	return buf.Bytes(), nil
-}
-
 type DetectionStatusEnum string
 
 const (
@@ -20987,20 +20090,6 @@ func (e *DetectionStatusEnum) UnmarshalGQL(v any) error {
 
 func (e DetectionStatusEnum) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
-}
-
-func (e *DetectionStatusEnum) UnmarshalJSON(b []byte) error {
-	s, err := strconv.Unquote(string(b))
-	if err != nil {
-		return err
-	}
-	return e.UnmarshalGQL(s)
-}
-
-func (e DetectionStatusEnum) MarshalJSON() ([]byte, error) {
-	var buf bytes.Buffer
-	e.MarshalGQL(&buf)
-	return buf.Bytes(), nil
 }
 
 type DeviceAvStatusEnum string
@@ -21046,20 +20135,6 @@ func (e *DeviceAvStatusEnum) UnmarshalGQL(v any) error {
 
 func (e DeviceAvStatusEnum) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
-}
-
-func (e *DeviceAvStatusEnum) UnmarshalJSON(b []byte) error {
-	s, err := strconv.Unquote(string(b))
-	if err != nil {
-		return err
-	}
-	return e.UnmarshalGQL(s)
-}
-
-func (e DeviceAvStatusEnum) MarshalJSON() ([]byte, error) {
-	var buf bytes.Buffer
-	e.MarshalGQL(&buf)
-	return buf.Bytes(), nil
 }
 
 type DeviceCategory string
@@ -21111,20 +20186,6 @@ func (e DeviceCategory) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
-func (e *DeviceCategory) UnmarshalJSON(b []byte) error {
-	s, err := strconv.Unquote(string(b))
-	if err != nil {
-		return err
-	}
-	return e.UnmarshalGQL(s)
-}
-
-func (e DeviceCategory) MarshalJSON() ([]byte, error) {
-	var buf bytes.Buffer
-	e.MarshalGQL(&buf)
-	return buf.Bytes(), nil
-}
-
 type DeviceConfidenceLevel string
 
 const (
@@ -21171,20 +20232,6 @@ func (e DeviceConfidenceLevel) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
-func (e *DeviceConfidenceLevel) UnmarshalJSON(b []byte) error {
-	s, err := strconv.Unquote(string(b))
-	if err != nil {
-		return err
-	}
-	return e.UnmarshalGQL(s)
-}
-
-func (e DeviceConfidenceLevel) MarshalJSON() ([]byte, error) {
-	var buf bytes.Buffer
-	e.MarshalGQL(&buf)
-	return buf.Bytes(), nil
-}
-
 type DeviceConfigHaRoleEnum string
 
 const (
@@ -21226,20 +20273,6 @@ func (e DeviceConfigHaRoleEnum) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
-func (e *DeviceConfigHaRoleEnum) UnmarshalJSON(b []byte) error {
-	s, err := strconv.Unquote(string(b))
-	if err != nil {
-		return err
-	}
-	return e.UnmarshalGQL(s)
-}
-
-func (e DeviceConfigHaRoleEnum) MarshalJSON() ([]byte, error) {
-	var buf bytes.Buffer
-	e.MarshalGQL(&buf)
-	return buf.Bytes(), nil
-}
-
 type DeviceHaRoleStateEnum string
 
 const (
@@ -21279,20 +20312,6 @@ func (e *DeviceHaRoleStateEnum) UnmarshalGQL(v any) error {
 
 func (e DeviceHaRoleStateEnum) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
-}
-
-func (e *DeviceHaRoleStateEnum) UnmarshalJSON(b []byte) error {
-	s, err := strconv.Unquote(string(b))
-	if err != nil {
-		return err
-	}
-	return e.UnmarshalGQL(s)
-}
-
-func (e DeviceHaRoleStateEnum) MarshalJSON() ([]byte, error) {
-	var buf bytes.Buffer
-	e.MarshalGQL(&buf)
-	return buf.Bytes(), nil
 }
 
 type DeviceHealthStatusEnum string
@@ -21340,20 +20359,6 @@ func (e *DeviceHealthStatusEnum) UnmarshalGQL(v any) error {
 
 func (e DeviceHealthStatusEnum) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
-}
-
-func (e *DeviceHealthStatusEnum) UnmarshalJSON(b []byte) error {
-	s, err := strconv.Unquote(string(b))
-	if err != nil {
-		return err
-	}
-	return e.UnmarshalGQL(s)
-}
-
-func (e DeviceHealthStatusEnum) MarshalJSON() ([]byte, error) {
-	var buf bytes.Buffer
-	e.MarshalGQL(&buf)
-	return buf.Bytes(), nil
 }
 
 type DeviceV2Category string
@@ -21405,20 +20410,6 @@ func (e DeviceV2Category) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
-func (e *DeviceV2Category) UnmarshalJSON(b []byte) error {
-	s, err := strconv.Unquote(string(b))
-	if err != nil {
-		return err
-	}
-	return e.UnmarshalGQL(s)
-}
-
-func (e DeviceV2Category) MarshalJSON() ([]byte, error) {
-	var buf bytes.Buffer
-	e.MarshalGQL(&buf)
-	return buf.Bytes(), nil
-}
-
 type DhcpType string
 
 const (
@@ -21464,20 +20455,6 @@ func (e DhcpType) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
-func (e *DhcpType) UnmarshalJSON(b []byte) error {
-	s, err := strconv.Unquote(string(b))
-	if err != nil {
-		return err
-	}
-	return e.UnmarshalGQL(s)
-}
-
-func (e DhcpType) MarshalJSON() ([]byte, error) {
-	var buf bytes.Buffer
-	e.MarshalGQL(&buf)
-	return buf.Bytes(), nil
-}
-
 type DirectionEnum string
 
 const (
@@ -21519,20 +20496,6 @@ func (e DirectionEnum) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
-func (e *DirectionEnum) UnmarshalJSON(b []byte) error {
-	s, err := strconv.Unquote(string(b))
-	if err != nil {
-		return err
-	}
-	return e.UnmarshalGQL(s)
-}
-
-func (e DirectionEnum) MarshalJSON() ([]byte, error) {
-	var buf bytes.Buffer
-	e.MarshalGQL(&buf)
-	return buf.Bytes(), nil
-}
-
 type DirectionInput string
 
 const (
@@ -21572,20 +20535,6 @@ func (e *DirectionInput) UnmarshalGQL(v any) error {
 
 func (e DirectionInput) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
-}
-
-func (e *DirectionInput) UnmarshalJSON(b []byte) error {
-	s, err := strconv.Unquote(string(b))
-	if err != nil {
-		return err
-	}
-	return e.UnmarshalGQL(s)
-}
-
-func (e DirectionInput) MarshalJSON() ([]byte, error) {
-	var buf bytes.Buffer
-	e.MarshalGQL(&buf)
-	return buf.Bytes(), nil
 }
 
 // The DPA agreement, based on your contract with Cato
@@ -21630,20 +20579,6 @@ func (e *DpaVersion) UnmarshalGQL(v any) error {
 
 func (e DpaVersion) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
-}
-
-func (e *DpaVersion) UnmarshalJSON(b []byte) error {
-	s, err := strconv.Unquote(string(b))
-	if err != nil {
-		return err
-	}
-	return e.UnmarshalGQL(s)
-}
-
-func (e DpaVersion) MarshalJSON() ([]byte, error) {
-	var buf bytes.Buffer
-	e.MarshalGQL(&buf)
-	return buf.Bytes(), nil
 }
 
 // Search operators on ElasticSearch. Between operators are applicable only to numeric fields
@@ -21699,20 +20634,6 @@ func (e *ElasticOperator) UnmarshalGQL(v any) error {
 
 func (e ElasticOperator) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
-}
-
-func (e *ElasticOperator) UnmarshalJSON(b []byte) error {
-	s, err := strconv.Unquote(string(b))
-	if err != nil {
-		return err
-	}
-	return e.UnmarshalGQL(s)
-}
-
-func (e ElasticOperator) MarshalJSON() ([]byte, error) {
-	var buf bytes.Buffer
-	e.MarshalGQL(&buf)
-	return buf.Bytes(), nil
 }
 
 type EmployeeRange string
@@ -21777,20 +20698,6 @@ func (e *EmployeeRange) UnmarshalGQL(v any) error {
 
 func (e EmployeeRange) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
-}
-
-func (e *EmployeeRange) UnmarshalJSON(b []byte) error {
-	s, err := strconv.Unquote(string(b))
-	if err != nil {
-		return err
-	}
-	return e.UnmarshalGQL(s)
-}
-
-func (e EmployeeRange) MarshalJSON() ([]byte, error) {
-	var buf bytes.Buffer
-	e.MarshalGQL(&buf)
-	return buf.Bytes(), nil
 }
 
 type EntityType string
@@ -21925,20 +20832,6 @@ func (e EntityType) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
-func (e *EntityType) UnmarshalJSON(b []byte) error {
-	s, err := strconv.Unquote(string(b))
-	if err != nil {
-		return err
-	}
-	return e.UnmarshalGQL(s)
-}
-
-func (e EntityType) MarshalJSON() ([]byte, error) {
-	var buf bytes.Buffer
-	e.MarshalGQL(&buf)
-	return buf.Bytes(), nil
-}
-
 type EventFeedFilterFieldName string
 
 const (
@@ -21980,20 +20873,6 @@ func (e *EventFeedFilterFieldName) UnmarshalGQL(v any) error {
 
 func (e EventFeedFilterFieldName) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
-}
-
-func (e *EventFeedFilterFieldName) UnmarshalJSON(b []byte) error {
-	s, err := strconv.Unquote(string(b))
-	if err != nil {
-		return err
-	}
-	return e.UnmarshalGQL(s)
-}
-
-func (e EventFeedFilterFieldName) MarshalJSON() ([]byte, error) {
-	var buf bytes.Buffer
-	e.MarshalGQL(&buf)
-	return buf.Bytes(), nil
 }
 
 // Search operators on Event Feed
@@ -22040,20 +20919,6 @@ func (e *EventFeedFilterOperator) UnmarshalGQL(v any) error {
 
 func (e EventFeedFilterOperator) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
-}
-
-func (e *EventFeedFilterOperator) UnmarshalJSON(b []byte) error {
-	s, err := strconv.Unquote(string(b))
-	if err != nil {
-		return err
-	}
-	return e.UnmarshalGQL(s)
-}
-
-func (e EventFeedFilterOperator) MarshalJSON() ([]byte, error) {
-	var buf bytes.Buffer
-	e.MarshalGQL(&buf)
-	return buf.Bytes(), nil
 }
 
 type EventFieldName string
@@ -23026,20 +21891,6 @@ func (e EventFieldName) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
-func (e *EventFieldName) UnmarshalJSON(b []byte) error {
-	s, err := strconv.Unquote(string(b))
-	if err != nil {
-		return err
-	}
-	return e.UnmarshalGQL(s)
-}
-
-func (e EventFieldName) MarshalJSON() ([]byte, error) {
-	var buf bytes.Buffer
-	e.MarshalGQL(&buf)
-	return buf.Bytes(), nil
-}
-
 // Status values for export job lifecycle
 type ExportJobStatus string
 
@@ -23088,20 +21939,6 @@ func (e *ExportJobStatus) UnmarshalGQL(v any) error {
 
 func (e ExportJobStatus) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
-}
-
-func (e *ExportJobStatus) UnmarshalJSON(b []byte) error {
-	s, err := strconv.Unquote(string(b))
-	if err != nil {
-		return err
-	}
-	return e.UnmarshalGQL(s)
-}
-
-func (e ExportJobStatus) MarshalJSON() ([]byte, error) {
-	var buf bytes.Buffer
-	e.MarshalGQL(&buf)
-	return buf.Bytes(), nil
 }
 
 type FilterOperator string
@@ -23165,20 +22002,6 @@ func (e FilterOperator) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
-func (e *FilterOperator) UnmarshalJSON(b []byte) error {
-	s, err := strconv.Unquote(string(b))
-	if err != nil {
-		return err
-	}
-	return e.UnmarshalGQL(s)
-}
-
-func (e FilterOperator) MarshalJSON() ([]byte, error) {
-	var buf bytes.Buffer
-	e.MarshalGQL(&buf)
-	return buf.Bytes(), nil
-}
-
 type GraphType string
 
 const (
@@ -23216,20 +22039,6 @@ func (e *GraphType) UnmarshalGQL(v any) error {
 
 func (e GraphType) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
-}
-
-func (e *GraphType) UnmarshalJSON(b []byte) error {
-	s, err := strconv.Unquote(string(b))
-	if err != nil {
-		return err
-	}
-	return e.UnmarshalGQL(s)
-}
-
-func (e GraphType) MarshalJSON() ([]byte, error) {
-	var buf bytes.Buffer
-	e.MarshalGQL(&buf)
-	return buf.Bytes(), nil
 }
 
 // Member types that can be referenced in a group.
@@ -23282,20 +22091,6 @@ func (e GroupMemberRefType) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
-func (e *GroupMemberRefType) UnmarshalJSON(b []byte) error {
-	s, err := strconv.Unquote(string(b))
-	if err != nil {
-		return err
-	}
-	return e.UnmarshalGQL(s)
-}
-
-func (e GroupMemberRefType) MarshalJSON() ([]byte, error) {
-	var buf bytes.Buffer
-	e.MarshalGQL(&buf)
-	return buf.Bytes(), nil
-}
-
 type HaReadiness string
 
 const (
@@ -23335,20 +22130,6 @@ func (e *HaReadiness) UnmarshalGQL(v any) error {
 
 func (e HaReadiness) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
-}
-
-func (e *HaReadiness) UnmarshalJSON(b []byte) error {
-	s, err := strconv.Unquote(string(b))
-	if err != nil {
-		return err
-	}
-	return e.UnmarshalGQL(s)
-}
-
-func (e HaReadiness) MarshalJSON() ([]byte, error) {
-	var buf bytes.Buffer
-	e.MarshalGQL(&buf)
-	return buf.Bytes(), nil
 }
 
 type HaRole string
@@ -23392,20 +22173,6 @@ func (e HaRole) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
-func (e *HaRole) UnmarshalJSON(b []byte) error {
-	s, err := strconv.Unquote(string(b))
-	if err != nil {
-		return err
-	}
-	return e.UnmarshalGQL(s)
-}
-
-func (e HaRole) MarshalJSON() ([]byte, error) {
-	var buf bytes.Buffer
-	e.MarshalGQL(&buf)
-	return buf.Bytes(), nil
-}
-
 type HaSubStatus string
 
 const (
@@ -23445,20 +22212,6 @@ func (e *HaSubStatus) UnmarshalGQL(v any) error {
 
 func (e HaSubStatus) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
-}
-
-func (e *HaSubStatus) UnmarshalJSON(b []byte) error {
-	s, err := strconv.Unquote(string(b))
-	if err != nil {
-		return err
-	}
-	return e.UnmarshalGQL(s)
-}
-
-func (e HaSubStatus) MarshalJSON() ([]byte, error) {
-	var buf bytes.Buffer
-	e.MarshalGQL(&buf)
-	return buf.Bytes(), nil
 }
 
 type IPSecV2InterfaceID string
@@ -23510,20 +22263,6 @@ func (e IPSecV2InterfaceID) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
-func (e *IPSecV2InterfaceID) UnmarshalJSON(b []byte) error {
-	s, err := strconv.Unquote(string(b))
-	if err != nil {
-		return err
-	}
-	return e.UnmarshalGQL(s)
-}
-
-func (e IPSecV2InterfaceID) MarshalJSON() ([]byte, error) {
-	var buf bytes.Buffer
-	e.MarshalGQL(&buf)
-	return buf.Bytes(), nil
-}
-
 type IPSecV2TunnelRole string
 
 const (
@@ -23565,20 +22304,6 @@ func (e *IPSecV2TunnelRole) UnmarshalGQL(v any) error {
 
 func (e IPSecV2TunnelRole) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
-}
-
-func (e *IPSecV2TunnelRole) UnmarshalJSON(b []byte) error {
-	s, err := strconv.Unquote(string(b))
-	if err != nil {
-		return err
-	}
-	return e.UnmarshalGQL(s)
-}
-
-func (e IPSecV2TunnelRole) MarshalJSON() ([]byte, error) {
-	var buf bytes.Buffer
-	e.MarshalGQL(&buf)
-	return buf.Bytes(), nil
 }
 
 type IdentificationType string
@@ -23626,20 +22351,6 @@ func (e IdentificationType) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
-func (e *IdentificationType) UnmarshalJSON(b []byte) error {
-	s, err := strconv.Unquote(string(b))
-	if err != nil {
-		return err
-	}
-	return e.UnmarshalGQL(s)
-}
-
-func (e IdentificationType) MarshalJSON() ([]byte, error) {
-	var buf bytes.Buffer
-	e.MarshalGQL(&buf)
-	return buf.Bytes(), nil
-}
-
 type IlmmOnboardingStatus string
 
 const (
@@ -23683,20 +22394,6 @@ func (e *IlmmOnboardingStatus) UnmarshalGQL(v any) error {
 
 func (e IlmmOnboardingStatus) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
-}
-
-func (e *IlmmOnboardingStatus) UnmarshalJSON(b []byte) error {
-	s, err := strconv.Unquote(string(b))
-	if err != nil {
-		return err
-	}
-	return e.UnmarshalGQL(s)
-}
-
-func (e IlmmOnboardingStatus) MarshalJSON() ([]byte, error) {
-	var buf bytes.Buffer
-	e.MarshalGQL(&buf)
-	return buf.Bytes(), nil
 }
 
 // The action applied by the Internet Firewall if the rule is matched
@@ -23752,20 +22449,6 @@ func (e InternetFirewallActionEnum) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
-func (e *InternetFirewallActionEnum) UnmarshalJSON(b []byte) error {
-	s, err := strconv.Unquote(string(b))
-	if err != nil {
-		return err
-	}
-	return e.UnmarshalGQL(s)
-}
-
-func (e InternetFirewallActionEnum) MarshalJSON() ([]byte, error) {
-	var buf bytes.Buffer
-	e.MarshalGQL(&buf)
-	return buf.Bytes(), nil
-}
-
 type IPProtocol string
 
 const (
@@ -23812,20 +22495,6 @@ func (e *IPProtocol) UnmarshalGQL(v any) error {
 
 func (e IPProtocol) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
-}
-
-func (e *IPProtocol) UnmarshalJSON(b []byte) error {
-	s, err := strconv.Unquote(string(b))
-	if err != nil {
-		return err
-	}
-	return e.UnmarshalGQL(s)
-}
-
-func (e IPProtocol) MarshalJSON() ([]byte, error) {
-	var buf bytes.Buffer
-	e.MarshalGQL(&buf)
-	return buf.Bytes(), nil
 }
 
 type IPSecCipher string
@@ -23877,20 +22546,6 @@ func (e *IPSecCipher) UnmarshalGQL(v any) error {
 
 func (e IPSecCipher) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
-}
-
-func (e *IPSecCipher) UnmarshalJSON(b []byte) error {
-	s, err := strconv.Unquote(string(b))
-	if err != nil {
-		return err
-	}
-	return e.UnmarshalGQL(s)
-}
-
-func (e IPSecCipher) MarshalJSON() ([]byte, error) {
-	var buf bytes.Buffer
-	e.MarshalGQL(&buf)
-	return buf.Bytes(), nil
 }
 
 type IPSecDHGroup string
@@ -23950,20 +22605,6 @@ func (e IPSecDHGroup) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
-func (e *IPSecDHGroup) UnmarshalJSON(b []byte) error {
-	s, err := strconv.Unquote(string(b))
-	if err != nil {
-		return err
-	}
-	return e.UnmarshalGQL(s)
-}
-
-func (e IPSecDHGroup) MarshalJSON() ([]byte, error) {
-	var buf bytes.Buffer
-	e.MarshalGQL(&buf)
-	return buf.Bytes(), nil
-}
-
 type IPSecHash string
 
 const (
@@ -24015,20 +22656,6 @@ func (e IPSecHash) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
-func (e *IPSecHash) UnmarshalJSON(b []byte) error {
-	s, err := strconv.Unquote(string(b))
-	if err != nil {
-		return err
-	}
-	return e.UnmarshalGQL(s)
-}
-
-func (e IPSecHash) MarshalJSON() ([]byte, error) {
-	var buf bytes.Buffer
-	e.MarshalGQL(&buf)
-	return buf.Bytes(), nil
-}
-
 // enum for license plan type (site license, service license, etc...)
 type LicensePlan string
 
@@ -24071,129 +22698,268 @@ func (e LicensePlan) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
-func (e *LicensePlan) UnmarshalJSON(b []byte) error {
-	s, err := strconv.Unquote(string(b))
-	if err != nil {
-		return err
-	}
-	return e.UnmarshalGQL(s)
-}
-
-func (e LicensePlan) MarshalJSON() ([]byte, error) {
-	var buf bytes.Buffer
-	e.MarshalGQL(&buf)
-	return buf.Bytes(), nil
-}
-
 type LicenseSku string
 
 const (
-	// Cato Anti Malware (legacy) service SKU
+	//  Cato App & Data Security Package BW SKU
+	LicenseSkuCatoAdspB LicenseSku = "CATO_ADSP_B"
+	//  Cato App & Data Security Package Users SKU
+	LicenseSkuCatoAdspU LicenseSku = "CATO_ADSP_U"
+	//  Cato AI Security Applications SKU
+	LicenseSkuCatoAiSecAppU LicenseSku = "CATO_AI_SEC_APP_U"
+	//  Cato AI Security Users SKU
+	LicenseSkuCatoAiSecU LicenseSku = "CATO_AI_SEC_U"
+	//  Cato Anti Malware (legacy) service SKU
 	LicenseSkuCatoAntiMalware LicenseSku = "CATO_ANTI_MALWARE"
-	// Cato Anti Malware Next Generation (legacy) service SKU
+	//  Cato Anti Malware Next Generation (legacy) service SKU
 	LicenseSkuCatoAntiMalwareNg LicenseSku = "CATO_ANTI_MALWARE_NG"
-	// Cato CASB service SKU
+	//  Cato App Connector Bandwidth SKU
+	LicenseSkuCatoAppConB LicenseSku = "CATO_APP_CON_B"
+	//  Cato App Connector User SKU
+	LicenseSkuCatoAppConU LicenseSku = "CATO_APP_CON_U"
+	//  Cato Assets Group SKU
+	LicenseSkuCatoAstsSec LicenseSku = "CATO_ASTS_SEC"
+	//  Cato Assets Security 2.5K - 10K Devices SKU
+	LicenseSkuCatoAstsSec10k LicenseSku = "CATO_ASTS_SEC_10K"
+	//  Cato Assets Security 10K - 15K Devices SKU
+	LicenseSkuCatoAstsSec15k LicenseSku = "CATO_ASTS_SEC_15K"
+	//  Cato Assets Security 1.5K Devices SKU
+	LicenseSkuCatoAstsSec1_5k LicenseSku = "CATO_ASTS_SEC_1_5K"
+	//  Cato Assets Security 15K - 25K Devices SKU
+	LicenseSkuCatoAstsSec25k LicenseSku = "CATO_ASTS_SEC_25K"
+	//  Cato Assets Security 1.5K - 2.5K Devices SKU
+	LicenseSkuCatoAstsSec2_5k LicenseSku = "CATO_ASTS_SEC_2_5K"
+	//  Cato Assets Security 25K - 50K Devices SKU
+	LicenseSkuCatoAstsSec50k LicenseSku = "CATO_ASTS_SEC_50K"
+	//  Cato Assets Security Above 50K Devices SKU
+	LicenseSkuCatoAstsSecAbv50k LicenseSku = "CATO_ASTS_SEC_ABV_50K"
+	//  Cato Advanced Protection BW SKU
+	LicenseSkuCatoAtpB LicenseSku = "CATO_ATP_B"
+	//  Cato Advanced Protection Users SKU
+	LicenseSkuCatoAtpU LicenseSku = "CATO_ATP_U"
+	//  Cato ATP for MSP users SKU
+	LicenseSkuCatoAtpUserSa LicenseSku = "CATO_ATP_USER_SA"
+	//  Cato CASB service SKU
 	LicenseSkuCatoCasb LicenseSku = "CATO_CASB"
-	// Cato datalake Group SKU
+	//  Cato Cloud Access Security Broker BW SKU
+	LicenseSkuCatoCasbB LicenseSku = "CATO_CASB_B"
+	//  Cato CASB for MSP bandwidth SKU
+	LicenseSkuCatoCasbPbSa LicenseSku = "CATO_CASB_PB_SA"
+	//  Cato Cloud Access Security Broker Users SKU
+	LicenseSkuCatoCasbU LicenseSku = "CATO_CASB_U"
+	//  Cato CASB for MSP users SKU
+	LicenseSkuCatoCasbUserSa LicenseSku = "CATO_CASB_USER_SA"
+	//  Cato datalake Group SKU
 	LicenseSkuCatoDatalake LicenseSku = "CATO_DATALAKE"
-	// 12 months data retention SKU
+	//  Cato Data Lake Storage 2.5M/h, 12 Month Retention SKU
 	LicenseSkuCatoDatalake12m LicenseSku = "CATO_DATALAKE_12M"
-	// 3 months data retention SKU
+	//  Cato Data Lake Storage 2.5M/h, 3 Month Retention SKU
 	LicenseSkuCatoDatalake3m LicenseSku = "CATO_DATALAKE_3M"
-	// 6 months data retention SKU
+	//  Cato Data Lake Storage 2.5M/h, 6 Month Retention SKU
 	LicenseSkuCatoDatalake6m LicenseSku = "CATO_DATALAKE_6M"
-	// Cato DEM service SKU
+	//  Cato DEM service SKU
 	LicenseSkuCatoDem LicenseSku = "CATO_DEM"
-	// Cato DLP service SKU
+	//  Cato Digital Experience Monitoring SKU
+	LicenseSkuCatoDemU LicenseSku = "CATO_DEM_U"
+	//  Cato DLP service SKU
 	LicenseSkuCatoDlp LicenseSku = "CATO_DLP"
-	// Cato EPP service SKU
+	//  Cato Data Loss Prevention BW SKU
+	LicenseSkuCatoDlpB LicenseSku = "CATO_DLP_B"
+	//  Cato DLP for MSP bandwidth SKU
+	LicenseSkuCatoDlpPbSa LicenseSku = "CATO_DLP_PB_SA"
+	//  Cato Data Loss Prevention Users SKU
+	LicenseSkuCatoDlpU LicenseSku = "CATO_DLP_U"
+	//  Cato DLP for MSP users SKU
+	LicenseSkuCatoDlpUserSa LicenseSku = "CATO_DLP_USER_SA"
+	//  Cato EPP service SKU
 	LicenseSkuCatoEpp LicenseSku = "CATO_EPP"
-	// Cato ILMM service SKU
+	//  Cato Endpoint Protection SKU
+	LicenseSkuCatoEppU LicenseSku = "CATO_EPP_U"
+	//  Cato Hands Free Management SKU
+	LicenseSkuCatoHfmS LicenseSku = "CATO_HFM_S"
+	//  Cato ILMM service SKU
 	LicenseSkuCatoIlmm LicenseSku = "CATO_ILMM"
-	// Cato IoT/OT Security service SKU
+	//  Cato Intelligent Last Mile Management SKU
+	LicenseSkuCatoIlmmS LicenseSku = "CATO_ILMM_S"
+	//  Cato IoT/OT Security service SKU
 	LicenseSkuCatoIotOt LicenseSku = "CATO_IOT_OT"
-	// Public IPs SKU
-	LicenseSkuCatoIPAdd LicenseSku = "CATO_IP_ADD"
-	// Cato IPS (legacy) service SKU
+	//  Cato IPS (legacy) service SKU
 	LicenseSkuCatoIPS LicenseSku = "CATO_IPS"
-	// Cato Managed XDR service SKU
+	//  Public IPs SKU
+	LicenseSkuCatoIPAdd LicenseSku = "CATO_IP_ADD"
+	//  Cato Managed XDR service SKU
 	LicenseSkuCatoManagedXdr LicenseSku = "CATO_MANAGED_XDR"
-	// Cato MDR service SKU
+	//  Cato MDR service SKU
 	LicenseSkuCatoMdr LicenseSku = "CATO_MDR"
-	// Cato NOCaaS service SKU
+	//  Cato Managed Detection and Response SKU
+	LicenseSkuCatoMdrU LicenseSku = "CATO_MDR_U"
+	//  Cato NOCaaS service SKU
 	LicenseSkuCatoNocaasHf LicenseSku = "CATO_NOCAAS_HF"
-	// Site pooled bandwidth SASE SKU
+	//  Cato NOCaaS SKU
+	LicenseSkuCatoNocaasHfS LicenseSku = "CATO_NOCAAS_HF_S"
+	//  Site pooled bandwidth SASE SKU
 	LicenseSkuCatoPb LicenseSku = "CATO_PB"
-	// Site pooled bandwidth SSE SKU
+	//  Site pooled bandwidth SSE SKU
 	LicenseSkuCatoPbSse LicenseSku = "CATO_PB_SSE"
-	// Cato Remote Browser Isolation (RBI) service SKU
+	//  Cato Remote Browser Isolation (RBI) service SKU
 	LicenseSkuCatoRbi LicenseSku = "CATO_RBI"
-	// Cato SAAS Group SKU
+	//  Cato Remote Browser Isolation BW SKU
+	LicenseSkuCatoRbiB LicenseSku = "CATO_RBI_B"
+	//  Cato Remote Browser Isolation Users SKU
+	LicenseSkuCatoRbiU LicenseSku = "CATO_RBI_U"
+	//  Cato Remote User SKU
+	LicenseSkuCatoRemoteU LicenseSku = "CATO_REMOTE_U"
+	//  Cato SAAS Group SKU
 	LicenseSkuCatoSaas            LicenseSku = "CATO_SAAS"
 	LicenseSkuCatoSaasSecurityAPI LicenseSku = "CATO_SAAS_SECURITY_API"
-	// Cato SAAS Security API with more than two Applications integration (legacy) service SKU
+	//  Cato SAAS Security API with more than two Applications integration (legacy) service SKU
 	LicenseSkuCatoSaasSecurityAPIAllApps LicenseSku = "CATO_SAAS_SECURITY_API_ALL_APPS"
-	// Cato SAAS Security API with one application integration (legacy) service SKU
+	//  Cato SAAS Security API with one application integration (legacy) service SKU
 	LicenseSkuCatoSaasSecurityAPIOneApp LicenseSku = "CATO_SAAS_SECURITY_API_ONE_APP"
-	// Cato SAAS Security API with two applications integration (legacy) service SKU
+	//  Cato SAAS Security API with two applications integration (legacy) service SKU
 	LicenseSkuCatoSaasSecurityAPITwoApps LicenseSku = "CATO_SAAS_SECURITY_API_TWO_APPS"
-	// Site bandwidth SASE SKU
+	//  Cato Secured Internet Access Bandwidth SKU
+	LicenseSkuCatoSiaB LicenseSku = "CATO_SIA_B"
+	//  Cato Secured Internet Access User SKU
+	LicenseSkuCatoSiaU LicenseSku = "CATO_SIA_U"
+	//  Site bandwidth SASE SKU
 	LicenseSkuCatoSite LicenseSku = "CATO_SITE"
-	// Site bandwidth SSE SKU
+	//  Cato Sandbox BW SKU
+	LicenseSkuCatoSndbxB LicenseSku = "CATO_SNDBX_B"
+	//  Cato Sandbox Users SKU
+	LicenseSkuCatoSndbxU LicenseSku = "CATO_SNDBX_U"
+	//  Cato Socket X1500 SKU
+	LicenseSkuCatoSocketX1500R LicenseSku = "CATO_SOCKET_X1500_R"
+	//  Cato Socket X1600 5G SKU
+	LicenseSkuCatoSocketX1600_5gR LicenseSku = "CATO_SOCKET_X1600_5G_R"
+	//  Cato Socket X1600 LTE SKU
+	LicenseSkuCatoSocketX1600LteR LicenseSku = "CATO_SOCKET_X1600_LTE_R"
+	//  Cato Socket X1600 SKU
+	LicenseSkuCatoSocketX1600R LicenseSku = "CATO_SOCKET_X1600_R"
+	//  Cato Socket X1600 Wifi + 5G SKU
+	LicenseSkuCatoSocketX1600Wifi5gR LicenseSku = "CATO_SOCKET_X1600_WIFI_5G_R"
+	//  Cato Socket X1600 Wifi SKU
+	LicenseSkuCatoSocketX1600WifiR LicenseSku = "CATO_SOCKET_X1600_WIFI_R"
+	//  Cato Socket X1700 SKU
+	LicenseSkuCatoSocketX1700R LicenseSku = "CATO_SOCKET_X1700_R"
+	//  Site bandwidth SSE SKU
 	LicenseSkuCatoSseSite LicenseSku = "CATO_SSE_SITE"
-	// Cato Threat Prevention (legacy) service SKU
+	//  Cato Threat Prevention (legacy) service SKU
 	LicenseSkuCatoThreatPrevention LicenseSku = "CATO_THREAT_PREVENTION"
-	// Cato Advanced Threat Prevention service SKU
+	//  Cato Advanced Threat Prevention service SKU
 	LicenseSkuCatoThreatPreventionAdv LicenseSku = "CATO_THREAT_PREVENTION_ADV"
-	// Cato XDR service SKU
+	//  Cato ATP for MSP bandwidth SKU
+	LicenseSkuCatoThreatPreventionAdvPbSa LicenseSku = "CATO_THREAT_PREVENTION_ADV_PB_SA"
+	//  Cato TP for MSP bandwidth SKU
+	LicenseSkuCatoThreatPreventionPbSa LicenseSku = "CATO_THREAT_PREVENTION_PB_SA"
+	//  Cato TP for MSP users SKU
+	LicenseSkuCatoThreatPreventionUserSa LicenseSku = "CATO_THREAT_PREVENTION_USER_SA"
+	//  Cato WAN Bandwidth SKU
+	LicenseSkuCatoWan LicenseSku = "CATO_WAN"
+	//  Cato WAN Threat Prevention BW SKU
+	LicenseSkuCatoWanTpB LicenseSku = "CATO_WAN_TP_B"
+	//  Cato XDR service SKU
 	LicenseSkuCatoXdrPro LicenseSku = "CATO_XDR_PRO"
-	// Cato XOps service SKU
+	//  Cato XOps service SKU
 	LicenseSkuCatoXops LicenseSku = "CATO_XOPS"
-	// ZTNA remote users SKU
+	//  Cato XOPs SKU
+	LicenseSkuCatoXopsU LicenseSku = "CATO_XOPS_U"
+	//  ZTNA remote users SKU
 	LicenseSkuCatoZtnaUsers LicenseSku = "CATO_ZTNA_USERS"
-	// ZTNA remote users SKU
+	//  ZTNA remote users SKU
 	LicenseSkuMobileUsers LicenseSku = "MOBILE_USERS"
 )
 
 var AllLicenseSku = []LicenseSku{
+	LicenseSkuCatoAdspB,
+	LicenseSkuCatoAdspU,
+	LicenseSkuCatoAiSecAppU,
+	LicenseSkuCatoAiSecU,
 	LicenseSkuCatoAntiMalware,
 	LicenseSkuCatoAntiMalwareNg,
+	LicenseSkuCatoAppConB,
+	LicenseSkuCatoAppConU,
+	LicenseSkuCatoAstsSec,
+	LicenseSkuCatoAstsSec10k,
+	LicenseSkuCatoAstsSec15k,
+	LicenseSkuCatoAstsSec1_5k,
+	LicenseSkuCatoAstsSec25k,
+	LicenseSkuCatoAstsSec2_5k,
+	LicenseSkuCatoAstsSec50k,
+	LicenseSkuCatoAstsSecAbv50k,
+	LicenseSkuCatoAtpB,
+	LicenseSkuCatoAtpU,
+	LicenseSkuCatoAtpUserSa,
 	LicenseSkuCatoCasb,
+	LicenseSkuCatoCasbB,
+	LicenseSkuCatoCasbPbSa,
+	LicenseSkuCatoCasbU,
+	LicenseSkuCatoCasbUserSa,
 	LicenseSkuCatoDatalake,
 	LicenseSkuCatoDatalake12m,
 	LicenseSkuCatoDatalake3m,
 	LicenseSkuCatoDatalake6m,
 	LicenseSkuCatoDem,
+	LicenseSkuCatoDemU,
 	LicenseSkuCatoDlp,
+	LicenseSkuCatoDlpB,
+	LicenseSkuCatoDlpPbSa,
+	LicenseSkuCatoDlpU,
+	LicenseSkuCatoDlpUserSa,
 	LicenseSkuCatoEpp,
+	LicenseSkuCatoEppU,
+	LicenseSkuCatoHfmS,
 	LicenseSkuCatoIlmm,
+	LicenseSkuCatoIlmmS,
 	LicenseSkuCatoIotOt,
-	LicenseSkuCatoIPAdd,
 	LicenseSkuCatoIPS,
+	LicenseSkuCatoIPAdd,
 	LicenseSkuCatoManagedXdr,
 	LicenseSkuCatoMdr,
+	LicenseSkuCatoMdrU,
 	LicenseSkuCatoNocaasHf,
+	LicenseSkuCatoNocaasHfS,
 	LicenseSkuCatoPb,
 	LicenseSkuCatoPbSse,
 	LicenseSkuCatoRbi,
+	LicenseSkuCatoRbiB,
+	LicenseSkuCatoRbiU,
+	LicenseSkuCatoRemoteU,
 	LicenseSkuCatoSaas,
 	LicenseSkuCatoSaasSecurityAPI,
 	LicenseSkuCatoSaasSecurityAPIAllApps,
 	LicenseSkuCatoSaasSecurityAPIOneApp,
 	LicenseSkuCatoSaasSecurityAPITwoApps,
+	LicenseSkuCatoSiaB,
+	LicenseSkuCatoSiaU,
 	LicenseSkuCatoSite,
+	LicenseSkuCatoSndbxB,
+	LicenseSkuCatoSndbxU,
+	LicenseSkuCatoSocketX1500R,
+	LicenseSkuCatoSocketX1600_5gR,
+	LicenseSkuCatoSocketX1600LteR,
+	LicenseSkuCatoSocketX1600R,
+	LicenseSkuCatoSocketX1600Wifi5gR,
+	LicenseSkuCatoSocketX1600WifiR,
+	LicenseSkuCatoSocketX1700R,
 	LicenseSkuCatoSseSite,
 	LicenseSkuCatoThreatPrevention,
 	LicenseSkuCatoThreatPreventionAdv,
+	LicenseSkuCatoThreatPreventionAdvPbSa,
+	LicenseSkuCatoThreatPreventionPbSa,
+	LicenseSkuCatoThreatPreventionUserSa,
+	LicenseSkuCatoWan,
+	LicenseSkuCatoWanTpB,
 	LicenseSkuCatoXdrPro,
 	LicenseSkuCatoXops,
+	LicenseSkuCatoXopsU,
 	LicenseSkuCatoZtnaUsers,
 	LicenseSkuMobileUsers,
 }
 
 func (e LicenseSku) IsValid() bool {
 	switch e {
-	case LicenseSkuCatoAntiMalware, LicenseSkuCatoAntiMalwareNg, LicenseSkuCatoCasb, LicenseSkuCatoDatalake, LicenseSkuCatoDatalake12m, LicenseSkuCatoDatalake3m, LicenseSkuCatoDatalake6m, LicenseSkuCatoDem, LicenseSkuCatoDlp, LicenseSkuCatoEpp, LicenseSkuCatoIlmm, LicenseSkuCatoIotOt, LicenseSkuCatoIPAdd, LicenseSkuCatoIPS, LicenseSkuCatoManagedXdr, LicenseSkuCatoMdr, LicenseSkuCatoNocaasHf, LicenseSkuCatoPb, LicenseSkuCatoPbSse, LicenseSkuCatoRbi, LicenseSkuCatoSaas, LicenseSkuCatoSaasSecurityAPI, LicenseSkuCatoSaasSecurityAPIAllApps, LicenseSkuCatoSaasSecurityAPIOneApp, LicenseSkuCatoSaasSecurityAPITwoApps, LicenseSkuCatoSite, LicenseSkuCatoSseSite, LicenseSkuCatoThreatPrevention, LicenseSkuCatoThreatPreventionAdv, LicenseSkuCatoXdrPro, LicenseSkuCatoXops, LicenseSkuCatoZtnaUsers, LicenseSkuMobileUsers:
+	case LicenseSkuCatoAdspB, LicenseSkuCatoAdspU, LicenseSkuCatoAiSecAppU, LicenseSkuCatoAiSecU, LicenseSkuCatoAntiMalware, LicenseSkuCatoAntiMalwareNg, LicenseSkuCatoAppConB, LicenseSkuCatoAppConU, LicenseSkuCatoAstsSec, LicenseSkuCatoAstsSec10k, LicenseSkuCatoAstsSec15k, LicenseSkuCatoAstsSec1_5k, LicenseSkuCatoAstsSec25k, LicenseSkuCatoAstsSec2_5k, LicenseSkuCatoAstsSec50k, LicenseSkuCatoAstsSecAbv50k, LicenseSkuCatoAtpB, LicenseSkuCatoAtpU, LicenseSkuCatoAtpUserSa, LicenseSkuCatoCasb, LicenseSkuCatoCasbB, LicenseSkuCatoCasbPbSa, LicenseSkuCatoCasbU, LicenseSkuCatoCasbUserSa, LicenseSkuCatoDatalake, LicenseSkuCatoDatalake12m, LicenseSkuCatoDatalake3m, LicenseSkuCatoDatalake6m, LicenseSkuCatoDem, LicenseSkuCatoDemU, LicenseSkuCatoDlp, LicenseSkuCatoDlpB, LicenseSkuCatoDlpPbSa, LicenseSkuCatoDlpU, LicenseSkuCatoDlpUserSa, LicenseSkuCatoEpp, LicenseSkuCatoEppU, LicenseSkuCatoHfmS, LicenseSkuCatoIlmm, LicenseSkuCatoIlmmS, LicenseSkuCatoIotOt, LicenseSkuCatoIPS, LicenseSkuCatoIPAdd, LicenseSkuCatoManagedXdr, LicenseSkuCatoMdr, LicenseSkuCatoMdrU, LicenseSkuCatoNocaasHf, LicenseSkuCatoNocaasHfS, LicenseSkuCatoPb, LicenseSkuCatoPbSse, LicenseSkuCatoRbi, LicenseSkuCatoRbiB, LicenseSkuCatoRbiU, LicenseSkuCatoRemoteU, LicenseSkuCatoSaas, LicenseSkuCatoSaasSecurityAPI, LicenseSkuCatoSaasSecurityAPIAllApps, LicenseSkuCatoSaasSecurityAPIOneApp, LicenseSkuCatoSaasSecurityAPITwoApps, LicenseSkuCatoSiaB, LicenseSkuCatoSiaU, LicenseSkuCatoSite, LicenseSkuCatoSndbxB, LicenseSkuCatoSndbxU, LicenseSkuCatoSocketX1500R, LicenseSkuCatoSocketX1600_5gR, LicenseSkuCatoSocketX1600LteR, LicenseSkuCatoSocketX1600R, LicenseSkuCatoSocketX1600Wifi5gR, LicenseSkuCatoSocketX1600WifiR, LicenseSkuCatoSocketX1700R, LicenseSkuCatoSseSite, LicenseSkuCatoThreatPrevention, LicenseSkuCatoThreatPreventionAdv, LicenseSkuCatoThreatPreventionAdvPbSa, LicenseSkuCatoThreatPreventionPbSa, LicenseSkuCatoThreatPreventionUserSa, LicenseSkuCatoWan, LicenseSkuCatoWanTpB, LicenseSkuCatoXdrPro, LicenseSkuCatoXops, LicenseSkuCatoXopsU, LicenseSkuCatoZtnaUsers, LicenseSkuMobileUsers:
 		return true
 	}
 	return false
@@ -24218,20 +22984,6 @@ func (e *LicenseSku) UnmarshalGQL(v any) error {
 
 func (e LicenseSku) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
-}
-
-func (e *LicenseSku) UnmarshalJSON(b []byte) error {
-	s, err := strconv.Unquote(string(b))
-	if err != nil {
-		return err
-	}
-	return e.UnmarshalGQL(s)
-}
-
-func (e LicenseSku) MarshalJSON() ([]byte, error) {
-	var buf bytes.Buffer
-	e.MarshalGQL(&buf)
-	return buf.Bytes(), nil
 }
 
 // enum for account plan status – the current license status within the license lifecycle
@@ -24290,20 +23042,6 @@ func (e LicenseStatus) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
-func (e *LicenseStatus) UnmarshalJSON(b []byte) error {
-	s, err := strconv.Unquote(string(b))
-	if err != nil {
-		return err
-	}
-	return e.UnmarshalGQL(s)
-}
-
-func (e LicenseStatus) MarshalJSON() ([]byte, error) {
-	var buf bytes.Buffer
-	e.MarshalGQL(&buf)
-	return buf.Bytes(), nil
-}
-
 type LinkConfigPrecedenceEnum string
 
 const (
@@ -24345,20 +23083,6 @@ func (e *LinkConfigPrecedenceEnum) UnmarshalGQL(v any) error {
 
 func (e LinkConfigPrecedenceEnum) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
-}
-
-func (e *LinkConfigPrecedenceEnum) UnmarshalJSON(b []byte) error {
-	s, err := strconv.Unquote(string(b))
-	if err != nil {
-		return err
-	}
-	return e.UnmarshalGQL(s)
-}
-
-func (e LinkConfigPrecedenceEnum) MarshalJSON() ([]byte, error) {
-	var buf bytes.Buffer
-	e.MarshalGQL(&buf)
-	return buf.Bytes(), nil
 }
 
 type LinkQualityIssueTypeEnum string
@@ -24406,20 +23130,6 @@ func (e LinkQualityIssueTypeEnum) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
-func (e *LinkQualityIssueTypeEnum) UnmarshalJSON(b []byte) error {
-	s, err := strconv.Unquote(string(b))
-	if err != nil {
-		return err
-	}
-	return e.UnmarshalGQL(s)
-}
-
-func (e LinkQualityIssueTypeEnum) MarshalJSON() ([]byte, error) {
-	var buf bytes.Buffer
-	e.MarshalGQL(&buf)
-	return buf.Bytes(), nil
-}
-
 type LinkStatusEnum string
 
 const (
@@ -24459,20 +23169,6 @@ func (e *LinkStatusEnum) UnmarshalGQL(v any) error {
 
 func (e LinkStatusEnum) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
-}
-
-func (e *LinkStatusEnum) UnmarshalJSON(b []byte) error {
-	s, err := strconv.Unquote(string(b))
-	if err != nil {
-		return err
-	}
-	return e.UnmarshalGQL(s)
-}
-
-func (e LinkStatusEnum) MarshalJSON() ([]byte, error) {
-	var buf bytes.Buffer
-	e.MarshalGQL(&buf)
-	return buf.Bytes(), nil
 }
 
 type LocationType string
@@ -24522,20 +23218,6 @@ func (e *LocationType) UnmarshalGQL(v any) error {
 
 func (e LocationType) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
-}
-
-func (e *LocationType) UnmarshalJSON(b []byte) error {
-	s, err := strconv.Unquote(string(b))
-	if err != nil {
-		return err
-	}
-	return e.UnmarshalGQL(s)
-}
-
-func (e LocationType) MarshalJSON() ([]byte, error) {
-	var buf bytes.Buffer
-	e.MarshalGQL(&buf)
-	return buf.Bytes(), nil
 }
 
 type LookupFilterType string
@@ -24613,20 +23295,6 @@ func (e LookupFilterType) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
-func (e *LookupFilterType) UnmarshalJSON(b []byte) error {
-	s, err := strconv.Unquote(string(b))
-	if err != nil {
-		return err
-	}
-	return e.UnmarshalGQL(s)
-}
-
-func (e LookupFilterType) MarshalJSON() ([]byte, error) {
-	var buf bytes.Buffer
-	e.MarshalGQL(&buf)
-	return buf.Bytes(), nil
-}
-
 type MetadataType string
 
 const (
@@ -24664,20 +23332,6 @@ func (e *MetadataType) UnmarshalGQL(v any) error {
 
 func (e MetadataType) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
-}
-
-func (e *MetadataType) UnmarshalJSON(b []byte) error {
-	s, err := strconv.Unquote(string(b))
-	if err != nil {
-		return err
-	}
-	return e.UnmarshalGQL(s)
-}
-
-func (e MetadataType) MarshalJSON() ([]byte, error) {
-	var buf bytes.Buffer
-	e.MarshalGQL(&buf)
-	return buf.Bytes(), nil
 }
 
 type MsAlertStatus string
@@ -24723,20 +23377,6 @@ func (e MsAlertStatus) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
-func (e *MsAlertStatus) UnmarshalJSON(b []byte) error {
-	s, err := strconv.Unquote(string(b))
-	if err != nil {
-		return err
-	}
-	return e.UnmarshalGQL(s)
-}
-
-func (e MsAlertStatus) MarshalJSON() ([]byte, error) {
-	var buf bytes.Buffer
-	e.MarshalGQL(&buf)
-	return buf.Bytes(), nil
-}
-
 type MsResourceVerdictEnum string
 
 const (
@@ -24780,20 +23420,6 @@ func (e *MsResourceVerdictEnum) UnmarshalGQL(v any) error {
 
 func (e MsResourceVerdictEnum) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
-}
-
-func (e *MsResourceVerdictEnum) UnmarshalJSON(b []byte) error {
-	s, err := strconv.Unquote(string(b))
-	if err != nil {
-		return err
-	}
-	return e.UnmarshalGQL(s)
-}
-
-func (e MsResourceVerdictEnum) MarshalJSON() ([]byte, error) {
-	var buf bytes.Buffer
-	e.MarshalGQL(&buf)
-	return buf.Bytes(), nil
 }
 
 type NetworkEventSourceEnum string
@@ -24847,20 +23473,6 @@ func (e NetworkEventSourceEnum) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
-func (e *NetworkEventSourceEnum) UnmarshalJSON(b []byte) error {
-	s, err := strconv.Unquote(string(b))
-	if err != nil {
-		return err
-	}
-	return e.UnmarshalGQL(s)
-}
-
-func (e NetworkEventSourceEnum) MarshalJSON() ([]byte, error) {
-	var buf bytes.Buffer
-	e.MarshalGQL(&buf)
-	return buf.Bytes(), nil
-}
-
 type NetworkXDREventTypeEnum string
 
 const (
@@ -24904,20 +23516,6 @@ func (e NetworkXDREventTypeEnum) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
-func (e *NetworkXDREventTypeEnum) UnmarshalJSON(b []byte) error {
-	s, err := strconv.Unquote(string(b))
-	if err != nil {
-		return err
-	}
-	return e.UnmarshalGQL(s)
-}
-
-func (e NetworkXDREventTypeEnum) MarshalJSON() ([]byte, error) {
-	var buf bytes.Buffer
-	e.MarshalGQL(&buf)
-	return buf.Bytes(), nil
-}
-
 type ObjectRefBy string
 
 const (
@@ -24957,20 +23555,6 @@ func (e *ObjectRefBy) UnmarshalGQL(v any) error {
 
 func (e ObjectRefBy) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
-}
-
-func (e *ObjectRefBy) UnmarshalJSON(b []byte) error {
-	s, err := strconv.Unquote(string(b))
-	if err != nil {
-		return err
-	}
-	return e.UnmarshalGQL(s)
-}
-
-func (e ObjectRefBy) MarshalJSON() ([]byte, error) {
-	var buf bytes.Buffer
-	e.MarshalGQL(&buf)
-	return buf.Bytes(), nil
 }
 
 type OnboardingStatusEnum string
@@ -25014,20 +23598,6 @@ func (e *OnboardingStatusEnum) UnmarshalGQL(v any) error {
 
 func (e OnboardingStatusEnum) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
-}
-
-func (e *OnboardingStatusEnum) UnmarshalJSON(b []byte) error {
-	s, err := strconv.Unquote(string(b))
-	if err != nil {
-		return err
-	}
-	return e.UnmarshalGQL(s)
-}
-
-func (e OnboardingStatusEnum) MarshalJSON() ([]byte, error) {
-	var buf bytes.Buffer
-	e.MarshalGQL(&buf)
-	return buf.Bytes(), nil
 }
 
 type OperatingSystem string
@@ -25077,20 +23647,6 @@ func (e *OperatingSystem) UnmarshalGQL(v any) error {
 
 func (e OperatingSystem) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
-}
-
-func (e *OperatingSystem) UnmarshalJSON(b []byte) error {
-	s, err := strconv.Unquote(string(b))
-	if err != nil {
-		return err
-	}
-	return e.UnmarshalGQL(s)
-}
-
-func (e OperatingSystem) MarshalJSON() ([]byte, error) {
-	var buf bytes.Buffer
-	e.MarshalGQL(&buf)
-	return buf.Bytes(), nil
 }
 
 // The origins (e.g., integrations, data feeds) that detected the device
@@ -25161,20 +23717,6 @@ func (e OriginType) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
-func (e *OriginType) UnmarshalJSON(b []byte) error {
-	s, err := strconv.Unquote(string(b))
-	if err != nil {
-		return err
-	}
-	return e.UnmarshalGQL(s)
-}
-
-func (e OriginType) MarshalJSON() ([]byte, error) {
-	var buf bytes.Buffer
-	e.MarshalGQL(&buf)
-	return buf.Bytes(), nil
-}
-
 type PeriodType string
 
 const (
@@ -25242,20 +23784,6 @@ func (e PeriodType) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
-func (e *PeriodType) UnmarshalJSON(b []byte) error {
-	s, err := strconv.Unquote(string(b))
-	if err != nil {
-		return err
-	}
-	return e.UnmarshalGQL(s)
-}
-
-func (e PeriodType) MarshalJSON() ([]byte, error) {
-	var buf bytes.Buffer
-	e.MarshalGQL(&buf)
-	return buf.Bytes(), nil
-}
-
 // Enum for the type of time range a rule is active
 type PolicyActiveOnEnum string
 
@@ -25300,20 +23828,6 @@ func (e *PolicyActiveOnEnum) UnmarshalGQL(v any) error {
 
 func (e PolicyActiveOnEnum) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
-}
-
-func (e *PolicyActiveOnEnum) UnmarshalJSON(b []byte) error {
-	s, err := strconv.Unquote(string(b))
-	if err != nil {
-		return err
-	}
-	return e.UnmarshalGQL(s)
-}
-
-func (e PolicyActiveOnEnum) MarshalJSON() ([]byte, error) {
-	var buf bytes.Buffer
-	e.MarshalGQL(&buf)
-	return buf.Bytes(), nil
 }
 
 // Attributes describing the rule state or type
@@ -25376,20 +23890,6 @@ func (e PolicyElementPropertiesEnum) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
-func (e *PolicyElementPropertiesEnum) UnmarshalJSON(b []byte) error {
-	s, err := strconv.Unquote(string(b))
-	if err != nil {
-		return err
-	}
-	return e.UnmarshalGQL(s)
-}
-
-func (e PolicyElementPropertiesEnum) MarshalJSON() ([]byte, error) {
-	var buf bytes.Buffer
-	e.MarshalGQL(&buf)
-	return buf.Bytes(), nil
-}
-
 type PolicyLevelEnum string
 
 const (
@@ -25429,20 +23929,6 @@ func (e *PolicyLevelEnum) UnmarshalGQL(v any) error {
 
 func (e PolicyLevelEnum) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
-}
-
-func (e *PolicyLevelEnum) UnmarshalJSON(b []byte) error {
-	s, err := strconv.Unquote(string(b))
-	if err != nil {
-		return err
-	}
-	return e.UnmarshalGQL(s)
-}
-
-func (e PolicyLevelEnum) MarshalJSON() ([]byte, error) {
-	var buf bytes.Buffer
-	e.MarshalGQL(&buf)
-	return buf.Bytes(), nil
 }
 
 // Enum for the status of a policy mutation
@@ -25487,20 +23973,6 @@ func (e PolicyMutationStatus) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
-func (e *PolicyMutationStatus) UnmarshalJSON(b []byte) error {
-	s, err := strconv.Unquote(string(b))
-	if err != nil {
-		return err
-	}
-	return e.UnmarshalGQL(s)
-}
-
-func (e PolicyMutationStatus) MarshalJSON() ([]byte, error) {
-	var buf bytes.Buffer
-	e.MarshalGQL(&buf)
-	return buf.Bytes(), nil
-}
-
 // Enum for the type of a policy revision
 type PolicyRevisionType string
 
@@ -25541,20 +24013,6 @@ func (e *PolicyRevisionType) UnmarshalGQL(v any) error {
 
 func (e PolicyRevisionType) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
-}
-
-func (e *PolicyRevisionType) UnmarshalJSON(b []byte) error {
-	s, err := strconv.Unquote(string(b))
-	if err != nil {
-		return err
-	}
-	return e.UnmarshalGQL(s)
-}
-
-func (e PolicyRevisionType) MarshalJSON() ([]byte, error) {
-	var buf bytes.Buffer
-	e.MarshalGQL(&buf)
-	return buf.Bytes(), nil
 }
 
 // Enum for the position of a rule within a policy
@@ -25613,20 +24071,6 @@ func (e PolicyRulePositionEnum) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
-func (e *PolicyRulePositionEnum) UnmarshalJSON(b []byte) error {
-	s, err := strconv.Unquote(string(b))
-	if err != nil {
-		return err
-	}
-	return e.UnmarshalGQL(s)
-}
-
-func (e PolicyRulePositionEnum) MarshalJSON() ([]byte, error) {
-	var buf bytes.Buffer
-	e.MarshalGQL(&buf)
-	return buf.Bytes(), nil
-}
-
 // Enum for the frequency of an alert event for a rule
 type PolicyRuleTrackingFrequencyEnum string
 
@@ -25673,20 +24117,6 @@ func (e PolicyRuleTrackingFrequencyEnum) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
-func (e *PolicyRuleTrackingFrequencyEnum) UnmarshalJSON(b []byte) error {
-	s, err := strconv.Unquote(string(b))
-	if err != nil {
-		return err
-	}
-	return e.UnmarshalGQL(s)
-}
-
-func (e PolicyRuleTrackingFrequencyEnum) MarshalJSON() ([]byte, error) {
-	var buf bytes.Buffer
-	e.MarshalGQL(&buf)
-	return buf.Bytes(), nil
-}
-
 type PolicySectionPositionEnum string
 
 const (
@@ -25728,20 +24158,6 @@ func (e *PolicySectionPositionEnum) UnmarshalGQL(v any) error {
 
 func (e PolicySectionPositionEnum) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
-}
-
-func (e *PolicySectionPositionEnum) UnmarshalJSON(b []byte) error {
-	s, err := strconv.Unquote(string(b))
-	if err != nil {
-		return err
-	}
-	return e.UnmarshalGQL(s)
-}
-
-func (e PolicySectionPositionEnum) MarshalJSON() ([]byte, error) {
-	var buf bytes.Buffer
-	e.MarshalGQL(&buf)
-	return buf.Bytes(), nil
 }
 
 // Enum for the position of a rule within a policy
@@ -25794,20 +24210,6 @@ func (e PolicySubRulePositionEnum) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
-func (e *PolicySubRulePositionEnum) UnmarshalJSON(b []byte) error {
-	s, err := strconv.Unquote(string(b))
-	if err != nil {
-		return err
-	}
-	return e.UnmarshalGQL(s)
-}
-
-func (e PolicySubRulePositionEnum) MarshalJSON() ([]byte, error) {
-	var buf bytes.Buffer
-	e.MarshalGQL(&buf)
-	return buf.Bytes(), nil
-}
-
 // Enum for the state of a policy
 type PolicyToggleState string
 
@@ -25848,20 +24250,6 @@ func (e *PolicyToggleState) UnmarshalGQL(v any) error {
 
 func (e PolicyToggleState) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
-}
-
-func (e *PolicyToggleState) UnmarshalJSON(b []byte) error {
-	s, err := strconv.Unquote(string(b))
-	if err != nil {
-		return err
-	}
-	return e.UnmarshalGQL(s)
-}
-
-func (e PolicyToggleState) MarshalJSON() ([]byte, error) {
-	var buf bytes.Buffer
-	e.MarshalGQL(&buf)
-	return buf.Bytes(), nil
 }
 
 type ProtoType string
@@ -25951,20 +24339,6 @@ func (e ProtoType) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
-func (e *ProtoType) UnmarshalJSON(b []byte) error {
-	s, err := strconv.Unquote(string(b))
-	if err != nil {
-		return err
-	}
-	return e.UnmarshalGQL(s)
-}
-
-func (e ProtoType) MarshalJSON() ([]byte, error) {
-	var buf bytes.Buffer
-	e.MarshalGQL(&buf)
-	return buf.Bytes(), nil
-}
-
 type RBACAction string
 
 const (
@@ -26006,20 +24380,6 @@ func (e *RBACAction) UnmarshalGQL(v any) error {
 
 func (e RBACAction) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
-}
-
-func (e *RBACAction) UnmarshalJSON(b []byte) error {
-	s, err := strconv.Unquote(string(b))
-	if err != nil {
-		return err
-	}
-	return e.UnmarshalGQL(s)
-}
-
-func (e RBACAction) MarshalJSON() ([]byte, error) {
-	var buf bytes.Buffer
-	e.MarshalGQL(&buf)
-	return buf.Bytes(), nil
 }
 
 // REGIONAL and GLOBAL licenses for MOROCCO, CHINA, and VIETNAM group values
@@ -26064,20 +24424,6 @@ func (e *Regionality) UnmarshalGQL(v any) error {
 
 func (e Regionality) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
-}
-
-func (e *Regionality) UnmarshalJSON(b []byte) error {
-	s, err := strconv.Unquote(string(b))
-	if err != nil {
-		return err
-	}
-	return e.UnmarshalGQL(s)
-}
-
-func (e Regionality) MarshalJSON() ([]byte, error) {
-	var buf bytes.Buffer
-	e.MarshalGQL(&buf)
-	return buf.Bytes(), nil
 }
 
 type RemediationStatusEnum string
@@ -26157,20 +24503,6 @@ func (e RemediationStatusEnum) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
-func (e *RemediationStatusEnum) UnmarshalJSON(b []byte) error {
-	s, err := strconv.Unquote(string(b))
-	if err != nil {
-		return err
-	}
-	return e.UnmarshalGQL(s)
-}
-
-func (e RemediationStatusEnum) MarshalJSON() ([]byte, error) {
-	var buf bytes.Buffer
-	e.MarshalGQL(&buf)
-	return buf.Bytes(), nil
-}
-
 type RemotePortFwdRestrictionType string
 
 const (
@@ -26210,20 +24542,6 @@ func (e *RemotePortFwdRestrictionType) UnmarshalGQL(v any) error {
 
 func (e RemotePortFwdRestrictionType) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
-}
-
-func (e *RemotePortFwdRestrictionType) UnmarshalJSON(b []byte) error {
-	s, err := strconv.Unquote(string(b))
-	if err != nil {
-		return err
-	}
-	return e.UnmarshalGQL(s)
-}
-
-func (e RemotePortFwdRestrictionType) MarshalJSON() ([]byte, error) {
-	var buf bytes.Buffer
-	e.MarshalGQL(&buf)
-	return buf.Bytes(), nil
 }
 
 type ResourceRoleEnum string
@@ -26291,20 +24609,6 @@ func (e ResourceRoleEnum) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
-func (e *ResourceRoleEnum) UnmarshalJSON(b []byte) error {
-	s, err := strconv.Unquote(string(b))
-	if err != nil {
-		return err
-	}
-	return e.UnmarshalGQL(s)
-}
-
-func (e ResourceRoleEnum) MarshalJSON() ([]byte, error) {
-	var buf bytes.Buffer
-	e.MarshalGQL(&buf)
-	return buf.Bytes(), nil
-}
-
 type RiskLevelEnum string
 
 const (
@@ -26354,20 +24658,6 @@ func (e *RiskLevelEnum) UnmarshalGQL(v any) error {
 
 func (e RiskLevelEnum) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
-}
-
-func (e *RiskLevelEnum) UnmarshalJSON(b []byte) error {
-	s, err := strconv.Unquote(string(b))
-	if err != nil {
-		return err
-	}
-	return e.UnmarshalGQL(s)
-}
-
-func (e RiskLevelEnum) MarshalJSON() ([]byte, error) {
-	var buf bytes.Buffer
-	e.MarshalGQL(&buf)
-	return buf.Bytes(), nil
 }
 
 // Sandbox analysis failure reason
@@ -26426,20 +24716,6 @@ func (e SandboxFailureReason) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
-func (e *SandboxFailureReason) UnmarshalJSON(b []byte) error {
-	s, err := strconv.Unquote(string(b))
-	if err != nil {
-		return err
-	}
-	return e.UnmarshalGQL(s)
-}
-
-func (e SandboxFailureReason) MarshalJSON() ([]byte, error) {
-	var buf bytes.Buffer
-	e.MarshalGQL(&buf)
-	return buf.Bytes(), nil
-}
-
 // Sandbox analysis status
 type SandboxStatus string
 
@@ -26496,20 +24772,6 @@ func (e SandboxStatus) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
-func (e *SandboxStatus) UnmarshalJSON(b []byte) error {
-	s, err := strconv.Unquote(string(b))
-	if err != nil {
-		return err
-	}
-	return e.UnmarshalGQL(s)
-}
-
-func (e SandboxStatus) MarshalJSON() ([]byte, error) {
-	var buf bytes.Buffer
-	e.MarshalGQL(&buf)
-	return buf.Bytes(), nil
-}
-
 // Sandbox analysis verdict
 type SandboxVerdict string
 
@@ -26555,20 +24817,6 @@ func (e *SandboxVerdict) UnmarshalGQL(v any) error {
 
 func (e SandboxVerdict) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
-}
-
-func (e *SandboxVerdict) UnmarshalJSON(b []byte) error {
-	s, err := strconv.Unquote(string(b))
-	if err != nil {
-		return err
-	}
-	return e.UnmarshalGQL(s)
-}
-
-func (e SandboxVerdict) MarshalJSON() ([]byte, error) {
-	var buf bytes.Buffer
-	e.MarshalGQL(&buf)
-	return buf.Bytes(), nil
 }
 
 type ScanResult string
@@ -26622,20 +24870,6 @@ func (e ScanResult) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
-func (e *ScanResult) UnmarshalJSON(b []byte) error {
-	s, err := strconv.Unquote(string(b))
-	if err != nil {
-		return err
-	}
-	return e.UnmarshalGQL(s)
-}
-
-func (e ScanResult) MarshalJSON() ([]byte, error) {
-	var buf bytes.Buffer
-	e.MarshalGQL(&buf)
-	return buf.Bytes(), nil
-}
-
 type SeverityEnum string
 
 const (
@@ -26677,20 +24911,6 @@ func (e *SeverityEnum) UnmarshalGQL(v any) error {
 
 func (e SeverityEnum) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
-}
-
-func (e *SeverityEnum) UnmarshalJSON(b []byte) error {
-	s, err := strconv.Unquote(string(b))
-	if err != nil {
-		return err
-	}
-	return e.UnmarshalGQL(s)
-}
-
-func (e SeverityEnum) MarshalJSON() ([]byte, error) {
-	var buf bytes.Buffer
-	e.MarshalGQL(&buf)
-	return buf.Bytes(), nil
 }
 
 type ShippingStatus string
@@ -26736,20 +24956,6 @@ func (e *ShippingStatus) UnmarshalGQL(v any) error {
 
 func (e ShippingStatus) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
-}
-
-func (e *ShippingStatus) UnmarshalJSON(b []byte) error {
-	s, err := strconv.Unquote(string(b))
-	if err != nil {
-		return err
-	}
-	return e.UnmarshalGQL(s)
-}
-
-func (e ShippingStatus) MarshalJSON() ([]byte, error) {
-	var buf bytes.Buffer
-	e.MarshalGQL(&buf)
-	return buf.Bytes(), nil
 }
 
 type SimpleServiceType string
@@ -26807,20 +25013,6 @@ func (e SimpleServiceType) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
-func (e *SimpleServiceType) UnmarshalJSON(b []byte) error {
-	s, err := strconv.Unquote(string(b))
-	if err != nil {
-		return err
-	}
-	return e.UnmarshalGQL(s)
-}
-
-func (e SimpleServiceType) MarshalJSON() ([]byte, error) {
-	var buf bytes.Buffer
-	e.MarshalGQL(&buf)
-	return buf.Bytes(), nil
-}
-
 type SiteConnectionTypeEnum string
 
 const (
@@ -26872,20 +25064,6 @@ func (e *SiteConnectionTypeEnum) UnmarshalGQL(v any) error {
 
 func (e SiteConnectionTypeEnum) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
-}
-
-func (e *SiteConnectionTypeEnum) UnmarshalJSON(b []byte) error {
-	s, err := strconv.Unquote(string(b))
-	if err != nil {
-		return err
-	}
-	return e.UnmarshalGQL(s)
-}
-
-func (e SiteConnectionTypeEnum) MarshalJSON() ([]byte, error) {
-	var buf bytes.Buffer
-	e.MarshalGQL(&buf)
-	return buf.Bytes(), nil
 }
 
 type SiteLicenseGroup string
@@ -26962,20 +25140,6 @@ func (e SiteLicenseGroup) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
-func (e *SiteLicenseGroup) UnmarshalJSON(b []byte) error {
-	s, err := strconv.Unquote(string(b))
-	if err != nil {
-		return err
-	}
-	return e.UnmarshalGQL(s)
-}
-
-func (e SiteLicenseGroup) MarshalJSON() ([]byte, error) {
-	var buf bytes.Buffer
-	e.MarshalGQL(&buf)
-	return buf.Bytes(), nil
-}
-
 type SiteLicenseType string
 
 const (
@@ -27015,20 +25179,6 @@ func (e *SiteLicenseType) UnmarshalGQL(v any) error {
 
 func (e SiteLicenseType) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
-}
-
-func (e *SiteLicenseType) UnmarshalJSON(b []byte) error {
-	s, err := strconv.Unquote(string(b))
-	if err != nil {
-		return err
-	}
-	return e.UnmarshalGQL(s)
-}
-
-func (e SiteLicenseType) MarshalJSON() ([]byte, error) {
-	var buf bytes.Buffer
-	e.MarshalGQL(&buf)
-	return buf.Bytes(), nil
 }
 
 type SiteType string
@@ -27076,20 +25226,6 @@ func (e SiteType) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
-func (e *SiteType) UnmarshalJSON(b []byte) error {
-	s, err := strconv.Unquote(string(b))
-	if err != nil {
-		return err
-	}
-	return e.UnmarshalGQL(s)
-}
-
-func (e SiteType) MarshalJSON() ([]byte, error) {
-	var buf bytes.Buffer
-	e.MarshalGQL(&buf)
-	return buf.Bytes(), nil
-}
-
 type SocketAddOnExpansionSlotNumber string
 
 const (
@@ -27129,20 +25265,6 @@ func (e *SocketAddOnExpansionSlotNumber) UnmarshalGQL(v any) error {
 
 func (e SocketAddOnExpansionSlotNumber) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
-}
-
-func (e *SocketAddOnExpansionSlotNumber) UnmarshalJSON(b []byte) error {
-	s, err := strconv.Unquote(string(b))
-	if err != nil {
-		return err
-	}
-	return e.UnmarshalGQL(s)
-}
-
-func (e SocketAddOnExpansionSlotNumber) MarshalJSON() ([]byte, error) {
-	var buf bytes.Buffer
-	e.MarshalGQL(&buf)
-	return buf.Bytes(), nil
 }
 
 type SocketAddOnType string
@@ -27188,20 +25310,6 @@ func (e *SocketAddOnType) UnmarshalGQL(v any) error {
 
 func (e SocketAddOnType) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
-}
-
-func (e *SocketAddOnType) UnmarshalJSON(b []byte) error {
-	s, err := strconv.Unquote(string(b))
-	if err != nil {
-		return err
-	}
-	return e.UnmarshalGQL(s)
-}
-
-func (e SocketAddOnType) MarshalJSON() ([]byte, error) {
-	var buf bytes.Buffer
-	e.MarshalGQL(&buf)
-	return buf.Bytes(), nil
 }
 
 type SocketInterfaceDestType string
@@ -27261,20 +25369,6 @@ func (e *SocketInterfaceDestType) UnmarshalGQL(v any) error {
 
 func (e SocketInterfaceDestType) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
-}
-
-func (e *SocketInterfaceDestType) UnmarshalJSON(b []byte) error {
-	s, err := strconv.Unquote(string(b))
-	if err != nil {
-		return err
-	}
-	return e.UnmarshalGQL(s)
-}
-
-func (e SocketInterfaceDestType) MarshalJSON() ([]byte, error) {
-	var buf bytes.Buffer
-	e.MarshalGQL(&buf)
-	return buf.Bytes(), nil
 }
 
 // SocketInterface available ids, INT_# stands for 1,2,3...12 supported ids
@@ -27355,20 +25449,6 @@ func (e SocketInterfaceIDEnum) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
-func (e *SocketInterfaceIDEnum) UnmarshalJSON(b []byte) error {
-	s, err := strconv.Unquote(string(b))
-	if err != nil {
-		return err
-	}
-	return e.UnmarshalGQL(s)
-}
-
-func (e SocketInterfaceIDEnum) MarshalJSON() ([]byte, error) {
-	var buf bytes.Buffer
-	e.MarshalGQL(&buf)
-	return buf.Bytes(), nil
-}
-
 type SocketInterfacePrecedenceEnum string
 
 const (
@@ -27410,20 +25490,6 @@ func (e *SocketInterfacePrecedenceEnum) UnmarshalGQL(v any) error {
 
 func (e SocketInterfacePrecedenceEnum) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
-}
-
-func (e *SocketInterfacePrecedenceEnum) UnmarshalJSON(b []byte) error {
-	s, err := strconv.Unquote(string(b))
-	if err != nil {
-		return err
-	}
-	return e.UnmarshalGQL(s)
-}
-
-func (e SocketInterfacePrecedenceEnum) MarshalJSON() ([]byte, error) {
-	var buf bytes.Buffer
-	e.MarshalGQL(&buf)
-	return buf.Bytes(), nil
 }
 
 type SocketInterfaceRole string
@@ -27469,20 +25535,6 @@ func (e *SocketInterfaceRole) UnmarshalGQL(v any) error {
 
 func (e SocketInterfaceRole) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
-}
-
-func (e *SocketInterfaceRole) UnmarshalJSON(b []byte) error {
-	s, err := strconv.Unquote(string(b))
-	if err != nil {
-		return err
-	}
-	return e.UnmarshalGQL(s)
-}
-
-func (e SocketInterfaceRole) MarshalJSON() ([]byte, error) {
-	var buf bytes.Buffer
-	e.MarshalGQL(&buf)
-	return buf.Bytes(), nil
 }
 
 type SocketInterfaceWanRole string
@@ -27542,20 +25594,6 @@ func (e SocketInterfaceWanRole) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
-func (e *SocketInterfaceWanRole) UnmarshalJSON(b []byte) error {
-	s, err := strconv.Unquote(string(b))
-	if err != nil {
-		return err
-	}
-	return e.UnmarshalGQL(s)
-}
-
-func (e SocketInterfaceWanRole) MarshalJSON() ([]byte, error) {
-	var buf bytes.Buffer
-	e.MarshalGQL(&buf)
-	return buf.Bytes(), nil
-}
-
 type SocketInventoryItemStatus string
 
 const (
@@ -27603,20 +25641,6 @@ func (e SocketInventoryItemStatus) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
-func (e *SocketInventoryItemStatus) UnmarshalJSON(b []byte) error {
-	s, err := strconv.Unquote(string(b))
-	if err != nil {
-		return err
-	}
-	return e.UnmarshalGQL(s)
-}
-
-func (e SocketInventoryItemStatus) MarshalJSON() ([]byte, error) {
-	var buf bytes.Buffer
-	e.MarshalGQL(&buf)
-	return buf.Bytes(), nil
-}
-
 type SocketLanDirection string
 
 const (
@@ -27660,20 +25684,6 @@ func (e SocketLanDirection) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
-func (e *SocketLanDirection) UnmarshalJSON(b []byte) error {
-	s, err := strconv.Unquote(string(b))
-	if err != nil {
-		return err
-	}
-	return e.UnmarshalGQL(s)
-}
-
-func (e SocketLanDirection) MarshalJSON() ([]byte, error) {
-	var buf bytes.Buffer
-	e.MarshalGQL(&buf)
-	return buf.Bytes(), nil
-}
-
 type SocketLanFirewallAction string
 
 const (
@@ -27713,20 +25723,6 @@ func (e *SocketLanFirewallAction) UnmarshalGQL(v any) error {
 
 func (e SocketLanFirewallAction) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
-}
-
-func (e *SocketLanFirewallAction) UnmarshalJSON(b []byte) error {
-	s, err := strconv.Unquote(string(b))
-	if err != nil {
-		return err
-	}
-	return e.UnmarshalGQL(s)
-}
-
-func (e SocketLanFirewallAction) MarshalJSON() ([]byte, error) {
-	var buf bytes.Buffer
-	e.MarshalGQL(&buf)
-	return buf.Bytes(), nil
 }
 
 type SocketLanFirewallDirection string
@@ -27772,20 +25768,6 @@ func (e SocketLanFirewallDirection) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
-func (e *SocketLanFirewallDirection) UnmarshalJSON(b []byte) error {
-	s, err := strconv.Unquote(string(b))
-	if err != nil {
-		return err
-	}
-	return e.UnmarshalGQL(s)
-}
-
-func (e SocketLanFirewallDirection) MarshalJSON() ([]byte, error) {
-	var buf bytes.Buffer
-	e.MarshalGQL(&buf)
-	return buf.Bytes(), nil
-}
-
 type SocketLanNatType string
 
 const (
@@ -27823,20 +25805,6 @@ func (e *SocketLanNatType) UnmarshalGQL(v any) error {
 
 func (e SocketLanNatType) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
-}
-
-func (e *SocketLanNatType) UnmarshalJSON(b []byte) error {
-	s, err := strconv.Unquote(string(b))
-	if err != nil {
-		return err
-	}
-	return e.UnmarshalGQL(s)
-}
-
-func (e SocketLanNatType) MarshalJSON() ([]byte, error) {
-	var buf bytes.Buffer
-	e.MarshalGQL(&buf)
-	return buf.Bytes(), nil
 }
 
 type SocketLanTransportType string
@@ -27880,20 +25848,6 @@ func (e *SocketLanTransportType) UnmarshalGQL(v any) error {
 
 func (e SocketLanTransportType) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
-}
-
-func (e *SocketLanTransportType) UnmarshalJSON(b []byte) error {
-	s, err := strconv.Unquote(string(b))
-	if err != nil {
-		return err
-	}
-	return e.UnmarshalGQL(s)
-}
-
-func (e SocketLanTransportType) MarshalJSON() ([]byte, error) {
-	var buf bytes.Buffer
-	e.MarshalGQL(&buf)
-	return buf.Bytes(), nil
 }
 
 type SocketPlatform string
@@ -27955,20 +25909,6 @@ func (e *SocketPlatform) UnmarshalGQL(v any) error {
 
 func (e SocketPlatform) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
-}
-
-func (e *SocketPlatform) UnmarshalJSON(b []byte) error {
-	s, err := strconv.Unquote(string(b))
-	if err != nil {
-		return err
-	}
-	return e.UnmarshalGQL(s)
-}
-
-func (e SocketPlatform) MarshalJSON() ([]byte, error) {
-	var buf bytes.Buffer
-	e.MarshalGQL(&buf)
-	return buf.Bytes(), nil
 }
 
 type SocketPortMetricsFieldName string
@@ -28068,20 +26008,6 @@ func (e SocketPortMetricsFieldName) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
-func (e *SocketPortMetricsFieldName) UnmarshalJSON(b []byte) error {
-	s, err := strconv.Unquote(string(b))
-	if err != nil {
-		return err
-	}
-	return e.UnmarshalGQL(s)
-}
-
-func (e SocketPortMetricsFieldName) MarshalJSON() ([]byte, error) {
-	var buf bytes.Buffer
-	e.MarshalGQL(&buf)
-	return buf.Bytes(), nil
-}
-
 type SocketRegistrationStatus string
 
 const (
@@ -28131,20 +26057,6 @@ func (e *SocketRegistrationStatus) UnmarshalGQL(v any) error {
 
 func (e SocketRegistrationStatus) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
-}
-
-func (e *SocketRegistrationStatus) UnmarshalJSON(b []byte) error {
-	s, err := strconv.Unquote(string(b))
-	if err != nil {
-		return err
-	}
-	return e.UnmarshalGQL(s)
-}
-
-func (e SocketRegistrationStatus) MarshalJSON() ([]byte, error) {
-	var buf bytes.Buffer
-	e.MarshalGQL(&buf)
-	return buf.Bytes(), nil
 }
 
 type SocketUpgradeStatus string
@@ -28204,20 +26116,6 @@ func (e SocketUpgradeStatus) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
-func (e *SocketUpgradeStatus) UnmarshalJSON(b []byte) error {
-	s, err := strconv.Unquote(string(b))
-	if err != nil {
-		return err
-	}
-	return e.UnmarshalGQL(s)
-}
-
-func (e SocketUpgradeStatus) MarshalJSON() ([]byte, error) {
-	var buf bytes.Buffer
-	e.MarshalGQL(&buf)
-	return buf.Bytes(), nil
-}
-
 type SortDirectionEnum string
 
 const (
@@ -28259,20 +26157,6 @@ func (e SortDirectionEnum) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
-func (e *SortDirectionEnum) UnmarshalJSON(b []byte) error {
-	s, err := strconv.Unquote(string(b))
-	if err != nil {
-		return err
-	}
-	return e.UnmarshalGQL(s)
-}
-
-func (e SortDirectionEnum) MarshalJSON() ([]byte, error) {
-	var buf bytes.Buffer
-	e.MarshalGQL(&buf)
-	return buf.Bytes(), nil
-}
-
 type SortOrder string
 
 const (
@@ -28312,20 +26196,6 @@ func (e *SortOrder) UnmarshalGQL(v any) error {
 
 func (e SortOrder) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
-}
-
-func (e *SortOrder) UnmarshalJSON(b []byte) error {
-	s, err := strconv.Unquote(string(b))
-	if err != nil {
-		return err
-	}
-	return e.UnmarshalGQL(s)
-}
-
-func (e SortOrder) MarshalJSON() ([]byte, error) {
-	var buf bytes.Buffer
-	e.MarshalGQL(&buf)
-	return buf.Bytes(), nil
 }
 
 // The action applied by the split tunnel if the rule is matched
@@ -28383,20 +26253,6 @@ func (e SplitTunnelActionEnum) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
-func (e *SplitTunnelActionEnum) UnmarshalJSON(b []byte) error {
-	s, err := strconv.Unquote(string(b))
-	if err != nil {
-		return err
-	}
-	return e.UnmarshalGQL(s)
-}
-
-func (e SplitTunnelActionEnum) MarshalJSON() ([]byte, error) {
-	var buf bytes.Buffer
-	e.MarshalGQL(&buf)
-	return buf.Bytes(), nil
-}
-
 type SplitTunnelCoverageEnum string
 
 const (
@@ -28440,20 +26296,6 @@ func (e SplitTunnelCoverageEnum) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
-func (e *SplitTunnelCoverageEnum) UnmarshalJSON(b []byte) error {
-	s, err := strconv.Unquote(string(b))
-	if err != nil {
-		return err
-	}
-	return e.UnmarshalGQL(s)
-}
-
-func (e SplitTunnelCoverageEnum) MarshalJSON() ([]byte, error) {
-	var buf bytes.Buffer
-	e.MarshalGQL(&buf)
-	return buf.Bytes(), nil
-}
-
 // The action applied by the split tunnel if the rule is matched
 type SplitTunnelRoutingPriorityEnum string
 
@@ -28494,20 +26336,6 @@ func (e *SplitTunnelRoutingPriorityEnum) UnmarshalGQL(v any) error {
 
 func (e SplitTunnelRoutingPriorityEnum) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
-}
-
-func (e *SplitTunnelRoutingPriorityEnum) UnmarshalJSON(b []byte) error {
-	s, err := strconv.Unquote(string(b))
-	if err != nil {
-		return err
-	}
-	return e.UnmarshalGQL(s)
-}
-
-func (e SplitTunnelRoutingPriorityEnum) MarshalJSON() ([]byte, error) {
-	var buf bytes.Buffer
-	e.MarshalGQL(&buf)
-	return buf.Bytes(), nil
 }
 
 type SplitTunnelSourceNetworkTypeEnum string
@@ -28555,20 +26383,6 @@ func (e SplitTunnelSourceNetworkTypeEnum) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
-func (e *SplitTunnelSourceNetworkTypeEnum) UnmarshalJSON(b []byte) error {
-	s, err := strconv.Unquote(string(b))
-	if err != nil {
-		return err
-	}
-	return e.UnmarshalGQL(s)
-}
-
-func (e SplitTunnelSourceNetworkTypeEnum) MarshalJSON() ([]byte, error) {
-	var buf bytes.Buffer
-	e.MarshalGQL(&buf)
-	return buf.Bytes(), nil
-}
-
 type StoryEngineTypeEnum string
 
 const (
@@ -28614,20 +26428,6 @@ func (e *StoryEngineTypeEnum) UnmarshalGQL(v any) error {
 
 func (e StoryEngineTypeEnum) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
-}
-
-func (e *StoryEngineTypeEnum) UnmarshalJSON(b []byte) error {
-	s, err := strconv.Unquote(string(b))
-	if err != nil {
-		return err
-	}
-	return e.UnmarshalGQL(s)
-}
-
-func (e StoryEngineTypeEnum) MarshalJSON() ([]byte, error) {
-	var buf bytes.Buffer
-	e.MarshalGQL(&buf)
-	return buf.Bytes(), nil
 }
 
 type StoryProducerEnum string
@@ -28686,20 +26486,6 @@ func (e *StoryProducerEnum) UnmarshalGQL(v any) error {
 
 func (e StoryProducerEnum) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
-}
-
-func (e *StoryProducerEnum) UnmarshalJSON(b []byte) error {
-	s, err := strconv.Unquote(string(b))
-	if err != nil {
-		return err
-	}
-	return e.UnmarshalGQL(s)
-}
-
-func (e StoryProducerEnum) MarshalJSON() ([]byte, error) {
-	var buf bytes.Buffer
-	e.MarshalGQL(&buf)
-	return buf.Bytes(), nil
 }
 
 type StorySortFieldName string
@@ -28765,20 +26551,6 @@ func (e StorySortFieldName) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
-func (e *StorySortFieldName) UnmarshalJSON(b []byte) error {
-	s, err := strconv.Unquote(string(b))
-	if err != nil {
-		return err
-	}
-	return e.UnmarshalGQL(s)
-}
-
-func (e StorySortFieldName) MarshalJSON() ([]byte, error) {
-	var buf bytes.Buffer
-	e.MarshalGQL(&buf)
-	return buf.Bytes(), nil
-}
-
 type StoryStatusEnum string
 
 const (
@@ -28828,20 +26600,6 @@ func (e StoryStatusEnum) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
-func (e *StoryStatusEnum) UnmarshalJSON(b []byte) error {
-	s, err := strconv.Unquote(string(b))
-	if err != nil {
-		return err
-	}
-	return e.UnmarshalGQL(s)
-}
-
-func (e StoryStatusEnum) MarshalJSON() ([]byte, error) {
-	var buf bytes.Buffer
-	e.MarshalGQL(&buf)
-	return buf.Bytes(), nil
-}
-
 type StoryVerdictEnum string
 
 const (
@@ -28885,20 +26643,6 @@ func (e *StoryVerdictEnum) UnmarshalGQL(v any) error {
 
 func (e StoryVerdictEnum) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
-}
-
-func (e *StoryVerdictEnum) UnmarshalJSON(b []byte) error {
-	s, err := strconv.Unquote(string(b))
-	if err != nil {
-		return err
-	}
-	return e.UnmarshalGQL(s)
-}
-
-func (e StoryVerdictEnum) MarshalJSON() ([]byte, error) {
-	var buf bytes.Buffer
-	e.MarshalGQL(&buf)
-	return buf.Bytes(), nil
 }
 
 type SubnetType string
@@ -28948,20 +26692,6 @@ func (e SubnetType) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
-func (e *SubnetType) UnmarshalJSON(b []byte) error {
-	s, err := strconv.Unquote(string(b))
-	if err != nil {
-		return err
-	}
-	return e.UnmarshalGQL(s)
-}
-
-func (e SubnetType) MarshalJSON() ([]byte, error) {
-	var buf bytes.Buffer
-	e.MarshalGQL(&buf)
-	return buf.Bytes(), nil
-}
-
 type TaggingMethod string
 
 const (
@@ -29001,20 +26731,6 @@ func (e *TaggingMethod) UnmarshalGQL(v any) error {
 
 func (e TaggingMethod) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
-}
-
-func (e *TaggingMethod) UnmarshalJSON(b []byte) error {
-	s, err := strconv.Unquote(string(b))
-	if err != nil {
-		return err
-	}
-	return e.UnmarshalGQL(s)
-}
-
-func (e TaggingMethod) MarshalJSON() ([]byte, error) {
-	var buf bytes.Buffer
-	e.MarshalGQL(&buf)
-	return buf.Bytes(), nil
 }
 
 type TargetType string
@@ -29062,20 +26778,6 @@ func (e TargetType) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
-func (e *TargetType) UnmarshalJSON(b []byte) error {
-	s, err := strconv.Unquote(string(b))
-	if err != nil {
-		return err
-	}
-	return e.UnmarshalGQL(s)
-}
-
-func (e TargetType) MarshalJSON() ([]byte, error) {
-	var buf bytes.Buffer
-	e.MarshalGQL(&buf)
-	return buf.Bytes(), nil
-}
-
 type TimeFrameModifier string
 
 const (
@@ -29117,20 +26819,6 @@ func (e *TimeFrameModifier) UnmarshalGQL(v any) error {
 
 func (e TimeFrameModifier) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
-}
-
-func (e *TimeFrameModifier) UnmarshalJSON(b []byte) error {
-	s, err := strconv.Unquote(string(b))
-	if err != nil {
-		return err
-	}
-	return e.UnmarshalGQL(s)
-}
-
-func (e TimeFrameModifier) MarshalJSON() ([]byte, error) {
-	var buf bytes.Buffer
-	e.MarshalGQL(&buf)
-	return buf.Bytes(), nil
 }
 
 type TimelineItemCategoryEnum string
@@ -29176,20 +26864,6 @@ func (e TimelineItemCategoryEnum) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
-func (e *TimelineItemCategoryEnum) UnmarshalJSON(b []byte) error {
-	s, err := strconv.Unquote(string(b))
-	if err != nil {
-		return err
-	}
-	return e.UnmarshalGQL(s)
-}
-
-func (e TimelineItemCategoryEnum) MarshalJSON() ([]byte, error) {
-	var buf bytes.Buffer
-	e.MarshalGQL(&buf)
-	return buf.Bytes(), nil
-}
-
 type TimelineTypeEnum string
 
 const (
@@ -29231,20 +26905,6 @@ func (e *TimelineTypeEnum) UnmarshalGQL(v any) error {
 
 func (e TimelineTypeEnum) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
-}
-
-func (e *TimelineTypeEnum) UnmarshalJSON(b []byte) error {
-	s, err := strconv.Unquote(string(b))
-	if err != nil {
-		return err
-	}
-	return e.UnmarshalGQL(s)
-}
-
-func (e TimelineTypeEnum) MarshalJSON() ([]byte, error) {
-	var buf bytes.Buffer
-	e.MarshalGQL(&buf)
-	return buf.Bytes(), nil
 }
 
 type TimeseriesMetricType string
@@ -29352,20 +27012,6 @@ func (e TimeseriesMetricType) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
-func (e *TimeseriesMetricType) UnmarshalJSON(b []byte) error {
-	s, err := strconv.Unquote(string(b))
-	if err != nil {
-		return err
-	}
-	return e.UnmarshalGQL(s)
-}
-
-func (e TimeseriesMetricType) MarshalJSON() ([]byte, error) {
-	var buf bytes.Buffer
-	e.MarshalGQL(&buf)
-	return buf.Bytes(), nil
-}
-
 type TLSInspectAction string
 
 const (
@@ -29405,20 +27051,6 @@ func (e *TLSInspectAction) UnmarshalGQL(v any) error {
 
 func (e TLSInspectAction) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
-}
-
-func (e *TLSInspectAction) UnmarshalJSON(b []byte) error {
-	s, err := strconv.Unquote(string(b))
-	if err != nil {
-		return err
-	}
-	return e.UnmarshalGQL(s)
-}
-
-func (e TLSInspectAction) MarshalJSON() ([]byte, error) {
-	var buf bytes.Buffer
-	e.MarshalGQL(&buf)
-	return buf.Bytes(), nil
 }
 
 // System categories for TLS inspection policy
@@ -29465,20 +27097,6 @@ func (e TLSInspectSystemCategory) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
-func (e *TLSInspectSystemCategory) UnmarshalJSON(b []byte) error {
-	s, err := strconv.Unquote(string(b))
-	if err != nil {
-		return err
-	}
-	return e.UnmarshalGQL(s)
-}
-
-func (e TLSInspectSystemCategory) MarshalJSON() ([]byte, error) {
-	var buf bytes.Buffer
-	e.MarshalGQL(&buf)
-	return buf.Bytes(), nil
-}
-
 type TLSInspectUntrustedCertificateAction string
 
 const (
@@ -29522,20 +27140,6 @@ func (e TLSInspectUntrustedCertificateAction) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
-func (e *TLSInspectUntrustedCertificateAction) UnmarshalJSON(b []byte) error {
-	s, err := strconv.Unquote(string(b))
-	if err != nil {
-		return err
-	}
-	return e.UnmarshalGQL(s)
-}
-
-func (e TLSInspectUntrustedCertificateAction) MarshalJSON() ([]byte, error) {
-	var buf bytes.Buffer
-	e.MarshalGQL(&buf)
-	return buf.Bytes(), nil
-}
-
 type TrafficDirectionEnum string
 
 const (
@@ -29575,20 +27179,6 @@ func (e *TrafficDirectionEnum) UnmarshalGQL(v any) error {
 
 func (e TrafficDirectionEnum) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
-}
-
-func (e *TrafficDirectionEnum) UnmarshalJSON(b []byte) error {
-	s, err := strconv.Unquote(string(b))
-	if err != nil {
-		return err
-	}
-	return e.UnmarshalGQL(s)
-}
-
-func (e TrafficDirectionEnum) MarshalJSON() ([]byte, error) {
-	var buf bytes.Buffer
-	e.MarshalGQL(&buf)
-	return buf.Bytes(), nil
 }
 
 type UnitType string
@@ -29655,20 +27245,6 @@ func (e UnitType) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
-func (e *UnitType) UnmarshalJSON(b []byte) error {
-	s, err := strconv.Unquote(string(b))
-	if err != nil {
-		return err
-	}
-	return e.UnmarshalGQL(s)
-}
-
-func (e UnitType) MarshalJSON() ([]byte, error) {
-	var buf bytes.Buffer
-	e.MarshalGQL(&buf)
-	return buf.Bytes(), nil
-}
-
 type UserRole string
 
 const (
@@ -29720,20 +27296,6 @@ func (e UserRole) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
-func (e *UserRole) UnmarshalJSON(b []byte) error {
-	s, err := strconv.Unquote(string(b))
-	if err != nil {
-		return err
-	}
-	return e.UnmarshalGQL(s)
-}
-
-func (e UserRole) MarshalJSON() ([]byte, error) {
-	var buf bytes.Buffer
-	e.MarshalGQL(&buf)
-	return buf.Bytes(), nil
-}
-
 type VendorEnum string
 
 const (
@@ -29775,20 +27337,6 @@ func (e VendorEnum) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
-func (e *VendorEnum) UnmarshalJSON(b []byte) error {
-	s, err := strconv.Unquote(string(b))
-	if err != nil {
-		return err
-	}
-	return e.UnmarshalGQL(s)
-}
-
-func (e VendorEnum) MarshalJSON() ([]byte, error) {
-	var buf bytes.Buffer
-	e.MarshalGQL(&buf)
-	return buf.Bytes(), nil
-}
-
 type VrrpType string
 
 const (
@@ -29828,20 +27376,6 @@ func (e *VrrpType) UnmarshalGQL(v any) error {
 
 func (e VrrpType) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
-}
-
-func (e *VrrpType) UnmarshalJSON(b []byte) error {
-	s, err := strconv.Unquote(string(b))
-	if err != nil {
-		return err
-	}
-	return e.UnmarshalGQL(s)
-}
-
-func (e VrrpType) MarshalJSON() ([]byte, error) {
-	var buf bytes.Buffer
-	e.MarshalGQL(&buf)
-	return buf.Bytes(), nil
 }
 
 type WanFirewallActionEnum string
@@ -29890,20 +27424,6 @@ func (e WanFirewallActionEnum) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
-func (e *WanFirewallActionEnum) UnmarshalJSON(b []byte) error {
-	s, err := strconv.Unquote(string(b))
-	if err != nil {
-		return err
-	}
-	return e.UnmarshalGQL(s)
-}
-
-func (e WanFirewallActionEnum) MarshalJSON() ([]byte, error) {
-	var buf bytes.Buffer
-	e.MarshalGQL(&buf)
-	return buf.Bytes(), nil
-}
-
 type WanFirewallDirectionEnum string
 
 const (
@@ -29943,20 +27463,6 @@ func (e *WanFirewallDirectionEnum) UnmarshalGQL(v any) error {
 
 func (e WanFirewallDirectionEnum) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
-}
-
-func (e *WanFirewallDirectionEnum) UnmarshalJSON(b []byte) error {
-	s, err := strconv.Unquote(string(b))
-	if err != nil {
-		return err
-	}
-	return e.UnmarshalGQL(s)
-}
-
-func (e WanFirewallDirectionEnum) MarshalJSON() ([]byte, error) {
-	var buf bytes.Buffer
-	e.MarshalGQL(&buf)
-	return buf.Bytes(), nil
 }
 
 type WanNetworkRuleInterfaceRole string
@@ -30020,20 +27526,6 @@ func (e WanNetworkRuleInterfaceRole) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
-func (e *WanNetworkRuleInterfaceRole) UnmarshalJSON(b []byte) error {
-	s, err := strconv.Unquote(string(b))
-	if err != nil {
-		return err
-	}
-	return e.UnmarshalGQL(s)
-}
-
-func (e WanNetworkRuleInterfaceRole) MarshalJSON() ([]byte, error) {
-	var buf bytes.Buffer
-	e.MarshalGQL(&buf)
-	return buf.Bytes(), nil
-}
-
 type WanNetworkRuleRouteType string
 
 const (
@@ -30089,20 +27581,6 @@ func (e WanNetworkRuleRouteType) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
-func (e *WanNetworkRuleRouteType) UnmarshalJSON(b []byte) error {
-	s, err := strconv.Unquote(string(b))
-	if err != nil {
-		return err
-	}
-	return e.UnmarshalGQL(s)
-}
-
-func (e WanNetworkRuleRouteType) MarshalJSON() ([]byte, error) {
-	var buf bytes.Buffer
-	e.MarshalGQL(&buf)
-	return buf.Bytes(), nil
-}
-
 type WanNetworkRuleTransportType string
 
 const (
@@ -30155,20 +27633,6 @@ func (e WanNetworkRuleTransportType) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
-func (e *WanNetworkRuleTransportType) UnmarshalJSON(b []byte) error {
-	s, err := strconv.Unquote(string(b))
-	if err != nil {
-		return err
-	}
-	return e.UnmarshalGQL(s)
-}
-
-func (e WanNetworkRuleTransportType) MarshalJSON() ([]byte, error) {
-	var buf bytes.Buffer
-	e.MarshalGQL(&buf)
-	return buf.Bytes(), nil
-}
-
 type WanNetworkRuleType string
 
 const (
@@ -30215,20 +27679,6 @@ func (e WanNetworkRuleType) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
-func (e *WanNetworkRuleType) UnmarshalJSON(b []byte) error {
-	s, err := strconv.Unquote(string(b))
-	if err != nil {
-		return err
-	}
-	return e.UnmarshalGQL(s)
-}
-
-func (e WanNetworkRuleType) MarshalJSON() ([]byte, error) {
-	var buf bytes.Buffer
-	e.MarshalGQL(&buf)
-	return buf.Bytes(), nil
-}
-
 // The action applied by the Always on policy if the rule is matched
 type ZtnaAlwaysOnRuleActionEnum string
 
@@ -30273,20 +27723,6 @@ func (e ZtnaAlwaysOnRuleActionEnum) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
-func (e *ZtnaAlwaysOnRuleActionEnum) UnmarshalJSON(b []byte) error {
-	s, err := strconv.Unquote(string(b))
-	if err != nil {
-		return err
-	}
-	return e.UnmarshalGQL(s)
-}
-
-func (e ZtnaAlwaysOnRuleActionEnum) MarshalJSON() ([]byte, error) {
-	var buf bytes.Buffer
-	e.MarshalGQL(&buf)
-	return buf.Bytes(), nil
-}
-
 // Return the time unit of the duration time
 type ZtnaAlwaysOnTimeUnit string
 
@@ -30329,20 +27765,6 @@ func (e *ZtnaAlwaysOnTimeUnit) UnmarshalGQL(v any) error {
 
 func (e ZtnaAlwaysOnTimeUnit) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
-}
-
-func (e *ZtnaAlwaysOnTimeUnit) UnmarshalJSON(b []byte) error {
-	s, err := strconv.Unquote(string(b))
-	if err != nil {
-		return err
-	}
-	return e.UnmarshalGQL(s)
-}
-
-func (e ZtnaAlwaysOnTimeUnit) MarshalJSON() ([]byte, error) {
-	var buf bytes.Buffer
-	e.MarshalGQL(&buf)
-	return buf.Bytes(), nil
 }
 
 // Geographical regions that can be associated with a remote user license
@@ -30398,18 +27820,4 @@ func (e *ZtnaUsersLicenseGroup) UnmarshalGQL(v any) error {
 
 func (e ZtnaUsersLicenseGroup) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
-}
-
-func (e *ZtnaUsersLicenseGroup) UnmarshalJSON(b []byte) error {
-	s, err := strconv.Unquote(string(b))
-	if err != nil {
-		return err
-	}
-	return e.UnmarshalGQL(s)
-}
-
-func (e ZtnaUsersLicenseGroup) MarshalJSON() ([]byte, error) {
-	var buf bytes.Buffer
-	e.MarshalGQL(&buf)
-	return buf.Bytes(), nil
 }
