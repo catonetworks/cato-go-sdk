@@ -8643,76 +8643,172 @@ interface QuantifiableLicense implements License {
 }
 
 enum LicenseSku {
-  """Cato Anti Malware (legacy) service SKU"""
+  """ Cato App & Data Security Package BW SKU """
+  CATO_ADSP_B
+  """ Cato App & Data Security Package Users SKU """
+  CATO_ADSP_U
+  """ Cato AI Security Applications SKU """
+  CATO_AI_SEC_APP_U
+  """ Cato AI Security Users SKU """
+  CATO_AI_SEC_U
+  """ Cato Anti Malware (legacy) service SKU """
   CATO_ANTI_MALWARE
-  """Cato Anti Malware Next Generation (legacy) service SKU"""
+  """ Cato Anti Malware Next Generation (legacy) service SKU """
   CATO_ANTI_MALWARE_NG
-  """Cato CASB service SKU"""
+  """ Cato App Connector Bandwidth SKU """
+  CATO_APP_CON_B
+  """ Cato App Connector User SKU """
+  CATO_APP_CON_U
+  """ Cato Assets Group SKU """
+  CATO_ASTS_SEC
+  """ Cato Assets Security 2.5K - 10K Devices SKU """
+  CATO_ASTS_SEC_10K
+  """ Cato Assets Security 10K - 15K Devices SKU """
+  CATO_ASTS_SEC_15K
+  """ Cato Assets Security 1.5K Devices SKU """
+  CATO_ASTS_SEC_1_5K
+  """ Cato Assets Security 15K - 25K Devices SKU """
+  CATO_ASTS_SEC_25K
+  """ Cato Assets Security 1.5K - 2.5K Devices SKU """
+  CATO_ASTS_SEC_2_5K
+  """ Cato Assets Security 25K - 50K Devices SKU """
+  CATO_ASTS_SEC_50K
+  """ Cato Assets Security Above 50K Devices SKU """
+  CATO_ASTS_SEC_ABV_50K
+  """ Cato Advanced Protection BW SKU """
+  CATO_ATP_B
+  """ Cato Advanced Protection Users SKU """
+  CATO_ATP_U
+  """ Cato ATP for MSP users SKU """
+  CATO_ATP_USER_SA
+  """ Cato CASB service SKU """
   CATO_CASB
-  """Cato datalake Group SKU"""
+  """ Cato Cloud Access Security Broker BW SKU """
+  CATO_CASB_B
+  """ Cato CASB for MSP bandwidth SKU """
+  CATO_CASB_PB_SA
+  """ Cato Cloud Access Security Broker Users SKU """
+  CATO_CASB_U
+  """ Cato CASB for MSP users SKU """
+  CATO_CASB_USER_SA
+  """ Cato datalake Group SKU """
   CATO_DATALAKE
-  """12 months data retention SKU"""
+  """ Cato Data Lake Storage 2.5M/h, 12 Month Retention SKU """
   CATO_DATALAKE_12M
-  """3 months data retention SKU"""
+  """ Cato Data Lake Storage 2.5M/h, 3 Month Retention SKU """
   CATO_DATALAKE_3M
-  """6 months data retention SKU"""
+  """ Cato Data Lake Storage 2.5M/h, 6 Month Retention SKU """
   CATO_DATALAKE_6M
-  """Cato DEM service SKU"""
+  """ Cato DEM service SKU """
   CATO_DEM
-  """Cato DLP service SKU"""
+  """ Cato Digital Experience Monitoring SKU """
+  CATO_DEM_U
+  """ Cato DLP service SKU """
   CATO_DLP
-  """Cato EPP service SKU"""
+  """ Cato Data Loss Prevention BW SKU """
+  CATO_DLP_B
+  """ Cato DLP for MSP bandwidth SKU """
+  CATO_DLP_PB_SA
+  """ Cato Data Loss Prevention Users SKU """
+  CATO_DLP_U
+  """ Cato DLP for MSP users SKU """
+  CATO_DLP_USER_SA
+  """ Cato EPP service SKU """
   CATO_EPP
-  """Cato ILMM service SKU"""
+  """ Cato Endpoint Protection SKU """
+  CATO_EPP_U
+  """ Cato Hands Free Management SKU """
+  CATO_HFM_S
+  """ Cato ILMM service SKU """
   CATO_ILMM
-  """Cato IoT/OT Security service SKU"""
+  """ Cato Intelligent Last Mile Management SKU """
+  CATO_ILMM_S
+  """ Cato IoT/OT Security service SKU """
   CATO_IOT_OT
-  """Public IPs SKU"""
-  CATO_IP_ADD
-  """Cato IPS (legacy) service SKU"""
+  """ Cato IPS (legacy) service SKU """
   CATO_IPS
-  """Cato Managed XDR service SKU"""
+  """ Public IPs SKU """
+  CATO_IP_ADD
+  """ Cato Managed XDR service SKU """
   CATO_MANAGED_XDR
-  """Cato MDR service SKU"""
+  """ Cato MDR service SKU """
   CATO_MDR
-  """Cato NOCaaS service SKU"""
+  """ Cato Managed Detection and Response SKU """
+  CATO_MDR_U
+  """ Cato NOCaaS service SKU """
   CATO_NOCAAS_HF
-  """Site pooled bandwidth SASE SKU"""
+  """ Cato NOCaaS SKU """
+  CATO_NOCAAS_HF_S
+  """ Site pooled bandwidth SASE SKU """
   CATO_PB
-  """Site pooled bandwidth SSE SKU"""
+  """ Site pooled bandwidth SSE SKU """
   CATO_PB_SSE
-  """Cato Remote Browser Isolation (RBI) service SKU"""
+  """ Cato Remote Browser Isolation (RBI) service SKU """
   CATO_RBI
-  """Cato SAAS Group SKU"""
+  """ Cato Remote Browser Isolation BW SKU """
+  CATO_RBI_B
+  """ Cato Remote Browser Isolation Users SKU """
+  CATO_RBI_U
+  """ Cato Remote User SKU """
+  CATO_REMOTE_U
+  """ Cato SAAS Group SKU """
   CATO_SAAS
   CATO_SAAS_SECURITY_API
-  """
-  Cato SAAS Security API with more than two Applications integration (legacy) service SKU
-  """
+  """ Cato SAAS Security API with more than two Applications integration (legacy) service SKU """
   CATO_SAAS_SECURITY_API_ALL_APPS
-  """
-  Cato SAAS Security API with one application integration (legacy) service SKU
-  """
+  """ Cato SAAS Security API with one application integration (legacy) service SKU """
   CATO_SAAS_SECURITY_API_ONE_APP
-  """
-  Cato SAAS Security API with two applications integration (legacy) service SKU
-  """
+  """ Cato SAAS Security API with two applications integration (legacy) service SKU """
   CATO_SAAS_SECURITY_API_TWO_APPS
-  """Site bandwidth SASE SKU"""
+  """ Cato Secured Internet Access Bandwidth SKU """
+  CATO_SIA_B
+  """ Cato Secured Internet Access User SKU """
+  CATO_SIA_U
+  """ Site bandwidth SASE SKU """
   CATO_SITE
-  """Site bandwidth SSE SKU"""
+  """ Cato Sandbox BW SKU """
+  CATO_SNDBX_B
+  """ Cato Sandbox Users SKU """
+  CATO_SNDBX_U
+  """ Cato Socket X1500 SKU """
+  CATO_SOCKET_X1500_R
+  """ Cato Socket X1600 5G SKU """
+  CATO_SOCKET_X1600_5G_R
+  """ Cato Socket X1600 LTE SKU """
+  CATO_SOCKET_X1600_LTE_R
+  """ Cato Socket X1600 SKU """
+  CATO_SOCKET_X1600_R
+  """ Cato Socket X1600 Wifi + 5G SKU """
+  CATO_SOCKET_X1600_WIFI_5G_R
+  """ Cato Socket X1600 Wifi SKU """
+  CATO_SOCKET_X1600_WIFI_R
+  """ Cato Socket X1700 SKU """
+  CATO_SOCKET_X1700_R
+  """ Site bandwidth SSE SKU """
   CATO_SSE_SITE
-  """Cato Threat Prevention (legacy) service SKU"""
+  """ Cato Threat Prevention (legacy) service SKU """
   CATO_THREAT_PREVENTION
-  """Cato Advanced Threat Prevention service SKU"""
+  """ Cato Advanced Threat Prevention service SKU """
   CATO_THREAT_PREVENTION_ADV
-  """Cato XDR service SKU"""
+  """ Cato ATP for MSP bandwidth SKU """
+  CATO_THREAT_PREVENTION_ADV_PB_SA
+  """ Cato TP for MSP bandwidth SKU """
+  CATO_THREAT_PREVENTION_PB_SA
+  """ Cato TP for MSP users SKU """
+  CATO_THREAT_PREVENTION_USER_SA
+  """ Cato WAN Bandwidth SKU """
+  CATO_WAN
+  """ Cato WAN Threat Prevention BW SKU """
+  CATO_WAN_TP_B
+  """ Cato XDR service SKU """
   CATO_XDR_PRO
-  """Cato XOps service SKU"""
+  """ Cato XOps service SKU """
   CATO_XOPS
-  """ZTNA remote users SKU"""
+  """ Cato XOPs SKU """
+  CATO_XOPS_U
+  """ ZTNA remote users SKU """
   CATO_ZTNA_USERS
-  """ZTNA remote users SKU"""
+  """ ZTNA remote users SKU """
   MOBILE_USERS @deprecated(reason: "replaced with CATO_ZTNA_USERS")
 }
 
