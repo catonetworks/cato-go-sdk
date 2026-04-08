@@ -22785,112 +22785,265 @@ func (e LicensePlan) MarshalGQL(w io.Writer) {
 type LicenseSku string
 
 const (
-	// Cato Anti Malware (legacy) service SKU
+	//  Cato App & Data Security Package BW SKU
+	LicenseSkuCatoAdspB LicenseSku = "CATO_ADSP_B"
+	//  Cato App & Data Security Package Users SKU
+	LicenseSkuCatoAdspU LicenseSku = "CATO_ADSP_U"
+	//  Cato AI Security Applications SKU
+	LicenseSkuCatoAiSecAppU LicenseSku = "CATO_AI_SEC_APP_U"
+	//  Cato AI Security Users SKU
+	LicenseSkuCatoAiSecU LicenseSku = "CATO_AI_SEC_U"
+	//  Cato Anti Malware (legacy) service SKU
 	LicenseSkuCatoAntiMalware LicenseSku = "CATO_ANTI_MALWARE"
-	// Cato Anti Malware Next Generation (legacy) service SKU
+	//  Cato Anti Malware Next Generation (legacy) service SKU
 	LicenseSkuCatoAntiMalwareNg LicenseSku = "CATO_ANTI_MALWARE_NG"
-	// Cato CASB service SKU
+	//  Cato App Connector Bandwidth SKU
+	LicenseSkuCatoAppConB LicenseSku = "CATO_APP_CON_B"
+	//  Cato App Connector User SKU
+	LicenseSkuCatoAppConU LicenseSku = "CATO_APP_CON_U"
+	//  Cato Assets Group SKU
+	LicenseSkuCatoAstsSec LicenseSku = "CATO_ASTS_SEC"
+	//  Cato Assets Security 2.5K - 10K Devices SKU
+	LicenseSkuCatoAstsSec10k LicenseSku = "CATO_ASTS_SEC_10K"
+	//  Cato Assets Security 10K - 15K Devices SKU
+	LicenseSkuCatoAstsSec15k LicenseSku = "CATO_ASTS_SEC_15K"
+	//  Cato Assets Security 1.5K Devices SKU
+	LicenseSkuCatoAstsSec1_5k LicenseSku = "CATO_ASTS_SEC_1_5K"
+	//  Cato Assets Security 15K - 25K Devices SKU
+	LicenseSkuCatoAstsSec25k LicenseSku = "CATO_ASTS_SEC_25K"
+	//  Cato Assets Security 1.5K - 2.5K Devices SKU
+	LicenseSkuCatoAstsSec2_5k LicenseSku = "CATO_ASTS_SEC_2_5K"
+	//  Cato Assets Security 25K - 50K Devices SKU
+	LicenseSkuCatoAstsSec50k LicenseSku = "CATO_ASTS_SEC_50K"
+	//  Cato Assets Security Above 50K Devices SKU
+	LicenseSkuCatoAstsSecAbv50k LicenseSku = "CATO_ASTS_SEC_ABV_50K"
+	//  Cato Advanced Protection BW SKU
+	LicenseSkuCatoAtpB LicenseSku = "CATO_ATP_B"
+	//  Cato Advanced Protection Users SKU
+	LicenseSkuCatoAtpU LicenseSku = "CATO_ATP_U"
+	//  Cato ATP for MSP users SKU
+	LicenseSkuCatoAtpUserSa LicenseSku = "CATO_ATP_USER_SA"
+	//  Cato CASB service SKU
 	LicenseSkuCatoCasb LicenseSku = "CATO_CASB"
-	// Cato datalake Group SKU
+	//  Cato Cloud Access Security Broker BW SKU
+	LicenseSkuCatoCasbB LicenseSku = "CATO_CASB_B"
+	//  Cato CASB for MSP bandwidth SKU
+	LicenseSkuCatoCasbPbSa LicenseSku = "CATO_CASB_PB_SA"
+	//  Cato Cloud Access Security Broker Users SKU
+	LicenseSkuCatoCasbU LicenseSku = "CATO_CASB_U"
+	//  Cato CASB for MSP users SKU
+	LicenseSkuCatoCasbUserSa LicenseSku = "CATO_CASB_USER_SA"
+	//  Cato datalake Group SKU
 	LicenseSkuCatoDatalake LicenseSku = "CATO_DATALAKE"
-	// 12 months data retention SKU
+	//  Cato Data Lake Storage 2.5M/h, 12 Month Retention SKU
 	LicenseSkuCatoDatalake12m LicenseSku = "CATO_DATALAKE_12M"
-	// 3 months data retention SKU
+	//  Cato Data Lake Storage 2.5M/h, 3 Month Retention SKU
 	LicenseSkuCatoDatalake3m LicenseSku = "CATO_DATALAKE_3M"
-	// 6 months data retention SKU
+	//  Cato Data Lake Storage 2.5M/h, 6 Month Retention SKU
 	LicenseSkuCatoDatalake6m LicenseSku = "CATO_DATALAKE_6M"
-	// Cato DEM service SKU
+	//  Cato DEM service SKU
 	LicenseSkuCatoDem LicenseSku = "CATO_DEM"
-	// Cato DLP service SKU
+	//  Cato Digital Experience Monitoring SKU
+	LicenseSkuCatoDemU LicenseSku = "CATO_DEM_U"
+	//  Cato DLP service SKU
 	LicenseSkuCatoDlp LicenseSku = "CATO_DLP"
-	// Cato EPP service SKU
+	//  Cato Data Loss Prevention BW SKU
+	LicenseSkuCatoDlpB LicenseSku = "CATO_DLP_B"
+	//  Cato DLP for MSP bandwidth SKU
+	LicenseSkuCatoDlpPbSa LicenseSku = "CATO_DLP_PB_SA"
+	//  Cato Data Loss Prevention Users SKU
+	LicenseSkuCatoDlpU LicenseSku = "CATO_DLP_U"
+	//  Cato DLP for MSP users SKU
+	LicenseSkuCatoDlpUserSa LicenseSku = "CATO_DLP_USER_SA"
+	//  Cato EPP service SKU
 	LicenseSkuCatoEpp LicenseSku = "CATO_EPP"
-	// Cato ILMM service SKU
+	//  Cato Endpoint Protection SKU
+	LicenseSkuCatoEppU LicenseSku = "CATO_EPP_U"
+	//  Cato Hands Free Management SKU
+	LicenseSkuCatoHfmS LicenseSku = "CATO_HFM_S"
+	//  Cato ILMM service SKU
 	LicenseSkuCatoIlmm LicenseSku = "CATO_ILMM"
-	// Cato IoT/OT Security service SKU
+	//  Cato Intelligent Last Mile Management SKU
+	LicenseSkuCatoIlmmS LicenseSku = "CATO_ILMM_S"
+	//  Cato IoT/OT Security service SKU
 	LicenseSkuCatoIotOt LicenseSku = "CATO_IOT_OT"
-	// Public IPs SKU
-	LicenseSkuCatoIPAdd LicenseSku = "CATO_IP_ADD"
-	// Cato IPS (legacy) service SKU
+	//  Cato IPS (legacy) service SKU
 	LicenseSkuCatoIPS LicenseSku = "CATO_IPS"
-	// Cato Managed XDR service SKU
+	//  Public IPs SKU
+	LicenseSkuCatoIPAdd LicenseSku = "CATO_IP_ADD"
+	//  Cato Managed XDR service SKU
 	LicenseSkuCatoManagedXdr LicenseSku = "CATO_MANAGED_XDR"
-	// Cato MDR service SKU
+	//  Cato MDR service SKU
 	LicenseSkuCatoMdr LicenseSku = "CATO_MDR"
-	// Cato NOCaaS service SKU
+	//  Cato Managed Detection and Response SKU
+	LicenseSkuCatoMdrU LicenseSku = "CATO_MDR_U"
+	//  Cato NOCaaS service SKU
 	LicenseSkuCatoNocaasHf LicenseSku = "CATO_NOCAAS_HF"
-	// Site pooled bandwidth SASE SKU
+	//  Cato NOCaaS SKU
+	LicenseSkuCatoNocaasHfS LicenseSku = "CATO_NOCAAS_HF_S"
+	//  Site pooled bandwidth SASE SKU
 	LicenseSkuCatoPb LicenseSku = "CATO_PB"
-	// Site pooled bandwidth SSE SKU
+	//  Site pooled bandwidth SSE SKU
 	LicenseSkuCatoPbSse LicenseSku = "CATO_PB_SSE"
-	// Cato Remote Browser Isolation (RBI) service SKU
+	//  Cato Remote Browser Isolation (RBI) service SKU
 	LicenseSkuCatoRbi LicenseSku = "CATO_RBI"
-	// Cato SAAS Group SKU
+	//  Cato Remote Browser Isolation BW SKU
+	LicenseSkuCatoRbiB LicenseSku = "CATO_RBI_B"
+	//  Cato Remote Browser Isolation Users SKU
+	LicenseSkuCatoRbiU LicenseSku = "CATO_RBI_U"
+	//  Cato Remote User SKU
+	LicenseSkuCatoRemoteU LicenseSku = "CATO_REMOTE_U"
+	//  Cato SAAS Group SKU
 	LicenseSkuCatoSaas            LicenseSku = "CATO_SAAS"
 	LicenseSkuCatoSaasSecurityAPI LicenseSku = "CATO_SAAS_SECURITY_API"
-	// Cato SAAS Security API with more than two Applications integration (legacy) service SKU
+	//  Cato SAAS Security API with more than two Applications integration (legacy) service SKU
 	LicenseSkuCatoSaasSecurityAPIAllApps LicenseSku = "CATO_SAAS_SECURITY_API_ALL_APPS"
-	// Cato SAAS Security API with one application integration (legacy) service SKU
+	//  Cato SAAS Security API with one application integration (legacy) service SKU
 	LicenseSkuCatoSaasSecurityAPIOneApp LicenseSku = "CATO_SAAS_SECURITY_API_ONE_APP"
-	// Cato SAAS Security API with two applications integration (legacy) service SKU
+	//  Cato SAAS Security API with two applications integration (legacy) service SKU
 	LicenseSkuCatoSaasSecurityAPITwoApps LicenseSku = "CATO_SAAS_SECURITY_API_TWO_APPS"
-	// Site bandwidth SASE SKU
+	//  Cato Secured Internet Access Bandwidth SKU
+	LicenseSkuCatoSiaB LicenseSku = "CATO_SIA_B"
+	//  Cato Secured Internet Access User SKU
+	LicenseSkuCatoSiaU LicenseSku = "CATO_SIA_U"
+	//  Site bandwidth SASE SKU
 	LicenseSkuCatoSite LicenseSku = "CATO_SITE"
-	// Site bandwidth SSE SKU
+	//  Cato Sandbox BW SKU
+	LicenseSkuCatoSndbxB LicenseSku = "CATO_SNDBX_B"
+	//  Cato Sandbox Users SKU
+	LicenseSkuCatoSndbxU LicenseSku = "CATO_SNDBX_U"
+	//  Cato Socket X1500 SKU
+	LicenseSkuCatoSocketX1500R LicenseSku = "CATO_SOCKET_X1500_R"
+	//  Cato Socket X1600 5G SKU
+	LicenseSkuCatoSocketX1600_5gR LicenseSku = "CATO_SOCKET_X1600_5G_R"
+	//  Cato Socket X1600 LTE SKU
+	LicenseSkuCatoSocketX1600LteR LicenseSku = "CATO_SOCKET_X1600_LTE_R"
+	//  Cato Socket X1600 SKU
+	LicenseSkuCatoSocketX1600R LicenseSku = "CATO_SOCKET_X1600_R"
+	//  Cato Socket X1600 Wifi + 5G SKU
+	LicenseSkuCatoSocketX1600Wifi5gR LicenseSku = "CATO_SOCKET_X1600_WIFI_5G_R"
+	//  Cato Socket X1600 Wifi SKU
+	LicenseSkuCatoSocketX1600WifiR LicenseSku = "CATO_SOCKET_X1600_WIFI_R"
+	//  Cato Socket X1700 SKU
+	LicenseSkuCatoSocketX1700R LicenseSku = "CATO_SOCKET_X1700_R"
+	//  Site bandwidth SSE SKU
 	LicenseSkuCatoSseSite LicenseSku = "CATO_SSE_SITE"
-	// Cato Threat Prevention (legacy) service SKU
+	//  Cato Threat Prevention (legacy) service SKU
 	LicenseSkuCatoThreatPrevention LicenseSku = "CATO_THREAT_PREVENTION"
-	// Cato Advanced Threat Prevention service SKU
+	//  Cato Advanced Threat Prevention service SKU
 	LicenseSkuCatoThreatPreventionAdv LicenseSku = "CATO_THREAT_PREVENTION_ADV"
-	// Cato XDR service SKU
+	//  Cato ATP for MSP bandwidth SKU
+	LicenseSkuCatoThreatPreventionAdvPbSa LicenseSku = "CATO_THREAT_PREVENTION_ADV_PB_SA"
+	//  Cato TP for MSP bandwidth SKU
+	LicenseSkuCatoThreatPreventionPbSa LicenseSku = "CATO_THREAT_PREVENTION_PB_SA"
+	//  Cato TP for MSP users SKU
+	LicenseSkuCatoThreatPreventionUserSa LicenseSku = "CATO_THREAT_PREVENTION_USER_SA"
+	//  Cato WAN Bandwidth SKU
+	LicenseSkuCatoWan LicenseSku = "CATO_WAN"
+	//  Cato WAN Threat Prevention BW SKU
+	LicenseSkuCatoWanTpB LicenseSku = "CATO_WAN_TP_B"
+	//  Cato XDR service SKU
 	LicenseSkuCatoXdrPro LicenseSku = "CATO_XDR_PRO"
-	// Cato XOps service SKU
+	//  Cato XOps service SKU
 	LicenseSkuCatoXops LicenseSku = "CATO_XOPS"
-	// ZTNA remote users SKU
+	//  Cato XOPs SKU
+	LicenseSkuCatoXopsU LicenseSku = "CATO_XOPS_U"
+	//  ZTNA remote users SKU
 	LicenseSkuCatoZtnaUsers LicenseSku = "CATO_ZTNA_USERS"
-	// ZTNA remote users SKU
+	//  ZTNA remote users SKU
 	LicenseSkuMobileUsers LicenseSku = "MOBILE_USERS"
 )
 
 var AllLicenseSku = []LicenseSku{
+	LicenseSkuCatoAdspB,
+	LicenseSkuCatoAdspU,
+	LicenseSkuCatoAiSecAppU,
+	LicenseSkuCatoAiSecU,
 	LicenseSkuCatoAntiMalware,
 	LicenseSkuCatoAntiMalwareNg,
+	LicenseSkuCatoAppConB,
+	LicenseSkuCatoAppConU,
+	LicenseSkuCatoAstsSec,
+	LicenseSkuCatoAstsSec10k,
+	LicenseSkuCatoAstsSec15k,
+	LicenseSkuCatoAstsSec1_5k,
+	LicenseSkuCatoAstsSec25k,
+	LicenseSkuCatoAstsSec2_5k,
+	LicenseSkuCatoAstsSec50k,
+	LicenseSkuCatoAstsSecAbv50k,
+	LicenseSkuCatoAtpB,
+	LicenseSkuCatoAtpU,
+	LicenseSkuCatoAtpUserSa,
 	LicenseSkuCatoCasb,
+	LicenseSkuCatoCasbB,
+	LicenseSkuCatoCasbPbSa,
+	LicenseSkuCatoCasbU,
+	LicenseSkuCatoCasbUserSa,
 	LicenseSkuCatoDatalake,
 	LicenseSkuCatoDatalake12m,
 	LicenseSkuCatoDatalake3m,
 	LicenseSkuCatoDatalake6m,
 	LicenseSkuCatoDem,
+	LicenseSkuCatoDemU,
 	LicenseSkuCatoDlp,
+	LicenseSkuCatoDlpB,
+	LicenseSkuCatoDlpPbSa,
+	LicenseSkuCatoDlpU,
+	LicenseSkuCatoDlpUserSa,
 	LicenseSkuCatoEpp,
+	LicenseSkuCatoEppU,
+	LicenseSkuCatoHfmS,
 	LicenseSkuCatoIlmm,
+	LicenseSkuCatoIlmmS,
 	LicenseSkuCatoIotOt,
-	LicenseSkuCatoIPAdd,
 	LicenseSkuCatoIPS,
+	LicenseSkuCatoIPAdd,
 	LicenseSkuCatoManagedXdr,
 	LicenseSkuCatoMdr,
+	LicenseSkuCatoMdrU,
 	LicenseSkuCatoNocaasHf,
+	LicenseSkuCatoNocaasHfS,
 	LicenseSkuCatoPb,
 	LicenseSkuCatoPbSse,
 	LicenseSkuCatoRbi,
+	LicenseSkuCatoRbiB,
+	LicenseSkuCatoRbiU,
+	LicenseSkuCatoRemoteU,
 	LicenseSkuCatoSaas,
 	LicenseSkuCatoSaasSecurityAPI,
 	LicenseSkuCatoSaasSecurityAPIAllApps,
 	LicenseSkuCatoSaasSecurityAPIOneApp,
 	LicenseSkuCatoSaasSecurityAPITwoApps,
+	LicenseSkuCatoSiaB,
+	LicenseSkuCatoSiaU,
 	LicenseSkuCatoSite,
+	LicenseSkuCatoSndbxB,
+	LicenseSkuCatoSndbxU,
+	LicenseSkuCatoSocketX1500R,
+	LicenseSkuCatoSocketX1600_5gR,
+	LicenseSkuCatoSocketX1600LteR,
+	LicenseSkuCatoSocketX1600R,
+	LicenseSkuCatoSocketX1600Wifi5gR,
+	LicenseSkuCatoSocketX1600WifiR,
+	LicenseSkuCatoSocketX1700R,
 	LicenseSkuCatoSseSite,
 	LicenseSkuCatoThreatPrevention,
 	LicenseSkuCatoThreatPreventionAdv,
+	LicenseSkuCatoThreatPreventionAdvPbSa,
+	LicenseSkuCatoThreatPreventionPbSa,
+	LicenseSkuCatoThreatPreventionUserSa,
+	LicenseSkuCatoWan,
+	LicenseSkuCatoWanTpB,
 	LicenseSkuCatoXdrPro,
 	LicenseSkuCatoXops,
+	LicenseSkuCatoXopsU,
 	LicenseSkuCatoZtnaUsers,
 	LicenseSkuMobileUsers,
 }
 
 func (e LicenseSku) IsValid() bool {
 	switch e {
-	case LicenseSkuCatoAntiMalware, LicenseSkuCatoAntiMalwareNg, LicenseSkuCatoCasb, LicenseSkuCatoDatalake, LicenseSkuCatoDatalake12m, LicenseSkuCatoDatalake3m, LicenseSkuCatoDatalake6m, LicenseSkuCatoDem, LicenseSkuCatoDlp, LicenseSkuCatoEpp, LicenseSkuCatoIlmm, LicenseSkuCatoIotOt, LicenseSkuCatoIPAdd, LicenseSkuCatoIPS, LicenseSkuCatoManagedXdr, LicenseSkuCatoMdr, LicenseSkuCatoNocaasHf, LicenseSkuCatoPb, LicenseSkuCatoPbSse, LicenseSkuCatoRbi, LicenseSkuCatoSaas, LicenseSkuCatoSaasSecurityAPI, LicenseSkuCatoSaasSecurityAPIAllApps, LicenseSkuCatoSaasSecurityAPIOneApp, LicenseSkuCatoSaasSecurityAPITwoApps, LicenseSkuCatoSite, LicenseSkuCatoSseSite, LicenseSkuCatoThreatPrevention, LicenseSkuCatoThreatPreventionAdv, LicenseSkuCatoXdrPro, LicenseSkuCatoXops, LicenseSkuCatoZtnaUsers, LicenseSkuMobileUsers:
+	case LicenseSkuCatoAdspB, LicenseSkuCatoAdspU, LicenseSkuCatoAiSecAppU, LicenseSkuCatoAiSecU, LicenseSkuCatoAntiMalware, LicenseSkuCatoAntiMalwareNg, LicenseSkuCatoAppConB, LicenseSkuCatoAppConU, LicenseSkuCatoAstsSec, LicenseSkuCatoAstsSec10k, LicenseSkuCatoAstsSec15k, LicenseSkuCatoAstsSec1_5k, LicenseSkuCatoAstsSec25k, LicenseSkuCatoAstsSec2_5k, LicenseSkuCatoAstsSec50k, LicenseSkuCatoAstsSecAbv50k, LicenseSkuCatoAtpB, LicenseSkuCatoAtpU, LicenseSkuCatoAtpUserSa, LicenseSkuCatoCasb, LicenseSkuCatoCasbB, LicenseSkuCatoCasbPbSa, LicenseSkuCatoCasbU, LicenseSkuCatoCasbUserSa, LicenseSkuCatoDatalake, LicenseSkuCatoDatalake12m, LicenseSkuCatoDatalake3m, LicenseSkuCatoDatalake6m, LicenseSkuCatoDem, LicenseSkuCatoDemU, LicenseSkuCatoDlp, LicenseSkuCatoDlpB, LicenseSkuCatoDlpPbSa, LicenseSkuCatoDlpU, LicenseSkuCatoDlpUserSa, LicenseSkuCatoEpp, LicenseSkuCatoEppU, LicenseSkuCatoHfmS, LicenseSkuCatoIlmm, LicenseSkuCatoIlmmS, LicenseSkuCatoIotOt, LicenseSkuCatoIPS, LicenseSkuCatoIPAdd, LicenseSkuCatoManagedXdr, LicenseSkuCatoMdr, LicenseSkuCatoMdrU, LicenseSkuCatoNocaasHf, LicenseSkuCatoNocaasHfS, LicenseSkuCatoPb, LicenseSkuCatoPbSse, LicenseSkuCatoRbi, LicenseSkuCatoRbiB, LicenseSkuCatoRbiU, LicenseSkuCatoRemoteU, LicenseSkuCatoSaas, LicenseSkuCatoSaasSecurityAPI, LicenseSkuCatoSaasSecurityAPIAllApps, LicenseSkuCatoSaasSecurityAPIOneApp, LicenseSkuCatoSaasSecurityAPITwoApps, LicenseSkuCatoSiaB, LicenseSkuCatoSiaU, LicenseSkuCatoSite, LicenseSkuCatoSndbxB, LicenseSkuCatoSndbxU, LicenseSkuCatoSocketX1500R, LicenseSkuCatoSocketX1600_5gR, LicenseSkuCatoSocketX1600LteR, LicenseSkuCatoSocketX1600R, LicenseSkuCatoSocketX1600Wifi5gR, LicenseSkuCatoSocketX1600WifiR, LicenseSkuCatoSocketX1700R, LicenseSkuCatoSseSite, LicenseSkuCatoThreatPrevention, LicenseSkuCatoThreatPreventionAdv, LicenseSkuCatoThreatPreventionAdvPbSa, LicenseSkuCatoThreatPreventionPbSa, LicenseSkuCatoThreatPreventionUserSa, LicenseSkuCatoWan, LicenseSkuCatoWanTpB, LicenseSkuCatoXdrPro, LicenseSkuCatoXops, LicenseSkuCatoXopsU, LicenseSkuCatoZtnaUsers, LicenseSkuMobileUsers:
 		return true
 	}
 	return false
