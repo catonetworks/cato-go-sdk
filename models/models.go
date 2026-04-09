@@ -5778,6 +5778,11 @@ type DevicesQueries struct {
 	List              *DevicesPayload                 `json:"list,omitempty"`
 }
 
+type DhcpLeaseTimeSettings struct {
+	LeaseTime int64                `json:"leaseTime"`
+	TimeUnit  LeaseTimeMeasureUnit `json:"timeUnit"`
+}
+
 type DhcpRelayGroupRef struct {
 	ID   string `json:"id"`
 	Name string `json:"name"`
@@ -9327,6 +9332,38 @@ type NetworkInterfaceRefInput struct {
 	Input string      `json:"input"`
 }
 
+type NetworkRange struct {
+	AzureFloatingIP  *string                   `json:"azureFloatingIp,omitempty"`
+	DhcpSettings     *NetworkRangeDhcpSettings `json:"dhcpSettings,omitempty"`
+	Gateway          *string                   `json:"gateway,omitempty"`
+	InternetOnly     bool                      `json:"internetOnly"`
+	LocalIP          *string                   `json:"localIp,omitempty"`
+	MdnsReflector    bool                      `json:"mdnsReflector"`
+	Name             string                    `json:"name"`
+	NetworkRangeID   string                    `json:"networkRangeId"`
+	RangeType        SubnetType                `json:"rangeType"`
+	Subnet           string                    `json:"subnet"`
+	TranslatedSubnet *string                   `json:"translatedSubnet,omitempty"`
+	Vlan             *int64                    `json:"vlan,omitempty"`
+}
+
+type NetworkRangeDhcpSettings struct {
+	DhcpMicrosegmentation bool                   `json:"dhcpMicrosegmentation"`
+	DhcpType              DhcpType               `json:"dhcpType"`
+	IPRange               *string                `json:"ipRange,omitempty"`
+	LeaseTimeSettings     *DhcpLeaseTimeSettings `json:"leaseTimeSettings,omitempty"`
+	RelayGroupID          *string                `json:"relayGroupId,omitempty"`
+}
+
+type NetworkRangeListInput struct {
+	Site *SiteRefInput `json:"site"`
+}
+
+type NetworkRangeListPayload struct {
+	Items []*NetworkRange `json:"items"`
+	Total int64           `json:"total"`
+}
+
 type NetworkTimelineEvent struct {
 	Acknowledged         *bool                     `json:"acknowledged,omitempty"`
 	BgpConnection        *BGPConnection            `json:"bgpConnection,omitempty"`
@@ -11298,6 +11335,8 @@ type SiteQueries struct {
 	SiteBgpStatus           *SiteBgpStatus             `json:"siteBgpStatus,omitempty"`
 	SiteGeneralDetails      *SiteGeneralDetailsPayload `json:"siteGeneralDetails,omitempty"`
 	SiteSocketConfiguration *SiteSocketConfiguration   `json:"siteSocketConfiguration,omitempty"`
+	NetworkRangeList        *NetworkRangeListPayload   `json:"networkRangeList,omitempty"`
+	NetworkRange            *NetworkRange              `json:"networkRange,omitempty"`
 }
 
 // A reference identifying the Site object. ID: Unique Site Identifier, Name: The Site Name
@@ -22653,6 +22692,51 @@ func (e *IPSecHash) UnmarshalGQL(v any) error {
 }
 
 func (e IPSecHash) MarshalGQL(w io.Writer) {
+	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+type LeaseTimeMeasureUnit string
+
+const (
+	LeaseTimeMeasureUnitDays    LeaseTimeMeasureUnit = "DAYS"
+	LeaseTimeMeasureUnitHours   LeaseTimeMeasureUnit = "HOURS"
+	LeaseTimeMeasureUnitMinutes LeaseTimeMeasureUnit = "MINUTES"
+	LeaseTimeMeasureUnitSeconds LeaseTimeMeasureUnit = "SECONDS"
+)
+
+var AllLeaseTimeMeasureUnit = []LeaseTimeMeasureUnit{
+	LeaseTimeMeasureUnitDays,
+	LeaseTimeMeasureUnitHours,
+	LeaseTimeMeasureUnitMinutes,
+	LeaseTimeMeasureUnitSeconds,
+}
+
+func (e LeaseTimeMeasureUnit) IsValid() bool {
+	switch e {
+	case LeaseTimeMeasureUnitDays, LeaseTimeMeasureUnitHours, LeaseTimeMeasureUnitMinutes, LeaseTimeMeasureUnitSeconds:
+		return true
+	}
+	return false
+}
+
+func (e LeaseTimeMeasureUnit) String() string {
+	return string(e)
+}
+
+func (e *LeaseTimeMeasureUnit) UnmarshalGQL(v any) error {
+	str, ok := v.(string)
+	if !ok {
+		return fmt.Errorf("enums must be strings")
+	}
+
+	*e = LeaseTimeMeasureUnit(str)
+	if !e.IsValid() {
+		return fmt.Errorf("%s is not a valid LeaseTimeMeasureUnit", str)
+	}
+	return nil
+}
+
+func (e LeaseTimeMeasureUnit) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
