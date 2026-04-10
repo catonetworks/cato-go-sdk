@@ -2,6 +2,8 @@ module github.com/catonetworks/cato-go-sdk
 
 go 1.23.1
 
+ignore examples
+
 require (
 	github.com/99designs/gqlgen v0.17.61
 	github.com/Yamashou/gqlgenc v0.30.2

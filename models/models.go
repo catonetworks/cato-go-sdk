@@ -444,8 +444,24 @@ type RegistryResource interface {
 	GetValueType() *string
 }
 
+type UserAttributes interface {
+	IsUserAttributes()
+	GetRiskScore() *RiskScoreCondition
+}
+
 type Value interface {
 	IsValue()
+}
+
+type AccessPrivateApplicationMutations struct {
+	CreatePrivateApplication *CreatePrivateApplicationPayload `json:"createPrivateApplication,omitempty"`
+	DeletePrivateApplication *DeletePrivateApplicationPayload `json:"deletePrivateApplication,omitempty"`
+	UpdatePrivateApplication *UpdatePrivateApplicationPayload `json:"updatePrivateApplication,omitempty"`
+}
+
+type AccessPrivateApplicationQueries struct {
+	PrivateApplication     *PrivateApplication            `json:"privateApplication,omitempty"`
+	PrivateApplicationList *PrivateApplicationListPayload `json:"privateApplicationList,omitempty"`
 }
 
 type AccountAuditData struct {
@@ -914,6 +930,33 @@ type AddStoryCommentInput struct {
 type AddStoryCommentPayload struct {
 	// Add a new comment to the XDR story
 	Comment *StoryComment `json:"comment"`
+}
+
+// Input for creating a new ZTNA App Connector
+type AddZtnaAppConnectorInput struct {
+	Description          *string                                    `json:"description,omitempty"`
+	GroupName            string                                     `json:"groupName"`
+	Location             *ZtnaAppConnectorLocationInput             `json:"location"`
+	Name                 string                                     `json:"name"`
+	PreferredPopLocation *ZtnaAppConnectorPreferredPopLocationInput `json:"preferredPopLocation"`
+	Type                 ZtnaAppConnectorType                       `json:"type"`
+}
+
+type AddZtnaAppConnectorPayload struct {
+	ZtnaAppConnector *ZtnaAppConnector `json:"ztnaAppConnector"`
+}
+
+// Input for creating ZTNA App Connectors configuration.
+// If not provided, default ranges will be used (100.64.0.0/16 for Private Apps Service, 100.65.0.0/16
+// for App Connector Service).
+type AddZtnaAppConnectorsConfigurationInput struct {
+	AppConnectorManagementRange string `json:"appConnectorManagementRange"`
+	PrivateAppsServiceRange     string `json:"privateAppsServiceRange"`
+}
+
+// Payload returned after creating ZTNA App Connectors configuration.
+type AddZtnaAppConnectorsConfigurationPayload struct {
+	ZtnaAppConnectorsConfiguration *ZtnaAppConnectorsConfiguration `json:"ztnaAppConnectorsConfiguration"`
 }
 
 type AddressInput struct {
@@ -3346,6 +3389,16 @@ type AssignSiteBwLicensePayload struct {
 	License License `json:"license"`
 }
 
+type AssignSocketToZtnaAppConnectorInput struct {
+	Description      string                    `json:"description"`
+	SocketSerial     string                    `json:"socketSerial"`
+	ZtnaAppConnector *ZtnaAppConnectorRefInput `json:"ztnaAppConnector"`
+}
+
+type AssignSocketToZtnaAppConnectorPayload struct {
+	ZtnaAppConnector *ZtnaAppConnector `json:"ztnaAppConnector"`
+}
+
 // Advanced Threat Prevention (ATP) service license details
 type AtpLicense struct {
 	Description *string `json:"description,omitempty"`
@@ -5057,6 +5110,22 @@ type CreateLocationDetailsInput struct {
 	VatID *string `json:"vatId,omitempty"`
 }
 
+type CreatePrivateApplicationInput struct {
+	AllowICMPProtocol  bool                     `json:"allowIcmpProtocol"`
+	Description        *string                  `json:"description,omitempty"`
+	InternalAppAddress string                   `json:"internalAppAddress"`
+	Name               string                   `json:"name"`
+	PrivateAppProbing  *PrivateAppProbingInput  `json:"privateAppProbing,omitempty"`
+	ProbingEnabled     bool                     `json:"probingEnabled"`
+	ProtocolPorts      []*CustomServiceInput    `json:"protocolPorts,omitempty"`
+	Published          bool                     `json:"published"`
+	PublishedAppDomain *PublishedAppDomainInput `json:"publishedAppDomain,omitempty"`
+}
+
+type CreatePrivateApplicationPayload struct {
+	Application *PrivateApplication `json:"application"`
+}
+
 // A reference identifying the CustomApplication object. ID: Unique CustomApplication Identifier, Name: The CustomApplication Name
 type CustomApplicationRef struct {
 	ID   string `json:"id"`
@@ -5269,6 +5338,14 @@ type DeleteContainerPayload struct {
 type DeleteGroupPayload struct {
 	// The group that was deleted
 	Group *Group `json:"group"`
+}
+
+type DeletePrivateApplicationInput struct {
+	PrivateApplication *PrivateApplicationRefInput `json:"privateApplication"`
+}
+
+type DeletePrivateApplicationPayload struct {
+	Application string `json:"application"`
 }
 
 // Delete report input
@@ -9792,6 +9869,7 @@ type PolicyMutations struct {
 	AppTenantRestriction *AppTenantRestrictionPolicyMutations `json:"appTenantRestriction,omitempty"`
 	DynamicIPAllocation  *DynamicIPAllocationPolicyMutations  `json:"dynamicIpAllocation,omitempty"`
 	InternetFirewall     *InternetFirewallPolicyMutations     `json:"internetFirewall,omitempty"`
+	PrivateAccess        *PrivateAccessPolicyMutations        `json:"privateAccess,omitempty"`
 	RemotePortFwd        *RemotePortFwdPolicyMutations        `json:"remotePortFwd,omitempty"`
 	SocketLan            *SocketLanPolicyMutations            `json:"socketLan,omitempty"`
 	TerminalServer       *TerminalServerPolicyMutations       `json:"terminalServer,omitempty"`
@@ -9816,6 +9894,7 @@ type PolicyQueries struct {
 	AppTenantRestriction *AppTenantRestrictionPolicyQueries `json:"appTenantRestriction,omitempty"`
 	DynamicIPAllocation  *DynamicIPAllocationPolicyQueries  `json:"dynamicIpAllocation,omitempty"`
 	InternetFirewall     *InternetFirewallPolicyQueries     `json:"internetFirewall,omitempty"`
+	PrivateAccess        *PrivateAccessPolicyQueries        `json:"privateAccess,omitempty"`
 	RemotePortFwd        *RemotePortFwdPolicyQueries        `json:"remotePortFwd,omitempty"`
 	SocketLan            *SocketLanPolicyQueries            `json:"socketLan,omitempty"`
 	TerminalServer       *TerminalServerPolicyQueries       `json:"terminalServer,omitempty"`
@@ -9965,8 +10044,9 @@ type PolicyScheduleUpdateInput struct {
 
 // Define settings for a policy section
 type PolicySectionInfo struct {
-	ID   string `json:"id"`
-	Name string `json:"name"`
+	ID          string  `json:"id"`
+	Name        string  `json:"name"`
+	SubPolicyID *string `json:"subPolicyId,omitempty"`
 }
 
 type PolicySectionMutationPayload struct {
@@ -9976,6 +10056,7 @@ type PolicySectionMutationPayload struct {
 }
 
 type PolicySectionPayload struct {
+	Access     *EntityAccess                 `json:"access,omitempty"`
 	Audit      *PolicyElementAudit           `json:"audit"`
 	Properties []PolicyElementPropertiesEnum `json:"properties"`
 	Section    *PolicySectionInfo            `json:"section"`
@@ -10247,6 +10328,351 @@ type PostalAddressInput struct {
 	ZipCode *string `json:"zipCode,omitempty"`
 }
 
+type PrivateAccessAddRuleDataInput struct {
+	Action           *PrivateAccessPolicyActionInput      `json:"action"`
+	ActivePeriod     *PolicyRuleActivePeriodInput         `json:"activePeriod"`
+	Applications     *PrivateAccessPolicyApplicationInput `json:"applications"`
+	ConnectionOrigin []PrivateAccessPolicyOriginEnum      `json:"connectionOrigin"`
+	Country          []*CountryRefInput                   `json:"country"`
+	Description      string                               `json:"description"`
+	Device           []*DeviceProfileRefInput             `json:"device"`
+	Enabled          bool                                 `json:"enabled"`
+	Name             string                               `json:"name"`
+	Platform         []OperatingSystem                    `json:"platform"`
+	Schedule         *PolicyScheduleInput                 `json:"schedule"`
+	Source           *PrivateAccessPolicySourceInput      `json:"source"`
+	Tracking         *PolicyTrackingInput                 `json:"tracking"`
+	UserAttributes   *PrivateAccessUserAttributesInput    `json:"userAttributes"`
+}
+
+type PrivateAccessAddRuleInput struct {
+	At   *PolicyRulePositionInput       `json:"at,omitempty"`
+	Rule *PrivateAccessAddRuleDataInput `json:"rule"`
+}
+
+type PrivateAccessPolicy struct {
+	Audit    *PolicyAudit                `json:"audit,omitempty"`
+	Enabled  bool                        `json:"enabled"`
+	Revision *PolicyRevision             `json:"revision,omitempty"`
+	Rules    []*PrivateAccessRulePayload `json:"rules"`
+	Sections []*PolicySectionPayload     `json:"sections"`
+}
+
+func (PrivateAccessPolicy) IsIPolicy() {}
+
+// TRUE = Policy is enabled, FALSE = Policy is disabled
+func (this PrivateAccessPolicy) GetEnabled() bool { return this.Enabled }
+
+// Return list of rules in the policy
+func (this PrivateAccessPolicy) GetRules() []IPolicyRulePayload {
+	if this.Rules == nil {
+		return nil
+	}
+	interfaceSlice := make([]IPolicyRulePayload, 0, len(this.Rules))
+	for _, concrete := range this.Rules {
+		interfaceSlice = append(interfaceSlice, concrete)
+	}
+	return interfaceSlice
+}
+
+// Return sections in the policy
+func (this PrivateAccessPolicy) GetSections() []*PolicySectionPayload {
+	if this.Sections == nil {
+		return nil
+	}
+	interfaceSlice := make([]*PolicySectionPayload, 0, len(this.Sections))
+	for _, concrete := range this.Sections {
+		interfaceSlice = append(interfaceSlice, concrete)
+	}
+	return interfaceSlice
+}
+
+// Audit data for the policy
+func (this PrivateAccessPolicy) GetAudit() *PolicyAudit { return this.Audit }
+
+// Return data for the Policy revision
+func (this PrivateAccessPolicy) GetRevision() *PolicyRevision { return this.Revision }
+
+type PrivateAccessPolicyAction struct {
+	Action PrivateAccessPolicyActionEnum `json:"action"`
+}
+
+type PrivateAccessPolicyActionInput struct {
+	Action PrivateAccessPolicyActionEnum `json:"action"`
+}
+
+type PrivateAccessPolicyActionUpdateInput struct {
+	Action *PrivateAccessPolicyActionEnum `json:"action,omitempty"`
+}
+
+type PrivateAccessPolicyApplication struct {
+	Application []*PrivateApplicationRef `json:"application"`
+}
+
+type PrivateAccessPolicyApplicationInput struct {
+	Application []*PrivateApplicationRefInput `json:"application"`
+}
+
+type PrivateAccessPolicyApplicationUpdateInput struct {
+	Application []*PrivateApplicationRefInput `json:"application,omitempty"`
+}
+
+type PrivateAccessPolicyInput struct {
+	Revision *PolicyRevisionInput `json:"revision,omitempty"`
+}
+
+type PrivateAccessPolicyMutationInput struct {
+	Revision *PolicyMutationRevisionInput `json:"revision,omitempty"`
+}
+
+type PrivateAccessPolicyMutationPayload struct {
+	Errors []*PolicyMutationError `json:"errors"`
+	Policy *PrivateAccessPolicy   `json:"policy,omitempty"`
+	Status PolicyMutationStatus   `json:"status"`
+}
+
+func (PrivateAccessPolicyMutationPayload) IsIPolicyMutationPayload() {}
+
+// Data for the policy
+func (this PrivateAccessPolicyMutationPayload) GetPolicy() IPolicy { return *this.Policy }
+
+// Enum for the status of the policy change
+func (this PrivateAccessPolicyMutationPayload) GetStatus() PolicyMutationStatus { return this.Status }
+
+// List of errors related to the policy change
+func (this PrivateAccessPolicyMutationPayload) GetErrors() []*PolicyMutationError {
+	if this.Errors == nil {
+		return nil
+	}
+	interfaceSlice := make([]*PolicyMutationError, 0, len(this.Errors))
+	for _, concrete := range this.Errors {
+		interfaceSlice = append(interfaceSlice, concrete)
+	}
+	return interfaceSlice
+}
+
+type PrivateAccessPolicyMutations struct {
+	AddRule               *PrivateAccessRuleMutationPayload   `json:"addRule"`
+	AddSection            *PolicySectionMutationPayload       `json:"addSection"`
+	CreatePolicyRevision  *PrivateAccessPolicyMutationPayload `json:"createPolicyRevision"`
+	DiscardPolicyRevision *PrivateAccessPolicyMutationPayload `json:"discardPolicyRevision"`
+	MoveRule              *PrivateAccessRuleMutationPayload   `json:"moveRule"`
+	MoveSection           *PolicySectionMutationPayload       `json:"moveSection"`
+	PublishPolicyRevision *PrivateAccessPolicyMutationPayload `json:"publishPolicyRevision"`
+	RemoveRule            *PrivateAccessRuleMutationPayload   `json:"removeRule"`
+	RemoveSection         *PolicySectionMutationPayload       `json:"removeSection"`
+	UpdatePolicy          *PrivateAccessPolicyMutationPayload `json:"updatePolicy"`
+	UpdateRule            *PrivateAccessRuleMutationPayload   `json:"updateRule"`
+	UpdateSection         *PolicySectionMutationPayload       `json:"updateSection"`
+}
+
+type PrivateAccessPolicyQueries struct {
+	Policy    *PrivateAccessPolicy    `json:"policy"`
+	Revisions *PolicyRevisionsPayload `json:"revisions,omitempty"`
+}
+
+type PrivateAccessPolicySource struct {
+	User       []*UserRef       `json:"user"`
+	UsersGroup []*UsersGroupRef `json:"usersGroup"`
+}
+
+type PrivateAccessPolicySourceInput struct {
+	User       []*UserRefInput       `json:"user"`
+	UsersGroup []*UsersGroupRefInput `json:"usersGroup"`
+}
+
+type PrivateAccessPolicySourceUpdateInput struct {
+	User       []*UserRefInput       `json:"user,omitempty"`
+	UsersGroup []*UsersGroupRefInput `json:"usersGroup,omitempty"`
+}
+
+type PrivateAccessPolicyUpdateInput struct {
+	State *PolicyToggleState `json:"state,omitempty"`
+}
+
+type PrivateAccessRemoveRuleInput struct {
+	ID string `json:"id"`
+}
+
+type PrivateAccessRule struct {
+	Action           *PrivateAccessPolicyAction      `json:"action"`
+	ActivePeriod     *PolicyRuleActivePeriod         `json:"activePeriod"`
+	Applications     *PrivateAccessPolicyApplication `json:"applications"`
+	ConnectionOrigin []PrivateAccessPolicyOriginEnum `json:"connectionOrigin"`
+	Country          []*CountryRef                   `json:"country"`
+	Description      string                          `json:"description"`
+	Device           []*DeviceProfileRef             `json:"device"`
+	Enabled          bool                            `json:"enabled"`
+	ID               string                          `json:"id"`
+	Index            int64                           `json:"index"`
+	Name             string                          `json:"name"`
+	Platform         []OperatingSystem               `json:"platform"`
+	Schedule         *PolicySchedule                 `json:"schedule"`
+	Section          *PolicySectionInfo              `json:"section"`
+	Source           *PrivateAccessPolicySource      `json:"source"`
+	Tracking         *PolicyTracking                 `json:"tracking"`
+	UserAttributes   *PrivateAccessUserAttributes    `json:"userAttributes"`
+}
+
+func (PrivateAccessRule) IsIPolicyRule() {}
+
+// Rule ID
+func (this PrivateAccessRule) GetID() string { return this.ID }
+
+// Name of the rule
+func (this PrivateAccessRule) GetName() string { return this.Name }
+
+// Description for the rule
+func (this PrivateAccessRule) GetDescription() *string { return &this.Description }
+
+// Position / priority of rule
+func (this PrivateAccessRule) GetIndex() int64 { return this.Index }
+
+// TRUE = Rule is enabled, FALSE = Rule is disabled
+func (this PrivateAccessRule) GetEnabled() bool { return this.Enabled }
+
+// Policy section where the rule is located
+func (this PrivateAccessRule) GetSection() *PolicySectionInfo { return this.Section }
+
+type PrivateAccessRuleMutationPayload struct {
+	Errors []*PolicyMutationError    `json:"errors"`
+	Rule   *PrivateAccessRulePayload `json:"rule,omitempty"`
+	Status PolicyMutationStatus      `json:"status"`
+}
+
+func (PrivateAccessRuleMutationPayload) IsIPolicyRuleMutationPayload() {}
+
+// Returns settings for the rule
+func (this PrivateAccessRuleMutationPayload) GetRule() IPolicyRulePayload { return *this.Rule }
+
+// Enum for the status of the policy change
+func (this PrivateAccessRuleMutationPayload) GetStatus() PolicyMutationStatus { return this.Status }
+
+// List of errors related to the policy change
+func (this PrivateAccessRuleMutationPayload) GetErrors() []*PolicyMutationError {
+	if this.Errors == nil {
+		return nil
+	}
+	interfaceSlice := make([]*PolicyMutationError, 0, len(this.Errors))
+	for _, concrete := range this.Errors {
+		interfaceSlice = append(interfaceSlice, concrete)
+	}
+	return interfaceSlice
+}
+
+type PrivateAccessRulePayload struct {
+	Audit      *PolicyElementAudit           `json:"audit"`
+	Properties []PolicyElementPropertiesEnum `json:"properties"`
+	Rule       *PrivateAccessRule            `json:"rule"`
+}
+
+func (PrivateAccessRulePayload) IsIPolicyRulePayload()              {}
+func (this PrivateAccessRulePayload) GetAudit() *PolicyElementAudit { return this.Audit }
+
+// Rule that was changed
+func (this PrivateAccessRulePayload) GetRule() IPolicyRule { return *this.Rule }
+
+// Summary of rule change, (ie. ADDED, UPDATED)
+func (this PrivateAccessRulePayload) GetProperties() []PolicyElementPropertiesEnum {
+	if this.Properties == nil {
+		return nil
+	}
+	interfaceSlice := make([]PolicyElementPropertiesEnum, 0, len(this.Properties))
+	for _, concrete := range this.Properties {
+		interfaceSlice = append(interfaceSlice, concrete)
+	}
+	return interfaceSlice
+}
+
+type PrivateAccessUpdateRuleDataInput struct {
+	Action           *PrivateAccessPolicyActionUpdateInput      `json:"action,omitempty"`
+	ActivePeriod     *PolicyRuleActivePeriodUpdateInput         `json:"activePeriod,omitempty"`
+	Applications     *PrivateAccessPolicyApplicationUpdateInput `json:"applications,omitempty"`
+	ConnectionOrigin []PrivateAccessPolicyOriginEnum            `json:"connectionOrigin,omitempty"`
+	Country          []*CountryRefInput                         `json:"country,omitempty"`
+	Description      *string                                    `json:"description,omitempty"`
+	Device           []*DeviceProfileRefInput                   `json:"device,omitempty"`
+	Enabled          *bool                                      `json:"enabled,omitempty"`
+	Name             *string                                    `json:"name,omitempty"`
+	Platform         []OperatingSystem                          `json:"platform,omitempty"`
+	Schedule         *PolicyScheduleUpdateInput                 `json:"schedule,omitempty"`
+	Source           *PrivateAccessPolicySourceUpdateInput      `json:"source,omitempty"`
+	Tracking         *PolicyTrackingUpdateInput                 `json:"tracking,omitempty"`
+	UserAttributes   *PrivateAccessUserAttributesUpdateInput    `json:"userAttributes,omitempty"`
+}
+
+type PrivateAccessUpdateRuleInput struct {
+	ID   string                            `json:"id"`
+	Rule *PrivateAccessUpdateRuleDataInput `json:"rule"`
+}
+
+type PrivateAccessUserAttributes struct {
+	RiskScore *RiskScoreCondition `json:"riskScore"`
+}
+
+func (PrivateAccessUserAttributes) IsUserAttributes()                      {}
+func (this PrivateAccessUserAttributes) GetRiskScore() *RiskScoreCondition { return this.RiskScore }
+
+type PrivateAccessUserAttributesInput struct {
+	RiskScore *RiskScoreConditionInput `json:"riskScore"`
+}
+
+type PrivateAccessUserAttributesUpdateInput struct {
+	RiskScore *RiskScoreConditionUpdateInput `json:"riskScore,omitempty"`
+}
+
+type PrivateAppProbing struct {
+	FaultThresholdDown int64  `json:"faultThresholdDown"`
+	ID                 string `json:"id"`
+	Interval           int64  `json:"interval"`
+	Type               string `json:"type"`
+}
+
+type PrivateAppProbingInput struct {
+	FaultThresholdDown *int64  `json:"faultThresholdDown,omitempty"`
+	ID                 *string `json:"id,omitempty"`
+	Interval           *int64  `json:"interval,omitempty"`
+	Type               *string `json:"type,omitempty"`
+}
+
+type PrivateApplication struct {
+	AllowICMPProtocol  bool                `json:"allowIcmpProtocol"`
+	CreationTime       string              `json:"creationTime"`
+	Description        *string             `json:"description,omitempty"`
+	ID                 string              `json:"id"`
+	InternalAppAddress string              `json:"internalAppAddress"`
+	Name               string              `json:"name"`
+	PrivateAppProbing  *PrivateAppProbing  `json:"privateAppProbing,omitempty"`
+	ProbingEnabled     bool                `json:"probingEnabled"`
+	ProtocolPorts      []*CustomService    `json:"protocolPorts"`
+	Published          bool                `json:"published"`
+	PublishedAppDomain *PublishedAppDomain `json:"publishedAppDomain,omitempty"`
+}
+
+type PrivateApplicationListPayload struct {
+	Applications []*PrivateApplication `json:"applications"`
+}
+
+// A reference identifying of the PrivateApplication object. ID: Unique PrivateApplication Identifier,
+// Name: The PrivateApplication Name
+type PrivateApplicationRef struct {
+	ID   string `json:"id"`
+	Name string `json:"name"`
+}
+
+func (PrivateApplicationRef) IsObjectRef() {}
+
+// Object's unique identifier
+func (this PrivateApplicationRef) GetID() string { return this.ID }
+
+// Object's unique name
+func (this PrivateApplicationRef) GetName() string { return this.Name }
+
+type PrivateApplicationRefInput struct {
+	By    ObjectRefBy `json:"by"`
+	Input string      `json:"input"`
+}
+
 // Public IP address license
 type PublicIpsLicense struct {
 	Description *string `json:"description,omitempty"`
@@ -10316,6 +10742,22 @@ type PublicIpsLicenseAllocations struct {
 	Allocated int64 `json:"allocated"`
 	Available int64 `json:"available"`
 	Total     int64 `json:"total"`
+}
+
+type PublishedAppDomain struct {
+	CatoIP             *string `json:"catoIp,omitempty"`
+	ConnectorGroupName *string `json:"connectorGroupName,omitempty"`
+	CreationTime       string  `json:"creationTime"`
+	ID                 string  `json:"id"`
+	PublishedAppDomain string  `json:"publishedAppDomain"`
+}
+
+type PublishedAppDomainInput struct {
+	CatoIP             *string `json:"catoIp,omitempty"`
+	ConnectorGroupName *string `json:"connectorGroupName,omitempty"`
+	CreationTime       *string `json:"creationTime,omitempty"`
+	ID                 *string `json:"id,omitempty"`
+	PublishedAppDomain *string `json:"publishedAppDomain,omitempty"`
 }
 
 type Query struct {
@@ -10780,6 +11222,19 @@ type RemoveStaticHostPayload struct {
 	HostID string `json:"hostId"`
 }
 
+type RemoveZtnaAppConnectorInput struct {
+	ZtnaAppConnector *ZtnaAppConnectorRefInput `json:"ztnaAppConnector"`
+}
+
+type RemoveZtnaAppConnectorPayload struct {
+	ZtnaAppConnector *ZtnaAppConnector `json:"ztnaAppConnector"`
+}
+
+// Payload returned after removing ZTNA App Connectors configuration.
+type RemoveZtnaAppConnectorsConfigurationPayload struct {
+	ZtnaAppConnectorsConfiguration *ZtnaAppConnectorsConfiguration `json:"ztnaAppConnectorsConfiguration"`
+}
+
 type ReplaceSiteBwLicenseInput struct {
 	// Specifies the bandwidth (in Mbps) to allocate to the site when using a pooled bandwidth license.
 	// This field should not be used if a site license is used.
@@ -10794,6 +11249,21 @@ type ReplaceSiteBwLicenseInput struct {
 
 type ReplaceSiteBwLicensePayload struct {
 	License License `json:"license"`
+}
+
+type RiskScoreCondition struct {
+	Category RiskScoreCategory `json:"category"`
+	Operator RiskScoreOperator `json:"operator"`
+}
+
+type RiskScoreConditionInput struct {
+	Category RiskScoreCategory `json:"category"`
+	Operator RiskScoreOperator `json:"operator"`
+}
+
+type RiskScoreConditionUpdateInput struct {
+	Category *RiskScoreCategory `json:"category,omitempty"`
+	Operator *RiskScoreOperator `json:"operator,omitempty"`
 }
 
 // SaaS Security API service license details
@@ -14355,6 +14825,14 @@ type TunnelConfig struct {
 	TunnelRemoteIdentifier *string `json:"tunnelRemoteIdentifier,omitempty"`
 }
 
+type UnassignSocketFromZtnaAppConnectorInput struct {
+	ZtnaAppConnector *ZtnaAppConnectorRefInput `json:"ztnaAppConnector"`
+}
+
+type UnassignSocketFromZtnaAppConnectorPayload struct {
+	ZtnaAppConnector *ZtnaAppConnector `json:"ztnaAppConnector"`
+}
+
 type UpdateAccountInput struct {
 	// Account description
 	Description *string `json:"description,omitempty"`
@@ -14701,6 +15179,23 @@ type UpdateNetworkRangePayload struct {
 	NetworkRangeID string `json:"networkRangeId"`
 }
 
+type UpdatePrivateApplicationInput struct {
+	AllowICMPProtocol  *bool                    `json:"allowIcmpProtocol,omitempty"`
+	Description        *string                  `json:"description,omitempty"`
+	ID                 string                   `json:"id"`
+	InternalAppAddress *string                  `json:"internalAppAddress,omitempty"`
+	Name               *string                  `json:"name,omitempty"`
+	PrivateAppProbing  *PrivateAppProbingInput  `json:"privateAppProbing,omitempty"`
+	ProbingEnabled     *bool                    `json:"probingEnabled,omitempty"`
+	ProtocolPorts      []*CustomServiceInput    `json:"protocolPorts,omitempty"`
+	Published          *bool                    `json:"published,omitempty"`
+	PublishedAppDomain *PublishedAppDomainInput `json:"publishedAppDomain,omitempty"`
+}
+
+type UpdatePrivateApplicationPayload struct {
+	Application *PrivateApplication `json:"application"`
+}
+
 type UpdateSecondaryAWSVSocketInput struct {
 	// The ID of the secondary vSocket
 	ID string `json:"id"`
@@ -14830,6 +15325,39 @@ type UpdateStaticHostInput struct {
 
 type UpdateStaticHostPayload struct {
 	HostID string `json:"hostId"`
+}
+
+type UpdateZtnaAppConnectorInput struct {
+	Description          *string                                    `json:"description,omitempty"`
+	GroupName            *string                                    `json:"groupName,omitempty"`
+	ID                   string                                     `json:"id"`
+	Location             *ZtnaAppConnectorLocationInput             `json:"location,omitempty"`
+	Name                 *string                                    `json:"name,omitempty"`
+	PreferredPopLocation *ZtnaAppConnectorPreferredPopLocationInput `json:"preferredPopLocation,omitempty"`
+}
+
+type UpdateZtnaAppConnectorPayload struct {
+	ZtnaAppConnector *ZtnaAppConnector `json:"ztnaAppConnector"`
+}
+
+// Input for updating ZTNA App Connectors configuration.
+// At least one field must be provided.
+type UpdateZtnaAppConnectorsConfigurationInput struct {
+	AppConnectorManagementRange *string `json:"appConnectorManagementRange,omitempty"`
+	PrivateAppsServiceRange     *string `json:"privateAppsServiceRange,omitempty"`
+}
+
+// Payload returned after updating ZTNA App Connectors configuration.
+type UpdateZtnaAppConnectorsConfigurationPayload struct {
+	ZtnaAppConnectorsConfiguration *ZtnaAppConnectorsConfiguration `json:"ztnaAppConnectorsConfiguration"`
+}
+
+type UpgradeZtnaAppConnectorInput struct {
+	Upgrades []*ZtnaAppConnectorUpgradeRequest `json:"upgrades"`
+}
+
+type UpgradeZtnaAppConnectorPayload struct {
+	Upgrades []*ZtnaAppConnectorUpgradeInfo `json:"upgrades"`
 }
 
 // Upload file input
@@ -16750,6 +17278,103 @@ type ZtnaAlwaysOnUpdateRuleInput struct {
 	Rule *ZtnaAlwaysOnUpdateRuleDataInput `json:"rule"`
 }
 
+type ZtnaAppConnector struct {
+	Description          *string                               `json:"description,omitempty"`
+	GroupName            string                                `json:"groupName"`
+	ID                   string                                `json:"id"`
+	Location             *ZtnaAppConnectorLocation             `json:"location"`
+	Name                 string                                `json:"name"`
+	PreferredPopLocation *ZtnaAppConnectorPreferredPopLocation `json:"preferredPopLocation,omitempty"`
+	PrivateAppRef        []*PrivateApplicationRef              `json:"privateAppRef"`
+	SerialNumber         *string                               `json:"serialNumber,omitempty"`
+	SocketID             *string                               `json:"socketId,omitempty"`
+	SocketModel          *SocketModel                          `json:"socketModel,omitempty"`
+	Type                 ZtnaAppConnectorType                  `json:"type"`
+}
+
+// Filter object for connector group listing
+type ZtnaAppConnectorGroupListFilterInput struct {
+	Search *FreeTextFilterInput `json:"search,omitempty"`
+}
+
+type ZtnaAppConnectorGroupListInput struct {
+	Filter *ZtnaAppConnectorGroupListFilterInput `json:"filter,omitempty"`
+	Paging *PagingInput                          `json:"paging,omitempty"`
+}
+
+type ZtnaAppConnectorGroupListPayload struct {
+	Items    []string  `json:"items"`
+	PageInfo *PageInfo `json:"pageInfo"`
+}
+
+type ZtnaAppConnectorListFilterInput struct {
+	GroupName       []*StringFilterInput             `json:"groupName,omitempty"`
+	IsAssigned      *BooleanFilterInput              `json:"isAssigned,omitempty"`
+	Name            []*StringFilterInput             `json:"name,omitempty"`
+	SearchGroupName *FreeTextFilterInput             `json:"searchGroupName,omitempty"`
+	SearchName      *FreeTextFilterInput             `json:"searchName,omitempty"`
+	Type            *ZtnaAppConnectorTypeFilterInput `json:"type,omitempty"`
+}
+
+type ZtnaAppConnectorListInput struct {
+	Filter *ZtnaAppConnectorListFilterInput `json:"filter,omitempty"`
+	Paging *PagingInput                     `json:"paging,omitempty"`
+}
+
+type ZtnaAppConnectorListPayload struct {
+	PageInfo         *PageInfo           `json:"pageInfo"`
+	ZtnaAppConnector []*ZtnaAppConnector `json:"ztnaAppConnector"`
+}
+
+type ZtnaAppConnectorLocation struct {
+	Address     *string `json:"address,omitempty"`
+	CityName    string  `json:"cityName"`
+	CountryCode string  `json:"countryCode"`
+	StateCode   *string `json:"stateCode,omitempty"`
+	Timezone    string  `json:"timezone"`
+}
+
+type ZtnaAppConnectorLocationInput struct {
+	Address     *string `json:"address,omitempty"`
+	City        string  `json:"city"`
+	CountryCode string  `json:"countryCode"`
+	StateCode   *string `json:"stateCode,omitempty"`
+	Timezone    string  `json:"timezone"`
+}
+
+type ZtnaAppConnectorMutations struct {
+	AddZtnaAppConnector                  *AddZtnaAppConnectorPayload                  `json:"addZtnaAppConnector"`
+	AddZtnaAppConnectorsConfiguration    *AddZtnaAppConnectorsConfigurationPayload    `json:"addZtnaAppConnectorsConfiguration"`
+	AssignSocketToZtnaAppConnector       *AssignSocketToZtnaAppConnectorPayload       `json:"assignSocketToZtnaAppConnector"`
+	RemoveZtnaAppConnector               *RemoveZtnaAppConnectorPayload               `json:"removeZtnaAppConnector"`
+	RemoveZtnaAppConnectorsConfiguration *RemoveZtnaAppConnectorsConfigurationPayload `json:"removeZtnaAppConnectorsConfiguration"`
+	UnassignSocketFromZtnaAppConnector   *UnassignSocketFromZtnaAppConnectorPayload   `json:"unassignSocketFromZtnaAppConnector"`
+	UpdateZtnaAppConnector               *UpdateZtnaAppConnectorPayload               `json:"updateZtnaAppConnector"`
+	UpdateZtnaAppConnectorsConfiguration *UpdateZtnaAppConnectorsConfigurationPayload `json:"updateZtnaAppConnectorsConfiguration"`
+	UpgradeZtnaAppConnector              *UpgradeZtnaAppConnectorPayload              `json:"upgradeZtnaAppConnector"`
+}
+
+type ZtnaAppConnectorPreferredPopLocation struct {
+	Automatic     bool            `json:"automatic"`
+	PreferredOnly bool            `json:"preferredOnly"`
+	Primary       *PopLocationRef `json:"primary,omitempty"`
+	Secondary     *PopLocationRef `json:"secondary,omitempty"`
+}
+
+type ZtnaAppConnectorPreferredPopLocationInput struct {
+	Automatic     bool                 `json:"automatic"`
+	PreferredOnly bool                 `json:"preferredOnly"`
+	Primary       *PopLocationRefInput `json:"primary,omitempty"`
+	Secondary     *PopLocationRefInput `json:"secondary,omitempty"`
+}
+
+type ZtnaAppConnectorQueries struct {
+	ZtnaAppConnector               *ZtnaAppConnector                 `json:"ztnaAppConnector,omitempty"`
+	ZtnaAppConnectorGroupList      *ZtnaAppConnectorGroupListPayload `json:"ztnaAppConnectorGroupList,omitempty"`
+	ZtnaAppConnectorList           *ZtnaAppConnectorListPayload      `json:"ztnaAppConnectorList,omitempty"`
+	ZtnaAppConnectorsConfiguration *ZtnaAppConnectorsConfiguration   `json:"ztnaAppConnectorsConfiguration,omitempty"`
+}
+
 type ZtnaAppConnectorRef struct {
 	// Unique ZTNA app connector ID
 	ID string `json:"id"`
@@ -16764,6 +17389,35 @@ func (this ZtnaAppConnectorRef) GetID() string { return this.ID }
 
 // Object's unique name
 func (this ZtnaAppConnectorRef) GetName() string { return this.Name }
+
+type ZtnaAppConnectorRefInput struct {
+	By    ObjectRefBy `json:"by"`
+	Input string      `json:"input"`
+}
+
+// Filter input for ZTNA App Connector type
+type ZtnaAppConnectorTypeFilterInput struct {
+	Eq  *ZtnaAppConnectorType  `json:"eq,omitempty"`
+	In  []ZtnaAppConnectorType `json:"in,omitempty"`
+	Neq *ZtnaAppConnectorType  `json:"neq,omitempty"`
+	Nin []ZtnaAppConnectorType `json:"nin,omitempty"`
+}
+
+type ZtnaAppConnectorUpgradeInfo struct {
+	TargetVersion    string               `json:"targetVersion"`
+	ZtnaAppConnector *ZtnaAppConnectorRef `json:"ztnaAppConnector"`
+}
+
+type ZtnaAppConnectorUpgradeRequest struct {
+	TargetVersion    string                    `json:"targetVersion"`
+	ZtnaAppConnector *ZtnaAppConnectorRefInput `json:"ztnaAppConnector"`
+}
+
+// ZTNA App Connectors configuration for an account.
+type ZtnaAppConnectorsConfiguration struct {
+	AppConnectorManagementRange string `json:"appConnectorManagementRange"`
+	PrivateAppsServiceRange     string `json:"privateAppsServiceRange"`
+}
 
 // ZTNA remote users license
 type ZtnaUsersLicense struct {
@@ -24336,6 +24990,105 @@ func (e PolicyToggleState) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
+type PrivateAccessPolicyActionEnum string
+
+const (
+	PrivateAccessPolicyActionEnumAllow PrivateAccessPolicyActionEnum = "ALLOW"
+	PrivateAccessPolicyActionEnumBlock PrivateAccessPolicyActionEnum = "BLOCK"
+)
+
+var AllPrivateAccessPolicyActionEnum = []PrivateAccessPolicyActionEnum{
+	PrivateAccessPolicyActionEnumAllow,
+	PrivateAccessPolicyActionEnumBlock,
+}
+
+func (e PrivateAccessPolicyActionEnum) IsValid() bool {
+	switch e {
+	case PrivateAccessPolicyActionEnumAllow, PrivateAccessPolicyActionEnumBlock:
+		return true
+	}
+	return false
+}
+
+func (e PrivateAccessPolicyActionEnum) String() string {
+	return string(e)
+}
+
+func (e *PrivateAccessPolicyActionEnum) UnmarshalGQL(v any) error {
+	str, ok := v.(string)
+	if !ok {
+		return fmt.Errorf("enums must be strings")
+	}
+
+	*e = PrivateAccessPolicyActionEnum(str)
+	if !e.IsValid() {
+		return fmt.Errorf("%s is not a valid PrivateAccessPolicyActionEnum", str)
+	}
+	return nil
+}
+
+func (e PrivateAccessPolicyActionEnum) MarshalGQL(w io.Writer) {
+	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+// Defines Origin of the connection
+type PrivateAccessPolicyOriginEnum string
+
+const (
+	PrivateAccessPolicyOriginEnumAny PrivateAccessPolicyOriginEnum = "ANY"
+	//  Any Remote option
+	PrivateAccessPolicyOriginEnumRemote PrivateAccessPolicyOriginEnum = "REMOTE"
+	//  User is connecting from the Enterprise Browser
+	PrivateAccessPolicyOriginEnumRemoteBrowser PrivateAccessPolicyOriginEnum = "REMOTE_BROWSER"
+	//  User is connecting from the SDP client
+	PrivateAccessPolicyOriginEnumRemoteClient PrivateAccessPolicyOriginEnum = "REMOTE_CLIENT"
+	//  User is connecting from the Browser Extension
+	PrivateAccessPolicyOriginEnumRemoteExtension PrivateAccessPolicyOriginEnum = "REMOTE_EXTENSION"
+	//  User is connecting from the Application Portal
+	PrivateAccessPolicyOriginEnumRemotePortal PrivateAccessPolicyOriginEnum = "REMOTE_PORTAL"
+	//  User is connecting from Site
+	PrivateAccessPolicyOriginEnumSite PrivateAccessPolicyOriginEnum = "SITE"
+)
+
+var AllPrivateAccessPolicyOriginEnum = []PrivateAccessPolicyOriginEnum{
+	PrivateAccessPolicyOriginEnumAny,
+	PrivateAccessPolicyOriginEnumRemote,
+	PrivateAccessPolicyOriginEnumRemoteBrowser,
+	PrivateAccessPolicyOriginEnumRemoteClient,
+	PrivateAccessPolicyOriginEnumRemoteExtension,
+	PrivateAccessPolicyOriginEnumRemotePortal,
+	PrivateAccessPolicyOriginEnumSite,
+}
+
+func (e PrivateAccessPolicyOriginEnum) IsValid() bool {
+	switch e {
+	case PrivateAccessPolicyOriginEnumAny, PrivateAccessPolicyOriginEnumRemote, PrivateAccessPolicyOriginEnumRemoteBrowser, PrivateAccessPolicyOriginEnumRemoteClient, PrivateAccessPolicyOriginEnumRemoteExtension, PrivateAccessPolicyOriginEnumRemotePortal, PrivateAccessPolicyOriginEnumSite:
+		return true
+	}
+	return false
+}
+
+func (e PrivateAccessPolicyOriginEnum) String() string {
+	return string(e)
+}
+
+func (e *PrivateAccessPolicyOriginEnum) UnmarshalGQL(v any) error {
+	str, ok := v.(string)
+	if !ok {
+		return fmt.Errorf("enums must be strings")
+	}
+
+	*e = PrivateAccessPolicyOriginEnum(str)
+	if !e.IsValid() {
+		return fmt.Errorf("%s is not a valid PrivateAccessPolicyOriginEnum", str)
+	}
+	return nil
+}
+
+func (e PrivateAccessPolicyOriginEnum) MarshalGQL(w io.Writer) {
+	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
 type ProtoType string
 
 const (
@@ -24741,6 +25494,94 @@ func (e *RiskLevelEnum) UnmarshalGQL(v any) error {
 }
 
 func (e RiskLevelEnum) MarshalGQL(w io.Writer) {
+	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+type RiskScoreCategory string
+
+const (
+	RiskScoreCategoryAny      RiskScoreCategory = "ANY"
+	RiskScoreCategoryCritical RiskScoreCategory = "CRITICAL"
+	RiskScoreCategoryHigh     RiskScoreCategory = "HIGH"
+	RiskScoreCategoryLow      RiskScoreCategory = "LOW"
+	RiskScoreCategoryMedium   RiskScoreCategory = "MEDIUM"
+)
+
+var AllRiskScoreCategory = []RiskScoreCategory{
+	RiskScoreCategoryAny,
+	RiskScoreCategoryCritical,
+	RiskScoreCategoryHigh,
+	RiskScoreCategoryLow,
+	RiskScoreCategoryMedium,
+}
+
+func (e RiskScoreCategory) IsValid() bool {
+	switch e {
+	case RiskScoreCategoryAny, RiskScoreCategoryCritical, RiskScoreCategoryHigh, RiskScoreCategoryLow, RiskScoreCategoryMedium:
+		return true
+	}
+	return false
+}
+
+func (e RiskScoreCategory) String() string {
+	return string(e)
+}
+
+func (e *RiskScoreCategory) UnmarshalGQL(v any) error {
+	str, ok := v.(string)
+	if !ok {
+		return fmt.Errorf("enums must be strings")
+	}
+
+	*e = RiskScoreCategory(str)
+	if !e.IsValid() {
+		return fmt.Errorf("%s is not a valid RiskScoreCategory", str)
+	}
+	return nil
+}
+
+func (e RiskScoreCategory) MarshalGQL(w io.Writer) {
+	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+type RiskScoreOperator string
+
+const (
+	RiskScoreOperatorGte RiskScoreOperator = "GTE"
+	RiskScoreOperatorLte RiskScoreOperator = "LTE"
+)
+
+var AllRiskScoreOperator = []RiskScoreOperator{
+	RiskScoreOperatorGte,
+	RiskScoreOperatorLte,
+}
+
+func (e RiskScoreOperator) IsValid() bool {
+	switch e {
+	case RiskScoreOperatorGte, RiskScoreOperatorLte:
+		return true
+	}
+	return false
+}
+
+func (e RiskScoreOperator) String() string {
+	return string(e)
+}
+
+func (e *RiskScoreOperator) UnmarshalGQL(v any) error {
+	str, ok := v.(string)
+	if !ok {
+		return fmt.Errorf("enums must be strings")
+	}
+
+	*e = RiskScoreOperator(str)
+	if !e.IsValid() {
+		return fmt.Errorf("%s is not a valid RiskScoreOperator", str)
+	}
+	return nil
+}
+
+func (e RiskScoreOperator) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
@@ -25931,6 +26772,59 @@ func (e *SocketLanTransportType) UnmarshalGQL(v any) error {
 }
 
 func (e SocketLanTransportType) MarshalGQL(w io.Writer) {
+	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+type SocketModel string
+
+const (
+	SocketModelAWS      SocketModel = "AWS"
+	SocketModelAzure    SocketModel = "AZURE"
+	SocketModelEsx      SocketModel = "ESX"
+	SocketModelGCP      SocketModel = "GCP"
+	SocketModelX1500    SocketModel = "X1500"
+	SocketModelX1600    SocketModel = "X1600"
+	SocketModelX1600Lte SocketModel = "X1600_LTE"
+	SocketModelX1700    SocketModel = "X1700"
+)
+
+var AllSocketModel = []SocketModel{
+	SocketModelAWS,
+	SocketModelAzure,
+	SocketModelEsx,
+	SocketModelGCP,
+	SocketModelX1500,
+	SocketModelX1600,
+	SocketModelX1600Lte,
+	SocketModelX1700,
+}
+
+func (e SocketModel) IsValid() bool {
+	switch e {
+	case SocketModelAWS, SocketModelAzure, SocketModelEsx, SocketModelGCP, SocketModelX1500, SocketModelX1600, SocketModelX1600Lte, SocketModelX1700:
+		return true
+	}
+	return false
+}
+
+func (e SocketModel) String() string {
+	return string(e)
+}
+
+func (e *SocketModel) UnmarshalGQL(v any) error {
+	str, ok := v.(string)
+	if !ok {
+		return fmt.Errorf("enums must be strings")
+	}
+
+	*e = SocketModel(str)
+	if !e.IsValid() {
+		return fmt.Errorf("%s is not a valid SocketModel", str)
+	}
+	return nil
+}
+
+func (e SocketModel) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
@@ -27848,6 +28742,49 @@ func (e *ZtnaAlwaysOnTimeUnit) UnmarshalGQL(v any) error {
 }
 
 func (e ZtnaAlwaysOnTimeUnit) MarshalGQL(w io.Writer) {
+	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+type ZtnaAppConnectorType string
+
+const (
+	//  physical socket
+	ZtnaAppConnectorTypePhysical ZtnaAppConnectorType = "PHYSICAL"
+	//  virtualized socket
+	ZtnaAppConnectorTypeVirtual ZtnaAppConnectorType = "VIRTUAL"
+)
+
+var AllZtnaAppConnectorType = []ZtnaAppConnectorType{
+	ZtnaAppConnectorTypePhysical,
+	ZtnaAppConnectorTypeVirtual,
+}
+
+func (e ZtnaAppConnectorType) IsValid() bool {
+	switch e {
+	case ZtnaAppConnectorTypePhysical, ZtnaAppConnectorTypeVirtual:
+		return true
+	}
+	return false
+}
+
+func (e ZtnaAppConnectorType) String() string {
+	return string(e)
+}
+
+func (e *ZtnaAppConnectorType) UnmarshalGQL(v any) error {
+	str, ok := v.(string)
+	if !ok {
+		return fmt.Errorf("enums must be strings")
+	}
+
+	*e = ZtnaAppConnectorType(str)
+	if !e.IsValid() {
+		return fmt.Errorf("%s is not a valid ZtnaAppConnectorType", str)
+	}
+	return nil
+}
+
+func (e ZtnaAppConnectorType) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 

@@ -216,6 +216,8 @@ type Query {
     managedAccount: Boolean
   ): [SubDomain!]! @ga
   xdr(accountID: ID!): XDR!
+  privateApplication(accountId: ID!): AccessPrivateApplicationQueries
+  ztnaAppConnector(accountId: ID!): ZtnaAppConnectorQueries
 }
 
 type Mutation {
@@ -228,10 +230,12 @@ type Mutation {
   hardware(accountId: ID!): HardwareMutations
   licensing(accountId: ID!): LicensingMutations
   policy(accountId: ID!): PolicyMutations
+  privateApplication(accountId: ID!): AccessPrivateApplicationMutations
   sandbox(accountId: ID!): SandboxMutations @rollout
   site(accountId: ID!): SiteMutations!
   sites(accountId: ID!): SiteMutations! @deprecated(reason: "in favor of site")
   xdr(accountId: ID!): XdrMutations!
+  ztnaAppConnector(accountId: ID!): ZtnaAppConnectorMutations
 }
 
 """
@@ -2803,6 +2807,7 @@ type PolicyMutations {
   appTenantRestriction(input: AppTenantRestrictionPolicyMutationInput): AppTenantRestrictionPolicyMutations
   dynamicIpAllocation(input: DynamicIpAllocationPolicyMutationInput): DynamicIpAllocationPolicyMutations
   internetFirewall(input: InternetFirewallPolicyMutationInput): InternetFirewallPolicyMutations
+  privateAccess(input: PrivateAccessPolicyMutationInput): PrivateAccessPolicyMutations
   remotePortFwd(input: RemotePortFwdPolicyMutationInput): RemotePortFwdPolicyMutations
   socketLan(input: SocketLanPolicyMutationInput): SocketLanPolicyMutations
   terminalServer(input: TerminalServerPolicyMutationInput): TerminalServerPolicyMutations
@@ -6348,6 +6353,7 @@ type PolicyQueries {
   appTenantRestriction: AppTenantRestrictionPolicyQueries
   dynamicIpAllocation: DynamicIpAllocationPolicyQueries
   internetFirewall: InternetFirewallPolicyQueries
+  privateAccess: PrivateAccessPolicyQueries
   remotePortFwd: RemotePortFwdPolicyQueries
   socketLan: SocketLanPolicyQueries
   terminalServer: TerminalServerPolicyQueries
@@ -7119,6 +7125,7 @@ input PolicyScheduleUpdateInput {
 type PolicySectionInfo {
   id: ID!
   name: String!
+  subPolicyId: ID
 }
 
 type PolicySectionMutationPayload {
@@ -7128,6 +7135,7 @@ type PolicySectionMutationPayload {
 }
 
 type PolicySectionPayload {
+  access: EntityAccess
   audit: PolicyElementAudit!
   properties: [PolicyElementPropertiesEnum!]!
   section: PolicySectionInfo!
@@ -17022,6 +17030,594 @@ input ZtnaAlwaysOnUpdateRuleInput {
   rule: ZtnaAlwaysOnUpdateRuleDataInput!
 }
 
+
+type PrivateAccessPolicyQueries {
+  policy(input: PrivateAccessPolicyInput): PrivateAccessPolicy!
+  revisions: PolicyRevisionsPayload
+}
+
+type PrivateAccessPolicy implements IPolicy {
+  audit: PolicyAudit
+  enabled: Boolean!
+  revision: PolicyRevision
+  rules: [PrivateAccessRulePayload!]!
+  sections: [PolicySectionPayload!]!
+}
+
+type PrivateAccessRulePayload implements IPolicyRulePayload {
+  audit: PolicyElementAudit!
+  properties: [PolicyElementPropertiesEnum!]!
+  rule: PrivateAccessRule!
+}
+
+input PrivateAccessPolicyInput {
+  revision: PolicyRevisionInput
+}
+
+type PrivateAccessRule implements IPolicyRule {
+  action: PrivateAccessPolicyAction!
+  activePeriod: PolicyRuleActivePeriod!
+  applications: PrivateAccessPolicyApplication!
+  connectionOrigin: [PrivateAccessPolicyOriginEnum!]!
+  country: [CountryRef!]!
+  description: String!
+  device: [DeviceProfileRef!]!
+  enabled: Boolean!
+  id: ID!
+  index: Int!
+  name: String!
+  platform: [OperatingSystem!]!
+  schedule: PolicySchedule!
+  section: PolicySectionInfo!
+  source: PrivateAccessPolicySource!
+  tracking: PolicyTracking!
+  userAttributes: PrivateAccessUserAttributes!
+}
+
+type PrivateAccessPolicyAction {
+  action: PrivateAccessPolicyActionEnum!
+}
+
+enum PrivateAccessPolicyActionEnum {
+  ALLOW
+  BLOCK
+}
+
+type PrivateAccessPolicyApplication {
+  application: [PrivateApplicationRef!]!
+}
+
+"""
+A reference identifying of the PrivateApplication object. ID: Unique PrivateApplication Identifier,
+Name: The PrivateApplication Name
+"""
+type PrivateApplicationRef implements ObjectRef {
+  id: ID!
+  name: String!
+}
+
+""" Defines Origin of the connection """
+enum PrivateAccessPolicyOriginEnum {
+  ANY
+  """ Any Remote option """
+  REMOTE
+  """ User is connecting from the Enterprise Browser """
+  REMOTE_BROWSER
+  """ User is connecting from the SDP client """
+  REMOTE_CLIENT
+  """ User is connecting from the Browser Extension """
+  REMOTE_EXTENSION
+  """ User is connecting from the Application Portal """
+  REMOTE_PORTAL
+  """ User is connecting from Site """
+  SITE
+}
+
+type PrivateAccessPolicySource {
+  user: [UserRef!]!
+  usersGroup: [UsersGroupRef!]!
+}
+
+type PrivateAccessUserAttributes implements UserAttributes {
+  riskScore: RiskScoreCondition!
+}
+
+type RiskScoreCondition {
+  category: RiskScoreCategory!
+  operator: RiskScoreOperator!
+}
+
+interface UserAttributes {
+  riskScore: RiskScoreCondition!
+}
+
+type AccessPrivateApplicationQueries {
+  privateApplication(input: PrivateApplicationRefInput!): PrivateApplication
+  privateApplicationList: PrivateApplicationListPayload
+}
+
+type PrivateApplication {
+  allowIcmpProtocol: Boolean!
+  creationTime: DateTime!
+  description: String
+  id: ID!
+  internalAppAddress: IPAddressOrFqdn!
+  name: String!
+  privateAppProbing: PrivateAppProbing
+  probingEnabled: Boolean!
+  protocolPorts: [CustomService!]!
+  published: Boolean!
+  publishedAppDomain: PublishedAppDomain
+}
+
+input PrivateApplicationRefInput {
+  by: ObjectRefBy! = ID
+  input: String!
+}
+
+type PrivateApplicationListPayload {
+  applications: [PrivateApplication!]!
+}
+
+""" An IPv4 IP address or Fqdn type """
+scalar IPAddressOrFqdn
+
+type PrivateAppProbing {
+  faultThresholdDown: Int!
+  id: ID!
+  interval: Int!
+  type: String!
+}
+
+type PublishedAppDomain {
+  catoIp: IPAddress
+  connectorGroupName: String
+  creationTime: DateTime!
+  id: ID!
+  publishedAppDomain: String!
+}
+
+type ZtnaAppConnectorQueries {
+  ztnaAppConnector(input: ZtnaAppConnectorRefInput!): ZtnaAppConnector
+  ztnaAppConnectorGroupList(input: ZtnaAppConnectorGroupListInput): ZtnaAppConnectorGroupListPayload
+  ztnaAppConnectorList(input: ZtnaAppConnectorListInput!): ZtnaAppConnectorListPayload
+  ztnaAppConnectorsConfiguration: ZtnaAppConnectorsConfiguration
+}
+
+enum RiskScoreCategory {
+  ANY
+  CRITICAL
+  HIGH
+  LOW
+  MEDIUM
+}
+
+enum RiskScoreOperator {
+  GTE
+  LTE
+}
+
+type ZtnaAppConnector {
+  description: String
+  groupName: String!
+  id: ID!
+  location: ZtnaAppConnectorLocation!
+  name: String!
+  preferredPopLocation: ZtnaAppConnectorPreferredPopLocation
+  privateAppRef: [PrivateApplicationRef!]!
+  serialNumber: String
+  socketId: ID
+  socketModel: SocketModel
+  type: ZtnaAppConnectorType!
+}
+
+type ZtnaAppConnectorLocation {
+  address: String
+  cityName: String!
+  countryCode: String!
+  stateCode: String
+  timezone: TimeZone!
+}
+
+type ZtnaAppConnectorPreferredPopLocation {
+  automatic: Boolean!
+  preferredOnly: Boolean!
+  primary: PopLocationRef
+  secondary: PopLocationRef
+}
+
+enum SocketModel {
+  AWS
+  AZURE
+  ESX
+  GCP
+  X1500
+  X1600
+  X1600_LTE
+  X1700
+}
+
+enum ZtnaAppConnectorType {
+  """ physical socket """
+  PHYSICAL
+  """ virtualized socket """
+  VIRTUAL
+}
+
+input ZtnaAppConnectorRefInput {
+  by: ObjectRefBy! = ID
+  input: String!
+}
+
+type ZtnaAppConnectorGroupListPayload {
+  items: [String!]!
+  pageInfo: PageInfo!
+}
+
+input ZtnaAppConnectorGroupListInput {
+  filter: ZtnaAppConnectorGroupListFilterInput
+  paging: PagingInput = {limit:100,from:0}
+}
+
+""" Filter object for connector group listing """
+input ZtnaAppConnectorGroupListFilterInput {
+  search: FreeTextFilterInput
+}
+
+type ZtnaAppConnectorListPayload {
+  pageInfo: PageInfo!
+  ztnaAppConnector: [ZtnaAppConnector!]!
+}
+
+input ZtnaAppConnectorListInput {
+  filter: ZtnaAppConnectorListFilterInput
+  paging: PagingInput = {limit:100,from:0}
+}
+
+input ZtnaAppConnectorListFilterInput {
+  groupName: [StringFilterInput!]
+  isAssigned: BooleanFilterInput
+  name: [StringFilterInput!]
+  searchGroupName: FreeTextFilterInput
+  searchName: FreeTextFilterInput
+  type: ZtnaAppConnectorTypeFilterInput
+}
+
+""" Filter input for ZTNA App Connector type """
+input ZtnaAppConnectorTypeFilterInput {
+  eq: ZtnaAppConnectorType
+  in: [ZtnaAppConnectorType!]
+  neq: ZtnaAppConnectorType
+  nin: [ZtnaAppConnectorType!]
+}
+
+""" ZTNA App Connectors configuration for an account. """
+type ZtnaAppConnectorsConfiguration {
+  appConnectorManagementRange: NetworkSubnet!
+  privateAppsServiceRange: NetworkSubnet!
+}
+
+input PrivateAccessAddRuleInput {
+  at: PolicyRulePositionInput
+  rule: PrivateAccessAddRuleDataInput!
+}
+
+input PrivateAccessAddRuleDataInput {
+  action: PrivateAccessPolicyActionInput! = {action:ALLOW}
+  activePeriod: PolicyRuleActivePeriodInput! = {useEffectiveFrom:false,useExpiresAt:false}
+  applications: PrivateAccessPolicyApplicationInput!
+  connectionOrigin: [PrivateAccessPolicyOriginEnum!]! = []
+  country: [CountryRefInput!]! = []
+  description: String! = ""
+  device: [DeviceProfileRefInput!]! = []
+  enabled: Boolean!
+  name: String!
+  platform: [OperatingSystem!]! = []
+  schedule: PolicyScheduleInput! = {activeOn:ALWAYS}
+  source: PrivateAccessPolicySourceInput! = {user:[],usersGroup:[]}
+  tracking: PolicyTrackingInput! = {event:{enabled:false},alert:{enabled:false,frequency:HOURLY,subscriptionGroup:[],webhook:[],mailingList:[]}}
+  userAttributes: PrivateAccessUserAttributesInput! = {riskScore:{category:ANY,operator:GTE}}
+}
+
+input PrivateAccessPolicyActionInput {
+  action: PrivateAccessPolicyActionEnum! = ALLOW
+}
+
+input PrivateAccessPolicyApplicationInput {
+  application: [PrivateApplicationRefInput!]! = []
+}
+
+input PrivateAccessPolicySourceInput {
+  user: [UserRefInput!]! = []
+  usersGroup: [UsersGroupRefInput!]! = []
+}
+
+input PrivateAccessUserAttributesInput {
+  riskScore: RiskScoreConditionInput! = {category:ANY,operator:GTE}
+}
+
+input RiskScoreConditionInput {
+  category: RiskScoreCategory! = ANY
+  operator: RiskScoreOperator! = GTE
+}
+
+input PrivateAccessRemoveRuleInput {
+  id: ID!
+}
+
+input PrivateAccessPolicyUpdateInput {
+  state: PolicyToggleState
+}
+
+input PrivateAccessUpdateRuleInput {
+  id: ID!
+  rule: PrivateAccessUpdateRuleDataInput!
+}
+
+input PrivateAccessUpdateRuleDataInput {
+  action: PrivateAccessPolicyActionUpdateInput
+  activePeriod: PolicyRuleActivePeriodUpdateInput
+  applications: PrivateAccessPolicyApplicationUpdateInput
+  connectionOrigin: [PrivateAccessPolicyOriginEnum!]
+  country: [CountryRefInput!]
+  description: String
+  device: [DeviceProfileRefInput!]
+  enabled: Boolean
+  name: String
+  platform: [OperatingSystem!]
+  schedule: PolicyScheduleUpdateInput
+  source: PrivateAccessPolicySourceUpdateInput
+  tracking: PolicyTrackingUpdateInput
+  userAttributes: PrivateAccessUserAttributesUpdateInput
+}
+
+input PrivateAccessPolicyActionUpdateInput {
+  action: PrivateAccessPolicyActionEnum
+}
+
+input PrivateAccessPolicyApplicationUpdateInput {
+  application: [PrivateApplicationRefInput!]
+}
+
+input PrivateAccessPolicySourceUpdateInput {
+  user: [UserRefInput!]
+  usersGroup: [UsersGroupRefInput!]
+}
+
+input PrivateAccessUserAttributesUpdateInput {
+  riskScore: RiskScoreConditionUpdateInput
+}
+
+input RiskScoreConditionUpdateInput {
+  category: RiskScoreCategory
+  operator: RiskScoreOperator
+}
+
+input CreatePrivateApplicationInput {
+  allowIcmpProtocol: Boolean! = true
+  description: String
+  internalAppAddress: IPAddressOrFqdn!
+  name: String!
+  privateAppProbing: PrivateAppProbingInput
+  probingEnabled: Boolean! = true
+  protocolPorts: [CustomServiceInput!]
+  published: Boolean! = false
+  publishedAppDomain: PublishedAppDomainInput
+}
+
+input PrivateAppProbingInput {
+  faultThresholdDown: Int
+  id: ID
+  interval: Int
+  type: String
+}
+
+input PublishedAppDomainInput {
+  catoIp: IPAddress
+  connectorGroupName: String
+  creationTime: DateTime
+  id: ID
+  publishedAppDomain: String
+}
+
+input DeletePrivateApplicationInput {
+  privateApplication: PrivateApplicationRefInput!
+}
+
+input UpdatePrivateApplicationInput {
+  allowIcmpProtocol: Boolean
+  description: String
+  id: ID!
+  internalAppAddress: IPAddressOrFqdn
+  name: String
+  privateAppProbing: PrivateAppProbingInput
+  probingEnabled: Boolean
+  protocolPorts: [CustomServiceInput!]
+  published: Boolean
+  publishedAppDomain: PublishedAppDomainInput
+}
+
+""" Input for creating a new ZTNA App Connector """
+input AddZtnaAppConnectorInput {
+  description: String
+  groupName: String!
+  location: ZtnaAppConnectorLocationInput!
+  name: String!
+  preferredPopLocation: ZtnaAppConnectorPreferredPopLocationInput! = {preferredOnly:false,automatic:true}
+  type: ZtnaAppConnectorType!
+}
+
+input ZtnaAppConnectorLocationInput {
+  address: String
+  city: String!
+  countryCode: String!
+  stateCode: String
+  timezone: TimeZone!
+}
+
+input ZtnaAppConnectorPreferredPopLocationInput {
+  automatic: Boolean!
+  preferredOnly: Boolean!
+  primary: PopLocationRefInput
+  secondary: PopLocationRefInput
+}
+
+input RemoveZtnaAppConnectorInput {
+  ztnaAppConnector: ZtnaAppConnectorRefInput!
+}
+
+input UpdateZtnaAppConnectorInput {
+  description: String
+  groupName: String
+  id: ID!
+  location: ZtnaAppConnectorLocationInput
+  name: String
+  preferredPopLocation: ZtnaAppConnectorPreferredPopLocationInput
+}
+
+type PrivateAccessPolicyMutations {
+  addRule(input: PrivateAccessAddRuleInput!): PrivateAccessRuleMutationPayload!
+  addSection(input: PolicyAddSectionInput!): PolicySectionMutationPayload!
+  createPolicyRevision(input: PolicyCreateRevisionInput!): PrivateAccessPolicyMutationPayload!
+  discardPolicyRevision(input: PolicyDiscardRevisionInput): PrivateAccessPolicyMutationPayload!
+  moveRule(input: PolicyMoveRuleInput!): PrivateAccessRuleMutationPayload!
+  moveSection(input: PolicyMoveSectionInput!): PolicySectionMutationPayload!
+  publishPolicyRevision(input: PolicyPublishRevisionInput): PrivateAccessPolicyMutationPayload!
+  removeRule(input: PrivateAccessRemoveRuleInput!): PrivateAccessRuleMutationPayload!
+  removeSection(input: PolicyRemoveSectionInput!): PolicySectionMutationPayload!
+  updatePolicy(input: PrivateAccessPolicyUpdateInput!): PrivateAccessPolicyMutationPayload!
+  updateRule(input: PrivateAccessUpdateRuleInput!): PrivateAccessRuleMutationPayload!
+  updateSection(input: PolicyUpdateSectionInput!): PolicySectionMutationPayload!
+}
+
+input PrivateAccessPolicyMutationInput {
+  revision: PolicyMutationRevisionInput
+}
+
+type PrivateAccessRuleMutationPayload implements IPolicyRuleMutationPayload {
+  errors: [PolicyMutationError!]!
+  rule: PrivateAccessRulePayload
+  status: PolicyMutationStatus!
+}
+
+type PrivateAccessPolicyMutationPayload implements IPolicyMutationPayload {
+  errors: [PolicyMutationError!]!
+  policy: PrivateAccessPolicy
+  status: PolicyMutationStatus!
+}
+
+type AccessPrivateApplicationMutations {
+  createPrivateApplication(input: CreatePrivateApplicationInput!): CreatePrivateApplicationPayload
+  deletePrivateApplication(input: DeletePrivateApplicationInput!): DeletePrivateApplicationPayload
+  updatePrivateApplication(input: UpdatePrivateApplicationInput!): UpdatePrivateApplicationPayload
+}
+
+type CreatePrivateApplicationPayload {
+  application: PrivateApplication!
+}
+
+type DeletePrivateApplicationPayload {
+  application: ID!
+}
+
+type UpdatePrivateApplicationPayload {
+  application: PrivateApplication!
+}
+
+type ZtnaAppConnectorMutations {
+  addZtnaAppConnector(input: AddZtnaAppConnectorInput!): AddZtnaAppConnectorPayload!
+  addZtnaAppConnectorsConfiguration(input: AddZtnaAppConnectorsConfigurationInput!): AddZtnaAppConnectorsConfigurationPayload!
+  assignSocketToZtnaAppConnector(input: AssignSocketToZtnaAppConnectorInput!): AssignSocketToZtnaAppConnectorPayload!
+  removeZtnaAppConnector(input: RemoveZtnaAppConnectorInput!): RemoveZtnaAppConnectorPayload!
+  removeZtnaAppConnectorsConfiguration: RemoveZtnaAppConnectorsConfigurationPayload!
+  unassignSocketFromZtnaAppConnector(input: UnassignSocketFromZtnaAppConnectorInput!): UnassignSocketFromZtnaAppConnectorPayload!
+  updateZtnaAppConnector(input: UpdateZtnaAppConnectorInput!): UpdateZtnaAppConnectorPayload!
+  updateZtnaAppConnectorsConfiguration(input: UpdateZtnaAppConnectorsConfigurationInput!): UpdateZtnaAppConnectorsConfigurationPayload!
+  upgradeZtnaAppConnector(input: UpgradeZtnaAppConnectorInput!): UpgradeZtnaAppConnectorPayload!
+}
+
+type AddZtnaAppConnectorPayload {
+  ztnaAppConnector: ZtnaAppConnector!
+}
+
+""" Payload returned after creating ZTNA App Connectors configuration. """
+type AddZtnaAppConnectorsConfigurationPayload {
+  ztnaAppConnectorsConfiguration: ZtnaAppConnectorsConfiguration!
+}
+
+"""
+Input for creating ZTNA App Connectors configuration.
+If not provided, default ranges will be used (100.64.0.0/16 for Private Apps Service, 100.65.0.0/16
+for App Connector Service).
+"""
+input AddZtnaAppConnectorsConfigurationInput {
+  appConnectorManagementRange: NetworkSubnet!
+  privateAppsServiceRange: NetworkSubnet!
+}
+
+type AssignSocketToZtnaAppConnectorPayload {
+  ztnaAppConnector: ZtnaAppConnector!
+}
+
+input AssignSocketToZtnaAppConnectorInput {
+  description: String! = ""
+  socketSerial: String!
+  ztnaAppConnector: ZtnaAppConnectorRefInput!
+}
+
+type RemoveZtnaAppConnectorPayload {
+  ztnaAppConnector: ZtnaAppConnector!
+}
+
+""" Payload returned after removing ZTNA App Connectors configuration. """
+type RemoveZtnaAppConnectorsConfigurationPayload {
+  ztnaAppConnectorsConfiguration: ZtnaAppConnectorsConfiguration!
+}
+
+type UnassignSocketFromZtnaAppConnectorPayload {
+  ztnaAppConnector: ZtnaAppConnector!
+}
+
+input UnassignSocketFromZtnaAppConnectorInput {
+  ztnaAppConnector: ZtnaAppConnectorRefInput!
+}
+
+type UpdateZtnaAppConnectorPayload {
+  ztnaAppConnector: ZtnaAppConnector!
+}
+
+""" Payload returned after updating ZTNA App Connectors configuration. """
+type UpdateZtnaAppConnectorsConfigurationPayload {
+  ztnaAppConnectorsConfiguration: ZtnaAppConnectorsConfiguration!
+}
+
+"""
+Input for updating ZTNA App Connectors configuration.
+At least one field must be provided.
+"""
+input UpdateZtnaAppConnectorsConfigurationInput {
+  appConnectorManagementRange: NetworkSubnet
+  privateAppsServiceRange: NetworkSubnet
+}
+
+type UpgradeZtnaAppConnectorPayload {
+  upgrades: [ZtnaAppConnectorUpgradeInfo!]!
+}
+
+type ZtnaAppConnectorUpgradeInfo {
+  targetVersion: String!
+  ztnaAppConnector: ZtnaAppConnectorRef!
+}
+
+input UpgradeZtnaAppConnectorInput {
+  upgrades: [ZtnaAppConnectorUpgradeRequest!]!
+}
+
+input ZtnaAppConnectorUpgradeRequest {
+  targetVersion: String!
+  ztnaAppConnector: ZtnaAppConnectorRefInput!
+}
+
 input NetworkRangeListInput {
   site: SiteRefInput!
 }
@@ -17065,4 +17661,3 @@ enum LeaseTimeMeasureUnit {
   MINUTES
   SECONDS
 }
-

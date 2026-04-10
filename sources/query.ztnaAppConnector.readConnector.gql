@@ -1,0 +1,37 @@
+query appConnectorReadConnector($accountId: ID!, $ref: ZtnaAppConnectorRefInput!) {
+  ztnaAppConnector(accountId: $accountId) {
+    ztnaAppConnector(input: $ref) {
+      id
+      name
+      serialNumber
+      type
+      groupName
+      description
+      location {
+        address
+        cityName
+        countryCode
+        stateCode
+        timezone
+      }
+      preferredPopLocation {
+        preferredOnly
+        automatic
+        primary {
+          id
+          name
+        }
+        secondary {
+          id
+          name
+        }
+      }
+      privateAppRef {
+        id
+        name
+      }
+      socketId
+      socketModel
+    }
+  }
+}

@@ -1,0 +1,18 @@
+mutation policyPrivateAccessAddRule ( $accountID: ID!, $input: PrivateAccessAddRuleInput! ) {
+  policy ( accountId: $accountID ) {
+    privateAccess {
+      addRule(input: $input) {
+        rule {
+          rule {
+            id
+          }
+        }
+        status
+        errors {
+          errorCode
+          errorMessage
+        }
+      }
+    }
+  }
+}

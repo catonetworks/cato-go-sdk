@@ -1,0 +1,10 @@
+query appConnectorReadGroups($accountId: ID!) {
+  ztnaAppConnector(accountId: $accountId) {
+    ztnaAppConnectorGroupList {
+      items
+      pageInfo {
+        total
+      }
+    }
+  }
+}

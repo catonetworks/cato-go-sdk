@@ -1,0 +1,13 @@
+mutation policyPrivateAccessDeleteRule ( $accountID: ID!, $input: PrivateAccessRemoveRuleInput! ) {
+  policy ( accountId: $accountID ) {
+    privateAccess {
+      removeRule(input: $input) {
+        status
+        errors {
+          errorCode
+          errorMessage
+        }
+      }
+    }
+  }
+}

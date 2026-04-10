@@ -1,0 +1,13 @@
+mutation policyPrivateAccessDiscardRevision ( $accountID: ID! ) {
+  policy ( accountId: $accountID ) {
+    privateAccess {
+      discardPolicyRevision {
+        status
+        errors {
+          errorCode
+          errorMessage
+        }
+      }
+    }
+  }
+}

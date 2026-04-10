@@ -1,0 +1,7 @@
+mutation privateAppDeletePrivateApp($accountID: ID!, $input: DeletePrivateApplicationInput!) {
+  privateApplication(accountId: $accountID) {
+    deletePrivateApplication(input: $input) {
+      application
+    }
+  }
+}
