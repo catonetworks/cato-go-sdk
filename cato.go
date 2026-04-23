@@ -49,7 +49,7 @@ func New(url string, token string, accountId string, httpClient *http.Client, he
 		retryClient.RetryMax = defaultRetryMax
 		retryClient.RetryWaitMin = defaultRetryWaitMin
 		retryClient.RetryWaitMax = defaultRetryWaitMax
-		retryClient.CheckRetry = baseRetryPolicy
+		retryClient.CheckRetry = BaseRetryPolicy
 		httpClient = retryClient.StandardClient()
 	}
 
@@ -76,7 +76,7 @@ func New(url string, token string, accountId string, httpClient *http.Client, he
 	return &Client{Client: gqlClient}, nil
 }
 
-func baseRetryPolicy(ctx context.Context, resp *http.Response, err error) (bool, error) {
+func BaseRetryPolicy(ctx context.Context, resp *http.Response, err error) (bool, error) {
 
 	// do not retry on context.Canceled or context.DeadlineExceeded
 	if ctx.Err() != nil {
