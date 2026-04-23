@@ -67,10 +67,10 @@ func executeGQLWithTrace(ctx context.Context, gqlc *clientv2.Client, req *http.R
 	}
 
 	body, err := io.ReadAll(bodyReader)
+	recordCall(ctx, traceID, requestBody, string(body))
 	if err != nil {
 		return fmt.Errorf("failed to read response body: %w", err)
 	}
-	recordCall(ctx, traceID, requestBody, string(body))
 
 	parseErr := parseGQLResponse(gqlc, body, resp.StatusCode, res)
 	if parseErr == nil {
