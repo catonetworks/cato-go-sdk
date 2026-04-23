@@ -156,6 +156,10 @@ Mustations are used in GraphQL to perform a change. This can include a create/up
 	}
 ```
 
+### Debugging
+- When `TF_API_DUMP_DIR={directory}` environment variable is set, the GraphQL API calls will be recorded in the given directory
+- When `TF_LOG=debug` environment variable is set, an 'API Call:' debug message will be logged.
+
 ### Examples
 
 Additional examples can be found in the [examples](examples/) folder.

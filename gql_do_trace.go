@@ -10,12 +10,19 @@ import (
 	"errors"
 	"fmt"
 	"io"
+	"log"
 	"net/http"
+	"os"
+	"path/filepath"
 	"strings"
+	"time"
 
 	"github.com/Yamashou/gqlgenc/clientv2"
 	"github.com/Yamashou/gqlgenc/graphqljson"
+	"github.com/hashicorp/terraform-plugin-log/tflog"
 )
+
+const dumpDirVariable = "TF_API_DUMP_DIR"
 
 // traceIDFromResponseHeader returns the server tracing ID from response headers.
 // The Cato server sets "Trace_id" (see AbstractTracingPlugin#addTraceIdToResponse).
@@ -35,7 +42,7 @@ func traceIDFromResponseHeader(h http.Header) string {
 
 // executeGQLWithTrace performs the GraphQL HTTP round trip like clientv2.Client.do,
 // then attaches Trace_id from the response to any returned error.
-func executeGQLWithTrace(_ context.Context, gqlc *clientv2.Client, req *http.Request, _ *clientv2.GQLRequestInfo, res any) error {
+func executeGQLWithTrace(ctx context.Context, gqlc *clientv2.Client, req *http.Request, _ *clientv2.GQLRequestInfo, res any) error {
 	requestBody := requestBodyForError(req)
 
 	resp, err := gqlc.Client.Do(req)
@@ -60,6 +67,7 @@ func executeGQLWithTrace(_ context.Context, gqlc *clientv2.Client, req *http.Req
 	}
 
 	body, err := io.ReadAll(bodyReader)
+	recordCall(ctx, traceID, requestBody, string(body))
 	if err != nil {
 		return fmt.Errorf("failed to read response body: %w", err)
 	}
@@ -169,4 +177,48 @@ func requestBodyForError(req *http.Request) string {
 	}
 	req.Body = io.NopCloser(bytes.NewReader(b))
 	return string(b)
+}
+
+// recordCall logs the request and response, and optionally dumps them to a file if TF_API_DUMP_DIR is set.
+func recordCall(ctx context.Context, traceID, requestBody, responseBody string) {
+	tflog.Debug(ctx, "API Call", map[string]any{"request": requestBody, "response": responseBody, "trace_id": traceID})
+	dumpDir := os.Getenv(dumpDirVariable)
+	if dumpDir == "" {
+		return
+	}
+	if err := os.MkdirAll(dumpDir, 0o755); err != nil {
+		log.Printf("failed to create API call dump directory '%s': %v", dumpDir, err)
+		return
+	}
+
+	operationName := getOperationName(requestBody)
+	filename := fmt.Sprintf("%s_%s.txt", time.Now().Format("20060102_150405.000"), operationName)
+	appendToFile(filepath.Join(dumpDir, filename), traceID, requestBody, responseBody)
+}
+
+// getOperationName extracts the "operationName" field from the GraphQL request body for use in log filenames.
+func getOperationName(requestBody string) string {
+	var req struct {
+		OperationName string `json:"operationName"`
+	}
+	if err := json.Unmarshal([]byte(requestBody), &req); err != nil || req.OperationName == "" {
+		return "unknown"
+	}
+	return req.OperationName
+}
+
+// appendToFile opens (or creates) a file and appends the given details to it.
+func appendToFile(filename, traceID, request, response string) {
+	// Open file in append mode, create if not exists, write-only
+	file, err := os.OpenFile(filename, os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
+	if err != nil {
+		panic(fmt.Sprintf("failed to open file: %v", err))
+	}
+	defer file.Close()
+
+	// Write string to file
+	ts := time.Now().Format(time.DateTime)
+	if _, err := file.WriteString(fmt.Sprintf("traceID: %s  [%s]\n%s\n%s", traceID, ts, request, response)); err != nil {
+		panic(fmt.Sprintf("failed to write to file: %v", err))
+	}
 }
