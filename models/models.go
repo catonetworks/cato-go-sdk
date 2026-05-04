@@ -7856,7 +7856,8 @@ type InternetFirewallPolicyMutations struct {
 	// Remove an existing rule from the Internet Firewall policy.
 	RemoveRule *InternetFirewallRuleMutationPayload `json:"removeRule"`
 	// Delete an existing section. The first section in policy cannot be deleted.
-	RemoveSection *PolicySectionMutationPayload `json:"removeSection"`
+	RemoveSection *PolicySectionMutationPayload          `json:"removeSection"`
+	ReorderPolicy *InternetFirewallPolicyMutationPayload `json:"reorderPolicy"`
 	// Change the state of the policy, e.g. enable or disable the policy.
 	// Applicable to the published policy only. State changes are applied immediately and not as part of publishing a policy revision.
 	UpdatePolicy *InternetFirewallPolicyMutationPayload `json:"updatePolicy"`
@@ -9753,6 +9754,15 @@ type PolicyElementAudit struct {
 	UpdatedTime string `json:"updatedTime"`
 }
 
+// Reference to a policy element (section, rule, or sub-rule) identified by ID or name.
+// Follows the same convention as other ObjectRef inputs in the platform.
+type PolicyElementRefInput struct {
+	// Defines the object identification method – by ID (default) or by name
+	By ObjectRefBy `json:"by"`
+	// The object identification (ID or name) value
+	Input string `json:"input"`
+}
+
 type PolicyLevelEnumFilterInput struct {
 	Eq  *PolicyLevelEnum  `json:"eq,omitempty"`
 	In  []PolicyLevelEnum `json:"in,omitempty"`
@@ -9906,6 +9916,42 @@ type PolicyQueries struct {
 // Input for removing a section from a policy
 type PolicyRemoveSectionInput struct {
 	ID string `json:"id"`
+}
+
+// Input for reordering an entire policy in a single mutation.
+// All sections, rules, and sub-rules must be provided — including system elements.
+// System sections and system rules must remain at their persisted positions (same array index).
+// The desired order is determined by the natural (array index) order of the elements.
+type PolicyReorderInput struct {
+	// Ordered list of all sections in the policy, in the desired order. System sections must remain at their persisted index.
+	Sections []*PolicyReorderSectionInput `json:"sections"`
+	// Optional sub-policy ID. When provided, the reorder applies only to sections and rules within the specified sub-policy.
+	SubPolicyID *string `json:"subPolicyId,omitempty"`
+}
+
+// Defines the desired order of a rule and its sub-rules within a section.
+// Rules are reordered based on their natural position in the array.
+type PolicyReorderRuleInput struct {
+	// Reference to the rule (by ID or name)
+	Ref *PolicyElementRefInput `json:"ref"`
+	// Ordered list of all sub-rules within this rule. Required only for rules that have sub-rules.
+	SubRules []*PolicyReorderSubRuleInput `json:"subRules"`
+}
+
+// Defines the desired order of a section and its rules within the policy.
+// Sections are reordered based on their natural position in the array.
+type PolicyReorderSectionInput struct {
+	// Reference to the section (by ID or name)
+	Ref *PolicyElementRefInput `json:"ref"`
+	// Ordered list of all rules within this section, in the desired order
+	Rules []*PolicyReorderRuleInput `json:"rules"`
+}
+
+// Defines the desired order of sub-rules within a parent rule.
+// Sub-rules are reordered based on their natural position in the array.
+type PolicyReorderSubRuleInput struct {
+	// Reference to the sub-rule (by ID or name)
+	Ref *PolicyElementRefInput `json:"ref"`
 }
 
 // Returns data about the policy revision, such as when the change was made, how many rules were changed, etc.
@@ -15913,7 +15959,8 @@ type WanFirewallPolicyMutations struct {
 	// Remove an existing rule from the Wan Firewall policy.
 	RemoveRule *WanFirewallRuleMutationPayload `json:"removeRule"`
 	// Delete an existing section. The first section in policy cannot be deleted.
-	RemoveSection *PolicySectionMutationPayload `json:"removeSection"`
+	RemoveSection *PolicySectionMutationPayload     `json:"removeSection"`
+	ReorderPolicy *WanFirewallPolicyMutationPayload `json:"reorderPolicy"`
 	// Change the state of the policy, e.g. enable or disable the policy.
 	// Applicable to the published policy only. State changes are applied immediately and not as part of publishing a policy revision.
 	UpdatePolicy *WanFirewallPolicyMutationPayload `json:"updatePolicy"`

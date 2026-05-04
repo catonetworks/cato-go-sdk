@@ -26,6 +26,7 @@ type CatoClient interface {
 	PolicyInternetFirewallPublishPolicyRevision(ctx context.Context, internetFirewallPolicyMutationInput *cato_models.InternetFirewallPolicyMutationInput, policyPublishRevisionInput *cato_models.PolicyPublishRevisionInput, accountID string, interceptors ...clientv2.RequestInterceptor) (*PolicyInternetFirewallPublishPolicyRevision, error)
 	PolicyInternetFirewallRemoveRule(ctx context.Context, internetFirewallPolicyMutationInput *cato_models.InternetFirewallPolicyMutationInput, internetFirewallRemoveRuleInput cato_models.InternetFirewallRemoveRuleInput, accountID string, interceptors ...clientv2.RequestInterceptor) (*PolicyInternetFirewallRemoveRule, error)
 	PolicyInternetFirewallRemoveSection(ctx context.Context, internetFirewallPolicyMutationInput *cato_models.InternetFirewallPolicyMutationInput, policyRemoveSectionInput cato_models.PolicyRemoveSectionInput, accountID string, interceptors ...clientv2.RequestInterceptor) (*PolicyInternetFirewallRemoveSection, error)
+	PolicyInternetFirewallReorderPolicy(ctx context.Context, internetFirewallPolicyMutationInput *cato_models.InternetFirewallPolicyMutationInput, policyReorderInput cato_models.PolicyReorderInput, accountID string, interceptors ...clientv2.RequestInterceptor) (*PolicyInternetFirewallReorderPolicy, error)
 	PolicyInternetFirewallUpdatePolicy(ctx context.Context, internetFirewallPolicyMutationInput *cato_models.InternetFirewallPolicyMutationInput, internetFirewallPolicyUpdateInput cato_models.InternetFirewallPolicyUpdateInput, accountID string, interceptors ...clientv2.RequestInterceptor) (*PolicyInternetFirewallUpdatePolicy, error)
 	PolicyInternetFirewallUpdateRule(ctx context.Context, internetFirewallPolicyMutationInput *cato_models.InternetFirewallPolicyMutationInput, internetFirewallUpdateRuleInput cato_models.InternetFirewallUpdateRuleInput, accountID string, interceptors ...clientv2.RequestInterceptor) (*PolicyInternetFirewallUpdateRule, error)
 	PolicyInternetFirewallUpdateSection(ctx context.Context, internetFirewallPolicyMutationInput *cato_models.InternetFirewallPolicyMutationInput, policyUpdateSectionInput cato_models.PolicyUpdateSectionInput, accountID string, interceptors ...clientv2.RequestInterceptor) (*PolicyInternetFirewallUpdateSection, error)
@@ -82,6 +83,7 @@ type CatoClient interface {
 	PolicyWanFirewallPublishPolicyRevision(ctx context.Context, policyPublishRevisionInput *cato_models.PolicyPublishRevisionInput, accountID string, interceptors ...clientv2.RequestInterceptor) (*PolicyWanFirewallPublishPolicyRevision, error)
 	PolicyWanFirewallRemoveRule(ctx context.Context, wanFirewallRemoveRuleInput cato_models.WanFirewallRemoveRuleInput, accountID string, interceptors ...clientv2.RequestInterceptor) (*PolicyWanFirewallRemoveRule, error)
 	PolicyWanFirewallRemoveSection(ctx context.Context, policyRemoveSectionInput cato_models.PolicyRemoveSectionInput, accountID string, interceptors ...clientv2.RequestInterceptor) (*PolicyWanFirewallRemoveSection, error)
+	PolicyWanFirewallReorderPolicy(ctx context.Context, wanFirewallPolicyMutationInput *cato_models.WanFirewallPolicyMutationInput, policyReorderInput cato_models.PolicyReorderInput, accountID string, interceptors ...clientv2.RequestInterceptor) (*PolicyWanFirewallReorderPolicy, error)
 	PolicyWanFirewallUpdatePolicy(ctx context.Context, wanFirewallPolicyUpdateInput cato_models.WanFirewallPolicyUpdateInput, accountID string, interceptors ...clientv2.RequestInterceptor) (*PolicyWanFirewallUpdatePolicy, error)
 	PolicyWanFirewallUpdateRule(ctx context.Context, wanFirewallUpdateRuleInput cato_models.WanFirewallUpdateRuleInput, accountID string, interceptors ...clientv2.RequestInterceptor) (*PolicyWanFirewallUpdateRule, error)
 	PolicyWanFirewallUpdateSection(ctx context.Context, policyUpdateSectionInput cato_models.PolicyUpdateSectionInput, accountID string, interceptors ...clientv2.RequestInterceptor) (*PolicyWanFirewallUpdateSection, error)
@@ -12329,6 +12331,214 @@ type PolicyInternetFirewallRemoveSection_Policy struct {
 func (t *PolicyInternetFirewallRemoveSection_Policy) GetInternetFirewall() *PolicyInternetFirewallRemoveSection_Policy_InternetFirewall {
 	if t == nil {
 		t = &PolicyInternetFirewallRemoveSection_Policy{}
+	}
+	return t.InternetFirewall
+}
+
+type PolicyInternetFirewallReorderPolicy_Policy_InternetFirewall_ReorderPolicy_Errors struct {
+	ErrorCode    *string "json:\"errorCode,omitempty\" graphql:\"errorCode\""
+	ErrorMessage *string "json:\"errorMessage,omitempty\" graphql:\"errorMessage\""
+}
+
+func (t *PolicyInternetFirewallReorderPolicy_Policy_InternetFirewall_ReorderPolicy_Errors) GetErrorCode() *string {
+	if t == nil {
+		t = &PolicyInternetFirewallReorderPolicy_Policy_InternetFirewall_ReorderPolicy_Errors{}
+	}
+	return t.ErrorCode
+}
+func (t *PolicyInternetFirewallReorderPolicy_Policy_InternetFirewall_ReorderPolicy_Errors) GetErrorMessage() *string {
+	if t == nil {
+		t = &PolicyInternetFirewallReorderPolicy_Policy_InternetFirewall_ReorderPolicy_Errors{}
+	}
+	return t.ErrorMessage
+}
+
+type PolicyInternetFirewallReorderPolicy_Policy_InternetFirewall_ReorderPolicy_Policy_Sections_Section struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicyInternetFirewallReorderPolicy_Policy_InternetFirewall_ReorderPolicy_Policy_Sections_Section) GetID() string {
+	if t == nil {
+		t = &PolicyInternetFirewallReorderPolicy_Policy_InternetFirewall_ReorderPolicy_Policy_Sections_Section{}
+	}
+	return t.ID
+}
+func (t *PolicyInternetFirewallReorderPolicy_Policy_InternetFirewall_ReorderPolicy_Policy_Sections_Section) GetName() string {
+	if t == nil {
+		t = &PolicyInternetFirewallReorderPolicy_Policy_InternetFirewall_ReorderPolicy_Policy_Sections_Section{}
+	}
+	return t.Name
+}
+
+type PolicyInternetFirewallReorderPolicy_Policy_InternetFirewall_ReorderPolicy_Policy_Sections struct {
+	Properties []cato_models.PolicyElementPropertiesEnum                                                         "json:\"properties\" graphql:\"properties\""
+	Section    PolicyInternetFirewallReorderPolicy_Policy_InternetFirewall_ReorderPolicy_Policy_Sections_Section "json:\"section\" graphql:\"section\""
+}
+
+func (t *PolicyInternetFirewallReorderPolicy_Policy_InternetFirewall_ReorderPolicy_Policy_Sections) GetProperties() []cato_models.PolicyElementPropertiesEnum {
+	if t == nil {
+		t = &PolicyInternetFirewallReorderPolicy_Policy_InternetFirewall_ReorderPolicy_Policy_Sections{}
+	}
+	return t.Properties
+}
+func (t *PolicyInternetFirewallReorderPolicy_Policy_InternetFirewall_ReorderPolicy_Policy_Sections) GetSection() *PolicyInternetFirewallReorderPolicy_Policy_InternetFirewall_ReorderPolicy_Policy_Sections_Section {
+	if t == nil {
+		t = &PolicyInternetFirewallReorderPolicy_Policy_InternetFirewall_ReorderPolicy_Policy_Sections{}
+	}
+	return &t.Section
+}
+
+type PolicyInternetFirewallReorderPolicy_Policy_InternetFirewall_ReorderPolicy_Policy_Rules_Rule_Section struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicyInternetFirewallReorderPolicy_Policy_InternetFirewall_ReorderPolicy_Policy_Rules_Rule_Section) GetID() string {
+	if t == nil {
+		t = &PolicyInternetFirewallReorderPolicy_Policy_InternetFirewall_ReorderPolicy_Policy_Rules_Rule_Section{}
+	}
+	return t.ID
+}
+func (t *PolicyInternetFirewallReorderPolicy_Policy_InternetFirewall_ReorderPolicy_Policy_Rules_Rule_Section) GetName() string {
+	if t == nil {
+		t = &PolicyInternetFirewallReorderPolicy_Policy_InternetFirewall_ReorderPolicy_Policy_Rules_Rule_Section{}
+	}
+	return t.Name
+}
+
+type PolicyInternetFirewallReorderPolicy_Policy_InternetFirewall_ReorderPolicy_Policy_Rules_Rule struct {
+	Description string                                                                                              "json:\"description\" graphql:\"description\""
+	Enabled     bool                                                                                                "json:\"enabled\" graphql:\"enabled\""
+	ID          string                                                                                              "json:\"id\" graphql:\"id\""
+	Index       int64                                                                                               "json:\"index\" graphql:\"index\""
+	Name        string                                                                                              "json:\"name\" graphql:\"name\""
+	Section     PolicyInternetFirewallReorderPolicy_Policy_InternetFirewall_ReorderPolicy_Policy_Rules_Rule_Section "json:\"section\" graphql:\"section\""
+}
+
+func (t *PolicyInternetFirewallReorderPolicy_Policy_InternetFirewall_ReorderPolicy_Policy_Rules_Rule) GetDescription() string {
+	if t == nil {
+		t = &PolicyInternetFirewallReorderPolicy_Policy_InternetFirewall_ReorderPolicy_Policy_Rules_Rule{}
+	}
+	return t.Description
+}
+func (t *PolicyInternetFirewallReorderPolicy_Policy_InternetFirewall_ReorderPolicy_Policy_Rules_Rule) GetEnabled() bool {
+	if t == nil {
+		t = &PolicyInternetFirewallReorderPolicy_Policy_InternetFirewall_ReorderPolicy_Policy_Rules_Rule{}
+	}
+	return t.Enabled
+}
+func (t *PolicyInternetFirewallReorderPolicy_Policy_InternetFirewall_ReorderPolicy_Policy_Rules_Rule) GetID() string {
+	if t == nil {
+		t = &PolicyInternetFirewallReorderPolicy_Policy_InternetFirewall_ReorderPolicy_Policy_Rules_Rule{}
+	}
+	return t.ID
+}
+func (t *PolicyInternetFirewallReorderPolicy_Policy_InternetFirewall_ReorderPolicy_Policy_Rules_Rule) GetIndex() int64 {
+	if t == nil {
+		t = &PolicyInternetFirewallReorderPolicy_Policy_InternetFirewall_ReorderPolicy_Policy_Rules_Rule{}
+	}
+	return t.Index
+}
+func (t *PolicyInternetFirewallReorderPolicy_Policy_InternetFirewall_ReorderPolicy_Policy_Rules_Rule) GetName() string {
+	if t == nil {
+		t = &PolicyInternetFirewallReorderPolicy_Policy_InternetFirewall_ReorderPolicy_Policy_Rules_Rule{}
+	}
+	return t.Name
+}
+func (t *PolicyInternetFirewallReorderPolicy_Policy_InternetFirewall_ReorderPolicy_Policy_Rules_Rule) GetSection() *PolicyInternetFirewallReorderPolicy_Policy_InternetFirewall_ReorderPolicy_Policy_Rules_Rule_Section {
+	if t == nil {
+		t = &PolicyInternetFirewallReorderPolicy_Policy_InternetFirewall_ReorderPolicy_Policy_Rules_Rule{}
+	}
+	return &t.Section
+}
+
+type PolicyInternetFirewallReorderPolicy_Policy_InternetFirewall_ReorderPolicy_Policy_Rules struct {
+	Properties []cato_models.PolicyElementPropertiesEnum                                                   "json:\"properties\" graphql:\"properties\""
+	Rule       PolicyInternetFirewallReorderPolicy_Policy_InternetFirewall_ReorderPolicy_Policy_Rules_Rule "json:\"rule\" graphql:\"rule\""
+}
+
+func (t *PolicyInternetFirewallReorderPolicy_Policy_InternetFirewall_ReorderPolicy_Policy_Rules) GetProperties() []cato_models.PolicyElementPropertiesEnum {
+	if t == nil {
+		t = &PolicyInternetFirewallReorderPolicy_Policy_InternetFirewall_ReorderPolicy_Policy_Rules{}
+	}
+	return t.Properties
+}
+func (t *PolicyInternetFirewallReorderPolicy_Policy_InternetFirewall_ReorderPolicy_Policy_Rules) GetRule() *PolicyInternetFirewallReorderPolicy_Policy_InternetFirewall_ReorderPolicy_Policy_Rules_Rule {
+	if t == nil {
+		t = &PolicyInternetFirewallReorderPolicy_Policy_InternetFirewall_ReorderPolicy_Policy_Rules{}
+	}
+	return &t.Rule
+}
+
+type PolicyInternetFirewallReorderPolicy_Policy_InternetFirewall_ReorderPolicy_Policy struct {
+	Enabled  bool                                                                                         "json:\"enabled\" graphql:\"enabled\""
+	Rules    []*PolicyInternetFirewallReorderPolicy_Policy_InternetFirewall_ReorderPolicy_Policy_Rules    "json:\"rules\" graphql:\"rules\""
+	Sections []*PolicyInternetFirewallReorderPolicy_Policy_InternetFirewall_ReorderPolicy_Policy_Sections "json:\"sections\" graphql:\"sections\""
+}
+
+func (t *PolicyInternetFirewallReorderPolicy_Policy_InternetFirewall_ReorderPolicy_Policy) GetEnabled() bool {
+	if t == nil {
+		t = &PolicyInternetFirewallReorderPolicy_Policy_InternetFirewall_ReorderPolicy_Policy{}
+	}
+	return t.Enabled
+}
+func (t *PolicyInternetFirewallReorderPolicy_Policy_InternetFirewall_ReorderPolicy_Policy) GetRules() []*PolicyInternetFirewallReorderPolicy_Policy_InternetFirewall_ReorderPolicy_Policy_Rules {
+	if t == nil {
+		t = &PolicyInternetFirewallReorderPolicy_Policy_InternetFirewall_ReorderPolicy_Policy{}
+	}
+	return t.Rules
+}
+func (t *PolicyInternetFirewallReorderPolicy_Policy_InternetFirewall_ReorderPolicy_Policy) GetSections() []*PolicyInternetFirewallReorderPolicy_Policy_InternetFirewall_ReorderPolicy_Policy_Sections {
+	if t == nil {
+		t = &PolicyInternetFirewallReorderPolicy_Policy_InternetFirewall_ReorderPolicy_Policy{}
+	}
+	return t.Sections
+}
+
+type PolicyInternetFirewallReorderPolicy_Policy_InternetFirewall_ReorderPolicy struct {
+	Errors []*PolicyInternetFirewallReorderPolicy_Policy_InternetFirewall_ReorderPolicy_Errors "json:\"errors\" graphql:\"errors\""
+	Policy *PolicyInternetFirewallReorderPolicy_Policy_InternetFirewall_ReorderPolicy_Policy   "json:\"policy,omitempty\" graphql:\"policy\""
+	Status cato_models.PolicyMutationStatus                                                    "json:\"status\" graphql:\"status\""
+}
+
+func (t *PolicyInternetFirewallReorderPolicy_Policy_InternetFirewall_ReorderPolicy) GetErrors() []*PolicyInternetFirewallReorderPolicy_Policy_InternetFirewall_ReorderPolicy_Errors {
+	if t == nil {
+		t = &PolicyInternetFirewallReorderPolicy_Policy_InternetFirewall_ReorderPolicy{}
+	}
+	return t.Errors
+}
+func (t *PolicyInternetFirewallReorderPolicy_Policy_InternetFirewall_ReorderPolicy) GetPolicy() *PolicyInternetFirewallReorderPolicy_Policy_InternetFirewall_ReorderPolicy_Policy {
+	if t == nil {
+		t = &PolicyInternetFirewallReorderPolicy_Policy_InternetFirewall_ReorderPolicy{}
+	}
+	return t.Policy
+}
+func (t *PolicyInternetFirewallReorderPolicy_Policy_InternetFirewall_ReorderPolicy) GetStatus() *cato_models.PolicyMutationStatus {
+	if t == nil {
+		t = &PolicyInternetFirewallReorderPolicy_Policy_InternetFirewall_ReorderPolicy{}
+	}
+	return &t.Status
+}
+
+type PolicyInternetFirewallReorderPolicy_Policy_InternetFirewall struct {
+	ReorderPolicy PolicyInternetFirewallReorderPolicy_Policy_InternetFirewall_ReorderPolicy "json:\"reorderPolicy\" graphql:\"reorderPolicy\""
+}
+
+func (t *PolicyInternetFirewallReorderPolicy_Policy_InternetFirewall) GetReorderPolicy() *PolicyInternetFirewallReorderPolicy_Policy_InternetFirewall_ReorderPolicy {
+	if t == nil {
+		t = &PolicyInternetFirewallReorderPolicy_Policy_InternetFirewall{}
+	}
+	return &t.ReorderPolicy
+}
+
+type PolicyInternetFirewallReorderPolicy_Policy struct {
+	InternetFirewall *PolicyInternetFirewallReorderPolicy_Policy_InternetFirewall "json:\"internetFirewall,omitempty\" graphql:\"internetFirewall\""
+}
+
+func (t *PolicyInternetFirewallReorderPolicy_Policy) GetInternetFirewall() *PolicyInternetFirewallReorderPolicy_Policy_InternetFirewall {
+	if t == nil {
+		t = &PolicyInternetFirewallReorderPolicy_Policy{}
 	}
 	return t.InternetFirewall
 }
@@ -55170,6 +55380,228 @@ type PolicyWanFirewallRemoveSection_Policy struct {
 func (t *PolicyWanFirewallRemoveSection_Policy) GetWanFirewall() *PolicyWanFirewallRemoveSection_Policy_WanFirewall {
 	if t == nil {
 		t = &PolicyWanFirewallRemoveSection_Policy{}
+	}
+	return t.WanFirewall
+}
+
+type PolicyWanFirewallReorderPolicy_Policy_WanFirewall_ReorderPolicy_Errors struct {
+	ErrorCode    *string "json:\"errorCode,omitempty\" graphql:\"errorCode\""
+	ErrorMessage *string "json:\"errorMessage,omitempty\" graphql:\"errorMessage\""
+}
+
+func (t *PolicyWanFirewallReorderPolicy_Policy_WanFirewall_ReorderPolicy_Errors) GetErrorCode() *string {
+	if t == nil {
+		t = &PolicyWanFirewallReorderPolicy_Policy_WanFirewall_ReorderPolicy_Errors{}
+	}
+	return t.ErrorCode
+}
+func (t *PolicyWanFirewallReorderPolicy_Policy_WanFirewall_ReorderPolicy_Errors) GetErrorMessage() *string {
+	if t == nil {
+		t = &PolicyWanFirewallReorderPolicy_Policy_WanFirewall_ReorderPolicy_Errors{}
+	}
+	return t.ErrorMessage
+}
+
+type PolicyWanFirewallReorderPolicy_Policy_WanFirewall_ReorderPolicy_Policy_Sections_Section struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicyWanFirewallReorderPolicy_Policy_WanFirewall_ReorderPolicy_Policy_Sections_Section) GetID() string {
+	if t == nil {
+		t = &PolicyWanFirewallReorderPolicy_Policy_WanFirewall_ReorderPolicy_Policy_Sections_Section{}
+	}
+	return t.ID
+}
+func (t *PolicyWanFirewallReorderPolicy_Policy_WanFirewall_ReorderPolicy_Policy_Sections_Section) GetName() string {
+	if t == nil {
+		t = &PolicyWanFirewallReorderPolicy_Policy_WanFirewall_ReorderPolicy_Policy_Sections_Section{}
+	}
+	return t.Name
+}
+
+type PolicyWanFirewallReorderPolicy_Policy_WanFirewall_ReorderPolicy_Policy_Sections struct {
+	Properties []cato_models.PolicyElementPropertiesEnum                                               "json:\"properties\" graphql:\"properties\""
+	Section    PolicyWanFirewallReorderPolicy_Policy_WanFirewall_ReorderPolicy_Policy_Sections_Section "json:\"section\" graphql:\"section\""
+}
+
+func (t *PolicyWanFirewallReorderPolicy_Policy_WanFirewall_ReorderPolicy_Policy_Sections) GetProperties() []cato_models.PolicyElementPropertiesEnum {
+	if t == nil {
+		t = &PolicyWanFirewallReorderPolicy_Policy_WanFirewall_ReorderPolicy_Policy_Sections{}
+	}
+	return t.Properties
+}
+func (t *PolicyWanFirewallReorderPolicy_Policy_WanFirewall_ReorderPolicy_Policy_Sections) GetSection() *PolicyWanFirewallReorderPolicy_Policy_WanFirewall_ReorderPolicy_Policy_Sections_Section {
+	if t == nil {
+		t = &PolicyWanFirewallReorderPolicy_Policy_WanFirewall_ReorderPolicy_Policy_Sections{}
+	}
+	return &t.Section
+}
+
+type PolicyWanFirewallReorderPolicy_Policy_WanFirewall_ReorderPolicy_Policy_Rules_Rule_Section struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicyWanFirewallReorderPolicy_Policy_WanFirewall_ReorderPolicy_Policy_Rules_Rule_Section) GetID() string {
+	if t == nil {
+		t = &PolicyWanFirewallReorderPolicy_Policy_WanFirewall_ReorderPolicy_Policy_Rules_Rule_Section{}
+	}
+	return t.ID
+}
+func (t *PolicyWanFirewallReorderPolicy_Policy_WanFirewall_ReorderPolicy_Policy_Rules_Rule_Section) GetName() string {
+	if t == nil {
+		t = &PolicyWanFirewallReorderPolicy_Policy_WanFirewall_ReorderPolicy_Policy_Rules_Rule_Section{}
+	}
+	return t.Name
+}
+
+type PolicyWanFirewallReorderPolicy_Policy_WanFirewall_ReorderPolicy_Policy_Rules_Rule struct {
+	Action      cato_models.WanFirewallActionEnum                                                         "json:\"action\" graphql:\"action\""
+	Description string                                                                                    "json:\"description\" graphql:\"description\""
+	Direction   cato_models.WanFirewallDirectionEnum                                                      "json:\"direction\" graphql:\"direction\""
+	Enabled     bool                                                                                      "json:\"enabled\" graphql:\"enabled\""
+	ID          string                                                                                    "json:\"id\" graphql:\"id\""
+	Index       int64                                                                                     "json:\"index\" graphql:\"index\""
+	Name        string                                                                                    "json:\"name\" graphql:\"name\""
+	Section     PolicyWanFirewallReorderPolicy_Policy_WanFirewall_ReorderPolicy_Policy_Rules_Rule_Section "json:\"section\" graphql:\"section\""
+}
+
+func (t *PolicyWanFirewallReorderPolicy_Policy_WanFirewall_ReorderPolicy_Policy_Rules_Rule) GetAction() *cato_models.WanFirewallActionEnum {
+	if t == nil {
+		t = &PolicyWanFirewallReorderPolicy_Policy_WanFirewall_ReorderPolicy_Policy_Rules_Rule{}
+	}
+	return &t.Action
+}
+func (t *PolicyWanFirewallReorderPolicy_Policy_WanFirewall_ReorderPolicy_Policy_Rules_Rule) GetDescription() string {
+	if t == nil {
+		t = &PolicyWanFirewallReorderPolicy_Policy_WanFirewall_ReorderPolicy_Policy_Rules_Rule{}
+	}
+	return t.Description
+}
+func (t *PolicyWanFirewallReorderPolicy_Policy_WanFirewall_ReorderPolicy_Policy_Rules_Rule) GetDirection() *cato_models.WanFirewallDirectionEnum {
+	if t == nil {
+		t = &PolicyWanFirewallReorderPolicy_Policy_WanFirewall_ReorderPolicy_Policy_Rules_Rule{}
+	}
+	return &t.Direction
+}
+func (t *PolicyWanFirewallReorderPolicy_Policy_WanFirewall_ReorderPolicy_Policy_Rules_Rule) GetEnabled() bool {
+	if t == nil {
+		t = &PolicyWanFirewallReorderPolicy_Policy_WanFirewall_ReorderPolicy_Policy_Rules_Rule{}
+	}
+	return t.Enabled
+}
+func (t *PolicyWanFirewallReorderPolicy_Policy_WanFirewall_ReorderPolicy_Policy_Rules_Rule) GetID() string {
+	if t == nil {
+		t = &PolicyWanFirewallReorderPolicy_Policy_WanFirewall_ReorderPolicy_Policy_Rules_Rule{}
+	}
+	return t.ID
+}
+func (t *PolicyWanFirewallReorderPolicy_Policy_WanFirewall_ReorderPolicy_Policy_Rules_Rule) GetIndex() int64 {
+	if t == nil {
+		t = &PolicyWanFirewallReorderPolicy_Policy_WanFirewall_ReorderPolicy_Policy_Rules_Rule{}
+	}
+	return t.Index
+}
+func (t *PolicyWanFirewallReorderPolicy_Policy_WanFirewall_ReorderPolicy_Policy_Rules_Rule) GetName() string {
+	if t == nil {
+		t = &PolicyWanFirewallReorderPolicy_Policy_WanFirewall_ReorderPolicy_Policy_Rules_Rule{}
+	}
+	return t.Name
+}
+func (t *PolicyWanFirewallReorderPolicy_Policy_WanFirewall_ReorderPolicy_Policy_Rules_Rule) GetSection() *PolicyWanFirewallReorderPolicy_Policy_WanFirewall_ReorderPolicy_Policy_Rules_Rule_Section {
+	if t == nil {
+		t = &PolicyWanFirewallReorderPolicy_Policy_WanFirewall_ReorderPolicy_Policy_Rules_Rule{}
+	}
+	return &t.Section
+}
+
+type PolicyWanFirewallReorderPolicy_Policy_WanFirewall_ReorderPolicy_Policy_Rules struct {
+	Properties []cato_models.PolicyElementPropertiesEnum                                         "json:\"properties\" graphql:\"properties\""
+	Rule       PolicyWanFirewallReorderPolicy_Policy_WanFirewall_ReorderPolicy_Policy_Rules_Rule "json:\"rule\" graphql:\"rule\""
+}
+
+func (t *PolicyWanFirewallReorderPolicy_Policy_WanFirewall_ReorderPolicy_Policy_Rules) GetProperties() []cato_models.PolicyElementPropertiesEnum {
+	if t == nil {
+		t = &PolicyWanFirewallReorderPolicy_Policy_WanFirewall_ReorderPolicy_Policy_Rules{}
+	}
+	return t.Properties
+}
+func (t *PolicyWanFirewallReorderPolicy_Policy_WanFirewall_ReorderPolicy_Policy_Rules) GetRule() *PolicyWanFirewallReorderPolicy_Policy_WanFirewall_ReorderPolicy_Policy_Rules_Rule {
+	if t == nil {
+		t = &PolicyWanFirewallReorderPolicy_Policy_WanFirewall_ReorderPolicy_Policy_Rules{}
+	}
+	return &t.Rule
+}
+
+type PolicyWanFirewallReorderPolicy_Policy_WanFirewall_ReorderPolicy_Policy struct {
+	Enabled  bool                                                                               "json:\"enabled\" graphql:\"enabled\""
+	Rules    []*PolicyWanFirewallReorderPolicy_Policy_WanFirewall_ReorderPolicy_Policy_Rules    "json:\"rules\" graphql:\"rules\""
+	Sections []*PolicyWanFirewallReorderPolicy_Policy_WanFirewall_ReorderPolicy_Policy_Sections "json:\"sections\" graphql:\"sections\""
+}
+
+func (t *PolicyWanFirewallReorderPolicy_Policy_WanFirewall_ReorderPolicy_Policy) GetEnabled() bool {
+	if t == nil {
+		t = &PolicyWanFirewallReorderPolicy_Policy_WanFirewall_ReorderPolicy_Policy{}
+	}
+	return t.Enabled
+}
+func (t *PolicyWanFirewallReorderPolicy_Policy_WanFirewall_ReorderPolicy_Policy) GetRules() []*PolicyWanFirewallReorderPolicy_Policy_WanFirewall_ReorderPolicy_Policy_Rules {
+	if t == nil {
+		t = &PolicyWanFirewallReorderPolicy_Policy_WanFirewall_ReorderPolicy_Policy{}
+	}
+	return t.Rules
+}
+func (t *PolicyWanFirewallReorderPolicy_Policy_WanFirewall_ReorderPolicy_Policy) GetSections() []*PolicyWanFirewallReorderPolicy_Policy_WanFirewall_ReorderPolicy_Policy_Sections {
+	if t == nil {
+		t = &PolicyWanFirewallReorderPolicy_Policy_WanFirewall_ReorderPolicy_Policy{}
+	}
+	return t.Sections
+}
+
+type PolicyWanFirewallReorderPolicy_Policy_WanFirewall_ReorderPolicy struct {
+	Errors []*PolicyWanFirewallReorderPolicy_Policy_WanFirewall_ReorderPolicy_Errors "json:\"errors\" graphql:\"errors\""
+	Policy *PolicyWanFirewallReorderPolicy_Policy_WanFirewall_ReorderPolicy_Policy   "json:\"policy,omitempty\" graphql:\"policy\""
+	Status cato_models.PolicyMutationStatus                                          "json:\"status\" graphql:\"status\""
+}
+
+func (t *PolicyWanFirewallReorderPolicy_Policy_WanFirewall_ReorderPolicy) GetErrors() []*PolicyWanFirewallReorderPolicy_Policy_WanFirewall_ReorderPolicy_Errors {
+	if t == nil {
+		t = &PolicyWanFirewallReorderPolicy_Policy_WanFirewall_ReorderPolicy{}
+	}
+	return t.Errors
+}
+func (t *PolicyWanFirewallReorderPolicy_Policy_WanFirewall_ReorderPolicy) GetPolicy() *PolicyWanFirewallReorderPolicy_Policy_WanFirewall_ReorderPolicy_Policy {
+	if t == nil {
+		t = &PolicyWanFirewallReorderPolicy_Policy_WanFirewall_ReorderPolicy{}
+	}
+	return t.Policy
+}
+func (t *PolicyWanFirewallReorderPolicy_Policy_WanFirewall_ReorderPolicy) GetStatus() *cato_models.PolicyMutationStatus {
+	if t == nil {
+		t = &PolicyWanFirewallReorderPolicy_Policy_WanFirewall_ReorderPolicy{}
+	}
+	return &t.Status
+}
+
+type PolicyWanFirewallReorderPolicy_Policy_WanFirewall struct {
+	ReorderPolicy PolicyWanFirewallReorderPolicy_Policy_WanFirewall_ReorderPolicy "json:\"reorderPolicy\" graphql:\"reorderPolicy\""
+}
+
+func (t *PolicyWanFirewallReorderPolicy_Policy_WanFirewall) GetReorderPolicy() *PolicyWanFirewallReorderPolicy_Policy_WanFirewall_ReorderPolicy {
+	if t == nil {
+		t = &PolicyWanFirewallReorderPolicy_Policy_WanFirewall{}
+	}
+	return &t.ReorderPolicy
+}
+
+type PolicyWanFirewallReorderPolicy_Policy struct {
+	WanFirewall *PolicyWanFirewallReorderPolicy_Policy_WanFirewall "json:\"wanFirewall,omitempty\" graphql:\"wanFirewall\""
+}
+
+func (t *PolicyWanFirewallReorderPolicy_Policy) GetWanFirewall() *PolicyWanFirewallReorderPolicy_Policy_WanFirewall {
+	if t == nil {
+		t = &PolicyWanFirewallReorderPolicy_Policy{}
 	}
 	return t.WanFirewall
 }
@@ -112676,6 +113108,17 @@ func (t *PolicyInternetFirewallRemoveSection) GetPolicy() *PolicyInternetFirewal
 	return t.Policy
 }
 
+type PolicyInternetFirewallReorderPolicy struct {
+	Policy *PolicyInternetFirewallReorderPolicy_Policy "json:\"policy,omitempty\" graphql:\"policy\""
+}
+
+func (t *PolicyInternetFirewallReorderPolicy) GetPolicy() *PolicyInternetFirewallReorderPolicy_Policy {
+	if t == nil {
+		t = &PolicyInternetFirewallReorderPolicy{}
+	}
+	return t.Policy
+}
+
 type PolicyInternetFirewallUpdatePolicy struct {
 	Policy *PolicyInternetFirewallUpdatePolicy_Policy "json:\"policy,omitempty\" graphql:\"policy\""
 }
@@ -113288,6 +113731,17 @@ type PolicyWanFirewallRemoveSection struct {
 func (t *PolicyWanFirewallRemoveSection) GetPolicy() *PolicyWanFirewallRemoveSection_Policy {
 	if t == nil {
 		t = &PolicyWanFirewallRemoveSection{}
+	}
+	return t.Policy
+}
+
+type PolicyWanFirewallReorderPolicy struct {
+	Policy *PolicyWanFirewallReorderPolicy_Policy "json:\"policy,omitempty\" graphql:\"policy\""
+}
+
+func (t *PolicyWanFirewallReorderPolicy) GetPolicy() *PolicyWanFirewallReorderPolicy_Policy {
+	if t == nil {
+		t = &PolicyWanFirewallReorderPolicy{}
 	}
 	return t.Policy
 }
@@ -116564,6 +117018,64 @@ func (c *Client) PolicyInternetFirewallRemoveSection(ctx context.Context, intern
 
 	var res PolicyInternetFirewallRemoveSection
 	if err := c.Client.Post(ctx, "policyInternetFirewallRemoveSection", PolicyInternetFirewallRemoveSectionDocument, &res, vars, interceptors...); err != nil {
+		if c.Client.ParseDataWhenErrors {
+			return &res, err
+		}
+
+		return nil, err
+	}
+
+	return &res, nil
+}
+
+const PolicyInternetFirewallReorderPolicyDocument = `mutation policyInternetFirewallReorderPolicy ($internetFirewallPolicyMutationInput: InternetFirewallPolicyMutationInput, $policyReorderInput: PolicyReorderInput!, $accountId: ID!) {
+	policy(accountId: $accountId) {
+		internetFirewall(input: $internetFirewallPolicyMutationInput) {
+			reorderPolicy(input: $policyReorderInput) {
+				status
+				errors {
+					errorCode
+					errorMessage
+				}
+				policy {
+					enabled
+					sections {
+						section {
+							id
+							name
+						}
+						properties
+					}
+					rules {
+						rule {
+							id
+							name
+							description
+							index
+							section {
+								id
+								name
+							}
+							enabled
+						}
+						properties
+					}
+				}
+			}
+		}
+	}
+}
+`
+
+func (c *Client) PolicyInternetFirewallReorderPolicy(ctx context.Context, internetFirewallPolicyMutationInput *cato_models.InternetFirewallPolicyMutationInput, policyReorderInput cato_models.PolicyReorderInput, accountID string, interceptors ...clientv2.RequestInterceptor) (*PolicyInternetFirewallReorderPolicy, error) {
+	vars := map[string]any{
+		"internetFirewallPolicyMutationInput": internetFirewallPolicyMutationInput,
+		"policyReorderInput":                  policyReorderInput,
+		"accountId":                           accountID,
+	}
+
+	var res PolicyInternetFirewallReorderPolicy
+	if err := c.Client.Post(ctx, "policyInternetFirewallReorderPolicy", PolicyInternetFirewallReorderPolicyDocument, &res, vars, interceptors...); err != nil {
 		if c.Client.ParseDataWhenErrors {
 			return &res, err
 		}
@@ -124736,6 +125248,66 @@ func (c *Client) PolicyWanFirewallRemoveSection(ctx context.Context, policyRemov
 
 	var res PolicyWanFirewallRemoveSection
 	if err := c.Client.Post(ctx, "policyWanFirewallRemoveSection", PolicyWanFirewallRemoveSectionDocument, &res, vars, interceptors...); err != nil {
+		if c.Client.ParseDataWhenErrors {
+			return &res, err
+		}
+
+		return nil, err
+	}
+
+	return &res, nil
+}
+
+const PolicyWanFirewallReorderPolicyDocument = `mutation policyWanFirewallReorderPolicy ($wanFirewallPolicyMutationInput: WanFirewallPolicyMutationInput, $policyReorderInput: PolicyReorderInput!, $accountId: ID!) {
+	policy(accountId: $accountId) {
+		wanFirewall(input: $wanFirewallPolicyMutationInput) {
+			reorderPolicy(input: $policyReorderInput) {
+				status
+				errors {
+					errorCode
+					errorMessage
+				}
+				policy {
+					enabled
+					sections {
+						section {
+							id
+							name
+						}
+						properties
+					}
+					rules {
+						rule {
+							id
+							name
+							description
+							index
+							section {
+								id
+								name
+							}
+							enabled
+							action
+							direction
+						}
+						properties
+					}
+				}
+			}
+		}
+	}
+}
+`
+
+func (c *Client) PolicyWanFirewallReorderPolicy(ctx context.Context, wanFirewallPolicyMutationInput *cato_models.WanFirewallPolicyMutationInput, policyReorderInput cato_models.PolicyReorderInput, accountID string, interceptors ...clientv2.RequestInterceptor) (*PolicyWanFirewallReorderPolicy, error) {
+	vars := map[string]any{
+		"wanFirewallPolicyMutationInput": wanFirewallPolicyMutationInput,
+		"policyReorderInput":             policyReorderInput,
+		"accountId":                      accountID,
+	}
+
+	var res PolicyWanFirewallReorderPolicy
+	if err := c.Client.Post(ctx, "policyWanFirewallReorderPolicy", PolicyWanFirewallReorderPolicyDocument, &res, vars, interceptors...); err != nil {
 		if c.Client.ParseDataWhenErrors {
 			return &res, err
 		}
@@ -135970,6 +136542,7 @@ var DocumentOperationNames = map[string]string{
 	PolicyInternetFirewallPublishPolicyRevisionDocument: "policyInternetFirewallPublishPolicyRevision",
 	PolicyInternetFirewallRemoveRuleDocument:            "policyInternetFirewallRemoveRule",
 	PolicyInternetFirewallRemoveSectionDocument:         "policyInternetFirewallRemoveSection",
+	PolicyInternetFirewallReorderPolicyDocument:         "policyInternetFirewallReorderPolicy",
 	PolicyInternetFirewallUpdatePolicyDocument:          "policyInternetFirewallUpdatePolicy",
 	PolicyInternetFirewallUpdateRuleDocument:            "policyInternetFirewallUpdateRule",
 	PolicyInternetFirewallUpdateSectionDocument:         "policyInternetFirewallUpdateSection",
@@ -136026,6 +136599,7 @@ var DocumentOperationNames = map[string]string{
 	PolicyWanFirewallPublishPolicyRevisionDocument:      "policyWanFirewallPublishPolicyRevision",
 	PolicyWanFirewallRemoveRuleDocument:                 "policyWanFirewallRemoveRule",
 	PolicyWanFirewallRemoveSectionDocument:              "policyWanFirewallRemoveSection",
+	PolicyWanFirewallReorderPolicyDocument:              "policyWanFirewallReorderPolicy",
 	PolicyWanFirewallUpdatePolicyDocument:               "policyWanFirewallUpdatePolicy",
 	PolicyWanFirewallUpdateRuleDocument:                 "policyWanFirewallUpdateRule",
 	PolicyWanFirewallUpdateSectionDocument:              "policyWanFirewallUpdateSection",
