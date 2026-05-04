@@ -1,0 +1,41 @@
+mutation policyInternetFirewallReorderPolicy(
+  $internetFirewallPolicyMutationInput: InternetFirewallPolicyMutationInput
+  $policyReorderInput: PolicyReorderInput!
+  $accountId: ID!
+) {
+  policy(accountId: $accountId) {
+    internetFirewall(input: $internetFirewallPolicyMutationInput) {
+      reorderPolicy(input: $policyReorderInput) {
+        status
+        errors {
+          errorCode
+          errorMessage
+        }
+        policy {
+          enabled
+          sections {
+            section {
+              id
+              name
+            }
+            properties
+          }
+          rules {
+            rule {
+              id
+              name
+              description
+              index
+              section {
+                id
+                name
+              }
+              enabled
+            }
+            properties
+          }
+        }
+      }
+    }
+  }
+}
