@@ -6957,6 +6957,61 @@ input PolicyRemoveSectionInput {
   id: ID!
 }
 
+"""
+Reference to a policy element (section, rule, or sub-rule) identified by ID or name.
+Follows the same convention as other ObjectRef inputs in the platform.
+"""
+input PolicyElementRefInput {
+  "Defines the object identification method – by ID (default) or by name"
+  by: ObjectRefBy! = ID
+  "The object identification (ID or name) value"
+  input: String!
+}
+
+"""
+Input for reordering an entire policy in a single mutation.
+All sections, rules, and sub-rules must be provided — including system elements.
+System sections and system rules must remain at their persisted positions (same array index).
+The desired order is determined by the natural (array index) order of the elements.
+"""
+input PolicyReorderInput {
+  "Ordered list of all sections in the policy, in the desired order. System sections must remain at their persisted index."
+  sections: [PolicyReorderSectionInput!]!
+  "Optional sub-policy ID. When provided, the reorder applies only to sections and rules within the specified sub-policy."
+  subPolicyId: ID
+}
+
+"""
+Defines the desired order of a section and its rules within the policy.
+Sections are reordered based on their natural position in the array.
+"""
+input PolicyReorderSectionInput {
+  "Reference to the section (by ID or name)"
+  ref: PolicyElementRefInput!
+  "Ordered list of all rules within this section, in the desired order"
+  rules: [PolicyReorderRuleInput!]!
+}
+
+"""
+Defines the desired order of a rule and its sub-rules within a section.
+Rules are reordered based on their natural position in the array.
+"""
+input PolicyReorderRuleInput {
+  "Reference to the rule (by ID or name)"
+  ref: PolicyElementRefInput!
+  "Ordered list of all sub-rules within this rule. Required only for rules that have sub-rules."
+  subRules: [PolicyReorderSubRuleInput!]!
+}
+
+"""
+Defines the desired order of sub-rules within a parent rule.
+Sub-rules are reordered based on their natural position in the array.
+"""
+input PolicyReorderSubRuleInput {
+  "Reference to the sub-rule (by ID or name)"
+  ref: PolicyElementRefInput!
+}
+
 "Returns data about the policy revision, such as when the change was made, how many rules were changed, etc."
 type PolicyRevision {
   changes: Int!
@@ -10357,6 +10412,7 @@ type InternetFirewallPolicyMutations {
   removeRule(input: InternetFirewallRemoveRuleInput!): InternetFirewallRuleMutationPayload! @beta
   "Delete an existing section. The first section in policy cannot be deleted."
   removeSection(input: PolicyRemoveSectionInput!): PolicySectionMutationPayload! @beta
+  reorderPolicy(input: PolicyReorderInput!): InternetFirewallPolicyMutationPayload! @beta
   """
   Change the state of the policy, e.g. enable or disable the policy.
   Applicable to the published policy only. State changes are applied immediately and not as part of publishing a policy revision.
@@ -11253,6 +11309,7 @@ type WanFirewallPolicyMutations {
   removeRule(input: WanFirewallRemoveRuleInput!): WanFirewallRuleMutationPayload! @beta
   "Delete an existing section. The first section in policy cannot be deleted."
   removeSection(input: PolicyRemoveSectionInput!): PolicySectionMutationPayload! @beta
+  reorderPolicy(input: PolicyReorderInput!): WanFirewallPolicyMutationPayload! @beta
   """
   Change the state of the policy, e.g. enable or disable the policy.
   Applicable to the published policy only. State changes are applied immediately and not as part of publishing a policy revision.

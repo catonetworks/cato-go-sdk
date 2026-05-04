@@ -1,0 +1,43 @@
+mutation policyWanFirewallReorderPolicy(
+  $wanFirewallPolicyMutationInput: WanFirewallPolicyMutationInput
+  $policyReorderInput: PolicyReorderInput!
+  $accountId: ID!
+) {
+  policy(accountId: $accountId) {
+    wanFirewall(input: $wanFirewallPolicyMutationInput) {
+      reorderPolicy(input: $policyReorderInput) {
+        status
+        errors {
+          errorCode
+          errorMessage
+        }
+        policy {
+          enabled
+          sections {
+            section {
+              id
+              name
+            }
+            properties
+          }
+          rules {
+            rule {
+              id
+              name
+              description
+              index
+              section {
+                id
+                name
+              }
+              enabled
+              action
+              direction
+            }
+            properties
+          }
+        }
+      }
+    }
+  }
+}
