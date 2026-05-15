@@ -20047,6 +20047,7 @@ const (
 	CellularNetworkTypeType2g      CellularNetworkType = "TYPE_2G"
 	CellularNetworkTypeType3g      CellularNetworkType = "TYPE_3G"
 	CellularNetworkTypeType4g      CellularNetworkType = "TYPE_4G"
+	CellularNetworkTypeType5g      CellularNetworkType = "TYPE_5G"
 	CellularNetworkTypeTypeUnknown CellularNetworkType = "TYPE_UNKNOWN"
 )
 
@@ -20054,12 +20055,13 @@ var AllCellularNetworkType = []CellularNetworkType{
 	CellularNetworkTypeType2g,
 	CellularNetworkTypeType3g,
 	CellularNetworkTypeType4g,
+	CellularNetworkTypeType5g,
 	CellularNetworkTypeTypeUnknown,
 }
 
 func (e CellularNetworkType) IsValid() bool {
 	switch e {
-	case CellularNetworkTypeType2g, CellularNetworkTypeType3g, CellularNetworkTypeType4g, CellularNetworkTypeTypeUnknown:
+	case CellularNetworkTypeType2g, CellularNetworkTypeType3g, CellularNetworkTypeType4g, CellularNetworkTypeType5g, CellularNetworkTypeTypeUnknown:
 		return true
 	}
 	return false
