@@ -13354,6 +13354,7 @@ enum CellularNetworkType {
   TYPE_2G
   TYPE_3G
   TYPE_4G
+  TYPE_5G
   TYPE_UNKNOWN
 }
 
