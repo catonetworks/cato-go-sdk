@@ -24,6 +24,14 @@ import (
 
 const dumpDirVariable = "TF_API_DUMP_DIR"
 
+type ContextKey string
+type ResourceInfo struct {
+	ResourceName string
+	Action       string
+}
+
+const ResourceInfoKey ContextKey = "ResourceInfoKey"
+
 // traceIDFromResponseHeader returns the server tracing ID from response headers.
 // The Cato server sets "Trace_id" (see AbstractTracingPlugin#addTraceIdToResponse).
 func traceIDFromResponseHeader(h http.Header) string {
@@ -45,6 +53,7 @@ func traceIDFromResponseHeader(h http.Header) string {
 func executeGQLWithTrace(ctx context.Context, gqlc *clientv2.Client, req *http.Request, _ *clientv2.GQLRequestInfo, res any) error {
 	requestBody := requestBodyForError(req)
 
+	start := time.Now()
 	resp, err := gqlc.Client.Do(req)
 	if err != nil {
 		return &APIError{
@@ -53,6 +62,7 @@ func executeGQLWithTrace(ctx context.Context, gqlc *clientv2.Client, req *http.R
 		}
 	}
 	defer resp.Body.Close()
+	callDuration := time.Since(start)
 
 	traceID := traceIDFromResponseHeader(resp.Header)
 
@@ -67,7 +77,7 @@ func executeGQLWithTrace(ctx context.Context, gqlc *clientv2.Client, req *http.R
 	}
 
 	body, err := io.ReadAll(bodyReader)
-	recordCall(ctx, traceID, requestBody, string(body))
+	recordCall(ctx, traceID, requestBody, string(body), callDuration)
 	if err != nil {
 		return fmt.Errorf("failed to read response body: %w", err)
 	}
@@ -180,7 +190,7 @@ func requestBodyForError(req *http.Request) string {
 }
 
 // recordCall logs the request and response, and optionally dumps them to a file if TF_API_DUMP_DIR is set.
-func recordCall(ctx context.Context, traceID, requestBody, responseBody string) {
+func recordCall(ctx context.Context, traceID, requestBody, responseBody string, callDuration time.Duration) {
 	tflog.Debug(ctx, "API Call", map[string]any{"request": requestBody, "response": responseBody, "trace_id": traceID})
 	dumpDir := os.Getenv(dumpDirVariable)
 	if dumpDir == "" {
@@ -193,7 +203,16 @@ func recordCall(ctx context.Context, traceID, requestBody, responseBody string) 
 
 	operationName := getOperationName(requestBody)
 	filename := fmt.Sprintf("%s_%s.txt", time.Now().Format("20060102_150405.000"), operationName)
-	appendToFile(filepath.Join(dumpDir, filename), traceID, requestBody, responseBody)
+
+	resourceInfo := ctx.Value(ResourceInfoKey)
+	var resource, action string
+	if resourceInfo != nil {
+		if ri, ok := resourceInfo.(ResourceInfo); ok {
+			resource = ri.ResourceName
+			action = ri.Action
+		}
+	}
+	appendToFile(filepath.Join(dumpDir, filename), traceID, requestBody, responseBody, callDuration, resource, action)
 }
 
 // getOperationName extracts the "operationName" field from the GraphQL request body for use in log filenames.
@@ -208,7 +227,7 @@ func getOperationName(requestBody string) string {
 }
 
 // appendToFile opens (or creates) a file and appends the given details to it.
-func appendToFile(filename, traceID, request, response string) {
+func appendToFile(filename, traceID, request, response string, callDuration time.Duration, resource, action string) {
 	// Open file in append mode, create if not exists, write-only
 	file, err := os.OpenFile(filename, os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
 	if err != nil {
@@ -218,7 +237,8 @@ func appendToFile(filename, traceID, request, response string) {
 
 	// Write string to file
 	ts := time.Now().Format(time.DateTime)
-	if _, err := file.WriteString(fmt.Sprintf("traceID: %s  [%s]\n%s\n%s", traceID, ts, request, response)); err != nil {
+	if _, err := file.WriteString(fmt.Sprintf("traceID: %s  [%s]\nResource:%s\nAction:%s\nDuration:%v\n%s\n%s\n", traceID, ts,
+		resource, action, callDuration, request, response)); err != nil {
 		panic(fmt.Sprintf("failed to write to file: %v", err))
 	}
 }
