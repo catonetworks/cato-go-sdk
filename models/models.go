@@ -375,11 +375,12 @@ type ObjectRef interface {
 
 type PolicyInfo interface {
 	IsPolicyInfo()
-	GetID() string
-	GetName() string
+	GetAudit() *PolicyAudit
 	GetDescription() string
 	GetEnabled() bool
-	GetAudit() *PolicyAudit
+	GetID() string
+	GetName() string
+	GetPolicyLevel() PolicyLevelEnum
 }
 
 type PolicyListPayload interface {
@@ -442,6 +443,12 @@ type RegistryResource interface {
 	GetValue() *string
 	GetValueName() *string
 	GetValueType() *string
+}
+
+type SubPolicyPayload interface {
+	IsSubPolicyPayload()
+	GetPolicy() PolicyInfo
+	GetProperties() []SubPolicyProperty
 }
 
 type UserAttributes interface {
@@ -3792,6 +3799,11 @@ type BooleanPredicate struct {
 type BulkUpgradeSiteInfo struct {
 	ID   string `json:"id"`
 	Name string `json:"name"`
+}
+
+type CalculateHitCountResponse struct {
+	Errors []*PolicyMutationError `json:"errors"`
+	Status PolicyMutationStatus   `json:"status"`
 }
 
 // Cloud Access Security Broker (CASB) service license details
@@ -7528,59 +7540,88 @@ type InterfaceSnapshot struct {
 	Type         *string `json:"type,omitempty"`
 }
 
+type InternetFirewallActionConfig struct {
+	RbiProfile       []*RbiProfileRef               `json:"rbiProfile"`
+	UserNotification []*UserNotificationTemplateRef `json:"userNotification"`
+}
+
+type InternetFirewallActionConfigInput struct {
+	RbiProfile       []*RbiProfileRefInput               `json:"rbiProfile"`
+	UserNotification []*UserNotificationTemplateRefInput `json:"userNotification"`
+}
+
+type InternetFirewallActionConfigUpdateInput struct {
+	RbiProfile       []*RbiProfileRefInput               `json:"rbiProfile,omitempty"`
+	UserNotification []*UserNotificationTemplateRefInput `json:"userNotification,omitempty"`
+}
+
 type InternetFirewallAddRuleDataInput struct {
-	// The action applied by the Internet Firewall if the rule is matched
-	Action InternetFirewallActionEnum `json:"action"`
-	// The time period during which the rule is active, outside this period, the rule is inactive
-	ActivePeriod *PolicyRuleActivePeriodInput `json:"activePeriod"`
-	// Connection origin of the traffic
-	ConnectionOrigin ConnectionOriginEnum `json:"connectionOrigin"`
-	// Source country traffic matching criteria.
-	// Logical ‘OR’ is applied within the criteria set.
-	// Logical ‘AND’ is applied between criteria sets.
-	Country     []*CountryRefInput `json:"country"`
-	Description string             `json:"description"`
-	// Destination traffic matching criteria.
-	// Logical ‘OR’ is applied within the criteria set.
-	// Logical ‘AND’ is applied between criteria sets.
-	Destination *InternetFirewallDestinationInput `json:"destination"`
-	// Source Device Profile traffic matching criteria.
-	// Logical ‘OR’ is applied within the criteria set.
-	// Logical ‘AND’ is applied between criteria sets.
-	Device []*DeviceProfileRefInput `json:"device"`
-	// Additional device attributes such as category, type, model, and manufacturer.
-	// Logical 'OR' is applied within the criteria set.
-	// Logical 'AND' is applied between criteria sets.
-	DeviceAttributes *DeviceAttributesInput `json:"deviceAttributes"`
-	// Source device Operating System traffic matching criteria.
-	// Logical ‘OR’ is applied within the criteria set.
-	// Logical ‘AND’ is applied between criteria sets.
-	DeviceOs []OperatingSystem `json:"deviceOS"`
-	Enabled  bool              `json:"enabled"`
-	// The set of exceptions for the rule.
-	// Exceptions define when the rule will be ignored and the firewall evaluation will continue with the lower priority rules.
-	Exceptions []*InternetFirewallRuleExceptionInput `json:"exceptions"`
-	Name       string                                `json:"name"`
-	// The time period specifying when the rule is enabled, otherwise it is disabled.
-	Schedule *PolicyScheduleInput `json:"schedule"`
-	// Destination service traffic matching criteria.
-	// Logical ‘OR’ is applied within the criteria set.
-	// Logical ‘AND’ is applied between criteria sets.
-	Service *InternetFirewallServiceTypeInput `json:"service,omitempty"`
-	// Source traffic matching criteria.
-	// Logical ‘OR’ is applied within the criteria set.
-	// Logical ‘AND’ is applied between criteria sets.
-	Source *InternetFirewallSourceInput `json:"source"`
-	// Tracking information when the rule is matched, such as events and notifications
-	Tracking *PolicyTrackingInput `json:"tracking"`
+	Action                 InternetFirewallActionEnum            `json:"action"`
+	ActionConfig           *InternetFirewallActionConfigInput    `json:"actionConfig"`
+	ActivePeriod           *PolicyRuleActivePeriodInput          `json:"activePeriod"`
+	ConnectionOrigin       ConnectionOriginEnum                  `json:"connectionOrigin"`
+	ConnectionsOriginList  []ConnectionOriginsEnum               `json:"connectionsOriginList"`
+	ConnectionsOriginsList []ConnectionOriginsEnum               `json:"connectionsOriginsList"`
+	Country                []*CountryRefInput                    `json:"country"`
+	Description            string                                `json:"description"`
+	Destination            *InternetFirewallDestinationInput     `json:"destination"`
+	Device                 []*DeviceProfileRefInput              `json:"device"`
+	DeviceAttributes       *DeviceAttributesInput                `json:"deviceAttributes"`
+	DeviceOs               []OperatingSystem                     `json:"deviceOS"`
+	Enabled                bool                                  `json:"enabled"`
+	Exceptions             []*InternetFirewallRuleExceptionInput `json:"exceptions"`
+	Name                   string                                `json:"name"`
+	PostureAttributes      *PostureAttributesInput               `json:"postureAttributes,omitempty"`
+	Schedule               *PolicyScheduleInput                  `json:"schedule"`
+	Service                *InternetFirewallServiceTypeInput     `json:"service"`
+	Source                 *InternetFirewallSourceInput          `json:"source"`
+	Tracking               *PolicyTrackingInput                  `json:"tracking"`
+	UserAttributes         *InternetFirewallUserAttributesInput  `json:"userAttributes"`
 }
 
 // Rule parameters and relevant position
 type InternetFirewallAddRuleInput struct {
-	// Position of the rule in the policy
-	At *PolicyRulePositionInput `json:"at,omitempty"`
-	// Parameters for the rule you are adding
+	At   *PolicyRulePositionInput          `json:"at,omitempty"`
 	Rule *InternetFirewallAddRuleDataInput `json:"rule"`
+}
+
+type InternetFirewallAddSubPolicyDataInput struct {
+	Description string `json:"description"`
+	Name        string `json:"name"`
+}
+
+type InternetFirewallAddSubPolicyInput struct {
+	At     *PolicyRulePositionInput               `json:"at"`
+	Policy *InternetFirewallAddSubPolicyDataInput `json:"policy,omitempty"`
+	Scope  *InternetFirewallAddRuleDataInput      `json:"scope"`
+}
+
+type InternetFirewallAddSubPolicyMutationPayload struct {
+	Errors []*PolicyMutationError  `json:"errors"`
+	Policy *InternetFirewallPolicy `json:"policy,omitempty"`
+	Status PolicyMutationStatus    `json:"status"`
+}
+
+func (InternetFirewallAddSubPolicyMutationPayload) IsIPolicyMutationPayload() {}
+
+// Data for the policy
+func (this InternetFirewallAddSubPolicyMutationPayload) GetPolicy() IPolicy { return *this.Policy }
+
+// Enum for the status of the policy change
+func (this InternetFirewallAddSubPolicyMutationPayload) GetStatus() PolicyMutationStatus {
+	return this.Status
+}
+
+// List of errors related to the policy change
+func (this InternetFirewallAddSubPolicyMutationPayload) GetErrors() []*PolicyMutationError {
+	if this.Errors == nil {
+		return nil
+	}
+	interfaceSlice := make([]*PolicyMutationError, 0, len(this.Errors))
+	for _, concrete := range this.Errors {
+		interfaceSlice = append(interfaceSlice, concrete)
+	}
+	return interfaceSlice
 }
 
 type InternetFirewallContainer struct {
@@ -7600,109 +7641,73 @@ type InternetFirewallContainerUpdateInput struct {
 
 // Returns the settings for Destination of an Internet Firewall rule
 type InternetFirewallDestination struct {
-	// Cato category of applications which are dynamically updated by Cato
-	AppCategory []*ApplicationCategoryRef `json:"appCategory"`
-	// Applications for the rule (pre-defined)
-	Application []*ApplicationRef          `json:"application"`
-	Containers  *InternetFirewallContainer `json:"containers"`
-	// Countries
-	Country []*CountryRef `json:"country"`
-	// Custom (user-defined) applications
-	CustomApp []*CustomApplicationRef `json:"customApp"`
-	// Custom Categories – Groups of objects such as predefined and custom applications, predefined and custom services, domains, FQDNs etc.
-	CustomCategory []*CustomCategoryRef `json:"customCategory"`
-	// A Second-Level Domain (SLD). It matches all Top-Level Domains (TLD), and subdomains that include the Domain. Example: example.com.
-	Domain []string `json:"domain"`
-	// An exact match of the fully qualified domain (FQDN). Example: www.my.example.com.
-	Fqdn []string `json:"fqdn"`
-	// Globally defined IP range, IP and subnet objects
-	GlobalIPRange []*GlobalIPRangeRef `json:"globalIpRange"`
-	// IPv4 addresses
-	IP []string `json:"ip"`
-	// A range of IPs. Every IP within the range will be matched
-	IPRange []*IPAddressRange `json:"ipRange"`
-	// Remote Autonomous System Number (ASN)
-	RemoteAsn []scalars.Asn32 `json:"remoteAsn"`
-	// Sanctioned Cloud Applications - apps that are approved and generally represent an understood and acceptable level of risk in your organization.
+	AppCategory            []*ApplicationCategoryRef    `json:"appCategory"`
+	Application            []*ApplicationRef            `json:"application"`
+	Containers             *InternetFirewallContainer   `json:"containers"`
+	Country                []*CountryRef                `json:"country"`
+	CustomApp              []*CustomApplicationRef      `json:"customApp"`
+	CustomCategory         []*CustomCategoryRef         `json:"customCategory"`
+	Domain                 []string                     `json:"domain"`
+	Fqdn                   []string                     `json:"fqdn"`
+	GlobalIPRange          []*GlobalIPRangeRef          `json:"globalIpRange"`
+	Group                  []*GroupRef                  `json:"group"`
+	IP                     []string                     `json:"ip"`
+	IPRange                []*IPAddressRange            `json:"ipRange"`
+	RemoteAsn              []scalars.Asn32              `json:"remoteAsn"`
 	SanctionedAppsCategory []*SanctionedAppsCategoryRef `json:"sanctionedAppsCategory"`
-	// Network subnets in CIDR notation
-	Subnet []string `json:"subnet"`
+	Subnet                 []string                     `json:"subnet"`
 }
 
 // Input of the settings for Destination of an Internet Firewall rule. To specify 'ANY' destination, an empty list must be provided for each match criteria field (e.g. application: [], country: [], etc...)
 type InternetFirewallDestinationInput struct {
-	// Cato category of applications which are dynamically updated by Cato
-	AppCategory []*ApplicationCategoryRefInput `json:"appCategory"`
-	// Applications for the rule (pre-defined)
-	Application []*ApplicationRefInput `json:"application"`
-	// Countries
-	Country []*CountryRefInput `json:"country"`
-	// Custom (user-defined) applications
-	CustomApp []*CustomApplicationRefInput `json:"customApp"`
-	// Custom Categories – Groups of objects such as predefined and custom applications, predefined and custom services, domains, FQDNs etc.
-	CustomCategory []*CustomCategoryRefInput `json:"customCategory"`
-	// A Second-Level Domain (SLD). It matches all Top-Level Domains (TLD), and subdomains that include the Domain. Example: example.com.
-	Domain []string `json:"domain"`
-	// An exact match of the fully qualified domain (FQDN). Example: www.my.example.com.
-	Fqdn []string `json:"fqdn"`
-	// Globally defined IP range, IP and subnet objects
-	GlobalIPRange []*GlobalIPRangeRefInput `json:"globalIpRange"`
-	// IPv4 addresses
-	IP []string `json:"ip"`
-	// A range of IPs. Every IP within the range will be matched
-	IPRange []*IPAddressRangeInput `json:"ipRange"`
-	// Remote Autonomous System Number (ASN)
-	RemoteAsn []scalars.Asn32 `json:"remoteAsn"`
-	// Sanctioned Cloud Applications - apps that are approved and generally represent an understood and acceptable level of risk in your organization.
+	AppCategory            []*ApplicationCategoryRefInput    `json:"appCategory"`
+	Application            []*ApplicationRefInput            `json:"application"`
+	Containers             *InternetFirewallContainerInput   `json:"containers"`
+	Country                []*CountryRefInput                `json:"country"`
+	CustomApp              []*CustomApplicationRefInput      `json:"customApp"`
+	CustomCategory         []*CustomCategoryRefInput         `json:"customCategory"`
+	Domain                 []string                          `json:"domain"`
+	Fqdn                   []string                          `json:"fqdn"`
+	GlobalIPRange          []*GlobalIPRangeRefInput          `json:"globalIpRange"`
+	Group                  []*GroupRefInput                  `json:"group"`
+	IP                     []string                          `json:"ip"`
+	IPRange                []*IPAddressRangeInput            `json:"ipRange"`
+	RemoteAsn              []scalars.Asn32                   `json:"remoteAsn"`
 	SanctionedAppsCategory []*SanctionedAppsCategoryRefInput `json:"sanctionedAppsCategory"`
-	// Network subnets in CIDR notation
-	Subnet []string `json:"subnet"`
+	Subnet                 []string                          `json:"subnet"`
 }
 
 // Input of the settings for Destination of an Internet Firewall rule. To specify 'ANY' destination, an empty list must be provided for each match criteria field (e.g. application: [], country: [], etc...)
 type InternetFirewallDestinationUpdateInput struct {
-	// Cato category of applications which are dynamically updated by Cato
-	AppCategory []*ApplicationCategoryRefInput `json:"appCategory,omitempty"`
-	// Applications for the rule (pre-defined)
-	Application []*ApplicationRefInput `json:"application,omitempty"`
-	// Countries
-	Country []*CountryRefInput `json:"country,omitempty"`
-	// Custom (user-defined) applications
-	CustomApp []*CustomApplicationRefInput `json:"customApp,omitempty"`
-	// Custom Categories – Groups of objects such as predefined and custom applications, predefined and custom services, domains, FQDNs etc.
-	CustomCategory []*CustomCategoryRefInput `json:"customCategory,omitempty"`
-	// A Second-Level Domain (SLD). It matches all Top-Level Domains (TLD), and subdomains that include the Domain. Example: example.com.
-	Domain []string `json:"domain,omitempty"`
-	// An exact match of the fully qualified domain (FQDN). Example: www.my.example.com.
-	Fqdn []string `json:"fqdn,omitempty"`
-	// Globally defined IP range, IP and subnet objects
-	GlobalIPRange []*GlobalIPRangeRefInput `json:"globalIpRange,omitempty"`
-	// IPv4 addresses
-	IP []string `json:"ip,omitempty"`
-	// A range of IPs. Every IP within the range will be matched
-	IPRange []*IPAddressRangeInput `json:"ipRange,omitempty"`
-	// Remote Autonomous System Number (ASN)
-	RemoteAsn []scalars.Asn32 `json:"remoteAsn,omitempty"`
-	// Sanctioned Cloud Applications - apps that are approved and generally represent an understood and acceptable level of risk in your organization.
-	SanctionedAppsCategory []*SanctionedAppsCategoryRefInput `json:"sanctionedAppsCategory,omitempty"`
-	// Network subnets in CIDR notation
-	Subnet []string `json:"subnet,omitempty"`
+	AppCategory            []*ApplicationCategoryRefInput        `json:"appCategory,omitempty"`
+	Application            []*ApplicationRefInput                `json:"application,omitempty"`
+	Containers             *InternetFirewallContainerUpdateInput `json:"containers,omitempty"`
+	Country                []*CountryRefInput                    `json:"country,omitempty"`
+	CustomApp              []*CustomApplicationRefInput          `json:"customApp,omitempty"`
+	CustomCategory         []*CustomCategoryRefInput             `json:"customCategory,omitempty"`
+	Domain                 []string                              `json:"domain,omitempty"`
+	Fqdn                   []string                              `json:"fqdn,omitempty"`
+	GlobalIPRange          []*GlobalIPRangeRefInput              `json:"globalIpRange,omitempty"`
+	Group                  []*GroupRefInput                      `json:"group,omitempty"`
+	IP                     []string                              `json:"ip,omitempty"`
+	IPRange                []*IPAddressRangeInput                `json:"ipRange,omitempty"`
+	RemoteAsn              []scalars.Asn32                       `json:"remoteAsn,omitempty"`
+	SanctionedAppsCategory []*SanctionedAppsCategoryRefInput     `json:"sanctionedAppsCategory,omitempty"`
+	Subnet                 []string                              `json:"subnet,omitempty"`
 }
 
 type InternetFirewallPolicy struct {
-	// Holds the complete set of access capabilities and limitations associated with the entity.
-	Access *EntityAccess `json:"access"`
-	Audit  *PolicyAudit  `json:"audit,omitempty"`
-	// Description for the policy
-	Description string `json:"description"`
-	Enabled     bool   `json:"enabled"`
-	// Policy ID
-	ID string `json:"id"`
-	// Name of the policy, the default name for the policy containing all sub-policies is 'Main'
-	Name     string                         `json:"name"`
-	Revision *PolicyRevision                `json:"revision,omitempty"`
-	Rules    []*InternetFirewallRulePayload `json:"rules"`
-	Sections []*PolicySectionPayload        `json:"sections"`
+	Access        *EntityAccess                       `json:"access"`
+	Audit         *PolicyAudit                        `json:"audit,omitempty"`
+	Description   string                              `json:"description"`
+	Enabled       bool                                `json:"enabled"`
+	HitCountAudit *PolicyHitCount                     `json:"hitCountAudit,omitempty"`
+	ID            string                              `json:"id"`
+	Name          string                              `json:"name"`
+	Revision      *PolicyRevision                     `json:"revision,omitempty"`
+	Rules         []*InternetFirewallRulePayload      `json:"rules"`
+	Sections      []*PolicySectionPayload             `json:"sections"`
+	SubPolicies   []*InternetFirewallSubPolicyPayload `json:"subPolicies"`
 }
 
 func (InternetFirewallPolicy) IsIPolicy() {}
@@ -7741,26 +7746,23 @@ func (this InternetFirewallPolicy) GetAudit() *PolicyAudit { return this.Audit }
 func (this InternetFirewallPolicy) GetRevision() *PolicyRevision { return this.Revision }
 
 type InternetFirewallPolicyInfo struct {
-	Audit       *PolicyAudit `json:"audit"`
-	Description string       `json:"description"`
-	Enabled     bool         `json:"enabled"`
-	ID          string       `json:"id"`
-	Name        string       `json:"name"`
+	Audit       *PolicyAudit    `json:"audit"`
+	Description string          `json:"description"`
+	Enabled     bool            `json:"enabled"`
+	ID          string          `json:"id"`
+	Name        string          `json:"name"`
+	PolicyLevel PolicyLevelEnum `json:"policyLevel"`
 }
 
-func (InternetFirewallPolicyInfo) IsPolicyInfo()               {}
-func (this InternetFirewallPolicyInfo) GetID() string          { return this.ID }
-func (this InternetFirewallPolicyInfo) GetName() string        { return this.Name }
-func (this InternetFirewallPolicyInfo) GetDescription() string { return this.Description }
-func (this InternetFirewallPolicyInfo) GetEnabled() bool       { return this.Enabled }
-func (this InternetFirewallPolicyInfo) GetAudit() *PolicyAudit { return this.Audit }
+func (InternetFirewallPolicyInfo) IsPolicyInfo()                        {}
+func (this InternetFirewallPolicyInfo) GetAudit() *PolicyAudit          { return this.Audit }
+func (this InternetFirewallPolicyInfo) GetDescription() string          { return this.Description }
+func (this InternetFirewallPolicyInfo) GetEnabled() bool                { return this.Enabled }
+func (this InternetFirewallPolicyInfo) GetID() string                   { return this.ID }
+func (this InternetFirewallPolicyInfo) GetName() string                 { return this.Name }
+func (this InternetFirewallPolicyInfo) GetPolicyLevel() PolicyLevelEnum { return this.PolicyLevel }
 
 type InternetFirewallPolicyInput struct {
-	// A revision is a specific instance of the policy.
-	//  Unpublished revisions are working copies of the policy available to a specific
-	//  admin or a set of admins
-	//  Published revisions are revisions that were applied to the account network.
-	//  The last published revision is the active policy.
 	Revision *PolicyRevisionInput `json:"revision,omitempty"`
 }
 
@@ -7834,44 +7836,53 @@ func (this InternetFirewallPolicyMutationPayload) GetErrors() []*PolicyMutationE
 
 // The Internet firewall Policy information returned to the caller in the API response.
 type InternetFirewallPolicyMutations struct {
-	// Add a new rule to the Internet Firewall policy.
-	AddRule *InternetFirewallRuleMutationPayload `json:"addRule"`
-	// Add a new section to the policy.
-	// First section behaves as follows:
-	// When the first section is created,  all the rules in the policy, including the default system rules, are automatically added to it.
-	// The first section containing the default system rules can be modified but not deleted.
-	// The first section will always remain first-in-policy, i.e. it cannot be moved, and not other sections can be moved or created before it.
-	AddSection *PolicySectionMutationPayload `json:"addSection"`
-	// Create the policy revision. Create a new empty policy revision.
-	CreatePolicyRevision *InternetFirewallPolicyMutationPayload `json:"createPolicyRevision"`
-	// Discard the policy revision. All changes in this discarded revision are discarded, and the revision is deleted.
-	DiscardPolicyRevision *InternetFirewallPolicyMutationPayload `json:"discardPolicyRevision"`
-	// Change the relative location of an existing rule within the Internet Firewall policy.
-	MoveRule *InternetFirewallRuleMutationPayload `json:"moveRule"`
-	// Move a section to a new position within the policy.
-	//  The section will be anchored in the new position, i.e. other admins will not be able to move it, or reference it when moving other sections, until the modified policy revision is published.
-	MoveSection *PolicySectionMutationPayload `json:"moveSection"`
-	// Publish the policy revision. A published revision becomes the active policy, and its content is merged with all unpublished revisions for other admins.
-	PublishPolicyRevision *InternetFirewallPolicyMutationPayload `json:"publishPolicyRevision"`
-	// Remove an existing rule from the Internet Firewall policy.
-	RemoveRule *InternetFirewallRuleMutationPayload `json:"removeRule"`
-	// Delete an existing section. The first section in policy cannot be deleted.
-	RemoveSection *PolicySectionMutationPayload          `json:"removeSection"`
-	ReorderPolicy *InternetFirewallPolicyMutationPayload `json:"reorderPolicy"`
-	// Change the state of the policy, e.g. enable or disable the policy.
-	// Applicable to the published policy only. State changes are applied immediately and not as part of publishing a policy revision.
-	UpdatePolicy *InternetFirewallPolicyMutationPayload `json:"updatePolicy"`
-	// Update an existing rule of the Internet Firewall policy.
-	UpdateRule *InternetFirewallRuleMutationPayload `json:"updateRule"`
-	// Update policy section attributes
-	UpdateSection *PolicySectionMutationPayload `json:"updateSection"`
+	AddRule               *InternetFirewallRuleMutationPayload            `json:"addRule"`
+	AddSection            *PolicySectionMutationPayload                   `json:"addSection"`
+	AddSubPolicy          *InternetFirewallAddSubPolicyMutationPayload    `json:"addSubPolicy"`
+	CalculateHitCount     *CalculateHitCountResponse                      `json:"calculateHitCount"`
+	CreatePolicyRevision  *InternetFirewallPolicyMutationPayload          `json:"createPolicyRevision"`
+	DiscardPolicyRevision *InternetFirewallPolicyMutationPayload          `json:"discardPolicyRevision"`
+	MoveRule              *InternetFirewallRuleMutationPayload            `json:"moveRule"`
+	MoveSection           *PolicySectionMutationPayload                   `json:"moveSection"`
+	PublishPolicyRevision *InternetFirewallPolicyMutationPayload          `json:"publishPolicyRevision"`
+	RemoveRule            *InternetFirewallRuleMutationPayload            `json:"removeRule"`
+	RemoveSection         *PolicySectionMutationPayload                   `json:"removeSection"`
+	RemoveSubPolicy       *InternetFirewallRemoveSubPolicyMutationPayload `json:"removeSubPolicy"`
+	ReorderPolicy         *InternetFirewallPolicyMutationPayload          `json:"reorderPolicy"`
+	ResetRuleHitCount     *ResetRuleHitCountsResponse                     `json:"resetRuleHitCount"`
+	UpdatePolicy          *InternetFirewallPolicyMutationPayload          `json:"updatePolicy"`
+	UpdateRule            *InternetFirewallRuleMutationPayload            `json:"updateRule"`
+	UpdateSection         *PolicySectionMutationPayload                   `json:"updateSection"`
 }
 
 type InternetFirewallPolicyQueries struct {
-	Policy *InternetFirewallPolicy `json:"policy"`
-	// Provides a list of all policies of Internet Firewall with filtering, pagination and sorting capabilities
+	Policy     *InternetFirewallPolicy            `json:"policy"`
 	PolicyList *InternetFirewallPolicyListPayload `json:"policyList"`
 	Revisions  *PolicyRevisionsPayload            `json:"revisions,omitempty"`
+}
+
+type InternetFirewallPolicyRef struct {
+	ID   string `json:"id"`
+	Name string `json:"name"`
+}
+
+func (InternetFirewallPolicyRef) IsObjectRef() {}
+
+// Object's unique identifier
+func (this InternetFirewallPolicyRef) GetID() string { return this.ID }
+
+// Object's unique name
+func (this InternetFirewallPolicyRef) GetName() string { return this.Name }
+
+func (InternetFirewallPolicyRef) IsPolicyRef() {}
+
+// Policy's unique identifier
+
+// Policy's unique name
+
+type InternetFirewallPolicyRefInput struct {
+	By    ObjectRefBy `json:"by"`
+	Input string      `json:"input"`
 }
 
 type InternetFirewallPolicyUpdateInput struct {
@@ -7882,61 +7893,63 @@ type InternetFirewallRemoveRuleInput struct {
 	ID string `json:"id"`
 }
 
+type InternetFirewallRemoveSubPolicyInput struct {
+	Ref *InternetFirewallPolicyRefInput `json:"ref"`
+}
+
+type InternetFirewallRemoveSubPolicyMutationPayload struct {
+	Errors []*PolicyMutationError  `json:"errors"`
+	Policy *InternetFirewallPolicy `json:"policy,omitempty"`
+	Status PolicyMutationStatus    `json:"status"`
+}
+
+func (InternetFirewallRemoveSubPolicyMutationPayload) IsIPolicyMutationPayload() {}
+
+// Data for the policy
+func (this InternetFirewallRemoveSubPolicyMutationPayload) GetPolicy() IPolicy { return *this.Policy }
+
+// Enum for the status of the policy change
+func (this InternetFirewallRemoveSubPolicyMutationPayload) GetStatus() PolicyMutationStatus {
+	return this.Status
+}
+
+// List of errors related to the policy change
+func (this InternetFirewallRemoveSubPolicyMutationPayload) GetErrors() []*PolicyMutationError {
+	if this.Errors == nil {
+		return nil
+	}
+	interfaceSlice := make([]*PolicyMutationError, 0, len(this.Errors))
+	for _, concrete := range this.Errors {
+		interfaceSlice = append(interfaceSlice, concrete)
+	}
+	return interfaceSlice
+}
+
 type InternetFirewallRule struct {
-	// The action applied by the Internet Firewall if the rule is matched
-	Action InternetFirewallActionEnum `json:"action"`
-	// The time period during which the rule is active, outside this period, the rule is inactive
-	ActivePeriod *PolicyRuleActivePeriod `json:"activePeriod"`
-	// Connection origin of the traffic
-	ConnectionOrigin ConnectionOriginEnum `json:"connectionOrigin"`
-	// Source country traffic matching criteria.
-	// Logical ‘OR’ is applied within the criteria set.
-	// Logical ‘AND’ is applied between criteria sets.
-	Country []*CountryRef `json:"country"`
-	// Description for the rule
-	Description string `json:"description"`
-	// Destination traffic matching criteria.
-	// Logical ‘OR’ is applied within the criteria set.
-	// Logical ‘AND’ is applied between criteria sets.
-	Destination *InternetFirewallDestination `json:"destination"`
-	// Source Device Profile traffic matching criteria.
-	// Logical ‘OR’ is applied within the criteria set.
-	// Logical ‘AND’ is applied between criteria sets.
-	Device []*DeviceProfileRef `json:"device"`
-	// Additional device attributes such as category, type, model, and manufacturer.
-	// Logical 'OR' is applied within the criteria set.
-	// Logical 'AND' is applied between criteria sets.
-	DeviceAttributes *DeviceAttributes `json:"deviceAttributes"`
-	// Source device Operating System traffic matching criteria.
-	// Logical ‘OR’ is applied within the criteria set.
-	// Logical ‘AND’ is applied between criteria sets.
-	DeviceOs []OperatingSystem `json:"deviceOS"`
-	// TRUE = Rule is enabled
-	//  FALSE = Rule is disabled
-	Enabled bool `json:"enabled"`
-	// The set of exceptions for the rule.
-	// Exceptions define when the rule will be ignored and the firewall evaluation will continue with the lower priority rules.
-	Exceptions []*InternetFirewallRuleException `json:"exceptions"`
-	// Rule ID
-	ID string `json:"id"`
-	// Position / priority of rule
-	Index int64 `json:"index"`
-	// Name of the rule
-	Name string `json:"name"`
-	// The time period specifying when the rule is enabled, otherwise it is disabled.
-	Schedule *PolicySchedule `json:"schedule"`
-	// Policy section where the rule is located
-	Section *PolicySectionInfo `json:"section"`
-	// Destination service traffic matching criteria.
-	// Logical ‘OR’ is applied within the criteria set.
-	// Logical ‘AND’ is applied between criteria sets.
-	Service *InternetFirewallServiceType `json:"service"`
-	// Source traffic matching criteria.
-	// Logical ‘OR’ is applied within the criteria set.
-	// Logical ‘AND’ is applied between criteria sets.
-	Source *InternetFirewallSource `json:"source"`
-	// Tracking information when the rule is matched, such as events and notifications
-	Tracking *PolicyTracking `json:"tracking"`
+	Action                 InternetFirewallActionEnum       `json:"action"`
+	ActionConfig           *InternetFirewallActionConfig    `json:"actionConfig"`
+	ActivePeriod           *PolicyRuleActivePeriod          `json:"activePeriod"`
+	ConnectionOrigin       ConnectionOriginEnum             `json:"connectionOrigin"`
+	ConnectionsOriginList  []ConnectionOriginsEnum          `json:"connectionsOriginList"`
+	ConnectionsOriginsList []ConnectionOriginsEnum          `json:"connectionsOriginsList"`
+	Country                []*CountryRef                    `json:"country"`
+	Description            string                           `json:"description"`
+	Destination            *InternetFirewallDestination     `json:"destination"`
+	Device                 []*DeviceProfileRef              `json:"device"`
+	DeviceAttributes       *DeviceAttributes                `json:"deviceAttributes"`
+	DeviceOs               []OperatingSystem                `json:"deviceOS"`
+	Enabled                bool                             `json:"enabled"`
+	Exceptions             []*InternetFirewallRuleException `json:"exceptions"`
+	ID                     string                           `json:"id"`
+	Index                  int64                            `json:"index"`
+	Name                   string                           `json:"name"`
+	PostureAttributes      *PostureAttributes               `json:"postureAttributes,omitempty"`
+	Schedule               *PolicySchedule                  `json:"schedule"`
+	Section                *PolicySectionInfo               `json:"section"`
+	Service                *InternetFirewallServiceType     `json:"service"`
+	Source                 *InternetFirewallSource          `json:"source"`
+	Tracking               *PolicyTracking                  `json:"tracking"`
+	UserAttributes         *InternetFirewallUserAttributes  `json:"userAttributes"`
 }
 
 func (InternetFirewallRule) IsIPolicyRule() {}
@@ -7961,46 +7974,36 @@ func (this InternetFirewallRule) GetSection() *PolicySectionInfo { return this.S
 
 // Exceptions define when a rule is ignored, and the firewall policy evaluation continues with the lower priority rules.
 type InternetFirewallRuleException struct {
-	// Connection origin matching criteria for the exception.
-	ConnectionOrigin ConnectionOriginEnum `json:"connectionOrigin"`
-	// Source country matching criteria for the exception.
-	Country []*CountryRef `json:"country"`
-	// Destination matching criteria for the exception.
-	Destination *InternetFirewallDestination `json:"destination"`
-	// Source Device Profile matching criteria for the exception.
-	Device []*DeviceProfileRef `json:"device"`
-	// Source Device Attributes matching criteria for the exception.
-	DeviceAttributes *DeviceAttributes `json:"deviceAttributes"`
-	// Source device OS matching criteria for the exception.
-	DeviceOs []OperatingSystem `json:"deviceOS"`
-	// A unique name of the rule exception.
-	Name string `json:"name"`
-	// Destination service matching criteria for the exception.
-	Service *InternetFirewallServiceType `json:"service"`
-	// Source traffic matching criteria for the exception.
-	Source *InternetFirewallSource `json:"source"`
+	ConnectionOrigin       ConnectionOriginEnum            `json:"connectionOrigin"`
+	ConnectionsOriginList  []ConnectionOriginsEnum         `json:"connectionsOriginList"`
+	ConnectionsOriginsList []ConnectionOriginsEnum         `json:"connectionsOriginsList"`
+	Country                []*CountryRef                   `json:"country"`
+	Destination            *InternetFirewallDestination    `json:"destination"`
+	Device                 []*DeviceProfileRef             `json:"device"`
+	DeviceAttributes       *DeviceAttributes               `json:"deviceAttributes"`
+	DeviceOs               []OperatingSystem               `json:"deviceOS"`
+	Name                   string                          `json:"name"`
+	PostureAttributes      *PostureAttributes              `json:"postureAttributes,omitempty"`
+	Service                *InternetFirewallServiceType    `json:"service"`
+	Source                 *InternetFirewallSource         `json:"source"`
+	UserAttributes         *InternetFirewallUserAttributes `json:"userAttributes"`
 }
 
 // Exceptions define when a rule is ignored, and the firewall policy evaluation continues with the lower priority rules.
 type InternetFirewallRuleExceptionInput struct {
-	// Connection origin matching criteria for the exception.
-	ConnectionOrigin ConnectionOriginEnum `json:"connectionOrigin"`
-	// Source country matching criteria for the exception.
-	Country []*CountryRefInput `json:"country"`
-	// Destination matching criteria for the exception.
-	Destination *InternetFirewallDestinationInput `json:"destination"`
-	// Source Device Profile matching criteria for the exception.
-	Device []*DeviceProfileRefInput `json:"device"`
-	// Source Device Attributes matching criteria for the exception.
-	DeviceAttributes *DeviceAttributesInput `json:"deviceAttributes"`
-	// Source device OS matching criteria for the exception.
-	DeviceOs []OperatingSystem `json:"deviceOS"`
-	// A unique name of the rule exception.
-	Name string `json:"name"`
-	// Destination service matching criteria for the exception.
-	Service *InternetFirewallServiceTypeInput `json:"service"`
-	// Source traffic matching criteria for the exception.
-	Source *InternetFirewallSourceInput `json:"source"`
+	ConnectionOrigin       ConnectionOriginEnum                 `json:"connectionOrigin"`
+	ConnectionsOriginList  []ConnectionOriginsEnum              `json:"connectionsOriginList"`
+	ConnectionsOriginsList []ConnectionOriginsEnum              `json:"connectionsOriginsList"`
+	Country                []*CountryRefInput                   `json:"country"`
+	Destination            *InternetFirewallDestinationInput    `json:"destination"`
+	Device                 []*DeviceProfileRefInput             `json:"device"`
+	DeviceAttributes       *DeviceAttributesInput               `json:"deviceAttributes"`
+	DeviceOs               []OperatingSystem                    `json:"deviceOS"`
+	Name                   string                               `json:"name"`
+	PostureAttributes      *PostureAttributesInput              `json:"postureAttributes,omitempty"`
+	Service                *InternetFirewallServiceTypeInput    `json:"service"`
+	Source                 *InternetFirewallSourceInput         `json:"source"`
+	UserAttributes         *InternetFirewallUserAttributesInput `json:"userAttributes"`
 }
 
 type InternetFirewallRuleMutationPayload struct {
@@ -8031,9 +8034,13 @@ func (this InternetFirewallRuleMutationPayload) GetErrors() []*PolicyMutationErr
 
 // Internet Firewall policy information for a specific revision
 type InternetFirewallRulePayload struct {
+	Access     *EntityAccess                 `json:"access"`
 	Audit      *PolicyElementAudit           `json:"audit"`
+	HitCount   *RuleHitCount                 `json:"hitCount,omitempty"`
 	Properties []PolicyElementPropertiesEnum `json:"properties"`
 	Rule       *InternetFirewallRule         `json:"rule"`
+	RuleType   PolicyRuleTypeEnum            `json:"ruleType"`
+	SubPolicy  *InternetFirewallPolicyRef    `json:"subPolicy,omitempty"`
 }
 
 func (InternetFirewallRulePayload) IsIPolicyRulePayload()              {}
@@ -8074,144 +8081,119 @@ type InternetFirewallServiceTypeUpdateInput struct {
 
 // Returns the settings for Source of an Internet Firewall rule
 type InternetFirewallSource struct {
-	// Floating Subnets (ie. Floating Ranges) are used to identify traffic exactly matched to the route advertised by BGP. They are not associated with a specific site. This is useful in scenarios such as active-standby high availability routed via BGP.
-	FloatingSubnet []*FloatingSubnetRef `json:"floatingSubnet"`
-	// Globally defined IP range, IP and subnet objects
-	GlobalIPRange []*GlobalIPRangeRef `json:"globalIpRange"`
-	// Groups defined for your account
-	Group []*GroupRef `json:"group"`
-	// Hosts and servers defined for your account
-	Host []*HostRef `json:"host"`
-	// IPv4 address
-	IP []string `json:"ip"`
-	// Multiple separate IP addresses or an IP range
-	IPRange []*IPAddressRange `json:"ipRange"`
-	// Network range defined for a site
-	NetworkInterface []*NetworkInterfaceRef `json:"networkInterface"`
-	// Site defined for the account
-	Site []*SiteRef `json:"site"`
-	// GlobalRange + InterfaceSubnet
+	FloatingSubnet    []*FloatingSubnetRef    `json:"floatingSubnet"`
+	GlobalIPRange     []*GlobalIPRangeRef     `json:"globalIpRange"`
+	Group             []*GroupRef             `json:"group"`
+	Host              []*HostRef              `json:"host"`
+	IP                []string                `json:"ip"`
+	IPRange           []*IPAddressRange       `json:"ipRange"`
+	NetworkInterface  []*NetworkInterfaceRef  `json:"networkInterface"`
+	Site              []*SiteRef              `json:"site"`
 	SiteNetworkSubnet []*SiteNetworkSubnetRef `json:"siteNetworkSubnet"`
-	// Subnets and network ranges defined for the LAN interfaces of a site
-	Subnet []string `json:"subnet"`
-	// Predefined Cato groups
-	SystemGroup []*SystemGroupRef `json:"systemGroup"`
-	// Individual users defined for the account
-	User []*UserRef `json:"user"`
-	// Group of users
-	UsersGroup []*UsersGroupRef `json:"usersGroup"`
+	Subnet            []string                `json:"subnet"`
+	SystemGroup       []*SystemGroupRef       `json:"systemGroup"`
+	User              []*UserRef              `json:"user"`
+	UsersGroup        []*UsersGroupRef        `json:"usersGroup"`
 }
 
 // Input of the settings for Source of an Internet Firewall rule. To specify 'ANY' source, an empty list must be provided for each match criteria field (e.g. ip: [], group: [], etc...)
 type InternetFirewallSourceInput struct {
-	// Floating Subnets (ie. Floating Ranges) are used to identify traffic exactly matched to the route advertised by BGP. They are not associated with a specific site. This is useful in scenarios such as active-standby high availability routed via BGP.
-	FloatingSubnet []*FloatingSubnetRefInput `json:"floatingSubnet"`
-	// Globally defined IP range, IP and subnet objects
-	GlobalIPRange []*GlobalIPRangeRefInput `json:"globalIpRange"`
-	// Groups defined for your account
-	Group []*GroupRefInput `json:"group"`
-	// Hosts and servers defined for your account
-	Host []*HostRefInput `json:"host"`
-	// IPv4 address
-	IP []string `json:"ip"`
-	// Multiple separate IP addresses or an IP range
-	IPRange []*IPAddressRangeInput `json:"ipRange"`
-	// Network range defined for a site
-	NetworkInterface []*NetworkInterfaceRefInput `json:"networkInterface"`
-	// Site defined for the account
-	Site []*SiteRefInput `json:"site"`
-	// GlobalRange + InterfaceSubnet
+	FloatingSubnet    []*FloatingSubnetRefInput    `json:"floatingSubnet"`
+	GlobalIPRange     []*GlobalIPRangeRefInput     `json:"globalIpRange"`
+	Group             []*GroupRefInput             `json:"group"`
+	Host              []*HostRefInput              `json:"host"`
+	IP                []string                     `json:"ip"`
+	IPRange           []*IPAddressRangeInput       `json:"ipRange"`
+	NetworkInterface  []*NetworkInterfaceRefInput  `json:"networkInterface"`
+	Site              []*SiteRefInput              `json:"site"`
 	SiteNetworkSubnet []*SiteNetworkSubnetRefInput `json:"siteNetworkSubnet"`
-	// Subnets and network ranges defined for the LAN interfaces of a site
-	Subnet []string `json:"subnet"`
-	// Predefined Cato groups
-	SystemGroup []*SystemGroupRefInput `json:"systemGroup"`
-	// Individual users defined for the account
-	User []*UserRefInput `json:"user"`
-	// Group of users
-	UsersGroup []*UsersGroupRefInput `json:"usersGroup"`
+	Subnet            []string                     `json:"subnet"`
+	SystemGroup       []*SystemGroupRefInput       `json:"systemGroup"`
+	User              []*UserRefInput              `json:"user"`
+	UsersGroup        []*UsersGroupRefInput        `json:"usersGroup"`
 }
 
 // Input of the settings for Source of an Internet Firewall rule. To specify 'ANY' source, an empty list must be provided for each match criteria field (e.g. ip: [], group: [], etc...)
 type InternetFirewallSourceUpdateInput struct {
-	// Floating Subnets (ie. Floating Ranges) are used to identify traffic exactly matched to the route advertised by BGP. They are not associated with a specific site. This is useful in scenarios such as active-standby high availability routed via BGP.
-	FloatingSubnet []*FloatingSubnetRefInput `json:"floatingSubnet,omitempty"`
-	// Globally defined IP range, IP and subnet objects
-	GlobalIPRange []*GlobalIPRangeRefInput `json:"globalIpRange,omitempty"`
-	// Groups defined for your account
-	Group []*GroupRefInput `json:"group,omitempty"`
-	// Hosts and servers defined for your account
-	Host []*HostRefInput `json:"host,omitempty"`
-	// IPv4 address
-	IP []string `json:"ip,omitempty"`
-	// Multiple separate IP addresses or an IP range
-	IPRange []*IPAddressRangeInput `json:"ipRange,omitempty"`
-	// Network range defined for a site
-	NetworkInterface []*NetworkInterfaceRefInput `json:"networkInterface,omitempty"`
-	// Site defined for the account
-	Site []*SiteRefInput `json:"site,omitempty"`
-	// GlobalRange + InterfaceSubnet
+	FloatingSubnet    []*FloatingSubnetRefInput    `json:"floatingSubnet,omitempty"`
+	GlobalIPRange     []*GlobalIPRangeRefInput     `json:"globalIpRange,omitempty"`
+	Group             []*GroupRefInput             `json:"group,omitempty"`
+	Host              []*HostRefInput              `json:"host,omitempty"`
+	IP                []string                     `json:"ip,omitempty"`
+	IPRange           []*IPAddressRangeInput       `json:"ipRange,omitempty"`
+	NetworkInterface  []*NetworkInterfaceRefInput  `json:"networkInterface,omitempty"`
+	Site              []*SiteRefInput              `json:"site,omitempty"`
 	SiteNetworkSubnet []*SiteNetworkSubnetRefInput `json:"siteNetworkSubnet,omitempty"`
-	// Subnets and network ranges defined for the LAN interfaces of a site
-	Subnet []string `json:"subnet,omitempty"`
-	// Predefined Cato groups
-	SystemGroup []*SystemGroupRefInput `json:"systemGroup,omitempty"`
-	// Individual users defined for the account
-	User []*UserRefInput `json:"user,omitempty"`
-	// Group of users
-	UsersGroup []*UsersGroupRefInput `json:"usersGroup,omitempty"`
+	Subnet            []string                     `json:"subnet,omitempty"`
+	SystemGroup       []*SystemGroupRefInput       `json:"systemGroup,omitempty"`
+	User              []*UserRefInput              `json:"user,omitempty"`
+	UsersGroup        []*UsersGroupRefInput        `json:"usersGroup,omitempty"`
+}
+
+type InternetFirewallSubPolicyPayload struct {
+	Access     *EntityAccess               `json:"access"`
+	Policy     *InternetFirewallPolicyInfo `json:"policy"`
+	Properties []SubPolicyProperty         `json:"properties"`
+}
+
+func (InternetFirewallSubPolicyPayload) IsSubPolicyPayload()        {}
+func (this InternetFirewallSubPolicyPayload) GetPolicy() PolicyInfo { return *this.Policy }
+func (this InternetFirewallSubPolicyPayload) GetProperties() []SubPolicyProperty {
+	if this.Properties == nil {
+		return nil
+	}
+	interfaceSlice := make([]SubPolicyProperty, 0, len(this.Properties))
+	for _, concrete := range this.Properties {
+		interfaceSlice = append(interfaceSlice, concrete)
+	}
+	return interfaceSlice
 }
 
 type InternetFirewallUpdateRuleDataInput struct {
-	// The action applied by the Internet Firewall if the rule is matched
-	Action *InternetFirewallActionEnum `json:"action,omitempty"`
-	// The time period during which the rule is active, outside this period, the rule is inactive
-	ActivePeriod *PolicyRuleActivePeriodUpdateInput `json:"activePeriod,omitempty"`
-	// Connection origin of the traffic
-	ConnectionOrigin *ConnectionOriginEnum `json:"connectionOrigin,omitempty"`
-	// Source country traffic matching criteria.
-	// Logical ‘OR’ is applied within the criteria set.
-	// Logical ‘AND’ is applied between criteria sets.
-	Country     []*CountryRefInput `json:"country,omitempty"`
-	Description *string            `json:"description,omitempty"`
-	// Destination traffic matching criteria.
-	// Logical ‘OR’ is applied within the criteria set.
-	// Logical ‘AND’ is applied between criteria sets.
-	Destination *InternetFirewallDestinationUpdateInput `json:"destination,omitempty"`
-	// Source Device Profile traffic matching criteria.
-	// Logical ‘OR’ is applied within the criteria set.
-	// Logical ‘AND’ is applied between criteria sets.
-	Device []*DeviceProfileRefInput `json:"device,omitempty"`
-	// Additional device attributes such as category, type, model, and manufacturer.
-	// Logical 'OR' is applied within the criteria set.
-	// Logical 'AND' is applied between criteria sets.
-	DeviceAttributes *DeviceAttributesUpdateInput `json:"deviceAttributes,omitempty"`
-	// Source device Operating System traffic matching criteria.
-	// Logical ‘OR’ is applied within the criteria set.
-	// Logical ‘AND’ is applied between criteria sets.
-	DeviceOs []OperatingSystem `json:"deviceOS,omitempty"`
-	Enabled  *bool             `json:"enabled,omitempty"`
-	// The set of exceptions for the rule.
-	// Exceptions define when the rule will be ignored and the firewall evaluation will continue with the lower priority rules.
-	Exceptions []*InternetFirewallRuleExceptionInput `json:"exceptions,omitempty"`
-	Name       *string                               `json:"name,omitempty"`
-	// The time period specifying when the rule is enabled, otherwise it is disabled.
-	Schedule *PolicyScheduleUpdateInput `json:"schedule,omitempty"`
-	// Destination service traffic matching criteria.
-	// Logical ‘OR’ is applied within the criteria set.
-	// Logical ‘AND’ is applied between criteria sets.
-	Service *InternetFirewallServiceTypeUpdateInput `json:"service,omitempty"`
-	// Source traffic matching criteria.
-	// Logical ‘OR’ is applied within the criteria set.
-	// Logical ‘AND’ is applied between criteria sets.
-	Source *InternetFirewallSourceUpdateInput `json:"source,omitempty"`
-	// Tracking information when the rule is matched, such as events and notifications
-	Tracking *PolicyTrackingUpdateInput `json:"tracking,omitempty"`
+	Action                 *InternetFirewallActionEnum                `json:"action,omitempty"`
+	ActionConfig           *InternetFirewallActionConfigUpdateInput   `json:"actionConfig,omitempty"`
+	ActivePeriod           *PolicyRuleActivePeriodUpdateInput         `json:"activePeriod,omitempty"`
+	ConnectionOrigin       *ConnectionOriginEnum                      `json:"connectionOrigin,omitempty"`
+	ConnectionsOriginList  []ConnectionOriginsEnum                    `json:"connectionsOriginList,omitempty"`
+	ConnectionsOriginsList []ConnectionOriginsEnum                    `json:"connectionsOriginsList,omitempty"`
+	Country                []*CountryRefInput                         `json:"country,omitempty"`
+	Description            *string                                    `json:"description,omitempty"`
+	Destination            *InternetFirewallDestinationUpdateInput    `json:"destination,omitempty"`
+	Device                 []*DeviceProfileRefInput                   `json:"device,omitempty"`
+	DeviceAttributes       *DeviceAttributesUpdateInput               `json:"deviceAttributes,omitempty"`
+	DeviceOs               []OperatingSystem                          `json:"deviceOS,omitempty"`
+	Enabled                *bool                                      `json:"enabled,omitempty"`
+	Exceptions             []*InternetFirewallRuleExceptionInput      `json:"exceptions,omitempty"`
+	Name                   *string                                    `json:"name,omitempty"`
+	PostureAttributes      *PostureAttributesUpdateInput              `json:"postureAttributes,omitempty"`
+	Schedule               *PolicyScheduleUpdateInput                 `json:"schedule,omitempty"`
+	Service                *InternetFirewallServiceTypeUpdateInput    `json:"service,omitempty"`
+	Source                 *InternetFirewallSourceUpdateInput         `json:"source,omitempty"`
+	Tracking               *PolicyTrackingUpdateInput                 `json:"tracking,omitempty"`
+	UserAttributes         *InternetFirewallUserAttributesUpdateInput `json:"userAttributes,omitempty"`
 }
 
 type InternetFirewallUpdateRuleInput struct {
 	ID   string                               `json:"id"`
 	Rule *InternetFirewallUpdateRuleDataInput `json:"rule"`
+}
+
+type InternetFirewallUserAttributes struct {
+	RiskScore           *RiskScoreCondition  `json:"riskScore"`
+	UserConfidenceLevel *UserConfidenceLevel `json:"userConfidenceLevel,omitempty"`
+}
+
+func (InternetFirewallUserAttributes) IsUserAttributes()                      {}
+func (this InternetFirewallUserAttributes) GetRiskScore() *RiskScoreCondition { return this.RiskScore }
+
+type InternetFirewallUserAttributesInput struct {
+	RiskScore           *RiskScoreConditionInput `json:"riskScore"`
+	UserConfidenceLevel *UserConfidenceLevel     `json:"userConfidenceLevel,omitempty"`
+}
+
+type InternetFirewallUserAttributesUpdateInput struct {
+	RiskScore           *RiskScoreConditionUpdateInput `json:"riskScore,omitempty"`
+	UserConfidenceLevel *UserConfidenceLevel           `json:"userConfidenceLevel,omitempty"`
 }
 
 // Represents a member type in the group that is not supported in one or more scopes.
@@ -9763,6 +9745,10 @@ type PolicyElementRefInput struct {
 	Input string `json:"input"`
 }
 
+type PolicyHitCount struct {
+	LastUpdatedTime string `json:"lastUpdatedTime"`
+}
+
 type PolicyLevelEnumFilterInput struct {
 	Eq  *PolicyLevelEnum  `json:"eq,omitempty"`
 	In  []PolicyLevelEnum `json:"in,omitempty"`
@@ -10374,6 +10360,18 @@ type PostalAddressInput struct {
 	ZipCode *string `json:"zipCode,omitempty"`
 }
 
+type PostureAttributes struct {
+	HostConfidenceLevel HostConfidenceLevelEnum `json:"hostConfidenceLevel"`
+}
+
+type PostureAttributesInput struct {
+	HostConfidenceLevel HostConfidenceLevelEnum `json:"hostConfidenceLevel"`
+}
+
+type PostureAttributesUpdateInput struct {
+	HostConfidenceLevel *HostConfidenceLevelEnum `json:"hostConfidenceLevel,omitempty"`
+}
+
 type PrivateAccessAddRuleDataInput struct {
 	Action           *PrivateAccessPolicyActionInput      `json:"action"`
 	ActivePeriod     *PolicyRuleActivePeriodInput         `json:"activePeriod"`
@@ -10864,6 +10862,24 @@ func (this RbiLicense) GetExpirationDate() string { return this.ExpirationDate }
 // The date of the last update to the license
 func (this RbiLicense) GetLastUpdated() *string { return this.LastUpdated }
 
+type RbiProfileRef struct {
+	ID   string `json:"id"`
+	Name string `json:"name"`
+}
+
+func (RbiProfileRef) IsObjectRef() {}
+
+// Object's unique identifier
+func (this RbiProfileRef) GetID() string { return this.ID }
+
+// Object's unique name
+func (this RbiProfileRef) GetName() string { return this.Name }
+
+type RbiProfileRefInput struct {
+	By    ObjectRefBy `json:"by"`
+	Input string      `json:"input"`
+}
+
 type RecentConnection struct {
 	// Serial number for the Device
 	DeviceName *string `json:"deviceName,omitempty"`
@@ -11297,6 +11313,15 @@ type ReplaceSiteBwLicensePayload struct {
 	License License `json:"license"`
 }
 
+type ResetRuleHitCountsInput struct {
+	Rule string `json:"rule"`
+}
+
+type ResetRuleHitCountsResponse struct {
+	Errors []*PolicyMutationError `json:"errors"`
+	Status PolicyMutationStatus   `json:"status"`
+}
+
 type RiskScoreCondition struct {
 	Category RiskScoreCategory `json:"category"`
 	Operator RiskScoreOperator `json:"operator"`
@@ -11310,6 +11335,12 @@ type RiskScoreConditionInput struct {
 type RiskScoreConditionUpdateInput struct {
 	Category *RiskScoreCategory `json:"category,omitempty"`
 	Operator *RiskScoreOperator `json:"operator,omitempty"`
+}
+
+type RuleHitCount struct {
+	Count       scalars.Long `json:"count"`
+	LastHitTime string       `json:"lastHitTime"`
+	Percentile  float64      `json:"percentile"`
 }
 
 // SaaS Security API service license details
@@ -15464,6 +15495,11 @@ func (this UserNotificationTemplateRef) GetID() string { return this.ID }
 // Object's unique name
 func (this UserNotificationTemplateRef) GetName() string { return this.Name }
 
+type UserNotificationTemplateRefInput struct {
+	By    ObjectRefBy `json:"by"`
+	Input string      `json:"input"`
+}
+
 // A reference identifying the User object. ID: Unique User Identifier, Name: The User Name
 type UserRef struct {
 	ID   string `json:"id"`
@@ -15558,258 +15594,195 @@ type VendorPredicate struct {
 	NotIn []VendorEnum `json:"not_in,omitempty"`
 }
 
+type WanFirewallActionConfig struct {
+	UserNotification []*UserNotificationTemplateRef `json:"userNotification"`
+}
+
+type WanFirewallActionConfigInput struct {
+	UserNotification []*UserNotificationTemplateRefInput `json:"userNotification"`
+}
+
+type WanFirewallActionConfigUpdateInput struct {
+	UserNotification []*UserNotificationTemplateRefInput `json:"userNotification,omitempty"`
+}
+
 type WanFirewallAddRuleDataInput struct {
-	// The action applied by the Internet Firewall if the rule is matched
-	Action WanFirewallActionEnum `json:"action"`
-	// The time period during which the rule is active, outside this period, the rule is inactive
-	ActivePeriod *PolicyRuleActivePeriodInput `json:"activePeriod"`
-	// Application traffic matching criteria.
-	// Logical ‘OR’ is applied within the criteria set.
-	// Logical ‘AND’ is applied between criteria sets.
-	Application *WanFirewallApplicationInput `json:"application"`
-	// Connection origin of the traffic
-	ConnectionOrigin ConnectionOriginEnum `json:"connectionOrigin"`
-	// Source country traffic matching criteria.
-	// Logical ‘OR’ is applied within the criteria set.
-	// Logical ‘AND’ is applied between criteria sets.
-	Country     []*CountryRefInput `json:"country"`
-	Description string             `json:"description"`
-	// Destination traffic matching criteria.
-	// Logical ‘OR’ is applied within the criteria set.
-	// Logical ‘AND’ is applied between criteria sets.
-	Destination *WanFirewallDestinationInput `json:"destination"`
-	// Source Device Profile traffic matching criteria.
-	// Logical ‘OR’ is applied within the criteria set.
-	// Logical ‘AND’ is applied between criteria sets.
-	Device []*DeviceProfileRefInput `json:"device"`
-	// Additional device attributes such as category, type, model, and manufacturer.
-	// Logical 'OR' is applied within the criteria set.
-	// Logical 'AND' is applied between criteria sets.
-	DeviceAttributes *DeviceAttributesInput `json:"deviceAttributes"`
-	// Source device Operating System traffic matching criteria.
-	// Logical ‘OR’ is applied within the criteria set.
-	// Logical ‘AND’ is applied between criteria sets.
-	DeviceOs  []OperatingSystem        `json:"deviceOS"`
-	Direction WanFirewallDirectionEnum `json:"direction"`
-	Enabled   bool                     `json:"enabled"`
-	// The set of exceptions for the rule.
-	// Exceptions define when the rule will be ignored and the firewall evaluation will continue with the lower priority rules.
-	Exceptions []*WanFirewallRuleExceptionInput `json:"exceptions"`
-	Name       string                           `json:"name"`
-	// The time period specifying when the rule is enabled, otherwise it is disabled.
-	Schedule *PolicyScheduleInput `json:"schedule"`
-	// Destination service traffic matching criteria.
-	// Logical ‘OR’ is applied within the criteria set.
-	// Logical ‘AND’ is applied between criteria sets.
-	Service *WanFirewallServiceTypeInput `json:"service"`
-	// Source traffic matching criteria.
-	// Logical ‘OR’ is applied within the criteria set.
-	// Logical ‘AND’ is applied between criteria sets.
-	Source *WanFirewallSourceInput `json:"source"`
-	// Tracking information when the rule is matched, such as events and notifications
-	Tracking *PolicyTrackingInput `json:"tracking"`
+	Action                WanFirewallActionEnum            `json:"action"`
+	ActionConfig          *WanFirewallActionConfigInput    `json:"actionConfig"`
+	ActivePeriod          *PolicyRuleActivePeriodInput     `json:"activePeriod"`
+	Application           *WanFirewallApplicationInput     `json:"application"`
+	ConnectionOrigin      ConnectionOriginEnum             `json:"connectionOrigin"`
+	ConnectionsOriginList []ConnectionOriginsEnum          `json:"connectionsOriginList"`
+	Country               []*CountryRefInput               `json:"country"`
+	Description           string                           `json:"description"`
+	Destination           *WanFirewallDestinationInput     `json:"destination"`
+	Device                []*DeviceProfileRefInput         `json:"device"`
+	DeviceAttributes      *DeviceAttributesInput           `json:"deviceAttributes"`
+	DeviceOs              []OperatingSystem                `json:"deviceOS"`
+	Direction             WanFirewallDirectionEnum         `json:"direction"`
+	Enabled               bool                             `json:"enabled"`
+	Exceptions            []*WanFirewallRuleExceptionInput `json:"exceptions"`
+	Name                  string                           `json:"name"`
+	Schedule              *PolicyScheduleInput             `json:"schedule"`
+	Service               *WanFirewallServiceTypeInput     `json:"service"`
+	Source                *WanFirewallSourceInput          `json:"source"`
+	Tracking              *PolicyTrackingInput             `json:"tracking"`
+	UserAttributes        *WanFirewallUserAttributesInput  `json:"userAttributes"`
 }
 
 // Rule parameters and relevant position
 type WanFirewallAddRuleInput struct {
-	// Position of the rule in the policy
-	At *PolicyRulePositionInput `json:"at,omitempty"`
-	// Parameters for the rule you are adding
+	At   *PolicyRulePositionInput     `json:"at,omitempty"`
 	Rule *WanFirewallAddRuleDataInput `json:"rule"`
+}
+
+type WanFirewallAddSubPolicyDataInput struct {
+	Description string `json:"description"`
+	Name        string `json:"name"`
+}
+
+type WanFirewallAddSubPolicyInput struct {
+	At     *PolicyRulePositionInput          `json:"at"`
+	Policy *WanFirewallAddSubPolicyDataInput `json:"policy,omitempty"`
+	Scope  *WanFirewallAddRuleDataInput      `json:"scope"`
+}
+
+type WanFirewallAddSubPolicyMutationPayload struct {
+	Errors []*PolicyMutationError `json:"errors"`
+	Policy *WanFirewallPolicy     `json:"policy,omitempty"`
+	Status PolicyMutationStatus   `json:"status"`
+}
+
+func (WanFirewallAddSubPolicyMutationPayload) IsIPolicyMutationPayload() {}
+
+// Data for the policy
+func (this WanFirewallAddSubPolicyMutationPayload) GetPolicy() IPolicy { return *this.Policy }
+
+// Enum for the status of the policy change
+func (this WanFirewallAddSubPolicyMutationPayload) GetStatus() PolicyMutationStatus {
+	return this.Status
+}
+
+// List of errors related to the policy change
+func (this WanFirewallAddSubPolicyMutationPayload) GetErrors() []*PolicyMutationError {
+	if this.Errors == nil {
+		return nil
+	}
+	interfaceSlice := make([]*PolicyMutationError, 0, len(this.Errors))
+	for _, concrete := range this.Errors {
+		interfaceSlice = append(interfaceSlice, concrete)
+	}
+	return interfaceSlice
 }
 
 // Application match criteria set
 type WanFirewallApplication struct {
-	// Cato category of applications which are dynamically updated by Cato
-	AppCategory []*ApplicationCategoryRef `json:"appCategory"`
-	// Applications for the rule (pre-defined)
-	Application []*ApplicationRef `json:"application"`
-	// Custom (user-defined) applications
-	CustomApp []*CustomApplicationRef `json:"customApp"`
-	// Custom Categories – Groups of objects such as predefined and custom applications, predefined and custom services, domains, FQDNs etc.
-	CustomCategory []*CustomCategoryRef `json:"customCategory"`
-	// A Second-Level Domain (SLD).
-	// It matches all Top-Level Domains (TLD), and subdomains that include the Domain.
-	// Example: example.com.
-	Domain []string `json:"domain"`
-	// An exact match of the fully qualified domain (FQDN). Example: www.my.example.com.
-	Fqdn []string `json:"fqdn"`
-	// Globally defined IP range, IP and subnet objects
-	GlobalIPRange []*GlobalIPRangeRef `json:"globalIpRange"`
-	// IPv4 addresses
-	IP []string `json:"ip"`
-	// A range of IPs. Every IP within the range will be matched
-	IPRange []*IPAddressRange `json:"ipRange"`
-	// Sanctioned Cloud Applications - apps that are approved and generally represent an understood and acceptable level of risk in your organization.
+	AppCategory            []*ApplicationCategoryRef    `json:"appCategory"`
+	Application            []*ApplicationRef            `json:"application"`
+	CustomApp              []*CustomApplicationRef      `json:"customApp"`
+	CustomCategory         []*CustomCategoryRef         `json:"customCategory"`
+	Domain                 []string                     `json:"domain"`
+	Fqdn                   []string                     `json:"fqdn"`
+	GlobalIPRange          []*GlobalIPRangeRef          `json:"globalIpRange"`
+	IP                     []string                     `json:"ip"`
+	IPRange                []*IPAddressRange            `json:"ipRange"`
 	SanctionedAppsCategory []*SanctionedAppsCategoryRef `json:"sanctionedAppsCategory"`
-	// Subnets and network ranges defined for the LAN interfaces of a site
-	Subnet []string `json:"subnet"`
+	Subnet                 []string                     `json:"subnet"`
 }
 
 // Application match criteria set
 type WanFirewallApplicationInput struct {
-	// Cato category of applications which are dynamically updated by Cato
-	AppCategory []*ApplicationCategoryRefInput `json:"appCategory"`
-	// Applications for the rule (pre-defined)
-	Application []*ApplicationRefInput `json:"application"`
-	// Custom (user-defined) applications
-	CustomApp []*CustomApplicationRefInput `json:"customApp"`
-	// Custom Categories – Groups of objects such as predefined and custom applications, predefined and custom services, domains, FQDNs etc.
-	CustomCategory []*CustomCategoryRefInput `json:"customCategory"`
-	// A Second-Level Domain (SLD).
-	// It matches all Top-Level Domains (TLD), and subdomains that include the Domain.
-	// Example: example.com.
-	Domain []string `json:"domain"`
-	// An exact match of the fully qualified domain (FQDN). Example: www.my.example.com.
-	Fqdn []string `json:"fqdn"`
-	// Globally defined IP range, IP and subnet objects
-	GlobalIPRange []*GlobalIPRangeRefInput `json:"globalIpRange"`
-	// IPv4 addresses
-	IP []string `json:"ip"`
-	// A range of IPs. Every IP within the range will be matched
-	IPRange []*IPAddressRangeInput `json:"ipRange"`
-	// Sanctioned Cloud Applications - apps that are approved and generally represent an understood and acceptable level of risk in your organization.
+	AppCategory            []*ApplicationCategoryRefInput    `json:"appCategory"`
+	Application            []*ApplicationRefInput            `json:"application"`
+	CustomApp              []*CustomApplicationRefInput      `json:"customApp"`
+	CustomCategory         []*CustomCategoryRefInput         `json:"customCategory"`
+	Domain                 []string                          `json:"domain"`
+	Fqdn                   []string                          `json:"fqdn"`
+	GlobalIPRange          []*GlobalIPRangeRefInput          `json:"globalIpRange"`
+	IP                     []string                          `json:"ip"`
+	IPRange                []*IPAddressRangeInput            `json:"ipRange"`
 	SanctionedAppsCategory []*SanctionedAppsCategoryRefInput `json:"sanctionedAppsCategory"`
-	// Subnets and network ranges defined for the LAN interfaces of a site
-	Subnet []string `json:"subnet"`
+	Subnet                 []string                          `json:"subnet"`
 }
 
 // Application match criteria set
 type WanFirewallApplicationUpdateInput struct {
-	// Cato category of applications which are dynamically updated by Cato
-	AppCategory []*ApplicationCategoryRefInput `json:"appCategory,omitempty"`
-	// Applications for the rule (pre-defined)
-	Application []*ApplicationRefInput `json:"application,omitempty"`
-	// Custom (user-defined) applications
-	CustomApp []*CustomApplicationRefInput `json:"customApp,omitempty"`
-	// Custom Categories – Groups of objects such as predefined and custom applications, predefined and custom services, domains, FQDNs etc.
-	CustomCategory []*CustomCategoryRefInput `json:"customCategory,omitempty"`
-	// A Second-Level Domain (SLD).
-	// It matches all Top-Level Domains (TLD), and subdomains that include the Domain.
-	// Example: example.com.
-	Domain []string `json:"domain,omitempty"`
-	// An exact match of the fully qualified domain (FQDN). Example: www.my.example.com.
-	Fqdn []string `json:"fqdn,omitempty"`
-	// Globally defined IP range, IP and subnet objects
-	GlobalIPRange []*GlobalIPRangeRefInput `json:"globalIpRange,omitempty"`
-	// IPv4 addresses
-	IP []string `json:"ip,omitempty"`
-	// A range of IPs. Every IP within the range will be matched
-	IPRange []*IPAddressRangeInput `json:"ipRange,omitempty"`
-	// Sanctioned Cloud Applications - apps that are approved and generally represent an understood and acceptable level of risk in your organization.
+	AppCategory            []*ApplicationCategoryRefInput    `json:"appCategory,omitempty"`
+	Application            []*ApplicationRefInput            `json:"application,omitempty"`
+	CustomApp              []*CustomApplicationRefInput      `json:"customApp,omitempty"`
+	CustomCategory         []*CustomCategoryRefInput         `json:"customCategory,omitempty"`
+	Domain                 []string                          `json:"domain,omitempty"`
+	Fqdn                   []string                          `json:"fqdn,omitempty"`
+	GlobalIPRange          []*GlobalIPRangeRefInput          `json:"globalIpRange,omitempty"`
+	IP                     []string                          `json:"ip,omitempty"`
+	IPRange                []*IPAddressRangeInput            `json:"ipRange,omitempty"`
 	SanctionedAppsCategory []*SanctionedAppsCategoryRefInput `json:"sanctionedAppsCategory,omitempty"`
-	// Subnets and network ranges defined for the LAN interfaces of a site
-	Subnet []string `json:"subnet,omitempty"`
+	Subnet                 []string                          `json:"subnet,omitempty"`
 }
 
 // Returns the settings for Destination of a Wan Firewall rule
 type WanFirewallDestination struct {
-	// Floating Subnets (ie. Floating Ranges) are used to identify traffic exactly matched to the route advertised by BGP.
-	// They are not associated with a specific site.
-	// This is useful in scenarios such as active-standby high availability routed via BGP.
-	FloatingSubnet []*FloatingSubnetRef `json:"floatingSubnet"`
-	// Globally defined IP range, IP and subnet objects
-	GlobalIPRange []*GlobalIPRangeRef `json:"globalIpRange"`
-	// Groups defined for your account
-	Group []*GroupRef `json:"group"`
-	// Hosts and servers defined for your account
-	Host []*HostRef `json:"host"`
-	// IPv4 address
-	IP []string `json:"ip"`
-	// Multiple separate IP addresses or an IP range
-	IPRange []*IPAddressRange `json:"ipRange"`
-	// Network range defined for a site
-	NetworkInterface []*NetworkInterfaceRef `json:"networkInterface"`
-	// Site defined for the account
-	Site []*SiteRef `json:"site"`
-	// GlobalRange + InterfaceSubnet
+	FloatingSubnet    []*FloatingSubnetRef    `json:"floatingSubnet"`
+	GlobalIPRange     []*GlobalIPRangeRef     `json:"globalIpRange"`
+	Group             []*GroupRef             `json:"group"`
+	Host              []*HostRef              `json:"host"`
+	IP                []string                `json:"ip"`
+	IPRange           []*IPAddressRange       `json:"ipRange"`
+	NetworkInterface  []*NetworkInterfaceRef  `json:"networkInterface"`
+	Site              []*SiteRef              `json:"site"`
 	SiteNetworkSubnet []*SiteNetworkSubnetRef `json:"siteNetworkSubnet"`
-	// Subnets and network ranges defined for the LAN interfaces of a site
-	Subnet []string `json:"subnet"`
-	// Predefined Cato groups
-	SystemGroup []*SystemGroupRef `json:"systemGroup"`
-	// Individual users defined for the account
-	User []*UserRef `json:"user"`
-	// Group of users
-	UsersGroup []*UsersGroupRef `json:"usersGroup"`
+	Subnet            []string                `json:"subnet"`
+	SystemGroup       []*SystemGroupRef       `json:"systemGroup"`
+	User              []*UserRef              `json:"user"`
+	UsersGroup        []*UsersGroupRef        `json:"usersGroup"`
 }
 
 // Input of the settings for Destination of a Wan Firewall rule. To specify 'ANY' destination, an empty list must be provided for each match criteria field (e.g. ip: [], group: [], etc...)
 type WanFirewallDestinationInput struct {
-	// Floating Subnets (ie. Floating Ranges) are used to identify traffic exactly matched to the route advertised by BGP.
-	// They are not associated with a specific site.
-	// This is useful in scenarios such as active-standby high availability routed via BGP.
-	FloatingSubnet []*FloatingSubnetRefInput `json:"floatingSubnet"`
-	// Globally defined IP range, IP and subnet objects
-	GlobalIPRange []*GlobalIPRangeRefInput `json:"globalIpRange"`
-	// Groups defined for your account
-	Group []*GroupRefInput `json:"group"`
-	// Hosts and servers defined for your account
-	Host []*HostRefInput `json:"host"`
-	// IPv4 address
-	IP []string `json:"ip"`
-	// Multiple separate IP addresses or an IP range
-	IPRange []*IPAddressRangeInput `json:"ipRange"`
-	// Network range defined for a site
-	NetworkInterface []*NetworkInterfaceRefInput `json:"networkInterface"`
-	// Site defined for the account
-	Site []*SiteRefInput `json:"site"`
-	// GlobalRange + InterfaceSubnet
+	FloatingSubnet    []*FloatingSubnetRefInput    `json:"floatingSubnet"`
+	GlobalIPRange     []*GlobalIPRangeRefInput     `json:"globalIpRange"`
+	Group             []*GroupRefInput             `json:"group"`
+	Host              []*HostRefInput              `json:"host"`
+	IP                []string                     `json:"ip"`
+	IPRange           []*IPAddressRangeInput       `json:"ipRange"`
+	NetworkInterface  []*NetworkInterfaceRefInput  `json:"networkInterface"`
+	Site              []*SiteRefInput              `json:"site"`
 	SiteNetworkSubnet []*SiteNetworkSubnetRefInput `json:"siteNetworkSubnet"`
-	// Subnets and network ranges defined for the LAN interfaces of a site
-	Subnet []string `json:"subnet"`
-	// Predefined Cato groups
-	SystemGroup []*SystemGroupRefInput `json:"systemGroup"`
-	// Individual users defined for the account
-	User []*UserRefInput `json:"user"`
-	// Group of users
-	UsersGroup []*UsersGroupRefInput `json:"usersGroup"`
+	Subnet            []string                     `json:"subnet"`
+	SystemGroup       []*SystemGroupRefInput       `json:"systemGroup"`
+	User              []*UserRefInput              `json:"user"`
+	UsersGroup        []*UsersGroupRefInput        `json:"usersGroup"`
 }
 
 // Input of the settings for Destination of a Wan Firewall rule. To specify 'ANY' destination, an empty list must be provided for each match criteria field (e.g. ip: [], group: [], etc...)
 type WanFirewallDestinationUpdateInput struct {
-	// Floating Subnets (ie. Floating Ranges) are used to identify traffic exactly matched to the route advertised by BGP.
-	// They are not associated with a specific site.
-	// This is useful in scenarios such as active-standby high availability routed via BGP.
-	FloatingSubnet []*FloatingSubnetRefInput `json:"floatingSubnet,omitempty"`
-	// Globally defined IP range, IP and subnet objects
-	GlobalIPRange []*GlobalIPRangeRefInput `json:"globalIpRange,omitempty"`
-	// Groups defined for your account
-	Group []*GroupRefInput `json:"group,omitempty"`
-	// Hosts and servers defined for your account
-	Host []*HostRefInput `json:"host,omitempty"`
-	// IPv4 address
-	IP []string `json:"ip,omitempty"`
-	// Multiple separate IP addresses or an IP range
-	IPRange []*IPAddressRangeInput `json:"ipRange,omitempty"`
-	// Network range defined for a site
-	NetworkInterface []*NetworkInterfaceRefInput `json:"networkInterface,omitempty"`
-	// Site defined for the account
-	Site []*SiteRefInput `json:"site,omitempty"`
-	// GlobalRange + InterfaceSubnet
+	FloatingSubnet    []*FloatingSubnetRefInput    `json:"floatingSubnet,omitempty"`
+	GlobalIPRange     []*GlobalIPRangeRefInput     `json:"globalIpRange,omitempty"`
+	Group             []*GroupRefInput             `json:"group,omitempty"`
+	Host              []*HostRefInput              `json:"host,omitempty"`
+	IP                []string                     `json:"ip,omitempty"`
+	IPRange           []*IPAddressRangeInput       `json:"ipRange,omitempty"`
+	NetworkInterface  []*NetworkInterfaceRefInput  `json:"networkInterface,omitempty"`
+	Site              []*SiteRefInput              `json:"site,omitempty"`
 	SiteNetworkSubnet []*SiteNetworkSubnetRefInput `json:"siteNetworkSubnet,omitempty"`
-	// Subnets and network ranges defined for the LAN interfaces of a site
-	Subnet []string `json:"subnet,omitempty"`
-	// Predefined Cato groups
-	SystemGroup []*SystemGroupRefInput `json:"systemGroup,omitempty"`
-	// Individual users defined for the account
-	User []*UserRefInput `json:"user,omitempty"`
-	// Group of users
-	UsersGroup []*UsersGroupRefInput `json:"usersGroup,omitempty"`
+	Subnet            []string                     `json:"subnet,omitempty"`
+	SystemGroup       []*SystemGroupRefInput       `json:"systemGroup,omitempty"`
+	User              []*UserRefInput              `json:"user,omitempty"`
+	UsersGroup        []*UsersGroupRefInput        `json:"usersGroup,omitempty"`
 }
 
 type WanFirewallPolicy struct {
-	Audit *PolicyAudit `json:"audit,omitempty"`
-	// Description for the policy
-	Description string `json:"description"`
-	Enabled     bool   `json:"enabled"`
-	// Policy ID
-	ID string `json:"id"`
-	// Name of the policy, the default name for the policy containing all sub-policies is 'Main'
-	Name     string                    `json:"name"`
-	Revision *PolicyRevision           `json:"revision,omitempty"`
-	Rules    []*WanFirewallRulePayload `json:"rules"`
-	Sections []*PolicySectionPayload   `json:"sections"`
+	Access        *EntityAccess                  `json:"access"`
+	Audit         *PolicyAudit                   `json:"audit,omitempty"`
+	Description   string                         `json:"description"`
+	Enabled       bool                           `json:"enabled"`
+	HitCountAudit *PolicyHitCount                `json:"hitCountAudit,omitempty"`
+	ID            string                         `json:"id"`
+	Name          string                         `json:"name"`
+	Revision      *PolicyRevision                `json:"revision,omitempty"`
+	Rules         []*WanFirewallRulePayload      `json:"rules"`
+	Sections      []*PolicySectionPayload        `json:"sections"`
+	SubPolicies   []*WanFirewallSubPolicyPayload `json:"subPolicies"`
 }
 
 func (WanFirewallPolicy) IsIPolicy() {}
@@ -15856,19 +15829,15 @@ type WanFirewallPolicyInfo struct {
 	PolicyLevel PolicyLevelEnum `json:"policyLevel"`
 }
 
-func (WanFirewallPolicyInfo) IsPolicyInfo()               {}
-func (this WanFirewallPolicyInfo) GetID() string          { return this.ID }
-func (this WanFirewallPolicyInfo) GetName() string        { return this.Name }
-func (this WanFirewallPolicyInfo) GetDescription() string { return this.Description }
-func (this WanFirewallPolicyInfo) GetEnabled() bool       { return this.Enabled }
-func (this WanFirewallPolicyInfo) GetAudit() *PolicyAudit { return this.Audit }
+func (WanFirewallPolicyInfo) IsPolicyInfo()                        {}
+func (this WanFirewallPolicyInfo) GetAudit() *PolicyAudit          { return this.Audit }
+func (this WanFirewallPolicyInfo) GetDescription() string          { return this.Description }
+func (this WanFirewallPolicyInfo) GetEnabled() bool                { return this.Enabled }
+func (this WanFirewallPolicyInfo) GetID() string                   { return this.ID }
+func (this WanFirewallPolicyInfo) GetName() string                 { return this.Name }
+func (this WanFirewallPolicyInfo) GetPolicyLevel() PolicyLevelEnum { return this.PolicyLevel }
 
 type WanFirewallPolicyInput struct {
-	// A revision is a specific instance of the policy.
-	//  Unpublished revisions are working copies of the policy available to a specific
-	//  admin or a set of admins
-	//  Published revisions are revisions that were applied to the account network.
-	//  The last published revision is the active policy.
 	Revision *PolicyRevisionInput `json:"revision,omitempty"`
 }
 
@@ -15940,39 +15909,27 @@ func (this WanFirewallPolicyMutationPayload) GetErrors() []*PolicyMutationError 
 
 // The Wan Firewall Policy information returned to the caller in the API response.
 type WanFirewallPolicyMutations struct {
-	// Add a new rule to the Wan Firewall policy.
-	AddRule *WanFirewallRuleMutationPayload `json:"addRule"`
-	// Add a new section to the policy.
-	// First section behaves as follows:
-	// When the first section is created,  all the rules in the policy, including the default system rules, are automatically added to it.
-	// The first section containing the default system rules can be modified but not deleted.
-	// The first section will always remain first-in-policy, i.e. it cannot be moved, and not other sections can be moved or created before it.
-	AddSection            *PolicySectionMutationPayload     `json:"addSection"`
-	CreatePolicyRevision  *WanFirewallPolicyMutationPayload `json:"createPolicyRevision"`
-	DiscardPolicyRevision *WanFirewallPolicyMutationPayload `json:"discardPolicyRevision"`
-	// Change the relative location of an existing rule within the Wan Firewall policy.
-	MoveRule *WanFirewallRuleMutationPayload `json:"moveRule"`
-	// Move a section to a new position within the policy.
-	//  The section will be anchored in the new position, i.e. other admins will not be able to move it, or reference it when moving other sections, until the modified policy revision is published.
-	MoveSection           *PolicySectionMutationPayload     `json:"moveSection"`
-	PublishPolicyRevision *WanFirewallPolicyMutationPayload `json:"publishPolicyRevision"`
-	// Remove an existing rule from the Wan Firewall policy.
-	RemoveRule *WanFirewallRuleMutationPayload `json:"removeRule"`
-	// Delete an existing section. The first section in policy cannot be deleted.
-	RemoveSection *PolicySectionMutationPayload     `json:"removeSection"`
-	ReorderPolicy *WanFirewallPolicyMutationPayload `json:"reorderPolicy"`
-	// Change the state of the policy, e.g. enable or disable the policy.
-	// Applicable to the published policy only. State changes are applied immediately and not as part of publishing a policy revision.
-	UpdatePolicy *WanFirewallPolicyMutationPayload `json:"updatePolicy"`
-	// Update an existing rule of the Wan Firewall policy.
-	UpdateRule *WanFirewallRuleMutationPayload `json:"updateRule"`
-	// Update policy section attributes
-	UpdateSection *PolicySectionMutationPayload `json:"updateSection"`
+	AddRule               *WanFirewallRuleMutationPayload            `json:"addRule"`
+	AddSection            *PolicySectionMutationPayload              `json:"addSection"`
+	AddSubPolicy          *WanFirewallAddSubPolicyMutationPayload    `json:"addSubPolicy"`
+	CalculateHitCount     *CalculateHitCountResponse                 `json:"calculateHitCount"`
+	CreatePolicyRevision  *WanFirewallPolicyMutationPayload          `json:"createPolicyRevision"`
+	DiscardPolicyRevision *WanFirewallPolicyMutationPayload          `json:"discardPolicyRevision"`
+	MoveRule              *WanFirewallRuleMutationPayload            `json:"moveRule"`
+	MoveSection           *PolicySectionMutationPayload              `json:"moveSection"`
+	PublishPolicyRevision *WanFirewallPolicyMutationPayload          `json:"publishPolicyRevision"`
+	RemoveRule            *WanFirewallRuleMutationPayload            `json:"removeRule"`
+	RemoveSection         *PolicySectionMutationPayload              `json:"removeSection"`
+	RemoveSubPolicy       *WanFirewallRemoveSubPolicyMutationPayload `json:"removeSubPolicy"`
+	ReorderPolicy         *WanFirewallPolicyMutationPayload          `json:"reorderPolicy"`
+	ResetRuleHitCount     *ResetRuleHitCountsResponse                `json:"resetRuleHitCount"`
+	UpdatePolicy          *WanFirewallPolicyMutationPayload          `json:"updatePolicy"`
+	UpdateRule            *WanFirewallRuleMutationPayload            `json:"updateRule"`
+	UpdateSection         *PolicySectionMutationPayload              `json:"updateSection"`
 }
 
 type WanFirewallPolicyQueries struct {
-	Policy *WanFirewallPolicy `json:"policy"`
-	// Provides a list of all policies of Wan Firewall with filtering, pagination and sorting capabilities
+	Policy     *WanFirewallPolicy            `json:"policy"`
 	PolicyList *WanFirewallPolicyListPayload `json:"policyList"`
 	Revisions  *PolicyRevisionsPayload       `json:"revisions,omitempty"`
 }
@@ -16009,66 +15966,63 @@ type WanFirewallRemoveRuleInput struct {
 	ID string `json:"id"`
 }
 
+type WanFirewallRemoveSubPolicyInput struct {
+	Ref *WanFirewallPolicyRefInput `json:"ref"`
+}
+
+type WanFirewallRemoveSubPolicyMutationPayload struct {
+	Errors []*PolicyMutationError `json:"errors"`
+	Policy *WanFirewallPolicy     `json:"policy,omitempty"`
+	Status PolicyMutationStatus   `json:"status"`
+}
+
+func (WanFirewallRemoveSubPolicyMutationPayload) IsIPolicyMutationPayload() {}
+
+// Data for the policy
+func (this WanFirewallRemoveSubPolicyMutationPayload) GetPolicy() IPolicy { return *this.Policy }
+
+// Enum for the status of the policy change
+func (this WanFirewallRemoveSubPolicyMutationPayload) GetStatus() PolicyMutationStatus {
+	return this.Status
+}
+
+// List of errors related to the policy change
+func (this WanFirewallRemoveSubPolicyMutationPayload) GetErrors() []*PolicyMutationError {
+	if this.Errors == nil {
+		return nil
+	}
+	interfaceSlice := make([]*PolicyMutationError, 0, len(this.Errors))
+	for _, concrete := range this.Errors {
+		interfaceSlice = append(interfaceSlice, concrete)
+	}
+	return interfaceSlice
+}
+
 type WanFirewallRule struct {
-	// The action applied by the Internet Firewall if the rule is matched
-	Action WanFirewallActionEnum `json:"action"`
-	// The time period during which the rule is active, outside this period, the rule is inactive
-	ActivePeriod *PolicyRuleActivePeriod `json:"activePeriod"`
-	// Application traffic matching criteria.
-	// Logical ‘OR’ is applied within the criteria set.
-	// Logical ‘AND’ is applied between criteria sets.
-	Application *WanFirewallApplication `json:"application"`
-	// Connection origin of the traffic
-	ConnectionOrigin ConnectionOriginEnum `json:"connectionOrigin"`
-	// Source country traffic matching criteria.
-	// Logical ‘OR’ is applied within the criteria set.
-	// Logical ‘AND’ is applied between criteria sets.
-	Country []*CountryRef `json:"country"`
-	// Description for the rule
-	Description string `json:"description"`
-	// Destination traffic matching criteria.
-	// Logical ‘OR’ is applied within the criteria set.
-	// Logical ‘AND’ is applied between criteria sets.
-	Destination *WanFirewallDestination `json:"destination"`
-	// Source Device Profile traffic matching criteria.
-	// Logical ‘OR’ is applied within the criteria set.
-	// Logical ‘AND’ is applied between criteria sets.
-	Device []*DeviceProfileRef `json:"device"`
-	// Additional device attributes such as category, type, model, and manufacturer.
-	// Logical 'OR' is applied within the criteria set.
-	// Logical 'AND' is applied between criteria sets.
-	DeviceAttributes *DeviceAttributes `json:"deviceAttributes"`
-	// Source device Operating System traffic matching criteria.
-	// Logical ‘OR’ is applied within the criteria set.
-	// Logical ‘AND’ is applied between criteria sets.
-	DeviceOs  []OperatingSystem        `json:"deviceOS"`
-	Direction WanFirewallDirectionEnum `json:"direction"`
-	// TRUE = Rule is enabled
-	//  FALSE = Rule is disabled
-	Enabled bool `json:"enabled"`
-	// The set of exceptions for the rule.
-	// Exceptions define when the rule will be ignored and the firewall evaluation will continue with the lower priority rules.
-	Exceptions []*WanFirewallRuleException `json:"exceptions"`
-	// Rule ID
-	ID string `json:"id"`
-	// Position / priority of rule
-	Index int64 `json:"index"`
-	// Name of the rule
-	Name string `json:"name"`
-	// The time period specifying when the rule is enabled, otherwise it is disabled.
-	Schedule *PolicySchedule `json:"schedule"`
-	// Policy section where the rule is located
-	Section *PolicySectionInfo `json:"section"`
-	// Destination service traffic matching criteria.
-	// Logical ‘OR’ is applied within the criteria set.
-	// Logical ‘AND’ is applied between criteria sets.
-	Service *WanFirewallServiceType `json:"service"`
-	// Source traffic matching criteria.
-	// Logical ‘OR’ is applied within the criteria set.
-	// Logical ‘AND’ is applied between criteria sets.
-	Source *WanFirewallSource `json:"source"`
-	// Tracking information when the rule is matched, such as events and notifications
-	Tracking *PolicyTracking `json:"tracking"`
+	Action                WanFirewallActionEnum       `json:"action"`
+	ActionConfig          *WanFirewallActionConfig    `json:"actionConfig"`
+	ActivePeriod          *PolicyRuleActivePeriod     `json:"activePeriod"`
+	Application           *WanFirewallApplication     `json:"application"`
+	ConnectionOrigin      ConnectionOriginEnum        `json:"connectionOrigin"`
+	ConnectionsOriginList []ConnectionOriginsEnum     `json:"connectionsOriginList"`
+	Country               []*CountryRef               `json:"country"`
+	Description           string                      `json:"description"`
+	Destination           *WanFirewallDestination     `json:"destination"`
+	Device                []*DeviceProfileRef         `json:"device"`
+	DeviceAttributes      *DeviceAttributes           `json:"deviceAttributes"`
+	DeviceOs              []OperatingSystem           `json:"deviceOS"`
+	Direction             WanFirewallDirectionEnum    `json:"direction"`
+	Enabled               bool                        `json:"enabled"`
+	Exceptions            []*WanFirewallRuleException `json:"exceptions"`
+	ID                    string                      `json:"id"`
+	Index                 int64                       `json:"index"`
+	Name                  string                      `json:"name"`
+	Schedule              *PolicySchedule             `json:"schedule"`
+	Section               *PolicySectionInfo          `json:"section"`
+	Service               *WanFirewallServiceType     `json:"service"`
+	Source                *WanFirewallSource          `json:"source"`
+	Tracking              *PolicyTracking             `json:"tracking"`
+	UserAttributes        *WanFirewallUserAttributes  `json:"userAttributes"`
 }
 
 func (WanFirewallRule) IsIPolicyRule() {}
@@ -16093,54 +16047,36 @@ func (this WanFirewallRule) GetSection() *PolicySectionInfo { return this.Sectio
 
 // Exceptions define when a rule is ignored, and the firewall policy evaluation continues with the lower priority rules.
 type WanFirewallRuleException struct {
-	// Application matching criteria for the exception.
-	Application *WanFirewallApplication `json:"application"`
-	// Connection origin matching criteria for the exception.
-	ConnectionOrigin ConnectionOriginEnum `json:"connectionOrigin"`
-	// Source country matching criteria for the exception.
-	Country []*CountryRef `json:"country"`
-	// Destination matching criteria for the exception.
-	Destination *WanFirewallDestination `json:"destination"`
-	// Source Device Profile matching criteria for the exception.
-	Device []*DeviceProfileRef `json:"device"`
-	// Source Device Attributes matching criteria for the exception.
-	DeviceAttributes *DeviceAttributes `json:"deviceAttributes"`
-	// Source device OS matching criteria for the exception.
-	DeviceOs []OperatingSystem `json:"deviceOS"`
-	// Direction origin matching criteria for the exception
-	Direction WanFirewallDirectionEnum `json:"direction"`
-	// A unique name of the rule exception.
-	Name string `json:"name"`
-	// Destination service matching criteria for the exception.
-	Service *WanFirewallServiceType `json:"service"`
-	// Source matching criteria for the exception.
-	Source *WanFirewallSource `json:"source"`
+	Application           *WanFirewallApplication    `json:"application"`
+	ConnectionOrigin      ConnectionOriginEnum       `json:"connectionOrigin"`
+	ConnectionsOriginList []ConnectionOriginsEnum    `json:"connectionsOriginList"`
+	Country               []*CountryRef              `json:"country"`
+	Destination           *WanFirewallDestination    `json:"destination"`
+	Device                []*DeviceProfileRef        `json:"device"`
+	DeviceAttributes      *DeviceAttributes          `json:"deviceAttributes"`
+	DeviceOs              []OperatingSystem          `json:"deviceOS"`
+	Direction             WanFirewallDirectionEnum   `json:"direction"`
+	Name                  string                     `json:"name"`
+	Service               *WanFirewallServiceType    `json:"service"`
+	Source                *WanFirewallSource         `json:"source"`
+	UserAttributes        *WanFirewallUserAttributes `json:"userAttributes"`
 }
 
 // Exceptions define when a rule is ignored, and the firewall policy evaluation continues with the lower priority rules.
 type WanFirewallRuleExceptionInput struct {
-	// Application matching criteria for the exception.
-	Application *WanFirewallApplicationInput `json:"application"`
-	// Connection origin matching criteria for the exception.
-	ConnectionOrigin ConnectionOriginEnum `json:"connectionOrigin"`
-	// Source country matching criteria for the exception.
-	Country []*CountryRefInput `json:"country"`
-	// Destination matching criteria for the exception.
-	Destination *WanFirewallDestinationInput `json:"destination"`
-	// Source Device Profile matching criteria for the exception.
-	Device []*DeviceProfileRefInput `json:"device"`
-	// Source Device Attributes matching criteria for the exception.
-	DeviceAttributes *DeviceAttributesInput `json:"deviceAttributes"`
-	// Source device OS matching criteria for the exception.
-	DeviceOs []OperatingSystem `json:"deviceOS"`
-	// Direction origin matching criteria for the exception
-	Direction WanFirewallDirectionEnum `json:"direction"`
-	// A unique name of the rule exception.
-	Name string `json:"name"`
-	// Destination service matching criteria for the exception.
-	Service *WanFirewallServiceTypeInput `json:"service"`
-	// Source matching criteria for the exception.
-	Source *WanFirewallSourceInput `json:"source"`
+	Application           *WanFirewallApplicationInput    `json:"application"`
+	ConnectionOrigin      ConnectionOriginEnum            `json:"connectionOrigin"`
+	ConnectionsOriginList []ConnectionOriginsEnum         `json:"connectionsOriginList"`
+	Country               []*CountryRefInput              `json:"country"`
+	Destination           *WanFirewallDestinationInput    `json:"destination"`
+	Device                []*DeviceProfileRefInput        `json:"device"`
+	DeviceAttributes      *DeviceAttributesInput          `json:"deviceAttributes"`
+	DeviceOs              []OperatingSystem               `json:"deviceOS"`
+	Direction             WanFirewallDirectionEnum        `json:"direction"`
+	Name                  string                          `json:"name"`
+	Service               *WanFirewallServiceTypeInput    `json:"service"`
+	Source                *WanFirewallSourceInput         `json:"source"`
+	UserAttributes        *WanFirewallUserAttributesInput `json:"userAttributes"`
 }
 
 type WanFirewallRuleMutationPayload struct {
@@ -16171,9 +16107,13 @@ func (this WanFirewallRuleMutationPayload) GetErrors() []*PolicyMutationError {
 
 // Wan Firewall policy information for a specific revision
 type WanFirewallRulePayload struct {
+	Access     *EntityAccess                 `json:"access"`
 	Audit      *PolicyElementAudit           `json:"audit"`
+	HitCount   *RuleHitCount                 `json:"hitCount,omitempty"`
 	Properties []PolicyElementPropertiesEnum `json:"properties"`
 	Rule       *WanFirewallRule              `json:"rule"`
+	RuleType   PolicyRuleTypeEnum            `json:"ruleType"`
+	SubPolicy  *WanFirewallPolicyRef         `json:"subPolicy,omitempty"`
 }
 
 func (WanFirewallRulePayload) IsIPolicyRulePayload()              {}
@@ -16214,155 +16154,119 @@ type WanFirewallServiceTypeUpdateInput struct {
 
 // Returns the settings for Source of an Wan Firewall rule
 type WanFirewallSource struct {
-	// Floating Subnets (ie. Floating Ranges) are used to identify traffic exactly matched to the route advertised by BGP.
-	// They are not associated with a specific site.
-	// This is useful in scenarios such as active-standby high availability routed via BGP.
-	FloatingSubnet []*FloatingSubnetRef `json:"floatingSubnet"`
-	// Globally defined IP range, IP and subnet objects
-	GlobalIPRange []*GlobalIPRangeRef `json:"globalIpRange"`
-	// Groups defined for your account
-	Group []*GroupRef `json:"group"`
-	// Hosts and servers defined for your account
-	Host []*HostRef `json:"host"`
-	// IPv4 address
-	IP []string `json:"ip"`
-	// Multiple separate IP addresses or an IP range
-	IPRange []*IPAddressRange `json:"ipRange"`
-	// Network range defined for a site
-	NetworkInterface []*NetworkInterfaceRef `json:"networkInterface"`
-	// Site defined for the account
-	Site []*SiteRef `json:"site"`
-	// GlobalRange + InterfaceSubnet
+	FloatingSubnet    []*FloatingSubnetRef    `json:"floatingSubnet"`
+	GlobalIPRange     []*GlobalIPRangeRef     `json:"globalIpRange"`
+	Group             []*GroupRef             `json:"group"`
+	Host              []*HostRef              `json:"host"`
+	IP                []string                `json:"ip"`
+	IPRange           []*IPAddressRange       `json:"ipRange"`
+	NetworkInterface  []*NetworkInterfaceRef  `json:"networkInterface"`
+	Site              []*SiteRef              `json:"site"`
 	SiteNetworkSubnet []*SiteNetworkSubnetRef `json:"siteNetworkSubnet"`
-	// Subnets and network ranges defined for the LAN interfaces of a site
-	Subnet []string `json:"subnet"`
-	// Predefined Cato groups
-	SystemGroup []*SystemGroupRef `json:"systemGroup"`
-	// Individual users defined for the account
-	User []*UserRef `json:"user"`
-	// Group of users
-	UsersGroup []*UsersGroupRef `json:"usersGroup"`
+	Subnet            []string                `json:"subnet"`
+	SystemGroup       []*SystemGroupRef       `json:"systemGroup"`
+	User              []*UserRef              `json:"user"`
+	UsersGroup        []*UsersGroupRef        `json:"usersGroup"`
 }
 
 // Input of the settings for Source of an Wan Firewall rule. To specify 'ANY' source, an empty list must be provided for each match criteria field (e.g. ip: [], group: [], etc...)
 type WanFirewallSourceInput struct {
-	// Floating Subnets (ie. Floating Ranges) are used to identify traffic exactly matched to the route advertised by BGP.
-	// They are not associated with a specific site.
-	// This is useful in scenarios such as active-standby high availability routed via BGP.
-	FloatingSubnet []*FloatingSubnetRefInput `json:"floatingSubnet"`
-	// Globally defined IP range, IP and subnet objects
-	GlobalIPRange []*GlobalIPRangeRefInput `json:"globalIpRange"`
-	// Groups defined for your account
-	Group []*GroupRefInput `json:"group"`
-	// Hosts and servers defined for your account
-	Host []*HostRefInput `json:"host"`
-	// IPv4 address
-	IP []string `json:"ip"`
-	// Multiple separate IP addresses or an IP range
-	IPRange []*IPAddressRangeInput `json:"ipRange"`
-	// Network range defined for a site
-	NetworkInterface []*NetworkInterfaceRefInput `json:"networkInterface"`
-	// Site defined for the account
-	Site []*SiteRefInput `json:"site"`
-	// GlobalRange + InterfaceSubnet
+	FloatingSubnet    []*FloatingSubnetRefInput    `json:"floatingSubnet"`
+	GlobalIPRange     []*GlobalIPRangeRefInput     `json:"globalIpRange"`
+	Group             []*GroupRefInput             `json:"group"`
+	Host              []*HostRefInput              `json:"host"`
+	IP                []string                     `json:"ip"`
+	IPRange           []*IPAddressRangeInput       `json:"ipRange"`
+	NetworkInterface  []*NetworkInterfaceRefInput  `json:"networkInterface"`
+	Site              []*SiteRefInput              `json:"site"`
 	SiteNetworkSubnet []*SiteNetworkSubnetRefInput `json:"siteNetworkSubnet"`
-	// Subnets and network ranges defined for the LAN interfaces of a site
-	Subnet []string `json:"subnet"`
-	// Predefined Cato groups
-	SystemGroup []*SystemGroupRefInput `json:"systemGroup"`
-	// Individual users defined for the account
-	User []*UserRefInput `json:"user"`
-	// Group of users
-	UsersGroup []*UsersGroupRefInput `json:"usersGroup"`
+	Subnet            []string                     `json:"subnet"`
+	SystemGroup       []*SystemGroupRefInput       `json:"systemGroup"`
+	User              []*UserRefInput              `json:"user"`
+	UsersGroup        []*UsersGroupRefInput        `json:"usersGroup"`
 }
 
 // Input of the settings for Source of an Wan Firewall rule. To specify 'ANY' source, an empty list must be provided for each match criteria field (e.g. ip: [], group: [], etc...)
 type WanFirewallSourceUpdateInput struct {
-	// Floating Subnets (ie. Floating Ranges) are used to identify traffic exactly matched to the route advertised by BGP.
-	// They are not associated with a specific site.
-	// This is useful in scenarios such as active-standby high availability routed via BGP.
-	FloatingSubnet []*FloatingSubnetRefInput `json:"floatingSubnet,omitempty"`
-	// Globally defined IP range, IP and subnet objects
-	GlobalIPRange []*GlobalIPRangeRefInput `json:"globalIpRange,omitempty"`
-	// Groups defined for your account
-	Group []*GroupRefInput `json:"group,omitempty"`
-	// Hosts and servers defined for your account
-	Host []*HostRefInput `json:"host,omitempty"`
-	// IPv4 address
-	IP []string `json:"ip,omitempty"`
-	// Multiple separate IP addresses or an IP range
-	IPRange []*IPAddressRangeInput `json:"ipRange,omitempty"`
-	// Network range defined for a site
-	NetworkInterface []*NetworkInterfaceRefInput `json:"networkInterface,omitempty"`
-	// Site defined for the account
-	Site []*SiteRefInput `json:"site,omitempty"`
-	// GlobalRange + InterfaceSubnet
+	FloatingSubnet    []*FloatingSubnetRefInput    `json:"floatingSubnet,omitempty"`
+	GlobalIPRange     []*GlobalIPRangeRefInput     `json:"globalIpRange,omitempty"`
+	Group             []*GroupRefInput             `json:"group,omitempty"`
+	Host              []*HostRefInput              `json:"host,omitempty"`
+	IP                []string                     `json:"ip,omitempty"`
+	IPRange           []*IPAddressRangeInput       `json:"ipRange,omitempty"`
+	NetworkInterface  []*NetworkInterfaceRefInput  `json:"networkInterface,omitempty"`
+	Site              []*SiteRefInput              `json:"site,omitempty"`
 	SiteNetworkSubnet []*SiteNetworkSubnetRefInput `json:"siteNetworkSubnet,omitempty"`
-	// Subnets and network ranges defined for the LAN interfaces of a site
-	Subnet []string `json:"subnet,omitempty"`
-	// Predefined Cato groups
-	SystemGroup []*SystemGroupRefInput `json:"systemGroup,omitempty"`
-	// Individual users defined for the account
-	User []*UserRefInput `json:"user,omitempty"`
-	// Group of users
-	UsersGroup []*UsersGroupRefInput `json:"usersGroup,omitempty"`
+	Subnet            []string                     `json:"subnet,omitempty"`
+	SystemGroup       []*SystemGroupRefInput       `json:"systemGroup,omitempty"`
+	User              []*UserRefInput              `json:"user,omitempty"`
+	UsersGroup        []*UsersGroupRefInput        `json:"usersGroup,omitempty"`
+}
+
+type WanFirewallSubPolicyPayload struct {
+	Access     *EntityAccess          `json:"access"`
+	Policy     *WanFirewallPolicyInfo `json:"policy"`
+	Properties []SubPolicyProperty    `json:"properties"`
+}
+
+func (WanFirewallSubPolicyPayload) IsSubPolicyPayload()        {}
+func (this WanFirewallSubPolicyPayload) GetPolicy() PolicyInfo { return *this.Policy }
+func (this WanFirewallSubPolicyPayload) GetProperties() []SubPolicyProperty {
+	if this.Properties == nil {
+		return nil
+	}
+	interfaceSlice := make([]SubPolicyProperty, 0, len(this.Properties))
+	for _, concrete := range this.Properties {
+		interfaceSlice = append(interfaceSlice, concrete)
+	}
+	return interfaceSlice
 }
 
 type WanFirewallUpdateRuleDataInput struct {
-	// The action applied by the Internet Firewall if the rule is matched
-	Action *WanFirewallActionEnum `json:"action,omitempty"`
-	// The time period during which the rule is active, outside this period, the rule is inactive
-	ActivePeriod *PolicyRuleActivePeriodUpdateInput `json:"activePeriod,omitempty"`
-	// Application traffic matching criteria.
-	// Logical ‘OR’ is applied within the criteria set.
-	// Logical ‘AND’ is applied between criteria sets.
-	Application *WanFirewallApplicationUpdateInput `json:"application,omitempty"`
-	// Connection origin of the traffic
-	ConnectionOrigin *ConnectionOriginEnum `json:"connectionOrigin,omitempty"`
-	// Source country traffic matching criteria.
-	// Logical ‘OR’ is applied within the criteria set.
-	// Logical ‘AND’ is applied between criteria sets.
-	Country     []*CountryRefInput `json:"country,omitempty"`
-	Description *string            `json:"description,omitempty"`
-	// Destination traffic matching criteria.
-	// Logical ‘OR’ is applied within the criteria set.
-	// Logical ‘AND’ is applied between criteria sets.
-	Destination *WanFirewallDestinationUpdateInput `json:"destination,omitempty"`
-	// Source Device Profile traffic matching criteria.
-	// Logical ‘OR’ is applied within the criteria set.
-	// Logical ‘AND’ is applied between criteria sets.
-	Device []*DeviceProfileRefInput `json:"device,omitempty"`
-	// Additional device attributes such as category, type, model, and manufacturer.
-	// Logical 'OR' is applied within the criteria set.
-	// Logical 'AND' is applied between criteria sets.
-	DeviceAttributes *DeviceAttributesUpdateInput `json:"deviceAttributes,omitempty"`
-	// Source device Operating System traffic matching criteria.
-	// Logical ‘OR’ is applied within the criteria set.
-	// Logical ‘AND’ is applied between criteria sets.
-	DeviceOs  []OperatingSystem         `json:"deviceOS,omitempty"`
-	Direction *WanFirewallDirectionEnum `json:"direction,omitempty"`
-	Enabled   *bool                     `json:"enabled,omitempty"`
-	// The set of exceptions for the rule.
-	// Exceptions define when the rule will be ignored and the firewall evaluation will continue with the lower priority rules.
-	Exceptions []*WanFirewallRuleExceptionInput `json:"exceptions,omitempty"`
-	Name       *string                          `json:"name,omitempty"`
-	// The time period specifying when the rule is enabled, otherwise it is disabled.
-	Schedule *PolicyScheduleUpdateInput `json:"schedule,omitempty"`
-	// Destination service traffic matching criteria.
-	// Logical ‘OR’ is applied within the criteria set.
-	// Logical ‘AND’ is applied between criteria sets.
-	Service *WanFirewallServiceTypeUpdateInput `json:"service,omitempty"`
-	// Source traffic matching criteria.
-	// Logical ‘OR’ is applied within the criteria set.
-	// Logical ‘AND’ is applied between criteria sets.
-	Source *WanFirewallSourceUpdateInput `json:"source,omitempty"`
-	// Tracking information when the rule is matched, such as events and notifications
-	Tracking *PolicyTrackingUpdateInput `json:"tracking,omitempty"`
+	Action                *WanFirewallActionEnum                `json:"action,omitempty"`
+	ActionConfig          *WanFirewallActionConfigUpdateInput   `json:"actionConfig,omitempty"`
+	ActivePeriod          *PolicyRuleActivePeriodUpdateInput    `json:"activePeriod,omitempty"`
+	Application           *WanFirewallApplicationUpdateInput    `json:"application,omitempty"`
+	ConnectionOrigin      *ConnectionOriginEnum                 `json:"connectionOrigin,omitempty"`
+	ConnectionsOriginList []ConnectionOriginsEnum               `json:"connectionsOriginList,omitempty"`
+	Country               []*CountryRefInput                    `json:"country,omitempty"`
+	Description           *string                               `json:"description,omitempty"`
+	Destination           *WanFirewallDestinationUpdateInput    `json:"destination,omitempty"`
+	Device                []*DeviceProfileRefInput              `json:"device,omitempty"`
+	DeviceAttributes      *DeviceAttributesUpdateInput          `json:"deviceAttributes,omitempty"`
+	DeviceOs              []OperatingSystem                     `json:"deviceOS,omitempty"`
+	Direction             *WanFirewallDirectionEnum             `json:"direction,omitempty"`
+	Enabled               *bool                                 `json:"enabled,omitempty"`
+	Exceptions            []*WanFirewallRuleExceptionInput      `json:"exceptions,omitempty"`
+	Name                  *string                               `json:"name,omitempty"`
+	Schedule              *PolicyScheduleUpdateInput            `json:"schedule,omitempty"`
+	Service               *WanFirewallServiceTypeUpdateInput    `json:"service,omitempty"`
+	Source                *WanFirewallSourceUpdateInput         `json:"source,omitempty"`
+	Tracking              *PolicyTrackingUpdateInput            `json:"tracking,omitempty"`
+	UserAttributes        *WanFirewallUserAttributesUpdateInput `json:"userAttributes,omitempty"`
 }
 
 type WanFirewallUpdateRuleInput struct {
 	ID   string                          `json:"id"`
 	Rule *WanFirewallUpdateRuleDataInput `json:"rule"`
+}
+
+type WanFirewallUserAttributes struct {
+	RiskScore           *RiskScoreCondition  `json:"riskScore"`
+	UserConfidenceLevel *UserConfidenceLevel `json:"userConfidenceLevel,omitempty"`
+}
+
+func (WanFirewallUserAttributes) IsUserAttributes()                      {}
+func (this WanFirewallUserAttributes) GetRiskScore() *RiskScoreCondition { return this.RiskScore }
+
+type WanFirewallUserAttributesInput struct {
+	RiskScore           *RiskScoreConditionInput `json:"riskScore"`
+	UserConfidenceLevel *UserConfidenceLevel     `json:"userConfidenceLevel,omitempty"`
+}
+
+type WanFirewallUserAttributesUpdateInput struct {
+	RiskScore           *RiskScoreConditionUpdateInput `json:"riskScore,omitempty"`
+	UserConfidenceLevel *UserConfidenceLevel           `json:"userConfidenceLevel,omitempty"`
 }
 
 type WanNetworkAddRuleDataInput struct {
@@ -20360,6 +20264,55 @@ func (e ConnectionOriginEnum) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
+type ConnectionOriginsEnum string
+
+const (
+	//  User is connecting from the Cato browser
+	ConnectionOriginsEnumRemoteBrowser ConnectionOriginsEnum = "REMOTE_BROWSER"
+	//  User is connecting from the client
+	ConnectionOriginsEnumRemoteClient ConnectionOriginsEnum = "REMOTE_CLIENT"
+	//  User is connecting from the browser extension
+	ConnectionOriginsEnumRemoteExtension ConnectionOriginsEnum = "REMOTE_EXTENSION"
+	//  User is connecting from the site
+	ConnectionOriginsEnumSite ConnectionOriginsEnum = "SITE"
+)
+
+var AllConnectionOriginsEnum = []ConnectionOriginsEnum{
+	ConnectionOriginsEnumRemoteBrowser,
+	ConnectionOriginsEnumRemoteClient,
+	ConnectionOriginsEnumRemoteExtension,
+	ConnectionOriginsEnumSite,
+}
+
+func (e ConnectionOriginsEnum) IsValid() bool {
+	switch e {
+	case ConnectionOriginsEnumRemoteBrowser, ConnectionOriginsEnumRemoteClient, ConnectionOriginsEnumRemoteExtension, ConnectionOriginsEnumSite:
+		return true
+	}
+	return false
+}
+
+func (e ConnectionOriginsEnum) String() string {
+	return string(e)
+}
+
+func (e *ConnectionOriginsEnum) UnmarshalGQL(v any) error {
+	str, ok := v.(string)
+	if !ok {
+		return fmt.Errorf("enums must be strings")
+	}
+
+	*e = ConnectionOriginsEnum(str)
+	if !e.IsValid() {
+		return fmt.Errorf("%s is not a valid ConnectionOriginsEnum", str)
+	}
+	return nil
+}
+
+func (e ConnectionOriginsEnum) MarshalGQL(w io.Writer) {
+	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
 type ConnectionTypeEnum string
 
 const (
@@ -22956,6 +22909,49 @@ func (e HaSubStatus) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
+type HostConfidenceLevelEnum string
+
+const (
+	HostConfidenceLevelEnumAny  HostConfidenceLevelEnum = "ANY"
+	HostConfidenceLevelEnumHigh HostConfidenceLevelEnum = "HIGH"
+	HostConfidenceLevelEnumLow  HostConfidenceLevelEnum = "LOW"
+)
+
+var AllHostConfidenceLevelEnum = []HostConfidenceLevelEnum{
+	HostConfidenceLevelEnumAny,
+	HostConfidenceLevelEnumHigh,
+	HostConfidenceLevelEnumLow,
+}
+
+func (e HostConfidenceLevelEnum) IsValid() bool {
+	switch e {
+	case HostConfidenceLevelEnumAny, HostConfidenceLevelEnumHigh, HostConfidenceLevelEnumLow:
+		return true
+	}
+	return false
+}
+
+func (e HostConfidenceLevelEnum) String() string {
+	return string(e)
+}
+
+func (e *HostConfidenceLevelEnum) UnmarshalGQL(v any) error {
+	str, ok := v.(string)
+	if !ok {
+		return fmt.Errorf("enums must be strings")
+	}
+
+	*e = HostConfidenceLevelEnum(str)
+	if !e.IsValid() {
+		return fmt.Errorf("%s is not a valid HostConfidenceLevelEnum", str)
+	}
+	return nil
+}
+
+func (e HostConfidenceLevelEnum) MarshalGQL(w io.Writer) {
+	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
 type IPSecV2InterfaceID string
 
 const (
@@ -23142,29 +23138,32 @@ func (e IlmmOnboardingStatus) MarshalGQL(w io.Writer) {
 type InternetFirewallActionEnum string
 
 const (
-	// Allow the network traffic to pass through the firewall.
+	//  Allow the network traffic to pass through the firewall.
 	InternetFirewallActionEnumAllow InternetFirewallActionEnum = "ALLOW"
-	// Deny the network traffic from passing through the firewall.
+	//  Deny the network traffic from passing through the firewall.
 	InternetFirewallActionEnumBlock InternetFirewallActionEnum = "BLOCK"
-	// Requests user confirmation to allow or block network traffic.
-	InternetFirewallActionEnumPrompt InternetFirewallActionEnum = "PROMPT"
-	// Apply Remote Browser Isolation (RBI) to the network traffic
-	InternetFirewallActionEnumRbi InternetFirewallActionEnum = "RBI"
-	// Added by brian
+	//  Redirect traffic to captive portal for authentication
 	InternetFirewallActionEnumCaptivePortal InternetFirewallActionEnum = "CAPTIVE_PORTAL"
+	//  Requests user confirmation to allow or block network traffic.
+	InternetFirewallActionEnumPrompt InternetFirewallActionEnum = "PROMPT"
+	//  Apply Remote Browser Isolation (RBI) to the network traffic
+	InternetFirewallActionEnumRbi InternetFirewallActionEnum = "RBI"
+	//  Indicates that a rule is used as a scoping rule for sub policies and does not take any action itself
+	InternetFirewallActionEnumSubPolicy InternetFirewallActionEnum = "SUB_POLICY"
 )
 
 var AllInternetFirewallActionEnum = []InternetFirewallActionEnum{
 	InternetFirewallActionEnumAllow,
 	InternetFirewallActionEnumBlock,
+	InternetFirewallActionEnumCaptivePortal,
 	InternetFirewallActionEnumPrompt,
 	InternetFirewallActionEnumRbi,
-	InternetFirewallActionEnumCaptivePortal,
+	InternetFirewallActionEnumSubPolicy,
 }
 
 func (e InternetFirewallActionEnum) IsValid() bool {
 	switch e {
-	case InternetFirewallActionEnumAllow, InternetFirewallActionEnumBlock, InternetFirewallActionEnumPrompt, InternetFirewallActionEnumRbi, InternetFirewallActionEnumCaptivePortal:
+	case InternetFirewallActionEnumAllow, InternetFirewallActionEnumBlock, InternetFirewallActionEnumCaptivePortal, InternetFirewallActionEnumPrompt, InternetFirewallActionEnumRbi, InternetFirewallActionEnumSubPolicy:
 		return true
 	}
 	return false
@@ -24904,6 +24903,49 @@ func (e PolicyRuleTrackingFrequencyEnum) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
+type PolicyRuleTypeEnum string
+
+const (
+	//  Indicate rule is a regular policy rule
+	PolicyRuleTypeEnumPolicyRule PolicyRuleTypeEnum = "POLICY_RULE"
+	//  Indicate the rule is a scoping context for sub policy
+	PolicyRuleTypeEnumSubPolicyScope PolicyRuleTypeEnum = "SUB_POLICY_SCOPE"
+)
+
+var AllPolicyRuleTypeEnum = []PolicyRuleTypeEnum{
+	PolicyRuleTypeEnumPolicyRule,
+	PolicyRuleTypeEnumSubPolicyScope,
+}
+
+func (e PolicyRuleTypeEnum) IsValid() bool {
+	switch e {
+	case PolicyRuleTypeEnumPolicyRule, PolicyRuleTypeEnumSubPolicyScope:
+		return true
+	}
+	return false
+}
+
+func (e PolicyRuleTypeEnum) String() string {
+	return string(e)
+}
+
+func (e *PolicyRuleTypeEnum) UnmarshalGQL(v any) error {
+	str, ok := v.(string)
+	if !ok {
+		return fmt.Errorf("enums must be strings")
+	}
+
+	*e = PolicyRuleTypeEnum(str)
+	if !e.IsValid() {
+		return fmt.Errorf("%s is not a valid PolicyRuleTypeEnum", str)
+	}
+	return nil
+}
+
+func (e PolicyRuleTypeEnum) MarshalGQL(w io.Writer) {
+	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
 type PolicySectionPositionEnum string
 
 const (
@@ -25543,6 +25585,58 @@ func (e *RiskLevelEnum) UnmarshalGQL(v any) error {
 }
 
 func (e RiskLevelEnum) MarshalGQL(w io.Writer) {
+	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+type RiskScore string
+
+const (
+	// User is considered extremely risky.
+	// Policies can block or heavily restrict WAN/Internet for such a user.
+	RiskScoreCritical RiskScore = "CRITICAL"
+	// User is considered significantly risky;
+	// multiple or persistent suspicious events.
+	RiskScoreHigh RiskScore = "HIGH"
+	//  Normal behavior.
+	RiskScoreLow RiskScore = "LOW"
+	// User shows some risky behavior (phishing-like activity, suspicious browsing, malware indicators, etc.),
+	// but not yet severe.
+	RiskScoreMedium RiskScore = "MEDIUM"
+)
+
+var AllRiskScore = []RiskScore{
+	RiskScoreCritical,
+	RiskScoreHigh,
+	RiskScoreLow,
+	RiskScoreMedium,
+}
+
+func (e RiskScore) IsValid() bool {
+	switch e {
+	case RiskScoreCritical, RiskScoreHigh, RiskScoreLow, RiskScoreMedium:
+		return true
+	}
+	return false
+}
+
+func (e RiskScore) String() string {
+	return string(e)
+}
+
+func (e *RiskScore) UnmarshalGQL(v any) error {
+	str, ok := v.(string)
+	if !ok {
+		return fmt.Errorf("enums must be strings")
+	}
+
+	*e = RiskScore(str)
+	if !e.IsValid() {
+		return fmt.Errorf("%s is not a valid RiskScore", str)
+	}
+	return nil
+}
+
+func (e RiskScore) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
@@ -27672,6 +27766,45 @@ func (e StoryVerdictEnum) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
+type SubPolicyProperty string
+
+const (
+	SubPolicyPropertyReadOnly SubPolicyProperty = "READ_ONLY"
+)
+
+var AllSubPolicyProperty = []SubPolicyProperty{
+	SubPolicyPropertyReadOnly,
+}
+
+func (e SubPolicyProperty) IsValid() bool {
+	switch e {
+	case SubPolicyPropertyReadOnly:
+		return true
+	}
+	return false
+}
+
+func (e SubPolicyProperty) String() string {
+	return string(e)
+}
+
+func (e *SubPolicyProperty) UnmarshalGQL(v any) error {
+	str, ok := v.(string)
+	if !ok {
+		return fmt.Errorf("enums must be strings")
+	}
+
+	*e = SubPolicyProperty(str)
+	if !e.IsValid() {
+		return fmt.Errorf("%s is not a valid SubPolicyProperty", str)
+	}
+	return nil
+}
+
+func (e SubPolicyProperty) MarshalGQL(w io.Writer) {
+	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
 type SubnetType string
 
 const (
@@ -28272,6 +28405,49 @@ func (e UnitType) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
+type UserConfidenceLevel string
+
+const (
+	UserConfidenceLevelAny  UserConfidenceLevel = "ANY"
+	UserConfidenceLevelHigh UserConfidenceLevel = "HIGH"
+	UserConfidenceLevelLow  UserConfidenceLevel = "LOW"
+)
+
+var AllUserConfidenceLevel = []UserConfidenceLevel{
+	UserConfidenceLevelAny,
+	UserConfidenceLevelHigh,
+	UserConfidenceLevelLow,
+}
+
+func (e UserConfidenceLevel) IsValid() bool {
+	switch e {
+	case UserConfidenceLevelAny, UserConfidenceLevelHigh, UserConfidenceLevelLow:
+		return true
+	}
+	return false
+}
+
+func (e UserConfidenceLevel) String() string {
+	return string(e)
+}
+
+func (e *UserConfidenceLevel) UnmarshalGQL(v any) error {
+	str, ok := v.(string)
+	if !ok {
+		return fmt.Errorf("enums must be strings")
+	}
+
+	*e = UserConfidenceLevel(str)
+	if !e.IsValid() {
+		return fmt.Errorf("%s is not a valid UserConfidenceLevel", str)
+	}
+	return nil
+}
+
+func (e UserConfidenceLevel) MarshalGQL(w io.Writer) {
+	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
 type UserRole string
 
 const (
@@ -28408,23 +28584,26 @@ func (e VrrpType) MarshalGQL(w io.Writer) {
 type WanFirewallActionEnum string
 
 const (
-	// Allow the network traffic to pass through the firewall.
+	//  Allow the network traffic to pass through the firewall.
 	WanFirewallActionEnumAllow WanFirewallActionEnum = "ALLOW"
-	// Deny the network traffic from passing through the firewall.
+	//  Deny the network traffic from passing through the firewall.
 	WanFirewallActionEnumBlock WanFirewallActionEnum = "BLOCK"
-	// Requests user confirmation to allow or block network traffic.
+	//  Requests user confirmation to allow or block network traffic.
 	WanFirewallActionEnumPrompt WanFirewallActionEnum = "PROMPT"
+	//  Indicates that a rule is used as a scoping rule for sub policies and does not take any action itself
+	WanFirewallActionEnumSubPolicy WanFirewallActionEnum = "SUB_POLICY"
 )
 
 var AllWanFirewallActionEnum = []WanFirewallActionEnum{
 	WanFirewallActionEnumAllow,
 	WanFirewallActionEnumBlock,
 	WanFirewallActionEnumPrompt,
+	WanFirewallActionEnumSubPolicy,
 }
 
 func (e WanFirewallActionEnum) IsValid() bool {
 	switch e {
-	case WanFirewallActionEnumAllow, WanFirewallActionEnumBlock, WanFirewallActionEnumPrompt:
+	case WanFirewallActionEnumAllow, WanFirewallActionEnumBlock, WanFirewallActionEnumPrompt, WanFirewallActionEnumSubPolicy:
 		return true
 	}
 	return false

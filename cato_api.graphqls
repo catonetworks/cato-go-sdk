@@ -6797,11 +6797,12 @@ enum PolicyElementPropertiesEnum {
 }
 
 interface PolicyInfo {
-  id: String!
-  name: String!
+  audit: PolicyAudit!
   description: String!
   enabled: Boolean!
-  audit: PolicyAudit!
+  id: ID!
+  name: String!
+  policyLevel: PolicyLevelEnum!
 }
 
 enum PolicyLevelEnum {
@@ -10124,86 +10125,47 @@ type UpdateSiteGeneralDetailsPayload {
 
 "The action applied by the Internet Firewall if the rule is matched"
 enum InternetFirewallActionEnum {
-  "Allow the network traffic to pass through the firewall."
+  """ Allow the network traffic to pass through the firewall. """
   ALLOW
-  "Deny the network traffic from passing through the firewall."
+  """ Deny the network traffic from passing through the firewall. """
   BLOCK
-  "Requests user confirmation to allow or block network traffic."
-  PROMPT
-  "Apply Remote Browser Isolation (RBI) to the network traffic"
-  RBI
-  "Added by brian"
+  """ Redirect traffic to captive portal for authentication """
   CAPTIVE_PORTAL
+  """ Requests user confirmation to allow or block network traffic. """
+  PROMPT
+  """ Apply Remote Browser Isolation (RBI) to the network traffic """
+  RBI
+  """ Indicates that a rule is used as a scoping rule for sub policies and does not take any action itself """
+  SUB_POLICY
 }
 
 input InternetFirewallAddRuleDataInput {
-  "The action applied by the Internet Firewall if the rule is matched"
   action: InternetFirewallActionEnum! = BLOCK
-  "The time period during which the rule is active, outside this period, the rule is inactive"
-  activePeriod: PolicyRuleActivePeriodInput! = {useEffectiveFrom: false, useExpiresAt: false}
-  "Connection origin of the traffic"
+  actionConfig: InternetFirewallActionConfigInput! = {userNotification:[],rbiProfile:[]}
+  activePeriod: PolicyRuleActivePeriodInput! = {useEffectiveFrom:false,useExpiresAt:false}
   connectionOrigin: ConnectionOriginEnum! = ANY
-  """
-  Source country traffic matching criteria.
-  Logical ‘OR’ is applied within the criteria set.
-  Logical ‘AND’ is applied between criteria sets.
-  """
+  connectionsOriginList: [ConnectionOriginsEnum!]! = []
+  connectionsOriginsList: [ConnectionOriginsEnum!]! = []
   country: [CountryRefInput!]! = []
   description: String! = ""
-  """
-  Destination traffic matching criteria.
-  Logical ‘OR’ is applied within the criteria set.
-  Logical ‘AND’ is applied between criteria sets.
-  """
-  destination: InternetFirewallDestinationInput! = {application: [], customApp: [], appCategory: [], customCategory: [], sanctionedAppsCategory: [], country: [], domain: [], fqdn: [], ip: [], subnet: [], ipRange: [], globalIpRange: [], remoteAsn: []}
-  """
-  Source Device Profile traffic matching criteria.
-  Logical ‘OR’ is applied within the criteria set.
-  Logical ‘AND’ is applied between criteria sets.
-  """
+  destination: InternetFirewallDestinationInput! = {application:[],customApp:[],appCategory:[],customCategory:[],sanctionedAppsCategory:[],country:[],domain:[],fqdn:[],ip:[],subnet:[],ipRange:[],globalIpRange:[],remoteAsn:[],containers:{fqdnContainer:[],ipAddressRangeContainer:[]},group:[]}
   device: [DeviceProfileRefInput!]! = []
-  """
-  Additional device attributes such as category, type, model, and manufacturer.
-  Logical 'OR' is applied within the criteria set.
-  Logical 'AND' is applied between criteria sets.
-  """
-  deviceAttributes: DeviceAttributesInput! = {category: [], type: [], model: [], manufacturer: [], os: [], osVersion: []}
-  """
-  Source device Operating System traffic matching criteria.
-  Logical ‘OR’ is applied within the criteria set.
-  Logical ‘AND’ is applied between criteria sets.
-  """
+  deviceAttributes: DeviceAttributesInput! = {category:[],type:[],model:[],manufacturer:[],os:[],osVersion:[]}
   deviceOS: [OperatingSystem!]! = []
   enabled: Boolean!
-  """
-  The set of exceptions for the rule.
-  Exceptions define when the rule will be ignored and the firewall evaluation will continue with the lower priority rules.
-  """
   exceptions: [InternetFirewallRuleExceptionInput!]! = []
   name: String!
-  "The time period specifying when the rule is enabled, otherwise it is disabled."
-  schedule: PolicyScheduleInput! = {activeOn: ALWAYS}
-  """
-  Destination service traffic matching criteria.
-  Logical ‘OR’ is applied within the criteria set.
-  Logical ‘AND’ is applied between criteria sets.
-  """
-  service: InternetFirewallServiceTypeInput = {standard: [], custom: []}
-  """
-  Source traffic matching criteria.
-  Logical ‘OR’ is applied within the criteria set.
-  Logical ‘AND’ is applied between criteria sets.
-  """
-  source: InternetFirewallSourceInput! = {ip: [], host: [], site: [], subnet: [], ipRange: [], globalIpRange: [], networkInterface: [], siteNetworkSubnet: [], floatingSubnet: [], user: [], usersGroup: [], group: [], systemGroup: []}
-  "Tracking information when the rule is matched, such as events and notifications"
-  tracking: PolicyTrackingInput! = {event: {enabled: false}, alert: {enabled: false, frequency: HOURLY, subscriptionGroup: [], webhook: [], mailingList: []}}
+  postureAttributes: PostureAttributesInput = {hostConfidenceLevel:ANY}
+  schedule: PolicyScheduleInput! = {activeOn:ALWAYS}
+  service: InternetFirewallServiceTypeInput! = {standard:[],custom:[]}
+  source: InternetFirewallSourceInput! = {ip:[],host:[],site:[],subnet:[],ipRange:[],globalIpRange:[],networkInterface:[],siteNetworkSubnet:[],floatingSubnet:[],user:[],usersGroup:[],group:[],systemGroup:[]}
+  tracking: PolicyTrackingInput! = {event:{enabled:false},alert:{enabled:false,frequency:HOURLY,subscriptionGroup:[],webhook:[],mailingList:[]}}
+  userAttributes: InternetFirewallUserAttributesInput! = {riskScore:{category:ANY,operator:GTE},userConfidenceLevel:ANY}
 }
 
 "Rule parameters and relevant position"
 input InternetFirewallAddRuleInput {
-  "Position of the rule in the policy"
   at: PolicyRulePositionInput
-  "Parameters for the rule you are adding"
   rule: InternetFirewallAddRuleDataInput!
 }
 
@@ -10224,129 +10186,85 @@ input InternetFirewallContainerUpdateInput {
 
 "Returns the settings for Destination of an Internet Firewall rule"
 type InternetFirewallDestination {
-  "Cato category of applications which are dynamically updated by Cato"
   appCategory: [ApplicationCategoryRef!]!
-  "Applications for the rule (pre-defined)"
   application: [ApplicationRef!]!
   containers: InternetFirewallContainer!
-  "Countries"
   country: [CountryRef!]!
-  "Custom (user-defined) applications"
   customApp: [CustomApplicationRef!]!
-  "Custom Categories – Groups of objects such as predefined and custom applications, predefined and custom services, domains, FQDNs etc."
   customCategory: [CustomCategoryRef!]!
-  "A Second-Level Domain (SLD). It matches all Top-Level Domains (TLD), and subdomains that include the Domain. Example: example.com."
   domain: [Domain!]!
-  "An exact match of the fully qualified domain (FQDN). Example: www.my.example.com."
   fqdn: [Fqdn!]!
-  "Globally defined IP range, IP and subnet objects"
   globalIpRange: [GlobalIpRangeRef!]!
-  "IPv4 addresses"
+  group: [GroupRef!]!
   ip: [IPAddress!]!
-  "A range of IPs. Every IP within the range will be matched"
   ipRange: [IpAddressRange!]!
-  "Remote Autonomous System Number (ASN)"
   remoteAsn: [Asn32!]!
-  "Sanctioned Cloud Applications - apps that are approved and generally represent an understood and acceptable level of risk in your organization."
   sanctionedAppsCategory: [SanctionedAppsCategoryRef!]!
-  "Network subnets in CIDR notation"
   subnet: [NetworkSubnet!]!
 }
 
 "Input of the settings for Destination of an Internet Firewall rule. To specify 'ANY' destination, an empty list must be provided for each match criteria field (e.g. application: [], country: [], etc...)"
 input InternetFirewallDestinationInput {
-  "Cato category of applications which are dynamically updated by Cato"
   appCategory: [ApplicationCategoryRefInput!]! = []
-  "Applications for the rule (pre-defined)"
   application: [ApplicationRefInput!]! = []
-  # containers: InternetFirewallContainerInput! = {fqdnContainer: [], ipAddressRangeContainer: []}
-  "Countries"
+  containers: InternetFirewallContainerInput! = {fqdnContainer:[],ipAddressRangeContainer:[]}
   country: [CountryRefInput!]! = []
-  "Custom (user-defined) applications"
   customApp: [CustomApplicationRefInput!]! = []
-  "Custom Categories – Groups of objects such as predefined and custom applications, predefined and custom services, domains, FQDNs etc."
   customCategory: [CustomCategoryRefInput!]! = []
-  "A Second-Level Domain (SLD). It matches all Top-Level Domains (TLD), and subdomains that include the Domain. Example: example.com."
   domain: [Domain!]! = []
-  "An exact match of the fully qualified domain (FQDN). Example: www.my.example.com."
   fqdn: [Fqdn!]! = []
-  "Globally defined IP range, IP and subnet objects"
   globalIpRange: [GlobalIpRangeRefInput!]! = []
-  "IPv4 addresses"
+  group: [GroupRefInput!]! = []
   ip: [IPAddress!]! = []
-  "A range of IPs. Every IP within the range will be matched"
   ipRange: [IpAddressRangeInput!]! = []
-  "Remote Autonomous System Number (ASN)"
   remoteAsn: [Asn32!]! = []
-  "Sanctioned Cloud Applications - apps that are approved and generally represent an understood and acceptable level of risk in your organization."
   sanctionedAppsCategory: [SanctionedAppsCategoryRefInput!]! = []
-  "Network subnets in CIDR notation"
   subnet: [NetworkSubnet!]! = []
 }
 
 "Input of the settings for Destination of an Internet Firewall rule. To specify 'ANY' destination, an empty list must be provided for each match criteria field (e.g. application: [], country: [], etc...)"
 input InternetFirewallDestinationUpdateInput {
-  "Cato category of applications which are dynamically updated by Cato"
   appCategory: [ApplicationCategoryRefInput!]
-  "Applications for the rule (pre-defined)"
   application: [ApplicationRefInput!]
-  # containers: InternetFirewallContainerUpdateInput
-  "Countries"
+  containers: InternetFirewallContainerUpdateInput
   country: [CountryRefInput!]
-  "Custom (user-defined) applications"
   customApp: [CustomApplicationRefInput!]
-  "Custom Categories – Groups of objects such as predefined and custom applications, predefined and custom services, domains, FQDNs etc."
   customCategory: [CustomCategoryRefInput!]
-  "A Second-Level Domain (SLD). It matches all Top-Level Domains (TLD), and subdomains that include the Domain. Example: example.com."
   domain: [Domain!]
-  "An exact match of the fully qualified domain (FQDN). Example: www.my.example.com."
   fqdn: [Fqdn!]
-  "Globally defined IP range, IP and subnet objects"
   globalIpRange: [GlobalIpRangeRefInput!]
-  "IPv4 addresses"
+  group: [GroupRefInput!]
   ip: [IPAddress!]
-  "A range of IPs. Every IP within the range will be matched"
   ipRange: [IpAddressRangeInput!]
-  "Remote Autonomous System Number (ASN)"
   remoteAsn: [Asn32!]
-  "Sanctioned Cloud Applications - apps that are approved and generally represent an understood and acceptable level of risk in your organization."
   sanctionedAppsCategory: [SanctionedAppsCategoryRefInput!]
-  "Network subnets in CIDR notation"
   subnet: [NetworkSubnet!]
 }
 
 type InternetFirewallPolicy implements IPolicy {
-  "Holds the complete set of access capabilities and limitations associated with the entity."
   access: EntityAccess!
   audit: PolicyAudit
-  "Description for the policy"
   description: String!
   enabled: Boolean!
-  "Policy ID"
+  hitCountAudit: PolicyHitCount
   id: ID!
-  "Name of the policy, the default name for the policy containing all sub-policies is 'Main'"
   name: String!
   revision: PolicyRevision
   rules: [InternetFirewallRulePayload!]!
   sections: [PolicySectionPayload!]!
+  subPolicies: [InternetFirewallSubPolicyPayload!]!
 }
 
 type InternetFirewallPolicyInfo implements PolicyInfo {
   audit: PolicyAudit!
   description: String!
   enabled: Boolean!
-  id: String!
+  id: ID!
   name: String!
+  policyLevel: PolicyLevelEnum!
 }
 
 input InternetFirewallPolicyInput {
-  """
-  A revision is a specific instance of the policy.
-   Unpublished revisions are working copies of the policy available to a specific
-   admin or a set of admins
-   Published revisions are revisions that were applied to the account network.
-   The last published revision is the active policy.
-  """
   revision: PolicyRevisionInput
 }
 
@@ -10358,8 +10276,8 @@ input InternetFirewallPolicyListFilterInput {
 
 input InternetFirewallPolicyListInput {
   filter: InternetFirewallPolicyListFilterInput
-  paging: PagingInput! = {limit: 100, from: 0}
-  sort: InternetFirewallPolicyListSortInput! = {name: {direction: ASC, priority: 1}, policyLevel: {direction: ASC, priority: 2}}
+  paging: PagingInput! = {limit:100,from:0}
+  sort: InternetFirewallPolicyListSortInput! = {name:{direction:ASC,priority:1},policyLevel:{direction:ASC,priority:2}}
 }
 
 type InternetFirewallPolicyListPayload implements PolicyListPayload {
@@ -10385,49 +10303,28 @@ type InternetFirewallPolicyMutationPayload implements IPolicyMutationPayload {
 
 "The Internet firewall Policy information returned to the caller in the API response."
 type InternetFirewallPolicyMutations {
-  "Add a new rule to the Internet Firewall policy."
   addRule(input: InternetFirewallAddRuleInput!): InternetFirewallRuleMutationPayload! @beta
-  """
-  Add a new section to the policy.
-  First section behaves as follows:
-  When the first section is created,  all the rules in the policy, including the default system rules, are automatically added to it.
-  The first section containing the default system rules can be modified but not deleted.
-  The first section will always remain first-in-policy, i.e. it cannot be moved, and not other sections can be moved or created before it.
-  """
   addSection(input: PolicyAddSectionInput!): PolicySectionMutationPayload! @beta
-  "Create the policy revision. Create a new empty policy revision."
+  addSubPolicy(input: InternetFirewallAddSubPolicyInput!): InternetFirewallAddSubPolicyMutationPayload! @beta
+  calculateHitCount: CalculateHitCountResponse! @beta
   createPolicyRevision(input: PolicyCreateRevisionInput!): InternetFirewallPolicyMutationPayload! @beta
-  "Discard the policy revision. All changes in this discarded revision are discarded, and the revision is deleted."
   discardPolicyRevision(input: PolicyDiscardRevisionInput): InternetFirewallPolicyMutationPayload! @beta
-  "Change the relative location of an existing rule within the Internet Firewall policy."
   moveRule(input: PolicyMoveRuleInput!): InternetFirewallRuleMutationPayload! @beta
-  """
-  Move a section to a new position within the policy.
-   The section will be anchored in the new position, i.e. other admins will not be able to move it, or reference it when moving other sections, until the modified policy revision is published.
-  """
   moveSection(input: PolicyMoveSectionInput!): PolicySectionMutationPayload! @beta
-  "Publish the policy revision. A published revision becomes the active policy, and its content is merged with all unpublished revisions for other admins."
   publishPolicyRevision(input: PolicyPublishRevisionInput): InternetFirewallPolicyMutationPayload! @beta
-  "Remove an existing rule from the Internet Firewall policy."
   removeRule(input: InternetFirewallRemoveRuleInput!): InternetFirewallRuleMutationPayload! @beta
-  "Delete an existing section. The first section in policy cannot be deleted."
   removeSection(input: PolicyRemoveSectionInput!): PolicySectionMutationPayload! @beta
+  removeSubPolicy(input: InternetFirewallRemoveSubPolicyInput!): InternetFirewallRemoveSubPolicyMutationPayload! @beta
   reorderPolicy(input: PolicyReorderInput!): InternetFirewallPolicyMutationPayload! @beta
-  """
-  Change the state of the policy, e.g. enable or disable the policy.
-  Applicable to the published policy only. State changes are applied immediately and not as part of publishing a policy revision.
-  """
+  resetRuleHitCount(input: ResetRuleHitCountsInput!): ResetRuleHitCountsResponse! @beta
   updatePolicy(input: InternetFirewallPolicyUpdateInput!): InternetFirewallPolicyMutationPayload! @beta
-  "Update an existing rule of the Internet Firewall policy."
   updateRule(input: InternetFirewallUpdateRuleInput!): InternetFirewallRuleMutationPayload! @beta
-  "Update policy section attributes"
   updateSection(input: PolicyUpdateSectionInput!): PolicySectionMutationPayload! @beta
 }
 
 type InternetFirewallPolicyQueries {
   policy(input: InternetFirewallPolicyInput): InternetFirewallPolicy! @beta
-  "Provides a list of all policies of Internet Firewall with filtering, pagination and sorting capabilities"
-  policyList(input: InternetFirewallPolicyListInput! = {sort: {name: {direction: ASC, priority: 1}, policyLevel: {direction: ASC, priority: 2}}, paging: {limit: 100, from: 0}}): InternetFirewallPolicyListPayload! @beta
+  policyList(input: InternetFirewallPolicyListInput! = {sort:{name:{direction:ASC,priority:1},policyLevel:{direction:ASC,priority:2}},paging:{limit:100,from:0}}): InternetFirewallPolicyListPayload! @beta
   revisions: PolicyRevisionsPayload @beta
 }
 
@@ -10440,122 +10337,64 @@ input InternetFirewallRemoveRuleInput {
 }
 
 type InternetFirewallRule implements IPolicyRule {
-  "The action applied by the Internet Firewall if the rule is matched"
   action: InternetFirewallActionEnum!
-  "The time period during which the rule is active, outside this period, the rule is inactive"
+  actionConfig: InternetFirewallActionConfig!
   activePeriod: PolicyRuleActivePeriod!
-  "Connection origin of the traffic"
   connectionOrigin: ConnectionOriginEnum!
-  """
-  Source country traffic matching criteria.
-  Logical ‘OR’ is applied within the criteria set.
-  Logical ‘AND’ is applied between criteria sets.
-  """
+  connectionsOriginList: [ConnectionOriginsEnum!]!
+  connectionsOriginsList: [ConnectionOriginsEnum!]!
   country: [CountryRef!]!
-  "Description for the rule"
   description: String!
-  """
-  Destination traffic matching criteria.
-  Logical ‘OR’ is applied within the criteria set.
-  Logical ‘AND’ is applied between criteria sets.
-  """
   destination: InternetFirewallDestination!
-  """
-  Source Device Profile traffic matching criteria.
-  Logical ‘OR’ is applied within the criteria set.
-  Logical ‘AND’ is applied between criteria sets.
-  """
   device: [DeviceProfileRef!]!
-  """
-  Additional device attributes such as category, type, model, and manufacturer.
-  Logical 'OR' is applied within the criteria set.
-  Logical 'AND' is applied between criteria sets.
-  """
   deviceAttributes: DeviceAttributes!
-  """
-  Source device Operating System traffic matching criteria.
-  Logical ‘OR’ is applied within the criteria set.
-  Logical ‘AND’ is applied between criteria sets.
-  """
   deviceOS: [OperatingSystem!]!
-  """
-  TRUE = Rule is enabled 
-   FALSE = Rule is disabled
-  """
   enabled: Boolean!
-  """
-  The set of exceptions for the rule.
-  Exceptions define when the rule will be ignored and the firewall evaluation will continue with the lower priority rules.
-  """
   exceptions: [InternetFirewallRuleException!]!
-  "Rule ID"
   id: ID!
-  "Position / priority of rule"
   index: Int!
-  "Name of the rule"
   name: String!
-  "The time period specifying when the rule is enabled, otherwise it is disabled."
+  postureAttributes: PostureAttributes
   schedule: PolicySchedule!
-  "Policy section where the rule is located"
   section: PolicySectionInfo!
-  """
-  Destination service traffic matching criteria.
-  Logical ‘OR’ is applied within the criteria set.
-  Logical ‘AND’ is applied between criteria sets.
-  """
   service: InternetFirewallServiceType!
-  """
-  Source traffic matching criteria.
-  Logical ‘OR’ is applied within the criteria set.
-  Logical ‘AND’ is applied between criteria sets.
-  """
   source: InternetFirewallSource!
-  "Tracking information when the rule is matched, such as events and notifications"
   tracking: PolicyTracking!
+  userAttributes: InternetFirewallUserAttributes!
 }
 
 "Exceptions define when a rule is ignored, and the firewall policy evaluation continues with the lower priority rules."
 type InternetFirewallRuleException {
-  "Connection origin matching criteria for the exception."
   connectionOrigin: ConnectionOriginEnum!
-  "Source country matching criteria for the exception."
+  connectionsOriginList: [ConnectionOriginsEnum!]!
+  connectionsOriginsList: [ConnectionOriginsEnum!]!
   country: [CountryRef!]!
-  "Destination matching criteria for the exception."
   destination: InternetFirewallDestination!
-  "Source Device Profile matching criteria for the exception."
   device: [DeviceProfileRef!]!
-  "Source Device Attributes matching criteria for the exception."
   deviceAttributes: DeviceAttributes!
-  "Source device OS matching criteria for the exception."
   deviceOS: [OperatingSystem!]!
-  "A unique name of the rule exception."
   name: String!
-  "Destination service matching criteria for the exception."
+  postureAttributes: PostureAttributes
   service: InternetFirewallServiceType!
-  "Source traffic matching criteria for the exception."
   source: InternetFirewallSource!
+  userAttributes: InternetFirewallUserAttributes!
 }
 
 "Exceptions define when a rule is ignored, and the firewall policy evaluation continues with the lower priority rules."
 input InternetFirewallRuleExceptionInput {
-  "Connection origin matching criteria for the exception."
   connectionOrigin: ConnectionOriginEnum! = ANY
-  "Source country matching criteria for the exception."
+  connectionsOriginList: [ConnectionOriginsEnum!]! = []
+  connectionsOriginsList: [ConnectionOriginsEnum!]! = []
   country: [CountryRefInput!]! = []
-  "Destination matching criteria for the exception."
-  destination: InternetFirewallDestinationInput! = {application: [], customApp: [], appCategory: [], customCategory: [], sanctionedAppsCategory: [], country: [], domain: [], fqdn: [], ip: [], subnet: [], ipRange: [], globalIpRange: [], remoteAsn: []}
-  "Source Device Profile matching criteria for the exception."
+  destination: InternetFirewallDestinationInput! = {application:[],customApp:[],appCategory:[],customCategory:[],sanctionedAppsCategory:[],country:[],domain:[],fqdn:[],ip:[],subnet:[],ipRange:[],globalIpRange:[],remoteAsn:[],containers:{fqdnContainer:[],ipAddressRangeContainer:[]},group:[]}
   device: [DeviceProfileRefInput!]! = []
-  "Source Device Attributes matching criteria for the exception."
-  deviceAttributes: DeviceAttributesInput! = {category: [], type: [], model: [], manufacturer: [], os: [], osVersion: []}
-  "Source device OS matching criteria for the exception."
+  deviceAttributes: DeviceAttributesInput! = {category:[],type:[],model:[],manufacturer:[],os:[],osVersion:[]}
   deviceOS: [OperatingSystem!]! = []
-  "A unique name of the rule exception."
   name: String!
-  "Destination service matching criteria for the exception."
-  service: InternetFirewallServiceTypeInput! = {standard: [], custom: []}
-  "Source traffic matching criteria for the exception."
-  source: InternetFirewallSourceInput! = {ip: [], host: [], site: [], subnet: [], ipRange: [], globalIpRange: [], networkInterface: [], siteNetworkSubnet: [], floatingSubnet: [], user: [], usersGroup: [], group: [], systemGroup: []}
+  postureAttributes: PostureAttributesInput = {hostConfidenceLevel:ANY}
+  service: InternetFirewallServiceTypeInput! = {standard:[],custom:[]}
+  source: InternetFirewallSourceInput! = {ip:[],host:[],site:[],subnet:[],ipRange:[],globalIpRange:[],networkInterface:[],siteNetworkSubnet:[],floatingSubnet:[],user:[],usersGroup:[],group:[],systemGroup:[]}
+  userAttributes: InternetFirewallUserAttributesInput! = {riskScore:{category:ANY,operator:GTE},userConfidenceLevel:ANY}
 }
 
 type InternetFirewallRuleMutationPayload implements IPolicyRuleMutationPayload {
@@ -10566,9 +10405,13 @@ type InternetFirewallRuleMutationPayload implements IPolicyRuleMutationPayload {
 
 "Internet Firewall policy information for a specific revision"
 type InternetFirewallRulePayload implements IPolicyRulePayload {
+  access: EntityAccess!
   audit: PolicyElementAudit!
+  hitCount: RuleHitCount
   properties: [PolicyElementPropertiesEnum!]!
   rule: InternetFirewallRule!
+  ruleType: PolicyRuleTypeEnum!
+  subPolicy: InternetFirewallPolicyRef
 }
 
 "Returns the Service Type to which this Internet Firewall rule applies"
@@ -10591,155 +10434,77 @@ input InternetFirewallServiceTypeUpdateInput {
 
 "Returns the settings for Source of an Internet Firewall rule"
 type InternetFirewallSource {
-  "Floating Subnets (ie. Floating Ranges) are used to identify traffic exactly matched to the route advertised by BGP. They are not associated with a specific site. This is useful in scenarios such as active-standby high availability routed via BGP."
   floatingSubnet: [FloatingSubnetRef!]!
-  "Globally defined IP range, IP and subnet objects"
   globalIpRange: [GlobalIpRangeRef!]!
-  "Groups defined for your account"
   group: [GroupRef!]!
-  "Hosts and servers defined for your account"
   host: [HostRef!]!
-  "IPv4 address"
   ip: [IPAddress!]!
-  "Multiple separate IP addresses or an IP range"
   ipRange: [IpAddressRange!]!
-  "Network range defined for a site"
   networkInterface: [NetworkInterfaceRef!]!
-  "Site defined for the account"
   site: [SiteRef!]!
-  "GlobalRange + InterfaceSubnet"
   siteNetworkSubnet: [SiteNetworkSubnetRef!]!
-  "Subnets and network ranges defined for the LAN interfaces of a site"
   subnet: [NetworkSubnet!]!
-  "Predefined Cato groups"
   systemGroup: [SystemGroupRef!]!
-  "Individual users defined for the account"
   user: [UserRef!]!
-  "Group of users"
   usersGroup: [UsersGroupRef!]!
 }
 
 "Input of the settings for Source of an Internet Firewall rule. To specify 'ANY' source, an empty list must be provided for each match criteria field (e.g. ip: [], group: [], etc...)"
 input InternetFirewallSourceInput {
-  "Floating Subnets (ie. Floating Ranges) are used to identify traffic exactly matched to the route advertised by BGP. They are not associated with a specific site. This is useful in scenarios such as active-standby high availability routed via BGP."
   floatingSubnet: [FloatingSubnetRefInput!]! = []
-  "Globally defined IP range, IP and subnet objects"
   globalIpRange: [GlobalIpRangeRefInput!]! = []
-  "Groups defined for your account"
   group: [GroupRefInput!]! = []
-  "Hosts and servers defined for your account"
   host: [HostRefInput!]! = []
-  "IPv4 address"
   ip: [IPAddress!]! = []
-  "Multiple separate IP addresses or an IP range"
   ipRange: [IpAddressRangeInput!]! = []
-  "Network range defined for a site"
   networkInterface: [NetworkInterfaceRefInput!]! = []
-  "Site defined for the account"
   site: [SiteRefInput!]! = []
-  "GlobalRange + InterfaceSubnet"
   siteNetworkSubnet: [SiteNetworkSubnetRefInput!]! = []
-  "Subnets and network ranges defined for the LAN interfaces of a site"
   subnet: [NetworkSubnet!]! = []
-  "Predefined Cato groups"
   systemGroup: [SystemGroupRefInput!]! = []
-  "Individual users defined for the account"
   user: [UserRefInput!]! = []
-  "Group of users"
   usersGroup: [UsersGroupRefInput!]! = []
 }
 
 "Input of the settings for Source of an Internet Firewall rule. To specify 'ANY' source, an empty list must be provided for each match criteria field (e.g. ip: [], group: [], etc...)"
 input InternetFirewallSourceUpdateInput {
-  "Floating Subnets (ie. Floating Ranges) are used to identify traffic exactly matched to the route advertised by BGP. They are not associated with a specific site. This is useful in scenarios such as active-standby high availability routed via BGP."
   floatingSubnet: [FloatingSubnetRefInput!]
-  "Globally defined IP range, IP and subnet objects"
   globalIpRange: [GlobalIpRangeRefInput!]
-  "Groups defined for your account"
   group: [GroupRefInput!]
-  "Hosts and servers defined for your account"
   host: [HostRefInput!]
-  "IPv4 address"
   ip: [IPAddress!]
-  "Multiple separate IP addresses or an IP range"
   ipRange: [IpAddressRangeInput!]
-  "Network range defined for a site"
   networkInterface: [NetworkInterfaceRefInput!]
-  "Site defined for the account"
   site: [SiteRefInput!]
-  "GlobalRange + InterfaceSubnet"
   siteNetworkSubnet: [SiteNetworkSubnetRefInput!]
-  "Subnets and network ranges defined for the LAN interfaces of a site"
   subnet: [NetworkSubnet!]
-  "Predefined Cato groups"
   systemGroup: [SystemGroupRefInput!]
-  "Individual users defined for the account"
   user: [UserRefInput!]
-  "Group of users"
   usersGroup: [UsersGroupRefInput!]
 }
 
 input InternetFirewallUpdateRuleDataInput {
-  "The action applied by the Internet Firewall if the rule is matched"
   action: InternetFirewallActionEnum
-  "The time period during which the rule is active, outside this period, the rule is inactive"
+  actionConfig: InternetFirewallActionConfigUpdateInput
   activePeriod: PolicyRuleActivePeriodUpdateInput
-  "Connection origin of the traffic"
   connectionOrigin: ConnectionOriginEnum
-  """
-  Source country traffic matching criteria.
-  Logical ‘OR’ is applied within the criteria set.
-  Logical ‘AND’ is applied between criteria sets.
-  """
+  connectionsOriginList: [ConnectionOriginsEnum!]
+  connectionsOriginsList: [ConnectionOriginsEnum!]
   country: [CountryRefInput!]
   description: String
-  """
-  Destination traffic matching criteria.
-  Logical ‘OR’ is applied within the criteria set.
-  Logical ‘AND’ is applied between criteria sets.
-  """
   destination: InternetFirewallDestinationUpdateInput
-  """
-  Source Device Profile traffic matching criteria.
-  Logical ‘OR’ is applied within the criteria set.
-  Logical ‘AND’ is applied between criteria sets.
-  """
   device: [DeviceProfileRefInput!]
-  """
-  Additional device attributes such as category, type, model, and manufacturer.
-  Logical 'OR' is applied within the criteria set.
-  Logical 'AND' is applied between criteria sets.
-  """
   deviceAttributes: DeviceAttributesUpdateInput
-  """
-  Source device Operating System traffic matching criteria.
-  Logical ‘OR’ is applied within the criteria set.
-  Logical ‘AND’ is applied between criteria sets.
-  """
   deviceOS: [OperatingSystem!]
   enabled: Boolean
-  """
-  The set of exceptions for the rule.
-  Exceptions define when the rule will be ignored and the firewall evaluation will continue with the lower priority rules.
-  """
   exceptions: [InternetFirewallRuleExceptionInput!]
   name: String
-  "The time period specifying when the rule is enabled, otherwise it is disabled."
+  postureAttributes: PostureAttributesUpdateInput
   schedule: PolicyScheduleUpdateInput
-  """
-  Destination service traffic matching criteria.
-  Logical ‘OR’ is applied within the criteria set.
-  Logical ‘AND’ is applied between criteria sets.
-  """
   service: InternetFirewallServiceTypeUpdateInput
-  """
-  Source traffic matching criteria.
-  Logical ‘OR’ is applied within the criteria set.
-  Logical ‘AND’ is applied between criteria sets.
-  """
   source: InternetFirewallSourceUpdateInput
-  "Tracking information when the rule is matched, such as events and notifications"
   tracking: PolicyTrackingUpdateInput
+  userAttributes: InternetFirewallUserAttributesUpdateInput
 }
 
 input InternetFirewallUpdateRuleInput {
@@ -10933,281 +10698,139 @@ input RemotePortFwdUpdateRuleInput {
 }
 
 enum WanFirewallActionEnum {
-  "Allow the network traffic to pass through the firewall."
+  """ Allow the network traffic to pass through the firewall. """
   ALLOW
-  "Deny the network traffic from passing through the firewall."
+  """ Deny the network traffic from passing through the firewall. """
   BLOCK
-  "Requests user confirmation to allow or block network traffic."
+  """ Requests user confirmation to allow or block network traffic. """
   PROMPT
+  """ Indicates that a rule is used as a scoping rule for sub policies and does not take any action itself """
+  SUB_POLICY
 }
 
 input WanFirewallAddRuleDataInput {
-  "The action applied by the Internet Firewall if the rule is matched"
   action: WanFirewallActionEnum! = BLOCK
-  "The time period during which the rule is active, outside this period, the rule is inactive"
-  activePeriod: PolicyRuleActivePeriodInput! = {useEffectiveFrom: false, useExpiresAt: false}
-  """
-  Application traffic matching criteria.
-  Logical ‘OR’ is applied within the criteria set.
-  Logical ‘AND’ is applied between criteria sets.
-  """
-  application: WanFirewallApplicationInput! = {application: [], appCategory: [], customApp: [], customCategory: [], sanctionedAppsCategory: [], domain: [], fqdn: [], ip: [], subnet: [], ipRange: [], globalIpRange: []}
-  "Connection origin of the traffic"
+  actionConfig: WanFirewallActionConfigInput! = {userNotification:[]}
+  activePeriod: PolicyRuleActivePeriodInput! = {useEffectiveFrom:false,useExpiresAt:false}
+  application: WanFirewallApplicationInput! = {application:[],appCategory:[],customApp:[],customCategory:[],sanctionedAppsCategory:[],domain:[],fqdn:[],ip:[],subnet:[],ipRange:[],globalIpRange:[]}
   connectionOrigin: ConnectionOriginEnum! = ANY
-  """
-  Source country traffic matching criteria.
-  Logical ‘OR’ is applied within the criteria set.
-  Logical ‘AND’ is applied between criteria sets.
-  """
+  connectionsOriginList: [ConnectionOriginsEnum!]! = []
   country: [CountryRefInput!]! = []
   description: String! = ""
-  """
-  Destination traffic matching criteria.
-  Logical ‘OR’ is applied within the criteria set.
-  Logical ‘AND’ is applied between criteria sets.
-  """
-  destination: WanFirewallDestinationInput! = {host: [], site: [], subnet: [], ip: [], ipRange: [], globalIpRange: [], networkInterface: [], siteNetworkSubnet: [], floatingSubnet: [], user: [], usersGroup: [], group: [], systemGroup: []}
-  """
-  Source Device Profile traffic matching criteria.
-  Logical ‘OR’ is applied within the criteria set.
-  Logical ‘AND’ is applied between criteria sets.
-  """
+  destination: WanFirewallDestinationInput! = {host:[],site:[],subnet:[],ip:[],ipRange:[],globalIpRange:[],networkInterface:[],siteNetworkSubnet:[],floatingSubnet:[],user:[],usersGroup:[],group:[],systemGroup:[]}
   device: [DeviceProfileRefInput!]! = []
-  """
-  Additional device attributes such as category, type, model, and manufacturer.
-  Logical 'OR' is applied within the criteria set.
-  Logical 'AND' is applied between criteria sets.
-  """
-  deviceAttributes: DeviceAttributesInput! = {category: [], type: [], model: [], manufacturer: [], os: [], osVersion: []}
-  """
-  Source device Operating System traffic matching criteria.
-  Logical ‘OR’ is applied within the criteria set.
-  Logical ‘AND’ is applied between criteria sets.
-  """
+  deviceAttributes: DeviceAttributesInput! = {category:[],type:[],model:[],manufacturer:[],os:[],osVersion:[]}
   deviceOS: [OperatingSystem!]! = []
   direction: WanFirewallDirectionEnum! = TO
   enabled: Boolean!
-  """
-  The set of exceptions for the rule.
-  Exceptions define when the rule will be ignored and the firewall evaluation will continue with the lower priority rules.
-  """
   exceptions: [WanFirewallRuleExceptionInput!]! = []
   name: String!
-  "The time period specifying when the rule is enabled, otherwise it is disabled."
-  schedule: PolicyScheduleInput! = {activeOn: ALWAYS}
-  """
-  Destination service traffic matching criteria.
-  Logical ‘OR’ is applied within the criteria set.
-  Logical ‘AND’ is applied between criteria sets.
-  """
-  service: WanFirewallServiceTypeInput! = {standard: [], custom: []}
-  """
-  Source traffic matching criteria.
-  Logical ‘OR’ is applied within the criteria set.
-  Logical ‘AND’ is applied between criteria sets.
-  """
-  source: WanFirewallSourceInput! = {host: [], site: [], subnet: [], ip: [], ipRange: [], globalIpRange: [], networkInterface: [], siteNetworkSubnet: [], floatingSubnet: [], user: [], usersGroup: [], group: [], systemGroup: []}
-  "Tracking information when the rule is matched, such as events and notifications"
-  tracking: PolicyTrackingInput! = {event: {enabled: false}, alert: {enabled: false, frequency: HOURLY, subscriptionGroup: [], webhook: [], mailingList: []}}
+  schedule: PolicyScheduleInput! = {activeOn:ALWAYS}
+  service: WanFirewallServiceTypeInput! = {standard:[],custom:[]}
+  source: WanFirewallSourceInput! = {host:[],site:[],subnet:[],ip:[],ipRange:[],globalIpRange:[],networkInterface:[],siteNetworkSubnet:[],floatingSubnet:[],user:[],usersGroup:[],group:[],systemGroup:[]}
+  tracking: PolicyTrackingInput! = {event:{enabled:false},alert:{enabled:false,frequency:HOURLY,subscriptionGroup:[],webhook:[],mailingList:[]}}
+  userAttributes: WanFirewallUserAttributesInput! = {riskScore:{category:ANY,operator:GTE},userConfidenceLevel:ANY}
 }
 
 "Rule parameters and relevant position"
 input WanFirewallAddRuleInput {
-  "Position of the rule in the policy"
   at: PolicyRulePositionInput
-  "Parameters for the rule you are adding"
   rule: WanFirewallAddRuleDataInput!
 }
 
 "Application match criteria set"
 type WanFirewallApplication {
-  "Cato category of applications which are dynamically updated by Cato"
   appCategory: [ApplicationCategoryRef!]!
-  "Applications for the rule (pre-defined)"
   application: [ApplicationRef!]!
-  "Custom (user-defined) applications"
   customApp: [CustomApplicationRef!]!
-  "Custom Categories – Groups of objects such as predefined and custom applications, predefined and custom services, domains, FQDNs etc."
   customCategory: [CustomCategoryRef!]!
-  """
-  A Second-Level Domain (SLD).
-  It matches all Top-Level Domains (TLD), and subdomains that include the Domain.
-  Example: example.com.
-  """
   domain: [Domain!]!
-  "An exact match of the fully qualified domain (FQDN). Example: www.my.example.com."
   fqdn: [Fqdn!]!
-  "Globally defined IP range, IP and subnet objects"
   globalIpRange: [GlobalIpRangeRef!]!
-  "IPv4 addresses"
   ip: [IPAddress!]!
-  "A range of IPs. Every IP within the range will be matched"
   ipRange: [IpAddressRange!]!
-  "Sanctioned Cloud Applications - apps that are approved and generally represent an understood and acceptable level of risk in your organization."
   sanctionedAppsCategory: [SanctionedAppsCategoryRef!]!
-  "Subnets and network ranges defined for the LAN interfaces of a site"
   subnet: [NetworkSubnet!]!
 }
 
 "Application match criteria set"
 input WanFirewallApplicationInput {
-  "Cato category of applications which are dynamically updated by Cato"
   appCategory: [ApplicationCategoryRefInput!]! = []
-  "Applications for the rule (pre-defined)"
   application: [ApplicationRefInput!]! = []
-  "Custom (user-defined) applications"
   customApp: [CustomApplicationRefInput!]! = []
-  "Custom Categories – Groups of objects such as predefined and custom applications, predefined and custom services, domains, FQDNs etc."
   customCategory: [CustomCategoryRefInput!]! = []
-  """
-  A Second-Level Domain (SLD).
-  It matches all Top-Level Domains (TLD), and subdomains that include the Domain.
-  Example: example.com.
-  """
   domain: [Domain!]! = []
-  "An exact match of the fully qualified domain (FQDN). Example: www.my.example.com."
   fqdn: [Fqdn!]! = []
-  "Globally defined IP range, IP and subnet objects"
   globalIpRange: [GlobalIpRangeRefInput!]! = []
-  "IPv4 addresses"
   ip: [IPAddress!]! = []
-  "A range of IPs. Every IP within the range will be matched"
   ipRange: [IpAddressRangeInput!]! = []
-  "Sanctioned Cloud Applications - apps that are approved and generally represent an understood and acceptable level of risk in your organization."
   sanctionedAppsCategory: [SanctionedAppsCategoryRefInput!]! = []
-  "Subnets and network ranges defined for the LAN interfaces of a site"
   subnet: [NetworkSubnet!]! = []
 }
 
 "Application match criteria set"
 input WanFirewallApplicationUpdateInput {
-  "Cato category of applications which are dynamically updated by Cato"
   appCategory: [ApplicationCategoryRefInput!]
-  "Applications for the rule (pre-defined)"
   application: [ApplicationRefInput!]
-  "Custom (user-defined) applications"
   customApp: [CustomApplicationRefInput!]
-  "Custom Categories – Groups of objects such as predefined and custom applications, predefined and custom services, domains, FQDNs etc."
   customCategory: [CustomCategoryRefInput!]
-  """
-  A Second-Level Domain (SLD).
-  It matches all Top-Level Domains (TLD), and subdomains that include the Domain.
-  Example: example.com.
-  """
   domain: [Domain!]
-  "An exact match of the fully qualified domain (FQDN). Example: www.my.example.com."
   fqdn: [Fqdn!]
-  "Globally defined IP range, IP and subnet objects"
   globalIpRange: [GlobalIpRangeRefInput!]
-  "IPv4 addresses"
   ip: [IPAddress!]
-  "A range of IPs. Every IP within the range will be matched"
   ipRange: [IpAddressRangeInput!]
-  "Sanctioned Cloud Applications - apps that are approved and generally represent an understood and acceptable level of risk in your organization."
   sanctionedAppsCategory: [SanctionedAppsCategoryRefInput!]
-  "Subnets and network ranges defined for the LAN interfaces of a site"
   subnet: [NetworkSubnet!]
 }
 
 "Returns the settings for Destination of a Wan Firewall rule"
 type WanFirewallDestination {
-  """
-  Floating Subnets (ie. Floating Ranges) are used to identify traffic exactly matched to the route advertised by BGP.
-  They are not associated with a specific site.
-  This is useful in scenarios such as active-standby high availability routed via BGP.
-  """
   floatingSubnet: [FloatingSubnetRef!]!
-  "Globally defined IP range, IP and subnet objects"
   globalIpRange: [GlobalIpRangeRef!]!
-  "Groups defined for your account"
   group: [GroupRef!]!
-  "Hosts and servers defined for your account"
   host: [HostRef!]!
-  "IPv4 address"
   ip: [IPAddress!]!
-  "Multiple separate IP addresses or an IP range"
   ipRange: [IpAddressRange!]!
-  "Network range defined for a site"
   networkInterface: [NetworkInterfaceRef!]!
-  "Site defined for the account"
   site: [SiteRef!]!
-  "GlobalRange + InterfaceSubnet"
   siteNetworkSubnet: [SiteNetworkSubnetRef!]!
-  "Subnets and network ranges defined for the LAN interfaces of a site"
   subnet: [NetworkSubnet!]!
-  "Predefined Cato groups"
   systemGroup: [SystemGroupRef!]!
-  "Individual users defined for the account"
   user: [UserRef!]!
-  "Group of users"
   usersGroup: [UsersGroupRef!]!
 }
 
 "Input of the settings for Destination of a Wan Firewall rule. To specify 'ANY' destination, an empty list must be provided for each match criteria field (e.g. ip: [], group: [], etc...)"
 input WanFirewallDestinationInput {
-  """
-  Floating Subnets (ie. Floating Ranges) are used to identify traffic exactly matched to the route advertised by BGP.
-  They are not associated with a specific site.
-  This is useful in scenarios such as active-standby high availability routed via BGP.
-  """
   floatingSubnet: [FloatingSubnetRefInput!]! = []
-  "Globally defined IP range, IP and subnet objects"
   globalIpRange: [GlobalIpRangeRefInput!]! = []
-  "Groups defined for your account"
   group: [GroupRefInput!]! = []
-  "Hosts and servers defined for your account"
   host: [HostRefInput!]! = []
-  "IPv4 address"
   ip: [IPAddress!]! = []
-  "Multiple separate IP addresses or an IP range"
   ipRange: [IpAddressRangeInput!]! = []
-  "Network range defined for a site"
   networkInterface: [NetworkInterfaceRefInput!]! = []
-  "Site defined for the account"
   site: [SiteRefInput!]! = []
-  "GlobalRange + InterfaceSubnet"
   siteNetworkSubnet: [SiteNetworkSubnetRefInput!]! = []
-  "Subnets and network ranges defined for the LAN interfaces of a site"
   subnet: [NetworkSubnet!]! = []
-  "Predefined Cato groups"
   systemGroup: [SystemGroupRefInput!]! = []
-  "Individual users defined for the account"
   user: [UserRefInput!]! = []
-  "Group of users"
   usersGroup: [UsersGroupRefInput!]! = []
 }
 
 "Input of the settings for Destination of a Wan Firewall rule. To specify 'ANY' destination, an empty list must be provided for each match criteria field (e.g. ip: [], group: [], etc...)"
 input WanFirewallDestinationUpdateInput {
-  """
-  Floating Subnets (ie. Floating Ranges) are used to identify traffic exactly matched to the route advertised by BGP.
-  They are not associated with a specific site.
-  This is useful in scenarios such as active-standby high availability routed via BGP.
-  """
   floatingSubnet: [FloatingSubnetRefInput!]
-  "Globally defined IP range, IP and subnet objects"
   globalIpRange: [GlobalIpRangeRefInput!]
-  "Groups defined for your account"
   group: [GroupRefInput!]
-  "Hosts and servers defined for your account"
   host: [HostRefInput!]
-  "IPv4 address"
   ip: [IPAddress!]
-  "Multiple separate IP addresses or an IP range"
   ipRange: [IpAddressRangeInput!]
-  "Network range defined for a site"
   networkInterface: [NetworkInterfaceRefInput!]
-  "Site defined for the account"
   site: [SiteRefInput!]
-  "GlobalRange + InterfaceSubnet"
   siteNetworkSubnet: [SiteNetworkSubnetRefInput!]
-  "Subnets and network ranges defined for the LAN interfaces of a site"
   subnet: [NetworkSubnet!]
-  "Predefined Cato groups"
   systemGroup: [SystemGroupRefInput!]
-  "Individual users defined for the account"
   user: [UserRefInput!]
-  "Group of users"
   usersGroup: [UsersGroupRefInput!]
 }
 
@@ -11217,36 +10840,29 @@ enum WanFirewallDirectionEnum {
 }
 
 type WanFirewallPolicy implements IPolicy {
+  access: EntityAccess!
   audit: PolicyAudit
-  "Description for the policy"
   description: String!
   enabled: Boolean!
-  "Policy ID"
-  id: String!
-  "Name of the policy, the default name for the policy containing all sub-policies is 'Main'"
+  hitCountAudit: PolicyHitCount
+  id: ID!
   name: String!
   revision: PolicyRevision
   rules: [WanFirewallRulePayload!]!
   sections: [PolicySectionPayload!]!
+  subPolicies: [WanFirewallSubPolicyPayload!]!
 }
 
 type WanFirewallPolicyInfo implements PolicyInfo {
   audit: PolicyAudit!
   description: String!
   enabled: Boolean!
-  id: String!
+  id: ID!
   name: String!
   policyLevel: PolicyLevelEnum!
 }
 
 input WanFirewallPolicyInput {
-  """
-  A revision is a specific instance of the policy.
-   Unpublished revisions are working copies of the policy available to a specific
-   admin or a set of admins
-   Published revisions are revisions that were applied to the account network.
-   The last published revision is the active policy.
-  """
   revision: PolicyRevisionInput
 }
 
@@ -11258,8 +10874,8 @@ input WanFirewallPolicyListFilterInput {
 
 input WanFirewallPolicyListInput {
   filter: WanFirewallPolicyListFilterInput
-  paging: PagingInput! = {limit: 100, from: 0}
-  sort: WanFirewallPolicyListSortInput! = {name: {direction: ASC, priority: 1}, policyLevel: {direction: ASC, priority: 2}}
+  paging: PagingInput! = {limit:100,from:0}
+  sort: WanFirewallPolicyListSortInput! = {name:{direction:ASC,priority:1},policyLevel:{direction:ASC,priority:2}}
 }
 
 type WanFirewallPolicyListPayload implements PolicyListPayload {
@@ -11285,50 +10901,32 @@ type WanFirewallPolicyMutationPayload implements IPolicyMutationPayload {
 
 "The Wan Firewall Policy information returned to the caller in the API response."
 type WanFirewallPolicyMutations {
-  "Add a new rule to the Wan Firewall policy."
   addRule(input: WanFirewallAddRuleInput!): WanFirewallRuleMutationPayload! @beta
-  """
-  Add a new section to the policy.
-  First section behaves as follows:
-  When the first section is created,  all the rules in the policy, including the default system rules, are automatically added to it.
-  The first section containing the default system rules can be modified but not deleted.
-  The first section will always remain first-in-policy, i.e. it cannot be moved, and not other sections can be moved or created before it.
-  """
   addSection(input: PolicyAddSectionInput!): PolicySectionMutationPayload! @beta
+  addSubPolicy(input: WanFirewallAddSubPolicyInput!): WanFirewallAddSubPolicyMutationPayload! @beta
+  calculateHitCount: CalculateHitCountResponse! @beta
   createPolicyRevision(input: PolicyCreateRevisionInput!): WanFirewallPolicyMutationPayload! @beta
   discardPolicyRevision(input: PolicyDiscardRevisionInput): WanFirewallPolicyMutationPayload! @beta
-  "Change the relative location of an existing rule within the Wan Firewall policy."
   moveRule(input: PolicyMoveRuleInput!): WanFirewallRuleMutationPayload! @beta
-  """
-  Move a section to a new position within the policy.
-   The section will be anchored in the new position, i.e. other admins will not be able to move it, or reference it when moving other sections, until the modified policy revision is published.
-  """
   moveSection(input: PolicyMoveSectionInput!): PolicySectionMutationPayload! @beta
   publishPolicyRevision(input: PolicyPublishRevisionInput): WanFirewallPolicyMutationPayload! @beta
-  "Remove an existing rule from the Wan Firewall policy."
   removeRule(input: WanFirewallRemoveRuleInput!): WanFirewallRuleMutationPayload! @beta
-  "Delete an existing section. The first section in policy cannot be deleted."
   removeSection(input: PolicyRemoveSectionInput!): PolicySectionMutationPayload! @beta
+  removeSubPolicy(input: WanFirewallRemoveSubPolicyInput!): WanFirewallRemoveSubPolicyMutationPayload! @beta
   reorderPolicy(input: PolicyReorderInput!): WanFirewallPolicyMutationPayload! @beta
-  """
-  Change the state of the policy, e.g. enable or disable the policy.
-  Applicable to the published policy only. State changes are applied immediately and not as part of publishing a policy revision.
-  """
+  resetRuleHitCount(input: ResetRuleHitCountsInput!): ResetRuleHitCountsResponse! @beta
   updatePolicy(input: WanFirewallPolicyUpdateInput!): WanFirewallPolicyMutationPayload! @beta
-  "Update an existing rule of the Wan Firewall policy."
   updateRule(input: WanFirewallUpdateRuleInput!): WanFirewallRuleMutationPayload! @beta
-  "Update policy section attributes"
   updateSection(input: PolicyUpdateSectionInput!): PolicySectionMutationPayload! @beta
 }
 
 type WanFirewallPolicyQueries {
   policy(input: WanFirewallPolicyInput): WanFirewallPolicy! @beta
-  "Provides a list of all policies of Wan Firewall with filtering, pagination and sorting capabilities"
-  policyList(input: WanFirewallPolicyListInput! = {sort: {name: {direction: ASC, priority: 1}, policyLevel: {direction: ASC, priority: 2}}, paging: {limit: 100, from: 0}}): WanFirewallPolicyListPayload! @beta
+  policyList(input: WanFirewallPolicyListInput! = {sort:{name:{direction:ASC,priority:1},policyLevel:{direction:ASC,priority:2}},paging:{limit:100,from:0}}): WanFirewallPolicyListPayload! @beta
   revisions: PolicyRevisionsPayload @beta
 }
 
-type WanFirewallPolicyRef implements PolicyRef & ObjectRef {
+type WanFirewallPolicyRef implements ObjectRef & PolicyRef {
   id: ID!
   name: String!
 }
@@ -11347,137 +10945,64 @@ input WanFirewallRemoveRuleInput {
 }
 
 type WanFirewallRule implements IPolicyRule {
-  "The action applied by the Internet Firewall if the rule is matched"
   action: WanFirewallActionEnum!
-  "The time period during which the rule is active, outside this period, the rule is inactive"
+  actionConfig: WanFirewallActionConfig!
   activePeriod: PolicyRuleActivePeriod!
-  """
-  Application traffic matching criteria.
-  Logical ‘OR’ is applied within the criteria set.
-  Logical ‘AND’ is applied between criteria sets.
-  """
   application: WanFirewallApplication!
-  "Connection origin of the traffic"
   connectionOrigin: ConnectionOriginEnum!
-  """
-  Source country traffic matching criteria.
-  Logical ‘OR’ is applied within the criteria set.
-  Logical ‘AND’ is applied between criteria sets.
-  """
+  connectionsOriginList: [ConnectionOriginsEnum!]!
   country: [CountryRef!]!
-  "Description for the rule"
   description: String!
-  """
-  Destination traffic matching criteria.
-  Logical ‘OR’ is applied within the criteria set.
-  Logical ‘AND’ is applied between criteria sets.
-  """
   destination: WanFirewallDestination!
-  """
-  Source Device Profile traffic matching criteria.
-  Logical ‘OR’ is applied within the criteria set.
-  Logical ‘AND’ is applied between criteria sets.
-  """
   device: [DeviceProfileRef!]!
-  """
-  Additional device attributes such as category, type, model, and manufacturer.
-  Logical 'OR' is applied within the criteria set.
-  Logical 'AND' is applied between criteria sets.
-  """
   deviceAttributes: DeviceAttributes!
-  """
-  Source device Operating System traffic matching criteria.
-  Logical ‘OR’ is applied within the criteria set.
-  Logical ‘AND’ is applied between criteria sets.
-  """
   deviceOS: [OperatingSystem!]!
   direction: WanFirewallDirectionEnum!
-  """
-  TRUE = Rule is enabled 
-   FALSE = Rule is disabled
-  """
   enabled: Boolean!
-  """
-  The set of exceptions for the rule.
-  Exceptions define when the rule will be ignored and the firewall evaluation will continue with the lower priority rules.
-  """
   exceptions: [WanFirewallRuleException!]!
-  "Rule ID"
   id: ID!
-  "Position / priority of rule"
   index: Int!
-  "Name of the rule"
   name: String!
-  "The time period specifying when the rule is enabled, otherwise it is disabled."
   schedule: PolicySchedule!
-  "Policy section where the rule is located"
   section: PolicySectionInfo!
-  """
-  Destination service traffic matching criteria.
-  Logical ‘OR’ is applied within the criteria set.
-  Logical ‘AND’ is applied between criteria sets.
-  """
   service: WanFirewallServiceType!
-  """
-  Source traffic matching criteria.
-  Logical ‘OR’ is applied within the criteria set.
-  Logical ‘AND’ is applied between criteria sets.
-  """
   source: WanFirewallSource!
-  "Tracking information when the rule is matched, such as events and notifications"
   tracking: PolicyTracking!
+  userAttributes: WanFirewallUserAttributes!
 }
 
 "Exceptions define when a rule is ignored, and the firewall policy evaluation continues with the lower priority rules."
 type WanFirewallRuleException {
-  "Application matching criteria for the exception."
   application: WanFirewallApplication!
-  "Connection origin matching criteria for the exception."
   connectionOrigin: ConnectionOriginEnum!
-  "Source country matching criteria for the exception."
+  connectionsOriginList: [ConnectionOriginsEnum!]!
   country: [CountryRef!]!
-  "Destination matching criteria for the exception."
   destination: WanFirewallDestination!
-  "Source Device Profile matching criteria for the exception."
   device: [DeviceProfileRef!]!
-  "Source Device Attributes matching criteria for the exception."
   deviceAttributes: DeviceAttributes!
-  "Source device OS matching criteria for the exception."
   deviceOS: [OperatingSystem!]!
-  "Direction origin matching criteria for the exception"
   direction: WanFirewallDirectionEnum!
-  "A unique name of the rule exception."
   name: String!
-  "Destination service matching criteria for the exception."
   service: WanFirewallServiceType!
-  "Source matching criteria for the exception."
   source: WanFirewallSource!
+  userAttributes: WanFirewallUserAttributes!
 }
 
 "Exceptions define when a rule is ignored, and the firewall policy evaluation continues with the lower priority rules."
 input WanFirewallRuleExceptionInput {
-  "Application matching criteria for the exception."
-  application: WanFirewallApplicationInput! = {application: [], appCategory: [], customApp: [], customCategory: [], sanctionedAppsCategory: [], domain: [], fqdn: [], ip: [], subnet: [], ipRange: [], globalIpRange: []}
-  "Connection origin matching criteria for the exception."
+  application: WanFirewallApplicationInput! = {application:[],appCategory:[],customApp:[],customCategory:[],sanctionedAppsCategory:[],domain:[],fqdn:[],ip:[],subnet:[],ipRange:[],globalIpRange:[]}
   connectionOrigin: ConnectionOriginEnum! = ANY
-  "Source country matching criteria for the exception."
+  connectionsOriginList: [ConnectionOriginsEnum!]! = []
   country: [CountryRefInput!]! = []
-  "Destination matching criteria for the exception."
-  destination: WanFirewallDestinationInput! = {host: [], site: [], subnet: [], ip: [], ipRange: [], globalIpRange: [], networkInterface: [], siteNetworkSubnet: [], floatingSubnet: [], user: [], usersGroup: [], group: [], systemGroup: []}
-  "Source Device Profile matching criteria for the exception."
+  destination: WanFirewallDestinationInput! = {host:[],site:[],subnet:[],ip:[],ipRange:[],globalIpRange:[],networkInterface:[],siteNetworkSubnet:[],floatingSubnet:[],user:[],usersGroup:[],group:[],systemGroup:[]}
   device: [DeviceProfileRefInput!]! = []
-  "Source Device Attributes matching criteria for the exception."
-  deviceAttributes: DeviceAttributesInput! = {category: [], type: [], model: [], manufacturer: [], os: [], osVersion: []}
-  "Source device OS matching criteria for the exception."
+  deviceAttributes: DeviceAttributesInput! = {category:[],type:[],model:[],manufacturer:[],os:[],osVersion:[]}
   deviceOS: [OperatingSystem!]! = []
-  "Direction origin matching criteria for the exception"
   direction: WanFirewallDirectionEnum! = TO
-  "A unique name of the rule exception."
   name: String!
-  "Destination service matching criteria for the exception."
-  service: WanFirewallServiceTypeInput! = {standard: [], custom: []}
-  "Source matching criteria for the exception."
-  source: WanFirewallSourceInput! = {host: [], site: [], subnet: [], ip: [], ipRange: [], globalIpRange: [], networkInterface: [], siteNetworkSubnet: [], floatingSubnet: [], user: [], usersGroup: [], group: [], systemGroup: []}
+  service: WanFirewallServiceTypeInput! = {standard:[],custom:[]}
+  source: WanFirewallSourceInput! = {host:[],site:[],subnet:[],ip:[],ipRange:[],globalIpRange:[],networkInterface:[],siteNetworkSubnet:[],floatingSubnet:[],user:[],usersGroup:[],group:[],systemGroup:[]}
+  userAttributes: WanFirewallUserAttributesInput! = {riskScore:{category:ANY,operator:GTE},userConfidenceLevel:ANY}
 }
 
 type WanFirewallRuleMutationPayload implements IPolicyRuleMutationPayload {
@@ -11488,9 +11013,13 @@ type WanFirewallRuleMutationPayload implements IPolicyRuleMutationPayload {
 
 "Wan Firewall policy information for a specific revision"
 type WanFirewallRulePayload implements IPolicyRulePayload {
+  access: EntityAccess!
   audit: PolicyElementAudit!
+  hitCount: RuleHitCount
   properties: [PolicyElementPropertiesEnum!]!
   rule: WanFirewallRule!
+  ruleType: PolicyRuleTypeEnum!
+  subPolicy: WanFirewallPolicyRef
 }
 
 "Returns the Service Type to which this Wan Firewall rule applies"
@@ -11513,174 +11042,77 @@ input WanFirewallServiceTypeUpdateInput {
 
 "Returns the settings for Source of an Wan Firewall rule"
 type WanFirewallSource {
-  """
-  Floating Subnets (ie. Floating Ranges) are used to identify traffic exactly matched to the route advertised by BGP.
-  They are not associated with a specific site.
-  This is useful in scenarios such as active-standby high availability routed via BGP.
-  """
   floatingSubnet: [FloatingSubnetRef!]!
-  "Globally defined IP range, IP and subnet objects"
   globalIpRange: [GlobalIpRangeRef!]!
-  "Groups defined for your account"
   group: [GroupRef!]!
-  "Hosts and servers defined for your account"
   host: [HostRef!]!
-  "IPv4 address"
   ip: [IPAddress!]!
-  "Multiple separate IP addresses or an IP range"
   ipRange: [IpAddressRange!]!
-  "Network range defined for a site"
   networkInterface: [NetworkInterfaceRef!]!
-  "Site defined for the account"
   site: [SiteRef!]!
-  "GlobalRange + InterfaceSubnet"
   siteNetworkSubnet: [SiteNetworkSubnetRef!]!
-  "Subnets and network ranges defined for the LAN interfaces of a site"
   subnet: [NetworkSubnet!]!
-  "Predefined Cato groups"
   systemGroup: [SystemGroupRef!]!
-  "Individual users defined for the account"
   user: [UserRef!]!
-  "Group of users"
   usersGroup: [UsersGroupRef!]!
 }
 
 "Input of the settings for Source of an Wan Firewall rule. To specify 'ANY' source, an empty list must be provided for each match criteria field (e.g. ip: [], group: [], etc...)"
 input WanFirewallSourceInput {
-  """
-  Floating Subnets (ie. Floating Ranges) are used to identify traffic exactly matched to the route advertised by BGP.
-  They are not associated with a specific site.
-  This is useful in scenarios such as active-standby high availability routed via BGP.
-  """
   floatingSubnet: [FloatingSubnetRefInput!]! = []
-  "Globally defined IP range, IP and subnet objects"
   globalIpRange: [GlobalIpRangeRefInput!]! = []
-  "Groups defined for your account"
   group: [GroupRefInput!]! = []
-  "Hosts and servers defined for your account"
   host: [HostRefInput!]! = []
-  "IPv4 address"
   ip: [IPAddress!]! = []
-  "Multiple separate IP addresses or an IP range"
   ipRange: [IpAddressRangeInput!]! = []
-  "Network range defined for a site"
   networkInterface: [NetworkInterfaceRefInput!]! = []
-  "Site defined for the account"
   site: [SiteRefInput!]! = []
-  "GlobalRange + InterfaceSubnet"
   siteNetworkSubnet: [SiteNetworkSubnetRefInput!]! = []
-  "Subnets and network ranges defined for the LAN interfaces of a site"
   subnet: [NetworkSubnet!]! = []
-  "Predefined Cato groups"
   systemGroup: [SystemGroupRefInput!]! = []
-  "Individual users defined for the account"
   user: [UserRefInput!]! = []
-  "Group of users"
   usersGroup: [UsersGroupRefInput!]! = []
 }
 
 "Input of the settings for Source of an Wan Firewall rule. To specify 'ANY' source, an empty list must be provided for each match criteria field (e.g. ip: [], group: [], etc...)"
 input WanFirewallSourceUpdateInput {
-  """
-  Floating Subnets (ie. Floating Ranges) are used to identify traffic exactly matched to the route advertised by BGP.
-  They are not associated with a specific site.
-  This is useful in scenarios such as active-standby high availability routed via BGP.
-  """
   floatingSubnet: [FloatingSubnetRefInput!]
-  "Globally defined IP range, IP and subnet objects"
   globalIpRange: [GlobalIpRangeRefInput!]
-  "Groups defined for your account"
   group: [GroupRefInput!]
-  "Hosts and servers defined for your account"
   host: [HostRefInput!]
-  "IPv4 address"
   ip: [IPAddress!]
-  "Multiple separate IP addresses or an IP range"
   ipRange: [IpAddressRangeInput!]
-  "Network range defined for a site"
   networkInterface: [NetworkInterfaceRefInput!]
-  "Site defined for the account"
   site: [SiteRefInput!]
-  "GlobalRange + InterfaceSubnet"
   siteNetworkSubnet: [SiteNetworkSubnetRefInput!]
-  "Subnets and network ranges defined for the LAN interfaces of a site"
   subnet: [NetworkSubnet!]
-  "Predefined Cato groups"
   systemGroup: [SystemGroupRefInput!]
-  "Individual users defined for the account"
   user: [UserRefInput!]
-  "Group of users"
   usersGroup: [UsersGroupRefInput!]
 }
 
 input WanFirewallUpdateRuleDataInput {
-  "The action applied by the Internet Firewall if the rule is matched"
   action: WanFirewallActionEnum
-  "The time period during which the rule is active, outside this period, the rule is inactive"
+  actionConfig: WanFirewallActionConfigUpdateInput
   activePeriod: PolicyRuleActivePeriodUpdateInput
-  """
-  Application traffic matching criteria.
-  Logical ‘OR’ is applied within the criteria set.
-  Logical ‘AND’ is applied between criteria sets.
-  """
   application: WanFirewallApplicationUpdateInput
-  "Connection origin of the traffic"
   connectionOrigin: ConnectionOriginEnum
-  """
-  Source country traffic matching criteria.
-  Logical ‘OR’ is applied within the criteria set.
-  Logical ‘AND’ is applied between criteria sets.
-  """
+  connectionsOriginList: [ConnectionOriginsEnum!]
   country: [CountryRefInput!]
   description: String
-  """
-  Destination traffic matching criteria.
-  Logical ‘OR’ is applied within the criteria set.
-  Logical ‘AND’ is applied between criteria sets.
-  """
   destination: WanFirewallDestinationUpdateInput
-  """
-  Source Device Profile traffic matching criteria.
-  Logical ‘OR’ is applied within the criteria set.
-  Logical ‘AND’ is applied between criteria sets.
-  """
   device: [DeviceProfileRefInput!]
-  """
-  Additional device attributes such as category, type, model, and manufacturer.
-  Logical 'OR' is applied within the criteria set.
-  Logical 'AND' is applied between criteria sets.
-  """
   deviceAttributes: DeviceAttributesUpdateInput
-  """
-  Source device Operating System traffic matching criteria.
-  Logical ‘OR’ is applied within the criteria set.
-  Logical ‘AND’ is applied between criteria sets.
-  """
   deviceOS: [OperatingSystem!]
   direction: WanFirewallDirectionEnum
   enabled: Boolean
-  """
-  The set of exceptions for the rule.
-  Exceptions define when the rule will be ignored and the firewall evaluation will continue with the lower priority rules.
-  """
   exceptions: [WanFirewallRuleExceptionInput!]
   name: String
-  "The time period specifying when the rule is enabled, otherwise it is disabled."
   schedule: PolicyScheduleUpdateInput
-  """
-  Destination service traffic matching criteria.
-  Logical ‘OR’ is applied within the criteria set.
-  Logical ‘AND’ is applied between criteria sets.
-  """
   service: WanFirewallServiceTypeUpdateInput
-  """
-  Source traffic matching criteria.
-  Logical ‘OR’ is applied within the criteria set.
-  Logical ‘AND’ is applied between criteria sets.
-  """
   source: WanFirewallSourceUpdateInput
-  "Tracking information when the rule is matched, such as events and notifications"
   tracking: PolicyTrackingUpdateInput
+  userAttributes: WanFirewallUserAttributesUpdateInput
 }
 
 input WanFirewallUpdateRuleInput {
@@ -17718,4 +17150,251 @@ enum LeaseTimeMeasureUnit {
   HOURS
   MINUTES
   SECONDS
+}
+
+##### Internet/WAN Firewall policy additions from n-new2-cato_api.graphqls ##########################
+
+type CalculateHitCountResponse {
+  errors: [PolicyMutationError!]!
+  status: PolicyMutationStatus!
+}
+
+type InternetFirewallActionConfig {
+  rbiProfile: [RbiProfileRef!]!
+  userNotification: [UserNotificationTemplateRef!]!
+}
+
+type InternetFirewallAddSubPolicyMutationPayload implements IPolicyMutationPayload {
+  errors: [PolicyMutationError!]!
+  policy: InternetFirewallPolicy
+  status: PolicyMutationStatus!
+}
+
+type InternetFirewallPolicyRef implements ObjectRef & PolicyRef {
+  id: ID!
+  name: String!
+}
+
+type InternetFirewallRemoveSubPolicyMutationPayload implements IPolicyMutationPayload {
+  errors: [PolicyMutationError!]!
+  policy: InternetFirewallPolicy
+  status: PolicyMutationStatus!
+}
+
+type InternetFirewallSubPolicyPayload implements SubPolicyPayload {
+  access: EntityAccess!
+  policy: InternetFirewallPolicyInfo!
+  properties: [SubPolicyProperty!]!
+}
+
+type InternetFirewallUserAttributes implements UserAttributes {
+  riskScore: RiskScoreCondition!
+  userConfidenceLevel: UserConfidenceLevel
+}
+
+type PolicyHitCount {
+  lastUpdatedTime: String!
+}
+
+type PostureAttributes {
+  hostConfidenceLevel: HostConfidenceLevelEnum!
+}
+
+type RbiProfileRef implements ObjectRef {
+  id: ID!
+  name: String!
+}
+
+type ResetRuleHitCountsResponse {
+  errors: [PolicyMutationError!]!
+  status: PolicyMutationStatus!
+}
+
+type RuleHitCount {
+  count: Long!
+  lastHitTime: String!
+  percentile: Float!
+}
+
+type WanFirewallActionConfig {
+  userNotification: [UserNotificationTemplateRef!]!
+}
+
+type WanFirewallAddSubPolicyMutationPayload implements IPolicyMutationPayload {
+  errors: [PolicyMutationError!]!
+  policy: WanFirewallPolicy
+  status: PolicyMutationStatus!
+}
+
+type WanFirewallRemoveSubPolicyMutationPayload implements IPolicyMutationPayload {
+  errors: [PolicyMutationError!]!
+  policy: WanFirewallPolicy
+  status: PolicyMutationStatus!
+}
+
+type WanFirewallSubPolicyPayload implements SubPolicyPayload {
+  access: EntityAccess!
+  policy: WanFirewallPolicyInfo!
+  properties: [SubPolicyProperty!]!
+}
+
+type WanFirewallUserAttributes implements UserAttributes {
+  riskScore: RiskScoreCondition!
+  userConfidenceLevel: UserConfidenceLevel
+}
+
+input InternetFirewallActionConfigInput {
+  rbiProfile: [RbiProfileRefInput!]! = []
+  userNotification: [UserNotificationTemplateRefInput!]! = []
+}
+
+input InternetFirewallActionConfigUpdateInput {
+  rbiProfile: [RbiProfileRefInput!]
+  userNotification: [UserNotificationTemplateRefInput!]
+}
+
+input InternetFirewallAddSubPolicyDataInput {
+  description: String!
+  name: String!
+}
+
+input InternetFirewallAddSubPolicyInput {
+  at: PolicyRulePositionInput!
+  policy: InternetFirewallAddSubPolicyDataInput
+  scope: InternetFirewallAddRuleDataInput!
+}
+
+input InternetFirewallPolicyRefInput {
+  by: ObjectRefBy!
+  input: String!
+}
+
+input InternetFirewallRemoveSubPolicyInput {
+  ref: InternetFirewallPolicyRefInput!
+}
+
+input InternetFirewallUserAttributesInput {
+  riskScore: RiskScoreConditionInput! = {category:ANY,operator:GTE}
+  userConfidenceLevel: UserConfidenceLevel = ANY
+}
+
+input InternetFirewallUserAttributesUpdateInput {
+  riskScore: RiskScoreConditionUpdateInput
+  userConfidenceLevel: UserConfidenceLevel
+}
+
+input PostureAttributesInput {
+  hostConfidenceLevel: HostConfidenceLevelEnum! = ANY
+}
+
+input PostureAttributesUpdateInput {
+  hostConfidenceLevel: HostConfidenceLevelEnum
+}
+
+input RbiProfileRefInput {
+  by: ObjectRefBy! = ID
+  input: String!
+}
+
+input ResetRuleHitCountsInput {
+  rule: ID!
+}
+
+input UserNotificationTemplateRefInput {
+  by: ObjectRefBy! = ID
+  input: String!
+}
+
+input WanFirewallActionConfigInput {
+  userNotification: [UserNotificationTemplateRefInput!]! = []
+}
+
+input WanFirewallActionConfigUpdateInput {
+  userNotification: [UserNotificationTemplateRefInput!]
+}
+
+input WanFirewallAddSubPolicyDataInput {
+  description: String!
+  name: String!
+}
+
+input WanFirewallAddSubPolicyInput {
+  at: PolicyRulePositionInput!
+  policy: WanFirewallAddSubPolicyDataInput
+  scope: WanFirewallAddRuleDataInput!
+}
+
+input WanFirewallRemoveSubPolicyInput {
+  ref: WanFirewallPolicyRefInput!
+}
+
+input WanFirewallUserAttributesInput {
+  riskScore: RiskScoreConditionInput! = {category:ANY,operator:GTE}
+  userConfidenceLevel: UserConfidenceLevel = ANY
+}
+
+input WanFirewallUserAttributesUpdateInput {
+  riskScore: RiskScoreConditionUpdateInput
+  userConfidenceLevel: UserConfidenceLevel
+}
+
+scalar Long
+
+enum ConnectionOriginsEnum {
+  """ User is connecting from the Cato browser """
+  REMOTE_BROWSER
+  """ User is connecting from the client """
+  REMOTE_CLIENT
+  """ User is connecting from the browser extension """
+  REMOTE_EXTENSION
+  """ User is connecting from the site """
+  SITE
+}
+
+enum HostConfidenceLevelEnum {
+  ANY
+  HIGH
+  LOW
+}
+
+enum PolicyRuleTypeEnum {
+  """ Indicate rule is a regular policy rule """
+  POLICY_RULE
+  """ Indicate the rule is a scoping context for sub policy """
+  SUB_POLICY_SCOPE
+}
+
+enum RiskScore {
+  """
+  User is considered extremely risky.
+  Policies can block or heavily restrict WAN/Internet for such a user.
+  """
+  CRITICAL
+  """
+  User is considered significantly risky;
+  multiple or persistent suspicious events.
+  """
+  HIGH
+  """ Normal behavior. """
+  LOW
+  """
+  User shows some risky behavior (phishing-like activity, suspicious browsing, malware indicators, etc.),
+  but not yet severe.
+  """
+  MEDIUM
+}
+
+enum SubPolicyProperty {
+  READ_ONLY
+}
+
+enum UserConfidenceLevel {
+  ANY
+  HIGH
+  LOW
+}
+
+interface SubPolicyPayload {
+  policy: PolicyInfo!
+  properties: [SubPolicyProperty!]!
 }
