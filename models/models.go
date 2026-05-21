@@ -14,18 +14,18 @@ import (
 
 type AccountOperationsTimelineBase interface {
 	IsAccountOperationsTimelineBase()
-	GetID() string
 	GetCreated() scalars.Time
-	GetValidated() scalars.Time
 	GetDescription() string
+	GetID() string
 	GetType() AccountOperationsTimelineType
+	GetValidated() scalars.Time
 }
 
 type Activity interface {
 	IsActivity()
 	GetID() string
-	GetResourceID() string
 	GetParentResourceID() string
+	GetResourceID() string
 }
 
 type ActorRef interface {
@@ -38,58 +38,50 @@ type ActorRef interface {
 type Anomalies interface {
 	IsMergedIncident()
 	IsAnomalies()
-	GetID() string
-	GetFirstSignal() string
-	GetLastSignal() string
+	GetAnalystFeedback() *AnalystFeedback
+	GetConnectionType() *ConnectionTypeEnum
+	GetCriticality() *int64
+	GetDescription() *string
+	GetDirection() *string
 	GetEngineType() *StoryEngineTypeEnum
-	GetVendor() *VendorEnum
+	GetFirstSignal() string
+	GetID() string
+	GetIndication() string
+	GetLastSignal() string
+	GetPredictedThreatType() *string
+	GetPredictedVerdict() *StoryVerdictEnum
 	GetProducer() StoryProducerEnum
 	GetProducerName() string
-	GetConnectionType() *ConnectionTypeEnum
-	GetIndication() string
 	GetQueryName() *string
-	GetSource() *string
-	GetCriticality() *int64
-	GetTicket() *string
-	GetStatus() *StoryStatusEnum
 	GetResearch() *bool
-	GetSiteName() *string
-	GetStoryDuration() *int64
-	GetDescription() *string
-	GetAnalystFeedback() *AnalystFeedback
-	GetSite() *SiteRef
-	GetUser() *UserRef
-	GetSourceIP() *string
 	GetSimilarStoriesData() []*SimilarStoryData
-	GetPredictedVerdict() *StoryVerdictEnum
-	GetPredictedThreatType() *string
-	GetDirection() *string
+	GetSite() *SiteRef
+	GetSiteName() *string
+	GetSource() *string
+	GetSourceIP() *string
+	GetStatus() *StoryStatusEnum
+	GetStoryDuration() *int64
+	GetTicket() *string
+	GetUser() *UserRef
+	GetVendor() *VendorEnum
 }
 
 type CatoResource interface {
 	IsEndpointResource()
 	IsCatoResource()
-	// Unique Cato ID for this EPP resource
-	GetID() string
-	// Timestamp that the this resource was used
 	GetCreatedDateTime() *string
-	// Enum for the remediation status associated with this resource
+	GetID() string
 	GetRemediationStatus() *RemediationStatusEnum
 }
 
 // A group with members of a single type of entity (for example: IPAddress, FQDN)
 type Container interface {
 	IsContainer()
-	// Unique container ID
-	GetID() string
-	// Name for the container
-	GetName() string
-	// Description for the container
-	GetDescription() *string
-	// Number of items in the container
-	GetSize() int64
-	// Audit metadata about the container
 	GetAudit() *ContainerAudit
+	GetDescription() *string
+	GetID() string
+	GetName() string
+	GetSize() int64
 }
 
 type DegradedStatusArgs interface {
@@ -98,12 +90,12 @@ type DegradedStatusArgs interface {
 
 type DeviceDetails interface {
 	IsDeviceDetails()
-	GetID() string
 	GetDeviceName() *string
-	GetOsDetails() *OsDetails
-	GetLoggedOnUsers() []EndpointUser
 	GetExternalIP() *string
+	GetID() string
 	GetLocalIP() *string
+	GetLoggedOnUsers() []EndpointUser
+	GetOsDetails() *OsDetails
 }
 
 type DeviceNetworkRef interface {
@@ -113,66 +105,55 @@ type DeviceNetworkRef interface {
 type Endpoint interface {
 	IsMergedIncident()
 	IsEndpoint()
-	// Unique Cato ID for the story
-	GetID() string
-	// Timestamp for the first incident signal related to this story
-	GetFirstSignal() string
-	// Timestamp for the last (most recent) incident signal related to this story
-	GetLastSignal() string
-	// XDR engine involved with the incident
-	GetEngineType() *StoryEngineTypeEnum
-	// Vendor that identified the incident, such as Cato or Microsoft
-	GetVendor() *VendorEnum
-	// Enum for the Producer (specific XDR engine and service) involved with the incident
-	GetProducer() StoryProducerEnum
-	// Full name of the Producer (specific XDR engine and service) involved with the incident
-	GetProducerName() string
-	// Enum for the connection for this incident (ie. site, host, user)
-	GetConnectionType() *ConnectionTypeEnum
-	// An indication is a set of actions and behaviors for the Network or Security incident. Each producer has different indications.
-	GetIndication() string
-	// Category for the indication ID related to the story
-	GetQueryName() *string
-	// IP address, name of device, or SDP user on your network involved in the story
-	GetSource() *string
-	GetCriticality() *int64
-	GetTicket() *string
-	GetStatus() *StoryStatusEnum
-	GetResearch() *bool
-	GetSiteName() *string
-	GetStoryDuration() *int64
-	GetDescription() *string
-	GetSourceIP() *string
-	GetAnalystFeedback() *AnalystFeedback
-	GetSite() *SiteRef
-	GetUser() *UserRef
-	GetSimilarStoriesData() []*SimilarStoryData
-	GetPredictedVerdict() *StoryVerdictEnum
-	GetPredictedThreatType() *string
-	GetDevice() DeviceDetails
 	GetAlerts() []EndpointAlert
+	GetAnalystFeedback() *AnalystFeedback
+	GetConnectionType() *ConnectionTypeEnum
+	GetCriticality() *int64
+	GetDescription() *string
+	GetDevice() DeviceDetails
+	GetEngineType() *StoryEngineTypeEnum
+	GetFirstSignal() string
+	GetID() string
+	GetIndication() string
+	GetLastSignal() string
+	GetPredictedThreatType() *string
+	GetPredictedVerdict() *StoryVerdictEnum
+	GetProducer() StoryProducerEnum
+	GetProducerName() string
+	GetQueryName() *string
+	GetResearch() *bool
+	GetSimilarStoriesData() []*SimilarStoryData
+	GetSite() *SiteRef
+	GetSiteName() *string
+	GetSource() *string
+	GetSourceIP() *string
+	GetStatus() *StoryStatusEnum
+	GetStoryDuration() *int64
+	GetTicket() *string
+	GetUser() *UserRef
+	GetVendor() *VendorEnum
 }
 
 type EndpointAlert interface {
 	IsEndpointAlert()
-	GetID() string
-	GetTitle() *string
-	GetDescription() *string
-	GetThreatName() *string
-	GetMitreTechnique() []*Mitre
-	GetMitreSubTechnique() []*Mitre
-	GetCreatedDateTime() *string
-	GetResources() []EndpointResource
 	GetActivities() []Activity
+	GetCreatedDateTime() *string
 	GetCriticality() *int64
+	GetDescription() *string
 	GetExternalIP() *string
+	GetID() string
 	GetLocalIP() *string
+	GetMitreSubTechnique() []*Mitre
+	GetMitreTechnique() []*Mitre
+	GetResources() []EndpointResource
+	GetThreatName() *string
+	GetTitle() *string
 }
 
 type EndpointResource interface {
 	IsEndpointResource()
-	GetID() string
 	GetCreatedDateTime() *string
+	GetID() string
 	GetRemediationStatus() *RemediationStatusEnum
 }
 
@@ -185,191 +166,135 @@ type EndpointUser interface {
 type FileResource interface {
 	IsEndpointResource()
 	IsFileResource()
-	GetID() string
 	GetCreatedDateTime() *string
-	GetRemediationStatus() *RemediationStatusEnum
-	GetFileDetails() *FileDetails
 	GetDetectionStatus() *DetectionStatusEnum
+	GetFileDetails() *FileDetails
+	GetID() string
+	GetRemediationStatus() *RemediationStatusEnum
 }
 
 type IContainerRef interface {
 	IsObjectRef()
 	IsIContainerRef()
-	// Unique container ID
 	GetID() string
-	// Name for the container
 	GetName() string
 }
 
 // Shared interface for any policy
 type IPolicy interface {
 	IsIPolicy()
-	// TRUE = Policy is enabled, FALSE = Policy is disabled
-	GetEnabled() bool
-	// Return list of rules in the policy
-	GetRules() []IPolicyRulePayload
-	// Return sections in the policy
-	GetSections() []*PolicySectionPayload
-	// Audit data for the policy
 	GetAudit() *PolicyAudit
-	// Return data for the Policy revision
+	GetEnabled() bool
 	GetRevision() *PolicyRevision
+	GetRules() []IPolicyRulePayload
+	GetSections() []*PolicySectionPayload
 }
 
 // Results of policy change
 type IPolicyMutationPayload interface {
 	IsIPolicyMutationPayload()
-	// Data for the policy
-	GetPolicy() IPolicy
-	// Enum for the status of the policy change
-	GetStatus() PolicyMutationStatus
-	// List of errors related to the policy change
 	GetErrors() []*PolicyMutationError
+	GetPolicy() IPolicy
+	GetStatus() PolicyMutationStatus
 }
 
 type IPolicyRule interface {
 	IsIPolicyRule()
-	// Rule ID
-	GetID() string
-	// Name of the rule
-	GetName() string
-	// Description for the rule
 	GetDescription() *string
-	// Position / priority of rule
-	GetIndex() int64
-	// TRUE = Rule is enabled, FALSE = Rule is disabled
 	GetEnabled() bool
-	// Policy section where the rule is located
+	GetID() string
+	GetIndex() int64
+	GetName() string
 	GetSection() *PolicySectionInfo
 }
 
 // Results of rule change
 type IPolicyRuleMutationPayload interface {
 	IsIPolicyRuleMutationPayload()
-	// Returns settings for the rule
-	GetRule() IPolicyRulePayload
-	// Enum for the status of the policy change
-	GetStatus() PolicyMutationStatus
-	// List of errors related to the policy change
 	GetErrors() []*PolicyMutationError
+	GetRule() IPolicyRulePayload
+	GetStatus() PolicyMutationStatus
 }
 
 // Results of changes to the rule
 type IPolicyRulePayload interface {
 	IsIPolicyRulePayload()
 	GetAudit() *PolicyElementAudit
-	// Rule that was changed
-	GetRule() IPolicyRule
-	// Summary of rule change, (ie. ADDED, UPDATED)
 	GetProperties() []PolicyElementPropertiesEnum
+	GetRule() IPolicyRule
 }
 
 // An interface containing properties that are common to all license types
 type License interface {
 	IsLicense()
-	// The unique identifier for the license. If this value is not available, you can contact Cato Support, who may be able to assist in retrieving it.
-	GetID() *string
 	GetDescription() *string
-	// License plan type
-	GetPlan() LicensePlan
-	// The license SKU
-	GetSku() LicenseSku
-	// License activation status
-	GetStatus() LicenseStatus
-	// License start date
-	GetStartDate() *string
-	// License expiration date
 	GetExpirationDate() string
-	// The date of the last update to the license
+	GetID() *string
 	GetLastUpdated() *string
+	GetPlan() LicensePlan
+	GetSku() LicenseSku
+	GetStartDate() *string
+	GetStatus() LicenseStatus
 }
 
 type MergedIncident interface {
 	IsMergedIncident()
-	// Unique Cato ID for each story
-	GetID() string
-	// Timestamp for the first incident signal related to this story
-	GetFirstSignal() string
-	// Timestamp for the last (most recent) incident signal related to this story
-	GetLastSignal() string
-	// XDR engine involved with the incident
-	GetEngineType() *StoryEngineTypeEnum
-	// Vendor that identified the incident, such as Cato or Microsoft
-	GetVendor() *VendorEnum
-	// Producer (specific XDR engine and service) involved with the incident
-	GetProducer() StoryProducerEnum
-	// Full name of the Producer (specific XDR engine and service) involved with the incident
-	GetProducerName() string
-	// Connection for the incident
-	GetConnectionType() *ConnectionTypeEnum
-	// An indication is a set of actions and behaviors for the Network or Security incident. Each producer has different indications.
-	GetIndication() string
-	// Category for the indication ID related to the story
-	GetQueryName() *string
-	// For Network stories - The potential impact of the issue on your network. Values are from 1 (low impact) to 10 (high impact)
-	//
-	// For Security stories - Cato's risk analysis of the story. Values are from 1 (low risk) to 10 (high risk)
-	GetCriticality() *int64
-	// For Network stories - The site where the network issue is occurring
-	//
-	// For Security stories - IP address, name of device, or SDP user on your network involved in the story
-	GetSource() *string
-	// The ticket an analyst created for this story
-	GetTicket() *string
-	// Status for the story
-	GetStatus() *StoryStatusEnum
-	// The value is TRUE when the story is currently being researched by Security Analysts
-	GetResearch() *bool
-	// Site name related to the story
-	GetSiteName() *string
-	// Amount of time since the story was opened (no value for closed stories)
-	GetStoryDuration() *int64
-	// For Security stories, description of the threat
-	GetDescription() *string
-	// The source IP address of the device in your network sending or receiving the flow
-	GetSourceIP() *string
-	// Fields related to analysts research of the threat incident
 	GetAnalystFeedback() *AnalystFeedback
-	// Cato ID and name for the site
-	GetSite() *SiteRef
-	// Cato ID and name for the user
-	GetUser() *UserRef
-	GetPredictedVerdict() *StoryVerdictEnum
+	GetConnectionType() *ConnectionTypeEnum
+	GetCriticality() *int64
+	GetDescription() *string
+	GetEngineType() *StoryEngineTypeEnum
+	GetFirstSignal() string
+	GetID() string
+	GetIndication() string
+	GetLastSignal() string
 	GetPredictedThreatType() *string
+	GetPredictedVerdict() *StoryVerdictEnum
+	GetProducer() StoryProducerEnum
+	GetProducerName() string
+	GetQueryName() *string
+	GetResearch() *bool
+	GetSite() *SiteRef
+	GetSiteName() *string
+	GetSource() *string
+	GetSourceIP() *string
+	GetStatus() *StoryStatusEnum
+	GetStoryDuration() *int64
+	GetTicket() *string
+	GetUser() *UserRef
+	GetVendor() *VendorEnum
 }
 
 type MicrosoftEndpointResource interface {
 	IsEndpointResource()
 	IsMicrosoftEndpointResource()
-	GetID() string
 	GetCreatedDateTime() *string
+	GetID() string
 	GetRemediationStatus() *RemediationStatusEnum
 	GetRemediationStatusDetails() *string
-	GetTags() []string
 	GetRoles() []ResourceRoleEnum
+	GetTags() []string
 	GetVerdict() *MsResourceVerdictEnum
 }
 
 type NetworkResource interface {
 	IsEndpointResource()
 	IsNetworkResource()
-	GetID() string
 	GetCreatedDateTime() *string
-	GetRemediationStatus() *RemediationStatusEnum
-	GetDNSRequest() *string
-	GetDNSResponse() *string
 	GetDestinationIP() *string
 	GetDestinationPort() *int64
+	GetDNSRequest() *string
+	GetDNSResponse() *string
+	GetID() string
+	GetMethod() *string
+	GetRemediationStatus() *RemediationStatusEnum
 	GetSourcePort() *int64
 	GetURL() *string
-	GetMethod() *string
 }
 
 type ObjectRef interface {
 	IsObjectRef()
-	// Object's unique identifier
 	GetID() string
-	// Object's unique name
 	GetName() string
 }
 
@@ -392,54 +317,44 @@ type PolicyListPayload interface {
 type PolicyRef interface {
 	IsObjectRef()
 	IsPolicyRef()
-	// Policy's unique identifier
 	GetID() string
-	// Policy's unique name
 	GetName() string
 }
 
 type ProcessResource interface {
 	IsEndpointResource()
 	IsProcessResource()
-	GetID() string
 	GetCreatedDateTime() *string
-	GetRemediationStatus() *RemediationStatusEnum
-	GetProcessID() int64
-	GetProcessCommandLine() *string
+	GetID() string
 	GetImageFile() *FileDetails
+	GetProcessCommandLine() *string
+	GetProcessID() int64
+	GetRemediationStatus() *RemediationStatusEnum
 	GetUserAccount() EndpointUser
 }
 
 type QuantifiableLicense interface {
 	IsLicense()
 	IsQuantifiableLicense()
-	// The unique identifier for the license. If this value is not available, you can contact Cato Support, who may be able to assist in retrieving it.
-	GetID() *string
 	GetDescription() *string
-	// License plan type
-	GetPlan() LicensePlan
-	// The license SKU
-	GetSku() LicenseSku
-	// License activation status
-	GetStatus() LicenseStatus
-	// License initiation date
-	GetStartDate() *string
-	// License expiration date
 	GetExpirationDate() string
-	// The date of the last update to the license
+	GetID() *string
 	GetLastUpdated() *string
-	// license quantity
+	GetPlan() LicensePlan
+	GetSku() LicenseSku
+	GetStartDate() *string
+	GetStatus() LicenseStatus
 	GetTotal() int64
 }
 
 type RegistryResource interface {
 	IsEndpointResource()
 	IsRegistryResource()
-	GetID() string
 	GetCreatedDateTime() *string
-	GetRemediationStatus() *RemediationStatusEnum
 	GetHive() *string
+	GetID() string
 	GetKey() *string
+	GetRemediationStatus() *RemediationStatusEnum
 	GetValue() *string
 	GetValueName() *string
 	GetValueType() *string
@@ -472,9 +387,7 @@ type AccessPrivateApplicationQueries struct {
 }
 
 type AccountAuditData struct {
-	// The Admin / API key name used for creating the account
-	CreatedBy string `json:"createdBy"`
-	// The date when the account created
+	CreatedBy   string `json:"createdBy"`
 	CreatedTime string `json:"createdTime"`
 }
 
@@ -495,57 +408,36 @@ type AccountIDPredicate struct {
 }
 
 type AccountInfo struct {
-	// Audit data for the account
-	Audit *AccountAuditData `json:"audit"`
-	// User-defined information as defined by an account admin
-	Description *string `json:"description,omitempty"`
-	// The ID of the account
-	ID string `json:"id"`
-	// The name of the account
-	Name string `json:"name"`
-	// The account plan
-	Plan *AccountPlan `json:"plan,omitempty"`
-	// The account status
-	Status AccountStatus `json:"status"`
-	// The account tenancy e.g. single-tenant / multi-tenant
-	Tenancy AccountTenancy `json:"tenancy"`
-	// The time zone of the account. Default: UTC (GMT + 0).
-	TimeZone string `json:"timeZone"`
-	// The account type e.g. Partner or Customer
-	Type AccountProfileType `json:"type"`
+	Audit       *AccountAuditData  `json:"audit"`
+	Description *string            `json:"description,omitempty"`
+	ID          string             `json:"id"`
+	Name        string             `json:"name"`
+	Plan        *AccountPlan       `json:"plan,omitempty"`
+	Status      AccountStatus      `json:"status"`
+	Tenancy     AccountTenancy     `json:"tenancy"`
+	TimeZone    string             `json:"timeZone"`
+	Type        AccountProfileType `json:"type"`
 }
 
 type AccountManagementMutations struct {
-	// Add a new account
-	AddAccount *AccountInfo `json:"addAccount,omitempty"`
-	// Sets the account status to "Disabled" for accounts with plan = "Trial" and status = "Active" or "Locked".
+	AddAccount     *AccountInfo           `json:"addAccount,omitempty"`
 	DisableAccount *DisableAccountPayload `json:"disableAccount,omitempty"`
-	// Delete an existing account. The account status will become “Disabled”, and it will be scheduled for deletion
-	RemoveAccount *RemoveAccountPayload `json:"removeAccount,omitempty"`
-	// Update existing account attributes
-	UpdateAccount *AccountInfo `json:"updateAccount,omitempty"`
+	RemoveAccount  *RemoveAccountPayload  `json:"removeAccount,omitempty"`
+	UpdateAccount  *AccountInfo           `json:"updateAccount,omitempty"`
 }
 
 type AccountManagementQueries struct {
-	// Read the account information
 	Account *AccountInfo `json:"account,omitempty"`
 }
 
 type AccountMetrics struct {
-	// Starting time
-	From *string `json:"from,omitempty"`
-	// The size of a single time bucket in seconds
-	Granularity *int64 `json:"granularity,omitempty"`
-	// Unique Identifier of Account.
-	ID *string `json:"id,omitempty"`
-	// Site connectivity metrics for the requested sites.
-	Sites      []*SiteMetrics `json:"sites,omitempty"`
-	Timeseries []*Timeseries  `json:"timeseries,omitempty"`
-	// Ending time
-	To *string `json:"to,omitempty"`
-	// Connectivity metrics for the requested users connecting remotely with the Client.
-	// Doesn’t include user traffic behind a site.
-	Users []*SiteMetrics `json:"users,omitempty"`
+	From        *string        `json:"from,omitempty"`
+	Granularity *int64         `json:"granularity,omitempty"`
+	ID          *string        `json:"id,omitempty"`
+	Sites       []*SiteMetrics `json:"sites,omitempty"`
+	Timeseries  []*Timeseries  `json:"timeseries,omitempty"`
+	To          *string        `json:"to,omitempty"`
+	Users       []*SiteMetrics `json:"users,omitempty"`
 }
 
 type AccountOperationsIncident struct {
@@ -571,11 +463,11 @@ type AccountOperationsTimelineEvent struct {
 }
 
 func (AccountOperationsTimelineEvent) IsAccountOperationsTimelineBase()            {}
-func (this AccountOperationsTimelineEvent) GetID() string                          { return this.ID }
 func (this AccountOperationsTimelineEvent) GetCreated() scalars.Time               { return this.Created }
-func (this AccountOperationsTimelineEvent) GetValidated() scalars.Time             { return this.Validated }
 func (this AccountOperationsTimelineEvent) GetDescription() string                 { return this.Description }
+func (this AccountOperationsTimelineEvent) GetID() string                          { return this.ID }
 func (this AccountOperationsTimelineEvent) GetType() AccountOperationsTimelineType { return this.Type }
+func (this AccountOperationsTimelineEvent) GetValidated() scalars.Time             { return this.Validated }
 
 // A reference identifying the Account object. ID: Unique Account Identifier, Name: The Account Name
 type AccountRef struct {
@@ -583,12 +475,8 @@ type AccountRef struct {
 	Name string `json:"name"`
 }
 
-func (AccountRef) IsObjectRef() {}
-
-// Object's unique identifier
-func (this AccountRef) GetID() string { return this.ID }
-
-// Object's unique name
+func (AccountRef) IsObjectRef()         {}
+func (this AccountRef) GetID() string   { return this.ID }
 func (this AccountRef) GetName() string { return this.Name }
 
 type AccountRolesResult struct {
@@ -597,13 +485,10 @@ type AccountRolesResult struct {
 }
 
 type AccountSnapshot struct {
-	// Unique Identifier of Account
-	ID *string `json:"id,omitempty"`
-	// Sites includes information about online as well as offline sites
+	ID        *string         `json:"id,omitempty"`
 	Sites     []*SiteSnapshot `json:"sites,omitempty"`
 	Timestamp *string         `json:"timestamp,omitempty"`
-	// VPN users information includes only connected users by default (Unlike sites), unless specific ID is requested
-	Users []*UserSnapshot `json:"users,omitempty"`
+	Users     []*UserSnapshot `json:"users,omitempty"`
 }
 
 type ActorRefInput struct {
@@ -612,16 +497,11 @@ type ActorRefInput struct {
 }
 
 type AddAccountInput struct {
-	// User-defined information as defined by an account admin
-	Description *string `json:"description,omitempty"`
-	// The name of the account
-	Name string `json:"name"`
-	// The account tenancy (single-tenant / multi-tenant)
-	Tenancy AccountTenancy `json:"tenancy"`
-	// The time zone of the account. Default: UTC (GMT + 0).
-	Timezone string `json:"timezone"`
-	// The account type (Partner / customer)
-	Type AccountProfileType `json:"type"`
+	Description *string            `json:"description,omitempty"`
+	Name        string             `json:"name"`
+	Tenancy     AccountTenancy     `json:"tenancy"`
+	Timezone    string             `json:"timezone"`
+	Type        AccountProfileType `json:"type"`
 }
 
 type AddAdminInput struct {
@@ -640,194 +520,127 @@ type AddAdminPayload struct {
 }
 
 type AddBgpPeerInput struct {
-	// Advertise all routes if true.
-	AdvertiseAllRoutes bool `json:"advertiseAllRoutes"`
-	// Advertise the default route (0.0.0.0/0) if true.
-	AdvertiseDefaultRoute bool `json:"advertiseDefaultRoute"`
-	// Advertise summarized routes if true.
-	AdvertiseSummaryRoutes bool `json:"advertiseSummaryRoutes"`
-	// Enable BFD for session failure detection if true.
-	BfdEnabled bool `json:"bfdEnabled"`
-	// Required BFD configuration if BFD is enabled.
-	BfdSettings *BfdSettingsInput `json:"bfdSettings,omitempty"`
-	// The AS number of Cato's BGP endpoint.
-	CatoAsn scalars.Asn16 `json:"catoAsn"`
-	// Default action for routes not matching filters (ACCEPT or DROP).
-	DefaultAction BgpDefaultAction `json:"defaultAction"`
-	// Excluded rules from the default action.
-	DefaultActionExclusion []*BgpFilterRuleInput `json:"defaultActionExclusion"`
-	// Community values to associate with the default route.
-	DefaultRouteCommunities []*BgpCommunityInput `json:"defaultRouteCommunities"`
-	// Time (in seconds) before declaring the peer unreachable.
-	HoldTime int64 `json:"holdTime"`
-	// Time (in seconds) between keepalive messages.
-	KeepaliveInterval int64 `json:"keepaliveInterval"`
-	// MD5 authentication key for secure sessions.
-	Md5AuthKey *string `json:"md5AuthKey,omitempty"`
-	// Route preference metric; lower values are given precedence.
-	Metric int64 `json:"metric"`
-	// Name of the BGP configuration entity.
-	Name string `json:"name"`
-	// The AS number of the peer BGP endpoint.
-	PeerAsn scalars.Asn32 `json:"peerAsn"`
-	// IP address of the peer BGP endpoint.
-	PeerIP string `json:"peerIp"`
-	// Perform NAT if true.
-	PerformNat bool `json:"performNat"`
-	// Information about the site where the BGP peer is being added.
-	Site *SiteRefInput `json:"site"`
-	// Summarized routes to advertise.
-	SummaryRoute []*BgpSummaryRouteInput `json:"summaryRoute"`
-	// Configuration for tracking the health and status of the BGP peer.
-	Tracking *BgpTrackingInput `json:"tracking,omitempty"`
+	AdvertiseAllRoutes      bool                    `json:"advertiseAllRoutes"`
+	AdvertiseDefaultRoute   bool                    `json:"advertiseDefaultRoute"`
+	AdvertiseSummaryRoutes  bool                    `json:"advertiseSummaryRoutes"`
+	BfdEnabled              bool                    `json:"bfdEnabled"`
+	BfdSettings             *BfdSettingsInput       `json:"bfdSettings,omitempty"`
+	CatoAsn                 scalars.Asn16           `json:"catoAsn"`
+	DefaultAction           BgpDefaultAction        `json:"defaultAction"`
+	DefaultActionExclusion  []*BgpFilterRuleInput   `json:"defaultActionExclusion"`
+	DefaultRouteCommunities []*BgpCommunityInput    `json:"defaultRouteCommunities"`
+	HoldTime                int64                   `json:"holdTime"`
+	KeepaliveInterval       int64                   `json:"keepaliveInterval"`
+	Md5AuthKey              *string                 `json:"md5AuthKey,omitempty"`
+	Metric                  int64                   `json:"metric"`
+	Name                    string                  `json:"name"`
+	PeerAsn                 scalars.Asn32           `json:"peerAsn"`
+	PeerIP                  string                  `json:"peerIp"`
+	PerformNat              bool                    `json:"performNat"`
+	Site                    *SiteRefInput           `json:"site"`
+	SummaryRoute            []*BgpSummaryRouteInput `json:"summaryRoute"`
+	Tracking                *BgpTrackingInput       `json:"tracking,omitempty"`
 }
 
 type AddBgpPeerPayload struct {
-	// The BGP peer that was successfully added.
 	BgpPeer *BgpPeer `json:"bgpPeer"`
 }
 
 // Input for adding a new physical connection to a cloud interconnect site.
 type AddCloudInterconnectPhysicalConnectionInput struct {
-	// Downstream bandwidth limit.
-	DownstreamBwLimit string `json:"downstreamBwLimit"`
-	// Method of encapsulation.Wither .1Q/QinQ
-	EncapsulationMethod TaggingMethod `json:"encapsulationMethod"`
-	// High availability role of the connection.
-	HaRole HaRole `json:"haRole"`
-	// Identifying data for the POP location.
-	PopLocation *PopLocationRefInput `json:"popLocation"`
-	// Private IP address of Cato.
-	PrivateCatoIP string `json:"privateCatoIp"`
-	// Private IP address of the site.
-	PrivateSiteIP string `json:"privateSiteIp"`
-	// Name of the service provider. Usually a partner, or a fabric service provider.
-	ServiceProviderName string `json:"serviceProviderName"`
-	// Identifying data for the site.
-	Site *SiteRefInput `json:"site"`
-	// Subnet for the connection, the BGP peering range. /30 CIDR.
-	Subnet string `json:"subnet"`
-	// Upstream bandwidth limit.
-	UpstreamBwLimit string `json:"upstreamBwLimit"`
+	DownstreamBwLimit   string               `json:"downstreamBwLimit"`
+	EncapsulationMethod TaggingMethod        `json:"encapsulationMethod"`
+	HaRole              HaRole               `json:"haRole"`
+	PopLocation         *PopLocationRefInput `json:"popLocation"`
+	PrivateCatoIP       string               `json:"privateCatoIp"`
+	PrivateSiteIP       string               `json:"privateSiteIp"`
+	ServiceProviderName string               `json:"serviceProviderName"`
+	Site                *SiteRefInput        `json:"site"`
+	Subnet              string               `json:"subnet"`
+	UpstreamBwLimit     string               `json:"upstreamBwLimit"`
 }
 
 // Payload for adding a new physical connection to a cloud interconnect site.
 type AddCloudInterconnectPhysicalConnectionPayload struct {
-	// ID of the newly added connection.
 	ID string `json:"id"`
 }
 
 // Input for adding a new cloud interconnect site.
 type AddCloudInterconnectSiteInput struct {
-	// Description of the site.
-	Description *string `json:"description,omitempty"`
-	// Name of the site.
-	Name string `json:"name"`
-	// Location details of the site.
+	Description  *string               `json:"description,omitempty"`
+	Name         string                `json:"name"`
 	SiteLocation *AddSiteLocationInput `json:"siteLocation"`
-	// Type of the site.
-	SiteType SiteType `json:"siteType"`
+	SiteType     SiteType              `json:"siteType"`
 }
 
 // Payload for adding a new cloud interconnect site.
 type AddCloudInterconnectSitePayload struct {
-	// ID of the newly added site.
 	SiteID string `json:"siteId"`
 }
 
 type AddIpsecIkeV2SiteInput struct {
-	Description *string `json:"description,omitempty"`
-	// The name of the site
-	Name string `json:"name"`
-	// The native range of the site
-	NativeNetworkRange string `json:"nativeNetworkRange"`
-	// The location of the site
-	SiteLocation *AddSiteLocationInput `json:"siteLocation"`
-	// Valid values are: BRANCH, HEADQUARTERS,	CLOUD_DC, and DATACENTER.
-	SiteType SiteType `json:"siteType"`
-	// VLAN ID for native range
-	Vlan *scalars.Vlan `json:"vlan,omitempty"`
+	Description        *string               `json:"description,omitempty"`
+	Name               string                `json:"name"`
+	NativeNetworkRange string                `json:"nativeNetworkRange"`
+	SiteLocation       *AddSiteLocationInput `json:"siteLocation"`
+	SiteType           SiteType              `json:"siteType"`
+	Vlan               *scalars.Vlan         `json:"vlan,omitempty"`
 }
 
 type AddIpsecIkeV2SiteMultiTunnelPayload struct {
-	// Cato’s FQDN for the multi-tunnel
 	Fqdn    *string                           `json:"fqdn,omitempty"`
 	Tunnels []*AddIpsecIkeV2SiteTunnelPayload `json:"tunnels"`
 }
 
 type AddIpsecIkeV2SitePayload struct {
-	// The ID of the site
 	SiteID string `json:"siteId"`
 }
 
 type AddIpsecIkeV2SiteTunnelPayload struct {
-	// The local ID for the tunnel
-	LocalID *string `json:"localId,omitempty"`
-	// The ID of the tunnel
+	LocalID  *string             `json:"localId,omitempty"`
 	TunnelID *IPSecV2InterfaceID `json:"tunnelId,omitempty"`
 }
 
 type AddIpsecIkeV2SiteTunnelsInput struct {
-	// The configuration of the site’s primary tunnel
-	Primary *AddIpsecIkeV2TunnelsInput `json:"primary,omitempty"`
-	// The configuration of the site’s secondary tunnel
+	Primary   *AddIpsecIkeV2TunnelsInput `json:"primary,omitempty"`
 	Secondary *AddIpsecIkeV2TunnelsInput `json:"secondary,omitempty"`
 }
 
 type AddIpsecIkeV2SiteTunnelsPayload struct {
-	// Cato’s FQDN for the primary tunnel
-	Primary *AddIpsecIkeV2SiteMultiTunnelPayload `json:"primary,omitempty"`
-	// Cato’s FQDN for the secondary tunnel
+	Primary   *AddIpsecIkeV2SiteMultiTunnelPayload `json:"primary,omitempty"`
 	Secondary *AddIpsecIkeV2SiteMultiTunnelPayload `json:"secondary,omitempty"`
-	// The ID of the site
-	SiteID string `json:"siteId"`
+	SiteID    string                               `json:"siteId"`
 }
 
 type AddIpsecIkeV2TunnelInput struct {
-	// The maximum allowed bandwidth for the site. If not specified, it will be set according to the site license. If the ISP provided bandwidth is below the site bandwidth, set this parameter to the ISP bandwidth or below
-	LastMileBw *LastMileBwInput `json:"lastMileBw,omitempty"`
-	// Tunnel name
-	Name *string `json:"name,omitempty"`
-	// Cato’s private IP, used for BGP routing. Applicable for sites using BGP only
-	PrivateCatoIP *string `json:"privateCatoIp,omitempty"`
-	// Site private IP, used for BGP routing. Applicable for sites using BGP only
-	PrivateSiteIP *string `json:"privateSiteIp,omitempty"`
-	// Pre-shared key. This field is write-only.
-	Psk string `json:"psk"`
-	// The public IP address where the IPsec tunnel is initiated
-	PublicSiteIP *string `json:"publicSiteIp,omitempty"`
-	// Tunnel role
-	Role *IPSecV2TunnelRole `json:"role,omitempty"`
+	LastMileBw    *LastMileBwInput   `json:"lastMileBw,omitempty"`
+	Name          *string            `json:"name,omitempty"`
+	PrivateCatoIP *string            `json:"privateCatoIp,omitempty"`
+	PrivateSiteIP *string            `json:"privateSiteIp,omitempty"`
+	Psk           string             `json:"psk"`
+	PublicSiteIP  *string            `json:"publicSiteIp,omitempty"`
+	Role          *IPSecV2TunnelRole `json:"role,omitempty"`
 }
 
 type AddIpsecIkeV2TunnelsInput struct {
-	// The destination type of the IPsec tunnel
-	DestinationType *DestinationType `json:"destinationType,omitempty"`
-	// The PoP location ID
-	PopLocationID *string `json:"popLocationId,omitempty"`
-	// The ID of the public IP (Allocated IP) of the Cato PoP to which the tunnel will connect. This will be the source-IP of the traffic transmitted to the Cato cloud over this tunnel when egressing the Cato Cloud
-	PublicCatoIPID *string                     `json:"publicCatoIpId,omitempty"`
-	Tunnels        []*AddIpsecIkeV2TunnelInput `json:"tunnels"`
+	DestinationType *DestinationType            `json:"destinationType,omitempty"`
+	PopLocationID   *string                     `json:"popLocationId,omitempty"`
+	PublicCatoIPID  *string                     `json:"publicCatoIpId,omitempty"`
+	Tunnels         []*AddIpsecIkeV2TunnelInput `json:"tunnels"`
 }
 
 type AddNetworkRangeInput struct {
-	// Only relevant for AZURE HA sites
-	AzureFloatingIP *string `json:"azureFloatingIp,omitempty"`
-	// Only relevant for NATIVE, VLAN rangeType
-	DhcpSettings *NetworkDhcpSettingsInput `json:"dhcpSettings,omitempty"`
-	// Only relevant for ROUTED_ROUTE rangeType
-	Gateway      *string `json:"gateway,omitempty"`
-	InternetOnly *bool   `json:"internetOnly,omitempty"`
-	// Only relevant for NATIVE, SECONDARY_NATIVE, DIRECT_ROUTE, VLAN rangeType
-	LocalIP *string `json:"localIp,omitempty"`
-	// BETA - Only relevant for NATIVE, DIRECT_ROUTE and VLAN rangeType
-	MdnsReflector    *bool      `json:"mdnsReflector,omitempty"`
-	Name             string     `json:"name"`
-	RangeType        SubnetType `json:"rangeType"`
-	Subnet           string     `json:"subnet"`
-	TranslatedSubnet *string    `json:"translatedSubnet,omitempty"`
-	// Only relevant for VLAN network rangeType
-	Vlan *int64 `json:"vlan,omitempty"`
+	AzureFloatingIP  *string                   `json:"azureFloatingIp,omitempty"`
+	DhcpSettings     *NetworkDhcpSettingsInput `json:"dhcpSettings,omitempty"`
+	Gateway          *string                   `json:"gateway,omitempty"`
+	InternetOnly     *bool                     `json:"internetOnly,omitempty"`
+	LocalIP          *string                   `json:"localIp,omitempty"`
+	MdnsReflector    *bool                     `json:"mdnsReflector,omitempty"`
+	Name             string                    `json:"name"`
+	RangeType        SubnetType                `json:"rangeType"`
+	Subnet           string                    `json:"subnet"`
+	TranslatedSubnet *string                   `json:"translatedSubnet,omitempty"`
+	Vlan             *int64                    `json:"vlan,omitempty"`
 }
 
 type AddNetworkRangePayload struct {
@@ -835,32 +648,23 @@ type AddNetworkRangePayload struct {
 }
 
 type AddSecondaryAWSVSocketInput struct {
-	// The IP address of LAN interface
-	EniIPAddress string `json:"eniIpAddress"`
-	// The subnet of the LAN interface
-	EniIPSubnet string `json:"eniIpSubnet"`
-	// The ID of the LAN route table
-	RouteTableID string `json:"routeTableId"`
-	// Information about the site where the secondary AWS VSocket is being added.
-	Site *SiteRefInput `json:"site"`
+	EniIPAddress string        `json:"eniIpAddress"`
+	EniIPSubnet  string        `json:"eniIpSubnet"`
+	RouteTableID string        `json:"routeTableId"`
+	Site         *SiteRefInput `json:"site"`
 }
 
 type AddSecondaryAWSVSocketPayload struct {
-	// The secondary socket id
 	ID string `json:"id"`
 }
 
 type AddSecondaryAzureVSocketInput struct {
-	// The floating IP address
-	FloatingIP string `json:"floatingIp"`
-	// The IP address of the interface
-	InterfaceIP string `json:"interfaceIp"`
-	// Information about the site where the secondary Azure VSocket is being added.
-	Site *SiteRefInput `json:"site"`
+	FloatingIP  string        `json:"floatingIp"`
+	InterfaceIP string        `json:"interfaceIp"`
+	Site        *SiteRefInput `json:"site"`
 }
 
 type AddSecondaryAzureVSocketPayload struct {
-	// The secondary socket id
 	ID string `json:"id"`
 }
 
@@ -876,16 +680,11 @@ type AddServicePrincipalAdminPayload struct {
 }
 
 type AddSiteLocationInput struct {
-	// optional address
-	Address *string `json:"address,omitempty"`
-	// city name, must belong to the country or country and state
-	City *string `json:"city,omitempty"`
-	// country code
-	CountryCode string `json:"countryCode"`
-	// optional state code
-	StateCode *string `json:"stateCode,omitempty"`
-	// time zone
-	Timezone string `json:"timezone"`
+	Address     *string `json:"address,omitempty"`
+	City        *string `json:"city,omitempty"`
+	CountryCode string  `json:"countryCode"`
+	StateCode   *string `json:"stateCode,omitempty"`
+	Timezone    string  `json:"timezone"`
 }
 
 type AddSocketAddOnCardInput struct {
@@ -898,19 +697,14 @@ type AddSocketAddOnCardPayload struct {
 }
 
 type AddSocketSiteInput struct {
-	ConnectionType SiteConnectionTypeEnum `json:"connectionType"`
-	Description    *string                `json:"description,omitempty"`
-	// The name of the site
-	Name string `json:"name"`
-	// The native range of the site
-	NativeNetworkRange string `json:"nativeNetworkRange"`
-	// The location of the site
-	SiteLocation *AddSiteLocationInput `json:"siteLocation"`
-	// Valid values are: BRANCH, HEADQUARTERS,	CLOUD_DC, and DATACENTER.
-	SiteType         SiteType `json:"siteType"`
-	TranslatedSubnet *string  `json:"translatedSubnet,omitempty"`
-	// VLAN ID for native range
-	Vlan *scalars.Vlan `json:"vlan,omitempty"`
+	ConnectionType     SiteConnectionTypeEnum `json:"connectionType"`
+	Description        *string                `json:"description,omitempty"`
+	Name               string                 `json:"name"`
+	NativeNetworkRange string                 `json:"nativeNetworkRange"`
+	SiteLocation       *AddSiteLocationInput  `json:"siteLocation"`
+	SiteType           SiteType               `json:"siteType"`
+	TranslatedSubnet   *string                `json:"translatedSubnet,omitempty"`
+	Vlan               *scalars.Vlan          `json:"vlan,omitempty"`
 }
 
 type AddSocketSitePayload struct {
@@ -928,14 +722,11 @@ type AddStaticHostPayload struct {
 }
 
 type AddStoryCommentInput struct {
-	// The relevant Story
 	StoryID string `json:"storyId"`
-	// Enter the text for the XDR story comment
-	Text string `json:"text"`
+	Text    string `json:"text"`
 }
 
 type AddStoryCommentPayload struct {
-	// Add a new comment to the XDR story
 	Comment *StoryComment `json:"comment"`
 }
 
@@ -967,18 +758,12 @@ type AddZtnaAppConnectorsConfigurationPayload struct {
 }
 
 type AddressInput struct {
-	// City
-	CityName string `json:"cityName"`
-	// Company name (recipient)
-	CompanyName string `json:"companyName"`
-	// Country
-	CountryName string `json:"countryName"`
-	// State (required only for USA)
-	StateName *string `json:"stateName,omitempty"`
-	// Street name and number
-	Street string `json:"street"`
-	// Zip Code
-	ZipCode string `json:"zipCode"`
+	CityName    string  `json:"cityName"`
+	CompanyName string  `json:"companyName"`
+	CountryName string  `json:"countryName"`
+	StateName   *string `json:"stateName,omitempty"`
+	Street      string  `json:"street"`
+	ZipCode     string  `json:"zipCode"`
 }
 
 // A CC2 administrator
@@ -1022,10 +807,6 @@ func (this AdminRef) GetID() string   { return this.ID }
 func (this AdminRef) GetName() string { return this.Name }
 
 func (AdminRef) IsObjectRef() {}
-
-// Object's unique identifier
-
-// Object's unique name
 
 type AdminRole struct {
 	AllowedAccounts []string  `json:"allowedAccounts,omitempty"`
@@ -1082,81 +863,33 @@ type AiOperationsIncident struct {
 	Vendor                   *VendorEnum                   `json:"vendor,omitempty"`
 }
 
-func (AiOperationsIncident) IsMergedIncident() {}
-
-// Unique Cato ID for each story
-func (this AiOperationsIncident) GetID() string { return this.ID }
-
-// Timestamp for the first incident signal related to this story
-func (this AiOperationsIncident) GetFirstSignal() string { return this.FirstSignal }
-
-// Timestamp for the last (most recent) incident signal related to this story
-func (this AiOperationsIncident) GetLastSignal() string { return this.LastSignal }
-
-// XDR engine involved with the incident
-func (this AiOperationsIncident) GetEngineType() *StoryEngineTypeEnum { return this.EngineType }
-
-// Vendor that identified the incident, such as Cato or Microsoft
-func (this AiOperationsIncident) GetVendor() *VendorEnum { return this.Vendor }
-
-// Producer (specific XDR engine and service) involved with the incident
-func (this AiOperationsIncident) GetProducer() StoryProducerEnum { return this.Producer }
-
-// Full name of the Producer (specific XDR engine and service) involved with the incident
-func (this AiOperationsIncident) GetProducerName() string { return this.ProducerName }
-
-// Connection for the incident
+func (AiOperationsIncident) IsMergedIncident()                           {}
+func (this AiOperationsIncident) GetAnalystFeedback() *AnalystFeedback   { return this.AnalystFeedback }
 func (this AiOperationsIncident) GetConnectionType() *ConnectionTypeEnum { return this.ConnectionType }
-
-// An indication is a set of actions and behaviors for the Network or Security incident. Each producer has different indications.
-func (this AiOperationsIncident) GetIndication() string { return this.Indication }
-
-// Category for the indication ID related to the story
-func (this AiOperationsIncident) GetQueryName() *string { return this.QueryName }
-
-// For Network stories - The potential impact of the issue on your network. Values are from 1 (low impact) to 10 (high impact)
-//
-// For Security stories - Cato's risk analysis of the story. Values are from 1 (low risk) to 10 (high risk)
-func (this AiOperationsIncident) GetCriticality() *int64 { return this.Criticality }
-
-// For Network stories - The site where the network issue is occurring
-//
-// For Security stories - IP address, name of device, or SDP user on your network involved in the story
-func (this AiOperationsIncident) GetSource() *string { return this.Source }
-
-// The ticket an analyst created for this story
-func (this AiOperationsIncident) GetTicket() *string { return this.Ticket }
-
-// Status for the story
-func (this AiOperationsIncident) GetStatus() *StoryStatusEnum { return this.Status }
-
-// The value is TRUE when the story is currently being researched by Security Analysts
-func (this AiOperationsIncident) GetResearch() *bool { return this.Research }
-
-// Site name related to the story
-func (this AiOperationsIncident) GetSiteName() *string { return this.SiteName }
-
-// Amount of time since the story was opened (no value for closed stories)
-func (this AiOperationsIncident) GetStoryDuration() *int64 { return this.StoryDuration }
-
-// For Security stories, description of the threat
-func (this AiOperationsIncident) GetDescription() *string { return this.Description }
-
-// The source IP address of the device in your network sending or receiving the flow
-func (this AiOperationsIncident) GetSourceIP() *string { return this.SourceIP }
-
-// Fields related to analysts research of the threat incident
-func (this AiOperationsIncident) GetAnalystFeedback() *AnalystFeedback { return this.AnalystFeedback }
-
-// Cato ID and name for the site
-func (this AiOperationsIncident) GetSite() *SiteRef { return this.Site }
-
-// Cato ID and name for the user
-func (this AiOperationsIncident) GetUser() *UserRef { return this.User }
+func (this AiOperationsIncident) GetCriticality() *int64                 { return this.Criticality }
+func (this AiOperationsIncident) GetDescription() *string                { return this.Description }
+func (this AiOperationsIncident) GetEngineType() *StoryEngineTypeEnum    { return this.EngineType }
+func (this AiOperationsIncident) GetFirstSignal() string                 { return this.FirstSignal }
+func (this AiOperationsIncident) GetID() string                          { return this.ID }
+func (this AiOperationsIncident) GetIndication() string                  { return this.Indication }
+func (this AiOperationsIncident) GetLastSignal() string                  { return this.LastSignal }
+func (this AiOperationsIncident) GetPredictedThreatType() *string        { return this.PredictedThreatType }
 func (this AiOperationsIncident) GetPredictedVerdict() *StoryVerdictEnum {
 	return this.PredictedVerdict
 }
-func (this AiOperationsIncident) GetPredictedThreatType() *string { return this.PredictedThreatType }
+func (this AiOperationsIncident) GetProducer() StoryProducerEnum { return this.Producer }
+func (this AiOperationsIncident) GetProducerName() string        { return this.ProducerName }
+func (this AiOperationsIncident) GetQueryName() *string          { return this.QueryName }
+func (this AiOperationsIncident) GetResearch() *bool             { return this.Research }
+func (this AiOperationsIncident) GetSite() *SiteRef              { return this.Site }
+func (this AiOperationsIncident) GetSiteName() *string           { return this.SiteName }
+func (this AiOperationsIncident) GetSource() *string             { return this.Source }
+func (this AiOperationsIncident) GetSourceIP() *string           { return this.SourceIP }
+func (this AiOperationsIncident) GetStatus() *StoryStatusEnum    { return this.Status }
+func (this AiOperationsIncident) GetStoryDuration() *int64       { return this.StoryDuration }
+func (this AiOperationsIncident) GetTicket() *string             { return this.Ticket }
+func (this AiOperationsIncident) GetUser() *UserRef              { return this.User }
+func (this AiOperationsIncident) GetVendor() *VendorEnum         { return this.Vendor }
 
 type AiOperationsPlaybook struct {
 	Description string  `json:"description"`
@@ -1177,12 +910,8 @@ type AiSecurityDataProfileRef struct {
 	Name string `json:"name"`
 }
 
-func (AiSecurityDataProfileRef) IsObjectRef() {}
-
-// Object's unique identifier
-func (this AiSecurityDataProfileRef) GetID() string { return this.ID }
-
-// Object's unique name
+func (AiSecurityDataProfileRef) IsObjectRef()         {}
+func (this AiSecurityDataProfileRef) GetID() string   { return this.ID }
 func (this AiSecurityDataProfileRef) GetName() string { return this.Name }
 
 type AiSecurityDataUsagePolicy struct {
@@ -1199,12 +928,8 @@ type AiSecurityGuardRef struct {
 	Name string `json:"name"`
 }
 
-func (AiSecurityGuardRef) IsObjectRef() {}
-
-// Object's unique identifier
-func (this AiSecurityGuardRef) GetID() string { return this.ID }
-
-// Object's unique name
+func (AiSecurityGuardRef) IsObjectRef()         {}
+func (this AiSecurityGuardRef) GetID() string   { return this.ID }
 func (this AiSecurityGuardRef) GetName() string { return this.Name }
 
 // A reference identifying the AllocatedIp object. ID: Unique AllocatedIp Identifier, Name: The AllocatedIp Name
@@ -1213,12 +938,8 @@ type AllocatedIPRef struct {
 	Name string `json:"name"`
 }
 
-func (AllocatedIPRef) IsObjectRef() {}
-
-// Object's unique identifier
-func (this AllocatedIPRef) GetID() string { return this.ID }
-
-// Object's unique name
+func (AllocatedIPRef) IsObjectRef()         {}
+func (this AllocatedIPRef) GetID() string   { return this.ID }
 func (this AllocatedIPRef) GetName() string { return this.Name }
 
 type AllocatedIPRefInput struct {
@@ -1235,24 +956,16 @@ type AnalystFeedback struct {
 }
 
 type AnalystFeedbackInput struct {
-	// Free text for the analyst to enter additional information about the XDR story
-	AdditionalInfo *string `json:"additionalInfo,omitempty"`
-	// Enum for analyst to assign the severity of a Malicious XDR story
-	Severity *SeverityEnum `json:"severity,omitempty"`
-	// Enum for the current status of the XDR story.
-	Status *StoryStatusEnum `json:"status,omitempty"`
-	// The relevant Story
-	StoryID string `json:"storyId"`
-	// More detailed description of the type of threat. For example, the Anonymizer threatType can be assigned the Bitorrent Client threatClassification.
-	ThreatClassification *string `json:"threatClassification,omitempty"`
-	// Type of threat for the XDR story that is assigned by the analyst
-	ThreatType *StoryThreatType `json:"threatType,omitempty"`
-	// Enum for analyst to assign the verdict of the XDR story
-	Verdict *StoryVerdictEnum `json:"verdict,omitempty"`
+	AdditionalInfo       *string           `json:"additionalInfo,omitempty"`
+	Severity             *SeverityEnum     `json:"severity,omitempty"`
+	Status               *StoryStatusEnum  `json:"status,omitempty"`
+	StoryID              string            `json:"storyId"`
+	ThreatClassification *string           `json:"threatClassification,omitempty"`
+	ThreatType           *StoryThreatType  `json:"threatType,omitempty"`
+	Verdict              *StoryVerdictEnum `json:"verdict,omitempty"`
 }
 
 type AnalystFeedbackPayload struct {
-	// Data related to the actions and information that an analyst adds to the XDR story
 	Story *Story `json:"story,omitempty"`
 }
 
@@ -1263,10 +976,8 @@ type AnalystFeedbackThreatType struct {
 }
 
 type AnalystInfo struct {
-	// Security analyst email address
 	Email *string `json:"email,omitempty"`
-	// Security analyst name
-	Name *string `json:"name,omitempty"`
+	Name  *string `json:"name,omitempty"`
 }
 
 // The `AnomalyEvents` object represents a data structure used in GraphQL queries or mutations, containing fields related to security anomalies, such as analyst feedback, connection type, criticality, description, and various identifiers and metrics, to provide detailed information about potential security incidents.
@@ -1317,28 +1028,22 @@ type AnomalyEvents struct {
 }
 
 func (AnomalyEvents) IsAnomalies()                                {}
-func (this AnomalyEvents) GetID() string                          { return this.ID }
-func (this AnomalyEvents) GetFirstSignal() string                 { return this.FirstSignal }
-func (this AnomalyEvents) GetLastSignal() string                  { return this.LastSignal }
+func (this AnomalyEvents) GetAnalystFeedback() *AnalystFeedback   { return this.AnalystFeedback }
+func (this AnomalyEvents) GetConnectionType() *ConnectionTypeEnum { return this.ConnectionType }
+func (this AnomalyEvents) GetCriticality() *int64                 { return this.Criticality }
+func (this AnomalyEvents) GetDescription() *string                { return this.Description }
+func (this AnomalyEvents) GetDirection() *string                  { return this.Direction }
 func (this AnomalyEvents) GetEngineType() *StoryEngineTypeEnum    { return this.EngineType }
-func (this AnomalyEvents) GetVendor() *VendorEnum                 { return this.Vendor }
+func (this AnomalyEvents) GetFirstSignal() string                 { return this.FirstSignal }
+func (this AnomalyEvents) GetID() string                          { return this.ID }
+func (this AnomalyEvents) GetIndication() string                  { return this.Indication }
+func (this AnomalyEvents) GetLastSignal() string                  { return this.LastSignal }
+func (this AnomalyEvents) GetPredictedThreatType() *string        { return this.PredictedThreatType }
+func (this AnomalyEvents) GetPredictedVerdict() *StoryVerdictEnum { return this.PredictedVerdict }
 func (this AnomalyEvents) GetProducer() StoryProducerEnum         { return this.Producer }
 func (this AnomalyEvents) GetProducerName() string                { return this.ProducerName }
-func (this AnomalyEvents) GetConnectionType() *ConnectionTypeEnum { return this.ConnectionType }
-func (this AnomalyEvents) GetIndication() string                  { return this.Indication }
 func (this AnomalyEvents) GetQueryName() *string                  { return this.QueryName }
-func (this AnomalyEvents) GetSource() *string                     { return this.Source }
-func (this AnomalyEvents) GetCriticality() *int64                 { return this.Criticality }
-func (this AnomalyEvents) GetTicket() *string                     { return this.Ticket }
-func (this AnomalyEvents) GetStatus() *StoryStatusEnum            { return this.Status }
 func (this AnomalyEvents) GetResearch() *bool                     { return this.Research }
-func (this AnomalyEvents) GetSiteName() *string                   { return this.SiteName }
-func (this AnomalyEvents) GetStoryDuration() *int64               { return this.StoryDuration }
-func (this AnomalyEvents) GetDescription() *string                { return this.Description }
-func (this AnomalyEvents) GetAnalystFeedback() *AnalystFeedback   { return this.AnalystFeedback }
-func (this AnomalyEvents) GetSite() *SiteRef                      { return this.Site }
-func (this AnomalyEvents) GetUser() *UserRef                      { return this.User }
-func (this AnomalyEvents) GetSourceIP() *string                   { return this.SourceIP }
 func (this AnomalyEvents) GetSimilarStoriesData() []*SimilarStoryData {
 	if this.SimilarStoriesData == nil {
 		return nil
@@ -1349,59 +1054,17 @@ func (this AnomalyEvents) GetSimilarStoriesData() []*SimilarStoryData {
 	}
 	return interfaceSlice
 }
-func (this AnomalyEvents) GetPredictedVerdict() *StoryVerdictEnum { return this.PredictedVerdict }
-func (this AnomalyEvents) GetPredictedThreatType() *string        { return this.PredictedThreatType }
-func (this AnomalyEvents) GetDirection() *string                  { return this.Direction }
+func (this AnomalyEvents) GetSite() *SiteRef           { return this.Site }
+func (this AnomalyEvents) GetSiteName() *string        { return this.SiteName }
+func (this AnomalyEvents) GetSource() *string          { return this.Source }
+func (this AnomalyEvents) GetSourceIP() *string        { return this.SourceIP }
+func (this AnomalyEvents) GetStatus() *StoryStatusEnum { return this.Status }
+func (this AnomalyEvents) GetStoryDuration() *int64    { return this.StoryDuration }
+func (this AnomalyEvents) GetTicket() *string          { return this.Ticket }
+func (this AnomalyEvents) GetUser() *UserRef           { return this.User }
+func (this AnomalyEvents) GetVendor() *VendorEnum      { return this.Vendor }
 
 func (AnomalyEvents) IsMergedIncident() {}
-
-// Unique Cato ID for each story
-
-// Timestamp for the first incident signal related to this story
-
-// Timestamp for the last (most recent) incident signal related to this story
-
-// XDR engine involved with the incident
-
-// Vendor that identified the incident, such as Cato or Microsoft
-
-// Producer (specific XDR engine and service) involved with the incident
-
-// Full name of the Producer (specific XDR engine and service) involved with the incident
-
-// Connection for the incident
-
-// An indication is a set of actions and behaviors for the Network or Security incident. Each producer has different indications.
-
-// Category for the indication ID related to the story
-
-// For Network stories - The potential impact of the issue on your network. Values are from 1 (low impact) to 10 (high impact)
-//
-// For Security stories - Cato's risk analysis of the story. Values are from 1 (low risk) to 10 (high risk)
-
-// For Network stories - The site where the network issue is occurring
-//
-// For Security stories - IP address, name of device, or SDP user on your network involved in the story
-
-// The ticket an analyst created for this story
-
-// Status for the story
-
-// The value is TRUE when the story is currently being researched by Security Analysts
-
-// Site name related to the story
-
-// Amount of time since the story was opened (no value for closed stories)
-
-// For Security stories, description of the threat
-
-// The source IP address of the device in your network sending or receiving the flow
-
-// Fields related to analysts research of the threat incident
-
-// Cato ID and name for the site
-
-// Cato ID and name for the user
 
 // The `AnomalyStats` object is a GraphQL type that represents statistical data related to anomalies, including fields such as analyst feedback, connection type, criticality, device information, and various metrics, along with associated metadata like timestamps, status, and predicted verdicts.
 type AnomalyStats struct {
@@ -1451,28 +1114,22 @@ type AnomalyStats struct {
 }
 
 func (AnomalyStats) IsAnomalies()                                {}
-func (this AnomalyStats) GetID() string                          { return this.ID }
-func (this AnomalyStats) GetFirstSignal() string                 { return this.FirstSignal }
-func (this AnomalyStats) GetLastSignal() string                  { return this.LastSignal }
+func (this AnomalyStats) GetAnalystFeedback() *AnalystFeedback   { return this.AnalystFeedback }
+func (this AnomalyStats) GetConnectionType() *ConnectionTypeEnum { return this.ConnectionType }
+func (this AnomalyStats) GetCriticality() *int64                 { return this.Criticality }
+func (this AnomalyStats) GetDescription() *string                { return this.Description }
+func (this AnomalyStats) GetDirection() *string                  { return this.Direction }
 func (this AnomalyStats) GetEngineType() *StoryEngineTypeEnum    { return this.EngineType }
-func (this AnomalyStats) GetVendor() *VendorEnum                 { return this.Vendor }
+func (this AnomalyStats) GetFirstSignal() string                 { return this.FirstSignal }
+func (this AnomalyStats) GetID() string                          { return this.ID }
+func (this AnomalyStats) GetIndication() string                  { return this.Indication }
+func (this AnomalyStats) GetLastSignal() string                  { return this.LastSignal }
+func (this AnomalyStats) GetPredictedThreatType() *string        { return this.PredictedThreatType }
+func (this AnomalyStats) GetPredictedVerdict() *StoryVerdictEnum { return this.PredictedVerdict }
 func (this AnomalyStats) GetProducer() StoryProducerEnum         { return this.Producer }
 func (this AnomalyStats) GetProducerName() string                { return this.ProducerName }
-func (this AnomalyStats) GetConnectionType() *ConnectionTypeEnum { return this.ConnectionType }
-func (this AnomalyStats) GetIndication() string                  { return this.Indication }
 func (this AnomalyStats) GetQueryName() *string                  { return this.QueryName }
-func (this AnomalyStats) GetSource() *string                     { return this.Source }
-func (this AnomalyStats) GetCriticality() *int64                 { return this.Criticality }
-func (this AnomalyStats) GetTicket() *string                     { return this.Ticket }
-func (this AnomalyStats) GetStatus() *StoryStatusEnum            { return this.Status }
 func (this AnomalyStats) GetResearch() *bool                     { return this.Research }
-func (this AnomalyStats) GetSiteName() *string                   { return this.SiteName }
-func (this AnomalyStats) GetStoryDuration() *int64               { return this.StoryDuration }
-func (this AnomalyStats) GetDescription() *string                { return this.Description }
-func (this AnomalyStats) GetAnalystFeedback() *AnalystFeedback   { return this.AnalystFeedback }
-func (this AnomalyStats) GetSite() *SiteRef                      { return this.Site }
-func (this AnomalyStats) GetUser() *UserRef                      { return this.User }
-func (this AnomalyStats) GetSourceIP() *string                   { return this.SourceIP }
 func (this AnomalyStats) GetSimilarStoriesData() []*SimilarStoryData {
 	if this.SimilarStoriesData == nil {
 		return nil
@@ -1483,78 +1140,30 @@ func (this AnomalyStats) GetSimilarStoriesData() []*SimilarStoryData {
 	}
 	return interfaceSlice
 }
-func (this AnomalyStats) GetPredictedVerdict() *StoryVerdictEnum { return this.PredictedVerdict }
-func (this AnomalyStats) GetPredictedThreatType() *string        { return this.PredictedThreatType }
-func (this AnomalyStats) GetDirection() *string                  { return this.Direction }
+func (this AnomalyStats) GetSite() *SiteRef           { return this.Site }
+func (this AnomalyStats) GetSiteName() *string        { return this.SiteName }
+func (this AnomalyStats) GetSource() *string          { return this.Source }
+func (this AnomalyStats) GetSourceIP() *string        { return this.SourceIP }
+func (this AnomalyStats) GetStatus() *StoryStatusEnum { return this.Status }
+func (this AnomalyStats) GetStoryDuration() *int64    { return this.StoryDuration }
+func (this AnomalyStats) GetTicket() *string          { return this.Ticket }
+func (this AnomalyStats) GetUser() *UserRef           { return this.User }
+func (this AnomalyStats) GetVendor() *VendorEnum      { return this.Vendor }
 
 func (AnomalyStats) IsMergedIncident() {}
 
-// Unique Cato ID for each story
-
-// Timestamp for the first incident signal related to this story
-
-// Timestamp for the last (most recent) incident signal related to this story
-
-// XDR engine involved with the incident
-
-// Vendor that identified the incident, such as Cato or Microsoft
-
-// Producer (specific XDR engine and service) involved with the incident
-
-// Full name of the Producer (specific XDR engine and service) involved with the incident
-
-// Connection for the incident
-
-// An indication is a set of actions and behaviors for the Network or Security incident. Each producer has different indications.
-
-// Category for the indication ID related to the story
-
-// For Network stories - The potential impact of the issue on your network. Values are from 1 (low impact) to 10 (high impact)
-//
-// For Security stories - Cato's risk analysis of the story. Values are from 1 (low risk) to 10 (high risk)
-
-// For Network stories - The site where the network issue is occurring
-//
-// For Security stories - IP address, name of device, or SDP user on your network involved in the story
-
-// The ticket an analyst created for this story
-
-// Status for the story
-
-// The value is TRUE when the story is currently being researched by Security Analysts
-
-// Site name related to the story
-
-// Amount of time since the story was opened (no value for closed stories)
-
-// For Security stories, description of the threat
-
-// The source IP address of the device in your network sending or receiving the flow
-
-// Fields related to analysts research of the threat incident
-
-// Cato ID and name for the site
-
-// Cato ID and name for the user
-
 type AntiMalwareFileHashAddRuleDataInput struct {
-	// The action when the file hash is matched: [BLOCK | BYPASS]
-	Action      AntiMalwareFileHashAction `json:"action"`
-	Description string                    `json:"description"`
-	Enabled     bool                      `json:"enabled"`
-	// The date when the block or bypass action expires
-	ExpirationDate string `json:"expirationDate"`
-	// The name of the file
-	FileName string `json:"fileName"`
-	Name     string `json:"name"`
-	// The file's unique SHA-256 hash identifier
-	Sha256 string `json:"sha256"`
+	Action         AntiMalwareFileHashAction `json:"action"`
+	Description    string                    `json:"description"`
+	Enabled        bool                      `json:"enabled"`
+	ExpirationDate string                    `json:"expirationDate"`
+	FileName       string                    `json:"fileName"`
+	Name           string                    `json:"name"`
+	Sha256         string                    `json:"sha256"`
 }
 
 type AntiMalwareFileHashAddRuleInput struct {
-	// Position of the rule in the policy
-	At *PolicyRulePositionInput `json:"at,omitempty"`
-	// Parameters for the rule you are adding
+	At   *PolicyRulePositionInput             `json:"at,omitempty"`
 	Rule *AntiMalwareFileHashAddRuleDataInput `json:"rule"`
 }
 
@@ -1566,12 +1175,10 @@ type AntiMalwareFileHashPolicy struct {
 	Sections []*PolicySectionPayload           `json:"sections"`
 }
 
-func (AntiMalwareFileHashPolicy) IsIPolicy() {}
-
-// TRUE = Policy is enabled, FALSE = Policy is disabled
-func (this AntiMalwareFileHashPolicy) GetEnabled() bool { return this.Enabled }
-
-// Return list of rules in the policy
+func (AntiMalwareFileHashPolicy) IsIPolicy()                        {}
+func (this AntiMalwareFileHashPolicy) GetAudit() *PolicyAudit       { return this.Audit }
+func (this AntiMalwareFileHashPolicy) GetEnabled() bool             { return this.Enabled }
+func (this AntiMalwareFileHashPolicy) GetRevision() *PolicyRevision { return this.Revision }
 func (this AntiMalwareFileHashPolicy) GetRules() []IPolicyRulePayload {
 	if this.Rules == nil {
 		return nil
@@ -1582,8 +1189,6 @@ func (this AntiMalwareFileHashPolicy) GetRules() []IPolicyRulePayload {
 	}
 	return interfaceSlice
 }
-
-// Return sections in the policy
 func (this AntiMalwareFileHashPolicy) GetSections() []*PolicySectionPayload {
 	if this.Sections == nil {
 		return nil
@@ -1595,18 +1200,7 @@ func (this AntiMalwareFileHashPolicy) GetSections() []*PolicySectionPayload {
 	return interfaceSlice
 }
 
-// Audit data for the policy
-func (this AntiMalwareFileHashPolicy) GetAudit() *PolicyAudit { return this.Audit }
-
-// Return data for the Policy revision
-func (this AntiMalwareFileHashPolicy) GetRevision() *PolicyRevision { return this.Revision }
-
 type AntiMalwareFileHashPolicyInput struct {
-	// A revision is a specific instance of the policy.
-	//  Unpublished revisions are working copies of the policy available to a specific
-	//  admin or a set of admins
-	//  Published revisions are revisions that were applied to the account network.
-	//  The last published revision is the active policy.
 	Revision *PolicyRevisionInput `json:"revision,omitempty"`
 }
 
@@ -1621,16 +1215,6 @@ type AntiMalwareFileHashPolicyMutationPayload struct {
 }
 
 func (AntiMalwareFileHashPolicyMutationPayload) IsIPolicyMutationPayload() {}
-
-// Data for the policy
-func (this AntiMalwareFileHashPolicyMutationPayload) GetPolicy() IPolicy { return *this.Policy }
-
-// Enum for the status of the policy change
-func (this AntiMalwareFileHashPolicyMutationPayload) GetStatus() PolicyMutationStatus {
-	return this.Status
-}
-
-// List of errors related to the policy change
 func (this AntiMalwareFileHashPolicyMutationPayload) GetErrors() []*PolicyMutationError {
 	if this.Errors == nil {
 		return nil
@@ -1640,6 +1224,10 @@ func (this AntiMalwareFileHashPolicyMutationPayload) GetErrors() []*PolicyMutati
 		interfaceSlice = append(interfaceSlice, concrete)
 	}
 	return interfaceSlice
+}
+func (this AntiMalwareFileHashPolicyMutationPayload) GetPolicy() IPolicy { return *this.Policy }
+func (this AntiMalwareFileHashPolicyMutationPayload) GetStatus() PolicyMutationStatus {
+	return this.Status
 }
 
 type AntiMalwareFileHashPolicyMutations struct {
@@ -1671,47 +1259,24 @@ type AntiMalwareFileHashRemoveRuleInput struct {
 }
 
 type AntiMalwareFileHashRule struct {
-	// The action when the file hash is matched: [BLOCK | BYPASS]
-	Action AntiMalwareFileHashAction `json:"action"`
-	// Description for the rule
-	Description string `json:"description"`
-	// TRUE = Rule is enabled
-	//  FALSE = Rule is disabled
-	Enabled bool `json:"enabled"`
-	// The date when the block or bypass action expires
-	ExpirationDate string `json:"expirationDate"`
-	// The name of the file
-	FileName string `json:"fileName"`
-	// Rule ID
-	ID string `json:"id"`
-	// Position / priority of rule
-	Index int64 `json:"index"`
-	// Name of the rule
-	Name string `json:"name"`
-	// Policy section where the rule is located
-	Section *PolicySectionInfo `json:"section"`
-	// The file's unique SHA-256 hash identifier
-	Sha256 string `json:"sha256"`
+	Action         AntiMalwareFileHashAction `json:"action"`
+	Description    string                    `json:"description"`
+	Enabled        bool                      `json:"enabled"`
+	ExpirationDate string                    `json:"expirationDate"`
+	FileName       string                    `json:"fileName"`
+	ID             string                    `json:"id"`
+	Index          int64                     `json:"index"`
+	Name           string                    `json:"name"`
+	Section        *PolicySectionInfo        `json:"section"`
+	Sha256         string                    `json:"sha256"`
 }
 
-func (AntiMalwareFileHashRule) IsIPolicyRule() {}
-
-// Rule ID
-func (this AntiMalwareFileHashRule) GetID() string { return this.ID }
-
-// Name of the rule
-func (this AntiMalwareFileHashRule) GetName() string { return this.Name }
-
-// Description for the rule
-func (this AntiMalwareFileHashRule) GetDescription() *string { return &this.Description }
-
-// Position / priority of rule
-func (this AntiMalwareFileHashRule) GetIndex() int64 { return this.Index }
-
-// TRUE = Rule is enabled, FALSE = Rule is disabled
-func (this AntiMalwareFileHashRule) GetEnabled() bool { return this.Enabled }
-
-// Policy section where the rule is located
+func (AntiMalwareFileHashRule) IsIPolicyRule()                      {}
+func (this AntiMalwareFileHashRule) GetDescription() *string        { return &this.Description }
+func (this AntiMalwareFileHashRule) GetEnabled() bool               { return this.Enabled }
+func (this AntiMalwareFileHashRule) GetID() string                  { return this.ID }
+func (this AntiMalwareFileHashRule) GetIndex() int64                { return this.Index }
+func (this AntiMalwareFileHashRule) GetName() string                { return this.Name }
 func (this AntiMalwareFileHashRule) GetSection() *PolicySectionInfo { return this.Section }
 
 type AntiMalwareFileHashRuleMutationPayload struct {
@@ -1721,16 +1286,6 @@ type AntiMalwareFileHashRuleMutationPayload struct {
 }
 
 func (AntiMalwareFileHashRuleMutationPayload) IsIPolicyRuleMutationPayload() {}
-
-// Returns settings for the rule
-func (this AntiMalwareFileHashRuleMutationPayload) GetRule() IPolicyRulePayload { return *this.Rule }
-
-// Enum for the status of the policy change
-func (this AntiMalwareFileHashRuleMutationPayload) GetStatus() PolicyMutationStatus {
-	return this.Status
-}
-
-// List of errors related to the policy change
 func (this AntiMalwareFileHashRuleMutationPayload) GetErrors() []*PolicyMutationError {
 	if this.Errors == nil {
 		return nil
@@ -1741,6 +1296,10 @@ func (this AntiMalwareFileHashRuleMutationPayload) GetErrors() []*PolicyMutation
 	}
 	return interfaceSlice
 }
+func (this AntiMalwareFileHashRuleMutationPayload) GetRule() IPolicyRulePayload { return *this.Rule }
+func (this AntiMalwareFileHashRuleMutationPayload) GetStatus() PolicyMutationStatus {
+	return this.Status
+}
 
 type AntiMalwareFileHashRulePayload struct {
 	Audit      *PolicyElementAudit           `json:"audit"`
@@ -1750,11 +1309,6 @@ type AntiMalwareFileHashRulePayload struct {
 
 func (AntiMalwareFileHashRulePayload) IsIPolicyRulePayload()              {}
 func (this AntiMalwareFileHashRulePayload) GetAudit() *PolicyElementAudit { return this.Audit }
-
-// Rule that was changed
-func (this AntiMalwareFileHashRulePayload) GetRule() IPolicyRule { return *this.Rule }
-
-// Summary of rule change, (ie. ADDED, UPDATED)
 func (this AntiMalwareFileHashRulePayload) GetProperties() []PolicyElementPropertiesEnum {
 	if this.Properties == nil {
 		return nil
@@ -1765,19 +1319,16 @@ func (this AntiMalwareFileHashRulePayload) GetProperties() []PolicyElementProper
 	}
 	return interfaceSlice
 }
+func (this AntiMalwareFileHashRulePayload) GetRule() IPolicyRule { return *this.Rule }
 
 type AntiMalwareFileHashUpdateRuleDataInput struct {
-	// The action when the file hash is matched: [BLOCK | BYPASS]
-	Action      *AntiMalwareFileHashAction `json:"action,omitempty"`
-	Description *string                    `json:"description,omitempty"`
-	Enabled     *bool                      `json:"enabled,omitempty"`
-	// The date when the block or bypass action expires
-	ExpirationDate *string `json:"expirationDate,omitempty"`
-	// The name of the file
-	FileName *string `json:"fileName,omitempty"`
-	Name     *string `json:"name,omitempty"`
-	// The file's unique SHA-256 hash identifier
-	Sha256 *string `json:"sha256,omitempty"`
+	Action         *AntiMalwareFileHashAction `json:"action,omitempty"`
+	Description    *string                    `json:"description,omitempty"`
+	Enabled        *bool                      `json:"enabled,omitempty"`
+	ExpirationDate *string                    `json:"expirationDate,omitempty"`
+	FileName       *string                    `json:"fileName,omitempty"`
+	Name           *string                    `json:"name,omitempty"`
+	Sha256         *string                    `json:"sha256,omitempty"`
 }
 
 type AntiMalwareFileHashUpdateRuleInput struct {
@@ -1796,10 +1347,6 @@ func (this APIKeyRef) GetID() string   { return this.ID }
 func (this APIKeyRef) GetName() string { return this.Name }
 
 func (APIKeyRef) IsObjectRef() {}
-
-// Object's unique identifier
-
-// Object's unique name
 
 type AppStats struct {
 	From    *string           `json:"from,omitempty"`
@@ -1822,14 +1369,12 @@ type AppStatsFilter struct {
 }
 
 type AppStatsRecord struct {
-	Fields []*AppStatsField `json:"fields,omitempty"`
-	// fields in map format (see Map scalar)
-	FieldsMap       map[string]any `json:"fieldsMap,omitempty"`
-	FieldsUnitTypes []UnitType     `json:"fieldsUnitTypes,omitempty"`
-	// Simplified fields, as array of name value tuples, e.g: [ [ "name", "val" ], [ "name2", "val2" ] ... ]
-	FlatFields    [][]string     `json:"flatFields,omitempty"`
-	PrevTimeFrame map[string]any `json:"prevTimeFrame,omitempty"`
-	Trends        map[string]any `json:"trends,omitempty"`
+	Fields          []*AppStatsField `json:"fields,omitempty"`
+	FieldsMap       map[string]any   `json:"fieldsMap,omitempty"`
+	FieldsUnitTypes []UnitType       `json:"fieldsUnitTypes,omitempty"`
+	FlatFields      [][]string       `json:"flatFields,omitempty"`
+	PrevTimeFrame   map[string]any   `json:"prevTimeFrame,omitempty"`
+	Trends          map[string]any   `json:"trends,omitempty"`
 }
 
 type AppStatsSort struct {
@@ -1846,45 +1391,31 @@ type AppStatsTimeSeries struct {
 }
 
 type AppTenantRestrictionAddRuleDataInput struct {
-	// The action applied by the App Tenant Restriction if the rule is matched
-	Action AppTenantRestrictionActionEnum `json:"action"`
-	// Applications for the rule (pre-defined)
-	Application *ApplicationRefInput `json:"application"`
-	Description string               `json:"description"`
-	Enabled     bool                 `json:"enabled"`
-	// Headers and Values to Inject
-	Headers []*AppTenantRestrictionHeaderValueInput `json:"headers"`
-	Name    string                                  `json:"name"`
-	// The time period specifying when the rule is enabled, otherwise it is disabled.
-	Schedule *PolicyScheduleInput `json:"schedule"`
-	// Severity defined for the rule
-	Severity AppTenantRestrictionSeverityEnum `json:"severity"`
-	// Source traffic matching criteria.
-	// Logical ‘OR’ is applied within the criteria set.
-	// Logical ‘AND’ is applied between criteria sets.
-	Source *AppTenantRestrictionSourceInput `json:"source"`
+	Action      AppTenantRestrictionActionEnum          `json:"action"`
+	Application *ApplicationRefInput                    `json:"application"`
+	Description string                                  `json:"description"`
+	Enabled     bool                                    `json:"enabled"`
+	Headers     []*AppTenantRestrictionHeaderValueInput `json:"headers"`
+	Name        string                                  `json:"name"`
+	Schedule    *PolicyScheduleInput                    `json:"schedule"`
+	Severity    AppTenantRestrictionSeverityEnum        `json:"severity"`
+	Source      *AppTenantRestrictionSourceInput        `json:"source"`
 }
 
 type AppTenantRestrictionAddRuleInput struct {
-	// Position of the rule in the policy
-	At *PolicyRulePositionInput `json:"at,omitempty"`
-	// Parameters for the rule you are adding
+	At   *PolicyRulePositionInput              `json:"at,omitempty"`
 	Rule *AppTenantRestrictionAddRuleDataInput `json:"rule"`
 }
 
 // pair of header name and value
 type AppTenantRestrictionHeaderValue struct {
-	// Header to inject
-	Name string `json:"name"`
-	// Value to inject
+	Name  string `json:"name"`
 	Value string `json:"value"`
 }
 
 // pair of header name and value
 type AppTenantRestrictionHeaderValueInput struct {
-	// Header to inject
-	Name string `json:"name"`
-	// Value to inject
+	Name  string `json:"name"`
 	Value string `json:"value"`
 }
 
@@ -1896,12 +1427,10 @@ type AppTenantRestrictionPolicy struct {
 	Sections []*PolicySectionPayload            `json:"sections"`
 }
 
-func (AppTenantRestrictionPolicy) IsIPolicy() {}
-
-// TRUE = Policy is enabled, FALSE = Policy is disabled
-func (this AppTenantRestrictionPolicy) GetEnabled() bool { return this.Enabled }
-
-// Return list of rules in the policy
+func (AppTenantRestrictionPolicy) IsIPolicy()                        {}
+func (this AppTenantRestrictionPolicy) GetAudit() *PolicyAudit       { return this.Audit }
+func (this AppTenantRestrictionPolicy) GetEnabled() bool             { return this.Enabled }
+func (this AppTenantRestrictionPolicy) GetRevision() *PolicyRevision { return this.Revision }
 func (this AppTenantRestrictionPolicy) GetRules() []IPolicyRulePayload {
 	if this.Rules == nil {
 		return nil
@@ -1912,8 +1441,6 @@ func (this AppTenantRestrictionPolicy) GetRules() []IPolicyRulePayload {
 	}
 	return interfaceSlice
 }
-
-// Return sections in the policy
 func (this AppTenantRestrictionPolicy) GetSections() []*PolicySectionPayload {
 	if this.Sections == nil {
 		return nil
@@ -1925,18 +1452,7 @@ func (this AppTenantRestrictionPolicy) GetSections() []*PolicySectionPayload {
 	return interfaceSlice
 }
 
-// Audit data for the policy
-func (this AppTenantRestrictionPolicy) GetAudit() *PolicyAudit { return this.Audit }
-
-// Return data for the Policy revision
-func (this AppTenantRestrictionPolicy) GetRevision() *PolicyRevision { return this.Revision }
-
 type AppTenantRestrictionPolicyInput struct {
-	// A revision is a specific instance of the policy.
-	//  Unpublished revisions are working copies of the policy available to a specific
-	//  admin or a set of admins
-	//  Published revisions are revisions that were applied to the account network.
-	//  The last published revision is the active policy.
 	Revision *PolicyRevisionInput `json:"revision,omitempty"`
 }
 
@@ -1951,16 +1467,6 @@ type AppTenantRestrictionPolicyMutationPayload struct {
 }
 
 func (AppTenantRestrictionPolicyMutationPayload) IsIPolicyMutationPayload() {}
-
-// Data for the policy
-func (this AppTenantRestrictionPolicyMutationPayload) GetPolicy() IPolicy { return *this.Policy }
-
-// Enum for the status of the policy change
-func (this AppTenantRestrictionPolicyMutationPayload) GetStatus() PolicyMutationStatus {
-	return this.Status
-}
-
-// List of errors related to the policy change
 func (this AppTenantRestrictionPolicyMutationPayload) GetErrors() []*PolicyMutationError {
 	if this.Errors == nil {
 		return nil
@@ -1970,6 +1476,10 @@ func (this AppTenantRestrictionPolicyMutationPayload) GetErrors() []*PolicyMutat
 		interfaceSlice = append(interfaceSlice, concrete)
 	}
 	return interfaceSlice
+}
+func (this AppTenantRestrictionPolicyMutationPayload) GetPolicy() IPolicy { return *this.Policy }
+func (this AppTenantRestrictionPolicyMutationPayload) GetStatus() PolicyMutationStatus {
+	return this.Status
 }
 
 type AppTenantRestrictionPolicyMutations struct {
@@ -2001,53 +1511,26 @@ type AppTenantRestrictionRemoveRuleInput struct {
 }
 
 type AppTenantRestrictionRule struct {
-	// The action applied by the App Tenant Restriction if the rule is matched
-	Action AppTenantRestrictionActionEnum `json:"action"`
-	// Applications for the rule (pre-defined)
-	Application *ApplicationRef `json:"application"`
-	// Description for the rule
-	Description string `json:"description"`
-	// TRUE = Rule is enabled
-	//  FALSE = Rule is disabled
-	Enabled bool `json:"enabled"`
-	// Headers and Values to Inject
-	Headers []*AppTenantRestrictionHeaderValue `json:"headers"`
-	// Rule ID
-	ID string `json:"id"`
-	// Position / priority of rule
-	Index int64 `json:"index"`
-	// Name of the rule
-	Name string `json:"name"`
-	// The time period specifying when the rule is enabled, otherwise it is disabled.
-	Schedule *PolicySchedule `json:"schedule"`
-	// Policy section where the rule is located
-	Section *PolicySectionInfo `json:"section"`
-	// Severity defined for the rule
-	Severity AppTenantRestrictionSeverityEnum `json:"severity"`
-	// Source traffic matching criteria.
-	// Logical ‘OR’ is applied within the criteria set.
-	// Logical ‘AND’ is applied between criteria sets.
-	Source *AppTenantRestrictionSource `json:"source"`
+	Action      AppTenantRestrictionActionEnum     `json:"action"`
+	Application *ApplicationRef                    `json:"application"`
+	Description string                             `json:"description"`
+	Enabled     bool                               `json:"enabled"`
+	Headers     []*AppTenantRestrictionHeaderValue `json:"headers"`
+	ID          string                             `json:"id"`
+	Index       int64                              `json:"index"`
+	Name        string                             `json:"name"`
+	Schedule    *PolicySchedule                    `json:"schedule"`
+	Section     *PolicySectionInfo                 `json:"section"`
+	Severity    AppTenantRestrictionSeverityEnum   `json:"severity"`
+	Source      *AppTenantRestrictionSource        `json:"source"`
 }
 
-func (AppTenantRestrictionRule) IsIPolicyRule() {}
-
-// Rule ID
-func (this AppTenantRestrictionRule) GetID() string { return this.ID }
-
-// Name of the rule
-func (this AppTenantRestrictionRule) GetName() string { return this.Name }
-
-// Description for the rule
-func (this AppTenantRestrictionRule) GetDescription() *string { return &this.Description }
-
-// Position / priority of rule
-func (this AppTenantRestrictionRule) GetIndex() int64 { return this.Index }
-
-// TRUE = Rule is enabled, FALSE = Rule is disabled
-func (this AppTenantRestrictionRule) GetEnabled() bool { return this.Enabled }
-
-// Policy section where the rule is located
+func (AppTenantRestrictionRule) IsIPolicyRule()                      {}
+func (this AppTenantRestrictionRule) GetDescription() *string        { return &this.Description }
+func (this AppTenantRestrictionRule) GetEnabled() bool               { return this.Enabled }
+func (this AppTenantRestrictionRule) GetID() string                  { return this.ID }
+func (this AppTenantRestrictionRule) GetIndex() int64                { return this.Index }
+func (this AppTenantRestrictionRule) GetName() string                { return this.Name }
 func (this AppTenantRestrictionRule) GetSection() *PolicySectionInfo { return this.Section }
 
 type AppTenantRestrictionRuleMutationPayload struct {
@@ -2057,16 +1540,6 @@ type AppTenantRestrictionRuleMutationPayload struct {
 }
 
 func (AppTenantRestrictionRuleMutationPayload) IsIPolicyRuleMutationPayload() {}
-
-// Returns settings for the rule
-func (this AppTenantRestrictionRuleMutationPayload) GetRule() IPolicyRulePayload { return *this.Rule }
-
-// Enum for the status of the policy change
-func (this AppTenantRestrictionRuleMutationPayload) GetStatus() PolicyMutationStatus {
-	return this.Status
-}
-
-// List of errors related to the policy change
 func (this AppTenantRestrictionRuleMutationPayload) GetErrors() []*PolicyMutationError {
 	if this.Errors == nil {
 		return nil
@@ -2077,6 +1550,10 @@ func (this AppTenantRestrictionRuleMutationPayload) GetErrors() []*PolicyMutatio
 	}
 	return interfaceSlice
 }
+func (this AppTenantRestrictionRuleMutationPayload) GetRule() IPolicyRulePayload { return *this.Rule }
+func (this AppTenantRestrictionRuleMutationPayload) GetStatus() PolicyMutationStatus {
+	return this.Status
+}
 
 type AppTenantRestrictionRulePayload struct {
 	Audit      *PolicyElementAudit           `json:"audit"`
@@ -2086,11 +1563,6 @@ type AppTenantRestrictionRulePayload struct {
 
 func (AppTenantRestrictionRulePayload) IsIPolicyRulePayload()              {}
 func (this AppTenantRestrictionRulePayload) GetAudit() *PolicyElementAudit { return this.Audit }
-
-// Rule that was changed
-func (this AppTenantRestrictionRulePayload) GetRule() IPolicyRule { return *this.Rule }
-
-// Summary of rule change, (ie. ADDED, UPDATED)
 func (this AppTenantRestrictionRulePayload) GetProperties() []PolicyElementPropertiesEnum {
 	if this.Properties == nil {
 		return nil
@@ -2101,121 +1573,72 @@ func (this AppTenantRestrictionRulePayload) GetProperties() []PolicyElementPrope
 	}
 	return interfaceSlice
 }
+func (this AppTenantRestrictionRulePayload) GetRule() IPolicyRule { return *this.Rule }
 
 // Returns the settings for Source of an App Tenant Restriction rule
 type AppTenantRestrictionSource struct {
-	// Source country traffic matching criteria.
-	Country []*CountryRef `json:"country"`
-	// Floating Subnets (ie. Floating Ranges) are used to identify traffic exactly matched to the route advertised by BGP. They are not associated with a specific site. This is useful in scenarios such as active-standby high availability routed via BGP.
-	FloatingSubnet []*FloatingSubnetRef `json:"floatingSubnet"`
-	// Globally defined IP range, IP and subnet objects
-	GlobalIPRange []*GlobalIPRangeRef `json:"globalIpRange"`
-	// Groups defined for your account
-	Group []*GroupRef `json:"group"`
-	// Hosts and servers defined for your account
-	Host []*HostRef `json:"host"`
-	// IPv4 address
-	IP []string `json:"ip"`
-	// Multiple separate IP addresses or an IP range
-	IPRange []*IPAddressRange `json:"ipRange"`
-	// Network range defined for a site
-	NetworkInterface []*NetworkInterfaceRef `json:"networkInterface"`
-	// Site defined for the account
-	Site []*SiteRef `json:"site"`
-	// GlobalRange + InterfaceSubnet
+	Country           []*CountryRef           `json:"country"`
+	FloatingSubnet    []*FloatingSubnetRef    `json:"floatingSubnet"`
+	GlobalIPRange     []*GlobalIPRangeRef     `json:"globalIpRange"`
+	Group             []*GroupRef             `json:"group"`
+	Host              []*HostRef              `json:"host"`
+	IP                []string                `json:"ip"`
+	IPRange           []*IPAddressRange       `json:"ipRange"`
+	NetworkInterface  []*NetworkInterfaceRef  `json:"networkInterface"`
+	Site              []*SiteRef              `json:"site"`
 	SiteNetworkSubnet []*SiteNetworkSubnetRef `json:"siteNetworkSubnet"`
-	// Subnets and network ranges defined for the LAN interfaces of a site
-	Subnet []string `json:"subnet"`
-	// Predefined Cato groups
-	SystemGroup []*SystemGroupRef `json:"systemGroup"`
-	// Individual users defined for the account
-	User []*UserRef `json:"user"`
-	// Group of users
-	UsersGroup []*UsersGroupRef `json:"usersGroup"`
+	Subnet            []string                `json:"subnet"`
+	SystemGroup       []*SystemGroupRef       `json:"systemGroup"`
+	User              []*UserRef              `json:"user"`
+	UsersGroup        []*UsersGroupRef        `json:"usersGroup"`
 }
 
 // Input of the settings for Source of an App Tenant Restriction rule
 type AppTenantRestrictionSourceInput struct {
-	// Source country traffic matching criteria.
-	Country []*CountryRefInput `json:"country"`
-	// Floating Subnets (ie. Floating Ranges) are used to identify traffic exactly matched to the route advertised by BGP. They are not associated with a specific site. This is useful in scenarios such as active-standby high availability routed via BGP.
-	FloatingSubnet []*FloatingSubnetRefInput `json:"floatingSubnet"`
-	// Globally defined IP range, IP and subnet objects
-	GlobalIPRange []*GlobalIPRangeRefInput `json:"globalIpRange"`
-	// Groups defined for your account
-	Group []*GroupRefInput `json:"group"`
-	// Hosts and servers defined for your account
-	Host []*HostRefInput `json:"host"`
-	// IPv4 address
-	IP []string `json:"ip"`
-	// Multiple separate IP addresses or an IP range
-	IPRange []*IPAddressRangeInput `json:"ipRange"`
-	// Network range defined for a site
-	NetworkInterface []*NetworkInterfaceRefInput `json:"networkInterface"`
-	// Site defined for the account
-	Site []*SiteRefInput `json:"site"`
-	// GlobalRange + InterfaceSubnet
+	Country           []*CountryRefInput           `json:"country"`
+	FloatingSubnet    []*FloatingSubnetRefInput    `json:"floatingSubnet"`
+	GlobalIPRange     []*GlobalIPRangeRefInput     `json:"globalIpRange"`
+	Group             []*GroupRefInput             `json:"group"`
+	Host              []*HostRefInput              `json:"host"`
+	IP                []string                     `json:"ip"`
+	IPRange           []*IPAddressRangeInput       `json:"ipRange"`
+	NetworkInterface  []*NetworkInterfaceRefInput  `json:"networkInterface"`
+	Site              []*SiteRefInput              `json:"site"`
 	SiteNetworkSubnet []*SiteNetworkSubnetRefInput `json:"siteNetworkSubnet"`
-	// Subnets and network ranges defined for the LAN interfaces of a site
-	Subnet []string `json:"subnet"`
-	// Predefined Cato groups
-	SystemGroup []*SystemGroupRefInput `json:"systemGroup"`
-	// Individual users defined for the account
-	User []*UserRefInput `json:"user"`
-	// Group of users
-	UsersGroup []*UsersGroupRefInput `json:"usersGroup"`
+	Subnet            []string                     `json:"subnet"`
+	SystemGroup       []*SystemGroupRefInput       `json:"systemGroup"`
+	User              []*UserRefInput              `json:"user"`
+	UsersGroup        []*UsersGroupRefInput        `json:"usersGroup"`
 }
 
 // Input of the settings for Source of an App Tenant Restriction rule
 type AppTenantRestrictionSourceUpdateInput struct {
-	// Source country traffic matching criteria.
-	Country []*CountryRefInput `json:"country,omitempty"`
-	// Floating Subnets (ie. Floating Ranges) are used to identify traffic exactly matched to the route advertised by BGP. They are not associated with a specific site. This is useful in scenarios such as active-standby high availability routed via BGP.
-	FloatingSubnet []*FloatingSubnetRefInput `json:"floatingSubnet,omitempty"`
-	// Globally defined IP range, IP and subnet objects
-	GlobalIPRange []*GlobalIPRangeRefInput `json:"globalIpRange,omitempty"`
-	// Groups defined for your account
-	Group []*GroupRefInput `json:"group,omitempty"`
-	// Hosts and servers defined for your account
-	Host []*HostRefInput `json:"host,omitempty"`
-	// IPv4 address
-	IP []string `json:"ip,omitempty"`
-	// Multiple separate IP addresses or an IP range
-	IPRange []*IPAddressRangeInput `json:"ipRange,omitempty"`
-	// Network range defined for a site
-	NetworkInterface []*NetworkInterfaceRefInput `json:"networkInterface,omitempty"`
-	// Site defined for the account
-	Site []*SiteRefInput `json:"site,omitempty"`
-	// GlobalRange + InterfaceSubnet
+	Country           []*CountryRefInput           `json:"country,omitempty"`
+	FloatingSubnet    []*FloatingSubnetRefInput    `json:"floatingSubnet,omitempty"`
+	GlobalIPRange     []*GlobalIPRangeRefInput     `json:"globalIpRange,omitempty"`
+	Group             []*GroupRefInput             `json:"group,omitempty"`
+	Host              []*HostRefInput              `json:"host,omitempty"`
+	IP                []string                     `json:"ip,omitempty"`
+	IPRange           []*IPAddressRangeInput       `json:"ipRange,omitempty"`
+	NetworkInterface  []*NetworkInterfaceRefInput  `json:"networkInterface,omitempty"`
+	Site              []*SiteRefInput              `json:"site,omitempty"`
 	SiteNetworkSubnet []*SiteNetworkSubnetRefInput `json:"siteNetworkSubnet,omitempty"`
-	// Subnets and network ranges defined for the LAN interfaces of a site
-	Subnet []string `json:"subnet,omitempty"`
-	// Predefined Cato groups
-	SystemGroup []*SystemGroupRefInput `json:"systemGroup,omitempty"`
-	// Individual users defined for the account
-	User []*UserRefInput `json:"user,omitempty"`
-	// Group of users
-	UsersGroup []*UsersGroupRefInput `json:"usersGroup,omitempty"`
+	Subnet            []string                     `json:"subnet,omitempty"`
+	SystemGroup       []*SystemGroupRefInput       `json:"systemGroup,omitempty"`
+	User              []*UserRefInput              `json:"user,omitempty"`
+	UsersGroup        []*UsersGroupRefInput        `json:"usersGroup,omitempty"`
 }
 
 type AppTenantRestrictionUpdateRuleDataInput struct {
-	// The action applied by the App Tenant Restriction if the rule is matched
-	Action *AppTenantRestrictionActionEnum `json:"action,omitempty"`
-	// Applications for the rule (pre-defined)
-	Application *ApplicationRefInput `json:"application,omitempty"`
-	Description *string              `json:"description,omitempty"`
-	Enabled     *bool                `json:"enabled,omitempty"`
-	// Headers and Values to Inject
-	Headers []*AppTenantRestrictionHeaderValueInput `json:"headers,omitempty"`
-	Name    *string                                 `json:"name,omitempty"`
-	// The time period specifying when the rule is enabled, otherwise it is disabled.
-	Schedule *PolicyScheduleUpdateInput `json:"schedule,omitempty"`
-	// Severity defined for the rule
-	Severity *AppTenantRestrictionSeverityEnum `json:"severity,omitempty"`
-	// Source traffic matching criteria.
-	// Logical ‘OR’ is applied within the criteria set.
-	// Logical ‘AND’ is applied between criteria sets.
-	Source *AppTenantRestrictionSourceUpdateInput `json:"source,omitempty"`
+	Action      *AppTenantRestrictionActionEnum         `json:"action,omitempty"`
+	Application *ApplicationRefInput                    `json:"application,omitempty"`
+	Description *string                                 `json:"description,omitempty"`
+	Enabled     *bool                                   `json:"enabled,omitempty"`
+	Headers     []*AppTenantRestrictionHeaderValueInput `json:"headers,omitempty"`
+	Name        *string                                 `json:"name,omitempty"`
+	Schedule    *PolicyScheduleUpdateInput              `json:"schedule,omitempty"`
+	Severity    *AppTenantRestrictionSeverityEnum       `json:"severity,omitempty"`
+	Source      *AppTenantRestrictionSourceUpdateInput  `json:"source,omitempty"`
 }
 
 type AppTenantRestrictionUpdateRuleInput struct {
@@ -2229,12 +1652,8 @@ type ApplicationCategoryRef struct {
 	Name string `json:"name"`
 }
 
-func (ApplicationCategoryRef) IsObjectRef() {}
-
-// Object's unique identifier
-func (this ApplicationCategoryRef) GetID() string { return this.ID }
-
-// Object's unique name
+func (ApplicationCategoryRef) IsObjectRef()         {}
+func (this ApplicationCategoryRef) GetID() string   { return this.ID }
 func (this ApplicationCategoryRef) GetName() string { return this.Name }
 
 type ApplicationCategoryRefInput struct {
@@ -2248,12 +1667,8 @@ type ApplicationConnectorCatalogEntityRef struct {
 	Name string `json:"name"`
 }
 
-func (ApplicationConnectorCatalogEntityRef) IsObjectRef() {}
-
-// Object's unique identifier
-func (this ApplicationConnectorCatalogEntityRef) GetID() string { return this.ID }
-
-// Object's unique name
+func (ApplicationConnectorCatalogEntityRef) IsObjectRef()         {}
+func (this ApplicationConnectorCatalogEntityRef) GetID() string   { return this.ID }
 func (this ApplicationConnectorCatalogEntityRef) GetName() string { return this.Name }
 
 type ApplicationConnectorCatalogEntityRefFilterInput struct {
@@ -2268,40 +1683,27 @@ type ApplicationConnectorCatalogEntityRefSortOrderInput struct {
 
 // Access method matching configuration
 type ApplicationControlAccessMethod struct {
-	// Specifies the access method type
 	AccessMethod ApplicationControlAccessMethodType `json:"accessMethod"`
-	// Defines the comparison operator
-	Operator ApplicationControlOperator `json:"operator"`
-	// Specifies the comparison value (used with all operators except IN)
-	Value *string `json:"value,omitempty"`
-	// References a set of values (used only with IN operator)
-	ValueSet *StringValueSetRef `json:"valueSet,omitempty"`
+	Operator     ApplicationControlOperator         `json:"operator"`
+	Value        *string                            `json:"value,omitempty"`
+	ValueSet     *StringValueSetRef                 `json:"valueSet,omitempty"`
 }
 
 // Access method matching configuration
 type ApplicationControlAccessMethodInput struct {
-	// Specifies the access method type
 	AccessMethod ApplicationControlAccessMethodType `json:"accessMethod"`
-	// Defines the comparison operator
-	Operator ApplicationControlOperator `json:"operator"`
-	// Specifies the comparison value (used with all operators except IN)
-	Value *string `json:"value,omitempty"`
-	// References a set of values (used only with IN operator)
-	ValueSet *StringValueSetRefInput `json:"valueSet,omitempty"`
+	Operator     ApplicationControlOperator         `json:"operator"`
+	Value        *string                            `json:"value,omitempty"`
+	ValueSet     *StringValueSetRefInput            `json:"valueSet,omitempty"`
 }
 
 // Activity matching configuration
 type ApplicationControlActivity struct {
-	// References the application control activity type
-	Activity *ApplicationControlActivityRef `json:"activity"`
-	// References specific application control activity fields associated with the activity type
-	Field *ApplicationControlActivityFieldRef `json:"field,omitempty"`
-	// Defines the operator used for comparisons
-	Operator *ApplicationControlOperator `json:"operator,omitempty"`
-	// Specifies the comparison value (used with all operators except IN)
-	Value *string `json:"value,omitempty"`
-	// References a set of values (used only with IN operator)
-	ValueSet *StringValueSetRef `json:"valueSet,omitempty"`
+	Activity *ApplicationControlActivityRef      `json:"activity"`
+	Field    *ApplicationControlActivityFieldRef `json:"field,omitempty"`
+	Operator *ApplicationControlOperator         `json:"operator,omitempty"`
+	Value    *string                             `json:"value,omitempty"`
+	ValueSet *StringValueSetRef                  `json:"valueSet,omitempty"`
 }
 
 type ApplicationControlActivityFieldRef struct {
@@ -2309,12 +1711,8 @@ type ApplicationControlActivityFieldRef struct {
 	Name string `json:"name"`
 }
 
-func (ApplicationControlActivityFieldRef) IsObjectRef() {}
-
-// Object's unique identifier
-func (this ApplicationControlActivityFieldRef) GetID() string { return this.ID }
-
-// Object's unique name
+func (ApplicationControlActivityFieldRef) IsObjectRef()         {}
+func (this ApplicationControlActivityFieldRef) GetID() string   { return this.ID }
 func (this ApplicationControlActivityFieldRef) GetName() string { return this.Name }
 
 type ApplicationControlActivityFieldRefInput struct {
@@ -2324,16 +1722,11 @@ type ApplicationControlActivityFieldRefInput struct {
 
 // Activity matching configuration
 type ApplicationControlActivityInput struct {
-	// References the application control activity type
-	Activity *ApplicationControlActivityRefInput `json:"activity"`
-	// References specific application control activity fields associated with the activity type
-	Field *ApplicationControlActivityFieldRefInput `json:"field,omitempty"`
-	// Defines the operator used for comparisons
-	Operator *ApplicationControlOperator `json:"operator,omitempty"`
-	// Specifies the comparison value (used with all operators except IN)
-	Value *string `json:"value,omitempty"`
-	// References a set of values (used only with IN operator)
-	ValueSet *StringValueSetRefInput `json:"valueSet,omitempty"`
+	Activity *ApplicationControlActivityRefInput      `json:"activity"`
+	Field    *ApplicationControlActivityFieldRefInput `json:"field,omitempty"`
+	Operator *ApplicationControlOperator              `json:"operator,omitempty"`
+	Value    *string                                  `json:"value,omitempty"`
+	ValueSet *StringValueSetRefInput                  `json:"valueSet,omitempty"`
 }
 
 type ApplicationControlActivityRef struct {
@@ -2341,12 +1734,8 @@ type ApplicationControlActivityRef struct {
 	Name string `json:"name"`
 }
 
-func (ApplicationControlActivityRef) IsObjectRef() {}
-
-// Object's unique identifier
-func (this ApplicationControlActivityRef) GetID() string { return this.ID }
-
-// Object's unique name
+func (ApplicationControlActivityRef) IsObjectRef()         {}
+func (this ApplicationControlActivityRef) GetID() string   { return this.ID }
 func (this ApplicationControlActivityRef) GetName() string { return this.Name }
 
 type ApplicationControlActivityRefInput struct {
@@ -2355,259 +1744,161 @@ type ApplicationControlActivityRefInput struct {
 }
 
 type ApplicationControlAddRuleDataInput struct {
-	// Defines application control settings. Must only be used when ruleType is APPLICATION
 	ApplicationRule *ApplicationControlApplicationRuleInput `json:"applicationRule,omitempty"`
-	// Defines data control settings. Must only be used when ruleType is DATA
-	DataRule    *ApplicationControlDataRuleInput `json:"dataRule,omitempty"`
-	Description string                           `json:"description"`
-	Enabled     bool                             `json:"enabled"`
-	// Defines file control settings. Must only be used when ruleType is FILE
-	FileRule *ApplicationControlFileRuleInput `json:"fileRule,omitempty"`
-	Name     string                           `json:"name"`
-	// Determines which rule configuration to use.
-	// When set to APPLICATION, only applicationRule should be used.
-	// When set to DATA, only dataRule should be used.
-	// When set to FILE, only fileRule should be used
-	RuleType ApplicationControlRuleType `json:"ruleType"`
+	DataRule        *ApplicationControlDataRuleInput        `json:"dataRule,omitempty"`
+	Description     string                                  `json:"description"`
+	Enabled         bool                                    `json:"enabled"`
+	FileRule        *ApplicationControlFileRuleInput        `json:"fileRule,omitempty"`
+	Name            string                                  `json:"name"`
+	RuleType        ApplicationControlRuleType              `json:"ruleType"`
 }
 
 type ApplicationControlAddRuleInput struct {
-	// Position of the rule in the policy
-	At *PolicyRulePositionInput `json:"at,omitempty"`
-	// Parameters for the rule you are adding
+	At   *PolicyRulePositionInput            `json:"at,omitempty"`
 	Rule *ApplicationControlAddRuleDataInput `json:"rule"`
 }
 
 // Application matching configuration. Only one of the following fields should be filled - the others must remain empty.
 type ApplicationControlApplication struct {
-	// Cato category of applications which are dynamically updated by Cato
-	AppCategory *ApplicationCategoryRef `json:"appCategory,omitempty"`
-	// Applications for the rule (pre-defined)
-	Application *ApplicationRef `json:"application,omitempty"`
-	// Application types
-	ApplicationType []ApplicationType `json:"applicationType"`
-	// Custom (user-defined) applications
-	CustomApp *CustomApplicationRef `json:"customApp,omitempty"`
-	// Custom Categories – Groups of objects such as predefined and custom applications, predefined and custom services, domains, FQDNs etc.
-	CustomCategory *CustomCategoryRef `json:"customCategory,omitempty"`
-	// Sanctioned Cloud Applications - apps that are approved and generally represent an understood and acceptable level of risk in your organization.
+	AppCategory            *ApplicationCategoryRef    `json:"appCategory,omitempty"`
+	Application            *ApplicationRef            `json:"application,omitempty"`
+	ApplicationType        []ApplicationType          `json:"applicationType"`
+	CustomApp              *CustomApplicationRef      `json:"customApp,omitempty"`
+	CustomCategory         *CustomCategoryRef         `json:"customCategory,omitempty"`
 	SanctionedAppsCategory *SanctionedAppsCategoryRef `json:"sanctionedAppsCategory,omitempty"`
 }
 
 // Application matching configuration. Only one of the following fields should be filled - the others must remain empty.
 type ApplicationControlApplicationInput struct {
-	// Cato category of applications which are dynamically updated by Cato
-	AppCategory *ApplicationCategoryRefInput `json:"appCategory,omitempty"`
-	// Applications for the rule (pre-defined)
-	Application *ApplicationRefInput `json:"application,omitempty"`
-	// Application types
-	ApplicationType []ApplicationType `json:"applicationType"`
-	// Custom (user-defined) applications
-	CustomApp *CustomApplicationRefInput `json:"customApp,omitempty"`
-	// Custom Categories – Groups of objects such as predefined and custom applications, predefined and custom services, domains, FQDNs etc.
-	CustomCategory *CustomCategoryRefInput `json:"customCategory,omitempty"`
-	// Sanctioned Cloud Applications - apps that are approved and generally represent an understood and acceptable level of risk in your organization.
+	AppCategory            *ApplicationCategoryRefInput    `json:"appCategory,omitempty"`
+	Application            *ApplicationRefInput            `json:"application,omitempty"`
+	ApplicationType        []ApplicationType               `json:"applicationType"`
+	CustomApp              *CustomApplicationRefInput      `json:"customApp,omitempty"`
+	CustomCategory         *CustomCategoryRefInput         `json:"customCategory,omitempty"`
 	SanctionedAppsCategory *SanctionedAppsCategoryRefInput `json:"sanctionedAppsCategory,omitempty"`
 }
 
 // Configuration for application-based control rules
 type ApplicationControlApplicationRule struct {
-	// Defines access method criteria with OR logic within sets and AND between sets
-	AccessMethod []*ApplicationControlAccessMethod `json:"accessMethod"`
-	// Defines the enforcement action when rule conditions match
-	Action ApplicationControlAction `json:"action"`
-	// Defines application matching criteria with OR logic within sets and AND between sets
-	Application *ApplicationControlApplication `json:"application"`
-	// Defines activity matching criteria using activitySatisfy logic within sets and AND between sets
-	ApplicationActivity []*ApplicationControlActivity `json:"applicationActivity"`
-	// Determines whether ANY or ALL activity criteria must match
-	ApplicationActivitySatisfy ApplicationControlSatisfy `json:"applicationActivitySatisfy"`
-	// Defines application context criteria with OR logic within sets and AND between sets
-	ApplicationContext *ApplicationControlContext `json:"applicationContext"`
-	// Defines custom criteria using applicationCriteriaSatisfy logic within sets and AND between sets
-	ApplicationCriteria *ApplicationControlCriteria `json:"applicationCriteria"`
-	// Determines whether ANY or ALL criteria must match
-	ApplicationCriteriaSatisfy ApplicationControlSatisfy `json:"applicationCriteriaSatisfy"`
-	// Defines device profile criteria with OR logic within sets and AND between sets
-	Device []*DeviceProfileRef `json:"device"`
-	// Defines time periods when the rule is active
-	Schedule *PolicySchedule `json:"schedule"`
-	// Indicates the rule's severity level
-	Severity ApplicationControlSeverity `json:"severity"`
-	// Defines source traffic criteria with OR logic within sets and AND between sets
-	Source *ApplicationControlSource `json:"source"`
-	// Specifies event logging and notification settings
-	Tracking *PolicyTracking `json:"tracking"`
+	AccessMethod               []*ApplicationControlAccessMethod `json:"accessMethod"`
+	Action                     ApplicationControlAction          `json:"action"`
+	Application                *ApplicationControlApplication    `json:"application"`
+	ApplicationActivity        []*ApplicationControlActivity     `json:"applicationActivity"`
+	ApplicationActivitySatisfy ApplicationControlSatisfy         `json:"applicationActivitySatisfy"`
+	ApplicationContext         *ApplicationControlContext        `json:"applicationContext"`
+	ApplicationCriteria        *ApplicationControlCriteria       `json:"applicationCriteria"`
+	ApplicationCriteriaSatisfy ApplicationControlSatisfy         `json:"applicationCriteriaSatisfy"`
+	Device                     []*DeviceProfileRef               `json:"device"`
+	Schedule                   *PolicySchedule                   `json:"schedule"`
+	Severity                   ApplicationControlSeverity        `json:"severity"`
+	Source                     *ApplicationControlSource         `json:"source"`
+	Tracking                   *PolicyTracking                   `json:"tracking"`
 }
 
 // Configuration for application-based control rules
 type ApplicationControlApplicationRuleInput struct {
-	// Defines access method criteria with OR logic within sets and AND between sets
-	AccessMethod []*ApplicationControlAccessMethodInput `json:"accessMethod"`
-	// Defines the enforcement action when rule conditions match
-	Action ApplicationControlAction `json:"action"`
-	// Defines application matching criteria with OR logic within sets and AND between sets
-	Application *ApplicationControlApplicationInput `json:"application"`
-	// Defines activity matching criteria using activitySatisfy logic within sets and AND between sets
-	ApplicationActivity []*ApplicationControlActivityInput `json:"applicationActivity"`
-	// Determines whether ANY or ALL activity criteria must match
-	ApplicationActivitySatisfy ApplicationControlSatisfy `json:"applicationActivitySatisfy"`
-	// Defines application context criteria with OR logic within sets and AND between sets
-	ApplicationContext *ApplicationControlContextInput `json:"applicationContext"`
-	// Defines custom criteria using applicationCriteriaSatisfy logic within sets and AND between sets
-	ApplicationCriteria *ApplicationControlCriteriaInput `json:"applicationCriteria"`
-	// Determines whether ANY or ALL criteria must match
-	ApplicationCriteriaSatisfy ApplicationControlSatisfy `json:"applicationCriteriaSatisfy"`
-	// Defines device profile criteria with OR logic within sets and AND between sets
-	Device []*DeviceProfileRefInput `json:"device"`
-	// Defines time periods when the rule is active
-	Schedule *PolicyScheduleInput `json:"schedule"`
-	// Indicates the rule's severity level
-	Severity ApplicationControlSeverity `json:"severity"`
-	// Defines source traffic criteria with OR logic within sets and AND between sets
-	Source *ApplicationControlSourceInput `json:"source"`
-	// Specifies event logging and notification settings
-	Tracking *PolicyTrackingInput `json:"tracking"`
+	AccessMethod               []*ApplicationControlAccessMethodInput `json:"accessMethod"`
+	Action                     ApplicationControlAction               `json:"action"`
+	Application                *ApplicationControlApplicationInput    `json:"application"`
+	ApplicationActivity        []*ApplicationControlActivityInput     `json:"applicationActivity"`
+	ApplicationActivitySatisfy ApplicationControlSatisfy              `json:"applicationActivitySatisfy"`
+	ApplicationContext         *ApplicationControlContextInput        `json:"applicationContext"`
+	ApplicationCriteria        *ApplicationControlCriteriaInput       `json:"applicationCriteria"`
+	ApplicationCriteriaSatisfy ApplicationControlSatisfy              `json:"applicationCriteriaSatisfy"`
+	Device                     []*DeviceProfileRefInput               `json:"device"`
+	Schedule                   *PolicyScheduleInput                   `json:"schedule"`
+	Severity                   ApplicationControlSeverity             `json:"severity"`
+	Source                     *ApplicationControlSourceInput         `json:"source"`
+	Tracking                   *PolicyTrackingInput                   `json:"tracking"`
 }
 
 // Configuration for application-based control rules
 type ApplicationControlApplicationRuleUpdateInput struct {
-	// Defines access method criteria with OR logic within sets and AND between sets
-	AccessMethod []*ApplicationControlAccessMethodInput `json:"accessMethod,omitempty"`
-	// Defines the enforcement action when rule conditions match
-	Action *ApplicationControlAction `json:"action,omitempty"`
-	// Defines application matching criteria with OR logic within sets and AND between sets
-	Application *ApplicationControlApplicationUpdateInput `json:"application,omitempty"`
-	// Defines activity matching criteria using activitySatisfy logic within sets and AND between sets
-	ApplicationActivity []*ApplicationControlActivityInput `json:"applicationActivity,omitempty"`
-	// Determines whether ANY or ALL activity criteria must match
-	ApplicationActivitySatisfy *ApplicationControlSatisfy `json:"applicationActivitySatisfy,omitempty"`
-	// Defines application context criteria with OR logic within sets and AND between sets
-	ApplicationContext *ApplicationControlContextUpdateInput `json:"applicationContext,omitempty"`
-	// Defines custom criteria using applicationCriteriaSatisfy logic within sets and AND between sets
-	ApplicationCriteria *ApplicationControlCriteriaUpdateInput `json:"applicationCriteria,omitempty"`
-	// Determines whether ANY or ALL criteria must match
-	ApplicationCriteriaSatisfy *ApplicationControlSatisfy `json:"applicationCriteriaSatisfy,omitempty"`
-	// Defines device profile criteria with OR logic within sets and AND between sets
-	Device []*DeviceProfileRefInput `json:"device,omitempty"`
-	// Defines time periods when the rule is active
-	Schedule *PolicyScheduleUpdateInput `json:"schedule,omitempty"`
-	// Indicates the rule's severity level
-	Severity *ApplicationControlSeverity `json:"severity,omitempty"`
-	// Defines source traffic criteria with OR logic within sets and AND between sets
-	Source *ApplicationControlSourceUpdateInput `json:"source,omitempty"`
-	// Specifies event logging and notification settings
-	Tracking *PolicyTrackingUpdateInput `json:"tracking,omitempty"`
+	AccessMethod               []*ApplicationControlAccessMethodInput    `json:"accessMethod,omitempty"`
+	Action                     *ApplicationControlAction                 `json:"action,omitempty"`
+	Application                *ApplicationControlApplicationUpdateInput `json:"application,omitempty"`
+	ApplicationActivity        []*ApplicationControlActivityInput        `json:"applicationActivity,omitempty"`
+	ApplicationActivitySatisfy *ApplicationControlSatisfy                `json:"applicationActivitySatisfy,omitempty"`
+	ApplicationContext         *ApplicationControlContextUpdateInput     `json:"applicationContext,omitempty"`
+	ApplicationCriteria        *ApplicationControlCriteriaUpdateInput    `json:"applicationCriteria,omitempty"`
+	ApplicationCriteriaSatisfy *ApplicationControlSatisfy                `json:"applicationCriteriaSatisfy,omitempty"`
+	Device                     []*DeviceProfileRefInput                  `json:"device,omitempty"`
+	Schedule                   *PolicyScheduleUpdateInput                `json:"schedule,omitempty"`
+	Severity                   *ApplicationControlSeverity               `json:"severity,omitempty"`
+	Source                     *ApplicationControlSourceUpdateInput      `json:"source,omitempty"`
+	Tracking                   *PolicyTrackingUpdateInput                `json:"tracking,omitempty"`
 }
 
 // Application matching configuration. Only one of the following fields should be filled - the others must remain empty.
 type ApplicationControlApplicationUpdateInput struct {
-	// Cato category of applications which are dynamically updated by Cato
-	AppCategory *ApplicationCategoryRefInput `json:"appCategory,omitempty"`
-	// Applications for the rule (pre-defined)
-	Application *ApplicationRefInput `json:"application,omitempty"`
-	// Application types
-	ApplicationType []ApplicationType `json:"applicationType,omitempty"`
-	// Custom (user-defined) applications
-	CustomApp *CustomApplicationRefInput `json:"customApp,omitempty"`
-	// Custom Categories – Groups of objects such as predefined and custom applications, predefined and custom services, domains, FQDNs etc.
-	CustomCategory *CustomCategoryRefInput `json:"customCategory,omitempty"`
-	// Sanctioned Cloud Applications - apps that are approved and generally represent an understood and acceptable level of risk in your organization.
+	AppCategory            *ApplicationCategoryRefInput    `json:"appCategory,omitempty"`
+	Application            *ApplicationRefInput            `json:"application,omitempty"`
+	ApplicationType        []ApplicationType               `json:"applicationType,omitempty"`
+	CustomApp              *CustomApplicationRefInput      `json:"customApp,omitempty"`
+	CustomCategory         *CustomCategoryRefInput         `json:"customCategory,omitempty"`
 	SanctionedAppsCategory *SanctionedAppsCategoryRefInput `json:"sanctionedAppsCategory,omitempty"`
 }
 
 // Application attributes, such as compliance and security, see the app catalog for details
 type ApplicationControlAttributes struct {
-	// Compliance attributes
 	ComplianceAttributes *ApplicationControlComplianceAttributes `json:"complianceAttributes"`
-	// Security attributes
-	SecurityAttributes *ApplicationControlSecurityAttributes `json:"securityAttributes"`
+	SecurityAttributes   *ApplicationControlSecurityAttributes   `json:"securityAttributes"`
 }
 
 // Application attributes, such as compliance and security, see the app catalog for details
 type ApplicationControlAttributesInput struct {
-	// Compliance attributes
 	ComplianceAttributes *ApplicationControlComplianceAttributesInput `json:"complianceAttributes"`
-	// Security attributes
-	SecurityAttributes *ApplicationControlSecurityAttributesInput `json:"securityAttributes"`
+	SecurityAttributes   *ApplicationControlSecurityAttributesInput   `json:"securityAttributes"`
 }
 
 // Application attributes, such as compliance and security, see the app catalog for details
 type ApplicationControlAttributesUpdateInput struct {
-	// Compliance attributes
 	ComplianceAttributes *ApplicationControlComplianceAttributesUpdateInput `json:"complianceAttributes,omitempty"`
-	// Security attributes
-	SecurityAttributes *ApplicationControlSecurityAttributesUpdateInput `json:"securityAttributes,omitempty"`
+	SecurityAttributes   *ApplicationControlSecurityAttributesUpdateInput   `json:"securityAttributes,omitempty"`
 }
 
 // Compliance attributes
 type ApplicationControlComplianceAttributes struct {
-	// HIPAA
-	Hippa ApplicationControlAttributeValue `json:"hippa"`
-	// ISAE 3402
+	Hippa    ApplicationControlAttributeValue `json:"hippa"`
 	Isae3402 ApplicationControlAttributeValue `json:"isae3402"`
-	// ISO 27001
 	Iso27001 ApplicationControlAttributeValue `json:"iso27001"`
-	// PCI DSS
-	PciDss ApplicationControlAttributeValue `json:"pciDss"`
-	// SOC 1
-	Soc1 ApplicationControlAttributeValue `json:"soc1"`
-	// SOC 2
-	Soc2 ApplicationControlAttributeValue `json:"soc2"`
-	// SOC 3
-	Soc3 ApplicationControlAttributeValue `json:"soc3"`
-	// SOX
-	Sox ApplicationControlAttributeValue `json:"sox"`
+	PciDss   ApplicationControlAttributeValue `json:"pciDss"`
+	Soc1     ApplicationControlAttributeValue `json:"soc1"`
+	Soc2     ApplicationControlAttributeValue `json:"soc2"`
+	Soc3     ApplicationControlAttributeValue `json:"soc3"`
+	Sox      ApplicationControlAttributeValue `json:"sox"`
 }
 
 // Compliance attributes
 type ApplicationControlComplianceAttributesInput struct {
-	// HIPAA
-	Hippa ApplicationControlAttributeValue `json:"hippa"`
-	// ISAE 3402
+	Hippa    ApplicationControlAttributeValue `json:"hippa"`
 	Isae3402 ApplicationControlAttributeValue `json:"isae3402"`
-	// ISO 27001
 	Iso27001 ApplicationControlAttributeValue `json:"iso27001"`
-	// PCI DSS
-	PciDss ApplicationControlAttributeValue `json:"pciDss"`
-	// SOC 1
-	Soc1 ApplicationControlAttributeValue `json:"soc1"`
-	// SOC 2
-	Soc2 ApplicationControlAttributeValue `json:"soc2"`
-	// SOC 3
-	Soc3 ApplicationControlAttributeValue `json:"soc3"`
-	// SOX
-	Sox ApplicationControlAttributeValue `json:"sox"`
+	PciDss   ApplicationControlAttributeValue `json:"pciDss"`
+	Soc1     ApplicationControlAttributeValue `json:"soc1"`
+	Soc2     ApplicationControlAttributeValue `json:"soc2"`
+	Soc3     ApplicationControlAttributeValue `json:"soc3"`
+	Sox      ApplicationControlAttributeValue `json:"sox"`
 }
 
 // Compliance attributes
 type ApplicationControlComplianceAttributesUpdateInput struct {
-	// HIPAA
-	Hippa *ApplicationControlAttributeValue `json:"hippa,omitempty"`
-	// ISAE 3402
+	Hippa    *ApplicationControlAttributeValue `json:"hippa,omitempty"`
 	Isae3402 *ApplicationControlAttributeValue `json:"isae3402,omitempty"`
-	// ISO 27001
 	Iso27001 *ApplicationControlAttributeValue `json:"iso27001,omitempty"`
-	// PCI DSS
-	PciDss *ApplicationControlAttributeValue `json:"pciDss,omitempty"`
-	// SOC 1
-	Soc1 *ApplicationControlAttributeValue `json:"soc1,omitempty"`
-	// SOC 2
-	Soc2 *ApplicationControlAttributeValue `json:"soc2,omitempty"`
-	// SOC 3
-	Soc3 *ApplicationControlAttributeValue `json:"soc3,omitempty"`
-	// SOX
-	Sox *ApplicationControlAttributeValue `json:"sox,omitempty"`
+	PciDss   *ApplicationControlAttributeValue `json:"pciDss,omitempty"`
+	Soc1     *ApplicationControlAttributeValue `json:"soc1,omitempty"`
+	Soc2     *ApplicationControlAttributeValue `json:"soc2,omitempty"`
+	Soc3     *ApplicationControlAttributeValue `json:"soc3,omitempty"`
+	Sox      *ApplicationControlAttributeValue `json:"sox,omitempty"`
 }
 
 // Additional attributes for application control
 type ApplicationControlConfig struct {
-	// Data Control Enabled
 	DataControlEnabled PolicyToggleState `json:"dataControlEnabled"`
 }
 
 type ApplicationControlConfigInput struct {
-	// Data Control Enabled
 	DataControlEnabled PolicyToggleState `json:"dataControlEnabled"`
 }
 
@@ -2616,12 +1907,8 @@ type ApplicationControlContentTypeGroupRef struct {
 	Name string `json:"name"`
 }
 
-func (ApplicationControlContentTypeGroupRef) IsObjectRef() {}
-
-// Object's unique identifier
-func (this ApplicationControlContentTypeGroupRef) GetID() string { return this.ID }
-
-// Object's unique name
+func (ApplicationControlContentTypeGroupRef) IsObjectRef()         {}
+func (this ApplicationControlContentTypeGroupRef) GetID() string   { return this.ID }
 func (this ApplicationControlContentTypeGroupRef) GetName() string { return this.Name }
 
 type ApplicationControlContentTypeGroupRefInput struct {
@@ -2634,12 +1921,8 @@ type ApplicationControlContentTypeRef struct {
 	Name string `json:"name"`
 }
 
-func (ApplicationControlContentTypeRef) IsObjectRef() {}
-
-// Object's unique identifier
-func (this ApplicationControlContentTypeRef) GetID() string { return this.ID }
-
-// Object's unique name
+func (ApplicationControlContentTypeRef) IsObjectRef()         {}
+func (this ApplicationControlContentTypeRef) GetID() string   { return this.ID }
 func (this ApplicationControlContentTypeRef) GetName() string { return this.Name }
 
 type ApplicationControlContentTypeRefInput struct {
@@ -2648,280 +1931,174 @@ type ApplicationControlContentTypeRefInput struct {
 }
 
 type ApplicationControlContext struct {
-	// Defines the name of the application tenant to which the policy rule applies
 	ApplicationTenant []*ApplicationControlTenant `json:"applicationTenant"`
 }
 
 type ApplicationControlContextInput struct {
-	// Defines the name of the application tenant to which the policy rule applies
 	ApplicationTenant []*ApplicationControlTenantInput `json:"applicationTenant"`
 }
 
 type ApplicationControlContextUpdateInput struct {
-	// Defines the name of the application tenant to which the policy rule applies
 	ApplicationTenant []*ApplicationControlTenantInput `json:"applicationTenant,omitempty"`
 }
 
 // Application criteria configuration
 type ApplicationControlCriteria struct {
-	// Application attributes, such as compliance and security, see the app catalog for details
-	Attributes *ApplicationControlAttributes `json:"attributes"`
-	// Application registered country of origin
-	OriginCountry []*CountryRef `json:"originCountry"`
-	// Application risk
-	Risk []*ApplicationControlRiskCriteria `json:"risk"`
+	Attributes    *ApplicationControlAttributes     `json:"attributes"`
+	OriginCountry []*CountryRef                     `json:"originCountry"`
+	Risk          []*ApplicationControlRiskCriteria `json:"risk"`
 }
 
 // Application criteria configuration
 type ApplicationControlCriteriaInput struct {
-	// Application attributes, such as compliance and security, see the app catalog for details
-	Attributes *ApplicationControlAttributesInput `json:"attributes"`
-	// Application registered country of origin
-	OriginCountry []*CountryRefInput `json:"originCountry"`
-	// Application risk
-	Risk []*ApplicationControlRiskCriteriaInput `json:"risk"`
+	Attributes    *ApplicationControlAttributesInput     `json:"attributes"`
+	OriginCountry []*CountryRefInput                     `json:"originCountry"`
+	Risk          []*ApplicationControlRiskCriteriaInput `json:"risk"`
 }
 
 // Application criteria configuration
 type ApplicationControlCriteriaUpdateInput struct {
-	// Application attributes, such as compliance and security, see the app catalog for details
-	Attributes *ApplicationControlAttributesUpdateInput `json:"attributes,omitempty"`
-	// Application registered country of origin
-	OriginCountry []*CountryRefInput `json:"originCountry,omitempty"`
-	// Application risk
-	Risk []*ApplicationControlRiskCriteriaInput `json:"risk,omitempty"`
+	Attributes    *ApplicationControlAttributesUpdateInput `json:"attributes,omitempty"`
+	OriginCountry []*CountryRefInput                       `json:"originCountry,omitempty"`
+	Risk          []*ApplicationControlRiskCriteriaInput   `json:"risk,omitempty"`
 }
 
 // Configuration for data-based control rules
 type ApplicationControlDataRule struct {
-	// Defines access method criteria with OR logic within sets and AND between sets
-	AccessMethod []*ApplicationControlAccessMethod `json:"accessMethod"`
-	// Defines the enforcement action when rule conditions match
-	Action ApplicationControlAction `json:"action"`
-	// Defines application matching criteria with OR logic within sets and AND between sets
-	Application *ApplicationControlApplication `json:"application"`
-	// Defines activity matching criteria using activitySatisfy logic within sets and AND between sets
-	ApplicationActivity []*ApplicationControlActivity `json:"applicationActivity"`
-	// Determines whether ANY or ALL activity criteria must match
-	ApplicationActivitySatisfy ApplicationControlSatisfy `json:"applicationActivitySatisfy"`
-	// Defines application context criteria with OR logic within sets and AND between sets
-	ApplicationContext *ApplicationControlContext `json:"applicationContext"`
-	// Defines device profile criteria with OR logic within sets and AND between sets
-	Device []*DeviceProfileRef `json:"device"`
-	// Specifies DLP profile matching criteria with OR logic within sets and AND between sets
-	DlpProfile *ApplicationControlDlpProfile `json:"dlpProfile"`
-	// Defines file attribute criteria using fileAttributeSatisfy logic within sets and AND between sets
-	FileAttribute []*ApplicationControlFileAttribute `json:"fileAttribute"`
-	// Determines whether ANY or ALL file attribute criteria must match
-	FileAttributeSatisfy ApplicationControlSatisfy `json:"fileAttributeSatisfy"`
-	// Defines time periods when the rule is active
-	Schedule *PolicySchedule `json:"schedule"`
-	// Indicates the rule's severity level
-	Severity ApplicationControlSeverity `json:"severity"`
-	// Defines source traffic criteria with OR logic within sets and AND between sets
-	Source *ApplicationControlSource `json:"source"`
-	// Specifies event logging and notification settings
-	Tracking *PolicyTracking `json:"tracking"`
+	AccessMethod               []*ApplicationControlAccessMethod  `json:"accessMethod"`
+	Action                     ApplicationControlAction           `json:"action"`
+	Application                *ApplicationControlApplication     `json:"application"`
+	ApplicationActivity        []*ApplicationControlActivity      `json:"applicationActivity"`
+	ApplicationActivitySatisfy ApplicationControlSatisfy          `json:"applicationActivitySatisfy"`
+	ApplicationContext         *ApplicationControlContext         `json:"applicationContext"`
+	Device                     []*DeviceProfileRef                `json:"device"`
+	DlpProfile                 *ApplicationControlDlpProfile      `json:"dlpProfile"`
+	FileAttribute              []*ApplicationControlFileAttribute `json:"fileAttribute"`
+	FileAttributeSatisfy       ApplicationControlSatisfy          `json:"fileAttributeSatisfy"`
+	Schedule                   *PolicySchedule                    `json:"schedule"`
+	Severity                   ApplicationControlSeverity         `json:"severity"`
+	Source                     *ApplicationControlSource          `json:"source"`
+	Tracking                   *PolicyTracking                    `json:"tracking"`
 }
 
 // Configuration for data-based control rules
 type ApplicationControlDataRuleInput struct {
-	// Defines access method criteria with OR logic within sets and AND between sets
-	AccessMethod []*ApplicationControlAccessMethodInput `json:"accessMethod"`
-	// Defines the enforcement action when rule conditions match
-	Action ApplicationControlAction `json:"action"`
-	// Defines application matching criteria with OR logic within sets and AND between sets
-	Application *ApplicationControlApplicationInput `json:"application"`
-	// Defines activity matching criteria using activitySatisfy logic within sets and AND between sets
-	ApplicationActivity []*ApplicationControlActivityInput `json:"applicationActivity"`
-	// Determines whether ANY or ALL activity criteria must match
-	ApplicationActivitySatisfy ApplicationControlSatisfy `json:"applicationActivitySatisfy"`
-	// Defines application context criteria with OR logic within sets and AND between sets
-	ApplicationContext *ApplicationControlContextInput `json:"applicationContext"`
-	// Defines device profile criteria with OR logic within sets and AND between sets
-	Device []*DeviceProfileRefInput `json:"device"`
-	// Specifies DLP profile matching criteria with OR logic within sets and AND between sets
-	DlpProfile *ApplicationControlDlpProfileInput `json:"dlpProfile"`
-	// Defines file attribute criteria using fileAttributeSatisfy logic within sets and AND between sets
-	FileAttribute []*ApplicationControlFileAttributeInput `json:"fileAttribute"`
-	// Determines whether ANY or ALL file attribute criteria must match
-	FileAttributeSatisfy ApplicationControlSatisfy `json:"fileAttributeSatisfy"`
-	// Defines time periods when the rule is active
-	Schedule *PolicyScheduleInput `json:"schedule"`
-	// Indicates the rule's severity level
-	Severity ApplicationControlSeverity `json:"severity"`
-	// Defines source traffic criteria with OR logic within sets and AND between sets
-	Source *ApplicationControlSourceInput `json:"source"`
-	// Specifies event logging and notification settings
-	Tracking *PolicyTrackingInput `json:"tracking"`
+	AccessMethod               []*ApplicationControlAccessMethodInput  `json:"accessMethod"`
+	Action                     ApplicationControlAction                `json:"action"`
+	Application                *ApplicationControlApplicationInput     `json:"application"`
+	ApplicationActivity        []*ApplicationControlActivityInput      `json:"applicationActivity"`
+	ApplicationActivitySatisfy ApplicationControlSatisfy               `json:"applicationActivitySatisfy"`
+	ApplicationContext         *ApplicationControlContextInput         `json:"applicationContext"`
+	Device                     []*DeviceProfileRefInput                `json:"device"`
+	DlpProfile                 *ApplicationControlDlpProfileInput      `json:"dlpProfile"`
+	FileAttribute              []*ApplicationControlFileAttributeInput `json:"fileAttribute"`
+	FileAttributeSatisfy       ApplicationControlSatisfy               `json:"fileAttributeSatisfy"`
+	Schedule                   *PolicyScheduleInput                    `json:"schedule"`
+	Severity                   ApplicationControlSeverity              `json:"severity"`
+	Source                     *ApplicationControlSourceInput          `json:"source"`
+	Tracking                   *PolicyTrackingInput                    `json:"tracking"`
 }
 
 // Configuration for data-based control rules
 type ApplicationControlDataRuleUpdateInput struct {
-	// Defines access method criteria with OR logic within sets and AND between sets
-	AccessMethod []*ApplicationControlAccessMethodInput `json:"accessMethod,omitempty"`
-	// Defines the enforcement action when rule conditions match
-	Action *ApplicationControlAction `json:"action,omitempty"`
-	// Defines application matching criteria with OR logic within sets and AND between sets
-	Application *ApplicationControlApplicationUpdateInput `json:"application,omitempty"`
-	// Defines activity matching criteria using activitySatisfy logic within sets and AND between sets
-	ApplicationActivity []*ApplicationControlActivityInput `json:"applicationActivity,omitempty"`
-	// Determines whether ANY or ALL activity criteria must match
-	ApplicationActivitySatisfy *ApplicationControlSatisfy `json:"applicationActivitySatisfy,omitempty"`
-	// Defines application context criteria with OR logic within sets and AND between sets
-	ApplicationContext *ApplicationControlContextUpdateInput `json:"applicationContext,omitempty"`
-	// Defines device profile criteria with OR logic within sets and AND between sets
-	Device []*DeviceProfileRefInput `json:"device,omitempty"`
-	// Specifies DLP profile matching criteria with OR logic within sets and AND between sets
-	DlpProfile *ApplicationControlDlpProfileUpdateInput `json:"dlpProfile,omitempty"`
-	// Defines file attribute criteria using fileAttributeSatisfy logic within sets and AND between sets
-	FileAttribute []*ApplicationControlFileAttributeInput `json:"fileAttribute,omitempty"`
-	// Determines whether ANY or ALL file attribute criteria must match
-	FileAttributeSatisfy *ApplicationControlSatisfy `json:"fileAttributeSatisfy,omitempty"`
-	// Defines time periods when the rule is active
-	Schedule *PolicyScheduleUpdateInput `json:"schedule,omitempty"`
-	// Indicates the rule's severity level
-	Severity *ApplicationControlSeverity `json:"severity,omitempty"`
-	// Defines source traffic criteria with OR logic within sets and AND between sets
-	Source *ApplicationControlSourceUpdateInput `json:"source,omitempty"`
-	// Specifies event logging and notification settings
-	Tracking *PolicyTrackingUpdateInput `json:"tracking,omitempty"`
+	AccessMethod               []*ApplicationControlAccessMethodInput    `json:"accessMethod,omitempty"`
+	Action                     *ApplicationControlAction                 `json:"action,omitempty"`
+	Application                *ApplicationControlApplicationUpdateInput `json:"application,omitempty"`
+	ApplicationActivity        []*ApplicationControlActivityInput        `json:"applicationActivity,omitempty"`
+	ApplicationActivitySatisfy *ApplicationControlSatisfy                `json:"applicationActivitySatisfy,omitempty"`
+	ApplicationContext         *ApplicationControlContextUpdateInput     `json:"applicationContext,omitempty"`
+	Device                     []*DeviceProfileRefInput                  `json:"device,omitempty"`
+	DlpProfile                 *ApplicationControlDlpProfileUpdateInput  `json:"dlpProfile,omitempty"`
+	FileAttribute              []*ApplicationControlFileAttributeInput   `json:"fileAttribute,omitempty"`
+	FileAttributeSatisfy       *ApplicationControlSatisfy                `json:"fileAttributeSatisfy,omitempty"`
+	Schedule                   *PolicyScheduleUpdateInput                `json:"schedule,omitempty"`
+	Severity                   *ApplicationControlSeverity               `json:"severity,omitempty"`
+	Source                     *ApplicationControlSourceUpdateInput      `json:"source,omitempty"`
+	Tracking                   *PolicyTrackingUpdateInput                `json:"tracking,omitempty"`
 }
 
 // DLP profile configuration
 type ApplicationControlDlpProfile struct {
-	// References DLP content matching profiles
 	ContentProfile []*DlpContentProfileRef `json:"contentProfile"`
-	// References DLP exact data matching profiles
-	EdmProfile []*DlpEdmProfileRef `json:"edmProfile"`
+	EdmProfile     []*DlpEdmProfileRef     `json:"edmProfile"`
 }
 
 // DLP profile configuration
 type ApplicationControlDlpProfileInput struct {
-	// References DLP content matching profiles
 	ContentProfile []*DlpContentProfileRefInput `json:"contentProfile"`
-	// References DLP exact data matching profiles
-	EdmProfile []*DlpEdmProfileRefInput `json:"edmProfile"`
+	EdmProfile     []*DlpEdmProfileRefInput     `json:"edmProfile"`
 }
 
 // DLP profile configuration
 type ApplicationControlDlpProfileUpdateInput struct {
-	// References DLP content matching profiles
 	ContentProfile []*DlpContentProfileRefInput `json:"contentProfile,omitempty"`
-	// References DLP exact data matching profiles
-	EdmProfile []*DlpEdmProfileRefInput `json:"edmProfile,omitempty"`
+	EdmProfile     []*DlpEdmProfileRefInput     `json:"edmProfile,omitempty"`
 }
 
 // File attribute matching configuration
 type ApplicationControlFileAttribute struct {
-	// Specifies the content types groups (used only with Content Type attribute)
 	ContentTypeGroupValues []*ApplicationControlContentTypeGroupRef `json:"contentTypeGroupValues"`
-	// Specifies the content types (used only with Content Type attribute)
-	ContentTypeValues []*ApplicationControlContentTypeRef `json:"contentTypeValues"`
-	// Specifies the file attribute type
-	FileAttribute ApplicationControlFileAttributeType `json:"fileAttribute"`
-	// Defines the comparison operator
-	Operator ApplicationControlOperator `json:"operator"`
-	// Specifies the comparison value (used with all attributes except Content Type)
-	Value *string `json:"value,omitempty"`
+	ContentTypeValues      []*ApplicationControlContentTypeRef      `json:"contentTypeValues"`
+	FileAttribute          ApplicationControlFileAttributeType      `json:"fileAttribute"`
+	Operator               ApplicationControlOperator               `json:"operator"`
+	Value                  *string                                  `json:"value,omitempty"`
 }
 
 // File attribute matching configuration
 type ApplicationControlFileAttributeInput struct {
-	// Specifies the content types groups (used only with Content Type attribute)
 	ContentTypeGroupValues []*ApplicationControlContentTypeGroupRefInput `json:"contentTypeGroupValues"`
-	// Specifies the content types (used only with Content Type attribute)
-	ContentTypeValues []*ApplicationControlContentTypeRefInput `json:"contentTypeValues"`
-	// Specifies the file attribute type
-	FileAttribute ApplicationControlFileAttributeType `json:"fileAttribute"`
-	// Defines the comparison operator
-	Operator ApplicationControlOperator `json:"operator"`
-	// Specifies the comparison value (used with all attributes except Content Type)
-	Value *string `json:"value,omitempty"`
+	ContentTypeValues      []*ApplicationControlContentTypeRefInput      `json:"contentTypeValues"`
+	FileAttribute          ApplicationControlFileAttributeType           `json:"fileAttribute"`
+	Operator               ApplicationControlOperator                    `json:"operator"`
+	Value                  *string                                       `json:"value,omitempty"`
 }
 
 // Configuration for file-based control rules
 type ApplicationControlFileRule struct {
-	// Defines access method criteria with OR logic within sets and AND between sets
-	AccessMethod []*ApplicationControlAccessMethod `json:"accessMethod"`
-	// Defines the enforcement action when rule conditions match
-	Action ApplicationControlAction `json:"action"`
-	// Defines application matching criteria with OR logic within sets and AND between sets
-	Application *ApplicationControlApplication `json:"application"`
-	// Defines activity matching criteria using activitySatisfy logic within sets and AND between sets
-	ApplicationActivity []*ApplicationControlActivity `json:"applicationActivity"`
-	// Determines whether ANY or ALL activity criteria must match
-	ApplicationActivitySatisfy ApplicationControlSatisfy `json:"applicationActivitySatisfy"`
-	// Defines device profile criteria with OR logic within sets and AND between sets
-	Device []*DeviceProfileRef `json:"device"`
-	// Defines file attribute criteria using fileAttributeSatisfy logic within sets and AND between sets
-	FileAttribute []*ApplicationControlFileAttribute `json:"fileAttribute"`
-	// Determines whether ANY or ALL file attribute criteria must match
-	FileAttributeSatisfy ApplicationControlSatisfy `json:"fileAttributeSatisfy"`
-	// Defines time periods when the rule is active
-	Schedule *PolicySchedule `json:"schedule"`
-	// Indicates the rule's severity level
-	Severity ApplicationControlSeverity `json:"severity"`
-	// Defines source traffic criteria with OR logic within sets and AND between sets
-	Source *ApplicationControlSource `json:"source"`
-	// Specifies event logging and notification settings
-	Tracking *PolicyTracking `json:"tracking"`
+	AccessMethod               []*ApplicationControlAccessMethod  `json:"accessMethod"`
+	Action                     ApplicationControlAction           `json:"action"`
+	Application                *ApplicationControlApplication     `json:"application"`
+	ApplicationActivity        []*ApplicationControlActivity      `json:"applicationActivity"`
+	ApplicationActivitySatisfy ApplicationControlSatisfy          `json:"applicationActivitySatisfy"`
+	Device                     []*DeviceProfileRef                `json:"device"`
+	FileAttribute              []*ApplicationControlFileAttribute `json:"fileAttribute"`
+	FileAttributeSatisfy       ApplicationControlSatisfy          `json:"fileAttributeSatisfy"`
+	Schedule                   *PolicySchedule                    `json:"schedule"`
+	Severity                   ApplicationControlSeverity         `json:"severity"`
+	Source                     *ApplicationControlSource          `json:"source"`
+	Tracking                   *PolicyTracking                    `json:"tracking"`
 }
 
 // Configuration for file-based control rules
 type ApplicationControlFileRuleInput struct {
-	// Defines access method criteria with OR logic within sets and AND between sets
-	AccessMethod []*ApplicationControlAccessMethodInput `json:"accessMethod"`
-	// Defines the enforcement action when rule conditions match
-	Action ApplicationControlAction `json:"action"`
-	// Defines application matching criteria with OR logic within sets and AND between sets
-	Application *ApplicationControlApplicationInput `json:"application"`
-	// Defines activity matching criteria using activitySatisfy logic within sets and AND between sets
-	ApplicationActivity []*ApplicationControlActivityInput `json:"applicationActivity"`
-	// Determines whether ANY or ALL activity criteria must match
-	ApplicationActivitySatisfy ApplicationControlSatisfy `json:"applicationActivitySatisfy"`
-	// Defines device profile criteria with OR logic within sets and AND between sets
-	Device []*DeviceProfileRefInput `json:"device"`
-	// Defines file attribute criteria using fileAttributeSatisfy logic within sets and AND between sets
-	FileAttribute []*ApplicationControlFileAttributeInput `json:"fileAttribute"`
-	// Determines whether ANY or ALL file attribute criteria must match
-	FileAttributeSatisfy ApplicationControlSatisfy `json:"fileAttributeSatisfy"`
-	// Defines time periods when the rule is active
-	Schedule *PolicyScheduleInput `json:"schedule"`
-	// Indicates the rule's severity level
-	Severity ApplicationControlSeverity `json:"severity"`
-	// Defines source traffic criteria with OR logic within sets and AND between sets
-	Source *ApplicationControlSourceInput `json:"source"`
-	// Specifies event logging and notification settings
-	Tracking *PolicyTrackingInput `json:"tracking"`
+	AccessMethod               []*ApplicationControlAccessMethodInput  `json:"accessMethod"`
+	Action                     ApplicationControlAction                `json:"action"`
+	Application                *ApplicationControlApplicationInput     `json:"application"`
+	ApplicationActivity        []*ApplicationControlActivityInput      `json:"applicationActivity"`
+	ApplicationActivitySatisfy ApplicationControlSatisfy               `json:"applicationActivitySatisfy"`
+	Device                     []*DeviceProfileRefInput                `json:"device"`
+	FileAttribute              []*ApplicationControlFileAttributeInput `json:"fileAttribute"`
+	FileAttributeSatisfy       ApplicationControlSatisfy               `json:"fileAttributeSatisfy"`
+	Schedule                   *PolicyScheduleInput                    `json:"schedule"`
+	Severity                   ApplicationControlSeverity              `json:"severity"`
+	Source                     *ApplicationControlSourceInput          `json:"source"`
+	Tracking                   *PolicyTrackingInput                    `json:"tracking"`
 }
 
 // Configuration for file-based control rules
 type ApplicationControlFileRuleUpdateInput struct {
-	// Defines access method criteria with OR logic within sets and AND between sets
-	AccessMethod []*ApplicationControlAccessMethodInput `json:"accessMethod,omitempty"`
-	// Defines the enforcement action when rule conditions match
-	Action *ApplicationControlAction `json:"action,omitempty"`
-	// Defines application matching criteria with OR logic within sets and AND between sets
-	Application *ApplicationControlApplicationUpdateInput `json:"application,omitempty"`
-	// Defines activity matching criteria using activitySatisfy logic within sets and AND between sets
-	ApplicationActivity []*ApplicationControlActivityInput `json:"applicationActivity,omitempty"`
-	// Determines whether ANY or ALL activity criteria must match
-	ApplicationActivitySatisfy *ApplicationControlSatisfy `json:"applicationActivitySatisfy,omitempty"`
-	// Defines device profile criteria with OR logic within sets and AND between sets
-	Device []*DeviceProfileRefInput `json:"device,omitempty"`
-	// Defines file attribute criteria using fileAttributeSatisfy logic within sets and AND between sets
-	FileAttribute []*ApplicationControlFileAttributeInput `json:"fileAttribute,omitempty"`
-	// Determines whether ANY or ALL file attribute criteria must match
-	FileAttributeSatisfy *ApplicationControlSatisfy `json:"fileAttributeSatisfy,omitempty"`
-	// Defines time periods when the rule is active
-	Schedule *PolicyScheduleUpdateInput `json:"schedule,omitempty"`
-	// Indicates the rule's severity level
-	Severity *ApplicationControlSeverity `json:"severity,omitempty"`
-	// Defines source traffic criteria with OR logic within sets and AND between sets
-	Source *ApplicationControlSourceUpdateInput `json:"source,omitempty"`
-	// Specifies event logging and notification settings
-	Tracking *PolicyTrackingUpdateInput `json:"tracking,omitempty"`
+	AccessMethod               []*ApplicationControlAccessMethodInput    `json:"accessMethod,omitempty"`
+	Action                     *ApplicationControlAction                 `json:"action,omitempty"`
+	Application                *ApplicationControlApplicationUpdateInput `json:"application,omitempty"`
+	ApplicationActivity        []*ApplicationControlActivityInput        `json:"applicationActivity,omitempty"`
+	ApplicationActivitySatisfy *ApplicationControlSatisfy                `json:"applicationActivitySatisfy,omitempty"`
+	Device                     []*DeviceProfileRefInput                  `json:"device,omitempty"`
+	FileAttribute              []*ApplicationControlFileAttributeInput   `json:"fileAttribute,omitempty"`
+	FileAttributeSatisfy       *ApplicationControlSatisfy                `json:"fileAttributeSatisfy,omitempty"`
+	Schedule                   *PolicyScheduleUpdateInput                `json:"schedule,omitempty"`
+	Severity                   *ApplicationControlSeverity               `json:"severity,omitempty"`
+	Source                     *ApplicationControlSourceUpdateInput      `json:"source,omitempty"`
+	Tracking                   *PolicyTrackingUpdateInput                `json:"tracking,omitempty"`
 }
 
 type ApplicationControlPolicy struct {
@@ -2933,12 +2110,10 @@ type ApplicationControlPolicy struct {
 	Sections             []*PolicySectionPayload          `json:"sections"`
 }
 
-func (ApplicationControlPolicy) IsIPolicy() {}
-
-// TRUE = Policy is enabled, FALSE = Policy is disabled
-func (this ApplicationControlPolicy) GetEnabled() bool { return this.Enabled }
-
-// Return list of rules in the policy
+func (ApplicationControlPolicy) IsIPolicy()                        {}
+func (this ApplicationControlPolicy) GetAudit() *PolicyAudit       { return this.Audit }
+func (this ApplicationControlPolicy) GetEnabled() bool             { return this.Enabled }
+func (this ApplicationControlPolicy) GetRevision() *PolicyRevision { return this.Revision }
 func (this ApplicationControlPolicy) GetRules() []IPolicyRulePayload {
 	if this.Rules == nil {
 		return nil
@@ -2949,8 +2124,6 @@ func (this ApplicationControlPolicy) GetRules() []IPolicyRulePayload {
 	}
 	return interfaceSlice
 }
-
-// Return sections in the policy
 func (this ApplicationControlPolicy) GetSections() []*PolicySectionPayload {
 	if this.Sections == nil {
 		return nil
@@ -2962,18 +2135,7 @@ func (this ApplicationControlPolicy) GetSections() []*PolicySectionPayload {
 	return interfaceSlice
 }
 
-// Audit data for the policy
-func (this ApplicationControlPolicy) GetAudit() *PolicyAudit { return this.Audit }
-
-// Return data for the Policy revision
-func (this ApplicationControlPolicy) GetRevision() *PolicyRevision { return this.Revision }
-
 type ApplicationControlPolicyInput struct {
-	// A revision is a specific instance of the policy.
-	//  Unpublished revisions are working copies of the policy available to a specific
-	//  admin or a set of admins
-	//  Published revisions are revisions that were applied to the account network.
-	//  The last published revision is the active policy.
 	Revision *PolicyRevisionInput `json:"revision,omitempty"`
 }
 
@@ -2988,16 +2150,6 @@ type ApplicationControlPolicyMutationPayload struct {
 }
 
 func (ApplicationControlPolicyMutationPayload) IsIPolicyMutationPayload() {}
-
-// Data for the policy
-func (this ApplicationControlPolicyMutationPayload) GetPolicy() IPolicy { return *this.Policy }
-
-// Enum for the status of the policy change
-func (this ApplicationControlPolicyMutationPayload) GetStatus() PolicyMutationStatus {
-	return this.Status
-}
-
-// List of errors related to the policy change
 func (this ApplicationControlPolicyMutationPayload) GetErrors() []*PolicyMutationError {
 	if this.Errors == nil {
 		return nil
@@ -3007,6 +2159,10 @@ func (this ApplicationControlPolicyMutationPayload) GetErrors() []*PolicyMutatio
 		interfaceSlice = append(interfaceSlice, concrete)
 	}
 	return interfaceSlice
+}
+func (this ApplicationControlPolicyMutationPayload) GetPolicy() IPolicy { return *this.Policy }
+func (this ApplicationControlPolicyMutationPayload) GetStatus() PolicyMutationStatus {
+	return this.Status
 }
 
 type ApplicationControlPolicyMutations struct {
@@ -3040,65 +2196,35 @@ type ApplicationControlRemoveRuleInput struct {
 
 // Application risk
 type ApplicationControlRiskCriteria struct {
-	// Application risk
-	Risk string `json:"risk"`
-	// Application risk operator
+	Risk         string                     `json:"risk"`
 	RiskOperator ApplicationControlOperator `json:"riskOperator"`
 }
 
 // Application risk
 type ApplicationControlRiskCriteriaInput struct {
-	// Application risk
-	Risk string `json:"risk"`
-	// Application risk operator
+	Risk         string                     `json:"risk"`
 	RiskOperator ApplicationControlOperator `json:"riskOperator"`
 }
 
 type ApplicationControlRule struct {
-	// Defines application control settings. Must only be used when ruleType is APPLICATION
 	ApplicationRule *ApplicationControlApplicationRule `json:"applicationRule,omitempty"`
-	// Defines data control settings. Must only be used when ruleType is DATA
-	DataRule *ApplicationControlDataRule `json:"dataRule,omitempty"`
-	// Description for the rule
-	Description string `json:"description"`
-	// TRUE = Rule is enabled
-	//  FALSE = Rule is disabled
-	Enabled bool `json:"enabled"`
-	// Defines file control settings. Must only be used when ruleType is FILE
-	FileRule *ApplicationControlFileRule `json:"fileRule,omitempty"`
-	// Rule ID
-	ID string `json:"id"`
-	// Position / priority of rule
-	Index int64 `json:"index"`
-	// Name of the rule
-	Name string `json:"name"`
-	// Determines which rule configuration to use.
-	// When set to APPLICATION, only applicationRule should be used.
-	// When set to DATA, only dataRule should be used.
-	// When set to FILE, only fileRule should be used
-	RuleType ApplicationControlRuleType `json:"ruleType"`
-	// Policy section where the rule is located
-	Section *PolicySectionInfo `json:"section"`
+	DataRule        *ApplicationControlDataRule        `json:"dataRule,omitempty"`
+	Description     string                             `json:"description"`
+	Enabled         bool                               `json:"enabled"`
+	FileRule        *ApplicationControlFileRule        `json:"fileRule,omitempty"`
+	ID              string                             `json:"id"`
+	Index           int64                              `json:"index"`
+	Name            string                             `json:"name"`
+	RuleType        ApplicationControlRuleType         `json:"ruleType"`
+	Section         *PolicySectionInfo                 `json:"section"`
 }
 
-func (ApplicationControlRule) IsIPolicyRule() {}
-
-// Rule ID
-func (this ApplicationControlRule) GetID() string { return this.ID }
-
-// Name of the rule
-func (this ApplicationControlRule) GetName() string { return this.Name }
-
-// Description for the rule
-func (this ApplicationControlRule) GetDescription() *string { return &this.Description }
-
-// Position / priority of rule
-func (this ApplicationControlRule) GetIndex() int64 { return this.Index }
-
-// TRUE = Rule is enabled, FALSE = Rule is disabled
-func (this ApplicationControlRule) GetEnabled() bool { return this.Enabled }
-
-// Policy section where the rule is located
+func (ApplicationControlRule) IsIPolicyRule()                      {}
+func (this ApplicationControlRule) GetDescription() *string        { return &this.Description }
+func (this ApplicationControlRule) GetEnabled() bool               { return this.Enabled }
+func (this ApplicationControlRule) GetID() string                  { return this.ID }
+func (this ApplicationControlRule) GetIndex() int64                { return this.Index }
+func (this ApplicationControlRule) GetName() string                { return this.Name }
 func (this ApplicationControlRule) GetSection() *PolicySectionInfo { return this.Section }
 
 type ApplicationControlRuleMutationPayload struct {
@@ -3108,16 +2234,6 @@ type ApplicationControlRuleMutationPayload struct {
 }
 
 func (ApplicationControlRuleMutationPayload) IsIPolicyRuleMutationPayload() {}
-
-// Returns settings for the rule
-func (this ApplicationControlRuleMutationPayload) GetRule() IPolicyRulePayload { return *this.Rule }
-
-// Enum for the status of the policy change
-func (this ApplicationControlRuleMutationPayload) GetStatus() PolicyMutationStatus {
-	return this.Status
-}
-
-// List of errors related to the policy change
 func (this ApplicationControlRuleMutationPayload) GetErrors() []*PolicyMutationError {
 	if this.Errors == nil {
 		return nil
@@ -3128,6 +2244,10 @@ func (this ApplicationControlRuleMutationPayload) GetErrors() []*PolicyMutationE
 	}
 	return interfaceSlice
 }
+func (this ApplicationControlRuleMutationPayload) GetRule() IPolicyRulePayload { return *this.Rule }
+func (this ApplicationControlRuleMutationPayload) GetStatus() PolicyMutationStatus {
+	return this.Status
+}
 
 type ApplicationControlRulePayload struct {
 	Audit      *PolicyElementAudit           `json:"audit"`
@@ -3137,11 +2257,6 @@ type ApplicationControlRulePayload struct {
 
 func (ApplicationControlRulePayload) IsIPolicyRulePayload()              {}
 func (this ApplicationControlRulePayload) GetAudit() *PolicyElementAudit { return this.Audit }
-
-// Rule that was changed
-func (this ApplicationControlRulePayload) GetRule() IPolicyRule { return *this.Rule }
-
-// Summary of rule change, (ie. ADDED, UPDATED)
 func (this ApplicationControlRulePayload) GetProperties() []PolicyElementPropertiesEnum {
 	if this.Properties == nil {
 		return nil
@@ -3152,210 +2267,123 @@ func (this ApplicationControlRulePayload) GetProperties() []PolicyElementPropert
 	}
 	return interfaceSlice
 }
+func (this ApplicationControlRulePayload) GetRule() IPolicyRule { return *this.Rule }
 
 // Security attributes
 type ApplicationControlSecurityAttributes struct {
-	// Audit trail
-	AuditTrail ApplicationControlAttributeValue `json:"auditTrail"`
-	// Encryption at rest
-	EncryptionAtRest ApplicationControlAttributeValue `json:"encryptionAtRest"`
-	// Http security headers
+	AuditTrail          ApplicationControlAttributeValue `json:"auditTrail"`
+	EncryptionAtRest    ApplicationControlAttributeValue `json:"encryptionAtRest"`
 	HTTPSecurityHeaders ApplicationControlAttributeValue `json:"httpSecurityHeaders"`
-	// MFA
-	Mfa ApplicationControlAttributeValue `json:"mfa"`
-	// RBAC
-	Rbac ApplicationControlAttributeValue `json:"rbac"`
-	// Remember password
-	RememberPassword ApplicationControlAttributeValue `json:"rememberPassword"`
-	// SSO
-	Sso ApplicationControlAttributeValue `json:"sso"`
-	// TLS enforcement
-	TLSEnforcement ApplicationControlAttributeValue `json:"tlsEnforcement"`
-	// Trusted certificate
-	TrustedCertificate ApplicationControlAttributeValue `json:"trustedCertificate"`
+	Mfa                 ApplicationControlAttributeValue `json:"mfa"`
+	Rbac                ApplicationControlAttributeValue `json:"rbac"`
+	RememberPassword    ApplicationControlAttributeValue `json:"rememberPassword"`
+	Sso                 ApplicationControlAttributeValue `json:"sso"`
+	TLSEnforcement      ApplicationControlAttributeValue `json:"tlsEnforcement"`
+	TrustedCertificate  ApplicationControlAttributeValue `json:"trustedCertificate"`
 }
 
 // Security attributes
 type ApplicationControlSecurityAttributesInput struct {
-	// Audit trail
-	AuditTrail ApplicationControlAttributeValue `json:"auditTrail"`
-	// Encryption at rest
-	EncryptionAtRest ApplicationControlAttributeValue `json:"encryptionAtRest"`
-	// Http security headers
+	AuditTrail          ApplicationControlAttributeValue `json:"auditTrail"`
+	EncryptionAtRest    ApplicationControlAttributeValue `json:"encryptionAtRest"`
 	HTTPSecurityHeaders ApplicationControlAttributeValue `json:"httpSecurityHeaders"`
-	// MFA
-	Mfa ApplicationControlAttributeValue `json:"mfa"`
-	// RBAC
-	Rbac ApplicationControlAttributeValue `json:"rbac"`
-	// Remember password
-	RememberPassword ApplicationControlAttributeValue `json:"rememberPassword"`
-	// SSO
-	Sso ApplicationControlAttributeValue `json:"sso"`
-	// TLS enforcement
-	TLSEnforcement ApplicationControlAttributeValue `json:"tlsEnforcement"`
-	// Trusted certificate
-	TrustedCertificate ApplicationControlAttributeValue `json:"trustedCertificate"`
+	Mfa                 ApplicationControlAttributeValue `json:"mfa"`
+	Rbac                ApplicationControlAttributeValue `json:"rbac"`
+	RememberPassword    ApplicationControlAttributeValue `json:"rememberPassword"`
+	Sso                 ApplicationControlAttributeValue `json:"sso"`
+	TLSEnforcement      ApplicationControlAttributeValue `json:"tlsEnforcement"`
+	TrustedCertificate  ApplicationControlAttributeValue `json:"trustedCertificate"`
 }
 
 // Security attributes
 type ApplicationControlSecurityAttributesUpdateInput struct {
-	// Audit trail
-	AuditTrail *ApplicationControlAttributeValue `json:"auditTrail,omitempty"`
-	// Encryption at rest
-	EncryptionAtRest *ApplicationControlAttributeValue `json:"encryptionAtRest,omitempty"`
-	// Http security headers
+	AuditTrail          *ApplicationControlAttributeValue `json:"auditTrail,omitempty"`
+	EncryptionAtRest    *ApplicationControlAttributeValue `json:"encryptionAtRest,omitempty"`
 	HTTPSecurityHeaders *ApplicationControlAttributeValue `json:"httpSecurityHeaders,omitempty"`
-	// MFA
-	Mfa *ApplicationControlAttributeValue `json:"mfa,omitempty"`
-	// RBAC
-	Rbac *ApplicationControlAttributeValue `json:"rbac,omitempty"`
-	// Remember password
-	RememberPassword *ApplicationControlAttributeValue `json:"rememberPassword,omitempty"`
-	// SSO
-	Sso *ApplicationControlAttributeValue `json:"sso,omitempty"`
-	// TLS enforcement
-	TLSEnforcement *ApplicationControlAttributeValue `json:"tlsEnforcement,omitempty"`
-	// Trusted certificate
-	TrustedCertificate *ApplicationControlAttributeValue `json:"trustedCertificate,omitempty"`
+	Mfa                 *ApplicationControlAttributeValue `json:"mfa,omitempty"`
+	Rbac                *ApplicationControlAttributeValue `json:"rbac,omitempty"`
+	RememberPassword    *ApplicationControlAttributeValue `json:"rememberPassword,omitempty"`
+	Sso                 *ApplicationControlAttributeValue `json:"sso,omitempty"`
+	TLSEnforcement      *ApplicationControlAttributeValue `json:"tlsEnforcement,omitempty"`
+	TrustedCertificate  *ApplicationControlAttributeValue `json:"trustedCertificate,omitempty"`
 }
 
 // Source traffic matching configuration
 type ApplicationControlSource struct {
-	// Country traffic matching criteria
-	Country []*CountryRef `json:"country"`
-	// Floating Subnets (ie. Floating Ranges) are used to identify traffic exactly matched to the route advertised by BGP.
-	// They are not associated with a specific site.
-	// This is useful in scenarios such as active-standby high availability routed via BGP.
-	FloatingSubnet []*FloatingSubnetRef `json:"floatingSubnet"`
-	// Globally defined IP range, IP and subnet objects
-	GlobalIPRange []*GlobalIPRangeRef `json:"globalIpRange"`
-	// Groups defined for your account
-	Group []*GroupRef `json:"group"`
-	// Hosts and servers defined for your account
-	Host []*HostRef `json:"host"`
-	// IPv4 address
-	IP []string `json:"ip"`
-	// Multiple separate IP addresses or an IP range
-	IPRange []*IPAddressRange `json:"ipRange"`
-	// Network range defined for a site
-	NetworkInterface []*NetworkInterfaceRef `json:"networkInterface"`
-	// Site defined for the account
-	Site []*SiteRef `json:"site"`
-	// GlobalRange + InterfaceSubnet
+	Country           []*CountryRef           `json:"country"`
+	FloatingSubnet    []*FloatingSubnetRef    `json:"floatingSubnet"`
+	GlobalIPRange     []*GlobalIPRangeRef     `json:"globalIpRange"`
+	Group             []*GroupRef             `json:"group"`
+	Host              []*HostRef              `json:"host"`
+	IP                []string                `json:"ip"`
+	IPRange           []*IPAddressRange       `json:"ipRange"`
+	NetworkInterface  []*NetworkInterfaceRef  `json:"networkInterface"`
+	Site              []*SiteRef              `json:"site"`
 	SiteNetworkSubnet []*SiteNetworkSubnetRef `json:"siteNetworkSubnet"`
-	// Subnets and network ranges defined for the LAN interfaces of a site
-	Subnet []string `json:"subnet"`
-	// Predefined Cato groups
-	SystemGroup []*SystemGroupRef `json:"systemGroup"`
-	// Individual users defined for the account
-	User []*UserRef `json:"user"`
-	// Group of users
-	UsersGroup []*UsersGroupRef `json:"usersGroup"`
+	Subnet            []string                `json:"subnet"`
+	SystemGroup       []*SystemGroupRef       `json:"systemGroup"`
+	User              []*UserRef              `json:"user"`
+	UsersGroup        []*UsersGroupRef        `json:"usersGroup"`
 }
 
 // Source traffic matching configuration
 type ApplicationControlSourceInput struct {
-	// Country traffic matching criteria
-	Country []*CountryRefInput `json:"country"`
-	// Floating Subnets (ie. Floating Ranges) are used to identify traffic exactly matched to the route advertised by BGP.
-	// They are not associated with a specific site.
-	// This is useful in scenarios such as active-standby high availability routed via BGP.
-	FloatingSubnet []*FloatingSubnetRefInput `json:"floatingSubnet"`
-	// Globally defined IP range, IP and subnet objects
-	GlobalIPRange []*GlobalIPRangeRefInput `json:"globalIpRange"`
-	// Groups defined for your account
-	Group []*GroupRefInput `json:"group"`
-	// Hosts and servers defined for your account
-	Host []*HostRefInput `json:"host"`
-	// IPv4 address
-	IP []string `json:"ip"`
-	// Multiple separate IP addresses or an IP range
-	IPRange []*IPAddressRangeInput `json:"ipRange"`
-	// Network range defined for a site
-	NetworkInterface []*NetworkInterfaceRefInput `json:"networkInterface"`
-	// Site defined for the account
-	Site []*SiteRefInput `json:"site"`
-	// GlobalRange + InterfaceSubnet
+	Country           []*CountryRefInput           `json:"country"`
+	FloatingSubnet    []*FloatingSubnetRefInput    `json:"floatingSubnet"`
+	GlobalIPRange     []*GlobalIPRangeRefInput     `json:"globalIpRange"`
+	Group             []*GroupRefInput             `json:"group"`
+	Host              []*HostRefInput              `json:"host"`
+	IP                []string                     `json:"ip"`
+	IPRange           []*IPAddressRangeInput       `json:"ipRange"`
+	NetworkInterface  []*NetworkInterfaceRefInput  `json:"networkInterface"`
+	Site              []*SiteRefInput              `json:"site"`
 	SiteNetworkSubnet []*SiteNetworkSubnetRefInput `json:"siteNetworkSubnet"`
-	// Subnets and network ranges defined for the LAN interfaces of a site
-	Subnet []string `json:"subnet"`
-	// Predefined Cato groups
-	SystemGroup []*SystemGroupRefInput `json:"systemGroup"`
-	// Individual users defined for the account
-	User []*UserRefInput `json:"user"`
-	// Group of users
-	UsersGroup []*UsersGroupRefInput `json:"usersGroup"`
+	Subnet            []string                     `json:"subnet"`
+	SystemGroup       []*SystemGroupRefInput       `json:"systemGroup"`
+	User              []*UserRefInput              `json:"user"`
+	UsersGroup        []*UsersGroupRefInput        `json:"usersGroup"`
 }
 
 // Source traffic matching configuration
 type ApplicationControlSourceUpdateInput struct {
-	// Country traffic matching criteria
-	Country []*CountryRefInput `json:"country,omitempty"`
-	// Floating Subnets (ie. Floating Ranges) are used to identify traffic exactly matched to the route advertised by BGP.
-	// They are not associated with a specific site.
-	// This is useful in scenarios such as active-standby high availability routed via BGP.
-	FloatingSubnet []*FloatingSubnetRefInput `json:"floatingSubnet,omitempty"`
-	// Globally defined IP range, IP and subnet objects
-	GlobalIPRange []*GlobalIPRangeRefInput `json:"globalIpRange,omitempty"`
-	// Groups defined for your account
-	Group []*GroupRefInput `json:"group,omitempty"`
-	// Hosts and servers defined for your account
-	Host []*HostRefInput `json:"host,omitempty"`
-	// IPv4 address
-	IP []string `json:"ip,omitempty"`
-	// Multiple separate IP addresses or an IP range
-	IPRange []*IPAddressRangeInput `json:"ipRange,omitempty"`
-	// Network range defined for a site
-	NetworkInterface []*NetworkInterfaceRefInput `json:"networkInterface,omitempty"`
-	// Site defined for the account
-	Site []*SiteRefInput `json:"site,omitempty"`
-	// GlobalRange + InterfaceSubnet
+	Country           []*CountryRefInput           `json:"country,omitempty"`
+	FloatingSubnet    []*FloatingSubnetRefInput    `json:"floatingSubnet,omitempty"`
+	GlobalIPRange     []*GlobalIPRangeRefInput     `json:"globalIpRange,omitempty"`
+	Group             []*GroupRefInput             `json:"group,omitempty"`
+	Host              []*HostRefInput              `json:"host,omitempty"`
+	IP                []string                     `json:"ip,omitempty"`
+	IPRange           []*IPAddressRangeInput       `json:"ipRange,omitempty"`
+	NetworkInterface  []*NetworkInterfaceRefInput  `json:"networkInterface,omitempty"`
+	Site              []*SiteRefInput              `json:"site,omitempty"`
 	SiteNetworkSubnet []*SiteNetworkSubnetRefInput `json:"siteNetworkSubnet,omitempty"`
-	// Subnets and network ranges defined for the LAN interfaces of a site
-	Subnet []string `json:"subnet,omitempty"`
-	// Predefined Cato groups
-	SystemGroup []*SystemGroupRefInput `json:"systemGroup,omitempty"`
-	// Individual users defined for the account
-	User []*UserRefInput `json:"user,omitempty"`
-	// Group of users
-	UsersGroup []*UsersGroupRefInput `json:"usersGroup,omitempty"`
+	Subnet            []string                     `json:"subnet,omitempty"`
+	SystemGroup       []*SystemGroupRefInput       `json:"systemGroup,omitempty"`
+	User              []*UserRefInput              `json:"user,omitempty"`
+	UsersGroup        []*UsersGroupRefInput        `json:"usersGroup,omitempty"`
 }
 
 // Tenant matching configuration
 type ApplicationControlTenant struct {
-	// Defines the operator used for comparisons
 	Operator *ApplicationControlOperator `json:"operator,omitempty"`
-	// Specifies the comparison value
-	Value *string `json:"value,omitempty"`
-	// References a set of values (used only with IN operator)
-	ValueSet *StringValueSetRef `json:"valueSet,omitempty"`
+	Value    *string                     `json:"value,omitempty"`
+	ValueSet *StringValueSetRef          `json:"valueSet,omitempty"`
 }
 
 // Tenant matching configuration
 type ApplicationControlTenantInput struct {
-	// Defines the operator used for comparisons
 	Operator *ApplicationControlOperator `json:"operator,omitempty"`
-	// Specifies the comparison value
-	Value *string `json:"value,omitempty"`
-	// References a set of values (used only with IN operator)
-	ValueSet *StringValueSetRefInput `json:"valueSet,omitempty"`
+	Value    *string                     `json:"value,omitempty"`
+	ValueSet *StringValueSetRefInput     `json:"valueSet,omitempty"`
 }
 
 type ApplicationControlUpdateRuleDataInput struct {
-	// Defines application control settings. Must only be used when ruleType is APPLICATION
 	ApplicationRule *ApplicationControlApplicationRuleUpdateInput `json:"applicationRule,omitempty"`
-	// Defines data control settings. Must only be used when ruleType is DATA
-	DataRule    *ApplicationControlDataRuleUpdateInput `json:"dataRule,omitempty"`
-	Description *string                                `json:"description,omitempty"`
-	Enabled     *bool                                  `json:"enabled,omitempty"`
-	// Defines file control settings. Must only be used when ruleType is FILE
-	FileRule *ApplicationControlFileRuleUpdateInput `json:"fileRule,omitempty"`
-	Name     *string                                `json:"name,omitempty"`
-	// Determines which rule configuration to use.
-	// When set to APPLICATION, only applicationRule should be used.
-	// When set to DATA, only dataRule should be used.
-	// When set to FILE, only fileRule should be used
-	RuleType *ApplicationControlRuleType `json:"ruleType,omitempty"`
+	DataRule        *ApplicationControlDataRuleUpdateInput        `json:"dataRule,omitempty"`
+	Description     *string                                       `json:"description,omitempty"`
+	Enabled         *bool                                         `json:"enabled,omitempty"`
+	FileRule        *ApplicationControlFileRuleUpdateInput        `json:"fileRule,omitempty"`
+	Name            *string                                       `json:"name,omitempty"`
+	RuleType        *ApplicationControlRuleType                   `json:"ruleType,omitempty"`
 }
 
 type ApplicationControlUpdateRuleInput struct {
@@ -3369,12 +2397,8 @@ type ApplicationRef struct {
 	Name string `json:"name"`
 }
 
-func (ApplicationRef) IsObjectRef() {}
-
-// Object's unique identifier
-func (this ApplicationRef) GetID() string { return this.ID }
-
-// Object's unique name
+func (ApplicationRef) IsObjectRef()         {}
+func (this ApplicationRef) GetID() string   { return this.ID }
 func (this ApplicationRef) GetName() string { return this.Name }
 
 type ApplicationRefInput struct {
@@ -3383,13 +2407,9 @@ type ApplicationRefInput struct {
 }
 
 type AssignSiteBwLicenseInput struct {
-	// Specifies the bandwidth (in Mbps) to allocate to the site when using a pooled bandwidth license.
-	// This field should not be used if a site license is used.
-	Bw *int64 `json:"bw,omitempty"`
-	// The license that is being assigned
-	LicenseID string `json:"licenseId"`
-	// The site the license is assigned to
-	Site *SiteRefInput `json:"site"`
+	Bw        *int64        `json:"bw,omitempty"`
+	LicenseID string        `json:"licenseId"`
+	Site      *SiteRefInput `json:"site"`
 }
 
 type AssignSiteBwLicensePayload struct {
@@ -3408,46 +2428,25 @@ type AssignSocketToZtnaAppConnectorPayload struct {
 
 // Advanced Threat Prevention (ATP) service license details
 type AtpLicense struct {
-	Description *string `json:"description,omitempty"`
-	// License expiration date
-	ExpirationDate string `json:"expirationDate"`
-	// The unique identifier for the license. If this value is not available, you can contact Cato Support, who may be able to assist in retrieving it.
-	ID *string `json:"id,omitempty"`
-	// The date of the last update to the license
-	LastUpdated *string `json:"lastUpdated,omitempty"`
-	// License plan type
-	Plan LicensePlan `json:"plan"`
-	// The license SKU
-	Sku LicenseSku `json:"sku"`
-	// License start date
-	StartDate *string `json:"startDate,omitempty"`
-	// License activation status
-	Status LicenseStatus `json:"status"`
+	Description    *string       `json:"description,omitempty"`
+	ExpirationDate string        `json:"expirationDate"`
+	ID             *string       `json:"id,omitempty"`
+	LastUpdated    *string       `json:"lastUpdated,omitempty"`
+	Plan           LicensePlan   `json:"plan"`
+	Sku            LicenseSku    `json:"sku"`
+	StartDate      *string       `json:"startDate,omitempty"`
+	Status         LicenseStatus `json:"status"`
 }
 
-func (AtpLicense) IsLicense() {}
-
-// The unique identifier for the license. If this value is not available, you can contact Cato Support, who may be able to assist in retrieving it.
-func (this AtpLicense) GetID() *string          { return this.ID }
-func (this AtpLicense) GetDescription() *string { return this.Description }
-
-// License plan type
-func (this AtpLicense) GetPlan() LicensePlan { return this.Plan }
-
-// The license SKU
-func (this AtpLicense) GetSku() LicenseSku { return this.Sku }
-
-// License activation status
-func (this AtpLicense) GetStatus() LicenseStatus { return this.Status }
-
-// License start date
-func (this AtpLicense) GetStartDate() *string { return this.StartDate }
-
-// License expiration date
+func (AtpLicense) IsLicense()                     {}
+func (this AtpLicense) GetDescription() *string   { return this.Description }
 func (this AtpLicense) GetExpirationDate() string { return this.ExpirationDate }
-
-// The date of the last update to the license
-func (this AtpLicense) GetLastUpdated() *string { return this.LastUpdated }
+func (this AtpLicense) GetID() *string            { return this.ID }
+func (this AtpLicense) GetLastUpdated() *string   { return this.LastUpdated }
+func (this AtpLicense) GetPlan() LicensePlan      { return this.Plan }
+func (this AtpLicense) GetSku() LicenseSku        { return this.Sku }
+func (this AtpLicense) GetStartDate() *string     { return this.StartDate }
+func (this AtpLicense) GetStatus() LicenseStatus  { return this.Status }
 
 type AuditFeed struct {
 	Accounts     []*AuditFeedAccountRecords `json:"accounts,omitempty"`
@@ -3470,24 +2469,20 @@ type AuditField struct {
 
 type AuditFieldFilterInput struct {
 	FieldName *FieldNameInput `json:"fieldName"`
-	// Use AuditFieldName for audits
-	Operator ElasticOperator `json:"operator"`
-	Values   []string        `json:"values,omitempty"`
+	Operator  ElasticOperator `json:"operator"`
+	Values    []string        `json:"values,omitempty"`
 }
 
 // Represents a single event in the audit database
 type AuditRecord struct {
-	Account *EntityInfo `json:"account,omitempty"`
-	Admin   *Entity     `json:"admin,omitempty"`
-	APIKey  *Entity     `json:"apiKey,omitempty"`
-	// All fields in the audit record (including the admin and object)
-	Fields []*AuditField `json:"fields,omitempty"`
-	// fields in map format (see Map scalar)
-	FieldsMap map[string]any `json:"fieldsMap,omitempty"`
-	// Simplified fields, as array of name value tuples, e.g: [ [ "name", "val" ], [ "name2", "val2" ] ... ]
-	FlatFields [][]string `json:"flatFields,omitempty"`
-	Object     *Entity    `json:"object,omitempty"`
-	Time       *string    `json:"time,omitempty"`
+	Account    *EntityInfo    `json:"account,omitempty"`
+	Admin      *Entity        `json:"admin,omitempty"`
+	APIKey     *Entity        `json:"apiKey,omitempty"`
+	Fields     []*AuditField  `json:"fields,omitempty"`
+	FieldsMap  map[string]any `json:"fieldsMap,omitempty"`
+	FlatFields [][]string     `json:"flatFields,omitempty"`
+	Object     *Entity        `json:"object,omitempty"`
+	Time       *string        `json:"time,omitempty"`
 }
 
 type AuditingMetadata struct {
@@ -3507,13 +2502,11 @@ type AuditingMetadataSortInput struct {
 
 // Input parameters for querying available versions.
 type AvailableVersionListInput struct {
-	// List of platforms to retrieve available versions for.
 	Platforms []string `json:"platforms"`
 }
 
 // Response payload for available versions query.
 type AvailableVersionListPayload struct {
-	// List of available versions for each requested platform.
 	Items []*PlatformVersions `json:"items"`
 }
 
@@ -3530,12 +2523,8 @@ type BandwidthManagementRef struct {
 	Name string `json:"name"`
 }
 
-func (BandwidthManagementRef) IsObjectRef() {}
-
-// Object's unique identifier
-func (this BandwidthManagementRef) GetID() string { return this.ID }
-
-// Object's unique name
+func (BandwidthManagementRef) IsObjectRef()         {}
+func (this BandwidthManagementRef) GetID() string   { return this.ID }
 func (this BandwidthManagementRef) GetName() string { return this.Name }
 
 type BandwidthManagementRefInput struct {
@@ -3544,247 +2533,158 @@ type BandwidthManagementRefInput struct {
 }
 
 type BfdSettings struct {
-	// Number of missed BFD packets before considering the session down.
-	Multiplier int64 `json:"multiplier"`
-	// Time interval (in milliseconds) in which this peer expects to receive BFD packets.
-	ReceiveInterval int64 `json:"receiveInterval"`
-	// Time interval (in milliseconds) between BFD packets sent by this peer.
+	Multiplier       int64 `json:"multiplier"`
+	ReceiveInterval  int64 `json:"receiveInterval"`
 	TransmitInterval int64 `json:"transmitInterval"`
 }
 
 type BfdSettingsInput struct {
-	// Number of missed BFD packets before considering the session down.
-	Multiplier int64 `json:"multiplier"`
-	// Time interval (in milliseconds) in which this peer expects to receive BFD packets.
-	ReceiveInterval int64 `json:"receiveInterval"`
-	// Time interval (in milliseconds) between BFD packets sent by this peer.
+	Multiplier       int64 `json:"multiplier"`
+	ReceiveInterval  int64 `json:"receiveInterval"`
 	TransmitInterval int64 `json:"transmitInterval"`
 }
 
 type BgpCommunity struct {
-	// Start of the community range.
 	From scalars.Asn16 `json:"from"`
-	// End of the community range.
-	To scalars.Asn16 `json:"to"`
+	To   scalars.Asn16 `json:"to"`
 }
 
 type BgpCommunityFilterRule struct {
-	// Community values to match.
-	Community []*BgpCommunity `json:"community"`
-	// Unique identifier of the community filter rule.
-	ID string `json:"id"`
-	// Predicate to apply to the community filter (e.g., EQUAL, NOT_EQUAL).
+	Community []*BgpCommunity             `json:"community"`
+	ID        string                      `json:"id"`
 	Predicate BgpCommunityFilterPredicate `json:"predicate"`
 }
 
 type BgpCommunityFilterRuleInput struct {
-	// Community values to match.
-	Community []*BgpCommunityInput `json:"community"`
-	// Predicate to apply to the community filter (e.g., EQUAL, NOT_EQUAL).
+	Community []*BgpCommunityInput         `json:"community"`
 	Predicate *BgpCommunityFilterPredicate `json:"predicate,omitempty"`
 }
 
 type BgpCommunityInput struct {
-	// Start of the community range.
 	From scalars.Asn16 `json:"from"`
-	// End of the community range.
-	To scalars.Asn16 `json:"to"`
+	To   scalars.Asn16 `json:"to"`
 }
 
 type BgpDetailedStatus struct {
-	// Status of the BFD session (if applicable).
-	BfdSession *string `json:"bfdSession,omitempty"`
-	// Status of the BGP session (e.g., established, down).
-	BgpSession string `json:"bgpSession"`
-	// Routes rejected from the peer.
+	BfdSession             *string                      `json:"bfdSession,omitempty"`
+	BgpSession             string                       `json:"bgpSession"`
 	RejectedRoutesFromPeer []*BgpRejectedRoutesFromPeer `json:"rejectedRoutesFromPeer"`
-	// IP address of the remote BGP peer.
-	RemoteIP string `json:"remoteIp"`
-	// Routes received from the peer.
-	RoutesFromPeer []string `json:"routesFromPeer"`
-	// Routes sent to the peer.
-	RoutesToPeer []string `json:"routesToPeer"`
+	RemoteIP               string                       `json:"remoteIp"`
+	RoutesFromPeer         []string                     `json:"routesFromPeer"`
+	RoutesToPeer           []string                     `json:"routesToPeer"`
 }
 
 type BgpFilterRule struct {
-	// Exact and inclusive filter rule. Please choose only one filter rule type.
 	BgpRouteExactAndInclusiveFilterRule *BgpRouteExactAndInclusiveFilterRule `json:"bgpRouteExactAndInclusiveFilterRule,omitempty"`
-	// Exact route filter rule. Please choose only one filter rule type.
-	BgpRouteExactFilterRule *BgpRouteExactFilterRule `json:"bgpRouteExactFilterRule,omitempty"`
-	// Community filter rule. Please choose only one filter rule type.
-	CommunityFilterRule *BgpCommunityFilterRule `json:"communityFilterRule,omitempty"`
+	BgpRouteExactFilterRule             *BgpRouteExactFilterRule             `json:"bgpRouteExactFilterRule,omitempty"`
+	CommunityFilterRule                 *BgpCommunityFilterRule              `json:"communityFilterRule,omitempty"`
 }
 
 type BgpFilterRuleInput struct {
-	// Input for exact and inclusive filter rule.
 	BgpRouteExactAndInclusiveFilterRule *BgpRouteExactAndInclusiveFilterRuleInput `json:"bgpRouteExactAndInclusiveFilterRule,omitempty"`
-	// Input for exact route filter rule.
-	BgpRouteExactFilterRule *BgpRouteExactFilterRuleInput `json:"bgpRouteExactFilterRule,omitempty"`
-	// Input for community filter rule.
-	CommunityFilterRule *BgpCommunityFilterRuleInput `json:"communityFilterRule,omitempty"`
+	BgpRouteExactFilterRule             *BgpRouteExactFilterRuleInput             `json:"bgpRouteExactFilterRule,omitempty"`
+	CommunityFilterRule                 *BgpCommunityFilterRuleInput              `json:"communityFilterRule,omitempty"`
 }
 
 type BgpPeer struct {
-	// Indicates if all routes are advertised.
-	AdvertiseAllRoutes bool `json:"advertiseAllRoutes"`
-	// Indicates if the default route is advertised.
-	AdvertiseDefaultRoute bool `json:"advertiseDefaultRoute"`
-	// Indicates if summarized routes are advertised.
-	AdvertiseSummaryRoutes bool `json:"advertiseSummaryRoutes"`
-	// Indicates if BFD is enabled for failure detection.
-	BfdEnabled bool `json:"bfdEnabled"`
-	// BFD configuration.
-	BfdSettings *BfdSettings `json:"bfdSettings,omitempty"`
-	// AS number of Cato's BGP endpoint.
-	CatoAsn scalars.Asn16 `json:"catoAsn"`
-	// IP address of Cato's BGP endpoint.
-	CatoIP string `json:"catoIp"`
-	// Default action for routes not matching filters (ACCEPT or DROP).
-	DefaultAction BgpDefaultAction `json:"defaultAction"`
-	// Rules excluded from the default action.
-	DefaultActionExclusion []*BgpFilterRule `json:"defaultActionExclusion"`
-	// Community values associated with the default route.
-	DefaultRouteCommunities []*BgpCommunity `json:"defaultRouteCommunities"`
-	// Time before declaring the peer unreachable.
-	HoldTime int64 `json:"holdTime"`
-	// Unique identifier for the BGP peer.
-	ID string `json:"id"`
-	// Interval between keepalive messages.
-	KeepaliveInterval int64 `json:"keepaliveInterval"`
-	// MD5 authentication key for secure sessions.
-	Md5AuthKey *string `json:"md5AuthKey,omitempty"`
-	// Metric for route preferences.
-	Metric int64 `json:"metric"`
-	// Name of the BGP configuration entity.
-	Name string `json:"name"`
-	// AS number of the peer BGP endpoint.
-	PeerAsn scalars.Asn32 `json:"peerAsn"`
-	// IP address of the peer BGP endpoint.
-	PeerIP string `json:"peerIp"`
-	// Indicates if NAT is performed on routes.
-	PerformNat bool `json:"performNat"`
-	// Site associated with this BGP peer.
-	Site *SiteRef `json:"site"`
-	// Summarized routes advertised to the peer.
-	SummaryRoute []*BgpSummaryRoute `json:"summaryRoute"`
-	// Tracking configuration for health and availability.
-	Tracking *BgpTracking `json:"tracking,omitempty"`
+	AdvertiseAllRoutes      bool               `json:"advertiseAllRoutes"`
+	AdvertiseDefaultRoute   bool               `json:"advertiseDefaultRoute"`
+	AdvertiseSummaryRoutes  bool               `json:"advertiseSummaryRoutes"`
+	BfdEnabled              bool               `json:"bfdEnabled"`
+	BfdSettings             *BfdSettings       `json:"bfdSettings,omitempty"`
+	CatoAsn                 scalars.Asn16      `json:"catoAsn"`
+	CatoIP                  string             `json:"catoIp"`
+	DefaultAction           BgpDefaultAction   `json:"defaultAction"`
+	DefaultActionExclusion  []*BgpFilterRule   `json:"defaultActionExclusion"`
+	DefaultRouteCommunities []*BgpCommunity    `json:"defaultRouteCommunities"`
+	HoldTime                int64              `json:"holdTime"`
+	ID                      string             `json:"id"`
+	KeepaliveInterval       int64              `json:"keepaliveInterval"`
+	Md5AuthKey              *string            `json:"md5AuthKey,omitempty"`
+	Metric                  int64              `json:"metric"`
+	Name                    string             `json:"name"`
+	PeerAsn                 scalars.Asn32      `json:"peerAsn"`
+	PeerIP                  string             `json:"peerIp"`
+	PerformNat              bool               `json:"performNat"`
+	Site                    *SiteRef           `json:"site"`
+	SummaryRoute            []*BgpSummaryRoute `json:"summaryRoute"`
+	Tracking                *BgpTracking       `json:"tracking,omitempty"`
 }
 
 type BgpPeerListInput struct {
-	// Identifies the site whose BGP peers are listed.
 	Site *SiteRefInput `json:"site"`
 }
 
 type BgpPeerListPayload struct {
-	// BGP peers associated with the site.
 	BgpPeer []*BgpPeer `json:"bgpPeer"`
-	// Total number of BGP peers found.
-	Total int64 `json:"total"`
+	Total   int64      `json:"total"`
 }
 
 type BgpPeerRefInput struct {
-	// Specifies the method of identification (default is by ID).
-	By ObjectRefBy `json:"by"`
-	// Value used to identify the BGP peer (e.g., ID or name).
-	Input string `json:"input"`
+	By    ObjectRefBy `json:"by"`
+	Input string      `json:"input"`
 }
 
 type BgpRejectedRoutesFromPeer struct {
-	// Community values associated with the rejected route.
-	Community []*BgpCommunity `json:"community"`
-	// Timestamp of the last attempt to publish the rejected route.
-	LastPublishAttempt *string `json:"lastPublishAttempt,omitempty"`
-	// Filter rule that caused the rejection.
-	Rule *string `json:"rule,omitempty"`
-	// Subnet of the rejected route.
-	Subnet *string `json:"subnet,omitempty"`
-	// Reason for rejecting the route.
-	Type *string `json:"type,omitempty"`
+	Community          []*BgpCommunity `json:"community"`
+	LastPublishAttempt *string         `json:"lastPublishAttempt,omitempty"`
+	Rule               *string         `json:"rule,omitempty"`
+	Subnet             *string         `json:"subnet,omitempty"`
+	Type               *string         `json:"type,omitempty"`
 }
 
 type BgpRouteExactAndInclusiveFilterRule struct {
-	// Minimum prefix length for the filter rule.
-	Ge *int64 `json:"ge,omitempty"`
-	// Global IP ranges to include.
-	GlobalIPRange []*GlobalIPRangeRef `json:"globalIpRange"`
-	// Global IP ranges to exclude.
+	Ge                     *int64              `json:"ge,omitempty"`
+	GlobalIPRange          []*GlobalIPRangeRef `json:"globalIpRange"`
 	GlobalIPRangeException []*GlobalIPRangeRef `json:"globalIpRangeException"`
-	// Unique identifier of the filter rule.
-	ID string `json:"id"`
-	// Maximum prefix length for the filter rule.
-	Le *int64 `json:"le,omitempty"`
-	// Network subnets to include.
-	NetworkSubnet []string `json:"networkSubnet"`
-	// Network subnets to exclude.
-	NetworkSubnetException []string `json:"networkSubnetException"`
+	ID                     string              `json:"id"`
+	Le                     *int64              `json:"le,omitempty"`
+	NetworkSubnet          []string            `json:"networkSubnet"`
+	NetworkSubnetException []string            `json:"networkSubnetException"`
 }
 
 type BgpRouteExactAndInclusiveFilterRuleInput struct {
-	// Minimum prefix length for the filter rule.
-	Ge *int64 `json:"ge,omitempty"`
-	// Global IP ranges to include.
-	GlobalIPRange []*GlobalIPRangeRefInput `json:"globalIpRange"`
-	// Global IP ranges to exclude.
+	Ge                     *int64                   `json:"ge,omitempty"`
+	GlobalIPRange          []*GlobalIPRangeRefInput `json:"globalIpRange"`
 	GlobalIPRangeException []*GlobalIPRangeRefInput `json:"globalIpRangeException"`
-	// Maximum prefix length for the filter rule.
-	Le *int64 `json:"le,omitempty"`
-	// Network subnets to include.
-	NetworkSubnet []string `json:"networkSubnet"`
-	// Network subnets to exclude.
-	NetworkSubnetException []string `json:"networkSubnetException"`
+	Le                     *int64                   `json:"le,omitempty"`
+	NetworkSubnet          []string                 `json:"networkSubnet"`
+	NetworkSubnetException []string                 `json:"networkSubnetException"`
 }
 
 type BgpRouteExactFilterRule struct {
-	// Global IP ranges to include.
 	GlobalIPRange []*GlobalIPRangeRef `json:"globalIpRange"`
-	// Unique identifier of the exact filter rule.
-	ID string `json:"id"`
-	// Network subnets to include.
-	NetworkSubnet []string `json:"networkSubnet"`
+	ID            string              `json:"id"`
+	NetworkSubnet []string            `json:"networkSubnet"`
 }
 
 type BgpRouteExactFilterRuleInput struct {
-	// Global IP ranges to include.
 	GlobalIPRange []*GlobalIPRangeRefInput `json:"globalIpRange"`
-	// Network subnets to include.
-	NetworkSubnet []string `json:"networkSubnet"`
+	NetworkSubnet []string                 `json:"networkSubnet"`
 }
 
 type BgpSummaryRoute struct {
-	// Community values associated with the route.
 	Community []*BgpCommunity `json:"community"`
-	// Unique identifier of the summarized route.
-	ID string `json:"id"`
-	// Subnet of the summarized route.
-	Route string `json:"route"`
+	ID        string          `json:"id"`
+	Route     string          `json:"route"`
 }
 
 type BgpSummaryRouteInput struct {
-	// Community values to associate with the summarized route.
 	Community []*BgpCommunityInput `json:"community"`
-	// Subnet of the summarized route to be advertised.
-	Route string `json:"route"`
+	Route     string               `json:"route"`
 }
 
 type BgpTracking struct {
-	// Frequency of health alerts.
 	AlertFrequency PolicyRuleTrackingFrequencyEnum `json:"alertFrequency"`
-	// Indicates if tracking is enabled.
-	Enabled bool `json:"enabled"`
-	// Unique identifier for the tracking rule.
-	ID string `json:"id"`
-	// Subscription ID associated with the rule.
-	SubscriptionID *string `json:"subscriptionId,omitempty"`
+	Enabled        bool                            `json:"enabled"`
+	ID             string                          `json:"id"`
+	SubscriptionID *string                         `json:"subscriptionId,omitempty"`
 }
 
 type BgpTrackingInput struct {
-	// Frequency of health alerts.
 	AlertFrequency PolicyRuleTrackingFrequencyEnum `json:"alertFrequency"`
-	// Indicates if tracking is enabled.
-	Enabled bool `json:"enabled"`
-	// Subscription ID associated with this tracking rule.
-	SubscriptionID string `json:"subscriptionId"`
+	Enabled        bool                            `json:"enabled"`
+	SubscriptionID string                          `json:"subscriptionId"`
 }
 
 type BooleanFilterInput struct {
@@ -3808,46 +2708,25 @@ type CalculateHitCountResponse struct {
 
 // Cloud Access Security Broker (CASB) service license details
 type CasbLicense struct {
-	Description *string `json:"description,omitempty"`
-	// License expiration date
-	ExpirationDate string `json:"expirationDate"`
-	// The unique identifier for the license. If this value is not available, you can contact Cato Support, who may be able to assist in retrieving it.
-	ID *string `json:"id,omitempty"`
-	// The date of the last update to the license
-	LastUpdated *string `json:"lastUpdated,omitempty"`
-	// License plan type
-	Plan LicensePlan `json:"plan"`
-	// The license SKU
-	Sku LicenseSku `json:"sku"`
-	// License start date
-	StartDate *string `json:"startDate,omitempty"`
-	// License activation status
-	Status LicenseStatus `json:"status"`
+	Description    *string       `json:"description,omitempty"`
+	ExpirationDate string        `json:"expirationDate"`
+	ID             *string       `json:"id,omitempty"`
+	LastUpdated    *string       `json:"lastUpdated,omitempty"`
+	Plan           LicensePlan   `json:"plan"`
+	Sku            LicenseSku    `json:"sku"`
+	StartDate      *string       `json:"startDate,omitempty"`
+	Status         LicenseStatus `json:"status"`
 }
 
-func (CasbLicense) IsLicense() {}
-
-// The unique identifier for the license. If this value is not available, you can contact Cato Support, who may be able to assist in retrieving it.
-func (this CasbLicense) GetID() *string          { return this.ID }
-func (this CasbLicense) GetDescription() *string { return this.Description }
-
-// License plan type
-func (this CasbLicense) GetPlan() LicensePlan { return this.Plan }
-
-// The license SKU
-func (this CasbLicense) GetSku() LicenseSku { return this.Sku }
-
-// License activation status
-func (this CasbLicense) GetStatus() LicenseStatus { return this.Status }
-
-// License start date
-func (this CasbLicense) GetStartDate() *string { return this.StartDate }
-
-// License expiration date
+func (CasbLicense) IsLicense()                     {}
+func (this CasbLicense) GetDescription() *string   { return this.Description }
 func (this CasbLicense) GetExpirationDate() string { return this.ExpirationDate }
-
-// The date of the last update to the license
-func (this CasbLicense) GetLastUpdated() *string { return this.LastUpdated }
+func (this CasbLicense) GetID() *string            { return this.ID }
+func (this CasbLicense) GetLastUpdated() *string   { return this.LastUpdated }
+func (this CasbLicense) GetPlan() LicensePlan      { return this.Plan }
+func (this CasbLicense) GetSku() LicenseSku        { return this.Sku }
+func (this CasbLicense) GetStartDate() *string     { return this.StartDate }
+func (this CasbLicense) GetStatus() LicenseStatus  { return this.Status }
 
 type CatalogApplication struct {
 	Activity                           []*CatalogApplicationActivity                         `json:"activity"`
@@ -3984,18 +2863,17 @@ type CatalogApplicationContentTypeGroupSortInput struct {
 }
 
 type CatalogApplicationFilterInput struct {
-	Activity   []*CatalogApplicationActivityFilterInput   `json:"activity,omitempty"`
-	Capability []*CatalogApplicationCapabilityFilterInput `json:"capability,omitempty"`
-	Category   []*CatalogApplicationCategoryFilterInput   `json:"category,omitempty"`
-	// Free-text search across name, activity and activity fields
-	FreeText       *FreeTextFilterInput                 `json:"freeText,omitempty"`
-	ID             []*IDFilterInput                     `json:"id,omitempty"`
-	Name           []*StringFilterInput                 `json:"name,omitempty"`
-	OriginCountry  []*StringFilterInput                 `json:"originCountry,omitempty"`
-	RecentlyAdded  []*BooleanFilterInput                `json:"recentlyAdded,omitempty"`
-	Risk           []*IntFilterInput                    `json:"risk,omitempty"`
-	TenantActivity []*BooleanFilterInput                `json:"tenantActivity,omitempty"`
-	Type           []*CatalogApplicationTypeFilterInput `json:"type,omitempty"`
+	Activity       []*CatalogApplicationActivityFilterInput   `json:"activity,omitempty"`
+	Capability     []*CatalogApplicationCapabilityFilterInput `json:"capability,omitempty"`
+	Category       []*CatalogApplicationCategoryFilterInput   `json:"category,omitempty"`
+	FreeText       *FreeTextFilterInput                       `json:"freeText,omitempty"`
+	ID             []*IDFilterInput                           `json:"id,omitempty"`
+	Name           []*StringFilterInput                       `json:"name,omitempty"`
+	OriginCountry  []*StringFilterInput                       `json:"originCountry,omitempty"`
+	RecentlyAdded  []*BooleanFilterInput                      `json:"recentlyAdded,omitempty"`
+	Risk           []*IntFilterInput                          `json:"risk,omitempty"`
+	TenantActivity []*BooleanFilterInput                      `json:"tenantActivity,omitempty"`
+	Type           []*CatalogApplicationTypeFilterInput       `json:"type,omitempty"`
 }
 
 type CatalogApplicationIdentityAccessManagementAttributes struct {
@@ -4062,131 +2940,48 @@ type CatalogQueries struct {
 
 // CatoActivity is an object type representing an activity in a Cato alert, containing unique identifiers for the activity itself, the preceding resource, and the involved resource.
 type CatoActivity struct {
-	// Unique Cato ID for this activity
-	ID string `json:"id"`
-	// Unique Cato ID for the preceding resource (process or file) in the alert
+	ID               string `json:"id"`
 	ParentResourceID string `json:"parentResourceId"`
-	// Unique Cato ID for the resource (process or file) involved in the alert
-	ResourceID string `json:"resourceId"`
+	ResourceID       string `json:"resourceId"`
 }
 
 func (CatoActivity) IsActivity()                      {}
 func (this CatoActivity) GetID() string               { return this.ID }
-func (this CatoActivity) GetResourceID() string       { return this.ResourceID }
 func (this CatoActivity) GetParentResourceID() string { return this.ParentResourceID }
+func (this CatoActivity) GetResourceID() string       { return this.ResourceID }
 
 // The `CatoEndpoint` object represents a comprehensive data structure used in GraphQL queries or mutations to encapsulate details about a security incident detected by an Endpoint Protection Platform (EPP). It includes fields such as threat alerts, analyst feedback, connection type, criticality score, device details, timestamps for incident signals, and various enums and strings that describe the incident's status, source, and producer.
 type CatoEndpoint struct {
-	// Details for the threat detected by the EPP
-	Alerts []*CatoEndpointAlert `json:"alerts"`
-	// Fields related to analysts research of the threat incident
-	AnalystFeedback *AnalystFeedback `json:"analystFeedback,omitempty"`
-	// enum for the connection for this incident (ie. host, user)
-	ConnectionType *ConnectionTypeEnum `json:"connectionType,omitempty"`
-	// Cato's risk analysis of the story. Values are from 1 (low risk) to 10 (high risk)
-	Criticality *int64 `json:"criticality,omitempty"`
-	// Description of the threat
-	Description *string `json:"description,omitempty"`
-	// Details for the EPP device (ie. device name, OS, MAC address)
-	Device *CatoEndpointDeviceDetails `json:"device,omitempty"`
-	// enum that shows XDR engine involved with the incident
-	EngineType *StoryEngineTypeEnum `json:"engineType,omitempty"`
-	// Timestamp for the first incident signal related to this story
-	FirstSignal string `json:"firstSignal"`
-	// ID for the Endpoint Protection story
-	ID string `json:"id"`
-	// An indication is a set of actions and behaviors for the Network or Security incident. Each producer has different indications.
-	Indication string `json:"indication"`
-	// Timestamp for the last (most recent) incident signal related to this story
-	LastSignal          string            `json:"lastSignal"`
-	PredictedThreatType *string           `json:"predictedThreatType,omitempty"`
-	PredictedVerdict    *StoryVerdictEnum `json:"predictedVerdict,omitempty"`
-	// enum for the Producer (specific XDR engine or service) involved with the incident
-	Producer StoryProducerEnum `json:"producer"`
-	// Full name of the Producer (specific XDR engine and service) involved with the incident
-	ProducerName string  `json:"producerName"`
-	QueryName    *string `json:"queryName,omitempty"`
-	// TRUE indicates that the story is currently being researched by Security Analysts
-	Research           *bool               `json:"research,omitempty"`
-	SimilarStoriesData []*SimilarStoryData `json:"similarStoriesData"`
-	// Cato ID and name for the site
-	Site *SiteRef `json:"site,omitempty"`
-	// Site name related to the story
-	SiteName *string `json:"siteName,omitempty"`
-	// IP address, name of device, or SDP user on your network involved in the story
-	Source *string `json:"source,omitempty"`
-	// Source IP address of the device in your network sending or receiving the flow
-	SourceIP *string `json:"sourceIp,omitempty"`
-	// Enum for the status of this story (ie. Open, Closed, Monitoring)
-	Status *StoryStatusEnum `json:"status,omitempty"`
-	// Amount of time since the story was opened (no value for closed stories)
-	StoryDuration *int64 `json:"storyDuration,omitempty"`
-	// The ticket for this story
-	Ticket *string `json:"ticket,omitempty"`
-	// Cato ID and name for the site
-	User *UserRef `json:"user,omitempty"`
-	// Vendor that identified the incident, such as Cato or Microsoft
-	Vendor *VendorEnum `json:"vendor,omitempty"`
+	Alerts              []*CatoEndpointAlert       `json:"alerts"`
+	AnalystFeedback     *AnalystFeedback           `json:"analystFeedback,omitempty"`
+	ConnectionType      *ConnectionTypeEnum        `json:"connectionType,omitempty"`
+	Criticality         *int64                     `json:"criticality,omitempty"`
+	Description         *string                    `json:"description,omitempty"`
+	Device              *CatoEndpointDeviceDetails `json:"device,omitempty"`
+	EngineType          *StoryEngineTypeEnum       `json:"engineType,omitempty"`
+	FirstSignal         string                     `json:"firstSignal"`
+	ID                  string                     `json:"id"`
+	Indication          string                     `json:"indication"`
+	LastSignal          string                     `json:"lastSignal"`
+	PredictedThreatType *string                    `json:"predictedThreatType,omitempty"`
+	PredictedVerdict    *StoryVerdictEnum          `json:"predictedVerdict,omitempty"`
+	Producer            StoryProducerEnum          `json:"producer"`
+	ProducerName        string                     `json:"producerName"`
+	QueryName           *string                    `json:"queryName,omitempty"`
+	Research            *bool                      `json:"research,omitempty"`
+	SimilarStoriesData  []*SimilarStoryData        `json:"similarStoriesData"`
+	Site                *SiteRef                   `json:"site,omitempty"`
+	SiteName            *string                    `json:"siteName,omitempty"`
+	Source              *string                    `json:"source,omitempty"`
+	SourceIP            *string                    `json:"sourceIp,omitempty"`
+	Status              *StoryStatusEnum           `json:"status,omitempty"`
+	StoryDuration       *int64                     `json:"storyDuration,omitempty"`
+	Ticket              *string                    `json:"ticket,omitempty"`
+	User                *UserRef                   `json:"user,omitempty"`
+	Vendor              *VendorEnum                `json:"vendor,omitempty"`
 }
 
 func (CatoEndpoint) IsEndpoint() {}
-
-// Unique Cato ID for the story
-func (this CatoEndpoint) GetID() string { return this.ID }
-
-// Timestamp for the first incident signal related to this story
-func (this CatoEndpoint) GetFirstSignal() string { return this.FirstSignal }
-
-// Timestamp for the last (most recent) incident signal related to this story
-func (this CatoEndpoint) GetLastSignal() string { return this.LastSignal }
-
-// XDR engine involved with the incident
-func (this CatoEndpoint) GetEngineType() *StoryEngineTypeEnum { return this.EngineType }
-
-// Vendor that identified the incident, such as Cato or Microsoft
-func (this CatoEndpoint) GetVendor() *VendorEnum { return this.Vendor }
-
-// Enum for the Producer (specific XDR engine and service) involved with the incident
-func (this CatoEndpoint) GetProducer() StoryProducerEnum { return this.Producer }
-
-// Full name of the Producer (specific XDR engine and service) involved with the incident
-func (this CatoEndpoint) GetProducerName() string { return this.ProducerName }
-
-// Enum for the connection for this incident (ie. site, host, user)
-func (this CatoEndpoint) GetConnectionType() *ConnectionTypeEnum { return this.ConnectionType }
-
-// An indication is a set of actions and behaviors for the Network or Security incident. Each producer has different indications.
-func (this CatoEndpoint) GetIndication() string { return this.Indication }
-
-// Category for the indication ID related to the story
-func (this CatoEndpoint) GetQueryName() *string { return this.QueryName }
-
-// IP address, name of device, or SDP user on your network involved in the story
-func (this CatoEndpoint) GetSource() *string                   { return this.Source }
-func (this CatoEndpoint) GetCriticality() *int64               { return this.Criticality }
-func (this CatoEndpoint) GetTicket() *string                   { return this.Ticket }
-func (this CatoEndpoint) GetStatus() *StoryStatusEnum          { return this.Status }
-func (this CatoEndpoint) GetResearch() *bool                   { return this.Research }
-func (this CatoEndpoint) GetSiteName() *string                 { return this.SiteName }
-func (this CatoEndpoint) GetStoryDuration() *int64             { return this.StoryDuration }
-func (this CatoEndpoint) GetDescription() *string              { return this.Description }
-func (this CatoEndpoint) GetSourceIP() *string                 { return this.SourceIP }
-func (this CatoEndpoint) GetAnalystFeedback() *AnalystFeedback { return this.AnalystFeedback }
-func (this CatoEndpoint) GetSite() *SiteRef                    { return this.Site }
-func (this CatoEndpoint) GetUser() *UserRef                    { return this.User }
-func (this CatoEndpoint) GetSimilarStoriesData() []*SimilarStoryData {
-	if this.SimilarStoriesData == nil {
-		return nil
-	}
-	interfaceSlice := make([]*SimilarStoryData, 0, len(this.SimilarStoriesData))
-	for _, concrete := range this.SimilarStoriesData {
-		interfaceSlice = append(interfaceSlice, concrete)
-	}
-	return interfaceSlice
-}
-func (this CatoEndpoint) GetPredictedVerdict() *StoryVerdictEnum { return this.PredictedVerdict }
-func (this CatoEndpoint) GetPredictedThreatType() *string        { return this.PredictedThreatType }
-func (this CatoEndpoint) GetDevice() DeviceDetails               { return *this.Device }
 func (this CatoEndpoint) GetAlerts() []EndpointAlert {
 	if this.Alerts == nil {
 		return nil
@@ -4197,125 +2992,64 @@ func (this CatoEndpoint) GetAlerts() []EndpointAlert {
 	}
 	return interfaceSlice
 }
+func (this CatoEndpoint) GetAnalystFeedback() *AnalystFeedback   { return this.AnalystFeedback }
+func (this CatoEndpoint) GetConnectionType() *ConnectionTypeEnum { return this.ConnectionType }
+func (this CatoEndpoint) GetCriticality() *int64                 { return this.Criticality }
+func (this CatoEndpoint) GetDescription() *string                { return this.Description }
+func (this CatoEndpoint) GetDevice() DeviceDetails               { return *this.Device }
+func (this CatoEndpoint) GetEngineType() *StoryEngineTypeEnum    { return this.EngineType }
+func (this CatoEndpoint) GetFirstSignal() string                 { return this.FirstSignal }
+func (this CatoEndpoint) GetID() string                          { return this.ID }
+func (this CatoEndpoint) GetIndication() string                  { return this.Indication }
+func (this CatoEndpoint) GetLastSignal() string                  { return this.LastSignal }
+func (this CatoEndpoint) GetPredictedThreatType() *string        { return this.PredictedThreatType }
+func (this CatoEndpoint) GetPredictedVerdict() *StoryVerdictEnum { return this.PredictedVerdict }
+func (this CatoEndpoint) GetProducer() StoryProducerEnum         { return this.Producer }
+func (this CatoEndpoint) GetProducerName() string                { return this.ProducerName }
+func (this CatoEndpoint) GetQueryName() *string                  { return this.QueryName }
+func (this CatoEndpoint) GetResearch() *bool                     { return this.Research }
+func (this CatoEndpoint) GetSimilarStoriesData() []*SimilarStoryData {
+	if this.SimilarStoriesData == nil {
+		return nil
+	}
+	interfaceSlice := make([]*SimilarStoryData, 0, len(this.SimilarStoriesData))
+	for _, concrete := range this.SimilarStoriesData {
+		interfaceSlice = append(interfaceSlice, concrete)
+	}
+	return interfaceSlice
+}
+func (this CatoEndpoint) GetSite() *SiteRef           { return this.Site }
+func (this CatoEndpoint) GetSiteName() *string        { return this.SiteName }
+func (this CatoEndpoint) GetSource() *string          { return this.Source }
+func (this CatoEndpoint) GetSourceIP() *string        { return this.SourceIP }
+func (this CatoEndpoint) GetStatus() *StoryStatusEnum { return this.Status }
+func (this CatoEndpoint) GetStoryDuration() *int64    { return this.StoryDuration }
+func (this CatoEndpoint) GetTicket() *string          { return this.Ticket }
+func (this CatoEndpoint) GetUser() *UserRef           { return this.User }
+func (this CatoEndpoint) GetVendor() *VendorEnum      { return this.Vendor }
 
 func (CatoEndpoint) IsMergedIncident() {}
 
-// Unique Cato ID for each story
-
-// Timestamp for the first incident signal related to this story
-
-// Timestamp for the last (most recent) incident signal related to this story
-
-// XDR engine involved with the incident
-
-// Vendor that identified the incident, such as Cato or Microsoft
-
-// Producer (specific XDR engine and service) involved with the incident
-
-// Full name of the Producer (specific XDR engine and service) involved with the incident
-
-// Connection for the incident
-
-// An indication is a set of actions and behaviors for the Network or Security incident. Each producer has different indications.
-
-// Category for the indication ID related to the story
-
-// For Network stories - The potential impact of the issue on your network. Values are from 1 (low impact) to 10 (high impact)
-//
-// For Security stories - Cato's risk analysis of the story. Values are from 1 (low risk) to 10 (high risk)
-
-// For Network stories - The site where the network issue is occurring
-//
-// For Security stories - IP address, name of device, or SDP user on your network involved in the story
-
-// The ticket an analyst created for this story
-
-// Status for the story
-
-// The value is TRUE when the story is currently being researched by Security Analysts
-
-// Site name related to the story
-
-// Amount of time since the story was opened (no value for closed stories)
-
-// For Security stories, description of the threat
-
-// The source IP address of the device in your network sending or receiving the flow
-
-// Fields related to analysts research of the threat incident
-
-// Cato ID and name for the site
-
-// Cato ID and name for the user
-
 // The `CatoEndpointAlert` object represents an alert generated by Cato's endpoint protection system, detailing information about detected threats, including associated activities, threat description, criticality level, endpoint protection profile, and remediation status.
 type CatoEndpointAlert struct {
-	// Unique Cato IDs for the activities related to the alert
-	Activities []*CatoActivity `json:"activities"`
-	// Timestamp that the threat was detected and the alert generated
-	CreatedDateTime *string `json:"createdDateTime,omitempty"`
-	// Cato's risk analysis of the story. Values are from 1 (low risk) to 10 (high risk)
-	Criticality *int64 `json:"criticality,omitempty"`
-	// Description of the threat
-	Description *string `json:"description,omitempty"`
-	// EPP profile that is assigned to this device
-	EndpointProtectionProfile *string `json:"endpointProtectionProfile,omitempty"`
-	// Enum for the EPP engine related to this story
-	EngineType *CatoEndpointEngineType `json:"engineType,omitempty"`
-	ExternalIP *string                 `json:"externalIp,omitempty"`
-	// Unique Cato ID for the Endpoint Protection story
-	ID      string  `json:"id"`
-	LocalIP *string `json:"localIp,omitempty"`
-	// MITRE ATT&CK® sub-technique for the threat
-	MitreSubTechnique []*Mitre `json:"mitreSubTechnique"`
-	// MITRE ATT&CK® technique for the threat
-	MitreTechnique []*Mitre `json:"mitreTechnique"`
-	// Data for the remediation status of the alert
-	Resources []CatoResource `json:"resources"`
-	// Enum for the remediation status of the EPP alert
-	Status *RemediationStatusEnum `json:"status,omitempty"`
-	// Name of threat detected on the device
-	ThreatName *string `json:"threatName,omitempty"`
-	// Title of the endpoint alert
-	Title *string `json:"title,omitempty"`
+	Activities                []*CatoActivity         `json:"activities"`
+	CreatedDateTime           *string                 `json:"createdDateTime,omitempty"`
+	Criticality               *int64                  `json:"criticality,omitempty"`
+	Description               *string                 `json:"description,omitempty"`
+	EndpointProtectionProfile *string                 `json:"endpointProtectionProfile,omitempty"`
+	EngineType                *CatoEndpointEngineType `json:"engineType,omitempty"`
+	ExternalIP                *string                 `json:"externalIp,omitempty"`
+	ID                        string                  `json:"id"`
+	LocalIP                   *string                 `json:"localIp,omitempty"`
+	MitreSubTechnique         []*Mitre                `json:"mitreSubTechnique"`
+	MitreTechnique            []*Mitre                `json:"mitreTechnique"`
+	Resources                 []CatoResource          `json:"resources"`
+	Status                    *RemediationStatusEnum  `json:"status,omitempty"`
+	ThreatName                *string                 `json:"threatName,omitempty"`
+	Title                     *string                 `json:"title,omitempty"`
 }
 
-func (CatoEndpointAlert) IsEndpointAlert()             {}
-func (this CatoEndpointAlert) GetID() string           { return this.ID }
-func (this CatoEndpointAlert) GetTitle() *string       { return this.Title }
-func (this CatoEndpointAlert) GetDescription() *string { return this.Description }
-func (this CatoEndpointAlert) GetThreatName() *string  { return this.ThreatName }
-func (this CatoEndpointAlert) GetMitreTechnique() []*Mitre {
-	if this.MitreTechnique == nil {
-		return nil
-	}
-	interfaceSlice := make([]*Mitre, 0, len(this.MitreTechnique))
-	for _, concrete := range this.MitreTechnique {
-		interfaceSlice = append(interfaceSlice, concrete)
-	}
-	return interfaceSlice
-}
-func (this CatoEndpointAlert) GetMitreSubTechnique() []*Mitre {
-	if this.MitreSubTechnique == nil {
-		return nil
-	}
-	interfaceSlice := make([]*Mitre, 0, len(this.MitreSubTechnique))
-	for _, concrete := range this.MitreSubTechnique {
-		interfaceSlice = append(interfaceSlice, concrete)
-	}
-	return interfaceSlice
-}
-func (this CatoEndpointAlert) GetCreatedDateTime() *string { return this.CreatedDateTime }
-func (this CatoEndpointAlert) GetResources() []EndpointResource {
-	if this.Resources == nil {
-		return nil
-	}
-	interfaceSlice := make([]EndpointResource, 0, len(this.Resources))
-	for _, concrete := range this.Resources {
-		interfaceSlice = append(interfaceSlice, concrete)
-	}
-	return interfaceSlice
-}
+func (CatoEndpointAlert) IsEndpointAlert() {}
 func (this CatoEndpointAlert) GetActivities() []Activity {
 	if this.Activities == nil {
 		return nil
@@ -4326,30 +3060,61 @@ func (this CatoEndpointAlert) GetActivities() []Activity {
 	}
 	return interfaceSlice
 }
-func (this CatoEndpointAlert) GetCriticality() *int64 { return this.Criticality }
-func (this CatoEndpointAlert) GetExternalIP() *string { return this.ExternalIP }
-func (this CatoEndpointAlert) GetLocalIP() *string    { return this.LocalIP }
+func (this CatoEndpointAlert) GetCreatedDateTime() *string { return this.CreatedDateTime }
+func (this CatoEndpointAlert) GetCriticality() *int64      { return this.Criticality }
+func (this CatoEndpointAlert) GetDescription() *string     { return this.Description }
+func (this CatoEndpointAlert) GetExternalIP() *string      { return this.ExternalIP }
+func (this CatoEndpointAlert) GetID() string               { return this.ID }
+func (this CatoEndpointAlert) GetLocalIP() *string         { return this.LocalIP }
+func (this CatoEndpointAlert) GetMitreSubTechnique() []*Mitre {
+	if this.MitreSubTechnique == nil {
+		return nil
+	}
+	interfaceSlice := make([]*Mitre, 0, len(this.MitreSubTechnique))
+	for _, concrete := range this.MitreSubTechnique {
+		interfaceSlice = append(interfaceSlice, concrete)
+	}
+	return interfaceSlice
+}
+func (this CatoEndpointAlert) GetMitreTechnique() []*Mitre {
+	if this.MitreTechnique == nil {
+		return nil
+	}
+	interfaceSlice := make([]*Mitre, 0, len(this.MitreTechnique))
+	for _, concrete := range this.MitreTechnique {
+		interfaceSlice = append(interfaceSlice, concrete)
+	}
+	return interfaceSlice
+}
+func (this CatoEndpointAlert) GetResources() []EndpointResource {
+	if this.Resources == nil {
+		return nil
+	}
+	interfaceSlice := make([]EndpointResource, 0, len(this.Resources))
+	for _, concrete := range this.Resources {
+		interfaceSlice = append(interfaceSlice, concrete)
+	}
+	return interfaceSlice
+}
+func (this CatoEndpointAlert) GetThreatName() *string { return this.ThreatName }
+func (this CatoEndpointAlert) GetTitle() *string      { return this.Title }
 
 // The `CatoEndpointDeviceDetails` object represents detailed information about a device, including its name, unique ID, logged-on users, MAC address, and operating system details.
 type CatoEndpointDeviceDetails struct {
-	// Name of the device
-	DeviceName *string `json:"deviceName,omitempty"`
-	ExternalIP *string `json:"externalIp,omitempty"`
-	// Unique Cato ID for this story
-	ID      string  `json:"id"`
-	LocalIP *string `json:"localIp,omitempty"`
-	// Data for one or more users logged in to the device
+	DeviceName    *string        `json:"deviceName,omitempty"`
+	ExternalIP    *string        `json:"externalIp,omitempty"`
+	ID            string         `json:"id"`
+	LocalIP       *string        `json:"localIp,omitempty"`
 	LoggedOnUsers []EndpointUser `json:"loggedOnUsers"`
-	// MAC address of the device
-	MacAddress *string `json:"macAddress,omitempty"`
-	// OS data (ie. type, build, version)
-	OsDetails *OsDetails `json:"osDetails,omitempty"`
+	MacAddress    *string        `json:"macAddress,omitempty"`
+	OsDetails     *OsDetails     `json:"osDetails,omitempty"`
 }
 
-func (CatoEndpointDeviceDetails) IsDeviceDetails()              {}
-func (this CatoEndpointDeviceDetails) GetID() string            { return this.ID }
-func (this CatoEndpointDeviceDetails) GetDeviceName() *string   { return this.DeviceName }
-func (this CatoEndpointDeviceDetails) GetOsDetails() *OsDetails { return this.OsDetails }
+func (CatoEndpointDeviceDetails) IsDeviceDetails()            {}
+func (this CatoEndpointDeviceDetails) GetDeviceName() *string { return this.DeviceName }
+func (this CatoEndpointDeviceDetails) GetExternalIP() *string { return this.ExternalIP }
+func (this CatoEndpointDeviceDetails) GetID() string          { return this.ID }
+func (this CatoEndpointDeviceDetails) GetLocalIP() *string    { return this.LocalIP }
 func (this CatoEndpointDeviceDetails) GetLoggedOnUsers() []EndpointUser {
 	if this.LoggedOnUsers == nil {
 		return nil
@@ -4360,14 +3125,11 @@ func (this CatoEndpointDeviceDetails) GetLoggedOnUsers() []EndpointUser {
 	}
 	return interfaceSlice
 }
-func (this CatoEndpointDeviceDetails) GetExternalIP() *string { return this.ExternalIP }
-func (this CatoEndpointDeviceDetails) GetLocalIP() *string    { return this.LocalIP }
+func (this CatoEndpointDeviceDetails) GetOsDetails() *OsDetails { return this.OsDetails }
 
 // The `CatoEndpointUser` is a GraphQL object type representing a user, with fields for a unique identifier (`id`) and a username (`name`), both of which are required.
 type CatoEndpointUser struct {
-	// ID for the user
-	ID string `json:"id"`
-	// Username for the user whose activity generated the indication
+	ID   string `json:"id"`
 	Name string `json:"name"`
 }
 
@@ -4377,27 +3139,16 @@ func (this CatoEndpointUser) GetName() string { return this.Name }
 
 // The `CatoFileResource` is a GraphQL object type that represents a file resource with fields for its creation timestamp, detection and remediation statuses, file details, and a unique identifier.
 type CatoFileResource struct {
-	// Timestamp that the this file resource was used
-	CreatedDateTime *string `json:"createdDateTime,omitempty"`
-	// Enum for the detection status of this file resource
-	DetectionStatus *DetectionStatusEnum `json:"detectionStatus,omitempty"`
-	// Details of the file related to this resource
-	FileDetails *FileDetails `json:"fileDetails,omitempty"`
-	// Unique Cato ID for this file resource
-	ID string `json:"id"`
-	// Enum for the remediation status associated with this file resource
+	CreatedDateTime   *string                `json:"createdDateTime,omitempty"`
+	DetectionStatus   *DetectionStatusEnum   `json:"detectionStatus,omitempty"`
+	FileDetails       *FileDetails           `json:"fileDetails,omitempty"`
+	ID                string                 `json:"id"`
 	RemediationStatus *RemediationStatusEnum `json:"remediationStatus,omitempty"`
 }
 
-func (CatoFileResource) IsCatoResource() {}
-
-// Unique Cato ID for this EPP resource
-func (this CatoFileResource) GetID() string { return this.ID }
-
-// Timestamp that the this resource was used
+func (CatoFileResource) IsCatoResource()                  {}
 func (this CatoFileResource) GetCreatedDateTime() *string { return this.CreatedDateTime }
-
-// Enum for the remediation status associated with this resource
+func (this CatoFileResource) GetID() string               { return this.ID }
 func (this CatoFileResource) GetRemediationStatus() *RemediationStatusEnum {
 	return this.RemediationStatus
 }
@@ -4406,36 +3157,23 @@ func (CatoFileResource) IsEndpointResource() {}
 
 func (CatoFileResource) IsFileResource() {}
 
-func (this CatoFileResource) GetFileDetails() *FileDetails             { return this.FileDetails }
 func (this CatoFileResource) GetDetectionStatus() *DetectionStatusEnum { return this.DetectionStatus }
+func (this CatoFileResource) GetFileDetails() *FileDetails             { return this.FileDetails }
 
 // The `CatoProcessResource` is a GraphQL object type that represents a process resource, including details such as a unique Cato ID, the timestamp of usage, associated file details, command line information, process ID, remediation status, and the related user account.
 type CatoProcessResource struct {
-	// Timestamp that the this resource was used
-	CreatedDateTime *string `json:"createdDateTime,omitempty"`
-	// Unique Cato ID for this resource
-	ID string `json:"id"`
-	// Details of the file related to this process
-	ImageFile *FileDetails `json:"imageFile,omitempty"`
-	// CLI command related to this process
-	ProcessCommandLine *string `json:"processCommandLine,omitempty"`
-	// ID for the process
-	ProcessID int64 `json:"processId"`
-	// Enum for the remediation status associated with this resource
-	RemediationStatus *RemediationStatusEnum `json:"remediationStatus,omitempty"`
-	// User account related to this process
-	UserAccount EndpointUser `json:"userAccount,omitempty"`
+	CreatedDateTime    *string                `json:"createdDateTime,omitempty"`
+	ID                 string                 `json:"id"`
+	ImageFile          *FileDetails           `json:"imageFile,omitempty"`
+	ProcessCommandLine *string                `json:"processCommandLine,omitempty"`
+	ProcessID          int64                  `json:"processId"`
+	RemediationStatus  *RemediationStatusEnum `json:"remediationStatus,omitempty"`
+	UserAccount        EndpointUser           `json:"userAccount,omitempty"`
 }
 
-func (CatoProcessResource) IsCatoResource() {}
-
-// Unique Cato ID for this EPP resource
-func (this CatoProcessResource) GetID() string { return this.ID }
-
-// Timestamp that the this resource was used
+func (CatoProcessResource) IsCatoResource()                  {}
 func (this CatoProcessResource) GetCreatedDateTime() *string { return this.CreatedDateTime }
-
-// Enum for the remediation status associated with this resource
+func (this CatoProcessResource) GetID() string               { return this.ID }
 func (this CatoProcessResource) GetRemediationStatus() *RemediationStatusEnum {
 	return this.RemediationStatus
 }
@@ -4444,82 +3182,47 @@ func (CatoProcessResource) IsEndpointResource() {}
 
 func (CatoProcessResource) IsProcessResource() {}
 
-func (this CatoProcessResource) GetProcessID() int64            { return this.ProcessID }
-func (this CatoProcessResource) GetProcessCommandLine() *string { return this.ProcessCommandLine }
 func (this CatoProcessResource) GetImageFile() *FileDetails     { return this.ImageFile }
-func (this CatoProcessResource) GetUserAccount() EndpointUser   { return this.UserAccount }
+func (this CatoProcessResource) GetProcessCommandLine() *string { return this.ProcessCommandLine }
+func (this CatoProcessResource) GetProcessID() int64            { return this.ProcessID }
+
+func (this CatoProcessResource) GetUserAccount() EndpointUser { return this.UserAccount }
 
 type CellularInterface struct {
-	// Represents the Access Point Name (e.g., uwap.orange.co.il). Configurable from Socket WebUI or SIM switch.
-	Apn *string `json:"apn,omitempty"`
-	// Determines how the APN is selected. Valid values are Auto or Manual (configurable in WebUI).
-	ApnSelectionMethod *ApnMethod `json:"apnSelectionMethod,omitempty"`
-	// Displays the reason for the modem disconnecting. Valid values are 0 (No reason provided) or 1 (The session timed out).
+	Apn                 *string                      `json:"apn,omitempty"`
+	ApnSelectionMethod  *ApnMethod                   `json:"apnSelectionMethod,omitempty"`
 	DisconnectionReason *CellularDisconnectionReason `json:"disconnectionReason,omitempty"`
-	// Unique identifier (20-digit number) for the modem.
-	Iccid *string `json:"iccid,omitempty"`
-	// Unique identifier (15-digit number) for a specific SIM.
-	Imei *string `json:"imei,omitempty"`
-	// Indicates if the cellular modem is currently connected to the internet.
-	IsModemConnected bool `json:"isModemConnected"`
-	// Indicates if the modem is currently suspended.
-	IsModemSuspended bool `json:"isModemSuspended"`
-	// Indicates whether roaming is enabled.
-	IsRoamingAllowed bool `json:"isRoamingAllowed"`
-	// Indicates whether a SIM is detected in the first slot.
-	IsSimSlot1Detected bool `json:"isSimSlot1Detected"`
-	// Indicates whether a SIM is detected in the second slot.
-	IsSimSlot2Detected bool `json:"isSimSlot2Detected"`
-	// Represents the current status of the modem. Valid values are Error, OK, or Unknown.
-	ModemStatus *CellularModemStatus `json:"modemStatus,omitempty"`
-	// 2G, 3G, or 4G
-	NetworkType *CellularNetworkType `json:"networkType,omitempty"`
-	// Displays the operator or carrier name, such as Verizon.
-	OperatorName *string `json:"operatorName,omitempty"`
-	// Represents the signal strength of the cellular connection, in units of calculation.
-	SignalStrength *string `json:"signalStrength,omitempty"`
-	// The phone number associated with the SIM.
-	SimNumber *string `json:"simNumber,omitempty"`
-	// Shows the currently active SIM slot; the other slot is in standby. Slot 1 is active by default.
-	SimSlotID *int64 `json:"simSlotId,omitempty"`
+	Iccid               *string                      `json:"iccid,omitempty"`
+	Imei                *string                      `json:"imei,omitempty"`
+	IsModemConnected    bool                         `json:"isModemConnected"`
+	IsModemSuspended    bool                         `json:"isModemSuspended"`
+	IsRoamingAllowed    bool                         `json:"isRoamingAllowed"`
+	IsSimSlot1Detected  bool                         `json:"isSimSlot1Detected"`
+	IsSimSlot2Detected  bool                         `json:"isSimSlot2Detected"`
+	ModemStatus         *CellularModemStatus         `json:"modemStatus,omitempty"`
+	NetworkType         *CellularNetworkType         `json:"networkType,omitempty"`
+	OperatorName        *string                      `json:"operatorName,omitempty"`
+	SignalStrength      *string                      `json:"signalStrength,omitempty"`
+	SimNumber           *string                      `json:"simNumber,omitempty"`
+	SimSlotID           *int64                       `json:"simSlotId,omitempty"`
 }
 
 type ClientConnectivityAddRuleDataInput struct {
-	// The action applied by the client connectivity if the rule is matched
-	Action ClientConnectivityActionEnum `json:"action"`
-	// User confidence level
-	ConfidenceLevel ClientConnectivityConfidenceLevelEnum `json:"confidenceLevel"`
-	// Connection origin matching criteria.
-	// Logical 'OR' is applied within the criteria set.
-	// Logical 'AND' is applied between criteria sets.
-	ConnectionOrigin []ClientConnectivityOriginEnum `json:"connectionOrigin"`
-	// Country traffic matching criteria.
-	// Logical ‘OR’ is applied within the criteria set.
-	// Logical ‘AND’ is applied between criteria sets.
-	Country     []*CountryRefInput `json:"country"`
-	Description string             `json:"description"`
-	// Device Profile traffic matching criteria.
-	// Logical ‘OR’ is applied within the criteria set.
-	// Logical ‘AND’ is applied between criteria sets.
-	Device  []*DeviceProfileRefInput `json:"device"`
-	Enabled bool                     `json:"enabled"`
-	Name    string                   `json:"name"`
-	// Source device Operating System traffic matching criteria.
-	// Logical ‘OR’ is applied within the criteria set.
-	// Logical ‘AND’ is applied between criteria sets.
-	Platform []OperatingSystem `json:"platform"`
-	// Source traffic matching criteria.
-	// Logical ‘OR’ is applied within the criteria set.
-	// Logical ‘AND’ is applied between criteria sets.
-	Source *ClientConnectivitySourceInput `json:"source"`
-	// Public ISP IP Range matching criteria.
-	SourceRange []*ClientConnectivitySourceRangeInput `json:"sourceRange"`
+	Action           ClientConnectivityActionEnum          `json:"action"`
+	ConfidenceLevel  ClientConnectivityConfidenceLevelEnum `json:"confidenceLevel"`
+	ConnectionOrigin []ClientConnectivityOriginEnum        `json:"connectionOrigin"`
+	Country          []*CountryRefInput                    `json:"country"`
+	Description      string                                `json:"description"`
+	Device           []*DeviceProfileRefInput              `json:"device"`
+	Enabled          bool                                  `json:"enabled"`
+	Name             string                                `json:"name"`
+	Platform         []OperatingSystem                     `json:"platform"`
+	Source           *ClientConnectivitySourceInput        `json:"source"`
+	SourceRange      []*ClientConnectivitySourceRangeInput `json:"sourceRange"`
 }
 
 type ClientConnectivityAddRuleInput struct {
-	// Position of the rule in the policy
-	At *PolicyRulePositionInput `json:"at,omitempty"`
-	// Parameters for the rule you are adding
+	At   *PolicyRulePositionInput            `json:"at,omitempty"`
 	Rule *ClientConnectivityAddRuleDataInput `json:"rule"`
 }
 
@@ -4531,12 +3234,10 @@ type ClientConnectivityPolicy struct {
 	Sections []*PolicySectionPayload          `json:"sections"`
 }
 
-func (ClientConnectivityPolicy) IsIPolicy() {}
-
-// TRUE = Policy is enabled, FALSE = Policy is disabled
-func (this ClientConnectivityPolicy) GetEnabled() bool { return this.Enabled }
-
-// Return list of rules in the policy
+func (ClientConnectivityPolicy) IsIPolicy()                        {}
+func (this ClientConnectivityPolicy) GetAudit() *PolicyAudit       { return this.Audit }
+func (this ClientConnectivityPolicy) GetEnabled() bool             { return this.Enabled }
+func (this ClientConnectivityPolicy) GetRevision() *PolicyRevision { return this.Revision }
 func (this ClientConnectivityPolicy) GetRules() []IPolicyRulePayload {
 	if this.Rules == nil {
 		return nil
@@ -4547,8 +3248,6 @@ func (this ClientConnectivityPolicy) GetRules() []IPolicyRulePayload {
 	}
 	return interfaceSlice
 }
-
-// Return sections in the policy
 func (this ClientConnectivityPolicy) GetSections() []*PolicySectionPayload {
 	if this.Sections == nil {
 		return nil
@@ -4560,18 +3259,7 @@ func (this ClientConnectivityPolicy) GetSections() []*PolicySectionPayload {
 	return interfaceSlice
 }
 
-// Audit data for the policy
-func (this ClientConnectivityPolicy) GetAudit() *PolicyAudit { return this.Audit }
-
-// Return data for the Policy revision
-func (this ClientConnectivityPolicy) GetRevision() *PolicyRevision { return this.Revision }
-
 type ClientConnectivityPolicyInput struct {
-	// A revision is a specific instance of the policy.
-	//  Unpublished revisions are working copies of the policy available to a specific
-	//  admin or a set of admins
-	//  Published revisions are revisions that were applied to the account network.
-	//  The last published revision is the active policy.
 	Revision *PolicyRevisionInput `json:"revision,omitempty"`
 }
 
@@ -4586,16 +3274,6 @@ type ClientConnectivityPolicyMutationPayload struct {
 }
 
 func (ClientConnectivityPolicyMutationPayload) IsIPolicyMutationPayload() {}
-
-// Data for the policy
-func (this ClientConnectivityPolicyMutationPayload) GetPolicy() IPolicy { return *this.Policy }
-
-// Enum for the status of the policy change
-func (this ClientConnectivityPolicyMutationPayload) GetStatus() PolicyMutationStatus {
-	return this.Status
-}
-
-// List of errors related to the policy change
 func (this ClientConnectivityPolicyMutationPayload) GetErrors() []*PolicyMutationError {
 	if this.Errors == nil {
 		return nil
@@ -4605,6 +3283,10 @@ func (this ClientConnectivityPolicyMutationPayload) GetErrors() []*PolicyMutatio
 		interfaceSlice = append(interfaceSlice, concrete)
 	}
 	return interfaceSlice
+}
+func (this ClientConnectivityPolicyMutationPayload) GetPolicy() IPolicy { return *this.Policy }
+func (this ClientConnectivityPolicyMutationPayload) GetStatus() PolicyMutationStatus {
+	return this.Status
 }
 
 type ClientConnectivityPolicyMutations struct {
@@ -4636,65 +3318,28 @@ type ClientConnectivityRemoveRuleInput struct {
 }
 
 type ClientConnectivityRule struct {
-	// The action applied by the client connectivity if the rule is matched
-	Action ClientConnectivityActionEnum `json:"action"`
-	// User confidence level
-	ConfidenceLevel ClientConnectivityConfidenceLevelEnum `json:"confidenceLevel"`
-	// Connection origin matching criteria.
-	// Logical 'OR' is applied within the criteria set.
-	// Logical 'AND' is applied between criteria sets.
-	ConnectionOrigin []ClientConnectivityOriginEnum `json:"connectionOrigin"`
-	// Country traffic matching criteria.
-	// Logical ‘OR’ is applied within the criteria set.
-	// Logical ‘AND’ is applied between criteria sets.
-	Country []*CountryRef `json:"country"`
-	// Description for the rule
-	Description string `json:"description"`
-	// Device Profile traffic matching criteria.
-	// Logical ‘OR’ is applied within the criteria set.
-	// Logical ‘AND’ is applied between criteria sets.
-	Device []*DeviceProfileRef `json:"device"`
-	// TRUE = Rule is enabled
-	//  FALSE = Rule is disabled
-	Enabled bool `json:"enabled"`
-	// Rule ID
-	ID string `json:"id"`
-	// Position / priority of rule
-	Index int64 `json:"index"`
-	// Name of the rule
-	Name string `json:"name"`
-	// Source device Operating System traffic matching criteria.
-	// Logical ‘OR’ is applied within the criteria set.
-	// Logical ‘AND’ is applied between criteria sets.
-	Platform []OperatingSystem `json:"platform"`
-	// Policy section where the rule is located
-	Section *PolicySectionInfo `json:"section"`
-	// Source traffic matching criteria.
-	// Logical ‘OR’ is applied within the criteria set.
-	// Logical ‘AND’ is applied between criteria sets.
-	Source *ClientConnectivitySource `json:"source"`
-	// Public ISP IP Range matching criteria.
-	SourceRange []*ClientConnectivitySourceRange `json:"sourceRange"`
+	Action           ClientConnectivityActionEnum          `json:"action"`
+	ConfidenceLevel  ClientConnectivityConfidenceLevelEnum `json:"confidenceLevel"`
+	ConnectionOrigin []ClientConnectivityOriginEnum        `json:"connectionOrigin"`
+	Country          []*CountryRef                         `json:"country"`
+	Description      string                                `json:"description"`
+	Device           []*DeviceProfileRef                   `json:"device"`
+	Enabled          bool                                  `json:"enabled"`
+	ID               string                                `json:"id"`
+	Index            int64                                 `json:"index"`
+	Name             string                                `json:"name"`
+	Platform         []OperatingSystem                     `json:"platform"`
+	Section          *PolicySectionInfo                    `json:"section"`
+	Source           *ClientConnectivitySource             `json:"source"`
+	SourceRange      []*ClientConnectivitySourceRange      `json:"sourceRange"`
 }
 
-func (ClientConnectivityRule) IsIPolicyRule() {}
-
-// Rule ID
-func (this ClientConnectivityRule) GetID() string { return this.ID }
-
-// Name of the rule
-func (this ClientConnectivityRule) GetName() string { return this.Name }
-
-// Description for the rule
-func (this ClientConnectivityRule) GetDescription() *string { return &this.Description }
-
-// Position / priority of rule
-func (this ClientConnectivityRule) GetIndex() int64 { return this.Index }
-
-// TRUE = Rule is enabled, FALSE = Rule is disabled
-func (this ClientConnectivityRule) GetEnabled() bool { return this.Enabled }
-
-// Policy section where the rule is located
+func (ClientConnectivityRule) IsIPolicyRule()                      {}
+func (this ClientConnectivityRule) GetDescription() *string        { return &this.Description }
+func (this ClientConnectivityRule) GetEnabled() bool               { return this.Enabled }
+func (this ClientConnectivityRule) GetID() string                  { return this.ID }
+func (this ClientConnectivityRule) GetIndex() int64                { return this.Index }
+func (this ClientConnectivityRule) GetName() string                { return this.Name }
 func (this ClientConnectivityRule) GetSection() *PolicySectionInfo { return this.Section }
 
 type ClientConnectivityRuleMutationPayload struct {
@@ -4704,16 +3349,6 @@ type ClientConnectivityRuleMutationPayload struct {
 }
 
 func (ClientConnectivityRuleMutationPayload) IsIPolicyRuleMutationPayload() {}
-
-// Returns settings for the rule
-func (this ClientConnectivityRuleMutationPayload) GetRule() IPolicyRulePayload { return *this.Rule }
-
-// Enum for the status of the policy change
-func (this ClientConnectivityRuleMutationPayload) GetStatus() PolicyMutationStatus {
-	return this.Status
-}
-
-// List of errors related to the policy change
 func (this ClientConnectivityRuleMutationPayload) GetErrors() []*PolicyMutationError {
 	if this.Errors == nil {
 		return nil
@@ -4724,6 +3359,10 @@ func (this ClientConnectivityRuleMutationPayload) GetErrors() []*PolicyMutationE
 	}
 	return interfaceSlice
 }
+func (this ClientConnectivityRuleMutationPayload) GetRule() IPolicyRulePayload { return *this.Rule }
+func (this ClientConnectivityRuleMutationPayload) GetStatus() PolicyMutationStatus {
+	return this.Status
+}
 
 type ClientConnectivityRulePayload struct {
 	Audit      *PolicyElementAudit           `json:"audit"`
@@ -4733,11 +3372,6 @@ type ClientConnectivityRulePayload struct {
 
 func (ClientConnectivityRulePayload) IsIPolicyRulePayload()              {}
 func (this ClientConnectivityRulePayload) GetAudit() *PolicyElementAudit { return this.Audit }
-
-// Rule that was changed
-func (this ClientConnectivityRulePayload) GetRule() IPolicyRule { return *this.Rule }
-
-// Summary of rule change, (ie. ADDED, UPDATED)
 func (this ClientConnectivityRulePayload) GetProperties() []PolicyElementPropertiesEnum {
 	if this.Properties == nil {
 		return nil
@@ -4748,73 +3382,48 @@ func (this ClientConnectivityRulePayload) GetProperties() []PolicyElementPropert
 	}
 	return interfaceSlice
 }
+func (this ClientConnectivityRulePayload) GetRule() IPolicyRule { return *this.Rule }
 
 // Users or user groups that the policy will apply on
 type ClientConnectivitySource struct {
-	// Individual users defined for the account
-	User []*UserRef `json:"user"`
-	// Group of users
+	User       []*UserRef       `json:"user"`
 	UsersGroup []*UsersGroupRef `json:"usersGroup"`
 }
 
 // Users or user groups that the policy will apply on
 type ClientConnectivitySourceInput struct {
-	// Individual users defined for the account
-	User []*UserRefInput `json:"user"`
-	// Group of users
+	User       []*UserRefInput       `json:"user"`
 	UsersGroup []*UsersGroupRefInput `json:"usersGroup"`
 }
 
 // Public ISP IP Range for source matching
 type ClientConnectivitySourceRange struct {
-	// Globally defined IP range
 	GlobalIPRange *GlobalIPRangeRef `json:"globalIpRange"`
 }
 
 // Public ISP IP Range for source matching
 type ClientConnectivitySourceRangeInput struct {
-	// Globally defined IP range
 	GlobalIPRange *GlobalIPRangeRefInput `json:"globalIpRange"`
 }
 
 // Users or user groups that the policy will apply on
 type ClientConnectivitySourceUpdateInput struct {
-	// Individual users defined for the account
-	User []*UserRefInput `json:"user,omitempty"`
-	// Group of users
+	User       []*UserRefInput       `json:"user,omitempty"`
 	UsersGroup []*UsersGroupRefInput `json:"usersGroup,omitempty"`
 }
 
 type ClientConnectivityUpdateRuleDataInput struct {
-	// The action applied by the client connectivity if the rule is matched
-	Action *ClientConnectivityActionEnum `json:"action,omitempty"`
-	// User confidence level
-	ConfidenceLevel *ClientConnectivityConfidenceLevelEnum `json:"confidenceLevel,omitempty"`
-	// Connection origin matching criteria.
-	// Logical 'OR' is applied within the criteria set.
-	// Logical 'AND' is applied between criteria sets.
-	ConnectionOrigin []ClientConnectivityOriginEnum `json:"connectionOrigin,omitempty"`
-	// Country traffic matching criteria.
-	// Logical ‘OR’ is applied within the criteria set.
-	// Logical ‘AND’ is applied between criteria sets.
-	Country     []*CountryRefInput `json:"country,omitempty"`
-	Description *string            `json:"description,omitempty"`
-	// Device Profile traffic matching criteria.
-	// Logical ‘OR’ is applied within the criteria set.
-	// Logical ‘AND’ is applied between criteria sets.
-	Device  []*DeviceProfileRefInput `json:"device,omitempty"`
-	Enabled *bool                    `json:"enabled,omitempty"`
-	Name    *string                  `json:"name,omitempty"`
-	// Source device Operating System traffic matching criteria.
-	// Logical ‘OR’ is applied within the criteria set.
-	// Logical ‘AND’ is applied between criteria sets.
-	Platform []OperatingSystem `json:"platform,omitempty"`
-	// Source traffic matching criteria.
-	// Logical ‘OR’ is applied within the criteria set.
-	// Logical ‘AND’ is applied between criteria sets.
-	Source *ClientConnectivitySourceUpdateInput `json:"source,omitempty"`
-	// Public ISP IP Range matching criteria.
-	SourceRange []*ClientConnectivitySourceRangeInput `json:"sourceRange,omitempty"`
+	Action           *ClientConnectivityActionEnum          `json:"action,omitempty"`
+	ConfidenceLevel  *ClientConnectivityConfidenceLevelEnum `json:"confidenceLevel,omitempty"`
+	ConnectionOrigin []ClientConnectivityOriginEnum         `json:"connectionOrigin,omitempty"`
+	Country          []*CountryRefInput                     `json:"country,omitempty"`
+	Description      *string                                `json:"description,omitempty"`
+	Device           []*DeviceProfileRefInput               `json:"device,omitempty"`
+	Enabled          *bool                                  `json:"enabled,omitempty"`
+	Name             *string                                `json:"name,omitempty"`
+	Platform         []OperatingSystem                      `json:"platform,omitempty"`
+	Source           *ClientConnectivitySourceUpdateInput   `json:"source,omitempty"`
+	SourceRange      []*ClientConnectivitySourceRangeInput  `json:"sourceRange,omitempty"`
 }
 
 type ClientConnectivityUpdateRuleInput struct {
@@ -4824,95 +3433,65 @@ type ClientConnectivityUpdateRuleInput struct {
 
 // Connectivity status of a cloud interconnect connection.
 type CloudInterconnectConnectionConnectivity struct {
-	// Indicates if the connection is successful.
 	Success bool `json:"success"`
 }
 
 // Input for checking the connectivity status of a cloud interconnect connection.
 type CloudInterconnectConnectionConnectivityInput struct {
-	// ID of the connection.
 	ID string `json:"id"`
 }
 
 // Details of a physical connection at a cloud interconnect site.
 type CloudInterconnectPhysicalConnection struct {
-	// C-VLAN applicable only for QINQ connections.
-	CVlan *scalars.Vlan `json:"cVlan,omitempty"`
-	// Downstream bandwidth limit.
-	DownstreamBwLimit string `json:"downstreamBwLimit"`
-	// Method of encapsulation.
-	EncapsulationMethod TaggingMethod `json:"encapsulationMethod"`
-	// High availability role of the connection. Either Primary or Secondary.
-	HaRole HaRole `json:"haRole"`
-	// ID of the connection.
-	ID string `json:"id"`
-	// Identifying data for the POP location.
-	PopLocation *PopLocationRef `json:"popLocation"`
-	// Private IP address of Cato, used for BGP routing.
-	PrivateCatoIP string `json:"privateCatoIp"`
-	// Private IP address of the site, used for BGP routing.
-	PrivateSiteIP string `json:"privateSiteIp"`
-	// Name of the service provider.
-	ServiceProviderName string `json:"serviceProviderName"`
-	// Identifying data for the site.
-	Site *SiteRef `json:"site"`
-	// Subnet for the connection.
-	Subnet string `json:"subnet"`
-	// S-VLAN applicable only for QINQ connections.
-	SVlan *scalars.Vlan `json:"sVlan,omitempty"`
-	// Upstream bandwidth limit.
-	UpstreamBwLimit string `json:"upstreamBwLimit"`
-	// VLAN applicable only for DOT1Q connections.
-	Vlan *scalars.Vlan `json:"vlan,omitempty"`
+	CVlan               *scalars.Vlan   `json:"cVlan,omitempty"`
+	DownstreamBwLimit   string          `json:"downstreamBwLimit"`
+	EncapsulationMethod TaggingMethod   `json:"encapsulationMethod"`
+	HaRole              HaRole          `json:"haRole"`
+	ID                  string          `json:"id"`
+	PopLocation         *PopLocationRef `json:"popLocation"`
+	PrivateCatoIP       string          `json:"privateCatoIp"`
+	PrivateSiteIP       string          `json:"privateSiteIp"`
+	SVlan               *scalars.Vlan   `json:"sVlan,omitempty"`
+	ServiceProviderName string          `json:"serviceProviderName"`
+	Site                *SiteRef        `json:"site"`
+	Subnet              string          `json:"subnet"`
+	UpstreamBwLimit     string          `json:"upstreamBwLimit"`
+	Vlan                *scalars.Vlan   `json:"vlan,omitempty"`
 }
 
 // ID of a physical connection at a cloud interconnect site.
 type CloudInterconnectPhysicalConnectionID struct {
-	// ID of the connection.
 	ID string `json:"id"`
 }
 
 // Input for getting the ID of a physical connection at a cloud interconnect site.
 type CloudInterconnectPhysicalConnectionIDInput struct {
-	// High availability role of the connection.
-	HaRole HaRole `json:"haRole"`
-	// Identifying data for the site.
-	Site *SiteRefInput `json:"site"`
+	HaRole HaRole        `json:"haRole"`
+	Site   *SiteRefInput `json:"site"`
 }
 
 // Input for getting details of a physical connection at a cloud interconnect site.
 type CloudInterconnectPhysicalConnectionInput struct {
-	// ID of the connection.
 	ID string `json:"id"`
 }
 
 type ContactDetails struct {
-	// Contact email address
 	Email *string `json:"email,omitempty"`
-	// Contact name
-	Name *string `json:"name,omitempty"`
-	// Contact phone number
+	Name  *string `json:"name,omitempty"`
 	Phone *string `json:"phone,omitempty"`
 }
 
 type ContactDetailsInput struct {
-	// Contact email address
 	Email *string `json:"email,omitempty"`
-	// Contact name
-	Name *string `json:"name,omitempty"`
-	// Contact phone number
+	Name  *string `json:"name,omitempty"`
 	Phone *string `json:"phone,omitempty"`
 }
 
 // Audit metadata about the container
 type ContainerAudit struct {
-	// Indicates when the container was created
-	CreatedAt string `json:"createdAt"`
-	// Indicates who created the container
-	CreatedBy string `json:"createdBy"`
-	// Indicated when the container was last updated
+	CreatedAt      string `json:"createdAt"`
+	CreatedBy      string `json:"createdBy"`
 	LastModifiedAt string `json:"lastModifiedAt"`
-	// Indicates who was the last to update the container
 	LastModifiedBy string `json:"lastModifiedBy"`
 }
 
@@ -4930,64 +3509,45 @@ type ContainerQueries struct {
 
 // A group with members of a single type of entity (for example: IP, FQDN)
 type ContainerRef struct {
-	// Unique container ID
-	ID string `json:"id"`
-	// Name for the container
+	ID   string `json:"id"`
 	Name string `json:"name"`
 }
 
-func (ContainerRef) IsObjectRef() {}
-
-// Object's unique identifier
-func (this ContainerRef) GetID() string { return this.ID }
-
-// Object's unique name
+func (ContainerRef) IsObjectRef()         {}
+func (this ContainerRef) GetID() string   { return this.ID }
 func (this ContainerRef) GetName() string { return this.Name }
 
 // Add a container by ID or name
 type ContainerRefInput struct {
-	// Defines the object identification method – by ID (default) or by name
-	By ObjectRefBy `json:"by"`
-	// The object identification (ID or name) value
-	Input string `json:"input"`
+	By    ObjectRefBy `json:"by"`
+	Input string      `json:"input"`
 }
 
 // Filtering input to container search
 type ContainerSearchInput struct {
-	// Allows filtering container search by container ID or container name
-	Refs []*ContainerRefInput `json:"refs"`
-	// Allows filtering container search by specific container types
-	Types []ContainerType `json:"types"`
+	Refs  []*ContainerRefInput `json:"refs"`
+	Types []ContainerType      `json:"types"`
 }
 
 // Container search result, including all containers that matched input criteria
 type ContainerSearchPayload struct {
-	// A list of matched containers
 	Containers []Container `json:"containers"`
 }
 
 // Information about automatic synchronization of the container
 type ContainerSyncData struct {
-	// File type that is synchronized
-	FileType *ContainerFileType `json:"fileType,omitempty"`
-	// Notifications for sync data
+	FileType      *ContainerFileType             `json:"fileType,omitempty"`
 	Notifications *ContainerSyncDataNotification `json:"notifications"`
-	// Interval of time between synchronizations
-	TimeInterval int64 `json:"timeInterval"`
-	// Unit of time for the interval
-	TimeUnit ContainerSyncDataTimeUnit `json:"timeUnit"`
-	// URL from which the container is synchronized
-	URL string `json:"url"`
+	TimeInterval  int64                          `json:"timeInterval"`
+	TimeUnit      ContainerSyncDataTimeUnit      `json:"timeUnit"`
+	URL           string                         `json:"url"`
 }
 
 // Audit information about the last synchronization of the container
 type ContainerSyncDataAudit struct {
-	// Error message, only if last sync had an error
-	ErrorMsg *string `json:"errorMsg,omitempty"`
-	// Timestamp of the last attempt sync
-	LastSyncAttempt string `json:"lastSyncAttempt"`
-	// Timestamp of the last successful sync
-	LastSynced string `json:"lastSynced"`
+	ErrorMsg        *string `json:"errorMsg,omitempty"`
+	LastSyncAttempt string  `json:"lastSyncAttempt"`
+	LastSynced      string  `json:"lastSynced"`
 }
 
 type ContainerSyncDataNotification struct {
@@ -5002,12 +3562,8 @@ type CountryRef struct {
 	Name string `json:"name"`
 }
 
-func (CountryRef) IsObjectRef() {}
-
-// Object's unique identifier
-func (this CountryRef) GetID() string { return this.ID }
-
-// Object's unique name
+func (CountryRef) IsObjectRef()         {}
+func (this CountryRef) GetID() string   { return this.ID }
 func (this CountryRef) GetName() string { return this.Name }
 
 type CountryRefFilterInput struct {
@@ -5038,19 +3594,14 @@ type CreateContainerSyncDataNotificationInput struct {
 
 // Input for creating FQDN typed container from file
 type CreateFqdnContainerFromFileInput struct {
-	// Description for the container
-	Description string `json:"description"`
-	// File type that will be uploaded
-	FileType ContainerFileType `json:"fileType"`
-	// Name for the container
-	Name string `json:"name"`
-	// Multipart file containing FQDNs with fileType delimiter
-	UploadFile *graphql.Upload `json:"uploadFile,omitempty"`
+	Description string            `json:"description"`
+	FileType    ContainerFileType `json:"fileType"`
+	Name        string            `json:"name"`
+	UploadFile  *graphql.Upload   `json:"uploadFile,omitempty"`
 }
 
 // Payload of CreateFromFile operation on FQDN typed container
 type CreateFqdnContainerFromFilePayload struct {
-	// Container with members of type FQDN
 	Container *FqdnContainer `json:"container"`
 }
 
@@ -5062,18 +3613,14 @@ type CreateFqdnContainerFromListInput struct {
 
 // Payload of CreateFromList operation on FQDN typed container
 type CreateFqdnContainerFromListPayload struct {
-	// Container with members of type FQDN
 	Container *FqdnContainer `json:"container"`
 }
 
 // Create a new group
 type CreateGroupInput struct {
-	// Optional description for the group
-	Description *string `json:"description,omitempty"`
-	// Initial list of members for the new group. There is a maximum of 500 members per createGroup mutation
-	Members []*GroupMemberRefTypedInput `json:"members,omitempty"`
-	// The name of the new group
-	Name string `json:"name"`
+	Description *string                     `json:"description,omitempty"`
+	Members     []*GroupMemberRefTypedInput `json:"members,omitempty"`
+	Name        string                      `json:"name"`
 }
 
 // The created group object.
@@ -5083,19 +3630,14 @@ type CreateGroupPayload struct {
 
 // Input for creating IPAddressRange typed container from file
 type CreateIPAddressRangeContainerFromFileInput struct {
-	// Description for the container
-	Description string `json:"description"`
-	// File type that will be uploaded
-	FileType ContainerFileType `json:"fileType"`
-	// Name for the container
-	Name string `json:"name"`
-	// Multipart file containing IPAddressRanges with fileType delimiter
-	UploadFile *graphql.Upload `json:"uploadFile,omitempty"`
+	Description string            `json:"description"`
+	FileType    ContainerFileType `json:"fileType"`
+	Name        string            `json:"name"`
+	UploadFile  *graphql.Upload   `json:"uploadFile,omitempty"`
 }
 
 // Payload of CreateFromFile operation on IPAddressRange typed container
 type CreateIPAddressRangeContainerFromFilePayload struct {
-	// Container with members of type IPAddressRange
 	Container *IPAddressRangeContainer `json:"container"`
 }
 
@@ -5107,19 +3649,14 @@ type CreateIPAddressRangeContainerFromListInput struct {
 
 // Payload of CreateFromList operation on IPAddressRange typed container
 type CreateIPAddressRangeContainerFromListPayload struct {
-	// Container with members of type IPAddressRange
 	Container *IPAddressRangeContainer `json:"container"`
 }
 
 type CreateLocationDetailsInput struct {
-	// Company name (recipient)
-	CompanyName *string `json:"companyName,omitempty"`
-	// Delivery contact detail
-	Contact *ContactDetailsInput `json:"contact,omitempty"`
-	// Postal location
-	PostalAddress *PostalAddressInput `json:"postalAddress"`
-	// Vat id (required for Brazil)
-	VatID *string `json:"vatId,omitempty"`
+	CompanyName   *string              `json:"companyName,omitempty"`
+	Contact       *ContactDetailsInput `json:"contact,omitempty"`
+	PostalAddress *PostalAddressInput  `json:"postalAddress"`
+	VatID         *string              `json:"vatId,omitempty"`
 }
 
 type CreatePrivateApplicationInput struct {
@@ -5144,12 +3681,8 @@ type CustomApplicationRef struct {
 	Name string `json:"name"`
 }
 
-func (CustomApplicationRef) IsObjectRef() {}
-
-// Object's unique identifier
-func (this CustomApplicationRef) GetID() string { return this.ID }
-
-// Object's unique name
+func (CustomApplicationRef) IsObjectRef()         {}
+func (this CustomApplicationRef) GetID() string   { return this.ID }
 func (this CustomApplicationRef) GetName() string { return this.Name }
 
 type CustomApplicationRefInput struct {
@@ -5163,12 +3696,8 @@ type CustomCategoryRef struct {
 	Name string `json:"name"`
 }
 
-func (CustomCategoryRef) IsObjectRef() {}
-
-// Object's unique identifier
-func (this CustomCategoryRef) GetID() string { return this.ID }
-
-// Object's unique name
+func (CustomCategoryRef) IsObjectRef()         {}
+func (this CustomCategoryRef) GetID() string   { return this.ID }
 func (this CustomCategoryRef) GetName() string { return this.Name }
 
 type CustomCategoryRefInput struct {
@@ -5203,70 +3732,31 @@ type CustomServiceIPInput struct {
 }
 
 type DataLakeLicense struct {
-	Description *string `json:"description,omitempty"`
-	// The version of the Data Processing Agreement (DPA) that your company signed with Cato.
-	DpaVersion DpaVersion `json:"dpaVersion"`
-	// License expiration date
-	ExpirationDate string `json:"expirationDate"`
-	// The unique identifier for the license. If this value is not available, you can contact Cato Support, who may be able to assist in retrieving it.
-	ID *string `json:"id,omitempty"`
-	// The date of the last update to the license
-	LastUpdated *string `json:"lastUpdated,omitempty"`
-	// License plan type
-	Plan LicensePlan `json:"plan"`
-	// Data retention period, in months, during which the account data may remain on the Cato Cloud. After this period the data will be permanently deleted.
-	RetentionPeriod *int64 `json:"retentionPeriod,omitempty"`
-	// The license SKU
-	Sku LicenseSku `json:"sku"`
-	// License start date
-	StartDate *string `json:"startDate,omitempty"`
-	// License activation status
-	Status LicenseStatus `json:"status"`
-	// Total number of the Data Storage Units under this license. Each Data Storage Unit increases the allowed ingestion rate (events per hour and total events storage)
-	Total int64 `json:"total"`
+	Description     *string       `json:"description,omitempty"`
+	DpaVersion      DpaVersion    `json:"dpaVersion"`
+	ExpirationDate  string        `json:"expirationDate"`
+	ID              *string       `json:"id,omitempty"`
+	LastUpdated     *string       `json:"lastUpdated,omitempty"`
+	Plan            LicensePlan   `json:"plan"`
+	RetentionPeriod *int64        `json:"retentionPeriod,omitempty"`
+	Sku             LicenseSku    `json:"sku"`
+	StartDate       *string       `json:"startDate,omitempty"`
+	Status          LicenseStatus `json:"status"`
+	Total           int64         `json:"total"`
 }
 
-func (DataLakeLicense) IsLicense() {}
-
-// The unique identifier for the license. If this value is not available, you can contact Cato Support, who may be able to assist in retrieving it.
-func (this DataLakeLicense) GetID() *string          { return this.ID }
-func (this DataLakeLicense) GetDescription() *string { return this.Description }
-
-// License plan type
-func (this DataLakeLicense) GetPlan() LicensePlan { return this.Plan }
-
-// The license SKU
-func (this DataLakeLicense) GetSku() LicenseSku { return this.Sku }
-
-// License activation status
-func (this DataLakeLicense) GetStatus() LicenseStatus { return this.Status }
-
-// License start date
-func (this DataLakeLicense) GetStartDate() *string { return this.StartDate }
-
-// License expiration date
+func (DataLakeLicense) IsLicense()                     {}
+func (this DataLakeLicense) GetDescription() *string   { return this.Description }
 func (this DataLakeLicense) GetExpirationDate() string { return this.ExpirationDate }
-
-// The date of the last update to the license
-func (this DataLakeLicense) GetLastUpdated() *string { return this.LastUpdated }
+func (this DataLakeLicense) GetID() *string            { return this.ID }
+func (this DataLakeLicense) GetLastUpdated() *string   { return this.LastUpdated }
+func (this DataLakeLicense) GetPlan() LicensePlan      { return this.Plan }
+func (this DataLakeLicense) GetSku() LicenseSku        { return this.Sku }
+func (this DataLakeLicense) GetStartDate() *string     { return this.StartDate }
+func (this DataLakeLicense) GetStatus() LicenseStatus  { return this.Status }
 
 func (DataLakeLicense) IsQuantifiableLicense() {}
 
-// The unique identifier for the license. If this value is not available, you can contact Cato Support, who may be able to assist in retrieving it.
-
-// License plan type
-
-// The license SKU
-
-// License activation status
-
-// License initiation date
-
-// License expiration date
-
-// The date of the last update to the license
-
-// license quantity
 func (this DataLakeLicense) GetTotal() int64 { return this.Total }
 
 type DateTimeFilterInput struct {
@@ -5337,18 +3827,15 @@ func (DegradedStatusSocketVersionsArgs) IsDegradedStatusArgs() {}
 
 // Identification of container for delete operation
 type DeleteContainerInput struct {
-	// Reference to existing container by container ID or container name
 	Ref *ContainerRefInput `json:"ref"`
 }
 
 type DeleteContainerPayload struct {
-	// The data of the container before it was deleted
 	Container Container `json:"container"`
 }
 
 // The deleted group object
 type DeleteGroupPayload struct {
-	// The group that was deleted
 	Group *Group `json:"group"`
 }
 
@@ -5362,90 +3849,48 @@ type DeletePrivateApplicationPayload struct {
 
 // Delete report input
 type DeleteReportInput struct {
-	//  File hash (SHA-256) to be deleted
 	FileHash string `json:"fileHash"`
 }
 
 // Delete report response
 type DeleteReportPayload struct {
-	//  File hash (SHA-256)
 	FileHash string `json:"fileHash"`
 }
 
 type DeleteStoryCommentInput struct {
-	// The comment ID
 	CommentID string `json:"commentId"`
-	// The relevant Story
-	StoryID string `json:"storyId"`
+	StoryID   string `json:"storyId"`
 }
 
 type DeleteStoryCommentPayload struct {
-	// Delete an existing comment from an XDR story
 	Comment *StoryComment `json:"comment"`
 }
 
 // DEM service license details
 type DemLicense struct {
-	Description *string `json:"description,omitempty"`
-	// License expiration date
-	ExpirationDate string `json:"expirationDate"`
-	// The unique identifier for the license. If this value is not available, you can contact Cato Support, who may be able to assist in retrieving it.
-	ID *string `json:"id,omitempty"`
-	// The date of the last update to the license
-	LastUpdated *string `json:"lastUpdated,omitempty"`
-	// License plan type
-	Plan LicensePlan `json:"plan"`
-	// The license SKU
-	Sku LicenseSku `json:"sku"`
-	// License start date
-	StartDate *string `json:"startDate,omitempty"`
-	// License activation status
-	Status LicenseStatus `json:"status"`
-	// License quantity
-	Total int64 `json:"total"`
+	Description    *string       `json:"description,omitempty"`
+	ExpirationDate string        `json:"expirationDate"`
+	ID             *string       `json:"id,omitempty"`
+	LastUpdated    *string       `json:"lastUpdated,omitempty"`
+	Plan           LicensePlan   `json:"plan"`
+	Sku            LicenseSku    `json:"sku"`
+	StartDate      *string       `json:"startDate,omitempty"`
+	Status         LicenseStatus `json:"status"`
+	Total          int64         `json:"total"`
 }
 
-func (DemLicense) IsLicense() {}
-
-// The unique identifier for the license. If this value is not available, you can contact Cato Support, who may be able to assist in retrieving it.
-func (this DemLicense) GetID() *string          { return this.ID }
-func (this DemLicense) GetDescription() *string { return this.Description }
-
-// License plan type
-func (this DemLicense) GetPlan() LicensePlan { return this.Plan }
-
-// The license SKU
-func (this DemLicense) GetSku() LicenseSku { return this.Sku }
-
-// License activation status
-func (this DemLicense) GetStatus() LicenseStatus { return this.Status }
-
-// License start date
-func (this DemLicense) GetStartDate() *string { return this.StartDate }
-
-// License expiration date
+func (DemLicense) IsLicense()                     {}
+func (this DemLicense) GetDescription() *string   { return this.Description }
 func (this DemLicense) GetExpirationDate() string { return this.ExpirationDate }
-
-// The date of the last update to the license
-func (this DemLicense) GetLastUpdated() *string { return this.LastUpdated }
+func (this DemLicense) GetID() *string            { return this.ID }
+func (this DemLicense) GetLastUpdated() *string   { return this.LastUpdated }
+func (this DemLicense) GetPlan() LicensePlan      { return this.Plan }
+func (this DemLicense) GetSku() LicenseSku        { return this.Sku }
+func (this DemLicense) GetStartDate() *string     { return this.StartDate }
+func (this DemLicense) GetStatus() LicenseStatus  { return this.Status }
 
 func (DemLicense) IsQuantifiableLicense() {}
 
-// The unique identifier for the license. If this value is not available, you can contact Cato Support, who may be able to assist in retrieving it.
-
-// License plan type
-
-// The license SKU
-
-// License activation status
-
-// License initiation date
-
-// License expiration date
-
-// The date of the last update to the license
-
-// license quantity
 func (this DemLicense) GetTotal() int64 { return this.Total }
 
 type DeviceAttributeCatalogInput struct {
@@ -5460,18 +3905,12 @@ type DeviceAttributeCatalogPayload struct {
 }
 
 type DeviceAttributes struct {
-	// The category of the firewall device.
-	Category []string `json:"category"`
-	// The manufacturer of the firewall device.
+	Category     []string `json:"category"`
 	Manufacturer []string `json:"manufacturer"`
-	// The model of the firewall device.
-	Model []string `json:"model"`
-	// The operating system of the firewall device.
-	Os []string `json:"os"`
-	// The version of the operating system of the firewall device.
-	OsVersion []string `json:"osVersion"`
-	// The type of the firewall device.
-	Type []string `json:"type"`
+	Model        []string `json:"model"`
+	Os           []string `json:"os"`
+	OsVersion    []string `json:"osVersion"`
+	Type         []string `json:"type"`
 }
 
 type DeviceAttributesCatalogQueries struct {
@@ -5484,33 +3923,21 @@ type DeviceAttributesCatalogQueries struct {
 }
 
 type DeviceAttributesInput struct {
-	// The category of the firewall device.
-	Category []string `json:"category"`
-	// The manufacturer of the firewall device.
+	Category     []string `json:"category"`
 	Manufacturer []string `json:"manufacturer"`
-	// The model of the firewall device.
-	Model []string `json:"model"`
-	// The operating system of the firewall device.
-	Os []string `json:"os"`
-	// The version of the operating system of the firewall device.
-	OsVersion []string `json:"osVersion"`
-	// The type of the firewall device.
-	Type []string `json:"type"`
+	Model        []string `json:"model"`
+	Os           []string `json:"os"`
+	OsVersion    []string `json:"osVersion"`
+	Type         []string `json:"type"`
 }
 
 type DeviceAttributesUpdateInput struct {
-	// The category of the firewall device.
-	Category []string `json:"category,omitempty"`
-	// The manufacturer of the firewall device.
+	Category     []string `json:"category,omitempty"`
 	Manufacturer []string `json:"manufacturer,omitempty"`
-	// The model of the firewall device.
-	Model []string `json:"model,omitempty"`
-	// The operating system of the firewall device.
-	Os []string `json:"os,omitempty"`
-	// The version of the operating system of the firewall device.
-	OsVersion []string `json:"osVersion,omitempty"`
-	// The type of the firewall device.
-	Type []string `json:"type,omitempty"`
+	Model        []string `json:"model,omitempty"`
+	Os           []string `json:"os,omitempty"`
+	OsVersion    []string `json:"osVersion,omitempty"`
+	Type         []string `json:"type,omitempty"`
 }
 
 // Filter input for device confidence level with equality and inclusion operators
@@ -5548,40 +3975,28 @@ type DeviceComplianceSortInput struct {
 }
 
 type DeviceConfidenceLevelFilterInput struct {
-	// Equals - exact confidence level match
-	Eq *DeviceConfidenceLevel `json:"eq,omitempty"`
-	// In - match any of the specified confidence levels
-	In []DeviceConfidenceLevel `json:"in,omitempty"`
-	// Not equals - exclude specific confidence level
-	Neq *DeviceConfidenceLevel `json:"neq,omitempty"`
-	// Not in - exclude all specified confidence levels
+	Eq  *DeviceConfidenceLevel  `json:"eq,omitempty"`
+	In  []DeviceConfidenceLevel `json:"in,omitempty"`
+	Neq *DeviceConfidenceLevel  `json:"neq,omitempty"`
 	Nin []DeviceConfidenceLevel `json:"nin,omitempty"`
 }
 
 type DeviceConnectionProfile struct {
-	// List of applications the device communicates with
-	DestApps []string `json:"destApps"`
-	// Domains contacted by the device
+	DestApps    []string `json:"destApps"`
 	DestDomains []string `json:"destDomains"`
-	// Destination hosts accessed by the device
-	DestHosts []string `json:"destHosts"`
-	// Traffic direction indicators (e.g., inbound, outbound)
-	Directions []string `json:"directions"`
+	DestHosts   []string `json:"destHosts"`
+	Directions  []string `json:"directions"`
 }
 
 // Input for CSV export with optional filtering
 type DeviceCSVExportInput struct {
-	// Filter devices by various criteria before export
 	Filter []*DeviceV2FilterInput `json:"filter,omitempty"`
 }
 
 type DeviceHw struct {
-	// Brand or vendor that produced the device
 	Manufacturer *string `json:"manufacturer,omitempty"`
-	// Specific hardware model identifier
-	Model *string `json:"model,omitempty"`
-	// Hardware type of the device (e.g., laptop, printer)
-	Type *string `json:"type,omitempty"`
+	Model        *string `json:"model,omitempty"`
+	Type         *string `json:"type,omitempty"`
 }
 
 type DeviceHwFilterInput struct {
@@ -5597,10 +4012,8 @@ type DeviceHwSortOrderInput struct {
 }
 
 type DeviceNetwork struct {
-	// Name of the associated network
 	NetworkName *string `json:"networkName,omitempty"`
-	// Subnet in which the device resides
-	Subnet *string `json:"subnet,omitempty"`
+	Subnet      *string `json:"subnet,omitempty"`
 }
 
 type DeviceNetworkFilterInput struct {
@@ -5614,10 +4027,8 @@ type DeviceNetworkSortOrderInput struct {
 }
 
 type DeviceNic struct {
-	// The unique MAC address of the device's network interface card
 	MacAddress *string `json:"macAddress,omitempty"`
-	// Manufacturer of the network interface (e.g., Intel, Broadcom)
-	Vendor *string `json:"vendor,omitempty"`
+	Vendor     *string `json:"vendor,omitempty"`
 }
 
 type DeviceNicFilterInput struct {
@@ -5631,11 +4042,8 @@ type DeviceNicSortOrderInput struct {
 }
 
 type DeviceOs struct {
-	// Name of the operating system product (e.g., Windows, iOS)
 	Product *string `json:"product,omitempty"`
-	// Vendor or publisher of the operating system
-	Vendor *string `json:"vendor,omitempty"`
-	// Specific version or release of the operating system
+	Vendor  *string `json:"vendor,omitempty"`
 	Version *string `json:"version,omitempty"`
 }
 
@@ -5657,12 +4065,8 @@ type DeviceProfileRef struct {
 	Name string `json:"name"`
 }
 
-func (DeviceProfileRef) IsObjectRef() {}
-
-// Object's unique identifier
-func (this DeviceProfileRef) GetID() string { return this.ID }
-
-// Object's unique name
+func (DeviceProfileRef) IsObjectRef()         {}
+func (this DeviceProfileRef) GetID() string   { return this.ID }
 func (this DeviceProfileRef) GetName() string { return this.Name }
 
 type DeviceProfileRefInput struct {
@@ -5676,87 +4080,48 @@ type DeviceSiteSortOrderInput struct {
 }
 
 type DeviceSnapshot struct {
-	// A boolean value that indicates if the site is connected to the Cato Cloud
-	Connected *bool `json:"connected,omitempty"`
-	// For connected devices (this somewhat overlaps to last duration)
-	ConnectedSince *string `json:"connectedSince,omitempty"`
-	// Indicates the Socket uptime
-	DeviceUptime *int64 `json:"deviceUptime,omitempty"`
-	// Shows if this is the primary or secondary Socket in high availability mode
-	HaRole *string `json:"haRole,omitempty"`
-	// Unique internal Cato ID for the Socket
-	ID *string `json:"id,omitempty"`
-	// Unique identifier for the device
-	Identifier *string `json:"identifier,omitempty"`
-	// Snapshot data for outbound facing interfaces
-	Interfaces []*InterfaceSnapshot `json:"interfaces,omitempty"`
-	// Information of the link state of various interfaces in the devices. Unlike the `interfacess` field, it contains
-	// all links of the device, not just the outbound facing ones
+	Connected           *bool                 `json:"connected,omitempty"`
+	ConnectedSince      *string               `json:"connectedSince,omitempty"`
+	DeviceUptime        *int64                `json:"deviceUptime,omitempty"`
+	HaRole              *string               `json:"haRole,omitempty"`
+	ID                  *string               `json:"id,omitempty"`
+	Identifier          *string               `json:"identifier,omitempty"`
+	Interfaces          []*InterfaceSnapshot  `json:"interfaces,omitempty"`
 	InterfacesLinkState []*InterfaceLinkState `json:"interfacesLinkState,omitempty"`
-	// Device's internal IP in the account's routing table
-	InternalIP *string `json:"internalIP,omitempty"`
-	// The last time the device was seen
-	LastConnected *string `json:"lastConnected,omitempty"`
-	// The uptime of the last tunnel from this device (or current), in seconds
-	LastDuration *int64 `json:"lastDuration,omitempty"`
-	// The ID of the PoP that the Socket is connected to
-	LastPopID *int64 `json:"lastPopID,omitempty"`
-	// The PoP name that the Socket is connected to
-	LastPopName *string `json:"lastPopName,omitempty"`
-	// The time the mfa cookie (for sdp users) was created
-	MfaCreationTime *int64 `json:"mfaCreationTime,omitempty"`
-	// Shows the amount of time remaining before the MFA token expires
-	MfaExpirationTime *int64 `json:"mfaExpirationTime,omitempty"`
-	// Name of the device
-	Name *string `json:"name,omitempty"`
-	// Operating system of the Device.
-	OsType *string `json:"osType,omitempty"`
-	// Version of the Socket operating system
-	OsVersion *string `json:"osVersion,omitempty"`
-	// Data related to the most recent completed traffic flows
-	RecentConnections []*RecentConnection `json:"recentConnections,omitempty"`
-	// Shows the release group for the site
-	ReleaseGroup *string `json:"releaseGroup,omitempty"`
-	// Shows data related to the Socket, such as version and serial number
-	SocketInfo *SocketInfo `json:"socketInfo,omitempty"`
-	// Shows the Socket model or vSocket type
-	Type *string `json:"type,omitempty"`
-	// Device version
-	Version *string `json:"version,omitempty"`
-	// Device major version
-	VersionNumber *int64 `json:"versionNumber,omitempty"`
+	InternalIP          *string               `json:"internalIP,omitempty"`
+	LastConnected       *string               `json:"lastConnected,omitempty"`
+	LastDuration        *int64                `json:"lastDuration,omitempty"`
+	LastPopID           *int64                `json:"lastPopID,omitempty"`
+	LastPopName         *string               `json:"lastPopName,omitempty"`
+	MfaCreationTime     *int64                `json:"mfaCreationTime,omitempty"`
+	MfaExpirationTime   *int64                `json:"mfaExpirationTime,omitempty"`
+	Name                *string               `json:"name,omitempty"`
+	OsType              *string               `json:"osType,omitempty"`
+	OsVersion           *string               `json:"osVersion,omitempty"`
+	RecentConnections   []*RecentConnection   `json:"recentConnections,omitempty"`
+	ReleaseGroup        *string               `json:"releaseGroup,omitempty"`
+	SocketInfo          *SocketInfo           `json:"socketInfo,omitempty"`
+	Type                *string               `json:"type,omitempty"`
+	Version             *string               `json:"version,omitempty"`
+	VersionNumber       *int64                `json:"versionNumber,omitempty"`
 }
 
 // Input for sorting devices by various fields
 type DeviceSortInput struct {
-	// Sort by device category
-	Category *SortOrderInput `json:"category,omitempty"`
-	// Sort by classification confidence level
-	Confidence *SortOrderInput `json:"confidence,omitempty"`
-	// Sort by first detection timestamp
-	FirstSeen *SortOrderInput `json:"firstSeen,omitempty"`
-	// Sort by hardware fields
-	Hw *DeviceHwSortOrderInput `json:"hw,omitempty"`
-	// Sort by device unique identifier
-	ID *SortOrderInput `json:"id,omitempty"`
-	// Sort by IP address
-	IP *SortOrderInput `json:"ip,omitempty"`
-	// Sort by last activity timestamp
-	LastSeen *SortOrderInput `json:"lastSeen,omitempty"`
-	// Sort by device name
-	Name *SortOrderInput `json:"name,omitempty"`
-	// Sort by network fields
-	Network *DeviceNetworkSortOrderInput `json:"network,omitempty"`
-	// Sort by network interface fields
-	Nic *DeviceNicSortOrderInput `json:"nic,omitempty"`
-	// Sort by operating system fields
-	Os *DeviceOsSortOrderInput `json:"os,omitempty"`
-	// Sort by security risk score
-	RiskScore *SortOrderInput `json:"riskScore,omitempty"`
-	// Sort by site-related fields
-	Site *DeviceSiteSortOrderInput `json:"site,omitempty"`
-	// Sort by user-related fields
-	User *DeviceUserSortOrderInput `json:"user,omitempty"`
+	Category   *SortOrderInput              `json:"category,omitempty"`
+	Confidence *SortOrderInput              `json:"confidence,omitempty"`
+	FirstSeen  *SortOrderInput              `json:"firstSeen,omitempty"`
+	Hw         *DeviceHwSortOrderInput      `json:"hw,omitempty"`
+	ID         *SortOrderInput              `json:"id,omitempty"`
+	IP         *SortOrderInput              `json:"ip,omitempty"`
+	LastSeen   *SortOrderInput              `json:"lastSeen,omitempty"`
+	Name       *SortOrderInput              `json:"name,omitempty"`
+	Network    *DeviceNetworkSortOrderInput `json:"network,omitempty"`
+	Nic        *DeviceNicSortOrderInput     `json:"nic,omitempty"`
+	Os         *DeviceOsSortOrderInput      `json:"os,omitempty"`
+	RiskScore  *SortOrderInput              `json:"riskScore,omitempty"`
+	Site       *DeviceSiteSortOrderInput    `json:"site,omitempty"`
+	User       *DeviceUserSortOrderInput    `json:"user,omitempty"`
 }
 
 type DeviceUserSortOrderInput struct {
@@ -5765,99 +4130,59 @@ type DeviceUserSortOrderInput struct {
 }
 
 type DeviceV2 struct {
-	// Device category grouping based on role or type
-	Category *string `json:"category,omitempty"`
-	// Compliance posture of the device according to policy/integration checks (e.g., 'compliant', 'noncompliant', 'unknown')
-	ComplianceState *string `json:"complianceState,omitempty"`
-	// Confidence score for device classification accuracy
-	Confidence *DeviceConfidenceLevel `json:"confidence,omitempty"`
-	// Profile describing how the device connects to the network
+	Category          *string                  `json:"category,omitempty"`
+	ComplianceState   *string                  `json:"complianceState,omitempty"`
+	Confidence        *DeviceConfidenceLevel   `json:"confidence,omitempty"`
 	ConnectionProfile *DeviceConnectionProfile `json:"connectionProfile,omitempty"`
-	// Timestamp of when the device was first detected
-	FirstSeen *string `json:"firstSeen,omitempty"`
-	// Hardware information for the device
-	Hw *DeviceHw `json:"hw,omitempty"`
-	// Unique identifier for the device record
-	ID string  `json:"id"`
-	IP *string `json:"ip,omitempty"`
-	// Current or last known IP address of the device
-	IPAddress *string `json:"ipAddress,omitempty"`
-	// True/false flag showing whether the device is under admin management
-	IsManaged bool `json:"isManaged"`
-	// Timestamp of the most recent device activity
-	LastSeen *string `json:"lastSeen,omitempty"`
-	// Human-readable name of the device
-	Name *string `json:"name,omitempty"`
-	// Information about the network environment the device connects to
-	Network *DeviceNetwork `json:"network,omitempty"`
-	// Reference to the device's network (Rename to 'network' after fe is aligned)
-	NetworkInfo DeviceNetworkRef `json:"networkInfo,omitempty"`
-	// Network interface card details for the device
-	Nic *DeviceNic `json:"nic,omitempty"`
-	// The origins (e.g., integrations, data feeds) that detected the device
-	OriginTypes []OriginType `json:"originTypes"`
-	// Operating system details of the device
-	Os *DeviceOs `json:"os,omitempty"`
-	// Numerical value representing the device's security risk
-	RiskScore *int64 `json:"riskScore,omitempty"`
-	// Reference to the site where the device is located
-	Site *SiteRef `json:"site,omitempty"`
-	// Reference to the user linked with this device
-	User *UserRef `json:"user,omitempty"`
+	FirstSeen         *string                  `json:"firstSeen,omitempty"`
+	Hw                *DeviceHw                `json:"hw,omitempty"`
+	ID                string                   `json:"id"`
+	IP                *string                  `json:"ip,omitempty"`
+	IPAddress         *string                  `json:"ipAddress,omitempty"`
+	IsManaged         bool                     `json:"isManaged"`
+	LastSeen          *string                  `json:"lastSeen,omitempty"`
+	Name              *string                  `json:"name,omitempty"`
+	Network           *DeviceNetwork           `json:"network,omitempty"`
+	NetworkInfo       DeviceNetworkRef         `json:"networkInfo,omitempty"`
+	Nic               *DeviceNic               `json:"nic,omitempty"`
+	OriginTypes       []OriginType             `json:"originTypes"`
+	Os                *DeviceOs                `json:"os,omitempty"`
+	RiskScore         *int64                   `json:"riskScore,omitempty"`
+	Site              *SiteRef                 `json:"site,omitempty"`
+	User              *UserRef                 `json:"user,omitempty"`
 }
 
 // Input for filtering devices by various criteria
 type DeviceV2FilterInput struct {
-	// Filter by device category
-	Category []*StringFilterInput `json:"category,omitempty"`
-	// Filter by compliance state criteria
-	ComplianceState []*StringFilterInput `json:"complianceState,omitempty"`
-	// Filter by classification confidence level
-	Confidence []*DeviceConfidenceLevelFilterInput `json:"confidence,omitempty"`
-	// Filter by first detection timestamp
-	FirstSeen []*DateTimeFilterInput `json:"firstSeen,omitempty"`
-	// Filter by hardware criteria
-	Hw *DeviceHwFilterInput `json:"hw,omitempty"`
-	// Filter by device unique identifier
-	ID []*IDFilterInput     `json:"id,omitempty"`
-	IP []*StringFilterInput `json:"ip,omitempty"`
-	// Filter by IP address
-	IPAddress []*IPAddressFilterInput `json:"ipAddress,omitempty"`
-	// Filter by management status
-	IsManaged []*BooleanFilterInput `json:"isManaged,omitempty"`
-	// Filter by last activity timestamp
-	LastSeen []*DateTimeFilterInput `json:"lastSeen,omitempty"`
-	// Filter by device name
-	Name []*StringFilterInput `json:"name,omitempty"`
-	// Filter by network criteria
-	Network *DeviceNetworkFilterInput `json:"network,omitempty"`
-	// Filter by network interface criteria
-	Nic         *DeviceNicFilterInput    `json:"nic,omitempty"`
-	OriginTypes []*OriginTypeFilterInput `json:"originTypes,omitempty"`
-	// Filter by operating system criteria
-	Os *DeviceOsFilterInput `json:"os,omitempty"`
-	// Filter by security risk score
-	RiskScore []*IntFilterInput `json:"riskScore,omitempty"`
-	// Filter by site reference
-	Site []*SiteRefFilterInput `json:"site,omitempty"`
-	// Filter by user reference
-	User []*UserRefFilterInput `json:"user,omitempty"`
+	Category        []*StringFilterInput                `json:"category,omitempty"`
+	ComplianceState []*StringFilterInput                `json:"complianceState,omitempty"`
+	Confidence      []*DeviceConfidenceLevelFilterInput `json:"confidence,omitempty"`
+	FirstSeen       []*DateTimeFilterInput              `json:"firstSeen,omitempty"`
+	Hw              *DeviceHwFilterInput                `json:"hw,omitempty"`
+	ID              []*IDFilterInput                    `json:"id,omitempty"`
+	IP              []*StringFilterInput                `json:"ip,omitempty"`
+	IPAddress       []*IPAddressFilterInput             `json:"ipAddress,omitempty"`
+	IsManaged       []*BooleanFilterInput               `json:"isManaged,omitempty"`
+	LastSeen        []*DateTimeFilterInput              `json:"lastSeen,omitempty"`
+	Name            []*StringFilterInput                `json:"name,omitempty"`
+	Network         *DeviceNetworkFilterInput           `json:"network,omitempty"`
+	Nic             *DeviceNicFilterInput               `json:"nic,omitempty"`
+	OriginTypes     []*OriginTypeFilterInput            `json:"originTypes,omitempty"`
+	Os              *DeviceOsFilterInput                `json:"os,omitempty"`
+	RiskScore       []*IntFilterInput                   `json:"riskScore,omitempty"`
+	Site            []*SiteRefFilterInput               `json:"site,omitempty"`
+	User            []*UserRefFilterInput               `json:"user,omitempty"`
 }
 
 type DeviceV2Input struct {
-	// List of filter conditions applied to narrow down devices
 	Filter []*DeviceV2FilterInput `json:"filter,omitempty"`
-	// Paging input to control results (default limit = 100)
-	Paging *PagingInput `json:"paging"`
-	// Sorting configuration (default: sort by id descending)
-	Sort *DeviceSortInput `json:"sort"`
+	Paging *PagingInput           `json:"paging"`
+	Sort   *DeviceSortInput       `json:"sort"`
 }
 
 type DevicesPayload struct {
-	// List of devices returned by the query
 	Device []*DeviceV2 `json:"device"`
-	// Metadata describing pagination details
-	Paging *PageInfo `json:"paging"`
+	Paging *PageInfo   `json:"paging"`
 }
 
 type DevicesQueries struct {
@@ -5877,12 +4202,8 @@ type DhcpRelayGroupRef struct {
 	Name string `json:"name"`
 }
 
-func (DhcpRelayGroupRef) IsObjectRef() {}
-
-// Object's unique identifier
-func (this DhcpRelayGroupRef) GetID() string { return this.ID }
-
-// Object's unique name
+func (DhcpRelayGroupRef) IsObjectRef()         {}
+func (this DhcpRelayGroupRef) GetID() string   { return this.ID }
 func (this DhcpRelayGroupRef) GetName() string { return this.Name }
 
 type Dimension struct {
@@ -5890,21 +4211,16 @@ type Dimension struct {
 }
 
 type DimensionData struct {
-	// Type of the dimension
-	Label string `json:"label"`
-	// String value of the dimension
+	Label string  `json:"label"`
 	Value *string `json:"value,omitempty"`
 }
 
 type DimensionKey struct {
-	// Dimension field
-	FieldName string `json:"fieldName"`
-	// String value of the dimension
-	Value *string `json:"value,omitempty"`
+	FieldName string  `json:"fieldName"`
+	Value     *string `json:"value,omitempty"`
 }
 
 type DisableAccountPayload struct {
-	// General info of the disabled account
 	AccountInfo *AccountInfo `json:"accountInfo"`
 }
 
@@ -5913,12 +4229,8 @@ type DlpContentProfileRef struct {
 	Name string `json:"name"`
 }
 
-func (DlpContentProfileRef) IsObjectRef() {}
-
-// Object's unique identifier
-func (this DlpContentProfileRef) GetID() string { return this.ID }
-
-// Object's unique name
+func (DlpContentProfileRef) IsObjectRef()         {}
+func (this DlpContentProfileRef) GetID() string   { return this.ID }
 func (this DlpContentProfileRef) GetName() string { return this.Name }
 
 type DlpContentProfileRefInput struct {
@@ -5931,12 +4243,8 @@ type DlpEdmProfileRef struct {
 	Name string `json:"name"`
 }
 
-func (DlpEdmProfileRef) IsObjectRef() {}
-
-// Object's unique identifier
-func (this DlpEdmProfileRef) GetID() string { return this.ID }
-
-// Object's unique name
+func (DlpEdmProfileRef) IsObjectRef()         {}
+func (this DlpEdmProfileRef) GetID() string   { return this.ID }
 func (this DlpEdmProfileRef) GetName() string { return this.Name }
 
 type DlpEdmProfileRefInput struct {
@@ -5946,46 +4254,25 @@ type DlpEdmProfileRefInput struct {
 
 // Data Loss Prevention (DLP) Service license details
 type DlpLicense struct {
-	Description *string `json:"description,omitempty"`
-	// License expiration date
-	ExpirationDate string `json:"expirationDate"`
-	// The unique identifier for the license. If this value is not available, you can contact Cato Support, who may be able to assist in retrieving it.
-	ID *string `json:"id,omitempty"`
-	// The date of the last update to the license
-	LastUpdated *string `json:"lastUpdated,omitempty"`
-	// License plan type
-	Plan LicensePlan `json:"plan"`
-	// The license SKU
-	Sku LicenseSku `json:"sku"`
-	// License start date
-	StartDate *string `json:"startDate,omitempty"`
-	// License activation status
-	Status LicenseStatus `json:"status"`
+	Description    *string       `json:"description,omitempty"`
+	ExpirationDate string        `json:"expirationDate"`
+	ID             *string       `json:"id,omitempty"`
+	LastUpdated    *string       `json:"lastUpdated,omitempty"`
+	Plan           LicensePlan   `json:"plan"`
+	Sku            LicenseSku    `json:"sku"`
+	StartDate      *string       `json:"startDate,omitempty"`
+	Status         LicenseStatus `json:"status"`
 }
 
-func (DlpLicense) IsLicense() {}
-
-// The unique identifier for the license. If this value is not available, you can contact Cato Support, who may be able to assist in retrieving it.
-func (this DlpLicense) GetID() *string          { return this.ID }
-func (this DlpLicense) GetDescription() *string { return this.Description }
-
-// License plan type
-func (this DlpLicense) GetPlan() LicensePlan { return this.Plan }
-
-// The license SKU
-func (this DlpLicense) GetSku() LicenseSku { return this.Sku }
-
-// License activation status
-func (this DlpLicense) GetStatus() LicenseStatus { return this.Status }
-
-// License start date
-func (this DlpLicense) GetStartDate() *string { return this.StartDate }
-
-// License expiration date
+func (DlpLicense) IsLicense()                     {}
+func (this DlpLicense) GetDescription() *string   { return this.Description }
 func (this DlpLicense) GetExpirationDate() string { return this.ExpirationDate }
-
-// The date of the last update to the license
-func (this DlpLicense) GetLastUpdated() *string { return this.LastUpdated }
+func (this DlpLicense) GetID() *string            { return this.ID }
+func (this DlpLicense) GetLastUpdated() *string   { return this.LastUpdated }
+func (this DlpLicense) GetPlan() LicensePlan      { return this.Plan }
+func (this DlpLicense) GetSku() LicenseSku        { return this.Sku }
+func (this DlpLicense) GetStartDate() *string     { return this.StartDate }
+func (this DlpLicense) GetStatus() LicenseStatus  { return this.Status }
 
 // Input for searching FQDN typed container to download its content
 type DownloadFqdnContainerFileInput struct {
@@ -5995,12 +4282,9 @@ type DownloadFqdnContainerFileInput struct {
 
 // Payload of download FQDN typed container file
 type DownloadFqdnContainerFilePayload struct {
-	// Content of a file encoded in base64 format
 	EncodedFile string `json:"encodedFile"`
-	// Unique container ID
-	ID string `json:"id"`
-	// Name for the container
-	Name string `json:"name"`
+	ID          string `json:"id"`
+	Name        string `json:"name"`
 }
 
 // Input for searching IPAddressRange typed container to download its content
@@ -6011,12 +4295,9 @@ type DownloadIPAddressRangeContainerFileInput struct {
 
 // Payload of download IPAddressRange typed container file
 type DownloadIPAddressRangeContainerFilePayload struct {
-	// Content of a file encoded in base64 format
 	EncodedFile string `json:"encodedFile"`
-	// Unique container ID
-	ID string `json:"id"`
-	// Name for the container
-	Name string `json:"name"`
+	ID          string `json:"id"`
+	Name        string `json:"name"`
 }
 
 type DynamicIPAllocationAddRuleDataInput struct {
@@ -6030,9 +4311,7 @@ type DynamicIPAllocationAddRuleDataInput struct {
 }
 
 type DynamicIPAllocationAddRuleInput struct {
-	// Position of the rule in the policy
-	At *PolicyRulePositionInput `json:"at,omitempty"`
-	// Parameters for the rule you are adding
+	At   *PolicyRulePositionInput             `json:"at,omitempty"`
 	Rule *DynamicIPAllocationAddRuleDataInput `json:"rule"`
 }
 
@@ -6044,12 +4323,10 @@ type DynamicIPAllocationPolicy struct {
 	Sections []*PolicySectionPayload           `json:"sections"`
 }
 
-func (DynamicIPAllocationPolicy) IsIPolicy() {}
-
-// TRUE = Policy is enabled, FALSE = Policy is disabled
-func (this DynamicIPAllocationPolicy) GetEnabled() bool { return this.Enabled }
-
-// Return list of rules in the policy
+func (DynamicIPAllocationPolicy) IsIPolicy()                        {}
+func (this DynamicIPAllocationPolicy) GetAudit() *PolicyAudit       { return this.Audit }
+func (this DynamicIPAllocationPolicy) GetEnabled() bool             { return this.Enabled }
+func (this DynamicIPAllocationPolicy) GetRevision() *PolicyRevision { return this.Revision }
 func (this DynamicIPAllocationPolicy) GetRules() []IPolicyRulePayload {
 	if this.Rules == nil {
 		return nil
@@ -6060,8 +4337,6 @@ func (this DynamicIPAllocationPolicy) GetRules() []IPolicyRulePayload {
 	}
 	return interfaceSlice
 }
-
-// Return sections in the policy
 func (this DynamicIPAllocationPolicy) GetSections() []*PolicySectionPayload {
 	if this.Sections == nil {
 		return nil
@@ -6073,18 +4348,7 @@ func (this DynamicIPAllocationPolicy) GetSections() []*PolicySectionPayload {
 	return interfaceSlice
 }
 
-// Audit data for the policy
-func (this DynamicIPAllocationPolicy) GetAudit() *PolicyAudit { return this.Audit }
-
-// Return data for the Policy revision
-func (this DynamicIPAllocationPolicy) GetRevision() *PolicyRevision { return this.Revision }
-
 type DynamicIPAllocationPolicyInput struct {
-	// A revision is a specific instance of the policy.
-	//  Unpublished revisions are working copies of the policy available to a specific
-	//  admin or a set of admins
-	//  Published revisions are revisions that were applied to the account network.
-	//  The last published revision is the active policy.
 	Revision *PolicyRevisionInput `json:"revision,omitempty"`
 }
 
@@ -6099,16 +4363,6 @@ type DynamicIPAllocationPolicyMutationPayload struct {
 }
 
 func (DynamicIPAllocationPolicyMutationPayload) IsIPolicyMutationPayload() {}
-
-// Data for the policy
-func (this DynamicIPAllocationPolicyMutationPayload) GetPolicy() IPolicy { return *this.Policy }
-
-// Enum for the status of the policy change
-func (this DynamicIPAllocationPolicyMutationPayload) GetStatus() PolicyMutationStatus {
-	return this.Status
-}
-
-// List of errors related to the policy change
 func (this DynamicIPAllocationPolicyMutationPayload) GetErrors() []*PolicyMutationError {
 	if this.Errors == nil {
 		return nil
@@ -6118,6 +4372,10 @@ func (this DynamicIPAllocationPolicyMutationPayload) GetErrors() []*PolicyMutati
 		interfaceSlice = append(interfaceSlice, concrete)
 	}
 	return interfaceSlice
+}
+func (this DynamicIPAllocationPolicyMutationPayload) GetPolicy() IPolicy { return *this.Policy }
+func (this DynamicIPAllocationPolicyMutationPayload) GetStatus() PolicyMutationStatus {
+	return this.Status
 }
 
 type DynamicIPAllocationPolicyMutations struct {
@@ -6161,43 +4419,24 @@ type DynamicIPAllocationRemoveRuleInput struct {
 }
 
 type DynamicIPAllocationRule struct {
-	Country []*CountryRef `json:"country"`
-	// Description for the rule
-	Description string `json:"description"`
-	// TRUE = Rule is enabled
-	//  FALSE = Rule is disabled
-	Enabled bool `json:"enabled"`
-	// Rule ID
-	ID string `json:"id"`
-	// Position / priority of rule
-	Index int64 `json:"index"`
-	// Name of the rule
-	Name     string                    `json:"name"`
-	Platform []OperatingSystem         `json:"platform"`
-	Range    *DynamicIPAllocationRange `json:"range"`
-	// Policy section where the rule is located
-	Section *PolicySectionInfo         `json:"section"`
-	Source  *DynamicIPAllocationSource `json:"source"`
+	Country     []*CountryRef              `json:"country"`
+	Description string                     `json:"description"`
+	Enabled     bool                       `json:"enabled"`
+	ID          string                     `json:"id"`
+	Index       int64                      `json:"index"`
+	Name        string                     `json:"name"`
+	Platform    []OperatingSystem          `json:"platform"`
+	Range       *DynamicIPAllocationRange  `json:"range"`
+	Section     *PolicySectionInfo         `json:"section"`
+	Source      *DynamicIPAllocationSource `json:"source"`
 }
 
-func (DynamicIPAllocationRule) IsIPolicyRule() {}
-
-// Rule ID
-func (this DynamicIPAllocationRule) GetID() string { return this.ID }
-
-// Name of the rule
-func (this DynamicIPAllocationRule) GetName() string { return this.Name }
-
-// Description for the rule
-func (this DynamicIPAllocationRule) GetDescription() *string { return &this.Description }
-
-// Position / priority of rule
-func (this DynamicIPAllocationRule) GetIndex() int64 { return this.Index }
-
-// TRUE = Rule is enabled, FALSE = Rule is disabled
-func (this DynamicIPAllocationRule) GetEnabled() bool { return this.Enabled }
-
-// Policy section where the rule is located
+func (DynamicIPAllocationRule) IsIPolicyRule()                      {}
+func (this DynamicIPAllocationRule) GetDescription() *string        { return &this.Description }
+func (this DynamicIPAllocationRule) GetEnabled() bool               { return this.Enabled }
+func (this DynamicIPAllocationRule) GetID() string                  { return this.ID }
+func (this DynamicIPAllocationRule) GetIndex() int64                { return this.Index }
+func (this DynamicIPAllocationRule) GetName() string                { return this.Name }
 func (this DynamicIPAllocationRule) GetSection() *PolicySectionInfo { return this.Section }
 
 type DynamicIPAllocationRuleMutationPayload struct {
@@ -6207,16 +4446,6 @@ type DynamicIPAllocationRuleMutationPayload struct {
 }
 
 func (DynamicIPAllocationRuleMutationPayload) IsIPolicyRuleMutationPayload() {}
-
-// Returns settings for the rule
-func (this DynamicIPAllocationRuleMutationPayload) GetRule() IPolicyRulePayload { return *this.Rule }
-
-// Enum for the status of the policy change
-func (this DynamicIPAllocationRuleMutationPayload) GetStatus() PolicyMutationStatus {
-	return this.Status
-}
-
-// List of errors related to the policy change
 func (this DynamicIPAllocationRuleMutationPayload) GetErrors() []*PolicyMutationError {
 	if this.Errors == nil {
 		return nil
@@ -6227,6 +4456,10 @@ func (this DynamicIPAllocationRuleMutationPayload) GetErrors() []*PolicyMutation
 	}
 	return interfaceSlice
 }
+func (this DynamicIPAllocationRuleMutationPayload) GetRule() IPolicyRulePayload { return *this.Rule }
+func (this DynamicIPAllocationRuleMutationPayload) GetStatus() PolicyMutationStatus {
+	return this.Status
+}
 
 type DynamicIPAllocationRulePayload struct {
 	Audit      *PolicyElementAudit           `json:"audit"`
@@ -6236,11 +4469,6 @@ type DynamicIPAllocationRulePayload struct {
 
 func (DynamicIPAllocationRulePayload) IsIPolicyRulePayload()              {}
 func (this DynamicIPAllocationRulePayload) GetAudit() *PolicyElementAudit { return this.Audit }
-
-// Rule that was changed
-func (this DynamicIPAllocationRulePayload) GetRule() IPolicyRule { return *this.Rule }
-
-// Summary of rule change, (ie. ADDED, UPDATED)
 func (this DynamicIPAllocationRulePayload) GetProperties() []PolicyElementPropertiesEnum {
 	if this.Properties == nil {
 		return nil
@@ -6251,6 +4479,7 @@ func (this DynamicIPAllocationRulePayload) GetProperties() []PolicyElementProper
 	}
 	return interfaceSlice
 }
+func (this DynamicIPAllocationRulePayload) GetRule() IPolicyRule { return *this.Rule }
 
 type DynamicIPAllocationSource struct {
 	User       []*UserRef       `json:"user"`
@@ -6284,66 +4513,29 @@ type DynamicIPAllocationUpdateRuleInput struct {
 
 // End Point Protection (EPP) license details
 type EndpointProtectionLicense struct {
-	Description *string `json:"description,omitempty"`
-	// License expiration date
-	ExpirationDate string `json:"expirationDate"`
-	// The unique identifier for the license. If this value is not available, you can contact Cato Support, who may be able to assist in retrieving it.
-	ID *string `json:"id,omitempty"`
-	// The date of the last update to the license
-	LastUpdated *string `json:"lastUpdated,omitempty"`
-	// License plan type
-	Plan LicensePlan `json:"plan"`
-	// The license SKU
-	Sku LicenseSku `json:"sku"`
-	// License start date
-	StartDate *string `json:"startDate,omitempty"`
-	// License activation status
-	Status LicenseStatus `json:"status"`
-	// The maximum number of users that can use this service
-	Total int64 `json:"total"`
+	Description    *string       `json:"description,omitempty"`
+	ExpirationDate string        `json:"expirationDate"`
+	ID             *string       `json:"id,omitempty"`
+	LastUpdated    *string       `json:"lastUpdated,omitempty"`
+	Plan           LicensePlan   `json:"plan"`
+	Sku            LicenseSku    `json:"sku"`
+	StartDate      *string       `json:"startDate,omitempty"`
+	Status         LicenseStatus `json:"status"`
+	Total          int64         `json:"total"`
 }
 
-func (EndpointProtectionLicense) IsLicense() {}
-
-// The unique identifier for the license. If this value is not available, you can contact Cato Support, who may be able to assist in retrieving it.
-func (this EndpointProtectionLicense) GetID() *string          { return this.ID }
-func (this EndpointProtectionLicense) GetDescription() *string { return this.Description }
-
-// License plan type
-func (this EndpointProtectionLicense) GetPlan() LicensePlan { return this.Plan }
-
-// The license SKU
-func (this EndpointProtectionLicense) GetSku() LicenseSku { return this.Sku }
-
-// License activation status
-func (this EndpointProtectionLicense) GetStatus() LicenseStatus { return this.Status }
-
-// License start date
-func (this EndpointProtectionLicense) GetStartDate() *string { return this.StartDate }
-
-// License expiration date
+func (EndpointProtectionLicense) IsLicense()                     {}
+func (this EndpointProtectionLicense) GetDescription() *string   { return this.Description }
 func (this EndpointProtectionLicense) GetExpirationDate() string { return this.ExpirationDate }
-
-// The date of the last update to the license
-func (this EndpointProtectionLicense) GetLastUpdated() *string { return this.LastUpdated }
+func (this EndpointProtectionLicense) GetID() *string            { return this.ID }
+func (this EndpointProtectionLicense) GetLastUpdated() *string   { return this.LastUpdated }
+func (this EndpointProtectionLicense) GetPlan() LicensePlan      { return this.Plan }
+func (this EndpointProtectionLicense) GetSku() LicenseSku        { return this.Sku }
+func (this EndpointProtectionLicense) GetStartDate() *string     { return this.StartDate }
+func (this EndpointProtectionLicense) GetStatus() LicenseStatus  { return this.Status }
 
 func (EndpointProtectionLicense) IsQuantifiableLicense() {}
 
-// The unique identifier for the license. If this value is not available, you can contact Cato Support, who may be able to assist in retrieving it.
-
-// License plan type
-
-// The license SKU
-
-// License activation status
-
-// License initiation date
-
-// License expiration date
-
-// The date of the last update to the license
-
-// license quantity
 func (this EndpointProtectionLicense) GetTotal() int64 { return this.Total }
 
 type EngineTypePredicate struct {
@@ -6352,25 +4544,18 @@ type EngineTypePredicate struct {
 }
 
 type EnterpriseDirectoryArchiveLocationPayload struct {
-	// The archived location
 	Location *Location `json:"location"`
 }
 
 type EnterpriseDirectoryCreateLocationInput struct {
-	// Business unit
-	BusinessUnit *string `json:"businessUnit,omitempty"`
-	// Description
-	Description *string `json:"description,omitempty"`
-	// Location details
-	Details *CreateLocationDetailsInput `json:"details"`
-	// Location name
-	Name string `json:"name"`
-	// Location type
-	Type LocationType `json:"type"`
+	BusinessUnit *string                     `json:"businessUnit,omitempty"`
+	Description  *string                     `json:"description,omitempty"`
+	Details      *CreateLocationDetailsInput `json:"details"`
+	Name         string                      `json:"name"`
+	Type         LocationType                `json:"type"`
 }
 
 type EnterpriseDirectoryCreateLocationPayload struct {
-	// The created location
 	Location *Location `json:"location"`
 }
 
@@ -6381,10 +4566,8 @@ type EnterpriseDirectoryLocationListInput struct {
 }
 
 type EnterpriseDirectoryLocationListPayload struct {
-	// The results
-	Items []*Location `json:"items"`
-	// Pagination details
-	PageInfo *PageInfo `json:"pageInfo,omitempty"`
+	Items    []*Location `json:"items"`
+	PageInfo *PageInfo   `json:"pageInfo,omitempty"`
 }
 
 type EnterpriseDirectoryMutations struct {
@@ -6395,32 +4578,23 @@ type EnterpriseDirectoryMutations struct {
 }
 
 type EnterpriseDirectoryQueries struct {
-	// Retrieve the account location items
 	LocationList *EnterpriseDirectoryLocationListPayload `json:"locationList"`
 }
 
 type EnterpriseDirectoryRestoreLocationPayload struct {
-	// The restored location
 	Location *Location `json:"location"`
 }
 
 type EnterpriseDirectoryUpdateLocationInput struct {
-	// Business unit
-	BusinessUnit *string `json:"businessUnit,omitempty"`
-	// Description
-	Description *string `json:"description,omitempty"`
-	// Location details
-	Details *UpdateLocationDetailsInput `json:"details,omitempty"`
-	// Location id
-	ID string `json:"id"`
-	// Location name
-	Name *string `json:"name,omitempty"`
-	// Location type
-	Type *LocationType `json:"type,omitempty"`
+	BusinessUnit *string                     `json:"businessUnit,omitempty"`
+	Description  *string                     `json:"description,omitempty"`
+	Details      *UpdateLocationDetailsInput `json:"details,omitempty"`
+	ID           string                      `json:"id"`
+	Name         *string                     `json:"name,omitempty"`
+	Type         *LocationType               `json:"type,omitempty"`
 }
 
 type EnterpriseDirectoryUpdateLocationPayload struct {
-	// The updated location
 	Location *Location `json:"location"`
 }
 
@@ -6470,9 +4644,8 @@ type Event struct {
 
 type EventFeedFieldFilterInput struct {
 	FieldName EventFeedFilterFieldName `json:"fieldName"`
-	// Use event_type and event_sub_type for events
-	Operator EventFeedFilterOperator `json:"operator"`
-	Values   []string                `json:"values,omitempty"`
+	Operator  EventFeedFilterOperator  `json:"operator"`
+	Values    []string                 `json:"values,omitempty"`
 }
 
 type EventField struct {
@@ -6481,11 +4654,9 @@ type EventField struct {
 }
 
 type EventRecord struct {
-	// fields in map format (see Map scalar)
-	FieldsMap map[string]any `json:"fieldsMap,omitempty"`
-	// Simplified fields, as array of name value tuples, e.g: [ [ "name", "val" ], [ "name2", "val2" ] ... ]
-	FlatFields [][]string `json:"flatFields,omitempty"`
-	Time       *string    `json:"time,omitempty"`
+	FieldsMap  map[string]any `json:"fieldsMap,omitempty"`
+	FlatFields [][]string     `json:"flatFields,omitempty"`
+	Time       *string        `json:"time,omitempty"`
 }
 
 type Events struct {
@@ -6531,14 +4702,12 @@ type EventsMeasure struct {
 }
 
 type EventsRecord struct {
-	Fields []*EventField `json:"fields,omitempty"`
-	// fields in map format (see Map scalar)
+	Fields          []*EventField  `json:"fields,omitempty"`
 	FieldsMap       map[string]any `json:"fieldsMap,omitempty"`
 	FieldsUnitTypes []UnitType     `json:"fieldsUnitTypes,omitempty"`
-	// Simplified fields, as array of name value tuples, e.g: [ [ "name", "val" ], [ "name2", "val2" ] ... ]
-	FlatFields    [][]string     `json:"flatFields,omitempty"`
-	PrevTimeFrame map[string]any `json:"prevTimeFrame,omitempty"`
-	Trends        map[string]any `json:"trends,omitempty"`
+	FlatFields      [][]string     `json:"flatFields,omitempty"`
+	PrevTimeFrame   map[string]any `json:"prevTimeFrame,omitempty"`
+	Trends          map[string]any `json:"trends,omitempty"`
 }
 
 type EventsSort struct {
@@ -6555,16 +4724,12 @@ type EventsTimeSeries struct {
 }
 
 type ExchangeSocketPortsInput struct {
-	// The first socket interface to swap.
-	FirstInterface *SocketInterfaceRefInput `json:"firstInterface"`
-	// The second socket interface to swap.
+	FirstInterface  *SocketInterfaceRefInput `json:"firstInterface"`
 	SecondInterface *SocketInterfaceRefInput `json:"secondInterface"`
-	// The site where the ports are exchanged.
-	Site *SiteRefInput `json:"site"`
+	Site            *SiteRefInput            `json:"site"`
 }
 
 type ExchangeSocketPortsPayload struct {
-	// The updated socket interfaces after the exchange.
 	Interfaces []*ExchangedSocketInterface `json:"interfaces"`
 }
 
@@ -6576,26 +4741,18 @@ type ExchangedSocketInterface struct {
 
 // Response returned when initiating a CSV export job
 type ExportJobResponse struct {
-	// Unique identifier for the export job
-	JobID string `json:"jobId"`
-	// Status message about the export job initiation
+	JobID   string  `json:"jobId"`
 	Message *string `json:"message,omitempty"`
 }
 
 // Response containing the current status and details of an export job
 type ExportStatusResponse struct {
-	// Download URL (available when status is COMPLETED)
-	DownloadURL *string `json:"downloadUrl,omitempty"`
-	// Timestamp when the download URL expires
-	ExpiresAt *string `json:"expiresAt,omitempty"`
-	// Unique identifier for the export job
-	JobID string `json:"jobId"`
-	// Status message describing current state
-	Message *string `json:"message,omitempty"`
-	// Completion percentage (0-100%)
-	Progress *float64 `json:"progress,omitempty"`
-	// Current status of the export job
-	Status ExportJobStatus `json:"status"`
+	DownloadURL *string         `json:"downloadUrl,omitempty"`
+	ExpiresAt   *string         `json:"expiresAt,omitempty"`
+	JobID       string          `json:"jobId"`
+	Message     *string         `json:"message,omitempty"`
+	Progress    *float64        `json:"progress,omitempty"`
+	Status      ExportJobStatus `json:"status"`
 }
 
 type Extra struct {
@@ -6626,73 +4783,48 @@ type FileDetails struct {
 // to the route advertised by BGP. They are not associated with a specific site.
 // This is useful in scenarios such as active-standby high availability routed via BGP.
 type FloatingSubnetRef struct {
-	// Unique Floating Subnet ID
-	ID string `json:"id"`
-	// Name for the Floating Subnet
+	ID   string `json:"id"`
 	Name string `json:"name"`
 }
 
 func (FloatingSubnetRef) IsDeviceNetworkRef() {}
 
-func (FloatingSubnetRef) IsObjectRef() {}
-
-// Object's unique identifier
-func (this FloatingSubnetRef) GetID() string { return this.ID }
-
-// Object's unique name
+func (FloatingSubnetRef) IsObjectRef()         {}
+func (this FloatingSubnetRef) GetID() string   { return this.ID }
 func (this FloatingSubnetRef) GetName() string { return this.Name }
 
 // Defines the Floating Subnet object. Floating Subnets (ie. Floating Ranges) are used to identify traffic exactly matched
 // to the route advertised by BGP. They are not associated with a specific site.
 // This is useful in scenarios such as active-standby high availability routed via BGP.
 type FloatingSubnetRefInput struct {
-	// Defines the object identification method – by ID (default) or by name
-	By ObjectRefBy `json:"by"`
-	// The object identification (ID or name) value
-	Input string `json:"input"`
+	By    ObjectRefBy `json:"by"`
+	Input string      `json:"input"`
 }
 
 // A group with members of FQDN type
 type FqdnContainer struct {
-	// Audit metadata about the container
-	Audit *ContainerAudit `json:"audit"`
-	// Description for the container
-	Description *string `json:"description,omitempty"`
-	// Unique container ID
-	ID string `json:"id"`
-	// Name for the container
-	Name string `json:"name"`
-	// Number of items in the container
-	Size int64 `json:"size"`
+	Audit       *ContainerAudit `json:"audit"`
+	Description *string         `json:"description,omitempty"`
+	ID          string          `json:"id"`
+	Name        string          `json:"name"`
+	Size        int64           `json:"size"`
 }
 
-func (FqdnContainer) IsContainer() {}
-
-// Unique container ID
-func (this FqdnContainer) GetID() string { return this.ID }
-
-// Name for the container
-func (this FqdnContainer) GetName() string { return this.Name }
-
-// Description for the container
-func (this FqdnContainer) GetDescription() *string { return this.Description }
-
-// Number of items in the container
-func (this FqdnContainer) GetSize() int64 { return this.Size }
-
-// Audit metadata about the container
+func (FqdnContainer) IsContainer()                   {}
 func (this FqdnContainer) GetAudit() *ContainerAudit { return this.Audit }
+func (this FqdnContainer) GetDescription() *string   { return this.Description }
+func (this FqdnContainer) GetID() string             { return this.ID }
+func (this FqdnContainer) GetName() string           { return this.Name }
+func (this FqdnContainer) GetSize() int64            { return this.Size }
 
 // Input for adding values to existing FQDN typed container
 type FqdnContainerAddValuesInput struct {
-	// Reference to existing container by container ID or container name
 	Ref    *ContainerRefInput `json:"ref"`
 	Values []string           `json:"values"`
 }
 
 // Payload of AddValues operation on FQDN typed container
 type FqdnContainerAddValuesPayload struct {
-	// Container with members of type FQDN
 	Container *FqdnContainer `json:"container"`
 }
 
@@ -6713,37 +4845,27 @@ type FqdnContainerQueries struct {
 
 // A group with members of FQDN type
 type FqdnContainerRef struct {
-	// Unique container ID
-	ID string `json:"id"`
-	// Name for the container
+	ID   string `json:"id"`
 	Name string `json:"name"`
 }
 
-func (FqdnContainerRef) IsObjectRef() {}
-
-// Object's unique identifier
-func (this FqdnContainerRef) GetID() string { return this.ID }
-
-// Object's unique name
+func (FqdnContainerRef) IsObjectRef()         {}
+func (this FqdnContainerRef) GetID() string   { return this.ID }
 func (this FqdnContainerRef) GetName() string { return this.Name }
 
 type FqdnContainerRefInput struct {
-	// Defines the object identification method – by ID (default) or by name
-	By ObjectRefBy `json:"by"`
-	// The object identification (ID or name) value
-	Input string `json:"input"`
+	By    ObjectRefBy `json:"by"`
+	Input string      `json:"input"`
 }
 
 // Input for removing values from existing FQDN typed container
 type FqdnContainerRemoveValuesInput struct {
-	// Reference to existing container by container ID or container name
 	Ref    *ContainerRefInput `json:"ref"`
 	Values []string           `json:"values"`
 }
 
 // Payload of RemoveValues operation on FQDN typed container
 type FqdnContainerRemoveValuesPayload struct {
-	// Container with members of type FQDN
 	Container *FqdnContainer `json:"container"`
 }
 
@@ -6754,19 +4876,16 @@ type FqdnContainerSearchFqdnInput struct {
 
 // Payload of FQDN search query
 type FqdnContainerSearchFqdnPayload struct {
-	// List of containers with members of type FQDN
 	Containers []*FqdnContainer `json:"containers"`
 }
 
 // Input for searching FQDN typed container
 type FqdnContainerSearchInput struct {
-	// Reference to existing container by container ID or container name
 	Ref *ContainerRefInput `json:"ref"`
 }
 
 // Payload of FQDN container search
 type FqdnContainerSearchPayload struct {
-	// Container with members of type FQDN
 	Container *FqdnContainer `json:"container"`
 }
 
@@ -6813,12 +4932,8 @@ type GlobalIPRangeRef struct {
 
 func (GlobalIPRangeRef) IsDeviceNetworkRef() {}
 
-func (GlobalIPRangeRef) IsObjectRef() {}
-
-// Object's unique identifier
-func (this GlobalIPRangeRef) GetID() string { return this.ID }
-
-// Object's unique name
+func (GlobalIPRangeRef) IsObjectRef()         {}
+func (this GlobalIPRangeRef) GetID() string   { return this.ID }
 func (this GlobalIPRangeRef) GetName() string { return this.Name }
 
 type GlobalIPRangeRefInput struct {
@@ -6828,9 +4943,7 @@ type GlobalIPRangeRefInput struct {
 
 // License usage and allocation across all accounts
 type GlobalLicenseAllocations struct {
-	// Public IP addresses usage across the accounts
 	PublicIps *PublicIpsLicenseAllocations `json:"publicIps,omitempty"`
-	// ZTNA license allocation across the accounts
 	ZtnaUsers *ZtnaUsersLicenseAllocations `json:"ztnaUsers,omitempty"`
 }
 
@@ -6841,12 +4954,8 @@ type GlobalRangeRef struct {
 
 func (GlobalRangeRef) IsDeviceNetworkRef() {}
 
-func (GlobalRangeRef) IsObjectRef() {}
-
-// Object's unique identifier
-func (this GlobalRangeRef) GetID() string { return this.ID }
-
-// Object's unique name
+func (GlobalRangeRef) IsObjectRef()         {}
+func (this GlobalRangeRef) GetID() string   { return this.ID }
 func (this GlobalRangeRef) GetName() string { return this.Name }
 
 type GraphEventsDimension struct {
@@ -6873,121 +4982,84 @@ type GraphEventsMeasure struct {
 // If a group already includes unsupported types, you can only assign it to a policy that supports those types.
 // A member type is valid if it's supported in the group and allowed in the policy scope.
 type Group struct {
-	// Contains creation and modification metadata for the group
-	Audit *AuditingMetadata `json:"audit"`
-	// Optional free-text description for documentation or context
-	Description *string `json:"description,omitempty"`
-	// Unique ID for the group.
-	ID string `json:"id"`
-	// Lists the members in this group. Supports paging, filtering, and sorting by type and name
-	Members *GroupMembersListPayload `json:"members"`
-	// Total number of group members. When paging and filtering is used, this number may be higher than the number of members returned by the query
-	MembersCount int64 `json:"membersCount"`
-	// Breakdown of member count by type (e.g., number of sites, hosts, etc.).
-	MembersCountPerType []*GroupMemberTypeCount `json:"membersCountPerType"`
-	// Name of the group (not guaranteed to be globally unique).
-	Name string `json:"name"`
+	Audit               *AuditingMetadata        `json:"audit"`
+	Description         *string                  `json:"description,omitempty"`
+	ID                  string                   `json:"id"`
+	Members             *GroupMembersListPayload `json:"members"`
+	MembersCount        int64                    `json:"membersCount"`
+	MembersCountPerType []*GroupMemberTypeCount  `json:"membersCountPerType"`
+	Name                string                   `json:"name"`
 }
 
 // Apply filters when fetching the list of groups.
 type GroupListFilterInput struct {
-	// Filter by audit metadata (e.g., created by)
-	Audit []*AuditingMetadataFilterInput `json:"audit,omitempty"`
-	// Free-text search across textual fields like name
-	FreeText *FreeTextFilterInput `json:"freeText,omitempty"`
-	// Filter by group ID
-	ID []*IDFilterInput `json:"id,omitempty"`
-	// Filter groups that include specific members
-	Member []*GroupMemberFilterInput `json:"member,omitempty"`
-	// Filter by group name
-	Name []*AdvancedStringFilterInput `json:"name,omitempty"`
+	Audit    []*AuditingMetadataFilterInput `json:"audit,omitempty"`
+	FreeText *FreeTextFilterInput           `json:"freeText,omitempty"`
+	ID       []*IDFilterInput               `json:"id,omitempty"`
+	Member   []*GroupMemberFilterInput      `json:"member,omitempty"`
+	Name     []*AdvancedStringFilterInput   `json:"name,omitempty"`
 }
 
 // List groups with optional filters, sorting, and pagination.
 type GroupListInput struct {
-	// Filter groups by ID, name, member, audit data, or free-text
 	Filter []*GroupListFilterInput `json:"filter,omitempty"`
-	// Pagination settings
-	Paging *PagingInput `json:"paging"`
-	// Sorting options, default behavior is ascending by name
-	Sort *GroupListSortInput `json:"sort"`
+	Paging *PagingInput            `json:"paging"`
+	Sort   *GroupListSortInput     `json:"sort"`
 }
 
 // A list of groups returned by the groupList query, with pagination info.
 type GroupListPayload struct {
-	// The list of fetched groups
-	Items []*Group `json:"items"`
-	// Pagination that was applied during the fetch
+	Items  []*Group  `json:"items"`
 	Paging *PageInfo `json:"paging"`
 }
 
 // Sort groups by name or audit metadata
 type GroupListSortInput struct {
-	// Sort groups by audit metadata (e.g., creation time)
 	Audit *AuditingMetadataSortInput `json:"audit,omitempty"`
-	// ort groups by name
-	Name *SortOrderInput `json:"name,omitempty"`
+	Name  *SortOrderInput            `json:"name,omitempty"`
 }
 
 // Filter groups by member reference.
 type GroupMemberFilterInput struct {
-	// Member reference used to identify the groups it belongs to
 	Ref *GroupMemberRefTypedInput `json:"ref"`
 }
 
 // Filter member types using the supported operators
 type GroupMemberRefTypeFilterInput struct {
-	// Match if member type equals this value
-	Eq *GroupMemberRefType `json:"eq,omitempty"`
-	// Match if member type is in this list
-	In []GroupMemberRefType `json:"in,omitempty"`
-	// Match if member type does not equal this value
-	Neq *GroupMemberRefType `json:"neq,omitempty"`
-	// Match if member type is not in this list
+	Eq  *GroupMemberRefType  `json:"eq,omitempty"`
+	In  []GroupMemberRefType `json:"in,omitempty"`
+	Neq *GroupMemberRefType  `json:"neq,omitempty"`
 	Nin []GroupMemberRefType `json:"nin,omitempty"`
 }
 
 // Reference to a group member, including its ID, name, and type.
 // Used when listing or identifying members within a group.
 type GroupMemberRefTyped struct {
-	// Object's unique identifier
-	ID string `json:"id"`
-	// Object's unique name
+	ID   string             `json:"id"`
 	Name string             `json:"name"`
 	Type GroupMemberRefType `json:"type"`
 }
 
-func (GroupMemberRefTyped) IsObjectRef() {}
-
-// Object's unique identifier
-func (this GroupMemberRefTyped) GetID() string { return this.ID }
-
-// Object's unique name
+func (GroupMemberRefTyped) IsObjectRef()         {}
+func (this GroupMemberRefTyped) GetID() string   { return this.ID }
 func (this GroupMemberRefTyped) GetName() string { return this.Name }
 
 // A reference to a group member, used when adding or filtering members.
 type GroupMemberRefTypedInput struct {
-	// Whether to resolve the reference by ID or name. Defaults to ID.
-	By ObjectRefBy `json:"by"`
-	// The value of the member identifier (ID or name)
-	Input string `json:"input"`
-	// The member type.
-	Type GroupMemberRefType `json:"type"`
+	By    ObjectRefBy        `json:"by"`
+	Input string             `json:"input"`
+	Type  GroupMemberRefType `json:"type"`
 }
 
 // Counts how many members of each type the group contains.
 type GroupMemberTypeCount struct {
-	// Number of members of this type that belong to the group
-	MembersCount int64 `json:"membersCount"`
-	// The member type (e.g., SITE, HOST)
-	Type GroupMemberRefType `json:"type"`
+	MembersCount int64              `json:"membersCount"`
+	Type         GroupMemberRefType `json:"type"`
 }
 
 // Filters to narrow down group members that are fetched.
 type GroupMembersListFilterInput struct {
-	// Filter group members by name
-	Name []*AdvancedStringFilterInput `json:"name,omitempty"`
-	// Filter group members by type
+	Name []*AdvancedStringFilterInput     `json:"name,omitempty"`
 	Type []*GroupMemberRefTypeFilterInput `json:"type,omitempty"`
 }
 
@@ -7000,18 +5072,14 @@ type GroupMembersListInput struct {
 
 // A list of group members, pagination details, applied filters, and sorting information.
 type GroupMembersListPayload struct {
-	// List of members that matched the query (including filtering, sorting, and paging).
-	Items []*GroupMemberRefTyped `json:"items"`
-	// Pagination information for the result set (e.g., offset, total count).
-	Paging *PageInfo `json:"paging"`
+	Items  []*GroupMemberRefTyped `json:"items"`
+	Paging *PageInfo              `json:"paging"`
 }
 
 // Sort group members by one or more fields.
 // If multiple fields are specified, the system uses their priority to determine order. For example, type with priority 1 will be used first, then name with priority 2.
 type GroupMembersListSortInput struct {
-	// Sort by member name
 	Name *SortOrderInput `json:"name,omitempty"`
-	// Sort by member type
 	Type *SortOrderInput `json:"type,omitempty"`
 }
 
@@ -7021,12 +5089,8 @@ type GroupRef struct {
 	Name string `json:"name"`
 }
 
-func (GroupRef) IsObjectRef() {}
-
-// Object's unique identifier
-func (this GroupRef) GetID() string { return this.ID }
-
-// Object's unique name
+func (GroupRef) IsObjectRef()         {}
+func (this GroupRef) GetID() string   { return this.ID }
 func (this GroupRef) GetName() string { return this.Name }
 
 type GroupRefInput struct {
@@ -7037,10 +5101,8 @@ type GroupRefInput struct {
 // The scope (context) in which a group is used or supported.
 // Includes the policy type and the specific field name(s) where the group is used.
 type GroupScope struct {
-	// The specific fields within the policy where the group is used (e.g., 'source', 'destination').
 	Field []string `json:"field"`
-	// The type of policy (e.g.,WAN Firewall).
-	Type string `json:"type"`
+	Type  string   `json:"type"`
 }
 
 // Describes where the group is used across policies and scopes.
@@ -7048,33 +5110,22 @@ type GroupScope struct {
 // Includes a list of policy scopes where the group is applied,
 // and identifies any member types that are not supported in those policy scopes.
 type GroupWhereUsedPayload struct {
-	// Member types in the group that are not valid in one or more scopes where the group is used.
 	InvalidMemberTypes []*InvalidGroupMemberTypeInScope `json:"invalidMemberTypes"`
-	// List of scopes where the group is used. Each scope indicates the policy type and field.
-	Usage []*GroupScope `json:"usage"`
-	// Value is True if the group is used in at least one policy or scope.
-	Used bool `json:"used"`
+	Usage              []*GroupScope                    `json:"usage"`
+	Used               bool                             `json:"used"`
 }
 
 // Operations for managing groups
 type GroupsMutations struct {
-	// Create a new group
 	CreateGroup *CreateGroupPayload `json:"createGroup,omitempty"`
-	// Delete a group
 	DeleteGroup *DeleteGroupPayload `json:"deleteGroup,omitempty"`
-	// Update an existing group, including attributes such as name, description, and member items
 	UpdateGroup *UpdateGroupPayload `json:"updateGroup,omitempty"`
 }
 
 // Queries for reading groups-related information
 type GroupsQueries struct {
-	// Get a specific group configuration. The group can be identified by ID or name.
-	Group *Group `json:"group,omitempty"`
-	// Get a list of groups, with optional filters and sorting.
-	// This query only returns basic information for each group (e.g. name, ID).
-	// To view full configuration details, including members, use the `group` query for each result.
-	GroupList *GroupListPayload `json:"groupList,omitempty"`
-	// Check which policies use the group.
+	Group     *Group                 `json:"group,omitempty"`
+	GroupList *GroupListPayload      `json:"groupList,omitempty"`
 	WhereUsed *GroupWhereUsedPayload `json:"whereUsed,omitempty"`
 }
 
@@ -7087,47 +5138,28 @@ type HaStatus struct {
 }
 
 type Hardware struct {
-	// Cma account
-	Account *AccountRef `json:"account,omitempty"`
-	// Id
-	ID string `json:"id"`
-	// Last modified
-	LastModified *string `json:"lastModified,omitempty"`
-	// Crm License Id
-	LicenseID *string `json:"licenseId,omitempty"`
-	// License start date
-	LicenseStartDate *time.Time `json:"licenseStartDate,omitempty"`
-	// Reference to the Enterprise Directory address
-	LocationID *string `json:"locationId,omitempty"`
-	// Product Mac address
-	MacAddress *string `json:"macAddress,omitempty"`
-	// Product model
-	Model *string `json:"model,omitempty"`
-	// Product order number
-	PoNumber *string `json:"poNumber,omitempty"`
-	// Product type
-	ProductType *string `json:"productType,omitempty"`
-	// Quote ID where the product was purchased
-	QuoteID *string `json:"quoteId,omitempty"`
-	// Serial number
-	SerialNumber *string `json:"serialNumber,omitempty"`
-	// Shipping details
-	ShippingDetail *ShippingDetails `json:"shippingDetail,omitempty"`
-	// Shipping tracking data
-	ShippingTracking *ShippingTracking `json:"shippingTracking,omitempty"`
-	// The site’s country
-	SiteCountryName *string `json:"siteCountryName,omitempty"`
-	// Validation details
-	Validation *HardwareValidation `json:"validation,omitempty"`
+	Account          *AccountRef         `json:"account,omitempty"`
+	ID               string              `json:"id"`
+	LastModified     *string             `json:"lastModified,omitempty"`
+	LicenseID        *string             `json:"licenseId,omitempty"`
+	LicenseStartDate *time.Time          `json:"licenseStartDate,omitempty"`
+	LocationID       *string             `json:"locationId,omitempty"`
+	MacAddress       *string             `json:"macAddress,omitempty"`
+	Model            *string             `json:"model,omitempty"`
+	PoNumber         *string             `json:"poNumber,omitempty"`
+	ProductType      *string             `json:"productType,omitempty"`
+	QuoteID          *string             `json:"quoteId,omitempty"`
+	SerialNumber     *string             `json:"serialNumber,omitempty"`
+	ShippingDetail   *ShippingDetails    `json:"shippingDetail,omitempty"`
+	ShippingTracking *ShippingTracking   `json:"shippingTracking,omitempty"`
+	SiteCountryName  *string             `json:"siteCountryName,omitempty"`
+	Validation       *HardwareValidation `json:"validation,omitempty"`
 }
 
 type HardwareFilterInput struct {
-	Account     []*AccountFilter     `json:"account,omitempty"`
-	CountryCode *StringFilterInput   `json:"countryCode,omitempty"`
-	CountryName []*StringFilterInput `json:"countryName,omitempty"`
-	// Will run contains operation for the provided text on the following fields productType,
-	// sfId, siteName, quoteId, model, zipCode, country, city, state, street, companyName, contactName,
-	// trackingUrl, trackingNumber and comment with OR between them
+	Account          []*AccountFilter             `json:"account,omitempty"`
+	CountryCode      *StringFilterInput           `json:"countryCode,omitempty"`
+	CountryName      []*StringFilterInput         `json:"countryName,omitempty"`
 	FreeText         *FreeTextFilterInput         `json:"freeText,omitempty"`
 	ID               []*IDFilterInput             `json:"id,omitempty"`
 	LicenseStartDate []*DateTimeFilterInput       `json:"licenseStartDate,omitempty"`
@@ -7138,24 +5170,19 @@ type HardwareFilterInput struct {
 }
 
 type HardwareManagementQueries struct {
-	// Retrieve the account socket inventory
 	SocketInventory *SocketInventoryPayload `json:"socketInventory"`
 }
 
 type HardwareMutations struct {
-	// Set Shipping details for a list of hardware
 	UpdateHardwareShipping *HardwarePayload `json:"updateHardwareShipping,omitempty"`
 }
 
 type HardwarePayload struct {
-	// The results
-	Items []*Hardware `json:"items"`
-	// Pagination details
-	PageInfo *PageInfo `json:"pageInfo,omitempty"`
+	Items    []*Hardware `json:"items"`
+	PageInfo *PageInfo   `json:"pageInfo,omitempty"`
 }
 
 type HardwareQueries struct {
-	// Retrieve the account hardware items
 	Hardware *HardwarePayload `json:"hardware,omitempty"`
 }
 
@@ -7166,18 +5193,15 @@ type HardwareSearchInput struct {
 }
 
 type HardwareShippingDetailsInput struct {
-	// The shipping details
-	Details *ShippingDetailsInput `json:"details"`
-	// Power cable type (for sockets only)
-	PowerCable *string `json:"powerCable,omitempty"`
+	Details    *ShippingDetailsInput `json:"details"`
+	PowerCable *string               `json:"powerCable,omitempty"`
 }
 
 type HardwareSortInput struct {
-	AccountName *SortOrderInput `json:"accountName,omitempty"`
-	Country     *SortOrderInput `json:"country,omitempty"`
-	Incoterms   *SortOrderInput `json:"incoterms,omitempty"`
-	LicenseID   *SortOrderInput `json:"licenseId,omitempty"`
-	// Default sort field
+	AccountName      *SortOrderInput `json:"accountName,omitempty"`
+	Country          *SortOrderInput `json:"country,omitempty"`
+	Incoterms        *SortOrderInput `json:"incoterms,omitempty"`
+	LicenseID        *SortOrderInput `json:"licenseId,omitempty"`
 	LicenseStartDate *SortOrderInput `json:"licenseStartDate,omitempty"`
 	ProductType      *SortOrderInput `json:"productType,omitempty"`
 	QuoteID          *SortOrderInput `json:"quoteId,omitempty"`
@@ -7188,12 +5212,9 @@ type HardwareSortInput struct {
 }
 
 type HardwareValidation struct {
-	// Address validation details
 	AddressValidationStatus *AddressValidationStatus `json:"addressValidationStatus,omitempty"`
-	// Complete item
-	Completed bool `json:"completed"`
-	// Incomplete reason
-	IncompleteReason *string `json:"incompleteReason,omitempty"`
+	Completed               bool                     `json:"completed"`
+	IncompleteReason        *string                  `json:"incompleteReason,omitempty"`
 }
 
 // A reference identifying the Host object. ID: Unique Host Identifier, Name: The Host Name
@@ -7202,12 +5223,8 @@ type HostRef struct {
 	Name string `json:"name"`
 }
 
-func (HostRef) IsObjectRef() {}
-
-// Object's unique identifier
-func (this HostRef) GetID() string { return this.ID }
-
-// Object's unique name
+func (HostRef) IsObjectRef()         {}
+func (this HostRef) GetID() string   { return this.ID }
 func (this HostRef) GetName() string { return this.Name }
 
 type HostRefInput struct {
@@ -7227,35 +5244,22 @@ type IPAddressFilterInput struct {
 
 // A general structure to contain IP detailed information
 type IPInfo struct {
-	// Geolocation city
-	City *string `json:"city,omitempty"`
-	// Geolocation ISO country code
-	CountryCode *string `json:"countryCode,omitempty"`
-	// Geolocation country name
-	CountryName *string `json:"countryName,omitempty"`
-	// IP address of the link
-	IP *string `json:"ip,omitempty"`
-	// Geolocation latitude for the ISP
-	Latitude *float64 `json:"latitude,omitempty"`
-	// Geolocation longitude for the ISP
-	Longitude *float64 `json:"longitude,omitempty"`
-	// ISP Internet provider
-	Provider *string `json:"provider,omitempty"`
-	// Geolocation state
-	State *string `json:"state,omitempty"`
+	City        *string  `json:"city,omitempty"`
+	CountryCode *string  `json:"countryCode,omitempty"`
+	CountryName *string  `json:"countryName,omitempty"`
+	IP          *string  `json:"ip,omitempty"`
+	Latitude    *float64 `json:"latitude,omitempty"`
+	Longitude   *float64 `json:"longitude,omitempty"`
+	Provider    *string  `json:"provider,omitempty"`
+	State       *string  `json:"state,omitempty"`
 }
 
 // Basic IPSec configuration information
 type IPSecInfo struct {
-	// The source IP address for the IPsec tunnel in the Cato Cloud
-	CatoIP *string `json:"catoIP,omitempty"`
-	// Shows 1 for IKEv1 and 2 for IKEv2
-	IkeVersion *int64 `json:"ikeVersion,omitempty"`
-	// For HA configurations, when this boolean value is true, this the primary IPsec firewall or routing device
-	IsPrimary *bool `json:"isPrimary,omitempty"`
-	// The destination IP address for the IPsec tunnel (in the site)
-	RemoteIP *string `json:"remoteIP,omitempty"`
-	// List of tunnels configured on the device
+	CatoIP       *string         `json:"catoIP,omitempty"`
+	IkeVersion   *int64          `json:"ikeVersion,omitempty"`
+	IsPrimary    *bool           `json:"isPrimary,omitempty"`
+	RemoteIP     *string         `json:"remoteIP,omitempty"`
 	TunnelConfig []*TunnelConfig `json:"tunnelConfig"`
 }
 
@@ -7290,66 +5294,29 @@ type IlmmIspDetails struct {
 
 // Intelligent Last Mile Monitoring (ILMM) License details
 type IlmmLicense struct {
-	Description *string `json:"description,omitempty"`
-	// License expiration date
-	ExpirationDate string `json:"expirationDate"`
-	// The unique identifier for the license. If this value is not available, you can contact Cato Support, who may be able to assist in retrieving it.
-	ID *string `json:"id,omitempty"`
-	// The date of the last update to the license
-	LastUpdated *string `json:"lastUpdated,omitempty"`
-	// License plan type
-	Plan LicensePlan `json:"plan"`
-	// The license SKU
-	Sku LicenseSku `json:"sku"`
-	// License start date
-	StartDate *string `json:"startDate,omitempty"`
-	// License activation status
-	Status LicenseStatus `json:"status"`
-	// The total amount of ILMM licenses.
-	Total int64 `json:"total"`
+	Description    *string       `json:"description,omitempty"`
+	ExpirationDate string        `json:"expirationDate"`
+	ID             *string       `json:"id,omitempty"`
+	LastUpdated    *string       `json:"lastUpdated,omitempty"`
+	Plan           LicensePlan   `json:"plan"`
+	Sku            LicenseSku    `json:"sku"`
+	StartDate      *string       `json:"startDate,omitempty"`
+	Status         LicenseStatus `json:"status"`
+	Total          int64         `json:"total"`
 }
 
-func (IlmmLicense) IsLicense() {}
-
-// The unique identifier for the license. If this value is not available, you can contact Cato Support, who may be able to assist in retrieving it.
-func (this IlmmLicense) GetID() *string          { return this.ID }
-func (this IlmmLicense) GetDescription() *string { return this.Description }
-
-// License plan type
-func (this IlmmLicense) GetPlan() LicensePlan { return this.Plan }
-
-// The license SKU
-func (this IlmmLicense) GetSku() LicenseSku { return this.Sku }
-
-// License activation status
-func (this IlmmLicense) GetStatus() LicenseStatus { return this.Status }
-
-// License start date
-func (this IlmmLicense) GetStartDate() *string { return this.StartDate }
-
-// License expiration date
+func (IlmmLicense) IsLicense()                     {}
+func (this IlmmLicense) GetDescription() *string   { return this.Description }
 func (this IlmmLicense) GetExpirationDate() string { return this.ExpirationDate }
-
-// The date of the last update to the license
-func (this IlmmLicense) GetLastUpdated() *string { return this.LastUpdated }
+func (this IlmmLicense) GetID() *string            { return this.ID }
+func (this IlmmLicense) GetLastUpdated() *string   { return this.LastUpdated }
+func (this IlmmLicense) GetPlan() LicensePlan      { return this.Plan }
+func (this IlmmLicense) GetSku() LicenseSku        { return this.Sku }
+func (this IlmmLicense) GetStartDate() *string     { return this.StartDate }
+func (this IlmmLicense) GetStatus() LicenseStatus  { return this.Status }
 
 func (IlmmLicense) IsQuantifiableLicense() {}
 
-// The unique identifier for the license. If this value is not available, you can contact Cato Support, who may be able to assist in retrieving it.
-
-// License plan type
-
-// The license SKU
-
-// License activation status
-
-// License initiation date
-
-// License expiration date
-
-// The date of the last update to the license
-
-// license quantity
 func (this IlmmLicense) GetTotal() int64 { return this.Total }
 
 type IlmmLinkDetails struct {
@@ -7405,20 +5372,13 @@ type IncidentTargetRep struct {
 }
 
 type IncidentTimeseries struct {
-	// Data is an array of tuples, each containing two values:  [timestamp, metric], where the timestamp is in
-	// milliseconds from the epoch (1.1.1970), and the metric is a number (according to the unit type)
-	Data [][]float64 `json:"data,omitempty"`
-	// The parameter by which the timeseries data is grouped
-	GroupBy *string `json:"groupBy,omitempty"`
-	// Specific information about the timeseries, used to build its name, title etc
-	Info []string       `json:"info,omitempty"`
-	Key  *TimeseriesKey `json:"key,omitempty"`
-	// Indicates the type of the timeseries
-	Label string   `json:"label"`
-	Sum   *float64 `json:"sum,omitempty"`
-	// Identifies what unit of data this timeseries represents. Note that toRate is only available for particular types
-	// of data to make sense.
-	Units *UnitType `json:"units,omitempty"`
+	Data    [][]float64    `json:"data,omitempty"`
+	GroupBy *string        `json:"groupBy,omitempty"`
+	Info    []string       `json:"info,omitempty"`
+	Key     *TimeseriesKey `json:"key,omitempty"`
+	Label   string         `json:"label"`
+	Sum     *float64       `json:"sum,omitempty"`
+	Units   *UnitType      `json:"units,omitempty"`
 }
 
 type IntFilterInput struct {
@@ -7445,99 +5405,57 @@ type IntPredicate struct {
 
 // Basic Socket Interface configuration information
 type InterfaceInfo struct {
-	// The destination type configured to the Socket interface
-	DestType *string `json:"destType,omitempty"`
-	// Maximum allowed bandwidth for traffic on this port, from the Cato Cloud to the site
-	DownstreamBandwidth *int64 `json:"downstreamBandwidth,omitempty"`
-	// Maximum allowed bandwidth for traffic on this port in MBPS with single decimal point, from the Cato Cloud to the site
-	DownstreamBandwidthMbpsPrecision *float64 `json:"downstreamBandwidthMbpsPrecision,omitempty"`
-	// ID for the Socket port in the Socket WebUI Monitor tab
-	ID string `json:"id"`
-	// Name for the port in the Cato Management Application
-	Name *string `json:"name,omitempty"`
-	// Maximum allowed bandwidth on this port, for traffic from the site to the Cato Cloud
-	UpstreamBandwidth *int64 `json:"upstreamBandwidth,omitempty"`
-	// Maximum allowed bandwidth on this port in MBPS with single decimal point, for traffic from the site to the Cato Cloud
-	UpstreamBandwidthMbpsPrecision *float64 `json:"upstreamBandwidthMbpsPrecision,omitempty"`
-	// Role for the WAN interface
-	WanRole *SocketInterfaceWanRole `json:"wanRole,omitempty"`
+	DestType                         *string                 `json:"destType,omitempty"`
+	DownstreamBandwidth              *int64                  `json:"downstreamBandwidth,omitempty"`
+	DownstreamBandwidthMbpsPrecision *float64                `json:"downstreamBandwidthMbpsPrecision,omitempty"`
+	ID                               string                  `json:"id"`
+	Name                             *string                 `json:"name,omitempty"`
+	UpstreamBandwidth                *int64                  `json:"upstreamBandwidth,omitempty"`
+	UpstreamBandwidthMbpsPrecision   *float64                `json:"upstreamBandwidthMbpsPrecision,omitempty"`
+	WanRole                          *SocketInterfaceWanRole `json:"wanRole,omitempty"`
 }
 
 type InterfaceLinkState struct {
-	// Shows the duplex mode for the link
-	Duplex *string `json:"duplex,omitempty"`
-	// Indicates if the WAN interface has an IP address
-	HasAddress *bool `json:"hasAddress,omitempty"`
-	// Indicates if the interface is connected to the Internet
-	HasInternet *bool `json:"hasInternet,omitempty"`
-	// Indicates if a connection has been established with the Cato Cloud
-	HasTunnel *bool `json:"hasTunnel,omitempty"`
-	// The ID for the specific Socket port, for example LAN1 or LAN2
-	ID *string `json:"id,omitempty"`
-	// Shows the maximum bandwidth configured for the link
-	LinkSpeed *string `json:"linkSpeed,omitempty"`
-	// Indicates if there is a physical connection to the port
-	MediaIn *bool `json:"mediaIn,omitempty"`
-	// When this boolean value is true, then the link for the port is up
-	Up *bool `json:"up,omitempty"`
+	Duplex      *string `json:"duplex,omitempty"`
+	HasAddress  *bool   `json:"hasAddress,omitempty"`
+	HasInternet *bool   `json:"hasInternet,omitempty"`
+	HasTunnel   *bool   `json:"hasTunnel,omitempty"`
+	ID          *string `json:"id,omitempty"`
+	LinkSpeed   *string `json:"linkSpeed,omitempty"`
+	MediaIn     *bool   `json:"mediaIn,omitempty"`
+	Up          *bool   `json:"up,omitempty"`
 }
 
 type InterfaceMetrics struct {
-	// Time stamp annotation that shows a time increment for a GUI
-	Annotations []*TimeAnnotation `json:"annotations,omitempty"`
-	// Basic configuration information about the Socket interface . Applicable only for site
-	InterfaceInfo *InterfaceInfo `json:"interfaceInfo,omitempty"`
-	// Data related to IPsec sites, such as IKE version . Applicable only for site
-	IpsecInfo *IPSecInfo `json:"ipsecInfo,omitempty"`
-	// Traffic data for the link
-	Metrics *Metrics `json:"metrics,omitempty"`
-	// Link name in the Cato Management Application
-	Name *string `json:"name,omitempty"`
-	// object that is a specific time duration
-	Periods []*TimePeriod `json:"periods,omitempty"`
-	// IP address the ISP allocates to the WAN link
-	RemoteIP *string `json:"remoteIP,omitempty"`
-	// Data related to the link IP address, such as country code
-	RemoteIPInfo *IPInfo `json:"remoteIPInfo,omitempty"`
-	// Data related to Socket and vSocket sites, such as serial number and Socket version. Applicable only for site
-	SocketInfo *SocketInfo `json:"socketInfo,omitempty"`
-	// For site metrics, timeseries info field will include: siteID, interfaceName, for last mile metrics it will also
-	// include the destination last mile check
-	Timeseries []*Timeseries `json:"timeseries,omitempty"`
+	Annotations   []*TimeAnnotation `json:"annotations,omitempty"`
+	InterfaceInfo *InterfaceInfo    `json:"interfaceInfo,omitempty"`
+	IpsecInfo     *IPSecInfo        `json:"ipsecInfo,omitempty"`
+	Metrics       *Metrics          `json:"metrics,omitempty"`
+	Name          *string           `json:"name,omitempty"`
+	Periods       []*TimePeriod     `json:"periods,omitempty"`
+	RemoteIP      *string           `json:"remoteIP,omitempty"`
+	RemoteIPInfo  *IPInfo           `json:"remoteIPInfo,omitempty"`
+	SocketInfo    *SocketInfo       `json:"socketInfo,omitempty"`
+	Timeseries    []*Timeseries     `json:"timeseries,omitempty"`
 }
 
 type InterfaceSnapshot struct {
-	// State of the BGP tunnel to the Cato Cloud
-	BgpState *BgpState `json:"bgpState,omitempty"`
-	// Information about cellular (LTE) interface
-	CellularInterfaceInfo *CellularInterface `json:"cellularInterfaceInfo,omitempty"`
-	// Shows if the WAN link is connected to the PoP
-	Connected *bool `json:"connected,omitempty"`
-	// Interface ID for the WAN link
-	ID *string `json:"id,omitempty"`
-	// data about the WAN link that is configured in the Socket Configuration window for the site
-	Info *InterfaceInfo `json:"info,omitempty"`
-	// WAN link name in the Cato Management Application
-	Name *string `json:"name,omitempty"`
-	// Interface Natural order for WAN link
-	NaturalOrder *int64 `json:"naturalOrder,omitempty"`
-	// Physical WAN port on the Socket
-	PhysicalPort *int64 `json:"physicalPort,omitempty"`
-	// The name of the PoP that the WAN link is connected to
-	PopName *string `json:"popName,omitempty"`
-	// The ID of the PoP that the WAN link was connected to before the current one
-	PreviousPopID *int64 `json:"previousPopID,omitempty"`
-	// The name of the PoP that the WAN link was connected to before the current one
-	PreviousPopName *string `json:"previousPopName,omitempty"`
-	// Reason that the tunnel required a new connection (for example, PoP or Socket restarted)
-	TunnelConnectionReason *string `json:"tunnelConnectionReason,omitempty"`
-	// IP address of the WAN ISP
-	TunnelRemoteIP *string `json:"tunnelRemoteIP,omitempty"`
-	// IP address, ISP, and geographical information related to the WAN ISP
-	TunnelRemoteIPInfo *IPInfo `json:"tunnelRemoteIPInfo,omitempty"`
-	// Number of seconds that the tunnel is connected to a PoP
-	TunnelUptime *int64  `json:"tunnelUptime,omitempty"`
-	Type         *string `json:"type,omitempty"`
+	BgpState               *BgpState          `json:"bgpState,omitempty"`
+	CellularInterfaceInfo  *CellularInterface `json:"cellularInterfaceInfo,omitempty"`
+	Connected              *bool              `json:"connected,omitempty"`
+	ID                     *string            `json:"id,omitempty"`
+	Info                   *InterfaceInfo     `json:"info,omitempty"`
+	Name                   *string            `json:"name,omitempty"`
+	NaturalOrder           *int64             `json:"naturalOrder,omitempty"`
+	PhysicalPort           *int64             `json:"physicalPort,omitempty"`
+	PopName                *string            `json:"popName,omitempty"`
+	PreviousPopID          *int64             `json:"previousPopID,omitempty"`
+	PreviousPopName        *string            `json:"previousPopName,omitempty"`
+	TunnelConnectionReason *string            `json:"tunnelConnectionReason,omitempty"`
+	TunnelRemoteIP         *string            `json:"tunnelRemoteIP,omitempty"`
+	TunnelRemoteIPInfo     *IPInfo            `json:"tunnelRemoteIPInfo,omitempty"`
+	TunnelUptime           *int64             `json:"tunnelUptime,omitempty"`
+	Type                   *string            `json:"type,omitempty"`
 }
 
 type InternetFirewallActionConfig struct {
@@ -7603,16 +5521,6 @@ type InternetFirewallAddSubPolicyMutationPayload struct {
 }
 
 func (InternetFirewallAddSubPolicyMutationPayload) IsIPolicyMutationPayload() {}
-
-// Data for the policy
-func (this InternetFirewallAddSubPolicyMutationPayload) GetPolicy() IPolicy { return *this.Policy }
-
-// Enum for the status of the policy change
-func (this InternetFirewallAddSubPolicyMutationPayload) GetStatus() PolicyMutationStatus {
-	return this.Status
-}
-
-// List of errors related to the policy change
 func (this InternetFirewallAddSubPolicyMutationPayload) GetErrors() []*PolicyMutationError {
 	if this.Errors == nil {
 		return nil
@@ -7622,6 +5530,10 @@ func (this InternetFirewallAddSubPolicyMutationPayload) GetErrors() []*PolicyMut
 		interfaceSlice = append(interfaceSlice, concrete)
 	}
 	return interfaceSlice
+}
+func (this InternetFirewallAddSubPolicyMutationPayload) GetPolicy() IPolicy { return *this.Policy }
+func (this InternetFirewallAddSubPolicyMutationPayload) GetStatus() PolicyMutationStatus {
+	return this.Status
 }
 
 type InternetFirewallContainer struct {
@@ -7710,12 +5622,10 @@ type InternetFirewallPolicy struct {
 	SubPolicies   []*InternetFirewallSubPolicyPayload `json:"subPolicies"`
 }
 
-func (InternetFirewallPolicy) IsIPolicy() {}
-
-// TRUE = Policy is enabled, FALSE = Policy is disabled
-func (this InternetFirewallPolicy) GetEnabled() bool { return this.Enabled }
-
-// Return list of rules in the policy
+func (InternetFirewallPolicy) IsIPolicy()                        {}
+func (this InternetFirewallPolicy) GetAudit() *PolicyAudit       { return this.Audit }
+func (this InternetFirewallPolicy) GetEnabled() bool             { return this.Enabled }
+func (this InternetFirewallPolicy) GetRevision() *PolicyRevision { return this.Revision }
 func (this InternetFirewallPolicy) GetRules() []IPolicyRulePayload {
 	if this.Rules == nil {
 		return nil
@@ -7726,8 +5636,6 @@ func (this InternetFirewallPolicy) GetRules() []IPolicyRulePayload {
 	}
 	return interfaceSlice
 }
-
-// Return sections in the policy
 func (this InternetFirewallPolicy) GetSections() []*PolicySectionPayload {
 	if this.Sections == nil {
 		return nil
@@ -7738,12 +5646,6 @@ func (this InternetFirewallPolicy) GetSections() []*PolicySectionPayload {
 	}
 	return interfaceSlice
 }
-
-// Audit data for the policy
-func (this InternetFirewallPolicy) GetAudit() *PolicyAudit { return this.Audit }
-
-// Return data for the Policy revision
-func (this InternetFirewallPolicy) GetRevision() *PolicyRevision { return this.Revision }
 
 type InternetFirewallPolicyInfo struct {
 	Audit       *PolicyAudit    `json:"audit"`
@@ -7813,16 +5715,6 @@ type InternetFirewallPolicyMutationPayload struct {
 }
 
 func (InternetFirewallPolicyMutationPayload) IsIPolicyMutationPayload() {}
-
-// Data for the policy
-func (this InternetFirewallPolicyMutationPayload) GetPolicy() IPolicy { return *this.Policy }
-
-// Enum for the status of the policy change
-func (this InternetFirewallPolicyMutationPayload) GetStatus() PolicyMutationStatus {
-	return this.Status
-}
-
-// List of errors related to the policy change
 func (this InternetFirewallPolicyMutationPayload) GetErrors() []*PolicyMutationError {
 	if this.Errors == nil {
 		return nil
@@ -7832,6 +5724,10 @@ func (this InternetFirewallPolicyMutationPayload) GetErrors() []*PolicyMutationE
 		interfaceSlice = append(interfaceSlice, concrete)
 	}
 	return interfaceSlice
+}
+func (this InternetFirewallPolicyMutationPayload) GetPolicy() IPolicy { return *this.Policy }
+func (this InternetFirewallPolicyMutationPayload) GetStatus() PolicyMutationStatus {
+	return this.Status
 }
 
 // The Internet firewall Policy information returned to the caller in the API response.
@@ -7866,19 +5762,11 @@ type InternetFirewallPolicyRef struct {
 	Name string `json:"name"`
 }
 
-func (InternetFirewallPolicyRef) IsObjectRef() {}
-
-// Object's unique identifier
-func (this InternetFirewallPolicyRef) GetID() string { return this.ID }
-
-// Object's unique name
+func (InternetFirewallPolicyRef) IsObjectRef()         {}
+func (this InternetFirewallPolicyRef) GetID() string   { return this.ID }
 func (this InternetFirewallPolicyRef) GetName() string { return this.Name }
 
 func (InternetFirewallPolicyRef) IsPolicyRef() {}
-
-// Policy's unique identifier
-
-// Policy's unique name
 
 type InternetFirewallPolicyRefInput struct {
 	By    ObjectRefBy `json:"by"`
@@ -7904,16 +5792,6 @@ type InternetFirewallRemoveSubPolicyMutationPayload struct {
 }
 
 func (InternetFirewallRemoveSubPolicyMutationPayload) IsIPolicyMutationPayload() {}
-
-// Data for the policy
-func (this InternetFirewallRemoveSubPolicyMutationPayload) GetPolicy() IPolicy { return *this.Policy }
-
-// Enum for the status of the policy change
-func (this InternetFirewallRemoveSubPolicyMutationPayload) GetStatus() PolicyMutationStatus {
-	return this.Status
-}
-
-// List of errors related to the policy change
 func (this InternetFirewallRemoveSubPolicyMutationPayload) GetErrors() []*PolicyMutationError {
 	if this.Errors == nil {
 		return nil
@@ -7923,6 +5801,10 @@ func (this InternetFirewallRemoveSubPolicyMutationPayload) GetErrors() []*Policy
 		interfaceSlice = append(interfaceSlice, concrete)
 	}
 	return interfaceSlice
+}
+func (this InternetFirewallRemoveSubPolicyMutationPayload) GetPolicy() IPolicy { return *this.Policy }
+func (this InternetFirewallRemoveSubPolicyMutationPayload) GetStatus() PolicyMutationStatus {
+	return this.Status
 }
 
 type InternetFirewallRule struct {
@@ -7952,24 +5834,12 @@ type InternetFirewallRule struct {
 	UserAttributes         *InternetFirewallUserAttributes  `json:"userAttributes"`
 }
 
-func (InternetFirewallRule) IsIPolicyRule() {}
-
-// Rule ID
-func (this InternetFirewallRule) GetID() string { return this.ID }
-
-// Name of the rule
-func (this InternetFirewallRule) GetName() string { return this.Name }
-
-// Description for the rule
-func (this InternetFirewallRule) GetDescription() *string { return &this.Description }
-
-// Position / priority of rule
-func (this InternetFirewallRule) GetIndex() int64 { return this.Index }
-
-// TRUE = Rule is enabled, FALSE = Rule is disabled
-func (this InternetFirewallRule) GetEnabled() bool { return this.Enabled }
-
-// Policy section where the rule is located
+func (InternetFirewallRule) IsIPolicyRule()                      {}
+func (this InternetFirewallRule) GetDescription() *string        { return &this.Description }
+func (this InternetFirewallRule) GetEnabled() bool               { return this.Enabled }
+func (this InternetFirewallRule) GetID() string                  { return this.ID }
+func (this InternetFirewallRule) GetIndex() int64                { return this.Index }
+func (this InternetFirewallRule) GetName() string                { return this.Name }
 func (this InternetFirewallRule) GetSection() *PolicySectionInfo { return this.Section }
 
 // Exceptions define when a rule is ignored, and the firewall policy evaluation continues with the lower priority rules.
@@ -8013,14 +5883,6 @@ type InternetFirewallRuleMutationPayload struct {
 }
 
 func (InternetFirewallRuleMutationPayload) IsIPolicyRuleMutationPayload() {}
-
-// Returns settings for the rule
-func (this InternetFirewallRuleMutationPayload) GetRule() IPolicyRulePayload { return *this.Rule }
-
-// Enum for the status of the policy change
-func (this InternetFirewallRuleMutationPayload) GetStatus() PolicyMutationStatus { return this.Status }
-
-// List of errors related to the policy change
 func (this InternetFirewallRuleMutationPayload) GetErrors() []*PolicyMutationError {
 	if this.Errors == nil {
 		return nil
@@ -8031,6 +5893,8 @@ func (this InternetFirewallRuleMutationPayload) GetErrors() []*PolicyMutationErr
 	}
 	return interfaceSlice
 }
+func (this InternetFirewallRuleMutationPayload) GetRule() IPolicyRulePayload     { return *this.Rule }
+func (this InternetFirewallRuleMutationPayload) GetStatus() PolicyMutationStatus { return this.Status }
 
 // Internet Firewall policy information for a specific revision
 type InternetFirewallRulePayload struct {
@@ -8045,11 +5909,6 @@ type InternetFirewallRulePayload struct {
 
 func (InternetFirewallRulePayload) IsIPolicyRulePayload()              {}
 func (this InternetFirewallRulePayload) GetAudit() *PolicyElementAudit { return this.Audit }
-
-// Rule that was changed
-func (this InternetFirewallRulePayload) GetRule() IPolicyRule { return *this.Rule }
-
-// Summary of rule change, (ie. ADDED, UPDATED)
 func (this InternetFirewallRulePayload) GetProperties() []PolicyElementPropertiesEnum {
 	if this.Properties == nil {
 		return nil
@@ -8060,6 +5919,7 @@ func (this InternetFirewallRulePayload) GetProperties() []PolicyElementPropertie
 	}
 	return interfaceSlice
 }
+func (this InternetFirewallRulePayload) GetRule() IPolicyRule { return *this.Rule }
 
 // Returns the Service Type to which this Internet Firewall rule applies
 type InternetFirewallServiceType struct {
@@ -8199,10 +6059,8 @@ type InternetFirewallUserAttributesUpdateInput struct {
 // Represents a member type in the group that is not supported in one or more scopes.
 // Each scope indicates where the member type is not allowed.
 type InvalidGroupMemberTypeInScope struct {
-	// List of scopes (policy type and field) where this member type is not supported.
-	Scope []*GroupScope `json:"scope"`
-	// The unsupported member type (e.g., site, host, etc.)
-	Type GroupMemberRefType `json:"type"`
+	Scope []*GroupScope      `json:"scope"`
+	Type  GroupMemberRefType `json:"type"`
 }
 
 // Referring an invoice object
@@ -8211,56 +6069,31 @@ type InvoiceRef struct {
 	Name string `json:"name"`
 }
 
-func (InvoiceRef) IsObjectRef() {}
-
-// Object's unique identifier
-func (this InvoiceRef) GetID() string { return this.ID }
-
-// Object's unique name
+func (InvoiceRef) IsObjectRef()         {}
+func (this InvoiceRef) GetID() string   { return this.ID }
 func (this InvoiceRef) GetName() string { return this.Name }
 
 // IoT/OT Security service license details
 type IotOtLicense struct {
-	Description *string `json:"description,omitempty"`
-	// License expiration date
-	ExpirationDate string `json:"expirationDate"`
-	// The unique identifier for the license. If this value is not available, you can contact Cato Support, who may be able to assist in retrieving it.
-	ID *string `json:"id,omitempty"`
-	// The date of the last update to the license
-	LastUpdated *string `json:"lastUpdated,omitempty"`
-	// License plan type
-	Plan LicensePlan `json:"plan"`
-	// The license SKU
-	Sku LicenseSku `json:"sku"`
-	// License start date
-	StartDate *string `json:"startDate,omitempty"`
-	// License activation status
-	Status LicenseStatus `json:"status"`
+	Description    *string       `json:"description,omitempty"`
+	ExpirationDate string        `json:"expirationDate"`
+	ID             *string       `json:"id,omitempty"`
+	LastUpdated    *string       `json:"lastUpdated,omitempty"`
+	Plan           LicensePlan   `json:"plan"`
+	Sku            LicenseSku    `json:"sku"`
+	StartDate      *string       `json:"startDate,omitempty"`
+	Status         LicenseStatus `json:"status"`
 }
 
-func (IotOtLicense) IsLicense() {}
-
-// The unique identifier for the license. If this value is not available, you can contact Cato Support, who may be able to assist in retrieving it.
-func (this IotOtLicense) GetID() *string          { return this.ID }
-func (this IotOtLicense) GetDescription() *string { return this.Description }
-
-// License plan type
-func (this IotOtLicense) GetPlan() LicensePlan { return this.Plan }
-
-// The license SKU
-func (this IotOtLicense) GetSku() LicenseSku { return this.Sku }
-
-// License activation status
-func (this IotOtLicense) GetStatus() LicenseStatus { return this.Status }
-
-// License start date
-func (this IotOtLicense) GetStartDate() *string { return this.StartDate }
-
-// License expiration date
+func (IotOtLicense) IsLicense()                     {}
+func (this IotOtLicense) GetDescription() *string   { return this.Description }
 func (this IotOtLicense) GetExpirationDate() string { return this.ExpirationDate }
-
-// The date of the last update to the license
-func (this IotOtLicense) GetLastUpdated() *string { return this.LastUpdated }
+func (this IotOtLicense) GetID() *string            { return this.ID }
+func (this IotOtLicense) GetLastUpdated() *string   { return this.LastUpdated }
+func (this IotOtLicense) GetPlan() LicensePlan      { return this.Plan }
+func (this IotOtLicense) GetSku() LicenseSku        { return this.Sku }
+func (this IotOtLicense) GetStartDate() *string     { return this.StartDate }
+func (this IotOtLicense) GetStatus() LicenseStatus  { return this.Status }
 
 // Inclusive range of IPs
 type IPAddressRange struct {
@@ -8270,45 +6103,28 @@ type IPAddressRange struct {
 
 // A group with members of IPAddressRange type
 type IPAddressRangeContainer struct {
-	// Audit metadata about the container
-	Audit *ContainerAudit `json:"audit"`
-	// Description for the container
-	Description *string `json:"description,omitempty"`
-	// Unique container ID
-	ID string `json:"id"`
-	// Name for the container
-	Name string `json:"name"`
-	// Number of items in the container
-	Size int64 `json:"size"`
+	Audit       *ContainerAudit `json:"audit"`
+	Description *string         `json:"description,omitempty"`
+	ID          string          `json:"id"`
+	Name        string          `json:"name"`
+	Size        int64           `json:"size"`
 }
 
-func (IPAddressRangeContainer) IsContainer() {}
-
-// Unique container ID
-func (this IPAddressRangeContainer) GetID() string { return this.ID }
-
-// Name for the container
-func (this IPAddressRangeContainer) GetName() string { return this.Name }
-
-// Description for the container
-func (this IPAddressRangeContainer) GetDescription() *string { return this.Description }
-
-// Number of items in the container
-func (this IPAddressRangeContainer) GetSize() int64 { return this.Size }
-
-// Audit metadata about the container
+func (IPAddressRangeContainer) IsContainer()                   {}
 func (this IPAddressRangeContainer) GetAudit() *ContainerAudit { return this.Audit }
+func (this IPAddressRangeContainer) GetDescription() *string   { return this.Description }
+func (this IPAddressRangeContainer) GetID() string             { return this.ID }
+func (this IPAddressRangeContainer) GetName() string           { return this.Name }
+func (this IPAddressRangeContainer) GetSize() int64            { return this.Size }
 
 // Input for adding values to existing IPAddressRange typed container
 type IPAddressRangeContainerAddValuesInput struct {
-	// Reference to existing container by container ID or container name
 	Ref    *ContainerRefInput     `json:"ref"`
 	Values []*IPAddressRangeInput `json:"values"`
 }
 
 // Payload of AddValues operation on IPAddressRange typed container
 type IPAddressRangeContainerAddValuesPayload struct {
-	// Container with members of type IPAddressRange
 	Container *IPAddressRangeContainer `json:"container"`
 }
 
@@ -8329,43 +6145,32 @@ type IPAddressRangeContainerQueries struct {
 
 // A group with members of IPAddressRange type
 type IPAddressRangeContainerRef struct {
-	// Unique container ID
-	ID string `json:"id"`
-	// Name for the container
+	ID   string `json:"id"`
 	Name string `json:"name"`
 }
 
-func (IPAddressRangeContainerRef) IsObjectRef() {}
-
-// Object's unique identifier
-func (this IPAddressRangeContainerRef) GetID() string { return this.ID }
-
-// Object's unique name
+func (IPAddressRangeContainerRef) IsObjectRef()         {}
+func (this IPAddressRangeContainerRef) GetID() string   { return this.ID }
 func (this IPAddressRangeContainerRef) GetName() string { return this.Name }
 
 type IPAddressRangeContainerRefInput struct {
-	// Defines the object identification method – by ID (default) or by name
-	By ObjectRefBy `json:"by"`
-	// The object identification (ID or name) value
-	Input string `json:"input"`
+	By    ObjectRefBy `json:"by"`
+	Input string      `json:"input"`
 }
 
 // Input for removing values from existing IPAddressRange typed container
 type IPAddressRangeContainerRemoveValuesInput struct {
-	// Reference to existing container by container ID or container name
 	Ref    *ContainerRefInput     `json:"ref"`
 	Values []*IPAddressRangeInput `json:"values"`
 }
 
 // Payload of AddValues operation on IPAddressRange typed container
 type IPAddressRangeContainerRemoveValuesPayload struct {
-	// Container with members of type IPAddressRange
 	Container *IPAddressRangeContainer `json:"container"`
 }
 
 // Filtering input to IPAddressRange container search
 type IPAddressRangeContainerSearchInput struct {
-	// Reference to existing container by container ID or container name
 	Ref *ContainerRefInput `json:"ref"`
 }
 
@@ -8376,13 +6181,11 @@ type IPAddressRangeContainerSearchIPAddressRangeInput struct {
 
 // Payload of IPAddressRange search query
 type IPAddressRangeContainerSearchIPAddressRangePayload struct {
-	// List of containers with members of type IPAddressRange
 	Containers []*IPAddressRangeContainer `json:"containers"`
 }
 
 // Payload of IPAddressRange container search
 type IPAddressRangeContainerSearchPayload struct {
-	// Container with members of type IPAddressRange
 	Container *IPAddressRangeContainer `json:"container"`
 }
 
@@ -8394,56 +6197,31 @@ type IPAddressRangeInput struct {
 
 // Intrusion Prevention System (IPS) service license (Legacy license, replaced by TP)
 type IpsLicense struct {
-	Description *string `json:"description,omitempty"`
-	// License expiration date
-	ExpirationDate string `json:"expirationDate"`
-	// The unique identifier for the license. If this value is not available, you can contact Cato Support, who may be able to assist in retrieving it.
-	ID *string `json:"id,omitempty"`
-	// The date of the last update to the license
-	LastUpdated *string `json:"lastUpdated,omitempty"`
-	// License plan type
-	Plan LicensePlan `json:"plan"`
-	// The license SKU
-	Sku LicenseSku `json:"sku"`
-	// License start date
-	StartDate *string `json:"startDate,omitempty"`
-	// License activation status
-	Status LicenseStatus `json:"status"`
+	Description    *string       `json:"description,omitempty"`
+	ExpirationDate string        `json:"expirationDate"`
+	ID             *string       `json:"id,omitempty"`
+	LastUpdated    *string       `json:"lastUpdated,omitempty"`
+	Plan           LicensePlan   `json:"plan"`
+	Sku            LicenseSku    `json:"sku"`
+	StartDate      *string       `json:"startDate,omitempty"`
+	Status         LicenseStatus `json:"status"`
 }
 
-func (IpsLicense) IsLicense() {}
-
-// The unique identifier for the license. If this value is not available, you can contact Cato Support, who may be able to assist in retrieving it.
-func (this IpsLicense) GetID() *string          { return this.ID }
-func (this IpsLicense) GetDescription() *string { return this.Description }
-
-// License plan type
-func (this IpsLicense) GetPlan() LicensePlan { return this.Plan }
-
-// The license SKU
-func (this IpsLicense) GetSku() LicenseSku { return this.Sku }
-
-// License activation status
-func (this IpsLicense) GetStatus() LicenseStatus { return this.Status }
-
-// License start date
-func (this IpsLicense) GetStartDate() *string { return this.StartDate }
-
-// License expiration date
+func (IpsLicense) IsLicense()                     {}
+func (this IpsLicense) GetDescription() *string   { return this.Description }
 func (this IpsLicense) GetExpirationDate() string { return this.ExpirationDate }
-
-// The date of the last update to the license
-func (this IpsLicense) GetLastUpdated() *string { return this.LastUpdated }
+func (this IpsLicense) GetID() *string            { return this.ID }
+func (this IpsLicense) GetLastUpdated() *string   { return this.LastUpdated }
+func (this IpsLicense) GetPlan() LicensePlan      { return this.Plan }
+func (this IpsLicense) GetSku() LicenseSku        { return this.Sku }
+func (this IpsLicense) GetStartDate() *string     { return this.StartDate }
+func (this IpsLicense) GetStatus() LicenseStatus  { return this.Status }
 
 type IpsecIkeV2MessageInput struct {
-	// The SA tunnel encryption method. Note: For situations where GCM isn’t supported for the INIT phase, we recommend that you use the CBC algorithm for the INIT phase, and GCM for AUTH
-	Cipher *IPSecCipher `json:"cipher,omitempty"`
-	// The Diffie-Hellman Group. The first number is the DH-group number, and the second number is the corresponding prime modulus size in bits
-	DhGroup *IPSecDHGroup `json:"dhGroup,omitempty"`
-	// The algorithm used to verify the integrity and authenticity of IPsec packets
-	Integrity *IPSecHash `json:"integrity,omitempty"`
-	// The Pseudo-random function (PRF) used to derive the cryptographic keys used in the SA establishment process
-	Prf *IPSecHash `json:"prf,omitempty"`
+	Cipher    *IPSecCipher  `json:"cipher,omitempty"`
+	DhGroup   *IPSecDHGroup `json:"dhGroup,omitempty"`
+	Integrity *IPSecHash    `json:"integrity,omitempty"`
+	Prf       *IPSecHash    `json:"prf,omitempty"`
 }
 
 type IspLoaFile struct {
@@ -8453,30 +6231,24 @@ type IspLoaFile struct {
 }
 
 type LastMileBwInput struct {
-	// The maximum downstream bandwidth from the Cato Cloud to the site, in Mbps. This value can be used for capping the downstream traffic. It should not be set above the ISP downstream bandwidth or the site license bandwidth.
-	Downstream *int64 `json:"downstream,omitempty"`
-	// The maximum downstream bandwidth from the Cato Cloud to the site, in Mbps with single decimal precision. This value can be used for capping the downstream traffic. It should not be set above the ISP downstream bandwidth or the site license bandwidth.
+	Downstream              *int64   `json:"downstream,omitempty"`
 	DownstreamMbpsPrecision *float64 `json:"downstreamMbpsPrecision,omitempty"`
-	// The maximum upstream bandwidth, in Mbps. The Cato Cloud cannot cap this direction, and this setting is used as a best-effort indication by the Cato Cloud.
-	Upstream *int64 `json:"upstream,omitempty"`
-	// The maximum upstream bandwidth, in Mbps with single decimal precision. The Cato Cloud cannot cap this direction, and this setting is used as a best-effort indication by the Cato Cloud.
-	UpstreamMbpsPrecision *float64 `json:"upstreamMbpsPrecision,omitempty"`
+	Upstream                *int64   `json:"upstream,omitempty"`
+	UpstreamMbpsPrecision   *float64 `json:"upstreamMbpsPrecision,omitempty"`
 }
 
 // Public license API
 type LicensingInfo struct {
-	Atp                []*AtpLicense                `json:"atp"`
-	Casb               []*CasbLicense               `json:"casb"`
-	DataLake           []*DataLakeLicense           `json:"dataLake"`
-	Dem                []*DemLicense                `json:"dem"`
-	Dlp                []*DlpLicense                `json:"dlp"`
-	EndpointProtection []*EndpointProtectionLicense `json:"endpointProtection"`
-	// License usage and allocation across the managed accounts
-	GlobalLicenseAllocations *GlobalLicenseAllocations `json:"globalLicenseAllocations"`
-	Ilmm                     []*IlmmLicense            `json:"ilmm"`
-	IotOt                    []*IotOtLicense           `json:"iotOt"`
-	Ips                      []*IpsLicense             `json:"ips"`
-	// License inventory
+	Atp                      []*AtpLicense                      `json:"atp"`
+	Casb                     []*CasbLicense                     `json:"casb"`
+	DataLake                 []*DataLakeLicense                 `json:"dataLake"`
+	Dem                      []*DemLicense                      `json:"dem"`
+	Dlp                      []*DlpLicense                      `json:"dlp"`
+	EndpointProtection       []*EndpointProtectionLicense       `json:"endpointProtection"`
+	GlobalLicenseAllocations *GlobalLicenseAllocations          `json:"globalLicenseAllocations"`
+	Ilmm                     []*IlmmLicense                     `json:"ilmm"`
+	IotOt                    []*IotOtLicense                    `json:"iotOt"`
+	Ips                      []*IpsLicense                      `json:"ips"`
 	Licenses                 []License                          `json:"licenses"`
 	MalwareProtection        []*MalwareProtectionLicense        `json:"malwareProtection"`
 	ManagedXdr               []*ManagedXdrLicense               `json:"managedXdr"`
@@ -8489,18 +6261,16 @@ type LicensingInfo struct {
 	SaasSecurityAPI          []*SaasSecurityAPILicense          `json:"saasSecurityApi"`
 	Site                     []*SiteLicense                     `json:"site"`
 	ThreatPrevention         []*ThreatPreventionLicense         `json:"threatPrevention"`
-	XdrPro                   []*XdrProLicense                   `json:"xdrPro"`
 	XOps                     []*XOpsLicense                     `json:"xOps"`
+	XdrPro                   []*XdrProLicense                   `json:"xdrPro"`
 	ZtnaUsers                []*ZtnaUsersLicense                `json:"ztnaUsers"`
 }
 
 type LicensingMutations struct {
-	// BETA
 	UpdateCommercialLicense *UpdateCommercialLicensePayload `json:"updateCommercialLicense,omitempty"`
 }
 
 type LicensingQueries struct {
-	// BETA
 	LicensingInfo *LicensingInfo `json:"licensingInfo,omitempty"`
 }
 
@@ -8512,43 +6282,28 @@ type LinkQualityIssue struct {
 }
 
 type Location struct {
-	// Cma account
-	Account *AccountRef `json:"account"`
-	// Is archived
-	Archived bool `json:"archived"`
-	// Audit data
-	Audit *AuditingMetadata `json:"audit"`
-	// Business unit
-	BusinessUnit *string `json:"businessUnit,omitempty"`
-	// Location description
-	Description *string `json:"description,omitempty"`
-	// Location details
-	Details *LocationDetails `json:"details"`
-	// Location id
-	ID string `json:"id"`
-	// Location name
-	Name string `json:"name"`
-	// Location type
-	Type LocationType `json:"type"`
+	Account      *AccountRef       `json:"account"`
+	Archived     bool              `json:"archived"`
+	Audit        *AuditingMetadata `json:"audit"`
+	BusinessUnit *string           `json:"businessUnit,omitempty"`
+	Description  *string           `json:"description,omitempty"`
+	Details      *LocationDetails  `json:"details"`
+	ID           string            `json:"id"`
+	Name         string            `json:"name"`
+	Type         LocationType      `json:"type"`
 }
 
 type LocationDetails struct {
-	// Company name (recipient)
-	CompanyName *string `json:"companyName,omitempty"`
-	// Delivery contact detail
-	Contact *ContactDetails `json:"contact,omitempty"`
-	// Postal location
-	PostalAddress *PostalAddress `json:"postalAddress"`
-	// Is shipping location
-	ShippingLocation bool `json:"shippingLocation"`
-	// Vat id (required for Brazil)
-	VatID *string `json:"vatId,omitempty"`
+	CompanyName      *string         `json:"companyName,omitempty"`
+	Contact          *ContactDetails `json:"contact,omitempty"`
+	PostalAddress    *PostalAddress  `json:"postalAddress"`
+	ShippingLocation bool            `json:"shippingLocation"`
+	VatID            *string         `json:"vatId,omitempty"`
 }
 
 type LocationFilterInput struct {
-	Account     []*AccountFilter     `json:"account,omitempty"`
-	CountryCode []*StringFilterInput `json:"countryCode,omitempty"`
-	// Will use contains operator for the provided text on the location fields
+	Account            []*AccountFilter           `json:"account,omitempty"`
+	CountryCode        []*StringFilterInput       `json:"countryCode,omitempty"`
 	FreeText           *FreeTextFilterInput       `json:"freeText,omitempty"`
 	ID                 []*IDFilterInput           `json:"id,omitempty"`
 	IncludeArchived    *bool                      `json:"includeArchived,omitempty"`
@@ -8563,19 +6318,14 @@ type LocationRef struct {
 	Name string `json:"name"`
 }
 
-func (LocationRef) IsObjectRef() {}
-
-// Object's unique identifier
-func (this LocationRef) GetID() string { return this.ID }
-
-// Object's unique name
+func (LocationRef) IsObjectRef()         {}
+func (this LocationRef) GetID() string   { return this.ID }
 func (this LocationRef) GetName() string { return this.Name }
 
 type LocationSortInput struct {
 	Country *SortOrderInput `json:"country,omitempty"`
-	// Default sort field
-	Name *SortOrderInput `json:"name,omitempty"`
-	Type *SortOrderInput `json:"type,omitempty"`
+	Name    *SortOrderInput `json:"name,omitempty"`
+	Type    *SortOrderInput `json:"type,omitempty"`
 }
 
 type LocationTypeFilterInput struct {
@@ -8599,132 +6349,69 @@ type MacAddressFilterInput struct {
 
 // Anti-Malware service license details (Legacy license, replaced by TP)
 type MalwareProtectionLicense struct {
-	Description *string `json:"description,omitempty"`
-	// License expiration date
-	ExpirationDate string `json:"expirationDate"`
-	// The unique identifier for the license. If this value is not available, you can contact Cato Support, who may be able to assist in retrieving it.
-	ID *string `json:"id,omitempty"`
-	// The date of the last update to the license
-	LastUpdated *string `json:"lastUpdated,omitempty"`
-	// License plan type
-	Plan LicensePlan `json:"plan"`
-	// The license SKU
-	Sku LicenseSku `json:"sku"`
-	// License start date
-	StartDate *string `json:"startDate,omitempty"`
-	// License activation status
-	Status LicenseStatus `json:"status"`
+	Description    *string       `json:"description,omitempty"`
+	ExpirationDate string        `json:"expirationDate"`
+	ID             *string       `json:"id,omitempty"`
+	LastUpdated    *string       `json:"lastUpdated,omitempty"`
+	Plan           LicensePlan   `json:"plan"`
+	Sku            LicenseSku    `json:"sku"`
+	StartDate      *string       `json:"startDate,omitempty"`
+	Status         LicenseStatus `json:"status"`
 }
 
-func (MalwareProtectionLicense) IsLicense() {}
-
-// The unique identifier for the license. If this value is not available, you can contact Cato Support, who may be able to assist in retrieving it.
-func (this MalwareProtectionLicense) GetID() *string          { return this.ID }
-func (this MalwareProtectionLicense) GetDescription() *string { return this.Description }
-
-// License plan type
-func (this MalwareProtectionLicense) GetPlan() LicensePlan { return this.Plan }
-
-// The license SKU
-func (this MalwareProtectionLicense) GetSku() LicenseSku { return this.Sku }
-
-// License activation status
-func (this MalwareProtectionLicense) GetStatus() LicenseStatus { return this.Status }
-
-// License start date
-func (this MalwareProtectionLicense) GetStartDate() *string { return this.StartDate }
-
-// License expiration date
+func (MalwareProtectionLicense) IsLicense()                     {}
+func (this MalwareProtectionLicense) GetDescription() *string   { return this.Description }
 func (this MalwareProtectionLicense) GetExpirationDate() string { return this.ExpirationDate }
-
-// The date of the last update to the license
-func (this MalwareProtectionLicense) GetLastUpdated() *string { return this.LastUpdated }
+func (this MalwareProtectionLicense) GetID() *string            { return this.ID }
+func (this MalwareProtectionLicense) GetLastUpdated() *string   { return this.LastUpdated }
+func (this MalwareProtectionLicense) GetPlan() LicensePlan      { return this.Plan }
+func (this MalwareProtectionLicense) GetSku() LicenseSku        { return this.Sku }
+func (this MalwareProtectionLicense) GetStartDate() *string     { return this.StartDate }
+func (this MalwareProtectionLicense) GetStatus() LicenseStatus  { return this.Status }
 
 // Managed XDR service license details
 type ManagedXdrLicense struct {
-	Description *string `json:"description,omitempty"`
-	// License expiration date
-	ExpirationDate string `json:"expirationDate"`
-	// The unique identifier for the license. If this value is not available, you can contact Cato Support, who may be able to assist in retrieving it.
-	ID *string `json:"id,omitempty"`
-	// The date of the last update to the license
-	LastUpdated *string `json:"lastUpdated,omitempty"`
-	// License plan type
-	Plan LicensePlan `json:"plan"`
-	// The license SKU
-	Sku LicenseSku `json:"sku"`
-	// License start date
-	StartDate *string `json:"startDate,omitempty"`
-	// License activation status
-	Status LicenseStatus `json:"status"`
+	Description    *string       `json:"description,omitempty"`
+	ExpirationDate string        `json:"expirationDate"`
+	ID             *string       `json:"id,omitempty"`
+	LastUpdated    *string       `json:"lastUpdated,omitempty"`
+	Plan           LicensePlan   `json:"plan"`
+	Sku            LicenseSku    `json:"sku"`
+	StartDate      *string       `json:"startDate,omitempty"`
+	Status         LicenseStatus `json:"status"`
 }
 
-func (ManagedXdrLicense) IsLicense() {}
-
-// The unique identifier for the license. If this value is not available, you can contact Cato Support, who may be able to assist in retrieving it.
-func (this ManagedXdrLicense) GetID() *string          { return this.ID }
-func (this ManagedXdrLicense) GetDescription() *string { return this.Description }
-
-// License plan type
-func (this ManagedXdrLicense) GetPlan() LicensePlan { return this.Plan }
-
-// The license SKU
-func (this ManagedXdrLicense) GetSku() LicenseSku { return this.Sku }
-
-// License activation status
-func (this ManagedXdrLicense) GetStatus() LicenseStatus { return this.Status }
-
-// License start date
-func (this ManagedXdrLicense) GetStartDate() *string { return this.StartDate }
-
-// License expiration date
+func (ManagedXdrLicense) IsLicense()                     {}
+func (this ManagedXdrLicense) GetDescription() *string   { return this.Description }
 func (this ManagedXdrLicense) GetExpirationDate() string { return this.ExpirationDate }
-
-// The date of the last update to the license
-func (this ManagedXdrLicense) GetLastUpdated() *string { return this.LastUpdated }
+func (this ManagedXdrLicense) GetID() *string            { return this.ID }
+func (this ManagedXdrLicense) GetLastUpdated() *string   { return this.LastUpdated }
+func (this ManagedXdrLicense) GetPlan() LicensePlan      { return this.Plan }
+func (this ManagedXdrLicense) GetSku() LicenseSku        { return this.Sku }
+func (this ManagedXdrLicense) GetStartDate() *string     { return this.StartDate }
+func (this ManagedXdrLicense) GetStatus() LicenseStatus  { return this.Status }
 
 // MDR service license details
 type MdrLicense struct {
-	Description *string `json:"description,omitempty"`
-	// License expiration date
-	ExpirationDate string `json:"expirationDate"`
-	// The unique identifier for the license. If this value is not available, you can contact Cato Support, who may be able to assist in retrieving it.
-	ID *string `json:"id,omitempty"`
-	// The date of the last update to the license
-	LastUpdated *string `json:"lastUpdated,omitempty"`
-	// License plan type
-	Plan LicensePlan `json:"plan"`
-	// The license SKU
-	Sku LicenseSku `json:"sku"`
-	// License start date
-	StartDate *string `json:"startDate,omitempty"`
-	// License activation status
-	Status LicenseStatus `json:"status"`
+	Description    *string       `json:"description,omitempty"`
+	ExpirationDate string        `json:"expirationDate"`
+	ID             *string       `json:"id,omitempty"`
+	LastUpdated    *string       `json:"lastUpdated,omitempty"`
+	Plan           LicensePlan   `json:"plan"`
+	Sku            LicenseSku    `json:"sku"`
+	StartDate      *string       `json:"startDate,omitempty"`
+	Status         LicenseStatus `json:"status"`
 }
 
-func (MdrLicense) IsLicense() {}
-
-// The unique identifier for the license. If this value is not available, you can contact Cato Support, who may be able to assist in retrieving it.
-func (this MdrLicense) GetID() *string          { return this.ID }
-func (this MdrLicense) GetDescription() *string { return this.Description }
-
-// License plan type
-func (this MdrLicense) GetPlan() LicensePlan { return this.Plan }
-
-// The license SKU
-func (this MdrLicense) GetSku() LicenseSku { return this.Sku }
-
-// License activation status
-func (this MdrLicense) GetStatus() LicenseStatus { return this.Status }
-
-// License start date
-func (this MdrLicense) GetStartDate() *string { return this.StartDate }
-
-// License expiration date
+func (MdrLicense) IsLicense()                     {}
+func (this MdrLicense) GetDescription() *string   { return this.Description }
 func (this MdrLicense) GetExpirationDate() string { return this.ExpirationDate }
-
-// The date of the last update to the license
-func (this MdrLicense) GetLastUpdated() *string { return this.LastUpdated }
+func (this MdrLicense) GetID() *string            { return this.ID }
+func (this MdrLicense) GetLastUpdated() *string   { return this.LastUpdated }
+func (this MdrLicense) GetPlan() LicensePlan      { return this.Plan }
+func (this MdrLicense) GetSku() LicenseSku        { return this.Sku }
+func (this MdrLicense) GetStartDate() *string     { return this.StartDate }
+func (this MdrLicense) GetStatus() LicenseStatus  { return this.Status }
 
 type Measure struct {
 	AggType   AggregationType   `json:"aggType"`
@@ -8743,46 +6430,25 @@ type MetricDetails struct {
 }
 
 type Metrics struct {
-	// total downstream traffic (from the Cato Cloud to the site)
-	BytesDownstream *float64 `json:"bytesDownstream,omitempty"`
-	// total traffic for the site
-	BytesTotal *float64 `json:"bytesTotal,omitempty"`
-	// total upstream traffic (from the site to the Cato Cloud)
-	BytesUpstream *float64 `json:"bytesUpstream,omitempty"`
-	// total amount of time for the site data
-	Duration *int64 `json:"duration,omitempty"`
-	// The number of flows (connections) in the tunnel. Relevant only for per site Metrics, ignored in per-interface
-	// metrics.
-	FlowCount *float64 `json:"flowCount,omitempty"`
-	// duration in seconds for a single metrics bucket
-	Granularity *int64 `json:"granularity,omitempty"`
-	// The number of hosts in the tunnel. Relevant only for per site Metrics, ignored in per-interface metrics.
-	HostCount *float64 `json:"hostCount,omitempty"`
-	// The configurable limit of the number of hosts in the tunnel. Relevant only for per site Metrics, ignored in
-	// per-interface metrics.
-	HostLimit *float64 `json:"hostLimit,omitempty"`
-	// jitter for downstream traffic (difference in time delay in milliseconds (ms) between data packets)
-	JitterDownstream *float64 `json:"jitterDownstream,omitempty"`
-	// jitter for upstream traffic (difference in time delay in milliseconds (ms) between data packets)
-	JitterUpstream *float64 `json:"jitterUpstream,omitempty"`
-	// number of packets lost for downstream traffic
-	LostDownstream *float64 `json:"lostDownstream,omitempty"`
-	// percent of packet loss for downstream traffic
-	LostDownstreamPcnt *float64 `json:"lostDownstreamPcnt,omitempty"`
-	// number of packets lost for upstream traffic
-	LostUpstream *float64 `json:"lostUpstream,omitempty"`
-	// percent of packet loss for upstream traffic
-	LostUpstreamPcnt *float64 `json:"lostUpstreamPcnt,omitempty"`
-	// total packets discarded for downstream traffic
+	BytesDownstream            *float64 `json:"bytesDownstream,omitempty"`
+	BytesTotal                 *float64 `json:"bytesTotal,omitempty"`
+	BytesUpstream              *float64 `json:"bytesUpstream,omitempty"`
+	Duration                   *int64   `json:"duration,omitempty"`
+	FlowCount                  *float64 `json:"flowCount,omitempty"`
+	Granularity                *int64   `json:"granularity,omitempty"`
+	HostCount                  *float64 `json:"hostCount,omitempty"`
+	HostLimit                  *float64 `json:"hostLimit,omitempty"`
+	JitterDownstream           *float64 `json:"jitterDownstream,omitempty"`
+	JitterUpstream             *float64 `json:"jitterUpstream,omitempty"`
+	LostDownstream             *float64 `json:"lostDownstream,omitempty"`
+	LostDownstreamPcnt         *float64 `json:"lostDownstreamPcnt,omitempty"`
+	LostUpstream               *float64 `json:"lostUpstream,omitempty"`
+	LostUpstreamPcnt           *float64 `json:"lostUpstreamPcnt,omitempty"`
 	PacketsDiscardedDownstream *float64 `json:"packetsDiscardedDownstream,omitempty"`
-	// total packets discarded for upstream traffic
-	PacketsDiscardedUpstream *float64 `json:"packetsDiscardedUpstream,omitempty"`
-	// total downstream packets
-	PacketsDownstream *float64 `json:"packetsDownstream,omitempty"`
-	// total upstream packets
-	PacketsUpstream *float64 `json:"packetsUpstream,omitempty"`
-	// round-trip time from the site to the Cato Cloud
-	Rtt *int64 `json:"rtt,omitempty"`
+	PacketsDiscardedUpstream   *float64 `json:"packetsDiscardedUpstream,omitempty"`
+	PacketsDownstream          *float64 `json:"packetsDownstream,omitempty"`
+	PacketsUpstream            *float64 `json:"packetsUpstream,omitempty"`
+	Rtt                        *int64   `json:"rtt,omitempty"`
 }
 
 // The `MicrosoftActivity` object represents an activity within Microsoft services, containing fields such as action type, timestamps for the first and last activity, and identifiers for the activity and its associated resources.
@@ -8797,8 +6463,8 @@ type MicrosoftActivity struct {
 
 func (MicrosoftActivity) IsActivity()                      {}
 func (this MicrosoftActivity) GetID() string               { return this.ID }
-func (this MicrosoftActivity) GetResourceID() string       { return this.ResourceID }
 func (this MicrosoftActivity) GetParentResourceID() string { return this.ParentResourceID }
+func (this MicrosoftActivity) GetResourceID() string       { return this.ResourceID }
 
 // The `MicrosoftDefenderEndpointAlert` object represents an alert generated by Microsoft Defender for Endpoint, containing details such as activities, classification, criticality, detection source, and recommended actions, among other attributes, to help in identifying and managing security threats.
 type MicrosoftDefenderEndpointAlert struct {
@@ -8834,42 +6500,7 @@ type MicrosoftDefenderEndpointAlert struct {
 	Title                 *string                     `json:"title,omitempty"`
 }
 
-func (MicrosoftDefenderEndpointAlert) IsEndpointAlert()             {}
-func (this MicrosoftDefenderEndpointAlert) GetID() string           { return this.ID }
-func (this MicrosoftDefenderEndpointAlert) GetTitle() *string       { return this.Title }
-func (this MicrosoftDefenderEndpointAlert) GetDescription() *string { return this.Description }
-func (this MicrosoftDefenderEndpointAlert) GetThreatName() *string  { return this.ThreatName }
-func (this MicrosoftDefenderEndpointAlert) GetMitreTechnique() []*Mitre {
-	if this.MitreTechnique == nil {
-		return nil
-	}
-	interfaceSlice := make([]*Mitre, 0, len(this.MitreTechnique))
-	for _, concrete := range this.MitreTechnique {
-		interfaceSlice = append(interfaceSlice, concrete)
-	}
-	return interfaceSlice
-}
-func (this MicrosoftDefenderEndpointAlert) GetMitreSubTechnique() []*Mitre {
-	if this.MitreSubTechnique == nil {
-		return nil
-	}
-	interfaceSlice := make([]*Mitre, 0, len(this.MitreSubTechnique))
-	for _, concrete := range this.MitreSubTechnique {
-		interfaceSlice = append(interfaceSlice, concrete)
-	}
-	return interfaceSlice
-}
-func (this MicrosoftDefenderEndpointAlert) GetCreatedDateTime() *string { return this.CreatedDateTime }
-func (this MicrosoftDefenderEndpointAlert) GetResources() []EndpointResource {
-	if this.Resources == nil {
-		return nil
-	}
-	interfaceSlice := make([]EndpointResource, 0, len(this.Resources))
-	for _, concrete := range this.Resources {
-		interfaceSlice = append(interfaceSlice, concrete)
-	}
-	return interfaceSlice
-}
+func (MicrosoftDefenderEndpointAlert) IsEndpointAlert() {}
 func (this MicrosoftDefenderEndpointAlert) GetActivities() []Activity {
 	if this.Activities == nil {
 		return nil
@@ -8880,9 +6511,44 @@ func (this MicrosoftDefenderEndpointAlert) GetActivities() []Activity {
 	}
 	return interfaceSlice
 }
-func (this MicrosoftDefenderEndpointAlert) GetCriticality() *int64 { return this.Criticality }
-func (this MicrosoftDefenderEndpointAlert) GetExternalIP() *string { return this.ExternalIP }
-func (this MicrosoftDefenderEndpointAlert) GetLocalIP() *string    { return this.LocalIP }
+func (this MicrosoftDefenderEndpointAlert) GetCreatedDateTime() *string { return this.CreatedDateTime }
+func (this MicrosoftDefenderEndpointAlert) GetCriticality() *int64      { return this.Criticality }
+func (this MicrosoftDefenderEndpointAlert) GetDescription() *string     { return this.Description }
+func (this MicrosoftDefenderEndpointAlert) GetExternalIP() *string      { return this.ExternalIP }
+func (this MicrosoftDefenderEndpointAlert) GetID() string               { return this.ID }
+func (this MicrosoftDefenderEndpointAlert) GetLocalIP() *string         { return this.LocalIP }
+func (this MicrosoftDefenderEndpointAlert) GetMitreSubTechnique() []*Mitre {
+	if this.MitreSubTechnique == nil {
+		return nil
+	}
+	interfaceSlice := make([]*Mitre, 0, len(this.MitreSubTechnique))
+	for _, concrete := range this.MitreSubTechnique {
+		interfaceSlice = append(interfaceSlice, concrete)
+	}
+	return interfaceSlice
+}
+func (this MicrosoftDefenderEndpointAlert) GetMitreTechnique() []*Mitre {
+	if this.MitreTechnique == nil {
+		return nil
+	}
+	interfaceSlice := make([]*Mitre, 0, len(this.MitreTechnique))
+	for _, concrete := range this.MitreTechnique {
+		interfaceSlice = append(interfaceSlice, concrete)
+	}
+	return interfaceSlice
+}
+func (this MicrosoftDefenderEndpointAlert) GetResources() []EndpointResource {
+	if this.Resources == nil {
+		return nil
+	}
+	interfaceSlice := make([]EndpointResource, 0, len(this.Resources))
+	for _, concrete := range this.Resources {
+		interfaceSlice = append(interfaceSlice, concrete)
+	}
+	return interfaceSlice
+}
+func (this MicrosoftDefenderEndpointAlert) GetThreatName() *string { return this.ThreatName }
+func (this MicrosoftDefenderEndpointAlert) GetTitle() *string      { return this.Title }
 
 // The `MicrosoftDeviceDetails` object represents detailed information about a Microsoft device, including its antivirus status, Azure AD device ID, device name, first seen date and time, health status, IP interfaces, logged-on users, onboarding status, operating system details, and RBAC group.
 type MicrosoftDeviceDetails struct {
@@ -8901,10 +6567,11 @@ type MicrosoftDeviceDetails struct {
 	RbacGroup         *RbacGroup              `json:"rbacGroup,omitempty"`
 }
 
-func (MicrosoftDeviceDetails) IsDeviceDetails()              {}
-func (this MicrosoftDeviceDetails) GetID() string            { return this.ID }
-func (this MicrosoftDeviceDetails) GetDeviceName() *string   { return this.DeviceName }
-func (this MicrosoftDeviceDetails) GetOsDetails() *OsDetails { return this.OsDetails }
+func (MicrosoftDeviceDetails) IsDeviceDetails()            {}
+func (this MicrosoftDeviceDetails) GetDeviceName() *string { return this.DeviceName }
+func (this MicrosoftDeviceDetails) GetExternalIP() *string { return this.ExternalIP }
+func (this MicrosoftDeviceDetails) GetID() string          { return this.ID }
+func (this MicrosoftDeviceDetails) GetLocalIP() *string    { return this.LocalIP }
 func (this MicrosoftDeviceDetails) GetLoggedOnUsers() []EndpointUser {
 	if this.LoggedOnUsers == nil {
 		return nil
@@ -8915,8 +6582,7 @@ func (this MicrosoftDeviceDetails) GetLoggedOnUsers() []EndpointUser {
 	}
 	return interfaceSlice
 }
-func (this MicrosoftDeviceDetails) GetExternalIP() *string { return this.ExternalIP }
-func (this MicrosoftDeviceDetails) GetLocalIP() *string    { return this.LocalIP }
+func (this MicrosoftDeviceDetails) GetOsDetails() *OsDetails { return this.OsDetails }
 
 // The `MicrosoftEndpoint` object represents a comprehensive data structure used in GraphQL queries or mutations, containing fields related to security alerts, device details, threat predictions, and other metadata associated with Microsoft's security ecosystem.
 type MicrosoftEndpoint struct {
@@ -8950,63 +6616,6 @@ type MicrosoftEndpoint struct {
 }
 
 func (MicrosoftEndpoint) IsEndpoint() {}
-
-// Unique Cato ID for the story
-func (this MicrosoftEndpoint) GetID() string { return this.ID }
-
-// Timestamp for the first incident signal related to this story
-func (this MicrosoftEndpoint) GetFirstSignal() string { return this.FirstSignal }
-
-// Timestamp for the last (most recent) incident signal related to this story
-func (this MicrosoftEndpoint) GetLastSignal() string { return this.LastSignal }
-
-// XDR engine involved with the incident
-func (this MicrosoftEndpoint) GetEngineType() *StoryEngineTypeEnum { return this.EngineType }
-
-// Vendor that identified the incident, such as Cato or Microsoft
-func (this MicrosoftEndpoint) GetVendor() *VendorEnum { return this.Vendor }
-
-// Enum for the Producer (specific XDR engine and service) involved with the incident
-func (this MicrosoftEndpoint) GetProducer() StoryProducerEnum { return this.Producer }
-
-// Full name of the Producer (specific XDR engine and service) involved with the incident
-func (this MicrosoftEndpoint) GetProducerName() string { return this.ProducerName }
-
-// Enum for the connection for this incident (ie. site, host, user)
-func (this MicrosoftEndpoint) GetConnectionType() *ConnectionTypeEnum { return this.ConnectionType }
-
-// An indication is a set of actions and behaviors for the Network or Security incident. Each producer has different indications.
-func (this MicrosoftEndpoint) GetIndication() string { return this.Indication }
-
-// Category for the indication ID related to the story
-func (this MicrosoftEndpoint) GetQueryName() *string { return this.QueryName }
-
-// IP address, name of device, or SDP user on your network involved in the story
-func (this MicrosoftEndpoint) GetSource() *string                   { return this.Source }
-func (this MicrosoftEndpoint) GetCriticality() *int64               { return this.Criticality }
-func (this MicrosoftEndpoint) GetTicket() *string                   { return this.Ticket }
-func (this MicrosoftEndpoint) GetStatus() *StoryStatusEnum          { return this.Status }
-func (this MicrosoftEndpoint) GetResearch() *bool                   { return this.Research }
-func (this MicrosoftEndpoint) GetSiteName() *string                 { return this.SiteName }
-func (this MicrosoftEndpoint) GetStoryDuration() *int64             { return this.StoryDuration }
-func (this MicrosoftEndpoint) GetDescription() *string              { return this.Description }
-func (this MicrosoftEndpoint) GetSourceIP() *string                 { return this.SourceIP }
-func (this MicrosoftEndpoint) GetAnalystFeedback() *AnalystFeedback { return this.AnalystFeedback }
-func (this MicrosoftEndpoint) GetSite() *SiteRef                    { return this.Site }
-func (this MicrosoftEndpoint) GetUser() *UserRef                    { return this.User }
-func (this MicrosoftEndpoint) GetSimilarStoriesData() []*SimilarStoryData {
-	if this.SimilarStoriesData == nil {
-		return nil
-	}
-	interfaceSlice := make([]*SimilarStoryData, 0, len(this.SimilarStoriesData))
-	for _, concrete := range this.SimilarStoriesData {
-		interfaceSlice = append(interfaceSlice, concrete)
-	}
-	return interfaceSlice
-}
-func (this MicrosoftEndpoint) GetPredictedVerdict() *StoryVerdictEnum { return this.PredictedVerdict }
-func (this MicrosoftEndpoint) GetPredictedThreatType() *string        { return this.PredictedThreatType }
-func (this MicrosoftEndpoint) GetDevice() DeviceDetails               { return *this.Device }
 func (this MicrosoftEndpoint) GetAlerts() []EndpointAlert {
 	if this.Alerts == nil {
 		return nil
@@ -9017,56 +6626,43 @@ func (this MicrosoftEndpoint) GetAlerts() []EndpointAlert {
 	}
 	return interfaceSlice
 }
+func (this MicrosoftEndpoint) GetAnalystFeedback() *AnalystFeedback   { return this.AnalystFeedback }
+func (this MicrosoftEndpoint) GetConnectionType() *ConnectionTypeEnum { return this.ConnectionType }
+func (this MicrosoftEndpoint) GetCriticality() *int64                 { return this.Criticality }
+func (this MicrosoftEndpoint) GetDescription() *string                { return this.Description }
+func (this MicrosoftEndpoint) GetDevice() DeviceDetails               { return *this.Device }
+func (this MicrosoftEndpoint) GetEngineType() *StoryEngineTypeEnum    { return this.EngineType }
+func (this MicrosoftEndpoint) GetFirstSignal() string                 { return this.FirstSignal }
+func (this MicrosoftEndpoint) GetID() string                          { return this.ID }
+func (this MicrosoftEndpoint) GetIndication() string                  { return this.Indication }
+func (this MicrosoftEndpoint) GetLastSignal() string                  { return this.LastSignal }
+func (this MicrosoftEndpoint) GetPredictedThreatType() *string        { return this.PredictedThreatType }
+func (this MicrosoftEndpoint) GetPredictedVerdict() *StoryVerdictEnum { return this.PredictedVerdict }
+func (this MicrosoftEndpoint) GetProducer() StoryProducerEnum         { return this.Producer }
+func (this MicrosoftEndpoint) GetProducerName() string                { return this.ProducerName }
+func (this MicrosoftEndpoint) GetQueryName() *string                  { return this.QueryName }
+func (this MicrosoftEndpoint) GetResearch() *bool                     { return this.Research }
+func (this MicrosoftEndpoint) GetSimilarStoriesData() []*SimilarStoryData {
+	if this.SimilarStoriesData == nil {
+		return nil
+	}
+	interfaceSlice := make([]*SimilarStoryData, 0, len(this.SimilarStoriesData))
+	for _, concrete := range this.SimilarStoriesData {
+		interfaceSlice = append(interfaceSlice, concrete)
+	}
+	return interfaceSlice
+}
+func (this MicrosoftEndpoint) GetSite() *SiteRef           { return this.Site }
+func (this MicrosoftEndpoint) GetSiteName() *string        { return this.SiteName }
+func (this MicrosoftEndpoint) GetSource() *string          { return this.Source }
+func (this MicrosoftEndpoint) GetSourceIP() *string        { return this.SourceIP }
+func (this MicrosoftEndpoint) GetStatus() *StoryStatusEnum { return this.Status }
+func (this MicrosoftEndpoint) GetStoryDuration() *int64    { return this.StoryDuration }
+func (this MicrosoftEndpoint) GetTicket() *string          { return this.Ticket }
+func (this MicrosoftEndpoint) GetUser() *UserRef           { return this.User }
+func (this MicrosoftEndpoint) GetVendor() *VendorEnum      { return this.Vendor }
 
 func (MicrosoftEndpoint) IsMergedIncident() {}
-
-// Unique Cato ID for each story
-
-// Timestamp for the first incident signal related to this story
-
-// Timestamp for the last (most recent) incident signal related to this story
-
-// XDR engine involved with the incident
-
-// Vendor that identified the incident, such as Cato or Microsoft
-
-// Producer (specific XDR engine and service) involved with the incident
-
-// Full name of the Producer (specific XDR engine and service) involved with the incident
-
-// Connection for the incident
-
-// An indication is a set of actions and behaviors for the Network or Security incident. Each producer has different indications.
-
-// Category for the indication ID related to the story
-
-// For Network stories - The potential impact of the issue on your network. Values are from 1 (low impact) to 10 (high impact)
-//
-// For Security stories - Cato's risk analysis of the story. Values are from 1 (low risk) to 10 (high risk)
-
-// For Network stories - The site where the network issue is occurring
-//
-// For Security stories - IP address, name of device, or SDP user on your network involved in the story
-
-// The ticket an analyst created for this story
-
-// Status for the story
-
-// The value is TRUE when the story is currently being researched by Security Analysts
-
-// Site name related to the story
-
-// Amount of time since the story was opened (no value for closed stories)
-
-// For Security stories, description of the threat
-
-// The source IP address of the device in your network sending or receiving the flow
-
-// Fields related to analysts research of the threat incident
-
-// Cato ID and name for the site
-
-// Cato ID and name for the user
 
 // The `MicrosoftEndpointUser` object represents a user associated with a Microsoft endpoint, containing fields such as account name, domain name, unique identifier, user name, principal name, and user security identifier.
 type MicrosoftEndpointUser struct {
@@ -9096,33 +6692,23 @@ type MicrosoftFileResource struct {
 }
 
 func (MicrosoftFileResource) IsEndpointResource()              {}
-func (this MicrosoftFileResource) GetID() string               { return this.ID }
 func (this MicrosoftFileResource) GetCreatedDateTime() *string { return this.CreatedDateTime }
+func (this MicrosoftFileResource) GetID() string               { return this.ID }
 func (this MicrosoftFileResource) GetRemediationStatus() *RemediationStatusEnum {
 	return this.RemediationStatus
 }
 
 func (MicrosoftFileResource) IsFileResource() {}
 
-func (this MicrosoftFileResource) GetFileDetails() *FileDetails { return this.FileDetails }
 func (this MicrosoftFileResource) GetDetectionStatus() *DetectionStatusEnum {
 	return this.DetectionStatus
 }
+func (this MicrosoftFileResource) GetFileDetails() *FileDetails { return this.FileDetails }
 
 func (MicrosoftFileResource) IsMicrosoftEndpointResource() {}
 
 func (this MicrosoftFileResource) GetRemediationStatusDetails() *string {
 	return this.RemediationStatusDetails
-}
-func (this MicrosoftFileResource) GetTags() []string {
-	if this.Tags == nil {
-		return nil
-	}
-	interfaceSlice := make([]string, 0, len(this.Tags))
-	for _, concrete := range this.Tags {
-		interfaceSlice = append(interfaceSlice, concrete)
-	}
-	return interfaceSlice
 }
 func (this MicrosoftFileResource) GetRoles() []ResourceRoleEnum {
 	if this.Roles == nil {
@@ -9130,6 +6716,16 @@ func (this MicrosoftFileResource) GetRoles() []ResourceRoleEnum {
 	}
 	interfaceSlice := make([]ResourceRoleEnum, 0, len(this.Roles))
 	for _, concrete := range this.Roles {
+		interfaceSlice = append(interfaceSlice, concrete)
+	}
+	return interfaceSlice
+}
+func (this MicrosoftFileResource) GetTags() []string {
+	if this.Tags == nil {
+		return nil
+	}
+	interfaceSlice := make([]string, 0, len(this.Tags))
+	for _, concrete := range this.Tags {
 		interfaceSlice = append(interfaceSlice, concrete)
 	}
 	return interfaceSlice
@@ -9156,8 +6752,8 @@ type MicrosoftNetworkResource struct {
 }
 
 func (MicrosoftNetworkResource) IsEndpointResource()              {}
-func (this MicrosoftNetworkResource) GetID() string               { return this.ID }
 func (this MicrosoftNetworkResource) GetCreatedDateTime() *string { return this.CreatedDateTime }
+func (this MicrosoftNetworkResource) GetID() string               { return this.ID }
 func (this MicrosoftNetworkResource) GetRemediationStatus() *RemediationStatusEnum {
 	return this.RemediationStatus
 }
@@ -9166,16 +6762,6 @@ func (MicrosoftNetworkResource) IsMicrosoftEndpointResource() {}
 
 func (this MicrosoftNetworkResource) GetRemediationStatusDetails() *string {
 	return this.RemediationStatusDetails
-}
-func (this MicrosoftNetworkResource) GetTags() []string {
-	if this.Tags == nil {
-		return nil
-	}
-	interfaceSlice := make([]string, 0, len(this.Tags))
-	for _, concrete := range this.Tags {
-		interfaceSlice = append(interfaceSlice, concrete)
-	}
-	return interfaceSlice
 }
 func (this MicrosoftNetworkResource) GetRoles() []ResourceRoleEnum {
 	if this.Roles == nil {
@@ -9187,17 +6773,29 @@ func (this MicrosoftNetworkResource) GetRoles() []ResourceRoleEnum {
 	}
 	return interfaceSlice
 }
+func (this MicrosoftNetworkResource) GetTags() []string {
+	if this.Tags == nil {
+		return nil
+	}
+	interfaceSlice := make([]string, 0, len(this.Tags))
+	for _, concrete := range this.Tags {
+		interfaceSlice = append(interfaceSlice, concrete)
+	}
+	return interfaceSlice
+}
 func (this MicrosoftNetworkResource) GetVerdict() *MsResourceVerdictEnum { return this.Verdict }
 
 func (MicrosoftNetworkResource) IsNetworkResource() {}
 
-func (this MicrosoftNetworkResource) GetDNSRequest() *string     { return this.DNSRequest }
-func (this MicrosoftNetworkResource) GetDNSResponse() *string    { return this.DNSResponse }
 func (this MicrosoftNetworkResource) GetDestinationIP() *string  { return this.DestinationIP }
 func (this MicrosoftNetworkResource) GetDestinationPort() *int64 { return this.DestinationPort }
-func (this MicrosoftNetworkResource) GetSourcePort() *int64      { return this.SourcePort }
-func (this MicrosoftNetworkResource) GetURL() *string            { return this.URL }
-func (this MicrosoftNetworkResource) GetMethod() *string         { return this.Method }
+func (this MicrosoftNetworkResource) GetDNSRequest() *string     { return this.DNSRequest }
+func (this MicrosoftNetworkResource) GetDNSResponse() *string    { return this.DNSResponse }
+
+func (this MicrosoftNetworkResource) GetMethod() *string { return this.Method }
+
+func (this MicrosoftNetworkResource) GetSourcePort() *int64 { return this.SourcePort }
+func (this MicrosoftNetworkResource) GetURL() *string       { return this.URL }
 
 // The `MicrosoftProcessResource` object represents a process resource in a Microsoft environment, containing fields such as creation date, process ID, command line details, remediation status, roles, tags, user account information, and a verdict on the process's nature.
 type MicrosoftProcessResource struct {
@@ -9216,8 +6814,8 @@ type MicrosoftProcessResource struct {
 }
 
 func (MicrosoftProcessResource) IsEndpointResource()              {}
-func (this MicrosoftProcessResource) GetID() string               { return this.ID }
 func (this MicrosoftProcessResource) GetCreatedDateTime() *string { return this.CreatedDateTime }
+func (this MicrosoftProcessResource) GetID() string               { return this.ID }
 func (this MicrosoftProcessResource) GetRemediationStatus() *RemediationStatusEnum {
 	return this.RemediationStatus
 }
@@ -9226,16 +6824,6 @@ func (MicrosoftProcessResource) IsMicrosoftEndpointResource() {}
 
 func (this MicrosoftProcessResource) GetRemediationStatusDetails() *string {
 	return this.RemediationStatusDetails
-}
-func (this MicrosoftProcessResource) GetTags() []string {
-	if this.Tags == nil {
-		return nil
-	}
-	interfaceSlice := make([]string, 0, len(this.Tags))
-	for _, concrete := range this.Tags {
-		interfaceSlice = append(interfaceSlice, concrete)
-	}
-	return interfaceSlice
 }
 func (this MicrosoftProcessResource) GetRoles() []ResourceRoleEnum {
 	if this.Roles == nil {
@@ -9247,14 +6835,25 @@ func (this MicrosoftProcessResource) GetRoles() []ResourceRoleEnum {
 	}
 	return interfaceSlice
 }
+func (this MicrosoftProcessResource) GetTags() []string {
+	if this.Tags == nil {
+		return nil
+	}
+	interfaceSlice := make([]string, 0, len(this.Tags))
+	for _, concrete := range this.Tags {
+		interfaceSlice = append(interfaceSlice, concrete)
+	}
+	return interfaceSlice
+}
 func (this MicrosoftProcessResource) GetVerdict() *MsResourceVerdictEnum { return this.Verdict }
 
 func (MicrosoftProcessResource) IsProcessResource() {}
 
-func (this MicrosoftProcessResource) GetProcessID() int64            { return this.ProcessID }
-func (this MicrosoftProcessResource) GetProcessCommandLine() *string { return this.ProcessCommandLine }
 func (this MicrosoftProcessResource) GetImageFile() *FileDetails     { return this.ImageFile }
-func (this MicrosoftProcessResource) GetUserAccount() EndpointUser   { return this.UserAccount }
+func (this MicrosoftProcessResource) GetProcessCommandLine() *string { return this.ProcessCommandLine }
+func (this MicrosoftProcessResource) GetProcessID() int64            { return this.ProcessID }
+
+func (this MicrosoftProcessResource) GetUserAccount() EndpointUser { return this.UserAccount }
 
 // The `MicrosoftRegistryResource` object represents a registry resource in a Microsoft environment, containing fields such as creation date, hive, key, remediation status, roles, tags, and verdict, which are used to manage and assess the resource's status and attributes.
 type MicrosoftRegistryResource struct {
@@ -9273,8 +6872,8 @@ type MicrosoftRegistryResource struct {
 }
 
 func (MicrosoftRegistryResource) IsEndpointResource()              {}
-func (this MicrosoftRegistryResource) GetID() string               { return this.ID }
 func (this MicrosoftRegistryResource) GetCreatedDateTime() *string { return this.CreatedDateTime }
+func (this MicrosoftRegistryResource) GetID() string               { return this.ID }
 func (this MicrosoftRegistryResource) GetRemediationStatus() *RemediationStatusEnum {
 	return this.RemediationStatus
 }
@@ -9283,16 +6882,6 @@ func (MicrosoftRegistryResource) IsMicrosoftEndpointResource() {}
 
 func (this MicrosoftRegistryResource) GetRemediationStatusDetails() *string {
 	return this.RemediationStatusDetails
-}
-func (this MicrosoftRegistryResource) GetTags() []string {
-	if this.Tags == nil {
-		return nil
-	}
-	interfaceSlice := make([]string, 0, len(this.Tags))
-	for _, concrete := range this.Tags {
-		interfaceSlice = append(interfaceSlice, concrete)
-	}
-	return interfaceSlice
 }
 func (this MicrosoftRegistryResource) GetRoles() []ResourceRoleEnum {
 	if this.Roles == nil {
@@ -9304,12 +6893,24 @@ func (this MicrosoftRegistryResource) GetRoles() []ResourceRoleEnum {
 	}
 	return interfaceSlice
 }
+func (this MicrosoftRegistryResource) GetTags() []string {
+	if this.Tags == nil {
+		return nil
+	}
+	interfaceSlice := make([]string, 0, len(this.Tags))
+	for _, concrete := range this.Tags {
+		interfaceSlice = append(interfaceSlice, concrete)
+	}
+	return interfaceSlice
+}
 func (this MicrosoftRegistryResource) GetVerdict() *MsResourceVerdictEnum { return this.Verdict }
 
 func (MicrosoftRegistryResource) IsRegistryResource() {}
 
-func (this MicrosoftRegistryResource) GetHive() *string      { return this.Hive }
-func (this MicrosoftRegistryResource) GetKey() *string       { return this.Key }
+func (this MicrosoftRegistryResource) GetHive() *string { return this.Hive }
+
+func (this MicrosoftRegistryResource) GetKey() *string { return this.Key }
+
 func (this MicrosoftRegistryResource) GetValue() *string     { return this.Value }
 func (this MicrosoftRegistryResource) GetValueName() *string { return this.ValueName }
 func (this MicrosoftRegistryResource) GetValueType() *string { return this.ValueType }
@@ -9324,49 +6925,27 @@ type Mutation struct {
 
 // NOC as a Service (NOCaaS) service license details
 type NOCaaSLicense struct {
-	Description *string `json:"description,omitempty"`
-	// License expiration date
-	ExpirationDate string `json:"expirationDate"`
-	// The unique identifier for the license. If this value is not available, you can contact Cato Support, who may be able to assist in retrieving it.
-	ID *string `json:"id,omitempty"`
-	// The date of the last update to the license
-	LastUpdated *string `json:"lastUpdated,omitempty"`
-	// License plan type
-	Plan LicensePlan `json:"plan"`
-	// The license SKU
-	Sku LicenseSku `json:"sku"`
-	// License start date
-	StartDate *string `json:"startDate,omitempty"`
-	// License activation status
-	Status LicenseStatus `json:"status"`
+	Description    *string       `json:"description,omitempty"`
+	ExpirationDate string        `json:"expirationDate"`
+	ID             *string       `json:"id,omitempty"`
+	LastUpdated    *string       `json:"lastUpdated,omitempty"`
+	Plan           LicensePlan   `json:"plan"`
+	Sku            LicenseSku    `json:"sku"`
+	StartDate      *string       `json:"startDate,omitempty"`
+	Status         LicenseStatus `json:"status"`
 }
 
-func (NOCaaSLicense) IsLicense() {}
-
-// The unique identifier for the license. If this value is not available, you can contact Cato Support, who may be able to assist in retrieving it.
-func (this NOCaaSLicense) GetID() *string          { return this.ID }
-func (this NOCaaSLicense) GetDescription() *string { return this.Description }
-
-// License plan type
-func (this NOCaaSLicense) GetPlan() LicensePlan { return this.Plan }
-
-// The license SKU
-func (this NOCaaSLicense) GetSku() LicenseSku { return this.Sku }
-
-// License activation status
-func (this NOCaaSLicense) GetStatus() LicenseStatus { return this.Status }
-
-// License start date
-func (this NOCaaSLicense) GetStartDate() *string { return this.StartDate }
-
-// License expiration date
+func (NOCaaSLicense) IsLicense()                     {}
+func (this NOCaaSLicense) GetDescription() *string   { return this.Description }
 func (this NOCaaSLicense) GetExpirationDate() string { return this.ExpirationDate }
-
-// The date of the last update to the license
-func (this NOCaaSLicense) GetLastUpdated() *string { return this.LastUpdated }
+func (this NOCaaSLicense) GetID() *string            { return this.ID }
+func (this NOCaaSLicense) GetLastUpdated() *string   { return this.LastUpdated }
+func (this NOCaaSLicense) GetPlan() LicensePlan      { return this.Plan }
+func (this NOCaaSLicense) GetSku() LicenseSku        { return this.Sku }
+func (this NOCaaSLicense) GetStartDate() *string     { return this.StartDate }
+func (this NOCaaSLicense) GetStatus() LicenseStatus  { return this.Status }
 
 type NetworkDhcpSettingsInput struct {
-	// Only relevant for DHCP range
 	DhcpMicrosegmentation *bool    `json:"dhcpMicrosegmentation,omitempty"`
 	DhcpType              DhcpType `json:"dhcpType"`
 	IPRange               *string  `json:"ipRange,omitempty"`
@@ -9379,12 +6958,8 @@ type NetworkInterfaceRef struct {
 	Name string `json:"name"`
 }
 
-func (NetworkInterfaceRef) IsObjectRef() {}
-
-// Object's unique identifier
-func (this NetworkInterfaceRef) GetID() string { return this.ID }
-
-// Object's unique name
+func (NetworkInterfaceRef) IsObjectRef()         {}
+func (this NetworkInterfaceRef) GetID() string   { return this.ID }
 func (this NetworkInterfaceRef) GetName() string { return this.Name }
 
 type NetworkInterfaceRefInput struct {
@@ -9499,130 +7074,58 @@ type NetworkXDRIncident struct {
 	Vendor                  *VendorEnum               `json:"vendor,omitempty"`
 }
 
-func (NetworkXDRIncident) IsMergedIncident() {}
-
-// Unique Cato ID for each story
-func (this NetworkXDRIncident) GetID() string { return this.ID }
-
-// Timestamp for the first incident signal related to this story
-func (this NetworkXDRIncident) GetFirstSignal() string { return this.FirstSignal }
-
-// Timestamp for the last (most recent) incident signal related to this story
-func (this NetworkXDRIncident) GetLastSignal() string { return this.LastSignal }
-
-// XDR engine involved with the incident
-func (this NetworkXDRIncident) GetEngineType() *StoryEngineTypeEnum { return this.EngineType }
-
-// Vendor that identified the incident, such as Cato or Microsoft
-func (this NetworkXDRIncident) GetVendor() *VendorEnum { return this.Vendor }
-
-// Producer (specific XDR engine and service) involved with the incident
-func (this NetworkXDRIncident) GetProducer() StoryProducerEnum { return this.Producer }
-
-// Full name of the Producer (specific XDR engine and service) involved with the incident
-func (this NetworkXDRIncident) GetProducerName() string { return this.ProducerName }
-
-// Connection for the incident
+func (NetworkXDRIncident) IsMergedIncident()                           {}
+func (this NetworkXDRIncident) GetAnalystFeedback() *AnalystFeedback   { return this.AnalystFeedback }
 func (this NetworkXDRIncident) GetConnectionType() *ConnectionTypeEnum { return this.ConnectionType }
-
-// An indication is a set of actions and behaviors for the Network or Security incident. Each producer has different indications.
-func (this NetworkXDRIncident) GetIndication() string { return this.Indication }
-
-// Category for the indication ID related to the story
-func (this NetworkXDRIncident) GetQueryName() *string { return this.QueryName }
-
-// For Network stories - The potential impact of the issue on your network. Values are from 1 (low impact) to 10 (high impact)
-//
-// For Security stories - Cato's risk analysis of the story. Values are from 1 (low risk) to 10 (high risk)
-func (this NetworkXDRIncident) GetCriticality() *int64 { return this.Criticality }
-
-// For Network stories - The site where the network issue is occurring
-//
-// For Security stories - IP address, name of device, or SDP user on your network involved in the story
-func (this NetworkXDRIncident) GetSource() *string { return this.Source }
-
-// The ticket an analyst created for this story
-func (this NetworkXDRIncident) GetTicket() *string { return this.Ticket }
-
-// Status for the story
-func (this NetworkXDRIncident) GetStatus() *StoryStatusEnum { return this.Status }
-
-// The value is TRUE when the story is currently being researched by Security Analysts
-func (this NetworkXDRIncident) GetResearch() *bool { return this.Research }
-
-// Site name related to the story
-func (this NetworkXDRIncident) GetSiteName() *string { return &this.SiteName }
-
-// Amount of time since the story was opened (no value for closed stories)
-func (this NetworkXDRIncident) GetStoryDuration() *int64 { return this.StoryDuration }
-
-// For Security stories, description of the threat
-func (this NetworkXDRIncident) GetDescription() *string { return this.Description }
-
-// The source IP address of the device in your network sending or receiving the flow
-func (this NetworkXDRIncident) GetSourceIP() *string { return this.SourceIP }
-
-// Fields related to analysts research of the threat incident
-func (this NetworkXDRIncident) GetAnalystFeedback() *AnalystFeedback { return this.AnalystFeedback }
-
-// Cato ID and name for the site
-func (this NetworkXDRIncident) GetSite() *SiteRef { return this.Site }
-
-// Cato ID and name for the user
-func (this NetworkXDRIncident) GetUser() *UserRef                      { return this.User }
-func (this NetworkXDRIncident) GetPredictedVerdict() *StoryVerdictEnum { return this.PredictedVerdict }
+func (this NetworkXDRIncident) GetCriticality() *int64                 { return this.Criticality }
+func (this NetworkXDRIncident) GetDescription() *string                { return this.Description }
+func (this NetworkXDRIncident) GetEngineType() *StoryEngineTypeEnum    { return this.EngineType }
+func (this NetworkXDRIncident) GetFirstSignal() string                 { return this.FirstSignal }
+func (this NetworkXDRIncident) GetID() string                          { return this.ID }
+func (this NetworkXDRIncident) GetIndication() string                  { return this.Indication }
+func (this NetworkXDRIncident) GetLastSignal() string                  { return this.LastSignal }
 func (this NetworkXDRIncident) GetPredictedThreatType() *string        { return this.PredictedThreatType }
+func (this NetworkXDRIncident) GetPredictedVerdict() *StoryVerdictEnum { return this.PredictedVerdict }
+func (this NetworkXDRIncident) GetProducer() StoryProducerEnum         { return this.Producer }
+func (this NetworkXDRIncident) GetProducerName() string                { return this.ProducerName }
+func (this NetworkXDRIncident) GetQueryName() *string                  { return this.QueryName }
+func (this NetworkXDRIncident) GetResearch() *bool                     { return this.Research }
+func (this NetworkXDRIncident) GetSite() *SiteRef                      { return this.Site }
+func (this NetworkXDRIncident) GetSiteName() *string                   { return &this.SiteName }
+func (this NetworkXDRIncident) GetSource() *string                     { return this.Source }
+func (this NetworkXDRIncident) GetSourceIP() *string                   { return this.SourceIP }
+func (this NetworkXDRIncident) GetStatus() *StoryStatusEnum            { return this.Status }
+func (this NetworkXDRIncident) GetStoryDuration() *int64               { return this.StoryDuration }
+func (this NetworkXDRIncident) GetTicket() *string                     { return this.Ticket }
+func (this NetworkXDRIncident) GetUser() *UserRef                      { return this.User }
+func (this NetworkXDRIncident) GetVendor() *VendorEnum                 { return this.Vendor }
 
 // NG Anti-Malware service license details (Legacy license, replaced by TP)
 type NextGenMalwareProtectionLicense struct {
-	Description *string `json:"description,omitempty"`
-	// License expiration date
-	ExpirationDate string `json:"expirationDate"`
-	// The unique identifier for the license. If this value is not available, you can contact Cato Support, who may be able to assist in retrieving it.
-	ID *string `json:"id,omitempty"`
-	// The date of the last update to the license
-	LastUpdated *string `json:"lastUpdated,omitempty"`
-	// License plan type
-	Plan LicensePlan `json:"plan"`
-	// The license SKU
-	Sku LicenseSku `json:"sku"`
-	// License start date
-	StartDate *string `json:"startDate,omitempty"`
-	// License activation status
-	Status LicenseStatus `json:"status"`
+	Description    *string       `json:"description,omitempty"`
+	ExpirationDate string        `json:"expirationDate"`
+	ID             *string       `json:"id,omitempty"`
+	LastUpdated    *string       `json:"lastUpdated,omitempty"`
+	Plan           LicensePlan   `json:"plan"`
+	Sku            LicenseSku    `json:"sku"`
+	StartDate      *string       `json:"startDate,omitempty"`
+	Status         LicenseStatus `json:"status"`
 }
 
-func (NextGenMalwareProtectionLicense) IsLicense() {}
-
-// The unique identifier for the license. If this value is not available, you can contact Cato Support, who may be able to assist in retrieving it.
-func (this NextGenMalwareProtectionLicense) GetID() *string          { return this.ID }
-func (this NextGenMalwareProtectionLicense) GetDescription() *string { return this.Description }
-
-// License plan type
-func (this NextGenMalwareProtectionLicense) GetPlan() LicensePlan { return this.Plan }
-
-// The license SKU
-func (this NextGenMalwareProtectionLicense) GetSku() LicenseSku { return this.Sku }
-
-// License activation status
-func (this NextGenMalwareProtectionLicense) GetStatus() LicenseStatus { return this.Status }
-
-// License start date
-func (this NextGenMalwareProtectionLicense) GetStartDate() *string { return this.StartDate }
-
-// License expiration date
+func (NextGenMalwareProtectionLicense) IsLicense()                     {}
+func (this NextGenMalwareProtectionLicense) GetDescription() *string   { return this.Description }
 func (this NextGenMalwareProtectionLicense) GetExpirationDate() string { return this.ExpirationDate }
-
-// The date of the last update to the license
-func (this NextGenMalwareProtectionLicense) GetLastUpdated() *string { return this.LastUpdated }
+func (this NextGenMalwareProtectionLicense) GetID() *string            { return this.ID }
+func (this NextGenMalwareProtectionLicense) GetLastUpdated() *string   { return this.LastUpdated }
+func (this NextGenMalwareProtectionLicense) GetPlan() LicensePlan      { return this.Plan }
+func (this NextGenMalwareProtectionLicense) GetSku() LicenseSku        { return this.Sku }
+func (this NextGenMalwareProtectionLicense) GetStartDate() *string     { return this.StartDate }
+func (this NextGenMalwareProtectionLicense) GetStatus() LicenseStatus  { return this.Status }
 
 type OriginTypeFilterInput struct {
-	// Has all - include devices that have all specified origin types
 	HasAll []OriginType `json:"hasAll,omitempty"`
-	// In - include devices that have any of the specified origin types
-	In []OriginType `json:"in,omitempty"`
-	// Not in - exclude devices that have any of the specified origin types
-	Nin []OriginType `json:"nin,omitempty"`
+	In     []OriginType `json:"in,omitempty"`
+	Nin    []OriginType `json:"nin,omitempty"`
 }
 
 type OsDetails struct {
@@ -9636,11 +7139,8 @@ type PageInfo struct {
 }
 
 type Paging struct {
-	// Based on the filter and sort parameters, the first story that is returned
-	From int64 `json:"from"`
-	// Based on the filter and sort parameters, the number of stories returned after the from. For example, the argument {from: 10, limit: 10} returns stories 10-20.
+	From  int64 `json:"from"`
 	Limit int64 `json:"limit"`
-	// Total number of stories returned
 	Total int64 `json:"total"`
 }
 
@@ -9650,17 +7150,13 @@ type PagingInput struct {
 }
 
 type PartnerPooledBandwidthLicenseAccount struct {
-	// Identifying data for the account
-	Account *AccountRef `json:"account"`
-	// Allocated bandwidth for this account
-	AllocatedBandwidth int64 `json:"allocatedBandwidth"`
+	Account            *AccountRef `json:"account"`
+	AllocatedBandwidth int64       `json:"allocatedBandwidth"`
 }
 
 // Represents available versions for a specific platform.
 type PlatformVersions struct {
-	// The platform for which versions are retrieved.
-	Platform string `json:"platform"`
-	// List of available socket versions for this platform.
+	Platform string   `json:"platform"`
 	Versions []string `json:"versions"`
 }
 
@@ -9730,19 +7226,15 @@ type PolicyDiscardRevisionInput struct {
 }
 
 type PolicyElementAudit struct {
-	// The admin, or the API-key, that performed the last update
-	UpdatedBy string `json:"updatedBy"`
-	// The last date and time the rule was updated
+	UpdatedBy   string `json:"updatedBy"`
 	UpdatedTime string `json:"updatedTime"`
 }
 
 // Reference to a policy element (section, rule, or sub-rule) identified by ID or name.
 // Follows the same convention as other ObjectRef inputs in the platform.
 type PolicyElementRefInput struct {
-	// Defines the object identification method – by ID (default) or by name
-	By ObjectRefBy `json:"by"`
-	// The object identification (ID or name) value
-	Input string `json:"input"`
+	By    ObjectRefBy `json:"by"`
+	Input string      `json:"input"`
 }
 
 type PolicyHitCount struct {
@@ -9861,8 +7353,8 @@ type PolicyMutationRevisionInput struct {
 
 type PolicyMutations struct {
 	AntiMalwareFileHash  *AntiMalwareFileHashPolicyMutations  `json:"antiMalwareFileHash,omitempty"`
-	ApplicationControl   *ApplicationControlPolicyMutations   `json:"applicationControl,omitempty"`
 	AppTenantRestriction *AppTenantRestrictionPolicyMutations `json:"appTenantRestriction,omitempty"`
+	ApplicationControl   *ApplicationControlPolicyMutations   `json:"applicationControl,omitempty"`
 	DynamicIPAllocation  *DynamicIPAllocationPolicyMutations  `json:"dynamicIpAllocation,omitempty"`
 	InternetFirewall     *InternetFirewallPolicyMutations     `json:"internetFirewall,omitempty"`
 	PrivateAccess        *PrivateAccessPolicyMutations        `json:"privateAccess,omitempty"`
@@ -9886,8 +7378,8 @@ type PolicyPublishRevisionInput struct {
 // policies which configuration can be read with query APIs.
 type PolicyQueries struct {
 	AntiMalwareFileHash  *AntiMalwareFileHashPolicyQueries  `json:"antiMalwareFileHash,omitempty"`
-	ApplicationControl   *ApplicationControlPolicyQueries   `json:"applicationControl,omitempty"`
 	AppTenantRestriction *AppTenantRestrictionPolicyQueries `json:"appTenantRestriction,omitempty"`
+	ApplicationControl   *ApplicationControlPolicyQueries   `json:"applicationControl,omitempty"`
 	DynamicIPAllocation  *DynamicIPAllocationPolicyQueries  `json:"dynamicIpAllocation,omitempty"`
 	InternetFirewall     *InternetFirewallPolicyQueries     `json:"internetFirewall,omitempty"`
 	PrivateAccess        *PrivateAccessPolicyQueries        `json:"privateAccess,omitempty"`
@@ -9909,34 +7401,27 @@ type PolicyRemoveSectionInput struct {
 // System sections and system rules must remain at their persisted positions (same array index).
 // The desired order is determined by the natural (array index) order of the elements.
 type PolicyReorderInput struct {
-	// Ordered list of all sections in the policy, in the desired order. System sections must remain at their persisted index.
-	Sections []*PolicyReorderSectionInput `json:"sections"`
-	// Optional sub-policy ID. When provided, the reorder applies only to sections and rules within the specified sub-policy.
-	SubPolicyID *string `json:"subPolicyId,omitempty"`
+	Sections    []*PolicyReorderSectionInput `json:"sections"`
+	SubPolicyID *string                      `json:"subPolicyId,omitempty"`
 }
 
 // Defines the desired order of a rule and its sub-rules within a section.
 // Rules are reordered based on their natural position in the array.
 type PolicyReorderRuleInput struct {
-	// Reference to the rule (by ID or name)
-	Ref *PolicyElementRefInput `json:"ref"`
-	// Ordered list of all sub-rules within this rule. Required only for rules that have sub-rules.
+	Ref      *PolicyElementRefInput       `json:"ref"`
 	SubRules []*PolicyReorderSubRuleInput `json:"subRules"`
 }
 
 // Defines the desired order of a section and its rules within the policy.
 // Sections are reordered based on their natural position in the array.
 type PolicyReorderSectionInput struct {
-	// Reference to the section (by ID or name)
-	Ref *PolicyElementRefInput `json:"ref"`
-	// Ordered list of all rules within this section, in the desired order
+	Ref   *PolicyElementRefInput    `json:"ref"`
 	Rules []*PolicyReorderRuleInput `json:"rules"`
 }
 
 // Defines the desired order of sub-rules within a parent rule.
 // Sub-rules are reordered based on their natural position in the array.
 type PolicyReorderSubRuleInput struct {
-	// Reference to the sub-rule (by ID or name)
 	Ref *PolicyElementRefInput `json:"ref"`
 }
 
@@ -9963,9 +7448,7 @@ type PolicyRevisionsPayload struct {
 
 // Returns the time period during which the rule is active, outside this period, the rule is inactive
 type PolicyRuleActivePeriod struct {
-	// The time the rule becomes active, if not used, default null
-	EffectiveFrom *string `json:"effectiveFrom,omitempty"`
-	// The time the rule expires, if not used, default null
+	EffectiveFrom    *string `json:"effectiveFrom,omitempty"`
 	ExpiresAt        *string `json:"expiresAt,omitempty"`
 	UseEffectiveFrom bool    `json:"useEffectiveFrom"`
 	UseExpiresAt     bool    `json:"useExpiresAt"`
@@ -9973,9 +7456,7 @@ type PolicyRuleActivePeriod struct {
 
 // Input of the time period during which the rule is active, outside this period, the rule is inactive
 type PolicyRuleActivePeriodInput struct {
-	// The time the rule becomes active, if not used, default null
-	EffectiveFrom *string `json:"effectiveFrom,omitempty"`
-	// The time the rule expires, if not used, default null
+	EffectiveFrom    *string `json:"effectiveFrom,omitempty"`
 	ExpiresAt        *string `json:"expiresAt,omitempty"`
 	UseEffectiveFrom bool    `json:"useEffectiveFrom"`
 	UseExpiresAt     bool    `json:"useExpiresAt"`
@@ -9983,9 +7464,7 @@ type PolicyRuleActivePeriodInput struct {
 
 // Input of the time period during which the rule is active, outside this period, the rule is inactive
 type PolicyRuleActivePeriodUpdateInput struct {
-	// The time the rule becomes active, if not used, default null
-	EffectiveFrom *string `json:"effectiveFrom,omitempty"`
-	// The time the rule expires, if not used, default null
+	EffectiveFrom    *string `json:"effectiveFrom,omitempty"`
 	ExpiresAt        *string `json:"expiresAt,omitempty"`
 	UseEffectiveFrom *bool   `json:"useEffectiveFrom,omitempty"`
 	UseExpiresAt     *bool   `json:"useExpiresAt,omitempty"`
@@ -9993,52 +7472,35 @@ type PolicyRuleActivePeriodUpdateInput struct {
 
 // Parameters required to define the rule position
 type PolicyRulePositionInput struct {
-	// Position relative to a policy, a section or another rule
 	Position *PolicyRulePositionEnum `json:"position,omitempty"`
-	// The identifier of the object (e.g. a rule, a section) relative to which the position of the added rule is defined
-	Ref *string `json:"ref,omitempty"`
+	Ref      *string                 `json:"ref,omitempty"`
 }
 
 // Returns data for the alert settings for the rule
 type PolicyRuleTrackingAlert struct {
-	// TRUE – send alerts when the rule is matched, FALSE – don’t send alerts when the rule is matched
-	Enabled bool `json:"enabled"`
-	// Returns data for the alert frequency
-	Frequency PolicyRuleTrackingFrequencyEnum `json:"frequency"`
-	// Returns data for the Mailing List that receives the alert
-	MailingList []*SubscriptionMailingListRef `json:"mailingList"`
-	// Returns data for the Subscription Group that receives the alert
-	SubscriptionGroup []*SubscriptionGroupRef `json:"subscriptionGroup"`
-	// Returns data for the Webhook that receives the alert
-	Webhook []*SubscriptionWebhookRef `json:"webhook"`
+	Enabled           bool                            `json:"enabled"`
+	Frequency         PolicyRuleTrackingFrequencyEnum `json:"frequency"`
+	MailingList       []*SubscriptionMailingListRef   `json:"mailingList"`
+	SubscriptionGroup []*SubscriptionGroupRef         `json:"subscriptionGroup"`
+	Webhook           []*SubscriptionWebhookRef       `json:"webhook"`
 }
 
 // Input of data for the alert settings for the rule
 type PolicyRuleTrackingAlertInput struct {
-	// TRUE – send alerts when the rule is matched, FALSE – don’t send alerts when the rule is matched
-	Enabled bool `json:"enabled"`
-	// Returns data for the alert frequency
-	Frequency PolicyRuleTrackingFrequencyEnum `json:"frequency"`
-	// Returns data for the Mailing List that receives the alert
-	MailingList []*SubscriptionMailingListRefInput `json:"mailingList"`
-	// Returns data for the Subscription Group that receives the alert
-	SubscriptionGroup []*SubscriptionGroupRefInput `json:"subscriptionGroup"`
-	// Returns data for the Webhook that receives the alert
-	Webhook []*SubscriptionWebhookRefInput `json:"webhook"`
+	Enabled           bool                               `json:"enabled"`
+	Frequency         PolicyRuleTrackingFrequencyEnum    `json:"frequency"`
+	MailingList       []*SubscriptionMailingListRefInput `json:"mailingList"`
+	SubscriptionGroup []*SubscriptionGroupRefInput       `json:"subscriptionGroup"`
+	Webhook           []*SubscriptionWebhookRefInput     `json:"webhook"`
 }
 
 // Input of data for the alert settings for the rule
 type PolicyRuleTrackingAlertUpdateInput struct {
-	// TRUE – send alerts when the rule is matched, FALSE – don’t send alerts when the rule is matched
-	Enabled *bool `json:"enabled,omitempty"`
-	// Returns data for the alert frequency
-	Frequency *PolicyRuleTrackingFrequencyEnum `json:"frequency,omitempty"`
-	// Returns data for the Mailing List that receives the alert
-	MailingList []*SubscriptionMailingListRefInput `json:"mailingList,omitempty"`
-	// Returns data for the Subscription Group that receives the alert
-	SubscriptionGroup []*SubscriptionGroupRefInput `json:"subscriptionGroup,omitempty"`
-	// Returns data for the Webhook that receives the alert
-	Webhook []*SubscriptionWebhookRefInput `json:"webhook,omitempty"`
+	Enabled           *bool                              `json:"enabled,omitempty"`
+	Frequency         *PolicyRuleTrackingFrequencyEnum   `json:"frequency,omitempty"`
+	MailingList       []*SubscriptionMailingListRefInput `json:"mailingList,omitempty"`
+	SubscriptionGroup []*SubscriptionGroupRefInput       `json:"subscriptionGroup,omitempty"`
+	Webhook           []*SubscriptionWebhookRefInput     `json:"webhook,omitempty"`
 }
 
 // Returns data if an alert is sent for a rule
@@ -10101,10 +7563,8 @@ type PolicySectionPositionInput struct {
 
 // Parameters required to define the rule position
 type PolicySubRulePositionInput struct {
-	// Position relative to a policy, a section or another rule
 	Position PolicySubRulePositionEnum `json:"position"`
-	// The identifier of the sub-rule relative to which the position of the added rule is defined
-	Ref string `json:"ref"`
+	Ref      string                    `json:"ref"`
 }
 
 type PolicyTracking struct {
@@ -10132,99 +7592,48 @@ type PolicyUpdateSectionInput struct {
 }
 
 type PooledBandwidthLicense struct {
-	// Accounts that this license is assigned to (and the license usage within each account)
-	Accounts []*PartnerPooledBandwidthLicenseAccount `json:"accounts"`
-	// allocated bandwidth, in Mbps, for all the sites assigned to this license.
-	AllocatedBandwidth int64   `json:"allocatedBandwidth"`
-	Description        *string `json:"description,omitempty"`
-	// License expiration date
-	ExpirationDate string `json:"expirationDate"`
-	// The unique identifier for the license. If this value is not available, you can contact Cato Support, who may be able to assist in retrieving it.
-	ID *string `json:"id,omitempty"`
-	// The date of the last update to the license
-	LastUpdated *string `json:"lastUpdated,omitempty"`
-	// License plan type
-	Plan LicensePlan `json:"plan"`
-	// Regional license group
-	SiteLicenseGroup SiteLicenseGroup `json:"siteLicenseGroup"`
-	// The selected service type, e.g SASE or SSE.
-	SiteLicenseType SiteLicenseType `json:"siteLicenseType"`
-	// Sites that this license is assigned to (and the license usage within each site)
-	Sites []*PooledBandwidthLicenseSite `json:"sites"`
-	// The license SKU
-	Sku LicenseSku `json:"sku"`
-	// License start date
-	StartDate *string `json:"startDate,omitempty"`
-	// License activation status
-	Status LicenseStatus `json:"status"`
-	// Maximum available bandwidth, in Mbps, for all the sites under this license. This constitutes the bandwidth pool that is allocated to different sites.
-	Total int64 `json:"total"`
+	Accounts           []*PartnerPooledBandwidthLicenseAccount `json:"accounts"`
+	AllocatedBandwidth int64                                   `json:"allocatedBandwidth"`
+	Description        *string                                 `json:"description,omitempty"`
+	ExpirationDate     string                                  `json:"expirationDate"`
+	ID                 *string                                 `json:"id,omitempty"`
+	LastUpdated        *string                                 `json:"lastUpdated,omitempty"`
+	Plan               LicensePlan                             `json:"plan"`
+	SiteLicenseGroup   SiteLicenseGroup                        `json:"siteLicenseGroup"`
+	SiteLicenseType    SiteLicenseType                         `json:"siteLicenseType"`
+	Sites              []*PooledBandwidthLicenseSite           `json:"sites"`
+	Sku                LicenseSku                              `json:"sku"`
+	StartDate          *string                                 `json:"startDate,omitempty"`
+	Status             LicenseStatus                           `json:"status"`
+	Total              int64                                   `json:"total"`
 }
 
-func (PooledBandwidthLicense) IsLicense() {}
-
-// The unique identifier for the license. If this value is not available, you can contact Cato Support, who may be able to assist in retrieving it.
-func (this PooledBandwidthLicense) GetID() *string          { return this.ID }
-func (this PooledBandwidthLicense) GetDescription() *string { return this.Description }
-
-// License plan type
-func (this PooledBandwidthLicense) GetPlan() LicensePlan { return this.Plan }
-
-// The license SKU
-func (this PooledBandwidthLicense) GetSku() LicenseSku { return this.Sku }
-
-// License activation status
-func (this PooledBandwidthLicense) GetStatus() LicenseStatus { return this.Status }
-
-// License start date
-func (this PooledBandwidthLicense) GetStartDate() *string { return this.StartDate }
-
-// License expiration date
+func (PooledBandwidthLicense) IsLicense()                     {}
+func (this PooledBandwidthLicense) GetDescription() *string   { return this.Description }
 func (this PooledBandwidthLicense) GetExpirationDate() string { return this.ExpirationDate }
-
-// The date of the last update to the license
-func (this PooledBandwidthLicense) GetLastUpdated() *string { return this.LastUpdated }
+func (this PooledBandwidthLicense) GetID() *string            { return this.ID }
+func (this PooledBandwidthLicense) GetLastUpdated() *string   { return this.LastUpdated }
+func (this PooledBandwidthLicense) GetPlan() LicensePlan      { return this.Plan }
+func (this PooledBandwidthLicense) GetSku() LicenseSku        { return this.Sku }
+func (this PooledBandwidthLicense) GetStartDate() *string     { return this.StartDate }
+func (this PooledBandwidthLicense) GetStatus() LicenseStatus  { return this.Status }
 
 func (PooledBandwidthLicense) IsQuantifiableLicense() {}
 
-// The unique identifier for the license. If this value is not available, you can contact Cato Support, who may be able to assist in retrieving it.
-
-// License plan type
-
-// The license SKU
-
-// License activation status
-
-// License initiation date
-
-// License expiration date
-
-// The date of the last update to the license
-
-// license quantity
 func (this PooledBandwidthLicense) GetTotal() int64 { return this.Total }
 
 type PooledBandwidthLicenseSite struct {
-	// Allocated bandwidth for this site
-	AllocatedBandwidth int64 `json:"allocatedBandwidth"`
-	// Identifying data for the site
-	Site *SiteRef `json:"site"`
+	AllocatedBandwidth int64    `json:"allocatedBandwidth"`
+	Site               *SiteRef `json:"site"`
 }
 
 type PopLocation struct {
-	// Lists the available cloud interconnect options (e.g., AWS Direct Connect, Azure ExpressRoute) at this PoP.
-	// Each entry in the list is a PopLocationCloudInterconnect object describing interconnect capabilities.
 	CloudInterconnect []*PopLocationCloudInterconnect `json:"cloudInterconnect"`
-	// Reference to the country where the PoP resides. Links to a CountryRef object that may contain name, ISO code, or additional geopolitical metadata
-	Country *CountryRef `json:"country"`
-	// User-facing name of the PoP (e.g., for dashboards or UI displays). Often formatted for readability
-	DisplayName string `json:"displayName"`
-	// Unique identifier for the PoP location. Globally unique across the Cato platform
-	ID string `json:"id"`
-	// indicates whether the PoP is a private location (customer-owned or dedicated) as opposed to part of the public/shared Cato cloud
-	IsPrivate bool `json:"isPrivate"`
-	// Internal name of the PoP location, used for system-level identification. Usually the city of the PoP
-	Name string `json:"name"`
+	Country           *CountryRef                     `json:"country"`
+	DisplayName       string                          `json:"displayName"`
+	ID                string                          `json:"id"`
+	IsPrivate         bool                            `json:"isPrivate"`
+	Name              string                          `json:"name"`
 }
 
 type PopLocationCloudInterconnect struct {
@@ -10237,20 +7646,13 @@ type PopLocationCloudInterconnectFilterInput struct {
 }
 
 type PopLocationFilterInput struct {
-	// Filters PoPs based on their geographical country. Useful for regional filtering or compliance.
-	Country *CountryRefFilterInput `json:"country,omitempty"`
-	// PoP location's unique identifier (ID).
-	ID *IDFilterInput `json:"id,omitempty"`
-	// Filter by setting - cloud interconnect tags (e.g.,1Q or QinQ).
+	Country             *CountryRefFilterInput                   `json:"country,omitempty"`
+	ID                  *IDFilterInput                           `json:"id,omitempty"`
 	InterconnectTagging *PopLocationCloudInterconnectFilterInput `json:"interconnectTagging,omitempty"`
-	// Filters based on whether a PoP is private or public and a part of the Cato Cloud (public or reserved for a specific partner/customer).
-	IsPrivate *BooleanFilterInput `json:"isPrivate,omitempty"`
-	// Filter by name of the PoP Location, usually represented by the city.
-	Name *StringFilterInput `json:"name,omitempty"`
-	// Filters for PoPs marked as “primary,” likely signifying main or preferred locations in a geographic area.
-	Primary *BooleanFilterInput `json:"primary,omitempty"`
-	// Filters PoPs based on regional licensing rules or designations, possibly aligning with regional compliance or pricing.
-	SiteLicenseRegion *StringFilterInput `json:"siteLicenseRegion,omitempty"`
+	IsPrivate           *BooleanFilterInput                      `json:"isPrivate,omitempty"`
+	Name                *StringFilterInput                       `json:"name,omitempty"`
+	Primary             *BooleanFilterInput                      `json:"primary,omitempty"`
+	SiteLicenseRegion   *StringFilterInput                       `json:"siteLicenseRegion,omitempty"`
 }
 
 type PopLocationMachineRef struct {
@@ -10258,16 +7660,11 @@ type PopLocationMachineRef struct {
 	Name string `json:"name"`
 }
 
-func (PopLocationMachineRef) IsObjectRef() {}
-
-// Object's unique identifier
-func (this PopLocationMachineRef) GetID() string { return this.ID }
-
-// Object's unique name
+func (PopLocationMachineRef) IsObjectRef()         {}
+func (this PopLocationMachineRef) GetID() string   { return this.ID }
 func (this PopLocationMachineRef) GetName() string { return this.Name }
 
 type PopLocationPayload struct {
-	// The actual list of PoP locations matching the given filter criteria. Each entry is a non-null PopLocation object.
 	Items []*PopLocation `json:"items"`
 }
 
@@ -10281,12 +7678,8 @@ type PopLocationRef struct {
 	Name string `json:"name"`
 }
 
-func (PopLocationRef) IsObjectRef() {}
-
-// Object's unique identifier
-func (this PopLocationRef) GetID() string { return this.ID }
-
-// Object's unique name
+func (PopLocationRef) IsObjectRef()         {}
+func (this PopLocationRef) GetID() string   { return this.ID }
 func (this PopLocationRef) GetName() string { return this.Name }
 
 type PopLocationRefInput struct {
@@ -10299,12 +7692,8 @@ type PopLocationServiceUnitRef struct {
 	Name string `json:"name"`
 }
 
-func (PopLocationServiceUnitRef) IsObjectRef() {}
-
-// Object's unique identifier
-func (this PopLocationServiceUnitRef) GetID() string { return this.ID }
-
-// Object's unique name
+func (PopLocationServiceUnitRef) IsObjectRef()         {}
+func (this PopLocationServiceUnitRef) GetID() string   { return this.ID }
 func (this PopLocationServiceUnitRef) GetName() string { return this.Name }
 
 // Inclusive network port range
@@ -10325,39 +7714,24 @@ type PortRangeUpdateInput struct {
 }
 
 type PostalAddress struct {
-	// Primary address
-	Address1 *string `json:"address1,omitempty"`
-	// Secondary address (unit number)
-	Address2 *string `json:"address2,omitempty"`
-	// Address validation status
+	Address1         *string                 `json:"address1,omitempty"`
+	Address2         *string                 `json:"address2,omitempty"`
 	AddressValidated AddressValidationStatus `json:"addressValidated"`
-	// City
-	CityName *string `json:"cityName,omitempty"`
-	// Country
-	Country *CountryRef `json:"country"`
-	// State (only for USA)
-	StateName *string `json:"stateName,omitempty"`
-	// Street name and number
-	Street *string `json:"street,omitempty"`
-	// Zip Code
-	ZipCode *string `json:"zipCode,omitempty"`
+	CityName         *string                 `json:"cityName,omitempty"`
+	Country          *CountryRef             `json:"country"`
+	StateName        *string                 `json:"stateName,omitempty"`
+	Street           *string                 `json:"street,omitempty"`
+	ZipCode          *string                 `json:"zipCode,omitempty"`
 }
 
 type PostalAddressInput struct {
-	// Primary address
-	Address1 *string `json:"address1,omitempty"`
-	// Secondary address (unit number)
-	Address2 *string `json:"address2,omitempty"`
-	// City
-	CityName *string `json:"cityName,omitempty"`
-	// Country
-	Country *CountryRefInput `json:"country"`
-	// State (only for USA)
-	StateName *string `json:"stateName,omitempty"`
-	// Street name and number
-	Street *string `json:"street,omitempty"`
-	// Zip Code
-	ZipCode *string `json:"zipCode,omitempty"`
+	Address1  *string          `json:"address1,omitempty"`
+	Address2  *string          `json:"address2,omitempty"`
+	CityName  *string          `json:"cityName,omitempty"`
+	Country   *CountryRefInput `json:"country"`
+	StateName *string          `json:"stateName,omitempty"`
+	Street    *string          `json:"street,omitempty"`
+	ZipCode   *string          `json:"zipCode,omitempty"`
 }
 
 type PostureAttributes struct {
@@ -10402,12 +7776,10 @@ type PrivateAccessPolicy struct {
 	Sections []*PolicySectionPayload     `json:"sections"`
 }
 
-func (PrivateAccessPolicy) IsIPolicy() {}
-
-// TRUE = Policy is enabled, FALSE = Policy is disabled
-func (this PrivateAccessPolicy) GetEnabled() bool { return this.Enabled }
-
-// Return list of rules in the policy
+func (PrivateAccessPolicy) IsIPolicy()                        {}
+func (this PrivateAccessPolicy) GetAudit() *PolicyAudit       { return this.Audit }
+func (this PrivateAccessPolicy) GetEnabled() bool             { return this.Enabled }
+func (this PrivateAccessPolicy) GetRevision() *PolicyRevision { return this.Revision }
 func (this PrivateAccessPolicy) GetRules() []IPolicyRulePayload {
 	if this.Rules == nil {
 		return nil
@@ -10418,8 +7790,6 @@ func (this PrivateAccessPolicy) GetRules() []IPolicyRulePayload {
 	}
 	return interfaceSlice
 }
-
-// Return sections in the policy
 func (this PrivateAccessPolicy) GetSections() []*PolicySectionPayload {
 	if this.Sections == nil {
 		return nil
@@ -10430,12 +7800,6 @@ func (this PrivateAccessPolicy) GetSections() []*PolicySectionPayload {
 	}
 	return interfaceSlice
 }
-
-// Audit data for the policy
-func (this PrivateAccessPolicy) GetAudit() *PolicyAudit { return this.Audit }
-
-// Return data for the Policy revision
-func (this PrivateAccessPolicy) GetRevision() *PolicyRevision { return this.Revision }
 
 type PrivateAccessPolicyAction struct {
 	Action PrivateAccessPolicyActionEnum `json:"action"`
@@ -10476,14 +7840,6 @@ type PrivateAccessPolicyMutationPayload struct {
 }
 
 func (PrivateAccessPolicyMutationPayload) IsIPolicyMutationPayload() {}
-
-// Data for the policy
-func (this PrivateAccessPolicyMutationPayload) GetPolicy() IPolicy { return *this.Policy }
-
-// Enum for the status of the policy change
-func (this PrivateAccessPolicyMutationPayload) GetStatus() PolicyMutationStatus { return this.Status }
-
-// List of errors related to the policy change
 func (this PrivateAccessPolicyMutationPayload) GetErrors() []*PolicyMutationError {
 	if this.Errors == nil {
 		return nil
@@ -10494,6 +7850,8 @@ func (this PrivateAccessPolicyMutationPayload) GetErrors() []*PolicyMutationErro
 	}
 	return interfaceSlice
 }
+func (this PrivateAccessPolicyMutationPayload) GetPolicy() IPolicy              { return *this.Policy }
+func (this PrivateAccessPolicyMutationPayload) GetStatus() PolicyMutationStatus { return this.Status }
 
 type PrivateAccessPolicyMutations struct {
 	AddRule               *PrivateAccessRuleMutationPayload   `json:"addRule"`
@@ -10558,24 +7916,12 @@ type PrivateAccessRule struct {
 	UserAttributes   *PrivateAccessUserAttributes    `json:"userAttributes"`
 }
 
-func (PrivateAccessRule) IsIPolicyRule() {}
-
-// Rule ID
-func (this PrivateAccessRule) GetID() string { return this.ID }
-
-// Name of the rule
-func (this PrivateAccessRule) GetName() string { return this.Name }
-
-// Description for the rule
-func (this PrivateAccessRule) GetDescription() *string { return &this.Description }
-
-// Position / priority of rule
-func (this PrivateAccessRule) GetIndex() int64 { return this.Index }
-
-// TRUE = Rule is enabled, FALSE = Rule is disabled
-func (this PrivateAccessRule) GetEnabled() bool { return this.Enabled }
-
-// Policy section where the rule is located
+func (PrivateAccessRule) IsIPolicyRule()                      {}
+func (this PrivateAccessRule) GetDescription() *string        { return &this.Description }
+func (this PrivateAccessRule) GetEnabled() bool               { return this.Enabled }
+func (this PrivateAccessRule) GetID() string                  { return this.ID }
+func (this PrivateAccessRule) GetIndex() int64                { return this.Index }
+func (this PrivateAccessRule) GetName() string                { return this.Name }
 func (this PrivateAccessRule) GetSection() *PolicySectionInfo { return this.Section }
 
 type PrivateAccessRuleMutationPayload struct {
@@ -10585,14 +7931,6 @@ type PrivateAccessRuleMutationPayload struct {
 }
 
 func (PrivateAccessRuleMutationPayload) IsIPolicyRuleMutationPayload() {}
-
-// Returns settings for the rule
-func (this PrivateAccessRuleMutationPayload) GetRule() IPolicyRulePayload { return *this.Rule }
-
-// Enum for the status of the policy change
-func (this PrivateAccessRuleMutationPayload) GetStatus() PolicyMutationStatus { return this.Status }
-
-// List of errors related to the policy change
 func (this PrivateAccessRuleMutationPayload) GetErrors() []*PolicyMutationError {
 	if this.Errors == nil {
 		return nil
@@ -10603,6 +7941,8 @@ func (this PrivateAccessRuleMutationPayload) GetErrors() []*PolicyMutationError 
 	}
 	return interfaceSlice
 }
+func (this PrivateAccessRuleMutationPayload) GetRule() IPolicyRulePayload     { return *this.Rule }
+func (this PrivateAccessRuleMutationPayload) GetStatus() PolicyMutationStatus { return this.Status }
 
 type PrivateAccessRulePayload struct {
 	Audit      *PolicyElementAudit           `json:"audit"`
@@ -10612,11 +7952,6 @@ type PrivateAccessRulePayload struct {
 
 func (PrivateAccessRulePayload) IsIPolicyRulePayload()              {}
 func (this PrivateAccessRulePayload) GetAudit() *PolicyElementAudit { return this.Audit }
-
-// Rule that was changed
-func (this PrivateAccessRulePayload) GetRule() IPolicyRule { return *this.Rule }
-
-// Summary of rule change, (ie. ADDED, UPDATED)
 func (this PrivateAccessRulePayload) GetProperties() []PolicyElementPropertiesEnum {
 	if this.Properties == nil {
 		return nil
@@ -10627,6 +7962,7 @@ func (this PrivateAccessRulePayload) GetProperties() []PolicyElementPropertiesEn
 	}
 	return interfaceSlice
 }
+func (this PrivateAccessRulePayload) GetRule() IPolicyRule { return *this.Rule }
 
 type PrivateAccessUpdateRuleDataInput struct {
 	Action           *PrivateAccessPolicyActionUpdateInput      `json:"action,omitempty"`
@@ -10704,12 +8040,8 @@ type PrivateApplicationRef struct {
 	Name string `json:"name"`
 }
 
-func (PrivateApplicationRef) IsObjectRef() {}
-
-// Object's unique identifier
-func (this PrivateApplicationRef) GetID() string { return this.ID }
-
-// Object's unique name
+func (PrivateApplicationRef) IsObjectRef()         {}
+func (this PrivateApplicationRef) GetID() string   { return this.ID }
 func (this PrivateApplicationRef) GetName() string { return this.Name }
 
 type PrivateApplicationRefInput struct {
@@ -10719,66 +8051,29 @@ type PrivateApplicationRefInput struct {
 
 // Public IP address license
 type PublicIpsLicense struct {
-	Description *string `json:"description,omitempty"`
-	// License expiration date
-	ExpirationDate string `json:"expirationDate"`
-	// The unique identifier for the license. If this value is not available, you can contact Cato Support, who may be able to assist in retrieving it.
-	ID *string `json:"id,omitempty"`
-	// The date of the last update to the license
-	LastUpdated *string `json:"lastUpdated,omitempty"`
-	// License plan type
-	Plan LicensePlan `json:"plan"`
-	// The license SKU
-	Sku LicenseSku `json:"sku"`
-	// License start date
-	StartDate *string `json:"startDate,omitempty"`
-	// License activation status
-	Status LicenseStatus `json:"status"`
-	// The number of public IPs available in the licenses
-	Total int64 `json:"total"`
+	Description    *string       `json:"description,omitempty"`
+	ExpirationDate string        `json:"expirationDate"`
+	ID             *string       `json:"id,omitempty"`
+	LastUpdated    *string       `json:"lastUpdated,omitempty"`
+	Plan           LicensePlan   `json:"plan"`
+	Sku            LicenseSku    `json:"sku"`
+	StartDate      *string       `json:"startDate,omitempty"`
+	Status         LicenseStatus `json:"status"`
+	Total          int64         `json:"total"`
 }
 
-func (PublicIpsLicense) IsLicense() {}
-
-// The unique identifier for the license. If this value is not available, you can contact Cato Support, who may be able to assist in retrieving it.
-func (this PublicIpsLicense) GetID() *string          { return this.ID }
-func (this PublicIpsLicense) GetDescription() *string { return this.Description }
-
-// License plan type
-func (this PublicIpsLicense) GetPlan() LicensePlan { return this.Plan }
-
-// The license SKU
-func (this PublicIpsLicense) GetSku() LicenseSku { return this.Sku }
-
-// License activation status
-func (this PublicIpsLicense) GetStatus() LicenseStatus { return this.Status }
-
-// License start date
-func (this PublicIpsLicense) GetStartDate() *string { return this.StartDate }
-
-// License expiration date
+func (PublicIpsLicense) IsLicense()                     {}
+func (this PublicIpsLicense) GetDescription() *string   { return this.Description }
 func (this PublicIpsLicense) GetExpirationDate() string { return this.ExpirationDate }
-
-// The date of the last update to the license
-func (this PublicIpsLicense) GetLastUpdated() *string { return this.LastUpdated }
+func (this PublicIpsLicense) GetID() *string            { return this.ID }
+func (this PublicIpsLicense) GetLastUpdated() *string   { return this.LastUpdated }
+func (this PublicIpsLicense) GetPlan() LicensePlan      { return this.Plan }
+func (this PublicIpsLicense) GetSku() LicenseSku        { return this.Sku }
+func (this PublicIpsLicense) GetStartDate() *string     { return this.StartDate }
+func (this PublicIpsLicense) GetStatus() LicenseStatus  { return this.Status }
 
 func (PublicIpsLicense) IsQuantifiableLicense() {}
 
-// The unique identifier for the license. If this value is not available, you can contact Cato Support, who may be able to assist in retrieving it.
-
-// License plan type
-
-// The license SKU
-
-// License activation status
-
-// License initiation date
-
-// License expiration date
-
-// The date of the last update to the license
-
-// license quantity
 func (this PublicIpsLicense) GetTotal() int64 { return this.Total }
 
 // IP addresses license usage and allocation across all accounts
@@ -10821,58 +8116,33 @@ type RbacGroup struct {
 
 // Remote Browser Isolation (RBI) service license details
 type RbiLicense struct {
-	Description *string `json:"description,omitempty"`
-	// License expiration date
-	ExpirationDate string `json:"expirationDate"`
-	// The unique identifier for the license. If this value is not available, you can contact Cato Support, who may be able to assist in retrieving it.
-	ID *string `json:"id,omitempty"`
-	// The date of the last update to the license
-	LastUpdated *string `json:"lastUpdated,omitempty"`
-	// License plan type
-	Plan LicensePlan `json:"plan"`
-	// The license SKU
-	Sku LicenseSku `json:"sku"`
-	// License start date
-	StartDate *string `json:"startDate,omitempty"`
-	// License activation status
-	Status LicenseStatus `json:"status"`
+	Description    *string       `json:"description,omitempty"`
+	ExpirationDate string        `json:"expirationDate"`
+	ID             *string       `json:"id,omitempty"`
+	LastUpdated    *string       `json:"lastUpdated,omitempty"`
+	Plan           LicensePlan   `json:"plan"`
+	Sku            LicenseSku    `json:"sku"`
+	StartDate      *string       `json:"startDate,omitempty"`
+	Status         LicenseStatus `json:"status"`
 }
 
-func (RbiLicense) IsLicense() {}
-
-// The unique identifier for the license. If this value is not available, you can contact Cato Support, who may be able to assist in retrieving it.
-func (this RbiLicense) GetID() *string          { return this.ID }
-func (this RbiLicense) GetDescription() *string { return this.Description }
-
-// License plan type
-func (this RbiLicense) GetPlan() LicensePlan { return this.Plan }
-
-// The license SKU
-func (this RbiLicense) GetSku() LicenseSku { return this.Sku }
-
-// License activation status
-func (this RbiLicense) GetStatus() LicenseStatus { return this.Status }
-
-// License start date
-func (this RbiLicense) GetStartDate() *string { return this.StartDate }
-
-// License expiration date
+func (RbiLicense) IsLicense()                     {}
+func (this RbiLicense) GetDescription() *string   { return this.Description }
 func (this RbiLicense) GetExpirationDate() string { return this.ExpirationDate }
-
-// The date of the last update to the license
-func (this RbiLicense) GetLastUpdated() *string { return this.LastUpdated }
+func (this RbiLicense) GetID() *string            { return this.ID }
+func (this RbiLicense) GetLastUpdated() *string   { return this.LastUpdated }
+func (this RbiLicense) GetPlan() LicensePlan      { return this.Plan }
+func (this RbiLicense) GetSku() LicenseSku        { return this.Sku }
+func (this RbiLicense) GetStartDate() *string     { return this.StartDate }
+func (this RbiLicense) GetStatus() LicenseStatus  { return this.Status }
 
 type RbiProfileRef struct {
 	ID   string `json:"id"`
 	Name string `json:"name"`
 }
 
-func (RbiProfileRef) IsObjectRef() {}
-
-// Object's unique identifier
-func (this RbiProfileRef) GetID() string { return this.ID }
-
-// Object's unique name
+func (RbiProfileRef) IsObjectRef()         {}
+func (this RbiProfileRef) GetID() string   { return this.ID }
 func (this RbiProfileRef) GetName() string { return this.Name }
 
 type RbiProfileRefInput struct {
@@ -10881,20 +8151,13 @@ type RbiProfileRefInput struct {
 }
 
 type RecentConnection struct {
-	// Serial number for the Device
-	DeviceName *string `json:"deviceName,omitempty"`
-	// The duration of the connection
-	Duration *int64 `json:"duration,omitempty"`
-	// Name for the port in the Cato Management Application
+	DeviceName    *string `json:"deviceName,omitempty"`
+	Duration      *int64  `json:"duration,omitempty"`
 	InterfaceName *string `json:"interfaceName,omitempty"`
-	// The last time this connection was detected (so lastConnected - duration is the start of the connection
 	LastConnected *string `json:"lastConnected,omitempty"`
-	// The name of the PoP that the traffic flow was connected to
-	PopName *string `json:"popName,omitempty"`
-	// IP address the ISP allocates to the WAN link
-	RemoteIP *string `json:"remoteIP,omitempty"`
-	// IP address, ISP, and geographical information related to the PoP that the traffic flow was connected to
-	RemoteIPInfo *IPInfo `json:"remoteIPInfo,omitempty"`
+	PopName       *string `json:"popName,omitempty"`
+	RemoteIP      *string `json:"remoteIP,omitempty"`
+	RemoteIPInfo  *IPInfo `json:"remoteIPInfo,omitempty"`
 }
 
 type RemotePortFwdAddRuleDataInput struct {
@@ -10913,9 +8176,7 @@ type RemotePortFwdAddRuleDataInput struct {
 
 // Rule parameters and relevant position
 type RemotePortFwdAddRuleInput struct {
-	// Position of the rule in the policy
-	At *PolicyRulePositionInput `json:"at,omitempty"`
-	// Parameters for the rule you are adding
+	At   *PolicyRulePositionInput       `json:"at,omitempty"`
 	Rule *RemotePortFwdAddRuleDataInput `json:"rule"`
 }
 
@@ -10927,12 +8188,10 @@ type RemotePortFwdPolicy struct {
 	Sections []*PolicySectionPayload     `json:"sections"`
 }
 
-func (RemotePortFwdPolicy) IsIPolicy() {}
-
-// TRUE = Policy is enabled, FALSE = Policy is disabled
-func (this RemotePortFwdPolicy) GetEnabled() bool { return this.Enabled }
-
-// Return list of rules in the policy
+func (RemotePortFwdPolicy) IsIPolicy()                        {}
+func (this RemotePortFwdPolicy) GetAudit() *PolicyAudit       { return this.Audit }
+func (this RemotePortFwdPolicy) GetEnabled() bool             { return this.Enabled }
+func (this RemotePortFwdPolicy) GetRevision() *PolicyRevision { return this.Revision }
 func (this RemotePortFwdPolicy) GetRules() []IPolicyRulePayload {
 	if this.Rules == nil {
 		return nil
@@ -10943,8 +8202,6 @@ func (this RemotePortFwdPolicy) GetRules() []IPolicyRulePayload {
 	}
 	return interfaceSlice
 }
-
-// Return sections in the policy
 func (this RemotePortFwdPolicy) GetSections() []*PolicySectionPayload {
 	if this.Sections == nil {
 		return nil
@@ -10956,18 +8213,7 @@ func (this RemotePortFwdPolicy) GetSections() []*PolicySectionPayload {
 	return interfaceSlice
 }
 
-// Audit data for the policy
-func (this RemotePortFwdPolicy) GetAudit() *PolicyAudit { return this.Audit }
-
-// Return data for the Policy revision
-func (this RemotePortFwdPolicy) GetRevision() *PolicyRevision { return this.Revision }
-
 type RemotePortFwdPolicyInput struct {
-	// A revision is a specific instance of the policy.
-	//  Unpublished revisions are working copies of the policy available to a specific
-	//  admin or a set of admins
-	//  Published revisions are revisions that were applied to the account network.
-	//  The last published revision is the active policy.
 	Revision *PolicyRevisionInput `json:"revision,omitempty"`
 }
 
@@ -10983,14 +8229,6 @@ type RemotePortFwdPolicyMutationPayload struct {
 }
 
 func (RemotePortFwdPolicyMutationPayload) IsIPolicyMutationPayload() {}
-
-// Data for the policy
-func (this RemotePortFwdPolicyMutationPayload) GetPolicy() IPolicy { return *this.Policy }
-
-// Enum for the status of the policy change
-func (this RemotePortFwdPolicyMutationPayload) GetStatus() PolicyMutationStatus { return this.Status }
-
-// List of errors related to the policy change
 func (this RemotePortFwdPolicyMutationPayload) GetErrors() []*PolicyMutationError {
 	if this.Errors == nil {
 		return nil
@@ -11001,38 +8239,23 @@ func (this RemotePortFwdPolicyMutationPayload) GetErrors() []*PolicyMutationErro
 	}
 	return interfaceSlice
 }
+func (this RemotePortFwdPolicyMutationPayload) GetPolicy() IPolicy              { return *this.Policy }
+func (this RemotePortFwdPolicyMutationPayload) GetStatus() PolicyMutationStatus { return this.Status }
 
 // The Remote Port Forwarding Policy information returned to the caller in the API response.
 type RemotePortFwdPolicyMutations struct {
-	// Add a new port forwarding rule to enable remote access to internal services.
-	AddRule *RemotePortFwdRuleMutationPayload `json:"addRule"`
-	// Add a new section to the policy.
-	// First section behaves as follows:
-	// When the first section is created, all the rules in the policy, including the default system rules, are automatically added to it.
-	// The first section containing the default system rules can be modified but not deleted.
-	// The first section will always remain first-in-policy, i.e. it cannot be moved, and not other sections can be moved or created before it.
-	AddSection *PolicySectionMutationPayload `json:"addSection"`
-	// Create a new empty policy revision for port forwarding rules.
-	CreatePolicyRevision *RemotePortFwdPolicyMutationPayload `json:"createPolicyRevision"`
-	// Discard the policy revision. All changes in this revision are discarded and the revision is deleted.
+	AddRule               *RemotePortFwdRuleMutationPayload   `json:"addRule"`
+	AddSection            *PolicySectionMutationPayload       `json:"addSection"`
+	CreatePolicyRevision  *RemotePortFwdPolicyMutationPayload `json:"createPolicyRevision"`
 	DiscardPolicyRevision *RemotePortFwdPolicyMutationPayload `json:"discardPolicyRevision"`
-	// Change the priority/position of an existing port forwarding rule.
-	MoveRule *RemotePortFwdRuleMutationPayload `json:"moveRule"`
-	// Move a section to a new position within the policy.
-	// The section will be anchored in the new position, i.e. other admins will not be able to move it, or reference it when moving other sections, until the modified policy revision is published.
-	MoveSection *PolicySectionMutationPayload `json:"moveSection"`
-	// Publish the policy revision. Published revision becomes the active policy and its rules are merged with unpublished revisions from other admins.
+	MoveRule              *RemotePortFwdRuleMutationPayload   `json:"moveRule"`
+	MoveSection           *PolicySectionMutationPayload       `json:"moveSection"`
 	PublishPolicyRevision *RemotePortFwdPolicyMutationPayload `json:"publishPolicyRevision"`
-	// Remove an existing port forwarding rule from the policy.
-	RemoveRule *RemotePortFwdRuleMutationPayload `json:"removeRule"`
-	// Delete an existing section. The first section in policy cannot be deleted.
-	RemoveSection *PolicySectionMutationPayload `json:"removeSection"`
-	// Change the state of the port forwarding policy (enable/disable). Changes are applied immediately and not as part of policy revision publishing.
-	UpdatePolicy *RemotePortFwdPolicyMutationPayload `json:"updatePolicy"`
-	// Update an existing port forwarding rule configuration.
-	UpdateRule *RemotePortFwdRuleMutationPayload `json:"updateRule"`
-	// Update policy section attributes
-	UpdateSection *PolicySectionMutationPayload `json:"updateSection"`
+	RemoveRule            *RemotePortFwdRuleMutationPayload   `json:"removeRule"`
+	RemoveSection         *PolicySectionMutationPayload       `json:"removeSection"`
+	UpdatePolicy          *RemotePortFwdPolicyMutationPayload `json:"updatePolicy"`
+	UpdateRule            *RemotePortFwdRuleMutationPayload   `json:"updateRule"`
+	UpdateSection         *PolicySectionMutationPayload       `json:"updateSection"`
 }
 
 type RemotePortFwdPolicyQueries struct {
@@ -11070,47 +8293,28 @@ type RemotePortFwdRemoveRuleInput struct {
 }
 
 type RemotePortFwdRule struct {
-	// Description for the rule
-	Description string `json:"description"`
-	// TRUE = Rule is enabled
-	//  FALSE = Rule is disabled
-	Enabled           bool            `json:"enabled"`
-	ExternalIP        *AllocatedIPRef `json:"externalIp"`
-	ExternalPortRange *PortRange      `json:"externalPortRange"`
-	ForwardICMP       bool            `json:"forwardIcmp"`
-	// Rule ID
-	ID string `json:"id"`
-	// Position / priority of rule
-	Index             int64      `json:"index"`
-	InternalIP        string     `json:"internalIp"`
-	InternalPortRange *PortRange `json:"internalPortRange"`
-	// Name of the rule
-	Name            string                       `json:"name"`
-	RemoteIPs       *RemotePortFwdRemoteIps      `json:"remoteIPs"`
-	RestrictionType RemotePortFwdRestrictionType `json:"restrictionType"`
-	// Policy section where the rule is located
-	Section  *PolicySectionInfo       `json:"section"`
-	Tracking *PolicyRuleTrackingAlert `json:"tracking"`
+	Description       string                       `json:"description"`
+	Enabled           bool                         `json:"enabled"`
+	ExternalIP        *AllocatedIPRef              `json:"externalIp"`
+	ExternalPortRange *PortRange                   `json:"externalPortRange"`
+	ForwardICMP       bool                         `json:"forwardIcmp"`
+	ID                string                       `json:"id"`
+	Index             int64                        `json:"index"`
+	InternalIP        string                       `json:"internalIp"`
+	InternalPortRange *PortRange                   `json:"internalPortRange"`
+	Name              string                       `json:"name"`
+	RemoteIPs         *RemotePortFwdRemoteIps      `json:"remoteIPs"`
+	RestrictionType   RemotePortFwdRestrictionType `json:"restrictionType"`
+	Section           *PolicySectionInfo           `json:"section"`
+	Tracking          *PolicyRuleTrackingAlert     `json:"tracking"`
 }
 
-func (RemotePortFwdRule) IsIPolicyRule() {}
-
-// Rule ID
-func (this RemotePortFwdRule) GetID() string { return this.ID }
-
-// Name of the rule
-func (this RemotePortFwdRule) GetName() string { return this.Name }
-
-// Description for the rule
-func (this RemotePortFwdRule) GetDescription() *string { return &this.Description }
-
-// Position / priority of rule
-func (this RemotePortFwdRule) GetIndex() int64 { return this.Index }
-
-// TRUE = Rule is enabled, FALSE = Rule is disabled
-func (this RemotePortFwdRule) GetEnabled() bool { return this.Enabled }
-
-// Policy section where the rule is located
+func (RemotePortFwdRule) IsIPolicyRule()                      {}
+func (this RemotePortFwdRule) GetDescription() *string        { return &this.Description }
+func (this RemotePortFwdRule) GetEnabled() bool               { return this.Enabled }
+func (this RemotePortFwdRule) GetID() string                  { return this.ID }
+func (this RemotePortFwdRule) GetIndex() int64                { return this.Index }
+func (this RemotePortFwdRule) GetName() string                { return this.Name }
 func (this RemotePortFwdRule) GetSection() *PolicySectionInfo { return this.Section }
 
 type RemotePortFwdRuleMutationPayload struct {
@@ -11120,14 +8324,6 @@ type RemotePortFwdRuleMutationPayload struct {
 }
 
 func (RemotePortFwdRuleMutationPayload) IsIPolicyRuleMutationPayload() {}
-
-// Returns settings for the rule
-func (this RemotePortFwdRuleMutationPayload) GetRule() IPolicyRulePayload { return *this.Rule }
-
-// Enum for the status of the policy change
-func (this RemotePortFwdRuleMutationPayload) GetStatus() PolicyMutationStatus { return this.Status }
-
-// List of errors related to the policy change
 func (this RemotePortFwdRuleMutationPayload) GetErrors() []*PolicyMutationError {
 	if this.Errors == nil {
 		return nil
@@ -11138,6 +8334,8 @@ func (this RemotePortFwdRuleMutationPayload) GetErrors() []*PolicyMutationError 
 	}
 	return interfaceSlice
 }
+func (this RemotePortFwdRuleMutationPayload) GetRule() IPolicyRulePayload     { return *this.Rule }
+func (this RemotePortFwdRuleMutationPayload) GetStatus() PolicyMutationStatus { return this.Status }
 
 type RemotePortFwdRulePayload struct {
 	Audit      *PolicyElementAudit           `json:"audit"`
@@ -11147,11 +8345,6 @@ type RemotePortFwdRulePayload struct {
 
 func (RemotePortFwdRulePayload) IsIPolicyRulePayload()              {}
 func (this RemotePortFwdRulePayload) GetAudit() *PolicyElementAudit { return this.Audit }
-
-// Rule that was changed
-func (this RemotePortFwdRulePayload) GetRule() IPolicyRule { return *this.Rule }
-
-// Summary of rule change, (ie. ADDED, UPDATED)
 func (this RemotePortFwdRulePayload) GetProperties() []PolicyElementPropertiesEnum {
 	if this.Properties == nil {
 		return nil
@@ -11162,6 +8355,7 @@ func (this RemotePortFwdRulePayload) GetProperties() []PolicyElementPropertiesEn
 	}
 	return interfaceSlice
 }
+func (this RemotePortFwdRulePayload) GetRule() IPolicyRule { return *this.Rule }
 
 type RemotePortFwdUpdateRuleDataInput struct {
 	Description       *string                             `json:"description,omitempty"`
@@ -11183,7 +8377,6 @@ type RemotePortFwdUpdateRuleInput struct {
 }
 
 type RemoveAccountPayload struct {
-	// General info of the removed account
 	AccountInfo *AccountInfo `json:"accountInfo"`
 }
 
@@ -11192,52 +8385,41 @@ type RemoveAdminPayload struct {
 }
 
 type RemoveBgpPeerInput struct {
-	// Unique identifier of the BGP peer to be removed.
 	ID string `json:"id"`
 }
 
 type RemoveBgpPeerPayload struct {
-	// The BGP peer that was successfully removed.
 	BgpPeer *BgpPeer `json:"bgpPeer"`
 }
 
 // Input for removing a physical connection from a cloud interconnect site.
 type RemoveCloudInterconnectPhysicalConnectionInput struct {
-	// ID of the connection to be removed.
 	ID string `json:"id"`
 }
 
 // Payload for removing a physical connection from a cloud interconnect site.
 type RemoveCloudInterconnectPhysicalConnectionPayload struct {
-	// ID of the removed connection.
 	ID string `json:"id"`
 }
 
 type RemoveIpsecIkeV2SiteMultiTunnelPayload struct {
-	// Cato’s FQDN for the multi-tunnel
 	Fqdn    *string                              `json:"fqdn,omitempty"`
 	Tunnels []*RemoveIpsecIkeV2SiteTunnelPayload `json:"tunnels"`
 }
 
 type RemoveIpsecIkeV2SiteTunnelPayload struct {
-	// The local ID for the tunnel
-	LocalID *string `json:"localId,omitempty"`
-	// The ID of the tunnel
+	LocalID  *string             `json:"localId,omitempty"`
 	TunnelID *IPSecV2InterfaceID `json:"tunnelId,omitempty"`
 }
 
 type RemoveIpsecIkeV2SiteTunnelsInput struct {
-	// The IDs of the tunnels
 	TunnelID []IPSecV2InterfaceID `json:"tunnelId"`
 }
 
 type RemoveIpsecIkeV2SiteTunnelsPayload struct {
-	// Cato’s FQDN for the primary tunnel
-	Primary *RemoveIpsecIkeV2SiteMultiTunnelPayload `json:"primary,omitempty"`
-	// Cato’s FQDN for the secondary tunnel
+	Primary   *RemoveIpsecIkeV2SiteMultiTunnelPayload `json:"primary,omitempty"`
 	Secondary *RemoveIpsecIkeV2SiteMultiTunnelPayload `json:"secondary,omitempty"`
-	// The ID of the site
-	SiteID string `json:"siteId"`
+	SiteID    string                                  `json:"siteId"`
 }
 
 type RemoveNetworkRangePayload struct {
@@ -11257,10 +8439,8 @@ type RemoveServicePrincipalAdminPayload struct {
 }
 
 type RemoveSiteBwLicenseInput struct {
-	// The license that is being removed
-	LicenseID string `json:"licenseId"`
-	// The site to remove the licenses from
-	Site *SiteRefInput `json:"site"`
+	LicenseID string        `json:"licenseId"`
+	Site      *SiteRefInput `json:"site"`
 }
 
 type RemoveSiteBwLicensePayload struct {
@@ -11298,15 +8478,10 @@ type RemoveZtnaAppConnectorsConfigurationPayload struct {
 }
 
 type ReplaceSiteBwLicenseInput struct {
-	// Specifies the bandwidth (in Mbps) to allocate to the site when using a pooled bandwidth license.
-	// This field should not be used if a site license is used.
-	Bw *int64 `json:"bw,omitempty"`
-	// The license that is being assigned
-	LicenseIDToAdd string `json:"licenseIdToAdd"`
-	// The license that is being removed
-	LicenseIDToRemove string `json:"licenseIdToRemove"`
-	// The site to replace the licenses for
-	Site *SiteRefInput `json:"site"`
+	Bw                *int64        `json:"bw,omitempty"`
+	LicenseIDToAdd    string        `json:"licenseIdToAdd"`
+	LicenseIDToRemove string        `json:"licenseIdToRemove"`
+	Site              *SiteRefInput `json:"site"`
 }
 
 type ReplaceSiteBwLicensePayload struct {
@@ -11345,66 +8520,29 @@ type RuleHitCount struct {
 
 // SaaS Security API service license details
 type SaasSecurityAPILicense struct {
-	Description *string `json:"description,omitempty"`
-	// License expiration date
-	ExpirationDate string `json:"expirationDate"`
-	// The unique identifier for the license. If this value is not available, you can contact Cato Support, who may be able to assist in retrieving it.
-	ID *string `json:"id,omitempty"`
-	// The date of the last update to the license
-	LastUpdated *string `json:"lastUpdated,omitempty"`
-	// License plan type
-	Plan LicensePlan `json:"plan"`
-	// The license SKU
-	Sku LicenseSku `json:"sku"`
-	// License start date
-	StartDate *string `json:"startDate,omitempty"`
-	// License activation status
-	Status LicenseStatus `json:"status"`
-	// license quantity
-	Total int64 `json:"total"`
+	Description    *string       `json:"description,omitempty"`
+	ExpirationDate string        `json:"expirationDate"`
+	ID             *string       `json:"id,omitempty"`
+	LastUpdated    *string       `json:"lastUpdated,omitempty"`
+	Plan           LicensePlan   `json:"plan"`
+	Sku            LicenseSku    `json:"sku"`
+	StartDate      *string       `json:"startDate,omitempty"`
+	Status         LicenseStatus `json:"status"`
+	Total          int64         `json:"total"`
 }
 
-func (SaasSecurityAPILicense) IsLicense() {}
-
-// The unique identifier for the license. If this value is not available, you can contact Cato Support, who may be able to assist in retrieving it.
-func (this SaasSecurityAPILicense) GetID() *string          { return this.ID }
-func (this SaasSecurityAPILicense) GetDescription() *string { return this.Description }
-
-// License plan type
-func (this SaasSecurityAPILicense) GetPlan() LicensePlan { return this.Plan }
-
-// The license SKU
-func (this SaasSecurityAPILicense) GetSku() LicenseSku { return this.Sku }
-
-// License activation status
-func (this SaasSecurityAPILicense) GetStatus() LicenseStatus { return this.Status }
-
-// License start date
-func (this SaasSecurityAPILicense) GetStartDate() *string { return this.StartDate }
-
-// License expiration date
+func (SaasSecurityAPILicense) IsLicense()                     {}
+func (this SaasSecurityAPILicense) GetDescription() *string   { return this.Description }
 func (this SaasSecurityAPILicense) GetExpirationDate() string { return this.ExpirationDate }
-
-// The date of the last update to the license
-func (this SaasSecurityAPILicense) GetLastUpdated() *string { return this.LastUpdated }
+func (this SaasSecurityAPILicense) GetID() *string            { return this.ID }
+func (this SaasSecurityAPILicense) GetLastUpdated() *string   { return this.LastUpdated }
+func (this SaasSecurityAPILicense) GetPlan() LicensePlan      { return this.Plan }
+func (this SaasSecurityAPILicense) GetSku() LicenseSku        { return this.Sku }
+func (this SaasSecurityAPILicense) GetStartDate() *string     { return this.StartDate }
+func (this SaasSecurityAPILicense) GetStatus() LicenseStatus  { return this.Status }
 
 func (SaasSecurityAPILicense) IsQuantifiableLicense() {}
 
-// The unique identifier for the license. If this value is not available, you can contact Cato Support, who may be able to assist in retrieving it.
-
-// License plan type
-
-// The license SKU
-
-// License activation status
-
-// License initiation date
-
-// License expiration date
-
-// The date of the last update to the license
-
-// license quantity
 func (this SaasSecurityAPILicense) GetTotal() int64 { return this.Total }
 
 // A reference identifying the SanctionedAppsCategory object. ID: Unique SanctionedAppsCategory Identifier, Name: The SanctionedAppsCategory Name
@@ -11413,12 +8551,8 @@ type SanctionedAppsCategoryRef struct {
 	Name string `json:"name"`
 }
 
-func (SanctionedAppsCategoryRef) IsObjectRef() {}
-
-// Object's unique identifier
-func (this SanctionedAppsCategoryRef) GetID() string { return this.ID }
-
-// Object's unique name
+func (SanctionedAppsCategoryRef) IsObjectRef()         {}
+func (this SanctionedAppsCategoryRef) GetID() string   { return this.ID }
 func (this SanctionedAppsCategoryRef) GetName() string { return this.Name }
 
 type SanctionedAppsCategoryRefInput struct {
@@ -11427,95 +8561,65 @@ type SanctionedAppsCategoryRefInput struct {
 }
 
 type SandboxMutations struct {
-	//  Delete a sandbox report
 	DeleteReport *DeleteReportPayload `json:"deleteReport"`
-	//  Upload a file for sandbox analysis
-	UploadFile *UploadFilePayload `json:"uploadFile"`
+	UploadFile   *UploadFilePayload   `json:"uploadFile"`
 }
 
 type SandboxQueries struct {
-	//  Get a list of sandbox reports
 	Reports *SandboxReportsPayload `json:"reports"`
 }
 
 // Sandbox report meta-data
 type SandboxReport struct {
-	//  Report creation date
-	CreationDate string `json:"creationDate"`
-	//  Report download URL (if ready)
-	DownloadURL *string `json:"downloadUrl,omitempty"`
-	//  Report expiration date
-	ExpirationDate *string `json:"expirationDate,omitempty"`
-	//  Sandbox analysis failure reason (if any)
-	FailureReason *SandboxFailureReason `json:"failureReason,omitempty"`
-	//  File hash (SHA-256)
-	FileHash string `json:"fileHash"`
-	//  File name
-	FileName *string `json:"fileName,omitempty"`
-	//  Sandbox analysis status
-	Status SandboxStatus `json:"status"`
-	//  Sandbox verdict
-	Verdict *SandboxVerdict `json:"verdict,omitempty"`
+	CreationDate   string                `json:"creationDate"`
+	DownloadURL    *string               `json:"downloadUrl,omitempty"`
+	ExpirationDate *string               `json:"expirationDate,omitempty"`
+	FailureReason  *SandboxFailureReason `json:"failureReason,omitempty"`
+	FileHash       string                `json:"fileHash"`
+	FileName       *string               `json:"fileName,omitempty"`
+	Status         SandboxStatus         `json:"status"`
+	Verdict        *SandboxVerdict       `json:"verdict,omitempty"`
 }
 
 // Sandbox reports query filter
 type SandboxReportsFilterInput struct {
-	//  File hash filter
-	FileHash []*StringFilterInput `json:"fileHash,omitempty"`
-	//  File name filter
-	FileName []*StringFilterInput `json:"fileName,omitempty"`
-	//  Report creation date filter
+	FileHash         []*StringFilterInput   `json:"fileHash,omitempty"`
+	FileName         []*StringFilterInput   `json:"fileName,omitempty"`
 	ReportCreateDate []*DateTimeFilterInput `json:"reportCreateDate,omitempty"`
 }
 
 // Sandbox reports query input
 type SandboxReportsInput struct {
-	//  Query filter criteria
 	Filter *SandboxReportsFilterInput `json:"filter,omitempty"`
-	//  Query pagination criteria
-	Paging *PagingInput `json:"paging"`
-	//  Query sorting criteria
-	Sort *SandboxReportsSortInput `json:"sort"`
+	Paging *PagingInput               `json:"paging"`
+	Sort   *SandboxReportsSortInput   `json:"sort"`
 }
 
 // Output of sandbox reports query
 type SandboxReportsPayload struct {
-	//  Pagination information
-	PageInfo *PageInfo `json:"pageInfo"`
-	//  List of sandbox reports
-	Report []*SandboxReport `json:"report"`
+	PageInfo *PageInfo        `json:"pageInfo"`
+	Report   []*SandboxReport `json:"report"`
 }
 
 // Sandbox reports query sorting
 type SandboxReportsSortInput struct {
-	//  Sort by file name
-	FileName *SortOrderInput `json:"fileName,omitempty"`
-	//  Sort by report creation date
+	FileName         *SortOrderInput `json:"fileName,omitempty"`
 	ReportCreateDate *SortOrderInput `json:"reportCreateDate,omitempty"`
 }
 
 type SecondaryAWSVSocket struct {
-	// The ID of the secondary vSocket
-	ID string `json:"id"`
-	// The IP address of the secondary vSocket
-	IPAddress string `json:"ipAddress"`
-	// The ID of the secondary vSocket route table
-	RouteTableID string `json:"routeTableId"`
-	// Site associated with this secondary vSocket.
-	Site *SiteRef `json:"site"`
-	// The subnet of the secondary vSocket
-	Subnet string `json:"subnet"`
+	ID           string   `json:"id"`
+	IPAddress    string   `json:"ipAddress"`
+	RouteTableID string   `json:"routeTableId"`
+	Site         *SiteRef `json:"site"`
+	Subnet       string   `json:"subnet"`
 }
 
 type SecondaryAzureVSocket struct {
-	// The floating IP address
-	FloatingIP string `json:"floatingIp"`
-	// The ID of the secondary vSocket
-	ID string `json:"id"`
-	// The IP address of the interface
-	InterfaceIP string `json:"interfaceIp"`
-	// Information about the site where the secondary Azure vSocket is being added.
-	Site *SiteRef `json:"site"`
+	FloatingIP  string   `json:"floatingIp"`
+	ID          string   `json:"id"`
+	InterfaceIP string   `json:"interfaceIp"`
+	Site        *SiteRef `json:"site"`
 }
 
 // A reference identifying the Service object. ID: Unique Service Identifier, Name: The Service Name
@@ -11524,12 +8628,8 @@ type ServiceRef struct {
 	Name string `json:"name"`
 }
 
-func (ServiceRef) IsObjectRef() {}
-
-// Object's unique identifier
-func (this ServiceRef) GetID() string { return this.ID }
-
-// Object's unique name
+func (ServiceRef) IsObjectRef()         {}
+func (this ServiceRef) GetID() string   { return this.ID }
 func (this ServiceRef) GetName() string { return this.Name }
 
 type ServiceRefInput struct {
@@ -11538,45 +8638,27 @@ type ServiceRefInput struct {
 }
 
 type ShippingDetails struct {
-	// City
-	CityName *string `json:"cityName,omitempty"`
-	// Comment
-	Comment *string `json:"comment,omitempty"`
-	// Company name (recipient)
-	CompanyName *string `json:"companyName,omitempty"`
-	// Delivery contact detail
-	Contact *ContactDetails `json:"contact,omitempty"`
-	// Country
-	CountryName *string `json:"countryName,omitempty"`
-	// Shipping method
-	Incoterms *string `json:"incoterms,omitempty"`
-	// Delivery instruction (required for EXW incoterms)
-	Instruction *string `json:"instruction,omitempty"`
-	// Power cable type (for sockets only)
-	PowerCable *string `json:"powerCable,omitempty"`
-	// State (required only for USA)
-	StateName *string `json:"stateName,omitempty"`
-	// Street name and number
-	Street *string `json:"street,omitempty"`
-	// Vat id (required for Brazil)
-	VatID *string `json:"vatId,omitempty"`
-	// Zip Code
-	ZipCode *string `json:"zipCode,omitempty"`
+	CityName    *string         `json:"cityName,omitempty"`
+	Comment     *string         `json:"comment,omitempty"`
+	CompanyName *string         `json:"companyName,omitempty"`
+	Contact     *ContactDetails `json:"contact,omitempty"`
+	CountryName *string         `json:"countryName,omitempty"`
+	Incoterms   *string         `json:"incoterms,omitempty"`
+	Instruction *string         `json:"instruction,omitempty"`
+	PowerCable  *string         `json:"powerCable,omitempty"`
+	StateName   *string         `json:"stateName,omitempty"`
+	Street      *string         `json:"street,omitempty"`
+	VatID       *string         `json:"vatId,omitempty"`
+	ZipCode     *string         `json:"zipCode,omitempty"`
 }
 
 type ShippingDetailsInput struct {
-	// Address for delivery
-	Address *AddressInput `json:"address,omitempty"`
-	// Comment
-	Comment *string `json:"comment,omitempty"`
-	// Delivery contact detail
-	Contact *ContactDetailsInput `json:"contact,omitempty"`
-	// Shipping method
-	Incoterms *string `json:"incoterms,omitempty"`
-	// Delivery instruction (required for EXW incoterms)
-	Instruction *string `json:"instruction,omitempty"`
-	// Vat id (required for Brazil)
-	VatID *string `json:"vatId,omitempty"`
+	Address     *AddressInput        `json:"address,omitempty"`
+	Comment     *string              `json:"comment,omitempty"`
+	Contact     *ContactDetailsInput `json:"contact,omitempty"`
+	Incoterms   *string              `json:"incoterms,omitempty"`
+	Instruction *string              `json:"instruction,omitempty"`
+	VatID       *string              `json:"vatId,omitempty"`
 }
 
 type ShippingStatusFilterInput struct {
@@ -11587,16 +8669,11 @@ type ShippingStatusFilterInput struct {
 }
 
 type ShippingTracking struct {
-	// Carrier (shipping company)
-	Carrier *string `json:"carrier,omitempty"`
-	// Shipping date
-	ShippingDate *time.Time `json:"shippingDate,omitempty"`
-	// Shipping status
+	Carrier        *string         `json:"carrier,omitempty"`
+	ShippingDate   *time.Time      `json:"shippingDate,omitempty"`
 	ShippingStatus *ShippingStatus `json:"shippingStatus,omitempty"`
-	// Tracking number
-	TrackingNumber *string `json:"trackingNumber,omitempty"`
-	// Tracking url
-	TrackingURL *string `json:"trackingUrl,omitempty"`
+	TrackingNumber *string         `json:"trackingNumber,omitempty"`
+	TrackingURL    *string         `json:"trackingUrl,omitempty"`
 }
 
 type SimilarStoryData struct {
@@ -11617,20 +8694,16 @@ type SimpleServiceInput struct {
 }
 
 type SiteBgpStatus struct {
-	// Raw BGP status information.
-	RawStatus []string `json:"rawStatus"`
-	// Detailed BGP status, including session and route details.
-	Status []*BgpDetailedStatus `json:"status"`
+	RawStatus []string             `json:"rawStatus"`
+	Status    []*BgpDetailedStatus `json:"status"`
 }
 
 type SiteBgpStatusInput struct {
-	// Identifying data for the site whose BGP status is being queried.
 	Site *SiteRefInput `json:"site"`
 }
 
 type SiteGeneralDetailsPayload struct {
-	Description *string `json:"description,omitempty"`
-	// Only relevant for socket sites
+	Description          *string                   `json:"description,omitempty"`
 	PreferredPopLocation *SitePreferredPopLocation `json:"preferredPopLocation,omitempty"`
 	Site                 *SiteRef                  `json:"site"`
 	SiteLocation         *SiteLocation             `json:"siteLocation"`
@@ -11639,108 +8712,52 @@ type SiteGeneralDetailsPayload struct {
 
 // Basic Site configuration information
 type SiteInfo struct {
-	// Address of the physical site location
-	Address *string `json:"address,omitempty"`
-	// City of the physical site location
-	CityName *string `json:"cityName,omitempty"`
-	// The Connection Type field defines how the site connects to the Cato Cloud, such as X1500 Socket or AWS vSocket (array with nested fields)
-	ConnType *ProtoType `json:"connType,omitempty"`
-	// Code for the Country that is the physical location of the site
-	CountryCode *string `json:"countryCode,omitempty"`
-	// Country that is the physical location of the site
-	CountryName *string `json:"countryName,omitempty"`
-	// State of the country that is the physical site location
-	CountryStateName *string `json:"countryStateName,omitempty"`
-	// Timestamp for when the site was created
-	CreationTime *string `json:"creationTime,omitempty"`
-	// User defined description of the site
-	Description *string `json:"description,omitempty"`
-	// Basic configuration information about the Socket interface
-	Interfaces []*InterfaceInfo `json:"interfaces,omitempty"`
-	// data related to IPsec sites, such as IKE version
-	Ipsec []*IPSecInfo `json:"ipsec,omitempty"`
-	// When this boolean value is true, the site is enabled for high availability
-	IsHa *bool `json:"isHA,omitempty"`
-	// Name for the site
-	Name *string `json:"name,omitempty"`
-	// Geographical PoP region that the site is licensed to use
-	Region *string `json:"region,omitempty"`
-	// Data related to Socket and vSocket sites, such as serial number and Socket version (array with nested fields)
-	Sockets []*SocketInfo `json:"sockets,omitempty"`
-	// Site type in the Cato Management Application, such as branch office or datacenter
-	Type *SiteType `json:"type,omitempty"`
+	Address          *string          `json:"address,omitempty"`
+	CityName         *string          `json:"cityName,omitempty"`
+	ConnType         *ProtoType       `json:"connType,omitempty"`
+	CountryCode      *string          `json:"countryCode,omitempty"`
+	CountryName      *string          `json:"countryName,omitempty"`
+	CountryStateName *string          `json:"countryStateName,omitempty"`
+	CreationTime     *string          `json:"creationTime,omitempty"`
+	Description      *string          `json:"description,omitempty"`
+	Interfaces       []*InterfaceInfo `json:"interfaces,omitempty"`
+	Ipsec            []*IPSecInfo     `json:"ipsec,omitempty"`
+	IsHa             *bool            `json:"isHA,omitempty"`
+	Name             *string          `json:"name,omitempty"`
+	Region           *string          `json:"region,omitempty"`
+	Sockets          []*SocketInfo    `json:"sockets,omitempty"`
+	Type             *SiteType        `json:"type,omitempty"`
 }
 
 // Site bandwidth license
 type SiteLicense struct {
-	Description *string `json:"description,omitempty"`
-	// License expiration date
-	ExpirationDate string `json:"expirationDate"`
-	// The unique identifier for the license. If this value is not available, you can contact Cato Support, who may be able to assist in retrieving it.
-	ID *string `json:"id,omitempty"`
-	// The date of the last update to the license
-	LastUpdated *string `json:"lastUpdated,omitempty"`
-	// License plan type
-	Plan LicensePlan `json:"plan"`
-	// For the relevant license groups, indicates whether this is a global or regional license. For other regions, the value is set to ‘NA’ (not applicable).
-	Regionality *Regionality `json:"regionality,omitempty"`
-	// Identifying data for the site the license is assigned to
-	Site *SiteRef `json:"site,omitempty"`
-	// The license group.
+	Description      *string          `json:"description,omitempty"`
+	ExpirationDate   string           `json:"expirationDate"`
+	ID               *string          `json:"id,omitempty"`
+	LastUpdated      *string          `json:"lastUpdated,omitempty"`
+	Plan             LicensePlan      `json:"plan"`
+	Regionality      *Regionality     `json:"regionality,omitempty"`
+	Site             *SiteRef         `json:"site,omitempty"`
 	SiteLicenseGroup SiteLicenseGroup `json:"siteLicenseGroup"`
-	// The selected service type, e.g SASE or SSE.
-	SiteLicenseType SiteLicenseType `json:"siteLicenseType"`
-	// The license SKU
-	Sku LicenseSku `json:"sku"`
-	// License start date
-	StartDate *string `json:"startDate,omitempty"`
-	// License activation status
-	Status LicenseStatus `json:"status"`
-	// Maximum available bandwidth for the site, in Mbps
-	Total int64 `json:"total"`
+	SiteLicenseType  SiteLicenseType  `json:"siteLicenseType"`
+	Sku              LicenseSku       `json:"sku"`
+	StartDate        *string          `json:"startDate,omitempty"`
+	Status           LicenseStatus    `json:"status"`
+	Total            int64            `json:"total"`
 }
 
-func (SiteLicense) IsLicense() {}
-
-// The unique identifier for the license. If this value is not available, you can contact Cato Support, who may be able to assist in retrieving it.
-func (this SiteLicense) GetID() *string          { return this.ID }
-func (this SiteLicense) GetDescription() *string { return this.Description }
-
-// License plan type
-func (this SiteLicense) GetPlan() LicensePlan { return this.Plan }
-
-// The license SKU
-func (this SiteLicense) GetSku() LicenseSku { return this.Sku }
-
-// License activation status
-func (this SiteLicense) GetStatus() LicenseStatus { return this.Status }
-
-// License start date
-func (this SiteLicense) GetStartDate() *string { return this.StartDate }
-
-// License expiration date
+func (SiteLicense) IsLicense()                     {}
+func (this SiteLicense) GetDescription() *string   { return this.Description }
 func (this SiteLicense) GetExpirationDate() string { return this.ExpirationDate }
-
-// The date of the last update to the license
-func (this SiteLicense) GetLastUpdated() *string { return this.LastUpdated }
+func (this SiteLicense) GetID() *string            { return this.ID }
+func (this SiteLicense) GetLastUpdated() *string   { return this.LastUpdated }
+func (this SiteLicense) GetPlan() LicensePlan      { return this.Plan }
+func (this SiteLicense) GetSku() LicenseSku        { return this.Sku }
+func (this SiteLicense) GetStartDate() *string     { return this.StartDate }
+func (this SiteLicense) GetStatus() LicenseStatus  { return this.Status }
 
 func (SiteLicense) IsQuantifiableLicense() {}
 
-// The unique identifier for the license. If this value is not available, you can contact Cato Support, who may be able to assist in retrieving it.
-
-// License plan type
-
-// The license SKU
-
-// License activation status
-
-// License initiation date
-
-// License expiration date
-
-// The date of the last update to the license
-
-// license quantity
 func (this SiteLicense) GetTotal() int64 { return this.Total }
 
 type SiteLocation struct {
@@ -11752,85 +8769,56 @@ type SiteLocation struct {
 }
 
 type SiteMetrics struct {
-	// Timeseries with the number of flows (connections) in the site. Applicable only for site
-	FlowCount *Timeseries `json:"flowCount,omitempty"`
-	// Timeseries with the number of hosts in the site. Applicable only for site
-	HostCount *Timeseries `json:"hostCount,omitempty"`
-	// Timeseries with the configurable limit of the number of hosts in the site. Applicable only for site
-	HostLimit *Timeseries `json:"hostLimit,omitempty"`
-	// Site ID
-	ID *string `json:"id,omitempty"`
-	// Shows general information about the site (array with nested fields). Applicable only for site
-	Info *SiteInfo `json:"info,omitempty"`
-	// Analytics that are returned for the links for a site
+	FlowCount  *Timeseries         `json:"flowCount,omitempty"`
+	HostCount  *Timeseries         `json:"hostCount,omitempty"`
+	HostLimit  *Timeseries         `json:"hostLimit,omitempty"`
+	ID         *string             `json:"id,omitempty"`
+	Info       *SiteInfo           `json:"info,omitempty"`
 	Interfaces []*InterfaceMetrics `json:"interfaces,omitempty"`
-	// Traffic metrics and data for sites
-	Metrics *Metrics `json:"metrics,omitempty"`
-	// Site names
-	Name    *string `json:"name,omitempty"`
-	Samples *int64  `json:"samples,omitempty"`
+	Metrics    *Metrics            `json:"metrics,omitempty"`
+	Name       *string             `json:"name,omitempty"`
+	Samples    *int64              `json:"samples,omitempty"`
 }
 
 type SiteMutations struct {
-	// Adds a new BGP peer to the specified site.
-	AddBgpPeer *AddBgpPeerPayload `json:"addBgpPeer,omitempty"`
-	// Add a new physical connection to a cloud interconnect site.Either connect to a partner, or a non-supported public provider
-	AddCloudInterconnectPhysicalConnection *AddCloudInterconnectPhysicalConnectionPayload `json:"addCloudInterconnectPhysicalConnection,omitempty"`
-	// Add a new cloud interconnect site.
-	AddCloudInterconnectSite *AddCloudInterconnectSitePayload `json:"addCloudInterconnectSite,omitempty"`
-	AddIpsecIkeV2Site        *AddIpsecIkeV2SitePayload        `json:"addIpsecIkeV2Site,omitempty"`
-	AddIpsecIkeV2SiteTunnels *AddIpsecIkeV2SiteTunnelsPayload `json:"addIpsecIkeV2SiteTunnels,omitempty"`
-	AddNetworkRange          *AddNetworkRangePayload          `json:"addNetworkRange,omitempty"`
-	// Add a secondary AWS vSocket to an existing site
-	AddSecondaryAWSVSocket *AddSecondaryAWSVSocketPayload `json:"addSecondaryAwsVSocket,omitempty"`
-	// Add a secondary Azure vSocket to an existing site
-	AddSecondaryAzureVSocket *AddSecondaryAzureVSocketPayload `json:"addSecondaryAzureVSocket,omitempty"`
-	AddSocketAddOnCard       *AddSocketAddOnCardPayload       `json:"addSocketAddOnCard,omitempty"`
-	AddSocketSite            *AddSocketSitePayload            `json:"addSocketSite,omitempty"`
-	AddStaticHost            *AddStaticHostPayload            `json:"addStaticHost,omitempty"`
-	// Assign a license to an existing site // License-to-site assignment will be removed starting in 2026 with the transition to a new pricing model.
-	AssignSiteBwLicense *AssignSiteBwLicensePayload `json:"assignSiteBwLicense,omitempty"`
-	// Exchanges two socket ports on a site by swapping their interface assignments.
-	ExchangeSocketPorts *ExchangeSocketPortsPayload `json:"exchangeSocketPorts,omitempty"`
-	// Removes an existing BGP peer configuration from a site.
-	RemoveBgpPeer *RemoveBgpPeerPayload `json:"removeBgpPeer,omitempty"`
-	// Remove a physical connection from a cloud interconnect site.
+	AddBgpPeer                                *AddBgpPeerPayload                                `json:"addBgpPeer,omitempty"`
+	AddCloudInterconnectPhysicalConnection    *AddCloudInterconnectPhysicalConnectionPayload    `json:"addCloudInterconnectPhysicalConnection,omitempty"`
+	AddCloudInterconnectSite                  *AddCloudInterconnectSitePayload                  `json:"addCloudInterconnectSite,omitempty"`
+	AddIpsecIkeV2Site                         *AddIpsecIkeV2SitePayload                         `json:"addIpsecIkeV2Site,omitempty"`
+	AddIpsecIkeV2SiteTunnels                  *AddIpsecIkeV2SiteTunnelsPayload                  `json:"addIpsecIkeV2SiteTunnels,omitempty"`
+	AddNetworkRange                           *AddNetworkRangePayload                           `json:"addNetworkRange,omitempty"`
+	AddSecondaryAWSVSocket                    *AddSecondaryAWSVSocketPayload                    `json:"addSecondaryAwsVSocket,omitempty"`
+	AddSecondaryAzureVSocket                  *AddSecondaryAzureVSocketPayload                  `json:"addSecondaryAzureVSocket,omitempty"`
+	AddSocketAddOnCard                        *AddSocketAddOnCardPayload                        `json:"addSocketAddOnCard,omitempty"`
+	AddSocketSite                             *AddSocketSitePayload                             `json:"addSocketSite,omitempty"`
+	AddStaticHost                             *AddStaticHostPayload                             `json:"addStaticHost,omitempty"`
+	AssignSiteBwLicense                       *AssignSiteBwLicensePayload                       `json:"assignSiteBwLicense,omitempty"`
+	ExchangeSocketPorts                       *ExchangeSocketPortsPayload                       `json:"exchangeSocketPorts,omitempty"`
+	RemoveBgpPeer                             *RemoveBgpPeerPayload                             `json:"removeBgpPeer,omitempty"`
 	RemoveCloudInterconnectPhysicalConnection *RemoveCloudInterconnectPhysicalConnectionPayload `json:"removeCloudInterconnectPhysicalConnection,omitempty"`
 	RemoveIpsecIkeV2SiteTunnels               *RemoveIpsecIkeV2SiteTunnelsPayload               `json:"removeIpsecIkeV2SiteTunnels,omitempty"`
 	RemoveNetworkRange                        *RemoveNetworkRangePayload                        `json:"removeNetworkRange,omitempty"`
-	// Remove the secondary AWS vSocket from an existing site
-	RemoveSecondaryAWSVSocket *RemoveSecondaryAWSVSocketPayload `json:"removeSecondaryAwsVSocket,omitempty"`
-	// Remove the secondary Azure vSocket from an existing site
-	RemoveSecondaryAzureVSocket *RemoveSecondaryAzureVSocketPayload `json:"removeSecondaryAzureVSocket,omitempty"`
-	RemoveSite                  *RemoveSitePayload                  `json:"removeSite,omitempty"`
-	// Remove a license from a site // License-to-site assignment will be removed starting in 2026 with the transition to a new pricing model.
-	RemoveSiteBwLicense   *RemoveSiteBwLicensePayload   `json:"removeSiteBwLicense,omitempty"`
-	RemoveSocketAddOnCard *RemoveSocketAddOnCardPayload `json:"removeSocketAddOnCard,omitempty"`
-	RemoveStaticHost      *RemoveStaticHostPayload      `json:"removeStaticHost,omitempty"`
-	// Replace an existing license of a site. This API is used to make sure the site
-	// will always have a license to avoid traffic drop for sites without licenses. // License-to-site assignment will be removed starting in 2026 with the transition to a new pricing model.
-	ReplaceSiteBwLicense *ReplaceSiteBwLicensePayload `json:"replaceSiteBwLicense,omitempty"`
-	// Requests an upgrade for multiple sites to specific versions.
-	// Returns the result of the request.
-	StartSiteUpgrade *StartSiteUpgradePayload `json:"startSiteUpgrade,omitempty"`
-	// Updates an existing BGP peer configuration.
-	UpdateBgpPeer *UpdateBgpPeerPayload `json:"updateBgpPeer,omitempty"`
-	// Update an existing physical connection at a cloud interconnect site.
+	RemoveSecondaryAWSVSocket                 *RemoveSecondaryAWSVSocketPayload                 `json:"removeSecondaryAwsVSocket,omitempty"`
+	RemoveSecondaryAzureVSocket               *RemoveSecondaryAzureVSocketPayload               `json:"removeSecondaryAzureVSocket,omitempty"`
+	RemoveSite                                *RemoveSitePayload                                `json:"removeSite,omitempty"`
+	RemoveSiteBwLicense                       *RemoveSiteBwLicensePayload                       `json:"removeSiteBwLicense,omitempty"`
+	RemoveSocketAddOnCard                     *RemoveSocketAddOnCardPayload                     `json:"removeSocketAddOnCard,omitempty"`
+	RemoveStaticHost                          *RemoveStaticHostPayload                          `json:"removeStaticHost,omitempty"`
+	ReplaceSiteBwLicense                      *ReplaceSiteBwLicensePayload                      `json:"replaceSiteBwLicense,omitempty"`
+	StartSiteUpgrade                          *StartSiteUpgradePayload                          `json:"startSiteUpgrade,omitempty"`
+	UpdateBgpPeer                             *UpdateBgpPeerPayload                             `json:"updateBgpPeer,omitempty"`
 	UpdateCloudInterconnectPhysicalConnection *UpdateCloudInterconnectPhysicalConnectionPayload `json:"updateCloudInterconnectPhysicalConnection,omitempty"`
 	UpdateHa                                  *UpdateHaPayload                                  `json:"updateHa,omitempty"`
 	UpdateIpsecIkeV2SiteGeneralDetails        *UpdateIpsecIkeV2SiteGeneralDetailsPayload        `json:"updateIpsecIkeV2SiteGeneralDetails,omitempty"`
 	UpdateIpsecIkeV2SiteTunnels               *UpdateIpsecIkeV2SiteTunnelsPayload               `json:"updateIpsecIkeV2SiteTunnels,omitempty"`
 	UpdateNetworkRange                        *UpdateNetworkRangePayload                        `json:"updateNetworkRange,omitempty"`
-	// Update the secondary AWS vSocket from in an existing site
-	UpdateSecondaryAWSVSocket *UpdateSecondaryAWSVSocketPayload `json:"updateSecondaryAwsVSocket,omitempty"`
-	// Update the secondary Azure vSocket in an existing site
-	UpdateSecondaryAzureVSocket *UpdateSecondaryAzureVSocketPayload `json:"updateSecondaryAzureVSocket,omitempty"`
-	// Update the bandwidth allocation of an assigned pool license of an existing site (does not apply for site license allocation) // License-to-site assignment will be removed starting in 2026 with the transition to a new pricing model.
-	UpdateSiteBwLicense           *UpdateSiteBwLicensePayload           `json:"updateSiteBwLicense,omitempty"`
-	UpdateSiteGeneralDetails      *UpdateSiteGeneralDetailsPayload      `json:"updateSiteGeneralDetails,omitempty"`
-	UpdateSiteSocketConfiguration *UpdateSiteSocketConfigurationPayload `json:"updateSiteSocketConfiguration,omitempty"`
-	UpdateSocketInterface         *UpdateSocketInterfacePayload         `json:"updateSocketInterface,omitempty"`
-	UpdateStaticHost              *UpdateStaticHostPayload              `json:"updateStaticHost,omitempty"`
+	UpdateSecondaryAWSVSocket                 *UpdateSecondaryAWSVSocketPayload                 `json:"updateSecondaryAwsVSocket,omitempty"`
+	UpdateSecondaryAzureVSocket               *UpdateSecondaryAzureVSocketPayload               `json:"updateSecondaryAzureVSocket,omitempty"`
+	UpdateSiteBwLicense                       *UpdateSiteBwLicensePayload                       `json:"updateSiteBwLicense,omitempty"`
+	UpdateSiteGeneralDetails                  *UpdateSiteGeneralDetailsPayload                  `json:"updateSiteGeneralDetails,omitempty"`
+	UpdateSiteSocketConfiguration             *UpdateSiteSocketConfigurationPayload             `json:"updateSiteSocketConfiguration,omitempty"`
+	UpdateSocketInterface                     *UpdateSocketInterfacePayload                     `json:"updateSocketInterface,omitempty"`
+	UpdateStaticHost                          *UpdateStaticHostPayload                          `json:"updateStaticHost,omitempty"`
 }
 
 // A reference identifying the SiteNetworkSubnet object. ID: Unique SiteNetworkSubnet Identifier, Name: The SiteNetworkSubnet Name
@@ -11841,12 +8829,8 @@ type SiteNetworkSubnetRef struct {
 
 func (SiteNetworkSubnetRef) IsDeviceNetworkRef() {}
 
-func (SiteNetworkSubnetRef) IsObjectRef() {}
-
-// Object's unique identifier
-func (this SiteNetworkSubnetRef) GetID() string { return this.ID }
-
-// Object's unique name
+func (SiteNetworkSubnetRef) IsObjectRef()         {}
+func (this SiteNetworkSubnetRef) GetID() string   { return this.ID }
 func (this SiteNetworkSubnetRef) GetName() string { return this.Name }
 
 type SiteNetworkSubnetRefInput struct {
@@ -11855,35 +8839,25 @@ type SiteNetworkSubnetRefInput struct {
 }
 
 type SitePreferredPopLocation struct {
-	// Forces the socket to connect exclusively to the configured PoP locations
 	PreferredOnly bool            `json:"preferredOnly"`
 	Primary       *PopLocationRef `json:"primary,omitempty"`
 	Secondary     *PopLocationRef `json:"secondary,omitempty"`
 }
 
 type SiteQueries struct {
-	// Retrieves available socket versions for the specified platforms.
-	AvailableVersionList *AvailableVersionListPayload `json:"availableVersionList,omitempty"`
-	// Retrieves details of a specific BGP peer by reference.
-	BgpPeer *BgpPeer `json:"bgpPeer,omitempty"`
-	// Retrieves a list of all BGP peers associated with the specified site.
-	BgpPeerList *BgpPeerListPayload `json:"bgpPeerList,omitempty"`
-	// Check the L2 connectivity status of a cloud interconnect connection using ICMP.
+	AvailableVersionList                    *AvailableVersionListPayload             `json:"availableVersionList,omitempty"`
+	BgpPeer                                 *BgpPeer                                 `json:"bgpPeer,omitempty"`
+	BgpPeerList                             *BgpPeerListPayload                      `json:"bgpPeerList,omitempty"`
 	CloudInterconnectConnectionConnectivity *CloudInterconnectConnectionConnectivity `json:"cloudInterconnectConnectionConnectivity,omitempty"`
-	// Get details of a physical connection at a cloud interconnect site.
-	CloudInterconnectPhysicalConnection *CloudInterconnectPhysicalConnection `json:"cloudInterconnectPhysicalConnection,omitempty"`
-	// Get the ID of a physical connection at a cloud interconnect site.
-	CloudInterconnectPhysicalConnectionID *CloudInterconnectPhysicalConnectionID `json:"cloudInterconnectPhysicalConnectionId,omitempty"`
-	// Retrieves details of a specific secondary AWS vSocket.
-	SecondaryAWSVSocket *SecondaryAWSVSocket `json:"secondaryAwsVSocket,omitempty"`
-	// Retrieves details of a specific secondary Azure vSocket.
-	SecondaryAzureVSocket *SecondaryAzureVSocket `json:"secondaryAzureVSocket,omitempty"`
-	// Provides the BGP status of the specified site, including session and route details.
-	SiteBgpStatus           *SiteBgpStatus             `json:"siteBgpStatus,omitempty"`
-	SiteGeneralDetails      *SiteGeneralDetailsPayload `json:"siteGeneralDetails,omitempty"`
-	SiteSocketConfiguration *SiteSocketConfiguration   `json:"siteSocketConfiguration,omitempty"`
-	NetworkRangeList        *NetworkRangeListPayload   `json:"networkRangeList,omitempty"`
-	NetworkRange            *NetworkRange              `json:"networkRange,omitempty"`
+	CloudInterconnectPhysicalConnection     *CloudInterconnectPhysicalConnection     `json:"cloudInterconnectPhysicalConnection,omitempty"`
+	CloudInterconnectPhysicalConnectionID   *CloudInterconnectPhysicalConnectionID   `json:"cloudInterconnectPhysicalConnectionId,omitempty"`
+	NetworkRange                            *NetworkRange                            `json:"networkRange,omitempty"`
+	NetworkRangeList                        *NetworkRangeListPayload                 `json:"networkRangeList,omitempty"`
+	SecondaryAWSVSocket                     *SecondaryAWSVSocket                     `json:"secondaryAwsVSocket,omitempty"`
+	SecondaryAzureVSocket                   *SecondaryAzureVSocket                   `json:"secondaryAzureVSocket,omitempty"`
+	SiteBgpStatus                           *SiteBgpStatus                           `json:"siteBgpStatus,omitempty"`
+	SiteGeneralDetails                      *SiteGeneralDetailsPayload               `json:"siteGeneralDetails,omitempty"`
+	SiteSocketConfiguration                 *SiteSocketConfiguration                 `json:"siteSocketConfiguration,omitempty"`
 }
 
 // A reference identifying the Site object. ID: Unique Site Identifier, Name: The Site Name
@@ -11892,12 +8866,8 @@ type SiteRef struct {
 	Name string `json:"name"`
 }
 
-func (SiteRef) IsObjectRef() {}
-
-// Object's unique identifier
-func (this SiteRef) GetID() string { return this.ID }
-
-// Object's unique name
+func (SiteRef) IsObjectRef()         {}
+func (this SiteRef) GetID() string   { return this.ID }
 func (this SiteRef) GetName() string { return this.Name }
 
 type SiteRefFilterInput struct {
@@ -11913,66 +8883,47 @@ type SiteRefInput struct {
 }
 
 type SiteSnapshot struct {
-	// Alternative WAN connectivity status
-	AltWanStatus *string `json:"altWanStatus,omitempty"`
-	// For connected sites, since when are they connected
-	ConnectedSince *string `json:"connectedSince,omitempty"`
-	// Connectivity to the Cato Cloud
-	ConnectivityStatus *ConnectivityStatus `json:"connectivityStatus,omitempty"`
-	// Degraded status and details
-	DegradedStatus *DegradedStatus `json:"degradedStatus,omitempty"`
-	// Data related to the Sockets for a site
-	Devices []*DeviceSnapshot `json:"devices,omitempty"`
-	// Site HA readiness information
-	HaStatus *HaStatus `json:"haStatus,omitempty"`
-	// Number of hosts connected to a site
-	HostCount *int64 `json:"hostCount,omitempty"`
-	// site ID
-	ID *string `json:"id,omitempty"`
-	// General real-time information about the site
-	Info *SiteInfo `json:"info,omitempty"`
-	// Relevant when the site is disconnected - the last time the device was connected
-	LastConnected *string `json:"lastConnected,omitempty"`
-	// Status for a site or VPN user
-	OperationalStatus *scalars.OperationalStatus `json:"operationalStatus,omitempty"`
-	// Name of the PoP that the site is connected to
-	PopName *string `json:"popName,omitempty"`
-	ProtoID *int64  `json:"protoId,omitempty"`
+	AltWanStatus       *string                    `json:"altWanStatus,omitempty"`
+	ConnectedSince     *string                    `json:"connectedSince,omitempty"`
+	ConnectivityStatus *ConnectivityStatus        `json:"connectivityStatus,omitempty"`
+	DegradedStatus     *DegradedStatus            `json:"degradedStatus,omitempty"`
+	Devices            []*DeviceSnapshot          `json:"devices,omitempty"`
+	HaStatus           *HaStatus                  `json:"haStatus,omitempty"`
+	HostCount          *int64                     `json:"hostCount,omitempty"`
+	ID                 *string                    `json:"id,omitempty"`
+	Info               *SiteInfo                  `json:"info,omitempty"`
+	LastConnected      *string                    `json:"lastConnected,omitempty"`
+	OperationalStatus  *scalars.OperationalStatus `json:"operationalStatus,omitempty"`
+	PopName            *string                    `json:"popName,omitempty"`
+	ProtoID            *int64                     `json:"protoId,omitempty"`
 }
 
 type SiteSocketConfiguration struct {
-	// Configuration for the primary Socket of the site.
-	PrimarySocketConfiguration *SocketConfiguration `json:"primarySocketConfiguration"`
-	// Configuration for the secondary Socket of the site.
+	PrimarySocketConfiguration   *SocketConfiguration `json:"primarySocketConfiguration"`
 	SecondarySocketConfiguration *SocketConfiguration `json:"secondarySocketConfiguration,omitempty"`
 }
 
 type SiteSocketConfigurationInput struct {
-	// Identifies the site.
 	Site *SiteRefInput `json:"site"`
 }
 
 // Information about a site upgrade.
 type SiteUpgradeInfo struct {
-	// The scheduled UTC time for the upgrade.
-	ScheduledAt string   `json:"scheduledAt"`
-	Site        *SiteRef `json:"site"`
-	// The requested version for this site.
-	TargetVersion string `json:"targetVersion"`
+	ScheduledAt   string   `json:"scheduledAt"`
+	Site          *SiteRef `json:"site"`
+	TargetVersion string   `json:"targetVersion"`
 }
 
 // Represents a single site upgrade request.
 type SiteUpgradeRequest struct {
-	Site *SiteRefInput `json:"site"`
-	// Target version to upgrade the site's sockets to.
-	TargetVersion string `json:"targetVersion"`
+	Site          *SiteRefInput `json:"site"`
+	TargetVersion string        `json:"targetVersion"`
 }
 
 // Represents the result of an upgrade request.
 type SiteUpgradeResult struct {
-	Site *BulkUpgradeSiteInfo `json:"site"`
-	// The requested version for this site.
-	TargetVersion string `json:"targetVersion"`
+	Site          *BulkUpgradeSiteInfo `json:"site"`
+	TargetVersion string               `json:"targetVersion"`
 }
 
 type SocketAddOnCard struct {
@@ -11986,29 +8937,21 @@ type SocketAddOnCardInput struct {
 }
 
 type SocketConfiguration struct {
-	// A description for the Socket.
 	Description *string `json:"description,omitempty"`
 }
 
 type SocketConfigurationInput struct {
-	// A description for the Socket.
 	Description *string `json:"description,omitempty"`
 }
 
 // Basic information about socket
 type SocketInfo struct {
-	// Unique ID for Socket
-	ID *string `json:"id,omitempty"`
-	// For HA configurations, when this boolean value is true, this the primary Socket
-	IsPrimary *bool `json:"isPrimary,omitempty"`
-	// Shows Socket type
-	Platform *SocketPlatform `json:"platform,omitempty"`
-	// Serial number for the Socket
-	Serial *string `json:"serial,omitempty"`
-	// Software version number that is currently installed on the Socket
-	Version *string `json:"version,omitempty"`
-	// Timestamp when the Socket upgraded to the current hardware version
-	VersionUpdateTime *string `json:"versionUpdateTime,omitempty"`
+	ID                *string         `json:"id,omitempty"`
+	IsPrimary         *bool           `json:"isPrimary,omitempty"`
+	Platform          *SocketPlatform `json:"platform,omitempty"`
+	Serial            *string         `json:"serial,omitempty"`
+	Version           *string         `json:"version,omitempty"`
+	VersionUpdateTime *string         `json:"versionUpdateTime,omitempty"`
 }
 
 type SocketInterfaceAltWanInput struct {
@@ -12047,7 +8990,6 @@ type SocketInterfaceOffCloudInput struct {
 
 // Reference to a socket interface within a site.
 type SocketInterfaceRefInput struct {
-	// Interface identifier (e.g., WAN1, LAN1, USB1).
 	InterfaceID SocketInterfaceIDEnum `json:"interfaceId"`
 }
 
@@ -12061,8 +9003,6 @@ type SocketInterfaceWanInput struct {
 }
 
 type SocketInventoryFilterInput struct {
-	// Will run contains operation for the provided text on the following fields serialNumber,socketMac,socketVersion,installedSite,
-	// shippingCompany,trackingNumber,deliverySiteName,description,hardwareVersion with OR between them
 	FreeText *FreeTextFilterInput `json:"freeText,omitempty"`
 }
 
@@ -12073,46 +9013,26 @@ type SocketInventoryInput struct {
 }
 
 type SocketInventoryItem struct {
-	// Socket account
-	Account *AccountRef `json:"account"`
-	// Available upgrade versions
-	AvailableUpgradeVersions []string `json:"availableUpgradeVersions"`
-	// Name of the delivery site
-	DeliverySiteName *string `json:"deliverySiteName,omitempty"`
-	// Description
-	Description *string `json:"description,omitempty"`
-	// Hardware Version
-	HardwareVersion *string `json:"hardwareVersion,omitempty"`
-	// ID
-	ID string `json:"id"`
-	// Is primary socket
-	IsPrimary bool `json:"isPrimary"`
-	// Registration status
-	RegistrationStatus *SocketRegistrationStatus `json:"registrationStatus,omitempty"`
-	// Serial number (unique)
-	SerialNumber *string `json:"serialNumber,omitempty"`
-	// Shipping company
-	ShippingCompany *string `json:"shippingCompany,omitempty"`
-	// Shipping date
-	ShippingDate *string `json:"shippingDate,omitempty"`
-	// Socket's site
-	Site *SiteRef `json:"site,omitempty"`
-	// Mac address
-	SocketMac *string `json:"socketMac,omitempty"`
-	// Socket Type
-	SocketType *SocketPlatform `json:"socketType,omitempty"`
-	// Socket version
-	SocketVersion *string `json:"socketVersion,omitempty"`
-	// Socket status (see SocketInventoryItemStatus)
-	Status *SocketInventoryItemStatus `json:"status,omitempty"`
-	// tracking number from the shipping company
-	TrackingNumber *string `json:"trackingNumber,omitempty"`
-	// tracking url from the shipping company
-	TrackingURL *string `json:"trackingUrl,omitempty"`
-	// Are automatic upgrade paused
-	UpgradesPaused bool `json:"upgradesPaused"`
-	// Upgrade status
-	UpgradeStatus *SocketUpgradeStatus `json:"upgradeStatus,omitempty"`
+	Account                  *AccountRef                `json:"account"`
+	AvailableUpgradeVersions []string                   `json:"availableUpgradeVersions"`
+	DeliverySiteName         *string                    `json:"deliverySiteName,omitempty"`
+	Description              *string                    `json:"description,omitempty"`
+	HardwareVersion          *string                    `json:"hardwareVersion,omitempty"`
+	ID                       string                     `json:"id"`
+	IsPrimary                bool                       `json:"isPrimary"`
+	RegistrationStatus       *SocketRegistrationStatus  `json:"registrationStatus,omitempty"`
+	SerialNumber             *string                    `json:"serialNumber,omitempty"`
+	ShippingCompany          *string                    `json:"shippingCompany,omitempty"`
+	ShippingDate             *string                    `json:"shippingDate,omitempty"`
+	Site                     *SiteRef                   `json:"site,omitempty"`
+	SocketMac                *string                    `json:"socketMac,omitempty"`
+	SocketType               *SocketPlatform            `json:"socketType,omitempty"`
+	SocketVersion            *string                    `json:"socketVersion,omitempty"`
+	Status                   *SocketInventoryItemStatus `json:"status,omitempty"`
+	TrackingNumber           *string                    `json:"trackingNumber,omitempty"`
+	TrackingURL              *string                    `json:"trackingUrl,omitempty"`
+	UpgradeStatus            *SocketUpgradeStatus       `json:"upgradeStatus,omitempty"`
+	UpgradesPaused           bool                       `json:"upgradesPaused"`
 }
 
 type SocketInventoryOrderInput struct {
@@ -12125,8 +9045,7 @@ type SocketInventoryOrderInput struct {
 	ShippingCompany  *SortOrderInput `json:"shippingCompany,omitempty"`
 	ShippingDate     *SortOrderInput `json:"shippingDate,omitempty"`
 	SocketType       *SortOrderInput `json:"socketType,omitempty"`
-	// Default sort field
-	Status *SortOrderInput `json:"status,omitempty"`
+	Status           *SortOrderInput `json:"status,omitempty"`
 }
 
 type SocketInventoryPayload struct {
@@ -12135,37 +9054,20 @@ type SocketInventoryPayload struct {
 }
 
 type SocketLanAddRuleDataInput struct {
-	Description string `json:"description"`
-	// Destination traffic matching criteria.
-	// Logical ‘OR’ is applied within the criteria set.
-	// Logical ‘AND’ is applied between criteria sets.
+	Description string                     `json:"description"`
 	Destination *SocketLanDestinationInput `json:"destination"`
-	// Direction of the traffic initiator matching criteria.
-	Direction SocketLanDirection `json:"direction"`
-	Enabled   bool               `json:"enabled"`
-	Name      string             `json:"name"`
-	// Optionally, enable NAT on the outgoing interface. This translates all originating IPs to one NAT IP.
-	Nat *SocketLanNatSettingsInput `json:"nat"`
-	// Destination service matching criteria for the rule. Port/Protocol based.
-	Service *SocketLanServiceInput `json:"service"`
-	// The sites the policy will be enforced on.
-	// Socket sites only, with Socket v22 onwards.
-	Site *SocketLanSiteInput `json:"site"`
-	// Source traffic matching criteria.
-	// Logical ‘OR’ is applied within the criteria set.
-	// Logical ‘AND’ is applied between criteria sets.
-	Source *SocketLanSourceInput `json:"source"`
-	// The transport of the matching traffic.
-	// Either govern traffic to be routed locally (LAN), or to the PoP(WAN).
-	// Traffic is send to the WAN by default.
-	// Traffic routed in the LAN, enforced by the LAN Firewall rules.
-	Transport SocketLanTransportType `json:"transport"`
+	Direction   SocketLanDirection         `json:"direction"`
+	Enabled     bool                       `json:"enabled"`
+	Name        string                     `json:"name"`
+	Nat         *SocketLanNatSettingsInput `json:"nat"`
+	Service     *SocketLanServiceInput     `json:"service"`
+	Site        *SocketLanSiteInput        `json:"site"`
+	Source      *SocketLanSourceInput      `json:"source"`
+	Transport   SocketLanTransportType     `json:"transport"`
 }
 
 type SocketLanAddRuleInput struct {
-	// Position of the rule in the policy
-	At *PolicyRulePositionInput `json:"at,omitempty"`
-	// Parameters for the rule you are adding
+	At   *PolicyRulePositionInput   `json:"at,omitempty"`
 	Rule *SocketLanAddRuleDataInput `json:"rule"`
 }
 
@@ -12215,39 +9117,26 @@ type SocketLanDestinationUpdateInput struct {
 }
 
 type SocketLanFirewallAddRuleDataInput struct {
-	// Action to take when the rule is matched (ALLOW or BLOCK).
-	Action SocketLanFirewallAction `json:"action"`
-	// Application traffic matching criteria.
+	Action      SocketLanFirewallAction            `json:"action"`
 	Application *SocketLanFirewallApplicationInput `json:"application"`
 	Description string                             `json:"description"`
-	// Defines destinations for the socket LAN firewall.
-	// Also, inherited by Network Rule above.
 	Destination *SocketLanFirewallDestinationInput `json:"destination"`
-	// Direction of the traffic (TO or BOTH).
-	Direction SocketLanFirewallDirection `json:"direction"`
-	Enabled   bool                       `json:"enabled"`
-	Name      string                     `json:"name"`
-	// Service traffic matching criteria.
-	Service *SocketLanFirewallServiceTypeInput `json:"service"`
-	// Defines sources for the socket LAN firewall.
-	// Also, inherited by Network Rule above.
-	Source *SocketLanFirewallSourceInput `json:"source"`
-	// Tracking information when the rule is matched, such as events and notifications.
-	Tracking *PolicyTrackingInput `json:"tracking"`
+	Direction   SocketLanFirewallDirection         `json:"direction"`
+	Enabled     bool                               `json:"enabled"`
+	Name        string                             `json:"name"`
+	Service     *SocketLanFirewallServiceTypeInput `json:"service"`
+	Source      *SocketLanFirewallSourceInput      `json:"source"`
+	Tracking    *PolicyTrackingInput               `json:"tracking"`
 }
 
 type SocketLanFirewallAddRuleInput struct {
-	// Position of the rule in the policy
-	At *PolicySubRulePositionInput `json:"at,omitempty"`
-	// Parameters for the rule you are adding
+	At   *PolicySubRulePositionInput        `json:"at,omitempty"`
 	Rule *SocketLanFirewallAddRuleDataInput `json:"rule"`
 }
 
 // Defines applications for the socket LAN firewall.
 type SocketLanFirewallApplication struct {
-	// Applications matching criteria for this rule.
-	Application []*ApplicationRef `json:"application"`
-	// Custom applications that can be matched by
+	Application   []*ApplicationRef       `json:"application"`
 	CustomApp     []*CustomApplicationRef `json:"customApp"`
 	Domain        []string                `json:"domain"`
 	Fqdn          []string                `json:"fqdn"`
@@ -12259,9 +9148,7 @@ type SocketLanFirewallApplication struct {
 
 // Defines applications for the socket LAN firewall.
 type SocketLanFirewallApplicationInput struct {
-	// Applications matching criteria for this rule.
-	Application []*ApplicationRefInput `json:"application"`
-	// Custom applications that can be matched by
+	Application   []*ApplicationRefInput       `json:"application"`
 	CustomApp     []*CustomApplicationRefInput `json:"customApp"`
 	Domain        []string                     `json:"domain"`
 	Fqdn          []string                     `json:"fqdn"`
@@ -12273,9 +9160,7 @@ type SocketLanFirewallApplicationInput struct {
 
 // Defines applications for the socket LAN firewall.
 type SocketLanFirewallApplicationUpdateInput struct {
-	// Applications matching criteria for this rule.
-	Application []*ApplicationRefInput `json:"application,omitempty"`
-	// Custom applications that can be matched by
+	Application   []*ApplicationRefInput       `json:"application,omitempty"`
 	CustomApp     []*CustomApplicationRefInput `json:"customApp,omitempty"`
 	Domain        []string                     `json:"domain,omitempty"`
 	Fqdn          []string                     `json:"fqdn,omitempty"`
@@ -12287,86 +9172,50 @@ type SocketLanFirewallApplicationUpdateInput struct {
 
 // Defines destinations for the socket LAN firewall.
 type SocketLanFirewallDestination struct {
-	// Floating subnets used to identify traffic based on specific criteria.
-	FloatingSubnet []*FloatingSubnetRef `json:"floatingSubnet"`
-	// Global IP ranges defined for your account.
-	GlobalIPRange []*GlobalIPRangeRef `json:"globalIpRange"`
-	// Groups defined for your account.
-	Group []*GroupRef `json:"group"`
-	// Hosts and servers defined for your account.
-	Host []*HostRef `json:"host"`
-	// IPv4 addresses.
-	IP []string `json:"ip"`
-	// Multiple separate IP addresses or an IP range.
-	IPRange []*IPAddressRange `json:"ipRange"`
-	// Network interfaces defined for your site.
-	NetworkInterface []*NetworkInterfaceRef `json:"networkInterface"`
-	// Sites defined for your account.
-	Site []*SiteRef `json:"site"`
-	// Subnets specific to a site defined for your account.
+	FloatingSubnet    []*FloatingSubnetRef    `json:"floatingSubnet"`
+	GlobalIPRange     []*GlobalIPRangeRef     `json:"globalIpRange"`
+	Group             []*GroupRef             `json:"group"`
+	Host              []*HostRef              `json:"host"`
+	IP                []string                `json:"ip"`
+	IPRange           []*IPAddressRange       `json:"ipRange"`
+	NetworkInterface  []*NetworkInterfaceRef  `json:"networkInterface"`
+	Site              []*SiteRef              `json:"site"`
 	SiteNetworkSubnet []*SiteNetworkSubnetRef `json:"siteNetworkSubnet"`
-	// Subnets to which traffic is directed.
-	Subnet []string `json:"subnet"`
-	// Predefined system groups in your account.
-	SystemGroup []*SystemGroupRef `json:"systemGroup"`
-	// VLAN ID matching criteria.
-	Vlan []scalars.Vlan `json:"vlan"`
+	Subnet            []string                `json:"subnet"`
+	SystemGroup       []*SystemGroupRef       `json:"systemGroup"`
+	Vlan              []scalars.Vlan          `json:"vlan"`
 }
 
 // Defines destinations for the socket LAN firewall.
 type SocketLanFirewallDestinationInput struct {
-	// Floating subnets used to identify traffic based on specific criteria.
-	FloatingSubnet []*FloatingSubnetRefInput `json:"floatingSubnet"`
-	// Global IP ranges defined for your account.
-	GlobalIPRange []*GlobalIPRangeRefInput `json:"globalIpRange"`
-	// Groups defined for your account.
-	Group []*GroupRefInput `json:"group"`
-	// Hosts and servers defined for your account.
-	Host []*HostRefInput `json:"host"`
-	// IPv4 addresses.
-	IP []string `json:"ip"`
-	// Multiple separate IP addresses or an IP range.
-	IPRange []*IPAddressRangeInput `json:"ipRange"`
-	// Network interfaces defined for your site.
-	NetworkInterface []*NetworkInterfaceRefInput `json:"networkInterface"`
-	// Sites defined for your account.
-	Site []*SiteRefInput `json:"site"`
-	// Subnets specific to a site defined for your account.
+	FloatingSubnet    []*FloatingSubnetRefInput    `json:"floatingSubnet"`
+	GlobalIPRange     []*GlobalIPRangeRefInput     `json:"globalIpRange"`
+	Group             []*GroupRefInput             `json:"group"`
+	Host              []*HostRefInput              `json:"host"`
+	IP                []string                     `json:"ip"`
+	IPRange           []*IPAddressRangeInput       `json:"ipRange"`
+	NetworkInterface  []*NetworkInterfaceRefInput  `json:"networkInterface"`
+	Site              []*SiteRefInput              `json:"site"`
 	SiteNetworkSubnet []*SiteNetworkSubnetRefInput `json:"siteNetworkSubnet"`
-	// Subnets to which traffic is directed.
-	Subnet []string `json:"subnet"`
-	// Predefined system groups in your account.
-	SystemGroup []*SystemGroupRefInput `json:"systemGroup"`
-	// VLAN ID matching criteria.
-	Vlan []scalars.Vlan `json:"vlan"`
+	Subnet            []string                     `json:"subnet"`
+	SystemGroup       []*SystemGroupRefInput       `json:"systemGroup"`
+	Vlan              []scalars.Vlan               `json:"vlan"`
 }
 
 // Defines destinations for the socket LAN firewall.
 type SocketLanFirewallDestinationUpdateInput struct {
-	// Floating subnets used to identify traffic based on specific criteria.
-	FloatingSubnet []*FloatingSubnetRefInput `json:"floatingSubnet,omitempty"`
-	// Global IP ranges defined for your account.
-	GlobalIPRange []*GlobalIPRangeRefInput `json:"globalIpRange,omitempty"`
-	// Groups defined for your account.
-	Group []*GroupRefInput `json:"group,omitempty"`
-	// Hosts and servers defined for your account.
-	Host []*HostRefInput `json:"host,omitempty"`
-	// IPv4 addresses.
-	IP []string `json:"ip,omitempty"`
-	// Multiple separate IP addresses or an IP range.
-	IPRange []*IPAddressRangeInput `json:"ipRange,omitempty"`
-	// Network interfaces defined for your site.
-	NetworkInterface []*NetworkInterfaceRefInput `json:"networkInterface,omitempty"`
-	// Sites defined for your account.
-	Site []*SiteRefInput `json:"site,omitempty"`
-	// Subnets specific to a site defined for your account.
+	FloatingSubnet    []*FloatingSubnetRefInput    `json:"floatingSubnet,omitempty"`
+	GlobalIPRange     []*GlobalIPRangeRefInput     `json:"globalIpRange,omitempty"`
+	Group             []*GroupRefInput             `json:"group,omitempty"`
+	Host              []*HostRefInput              `json:"host,omitempty"`
+	IP                []string                     `json:"ip,omitempty"`
+	IPRange           []*IPAddressRangeInput       `json:"ipRange,omitempty"`
+	NetworkInterface  []*NetworkInterfaceRefInput  `json:"networkInterface,omitempty"`
+	Site              []*SiteRefInput              `json:"site,omitempty"`
 	SiteNetworkSubnet []*SiteNetworkSubnetRefInput `json:"siteNetworkSubnet,omitempty"`
-	// Subnets to which traffic is directed.
-	Subnet []string `json:"subnet,omitempty"`
-	// Predefined system groups in your account.
-	SystemGroup []*SystemGroupRefInput `json:"systemGroup,omitempty"`
-	// VLAN ID matching criteria.
-	Vlan []scalars.Vlan `json:"vlan,omitempty"`
+	Subnet            []string                     `json:"subnet,omitempty"`
+	SystemGroup       []*SystemGroupRefInput       `json:"systemGroup,omitempty"`
+	Vlan              []scalars.Vlan               `json:"vlan,omitempty"`
 }
 
 type SocketLanFirewallPolicyMutations struct {
@@ -12381,55 +9230,27 @@ type SocketLanFirewallRemoveRuleInput struct {
 }
 
 type SocketLanFirewallRule struct {
-	// Action to take when the rule is matched (ALLOW or BLOCK).
-	Action SocketLanFirewallAction `json:"action"`
-	// Application traffic matching criteria.
+	Action      SocketLanFirewallAction       `json:"action"`
 	Application *SocketLanFirewallApplication `json:"application"`
-	// Description for the rule
-	Description string `json:"description"`
-	// Defines destinations for the socket LAN firewall.
-	// Also, inherited by Network Rule above.
+	Description string                        `json:"description"`
 	Destination *SocketLanFirewallDestination `json:"destination"`
-	// Direction of the traffic (TO or BOTH).
-	Direction SocketLanFirewallDirection `json:"direction"`
-	// TRUE = Rule is enabled
-	//  FALSE = Rule is disabled
-	Enabled bool `json:"enabled"`
-	// Rule ID
-	ID string `json:"id"`
-	// Position / priority of rule
-	Index int64 `json:"index"`
-	// Name of the rule
-	Name string `json:"name"`
-	// Policy section where the rule is located
-	Section *PolicySectionInfo `json:"section"`
-	// Service traffic matching criteria.
-	Service *SocketLanFirewallServiceType `json:"service"`
-	// Defines sources for the socket LAN firewall.
-	// Also, inherited by Network Rule above.
-	Source *SocketLanFirewallSource `json:"source"`
-	// Tracking information when the rule is matched, such as events and notifications.
-	Tracking *PolicyTracking `json:"tracking"`
+	Direction   SocketLanFirewallDirection    `json:"direction"`
+	Enabled     bool                          `json:"enabled"`
+	ID          string                        `json:"id"`
+	Index       int64                         `json:"index"`
+	Name        string                        `json:"name"`
+	Section     *PolicySectionInfo            `json:"section"`
+	Service     *SocketLanFirewallServiceType `json:"service"`
+	Source      *SocketLanFirewallSource      `json:"source"`
+	Tracking    *PolicyTracking               `json:"tracking"`
 }
 
-func (SocketLanFirewallRule) IsIPolicyRule() {}
-
-// Rule ID
-func (this SocketLanFirewallRule) GetID() string { return this.ID }
-
-// Name of the rule
-func (this SocketLanFirewallRule) GetName() string { return this.Name }
-
-// Description for the rule
-func (this SocketLanFirewallRule) GetDescription() *string { return &this.Description }
-
-// Position / priority of rule
-func (this SocketLanFirewallRule) GetIndex() int64 { return this.Index }
-
-// TRUE = Rule is enabled, FALSE = Rule is disabled
-func (this SocketLanFirewallRule) GetEnabled() bool { return this.Enabled }
-
-// Policy section where the rule is located
+func (SocketLanFirewallRule) IsIPolicyRule()                      {}
+func (this SocketLanFirewallRule) GetDescription() *string        { return &this.Description }
+func (this SocketLanFirewallRule) GetEnabled() bool               { return this.Enabled }
+func (this SocketLanFirewallRule) GetID() string                  { return this.ID }
+func (this SocketLanFirewallRule) GetIndex() int64                { return this.Index }
+func (this SocketLanFirewallRule) GetName() string                { return this.Name }
 func (this SocketLanFirewallRule) GetSection() *PolicySectionInfo { return this.Section }
 
 type SocketLanFirewallRuleMutationPayload struct {
@@ -12439,14 +9260,6 @@ type SocketLanFirewallRuleMutationPayload struct {
 }
 
 func (SocketLanFirewallRuleMutationPayload) IsIPolicyRuleMutationPayload() {}
-
-// Returns settings for the rule
-func (this SocketLanFirewallRuleMutationPayload) GetRule() IPolicyRulePayload { return *this.Rule }
-
-// Enum for the status of the policy change
-func (this SocketLanFirewallRuleMutationPayload) GetStatus() PolicyMutationStatus { return this.Status }
-
-// List of errors related to the policy change
 func (this SocketLanFirewallRuleMutationPayload) GetErrors() []*PolicyMutationError {
 	if this.Errors == nil {
 		return nil
@@ -12457,6 +9270,8 @@ func (this SocketLanFirewallRuleMutationPayload) GetErrors() []*PolicyMutationEr
 	}
 	return interfaceSlice
 }
+func (this SocketLanFirewallRuleMutationPayload) GetRule() IPolicyRulePayload     { return *this.Rule }
+func (this SocketLanFirewallRuleMutationPayload) GetStatus() PolicyMutationStatus { return this.Status }
 
 type SocketLanFirewallRulePayload struct {
 	Audit      *PolicyElementAudit           `json:"audit"`
@@ -12466,11 +9281,6 @@ type SocketLanFirewallRulePayload struct {
 
 func (SocketLanFirewallRulePayload) IsIPolicyRulePayload()              {}
 func (this SocketLanFirewallRulePayload) GetAudit() *PolicyElementAudit { return this.Audit }
-
-// Rule that was changed
-func (this SocketLanFirewallRulePayload) GetRule() IPolicyRule { return *this.Rule }
-
-// Summary of rule change, (ie. ADDED, UPDATED)
 func (this SocketLanFirewallRulePayload) GetProperties() []PolicyElementPropertiesEnum {
 	if this.Properties == nil {
 		return nil
@@ -12481,147 +9291,91 @@ func (this SocketLanFirewallRulePayload) GetProperties() []PolicyElementProperti
 	}
 	return interfaceSlice
 }
+func (this SocketLanFirewallRulePayload) GetRule() IPolicyRule { return *this.Rule }
 
 // Defines services used in the socket LAN firewall.
 type SocketLanFirewallServiceType struct {
-	// Custom services defined for this rule.
-	Custom []*CustomService `json:"custom"`
-	// Simple services allowed by the firewall rule.
-	Simple []*SimpleService `json:"simple"`
-	// Standard services allowed by the firewall rule.
-	Standard []*ServiceRef `json:"standard"`
+	Custom   []*CustomService `json:"custom"`
+	Simple   []*SimpleService `json:"simple"`
+	Standard []*ServiceRef    `json:"standard"`
 }
 
 // Defines services used in the socket LAN firewall.
 type SocketLanFirewallServiceTypeInput struct {
-	// Custom services defined for this rule.
-	Custom []*CustomServiceInput `json:"custom"`
-	// Simple services allowed by the firewall rule.
-	Simple []*SimpleServiceInput `json:"simple"`
-	// Standard services allowed by the firewall rule.
-	Standard []*ServiceRefInput `json:"standard"`
+	Custom   []*CustomServiceInput `json:"custom"`
+	Simple   []*SimpleServiceInput `json:"simple"`
+	Standard []*ServiceRefInput    `json:"standard"`
 }
 
 // Defines services used in the socket LAN firewall.
 type SocketLanFirewallServiceTypeUpdateInput struct {
-	// Custom services defined for this rule.
-	Custom []*CustomServiceInput `json:"custom,omitempty"`
-	// Simple services allowed by the firewall rule.
-	Simple []*SimpleServiceInput `json:"simple,omitempty"`
-	// Standard services allowed by the firewall rule.
-	Standard []*ServiceRefInput `json:"standard,omitempty"`
+	Custom   []*CustomServiceInput `json:"custom,omitempty"`
+	Simple   []*SimpleServiceInput `json:"simple,omitempty"`
+	Standard []*ServiceRefInput    `json:"standard,omitempty"`
 }
 
 // Defines sources for the socket LAN firewall.
 type SocketLanFirewallSource struct {
-	// Floating subnets used to identify traffic based on specific criteria.
-	FloatingSubnet []*FloatingSubnetRef `json:"floatingSubnet"`
-	// Global IP ranges defined for your account.
-	GlobalIPRange []*GlobalIPRangeRef `json:"globalIpRange"`
-	// Groups defined for your account.
-	Group []*GroupRef `json:"group"`
-	// Hosts and servers defined for your account.
-	Host []*HostRef `json:"host"`
-	// IPv4 addresses.
-	IP []string `json:"ip"`
-	// Multiple separate IP addresses or an IP range.
-	IPRange []*IPAddressRange `json:"ipRange"`
-	// MAC addresses of devices matching criteria.
-	Mac []string `json:"mac"`
-	// Network interfaces defined for your site.
-	NetworkInterface []*NetworkInterfaceRef `json:"networkInterface"`
-	// Sites defined for your account.
-	Site []*SiteRef `json:"site"`
-	// Subnets specific to a site defined for your account.
+	FloatingSubnet    []*FloatingSubnetRef    `json:"floatingSubnet"`
+	GlobalIPRange     []*GlobalIPRangeRef     `json:"globalIpRange"`
+	Group             []*GroupRef             `json:"group"`
+	Host              []*HostRef              `json:"host"`
+	IP                []string                `json:"ip"`
+	IPRange           []*IPAddressRange       `json:"ipRange"`
+	Mac               []string                `json:"mac"`
+	NetworkInterface  []*NetworkInterfaceRef  `json:"networkInterface"`
+	Site              []*SiteRef              `json:"site"`
 	SiteNetworkSubnet []*SiteNetworkSubnetRef `json:"siteNetworkSubnet"`
-	// Subnets from which traffic originates.
-	Subnet []string `json:"subnet"`
-	// Predefined system groups in your account.
-	SystemGroup []*SystemGroupRef `json:"systemGroup"`
-	// VLAN ID matching criteria.
-	Vlan []scalars.Vlan `json:"vlan"`
+	Subnet            []string                `json:"subnet"`
+	SystemGroup       []*SystemGroupRef       `json:"systemGroup"`
+	Vlan              []scalars.Vlan          `json:"vlan"`
 }
 
 // Defines sources for the socket LAN firewall.
 type SocketLanFirewallSourceInput struct {
-	// Floating subnets used to identify traffic based on specific criteria.
-	FloatingSubnet []*FloatingSubnetRefInput `json:"floatingSubnet"`
-	// Global IP ranges defined for your account.
-	GlobalIPRange []*GlobalIPRangeRefInput `json:"globalIpRange"`
-	// Groups defined for your account.
-	Group []*GroupRefInput `json:"group"`
-	// Hosts and servers defined for your account.
-	Host []*HostRefInput `json:"host"`
-	// IPv4 addresses.
-	IP []string `json:"ip"`
-	// Multiple separate IP addresses or an IP range.
-	IPRange []*IPAddressRangeInput `json:"ipRange"`
-	// MAC addresses of devices matching criteria.
-	Mac []string `json:"mac"`
-	// Network interfaces defined for your site.
-	NetworkInterface []*NetworkInterfaceRefInput `json:"networkInterface"`
-	// Sites defined for your account.
-	Site []*SiteRefInput `json:"site"`
-	// Subnets specific to a site defined for your account.
+	FloatingSubnet    []*FloatingSubnetRefInput    `json:"floatingSubnet"`
+	GlobalIPRange     []*GlobalIPRangeRefInput     `json:"globalIpRange"`
+	Group             []*GroupRefInput             `json:"group"`
+	Host              []*HostRefInput              `json:"host"`
+	IP                []string                     `json:"ip"`
+	IPRange           []*IPAddressRangeInput       `json:"ipRange"`
+	Mac               []string                     `json:"mac"`
+	NetworkInterface  []*NetworkInterfaceRefInput  `json:"networkInterface"`
+	Site              []*SiteRefInput              `json:"site"`
 	SiteNetworkSubnet []*SiteNetworkSubnetRefInput `json:"siteNetworkSubnet"`
-	// Subnets from which traffic originates.
-	Subnet []string `json:"subnet"`
-	// Predefined system groups in your account.
-	SystemGroup []*SystemGroupRefInput `json:"systemGroup"`
-	// VLAN ID matching criteria.
-	Vlan []scalars.Vlan `json:"vlan"`
+	Subnet            []string                     `json:"subnet"`
+	SystemGroup       []*SystemGroupRefInput       `json:"systemGroup"`
+	Vlan              []scalars.Vlan               `json:"vlan"`
 }
 
 // Defines sources for the socket LAN firewall.
 type SocketLanFirewallSourceUpdateInput struct {
-	// Floating subnets used to identify traffic based on specific criteria.
-	FloatingSubnet []*FloatingSubnetRefInput `json:"floatingSubnet,omitempty"`
-	// Global IP ranges defined for your account.
-	GlobalIPRange []*GlobalIPRangeRefInput `json:"globalIpRange,omitempty"`
-	// Groups defined for your account.
-	Group []*GroupRefInput `json:"group,omitempty"`
-	// Hosts and servers defined for your account.
-	Host []*HostRefInput `json:"host,omitempty"`
-	// IPv4 addresses.
-	IP []string `json:"ip,omitempty"`
-	// Multiple separate IP addresses or an IP range.
-	IPRange []*IPAddressRangeInput `json:"ipRange,omitempty"`
-	// MAC addresses of devices matching criteria.
-	Mac []string `json:"mac,omitempty"`
-	// Network interfaces defined for your site.
-	NetworkInterface []*NetworkInterfaceRefInput `json:"networkInterface,omitempty"`
-	// Sites defined for your account.
-	Site []*SiteRefInput `json:"site,omitempty"`
-	// Subnets specific to a site defined for your account.
+	FloatingSubnet    []*FloatingSubnetRefInput    `json:"floatingSubnet,omitempty"`
+	GlobalIPRange     []*GlobalIPRangeRefInput     `json:"globalIpRange,omitempty"`
+	Group             []*GroupRefInput             `json:"group,omitempty"`
+	Host              []*HostRefInput              `json:"host,omitempty"`
+	IP                []string                     `json:"ip,omitempty"`
+	IPRange           []*IPAddressRangeInput       `json:"ipRange,omitempty"`
+	Mac               []string                     `json:"mac,omitempty"`
+	NetworkInterface  []*NetworkInterfaceRefInput  `json:"networkInterface,omitempty"`
+	Site              []*SiteRefInput              `json:"site,omitempty"`
 	SiteNetworkSubnet []*SiteNetworkSubnetRefInput `json:"siteNetworkSubnet,omitempty"`
-	// Subnets from which traffic originates.
-	Subnet []string `json:"subnet,omitempty"`
-	// Predefined system groups in your account.
-	SystemGroup []*SystemGroupRefInput `json:"systemGroup,omitempty"`
-	// VLAN ID matching criteria.
-	Vlan []scalars.Vlan `json:"vlan,omitempty"`
+	Subnet            []string                     `json:"subnet,omitempty"`
+	SystemGroup       []*SystemGroupRefInput       `json:"systemGroup,omitempty"`
+	Vlan              []scalars.Vlan               `json:"vlan,omitempty"`
 }
 
 type SocketLanFirewallUpdateRuleDataInput struct {
-	// Action to take when the rule is matched (ALLOW or BLOCK).
-	Action *SocketLanFirewallAction `json:"action,omitempty"`
-	// Application traffic matching criteria.
+	Action      *SocketLanFirewallAction                 `json:"action,omitempty"`
 	Application *SocketLanFirewallApplicationUpdateInput `json:"application,omitempty"`
 	Description *string                                  `json:"description,omitempty"`
-	// Defines destinations for the socket LAN firewall.
-	// Also, inherited by Network Rule above.
 	Destination *SocketLanFirewallDestinationUpdateInput `json:"destination,omitempty"`
-	// Direction of the traffic (TO or BOTH).
-	Direction *SocketLanFirewallDirection `json:"direction,omitempty"`
-	Enabled   *bool                       `json:"enabled,omitempty"`
-	Name      *string                     `json:"name,omitempty"`
-	// Service traffic matching criteria.
-	Service *SocketLanFirewallServiceTypeUpdateInput `json:"service,omitempty"`
-	// Defines sources for the socket LAN firewall.
-	// Also, inherited by Network Rule above.
-	Source *SocketLanFirewallSourceUpdateInput `json:"source,omitempty"`
-	// Tracking information when the rule is matched, such as events and notifications.
-	Tracking *PolicyTrackingUpdateInput `json:"tracking,omitempty"`
+	Direction   *SocketLanFirewallDirection              `json:"direction,omitempty"`
+	Enabled     *bool                                    `json:"enabled,omitempty"`
+	Name        *string                                  `json:"name,omitempty"`
+	Service     *SocketLanFirewallServiceTypeUpdateInput `json:"service,omitempty"`
+	Source      *SocketLanFirewallSourceUpdateInput      `json:"source,omitempty"`
+	Tracking    *PolicyTrackingUpdateInput               `json:"tracking,omitempty"`
 }
 
 type SocketLanFirewallUpdateRuleInput struct {
@@ -12631,21 +9385,18 @@ type SocketLanFirewallUpdateRuleInput struct {
 
 // Defines NAT settings for the socket LAN policy.
 type SocketLanNatSettings struct {
-	// Indicates if NAT is enabled.
 	Enabled bool             `json:"enabled"`
 	NatType SocketLanNatType `json:"natType"`
 }
 
 // Defines NAT settings for the socket LAN policy.
 type SocketLanNatSettingsInput struct {
-	// Indicates if NAT is enabled.
 	Enabled bool             `json:"enabled"`
 	NatType SocketLanNatType `json:"natType"`
 }
 
 // Defines NAT settings for the socket LAN policy.
 type SocketLanNatSettingsUpdateInput struct {
-	// Indicates if NAT is enabled.
 	Enabled *bool             `json:"enabled,omitempty"`
 	NatType *SocketLanNatType `json:"natType,omitempty"`
 }
@@ -12658,12 +9409,10 @@ type SocketLanPolicy struct {
 	Sections []*PolicySectionPayload `json:"sections"`
 }
 
-func (SocketLanPolicy) IsIPolicy() {}
-
-// TRUE = Policy is enabled, FALSE = Policy is disabled
-func (this SocketLanPolicy) GetEnabled() bool { return this.Enabled }
-
-// Return list of rules in the policy
+func (SocketLanPolicy) IsIPolicy()                        {}
+func (this SocketLanPolicy) GetAudit() *PolicyAudit       { return this.Audit }
+func (this SocketLanPolicy) GetEnabled() bool             { return this.Enabled }
+func (this SocketLanPolicy) GetRevision() *PolicyRevision { return this.Revision }
 func (this SocketLanPolicy) GetRules() []IPolicyRulePayload {
 	if this.Rules == nil {
 		return nil
@@ -12674,8 +9423,6 @@ func (this SocketLanPolicy) GetRules() []IPolicyRulePayload {
 	}
 	return interfaceSlice
 }
-
-// Return sections in the policy
 func (this SocketLanPolicy) GetSections() []*PolicySectionPayload {
 	if this.Sections == nil {
 		return nil
@@ -12687,18 +9434,7 @@ func (this SocketLanPolicy) GetSections() []*PolicySectionPayload {
 	return interfaceSlice
 }
 
-// Audit data for the policy
-func (this SocketLanPolicy) GetAudit() *PolicyAudit { return this.Audit }
-
-// Return data for the Policy revision
-func (this SocketLanPolicy) GetRevision() *PolicyRevision { return this.Revision }
-
 type SocketLanPolicyInput struct {
-	// A revision is a specific instance of the policy.
-	//  Unpublished revisions are working copies of the policy available to a specific
-	//  admin or a set of admins
-	//  Published revisions are revisions that were applied to the account network.
-	//  The last published revision is the active policy.
 	Revision *PolicyRevisionInput `json:"revision,omitempty"`
 }
 
@@ -12713,14 +9449,6 @@ type SocketLanPolicyMutationPayload struct {
 }
 
 func (SocketLanPolicyMutationPayload) IsIPolicyMutationPayload() {}
-
-// Data for the policy
-func (this SocketLanPolicyMutationPayload) GetPolicy() IPolicy { return *this.Policy }
-
-// Enum for the status of the policy change
-func (this SocketLanPolicyMutationPayload) GetStatus() PolicyMutationStatus { return this.Status }
-
-// List of errors related to the policy change
 func (this SocketLanPolicyMutationPayload) GetErrors() []*PolicyMutationError {
 	if this.Errors == nil {
 		return nil
@@ -12731,6 +9459,8 @@ func (this SocketLanPolicyMutationPayload) GetErrors() []*PolicyMutationError {
 	}
 	return interfaceSlice
 }
+func (this SocketLanPolicyMutationPayload) GetPolicy() IPolicy              { return *this.Policy }
+func (this SocketLanPolicyMutationPayload) GetStatus() PolicyMutationStatus { return this.Status }
 
 type SocketLanPolicyMutations struct {
 	AddRule               *SocketLanRuleMutationPayload     `json:"addRule"`
@@ -12762,62 +9492,28 @@ type SocketLanRemoveRuleInput struct {
 }
 
 type SocketLanRule struct {
-	// Description for the rule
-	Description string `json:"description"`
-	// Destination traffic matching criteria.
-	// Logical ‘OR’ is applied within the criteria set.
-	// Logical ‘AND’ is applied between criteria sets.
-	Destination *SocketLanDestination `json:"destination"`
-	// Direction of the traffic initiator matching criteria.
-	Direction SocketLanDirection `json:"direction"`
-	// TRUE = Rule is enabled
-	//  FALSE = Rule is disabled
-	Enabled  bool                            `json:"enabled"`
-	Firewall []*SocketLanFirewallRulePayload `json:"firewall"`
-	// Rule ID
-	ID string `json:"id"`
-	// Position / priority of rule
-	Index int64 `json:"index"`
-	// Name of the rule
-	Name string `json:"name"`
-	// Optionally, enable NAT on the outgoing interface. This translates all originating IPs to one NAT IP.
-	Nat *SocketLanNatSettings `json:"nat"`
-	// Policy section where the rule is located
-	Section *PolicySectionInfo `json:"section"`
-	// Destination service matching criteria for the rule. Port/Protocol based.
-	Service *SocketLanService `json:"service"`
-	// The sites the policy will be enforced on.
-	// Socket sites only, with Socket v22 onwards.
-	Site *SocketLanSite `json:"site"`
-	// Source traffic matching criteria.
-	// Logical ‘OR’ is applied within the criteria set.
-	// Logical ‘AND’ is applied between criteria sets.
-	Source *SocketLanSource `json:"source"`
-	// The transport of the matching traffic.
-	// Either govern traffic to be routed locally (LAN), or to the PoP(WAN).
-	// Traffic is send to the WAN by default.
-	// Traffic routed in the LAN, enforced by the LAN Firewall rules.
-	Transport SocketLanTransportType `json:"transport"`
+	Description string                          `json:"description"`
+	Destination *SocketLanDestination           `json:"destination"`
+	Direction   SocketLanDirection              `json:"direction"`
+	Enabled     bool                            `json:"enabled"`
+	Firewall    []*SocketLanFirewallRulePayload `json:"firewall"`
+	ID          string                          `json:"id"`
+	Index       int64                           `json:"index"`
+	Name        string                          `json:"name"`
+	Nat         *SocketLanNatSettings           `json:"nat"`
+	Section     *PolicySectionInfo              `json:"section"`
+	Service     *SocketLanService               `json:"service"`
+	Site        *SocketLanSite                  `json:"site"`
+	Source      *SocketLanSource                `json:"source"`
+	Transport   SocketLanTransportType          `json:"transport"`
 }
 
-func (SocketLanRule) IsIPolicyRule() {}
-
-// Rule ID
-func (this SocketLanRule) GetID() string { return this.ID }
-
-// Name of the rule
-func (this SocketLanRule) GetName() string { return this.Name }
-
-// Description for the rule
-func (this SocketLanRule) GetDescription() *string { return &this.Description }
-
-// Position / priority of rule
-func (this SocketLanRule) GetIndex() int64 { return this.Index }
-
-// TRUE = Rule is enabled, FALSE = Rule is disabled
-func (this SocketLanRule) GetEnabled() bool { return this.Enabled }
-
-// Policy section where the rule is located
+func (SocketLanRule) IsIPolicyRule()                      {}
+func (this SocketLanRule) GetDescription() *string        { return &this.Description }
+func (this SocketLanRule) GetEnabled() bool               { return this.Enabled }
+func (this SocketLanRule) GetID() string                  { return this.ID }
+func (this SocketLanRule) GetIndex() int64                { return this.Index }
+func (this SocketLanRule) GetName() string                { return this.Name }
 func (this SocketLanRule) GetSection() *PolicySectionInfo { return this.Section }
 
 type SocketLanRuleMutationPayload struct {
@@ -12827,14 +9523,6 @@ type SocketLanRuleMutationPayload struct {
 }
 
 func (SocketLanRuleMutationPayload) IsIPolicyRuleMutationPayload() {}
-
-// Returns settings for the rule
-func (this SocketLanRuleMutationPayload) GetRule() IPolicyRulePayload { return *this.Rule }
-
-// Enum for the status of the policy change
-func (this SocketLanRuleMutationPayload) GetStatus() PolicyMutationStatus { return this.Status }
-
-// List of errors related to the policy change
 func (this SocketLanRuleMutationPayload) GetErrors() []*PolicyMutationError {
 	if this.Errors == nil {
 		return nil
@@ -12845,6 +9533,8 @@ func (this SocketLanRuleMutationPayload) GetErrors() []*PolicyMutationError {
 	}
 	return interfaceSlice
 }
+func (this SocketLanRuleMutationPayload) GetRule() IPolicyRulePayload     { return *this.Rule }
+func (this SocketLanRuleMutationPayload) GetStatus() PolicyMutationStatus { return this.Status }
 
 type SocketLanRulePayload struct {
 	Audit      *PolicyElementAudit           `json:"audit"`
@@ -12854,11 +9544,6 @@ type SocketLanRulePayload struct {
 
 func (SocketLanRulePayload) IsIPolicyRulePayload()              {}
 func (this SocketLanRulePayload) GetAudit() *PolicyElementAudit { return this.Audit }
-
-// Rule that was changed
-func (this SocketLanRulePayload) GetRule() IPolicyRule { return *this.Rule }
-
-// Summary of rule change, (ie. ADDED, UPDATED)
 func (this SocketLanRulePayload) GetProperties() []PolicyElementPropertiesEnum {
 	if this.Properties == nil {
 		return nil
@@ -12869,171 +9554,100 @@ func (this SocketLanRulePayload) GetProperties() []PolicyElementPropertiesEnum {
 	}
 	return interfaceSlice
 }
+func (this SocketLanRulePayload) GetRule() IPolicyRule { return *this.Rule }
 
 // Defines services used in the socket LAN policy.
 type SocketLanService struct {
-	// Custom Port/Protocol service.
 	Custom []*CustomService `json:"custom"`
-	// List of L4 based services.
 	Simple []*SimpleService `json:"simple"`
 }
 
 // Defines services used in the socket LAN policy.
 type SocketLanServiceInput struct {
-	// Custom Port/Protocol service.
 	Custom []*CustomServiceInput `json:"custom"`
-	// List of L4 based services.
 	Simple []*SimpleServiceInput `json:"simple"`
 }
 
 // Defines services used in the socket LAN policy.
 type SocketLanServiceUpdateInput struct {
-	// Custom Port/Protocol service.
 	Custom []*CustomServiceInput `json:"custom,omitempty"`
-	// List of L4 based services.
 	Simple []*SimpleServiceInput `json:"simple,omitempty"`
 }
 
 // Represents the site configurations in the socket LAN policy.
 type SocketLanSite struct {
-	// The group of sites the policy will be enforced on.
-	// Socket sites only, with Socket v22 onwards.
 	Group []*GroupRef `json:"group"`
-	// The sites the policy will be enforced on.
-	// Socket sites only, with Socket v22 onwards.
-	Site []*SiteRef `json:"site"`
+	Site  []*SiteRef  `json:"site"`
 }
 
 // Represents the site configurations in the socket LAN policy.
 type SocketLanSiteInput struct {
-	// The group of sites the policy will be enforced on.
-	// Socket sites only, with Socket v22 onwards.
 	Group []*GroupRefInput `json:"group"`
-	// The sites the policy will be enforced on.
-	// Socket sites only, with Socket v22 onwards.
-	Site []*SiteRefInput `json:"site"`
+	Site  []*SiteRefInput  `json:"site"`
 }
 
 // Represents the site configurations in the socket LAN policy.
 type SocketLanSiteUpdateInput struct {
-	// The group of sites the policy will be enforced on.
-	// Socket sites only, with Socket v22 onwards.
 	Group []*GroupRefInput `json:"group,omitempty"`
-	// The sites the policy will be enforced on.
-	// Socket sites only, with Socket v22 onwards.
-	Site []*SiteRefInput `json:"site,omitempty"`
+	Site  []*SiteRefInput  `json:"site,omitempty"`
 }
 
 // Defines sources for the socket LAN policy.
 type SocketLanSource struct {
-	// Floating Subnets (ie. Floating Ranges) are used to identify traffic exactly matched to the route advertised by BGP.
-	// They are not associated with a specific site.
-	// This is useful in scenarios such as active-standby high availability routed via BGP.
-	FloatingSubnet []*FloatingSubnetRef `json:"floatingSubnet"`
-	// Globally defined IP range, IP and subnet objects.
-	GlobalIPRange []*GlobalIPRangeRef `json:"globalIpRange"`
-	// Predefined Cato groups, Socket sites/objects only.
-	Group []*GroupRef `json:"group"`
-	// Hosts and servers defined for your under Socket sites.
-	Host []*HostRef `json:"host"`
-	// IP address.
-	IP []string `json:"ip"`
-	// Multiple separate IP addresses or an IP range.
-	IPRange []*IPAddressRange `json:"ipRange"`
-	// Network range defined for a site.
-	NetworkInterface []*NetworkInterfaceRef `json:"networkInterface"`
-	// GlobalRange + InterfaceSubnet
+	FloatingSubnet    []*FloatingSubnetRef    `json:"floatingSubnet"`
+	GlobalIPRange     []*GlobalIPRangeRef     `json:"globalIpRange"`
+	Group             []*GroupRef             `json:"group"`
+	Host              []*HostRef              `json:"host"`
+	IP                []string                `json:"ip"`
+	IPRange           []*IPAddressRange       `json:"ipRange"`
+	NetworkInterface  []*NetworkInterfaceRef  `json:"networkInterface"`
 	SiteNetworkSubnet []*SiteNetworkSubnetRef `json:"siteNetworkSubnet"`
-	// Subnets and network ranges defined for the LAN interfaces of a site.
-	Subnet []string `json:"subnet"`
-	// Predefined Cato groups.
-	SystemGroup []*SystemGroupRef `json:"systemGroup"`
-	// VLAN ID matching criteria.
-	Vlan []scalars.Vlan `json:"vlan"`
+	Subnet            []string                `json:"subnet"`
+	SystemGroup       []*SystemGroupRef       `json:"systemGroup"`
+	Vlan              []scalars.Vlan          `json:"vlan"`
 }
 
 // Defines sources for the socket LAN policy.
 type SocketLanSourceInput struct {
-	// Floating Subnets (ie. Floating Ranges) are used to identify traffic exactly matched to the route advertised by BGP.
-	// They are not associated with a specific site.
-	// This is useful in scenarios such as active-standby high availability routed via BGP.
-	FloatingSubnet []*FloatingSubnetRefInput `json:"floatingSubnet"`
-	// Globally defined IP range, IP and subnet objects.
-	GlobalIPRange []*GlobalIPRangeRefInput `json:"globalIpRange"`
-	// Predefined Cato groups, Socket sites/objects only.
-	Group []*GroupRefInput `json:"group"`
-	// Hosts and servers defined for your under Socket sites.
-	Host []*HostRefInput `json:"host"`
-	// IP address.
-	IP []string `json:"ip"`
-	// Multiple separate IP addresses or an IP range.
-	IPRange []*IPAddressRangeInput `json:"ipRange"`
-	// Network range defined for a site.
-	NetworkInterface []*NetworkInterfaceRefInput `json:"networkInterface"`
-	// GlobalRange + InterfaceSubnet
+	FloatingSubnet    []*FloatingSubnetRefInput    `json:"floatingSubnet"`
+	GlobalIPRange     []*GlobalIPRangeRefInput     `json:"globalIpRange"`
+	Group             []*GroupRefInput             `json:"group"`
+	Host              []*HostRefInput              `json:"host"`
+	IP                []string                     `json:"ip"`
+	IPRange           []*IPAddressRangeInput       `json:"ipRange"`
+	NetworkInterface  []*NetworkInterfaceRefInput  `json:"networkInterface"`
 	SiteNetworkSubnet []*SiteNetworkSubnetRefInput `json:"siteNetworkSubnet"`
-	// Subnets and network ranges defined for the LAN interfaces of a site.
-	Subnet []string `json:"subnet"`
-	// Predefined Cato groups.
-	SystemGroup []*SystemGroupRefInput `json:"systemGroup"`
-	// VLAN ID matching criteria.
-	Vlan []scalars.Vlan `json:"vlan"`
+	Subnet            []string                     `json:"subnet"`
+	SystemGroup       []*SystemGroupRefInput       `json:"systemGroup"`
+	Vlan              []scalars.Vlan               `json:"vlan"`
 }
 
 // Defines sources for the socket LAN policy.
 type SocketLanSourceUpdateInput struct {
-	// Floating Subnets (ie. Floating Ranges) are used to identify traffic exactly matched to the route advertised by BGP.
-	// They are not associated with a specific site.
-	// This is useful in scenarios such as active-standby high availability routed via BGP.
-	FloatingSubnet []*FloatingSubnetRefInput `json:"floatingSubnet,omitempty"`
-	// Globally defined IP range, IP and subnet objects.
-	GlobalIPRange []*GlobalIPRangeRefInput `json:"globalIpRange,omitempty"`
-	// Predefined Cato groups, Socket sites/objects only.
-	Group []*GroupRefInput `json:"group,omitempty"`
-	// Hosts and servers defined for your under Socket sites.
-	Host []*HostRefInput `json:"host,omitempty"`
-	// IP address.
-	IP []string `json:"ip,omitempty"`
-	// Multiple separate IP addresses or an IP range.
-	IPRange []*IPAddressRangeInput `json:"ipRange,omitempty"`
-	// Network range defined for a site.
-	NetworkInterface []*NetworkInterfaceRefInput `json:"networkInterface,omitempty"`
-	// GlobalRange + InterfaceSubnet
+	FloatingSubnet    []*FloatingSubnetRefInput    `json:"floatingSubnet,omitempty"`
+	GlobalIPRange     []*GlobalIPRangeRefInput     `json:"globalIpRange,omitempty"`
+	Group             []*GroupRefInput             `json:"group,omitempty"`
+	Host              []*HostRefInput              `json:"host,omitempty"`
+	IP                []string                     `json:"ip,omitempty"`
+	IPRange           []*IPAddressRangeInput       `json:"ipRange,omitempty"`
+	NetworkInterface  []*NetworkInterfaceRefInput  `json:"networkInterface,omitempty"`
 	SiteNetworkSubnet []*SiteNetworkSubnetRefInput `json:"siteNetworkSubnet,omitempty"`
-	// Subnets and network ranges defined for the LAN interfaces of a site.
-	Subnet []string `json:"subnet,omitempty"`
-	// Predefined Cato groups.
-	SystemGroup []*SystemGroupRefInput `json:"systemGroup,omitempty"`
-	// VLAN ID matching criteria.
-	Vlan []scalars.Vlan `json:"vlan,omitempty"`
+	Subnet            []string                     `json:"subnet,omitempty"`
+	SystemGroup       []*SystemGroupRefInput       `json:"systemGroup,omitempty"`
+	Vlan              []scalars.Vlan               `json:"vlan,omitempty"`
 }
 
 type SocketLanUpdateRuleDataInput struct {
-	Description *string `json:"description,omitempty"`
-	// Destination traffic matching criteria.
-	// Logical ‘OR’ is applied within the criteria set.
-	// Logical ‘AND’ is applied between criteria sets.
+	Description *string                          `json:"description,omitempty"`
 	Destination *SocketLanDestinationUpdateInput `json:"destination,omitempty"`
-	// Direction of the traffic initiator matching criteria.
-	Direction *SocketLanDirection `json:"direction,omitempty"`
-	Enabled   *bool               `json:"enabled,omitempty"`
-	Name      *string             `json:"name,omitempty"`
-	// Optionally, enable NAT on the outgoing interface. This translates all originating IPs to one NAT IP.
-	Nat *SocketLanNatSettingsUpdateInput `json:"nat,omitempty"`
-	// Destination service matching criteria for the rule. Port/Protocol based.
-	Service *SocketLanServiceUpdateInput `json:"service,omitempty"`
-	// The sites the policy will be enforced on.
-	// Socket sites only, with Socket v22 onwards.
-	Site *SocketLanSiteUpdateInput `json:"site,omitempty"`
-	// Source traffic matching criteria.
-	// Logical ‘OR’ is applied within the criteria set.
-	// Logical ‘AND’ is applied between criteria sets.
-	Source *SocketLanSourceUpdateInput `json:"source,omitempty"`
-	// The transport of the matching traffic.
-	// Either govern traffic to be routed locally (LAN), or to the PoP(WAN).
-	// Traffic is send to the WAN by default.
-	// Traffic routed in the LAN, enforced by the LAN Firewall rules.
-	Transport *SocketLanTransportType `json:"transport,omitempty"`
+	Direction   *SocketLanDirection              `json:"direction,omitempty"`
+	Enabled     *bool                            `json:"enabled,omitempty"`
+	Name        *string                          `json:"name,omitempty"`
+	Nat         *SocketLanNatSettingsUpdateInput `json:"nat,omitempty"`
+	Service     *SocketLanServiceUpdateInput     `json:"service,omitempty"`
+	Site        *SocketLanSiteUpdateInput        `json:"site,omitempty"`
+	Source      *SocketLanSourceUpdateInput      `json:"source,omitempty"`
+	Transport   *SocketLanTransportType          `json:"transport,omitempty"`
 }
 
 type SocketLanUpdateRuleInput struct {
@@ -13072,12 +9686,11 @@ type SocketPortMetricsMeasure struct {
 }
 
 type SocketPortMetricsRecord struct {
-	Fields []*SocketPortMetricsField `json:"fields,omitempty"`
-	// fields in map format (see Map scalar)
-	FieldsMap       map[string]any `json:"fieldsMap,omitempty"`
-	FieldsUnitTypes []UnitType     `json:"fieldsUnitTypes,omitempty"`
-	PrevTimeFrame   map[string]any `json:"prevTimeFrame,omitempty"`
-	Trends          map[string]any `json:"trends,omitempty"`
+	Fields          []*SocketPortMetricsField `json:"fields,omitempty"`
+	FieldsMap       map[string]any            `json:"fieldsMap,omitempty"`
+	FieldsUnitTypes []UnitType                `json:"fieldsUnitTypes,omitempty"`
+	PrevTimeFrame   map[string]any            `json:"prevTimeFrame,omitempty"`
+	Trends          map[string]any            `json:"trends,omitempty"`
 }
 
 type SocketPortMetricsSort struct {
@@ -13104,76 +9717,52 @@ type SortOrderInput struct {
 }
 
 type SplitTunnelAddRuleDataInput struct {
-	// The action applied by the split tunnel if the rule is matched
-	Action SplitTunnelActionEnum `json:"action"`
-	// Country traffic matching criteria.
-	// Logical ‘OR’ is applied within the criteria set.
-	// Logical ‘AND’ is applied between criteria sets.
-	Country     []*CountryRefInput       `json:"country"`
-	Coverage    *SplitTunnelCoverageEnum `json:"coverage,omitempty"`
-	Description string                   `json:"description"`
-	// Destination traffic matching criteria.
-	// Logical ‘OR’ is applied within the criteria set.
-	// Logical ‘AND’ is applied between criteria sets.
-	Destination  *SplitTunnelDestinationInput  `json:"destination"`
-	DNSExclusion *SplitTunnelDNSExclusionInput `json:"dnsExclusion,omitempty"`
-	Enabled      bool                          `json:"enabled"`
-	Name         string                        `json:"name"`
-	// Source device Operating System traffic matching criteria.
-	// Logical ‘OR’ is applied within the criteria set.
-	// Logical ‘AND’ is applied between criteria sets.
+	Action          SplitTunnelActionEnum          `json:"action"`
+	Country         []*CountryRefInput             `json:"country"`
+	Coverage        *SplitTunnelCoverageEnum       `json:"coverage,omitempty"`
+	Description     string                         `json:"description"`
+	Destination     *SplitTunnelDestinationInput   `json:"destination"`
+	DNSExclusion    *SplitTunnelDNSExclusionInput  `json:"dnsExclusion,omitempty"`
+	Enabled         bool                           `json:"enabled"`
+	Name            string                         `json:"name"`
 	Platform        []OperatingSystem              `json:"platform"`
 	RoutingPriority SplitTunnelRoutingPriorityEnum `json:"routingPriority"`
-	// Source traffic matching criteria.
-	// Logical ‘OR’ is applied within the criteria set.
-	// Logical ‘AND’ is applied between criteria sets.
-	Source        *SplitTunnelSourceInput        `json:"source"`
-	SourceNetwork *SplitTunnelSourceNetworkInput `json:"sourceNetwork"`
+	Source          *SplitTunnelSourceInput        `json:"source"`
+	SourceNetwork   *SplitTunnelSourceNetworkInput `json:"sourceNetwork"`
 }
 
 type SplitTunnelAddRuleInput struct {
-	// Position of the rule in the policy
-	At *PolicyRulePositionInput `json:"at,omitempty"`
-	// Parameters for the rule you are adding
+	At   *PolicyRulePositionInput     `json:"at,omitempty"`
 	Rule *SplitTunnelAddRuleDataInput `json:"rule"`
 }
 
 // Destination match criteria set
 type SplitTunnelDestination struct {
-	// Applications for the rule (pre-defined)
-	Application []*ApplicationRef `json:"application"`
-	// Globally defined IP range
+	Application   []*ApplicationRef   `json:"application"`
 	GlobalIPRange []*GlobalIPRangeRef `json:"globalIpRange"`
 }
 
 // Destination match criteria set
 type SplitTunnelDestinationInput struct {
-	// Applications for the rule (pre-defined)
-	Application []*ApplicationRefInput `json:"application"`
-	// Globally defined IP range
+	Application   []*ApplicationRefInput   `json:"application"`
 	GlobalIPRange []*GlobalIPRangeRefInput `json:"globalIpRange"`
 }
 
 // Destination match criteria set
 type SplitTunnelDestinationUpdateInput struct {
-	// Applications for the rule (pre-defined)
-	Application []*ApplicationRefInput `json:"application,omitempty"`
-	// Globally defined IP range
+	Application   []*ApplicationRefInput   `json:"application,omitempty"`
 	GlobalIPRange []*GlobalIPRangeRefInput `json:"globalIpRange,omitempty"`
 }
 
 type SplitTunnelDNSExclusion struct {
-	// A Second-Level Domain (SLD). It matches all Top-Level Domains (TLD), and subdomains that include the Domain. Example: example.com.
 	Domain []string `json:"domain"`
 }
 
 type SplitTunnelDNSExclusionInput struct {
-	// A Second-Level Domain (SLD). It matches all Top-Level Domains (TLD), and subdomains that include the Domain. Example: example.com.
 	Domain []string `json:"domain"`
 }
 
 type SplitTunnelDNSExclusionUpdateInput struct {
-	// A Second-Level Domain (SLD). It matches all Top-Level Domains (TLD), and subdomains that include the Domain. Example: example.com.
 	Domain []string `json:"domain,omitempty"`
 }
 
@@ -13185,12 +9774,10 @@ type SplitTunnelPolicy struct {
 	Sections []*PolicySectionPayload   `json:"sections"`
 }
 
-func (SplitTunnelPolicy) IsIPolicy() {}
-
-// TRUE = Policy is enabled, FALSE = Policy is disabled
-func (this SplitTunnelPolicy) GetEnabled() bool { return this.Enabled }
-
-// Return list of rules in the policy
+func (SplitTunnelPolicy) IsIPolicy()                        {}
+func (this SplitTunnelPolicy) GetAudit() *PolicyAudit       { return this.Audit }
+func (this SplitTunnelPolicy) GetEnabled() bool             { return this.Enabled }
+func (this SplitTunnelPolicy) GetRevision() *PolicyRevision { return this.Revision }
 func (this SplitTunnelPolicy) GetRules() []IPolicyRulePayload {
 	if this.Rules == nil {
 		return nil
@@ -13201,8 +9788,6 @@ func (this SplitTunnelPolicy) GetRules() []IPolicyRulePayload {
 	}
 	return interfaceSlice
 }
-
-// Return sections in the policy
 func (this SplitTunnelPolicy) GetSections() []*PolicySectionPayload {
 	if this.Sections == nil {
 		return nil
@@ -13214,18 +9799,7 @@ func (this SplitTunnelPolicy) GetSections() []*PolicySectionPayload {
 	return interfaceSlice
 }
 
-// Audit data for the policy
-func (this SplitTunnelPolicy) GetAudit() *PolicyAudit { return this.Audit }
-
-// Return data for the Policy revision
-func (this SplitTunnelPolicy) GetRevision() *PolicyRevision { return this.Revision }
-
 type SplitTunnelPolicyInput struct {
-	// A revision is a specific instance of the policy.
-	//  Unpublished revisions are working copies of the policy available to a specific
-	//  admin or a set of admins
-	//  Published revisions are revisions that were applied to the account network.
-	//  The last published revision is the active policy.
 	Revision *PolicyRevisionInput `json:"revision,omitempty"`
 }
 
@@ -13240,14 +9814,6 @@ type SplitTunnelPolicyMutationPayload struct {
 }
 
 func (SplitTunnelPolicyMutationPayload) IsIPolicyMutationPayload() {}
-
-// Data for the policy
-func (this SplitTunnelPolicyMutationPayload) GetPolicy() IPolicy { return *this.Policy }
-
-// Enum for the status of the policy change
-func (this SplitTunnelPolicyMutationPayload) GetStatus() PolicyMutationStatus { return this.Status }
-
-// List of errors related to the policy change
 func (this SplitTunnelPolicyMutationPayload) GetErrors() []*PolicyMutationError {
 	if this.Errors == nil {
 		return nil
@@ -13258,6 +9824,8 @@ func (this SplitTunnelPolicyMutationPayload) GetErrors() []*PolicyMutationError 
 	}
 	return interfaceSlice
 }
+func (this SplitTunnelPolicyMutationPayload) GetPolicy() IPolicy              { return *this.Policy }
+func (this SplitTunnelPolicyMutationPayload) GetStatus() PolicyMutationStatus { return this.Status }
 
 type SplitTunnelPolicyMutations struct {
 	AddRule               *SplitTunnelRuleMutationPayload   `json:"addRule"`
@@ -13288,61 +9856,29 @@ type SplitTunnelRemoveRuleInput struct {
 }
 
 type SplitTunnelRule struct {
-	// The action applied by the split tunnel if the rule is matched
-	Action SplitTunnelActionEnum `json:"action"`
-	// Country traffic matching criteria.
-	// Logical ‘OR’ is applied within the criteria set.
-	// Logical ‘AND’ is applied between criteria sets.
-	Country  []*CountryRef            `json:"country"`
-	Coverage *SplitTunnelCoverageEnum `json:"coverage,omitempty"`
-	// Description for the rule
-	Description string `json:"description"`
-	// Destination traffic matching criteria.
-	// Logical ‘OR’ is applied within the criteria set.
-	// Logical ‘AND’ is applied between criteria sets.
-	Destination  *SplitTunnelDestination  `json:"destination"`
-	DNSExclusion *SplitTunnelDNSExclusion `json:"dnsExclusion,omitempty"`
-	// TRUE = Rule is enabled
-	//  FALSE = Rule is disabled
-	Enabled bool `json:"enabled"`
-	// Rule ID
-	ID string `json:"id"`
-	// Position / priority of rule
-	Index int64 `json:"index"`
-	// Name of the rule
-	Name string `json:"name"`
-	// Source device Operating System traffic matching criteria.
-	// Logical ‘OR’ is applied within the criteria set.
-	// Logical ‘AND’ is applied between criteria sets.
+	Action          SplitTunnelActionEnum          `json:"action"`
+	Country         []*CountryRef                  `json:"country"`
+	Coverage        *SplitTunnelCoverageEnum       `json:"coverage,omitempty"`
+	Description     string                         `json:"description"`
+	Destination     *SplitTunnelDestination        `json:"destination"`
+	DNSExclusion    *SplitTunnelDNSExclusion       `json:"dnsExclusion,omitempty"`
+	Enabled         bool                           `json:"enabled"`
+	ID              string                         `json:"id"`
+	Index           int64                          `json:"index"`
+	Name            string                         `json:"name"`
 	Platform        []OperatingSystem              `json:"platform"`
 	RoutingPriority SplitTunnelRoutingPriorityEnum `json:"routingPriority"`
-	// Policy section where the rule is located
-	Section *PolicySectionInfo `json:"section"`
-	// Source traffic matching criteria.
-	// Logical ‘OR’ is applied within the criteria set.
-	// Logical ‘AND’ is applied between criteria sets.
-	Source        *SplitTunnelSource        `json:"source"`
-	SourceNetwork *SplitTunnelSourceNetwork `json:"sourceNetwork"`
+	Section         *PolicySectionInfo             `json:"section"`
+	Source          *SplitTunnelSource             `json:"source"`
+	SourceNetwork   *SplitTunnelSourceNetwork      `json:"sourceNetwork"`
 }
 
-func (SplitTunnelRule) IsIPolicyRule() {}
-
-// Rule ID
-func (this SplitTunnelRule) GetID() string { return this.ID }
-
-// Name of the rule
-func (this SplitTunnelRule) GetName() string { return this.Name }
-
-// Description for the rule
-func (this SplitTunnelRule) GetDescription() *string { return &this.Description }
-
-// Position / priority of rule
-func (this SplitTunnelRule) GetIndex() int64 { return this.Index }
-
-// TRUE = Rule is enabled, FALSE = Rule is disabled
-func (this SplitTunnelRule) GetEnabled() bool { return this.Enabled }
-
-// Policy section where the rule is located
+func (SplitTunnelRule) IsIPolicyRule()                      {}
+func (this SplitTunnelRule) GetDescription() *string        { return &this.Description }
+func (this SplitTunnelRule) GetEnabled() bool               { return this.Enabled }
+func (this SplitTunnelRule) GetID() string                  { return this.ID }
+func (this SplitTunnelRule) GetIndex() int64                { return this.Index }
+func (this SplitTunnelRule) GetName() string                { return this.Name }
 func (this SplitTunnelRule) GetSection() *PolicySectionInfo { return this.Section }
 
 type SplitTunnelRuleMutationPayload struct {
@@ -13352,14 +9888,6 @@ type SplitTunnelRuleMutationPayload struct {
 }
 
 func (SplitTunnelRuleMutationPayload) IsIPolicyRuleMutationPayload() {}
-
-// Returns settings for the rule
-func (this SplitTunnelRuleMutationPayload) GetRule() IPolicyRulePayload { return *this.Rule }
-
-// Enum for the status of the policy change
-func (this SplitTunnelRuleMutationPayload) GetStatus() PolicyMutationStatus { return this.Status }
-
-// List of errors related to the policy change
 func (this SplitTunnelRuleMutationPayload) GetErrors() []*PolicyMutationError {
 	if this.Errors == nil {
 		return nil
@@ -13370,6 +9898,8 @@ func (this SplitTunnelRuleMutationPayload) GetErrors() []*PolicyMutationError {
 	}
 	return interfaceSlice
 }
+func (this SplitTunnelRuleMutationPayload) GetRule() IPolicyRulePayload     { return *this.Rule }
+func (this SplitTunnelRuleMutationPayload) GetStatus() PolicyMutationStatus { return this.Status }
 
 type SplitTunnelRulePayload struct {
 	Audit      *PolicyElementAudit           `json:"audit"`
@@ -13379,11 +9909,6 @@ type SplitTunnelRulePayload struct {
 
 func (SplitTunnelRulePayload) IsIPolicyRulePayload()              {}
 func (this SplitTunnelRulePayload) GetAudit() *PolicyElementAudit { return this.Audit }
-
-// Rule that was changed
-func (this SplitTunnelRulePayload) GetRule() IPolicyRule { return *this.Rule }
-
-// Summary of rule change, (ie. ADDED, UPDATED)
 func (this SplitTunnelRulePayload) GetProperties() []PolicyElementPropertiesEnum {
 	if this.Properties == nil {
 		return nil
@@ -13394,20 +9919,17 @@ func (this SplitTunnelRulePayload) GetProperties() []PolicyElementPropertiesEnum
 	}
 	return interfaceSlice
 }
+func (this SplitTunnelRulePayload) GetRule() IPolicyRule { return *this.Rule }
 
 // Returns the settings for Source of an Split Tunnel rule
 type SplitTunnelSource struct {
-	// Individual users defined for the account
-	User []*UserRef `json:"user"`
-	// Group of users
+	User       []*UserRef       `json:"user"`
 	UsersGroup []*UsersGroupRef `json:"usersGroup"`
 }
 
 // Input of the settings for Source of an Split Tunnel rule
 type SplitTunnelSourceInput struct {
-	// Individual users defined for the account
-	User []*UserRefInput `json:"user"`
-	// Group of users
+	User       []*UserRefInput       `json:"user"`
 	UsersGroup []*UsersGroupRefInput `json:"usersGroup"`
 }
 
@@ -13425,38 +9947,23 @@ type SplitTunnelSourceNetworkUpdateInput struct {
 
 // Input of the settings for Source of an Split Tunnel rule
 type SplitTunnelSourceUpdateInput struct {
-	// Individual users defined for the account
-	User []*UserRefInput `json:"user,omitempty"`
-	// Group of users
+	User       []*UserRefInput       `json:"user,omitempty"`
 	UsersGroup []*UsersGroupRefInput `json:"usersGroup,omitempty"`
 }
 
 type SplitTunnelUpdateRuleDataInput struct {
-	// The action applied by the split tunnel if the rule is matched
-	Action *SplitTunnelActionEnum `json:"action,omitempty"`
-	// Country traffic matching criteria.
-	// Logical ‘OR’ is applied within the criteria set.
-	// Logical ‘AND’ is applied between criteria sets.
-	Country     []*CountryRefInput       `json:"country,omitempty"`
-	Coverage    *SplitTunnelCoverageEnum `json:"coverage,omitempty"`
-	Description *string                  `json:"description,omitempty"`
-	// Destination traffic matching criteria.
-	// Logical ‘OR’ is applied within the criteria set.
-	// Logical ‘AND’ is applied between criteria sets.
-	Destination  *SplitTunnelDestinationUpdateInput  `json:"destination,omitempty"`
-	DNSExclusion *SplitTunnelDNSExclusionUpdateInput `json:"dnsExclusion,omitempty"`
-	Enabled      *bool                               `json:"enabled,omitempty"`
-	Name         *string                             `json:"name,omitempty"`
-	// Source device Operating System traffic matching criteria.
-	// Logical ‘OR’ is applied within the criteria set.
-	// Logical ‘AND’ is applied between criteria sets.
-	Platform        []OperatingSystem               `json:"platform,omitempty"`
-	RoutingPriority *SplitTunnelRoutingPriorityEnum `json:"routingPriority,omitempty"`
-	// Source traffic matching criteria.
-	// Logical ‘OR’ is applied within the criteria set.
-	// Logical ‘AND’ is applied between criteria sets.
-	Source        *SplitTunnelSourceUpdateInput        `json:"source,omitempty"`
-	SourceNetwork *SplitTunnelSourceNetworkUpdateInput `json:"sourceNetwork,omitempty"`
+	Action          *SplitTunnelActionEnum               `json:"action,omitempty"`
+	Country         []*CountryRefInput                   `json:"country,omitempty"`
+	Coverage        *SplitTunnelCoverageEnum             `json:"coverage,omitempty"`
+	Description     *string                              `json:"description,omitempty"`
+	Destination     *SplitTunnelDestinationUpdateInput   `json:"destination,omitempty"`
+	DNSExclusion    *SplitTunnelDNSExclusionUpdateInput  `json:"dnsExclusion,omitempty"`
+	Enabled         *bool                                `json:"enabled,omitempty"`
+	Name            *string                              `json:"name,omitempty"`
+	Platform        []OperatingSystem                    `json:"platform,omitempty"`
+	RoutingPriority *SplitTunnelRoutingPriorityEnum      `json:"routingPriority,omitempty"`
+	Source          *SplitTunnelSourceUpdateInput        `json:"source,omitempty"`
+	SourceNetwork   *SplitTunnelSourceNetworkUpdateInput `json:"sourceNetwork,omitempty"`
 }
 
 type SplitTunnelUpdateRuleInput struct {
@@ -13471,7 +9978,6 @@ type StartSiteUpgradeInput struct {
 
 // Wrapper for site upgrade response.
 type StartSiteUpgradePayload struct {
-	// List of individual site upgrade results.
 	Results []*SiteUpgradeInfo `json:"results"`
 }
 
@@ -13483,35 +9989,22 @@ type StatusCount struct {
 }
 
 type StoriesData struct {
-	// Fields returned from the Story query
-	Items []*Story `json:"items"`
-	// Define the stories that are returned, similar to a page of stories in the Cato Management Application
-	Paging *Paging `json:"paging"`
+	Items  []*Story `json:"items"`
+	Paging *Paging  `json:"paging"`
 }
 
 type Story struct {
-	// ID for your Cato account
-	AccountID int64 `json:"accountId"`
-	// Name of the account in the Cato Management Application
-	AccountName *string `json:"accountName,omitempty"`
-	// Email address of the analyst working on the story
-	AnalystEmail *string `json:"analystEmail,omitempty"`
-	// Name of analyst working on the story
-	AnalystName *string `json:"analystName,omitempty"`
-	// Timestamp when the story was created
-	CreatedAt string `json:"createdAt"`
-	// Unique Cato ID for each story
-	ID string `json:"id"`
-	// Data related to the fields and incidents that were merged to create or update the story
-	Incident MergedIncident `json:"incident"`
-	// URL for the playbook in the Knowledge Base to help troubleshoot the story
-	Playbook *string `json:"playbook,omitempty"`
-	// Summary of the story
-	Summary *string `json:"summary,omitempty"`
-	// Data for the story timeline
-	Timeline []*TimelineItem `json:"timeline"`
-	// Timestamp when the story was most recently updated
-	UpdatedAt string `json:"updatedAt"`
+	AccountID    int64           `json:"accountId"`
+	AccountName  *string         `json:"accountName,omitempty"`
+	AnalystEmail *string         `json:"analystEmail,omitempty"`
+	AnalystName  *string         `json:"analystName,omitempty"`
+	CreatedAt    string          `json:"createdAt"`
+	ID           string          `json:"id"`
+	Incident     MergedIncident  `json:"incident"`
+	Playbook     *string         `json:"playbook,omitempty"`
+	Summary      *string         `json:"summary,omitempty"`
+	Timeline     []*TimelineItem `json:"timeline"`
+	UpdatedAt    string          `json:"updatedAt"`
 }
 
 type StoryComment struct {
@@ -13612,12 +10105,8 @@ type StringValueSetRef struct {
 	Name string `json:"name"`
 }
 
-func (StringValueSetRef) IsObjectRef() {}
-
-// Object's unique identifier
-func (this StringValueSetRef) GetID() string { return this.ID }
-
-// Object's unique name
+func (StringValueSetRef) IsObjectRef()         {}
+func (this StringValueSetRef) GetID() string   { return this.ID }
 func (this StringValueSetRef) GetName() string { return this.Name }
 
 type StringValueSetRefInput struct {
@@ -13638,12 +10127,8 @@ type SubscriptionGroupRef struct {
 	Name string `json:"name"`
 }
 
-func (SubscriptionGroupRef) IsObjectRef() {}
-
-// Object's unique identifier
-func (this SubscriptionGroupRef) GetID() string { return this.ID }
-
-// Object's unique name
+func (SubscriptionGroupRef) IsObjectRef()         {}
+func (this SubscriptionGroupRef) GetID() string   { return this.ID }
 func (this SubscriptionGroupRef) GetName() string { return this.Name }
 
 type SubscriptionGroupRefInput struct {
@@ -13657,12 +10142,8 @@ type SubscriptionMailingListRef struct {
 	Name string `json:"name"`
 }
 
-func (SubscriptionMailingListRef) IsObjectRef() {}
-
-// Object's unique identifier
-func (this SubscriptionMailingListRef) GetID() string { return this.ID }
-
-// Object's unique name
+func (SubscriptionMailingListRef) IsObjectRef()         {}
+func (this SubscriptionMailingListRef) GetID() string   { return this.ID }
 func (this SubscriptionMailingListRef) GetName() string { return this.Name }
 
 type SubscriptionMailingListRefInput struct {
@@ -13676,12 +10157,8 @@ type SubscriptionWebhookRef struct {
 	Name string `json:"name"`
 }
 
-func (SubscriptionWebhookRef) IsObjectRef() {}
-
-// Object's unique identifier
-func (this SubscriptionWebhookRef) GetID() string { return this.ID }
-
-// Object's unique name
+func (SubscriptionWebhookRef) IsObjectRef()         {}
+func (this SubscriptionWebhookRef) GetID() string   { return this.ID }
 func (this SubscriptionWebhookRef) GetName() string { return this.Name }
 
 type SubscriptionWebhookRefInput struct {
@@ -13695,12 +10172,8 @@ type SystemGroupRef struct {
 	Name string `json:"name"`
 }
 
-func (SystemGroupRef) IsObjectRef() {}
-
-// Object's unique identifier
-func (this SystemGroupRef) GetID() string { return this.ID }
-
-// Object's unique name
+func (SystemGroupRef) IsObjectRef()         {}
+func (this SystemGroupRef) GetID() string   { return this.ID }
 func (this SystemGroupRef) GetName() string { return this.Name }
 
 type SystemGroupRefInput struct {
@@ -13716,23 +10189,15 @@ type TaggingMethodFilterInput struct {
 }
 
 type TerminalServerAddRuleDataInput struct {
-	// Allowed Host IP range.
-	// all the other IPs will be blocked by the pop.
-	// Globally defined IP range
-	AllowedHostIP *GlobalIPRangeRefInput `json:"allowedHostIP"`
-	Description   string                 `json:"description"`
-	Enabled       bool                   `json:"enabled"`
-	// Exclude traffic IP Range.
-	// all traffic to those Ips will be excluded from the GRE tunnel.
-	// Globally defined IP range
+	AllowedHostIP  *GlobalIPRangeRefInput   `json:"allowedHostIP"`
+	Description    string                   `json:"description"`
+	Enabled        bool                     `json:"enabled"`
 	ExcludeTraffic []*GlobalIPRangeRefInput `json:"excludeTraffic"`
 	Name           string                   `json:"name"`
 }
 
 type TerminalServerAddRuleInput struct {
-	// Position of the rule in the policy
-	At *PolicyRulePositionInput `json:"at,omitempty"`
-	// Parameters for the rule you are adding
+	At   *PolicyRulePositionInput        `json:"at,omitempty"`
 	Rule *TerminalServerAddRuleDataInput `json:"rule"`
 }
 
@@ -13744,12 +10209,10 @@ type TerminalServerPolicy struct {
 	Sections []*PolicySectionPayload      `json:"sections"`
 }
 
-func (TerminalServerPolicy) IsIPolicy() {}
-
-// TRUE = Policy is enabled, FALSE = Policy is disabled
-func (this TerminalServerPolicy) GetEnabled() bool { return this.Enabled }
-
-// Return list of rules in the policy
+func (TerminalServerPolicy) IsIPolicy()                        {}
+func (this TerminalServerPolicy) GetAudit() *PolicyAudit       { return this.Audit }
+func (this TerminalServerPolicy) GetEnabled() bool             { return this.Enabled }
+func (this TerminalServerPolicy) GetRevision() *PolicyRevision { return this.Revision }
 func (this TerminalServerPolicy) GetRules() []IPolicyRulePayload {
 	if this.Rules == nil {
 		return nil
@@ -13760,8 +10223,6 @@ func (this TerminalServerPolicy) GetRules() []IPolicyRulePayload {
 	}
 	return interfaceSlice
 }
-
-// Return sections in the policy
 func (this TerminalServerPolicy) GetSections() []*PolicySectionPayload {
 	if this.Sections == nil {
 		return nil
@@ -13773,18 +10234,7 @@ func (this TerminalServerPolicy) GetSections() []*PolicySectionPayload {
 	return interfaceSlice
 }
 
-// Audit data for the policy
-func (this TerminalServerPolicy) GetAudit() *PolicyAudit { return this.Audit }
-
-// Return data for the Policy revision
-func (this TerminalServerPolicy) GetRevision() *PolicyRevision { return this.Revision }
-
 type TerminalServerPolicyInput struct {
-	// A revision is a specific instance of the policy.
-	//  Unpublished revisions are working copies of the policy available to a specific
-	//  admin or a set of admins
-	//  Published revisions are revisions that were applied to the account network.
-	//  The last published revision is the active policy.
 	Revision *PolicyRevisionInput `json:"revision,omitempty"`
 }
 
@@ -13799,14 +10249,6 @@ type TerminalServerPolicyMutationPayload struct {
 }
 
 func (TerminalServerPolicyMutationPayload) IsIPolicyMutationPayload() {}
-
-// Data for the policy
-func (this TerminalServerPolicyMutationPayload) GetPolicy() IPolicy { return *this.Policy }
-
-// Enum for the status of the policy change
-func (this TerminalServerPolicyMutationPayload) GetStatus() PolicyMutationStatus { return this.Status }
-
-// List of errors related to the policy change
 func (this TerminalServerPolicyMutationPayload) GetErrors() []*PolicyMutationError {
 	if this.Errors == nil {
 		return nil
@@ -13817,6 +10259,8 @@ func (this TerminalServerPolicyMutationPayload) GetErrors() []*PolicyMutationErr
 	}
 	return interfaceSlice
 }
+func (this TerminalServerPolicyMutationPayload) GetPolicy() IPolicy              { return *this.Policy }
+func (this TerminalServerPolicyMutationPayload) GetStatus() PolicyMutationStatus { return this.Status }
 
 type TerminalServerPolicyMutations struct {
 	AddRule               *TerminalServerRuleMutationPayload   `json:"addRule"`
@@ -13847,47 +10291,22 @@ type TerminalServerRemoveRuleInput struct {
 }
 
 type TerminalServerRule struct {
-	// Allowed Host IP range.
-	// all the other IPs will be blocked by the pop.
-	// Globally defined IP range
-	AllowedHostIP *GlobalIPRangeRef `json:"allowedHostIP"`
-	// Description for the rule
-	Description string `json:"description"`
-	// TRUE = Rule is enabled
-	//  FALSE = Rule is disabled
-	Enabled bool `json:"enabled"`
-	// Exclude traffic IP Range.
-	// all traffic to those Ips will be excluded from the GRE tunnel.
-	// Globally defined IP range
+	AllowedHostIP  *GlobalIPRangeRef   `json:"allowedHostIP"`
+	Description    string              `json:"description"`
+	Enabled        bool                `json:"enabled"`
 	ExcludeTraffic []*GlobalIPRangeRef `json:"excludeTraffic"`
-	// Rule ID
-	ID string `json:"id"`
-	// Position / priority of rule
-	Index int64 `json:"index"`
-	// Name of the rule
-	Name string `json:"name"`
-	// Policy section where the rule is located
-	Section *PolicySectionInfo `json:"section"`
+	ID             string              `json:"id"`
+	Index          int64               `json:"index"`
+	Name           string              `json:"name"`
+	Section        *PolicySectionInfo  `json:"section"`
 }
 
-func (TerminalServerRule) IsIPolicyRule() {}
-
-// Rule ID
-func (this TerminalServerRule) GetID() string { return this.ID }
-
-// Name of the rule
-func (this TerminalServerRule) GetName() string { return this.Name }
-
-// Description for the rule
-func (this TerminalServerRule) GetDescription() *string { return &this.Description }
-
-// Position / priority of rule
-func (this TerminalServerRule) GetIndex() int64 { return this.Index }
-
-// TRUE = Rule is enabled, FALSE = Rule is disabled
-func (this TerminalServerRule) GetEnabled() bool { return this.Enabled }
-
-// Policy section where the rule is located
+func (TerminalServerRule) IsIPolicyRule()                      {}
+func (this TerminalServerRule) GetDescription() *string        { return &this.Description }
+func (this TerminalServerRule) GetEnabled() bool               { return this.Enabled }
+func (this TerminalServerRule) GetID() string                  { return this.ID }
+func (this TerminalServerRule) GetIndex() int64                { return this.Index }
+func (this TerminalServerRule) GetName() string                { return this.Name }
 func (this TerminalServerRule) GetSection() *PolicySectionInfo { return this.Section }
 
 type TerminalServerRuleMutationPayload struct {
@@ -13897,14 +10316,6 @@ type TerminalServerRuleMutationPayload struct {
 }
 
 func (TerminalServerRuleMutationPayload) IsIPolicyRuleMutationPayload() {}
-
-// Returns settings for the rule
-func (this TerminalServerRuleMutationPayload) GetRule() IPolicyRulePayload { return *this.Rule }
-
-// Enum for the status of the policy change
-func (this TerminalServerRuleMutationPayload) GetStatus() PolicyMutationStatus { return this.Status }
-
-// List of errors related to the policy change
 func (this TerminalServerRuleMutationPayload) GetErrors() []*PolicyMutationError {
 	if this.Errors == nil {
 		return nil
@@ -13915,6 +10326,8 @@ func (this TerminalServerRuleMutationPayload) GetErrors() []*PolicyMutationError
 	}
 	return interfaceSlice
 }
+func (this TerminalServerRuleMutationPayload) GetRule() IPolicyRulePayload     { return *this.Rule }
+func (this TerminalServerRuleMutationPayload) GetStatus() PolicyMutationStatus { return this.Status }
 
 type TerminalServerRulePayload struct {
 	Audit      *PolicyElementAudit           `json:"audit"`
@@ -13924,11 +10337,6 @@ type TerminalServerRulePayload struct {
 
 func (TerminalServerRulePayload) IsIPolicyRulePayload()              {}
 func (this TerminalServerRulePayload) GetAudit() *PolicyElementAudit { return this.Audit }
-
-// Rule that was changed
-func (this TerminalServerRulePayload) GetRule() IPolicyRule { return *this.Rule }
-
-// Summary of rule change, (ie. ADDED, UPDATED)
 func (this TerminalServerRulePayload) GetProperties() []PolicyElementPropertiesEnum {
 	if this.Properties == nil {
 		return nil
@@ -13939,17 +10347,12 @@ func (this TerminalServerRulePayload) GetProperties() []PolicyElementPropertiesE
 	}
 	return interfaceSlice
 }
+func (this TerminalServerRulePayload) GetRule() IPolicyRule { return *this.Rule }
 
 type TerminalServerUpdateRuleDataInput struct {
-	// Allowed Host IP range.
-	// all the other IPs will be blocked by the pop.
-	// Globally defined IP range
-	AllowedHostIP *GlobalIPRangeRefInput `json:"allowedHostIP,omitempty"`
-	Description   *string                `json:"description,omitempty"`
-	Enabled       *bool                  `json:"enabled,omitempty"`
-	// Exclude traffic IP Range.
-	// all traffic to those Ips will be excluded from the GRE tunnel.
-	// Globally defined IP range
+	AllowedHostIP  *GlobalIPRangeRefInput   `json:"allowedHostIP,omitempty"`
+	Description    *string                  `json:"description,omitempty"`
+	Enabled        *bool                    `json:"enabled,omitempty"`
 	ExcludeTraffic []*GlobalIPRangeRefInput `json:"excludeTraffic,omitempty"`
 	Name           *string                  `json:"name,omitempty"`
 }
@@ -13973,159 +10376,72 @@ type TestContainerFromURLPayload struct {
 
 // The "Threat" object represents a comprehensive data structure used in GraphQL queries or mutations to encapsulate various attributes and metadata related to a threat incident, including details about the threat's origin, nature, risk assessment, and associated network traffic flows.
 type Threat struct {
-	// Fields related to analysts research of the threat incident
-	AnalystFeedback *AnalystFeedback `json:"analystFeedback,omitempty"`
-	// Client Class for the traffic flow
-	ClientClass []string `json:"clientClass"`
-	// Connection for this incident
-	ConnectionType *ConnectionTypeEnum `json:"connectionType,omitempty"`
-	// Cato's risk analysis of the story. Values are from 1 (low risk) to 10 (high risk)
-	Criticality *int64 `json:"criticality,omitempty"`
-	// Description of the threat
-	Description *string `json:"description,omitempty"`
-	// Name of the device
-	DeviceName *string `json:"deviceName,omitempty"`
-	// Traffic direction for the threat
-	Direction *string `json:"direction,omitempty"`
-	// XDR engine involved with the incident
-	EngineType *StoryEngineTypeEnum `json:"engineType,omitempty"`
-	// Data for the Cato event for this story
-	Events []*Event `json:"events,omitempty"`
-	// Timestamp for the first incident signal related to this story
-	FirstSignal string `json:"firstSignal"`
-	// Data about the traffic flow for the threat
-	Flows []*IncidentFlow `json:"flows,omitempty"`
-	// Cardinality of traffic flows for the threat
-	FlowsCardinality *int64 `json:"flowsCardinality,omitempty"`
-	// Unique Cato ID for this threat
-	ID string `json:"id"`
-	// An indication is a set of actions and behaviors for the Network or Security incident. Each producer has different indications.
-	Indication string `json:"indication"`
-	// Timestamp for the first incident signal related to this story
-	LastSignal string `json:"lastSignal"`
-	// Username for the device
-	LogonName *string `json:"logonName,omitempty"`
-	// MAC address of the device
-	MacAddress *string `json:"macAddress,omitempty"`
-	// Mitre data for the story (ie. ID, name)
-	Mitres []*Mitre `json:"mitres,omitempty"`
-	// OS for device or host that is the threat target
-	Os *string `json:"os,omitempty"`
-	// Predicted threat type for the story based on Cato algorithm
-	PredictedThreatType *string `json:"predictedThreatType,omitempty"`
-	// Predicted verdict of the story based on Cato algorithm
-	PredictedVerdict *StoryVerdictEnum `json:"predictedVerdict,omitempty"`
-	// Producer (specific XDR engine and service) involved with the incident
-	Producer StoryProducerEnum `json:"producer"`
-	// Full name of the Producer (specific XDR engine and service) involved with the incident
-	ProducerName string `json:"producerName"`
-	// Category for the indication ID related to the story
-	QueryName *string `json:"queryName,omitempty"`
-	// The value is TRUE when the story is currently being researched by Security Analysts
-	Research *bool `json:"research,omitempty"`
-	// The estimated risk level of the threat (ie. Malicious, High, Low)
-	RiskLevel *RiskLevelEnum `json:"riskLevel,omitempty"`
-	// Data for stories that are similar
-	SimilarStoriesData []*SimilarStoryData `json:"similarStoriesData"`
-	// Cato ID and name for the site
-	Site *SiteRef `json:"site,omitempty"`
-	// Site name related to the story
-	SiteName *string `json:"siteName,omitempty"`
-	// IP address, name of device, or SDP user on your network involved in the story
-	Source *string `json:"source,omitempty"`
-	// The source IP address of the device in your network sending or receiving the flow
-	SourceIP *string `json:"sourceIp,omitempty"`
-	// Cato ID for the site that is the source of the threat
-	SrcSiteID *string `json:"srcSiteId,omitempty"`
-	// Status of this story
-	Status *StoryStatusEnum `json:"status,omitempty"`
-	// Amount of time since the story was opened (no value for closed stories)
-	StoryDuration *int64 `json:"storyDuration,omitempty"`
-	// Data about the target of the threat
-	Targets []*IncidentTargetRep `json:"targets"`
-	// The ticket an analyst created for this story
-	Ticket *string `json:"ticket,omitempty"`
-	// Timeseries data for the incident
-	TimeSeries []*IncidentTimeseries `json:"timeSeries,omitempty"`
-	// Cato ID and name for the user
-	User *UserRef `json:"user,omitempty"`
-	// Vendor that identified the incident, such as Cato or Microsoft
-	Vendor *VendorEnum `json:"vendor,omitempty"`
+	AnalystFeedback     *AnalystFeedback      `json:"analystFeedback,omitempty"`
+	ClientClass         []string              `json:"clientClass"`
+	ConnectionType      *ConnectionTypeEnum   `json:"connectionType,omitempty"`
+	Criticality         *int64                `json:"criticality,omitempty"`
+	Description         *string               `json:"description,omitempty"`
+	DeviceName          *string               `json:"deviceName,omitempty"`
+	Direction           *string               `json:"direction,omitempty"`
+	EngineType          *StoryEngineTypeEnum  `json:"engineType,omitempty"`
+	Events              []*Event              `json:"events,omitempty"`
+	FirstSignal         string                `json:"firstSignal"`
+	Flows               []*IncidentFlow       `json:"flows,omitempty"`
+	FlowsCardinality    *int64                `json:"flowsCardinality,omitempty"`
+	ID                  string                `json:"id"`
+	Indication          string                `json:"indication"`
+	LastSignal          string                `json:"lastSignal"`
+	LogonName           *string               `json:"logonName,omitempty"`
+	MacAddress          *string               `json:"macAddress,omitempty"`
+	Mitres              []*Mitre              `json:"mitres,omitempty"`
+	Os                  *string               `json:"os,omitempty"`
+	PredictedThreatType *string               `json:"predictedThreatType,omitempty"`
+	PredictedVerdict    *StoryVerdictEnum     `json:"predictedVerdict,omitempty"`
+	Producer            StoryProducerEnum     `json:"producer"`
+	ProducerName        string                `json:"producerName"`
+	QueryName           *string               `json:"queryName,omitempty"`
+	Research            *bool                 `json:"research,omitempty"`
+	RiskLevel           *RiskLevelEnum        `json:"riskLevel,omitempty"`
+	SimilarStoriesData  []*SimilarStoryData   `json:"similarStoriesData"`
+	Site                *SiteRef              `json:"site,omitempty"`
+	SiteName            *string               `json:"siteName,omitempty"`
+	Source              *string               `json:"source,omitempty"`
+	SourceIP            *string               `json:"sourceIp,omitempty"`
+	SrcSiteID           *string               `json:"srcSiteId,omitempty"`
+	Status              *StoryStatusEnum      `json:"status,omitempty"`
+	StoryDuration       *int64                `json:"storyDuration,omitempty"`
+	Targets             []*IncidentTargetRep  `json:"targets"`
+	Ticket              *string               `json:"ticket,omitempty"`
+	TimeSeries          []*IncidentTimeseries `json:"timeSeries,omitempty"`
+	User                *UserRef              `json:"user,omitempty"`
+	Vendor              *VendorEnum           `json:"vendor,omitempty"`
 }
 
-func (Threat) IsMergedIncident() {}
-
-// Unique Cato ID for each story
-func (this Threat) GetID() string { return this.ID }
-
-// Timestamp for the first incident signal related to this story
-func (this Threat) GetFirstSignal() string { return this.FirstSignal }
-
-// Timestamp for the last (most recent) incident signal related to this story
-func (this Threat) GetLastSignal() string { return this.LastSignal }
-
-// XDR engine involved with the incident
-func (this Threat) GetEngineType() *StoryEngineTypeEnum { return this.EngineType }
-
-// Vendor that identified the incident, such as Cato or Microsoft
-func (this Threat) GetVendor() *VendorEnum { return this.Vendor }
-
-// Producer (specific XDR engine and service) involved with the incident
-func (this Threat) GetProducer() StoryProducerEnum { return this.Producer }
-
-// Full name of the Producer (specific XDR engine and service) involved with the incident
-func (this Threat) GetProducerName() string { return this.ProducerName }
-
-// Connection for the incident
+func (Threat) IsMergedIncident()                           {}
+func (this Threat) GetAnalystFeedback() *AnalystFeedback   { return this.AnalystFeedback }
 func (this Threat) GetConnectionType() *ConnectionTypeEnum { return this.ConnectionType }
-
-// An indication is a set of actions and behaviors for the Network or Security incident. Each producer has different indications.
-func (this Threat) GetIndication() string { return this.Indication }
-
-// Category for the indication ID related to the story
-func (this Threat) GetQueryName() *string { return this.QueryName }
-
-// For Network stories - The potential impact of the issue on your network. Values are from 1 (low impact) to 10 (high impact)
-//
-// For Security stories - Cato's risk analysis of the story. Values are from 1 (low risk) to 10 (high risk)
-func (this Threat) GetCriticality() *int64 { return this.Criticality }
-
-// For Network stories - The site where the network issue is occurring
-//
-// For Security stories - IP address, name of device, or SDP user on your network involved in the story
-func (this Threat) GetSource() *string { return this.Source }
-
-// The ticket an analyst created for this story
-func (this Threat) GetTicket() *string { return this.Ticket }
-
-// Status for the story
-func (this Threat) GetStatus() *StoryStatusEnum { return this.Status }
-
-// The value is TRUE when the story is currently being researched by Security Analysts
-func (this Threat) GetResearch() *bool { return this.Research }
-
-// Site name related to the story
-func (this Threat) GetSiteName() *string { return this.SiteName }
-
-// Amount of time since the story was opened (no value for closed stories)
-func (this Threat) GetStoryDuration() *int64 { return this.StoryDuration }
-
-// For Security stories, description of the threat
-func (this Threat) GetDescription() *string { return this.Description }
-
-// The source IP address of the device in your network sending or receiving the flow
-func (this Threat) GetSourceIP() *string { return this.SourceIP }
-
-// Fields related to analysts research of the threat incident
-func (this Threat) GetAnalystFeedback() *AnalystFeedback { return this.AnalystFeedback }
-
-// Cato ID and name for the site
-func (this Threat) GetSite() *SiteRef { return this.Site }
-
-// Cato ID and name for the user
-func (this Threat) GetUser() *UserRef                      { return this.User }
-func (this Threat) GetPredictedVerdict() *StoryVerdictEnum { return this.PredictedVerdict }
+func (this Threat) GetCriticality() *int64                 { return this.Criticality }
+func (this Threat) GetDescription() *string                { return this.Description }
+func (this Threat) GetEngineType() *StoryEngineTypeEnum    { return this.EngineType }
+func (this Threat) GetFirstSignal() string                 { return this.FirstSignal }
+func (this Threat) GetID() string                          { return this.ID }
+func (this Threat) GetIndication() string                  { return this.Indication }
+func (this Threat) GetLastSignal() string                  { return this.LastSignal }
 func (this Threat) GetPredictedThreatType() *string        { return this.PredictedThreatType }
+func (this Threat) GetPredictedVerdict() *StoryVerdictEnum { return this.PredictedVerdict }
+func (this Threat) GetProducer() StoryProducerEnum         { return this.Producer }
+func (this Threat) GetProducerName() string                { return this.ProducerName }
+func (this Threat) GetQueryName() *string                  { return this.QueryName }
+func (this Threat) GetResearch() *bool                     { return this.Research }
+func (this Threat) GetSite() *SiteRef                      { return this.Site }
+func (this Threat) GetSiteName() *string                   { return this.SiteName }
+func (this Threat) GetSource() *string                     { return this.Source }
+func (this Threat) GetSourceIP() *string                   { return this.SourceIP }
+func (this Threat) GetStatus() *StoryStatusEnum            { return this.Status }
+func (this Threat) GetStoryDuration() *int64               { return this.StoryDuration }
+func (this Threat) GetTicket() *string                     { return this.Ticket }
+func (this Threat) GetUser() *UserRef                      { return this.User }
+func (this Threat) GetVendor() *VendorEnum                 { return this.Vendor }
 
 // The `ThreatPrevention` object is a GraphQL type that represents the details of a threat prevention incident, including fields such as analyst feedback, client class, connection type, criticality, description, device name, and various other attributes related to the incident's signals, events, and status.
 type ThreatPrevention struct {
@@ -14170,79 +10486,31 @@ type ThreatPrevention struct {
 	Vendor                  *VendorEnum               `json:"vendor,omitempty"`
 }
 
-func (ThreatPrevention) IsMergedIncident() {}
-
-// Unique Cato ID for each story
-func (this ThreatPrevention) GetID() string { return this.ID }
-
-// Timestamp for the first incident signal related to this story
-func (this ThreatPrevention) GetFirstSignal() string { return this.FirstSignal }
-
-// Timestamp for the last (most recent) incident signal related to this story
-func (this ThreatPrevention) GetLastSignal() string { return this.LastSignal }
-
-// XDR engine involved with the incident
-func (this ThreatPrevention) GetEngineType() *StoryEngineTypeEnum { return this.EngineType }
-
-// Vendor that identified the incident, such as Cato or Microsoft
-func (this ThreatPrevention) GetVendor() *VendorEnum { return this.Vendor }
-
-// Producer (specific XDR engine and service) involved with the incident
-func (this ThreatPrevention) GetProducer() StoryProducerEnum { return this.Producer }
-
-// Full name of the Producer (specific XDR engine and service) involved with the incident
-func (this ThreatPrevention) GetProducerName() string { return this.ProducerName }
-
-// Connection for the incident
+func (ThreatPrevention) IsMergedIncident()                           {}
+func (this ThreatPrevention) GetAnalystFeedback() *AnalystFeedback   { return this.AnalystFeedback }
 func (this ThreatPrevention) GetConnectionType() *ConnectionTypeEnum { return this.ConnectionType }
-
-// An indication is a set of actions and behaviors for the Network or Security incident. Each producer has different indications.
-func (this ThreatPrevention) GetIndication() string { return this.Indication }
-
-// Category for the indication ID related to the story
-func (this ThreatPrevention) GetQueryName() *string { return this.QueryName }
-
-// For Network stories - The potential impact of the issue on your network. Values are from 1 (low impact) to 10 (high impact)
-//
-// For Security stories - Cato's risk analysis of the story. Values are from 1 (low risk) to 10 (high risk)
-func (this ThreatPrevention) GetCriticality() *int64 { return this.Criticality }
-
-// For Network stories - The site where the network issue is occurring
-//
-// For Security stories - IP address, name of device, or SDP user on your network involved in the story
-func (this ThreatPrevention) GetSource() *string { return this.Source }
-
-// The ticket an analyst created for this story
-func (this ThreatPrevention) GetTicket() *string { return this.Ticket }
-
-// Status for the story
-func (this ThreatPrevention) GetStatus() *StoryStatusEnum { return this.Status }
-
-// The value is TRUE when the story is currently being researched by Security Analysts
-func (this ThreatPrevention) GetResearch() *bool { return this.Research }
-
-// Site name related to the story
-func (this ThreatPrevention) GetSiteName() *string { return this.SiteName }
-
-// Amount of time since the story was opened (no value for closed stories)
-func (this ThreatPrevention) GetStoryDuration() *int64 { return this.StoryDuration }
-
-// For Security stories, description of the threat
-func (this ThreatPrevention) GetDescription() *string { return this.Description }
-
-// The source IP address of the device in your network sending or receiving the flow
-func (this ThreatPrevention) GetSourceIP() *string { return this.SourceIP }
-
-// Fields related to analysts research of the threat incident
-func (this ThreatPrevention) GetAnalystFeedback() *AnalystFeedback { return this.AnalystFeedback }
-
-// Cato ID and name for the site
-func (this ThreatPrevention) GetSite() *SiteRef { return this.Site }
-
-// Cato ID and name for the user
-func (this ThreatPrevention) GetUser() *UserRef                      { return this.User }
-func (this ThreatPrevention) GetPredictedVerdict() *StoryVerdictEnum { return this.PredictedVerdict }
+func (this ThreatPrevention) GetCriticality() *int64                 { return this.Criticality }
+func (this ThreatPrevention) GetDescription() *string                { return this.Description }
+func (this ThreatPrevention) GetEngineType() *StoryEngineTypeEnum    { return this.EngineType }
+func (this ThreatPrevention) GetFirstSignal() string                 { return this.FirstSignal }
+func (this ThreatPrevention) GetID() string                          { return this.ID }
+func (this ThreatPrevention) GetIndication() string                  { return this.Indication }
+func (this ThreatPrevention) GetLastSignal() string                  { return this.LastSignal }
 func (this ThreatPrevention) GetPredictedThreatType() *string        { return this.PredictedThreatType }
+func (this ThreatPrevention) GetPredictedVerdict() *StoryVerdictEnum { return this.PredictedVerdict }
+func (this ThreatPrevention) GetProducer() StoryProducerEnum         { return this.Producer }
+func (this ThreatPrevention) GetProducerName() string                { return this.ProducerName }
+func (this ThreatPrevention) GetQueryName() *string                  { return this.QueryName }
+func (this ThreatPrevention) GetResearch() *bool                     { return this.Research }
+func (this ThreatPrevention) GetSite() *SiteRef                      { return this.Site }
+func (this ThreatPrevention) GetSiteName() *string                   { return this.SiteName }
+func (this ThreatPrevention) GetSource() *string                     { return this.Source }
+func (this ThreatPrevention) GetSourceIP() *string                   { return this.SourceIP }
+func (this ThreatPrevention) GetStatus() *StoryStatusEnum            { return this.Status }
+func (this ThreatPrevention) GetStoryDuration() *int64               { return this.StoryDuration }
+func (this ThreatPrevention) GetTicket() *string                     { return this.Ticket }
+func (this ThreatPrevention) GetUser() *UserRef                      { return this.User }
+func (this ThreatPrevention) GetVendor() *VendorEnum                 { return this.Vendor }
 
 type ThreatPreventionEvents struct {
 	AppName                *string `json:"appName,omitempty"`
@@ -14273,58 +10541,32 @@ type ThreatPreventionEvents struct {
 
 // Threat Prevention (TP) license details
 type ThreatPreventionLicense struct {
-	Description *string `json:"description,omitempty"`
-	// License expiration date
-	ExpirationDate string `json:"expirationDate"`
-	// The unique identifier for the license. If this value is not available, you can contact Cato Support, who may be able to assist in retrieving it.
-	ID *string `json:"id,omitempty"`
-	// The date of the last update to the license
-	LastUpdated *string `json:"lastUpdated,omitempty"`
-	// License plan type
-	Plan LicensePlan `json:"plan"`
-	// The license SKU
-	Sku LicenseSku `json:"sku"`
-	// License start date
-	StartDate *string `json:"startDate,omitempty"`
-	// License activation status
-	Status LicenseStatus `json:"status"`
+	Description    *string       `json:"description,omitempty"`
+	ExpirationDate string        `json:"expirationDate"`
+	ID             *string       `json:"id,omitempty"`
+	LastUpdated    *string       `json:"lastUpdated,omitempty"`
+	Plan           LicensePlan   `json:"plan"`
+	Sku            LicenseSku    `json:"sku"`
+	StartDate      *string       `json:"startDate,omitempty"`
+	Status         LicenseStatus `json:"status"`
 }
 
-func (ThreatPreventionLicense) IsLicense() {}
-
-// The unique identifier for the license. If this value is not available, you can contact Cato Support, who may be able to assist in retrieving it.
-func (this ThreatPreventionLicense) GetID() *string          { return this.ID }
-func (this ThreatPreventionLicense) GetDescription() *string { return this.Description }
-
-// License plan type
-func (this ThreatPreventionLicense) GetPlan() LicensePlan { return this.Plan }
-
-// The license SKU
-func (this ThreatPreventionLicense) GetSku() LicenseSku { return this.Sku }
-
-// License activation status
-func (this ThreatPreventionLicense) GetStatus() LicenseStatus { return this.Status }
-
-// License start date
-func (this ThreatPreventionLicense) GetStartDate() *string { return this.StartDate }
-
-// License expiration date
+func (ThreatPreventionLicense) IsLicense()                     {}
+func (this ThreatPreventionLicense) GetDescription() *string   { return this.Description }
 func (this ThreatPreventionLicense) GetExpirationDate() string { return this.ExpirationDate }
-
-// The date of the last update to the license
-func (this ThreatPreventionLicense) GetLastUpdated() *string { return this.LastUpdated }
+func (this ThreatPreventionLicense) GetID() *string            { return this.ID }
+func (this ThreatPreventionLicense) GetLastUpdated() *string   { return this.LastUpdated }
+func (this ThreatPreventionLicense) GetPlan() LicensePlan      { return this.Plan }
+func (this ThreatPreventionLicense) GetSku() LicenseSku        { return this.Sku }
+func (this ThreatPreventionLicense) GetStartDate() *string     { return this.StartDate }
+func (this ThreatPreventionLicense) GetStatus() LicenseStatus  { return this.Status }
 
 // An object for marking specific events in time.
 type TimeAnnotation struct {
-	// Description of the event
-	Label string `json:"label"`
-	// Brief description of the event
-	ShortLabel string `json:"shortLabel"`
-	// Timestamp of the event
-	Time float64 `json:"time"`
-	// Type identifies which annotation this is: e.g. connectivity, rolechange, missingdata, which allows
-	// charts to attach to it.
-	Type AnnotationType `json:"type"`
+	Label      string         `json:"label"`
+	ShortLabel string         `json:"shortLabel"`
+	Time       float64        `json:"time"`
+	Type       AnnotationType `json:"type"`
 }
 
 type TimeFramePredicate struct {
@@ -14334,13 +10576,9 @@ type TimeFramePredicate struct {
 
 // An object for marking durations!
 type TimePeriod struct {
-	// An tuple of two numbers representing  start time, end time in ms since epoch, start bucket index, end bucket index
-	Duration []float64 `json:"duration"`
-	// Label that describes the metrics
-	Title string `json:"title"`
-	// Type identifies which annotation this is: e.g. connectivity, rolechange, missingdata, which allows
-	// charts to attach to it.
-	Type PeriodType `json:"type"`
+	Duration []float64  `json:"duration"`
+	Title    string     `json:"title"`
+	Type     PeriodType `json:"type"`
 }
 
 type TimeSeriesEvents struct {
@@ -14354,205 +10592,118 @@ type TimeSeriesEvents struct {
 
 // For XDR stories, items that happened during the lifetime of the story
 type TimelineItem struct {
-	// Additional information about this timeline item
-	AdditionalInfo *string `json:"additionalInfo,omitempty"`
-	// Data about the analyst for this timeline item (ie. name, email)
-	AnalystInfo *AnalystInfo `json:"analystInfo,omitempty"`
-	// Icon for the timeline item
-	Category *TimelineItemCategoryEnum `json:"category,omitempty"`
-	// Brief summary of action related to the timeline item (ie. Story created, Status update to)
-	Context string `json:"context"`
-	// Timestamp the timeline item was created
-	CreatedAt string `json:"createdAt"`
-	// Description of the timeline item
-	Description string `json:"description"`
-	// Description of the timeline item
-	Descriptions []string `json:"descriptions"`
-	// Type of threat assigned by the analyst
-	Type TimelineTypeEnum `json:"type"`
+	AdditionalInfo *string                   `json:"additionalInfo,omitempty"`
+	AnalystInfo    *AnalystInfo              `json:"analystInfo,omitempty"`
+	Category       *TimelineItemCategoryEnum `json:"category,omitempty"`
+	Context        string                    `json:"context"`
+	CreatedAt      string                    `json:"createdAt"`
+	Description    string                    `json:"description"`
+	Descriptions   []string                  `json:"descriptions"`
+	Type           TimelineTypeEnum          `json:"type"`
 }
 
 type Timeseries struct {
-	// Data is an array of tuples, each containing two values:  [timestamp, metric], where the timestamp is in
-	// milliseconds from the epoch (1.1.1970), and the metric is a number (according to the unit type)
-	Data [][]float64 `json:"data,omitempty"`
-	// List of dimension values for this timeseries
+	Data       [][]float64      `json:"data,omitempty"`
 	Dimensions []*DimensionData `json:"dimensions,omitempty"`
-	// Specific information about the timeseries, used to build its name, title etc
-	Info []string `json:"info,omitempty"`
-	// Timeseries key: measure and dimension values
-	Key *TimeseriesKey `json:"key,omitempty"`
-	// Indicates the type of the timeseries
-	Label string `json:"label"`
-	// Summary of the metrics over the given time frame
-	Sum *float64 `json:"sum,omitempty"`
-	// Identifies what unit of data this timeseries represents. Note that toRate is only available for particular types
-	// of data to make sense.
-	Units *UnitType `json:"units,omitempty"`
+	Info       []string         `json:"info,omitempty"`
+	Key        *TimeseriesKey   `json:"key,omitempty"`
+	Label      string           `json:"label"`
+	Sum        *float64         `json:"sum,omitempty"`
+	Units      *UnitType        `json:"units,omitempty"`
 }
 
 type TimeseriesKey struct {
-	// List of dimension key-value pair for this timeseries key
-	Dimensions []*DimensionKey `json:"dimensions,omitempty"`
-	// Measure field
-	MeasureFieldName string `json:"measureFieldName"`
+	Dimensions       []*DimensionKey `json:"dimensions,omitempty"`
+	MeasureFieldName string          `json:"measureFieldName"`
 }
 
 type TLSInspectAddRuleDataInput struct {
-	// Action to be taken on the traffic.
-	Action TLSInspectAction `json:"action"`
-	// Application matching criteria for.
-	Application *TLSInspectApplicationInput `json:"application"`
-	// Connection origin of the traffic
-	ConnectionOrigin ConnectionOriginEnum `json:"connectionOrigin"`
-	// Country traffic matching criteria.
-	Country     []*CountryRefInput `json:"country"`
-	Description string             `json:"description"`
-	// Device Profile traffic matching criteria.
-	DevicePostureProfile []*DeviceProfileRefInput `json:"devicePostureProfile"`
-	Enabled              bool                     `json:"enabled"`
-	Name                 string                   `json:"name"`
-	// Operating System traffic matching criteria.
-	Platform []OperatingSystem `json:"platform"`
-	// Source traffic matching criteria.
-	Source *TLSInspectSourceInput `json:"source"`
-	// Action to be taken on the traffic when an untrusted certificate is detected.
+	Action                     TLSInspectAction                     `json:"action"`
+	Application                *TLSInspectApplicationInput          `json:"application"`
+	ConnectionOrigin           ConnectionOriginEnum                 `json:"connectionOrigin"`
+	Country                    []*CountryRefInput                   `json:"country"`
+	Description                string                               `json:"description"`
+	DevicePostureProfile       []*DeviceProfileRefInput             `json:"devicePostureProfile"`
+	Enabled                    bool                                 `json:"enabled"`
+	Name                       string                               `json:"name"`
+	Platform                   []OperatingSystem                    `json:"platform"`
+	Source                     *TLSInspectSourceInput               `json:"source"`
 	UntrustedCertificateAction TLSInspectUntrustedCertificateAction `json:"untrustedCertificateAction"`
 }
 
 type TLSInspectAddRuleInput struct {
-	// Position of the rule in the policy
-	At *PolicyRulePositionInput `json:"at,omitempty"`
-	// Parameters for the rule you are adding
+	At   *PolicyRulePositionInput    `json:"at,omitempty"`
 	Rule *TLSInspectAddRuleDataInput `json:"rule"`
 }
 
 // Application match criteria set
 type TLSInspectApplication struct {
-	// Cato category of applications which are dynamically updated by Cato
-	AppCategory []*ApplicationCategoryRef `json:"appCategory"`
-	// Applications for the rule (pre-defined)
-	Application []*ApplicationRef `json:"application"`
-	// Countries matching criteria for the rule
-	Country []*CountryRef `json:"country"`
-	// Custom (user-defined) applications
-	CustomApp []*CustomApplicationRef `json:"customApp"`
-	// Custom Categories – Groups of objects such as predefined and custom applications, predefined and custom services, domains, FQDNs etc.
-	CustomCategory []*CustomCategoryRef `json:"customCategory"`
-	// Returns data for Custom Service defined by a combination of L4 ports and an IP Protocol Example: TCP/80, UDP/53
-	CustomService []*CustomService `json:"customService"`
-	// Returns data for Custom Service defined by a combination of L4 ports and an IP Protocol Example: google:8.8.8.8
-	CustomServiceIP []*CustomServiceIP `json:"customServiceIp"`
-	// A Second-Level Domain (SLD).
-	// It matches all Top-Level Domains (TLD), and subdomains that include the Domain.
-	// Example: example.com.
-	Domain []string `json:"domain"`
-	// An exact match of the fully qualified domain (FQDN). Example: www.my.example.com.
-	Fqdn []string `json:"fqdn"`
-	// Globally defined IP range, IP and subnet objects
-	GlobalIPRange []*GlobalIPRangeRef `json:"globalIpRange"`
-	// IPv4 addresses
-	IP []string `json:"ip"`
-	// A range of IPs. Every IP within the range will be matched
-	IPRange []*IPAddressRange `json:"ipRange"`
-	// Remote Autonomous System Number (ASN)
-	RemoteAsn []scalars.Asn32 `json:"remoteAsn"`
-	// Add the Service Type to which this TLS inspection rule applies
-	Service []*ServiceRef `json:"service"`
-	// Subnets and network ranges defined for the LAN interfaces of a site
-	Subnet []string `json:"subnet"`
-	// System categories for TLS inspection policy
+	AppCategory        []*ApplicationCategoryRef  `json:"appCategory"`
+	Application        []*ApplicationRef          `json:"application"`
+	Country            []*CountryRef              `json:"country"`
+	CustomApp          []*CustomApplicationRef    `json:"customApp"`
+	CustomCategory     []*CustomCategoryRef       `json:"customCategory"`
+	CustomService      []*CustomService           `json:"customService"`
+	CustomServiceIP    []*CustomServiceIP         `json:"customServiceIp"`
+	Domain             []string                   `json:"domain"`
+	Fqdn               []string                   `json:"fqdn"`
+	GlobalIPRange      []*GlobalIPRangeRef        `json:"globalIpRange"`
+	IP                 []string                   `json:"ip"`
+	IPRange            []*IPAddressRange          `json:"ipRange"`
+	RemoteAsn          []scalars.Asn32            `json:"remoteAsn"`
+	Service            []*ServiceRef              `json:"service"`
+	Subnet             []string                   `json:"subnet"`
 	TLSInspectCategory []TLSInspectSystemCategory `json:"tlsInspectCategory"`
 }
 
 // Application match criteria set
 type TLSInspectApplicationInput struct {
-	// Cato category of applications which are dynamically updated by Cato
-	AppCategory []*ApplicationCategoryRefInput `json:"appCategory"`
-	// Applications for the rule (pre-defined)
-	Application []*ApplicationRefInput `json:"application"`
-	// Countries matching criteria for the rule
-	Country []*CountryRefInput `json:"country"`
-	// Custom (user-defined) applications
-	CustomApp []*CustomApplicationRefInput `json:"customApp"`
-	// Custom Categories – Groups of objects such as predefined and custom applications, predefined and custom services, domains, FQDNs etc.
-	CustomCategory []*CustomCategoryRefInput `json:"customCategory"`
-	// Returns data for Custom Service defined by a combination of L4 ports and an IP Protocol Example: TCP/80, UDP/53
-	CustomService []*CustomServiceInput `json:"customService"`
-	// Returns data for Custom Service defined by a combination of L4 ports and an IP Protocol Example: google:8.8.8.8
-	CustomServiceIP []*CustomServiceIPInput `json:"customServiceIp"`
-	// A Second-Level Domain (SLD).
-	// It matches all Top-Level Domains (TLD), and subdomains that include the Domain.
-	// Example: example.com.
-	Domain []string `json:"domain"`
-	// An exact match of the fully qualified domain (FQDN). Example: www.my.example.com.
-	Fqdn []string `json:"fqdn"`
-	// Globally defined IP range, IP and subnet objects
-	GlobalIPRange []*GlobalIPRangeRefInput `json:"globalIpRange"`
-	// IPv4 addresses
-	IP []string `json:"ip"`
-	// A range of IPs. Every IP within the range will be matched
-	IPRange []*IPAddressRangeInput `json:"ipRange"`
-	// Remote Autonomous System Number (ASN)
-	RemoteAsn []scalars.Asn32 `json:"remoteAsn"`
-	// Add the Service Type to which this TLS inspection rule applies
-	Service []*ServiceRefInput `json:"service"`
-	// Subnets and network ranges defined for the LAN interfaces of a site
-	Subnet []string `json:"subnet"`
-	// System categories for TLS inspection policy
-	TLSInspectCategory []TLSInspectSystemCategory `json:"tlsInspectCategory"`
+	AppCategory        []*ApplicationCategoryRefInput `json:"appCategory"`
+	Application        []*ApplicationRefInput         `json:"application"`
+	Country            []*CountryRefInput             `json:"country"`
+	CustomApp          []*CustomApplicationRefInput   `json:"customApp"`
+	CustomCategory     []*CustomCategoryRefInput      `json:"customCategory"`
+	CustomService      []*CustomServiceInput          `json:"customService"`
+	CustomServiceIP    []*CustomServiceIPInput        `json:"customServiceIp"`
+	Domain             []string                       `json:"domain"`
+	Fqdn               []string                       `json:"fqdn"`
+	GlobalIPRange      []*GlobalIPRangeRefInput       `json:"globalIpRange"`
+	IP                 []string                       `json:"ip"`
+	IPRange            []*IPAddressRangeInput         `json:"ipRange"`
+	RemoteAsn          []scalars.Asn32                `json:"remoteAsn"`
+	Service            []*ServiceRefInput             `json:"service"`
+	Subnet             []string                       `json:"subnet"`
+	TLSInspectCategory []TLSInspectSystemCategory     `json:"tlsInspectCategory"`
 }
 
 // Application match criteria set
 type TLSInspectApplicationUpdateInput struct {
-	// Cato category of applications which are dynamically updated by Cato
-	AppCategory []*ApplicationCategoryRefInput `json:"appCategory,omitempty"`
-	// Applications for the rule (pre-defined)
-	Application []*ApplicationRefInput `json:"application,omitempty"`
-	// Countries matching criteria for the rule
-	Country []*CountryRefInput `json:"country,omitempty"`
-	// Custom (user-defined) applications
-	CustomApp []*CustomApplicationRefInput `json:"customApp,omitempty"`
-	// Custom Categories – Groups of objects such as predefined and custom applications, predefined and custom services, domains, FQDNs etc.
-	CustomCategory []*CustomCategoryRefInput `json:"customCategory,omitempty"`
-	// Returns data for Custom Service defined by a combination of L4 ports and an IP Protocol Example: TCP/80, UDP/53
-	CustomService []*CustomServiceInput `json:"customService,omitempty"`
-	// Returns data for Custom Service defined by a combination of L4 ports and an IP Protocol Example: google:8.8.8.8
-	CustomServiceIP []*CustomServiceIPInput `json:"customServiceIp,omitempty"`
-	// A Second-Level Domain (SLD).
-	// It matches all Top-Level Domains (TLD), and subdomains that include the Domain.
-	// Example: example.com.
-	Domain []string `json:"domain,omitempty"`
-	// An exact match of the fully qualified domain (FQDN). Example: www.my.example.com.
-	Fqdn []string `json:"fqdn,omitempty"`
-	// Globally defined IP range, IP and subnet objects
-	GlobalIPRange []*GlobalIPRangeRefInput `json:"globalIpRange,omitempty"`
-	// IPv4 addresses
-	IP []string `json:"ip,omitempty"`
-	// A range of IPs. Every IP within the range will be matched
-	IPRange []*IPAddressRangeInput `json:"ipRange,omitempty"`
-	// Remote Autonomous System Number (ASN)
-	RemoteAsn []scalars.Asn32 `json:"remoteAsn,omitempty"`
-	// Add the Service Type to which this TLS inspection rule applies
-	Service []*ServiceRefInput `json:"service,omitempty"`
-	// Subnets and network ranges defined for the LAN interfaces of a site
-	Subnet []string `json:"subnet,omitempty"`
-	// System categories for TLS inspection policy
-	TLSInspectCategory []TLSInspectSystemCategory `json:"tlsInspectCategory,omitempty"`
+	AppCategory        []*ApplicationCategoryRefInput `json:"appCategory,omitempty"`
+	Application        []*ApplicationRefInput         `json:"application,omitempty"`
+	Country            []*CountryRefInput             `json:"country,omitempty"`
+	CustomApp          []*CustomApplicationRefInput   `json:"customApp,omitempty"`
+	CustomCategory     []*CustomCategoryRefInput      `json:"customCategory,omitempty"`
+	CustomService      []*CustomServiceInput          `json:"customService,omitempty"`
+	CustomServiceIP    []*CustomServiceIPInput        `json:"customServiceIp,omitempty"`
+	Domain             []string                       `json:"domain,omitempty"`
+	Fqdn               []string                       `json:"fqdn,omitempty"`
+	GlobalIPRange      []*GlobalIPRangeRefInput       `json:"globalIpRange,omitempty"`
+	IP                 []string                       `json:"ip,omitempty"`
+	IPRange            []*IPAddressRangeInput         `json:"ipRange,omitempty"`
+	RemoteAsn          []scalars.Asn32                `json:"remoteAsn,omitempty"`
+	Service            []*ServiceRefInput             `json:"service,omitempty"`
+	Subnet             []string                       `json:"subnet,omitempty"`
+	TLSInspectCategory []TLSInspectSystemCategory     `json:"tlsInspectCategory,omitempty"`
 }
 
 // Default rule settings for the TLS Inspection policy
 type TLSInspectConfig struct {
-	// Action to take on traffic that matches the default rule
-	DefaultRuleAction TLSInspectAction `json:"defaultRuleAction"`
-	// Action to take when an untrusted certificate is detected for traffic matching the default rule
+	DefaultRuleAction                     TLSInspectAction                     `json:"defaultRuleAction"`
 	DefaultRuleUntrustedCertificateAction TLSInspectUntrustedCertificateAction `json:"defaultRuleUntrustedCertificateAction"`
 }
 
 type TLSInspectConfigInput struct {
-	// Action to take on traffic that matches the default rule
-	DefaultRuleAction TLSInspectAction `json:"defaultRuleAction"`
-	// Action to take when an untrusted certificate is detected for traffic matching the default rule
+	DefaultRuleAction                     TLSInspectAction                     `json:"defaultRuleAction"`
 	DefaultRuleUntrustedCertificateAction TLSInspectUntrustedCertificateAction `json:"defaultRuleUntrustedCertificateAction"`
 }
 
@@ -14565,12 +10716,10 @@ type TLSInspectPolicy struct {
 	Sections             []*PolicySectionPayload  `json:"sections"`
 }
 
-func (TLSInspectPolicy) IsIPolicy() {}
-
-// TRUE = Policy is enabled, FALSE = Policy is disabled
-func (this TLSInspectPolicy) GetEnabled() bool { return this.Enabled }
-
-// Return list of rules in the policy
+func (TLSInspectPolicy) IsIPolicy()                        {}
+func (this TLSInspectPolicy) GetAudit() *PolicyAudit       { return this.Audit }
+func (this TLSInspectPolicy) GetEnabled() bool             { return this.Enabled }
+func (this TLSInspectPolicy) GetRevision() *PolicyRevision { return this.Revision }
 func (this TLSInspectPolicy) GetRules() []IPolicyRulePayload {
 	if this.Rules == nil {
 		return nil
@@ -14581,8 +10730,6 @@ func (this TLSInspectPolicy) GetRules() []IPolicyRulePayload {
 	}
 	return interfaceSlice
 }
-
-// Return sections in the policy
 func (this TLSInspectPolicy) GetSections() []*PolicySectionPayload {
 	if this.Sections == nil {
 		return nil
@@ -14594,18 +10741,7 @@ func (this TLSInspectPolicy) GetSections() []*PolicySectionPayload {
 	return interfaceSlice
 }
 
-// Audit data for the policy
-func (this TLSInspectPolicy) GetAudit() *PolicyAudit { return this.Audit }
-
-// Return data for the Policy revision
-func (this TLSInspectPolicy) GetRevision() *PolicyRevision { return this.Revision }
-
 type TLSInspectPolicyInput struct {
-	// A revision is a specific instance of the policy.
-	//  Unpublished revisions are working copies of the policy available to a specific
-	//  admin or a set of admins
-	//  Published revisions are revisions that were applied to the account network.
-	//  The last published revision is the active policy.
 	Revision *PolicyRevisionInput `json:"revision,omitempty"`
 }
 
@@ -14620,14 +10756,6 @@ type TLSInspectPolicyMutationPayload struct {
 }
 
 func (TLSInspectPolicyMutationPayload) IsIPolicyMutationPayload() {}
-
-// Data for the policy
-func (this TLSInspectPolicyMutationPayload) GetPolicy() IPolicy { return *this.Policy }
-
-// Enum for the status of the policy change
-func (this TLSInspectPolicyMutationPayload) GetStatus() PolicyMutationStatus { return this.Status }
-
-// List of errors related to the policy change
 func (this TLSInspectPolicyMutationPayload) GetErrors() []*PolicyMutationError {
 	if this.Errors == nil {
 		return nil
@@ -14638,6 +10766,8 @@ func (this TLSInspectPolicyMutationPayload) GetErrors() []*PolicyMutationError {
 	}
 	return interfaceSlice
 }
+func (this TLSInspectPolicyMutationPayload) GetPolicy() IPolicy              { return *this.Policy }
+func (this TLSInspectPolicyMutationPayload) GetStatus() PolicyMutationStatus { return this.Status }
 
 type TLSInspectPolicyMutations struct {
 	AddRule               *TLSInspectRuleMutationPayload   `json:"addRule"`
@@ -14669,55 +10799,28 @@ type TLSInspectRemoveRuleInput struct {
 }
 
 type TLSInspectRule struct {
-	// Action to be taken on the traffic.
-	Action TLSInspectAction `json:"action"`
-	// Application matching criteria for.
-	Application *TLSInspectApplication `json:"application"`
-	// Connection origin of the traffic
-	ConnectionOrigin ConnectionOriginEnum `json:"connectionOrigin"`
-	// Country traffic matching criteria.
-	Country []*CountryRef `json:"country"`
-	// Description for the rule
-	Description string `json:"description"`
-	// Device Profile traffic matching criteria.
-	DevicePostureProfile []*DeviceProfileRef `json:"devicePostureProfile"`
-	// TRUE = Rule is enabled
-	//  FALSE = Rule is disabled
-	Enabled bool `json:"enabled"`
-	// Rule ID
-	ID string `json:"id"`
-	// Position / priority of rule
-	Index int64 `json:"index"`
-	// Name of the rule
-	Name string `json:"name"`
-	// Operating System traffic matching criteria.
-	Platform []OperatingSystem `json:"platform"`
-	// Policy section where the rule is located
-	Section *PolicySectionInfo `json:"section"`
-	// Source traffic matching criteria.
-	Source *TLSInspectSource `json:"source"`
-	// Action to be taken on the traffic when an untrusted certificate is detected.
+	Action                     TLSInspectAction                     `json:"action"`
+	Application                *TLSInspectApplication               `json:"application"`
+	ConnectionOrigin           ConnectionOriginEnum                 `json:"connectionOrigin"`
+	Country                    []*CountryRef                        `json:"country"`
+	Description                string                               `json:"description"`
+	DevicePostureProfile       []*DeviceProfileRef                  `json:"devicePostureProfile"`
+	Enabled                    bool                                 `json:"enabled"`
+	ID                         string                               `json:"id"`
+	Index                      int64                                `json:"index"`
+	Name                       string                               `json:"name"`
+	Platform                   []OperatingSystem                    `json:"platform"`
+	Section                    *PolicySectionInfo                   `json:"section"`
+	Source                     *TLSInspectSource                    `json:"source"`
 	UntrustedCertificateAction TLSInspectUntrustedCertificateAction `json:"untrustedCertificateAction"`
 }
 
-func (TLSInspectRule) IsIPolicyRule() {}
-
-// Rule ID
-func (this TLSInspectRule) GetID() string { return this.ID }
-
-// Name of the rule
-func (this TLSInspectRule) GetName() string { return this.Name }
-
-// Description for the rule
-func (this TLSInspectRule) GetDescription() *string { return &this.Description }
-
-// Position / priority of rule
-func (this TLSInspectRule) GetIndex() int64 { return this.Index }
-
-// TRUE = Rule is enabled, FALSE = Rule is disabled
-func (this TLSInspectRule) GetEnabled() bool { return this.Enabled }
-
-// Policy section where the rule is located
+func (TLSInspectRule) IsIPolicyRule()                      {}
+func (this TLSInspectRule) GetDescription() *string        { return &this.Description }
+func (this TLSInspectRule) GetEnabled() bool               { return this.Enabled }
+func (this TLSInspectRule) GetID() string                  { return this.ID }
+func (this TLSInspectRule) GetIndex() int64                { return this.Index }
+func (this TLSInspectRule) GetName() string                { return this.Name }
 func (this TLSInspectRule) GetSection() *PolicySectionInfo { return this.Section }
 
 type TLSInspectRuleMutationPayload struct {
@@ -14727,14 +10830,6 @@ type TLSInspectRuleMutationPayload struct {
 }
 
 func (TLSInspectRuleMutationPayload) IsIPolicyRuleMutationPayload() {}
-
-// Returns settings for the rule
-func (this TLSInspectRuleMutationPayload) GetRule() IPolicyRulePayload { return *this.Rule }
-
-// Enum for the status of the policy change
-func (this TLSInspectRuleMutationPayload) GetStatus() PolicyMutationStatus { return this.Status }
-
-// List of errors related to the policy change
 func (this TLSInspectRuleMutationPayload) GetErrors() []*PolicyMutationError {
 	if this.Errors == nil {
 		return nil
@@ -14745,6 +10840,8 @@ func (this TLSInspectRuleMutationPayload) GetErrors() []*PolicyMutationError {
 	}
 	return interfaceSlice
 }
+func (this TLSInspectRuleMutationPayload) GetRule() IPolicyRulePayload     { return *this.Rule }
+func (this TLSInspectRuleMutationPayload) GetStatus() PolicyMutationStatus { return this.Status }
 
 type TLSInspectRulePayload struct {
 	Audit      *PolicyElementAudit           `json:"audit"`
@@ -14754,11 +10851,6 @@ type TLSInspectRulePayload struct {
 
 func (TLSInspectRulePayload) IsIPolicyRulePayload()              {}
 func (this TLSInspectRulePayload) GetAudit() *PolicyElementAudit { return this.Audit }
-
-// Rule that was changed
-func (this TLSInspectRulePayload) GetRule() IPolicyRule { return *this.Rule }
-
-// Summary of rule change, (ie. ADDED, UPDATED)
 func (this TLSInspectRulePayload) GetProperties() []PolicyElementPropertiesEnum {
 	if this.Properties == nil {
 		return nil
@@ -14769,122 +10861,70 @@ func (this TLSInspectRulePayload) GetProperties() []PolicyElementPropertiesEnum 
 	}
 	return interfaceSlice
 }
+func (this TLSInspectRulePayload) GetRule() IPolicyRule { return *this.Rule }
 
 // Returns the settings for Source of an TLS inspection rule
 type TLSInspectSource struct {
-	// Floating Subnets (ie. Floating Ranges) are used to identify traffic exactly matched to the route advertised by BGP.
-	// They are not associated with a specific site.
-	// This is useful in scenarios such as active-standby high availability routed via BGP.
-	FloatingSubnet []*FloatingSubnetRef `json:"floatingSubnet"`
-	// Globally defined IP range, IP and subnet objects
-	GlobalIPRange []*GlobalIPRangeRef `json:"globalIpRange"`
-	// Groups defined for your account
-	Group []*GroupRef `json:"group"`
-	// Hosts and servers defined for your account
-	Host []*HostRef `json:"host"`
-	// IPv4 addresses
-	IP []string `json:"ip"`
-	// Multiple separate IP addresses or an IP range
-	IPRange []*IPAddressRange `json:"ipRange"`
-	// Network range defined for a site
-	NetworkInterface []*NetworkInterfaceRef `json:"networkInterface"`
-	// Site defined for the account
-	Site []*SiteRef `json:"site"`
-	// GlobalRange + InterfaceSubnet
+	FloatingSubnet    []*FloatingSubnetRef    `json:"floatingSubnet"`
+	GlobalIPRange     []*GlobalIPRangeRef     `json:"globalIpRange"`
+	Group             []*GroupRef             `json:"group"`
+	Host              []*HostRef              `json:"host"`
+	IP                []string                `json:"ip"`
+	IPRange           []*IPAddressRange       `json:"ipRange"`
+	NetworkInterface  []*NetworkInterfaceRef  `json:"networkInterface"`
+	Site              []*SiteRef              `json:"site"`
 	SiteNetworkSubnet []*SiteNetworkSubnetRef `json:"siteNetworkSubnet"`
-	// Subnets and network ranges defined for the LAN interfaces of a site
-	Subnet []string `json:"subnet"`
-	// Predefined Cato groups
-	SystemGroup []*SystemGroupRef `json:"systemGroup"`
-	// Individual users defined for the account
-	User []*UserRef `json:"user"`
-	// Group of users
-	UsersGroup []*UsersGroupRef `json:"usersGroup"`
+	Subnet            []string                `json:"subnet"`
+	SystemGroup       []*SystemGroupRef       `json:"systemGroup"`
+	User              []*UserRef              `json:"user"`
+	UsersGroup        []*UsersGroupRef        `json:"usersGroup"`
 }
 
 // Input of the settings for Source of an TLS inspection rule
 type TLSInspectSourceInput struct {
-	// Floating Subnets (ie. Floating Ranges) are used to identify traffic exactly matched to the route advertised by BGP.
-	// They are not associated with a specific site.
-	// This is useful in scenarios such as active-standby high availability routed via BGP.
-	FloatingSubnet []*FloatingSubnetRefInput `json:"floatingSubnet"`
-	// Globally defined IP range, IP and subnet objects
-	GlobalIPRange []*GlobalIPRangeRefInput `json:"globalIpRange"`
-	// Groups defined for your account
-	Group []*GroupRefInput `json:"group"`
-	// Hosts and servers defined for your account
-	Host []*HostRefInput `json:"host"`
-	// IPv4 addresses
-	IP []string `json:"ip"`
-	// Multiple separate IP addresses or an IP range
-	IPRange []*IPAddressRangeInput `json:"ipRange"`
-	// Network range defined for a site
-	NetworkInterface []*NetworkInterfaceRefInput `json:"networkInterface"`
-	// Site defined for the account
-	Site []*SiteRefInput `json:"site"`
-	// GlobalRange + InterfaceSubnet
+	FloatingSubnet    []*FloatingSubnetRefInput    `json:"floatingSubnet"`
+	GlobalIPRange     []*GlobalIPRangeRefInput     `json:"globalIpRange"`
+	Group             []*GroupRefInput             `json:"group"`
+	Host              []*HostRefInput              `json:"host"`
+	IP                []string                     `json:"ip"`
+	IPRange           []*IPAddressRangeInput       `json:"ipRange"`
+	NetworkInterface  []*NetworkInterfaceRefInput  `json:"networkInterface"`
+	Site              []*SiteRefInput              `json:"site"`
 	SiteNetworkSubnet []*SiteNetworkSubnetRefInput `json:"siteNetworkSubnet"`
-	// Subnets and network ranges defined for the LAN interfaces of a site
-	Subnet []string `json:"subnet"`
-	// Predefined Cato groups
-	SystemGroup []*SystemGroupRefInput `json:"systemGroup"`
-	// Individual users defined for the account
-	User []*UserRefInput `json:"user"`
-	// Group of users
-	UsersGroup []*UsersGroupRefInput `json:"usersGroup"`
+	Subnet            []string                     `json:"subnet"`
+	SystemGroup       []*SystemGroupRefInput       `json:"systemGroup"`
+	User              []*UserRefInput              `json:"user"`
+	UsersGroup        []*UsersGroupRefInput        `json:"usersGroup"`
 }
 
 // Input of the settings for Source of an TLS inspection rule
 type TLSInspectSourceUpdateInput struct {
-	// Floating Subnets (ie. Floating Ranges) are used to identify traffic exactly matched to the route advertised by BGP.
-	// They are not associated with a specific site.
-	// This is useful in scenarios such as active-standby high availability routed via BGP.
-	FloatingSubnet []*FloatingSubnetRefInput `json:"floatingSubnet,omitempty"`
-	// Globally defined IP range, IP and subnet objects
-	GlobalIPRange []*GlobalIPRangeRefInput `json:"globalIpRange,omitempty"`
-	// Groups defined for your account
-	Group []*GroupRefInput `json:"group,omitempty"`
-	// Hosts and servers defined for your account
-	Host []*HostRefInput `json:"host,omitempty"`
-	// IPv4 addresses
-	IP []string `json:"ip,omitempty"`
-	// Multiple separate IP addresses or an IP range
-	IPRange []*IPAddressRangeInput `json:"ipRange,omitempty"`
-	// Network range defined for a site
-	NetworkInterface []*NetworkInterfaceRefInput `json:"networkInterface,omitempty"`
-	// Site defined for the account
-	Site []*SiteRefInput `json:"site,omitempty"`
-	// GlobalRange + InterfaceSubnet
+	FloatingSubnet    []*FloatingSubnetRefInput    `json:"floatingSubnet,omitempty"`
+	GlobalIPRange     []*GlobalIPRangeRefInput     `json:"globalIpRange,omitempty"`
+	Group             []*GroupRefInput             `json:"group,omitempty"`
+	Host              []*HostRefInput              `json:"host,omitempty"`
+	IP                []string                     `json:"ip,omitempty"`
+	IPRange           []*IPAddressRangeInput       `json:"ipRange,omitempty"`
+	NetworkInterface  []*NetworkInterfaceRefInput  `json:"networkInterface,omitempty"`
+	Site              []*SiteRefInput              `json:"site,omitempty"`
 	SiteNetworkSubnet []*SiteNetworkSubnetRefInput `json:"siteNetworkSubnet,omitempty"`
-	// Subnets and network ranges defined for the LAN interfaces of a site
-	Subnet []string `json:"subnet,omitempty"`
-	// Predefined Cato groups
-	SystemGroup []*SystemGroupRefInput `json:"systemGroup,omitempty"`
-	// Individual users defined for the account
-	User []*UserRefInput `json:"user,omitempty"`
-	// Group of users
-	UsersGroup []*UsersGroupRefInput `json:"usersGroup,omitempty"`
+	Subnet            []string                     `json:"subnet,omitempty"`
+	SystemGroup       []*SystemGroupRefInput       `json:"systemGroup,omitempty"`
+	User              []*UserRefInput              `json:"user,omitempty"`
+	UsersGroup        []*UsersGroupRefInput        `json:"usersGroup,omitempty"`
 }
 
 type TLSInspectUpdateRuleDataInput struct {
-	// Action to be taken on the traffic.
-	Action *TLSInspectAction `json:"action,omitempty"`
-	// Application matching criteria for.
-	Application *TLSInspectApplicationUpdateInput `json:"application,omitempty"`
-	// Connection origin of the traffic
-	ConnectionOrigin *ConnectionOriginEnum `json:"connectionOrigin,omitempty"`
-	// Country traffic matching criteria.
-	Country     []*CountryRefInput `json:"country,omitempty"`
-	Description *string            `json:"description,omitempty"`
-	// Device Profile traffic matching criteria.
-	DevicePostureProfile []*DeviceProfileRefInput `json:"devicePostureProfile,omitempty"`
-	Enabled              *bool                    `json:"enabled,omitempty"`
-	Name                 *string                  `json:"name,omitempty"`
-	// Operating System traffic matching criteria.
-	Platform []OperatingSystem `json:"platform,omitempty"`
-	// Source traffic matching criteria.
-	Source *TLSInspectSourceUpdateInput `json:"source,omitempty"`
-	// Action to be taken on the traffic when an untrusted certificate is detected.
+	Action                     *TLSInspectAction                     `json:"action,omitempty"`
+	Application                *TLSInspectApplicationUpdateInput     `json:"application,omitempty"`
+	ConnectionOrigin           *ConnectionOriginEnum                 `json:"connectionOrigin,omitempty"`
+	Country                    []*CountryRefInput                    `json:"country,omitempty"`
+	Description                *string                               `json:"description,omitempty"`
+	DevicePostureProfile       []*DeviceProfileRefInput              `json:"devicePostureProfile,omitempty"`
+	Enabled                    *bool                                 `json:"enabled,omitempty"`
+	Name                       *string                               `json:"name,omitempty"`
+	Platform                   []OperatingSystem                     `json:"platform,omitempty"`
+	Source                     *TLSInspectSourceUpdateInput          `json:"source,omitempty"`
 	UntrustedCertificateAction *TLSInspectUntrustedCertificateAction `json:"untrustedCertificateAction,omitempty"`
 }
 
@@ -14894,11 +10934,8 @@ type TLSInspectUpdateRuleInput struct {
 }
 
 type TunnelConfig struct {
-	// The Local ID of the IPsec tunnel, specific to this tunnel
-	LocalID *string `json:"localId,omitempty"`
-	// Unique identifier for each tunnel
-	TunnelID *string `json:"tunnelId,omitempty"`
-	// The destination IP address for the IPsec tunnel (in the site), specific to this tunnel
+	LocalID                *string `json:"localId,omitempty"`
+	TunnelID               *string `json:"tunnelId,omitempty"`
 	TunnelRemoteIdentifier *string `json:"tunnelRemoteIdentifier,omitempty"`
 }
 
@@ -14911,7 +10948,6 @@ type UnassignSocketFromZtnaAppConnectorPayload struct {
 }
 
 type UpdateAccountInput struct {
-	// Account description
 	Description *string `json:"description,omitempty"`
 }
 
@@ -14940,90 +10976,56 @@ type UpdateAdminRoleInput struct {
 }
 
 type UpdateBgpPeerInput struct {
-	// Update for all route advertisements.
-	AdvertiseAllRoutes *bool `json:"advertiseAllRoutes,omitempty"`
-	// Update for default route advertisement.
-	AdvertiseDefaultRoute *bool `json:"advertiseDefaultRoute,omitempty"`
-	// Update for summary route advertisement.
-	AdvertiseSummaryRoutes *bool `json:"advertiseSummaryRoutes,omitempty"`
-	// Update to enable or disable BFD.
-	BfdEnabled *bool `json:"bfdEnabled,omitempty"`
-	// Updated BFD settings.
-	BfdSettings *BfdSettingsInput `json:"bfdSettings,omitempty"`
-	// Updated AS number of Cato's BGP endpoint.
-	CatoAsn *scalars.Asn16 `json:"catoAsn,omitempty"`
-	// Update for the default action on unmatched routes.
-	DefaultAction *BgpDefaultAction `json:"defaultAction,omitempty"`
-	// Updated rules excluded from the default action.
-	DefaultActionExclusion []*BgpFilterRuleInput `json:"defaultActionExclusion,omitempty"`
-	// Community values to associate with the default route.
-	DefaultRouteCommunities []*BgpCommunityInput `json:"defaultRouteCommunities,omitempty"`
-	// Updated hold time for the BGP session.
-	HoldTime *int64 `json:"holdTime,omitempty"`
-	// Unique identifier of the BGP peer to be updated.
-	ID string `json:"id"`
-	// Updated keepalive interval for the BGP session.
-	KeepaliveInterval *int64 `json:"keepaliveInterval,omitempty"`
-	// Updated MD5 authentication key.
-	Md5AuthKey *string `json:"md5AuthKey,omitempty"`
-	// Updated metric value for route preferences.
-	Metric *int64 `json:"metric,omitempty"`
-	// Updated name of the BGP configuration entity.
-	Name *string `json:"name,omitempty"`
-	// Updated AS number of the peer BGP endpoint.
-	PeerAsn *scalars.Asn32 `json:"peerAsn,omitempty"`
-	// Updated IP address of the peer BGP endpoint.
-	PeerIP *string `json:"peerIp,omitempty"`
-	// Update for NAT configuration.
-	PerformNat *bool `json:"performNat,omitempty"`
-	// Updated summarized routes to advertise.
-	SummaryRoute []*BgpSummaryRouteInput `json:"summaryRoute,omitempty"`
-	// Updated tracking configuration for the BGP peer.
-	Tracking *BgpTrackingInput `json:"tracking,omitempty"`
+	AdvertiseAllRoutes      *bool                   `json:"advertiseAllRoutes,omitempty"`
+	AdvertiseDefaultRoute   *bool                   `json:"advertiseDefaultRoute,omitempty"`
+	AdvertiseSummaryRoutes  *bool                   `json:"advertiseSummaryRoutes,omitempty"`
+	BfdEnabled              *bool                   `json:"bfdEnabled,omitempty"`
+	BfdSettings             *BfdSettingsInput       `json:"bfdSettings,omitempty"`
+	CatoAsn                 *scalars.Asn16          `json:"catoAsn,omitempty"`
+	DefaultAction           *BgpDefaultAction       `json:"defaultAction,omitempty"`
+	DefaultActionExclusion  []*BgpFilterRuleInput   `json:"defaultActionExclusion,omitempty"`
+	DefaultRouteCommunities []*BgpCommunityInput    `json:"defaultRouteCommunities,omitempty"`
+	HoldTime                *int64                  `json:"holdTime,omitempty"`
+	ID                      string                  `json:"id"`
+	KeepaliveInterval       *int64                  `json:"keepaliveInterval,omitempty"`
+	Md5AuthKey              *string                 `json:"md5AuthKey,omitempty"`
+	Metric                  *int64                  `json:"metric,omitempty"`
+	Name                    *string                 `json:"name,omitempty"`
+	PeerAsn                 *scalars.Asn32          `json:"peerAsn,omitempty"`
+	PeerIP                  *string                 `json:"peerIp,omitempty"`
+	PerformNat              *bool                   `json:"performNat,omitempty"`
+	SummaryRoute            []*BgpSummaryRouteInput `json:"summaryRoute,omitempty"`
+	Tracking                *BgpTrackingInput       `json:"tracking,omitempty"`
 }
 
 type UpdateBgpPeerPayload struct {
-	// The updated BGP peer object.
 	BgpPeer *BgpPeer `json:"bgpPeer"`
 }
 
 // Input for updating an existing physical connection at a cloud interconnect site.
 type UpdateCloudInterconnectPhysicalConnectionInput struct {
-	// Downstream bandwidth limit.
-	DownstreamBwLimit *string `json:"downstreamBwLimit,omitempty"`
-	// Method of encapsulation.
-	EncapsulationMethod *TaggingMethod `json:"encapsulationMethod,omitempty"`
-	// ID of the connection to be updated.
-	ID string `json:"id"`
-	// Identifying data for the POP location.
-	PopLocation *PopLocationRefInput `json:"popLocation,omitempty"`
-	// Private IP address of Cato.
-	PrivateCatoIP *string `json:"privateCatoIp,omitempty"`
-	// Private IP address of the site.
-	PrivateSiteIP *string `json:"privateSiteIp,omitempty"`
-	// Name of the service provider.
-	ServiceProviderName *string `json:"serviceProviderName,omitempty"`
-	// Subnet for the connection.
-	Subnet *string `json:"subnet,omitempty"`
-	// Upstream bandwidth limit.
-	UpstreamBwLimit *string `json:"upstreamBwLimit,omitempty"`
+	DownstreamBwLimit   *string              `json:"downstreamBwLimit,omitempty"`
+	EncapsulationMethod *TaggingMethod       `json:"encapsulationMethod,omitempty"`
+	ID                  string               `json:"id"`
+	PopLocation         *PopLocationRefInput `json:"popLocation,omitempty"`
+	PrivateCatoIP       *string              `json:"privateCatoIp,omitempty"`
+	PrivateSiteIP       *string              `json:"privateSiteIp,omitempty"`
+	ServiceProviderName *string              `json:"serviceProviderName,omitempty"`
+	Subnet              *string              `json:"subnet,omitempty"`
+	UpstreamBwLimit     *string              `json:"upstreamBwLimit,omitempty"`
 }
 
 // Payload for updating an existing physical connection at a cloud interconnect site.
 type UpdateCloudInterconnectPhysicalConnectionPayload struct {
-	// ID of the updated connection.
 	ID string `json:"id"`
 }
 
 type UpdateCommercialLicenseInput struct {
-	// The unique identifier of the license to update
-	LicenseID string `json:"licenseId"`
-	// The desired start date for the license activation
+	LicenseID string  `json:"licenseId"`
 	StartDate *string `json:"startDate,omitempty"`
 }
 
 type UpdateCommercialLicensePayload struct {
-	// The license that was modified
 	License License `json:"license"`
 }
 
@@ -15043,19 +11045,14 @@ type UpdateContainerSyncDataNotificationInput struct {
 
 // Input for updating FQDN typed container from file
 type UpdateFqdnContainerFromFileInput struct {
-	// Description for the container
-	Description *string `json:"description,omitempty"`
-	// File type that will be uploaded
-	FileType ContainerFileType `json:"fileType"`
-	// Reference to existing container by container ID or container name
-	Ref *ContainerRefInput `json:"ref"`
-	// Multipart file containing FQDNs with fileType delimiter
-	UploadFile *graphql.Upload `json:"uploadFile,omitempty"`
+	Description *string            `json:"description,omitempty"`
+	FileType    ContainerFileType  `json:"fileType"`
+	Ref         *ContainerRefInput `json:"ref"`
+	UploadFile  *graphql.Upload    `json:"uploadFile,omitempty"`
 }
 
 // Payload of UpdateFromFile operation on FQDN typed container
 type UpdateFqdnContainerFromFilePayload struct {
-	// Container with members of type FQDN
 	Container *FqdnContainer `json:"container"`
 }
 
@@ -15067,30 +11064,22 @@ type UpdateFqdnContainerFromListInput struct {
 
 // Payload of UpdateFromList operation on FQDN typed container
 type UpdateFqdnContainerFromListPayload struct {
-	// Container with members of type FQDN
 	Container *FqdnContainer `json:"container"`
 }
 
 // Update attributes for a group. Only the provided fields are updated - the other fields are not changed
 // Note: You can only update a total of 500 group members at one time, this means 'membersToAdd + membersToRemove' or 'members' must be less than 500
 type UpdateGroupInput struct {
-	// New description for the group, if changing
-	Description *string `json:"description,omitempty"`
-	// Specify the group you’re updating
-	Group *GroupRefInput `json:"group"`
-	// Replaces all members in the group with this list of members
-	Members []*GroupMemberRefTypedInput `json:"members,omitempty"`
-	// Adds members to the existing set of members. Can't be used together with the 'members' field
-	MembersToAdd []*GroupMemberRefTypedInput `json:"membersToAdd,omitempty"`
-	// Removes members from the group. Can't be used together with the 'members' field
+	Description     *string                     `json:"description,omitempty"`
+	Group           *GroupRefInput              `json:"group"`
+	Members         []*GroupMemberRefTypedInput `json:"members,omitempty"`
+	MembersToAdd    []*GroupMemberRefTypedInput `json:"membersToAdd,omitempty"`
 	MembersToRemove []*GroupMemberRefTypedInput `json:"membersToRemove,omitempty"`
-	// New name for the group, if changing
-	Name *string `json:"name,omitempty"`
+	Name            *string                     `json:"name,omitempty"`
 }
 
 // The updated group object
 type UpdateGroupPayload struct {
-	// Updated group
 	Group *Group `json:"group"`
 }
 
@@ -15105,27 +11094,20 @@ type UpdateHaPayload struct {
 }
 
 type UpdateHardwareShippingInput struct {
-	//  The shipping details to update
 	Details *HardwareShippingDetailsInput `json:"details"`
-	//  The ids of items to update
-	Ids []string `json:"ids"`
+	Ids     []string                      `json:"ids"`
 }
 
 // Input for updating existing IPAddressRange typed container from file
 type UpdateIPAddressRangeContainerFromFileInput struct {
-	// Description for the container
-	Description *string `json:"description,omitempty"`
-	// File type that will be uploaded
-	FileType ContainerFileType `json:"fileType"`
-	// Reference to existing container by container ID or container name
-	Ref *ContainerRefInput `json:"ref"`
-	// Multipart file containing IPAddressRanges with fileType delimiter
-	UploadFile *graphql.Upload `json:"uploadFile,omitempty"`
+	Description *string            `json:"description,omitempty"`
+	FileType    ContainerFileType  `json:"fileType"`
+	Ref         *ContainerRefInput `json:"ref"`
+	UploadFile  *graphql.Upload    `json:"uploadFile,omitempty"`
 }
 
 // Payload of UpdateFromFile operation on IPAddressRange typed container
 type UpdateIPAddressRangeContainerFromFilePayload struct {
-	// Container with members of type IPAddressRange
 	Container *IPAddressRangeContainer `json:"container"`
 }
 
@@ -15137,119 +11119,80 @@ type UpdateIPAddressRangeContainerFromListInput struct {
 
 // Payload of UpdateFromList operation on IPAddressRange typed container
 type UpdateIPAddressRangeContainerFromListPayload struct {
-	// Container with members of type IPAddressRange
 	Container *IPAddressRangeContainer `json:"container"`
 }
 
 type UpdateIpsecIkeV2SiteGeneralDetailsInput struct {
-	// The auth message parameters.
-	AuthMessage *IpsecIkeV2MessageInput `json:"authMessage,omitempty"`
-	// Determines the protocol for establishing the Security Association (SA) Tunnel. Valid values are:
-	// Responder-Only Mode: Cato Cloud only responds to incoming requests by the initiator (e.g. a Firewall device) to establish a security association.
-	// Bidirectional Mode: Both Cato Cloud and the peer device on customer site can initiate the IPSec SA establishment.
-	ConnectionMode *ConnectionMode `json:"connectionMode,omitempty"`
-	// The authentication identification type used for SA authentication. When using “BIDIRECTIONAL”, it is set to “IPv4” by default. Other methods are available in Responder mode only.
-	IdentificationType *IdentificationType `json:"identificationType,omitempty"`
-	// The init message parameters
-	InitMessage *IpsecIkeV2MessageInput `json:"initMessage,omitempty"`
-	// The local IP ranges for the SAs
-	NetworkRanges []*string `json:"networkRanges,omitempty"`
+	AuthMessage        *IpsecIkeV2MessageInput `json:"authMessage,omitempty"`
+	ConnectionMode     *ConnectionMode         `json:"connectionMode,omitempty"`
+	IdentificationType *IdentificationType     `json:"identificationType,omitempty"`
+	InitMessage        *IpsecIkeV2MessageInput `json:"initMessage,omitempty"`
+	NetworkRanges      []*string               `json:"networkRanges,omitempty"`
 }
 
 type UpdateIpsecIkeV2SiteGeneralDetailsPayload struct {
-	// The local ID for the site
 	LocalID *string `json:"localId,omitempty"`
-	// The ID of the site
-	SiteID string `json:"siteId"`
+	SiteID  string  `json:"siteId"`
 }
 
 type UpdateIpsecIkeV2SiteMultiTunnelPayload struct {
-	// Cato’s FQDN for the multi-tunnel
 	Fqdn    *string                              `json:"fqdn,omitempty"`
 	Tunnels []*UpdateIpsecIkeV2SiteTunnelPayload `json:"tunnels"`
 }
 
 type UpdateIpsecIkeV2SiteTunnelPayload struct {
-	// The local ID for the tunnel
-	LocalID *string `json:"localId,omitempty"`
-	// The ID of the tunnel
+	LocalID  *string             `json:"localId,omitempty"`
 	TunnelID *IPSecV2InterfaceID `json:"tunnelId,omitempty"`
 }
 
 type UpdateIpsecIkeV2SiteTunnelsInput struct {
-	// The configuration of the site’s primary tunnel
-	Primary *UpdateIpsecIkeV2TunnelsInput `json:"primary,omitempty"`
-	// The configuration of the site’s secondary tunnel
+	Primary   *UpdateIpsecIkeV2TunnelsInput `json:"primary,omitempty"`
 	Secondary *UpdateIpsecIkeV2TunnelsInput `json:"secondary,omitempty"`
 }
 
 type UpdateIpsecIkeV2SiteTunnelsPayload struct {
-	// The primary multi-tunnel
-	Primary *UpdateIpsecIkeV2SiteMultiTunnelPayload `json:"primary,omitempty"`
-	// The secondary multi-tunnel
+	Primary   *UpdateIpsecIkeV2SiteMultiTunnelPayload `json:"primary,omitempty"`
 	Secondary *UpdateIpsecIkeV2SiteMultiTunnelPayload `json:"secondary,omitempty"`
-	// The ID of the site
-	SiteID string `json:"siteId"`
+	SiteID    string                                  `json:"siteId"`
 }
 
 type UpdateIpsecIkeV2TunnelInput struct {
-	// The maximum allowed bandwidth for the site. If not specified, it will be set according to the site license. If the ISP provided bandwidth is below the site bandwidth, set this parameter to the ISP bandwidth or below
-	LastMileBw *LastMileBwInput `json:"lastMileBw,omitempty"`
-	// Tunnel name
-	Name *string `json:"name,omitempty"`
-	// Cato’s private IP, used for BGP routing. Applicable for sites using BGP only
-	PrivateCatoIP *string `json:"privateCatoIp,omitempty"`
-	// Site private IP, used for BGP routing. Applicable for sites using BGP only
-	PrivateSiteIP *string `json:"privateSiteIp,omitempty"`
-	// Pre-shared key. This field is write-only.
-	Psk *string `json:"psk,omitempty"`
-	// The public IP address where the IPsec tunnel is initiated
-	PublicSiteIP *string `json:"publicSiteIp,omitempty"`
-	// Tunnel role
-	Role *IPSecV2TunnelRole `json:"role,omitempty"`
-	// The ID of the tunnel
-	TunnelID IPSecV2InterfaceID `json:"tunnelId"`
+	LastMileBw    *LastMileBwInput   `json:"lastMileBw,omitempty"`
+	Name          *string            `json:"name,omitempty"`
+	PrivateCatoIP *string            `json:"privateCatoIp,omitempty"`
+	PrivateSiteIP *string            `json:"privateSiteIp,omitempty"`
+	Psk           *string            `json:"psk,omitempty"`
+	PublicSiteIP  *string            `json:"publicSiteIp,omitempty"`
+	Role          *IPSecV2TunnelRole `json:"role,omitempty"`
+	TunnelID      IPSecV2InterfaceID `json:"tunnelId"`
 }
 
 type UpdateIpsecIkeV2TunnelsInput struct {
-	// The destination type of the IPsec tunnel
-	DestinationType *DestinationType `json:"destinationType,omitempty"`
-	// The PoP location ID
-	PopLocationID *string `json:"popLocationId,omitempty"`
-	// The ID of the public IP (Allocated IP) of the Cato PoP to which the tunnel will connect. This will be the source-IP of the traffic transmitted to the Cato cloud over this tunnel when egressing the Cato Cloud
-	PublicCatoIPID *string                        `json:"publicCatoIpId,omitempty"`
-	Tunnels        []*UpdateIpsecIkeV2TunnelInput `json:"tunnels"`
+	DestinationType *DestinationType               `json:"destinationType,omitempty"`
+	PopLocationID   *string                        `json:"popLocationId,omitempty"`
+	PublicCatoIPID  *string                        `json:"publicCatoIpId,omitempty"`
+	Tunnels         []*UpdateIpsecIkeV2TunnelInput `json:"tunnels"`
 }
 
 type UpdateLocationDetailsInput struct {
-	// Company name (recipient)
-	CompanyName *string `json:"companyName,omitempty"`
-	// Delivery contact detail
-	Contact *ContactDetailsInput `json:"contact,omitempty"`
-	// Postal location
-	PostalAddress *PostalAddressInput `json:"postalAddress,omitempty"`
-	// Vat id (required for Brazil)
-	VatID *string `json:"vatId,omitempty"`
+	CompanyName   *string              `json:"companyName,omitempty"`
+	Contact       *ContactDetailsInput `json:"contact,omitempty"`
+	PostalAddress *PostalAddressInput  `json:"postalAddress,omitempty"`
+	VatID         *string              `json:"vatId,omitempty"`
 }
 
 type UpdateNetworkRangeInput struct {
-	// Only relevant for AZURE HA sites
-	AzureFloatingIP *string `json:"azureFloatingIp,omitempty"`
-	// Only relevant for NATIVE, VLAN rangeType
-	DhcpSettings *NetworkDhcpSettingsInput `json:"dhcpSettings,omitempty"`
-	// Only relevant for ROUTED_ROUTE rangeType
-	Gateway      *string `json:"gateway,omitempty"`
-	InternetOnly *bool   `json:"internetOnly,omitempty"`
-	// Only relevant for NATIVE, SECONDARY_NATIVE, DIRECT_ROUTE, VLAN rangeType
-	LocalIP *string `json:"localIp,omitempty"`
-	// BETA - Only relevant for NATIVE, DIRECT_ROUTE and VLAN rangeType
-	MdnsReflector    *bool       `json:"mdnsReflector,omitempty"`
-	Name             *string     `json:"name,omitempty"`
-	RangeType        *SubnetType `json:"rangeType,omitempty"`
-	Subnet           *string     `json:"subnet,omitempty"`
-	TranslatedSubnet *string     `json:"translatedSubnet,omitempty"`
-	// Only relevant for NATIVE and VLAN network rangeType
-	Vlan *int64 `json:"vlan,omitempty"`
+	AzureFloatingIP  *string                   `json:"azureFloatingIp,omitempty"`
+	DhcpSettings     *NetworkDhcpSettingsInput `json:"dhcpSettings,omitempty"`
+	Gateway          *string                   `json:"gateway,omitempty"`
+	InternetOnly     *bool                     `json:"internetOnly,omitempty"`
+	LocalIP          *string                   `json:"localIp,omitempty"`
+	MdnsReflector    *bool                     `json:"mdnsReflector,omitempty"`
+	Name             *string                   `json:"name,omitempty"`
+	RangeType        *SubnetType               `json:"rangeType,omitempty"`
+	Subnet           *string                   `json:"subnet,omitempty"`
+	TranslatedSubnet *string                   `json:"translatedSubnet,omitempty"`
+	Vlan             *int64                    `json:"vlan,omitempty"`
 }
 
 type UpdateNetworkRangePayload struct {
@@ -15274,32 +11217,23 @@ type UpdatePrivateApplicationPayload struct {
 }
 
 type UpdateSecondaryAWSVSocketInput struct {
-	// The ID of the secondary vSocket
-	ID string `json:"id"`
-	// The IP address of the secondary vSocket
-	IPAddress *string `json:"ipAddress,omitempty"`
-	// The ID of the secondary vSocket route table
+	ID           string  `json:"id"`
+	IPAddress    *string `json:"ipAddress,omitempty"`
 	RouteTableID *string `json:"routeTableId,omitempty"`
-	// The subnet of the secondary vSocket
-	Subnet *string `json:"subnet,omitempty"`
+	Subnet       *string `json:"subnet,omitempty"`
 }
 
 type UpdateSecondaryAWSVSocketPayload struct {
-	// The updated secondary AWS vSocket object.
 	SecondaryAWSVSocket *SecondaryAWSVSocket `json:"secondaryAwsVSocket"`
 }
 
 type UpdateSecondaryAzureVSocketInput struct {
-	// The floating IP address
-	FloatingIP *string `json:"floatingIp,omitempty"`
-	// The ID of the secondary vSocket
-	ID string `json:"id"`
-	// The IP address of the interface
+	FloatingIP  *string `json:"floatingIp,omitempty"`
+	ID          string  `json:"id"`
 	InterfaceIP *string `json:"interfaceIp,omitempty"`
 }
 
 type UpdateSecondaryAzureVSocketPayload struct {
-	// The updated secondary Azure vSocket object.
 	SecondaryAzureVSocket *SecondaryAzureVSocket `json:"secondaryAzureVSocket"`
 }
 
@@ -15314,12 +11248,9 @@ type UpdateServicePrincipalAdminPayload struct {
 }
 
 type UpdateSiteBwLicenseInput struct {
-	// Specifies the bandwidth (in Mbps) to allocate to the site when using a pooled bandwidth license.
-	Bw int64 `json:"bw"`
-	// The license that is being assigned
-	LicenseID string `json:"licenseId"`
-	// The site the license is being assigned to
-	Site *SiteRefInput `json:"site"`
+	Bw        int64         `json:"bw"`
+	LicenseID string        `json:"licenseId"`
+	Site      *SiteRefInput `json:"site"`
 }
 
 type UpdateSiteBwLicensePayload struct {
@@ -15327,9 +11258,8 @@ type UpdateSiteBwLicensePayload struct {
 }
 
 type UpdateSiteGeneralDetailsInput struct {
-	Description *string `json:"description,omitempty"`
-	Name        *string `json:"name,omitempty"`
-	// Only relevant for socket sites
+	Description          *string                              `json:"description,omitempty"`
+	Name                 *string                              `json:"name,omitempty"`
 	PreferredPopLocation *UpdateSitePreferredPopLocationInput `json:"preferredPopLocation,omitempty"`
 	SiteLocation         *UpdateSiteLocationInput             `json:"siteLocation,omitempty"`
 	SiteType             *SiteType                            `json:"siteType,omitempty"`
@@ -15348,45 +11278,31 @@ type UpdateSiteLocationInput struct {
 }
 
 type UpdateSitePreferredPopLocationInput struct {
-	// Forces the socket to connect exclusively to the configured PoP locations
-	PreferredOnly bool `json:"preferredOnly"`
-	// Set the location reference to -1, `Automatic`, or null to enable automatic selection.
-	// Set the location reference to -2 or `None` to disable the preferred PoP location (only allowed for secondary).
-	Primary   *PopLocationRefInput `json:"primary,omitempty"`
-	Secondary *PopLocationRefInput `json:"secondary,omitempty"`
+	PreferredOnly bool                 `json:"preferredOnly"`
+	Primary       *PopLocationRefInput `json:"primary,omitempty"`
+	Secondary     *PopLocationRefInput `json:"secondary,omitempty"`
 }
 
 type UpdateSiteSocketConfigurationInput struct {
-	// Configuration for the primary Socket of the site.
-	PrimarySocketConfiguration *SocketConfigurationInput `json:"primarySocketConfiguration,omitempty"`
-	// Configuration for the secondary Socket of the site.
+	PrimarySocketConfiguration   *SocketConfigurationInput `json:"primarySocketConfiguration,omitempty"`
 	SecondarySocketConfiguration *SocketConfigurationInput `json:"secondarySocketConfiguration,omitempty"`
-	// Identifies the site.
-	Site *SiteRefInput `json:"site"`
+	Site                         *SiteRefInput             `json:"site"`
 }
 
 type UpdateSiteSocketConfigurationPayload struct {
-	// The updated Socket configuration for the site.
 	SiteSocketConfiguration *SiteSocketConfiguration `json:"siteSocketConfiguration"`
 }
 
 type UpdateSocketInterfaceInput struct {
-	// Only relevant for ALTERNATIVE, LAYER_2_WAN
-	AltWan *SocketInterfaceAltWanInput `json:"altWan,omitempty"`
-	// Only relevant for CATO, ALTERNATIVE, LAYER_2_WAN
+	AltWan    *SocketInterfaceAltWanInput    `json:"altWan,omitempty"`
 	Bandwidth *SocketInterfaceBandwidthInput `json:"bandwidth,omitempty"`
 	DestType  SocketInterfaceDestType        `json:"destType"`
-	// Only relevant for LAN_LAG_MASTER, LAN_LAG_MASTER_AND_VRRP
-	Lag *SocketInterfaceLagInput `json:"lag,omitempty"`
-	// Only relevant for LAN, VRRP_AND_LAN, LAN_LAG_MASTER, LAN_LAG_MASTER_AND_VRRP
-	Lan  *SocketInterfaceLanInput `json:"lan,omitempty"`
-	Name *string                  `json:"name,omitempty"`
-	// Only relevant for CATO
-	OffCloud *SocketInterfaceOffCloudInput `json:"offCloud,omitempty"`
-	// Only relevant for VRRP
-	Vrrp *SocketInterfaceVrrpInput `json:"vrrp,omitempty"`
-	// Only relevant for CATO
-	Wan *SocketInterfaceWanInput `json:"wan,omitempty"`
+	Lag       *SocketInterfaceLagInput       `json:"lag,omitempty"`
+	Lan       *SocketInterfaceLanInput       `json:"lan,omitempty"`
+	Name      *string                        `json:"name,omitempty"`
+	OffCloud  *SocketInterfaceOffCloudInput  `json:"offCloud,omitempty"`
+	Vrrp      *SocketInterfaceVrrpInput      `json:"vrrp,omitempty"`
+	Wan       *SocketInterfaceWanInput       `json:"wan,omitempty"`
 }
 
 type UpdateSocketInterfacePayload struct {
@@ -15439,32 +11355,23 @@ type UpgradeZtnaAppConnectorPayload struct {
 
 // Upload file input
 type UploadFileInput struct {
-	//  Uploaded file name
 	FileName string `json:"fileName"`
 }
 
 // Upload file response
 type UploadFilePayload struct {
-	//  Upload URL (HTTP PUT)
 	UploadURL *string `json:"uploadUrl,omitempty"`
 }
 
 // Basic User configuration information
 type UserInfo struct {
-	// Additional authentication mechanism, currently MFA or NONE
-	AuthMethod *string `json:"authMethod,omitempty"`
-	// Timestamp when the VPN user was created in the account
-	CreationTime *string `json:"creationTime,omitempty"`
-	// Email address of the VPN user
-	Email *string `json:"email,omitempty"`
-	// Name of the VPN user
-	Name *string `json:"name,omitempty"`
-	// User creation mechanism, current supported REGULAR or LDAP
-	Origin *string `json:"origin,omitempty"`
-	// Phone number for the VPN user
-	PhoneNumber *string `json:"phoneNumber,omitempty"`
-	// Status of the Client as the type STRING
-	Status *scalars.OperationalStatus `json:"status,omitempty"`
+	AuthMethod   *string                    `json:"authMethod,omitempty"`
+	CreationTime *string                    `json:"creationTime,omitempty"`
+	Email        *string                    `json:"email,omitempty"`
+	Name         *string                    `json:"name,omitempty"`
+	Origin       *string                    `json:"origin,omitempty"`
+	PhoneNumber  *string                    `json:"phoneNumber,omitempty"`
+	Status       *scalars.OperationalStatus `json:"status,omitempty"`
 }
 
 // A reference identifying the UserNotificationAiSecurityTemplate object. ID: Unique UserNotificationAiSecurityTemplate Identifier, Name: The UserNotificationAiSecurityTemplate Name
@@ -15473,12 +11380,8 @@ type UserNotificationAiSecurityTemplateRef struct {
 	Name string `json:"name"`
 }
 
-func (UserNotificationAiSecurityTemplateRef) IsObjectRef() {}
-
-// Object's unique identifier
-func (this UserNotificationAiSecurityTemplateRef) GetID() string { return this.ID }
-
-// Object's unique name
+func (UserNotificationAiSecurityTemplateRef) IsObjectRef()         {}
+func (this UserNotificationAiSecurityTemplateRef) GetID() string   { return this.ID }
 func (this UserNotificationAiSecurityTemplateRef) GetName() string { return this.Name }
 
 // A reference identifying the UserNotificationTemplate object. ID: Unique UserNotificationTemplate Identifier, Name: The UserNotificationTemplate Name
@@ -15487,12 +11390,8 @@ type UserNotificationTemplateRef struct {
 	Name string `json:"name"`
 }
 
-func (UserNotificationTemplateRef) IsObjectRef() {}
-
-// Object's unique identifier
-func (this UserNotificationTemplateRef) GetID() string { return this.ID }
-
-// Object's unique name
+func (UserNotificationTemplateRef) IsObjectRef()         {}
+func (this UserNotificationTemplateRef) GetID() string   { return this.ID }
 func (this UserNotificationTemplateRef) GetName() string { return this.Name }
 
 type UserNotificationTemplateRefInput struct {
@@ -15506,12 +11405,8 @@ type UserRef struct {
 	Name string `json:"name"`
 }
 
-func (UserRef) IsObjectRef() {}
-
-// Object's unique identifier
-func (this UserRef) GetID() string { return this.ID }
-
-// Object's unique name
+func (UserRef) IsObjectRef()         {}
+func (this UserRef) GetID() string   { return this.ID }
 func (this UserRef) GetName() string { return this.Name }
 
 type UserRefFilterInput struct {
@@ -15527,47 +11422,26 @@ type UserRefInput struct {
 }
 
 type UserSnapshot struct {
-	// In this state the client does not create its own connection, but reuses
-	// the Office's socket connection
-	ConnectedInOffice *bool `json:"connectedInOffice,omitempty"`
-	// Connectivity to the Cato Cloud
-	ConnectivityStatus *ConnectivityStatus `json:"connectivityStatus,omitempty"`
-	// The host name of the device
-	DeviceName *string `json:"deviceName,omitempty"`
-	// Data related to the Client
-	Devices []*DeviceSnapshot `json:"devices,omitempty"`
-	// VPN user ID
-	ID *string `json:"id,omitempty"`
-	// General information about the VPN user
-	Info *UserInfo `json:"info,omitempty"`
-	// IP address of the PoP that the Client is connected to
-	InternalIP *string `json:"internalIP,omitempty"`
-	// Last time the user was connected (relevant if not currently connected)
-	LastConnected *string `json:"lastConnected,omitempty"`
-	// User name from configuration, same as info.name
-	Name *string `json:"name,omitempty"`
-	// Status for a site or VPN user
-	OperationalStatus *scalars.OperationalStatus `json:"operationalStatus,omitempty"`
-	// Operating system of the device the Client is running on
-	OsType *string `json:"osType,omitempty"`
-	// Version of the operating system for the device
-	OsVersion *string `json:"osVersion,omitempty"`
-	// ID of the PoP that the Client is connected to
-	PopID *int64 `json:"popID,omitempty"`
-	// Name of the PoP that the VPN user is connected to
-	PopName *string `json:"popName,omitempty"`
-	// Data related to the most recent completed VPN connections
-	RecentConnections []*RecentConnection `json:"recentConnections,omitempty"`
-	// IP address of the Client
-	RemoteIP *string `json:"remoteIP,omitempty"`
-	// IP address, ISP, and geographical information related to the Client
-	RemoteIPInfo *IPInfo `json:"remoteIPInfo,omitempty"`
-	// How long has the user been connected (in seconds)
-	Uptime *int64 `json:"uptime,omitempty"`
-	// VPN client version string
-	Version *string `json:"version,omitempty"`
-	// VPN client version number
-	VersionNumber *int64 `json:"versionNumber,omitempty"`
+	ConnectedInOffice  *bool                      `json:"connectedInOffice,omitempty"`
+	ConnectivityStatus *ConnectivityStatus        `json:"connectivityStatus,omitempty"`
+	DeviceName         *string                    `json:"deviceName,omitempty"`
+	Devices            []*DeviceSnapshot          `json:"devices,omitempty"`
+	ID                 *string                    `json:"id,omitempty"`
+	Info               *UserInfo                  `json:"info,omitempty"`
+	InternalIP         *string                    `json:"internalIP,omitempty"`
+	LastConnected      *string                    `json:"lastConnected,omitempty"`
+	Name               *string                    `json:"name,omitempty"`
+	OperationalStatus  *scalars.OperationalStatus `json:"operationalStatus,omitempty"`
+	OsType             *string                    `json:"osType,omitempty"`
+	OsVersion          *string                    `json:"osVersion,omitempty"`
+	PopID              *int64                     `json:"popID,omitempty"`
+	PopName            *string                    `json:"popName,omitempty"`
+	RecentConnections  []*RecentConnection        `json:"recentConnections,omitempty"`
+	RemoteIP           *string                    `json:"remoteIP,omitempty"`
+	RemoteIPInfo       *IPInfo                    `json:"remoteIPInfo,omitempty"`
+	Uptime             *int64                     `json:"uptime,omitempty"`
+	Version            *string                    `json:"version,omitempty"`
+	VersionNumber      *int64                     `json:"versionNumber,omitempty"`
 }
 
 // A reference identifying the UsersGroup object. ID: Unique UsersGroup Identifier, Name: The UsersGroup Name
@@ -15576,12 +11450,8 @@ type UsersGroupRef struct {
 	Name string `json:"name"`
 }
 
-func (UsersGroupRef) IsObjectRef() {}
-
-// Object's unique identifier
-func (this UsersGroupRef) GetID() string { return this.ID }
-
-// Object's unique name
+func (UsersGroupRef) IsObjectRef()         {}
+func (this UsersGroupRef) GetID() string   { return this.ID }
 func (this UsersGroupRef) GetName() string { return this.Name }
 
 type UsersGroupRefInput struct {
@@ -15654,16 +11524,6 @@ type WanFirewallAddSubPolicyMutationPayload struct {
 }
 
 func (WanFirewallAddSubPolicyMutationPayload) IsIPolicyMutationPayload() {}
-
-// Data for the policy
-func (this WanFirewallAddSubPolicyMutationPayload) GetPolicy() IPolicy { return *this.Policy }
-
-// Enum for the status of the policy change
-func (this WanFirewallAddSubPolicyMutationPayload) GetStatus() PolicyMutationStatus {
-	return this.Status
-}
-
-// List of errors related to the policy change
 func (this WanFirewallAddSubPolicyMutationPayload) GetErrors() []*PolicyMutationError {
 	if this.Errors == nil {
 		return nil
@@ -15673,6 +11533,10 @@ func (this WanFirewallAddSubPolicyMutationPayload) GetErrors() []*PolicyMutation
 		interfaceSlice = append(interfaceSlice, concrete)
 	}
 	return interfaceSlice
+}
+func (this WanFirewallAddSubPolicyMutationPayload) GetPolicy() IPolicy { return *this.Policy }
+func (this WanFirewallAddSubPolicyMutationPayload) GetStatus() PolicyMutationStatus {
+	return this.Status
 }
 
 // Application match criteria set
@@ -15785,12 +11649,10 @@ type WanFirewallPolicy struct {
 	SubPolicies   []*WanFirewallSubPolicyPayload `json:"subPolicies"`
 }
 
-func (WanFirewallPolicy) IsIPolicy() {}
-
-// TRUE = Policy is enabled, FALSE = Policy is disabled
-func (this WanFirewallPolicy) GetEnabled() bool { return this.Enabled }
-
-// Return list of rules in the policy
+func (WanFirewallPolicy) IsIPolicy()                        {}
+func (this WanFirewallPolicy) GetAudit() *PolicyAudit       { return this.Audit }
+func (this WanFirewallPolicy) GetEnabled() bool             { return this.Enabled }
+func (this WanFirewallPolicy) GetRevision() *PolicyRevision { return this.Revision }
 func (this WanFirewallPolicy) GetRules() []IPolicyRulePayload {
 	if this.Rules == nil {
 		return nil
@@ -15801,8 +11663,6 @@ func (this WanFirewallPolicy) GetRules() []IPolicyRulePayload {
 	}
 	return interfaceSlice
 }
-
-// Return sections in the policy
 func (this WanFirewallPolicy) GetSections() []*PolicySectionPayload {
 	if this.Sections == nil {
 		return nil
@@ -15813,12 +11673,6 @@ func (this WanFirewallPolicy) GetSections() []*PolicySectionPayload {
 	}
 	return interfaceSlice
 }
-
-// Audit data for the policy
-func (this WanFirewallPolicy) GetAudit() *PolicyAudit { return this.Audit }
-
-// Return data for the Policy revision
-func (this WanFirewallPolicy) GetRevision() *PolicyRevision { return this.Revision }
 
 type WanFirewallPolicyInfo struct {
 	Audit       *PolicyAudit    `json:"audit"`
@@ -15888,14 +11742,6 @@ type WanFirewallPolicyMutationPayload struct {
 }
 
 func (WanFirewallPolicyMutationPayload) IsIPolicyMutationPayload() {}
-
-// Data for the policy
-func (this WanFirewallPolicyMutationPayload) GetPolicy() IPolicy { return *this.Policy }
-
-// Enum for the status of the policy change
-func (this WanFirewallPolicyMutationPayload) GetStatus() PolicyMutationStatus { return this.Status }
-
-// List of errors related to the policy change
 func (this WanFirewallPolicyMutationPayload) GetErrors() []*PolicyMutationError {
 	if this.Errors == nil {
 		return nil
@@ -15906,6 +11752,8 @@ func (this WanFirewallPolicyMutationPayload) GetErrors() []*PolicyMutationError 
 	}
 	return interfaceSlice
 }
+func (this WanFirewallPolicyMutationPayload) GetPolicy() IPolicy              { return *this.Policy }
+func (this WanFirewallPolicyMutationPayload) GetStatus() PolicyMutationStatus { return this.Status }
 
 // The Wan Firewall Policy information returned to the caller in the API response.
 type WanFirewallPolicyMutations struct {
@@ -15939,19 +11787,11 @@ type WanFirewallPolicyRef struct {
 	Name string `json:"name"`
 }
 
-func (WanFirewallPolicyRef) IsObjectRef() {}
-
-// Object's unique identifier
-func (this WanFirewallPolicyRef) GetID() string { return this.ID }
-
-// Object's unique name
+func (WanFirewallPolicyRef) IsObjectRef()         {}
+func (this WanFirewallPolicyRef) GetID() string   { return this.ID }
 func (this WanFirewallPolicyRef) GetName() string { return this.Name }
 
 func (WanFirewallPolicyRef) IsPolicyRef() {}
-
-// Policy's unique identifier
-
-// Policy's unique name
 
 type WanFirewallPolicyRefInput struct {
 	By    ObjectRefBy `json:"by"`
@@ -15977,16 +11817,6 @@ type WanFirewallRemoveSubPolicyMutationPayload struct {
 }
 
 func (WanFirewallRemoveSubPolicyMutationPayload) IsIPolicyMutationPayload() {}
-
-// Data for the policy
-func (this WanFirewallRemoveSubPolicyMutationPayload) GetPolicy() IPolicy { return *this.Policy }
-
-// Enum for the status of the policy change
-func (this WanFirewallRemoveSubPolicyMutationPayload) GetStatus() PolicyMutationStatus {
-	return this.Status
-}
-
-// List of errors related to the policy change
 func (this WanFirewallRemoveSubPolicyMutationPayload) GetErrors() []*PolicyMutationError {
 	if this.Errors == nil {
 		return nil
@@ -15996,6 +11826,10 @@ func (this WanFirewallRemoveSubPolicyMutationPayload) GetErrors() []*PolicyMutat
 		interfaceSlice = append(interfaceSlice, concrete)
 	}
 	return interfaceSlice
+}
+func (this WanFirewallRemoveSubPolicyMutationPayload) GetPolicy() IPolicy { return *this.Policy }
+func (this WanFirewallRemoveSubPolicyMutationPayload) GetStatus() PolicyMutationStatus {
+	return this.Status
 }
 
 type WanFirewallRule struct {
@@ -16025,24 +11859,12 @@ type WanFirewallRule struct {
 	UserAttributes        *WanFirewallUserAttributes  `json:"userAttributes"`
 }
 
-func (WanFirewallRule) IsIPolicyRule() {}
-
-// Rule ID
-func (this WanFirewallRule) GetID() string { return this.ID }
-
-// Name of the rule
-func (this WanFirewallRule) GetName() string { return this.Name }
-
-// Description for the rule
-func (this WanFirewallRule) GetDescription() *string { return &this.Description }
-
-// Position / priority of rule
-func (this WanFirewallRule) GetIndex() int64 { return this.Index }
-
-// TRUE = Rule is enabled, FALSE = Rule is disabled
-func (this WanFirewallRule) GetEnabled() bool { return this.Enabled }
-
-// Policy section where the rule is located
+func (WanFirewallRule) IsIPolicyRule()                      {}
+func (this WanFirewallRule) GetDescription() *string        { return &this.Description }
+func (this WanFirewallRule) GetEnabled() bool               { return this.Enabled }
+func (this WanFirewallRule) GetID() string                  { return this.ID }
+func (this WanFirewallRule) GetIndex() int64                { return this.Index }
+func (this WanFirewallRule) GetName() string                { return this.Name }
 func (this WanFirewallRule) GetSection() *PolicySectionInfo { return this.Section }
 
 // Exceptions define when a rule is ignored, and the firewall policy evaluation continues with the lower priority rules.
@@ -16086,14 +11908,6 @@ type WanFirewallRuleMutationPayload struct {
 }
 
 func (WanFirewallRuleMutationPayload) IsIPolicyRuleMutationPayload() {}
-
-// Returns settings for the rule
-func (this WanFirewallRuleMutationPayload) GetRule() IPolicyRulePayload { return *this.Rule }
-
-// Enum for the status of the policy change
-func (this WanFirewallRuleMutationPayload) GetStatus() PolicyMutationStatus { return this.Status }
-
-// List of errors related to the policy change
 func (this WanFirewallRuleMutationPayload) GetErrors() []*PolicyMutationError {
 	if this.Errors == nil {
 		return nil
@@ -16104,6 +11918,8 @@ func (this WanFirewallRuleMutationPayload) GetErrors() []*PolicyMutationError {
 	}
 	return interfaceSlice
 }
+func (this WanFirewallRuleMutationPayload) GetRule() IPolicyRulePayload     { return *this.Rule }
+func (this WanFirewallRuleMutationPayload) GetStatus() PolicyMutationStatus { return this.Status }
 
 // Wan Firewall policy information for a specific revision
 type WanFirewallRulePayload struct {
@@ -16118,11 +11934,6 @@ type WanFirewallRulePayload struct {
 
 func (WanFirewallRulePayload) IsIPolicyRulePayload()              {}
 func (this WanFirewallRulePayload) GetAudit() *PolicyElementAudit { return this.Audit }
-
-// Rule that was changed
-func (this WanFirewallRulePayload) GetRule() IPolicyRule { return *this.Rule }
-
-// Summary of rule change, (ie. ADDED, UPDATED)
 func (this WanFirewallRulePayload) GetProperties() []PolicyElementPropertiesEnum {
 	if this.Properties == nil {
 		return nil
@@ -16133,6 +11944,7 @@ func (this WanFirewallRulePayload) GetProperties() []PolicyElementPropertiesEnum
 	}
 	return interfaceSlice
 }
+func (this WanFirewallRulePayload) GetRule() IPolicyRule { return *this.Rule }
 
 // Returns the Service Type to which this Wan Firewall rule applies
 type WanFirewallServiceType struct {
@@ -16270,31 +12082,21 @@ type WanFirewallUserAttributesUpdateInput struct {
 }
 
 type WanNetworkAddRuleDataInput struct {
-	// The application or category of traffic for the rule.
-	Application *WanNetworkRuleApplicationInput `json:"application"`
-	// The bandwidth priority (QoS) for the rule.
-	BandwidthPriority *BandwidthManagementRefInput `json:"bandwidthPriority"`
-	// The configuration of the rule.
-	Configuration *WanNetworkRuleConfigurationInput `json:"configuration"`
-	Description   string                            `json:"description"`
-	// The destination of the traffic for the rule.
-	Destination *WanNetworkRuleDestinationInput `json:"destination"`
-	Enabled     bool                            `json:"enabled"`
-	// Exceptions to the rule.
-	Exceptions []*WanNetworkRuleExceptionInput `json:"exceptions"`
-	Name       string                          `json:"name"`
-	// Defines the routing method for the rule. By default, traffic will egress from connected PoP.
-	RouteType WanNetworkRuleRouteType `json:"routeType"`
-	// Specifies if the rule is for Internet (outbound) or WAN (wanbound) traffic.
-	RuleType WanNetworkRuleType `json:"ruleType"`
-	// The source of the traffic for the rule.
-	Source *WanNetworkRuleSourceInput `json:"source"`
+	Application       *WanNetworkRuleApplicationInput   `json:"application"`
+	BandwidthPriority *BandwidthManagementRefInput      `json:"bandwidthPriority"`
+	Configuration     *WanNetworkRuleConfigurationInput `json:"configuration"`
+	Description       string                            `json:"description"`
+	Destination       *WanNetworkRuleDestinationInput   `json:"destination"`
+	Enabled           bool                              `json:"enabled"`
+	Exceptions        []*WanNetworkRuleExceptionInput   `json:"exceptions"`
+	Name              string                            `json:"name"`
+	RouteType         WanNetworkRuleRouteType           `json:"routeType"`
+	RuleType          WanNetworkRuleType                `json:"ruleType"`
+	Source            *WanNetworkRuleSourceInput        `json:"source"`
 }
 
 type WanNetworkAddRuleInput struct {
-	// Position of the rule in the policy
-	At *PolicyRulePositionInput `json:"at,omitempty"`
-	// Parameters for the rule you are adding
+	At   *PolicyRulePositionInput    `json:"at,omitempty"`
 	Rule *WanNetworkAddRuleDataInput `json:"rule"`
 }
 
@@ -16306,12 +12108,10 @@ type WanNetworkPolicy struct {
 	Sections []*PolicySectionPayload  `json:"sections"`
 }
 
-func (WanNetworkPolicy) IsIPolicy() {}
-
-// TRUE = Policy is enabled, FALSE = Policy is disabled
-func (this WanNetworkPolicy) GetEnabled() bool { return this.Enabled }
-
-// Return list of rules in the policy
+func (WanNetworkPolicy) IsIPolicy()                        {}
+func (this WanNetworkPolicy) GetAudit() *PolicyAudit       { return this.Audit }
+func (this WanNetworkPolicy) GetEnabled() bool             { return this.Enabled }
+func (this WanNetworkPolicy) GetRevision() *PolicyRevision { return this.Revision }
 func (this WanNetworkPolicy) GetRules() []IPolicyRulePayload {
 	if this.Rules == nil {
 		return nil
@@ -16322,8 +12122,6 @@ func (this WanNetworkPolicy) GetRules() []IPolicyRulePayload {
 	}
 	return interfaceSlice
 }
-
-// Return sections in the policy
 func (this WanNetworkPolicy) GetSections() []*PolicySectionPayload {
 	if this.Sections == nil {
 		return nil
@@ -16335,18 +12133,7 @@ func (this WanNetworkPolicy) GetSections() []*PolicySectionPayload {
 	return interfaceSlice
 }
 
-// Audit data for the policy
-func (this WanNetworkPolicy) GetAudit() *PolicyAudit { return this.Audit }
-
-// Return data for the Policy revision
-func (this WanNetworkPolicy) GetRevision() *PolicyRevision { return this.Revision }
-
 type WanNetworkPolicyInput struct {
-	// A revision is a specific instance of the policy.
-	//  Unpublished revisions are working copies of the policy available to a specific
-	//  admin or a set of admins
-	//  Published revisions are revisions that were applied to the account network.
-	//  The last published revision is the active policy.
 	Revision *PolicyRevisionInput `json:"revision,omitempty"`
 }
 
@@ -16361,14 +12148,6 @@ type WanNetworkPolicyMutationPayload struct {
 }
 
 func (WanNetworkPolicyMutationPayload) IsIPolicyMutationPayload() {}
-
-// Data for the policy
-func (this WanNetworkPolicyMutationPayload) GetPolicy() IPolicy { return *this.Policy }
-
-// Enum for the status of the policy change
-func (this WanNetworkPolicyMutationPayload) GetStatus() PolicyMutationStatus { return this.Status }
-
-// List of errors related to the policy change
 func (this WanNetworkPolicyMutationPayload) GetErrors() []*PolicyMutationError {
 	if this.Errors == nil {
 		return nil
@@ -16379,6 +12158,8 @@ func (this WanNetworkPolicyMutationPayload) GetErrors() []*PolicyMutationError {
 	}
 	return interfaceSlice
 }
+func (this WanNetworkPolicyMutationPayload) GetPolicy() IPolicy              { return *this.Policy }
+func (this WanNetworkPolicyMutationPayload) GetStatus() PolicyMutationStatus { return this.Status }
 
 type WanNetworkPolicyMutations struct {
 	AddRule               *WanNetworkRuleMutationPayload   `json:"addRule"`
@@ -16409,55 +12190,28 @@ type WanNetworkRemoveRuleInput struct {
 }
 
 type WanNetworkRule struct {
-	// The application or category of traffic for the rule.
-	Application *WanNetworkRuleApplication `json:"application"`
-	// The bandwidth priority (QoS) for the rule.
-	BandwidthPriority *BandwidthManagementRef `json:"bandwidthPriority"`
-	// The configuration of the rule.
-	Configuration *WanNetworkRuleConfiguration `json:"configuration"`
-	// Description for the rule
-	Description string `json:"description"`
-	// The destination of the traffic for the rule.
-	Destination *WanNetworkRuleDestination `json:"destination"`
-	// TRUE = Rule is enabled
-	//  FALSE = Rule is disabled
-	Enabled bool `json:"enabled"`
-	// Exceptions to the rule.
-	Exceptions []*WanNetworkRuleException `json:"exceptions"`
-	// Rule ID
-	ID string `json:"id"`
-	// Position / priority of rule
-	Index int64 `json:"index"`
-	// Name of the rule
-	Name string `json:"name"`
-	// Defines the routing method for the rule. By default, traffic will egress from connected PoP.
-	RouteType WanNetworkRuleRouteType `json:"routeType"`
-	// Specifies if the rule is for Internet (outbound) or WAN (wanbound) traffic.
-	RuleType WanNetworkRuleType `json:"ruleType"`
-	// Policy section where the rule is located
-	Section *PolicySectionInfo `json:"section"`
-	// The source of the traffic for the rule.
-	Source *WanNetworkRuleSource `json:"source"`
+	Application       *WanNetworkRuleApplication   `json:"application"`
+	BandwidthPriority *BandwidthManagementRef      `json:"bandwidthPriority"`
+	Configuration     *WanNetworkRuleConfiguration `json:"configuration"`
+	Description       string                       `json:"description"`
+	Destination       *WanNetworkRuleDestination   `json:"destination"`
+	Enabled           bool                         `json:"enabled"`
+	Exceptions        []*WanNetworkRuleException   `json:"exceptions"`
+	ID                string                       `json:"id"`
+	Index             int64                        `json:"index"`
+	Name              string                       `json:"name"`
+	RouteType         WanNetworkRuleRouteType      `json:"routeType"`
+	RuleType          WanNetworkRuleType           `json:"ruleType"`
+	Section           *PolicySectionInfo           `json:"section"`
+	Source            *WanNetworkRuleSource        `json:"source"`
 }
 
-func (WanNetworkRule) IsIPolicyRule() {}
-
-// Rule ID
-func (this WanNetworkRule) GetID() string { return this.ID }
-
-// Name of the rule
-func (this WanNetworkRule) GetName() string { return this.Name }
-
-// Description for the rule
-func (this WanNetworkRule) GetDescription() *string { return &this.Description }
-
-// Position / priority of rule
-func (this WanNetworkRule) GetIndex() int64 { return this.Index }
-
-// TRUE = Rule is enabled, FALSE = Rule is disabled
-func (this WanNetworkRule) GetEnabled() bool { return this.Enabled }
-
-// Policy section where the rule is located
+func (WanNetworkRule) IsIPolicyRule()                      {}
+func (this WanNetworkRule) GetDescription() *string        { return &this.Description }
+func (this WanNetworkRule) GetEnabled() bool               { return this.Enabled }
+func (this WanNetworkRule) GetID() string                  { return this.ID }
+func (this WanNetworkRule) GetIndex() int64                { return this.Index }
+func (this WanNetworkRule) GetName() string                { return this.Name }
 func (this WanNetworkRule) GetSection() *PolicySectionInfo { return this.Section }
 
 type WanNetworkRuleApplication struct {
@@ -16497,60 +12251,36 @@ type WanNetworkRuleApplicationUpdateInput struct {
 }
 
 type WanNetworkRuleConfiguration struct {
-	// Indicates if TCP acceleration is enabled.
-	ActiveTCPAcceleration bool `json:"activeTcpAcceleration"`
-	// The allocated IP for NAT routing. Taken from IP Allocation, per PoP.
-	AllocationIP []*AllocatedIPRef `json:"allocationIp"`
-	// The site for backhaul routing option.
-	BackhaulingSite []*SiteRef `json:"backhaulingSite"`
-	// Indicates if packet loss mitigation is enabled.
-	PacketLossMitigation bool `json:"packetLossMitigation"`
-	// The PoP location for routing and egressing from Cato Cloud.
-	PopLocation []*PopLocationRef `json:"popLocation"`
-	// Indicates if the source port should be preserved.
-	PreserveSourcePort bool `json:"preserveSourcePort"`
-	// The primary transport method.
-	PrimaryTransport *WanNetworkRuleTransport `json:"primaryTransport"`
-	// The secondary transport method.
-	SecondaryTransport *WanNetworkRuleTransport `json:"secondaryTransport"`
+	ActiveTCPAcceleration bool                     `json:"activeTcpAcceleration"`
+	AllocationIP          []*AllocatedIPRef        `json:"allocationIp"`
+	BackhaulingSite       []*SiteRef               `json:"backhaulingSite"`
+	PacketLossMitigation  bool                     `json:"packetLossMitigation"`
+	PopLocation           []*PopLocationRef        `json:"popLocation"`
+	PreserveSourcePort    bool                     `json:"preserveSourcePort"`
+	PrimaryTransport      *WanNetworkRuleTransport `json:"primaryTransport"`
+	SecondaryTransport    *WanNetworkRuleTransport `json:"secondaryTransport"`
 }
 
 type WanNetworkRuleConfigurationInput struct {
-	// Indicates if TCP acceleration is enabled.
-	ActiveTCPAcceleration bool `json:"activeTcpAcceleration"`
-	// The allocated IP for NAT routing. Taken from IP Allocation, per PoP.
-	AllocationIP []*AllocatedIPRefInput `json:"allocationIp"`
-	// The site for backhaul routing option.
-	BackhaulingSite []*SiteRefInput `json:"backhaulingSite"`
-	// Indicates if packet loss mitigation is enabled.
-	PacketLossMitigation bool `json:"packetLossMitigation"`
-	// The PoP location for routing and egressing from Cato Cloud.
-	PopLocation []*PopLocationRefInput `json:"popLocation"`
-	// Indicates if the source port should be preserved.
-	PreserveSourcePort bool `json:"preserveSourcePort"`
-	// The primary transport method.
-	PrimaryTransport *WanNetworkRuleTransportInput `json:"primaryTransport"`
-	// The secondary transport method.
-	SecondaryTransport *WanNetworkRuleTransportInput `json:"secondaryTransport"`
+	ActiveTCPAcceleration bool                          `json:"activeTcpAcceleration"`
+	AllocationIP          []*AllocatedIPRefInput        `json:"allocationIp"`
+	BackhaulingSite       []*SiteRefInput               `json:"backhaulingSite"`
+	PacketLossMitigation  bool                          `json:"packetLossMitigation"`
+	PopLocation           []*PopLocationRefInput        `json:"popLocation"`
+	PreserveSourcePort    bool                          `json:"preserveSourcePort"`
+	PrimaryTransport      *WanNetworkRuleTransportInput `json:"primaryTransport"`
+	SecondaryTransport    *WanNetworkRuleTransportInput `json:"secondaryTransport"`
 }
 
 type WanNetworkRuleConfigurationUpdateInput struct {
-	// Indicates if TCP acceleration is enabled.
-	ActiveTCPAcceleration *bool `json:"activeTcpAcceleration,omitempty"`
-	// The allocated IP for NAT routing. Taken from IP Allocation, per PoP.
-	AllocationIP []*AllocatedIPRefInput `json:"allocationIp,omitempty"`
-	// The site for backhaul routing option.
-	BackhaulingSite []*SiteRefInput `json:"backhaulingSite,omitempty"`
-	// Indicates if packet loss mitigation is enabled.
-	PacketLossMitigation *bool `json:"packetLossMitigation,omitempty"`
-	// The PoP location for routing and egressing from Cato Cloud.
-	PopLocation []*PopLocationRefInput `json:"popLocation,omitempty"`
-	// Indicates if the source port should be preserved.
-	PreserveSourcePort *bool `json:"preserveSourcePort,omitempty"`
-	// The primary transport method.
-	PrimaryTransport *WanNetworkRuleTransportUpdateInput `json:"primaryTransport,omitempty"`
-	// The secondary transport method.
-	SecondaryTransport *WanNetworkRuleTransportUpdateInput `json:"secondaryTransport,omitempty"`
+	ActiveTCPAcceleration *bool                               `json:"activeTcpAcceleration,omitempty"`
+	AllocationIP          []*AllocatedIPRefInput              `json:"allocationIp,omitempty"`
+	BackhaulingSite       []*SiteRefInput                     `json:"backhaulingSite,omitempty"`
+	PacketLossMitigation  *bool                               `json:"packetLossMitigation,omitempty"`
+	PopLocation           []*PopLocationRefInput              `json:"popLocation,omitempty"`
+	PreserveSourcePort    *bool                               `json:"preserveSourcePort,omitempty"`
+	PrimaryTransport      *WanNetworkRuleTransportUpdateInput `json:"primaryTransport,omitempty"`
+	SecondaryTransport    *WanNetworkRuleTransportUpdateInput `json:"secondaryTransport,omitempty"`
 }
 
 type WanNetworkRuleDestination struct {
@@ -16602,25 +12332,17 @@ type WanNetworkRuleDestinationUpdateInput struct {
 }
 
 type WanNetworkRuleException struct {
-	// The application or category of traffic for the rule.
 	Application *WanNetworkRuleApplication `json:"application"`
-	// The destination of the traffic for the rule.
 	Destination *WanNetworkRuleDestination `json:"destination"`
-	// The name of the network rule.
-	Name string `json:"name"`
-	// The source of the traffic for the rule.
-	Source *WanNetworkRuleSource `json:"source"`
+	Name        string                     `json:"name"`
+	Source      *WanNetworkRuleSource      `json:"source"`
 }
 
 type WanNetworkRuleExceptionInput struct {
-	// The application or category of traffic for the rule.
 	Application *WanNetworkRuleApplicationInput `json:"application"`
-	// The destination of the traffic for the rule.
 	Destination *WanNetworkRuleDestinationInput `json:"destination"`
-	// The name of the network rule.
-	Name string `json:"name"`
-	// The source of the traffic for the rule.
-	Source *WanNetworkRuleSourceInput `json:"source"`
+	Name        string                          `json:"name"`
+	Source      *WanNetworkRuleSourceInput      `json:"source"`
 }
 
 type WanNetworkRuleMutationPayload struct {
@@ -16630,14 +12352,6 @@ type WanNetworkRuleMutationPayload struct {
 }
 
 func (WanNetworkRuleMutationPayload) IsIPolicyRuleMutationPayload() {}
-
-// Returns settings for the rule
-func (this WanNetworkRuleMutationPayload) GetRule() IPolicyRulePayload { return *this.Rule }
-
-// Enum for the status of the policy change
-func (this WanNetworkRuleMutationPayload) GetStatus() PolicyMutationStatus { return this.Status }
-
-// List of errors related to the policy change
 func (this WanNetworkRuleMutationPayload) GetErrors() []*PolicyMutationError {
 	if this.Errors == nil {
 		return nil
@@ -16648,6 +12362,8 @@ func (this WanNetworkRuleMutationPayload) GetErrors() []*PolicyMutationError {
 	}
 	return interfaceSlice
 }
+func (this WanNetworkRuleMutationPayload) GetRule() IPolicyRulePayload     { return *this.Rule }
+func (this WanNetworkRuleMutationPayload) GetStatus() PolicyMutationStatus { return this.Status }
 
 type WanNetworkRulePayload struct {
 	Audit      *PolicyElementAudit           `json:"audit"`
@@ -16657,11 +12373,6 @@ type WanNetworkRulePayload struct {
 
 func (WanNetworkRulePayload) IsIPolicyRulePayload()              {}
 func (this WanNetworkRulePayload) GetAudit() *PolicyElementAudit { return this.Audit }
-
-// Rule that was changed
-func (this WanNetworkRulePayload) GetRule() IPolicyRule { return *this.Rule }
-
-// Summary of rule change, (ie. ADDED, UPDATED)
 func (this WanNetworkRulePayload) GetProperties() []PolicyElementPropertiesEnum {
 	if this.Properties == nil {
 		return nil
@@ -16672,6 +12383,7 @@ func (this WanNetworkRulePayload) GetProperties() []PolicyElementPropertiesEnum 
 	}
 	return interfaceSlice
 }
+func (this WanNetworkRulePayload) GetRule() IPolicyRule { return *this.Rule }
 
 type WanNetworkRuleSource struct {
 	FloatingSubnet    []*FloatingSubnetRef    `json:"floatingSubnet"`
@@ -16722,49 +12434,35 @@ type WanNetworkRuleSourceUpdateInput struct {
 }
 
 type WanNetworkRuleTransport struct {
-	// The primary interface role.
-	PrimaryInterfaceRole WanNetworkRuleInterfaceRole `json:"primaryInterfaceRole"`
-	// The secondary interface role.
+	PrimaryInterfaceRole   WanNetworkRuleInterfaceRole `json:"primaryInterfaceRole"`
 	SecondaryInterfaceRole WanNetworkRuleInterfaceRole `json:"secondaryInterfaceRole"`
 	TransportType          WanNetworkRuleTransportType `json:"transportType"`
 }
 
 type WanNetworkRuleTransportInput struct {
-	// The primary interface role.
-	PrimaryInterfaceRole WanNetworkRuleInterfaceRole `json:"primaryInterfaceRole"`
-	// The secondary interface role.
+	PrimaryInterfaceRole   WanNetworkRuleInterfaceRole `json:"primaryInterfaceRole"`
 	SecondaryInterfaceRole WanNetworkRuleInterfaceRole `json:"secondaryInterfaceRole"`
 	TransportType          WanNetworkRuleTransportType `json:"transportType"`
 }
 
 type WanNetworkRuleTransportUpdateInput struct {
-	// The primary interface role.
-	PrimaryInterfaceRole *WanNetworkRuleInterfaceRole `json:"primaryInterfaceRole,omitempty"`
-	// The secondary interface role.
+	PrimaryInterfaceRole   *WanNetworkRuleInterfaceRole `json:"primaryInterfaceRole,omitempty"`
 	SecondaryInterfaceRole *WanNetworkRuleInterfaceRole `json:"secondaryInterfaceRole,omitempty"`
 	TransportType          *WanNetworkRuleTransportType `json:"transportType,omitempty"`
 }
 
 type WanNetworkUpdateRuleDataInput struct {
-	// The application or category of traffic for the rule.
-	Application *WanNetworkRuleApplicationUpdateInput `json:"application,omitempty"`
-	// The bandwidth priority (QoS) for the rule.
-	BandwidthPriority *BandwidthManagementRefInput `json:"bandwidthPriority,omitempty"`
-	// The configuration of the rule.
-	Configuration *WanNetworkRuleConfigurationUpdateInput `json:"configuration,omitempty"`
-	Description   *string                                 `json:"description,omitempty"`
-	// The destination of the traffic for the rule.
-	Destination *WanNetworkRuleDestinationUpdateInput `json:"destination,omitempty"`
-	Enabled     *bool                                 `json:"enabled,omitempty"`
-	// Exceptions to the rule.
-	Exceptions []*WanNetworkRuleExceptionInput `json:"exceptions,omitempty"`
-	Name       *string                         `json:"name,omitempty"`
-	// Defines the routing method for the rule. By default, traffic will egress from connected PoP.
-	RouteType *WanNetworkRuleRouteType `json:"routeType,omitempty"`
-	// Specifies if the rule is for Internet (outbound) or WAN (wanbound) traffic.
-	RuleType *WanNetworkRuleType `json:"ruleType,omitempty"`
-	// The source of the traffic for the rule.
-	Source *WanNetworkRuleSourceUpdateInput `json:"source,omitempty"`
+	Application       *WanNetworkRuleApplicationUpdateInput   `json:"application,omitempty"`
+	BandwidthPriority *BandwidthManagementRefInput            `json:"bandwidthPriority,omitempty"`
+	Configuration     *WanNetworkRuleConfigurationUpdateInput `json:"configuration,omitempty"`
+	Description       *string                                 `json:"description,omitempty"`
+	Destination       *WanNetworkRuleDestinationUpdateInput   `json:"destination,omitempty"`
+	Enabled           *bool                                   `json:"enabled,omitempty"`
+	Exceptions        []*WanNetworkRuleExceptionInput         `json:"exceptions,omitempty"`
+	Name              *string                                 `json:"name,omitempty"`
+	RouteType         *WanNetworkRuleRouteType                `json:"routeType,omitempty"`
+	RuleType          *WanNetworkRuleType                     `json:"ruleType,omitempty"`
+	Source            *WanNetworkRuleSourceUpdateInput        `json:"source,omitempty"`
 }
 
 type WanNetworkUpdateRuleInput struct {
@@ -16773,160 +12471,81 @@ type WanNetworkUpdateRuleInput struct {
 }
 
 type Xdr struct {
-	// Define the paging, sort, and filter arguments to define the XDR stories that are returned in the query
 	Stories *StoriesData `json:"stories,omitempty"`
-	// Define either the story ID, or the incident ID and producer arguments, to query the specific XDR story
-	Story *Story `json:"story,omitempty"`
+	Story   *Story       `json:"story,omitempty"`
 }
 
 // XOps service license details
 type XOpsLicense struct {
-	Description *string `json:"description,omitempty"`
-	// License expiration date
-	ExpirationDate string `json:"expirationDate"`
-	// The unique identifier for the license. If this value is not available, you can contact Cato Support, who may be able to assist in retrieving it.
-	ID *string `json:"id,omitempty"`
-	// The date of the last update to the license
-	LastUpdated *string `json:"lastUpdated,omitempty"`
-	// License plan type
-	Plan LicensePlan `json:"plan"`
-	// The license SKU
-	Sku LicenseSku `json:"sku"`
-	// License start date
-	StartDate *string `json:"startDate,omitempty"`
-	// License activation status
-	Status LicenseStatus `json:"status"`
+	Description    *string       `json:"description,omitempty"`
+	ExpirationDate string        `json:"expirationDate"`
+	ID             *string       `json:"id,omitempty"`
+	LastUpdated    *string       `json:"lastUpdated,omitempty"`
+	Plan           LicensePlan   `json:"plan"`
+	Sku            LicenseSku    `json:"sku"`
+	StartDate      *string       `json:"startDate,omitempty"`
+	Status         LicenseStatus `json:"status"`
 }
 
-func (XOpsLicense) IsLicense() {}
-
-// The unique identifier for the license. If this value is not available, you can contact Cato Support, who may be able to assist in retrieving it.
-func (this XOpsLicense) GetID() *string          { return this.ID }
-func (this XOpsLicense) GetDescription() *string { return this.Description }
-
-// License plan type
-func (this XOpsLicense) GetPlan() LicensePlan { return this.Plan }
-
-// The license SKU
-func (this XOpsLicense) GetSku() LicenseSku { return this.Sku }
-
-// License activation status
-func (this XOpsLicense) GetStatus() LicenseStatus { return this.Status }
-
-// License start date
-func (this XOpsLicense) GetStartDate() *string { return this.StartDate }
-
-// License expiration date
+func (XOpsLicense) IsLicense()                     {}
+func (this XOpsLicense) GetDescription() *string   { return this.Description }
 func (this XOpsLicense) GetExpirationDate() string { return this.ExpirationDate }
-
-// The date of the last update to the license
-func (this XOpsLicense) GetLastUpdated() *string { return this.LastUpdated }
+func (this XOpsLicense) GetID() *string            { return this.ID }
+func (this XOpsLicense) GetLastUpdated() *string   { return this.LastUpdated }
+func (this XOpsLicense) GetPlan() LicensePlan      { return this.Plan }
+func (this XOpsLicense) GetSku() LicenseSku        { return this.Sku }
+func (this XOpsLicense) GetStartDate() *string     { return this.StartDate }
+func (this XOpsLicense) GetStatus() LicenseStatus  { return this.Status }
 
 type XdrMutations struct {
-	// Post comments that help track the story investigation
-	AddStoryComment *AddStoryCommentPayload `json:"addStoryComment,omitempty"`
-	// Manage Story Actions, such as the story Verdict, Type, and Classification. You can also enter Additional Info that is relevant to the story.
-	AnalystFeedback *AnalystFeedbackPayload `json:"analystFeedback,omitempty"`
-	// Delete a previously posted comment using the comment ID.
+	AddStoryComment    *AddStoryCommentPayload    `json:"addStoryComment,omitempty"`
+	AnalystFeedback    *AnalystFeedbackPayload    `json:"analystFeedback,omitempty"`
 	DeleteStoryComment *DeleteStoryCommentPayload `json:"deleteStoryComment,omitempty"`
 }
 
 // XDR Pro (extended detection and response) service license details
 type XdrProLicense struct {
-	Description *string `json:"description,omitempty"`
-	// License expiration date
-	ExpirationDate string `json:"expirationDate"`
-	// The unique identifier for the license. If this value is not available, you can contact Cato Support, who may be able to assist in retrieving it.
-	ID *string `json:"id,omitempty"`
-	// The date of the last update to the license
-	LastUpdated *string `json:"lastUpdated,omitempty"`
-	// License plan type
-	Plan LicensePlan `json:"plan"`
-	// The license SKU
-	Sku LicenseSku `json:"sku"`
-	// License start date
-	StartDate *string `json:"startDate,omitempty"`
-	// License activation status
-	Status LicenseStatus `json:"status"`
-	// The number of knowledge users that the XDR Pro service refers to
-	Total int64 `json:"total"`
+	Description    *string       `json:"description,omitempty"`
+	ExpirationDate string        `json:"expirationDate"`
+	ID             *string       `json:"id,omitempty"`
+	LastUpdated    *string       `json:"lastUpdated,omitempty"`
+	Plan           LicensePlan   `json:"plan"`
+	Sku            LicenseSku    `json:"sku"`
+	StartDate      *string       `json:"startDate,omitempty"`
+	Status         LicenseStatus `json:"status"`
+	Total          int64         `json:"total"`
 }
 
-func (XdrProLicense) IsLicense() {}
-
-// The unique identifier for the license. If this value is not available, you can contact Cato Support, who may be able to assist in retrieving it.
-func (this XdrProLicense) GetID() *string          { return this.ID }
-func (this XdrProLicense) GetDescription() *string { return this.Description }
-
-// License plan type
-func (this XdrProLicense) GetPlan() LicensePlan { return this.Plan }
-
-// The license SKU
-func (this XdrProLicense) GetSku() LicenseSku { return this.Sku }
-
-// License activation status
-func (this XdrProLicense) GetStatus() LicenseStatus { return this.Status }
-
-// License start date
-func (this XdrProLicense) GetStartDate() *string { return this.StartDate }
-
-// License expiration date
+func (XdrProLicense) IsLicense()                     {}
+func (this XdrProLicense) GetDescription() *string   { return this.Description }
 func (this XdrProLicense) GetExpirationDate() string { return this.ExpirationDate }
-
-// The date of the last update to the license
-func (this XdrProLicense) GetLastUpdated() *string { return this.LastUpdated }
+func (this XdrProLicense) GetID() *string            { return this.ID }
+func (this XdrProLicense) GetLastUpdated() *string   { return this.LastUpdated }
+func (this XdrProLicense) GetPlan() LicensePlan      { return this.Plan }
+func (this XdrProLicense) GetSku() LicenseSku        { return this.Sku }
+func (this XdrProLicense) GetStartDate() *string     { return this.StartDate }
+func (this XdrProLicense) GetStatus() LicenseStatus  { return this.Status }
 
 func (XdrProLicense) IsQuantifiableLicense() {}
 
-// The unique identifier for the license. If this value is not available, you can contact Cato Support, who may be able to assist in retrieving it.
-
-// License plan type
-
-// The license SKU
-
-// License activation status
-
-// License initiation date
-
-// License expiration date
-
-// The date of the last update to the license
-
-// license quantity
 func (this XdrProLicense) GetTotal() int64 { return this.Total }
 
 type ZtnaAlwaysOnAddRuleDataInput struct {
-	// The action applied by the Always On rule
-	Action ZtnaAlwaysOnRuleActionEnum `json:"action"`
-	// Allow Direct internet access until a connection to the pop is established
-	AllowFailOpen bool `json:"allowFailOpen"`
-	// Allow user to bypass Always On
-	AllowUserBypass bool `json:"allowUserBypass"`
-	// Specifies the level of protection against tampering
-	AntiTamperMode *AntiTamperModeEnum `json:"antiTamperMode,omitempty"`
-	// Bypass disconnection duration
-	BypassDuration *ZtnaAlwaysOnTimeInput `json:"bypassDuration"`
-	Description    string                 `json:"description"`
-	// Device Profile traffic matching criteria.
-	// Logical ‘OR’ is applied within the criteria set.
-	// Logical ‘AND’ is applied between criteria sets.
-	DevicePostureProfile []*DeviceProfileRefInput `json:"devicePostureProfile"`
-	Enabled              bool                     `json:"enabled"`
-	Name                 string                   `json:"name"`
-	// Source device Operating System traffic matching criteria.
-	// Logical ‘OR’ is applied within the criteria set.
-	// Logical ‘AND’ is applied between criteria sets.
-	Platform []OperatingSystem `json:"platform"`
-	// Source traffic matching criteria.
-	// Logical ‘OR’ is applied within the criteria set.
-	// Logical ‘AND’ is applied between criteria sets.
-	Source *ZtnaAlwaysOnSourceInput `json:"source"`
+	Action               ZtnaAlwaysOnRuleActionEnum `json:"action"`
+	AllowFailOpen        bool                       `json:"allowFailOpen"`
+	AllowUserBypass      bool                       `json:"allowUserBypass"`
+	AntiTamperMode       *AntiTamperModeEnum        `json:"antiTamperMode,omitempty"`
+	BypassDuration       *ZtnaAlwaysOnTimeInput     `json:"bypassDuration"`
+	Description          string                     `json:"description"`
+	DevicePostureProfile []*DeviceProfileRefInput   `json:"devicePostureProfile"`
+	Enabled              bool                       `json:"enabled"`
+	Name                 string                     `json:"name"`
+	Platform             []OperatingSystem          `json:"platform"`
+	Source               *ZtnaAlwaysOnSourceInput   `json:"source"`
 }
 
 type ZtnaAlwaysOnAddRuleInput struct {
-	// Position of the rule in the policy
-	At *PolicyRulePositionInput `json:"at,omitempty"`
-	// Parameters for the rule you are adding
+	At   *PolicyRulePositionInput      `json:"at,omitempty"`
 	Rule *ZtnaAlwaysOnAddRuleDataInput `json:"rule"`
 }
 
@@ -16938,12 +12557,10 @@ type ZtnaAlwaysOnPolicy struct {
 	Sections []*PolicySectionPayload    `json:"sections"`
 }
 
-func (ZtnaAlwaysOnPolicy) IsIPolicy() {}
-
-// TRUE = Policy is enabled, FALSE = Policy is disabled
-func (this ZtnaAlwaysOnPolicy) GetEnabled() bool { return this.Enabled }
-
-// Return list of rules in the policy
+func (ZtnaAlwaysOnPolicy) IsIPolicy()                        {}
+func (this ZtnaAlwaysOnPolicy) GetAudit() *PolicyAudit       { return this.Audit }
+func (this ZtnaAlwaysOnPolicy) GetEnabled() bool             { return this.Enabled }
+func (this ZtnaAlwaysOnPolicy) GetRevision() *PolicyRevision { return this.Revision }
 func (this ZtnaAlwaysOnPolicy) GetRules() []IPolicyRulePayload {
 	if this.Rules == nil {
 		return nil
@@ -16954,8 +12571,6 @@ func (this ZtnaAlwaysOnPolicy) GetRules() []IPolicyRulePayload {
 	}
 	return interfaceSlice
 }
-
-// Return sections in the policy
 func (this ZtnaAlwaysOnPolicy) GetSections() []*PolicySectionPayload {
 	if this.Sections == nil {
 		return nil
@@ -16967,18 +12582,7 @@ func (this ZtnaAlwaysOnPolicy) GetSections() []*PolicySectionPayload {
 	return interfaceSlice
 }
 
-// Audit data for the policy
-func (this ZtnaAlwaysOnPolicy) GetAudit() *PolicyAudit { return this.Audit }
-
-// Return data for the Policy revision
-func (this ZtnaAlwaysOnPolicy) GetRevision() *PolicyRevision { return this.Revision }
-
 type ZtnaAlwaysOnPolicyInput struct {
-	// A revision is a specific instance of the policy.
-	//  Unpublished revisions are working copies of the policy available to a specific
-	//  admin or a set of admins
-	//  Published revisions are revisions that were applied to the account network.
-	//  The last published revision is the active policy.
 	Revision *PolicyRevisionInput `json:"revision,omitempty"`
 }
 
@@ -16993,14 +12597,6 @@ type ZtnaAlwaysOnPolicyMutationPayload struct {
 }
 
 func (ZtnaAlwaysOnPolicyMutationPayload) IsIPolicyMutationPayload() {}
-
-// Data for the policy
-func (this ZtnaAlwaysOnPolicyMutationPayload) GetPolicy() IPolicy { return *this.Policy }
-
-// Enum for the status of the policy change
-func (this ZtnaAlwaysOnPolicyMutationPayload) GetStatus() PolicyMutationStatus { return this.Status }
-
-// List of errors related to the policy change
 func (this ZtnaAlwaysOnPolicyMutationPayload) GetErrors() []*PolicyMutationError {
 	if this.Errors == nil {
 		return nil
@@ -17011,6 +12607,8 @@ func (this ZtnaAlwaysOnPolicyMutationPayload) GetErrors() []*PolicyMutationError
 	}
 	return interfaceSlice
 }
+func (this ZtnaAlwaysOnPolicyMutationPayload) GetPolicy() IPolicy              { return *this.Policy }
+func (this ZtnaAlwaysOnPolicyMutationPayload) GetStatus() PolicyMutationStatus { return this.Status }
 
 type ZtnaAlwaysOnPolicyMutations struct {
 	AddRule               *ZtnaAlwaysOnRuleMutationPayload   `json:"addRule"`
@@ -17041,61 +12639,28 @@ type ZtnaAlwaysOnRemoveRuleInput struct {
 }
 
 type ZtnaAlwaysOnRule struct {
-	// The action applied by the Always On rule
-	Action ZtnaAlwaysOnRuleActionEnum `json:"action"`
-	// Allow Direct internet access until a connection to the pop is established
-	AllowFailOpen bool `json:"allowFailOpen"`
-	// Allow user to bypass Always On
-	AllowUserBypass bool `json:"allowUserBypass"`
-	// Specifies the level of protection against tampering
-	AntiTamperMode *AntiTamperModeEnum `json:"antiTamperMode,omitempty"`
-	// Bypass disconnection duration
-	BypassDuration *ZtnaAlwaysOnTime `json:"bypassDuration"`
-	// Description for the rule
-	Description string `json:"description"`
-	// Device Profile traffic matching criteria.
-	// Logical ‘OR’ is applied within the criteria set.
-	// Logical ‘AND’ is applied between criteria sets.
-	DevicePostureProfile []*DeviceProfileRef `json:"devicePostureProfile"`
-	// TRUE = Rule is enabled
-	//  FALSE = Rule is disabled
-	Enabled bool `json:"enabled"`
-	// Rule ID
-	ID string `json:"id"`
-	// Position / priority of rule
-	Index int64 `json:"index"`
-	// Name of the rule
-	Name string `json:"name"`
-	// Source device Operating System traffic matching criteria.
-	// Logical ‘OR’ is applied within the criteria set.
-	// Logical ‘AND’ is applied between criteria sets.
-	Platform []OperatingSystem `json:"platform"`
-	// Policy section where the rule is located
-	Section *PolicySectionInfo `json:"section"`
-	// Source traffic matching criteria.
-	// Logical ‘OR’ is applied within the criteria set.
-	// Logical ‘AND’ is applied between criteria sets.
-	Source *ZtnaAlwaysOnSource `json:"source"`
+	Action               ZtnaAlwaysOnRuleActionEnum `json:"action"`
+	AllowFailOpen        bool                       `json:"allowFailOpen"`
+	AllowUserBypass      bool                       `json:"allowUserBypass"`
+	AntiTamperMode       *AntiTamperModeEnum        `json:"antiTamperMode,omitempty"`
+	BypassDuration       *ZtnaAlwaysOnTime          `json:"bypassDuration"`
+	Description          string                     `json:"description"`
+	DevicePostureProfile []*DeviceProfileRef        `json:"devicePostureProfile"`
+	Enabled              bool                       `json:"enabled"`
+	ID                   string                     `json:"id"`
+	Index                int64                      `json:"index"`
+	Name                 string                     `json:"name"`
+	Platform             []OperatingSystem          `json:"platform"`
+	Section              *PolicySectionInfo         `json:"section"`
+	Source               *ZtnaAlwaysOnSource        `json:"source"`
 }
 
-func (ZtnaAlwaysOnRule) IsIPolicyRule() {}
-
-// Rule ID
-func (this ZtnaAlwaysOnRule) GetID() string { return this.ID }
-
-// Name of the rule
-func (this ZtnaAlwaysOnRule) GetName() string { return this.Name }
-
-// Description for the rule
-func (this ZtnaAlwaysOnRule) GetDescription() *string { return &this.Description }
-
-// Position / priority of rule
-func (this ZtnaAlwaysOnRule) GetIndex() int64 { return this.Index }
-
-// TRUE = Rule is enabled, FALSE = Rule is disabled
-func (this ZtnaAlwaysOnRule) GetEnabled() bool { return this.Enabled }
-
-// Policy section where the rule is located
+func (ZtnaAlwaysOnRule) IsIPolicyRule()                      {}
+func (this ZtnaAlwaysOnRule) GetDescription() *string        { return &this.Description }
+func (this ZtnaAlwaysOnRule) GetEnabled() bool               { return this.Enabled }
+func (this ZtnaAlwaysOnRule) GetID() string                  { return this.ID }
+func (this ZtnaAlwaysOnRule) GetIndex() int64                { return this.Index }
+func (this ZtnaAlwaysOnRule) GetName() string                { return this.Name }
 func (this ZtnaAlwaysOnRule) GetSection() *PolicySectionInfo { return this.Section }
 
 type ZtnaAlwaysOnRuleMutationPayload struct {
@@ -17105,14 +12670,6 @@ type ZtnaAlwaysOnRuleMutationPayload struct {
 }
 
 func (ZtnaAlwaysOnRuleMutationPayload) IsIPolicyRuleMutationPayload() {}
-
-// Returns settings for the rule
-func (this ZtnaAlwaysOnRuleMutationPayload) GetRule() IPolicyRulePayload { return *this.Rule }
-
-// Enum for the status of the policy change
-func (this ZtnaAlwaysOnRuleMutationPayload) GetStatus() PolicyMutationStatus { return this.Status }
-
-// List of errors related to the policy change
 func (this ZtnaAlwaysOnRuleMutationPayload) GetErrors() []*PolicyMutationError {
 	if this.Errors == nil {
 		return nil
@@ -17123,6 +12680,8 @@ func (this ZtnaAlwaysOnRuleMutationPayload) GetErrors() []*PolicyMutationError {
 	}
 	return interfaceSlice
 }
+func (this ZtnaAlwaysOnRuleMutationPayload) GetRule() IPolicyRulePayload     { return *this.Rule }
+func (this ZtnaAlwaysOnRuleMutationPayload) GetStatus() PolicyMutationStatus { return this.Status }
 
 type ZtnaAlwaysOnRulePayload struct {
 	Audit      *PolicyElementAudit           `json:"audit"`
@@ -17132,11 +12691,6 @@ type ZtnaAlwaysOnRulePayload struct {
 
 func (ZtnaAlwaysOnRulePayload) IsIPolicyRulePayload()              {}
 func (this ZtnaAlwaysOnRulePayload) GetAudit() *PolicyElementAudit { return this.Audit }
-
-// Rule that was changed
-func (this ZtnaAlwaysOnRulePayload) GetRule() IPolicyRule { return *this.Rule }
-
-// Summary of rule change, (ie. ADDED, UPDATED)
 func (this ZtnaAlwaysOnRulePayload) GetProperties() []PolicyElementPropertiesEnum {
 	if this.Properties == nil {
 		return nil
@@ -17147,81 +12701,56 @@ func (this ZtnaAlwaysOnRulePayload) GetProperties() []PolicyElementPropertiesEnu
 	}
 	return interfaceSlice
 }
+func (this ZtnaAlwaysOnRulePayload) GetRule() IPolicyRule { return *this.Rule }
 
 // Returns the settings for Source of an Always On rule
 type ZtnaAlwaysOnSource struct {
-	// Individual users defined for the account
-	User []*UserRef `json:"user"`
-	// Group of users
+	User       []*UserRef       `json:"user"`
 	UsersGroup []*UsersGroupRef `json:"usersGroup"`
 }
 
 // Input of the settings for Source of an Always On rule
 type ZtnaAlwaysOnSourceInput struct {
-	// Individual users defined for the account
-	User []*UserRefInput `json:"user"`
-	// Group of users
+	User       []*UserRefInput       `json:"user"`
 	UsersGroup []*UsersGroupRefInput `json:"usersGroup"`
 }
 
 // Input of the settings for Source of an Always On rule
 type ZtnaAlwaysOnSourceUpdateInput struct {
-	// Individual users defined for the account
-	User []*UserRefInput `json:"user,omitempty"`
-	// Group of users
+	User       []*UserRefInput       `json:"user,omitempty"`
 	UsersGroup []*UsersGroupRefInput `json:"usersGroup,omitempty"`
 }
 
 // Return the disconnection duration time
 type ZtnaAlwaysOnTime struct {
-	// Duration time value
-	Time int64 `json:"time"`
-	// Time unit for the duration
+	Time int64                `json:"time"`
 	Unit ZtnaAlwaysOnTimeUnit `json:"unit"`
 }
 
 // Return the disconnection duration time
 type ZtnaAlwaysOnTimeInput struct {
-	// Duration time value
-	Time int64 `json:"time"`
-	// Time unit for the duration
+	Time int64                `json:"time"`
 	Unit ZtnaAlwaysOnTimeUnit `json:"unit"`
 }
 
 // Return the disconnection duration time
 type ZtnaAlwaysOnTimeUpdateInput struct {
-	// Duration time value
-	Time *int64 `json:"time,omitempty"`
-	// Time unit for the duration
+	Time *int64                `json:"time,omitempty"`
 	Unit *ZtnaAlwaysOnTimeUnit `json:"unit,omitempty"`
 }
 
 type ZtnaAlwaysOnUpdateRuleDataInput struct {
-	// The action applied by the Always On rule
-	Action *ZtnaAlwaysOnRuleActionEnum `json:"action,omitempty"`
-	// Allow Direct internet access until a connection to the pop is established
-	AllowFailOpen *bool `json:"allowFailOpen,omitempty"`
-	// Allow user to bypass Always On
-	AllowUserBypass *bool `json:"allowUserBypass,omitempty"`
-	// Specifies the level of protection against tampering
-	AntiTamperMode *AntiTamperModeEnum `json:"antiTamperMode,omitempty"`
-	// Bypass disconnection duration
-	BypassDuration *ZtnaAlwaysOnTimeUpdateInput `json:"bypassDuration,omitempty"`
-	Description    *string                      `json:"description,omitempty"`
-	// Device Profile traffic matching criteria.
-	// Logical ‘OR’ is applied within the criteria set.
-	// Logical ‘AND’ is applied between criteria sets.
-	DevicePostureProfile []*DeviceProfileRefInput `json:"devicePostureProfile,omitempty"`
-	Enabled              *bool                    `json:"enabled,omitempty"`
-	Name                 *string                  `json:"name,omitempty"`
-	// Source device Operating System traffic matching criteria.
-	// Logical ‘OR’ is applied within the criteria set.
-	// Logical ‘AND’ is applied between criteria sets.
-	Platform []OperatingSystem `json:"platform,omitempty"`
-	// Source traffic matching criteria.
-	// Logical ‘OR’ is applied within the criteria set.
-	// Logical ‘AND’ is applied between criteria sets.
-	Source *ZtnaAlwaysOnSourceUpdateInput `json:"source,omitempty"`
+	Action               *ZtnaAlwaysOnRuleActionEnum    `json:"action,omitempty"`
+	AllowFailOpen        *bool                          `json:"allowFailOpen,omitempty"`
+	AllowUserBypass      *bool                          `json:"allowUserBypass,omitempty"`
+	AntiTamperMode       *AntiTamperModeEnum            `json:"antiTamperMode,omitempty"`
+	BypassDuration       *ZtnaAlwaysOnTimeUpdateInput   `json:"bypassDuration,omitempty"`
+	Description          *string                        `json:"description,omitempty"`
+	DevicePostureProfile []*DeviceProfileRefInput       `json:"devicePostureProfile,omitempty"`
+	Enabled              *bool                          `json:"enabled,omitempty"`
+	Name                 *string                        `json:"name,omitempty"`
+	Platform             []OperatingSystem              `json:"platform,omitempty"`
+	Source               *ZtnaAlwaysOnSourceUpdateInput `json:"source,omitempty"`
 }
 
 type ZtnaAlwaysOnUpdateRuleInput struct {
@@ -17327,18 +12856,12 @@ type ZtnaAppConnectorQueries struct {
 }
 
 type ZtnaAppConnectorRef struct {
-	// Unique ZTNA app connector ID
-	ID string `json:"id"`
-	// Name for the ZTNA app connector
+	ID   string `json:"id"`
 	Name string `json:"name"`
 }
 
-func (ZtnaAppConnectorRef) IsObjectRef() {}
-
-// Object's unique identifier
-func (this ZtnaAppConnectorRef) GetID() string { return this.ID }
-
-// Object's unique name
+func (ZtnaAppConnectorRef) IsObjectRef()         {}
+func (this ZtnaAppConnectorRef) GetID() string   { return this.ID }
 func (this ZtnaAppConnectorRef) GetName() string { return this.Name }
 
 type ZtnaAppConnectorRefInput struct {
@@ -17372,78 +12895,37 @@ type ZtnaAppConnectorsConfiguration struct {
 
 // ZTNA remote users license
 type ZtnaUsersLicense struct {
-	Description *string `json:"description,omitempty"`
-	// License expiration date
-	ExpirationDate string `json:"expirationDate"`
-	// The unique identifier for the license. If this value is not available, you can contact Cato Support, who may be able to assist in retrieving it.
-	ID *string `json:"id,omitempty"`
-	// The date of the last update to the license
-	LastUpdated *string `json:"lastUpdated,omitempty"`
-	// License plan type
-	Plan LicensePlan `json:"plan"`
-	// The license SKU
-	Sku LicenseSku `json:"sku"`
-	// License start date
-	StartDate *string `json:"startDate,omitempty"`
-	// License activation status
-	Status LicenseStatus `json:"status"`
-	// The maximum amount of ZTNA users for the region.
-	Total int64 `json:"total"`
-	// Specify a license group that you are limiting the number of ZTNA users
+	Description           *string               `json:"description,omitempty"`
+	ExpirationDate        string                `json:"expirationDate"`
+	ID                    *string               `json:"id,omitempty"`
+	LastUpdated           *string               `json:"lastUpdated,omitempty"`
+	Plan                  LicensePlan           `json:"plan"`
+	Sku                   LicenseSku            `json:"sku"`
+	StartDate             *string               `json:"startDate,omitempty"`
+	Status                LicenseStatus         `json:"status"`
+	Total                 int64                 `json:"total"`
 	ZtnaUsersLicenseGroup ZtnaUsersLicenseGroup `json:"ztnaUsersLicenseGroup"`
 }
 
-func (ZtnaUsersLicense) IsLicense() {}
-
-// The unique identifier for the license. If this value is not available, you can contact Cato Support, who may be able to assist in retrieving it.
-func (this ZtnaUsersLicense) GetID() *string          { return this.ID }
-func (this ZtnaUsersLicense) GetDescription() *string { return this.Description }
-
-// License plan type
-func (this ZtnaUsersLicense) GetPlan() LicensePlan { return this.Plan }
-
-// The license SKU
-func (this ZtnaUsersLicense) GetSku() LicenseSku { return this.Sku }
-
-// License activation status
-func (this ZtnaUsersLicense) GetStatus() LicenseStatus { return this.Status }
-
-// License start date
-func (this ZtnaUsersLicense) GetStartDate() *string { return this.StartDate }
-
-// License expiration date
+func (ZtnaUsersLicense) IsLicense()                     {}
+func (this ZtnaUsersLicense) GetDescription() *string   { return this.Description }
 func (this ZtnaUsersLicense) GetExpirationDate() string { return this.ExpirationDate }
-
-// The date of the last update to the license
-func (this ZtnaUsersLicense) GetLastUpdated() *string { return this.LastUpdated }
+func (this ZtnaUsersLicense) GetID() *string            { return this.ID }
+func (this ZtnaUsersLicense) GetLastUpdated() *string   { return this.LastUpdated }
+func (this ZtnaUsersLicense) GetPlan() LicensePlan      { return this.Plan }
+func (this ZtnaUsersLicense) GetSku() LicenseSku        { return this.Sku }
+func (this ZtnaUsersLicense) GetStartDate() *string     { return this.StartDate }
+func (this ZtnaUsersLicense) GetStatus() LicenseStatus  { return this.Status }
 
 func (ZtnaUsersLicense) IsQuantifiableLicense() {}
 
-// The unique identifier for the license. If this value is not available, you can contact Cato Support, who may be able to assist in retrieving it.
-
-// License plan type
-
-// The license SKU
-
-// License activation status
-
-// License initiation date
-
-// License expiration date
-
-// The date of the last update to the license
-
-// license quantity
 func (this ZtnaUsersLicense) GetTotal() int64 { return this.Total }
 
 // Global ZTNA license usage and allocation across all accounts
 type ZtnaUsersLicenseAllocations struct {
-	// Total users allocated a ZTNA license
 	Allocated int64 `json:"allocated"`
-	// Available users not yet allocated a license
 	Available int64 `json:"available"`
-	// Total ZTNA licenses for users
-	Total int64 `json:"total"`
+	Total     int64 `json:"total"`
 }
 
 type AccountInclusion string
@@ -17574,9 +13056,9 @@ func (e AccountPlan) MarshalGQL(w io.Writer) {
 type AccountProfileType string
 
 const (
-	// A customer account
+	//  A customer account
 	AccountProfileTypeCustomer AccountProfileType = "CUSTOMER"
-	// A partner account
+	//  A partner account
 	AccountProfileTypePartner AccountProfileType = "PARTNER"
 )
 
@@ -17662,9 +13144,9 @@ func (e AccountStatus) MarshalGQL(w io.Writer) {
 type AccountTenancy string
 
 const (
-	// Multi tenant account - default for partner accounts
+	//  Multi tenant account - default for partner accounts
 	AccountTenancyMultiTenant AccountTenancy = "MULTI_TENANT"
-	// Single tenant account - default for customer accounts
+	//  Single tenant account - default for customer accounts
 	AccountTenancySingleTenant AccountTenancy = "SINGLE_TENANT"
 )
 
@@ -17931,21 +13413,21 @@ type AiSecurityDataUsagePolicyType string
 
 const (
 	AiSecurityDataUsagePolicyTypeGeneralDataUsage AiSecurityDataUsagePolicyType = "GENERAL_DATA_USAGE"
-	AiSecurityDataUsagePolicyTypeNoDataUsage      AiSecurityDataUsagePolicyType = "NO_DATA_USAGE"
 	AiSecurityDataUsagePolicyTypeNotMentioned     AiSecurityDataUsagePolicyType = "NOT_MENTIONED"
+	AiSecurityDataUsagePolicyTypeNoDataUsage      AiSecurityDataUsagePolicyType = "NO_DATA_USAGE"
 	AiSecurityDataUsagePolicyTypeTrainsOnData     AiSecurityDataUsagePolicyType = "TRAINS_ON_DATA"
 )
 
 var AllAiSecurityDataUsagePolicyType = []AiSecurityDataUsagePolicyType{
 	AiSecurityDataUsagePolicyTypeGeneralDataUsage,
-	AiSecurityDataUsagePolicyTypeNoDataUsage,
 	AiSecurityDataUsagePolicyTypeNotMentioned,
+	AiSecurityDataUsagePolicyTypeNoDataUsage,
 	AiSecurityDataUsagePolicyTypeTrainsOnData,
 }
 
 func (e AiSecurityDataUsagePolicyType) IsValid() bool {
 	switch e {
-	case AiSecurityDataUsagePolicyTypeGeneralDataUsage, AiSecurityDataUsagePolicyTypeNoDataUsage, AiSecurityDataUsagePolicyTypeNotMentioned, AiSecurityDataUsagePolicyTypeTrainsOnData:
+	case AiSecurityDataUsagePolicyTypeGeneralDataUsage, AiSecurityDataUsagePolicyTypeNotMentioned, AiSecurityDataUsagePolicyTypeNoDataUsage, AiSecurityDataUsagePolicyTypeTrainsOnData:
 		return true
 	}
 	return false
@@ -18169,13 +13651,13 @@ func (e AlertDeterminationEnum) MarshalGQL(w io.Writer) {
 type AnnotationType string
 
 const (
-	// Other events that are included in annotations
+	//  Other events that are included in annotations
 	AnnotationTypeGeneric AnnotationType = "generic"
-	// The site connects to a different PoP
+	//  The site connects to a different PoP
 	AnnotationTypePopChange AnnotationType = "popChange"
-	// The ISP IP address (remote IP) changed
+	//  The ISP IP address (remote IP) changed
 	AnnotationTypeRemoteIPChange AnnotationType = "remoteIPChange"
-	// Change for HA status role
+	//  Change for HA status role
 	AnnotationTypeRoleChange AnnotationType = "roleChange"
 )
 
@@ -18218,9 +13700,9 @@ func (e AnnotationType) MarshalGQL(w io.Writer) {
 type AntiMalwareFileHashAction string
 
 const (
-	// Block file download by filehash action
+	//  Block file download by filehash action
 	AntiMalwareFileHashActionBlock AntiMalwareFileHashAction = "BLOCK"
-	// Bypass file download by filehash action
+	//  Bypass file download by filehash action
 	AntiMalwareFileHashActionBypass AntiMalwareFileHashAction = "BYPASS"
 )
 
@@ -18262,11 +13744,11 @@ func (e AntiMalwareFileHashAction) MarshalGQL(w io.Writer) {
 type AntiTamperModeEnum string
 
 const (
-	// Tampering attempts are logged, but changes are permitted
+	//  Tampering attempts are logged, but changes are permitted
 	AntiTamperModeEnumMonitor AntiTamperModeEnum = "MONITOR"
-	// No protection. Users are allowed to make changes
+	//  No protection. Users are allowed to make changes
 	AntiTamperModeEnumOff AntiTamperModeEnum = "OFF"
-	// Changes are blocked. Users are not allowed to make modifications
+	//  Changes are blocked. Users are not allowed to make modifications
 	AntiTamperModeEnumProtect AntiTamperModeEnum = "PROTECT"
 )
 
@@ -18351,193 +13833,194 @@ func (e ApnMethod) MarshalGQL(w io.Writer) {
 type AppStatsFieldName string
 
 const (
-	// Account ID. CMA Name: Account ID
-	AppStatsFieldNameAccountID AppStatsFieldName = "account_id"
-	// Account name. CMA Name: Account Name
-	AppStatsFieldNameAccountName AppStatsFieldName = "account_name"
-	// Active Directory name. CMA Name: Ad Name
-	AppStatsFieldNameAdName AppStatsFieldName = "ad_name"
-	// AI Proxy rule name. CMA Name: AI Proxy Rule Name
-	AppStatsFieldNameAiProxyRuleName AppStatsFieldName = "ai_proxy_rule_name"
-	// Application ID of the flow, in legacy format. CMA Name: Appid
-	AppStatsFieldNameApp AppStatsFieldName = "app"
-	// The application identifier. CMA Name: Application
-	AppStatsFieldNameApplication AppStatsFieldName = "application"
-	// Description of the application. CMA Name: Application Description
-	AppStatsFieldNameApplicationDescription AppStatsFieldName = "application_description"
-	// Application ID of the flow. CMA Name: Application ID
-	AppStatsFieldNameApplicationID AppStatsFieldName = "application_id"
-	// Application of the flow. CMA Name: Application Name
-	AppStatsFieldNameApplicationName AppStatsFieldName = "application_name"
-	// Application risk level based on the application risk score. CMA Name: Application Risk Level
-	AppStatsFieldNameApplicationRiskLevel AppStatsFieldName = "application_risk_level"
-	// Risk score of the application, based on Cato's risk assessment. CMA Name: Application Risk Score
-	AppStatsFieldNameApplicationRiskScore AppStatsFieldName = "application_risk_score"
-	// Application type (Custom, Private or System). CMA Name: Application Type
-	AppStatsFieldNameApplicationType AppStatsFieldName = "application_type"
-	// Cato system category. CMA Name: Categories
-	AppStatsFieldNameCategories AppStatsFieldName = "categories"
-	// Cato system category of the application. CMA Name: Category
-	AppStatsFieldNameCategory AppStatsFieldName = "category"
-	// Type of process generating this traffic. CMA Name: Client Class
-	AppStatsFieldNameClientClass AppStatsFieldName = "client_class"
-	// Socket or SDP Client version. CMA Name: Client Version
-	AppStatsFieldNameClientVersion AppStatsFieldName = "client_version"
-	// For hosts configured with a static IP in the Cato Management Application, the host name. CMA Name: Configured Host Name
-	AppStatsFieldNameConfiguredHostName AppStatsFieldName = "configured_host_name"
-	// Connection Origin. CMA Name: Connection Origin
-	AppStatsFieldNameConnectionOrigin AppStatsFieldName = "connection_origin"
-	// Application description. CMA Name: Description
-	AppStatsFieldNameDescription AppStatsFieldName = "description"
-	// For Internet traffic, country where the destination host is located. CMA Name: Destination Country
-	AppStatsFieldNameDestCountry AppStatsFieldName = "dest_country"
-	// For Internet traffic, destination host IP address. CMA Name: Dest Ip
-	AppStatsFieldNameDestIP AppStatsFieldName = "dest_ip"
-	// For WAN traffic, destination is site or SDP user. CMA Name: Dest Is Site Or Vpn
-	AppStatsFieldNameDestIsSiteOrVpn AppStatsFieldName = "dest_is_site_or_vpn"
-	// Destination port. CMA Name: Destination Port
-	AppStatsFieldNameDestPort AppStatsFieldName = "dest_port"
-	// Destination Site or VPN user ID (proto). CMA Name: Dest Site
-	AppStatsFieldNameDestSite AppStatsFieldName = "dest_site"
-	// Unique internal Cato ID for the destination site or remote user. CMA Name: Dest Site ID
-	AppStatsFieldNameDestSiteID AppStatsFieldName = "dest_site_id"
-	// For Internet traffic, destination host IP address. CMA Name: Dest Site Name
-	AppStatsFieldNameDestSiteName AppStatsFieldName = "dest_site_name"
-	// Device Categories. CMA Name: Device Category
-	AppStatsFieldNameDeviceCategories AppStatsFieldName = "device_categories"
-	// Unique Cato ID for devices. CMA Name: Device ID
-	AppStatsFieldNameDeviceID AppStatsFieldName = "device_id"
-	// Device Manufacturer. CMA Name: Device Manufacturer
-	AppStatsFieldNameDeviceManufacturer AppStatsFieldName = "device_manufacturer"
-	// Device Model. CMA Name: Device Model
-	AppStatsFieldNameDeviceModel AppStatsFieldName = "device_model"
-	// Name for device related to the traffic. CMA Name: Device Name
-	AppStatsFieldNameDeviceName AppStatsFieldName = "device_name"
-	// Device OS Type. CMA Name: Device OS Type
-	AppStatsFieldNameDeviceOsType AppStatsFieldName = "device_os_type"
-	// Device posture profiles. CMA Name: Device Posture Profile
-	AppStatsFieldNameDevicePostureProfile AppStatsFieldName = "device_posture_profile"
-	// Device Type. CMA Name: Device Type
-	AppStatsFieldNameDeviceType AppStatsFieldName = "device_type"
-	// Total SaaS apps discovered ever until the To in the timeframe. CMA Name: Discovered App
-	AppStatsFieldNameDiscoveredApp AppStatsFieldName = "discovered_app"
-	// Domain name. CMA Name: Domain Name
-	AppStatsFieldNameDomain AppStatsFieldName = "domain"
-	// Bytes sent from the destination to the host. CMA Name: Downstream
-	AppStatsFieldNameDownstream AppStatsFieldName = "downstream"
-	// Duration of the flow in ms. Only available for native flows data integration created in the CMA (e.g. Sentinel). Not available in the appstats or appstatsTimeSeries API.
-	AppStatsFieldNameDuration AppStatsFieldName = "duration"
-	// Egress PoP Name. CMA Name: Egress PoP Name
-	AppStatsFieldNameEgressPopName AppStatsFieldName = "egress_pop_name"
-	// Egress Site Name for backhauling traffic. CMA Name: Egress Site
-	AppStatsFieldNameEgressSiteName AppStatsFieldName = "egress_site_name"
-	// Uniquely identifies a traffic flow and enables correlation of events and other records related to the same flow. Only available for native flows data integration created in the CMA (e.g. Sentinel). Not available in the appstats or appstatsTimeSeries API.
-	AppStatsFieldNameFlowID AppStatsFieldName = "flow_id"
-	// Time stamp of the flow start (Linux epoch format). Only available for native flows data integration created in the CMA (e.g. Sentinel). Not available in the appstats or appstatsTimeSeries API.
-	AppStatsFieldNameFlowStartTime AppStatsFieldName = "flow_start_time"
-	// Number of flows created for this event. CMA Name: Flows Created
-	AppStatsFieldNameFlowsCreated AppStatsFieldName = "flows_created"
-	// Full path URL application activity. CMA Name: Full Path URL
-	AppStatsFieldNameFullPathURL AppStatsFieldName = "full_path_url"
-	// IP address of host related to event. CMA Name: Host IP
-	AppStatsFieldNameHostIP AppStatsFieldName = "host_ip"
-	// MAC address of host related to event. CMA Name: Host MAC Address
-	AppStatsFieldNameHostMac AppStatsFieldName = "host_mac"
-	// Country of the application headquarters. CMA Name: Hq Location
-	AppStatsFieldNameHqLocation AppStatsFieldName = "hq_location"
-	// HTTP request method (ie. Get, Post). CMA Name: Request Method
-	AppStatsFieldNameHTTPRequestMethod AppStatsFieldName = "http_request_method"
-	// Local IP address of the host. CMA Name: Local Ip
-	AppStatsFieldNameIP AppStatsFieldName = "ip"
-	// Network protocol for this event. CMA Name: IP Protocol
-	AppStatsFieldNameIPProtocol AppStatsFieldName = "ip_protocol"
-	// Is the application a cloud application? (True/False). CMA Name: Is Cloud App
-	AppStatsFieldNameIsCloudApp AppStatsFieldName = "is_cloud_app"
-	// Is last sample for flow. Only available for native flows data integration created in the CMA (e.g. Sentinel). Not available in the appstats or appstatsTimeSeries API.
-	AppStatsFieldNameIsFlowTerminated AppStatsFieldName = "is_flow_terminated"
-	// Is the app for this event defined as a sanctioned app? (True/False). CMA Name: Is Sanctioned App
-	AppStatsFieldNameIsSanctionedApp AppStatsFieldName = "is_sanctioned_app"
-	// The ISP related to this event (when the IP address isn't provided by the ISP, then the event message is IP Addresses are assigned statically). CMA Name: ISP Name
+	//  The ISP related to this event (when the IP address isn't provided by the ISP, then the event message is IP Addresses are assigned statically). CMA Name: ISP Name
 	AppStatsFieldNameIspName AppStatsFieldName = "ISP_name"
-	// Matched network rule. CMA Name: Network Rule
+	//  Account ID. CMA Name: Account ID
+	AppStatsFieldNameAccountID AppStatsFieldName = "account_id"
+	//  Account name. CMA Name: Account Name
+	AppStatsFieldNameAccountName AppStatsFieldName = "account_name"
+	//  Active Directory name. CMA Name: Ad Name
+	AppStatsFieldNameAdName AppStatsFieldName = "ad_name"
+	//  AI Proxy rule name. CMA Name: AI Proxy Rule Name
+	AppStatsFieldNameAiProxyRuleName AppStatsFieldName = "ai_proxy_rule_name"
+	//  Application ID of the flow, in legacy format. CMA Name: Appid
+	AppStatsFieldNameApp AppStatsFieldName = "app"
+	//  The application identifier. CMA Name: Application
+	AppStatsFieldNameApplication AppStatsFieldName = "application"
+	//  Description of the application. CMA Name: Application Description
+	AppStatsFieldNameApplicationDescription AppStatsFieldName = "application_description"
+	//  Application ID of the flow. CMA Name: Application ID
+	AppStatsFieldNameApplicationID AppStatsFieldName = "application_id"
+	//  Application of the flow. CMA Name: Application Name
+	AppStatsFieldNameApplicationName AppStatsFieldName = "application_name"
+	//  Application risk level based on the application risk score. CMA Name: Application Risk Level
+	AppStatsFieldNameApplicationRiskLevel AppStatsFieldName = "application_risk_level"
+	//  Risk score of the application, based on Cato's risk assessment. CMA Name: Application Risk Score
+	AppStatsFieldNameApplicationRiskScore AppStatsFieldName = "application_risk_score"
+	//  Application type (Custom, Private or System). CMA Name: Application Type
+	AppStatsFieldNameApplicationType AppStatsFieldName = "application_type"
+	//  Cato system category. CMA Name: Categories
+	AppStatsFieldNameCategories AppStatsFieldName = "categories"
+	//  Cato system category of the application. CMA Name: Category
+	AppStatsFieldNameCategory AppStatsFieldName = "category"
+	//  Type of process generating this traffic. CMA Name: Client Class
+	AppStatsFieldNameClientClass AppStatsFieldName = "client_class"
+	//  Socket or SDP Client version. CMA Name: Client Version
+	AppStatsFieldNameClientVersion AppStatsFieldName = "client_version"
+	//  For hosts configured with a static IP in the Cato Management Application, the host name. CMA Name: Configured Host Name
+	AppStatsFieldNameConfiguredHostName AppStatsFieldName = "configured_host_name"
+	//  Connection Origin. CMA Name: Connection Origin
+	AppStatsFieldNameConnectionOrigin AppStatsFieldName = "connection_origin"
+	//  Application description. CMA Name: Description
+	AppStatsFieldNameDescription AppStatsFieldName = "description"
+	//  For Internet traffic, country where the destination host is located. CMA Name: Destination Country
+	AppStatsFieldNameDestCountry AppStatsFieldName = "dest_country"
+	//  For Internet traffic, destination host IP address. CMA Name: Dest Ip
+	AppStatsFieldNameDestIP AppStatsFieldName = "dest_ip"
+	//  For WAN traffic, destination is site or SDP user. CMA Name: Dest Is Site Or Vpn
+	AppStatsFieldNameDestIsSiteOrVpn AppStatsFieldName = "dest_is_site_or_vpn"
+	//  Destination port. CMA Name: Destination Port
+	AppStatsFieldNameDestPort AppStatsFieldName = "dest_port"
+	//  Destination Site or VPN user ID (proto). CMA Name: Dest Site
+	AppStatsFieldNameDestSite AppStatsFieldName = "dest_site"
+	//  Unique internal Cato ID for the destination site or remote user. CMA Name: Dest Site ID
+	AppStatsFieldNameDestSiteID AppStatsFieldName = "dest_site_id"
+	//  For Internet traffic, destination host IP address. CMA Name: Dest Site Name
+	AppStatsFieldNameDestSiteName AppStatsFieldName = "dest_site_name"
+	//  Device Categories. CMA Name: Device Category
+	AppStatsFieldNameDeviceCategories AppStatsFieldName = "device_categories"
+	//  Unique Cato ID for devices. CMA Name: Device ID
+	AppStatsFieldNameDeviceID AppStatsFieldName = "device_id"
+	//  Device Manufacturer. CMA Name: Device Manufacturer
+	AppStatsFieldNameDeviceManufacturer AppStatsFieldName = "device_manufacturer"
+	//  Device Model. CMA Name: Device Model
+	AppStatsFieldNameDeviceModel AppStatsFieldName = "device_model"
+	//  Name for device related to the traffic. CMA Name: Device Name
+	AppStatsFieldNameDeviceName AppStatsFieldName = "device_name"
+	//  Device OS Type. CMA Name: Device OS Type
+	AppStatsFieldNameDeviceOsType AppStatsFieldName = "device_os_type"
+	//  Device posture profiles. CMA Name: Device Posture Profile
+	AppStatsFieldNameDevicePostureProfile AppStatsFieldName = "device_posture_profile"
+	//  Device Type. CMA Name: Device Type
+	AppStatsFieldNameDeviceType AppStatsFieldName = "device_type"
+	//  Total SaaS apps discovered ever until the To in the timeframe. CMA Name: Discovered App
+	AppStatsFieldNameDiscoveredApp AppStatsFieldName = "discovered_app"
+	//  Domain name. CMA Name: Domain Name
+	AppStatsFieldNameDomain AppStatsFieldName = "domain"
+	//  Bytes sent from the destination to the host. CMA Name: Downstream
+	AppStatsFieldNameDownstream AppStatsFieldName = "downstream"
+	//  Duration of the flow in ms. Only available for native flows data integration created in the CMA (e.g. Sentinel). Not available in the appstats or appstatsTimeSeries API.
+	AppStatsFieldNameDuration AppStatsFieldName = "duration"
+	//  Egress PoP Name. CMA Name: Egress PoP Name
+	AppStatsFieldNameEgressPopName AppStatsFieldName = "egress_pop_name"
+	//  Egress Site Name for backhauling traffic. CMA Name: Egress Site
+	AppStatsFieldNameEgressSiteName AppStatsFieldName = "egress_site_name"
+	//  Uniquely identifies a traffic flow and enables correlation of events and other records related to the same flow. Only available for native flows data integration created in the CMA (e.g. Sentinel). Not available in the appstats or appstatsTimeSeries API.
+	AppStatsFieldNameFlowID AppStatsFieldName = "flow_id"
+	//  Time stamp of the flow start (Linux epoch format). Only available for native flows data integration created in the CMA (e.g. Sentinel). Not available in the appstats or appstatsTimeSeries API.
+	AppStatsFieldNameFlowStartTime AppStatsFieldName = "flow_start_time"
+	//  Number of flows created for this event. CMA Name: Flows Created
+	AppStatsFieldNameFlowsCreated AppStatsFieldName = "flows_created"
+	//  Full path URL application activity. CMA Name: Full Path URL
+	AppStatsFieldNameFullPathURL AppStatsFieldName = "full_path_url"
+	//  IP address of host related to event. CMA Name: Host IP
+	AppStatsFieldNameHostIP AppStatsFieldName = "host_ip"
+	//  MAC address of host related to event. CMA Name: Host MAC Address
+	AppStatsFieldNameHostMac AppStatsFieldName = "host_mac"
+	//  Country of the application headquarters. CMA Name: Hq Location
+	AppStatsFieldNameHqLocation AppStatsFieldName = "hq_location"
+	//  HTTP request method (ie. Get, Post). CMA Name: Request Method
+	AppStatsFieldNameHTTPRequestMethod AppStatsFieldName = "http_request_method"
+	//  Local IP address of the host. CMA Name: Local Ip
+	AppStatsFieldNameIP AppStatsFieldName = "ip"
+	//  Network protocol for this event. CMA Name: IP Protocol
+	AppStatsFieldNameIPProtocol AppStatsFieldName = "ip_protocol"
+	//  Is the application a cloud application? (True/False). CMA Name: Is Cloud App
+	AppStatsFieldNameIsCloudApp AppStatsFieldName = "is_cloud_app"
+	//  Is last sample for flow. Only available for native flows data integration created in the CMA (e.g. Sentinel). Not available in the appstats or appstatsTimeSeries API.
+	AppStatsFieldNameIsFlowTerminated AppStatsFieldName = "is_flow_terminated"
+	//  Is the app for this event defined as a sanctioned app? (True/False). CMA Name: Is Sanctioned App
+	AppStatsFieldNameIsSanctionedApp AppStatsFieldName = "is_sanctioned_app"
+	//  Matched network rule. CMA Name: Network Rule
 	AppStatsFieldNameNetworkRule AppStatsFieldName = "network_rule"
-	// new_app. CMA Name: New App
+	//  new_app. CMA Name: New App
 	AppStatsFieldNameNewApp AppStatsFieldName = "new_app"
-	// OS version for the device (such as 14.3.0). CMA Name: OS Version
+	//  OS version for the device (such as 14.3.0). CMA Name: OS Version
 	AppStatsFieldNameOsVersion AppStatsFieldName = "os_version"
-	// Name of PoP location. CMA Name: Pop Name
+	//  Name of PoP location. CMA Name: Pop Name
 	AppStatsFieldNamePopName AppStatsFieldName = "pop_name"
-	// QoS Priority value. CMA Name: QoS Priority
+	//  QoS Priority value. CMA Name: QoS Priority
 	AppStatsFieldNameQosPriority AppStatsFieldName = "qos_priority"
-	// risk_level. CMA Name: Risk Level
+	//  risk_level. CMA Name: Risk Level
 	AppStatsFieldNameRiskLevel AppStatsFieldName = "risk_level"
-	// The application risk score assigned by Cato. CMA Name: Risk Score
+	//  The application risk score assigned by Cato. CMA Name: Risk Score
 	AppStatsFieldNameRiskScore AppStatsFieldName = "risk_score"
-	// Is the application defined as sanctioned?. CMA Name: Sanctioned
+	//  Is the application defined as sanctioned?. CMA Name: Sanctioned
 	AppStatsFieldNameSanctioned AppStatsFieldName = "sanctioned"
-	// Country in which the source host is located. CMA Name: Site Country
+	//  Country in which the source host is located. CMA Name: Site Country
 	AppStatsFieldNameSiteCountry AppStatsFieldName = "site_country"
-	// State in which the source host is located. CMA Name: Site State
+	//  State in which the source host is located. CMA Name: Site State
 	AppStatsFieldNameSiteState AppStatsFieldName = "site_state"
-	// Name for Socket interface. CMA Name: Socket Interface
+	//  Name for Socket interface. CMA Name: Socket Interface
 	AppStatsFieldNameSocketInterface AppStatsFieldName = "socket_interface"
-	// Country in which the source host is located (detected via public IP address). CMA Name: Source Country
+	//  Country in which the source host is located (detected via public IP address). CMA Name: Source Country
 	AppStatsFieldNameSrcCountry AppStatsFieldName = "src_country"
-	// Country Code of country in which the source host is located (detected via public IP address). CMA Name: Source Country Code
+	//  Country Code of country in which the source host is located (detected via public IP address). CMA Name: Source Country Code
 	AppStatsFieldNameSrcCountryCode AppStatsFieldName = "src_country_code"
-	// IP for host or Cato Client. CMA Name: Src Ip
+	//  IP for host or Cato Client. CMA Name: Src Ip
 	AppStatsFieldNameSrcIP AppStatsFieldName = "src_ip"
-	// Source type: site or remote user. CMA Name: Src Is Site Or Vpn
+	//  Source type: site or remote user. CMA Name: Src Is Site Or Vpn
 	AppStatsFieldNameSrcIsSiteOrVpn AppStatsFieldName = "src_is_site_or_vpn"
-	// IP address provided by ISP to site or Client. CMA Name: Source ISP IP
+	//  IP address provided by ISP to site or Client. CMA Name: Source ISP IP
 	AppStatsFieldNameSrcIspIP AppStatsFieldName = "src_isp_ip"
-	// Internal port number. CMA Name: Source Port
+	//  Internal port number. CMA Name: Source Port
 	AppStatsFieldNameSrcPort AppStatsFieldName = "src_port"
-	// Site country code alpha2. CMA Name: Src Site Country Code
+	//  Site country code alpha2. CMA Name: Src Site Country Code
 	AppStatsFieldNameSrcSiteCountryCode AppStatsFieldName = "src_site_country_code"
-	// Unique internal Cato ID for the site or remote user. CMA Name: Src Site ID
+	//  Unique internal Cato ID for the site or remote user. CMA Name: Src Site ID
 	AppStatsFieldNameSrcSiteID AppStatsFieldName = "src_site_id"
-	// Source site or remote user. CMA Name: Src Site Name
+	//  Source site or remote user. CMA Name: Src Site Name
 	AppStatsFieldNameSrcSiteName AppStatsFieldName = "src_site_name"
-	// Site state code. CMA Name: Src Site State
+	//  Site state code. CMA Name: Src Site State
 	AppStatsFieldNameSrcSiteState AppStatsFieldName = "src_site_state"
-	// Name of subnet as defined in Cato Management Application. CMA Name: Subnet
+	//  Name of subnet as defined in Cato Management Application. CMA Name: Subnet
 	AppStatsFieldNameSubnet AppStatsFieldName = "subnet"
-	// Name of subnet as defined in Cato Management Application. CMA Name: Subnet Name
+	//  Name of subnet as defined in Cato Management Application. CMA Name: Subnet Name
 	AppStatsFieldNameSubnetName AppStatsFieldName = "subnet_name"
-	// Shows if traffic was TCP accelerated or not. CMA Name: TCP Acceleration
+	//  Shows if traffic was TCP accelerated or not. CMA Name: TCP Acceleration
 	AppStatsFieldNameTCPAcceleration AppStatsFieldName = "tcp_acceleration"
-	// Time stamp of the flow update (Human-readable format). Only available for native flows data integration created in the CMA (e.g. Sentinel). Not available in the appstats or appstatsTimeSeries API.
+	//  Time stamp of the flow update (Human-readable format). Only available for native flows data integration created in the CMA (e.g. Sentinel). Not available in the appstats or appstatsTimeSeries API.
 	AppStatsFieldNameTimeStr AppStatsFieldName = "time_str"
-	// Top Level Domain of the host name. CMA Name: Tld
+	//  Top Level Domain of the host name. CMA Name: Tld
 	AppStatsFieldNameTld AppStatsFieldName = "tld"
-	// Shows if traffic was TLS inspected or not. CMA Name: TLS Inspection
+	//  Shows if traffic was TLS inspected or not. CMA Name: TLS Inspection
 	AppStatsFieldNameTLSInspection AppStatsFieldName = "tls_inspection"
-	// TLS Inspection rule name. CMA Name: TLS Rule Name
+	//  TLS Inspection rule name. CMA Name: TLS Rule Name
 	AppStatsFieldNameTLSRuleName AppStatsFieldName = "tls_rule_name"
-	// The total sum of upstream and downstream data in bytes. CMA Name: Traffic
+	//  The total sum of upstream and downstream data in bytes. CMA Name: Traffic
 	AppStatsFieldNameTraffic AppStatsFieldName = "traffic"
-	// Direction of network traffic for this event, values are inbound or outbound. CMA Name: Traffic Direction
+	//  Direction of network traffic for this event, values are inbound or outbound. CMA Name: Traffic Direction
 	AppStatsFieldNameTrafficDirection AppStatsFieldName = "traffic_direction"
-	// Translated Client IP. CMA Name: Translated Client IP
+	//  Translated Client IP. CMA Name: Translated Client IP
 	AppStatsFieldNameTranslatedClientIP AppStatsFieldName = "translated_client_ip"
-	// Translated Server IP. CMA Name: Translated Server IP
+	//  Translated Server IP. CMA Name: Translated Server IP
 	AppStatsFieldNameTranslatedServerIP AppStatsFieldName = "translated_server_ip"
-	// Bytes sent from the host to the destination. CMA Name: Upstream
+	//  Bytes sent from the host to the destination. CMA Name: Upstream
 	AppStatsFieldNameUpstream AppStatsFieldName = "upstream"
-	// Method used to get identity with User Awareness (such as Identity Agent). CMA Name: User Awareness Method
+	//  Method used to get identity with User Awareness (such as Identity Agent). CMA Name: User Awareness Method
 	AppStatsFieldNameUserAwarenessMethod AppStatsFieldName = "user_awareness_method"
-	// User ID. CMA Name: User ID
+	//  User ID. CMA Name: User ID
 	AppStatsFieldNameUserID AppStatsFieldName = "user_id"
-	// User that generated the event. CMA Name: User Name
+	//  User that generated the event. CMA Name: User Name
 	AppStatsFieldNameUserName AppStatsFieldName = "user_name"
-	// User’s email address. CMA Name: SDP User Email
+	//  User’s email address. CMA Name: SDP User Email
 	AppStatsFieldNameVpnUserEmail AppStatsFieldName = "vpn_user_email"
-	// User ID. CMA Name: Vpn User ID
+	//  User ID. CMA Name: Vpn User ID
 	AppStatsFieldNameVpnUserID AppStatsFieldName = "vpn_user_id"
 )
 
 var AllAppStatsFieldName = []AppStatsFieldName{
+	AppStatsFieldNameIspName,
 	AppStatsFieldNameAccountID,
 	AppStatsFieldNameAccountName,
 	AppStatsFieldNameAdName,
@@ -18591,7 +14074,6 @@ var AllAppStatsFieldName = []AppStatsFieldName{
 	AppStatsFieldNameIsCloudApp,
 	AppStatsFieldNameIsFlowTerminated,
 	AppStatsFieldNameIsSanctionedApp,
-	AppStatsFieldNameIspName,
 	AppStatsFieldNameNetworkRule,
 	AppStatsFieldNameNewApp,
 	AppStatsFieldNameOsVersion,
@@ -18634,7 +14116,7 @@ var AllAppStatsFieldName = []AppStatsFieldName{
 
 func (e AppStatsFieldName) IsValid() bool {
 	switch e {
-	case AppStatsFieldNameAccountID, AppStatsFieldNameAccountName, AppStatsFieldNameAdName, AppStatsFieldNameAiProxyRuleName, AppStatsFieldNameApp, AppStatsFieldNameApplication, AppStatsFieldNameApplicationDescription, AppStatsFieldNameApplicationID, AppStatsFieldNameApplicationName, AppStatsFieldNameApplicationRiskLevel, AppStatsFieldNameApplicationRiskScore, AppStatsFieldNameApplicationType, AppStatsFieldNameCategories, AppStatsFieldNameCategory, AppStatsFieldNameClientClass, AppStatsFieldNameClientVersion, AppStatsFieldNameConfiguredHostName, AppStatsFieldNameConnectionOrigin, AppStatsFieldNameDescription, AppStatsFieldNameDestCountry, AppStatsFieldNameDestIP, AppStatsFieldNameDestIsSiteOrVpn, AppStatsFieldNameDestPort, AppStatsFieldNameDestSite, AppStatsFieldNameDestSiteID, AppStatsFieldNameDestSiteName, AppStatsFieldNameDeviceCategories, AppStatsFieldNameDeviceID, AppStatsFieldNameDeviceManufacturer, AppStatsFieldNameDeviceModel, AppStatsFieldNameDeviceName, AppStatsFieldNameDeviceOsType, AppStatsFieldNameDevicePostureProfile, AppStatsFieldNameDeviceType, AppStatsFieldNameDiscoveredApp, AppStatsFieldNameDomain, AppStatsFieldNameDownstream, AppStatsFieldNameDuration, AppStatsFieldNameEgressPopName, AppStatsFieldNameEgressSiteName, AppStatsFieldNameFlowID, AppStatsFieldNameFlowStartTime, AppStatsFieldNameFlowsCreated, AppStatsFieldNameFullPathURL, AppStatsFieldNameHostIP, AppStatsFieldNameHostMac, AppStatsFieldNameHqLocation, AppStatsFieldNameHTTPRequestMethod, AppStatsFieldNameIP, AppStatsFieldNameIPProtocol, AppStatsFieldNameIsCloudApp, AppStatsFieldNameIsFlowTerminated, AppStatsFieldNameIsSanctionedApp, AppStatsFieldNameIspName, AppStatsFieldNameNetworkRule, AppStatsFieldNameNewApp, AppStatsFieldNameOsVersion, AppStatsFieldNamePopName, AppStatsFieldNameQosPriority, AppStatsFieldNameRiskLevel, AppStatsFieldNameRiskScore, AppStatsFieldNameSanctioned, AppStatsFieldNameSiteCountry, AppStatsFieldNameSiteState, AppStatsFieldNameSocketInterface, AppStatsFieldNameSrcCountry, AppStatsFieldNameSrcCountryCode, AppStatsFieldNameSrcIP, AppStatsFieldNameSrcIsSiteOrVpn, AppStatsFieldNameSrcIspIP, AppStatsFieldNameSrcPort, AppStatsFieldNameSrcSiteCountryCode, AppStatsFieldNameSrcSiteID, AppStatsFieldNameSrcSiteName, AppStatsFieldNameSrcSiteState, AppStatsFieldNameSubnet, AppStatsFieldNameSubnetName, AppStatsFieldNameTCPAcceleration, AppStatsFieldNameTimeStr, AppStatsFieldNameTld, AppStatsFieldNameTLSInspection, AppStatsFieldNameTLSRuleName, AppStatsFieldNameTraffic, AppStatsFieldNameTrafficDirection, AppStatsFieldNameTranslatedClientIP, AppStatsFieldNameTranslatedServerIP, AppStatsFieldNameUpstream, AppStatsFieldNameUserAwarenessMethod, AppStatsFieldNameUserID, AppStatsFieldNameUserName, AppStatsFieldNameVpnUserEmail, AppStatsFieldNameVpnUserID:
+	case AppStatsFieldNameIspName, AppStatsFieldNameAccountID, AppStatsFieldNameAccountName, AppStatsFieldNameAdName, AppStatsFieldNameAiProxyRuleName, AppStatsFieldNameApp, AppStatsFieldNameApplication, AppStatsFieldNameApplicationDescription, AppStatsFieldNameApplicationID, AppStatsFieldNameApplicationName, AppStatsFieldNameApplicationRiskLevel, AppStatsFieldNameApplicationRiskScore, AppStatsFieldNameApplicationType, AppStatsFieldNameCategories, AppStatsFieldNameCategory, AppStatsFieldNameClientClass, AppStatsFieldNameClientVersion, AppStatsFieldNameConfiguredHostName, AppStatsFieldNameConnectionOrigin, AppStatsFieldNameDescription, AppStatsFieldNameDestCountry, AppStatsFieldNameDestIP, AppStatsFieldNameDestIsSiteOrVpn, AppStatsFieldNameDestPort, AppStatsFieldNameDestSite, AppStatsFieldNameDestSiteID, AppStatsFieldNameDestSiteName, AppStatsFieldNameDeviceCategories, AppStatsFieldNameDeviceID, AppStatsFieldNameDeviceManufacturer, AppStatsFieldNameDeviceModel, AppStatsFieldNameDeviceName, AppStatsFieldNameDeviceOsType, AppStatsFieldNameDevicePostureProfile, AppStatsFieldNameDeviceType, AppStatsFieldNameDiscoveredApp, AppStatsFieldNameDomain, AppStatsFieldNameDownstream, AppStatsFieldNameDuration, AppStatsFieldNameEgressPopName, AppStatsFieldNameEgressSiteName, AppStatsFieldNameFlowID, AppStatsFieldNameFlowStartTime, AppStatsFieldNameFlowsCreated, AppStatsFieldNameFullPathURL, AppStatsFieldNameHostIP, AppStatsFieldNameHostMac, AppStatsFieldNameHqLocation, AppStatsFieldNameHTTPRequestMethod, AppStatsFieldNameIP, AppStatsFieldNameIPProtocol, AppStatsFieldNameIsCloudApp, AppStatsFieldNameIsFlowTerminated, AppStatsFieldNameIsSanctionedApp, AppStatsFieldNameNetworkRule, AppStatsFieldNameNewApp, AppStatsFieldNameOsVersion, AppStatsFieldNamePopName, AppStatsFieldNameQosPriority, AppStatsFieldNameRiskLevel, AppStatsFieldNameRiskScore, AppStatsFieldNameSanctioned, AppStatsFieldNameSiteCountry, AppStatsFieldNameSiteState, AppStatsFieldNameSocketInterface, AppStatsFieldNameSrcCountry, AppStatsFieldNameSrcCountryCode, AppStatsFieldNameSrcIP, AppStatsFieldNameSrcIsSiteOrVpn, AppStatsFieldNameSrcIspIP, AppStatsFieldNameSrcPort, AppStatsFieldNameSrcSiteCountryCode, AppStatsFieldNameSrcSiteID, AppStatsFieldNameSrcSiteName, AppStatsFieldNameSrcSiteState, AppStatsFieldNameSubnet, AppStatsFieldNameSubnetName, AppStatsFieldNameTCPAcceleration, AppStatsFieldNameTimeStr, AppStatsFieldNameTld, AppStatsFieldNameTLSInspection, AppStatsFieldNameTLSRuleName, AppStatsFieldNameTraffic, AppStatsFieldNameTrafficDirection, AppStatsFieldNameTranslatedClientIP, AppStatsFieldNameTranslatedServerIP, AppStatsFieldNameUpstream, AppStatsFieldNameUserAwarenessMethod, AppStatsFieldNameUserID, AppStatsFieldNameUserName, AppStatsFieldNameVpnUserEmail, AppStatsFieldNameVpnUserID:
 		return true
 	}
 	return false
@@ -18665,9 +14147,9 @@ func (e AppStatsFieldName) MarshalGQL(w io.Writer) {
 type AppTenantRestrictionActionEnum string
 
 const (
-	// Do not inject any Headers nor Values for outgoing traffic
+	//  Do not inject any Headers nor Values for outgoing traffic
 	AppTenantRestrictionActionEnumBypass AppTenantRestrictionActionEnum = "BYPASS"
-	// Inject Headers and Values for outgoing traffic
+	//  Inject Headers and Values for outgoing traffic
 	AppTenantRestrictionActionEnumInjectHeaders AppTenantRestrictionActionEnum = "INJECT_HEADERS"
 )
 
@@ -18709,11 +14191,11 @@ func (e AppTenantRestrictionActionEnum) MarshalGQL(w io.Writer) {
 type AppTenantRestrictionSeverityEnum string
 
 const (
-	// High severity
+	//  High severity
 	AppTenantRestrictionSeverityEnumHigh AppTenantRestrictionSeverityEnum = "HIGH"
-	// Low severity
+	//  Low severity
 	AppTenantRestrictionSeverityEnumLow AppTenantRestrictionSeverityEnum = "LOW"
-	// Medium severity
+	//  Medium severity
 	AppTenantRestrictionSeverityEnumMedium AppTenantRestrictionSeverityEnum = "MEDIUM"
 )
 
@@ -18756,7 +14238,7 @@ func (e AppTenantRestrictionSeverityEnum) MarshalGQL(w io.Writer) {
 type ApplicationControlAccessMethodType string
 
 const (
-	// User agent identification method
+	//  User agent identification method
 	ApplicationControlAccessMethodTypeUserAgent ApplicationControlAccessMethodType = "USER_AGENT"
 )
 
@@ -18797,11 +14279,11 @@ func (e ApplicationControlAccessMethodType) MarshalGQL(w io.Writer) {
 type ApplicationControlAction string
 
 const (
-	// Permit the action
+	//  Permit the action
 	ApplicationControlActionAllow ApplicationControlAction = "ALLOW"
-	// Prevent the action
+	//  Prevent the action
 	ApplicationControlActionBlock ApplicationControlAction = "BLOCK"
-	// Log the action without enforcement
+	//  Log the action without enforcement
 	ApplicationControlActionMonitor ApplicationControlAction = "MONITOR"
 )
 
@@ -18844,11 +14326,11 @@ func (e ApplicationControlAction) MarshalGQL(w io.Writer) {
 type ApplicationControlAttributeValue string
 
 const (
-	// Any Value
+	//  Any Value
 	ApplicationControlAttributeValueAny ApplicationControlAttributeValue = "ANY"
-	// Not Supported
+	//  Not Supported
 	ApplicationControlAttributeValueNotSupported ApplicationControlAttributeValue = "NOT_SUPPORTED"
-	// Supported
+	//  Supported
 	ApplicationControlAttributeValueSupported ApplicationControlAttributeValue = "SUPPORTED"
 )
 
@@ -18891,11 +14373,11 @@ func (e ApplicationControlAttributeValue) MarshalGQL(w io.Writer) {
 type ApplicationControlFileAttributeType string
 
 const (
-	// File encryption status
+	//  File encryption status
 	ApplicationControlFileAttributeTypeContentIsEncrypted ApplicationControlFileAttributeType = "CONTENT_IS_ENCRYPTED"
-	// File Size
+	//  File Size
 	ApplicationControlFileAttributeTypeContentSize ApplicationControlFileAttributeType = "CONTENT_SIZE"
-	// File type classification
+	//  File type classification
 	ApplicationControlFileAttributeTypeContentType ApplicationControlFileAttributeType = "CONTENT_TYPE"
 )
 
@@ -18938,15 +14420,15 @@ func (e ApplicationControlFileAttributeType) MarshalGQL(w io.Writer) {
 type ApplicationControlOperator string
 
 const (
-	// Substring match comparison
+	//  Substring match comparison
 	ApplicationControlOperatorContains ApplicationControlOperator = "CONTAINS"
-	// Numerical greater than comparison
+	//  Numerical greater than comparison
 	ApplicationControlOperatorGreaterThan ApplicationControlOperator = "GREATER_THAN"
-	// Set membership comparison
+	//  Set membership comparison
 	ApplicationControlOperatorIn ApplicationControlOperator = "IN"
-	// Exact match comparison
+	//  Exact match comparison
 	ApplicationControlOperatorIs ApplicationControlOperator = "IS"
-	// Numerical less than or equal comparison
+	//  Numerical less than or equal comparison
 	ApplicationControlOperatorLessThanOrEqual ApplicationControlOperator = "LESS_THAN_OR_EQUAL"
 )
 
@@ -18991,11 +14473,11 @@ func (e ApplicationControlOperator) MarshalGQL(w io.Writer) {
 type ApplicationControlRuleType string
 
 const (
-	// Specifies an application control rule
+	//  Specifies an application control rule
 	ApplicationControlRuleTypeApplication ApplicationControlRuleType = "APPLICATION"
-	// Specifies an data control rule
+	//  Specifies an data control rule
 	ApplicationControlRuleTypeData ApplicationControlRuleType = "DATA"
-	// Specifies an file control rule
+	//  Specifies an file control rule
 	ApplicationControlRuleTypeFile ApplicationControlRuleType = "FILE"
 )
 
@@ -19038,9 +14520,9 @@ func (e ApplicationControlRuleType) MarshalGQL(w io.Writer) {
 type ApplicationControlSatisfy string
 
 const (
-	// Match only if all criteria are met
+	//  Match only if all criteria are met
 	ApplicationControlSatisfyAll ApplicationControlSatisfy = "ALL"
-	// Match if any criteria are met
+	//  Match if any criteria are met
 	ApplicationControlSatisfyAny ApplicationControlSatisfy = "ANY"
 )
 
@@ -19082,11 +14564,11 @@ func (e ApplicationControlSatisfy) MarshalGQL(w io.Writer) {
 type ApplicationControlSeverity string
 
 const (
-	// Indicates a high severity level
+	//  Indicates a high severity level
 	ApplicationControlSeverityHigh ApplicationControlSeverity = "HIGH"
-	// Indicates a low severity level
+	//  Indicates a low severity level
 	ApplicationControlSeverityLow ApplicationControlSeverity = "LOW"
-	// Indicates a medium severity level
+	//  Indicates a medium severity level
 	ApplicationControlSeverityMedium ApplicationControlSeverity = "MEDIUM"
 )
 
@@ -19129,11 +14611,11 @@ func (e ApplicationControlSeverity) MarshalGQL(w io.Writer) {
 type ApplicationType string
 
 const (
-	// Application
+	//  Application
 	ApplicationTypeApplication ApplicationType = "APPLICATION"
-	// Cloud Application type
+	//  Cloud Application type
 	ApplicationTypeCloudApplication ApplicationType = "CLOUD_APPLICATION"
-	// Service
+	//  Service
 	ApplicationTypeService ApplicationType = "SERVICE"
 )
 
@@ -19175,28 +14657,28 @@ func (e ApplicationType) MarshalGQL(w io.Writer) {
 type AuditFieldName string
 
 const (
-	// The name of the account on which the record was created
+	//  The name of the account on which the record was created
 	AuditFieldNameAccount AuditFieldName = "account"
-	// The id of the account on which the record was created
+	//  The id of the account on which the record was created
 	AuditFieldNameAccountID AuditFieldName = "account_id"
-	// The admin whose action generated the record
+	//  The admin whose action generated the record
 	AuditFieldNameAdmin AuditFieldName = "admin"
-	// The ID of the admin whose action generated the record
+	//  The ID of the admin whose action generated the record
 	AuditFieldNameAdminID AuditFieldName = "admin_id"
-	// The api key whose action generated the record
+	//  The api key whose action generated the record
 	AuditFieldNameAPIKey            AuditFieldName = "apiKey"
 	AuditFieldNameAuditCreationType AuditFieldName = "audit_creation_type"
-	// the nature of the change: `CREATED, DELETED, MODIFIED, ENABLED, DISABLED, SKIPPED`
+	//  the nature of the change: `CREATED, DELETED, MODIFIED, ENABLED, DISABLED, SKIPPED`
 	AuditFieldNameChangeType AuditFieldName = "change_type"
-	// Time the record was created
+	//  Time the record was created
 	AuditFieldNameCreationDate AuditFieldName = "creation_date"
-	// Time the record was committed to storage
+	//  Time the record was committed to storage
 	AuditFieldNameInsertionDate AuditFieldName = "insertion_date"
-	// The name of the object that was affected, e.g. 'My Site'
+	//  The name of the object that was affected, e.g. 'My Site'
 	AuditFieldNameModelName AuditFieldName = "model_name"
-	// The type of object that was affected. e.g. Site, Socket, SocketInterface
+	//  The type of object that was affected. e.g. Site, Socket, SocketInterface
 	AuditFieldNameModelType AuditFieldName = "model_type"
-	// Less granular than model_name, a general marker of the modified area: administration, configuration, security
+	//  Less granular than model_name, a general marker of the modified area: administration, configuration, security
 	AuditFieldNameModule AuditFieldName = "module"
 )
 
@@ -19247,9 +14729,9 @@ func (e AuditFieldName) MarshalGQL(w io.Writer) {
 type BgpCommunityFilterPredicate string
 
 const (
-	// Matches exactly the specified community value.
+	//  Matches exactly the specified community value.
 	BgpCommunityFilterPredicateEqual BgpCommunityFilterPredicate = "EQUAL"
-	// Matches any community value except the specified one.
+	//  Matches any community value except the specified one.
 	BgpCommunityFilterPredicateNotEqual BgpCommunityFilterPredicate = "NOT_EQUAL"
 )
 
@@ -19290,9 +14772,9 @@ func (e BgpCommunityFilterPredicate) MarshalGQL(w io.Writer) {
 type BgpDefaultAction string
 
 const (
-	// Default action to accept all unmatched routes.
+	//  Default action to accept all unmatched routes.
 	BgpDefaultActionAccept BgpDefaultAction = "ACCEPT"
-	// Default action to drop all unmatched routes.
+	//  Default action to drop all unmatched routes.
 	BgpDefaultActionDrop BgpDefaultAction = "DROP"
 )
 
@@ -20043,11 +15525,11 @@ func (e CellularNetworkType) MarshalGQL(w io.Writer) {
 type ClientConnectivityActionEnum string
 
 const (
-	// Allow WAN and Internet
+	//  Allow WAN and Internet
 	ClientConnectivityActionEnumAllow ClientConnectivityActionEnum = "ALLOW"
-	// Allow Internet
+	//  Allow Internet
 	ClientConnectivityActionEnumAllowInternet ClientConnectivityActionEnum = "ALLOW_INTERNET"
-	// Block
+	//  Block
 	ClientConnectivityActionEnumBlock ClientConnectivityActionEnum = "BLOCK"
 )
 
@@ -20090,11 +15572,11 @@ func (e ClientConnectivityActionEnum) MarshalGQL(w io.Writer) {
 type ClientConnectivityConfidenceLevelEnum string
 
 const (
-	// The user has authenticated the Client and the Cato token is either valid or expired
+	//  The user has authenticated the Client and the Cato token is either valid or expired
 	ClientConnectivityConfidenceLevelEnumAny ClientConnectivityConfidenceLevelEnum = "ANY"
-	// High Confidence - User authenticated and the token is valid
+	//  High Confidence - User authenticated and the token is valid
 	ClientConnectivityConfidenceLevelEnumHigh ClientConnectivityConfidenceLevelEnum = "HIGH"
-	// Low Confidence - User authenticated, but the token has expired
+	//  Low Confidence - User authenticated, but the token has expired
 	ClientConnectivityConfidenceLevelEnumLow ClientConnectivityConfidenceLevelEnum = "LOW"
 )
 
@@ -20137,11 +15619,11 @@ func (e ClientConnectivityConfidenceLevelEnum) MarshalGQL(w io.Writer) {
 type ClientConnectivityOriginEnum string
 
 const (
-	// Any connection origin
+	//  Any connection origin
 	ClientConnectivityOriginEnumAny ClientConnectivityOriginEnum = "ANY"
-	// User is connecting from the client
+	//  User is connecting from the client
 	ClientConnectivityOriginEnumRemote ClientConnectivityOriginEnum = "REMOTE"
-	// User is connecting from the browser extension
+	//  User is connecting from the browser extension
 	ClientConnectivityOriginEnumRemoteExtension ClientConnectivityOriginEnum = "REMOTE_EXTENSION"
 )
 
@@ -20359,9 +15841,9 @@ func (e ConnectionTypeEnum) MarshalGQL(w io.Writer) {
 type ConnectivityStatus string
 
 const (
-	// Connected to the Cato Cloud
+	//  Connected to the Cato Cloud
 	ConnectivityStatusConnected ConnectivityStatus = "connected"
-	// Disconnected from the Cato Cloud
+	//  Disconnected from the Cato Cloud
 	ConnectivityStatusDisconnected ConnectivityStatus = "disconnected"
 )
 
@@ -20687,12 +16169,12 @@ const (
 	DetectionSourceEnumCustomDetection               DetectionSourceEnum = "CUSTOM_DETECTION"
 	DetectionSourceEnumCustomTi                      DetectionSourceEnum = "CUSTOM_TI"
 	DetectionSourceEnumManual                        DetectionSourceEnum = "MANUAL"
+	DetectionSourceEnumMicrosoft365Defender          DetectionSourceEnum = "MICROSOFT365_DEFENDER"
 	DetectionSourceEnumMicrosoftDataLossPrevention   DetectionSourceEnum = "MICROSOFT_DATA_LOSS_PREVENTION"
 	DetectionSourceEnumMicrosoftDefenderForEndpoint  DetectionSourceEnum = "MICROSOFT_DEFENDER_FOR_ENDPOINT"
 	DetectionSourceEnumMicrosoftDefenderForIdentity  DetectionSourceEnum = "MICROSOFT_DEFENDER_FOR_IDENTITY"
 	DetectionSourceEnumMicrosoftDefenderForOffice365 DetectionSourceEnum = "MICROSOFT_DEFENDER_FOR_OFFICE365"
 	DetectionSourceEnumMicrosoftThreatExperts        DetectionSourceEnum = "MICROSOFT_THREAT_EXPERTS"
-	DetectionSourceEnumMicrosoft365Defender          DetectionSourceEnum = "MICROSOFT365_DEFENDER"
 	DetectionSourceEnumSmartScreen                   DetectionSourceEnum = "SMART_SCREEN"
 )
 
@@ -20706,18 +16188,18 @@ var AllDetectionSourceEnum = []DetectionSourceEnum{
 	DetectionSourceEnumCustomDetection,
 	DetectionSourceEnumCustomTi,
 	DetectionSourceEnumManual,
+	DetectionSourceEnumMicrosoft365Defender,
 	DetectionSourceEnumMicrosoftDataLossPrevention,
 	DetectionSourceEnumMicrosoftDefenderForEndpoint,
 	DetectionSourceEnumMicrosoftDefenderForIdentity,
 	DetectionSourceEnumMicrosoftDefenderForOffice365,
 	DetectionSourceEnumMicrosoftThreatExperts,
-	DetectionSourceEnumMicrosoft365Defender,
 	DetectionSourceEnumSmartScreen,
 }
 
 func (e DetectionSourceEnum) IsValid() bool {
 	switch e {
-	case DetectionSourceEnumAntivirus, DetectionSourceEnumAppGovernanceDetection, DetectionSourceEnumAppGovernancePolicy, DetectionSourceEnumAutomatedInvestigation, DetectionSourceEnumAzureAdIdentityProtection, DetectionSourceEnumCloudAppSecurity, DetectionSourceEnumCustomDetection, DetectionSourceEnumCustomTi, DetectionSourceEnumManual, DetectionSourceEnumMicrosoftDataLossPrevention, DetectionSourceEnumMicrosoftDefenderForEndpoint, DetectionSourceEnumMicrosoftDefenderForIdentity, DetectionSourceEnumMicrosoftDefenderForOffice365, DetectionSourceEnumMicrosoftThreatExperts, DetectionSourceEnumMicrosoft365Defender, DetectionSourceEnumSmartScreen:
+	case DetectionSourceEnumAntivirus, DetectionSourceEnumAppGovernanceDetection, DetectionSourceEnumAppGovernancePolicy, DetectionSourceEnumAutomatedInvestigation, DetectionSourceEnumAzureAdIdentityProtection, DetectionSourceEnumCloudAppSecurity, DetectionSourceEnumCustomDetection, DetectionSourceEnumCustomTi, DetectionSourceEnumManual, DetectionSourceEnumMicrosoft365Defender, DetectionSourceEnumMicrosoftDataLossPrevention, DetectionSourceEnumMicrosoftDefenderForEndpoint, DetectionSourceEnumMicrosoftDefenderForIdentity, DetectionSourceEnumMicrosoftDefenderForOffice365, DetectionSourceEnumMicrosoftThreatExperts, DetectionSourceEnumSmartScreen:
 		return true
 	}
 	return false
@@ -20884,11 +16366,11 @@ func (e DeviceCategory) MarshalGQL(w io.Writer) {
 type DeviceConfidenceLevel string
 
 const (
-	// Device classification is strongly validated by multiple signals
+	//  Device classification is strongly validated by multiple signals
 	DeviceConfidenceLevelHigh DeviceConfidenceLevel = "HIGH"
-	// Device classification has minimal supporting evidence
+	//  Device classification has minimal supporting evidence
 	DeviceConfidenceLevelLow DeviceConfidenceLevel = "LOW"
-	// Device classification has moderate supporting signals
+	//  Device classification has moderate supporting signals
 	DeviceConfidenceLevelMedium DeviceConfidenceLevel = "MEDIUM"
 )
 
@@ -21334,23 +16816,23 @@ func (e ElasticOperator) MarshalGQL(w io.Writer) {
 type EmployeeRange string
 
 const (
-	// 1-10 employees
+	//  1-10 employees
 	EmployeeRangeBetween00001_00010 EmployeeRange = "BETWEEN_00001_00010"
-	// 11-50 employees
+	//  11-50 employees
 	EmployeeRangeBetween00011_00050 EmployeeRange = "BETWEEN_00011_00050"
-	// 51-100 employees
+	//  51-100 employees
 	EmployeeRangeBetween00051_00100 EmployeeRange = "BETWEEN_00051_00100"
-	// 101-250 employees
+	//  101-250 employees
 	EmployeeRangeBetween00101_00250 EmployeeRange = "BETWEEN_00101_00250"
-	// 251-500 employees
+	//  251-500 employees
 	EmployeeRangeBetween00251_00500 EmployeeRange = "BETWEEN_00251_00500"
-	// 501-1,000 employees
+	//  501-1,000 employees
 	EmployeeRangeBetween00501_01000 EmployeeRange = "BETWEEN_00501_01000"
-	// 1,001-5,000 employees
+	//  1,001-5,000 employees
 	EmployeeRangeBetween01001_05000 EmployeeRange = "BETWEEN_01001_05000"
-	// 5,001-10,000 employees
+	//  5,001-10,000 employees
 	EmployeeRangeBetween05001_10000 EmployeeRange = "BETWEEN_05001_10000"
-	// 10,000+ employees
+	//  10,000+ employees
 	EmployeeRangeBetween10001Max EmployeeRange = "BETWEEN_10001_MAX"
 )
 
@@ -21398,66 +16880,66 @@ func (e EmployeeRange) MarshalGQL(w io.Writer) {
 type EntityType string
 
 const (
-	// A reference to a configured Account under reseller
+	//  A reference to a configured Account under reseller
 	EntityTypeAccount EntityType = "account"
-	// An account administrator (user in Cato Console)
+	//  An account administrator (user in Cato Console)
 	EntityTypeAdmin EntityType = "admin"
-	// An external IP address in a specific PoP reserved for the account
+	//  An external IP address in a specific PoP reserved for the account
 	EntityTypeAllocatedIP EntityType = "allocatedIP"
-	// Any entity (matches everything)
+	//  Any entity (matches everything)
 	EntityTypeAny EntityType = "any"
-	// Pooled licenses available for use
+	//  Pooled licenses available for use
 	EntityTypeAPIKey EntityType = "apiKey"
-	// added by joe
+	//  added by joe
 	EntityTypeAvailablePooledUsage EntityType = "availablePooledUsage"
-	// Site licenses available for use
+	//  Site licenses available for use
 	EntityTypeAvailableSiteUsage EntityType = "availableSiteUsage"
-	// A settlement with over 1K population
+	//  added by joe
+	EntityTypeCasbRule EntityType = "casbRule"
+	//  A settlement with over 1K population
 	EntityTypeCity EntityType = "city"
-	// Geographical and political entity recognized internationally
+	//  Geographical and political entity recognized internationally
 	EntityTypeCountry EntityType = "country"
-	// Represents a state or territory within a country. It is a sub-division of the country
+	//  Represents a state or territory within a country. It is a sub-division of the country
 	EntityTypeCountryState EntityType = "countryState"
-	// A reference to DHCP Relay Group within account
-	EntityTypeDhcpRelayGroup    EntityType = "dhcpRelayGroup"
+	//  A reference to DHCP Relay Group within account
+	EntityTypeDhcpRelayGroup EntityType = "dhcpRelayGroup"
+	//  added by joe
+	EntityTypeGroup             EntityType = "group"
 	EntityTypeGroupSubscription EntityType = "groupSubscription"
-	// A reference to the configured Host within Site
+	//  A reference to the configured Host within Site
 	EntityTypeHost EntityType = "host"
-	// A reference to LAN Firewall Rule within Site
+	//  added by joe
+	EntityTypeInterfaceSubnet EntityType = "interfaceSubnet"
+	//  added by joe
+	EntityTypeIP EntityType = "ip"
+	//  A reference to LAN Firewall Rule within Site
 	EntityTypeLanFirewall EntityType = "lanFirewall"
-	// A reference to Local Routing Rule within Site
+	//  A reference to Local Routing Rule within Site
 	EntityTypeLocalRouting            EntityType = "localRouting"
 	EntityTypeLocation                EntityType = "location"
 	EntityTypeMailingListSubscription EntityType = "mailingListSubscription"
-	// A reference to the configured Network Interface within Site
+	//  A reference to the configured Network Interface within Site
 	EntityTypeNetworkInterface EntityType = "networkInterface"
-	// Combination of protocol (TCP, UDP, TCP/UDP, ICMP) and port number
-	EntityTypePortProtocol EntityType = "portProtocol"
-	// l4 services for LAN firewall rules
-	EntityTypeSimpleService EntityType = "simpleService"
-	// A reference to a configured Site within Account
-	EntityTypeSite EntityType = "site"
-	// union of the globalRange and a Subnet
-	EntityTypeSiteRange EntityType = "siteRange"
-	// added by joe
-	EntityTypeSocketInterface EntityType = "socketInterface"
-	// added by joe
-	EntityTypeSubnet EntityType = "subnet"
-	// added by joe
-	EntityTypeCasbRule EntityType = "casbRule"
-	// added by joe
+	//  added by joe
 	EntityTypeNetworkRule EntityType = "networkRule"
-	// added by joe
-	EntityTypeGroup EntityType = "group"
-	// added by joe
-	EntityTypeUsersGroup EntityType = "usersGroup"
-	// added by joe
-	EntityTypeIP EntityType = "ip"
-	// added by joe
-	EntityTypeInterfaceSubnet EntityType = "interfaceSubnet"
-	// Time zone, which is a geographical region where clocks are set to the same time
+	//  Combination of protocol (TCP, UDP, TCP/UDP, ICMP) and port number
+	EntityTypePortProtocol EntityType = "portProtocol"
+	//  l4 services for LAN firewall rules
+	EntityTypeSimpleService EntityType = "simpleService"
+	//  A reference to a configured Site within Account
+	EntityTypeSite EntityType = "site"
+	//  union of the globalRange and a Subnet
+	EntityTypeSiteRange EntityType = "siteRange"
+	//  added by joe
+	EntityTypeSocketInterface EntityType = "socketInterface"
+	//  added by joe
+	EntityTypeSubnet EntityType = "subnet"
+	//  Time zone, which is a geographical region where clocks are set to the same time
 	EntityTypeTimezone EntityType = "timezone"
-	// A reference to the configured VPN User within Account
+	//  added by joe
+	EntityTypeUsersGroup EntityType = "usersGroup"
+	//  A reference to the configured VPN User within Account
 	EntityTypeVpnUser             EntityType = "vpnUser"
 	EntityTypeWebhookSubscription EntityType = "webhookSubscription"
 )
@@ -21470,37 +16952,37 @@ var AllEntityType = []EntityType{
 	EntityTypeAPIKey,
 	EntityTypeAvailablePooledUsage,
 	EntityTypeAvailableSiteUsage,
+	EntityTypeCasbRule,
 	EntityTypeCity,
 	EntityTypeCountry,
 	EntityTypeCountryState,
 	EntityTypeDhcpRelayGroup,
+	EntityTypeGroup,
 	EntityTypeGroupSubscription,
 	EntityTypeHost,
+	EntityTypeInterfaceSubnet,
+	EntityTypeIP,
 	EntityTypeLanFirewall,
 	EntityTypeLocalRouting,
 	EntityTypeLocation,
 	EntityTypeMailingListSubscription,
 	EntityTypeNetworkInterface,
+	EntityTypeNetworkRule,
 	EntityTypePortProtocol,
 	EntityTypeSimpleService,
 	EntityTypeSite,
 	EntityTypeSiteRange,
 	EntityTypeSocketInterface,
 	EntityTypeSubnet,
-	EntityTypeCasbRule,
-	EntityTypeNetworkRule,
-	EntityTypeGroup,
-	EntityTypeUsersGroup,
-	EntityTypeIP,
-	EntityTypeInterfaceSubnet,
 	EntityTypeTimezone,
+	EntityTypeUsersGroup,
 	EntityTypeVpnUser,
 	EntityTypeWebhookSubscription,
 }
 
 func (e EntityType) IsValid() bool {
 	switch e {
-	case EntityTypeAccount, EntityTypeAdmin, EntityTypeAllocatedIP, EntityTypeAny, EntityTypeAPIKey, EntityTypeAvailablePooledUsage, EntityTypeAvailableSiteUsage, EntityTypeCity, EntityTypeCountry, EntityTypeCountryState, EntityTypeDhcpRelayGroup, EntityTypeGroupSubscription, EntityTypeHost, EntityTypeLanFirewall, EntityTypeLocalRouting, EntityTypeLocation, EntityTypeMailingListSubscription, EntityTypeNetworkInterface, EntityTypePortProtocol, EntityTypeSimpleService, EntityTypeSite, EntityTypeSiteRange, EntityTypeSocketInterface, EntityTypeSubnet, EntityTypeCasbRule, EntityTypeNetworkRule, EntityTypeGroup, EntityTypeUsersGroup, EntityTypeIP, EntityTypeInterfaceSubnet, EntityTypeTimezone, EntityTypeVpnUser, EntityTypeWebhookSubscription:
+	case EntityTypeAccount, EntityTypeAdmin, EntityTypeAllocatedIP, EntityTypeAny, EntityTypeAPIKey, EntityTypeAvailablePooledUsage, EntityTypeAvailableSiteUsage, EntityTypeCasbRule, EntityTypeCity, EntityTypeCountry, EntityTypeCountryState, EntityTypeDhcpRelayGroup, EntityTypeGroup, EntityTypeGroupSubscription, EntityTypeHost, EntityTypeInterfaceSubnet, EntityTypeIP, EntityTypeLanFirewall, EntityTypeLocalRouting, EntityTypeLocation, EntityTypeMailingListSubscription, EntityTypeNetworkInterface, EntityTypeNetworkRule, EntityTypePortProtocol, EntityTypeSimpleService, EntityTypeSite, EntityTypeSiteRange, EntityTypeSocketInterface, EntityTypeSubnet, EntityTypeTimezone, EntityTypeUsersGroup, EntityTypeVpnUser, EntityTypeWebhookSubscription:
 		return true
 	}
 	return false
@@ -21530,9 +17012,9 @@ func (e EntityType) MarshalGQL(w io.Writer) {
 type EventFeedFilterFieldName string
 
 const (
-	// Sub-type for Routing, Security, Connectivity, System or Sockets Management event
+	//  Sub-type for Routing, Security, Connectivity, System or Sockets Management event
 	EventFeedFilterFieldNameEventSubType EventFeedFilterFieldName = "event_sub_type"
-	// Routing, Security, Connectivity, System or Sockets Management event
+	//  Routing, Security, Connectivity, System or Sockets Management event
 	EventFeedFilterFieldNameEventType EventFeedFilterFieldName = "event_type"
 )
 
@@ -21619,634 +17101,635 @@ func (e EventFeedFilterOperator) MarshalGQL(w io.Writer) {
 type EventFieldName string
 
 const (
-	// Identifies system access software or device
+	//  The ISP related to this event (when the IP address isn't provided by the ISP, then the event message is IP Addresses are assigned statically)
+	EventFieldNameIspName EventFieldName = "ISP_name"
+	//  Identifies system access software or device
 	EventFieldNameAccessMethod EventFieldName = "access_method"
-	// Account ID
+	//  Account ID
 	EventFieldNameAccountID EventFieldName = "account_id"
-	// Firewall, QoS or LAG action
+	//  Firewall, QoS or LAG action
 	EventFieldNameAction EventFieldName = "action"
-	// A list of actions taken, if more than one action was taken as defined by a policy
+	//  A list of actions taken, if more than one action was taken as defined by a policy
 	EventFieldNameActionsTaken EventFieldName = "actions_taken"
-	// The activity resource ID being referenced with resource type.
+	//  The activity resource ID being referenced with resource type.
 	EventFieldNameActivityResourceID EventFieldName = "activity_resource_id"
-	// Defines the type of entity performing the action, helping to distinguish between different categories of users.
+	//  Defines the type of entity performing the action, helping to distinguish between different categories of users.
 	EventFieldNameActorType EventFieldName = "actor_type"
-	// Active Directory name
+	//  Active Directory name
 	EventFieldNameAdName EventFieldName = "ad_name"
-	// A unique identifier of the alert notification
+	//  A unique identifier of the alert notification
 	EventFieldNameAlertID EventFieldName = "alert_id"
-	// Always-on Configuration
+	//  Always-on Configuration
 	EventFieldNameAlwaysOnConfiguration EventFieldName = "always_on_configuration"
-	// Analyst Verdict
+	//  Analyst Verdict
 	EventFieldNameAnalystVerdict EventFieldName = "analyst_verdict"
-	// The name of the API, e.g. eventsFeed
+	//  The name of the API, e.g. eventsFeed
 	EventFieldNameAPIName EventFieldName = "api_name"
-	// Specifies whether the API is a query (read) or a mutation (create/update/delete)
+	//  Specifies whether the API is a query (read) or a mutation (create/update/delete)
 	EventFieldNameAPIType EventFieldName = "api_type"
-	// Name of application activity
+	//  Name of application activity
 	EventFieldNameAppActivity EventFieldName = "app_activity"
-	// SaaS user activities into categories.
+	//  SaaS user activities into categories.
 	EventFieldNameAppActivityCategory EventFieldName = "app_activity_category"
-	// Activity type
+	//  Activity type
 	EventFieldNameAppActivityType EventFieldName = "app_activity_type"
-	// Related Apps
+	//  Related Apps
 	EventFieldNameAppStack EventFieldName = "app_stack"
-	// Application ID of the flow
+	//  Application ID of the flow
 	EventFieldNameApplicationID EventFieldName = "application_id"
-	// The name of the application associated with the flow
+	//  The name of the application associated with the flow
 	EventFieldNameApplicationName EventFieldName = "application_name"
-	// Application risk score
+	//  Application risk score
 	EventFieldNameApplicationRisk EventFieldName = "application_risk"
-	// Connectivity authentication method: unauthenticated, OATH2, LDAP or VPN
+	//  Connectivity authentication method: unauthenticated, OATH2, LDAP or VPN
 	EventFieldNameAuthMethod EventFieldName = "auth_method"
-	// Examples: MFA or password
+	//  Examples: MFA or password
 	EventFieldNameAuthenticationType EventFieldName = "authentication_type"
-	// BGP ASN for Cato peer
+	//  BGP ASN for Cato peer
 	EventFieldNameBgpCatoAsn EventFieldName = "bgp_cato_asn"
-	// BGP IP for Cato peer
+	//  BGP IP for Cato peer
 	EventFieldNameBgpCatoIP EventFieldName = "bgp_cato_ip"
-	// BGP disconnect error code
+	//  BGP disconnect error code
 	EventFieldNameBgpErrorCode EventFieldName = "bgp_error_code"
-	// BGP ASN for remote peer
+	//  BGP ASN for remote peer
 	EventFieldNameBgpPeerAsn EventFieldName = "bgp_peer_asn"
-	// BGP IP for remote peer
+	//  BGP IP for remote peer
 	EventFieldNameBgpPeerIP EventFieldName = "bgp_peer_ip"
-	// CIDR for BGP route
+	//  CIDR for BGP route
 	EventFieldNameBgpRouteCidr EventFieldName = "bgp_route_cidr"
-	// BGP disconnect error message
+	//  BGP disconnect error message
 	EventFieldNameBgpSuberrorCode EventFieldName = "bgp_suberror_code"
-	// Always-On Bypass Duration In Seconds
+	//  Always-On Bypass Duration In Seconds
 	EventFieldNameBypassDurationSec EventFieldName = "bypass_duration_sec"
-	// Always-On Bypass Method
+	//  Always-On Bypass Method
 	EventFieldNameBypassMethod EventFieldName = "bypass_method"
-	// Always-On Bypass Reason
+	//  Always-On Bypass Reason
 	EventFieldNameBypassReason EventFieldName = "bypass_reason"
-	// Cato system category
+	//  Cato system category
 	EventFieldNameCategories EventFieldName = "categories"
-	// Cato application name
+	//  Cato application name
 	EventFieldNameCatoApp EventFieldName = "cato_app"
-	// Activity classification, e.g. FALSE_POSITIVE
+	//  Activity classification, e.g. FALSE_POSITIVE
 	EventFieldNameClassification EventFieldName = "classification"
-	// Expiration date for Client certificate
+	//  Expiration date for Client certificate
 	EventFieldNameClientCertExpires EventFieldName = "client_cert_expires"
-	// Name of Client certificate
+	//  Name of Client certificate
 	EventFieldNameClientCertName EventFieldName = "client_cert_name"
-	// Type of process generating this traffic
+	//  Type of process generating this traffic
 	EventFieldNameClientClass EventFieldName = "client_class"
 	// Admins can configure the Client connection mode to control which types of traffic are routed and protected by Cato. The available options are:
 	// All Ports and Protocols – Secures all application traffic across any port or protocol.
 	// Web-only (HTTPS) – Secures only browser-based traffic over HTTPS.
 	EventFieldNameClientConnectionMode EventFieldName = "client_connection_mode"
-	// Socket or SDP Client version
+	//  Socket or SDP Client version
 	EventFieldNameClientVersion EventFieldName = "client_version"
-	// Shows the display name of the target user involved in an activity
+	//  Shows the display name of the target user involved in an activity
 	EventFieldNameCollaboratorName EventFieldName = "collaborator_name"
-	// For SaaS Security API, email addresses of the users that received the file
+	//  For SaaS Security API, email addresses of the users that received the file
 	EventFieldNameCollaborators EventFieldName = "collaborators"
-	// Confidence Level
+	//  Confidence Level
 	EventFieldNameConfidenceLevel EventFieldName = "confidence_level"
-	// For hosts configured with a static IP in the Cato Management Application, the host name
+	//  For hosts configured with a static IP in the Cato Management Application, the host name
 	EventFieldNameConfiguredHostName EventFieldName = "configured_host_name"
-	// The algorithm that is used (CUBIC /NewReno / BBR)
+	//  The algorithm that is used (CUBIC /NewReno / BBR)
 	EventFieldNameCongestionAlgorithm EventFieldName = "congestion_algorithm"
-	// Connect on boot Enabled/Disabled
+	//  Connect on boot Enabled/Disabled
 	EventFieldNameConnectOnBoot EventFieldName = "connect_on_boot"
-	// Connection Origin
+	//  Connection Origin
 	EventFieldNameConnectionOrigin EventFieldName = "connection_origin"
-	// For SaaS Security API, unique identifier of the connector. CMA Name: Connector ID
+	//  For SaaS Security API, unique identifier of the connector. CMA Name: Connector ID
 	EventFieldNameConnectorID EventFieldName = "connector_id"
-	// For SaaS Security API, name of the connector. CMA Name: Connector Name
+	//  For SaaS Security API, name of the connector. CMA Name: Connector Name
 	EventFieldNameConnectorName EventFieldName = "connector_name"
-	// For SaaS Security API, status of the connector
+	//  For SaaS Security API, status of the connector
 	EventFieldNameConnectorStatus EventFieldName = "connector_status"
-	// For SaaS Security API, SaaS app for the connector
+	//  For SaaS Security API, SaaS app for the connector
 	EventFieldNameConnectorType EventFieldName = "connector_type"
-	// IoC Container Name
+	//  IoC Container Name
 	EventFieldNameContainerName EventFieldName = "container_name"
-	// An external system identifier used for correlation between related Cato entities. Example: external ticket id that correlates Cato XDR stories.
+	//  An external system identifier used for correlation between related Cato entities. Example: external ticket id that correlates Cato XDR stories.
 	EventFieldNameCorrelationID EventFieldName = "correlation_id"
-	// CPU Core ID. CMA Name: Cpu Core ID
+	//  CPU Core ID. CMA Name: Cpu Core ID
 	EventFieldNameCPUCoreID EventFieldName = "cpu_core_id"
-	// Criticality. CMA Name: Criticality
+	//  Criticality. CMA Name: Criticality
 	EventFieldNameCriticality EventFieldName = "criticality"
-	// Custom category ID
+	//  Custom category ID
 	EventFieldNameCustomCategoryID EventFieldName = "custom_category_id"
-	// Custom category name
+	//  Custom category name
 	EventFieldNameCustomCategoryName EventFieldName = "custom_category_name"
-	// For Internet traffic, country where the destination host is located
+	//  For Internet traffic, country where the destination host is located
 	EventFieldNameDestCountry EventFieldName = "dest_country"
-	// For Internet traffic, the two letter country code where the destination host is located (based on ISO 3166-1 alpha-2)
+	//  For Internet traffic, the two letter country code where the destination host is located (based on ISO 3166-1 alpha-2)
 	EventFieldNameDestCountryCode EventFieldName = "dest_country_code"
-	// The unique identifier by the SaaS vendor for the target group in an activity.
+	//  The unique identifier by the SaaS vendor for the target group in an activity.
 	EventFieldNameDestGroupID EventFieldName = "dest_group_id"
-	// Identifies the target group involved in an activity
+	//  Identifies the target group involved in an activity
 	EventFieldNameDestGroupName EventFieldName = "dest_group_name"
-	// Destination IP address
+	//  Destination IP address
 	EventFieldNameDestIP EventFieldName = "dest_ip"
-	// For WAN traffic, destination is site or SDP user
+	//  For WAN traffic, destination is site or SDP user
 	EventFieldNameDestIsSiteOrVpn EventFieldName = "dest_is_site_or_vpn"
-	// The destination process ID
+	//  The destination process ID
 	EventFieldNameDestPid EventFieldName = "dest_pid"
-	// Destination port
+	//  Destination port
 	EventFieldNameDestPort EventFieldName = "dest_port"
-	// Destination process command line
+	//  Destination process command line
 	EventFieldNameDestProcessCmdline EventFieldName = "dest_process_cmdline"
-	// Destination process parent file path
+	//  Destination process parent file path
 	EventFieldNameDestProcessParentPath EventFieldName = "dest_process_parent_path"
-	// Destination process parent process ID
+	//  Destination process parent process ID
 	EventFieldNameDestProcessParentPid EventFieldName = "dest_process_parent_pid"
-	// Destination process file path
+	//  Destination process file path
 	EventFieldNameDestProcessPath EventFieldName = "dest_process_path"
-	// Unique internal Cato ID for the destination site or remote user
+	//  Unique internal Cato ID for the destination site or remote user
 	EventFieldNameDestSiteID EventFieldName = "dest_site_id"
-	// The name of the destination site
+	//  The name of the destination site
 	EventFieldNameDestSiteName EventFieldName = "dest_site_name"
-	// Short description of the detection
+	//  Short description of the detection
 	EventFieldNameDetectionName EventFieldName = "detection_name"
 	// Triggered when malware has been detected EPP Behavioral engines and has been dealt with:
 	// • on_detection: the event is triggered upon malware detection;
 	// • on_end_disinfect: the event is triggered upon detection and followed disinfection;
 	// • on_inject: the event is triggered upon code injection.
 	EventFieldNameDetectionStage EventFieldName = "detection_stage"
-	// Device Categories
+	//  Device Categories
 	EventFieldNameDeviceCategories EventFieldName = "device_categories"
-	// Device Certificate Validated/Not Validated
+	//  Device Certificate Validated/Not Validated
 	EventFieldNameDeviceCertificate EventFieldName = "device_certificate"
-	// Unique Cato ID for devices
+	//  Unique Cato ID for devices
 	EventFieldNameDeviceID EventFieldName = "device_id"
-	// Device Manufacturer
+	//  Device Manufacturer
 	EventFieldNameDeviceManufacturer EventFieldName = "device_manufacturer"
-	// Device Model
+	//  Device Model
 	EventFieldNameDeviceModel EventFieldName = "device_model"
-	// Name for device related to the event
+	//  Name for device related to the event
 	EventFieldNameDeviceName EventFieldName = "device_name"
-	// Device OS Type
+	//  Device OS Type
 	EventFieldNameDeviceOsType EventFieldName = "device_os_type"
-	// Device posture profiles
+	//  Device posture profiles
 	EventFieldNameDevicePostureProfile EventFieldName = "device_posture_profile"
-	// Device Type
+	//  Device Type
 	EventFieldNameDeviceType EventFieldName = "device_type"
-	// Host name of Domain Controller that created LDAP event
+	//  Host name of Domain Controller that created LDAP event
 	EventFieldNameDirectoryHostName EventFieldName = "directory_host_name"
-	// IP address of Domain Controller that created LDAP event
+	//  IP address of Domain Controller that created LDAP event
 	EventFieldNameDirectoryIP EventFieldName = "directory_ip"
-	// Result of LDAP Domain Controller sync event
+	//  Result of LDAP Domain Controller sync event
 	EventFieldNameDirectorySyncResult EventFieldName = "directory_sync_result"
-	// Type of LDAP Domain Controller sync event
+	//  Type of LDAP Domain Controller sync event
 	EventFieldNameDirectorySyncType EventFieldName = "directory_sync_type"
-	// If policy is set to disinfect, return the result of this action
+	//  If policy is set to disinfect, return the result of this action
 	EventFieldNameDisinfectResult EventFieldName = "disinfect_result"
-	// Describes the behavior when the DLP system encounters a failure
+	//  Describes the behavior when the DLP system encounters a failure
 	EventFieldNameDlpFailMode EventFieldName = "dlp_fail_mode"
-	// DLP profiles related to the event
+	//  DLP profiles related to the event
 	EventFieldNameDlpProfiles EventFieldName = "dlp_profiles"
-	// Defines the scanning methods used by the DLP system
+	//  Defines the scanning methods used by the DLP system
 	EventFieldNameDlpScanTypes EventFieldName = "dlp_scan_types"
-	// Cato’s DNS Protection type that matched the DNS request
+	//  Cato’s DNS Protection type that matched the DNS request
 	EventFieldNameDNSProtectionCategory EventFieldName = "dns_protection_category"
-	// Domain queried in the DNS request
+	//  Domain queried in the DNS request
 	EventFieldNameDNSQuery EventFieldName = "dns_query"
-	// Type of record (ie. DNS record: A, AAAA, MX, or PTR). CMA Name: Dns Record Type
+	//  Type of record (ie. DNS record: A, AAAA, MX, or PTR). CMA Name: Dns Record Type
 	EventFieldNameDNSRecordType EventFieldName = "dns_record_type"
-	// Domain name based on the SSL SNI, HTTP host name, or DNS name. CMA Name: Domain Name
+	//  Domain name based on the SSL SNI, HTTP host name, or DNS name. CMA Name: Domain Name
 	EventFieldNameDomainName EventFieldName = "domain_name"
-	// Duration in milliseconds between the start and end of a transaction or operation. For example, in DNS or HTTP events, this reflects the time between the request and the corresponding response. CMA Name: Duration Ms
+	//  Duration in milliseconds between the start and end of a transaction or operation. For example, in DNS or HTTP events, this reflects the time between the request and the corresponding response. CMA Name: Duration Ms
 	EventFieldNameDurationMs EventFieldName = "duration_ms"
-	// Dynamic Control IDs applied in the event. CMA Name: Dynamic Control IDs
+	//  Dynamic Control IDs applied in the event. CMA Name: Dynamic Control IDs
 	EventFieldNameDynamicControlIds EventFieldName = "dynamic_control_ids"
-	// Dynamic control names applied in the event. CMA Name: Dynamic Control Names
+	//  Dynamic control names applied in the event. CMA Name: Dynamic Control Names
 	EventFieldNameDynamicControlNames EventFieldName = "dynamic_control_names"
-	// The scope of the dynamic control Applied in the event. CMA Name: Dynamic Control Scope
+	//  The scope of the dynamic control Applied in the event. CMA Name: Dynamic Control Scope
 	EventFieldNameDynamicControlScope EventFieldName = "dynamic_control_scope"
-	// Dynamic control threat categories applied in the event. CMA Name: Dynamic Control Threat Categories
+	//  Dynamic control threat categories applied in the event. CMA Name: Dynamic Control Threat Categories
 	EventFieldNameDynamicControlThreatCategories EventFieldName = "dynamic_control_threat_categories"
-	// Egress PoP Name. CMA Name: Egress PoP Name
+	//  Egress PoP Name. CMA Name: Egress PoP Name
 	EventFieldNameEgressPopName EventFieldName = "egress_pop_name"
-	// Egress Site Name for backhauling traffic
+	//  Egress Site Name for backhauling traffic
 	EventFieldNameEgressSiteName EventFieldName = "egress_site_name"
-	// Email Subject
+	//  Email Subject
 	EventFieldNameEmailSubject EventFieldName = "email_subject"
-	// The ID for the endpoint
+	//  The ID for the endpoint
 	EventFieldNameEndpointID EventFieldName = "endpoint_id"
-	// The engine type associated with the event
+	//  The engine type associated with the event
 	EventFieldNameEngineType EventFieldName = "engine_type"
-	// The Endpoint Protection Engine that detected the malware. CMA Name: Engine Type
+	//  The Endpoint Protection Engine that detected the malware. CMA Name: Engine Type
 	EventFieldNameEppEngineType EventFieldName = "epp_engine_type"
-	// The profile assigned to the endpoint upon detection of the malware. CMA Name: Endpoint Protection Profile
+	//  The profile assigned to the endpoint upon detection of the malware. CMA Name: Endpoint Protection Profile
 	EventFieldNameEppProfile EventFieldName = "epp_profile"
-	// Count for events that are repeated multiple times during one minute
+	//  Count for events that are repeated multiple times during one minute
 	EventFieldNameEventCount EventFieldName = "event_count"
-	// Event Id
+	//  Event Id
 	EventFieldNameEventID EventFieldName = "event_id"
-	// Cato's description of the event
+	//  Cato's description of the event
 	EventFieldNameEventMessage EventFieldName = "event_message"
-	// Sub-type for Routing, Security, Connectivity, System or Sockets Management event
+	//  Sub-type for Routing, Security, Connectivity, System or Sockets Management event
 	EventFieldNameEventSubType EventFieldName = "event_sub_type"
-	// Routing, Security, Connectivity, System or Sockets Management event
+	//  Routing, Security, Connectivity, System or Sockets Management event
 	EventFieldNameEventType EventFieldName = "event_type"
-	// Provides details about why a specific action or process failed
+	//  Provides details about why a specific action or process failed
 	EventFieldNameFailureReason EventFieldName = "failure_reason"
-	// File hash
+	//  File hash
 	EventFieldNameFileHash EventFieldName = "file_hash"
-	// File name
+	//  File name
 	EventFieldNameFileName EventFieldName = "file_name"
-	// The file operation when this event occurred
+	//  The file operation when this event occurred
 	EventFieldNameFileOperation EventFieldName = "file_operation"
-	// File path. CMA Name: File Path
+	//  File path. CMA Name: File Path
 	EventFieldNameFilePath EventFieldName = "file_path"
-	// File size. CMA Name: File Size (bytes)
+	//  File size. CMA Name: File Size (bytes)
 	EventFieldNameFileSize EventFieldName = "file_size"
-	// File Topic - The topic of the file content, as classified by the DLP auto-classification engine. CMA Name: File Topic
+	//  File Topic - The topic of the file content, as classified by the DLP auto-classification engine. CMA Name: File Topic
 	EventFieldNameFileTopic EventFieldName = "file_topic"
-	// File Topic Category - The category associated with the classified file topic, as determined by the DLP auto-classification engine. CMA Name: File Topic Category
+	//  File Topic Category - The category associated with the classified file topic, as determined by the DLP auto-classification engine. CMA Name: File Topic Category
 	EventFieldNameFileTopicCategory EventFieldName = "file_topic_category"
-	// File type. CMA Name: File Type
+	//  File type. CMA Name: File Type
 	EventFieldNameFileType EventFieldName = "file_type"
-	// The final status for this object after performing actions as defined by the policy
+	//  The final status for this object after performing actions as defined by the policy
 	EventFieldNameFinalObjectStatus EventFieldName = "final_object_status"
-	// Uniquely identifies a traffic flow and enables correlation of events and other records related to the same flow. Only available for native data integration created in the CMA (e.g. Sentinel) and eventsFeed API. Not available in the events or eventsTimeSeries API.
+	//  Uniquely identifies a traffic flow and enables correlation of events and other records related to the same flow. Only available for native data integration created in the CMA (e.g. Sentinel) and eventsFeed API. Not available in the events or eventsTimeSeries API.
 	EventFieldNameFlowID EventFieldName = "flow_id"
-	// Amount of flows for a given incident. CMA Name: Flows Cardinality
+	//  Amount of flows for a given incident. CMA Name: Flows Cardinality
 	EventFieldNameFlowsCardinality EventFieldName = "flows_cardinality"
-	// Full path URL application activity
+	//  Full path URL application activity
 	EventFieldNameFullPathURL EventFieldName = "full_path_url"
-	// A unique identifier for the AI Security Guard associated with the event. CMA Name: Guard ID
+	//  A unique identifier for the AI Security Guard associated with the event. CMA Name: Guard ID
 	EventFieldNameGuardID EventFieldName = "guard_id"
-	// The name of the AI Security Guard associated with the event. CMA Name: Guard Name
+	//  The name of the AI Security Guard associated with the event. CMA Name: Guard Name
 	EventFieldNameGuardName EventFieldName = "guard_name"
-	// The type of AI Security Guard associated with the event. CMA Name: Guard Type
+	//  The type of AI Security Guard associated with the event. CMA Name: Guard Type
 	EventFieldNameGuardType EventFieldName = "guard_type"
-	// An identifier for a guest user using Cato through a Captive Portal. CMA Name: Guest User
+	//  An identifier for a guest user using Cato through a Captive Portal. CMA Name: Guest User
 	EventFieldNameGuestUser EventFieldName = "guest_user"
-	// IP address of host related to event
+	//  IP address of host related to event
 	EventFieldNameHostIP EventFieldName = "host_ip"
-	// MAC address of host related to event
+	//  MAC address of host related to event
 	EventFieldNameHostMac EventFieldName = "host_mac"
-	// HTTP request method (ie. Get, Post)
+	//  HTTP request method (ie. Get, Post)
 	EventFieldNameHTTPRequestMethod EventFieldName = "http_request_method"
-	// HTTP status code returned (ie. for DNS request, DNS-over-HTTPS (DoH) server when DoH is used). CMA Name: Http Response Code
+	//  HTTP status code returned (ie. for DNS request, DNS-over-HTTPS (DoH) server when DoH is used). CMA Name: Http Response Code
 	EventFieldNameHTTPResponseCode EventFieldName = "http_response_code"
-	// For MDR service, a true/false value that indicates if this event is: A summary that aggregates many events (true) Raw network flows for a single event (false). CMA Name: Incident Aggregation
+	//  For MDR service, a true/false value that indicates if this event is: A summary that aggregates many events (true) Raw network flows for a single event (false). CMA Name: Incident Aggregation
 	EventFieldNameIncidentAggregation EventFieldName = "incident_aggregation"
-	// Unique Cato ID that identifies this security incident
+	//  Unique Cato ID that identifies this security incident
 	EventFieldNameIncidentID EventFieldName = "incident_id"
-	// Indication
+	//  Indication
 	EventFieldNameIndication EventFieldName = "indication"
-	// Indicator
+	//  Indicator
 	EventFieldNameIndicator EventFieldName = "indicator"
-	// The initial status of the object, before any policy was applied
+	//  The initial status of the object, before any policy was applied
 	EventFieldNameInitialObjectStatus EventFieldName = "initial_object_status"
-	// Cato Internal-use only
+	//  Cato Internal-use only
 	EventFieldNameInternalID EventFieldName = "internalId"
-	// Network protocol for this event
+	//  Network protocol for this event
 	EventFieldNameIPProtocol EventFieldName = "ip_protocol"
-	// Classifies users based on their permissions.
+	//  Classifies users based on their permissions.
 	EventFieldNameIsAdmin EventFieldName = "is_admin"
-	// Indicates whether an activity requires administrative permissions.
+	//  Indicates whether an activity requires administrative permissions.
 	EventFieldNameIsAdminActivity EventFieldName = "is_admin_activity"
-	// Is Compliant
+	//  Is Compliant
 	EventFieldNameIsCompliant EventFieldName = "is_compliant"
-	// Is Managed
+	//  Is Managed
 	EventFieldNameIsManaged EventFieldName = "is_managed"
-	// Is the app for this event defined as a sanctioned app? (True/False)
+	//  Is the app for this event defined as a sanctioned app? (True/False)
 	EventFieldNameIsSanctionedApp EventFieldName = "is_sanctioned_app"
-	// If the events was part of the sinkhole flow
+	//  If the events was part of the sinkhole flow
 	EventFieldNameIsSinkhole EventFieldName = "is_sinkhole"
-	// The ISP related to this event (when the IP address isn't provided by the ISP, then the event message is IP Addresses are assigned statically)
-	EventFieldNameIspName EventFieldName = "ISP_name"
-	// Name defined for the public API Key in the Cato Management Application
+	//  Name defined for the public API Key in the Cato Management Application
 	EventFieldNameKeyName EventFieldName = "key_name"
-	// A list of labels providing additional context for the event
+	//  A list of labels providing additional context for the event
 	EventFieldNameLabels EventFieldName = "labels"
-	// Role of the conversation participant for the analyzed turn (user, assistant, or tool call). CMA Name: Last Turn Role
+	//  Role of the conversation participant for the analyzed turn (user, assistant, or tool call). CMA Name: Last Turn Role
 	EventFieldNameLastTurnRole EventFieldName = "last_turn_role"
-	// Data that measures the congestion for a specific link. CMA Name: Link Health is Congested
+	//  Data that measures the congestion for a specific link. CMA Name: Link Health is Congested
 	EventFieldNameLinkHealthIsCongested EventFieldName = "link_health_is_congested"
-	// Data that measures the jitter for a specific link
+	//  Data that measures the jitter for a specific link
 	EventFieldNameLinkHealthJitter EventFieldName = "link_health_jitter"
-	// Round Trip Delay in Milliseconds that it takes a packet to travel between the source and the PoP
+	//  Round Trip Delay in Milliseconds that it takes a packet to travel between the source and the PoP
 	EventFieldNameLinkHealthLatency EventFieldName = "link_health_latency"
-	// Data that measures the packet loss for a specific link
+	//  Data that measures the packet loss for a specific link
 	EventFieldNameLinkHealthPktLoss EventFieldName = "link_health_pkt_loss"
-	// Link type – Cato, Alt. WAN or LAG
+	//  Link type – Cato, Alt. WAN or LAG
 	EventFieldNameLinkType EventFieldName = "link_type"
-	// The user logged into this endpoint during this event
+	//  The user logged into this endpoint during this event
 	EventFieldNameLoggedInUser EventFieldName = "logged_in_user"
-	// Login action, values are: User portal (myvpn.catonetworks.com) or VPN client (Client or site traffic)
+	//  Login action, values are: User portal (myvpn.catonetworks.com) or VPN client (Client or site traffic)
 	EventFieldNameLoginType EventFieldName = "login_type"
-	// Matched DLP data types related to the event
+	//  Matched DLP data types related to the event
 	EventFieldNameMatchedDataTypes EventFieldName = "matched_data_types"
-	// Unique identifier used to correlate request and response events for the same message. CMA Name: Message ID
+	//  Unique identifier used to correlate request and response events for the same message. CMA Name: Message ID
 	EventFieldNameMessageID EventFieldName = "message_id"
-	// Mitre attack subtechniques. CMA Name: Mitre Attack Subtechniques
+	//  Mitre attack subtechniques. CMA Name: Mitre Attack Subtechniques
 	EventFieldNameMitreAttackSubtechniques EventFieldName = "mitre_attack_subtechniques"
-	// Mitre attack tactics
+	//  Mitre attack tactics
 	EventFieldNameMitreAttackTactics EventFieldName = "mitre_attack_tactics"
-	// Mitre attack techniques
+	//  Mitre attack techniques
 	EventFieldNameMitreAttackTechniques EventFieldName = "mitre_attack_techniques"
-	// Flow NAT error reason. CMA Name: NAT Error
+	//  Flow NAT error reason. CMA Name: NAT Error
 	EventFieldNameNatError EventFieldName = "nat_error"
-	// Network Access. CMA Name: Network Access
+	//  Network Access. CMA Name: Network Access
 	EventFieldNameNetworkAccess EventFieldName = "network_access"
-	// Matched network rule. CMA Name: Network Rule
+	//  Matched network rule. CMA Name: Network Rule
 	EventFieldNameNetworkRule EventFieldName = "network_rule"
-	// For SaaS Security API, API Error of Apps Security Notification. CMA Name: Notification API Error
+	//  For SaaS Security API, API Error of Apps Security Notification. CMA Name: Notification API Error
 	EventFieldNameNotificationAPIError EventFieldName = "notification_api_error"
-	// For SaaS Security API, description of Apps Security Notification
+	//  For SaaS Security API, description of Apps Security Notification
 	EventFieldNameNotificationDescription EventFieldName = "notification_description"
-	// Unique identifier by the 3rd party App of the object being referenced
+	//  Unique identifier by the 3rd party App of the object being referenced
 	EventFieldNameObjectID EventFieldName = "object_id"
-	// The name of the object for this event (for example: file name)
+	//  The name of the object for this event (for example: file name)
 	EventFieldNameObjectName EventFieldName = "object_name"
-	// Specifies the type of object being acted upon (e.g., file, folder)
+	//  Specifies the type of object being acted upon (e.g., file, folder)
 	EventFieldNameObjectType EventFieldName = "object_type"
-	// Office mode Enabled/Disabled
+	//  Office mode Enabled/Disabled
 	EventFieldNameOfficeMode EventFieldName = "office_mode"
-	// Host OS or tunnel device
+	//  Host OS or tunnel device
 	EventFieldNameOsType EventFieldName = "os_type"
-	// OS version for the device (such as 14.3.0)
+	//  OS version for the device (such as 14.3.0)
 	EventFieldNameOsVersion EventFieldName = "os_version"
-	// Indicate if the Access to the 3rd Party SaaS App occurs without passing through Cato Cloud (direct access to saas App)
+	//  Indicate if the Access to the 3rd Party SaaS App occurs without passing through Cato Cloud (direct access to saas App)
 	EventFieldNameOutOfBandAccess EventFieldName = "out_of_band_access"
-	// Name of the on-prem deployment  environment where the event originated from. CMA Name: Outpost Environment Name
+	//  Name of the on-prem deployment  environment where the event originated from. CMA Name: Outpost Environment Name
 	EventFieldNameOutpostEnvironmentName EventFieldName = "outpost_environment_name"
-	// For SaaS Security API, email address of the file owner. CMA Name: Owner
+	//  For SaaS Security API, email address of the file owner. CMA Name: Owner
 	EventFieldNameOwner EventFieldName = "owner"
-	// Pac File Enabled/Disabled
+	//  Pac File Enabled/Disabled
 	EventFieldNamePacFile EventFieldName = "pac_file"
-	// For SaaS Security API, parent Microsoft 365 connector
+	//  For SaaS Security API, parent Microsoft 365 connector
 	EventFieldNameParentConnectorName EventFieldName = "parent_connector_name"
-	// Name of PoP location
+	//  Name of PoP location
 	EventFieldNamePopName EventFieldName = "pop_name"
-	// Precedence
+	//  Precedence
 	EventFieldNamePrecedence EventFieldName = "precedence"
-	// Indicate how many processes are part of this event
+	//  Indicate how many processes are part of this event
 	EventFieldNameProcessesCount EventFieldName = "processes_count"
-	// Producer
+	//  Producer
 	EventFieldNameProducer EventFieldName = "producer"
-	// Related project name(s)
+	//  Related project name(s)
 	EventFieldNameProjects EventFieldName = "projects"
-	// Prompt Page Selected Action
+	//  Prompt Page Selected Action
 	EventFieldNamePromptAction EventFieldName = "prompt_action"
-	// The name of the provider, for example cloud provider - AWS
+	//  The name of the provider, for example cloud provider - AWS
 	EventFieldNameProviderName EventFieldName = "provider_name"
-	// Public source IP
+	//  Public source IP
 	EventFieldNamePublicIP EventFieldName = "public_ip"
-	// QoS Priority value
+	//  QoS Priority value
 	EventFieldNameQosPriority EventFieldName = "qos_priority"
-	// For QoS, the time that this QoS event started. The event is generated when the QoS event finishes
+	//  For QoS, the time that this QoS event started. The event is generated when the QoS event finishes
 	EventFieldNameQosReportedTime EventFieldName = "qos_reported_time"
-	// Specifies the path to a quarantine folder for isolated files
+	//  Specifies the path to a quarantine folder for isolated files
 	EventFieldNameQuarantineFolderPath EventFieldName = "quarantine_folder_path"
-	// A Unique ID for the quarantined file
+	//  A Unique ID for the quarantined file
 	EventFieldNameQuarantineUUID EventFieldName = "quarantine_uuid"
-	// Raw Data
+	//  Raw Data
 	EventFieldNameRawData EventFieldName = "raw_data"
-	// Textual recommendation of the steps to take
+	//  Textual recommendation of the steps to take
 	EventFieldNameRecommendedActions EventFieldName = "recommended_actions"
-	// The URL that links directly to the object involved in the activity
+	//  The URL that links directly to the object involved in the activity
 	EventFieldNameReferenceURL EventFieldName = "reference_url"
-	// Referer URL from the HTTP request header indicating the source of the request.
+	//  Referer URL from the HTTP request header indicating the source of the request.
 	EventFieldNameRefererURL EventFieldName = "referer_url"
-	// The region of the object
+	//  The region of the object
 	EventFieldNameRegionName EventFieldName = "region_name"
-	// Registration code used the first time that a SDP user authenticates (the code is partially obfuscated)
+	//  Registration code used the first time that a SDP user authenticates (the code is partially obfuscated)
 	EventFieldNameRegistrationCode EventFieldName = "registration_code"
-	// Request packet size in bytes (ie. DNS request packet). CMA Name: Request Size
+	//  Request packet size in bytes (ie. DNS request packet). CMA Name: Request Size
 	EventFieldNameRequestSize EventFieldName = "request_size"
-	// The ID of the resource in the cloud provider. CMA Name: The ID of the resource
+	//  The ID of the resource in the cloud provider. CMA Name: The ID of the resource
 	EventFieldNameResourceID EventFieldName = "resource_id"
-	// The specific name or identifier of the resource.
+	//  The specific name or identifier of the resource.
 	EventFieldNameResourceName EventFieldName = "resource_name"
-	// The type of resource being referenced.
+	//  The type of resource being referenced.
 	EventFieldNameResourceType EventFieldName = "resource_type"
-	// Response packet size in bytes (ie. DNS response packet). CMA Name: Response Size
+	//  Response packet size in bytes (ie. DNS response packet). CMA Name: Response Size
 	EventFieldNameResponseSize EventFieldName = "response_size"
-	// (IPS or SAM event) Indicates the overall impact of a threat for the host or network: Low – ie. adware Medium – ie. network scans High – ie. spyware or worms. CMA Name: Risk Level
+	//  (IPS or SAM event) Indicates the overall impact of a threat for the host or network: Low – ie. adware Medium – ie. network scans High – ie. spyware or worms. CMA Name: Risk Level
 	EventFieldNameRiskLevel EventFieldName = "risk_level"
-	// The time when the rule is no longer in active. CMA Name: Rule Expiration Time
+	//  The time when the rule is no longer in active. CMA Name: Rule Expiration Time
 	EventFieldNameRuleExpirationTime EventFieldName = "rule_expiration_time"
-	// Unique Cato ID for the security rule related to the event. CMA Name: Rule ID
+	//  Unique Cato ID for the security rule related to the event. CMA Name: Rule ID
 	EventFieldNameRuleID EventFieldName = "rule_id"
-	// Rule name
+	//  Rule name
 	EventFieldNameRuleName EventFieldName = "rule_name"
-	// Secondary socket serial number. CMA Name: Secondary Socket Serial
+	//  Secondary socket serial number. CMA Name: Secondary Socket Serial
 	EventFieldNameSecondarySocketSerial EventFieldName = "secondary_socket_serial"
-	// Server IP address. CMA Name: Server IP
+	//  Server IP address. CMA Name: Server IP
 	EventFieldNameServerIP EventFieldName = "server_ip"
-	// Indicates the internal vendor service or module that produced the data reported in this event. CMA Name: Service Name
+	//  Indicates the internal vendor service or module that produced the data reported in this event. CMA Name: Service Name
 	EventFieldNameServiceName EventFieldName = "service_name"
-	// Unique identifier for grouping multiple messages within the same session. CMA Name: Session ID
+	//  Unique identifier for grouping multiple messages within the same session. CMA Name: Session ID
 	EventFieldNameSessionID EventFieldName = "session_id"
-	// Severity defined for the rule. CMA Name: Severity
+	//  Severity defined for the rule. CMA Name: Severity
 	EventFieldNameSeverity EventFieldName = "severity"
-	// Sharing Options for the file (such as SharePoint)
+	//  Sharing Options for the file (such as SharePoint)
 	EventFieldNameSharingScope EventFieldName = "sharing_scope"
-	// Sign In Types
+	//  Sign In Types
 	EventFieldNameSignInEventTypes EventFieldName = "sign_in_event_types"
-	// For IPS and SAM, ID of the IPS signature
+	//  For IPS and SAM, ID of the IPS signature
 	EventFieldNameSignatureID EventFieldName = "signature_id"
-	// Name for Socket interface
+	//  Name for Socket interface
 	EventFieldNameSocketInterface EventFieldName = "socket_interface"
-	// Socket interface ID
+	//  Socket interface ID
 	EventFieldNameSocketInterfaceID EventFieldName = "socket_interface_id"
-	// For Socket upgrades, new version number
+	//  For Socket upgrades, new version number
 	EventFieldNameSocketNewVersion EventFieldName = "socket_new_version"
-	// For Socket upgrade, previous version number
+	//  For Socket upgrade, previous version number
 	EventFieldNameSocketOldVersion EventFieldName = "socket_old_version"
-	// Type of Socket reset (Hardware/Software)
+	//  Type of Socket reset (Hardware/Software)
 	EventFieldNameSocketReset EventFieldName = "socket_reset"
-	// For Socket HA events, indicates if the Socket is primary or secondary
+	//  For Socket HA events, indicates if the Socket is primary or secondary
 	EventFieldNameSocketRole EventFieldName = "socket_role"
-	// Socket serial number
+	//  Socket serial number
 	EventFieldNameSocketSerial EventFieldName = "socket_serial"
-	// Socket version number
+	//  Socket version number
 	EventFieldNameSocketVersion EventFieldName = "socket_version"
-	// Split Tunnel Configuration
+	//  Split Tunnel Configuration
 	EventFieldNameSplitTunnelConfiguration EventFieldName = "split_tunnel_configuration"
-	// Country in which the source host is located (detected via public IP address)
+	//  Country in which the source host is located (detected via public IP address)
 	EventFieldNameSrcCountry EventFieldName = "src_country"
-	// Country Code of country in which the source host is located (detected via public IP address)
+	//  Country Code of country in which the source host is located (detected via public IP address)
 	EventFieldNameSrcCountryCode EventFieldName = "src_country_code"
-	// IP for host or Cato Client
+	//  IP for host or Cato Client
 	EventFieldNameSrcIP EventFieldName = "src_ip"
-	// Source type: site or remote user
+	//  Source type: site or remote user
 	EventFieldNameSrcIsSiteOrVpn EventFieldName = "src_is_site_or_vpn"
-	// IP address provided by ISP to site or Client
+	//  IP address provided by ISP to site or Client
 	EventFieldNameSrcIspIP EventFieldName = "src_isp_ip"
-	// Source process ID
+	//  Source process ID
 	EventFieldNameSrcPid EventFieldName = "src_pid"
-	// Internal port number
+	//  Internal port number
 	EventFieldNameSrcPort EventFieldName = "src_port"
-	// Source process command line
+	//  Source process command line
 	EventFieldNameSrcProcessCmdline EventFieldName = "src_process_cmdline"
-	// Source process parent file path
+	//  Source process parent file path
 	EventFieldNameSrcProcessParentPath EventFieldName = "src_process_parent_path"
-	// Source process parent process ID
+	//  Source process parent process ID
 	EventFieldNameSrcProcessParentPid EventFieldName = "src_process_parent_pid"
-	// Source process file path
+	//  Source process file path
 	EventFieldNameSrcProcessPath EventFieldName = "src_process_path"
-	// Unique internal Cato ID for the site or remote user
+	//  Unique internal Cato ID for the site or remote user
 	EventFieldNameSrcSiteID EventFieldName = "src_site_id"
-	// Source site or remote user
+	//  Source site or remote user
 	EventFieldNameSrcSiteName EventFieldName = "src_site_name"
-	// Static host
+	//  Static host
 	EventFieldNameStaticHost EventFieldName = "static_host"
 	// The story status.
 	// Possible values: Open, Pending Analysis, Pending more info, Closed, Reopened, Monitoring
 	EventFieldNameStatus EventFieldName = "status"
-	// Story Id
+	//  Story Id
 	EventFieldNameStoryID EventFieldName = "story_id"
-	// Name of subnet as defined in Cato Management Application
+	//  Name of subnet as defined in Cato Management Application
 	EventFieldNameSubnetName EventFieldName = "subnet_name"
-	// The name of the subscription
+	//  The name of the subscription
 	EventFieldNameSubscriptionName EventFieldName = "subscription_name"
-	// Number of targets (servers) associated with this event
+	//  Number of targets (servers) associated with this event
 	EventFieldNameTargetsCardinality EventFieldName = "targets_cardinality"
-	// Shows if traffic was TCP accelerated or not
+	//  Shows if traffic was TCP accelerated or not
 	EventFieldNameTCPAcceleration EventFieldName = "tcp_acceleration"
-	// Unique identifier for the tenant within a multi-tenant environment
+	//  Unique identifier for the tenant within a multi-tenant environment
 	EventFieldNameTenantID EventFieldName = "tenant_id"
-	// Tenant Name
+	//  Tenant Name
 	EventFieldNameTenantName EventFieldName = "tenant_name"
-	// Tenant Restriction Rule Name
+	//  Tenant Restriction Rule Name
 	EventFieldNameTenantRestrictionRuleName EventFieldName = "tenant_restriction_rule_name"
 	// Contains the detection risk level. Could be one of the following:
 	// • Info - this is information-only event, the activity is not malicious;
 	// • Suspicious - the event is suspicious. It may be malicious, but there is not enough information
 	// • Malware - the event is malicious activity
 	EventFieldNameThreatConfidence EventFieldName = "threat_confidence"
-	// For anti-malware events, malware name For IPS events, explains the reason why the traffic was blocked
+	//  For anti-malware events, malware name For IPS events, explains the reason why the traffic was blocked
 	EventFieldNameThreatName EventFieldName = "threat_name"
-	// Link to external malware reference
+	//  Link to external malware reference
 	EventFieldNameThreatReference EventFieldName = "threat_reference"
-	// The higher the score, the more dangerous the event. In range between 1 - 100 inclusive
+	//  The higher the score, the more dangerous the event. In range between 1 - 100 inclusive
 	EventFieldNameThreatScore EventFieldName = "threat_score"
-	// Type of malware event
+	//  Type of malware event
 	EventFieldNameThreatType EventFieldName = "threat_type"
-	// Result of malware event (clean indicates a safe file)
+	//  Result of malware event (clean indicates a safe file)
 	EventFieldNameThreatVerdict EventFieldName = "threat_verdict"
-	// Time stamp of the event (Linux epoch format)
+	//  Time stamp of the event (Linux epoch format)
 	EventFieldNameTime EventFieldName = "time"
-	// Time stamp of the event (Human-readable format)
+	//  Time stamp of the event (Human-readable format)
 	EventFieldNameTimeStr EventFieldName = "time_str"
-	// A short summary of the activity
+	//  A short summary of the activity
 	EventFieldNameTitle EventFieldName = "title"
-	// TLS Certificate Error
+	//  TLS Certificate Error
 	EventFieldNameTLSCertificateError EventFieldName = "tls_certificate_error"
-	// TLS Error Description
+	//  TLS Error Description
 	EventFieldNameTLSErrorDescription EventFieldName = "tls_error_description"
-	// TLS Error Type
+	//  TLS Error Type
 	EventFieldNameTLSErrorType EventFieldName = "tls_error_type"
-	// Shows if traffic was TLS inspected or not
+	//  Shows if traffic was TLS inspected or not
 	EventFieldNameTLSInspection EventFieldName = "tls_inspection"
-	// TLS Inspection rule name
+	//  TLS Inspection rule name
 	EventFieldNameTLSRuleName EventFieldName = "tls_rule_name"
-	// TLS Version
+	//  TLS Version
 	EventFieldNameTLSVersion EventFieldName = "tls_version"
-	// Total number of tokens processed. CMA Name: Total Tokens
+	//  Total number of tokens processed. CMA Name: Total Tokens
 	EventFieldNameTotalTokens EventFieldName = "total_tokens"
-	// Direction of network traffic for this event, values are inbound or outbound. CMA Name: Traffic Direction
+	//  Direction of network traffic for this event, values are inbound or outbound. CMA Name: Traffic Direction
 	EventFieldNameTrafficDirection EventFieldName = "traffic_direction"
-	// Total transaction size in bytes, including both the request and response. CMA Name: Transaction Size
+	//  Total transaction size in bytes, including both the request and response. CMA Name: Transaction Size
 	EventFieldNameTransactionSize EventFieldName = "transaction_size"
-	// Translated Client IP. CMA Name: Translated Client IP
+	//  Translated Client IP. CMA Name: Translated Client IP
 	EventFieldNameTranslatedClientIP EventFieldName = "translated_client_ip"
-	// Translated Server IP
+	//  Translated Server IP
 	EventFieldNameTranslatedServerIP EventFieldName = "translated_server_ip"
-	// Trigger
+	//  Trigger
 	EventFieldNameTrigger EventFieldName = "trigger"
-	// Trust Type
+	//  Trust Type
 	EventFieldNameTrustType EventFieldName = "trust_type"
-	// Trusted networks Enabled/Disabled
+	//  Trusted networks Enabled/Disabled
 	EventFieldNameTrustedNetworks EventFieldName = "trusted_networks"
-	// Tunnel Protocol TCP/UDP
+	//  Tunnel Protocol TCP/UDP
 	EventFieldNameTunnelIPProtocol EventFieldName = "tunnel_ip_protocol"
-	// Protocol for the tunnel
+	//  Protocol for the tunnel
 	EventFieldNameTunnelProtocol EventFieldName = "tunnel_protocol"
-	// Socket upgrade end time (Linux epoch format):
+	//  Socket upgrade end time (Linux epoch format):
 	EventFieldNameUpgradeEndTime EventFieldName = "upgrade_end_time"
-	// Indicates if the Socket upgrade occurred during the maintenance window or initiated by Support (Cato Admin)
+	//  Indicates if the Socket upgrade occurred during the maintenance window or initiated by Support (Cato Admin)
 	EventFieldNameUpgradeInitiatedBy EventFieldName = "upgrade_initiated_by"
-	// Socket upgrade start time (Linux epoch format)
+	//  Socket upgrade start time (Linux epoch format)
 	EventFieldNameUpgradeStartTime EventFieldName = "upgrade_start_time"
-	// URL associated with the event
+	//  URL associated with the event
 	EventFieldNameURL EventFieldName = "url"
-	// User Agent
+	//  User Agent
 	EventFieldNameUserAgent EventFieldName = "user_agent"
-	// Method used to get identity with User Awareness (such as Identity Agent)
+	//  Method used to get identity with User Awareness (such as Identity Agent)
 	EventFieldNameUserAwarenessMethod EventFieldName = "user_awareness_method"
-	// User ID
+	//  User ID
 	EventFieldNameUserID EventFieldName = "user_id"
-	// User that generated the event
+	//  User that generated the event
 	EventFieldNameUserName EventFieldName = "user_name"
-	// Identifies the origin of the user’s connection.
+	//  Identifies the origin of the user’s connection.
 	EventFieldNameUserOrigin EventFieldName = "user_origin"
-	// For Block/Prompt page, reference ID to report incorrect category
+	//  For Block/Prompt page, reference ID to report incorrect category
 	EventFieldNameUserReferenceID EventFieldName = "user_reference_id"
-	// User risk level category
+	//  User risk level category
 	EventFieldNameUserRiskLevel EventFieldName = "user_risk_level"
-	// The vendor that identified the incident, such as Cato or Microsoft
+	//  The vendor that identified the incident, such as Cato or Microsoft
 	EventFieldNameVendor EventFieldName = "vendor"
-	// Shows the id of the target user involved in an activity
+	//  Shows the id of the target user involved in an activity
 	EventFieldNameVendorCollaboratorID EventFieldName = "vendor_collaborator_id"
-	// Vendor Device Id
+	//  Vendor Device Id
 	EventFieldNameVendorDeviceID EventFieldName = "vendor_device_id"
-	// Vendor Device Name
+	//  Vendor Device Name
 	EventFieldNameVendorDeviceName EventFieldName = "vendor_device_name"
-	// Vendor Event Id
+	//  Vendor Event Id
 	EventFieldNameVendorEventID EventFieldName = "vendor_event_id"
-	// Identifies the organization in the vendor’s system. CMA Name: Vendor Org ID
+	//  Identifies the organization in the vendor’s system. CMA Name: Vendor Org ID
 	EventFieldNameVendorOrgID EventFieldName = "vendor_org_id"
-	// Third party vendor policy description. CMA Name: Vendor Policy Description
+	//  Third party vendor policy description. CMA Name: Vendor Policy Description
 	EventFieldNameVendorPolicyDescription EventFieldName = "vendor_policy_description"
-	// Third party vendor policy ID
+	//  Third party vendor policy ID
 	EventFieldNameVendorPolicyID EventFieldName = "vendor_policy_id"
-	// Third party vendor policy name. CMA Name: Vendor Policy Name
+	//  Third party vendor policy name. CMA Name: Vendor Policy Name
 	EventFieldNameVendorPolicyName EventFieldName = "vendor_policy_name"
-	// Identifies the site in the vendor’s system. CMA Name: Vendor Site ID
+	//  Identifies the site in the vendor’s system. CMA Name: Vendor Site ID
 	EventFieldNameVendorSiteID EventFieldName = "vendor_site_id"
-	// Identifies the user in the vendor’s system. CMA Name: Vendor User ID
+	//  Identifies the user in the vendor’s system. CMA Name: Vendor User ID
 	EventFieldNameVendorUserID EventFieldName = "vendor_user_id"
-	// Unique Cato Visible ID for devices
+	//  Unique Cato Visible ID for devices
 	EventFieldNameVisibleDeviceID EventFieldName = "visible_device_id"
-	// Lan access Allowed / Blocked
+	//  Lan access Allowed / Blocked
 	EventFieldNameVpnLanAccess EventFieldName = "vpn_lan_access"
-	// User’s email address
+	//  User’s email address
 	EventFieldNameVpnUserEmail EventFieldName = "vpn_user_email"
-	// WiFi authentication type. CMA Name: Wifi Authentication Type
+	//  WiFi authentication type. CMA Name: Wifi Authentication Type
 	EventFieldNameWifiAuthenticationType EventFieldName = "wifi_authentication_type"
-	// WiFi BSSID (Basic Service Set Identifier). CMA Name: Wifi Bssid
+	//  WiFi BSSID (Basic Service Set Identifier). CMA Name: Wifi Bssid
 	EventFieldNameWifiBssid EventFieldName = "wifi_bssid"
-	// WiFi channel. CMA Name: Wifi Channel
+	//  WiFi channel. CMA Name: Wifi Channel
 	EventFieldNameWifiChannel EventFieldName = "wifi_channel"
-	// WiFi authentication failure reason. CMA Name: WiFi Auth Failure Reason
+	//  WiFi authentication failure reason. CMA Name: WiFi Auth Failure Reason
 	EventFieldNameWifiDescription EventFieldName = "wifi_description"
-	// Wifi Event Reason Code. CMA Name: Wifi Event Reason Code
+	//  Wifi Event Reason Code. CMA Name: Wifi Event Reason Code
 	EventFieldNameWifiEventReasonCode EventFieldName = "wifi_event_reason_code"
-	// Wifi Event Type. CMA Name: Wifi Event Type
+	//  Wifi Event Type. CMA Name: Wifi Event Type
 	EventFieldNameWifiEventType EventFieldName = "wifi_event_type"
-	// Wifi Event Type Code. CMA Name: Wifi Event Type Code
+	//  Wifi Event Type Code. CMA Name: Wifi Event Type Code
 	EventFieldNameWifiEventTypeCode EventFieldName = "wifi_event_type_code"
-	// Wifi  Protocol. CMA Name: Wifi Protocol
+	//  Wifi  Protocol. CMA Name: Wifi Protocol
 	EventFieldNameWifiProtocol EventFieldName = "wifi_protocol"
-	// WiFi radio band. CMA Name: Wifi Radio Band
+	//  WiFi radio band. CMA Name: Wifi Radio Band
 	EventFieldNameWifiRadioBand EventFieldName = "wifi_radio_band"
-	// Wifi Security Protocols. CMA Name: Wifi Security
+	//  Wifi Security Protocols. CMA Name: Wifi Security
 	EventFieldNameWifiSecurity EventFieldName = "wifi_security"
-	// WiFi signal strength. CMA Name: Wifi Signal Strength
+	//  WiFi signal strength. CMA Name: Wifi Signal Strength
 	EventFieldNameWifiSignalStrength EventFieldName = "wifi_signal_strength"
-	// WiFi SSID (Service Set Identifier). CMA Name: Wifi Ssid
+	//  WiFi SSID (Service Set Identifier). CMA Name: Wifi Ssid
 	EventFieldNameWifiSsid EventFieldName = "wifi_ssid"
-	// Wifi milliseconds since association to the Access Point. CMA Name: Wifi Time Since Assoc Ms
+	//  Wifi milliseconds since association to the Access Point. CMA Name: Wifi Time Since Assoc Ms
 	EventFieldNameWifiTimeSinceAssocMs EventFieldName = "wifi_time_since_assoc_ms"
-	// For LDAP sync events, name of the AD domain. CMA Name: Windows Domain Name
+	//  For LDAP sync events, name of the AD domain. CMA Name: Windows Domain Name
 	EventFieldNameWindowsDomainName EventFieldName = "windows_domain_name"
-	// XFF HTTP header indicates the original IP address for the connections. CMA Name: XFF
+	//  XFF HTTP header indicates the original IP address for the connections. CMA Name: XFF
 	EventFieldNameXff EventFieldName = "xff"
 )
 
 var AllEventFieldName = []EventFieldName{
+	EventFieldNameIspName,
 	EventFieldNameAccessMethod,
 	EventFieldNameAccountID,
 	EventFieldNameAction,
@@ -22391,7 +17874,6 @@ var AllEventFieldName = []EventFieldName{
 	EventFieldNameIsManaged,
 	EventFieldNameIsSanctionedApp,
 	EventFieldNameIsSinkhole,
-	EventFieldNameIspName,
 	EventFieldNameKeyName,
 	EventFieldNameLabels,
 	EventFieldNameLastTurnRole,
@@ -22559,7 +18041,7 @@ var AllEventFieldName = []EventFieldName{
 
 func (e EventFieldName) IsValid() bool {
 	switch e {
-	case EventFieldNameAccessMethod, EventFieldNameAccountID, EventFieldNameAction, EventFieldNameActionsTaken, EventFieldNameActivityResourceID, EventFieldNameActorType, EventFieldNameAdName, EventFieldNameAlertID, EventFieldNameAlwaysOnConfiguration, EventFieldNameAnalystVerdict, EventFieldNameAPIName, EventFieldNameAPIType, EventFieldNameAppActivity, EventFieldNameAppActivityCategory, EventFieldNameAppActivityType, EventFieldNameAppStack, EventFieldNameApplicationID, EventFieldNameApplicationName, EventFieldNameApplicationRisk, EventFieldNameAuthMethod, EventFieldNameAuthenticationType, EventFieldNameBgpCatoAsn, EventFieldNameBgpCatoIP, EventFieldNameBgpErrorCode, EventFieldNameBgpPeerAsn, EventFieldNameBgpPeerIP, EventFieldNameBgpRouteCidr, EventFieldNameBgpSuberrorCode, EventFieldNameBypassDurationSec, EventFieldNameBypassMethod, EventFieldNameBypassReason, EventFieldNameCategories, EventFieldNameCatoApp, EventFieldNameClassification, EventFieldNameClientCertExpires, EventFieldNameClientCertName, EventFieldNameClientClass, EventFieldNameClientConnectionMode, EventFieldNameClientVersion, EventFieldNameCollaboratorName, EventFieldNameCollaborators, EventFieldNameConfidenceLevel, EventFieldNameConfiguredHostName, EventFieldNameCongestionAlgorithm, EventFieldNameConnectOnBoot, EventFieldNameConnectionOrigin, EventFieldNameConnectorID, EventFieldNameConnectorName, EventFieldNameConnectorStatus, EventFieldNameConnectorType, EventFieldNameContainerName, EventFieldNameCorrelationID, EventFieldNameCPUCoreID, EventFieldNameCriticality, EventFieldNameCustomCategoryID, EventFieldNameCustomCategoryName, EventFieldNameDestCountry, EventFieldNameDestCountryCode, EventFieldNameDestGroupID, EventFieldNameDestGroupName, EventFieldNameDestIP, EventFieldNameDestIsSiteOrVpn, EventFieldNameDestPid, EventFieldNameDestPort, EventFieldNameDestProcessCmdline, EventFieldNameDestProcessParentPath, EventFieldNameDestProcessParentPid, EventFieldNameDestProcessPath, EventFieldNameDestSiteID, EventFieldNameDestSiteName, EventFieldNameDetectionName, EventFieldNameDetectionStage, EventFieldNameDeviceCategories, EventFieldNameDeviceCertificate, EventFieldNameDeviceID, EventFieldNameDeviceManufacturer, EventFieldNameDeviceModel, EventFieldNameDeviceName, EventFieldNameDeviceOsType, EventFieldNameDevicePostureProfile, EventFieldNameDeviceType, EventFieldNameDirectoryHostName, EventFieldNameDirectoryIP, EventFieldNameDirectorySyncResult, EventFieldNameDirectorySyncType, EventFieldNameDisinfectResult, EventFieldNameDlpFailMode, EventFieldNameDlpProfiles, EventFieldNameDlpScanTypes, EventFieldNameDNSProtectionCategory, EventFieldNameDNSQuery, EventFieldNameDNSRecordType, EventFieldNameDomainName, EventFieldNameDurationMs, EventFieldNameDynamicControlIds, EventFieldNameDynamicControlNames, EventFieldNameDynamicControlScope, EventFieldNameDynamicControlThreatCategories, EventFieldNameEgressPopName, EventFieldNameEgressSiteName, EventFieldNameEmailSubject, EventFieldNameEndpointID, EventFieldNameEngineType, EventFieldNameEppEngineType, EventFieldNameEppProfile, EventFieldNameEventCount, EventFieldNameEventID, EventFieldNameEventMessage, EventFieldNameEventSubType, EventFieldNameEventType, EventFieldNameFailureReason, EventFieldNameFileHash, EventFieldNameFileName, EventFieldNameFileOperation, EventFieldNameFilePath, EventFieldNameFileSize, EventFieldNameFileTopic, EventFieldNameFileTopicCategory, EventFieldNameFileType, EventFieldNameFinalObjectStatus, EventFieldNameFlowID, EventFieldNameFlowsCardinality, EventFieldNameFullPathURL, EventFieldNameGuardID, EventFieldNameGuardName, EventFieldNameGuardType, EventFieldNameGuestUser, EventFieldNameHostIP, EventFieldNameHostMac, EventFieldNameHTTPRequestMethod, EventFieldNameHTTPResponseCode, EventFieldNameIncidentAggregation, EventFieldNameIncidentID, EventFieldNameIndication, EventFieldNameIndicator, EventFieldNameInitialObjectStatus, EventFieldNameInternalID, EventFieldNameIPProtocol, EventFieldNameIsAdmin, EventFieldNameIsAdminActivity, EventFieldNameIsCompliant, EventFieldNameIsManaged, EventFieldNameIsSanctionedApp, EventFieldNameIsSinkhole, EventFieldNameIspName, EventFieldNameKeyName, EventFieldNameLabels, EventFieldNameLastTurnRole, EventFieldNameLinkHealthIsCongested, EventFieldNameLinkHealthJitter, EventFieldNameLinkHealthLatency, EventFieldNameLinkHealthPktLoss, EventFieldNameLinkType, EventFieldNameLoggedInUser, EventFieldNameLoginType, EventFieldNameMatchedDataTypes, EventFieldNameMessageID, EventFieldNameMitreAttackSubtechniques, EventFieldNameMitreAttackTactics, EventFieldNameMitreAttackTechniques, EventFieldNameNatError, EventFieldNameNetworkAccess, EventFieldNameNetworkRule, EventFieldNameNotificationAPIError, EventFieldNameNotificationDescription, EventFieldNameObjectID, EventFieldNameObjectName, EventFieldNameObjectType, EventFieldNameOfficeMode, EventFieldNameOsType, EventFieldNameOsVersion, EventFieldNameOutOfBandAccess, EventFieldNameOutpostEnvironmentName, EventFieldNameOwner, EventFieldNamePacFile, EventFieldNameParentConnectorName, EventFieldNamePopName, EventFieldNamePrecedence, EventFieldNameProcessesCount, EventFieldNameProducer, EventFieldNameProjects, EventFieldNamePromptAction, EventFieldNameProviderName, EventFieldNamePublicIP, EventFieldNameQosPriority, EventFieldNameQosReportedTime, EventFieldNameQuarantineFolderPath, EventFieldNameQuarantineUUID, EventFieldNameRawData, EventFieldNameRecommendedActions, EventFieldNameReferenceURL, EventFieldNameRefererURL, EventFieldNameRegionName, EventFieldNameRegistrationCode, EventFieldNameRequestSize, EventFieldNameResourceID, EventFieldNameResourceName, EventFieldNameResourceType, EventFieldNameResponseSize, EventFieldNameRiskLevel, EventFieldNameRuleExpirationTime, EventFieldNameRuleID, EventFieldNameRuleName, EventFieldNameSecondarySocketSerial, EventFieldNameServerIP, EventFieldNameServiceName, EventFieldNameSessionID, EventFieldNameSeverity, EventFieldNameSharingScope, EventFieldNameSignInEventTypes, EventFieldNameSignatureID, EventFieldNameSocketInterface, EventFieldNameSocketInterfaceID, EventFieldNameSocketNewVersion, EventFieldNameSocketOldVersion, EventFieldNameSocketReset, EventFieldNameSocketRole, EventFieldNameSocketSerial, EventFieldNameSocketVersion, EventFieldNameSplitTunnelConfiguration, EventFieldNameSrcCountry, EventFieldNameSrcCountryCode, EventFieldNameSrcIP, EventFieldNameSrcIsSiteOrVpn, EventFieldNameSrcIspIP, EventFieldNameSrcPid, EventFieldNameSrcPort, EventFieldNameSrcProcessCmdline, EventFieldNameSrcProcessParentPath, EventFieldNameSrcProcessParentPid, EventFieldNameSrcProcessPath, EventFieldNameSrcSiteID, EventFieldNameSrcSiteName, EventFieldNameStaticHost, EventFieldNameStatus, EventFieldNameStoryID, EventFieldNameSubnetName, EventFieldNameSubscriptionName, EventFieldNameTargetsCardinality, EventFieldNameTCPAcceleration, EventFieldNameTenantID, EventFieldNameTenantName, EventFieldNameTenantRestrictionRuleName, EventFieldNameThreatConfidence, EventFieldNameThreatName, EventFieldNameThreatReference, EventFieldNameThreatScore, EventFieldNameThreatType, EventFieldNameThreatVerdict, EventFieldNameTime, EventFieldNameTimeStr, EventFieldNameTitle, EventFieldNameTLSCertificateError, EventFieldNameTLSErrorDescription, EventFieldNameTLSErrorType, EventFieldNameTLSInspection, EventFieldNameTLSRuleName, EventFieldNameTLSVersion, EventFieldNameTotalTokens, EventFieldNameTrafficDirection, EventFieldNameTransactionSize, EventFieldNameTranslatedClientIP, EventFieldNameTranslatedServerIP, EventFieldNameTrigger, EventFieldNameTrustType, EventFieldNameTrustedNetworks, EventFieldNameTunnelIPProtocol, EventFieldNameTunnelProtocol, EventFieldNameUpgradeEndTime, EventFieldNameUpgradeInitiatedBy, EventFieldNameUpgradeStartTime, EventFieldNameURL, EventFieldNameUserAgent, EventFieldNameUserAwarenessMethod, EventFieldNameUserID, EventFieldNameUserName, EventFieldNameUserOrigin, EventFieldNameUserReferenceID, EventFieldNameUserRiskLevel, EventFieldNameVendor, EventFieldNameVendorCollaboratorID, EventFieldNameVendorDeviceID, EventFieldNameVendorDeviceName, EventFieldNameVendorEventID, EventFieldNameVendorOrgID, EventFieldNameVendorPolicyDescription, EventFieldNameVendorPolicyID, EventFieldNameVendorPolicyName, EventFieldNameVendorSiteID, EventFieldNameVendorUserID, EventFieldNameVisibleDeviceID, EventFieldNameVpnLanAccess, EventFieldNameVpnUserEmail, EventFieldNameWifiAuthenticationType, EventFieldNameWifiBssid, EventFieldNameWifiChannel, EventFieldNameWifiDescription, EventFieldNameWifiEventReasonCode, EventFieldNameWifiEventType, EventFieldNameWifiEventTypeCode, EventFieldNameWifiProtocol, EventFieldNameWifiRadioBand, EventFieldNameWifiSecurity, EventFieldNameWifiSignalStrength, EventFieldNameWifiSsid, EventFieldNameWifiTimeSinceAssocMs, EventFieldNameWindowsDomainName, EventFieldNameXff:
+	case EventFieldNameIspName, EventFieldNameAccessMethod, EventFieldNameAccountID, EventFieldNameAction, EventFieldNameActionsTaken, EventFieldNameActivityResourceID, EventFieldNameActorType, EventFieldNameAdName, EventFieldNameAlertID, EventFieldNameAlwaysOnConfiguration, EventFieldNameAnalystVerdict, EventFieldNameAPIName, EventFieldNameAPIType, EventFieldNameAppActivity, EventFieldNameAppActivityCategory, EventFieldNameAppActivityType, EventFieldNameAppStack, EventFieldNameApplicationID, EventFieldNameApplicationName, EventFieldNameApplicationRisk, EventFieldNameAuthMethod, EventFieldNameAuthenticationType, EventFieldNameBgpCatoAsn, EventFieldNameBgpCatoIP, EventFieldNameBgpErrorCode, EventFieldNameBgpPeerAsn, EventFieldNameBgpPeerIP, EventFieldNameBgpRouteCidr, EventFieldNameBgpSuberrorCode, EventFieldNameBypassDurationSec, EventFieldNameBypassMethod, EventFieldNameBypassReason, EventFieldNameCategories, EventFieldNameCatoApp, EventFieldNameClassification, EventFieldNameClientCertExpires, EventFieldNameClientCertName, EventFieldNameClientClass, EventFieldNameClientConnectionMode, EventFieldNameClientVersion, EventFieldNameCollaboratorName, EventFieldNameCollaborators, EventFieldNameConfidenceLevel, EventFieldNameConfiguredHostName, EventFieldNameCongestionAlgorithm, EventFieldNameConnectOnBoot, EventFieldNameConnectionOrigin, EventFieldNameConnectorID, EventFieldNameConnectorName, EventFieldNameConnectorStatus, EventFieldNameConnectorType, EventFieldNameContainerName, EventFieldNameCorrelationID, EventFieldNameCPUCoreID, EventFieldNameCriticality, EventFieldNameCustomCategoryID, EventFieldNameCustomCategoryName, EventFieldNameDestCountry, EventFieldNameDestCountryCode, EventFieldNameDestGroupID, EventFieldNameDestGroupName, EventFieldNameDestIP, EventFieldNameDestIsSiteOrVpn, EventFieldNameDestPid, EventFieldNameDestPort, EventFieldNameDestProcessCmdline, EventFieldNameDestProcessParentPath, EventFieldNameDestProcessParentPid, EventFieldNameDestProcessPath, EventFieldNameDestSiteID, EventFieldNameDestSiteName, EventFieldNameDetectionName, EventFieldNameDetectionStage, EventFieldNameDeviceCategories, EventFieldNameDeviceCertificate, EventFieldNameDeviceID, EventFieldNameDeviceManufacturer, EventFieldNameDeviceModel, EventFieldNameDeviceName, EventFieldNameDeviceOsType, EventFieldNameDevicePostureProfile, EventFieldNameDeviceType, EventFieldNameDirectoryHostName, EventFieldNameDirectoryIP, EventFieldNameDirectorySyncResult, EventFieldNameDirectorySyncType, EventFieldNameDisinfectResult, EventFieldNameDlpFailMode, EventFieldNameDlpProfiles, EventFieldNameDlpScanTypes, EventFieldNameDNSProtectionCategory, EventFieldNameDNSQuery, EventFieldNameDNSRecordType, EventFieldNameDomainName, EventFieldNameDurationMs, EventFieldNameDynamicControlIds, EventFieldNameDynamicControlNames, EventFieldNameDynamicControlScope, EventFieldNameDynamicControlThreatCategories, EventFieldNameEgressPopName, EventFieldNameEgressSiteName, EventFieldNameEmailSubject, EventFieldNameEndpointID, EventFieldNameEngineType, EventFieldNameEppEngineType, EventFieldNameEppProfile, EventFieldNameEventCount, EventFieldNameEventID, EventFieldNameEventMessage, EventFieldNameEventSubType, EventFieldNameEventType, EventFieldNameFailureReason, EventFieldNameFileHash, EventFieldNameFileName, EventFieldNameFileOperation, EventFieldNameFilePath, EventFieldNameFileSize, EventFieldNameFileTopic, EventFieldNameFileTopicCategory, EventFieldNameFileType, EventFieldNameFinalObjectStatus, EventFieldNameFlowID, EventFieldNameFlowsCardinality, EventFieldNameFullPathURL, EventFieldNameGuardID, EventFieldNameGuardName, EventFieldNameGuardType, EventFieldNameGuestUser, EventFieldNameHostIP, EventFieldNameHostMac, EventFieldNameHTTPRequestMethod, EventFieldNameHTTPResponseCode, EventFieldNameIncidentAggregation, EventFieldNameIncidentID, EventFieldNameIndication, EventFieldNameIndicator, EventFieldNameInitialObjectStatus, EventFieldNameInternalID, EventFieldNameIPProtocol, EventFieldNameIsAdmin, EventFieldNameIsAdminActivity, EventFieldNameIsCompliant, EventFieldNameIsManaged, EventFieldNameIsSanctionedApp, EventFieldNameIsSinkhole, EventFieldNameKeyName, EventFieldNameLabels, EventFieldNameLastTurnRole, EventFieldNameLinkHealthIsCongested, EventFieldNameLinkHealthJitter, EventFieldNameLinkHealthLatency, EventFieldNameLinkHealthPktLoss, EventFieldNameLinkType, EventFieldNameLoggedInUser, EventFieldNameLoginType, EventFieldNameMatchedDataTypes, EventFieldNameMessageID, EventFieldNameMitreAttackSubtechniques, EventFieldNameMitreAttackTactics, EventFieldNameMitreAttackTechniques, EventFieldNameNatError, EventFieldNameNetworkAccess, EventFieldNameNetworkRule, EventFieldNameNotificationAPIError, EventFieldNameNotificationDescription, EventFieldNameObjectID, EventFieldNameObjectName, EventFieldNameObjectType, EventFieldNameOfficeMode, EventFieldNameOsType, EventFieldNameOsVersion, EventFieldNameOutOfBandAccess, EventFieldNameOutpostEnvironmentName, EventFieldNameOwner, EventFieldNamePacFile, EventFieldNameParentConnectorName, EventFieldNamePopName, EventFieldNamePrecedence, EventFieldNameProcessesCount, EventFieldNameProducer, EventFieldNameProjects, EventFieldNamePromptAction, EventFieldNameProviderName, EventFieldNamePublicIP, EventFieldNameQosPriority, EventFieldNameQosReportedTime, EventFieldNameQuarantineFolderPath, EventFieldNameQuarantineUUID, EventFieldNameRawData, EventFieldNameRecommendedActions, EventFieldNameReferenceURL, EventFieldNameRefererURL, EventFieldNameRegionName, EventFieldNameRegistrationCode, EventFieldNameRequestSize, EventFieldNameResourceID, EventFieldNameResourceName, EventFieldNameResourceType, EventFieldNameResponseSize, EventFieldNameRiskLevel, EventFieldNameRuleExpirationTime, EventFieldNameRuleID, EventFieldNameRuleName, EventFieldNameSecondarySocketSerial, EventFieldNameServerIP, EventFieldNameServiceName, EventFieldNameSessionID, EventFieldNameSeverity, EventFieldNameSharingScope, EventFieldNameSignInEventTypes, EventFieldNameSignatureID, EventFieldNameSocketInterface, EventFieldNameSocketInterfaceID, EventFieldNameSocketNewVersion, EventFieldNameSocketOldVersion, EventFieldNameSocketReset, EventFieldNameSocketRole, EventFieldNameSocketSerial, EventFieldNameSocketVersion, EventFieldNameSplitTunnelConfiguration, EventFieldNameSrcCountry, EventFieldNameSrcCountryCode, EventFieldNameSrcIP, EventFieldNameSrcIsSiteOrVpn, EventFieldNameSrcIspIP, EventFieldNameSrcPid, EventFieldNameSrcPort, EventFieldNameSrcProcessCmdline, EventFieldNameSrcProcessParentPath, EventFieldNameSrcProcessParentPid, EventFieldNameSrcProcessPath, EventFieldNameSrcSiteID, EventFieldNameSrcSiteName, EventFieldNameStaticHost, EventFieldNameStatus, EventFieldNameStoryID, EventFieldNameSubnetName, EventFieldNameSubscriptionName, EventFieldNameTargetsCardinality, EventFieldNameTCPAcceleration, EventFieldNameTenantID, EventFieldNameTenantName, EventFieldNameTenantRestrictionRuleName, EventFieldNameThreatConfidence, EventFieldNameThreatName, EventFieldNameThreatReference, EventFieldNameThreatScore, EventFieldNameThreatType, EventFieldNameThreatVerdict, EventFieldNameTime, EventFieldNameTimeStr, EventFieldNameTitle, EventFieldNameTLSCertificateError, EventFieldNameTLSErrorDescription, EventFieldNameTLSErrorType, EventFieldNameTLSInspection, EventFieldNameTLSRuleName, EventFieldNameTLSVersion, EventFieldNameTotalTokens, EventFieldNameTrafficDirection, EventFieldNameTransactionSize, EventFieldNameTranslatedClientIP, EventFieldNameTranslatedServerIP, EventFieldNameTrigger, EventFieldNameTrustType, EventFieldNameTrustedNetworks, EventFieldNameTunnelIPProtocol, EventFieldNameTunnelProtocol, EventFieldNameUpgradeEndTime, EventFieldNameUpgradeInitiatedBy, EventFieldNameUpgradeStartTime, EventFieldNameURL, EventFieldNameUserAgent, EventFieldNameUserAwarenessMethod, EventFieldNameUserID, EventFieldNameUserName, EventFieldNameUserOrigin, EventFieldNameUserReferenceID, EventFieldNameUserRiskLevel, EventFieldNameVendor, EventFieldNameVendorCollaboratorID, EventFieldNameVendorDeviceID, EventFieldNameVendorDeviceName, EventFieldNameVendorEventID, EventFieldNameVendorOrgID, EventFieldNameVendorPolicyDescription, EventFieldNameVendorPolicyID, EventFieldNameVendorPolicyName, EventFieldNameVendorSiteID, EventFieldNameVendorUserID, EventFieldNameVisibleDeviceID, EventFieldNameVpnLanAccess, EventFieldNameVpnUserEmail, EventFieldNameWifiAuthenticationType, EventFieldNameWifiBssid, EventFieldNameWifiChannel, EventFieldNameWifiDescription, EventFieldNameWifiEventReasonCode, EventFieldNameWifiEventType, EventFieldNameWifiEventTypeCode, EventFieldNameWifiProtocol, EventFieldNameWifiRadioBand, EventFieldNameWifiSecurity, EventFieldNameWifiSignalStrength, EventFieldNameWifiSsid, EventFieldNameWifiTimeSinceAssocMs, EventFieldNameWindowsDomainName, EventFieldNameXff:
 		return true
 	}
 	return false
@@ -22590,13 +18072,13 @@ func (e EventFieldName) MarshalGQL(w io.Writer) {
 type ExportJobStatus string
 
 const (
-	// Export job finished successfully and file is ready for download
+	//  Export job finished successfully and file is ready for download
 	ExportJobStatusCompleted ExportJobStatus = "COMPLETED"
-	// Export job encountered an error and could not complete
+	//  Export job encountered an error and could not complete
 	ExportJobStatusFailed ExportJobStatus = "FAILED"
-	// Export job is currently being processed
+	//  Export job is currently being processed
 	ExportJobStatusInProgress ExportJobStatus = "IN_PROGRESS"
-	// Export job has been queued but not yet started
+	//  Export job has been queued but not yet started
 	ExportJobStatusPending ExportJobStatus = "PENDING"
 )
 
@@ -23196,7 +18678,7 @@ const (
 	IPProtocolAny  IPProtocol = "ANY"
 	IPProtocolICMP IPProtocol = "ICMP"
 	IPProtocolTCP  IPProtocol = "TCP"
-	// TCP or UDP
+	//  TCP or UDP
 	IPProtocolTCPUDP IPProtocol = "TCP_UDP"
 	IPProtocolUDP    IPProtocol = "UDP"
 )
@@ -23297,9 +18779,9 @@ const (
 	IPSecDHGroupDh15Modp3072 IPSecDHGroup = "DH_15_MODP3072"
 	IPSecDHGroupDh16Modp4096 IPSecDHGroup = "DH_16_MODP4096"
 	IPSecDHGroupDh19Ecp256   IPSecDHGroup = "DH_19_ECP256"
-	IPSecDHGroupDh2Modp1024  IPSecDHGroup = "DH_2_MODP1024"
 	IPSecDHGroupDh20Ecp384   IPSecDHGroup = "DH_20_ECP384"
 	IPSecDHGroupDh21Ecp521   IPSecDHGroup = "DH_21_ECP521"
+	IPSecDHGroupDh2Modp1024  IPSecDHGroup = "DH_2_MODP1024"
 	IPSecDHGroupDh5Modp1536  IPSecDHGroup = "DH_5_MODP1536"
 	IPSecDHGroupNone         IPSecDHGroup = "NONE"
 )
@@ -23310,16 +18792,16 @@ var AllIPSecDHGroup = []IPSecDHGroup{
 	IPSecDHGroupDh15Modp3072,
 	IPSecDHGroupDh16Modp4096,
 	IPSecDHGroupDh19Ecp256,
-	IPSecDHGroupDh2Modp1024,
 	IPSecDHGroupDh20Ecp384,
 	IPSecDHGroupDh21Ecp521,
+	IPSecDHGroupDh2Modp1024,
 	IPSecDHGroupDh5Modp1536,
 	IPSecDHGroupNone,
 }
 
 func (e IPSecDHGroup) IsValid() bool {
 	switch e {
-	case IPSecDHGroupAutomatic, IPSecDHGroupDh14Modp2048, IPSecDHGroupDh15Modp3072, IPSecDHGroupDh16Modp4096, IPSecDHGroupDh19Ecp256, IPSecDHGroupDh2Modp1024, IPSecDHGroupDh20Ecp384, IPSecDHGroupDh21Ecp521, IPSecDHGroupDh5Modp1536, IPSecDHGroupNone:
+	case IPSecDHGroupAutomatic, IPSecDHGroupDh14Modp2048, IPSecDHGroupDh15Modp3072, IPSecDHGroupDh16Modp4096, IPSecDHGroupDh19Ecp256, IPSecDHGroupDh20Ecp384, IPSecDHGroupDh21Ecp521, IPSecDHGroupDh2Modp1024, IPSecDHGroupDh5Modp1536, IPSecDHGroupNone:
 		return true
 	}
 	return false
@@ -23776,17 +19258,17 @@ func (e LicenseSku) MarshalGQL(w io.Writer) {
 type LicenseStatus string
 
 const (
-	// A license that is currently active
+	//  A license that is currently active
 	LicenseStatusActive LicenseStatus = "ACTIVE"
-	// An expired license is no longer active
+	//  An expired license is no longer active
 	LicenseStatusDisabled LicenseStatus = "DISABLED"
-	// A license in a grace period
+	//  A license in a grace period
 	LicenseStatusLocked LicenseStatus = "LOCKED"
-	// The license is pending customer activation by setting a start date
+	//  The license is pending customer activation by setting a start date
 	LicenseStatusPending LicenseStatus = "PENDING"
-	// An existing license with a future start date that is not currently active
+	//  An existing license with a future start date that is not currently active
 	LicenseStatusScheduled LicenseStatus = "SCHEDULED"
-	// A license that is active before its start date, for partners and customers to verify the relevant configurations
+	//  A license that is active before its start date, for partners and customers to verify the relevant configurations
 	LicenseStatusStaging LicenseStatus = "STAGING"
 )
 
@@ -24009,7 +19491,7 @@ func (e LocationType) MarshalGQL(w io.Writer) {
 type LookupFilterType string
 
 const (
-	// Custom filter for country, used by city and state entityLookup
+	//  Custom filter for country, used by city and state entityLookup
 	LookupFilterTypeCountry LookupFilterType = "country"
 	// Custom filter to be used with Site entityLookup, to get only sites with Alt WAN, possible values:
 	// "true",
@@ -24038,7 +19520,7 @@ const (
 	// "true",
 	// "false",
 	LookupFilterTypeFilterByOffCloudTransportEnabled LookupFilterType = "filterByOffCloudTransportEnabled"
-	// Custom filter for state used by city entityLookup
+	//  Custom filter for state used by city entityLookup
 	LookupFilterTypeState LookupFilterType = "state"
 )
 
@@ -24439,25 +19921,25 @@ func (e OperatingSystem) MarshalGQL(w io.Writer) {
 type OriginType string
 
 const (
-	// Device details reported by the Armis security platform
+	//  Device details reported by the Armis security platform
 	OriginTypeArmis OriginType = "Armis"
-	// Device information provided by the Cato Networks platform
+	//  Device information provided by the Cato Networks platform
 	OriginTypeCatoNetworks OriginType = "CatoNetworks"
-	// Device data gathered from Claroty's security platform
+	//  Device data gathered from Claroty's security platform
 	OriginTypeClaroty OriginType = "Claroty"
-	// Device details provided by CrowdStrike endpoint security
+	//  Device details provided by CrowdStrike endpoint security
 	OriginTypeCrowdstrike OriginType = "Crowdstrike"
-	// Device information from Juniper Mist network infrastructure platform
+	//  Device information from Juniper Mist network infrastructure platform
 	OriginTypeJuniperMist OriginType = "JuniperMist"
-	// Device information from Microsoft Defender endpoint platform
+	//  Device information from Microsoft Defender endpoint platform
 	OriginTypeMicrosoftDefender OriginType = "MicrosoftDefender"
-	// Device data collected from Microsoft Intune MDM
+	//  Device data collected from Microsoft Intune MDM
 	OriginTypeMicrosoftIntune OriginType = "MicrosoftIntune"
-	// Device information from SentinelOne endpoint platform
+	//  Device information from SentinelOne endpoint platform
 	OriginTypeSentinelOne OriginType = "SentinelOne"
-	// Origin of the device data could not be determined
+	//  Origin of the device data could not be determined
 	OriginTypeUnknown OriginType = "Unknown"
-	// Device information identified through Zoom integration
+	//  Device information identified through Zoom integration
 	OriginTypeZoom OriginType = "Zoom"
 )
 
@@ -24506,25 +19988,25 @@ func (e OriginType) MarshalGQL(w io.Writer) {
 type PeriodType string
 
 const (
-	// traffic was seen
+	//  traffic was seen
 	PeriodTypeActive PeriodType = "active"
-	// some packets were discarded after queue timeout
+	//  some packets were discarded after queue timeout
 	PeriodTypeCongested PeriodType = "congested"
-	// unspecified period type
+	//  unspecified period type
 	PeriodTypeGeneric PeriodType = "generic"
-	// multiple last mile destinations measured large latency (greater than 500ms)
+	//  multiple last mile destinations measured large latency (greater than 500ms)
 	PeriodTypeLastmileLatency PeriodType = "lastmileLatency"
-	// multiple last mile destinations measured packet loss
+	//  multiple last mile destinations measured packet loss
 	PeriodTypeLastmilePacketLoss PeriodType = "lastmilePacketLoss"
-	// missing data
+	//  missing data
 	PeriodTypeMissingData PeriodType = "missingData"
-	// some packets were queued
+	//  some packets were queued
 	PeriodTypeOverlowed PeriodType = "overlowed"
-	// packet loss connectivity issue
+	//  packet loss connectivity issue
 	PeriodTypePacketLoss PeriodType = "packetLoss"
-	// interface in standby mode
+	//  interface in standby mode
 	PeriodTypePassiveLink PeriodType = "passiveLink"
-	// period connected to specific pop instance
+	//  period connected to specific pop instance
 	PeriodTypePop PeriodType = "pop"
 )
 
@@ -24620,20 +20102,20 @@ func (e PolicyActiveOnEnum) MarshalGQL(w io.Writer) {
 type PolicyElementPropertiesEnum string
 
 const (
-	// New (added) rule
+	//  New (added) rule
 	PolicyElementPropertiesEnumAdded PolicyElementPropertiesEnum = "ADDED"
 	// An object can not be moved, or referenced when moving other objects.
 	// However its properties and content can be modified.
 	PolicyElementPropertiesEnumAnchored PolicyElementPropertiesEnum = "ANCHORED"
-	// A rule locked for changes by other admins
+	//  A rule locked for changes by other admins
 	PolicyElementPropertiesEnumLocked PolicyElementPropertiesEnum = "LOCKED"
-	// A rule moved to a different position
+	//  A rule moved to a different position
 	PolicyElementPropertiesEnumMoved PolicyElementPropertiesEnum = "MOVED"
-	// Removed (deleted) rule
+	//  Removed (deleted) rule
 	PolicyElementPropertiesEnumRemoved PolicyElementPropertiesEnum = "REMOVED"
-	// A pre-defined (system) rule that cannot be modified or removed
+	//  A pre-defined (system) rule that cannot be modified or removed
 	PolicyElementPropertiesEnumSystem PolicyElementPropertiesEnum = "SYSTEM"
-	// Updated (modified) existing rule
+	//  Updated (modified) existing rule
 	PolicyElementPropertiesEnumUpdated PolicyElementPropertiesEnum = "UPDATED"
 )
 
@@ -24805,17 +20287,17 @@ func (e PolicyRevisionType) MarshalGQL(w io.Writer) {
 type PolicyRulePositionEnum string
 
 const (
-	// The rule position is after the pre-existing specified rule
+	//  The rule position is after the pre-existing specified rule
 	PolicyRulePositionEnumAfterRule PolicyRulePositionEnum = "AFTER_RULE"
-	// The rule position is before the pre-existing specified rule
+	//  The rule position is before the pre-existing specified rule
 	PolicyRulePositionEnumBeforeRule PolicyRulePositionEnum = "BEFORE_RULE"
-	// The rule position is immediately after the system rules (first non-system rule)
+	//  The rule position is immediately after the system rules (first non-system rule)
 	PolicyRulePositionEnumFirstInPolicy PolicyRulePositionEnum = "FIRST_IN_POLICY"
-	// The rule position is first in the specified section
+	//  The rule position is first in the specified section
 	PolicyRulePositionEnumFirstInSection PolicyRulePositionEnum = "FIRST_IN_SECTION"
-	// The rule position is last in the policy
+	//  The rule position is last in the policy
 	PolicyRulePositionEnumLastInPolicy PolicyRulePositionEnum = "LAST_IN_POLICY"
-	// The rule position is last in the specified section
+	//  The rule position is last in the specified section
 	PolicyRulePositionEnumLastInSection PolicyRulePositionEnum = "LAST_IN_SECTION"
 )
 
@@ -24993,13 +20475,13 @@ func (e PolicySectionPositionEnum) MarshalGQL(w io.Writer) {
 type PolicySubRulePositionEnum string
 
 const (
-	// The rule position is after the pre-existing specified rule
+	//  The rule position is after the pre-existing specified rule
 	PolicySubRulePositionEnumAfterSubRule PolicySubRulePositionEnum = "AFTER_SUB_RULE"
-	// The rule position is before the pre-existing specified rule
+	//  The rule position is before the pre-existing specified rule
 	PolicySubRulePositionEnumBeforeSubRule PolicySubRulePositionEnum = "BEFORE_SUB_RULE"
-	// The rule position is first in the specified rule
+	//  The rule position is first in the specified rule
 	PolicySubRulePositionEnumFirstInRule PolicySubRulePositionEnum = "FIRST_IN_RULE"
-	// The rule position is last in the specified rule
+	//  The rule position is last in the specified rule
 	PolicySubRulePositionEnumLastInRule PolicySubRulePositionEnum = "LAST_IN_RULE"
 )
 
@@ -25184,26 +20666,26 @@ type ProtoType string
 
 const (
 	ProtoTypeCrossConnect    ProtoType = "CROSS_CONNECT"
+	ProtoTypeCrossConnectL2  ProtoType = "CROSS_CONNECT_L2"
+	ProtoTypeCrossConnectVrf ProtoType = "CROSS_CONNECT_VRF"
+	ProtoTypeGreTunnel       ProtoType = "GRE_TUNNEL"
 	ProtoTypeIpsecClient     ProtoType = "IPSEC_CLIENT"
 	ProtoTypeIpsecHost       ProtoType = "IPSEC_HOST"
 	ProtoTypeIpsecV2         ProtoType = "IPSEC_V2"
+	ProtoTypeNotDefined      ProtoType = "NOT_DEFINED"
+	ProtoTypePortalListener  ProtoType = "PORTAL_LISTENER"
 	ProtoTypeSocketAWS1500   ProtoType = "SOCKET_AWS1500"
 	ProtoTypeSocketAz1500    ProtoType = "SOCKET_AZ1500"
 	ProtoTypeSocketEsx1500   ProtoType = "SOCKET_ESX1500"
 	ProtoTypeSocketGCP1500   ProtoType = "SOCKET_GCP1500"
+	ProtoTypeSocketRpi64     ProtoType = "SOCKET_RPI64"
+	ProtoTypeSocketX1        ProtoType = "SOCKET_X1"
 	ProtoTypeSocketX1500     ProtoType = "SOCKET_X1500"
 	ProtoTypeSocketX1600     ProtoType = "SOCKET_X1600"
 	ProtoTypeSocketX1600Lte  ProtoType = "SOCKET_X1600_LTE"
 	ProtoTypeSocketX1700     ProtoType = "SOCKET_X1700"
-	ProtoTypeVsocketVgx      ProtoType = "VSOCKET_VGX"
-	ProtoTypeCrossConnectL2  ProtoType = "CROSS_CONNECT_L2"
-	ProtoTypeCrossConnectVrf ProtoType = "CROSS_CONNECT_VRF"
-	ProtoTypeGreTunnel       ProtoType = "GRE_TUNNEL"
-	ProtoTypeNotDefined      ProtoType = "NOT_DEFINED"
-	ProtoTypePortalListener  ProtoType = "PORTAL_LISTENER"
-	ProtoTypeSocketRpi64     ProtoType = "SOCKET_RPI64"
-	ProtoTypeSocketX1        ProtoType = "SOCKET_X1"
 	ProtoTypeVsocketVgs      ProtoType = "VSOCKET_VGS"
+	ProtoTypeVsocketVgx      ProtoType = "VSOCKET_VGX"
 	ProtoTypeVsocketVgxAWS   ProtoType = "VSOCKET_VGX_AWS"
 	ProtoTypeVsocketVgxAzure ProtoType = "VSOCKET_VGX_AZURE"
 	ProtoTypeVsocketVgxEsx   ProtoType = "VSOCKET_VGX_ESX"
@@ -25212,26 +20694,26 @@ const (
 
 var AllProtoType = []ProtoType{
 	ProtoTypeCrossConnect,
+	ProtoTypeCrossConnectL2,
+	ProtoTypeCrossConnectVrf,
+	ProtoTypeGreTunnel,
 	ProtoTypeIpsecClient,
 	ProtoTypeIpsecHost,
 	ProtoTypeIpsecV2,
+	ProtoTypeNotDefined,
+	ProtoTypePortalListener,
 	ProtoTypeSocketAWS1500,
 	ProtoTypeSocketAz1500,
 	ProtoTypeSocketEsx1500,
 	ProtoTypeSocketGCP1500,
+	ProtoTypeSocketRpi64,
+	ProtoTypeSocketX1,
 	ProtoTypeSocketX1500,
 	ProtoTypeSocketX1600,
 	ProtoTypeSocketX1600Lte,
 	ProtoTypeSocketX1700,
-	ProtoTypeVsocketVgx,
-	ProtoTypeCrossConnectL2,
-	ProtoTypeCrossConnectVrf,
-	ProtoTypeGreTunnel,
-	ProtoTypeNotDefined,
-	ProtoTypePortalListener,
-	ProtoTypeSocketRpi64,
-	ProtoTypeSocketX1,
 	ProtoTypeVsocketVgs,
+	ProtoTypeVsocketVgx,
 	ProtoTypeVsocketVgxAWS,
 	ProtoTypeVsocketVgxAzure,
 	ProtoTypeVsocketVgxEsx,
@@ -25240,7 +20722,7 @@ var AllProtoType = []ProtoType{
 
 func (e ProtoType) IsValid() bool {
 	switch e {
-	case ProtoTypeCrossConnect, ProtoTypeIpsecClient, ProtoTypeIpsecHost, ProtoTypeIpsecV2, ProtoTypeSocketAWS1500, ProtoTypeSocketAz1500, ProtoTypeSocketEsx1500, ProtoTypeSocketGCP1500, ProtoTypeSocketX1500, ProtoTypeSocketX1600, ProtoTypeSocketX1600Lte, ProtoTypeSocketX1700, ProtoTypeVsocketVgx, ProtoTypeCrossConnectL2, ProtoTypeCrossConnectVrf, ProtoTypeGreTunnel, ProtoTypeNotDefined, ProtoTypePortalListener, ProtoTypeSocketRpi64, ProtoTypeSocketX1, ProtoTypeVsocketVgs, ProtoTypeVsocketVgxAWS, ProtoTypeVsocketVgxAzure, ProtoTypeVsocketVgxEsx, ProtoTypeVsocketVsh:
+	case ProtoTypeCrossConnect, ProtoTypeCrossConnectL2, ProtoTypeCrossConnectVrf, ProtoTypeGreTunnel, ProtoTypeIpsecClient, ProtoTypeIpsecHost, ProtoTypeIpsecV2, ProtoTypeNotDefined, ProtoTypePortalListener, ProtoTypeSocketAWS1500, ProtoTypeSocketAz1500, ProtoTypeSocketEsx1500, ProtoTypeSocketGCP1500, ProtoTypeSocketRpi64, ProtoTypeSocketX1, ProtoTypeSocketX1500, ProtoTypeSocketX1600, ProtoTypeSocketX1600Lte, ProtoTypeSocketX1700, ProtoTypeVsocketVgs, ProtoTypeVsocketVgx, ProtoTypeVsocketVgxAWS, ProtoTypeVsocketVgxAzure, ProtoTypeVsocketVgxEsx, ProtoTypeVsocketVsh:
 		return true
 	}
 	return false
@@ -25314,9 +20796,9 @@ func (e RBACAction) MarshalGQL(w io.Writer) {
 type Regionality string
 
 const (
-	// Global traffic going outside of the region
+	//  Global traffic going outside of the region
 	RegionalityGlobal Regionality = "GLOBAL"
-	// Site traffic within the region
+	//  Site traffic within the region
 	RegionalityRegional Regionality = "REGIONAL"
 )
 
@@ -25362,8 +20844,8 @@ const (
 	RemediationStatusEnumDeleted           RemediationStatusEnum = "DELETED"
 	RemediationStatusEnumDeletedReboot     RemediationStatusEnum = "DELETED_REBOOT"
 	RemediationStatusEnumDisabled          RemediationStatusEnum = "DISABLED"
-	RemediationStatusEnumDisinfectFailed   RemediationStatusEnum = "DISINFECT_FAILED"
 	RemediationStatusEnumDisinfected       RemediationStatusEnum = "DISINFECTED"
+	RemediationStatusEnumDisinfectFailed   RemediationStatusEnum = "DISINFECT_FAILED"
 	RemediationStatusEnumInfected          RemediationStatusEnum = "INFECTED"
 	RemediationStatusEnumMoved             RemediationStatusEnum = "MOVED"
 	RemediationStatusEnumMovedReboot       RemediationStatusEnum = "MOVED_REBOOT"
@@ -25385,8 +20867,8 @@ var AllRemediationStatusEnum = []RemediationStatusEnum{
 	RemediationStatusEnumDeleted,
 	RemediationStatusEnumDeletedReboot,
 	RemediationStatusEnumDisabled,
-	RemediationStatusEnumDisinfectFailed,
 	RemediationStatusEnumDisinfected,
+	RemediationStatusEnumDisinfectFailed,
 	RemediationStatusEnumInfected,
 	RemediationStatusEnumMoved,
 	RemediationStatusEnumMovedReboot,
@@ -25404,7 +20886,7 @@ var AllRemediationStatusEnum = []RemediationStatusEnum{
 
 func (e RemediationStatusEnum) IsValid() bool {
 	switch e {
-	case RemediationStatusEnumBlocked, RemediationStatusEnumClean, RemediationStatusEnumDeleted, RemediationStatusEnumDeletedReboot, RemediationStatusEnumDisabled, RemediationStatusEnumDisinfectFailed, RemediationStatusEnumDisinfected, RemediationStatusEnumInfected, RemediationStatusEnumMoved, RemediationStatusEnumMovedReboot, RemediationStatusEnumNotFound, RemediationStatusEnumNotStarted, RemediationStatusEnumPasswordProtected, RemediationStatusEnumPrevented, RemediationStatusEnumRebootRequired, RemediationStatusEnumRemediated, RemediationStatusEnumScanFailed, RemediationStatusEnumSuccess, RemediationStatusEnumSuspicious, RemediationStatusEnumUnknown:
+	case RemediationStatusEnumBlocked, RemediationStatusEnumClean, RemediationStatusEnumDeleted, RemediationStatusEnumDeletedReboot, RemediationStatusEnumDisabled, RemediationStatusEnumDisinfected, RemediationStatusEnumDisinfectFailed, RemediationStatusEnumInfected, RemediationStatusEnumMoved, RemediationStatusEnumMovedReboot, RemediationStatusEnumNotFound, RemediationStatusEnumNotStarted, RemediationStatusEnumPasswordProtected, RemediationStatusEnumPrevented, RemediationStatusEnumRebootRequired, RemediationStatusEnumRemediated, RemediationStatusEnumScanFailed, RemediationStatusEnumSuccess, RemediationStatusEnumSuspicious, RemediationStatusEnumUnknown:
 		return true
 	}
 	return false
@@ -26137,29 +21619,29 @@ func (e SiteConnectionTypeEnum) MarshalGQL(w io.Writer) {
 type SiteLicenseGroup string
 
 const (
-	// legacy license group
+	//  legacy license group
 	SiteLicenseGroupAfrica SiteLicenseGroup = "AFRICA"
-	// legacy license group
+	//  legacy license group
 	SiteLicenseGroupAnz SiteLicenseGroup = "ANZ"
-	// legacy license group
+	//  legacy license group
 	SiteLicenseGroupApj SiteLicenseGroup = "APJ"
-	// Country with stand-alone licenses (not part of a group)
+	//  Country with stand-alone licenses (not part of a group)
 	SiteLicenseGroupChina SiteLicenseGroup = "CHINA"
-	// legacy license group
+	//  legacy license group
 	SiteLicenseGroupDubai SiteLicenseGroup = "DUBAI"
-	// legacy license group
+	//  legacy license group
 	SiteLicenseGroupEurope SiteLicenseGroup = "EUROPE"
 	SiteLicenseGroupGroup1 SiteLicenseGroup = "GROUP_1"
 	SiteLicenseGroupGroup2 SiteLicenseGroup = "GROUP_2"
-	// legacy license group
+	//  legacy license group
 	SiteLicenseGroupLatam SiteLicenseGroup = "LATAM"
-	// legacy license group
+	//  legacy license group
 	SiteLicenseGroupMiddleEast SiteLicenseGroup = "MIDDLE_EAST"
-	// Country with stand-alone licenses (not part of a group)
+	//  Country with stand-alone licenses (not part of a group)
 	SiteLicenseGroupMorocco SiteLicenseGroup = "MOROCCO"
-	// legacy license group
+	//  legacy license group
 	SiteLicenseGroupNam SiteLicenseGroup = "NAM"
-	// Country with stand-alone licenses (not part of a group)
+	//  Country with stand-alone licenses (not part of a group)
 	SiteLicenseGroupVietnam SiteLicenseGroup = "VIETNAM"
 )
 
@@ -26712,9 +22194,9 @@ func (e SocketInventoryItemStatus) MarshalGQL(w io.Writer) {
 type SocketLanDirection string
 
 const (
-	// Specifies two-way direction.
+	//  Specifies two-way direction.
 	SocketLanDirectionBoth SocketLanDirection = "BOTH"
-	// Specifies one-way direction.
+	//  Specifies one-way direction.
 	SocketLanDirectionTo SocketLanDirection = "TO"
 )
 
@@ -26796,9 +22278,9 @@ func (e SocketLanFirewallAction) MarshalGQL(w io.Writer) {
 type SocketLanFirewallDirection string
 
 const (
-	// Specifies two-way direction.
+	//  Specifies two-way direction.
 	SocketLanFirewallDirectionBoth SocketLanFirewallDirection = "BOTH"
-	// Specifies one-way direction.
+	//  Specifies one-way direction.
 	SocketLanFirewallDirectionTo SocketLanFirewallDirection = "TO"
 )
 
@@ -26878,9 +22360,9 @@ func (e SocketLanNatType) MarshalGQL(w io.Writer) {
 type SocketLanTransportType string
 
 const (
-	// Specifies LAN transport type, routed locally for  inspection of LAN Firewall.
+	//  Specifies LAN transport type, routed locally for  inspection of LAN Firewall.
 	SocketLanTransportTypeLan SocketLanTransportType = "LAN"
-	// Specifies WAN transport type, send to the PoP for inspection of WAN Firewall.
+	//  Specifies WAN transport type, send to the PoP for inspection of WAN Firewall.
 	SocketLanTransportTypeWan SocketLanTransportType = "WAN"
 )
 
@@ -26979,8 +22461,8 @@ const (
 	SocketPlatformEsx1500   SocketPlatform = "ESX1500"
 	SocketPlatformGCP1500   SocketPlatform = "GCP1500"
 	SocketPlatformX1500     SocketPlatform = "X1500"
-	SocketPlatformX1500Br2  SocketPlatform = "X1500_BR2"
 	SocketPlatformX1500bBr2 SocketPlatform = "X1500B_BR2"
+	SocketPlatformX1500Br2  SocketPlatform = "X1500_BR2"
 	SocketPlatformX1600     SocketPlatform = "X1600"
 	SocketPlatformX1600_5g  SocketPlatform = "X1600_5G"
 	SocketPlatformX1600Lte  SocketPlatform = "X1600_LTE"
@@ -26994,8 +22476,8 @@ var AllSocketPlatform = []SocketPlatform{
 	SocketPlatformEsx1500,
 	SocketPlatformGCP1500,
 	SocketPlatformX1500,
-	SocketPlatformX1500Br2,
 	SocketPlatformX1500bBr2,
+	SocketPlatformX1500Br2,
 	SocketPlatformX1600,
 	SocketPlatformX1600_5g,
 	SocketPlatformX1600Lte,
@@ -27005,7 +22487,7 @@ var AllSocketPlatform = []SocketPlatform{
 
 func (e SocketPlatform) IsValid() bool {
 	switch e {
-	case SocketPlatformAWS1500, SocketPlatformAz1500, SocketPlatformEsx1500, SocketPlatformGCP1500, SocketPlatformX1500, SocketPlatformX1500Br2, SocketPlatformX1500bBr2, SocketPlatformX1600, SocketPlatformX1600_5g, SocketPlatformX1600Lte, SocketPlatformX1700, SocketPlatformX1700b:
+	case SocketPlatformAWS1500, SocketPlatformAz1500, SocketPlatformEsx1500, SocketPlatformGCP1500, SocketPlatformX1500, SocketPlatformX1500bBr2, SocketPlatformX1500Br2, SocketPlatformX1600, SocketPlatformX1600_5g, SocketPlatformX1600Lte, SocketPlatformX1700, SocketPlatformX1700b:
 		return true
 	}
 	return false
@@ -27035,45 +22517,45 @@ func (e SocketPlatform) MarshalGQL(w io.Writer) {
 type SocketPortMetricsFieldName string
 
 const (
-	// Unique identifier of the account that owns the site.
+	//  Unique identifier of the account that owns the site.
 	SocketPortMetricsFieldNameAccountID SocketPortMetricsFieldName = "account_id"
-	// Total bytes received downstream (from the network to the device).
+	//  Total bytes received downstream (from the network to the device).
 	SocketPortMetricsFieldNameBytesDownstream SocketPortMetricsFieldName = "bytes_downstream"
-	// Combined total of upstream and downstream bytes.
+	//  Combined total of upstream and downstream bytes.
 	SocketPortMetricsFieldNameBytesTotal SocketPortMetricsFieldName = "bytes_total"
-	// Total bytes sent upstream (from the device to the network).
+	//  Total bytes sent upstream (from the device to the network).
 	SocketPortMetricsFieldNameBytesUpstream SocketPortMetricsFieldName = "bytes_upstream"
-	// Reference Signal Received Power – measures LTE/5G signal strength (dBm).
+	//  Reference Signal Received Power – measures LTE/5G signal strength (dBm).
 	SocketPortMetricsFieldNameCellularRsrp SocketPortMetricsFieldName = "cellular_rsrp"
-	// Reference Signal Received Quality – a key LTE/5G metric for link quality (dB).
+	//  Reference Signal Received Quality – a key LTE/5G metric for link quality (dB).
 	SocketPortMetricsFieldNameCellularRsrq SocketPortMetricsFieldName = "cellular_rsrq"
-	// Received Signal Strength Indicator – legacy strength metric (dBm).
+	//  Received Signal Strength Indicator – legacy strength metric (dBm).
 	SocketPortMetricsFieldNameCellularRssi SocketPortMetricsFieldName = "cellular_rssi"
-	// Generic signal strength indicator (often maps to bars or percentage).
+	//  Generic signal strength indicator (often maps to bars or percentage).
 	SocketPortMetricsFieldNameCellularSignalStrength SocketPortMetricsFieldName = "cellular_signal_strength"
-	// Signal to Interference + Noise Ratio – LTE/5G metric for signal clarity (dB).
+	//  Signal to Interference + Noise Ratio – LTE/5G metric for signal clarity (dB).
 	SocketPortMetricsFieldNameCellularSinr SocketPortMetricsFieldName = "cellular_sinr"
-	// Unique identifier of the Socket (Cato edge device).
+	//  Unique identifier of the Socket (Cato edge device).
 	SocketPortMetricsFieldNameDeviceID SocketPortMetricsFieldName = "device_id"
-	// Indicates the high-availability (HA) role of the device (e.g., active, standby).
+	//  Indicates the high-availability (HA) role of the device (e.g., active, standby).
 	SocketPortMetricsFieldNameHaRole SocketPortMetricsFieldName = "ha_role"
-	// Type of physical interface (e.g., ethernet, cellular).
+	//  Type of physical interface (e.g., ethernet, cellular).
 	SocketPortMetricsFieldNamePhysicalInterfaceType SocketPortMetricsFieldName = "physical_interface_type"
-	// SIM card number (for cellular interfaces).
+	//  SIM card number (for cellular interfaces).
 	SocketPortMetricsFieldNameSimNum SocketPortMetricsFieldName = "sim_num"
-	// Unique identifier of the site where the socket is deployed.
+	//  Unique identifier of the site where the socket is deployed.
 	SocketPortMetricsFieldNameSiteID SocketPortMetricsFieldName = "site_id"
-	// Human-readable name of the site.
+	//  Human-readable name of the site.
 	SocketPortMetricsFieldNameSiteName SocketPortMetricsFieldName = "site_name"
-	// The name or ID of the physical or logical interface on the Socket device (e.g., eth0, cell1).
+	//  The name or ID of the physical or logical interface on the Socket device (e.g., eth0, cell1).
 	SocketPortMetricsFieldNameSocketInterface SocketPortMetricsFieldName = "socket_interface"
-	// Describes the interface role such as primary, backup, cellular, or none.
+	//  Describes the interface role such as primary, backup, cellular, or none.
 	SocketPortMetricsFieldNameSocketInterfaceRole SocketPortMetricsFieldName = "socket_interface_role"
-	// Current download throughput in Mbps.
+	//  Current download throughput in Mbps.
 	SocketPortMetricsFieldNameThroughputDownstream SocketPortMetricsFieldName = "throughput_downstream"
-	// Current upload throughput in Mbps.
+	//  Current upload throughput in Mbps.
 	SocketPortMetricsFieldNameThroughputUpstream SocketPortMetricsFieldName = "throughput_upstream"
-	// Type of transport used by the interface (e.g., wired, lte, 5g, wifi).
+	//  Type of transport used by the interface (e.g., wired, lte, 5g, wifi).
 	SocketPortMetricsFieldNameTransportType SocketPortMetricsFieldName = "transport_type"
 )
 
@@ -27323,16 +22805,16 @@ func (e SortOrder) MarshalGQL(w io.Writer) {
 type SplitTunnelActionEnum string
 
 const (
-	// Route all traffic to Cato - Will be Deprecated by ROUTE_ALL_TO_CATO_EXCEPT
+	//  Route all traffic to Cato - Will be Deprecated by ROUTE_ALL_TO_CATO_EXCEPT
 	SplitTunnelActionEnumExclude SplitTunnelActionEnum = "EXCLUDE"
-	// Route all traffic Out-of-Tunnel - Will be Deprecated by ROUTE_ONLY_SELECTED
+	//  Route all traffic Out-of-Tunnel - Will be Deprecated by ROUTE_ONLY_SELECTED
 	SplitTunnelActionEnumInclude SplitTunnelActionEnum = "INCLUDE"
 	SplitTunnelActionEnumOff     SplitTunnelActionEnum = "OFF"
-	// Route all traffic to Cato - Not yet supported
+	//  Route all traffic to Cato - Not yet supported
 	SplitTunnelActionEnumRouteAllToCatoExcept SplitTunnelActionEnum = "ROUTE_ALL_TO_CATO_EXCEPT"
-	// Route all traffic Out-of-Tunnel - Not yet supported
+	//  Route all traffic Out-of-Tunnel - Not yet supported
 	SplitTunnelActionEnumRouteOnlySelected SplitTunnelActionEnum = "ROUTE_ONLY_SELECTED"
-	// User choose routing preference
+	//  User choose routing preference
 	SplitTunnelActionEnumUserDefined SplitTunnelActionEnum = "USER_DEFINED"
 )
 
@@ -27377,9 +22859,9 @@ func (e SplitTunnelActionEnum) MarshalGQL(w io.Writer) {
 type SplitTunnelCoverageEnum string
 
 const (
-	// All Ports and Protocols
+	//  All Ports and Protocols
 	SplitTunnelCoverageEnumAll SplitTunnelCoverageEnum = "ALL"
-	// Web-only (PAC based)
+	//  Web-only (PAC based)
 	SplitTunnelCoverageEnumWebOnly SplitTunnelCoverageEnum = "WEB_ONLY"
 )
 
@@ -27463,9 +22945,9 @@ type SplitTunnelSourceNetworkTypeEnum string
 
 const (
 	SplitTunnelSourceNetworkTypeEnumAny SplitTunnelSourceNetworkTypeEnum = "ANY"
-	// Any Managed Network
+	//  Any Managed Network
 	SplitTunnelSourceNetworkTypeEnumAnyManagedNetwork SplitTunnelSourceNetworkTypeEnum = "ANY_MANAGED_NETWORK"
-	// Any Unmanaged Network
+	//  Any Unmanaged Network
 	SplitTunnelSourceNetworkTypeEnumAnyUnmanagedNetwork SplitTunnelSourceNetworkTypeEnum = "ANY_UNMANAGED_NETWORK"
 )
 
@@ -27561,7 +23043,7 @@ const (
 	StoryProducerEnumEntraIDAlert              StoryProducerEnum = "EntraIdAlert"
 	StoryProducerEnumMicrosoftEndpointDefender StoryProducerEnum = "MicrosoftEndpointDefender"
 	StoryProducerEnumNetworkMonitor            StoryProducerEnum = "NetworkMonitor"
-	// The producer of the Site Operations stories
+	//  The producer of the Site Operations stories
 	StoryProducerEnumNetworkXdr       StoryProducerEnum = "NetworkXDR"
 	StoryProducerEnumThreatHunt       StoryProducerEnum = "ThreatHunt"
 	StoryProducerEnumThreatPrevention StoryProducerEnum = "ThreatPrevention"
@@ -28070,21 +23552,21 @@ func (e TimelineTypeEnum) MarshalGQL(w io.Writer) {
 type TimeseriesMetricType string
 
 const (
-	// Total avg downstream traffic (from the Cato Cloud to the site)
+	//  Total avg downstream traffic (from the Cato Cloud to the site)
 	TimeseriesMetricTypeBytesDownstream TimeseriesMetricType = "bytesDownstream"
-	// Total max downstream traffic (from the site to the Cato Cloud)
+	//  Total max downstream traffic (from the site to the Cato Cloud)
 	TimeseriesMetricTypeBytesDownstreamMax TimeseriesMetricType = "bytesDownstreamMax"
-	// Total number of bytes of upstream and downstream traffic
+	//  Total number of bytes of upstream and downstream traffic
 	TimeseriesMetricTypeBytesTotal TimeseriesMetricType = "bytesTotal"
-	// Total avg upstream traffic (from the site to the Cato Cloud)
+	//  Total avg upstream traffic (from the site to the Cato Cloud)
 	TimeseriesMetricTypeBytesUpstream TimeseriesMetricType = "bytesUpstream"
-	// Total max upstream traffic (from the site to the Cato Cloud)
+	//  Total max upstream traffic (from the site to the Cato Cloud)
 	TimeseriesMetricTypeBytesUpstreamMax TimeseriesMetricType = "bytesUpstreamMax"
-	// Health analytics for the site
+	//  Health analytics for the site
 	TimeseriesMetricTypeHealth TimeseriesMetricType = "health"
-	// Jitter for downstream traffic (difference in time delay in milliseconds (ms) between data packets)
+	//  Jitter for downstream traffic (difference in time delay in milliseconds (ms) between data packets)
 	TimeseriesMetricTypeJitterDownstream TimeseriesMetricType = "jitterDownstream"
-	// Jitter for upstream traffic (difference in time delay in milliseconds (ms) between data packets)
+	//  Jitter for upstream traffic (difference in time delay in milliseconds (ms) between data packets)
 	TimeseriesMetricTypeJitterUpstream TimeseriesMetricType = "jitterUpstream"
 	// Latency from socket directly to a well known global service, not through Cato. This is used to measure last
 	// mile provider's performance, independent of the service.
@@ -28092,29 +23574,29 @@ const (
 	// Packet loss from socket directly to a well known global services, not through Cato This is used to measure last
 	// mile provider's performance, independent of the service.
 	TimeseriesMetricTypeLastMilePacketLoss TimeseriesMetricType = "lastMilePacketLoss"
-	// Number of packets lost for downstream traffic
+	//  Number of packets lost for downstream traffic
 	TimeseriesMetricTypeLostDownstream TimeseriesMetricType = "lostDownstream"
-	// Percent of packet loss for downstream traffic
+	//  Percent of packet loss for downstream traffic
 	TimeseriesMetricTypeLostDownstreamPcnt TimeseriesMetricType = "lostDownstreamPcnt"
-	// Number of packets lost for upstream traffic
+	//  Number of packets lost for upstream traffic
 	TimeseriesMetricTypeLostUpstream TimeseriesMetricType = "lostUpstream"
-	// Percent of packet loss for upstream traffic
+	//  Percent of packet loss for upstream traffic
 	TimeseriesMetricTypeLostUpstreamPcnt TimeseriesMetricType = "lostUpstreamPcnt"
-	// Total packets discarded for downstream traffic
+	//  Total packets discarded for downstream traffic
 	TimeseriesMetricTypePacketsDiscardedDownstream TimeseriesMetricType = "packetsDiscardedDownstream"
-	// Percent packets discarded for downstream traffic
+	//  Percent packets discarded for downstream traffic
 	TimeseriesMetricTypePacketsDiscardedDownstreamPcnt TimeseriesMetricType = "packetsDiscardedDownstreamPcnt"
-	// Total packets discarded for upstream traffic
+	//  Total packets discarded for upstream traffic
 	TimeseriesMetricTypePacketsDiscardedUpstream TimeseriesMetricType = "packetsDiscardedUpstream"
-	// Percent packets discarded for upstream traffic
+	//  Percent packets discarded for upstream traffic
 	TimeseriesMetricTypePacketsDiscardedUpstreamPcnt TimeseriesMetricType = "packetsDiscardedUpstreamPcnt"
-	// Total downstream packets
+	//  Total downstream packets
 	TimeseriesMetricTypePacketsDownstream TimeseriesMetricType = "packetsDownstream"
-	// Total upstream packets
+	//  Total upstream packets
 	TimeseriesMetricTypePacketsUpstream TimeseriesMetricType = "packetsUpstream"
-	// Round-trip time from the Socket to the Cato Cloud
+	//  Round-trip time from the Socket to the Cato Cloud
 	TimeseriesMetricTypeRtt TimeseriesMetricType = "rtt"
-	// The age of the physical tunnel in milliseconds (It is zeroed even on transparent reconnect)
+	//  The age of the physical tunnel in milliseconds (It is zeroed even on transparent reconnect)
 	TimeseriesMetricTypeTunnelAge TimeseriesMetricType = "tunnelAge"
 )
 
@@ -28217,9 +23699,9 @@ func (e TLSInspectAction) MarshalGQL(w io.Writer) {
 type TLSInspectSystemCategory string
 
 const (
-	// High-popularity cloud apps that were analyzed by Cato's security team and confirmed to be safe for inspection.
+	//  High-popularity cloud apps that were analyzed by Cato's security team and confirmed to be safe for inspection.
 	TLSInspectSystemCategoryPopularCloudApps TLSInspectSystemCategory = "POPULAR_CLOUD_APPS"
-	// Top domains found to be broadly TLS-inspected across the Cato cloud. TLS-inspecting these domains is likely to be safe.
+	//  Top domains found to be broadly TLS-inspected across the Cato cloud. TLS-inspecting these domains is likely to be safe.
 	TLSInspectSystemCategorySafeToInspectDomains TLSInspectSystemCategory = "SAFE_TO_INSPECT_DOMAINS"
 )
 
@@ -28345,20 +23827,20 @@ type UnitType string
 
 const (
 	UnitTypeBits UnitType = "bits"
-	// Bits per second
+	//  Bits per second
 	UnitTypeBps   UnitType = "bps"
 	UnitTypeBytes UnitType = "bytes"
-	// Bytes per second
+	//  Bytes per second
 	UnitTypeBytesPerSec UnitType = "bytesPerSec"
-	// The number of occurrences for this unit
+	//  The number of occurrences for this unit
 	UnitTypeCount   UnitType = "count"
 	UnitTypeMs      UnitType = "ms"
 	UnitTypeNone    UnitType = "none"
 	UnitTypePackets UnitType = "packets"
 	UnitTypePercent UnitType = "percent"
-	// health analytics for the site
+	//  health analytics for the site
 	UnitTypeScore UnitType = "score"
-	// For metrics that are measured in seconds, such as tunnelAge, the number of seconds
+	//  For metrics that are measured in seconds, such as tunnelAge, the number of seconds
 	UnitTypeSeconds UnitType = "seconds"
 )
 
@@ -28674,21 +24156,21 @@ func (e WanFirewallDirectionEnum) MarshalGQL(w io.Writer) {
 type WanNetworkRuleInterfaceRole string
 
 const (
-	// Automatic interface role.
+	//  Automatic interface role.
 	WanNetworkRuleInterfaceRoleAutomatic WanNetworkRuleInterfaceRole = "AUTOMATIC"
-	// No interface role.
+	//  No interface role.
 	WanNetworkRuleInterfaceRoleNone WanNetworkRuleInterfaceRole = "NONE"
-	// WAN1 interface role.
+	//  WAN1 interface role.
 	WanNetworkRuleInterfaceRoleWan1 WanNetworkRuleInterfaceRole = "WAN1"
-	// WAN2 interface role.
+	//  WAN2 interface role.
 	WanNetworkRuleInterfaceRoleWan2 WanNetworkRuleInterfaceRole = "WAN2"
-	// WAN3 interface role.
+	//  WAN3 interface role.
 	WanNetworkRuleInterfaceRoleWan3 WanNetworkRuleInterfaceRole = "WAN3"
-	// WAN4 interface role.
+	//  WAN4 interface role.
 	WanNetworkRuleInterfaceRoleWan4 WanNetworkRuleInterfaceRole = "WAN4"
-	// WAN5 interface role.
+	//  WAN5 interface role.
 	WanNetworkRuleInterfaceRoleWan5 WanNetworkRuleInterfaceRole = "WAN5"
-	// WAN6 interface role.
+	//  WAN6 interface role.
 	WanNetworkRuleInterfaceRoleWan6 WanNetworkRuleInterfaceRole = "WAN6"
 )
 
@@ -28735,17 +24217,17 @@ func (e WanNetworkRuleInterfaceRole) MarshalGQL(w io.Writer) {
 type WanNetworkRuleRouteType string
 
 const (
-	// Backhaul routing.
+	//  Backhaul routing.
 	WanNetworkRuleRouteTypeBackhaul WanNetworkRuleRouteType = "BACKHAUL"
-	// Backhaul hairpinning routing.
+	//  Backhaul hairpinning routing.
 	WanNetworkRuleRouteTypeBackhaulHairpinning WanNetworkRuleRouteType = "BACKHAUL_HAIRPINNING"
-	// NAT routing.
+	//  NAT routing.
 	WanNetworkRuleRouteTypeNat WanNetworkRuleRouteType = "NAT"
-	// No routing.
+	//  No routing.
 	WanNetworkRuleRouteTypeNone WanNetworkRuleRouteType = "NONE"
-	// Optimized routing. Smart Egress using closest destination
+	//  Optimized routing. Smart Egress using closest destination
 	WanNetworkRuleRouteTypeOptimized WanNetworkRuleRouteType = "OPTIMIZED"
-	// Route via a specific path.
+	//  Route via a specific path.
 	WanNetworkRuleRouteTypeVia WanNetworkRuleRouteType = "VIA"
 )
 
@@ -28790,15 +24272,15 @@ func (e WanNetworkRuleRouteType) MarshalGQL(w io.Writer) {
 type WanNetworkRuleTransportType string
 
 const (
-	// Alternative WAN transport type.
+	//  Alternative WAN transport type.
 	WanNetworkRuleTransportTypeAlternativeWan WanNetworkRuleTransportType = "ALTERNATIVE_WAN"
-	// Automatic transport type.
+	//  Automatic transport type.
 	WanNetworkRuleTransportTypeAutomatic WanNetworkRuleTransportType = "AUTOMATIC"
-	// No transport type.
+	//  No transport type.
 	WanNetworkRuleTransportTypeNone WanNetworkRuleTransportType = "NONE"
-	// Off-cloud transport type.
+	//  Off-cloud transport type.
 	WanNetworkRuleTransportTypeOffCloud WanNetworkRuleTransportType = "OFF_CLOUD"
-	// WAN transport type.
+	//  WAN transport type.
 	WanNetworkRuleTransportTypeWan WanNetworkRuleTransportType = "WAN"
 )
 
@@ -28842,11 +24324,11 @@ func (e WanNetworkRuleTransportType) MarshalGQL(w io.Writer) {
 type WanNetworkRuleType string
 
 const (
-	// Inbound Internet transport type.
+	//  Inbound Internet transport type.
 	WanNetworkRuleTypeInboundInternet WanNetworkRuleType = "INBOUND_INTERNET"
-	// Internet transport type.
+	//  Internet transport type.
 	WanNetworkRuleTypeInternet WanNetworkRuleType = "INTERNET"
-	// WAN transport type.
+	//  WAN transport type.
 	WanNetworkRuleTypeWan WanNetworkRuleType = "WAN"
 )
 
@@ -28889,9 +24371,9 @@ func (e WanNetworkRuleType) MarshalGQL(w io.Writer) {
 type ZtnaAlwaysOnRuleActionEnum string
 
 const (
-	// Enforce always on policy.
+	//  Enforce always on policy.
 	ZtnaAlwaysOnRuleActionEnumEnforce ZtnaAlwaysOnRuleActionEnum = "ENFORCE"
-	// On demand always on policy.
+	//  On demand always on policy.
 	ZtnaAlwaysOnRuleActionEnumIgnore ZtnaAlwaysOnRuleActionEnum = "IGNORE"
 )
 
@@ -28933,9 +24415,9 @@ func (e ZtnaAlwaysOnRuleActionEnum) MarshalGQL(w io.Writer) {
 type ZtnaAlwaysOnTimeUnit string
 
 const (
-	// Time in hours
+	//  Time in hours
 	ZtnaAlwaysOnTimeUnitHours ZtnaAlwaysOnTimeUnit = "HOURS"
-	// Time in minutes
+	//  Time in minutes
 	ZtnaAlwaysOnTimeUnitMinutes ZtnaAlwaysOnTimeUnit = "MINUTES"
 )
 
@@ -29020,16 +24502,16 @@ func (e ZtnaAppConnectorType) MarshalGQL(w io.Writer) {
 type ZtnaUsersLicenseGroup string
 
 const (
-	// Country with stand-alone licenses (not part of a group)
+	//  Country with stand-alone licenses (not part of a group)
 	ZtnaUsersLicenseGroupChina ZtnaUsersLicenseGroup = "CHINA"
-	// Legacy group
+	//  Legacy group
 	ZtnaUsersLicenseGroupDubai   ZtnaUsersLicenseGroup = "DUBAI"
 	ZtnaUsersLicenseGroupGeneral ZtnaUsersLicenseGroup = "GENERAL"
-	// Legacy group
+	//  Legacy group
 	ZtnaUsersLicenseGroupLatam ZtnaUsersLicenseGroup = "LATAM"
-	// Country with stand-alone licenses (not part of a group)
+	//  Country with stand-alone licenses (not part of a group)
 	ZtnaUsersLicenseGroupMorocco ZtnaUsersLicenseGroup = "MOROCCO"
-	// Country with stand-alone licenses (not part of a group)
+	//  Country with stand-alone licenses (not part of a group)
 	ZtnaUsersLicenseGroupVietnam ZtnaUsersLicenseGroup = "VIETNAM"
 )
 
