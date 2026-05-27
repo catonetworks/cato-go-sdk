@@ -160,6 +160,18 @@ Mustations are used in GraphQL to perform a change. This can include a create/up
 - When `TF_API_DUMP_DIR={directory}` environment variable is set, the GraphQL API calls will be recorded in the given directory
 - When `TF_LOG=debug` environment variable is set, an 'API Call:' debug message will be logged.
 
+### Fetching the Schema
+- there is a `gqlschema` command to simplify downloading the schema from the API introspection.
+Usage example
+```sh
+  # set the API variables
+export CATO_ENDPOINT=https://api.cc.sta.catonet.works/api/v1/graphql2
+export CATO_TOKEN=xxx
+
+  # fetch the schema, convert it to GraphQL SDL format
+go run ./cmd/gqlschema/ fetch --convert -o new-cato_api.graphqls
+```
+
 ### Examples
 
 Additional examples can be found in the [examples](examples/) folder.
