@@ -2,6 +2,8 @@
 
 SCHEMA_CURL_URL ?= https://system.cc.catonetworks.com/api/schema?with_undocumented=true
 SCHEMA_FILE ?= cato_api.graphqls
+PATCH_DIR ?= schema-patches
+PATCH_FILES := $(sort $(wildcard $(PATCH_DIR)/*.patch))
 
 ##@ Generator
 .PHONY: generate
@@ -25,6 +27,22 @@ schema-update: ## Update cato_api schema using curl source + normalize
 	go run ./cmd/gqlschema normalize -f "$$tmp_file" -o "$(SCHEMA_FILE)"; \
 	rm -f "$$tmp_file"; \
 	echo "Updated $(SCHEMA_FILE)"
+
+.PHONY: apply-patches
+apply-patches: ## Apply schema patches from $(PATCH_DIR)
+	@set -e; \
+	if [ -z "$(PATCH_FILES)" ]; then \
+		echo "No patch files found in $(PATCH_DIR)"; \
+		exit 0; \
+	fi; \
+	for p in $(PATCH_FILES); do \
+		if git apply --reverse --check "$$p" >/dev/null 2>&1; then \
+			echo "Skipping already applied patch: $$p"; \
+			continue; \
+		fi; \
+		echo "Applying patch: $$p"; \
+		git apply "$$p"; \
+	done
 
 ##@ Help
 .PHONY: help
