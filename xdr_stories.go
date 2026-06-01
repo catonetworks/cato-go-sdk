@@ -3,8 +3,8 @@ package cato_go_sdk
 import (
 	"context"
 
+	"github.com/Yamashou/gqlgenc/clientv2"
 	cato_models "github.com/catonetworks/cato-go-sdk/models"
-	"github.com/gqlgo/gqlgenc/clientv2"
 )
 
 func (c *Client) XdrStoriesList(ctx context.Context, storyInput cato_models.StoryInput, accountID string, interceptors ...clientv2.RequestInterceptor) (*Xdr, error) {

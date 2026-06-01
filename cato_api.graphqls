@@ -2595,7 +2595,7 @@ type InternetFirewallContainer {
 type InternetFirewallDestination {
   appCategory: [ApplicationCategoryRef!]!
   application: [ApplicationRef!]!
-  containers: InternetFirewallContainer!
+  containers: InternetFirewallContainer
   country: [CountryRef!]!
   customApp: [CustomApplicationRef!]!
   customCategory: [CustomCategoryRef!]!
@@ -2685,7 +2685,7 @@ type InternetFirewallRemoveSubPolicyMutationPayload implements IPolicyMutationPa
 
 type InternetFirewallRule implements IPolicyRule {
   action: InternetFirewallActionEnum!
-  actionConfig: InternetFirewallActionConfig!
+  actionConfig: InternetFirewallActionConfig
   activePeriod: PolicyRuleActivePeriod!
   connectionOrigin: ConnectionOriginEnum!
   connectionsOriginList: [ConnectionOriginsEnum!]!
@@ -2707,7 +2707,7 @@ type InternetFirewallRule implements IPolicyRule {
   service: InternetFirewallServiceType!
   source: InternetFirewallSource!
   tracking: PolicyTracking!
-  userAttributes: InternetFirewallUserAttributes!
+  userAttributes: InternetFirewallUserAttributes
 }
 
 """ Exceptions define when a rule is ignored, and the firewall policy evaluation continues with the lower priority rules. """
@@ -2724,7 +2724,7 @@ type InternetFirewallRuleException {
   postureAttributes: PostureAttributes
   service: InternetFirewallServiceType!
   source: InternetFirewallSource!
-  userAttributes: InternetFirewallUserAttributes!
+  userAttributes: InternetFirewallUserAttributes
 }
 
 type InternetFirewallRuleMutationPayload implements IPolicyRuleMutationPayload {
@@ -5376,7 +5376,7 @@ type WanFirewallRemoveSubPolicyMutationPayload implements IPolicyMutationPayload
 
 type WanFirewallRule implements IPolicyRule {
   action: WanFirewallActionEnum!
-  actionConfig: WanFirewallActionConfig!
+  actionConfig: WanFirewallActionConfig
   activePeriod: PolicyRuleActivePeriod!
   application: WanFirewallApplication!
   connectionOrigin: ConnectionOriginEnum!
@@ -5398,7 +5398,7 @@ type WanFirewallRule implements IPolicyRule {
   service: WanFirewallServiceType!
   source: WanFirewallSource!
   tracking: PolicyTracking!
-  userAttributes: WanFirewallUserAttributes!
+  userAttributes: WanFirewallUserAttributes
 }
 
 """ Exceptions define when a rule is ignored, and the firewall policy evaluation continues with the lower priority rules. """
@@ -5415,7 +5415,7 @@ type WanFirewallRuleException {
   name: String!
   service: WanFirewallServiceType!
   source: WanFirewallSource!
-  userAttributes: WanFirewallUserAttributes!
+  userAttributes: WanFirewallUserAttributes
 }
 
 type WanFirewallRuleMutationPayload implements IPolicyRuleMutationPayload {
@@ -7529,7 +7529,7 @@ input InternetFirewallActionConfigUpdateInput {
 
 input InternetFirewallAddRuleDataInput {
   action: InternetFirewallActionEnum! = BLOCK
-  actionConfig: InternetFirewallActionConfigInput! = {userNotification:[],rbiProfile:[]}
+  actionConfig: InternetFirewallActionConfigInput = {userNotification:[],rbiProfile:[]}
   activePeriod: PolicyRuleActivePeriodInput! = {useEffectiveFrom:false,useExpiresAt:false}
   connectionOrigin: ConnectionOriginEnum! = ANY
   connectionsOriginList: [ConnectionOriginsEnum!]! = []
@@ -7545,10 +7545,10 @@ input InternetFirewallAddRuleDataInput {
   name: String!
   postureAttributes: PostureAttributesInput = {hostConfidenceLevel:ANY}
   schedule: PolicyScheduleInput! = {activeOn:ALWAYS}
-  service: InternetFirewallServiceTypeInput! = {standard:[],custom:[]}
+  service: InternetFirewallServiceTypeInput = {standard:[],custom:[]}
   source: InternetFirewallSourceInput! = {ip:[],host:[],site:[],subnet:[],ipRange:[],globalIpRange:[],networkInterface:[],siteNetworkSubnet:[],floatingSubnet:[],user:[],usersGroup:[],group:[],systemGroup:[]}
   tracking: PolicyTrackingInput! = {event:{enabled:false},alert:{enabled:false,frequency:HOURLY,subscriptionGroup:[],webhook:[],mailingList:[]}}
-  userAttributes: InternetFirewallUserAttributesInput! = {riskScore:{category:ANY,operator:GTE},userConfidenceLevel:ANY}
+  userAttributes: InternetFirewallUserAttributesInput = {riskScore:{category:ANY,operator:GTE},userConfidenceLevel:ANY}
 }
 
 """ Rule parameters and relevant position """
@@ -7582,7 +7582,7 @@ input InternetFirewallContainerUpdateInput {
 input InternetFirewallDestinationInput {
   appCategory: [ApplicationCategoryRefInput!]! = []
   application: [ApplicationRefInput!]! = []
-  containers: InternetFirewallContainerInput! = {fqdnContainer:[],ipAddressRangeContainer:[]}
+  containers: InternetFirewallContainerInput = {fqdnContainer:[],ipAddressRangeContainer:[]}
   country: [CountryRefInput!]! = []
   customApp: [CustomApplicationRefInput!]! = []
   customCategory: [CustomCategoryRefInput!]! = []
@@ -7670,9 +7670,9 @@ input InternetFirewallRuleExceptionInput {
   deviceOS: [OperatingSystem!]! = []
   name: String!
   postureAttributes: PostureAttributesInput = {hostConfidenceLevel:ANY}
-  service: InternetFirewallServiceTypeInput! = {standard:[],custom:[]}
+  service: InternetFirewallServiceTypeInput = {standard:[],custom:[]}
   source: InternetFirewallSourceInput! = {ip:[],host:[],site:[],subnet:[],ipRange:[],globalIpRange:[],networkInterface:[],siteNetworkSubnet:[],floatingSubnet:[],user:[],usersGroup:[],group:[],systemGroup:[]}
-  userAttributes: InternetFirewallUserAttributesInput! = {riskScore:{category:ANY,operator:GTE},userConfidenceLevel:ANY}
+  userAttributes: InternetFirewallUserAttributesInput = {riskScore:{category:ANY,operator:GTE},userConfidenceLevel:ANY}
 }
 
 """ Input of the Service Type to which this Internet Firewall rule applies. To specify 'ANY' source, an empty list must be provided for each match criteria field (e.g. standard: [], custom: [], etc...) """
@@ -9608,14 +9608,14 @@ input WanFirewallActionConfigUpdateInput {
 
 input WanFirewallAddRuleDataInput {
   action: WanFirewallActionEnum! = BLOCK
-  actionConfig: WanFirewallActionConfigInput! = {userNotification:[]}
+  actionConfig: WanFirewallActionConfigInput = {userNotification:[]}
   activePeriod: PolicyRuleActivePeriodInput! = {useEffectiveFrom:false,useExpiresAt:false}
   application: WanFirewallApplicationInput! = {application:[],appCategory:[],customApp:[],customCategory:[],sanctionedAppsCategory:[],domain:[],fqdn:[],ip:[],subnet:[],ipRange:[],globalIpRange:[]}
   connectionOrigin: ConnectionOriginEnum! = ANY
   connectionsOriginList: [ConnectionOriginsEnum!]! = []
   country: [CountryRefInput!]! = []
   description: String! = ""
-  destination: WanFirewallDestinationInput! = {host:[],site:[],subnet:[],ip:[],ipRange:[],globalIpRange:[],networkInterface:[],siteNetworkSubnet:[],floatingSubnet:[],user:[],usersGroup:[],group:[],systemGroup:[]}
+  destination: WanFirewallDestinationInput = {host:[],site:[],subnet:[],ip:[],ipRange:[],globalIpRange:[],networkInterface:[],siteNetworkSubnet:[],floatingSubnet:[],user:[],usersGroup:[],group:[],systemGroup:[]}
   device: [DeviceProfileRefInput!]! = []
   deviceAttributes: DeviceAttributesInput! = {category:[],type:[],model:[],manufacturer:[],os:[],osVersion:[]}
   deviceOS: [OperatingSystem!]! = []
@@ -9624,10 +9624,10 @@ input WanFirewallAddRuleDataInput {
   exceptions: [WanFirewallRuleExceptionInput!]! = []
   name: String!
   schedule: PolicyScheduleInput! = {activeOn:ALWAYS}
-  service: WanFirewallServiceTypeInput! = {standard:[],custom:[]}
+  service: WanFirewallServiceTypeInput = {standard:[],custom:[]}
   source: WanFirewallSourceInput! = {host:[],site:[],subnet:[],ip:[],ipRange:[],globalIpRange:[],networkInterface:[],siteNetworkSubnet:[],floatingSubnet:[],user:[],usersGroup:[],group:[],systemGroup:[]}
   tracking: PolicyTrackingInput! = {event:{enabled:false},alert:{enabled:false,frequency:HOURLY,subscriptionGroup:[],webhook:[],mailingList:[]}}
-  userAttributes: WanFirewallUserAttributesInput! = {riskScore:{category:ANY,operator:GTE},userConfidenceLevel:ANY}
+  userAttributes: WanFirewallUserAttributesInput = {riskScore:{category:ANY,operator:GTE},userConfidenceLevel:ANY}
 }
 
 """ Rule parameters and relevant position """
@@ -9765,9 +9765,9 @@ input WanFirewallRuleExceptionInput {
   deviceOS: [OperatingSystem!]! = []
   direction: WanFirewallDirectionEnum! = TO
   name: String!
-  service: WanFirewallServiceTypeInput! = {standard:[],custom:[]}
+  service: WanFirewallServiceTypeInput = {standard:[],custom:[]}
   source: WanFirewallSourceInput! = {host:[],site:[],subnet:[],ip:[],ipRange:[],globalIpRange:[],networkInterface:[],siteNetworkSubnet:[],floatingSubnet:[],user:[],usersGroup:[],group:[],systemGroup:[]}
-  userAttributes: WanFirewallUserAttributesInput! = {riskScore:{category:ANY,operator:GTE},userConfidenceLevel:ANY}
+  userAttributes: WanFirewallUserAttributesInput = {riskScore:{category:ANY,operator:GTE},userConfidenceLevel:ANY}
 }
 
 """ Input of the Service Type to which this Wan Firewall rule applies. To specify 'ANY' source, an empty list must be provided for each match criteria field (e.g. standard: [], custom: [], etc...) """

@@ -5476,7 +5476,7 @@ type InternetFirewallActionConfigUpdateInput struct {
 
 type InternetFirewallAddRuleDataInput struct {
 	Action                 InternetFirewallActionEnum            `json:"action"`
-	ActionConfig           *InternetFirewallActionConfigInput    `json:"actionConfig"`
+	ActionConfig           *InternetFirewallActionConfigInput    `json:"actionConfig,omitempty"`
 	ActivePeriod           *PolicyRuleActivePeriodInput          `json:"activePeriod"`
 	ConnectionOrigin       ConnectionOriginEnum                  `json:"connectionOrigin"`
 	ConnectionsOriginList  []ConnectionOriginsEnum               `json:"connectionsOriginList"`
@@ -5492,10 +5492,10 @@ type InternetFirewallAddRuleDataInput struct {
 	Name                   string                                `json:"name"`
 	PostureAttributes      *PostureAttributesInput               `json:"postureAttributes,omitempty"`
 	Schedule               *PolicyScheduleInput                  `json:"schedule"`
-	Service                *InternetFirewallServiceTypeInput     `json:"service"`
+	Service                *InternetFirewallServiceTypeInput     `json:"service,omitempty"`
 	Source                 *InternetFirewallSourceInput          `json:"source"`
 	Tracking               *PolicyTrackingInput                  `json:"tracking"`
-	UserAttributes         *InternetFirewallUserAttributesInput  `json:"userAttributes"`
+	UserAttributes         *InternetFirewallUserAttributesInput  `json:"userAttributes,omitempty"`
 }
 
 // Rule parameters and relevant position
@@ -5556,7 +5556,7 @@ type InternetFirewallContainerUpdateInput struct {
 type InternetFirewallDestination struct {
 	AppCategory            []*ApplicationCategoryRef    `json:"appCategory"`
 	Application            []*ApplicationRef            `json:"application"`
-	Containers             *InternetFirewallContainer   `json:"containers"`
+	Containers             *InternetFirewallContainer   `json:"containers,omitempty"`
 	Country                []*CountryRef                `json:"country"`
 	CustomApp              []*CustomApplicationRef      `json:"customApp"`
 	CustomCategory         []*CustomCategoryRef         `json:"customCategory"`
@@ -5575,7 +5575,7 @@ type InternetFirewallDestination struct {
 type InternetFirewallDestinationInput struct {
 	AppCategory            []*ApplicationCategoryRefInput    `json:"appCategory"`
 	Application            []*ApplicationRefInput            `json:"application"`
-	Containers             *InternetFirewallContainerInput   `json:"containers"`
+	Containers             *InternetFirewallContainerInput   `json:"containers,omitempty"`
 	Country                []*CountryRefInput                `json:"country"`
 	CustomApp              []*CustomApplicationRefInput      `json:"customApp"`
 	CustomCategory         []*CustomCategoryRefInput         `json:"customCategory"`
@@ -5810,7 +5810,7 @@ func (this InternetFirewallRemoveSubPolicyMutationPayload) GetStatus() PolicyMut
 
 type InternetFirewallRule struct {
 	Action                 InternetFirewallActionEnum       `json:"action"`
-	ActionConfig           *InternetFirewallActionConfig    `json:"actionConfig"`
+	ActionConfig           *InternetFirewallActionConfig    `json:"actionConfig,omitempty"`
 	ActivePeriod           *PolicyRuleActivePeriod          `json:"activePeriod"`
 	ConnectionOrigin       ConnectionOriginEnum             `json:"connectionOrigin"`
 	ConnectionsOriginList  []ConnectionOriginsEnum          `json:"connectionsOriginList"`
@@ -5832,7 +5832,7 @@ type InternetFirewallRule struct {
 	Service                *InternetFirewallServiceType     `json:"service"`
 	Source                 *InternetFirewallSource          `json:"source"`
 	Tracking               *PolicyTracking                  `json:"tracking"`
-	UserAttributes         *InternetFirewallUserAttributes  `json:"userAttributes"`
+	UserAttributes         *InternetFirewallUserAttributes  `json:"userAttributes,omitempty"`
 }
 
 func (InternetFirewallRule) IsIPolicyRule()                      {}
@@ -5857,7 +5857,7 @@ type InternetFirewallRuleException struct {
 	PostureAttributes      *PostureAttributes              `json:"postureAttributes,omitempty"`
 	Service                *InternetFirewallServiceType    `json:"service"`
 	Source                 *InternetFirewallSource         `json:"source"`
-	UserAttributes         *InternetFirewallUserAttributes `json:"userAttributes"`
+	UserAttributes         *InternetFirewallUserAttributes `json:"userAttributes,omitempty"`
 }
 
 // Exceptions define when a rule is ignored, and the firewall policy evaluation continues with the lower priority rules.
@@ -5872,9 +5872,9 @@ type InternetFirewallRuleExceptionInput struct {
 	DeviceOs               []OperatingSystem                    `json:"deviceOS"`
 	Name                   string                               `json:"name"`
 	PostureAttributes      *PostureAttributesInput              `json:"postureAttributes,omitempty"`
-	Service                *InternetFirewallServiceTypeInput    `json:"service"`
+	Service                *InternetFirewallServiceTypeInput    `json:"service,omitempty"`
 	Source                 *InternetFirewallSourceInput         `json:"source"`
-	UserAttributes         *InternetFirewallUserAttributesInput `json:"userAttributes"`
+	UserAttributes         *InternetFirewallUserAttributesInput `json:"userAttributes,omitempty"`
 }
 
 type InternetFirewallRuleMutationPayload struct {
@@ -11482,14 +11482,14 @@ type WanFirewallActionConfigUpdateInput struct {
 
 type WanFirewallAddRuleDataInput struct {
 	Action                WanFirewallActionEnum            `json:"action"`
-	ActionConfig          *WanFirewallActionConfigInput    `json:"actionConfig"`
+	ActionConfig          *WanFirewallActionConfigInput    `json:"actionConfig,omitempty"`
 	ActivePeriod          *PolicyRuleActivePeriodInput     `json:"activePeriod"`
 	Application           *WanFirewallApplicationInput     `json:"application"`
 	ConnectionOrigin      ConnectionOriginEnum             `json:"connectionOrigin"`
 	ConnectionsOriginList []ConnectionOriginsEnum          `json:"connectionsOriginList"`
 	Country               []*CountryRefInput               `json:"country"`
 	Description           string                           `json:"description"`
-	Destination           *WanFirewallDestinationInput     `json:"destination"`
+	Destination           *WanFirewallDestinationInput     `json:"destination,omitempty"`
 	Device                []*DeviceProfileRefInput         `json:"device"`
 	DeviceAttributes      *DeviceAttributesInput           `json:"deviceAttributes"`
 	DeviceOs              []OperatingSystem                `json:"deviceOS"`
@@ -11498,10 +11498,10 @@ type WanFirewallAddRuleDataInput struct {
 	Exceptions            []*WanFirewallRuleExceptionInput `json:"exceptions"`
 	Name                  string                           `json:"name"`
 	Schedule              *PolicyScheduleInput             `json:"schedule"`
-	Service               *WanFirewallServiceTypeInput     `json:"service"`
+	Service               *WanFirewallServiceTypeInput     `json:"service,omitempty"`
 	Source                *WanFirewallSourceInput          `json:"source"`
 	Tracking              *PolicyTrackingInput             `json:"tracking"`
-	UserAttributes        *WanFirewallUserAttributesInput  `json:"userAttributes"`
+	UserAttributes        *WanFirewallUserAttributesInput  `json:"userAttributes,omitempty"`
 }
 
 // Rule parameters and relevant position
@@ -11838,7 +11838,7 @@ func (this WanFirewallRemoveSubPolicyMutationPayload) GetStatus() PolicyMutation
 
 type WanFirewallRule struct {
 	Action                WanFirewallActionEnum       `json:"action"`
-	ActionConfig          *WanFirewallActionConfig    `json:"actionConfig"`
+	ActionConfig          *WanFirewallActionConfig    `json:"actionConfig,omitempty"`
 	ActivePeriod          *PolicyRuleActivePeriod     `json:"activePeriod"`
 	Application           *WanFirewallApplication     `json:"application"`
 	ConnectionOrigin      ConnectionOriginEnum        `json:"connectionOrigin"`
@@ -11860,7 +11860,7 @@ type WanFirewallRule struct {
 	Service               *WanFirewallServiceType     `json:"service"`
 	Source                *WanFirewallSource          `json:"source"`
 	Tracking              *PolicyTracking             `json:"tracking"`
-	UserAttributes        *WanFirewallUserAttributes  `json:"userAttributes"`
+	UserAttributes        *WanFirewallUserAttributes  `json:"userAttributes,omitempty"`
 }
 
 func (WanFirewallRule) IsIPolicyRule()                      {}
@@ -11885,7 +11885,7 @@ type WanFirewallRuleException struct {
 	Name                  string                     `json:"name"`
 	Service               *WanFirewallServiceType    `json:"service"`
 	Source                *WanFirewallSource         `json:"source"`
-	UserAttributes        *WanFirewallUserAttributes `json:"userAttributes"`
+	UserAttributes        *WanFirewallUserAttributes `json:"userAttributes,omitempty"`
 }
 
 // Exceptions define when a rule is ignored, and the firewall policy evaluation continues with the lower priority rules.
@@ -11900,9 +11900,9 @@ type WanFirewallRuleExceptionInput struct {
 	DeviceOs              []OperatingSystem               `json:"deviceOS"`
 	Direction             WanFirewallDirectionEnum        `json:"direction"`
 	Name                  string                          `json:"name"`
-	Service               *WanFirewallServiceTypeInput    `json:"service"`
+	Service               *WanFirewallServiceTypeInput    `json:"service,omitempty"`
 	Source                *WanFirewallSourceInput         `json:"source"`
-	UserAttributes        *WanFirewallUserAttributesInput `json:"userAttributes"`
+	UserAttributes        *WanFirewallUserAttributesInput `json:"userAttributes,omitempty"`
 }
 
 type WanFirewallRuleMutationPayload struct {
