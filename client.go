@@ -107003,18 +107003,21 @@ func (t *NetworkRangeList_Site_NetworkRangeList_Items_DhcpSettings) GetRelayGrou
 }
 
 type NetworkRangeList_Site_NetworkRangeList_Items struct {
-	AzureFloatingIP  *string                                                    "json:\"azureFloatingIp,omitempty\" graphql:\"azureFloatingIp\""
-	DhcpSettings     *NetworkRangeList_Site_NetworkRangeList_Items_DhcpSettings "json:\"dhcpSettings,omitempty\" graphql:\"dhcpSettings\""
-	Gateway          *string                                                    "json:\"gateway,omitempty\" graphql:\"gateway\""
-	InternetOnly     bool                                                       "json:\"internetOnly\" graphql:\"internetOnly\""
-	LocalIP          *string                                                    "json:\"localIp,omitempty\" graphql:\"localIp\""
-	MdnsReflector    bool                                                       "json:\"mdnsReflector\" graphql:\"mdnsReflector\""
-	Name             string                                                     "json:\"name\" graphql:\"name\""
-	NetworkRangeID   string                                                     "json:\"networkRangeId\" graphql:\"networkRangeId\""
-	RangeType        cato_models.SubnetType                                     "json:\"rangeType\" graphql:\"rangeType\""
-	Subnet           string                                                     "json:\"subnet\" graphql:\"subnet\""
-	TranslatedSubnet *string                                                    "json:\"translatedSubnet,omitempty\" graphql:\"translatedSubnet\""
-	Vlan             *int64                                                     "json:\"vlan,omitempty\" graphql:\"vlan\""
+	AzureFloatingIP       *string                                                    "json:\"azureFloatingIp,omitempty\" graphql:\"azureFloatingIp\""
+	DhcpSettings          *NetworkRangeList_Site_NetworkRangeList_Items_DhcpSettings "json:\"dhcpSettings,omitempty\" graphql:\"dhcpSettings\""
+	Gateway               *string                                                    "json:\"gateway,omitempty\" graphql:\"gateway\""
+	GCPLoadBalancerIP     *string                                                    "json:\"gcpLoadBalancerIp,omitempty\" graphql:\"gcpLoadBalancerIp\""
+	InternetOnly          bool                                                       "json:\"internetOnly\" graphql:\"internetOnly\""
+	LocalIP               *string                                                    "json:\"localIp,omitempty\" graphql:\"localIp\""
+	MdnsReflector         bool                                                       "json:\"mdnsReflector\" graphql:\"mdnsReflector\""
+	Name                  string                                                     "json:\"name\" graphql:\"name\""
+	NetworkRangeID        string                                                     "json:\"networkRangeId\" graphql:\"networkRangeId\""
+	PrimaryManagementIP   *string                                                    "json:\"primaryManagementIp,omitempty\" graphql:\"primaryManagementIp\""
+	RangeType             cato_models.SubnetType                                     "json:\"rangeType\" graphql:\"rangeType\""
+	SecondaryManagementIP *string                                                    "json:\"secondaryManagementIp,omitempty\" graphql:\"secondaryManagementIp\""
+	Subnet                string                                                     "json:\"subnet\" graphql:\"subnet\""
+	TranslatedSubnet      *string                                                    "json:\"translatedSubnet,omitempty\" graphql:\"translatedSubnet\""
+	Vlan                  *int64                                                     "json:\"vlan,omitempty\" graphql:\"vlan\""
 }
 
 func (t *NetworkRangeList_Site_NetworkRangeList_Items) GetAzureFloatingIP() *string {
@@ -107034,6 +107037,12 @@ func (t *NetworkRangeList_Site_NetworkRangeList_Items) GetGateway() *string {
 		t = &NetworkRangeList_Site_NetworkRangeList_Items{}
 	}
 	return t.Gateway
+}
+func (t *NetworkRangeList_Site_NetworkRangeList_Items) GetGCPLoadBalancerIP() *string {
+	if t == nil {
+		t = &NetworkRangeList_Site_NetworkRangeList_Items{}
+	}
+	return t.GCPLoadBalancerIP
 }
 func (t *NetworkRangeList_Site_NetworkRangeList_Items) GetInternetOnly() bool {
 	if t == nil {
@@ -107065,11 +107074,23 @@ func (t *NetworkRangeList_Site_NetworkRangeList_Items) GetNetworkRangeID() strin
 	}
 	return t.NetworkRangeID
 }
+func (t *NetworkRangeList_Site_NetworkRangeList_Items) GetPrimaryManagementIP() *string {
+	if t == nil {
+		t = &NetworkRangeList_Site_NetworkRangeList_Items{}
+	}
+	return t.PrimaryManagementIP
+}
 func (t *NetworkRangeList_Site_NetworkRangeList_Items) GetRangeType() *cato_models.SubnetType {
 	if t == nil {
 		t = &NetworkRangeList_Site_NetworkRangeList_Items{}
 	}
 	return &t.RangeType
+}
+func (t *NetworkRangeList_Site_NetworkRangeList_Items) GetSecondaryManagementIP() *string {
+	if t == nil {
+		t = &NetworkRangeList_Site_NetworkRangeList_Items{}
+	}
+	return t.SecondaryManagementIP
 }
 func (t *NetworkRangeList_Site_NetworkRangeList_Items) GetSubnet() string {
 	if t == nil {
@@ -135492,12 +135513,15 @@ const NetworkRangeListDocument = `query networkRangeList ($accountID: ID!, $inpu
 					relayGroupId
 				}
 				gateway
+				gcpLoadBalancerIp
 				internetOnly
 				localIp
 				mdnsReflector
 				name
 				networkRangeId
+				primaryManagementIp
 				rangeType
+				secondaryManagementIp
 				subnet
 				translatedSubnet
 				vlan
