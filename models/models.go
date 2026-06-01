@@ -3,6 +3,7 @@
 package cato_models
 
 import (
+	"bytes"
 	"fmt"
 	"io"
 	"strconv"
@@ -376,14 +377,14 @@ type Value interface {
 }
 
 type AccessPrivateApplicationMutations struct {
-	CreatePrivateApplication *CreatePrivateApplicationPayload `json:"createPrivateApplication,omitempty"`
-	DeletePrivateApplication *DeletePrivateApplicationPayload `json:"deletePrivateApplication,omitempty"`
-	UpdatePrivateApplication *UpdatePrivateApplicationPayload `json:"updatePrivateApplication,omitempty"`
+	CreatePrivateApplication *CreatePrivateApplicationPayload `json:"createPrivateApplication,omitempty,omitzero"`
+	DeletePrivateApplication *DeletePrivateApplicationPayload `json:"deletePrivateApplication,omitempty,omitzero"`
+	UpdatePrivateApplication *UpdatePrivateApplicationPayload `json:"updatePrivateApplication,omitempty,omitzero"`
 }
 
 type AccessPrivateApplicationQueries struct {
-	PrivateApplication     *PrivateApplication            `json:"privateApplication,omitempty"`
-	PrivateApplicationList *PrivateApplicationListPayload `json:"privateApplicationList,omitempty"`
+	PrivateApplication     *PrivateApplication            `json:"privateApplication,omitempty,omitzero"`
+	PrivateApplicationList *PrivateApplicationListPayload `json:"privateApplicationList,omitempty,omitzero"`
 }
 
 type AccountAuditData struct {
@@ -409,10 +410,10 @@ type AccountIDPredicate struct {
 
 type AccountInfo struct {
 	Audit       *AccountAuditData  `json:"audit"`
-	Description *string            `json:"description,omitempty"`
+	Description *string            `json:"description,omitempty,omitzero"`
 	ID          string             `json:"id"`
 	Name        string             `json:"name"`
-	Plan        *AccountPlan       `json:"plan,omitempty"`
+	Plan        *AccountPlan       `json:"plan,omitempty,omitzero"`
 	Status      AccountStatus      `json:"status"`
 	Tenancy     AccountTenancy     `json:"tenancy"`
 	TimeZone    string             `json:"timeZone"`
@@ -420,24 +421,24 @@ type AccountInfo struct {
 }
 
 type AccountManagementMutations struct {
-	AddAccount     *AccountInfo           `json:"addAccount,omitempty"`
-	DisableAccount *DisableAccountPayload `json:"disableAccount,omitempty"`
-	RemoveAccount  *RemoveAccountPayload  `json:"removeAccount,omitempty"`
-	UpdateAccount  *AccountInfo           `json:"updateAccount,omitempty"`
+	AddAccount     *AccountInfo           `json:"addAccount,omitempty,omitzero"`
+	DisableAccount *DisableAccountPayload `json:"disableAccount,omitempty,omitzero"`
+	RemoveAccount  *RemoveAccountPayload  `json:"removeAccount,omitempty,omitzero"`
+	UpdateAccount  *AccountInfo           `json:"updateAccount,omitempty,omitzero"`
 }
 
 type AccountManagementQueries struct {
-	Account *AccountInfo `json:"account,omitempty"`
+	Account *AccountInfo `json:"account,omitempty,omitzero"`
 }
 
 type AccountMetrics struct {
-	From        *string        `json:"from,omitempty"`
-	Granularity *int64         `json:"granularity,omitempty"`
-	ID          *string        `json:"id,omitempty"`
-	Sites       []*SiteMetrics `json:"sites,omitempty"`
-	Timeseries  []*Timeseries  `json:"timeseries,omitempty"`
-	To          *string        `json:"to,omitempty"`
-	Users       []*SiteMetrics `json:"users,omitempty"`
+	From        *string        `json:"from,omitempty,omitzero"`
+	Granularity *int64         `json:"granularity,omitempty,omitzero"`
+	ID          *string        `json:"id,omitempty,omitzero"`
+	Sites       []*SiteMetrics `json:"sites,omitempty,omitzero"`
+	Timeseries  []*Timeseries  `json:"timeseries,omitempty,omitzero"`
+	To          *string        `json:"to,omitempty,omitzero"`
+	Users       []*SiteMetrics `json:"users,omitempty,omitzero"`
 }
 
 type AccountOperationsIncident struct {
@@ -485,10 +486,10 @@ type AccountRolesResult struct {
 }
 
 type AccountSnapshot struct {
-	ID        *string         `json:"id,omitempty"`
-	Sites     []*SiteSnapshot `json:"sites,omitempty"`
-	Timestamp *string         `json:"timestamp,omitempty"`
-	Users     []*UserSnapshot `json:"users,omitempty"`
+	ID        *string         `json:"id,omitempty,omitzero"`
+	Sites     []*SiteSnapshot `json:"sites,omitempty,omitzero"`
+	Timestamp *string         `json:"timestamp,omitempty,omitzero"`
+	Users     []*UserSnapshot `json:"users,omitempty,omitzero"`
 }
 
 type ActorRefInput struct {
@@ -588,7 +589,7 @@ type AddIpsecIkeV2SiteInput struct {
 }
 
 type AddIpsecIkeV2SiteMultiTunnelPayload struct {
-	Fqdn    *string                           `json:"fqdn,omitempty"`
+	Fqdn    *string                           `json:"fqdn,omitempty,omitzero"`
 	Tunnels []*AddIpsecIkeV2SiteTunnelPayload `json:"tunnels"`
 }
 
@@ -597,8 +598,8 @@ type AddIpsecIkeV2SitePayload struct {
 }
 
 type AddIpsecIkeV2SiteTunnelPayload struct {
-	LocalID  *string             `json:"localId,omitempty"`
-	TunnelID *IPSecV2InterfaceID `json:"tunnelId,omitempty"`
+	LocalID  *string             `json:"localId,omitempty,omitzero"`
+	TunnelID *IPSecV2InterfaceID `json:"tunnelId,omitempty,omitzero"`
 }
 
 type AddIpsecIkeV2SiteTunnelsInput struct {
@@ -607,8 +608,8 @@ type AddIpsecIkeV2SiteTunnelsInput struct {
 }
 
 type AddIpsecIkeV2SiteTunnelsPayload struct {
-	Primary   *AddIpsecIkeV2SiteMultiTunnelPayload `json:"primary,omitempty"`
-	Secondary *AddIpsecIkeV2SiteMultiTunnelPayload `json:"secondary,omitempty"`
+	Primary   *AddIpsecIkeV2SiteMultiTunnelPayload `json:"primary,omitempty,omitzero"`
+	Secondary *AddIpsecIkeV2SiteMultiTunnelPayload `json:"secondary,omitempty,omitzero"`
 	SiteID    string                               `json:"siteId"`
 }
 
@@ -768,32 +769,32 @@ type AddressInput struct {
 
 // A CC2 administrator
 type Admin struct {
-	AdminType             *AdminType                 `json:"adminType,omitempty"`
-	AllowedItems          []*Entity                  `json:"allowedItems,omitempty"`
-	CreationDate          *string                    `json:"creationDate,omitempty"`
-	Email                 *string                    `json:"email,omitempty"`
-	FirstName             *string                    `json:"firstName,omitempty"`
+	AdminType             *AdminType                 `json:"adminType,omitempty,omitzero"`
+	AllowedItems          []*Entity                  `json:"allowedItems,omitempty,omitzero"`
+	CreationDate          *string                    `json:"creationDate,omitempty,omitzero"`
+	Email                 *string                    `json:"email,omitempty,omitzero"`
+	FirstName             *string                    `json:"firstName,omitempty,omitzero"`
 	ID                    string                     `json:"id"`
-	LastName              *string                    `json:"lastName,omitempty"`
-	ManagedRoles          []*AdminRole               `json:"managedRoles,omitempty"`
-	MfaEnabled            *bool                      `json:"mfaEnabled,omitempty"`
-	ModifyDate            *string                    `json:"modifyDate,omitempty"`
-	NativeAccountID       *string                    `json:"nativeAccountID,omitempty"`
-	PasswordNeverExpires  *bool                      `json:"passwordNeverExpires,omitempty"`
-	PresentUsageAndEvents *bool                      `json:"presentUsageAndEvents,omitempty"`
-	ResellerRoles         []*AdminRole               `json:"resellerRoles,omitempty"`
-	Role                  *UserRole                  `json:"role,omitempty"`
-	Status                *scalars.OperationalStatus `json:"status,omitempty"`
+	LastName              *string                    `json:"lastName,omitempty,omitzero"`
+	ManagedRoles          []*AdminRole               `json:"managedRoles,omitempty,omitzero"`
+	MfaEnabled            *bool                      `json:"mfaEnabled,omitempty,omitzero"`
+	ModifyDate            *string                    `json:"modifyDate,omitempty,omitzero"`
+	NativeAccountID       *string                    `json:"nativeAccountID,omitempty,omitzero"`
+	PasswordNeverExpires  *bool                      `json:"passwordNeverExpires,omitempty,omitzero"`
+	PresentUsageAndEvents *bool                      `json:"presentUsageAndEvents,omitempty,omitzero"`
+	ResellerRoles         []*AdminRole               `json:"resellerRoles,omitempty,omitzero"`
+	Role                  *UserRole                  `json:"role,omitempty,omitzero"`
+	Status                *scalars.OperationalStatus `json:"status,omitempty,omitzero"`
 	Version               string                     `json:"version"`
 }
 
 type AdminMutations struct {
-	AddAdmin                    *AddAdminPayload                    `json:"addAdmin,omitempty"`
-	AddServicePrincipalAdmin    *AddServicePrincipalAdminPayload    `json:"addServicePrincipalAdmin,omitempty"`
-	RemoveAdmin                 *RemoveAdminPayload                 `json:"removeAdmin,omitempty"`
-	RemoveServicePrincipalAdmin *RemoveServicePrincipalAdminPayload `json:"removeServicePrincipalAdmin,omitempty"`
-	UpdateAdmin                 *UpdateAdminPayload                 `json:"updateAdmin,omitempty"`
-	UpdateServicePrincipalAdmin *UpdateServicePrincipalAdminPayload `json:"updateServicePrincipalAdmin,omitempty"`
+	AddAdmin                    *AddAdminPayload                    `json:"addAdmin,omitempty,omitzero"`
+	AddServicePrincipalAdmin    *AddServicePrincipalAdminPayload    `json:"addServicePrincipalAdmin,omitempty,omitzero"`
+	RemoveAdmin                 *RemoveAdminPayload                 `json:"removeAdmin,omitempty,omitzero"`
+	RemoveServicePrincipalAdmin *RemoveServicePrincipalAdminPayload `json:"removeServicePrincipalAdmin,omitempty,omitzero"`
+	UpdateAdmin                 *UpdateAdminPayload                 `json:"updateAdmin,omitempty,omitzero"`
+	UpdateServicePrincipalAdmin *UpdateServicePrincipalAdminPayload `json:"updateServicePrincipalAdmin,omitempty,omitzero"`
 }
 
 // A reference identifying the Admin object. ID: Unique Admin Identifier, Name: The Admin Name
@@ -809,8 +810,8 @@ func (this AdminRef) GetName() string { return this.Name }
 func (AdminRef) IsObjectRef() {}
 
 type AdminRole struct {
-	AllowedAccounts []string  `json:"allowedAccounts,omitempty"`
-	AllowedEntities []*Entity `json:"allowedEntities,omitempty"`
+	AllowedAccounts []string  `json:"allowedAccounts,omitempty,omitzero"`
+	AllowedEntities []*Entity `json:"allowedEntities,omitempty,omitzero"`
 	Role            *RBACRole `json:"role"`
 }
 
@@ -828,13 +829,13 @@ type AdvancedStringFilterInput struct {
 }
 
 type AiOperationsIncident struct {
-	AccountOperationIncident *AccountOperationsIncident    `json:"accountOperationIncident,omitempty"`
-	AnalystFeedback          *AnalystFeedback              `json:"analystFeedback,omitempty"`
-	ConnectionType           *ConnectionTypeEnum           `json:"connectionType,omitempty"`
-	Criticality              *int64                        `json:"criticality,omitempty"`
-	Description              *string                       `json:"description,omitempty"`
-	EngineType               *StoryEngineTypeEnum          `json:"engineType,omitempty"`
-	EventsGraphQuery         *EventsGraphQuery             `json:"eventsGraphQuery,omitempty"`
+	AccountOperationIncident *AccountOperationsIncident    `json:"accountOperationIncident,omitempty,omitzero"`
+	AnalystFeedback          *AnalystFeedback              `json:"analystFeedback,omitempty,omitzero"`
+	ConnectionType           *ConnectionTypeEnum           `json:"connectionType,omitempty,omitzero"`
+	Criticality              *int64                        `json:"criticality,omitempty,omitzero"`
+	Description              *string                       `json:"description,omitempty,omitzero"`
+	EngineType               *StoryEngineTypeEnum          `json:"engineType,omitempty,omitzero"`
+	EventsGraphQuery         *EventsGraphQuery             `json:"eventsGraphQuery,omitempty,omitzero"`
 	FirstSignal              string                        `json:"firstSignal"`
 	FlowLastTime             string                        `json:"flowLastTime"`
 	FlowStartTime            string                        `json:"flowStartTime"`
@@ -842,25 +843,25 @@ type AiOperationsIncident struct {
 	Indication               string                        `json:"indication"`
 	Ioa                      string                        `json:"ioa"`
 	LastSignal               string                        `json:"lastSignal"`
-	Occurrences              *int64                        `json:"occurrences,omitempty"`
-	PredictedThreatType      *string                       `json:"predictedThreatType,omitempty"`
-	PredictedVerdict         *StoryVerdictEnum             `json:"predictedVerdict,omitempty"`
+	Occurrences              *int64                        `json:"occurrences,omitempty,omitzero"`
+	PredictedThreatType      *string                       `json:"predictedThreatType,omitempty,omitzero"`
+	PredictedVerdict         *StoryVerdictEnum             `json:"predictedVerdict,omitempty,omitzero"`
 	Producer                 StoryProducerEnum             `json:"producer"`
 	ProducerName             string                        `json:"producerName"`
-	QueryName                *string                       `json:"queryName,omitempty"`
-	Research                 *bool                         `json:"research,omitempty"`
+	QueryName                *string                       `json:"queryName,omitempty,omitzero"`
+	Research                 *bool                         `json:"research,omitempty,omitzero"`
 	RiskScore                int64                         `json:"riskScore"`
 	SimilarStoriesData       []*SimilarStoryData           `json:"similarStoriesData"`
-	Site                     *SiteRef                      `json:"site,omitempty"`
-	SiteName                 *string                       `json:"siteName,omitempty"`
-	Source                   *string                       `json:"source,omitempty"`
-	SourceIP                 *string                       `json:"sourceIp,omitempty"`
-	Status                   *StoryStatusEnum              `json:"status,omitempty"`
-	StoryDuration            *int64                        `json:"storyDuration,omitempty"`
-	Ticket                   *string                       `json:"ticket,omitempty"`
-	Type                     *AiOperationsIncidentTypeEnum `json:"type,omitempty"`
-	User                     *UserRef                      `json:"user,omitempty"`
-	Vendor                   *VendorEnum                   `json:"vendor,omitempty"`
+	Site                     *SiteRef                      `json:"site,omitempty,omitzero"`
+	SiteName                 *string                       `json:"siteName,omitempty,omitzero"`
+	Source                   *string                       `json:"source,omitempty,omitzero"`
+	SourceIP                 *string                       `json:"sourceIp,omitempty,omitzero"`
+	Status                   *StoryStatusEnum              `json:"status,omitempty,omitzero"`
+	StoryDuration            *int64                        `json:"storyDuration,omitempty,omitzero"`
+	Ticket                   *string                       `json:"ticket,omitempty,omitzero"`
+	Type                     *AiOperationsIncidentTypeEnum `json:"type,omitempty,omitzero"`
+	User                     *UserRef                      `json:"user,omitempty,omitzero"`
+	Vendor                   *VendorEnum                   `json:"vendor,omitempty,omitzero"`
 }
 
 func (AiOperationsIncident) IsMergedIncident()                           {}
@@ -893,14 +894,14 @@ func (this AiOperationsIncident) GetVendor() *VendorEnum         { return this.V
 
 type AiOperationsPlaybook struct {
 	Description string  `json:"description"`
-	Link        *string `json:"link,omitempty"`
+	Link        *string `json:"link,omitempty,omitzero"`
 	Title       string  `json:"title"`
 }
 
 type AiSecurityAttributes struct {
-	DataUsagePolicy *AiSecurityDataUsagePolicy `json:"dataUsagePolicy,omitempty"`
-	Risk            *AiSecurityRisk            `json:"risk,omitempty"`
-	Scope           *AiSecurityScope           `json:"scope,omitempty"`
+	DataUsagePolicy *AiSecurityDataUsagePolicy `json:"dataUsagePolicy,omitempty,omitzero"`
+	Risk            *AiSecurityRisk            `json:"risk,omitempty,omitzero"`
+	Scope           *AiSecurityScope           `json:"scope,omitempty,omitzero"`
 }
 
 // A reference identifying the AiSecurityDataProfile object. ID: Unique AiSecurityDataProfile Identifier, Name: The AiSecurityDataProfile Name
@@ -915,11 +916,11 @@ func (this AiSecurityDataProfileRef) GetID() string   { return this.ID }
 func (this AiSecurityDataProfileRef) GetName() string { return this.Name }
 
 type AiSecurityDataUsagePolicy struct {
-	Description   *string                        `json:"description,omitempty"`
-	Reference     *string                        `json:"reference,omitempty"`
-	ReferenceType *string                        `json:"referenceType,omitempty"`
-	ReferenceURL  *string                        `json:"referenceUrl,omitempty"`
-	Type          *AiSecurityDataUsagePolicyType `json:"type,omitempty"`
+	Description   *string                        `json:"description,omitempty,omitzero"`
+	Reference     *string                        `json:"reference,omitempty,omitzero"`
+	ReferenceType *string                        `json:"referenceType,omitempty,omitzero"`
+	ReferenceURL  *string                        `json:"referenceUrl,omitempty,omitzero"`
+	Type          *AiSecurityDataUsagePolicyType `json:"type,omitempty,omitzero"`
 }
 
 // A reference identifying the Guard object. ID: Unique Guard Identifier, Name: The Guard Name
@@ -948,11 +949,11 @@ type AllocatedIPRefInput struct {
 }
 
 type AnalystFeedback struct {
-	AdditionalInfo       *string                    `json:"additionalInfo,omitempty"`
-	Severity             *SeverityEnum              `json:"severity,omitempty"`
-	ThreatClassification *string                    `json:"threatClassification,omitempty"`
-	ThreatType           *AnalystFeedbackThreatType `json:"threatType,omitempty"`
-	Verdict              *StoryVerdictEnum          `json:"verdict,omitempty"`
+	AdditionalInfo       *string                    `json:"additionalInfo,omitempty,omitzero"`
+	Severity             *SeverityEnum              `json:"severity,omitempty,omitzero"`
+	ThreatClassification *string                    `json:"threatClassification,omitempty,omitzero"`
+	ThreatType           *AnalystFeedbackThreatType `json:"threatType,omitempty,omitzero"`
+	Verdict              *StoryVerdictEnum          `json:"verdict,omitempty,omitzero"`
 }
 
 type AnalystFeedbackInput struct {
@@ -966,65 +967,65 @@ type AnalystFeedbackInput struct {
 }
 
 type AnalystFeedbackPayload struct {
-	Story *Story `json:"story,omitempty"`
+	Story *Story `json:"story,omitempty,omitzero"`
 }
 
 type AnalystFeedbackThreatType struct {
-	Details           *string `json:"details,omitempty"`
-	Name              *string `json:"name,omitempty"`
-	RecommendedAction *string `json:"recommendedAction,omitempty"`
+	Details           *string `json:"details,omitempty,omitzero"`
+	Name              *string `json:"name,omitempty,omitzero"`
+	RecommendedAction *string `json:"recommendedAction,omitempty,omitzero"`
 }
 
 type AnalystInfo struct {
-	Email *string `json:"email,omitempty"`
-	Name  *string `json:"name,omitempty"`
+	Email *string `json:"email,omitempty,omitzero"`
+	Name  *string `json:"name,omitempty,omitzero"`
 }
 
 // The `AnomalyEvents` object represents a data structure used in GraphQL queries or mutations, containing fields related to security anomalies, such as analyst feedback, connection type, criticality, description, and various identifiers and metrics, to provide detailed information about potential security incidents.
 type AnomalyEvents struct {
-	AnalystFeedback     *AnalystFeedback        `json:"analystFeedback,omitempty"`
-	BreakdownField      *string                 `json:"breakdownField,omitempty"`
+	AnalystFeedback     *AnalystFeedback        `json:"analystFeedback,omitempty,omitzero"`
+	BreakdownField      *string                 `json:"breakdownField,omitempty,omitzero"`
 	ClientClass         []string                `json:"clientClass"`
-	ConnectionType      *ConnectionTypeEnum     `json:"connectionType,omitempty"`
-	Criticality         *int64                  `json:"criticality,omitempty"`
-	Description         *string                 `json:"description,omitempty"`
-	DeviceName          *string                 `json:"deviceName,omitempty"`
-	Direction           *string                 `json:"direction,omitempty"`
-	DrillDownFilter     []*StoryDrillDownFilter `json:"drillDownFilter,omitempty"`
-	EngineType          *StoryEngineTypeEnum    `json:"engineType,omitempty"`
-	Extra               []*Extra                `json:"extra,omitempty"`
+	ConnectionType      *ConnectionTypeEnum     `json:"connectionType,omitempty,omitzero"`
+	Criticality         *int64                  `json:"criticality,omitempty,omitzero"`
+	Description         *string                 `json:"description,omitempty,omitzero"`
+	DeviceName          *string                 `json:"deviceName,omitempty,omitzero"`
+	Direction           *string                 `json:"direction,omitempty,omitzero"`
+	DrillDownFilter     []*StoryDrillDownFilter `json:"drillDownFilter,omitempty,omitzero"`
+	EngineType          *StoryEngineTypeEnum    `json:"engineType,omitempty,omitzero"`
+	Extra               []*Extra                `json:"extra,omitempty,omitzero"`
 	FirstSignal         string                  `json:"firstSignal"`
-	Gaussian            *Gaussian               `json:"gaussian,omitempty"`
+	Gaussian            *Gaussian               `json:"gaussian,omitempty,omitzero"`
 	ID                  string                  `json:"id"`
 	Indication          string                  `json:"indication"`
 	LastSignal          string                  `json:"lastSignal"`
-	LogonName           *string                 `json:"logonName,omitempty"`
-	MacAddress          *string                 `json:"macAddress,omitempty"`
-	Metric              *Metric                 `json:"metric,omitempty"`
-	MetricDetails       *MetricDetails          `json:"metricDetails,omitempty"`
-	Mitres              []*Mitre                `json:"mitres,omitempty"`
-	Os                  *string                 `json:"os,omitempty"`
-	PredictedThreatType *string                 `json:"predictedThreatType,omitempty"`
-	PredictedVerdict    *StoryVerdictEnum       `json:"predictedVerdict,omitempty"`
+	LogonName           *string                 `json:"logonName,omitempty,omitzero"`
+	MacAddress          *string                 `json:"macAddress,omitempty,omitzero"`
+	Metric              *Metric                 `json:"metric,omitempty,omitzero"`
+	MetricDetails       *MetricDetails          `json:"metricDetails,omitempty,omitzero"`
+	Mitres              []*Mitre                `json:"mitres,omitempty,omitzero"`
+	Os                  *string                 `json:"os,omitempty,omitzero"`
+	PredictedThreatType *string                 `json:"predictedThreatType,omitempty,omitzero"`
+	PredictedVerdict    *StoryVerdictEnum       `json:"predictedVerdict,omitempty,omitzero"`
 	Producer            StoryProducerEnum       `json:"producer"`
 	ProducerName        string                  `json:"producerName"`
-	QueryName           *string                 `json:"queryName,omitempty"`
-	Research            *bool                   `json:"research,omitempty"`
-	Rules               []string                `json:"rules,omitempty"`
+	QueryName           *string                 `json:"queryName,omitempty,omitzero"`
+	Research            *bool                   `json:"research,omitempty,omitzero"`
+	Rules               []string                `json:"rules,omitempty,omitzero"`
 	SimilarStoriesData  []*SimilarStoryData     `json:"similarStoriesData"`
-	Site                *SiteRef                `json:"site,omitempty"`
-	SiteName            *string                 `json:"siteName,omitempty"`
-	Source              *string                 `json:"source,omitempty"`
-	SourceIP            *string                 `json:"sourceIp,omitempty"`
-	SrcSiteID           *string                 `json:"srcSiteId,omitempty"`
-	Status              *StoryStatusEnum        `json:"status,omitempty"`
-	StoryDuration       *int64                  `json:"storyDuration,omitempty"`
-	SubjectType         *string                 `json:"subjectType,omitempty"`
+	Site                *SiteRef                `json:"site,omitempty,omitzero"`
+	SiteName            *string                 `json:"siteName,omitempty,omitzero"`
+	Source              *string                 `json:"source,omitempty,omitzero"`
+	SourceIP            *string                 `json:"sourceIp,omitempty,omitzero"`
+	SrcSiteID           *string                 `json:"srcSiteId,omitempty,omitzero"`
+	Status              *StoryStatusEnum        `json:"status,omitempty,omitzero"`
+	StoryDuration       *int64                  `json:"storyDuration,omitempty,omitzero"`
+	SubjectType         *string                 `json:"subjectType,omitempty,omitzero"`
 	Targets             []*IncidentTargetRep    `json:"targets"`
-	Ticket              *string                 `json:"ticket,omitempty"`
-	TimeSeries          []*IncidentTimeseries   `json:"timeSeries,omitempty"`
-	User                *UserRef                `json:"user,omitempty"`
-	Vendor              *VendorEnum             `json:"vendor,omitempty"`
+	Ticket              *string                 `json:"ticket,omitempty,omitzero"`
+	TimeSeries          []*IncidentTimeseries   `json:"timeSeries,omitempty,omitzero"`
+	User                *UserRef                `json:"user,omitempty,omitzero"`
+	Vendor              *VendorEnum             `json:"vendor,omitempty,omitzero"`
 }
 
 func (AnomalyEvents) IsAnomalies()                                {}
@@ -1068,49 +1069,49 @@ func (AnomalyEvents) IsMergedIncident() {}
 
 // The `AnomalyStats` object is a GraphQL type that represents statistical data related to anomalies, including fields such as analyst feedback, connection type, criticality, device information, and various metrics, along with associated metadata like timestamps, status, and predicted verdicts.
 type AnomalyStats struct {
-	AnalystFeedback     *AnalystFeedback        `json:"analystFeedback,omitempty"`
-	BreakdownField      *string                 `json:"breakdownField,omitempty"`
+	AnalystFeedback     *AnalystFeedback        `json:"analystFeedback,omitempty,omitzero"`
+	BreakdownField      *string                 `json:"breakdownField,omitempty,omitzero"`
 	ClientClass         []string                `json:"clientClass"`
-	ConnectionType      *ConnectionTypeEnum     `json:"connectionType,omitempty"`
-	Criticality         *int64                  `json:"criticality,omitempty"`
-	Description         *string                 `json:"description,omitempty"`
-	DeviceName          *string                 `json:"deviceName,omitempty"`
-	Direction           *string                 `json:"direction,omitempty"`
-	DrillDownFilter     []*StoryDrillDownFilter `json:"drillDownFilter,omitempty"`
-	EngineType          *StoryEngineTypeEnum    `json:"engineType,omitempty"`
-	Extra               []*Extra                `json:"extra,omitempty"`
+	ConnectionType      *ConnectionTypeEnum     `json:"connectionType,omitempty,omitzero"`
+	Criticality         *int64                  `json:"criticality,omitempty,omitzero"`
+	Description         *string                 `json:"description,omitempty,omitzero"`
+	DeviceName          *string                 `json:"deviceName,omitempty,omitzero"`
+	Direction           *string                 `json:"direction,omitempty,omitzero"`
+	DrillDownFilter     []*StoryDrillDownFilter `json:"drillDownFilter,omitempty,omitzero"`
+	EngineType          *StoryEngineTypeEnum    `json:"engineType,omitempty,omitzero"`
+	Extra               []*Extra                `json:"extra,omitempty,omitzero"`
 	FirstSignal         string                  `json:"firstSignal"`
-	Gaussian            *Gaussian               `json:"gaussian,omitempty"`
+	Gaussian            *Gaussian               `json:"gaussian,omitempty,omitzero"`
 	ID                  string                  `json:"id"`
 	Indication          string                  `json:"indication"`
 	LastSignal          string                  `json:"lastSignal"`
-	LogonName           *string                 `json:"logonName,omitempty"`
-	MacAddress          *string                 `json:"macAddress,omitempty"`
-	Metric              *Metric                 `json:"metric,omitempty"`
-	MetricDetails       *MetricDetails          `json:"metricDetails,omitempty"`
-	Mitres              []*Mitre                `json:"mitres,omitempty"`
-	Os                  *string                 `json:"os,omitempty"`
-	PredictedThreatType *string                 `json:"predictedThreatType,omitempty"`
-	PredictedVerdict    *StoryVerdictEnum       `json:"predictedVerdict,omitempty"`
+	LogonName           *string                 `json:"logonName,omitempty,omitzero"`
+	MacAddress          *string                 `json:"macAddress,omitempty,omitzero"`
+	Metric              *Metric                 `json:"metric,omitempty,omitzero"`
+	MetricDetails       *MetricDetails          `json:"metricDetails,omitempty,omitzero"`
+	Mitres              []*Mitre                `json:"mitres,omitempty,omitzero"`
+	Os                  *string                 `json:"os,omitempty,omitzero"`
+	PredictedThreatType *string                 `json:"predictedThreatType,omitempty,omitzero"`
+	PredictedVerdict    *StoryVerdictEnum       `json:"predictedVerdict,omitempty,omitzero"`
 	Producer            StoryProducerEnum       `json:"producer"`
 	ProducerName        string                  `json:"producerName"`
-	QueryName           *string                 `json:"queryName,omitempty"`
-	Research            *bool                   `json:"research,omitempty"`
-	Rules               []string                `json:"rules,omitempty"`
+	QueryName           *string                 `json:"queryName,omitempty,omitzero"`
+	Research            *bool                   `json:"research,omitempty,omitzero"`
+	Rules               []string                `json:"rules,omitempty,omitzero"`
 	SimilarStoriesData  []*SimilarStoryData     `json:"similarStoriesData"`
-	Site                *SiteRef                `json:"site,omitempty"`
-	SiteName            *string                 `json:"siteName,omitempty"`
-	Source              *string                 `json:"source,omitempty"`
-	SourceIP            *string                 `json:"sourceIp,omitempty"`
-	SrcSiteID           *string                 `json:"srcSiteId,omitempty"`
-	Status              *StoryStatusEnum        `json:"status,omitempty"`
-	StoryDuration       *int64                  `json:"storyDuration,omitempty"`
-	SubjectType         *string                 `json:"subjectType,omitempty"`
+	Site                *SiteRef                `json:"site,omitempty,omitzero"`
+	SiteName            *string                 `json:"siteName,omitempty,omitzero"`
+	Source              *string                 `json:"source,omitempty,omitzero"`
+	SourceIP            *string                 `json:"sourceIp,omitempty,omitzero"`
+	SrcSiteID           *string                 `json:"srcSiteId,omitempty,omitzero"`
+	Status              *StoryStatusEnum        `json:"status,omitempty,omitzero"`
+	StoryDuration       *int64                  `json:"storyDuration,omitempty,omitzero"`
+	SubjectType         *string                 `json:"subjectType,omitempty,omitzero"`
 	Targets             []*IncidentTargetRep    `json:"targets"`
-	Ticket              *string                 `json:"ticket,omitempty"`
-	TimeSeries          []*IncidentTimeseries   `json:"timeSeries,omitempty"`
-	User                *UserRef                `json:"user,omitempty"`
-	Vendor              *VendorEnum             `json:"vendor,omitempty"`
+	Ticket              *string                 `json:"ticket,omitempty,omitzero"`
+	TimeSeries          []*IncidentTimeseries   `json:"timeSeries,omitempty,omitzero"`
+	User                *UserRef                `json:"user,omitempty,omitzero"`
+	Vendor              *VendorEnum             `json:"vendor,omitempty,omitzero"`
 }
 
 func (AnomalyStats) IsAnomalies()                                {}
@@ -1168,9 +1169,9 @@ type AntiMalwareFileHashAddRuleInput struct {
 }
 
 type AntiMalwareFileHashPolicy struct {
-	Audit    *PolicyAudit                      `json:"audit,omitempty"`
+	Audit    *PolicyAudit                      `json:"audit,omitempty,omitzero"`
 	Enabled  bool                              `json:"enabled"`
-	Revision *PolicyRevision                   `json:"revision,omitempty"`
+	Revision *PolicyRevision                   `json:"revision,omitempty,omitzero"`
 	Rules    []*AntiMalwareFileHashRulePayload `json:"rules"`
 	Sections []*PolicySectionPayload           `json:"sections"`
 }
@@ -1210,7 +1211,7 @@ type AntiMalwareFileHashPolicyMutationInput struct {
 
 type AntiMalwareFileHashPolicyMutationPayload struct {
 	Errors []*PolicyMutationError     `json:"errors"`
-	Policy *AntiMalwareFileHashPolicy `json:"policy,omitempty"`
+	Policy *AntiMalwareFileHashPolicy `json:"policy,omitempty,omitzero"`
 	Status PolicyMutationStatus       `json:"status"`
 }
 
@@ -1247,7 +1248,7 @@ type AntiMalwareFileHashPolicyMutations struct {
 
 type AntiMalwareFileHashPolicyQueries struct {
 	Policy    *AntiMalwareFileHashPolicy `json:"policy"`
-	Revisions *PolicyRevisionsPayload    `json:"revisions,omitempty"`
+	Revisions *PolicyRevisionsPayload    `json:"revisions,omitempty,omitzero"`
 }
 
 type AntiMalwareFileHashPolicyUpdateInput struct {
@@ -1281,7 +1282,7 @@ func (this AntiMalwareFileHashRule) GetSection() *PolicySectionInfo { return thi
 
 type AntiMalwareFileHashRuleMutationPayload struct {
 	Errors []*PolicyMutationError          `json:"errors"`
-	Rule   *AntiMalwareFileHashRulePayload `json:"rule,omitempty"`
+	Rule   *AntiMalwareFileHashRulePayload `json:"rule,omitempty,omitzero"`
 	Status PolicyMutationStatus            `json:"status"`
 }
 
@@ -1349,12 +1350,12 @@ func (this APIKeyRef) GetName() string { return this.Name }
 func (APIKeyRef) IsObjectRef() {}
 
 type AppStats struct {
-	From    *string           `json:"from,omitempty"`
-	ID      *string           `json:"id,omitempty"`
-	Records []*AppStatsRecord `json:"records,omitempty"`
-	To      *string           `json:"to,omitempty"`
-	Total   *int64            `json:"total,omitempty"`
-	Totals  map[string]any    `json:"totals,omitempty"`
+	From    *string           `json:"from,omitempty,omitzero"`
+	ID      *string           `json:"id,omitempty,omitzero"`
+	Records []*AppStatsRecord `json:"records,omitempty,omitzero"`
+	To      *string           `json:"to,omitempty,omitzero"`
+	Total   *int64            `json:"total,omitempty,omitzero"`
+	Totals  map[string]any    `json:"totals,omitempty,omitzero"`
 }
 
 type AppStatsField struct {
@@ -1369,12 +1370,12 @@ type AppStatsFilter struct {
 }
 
 type AppStatsRecord struct {
-	Fields          []*AppStatsField `json:"fields,omitempty"`
-	FieldsMap       map[string]any   `json:"fieldsMap,omitempty"`
-	FieldsUnitTypes []UnitType       `json:"fieldsUnitTypes,omitempty"`
-	FlatFields      [][]string       `json:"flatFields,omitempty"`
-	PrevTimeFrame   map[string]any   `json:"prevTimeFrame,omitempty"`
-	Trends          map[string]any   `json:"trends,omitempty"`
+	Fields          []*AppStatsField `json:"fields,omitempty,omitzero"`
+	FieldsMap       map[string]any   `json:"fieldsMap,omitempty,omitzero"`
+	FieldsUnitTypes []UnitType       `json:"fieldsUnitTypes,omitempty,omitzero"`
+	FlatFields      [][]string       `json:"flatFields,omitempty,omitzero"`
+	PrevTimeFrame   map[string]any   `json:"prevTimeFrame,omitempty,omitzero"`
+	Trends          map[string]any   `json:"trends,omitempty,omitzero"`
 }
 
 type AppStatsSort struct {
@@ -1383,11 +1384,11 @@ type AppStatsSort struct {
 }
 
 type AppStatsTimeSeries struct {
-	From        *string       `json:"from,omitempty"`
-	Granularity *int64        `json:"granularity,omitempty"`
-	ID          *string       `json:"id,omitempty"`
-	Timeseries  []*Timeseries `json:"timeseries,omitempty"`
-	To          *string       `json:"to,omitempty"`
+	From        *string       `json:"from,omitempty,omitzero"`
+	Granularity *int64        `json:"granularity,omitempty,omitzero"`
+	ID          *string       `json:"id,omitempty,omitzero"`
+	Timeseries  []*Timeseries `json:"timeseries,omitempty,omitzero"`
+	To          *string       `json:"to,omitempty,omitzero"`
 }
 
 type AppTenantRestrictionAddRuleDataInput struct {
@@ -1420,9 +1421,9 @@ type AppTenantRestrictionHeaderValueInput struct {
 }
 
 type AppTenantRestrictionPolicy struct {
-	Audit    *PolicyAudit                       `json:"audit,omitempty"`
+	Audit    *PolicyAudit                       `json:"audit,omitempty,omitzero"`
 	Enabled  bool                               `json:"enabled"`
-	Revision *PolicyRevision                    `json:"revision,omitempty"`
+	Revision *PolicyRevision                    `json:"revision,omitempty,omitzero"`
 	Rules    []*AppTenantRestrictionRulePayload `json:"rules"`
 	Sections []*PolicySectionPayload            `json:"sections"`
 }
@@ -1462,7 +1463,7 @@ type AppTenantRestrictionPolicyMutationInput struct {
 
 type AppTenantRestrictionPolicyMutationPayload struct {
 	Errors []*PolicyMutationError      `json:"errors"`
-	Policy *AppTenantRestrictionPolicy `json:"policy,omitempty"`
+	Policy *AppTenantRestrictionPolicy `json:"policy,omitempty,omitzero"`
 	Status PolicyMutationStatus        `json:"status"`
 }
 
@@ -1499,7 +1500,7 @@ type AppTenantRestrictionPolicyMutations struct {
 
 type AppTenantRestrictionPolicyQueries struct {
 	Policy    *AppTenantRestrictionPolicy `json:"policy"`
-	Revisions *PolicyRevisionsPayload     `json:"revisions,omitempty"`
+	Revisions *PolicyRevisionsPayload     `json:"revisions,omitempty,omitzero"`
 }
 
 type AppTenantRestrictionPolicyUpdateInput struct {
@@ -1535,7 +1536,7 @@ func (this AppTenantRestrictionRule) GetSection() *PolicySectionInfo { return th
 
 type AppTenantRestrictionRuleMutationPayload struct {
 	Errors []*PolicyMutationError           `json:"errors"`
-	Rule   *AppTenantRestrictionRulePayload `json:"rule,omitempty"`
+	Rule   *AppTenantRestrictionRulePayload `json:"rule,omitempty,omitzero"`
 	Status PolicyMutationStatus             `json:"status"`
 }
 
@@ -1685,8 +1686,8 @@ type ApplicationConnectorCatalogEntityRefSortOrderInput struct {
 type ApplicationControlAccessMethod struct {
 	AccessMethod ApplicationControlAccessMethodType `json:"accessMethod"`
 	Operator     ApplicationControlOperator         `json:"operator"`
-	Value        *string                            `json:"value,omitempty"`
-	ValueSet     *StringValueSetRef                 `json:"valueSet,omitempty"`
+	Value        *string                            `json:"value,omitempty,omitzero"`
+	ValueSet     *StringValueSetRef                 `json:"valueSet,omitempty,omitzero"`
 }
 
 // Access method matching configuration
@@ -1700,10 +1701,10 @@ type ApplicationControlAccessMethodInput struct {
 // Activity matching configuration
 type ApplicationControlActivity struct {
 	Activity *ApplicationControlActivityRef      `json:"activity"`
-	Field    *ApplicationControlActivityFieldRef `json:"field,omitempty"`
-	Operator *ApplicationControlOperator         `json:"operator,omitempty"`
-	Value    *string                             `json:"value,omitempty"`
-	ValueSet *StringValueSetRef                  `json:"valueSet,omitempty"`
+	Field    *ApplicationControlActivityFieldRef `json:"field,omitempty,omitzero"`
+	Operator *ApplicationControlOperator         `json:"operator,omitempty,omitzero"`
+	Value    *string                             `json:"value,omitempty,omitzero"`
+	ValueSet *StringValueSetRef                  `json:"valueSet,omitempty,omitzero"`
 }
 
 type ApplicationControlActivityFieldRef struct {
@@ -1760,12 +1761,12 @@ type ApplicationControlAddRuleInput struct {
 
 // Application matching configuration. Only one of the following fields should be filled - the others must remain empty.
 type ApplicationControlApplication struct {
-	AppCategory            *ApplicationCategoryRef    `json:"appCategory,omitempty"`
-	Application            *ApplicationRef            `json:"application,omitempty"`
+	AppCategory            *ApplicationCategoryRef    `json:"appCategory,omitempty,omitzero"`
+	Application            *ApplicationRef            `json:"application,omitempty,omitzero"`
 	ApplicationType        []ApplicationType          `json:"applicationType"`
-	CustomApp              *CustomApplicationRef      `json:"customApp,omitempty"`
-	CustomCategory         *CustomCategoryRef         `json:"customCategory,omitempty"`
-	SanctionedAppsCategory *SanctionedAppsCategoryRef `json:"sanctionedAppsCategory,omitempty"`
+	CustomApp              *CustomApplicationRef      `json:"customApp,omitempty,omitzero"`
+	CustomCategory         *CustomCategoryRef         `json:"customCategory,omitempty,omitzero"`
+	SanctionedAppsCategory *SanctionedAppsCategoryRef `json:"sanctionedAppsCategory,omitempty,omitzero"`
 }
 
 // Application matching configuration. Only one of the following fields should be filled - the others must remain empty.
@@ -2041,7 +2042,7 @@ type ApplicationControlFileAttribute struct {
 	ContentTypeValues      []*ApplicationControlContentTypeRef      `json:"contentTypeValues"`
 	FileAttribute          ApplicationControlFileAttributeType      `json:"fileAttribute"`
 	Operator               ApplicationControlOperator               `json:"operator"`
-	Value                  *string                                  `json:"value,omitempty"`
+	Value                  *string                                  `json:"value,omitempty,omitzero"`
 }
 
 // File attribute matching configuration
@@ -2102,10 +2103,10 @@ type ApplicationControlFileRuleUpdateInput struct {
 }
 
 type ApplicationControlPolicy struct {
-	AdditionalAttributes *ApplicationControlConfig        `json:"additionalAttributes,omitempty"`
-	Audit                *PolicyAudit                     `json:"audit,omitempty"`
+	AdditionalAttributes *ApplicationControlConfig        `json:"additionalAttributes,omitempty,omitzero"`
+	Audit                *PolicyAudit                     `json:"audit,omitempty,omitzero"`
 	Enabled              bool                             `json:"enabled"`
-	Revision             *PolicyRevision                  `json:"revision,omitempty"`
+	Revision             *PolicyRevision                  `json:"revision,omitempty,omitzero"`
 	Rules                []*ApplicationControlRulePayload `json:"rules"`
 	Sections             []*PolicySectionPayload          `json:"sections"`
 }
@@ -2145,7 +2146,7 @@ type ApplicationControlPolicyMutationInput struct {
 
 type ApplicationControlPolicyMutationPayload struct {
 	Errors []*PolicyMutationError    `json:"errors"`
-	Policy *ApplicationControlPolicy `json:"policy,omitempty"`
+	Policy *ApplicationControlPolicy `json:"policy,omitempty,omitzero"`
 	Status PolicyMutationStatus      `json:"status"`
 }
 
@@ -2182,7 +2183,7 @@ type ApplicationControlPolicyMutations struct {
 
 type ApplicationControlPolicyQueries struct {
 	Policy    *ApplicationControlPolicy `json:"policy"`
-	Revisions *PolicyRevisionsPayload   `json:"revisions,omitempty"`
+	Revisions *PolicyRevisionsPayload   `json:"revisions,omitempty,omitzero"`
 }
 
 type ApplicationControlPolicyUpdateInput struct {
@@ -2207,11 +2208,11 @@ type ApplicationControlRiskCriteriaInput struct {
 }
 
 type ApplicationControlRule struct {
-	ApplicationRule *ApplicationControlApplicationRule `json:"applicationRule,omitempty"`
-	DataRule        *ApplicationControlDataRule        `json:"dataRule,omitempty"`
+	ApplicationRule *ApplicationControlApplicationRule `json:"applicationRule,omitempty,omitzero"`
+	DataRule        *ApplicationControlDataRule        `json:"dataRule,omitempty,omitzero"`
 	Description     string                             `json:"description"`
 	Enabled         bool                               `json:"enabled"`
-	FileRule        *ApplicationControlFileRule        `json:"fileRule,omitempty"`
+	FileRule        *ApplicationControlFileRule        `json:"fileRule,omitempty,omitzero"`
 	ID              string                             `json:"id"`
 	Index           int64                              `json:"index"`
 	Name            string                             `json:"name"`
@@ -2229,7 +2230,7 @@ func (this ApplicationControlRule) GetSection() *PolicySectionInfo { return this
 
 type ApplicationControlRuleMutationPayload struct {
 	Errors []*PolicyMutationError         `json:"errors"`
-	Rule   *ApplicationControlRulePayload `json:"rule,omitempty"`
+	Rule   *ApplicationControlRulePayload `json:"rule,omitempty,omitzero"`
 	Status PolicyMutationStatus           `json:"status"`
 }
 
@@ -2364,9 +2365,9 @@ type ApplicationControlSourceUpdateInput struct {
 
 // Tenant matching configuration
 type ApplicationControlTenant struct {
-	Operator *ApplicationControlOperator `json:"operator,omitempty"`
-	Value    *string                     `json:"value,omitempty"`
-	ValueSet *StringValueSetRef          `json:"valueSet,omitempty"`
+	Operator *ApplicationControlOperator `json:"operator,omitempty,omitzero"`
+	Value    *string                     `json:"value,omitempty,omitzero"`
+	ValueSet *StringValueSetRef          `json:"valueSet,omitempty,omitzero"`
 }
 
 // Tenant matching configuration
@@ -2428,13 +2429,13 @@ type AssignSocketToZtnaAppConnectorPayload struct {
 
 // Advanced Threat Prevention (ATP) service license details
 type AtpLicense struct {
-	Description    *string       `json:"description,omitempty"`
+	Description    *string       `json:"description,omitempty,omitzero"`
 	ExpirationDate string        `json:"expirationDate"`
-	ID             *string       `json:"id,omitempty"`
-	LastUpdated    *string       `json:"lastUpdated,omitempty"`
+	ID             *string       `json:"id,omitempty,omitzero"`
+	LastUpdated    *string       `json:"lastUpdated,omitempty,omitzero"`
 	Plan           LicensePlan   `json:"plan"`
 	Sku            LicenseSku    `json:"sku"`
-	StartDate      *string       `json:"startDate,omitempty"`
+	StartDate      *string       `json:"startDate,omitempty,omitzero"`
 	Status         LicenseStatus `json:"status"`
 }
 
@@ -2449,17 +2450,17 @@ func (this AtpLicense) GetStartDate() *string     { return this.StartDate }
 func (this AtpLicense) GetStatus() LicenseStatus  { return this.Status }
 
 type AuditFeed struct {
-	Accounts     []*AuditFeedAccountRecords `json:"accounts,omitempty"`
+	Accounts     []*AuditFeedAccountRecords `json:"accounts,omitempty,omitzero"`
 	FetchedCount int64                      `json:"fetchedCount"`
-	From         *string                    `json:"from,omitempty"`
-	HasMore      *bool                      `json:"hasMore,omitempty"`
-	Marker       *string                    `json:"marker,omitempty"`
-	To           *string                    `json:"to,omitempty"`
+	From         *string                    `json:"from,omitempty,omitzero"`
+	HasMore      *bool                      `json:"hasMore,omitempty,omitzero"`
+	Marker       *string                    `json:"marker,omitempty,omitzero"`
+	To           *string                    `json:"to,omitempty,omitzero"`
 }
 
 type AuditFeedAccountRecords struct {
-	ID      *string        `json:"id,omitempty"`
-	Records []*AuditRecord `json:"records,omitempty"`
+	ID      *string        `json:"id,omitempty,omitzero"`
+	Records []*AuditRecord `json:"records,omitempty,omitzero"`
 }
 
 type AuditField struct {
@@ -2475,14 +2476,14 @@ type AuditFieldFilterInput struct {
 
 // Represents a single event in the audit database
 type AuditRecord struct {
-	Account    *EntityInfo    `json:"account,omitempty"`
-	Admin      *Entity        `json:"admin,omitempty"`
-	APIKey     *Entity        `json:"apiKey,omitempty"`
-	Fields     []*AuditField  `json:"fields,omitempty"`
-	FieldsMap  map[string]any `json:"fieldsMap,omitempty"`
-	FlatFields [][]string     `json:"flatFields,omitempty"`
-	Object     *Entity        `json:"object,omitempty"`
-	Time       *string        `json:"time,omitempty"`
+	Account    *EntityInfo    `json:"account,omitempty,omitzero"`
+	Admin      *Entity        `json:"admin,omitempty,omitzero"`
+	APIKey     *Entity        `json:"apiKey,omitempty,omitzero"`
+	Fields     []*AuditField  `json:"fields,omitempty,omitzero"`
+	FieldsMap  map[string]any `json:"fieldsMap,omitempty,omitzero"`
+	FlatFields [][]string     `json:"flatFields,omitempty,omitzero"`
+	Object     *Entity        `json:"object,omitempty,omitzero"`
+	Time       *string        `json:"time,omitempty,omitzero"`
 }
 
 type AuditingMetadata struct {
@@ -2511,11 +2512,11 @@ type AvailableVersionListPayload struct {
 }
 
 type BGPConnection struct {
-	CatoAsn        *scalars.Asn16 `json:"catoAsn,omitempty"`
-	CatoIP         *string        `json:"catoIp,omitempty"`
-	ConnectionName *string        `json:"connectionName,omitempty"`
-	PeerAsn        *scalars.Asn32 `json:"peerAsn,omitempty"`
-	PeerIP         *string        `json:"peerIp,omitempty"`
+	CatoAsn        *scalars.Asn16 `json:"catoAsn,omitempty,omitzero"`
+	CatoIP         *string        `json:"catoIp,omitempty,omitzero"`
+	ConnectionName *string        `json:"connectionName,omitempty,omitzero"`
+	PeerAsn        *scalars.Asn32 `json:"peerAsn,omitempty,omitzero"`
+	PeerIP         *string        `json:"peerIp,omitempty,omitzero"`
 }
 
 type BandwidthManagementRef struct {
@@ -2566,7 +2567,7 @@ type BgpCommunityInput struct {
 }
 
 type BgpDetailedStatus struct {
-	BfdSession             *string                      `json:"bfdSession,omitempty"`
+	BfdSession             *string                      `json:"bfdSession,omitempty,omitzero"`
 	BgpSession             string                       `json:"bgpSession"`
 	RejectedRoutesFromPeer []*BgpRejectedRoutesFromPeer `json:"rejectedRoutesFromPeer"`
 	RemoteIP               string                       `json:"remoteIp"`
@@ -2575,9 +2576,9 @@ type BgpDetailedStatus struct {
 }
 
 type BgpFilterRule struct {
-	BgpRouteExactAndInclusiveFilterRule *BgpRouteExactAndInclusiveFilterRule `json:"bgpRouteExactAndInclusiveFilterRule,omitempty"`
-	BgpRouteExactFilterRule             *BgpRouteExactFilterRule             `json:"bgpRouteExactFilterRule,omitempty"`
-	CommunityFilterRule                 *BgpCommunityFilterRule              `json:"communityFilterRule,omitempty"`
+	BgpRouteExactAndInclusiveFilterRule *BgpRouteExactAndInclusiveFilterRule `json:"bgpRouteExactAndInclusiveFilterRule,omitempty,omitzero"`
+	BgpRouteExactFilterRule             *BgpRouteExactFilterRule             `json:"bgpRouteExactFilterRule,omitempty,omitzero"`
+	CommunityFilterRule                 *BgpCommunityFilterRule              `json:"communityFilterRule,omitempty,omitzero"`
 }
 
 type BgpFilterRuleInput struct {
@@ -2591,7 +2592,7 @@ type BgpPeer struct {
 	AdvertiseDefaultRoute   bool               `json:"advertiseDefaultRoute"`
 	AdvertiseSummaryRoutes  bool               `json:"advertiseSummaryRoutes"`
 	BfdEnabled              bool               `json:"bfdEnabled"`
-	BfdSettings             *BfdSettings       `json:"bfdSettings,omitempty"`
+	BfdSettings             *BfdSettings       `json:"bfdSettings,omitempty,omitzero"`
 	CatoAsn                 scalars.Asn16      `json:"catoAsn"`
 	CatoIP                  string             `json:"catoIp"`
 	DefaultAction           BgpDefaultAction   `json:"defaultAction"`
@@ -2600,7 +2601,7 @@ type BgpPeer struct {
 	HoldTime                int64              `json:"holdTime"`
 	ID                      string             `json:"id"`
 	KeepaliveInterval       int64              `json:"keepaliveInterval"`
-	Md5AuthKey              *string            `json:"md5AuthKey,omitempty"`
+	Md5AuthKey              *string            `json:"md5AuthKey,omitempty,omitzero"`
 	Metric                  int64              `json:"metric"`
 	Name                    string             `json:"name"`
 	PeerAsn                 scalars.Asn32      `json:"peerAsn"`
@@ -2608,7 +2609,7 @@ type BgpPeer struct {
 	PerformNat              bool               `json:"performNat"`
 	Site                    *SiteRef           `json:"site"`
 	SummaryRoute            []*BgpSummaryRoute `json:"summaryRoute"`
-	Tracking                *BgpTracking       `json:"tracking,omitempty"`
+	Tracking                *BgpTracking       `json:"tracking,omitempty,omitzero"`
 }
 
 type BgpPeerListInput struct {
@@ -2627,18 +2628,18 @@ type BgpPeerRefInput struct {
 
 type BgpRejectedRoutesFromPeer struct {
 	Community          []*BgpCommunity `json:"community"`
-	LastPublishAttempt *string         `json:"lastPublishAttempt,omitempty"`
-	Rule               *string         `json:"rule,omitempty"`
-	Subnet             *string         `json:"subnet,omitempty"`
-	Type               *string         `json:"type,omitempty"`
+	LastPublishAttempt *string         `json:"lastPublishAttempt,omitempty,omitzero"`
+	Rule               *string         `json:"rule,omitempty,omitzero"`
+	Subnet             *string         `json:"subnet,omitempty,omitzero"`
+	Type               *string         `json:"type,omitempty,omitzero"`
 }
 
 type BgpRouteExactAndInclusiveFilterRule struct {
-	Ge                     *int64              `json:"ge,omitempty"`
+	Ge                     *int64              `json:"ge,omitempty,omitzero"`
 	GlobalIPRange          []*GlobalIPRangeRef `json:"globalIpRange"`
 	GlobalIPRangeException []*GlobalIPRangeRef `json:"globalIpRangeException"`
 	ID                     string              `json:"id"`
-	Le                     *int64              `json:"le,omitempty"`
+	Le                     *int64              `json:"le,omitempty,omitzero"`
 	NetworkSubnet          []string            `json:"networkSubnet"`
 	NetworkSubnetException []string            `json:"networkSubnetException"`
 }
@@ -2678,7 +2679,7 @@ type BgpTracking struct {
 	AlertFrequency PolicyRuleTrackingFrequencyEnum `json:"alertFrequency"`
 	Enabled        bool                            `json:"enabled"`
 	ID             string                          `json:"id"`
-	SubscriptionID *string                         `json:"subscriptionId,omitempty"`
+	SubscriptionID *string                         `json:"subscriptionId,omitempty,omitzero"`
 }
 
 type BgpTrackingInput struct {
@@ -2708,13 +2709,13 @@ type CalculateHitCountResponse struct {
 
 // Cloud Access Security Broker (CASB) service license details
 type CasbLicense struct {
-	Description    *string       `json:"description,omitempty"`
+	Description    *string       `json:"description,omitempty,omitzero"`
 	ExpirationDate string        `json:"expirationDate"`
-	ID             *string       `json:"id,omitempty"`
-	LastUpdated    *string       `json:"lastUpdated,omitempty"`
+	ID             *string       `json:"id,omitempty,omitzero"`
+	LastUpdated    *string       `json:"lastUpdated,omitempty,omitzero"`
 	Plan           LicensePlan   `json:"plan"`
 	Sku            LicenseSku    `json:"sku"`
-	StartDate      *string       `json:"startDate,omitempty"`
+	StartDate      *string       `json:"startDate,omitempty,omitzero"`
 	Status         LicenseStatus `json:"status"`
 }
 
@@ -2730,28 +2731,28 @@ func (this CasbLicense) GetStatus() LicenseStatus  { return this.Status }
 
 type CatalogApplication struct {
 	Activity                           []*CatalogApplicationActivity                         `json:"activity"`
-	AiSecurity                         *AiSecurityAttributes                                 `json:"aiSecurity,omitempty"`
+	AiSecurity                         *AiSecurityAttributes                                 `json:"aiSecurity,omitempty,omitzero"`
 	Capability                         []CatalogApplicationCapability                        `json:"capability"`
 	Category                           []*ApplicationCategoryRef                             `json:"category"`
-	City                               *string                                               `json:"city,omitempty"`
+	City                               *string                                               `json:"city,omitempty,omitzero"`
 	ComplianceAttributes               *CatalogApplicationComplianceAttributes               `json:"complianceAttributes"`
-	Description                        *string                                               `json:"description,omitempty"`
-	DescriptionSummary                 *string                                               `json:"descriptionSummary,omitempty"`
+	Description                        *string                                               `json:"description,omitempty,omitzero"`
+	DescriptionSummary                 *string                                               `json:"descriptionSummary,omitempty,omitzero"`
 	ID                                 string                                                `json:"id"`
-	IdentityAccessManagementAttributes *CatalogApplicationIdentityAccessManagementAttributes `json:"identityAccessManagementAttributes,omitempty"`
-	IpoStatus                          *string                                               `json:"ipoStatus,omitempty"`
+	IdentityAccessManagementAttributes *CatalogApplicationIdentityAccessManagementAttributes `json:"identityAccessManagementAttributes,omitempty,omitzero"`
+	IpoStatus                          *string                                               `json:"ipoStatus,omitempty,omitzero"`
 	Name                               string                                                `json:"name"`
-	NumOfEmployees                     *EmployeeRange                                        `json:"numOfEmployees,omitempty"`
-	OriginCountry                      *CountryRef                                           `json:"originCountry,omitempty"`
+	NumOfEmployees                     *EmployeeRange                                        `json:"numOfEmployees,omitempty,omitzero"`
+	OriginCountry                      *CountryRef                                           `json:"originCountry,omitempty,omitzero"`
 	RecentlyAdded                      bool                                                  `json:"recentlyAdded"`
-	Region                             *string                                               `json:"region,omitempty"`
-	Risk                               *string                                               `json:"risk,omitempty"`
+	Region                             *string                                               `json:"region,omitempty,omitzero"`
+	Risk                               *string                                               `json:"risk,omitempty,omitzero"`
 	Sanctioned                         bool                                                  `json:"sanctioned"`
 	SecurityAttributes                 *CatalogApplicationSecurityAttributes                 `json:"securityAttributes"`
 	StandardPorts                      []*CustomService                                      `json:"standardPorts"`
 	TenantActivity                     []*CatalogApplicationActivity                         `json:"tenantActivity"`
 	Type                               CatalogApplicationType                                `json:"type"`
-	Website                            *string                                               `json:"website,omitempty"`
+	Website                            *string                                               `json:"website,omitempty,omitzero"`
 }
 
 type CatalogApplicationActivity struct {
@@ -2789,40 +2790,40 @@ type CatalogApplicationCategorySortInput struct {
 }
 
 type CatalogApplicationComplianceAttributes struct {
-	C5Attestation            *CatalogApplicationAttribute `json:"c5Attestation,omitempty"`
-	Cjis                     *CatalogApplicationAttribute `json:"cjis,omitempty"`
-	Cobit                    *CatalogApplicationAttribute `json:"cobit,omitempty"`
-	Coppa                    *CatalogApplicationAttribute `json:"coppa,omitempty"`
-	CsaStar                  *CatalogApplicationAttribute `json:"csaStar,omitempty"`
-	CyberEssentialsPlusUk    *CatalogApplicationAttribute `json:"cyberEssentialsPlusUk,omitempty"`
-	EuUsDataPrivacyFramework *CatalogApplicationAttribute `json:"euUsDataPrivacyFramework,omitempty"`
-	FedRamp                  *CatalogApplicationAttribute `json:"fedRamp,omitempty"`
-	Ferpa                    *CatalogApplicationAttribute `json:"ferpa,omitempty"`
-	Ffiec                    *CatalogApplicationAttribute `json:"ffiec,omitempty"`
-	Finra                    *CatalogApplicationAttribute `json:"finra,omitempty"`
-	Fisma                    *CatalogApplicationAttribute `json:"fisma,omitempty"`
-	Gapp                     *CatalogApplicationAttribute `json:"gapp,omitempty"`
-	Gdpr                     *CatalogApplicationAttribute `json:"gdpr,omitempty"`
-	Glba                     *CatalogApplicationAttribute `json:"glba,omitempty"`
+	C5Attestation            *CatalogApplicationAttribute `json:"c5Attestation,omitempty,omitzero"`
+	Cjis                     *CatalogApplicationAttribute `json:"cjis,omitempty,omitzero"`
+	Cobit                    *CatalogApplicationAttribute `json:"cobit,omitempty,omitzero"`
+	Coppa                    *CatalogApplicationAttribute `json:"coppa,omitempty,omitzero"`
+	CsaStar                  *CatalogApplicationAttribute `json:"csaStar,omitempty,omitzero"`
+	CyberEssentialsPlusUk    *CatalogApplicationAttribute `json:"cyberEssentialsPlusUk,omitempty,omitzero"`
+	EuUsDataPrivacyFramework *CatalogApplicationAttribute `json:"euUsDataPrivacyFramework,omitempty,omitzero"`
+	FedRamp                  *CatalogApplicationAttribute `json:"fedRamp,omitempty,omitzero"`
+	Ferpa                    *CatalogApplicationAttribute `json:"ferpa,omitempty,omitzero"`
+	Ffiec                    *CatalogApplicationAttribute `json:"ffiec,omitempty,omitzero"`
+	Finra                    *CatalogApplicationAttribute `json:"finra,omitempty,omitzero"`
+	Fisma                    *CatalogApplicationAttribute `json:"fisma,omitempty,omitzero"`
+	Gapp                     *CatalogApplicationAttribute `json:"gapp,omitempty,omitzero"`
+	Gdpr                     *CatalogApplicationAttribute `json:"gdpr,omitempty,omitzero"`
+	Glba                     *CatalogApplicationAttribute `json:"glba,omitempty,omitzero"`
 	Hippa                    CatalogApplicationAttribute  `json:"hippa"`
-	HitrustCsf               *CatalogApplicationAttribute `json:"hitrustCsf,omitempty"`
+	HitrustCsf               *CatalogApplicationAttribute `json:"hitrustCsf,omitempty,omitzero"`
 	Isae3402                 CatalogApplicationAttribute  `json:"isae3402"`
 	Iso27001                 CatalogApplicationAttribute  `json:"iso27001"`
-	Iso27002                 *CatalogApplicationAttribute `json:"iso27002,omitempty"`
-	Iso27017                 *CatalogApplicationAttribute `json:"iso27017,omitempty"`
-	Iso27018                 *CatalogApplicationAttribute `json:"iso27018,omitempty"`
-	Iso9000                  *CatalogApplicationAttribute `json:"iso9000,omitempty"`
-	Iso9001                  *CatalogApplicationAttribute `json:"iso9001,omitempty"`
-	Itar                     *CatalogApplicationAttribute `json:"itar,omitempty"`
-	JapanPrivacyMark         *CatalogApplicationAttribute `json:"japanPrivacyMark,omitempty"`
-	JerichoForumCommandments *CatalogApplicationAttribute `json:"jerichoForumCommandments,omitempty"`
-	NistSp80053              *CatalogApplicationAttribute `json:"nistSp80053,omitempty"`
+	Iso27002                 *CatalogApplicationAttribute `json:"iso27002,omitempty,omitzero"`
+	Iso27017                 *CatalogApplicationAttribute `json:"iso27017,omitempty,omitzero"`
+	Iso27018                 *CatalogApplicationAttribute `json:"iso27018,omitempty,omitzero"`
+	Iso9000                  *CatalogApplicationAttribute `json:"iso9000,omitempty,omitzero"`
+	Iso9001                  *CatalogApplicationAttribute `json:"iso9001,omitempty,omitzero"`
+	Itar                     *CatalogApplicationAttribute `json:"itar,omitempty,omitzero"`
+	JapanPrivacyMark         *CatalogApplicationAttribute `json:"japanPrivacyMark,omitempty,omitzero"`
+	JerichoForumCommandments *CatalogApplicationAttribute `json:"jerichoForumCommandments,omitempty,omitzero"`
+	NistSp80053              *CatalogApplicationAttribute `json:"nistSp80053,omitempty,omitzero"`
 	PciDss                   CatalogApplicationAttribute  `json:"pciDss"`
 	Soc1                     CatalogApplicationAttribute  `json:"soc1"`
 	Soc2                     CatalogApplicationAttribute  `json:"soc2"`
 	Soc3                     CatalogApplicationAttribute  `json:"soc3"`
 	Sox                      CatalogApplicationAttribute  `json:"sox"`
-	TrustArcPrivacy          *CatalogApplicationAttribute `json:"trustArcPrivacy,omitempty"`
+	TrustArcPrivacy          *CatalogApplicationAttribute `json:"trustArcPrivacy,omitempty,omitzero"`
 }
 
 type CatalogApplicationContentType struct {
@@ -2877,9 +2878,9 @@ type CatalogApplicationFilterInput struct {
 }
 
 type CatalogApplicationIdentityAccessManagementAttributes struct {
-	AccessControlEnforcement  *CatalogApplicationAttribute `json:"accessControlEnforcement,omitempty"`
-	IPBasedAccessRestrictions *CatalogApplicationAttribute `json:"ipBasedAccessRestrictions,omitempty"`
-	SamlAuthentication        *CatalogApplicationAttribute `json:"samlAuthentication,omitempty"`
+	AccessControlEnforcement  *CatalogApplicationAttribute `json:"accessControlEnforcement,omitempty,omitzero"`
+	IPBasedAccessRestrictions *CatalogApplicationAttribute `json:"ipBasedAccessRestrictions,omitempty,omitzero"`
+	SamlAuthentication        *CatalogApplicationAttribute `json:"samlAuthentication,omitempty,omitzero"`
 }
 
 type CatalogApplicationListInput struct {
@@ -2895,26 +2896,26 @@ type CatalogApplicationListPayload struct {
 
 type CatalogApplicationSecurityAttributes struct {
 	AuditTrail                      CatalogApplicationAttribute                 `json:"auditTrail"`
-	DataDeletionPolicy              *CatalogApplicationDataDeletionPolicy       `json:"dataDeletionPolicy,omitempty"`
-	DataOwnership                   *CatalogApplicationDataOwnership            `json:"dataOwnership,omitempty"`
-	DataRetentionPolicy             *CatalogApplicationDataRetentionPolicy      `json:"dataRetentionPolicy,omitempty"`
-	DataSegregatedByTenant          *CatalogApplicationAttribute                `json:"dataSegregatedByTenant,omitempty"`
-	DisasterRecovery                *CatalogApplicationAttribute                `json:"disasterRecovery,omitempty"`
+	DataDeletionPolicy              *CatalogApplicationDataDeletionPolicy       `json:"dataDeletionPolicy,omitempty,omitzero"`
+	DataOwnership                   *CatalogApplicationDataOwnership            `json:"dataOwnership,omitempty,omitzero"`
+	DataRetentionPolicy             *CatalogApplicationDataRetentionPolicy      `json:"dataRetentionPolicy,omitempty,omitzero"`
+	DataSegregatedByTenant          *CatalogApplicationAttribute                `json:"dataSegregatedByTenant,omitempty,omitzero"`
+	DisasterRecovery                *CatalogApplicationAttribute                `json:"disasterRecovery,omitempty,omitzero"`
 	EncryptionAtRest                CatalogApplicationAttribute                 `json:"encryptionAtRest"`
-	EncryptionInTransit             *CatalogApplicationAttribute                `json:"encryptionInTransit,omitempty"`
-	EncryptionStrengthAtRest        *CatalogApplicationEncryptionStrengthAtRest `json:"encryptionStrengthAtRest,omitempty"`
+	EncryptionInTransit             *CatalogApplicationAttribute                `json:"encryptionInTransit,omitempty,omitzero"`
+	EncryptionStrengthAtRest        *CatalogApplicationEncryptionStrengthAtRest `json:"encryptionStrengthAtRest,omitempty,omitzero"`
 	HTTPSecurityHeaders             CatalogApplicationAttribute                 `json:"httpSecurityHeaders"`
 	Mfa                             CatalogApplicationAttribute                 `json:"mfa"`
-	PhysicalDataCenterSecurity      *CatalogApplicationAttribute                `json:"physicalDataCenterSecurity,omitempty"`
-	PrivacyPolicyURL                *string                                     `json:"privacyPolicyUrl,omitempty"`
+	PhysicalDataCenterSecurity      *CatalogApplicationAttribute                `json:"physicalDataCenterSecurity,omitempty,omitzero"`
+	PrivacyPolicyURL                *string                                     `json:"privacyPolicyUrl,omitempty,omitzero"`
 	Rbac                            CatalogApplicationAttribute                 `json:"rbac"`
 	RememberPassword                CatalogApplicationAttribute                 `json:"rememberPassword"`
 	Sso                             CatalogApplicationAttribute                 `json:"sso"`
-	TermsOfUseCustomerProtectionURL *string                                     `json:"termsOfUseCustomerProtectionUrl,omitempty"`
+	TermsOfUseCustomerProtectionURL *string                                     `json:"termsOfUseCustomerProtectionUrl,omitempty,omitzero"`
 	TLSEnforcement                  CatalogApplicationAttribute                 `json:"tlsEnforcement"`
-	TLSVersionSupport               *CatalogApplicationTLSVersionSupport        `json:"tlsVersionSupport,omitempty"`
+	TLSVersionSupport               *CatalogApplicationTLSVersionSupport        `json:"tlsVersionSupport,omitempty,omitzero"`
 	TrustedCertificate              CatalogApplicationAttribute                 `json:"trustedCertificate"`
-	WeakCipherSupport               *CatalogApplicationWeakCipherSupport        `json:"weakCipherSupport,omitempty"`
+	WeakCipherSupport               *CatalogApplicationWeakCipherSupport        `json:"weakCipherSupport,omitempty,omitzero"`
 }
 
 type CatalogApplicationSortInput struct {
@@ -2933,9 +2934,9 @@ type CatalogApplicationTypeFilterInput struct {
 }
 
 type CatalogQueries struct {
-	CatalogApplication     *CatalogApplication                            `json:"catalogApplication,omitempty"`
-	CatalogApplicationList *CatalogApplicationListPayload                 `json:"catalogApplicationList,omitempty"`
-	ContentTypeGroupList   *CatalogApplicationContentTypeGroupListPayload `json:"contentTypeGroupList,omitempty"`
+	CatalogApplication     *CatalogApplication                            `json:"catalogApplication,omitempty,omitzero"`
+	CatalogApplicationList *CatalogApplicationListPayload                 `json:"catalogApplicationList,omitempty,omitzero"`
+	ContentTypeGroupList   *CatalogApplicationContentTypeGroupListPayload `json:"contentTypeGroupList,omitempty,omitzero"`
 }
 
 // CatoActivity is an object type representing an activity in a Cato alert, containing unique identifiers for the activity itself, the preceding resource, and the involved resource.
@@ -2953,32 +2954,32 @@ func (this CatoActivity) GetResourceID() string       { return this.ResourceID }
 // The `CatoEndpoint` object represents a comprehensive data structure used in GraphQL queries or mutations to encapsulate details about a security incident detected by an Endpoint Protection Platform (EPP). It includes fields such as threat alerts, analyst feedback, connection type, criticality score, device details, timestamps for incident signals, and various enums and strings that describe the incident's status, source, and producer.
 type CatoEndpoint struct {
 	Alerts              []*CatoEndpointAlert       `json:"alerts"`
-	AnalystFeedback     *AnalystFeedback           `json:"analystFeedback,omitempty"`
-	ConnectionType      *ConnectionTypeEnum        `json:"connectionType,omitempty"`
-	Criticality         *int64                     `json:"criticality,omitempty"`
-	Description         *string                    `json:"description,omitempty"`
-	Device              *CatoEndpointDeviceDetails `json:"device,omitempty"`
-	EngineType          *StoryEngineTypeEnum       `json:"engineType,omitempty"`
+	AnalystFeedback     *AnalystFeedback           `json:"analystFeedback,omitempty,omitzero"`
+	ConnectionType      *ConnectionTypeEnum        `json:"connectionType,omitempty,omitzero"`
+	Criticality         *int64                     `json:"criticality,omitempty,omitzero"`
+	Description         *string                    `json:"description,omitempty,omitzero"`
+	Device              *CatoEndpointDeviceDetails `json:"device,omitempty,omitzero"`
+	EngineType          *StoryEngineTypeEnum       `json:"engineType,omitempty,omitzero"`
 	FirstSignal         string                     `json:"firstSignal"`
 	ID                  string                     `json:"id"`
 	Indication          string                     `json:"indication"`
 	LastSignal          string                     `json:"lastSignal"`
-	PredictedThreatType *string                    `json:"predictedThreatType,omitempty"`
-	PredictedVerdict    *StoryVerdictEnum          `json:"predictedVerdict,omitempty"`
+	PredictedThreatType *string                    `json:"predictedThreatType,omitempty,omitzero"`
+	PredictedVerdict    *StoryVerdictEnum          `json:"predictedVerdict,omitempty,omitzero"`
 	Producer            StoryProducerEnum          `json:"producer"`
 	ProducerName        string                     `json:"producerName"`
-	QueryName           *string                    `json:"queryName,omitempty"`
-	Research            *bool                      `json:"research,omitempty"`
+	QueryName           *string                    `json:"queryName,omitempty,omitzero"`
+	Research            *bool                      `json:"research,omitempty,omitzero"`
 	SimilarStoriesData  []*SimilarStoryData        `json:"similarStoriesData"`
-	Site                *SiteRef                   `json:"site,omitempty"`
-	SiteName            *string                    `json:"siteName,omitempty"`
-	Source              *string                    `json:"source,omitempty"`
-	SourceIP            *string                    `json:"sourceIp,omitempty"`
-	Status              *StoryStatusEnum           `json:"status,omitempty"`
-	StoryDuration       *int64                     `json:"storyDuration,omitempty"`
-	Ticket              *string                    `json:"ticket,omitempty"`
-	User                *UserRef                   `json:"user,omitempty"`
-	Vendor              *VendorEnum                `json:"vendor,omitempty"`
+	Site                *SiteRef                   `json:"site,omitempty,omitzero"`
+	SiteName            *string                    `json:"siteName,omitempty,omitzero"`
+	Source              *string                    `json:"source,omitempty,omitzero"`
+	SourceIP            *string                    `json:"sourceIp,omitempty,omitzero"`
+	Status              *StoryStatusEnum           `json:"status,omitempty,omitzero"`
+	StoryDuration       *int64                     `json:"storyDuration,omitempty,omitzero"`
+	Ticket              *string                    `json:"ticket,omitempty,omitzero"`
+	User                *UserRef                   `json:"user,omitempty,omitzero"`
+	Vendor              *VendorEnum                `json:"vendor,omitempty,omitzero"`
 }
 
 func (CatoEndpoint) IsEndpoint() {}
@@ -3033,20 +3034,20 @@ func (CatoEndpoint) IsMergedIncident() {}
 // The `CatoEndpointAlert` object represents an alert generated by Cato's endpoint protection system, detailing information about detected threats, including associated activities, threat description, criticality level, endpoint protection profile, and remediation status.
 type CatoEndpointAlert struct {
 	Activities                []*CatoActivity         `json:"activities"`
-	CreatedDateTime           *string                 `json:"createdDateTime,omitempty"`
-	Criticality               *int64                  `json:"criticality,omitempty"`
-	Description               *string                 `json:"description,omitempty"`
-	EndpointProtectionProfile *string                 `json:"endpointProtectionProfile,omitempty"`
-	EngineType                *CatoEndpointEngineType `json:"engineType,omitempty"`
-	ExternalIP                *string                 `json:"externalIp,omitempty"`
+	CreatedDateTime           *string                 `json:"createdDateTime,omitempty,omitzero"`
+	Criticality               *int64                  `json:"criticality,omitempty,omitzero"`
+	Description               *string                 `json:"description,omitempty,omitzero"`
+	EndpointProtectionProfile *string                 `json:"endpointProtectionProfile,omitempty,omitzero"`
+	EngineType                *CatoEndpointEngineType `json:"engineType,omitempty,omitzero"`
+	ExternalIP                *string                 `json:"externalIp,omitempty,omitzero"`
 	ID                        string                  `json:"id"`
-	LocalIP                   *string                 `json:"localIp,omitempty"`
+	LocalIP                   *string                 `json:"localIp,omitempty,omitzero"`
 	MitreSubTechnique         []*Mitre                `json:"mitreSubTechnique"`
 	MitreTechnique            []*Mitre                `json:"mitreTechnique"`
 	Resources                 []CatoResource          `json:"resources"`
-	Status                    *RemediationStatusEnum  `json:"status,omitempty"`
-	ThreatName                *string                 `json:"threatName,omitempty"`
-	Title                     *string                 `json:"title,omitempty"`
+	Status                    *RemediationStatusEnum  `json:"status,omitempty,omitzero"`
+	ThreatName                *string                 `json:"threatName,omitempty,omitzero"`
+	Title                     *string                 `json:"title,omitempty,omitzero"`
 }
 
 func (CatoEndpointAlert) IsEndpointAlert() {}
@@ -3101,13 +3102,13 @@ func (this CatoEndpointAlert) GetTitle() *string      { return this.Title }
 
 // The `CatoEndpointDeviceDetails` object represents detailed information about a device, including its name, unique ID, logged-on users, MAC address, and operating system details.
 type CatoEndpointDeviceDetails struct {
-	DeviceName    *string        `json:"deviceName,omitempty"`
-	ExternalIP    *string        `json:"externalIp,omitempty"`
+	DeviceName    *string        `json:"deviceName,omitempty,omitzero"`
+	ExternalIP    *string        `json:"externalIp,omitempty,omitzero"`
 	ID            string         `json:"id"`
-	LocalIP       *string        `json:"localIp,omitempty"`
+	LocalIP       *string        `json:"localIp,omitempty,omitzero"`
 	LoggedOnUsers []EndpointUser `json:"loggedOnUsers"`
-	MacAddress    *string        `json:"macAddress,omitempty"`
-	OsDetails     *OsDetails     `json:"osDetails,omitempty"`
+	MacAddress    *string        `json:"macAddress,omitempty,omitzero"`
+	OsDetails     *OsDetails     `json:"osDetails,omitempty,omitzero"`
 }
 
 func (CatoEndpointDeviceDetails) IsDeviceDetails()            {}
@@ -3139,11 +3140,11 @@ func (this CatoEndpointUser) GetName() string { return this.Name }
 
 // The `CatoFileResource` is a GraphQL object type that represents a file resource with fields for its creation timestamp, detection and remediation statuses, file details, and a unique identifier.
 type CatoFileResource struct {
-	CreatedDateTime   *string                `json:"createdDateTime,omitempty"`
-	DetectionStatus   *DetectionStatusEnum   `json:"detectionStatus,omitempty"`
-	FileDetails       *FileDetails           `json:"fileDetails,omitempty"`
+	CreatedDateTime   *string                `json:"createdDateTime,omitempty,omitzero"`
+	DetectionStatus   *DetectionStatusEnum   `json:"detectionStatus,omitempty,omitzero"`
+	FileDetails       *FileDetails           `json:"fileDetails,omitempty,omitzero"`
 	ID                string                 `json:"id"`
-	RemediationStatus *RemediationStatusEnum `json:"remediationStatus,omitempty"`
+	RemediationStatus *RemediationStatusEnum `json:"remediationStatus,omitempty,omitzero"`
 }
 
 func (CatoFileResource) IsCatoResource()                  {}
@@ -3162,13 +3163,13 @@ func (this CatoFileResource) GetFileDetails() *FileDetails             { return 
 
 // The `CatoProcessResource` is a GraphQL object type that represents a process resource, including details such as a unique Cato ID, the timestamp of usage, associated file details, command line information, process ID, remediation status, and the related user account.
 type CatoProcessResource struct {
-	CreatedDateTime    *string                `json:"createdDateTime,omitempty"`
+	CreatedDateTime    *string                `json:"createdDateTime,omitempty,omitzero"`
 	ID                 string                 `json:"id"`
-	ImageFile          *FileDetails           `json:"imageFile,omitempty"`
-	ProcessCommandLine *string                `json:"processCommandLine,omitempty"`
+	ImageFile          *FileDetails           `json:"imageFile,omitempty,omitzero"`
+	ProcessCommandLine *string                `json:"processCommandLine,omitempty,omitzero"`
 	ProcessID          int64                  `json:"processId"`
-	RemediationStatus  *RemediationStatusEnum `json:"remediationStatus,omitempty"`
-	UserAccount        EndpointUser           `json:"userAccount,omitempty"`
+	RemediationStatus  *RemediationStatusEnum `json:"remediationStatus,omitempty,omitzero"`
+	UserAccount        EndpointUser           `json:"userAccount,omitempty,omitzero"`
 }
 
 func (CatoProcessResource) IsCatoResource()                  {}
@@ -3189,22 +3190,22 @@ func (this CatoProcessResource) GetProcessID() int64            { return this.Pr
 func (this CatoProcessResource) GetUserAccount() EndpointUser { return this.UserAccount }
 
 type CellularInterface struct {
-	Apn                 *string                      `json:"apn,omitempty"`
-	ApnSelectionMethod  *ApnMethod                   `json:"apnSelectionMethod,omitempty"`
-	DisconnectionReason *CellularDisconnectionReason `json:"disconnectionReason,omitempty"`
-	Iccid               *string                      `json:"iccid,omitempty"`
-	Imei                *string                      `json:"imei,omitempty"`
+	Apn                 *string                      `json:"apn,omitempty,omitzero"`
+	ApnSelectionMethod  *ApnMethod                   `json:"apnSelectionMethod,omitempty,omitzero"`
+	DisconnectionReason *CellularDisconnectionReason `json:"disconnectionReason,omitempty,omitzero"`
+	Iccid               *string                      `json:"iccid,omitempty,omitzero"`
+	Imei                *string                      `json:"imei,omitempty,omitzero"`
 	IsModemConnected    bool                         `json:"isModemConnected"`
 	IsModemSuspended    bool                         `json:"isModemSuspended"`
 	IsRoamingAllowed    bool                         `json:"isRoamingAllowed"`
 	IsSimSlot1Detected  bool                         `json:"isSimSlot1Detected"`
 	IsSimSlot2Detected  bool                         `json:"isSimSlot2Detected"`
-	ModemStatus         *CellularModemStatus         `json:"modemStatus,omitempty"`
-	NetworkType         *CellularNetworkType         `json:"networkType,omitempty"`
-	OperatorName        *string                      `json:"operatorName,omitempty"`
-	SignalStrength      *string                      `json:"signalStrength,omitempty"`
-	SimNumber           *string                      `json:"simNumber,omitempty"`
-	SimSlotID           *int64                       `json:"simSlotId,omitempty"`
+	ModemStatus         *CellularModemStatus         `json:"modemStatus,omitempty,omitzero"`
+	NetworkType         *CellularNetworkType         `json:"networkType,omitempty,omitzero"`
+	OperatorName        *string                      `json:"operatorName,omitempty,omitzero"`
+	SignalStrength      *string                      `json:"signalStrength,omitempty,omitzero"`
+	SimNumber           *string                      `json:"simNumber,omitempty,omitzero"`
+	SimSlotID           *int64                       `json:"simSlotId,omitempty,omitzero"`
 }
 
 type ClientConnectivityAddRuleDataInput struct {
@@ -3227,9 +3228,9 @@ type ClientConnectivityAddRuleInput struct {
 }
 
 type ClientConnectivityPolicy struct {
-	Audit    *PolicyAudit                     `json:"audit,omitempty"`
+	Audit    *PolicyAudit                     `json:"audit,omitempty,omitzero"`
 	Enabled  bool                             `json:"enabled"`
-	Revision *PolicyRevision                  `json:"revision,omitempty"`
+	Revision *PolicyRevision                  `json:"revision,omitempty,omitzero"`
 	Rules    []*ClientConnectivityRulePayload `json:"rules"`
 	Sections []*PolicySectionPayload          `json:"sections"`
 }
@@ -3269,7 +3270,7 @@ type ClientConnectivityPolicyMutationInput struct {
 
 type ClientConnectivityPolicyMutationPayload struct {
 	Errors []*PolicyMutationError    `json:"errors"`
-	Policy *ClientConnectivityPolicy `json:"policy,omitempty"`
+	Policy *ClientConnectivityPolicy `json:"policy,omitempty,omitzero"`
 	Status PolicyMutationStatus      `json:"status"`
 }
 
@@ -3306,7 +3307,7 @@ type ClientConnectivityPolicyMutations struct {
 
 type ClientConnectivityPolicyQueries struct {
 	Policy    *ClientConnectivityPolicy `json:"policy"`
-	Revisions *PolicyRevisionsPayload   `json:"revisions,omitempty"`
+	Revisions *PolicyRevisionsPayload   `json:"revisions,omitempty,omitzero"`
 }
 
 type ClientConnectivityPolicyUpdateInput struct {
@@ -3344,7 +3345,7 @@ func (this ClientConnectivityRule) GetSection() *PolicySectionInfo { return this
 
 type ClientConnectivityRuleMutationPayload struct {
 	Errors []*PolicyMutationError         `json:"errors"`
-	Rule   *ClientConnectivityRulePayload `json:"rule,omitempty"`
+	Rule   *ClientConnectivityRulePayload `json:"rule,omitempty,omitzero"`
 	Status PolicyMutationStatus           `json:"status"`
 }
 
@@ -3443,7 +3444,7 @@ type CloudInterconnectConnectionConnectivityInput struct {
 
 // Details of a physical connection at a cloud interconnect site.
 type CloudInterconnectPhysicalConnection struct {
-	CVlan               *scalars.Vlan   `json:"cVlan,omitempty"`
+	CVlan               *scalars.Vlan   `json:"cVlan,omitempty,omitzero"`
 	DownstreamBwLimit   string          `json:"downstreamBwLimit"`
 	EncapsulationMethod TaggingMethod   `json:"encapsulationMethod"`
 	HaRole              HaRole          `json:"haRole"`
@@ -3451,12 +3452,12 @@ type CloudInterconnectPhysicalConnection struct {
 	PopLocation         *PopLocationRef `json:"popLocation"`
 	PrivateCatoIP       string          `json:"privateCatoIp"`
 	PrivateSiteIP       string          `json:"privateSiteIp"`
-	SVlan               *scalars.Vlan   `json:"sVlan,omitempty"`
+	SVlan               *scalars.Vlan   `json:"sVlan,omitempty,omitzero"`
 	ServiceProviderName string          `json:"serviceProviderName"`
 	Site                *SiteRef        `json:"site"`
 	Subnet              string          `json:"subnet"`
 	UpstreamBwLimit     string          `json:"upstreamBwLimit"`
-	Vlan                *scalars.Vlan   `json:"vlan,omitempty"`
+	Vlan                *scalars.Vlan   `json:"vlan,omitempty,omitzero"`
 }
 
 // ID of a physical connection at a cloud interconnect site.
@@ -3476,9 +3477,9 @@ type CloudInterconnectPhysicalConnectionInput struct {
 }
 
 type ContactDetails struct {
-	Email *string `json:"email,omitempty"`
-	Name  *string `json:"name,omitempty"`
-	Phone *string `json:"phone,omitempty"`
+	Email *string `json:"email,omitempty,omitzero"`
+	Name  *string `json:"name,omitempty,omitzero"`
+	Phone *string `json:"phone,omitempty,omitzero"`
 }
 
 type ContactDetailsInput struct {
@@ -3536,7 +3537,7 @@ type ContainerSearchPayload struct {
 
 // Information about automatic synchronization of the container
 type ContainerSyncData struct {
-	FileType      *ContainerFileType             `json:"fileType,omitempty"`
+	FileType      *ContainerFileType             `json:"fileType,omitempty,omitzero"`
 	Notifications *ContainerSyncDataNotification `json:"notifications"`
 	TimeInterval  int64                          `json:"timeInterval"`
 	TimeUnit      ContainerSyncDataTimeUnit      `json:"timeUnit"`
@@ -3545,7 +3546,7 @@ type ContainerSyncData struct {
 
 // Audit information about the last synchronization of the container
 type ContainerSyncDataAudit struct {
-	ErrorMsg        *string `json:"errorMsg,omitempty"`
+	ErrorMsg        *string `json:"errorMsg,omitempty,omitzero"`
 	LastSyncAttempt string  `json:"lastSyncAttempt"`
 	LastSynced      string  `json:"lastSynced"`
 }
@@ -3707,8 +3708,8 @@ type CustomCategoryRefInput struct {
 
 // Returns data for Custom Service defined by a combination of L4 ports and an IP Protocol
 type CustomService struct {
-	Port      []scalars.Port `json:"port,omitempty"`
-	PortRange *PortRange     `json:"portRange,omitempty"`
+	Port      []scalars.Port `json:"port,omitempty,omitzero"`
+	PortRange *PortRange     `json:"portRange,omitempty,omitzero"`
 	Protocol  IPProtocol     `json:"protocol"`
 }
 
@@ -3720,8 +3721,8 @@ type CustomServiceInput struct {
 }
 
 type CustomServiceIP struct {
-	IP      *string         `json:"ip,omitempty"`
-	IPRange *IPAddressRange `json:"ipRange,omitempty"`
+	IP      *string         `json:"ip,omitempty,omitzero"`
+	IPRange *IPAddressRange `json:"ipRange,omitempty,omitzero"`
 	Name    string          `json:"name"`
 }
 
@@ -3732,15 +3733,15 @@ type CustomServiceIPInput struct {
 }
 
 type DataLakeLicense struct {
-	Description     *string       `json:"description,omitempty"`
+	Description     *string       `json:"description,omitempty,omitzero"`
 	DpaVersion      DpaVersion    `json:"dpaVersion"`
 	ExpirationDate  string        `json:"expirationDate"`
-	ID              *string       `json:"id,omitempty"`
-	LastUpdated     *string       `json:"lastUpdated,omitempty"`
+	ID              *string       `json:"id,omitempty,omitzero"`
+	LastUpdated     *string       `json:"lastUpdated,omitempty,omitzero"`
 	Plan            LicensePlan   `json:"plan"`
-	RetentionPeriod *int64        `json:"retentionPeriod,omitempty"`
+	RetentionPeriod *int64        `json:"retentionPeriod,omitempty,omitzero"`
 	Sku             LicenseSku    `json:"sku"`
-	StartDate       *string       `json:"startDate,omitempty"`
+	StartDate       *string       `json:"startDate,omitempty,omitzero"`
 	Status          LicenseStatus `json:"status"`
 	Total           int64         `json:"total"`
 }
@@ -3772,13 +3773,13 @@ type DateTimeFilterInput struct {
 }
 
 type DateValue struct {
-	Date *string `json:"date,omitempty"`
+	Date *string `json:"date,omitempty,omitzero"`
 }
 
 func (DateValue) IsValue() {}
 
 type DegradedDetail struct {
-	Args   DegradedStatusArgs   `json:"args,omitempty"`
+	Args   DegradedStatusArgs   `json:"args,omitempty,omitzero"`
 	Reason DegradedStatusReason `json:"reason"`
 }
 
@@ -3789,20 +3790,20 @@ type DegradedStatus struct {
 
 type DegradedStatusBasicDataArgs struct {
 	DeviceName        string  `json:"deviceName"`
-	LastConnectedDate *string `json:"lastConnectedDate,omitempty"`
+	LastConnectedDate *string `json:"lastConnectedDate,omitempty,omitzero"`
 }
 
 func (DegradedStatusBasicDataArgs) IsDegradedStatusArgs() {}
 
 type DegradedStatusLastConnectedArgs struct {
-	LastConnectedDate *string `json:"lastConnectedDate,omitempty"`
+	LastConnectedDate *string `json:"lastConnectedDate,omitempty,omitzero"`
 }
 
 func (DegradedStatusLastConnectedArgs) IsDegradedStatusArgs() {}
 
 type DegradedStatusMultiTunnelArgs struct {
 	DeviceName        string  `json:"deviceName"`
-	LastConnectedDate *string `json:"lastConnectedDate,omitempty"`
+	LastConnectedDate *string `json:"lastConnectedDate,omitempty,omitzero"`
 	TunnelID          string  `json:"tunnelID"`
 	TunnelName        string  `json:"tunnelName"`
 }
@@ -3811,7 +3812,7 @@ func (DegradedStatusMultiTunnelArgs) IsDegradedStatusArgs() {}
 
 type DegradedStatusSocketArgs struct {
 	DeviceName        string  `json:"deviceName"`
-	LastConnectedDate *string `json:"lastConnectedDate,omitempty"`
+	LastConnectedDate *string `json:"lastConnectedDate,omitempty,omitzero"`
 	PortID            string  `json:"portID"`
 	PortName          string  `json:"portName"`
 }
@@ -3868,13 +3869,13 @@ type DeleteStoryCommentPayload struct {
 
 // DEM service license details
 type DemLicense struct {
-	Description    *string       `json:"description,omitempty"`
+	Description    *string       `json:"description,omitempty,omitzero"`
 	ExpirationDate string        `json:"expirationDate"`
-	ID             *string       `json:"id,omitempty"`
-	LastUpdated    *string       `json:"lastUpdated,omitempty"`
+	ID             *string       `json:"id,omitempty,omitzero"`
+	LastUpdated    *string       `json:"lastUpdated,omitempty,omitzero"`
 	Plan           LicensePlan   `json:"plan"`
 	Sku            LicenseSku    `json:"sku"`
-	StartDate      *string       `json:"startDate,omitempty"`
+	StartDate      *string       `json:"startDate,omitempty,omitzero"`
 	Status         LicenseStatus `json:"status"`
 	Total          int64         `json:"total"`
 }
@@ -3994,9 +3995,9 @@ type DeviceCSVExportInput struct {
 }
 
 type DeviceHw struct {
-	Manufacturer *string `json:"manufacturer,omitempty"`
-	Model        *string `json:"model,omitempty"`
-	Type         *string `json:"type,omitempty"`
+	Manufacturer *string `json:"manufacturer,omitempty,omitzero"`
+	Model        *string `json:"model,omitempty,omitzero"`
+	Type         *string `json:"type,omitempty,omitzero"`
 }
 
 type DeviceHwFilterInput struct {
@@ -4012,8 +4013,8 @@ type DeviceHwSortOrderInput struct {
 }
 
 type DeviceNetwork struct {
-	NetworkName *string `json:"networkName,omitempty"`
-	Subnet      *string `json:"subnet,omitempty"`
+	NetworkName *string `json:"networkName,omitempty,omitzero"`
+	Subnet      *string `json:"subnet,omitempty,omitzero"`
 }
 
 type DeviceNetworkFilterInput struct {
@@ -4027,8 +4028,8 @@ type DeviceNetworkSortOrderInput struct {
 }
 
 type DeviceNic struct {
-	MacAddress *string `json:"macAddress,omitempty"`
-	Vendor     *string `json:"vendor,omitempty"`
+	MacAddress *string `json:"macAddress,omitempty,omitzero"`
+	Vendor     *string `json:"vendor,omitempty,omitzero"`
 }
 
 type DeviceNicFilterInput struct {
@@ -4042,9 +4043,9 @@ type DeviceNicSortOrderInput struct {
 }
 
 type DeviceOs struct {
-	Product *string `json:"product,omitempty"`
-	Vendor  *string `json:"vendor,omitempty"`
-	Version *string `json:"version,omitempty"`
+	Product *string `json:"product,omitempty,omitzero"`
+	Vendor  *string `json:"vendor,omitempty,omitzero"`
+	Version *string `json:"version,omitempty,omitzero"`
 }
 
 type DeviceOsFilterInput struct {
@@ -4080,30 +4081,30 @@ type DeviceSiteSortOrderInput struct {
 }
 
 type DeviceSnapshot struct {
-	Connected           *bool                 `json:"connected,omitempty"`
-	ConnectedSince      *string               `json:"connectedSince,omitempty"`
-	DeviceUptime        *int64                `json:"deviceUptime,omitempty"`
-	HaRole              *string               `json:"haRole,omitempty"`
-	ID                  *string               `json:"id,omitempty"`
-	Identifier          *string               `json:"identifier,omitempty"`
-	Interfaces          []*InterfaceSnapshot  `json:"interfaces,omitempty"`
-	InterfacesLinkState []*InterfaceLinkState `json:"interfacesLinkState,omitempty"`
-	InternalIP          *string               `json:"internalIP,omitempty"`
-	LastConnected       *string               `json:"lastConnected,omitempty"`
-	LastDuration        *int64                `json:"lastDuration,omitempty"`
-	LastPopID           *int64                `json:"lastPopID,omitempty"`
-	LastPopName         *string               `json:"lastPopName,omitempty"`
-	MfaCreationTime     *int64                `json:"mfaCreationTime,omitempty"`
-	MfaExpirationTime   *int64                `json:"mfaExpirationTime,omitempty"`
-	Name                *string               `json:"name,omitempty"`
-	OsType              *string               `json:"osType,omitempty"`
-	OsVersion           *string               `json:"osVersion,omitempty"`
-	RecentConnections   []*RecentConnection   `json:"recentConnections,omitempty"`
-	ReleaseGroup        *string               `json:"releaseGroup,omitempty"`
-	SocketInfo          *SocketInfo           `json:"socketInfo,omitempty"`
-	Type                *string               `json:"type,omitempty"`
-	Version             *string               `json:"version,omitempty"`
-	VersionNumber       *int64                `json:"versionNumber,omitempty"`
+	Connected           *bool                 `json:"connected,omitempty,omitzero"`
+	ConnectedSince      *string               `json:"connectedSince,omitempty,omitzero"`
+	DeviceUptime        *int64                `json:"deviceUptime,omitempty,omitzero"`
+	HaRole              *string               `json:"haRole,omitempty,omitzero"`
+	ID                  *string               `json:"id,omitempty,omitzero"`
+	Identifier          *string               `json:"identifier,omitempty,omitzero"`
+	Interfaces          []*InterfaceSnapshot  `json:"interfaces,omitempty,omitzero"`
+	InterfacesLinkState []*InterfaceLinkState `json:"interfacesLinkState,omitempty,omitzero"`
+	InternalIP          *string               `json:"internalIP,omitempty,omitzero"`
+	LastConnected       *string               `json:"lastConnected,omitempty,omitzero"`
+	LastDuration        *int64                `json:"lastDuration,omitempty,omitzero"`
+	LastPopID           *int64                `json:"lastPopID,omitempty,omitzero"`
+	LastPopName         *string               `json:"lastPopName,omitempty,omitzero"`
+	MfaCreationTime     *int64                `json:"mfaCreationTime,omitempty,omitzero"`
+	MfaExpirationTime   *int64                `json:"mfaExpirationTime,omitempty,omitzero"`
+	Name                *string               `json:"name,omitempty,omitzero"`
+	OsType              *string               `json:"osType,omitempty,omitzero"`
+	OsVersion           *string               `json:"osVersion,omitempty,omitzero"`
+	RecentConnections   []*RecentConnection   `json:"recentConnections,omitempty,omitzero"`
+	ReleaseGroup        *string               `json:"releaseGroup,omitempty,omitzero"`
+	SocketInfo          *SocketInfo           `json:"socketInfo,omitempty,omitzero"`
+	Type                *string               `json:"type,omitempty,omitzero"`
+	Version             *string               `json:"version,omitempty,omitzero"`
+	VersionNumber       *int64                `json:"versionNumber,omitempty,omitzero"`
 }
 
 // Input for sorting devices by various fields
@@ -4130,26 +4131,26 @@ type DeviceUserSortOrderInput struct {
 }
 
 type DeviceV2 struct {
-	Category          *string                  `json:"category,omitempty"`
-	ComplianceState   *string                  `json:"complianceState,omitempty"`
-	Confidence        *DeviceConfidenceLevel   `json:"confidence,omitempty"`
-	ConnectionProfile *DeviceConnectionProfile `json:"connectionProfile,omitempty"`
-	FirstSeen         *string                  `json:"firstSeen,omitempty"`
-	Hw                *DeviceHw                `json:"hw,omitempty"`
+	Category          *string                  `json:"category,omitempty,omitzero"`
+	ComplianceState   *string                  `json:"complianceState,omitempty,omitzero"`
+	Confidence        *DeviceConfidenceLevel   `json:"confidence,omitempty,omitzero"`
+	ConnectionProfile *DeviceConnectionProfile `json:"connectionProfile,omitempty,omitzero"`
+	FirstSeen         *string                  `json:"firstSeen,omitempty,omitzero"`
+	Hw                *DeviceHw                `json:"hw,omitempty,omitzero"`
 	ID                string                   `json:"id"`
-	IP                *string                  `json:"ip,omitempty"`
-	IPAddress         *string                  `json:"ipAddress,omitempty"`
+	IP                *string                  `json:"ip,omitempty,omitzero"`
+	IPAddress         *string                  `json:"ipAddress,omitempty,omitzero"`
 	IsManaged         bool                     `json:"isManaged"`
-	LastSeen          *string                  `json:"lastSeen,omitempty"`
-	Name              *string                  `json:"name,omitempty"`
-	Network           *DeviceNetwork           `json:"network,omitempty"`
-	NetworkInfo       DeviceNetworkRef         `json:"networkInfo,omitempty"`
-	Nic               *DeviceNic               `json:"nic,omitempty"`
+	LastSeen          *string                  `json:"lastSeen,omitempty,omitzero"`
+	Name              *string                  `json:"name,omitempty,omitzero"`
+	Network           *DeviceNetwork           `json:"network,omitempty,omitzero"`
+	NetworkInfo       DeviceNetworkRef         `json:"networkInfo,omitempty,omitzero"`
+	Nic               *DeviceNic               `json:"nic,omitempty,omitzero"`
 	OriginTypes       []OriginType             `json:"originTypes"`
-	Os                *DeviceOs                `json:"os,omitempty"`
-	RiskScore         *int64                   `json:"riskScore,omitempty"`
-	Site              *SiteRef                 `json:"site,omitempty"`
-	User              *UserRef                 `json:"user,omitempty"`
+	Os                *DeviceOs                `json:"os,omitempty,omitzero"`
+	RiskScore         *int64                   `json:"riskScore,omitempty,omitzero"`
+	Site              *SiteRef                 `json:"site,omitempty,omitzero"`
+	User              *UserRef                 `json:"user,omitempty,omitzero"`
 }
 
 // Input for filtering devices by various criteria
@@ -4189,7 +4190,7 @@ type DevicesQueries struct {
 	AttributesCatalog *DeviceAttributesCatalogQueries `json:"attributesCatalog"`
 	CSVExport         *ExportJobResponse              `json:"csvExport"`
 	CSVExportStatus   *ExportStatusResponse           `json:"csvExportStatus"`
-	List              *DevicesPayload                 `json:"list,omitempty"`
+	List              *DevicesPayload                 `json:"list,omitempty,omitzero"`
 }
 
 type DhcpLeaseTimeSettings struct {
@@ -4212,12 +4213,12 @@ type Dimension struct {
 
 type DimensionData struct {
 	Label string  `json:"label"`
-	Value *string `json:"value,omitempty"`
+	Value *string `json:"value,omitempty,omitzero"`
 }
 
 type DimensionKey struct {
 	FieldName string  `json:"fieldName"`
-	Value     *string `json:"value,omitempty"`
+	Value     *string `json:"value,omitempty,omitzero"`
 }
 
 type DisableAccountPayload struct {
@@ -4254,13 +4255,13 @@ type DlpEdmProfileRefInput struct {
 
 // Data Loss Prevention (DLP) Service license details
 type DlpLicense struct {
-	Description    *string       `json:"description,omitempty"`
+	Description    *string       `json:"description,omitempty,omitzero"`
 	ExpirationDate string        `json:"expirationDate"`
-	ID             *string       `json:"id,omitempty"`
-	LastUpdated    *string       `json:"lastUpdated,omitempty"`
+	ID             *string       `json:"id,omitempty,omitzero"`
+	LastUpdated    *string       `json:"lastUpdated,omitempty,omitzero"`
 	Plan           LicensePlan   `json:"plan"`
 	Sku            LicenseSku    `json:"sku"`
-	StartDate      *string       `json:"startDate,omitempty"`
+	StartDate      *string       `json:"startDate,omitempty,omitzero"`
 	Status         LicenseStatus `json:"status"`
 }
 
@@ -4316,9 +4317,9 @@ type DynamicIPAllocationAddRuleInput struct {
 }
 
 type DynamicIPAllocationPolicy struct {
-	Audit    *PolicyAudit                      `json:"audit,omitempty"`
+	Audit    *PolicyAudit                      `json:"audit,omitempty,omitzero"`
 	Enabled  bool                              `json:"enabled"`
-	Revision *PolicyRevision                   `json:"revision,omitempty"`
+	Revision *PolicyRevision                   `json:"revision,omitempty,omitzero"`
 	Rules    []*DynamicIPAllocationRulePayload `json:"rules"`
 	Sections []*PolicySectionPayload           `json:"sections"`
 }
@@ -4358,7 +4359,7 @@ type DynamicIPAllocationPolicyMutationInput struct {
 
 type DynamicIPAllocationPolicyMutationPayload struct {
 	Errors []*PolicyMutationError     `json:"errors"`
-	Policy *DynamicIPAllocationPolicy `json:"policy,omitempty"`
+	Policy *DynamicIPAllocationPolicy `json:"policy,omitempty,omitzero"`
 	Status PolicyMutationStatus       `json:"status"`
 }
 
@@ -4395,7 +4396,7 @@ type DynamicIPAllocationPolicyMutations struct {
 
 type DynamicIPAllocationPolicyQueries struct {
 	Policy    *DynamicIPAllocationPolicy `json:"policy"`
-	Revisions *PolicyRevisionsPayload    `json:"revisions,omitempty"`
+	Revisions *PolicyRevisionsPayload    `json:"revisions,omitempty,omitzero"`
 }
 
 type DynamicIPAllocationPolicyUpdateInput struct {
@@ -4441,7 +4442,7 @@ func (this DynamicIPAllocationRule) GetSection() *PolicySectionInfo { return thi
 
 type DynamicIPAllocationRuleMutationPayload struct {
 	Errors []*PolicyMutationError          `json:"errors"`
-	Rule   *DynamicIPAllocationRulePayload `json:"rule,omitempty"`
+	Rule   *DynamicIPAllocationRulePayload `json:"rule,omitempty,omitzero"`
 	Status PolicyMutationStatus            `json:"status"`
 }
 
@@ -4513,13 +4514,13 @@ type DynamicIPAllocationUpdateRuleInput struct {
 
 // End Point Protection (EPP) license details
 type EndpointProtectionLicense struct {
-	Description    *string       `json:"description,omitempty"`
+	Description    *string       `json:"description,omitempty,omitzero"`
 	ExpirationDate string        `json:"expirationDate"`
-	ID             *string       `json:"id,omitempty"`
-	LastUpdated    *string       `json:"lastUpdated,omitempty"`
+	ID             *string       `json:"id,omitempty,omitzero"`
+	LastUpdated    *string       `json:"lastUpdated,omitempty,omitzero"`
 	Plan           LicensePlan   `json:"plan"`
 	Sku            LicenseSku    `json:"sku"`
-	StartDate      *string       `json:"startDate,omitempty"`
+	StartDate      *string       `json:"startDate,omitempty,omitzero"`
 	Status         LicenseStatus `json:"status"`
 	Total          int64         `json:"total"`
 }
@@ -4567,14 +4568,14 @@ type EnterpriseDirectoryLocationListInput struct {
 
 type EnterpriseDirectoryLocationListPayload struct {
 	Items    []*Location `json:"items"`
-	PageInfo *PageInfo   `json:"pageInfo,omitempty"`
+	PageInfo *PageInfo   `json:"pageInfo,omitempty,omitzero"`
 }
 
 type EnterpriseDirectoryMutations struct {
-	ArchiveLocation *EnterpriseDirectoryArchiveLocationPayload `json:"archiveLocation,omitempty"`
-	CreateLocation  *EnterpriseDirectoryCreateLocationPayload  `json:"createLocation,omitempty"`
-	RestoreLocation *EnterpriseDirectoryRestoreLocationPayload `json:"restoreLocation,omitempty"`
-	UpdateLocation  *EnterpriseDirectoryUpdateLocationPayload  `json:"updateLocation,omitempty"`
+	ArchiveLocation *EnterpriseDirectoryArchiveLocationPayload `json:"archiveLocation,omitempty,omitzero"`
+	CreateLocation  *EnterpriseDirectoryCreateLocationPayload  `json:"createLocation,omitempty,omitzero"`
+	RestoreLocation *EnterpriseDirectoryRestoreLocationPayload `json:"restoreLocation,omitempty,omitzero"`
+	UpdateLocation  *EnterpriseDirectoryUpdateLocationPayload  `json:"updateLocation,omitempty,omitzero"`
 }
 
 type EnterpriseDirectoryQueries struct {
@@ -4600,7 +4601,7 @@ type EnterpriseDirectoryUpdateLocationPayload struct {
 
 type Entity struct {
 	ID   string     `json:"id"`
-	Name *string    `json:"name,omitempty"`
+	Name *string    `json:"name,omitempty,omitzero"`
 	Type EntityType `json:"type"`
 }
 
@@ -4624,22 +4625,22 @@ type EntityInput struct {
 
 type EntityLookupResult struct {
 	Items []*EntityInfo `json:"items"`
-	Total *int64        `json:"total,omitempty"`
+	Total *int64        `json:"total,omitempty,omitzero"`
 }
 
 type Event struct {
-	Action                *string     `json:"action,omitempty"`
-	AppID                 *string     `json:"appId,omitempty"`
-	AppName               *string     `json:"appName,omitempty"`
-	DNSProtectionCategory *string     `json:"dnsProtectionCategory,omitempty"`
-	EventType             *string     `json:"eventType,omitempty"`
-	RuleID                *string     `json:"ruleId,omitempty"`
-	ScanResult            *ScanResult `json:"scanResult,omitempty"`
-	Severity              *string     `json:"severity,omitempty"`
-	SignatureID           *string     `json:"signatureId,omitempty"`
-	ThreatName            *string     `json:"threatName,omitempty"`
-	ThreatType            *string     `json:"threatType,omitempty"`
-	VirusName             *string     `json:"virusName,omitempty"`
+	Action                *string     `json:"action,omitempty,omitzero"`
+	AppID                 *string     `json:"appId,omitempty,omitzero"`
+	AppName               *string     `json:"appName,omitempty,omitzero"`
+	DNSProtectionCategory *string     `json:"dnsProtectionCategory,omitempty,omitzero"`
+	EventType             *string     `json:"eventType,omitempty,omitzero"`
+	RuleID                *string     `json:"ruleId,omitempty,omitzero"`
+	ScanResult            *ScanResult `json:"scanResult,omitempty,omitzero"`
+	Severity              *string     `json:"severity,omitempty,omitzero"`
+	SignatureID           *string     `json:"signatureId,omitempty,omitzero"`
+	ThreatName            *string     `json:"threatName,omitempty,omitzero"`
+	ThreatType            *string     `json:"threatType,omitempty,omitzero"`
+	VirusName             *string     `json:"virusName,omitempty,omitzero"`
 }
 
 type EventFeedFieldFilterInput struct {
@@ -4654,18 +4655,18 @@ type EventField struct {
 }
 
 type EventRecord struct {
-	FieldsMap  map[string]any `json:"fieldsMap,omitempty"`
-	FlatFields [][]string     `json:"flatFields,omitempty"`
-	Time       *string        `json:"time,omitempty"`
+	FieldsMap  map[string]any `json:"fieldsMap,omitempty,omitzero"`
+	FlatFields [][]string     `json:"flatFields,omitempty,omitzero"`
+	Time       *string        `json:"time,omitempty,omitzero"`
 }
 
 type Events struct {
-	From    *string         `json:"from,omitempty"`
-	ID      *string         `json:"id,omitempty"`
-	Records []*EventsRecord `json:"records,omitempty"`
-	To      *string         `json:"to,omitempty"`
-	Total   *int64          `json:"total,omitempty"`
-	Totals  map[string]any  `json:"totals,omitempty"`
+	From    *string         `json:"from,omitempty,omitzero"`
+	ID      *string         `json:"id,omitempty,omitzero"`
+	Records []*EventsRecord `json:"records,omitempty,omitzero"`
+	To      *string         `json:"to,omitempty,omitzero"`
+	Total   *int64          `json:"total,omitempty,omitzero"`
+	Totals  map[string]any  `json:"totals,omitempty,omitzero"`
 }
 
 type EventsDimension struct {
@@ -4673,15 +4674,15 @@ type EventsDimension struct {
 }
 
 type EventsFeedAccountRecords struct {
-	ErrorString *string        `json:"errorString,omitempty"`
-	ID          *string        `json:"id,omitempty"`
-	Records     []*EventRecord `json:"records,omitempty"`
+	ErrorString *string        `json:"errorString,omitempty,omitzero"`
+	ID          *string        `json:"id,omitempty,omitzero"`
+	Records     []*EventRecord `json:"records,omitempty,omitzero"`
 }
 
 type EventsFeedData struct {
-	Accounts     []*EventsFeedAccountRecords `json:"accounts,omitempty"`
+	Accounts     []*EventsFeedAccountRecords `json:"accounts,omitempty,omitzero"`
 	FetchedCount int64                       `json:"fetchedCount"`
-	Marker       *string                     `json:"marker,omitempty"`
+	Marker       *string                     `json:"marker,omitempty,omitzero"`
 }
 
 type EventsFilter struct {
@@ -4691,7 +4692,7 @@ type EventsFilter struct {
 }
 
 type EventsGraphQuery struct {
-	TimeSeriesEvents *TimeSeriesEvents `json:"timeSeriesEvents,omitempty"`
+	TimeSeriesEvents *TimeSeriesEvents `json:"timeSeriesEvents,omitempty,omitzero"`
 	Type             GraphType         `json:"type"`
 }
 
@@ -4702,12 +4703,12 @@ type EventsMeasure struct {
 }
 
 type EventsRecord struct {
-	Fields          []*EventField  `json:"fields,omitempty"`
-	FieldsMap       map[string]any `json:"fieldsMap,omitempty"`
-	FieldsUnitTypes []UnitType     `json:"fieldsUnitTypes,omitempty"`
-	FlatFields      [][]string     `json:"flatFields,omitempty"`
-	PrevTimeFrame   map[string]any `json:"prevTimeFrame,omitempty"`
-	Trends          map[string]any `json:"trends,omitempty"`
+	Fields          []*EventField  `json:"fields,omitempty,omitzero"`
+	FieldsMap       map[string]any `json:"fieldsMap,omitempty,omitzero"`
+	FieldsUnitTypes []UnitType     `json:"fieldsUnitTypes,omitempty,omitzero"`
+	FlatFields      [][]string     `json:"flatFields,omitempty,omitzero"`
+	PrevTimeFrame   map[string]any `json:"prevTimeFrame,omitempty,omitzero"`
+	Trends          map[string]any `json:"trends,omitempty,omitzero"`
 }
 
 type EventsSort struct {
@@ -4716,11 +4717,11 @@ type EventsSort struct {
 }
 
 type EventsTimeSeries struct {
-	From        *string       `json:"from,omitempty"`
-	Granularity *int64        `json:"granularity,omitempty"`
-	ID          *string       `json:"id,omitempty"`
-	Timeseries  []*Timeseries `json:"timeseries,omitempty"`
-	To          *string       `json:"to,omitempty"`
+	From        *string       `json:"from,omitempty,omitzero"`
+	Granularity *int64        `json:"granularity,omitempty,omitzero"`
+	ID          *string       `json:"id,omitempty,omitzero"`
+	Timeseries  []*Timeseries `json:"timeseries,omitempty,omitzero"`
+	To          *string       `json:"to,omitempty,omitzero"`
 }
 
 type ExchangeSocketPortsInput struct {
@@ -4742,16 +4743,16 @@ type ExchangedSocketInterface struct {
 // Response returned when initiating a CSV export job
 type ExportJobResponse struct {
 	JobID   string  `json:"jobId"`
-	Message *string `json:"message,omitempty"`
+	Message *string `json:"message,omitempty,omitzero"`
 }
 
 // Response containing the current status and details of an export job
 type ExportStatusResponse struct {
-	DownloadURL *string         `json:"downloadUrl,omitempty"`
-	ExpiresAt   *string         `json:"expiresAt,omitempty"`
+	DownloadURL *string         `json:"downloadUrl,omitempty,omitzero"`
+	ExpiresAt   *string         `json:"expiresAt,omitempty,omitzero"`
 	JobID       string          `json:"jobId"`
-	Message     *string         `json:"message,omitempty"`
-	Progress    *float64        `json:"progress,omitempty"`
+	Message     *string         `json:"message,omitempty,omitzero"`
+	Progress    *float64        `json:"progress,omitempty,omitzero"`
 	Status      ExportJobStatus `json:"status"`
 }
 
@@ -4768,15 +4769,15 @@ type FieldNameInput struct {
 }
 
 type FileDetails struct {
-	Issuer    *string `json:"issuer,omitempty"`
-	Md5       *string `json:"md5,omitempty"`
-	Name      *string `json:"name,omitempty"`
-	Path      *string `json:"path,omitempty"`
-	Publisher *string `json:"publisher,omitempty"`
-	Sha1      *string `json:"sha1,omitempty"`
-	Sha256    *string `json:"sha256,omitempty"`
-	Signer    *string `json:"signer,omitempty"`
-	Size      *int64  `json:"size,omitempty"`
+	Issuer    *string `json:"issuer,omitempty,omitzero"`
+	Md5       *string `json:"md5,omitempty,omitzero"`
+	Name      *string `json:"name,omitempty,omitzero"`
+	Path      *string `json:"path,omitempty,omitzero"`
+	Publisher *string `json:"publisher,omitempty,omitzero"`
+	Sha1      *string `json:"sha1,omitempty,omitzero"`
+	Sha256    *string `json:"sha256,omitempty,omitzero"`
+	Signer    *string `json:"signer,omitempty,omitzero"`
+	Size      *int64  `json:"size,omitempty,omitzero"`
 }
 
 // Returns data for the Floating Subnet object. Floating Subnets (ie. Floating Ranges) are used to identify traffic exactly matched
@@ -4804,7 +4805,7 @@ type FloatingSubnetRefInput struct {
 // A group with members of FQDN type
 type FqdnContainer struct {
 	Audit       *ContainerAudit `json:"audit"`
-	Description *string         `json:"description,omitempty"`
+	Description *string         `json:"description,omitempty,omitzero"`
 	ID          string          `json:"id"`
 	Name        string          `json:"name"`
 	Size        int64           `json:"size"`
@@ -4894,11 +4895,11 @@ type FreeTextFilterInput struct {
 }
 
 type Gaussian struct {
-	Avg    *float64 `json:"avg,omitempty"`
-	N      *float64 `json:"n,omitempty"`
-	Ss     *float64 `json:"ss,omitempty"`
-	Std    *float64 `json:"std,omitempty"`
-	ZScore *float64 `json:"z_score,omitempty"`
+	Avg    *float64 `json:"avg,omitempty,omitzero"`
+	N      *float64 `json:"n,omitempty,omitzero"`
+	Ss     *float64 `json:"ss,omitempty,omitzero"`
+	Std    *float64 `json:"std,omitempty,omitzero"`
+	ZScore *float64 `json:"z_score,omitempty,omitzero"`
 }
 
 type GetAdminPayload struct {
@@ -4908,20 +4909,20 @@ type GetAdminPayload struct {
 	FirstName            string       `json:"firstName"`
 	ID                   string       `json:"id"`
 	LastName             string       `json:"lastName"`
-	ManagedRoles         []*AdminRole `json:"managedRoles,omitempty"`
+	ManagedRoles         []*AdminRole `json:"managedRoles,omitempty,omitzero"`
 	MfaEnabled           bool         `json:"mfaEnabled"`
 	PasswordNeverExpires bool         `json:"passwordNeverExpires"`
-	ResellerRoles        []*AdminRole `json:"resellerRoles,omitempty"`
+	ResellerRoles        []*AdminRole `json:"resellerRoles,omitempty,omitzero"`
 }
 
 type GetServicePrincipalAdminPayload struct {
 	AdminType     AdminType    `json:"adminType"`
 	CreationDate  string       `json:"creationDate"`
-	Email         *string      `json:"email,omitempty"`
+	Email         *string      `json:"email,omitempty,omitzero"`
 	ID            string       `json:"id"`
-	ManagedRoles  []*AdminRole `json:"managedRoles,omitempty"`
+	ManagedRoles  []*AdminRole `json:"managedRoles,omitempty,omitzero"`
 	Name          string       `json:"name"`
-	ResellerRoles []*AdminRole `json:"resellerRoles,omitempty"`
+	ResellerRoles []*AdminRole `json:"resellerRoles,omitempty,omitzero"`
 }
 
 // A reference identifying the GlobalIpRange object. ID: Unique GlobalIpRange Identifier, Name: The GlobalIpRange Name
@@ -4943,8 +4944,8 @@ type GlobalIPRangeRefInput struct {
 
 // License usage and allocation across all accounts
 type GlobalLicenseAllocations struct {
-	PublicIps *PublicIpsLicenseAllocations `json:"publicIps,omitempty"`
-	ZtnaUsers *ZtnaUsersLicenseAllocations `json:"ztnaUsers,omitempty"`
+	PublicIps *PublicIpsLicenseAllocations `json:"publicIps,omitempty,omitzero"`
+	ZtnaUsers *ZtnaUsersLicenseAllocations `json:"ztnaUsers,omitempty,omitzero"`
 }
 
 type GlobalRangeRef struct {
@@ -4971,7 +4972,7 @@ type GraphEventsFilter struct {
 type GraphEventsMeasure struct {
 	AggType   string `json:"aggType"`
 	FieldName string `json:"fieldName"`
-	Trend     *bool  `json:"trend,omitempty"`
+	Trend     *bool  `json:"trend,omitempty,omitzero"`
 }
 
 // A group is a collection of typed members (e.g., sites, hosts).
@@ -4983,7 +4984,7 @@ type GraphEventsMeasure struct {
 // A member type is valid if it's supported in the group and allowed in the policy scope.
 type Group struct {
 	Audit               *AuditingMetadata        `json:"audit"`
-	Description         *string                  `json:"description,omitempty"`
+	Description         *string                  `json:"description,omitempty,omitzero"`
 	ID                  string                   `json:"id"`
 	Members             *GroupMembersListPayload `json:"members"`
 	MembersCount        int64                    `json:"membersCount"`
@@ -5117,43 +5118,43 @@ type GroupWhereUsedPayload struct {
 
 // Operations for managing groups
 type GroupsMutations struct {
-	CreateGroup *CreateGroupPayload `json:"createGroup,omitempty"`
-	DeleteGroup *DeleteGroupPayload `json:"deleteGroup,omitempty"`
-	UpdateGroup *UpdateGroupPayload `json:"updateGroup,omitempty"`
+	CreateGroup *CreateGroupPayload `json:"createGroup,omitempty,omitzero"`
+	DeleteGroup *DeleteGroupPayload `json:"deleteGroup,omitempty,omitzero"`
+	UpdateGroup *UpdateGroupPayload `json:"updateGroup,omitempty,omitzero"`
 }
 
 // Queries for reading groups-related information
 type GroupsQueries struct {
-	Group     *Group                 `json:"group,omitempty"`
-	GroupList *GroupListPayload      `json:"groupList,omitempty"`
-	WhereUsed *GroupWhereUsedPayload `json:"whereUsed,omitempty"`
+	Group     *Group                 `json:"group,omitempty,omitzero"`
+	GroupList *GroupListPayload      `json:"groupList,omitempty,omitzero"`
+	WhereUsed *GroupWhereUsedPayload `json:"whereUsed,omitempty,omitzero"`
 }
 
 // Basic Site Ha readiness information
 type HaStatus struct {
-	Keepalive       *HaSubStatus `json:"keepalive,omitempty"`
-	Readiness       *HaReadiness `json:"readiness,omitempty"`
-	SocketVersion   *HaSubStatus `json:"socketVersion,omitempty"`
-	WanConnectivity *HaSubStatus `json:"wanConnectivity,omitempty"`
+	Keepalive       *HaSubStatus `json:"keepalive,omitempty,omitzero"`
+	Readiness       *HaReadiness `json:"readiness,omitempty,omitzero"`
+	SocketVersion   *HaSubStatus `json:"socketVersion,omitempty,omitzero"`
+	WanConnectivity *HaSubStatus `json:"wanConnectivity,omitempty,omitzero"`
 }
 
 type Hardware struct {
-	Account          *AccountRef         `json:"account,omitempty"`
+	Account          *AccountRef         `json:"account,omitempty,omitzero"`
 	ID               string              `json:"id"`
-	LastModified     *string             `json:"lastModified,omitempty"`
-	LicenseID        *string             `json:"licenseId,omitempty"`
-	LicenseStartDate *time.Time          `json:"licenseStartDate,omitempty"`
-	LocationID       *string             `json:"locationId,omitempty"`
-	MacAddress       *string             `json:"macAddress,omitempty"`
-	Model            *string             `json:"model,omitempty"`
-	PoNumber         *string             `json:"poNumber,omitempty"`
-	ProductType      *string             `json:"productType,omitempty"`
-	QuoteID          *string             `json:"quoteId,omitempty"`
-	SerialNumber     *string             `json:"serialNumber,omitempty"`
-	ShippingDetail   *ShippingDetails    `json:"shippingDetail,omitempty"`
-	ShippingTracking *ShippingTracking   `json:"shippingTracking,omitempty"`
-	SiteCountryName  *string             `json:"siteCountryName,omitempty"`
-	Validation       *HardwareValidation `json:"validation,omitempty"`
+	LastModified     *string             `json:"lastModified,omitempty,omitzero"`
+	LicenseID        *string             `json:"licenseId,omitempty,omitzero"`
+	LicenseStartDate *time.Time          `json:"licenseStartDate,omitempty,omitzero"`
+	LocationID       *string             `json:"locationId,omitempty,omitzero"`
+	MacAddress       *string             `json:"macAddress,omitempty,omitzero"`
+	Model            *string             `json:"model,omitempty,omitzero"`
+	PoNumber         *string             `json:"poNumber,omitempty,omitzero"`
+	ProductType      *string             `json:"productType,omitempty,omitzero"`
+	QuoteID          *string             `json:"quoteId,omitempty,omitzero"`
+	SerialNumber     *string             `json:"serialNumber,omitempty,omitzero"`
+	ShippingDetail   *ShippingDetails    `json:"shippingDetail,omitempty,omitzero"`
+	ShippingTracking *ShippingTracking   `json:"shippingTracking,omitempty,omitzero"`
+	SiteCountryName  *string             `json:"siteCountryName,omitempty,omitzero"`
+	Validation       *HardwareValidation `json:"validation,omitempty,omitzero"`
 }
 
 type HardwareFilterInput struct {
@@ -5174,16 +5175,16 @@ type HardwareManagementQueries struct {
 }
 
 type HardwareMutations struct {
-	UpdateHardwareShipping *HardwarePayload `json:"updateHardwareShipping,omitempty"`
+	UpdateHardwareShipping *HardwarePayload `json:"updateHardwareShipping,omitempty,omitzero"`
 }
 
 type HardwarePayload struct {
 	Items    []*Hardware `json:"items"`
-	PageInfo *PageInfo   `json:"pageInfo,omitempty"`
+	PageInfo *PageInfo   `json:"pageInfo,omitempty,omitzero"`
 }
 
 type HardwareQueries struct {
-	Hardware *HardwarePayload `json:"hardware,omitempty"`
+	Hardware *HardwarePayload `json:"hardware,omitempty,omitzero"`
 }
 
 type HardwareSearchInput struct {
@@ -5212,9 +5213,9 @@ type HardwareSortInput struct {
 }
 
 type HardwareValidation struct {
-	AddressValidationStatus *AddressValidationStatus `json:"addressValidationStatus,omitempty"`
+	AddressValidationStatus *AddressValidationStatus `json:"addressValidationStatus,omitempty,omitzero"`
 	Completed               bool                     `json:"completed"`
-	IncompleteReason        *string                  `json:"incompleteReason,omitempty"`
+	IncompleteReason        *string                  `json:"incompleteReason,omitempty,omitzero"`
 }
 
 // A reference identifying the Host object. ID: Unique Host Identifier, Name: The Host Name
@@ -5244,22 +5245,22 @@ type IPAddressFilterInput struct {
 
 // A general structure to contain IP detailed information
 type IPInfo struct {
-	City        *string  `json:"city,omitempty"`
-	CountryCode *string  `json:"countryCode,omitempty"`
-	CountryName *string  `json:"countryName,omitempty"`
-	IP          *string  `json:"ip,omitempty"`
-	Latitude    *float64 `json:"latitude,omitempty"`
-	Longitude   *float64 `json:"longitude,omitempty"`
-	Provider    *string  `json:"provider,omitempty"`
-	State       *string  `json:"state,omitempty"`
+	City        *string  `json:"city,omitempty,omitzero"`
+	CountryCode *string  `json:"countryCode,omitempty,omitzero"`
+	CountryName *string  `json:"countryName,omitempty,omitzero"`
+	IP          *string  `json:"ip,omitempty,omitzero"`
+	Latitude    *float64 `json:"latitude,omitempty,omitzero"`
+	Longitude   *float64 `json:"longitude,omitempty,omitzero"`
+	Provider    *string  `json:"provider,omitempty,omitzero"`
+	State       *string  `json:"state,omitempty,omitzero"`
 }
 
 // Basic IPSec configuration information
 type IPSecInfo struct {
-	CatoIP       *string         `json:"catoIP,omitempty"`
-	IkeVersion   *int64          `json:"ikeVersion,omitempty"`
-	IsPrimary    *bool           `json:"isPrimary,omitempty"`
-	RemoteIP     *string         `json:"remoteIP,omitempty"`
+	CatoIP       *string         `json:"catoIP,omitempty,omitzero"`
+	IkeVersion   *int64          `json:"ikeVersion,omitempty,omitzero"`
+	IsPrimary    *bool           `json:"isPrimary,omitempty,omitzero"`
+	RemoteIP     *string         `json:"remoteIP,omitempty,omitzero"`
 	TunnelConfig []*TunnelConfig `json:"tunnelConfig"`
 }
 
@@ -5271,36 +5272,36 @@ type IDFilterInput struct {
 }
 
 type IlmmContact struct {
-	Email *string `json:"email,omitempty"`
-	Name  *string `json:"name,omitempty"`
-	Phone *string `json:"phone,omitempty"`
+	Email *string `json:"email,omitempty,omitzero"`
+	Name  *string `json:"name,omitempty,omitzero"`
+	Phone *string `json:"phone,omitempty,omitzero"`
 }
 
 type IlmmDetails struct {
-	Contacts    []*IlmmContact   `json:"contacts,omitempty"`
-	IspDetails  *IlmmIspDetails  `json:"ispDetails,omitempty"`
-	LinkDetails *IlmmLinkDetails `json:"linkDetails,omitempty"`
+	Contacts    []*IlmmContact   `json:"contacts,omitempty,omitzero"`
+	IspDetails  *IlmmIspDetails  `json:"ispDetails,omitempty,omitzero"`
+	LinkDetails *IlmmLinkDetails `json:"linkDetails,omitempty,omitzero"`
 }
 
 type IlmmIspDetails struct {
-	CountryCode  *string     `json:"countryCode,omitempty"`
-	Description  *string     `json:"description,omitempty"`
-	IspAccountID *string     `json:"ispAccountId,omitempty"`
-	LoaFile      *IspLoaFile `json:"loaFile,omitempty"`
-	Name         *string     `json:"name,omitempty"`
-	SupportEmail *string     `json:"supportEmail,omitempty"`
-	SupportPhone *string     `json:"supportPhone,omitempty"`
+	CountryCode  *string     `json:"countryCode,omitempty,omitzero"`
+	Description  *string     `json:"description,omitempty,omitzero"`
+	IspAccountID *string     `json:"ispAccountId,omitempty,omitzero"`
+	LoaFile      *IspLoaFile `json:"loaFile,omitempty,omitzero"`
+	Name         *string     `json:"name,omitempty,omitzero"`
+	SupportEmail *string     `json:"supportEmail,omitempty,omitzero"`
+	SupportPhone *string     `json:"supportPhone,omitempty,omitzero"`
 }
 
 // Intelligent Last Mile Monitoring (ILMM) License details
 type IlmmLicense struct {
-	Description    *string       `json:"description,omitempty"`
+	Description    *string       `json:"description,omitempty,omitzero"`
 	ExpirationDate string        `json:"expirationDate"`
-	ID             *string       `json:"id,omitempty"`
-	LastUpdated    *string       `json:"lastUpdated,omitempty"`
+	ID             *string       `json:"id,omitempty,omitzero"`
+	LastUpdated    *string       `json:"lastUpdated,omitempty,omitzero"`
 	Plan           LicensePlan   `json:"plan"`
 	Sku            LicenseSku    `json:"sku"`
-	StartDate      *string       `json:"startDate,omitempty"`
+	StartDate      *string       `json:"startDate,omitempty,omitzero"`
 	Status         LicenseStatus `json:"status"`
 	Total          int64         `json:"total"`
 }
@@ -5320,65 +5321,65 @@ func (IlmmLicense) IsQuantifiableLicense() {}
 func (this IlmmLicense) GetTotal() int64 { return this.Total }
 
 type IlmmLinkDetails struct {
-	ActiveLicense    *bool                 `json:"activeLicense,omitempty"`
-	Comments         *string               `json:"comments,omitempty"`
-	Description      *string               `json:"description,omitempty"`
-	IspLinkID        *string               `json:"ispLinkId,omitempty"`
-	LinkID           *string               `json:"linkId,omitempty"`
-	OnboardingStatus *IlmmOnboardingStatus `json:"onboardingStatus,omitempty"`
+	ActiveLicense    *bool                 `json:"activeLicense,omitempty,omitzero"`
+	Comments         *string               `json:"comments,omitempty,omitzero"`
+	Description      *string               `json:"description,omitempty,omitzero"`
+	IspLinkID        *string               `json:"ispLinkId,omitempty,omitzero"`
+	LinkID           *string               `json:"linkId,omitempty,omitzero"`
+	OnboardingStatus *IlmmOnboardingStatus `json:"onboardingStatus,omitempty,omitzero"`
 }
 
 type IncidentFlow struct {
-	AppName                *string `json:"appName,omitempty"`
-	ClientClass            *string `json:"clientClass,omitempty"`
-	CreatedAt              *string `json:"createdAt,omitempty"`
-	DestinationCountry     *string `json:"destinationCountry,omitempty"`
-	DestinationGeolocation *string `json:"destinationGeolocation,omitempty"`
-	DestinationIP          *string `json:"destinationIp,omitempty"`
-	DestinationPort        *int64  `json:"destinationPort,omitempty"`
-	Direction              *string `json:"direction,omitempty"`
-	DNSResponseIP          *string `json:"dnsResponseIP,omitempty"`
-	Domain                 *string `json:"domain,omitempty"`
-	FileHash               *string `json:"fileHash,omitempty"`
-	HTTPResponseCode       *int64  `json:"httpResponseCode,omitempty"`
-	Ja3                    *string `json:"ja3,omitempty"`
-	Method                 *string `json:"method,omitempty"`
-	Referer                *string `json:"referer,omitempty"`
-	SmbFileName            *string `json:"smbFileName,omitempty"`
-	SourceGeolocation      *string `json:"sourceGeolocation,omitempty"`
-	SourceIP               *string `json:"sourceIp,omitempty"`
-	SourcePort             *int64  `json:"sourcePort,omitempty"`
-	Target                 *string `json:"target,omitempty"`
-	TunnelGeolocation      *string `json:"tunnelGeolocation,omitempty"`
-	URL                    *string `json:"url,omitempty"`
-	User                   *string `json:"user,omitempty"`
-	UserAgent              *string `json:"userAgent,omitempty"`
+	AppName                *string `json:"appName,omitempty,omitzero"`
+	ClientClass            *string `json:"clientClass,omitempty,omitzero"`
+	CreatedAt              *string `json:"createdAt,omitempty,omitzero"`
+	DestinationCountry     *string `json:"destinationCountry,omitempty,omitzero"`
+	DestinationGeolocation *string `json:"destinationGeolocation,omitempty,omitzero"`
+	DestinationIP          *string `json:"destinationIp,omitempty,omitzero"`
+	DestinationPort        *int64  `json:"destinationPort,omitempty,omitzero"`
+	Direction              *string `json:"direction,omitempty,omitzero"`
+	DNSResponseIP          *string `json:"dnsResponseIP,omitempty,omitzero"`
+	Domain                 *string `json:"domain,omitempty,omitzero"`
+	FileHash               *string `json:"fileHash,omitempty,omitzero"`
+	HTTPResponseCode       *int64  `json:"httpResponseCode,omitempty,omitzero"`
+	Ja3                    *string `json:"ja3,omitempty,omitzero"`
+	Method                 *string `json:"method,omitempty,omitzero"`
+	Referer                *string `json:"referer,omitempty,omitzero"`
+	SmbFileName            *string `json:"smbFileName,omitempty,omitzero"`
+	SourceGeolocation      *string `json:"sourceGeolocation,omitempty,omitzero"`
+	SourceIP               *string `json:"sourceIp,omitempty,omitzero"`
+	SourcePort             *int64  `json:"sourcePort,omitempty,omitzero"`
+	Target                 *string `json:"target,omitempty,omitzero"`
+	TunnelGeolocation      *string `json:"tunnelGeolocation,omitempty,omitzero"`
+	URL                    *string `json:"url,omitempty,omitzero"`
+	User                   *string `json:"user,omitempty,omitzero"`
+	UserAgent              *string `json:"userAgent,omitempty,omitzero"`
 }
 
 type IncidentTargetRep struct {
-	AnalysisScore         *float64    `json:"analysisScore,omitempty"`
-	Categories            *string     `json:"categories,omitempty"`
-	CatoPopularity        *int64      `json:"catoPopularity,omitempty"`
-	CountryOfRegistration *string     `json:"countryOfRegistration,omitempty"`
-	CreationTime          *string     `json:"creationTime,omitempty"`
-	Engines               *int64      `json:"engines,omitempty"`
+	AnalysisScore         *float64    `json:"analysisScore,omitempty,omitzero"`
+	Categories            *string     `json:"categories,omitempty,omitzero"`
+	CatoPopularity        *int64      `json:"catoPopularity,omitempty,omitzero"`
+	CountryOfRegistration *string     `json:"countryOfRegistration,omitempty,omitzero"`
+	CreationTime          *string     `json:"creationTime,omitempty,omitzero"`
+	Engines               *int64      `json:"engines,omitempty,omitzero"`
 	EventData             []*Event    `json:"eventData"`
-	InfectionSource       *bool       `json:"infectionSource,omitempty"`
-	Name                  *string     `json:"name,omitempty"`
-	SearchHits            *string     `json:"searchHits,omitempty"`
-	ThreatFeeds           *int64      `json:"threatFeeds,omitempty"`
-	ThreatReference       *string     `json:"threatReference,omitempty"`
-	Type                  *TargetType `json:"type,omitempty"`
+	InfectionSource       *bool       `json:"infectionSource,omitempty,omitzero"`
+	Name                  *string     `json:"name,omitempty,omitzero"`
+	SearchHits            *string     `json:"searchHits,omitempty,omitzero"`
+	ThreatFeeds           *int64      `json:"threatFeeds,omitempty,omitzero"`
+	ThreatReference       *string     `json:"threatReference,omitempty,omitzero"`
+	Type                  *TargetType `json:"type,omitempty,omitzero"`
 }
 
 type IncidentTimeseries struct {
-	Data    [][]float64    `json:"data,omitempty"`
-	GroupBy *string        `json:"groupBy,omitempty"`
-	Info    []string       `json:"info,omitempty"`
-	Key     *TimeseriesKey `json:"key,omitempty"`
+	Data    [][]float64    `json:"data,omitempty,omitzero"`
+	GroupBy *string        `json:"groupBy,omitempty,omitzero"`
+	Info    []string       `json:"info,omitempty,omitzero"`
+	Key     *TimeseriesKey `json:"key,omitempty,omitzero"`
 	Label   string         `json:"label"`
-	Sum     *float64       `json:"sum,omitempty"`
-	Units   *UnitType      `json:"units,omitempty"`
+	Sum     *float64       `json:"sum,omitempty,omitzero"`
+	Units   *UnitType      `json:"units,omitempty,omitzero"`
 }
 
 type IntFilterInput struct {
@@ -5405,57 +5406,57 @@ type IntPredicate struct {
 
 // Basic Socket Interface configuration information
 type InterfaceInfo struct {
-	DestType                         *string                 `json:"destType,omitempty"`
-	DownstreamBandwidth              *int64                  `json:"downstreamBandwidth,omitempty"`
-	DownstreamBandwidthMbpsPrecision *float64                `json:"downstreamBandwidthMbpsPrecision,omitempty"`
+	DestType                         *string                 `json:"destType,omitempty,omitzero"`
+	DownstreamBandwidth              *int64                  `json:"downstreamBandwidth,omitempty,omitzero"`
+	DownstreamBandwidthMbpsPrecision *float64                `json:"downstreamBandwidthMbpsPrecision,omitempty,omitzero"`
 	ID                               string                  `json:"id"`
-	Name                             *string                 `json:"name,omitempty"`
-	UpstreamBandwidth                *int64                  `json:"upstreamBandwidth,omitempty"`
-	UpstreamBandwidthMbpsPrecision   *float64                `json:"upstreamBandwidthMbpsPrecision,omitempty"`
-	WanRole                          *SocketInterfaceWanRole `json:"wanRole,omitempty"`
+	Name                             *string                 `json:"name,omitempty,omitzero"`
+	UpstreamBandwidth                *int64                  `json:"upstreamBandwidth,omitempty,omitzero"`
+	UpstreamBandwidthMbpsPrecision   *float64                `json:"upstreamBandwidthMbpsPrecision,omitempty,omitzero"`
+	WanRole                          *SocketInterfaceWanRole `json:"wanRole,omitempty,omitzero"`
 }
 
 type InterfaceLinkState struct {
-	Duplex      *string `json:"duplex,omitempty"`
-	HasAddress  *bool   `json:"hasAddress,omitempty"`
-	HasInternet *bool   `json:"hasInternet,omitempty"`
-	HasTunnel   *bool   `json:"hasTunnel,omitempty"`
-	ID          *string `json:"id,omitempty"`
-	LinkSpeed   *string `json:"linkSpeed,omitempty"`
-	MediaIn     *bool   `json:"mediaIn,omitempty"`
-	Up          *bool   `json:"up,omitempty"`
+	Duplex      *string `json:"duplex,omitempty,omitzero"`
+	HasAddress  *bool   `json:"hasAddress,omitempty,omitzero"`
+	HasInternet *bool   `json:"hasInternet,omitempty,omitzero"`
+	HasTunnel   *bool   `json:"hasTunnel,omitempty,omitzero"`
+	ID          *string `json:"id,omitempty,omitzero"`
+	LinkSpeed   *string `json:"linkSpeed,omitempty,omitzero"`
+	MediaIn     *bool   `json:"mediaIn,omitempty,omitzero"`
+	Up          *bool   `json:"up,omitempty,omitzero"`
 }
 
 type InterfaceMetrics struct {
-	Annotations   []*TimeAnnotation `json:"annotations,omitempty"`
-	InterfaceInfo *InterfaceInfo    `json:"interfaceInfo,omitempty"`
-	IpsecInfo     *IPSecInfo        `json:"ipsecInfo,omitempty"`
-	Metrics       *Metrics          `json:"metrics,omitempty"`
-	Name          *string           `json:"name,omitempty"`
-	Periods       []*TimePeriod     `json:"periods,omitempty"`
-	RemoteIP      *string           `json:"remoteIP,omitempty"`
-	RemoteIPInfo  *IPInfo           `json:"remoteIPInfo,omitempty"`
-	SocketInfo    *SocketInfo       `json:"socketInfo,omitempty"`
-	Timeseries    []*Timeseries     `json:"timeseries,omitempty"`
+	Annotations   []*TimeAnnotation `json:"annotations,omitempty,omitzero"`
+	InterfaceInfo *InterfaceInfo    `json:"interfaceInfo,omitempty,omitzero"`
+	IpsecInfo     *IPSecInfo        `json:"ipsecInfo,omitempty,omitzero"`
+	Metrics       *Metrics          `json:"metrics,omitempty,omitzero"`
+	Name          *string           `json:"name,omitempty,omitzero"`
+	Periods       []*TimePeriod     `json:"periods,omitempty,omitzero"`
+	RemoteIP      *string           `json:"remoteIP,omitempty,omitzero"`
+	RemoteIPInfo  *IPInfo           `json:"remoteIPInfo,omitempty,omitzero"`
+	SocketInfo    *SocketInfo       `json:"socketInfo,omitempty,omitzero"`
+	Timeseries    []*Timeseries     `json:"timeseries,omitempty,omitzero"`
 }
 
 type InterfaceSnapshot struct {
-	BgpState               *BgpState          `json:"bgpState,omitempty"`
-	CellularInterfaceInfo  *CellularInterface `json:"cellularInterfaceInfo,omitempty"`
-	Connected              *bool              `json:"connected,omitempty"`
-	ID                     *string            `json:"id,omitempty"`
-	Info                   *InterfaceInfo     `json:"info,omitempty"`
-	Name                   *string            `json:"name,omitempty"`
-	NaturalOrder           *int64             `json:"naturalOrder,omitempty"`
-	PhysicalPort           *int64             `json:"physicalPort,omitempty"`
-	PopName                *string            `json:"popName,omitempty"`
-	PreviousPopID          *int64             `json:"previousPopID,omitempty"`
-	PreviousPopName        *string            `json:"previousPopName,omitempty"`
-	TunnelConnectionReason *string            `json:"tunnelConnectionReason,omitempty"`
-	TunnelRemoteIP         *string            `json:"tunnelRemoteIP,omitempty"`
-	TunnelRemoteIPInfo     *IPInfo            `json:"tunnelRemoteIPInfo,omitempty"`
-	TunnelUptime           *int64             `json:"tunnelUptime,omitempty"`
-	Type                   *string            `json:"type,omitempty"`
+	BgpState               *BgpState          `json:"bgpState,omitempty,omitzero"`
+	CellularInterfaceInfo  *CellularInterface `json:"cellularInterfaceInfo,omitempty,omitzero"`
+	Connected              *bool              `json:"connected,omitempty,omitzero"`
+	ID                     *string            `json:"id,omitempty,omitzero"`
+	Info                   *InterfaceInfo     `json:"info,omitempty,omitzero"`
+	Name                   *string            `json:"name,omitempty,omitzero"`
+	NaturalOrder           *int64             `json:"naturalOrder,omitempty,omitzero"`
+	PhysicalPort           *int64             `json:"physicalPort,omitempty,omitzero"`
+	PopName                *string            `json:"popName,omitempty,omitzero"`
+	PreviousPopID          *int64             `json:"previousPopID,omitempty,omitzero"`
+	PreviousPopName        *string            `json:"previousPopName,omitempty,omitzero"`
+	TunnelConnectionReason *string            `json:"tunnelConnectionReason,omitempty,omitzero"`
+	TunnelRemoteIP         *string            `json:"tunnelRemoteIP,omitempty,omitzero"`
+	TunnelRemoteIPInfo     *IPInfo            `json:"tunnelRemoteIPInfo,omitempty,omitzero"`
+	TunnelUptime           *int64             `json:"tunnelUptime,omitempty,omitzero"`
+	Type                   *string            `json:"type,omitempty,omitzero"`
 }
 
 type InternetFirewallActionConfig struct {
@@ -5516,7 +5517,7 @@ type InternetFirewallAddSubPolicyInput struct {
 
 type InternetFirewallAddSubPolicyMutationPayload struct {
 	Errors []*PolicyMutationError  `json:"errors"`
-	Policy *InternetFirewallPolicy `json:"policy,omitempty"`
+	Policy *InternetFirewallPolicy `json:"policy,omitempty,omitzero"`
 	Status PolicyMutationStatus    `json:"status"`
 }
 
@@ -5610,13 +5611,13 @@ type InternetFirewallDestinationUpdateInput struct {
 
 type InternetFirewallPolicy struct {
 	Access        *EntityAccess                       `json:"access"`
-	Audit         *PolicyAudit                        `json:"audit,omitempty"`
+	Audit         *PolicyAudit                        `json:"audit,omitempty,omitzero"`
 	Description   string                              `json:"description"`
 	Enabled       bool                                `json:"enabled"`
-	HitCountAudit *PolicyHitCount                     `json:"hitCountAudit,omitempty"`
+	HitCountAudit *PolicyHitCount                     `json:"hitCountAudit,omitempty,omitzero"`
 	ID            string                              `json:"id"`
 	Name          string                              `json:"name"`
-	Revision      *PolicyRevision                     `json:"revision,omitempty"`
+	Revision      *PolicyRevision                     `json:"revision,omitempty,omitzero"`
 	Rules         []*InternetFirewallRulePayload      `json:"rules"`
 	Sections      []*PolicySectionPayload             `json:"sections"`
 	SubPolicies   []*InternetFirewallSubPolicyPayload `json:"subPolicies"`
@@ -5710,7 +5711,7 @@ type InternetFirewallPolicyMutationInput struct {
 // Internet Firewall policy information provided in the API response
 type InternetFirewallPolicyMutationPayload struct {
 	Errors []*PolicyMutationError  `json:"errors"`
-	Policy *InternetFirewallPolicy `json:"policy,omitempty"`
+	Policy *InternetFirewallPolicy `json:"policy,omitempty,omitzero"`
 	Status PolicyMutationStatus    `json:"status"`
 }
 
@@ -5754,7 +5755,7 @@ type InternetFirewallPolicyMutations struct {
 type InternetFirewallPolicyQueries struct {
 	Policy     *InternetFirewallPolicy            `json:"policy"`
 	PolicyList *InternetFirewallPolicyListPayload `json:"policyList"`
-	Revisions  *PolicyRevisionsPayload            `json:"revisions,omitempty"`
+	Revisions  *PolicyRevisionsPayload            `json:"revisions,omitempty,omitzero"`
 }
 
 type InternetFirewallPolicyRef struct {
@@ -5787,7 +5788,7 @@ type InternetFirewallRemoveSubPolicyInput struct {
 
 type InternetFirewallRemoveSubPolicyMutationPayload struct {
 	Errors []*PolicyMutationError  `json:"errors"`
-	Policy *InternetFirewallPolicy `json:"policy,omitempty"`
+	Policy *InternetFirewallPolicy `json:"policy,omitempty,omitzero"`
 	Status PolicyMutationStatus    `json:"status"`
 }
 
@@ -5825,7 +5826,7 @@ type InternetFirewallRule struct {
 	ID                     string                           `json:"id"`
 	Index                  int64                            `json:"index"`
 	Name                   string                           `json:"name"`
-	PostureAttributes      *PostureAttributes               `json:"postureAttributes,omitempty"`
+	PostureAttributes      *PostureAttributes               `json:"postureAttributes,omitempty,omitzero"`
 	Schedule               *PolicySchedule                  `json:"schedule"`
 	Section                *PolicySectionInfo               `json:"section"`
 	Service                *InternetFirewallServiceType     `json:"service"`
@@ -5853,7 +5854,7 @@ type InternetFirewallRuleException struct {
 	DeviceAttributes       *DeviceAttributes               `json:"deviceAttributes"`
 	DeviceOs               []OperatingSystem               `json:"deviceOS"`
 	Name                   string                          `json:"name"`
-	PostureAttributes      *PostureAttributes              `json:"postureAttributes,omitempty"`
+	PostureAttributes      *PostureAttributes              `json:"postureAttributes,omitempty,omitzero"`
 	Service                *InternetFirewallServiceType    `json:"service"`
 	Source                 *InternetFirewallSource         `json:"source"`
 	UserAttributes         *InternetFirewallUserAttributes `json:"userAttributes"`
@@ -5878,7 +5879,7 @@ type InternetFirewallRuleExceptionInput struct {
 
 type InternetFirewallRuleMutationPayload struct {
 	Errors []*PolicyMutationError       `json:"errors"`
-	Rule   *InternetFirewallRulePayload `json:"rule,omitempty"`
+	Rule   *InternetFirewallRulePayload `json:"rule,omitempty,omitzero"`
 	Status PolicyMutationStatus         `json:"status"`
 }
 
@@ -5900,11 +5901,11 @@ func (this InternetFirewallRuleMutationPayload) GetStatus() PolicyMutationStatus
 type InternetFirewallRulePayload struct {
 	Access     *EntityAccess                 `json:"access"`
 	Audit      *PolicyElementAudit           `json:"audit"`
-	HitCount   *RuleHitCount                 `json:"hitCount,omitempty"`
+	HitCount   *RuleHitCount                 `json:"hitCount,omitempty,omitzero"`
 	Properties []PolicyElementPropertiesEnum `json:"properties"`
 	Rule       *InternetFirewallRule         `json:"rule"`
 	RuleType   PolicyRuleTypeEnum            `json:"ruleType"`
-	SubPolicy  *InternetFirewallPolicyRef    `json:"subPolicy,omitempty"`
+	SubPolicy  *InternetFirewallPolicyRef    `json:"subPolicy,omitempty,omitzero"`
 }
 
 func (InternetFirewallRulePayload) IsIPolicyRulePayload()              {}
@@ -6040,7 +6041,7 @@ type InternetFirewallUpdateRuleInput struct {
 
 type InternetFirewallUserAttributes struct {
 	RiskScore           *RiskScoreCondition  `json:"riskScore"`
-	UserConfidenceLevel *UserConfidenceLevel `json:"userConfidenceLevel,omitempty"`
+	UserConfidenceLevel *UserConfidenceLevel `json:"userConfidenceLevel,omitempty,omitzero"`
 }
 
 func (InternetFirewallUserAttributes) IsUserAttributes()                      {}
@@ -6075,13 +6076,13 @@ func (this InvoiceRef) GetName() string { return this.Name }
 
 // IoT/OT Security service license details
 type IotOtLicense struct {
-	Description    *string       `json:"description,omitempty"`
+	Description    *string       `json:"description,omitempty,omitzero"`
 	ExpirationDate string        `json:"expirationDate"`
-	ID             *string       `json:"id,omitempty"`
-	LastUpdated    *string       `json:"lastUpdated,omitempty"`
+	ID             *string       `json:"id,omitempty,omitzero"`
+	LastUpdated    *string       `json:"lastUpdated,omitempty,omitzero"`
 	Plan           LicensePlan   `json:"plan"`
 	Sku            LicenseSku    `json:"sku"`
-	StartDate      *string       `json:"startDate,omitempty"`
+	StartDate      *string       `json:"startDate,omitempty,omitzero"`
 	Status         LicenseStatus `json:"status"`
 }
 
@@ -6104,7 +6105,7 @@ type IPAddressRange struct {
 // A group with members of IPAddressRange type
 type IPAddressRangeContainer struct {
 	Audit       *ContainerAudit `json:"audit"`
-	Description *string         `json:"description,omitempty"`
+	Description *string         `json:"description,omitempty,omitzero"`
 	ID          string          `json:"id"`
 	Name        string          `json:"name"`
 	Size        int64           `json:"size"`
@@ -6197,13 +6198,13 @@ type IPAddressRangeInput struct {
 
 // Intrusion Prevention System (IPS) service license (Legacy license, replaced by TP)
 type IpsLicense struct {
-	Description    *string       `json:"description,omitempty"`
+	Description    *string       `json:"description,omitempty,omitzero"`
 	ExpirationDate string        `json:"expirationDate"`
-	ID             *string       `json:"id,omitempty"`
-	LastUpdated    *string       `json:"lastUpdated,omitempty"`
+	ID             *string       `json:"id,omitempty,omitzero"`
+	LastUpdated    *string       `json:"lastUpdated,omitempty,omitzero"`
 	Plan           LicensePlan   `json:"plan"`
 	Sku            LicenseSku    `json:"sku"`
-	StartDate      *string       `json:"startDate,omitempty"`
+	StartDate      *string       `json:"startDate,omitempty,omitzero"`
 	Status         LicenseStatus `json:"status"`
 }
 
@@ -6225,9 +6226,9 @@ type IpsecIkeV2MessageInput struct {
 }
 
 type IspLoaFile struct {
-	FileHash   *string       `json:"fileHash,omitempty"`
-	FileName   *string       `json:"fileName,omitempty"`
-	UploadedAt *scalars.Time `json:"uploadedAt,omitempty"`
+	FileHash   *string       `json:"fileHash,omitempty,omitzero"`
+	FileName   *string       `json:"fileName,omitempty,omitzero"`
+	UploadedAt *scalars.Time `json:"uploadedAt,omitempty,omitzero"`
 }
 
 type LastMileBwInput struct {
@@ -6267,26 +6268,26 @@ type LicensingInfo struct {
 }
 
 type LicensingMutations struct {
-	UpdateCommercialLicense *UpdateCommercialLicensePayload `json:"updateCommercialLicense,omitempty"`
+	UpdateCommercialLicense *UpdateCommercialLicensePayload `json:"updateCommercialLicense,omitempty,omitzero"`
 }
 
 type LicensingQueries struct {
-	LicensingInfo *LicensingInfo `json:"licensingInfo,omitempty"`
+	LicensingInfo *LicensingInfo `json:"licensingInfo,omitempty,omitzero"`
 }
 
 type LinkQualityIssue struct {
-	Current   *int64                    `json:"current,omitempty"`
-	Direction *TrafficDirectionEnum     `json:"direction,omitempty"`
-	IssueType *LinkQualityIssueTypeEnum `json:"issueType,omitempty"`
-	Threshold *int64                    `json:"threshold,omitempty"`
+	Current   *int64                    `json:"current,omitempty,omitzero"`
+	Direction *TrafficDirectionEnum     `json:"direction,omitempty,omitzero"`
+	IssueType *LinkQualityIssueTypeEnum `json:"issueType,omitempty,omitzero"`
+	Threshold *int64                    `json:"threshold,omitempty,omitzero"`
 }
 
 type Location struct {
 	Account      *AccountRef       `json:"account"`
 	Archived     bool              `json:"archived"`
 	Audit        *AuditingMetadata `json:"audit"`
-	BusinessUnit *string           `json:"businessUnit,omitempty"`
-	Description  *string           `json:"description,omitempty"`
+	BusinessUnit *string           `json:"businessUnit,omitempty,omitzero"`
+	Description  *string           `json:"description,omitempty,omitzero"`
 	Details      *LocationDetails  `json:"details"`
 	ID           string            `json:"id"`
 	Name         string            `json:"name"`
@@ -6294,11 +6295,11 @@ type Location struct {
 }
 
 type LocationDetails struct {
-	CompanyName      *string         `json:"companyName,omitempty"`
-	Contact          *ContactDetails `json:"contact,omitempty"`
+	CompanyName      *string         `json:"companyName,omitempty,omitzero"`
+	Contact          *ContactDetails `json:"contact,omitempty,omitzero"`
 	PostalAddress    *PostalAddress  `json:"postalAddress"`
 	ShippingLocation bool            `json:"shippingLocation"`
-	VatID            *string         `json:"vatId,omitempty"`
+	VatID            *string         `json:"vatId,omitempty,omitzero"`
 }
 
 type LocationFilterInput struct {
@@ -6349,13 +6350,13 @@ type MacAddressFilterInput struct {
 
 // Anti-Malware service license details (Legacy license, replaced by TP)
 type MalwareProtectionLicense struct {
-	Description    *string       `json:"description,omitempty"`
+	Description    *string       `json:"description,omitempty,omitzero"`
 	ExpirationDate string        `json:"expirationDate"`
-	ID             *string       `json:"id,omitempty"`
-	LastUpdated    *string       `json:"lastUpdated,omitempty"`
+	ID             *string       `json:"id,omitempty,omitzero"`
+	LastUpdated    *string       `json:"lastUpdated,omitempty,omitzero"`
 	Plan           LicensePlan   `json:"plan"`
 	Sku            LicenseSku    `json:"sku"`
-	StartDate      *string       `json:"startDate,omitempty"`
+	StartDate      *string       `json:"startDate,omitempty,omitzero"`
 	Status         LicenseStatus `json:"status"`
 }
 
@@ -6371,13 +6372,13 @@ func (this MalwareProtectionLicense) GetStatus() LicenseStatus  { return this.St
 
 // Managed XDR service license details
 type ManagedXdrLicense struct {
-	Description    *string       `json:"description,omitempty"`
+	Description    *string       `json:"description,omitempty,omitzero"`
 	ExpirationDate string        `json:"expirationDate"`
-	ID             *string       `json:"id,omitempty"`
-	LastUpdated    *string       `json:"lastUpdated,omitempty"`
+	ID             *string       `json:"id,omitempty,omitzero"`
+	LastUpdated    *string       `json:"lastUpdated,omitempty,omitzero"`
 	Plan           LicensePlan   `json:"plan"`
 	Sku            LicenseSku    `json:"sku"`
-	StartDate      *string       `json:"startDate,omitempty"`
+	StartDate      *string       `json:"startDate,omitempty,omitzero"`
 	Status         LicenseStatus `json:"status"`
 }
 
@@ -6393,13 +6394,13 @@ func (this ManagedXdrLicense) GetStatus() LicenseStatus  { return this.Status }
 
 // MDR service license details
 type MdrLicense struct {
-	Description    *string       `json:"description,omitempty"`
+	Description    *string       `json:"description,omitempty,omitzero"`
 	ExpirationDate string        `json:"expirationDate"`
-	ID             *string       `json:"id,omitempty"`
-	LastUpdated    *string       `json:"lastUpdated,omitempty"`
+	ID             *string       `json:"id,omitempty,omitzero"`
+	LastUpdated    *string       `json:"lastUpdated,omitempty,omitzero"`
 	Plan           LicensePlan   `json:"plan"`
 	Sku            LicenseSku    `json:"sku"`
-	StartDate      *string       `json:"startDate,omitempty"`
+	StartDate      *string       `json:"startDate,omitempty,omitzero"`
 	Status         LicenseStatus `json:"status"`
 }
 
@@ -6430,33 +6431,33 @@ type MetricDetails struct {
 }
 
 type Metrics struct {
-	BytesDownstream            *float64 `json:"bytesDownstream,omitempty"`
-	BytesTotal                 *float64 `json:"bytesTotal,omitempty"`
-	BytesUpstream              *float64 `json:"bytesUpstream,omitempty"`
-	Duration                   *int64   `json:"duration,omitempty"`
-	FlowCount                  *float64 `json:"flowCount,omitempty"`
-	Granularity                *int64   `json:"granularity,omitempty"`
-	HostCount                  *float64 `json:"hostCount,omitempty"`
-	HostLimit                  *float64 `json:"hostLimit,omitempty"`
-	JitterDownstream           *float64 `json:"jitterDownstream,omitempty"`
-	JitterUpstream             *float64 `json:"jitterUpstream,omitempty"`
-	LostDownstream             *float64 `json:"lostDownstream,omitempty"`
-	LostDownstreamPcnt         *float64 `json:"lostDownstreamPcnt,omitempty"`
-	LostUpstream               *float64 `json:"lostUpstream,omitempty"`
-	LostUpstreamPcnt           *float64 `json:"lostUpstreamPcnt,omitempty"`
-	PacketsDiscardedDownstream *float64 `json:"packetsDiscardedDownstream,omitempty"`
-	PacketsDiscardedUpstream   *float64 `json:"packetsDiscardedUpstream,omitempty"`
-	PacketsDownstream          *float64 `json:"packetsDownstream,omitempty"`
-	PacketsUpstream            *float64 `json:"packetsUpstream,omitempty"`
-	Rtt                        *int64   `json:"rtt,omitempty"`
+	BytesDownstream            *float64 `json:"bytesDownstream,omitempty,omitzero"`
+	BytesTotal                 *float64 `json:"bytesTotal,omitempty,omitzero"`
+	BytesUpstream              *float64 `json:"bytesUpstream,omitempty,omitzero"`
+	Duration                   *int64   `json:"duration,omitempty,omitzero"`
+	FlowCount                  *float64 `json:"flowCount,omitempty,omitzero"`
+	Granularity                *int64   `json:"granularity,omitempty,omitzero"`
+	HostCount                  *float64 `json:"hostCount,omitempty,omitzero"`
+	HostLimit                  *float64 `json:"hostLimit,omitempty,omitzero"`
+	JitterDownstream           *float64 `json:"jitterDownstream,omitempty,omitzero"`
+	JitterUpstream             *float64 `json:"jitterUpstream,omitempty,omitzero"`
+	LostDownstream             *float64 `json:"lostDownstream,omitempty,omitzero"`
+	LostDownstreamPcnt         *float64 `json:"lostDownstreamPcnt,omitempty,omitzero"`
+	LostUpstream               *float64 `json:"lostUpstream,omitempty,omitzero"`
+	LostUpstreamPcnt           *float64 `json:"lostUpstreamPcnt,omitempty,omitzero"`
+	PacketsDiscardedDownstream *float64 `json:"packetsDiscardedDownstream,omitempty,omitzero"`
+	PacketsDiscardedUpstream   *float64 `json:"packetsDiscardedUpstream,omitempty,omitzero"`
+	PacketsDownstream          *float64 `json:"packetsDownstream,omitempty,omitzero"`
+	PacketsUpstream            *float64 `json:"packetsUpstream,omitempty,omitzero"`
+	Rtt                        *int64   `json:"rtt,omitempty,omitzero"`
 }
 
 // The `MicrosoftActivity` object represents an activity within Microsoft services, containing fields such as action type, timestamps for the first and last activity, and identifiers for the activity and its associated resources.
 type MicrosoftActivity struct {
-	Action                *string `json:"action,omitempty"`
-	FirstActivityDateTime *string `json:"firstActivityDateTime,omitempty"`
+	Action                *string `json:"action,omitempty,omitzero"`
+	FirstActivityDateTime *string `json:"firstActivityDateTime,omitempty,omitzero"`
 	ID                    string  `json:"id"`
-	LastActivityDateTime  *string `json:"lastActivityDateTime,omitempty"`
+	LastActivityDateTime  *string `json:"lastActivityDateTime,omitempty,omitzero"`
 	ParentResourceID      string  `json:"parentResourceId"`
 	ResourceID            string  `json:"resourceId"`
 }
@@ -6469,35 +6470,35 @@ func (this MicrosoftActivity) GetResourceID() string       { return this.Resourc
 // The `MicrosoftDefenderEndpointAlert` object represents an alert generated by Microsoft Defender for Endpoint, containing details such as activities, classification, criticality, detection source, and recommended actions, among other attributes, to help in identifying and managing security threats.
 type MicrosoftDefenderEndpointAlert struct {
 	Activities            []*MicrosoftActivity        `json:"activities"`
-	AlertWebURL           *string                     `json:"alertWebUrl,omitempty"`
-	Category              *string                     `json:"category,omitempty"`
-	Classification        *AlertClassificationEnum    `json:"classification,omitempty"`
+	AlertWebURL           *string                     `json:"alertWebUrl,omitempty,omitzero"`
+	Category              *string                     `json:"category,omitempty,omitzero"`
+	Classification        *AlertClassificationEnum    `json:"classification,omitempty,omitzero"`
 	Comments              []string                    `json:"comments"`
-	CreatedDateTime       *string                     `json:"createdDateTime,omitempty"`
-	Criticality           *int64                      `json:"criticality,omitempty"`
-	Description           *string                     `json:"description,omitempty"`
-	DestinationIP         *string                     `json:"destinationIp,omitempty"`
-	DestinationURL        *string                     `json:"destinationUrl,omitempty"`
-	DetectionSource       *DetectionSourceEnum        `json:"detectionSource,omitempty"`
-	Determination         *AlertDeterminationEnum     `json:"determination,omitempty"`
-	ExternalIP            *string                     `json:"externalIp,omitempty"`
-	FirstActivityDateTime *string                     `json:"firstActivityDateTime,omitempty"`
+	CreatedDateTime       *string                     `json:"createdDateTime,omitempty,omitzero"`
+	Criticality           *int64                      `json:"criticality,omitempty,omitzero"`
+	Description           *string                     `json:"description,omitempty,omitzero"`
+	DestinationIP         *string                     `json:"destinationIp,omitempty,omitzero"`
+	DestinationURL        *string                     `json:"destinationUrl,omitempty,omitzero"`
+	DetectionSource       *DetectionSourceEnum        `json:"detectionSource,omitempty,omitzero"`
+	Determination         *AlertDeterminationEnum     `json:"determination,omitempty,omitzero"`
+	ExternalIP            *string                     `json:"externalIp,omitempty,omitzero"`
+	FirstActivityDateTime *string                     `json:"firstActivityDateTime,omitempty,omitzero"`
 	ID                    string                      `json:"id"`
-	LastActivityDateTime  *string                     `json:"lastActivityDateTime,omitempty"`
-	LastUpdateDateTime    *string                     `json:"lastUpdateDateTime,omitempty"`
-	LocalIP               *string                     `json:"localIp,omitempty"`
+	LastActivityDateTime  *string                     `json:"lastActivityDateTime,omitempty,omitzero"`
+	LastUpdateDateTime    *string                     `json:"lastUpdateDateTime,omitempty,omitzero"`
+	LocalIP               *string                     `json:"localIp,omitempty,omitzero"`
 	MitreSubTechnique     []*Mitre                    `json:"mitreSubTechnique"`
 	MitreTechnique        []*Mitre                    `json:"mitreTechnique"`
-	OwnerName             *string                     `json:"ownerName,omitempty"`
-	ProviderAlertID       *string                     `json:"providerAlertId,omitempty"`
-	RecommendedActions    *string                     `json:"recommendedActions,omitempty"`
-	ResolvedDateTime      *string                     `json:"resolvedDateTime,omitempty"`
+	OwnerName             *string                     `json:"ownerName,omitempty,omitzero"`
+	ProviderAlertID       *string                     `json:"providerAlertId,omitempty,omitzero"`
+	RecommendedActions    *string                     `json:"recommendedActions,omitempty,omitzero"`
+	ResolvedDateTime      *string                     `json:"resolvedDateTime,omitempty,omitzero"`
 	Resources             []MicrosoftEndpointResource `json:"resources"`
-	Status                *MsAlertStatus              `json:"status,omitempty"`
-	ThreatFamilyName      *string                     `json:"threatFamilyName,omitempty"`
-	ThreatName            *string                     `json:"threatName,omitempty"`
-	ThreatType            *string                     `json:"threatType,omitempty"`
-	Title                 *string                     `json:"title,omitempty"`
+	Status                *MsAlertStatus              `json:"status,omitempty,omitzero"`
+	ThreatFamilyName      *string                     `json:"threatFamilyName,omitempty,omitzero"`
+	ThreatName            *string                     `json:"threatName,omitempty,omitzero"`
+	ThreatType            *string                     `json:"threatType,omitempty,omitzero"`
+	Title                 *string                     `json:"title,omitempty,omitzero"`
 }
 
 func (MicrosoftDefenderEndpointAlert) IsEndpointAlert() {}
@@ -6552,19 +6553,19 @@ func (this MicrosoftDefenderEndpointAlert) GetTitle() *string      { return this
 
 // The `MicrosoftDeviceDetails` object represents detailed information about a Microsoft device, including its antivirus status, Azure AD device ID, device name, first seen date and time, health status, IP interfaces, logged-on users, onboarding status, operating system details, and RBAC group.
 type MicrosoftDeviceDetails struct {
-	AvStatus          *DeviceAvStatusEnum     `json:"avStatus,omitempty"`
-	AzureAdDeviceID   *string                 `json:"azureAdDeviceId,omitempty"`
-	DeviceName        *string                 `json:"deviceName,omitempty"`
-	ExternalIP        *string                 `json:"externalIp,omitempty"`
-	FirstSeenDateTime *string                 `json:"firstSeenDateTime,omitempty"`
-	HealthStatus      *DeviceHealthStatusEnum `json:"healthStatus,omitempty"`
+	AvStatus          *DeviceAvStatusEnum     `json:"avStatus,omitempty,omitzero"`
+	AzureAdDeviceID   *string                 `json:"azureAdDeviceId,omitempty,omitzero"`
+	DeviceName        *string                 `json:"deviceName,omitempty,omitzero"`
+	ExternalIP        *string                 `json:"externalIp,omitempty,omitzero"`
+	FirstSeenDateTime *string                 `json:"firstSeenDateTime,omitempty,omitzero"`
+	HealthStatus      *DeviceHealthStatusEnum `json:"healthStatus,omitempty,omitzero"`
 	ID                string                  `json:"id"`
 	IPInterfaces      []string                `json:"ipInterfaces"`
-	LocalIP           *string                 `json:"localIp,omitempty"`
+	LocalIP           *string                 `json:"localIp,omitempty,omitzero"`
 	LoggedOnUsers     []EndpointUser          `json:"loggedOnUsers"`
-	OnboardingStatus  *OnboardingStatusEnum   `json:"onboardingStatus,omitempty"`
-	OsDetails         *OsDetails              `json:"osDetails,omitempty"`
-	RbacGroup         *RbacGroup              `json:"rbacGroup,omitempty"`
+	OnboardingStatus  *OnboardingStatusEnum   `json:"onboardingStatus,omitempty,omitzero"`
+	OsDetails         *OsDetails              `json:"osDetails,omitempty,omitzero"`
+	RbacGroup         *RbacGroup              `json:"rbacGroup,omitempty,omitzero"`
 }
 
 func (MicrosoftDeviceDetails) IsDeviceDetails()            {}
@@ -6587,32 +6588,32 @@ func (this MicrosoftDeviceDetails) GetOsDetails() *OsDetails { return this.OsDet
 // The `MicrosoftEndpoint` object represents a comprehensive data structure used in GraphQL queries or mutations, containing fields related to security alerts, device details, threat predictions, and other metadata associated with Microsoft's security ecosystem.
 type MicrosoftEndpoint struct {
 	Alerts              []*MicrosoftDefenderEndpointAlert `json:"alerts"`
-	AnalystFeedback     *AnalystFeedback                  `json:"analystFeedback,omitempty"`
-	ConnectionType      *ConnectionTypeEnum               `json:"connectionType,omitempty"`
-	Criticality         *int64                            `json:"criticality,omitempty"`
-	Description         *string                           `json:"description,omitempty"`
-	Device              *MicrosoftDeviceDetails           `json:"device,omitempty"`
-	EngineType          *StoryEngineTypeEnum              `json:"engineType,omitempty"`
+	AnalystFeedback     *AnalystFeedback                  `json:"analystFeedback,omitempty,omitzero"`
+	ConnectionType      *ConnectionTypeEnum               `json:"connectionType,omitempty,omitzero"`
+	Criticality         *int64                            `json:"criticality,omitempty,omitzero"`
+	Description         *string                           `json:"description,omitempty,omitzero"`
+	Device              *MicrosoftDeviceDetails           `json:"device,omitempty,omitzero"`
+	EngineType          *StoryEngineTypeEnum              `json:"engineType,omitempty,omitzero"`
 	FirstSignal         string                            `json:"firstSignal"`
 	ID                  string                            `json:"id"`
 	Indication          string                            `json:"indication"`
 	LastSignal          string                            `json:"lastSignal"`
-	PredictedThreatType *string                           `json:"predictedThreatType,omitempty"`
-	PredictedVerdict    *StoryVerdictEnum                 `json:"predictedVerdict,omitempty"`
+	PredictedThreatType *string                           `json:"predictedThreatType,omitempty,omitzero"`
+	PredictedVerdict    *StoryVerdictEnum                 `json:"predictedVerdict,omitempty,omitzero"`
 	Producer            StoryProducerEnum                 `json:"producer"`
 	ProducerName        string                            `json:"producerName"`
-	QueryName           *string                           `json:"queryName,omitempty"`
-	Research            *bool                             `json:"research,omitempty"`
+	QueryName           *string                           `json:"queryName,omitempty,omitzero"`
+	Research            *bool                             `json:"research,omitempty,omitzero"`
 	SimilarStoriesData  []*SimilarStoryData               `json:"similarStoriesData"`
-	Site                *SiteRef                          `json:"site,omitempty"`
-	SiteName            *string                           `json:"siteName,omitempty"`
-	Source              *string                           `json:"source,omitempty"`
-	SourceIP            *string                           `json:"sourceIp,omitempty"`
-	Status              *StoryStatusEnum                  `json:"status,omitempty"`
-	StoryDuration       *int64                            `json:"storyDuration,omitempty"`
-	Ticket              *string                           `json:"ticket,omitempty"`
-	User                *UserRef                          `json:"user,omitempty"`
-	Vendor              *VendorEnum                       `json:"vendor,omitempty"`
+	Site                *SiteRef                          `json:"site,omitempty,omitzero"`
+	SiteName            *string                           `json:"siteName,omitempty,omitzero"`
+	Source              *string                           `json:"source,omitempty,omitzero"`
+	SourceIP            *string                           `json:"sourceIp,omitempty,omitzero"`
+	Status              *StoryStatusEnum                  `json:"status,omitempty,omitzero"`
+	StoryDuration       *int64                            `json:"storyDuration,omitempty,omitzero"`
+	Ticket              *string                           `json:"ticket,omitempty,omitzero"`
+	User                *UserRef                          `json:"user,omitempty,omitzero"`
+	Vendor              *VendorEnum                       `json:"vendor,omitempty,omitzero"`
 }
 
 func (MicrosoftEndpoint) IsEndpoint() {}
@@ -6666,12 +6667,12 @@ func (MicrosoftEndpoint) IsMergedIncident() {}
 
 // The `MicrosoftEndpointUser` object represents a user associated with a Microsoft endpoint, containing fields such as account name, domain name, unique identifier, user name, principal name, and user security identifier.
 type MicrosoftEndpointUser struct {
-	AccountName   *string `json:"accountName,omitempty"`
-	DomainName    *string `json:"domainName,omitempty"`
+	AccountName   *string `json:"accountName,omitempty,omitzero"`
+	DomainName    *string `json:"domainName,omitempty,omitzero"`
 	ID            string  `json:"id"`
 	Name          string  `json:"name"`
-	PrincipalName *string `json:"principalName,omitempty"`
-	UserSid       *string `json:"userSid,omitempty"`
+	PrincipalName *string `json:"principalName,omitempty,omitzero"`
+	UserSid       *string `json:"userSid,omitempty,omitzero"`
 }
 
 func (MicrosoftEndpointUser) IsEndpointUser()      {}
@@ -6680,15 +6681,15 @@ func (this MicrosoftEndpointUser) GetName() string { return this.Name }
 
 // The `MicrosoftFileResource` object represents a file resource in a Microsoft system, containing fields such as creation date, detection and remediation status, file details, unique identifier, roles, tags, and a verdict on the file's status.
 type MicrosoftFileResource struct {
-	CreatedDateTime          *string                `json:"createdDateTime,omitempty"`
-	DetectionStatus          *DetectionStatusEnum   `json:"detectionStatus,omitempty"`
-	FileDetails              *FileDetails           `json:"fileDetails,omitempty"`
+	CreatedDateTime          *string                `json:"createdDateTime,omitempty,omitzero"`
+	DetectionStatus          *DetectionStatusEnum   `json:"detectionStatus,omitempty,omitzero"`
+	FileDetails              *FileDetails           `json:"fileDetails,omitempty,omitzero"`
 	ID                       string                 `json:"id"`
-	RemediationStatus        *RemediationStatusEnum `json:"remediationStatus,omitempty"`
-	RemediationStatusDetails *string                `json:"remediationStatusDetails,omitempty"`
+	RemediationStatus        *RemediationStatusEnum `json:"remediationStatus,omitempty,omitzero"`
+	RemediationStatusDetails *string                `json:"remediationStatusDetails,omitempty,omitzero"`
 	Roles                    []ResourceRoleEnum     `json:"roles"`
 	Tags                     []string               `json:"tags"`
-	Verdict                  *MsResourceVerdictEnum `json:"verdict,omitempty"`
+	Verdict                  *MsResourceVerdictEnum `json:"verdict,omitempty,omitzero"`
 }
 
 func (MicrosoftFileResource) IsEndpointResource()              {}
@@ -6734,21 +6735,21 @@ func (this MicrosoftFileResource) GetVerdict() *MsResourceVerdictEnum { return t
 
 // The `MicrosoftNetworkResource` object represents a registry resource in a Microsoft environment, containing fields such as creation date, remediation status, roles, tags, and verdict, which are used to manage and assess the resource's status and attributes.
 type MicrosoftNetworkResource struct {
-	Action                   *string                `json:"action,omitempty"`
-	CreatedDateTime          *string                `json:"createdDateTime,omitempty"`
-	DestinationIP            *string                `json:"destinationIp,omitempty"`
-	DestinationPort          *int64                 `json:"destinationPort,omitempty"`
-	DNSRequest               *string                `json:"dnsRequest,omitempty"`
-	DNSResponse              *string                `json:"dnsResponse,omitempty"`
+	Action                   *string                `json:"action,omitempty,omitzero"`
+	CreatedDateTime          *string                `json:"createdDateTime,omitempty,omitzero"`
+	DestinationIP            *string                `json:"destinationIp,omitempty,omitzero"`
+	DestinationPort          *int64                 `json:"destinationPort,omitempty,omitzero"`
+	DNSRequest               *string                `json:"dnsRequest,omitempty,omitzero"`
+	DNSResponse              *string                `json:"dnsResponse,omitempty,omitzero"`
 	ID                       string                 `json:"id"`
-	Method                   *string                `json:"method,omitempty"`
-	RemediationStatus        *RemediationStatusEnum `json:"remediationStatus,omitempty"`
-	RemediationStatusDetails *string                `json:"remediationStatusDetails,omitempty"`
+	Method                   *string                `json:"method,omitempty,omitzero"`
+	RemediationStatus        *RemediationStatusEnum `json:"remediationStatus,omitempty,omitzero"`
+	RemediationStatusDetails *string                `json:"remediationStatusDetails,omitempty,omitzero"`
 	Roles                    []ResourceRoleEnum     `json:"roles"`
-	SourcePort               *int64                 `json:"sourcePort,omitempty"`
+	SourcePort               *int64                 `json:"sourcePort,omitempty,omitzero"`
 	Tags                     []string               `json:"tags"`
-	URL                      *string                `json:"url,omitempty"`
-	Verdict                  *MsResourceVerdictEnum `json:"verdict,omitempty"`
+	URL                      *string                `json:"url,omitempty,omitzero"`
+	Verdict                  *MsResourceVerdictEnum `json:"verdict,omitempty,omitzero"`
 }
 
 func (MicrosoftNetworkResource) IsEndpointResource()              {}
@@ -6799,18 +6800,18 @@ func (this MicrosoftNetworkResource) GetURL() *string       { return this.URL }
 
 // The `MicrosoftProcessResource` object represents a process resource in a Microsoft environment, containing fields such as creation date, process ID, command line details, remediation status, roles, tags, user account information, and a verdict on the process's nature.
 type MicrosoftProcessResource struct {
-	Action                   *string                `json:"action,omitempty"`
-	CreatedDateTime          *string                `json:"createdDateTime,omitempty"`
+	Action                   *string                `json:"action,omitempty,omitzero"`
+	CreatedDateTime          *string                `json:"createdDateTime,omitempty,omitzero"`
 	ID                       string                 `json:"id"`
-	ImageFile                *FileDetails           `json:"imageFile,omitempty"`
-	ProcessCommandLine       *string                `json:"processCommandLine,omitempty"`
+	ImageFile                *FileDetails           `json:"imageFile,omitempty,omitzero"`
+	ProcessCommandLine       *string                `json:"processCommandLine,omitempty,omitzero"`
 	ProcessID                int64                  `json:"processId"`
-	RemediationStatus        *RemediationStatusEnum `json:"remediationStatus,omitempty"`
-	RemediationStatusDetails *string                `json:"remediationStatusDetails,omitempty"`
+	RemediationStatus        *RemediationStatusEnum `json:"remediationStatus,omitempty,omitzero"`
+	RemediationStatusDetails *string                `json:"remediationStatusDetails,omitempty,omitzero"`
 	Roles                    []ResourceRoleEnum     `json:"roles"`
 	Tags                     []string               `json:"tags"`
-	UserAccount              EndpointUser           `json:"userAccount,omitempty"`
-	Verdict                  *MsResourceVerdictEnum `json:"verdict,omitempty"`
+	UserAccount              EndpointUser           `json:"userAccount,omitempty,omitzero"`
+	Verdict                  *MsResourceVerdictEnum `json:"verdict,omitempty,omitzero"`
 }
 
 func (MicrosoftProcessResource) IsEndpointResource()              {}
@@ -6857,18 +6858,18 @@ func (this MicrosoftProcessResource) GetUserAccount() EndpointUser { return this
 
 // The `MicrosoftRegistryResource` object represents a registry resource in a Microsoft environment, containing fields such as creation date, hive, key, remediation status, roles, tags, and verdict, which are used to manage and assess the resource's status and attributes.
 type MicrosoftRegistryResource struct {
-	CreatedDateTime          *string                `json:"createdDateTime,omitempty"`
-	Hive                     *string                `json:"hive,omitempty"`
+	CreatedDateTime          *string                `json:"createdDateTime,omitempty,omitzero"`
+	Hive                     *string                `json:"hive,omitempty,omitzero"`
 	ID                       string                 `json:"id"`
-	Key                      *string                `json:"key,omitempty"`
-	RemediationStatus        *RemediationStatusEnum `json:"remediationStatus,omitempty"`
-	RemediationStatusDetails *string                `json:"remediationStatusDetails,omitempty"`
+	Key                      *string                `json:"key,omitempty,omitzero"`
+	RemediationStatus        *RemediationStatusEnum `json:"remediationStatus,omitempty,omitzero"`
+	RemediationStatusDetails *string                `json:"remediationStatusDetails,omitempty,omitzero"`
 	Roles                    []ResourceRoleEnum     `json:"roles"`
 	Tags                     []string               `json:"tags"`
-	Value                    *string                `json:"value,omitempty"`
-	ValueName                *string                `json:"valueName,omitempty"`
-	ValueType                *string                `json:"valueType,omitempty"`
-	Verdict                  *MsResourceVerdictEnum `json:"verdict,omitempty"`
+	Value                    *string                `json:"value,omitempty,omitzero"`
+	ValueName                *string                `json:"valueName,omitempty,omitzero"`
+	ValueType                *string                `json:"valueType,omitempty,omitzero"`
+	Verdict                  *MsResourceVerdictEnum `json:"verdict,omitempty,omitzero"`
 }
 
 func (MicrosoftRegistryResource) IsEndpointResource()              {}
@@ -6916,8 +6917,8 @@ func (this MicrosoftRegistryResource) GetValueName() *string { return this.Value
 func (this MicrosoftRegistryResource) GetValueType() *string { return this.ValueType }
 
 type Mitre struct {
-	ID   *string `json:"id,omitempty"`
-	Name *string `json:"name,omitempty"`
+	ID   *string `json:"id,omitempty,omitzero"`
+	Name *string `json:"name,omitempty,omitzero"`
 }
 
 type Mutation struct {
@@ -6925,13 +6926,13 @@ type Mutation struct {
 
 // NOC as a Service (NOCaaS) service license details
 type NOCaaSLicense struct {
-	Description    *string       `json:"description,omitempty"`
+	Description    *string       `json:"description,omitempty,omitzero"`
 	ExpirationDate string        `json:"expirationDate"`
-	ID             *string       `json:"id,omitempty"`
-	LastUpdated    *string       `json:"lastUpdated,omitempty"`
+	ID             *string       `json:"id,omitempty,omitzero"`
+	LastUpdated    *string       `json:"lastUpdated,omitempty,omitzero"`
 	Plan           LicensePlan   `json:"plan"`
 	Sku            LicenseSku    `json:"sku"`
-	StartDate      *string       `json:"startDate,omitempty"`
+	StartDate      *string       `json:"startDate,omitempty,omitzero"`
 	Status         LicenseStatus `json:"status"`
 }
 
@@ -6968,26 +6969,29 @@ type NetworkInterfaceRefInput struct {
 }
 
 type NetworkRange struct {
-	AzureFloatingIP  *string                   `json:"azureFloatingIp,omitempty"`
-	DhcpSettings     *NetworkRangeDhcpSettings `json:"dhcpSettings,omitempty"`
-	Gateway          *string                   `json:"gateway,omitempty"`
-	InternetOnly     bool                      `json:"internetOnly"`
-	LocalIP          *string                   `json:"localIp,omitempty"`
-	MdnsReflector    bool                      `json:"mdnsReflector"`
-	Name             string                    `json:"name"`
-	NetworkRangeID   string                    `json:"networkRangeId"`
-	RangeType        SubnetType                `json:"rangeType"`
-	Subnet           string                    `json:"subnet"`
-	TranslatedSubnet *string                   `json:"translatedSubnet,omitempty"`
-	Vlan             *int64                    `json:"vlan,omitempty"`
+	AzureFloatingIP       *string                   `json:"azureFloatingIp,omitempty,omitzero"`
+	DhcpSettings          *NetworkRangeDhcpSettings `json:"dhcpSettings,omitempty,omitzero"`
+	Gateway               *string                   `json:"gateway,omitempty,omitzero"`
+	GCPLoadBalancerIP     *string                   `json:"gcpLoadBalancerIp,omitempty,omitzero"`
+	InternetOnly          bool                      `json:"internetOnly"`
+	LocalIP               *string                   `json:"localIp,omitempty,omitzero"`
+	MdnsReflector         bool                      `json:"mdnsReflector"`
+	Name                  string                    `json:"name"`
+	NetworkRangeID        string                    `json:"networkRangeId"`
+	PrimaryManagementIP   *string                   `json:"primaryManagementIp,omitempty,omitzero"`
+	RangeType             SubnetType                `json:"rangeType"`
+	SecondaryManagementIP *string                   `json:"secondaryManagementIp,omitempty,omitzero"`
+	Subnet                string                    `json:"subnet"`
+	TranslatedSubnet      *string                   `json:"translatedSubnet,omitempty,omitzero"`
+	Vlan                  *int64                    `json:"vlan,omitempty,omitzero"`
 }
 
 type NetworkRangeDhcpSettings struct {
 	DhcpMicrosegmentation bool                   `json:"dhcpMicrosegmentation"`
 	DhcpType              DhcpType               `json:"dhcpType"`
-	IPRange               *string                `json:"ipRange,omitempty"`
-	LeaseTimeSettings     *DhcpLeaseTimeSettings `json:"leaseTimeSettings,omitempty"`
-	RelayGroupID          *string                `json:"relayGroupId,omitempty"`
+	IPRange               *string                `json:"ipRange,omitempty,omitzero"`
+	LeaseTimeSettings     *DhcpLeaseTimeSettings `json:"leaseTimeSettings,omitempty,omitzero"`
+	RelayGroupID          *string                `json:"relayGroupId,omitempty,omitzero"`
 }
 
 type NetworkRangeListInput struct {
@@ -7000,78 +7004,78 @@ type NetworkRangeListPayload struct {
 }
 
 type NetworkTimelineEvent struct {
-	Acknowledged         *bool                     `json:"acknowledged,omitempty"`
-	BgpConnection        *BGPConnection            `json:"bgpConnection,omitempty"`
+	Acknowledged         *bool                     `json:"acknowledged,omitempty,omitzero"`
+	BgpConnection        *BGPConnection            `json:"bgpConnection,omitempty,omitzero"`
 	Created              string                    `json:"created"`
-	Description          *string                   `json:"description,omitempty"`
-	DeviceConfigHaRole   *DeviceConfigHaRoleEnum   `json:"deviceConfigHaRole,omitempty"`
-	DeviceHaRoleState    *DeviceHaRoleStateEnum    `json:"deviceHaRoleState,omitempty"`
+	Description          *string                   `json:"description,omitempty,omitzero"`
+	DeviceConfigHaRole   *DeviceConfigHaRoleEnum   `json:"deviceConfigHaRole,omitempty,omitzero"`
+	DeviceHaRoleState    *DeviceHaRoleStateEnum    `json:"deviceHaRoleState,omitempty,omitzero"`
 	EventIds             []string                  `json:"eventIds"`
-	EventType            *NetworkXDREventTypeEnum  `json:"eventType,omitempty"`
-	HostIP               *string                   `json:"hostIp,omitempty"`
-	IncidentID           *string                   `json:"incidentId,omitempty"`
-	Isp                  *string                   `json:"isp,omitempty"`
-	LinkConfigBandwidth  *string                   `json:"linkConfigBandwidth,omitempty"`
-	LinkConfigPrecedence *LinkConfigPrecedenceEnum `json:"linkConfigPrecedence,omitempty"`
-	LinkID               *string                   `json:"linkId,omitempty"`
-	LinkName             *string                   `json:"linkName,omitempty"`
-	LinkQualityIssue     *LinkQualityIssue         `json:"linkQualityIssue,omitempty"`
-	LinkStatus           *LinkStatusEnum           `json:"linkStatus,omitempty"`
-	Muted                *bool                     `json:"muted,omitempty"`
-	NetworkEventSource   *NetworkEventSourceEnum   `json:"networkEventSource,omitempty"`
-	Pop                  *string                   `json:"pop,omitempty"`
-	RuleName             *string                   `json:"ruleName,omitempty"`
-	SocketSerialID       *string                   `json:"socketSerialId,omitempty"`
-	TunnelResetCount     *int64                    `json:"tunnelResetCount,omitempty"`
+	EventType            *NetworkXDREventTypeEnum  `json:"eventType,omitempty,omitzero"`
+	HostIP               *string                   `json:"hostIp,omitempty,omitzero"`
+	IncidentID           *string                   `json:"incidentId,omitempty,omitzero"`
+	Isp                  *string                   `json:"isp,omitempty,omitzero"`
+	LinkConfigBandwidth  *string                   `json:"linkConfigBandwidth,omitempty,omitzero"`
+	LinkConfigPrecedence *LinkConfigPrecedenceEnum `json:"linkConfigPrecedence,omitempty,omitzero"`
+	LinkID               *string                   `json:"linkId,omitempty,omitzero"`
+	LinkName             *string                   `json:"linkName,omitempty,omitzero"`
+	LinkQualityIssue     *LinkQualityIssue         `json:"linkQualityIssue,omitempty,omitzero"`
+	LinkStatus           *LinkStatusEnum           `json:"linkStatus,omitempty,omitzero"`
+	Muted                *bool                     `json:"muted,omitempty,omitzero"`
+	NetworkEventSource   *NetworkEventSourceEnum   `json:"networkEventSource,omitempty,omitzero"`
+	Pop                  *string                   `json:"pop,omitempty,omitzero"`
+	RuleName             *string                   `json:"ruleName,omitempty,omitzero"`
+	SocketSerialID       *string                   `json:"socketSerialId,omitempty,omitzero"`
+	TunnelResetCount     *int64                    `json:"tunnelResetCount,omitempty,omitzero"`
 	Validated            string                    `json:"validated"`
 }
 
 // The `NetworkXDRIncident` object represents a detailed incident report within a network, containing various fields such as incident ID, description, criticality, timeline events, and associated metadata like connection type, site information, and predicted threat type, used for analyzing and managing network security incidents.
 type NetworkXDRIncident struct {
-	Acknowledged            *bool                     `json:"acknowledged,omitempty"`
-	AnalystFeedback         *AnalystFeedback          `json:"analystFeedback,omitempty"`
-	BgpConnection           *BGPConnection            `json:"bgpConnection,omitempty"`
-	ConnectionType          *ConnectionTypeEnum       `json:"connectionType,omitempty"`
-	Criticality             *int64                    `json:"criticality,omitempty"`
-	Description             *string                   `json:"description,omitempty"`
-	DeviceConfigHaRole      *DeviceConfigHaRoleEnum   `json:"deviceConfigHaRole,omitempty"`
-	EngineType              *StoryEngineTypeEnum      `json:"engineType,omitempty"`
+	Acknowledged            *bool                     `json:"acknowledged,omitempty,omitzero"`
+	AnalystFeedback         *AnalystFeedback          `json:"analystFeedback,omitempty,omitzero"`
+	BgpConnection           *BGPConnection            `json:"bgpConnection,omitempty,omitzero"`
+	ConnectionType          *ConnectionTypeEnum       `json:"connectionType,omitempty,omitzero"`
+	Criticality             *int64                    `json:"criticality,omitempty,omitzero"`
+	Description             *string                   `json:"description,omitempty,omitzero"`
+	DeviceConfigHaRole      *DeviceConfigHaRoleEnum   `json:"deviceConfigHaRole,omitempty,omitzero"`
+	EngineType              *StoryEngineTypeEnum      `json:"engineType,omitempty,omitzero"`
 	FirstSignal             string                    `json:"firstSignal"`
-	HostIP                  *string                   `json:"hostIp,omitempty"`
+	HostIP                  *string                   `json:"hostIp,omitempty,omitzero"`
 	ID                      string                    `json:"id"`
-	IlmmDetails             *IlmmDetails              `json:"ilmmDetails,omitempty"`
+	IlmmDetails             *IlmmDetails              `json:"ilmmDetails,omitempty,omitzero"`
 	Indication              string                    `json:"indication"`
-	Isp                     *string                   `json:"isp,omitempty"`
+	Isp                     *string                   `json:"isp,omitempty,omitzero"`
 	LastSignal              string                    `json:"lastSignal"`
-	LicenseBandwidth        *string                   `json:"licenseBandwidth,omitempty"`
-	LicenseRegion           *string                   `json:"licenseRegion,omitempty"`
-	LinkConfigPrecedence    *LinkConfigPrecedenceEnum `json:"linkConfigPrecedence,omitempty"`
-	LinkID                  *string                   `json:"linkId,omitempty"`
-	LinkName                *string                   `json:"linkName,omitempty"`
-	Muted                   *bool                     `json:"muted,omitempty"`
+	LicenseBandwidth        *string                   `json:"licenseBandwidth,omitempty,omitzero"`
+	LicenseRegion           *string                   `json:"licenseRegion,omitempty,omitzero"`
+	LinkConfigPrecedence    *LinkConfigPrecedenceEnum `json:"linkConfigPrecedence,omitempty,omitzero"`
+	LinkID                  *string                   `json:"linkId,omitempty,omitzero"`
+	LinkName                *string                   `json:"linkName,omitempty,omitzero"`
+	Muted                   *bool                     `json:"muted,omitempty,omitzero"`
 	NetworkIncidentTimeline []*NetworkTimelineEvent   `json:"networkIncidentTimeline"`
-	Occurrences             *int64                    `json:"occurrences,omitempty"`
-	Pop                     *string                   `json:"pop,omitempty"`
-	PredictedThreatType     *string                   `json:"predictedThreatType,omitempty"`
-	PredictedVerdict        *StoryVerdictEnum         `json:"predictedVerdict,omitempty"`
+	Occurrences             *int64                    `json:"occurrences,omitempty,omitzero"`
+	Pop                     *string                   `json:"pop,omitempty,omitzero"`
+	PredictedThreatType     *string                   `json:"predictedThreatType,omitempty,omitzero"`
+	PredictedVerdict        *StoryVerdictEnum         `json:"predictedVerdict,omitempty,omitzero"`
 	Producer                StoryProducerEnum         `json:"producer"`
 	ProducerName            string                    `json:"producerName"`
-	QueryName               *string                   `json:"queryName,omitempty"`
-	Research                *bool                     `json:"research,omitempty"`
-	RuleName                *string                   `json:"ruleName,omitempty"`
+	QueryName               *string                   `json:"queryName,omitempty,omitzero"`
+	Research                *bool                     `json:"research,omitempty,omitzero"`
+	RuleName                *string                   `json:"ruleName,omitempty,omitzero"`
 	SimilarStoriesData      []*SimilarStoryData       `json:"similarStoriesData"`
-	Site                    *SiteRef                  `json:"site,omitempty"`
-	SiteConfigLocation      *string                   `json:"siteConfigLocation,omitempty"`
-	SiteConnectionType      *string                   `json:"siteConnectionType,omitempty"`
+	Site                    *SiteRef                  `json:"site,omitempty,omitzero"`
+	SiteConfigLocation      *string                   `json:"siteConfigLocation,omitempty,omitzero"`
+	SiteConnectionType      *string                   `json:"siteConnectionType,omitempty,omitzero"`
 	SiteName                string                    `json:"siteName"`
-	Source                  *string                   `json:"source,omitempty"`
-	SourceIP                *string                   `json:"sourceIp,omitempty"`
-	Status                  *StoryStatusEnum          `json:"status,omitempty"`
-	StoryDuration           *int64                    `json:"storyDuration,omitempty"`
+	Source                  *string                   `json:"source,omitempty,omitzero"`
+	SourceIP                *string                   `json:"sourceIp,omitempty,omitzero"`
+	Status                  *StoryStatusEnum          `json:"status,omitempty,omitzero"`
+	StoryDuration           *int64                    `json:"storyDuration,omitempty,omitzero"`
 	StoryType               string                    `json:"storyType"`
-	Ticket                  *string                   `json:"ticket,omitempty"`
-	User                    *UserRef                  `json:"user,omitempty"`
-	Vendor                  *VendorEnum               `json:"vendor,omitempty"`
+	Ticket                  *string                   `json:"ticket,omitempty,omitzero"`
+	User                    *UserRef                  `json:"user,omitempty,omitzero"`
+	Vendor                  *VendorEnum               `json:"vendor,omitempty,omitzero"`
 }
 
 func (NetworkXDRIncident) IsMergedIncident()                           {}
@@ -7102,13 +7106,13 @@ func (this NetworkXDRIncident) GetVendor() *VendorEnum                 { return 
 
 // NG Anti-Malware service license details (Legacy license, replaced by TP)
 type NextGenMalwareProtectionLicense struct {
-	Description    *string       `json:"description,omitempty"`
+	Description    *string       `json:"description,omitempty,omitzero"`
 	ExpirationDate string        `json:"expirationDate"`
-	ID             *string       `json:"id,omitempty"`
-	LastUpdated    *string       `json:"lastUpdated,omitempty"`
+	ID             *string       `json:"id,omitempty,omitzero"`
+	LastUpdated    *string       `json:"lastUpdated,omitempty,omitzero"`
 	Plan           LicensePlan   `json:"plan"`
 	Sku            LicenseSku    `json:"sku"`
-	StartDate      *string       `json:"startDate,omitempty"`
+	StartDate      *string       `json:"startDate,omitempty,omitzero"`
 	Status         LicenseStatus `json:"status"`
 }
 
@@ -7129,9 +7133,9 @@ type OriginTypeFilterInput struct {
 }
 
 type OsDetails struct {
-	OsBuild   *int64  `json:"osBuild,omitempty"`
+	OsBuild   *int64  `json:"osBuild,omitempty,omitzero"`
 	OsType    string  `json:"osType"`
-	OsVersion *string `json:"osVersion,omitempty"`
+	OsVersion *string `json:"osVersion,omitempty,omitzero"`
 }
 
 type PageInfo struct {
@@ -7343,8 +7347,8 @@ type PolicyMoveSubRuleInput struct {
 // ### `sectionPositionInvalid`
 // - **Error Message:** "Section position is invalid"
 type PolicyMutationError struct {
-	ErrorCode    *string `json:"errorCode,omitempty"`
-	ErrorMessage *string `json:"errorMessage,omitempty"`
+	ErrorCode    *string `json:"errorCode,omitempty,omitzero"`
+	ErrorMessage *string `json:"errorMessage,omitempty,omitzero"`
 }
 
 type PolicyMutationRevisionInput struct {
@@ -7352,18 +7356,18 @@ type PolicyMutationRevisionInput struct {
 }
 
 type PolicyMutations struct {
-	AntiMalwareFileHash  *AntiMalwareFileHashPolicyMutations  `json:"antiMalwareFileHash,omitempty"`
-	AppTenantRestriction *AppTenantRestrictionPolicyMutations `json:"appTenantRestriction,omitempty"`
-	ApplicationControl   *ApplicationControlPolicyMutations   `json:"applicationControl,omitempty"`
-	DynamicIPAllocation  *DynamicIPAllocationPolicyMutations  `json:"dynamicIpAllocation,omitempty"`
-	InternetFirewall     *InternetFirewallPolicyMutations     `json:"internetFirewall,omitempty"`
-	PrivateAccess        *PrivateAccessPolicyMutations        `json:"privateAccess,omitempty"`
-	RemotePortFwd        *RemotePortFwdPolicyMutations        `json:"remotePortFwd,omitempty"`
-	SocketLan            *SocketLanPolicyMutations            `json:"socketLan,omitempty"`
-	TerminalServer       *TerminalServerPolicyMutations       `json:"terminalServer,omitempty"`
-	TLSInspect           *TLSInspectPolicyMutations           `json:"tlsInspect,omitempty"`
-	WanFirewall          *WanFirewallPolicyMutations          `json:"wanFirewall,omitempty"`
-	WanNetwork           *WanNetworkPolicyMutations           `json:"wanNetwork,omitempty"`
+	AntiMalwareFileHash  *AntiMalwareFileHashPolicyMutations  `json:"antiMalwareFileHash,omitempty,omitzero"`
+	AppTenantRestriction *AppTenantRestrictionPolicyMutations `json:"appTenantRestriction,omitempty,omitzero"`
+	ApplicationControl   *ApplicationControlPolicyMutations   `json:"applicationControl,omitempty,omitzero"`
+	DynamicIPAllocation  *DynamicIPAllocationPolicyMutations  `json:"dynamicIpAllocation,omitempty,omitzero"`
+	InternetFirewall     *InternetFirewallPolicyMutations     `json:"internetFirewall,omitempty,omitzero"`
+	PrivateAccess        *PrivateAccessPolicyMutations        `json:"privateAccess,omitempty,omitzero"`
+	RemotePortFwd        *RemotePortFwdPolicyMutations        `json:"remotePortFwd,omitempty,omitzero"`
+	SocketLan            *SocketLanPolicyMutations            `json:"socketLan,omitempty,omitzero"`
+	TerminalServer       *TerminalServerPolicyMutations       `json:"terminalServer,omitempty,omitzero"`
+	TLSInspect           *TLSInspectPolicyMutations           `json:"tlsInspect,omitempty,omitzero"`
+	WanFirewall          *WanFirewallPolicyMutations          `json:"wanFirewall,omitempty,omitzero"`
+	WanNetwork           *WanNetworkPolicyMutations           `json:"wanNetwork,omitempty,omitzero"`
 }
 
 // Published revision is the active policy
@@ -7377,18 +7381,18 @@ type PolicyPublishRevisionInput struct {
 
 // policies which configuration can be read with query APIs.
 type PolicyQueries struct {
-	AntiMalwareFileHash  *AntiMalwareFileHashPolicyQueries  `json:"antiMalwareFileHash,omitempty"`
-	AppTenantRestriction *AppTenantRestrictionPolicyQueries `json:"appTenantRestriction,omitempty"`
-	ApplicationControl   *ApplicationControlPolicyQueries   `json:"applicationControl,omitempty"`
-	DynamicIPAllocation  *DynamicIPAllocationPolicyQueries  `json:"dynamicIpAllocation,omitempty"`
-	InternetFirewall     *InternetFirewallPolicyQueries     `json:"internetFirewall,omitempty"`
-	PrivateAccess        *PrivateAccessPolicyQueries        `json:"privateAccess,omitempty"`
-	RemotePortFwd        *RemotePortFwdPolicyQueries        `json:"remotePortFwd,omitempty"`
-	SocketLan            *SocketLanPolicyQueries            `json:"socketLan,omitempty"`
-	TerminalServer       *TerminalServerPolicyQueries       `json:"terminalServer,omitempty"`
-	TLSInspect           *TLSInspectPolicyQueries           `json:"tlsInspect,omitempty"`
-	WanFirewall          *WanFirewallPolicyQueries          `json:"wanFirewall,omitempty"`
-	WanNetwork           *WanNetworkPolicyQueries           `json:"wanNetwork,omitempty"`
+	AntiMalwareFileHash  *AntiMalwareFileHashPolicyQueries  `json:"antiMalwareFileHash,omitempty,omitzero"`
+	AppTenantRestriction *AppTenantRestrictionPolicyQueries `json:"appTenantRestriction,omitempty,omitzero"`
+	ApplicationControl   *ApplicationControlPolicyQueries   `json:"applicationControl,omitempty,omitzero"`
+	DynamicIPAllocation  *DynamicIPAllocationPolicyQueries  `json:"dynamicIpAllocation,omitempty,omitzero"`
+	InternetFirewall     *InternetFirewallPolicyQueries     `json:"internetFirewall,omitempty,omitzero"`
+	PrivateAccess        *PrivateAccessPolicyQueries        `json:"privateAccess,omitempty,omitzero"`
+	RemotePortFwd        *RemotePortFwdPolicyQueries        `json:"remotePortFwd,omitempty,omitzero"`
+	SocketLan            *SocketLanPolicyQueries            `json:"socketLan,omitempty,omitzero"`
+	TerminalServer       *TerminalServerPolicyQueries       `json:"terminalServer,omitempty,omitzero"`
+	TLSInspect           *TLSInspectPolicyQueries           `json:"tlsInspect,omitempty,omitzero"`
+	WanFirewall          *WanFirewallPolicyQueries          `json:"wanFirewall,omitempty,omitzero"`
+	WanNetwork           *WanNetworkPolicyQueries           `json:"wanNetwork,omitempty,omitzero"`
 }
 
 // Input for removing a section from a policy
@@ -7448,8 +7452,8 @@ type PolicyRevisionsPayload struct {
 
 // Returns the time period during which the rule is active, outside this period, the rule is inactive
 type PolicyRuleActivePeriod struct {
-	EffectiveFrom    *string `json:"effectiveFrom,omitempty"`
-	ExpiresAt        *string `json:"expiresAt,omitempty"`
+	EffectiveFrom    *string `json:"effectiveFrom,omitempty,omitzero"`
+	ExpiresAt        *string `json:"expiresAt,omitempty,omitzero"`
 	UseEffectiveFrom bool    `json:"useEffectiveFrom"`
 	UseExpiresAt     bool    `json:"useExpiresAt"`
 }
@@ -7520,8 +7524,8 @@ type PolicyRuleTrackingEventUpdateInput struct {
 
 type PolicySchedule struct {
 	ActiveOn        PolicyActiveOnEnum     `json:"activeOn"`
-	CustomRecurring *PolicyCustomRecurring `json:"customRecurring,omitempty"`
-	CustomTimeframe *PolicyCustomTimeframe `json:"customTimeframe,omitempty"`
+	CustomRecurring *PolicyCustomRecurring `json:"customRecurring,omitempty,omitzero"`
+	CustomTimeframe *PolicyCustomTimeframe `json:"customTimeframe,omitempty,omitzero"`
 }
 
 type PolicyScheduleInput struct {
@@ -7540,17 +7544,17 @@ type PolicyScheduleUpdateInput struct {
 type PolicySectionInfo struct {
 	ID          string  `json:"id"`
 	Name        string  `json:"name"`
-	SubPolicyID *string `json:"subPolicyId,omitempty"`
+	SubPolicyID *string `json:"subPolicyId,omitempty,omitzero"`
 }
 
 type PolicySectionMutationPayload struct {
 	Errors  []*PolicyMutationError `json:"errors"`
-	Section *PolicySectionPayload  `json:"section,omitempty"`
+	Section *PolicySectionPayload  `json:"section,omitempty,omitzero"`
 	Status  PolicyMutationStatus   `json:"status"`
 }
 
 type PolicySectionPayload struct {
-	Access     *EntityAccess                 `json:"access,omitempty"`
+	Access     *EntityAccess                 `json:"access,omitempty,omitzero"`
 	Audit      *PolicyElementAudit           `json:"audit"`
 	Properties []PolicyElementPropertiesEnum `json:"properties"`
 	Section    *PolicySectionInfo            `json:"section"`
@@ -7594,16 +7598,16 @@ type PolicyUpdateSectionInput struct {
 type PooledBandwidthLicense struct {
 	Accounts           []*PartnerPooledBandwidthLicenseAccount `json:"accounts"`
 	AllocatedBandwidth int64                                   `json:"allocatedBandwidth"`
-	Description        *string                                 `json:"description,omitempty"`
+	Description        *string                                 `json:"description,omitempty,omitzero"`
 	ExpirationDate     string                                  `json:"expirationDate"`
-	ID                 *string                                 `json:"id,omitempty"`
-	LastUpdated        *string                                 `json:"lastUpdated,omitempty"`
+	ID                 *string                                 `json:"id,omitempty,omitzero"`
+	LastUpdated        *string                                 `json:"lastUpdated,omitempty,omitzero"`
 	Plan               LicensePlan                             `json:"plan"`
 	SiteLicenseGroup   SiteLicenseGroup                        `json:"siteLicenseGroup"`
 	SiteLicenseType    SiteLicenseType                         `json:"siteLicenseType"`
 	Sites              []*PooledBandwidthLicenseSite           `json:"sites"`
 	Sku                LicenseSku                              `json:"sku"`
-	StartDate          *string                                 `json:"startDate,omitempty"`
+	StartDate          *string                                 `json:"startDate,omitempty,omitzero"`
 	Status             LicenseStatus                           `json:"status"`
 	Total              int64                                   `json:"total"`
 }
@@ -7669,7 +7673,7 @@ type PopLocationPayload struct {
 }
 
 type PopLocationQueries struct {
-	PopLocationList *PopLocationPayload `json:"popLocationList,omitempty"`
+	PopLocationList *PopLocationPayload `json:"popLocationList,omitempty,omitzero"`
 }
 
 // A reference identifying the PopLocation object. ID: Unique PopLocation Identifier, Name: The PopLocation Name
@@ -7714,14 +7718,14 @@ type PortRangeUpdateInput struct {
 }
 
 type PostalAddress struct {
-	Address1         *string                 `json:"address1,omitempty"`
-	Address2         *string                 `json:"address2,omitempty"`
+	Address1         *string                 `json:"address1,omitempty,omitzero"`
+	Address2         *string                 `json:"address2,omitempty,omitzero"`
 	AddressValidated AddressValidationStatus `json:"addressValidated"`
-	CityName         *string                 `json:"cityName,omitempty"`
+	CityName         *string                 `json:"cityName,omitempty,omitzero"`
 	Country          *CountryRef             `json:"country"`
-	StateName        *string                 `json:"stateName,omitempty"`
-	Street           *string                 `json:"street,omitempty"`
-	ZipCode          *string                 `json:"zipCode,omitempty"`
+	StateName        *string                 `json:"stateName,omitempty,omitzero"`
+	Street           *string                 `json:"street,omitempty,omitzero"`
+	ZipCode          *string                 `json:"zipCode,omitempty,omitzero"`
 }
 
 type PostalAddressInput struct {
@@ -7769,9 +7773,9 @@ type PrivateAccessAddRuleInput struct {
 }
 
 type PrivateAccessPolicy struct {
-	Audit    *PolicyAudit                `json:"audit,omitempty"`
+	Audit    *PolicyAudit                `json:"audit,omitempty,omitzero"`
 	Enabled  bool                        `json:"enabled"`
-	Revision *PolicyRevision             `json:"revision,omitempty"`
+	Revision *PolicyRevision             `json:"revision,omitempty,omitzero"`
 	Rules    []*PrivateAccessRulePayload `json:"rules"`
 	Sections []*PolicySectionPayload     `json:"sections"`
 }
@@ -7835,7 +7839,7 @@ type PrivateAccessPolicyMutationInput struct {
 
 type PrivateAccessPolicyMutationPayload struct {
 	Errors []*PolicyMutationError `json:"errors"`
-	Policy *PrivateAccessPolicy   `json:"policy,omitempty"`
+	Policy *PrivateAccessPolicy   `json:"policy,omitempty,omitzero"`
 	Status PolicyMutationStatus   `json:"status"`
 }
 
@@ -7870,7 +7874,7 @@ type PrivateAccessPolicyMutations struct {
 
 type PrivateAccessPolicyQueries struct {
 	Policy    *PrivateAccessPolicy    `json:"policy"`
-	Revisions *PolicyRevisionsPayload `json:"revisions,omitempty"`
+	Revisions *PolicyRevisionsPayload `json:"revisions,omitempty,omitzero"`
 }
 
 type PrivateAccessPolicySource struct {
@@ -7926,7 +7930,7 @@ func (this PrivateAccessRule) GetSection() *PolicySectionInfo { return this.Sect
 
 type PrivateAccessRuleMutationPayload struct {
 	Errors []*PolicyMutationError    `json:"errors"`
-	Rule   *PrivateAccessRulePayload `json:"rule,omitempty"`
+	Rule   *PrivateAccessRulePayload `json:"rule,omitempty,omitzero"`
 	Status PolicyMutationStatus      `json:"status"`
 }
 
@@ -8018,15 +8022,15 @@ type PrivateAppProbingInput struct {
 type PrivateApplication struct {
 	AllowICMPProtocol  bool                `json:"allowIcmpProtocol"`
 	CreationTime       string              `json:"creationTime"`
-	Description        *string             `json:"description,omitempty"`
+	Description        *string             `json:"description,omitempty,omitzero"`
 	ID                 string              `json:"id"`
 	InternalAppAddress string              `json:"internalAppAddress"`
 	Name               string              `json:"name"`
-	PrivateAppProbing  *PrivateAppProbing  `json:"privateAppProbing,omitempty"`
+	PrivateAppProbing  *PrivateAppProbing  `json:"privateAppProbing,omitempty,omitzero"`
 	ProbingEnabled     bool                `json:"probingEnabled"`
 	ProtocolPorts      []*CustomService    `json:"protocolPorts"`
 	Published          bool                `json:"published"`
-	PublishedAppDomain *PublishedAppDomain `json:"publishedAppDomain,omitempty"`
+	PublishedAppDomain *PublishedAppDomain `json:"publishedAppDomain,omitempty,omitzero"`
 }
 
 type PrivateApplicationListPayload struct {
@@ -8051,13 +8055,13 @@ type PrivateApplicationRefInput struct {
 
 // Public IP address license
 type PublicIpsLicense struct {
-	Description    *string       `json:"description,omitempty"`
+	Description    *string       `json:"description,omitempty,omitzero"`
 	ExpirationDate string        `json:"expirationDate"`
-	ID             *string       `json:"id,omitempty"`
-	LastUpdated    *string       `json:"lastUpdated,omitempty"`
+	ID             *string       `json:"id,omitempty,omitzero"`
+	LastUpdated    *string       `json:"lastUpdated,omitempty,omitzero"`
 	Plan           LicensePlan   `json:"plan"`
 	Sku            LicenseSku    `json:"sku"`
-	StartDate      *string       `json:"startDate,omitempty"`
+	StartDate      *string       `json:"startDate,omitempty,omitzero"`
 	Status         LicenseStatus `json:"status"`
 	Total          int64         `json:"total"`
 }
@@ -8084,8 +8088,8 @@ type PublicIpsLicenseAllocations struct {
 }
 
 type PublishedAppDomain struct {
-	CatoIP             *string `json:"catoIp,omitempty"`
-	ConnectorGroupName *string `json:"connectorGroupName,omitempty"`
+	CatoIP             *string `json:"catoIp,omitempty,omitzero"`
+	ConnectorGroupName *string `json:"connectorGroupName,omitempty,omitzero"`
 	CreationTime       string  `json:"creationTime"`
 	ID                 string  `json:"id"`
 	PublishedAppDomain string  `json:"publishedAppDomain"`
@@ -8103,7 +8107,7 @@ type Query struct {
 }
 
 type RBACRole struct {
-	Description  *string `json:"description,omitempty"`
+	Description  *string `json:"description,omitempty,omitzero"`
 	ID           string  `json:"id"`
 	IsPredefined bool    `json:"isPredefined"`
 	Name         string  `json:"name"`
@@ -8111,18 +8115,18 @@ type RBACRole struct {
 
 type RbacGroup struct {
 	ID   string  `json:"id"`
-	Name *string `json:"name,omitempty"`
+	Name *string `json:"name,omitempty,omitzero"`
 }
 
 // Remote Browser Isolation (RBI) service license details
 type RbiLicense struct {
-	Description    *string       `json:"description,omitempty"`
+	Description    *string       `json:"description,omitempty,omitzero"`
 	ExpirationDate string        `json:"expirationDate"`
-	ID             *string       `json:"id,omitempty"`
-	LastUpdated    *string       `json:"lastUpdated,omitempty"`
+	ID             *string       `json:"id,omitempty,omitzero"`
+	LastUpdated    *string       `json:"lastUpdated,omitempty,omitzero"`
 	Plan           LicensePlan   `json:"plan"`
 	Sku            LicenseSku    `json:"sku"`
-	StartDate      *string       `json:"startDate,omitempty"`
+	StartDate      *string       `json:"startDate,omitempty,omitzero"`
 	Status         LicenseStatus `json:"status"`
 }
 
@@ -8151,13 +8155,13 @@ type RbiProfileRefInput struct {
 }
 
 type RecentConnection struct {
-	DeviceName    *string `json:"deviceName,omitempty"`
-	Duration      *int64  `json:"duration,omitempty"`
-	InterfaceName *string `json:"interfaceName,omitempty"`
-	LastConnected *string `json:"lastConnected,omitempty"`
-	PopName       *string `json:"popName,omitempty"`
-	RemoteIP      *string `json:"remoteIP,omitempty"`
-	RemoteIPInfo  *IPInfo `json:"remoteIPInfo,omitempty"`
+	DeviceName    *string `json:"deviceName,omitempty,omitzero"`
+	Duration      *int64  `json:"duration,omitempty,omitzero"`
+	InterfaceName *string `json:"interfaceName,omitempty,omitzero"`
+	LastConnected *string `json:"lastConnected,omitempty,omitzero"`
+	PopName       *string `json:"popName,omitempty,omitzero"`
+	RemoteIP      *string `json:"remoteIP,omitempty,omitzero"`
+	RemoteIPInfo  *IPInfo `json:"remoteIPInfo,omitempty,omitzero"`
 }
 
 type RemotePortFwdAddRuleDataInput struct {
@@ -8181,9 +8185,9 @@ type RemotePortFwdAddRuleInput struct {
 }
 
 type RemotePortFwdPolicy struct {
-	Audit    *PolicyAudit                `json:"audit,omitempty"`
+	Audit    *PolicyAudit                `json:"audit,omitempty,omitzero"`
 	Enabled  bool                        `json:"enabled"`
-	Revision *PolicyRevision             `json:"revision,omitempty"`
+	Revision *PolicyRevision             `json:"revision,omitempty,omitzero"`
 	Rules    []*RemotePortFwdRulePayload `json:"rules"`
 	Sections []*PolicySectionPayload     `json:"sections"`
 }
@@ -8224,7 +8228,7 @@ type RemotePortFwdPolicyMutationInput struct {
 // Remote port forwarding policy information provided in the API response
 type RemotePortFwdPolicyMutationPayload struct {
 	Errors []*PolicyMutationError `json:"errors"`
-	Policy *RemotePortFwdPolicy   `json:"policy,omitempty"`
+	Policy *RemotePortFwdPolicy   `json:"policy,omitempty,omitzero"`
 	Status PolicyMutationStatus   `json:"status"`
 }
 
@@ -8260,7 +8264,7 @@ type RemotePortFwdPolicyMutations struct {
 
 type RemotePortFwdPolicyQueries struct {
 	Policy    *RemotePortFwdPolicy    `json:"policy"`
-	Revisions *PolicyRevisionsPayload `json:"revisions,omitempty"`
+	Revisions *PolicyRevisionsPayload `json:"revisions,omitempty,omitzero"`
 }
 
 type RemotePortFwdPolicyUpdateInput struct {
@@ -8319,7 +8323,7 @@ func (this RemotePortFwdRule) GetSection() *PolicySectionInfo { return this.Sect
 
 type RemotePortFwdRuleMutationPayload struct {
 	Errors []*PolicyMutationError    `json:"errors"`
-	Rule   *RemotePortFwdRulePayload `json:"rule,omitempty"`
+	Rule   *RemotePortFwdRulePayload `json:"rule,omitempty,omitzero"`
 	Status PolicyMutationStatus      `json:"status"`
 }
 
@@ -8403,13 +8407,13 @@ type RemoveCloudInterconnectPhysicalConnectionPayload struct {
 }
 
 type RemoveIpsecIkeV2SiteMultiTunnelPayload struct {
-	Fqdn    *string                              `json:"fqdn,omitempty"`
+	Fqdn    *string                              `json:"fqdn,omitempty,omitzero"`
 	Tunnels []*RemoveIpsecIkeV2SiteTunnelPayload `json:"tunnels"`
 }
 
 type RemoveIpsecIkeV2SiteTunnelPayload struct {
-	LocalID  *string             `json:"localId,omitempty"`
-	TunnelID *IPSecV2InterfaceID `json:"tunnelId,omitempty"`
+	LocalID  *string             `json:"localId,omitempty,omitzero"`
+	TunnelID *IPSecV2InterfaceID `json:"tunnelId,omitempty,omitzero"`
 }
 
 type RemoveIpsecIkeV2SiteTunnelsInput struct {
@@ -8417,8 +8421,8 @@ type RemoveIpsecIkeV2SiteTunnelsInput struct {
 }
 
 type RemoveIpsecIkeV2SiteTunnelsPayload struct {
-	Primary   *RemoveIpsecIkeV2SiteMultiTunnelPayload `json:"primary,omitempty"`
-	Secondary *RemoveIpsecIkeV2SiteMultiTunnelPayload `json:"secondary,omitempty"`
+	Primary   *RemoveIpsecIkeV2SiteMultiTunnelPayload `json:"primary,omitempty,omitzero"`
+	Secondary *RemoveIpsecIkeV2SiteMultiTunnelPayload `json:"secondary,omitempty,omitzero"`
 	SiteID    string                                  `json:"siteId"`
 }
 
@@ -8520,13 +8524,13 @@ type RuleHitCount struct {
 
 // SaaS Security API service license details
 type SaasSecurityAPILicense struct {
-	Description    *string       `json:"description,omitempty"`
+	Description    *string       `json:"description,omitempty,omitzero"`
 	ExpirationDate string        `json:"expirationDate"`
-	ID             *string       `json:"id,omitempty"`
-	LastUpdated    *string       `json:"lastUpdated,omitempty"`
+	ID             *string       `json:"id,omitempty,omitzero"`
+	LastUpdated    *string       `json:"lastUpdated,omitempty,omitzero"`
 	Plan           LicensePlan   `json:"plan"`
 	Sku            LicenseSku    `json:"sku"`
-	StartDate      *string       `json:"startDate,omitempty"`
+	StartDate      *string       `json:"startDate,omitempty,omitzero"`
 	Status         LicenseStatus `json:"status"`
 	Total          int64         `json:"total"`
 }
@@ -8572,13 +8576,13 @@ type SandboxQueries struct {
 // Sandbox report meta-data
 type SandboxReport struct {
 	CreationDate   string                `json:"creationDate"`
-	DownloadURL    *string               `json:"downloadUrl,omitempty"`
-	ExpirationDate *string               `json:"expirationDate,omitempty"`
-	FailureReason  *SandboxFailureReason `json:"failureReason,omitempty"`
+	DownloadURL    *string               `json:"downloadUrl,omitempty,omitzero"`
+	ExpirationDate *string               `json:"expirationDate,omitempty,omitzero"`
+	FailureReason  *SandboxFailureReason `json:"failureReason,omitempty,omitzero"`
 	FileHash       string                `json:"fileHash"`
-	FileName       *string               `json:"fileName,omitempty"`
+	FileName       *string               `json:"fileName,omitempty,omitzero"`
 	Status         SandboxStatus         `json:"status"`
-	Verdict        *SandboxVerdict       `json:"verdict,omitempty"`
+	Verdict        *SandboxVerdict       `json:"verdict,omitempty,omitzero"`
 }
 
 // Sandbox reports query filter
@@ -8638,18 +8642,18 @@ type ServiceRefInput struct {
 }
 
 type ShippingDetails struct {
-	CityName    *string         `json:"cityName,omitempty"`
-	Comment     *string         `json:"comment,omitempty"`
-	CompanyName *string         `json:"companyName,omitempty"`
-	Contact     *ContactDetails `json:"contact,omitempty"`
-	CountryName *string         `json:"countryName,omitempty"`
-	Incoterms   *string         `json:"incoterms,omitempty"`
-	Instruction *string         `json:"instruction,omitempty"`
-	PowerCable  *string         `json:"powerCable,omitempty"`
-	StateName   *string         `json:"stateName,omitempty"`
-	Street      *string         `json:"street,omitempty"`
-	VatID       *string         `json:"vatId,omitempty"`
-	ZipCode     *string         `json:"zipCode,omitempty"`
+	CityName    *string         `json:"cityName,omitempty,omitzero"`
+	Comment     *string         `json:"comment,omitempty,omitzero"`
+	CompanyName *string         `json:"companyName,omitempty,omitzero"`
+	Contact     *ContactDetails `json:"contact,omitempty,omitzero"`
+	CountryName *string         `json:"countryName,omitempty,omitzero"`
+	Incoterms   *string         `json:"incoterms,omitempty,omitzero"`
+	Instruction *string         `json:"instruction,omitempty,omitzero"`
+	PowerCable  *string         `json:"powerCable,omitempty,omitzero"`
+	StateName   *string         `json:"stateName,omitempty,omitzero"`
+	Street      *string         `json:"street,omitempty,omitzero"`
+	VatID       *string         `json:"vatId,omitempty,omitzero"`
+	ZipCode     *string         `json:"zipCode,omitempty,omitzero"`
 }
 
 type ShippingDetailsInput struct {
@@ -8669,20 +8673,20 @@ type ShippingStatusFilterInput struct {
 }
 
 type ShippingTracking struct {
-	Carrier        *string         `json:"carrier,omitempty"`
-	ShippingDate   *time.Time      `json:"shippingDate,omitempty"`
-	ShippingStatus *ShippingStatus `json:"shippingStatus,omitempty"`
-	TrackingNumber *string         `json:"trackingNumber,omitempty"`
-	TrackingURL    *string         `json:"trackingUrl,omitempty"`
+	Carrier        *string         `json:"carrier,omitempty,omitzero"`
+	ShippingDate   *time.Time      `json:"shippingDate,omitempty,omitzero"`
+	ShippingStatus *ShippingStatus `json:"shippingStatus,omitempty,omitzero"`
+	TrackingNumber *string         `json:"trackingNumber,omitempty,omitzero"`
+	TrackingURL    *string         `json:"trackingUrl,omitempty,omitzero"`
 }
 
 type SimilarStoryData struct {
-	Indication           *string  `json:"indication,omitempty"`
-	SimilarityPercentage *float64 `json:"similarityPercentage,omitempty"`
-	StoryID              *string  `json:"storyId,omitempty"`
-	ThreatClassification *string  `json:"threatClassification,omitempty"`
-	ThreatTypeName       *string  `json:"threatTypeName,omitempty"`
-	Verdict              *string  `json:"verdict,omitempty"`
+	Indication           *string  `json:"indication,omitempty,omitzero"`
+	SimilarityPercentage *float64 `json:"similarityPercentage,omitempty,omitzero"`
+	StoryID              *string  `json:"storyId,omitempty,omitzero"`
+	ThreatClassification *string  `json:"threatClassification,omitempty,omitzero"`
+	ThreatTypeName       *string  `json:"threatTypeName,omitempty,omitzero"`
+	Verdict              *string  `json:"verdict,omitempty,omitzero"`
 }
 
 type SimpleService struct {
@@ -8703,8 +8707,8 @@ type SiteBgpStatusInput struct {
 }
 
 type SiteGeneralDetailsPayload struct {
-	Description          *string                   `json:"description,omitempty"`
-	PreferredPopLocation *SitePreferredPopLocation `json:"preferredPopLocation,omitempty"`
+	Description          *string                   `json:"description,omitempty,omitzero"`
+	PreferredPopLocation *SitePreferredPopLocation `json:"preferredPopLocation,omitempty,omitzero"`
 	Site                 *SiteRef                  `json:"site"`
 	SiteLocation         *SiteLocation             `json:"siteLocation"`
 	SiteType             SiteType                  `json:"siteType"`
@@ -8712,36 +8716,36 @@ type SiteGeneralDetailsPayload struct {
 
 // Basic Site configuration information
 type SiteInfo struct {
-	Address          *string          `json:"address,omitempty"`
-	CityName         *string          `json:"cityName,omitempty"`
-	ConnType         *ProtoType       `json:"connType,omitempty"`
-	CountryCode      *string          `json:"countryCode,omitempty"`
-	CountryName      *string          `json:"countryName,omitempty"`
-	CountryStateName *string          `json:"countryStateName,omitempty"`
-	CreationTime     *string          `json:"creationTime,omitempty"`
-	Description      *string          `json:"description,omitempty"`
-	Interfaces       []*InterfaceInfo `json:"interfaces,omitempty"`
-	Ipsec            []*IPSecInfo     `json:"ipsec,omitempty"`
-	IsHa             *bool            `json:"isHA,omitempty"`
-	Name             *string          `json:"name,omitempty"`
-	Region           *string          `json:"region,omitempty"`
-	Sockets          []*SocketInfo    `json:"sockets,omitempty"`
-	Type             *SiteType        `json:"type,omitempty"`
+	Address          *string          `json:"address,omitempty,omitzero"`
+	CityName         *string          `json:"cityName,omitempty,omitzero"`
+	ConnType         *ProtoType       `json:"connType,omitempty,omitzero"`
+	CountryCode      *string          `json:"countryCode,omitempty,omitzero"`
+	CountryName      *string          `json:"countryName,omitempty,omitzero"`
+	CountryStateName *string          `json:"countryStateName,omitempty,omitzero"`
+	CreationTime     *string          `json:"creationTime,omitempty,omitzero"`
+	Description      *string          `json:"description,omitempty,omitzero"`
+	Interfaces       []*InterfaceInfo `json:"interfaces,omitempty,omitzero"`
+	Ipsec            []*IPSecInfo     `json:"ipsec,omitempty,omitzero"`
+	IsHa             *bool            `json:"isHA,omitempty,omitzero"`
+	Name             *string          `json:"name,omitempty,omitzero"`
+	Region           *string          `json:"region,omitempty,omitzero"`
+	Sockets          []*SocketInfo    `json:"sockets,omitempty,omitzero"`
+	Type             *SiteType        `json:"type,omitempty,omitzero"`
 }
 
 // Site bandwidth license
 type SiteLicense struct {
-	Description      *string          `json:"description,omitempty"`
+	Description      *string          `json:"description,omitempty,omitzero"`
 	ExpirationDate   string           `json:"expirationDate"`
-	ID               *string          `json:"id,omitempty"`
-	LastUpdated      *string          `json:"lastUpdated,omitempty"`
+	ID               *string          `json:"id,omitempty,omitzero"`
+	LastUpdated      *string          `json:"lastUpdated,omitempty,omitzero"`
 	Plan             LicensePlan      `json:"plan"`
-	Regionality      *Regionality     `json:"regionality,omitempty"`
-	Site             *SiteRef         `json:"site,omitempty"`
+	Regionality      *Regionality     `json:"regionality,omitempty,omitzero"`
+	Site             *SiteRef         `json:"site,omitempty,omitzero"`
 	SiteLicenseGroup SiteLicenseGroup `json:"siteLicenseGroup"`
 	SiteLicenseType  SiteLicenseType  `json:"siteLicenseType"`
 	Sku              LicenseSku       `json:"sku"`
-	StartDate        *string          `json:"startDate,omitempty"`
+	StartDate        *string          `json:"startDate,omitempty,omitzero"`
 	Status           LicenseStatus    `json:"status"`
 	Total            int64            `json:"total"`
 }
@@ -8761,64 +8765,64 @@ func (SiteLicense) IsQuantifiableLicense() {}
 func (this SiteLicense) GetTotal() int64 { return this.Total }
 
 type SiteLocation struct {
-	Address     *string `json:"address,omitempty"`
-	CityName    *string `json:"cityName,omitempty"`
+	Address     *string `json:"address,omitempty,omitzero"`
+	CityName    *string `json:"cityName,omitempty,omitzero"`
 	CountryCode string  `json:"countryCode"`
-	StateCode   *string `json:"stateCode,omitempty"`
+	StateCode   *string `json:"stateCode,omitempty,omitzero"`
 	Timezone    string  `json:"timezone"`
 }
 
 type SiteMetrics struct {
-	FlowCount  *Timeseries         `json:"flowCount,omitempty"`
-	HostCount  *Timeseries         `json:"hostCount,omitempty"`
-	HostLimit  *Timeseries         `json:"hostLimit,omitempty"`
-	ID         *string             `json:"id,omitempty"`
-	Info       *SiteInfo           `json:"info,omitempty"`
-	Interfaces []*InterfaceMetrics `json:"interfaces,omitempty"`
-	Metrics    *Metrics            `json:"metrics,omitempty"`
-	Name       *string             `json:"name,omitempty"`
-	Samples    *int64              `json:"samples,omitempty"`
+	FlowCount  *Timeseries         `json:"flowCount,omitempty,omitzero"`
+	HostCount  *Timeseries         `json:"hostCount,omitempty,omitzero"`
+	HostLimit  *Timeseries         `json:"hostLimit,omitempty,omitzero"`
+	ID         *string             `json:"id,omitempty,omitzero"`
+	Info       *SiteInfo           `json:"info,omitempty,omitzero"`
+	Interfaces []*InterfaceMetrics `json:"interfaces,omitempty,omitzero"`
+	Metrics    *Metrics            `json:"metrics,omitempty,omitzero"`
+	Name       *string             `json:"name,omitempty,omitzero"`
+	Samples    *int64              `json:"samples,omitempty,omitzero"`
 }
 
 type SiteMutations struct {
-	AddBgpPeer                                *AddBgpPeerPayload                                `json:"addBgpPeer,omitempty"`
-	AddCloudInterconnectPhysicalConnection    *AddCloudInterconnectPhysicalConnectionPayload    `json:"addCloudInterconnectPhysicalConnection,omitempty"`
-	AddCloudInterconnectSite                  *AddCloudInterconnectSitePayload                  `json:"addCloudInterconnectSite,omitempty"`
-	AddIpsecIkeV2Site                         *AddIpsecIkeV2SitePayload                         `json:"addIpsecIkeV2Site,omitempty"`
-	AddIpsecIkeV2SiteTunnels                  *AddIpsecIkeV2SiteTunnelsPayload                  `json:"addIpsecIkeV2SiteTunnels,omitempty"`
-	AddNetworkRange                           *AddNetworkRangePayload                           `json:"addNetworkRange,omitempty"`
-	AddSecondaryAWSVSocket                    *AddSecondaryAWSVSocketPayload                    `json:"addSecondaryAwsVSocket,omitempty"`
-	AddSecondaryAzureVSocket                  *AddSecondaryAzureVSocketPayload                  `json:"addSecondaryAzureVSocket,omitempty"`
-	AddSocketAddOnCard                        *AddSocketAddOnCardPayload                        `json:"addSocketAddOnCard,omitempty"`
-	AddSocketSite                             *AddSocketSitePayload                             `json:"addSocketSite,omitempty"`
-	AddStaticHost                             *AddStaticHostPayload                             `json:"addStaticHost,omitempty"`
-	AssignSiteBwLicense                       *AssignSiteBwLicensePayload                       `json:"assignSiteBwLicense,omitempty"`
-	ExchangeSocketPorts                       *ExchangeSocketPortsPayload                       `json:"exchangeSocketPorts,omitempty"`
-	RemoveBgpPeer                             *RemoveBgpPeerPayload                             `json:"removeBgpPeer,omitempty"`
-	RemoveCloudInterconnectPhysicalConnection *RemoveCloudInterconnectPhysicalConnectionPayload `json:"removeCloudInterconnectPhysicalConnection,omitempty"`
-	RemoveIpsecIkeV2SiteTunnels               *RemoveIpsecIkeV2SiteTunnelsPayload               `json:"removeIpsecIkeV2SiteTunnels,omitempty"`
-	RemoveNetworkRange                        *RemoveNetworkRangePayload                        `json:"removeNetworkRange,omitempty"`
-	RemoveSecondaryAWSVSocket                 *RemoveSecondaryAWSVSocketPayload                 `json:"removeSecondaryAwsVSocket,omitempty"`
-	RemoveSecondaryAzureVSocket               *RemoveSecondaryAzureVSocketPayload               `json:"removeSecondaryAzureVSocket,omitempty"`
-	RemoveSite                                *RemoveSitePayload                                `json:"removeSite,omitempty"`
-	RemoveSiteBwLicense                       *RemoveSiteBwLicensePayload                       `json:"removeSiteBwLicense,omitempty"`
-	RemoveSocketAddOnCard                     *RemoveSocketAddOnCardPayload                     `json:"removeSocketAddOnCard,omitempty"`
-	RemoveStaticHost                          *RemoveStaticHostPayload                          `json:"removeStaticHost,omitempty"`
-	ReplaceSiteBwLicense                      *ReplaceSiteBwLicensePayload                      `json:"replaceSiteBwLicense,omitempty"`
-	StartSiteUpgrade                          *StartSiteUpgradePayload                          `json:"startSiteUpgrade,omitempty"`
-	UpdateBgpPeer                             *UpdateBgpPeerPayload                             `json:"updateBgpPeer,omitempty"`
-	UpdateCloudInterconnectPhysicalConnection *UpdateCloudInterconnectPhysicalConnectionPayload `json:"updateCloudInterconnectPhysicalConnection,omitempty"`
-	UpdateHa                                  *UpdateHaPayload                                  `json:"updateHa,omitempty"`
-	UpdateIpsecIkeV2SiteGeneralDetails        *UpdateIpsecIkeV2SiteGeneralDetailsPayload        `json:"updateIpsecIkeV2SiteGeneralDetails,omitempty"`
-	UpdateIpsecIkeV2SiteTunnels               *UpdateIpsecIkeV2SiteTunnelsPayload               `json:"updateIpsecIkeV2SiteTunnels,omitempty"`
-	UpdateNetworkRange                        *UpdateNetworkRangePayload                        `json:"updateNetworkRange,omitempty"`
-	UpdateSecondaryAWSVSocket                 *UpdateSecondaryAWSVSocketPayload                 `json:"updateSecondaryAwsVSocket,omitempty"`
-	UpdateSecondaryAzureVSocket               *UpdateSecondaryAzureVSocketPayload               `json:"updateSecondaryAzureVSocket,omitempty"`
-	UpdateSiteBwLicense                       *UpdateSiteBwLicensePayload                       `json:"updateSiteBwLicense,omitempty"`
-	UpdateSiteGeneralDetails                  *UpdateSiteGeneralDetailsPayload                  `json:"updateSiteGeneralDetails,omitempty"`
-	UpdateSiteSocketConfiguration             *UpdateSiteSocketConfigurationPayload             `json:"updateSiteSocketConfiguration,omitempty"`
-	UpdateSocketInterface                     *UpdateSocketInterfacePayload                     `json:"updateSocketInterface,omitempty"`
-	UpdateStaticHost                          *UpdateStaticHostPayload                          `json:"updateStaticHost,omitempty"`
+	AddBgpPeer                                *AddBgpPeerPayload                                `json:"addBgpPeer,omitempty,omitzero"`
+	AddCloudInterconnectPhysicalConnection    *AddCloudInterconnectPhysicalConnectionPayload    `json:"addCloudInterconnectPhysicalConnection,omitempty,omitzero"`
+	AddCloudInterconnectSite                  *AddCloudInterconnectSitePayload                  `json:"addCloudInterconnectSite,omitempty,omitzero"`
+	AddIpsecIkeV2Site                         *AddIpsecIkeV2SitePayload                         `json:"addIpsecIkeV2Site,omitempty,omitzero"`
+	AddIpsecIkeV2SiteTunnels                  *AddIpsecIkeV2SiteTunnelsPayload                  `json:"addIpsecIkeV2SiteTunnels,omitempty,omitzero"`
+	AddNetworkRange                           *AddNetworkRangePayload                           `json:"addNetworkRange,omitempty,omitzero"`
+	AddSecondaryAWSVSocket                    *AddSecondaryAWSVSocketPayload                    `json:"addSecondaryAwsVSocket,omitempty,omitzero"`
+	AddSecondaryAzureVSocket                  *AddSecondaryAzureVSocketPayload                  `json:"addSecondaryAzureVSocket,omitempty,omitzero"`
+	AddSocketAddOnCard                        *AddSocketAddOnCardPayload                        `json:"addSocketAddOnCard,omitempty,omitzero"`
+	AddSocketSite                             *AddSocketSitePayload                             `json:"addSocketSite,omitempty,omitzero"`
+	AddStaticHost                             *AddStaticHostPayload                             `json:"addStaticHost,omitempty,omitzero"`
+	AssignSiteBwLicense                       *AssignSiteBwLicensePayload                       `json:"assignSiteBwLicense,omitempty,omitzero"`
+	ExchangeSocketPorts                       *ExchangeSocketPortsPayload                       `json:"exchangeSocketPorts,omitempty,omitzero"`
+	RemoveBgpPeer                             *RemoveBgpPeerPayload                             `json:"removeBgpPeer,omitempty,omitzero"`
+	RemoveCloudInterconnectPhysicalConnection *RemoveCloudInterconnectPhysicalConnectionPayload `json:"removeCloudInterconnectPhysicalConnection,omitempty,omitzero"`
+	RemoveIpsecIkeV2SiteTunnels               *RemoveIpsecIkeV2SiteTunnelsPayload               `json:"removeIpsecIkeV2SiteTunnels,omitempty,omitzero"`
+	RemoveNetworkRange                        *RemoveNetworkRangePayload                        `json:"removeNetworkRange,omitempty,omitzero"`
+	RemoveSecondaryAWSVSocket                 *RemoveSecondaryAWSVSocketPayload                 `json:"removeSecondaryAwsVSocket,omitempty,omitzero"`
+	RemoveSecondaryAzureVSocket               *RemoveSecondaryAzureVSocketPayload               `json:"removeSecondaryAzureVSocket,omitempty,omitzero"`
+	RemoveSite                                *RemoveSitePayload                                `json:"removeSite,omitempty,omitzero"`
+	RemoveSiteBwLicense                       *RemoveSiteBwLicensePayload                       `json:"removeSiteBwLicense,omitempty,omitzero"`
+	RemoveSocketAddOnCard                     *RemoveSocketAddOnCardPayload                     `json:"removeSocketAddOnCard,omitempty,omitzero"`
+	RemoveStaticHost                          *RemoveStaticHostPayload                          `json:"removeStaticHost,omitempty,omitzero"`
+	ReplaceSiteBwLicense                      *ReplaceSiteBwLicensePayload                      `json:"replaceSiteBwLicense,omitempty,omitzero"`
+	StartSiteUpgrade                          *StartSiteUpgradePayload                          `json:"startSiteUpgrade,omitempty,omitzero"`
+	UpdateBgpPeer                             *UpdateBgpPeerPayload                             `json:"updateBgpPeer,omitempty,omitzero"`
+	UpdateCloudInterconnectPhysicalConnection *UpdateCloudInterconnectPhysicalConnectionPayload `json:"updateCloudInterconnectPhysicalConnection,omitempty,omitzero"`
+	UpdateHa                                  *UpdateHaPayload                                  `json:"updateHa,omitempty,omitzero"`
+	UpdateIpsecIkeV2SiteGeneralDetails        *UpdateIpsecIkeV2SiteGeneralDetailsPayload        `json:"updateIpsecIkeV2SiteGeneralDetails,omitempty,omitzero"`
+	UpdateIpsecIkeV2SiteTunnels               *UpdateIpsecIkeV2SiteTunnelsPayload               `json:"updateIpsecIkeV2SiteTunnels,omitempty,omitzero"`
+	UpdateNetworkRange                        *UpdateNetworkRangePayload                        `json:"updateNetworkRange,omitempty,omitzero"`
+	UpdateSecondaryAWSVSocket                 *UpdateSecondaryAWSVSocketPayload                 `json:"updateSecondaryAwsVSocket,omitempty,omitzero"`
+	UpdateSecondaryAzureVSocket               *UpdateSecondaryAzureVSocketPayload               `json:"updateSecondaryAzureVSocket,omitempty,omitzero"`
+	UpdateSiteBwLicense                       *UpdateSiteBwLicensePayload                       `json:"updateSiteBwLicense,omitempty,omitzero"`
+	UpdateSiteGeneralDetails                  *UpdateSiteGeneralDetailsPayload                  `json:"updateSiteGeneralDetails,omitempty,omitzero"`
+	UpdateSiteSocketConfiguration             *UpdateSiteSocketConfigurationPayload             `json:"updateSiteSocketConfiguration,omitempty,omitzero"`
+	UpdateSocketInterface                     *UpdateSocketInterfacePayload                     `json:"updateSocketInterface,omitempty,omitzero"`
+	UpdateStaticHost                          *UpdateStaticHostPayload                          `json:"updateStaticHost,omitempty,omitzero"`
 }
 
 // A reference identifying the SiteNetworkSubnet object. ID: Unique SiteNetworkSubnet Identifier, Name: The SiteNetworkSubnet Name
@@ -8840,24 +8844,24 @@ type SiteNetworkSubnetRefInput struct {
 
 type SitePreferredPopLocation struct {
 	PreferredOnly bool            `json:"preferredOnly"`
-	Primary       *PopLocationRef `json:"primary,omitempty"`
-	Secondary     *PopLocationRef `json:"secondary,omitempty"`
+	Primary       *PopLocationRef `json:"primary,omitempty,omitzero"`
+	Secondary     *PopLocationRef `json:"secondary,omitempty,omitzero"`
 }
 
 type SiteQueries struct {
-	AvailableVersionList                    *AvailableVersionListPayload             `json:"availableVersionList,omitempty"`
-	BgpPeer                                 *BgpPeer                                 `json:"bgpPeer,omitempty"`
-	BgpPeerList                             *BgpPeerListPayload                      `json:"bgpPeerList,omitempty"`
-	CloudInterconnectConnectionConnectivity *CloudInterconnectConnectionConnectivity `json:"cloudInterconnectConnectionConnectivity,omitempty"`
-	CloudInterconnectPhysicalConnection     *CloudInterconnectPhysicalConnection     `json:"cloudInterconnectPhysicalConnection,omitempty"`
-	CloudInterconnectPhysicalConnectionID   *CloudInterconnectPhysicalConnectionID   `json:"cloudInterconnectPhysicalConnectionId,omitempty"`
-	NetworkRange                            *NetworkRange                            `json:"networkRange,omitempty"`
-	NetworkRangeList                        *NetworkRangeListPayload                 `json:"networkRangeList,omitempty"`
-	SecondaryAWSVSocket                     *SecondaryAWSVSocket                     `json:"secondaryAwsVSocket,omitempty"`
-	SecondaryAzureVSocket                   *SecondaryAzureVSocket                   `json:"secondaryAzureVSocket,omitempty"`
-	SiteBgpStatus                           *SiteBgpStatus                           `json:"siteBgpStatus,omitempty"`
-	SiteGeneralDetails                      *SiteGeneralDetailsPayload               `json:"siteGeneralDetails,omitempty"`
-	SiteSocketConfiguration                 *SiteSocketConfiguration                 `json:"siteSocketConfiguration,omitempty"`
+	AvailableVersionList                    *AvailableVersionListPayload             `json:"availableVersionList,omitempty,omitzero"`
+	BgpPeer                                 *BgpPeer                                 `json:"bgpPeer,omitempty,omitzero"`
+	BgpPeerList                             *BgpPeerListPayload                      `json:"bgpPeerList,omitempty,omitzero"`
+	CloudInterconnectConnectionConnectivity *CloudInterconnectConnectionConnectivity `json:"cloudInterconnectConnectionConnectivity,omitempty,omitzero"`
+	CloudInterconnectPhysicalConnection     *CloudInterconnectPhysicalConnection     `json:"cloudInterconnectPhysicalConnection,omitempty,omitzero"`
+	CloudInterconnectPhysicalConnectionID   *CloudInterconnectPhysicalConnectionID   `json:"cloudInterconnectPhysicalConnectionId,omitempty,omitzero"`
+	NetworkRange                            *NetworkRange                            `json:"networkRange,omitempty,omitzero"`
+	NetworkRangeList                        *NetworkRangeListPayload                 `json:"networkRangeList,omitempty,omitzero"`
+	SecondaryAWSVSocket                     *SecondaryAWSVSocket                     `json:"secondaryAwsVSocket,omitempty,omitzero"`
+	SecondaryAzureVSocket                   *SecondaryAzureVSocket                   `json:"secondaryAzureVSocket,omitempty,omitzero"`
+	SiteBgpStatus                           *SiteBgpStatus                           `json:"siteBgpStatus,omitempty,omitzero"`
+	SiteGeneralDetails                      *SiteGeneralDetailsPayload               `json:"siteGeneralDetails,omitempty,omitzero"`
+	SiteSocketConfiguration                 *SiteSocketConfiguration                 `json:"siteSocketConfiguration,omitempty,omitzero"`
 }
 
 // A reference identifying the Site object. ID: Unique Site Identifier, Name: The Site Name
@@ -8883,24 +8887,24 @@ type SiteRefInput struct {
 }
 
 type SiteSnapshot struct {
-	AltWanStatus       *string                    `json:"altWanStatus,omitempty"`
-	ConnectedSince     *string                    `json:"connectedSince,omitempty"`
-	ConnectivityStatus *ConnectivityStatus        `json:"connectivityStatus,omitempty"`
-	DegradedStatus     *DegradedStatus            `json:"degradedStatus,omitempty"`
-	Devices            []*DeviceSnapshot          `json:"devices,omitempty"`
-	HaStatus           *HaStatus                  `json:"haStatus,omitempty"`
-	HostCount          *int64                     `json:"hostCount,omitempty"`
-	ID                 *string                    `json:"id,omitempty"`
-	Info               *SiteInfo                  `json:"info,omitempty"`
-	LastConnected      *string                    `json:"lastConnected,omitempty"`
-	OperationalStatus  *scalars.OperationalStatus `json:"operationalStatus,omitempty"`
-	PopName            *string                    `json:"popName,omitempty"`
-	ProtoID            *int64                     `json:"protoId,omitempty"`
+	AltWanStatus       *string                    `json:"altWanStatus,omitempty,omitzero"`
+	ConnectedSince     *string                    `json:"connectedSince,omitempty,omitzero"`
+	ConnectivityStatus *ConnectivityStatus        `json:"connectivityStatus,omitempty,omitzero"`
+	DegradedStatus     *DegradedStatus            `json:"degradedStatus,omitempty,omitzero"`
+	Devices            []*DeviceSnapshot          `json:"devices,omitempty,omitzero"`
+	HaStatus           *HaStatus                  `json:"haStatus,omitempty,omitzero"`
+	HostCount          *int64                     `json:"hostCount,omitempty,omitzero"`
+	ID                 *string                    `json:"id,omitempty,omitzero"`
+	Info               *SiteInfo                  `json:"info,omitempty,omitzero"`
+	LastConnected      *string                    `json:"lastConnected,omitempty,omitzero"`
+	OperationalStatus  *scalars.OperationalStatus `json:"operationalStatus,omitempty,omitzero"`
+	PopName            *string                    `json:"popName,omitempty,omitzero"`
+	ProtoID            *int64                     `json:"protoId,omitempty,omitzero"`
 }
 
 type SiteSocketConfiguration struct {
 	PrimarySocketConfiguration   *SocketConfiguration `json:"primarySocketConfiguration"`
-	SecondarySocketConfiguration *SocketConfiguration `json:"secondarySocketConfiguration,omitempty"`
+	SecondarySocketConfiguration *SocketConfiguration `json:"secondarySocketConfiguration,omitempty,omitzero"`
 }
 
 type SiteSocketConfigurationInput struct {
@@ -8937,7 +8941,7 @@ type SocketAddOnCardInput struct {
 }
 
 type SocketConfiguration struct {
-	Description *string `json:"description,omitempty"`
+	Description *string `json:"description,omitempty,omitzero"`
 }
 
 type SocketConfigurationInput struct {
@@ -8946,12 +8950,12 @@ type SocketConfigurationInput struct {
 
 // Basic information about socket
 type SocketInfo struct {
-	ID                *string         `json:"id,omitempty"`
-	IsPrimary         *bool           `json:"isPrimary,omitempty"`
-	Platform          *SocketPlatform `json:"platform,omitempty"`
-	Serial            *string         `json:"serial,omitempty"`
-	Version           *string         `json:"version,omitempty"`
-	VersionUpdateTime *string         `json:"versionUpdateTime,omitempty"`
+	ID                *string         `json:"id,omitempty,omitzero"`
+	IsPrimary         *bool           `json:"isPrimary,omitempty,omitzero"`
+	Platform          *SocketPlatform `json:"platform,omitempty,omitzero"`
+	Serial            *string         `json:"serial,omitempty,omitzero"`
+	Version           *string         `json:"version,omitempty,omitzero"`
+	VersionUpdateTime *string         `json:"versionUpdateTime,omitempty,omitzero"`
 }
 
 type SocketInterfaceAltWanInput struct {
@@ -9015,23 +9019,23 @@ type SocketInventoryInput struct {
 type SocketInventoryItem struct {
 	Account                  *AccountRef                `json:"account"`
 	AvailableUpgradeVersions []string                   `json:"availableUpgradeVersions"`
-	DeliverySiteName         *string                    `json:"deliverySiteName,omitempty"`
-	Description              *string                    `json:"description,omitempty"`
-	HardwareVersion          *string                    `json:"hardwareVersion,omitempty"`
+	DeliverySiteName         *string                    `json:"deliverySiteName,omitempty,omitzero"`
+	Description              *string                    `json:"description,omitempty,omitzero"`
+	HardwareVersion          *string                    `json:"hardwareVersion,omitempty,omitzero"`
 	ID                       string                     `json:"id"`
 	IsPrimary                bool                       `json:"isPrimary"`
-	RegistrationStatus       *SocketRegistrationStatus  `json:"registrationStatus,omitempty"`
-	SerialNumber             *string                    `json:"serialNumber,omitempty"`
-	ShippingCompany          *string                    `json:"shippingCompany,omitempty"`
-	ShippingDate             *string                    `json:"shippingDate,omitempty"`
-	Site                     *SiteRef                   `json:"site,omitempty"`
-	SocketMac                *string                    `json:"socketMac,omitempty"`
-	SocketType               *SocketPlatform            `json:"socketType,omitempty"`
-	SocketVersion            *string                    `json:"socketVersion,omitempty"`
-	Status                   *SocketInventoryItemStatus `json:"status,omitempty"`
-	TrackingNumber           *string                    `json:"trackingNumber,omitempty"`
-	TrackingURL              *string                    `json:"trackingUrl,omitempty"`
-	UpgradeStatus            *SocketUpgradeStatus       `json:"upgradeStatus,omitempty"`
+	RegistrationStatus       *SocketRegistrationStatus  `json:"registrationStatus,omitempty,omitzero"`
+	SerialNumber             *string                    `json:"serialNumber,omitempty,omitzero"`
+	ShippingCompany          *string                    `json:"shippingCompany,omitempty,omitzero"`
+	ShippingDate             *string                    `json:"shippingDate,omitempty,omitzero"`
+	Site                     *SiteRef                   `json:"site,omitempty,omitzero"`
+	SocketMac                *string                    `json:"socketMac,omitempty,omitzero"`
+	SocketType               *SocketPlatform            `json:"socketType,omitempty,omitzero"`
+	SocketVersion            *string                    `json:"socketVersion,omitempty,omitzero"`
+	Status                   *SocketInventoryItemStatus `json:"status,omitempty,omitzero"`
+	TrackingNumber           *string                    `json:"trackingNumber,omitempty,omitzero"`
+	TrackingURL              *string                    `json:"trackingUrl,omitempty,omitzero"`
+	UpgradeStatus            *SocketUpgradeStatus       `json:"upgradeStatus,omitempty,omitzero"`
 	UpgradesPaused           bool                       `json:"upgradesPaused"`
 }
 
@@ -9255,7 +9259,7 @@ func (this SocketLanFirewallRule) GetSection() *PolicySectionInfo { return this.
 
 type SocketLanFirewallRuleMutationPayload struct {
 	Errors []*PolicyMutationError        `json:"errors"`
-	Rule   *SocketLanFirewallRulePayload `json:"rule,omitempty"`
+	Rule   *SocketLanFirewallRulePayload `json:"rule,omitempty,omitzero"`
 	Status PolicyMutationStatus          `json:"status"`
 }
 
@@ -9402,9 +9406,9 @@ type SocketLanNatSettingsUpdateInput struct {
 }
 
 type SocketLanPolicy struct {
-	Audit    *PolicyAudit            `json:"audit,omitempty"`
+	Audit    *PolicyAudit            `json:"audit,omitempty,omitzero"`
 	Enabled  bool                    `json:"enabled"`
-	Revision *PolicyRevision         `json:"revision,omitempty"`
+	Revision *PolicyRevision         `json:"revision,omitempty,omitzero"`
 	Rules    []*SocketLanRulePayload `json:"rules"`
 	Sections []*PolicySectionPayload `json:"sections"`
 }
@@ -9444,7 +9448,7 @@ type SocketLanPolicyMutationInput struct {
 
 type SocketLanPolicyMutationPayload struct {
 	Errors []*PolicyMutationError `json:"errors"`
-	Policy *SocketLanPolicy       `json:"policy,omitempty"`
+	Policy *SocketLanPolicy       `json:"policy,omitempty,omitzero"`
 	Status PolicyMutationStatus   `json:"status"`
 }
 
@@ -9480,7 +9484,7 @@ type SocketLanPolicyMutations struct {
 
 type SocketLanPolicyQueries struct {
 	Policy    *SocketLanPolicy        `json:"policy"`
-	Revisions *PolicyRevisionsPayload `json:"revisions,omitempty"`
+	Revisions *PolicyRevisionsPayload `json:"revisions,omitempty,omitzero"`
 }
 
 type SocketLanPolicyUpdateInput struct {
@@ -9518,7 +9522,7 @@ func (this SocketLanRule) GetSection() *PolicySectionInfo { return this.Section 
 
 type SocketLanRuleMutationPayload struct {
 	Errors []*PolicyMutationError `json:"errors"`
-	Rule   *SocketLanRulePayload  `json:"rule,omitempty"`
+	Rule   *SocketLanRulePayload  `json:"rule,omitempty,omitzero"`
 	Status PolicyMutationStatus   `json:"status"`
 }
 
@@ -9656,12 +9660,12 @@ type SocketLanUpdateRuleInput struct {
 }
 
 type SocketPortMetrics struct {
-	From    *string                    `json:"from,omitempty"`
-	ID      *string                    `json:"id,omitempty"`
-	Records []*SocketPortMetricsRecord `json:"records,omitempty"`
-	To      *string                    `json:"to,omitempty"`
-	Total   *int64                     `json:"total,omitempty"`
-	Totals  map[string]any             `json:"totals,omitempty"`
+	From    *string                    `json:"from,omitempty,omitzero"`
+	ID      *string                    `json:"id,omitempty,omitzero"`
+	Records []*SocketPortMetricsRecord `json:"records,omitempty,omitzero"`
+	To      *string                    `json:"to,omitempty,omitzero"`
+	Total   *int64                     `json:"total,omitempty,omitzero"`
+	Totals  map[string]any             `json:"totals,omitempty,omitzero"`
 }
 
 type SocketPortMetricsDimension struct {
@@ -9686,11 +9690,11 @@ type SocketPortMetricsMeasure struct {
 }
 
 type SocketPortMetricsRecord struct {
-	Fields          []*SocketPortMetricsField `json:"fields,omitempty"`
-	FieldsMap       map[string]any            `json:"fieldsMap,omitempty"`
-	FieldsUnitTypes []UnitType                `json:"fieldsUnitTypes,omitempty"`
-	PrevTimeFrame   map[string]any            `json:"prevTimeFrame,omitempty"`
-	Trends          map[string]any            `json:"trends,omitempty"`
+	Fields          []*SocketPortMetricsField `json:"fields,omitempty,omitzero"`
+	FieldsMap       map[string]any            `json:"fieldsMap,omitempty,omitzero"`
+	FieldsUnitTypes []UnitType                `json:"fieldsUnitTypes,omitempty,omitzero"`
+	PrevTimeFrame   map[string]any            `json:"prevTimeFrame,omitempty,omitzero"`
+	Trends          map[string]any            `json:"trends,omitempty,omitzero"`
 }
 
 type SocketPortMetricsSort struct {
@@ -9699,11 +9703,11 @@ type SocketPortMetricsSort struct {
 }
 
 type SocketPortMetricsTimeSeries struct {
-	From        *string       `json:"from,omitempty"`
-	Granularity *int64        `json:"granularity,omitempty"`
-	ID          *string       `json:"id,omitempty"`
-	Timeseries  []*Timeseries `json:"timeseries,omitempty"`
-	To          *string       `json:"to,omitempty"`
+	From        *string       `json:"from,omitempty,omitzero"`
+	Granularity *int64        `json:"granularity,omitempty,omitzero"`
+	ID          *string       `json:"id,omitempty,omitzero"`
+	Timeseries  []*Timeseries `json:"timeseries,omitempty,omitzero"`
+	To          *string       `json:"to,omitempty,omitzero"`
 }
 
 type SortInput struct {
@@ -9767,9 +9771,9 @@ type SplitTunnelDNSExclusionUpdateInput struct {
 }
 
 type SplitTunnelPolicy struct {
-	Audit    *PolicyAudit              `json:"audit,omitempty"`
+	Audit    *PolicyAudit              `json:"audit,omitempty,omitzero"`
 	Enabled  bool                      `json:"enabled"`
-	Revision *PolicyRevision           `json:"revision,omitempty"`
+	Revision *PolicyRevision           `json:"revision,omitempty,omitzero"`
 	Rules    []*SplitTunnelRulePayload `json:"rules"`
 	Sections []*PolicySectionPayload   `json:"sections"`
 }
@@ -9809,7 +9813,7 @@ type SplitTunnelPolicyMutationInput struct {
 
 type SplitTunnelPolicyMutationPayload struct {
 	Errors []*PolicyMutationError `json:"errors"`
-	Policy *SplitTunnelPolicy     `json:"policy,omitempty"`
+	Policy *SplitTunnelPolicy     `json:"policy,omitempty,omitzero"`
 	Status PolicyMutationStatus   `json:"status"`
 }
 
@@ -9844,7 +9848,7 @@ type SplitTunnelPolicyMutations struct {
 
 type SplitTunnelPolicyQueries struct {
 	Policy    *SplitTunnelPolicy      `json:"policy"`
-	Revisions *PolicyRevisionsPayload `json:"revisions,omitempty"`
+	Revisions *PolicyRevisionsPayload `json:"revisions,omitempty,omitzero"`
 }
 
 type SplitTunnelPolicyUpdateInput struct {
@@ -9858,10 +9862,10 @@ type SplitTunnelRemoveRuleInput struct {
 type SplitTunnelRule struct {
 	Action          SplitTunnelActionEnum          `json:"action"`
 	Country         []*CountryRef                  `json:"country"`
-	Coverage        *SplitTunnelCoverageEnum       `json:"coverage,omitempty"`
+	Coverage        *SplitTunnelCoverageEnum       `json:"coverage,omitempty,omitzero"`
 	Description     string                         `json:"description"`
 	Destination     *SplitTunnelDestination        `json:"destination"`
-	DNSExclusion    *SplitTunnelDNSExclusion       `json:"dnsExclusion,omitempty"`
+	DNSExclusion    *SplitTunnelDNSExclusion       `json:"dnsExclusion,omitempty,omitzero"`
 	Enabled         bool                           `json:"enabled"`
 	ID              string                         `json:"id"`
 	Index           int64                          `json:"index"`
@@ -9883,7 +9887,7 @@ func (this SplitTunnelRule) GetSection() *PolicySectionInfo { return this.Sectio
 
 type SplitTunnelRuleMutationPayload struct {
 	Errors []*PolicyMutationError  `json:"errors"`
-	Rule   *SplitTunnelRulePayload `json:"rule,omitempty"`
+	Rule   *SplitTunnelRulePayload `json:"rule,omitempty,omitzero"`
 	Status PolicyMutationStatus    `json:"status"`
 }
 
@@ -9982,10 +9986,10 @@ type StartSiteUpgradePayload struct {
 }
 
 type StatusCount struct {
-	ConfirmShipping *int64 `json:"CONFIRM_SHIPPING,omitempty"`
-	Delivered       *int64 `json:"DELIVERED,omitempty"`
-	InTransit       *int64 `json:"IN_TRANSIT,omitempty"`
-	PendingInfo     *int64 `json:"PENDING_INFO,omitempty"`
+	ConfirmShipping *int64 `json:"CONFIRM_SHIPPING,omitempty,omitzero"`
+	Delivered       *int64 `json:"DELIVERED,omitempty,omitzero"`
+	InTransit       *int64 `json:"IN_TRANSIT,omitempty,omitzero"`
+	PendingInfo     *int64 `json:"PENDING_INFO,omitempty,omitzero"`
 }
 
 type StoriesData struct {
@@ -9995,14 +9999,14 @@ type StoriesData struct {
 
 type Story struct {
 	AccountID    int64           `json:"accountId"`
-	AccountName  *string         `json:"accountName,omitempty"`
-	AnalystEmail *string         `json:"analystEmail,omitempty"`
-	AnalystName  *string         `json:"analystName,omitempty"`
+	AccountName  *string         `json:"accountName,omitempty,omitzero"`
+	AnalystEmail *string         `json:"analystEmail,omitempty,omitzero"`
+	AnalystName  *string         `json:"analystName,omitempty,omitzero"`
 	CreatedAt    string          `json:"createdAt"`
 	ID           string          `json:"id"`
 	Incident     MergedIncident  `json:"incident"`
-	Playbook     *string         `json:"playbook,omitempty"`
-	Summary      *string         `json:"summary,omitempty"`
+	Playbook     *string         `json:"playbook,omitempty,omitzero"`
+	Summary      *string         `json:"summary,omitempty,omitzero"`
 	Timeline     []*TimelineItem `json:"timeline"`
 	UpdatedAt    string          `json:"updatedAt"`
 }
@@ -10095,7 +10099,7 @@ type StringPredicate struct {
 }
 
 type StringValue struct {
-	String *string `json:"string,omitempty"`
+	String *string `json:"string,omitempty,omitzero"`
 }
 
 func (StringValue) IsValue() {}
@@ -10202,9 +10206,9 @@ type TerminalServerAddRuleInput struct {
 }
 
 type TerminalServerPolicy struct {
-	Audit    *PolicyAudit                 `json:"audit,omitempty"`
+	Audit    *PolicyAudit                 `json:"audit,omitempty,omitzero"`
 	Enabled  bool                         `json:"enabled"`
-	Revision *PolicyRevision              `json:"revision,omitempty"`
+	Revision *PolicyRevision              `json:"revision,omitempty,omitzero"`
 	Rules    []*TerminalServerRulePayload `json:"rules"`
 	Sections []*PolicySectionPayload      `json:"sections"`
 }
@@ -10244,7 +10248,7 @@ type TerminalServerPolicyMutationInput struct {
 
 type TerminalServerPolicyMutationPayload struct {
 	Errors []*PolicyMutationError `json:"errors"`
-	Policy *TerminalServerPolicy  `json:"policy,omitempty"`
+	Policy *TerminalServerPolicy  `json:"policy,omitempty,omitzero"`
 	Status PolicyMutationStatus   `json:"status"`
 }
 
@@ -10279,7 +10283,7 @@ type TerminalServerPolicyMutations struct {
 
 type TerminalServerPolicyQueries struct {
 	Policy    *TerminalServerPolicy   `json:"policy"`
-	Revisions *PolicyRevisionsPayload `json:"revisions,omitempty"`
+	Revisions *PolicyRevisionsPayload `json:"revisions,omitempty,omitzero"`
 }
 
 type TerminalServerPolicyUpdateInput struct {
@@ -10311,7 +10315,7 @@ func (this TerminalServerRule) GetSection() *PolicySectionInfo { return this.Sec
 
 type TerminalServerRuleMutationPayload struct {
 	Errors []*PolicyMutationError     `json:"errors"`
-	Rule   *TerminalServerRulePayload `json:"rule,omitempty"`
+	Rule   *TerminalServerRulePayload `json:"rule,omitempty,omitzero"`
 	Status PolicyMutationStatus       `json:"status"`
 }
 
@@ -10376,45 +10380,45 @@ type TestContainerFromURLPayload struct {
 
 // The "Threat" object represents a comprehensive data structure used in GraphQL queries or mutations to encapsulate various attributes and metadata related to a threat incident, including details about the threat's origin, nature, risk assessment, and associated network traffic flows.
 type Threat struct {
-	AnalystFeedback     *AnalystFeedback      `json:"analystFeedback,omitempty"`
+	AnalystFeedback     *AnalystFeedback      `json:"analystFeedback,omitempty,omitzero"`
 	ClientClass         []string              `json:"clientClass"`
-	ConnectionType      *ConnectionTypeEnum   `json:"connectionType,omitempty"`
-	Criticality         *int64                `json:"criticality,omitempty"`
-	Description         *string               `json:"description,omitempty"`
-	DeviceName          *string               `json:"deviceName,omitempty"`
-	Direction           *string               `json:"direction,omitempty"`
-	EngineType          *StoryEngineTypeEnum  `json:"engineType,omitempty"`
-	Events              []*Event              `json:"events,omitempty"`
+	ConnectionType      *ConnectionTypeEnum   `json:"connectionType,omitempty,omitzero"`
+	Criticality         *int64                `json:"criticality,omitempty,omitzero"`
+	Description         *string               `json:"description,omitempty,omitzero"`
+	DeviceName          *string               `json:"deviceName,omitempty,omitzero"`
+	Direction           *string               `json:"direction,omitempty,omitzero"`
+	EngineType          *StoryEngineTypeEnum  `json:"engineType,omitempty,omitzero"`
+	Events              []*Event              `json:"events,omitempty,omitzero"`
 	FirstSignal         string                `json:"firstSignal"`
-	Flows               []*IncidentFlow       `json:"flows,omitempty"`
-	FlowsCardinality    *int64                `json:"flowsCardinality,omitempty"`
+	Flows               []*IncidentFlow       `json:"flows,omitempty,omitzero"`
+	FlowsCardinality    *int64                `json:"flowsCardinality,omitempty,omitzero"`
 	ID                  string                `json:"id"`
 	Indication          string                `json:"indication"`
 	LastSignal          string                `json:"lastSignal"`
-	LogonName           *string               `json:"logonName,omitempty"`
-	MacAddress          *string               `json:"macAddress,omitempty"`
-	Mitres              []*Mitre              `json:"mitres,omitempty"`
-	Os                  *string               `json:"os,omitempty"`
-	PredictedThreatType *string               `json:"predictedThreatType,omitempty"`
-	PredictedVerdict    *StoryVerdictEnum     `json:"predictedVerdict,omitempty"`
+	LogonName           *string               `json:"logonName,omitempty,omitzero"`
+	MacAddress          *string               `json:"macAddress,omitempty,omitzero"`
+	Mitres              []*Mitre              `json:"mitres,omitempty,omitzero"`
+	Os                  *string               `json:"os,omitempty,omitzero"`
+	PredictedThreatType *string               `json:"predictedThreatType,omitempty,omitzero"`
+	PredictedVerdict    *StoryVerdictEnum     `json:"predictedVerdict,omitempty,omitzero"`
 	Producer            StoryProducerEnum     `json:"producer"`
 	ProducerName        string                `json:"producerName"`
-	QueryName           *string               `json:"queryName,omitempty"`
-	Research            *bool                 `json:"research,omitempty"`
-	RiskLevel           *RiskLevelEnum        `json:"riskLevel,omitempty"`
+	QueryName           *string               `json:"queryName,omitempty,omitzero"`
+	Research            *bool                 `json:"research,omitempty,omitzero"`
+	RiskLevel           *RiskLevelEnum        `json:"riskLevel,omitempty,omitzero"`
 	SimilarStoriesData  []*SimilarStoryData   `json:"similarStoriesData"`
-	Site                *SiteRef              `json:"site,omitempty"`
-	SiteName            *string               `json:"siteName,omitempty"`
-	Source              *string               `json:"source,omitempty"`
-	SourceIP            *string               `json:"sourceIp,omitempty"`
-	SrcSiteID           *string               `json:"srcSiteId,omitempty"`
-	Status              *StoryStatusEnum      `json:"status,omitempty"`
-	StoryDuration       *int64                `json:"storyDuration,omitempty"`
+	Site                *SiteRef              `json:"site,omitempty,omitzero"`
+	SiteName            *string               `json:"siteName,omitempty,omitzero"`
+	Source              *string               `json:"source,omitempty,omitzero"`
+	SourceIP            *string               `json:"sourceIp,omitempty,omitzero"`
+	SrcSiteID           *string               `json:"srcSiteId,omitempty,omitzero"`
+	Status              *StoryStatusEnum      `json:"status,omitempty,omitzero"`
+	StoryDuration       *int64                `json:"storyDuration,omitempty,omitzero"`
 	Targets             []*IncidentTargetRep  `json:"targets"`
-	Ticket              *string               `json:"ticket,omitempty"`
-	TimeSeries          []*IncidentTimeseries `json:"timeSeries,omitempty"`
-	User                *UserRef              `json:"user,omitempty"`
-	Vendor              *VendorEnum           `json:"vendor,omitempty"`
+	Ticket              *string               `json:"ticket,omitempty,omitzero"`
+	TimeSeries          []*IncidentTimeseries `json:"timeSeries,omitempty,omitzero"`
+	User                *UserRef              `json:"user,omitempty,omitzero"`
+	Vendor              *VendorEnum           `json:"vendor,omitempty,omitzero"`
 }
 
 func (Threat) IsMergedIncident()                           {}
@@ -10445,45 +10449,45 @@ func (this Threat) GetVendor() *VendorEnum                 { return this.Vendor 
 
 // The `ThreatPrevention` object is a GraphQL type that represents the details of a threat prevention incident, including fields such as analyst feedback, client class, connection type, criticality, description, device name, and various other attributes related to the incident's signals, events, and status.
 type ThreatPrevention struct {
-	AnalystFeedback         *AnalystFeedback          `json:"analystFeedback,omitempty"`
+	AnalystFeedback         *AnalystFeedback          `json:"analystFeedback,omitempty,omitzero"`
 	ClientClass             []string                  `json:"clientClass"`
-	ConnectionType          *ConnectionTypeEnum       `json:"connectionType,omitempty"`
-	Criticality             *int64                    `json:"criticality,omitempty"`
-	Description             *string                   `json:"description,omitempty"`
-	DeviceName              *string                   `json:"deviceName,omitempty"`
-	Direction               *string                   `json:"direction,omitempty"`
-	EngineType              *StoryEngineTypeEnum      `json:"engineType,omitempty"`
-	Events                  []*Event                  `json:"events,omitempty"`
+	ConnectionType          *ConnectionTypeEnum       `json:"connectionType,omitempty,omitzero"`
+	Criticality             *int64                    `json:"criticality,omitempty,omitzero"`
+	Description             *string                   `json:"description,omitempty,omitzero"`
+	DeviceName              *string                   `json:"deviceName,omitempty,omitzero"`
+	Direction               *string                   `json:"direction,omitempty,omitzero"`
+	EngineType              *StoryEngineTypeEnum      `json:"engineType,omitempty,omitzero"`
+	Events                  []*Event                  `json:"events,omitempty,omitzero"`
 	FirstSignal             string                    `json:"firstSignal"`
-	FlowsCardinality        *int64                    `json:"flowsCardinality,omitempty"`
+	FlowsCardinality        *int64                    `json:"flowsCardinality,omitempty,omitzero"`
 	ID                      string                    `json:"id"`
 	Indication              string                    `json:"indication"`
 	LastSignal              string                    `json:"lastSignal"`
-	LogonName               *string                   `json:"logonName,omitempty"`
-	MacAddress              *string                   `json:"macAddress,omitempty"`
-	Mitres                  []*Mitre                  `json:"mitres,omitempty"`
-	Os                      *string                   `json:"os,omitempty"`
-	PredictedThreatType     *string                   `json:"predictedThreatType,omitempty"`
-	PredictedVerdict        *StoryVerdictEnum         `json:"predictedVerdict,omitempty"`
+	LogonName               *string                   `json:"logonName,omitempty,omitzero"`
+	MacAddress              *string                   `json:"macAddress,omitempty,omitzero"`
+	Mitres                  []*Mitre                  `json:"mitres,omitempty,omitzero"`
+	Os                      *string                   `json:"os,omitempty,omitzero"`
+	PredictedThreatType     *string                   `json:"predictedThreatType,omitempty,omitzero"`
+	PredictedVerdict        *StoryVerdictEnum         `json:"predictedVerdict,omitempty,omitzero"`
 	Producer                StoryProducerEnum         `json:"producer"`
 	ProducerName            string                    `json:"producerName"`
-	QueryName               *string                   `json:"queryName,omitempty"`
-	Research                *bool                     `json:"research,omitempty"`
-	RiskLevel               *RiskLevelEnum            `json:"riskLevel,omitempty"`
+	QueryName               *string                   `json:"queryName,omitempty,omitzero"`
+	Research                *bool                     `json:"research,omitempty,omitzero"`
+	RiskLevel               *RiskLevelEnum            `json:"riskLevel,omitempty,omitzero"`
 	SimilarStoriesData      []*SimilarStoryData       `json:"similarStoriesData"`
-	Site                    *SiteRef                  `json:"site,omitempty"`
-	SiteName                *string                   `json:"siteName,omitempty"`
-	Source                  *string                   `json:"source,omitempty"`
-	SourceIP                *string                   `json:"sourceIp,omitempty"`
-	SrcSiteID               *string                   `json:"srcSiteId,omitempty"`
-	Status                  *StoryStatusEnum          `json:"status,omitempty"`
-	StoryDuration           *int64                    `json:"storyDuration,omitempty"`
+	Site                    *SiteRef                  `json:"site,omitempty,omitzero"`
+	SiteName                *string                   `json:"siteName,omitempty,omitzero"`
+	Source                  *string                   `json:"source,omitempty,omitzero"`
+	SourceIP                *string                   `json:"sourceIp,omitempty,omitzero"`
+	SrcSiteID               *string                   `json:"srcSiteId,omitempty,omitzero"`
+	Status                  *StoryStatusEnum          `json:"status,omitempty,omitzero"`
+	StoryDuration           *int64                    `json:"storyDuration,omitempty,omitzero"`
 	Targets                 []*IncidentTargetRep      `json:"targets"`
-	ThreatPreventionsEvents []*ThreatPreventionEvents `json:"threatPreventionsEvents,omitempty"`
-	Ticket                  *string                   `json:"ticket,omitempty"`
-	TimeSeries              []*IncidentTimeseries     `json:"timeSeries,omitempty"`
-	User                    *UserRef                  `json:"user,omitempty"`
-	Vendor                  *VendorEnum               `json:"vendor,omitempty"`
+	ThreatPreventionsEvents []*ThreatPreventionEvents `json:"threatPreventionsEvents,omitempty,omitzero"`
+	Ticket                  *string                   `json:"ticket,omitempty,omitzero"`
+	TimeSeries              []*IncidentTimeseries     `json:"timeSeries,omitempty,omitzero"`
+	User                    *UserRef                  `json:"user,omitempty,omitzero"`
+	Vendor                  *VendorEnum               `json:"vendor,omitempty,omitzero"`
 }
 
 func (ThreatPrevention) IsMergedIncident()                           {}
@@ -10513,41 +10517,41 @@ func (this ThreatPrevention) GetUser() *UserRef                      { return th
 func (this ThreatPrevention) GetVendor() *VendorEnum                 { return this.Vendor }
 
 type ThreatPreventionEvents struct {
-	AppName                *string `json:"appName,omitempty"`
-	ClientClass            *string `json:"clientClass,omitempty"`
-	CreatedAt              *string `json:"createdAt,omitempty"`
-	DestinationCountry     *string `json:"destinationCountry,omitempty"`
-	DestinationGeolocation *string `json:"destinationGeolocation,omitempty"`
-	DestinationIP          *string `json:"destinationIp,omitempty"`
-	DestinationPort        *int64  `json:"destinationPort,omitempty"`
-	Direction              *string `json:"direction,omitempty"`
-	DNSResponseIP          *string `json:"dnsResponseIP,omitempty"`
-	Domain                 *string `json:"domain,omitempty"`
-	FileHash               *string `json:"fileHash,omitempty"`
-	HTTPResponseCode       *int64  `json:"httpResponseCode,omitempty"`
-	Ja3                    *string `json:"ja3,omitempty"`
-	Method                 *string `json:"method,omitempty"`
-	Referrer               *string `json:"referrer,omitempty"`
-	SmbFileName            *string `json:"smbFileName,omitempty"`
-	SourceGeolocation      *string `json:"sourceGeolocation,omitempty"`
-	SourceIP               *string `json:"sourceIp,omitempty"`
-	SourcePort             *int64  `json:"sourcePort,omitempty"`
-	Target                 *string `json:"target,omitempty"`
-	TunnelGeolocation      *string `json:"tunnelGeolocation,omitempty"`
-	URL                    *string `json:"url,omitempty"`
-	User                   *string `json:"user,omitempty"`
-	UserAgent              *string `json:"userAgent,omitempty"`
+	AppName                *string `json:"appName,omitempty,omitzero"`
+	ClientClass            *string `json:"clientClass,omitempty,omitzero"`
+	CreatedAt              *string `json:"createdAt,omitempty,omitzero"`
+	DestinationCountry     *string `json:"destinationCountry,omitempty,omitzero"`
+	DestinationGeolocation *string `json:"destinationGeolocation,omitempty,omitzero"`
+	DestinationIP          *string `json:"destinationIp,omitempty,omitzero"`
+	DestinationPort        *int64  `json:"destinationPort,omitempty,omitzero"`
+	Direction              *string `json:"direction,omitempty,omitzero"`
+	DNSResponseIP          *string `json:"dnsResponseIP,omitempty,omitzero"`
+	Domain                 *string `json:"domain,omitempty,omitzero"`
+	FileHash               *string `json:"fileHash,omitempty,omitzero"`
+	HTTPResponseCode       *int64  `json:"httpResponseCode,omitempty,omitzero"`
+	Ja3                    *string `json:"ja3,omitempty,omitzero"`
+	Method                 *string `json:"method,omitempty,omitzero"`
+	Referrer               *string `json:"referrer,omitempty,omitzero"`
+	SmbFileName            *string `json:"smbFileName,omitempty,omitzero"`
+	SourceGeolocation      *string `json:"sourceGeolocation,omitempty,omitzero"`
+	SourceIP               *string `json:"sourceIp,omitempty,omitzero"`
+	SourcePort             *int64  `json:"sourcePort,omitempty,omitzero"`
+	Target                 *string `json:"target,omitempty,omitzero"`
+	TunnelGeolocation      *string `json:"tunnelGeolocation,omitempty,omitzero"`
+	URL                    *string `json:"url,omitempty,omitzero"`
+	User                   *string `json:"user,omitempty,omitzero"`
+	UserAgent              *string `json:"userAgent,omitempty,omitzero"`
 }
 
 // Threat Prevention (TP) license details
 type ThreatPreventionLicense struct {
-	Description    *string       `json:"description,omitempty"`
+	Description    *string       `json:"description,omitempty,omitzero"`
 	ExpirationDate string        `json:"expirationDate"`
-	ID             *string       `json:"id,omitempty"`
-	LastUpdated    *string       `json:"lastUpdated,omitempty"`
+	ID             *string       `json:"id,omitempty,omitzero"`
+	LastUpdated    *string       `json:"lastUpdated,omitempty,omitzero"`
 	Plan           LicensePlan   `json:"plan"`
 	Sku            LicenseSku    `json:"sku"`
-	StartDate      *string       `json:"startDate,omitempty"`
+	StartDate      *string       `json:"startDate,omitempty,omitzero"`
 	Status         LicenseStatus `json:"status"`
 }
 
@@ -10592,9 +10596,9 @@ type TimeSeriesEvents struct {
 
 // For XDR stories, items that happened during the lifetime of the story
 type TimelineItem struct {
-	AdditionalInfo *string                   `json:"additionalInfo,omitempty"`
-	AnalystInfo    *AnalystInfo              `json:"analystInfo,omitempty"`
-	Category       *TimelineItemCategoryEnum `json:"category,omitempty"`
+	AdditionalInfo *string                   `json:"additionalInfo,omitempty,omitzero"`
+	AnalystInfo    *AnalystInfo              `json:"analystInfo,omitempty,omitzero"`
+	Category       *TimelineItemCategoryEnum `json:"category,omitempty,omitzero"`
 	Context        string                    `json:"context"`
 	CreatedAt      string                    `json:"createdAt"`
 	Description    string                    `json:"description"`
@@ -10603,17 +10607,17 @@ type TimelineItem struct {
 }
 
 type Timeseries struct {
-	Data       [][]float64      `json:"data,omitempty"`
-	Dimensions []*DimensionData `json:"dimensions,omitempty"`
-	Info       []string         `json:"info,omitempty"`
-	Key        *TimeseriesKey   `json:"key,omitempty"`
+	Data       [][]float64      `json:"data,omitempty,omitzero"`
+	Dimensions []*DimensionData `json:"dimensions,omitempty,omitzero"`
+	Info       []string         `json:"info,omitempty,omitzero"`
+	Key        *TimeseriesKey   `json:"key,omitempty,omitzero"`
 	Label      string           `json:"label"`
-	Sum        *float64         `json:"sum,omitempty"`
-	Units      *UnitType        `json:"units,omitempty"`
+	Sum        *float64         `json:"sum,omitempty,omitzero"`
+	Units      *UnitType        `json:"units,omitempty,omitzero"`
 }
 
 type TimeseriesKey struct {
-	Dimensions       []*DimensionKey `json:"dimensions,omitempty"`
+	Dimensions       []*DimensionKey `json:"dimensions,omitempty,omitzero"`
 	MeasureFieldName string          `json:"measureFieldName"`
 }
 
@@ -10708,10 +10712,10 @@ type TLSInspectConfigInput struct {
 }
 
 type TLSInspectPolicy struct {
-	AdditionalAttributes *TLSInspectConfig        `json:"additionalAttributes,omitempty"`
-	Audit                *PolicyAudit             `json:"audit,omitempty"`
+	AdditionalAttributes *TLSInspectConfig        `json:"additionalAttributes,omitempty,omitzero"`
+	Audit                *PolicyAudit             `json:"audit,omitempty,omitzero"`
 	Enabled              bool                     `json:"enabled"`
-	Revision             *PolicyRevision          `json:"revision,omitempty"`
+	Revision             *PolicyRevision          `json:"revision,omitempty,omitzero"`
 	Rules                []*TLSInspectRulePayload `json:"rules"`
 	Sections             []*PolicySectionPayload  `json:"sections"`
 }
@@ -10751,7 +10755,7 @@ type TLSInspectPolicyMutationInput struct {
 
 type TLSInspectPolicyMutationPayload struct {
 	Errors []*PolicyMutationError `json:"errors"`
-	Policy *TLSInspectPolicy      `json:"policy,omitempty"`
+	Policy *TLSInspectPolicy      `json:"policy,omitempty,omitzero"`
 	Status PolicyMutationStatus   `json:"status"`
 }
 
@@ -10786,7 +10790,7 @@ type TLSInspectPolicyMutations struct {
 
 type TLSInspectPolicyQueries struct {
 	Policy    *TLSInspectPolicy       `json:"policy"`
-	Revisions *PolicyRevisionsPayload `json:"revisions,omitempty"`
+	Revisions *PolicyRevisionsPayload `json:"revisions,omitempty,omitzero"`
 }
 
 type TLSInspectPolicyUpdateInput struct {
@@ -10825,7 +10829,7 @@ func (this TLSInspectRule) GetSection() *PolicySectionInfo { return this.Section
 
 type TLSInspectRuleMutationPayload struct {
 	Errors []*PolicyMutationError `json:"errors"`
-	Rule   *TLSInspectRulePayload `json:"rule,omitempty"`
+	Rule   *TLSInspectRulePayload `json:"rule,omitempty,omitzero"`
 	Status PolicyMutationStatus   `json:"status"`
 }
 
@@ -10934,9 +10938,9 @@ type TLSInspectUpdateRuleInput struct {
 }
 
 type TunnelConfig struct {
-	LocalID                *string `json:"localId,omitempty"`
-	TunnelID               *string `json:"tunnelId,omitempty"`
-	TunnelRemoteIdentifier *string `json:"tunnelRemoteIdentifier,omitempty"`
+	LocalID                *string `json:"localId,omitempty,omitzero"`
+	TunnelID               *string `json:"tunnelId,omitempty,omitzero"`
+	TunnelRemoteIdentifier *string `json:"tunnelRemoteIdentifier,omitempty,omitzero"`
 }
 
 type UnassignSocketFromZtnaAppConnectorInput struct {
@@ -11131,18 +11135,18 @@ type UpdateIpsecIkeV2SiteGeneralDetailsInput struct {
 }
 
 type UpdateIpsecIkeV2SiteGeneralDetailsPayload struct {
-	LocalID *string `json:"localId,omitempty"`
+	LocalID *string `json:"localId,omitempty,omitzero"`
 	SiteID  string  `json:"siteId"`
 }
 
 type UpdateIpsecIkeV2SiteMultiTunnelPayload struct {
-	Fqdn    *string                              `json:"fqdn,omitempty"`
+	Fqdn    *string                              `json:"fqdn,omitempty,omitzero"`
 	Tunnels []*UpdateIpsecIkeV2SiteTunnelPayload `json:"tunnels"`
 }
 
 type UpdateIpsecIkeV2SiteTunnelPayload struct {
-	LocalID  *string             `json:"localId,omitempty"`
-	TunnelID *IPSecV2InterfaceID `json:"tunnelId,omitempty"`
+	LocalID  *string             `json:"localId,omitempty,omitzero"`
+	TunnelID *IPSecV2InterfaceID `json:"tunnelId,omitempty,omitzero"`
 }
 
 type UpdateIpsecIkeV2SiteTunnelsInput struct {
@@ -11151,8 +11155,8 @@ type UpdateIpsecIkeV2SiteTunnelsInput struct {
 }
 
 type UpdateIpsecIkeV2SiteTunnelsPayload struct {
-	Primary   *UpdateIpsecIkeV2SiteMultiTunnelPayload `json:"primary,omitempty"`
-	Secondary *UpdateIpsecIkeV2SiteMultiTunnelPayload `json:"secondary,omitempty"`
+	Primary   *UpdateIpsecIkeV2SiteMultiTunnelPayload `json:"primary,omitempty,omitzero"`
+	Secondary *UpdateIpsecIkeV2SiteMultiTunnelPayload `json:"secondary,omitempty,omitzero"`
 	SiteID    string                                  `json:"siteId"`
 }
 
@@ -11360,18 +11364,18 @@ type UploadFileInput struct {
 
 // Upload file response
 type UploadFilePayload struct {
-	UploadURL *string `json:"uploadUrl,omitempty"`
+	UploadURL *string `json:"uploadUrl,omitempty,omitzero"`
 }
 
 // Basic User configuration information
 type UserInfo struct {
-	AuthMethod   *string                    `json:"authMethod,omitempty"`
-	CreationTime *string                    `json:"creationTime,omitempty"`
-	Email        *string                    `json:"email,omitempty"`
-	Name         *string                    `json:"name,omitempty"`
-	Origin       *string                    `json:"origin,omitempty"`
-	PhoneNumber  *string                    `json:"phoneNumber,omitempty"`
-	Status       *scalars.OperationalStatus `json:"status,omitempty"`
+	AuthMethod   *string                    `json:"authMethod,omitempty,omitzero"`
+	CreationTime *string                    `json:"creationTime,omitempty,omitzero"`
+	Email        *string                    `json:"email,omitempty,omitzero"`
+	Name         *string                    `json:"name,omitempty,omitzero"`
+	Origin       *string                    `json:"origin,omitempty,omitzero"`
+	PhoneNumber  *string                    `json:"phoneNumber,omitempty,omitzero"`
+	Status       *scalars.OperationalStatus `json:"status,omitempty,omitzero"`
 }
 
 // A reference identifying the UserNotificationAiSecurityTemplate object. ID: Unique UserNotificationAiSecurityTemplate Identifier, Name: The UserNotificationAiSecurityTemplate Name
@@ -11422,26 +11426,26 @@ type UserRefInput struct {
 }
 
 type UserSnapshot struct {
-	ConnectedInOffice  *bool                      `json:"connectedInOffice,omitempty"`
-	ConnectivityStatus *ConnectivityStatus        `json:"connectivityStatus,omitempty"`
-	DeviceName         *string                    `json:"deviceName,omitempty"`
-	Devices            []*DeviceSnapshot          `json:"devices,omitempty"`
-	ID                 *string                    `json:"id,omitempty"`
-	Info               *UserInfo                  `json:"info,omitempty"`
-	InternalIP         *string                    `json:"internalIP,omitempty"`
-	LastConnected      *string                    `json:"lastConnected,omitempty"`
-	Name               *string                    `json:"name,omitempty"`
-	OperationalStatus  *scalars.OperationalStatus `json:"operationalStatus,omitempty"`
-	OsType             *string                    `json:"osType,omitempty"`
-	OsVersion          *string                    `json:"osVersion,omitempty"`
-	PopID              *int64                     `json:"popID,omitempty"`
-	PopName            *string                    `json:"popName,omitempty"`
-	RecentConnections  []*RecentConnection        `json:"recentConnections,omitempty"`
-	RemoteIP           *string                    `json:"remoteIP,omitempty"`
-	RemoteIPInfo       *IPInfo                    `json:"remoteIPInfo,omitempty"`
-	Uptime             *int64                     `json:"uptime,omitempty"`
-	Version            *string                    `json:"version,omitempty"`
-	VersionNumber      *int64                     `json:"versionNumber,omitempty"`
+	ConnectedInOffice  *bool                      `json:"connectedInOffice,omitempty,omitzero"`
+	ConnectivityStatus *ConnectivityStatus        `json:"connectivityStatus,omitempty,omitzero"`
+	DeviceName         *string                    `json:"deviceName,omitempty,omitzero"`
+	Devices            []*DeviceSnapshot          `json:"devices,omitempty,omitzero"`
+	ID                 *string                    `json:"id,omitempty,omitzero"`
+	Info               *UserInfo                  `json:"info,omitempty,omitzero"`
+	InternalIP         *string                    `json:"internalIP,omitempty,omitzero"`
+	LastConnected      *string                    `json:"lastConnected,omitempty,omitzero"`
+	Name               *string                    `json:"name,omitempty,omitzero"`
+	OperationalStatus  *scalars.OperationalStatus `json:"operationalStatus,omitempty,omitzero"`
+	OsType             *string                    `json:"osType,omitempty,omitzero"`
+	OsVersion          *string                    `json:"osVersion,omitempty,omitzero"`
+	PopID              *int64                     `json:"popID,omitempty,omitzero"`
+	PopName            *string                    `json:"popName,omitempty,omitzero"`
+	RecentConnections  []*RecentConnection        `json:"recentConnections,omitempty,omitzero"`
+	RemoteIP           *string                    `json:"remoteIP,omitempty,omitzero"`
+	RemoteIPInfo       *IPInfo                    `json:"remoteIPInfo,omitempty,omitzero"`
+	Uptime             *int64                     `json:"uptime,omitempty,omitzero"`
+	Version            *string                    `json:"version,omitempty,omitzero"`
+	VersionNumber      *int64                     `json:"versionNumber,omitempty,omitzero"`
 }
 
 // A reference identifying the UsersGroup object. ID: Unique UsersGroup Identifier, Name: The UsersGroup Name
@@ -11519,7 +11523,7 @@ type WanFirewallAddSubPolicyInput struct {
 
 type WanFirewallAddSubPolicyMutationPayload struct {
 	Errors []*PolicyMutationError `json:"errors"`
-	Policy *WanFirewallPolicy     `json:"policy,omitempty"`
+	Policy *WanFirewallPolicy     `json:"policy,omitempty,omitzero"`
 	Status PolicyMutationStatus   `json:"status"`
 }
 
@@ -11637,13 +11641,13 @@ type WanFirewallDestinationUpdateInput struct {
 
 type WanFirewallPolicy struct {
 	Access        *EntityAccess                  `json:"access"`
-	Audit         *PolicyAudit                   `json:"audit,omitempty"`
+	Audit         *PolicyAudit                   `json:"audit,omitempty,omitzero"`
 	Description   string                         `json:"description"`
 	Enabled       bool                           `json:"enabled"`
-	HitCountAudit *PolicyHitCount                `json:"hitCountAudit,omitempty"`
+	HitCountAudit *PolicyHitCount                `json:"hitCountAudit,omitempty,omitzero"`
 	ID            string                         `json:"id"`
 	Name          string                         `json:"name"`
-	Revision      *PolicyRevision                `json:"revision,omitempty"`
+	Revision      *PolicyRevision                `json:"revision,omitempty,omitzero"`
 	Rules         []*WanFirewallRulePayload      `json:"rules"`
 	Sections      []*PolicySectionPayload        `json:"sections"`
 	SubPolicies   []*WanFirewallSubPolicyPayload `json:"subPolicies"`
@@ -11737,7 +11741,7 @@ type WanFirewallPolicyMutationInput struct {
 // Wan Firewall policy information provided in the API response
 type WanFirewallPolicyMutationPayload struct {
 	Errors []*PolicyMutationError `json:"errors"`
-	Policy *WanFirewallPolicy     `json:"policy,omitempty"`
+	Policy *WanFirewallPolicy     `json:"policy,omitempty,omitzero"`
 	Status PolicyMutationStatus   `json:"status"`
 }
 
@@ -11779,7 +11783,7 @@ type WanFirewallPolicyMutations struct {
 type WanFirewallPolicyQueries struct {
 	Policy     *WanFirewallPolicy            `json:"policy"`
 	PolicyList *WanFirewallPolicyListPayload `json:"policyList"`
-	Revisions  *PolicyRevisionsPayload       `json:"revisions,omitempty"`
+	Revisions  *PolicyRevisionsPayload       `json:"revisions,omitempty,omitzero"`
 }
 
 type WanFirewallPolicyRef struct {
@@ -11812,7 +11816,7 @@ type WanFirewallRemoveSubPolicyInput struct {
 
 type WanFirewallRemoveSubPolicyMutationPayload struct {
 	Errors []*PolicyMutationError `json:"errors"`
-	Policy *WanFirewallPolicy     `json:"policy,omitempty"`
+	Policy *WanFirewallPolicy     `json:"policy,omitempty,omitzero"`
 	Status PolicyMutationStatus   `json:"status"`
 }
 
@@ -11903,7 +11907,7 @@ type WanFirewallRuleExceptionInput struct {
 
 type WanFirewallRuleMutationPayload struct {
 	Errors []*PolicyMutationError  `json:"errors"`
-	Rule   *WanFirewallRulePayload `json:"rule,omitempty"`
+	Rule   *WanFirewallRulePayload `json:"rule,omitempty,omitzero"`
 	Status PolicyMutationStatus    `json:"status"`
 }
 
@@ -11925,11 +11929,11 @@ func (this WanFirewallRuleMutationPayload) GetStatus() PolicyMutationStatus { re
 type WanFirewallRulePayload struct {
 	Access     *EntityAccess                 `json:"access"`
 	Audit      *PolicyElementAudit           `json:"audit"`
-	HitCount   *RuleHitCount                 `json:"hitCount,omitempty"`
+	HitCount   *RuleHitCount                 `json:"hitCount,omitempty,omitzero"`
 	Properties []PolicyElementPropertiesEnum `json:"properties"`
 	Rule       *WanFirewallRule              `json:"rule"`
 	RuleType   PolicyRuleTypeEnum            `json:"ruleType"`
-	SubPolicy  *WanFirewallPolicyRef         `json:"subPolicy,omitempty"`
+	SubPolicy  *WanFirewallPolicyRef         `json:"subPolicy,omitempty,omitzero"`
 }
 
 func (WanFirewallRulePayload) IsIPolicyRulePayload()              {}
@@ -12065,7 +12069,7 @@ type WanFirewallUpdateRuleInput struct {
 
 type WanFirewallUserAttributes struct {
 	RiskScore           *RiskScoreCondition  `json:"riskScore"`
-	UserConfidenceLevel *UserConfidenceLevel `json:"userConfidenceLevel,omitempty"`
+	UserConfidenceLevel *UserConfidenceLevel `json:"userConfidenceLevel,omitempty,omitzero"`
 }
 
 func (WanFirewallUserAttributes) IsUserAttributes()                      {}
@@ -12101,9 +12105,9 @@ type WanNetworkAddRuleInput struct {
 }
 
 type WanNetworkPolicy struct {
-	Audit    *PolicyAudit             `json:"audit,omitempty"`
+	Audit    *PolicyAudit             `json:"audit,omitempty,omitzero"`
 	Enabled  bool                     `json:"enabled"`
-	Revision *PolicyRevision          `json:"revision,omitempty"`
+	Revision *PolicyRevision          `json:"revision,omitempty,omitzero"`
 	Rules    []*WanNetworkRulePayload `json:"rules"`
 	Sections []*PolicySectionPayload  `json:"sections"`
 }
@@ -12143,7 +12147,7 @@ type WanNetworkPolicyMutationInput struct {
 
 type WanNetworkPolicyMutationPayload struct {
 	Errors []*PolicyMutationError `json:"errors"`
-	Policy *WanNetworkPolicy      `json:"policy,omitempty"`
+	Policy *WanNetworkPolicy      `json:"policy,omitempty,omitzero"`
 	Status PolicyMutationStatus   `json:"status"`
 }
 
@@ -12178,7 +12182,7 @@ type WanNetworkPolicyMutations struct {
 
 type WanNetworkPolicyQueries struct {
 	Policy    *WanNetworkPolicy       `json:"policy"`
-	Revisions *PolicyRevisionsPayload `json:"revisions,omitempty"`
+	Revisions *PolicyRevisionsPayload `json:"revisions,omitempty,omitzero"`
 }
 
 type WanNetworkPolicyUpdateInput struct {
@@ -12347,7 +12351,7 @@ type WanNetworkRuleExceptionInput struct {
 
 type WanNetworkRuleMutationPayload struct {
 	Errors []*PolicyMutationError `json:"errors"`
-	Rule   *WanNetworkRulePayload `json:"rule,omitempty"`
+	Rule   *WanNetworkRulePayload `json:"rule,omitempty,omitzero"`
 	Status PolicyMutationStatus   `json:"status"`
 }
 
@@ -12471,19 +12475,19 @@ type WanNetworkUpdateRuleInput struct {
 }
 
 type Xdr struct {
-	Stories *StoriesData `json:"stories,omitempty"`
-	Story   *Story       `json:"story,omitempty"`
+	Stories *StoriesData `json:"stories,omitempty,omitzero"`
+	Story   *Story       `json:"story,omitempty,omitzero"`
 }
 
 // XOps service license details
 type XOpsLicense struct {
-	Description    *string       `json:"description,omitempty"`
+	Description    *string       `json:"description,omitempty,omitzero"`
 	ExpirationDate string        `json:"expirationDate"`
-	ID             *string       `json:"id,omitempty"`
-	LastUpdated    *string       `json:"lastUpdated,omitempty"`
+	ID             *string       `json:"id,omitempty,omitzero"`
+	LastUpdated    *string       `json:"lastUpdated,omitempty,omitzero"`
 	Plan           LicensePlan   `json:"plan"`
 	Sku            LicenseSku    `json:"sku"`
-	StartDate      *string       `json:"startDate,omitempty"`
+	StartDate      *string       `json:"startDate,omitempty,omitzero"`
 	Status         LicenseStatus `json:"status"`
 }
 
@@ -12498,20 +12502,20 @@ func (this XOpsLicense) GetStartDate() *string     { return this.StartDate }
 func (this XOpsLicense) GetStatus() LicenseStatus  { return this.Status }
 
 type XdrMutations struct {
-	AddStoryComment    *AddStoryCommentPayload    `json:"addStoryComment,omitempty"`
-	AnalystFeedback    *AnalystFeedbackPayload    `json:"analystFeedback,omitempty"`
-	DeleteStoryComment *DeleteStoryCommentPayload `json:"deleteStoryComment,omitempty"`
+	AddStoryComment    *AddStoryCommentPayload    `json:"addStoryComment,omitempty,omitzero"`
+	AnalystFeedback    *AnalystFeedbackPayload    `json:"analystFeedback,omitempty,omitzero"`
+	DeleteStoryComment *DeleteStoryCommentPayload `json:"deleteStoryComment,omitempty,omitzero"`
 }
 
 // XDR Pro (extended detection and response) service license details
 type XdrProLicense struct {
-	Description    *string       `json:"description,omitempty"`
+	Description    *string       `json:"description,omitempty,omitzero"`
 	ExpirationDate string        `json:"expirationDate"`
-	ID             *string       `json:"id,omitempty"`
-	LastUpdated    *string       `json:"lastUpdated,omitempty"`
+	ID             *string       `json:"id,omitempty,omitzero"`
+	LastUpdated    *string       `json:"lastUpdated,omitempty,omitzero"`
 	Plan           LicensePlan   `json:"plan"`
 	Sku            LicenseSku    `json:"sku"`
-	StartDate      *string       `json:"startDate,omitempty"`
+	StartDate      *string       `json:"startDate,omitempty,omitzero"`
 	Status         LicenseStatus `json:"status"`
 	Total          int64         `json:"total"`
 }
@@ -12550,9 +12554,9 @@ type ZtnaAlwaysOnAddRuleInput struct {
 }
 
 type ZtnaAlwaysOnPolicy struct {
-	Audit    *PolicyAudit               `json:"audit,omitempty"`
+	Audit    *PolicyAudit               `json:"audit,omitempty,omitzero"`
 	Enabled  bool                       `json:"enabled"`
-	Revision *PolicyRevision            `json:"revision,omitempty"`
+	Revision *PolicyRevision            `json:"revision,omitempty,omitzero"`
 	Rules    []*ZtnaAlwaysOnRulePayload `json:"rules"`
 	Sections []*PolicySectionPayload    `json:"sections"`
 }
@@ -12592,7 +12596,7 @@ type ZtnaAlwaysOnPolicyMutationInput struct {
 
 type ZtnaAlwaysOnPolicyMutationPayload struct {
 	Errors []*PolicyMutationError `json:"errors"`
-	Policy *ZtnaAlwaysOnPolicy    `json:"policy,omitempty"`
+	Policy *ZtnaAlwaysOnPolicy    `json:"policy,omitempty,omitzero"`
 	Status PolicyMutationStatus   `json:"status"`
 }
 
@@ -12627,7 +12631,7 @@ type ZtnaAlwaysOnPolicyMutations struct {
 
 type ZtnaAlwaysOnPolicyQueries struct {
 	Policy    *ZtnaAlwaysOnPolicy     `json:"policy"`
-	Revisions *PolicyRevisionsPayload `json:"revisions,omitempty"`
+	Revisions *PolicyRevisionsPayload `json:"revisions,omitempty,omitzero"`
 }
 
 type ZtnaAlwaysOnPolicyUpdateInput struct {
@@ -12642,7 +12646,7 @@ type ZtnaAlwaysOnRule struct {
 	Action               ZtnaAlwaysOnRuleActionEnum `json:"action"`
 	AllowFailOpen        bool                       `json:"allowFailOpen"`
 	AllowUserBypass      bool                       `json:"allowUserBypass"`
-	AntiTamperMode       *AntiTamperModeEnum        `json:"antiTamperMode,omitempty"`
+	AntiTamperMode       *AntiTamperModeEnum        `json:"antiTamperMode,omitempty,omitzero"`
 	BypassDuration       *ZtnaAlwaysOnTime          `json:"bypassDuration"`
 	Description          string                     `json:"description"`
 	DevicePostureProfile []*DeviceProfileRef        `json:"devicePostureProfile"`
@@ -12665,7 +12669,7 @@ func (this ZtnaAlwaysOnRule) GetSection() *PolicySectionInfo { return this.Secti
 
 type ZtnaAlwaysOnRuleMutationPayload struct {
 	Errors []*PolicyMutationError   `json:"errors"`
-	Rule   *ZtnaAlwaysOnRulePayload `json:"rule,omitempty"`
+	Rule   *ZtnaAlwaysOnRulePayload `json:"rule,omitempty,omitzero"`
 	Status PolicyMutationStatus     `json:"status"`
 }
 
@@ -12759,16 +12763,16 @@ type ZtnaAlwaysOnUpdateRuleInput struct {
 }
 
 type ZtnaAppConnector struct {
-	Description          *string                               `json:"description,omitempty"`
+	Description          *string                               `json:"description,omitempty,omitzero"`
 	GroupName            string                                `json:"groupName"`
 	ID                   string                                `json:"id"`
 	Location             *ZtnaAppConnectorLocation             `json:"location"`
 	Name                 string                                `json:"name"`
-	PreferredPopLocation *ZtnaAppConnectorPreferredPopLocation `json:"preferredPopLocation,omitempty"`
+	PreferredPopLocation *ZtnaAppConnectorPreferredPopLocation `json:"preferredPopLocation,omitempty,omitzero"`
 	PrivateAppRef        []*PrivateApplicationRef              `json:"privateAppRef"`
-	SerialNumber         *string                               `json:"serialNumber,omitempty"`
-	SocketID             *string                               `json:"socketId,omitempty"`
-	SocketModel          *SocketModel                          `json:"socketModel,omitempty"`
+	SerialNumber         *string                               `json:"serialNumber,omitempty,omitzero"`
+	SocketID             *string                               `json:"socketId,omitempty,omitzero"`
+	SocketModel          *SocketModel                          `json:"socketModel,omitempty,omitzero"`
 	Type                 ZtnaAppConnectorType                  `json:"type"`
 }
 
@@ -12807,10 +12811,10 @@ type ZtnaAppConnectorListPayload struct {
 }
 
 type ZtnaAppConnectorLocation struct {
-	Address     *string `json:"address,omitempty"`
+	Address     *string `json:"address,omitempty,omitzero"`
 	CityName    string  `json:"cityName"`
 	CountryCode string  `json:"countryCode"`
-	StateCode   *string `json:"stateCode,omitempty"`
+	StateCode   *string `json:"stateCode,omitempty,omitzero"`
 	Timezone    string  `json:"timezone"`
 }
 
@@ -12837,8 +12841,8 @@ type ZtnaAppConnectorMutations struct {
 type ZtnaAppConnectorPreferredPopLocation struct {
 	Automatic     bool            `json:"automatic"`
 	PreferredOnly bool            `json:"preferredOnly"`
-	Primary       *PopLocationRef `json:"primary,omitempty"`
-	Secondary     *PopLocationRef `json:"secondary,omitempty"`
+	Primary       *PopLocationRef `json:"primary,omitempty,omitzero"`
+	Secondary     *PopLocationRef `json:"secondary,omitempty,omitzero"`
 }
 
 type ZtnaAppConnectorPreferredPopLocationInput struct {
@@ -12849,10 +12853,10 @@ type ZtnaAppConnectorPreferredPopLocationInput struct {
 }
 
 type ZtnaAppConnectorQueries struct {
-	ZtnaAppConnector               *ZtnaAppConnector                 `json:"ztnaAppConnector,omitempty"`
-	ZtnaAppConnectorGroupList      *ZtnaAppConnectorGroupListPayload `json:"ztnaAppConnectorGroupList,omitempty"`
-	ZtnaAppConnectorList           *ZtnaAppConnectorListPayload      `json:"ztnaAppConnectorList,omitempty"`
-	ZtnaAppConnectorsConfiguration *ZtnaAppConnectorsConfiguration   `json:"ztnaAppConnectorsConfiguration,omitempty"`
+	ZtnaAppConnector               *ZtnaAppConnector                 `json:"ztnaAppConnector,omitempty,omitzero"`
+	ZtnaAppConnectorGroupList      *ZtnaAppConnectorGroupListPayload `json:"ztnaAppConnectorGroupList,omitempty,omitzero"`
+	ZtnaAppConnectorList           *ZtnaAppConnectorListPayload      `json:"ztnaAppConnectorList,omitempty,omitzero"`
+	ZtnaAppConnectorsConfiguration *ZtnaAppConnectorsConfiguration   `json:"ztnaAppConnectorsConfiguration,omitempty,omitzero"`
 }
 
 type ZtnaAppConnectorRef struct {
@@ -12895,13 +12899,13 @@ type ZtnaAppConnectorsConfiguration struct {
 
 // ZTNA remote users license
 type ZtnaUsersLicense struct {
-	Description           *string               `json:"description,omitempty"`
+	Description           *string               `json:"description,omitempty,omitzero"`
 	ExpirationDate        string                `json:"expirationDate"`
-	ID                    *string               `json:"id,omitempty"`
-	LastUpdated           *string               `json:"lastUpdated,omitempty"`
+	ID                    *string               `json:"id,omitempty,omitzero"`
+	LastUpdated           *string               `json:"lastUpdated,omitempty,omitzero"`
 	Plan                  LicensePlan           `json:"plan"`
 	Sku                   LicenseSku            `json:"sku"`
-	StartDate             *string               `json:"startDate,omitempty"`
+	StartDate             *string               `json:"startDate,omitempty,omitzero"`
 	Status                LicenseStatus         `json:"status"`
 	Total                 int64                 `json:"total"`
 	ZtnaUsersLicenseGroup ZtnaUsersLicenseGroup `json:"ztnaUsersLicenseGroup"`
@@ -12969,6 +12973,20 @@ func (e AccountInclusion) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
+func (e *AccountInclusion) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e AccountInclusion) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
+}
+
 type AccountOperationsTimelineType string
 
 const (
@@ -13008,6 +13026,20 @@ func (e *AccountOperationsTimelineType) UnmarshalGQL(v any) error {
 
 func (e AccountOperationsTimelineType) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+func (e *AccountOperationsTimelineType) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e AccountOperationsTimelineType) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
 }
 
 // enum that shows account license status
@@ -13050,6 +13082,20 @@ func (e *AccountPlan) UnmarshalGQL(v any) error {
 
 func (e AccountPlan) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+func (e *AccountPlan) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e AccountPlan) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
 }
 
 // enum for account type
@@ -13096,6 +13142,20 @@ func (e AccountProfileType) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
+func (e *AccountProfileType) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e AccountProfileType) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
+}
+
 // enum that shows account license status
 type AccountStatus string
 
@@ -13140,6 +13200,20 @@ func (e AccountStatus) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
+func (e *AccountStatus) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e AccountStatus) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
+}
+
 // enum for account tenancy
 type AccountTenancy string
 
@@ -13182,6 +13256,20 @@ func (e *AccountTenancy) UnmarshalGQL(v any) error {
 
 func (e AccountTenancy) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+func (e *AccountTenancy) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e AccountTenancy) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
 }
 
 type AccountType string
@@ -13229,6 +13317,20 @@ func (e AccountType) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
+func (e *AccountType) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e AccountType) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
+}
+
 type AddressValidationStatus string
 
 const (
@@ -13272,6 +13374,20 @@ func (e AddressValidationStatus) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
+func (e *AddressValidationStatus) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e AddressValidationStatus) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
+}
+
 type AdminType string
 
 const (
@@ -13311,6 +13427,20 @@ func (e *AdminType) UnmarshalGQL(v any) error {
 
 func (e AdminType) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+func (e *AdminType) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e AdminType) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
 }
 
 type AggregationType string
@@ -13370,6 +13500,20 @@ func (e AggregationType) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
+func (e *AggregationType) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e AggregationType) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
+}
+
 type AiOperationsIncidentTypeEnum string
 
 const (
@@ -13407,6 +13551,20 @@ func (e *AiOperationsIncidentTypeEnum) UnmarshalGQL(v any) error {
 
 func (e AiOperationsIncidentTypeEnum) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+func (e *AiOperationsIncidentTypeEnum) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e AiOperationsIncidentTypeEnum) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
 }
 
 type AiSecurityDataUsagePolicyType string
@@ -13454,6 +13612,20 @@ func (e AiSecurityDataUsagePolicyType) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
+func (e *AiSecurityDataUsagePolicyType) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e AiSecurityDataUsagePolicyType) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
+}
+
 type AiSecurityRisk string
 
 const (
@@ -13499,6 +13671,20 @@ func (e AiSecurityRisk) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
+func (e *AiSecurityRisk) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e AiSecurityRisk) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
+}
+
 type AiSecurityScope string
 
 const (
@@ -13538,6 +13724,20 @@ func (e *AiSecurityScope) UnmarshalGQL(v any) error {
 
 func (e AiSecurityScope) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+func (e *AiSecurityScope) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e AiSecurityScope) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
 }
 
 type AlertClassificationEnum string
@@ -13581,6 +13781,20 @@ func (e *AlertClassificationEnum) UnmarshalGQL(v any) error {
 
 func (e AlertClassificationEnum) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+func (e *AlertClassificationEnum) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e AlertClassificationEnum) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
 }
 
 type AlertDeterminationEnum string
@@ -13648,6 +13862,20 @@ func (e AlertDeterminationEnum) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
+func (e *AlertDeterminationEnum) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e AlertDeterminationEnum) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
+}
+
 type AnnotationType string
 
 const (
@@ -13697,6 +13925,20 @@ func (e AnnotationType) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
+func (e *AnnotationType) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e AnnotationType) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
+}
+
 type AntiMalwareFileHashAction string
 
 const (
@@ -13738,6 +13980,20 @@ func (e *AntiMalwareFileHashAction) UnmarshalGQL(v any) error {
 
 func (e AntiMalwareFileHashAction) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+func (e *AntiMalwareFileHashAction) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e AntiMalwareFileHashAction) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
 }
 
 // Specifies the level of protection against tampering
@@ -13787,6 +14043,20 @@ func (e AntiTamperModeEnum) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
+func (e *AntiTamperModeEnum) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e AntiTamperModeEnum) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
+}
+
 type ApnMethod string
 
 const (
@@ -13828,6 +14098,20 @@ func (e *ApnMethod) UnmarshalGQL(v any) error {
 
 func (e ApnMethod) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+func (e *ApnMethod) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e ApnMethod) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
 }
 
 type AppStatsFieldName string
@@ -14143,6 +14427,20 @@ func (e AppStatsFieldName) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
+func (e *AppStatsFieldName) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e AppStatsFieldName) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
+}
+
 // Allowed actions
 type AppTenantRestrictionActionEnum string
 
@@ -14185,6 +14483,20 @@ func (e *AppTenantRestrictionActionEnum) UnmarshalGQL(v any) error {
 
 func (e AppTenantRestrictionActionEnum) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+func (e *AppTenantRestrictionActionEnum) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e AppTenantRestrictionActionEnum) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
 }
 
 // Severity options
@@ -14234,6 +14546,20 @@ func (e AppTenantRestrictionSeverityEnum) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
+func (e *AppTenantRestrictionSeverityEnum) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e AppTenantRestrictionSeverityEnum) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
+}
+
 // Application Control Access Method Type
 type ApplicationControlAccessMethodType string
 
@@ -14273,6 +14599,20 @@ func (e *ApplicationControlAccessMethodType) UnmarshalGQL(v any) error {
 
 func (e ApplicationControlAccessMethodType) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+func (e *ApplicationControlAccessMethodType) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e ApplicationControlAccessMethodType) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
 }
 
 // Application Control Action
@@ -14322,6 +14662,20 @@ func (e ApplicationControlAction) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
+func (e *ApplicationControlAction) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e ApplicationControlAction) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
+}
+
 // Attribute Value
 type ApplicationControlAttributeValue string
 
@@ -14369,6 +14723,20 @@ func (e ApplicationControlAttributeValue) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
+func (e *ApplicationControlAttributeValue) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e ApplicationControlAttributeValue) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
+}
+
 // Application Control File Attribute Type
 type ApplicationControlFileAttributeType string
 
@@ -14414,6 +14782,20 @@ func (e *ApplicationControlFileAttributeType) UnmarshalGQL(v any) error {
 
 func (e ApplicationControlFileAttributeType) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+func (e *ApplicationControlFileAttributeType) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e ApplicationControlFileAttributeType) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
 }
 
 // Application Control Operator
@@ -14469,6 +14851,20 @@ func (e ApplicationControlOperator) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
+func (e *ApplicationControlOperator) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e ApplicationControlOperator) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
+}
+
 // Application Control Rule Type
 type ApplicationControlRuleType string
 
@@ -14516,6 +14912,20 @@ func (e ApplicationControlRuleType) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
+func (e *ApplicationControlRuleType) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e ApplicationControlRuleType) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
+}
+
 // Application Control Satisfy
 type ApplicationControlSatisfy string
 
@@ -14558,6 +14968,20 @@ func (e *ApplicationControlSatisfy) UnmarshalGQL(v any) error {
 
 func (e ApplicationControlSatisfy) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+func (e *ApplicationControlSatisfy) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e ApplicationControlSatisfy) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
 }
 
 // Severity level
@@ -14607,6 +15031,20 @@ func (e ApplicationControlSeverity) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
+func (e *ApplicationControlSeverity) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e ApplicationControlSeverity) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
+}
+
 // Application Type
 type ApplicationType string
 
@@ -14652,6 +15090,20 @@ func (e *ApplicationType) UnmarshalGQL(v any) error {
 
 func (e ApplicationType) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+func (e *ApplicationType) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e ApplicationType) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
 }
 
 type AuditFieldName string
@@ -14726,6 +15178,20 @@ func (e AuditFieldName) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
+func (e *AuditFieldName) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e AuditFieldName) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
+}
+
 type BgpCommunityFilterPredicate string
 
 const (
@@ -14769,6 +15235,20 @@ func (e BgpCommunityFilterPredicate) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
+func (e *BgpCommunityFilterPredicate) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e BgpCommunityFilterPredicate) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
+}
+
 type BgpDefaultAction string
 
 const (
@@ -14810,6 +15290,20 @@ func (e *BgpDefaultAction) UnmarshalGQL(v any) error {
 
 func (e BgpDefaultAction) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+func (e *BgpDefaultAction) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e BgpDefaultAction) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
 }
 
 type BgpState string
@@ -14863,6 +15357,20 @@ func (e BgpState) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
+func (e *BgpState) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e BgpState) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
+}
+
 type CatalogApplicationActivityFieldOperator string
 
 const (
@@ -14910,6 +15418,20 @@ func (e CatalogApplicationActivityFieldOperator) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
+func (e *CatalogApplicationActivityFieldOperator) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e CatalogApplicationActivityFieldOperator) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
+}
+
 type CatalogApplicationAttribute string
 
 const (
@@ -14951,6 +15473,20 @@ func (e *CatalogApplicationAttribute) UnmarshalGQL(v any) error {
 
 func (e CatalogApplicationAttribute) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+func (e *CatalogApplicationAttribute) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e CatalogApplicationAttribute) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
 }
 
 type CatalogApplicationCapability string
@@ -15012,6 +15548,20 @@ func (e CatalogApplicationCapability) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
+func (e *CatalogApplicationCapability) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e CatalogApplicationCapability) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
+}
+
 type CatalogApplicationDataDeletionPolicy string
 
 const (
@@ -15063,6 +15613,20 @@ func (e CatalogApplicationDataDeletionPolicy) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
+func (e *CatalogApplicationDataDeletionPolicy) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e CatalogApplicationDataDeletionPolicy) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
+}
+
 type CatalogApplicationDataOwnership string
 
 const (
@@ -15106,6 +15670,20 @@ func (e *CatalogApplicationDataOwnership) UnmarshalGQL(v any) error {
 
 func (e CatalogApplicationDataOwnership) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+func (e *CatalogApplicationDataOwnership) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e CatalogApplicationDataOwnership) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
 }
 
 type CatalogApplicationDataRetentionPolicy string
@@ -15159,6 +15737,20 @@ func (e CatalogApplicationDataRetentionPolicy) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
+func (e *CatalogApplicationDataRetentionPolicy) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e CatalogApplicationDataRetentionPolicy) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
+}
+
 type CatalogApplicationEncryptionStrengthAtRest string
 
 const (
@@ -15208,6 +15800,20 @@ func (e CatalogApplicationEncryptionStrengthAtRest) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
+func (e *CatalogApplicationEncryptionStrengthAtRest) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e CatalogApplicationEncryptionStrengthAtRest) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
+}
+
 type CatalogApplicationTLSVersionSupport string
 
 const (
@@ -15255,6 +15861,20 @@ func (e CatalogApplicationTLSVersionSupport) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
+func (e *CatalogApplicationTLSVersionSupport) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e CatalogApplicationTLSVersionSupport) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
+}
+
 type CatalogApplicationType string
 
 const (
@@ -15296,6 +15916,20 @@ func (e *CatalogApplicationType) UnmarshalGQL(v any) error {
 
 func (e CatalogApplicationType) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+func (e *CatalogApplicationType) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e CatalogApplicationType) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
 }
 
 type CatalogApplicationWeakCipherSupport string
@@ -15349,6 +15983,20 @@ func (e CatalogApplicationWeakCipherSupport) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
+func (e *CatalogApplicationWeakCipherSupport) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e CatalogApplicationWeakCipherSupport) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
+}
+
 type CatoEndpointEngineType string
 
 const (
@@ -15388,6 +16036,20 @@ func (e *CatoEndpointEngineType) UnmarshalGQL(v any) error {
 
 func (e CatoEndpointEngineType) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+func (e *CatoEndpointEngineType) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e CatoEndpointEngineType) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
 }
 
 type CellularDisconnectionReason string
@@ -15431,6 +16093,20 @@ func (e CellularDisconnectionReason) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
+func (e *CellularDisconnectionReason) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e CellularDisconnectionReason) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
+}
+
 type CellularModemStatus string
 
 const (
@@ -15472,6 +16148,20 @@ func (e *CellularModemStatus) UnmarshalGQL(v any) error {
 
 func (e CellularModemStatus) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+func (e *CellularModemStatus) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e CellularModemStatus) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
 }
 
 type CellularNetworkType string
@@ -15521,6 +16211,20 @@ func (e CellularNetworkType) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
+func (e *CellularNetworkType) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e CellularNetworkType) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
+}
+
 // The action applied by the client connectivity if the rule is matched
 type ClientConnectivityActionEnum string
 
@@ -15566,6 +16270,20 @@ func (e *ClientConnectivityActionEnum) UnmarshalGQL(v any) error {
 
 func (e ClientConnectivityActionEnum) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+func (e *ClientConnectivityActionEnum) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e ClientConnectivityActionEnum) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
 }
 
 // Describe how reliable the user's authentication is
@@ -15615,6 +16333,20 @@ func (e ClientConnectivityConfidenceLevelEnum) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
+func (e *ClientConnectivityConfidenceLevelEnum) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e ClientConnectivityConfidenceLevelEnum) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
+}
+
 // Defines Origin of the connection
 type ClientConnectivityOriginEnum string
 
@@ -15662,6 +16394,20 @@ func (e ClientConnectivityOriginEnum) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
+func (e *ClientConnectivityOriginEnum) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e ClientConnectivityOriginEnum) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
+}
+
 type ConnectionMode string
 
 const (
@@ -15701,6 +16447,20 @@ func (e *ConnectionMode) UnmarshalGQL(v any) error {
 
 func (e ConnectionMode) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+func (e *ConnectionMode) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e ConnectionMode) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
 }
 
 type ConnectionOriginEnum string
@@ -15744,6 +16504,20 @@ func (e *ConnectionOriginEnum) UnmarshalGQL(v any) error {
 
 func (e ConnectionOriginEnum) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+func (e *ConnectionOriginEnum) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e ConnectionOriginEnum) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
 }
 
 type ConnectionOriginsEnum string
@@ -15795,6 +16569,20 @@ func (e ConnectionOriginsEnum) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
+func (e *ConnectionOriginsEnum) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e ConnectionOriginsEnum) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
+}
+
 type ConnectionTypeEnum string
 
 const (
@@ -15836,6 +16624,20 @@ func (e *ConnectionTypeEnum) UnmarshalGQL(v any) error {
 
 func (e ConnectionTypeEnum) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+func (e *ConnectionTypeEnum) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e ConnectionTypeEnum) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
 }
 
 type ConnectivityStatus string
@@ -15881,6 +16683,20 @@ func (e ConnectivityStatus) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
+func (e *ConnectivityStatus) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e ConnectivityStatus) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
+}
+
 type ContainerFileType string
 
 const (
@@ -15920,6 +16736,20 @@ func (e *ContainerFileType) UnmarshalGQL(v any) error {
 
 func (e ContainerFileType) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+func (e *ContainerFileType) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e ContainerFileType) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
 }
 
 type ContainerSyncDataTimeUnit string
@@ -15963,6 +16793,20 @@ func (e ContainerSyncDataTimeUnit) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
+func (e *ContainerSyncDataTimeUnit) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e ContainerSyncDataTimeUnit) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
+}
+
 type ContainerType string
 
 const (
@@ -16002,6 +16846,20 @@ func (e *ContainerType) UnmarshalGQL(v any) error {
 
 func (e ContainerType) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+func (e *ContainerType) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e ContainerType) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
 }
 
 type DayOfWeek string
@@ -16053,6 +16911,20 @@ func (e *DayOfWeek) UnmarshalGQL(v any) error {
 
 func (e DayOfWeek) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+func (e *DayOfWeek) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e DayOfWeek) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
 }
 
 type DegradedStatusReason string
@@ -16116,6 +16988,20 @@ func (e DegradedStatusReason) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
+func (e *DegradedStatusReason) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e DegradedStatusReason) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
+}
+
 type DestinationType string
 
 const (
@@ -16155,6 +17041,20 @@ func (e *DestinationType) UnmarshalGQL(v any) error {
 
 func (e DestinationType) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+func (e *DestinationType) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e DestinationType) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
 }
 
 type DetectionSourceEnum string
@@ -16226,6 +17126,20 @@ func (e DetectionSourceEnum) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
+func (e *DetectionSourceEnum) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e DetectionSourceEnum) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
+}
+
 type DetectionStatusEnum string
 
 const (
@@ -16267,6 +17181,20 @@ func (e *DetectionStatusEnum) UnmarshalGQL(v any) error {
 
 func (e DetectionStatusEnum) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+func (e *DetectionStatusEnum) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e DetectionStatusEnum) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
 }
 
 type DeviceAvStatusEnum string
@@ -16312,6 +17240,20 @@ func (e *DeviceAvStatusEnum) UnmarshalGQL(v any) error {
 
 func (e DeviceAvStatusEnum) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+func (e *DeviceAvStatusEnum) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e DeviceAvStatusEnum) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
 }
 
 type DeviceCategory string
@@ -16363,6 +17305,20 @@ func (e DeviceCategory) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
+func (e *DeviceCategory) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e DeviceCategory) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
+}
+
 type DeviceConfidenceLevel string
 
 const (
@@ -16409,6 +17365,20 @@ func (e DeviceConfidenceLevel) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
+func (e *DeviceConfidenceLevel) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e DeviceConfidenceLevel) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
+}
+
 type DeviceConfigHaRoleEnum string
 
 const (
@@ -16450,6 +17420,20 @@ func (e DeviceConfigHaRoleEnum) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
+func (e *DeviceConfigHaRoleEnum) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e DeviceConfigHaRoleEnum) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
+}
+
 type DeviceHaRoleStateEnum string
 
 const (
@@ -16489,6 +17473,20 @@ func (e *DeviceHaRoleStateEnum) UnmarshalGQL(v any) error {
 
 func (e DeviceHaRoleStateEnum) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+func (e *DeviceHaRoleStateEnum) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e DeviceHaRoleStateEnum) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
 }
 
 type DeviceHealthStatusEnum string
@@ -16536,6 +17534,20 @@ func (e *DeviceHealthStatusEnum) UnmarshalGQL(v any) error {
 
 func (e DeviceHealthStatusEnum) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+func (e *DeviceHealthStatusEnum) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e DeviceHealthStatusEnum) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
 }
 
 type DeviceV2Category string
@@ -16587,6 +17599,20 @@ func (e DeviceV2Category) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
+func (e *DeviceV2Category) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e DeviceV2Category) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
+}
+
 type DhcpType string
 
 const (
@@ -16632,6 +17658,20 @@ func (e DhcpType) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
+func (e *DhcpType) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e DhcpType) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
+}
+
 type DirectionEnum string
 
 const (
@@ -16673,6 +17713,20 @@ func (e DirectionEnum) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
+func (e *DirectionEnum) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e DirectionEnum) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
+}
+
 type DirectionInput string
 
 const (
@@ -16712,6 +17766,20 @@ func (e *DirectionInput) UnmarshalGQL(v any) error {
 
 func (e DirectionInput) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+func (e *DirectionInput) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e DirectionInput) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
 }
 
 // The DPA agreement, based on your contract with Cato
@@ -16756,6 +17824,20 @@ func (e *DpaVersion) UnmarshalGQL(v any) error {
 
 func (e DpaVersion) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+func (e *DpaVersion) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e DpaVersion) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
 }
 
 // Search operators on ElasticSearch. Between operators are applicable only to numeric fields
@@ -16811,6 +17893,20 @@ func (e *ElasticOperator) UnmarshalGQL(v any) error {
 
 func (e ElasticOperator) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+func (e *ElasticOperator) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e ElasticOperator) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
 }
 
 type EmployeeRange string
@@ -16875,6 +17971,20 @@ func (e *EmployeeRange) UnmarshalGQL(v any) error {
 
 func (e EmployeeRange) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+func (e *EmployeeRange) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e EmployeeRange) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
 }
 
 type EntityType string
@@ -17009,6 +18119,20 @@ func (e EntityType) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
+func (e *EntityType) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e EntityType) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
+}
+
 type EventFeedFilterFieldName string
 
 const (
@@ -17050,6 +18174,20 @@ func (e *EventFeedFilterFieldName) UnmarshalGQL(v any) error {
 
 func (e EventFeedFilterFieldName) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+func (e *EventFeedFilterFieldName) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e EventFeedFilterFieldName) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
 }
 
 // Search operators on Event Feed
@@ -17096,6 +18234,20 @@ func (e *EventFeedFilterOperator) UnmarshalGQL(v any) error {
 
 func (e EventFeedFilterOperator) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+func (e *EventFeedFilterOperator) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e EventFeedFilterOperator) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
 }
 
 type EventFieldName string
@@ -18068,6 +19220,20 @@ func (e EventFieldName) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
+func (e *EventFieldName) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e EventFieldName) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
+}
+
 // Status values for export job lifecycle
 type ExportJobStatus string
 
@@ -18116,6 +19282,20 @@ func (e *ExportJobStatus) UnmarshalGQL(v any) error {
 
 func (e ExportJobStatus) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+func (e *ExportJobStatus) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e ExportJobStatus) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
 }
 
 type FilterOperator string
@@ -18179,6 +19359,20 @@ func (e FilterOperator) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
+func (e *FilterOperator) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e FilterOperator) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
+}
+
 type GraphType string
 
 const (
@@ -18216,6 +19410,20 @@ func (e *GraphType) UnmarshalGQL(v any) error {
 
 func (e GraphType) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+func (e *GraphType) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e GraphType) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
 }
 
 // Member types that can be referenced in a group.
@@ -18268,6 +19476,20 @@ func (e GroupMemberRefType) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
+func (e *GroupMemberRefType) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e GroupMemberRefType) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
+}
+
 type HaReadiness string
 
 const (
@@ -18307,6 +19529,20 @@ func (e *HaReadiness) UnmarshalGQL(v any) error {
 
 func (e HaReadiness) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+func (e *HaReadiness) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e HaReadiness) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
 }
 
 type HaRole string
@@ -18350,6 +19586,20 @@ func (e HaRole) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
+func (e *HaRole) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e HaRole) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
+}
+
 type HaSubStatus string
 
 const (
@@ -18389,6 +19639,20 @@ func (e *HaSubStatus) UnmarshalGQL(v any) error {
 
 func (e HaSubStatus) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+func (e *HaSubStatus) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e HaSubStatus) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
 }
 
 type HostConfidenceLevelEnum string
@@ -18432,6 +19696,20 @@ func (e *HostConfidenceLevelEnum) UnmarshalGQL(v any) error {
 
 func (e HostConfidenceLevelEnum) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+func (e *HostConfidenceLevelEnum) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e HostConfidenceLevelEnum) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
 }
 
 type IPSecV2InterfaceID string
@@ -18483,6 +19761,20 @@ func (e IPSecV2InterfaceID) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
+func (e *IPSecV2InterfaceID) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e IPSecV2InterfaceID) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
+}
+
 type IPSecV2TunnelRole string
 
 const (
@@ -18524,6 +19816,20 @@ func (e *IPSecV2TunnelRole) UnmarshalGQL(v any) error {
 
 func (e IPSecV2TunnelRole) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+func (e *IPSecV2TunnelRole) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e IPSecV2TunnelRole) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
 }
 
 type IdentificationType string
@@ -18571,6 +19877,20 @@ func (e IdentificationType) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
+func (e *IdentificationType) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e IdentificationType) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
+}
+
 type IlmmOnboardingStatus string
 
 const (
@@ -18614,6 +19934,20 @@ func (e *IlmmOnboardingStatus) UnmarshalGQL(v any) error {
 
 func (e IlmmOnboardingStatus) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+func (e *IlmmOnboardingStatus) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e IlmmOnboardingStatus) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
 }
 
 // The action applied by the Internet Firewall if the rule is matched
@@ -18672,6 +20006,20 @@ func (e InternetFirewallActionEnum) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
+func (e *InternetFirewallActionEnum) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e InternetFirewallActionEnum) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
+}
+
 type IPProtocol string
 
 const (
@@ -18718,6 +20066,20 @@ func (e *IPProtocol) UnmarshalGQL(v any) error {
 
 func (e IPProtocol) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+func (e *IPProtocol) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e IPProtocol) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
 }
 
 type IPSecCipher string
@@ -18769,6 +20131,20 @@ func (e *IPSecCipher) UnmarshalGQL(v any) error {
 
 func (e IPSecCipher) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+func (e *IPSecCipher) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e IPSecCipher) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
 }
 
 type IPSecDHGroup string
@@ -18828,6 +20204,20 @@ func (e IPSecDHGroup) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
+func (e *IPSecDHGroup) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e IPSecDHGroup) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
+}
+
 type IPSecHash string
 
 const (
@@ -18879,6 +20269,20 @@ func (e IPSecHash) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
+func (e *IPSecHash) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e IPSecHash) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
+}
+
 type LeaseTimeMeasureUnit string
 
 const (
@@ -18924,6 +20328,20 @@ func (e LeaseTimeMeasureUnit) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
+func (e *LeaseTimeMeasureUnit) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e LeaseTimeMeasureUnit) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
+}
+
 // enum for license plan type (site license, service license, etc...)
 type LicensePlan string
 
@@ -18964,6 +20382,20 @@ func (e *LicensePlan) UnmarshalGQL(v any) error {
 
 func (e LicensePlan) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+func (e *LicensePlan) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e LicensePlan) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
 }
 
 type LicenseSku string
@@ -19254,6 +20686,20 @@ func (e LicenseSku) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
+func (e *LicenseSku) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e LicenseSku) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
+}
+
 // enum for account plan status – the current license status within the license lifecycle
 type LicenseStatus string
 
@@ -19310,6 +20756,20 @@ func (e LicenseStatus) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
+func (e *LicenseStatus) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e LicenseStatus) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
+}
+
 type LinkConfigPrecedenceEnum string
 
 const (
@@ -19351,6 +20811,20 @@ func (e *LinkConfigPrecedenceEnum) UnmarshalGQL(v any) error {
 
 func (e LinkConfigPrecedenceEnum) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+func (e *LinkConfigPrecedenceEnum) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e LinkConfigPrecedenceEnum) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
 }
 
 type LinkQualityIssueTypeEnum string
@@ -19398,6 +20872,20 @@ func (e LinkQualityIssueTypeEnum) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
+func (e *LinkQualityIssueTypeEnum) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e LinkQualityIssueTypeEnum) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
+}
+
 type LinkStatusEnum string
 
 const (
@@ -19437,6 +20925,20 @@ func (e *LinkStatusEnum) UnmarshalGQL(v any) error {
 
 func (e LinkStatusEnum) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+func (e *LinkStatusEnum) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e LinkStatusEnum) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
 }
 
 type LocationType string
@@ -19486,6 +20988,20 @@ func (e *LocationType) UnmarshalGQL(v any) error {
 
 func (e LocationType) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+func (e *LocationType) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e LocationType) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
 }
 
 type LookupFilterType string
@@ -19563,6 +21079,20 @@ func (e LookupFilterType) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
+func (e *LookupFilterType) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e LookupFilterType) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
+}
+
 type MetadataType string
 
 const (
@@ -19600,6 +21130,20 @@ func (e *MetadataType) UnmarshalGQL(v any) error {
 
 func (e MetadataType) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+func (e *MetadataType) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e MetadataType) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
 }
 
 type MsAlertStatus string
@@ -19645,6 +21189,20 @@ func (e MsAlertStatus) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
+func (e *MsAlertStatus) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e MsAlertStatus) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
+}
+
 type MsResourceVerdictEnum string
 
 const (
@@ -19688,6 +21246,20 @@ func (e *MsResourceVerdictEnum) UnmarshalGQL(v any) error {
 
 func (e MsResourceVerdictEnum) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+func (e *MsResourceVerdictEnum) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e MsResourceVerdictEnum) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
 }
 
 type NetworkEventSourceEnum string
@@ -19741,6 +21313,20 @@ func (e NetworkEventSourceEnum) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
+func (e *NetworkEventSourceEnum) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e NetworkEventSourceEnum) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
+}
+
 type NetworkXDREventTypeEnum string
 
 const (
@@ -19784,6 +21370,20 @@ func (e NetworkXDREventTypeEnum) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
+func (e *NetworkXDREventTypeEnum) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e NetworkXDREventTypeEnum) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
+}
+
 type ObjectRefBy string
 
 const (
@@ -19823,6 +21423,20 @@ func (e *ObjectRefBy) UnmarshalGQL(v any) error {
 
 func (e ObjectRefBy) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+func (e *ObjectRefBy) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e ObjectRefBy) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
 }
 
 type OnboardingStatusEnum string
@@ -19866,6 +21480,20 @@ func (e *OnboardingStatusEnum) UnmarshalGQL(v any) error {
 
 func (e OnboardingStatusEnum) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+func (e *OnboardingStatusEnum) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e OnboardingStatusEnum) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
 }
 
 type OperatingSystem string
@@ -19915,6 +21543,20 @@ func (e *OperatingSystem) UnmarshalGQL(v any) error {
 
 func (e OperatingSystem) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+func (e *OperatingSystem) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e OperatingSystem) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
 }
 
 // The origins (e.g., integrations, data feeds) that detected the device
@@ -19985,6 +21627,20 @@ func (e OriginType) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
+func (e *OriginType) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e OriginType) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
+}
+
 type PeriodType string
 
 const (
@@ -20052,6 +21708,20 @@ func (e PeriodType) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
+func (e *PeriodType) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e PeriodType) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
+}
+
 // Enum for the type of time range a rule is active
 type PolicyActiveOnEnum string
 
@@ -20096,6 +21766,20 @@ func (e *PolicyActiveOnEnum) UnmarshalGQL(v any) error {
 
 func (e PolicyActiveOnEnum) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+func (e *PolicyActiveOnEnum) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e PolicyActiveOnEnum) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
 }
 
 // Attributes describing the rule state or type
@@ -20158,6 +21842,20 @@ func (e PolicyElementPropertiesEnum) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
+func (e *PolicyElementPropertiesEnum) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e PolicyElementPropertiesEnum) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
+}
+
 type PolicyLevelEnum string
 
 const (
@@ -20197,6 +21895,20 @@ func (e *PolicyLevelEnum) UnmarshalGQL(v any) error {
 
 func (e PolicyLevelEnum) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+func (e *PolicyLevelEnum) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e PolicyLevelEnum) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
 }
 
 // Enum for the status of a policy mutation
@@ -20241,6 +21953,20 @@ func (e PolicyMutationStatus) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
+func (e *PolicyMutationStatus) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e PolicyMutationStatus) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
+}
+
 // Enum for the type of a policy revision
 type PolicyRevisionType string
 
@@ -20281,6 +22007,20 @@ func (e *PolicyRevisionType) UnmarshalGQL(v any) error {
 
 func (e PolicyRevisionType) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+func (e *PolicyRevisionType) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e PolicyRevisionType) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
 }
 
 // Enum for the position of a rule within a policy
@@ -20339,6 +22079,20 @@ func (e PolicyRulePositionEnum) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
+func (e *PolicyRulePositionEnum) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e PolicyRulePositionEnum) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
+}
+
 // Enum for the frequency of an alert event for a rule
 type PolicyRuleTrackingFrequencyEnum string
 
@@ -20385,6 +22139,20 @@ func (e PolicyRuleTrackingFrequencyEnum) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
+func (e *PolicyRuleTrackingFrequencyEnum) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e PolicyRuleTrackingFrequencyEnum) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
+}
+
 type PolicyRuleTypeEnum string
 
 const (
@@ -20428,6 +22196,20 @@ func (e PolicyRuleTypeEnum) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
+func (e *PolicyRuleTypeEnum) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e PolicyRuleTypeEnum) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
+}
+
 type PolicySectionPositionEnum string
 
 const (
@@ -20469,6 +22251,20 @@ func (e *PolicySectionPositionEnum) UnmarshalGQL(v any) error {
 
 func (e PolicySectionPositionEnum) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+func (e *PolicySectionPositionEnum) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e PolicySectionPositionEnum) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
 }
 
 // Enum for the position of a rule within a policy
@@ -20521,6 +22317,20 @@ func (e PolicySubRulePositionEnum) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
+func (e *PolicySubRulePositionEnum) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e PolicySubRulePositionEnum) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
+}
+
 // Enum for the state of a policy
 type PolicyToggleState string
 
@@ -20563,6 +22373,20 @@ func (e PolicyToggleState) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
+func (e *PolicyToggleState) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e PolicyToggleState) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
+}
+
 type PrivateAccessPolicyActionEnum string
 
 const (
@@ -20602,6 +22426,20 @@ func (e *PrivateAccessPolicyActionEnum) UnmarshalGQL(v any) error {
 
 func (e PrivateAccessPolicyActionEnum) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+func (e *PrivateAccessPolicyActionEnum) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e PrivateAccessPolicyActionEnum) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
 }
 
 // Defines Origin of the connection
@@ -20660,6 +22498,20 @@ func (e *PrivateAccessPolicyOriginEnum) UnmarshalGQL(v any) error {
 
 func (e PrivateAccessPolicyOriginEnum) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+func (e *PrivateAccessPolicyOriginEnum) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e PrivateAccessPolicyOriginEnum) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
 }
 
 type ProtoType string
@@ -20749,6 +22601,20 @@ func (e ProtoType) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
+func (e *ProtoType) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e ProtoType) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
+}
+
 type RBACAction string
 
 const (
@@ -20790,6 +22656,20 @@ func (e *RBACAction) UnmarshalGQL(v any) error {
 
 func (e RBACAction) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+func (e *RBACAction) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e RBACAction) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
 }
 
 // REGIONAL and GLOBAL licenses for MOROCCO, CHINA, and VIETNAM group values
@@ -20834,6 +22714,20 @@ func (e *Regionality) UnmarshalGQL(v any) error {
 
 func (e Regionality) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+func (e *Regionality) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e Regionality) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
 }
 
 type RemediationStatusEnum string
@@ -20913,6 +22807,20 @@ func (e RemediationStatusEnum) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
+func (e *RemediationStatusEnum) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e RemediationStatusEnum) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
+}
+
 type RemotePortFwdRestrictionType string
 
 const (
@@ -20952,6 +22860,20 @@ func (e *RemotePortFwdRestrictionType) UnmarshalGQL(v any) error {
 
 func (e RemotePortFwdRestrictionType) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+func (e *RemotePortFwdRestrictionType) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e RemotePortFwdRestrictionType) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
 }
 
 type ResourceRoleEnum string
@@ -21019,6 +22941,20 @@ func (e ResourceRoleEnum) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
+func (e *ResourceRoleEnum) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e ResourceRoleEnum) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
+}
+
 type RiskLevelEnum string
 
 const (
@@ -21068,6 +23004,20 @@ func (e *RiskLevelEnum) UnmarshalGQL(v any) error {
 
 func (e RiskLevelEnum) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+func (e *RiskLevelEnum) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e RiskLevelEnum) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
 }
 
 type RiskScore string
@@ -21122,6 +23072,20 @@ func (e RiskScore) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
+func (e *RiskScore) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e RiskScore) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
+}
+
 type RiskScoreCategory string
 
 const (
@@ -21169,6 +23133,20 @@ func (e RiskScoreCategory) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
+func (e *RiskScoreCategory) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e RiskScoreCategory) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
+}
+
 type RiskScoreOperator string
 
 const (
@@ -21208,6 +23186,20 @@ func (e *RiskScoreOperator) UnmarshalGQL(v any) error {
 
 func (e RiskScoreOperator) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+func (e *RiskScoreOperator) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e RiskScoreOperator) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
 }
 
 // Sandbox analysis failure reason
@@ -21266,6 +23258,20 @@ func (e SandboxFailureReason) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
+func (e *SandboxFailureReason) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e SandboxFailureReason) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
+}
+
 // Sandbox analysis status
 type SandboxStatus string
 
@@ -21322,6 +23328,20 @@ func (e SandboxStatus) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
+func (e *SandboxStatus) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e SandboxStatus) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
+}
+
 // Sandbox analysis verdict
 type SandboxVerdict string
 
@@ -21367,6 +23387,20 @@ func (e *SandboxVerdict) UnmarshalGQL(v any) error {
 
 func (e SandboxVerdict) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+func (e *SandboxVerdict) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e SandboxVerdict) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
 }
 
 type ScanResult string
@@ -21420,6 +23454,20 @@ func (e ScanResult) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
+func (e *ScanResult) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e ScanResult) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
+}
+
 type SeverityEnum string
 
 const (
@@ -21461,6 +23509,20 @@ func (e *SeverityEnum) UnmarshalGQL(v any) error {
 
 func (e SeverityEnum) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+func (e *SeverityEnum) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e SeverityEnum) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
 }
 
 type ShippingStatus string
@@ -21506,6 +23568,20 @@ func (e *ShippingStatus) UnmarshalGQL(v any) error {
 
 func (e ShippingStatus) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+func (e *ShippingStatus) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e ShippingStatus) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
 }
 
 type SimpleServiceType string
@@ -21563,6 +23639,20 @@ func (e SimpleServiceType) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
+func (e *SimpleServiceType) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e SimpleServiceType) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
+}
+
 type SiteConnectionTypeEnum string
 
 const (
@@ -21614,6 +23704,20 @@ func (e *SiteConnectionTypeEnum) UnmarshalGQL(v any) error {
 
 func (e SiteConnectionTypeEnum) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+func (e *SiteConnectionTypeEnum) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e SiteConnectionTypeEnum) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
 }
 
 type SiteLicenseGroup string
@@ -21690,6 +23794,20 @@ func (e SiteLicenseGroup) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
+func (e *SiteLicenseGroup) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e SiteLicenseGroup) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
+}
+
 type SiteLicenseType string
 
 const (
@@ -21729,6 +23847,20 @@ func (e *SiteLicenseType) UnmarshalGQL(v any) error {
 
 func (e SiteLicenseType) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+func (e *SiteLicenseType) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e SiteLicenseType) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
 }
 
 type SiteType string
@@ -21776,6 +23908,20 @@ func (e SiteType) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
+func (e *SiteType) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e SiteType) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
+}
+
 type SocketAddOnExpansionSlotNumber string
 
 const (
@@ -21815,6 +23961,20 @@ func (e *SocketAddOnExpansionSlotNumber) UnmarshalGQL(v any) error {
 
 func (e SocketAddOnExpansionSlotNumber) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+func (e *SocketAddOnExpansionSlotNumber) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e SocketAddOnExpansionSlotNumber) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
 }
 
 type SocketAddOnType string
@@ -21860,6 +24020,20 @@ func (e *SocketAddOnType) UnmarshalGQL(v any) error {
 
 func (e SocketAddOnType) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+func (e *SocketAddOnType) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e SocketAddOnType) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
 }
 
 type SocketInterfaceDestType string
@@ -21919,6 +24093,20 @@ func (e *SocketInterfaceDestType) UnmarshalGQL(v any) error {
 
 func (e SocketInterfaceDestType) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+func (e *SocketInterfaceDestType) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e SocketInterfaceDestType) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
 }
 
 // SocketInterface available ids, INT_# stands for 1,2,3...12 supported ids
@@ -21999,6 +24187,20 @@ func (e SocketInterfaceIDEnum) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
+func (e *SocketInterfaceIDEnum) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e SocketInterfaceIDEnum) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
+}
+
 type SocketInterfacePrecedenceEnum string
 
 const (
@@ -22040,6 +24242,20 @@ func (e *SocketInterfacePrecedenceEnum) UnmarshalGQL(v any) error {
 
 func (e SocketInterfacePrecedenceEnum) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+func (e *SocketInterfacePrecedenceEnum) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e SocketInterfacePrecedenceEnum) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
 }
 
 type SocketInterfaceRole string
@@ -22085,6 +24301,20 @@ func (e *SocketInterfaceRole) UnmarshalGQL(v any) error {
 
 func (e SocketInterfaceRole) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+func (e *SocketInterfaceRole) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e SocketInterfaceRole) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
 }
 
 type SocketInterfaceWanRole string
@@ -22144,6 +24374,20 @@ func (e SocketInterfaceWanRole) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
+func (e *SocketInterfaceWanRole) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e SocketInterfaceWanRole) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
+}
+
 type SocketInventoryItemStatus string
 
 const (
@@ -22191,6 +24435,20 @@ func (e SocketInventoryItemStatus) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
+func (e *SocketInventoryItemStatus) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e SocketInventoryItemStatus) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
+}
+
 type SocketLanDirection string
 
 const (
@@ -22234,6 +24492,20 @@ func (e SocketLanDirection) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
+func (e *SocketLanDirection) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e SocketLanDirection) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
+}
+
 type SocketLanFirewallAction string
 
 const (
@@ -22273,6 +24545,20 @@ func (e *SocketLanFirewallAction) UnmarshalGQL(v any) error {
 
 func (e SocketLanFirewallAction) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+func (e *SocketLanFirewallAction) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e SocketLanFirewallAction) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
 }
 
 type SocketLanFirewallDirection string
@@ -22318,6 +24604,20 @@ func (e SocketLanFirewallDirection) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
+func (e *SocketLanFirewallDirection) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e SocketLanFirewallDirection) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
+}
+
 type SocketLanNatType string
 
 const (
@@ -22355,6 +24655,20 @@ func (e *SocketLanNatType) UnmarshalGQL(v any) error {
 
 func (e SocketLanNatType) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+func (e *SocketLanNatType) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e SocketLanNatType) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
 }
 
 type SocketLanTransportType string
@@ -22398,6 +24712,20 @@ func (e *SocketLanTransportType) UnmarshalGQL(v any) error {
 
 func (e SocketLanTransportType) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+func (e *SocketLanTransportType) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e SocketLanTransportType) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
 }
 
 type SocketModel string
@@ -22451,6 +24779,20 @@ func (e *SocketModel) UnmarshalGQL(v any) error {
 
 func (e SocketModel) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+func (e *SocketModel) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e SocketModel) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
 }
 
 type SocketPlatform string
@@ -22512,6 +24854,20 @@ func (e *SocketPlatform) UnmarshalGQL(v any) error {
 
 func (e SocketPlatform) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+func (e *SocketPlatform) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e SocketPlatform) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
 }
 
 type SocketPortMetricsFieldName string
@@ -22611,6 +24967,20 @@ func (e SocketPortMetricsFieldName) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
+func (e *SocketPortMetricsFieldName) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e SocketPortMetricsFieldName) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
+}
+
 type SocketRegistrationStatus string
 
 const (
@@ -22660,6 +25030,20 @@ func (e *SocketRegistrationStatus) UnmarshalGQL(v any) error {
 
 func (e SocketRegistrationStatus) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+func (e *SocketRegistrationStatus) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e SocketRegistrationStatus) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
 }
 
 type SocketUpgradeStatus string
@@ -22719,6 +25103,20 @@ func (e SocketUpgradeStatus) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
+func (e *SocketUpgradeStatus) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e SocketUpgradeStatus) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
+}
+
 type SortDirectionEnum string
 
 const (
@@ -22760,6 +25158,20 @@ func (e SortDirectionEnum) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
+func (e *SortDirectionEnum) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e SortDirectionEnum) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
+}
+
 type SortOrder string
 
 const (
@@ -22799,6 +25211,20 @@ func (e *SortOrder) UnmarshalGQL(v any) error {
 
 func (e SortOrder) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+func (e *SortOrder) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e SortOrder) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
 }
 
 // The action applied by the split tunnel if the rule is matched
@@ -22856,6 +25282,20 @@ func (e SplitTunnelActionEnum) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
+func (e *SplitTunnelActionEnum) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e SplitTunnelActionEnum) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
+}
+
 type SplitTunnelCoverageEnum string
 
 const (
@@ -22899,6 +25339,20 @@ func (e SplitTunnelCoverageEnum) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
+func (e *SplitTunnelCoverageEnum) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e SplitTunnelCoverageEnum) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
+}
+
 // The action applied by the split tunnel if the rule is matched
 type SplitTunnelRoutingPriorityEnum string
 
@@ -22939,6 +25393,20 @@ func (e *SplitTunnelRoutingPriorityEnum) UnmarshalGQL(v any) error {
 
 func (e SplitTunnelRoutingPriorityEnum) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+func (e *SplitTunnelRoutingPriorityEnum) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e SplitTunnelRoutingPriorityEnum) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
 }
 
 type SplitTunnelSourceNetworkTypeEnum string
@@ -22986,6 +25454,20 @@ func (e SplitTunnelSourceNetworkTypeEnum) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
+func (e *SplitTunnelSourceNetworkTypeEnum) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e SplitTunnelSourceNetworkTypeEnum) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
+}
+
 type StoryEngineTypeEnum string
 
 const (
@@ -23031,6 +25513,20 @@ func (e *StoryEngineTypeEnum) UnmarshalGQL(v any) error {
 
 func (e StoryEngineTypeEnum) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+func (e *StoryEngineTypeEnum) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e StoryEngineTypeEnum) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
 }
 
 type StoryProducerEnum string
@@ -23089,6 +25585,20 @@ func (e *StoryProducerEnum) UnmarshalGQL(v any) error {
 
 func (e StoryProducerEnum) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+func (e *StoryProducerEnum) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e StoryProducerEnum) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
 }
 
 type StorySortFieldName string
@@ -23154,6 +25664,20 @@ func (e StorySortFieldName) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
+func (e *StorySortFieldName) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e StorySortFieldName) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
+}
+
 type StoryStatusEnum string
 
 const (
@@ -23203,6 +25727,20 @@ func (e StoryStatusEnum) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
+func (e *StoryStatusEnum) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e StoryStatusEnum) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
+}
+
 type StoryVerdictEnum string
 
 const (
@@ -23248,6 +25786,20 @@ func (e StoryVerdictEnum) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
+func (e *StoryVerdictEnum) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e StoryVerdictEnum) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
+}
+
 type SubPolicyProperty string
 
 const (
@@ -23285,6 +25837,20 @@ func (e *SubPolicyProperty) UnmarshalGQL(v any) error {
 
 func (e SubPolicyProperty) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+func (e *SubPolicyProperty) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e SubPolicyProperty) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
 }
 
 type SubnetType string
@@ -23334,6 +25900,20 @@ func (e SubnetType) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
+func (e *SubnetType) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e SubnetType) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
+}
+
 type TaggingMethod string
 
 const (
@@ -23373,6 +25953,20 @@ func (e *TaggingMethod) UnmarshalGQL(v any) error {
 
 func (e TaggingMethod) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+func (e *TaggingMethod) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e TaggingMethod) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
 }
 
 type TargetType string
@@ -23420,6 +26014,20 @@ func (e TargetType) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
+func (e *TargetType) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e TargetType) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
+}
+
 type TimeFrameModifier string
 
 const (
@@ -23461,6 +26069,20 @@ func (e *TimeFrameModifier) UnmarshalGQL(v any) error {
 
 func (e TimeFrameModifier) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+func (e *TimeFrameModifier) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e TimeFrameModifier) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
 }
 
 type TimelineItemCategoryEnum string
@@ -23506,6 +26128,20 @@ func (e TimelineItemCategoryEnum) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
+func (e *TimelineItemCategoryEnum) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e TimelineItemCategoryEnum) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
+}
+
 type TimelineTypeEnum string
 
 const (
@@ -23547,6 +26183,20 @@ func (e *TimelineTypeEnum) UnmarshalGQL(v any) error {
 
 func (e TimelineTypeEnum) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+func (e *TimelineTypeEnum) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e TimelineTypeEnum) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
 }
 
 type TimeseriesMetricType string
@@ -23654,6 +26304,20 @@ func (e TimeseriesMetricType) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
+func (e *TimeseriesMetricType) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e TimeseriesMetricType) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
+}
+
 type TLSInspectAction string
 
 const (
@@ -23693,6 +26357,20 @@ func (e *TLSInspectAction) UnmarshalGQL(v any) error {
 
 func (e TLSInspectAction) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+func (e *TLSInspectAction) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e TLSInspectAction) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
 }
 
 // System categories for TLS inspection policy
@@ -23739,6 +26417,20 @@ func (e TLSInspectSystemCategory) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
+func (e *TLSInspectSystemCategory) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e TLSInspectSystemCategory) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
+}
+
 type TLSInspectUntrustedCertificateAction string
 
 const (
@@ -23782,6 +26474,20 @@ func (e TLSInspectUntrustedCertificateAction) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
+func (e *TLSInspectUntrustedCertificateAction) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e TLSInspectUntrustedCertificateAction) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
+}
+
 type TrafficDirectionEnum string
 
 const (
@@ -23821,6 +26527,20 @@ func (e *TrafficDirectionEnum) UnmarshalGQL(v any) error {
 
 func (e TrafficDirectionEnum) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+func (e *TrafficDirectionEnum) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e TrafficDirectionEnum) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
 }
 
 type UnitType string
@@ -23887,6 +26607,20 @@ func (e UnitType) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
+func (e *UnitType) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e UnitType) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
+}
+
 type UserConfidenceLevel string
 
 const (
@@ -23928,6 +26662,20 @@ func (e *UserConfidenceLevel) UnmarshalGQL(v any) error {
 
 func (e UserConfidenceLevel) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+func (e *UserConfidenceLevel) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e UserConfidenceLevel) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
 }
 
 type UserRole string
@@ -23981,6 +26729,20 @@ func (e UserRole) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
+func (e *UserRole) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e UserRole) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
+}
+
 type VendorEnum string
 
 const (
@@ -24022,6 +26784,20 @@ func (e VendorEnum) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
+func (e *VendorEnum) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e VendorEnum) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
+}
+
 type VrrpType string
 
 const (
@@ -24061,6 +26837,20 @@ func (e *VrrpType) UnmarshalGQL(v any) error {
 
 func (e VrrpType) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+func (e *VrrpType) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e VrrpType) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
 }
 
 type WanFirewallActionEnum string
@@ -24112,6 +26902,20 @@ func (e WanFirewallActionEnum) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
+func (e *WanFirewallActionEnum) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e WanFirewallActionEnum) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
+}
+
 type WanFirewallDirectionEnum string
 
 const (
@@ -24151,6 +26955,20 @@ func (e *WanFirewallDirectionEnum) UnmarshalGQL(v any) error {
 
 func (e WanFirewallDirectionEnum) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+func (e *WanFirewallDirectionEnum) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e WanFirewallDirectionEnum) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
 }
 
 type WanNetworkRuleInterfaceRole string
@@ -24214,6 +27032,20 @@ func (e WanNetworkRuleInterfaceRole) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
+func (e *WanNetworkRuleInterfaceRole) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e WanNetworkRuleInterfaceRole) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
+}
+
 type WanNetworkRuleRouteType string
 
 const (
@@ -24269,6 +27101,20 @@ func (e WanNetworkRuleRouteType) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
+func (e *WanNetworkRuleRouteType) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e WanNetworkRuleRouteType) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
+}
+
 type WanNetworkRuleTransportType string
 
 const (
@@ -24321,6 +27167,20 @@ func (e WanNetworkRuleTransportType) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
+func (e *WanNetworkRuleTransportType) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e WanNetworkRuleTransportType) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
+}
+
 type WanNetworkRuleType string
 
 const (
@@ -24367,6 +27227,20 @@ func (e WanNetworkRuleType) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
+func (e *WanNetworkRuleType) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e WanNetworkRuleType) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
+}
+
 // The action applied by the Always on policy if the rule is matched
 type ZtnaAlwaysOnRuleActionEnum string
 
@@ -24409,6 +27283,20 @@ func (e *ZtnaAlwaysOnRuleActionEnum) UnmarshalGQL(v any) error {
 
 func (e ZtnaAlwaysOnRuleActionEnum) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+func (e *ZtnaAlwaysOnRuleActionEnum) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e ZtnaAlwaysOnRuleActionEnum) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
 }
 
 // Return the time unit of the duration time
@@ -24455,6 +27343,20 @@ func (e ZtnaAlwaysOnTimeUnit) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
+func (e *ZtnaAlwaysOnTimeUnit) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e ZtnaAlwaysOnTimeUnit) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
+}
+
 type ZtnaAppConnectorType string
 
 const (
@@ -24496,6 +27398,20 @@ func (e *ZtnaAppConnectorType) UnmarshalGQL(v any) error {
 
 func (e ZtnaAppConnectorType) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+func (e *ZtnaAppConnectorType) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e ZtnaAppConnectorType) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
 }
 
 // Geographical regions that can be associated with a remote user license
@@ -24551,4 +27467,18 @@ func (e *ZtnaUsersLicenseGroup) UnmarshalGQL(v any) error {
 
 func (e ZtnaUsersLicenseGroup) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+func (e *ZtnaUsersLicenseGroup) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e ZtnaUsersLicenseGroup) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
 }

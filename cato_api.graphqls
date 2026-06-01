@@ -3210,12 +3210,15 @@ type NetworkRange {
   azureFloatingIp: IPAddress
   dhcpSettings: NetworkRangeDhcpSettings
   gateway: IPAddress
+  gcpLoadBalancerIp: IPAddress
   internetOnly: Boolean!
   localIp: IPAddress
   mdnsReflector: Boolean!
   name: String!
   networkRangeId: ID!
+  primaryManagementIp: IPAddress
   rangeType: SubnetType!
+  secondaryManagementIp: IPAddress
   subnet: IPSubnet!
   translatedSubnet: IPSubnet
   vlan: Int
