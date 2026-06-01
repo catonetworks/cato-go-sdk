@@ -5,8 +5,8 @@ import (
 	"encoding/json"
 	"fmt"
 
-	"github.com/Yamashou/gqlgenc/clientv2"
 	cato_models "github.com/catonetworks/cato-go-sdk/models"
+	"github.com/gqlgo/gqlgenc/clientv2"
 )
 
 // func (c *Client) SiteCloudInterconnectPhysicalConnection(ctx context.Context, cloudInterconnectPhysicalConnectionInput cato_models.CloudInterconnectPhysicalConnectionInput, accountID string, interceptors ...clientv2.RequestInterceptor) (*Site, error) {
