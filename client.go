@@ -85044,7 +85044,7 @@ type AccountSnapshot_AccountSnapshot_Sites struct {
 	LastConnected                  *string                                                     "json:\"lastConnected,omitempty\" graphql:\"lastConnected\""
 	OperationalStatusSiteSnapshot  *scalars.OperationalStatus                                  "json:\"operationalStatusSiteSnapshot,omitempty\" graphql:\"operationalStatusSiteSnapshot\""
 	PopName                        *string                                                     "json:\"popName,omitempty\" graphql:\"popName\""
-	ProtoID                        *int64                                                      "json:\"protoId,omitempty\" graphql:\"protoId\""
+	ProtoID                        *string                                                     "json:\"protoId,omitempty\" graphql:\"protoId\""
 }
 
 func (t *AccountSnapshot_AccountSnapshot_Sites) GetAltWanStatus() *string {
@@ -85113,7 +85113,7 @@ func (t *AccountSnapshot_AccountSnapshot_Sites) GetPopName() *string {
 	}
 	return t.PopName
 }
-func (t *AccountSnapshot_AccountSnapshot_Sites) GetProtoID() *int64 {
+func (t *AccountSnapshot_AccountSnapshot_Sites) GetProtoID() *string {
 	if t == nil {
 		t = &AccountSnapshot_AccountSnapshot_Sites{}
 	}
@@ -111495,7 +111495,7 @@ type Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident struct {
 	BgpConnection           *Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_BgpConnection             "json:\"bgpConnection,omitempty\" graphql:\"bgpConnection\""
 	HostIP                  *string                                                                      "json:\"hostIp,omitempty\" graphql:\"hostIp\""
 	RuleName                *string                                                                      "json:\"ruleName,omitempty\" graphql:\"ruleName\""
-	Muted                   *bool                                                                        "json:\"muted,omitempty\" graphql:\"muted\""
+	Muted                   bool                                                                         "json:\"muted\" graphql:\"muted\""
 	IlmmDetails             *Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_IlmmDetails               "json:\"ilmmDetails,omitempty\" graphql:\"ilmmDetails\""
 }
 
@@ -111607,7 +111607,7 @@ func (t *Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident) GetRuleName() *strin
 	}
 	return t.RuleName
 }
-func (t *Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident) GetMuted() *bool {
+func (t *Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident) GetMuted() bool {
 	if t == nil {
 		t = &Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident{}
 	}

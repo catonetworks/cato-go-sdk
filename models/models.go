@@ -40,19 +40,23 @@ type Anomalies interface {
 	IsMergedIncident()
 	IsAnomalies()
 	GetAnalystFeedback() *AnalystFeedback
+	GetCategories() []IncidentCategory
 	GetConnectionType() *ConnectionTypeEnum
 	GetCriticality() *int64
 	GetDescription() *string
 	GetDirection() *string
 	GetEngineType() *StoryEngineTypeEnum
+	GetEntities() []*IncidentEntity
 	GetFirstSignal() string
 	GetID() string
 	GetIndication() string
 	GetLastSignal() string
+	GetMuted() bool
 	GetPredictedThreatType() *string
 	GetPredictedVerdict() *StoryVerdictEnum
 	GetProducer() StoryProducerEnum
 	GetProducerName() string
+	GetProducerType() StoryProducerEnum
 	GetQueryName() *string
 	GetResearch() *bool
 	GetSimilarStoriesData() []*SimilarStoryData
@@ -65,6 +69,11 @@ type Anomalies interface {
 	GetTicket() *string
 	GetUser() *UserRef
 	GetVendor() *VendorEnum
+}
+
+type AuthInterface interface {
+	IsAuthInterface()
+	GetAuthType() AuthType
 }
 
 type CatoResource interface {
@@ -83,6 +92,8 @@ type Container interface {
 	GetID() string
 	GetName() string
 	GetSize() int64
+	GetSyncData() *ContainerSyncData
+	GetSyncDataAudit() *ContainerSyncDataAudit
 }
 
 type DegradedStatusArgs interface {
@@ -108,19 +119,23 @@ type Endpoint interface {
 	IsEndpoint()
 	GetAlerts() []EndpointAlert
 	GetAnalystFeedback() *AnalystFeedback
+	GetCategories() []IncidentCategory
 	GetConnectionType() *ConnectionTypeEnum
 	GetCriticality() *int64
 	GetDescription() *string
 	GetDevice() DeviceDetails
 	GetEngineType() *StoryEngineTypeEnum
+	GetEntities() []*IncidentEntity
 	GetFirstSignal() string
 	GetID() string
 	GetIndication() string
 	GetLastSignal() string
+	GetMuted() bool
 	GetPredictedThreatType() *string
 	GetPredictedVerdict() *StoryVerdictEnum
 	GetProducer() StoryProducerEnum
 	GetProducerName() string
+	GetProducerType() StoryProducerEnum
 	GetQueryName() *string
 	GetResearch() *bool
 	GetSimilarStoriesData() []*SimilarStoryData
@@ -172,13 +187,6 @@ type FileResource interface {
 	GetFileDetails() *FileDetails
 	GetID() string
 	GetRemediationStatus() *RemediationStatusEnum
-}
-
-type IContainerRef interface {
-	IsObjectRef()
-	IsIContainerRef()
-	GetID() string
-	GetName() string
 }
 
 // Shared interface for any policy
@@ -241,18 +249,22 @@ type License interface {
 type MergedIncident interface {
 	IsMergedIncident()
 	GetAnalystFeedback() *AnalystFeedback
+	GetCategories() []IncidentCategory
 	GetConnectionType() *ConnectionTypeEnum
 	GetCriticality() *int64
 	GetDescription() *string
 	GetEngineType() *StoryEngineTypeEnum
+	GetEntities() []*IncidentEntity
 	GetFirstSignal() string
 	GetID() string
 	GetIndication() string
 	GetLastSignal() string
+	GetMuted() bool
 	GetPredictedThreatType() *string
 	GetPredictedVerdict() *StoryVerdictEnum
 	GetProducer() StoryProducerEnum
 	GetProducerName() string
+	GetProducerType() StoryProducerEnum
 	GetQueryName() *string
 	GetResearch() *bool
 	GetSite() *SiteRef
@@ -376,16 +388,104 @@ type Value interface {
 	IsValue()
 }
 
+// AI Security Applications service license details
+type AISecurityApplicationsLicense struct {
+	Description    *string       `json:"description,omitempty,omitzero"`
+	ExpirationDate string        `json:"expirationDate"`
+	ID             *string       `json:"id,omitempty,omitzero"`
+	LastUpdated    *string       `json:"lastUpdated,omitempty,omitzero"`
+	Plan           LicensePlan   `json:"plan"`
+	Sku            LicenseSku    `json:"sku"`
+	StartDate      *string       `json:"startDate,omitempty,omitzero"`
+	Status         LicenseStatus `json:"status"`
+	Total          int64         `json:"total"`
+}
+
+func (AISecurityApplicationsLicense) IsLicense()                     {}
+func (this AISecurityApplicationsLicense) GetDescription() *string   { return this.Description }
+func (this AISecurityApplicationsLicense) GetExpirationDate() string { return this.ExpirationDate }
+func (this AISecurityApplicationsLicense) GetID() *string            { return this.ID }
+func (this AISecurityApplicationsLicense) GetLastUpdated() *string   { return this.LastUpdated }
+func (this AISecurityApplicationsLicense) GetPlan() LicensePlan      { return this.Plan }
+func (this AISecurityApplicationsLicense) GetSku() LicenseSku        { return this.Sku }
+func (this AISecurityApplicationsLicense) GetStartDate() *string     { return this.StartDate }
+func (this AISecurityApplicationsLicense) GetStatus() LicenseStatus  { return this.Status }
+
+func (AISecurityApplicationsLicense) IsQuantifiableLicense() {}
+
+func (this AISecurityApplicationsLicense) GetTotal() int64 { return this.Total }
+
+// AI Security Users service license details
+type AISecurityUsersLicense struct {
+	Description    *string       `json:"description,omitempty,omitzero"`
+	ExpirationDate string        `json:"expirationDate"`
+	ID             *string       `json:"id,omitempty,omitzero"`
+	LastUpdated    *string       `json:"lastUpdated,omitempty,omitzero"`
+	Plan           LicensePlan   `json:"plan"`
+	Sku            LicenseSku    `json:"sku"`
+	StartDate      *string       `json:"startDate,omitempty,omitzero"`
+	Status         LicenseStatus `json:"status"`
+	Total          int64         `json:"total"`
+}
+
+func (AISecurityUsersLicense) IsLicense()                     {}
+func (this AISecurityUsersLicense) GetDescription() *string   { return this.Description }
+func (this AISecurityUsersLicense) GetExpirationDate() string { return this.ExpirationDate }
+func (this AISecurityUsersLicense) GetID() *string            { return this.ID }
+func (this AISecurityUsersLicense) GetLastUpdated() *string   { return this.LastUpdated }
+func (this AISecurityUsersLicense) GetPlan() LicensePlan      { return this.Plan }
+func (this AISecurityUsersLicense) GetSku() LicenseSku        { return this.Sku }
+func (this AISecurityUsersLicense) GetStartDate() *string     { return this.StartDate }
+func (this AISecurityUsersLicense) GetStatus() LicenseStatus  { return this.Status }
+
+func (AISecurityUsersLicense) IsQuantifiableLicense() {}
+
+func (this AISecurityUsersLicense) GetTotal() int64 { return this.Total }
+
 type AccessPrivateApplicationMutations struct {
-	CreatePrivateApplication *CreatePrivateApplicationPayload `json:"createPrivateApplication,omitempty"`
-	DeletePrivateApplication *DeletePrivateApplicationPayload `json:"deletePrivateApplication,omitempty"`
-	UpdatePrivateApplication *UpdatePrivateApplicationPayload `json:"updatePrivateApplication,omitempty"`
+	CreatePrivateApplication *CreatePrivateApplicationPayload `json:"createPrivateApplication,omitempty,omitzero"`
+	DeletePrivateApplication *DeletePrivateApplicationPayload `json:"deletePrivateApplication,omitempty,omitzero"`
+	UpdatePrivateApplication *UpdatePrivateApplicationPayload `json:"updatePrivateApplication,omitempty,omitzero"`
 }
 
 type AccessPrivateApplicationQueries struct {
-	PrivateApplication     *PrivateApplication            `json:"privateApplication,omitempty"`
-	PrivateApplicationList *PrivateApplicationListPayload `json:"privateApplicationList,omitempty"`
+	PrivateApplication     *PrivateApplication            `json:"privateApplication,omitempty,omitzero"`
+	PrivateApplicationList *PrivateApplicationListPayload `json:"privateApplicationList,omitempty,omitzero"`
 }
+
+// Sort settings for managed account access requests.
+type AccessRequestSortInput struct {
+	ActiveDate     *SortOrderInput `json:"activeDate,omitempty"`
+	ExpirationDate *SortOrderInput `json:"expirationDate,omitempty"`
+	ID             *SortOrderInput `json:"id,omitempty"`
+	RequestedDate  *SortOrderInput `json:"requestedDate,omitempty"`
+	Status         *SortOrderInput `json:"status,omitempty"`
+}
+
+// Filter criteria for access request status.
+type AccessRequestStatusFilterInput struct {
+	Eq  *AccessRequestStatus  `json:"eq,omitempty"`
+	In  []AccessRequestStatus `json:"in,omitempty"`
+	Neq *AccessRequestStatus  `json:"neq,omitempty"`
+	Nin []AccessRequestStatus `json:"nin,omitempty"`
+}
+
+// Filter criteria for access request type.
+type AccessRequestTypeFilterInput struct {
+	Eq  *ExternalAccessRequestType  `json:"eq,omitempty"`
+	In  []ExternalAccessRequestType `json:"in,omitempty"`
+	Neq *ExternalAccessRequestType  `json:"neq,omitempty"`
+	Nin []ExternalAccessRequestType `json:"nin,omitempty"`
+}
+
+type AccessTokenRef struct {
+	ID   string `json:"id"`
+	Name string `json:"name"`
+}
+
+func (AccessTokenRef) IsObjectRef()         {}
+func (this AccessTokenRef) GetID() string   { return this.ID }
+func (this AccessTokenRef) GetName() string { return this.Name }
 
 type AccountAuditData struct {
 	CreatedBy   string `json:"createdBy"`
@@ -410,10 +510,10 @@ type AccountIDPredicate struct {
 
 type AccountInfo struct {
 	Audit       *AccountAuditData  `json:"audit"`
-	Description *string            `json:"description,omitempty"`
+	Description *string            `json:"description,omitempty,omitzero"`
 	ID          string             `json:"id"`
 	Name        string             `json:"name"`
-	Plan        *AccountPlan       `json:"plan,omitempty"`
+	Plan        *AccountPlan       `json:"plan,omitempty,omitzero"`
 	Status      AccountStatus      `json:"status"`
 	Tenancy     AccountTenancy     `json:"tenancy"`
 	TimeZone    string             `json:"timeZone"`
@@ -421,24 +521,24 @@ type AccountInfo struct {
 }
 
 type AccountManagementMutations struct {
-	AddAccount     *AccountInfo           `json:"addAccount,omitempty"`
-	DisableAccount *DisableAccountPayload `json:"disableAccount,omitempty"`
-	RemoveAccount  *RemoveAccountPayload  `json:"removeAccount,omitempty"`
-	UpdateAccount  *AccountInfo           `json:"updateAccount,omitempty"`
+	AddAccount     *AccountInfo           `json:"addAccount,omitempty,omitzero"`
+	DisableAccount *DisableAccountPayload `json:"disableAccount,omitempty,omitzero"`
+	RemoveAccount  *RemoveAccountPayload  `json:"removeAccount,omitempty,omitzero"`
+	UpdateAccount  *AccountInfo           `json:"updateAccount,omitempty,omitzero"`
 }
 
 type AccountManagementQueries struct {
-	Account *AccountInfo `json:"account,omitempty"`
+	Account *AccountInfo `json:"account,omitempty,omitzero"`
 }
 
 type AccountMetrics struct {
-	From        *string        `json:"from,omitempty"`
-	Granularity *int64         `json:"granularity,omitempty"`
-	ID          *string        `json:"id,omitempty"`
-	Sites       []*SiteMetrics `json:"sites,omitempty"`
-	Timeseries  []*Timeseries  `json:"timeseries,omitempty"`
-	To          *string        `json:"to,omitempty"`
-	Users       []*SiteMetrics `json:"users,omitempty"`
+	From        *string        `json:"from,omitempty,omitzero"`
+	Granularity *int64         `json:"granularity,omitempty,omitzero"`
+	ID          *string        `json:"id,omitempty,omitzero"`
+	Sites       []*SiteMetrics `json:"sites,omitempty,omitzero"`
+	Timeseries  []*Timeseries  `json:"timeseries,omitempty,omitzero"`
+	To          *string        `json:"to,omitempty,omitzero"`
+	Users       []*SiteMetrics `json:"users,omitempty,omitzero"`
 }
 
 type AccountOperationsIncident struct {
@@ -480,16 +580,21 @@ func (AccountRef) IsObjectRef()         {}
 func (this AccountRef) GetID() string   { return this.ID }
 func (this AccountRef) GetName() string { return this.Name }
 
+type AccountRefInput struct {
+	By    ObjectRefBy `json:"by"`
+	Input string      `json:"input"`
+}
+
 type AccountRolesResult struct {
 	Items []*RBACRole `json:"items"`
 	Total int64       `json:"total"`
 }
 
 type AccountSnapshot struct {
-	ID        *string         `json:"id,omitempty"`
-	Sites     []*SiteSnapshot `json:"sites,omitempty"`
-	Timestamp *string         `json:"timestamp,omitempty"`
-	Users     []*UserSnapshot `json:"users,omitempty"`
+	ID        *string         `json:"id,omitempty,omitzero"`
+	Sites     []*SiteSnapshot `json:"sites,omitempty,omitzero"`
+	Timestamp *string         `json:"timestamp,omitempty,omitzero"`
+	Users     []*UserSnapshot `json:"users,omitempty,omitzero"`
 }
 
 type ActorRefInput struct {
@@ -549,16 +654,18 @@ type AddBgpPeerPayload struct {
 
 // Input for adding a new physical connection to a cloud interconnect site.
 type AddCloudInterconnectPhysicalConnectionInput struct {
-	DownstreamBwLimit   string               `json:"downstreamBwLimit"`
-	EncapsulationMethod TaggingMethod        `json:"encapsulationMethod"`
-	HaRole              HaRole               `json:"haRole"`
-	PopLocation         *PopLocationRefInput `json:"popLocation"`
-	PrivateCatoIP       string               `json:"privateCatoIp"`
-	PrivateSiteIP       string               `json:"privateSiteIp"`
-	ServiceProviderName string               `json:"serviceProviderName"`
-	Site                *SiteRefInput        `json:"site"`
-	Subnet              string               `json:"subnet"`
-	UpstreamBwLimit     string               `json:"upstreamBwLimit"`
+	QinQVlanConfiguration *QinQVlanConfiguration `json:"QinQVlanConfiguration,omitempty"`
+	DownstreamBwLimit     string                 `json:"downstreamBwLimit"`
+	EncapsulationMethod   TaggingMethod          `json:"encapsulationMethod"`
+	HaRole                HaRole                 `json:"haRole"`
+	PopLocation           *PopLocationRefInput   `json:"popLocation"`
+	PrivateCatoIP         string                 `json:"privateCatoIp"`
+	PrivateSiteIP         string                 `json:"privateSiteIp"`
+	ServiceProviderName   string                 `json:"serviceProviderName"`
+	Site                  *SiteRefInput          `json:"site"`
+	Subnet                string                 `json:"subnet"`
+	UpstreamBwLimit       string                 `json:"upstreamBwLimit"`
+	Vlan                  *scalars.Vlan          `json:"vlan,omitempty"`
 }
 
 // Payload for adding a new physical connection to a cloud interconnect site.
@@ -579,6 +686,17 @@ type AddCloudInterconnectSitePayload struct {
 	SiteID string `json:"siteId"`
 }
 
+type AddCustomApplicationInput struct {
+	Category    []*ApplicationCategoryRefInput    `json:"category,omitempty"`
+	Criteria    []*CustomApplicationCriteriaInput `json:"criteria"`
+	Description *string                           `json:"description,omitempty"`
+	Name        string                            `json:"name"`
+}
+
+type AddCustomApplicationPayload struct {
+	CustomApplication *CustomApplication `json:"customApplication"`
+}
+
 type AddIpsecIkeV2SiteInput struct {
 	Description        *string               `json:"description,omitempty"`
 	Name               string                `json:"name"`
@@ -589,7 +707,7 @@ type AddIpsecIkeV2SiteInput struct {
 }
 
 type AddIpsecIkeV2SiteMultiTunnelPayload struct {
-	Fqdn    *string                           `json:"fqdn,omitempty"`
+	Fqdn    *string                           `json:"fqdn,omitempty,omitzero"`
 	Tunnels []*AddIpsecIkeV2SiteTunnelPayload `json:"tunnels"`
 }
 
@@ -598,8 +716,8 @@ type AddIpsecIkeV2SitePayload struct {
 }
 
 type AddIpsecIkeV2SiteTunnelPayload struct {
-	LocalID  *string             `json:"localId,omitempty"`
-	TunnelID *IPSecV2InterfaceID `json:"tunnelId,omitempty"`
+	LocalID  *string             `json:"localId,omitempty,omitzero"`
+	TunnelID *IPSecV2InterfaceID `json:"tunnelId,omitempty,omitzero"`
 }
 
 type AddIpsecIkeV2SiteTunnelsInput struct {
@@ -608,8 +726,8 @@ type AddIpsecIkeV2SiteTunnelsInput struct {
 }
 
 type AddIpsecIkeV2SiteTunnelsPayload struct {
-	Primary   *AddIpsecIkeV2SiteMultiTunnelPayload `json:"primary,omitempty"`
-	Secondary *AddIpsecIkeV2SiteMultiTunnelPayload `json:"secondary,omitempty"`
+	Primary   *AddIpsecIkeV2SiteMultiTunnelPayload `json:"primary,omitempty,omitzero"`
+	Secondary *AddIpsecIkeV2SiteMultiTunnelPayload `json:"secondary,omitempty,omitzero"`
 	SiteID    string                               `json:"siteId"`
 }
 
@@ -630,6 +748,17 @@ type AddIpsecIkeV2TunnelsInput struct {
 	Tunnels         []*AddIpsecIkeV2TunnelInput `json:"tunnels"`
 }
 
+type AddLicenseToManagedAccountInput struct {
+	Bw               *int64 `json:"bw,omitempty"`
+	LicenseID        string `json:"licenseId"`
+	ManagedAccountID string `json:"managedAccountId"`
+	Users            *int64 `json:"users,omitempty"`
+}
+
+type AddLicenseToManagedAccountPayload struct {
+	License License `json:"license"`
+}
+
 type AddNetworkRangeInput struct {
 	AzureFloatingIP  *string                   `json:"azureFloatingIp,omitempty"`
 	DhcpSettings     *NetworkDhcpSettingsInput `json:"dhcpSettings,omitempty"`
@@ -646,6 +775,25 @@ type AddNetworkRangeInput struct {
 
 type AddNetworkRangePayload struct {
 	NetworkRangeID string `json:"networkRangeId"`
+}
+
+// Input for creating a partner account access request.
+type AddPartnerAccessRequestInput struct {
+	Accounts                           []*AccountRefInput    `json:"accounts,omitempty"`
+	Admins                             []*AdminRefInput      `json:"admins,omitempty"`
+	ExpirationDate                     string                `json:"expirationDate"`
+	Groups                             []*UsersGroupRefInput `json:"groups"`
+	IsAppliedOnAllFullyManagedAccounts *bool                 `json:"isAppliedOnAllFullyManagedAccounts,omitempty"`
+	Partner                            *AccountRefInput      `json:"partner"`
+	PartnerNote                        *string               `json:"partnerNote,omitempty"`
+	Reason                             *string               `json:"reason,omitempty"`
+	Roles                              []*RBACRoleRefInput   `json:"roles"`
+	SupportLink                        *string               `json:"supportLink,omitempty"`
+}
+
+// Output for creating a partner account access request.
+type AddPartnerAccessRequestPayload struct {
+	Invitation []*ExternalAccessRequest `json:"invitation"`
 }
 
 type AddSecondaryAWSVSocketInput struct {
@@ -667,6 +815,15 @@ type AddSecondaryAzureVSocketInput struct {
 
 type AddSecondaryAzureVSocketPayload struct {
 	ID string `json:"id"`
+}
+
+type AddSecondaryGCPVSocketInput struct {
+	GCPConfig *GCPConfigInput `json:"gcpConfig"`
+	Site      *SiteRefInput   `json:"site"`
+}
+
+type AddSecondaryGCPVSocketPayload struct {
+	SocketInfo *GCPVSocketInfo `json:"socketInfo"`
 }
 
 type AddServicePrincipalAdminInput struct {
@@ -723,8 +880,10 @@ type AddStaticHostPayload struct {
 }
 
 type AddStoryCommentInput struct {
-	StoryID string `json:"storyId"`
-	Text    string `json:"text"`
+	Author  *string      `json:"author,omitempty"`
+	StoryID string       `json:"storyId"`
+	Text    string       `json:"text"`
+	Type    *CommentType `json:"type,omitempty"`
 }
 
 type AddStoryCommentPayload struct {
@@ -746,8 +905,7 @@ type AddZtnaAppConnectorPayload struct {
 }
 
 // Input for creating ZTNA App Connectors configuration.
-// If not provided, default ranges will be used (100.64.0.0/16 for Private Apps Service, 100.65.0.0/16
-// for App Connector Service).
+// If not provided, default ranges will be used (100.64.0.0/16 for Private Apps Service, 100.65.0.0/16 for App Connector Service).
 type AddZtnaAppConnectorsConfigurationInput struct {
 	AppConnectorManagementRange string `json:"appConnectorManagementRange"`
 	PrivateAppsServiceRange     string `json:"privateAppsServiceRange"`
@@ -758,43 +916,34 @@ type AddZtnaAppConnectorsConfigurationPayload struct {
 	ZtnaAppConnectorsConfiguration *ZtnaAppConnectorsConfiguration `json:"ztnaAppConnectorsConfiguration"`
 }
 
-type AddressInput struct {
-	CityName    string  `json:"cityName"`
-	CompanyName string  `json:"companyName"`
-	CountryName string  `json:"countryName"`
-	StateName   *string `json:"stateName,omitempty"`
-	Street      string  `json:"street"`
-	ZipCode     string  `json:"zipCode"`
-}
-
 // A CC2 administrator
 type Admin struct {
-	AdminType             *AdminType                 `json:"adminType,omitempty"`
-	AllowedItems          []*Entity                  `json:"allowedItems,omitempty"`
-	CreationDate          *string                    `json:"creationDate,omitempty"`
-	Email                 *string                    `json:"email,omitempty"`
-	FirstName             *string                    `json:"firstName,omitempty"`
+	AdminType             *AdminType                 `json:"adminType,omitempty,omitzero"`
+	AllowedItems          []*Entity                  `json:"allowedItems,omitempty,omitzero"`
+	CreationDate          *string                    `json:"creationDate,omitempty,omitzero"`
+	Email                 *string                    `json:"email,omitempty,omitzero"`
+	FirstName             *string                    `json:"firstName,omitempty,omitzero"`
 	ID                    string                     `json:"id"`
-	LastName              *string                    `json:"lastName,omitempty"`
-	ManagedRoles          []*AdminRole               `json:"managedRoles,omitempty"`
-	MfaEnabled            *bool                      `json:"mfaEnabled,omitempty"`
-	ModifyDate            *string                    `json:"modifyDate,omitempty"`
-	NativeAccountID       *string                    `json:"nativeAccountID,omitempty"`
-	PasswordNeverExpires  *bool                      `json:"passwordNeverExpires,omitempty"`
-	PresentUsageAndEvents *bool                      `json:"presentUsageAndEvents,omitempty"`
-	ResellerRoles         []*AdminRole               `json:"resellerRoles,omitempty"`
-	Role                  *UserRole                  `json:"role,omitempty"`
-	Status                *scalars.OperationalStatus `json:"status,omitempty"`
+	LastName              *string                    `json:"lastName,omitempty,omitzero"`
+	ManagedRoles          []*AdminRole               `json:"managedRoles,omitempty,omitzero"`
+	MfaEnabled            *bool                      `json:"mfaEnabled,omitempty,omitzero"`
+	ModifyDate            *string                    `json:"modifyDate,omitempty,omitzero"`
+	NativeAccountID       *string                    `json:"nativeAccountID,omitempty,omitzero"`
+	PasswordNeverExpires  *bool                      `json:"passwordNeverExpires,omitempty,omitzero"`
+	PresentUsageAndEvents *bool                      `json:"presentUsageAndEvents,omitempty,omitzero"`
+	ResellerRoles         []*AdminRole               `json:"resellerRoles,omitempty,omitzero"`
+	Role                  *UserRole                  `json:"role,omitempty,omitzero"`
+	Status                *scalars.OperationalStatus `json:"status,omitempty,omitzero"`
 	Version               string                     `json:"version"`
 }
 
 type AdminMutations struct {
-	AddAdmin                    *AddAdminPayload                    `json:"addAdmin,omitempty"`
-	AddServicePrincipalAdmin    *AddServicePrincipalAdminPayload    `json:"addServicePrincipalAdmin,omitempty"`
-	RemoveAdmin                 *RemoveAdminPayload                 `json:"removeAdmin,omitempty"`
-	RemoveServicePrincipalAdmin *RemoveServicePrincipalAdminPayload `json:"removeServicePrincipalAdmin,omitempty"`
-	UpdateAdmin                 *UpdateAdminPayload                 `json:"updateAdmin,omitempty"`
-	UpdateServicePrincipalAdmin *UpdateServicePrincipalAdminPayload `json:"updateServicePrincipalAdmin,omitempty"`
+	AddAdmin                    *AddAdminPayload                    `json:"addAdmin,omitempty,omitzero"`
+	AddServicePrincipalAdmin    *AddServicePrincipalAdminPayload    `json:"addServicePrincipalAdmin,omitempty,omitzero"`
+	RemoveAdmin                 *RemoveAdminPayload                 `json:"removeAdmin,omitempty,omitzero"`
+	RemoveServicePrincipalAdmin *RemoveServicePrincipalAdminPayload `json:"removeServicePrincipalAdmin,omitempty,omitzero"`
+	UpdateAdmin                 *UpdateAdminPayload                 `json:"updateAdmin,omitempty,omitzero"`
+	UpdateServicePrincipalAdmin *UpdateServicePrincipalAdminPayload `json:"updateServicePrincipalAdmin,omitempty,omitzero"`
 }
 
 // A reference identifying the Admin object. ID: Unique Admin Identifier, Name: The Admin Name
@@ -809,9 +958,14 @@ func (this AdminRef) GetName() string { return this.Name }
 
 func (AdminRef) IsObjectRef() {}
 
+type AdminRefInput struct {
+	By    ObjectRefBy `json:"by"`
+	Input string      `json:"input"`
+}
+
 type AdminRole struct {
-	AllowedAccounts []string  `json:"allowedAccounts,omitempty"`
-	AllowedEntities []*Entity `json:"allowedEntities,omitempty"`
+	AllowedAccounts []string  `json:"allowedAccounts,omitempty,omitzero"`
+	AllowedEntities []*Entity `json:"allowedEntities,omitempty,omitzero"`
 	Role            *RBACRole `json:"role"`
 }
 
@@ -819,6 +973,28 @@ type AdminsResult struct {
 	Items []*Admin `json:"items"`
 	Total int64    `json:"total"`
 }
+
+// App & Data Security Package (ADSP) service license details
+type AdspLicense struct {
+	Description    *string       `json:"description,omitempty,omitzero"`
+	ExpirationDate string        `json:"expirationDate"`
+	ID             *string       `json:"id,omitempty,omitzero"`
+	LastUpdated    *string       `json:"lastUpdated,omitempty,omitzero"`
+	Plan           LicensePlan   `json:"plan"`
+	Sku            LicenseSku    `json:"sku"`
+	StartDate      *string       `json:"startDate,omitempty,omitzero"`
+	Status         LicenseStatus `json:"status"`
+}
+
+func (AdspLicense) IsLicense()                     {}
+func (this AdspLicense) GetDescription() *string   { return this.Description }
+func (this AdspLicense) GetExpirationDate() string { return this.ExpirationDate }
+func (this AdspLicense) GetID() *string            { return this.ID }
+func (this AdspLicense) GetLastUpdated() *string   { return this.LastUpdated }
+func (this AdspLicense) GetPlan() LicensePlan      { return this.Plan }
+func (this AdspLicense) GetSku() LicenseSku        { return this.Sku }
+func (this AdspLicense) GetStartDate() *string     { return this.StartDate }
+func (this AdspLicense) GetStatus() LicenseStatus  { return this.Status }
 
 type AdvancedStringFilterInput struct {
 	Eq    *string  `json:"eq,omitempty"`
@@ -829,13 +1005,15 @@ type AdvancedStringFilterInput struct {
 }
 
 type AiOperationsIncident struct {
-	AccountOperationIncident *AccountOperationsIncident    `json:"accountOperationIncident,omitempty"`
-	AnalystFeedback          *AnalystFeedback              `json:"analystFeedback,omitempty"`
-	ConnectionType           *ConnectionTypeEnum           `json:"connectionType,omitempty"`
-	Criticality              *int64                        `json:"criticality,omitempty"`
-	Description              *string                       `json:"description,omitempty"`
-	EngineType               *StoryEngineTypeEnum          `json:"engineType,omitempty"`
-	EventsGraphQuery         *EventsGraphQuery             `json:"eventsGraphQuery,omitempty"`
+	AccountOperationIncident *AccountOperationsIncident    `json:"accountOperationIncident,omitempty,omitzero"`
+	AnalystFeedback          *AnalystFeedback              `json:"analystFeedback,omitempty,omitzero"`
+	Categories               []IncidentCategory            `json:"categories"`
+	ConnectionType           *ConnectionTypeEnum           `json:"connectionType,omitempty,omitzero"`
+	Criticality              *int64                        `json:"criticality,omitempty,omitzero"`
+	Description              *string                       `json:"description,omitempty,omitzero"`
+	EngineType               *StoryEngineTypeEnum          `json:"engineType,omitempty,omitzero"`
+	Entities                 []*IncidentEntity             `json:"entities"`
+	EventsGraphQuery         *EventsGraphQuery             `json:"eventsGraphQuery,omitempty,omitzero"`
 	FirstSignal              string                        `json:"firstSignal"`
 	FlowLastTime             string                        `json:"flowLastTime"`
 	FlowStartTime            string                        `json:"flowStartTime"`
@@ -843,65 +1021,89 @@ type AiOperationsIncident struct {
 	Indication               string                        `json:"indication"`
 	Ioa                      string                        `json:"ioa"`
 	LastSignal               string                        `json:"lastSignal"`
-	Occurrences              *int64                        `json:"occurrences,omitempty"`
-	PredictedThreatType      *string                       `json:"predictedThreatType,omitempty"`
-	PredictedVerdict         *StoryVerdictEnum             `json:"predictedVerdict,omitempty"`
+	Muted                    bool                          `json:"muted"`
+	Occurrences              *int64                        `json:"occurrences,omitempty,omitzero"`
+	PredictedThreatType      *string                       `json:"predictedThreatType,omitempty,omitzero"`
+	PredictedVerdict         *StoryVerdictEnum             `json:"predictedVerdict,omitempty,omitzero"`
 	Producer                 StoryProducerEnum             `json:"producer"`
 	ProducerName             string                        `json:"producerName"`
-	QueryName                *string                       `json:"queryName,omitempty"`
-	Research                 *bool                         `json:"research,omitempty"`
+	ProducerType             StoryProducerEnum             `json:"producerType"`
+	QueryName                *string                       `json:"queryName,omitempty,omitzero"`
+	Research                 *bool                         `json:"research,omitempty,omitzero"`
 	RiskScore                int64                         `json:"riskScore"`
 	SimilarStoriesData       []*SimilarStoryData           `json:"similarStoriesData"`
-	Site                     *SiteRef                      `json:"site,omitempty"`
-	SiteName                 *string                       `json:"siteName,omitempty"`
-	Source                   *string                       `json:"source,omitempty"`
-	SourceIP                 *string                       `json:"sourceIp,omitempty"`
-	Status                   *StoryStatusEnum              `json:"status,omitempty"`
-	StoryDuration            *int64                        `json:"storyDuration,omitempty"`
-	Ticket                   *string                       `json:"ticket,omitempty"`
-	Type                     *AiOperationsIncidentTypeEnum `json:"type,omitempty"`
-	User                     *UserRef                      `json:"user,omitempty"`
-	Vendor                   *VendorEnum                   `json:"vendor,omitempty"`
+	Site                     *SiteRef                      `json:"site,omitempty,omitzero"`
+	SiteName                 *string                       `json:"siteName,omitempty,omitzero"`
+	Source                   *string                       `json:"source,omitempty,omitzero"`
+	SourceIP                 *string                       `json:"sourceIp,omitempty,omitzero"`
+	Status                   *StoryStatusEnum              `json:"status,omitempty,omitzero"`
+	StoryDuration            *int64                        `json:"storyDuration,omitempty,omitzero"`
+	Ticket                   *string                       `json:"ticket,omitempty,omitzero"`
+	Type                     *AiOperationsIncidentTypeEnum `json:"type,omitempty,omitzero"`
+	User                     *UserRef                      `json:"user,omitempty,omitzero"`
+	Vendor                   *VendorEnum                   `json:"vendor,omitempty,omitzero"`
 }
 
-func (AiOperationsIncident) IsMergedIncident()                           {}
-func (this AiOperationsIncident) GetAnalystFeedback() *AnalystFeedback   { return this.AnalystFeedback }
+func (AiOperationsIncident) IsMergedIncident()                         {}
+func (this AiOperationsIncident) GetAnalystFeedback() *AnalystFeedback { return this.AnalystFeedback }
+func (this AiOperationsIncident) GetCategories() []IncidentCategory {
+	if this.Categories == nil {
+		return nil
+	}
+	interfaceSlice := make([]IncidentCategory, 0, len(this.Categories))
+	for _, concrete := range this.Categories {
+		interfaceSlice = append(interfaceSlice, concrete)
+	}
+	return interfaceSlice
+}
 func (this AiOperationsIncident) GetConnectionType() *ConnectionTypeEnum { return this.ConnectionType }
 func (this AiOperationsIncident) GetCriticality() *int64                 { return this.Criticality }
 func (this AiOperationsIncident) GetDescription() *string                { return this.Description }
 func (this AiOperationsIncident) GetEngineType() *StoryEngineTypeEnum    { return this.EngineType }
-func (this AiOperationsIncident) GetFirstSignal() string                 { return this.FirstSignal }
-func (this AiOperationsIncident) GetID() string                          { return this.ID }
-func (this AiOperationsIncident) GetIndication() string                  { return this.Indication }
-func (this AiOperationsIncident) GetLastSignal() string                  { return this.LastSignal }
-func (this AiOperationsIncident) GetPredictedThreatType() *string        { return this.PredictedThreatType }
+func (this AiOperationsIncident) GetEntities() []*IncidentEntity {
+	if this.Entities == nil {
+		return nil
+	}
+	interfaceSlice := make([]*IncidentEntity, 0, len(this.Entities))
+	for _, concrete := range this.Entities {
+		interfaceSlice = append(interfaceSlice, concrete)
+	}
+	return interfaceSlice
+}
+func (this AiOperationsIncident) GetFirstSignal() string          { return this.FirstSignal }
+func (this AiOperationsIncident) GetID() string                   { return this.ID }
+func (this AiOperationsIncident) GetIndication() string           { return this.Indication }
+func (this AiOperationsIncident) GetLastSignal() string           { return this.LastSignal }
+func (this AiOperationsIncident) GetMuted() bool                  { return this.Muted }
+func (this AiOperationsIncident) GetPredictedThreatType() *string { return this.PredictedThreatType }
 func (this AiOperationsIncident) GetPredictedVerdict() *StoryVerdictEnum {
 	return this.PredictedVerdict
 }
-func (this AiOperationsIncident) GetProducer() StoryProducerEnum { return this.Producer }
-func (this AiOperationsIncident) GetProducerName() string        { return this.ProducerName }
-func (this AiOperationsIncident) GetQueryName() *string          { return this.QueryName }
-func (this AiOperationsIncident) GetResearch() *bool             { return this.Research }
-func (this AiOperationsIncident) GetSite() *SiteRef              { return this.Site }
-func (this AiOperationsIncident) GetSiteName() *string           { return this.SiteName }
-func (this AiOperationsIncident) GetSource() *string             { return this.Source }
-func (this AiOperationsIncident) GetSourceIP() *string           { return this.SourceIP }
-func (this AiOperationsIncident) GetStatus() *StoryStatusEnum    { return this.Status }
-func (this AiOperationsIncident) GetStoryDuration() *int64       { return this.StoryDuration }
-func (this AiOperationsIncident) GetTicket() *string             { return this.Ticket }
-func (this AiOperationsIncident) GetUser() *UserRef              { return this.User }
-func (this AiOperationsIncident) GetVendor() *VendorEnum         { return this.Vendor }
+func (this AiOperationsIncident) GetProducer() StoryProducerEnum     { return this.Producer }
+func (this AiOperationsIncident) GetProducerName() string            { return this.ProducerName }
+func (this AiOperationsIncident) GetProducerType() StoryProducerEnum { return this.ProducerType }
+func (this AiOperationsIncident) GetQueryName() *string              { return this.QueryName }
+func (this AiOperationsIncident) GetResearch() *bool                 { return this.Research }
+func (this AiOperationsIncident) GetSite() *SiteRef                  { return this.Site }
+func (this AiOperationsIncident) GetSiteName() *string               { return this.SiteName }
+func (this AiOperationsIncident) GetSource() *string                 { return this.Source }
+func (this AiOperationsIncident) GetSourceIP() *string               { return this.SourceIP }
+func (this AiOperationsIncident) GetStatus() *StoryStatusEnum        { return this.Status }
+func (this AiOperationsIncident) GetStoryDuration() *int64           { return this.StoryDuration }
+func (this AiOperationsIncident) GetTicket() *string                 { return this.Ticket }
+func (this AiOperationsIncident) GetUser() *UserRef                  { return this.User }
+func (this AiOperationsIncident) GetVendor() *VendorEnum             { return this.Vendor }
 
 type AiOperationsPlaybook struct {
 	Description string  `json:"description"`
-	Link        *string `json:"link,omitempty"`
+	Link        *string `json:"link,omitempty,omitzero"`
 	Title       string  `json:"title"`
 }
 
 type AiSecurityAttributes struct {
-	DataUsagePolicy *AiSecurityDataUsagePolicy `json:"dataUsagePolicy,omitempty"`
-	Risk            *AiSecurityRisk            `json:"risk,omitempty"`
-	Scope           *AiSecurityScope           `json:"scope,omitempty"`
+	DataUsagePolicy *AiSecurityDataUsagePolicy `json:"dataUsagePolicy,omitempty,omitzero"`
+	Risk            *AiSecurityRisk            `json:"risk,omitempty,omitzero"`
+	Scope           *AiSecurityScope           `json:"scope,omitempty,omitzero"`
 }
 
 // A reference identifying the AiSecurityDataProfile object. ID: Unique AiSecurityDataProfile Identifier, Name: The AiSecurityDataProfile Name
@@ -916,11 +1118,11 @@ func (this AiSecurityDataProfileRef) GetID() string   { return this.ID }
 func (this AiSecurityDataProfileRef) GetName() string { return this.Name }
 
 type AiSecurityDataUsagePolicy struct {
-	Description   *string                        `json:"description,omitempty"`
-	Reference     *string                        `json:"reference,omitempty"`
-	ReferenceType *string                        `json:"referenceType,omitempty"`
-	ReferenceURL  *string                        `json:"referenceUrl,omitempty"`
-	Type          *AiSecurityDataUsagePolicyType `json:"type,omitempty"`
+	Description   *string                        `json:"description,omitempty,omitzero"`
+	Reference     *string                        `json:"reference,omitempty,omitzero"`
+	ReferenceType *string                        `json:"referenceType,omitempty,omitzero"`
+	ReferenceURL  *string                        `json:"referenceUrl,omitempty,omitzero"`
+	Type          *AiSecurityDataUsagePolicyType `json:"type,omitempty,omitzero"`
 }
 
 // A reference identifying the Guard object. ID: Unique Guard Identifier, Name: The Guard Name
@@ -948,12 +1150,21 @@ type AllocatedIPRefInput struct {
 	Input string      `json:"input"`
 }
 
+type AllowlistRuleRef struct {
+	ID   string `json:"id"`
+	Name string `json:"name"`
+}
+
+func (AllowlistRuleRef) IsObjectRef()         {}
+func (this AllowlistRuleRef) GetID() string   { return this.ID }
+func (this AllowlistRuleRef) GetName() string { return this.Name }
+
 type AnalystFeedback struct {
-	AdditionalInfo       *string                    `json:"additionalInfo,omitempty"`
-	Severity             *SeverityEnum              `json:"severity,omitempty"`
-	ThreatClassification *string                    `json:"threatClassification,omitempty"`
-	ThreatType           *AnalystFeedbackThreatType `json:"threatType,omitempty"`
-	Verdict              *StoryVerdictEnum          `json:"verdict,omitempty"`
+	AdditionalInfo       *string                    `json:"additionalInfo,omitempty,omitzero"`
+	Severity             *SeverityEnum              `json:"severity,omitempty,omitzero"`
+	ThreatClassification *string                    `json:"threatClassification,omitempty,omitzero"`
+	ThreatType           *AnalystFeedbackThreatType `json:"threatType,omitempty,omitzero"`
+	Verdict              *StoryVerdictEnum          `json:"verdict,omitempty,omitzero"`
 }
 
 type AnalystFeedbackInput struct {
@@ -967,82 +1178,108 @@ type AnalystFeedbackInput struct {
 }
 
 type AnalystFeedbackPayload struct {
-	Story *Story `json:"story,omitempty"`
+	Story *Story `json:"story,omitempty,omitzero"`
 }
 
 type AnalystFeedbackThreatType struct {
-	Details           *string `json:"details,omitempty"`
-	Name              *string `json:"name,omitempty"`
-	RecommendedAction *string `json:"recommendedAction,omitempty"`
+	Details           *string `json:"details,omitempty,omitzero"`
+	Name              *string `json:"name,omitempty,omitzero"`
+	RecommendedAction *string `json:"recommendedAction,omitempty,omitzero"`
 }
 
 type AnalystInfo struct {
-	Email *string `json:"email,omitempty"`
-	Name  *string `json:"name,omitempty"`
+	Email *string `json:"email,omitempty,omitzero"`
+	Name  *string `json:"name,omitempty,omitzero"`
 }
 
 // The `AnomalyEvents` object represents a data structure used in GraphQL queries or mutations, containing fields related to security anomalies, such as analyst feedback, connection type, criticality, description, and various identifiers and metrics, to provide detailed information about potential security incidents.
 type AnomalyEvents struct {
-	AnalystFeedback     *AnalystFeedback        `json:"analystFeedback,omitempty"`
-	BreakdownField      *string                 `json:"breakdownField,omitempty"`
+	AnalystFeedback     *AnalystFeedback        `json:"analystFeedback,omitempty,omitzero"`
+	BreakdownField      *string                 `json:"breakdownField,omitempty,omitzero"`
+	Categories          []IncidentCategory      `json:"categories"`
 	ClientClass         []string                `json:"clientClass"`
-	ConnectionType      *ConnectionTypeEnum     `json:"connectionType,omitempty"`
-	Criticality         *int64                  `json:"criticality,omitempty"`
-	Description         *string                 `json:"description,omitempty"`
-	DeviceName          *string                 `json:"deviceName,omitempty"`
-	Direction           *string                 `json:"direction,omitempty"`
-	DrillDownFilter     []*StoryDrillDownFilter `json:"drillDownFilter,omitempty"`
-	EngineType          *StoryEngineTypeEnum    `json:"engineType,omitempty"`
-	Extra               []*Extra                `json:"extra,omitempty"`
+	ConnectionType      *ConnectionTypeEnum     `json:"connectionType,omitempty,omitzero"`
+	Criticality         *int64                  `json:"criticality,omitempty,omitzero"`
+	Description         *string                 `json:"description,omitempty,omitzero"`
+	DeviceName          *string                 `json:"deviceName,omitempty,omitzero"`
+	Direction           *string                 `json:"direction,omitempty,omitzero"`
+	DrillDownFilter     []*StoryDrillDownFilter `json:"drillDownFilter,omitempty,omitzero"`
+	EngineType          *StoryEngineTypeEnum    `json:"engineType,omitempty,omitzero"`
+	Entities            []*IncidentEntity       `json:"entities"`
+	Extra               []*Extra                `json:"extra,omitempty,omitzero"`
 	FirstSignal         string                  `json:"firstSignal"`
-	Gaussian            *Gaussian               `json:"gaussian,omitempty"`
+	Gaussian            *Gaussian               `json:"gaussian,omitempty,omitzero"`
 	ID                  string                  `json:"id"`
 	Indication          string                  `json:"indication"`
 	LastSignal          string                  `json:"lastSignal"`
-	LogonName           *string                 `json:"logonName,omitempty"`
-	MacAddress          *string                 `json:"macAddress,omitempty"`
-	Metric              *Metric                 `json:"metric,omitempty"`
-	MetricDetails       *MetricDetails          `json:"metricDetails,omitempty"`
-	Mitres              []*Mitre                `json:"mitres,omitempty"`
-	Os                  *string                 `json:"os,omitempty"`
-	PredictedThreatType *string                 `json:"predictedThreatType,omitempty"`
-	PredictedVerdict    *StoryVerdictEnum       `json:"predictedVerdict,omitempty"`
+	LogonName           *string                 `json:"logonName,omitempty,omitzero"`
+	MacAddress          *string                 `json:"macAddress,omitempty,omitzero"`
+	Metric              *Metric                 `json:"metric,omitempty,omitzero"`
+	MetricDetails       *MetricDetails          `json:"metricDetails,omitempty,omitzero"`
+	Mitres              []*Mitre                `json:"mitres,omitempty,omitzero"`
+	Muted               bool                    `json:"muted"`
+	Os                  *string                 `json:"os,omitempty,omitzero"`
+	PredictedThreatType *string                 `json:"predictedThreatType,omitempty,omitzero"`
+	PredictedVerdict    *StoryVerdictEnum       `json:"predictedVerdict,omitempty,omitzero"`
 	Producer            StoryProducerEnum       `json:"producer"`
 	ProducerName        string                  `json:"producerName"`
-	QueryName           *string                 `json:"queryName,omitempty"`
-	Research            *bool                   `json:"research,omitempty"`
-	Rules               []string                `json:"rules,omitempty"`
+	ProducerType        StoryProducerEnum       `json:"producerType"`
+	QueryName           *string                 `json:"queryName,omitempty,omitzero"`
+	Research            *bool                   `json:"research,omitempty,omitzero"`
+	Rules               []string                `json:"rules,omitempty,omitzero"`
 	SimilarStoriesData  []*SimilarStoryData     `json:"similarStoriesData"`
-	Site                *SiteRef                `json:"site,omitempty"`
-	SiteName            *string                 `json:"siteName,omitempty"`
-	Source              *string                 `json:"source,omitempty"`
-	SourceIP            *string                 `json:"sourceIp,omitempty"`
-	SrcSiteID           *string                 `json:"srcSiteId,omitempty"`
-	Status              *StoryStatusEnum        `json:"status,omitempty"`
-	StoryDuration       *int64                  `json:"storyDuration,omitempty"`
-	SubjectType         *string                 `json:"subjectType,omitempty"`
+	Site                *SiteRef                `json:"site,omitempty,omitzero"`
+	SiteName            *string                 `json:"siteName,omitempty,omitzero"`
+	Source              *string                 `json:"source,omitempty,omitzero"`
+	SourceIP            *string                 `json:"sourceIp,omitempty,omitzero"`
+	SrcSiteID           *string                 `json:"srcSiteId,omitempty,omitzero"`
+	Status              *StoryStatusEnum        `json:"status,omitempty,omitzero"`
+	StoryDuration       *int64                  `json:"storyDuration,omitempty,omitzero"`
+	SubjectType         *string                 `json:"subjectType,omitempty,omitzero"`
 	Targets             []*IncidentTargetRep    `json:"targets"`
-	Ticket              *string                 `json:"ticket,omitempty"`
-	TimeSeries          []*IncidentTimeseries   `json:"timeSeries,omitempty"`
-	User                *UserRef                `json:"user,omitempty"`
-	Vendor              *VendorEnum             `json:"vendor,omitempty"`
+	Ticket              *string                 `json:"ticket,omitempty,omitzero"`
+	TimeSeries          []*IncidentTimeseries   `json:"timeSeries,omitempty,omitzero"`
+	User                *UserRef                `json:"user,omitempty,omitzero"`
+	Vendor              *VendorEnum             `json:"vendor,omitempty,omitzero"`
 }
 
-func (AnomalyEvents) IsAnomalies()                                {}
-func (this AnomalyEvents) GetAnalystFeedback() *AnalystFeedback   { return this.AnalystFeedback }
+func (AnomalyEvents) IsAnomalies()                              {}
+func (this AnomalyEvents) GetAnalystFeedback() *AnalystFeedback { return this.AnalystFeedback }
+func (this AnomalyEvents) GetCategories() []IncidentCategory {
+	if this.Categories == nil {
+		return nil
+	}
+	interfaceSlice := make([]IncidentCategory, 0, len(this.Categories))
+	for _, concrete := range this.Categories {
+		interfaceSlice = append(interfaceSlice, concrete)
+	}
+	return interfaceSlice
+}
 func (this AnomalyEvents) GetConnectionType() *ConnectionTypeEnum { return this.ConnectionType }
 func (this AnomalyEvents) GetCriticality() *int64                 { return this.Criticality }
 func (this AnomalyEvents) GetDescription() *string                { return this.Description }
 func (this AnomalyEvents) GetDirection() *string                  { return this.Direction }
 func (this AnomalyEvents) GetEngineType() *StoryEngineTypeEnum    { return this.EngineType }
+func (this AnomalyEvents) GetEntities() []*IncidentEntity {
+	if this.Entities == nil {
+		return nil
+	}
+	interfaceSlice := make([]*IncidentEntity, 0, len(this.Entities))
+	for _, concrete := range this.Entities {
+		interfaceSlice = append(interfaceSlice, concrete)
+	}
+	return interfaceSlice
+}
 func (this AnomalyEvents) GetFirstSignal() string                 { return this.FirstSignal }
 func (this AnomalyEvents) GetID() string                          { return this.ID }
 func (this AnomalyEvents) GetIndication() string                  { return this.Indication }
 func (this AnomalyEvents) GetLastSignal() string                  { return this.LastSignal }
+func (this AnomalyEvents) GetMuted() bool                         { return this.Muted }
 func (this AnomalyEvents) GetPredictedThreatType() *string        { return this.PredictedThreatType }
 func (this AnomalyEvents) GetPredictedVerdict() *StoryVerdictEnum { return this.PredictedVerdict }
 func (this AnomalyEvents) GetProducer() StoryProducerEnum         { return this.Producer }
 func (this AnomalyEvents) GetProducerName() string                { return this.ProducerName }
+func (this AnomalyEvents) GetProducerType() StoryProducerEnum     { return this.ProducerType }
 func (this AnomalyEvents) GetQueryName() *string                  { return this.QueryName }
 func (this AnomalyEvents) GetResearch() *bool                     { return this.Research }
 func (this AnomalyEvents) GetSimilarStoriesData() []*SimilarStoryData {
@@ -1069,66 +1306,92 @@ func (AnomalyEvents) IsMergedIncident() {}
 
 // The `AnomalyStats` object is a GraphQL type that represents statistical data related to anomalies, including fields such as analyst feedback, connection type, criticality, device information, and various metrics, along with associated metadata like timestamps, status, and predicted verdicts.
 type AnomalyStats struct {
-	AnalystFeedback     *AnalystFeedback        `json:"analystFeedback,omitempty"`
-	BreakdownField      *string                 `json:"breakdownField,omitempty"`
+	AnalystFeedback     *AnalystFeedback        `json:"analystFeedback,omitempty,omitzero"`
+	BreakdownField      *string                 `json:"breakdownField,omitempty,omitzero"`
+	Categories          []IncidentCategory      `json:"categories"`
 	ClientClass         []string                `json:"clientClass"`
-	ConnectionType      *ConnectionTypeEnum     `json:"connectionType,omitempty"`
-	Criticality         *int64                  `json:"criticality,omitempty"`
-	Description         *string                 `json:"description,omitempty"`
-	DeviceName          *string                 `json:"deviceName,omitempty"`
-	Direction           *string                 `json:"direction,omitempty"`
-	DrillDownFilter     []*StoryDrillDownFilter `json:"drillDownFilter,omitempty"`
-	EngineType          *StoryEngineTypeEnum    `json:"engineType,omitempty"`
-	Extra               []*Extra                `json:"extra,omitempty"`
+	ConnectionType      *ConnectionTypeEnum     `json:"connectionType,omitempty,omitzero"`
+	Criticality         *int64                  `json:"criticality,omitempty,omitzero"`
+	Description         *string                 `json:"description,omitempty,omitzero"`
+	DeviceName          *string                 `json:"deviceName,omitempty,omitzero"`
+	Direction           *string                 `json:"direction,omitempty,omitzero"`
+	DrillDownFilter     []*StoryDrillDownFilter `json:"drillDownFilter,omitempty,omitzero"`
+	EngineType          *StoryEngineTypeEnum    `json:"engineType,omitempty,omitzero"`
+	Entities            []*IncidentEntity       `json:"entities"`
+	Extra               []*Extra                `json:"extra,omitempty,omitzero"`
 	FirstSignal         string                  `json:"firstSignal"`
-	Gaussian            *Gaussian               `json:"gaussian,omitempty"`
+	Gaussian            *Gaussian               `json:"gaussian,omitempty,omitzero"`
 	ID                  string                  `json:"id"`
 	Indication          string                  `json:"indication"`
 	LastSignal          string                  `json:"lastSignal"`
-	LogonName           *string                 `json:"logonName,omitempty"`
-	MacAddress          *string                 `json:"macAddress,omitempty"`
-	Metric              *Metric                 `json:"metric,omitempty"`
-	MetricDetails       *MetricDetails          `json:"metricDetails,omitempty"`
-	Mitres              []*Mitre                `json:"mitres,omitempty"`
-	Os                  *string                 `json:"os,omitempty"`
-	PredictedThreatType *string                 `json:"predictedThreatType,omitempty"`
-	PredictedVerdict    *StoryVerdictEnum       `json:"predictedVerdict,omitempty"`
+	LogonName           *string                 `json:"logonName,omitempty,omitzero"`
+	MacAddress          *string                 `json:"macAddress,omitempty,omitzero"`
+	Metric              *Metric                 `json:"metric,omitempty,omitzero"`
+	MetricDetails       *MetricDetails          `json:"metricDetails,omitempty,omitzero"`
+	Mitres              []*Mitre                `json:"mitres,omitempty,omitzero"`
+	Muted               bool                    `json:"muted"`
+	Os                  *string                 `json:"os,omitempty,omitzero"`
+	PredictedThreatType *string                 `json:"predictedThreatType,omitempty,omitzero"`
+	PredictedVerdict    *StoryVerdictEnum       `json:"predictedVerdict,omitempty,omitzero"`
 	Producer            StoryProducerEnum       `json:"producer"`
 	ProducerName        string                  `json:"producerName"`
-	QueryName           *string                 `json:"queryName,omitempty"`
-	Research            *bool                   `json:"research,omitempty"`
-	Rules               []string                `json:"rules,omitempty"`
+	ProducerType        StoryProducerEnum       `json:"producerType"`
+	QueryName           *string                 `json:"queryName,omitempty,omitzero"`
+	Research            *bool                   `json:"research,omitempty,omitzero"`
+	Rules               []string                `json:"rules,omitempty,omitzero"`
 	SimilarStoriesData  []*SimilarStoryData     `json:"similarStoriesData"`
-	Site                *SiteRef                `json:"site,omitempty"`
-	SiteName            *string                 `json:"siteName,omitempty"`
-	Source              *string                 `json:"source,omitempty"`
-	SourceIP            *string                 `json:"sourceIp,omitempty"`
-	SrcSiteID           *string                 `json:"srcSiteId,omitempty"`
-	Status              *StoryStatusEnum        `json:"status,omitempty"`
-	StoryDuration       *int64                  `json:"storyDuration,omitempty"`
-	SubjectType         *string                 `json:"subjectType,omitempty"`
+	Site                *SiteRef                `json:"site,omitempty,omitzero"`
+	SiteName            *string                 `json:"siteName,omitempty,omitzero"`
+	Source              *string                 `json:"source,omitempty,omitzero"`
+	SourceIP            *string                 `json:"sourceIp,omitempty,omitzero"`
+	SrcSiteID           *string                 `json:"srcSiteId,omitempty,omitzero"`
+	Status              *StoryStatusEnum        `json:"status,omitempty,omitzero"`
+	StoryDuration       *int64                  `json:"storyDuration,omitempty,omitzero"`
+	SubjectType         *string                 `json:"subjectType,omitempty,omitzero"`
 	Targets             []*IncidentTargetRep    `json:"targets"`
-	Ticket              *string                 `json:"ticket,omitempty"`
-	TimeSeries          []*IncidentTimeseries   `json:"timeSeries,omitempty"`
-	User                *UserRef                `json:"user,omitempty"`
-	Vendor              *VendorEnum             `json:"vendor,omitempty"`
+	Ticket              *string                 `json:"ticket,omitempty,omitzero"`
+	TimeSeries          []*IncidentTimeseries   `json:"timeSeries,omitempty,omitzero"`
+	User                *UserRef                `json:"user,omitempty,omitzero"`
+	Vendor              *VendorEnum             `json:"vendor,omitempty,omitzero"`
 }
 
-func (AnomalyStats) IsAnomalies()                                {}
-func (this AnomalyStats) GetAnalystFeedback() *AnalystFeedback   { return this.AnalystFeedback }
+func (AnomalyStats) IsAnomalies()                              {}
+func (this AnomalyStats) GetAnalystFeedback() *AnalystFeedback { return this.AnalystFeedback }
+func (this AnomalyStats) GetCategories() []IncidentCategory {
+	if this.Categories == nil {
+		return nil
+	}
+	interfaceSlice := make([]IncidentCategory, 0, len(this.Categories))
+	for _, concrete := range this.Categories {
+		interfaceSlice = append(interfaceSlice, concrete)
+	}
+	return interfaceSlice
+}
 func (this AnomalyStats) GetConnectionType() *ConnectionTypeEnum { return this.ConnectionType }
 func (this AnomalyStats) GetCriticality() *int64                 { return this.Criticality }
 func (this AnomalyStats) GetDescription() *string                { return this.Description }
 func (this AnomalyStats) GetDirection() *string                  { return this.Direction }
 func (this AnomalyStats) GetEngineType() *StoryEngineTypeEnum    { return this.EngineType }
+func (this AnomalyStats) GetEntities() []*IncidentEntity {
+	if this.Entities == nil {
+		return nil
+	}
+	interfaceSlice := make([]*IncidentEntity, 0, len(this.Entities))
+	for _, concrete := range this.Entities {
+		interfaceSlice = append(interfaceSlice, concrete)
+	}
+	return interfaceSlice
+}
 func (this AnomalyStats) GetFirstSignal() string                 { return this.FirstSignal }
 func (this AnomalyStats) GetID() string                          { return this.ID }
 func (this AnomalyStats) GetIndication() string                  { return this.Indication }
 func (this AnomalyStats) GetLastSignal() string                  { return this.LastSignal }
+func (this AnomalyStats) GetMuted() bool                         { return this.Muted }
 func (this AnomalyStats) GetPredictedThreatType() *string        { return this.PredictedThreatType }
 func (this AnomalyStats) GetPredictedVerdict() *StoryVerdictEnum { return this.PredictedVerdict }
 func (this AnomalyStats) GetProducer() StoryProducerEnum         { return this.Producer }
 func (this AnomalyStats) GetProducerName() string                { return this.ProducerName }
+func (this AnomalyStats) GetProducerType() StoryProducerEnum     { return this.ProducerType }
 func (this AnomalyStats) GetQueryName() *string                  { return this.QueryName }
 func (this AnomalyStats) GetResearch() *bool                     { return this.Research }
 func (this AnomalyStats) GetSimilarStoriesData() []*SimilarStoryData {
@@ -1169,9 +1432,9 @@ type AntiMalwareFileHashAddRuleInput struct {
 }
 
 type AntiMalwareFileHashPolicy struct {
-	Audit    *PolicyAudit                      `json:"audit,omitempty"`
+	Audit    *PolicyAudit                      `json:"audit,omitempty,omitzero"`
 	Enabled  bool                              `json:"enabled"`
-	Revision *PolicyRevision                   `json:"revision,omitempty"`
+	Revision *PolicyRevision                   `json:"revision,omitempty,omitzero"`
 	Rules    []*AntiMalwareFileHashRulePayload `json:"rules"`
 	Sections []*PolicySectionPayload           `json:"sections"`
 }
@@ -1211,7 +1474,7 @@ type AntiMalwareFileHashPolicyMutationInput struct {
 
 type AntiMalwareFileHashPolicyMutationPayload struct {
 	Errors []*PolicyMutationError     `json:"errors"`
-	Policy *AntiMalwareFileHashPolicy `json:"policy,omitempty"`
+	Policy *AntiMalwareFileHashPolicy `json:"policy,omitempty,omitzero"`
 	Status PolicyMutationStatus       `json:"status"`
 }
 
@@ -1248,7 +1511,7 @@ type AntiMalwareFileHashPolicyMutations struct {
 
 type AntiMalwareFileHashPolicyQueries struct {
 	Policy    *AntiMalwareFileHashPolicy `json:"policy"`
-	Revisions *PolicyRevisionsPayload    `json:"revisions,omitempty"`
+	Revisions *PolicyRevisionsPayload    `json:"revisions,omitempty,omitzero"`
 }
 
 type AntiMalwareFileHashPolicyUpdateInput struct {
@@ -1282,7 +1545,7 @@ func (this AntiMalwareFileHashRule) GetSection() *PolicySectionInfo { return thi
 
 type AntiMalwareFileHashRuleMutationPayload struct {
 	Errors []*PolicyMutationError          `json:"errors"`
-	Rule   *AntiMalwareFileHashRulePayload `json:"rule,omitempty"`
+	Rule   *AntiMalwareFileHashRulePayload `json:"rule,omitempty,omitzero"`
 	Status PolicyMutationStatus            `json:"status"`
 }
 
@@ -1350,12 +1613,12 @@ func (this APIKeyRef) GetName() string { return this.Name }
 func (APIKeyRef) IsObjectRef() {}
 
 type AppStats struct {
-	From    *string           `json:"from,omitempty"`
-	ID      *string           `json:"id,omitempty"`
-	Records []*AppStatsRecord `json:"records,omitempty"`
-	To      *string           `json:"to,omitempty"`
-	Total   *int64            `json:"total,omitempty"`
-	Totals  map[string]any    `json:"totals,omitempty"`
+	From    *string           `json:"from,omitempty,omitzero"`
+	ID      *string           `json:"id,omitempty,omitzero"`
+	Records []*AppStatsRecord `json:"records,omitempty,omitzero"`
+	To      *string           `json:"to,omitempty,omitzero"`
+	Total   *int64            `json:"total,omitempty,omitzero"`
+	Totals  map[string]any    `json:"totals,omitempty,omitzero"`
 }
 
 type AppStatsField struct {
@@ -1369,26 +1632,32 @@ type AppStatsFilter struct {
 	Values    []string          `json:"values"`
 }
 
+type AppStatsPostAggFilter struct {
+	AggType AggregationType `json:"aggType"`
+	Filter  *AppStatsFilter `json:"filter"`
+}
+
 type AppStatsRecord struct {
-	Fields          []*AppStatsField `json:"fields,omitempty"`
-	FieldsMap       map[string]any   `json:"fieldsMap,omitempty"`
-	FieldsUnitTypes []UnitType       `json:"fieldsUnitTypes,omitempty"`
-	FlatFields      [][]string       `json:"flatFields,omitempty"`
-	PrevTimeFrame   map[string]any   `json:"prevTimeFrame,omitempty"`
-	Trends          map[string]any   `json:"trends,omitempty"`
+	Fields          []*AppStatsField `json:"fields,omitempty,omitzero"`
+	FieldsMap       map[string]any   `json:"fieldsMap,omitempty,omitzero"`
+	FieldsUnitTypes []UnitType       `json:"fieldsUnitTypes,omitempty,omitzero"`
+	FlatFields      [][]string       `json:"flatFields,omitempty,omitzero"`
+	PrevTimeFrame   map[string]any   `json:"prevTimeFrame,omitempty,omitzero"`
+	Trends          map[string]any   `json:"trends,omitempty,omitzero"`
 }
 
 type AppStatsSort struct {
-	FieldName AppStatsFieldName `json:"fieldName"`
-	Order     DirectionEnum     `json:"order"`
+	Alias     *string            `json:"alias,omitempty"`
+	FieldName *AppStatsFieldName `json:"fieldName,omitempty"`
+	Order     DirectionEnum      `json:"order"`
 }
 
 type AppStatsTimeSeries struct {
-	From        *string       `json:"from,omitempty"`
-	Granularity *int64        `json:"granularity,omitempty"`
-	ID          *string       `json:"id,omitempty"`
-	Timeseries  []*Timeseries `json:"timeseries,omitempty"`
-	To          *string       `json:"to,omitempty"`
+	From        *string       `json:"from,omitempty,omitzero"`
+	Granularity *int64        `json:"granularity,omitempty,omitzero"`
+	ID          *string       `json:"id,omitempty,omitzero"`
+	Timeseries  []*Timeseries `json:"timeseries,omitempty,omitzero"`
+	To          *string       `json:"to,omitempty,omitzero"`
 }
 
 type AppTenantRestrictionAddRuleDataInput struct {
@@ -1421,9 +1690,9 @@ type AppTenantRestrictionHeaderValueInput struct {
 }
 
 type AppTenantRestrictionPolicy struct {
-	Audit    *PolicyAudit                       `json:"audit,omitempty"`
+	Audit    *PolicyAudit                       `json:"audit,omitempty,omitzero"`
 	Enabled  bool                               `json:"enabled"`
-	Revision *PolicyRevision                    `json:"revision,omitempty"`
+	Revision *PolicyRevision                    `json:"revision,omitempty,omitzero"`
 	Rules    []*AppTenantRestrictionRulePayload `json:"rules"`
 	Sections []*PolicySectionPayload            `json:"sections"`
 }
@@ -1463,7 +1732,7 @@ type AppTenantRestrictionPolicyMutationInput struct {
 
 type AppTenantRestrictionPolicyMutationPayload struct {
 	Errors []*PolicyMutationError      `json:"errors"`
-	Policy *AppTenantRestrictionPolicy `json:"policy,omitempty"`
+	Policy *AppTenantRestrictionPolicy `json:"policy,omitempty,omitzero"`
 	Status PolicyMutationStatus        `json:"status"`
 }
 
@@ -1500,7 +1769,7 @@ type AppTenantRestrictionPolicyMutations struct {
 
 type AppTenantRestrictionPolicyQueries struct {
 	Policy    *AppTenantRestrictionPolicy `json:"policy"`
-	Revisions *PolicyRevisionsPayload     `json:"revisions,omitempty"`
+	Revisions *PolicyRevisionsPayload     `json:"revisions,omitempty,omitzero"`
 }
 
 type AppTenantRestrictionPolicyUpdateInput struct {
@@ -1536,7 +1805,7 @@ func (this AppTenantRestrictionRule) GetSection() *PolicySectionInfo { return th
 
 type AppTenantRestrictionRuleMutationPayload struct {
 	Errors []*PolicyMutationError           `json:"errors"`
-	Rule   *AppTenantRestrictionRulePayload `json:"rule,omitempty"`
+	Rule   *AppTenantRestrictionRulePayload `json:"rule,omitempty,omitzero"`
 	Status PolicyMutationStatus             `json:"status"`
 }
 
@@ -1662,6 +1931,10 @@ type ApplicationCategoryRefInput struct {
 	Input string      `json:"input"`
 }
 
+type ApplicationCategorySortInput struct {
+	Name *SortOrderInput `json:"name,omitempty"`
+}
+
 // A reference identifying the Application Connector object. ID: Unique Application Connector Identifier, Name: The Application Connector Name
 type ApplicationConnectorCatalogEntityRef struct {
 	ID   string `json:"id"`
@@ -1686,8 +1959,8 @@ type ApplicationConnectorCatalogEntityRefSortOrderInput struct {
 type ApplicationControlAccessMethod struct {
 	AccessMethod ApplicationControlAccessMethodType `json:"accessMethod"`
 	Operator     ApplicationControlOperator         `json:"operator"`
-	Value        *string                            `json:"value,omitempty"`
-	ValueSet     *StringValueSetRef                 `json:"valueSet,omitempty"`
+	Value        *string                            `json:"value,omitempty,omitzero"`
+	ValueSet     *StringValueSetRef                 `json:"valueSet,omitempty,omitzero"`
 }
 
 // Access method matching configuration
@@ -1698,13 +1971,28 @@ type ApplicationControlAccessMethodInput struct {
 	ValueSet     *StringValueSetRefInput            `json:"valueSet,omitempty"`
 }
 
+// Configuration for application control action
+type ApplicationControlActionConfig struct {
+	UserNotification []*UserNotificationTemplateRef `json:"userNotification"`
+}
+
+// Configuration for application control action
+type ApplicationControlActionConfigInput struct {
+	UserNotification []*UserNotificationTemplateRefInput `json:"userNotification"`
+}
+
+// Configuration for application control action
+type ApplicationControlActionConfigUpdateInput struct {
+	UserNotification []*UserNotificationTemplateRefInput `json:"userNotification,omitempty"`
+}
+
 // Activity matching configuration
 type ApplicationControlActivity struct {
 	Activity *ApplicationControlActivityRef      `json:"activity"`
-	Field    *ApplicationControlActivityFieldRef `json:"field,omitempty"`
-	Operator *ApplicationControlOperator         `json:"operator,omitempty"`
-	Value    *string                             `json:"value,omitempty"`
-	ValueSet *StringValueSetRef                  `json:"valueSet,omitempty"`
+	Field    *ApplicationControlActivityFieldRef `json:"field,omitempty,omitzero"`
+	Operator *ApplicationControlOperator         `json:"operator,omitempty,omitzero"`
+	Value    *string                             `json:"value,omitempty,omitzero"`
+	ValueSet *StringValueSetRef                  `json:"valueSet,omitempty,omitzero"`
 }
 
 type ApplicationControlActivityFieldRef struct {
@@ -1761,12 +2049,12 @@ type ApplicationControlAddRuleInput struct {
 
 // Application matching configuration. Only one of the following fields should be filled - the others must remain empty.
 type ApplicationControlApplication struct {
-	AppCategory            *ApplicationCategoryRef    `json:"appCategory,omitempty"`
-	Application            *ApplicationRef            `json:"application,omitempty"`
+	AppCategory            *ApplicationCategoryRef    `json:"appCategory,omitempty,omitzero"`
+	Application            *ApplicationRef            `json:"application,omitempty,omitzero"`
 	ApplicationType        []ApplicationType          `json:"applicationType"`
-	CustomApp              *CustomApplicationRef      `json:"customApp,omitempty"`
-	CustomCategory         *CustomCategoryRef         `json:"customCategory,omitempty"`
-	SanctionedAppsCategory *SanctionedAppsCategoryRef `json:"sanctionedAppsCategory,omitempty"`
+	CustomApp              *CustomApplicationRef      `json:"customApp,omitempty,omitzero"`
+	CustomCategory         *CustomCategoryRef         `json:"customCategory,omitempty,omitzero"`
+	SanctionedAppsCategory *SanctionedAppsCategoryRef `json:"sanctionedAppsCategory,omitempty,omitzero"`
 }
 
 // Application matching configuration. Only one of the following fields should be filled - the others must remain empty.
@@ -1783,6 +2071,7 @@ type ApplicationControlApplicationInput struct {
 type ApplicationControlApplicationRule struct {
 	AccessMethod               []*ApplicationControlAccessMethod `json:"accessMethod"`
 	Action                     ApplicationControlAction          `json:"action"`
+	ActionConfig               *ApplicationControlActionConfig   `json:"actionConfig"`
 	Application                *ApplicationControlApplication    `json:"application"`
 	ApplicationActivity        []*ApplicationControlActivity     `json:"applicationActivity"`
 	ApplicationActivitySatisfy ApplicationControlSatisfy         `json:"applicationActivitySatisfy"`
@@ -1800,6 +2089,7 @@ type ApplicationControlApplicationRule struct {
 type ApplicationControlApplicationRuleInput struct {
 	AccessMethod               []*ApplicationControlAccessMethodInput `json:"accessMethod"`
 	Action                     ApplicationControlAction               `json:"action"`
+	ActionConfig               *ApplicationControlActionConfigInput   `json:"actionConfig"`
 	Application                *ApplicationControlApplicationInput    `json:"application"`
 	ApplicationActivity        []*ApplicationControlActivityInput     `json:"applicationActivity"`
 	ApplicationActivitySatisfy ApplicationControlSatisfy              `json:"applicationActivitySatisfy"`
@@ -1815,19 +2105,20 @@ type ApplicationControlApplicationRuleInput struct {
 
 // Configuration for application-based control rules
 type ApplicationControlApplicationRuleUpdateInput struct {
-	AccessMethod               []*ApplicationControlAccessMethodInput    `json:"accessMethod,omitempty"`
-	Action                     *ApplicationControlAction                 `json:"action,omitempty"`
-	Application                *ApplicationControlApplicationUpdateInput `json:"application,omitempty"`
-	ApplicationActivity        []*ApplicationControlActivityInput        `json:"applicationActivity,omitempty"`
-	ApplicationActivitySatisfy *ApplicationControlSatisfy                `json:"applicationActivitySatisfy,omitempty"`
-	ApplicationContext         *ApplicationControlContextUpdateInput     `json:"applicationContext,omitempty"`
-	ApplicationCriteria        *ApplicationControlCriteriaUpdateInput    `json:"applicationCriteria,omitempty"`
-	ApplicationCriteriaSatisfy *ApplicationControlSatisfy                `json:"applicationCriteriaSatisfy,omitempty"`
-	Device                     []*DeviceProfileRefInput                  `json:"device,omitempty"`
-	Schedule                   *PolicyScheduleUpdateInput                `json:"schedule,omitempty"`
-	Severity                   *ApplicationControlSeverity               `json:"severity,omitempty"`
-	Source                     *ApplicationControlSourceUpdateInput      `json:"source,omitempty"`
-	Tracking                   *PolicyTrackingUpdateInput                `json:"tracking,omitempty"`
+	AccessMethod               []*ApplicationControlAccessMethodInput     `json:"accessMethod,omitempty"`
+	Action                     *ApplicationControlAction                  `json:"action,omitempty"`
+	ActionConfig               *ApplicationControlActionConfigUpdateInput `json:"actionConfig,omitempty"`
+	Application                *ApplicationControlApplicationUpdateInput  `json:"application,omitempty"`
+	ApplicationActivity        []*ApplicationControlActivityInput         `json:"applicationActivity,omitempty"`
+	ApplicationActivitySatisfy *ApplicationControlSatisfy                 `json:"applicationActivitySatisfy,omitempty"`
+	ApplicationContext         *ApplicationControlContextUpdateInput      `json:"applicationContext,omitempty"`
+	ApplicationCriteria        *ApplicationControlCriteriaUpdateInput     `json:"applicationCriteria,omitempty"`
+	ApplicationCriteriaSatisfy *ApplicationControlSatisfy                 `json:"applicationCriteriaSatisfy,omitempty"`
+	Device                     []*DeviceProfileRefInput                   `json:"device,omitempty"`
+	Schedule                   *PolicyScheduleUpdateInput                 `json:"schedule,omitempty"`
+	Severity                   *ApplicationControlSeverity                `json:"severity,omitempty"`
+	Source                     *ApplicationControlSourceUpdateInput       `json:"source,omitempty"`
+	Tracking                   *PolicyTrackingUpdateInput                 `json:"tracking,omitempty"`
 }
 
 // Application matching configuration. Only one of the following fields should be filled - the others must remain empty.
@@ -1964,10 +2255,20 @@ type ApplicationControlCriteriaUpdateInput struct {
 	Risk          []*ApplicationControlRiskCriteriaInput   `json:"risk,omitempty"`
 }
 
+type ApplicationControlCriterionRef struct {
+	ID   string `json:"id"`
+	Name string `json:"name"`
+}
+
+func (ApplicationControlCriterionRef) IsObjectRef()         {}
+func (this ApplicationControlCriterionRef) GetID() string   { return this.ID }
+func (this ApplicationControlCriterionRef) GetName() string { return this.Name }
+
 // Configuration for data-based control rules
 type ApplicationControlDataRule struct {
 	AccessMethod               []*ApplicationControlAccessMethod  `json:"accessMethod"`
 	Action                     ApplicationControlAction           `json:"action"`
+	ActionConfig               *ApplicationControlActionConfig    `json:"actionConfig,omitempty,omitzero"`
 	Application                *ApplicationControlApplication     `json:"application"`
 	ApplicationActivity        []*ApplicationControlActivity      `json:"applicationActivity"`
 	ApplicationActivitySatisfy ApplicationControlSatisfy          `json:"applicationActivitySatisfy"`
@@ -1986,6 +2287,7 @@ type ApplicationControlDataRule struct {
 type ApplicationControlDataRuleInput struct {
 	AccessMethod               []*ApplicationControlAccessMethodInput  `json:"accessMethod"`
 	Action                     ApplicationControlAction                `json:"action"`
+	ActionConfig               *ApplicationControlActionConfigInput    `json:"actionConfig,omitempty"`
 	Application                *ApplicationControlApplicationInput     `json:"application"`
 	ApplicationActivity        []*ApplicationControlActivityInput      `json:"applicationActivity"`
 	ApplicationActivitySatisfy ApplicationControlSatisfy               `json:"applicationActivitySatisfy"`
@@ -2002,20 +2304,21 @@ type ApplicationControlDataRuleInput struct {
 
 // Configuration for data-based control rules
 type ApplicationControlDataRuleUpdateInput struct {
-	AccessMethod               []*ApplicationControlAccessMethodInput    `json:"accessMethod,omitempty"`
-	Action                     *ApplicationControlAction                 `json:"action,omitempty"`
-	Application                *ApplicationControlApplicationUpdateInput `json:"application,omitempty"`
-	ApplicationActivity        []*ApplicationControlActivityInput        `json:"applicationActivity,omitempty"`
-	ApplicationActivitySatisfy *ApplicationControlSatisfy                `json:"applicationActivitySatisfy,omitempty"`
-	ApplicationContext         *ApplicationControlContextUpdateInput     `json:"applicationContext,omitempty"`
-	Device                     []*DeviceProfileRefInput                  `json:"device,omitempty"`
-	DlpProfile                 *ApplicationControlDlpProfileUpdateInput  `json:"dlpProfile,omitempty"`
-	FileAttribute              []*ApplicationControlFileAttributeInput   `json:"fileAttribute,omitempty"`
-	FileAttributeSatisfy       *ApplicationControlSatisfy                `json:"fileAttributeSatisfy,omitempty"`
-	Schedule                   *PolicyScheduleUpdateInput                `json:"schedule,omitempty"`
-	Severity                   *ApplicationControlSeverity               `json:"severity,omitempty"`
-	Source                     *ApplicationControlSourceUpdateInput      `json:"source,omitempty"`
-	Tracking                   *PolicyTrackingUpdateInput                `json:"tracking,omitempty"`
+	AccessMethod               []*ApplicationControlAccessMethodInput     `json:"accessMethod,omitempty"`
+	Action                     *ApplicationControlAction                  `json:"action,omitempty"`
+	ActionConfig               *ApplicationControlActionConfigUpdateInput `json:"actionConfig,omitempty"`
+	Application                *ApplicationControlApplicationUpdateInput  `json:"application,omitempty"`
+	ApplicationActivity        []*ApplicationControlActivityInput         `json:"applicationActivity,omitempty"`
+	ApplicationActivitySatisfy *ApplicationControlSatisfy                 `json:"applicationActivitySatisfy,omitempty"`
+	ApplicationContext         *ApplicationControlContextUpdateInput      `json:"applicationContext,omitempty"`
+	Device                     []*DeviceProfileRefInput                   `json:"device,omitempty"`
+	DlpProfile                 *ApplicationControlDlpProfileUpdateInput   `json:"dlpProfile,omitempty"`
+	FileAttribute              []*ApplicationControlFileAttributeInput    `json:"fileAttribute,omitempty"`
+	FileAttributeSatisfy       *ApplicationControlSatisfy                 `json:"fileAttributeSatisfy,omitempty"`
+	Schedule                   *PolicyScheduleUpdateInput                 `json:"schedule,omitempty"`
+	Severity                   *ApplicationControlSeverity                `json:"severity,omitempty"`
+	Source                     *ApplicationControlSourceUpdateInput       `json:"source,omitempty"`
+	Tracking                   *PolicyTrackingUpdateInput                 `json:"tracking,omitempty"`
 }
 
 // DLP profile configuration
@@ -2042,7 +2345,7 @@ type ApplicationControlFileAttribute struct {
 	ContentTypeValues      []*ApplicationControlContentTypeRef      `json:"contentTypeValues"`
 	FileAttribute          ApplicationControlFileAttributeType      `json:"fileAttribute"`
 	Operator               ApplicationControlOperator               `json:"operator"`
-	Value                  *string                                  `json:"value,omitempty"`
+	Value                  *string                                  `json:"value,omitempty,omitzero"`
 }
 
 // File attribute matching configuration
@@ -2058,6 +2361,7 @@ type ApplicationControlFileAttributeInput struct {
 type ApplicationControlFileRule struct {
 	AccessMethod               []*ApplicationControlAccessMethod  `json:"accessMethod"`
 	Action                     ApplicationControlAction           `json:"action"`
+	ActionConfig               *ApplicationControlActionConfig    `json:"actionConfig,omitempty,omitzero"`
 	Application                *ApplicationControlApplication     `json:"application"`
 	ApplicationActivity        []*ApplicationControlActivity      `json:"applicationActivity"`
 	ApplicationActivitySatisfy ApplicationControlSatisfy          `json:"applicationActivitySatisfy"`
@@ -2074,6 +2378,7 @@ type ApplicationControlFileRule struct {
 type ApplicationControlFileRuleInput struct {
 	AccessMethod               []*ApplicationControlAccessMethodInput  `json:"accessMethod"`
 	Action                     ApplicationControlAction                `json:"action"`
+	ActionConfig               *ApplicationControlActionConfigInput    `json:"actionConfig,omitempty"`
 	Application                *ApplicationControlApplicationInput     `json:"application"`
 	ApplicationActivity        []*ApplicationControlActivityInput      `json:"applicationActivity"`
 	ApplicationActivitySatisfy ApplicationControlSatisfy               `json:"applicationActivitySatisfy"`
@@ -2088,25 +2393,26 @@ type ApplicationControlFileRuleInput struct {
 
 // Configuration for file-based control rules
 type ApplicationControlFileRuleUpdateInput struct {
-	AccessMethod               []*ApplicationControlAccessMethodInput    `json:"accessMethod,omitempty"`
-	Action                     *ApplicationControlAction                 `json:"action,omitempty"`
-	Application                *ApplicationControlApplicationUpdateInput `json:"application,omitempty"`
-	ApplicationActivity        []*ApplicationControlActivityInput        `json:"applicationActivity,omitempty"`
-	ApplicationActivitySatisfy *ApplicationControlSatisfy                `json:"applicationActivitySatisfy,omitempty"`
-	Device                     []*DeviceProfileRefInput                  `json:"device,omitempty"`
-	FileAttribute              []*ApplicationControlFileAttributeInput   `json:"fileAttribute,omitempty"`
-	FileAttributeSatisfy       *ApplicationControlSatisfy                `json:"fileAttributeSatisfy,omitempty"`
-	Schedule                   *PolicyScheduleUpdateInput                `json:"schedule,omitempty"`
-	Severity                   *ApplicationControlSeverity               `json:"severity,omitempty"`
-	Source                     *ApplicationControlSourceUpdateInput      `json:"source,omitempty"`
-	Tracking                   *PolicyTrackingUpdateInput                `json:"tracking,omitempty"`
+	AccessMethod               []*ApplicationControlAccessMethodInput     `json:"accessMethod,omitempty"`
+	Action                     *ApplicationControlAction                  `json:"action,omitempty"`
+	ActionConfig               *ApplicationControlActionConfigUpdateInput `json:"actionConfig,omitempty"`
+	Application                *ApplicationControlApplicationUpdateInput  `json:"application,omitempty"`
+	ApplicationActivity        []*ApplicationControlActivityInput         `json:"applicationActivity,omitempty"`
+	ApplicationActivitySatisfy *ApplicationControlSatisfy                 `json:"applicationActivitySatisfy,omitempty"`
+	Device                     []*DeviceProfileRefInput                   `json:"device,omitempty"`
+	FileAttribute              []*ApplicationControlFileAttributeInput    `json:"fileAttribute,omitempty"`
+	FileAttributeSatisfy       *ApplicationControlSatisfy                 `json:"fileAttributeSatisfy,omitempty"`
+	Schedule                   *PolicyScheduleUpdateInput                 `json:"schedule,omitempty"`
+	Severity                   *ApplicationControlSeverity                `json:"severity,omitempty"`
+	Source                     *ApplicationControlSourceUpdateInput       `json:"source,omitempty"`
+	Tracking                   *PolicyTrackingUpdateInput                 `json:"tracking,omitempty"`
 }
 
 type ApplicationControlPolicy struct {
-	AdditionalAttributes *ApplicationControlConfig        `json:"additionalAttributes,omitempty"`
-	Audit                *PolicyAudit                     `json:"audit,omitempty"`
+	AdditionalAttributes *ApplicationControlConfig        `json:"additionalAttributes,omitempty,omitzero"`
+	Audit                *PolicyAudit                     `json:"audit,omitempty,omitzero"`
 	Enabled              bool                             `json:"enabled"`
-	Revision             *PolicyRevision                  `json:"revision,omitempty"`
+	Revision             *PolicyRevision                  `json:"revision,omitempty,omitzero"`
 	Rules                []*ApplicationControlRulePayload `json:"rules"`
 	Sections             []*PolicySectionPayload          `json:"sections"`
 }
@@ -2146,7 +2452,7 @@ type ApplicationControlPolicyMutationInput struct {
 
 type ApplicationControlPolicyMutationPayload struct {
 	Errors []*PolicyMutationError    `json:"errors"`
-	Policy *ApplicationControlPolicy `json:"policy,omitempty"`
+	Policy *ApplicationControlPolicy `json:"policy,omitempty,omitzero"`
 	Status PolicyMutationStatus      `json:"status"`
 }
 
@@ -2183,7 +2489,7 @@ type ApplicationControlPolicyMutations struct {
 
 type ApplicationControlPolicyQueries struct {
 	Policy    *ApplicationControlPolicy `json:"policy"`
-	Revisions *PolicyRevisionsPayload   `json:"revisions,omitempty"`
+	Revisions *PolicyRevisionsPayload   `json:"revisions,omitempty,omitzero"`
 }
 
 type ApplicationControlPolicyUpdateInput struct {
@@ -2208,11 +2514,11 @@ type ApplicationControlRiskCriteriaInput struct {
 }
 
 type ApplicationControlRule struct {
-	ApplicationRule *ApplicationControlApplicationRule `json:"applicationRule,omitempty"`
-	DataRule        *ApplicationControlDataRule        `json:"dataRule,omitempty"`
+	ApplicationRule *ApplicationControlApplicationRule `json:"applicationRule,omitempty,omitzero"`
+	DataRule        *ApplicationControlDataRule        `json:"dataRule,omitempty,omitzero"`
 	Description     string                             `json:"description"`
 	Enabled         bool                               `json:"enabled"`
-	FileRule        *ApplicationControlFileRule        `json:"fileRule,omitempty"`
+	FileRule        *ApplicationControlFileRule        `json:"fileRule,omitempty,omitzero"`
 	ID              string                             `json:"id"`
 	Index           int64                              `json:"index"`
 	Name            string                             `json:"name"`
@@ -2230,7 +2536,7 @@ func (this ApplicationControlRule) GetSection() *PolicySectionInfo { return this
 
 type ApplicationControlRuleMutationPayload struct {
 	Errors []*PolicyMutationError         `json:"errors"`
-	Rule   *ApplicationControlRulePayload `json:"rule,omitempty"`
+	Rule   *ApplicationControlRulePayload `json:"rule,omitempty,omitzero"`
 	Status PolicyMutationStatus           `json:"status"`
 }
 
@@ -2365,9 +2671,9 @@ type ApplicationControlSourceUpdateInput struct {
 
 // Tenant matching configuration
 type ApplicationControlTenant struct {
-	Operator *ApplicationControlOperator `json:"operator,omitempty"`
-	Value    *string                     `json:"value,omitempty"`
-	ValueSet *StringValueSetRef          `json:"valueSet,omitempty"`
+	Operator *ApplicationControlOperator `json:"operator,omitempty,omitzero"`
+	Value    *string                     `json:"value,omitempty,omitzero"`
+	ValueSet *StringValueSetRef          `json:"valueSet,omitempty,omitzero"`
 }
 
 // Tenant matching configuration
@@ -2417,25 +2723,15 @@ type AssignSiteBwLicensePayload struct {
 	License License `json:"license"`
 }
 
-type AssignSocketToZtnaAppConnectorInput struct {
-	Description      string                    `json:"description"`
-	SocketSerial     string                    `json:"socketSerial"`
-	ZtnaAppConnector *ZtnaAppConnectorRefInput `json:"ztnaAppConnector"`
-}
-
-type AssignSocketToZtnaAppConnectorPayload struct {
-	ZtnaAppConnector *ZtnaAppConnector `json:"ztnaAppConnector"`
-}
-
 // Advanced Threat Prevention (ATP) service license details
 type AtpLicense struct {
-	Description    *string       `json:"description,omitempty"`
+	Description    *string       `json:"description,omitempty,omitzero"`
 	ExpirationDate string        `json:"expirationDate"`
-	ID             *string       `json:"id,omitempty"`
-	LastUpdated    *string       `json:"lastUpdated,omitempty"`
+	ID             *string       `json:"id,omitempty,omitzero"`
+	LastUpdated    *string       `json:"lastUpdated,omitempty,omitzero"`
 	Plan           LicensePlan   `json:"plan"`
 	Sku            LicenseSku    `json:"sku"`
-	StartDate      *string       `json:"startDate,omitempty"`
+	StartDate      *string       `json:"startDate,omitempty,omitzero"`
 	Status         LicenseStatus `json:"status"`
 }
 
@@ -2450,17 +2746,17 @@ func (this AtpLicense) GetStartDate() *string     { return this.StartDate }
 func (this AtpLicense) GetStatus() LicenseStatus  { return this.Status }
 
 type AuditFeed struct {
-	Accounts     []*AuditFeedAccountRecords `json:"accounts,omitempty"`
+	Accounts     []*AuditFeedAccountRecords `json:"accounts,omitempty,omitzero"`
 	FetchedCount int64                      `json:"fetchedCount"`
-	From         *string                    `json:"from,omitempty"`
-	HasMore      *bool                      `json:"hasMore,omitempty"`
-	Marker       *string                    `json:"marker,omitempty"`
-	To           *string                    `json:"to,omitempty"`
+	From         *string                    `json:"from,omitempty,omitzero"`
+	HasMore      *bool                      `json:"hasMore,omitempty,omitzero"`
+	Marker       *string                    `json:"marker,omitempty,omitzero"`
+	To           *string                    `json:"to,omitempty,omitzero"`
 }
 
 type AuditFeedAccountRecords struct {
-	ID      *string        `json:"id,omitempty"`
-	Records []*AuditRecord `json:"records,omitempty"`
+	ID      *string        `json:"id,omitempty,omitzero"`
+	Records []*AuditRecord `json:"records,omitempty,omitzero"`
 }
 
 type AuditField struct {
@@ -2476,14 +2772,14 @@ type AuditFieldFilterInput struct {
 
 // Represents a single event in the audit database
 type AuditRecord struct {
-	Account    *EntityInfo    `json:"account,omitempty"`
-	Admin      *Entity        `json:"admin,omitempty"`
-	APIKey     *Entity        `json:"apiKey,omitempty"`
-	Fields     []*AuditField  `json:"fields,omitempty"`
-	FieldsMap  map[string]any `json:"fieldsMap,omitempty"`
-	FlatFields [][]string     `json:"flatFields,omitempty"`
-	Object     *Entity        `json:"object,omitempty"`
-	Time       *string        `json:"time,omitempty"`
+	Account    *EntityInfo    `json:"account,omitempty,omitzero"`
+	Admin      *Entity        `json:"admin,omitempty,omitzero"`
+	APIKey     *Entity        `json:"apiKey,omitempty,omitzero"`
+	Fields     []*AuditField  `json:"fields,omitempty,omitzero"`
+	FieldsMap  map[string]any `json:"fieldsMap,omitempty,omitzero"`
+	FlatFields [][]string     `json:"flatFields,omitempty,omitzero"`
+	Object     *Entity        `json:"object,omitempty,omitzero"`
+	Time       *string        `json:"time,omitempty,omitzero"`
 }
 
 type AuditingMetadata struct {
@@ -2501,6 +2797,11 @@ type AuditingMetadataSortInput struct {
 	UpdatedTime *SortOrderInput `json:"updatedTime,omitempty"`
 }
 
+type AuthenticationInfo struct {
+	AuthMethod UserAuthMethod `json:"authMethod"`
+	AuthStatus UserAuthStatus `json:"authStatus"`
+}
+
 // Input parameters for querying available versions.
 type AvailableVersionListInput struct {
 	Platforms []string `json:"platforms"`
@@ -2512,11 +2813,11 @@ type AvailableVersionListPayload struct {
 }
 
 type BGPConnection struct {
-	CatoAsn        *scalars.Asn16 `json:"catoAsn,omitempty"`
-	CatoIP         *string        `json:"catoIp,omitempty"`
-	ConnectionName *string        `json:"connectionName,omitempty"`
-	PeerAsn        *scalars.Asn32 `json:"peerAsn,omitempty"`
-	PeerIP         *string        `json:"peerIp,omitempty"`
+	CatoAsn        *scalars.Asn16 `json:"catoAsn,omitempty,omitzero"`
+	CatoIP         *string        `json:"catoIp,omitempty,omitzero"`
+	ConnectionName *string        `json:"connectionName,omitempty,omitzero"`
+	PeerAsn        *scalars.Asn32 `json:"peerAsn,omitempty,omitzero"`
+	PeerIP         *string        `json:"peerIp,omitempty,omitzero"`
 }
 
 type BandwidthManagementRef struct {
@@ -2532,6 +2833,21 @@ type BandwidthManagementRefInput struct {
 	By    ObjectRefBy `json:"by"`
 	Input string      `json:"input"`
 }
+
+type BasicAuth struct {
+	AuthType AuthType `json:"authType"`
+	Username string   `json:"username"`
+}
+
+func (BasicAuth) IsAuthInterface()           {}
+func (this BasicAuth) GetAuthType() AuthType { return this.AuthType }
+
+type BearerTokenAuth struct {
+	AuthType AuthType `json:"authType"`
+}
+
+func (BearerTokenAuth) IsAuthInterface()           {}
+func (this BearerTokenAuth) GetAuthType() AuthType { return this.AuthType }
 
 type BfdSettings struct {
 	Multiplier       int64 `json:"multiplier"`
@@ -2567,7 +2883,7 @@ type BgpCommunityInput struct {
 }
 
 type BgpDetailedStatus struct {
-	BfdSession             *string                      `json:"bfdSession,omitempty"`
+	BfdSession             *string                      `json:"bfdSession,omitempty,omitzero"`
 	BgpSession             string                       `json:"bgpSession"`
 	RejectedRoutesFromPeer []*BgpRejectedRoutesFromPeer `json:"rejectedRoutesFromPeer"`
 	RemoteIP               string                       `json:"remoteIp"`
@@ -2576,9 +2892,9 @@ type BgpDetailedStatus struct {
 }
 
 type BgpFilterRule struct {
-	BgpRouteExactAndInclusiveFilterRule *BgpRouteExactAndInclusiveFilterRule `json:"bgpRouteExactAndInclusiveFilterRule,omitempty"`
-	BgpRouteExactFilterRule             *BgpRouteExactFilterRule             `json:"bgpRouteExactFilterRule,omitempty"`
-	CommunityFilterRule                 *BgpCommunityFilterRule              `json:"communityFilterRule,omitempty"`
+	BgpRouteExactAndInclusiveFilterRule *BgpRouteExactAndInclusiveFilterRule `json:"bgpRouteExactAndInclusiveFilterRule,omitempty,omitzero"`
+	BgpRouteExactFilterRule             *BgpRouteExactFilterRule             `json:"bgpRouteExactFilterRule,omitempty,omitzero"`
+	CommunityFilterRule                 *BgpCommunityFilterRule              `json:"communityFilterRule,omitempty,omitzero"`
 }
 
 type BgpFilterRuleInput struct {
@@ -2592,7 +2908,7 @@ type BgpPeer struct {
 	AdvertiseDefaultRoute   bool               `json:"advertiseDefaultRoute"`
 	AdvertiseSummaryRoutes  bool               `json:"advertiseSummaryRoutes"`
 	BfdEnabled              bool               `json:"bfdEnabled"`
-	BfdSettings             *BfdSettings       `json:"bfdSettings,omitempty"`
+	BfdSettings             *BfdSettings       `json:"bfdSettings,omitempty,omitzero"`
 	CatoAsn                 scalars.Asn16      `json:"catoAsn"`
 	CatoIP                  string             `json:"catoIp"`
 	DefaultAction           BgpDefaultAction   `json:"defaultAction"`
@@ -2601,7 +2917,7 @@ type BgpPeer struct {
 	HoldTime                int64              `json:"holdTime"`
 	ID                      string             `json:"id"`
 	KeepaliveInterval       int64              `json:"keepaliveInterval"`
-	Md5AuthKey              *string            `json:"md5AuthKey,omitempty"`
+	Md5AuthKey              *string            `json:"md5AuthKey,omitempty,omitzero"`
 	Metric                  int64              `json:"metric"`
 	Name                    string             `json:"name"`
 	PeerAsn                 scalars.Asn32      `json:"peerAsn"`
@@ -2609,7 +2925,29 @@ type BgpPeer struct {
 	PerformNat              bool               `json:"performNat"`
 	Site                    *SiteRef           `json:"site"`
 	SummaryRoute            []*BgpSummaryRoute `json:"summaryRoute"`
-	Tracking                *BgpTracking       `json:"tracking,omitempty"`
+	Tracking                *BgpTracking       `json:"tracking,omitempty,omitzero"`
+}
+
+type BgpPeerConfigurationInput struct {
+	AdvertiseAllRoutes      bool                    `json:"advertiseAllRoutes"`
+	AdvertiseDefaultRoute   bool                    `json:"advertiseDefaultRoute"`
+	AdvertiseSummaryRoutes  bool                    `json:"advertiseSummaryRoutes"`
+	BfdEnabled              bool                    `json:"bfdEnabled"`
+	BfdSettings             *BfdSettingsInput       `json:"bfdSettings,omitempty"`
+	CatoAsn                 scalars.Asn16           `json:"catoAsn"`
+	DefaultAction           BgpDefaultAction        `json:"defaultAction"`
+	DefaultActionExclusion  []*BgpFilterRuleInput   `json:"defaultActionExclusion"`
+	DefaultRouteCommunities []*BgpCommunityInput    `json:"defaultRouteCommunities"`
+	HoldTime                int64                   `json:"holdTime"`
+	KeepaliveInterval       int64                   `json:"keepaliveInterval"`
+	Md5AuthKey              *string                 `json:"md5AuthKey,omitempty"`
+	Metric                  int64                   `json:"metric"`
+	Name                    string                  `json:"name"`
+	PeerAsn                 scalars.Asn32           `json:"peerAsn"`
+	PeerIP                  string                  `json:"peerIp"`
+	PerformNat              bool                    `json:"performNat"`
+	SummaryRoute            []*BgpSummaryRouteInput `json:"summaryRoute"`
+	Tracking                *BgpTrackingInput       `json:"tracking,omitempty"`
 }
 
 type BgpPeerListInput struct {
@@ -2628,18 +2966,18 @@ type BgpPeerRefInput struct {
 
 type BgpRejectedRoutesFromPeer struct {
 	Community          []*BgpCommunity `json:"community"`
-	LastPublishAttempt *string         `json:"lastPublishAttempt,omitempty"`
-	Rule               *string         `json:"rule,omitempty"`
-	Subnet             *string         `json:"subnet,omitempty"`
-	Type               *string         `json:"type,omitempty"`
+	LastPublishAttempt *string         `json:"lastPublishAttempt,omitempty,omitzero"`
+	Rule               *string         `json:"rule,omitempty,omitzero"`
+	Subnet             *string         `json:"subnet,omitempty,omitzero"`
+	Type               *string         `json:"type,omitempty,omitzero"`
 }
 
 type BgpRouteExactAndInclusiveFilterRule struct {
-	Ge                     *int64              `json:"ge,omitempty"`
+	Ge                     *int64              `json:"ge,omitempty,omitzero"`
 	GlobalIPRange          []*GlobalIPRangeRef `json:"globalIpRange"`
 	GlobalIPRangeException []*GlobalIPRangeRef `json:"globalIpRangeException"`
 	ID                     string              `json:"id"`
-	Le                     *int64              `json:"le,omitempty"`
+	Le                     *int64              `json:"le,omitempty,omitzero"`
 	NetworkSubnet          []string            `json:"networkSubnet"`
 	NetworkSubnetException []string            `json:"networkSubnetException"`
 }
@@ -2679,7 +3017,7 @@ type BgpTracking struct {
 	AlertFrequency PolicyRuleTrackingFrequencyEnum `json:"alertFrequency"`
 	Enabled        bool                            `json:"enabled"`
 	ID             string                          `json:"id"`
-	SubscriptionID *string                         `json:"subscriptionId,omitempty"`
+	SubscriptionID *string                         `json:"subscriptionId,omitempty,omitzero"`
 }
 
 type BgpTrackingInput struct {
@@ -2697,25 +3035,26 @@ type BooleanPredicate struct {
 	Is string `json:"is"`
 }
 
-type BulkUpgradeSiteInfo struct {
-	ID   string `json:"id"`
-	Name string `json:"name"`
+// Input for canceling a partner access request.
+type CancelPartnerAccessInput struct {
+	InvitationID string  `json:"invitationId"`
+	Reason       *string `json:"reason,omitempty"`
 }
 
-type CalculateHitCountResponse struct {
-	Errors []*PolicyMutationError `json:"errors"`
-	Status PolicyMutationStatus   `json:"status"`
+// Output for canceling a partner access request.
+type CancelPartnerAccessPayload struct {
+	Invitation *ExternalAccessRequest `json:"invitation"`
 }
 
 // Cloud Access Security Broker (CASB) service license details
 type CasbLicense struct {
-	Description    *string       `json:"description,omitempty"`
+	Description    *string       `json:"description,omitempty,omitzero"`
 	ExpirationDate string        `json:"expirationDate"`
-	ID             *string       `json:"id,omitempty"`
-	LastUpdated    *string       `json:"lastUpdated,omitempty"`
+	ID             *string       `json:"id,omitempty,omitzero"`
+	LastUpdated    *string       `json:"lastUpdated,omitempty,omitzero"`
 	Plan           LicensePlan   `json:"plan"`
 	Sku            LicenseSku    `json:"sku"`
-	StartDate      *string       `json:"startDate,omitempty"`
+	StartDate      *string       `json:"startDate,omitempty,omitzero"`
 	Status         LicenseStatus `json:"status"`
 }
 
@@ -2731,28 +3070,28 @@ func (this CasbLicense) GetStatus() LicenseStatus  { return this.Status }
 
 type CatalogApplication struct {
 	Activity                           []*CatalogApplicationActivity                         `json:"activity"`
-	AiSecurity                         *AiSecurityAttributes                                 `json:"aiSecurity,omitempty"`
+	AiSecurity                         *AiSecurityAttributes                                 `json:"aiSecurity,omitempty,omitzero"`
 	Capability                         []CatalogApplicationCapability                        `json:"capability"`
 	Category                           []*ApplicationCategoryRef                             `json:"category"`
-	City                               *string                                               `json:"city,omitempty"`
+	City                               *string                                               `json:"city,omitempty,omitzero"`
 	ComplianceAttributes               *CatalogApplicationComplianceAttributes               `json:"complianceAttributes"`
-	Description                        *string                                               `json:"description,omitempty"`
-	DescriptionSummary                 *string                                               `json:"descriptionSummary,omitempty"`
+	Description                        *string                                               `json:"description,omitempty,omitzero"`
+	DescriptionSummary                 *string                                               `json:"descriptionSummary,omitempty,omitzero"`
 	ID                                 string                                                `json:"id"`
-	IdentityAccessManagementAttributes *CatalogApplicationIdentityAccessManagementAttributes `json:"identityAccessManagementAttributes,omitempty"`
-	IpoStatus                          *string                                               `json:"ipoStatus,omitempty"`
+	IdentityAccessManagementAttributes *CatalogApplicationIdentityAccessManagementAttributes `json:"identityAccessManagementAttributes,omitempty,omitzero"`
+	IpoStatus                          *string                                               `json:"ipoStatus,omitempty,omitzero"`
 	Name                               string                                                `json:"name"`
-	NumOfEmployees                     *EmployeeRange                                        `json:"numOfEmployees,omitempty"`
-	OriginCountry                      *CountryRef                                           `json:"originCountry,omitempty"`
+	NumOfEmployees                     *EmployeeRange                                        `json:"numOfEmployees,omitempty,omitzero"`
+	OriginCountry                      *CountryRef                                           `json:"originCountry,omitempty,omitzero"`
 	RecentlyAdded                      bool                                                  `json:"recentlyAdded"`
-	Region                             *string                                               `json:"region,omitempty"`
-	Risk                               *string                                               `json:"risk,omitempty"`
+	Region                             *string                                               `json:"region,omitempty,omitzero"`
+	Risk                               *string                                               `json:"risk,omitempty,omitzero"`
 	Sanctioned                         bool                                                  `json:"sanctioned"`
 	SecurityAttributes                 *CatalogApplicationSecurityAttributes                 `json:"securityAttributes"`
 	StandardPorts                      []*CustomService                                      `json:"standardPorts"`
 	TenantActivity                     []*CatalogApplicationActivity                         `json:"tenantActivity"`
 	Type                               CatalogApplicationType                                `json:"type"`
-	Website                            *string                                               `json:"website,omitempty"`
+	Website                            *string                                               `json:"website,omitempty,omitzero"`
 }
 
 type CatalogApplicationActivity struct {
@@ -2790,40 +3129,40 @@ type CatalogApplicationCategorySortInput struct {
 }
 
 type CatalogApplicationComplianceAttributes struct {
-	C5Attestation            *CatalogApplicationAttribute `json:"c5Attestation,omitempty"`
-	Cjis                     *CatalogApplicationAttribute `json:"cjis,omitempty"`
-	Cobit                    *CatalogApplicationAttribute `json:"cobit,omitempty"`
-	Coppa                    *CatalogApplicationAttribute `json:"coppa,omitempty"`
-	CsaStar                  *CatalogApplicationAttribute `json:"csaStar,omitempty"`
-	CyberEssentialsPlusUk    *CatalogApplicationAttribute `json:"cyberEssentialsPlusUk,omitempty"`
-	EuUsDataPrivacyFramework *CatalogApplicationAttribute `json:"euUsDataPrivacyFramework,omitempty"`
-	FedRamp                  *CatalogApplicationAttribute `json:"fedRamp,omitempty"`
-	Ferpa                    *CatalogApplicationAttribute `json:"ferpa,omitempty"`
-	Ffiec                    *CatalogApplicationAttribute `json:"ffiec,omitempty"`
-	Finra                    *CatalogApplicationAttribute `json:"finra,omitempty"`
-	Fisma                    *CatalogApplicationAttribute `json:"fisma,omitempty"`
-	Gapp                     *CatalogApplicationAttribute `json:"gapp,omitempty"`
-	Gdpr                     *CatalogApplicationAttribute `json:"gdpr,omitempty"`
-	Glba                     *CatalogApplicationAttribute `json:"glba,omitempty"`
+	C5Attestation            *CatalogApplicationAttribute `json:"c5Attestation,omitempty,omitzero"`
+	Cjis                     *CatalogApplicationAttribute `json:"cjis,omitempty,omitzero"`
+	Cobit                    *CatalogApplicationAttribute `json:"cobit,omitempty,omitzero"`
+	Coppa                    *CatalogApplicationAttribute `json:"coppa,omitempty,omitzero"`
+	CsaStar                  *CatalogApplicationAttribute `json:"csaStar,omitempty,omitzero"`
+	CyberEssentialsPlusUk    *CatalogApplicationAttribute `json:"cyberEssentialsPlusUk,omitempty,omitzero"`
+	EuUsDataPrivacyFramework *CatalogApplicationAttribute `json:"euUsDataPrivacyFramework,omitempty,omitzero"`
+	FedRamp                  *CatalogApplicationAttribute `json:"fedRamp,omitempty,omitzero"`
+	Ferpa                    *CatalogApplicationAttribute `json:"ferpa,omitempty,omitzero"`
+	Ffiec                    *CatalogApplicationAttribute `json:"ffiec,omitempty,omitzero"`
+	Finra                    *CatalogApplicationAttribute `json:"finra,omitempty,omitzero"`
+	Fisma                    *CatalogApplicationAttribute `json:"fisma,omitempty,omitzero"`
+	Gapp                     *CatalogApplicationAttribute `json:"gapp,omitempty,omitzero"`
+	Gdpr                     *CatalogApplicationAttribute `json:"gdpr,omitempty,omitzero"`
+	Glba                     *CatalogApplicationAttribute `json:"glba,omitempty,omitzero"`
 	Hippa                    CatalogApplicationAttribute  `json:"hippa"`
-	HitrustCsf               *CatalogApplicationAttribute `json:"hitrustCsf,omitempty"`
+	HitrustCsf               *CatalogApplicationAttribute `json:"hitrustCsf,omitempty,omitzero"`
 	Isae3402                 CatalogApplicationAttribute  `json:"isae3402"`
 	Iso27001                 CatalogApplicationAttribute  `json:"iso27001"`
-	Iso27002                 *CatalogApplicationAttribute `json:"iso27002,omitempty"`
-	Iso27017                 *CatalogApplicationAttribute `json:"iso27017,omitempty"`
-	Iso27018                 *CatalogApplicationAttribute `json:"iso27018,omitempty"`
-	Iso9000                  *CatalogApplicationAttribute `json:"iso9000,omitempty"`
-	Iso9001                  *CatalogApplicationAttribute `json:"iso9001,omitempty"`
-	Itar                     *CatalogApplicationAttribute `json:"itar,omitempty"`
-	JapanPrivacyMark         *CatalogApplicationAttribute `json:"japanPrivacyMark,omitempty"`
-	JerichoForumCommandments *CatalogApplicationAttribute `json:"jerichoForumCommandments,omitempty"`
-	NistSp80053              *CatalogApplicationAttribute `json:"nistSp80053,omitempty"`
+	Iso27002                 *CatalogApplicationAttribute `json:"iso27002,omitempty,omitzero"`
+	Iso27017                 *CatalogApplicationAttribute `json:"iso27017,omitempty,omitzero"`
+	Iso27018                 *CatalogApplicationAttribute `json:"iso27018,omitempty,omitzero"`
+	Iso9000                  *CatalogApplicationAttribute `json:"iso9000,omitempty,omitzero"`
+	Iso9001                  *CatalogApplicationAttribute `json:"iso9001,omitempty,omitzero"`
+	Itar                     *CatalogApplicationAttribute `json:"itar,omitempty,omitzero"`
+	JapanPrivacyMark         *CatalogApplicationAttribute `json:"japanPrivacyMark,omitempty,omitzero"`
+	JerichoForumCommandments *CatalogApplicationAttribute `json:"jerichoForumCommandments,omitempty,omitzero"`
+	NistSp80053              *CatalogApplicationAttribute `json:"nistSp80053,omitempty,omitzero"`
 	PciDss                   CatalogApplicationAttribute  `json:"pciDss"`
 	Soc1                     CatalogApplicationAttribute  `json:"soc1"`
 	Soc2                     CatalogApplicationAttribute  `json:"soc2"`
 	Soc3                     CatalogApplicationAttribute  `json:"soc3"`
 	Sox                      CatalogApplicationAttribute  `json:"sox"`
-	TrustArcPrivacy          *CatalogApplicationAttribute `json:"trustArcPrivacy,omitempty"`
+	TrustArcPrivacy          *CatalogApplicationAttribute `json:"trustArcPrivacy,omitempty,omitzero"`
 }
 
 type CatalogApplicationContentType struct {
@@ -2878,9 +3217,9 @@ type CatalogApplicationFilterInput struct {
 }
 
 type CatalogApplicationIdentityAccessManagementAttributes struct {
-	AccessControlEnforcement  *CatalogApplicationAttribute `json:"accessControlEnforcement,omitempty"`
-	IPBasedAccessRestrictions *CatalogApplicationAttribute `json:"ipBasedAccessRestrictions,omitempty"`
-	SamlAuthentication        *CatalogApplicationAttribute `json:"samlAuthentication,omitempty"`
+	AccessControlEnforcement  *CatalogApplicationAttribute `json:"accessControlEnforcement,omitempty,omitzero"`
+	IPBasedAccessRestrictions *CatalogApplicationAttribute `json:"ipBasedAccessRestrictions,omitempty,omitzero"`
+	SamlAuthentication        *CatalogApplicationAttribute `json:"samlAuthentication,omitempty,omitzero"`
 }
 
 type CatalogApplicationListInput struct {
@@ -2896,26 +3235,26 @@ type CatalogApplicationListPayload struct {
 
 type CatalogApplicationSecurityAttributes struct {
 	AuditTrail                      CatalogApplicationAttribute                 `json:"auditTrail"`
-	DataDeletionPolicy              *CatalogApplicationDataDeletionPolicy       `json:"dataDeletionPolicy,omitempty"`
-	DataOwnership                   *CatalogApplicationDataOwnership            `json:"dataOwnership,omitempty"`
-	DataRetentionPolicy             *CatalogApplicationDataRetentionPolicy      `json:"dataRetentionPolicy,omitempty"`
-	DataSegregatedByTenant          *CatalogApplicationAttribute                `json:"dataSegregatedByTenant,omitempty"`
-	DisasterRecovery                *CatalogApplicationAttribute                `json:"disasterRecovery,omitempty"`
+	DataDeletionPolicy              *CatalogApplicationDataDeletionPolicy       `json:"dataDeletionPolicy,omitempty,omitzero"`
+	DataOwnership                   *CatalogApplicationDataOwnership            `json:"dataOwnership,omitempty,omitzero"`
+	DataRetentionPolicy             *CatalogApplicationDataRetentionPolicy      `json:"dataRetentionPolicy,omitempty,omitzero"`
+	DataSegregatedByTenant          *CatalogApplicationAttribute                `json:"dataSegregatedByTenant,omitempty,omitzero"`
+	DisasterRecovery                *CatalogApplicationAttribute                `json:"disasterRecovery,omitempty,omitzero"`
 	EncryptionAtRest                CatalogApplicationAttribute                 `json:"encryptionAtRest"`
-	EncryptionInTransit             *CatalogApplicationAttribute                `json:"encryptionInTransit,omitempty"`
-	EncryptionStrengthAtRest        *CatalogApplicationEncryptionStrengthAtRest `json:"encryptionStrengthAtRest,omitempty"`
+	EncryptionInTransit             *CatalogApplicationAttribute                `json:"encryptionInTransit,omitempty,omitzero"`
+	EncryptionStrengthAtRest        *CatalogApplicationEncryptionStrengthAtRest `json:"encryptionStrengthAtRest,omitempty,omitzero"`
 	HTTPSecurityHeaders             CatalogApplicationAttribute                 `json:"httpSecurityHeaders"`
 	Mfa                             CatalogApplicationAttribute                 `json:"mfa"`
-	PhysicalDataCenterSecurity      *CatalogApplicationAttribute                `json:"physicalDataCenterSecurity,omitempty"`
-	PrivacyPolicyURL                *string                                     `json:"privacyPolicyUrl,omitempty"`
+	PhysicalDataCenterSecurity      *CatalogApplicationAttribute                `json:"physicalDataCenterSecurity,omitempty,omitzero"`
+	PrivacyPolicyURL                *string                                     `json:"privacyPolicyUrl,omitempty,omitzero"`
 	Rbac                            CatalogApplicationAttribute                 `json:"rbac"`
 	RememberPassword                CatalogApplicationAttribute                 `json:"rememberPassword"`
 	Sso                             CatalogApplicationAttribute                 `json:"sso"`
-	TermsOfUseCustomerProtectionURL *string                                     `json:"termsOfUseCustomerProtectionUrl,omitempty"`
+	TermsOfUseCustomerProtectionURL *string                                     `json:"termsOfUseCustomerProtectionUrl,omitempty,omitzero"`
 	TLSEnforcement                  CatalogApplicationAttribute                 `json:"tlsEnforcement"`
-	TLSVersionSupport               *CatalogApplicationTLSVersionSupport        `json:"tlsVersionSupport,omitempty"`
+	TLSVersionSupport               *CatalogApplicationTLSVersionSupport        `json:"tlsVersionSupport,omitempty,omitzero"`
 	TrustedCertificate              CatalogApplicationAttribute                 `json:"trustedCertificate"`
-	WeakCipherSupport               *CatalogApplicationWeakCipherSupport        `json:"weakCipherSupport,omitempty"`
+	WeakCipherSupport               *CatalogApplicationWeakCipherSupport        `json:"weakCipherSupport,omitempty,omitzero"`
 }
 
 type CatalogApplicationSortInput struct {
@@ -2934,9 +3273,9 @@ type CatalogApplicationTypeFilterInput struct {
 }
 
 type CatalogQueries struct {
-	CatalogApplication     *CatalogApplication                            `json:"catalogApplication,omitempty"`
-	CatalogApplicationList *CatalogApplicationListPayload                 `json:"catalogApplicationList,omitempty"`
-	ContentTypeGroupList   *CatalogApplicationContentTypeGroupListPayload `json:"contentTypeGroupList,omitempty"`
+	CatalogApplication     *CatalogApplication                            `json:"catalogApplication,omitempty,omitzero"`
+	CatalogApplicationList *CatalogApplicationListPayload                 `json:"catalogApplicationList,omitempty,omitzero"`
+	ContentTypeGroupList   *CatalogApplicationContentTypeGroupListPayload `json:"contentTypeGroupList,omitempty,omitzero"`
 }
 
 // CatoActivity is an object type representing an activity in a Cato alert, containing unique identifiers for the activity itself, the preceding resource, and the involved resource.
@@ -2954,32 +3293,36 @@ func (this CatoActivity) GetResourceID() string       { return this.ResourceID }
 // The `CatoEndpoint` object represents a comprehensive data structure used in GraphQL queries or mutations to encapsulate details about a security incident detected by an Endpoint Protection Platform (EPP). It includes fields such as threat alerts, analyst feedback, connection type, criticality score, device details, timestamps for incident signals, and various enums and strings that describe the incident's status, source, and producer.
 type CatoEndpoint struct {
 	Alerts              []*CatoEndpointAlert       `json:"alerts"`
-	AnalystFeedback     *AnalystFeedback           `json:"analystFeedback,omitempty"`
-	ConnectionType      *ConnectionTypeEnum        `json:"connectionType,omitempty"`
-	Criticality         *int64                     `json:"criticality,omitempty"`
-	Description         *string                    `json:"description,omitempty"`
-	Device              *CatoEndpointDeviceDetails `json:"device,omitempty"`
-	EngineType          *StoryEngineTypeEnum       `json:"engineType,omitempty"`
+	AnalystFeedback     *AnalystFeedback           `json:"analystFeedback,omitempty,omitzero"`
+	Categories          []IncidentCategory         `json:"categories"`
+	ConnectionType      *ConnectionTypeEnum        `json:"connectionType,omitempty,omitzero"`
+	Criticality         *int64                     `json:"criticality,omitempty,omitzero"`
+	Description         *string                    `json:"description,omitempty,omitzero"`
+	Device              *CatoEndpointDeviceDetails `json:"device,omitempty,omitzero"`
+	EngineType          *StoryEngineTypeEnum       `json:"engineType,omitempty,omitzero"`
+	Entities            []*IncidentEntity          `json:"entities"`
 	FirstSignal         string                     `json:"firstSignal"`
 	ID                  string                     `json:"id"`
 	Indication          string                     `json:"indication"`
 	LastSignal          string                     `json:"lastSignal"`
-	PredictedThreatType *string                    `json:"predictedThreatType,omitempty"`
-	PredictedVerdict    *StoryVerdictEnum          `json:"predictedVerdict,omitempty"`
+	Muted               bool                       `json:"muted"`
+	PredictedThreatType *string                    `json:"predictedThreatType,omitempty,omitzero"`
+	PredictedVerdict    *StoryVerdictEnum          `json:"predictedVerdict,omitempty,omitzero"`
 	Producer            StoryProducerEnum          `json:"producer"`
 	ProducerName        string                     `json:"producerName"`
-	QueryName           *string                    `json:"queryName,omitempty"`
-	Research            *bool                      `json:"research,omitempty"`
+	ProducerType        StoryProducerEnum          `json:"producerType"`
+	QueryName           *string                    `json:"queryName,omitempty,omitzero"`
+	Research            *bool                      `json:"research,omitempty,omitzero"`
 	SimilarStoriesData  []*SimilarStoryData        `json:"similarStoriesData"`
-	Site                *SiteRef                   `json:"site,omitempty"`
-	SiteName            *string                    `json:"siteName,omitempty"`
-	Source              *string                    `json:"source,omitempty"`
-	SourceIP            *string                    `json:"sourceIp,omitempty"`
-	Status              *StoryStatusEnum           `json:"status,omitempty"`
-	StoryDuration       *int64                     `json:"storyDuration,omitempty"`
-	Ticket              *string                    `json:"ticket,omitempty"`
-	User                *UserRef                   `json:"user,omitempty"`
-	Vendor              *VendorEnum                `json:"vendor,omitempty"`
+	Site                *SiteRef                   `json:"site,omitempty,omitzero"`
+	SiteName            *string                    `json:"siteName,omitempty,omitzero"`
+	Source              *string                    `json:"source,omitempty,omitzero"`
+	SourceIP            *string                    `json:"sourceIp,omitempty,omitzero"`
+	Status              *StoryStatusEnum           `json:"status,omitempty,omitzero"`
+	StoryDuration       *int64                     `json:"storyDuration,omitempty,omitzero"`
+	Ticket              *string                    `json:"ticket,omitempty,omitzero"`
+	User                *UserRef                   `json:"user,omitempty,omitzero"`
+	Vendor              *VendorEnum                `json:"vendor,omitempty,omitzero"`
 }
 
 func (CatoEndpoint) IsEndpoint() {}
@@ -2993,20 +3336,42 @@ func (this CatoEndpoint) GetAlerts() []EndpointAlert {
 	}
 	return interfaceSlice
 }
-func (this CatoEndpoint) GetAnalystFeedback() *AnalystFeedback   { return this.AnalystFeedback }
+func (this CatoEndpoint) GetAnalystFeedback() *AnalystFeedback { return this.AnalystFeedback }
+func (this CatoEndpoint) GetCategories() []IncidentCategory {
+	if this.Categories == nil {
+		return nil
+	}
+	interfaceSlice := make([]IncidentCategory, 0, len(this.Categories))
+	for _, concrete := range this.Categories {
+		interfaceSlice = append(interfaceSlice, concrete)
+	}
+	return interfaceSlice
+}
 func (this CatoEndpoint) GetConnectionType() *ConnectionTypeEnum { return this.ConnectionType }
 func (this CatoEndpoint) GetCriticality() *int64                 { return this.Criticality }
 func (this CatoEndpoint) GetDescription() *string                { return this.Description }
 func (this CatoEndpoint) GetDevice() DeviceDetails               { return *this.Device }
 func (this CatoEndpoint) GetEngineType() *StoryEngineTypeEnum    { return this.EngineType }
+func (this CatoEndpoint) GetEntities() []*IncidentEntity {
+	if this.Entities == nil {
+		return nil
+	}
+	interfaceSlice := make([]*IncidentEntity, 0, len(this.Entities))
+	for _, concrete := range this.Entities {
+		interfaceSlice = append(interfaceSlice, concrete)
+	}
+	return interfaceSlice
+}
 func (this CatoEndpoint) GetFirstSignal() string                 { return this.FirstSignal }
 func (this CatoEndpoint) GetID() string                          { return this.ID }
 func (this CatoEndpoint) GetIndication() string                  { return this.Indication }
 func (this CatoEndpoint) GetLastSignal() string                  { return this.LastSignal }
+func (this CatoEndpoint) GetMuted() bool                         { return this.Muted }
 func (this CatoEndpoint) GetPredictedThreatType() *string        { return this.PredictedThreatType }
 func (this CatoEndpoint) GetPredictedVerdict() *StoryVerdictEnum { return this.PredictedVerdict }
 func (this CatoEndpoint) GetProducer() StoryProducerEnum         { return this.Producer }
 func (this CatoEndpoint) GetProducerName() string                { return this.ProducerName }
+func (this CatoEndpoint) GetProducerType() StoryProducerEnum     { return this.ProducerType }
 func (this CatoEndpoint) GetQueryName() *string                  { return this.QueryName }
 func (this CatoEndpoint) GetResearch() *bool                     { return this.Research }
 func (this CatoEndpoint) GetSimilarStoriesData() []*SimilarStoryData {
@@ -3034,20 +3399,20 @@ func (CatoEndpoint) IsMergedIncident() {}
 // The `CatoEndpointAlert` object represents an alert generated by Cato's endpoint protection system, detailing information about detected threats, including associated activities, threat description, criticality level, endpoint protection profile, and remediation status.
 type CatoEndpointAlert struct {
 	Activities                []*CatoActivity         `json:"activities"`
-	CreatedDateTime           *string                 `json:"createdDateTime,omitempty"`
-	Criticality               *int64                  `json:"criticality,omitempty"`
-	Description               *string                 `json:"description,omitempty"`
-	EndpointProtectionProfile *string                 `json:"endpointProtectionProfile,omitempty"`
-	EngineType                *CatoEndpointEngineType `json:"engineType,omitempty"`
-	ExternalIP                *string                 `json:"externalIp,omitempty"`
+	CreatedDateTime           *string                 `json:"createdDateTime,omitempty,omitzero"`
+	Criticality               *int64                  `json:"criticality,omitempty,omitzero"`
+	Description               *string                 `json:"description,omitempty,omitzero"`
+	EndpointProtectionProfile *string                 `json:"endpointProtectionProfile,omitempty,omitzero"`
+	EngineType                *CatoEndpointEngineType `json:"engineType,omitempty,omitzero"`
+	ExternalIP                *string                 `json:"externalIp,omitempty,omitzero"`
 	ID                        string                  `json:"id"`
-	LocalIP                   *string                 `json:"localIp,omitempty"`
+	LocalIP                   *string                 `json:"localIp,omitempty,omitzero"`
 	MitreSubTechnique         []*Mitre                `json:"mitreSubTechnique"`
 	MitreTechnique            []*Mitre                `json:"mitreTechnique"`
 	Resources                 []CatoResource          `json:"resources"`
-	Status                    *RemediationStatusEnum  `json:"status,omitempty"`
-	ThreatName                *string                 `json:"threatName,omitempty"`
-	Title                     *string                 `json:"title,omitempty"`
+	Status                    *RemediationStatusEnum  `json:"status,omitempty,omitzero"`
+	ThreatName                *string                 `json:"threatName,omitempty,omitzero"`
+	Title                     *string                 `json:"title,omitempty,omitzero"`
 }
 
 func (CatoEndpointAlert) IsEndpointAlert() {}
@@ -3102,13 +3467,13 @@ func (this CatoEndpointAlert) GetTitle() *string      { return this.Title }
 
 // The `CatoEndpointDeviceDetails` object represents detailed information about a device, including its name, unique ID, logged-on users, MAC address, and operating system details.
 type CatoEndpointDeviceDetails struct {
-	DeviceName    *string        `json:"deviceName,omitempty"`
-	ExternalIP    *string        `json:"externalIp,omitempty"`
+	DeviceName    *string        `json:"deviceName,omitempty,omitzero"`
+	ExternalIP    *string        `json:"externalIp,omitempty,omitzero"`
 	ID            string         `json:"id"`
-	LocalIP       *string        `json:"localIp,omitempty"`
+	LocalIP       *string        `json:"localIp,omitempty,omitzero"`
 	LoggedOnUsers []EndpointUser `json:"loggedOnUsers"`
-	MacAddress    *string        `json:"macAddress,omitempty"`
-	OsDetails     *OsDetails     `json:"osDetails,omitempty"`
+	MacAddress    *string        `json:"macAddress,omitempty,omitzero"`
+	OsDetails     *OsDetails     `json:"osDetails,omitempty,omitzero"`
 }
 
 func (CatoEndpointDeviceDetails) IsDeviceDetails()            {}
@@ -3140,11 +3505,11 @@ func (this CatoEndpointUser) GetName() string { return this.Name }
 
 // The `CatoFileResource` is a GraphQL object type that represents a file resource with fields for its creation timestamp, detection and remediation statuses, file details, and a unique identifier.
 type CatoFileResource struct {
-	CreatedDateTime   *string                `json:"createdDateTime,omitempty"`
-	DetectionStatus   *DetectionStatusEnum   `json:"detectionStatus,omitempty"`
-	FileDetails       *FileDetails           `json:"fileDetails,omitempty"`
+	CreatedDateTime   *string                `json:"createdDateTime,omitempty,omitzero"`
+	DetectionStatus   *DetectionStatusEnum   `json:"detectionStatus,omitempty,omitzero"`
+	FileDetails       *FileDetails           `json:"fileDetails,omitempty,omitzero"`
 	ID                string                 `json:"id"`
-	RemediationStatus *RemediationStatusEnum `json:"remediationStatus,omitempty"`
+	RemediationStatus *RemediationStatusEnum `json:"remediationStatus,omitempty,omitzero"`
 }
 
 func (CatoFileResource) IsCatoResource()                  {}
@@ -3163,13 +3528,13 @@ func (this CatoFileResource) GetFileDetails() *FileDetails             { return 
 
 // The `CatoProcessResource` is a GraphQL object type that represents a process resource, including details such as a unique Cato ID, the timestamp of usage, associated file details, command line information, process ID, remediation status, and the related user account.
 type CatoProcessResource struct {
-	CreatedDateTime    *string                `json:"createdDateTime,omitempty"`
+	CreatedDateTime    *string                `json:"createdDateTime,omitempty,omitzero"`
 	ID                 string                 `json:"id"`
-	ImageFile          *FileDetails           `json:"imageFile,omitempty"`
-	ProcessCommandLine *string                `json:"processCommandLine,omitempty"`
+	ImageFile          *FileDetails           `json:"imageFile,omitempty,omitzero"`
+	ProcessCommandLine *string                `json:"processCommandLine,omitempty,omitzero"`
 	ProcessID          int64                  `json:"processId"`
-	RemediationStatus  *RemediationStatusEnum `json:"remediationStatus,omitempty"`
-	UserAccount        EndpointUser           `json:"userAccount,omitempty"`
+	RemediationStatus  *RemediationStatusEnum `json:"remediationStatus,omitempty,omitzero"`
+	UserAccount        EndpointUser           `json:"userAccount,omitempty,omitzero"`
 }
 
 func (CatoProcessResource) IsCatoResource()                  {}
@@ -3190,22 +3555,22 @@ func (this CatoProcessResource) GetProcessID() int64            { return this.Pr
 func (this CatoProcessResource) GetUserAccount() EndpointUser { return this.UserAccount }
 
 type CellularInterface struct {
-	Apn                 *string                      `json:"apn,omitempty"`
-	ApnSelectionMethod  *ApnMethod                   `json:"apnSelectionMethod,omitempty"`
-	DisconnectionReason *CellularDisconnectionReason `json:"disconnectionReason,omitempty"`
-	Iccid               *string                      `json:"iccid,omitempty"`
-	Imei                *string                      `json:"imei,omitempty"`
+	Apn                 *string                      `json:"apn,omitempty,omitzero"`
+	ApnSelectionMethod  *ApnMethod                   `json:"apnSelectionMethod,omitempty,omitzero"`
+	DisconnectionReason *CellularDisconnectionReason `json:"disconnectionReason,omitempty,omitzero"`
+	Iccid               *string                      `json:"iccid,omitempty,omitzero"`
+	Imei                *string                      `json:"imei,omitempty,omitzero"`
 	IsModemConnected    bool                         `json:"isModemConnected"`
 	IsModemSuspended    bool                         `json:"isModemSuspended"`
 	IsRoamingAllowed    bool                         `json:"isRoamingAllowed"`
 	IsSimSlot1Detected  bool                         `json:"isSimSlot1Detected"`
 	IsSimSlot2Detected  bool                         `json:"isSimSlot2Detected"`
-	ModemStatus         *CellularModemStatus         `json:"modemStatus,omitempty"`
-	NetworkType         *CellularNetworkType         `json:"networkType,omitempty"`
-	OperatorName        *string                      `json:"operatorName,omitempty"`
-	SignalStrength      *string                      `json:"signalStrength,omitempty"`
-	SimNumber           *string                      `json:"simNumber,omitempty"`
-	SimSlotID           *int64                       `json:"simSlotId,omitempty"`
+	ModemStatus         *CellularModemStatus         `json:"modemStatus,omitempty,omitzero"`
+	NetworkType         *CellularNetworkType         `json:"networkType,omitempty,omitzero"`
+	OperatorName        *string                      `json:"operatorName,omitempty,omitzero"`
+	SignalStrength      *string                      `json:"signalStrength,omitempty,omitzero"`
+	SimNumber           *string                      `json:"simNumber,omitempty,omitzero"`
+	SimSlotID           *int64                       `json:"simSlotId,omitempty,omitzero"`
 }
 
 type ClientConnectivityAddRuleDataInput struct {
@@ -3228,9 +3593,9 @@ type ClientConnectivityAddRuleInput struct {
 }
 
 type ClientConnectivityPolicy struct {
-	Audit    *PolicyAudit                     `json:"audit,omitempty"`
+	Audit    *PolicyAudit                     `json:"audit,omitempty,omitzero"`
 	Enabled  bool                             `json:"enabled"`
-	Revision *PolicyRevision                  `json:"revision,omitempty"`
+	Revision *PolicyRevision                  `json:"revision,omitempty,omitzero"`
 	Rules    []*ClientConnectivityRulePayload `json:"rules"`
 	Sections []*PolicySectionPayload          `json:"sections"`
 }
@@ -3270,7 +3635,7 @@ type ClientConnectivityPolicyMutationInput struct {
 
 type ClientConnectivityPolicyMutationPayload struct {
 	Errors []*PolicyMutationError    `json:"errors"`
-	Policy *ClientConnectivityPolicy `json:"policy,omitempty"`
+	Policy *ClientConnectivityPolicy `json:"policy,omitempty,omitzero"`
 	Status PolicyMutationStatus      `json:"status"`
 }
 
@@ -3307,7 +3672,7 @@ type ClientConnectivityPolicyMutations struct {
 
 type ClientConnectivityPolicyQueries struct {
 	Policy    *ClientConnectivityPolicy `json:"policy"`
-	Revisions *PolicyRevisionsPayload   `json:"revisions,omitempty"`
+	Revisions *PolicyRevisionsPayload   `json:"revisions,omitempty,omitzero"`
 }
 
 type ClientConnectivityPolicyUpdateInput struct {
@@ -3345,7 +3710,7 @@ func (this ClientConnectivityRule) GetSection() *PolicySectionInfo { return this
 
 type ClientConnectivityRuleMutationPayload struct {
 	Errors []*PolicyMutationError         `json:"errors"`
-	Rule   *ClientConnectivityRulePayload `json:"rule,omitempty"`
+	Rule   *ClientConnectivityRulePayload `json:"rule,omitempty,omitzero"`
 	Status PolicyMutationStatus           `json:"status"`
 }
 
@@ -3432,6 +3797,15 @@ type ClientConnectivityUpdateRuleInput struct {
 	Rule *ClientConnectivityUpdateRuleDataInput `json:"rule"`
 }
 
+type CloudApplicationRef struct {
+	ID   string `json:"id"`
+	Name string `json:"name"`
+}
+
+func (CloudApplicationRef) IsObjectRef()         {}
+func (this CloudApplicationRef) GetID() string   { return this.ID }
+func (this CloudApplicationRef) GetName() string { return this.Name }
+
 // Connectivity status of a cloud interconnect connection.
 type CloudInterconnectConnectionConnectivity struct {
 	Success bool `json:"success"`
@@ -3444,7 +3818,7 @@ type CloudInterconnectConnectionConnectivityInput struct {
 
 // Details of a physical connection at a cloud interconnect site.
 type CloudInterconnectPhysicalConnection struct {
-	CVlan               *scalars.Vlan   `json:"cVlan,omitempty"`
+	CVlan               *scalars.Vlan   `json:"cVlan,omitempty,omitzero"`
 	DownstreamBwLimit   string          `json:"downstreamBwLimit"`
 	EncapsulationMethod TaggingMethod   `json:"encapsulationMethod"`
 	HaRole              HaRole          `json:"haRole"`
@@ -3452,12 +3826,12 @@ type CloudInterconnectPhysicalConnection struct {
 	PopLocation         *PopLocationRef `json:"popLocation"`
 	PrivateCatoIP       string          `json:"privateCatoIp"`
 	PrivateSiteIP       string          `json:"privateSiteIp"`
-	SVlan               *scalars.Vlan   `json:"sVlan,omitempty"`
+	SVlan               *scalars.Vlan   `json:"sVlan,omitempty,omitzero"`
 	ServiceProviderName string          `json:"serviceProviderName"`
 	Site                *SiteRef        `json:"site"`
 	Subnet              string          `json:"subnet"`
 	UpstreamBwLimit     string          `json:"upstreamBwLimit"`
-	Vlan                *scalars.Vlan   `json:"vlan,omitempty"`
+	Vlan                *scalars.Vlan   `json:"vlan,omitempty,omitzero"`
 }
 
 // ID of a physical connection at a cloud interconnect site.
@@ -3476,10 +3850,16 @@ type CloudInterconnectPhysicalConnectionInput struct {
 	ID string `json:"id"`
 }
 
+type ConnectivitySnapshotsQueries struct {
+	ZtnaAppConnectorGroupSnapshot   *ZtnaAppConnectorGroupSnapshotPayload   `json:"ztnaAppConnectorGroupSnapshot,omitempty,omitzero"`
+	ZtnaAppConnectorSnapshot        *ZtnaAppConnectorSnapshotPayload        `json:"ztnaAppConnectorSnapshot,omitempty,omitzero"`
+	ZtnaAppConnectorSnapshotSummary *ZtnaAppConnectorSnapshotSummaryPayload `json:"ztnaAppConnectorSnapshotSummary,omitempty,omitzero"`
+}
+
 type ContactDetails struct {
-	Email *string `json:"email,omitempty"`
-	Name  *string `json:"name,omitempty"`
-	Phone *string `json:"phone,omitempty"`
+	Email *string `json:"email,omitempty,omitzero"`
+	Name  *string `json:"name,omitempty,omitzero"`
+	Phone *string `json:"phone,omitempty,omitzero"`
 }
 
 type ContactDetailsInput struct {
@@ -3537,7 +3917,7 @@ type ContainerSearchPayload struct {
 
 // Information about automatic synchronization of the container
 type ContainerSyncData struct {
-	FileType      *ContainerFileType             `json:"fileType,omitempty"`
+	FileType      *ContainerFileType             `json:"fileType,omitempty,omitzero"`
 	Notifications *ContainerSyncDataNotification `json:"notifications"`
 	TimeInterval  int64                          `json:"timeInterval"`
 	TimeUnit      ContainerSyncDataTimeUnit      `json:"timeUnit"`
@@ -3546,7 +3926,7 @@ type ContainerSyncData struct {
 
 // Audit information about the last synchronization of the container
 type ContainerSyncDataAudit struct {
-	ErrorMsg        *string `json:"errorMsg,omitempty"`
+	ErrorMsg        *string `json:"errorMsg,omitempty,omitzero"`
 	LastSyncAttempt string  `json:"lastSyncAttempt"`
 	LastSynced      string  `json:"lastSynced"`
 }
@@ -3579,6 +3959,15 @@ type CountryRefInput struct {
 	Input string      `json:"input"`
 }
 
+type CreateBasicAuthInput struct {
+	Password string `json:"password"`
+	Username string `json:"username"`
+}
+
+type CreateBearerTokenAuthInput struct {
+	BearerToken string `json:"bearerToken"`
+}
+
 // Create synchronization data for a container
 type CreateContainerSyncDataInput struct {
 	Notifications *CreateContainerSyncDataNotificationInput `json:"notifications"`
@@ -3591,6 +3980,11 @@ type CreateContainerSyncDataNotificationInput struct {
 	MailingList       []*SubscriptionMailingListRefInput `json:"mailingList"`
 	SubscriptionGroup []*SubscriptionGroupRefInput       `json:"subscriptionGroup"`
 	Webhook           []*SubscriptionWebhookRefInput     `json:"webhook"`
+}
+
+type CreateCustomHeaderAuthInput struct {
+	Name  string `json:"name"`
+	Value string `json:"value"`
 }
 
 // Input for creating FQDN typed container from file
@@ -3614,6 +4008,17 @@ type CreateFqdnContainerFromListInput struct {
 
 // Payload of CreateFromList operation on FQDN typed container
 type CreateFqdnContainerFromListPayload struct {
+	Container *FqdnContainer `json:"container"`
+}
+
+type CreateFqdnContainerFromURLInput struct {
+	Description string                        `json:"description"`
+	FileType    ContainerFileType             `json:"fileType"`
+	Name        string                        `json:"name"`
+	SyncData    *CreateContainerSyncDataInput `json:"syncData"`
+}
+
+type CreateFqdnContainerFromURLPayload struct {
 	Container *FqdnContainer `json:"container"`
 }
 
@@ -3653,11 +4058,33 @@ type CreateIPAddressRangeContainerFromListPayload struct {
 	Container *IPAddressRangeContainer `json:"container"`
 }
 
+type CreateIPAddressRangeContainerFromURLInput struct {
+	Description string                        `json:"description"`
+	FileType    ContainerFileType             `json:"fileType"`
+	Name        string                        `json:"name"`
+	SyncData    *CreateContainerSyncDataInput `json:"syncData"`
+}
+
+type CreateIPAddressRangeContainerFromURLPayload struct {
+	Container *IPAddressRangeContainer `json:"container"`
+}
+
 type CreateLocationDetailsInput struct {
 	CompanyName   *string              `json:"companyName,omitempty"`
 	Contact       *ContactDetailsInput `json:"contact,omitempty"`
 	PostalAddress *PostalAddressInput  `json:"postalAddress"`
 	VatID         *string              `json:"vatId,omitempty"`
+}
+
+type CreateMailingListInput struct {
+	Address []string         `json:"address,omitempty"`
+	Admin   []*AdminRefInput `json:"admin,omitempty"`
+	Name    string           `json:"name"`
+}
+
+// Returns the details of a newly created Mailing List after a successful creation request.
+type CreateMailingListPayload struct {
+	MailingList *MailingList `json:"mailingList"`
 }
 
 type CreatePrivateApplicationInput struct {
@@ -3672,8 +4099,172 @@ type CreatePrivateApplicationInput struct {
 	PublishedAppDomain *PublishedAppDomainInput `json:"publishedAppDomain,omitempty"`
 }
 
+// Response payload returned after successfully creating a private application
 type CreatePrivateApplicationPayload struct {
 	Application *PrivateApplication `json:"application"`
+}
+
+type CreateSubscriptionGroupInput struct {
+	Integration []*IntegrationRefInput `json:"integration,omitempty"`
+	MailingList []*MailingListRefInput `json:"mailingList,omitempty"`
+	Name        string                 `json:"name"`
+}
+
+// Response payload for creating a Subscription Group.
+type CreateSubscriptionGroupPayload struct {
+	SubscriptionGroup *SubscriptionGroup `json:"subscriptionGroup"`
+}
+
+type CreateUserInput struct {
+	Department  *string `json:"department,omitempty"`
+	Email       string  `json:"email"`
+	FirstName   string  `json:"firstName"`
+	JobTitle    *string `json:"jobTitle,omitempty"`
+	LastName    string  `json:"lastName"`
+	PhoneNumber *string `json:"phoneNumber,omitempty"`
+}
+
+type CreateUserPayload struct {
+	User *User `json:"user"`
+}
+
+// Authentication configuration for creating a webhook integration.
+// Only one authentication method should be provided.
+// If null, no authentication will be used.
+type CreateWebhookAuthInput struct {
+	Basic  *CreateBasicAuthInput        `json:"basic,omitempty"`
+	Bearer *CreateBearerTokenAuthInput  `json:"bearer,omitempty"`
+	Custom *CreateCustomHeaderAuthInput `json:"custom,omitempty"`
+}
+
+// Defines parameters for a new webhook integration.
+type CreateWebhookInput struct {
+	Auth              *CreateWebhookAuthInput         `json:"auth"`
+	Body              string                          `json:"body"`
+	Enabled           *bool                           `json:"enabled,omitempty"`
+	Header            []*HTTPHeaderNameValueInput     `json:"header,omitempty"`
+	Name              string                          `json:"name"`
+	RelatedWebhookRef *WebhookIntegrationRefInput     `json:"relatedWebhookRef,omitempty"`
+	RequestMethod     *WebhookRequestMethod           `json:"requestMethod,omitempty"`
+	ResponseMapping   []*WebhookResponseMapEntryInput `json:"responseMapping,omitempty"`
+	URL               string                          `json:"url"`
+}
+
+// Response payload for a webhook creation operation.
+type CreateWebhookPayload struct {
+	Webhook *Webhook `json:"webhook"`
+}
+
+type CreateWifiRadioProfileInput struct {
+	Band24 *WifiBandProfileInput `json:"band24"`
+	Band5  *WifiBandProfileInput `json:"band5"`
+	Site   *SiteRefInput         `json:"site"`
+}
+
+type CreateWifiRadioProfilePayload struct {
+	WifiRadioProfile *WifiRadioProfile `json:"wifiRadioProfile"`
+}
+
+type CreateWifiSsidInput struct {
+	Band                     WifiRadioBand              `json:"band"`
+	Category                 WifiSsidCategory           `json:"category"`
+	Dhcp                     *WifiSsidDhcpSettingsInput `json:"dhcp,omitempty"`
+	DhcpEnabled              *bool                      `json:"dhcpEnabled,omitempty"`
+	Enabled                  *bool                      `json:"enabled,omitempty"`
+	InternetOnly             *bool                      `json:"internetOnly,omitempty"`
+	LocalIP                  string                     `json:"localIp"`
+	MdnsEnabled              bool                       `json:"mdnsEnabled"`
+	MicrosegmentationEnabled bool                       `json:"microsegmentationEnabled"`
+	Name                     string                     `json:"name"`
+	NetworkInterfaceID       string                     `json:"networkInterfaceId"`
+	Security                 *SecurityConfigInput       `json:"security"`
+	Site                     *SiteRefInput              `json:"site"`
+	Subnet                   string                     `json:"subnet"`
+	Visible                  *bool                      `json:"visible,omitempty"`
+	VlanID                   *int64                     `json:"vlanId,omitempty"`
+}
+
+type CreateWifiSsidPayload struct {
+	WifiSsid *WifiSsid `json:"wifiSsid"`
+}
+
+type CustomAppDataMutations struct {
+	AddCustomApplication    *AddCustomApplicationPayload    `json:"addCustomApplication,omitempty,omitzero"`
+	DeleteCustomApplication *DeleteCustomApplicationPayload `json:"deleteCustomApplication,omitempty,omitzero"`
+	UpdateCustomApplication *UpdateCustomApplicationPayload `json:"updateCustomApplication,omitempty,omitzero"`
+}
+
+type CustomAppDataQueries struct {
+	CustomApplication     *CustomApplication            `json:"customApplication,omitempty,omitzero"`
+	CustomApplicationList *CustomApplicationListPayload `json:"customApplicationList,omitempty,omitzero"`
+}
+
+type CustomApplication struct {
+	Category    []*ApplicationCategoryRef    `json:"category"`
+	Criteria    []*CustomApplicationCriteria `json:"criteria"`
+	Description *string                      `json:"description,omitempty,omitzero"`
+	ID          string                       `json:"id"`
+	Name        string                       `json:"name"`
+}
+
+type CustomApplicationCategoryFilterInput struct {
+	HasAny []*ApplicationCategoryRefInput `json:"hasAny,omitempty"`
+}
+
+type CustomApplicationCriteria struct {
+	Destination *CustomApplicationDestination `json:"destination,omitempty,omitzero"`
+	Port        []scalars.Port                `json:"port"`
+	PortRange   []*PortRange                  `json:"portRange"`
+	Protocol    IPProtocol                    `json:"protocol"`
+}
+
+type CustomApplicationCriteriaInput struct {
+	Destination *CustomApplicationDestinationInput `json:"destination,omitempty"`
+	Port        []scalars.Port                     `json:"port"`
+	PortRange   []*PortRangeInput                  `json:"portRange"`
+	Protocol    IPProtocol                         `json:"protocol"`
+}
+
+type CustomApplicationDestination struct {
+	DestinationIP *CustomApplicationIP `json:"destinationIp,omitempty,omitzero"`
+	Domain        []string             `json:"domain"`
+	Fqdn          []string             `json:"fqdn"`
+}
+
+type CustomApplicationDestinationInput struct {
+	DestinationIP *CustomApplicationIPInput `json:"destinationIp,omitempty"`
+	Domain        []string                  `json:"domain,omitempty"`
+	Fqdn          []string                  `json:"fqdn,omitempty"`
+}
+
+type CustomApplicationFilterInput struct {
+	Category []*CustomApplicationCategoryFilterInput `json:"category,omitempty"`
+	FreeText *FreeTextFilterInput                    `json:"freeText,omitempty"`
+	ID       []*IDFilterInput                        `json:"id,omitempty"`
+	Name     []*StringFilterInput                    `json:"name,omitempty"`
+}
+
+type CustomApplicationIP struct {
+	IP      []string          `json:"ip"`
+	IPRange []*IPAddressRange `json:"ipRange"`
+	Subnet  []string          `json:"subnet"`
+}
+
+type CustomApplicationIPInput struct {
+	IP      []string               `json:"ip,omitempty"`
+	IPRange []*IPAddressRangeInput `json:"ipRange,omitempty"`
+	Subnet  []string               `json:"subnet,omitempty"`
+}
+
+type CustomApplicationListInput struct {
+	Filter []*CustomApplicationFilterInput `json:"filter,omitempty"`
+	Paging *PagingInput                    `json:"paging,omitempty"`
+	Sort   *CustomApplicationSortInput     `json:"sort,omitempty"`
+}
+
+type CustomApplicationListPayload struct {
+	Items  []*CustomApplication `json:"items"`
+	Paging *PageInfo            `json:"paging"`
 }
 
 // A reference identifying the CustomApplication object. ID: Unique CustomApplication Identifier, Name: The CustomApplication Name
@@ -3691,6 +4282,12 @@ type CustomApplicationRefInput struct {
 	Input string      `json:"input"`
 }
 
+type CustomApplicationSortInput struct {
+	Category    *ApplicationCategorySortInput `json:"category,omitempty"`
+	Description *SortOrderInput               `json:"description,omitempty"`
+	Name        *SortOrderInput               `json:"name,omitempty"`
+}
+
 // A reference identifying the CustomCategory object. ID: Unique CustomCategory Identifier, Name: The CustomCategory Name
 type CustomCategoryRef struct {
 	ID   string `json:"id"`
@@ -3706,10 +4303,18 @@ type CustomCategoryRefInput struct {
 	Input string      `json:"input"`
 }
 
+type CustomHeaderAuth struct {
+	AuthType AuthType `json:"authType"`
+	Name     string   `json:"name"`
+}
+
+func (CustomHeaderAuth) IsAuthInterface()           {}
+func (this CustomHeaderAuth) GetAuthType() AuthType { return this.AuthType }
+
 // Returns data for Custom Service defined by a combination of L4 ports and an IP Protocol
 type CustomService struct {
-	Port      []scalars.Port `json:"port,omitempty"`
-	PortRange *PortRange     `json:"portRange,omitempty"`
+	Port      []scalars.Port `json:"port,omitempty,omitzero"`
+	PortRange *PortRange     `json:"portRange,omitempty,omitzero"`
 	Protocol  IPProtocol     `json:"protocol"`
 }
 
@@ -3721,8 +4326,8 @@ type CustomServiceInput struct {
 }
 
 type CustomServiceIP struct {
-	IP      *string         `json:"ip,omitempty"`
-	IPRange *IPAddressRange `json:"ipRange,omitempty"`
+	IP      *string         `json:"ip,omitempty,omitzero"`
+	IPRange *IPAddressRange `json:"ipRange,omitempty,omitzero"`
 	Name    string          `json:"name"`
 }
 
@@ -3733,15 +4338,15 @@ type CustomServiceIPInput struct {
 }
 
 type DataLakeLicense struct {
-	Description     *string       `json:"description,omitempty"`
+	Description     *string       `json:"description,omitempty,omitzero"`
 	DpaVersion      DpaVersion    `json:"dpaVersion"`
 	ExpirationDate  string        `json:"expirationDate"`
-	ID              *string       `json:"id,omitempty"`
-	LastUpdated     *string       `json:"lastUpdated,omitempty"`
+	ID              *string       `json:"id,omitempty,omitzero"`
+	LastUpdated     *string       `json:"lastUpdated,omitempty,omitzero"`
 	Plan            LicensePlan   `json:"plan"`
-	RetentionPeriod *int64        `json:"retentionPeriod,omitempty"`
+	RetentionPeriod *int64        `json:"retentionPeriod,omitempty,omitzero"`
 	Sku             LicenseSku    `json:"sku"`
-	StartDate       *string       `json:"startDate,omitempty"`
+	StartDate       *string       `json:"startDate,omitempty,omitzero"`
 	Status          LicenseStatus `json:"status"`
 	Total           int64         `json:"total"`
 }
@@ -3760,6 +4365,14 @@ func (DataLakeLicense) IsQuantifiableLicense() {}
 
 func (this DataLakeLicense) GetTotal() int64 { return this.Total }
 
+type DataQuery struct {
+	Buckets    *int64                `json:"buckets,omitempty,omitzero"`
+	DataSource *DataSourceEnum       `json:"dataSource,omitempty,omitzero"`
+	Fields     []string              `json:"fields"`
+	Filters    []*QueryParameter     `json:"filters"`
+	Measures   []*MeasuresParameters `json:"measures"`
+}
+
 type DateTimeFilterInput struct {
 	Between []string `json:"between,omitempty"`
 	Eq      *string  `json:"eq,omitempty"`
@@ -3773,13 +4386,13 @@ type DateTimeFilterInput struct {
 }
 
 type DateValue struct {
-	Date *string `json:"date,omitempty"`
+	Date *string `json:"date,omitempty,omitzero"`
 }
 
 func (DateValue) IsValue() {}
 
 type DegradedDetail struct {
-	Args   DegradedStatusArgs   `json:"args,omitempty"`
+	Args   DegradedStatusArgs   `json:"args,omitempty,omitzero"`
 	Reason DegradedStatusReason `json:"reason"`
 }
 
@@ -3790,20 +4403,20 @@ type DegradedStatus struct {
 
 type DegradedStatusBasicDataArgs struct {
 	DeviceName        string  `json:"deviceName"`
-	LastConnectedDate *string `json:"lastConnectedDate,omitempty"`
+	LastConnectedDate *string `json:"lastConnectedDate,omitempty,omitzero"`
 }
 
 func (DegradedStatusBasicDataArgs) IsDegradedStatusArgs() {}
 
 type DegradedStatusLastConnectedArgs struct {
-	LastConnectedDate *string `json:"lastConnectedDate,omitempty"`
+	LastConnectedDate *string `json:"lastConnectedDate,omitempty,omitzero"`
 }
 
 func (DegradedStatusLastConnectedArgs) IsDegradedStatusArgs() {}
 
 type DegradedStatusMultiTunnelArgs struct {
 	DeviceName        string  `json:"deviceName"`
-	LastConnectedDate *string `json:"lastConnectedDate,omitempty"`
+	LastConnectedDate *string `json:"lastConnectedDate,omitempty,omitzero"`
 	TunnelID          string  `json:"tunnelID"`
 	TunnelName        string  `json:"tunnelName"`
 }
@@ -3812,7 +4425,7 @@ func (DegradedStatusMultiTunnelArgs) IsDegradedStatusArgs() {}
 
 type DegradedStatusSocketArgs struct {
 	DeviceName        string  `json:"deviceName"`
-	LastConnectedDate *string `json:"lastConnectedDate,omitempty"`
+	LastConnectedDate *string `json:"lastConnectedDate,omitempty,omitzero"`
 	PortID            string  `json:"portID"`
 	PortName          string  `json:"portName"`
 }
@@ -3835,15 +4448,29 @@ type DeleteContainerPayload struct {
 	Container Container `json:"container"`
 }
 
+type DeleteCustomApplicationInput struct {
+	CustomApplication *CustomApplicationRefInput `json:"customApplication"`
+}
+
+type DeleteCustomApplicationPayload struct {
+	CustomApplication *CustomApplication `json:"customApplication"`
+}
+
 // The deleted group object
 type DeleteGroupPayload struct {
 	Group *Group `json:"group"`
+}
+
+// Returns the details of a deleted Mailing List after a successful request.
+type DeleteMailingListPayload struct {
+	MailingList *MailingList `json:"mailingList"`
 }
 
 type DeletePrivateApplicationInput struct {
 	PrivateApplication *PrivateApplicationRefInput `json:"privateApplication"`
 }
 
+// Response payload returned after successfully deleting a private application
 type DeletePrivateApplicationPayload struct {
 	Application string `json:"application"`
 }
@@ -3867,15 +4494,33 @@ type DeleteStoryCommentPayload struct {
 	Comment *StoryComment `json:"comment"`
 }
 
+// Response payload for deleting a Subscription Group
+type DeleteSubscriptionGroupPayload struct {
+	SubscriptionGroup *SubscriptionGroup `json:"subscriptionGroup"`
+}
+
+type DeleteUserInput struct {
+	UserID []scalars.Long `json:"userId"`
+}
+
+type DeleteUserPayload struct {
+	Status DeleteUserStatus `json:"status"`
+}
+
+// Response payload for a webhook deletion operation.
+type DeleteWebhookPayload struct {
+	Webhook *Webhook `json:"webhook"`
+}
+
 // DEM service license details
 type DemLicense struct {
-	Description    *string       `json:"description,omitempty"`
+	Description    *string       `json:"description,omitempty,omitzero"`
 	ExpirationDate string        `json:"expirationDate"`
-	ID             *string       `json:"id,omitempty"`
-	LastUpdated    *string       `json:"lastUpdated,omitempty"`
+	ID             *string       `json:"id,omitempty,omitzero"`
+	LastUpdated    *string       `json:"lastUpdated,omitempty,omitzero"`
 	Plan           LicensePlan   `json:"plan"`
 	Sku            LicenseSku    `json:"sku"`
-	StartDate      *string       `json:"startDate,omitempty"`
+	StartDate      *string       `json:"startDate,omitempty,omitzero"`
 	Status         LicenseStatus `json:"status"`
 	Total          int64         `json:"total"`
 }
@@ -3941,14 +4586,6 @@ type DeviceAttributesUpdateInput struct {
 	Type         []string `json:"type,omitempty"`
 }
 
-// Filter input for device confidence level with equality and inclusion operators
-type DeviceCategoryFilterInput struct {
-	Eq  *DeviceCategory  `json:"eq,omitempty"`
-	In  []DeviceCategory `json:"in,omitempty"`
-	Neq *DeviceCategory  `json:"neq,omitempty"`
-	Nin []DeviceCategory `json:"nin,omitempty"`
-}
-
 type DeviceComplianceCatalogInput struct {
 	Filter *DeviceComplianceFilterInput `json:"filter,omitempty"`
 	Paging *PagingInput                 `json:"paging,omitempty"`
@@ -3975,6 +4612,7 @@ type DeviceComplianceSortInput struct {
 	State                *SortOrderInput                                     `json:"state,omitempty"`
 }
 
+// Filter input for device confidence level with equality and inclusion operators
 type DeviceConfidenceLevelFilterInput struct {
 	Eq  *DeviceConfidenceLevel  `json:"eq,omitempty"`
 	In  []DeviceConfidenceLevel `json:"in,omitempty"`
@@ -3995,9 +4633,9 @@ type DeviceCSVExportInput struct {
 }
 
 type DeviceHw struct {
-	Manufacturer *string `json:"manufacturer,omitempty"`
-	Model        *string `json:"model,omitempty"`
-	Type         *string `json:"type,omitempty"`
+	Manufacturer *string `json:"manufacturer,omitempty,omitzero"`
+	Model        *string `json:"model,omitempty,omitzero"`
+	Type         *string `json:"type,omitempty,omitzero"`
 }
 
 type DeviceHwFilterInput struct {
@@ -4013,8 +4651,8 @@ type DeviceHwSortOrderInput struct {
 }
 
 type DeviceNetwork struct {
-	NetworkName *string `json:"networkName,omitempty"`
-	Subnet      *string `json:"subnet,omitempty"`
+	NetworkName *string `json:"networkName,omitempty,omitzero"`
+	Subnet      *string `json:"subnet,omitempty,omitzero"`
 }
 
 type DeviceNetworkFilterInput struct {
@@ -4027,9 +4665,13 @@ type DeviceNetworkSortOrderInput struct {
 	Subnet      *SortOrderInput `json:"subnet,omitempty"`
 }
 
+// Represents a single network interface card (NIC) associated with a device
 type DeviceNic struct {
-	MacAddress *string `json:"macAddress,omitempty"`
-	Vendor     *string `json:"vendor,omitempty"`
+	IP         *string          `json:"ip,omitempty,omitzero"`
+	MacAddress *string          `json:"macAddress,omitempty,omitzero"`
+	Network    DeviceNetworkRef `json:"network,omitempty,omitzero"`
+	Site       *SiteRef         `json:"site,omitempty,omitzero"`
+	Vendor     *string          `json:"vendor,omitempty,omitzero"`
 }
 
 type DeviceNicFilterInput struct {
@@ -4043,9 +4685,9 @@ type DeviceNicSortOrderInput struct {
 }
 
 type DeviceOs struct {
-	Product *string `json:"product,omitempty"`
-	Vendor  *string `json:"vendor,omitempty"`
-	Version *string `json:"version,omitempty"`
+	Product *string `json:"product,omitempty,omitzero"`
+	Vendor  *string `json:"vendor,omitempty,omitzero"`
+	Version *string `json:"version,omitempty,omitzero"`
 }
 
 type DeviceOsFilterInput struct {
@@ -4081,30 +4723,30 @@ type DeviceSiteSortOrderInput struct {
 }
 
 type DeviceSnapshot struct {
-	Connected           *bool                 `json:"connected,omitempty"`
-	ConnectedSince      *string               `json:"connectedSince,omitempty"`
-	DeviceUptime        *int64                `json:"deviceUptime,omitempty"`
-	HaRole              *string               `json:"haRole,omitempty"`
-	ID                  *string               `json:"id,omitempty"`
-	Identifier          *string               `json:"identifier,omitempty"`
-	Interfaces          []*InterfaceSnapshot  `json:"interfaces,omitempty"`
-	InterfacesLinkState []*InterfaceLinkState `json:"interfacesLinkState,omitempty"`
-	InternalIP          *string               `json:"internalIP,omitempty"`
-	LastConnected       *string               `json:"lastConnected,omitempty"`
-	LastDuration        *int64                `json:"lastDuration,omitempty"`
-	LastPopID           *int64                `json:"lastPopID,omitempty"`
-	LastPopName         *string               `json:"lastPopName,omitempty"`
-	MfaCreationTime     *int64                `json:"mfaCreationTime,omitempty"`
-	MfaExpirationTime   *int64                `json:"mfaExpirationTime,omitempty"`
-	Name                *string               `json:"name,omitempty"`
-	OsType              *string               `json:"osType,omitempty"`
-	OsVersion           *string               `json:"osVersion,omitempty"`
-	RecentConnections   []*RecentConnection   `json:"recentConnections,omitempty"`
-	ReleaseGroup        *string               `json:"releaseGroup,omitempty"`
-	SocketInfo          *SocketInfo           `json:"socketInfo,omitempty"`
-	Type                *string               `json:"type,omitempty"`
-	Version             *string               `json:"version,omitempty"`
-	VersionNumber       *int64                `json:"versionNumber,omitempty"`
+	Connected           *bool                 `json:"connected,omitempty,omitzero"`
+	ConnectedSince      *string               `json:"connectedSince,omitempty,omitzero"`
+	DeviceUptime        *int64                `json:"deviceUptime,omitempty,omitzero"`
+	HaRole              *string               `json:"haRole,omitempty,omitzero"`
+	ID                  *string               `json:"id,omitempty,omitzero"`
+	Identifier          *string               `json:"identifier,omitempty,omitzero"`
+	Interfaces          []*InterfaceSnapshot  `json:"interfaces,omitempty,omitzero"`
+	InterfacesLinkState []*InterfaceLinkState `json:"interfacesLinkState,omitempty,omitzero"`
+	InternalIP          *string               `json:"internalIP,omitempty,omitzero"`
+	LastConnected       *string               `json:"lastConnected,omitempty,omitzero"`
+	LastDuration        *int64                `json:"lastDuration,omitempty,omitzero"`
+	LastPopID           *int64                `json:"lastPopID,omitempty,omitzero"`
+	LastPopName         *string               `json:"lastPopName,omitempty,omitzero"`
+	MfaCreationTime     *int64                `json:"mfaCreationTime,omitempty,omitzero"`
+	MfaExpirationTime   *int64                `json:"mfaExpirationTime,omitempty,omitzero"`
+	Name                *string               `json:"name,omitempty,omitzero"`
+	OsType              *string               `json:"osType,omitempty,omitzero"`
+	OsVersion           *string               `json:"osVersion,omitempty,omitzero"`
+	RecentConnections   []*RecentConnection   `json:"recentConnections,omitempty,omitzero"`
+	ReleaseGroup        *string               `json:"releaseGroup,omitempty,omitzero"`
+	SocketInfo          *SocketInfo           `json:"socketInfo,omitempty,omitzero"`
+	Type                *string               `json:"type,omitempty,omitzero"`
+	Version             *string               `json:"version,omitempty,omitzero"`
+	VersionNumber       *int64                `json:"versionNumber,omitempty,omitzero"`
 }
 
 // Input for sorting devices by various fields
@@ -4131,26 +4773,27 @@ type DeviceUserSortOrderInput struct {
 }
 
 type DeviceV2 struct {
-	Category          *string                  `json:"category,omitempty"`
-	ComplianceState   *string                  `json:"complianceState,omitempty"`
-	Confidence        *DeviceConfidenceLevel   `json:"confidence,omitempty"`
-	ConnectionProfile *DeviceConnectionProfile `json:"connectionProfile,omitempty"`
-	FirstSeen         *string                  `json:"firstSeen,omitempty"`
-	Hw                *DeviceHw                `json:"hw,omitempty"`
+	Category          *string                  `json:"category,omitempty,omitzero"`
+	ComplianceState   *string                  `json:"complianceState,omitempty,omitzero"`
+	Confidence        *DeviceConfidenceLevel   `json:"confidence,omitempty,omitzero"`
+	ConnectionProfile *DeviceConnectionProfile `json:"connectionProfile,omitempty,omitzero"`
+	FirstSeen         *string                  `json:"firstSeen,omitempty,omitzero"`
+	Hw                *DeviceHw                `json:"hw,omitempty,omitzero"`
 	ID                string                   `json:"id"`
-	IP                *string                  `json:"ip,omitempty"`
-	IPAddress         *string                  `json:"ipAddress,omitempty"`
+	IP                *string                  `json:"ip,omitempty,omitzero"`
+	IPAddress         *string                  `json:"ipAddress,omitempty,omitzero"`
 	IsManaged         bool                     `json:"isManaged"`
-	LastSeen          *string                  `json:"lastSeen,omitempty"`
-	Name              *string                  `json:"name,omitempty"`
-	Network           *DeviceNetwork           `json:"network,omitempty"`
-	NetworkInfo       DeviceNetworkRef         `json:"networkInfo,omitempty"`
-	Nic               *DeviceNic               `json:"nic,omitempty"`
+	LastSeen          *string                  `json:"lastSeen,omitempty,omitzero"`
+	Name              *string                  `json:"name,omitempty,omitzero"`
+	Network           *DeviceNetwork           `json:"network,omitempty,omitzero"`
+	NetworkInfo       DeviceNetworkRef         `json:"networkInfo,omitempty,omitzero"`
+	Nic               *DeviceNic               `json:"nic,omitempty,omitzero"`
+	Nics              []*DeviceNic             `json:"nics"`
 	OriginTypes       []OriginType             `json:"originTypes"`
-	Os                *DeviceOs                `json:"os,omitempty"`
-	RiskScore         *int64                   `json:"riskScore,omitempty"`
-	Site              *SiteRef                 `json:"site,omitempty"`
-	User              *UserRef                 `json:"user,omitempty"`
+	Os                *DeviceOs                `json:"os,omitempty,omitzero"`
+	RiskScore         *int64                   `json:"riskScore,omitempty,omitzero"`
+	Site              *SiteRef                 `json:"site,omitempty,omitzero"`
+	User              *UserRef                 `json:"user,omitempty,omitzero"`
 }
 
 // Input for filtering devices by various criteria
@@ -4190,7 +4833,7 @@ type DevicesQueries struct {
 	AttributesCatalog *DeviceAttributesCatalogQueries `json:"attributesCatalog"`
 	CSVExport         *ExportJobResponse              `json:"csvExport"`
 	CSVExportStatus   *ExportStatusResponse           `json:"csvExportStatus"`
-	List              *DevicesPayload                 `json:"list,omitempty"`
+	List              *DevicesPayload                 `json:"list,omitempty,omitzero"`
 }
 
 type DhcpLeaseTimeSettings struct {
@@ -4213,16 +4856,25 @@ type Dimension struct {
 
 type DimensionData struct {
 	Label string  `json:"label"`
-	Value *string `json:"value,omitempty"`
+	Value *string `json:"value,omitempty,omitzero"`
 }
 
 type DimensionKey struct {
 	FieldName string  `json:"fieldName"`
-	Value     *string `json:"value,omitempty"`
+	Value     *string `json:"value,omitempty,omitzero"`
 }
 
 type DisableAccountPayload struct {
 	AccountInfo *AccountInfo `json:"accountInfo"`
+}
+
+type DisableServiceForManagedAccountInput struct {
+	ManagedAccountID string     `json:"managedAccountId"`
+	Service          LicenseSku `json:"service"`
+}
+
+type DisableServiceForManagedAccountPayload struct {
+	IsSuccess bool `json:"isSuccess"`
 }
 
 type DlpContentProfileRef struct {
@@ -4255,13 +4907,13 @@ type DlpEdmProfileRefInput struct {
 
 // Data Loss Prevention (DLP) Service license details
 type DlpLicense struct {
-	Description    *string       `json:"description,omitempty"`
+	Description    *string       `json:"description,omitempty,omitzero"`
 	ExpirationDate string        `json:"expirationDate"`
-	ID             *string       `json:"id,omitempty"`
-	LastUpdated    *string       `json:"lastUpdated,omitempty"`
+	ID             *string       `json:"id,omitempty,omitzero"`
+	LastUpdated    *string       `json:"lastUpdated,omitempty,omitzero"`
 	Plan           LicensePlan   `json:"plan"`
 	Sku            LicenseSku    `json:"sku"`
-	StartDate      *string       `json:"startDate,omitempty"`
+	StartDate      *string       `json:"startDate,omitempty,omitzero"`
 	Status         LicenseStatus `json:"status"`
 }
 
@@ -4317,9 +4969,9 @@ type DynamicIPAllocationAddRuleInput struct {
 }
 
 type DynamicIPAllocationPolicy struct {
-	Audit    *PolicyAudit                      `json:"audit,omitempty"`
+	Audit    *PolicyAudit                      `json:"audit,omitempty,omitzero"`
 	Enabled  bool                              `json:"enabled"`
-	Revision *PolicyRevision                   `json:"revision,omitempty"`
+	Revision *PolicyRevision                   `json:"revision,omitempty,omitzero"`
 	Rules    []*DynamicIPAllocationRulePayload `json:"rules"`
 	Sections []*PolicySectionPayload           `json:"sections"`
 }
@@ -4359,7 +5011,7 @@ type DynamicIPAllocationPolicyMutationInput struct {
 
 type DynamicIPAllocationPolicyMutationPayload struct {
 	Errors []*PolicyMutationError     `json:"errors"`
-	Policy *DynamicIPAllocationPolicy `json:"policy,omitempty"`
+	Policy *DynamicIPAllocationPolicy `json:"policy,omitempty,omitzero"`
 	Status PolicyMutationStatus       `json:"status"`
 }
 
@@ -4396,7 +5048,7 @@ type DynamicIPAllocationPolicyMutations struct {
 
 type DynamicIPAllocationPolicyQueries struct {
 	Policy    *DynamicIPAllocationPolicy `json:"policy"`
-	Revisions *PolicyRevisionsPayload    `json:"revisions,omitempty"`
+	Revisions *PolicyRevisionsPayload    `json:"revisions,omitempty,omitzero"`
 }
 
 type DynamicIPAllocationPolicyUpdateInput struct {
@@ -4442,7 +5094,7 @@ func (this DynamicIPAllocationRule) GetSection() *PolicySectionInfo { return thi
 
 type DynamicIPAllocationRuleMutationPayload struct {
 	Errors []*PolicyMutationError          `json:"errors"`
-	Rule   *DynamicIPAllocationRulePayload `json:"rule,omitempty"`
+	Rule   *DynamicIPAllocationRulePayload `json:"rule,omitempty,omitzero"`
 	Status PolicyMutationStatus            `json:"status"`
 }
 
@@ -4512,15 +5164,24 @@ type DynamicIPAllocationUpdateRuleInput struct {
 	Rule *DynamicIPAllocationUpdateRuleDataInput `json:"rule"`
 }
 
+type EnableServiceForManagedAccountInput struct {
+	ManagedAccountID string     `json:"managedAccountId"`
+	Service          LicenseSku `json:"service"`
+}
+
+type EnableServiceForManagedAccountPayload struct {
+	IsSuccess bool `json:"isSuccess"`
+}
+
 // End Point Protection (EPP) license details
 type EndpointProtectionLicense struct {
-	Description    *string       `json:"description,omitempty"`
+	Description    *string       `json:"description,omitempty,omitzero"`
 	ExpirationDate string        `json:"expirationDate"`
-	ID             *string       `json:"id,omitempty"`
-	LastUpdated    *string       `json:"lastUpdated,omitempty"`
+	ID             *string       `json:"id,omitempty,omitzero"`
+	LastUpdated    *string       `json:"lastUpdated,omitempty,omitzero"`
 	Plan           LicensePlan   `json:"plan"`
 	Sku            LicenseSku    `json:"sku"`
-	StartDate      *string       `json:"startDate,omitempty"`
+	StartDate      *string       `json:"startDate,omitempty,omitzero"`
 	Status         LicenseStatus `json:"status"`
 	Total          int64         `json:"total"`
 }
@@ -4568,18 +5229,18 @@ type EnterpriseDirectoryLocationListInput struct {
 
 type EnterpriseDirectoryLocationListPayload struct {
 	Items    []*Location `json:"items"`
-	PageInfo *PageInfo   `json:"pageInfo,omitempty"`
+	PageInfo *PageInfo   `json:"pageInfo,omitempty,omitzero"`
 }
 
 type EnterpriseDirectoryMutations struct {
-	ArchiveLocation *EnterpriseDirectoryArchiveLocationPayload `json:"archiveLocation,omitempty"`
-	CreateLocation  *EnterpriseDirectoryCreateLocationPayload  `json:"createLocation,omitempty"`
-	RestoreLocation *EnterpriseDirectoryRestoreLocationPayload `json:"restoreLocation,omitempty"`
-	UpdateLocation  *EnterpriseDirectoryUpdateLocationPayload  `json:"updateLocation,omitempty"`
+	ArchiveLocation *EnterpriseDirectoryArchiveLocationPayload `json:"archiveLocation,omitempty,omitzero"`
+	CreateLocation  *EnterpriseDirectoryCreateLocationPayload  `json:"createLocation,omitempty,omitzero"`
+	RestoreLocation *EnterpriseDirectoryRestoreLocationPayload `json:"restoreLocation,omitempty,omitzero"`
+	UpdateLocation  *EnterpriseDirectoryUpdateLocationPayload  `json:"updateLocation,omitempty,omitzero"`
 }
 
 type EnterpriseDirectoryQueries struct {
-	LocationList *EnterpriseDirectoryLocationListPayload `json:"locationList"`
+	LocationList *EnterpriseDirectoryLocationListPayload `json:"locationList,omitempty,omitzero"`
 }
 
 type EnterpriseDirectoryRestoreLocationPayload struct {
@@ -4599,9 +5260,14 @@ type EnterpriseDirectoryUpdateLocationPayload struct {
 	Location *Location `json:"location"`
 }
 
+type EnterpriseSecurityInput struct {
+	PrimaryRadius   *WifiRadiusServerRefInput `json:"primaryRadius,omitempty"`
+	SecondaryRadius *WifiRadiusServerRefInput `json:"secondaryRadius,omitempty"`
+}
+
 type Entity struct {
 	ID   string     `json:"id"`
-	Name *string    `json:"name,omitempty"`
+	Name *string    `json:"name,omitempty,omitzero"`
 	Type EntityType `json:"type"`
 }
 
@@ -4625,24 +5291,28 @@ type EntityInput struct {
 
 type EntityLookupResult struct {
 	Items []*EntityInfo `json:"items"`
-	Total *int64        `json:"total,omitempty"`
+	Total *int64        `json:"total,omitempty,omitzero"`
 }
 
 type Event struct {
-	Action                *string     `json:"action,omitempty"`
-	AppID                 *string     `json:"appId,omitempty"`
-	AppName               *string     `json:"appName,omitempty"`
-	DNSProtectionCategory *string     `json:"dnsProtectionCategory,omitempty"`
-	EventType             *string     `json:"eventType,omitempty"`
-	RuleID                *string     `json:"ruleId,omitempty"`
-	ScanResult            *ScanResult `json:"scanResult,omitempty"`
-	Severity              *string     `json:"severity,omitempty"`
-	SignatureID           *string     `json:"signatureId,omitempty"`
-	ThreatName            *string     `json:"threatName,omitempty"`
-	ThreatType            *string     `json:"threatType,omitempty"`
-	VirusName             *string     `json:"virusName,omitempty"`
+	Action                *string     `json:"action,omitempty,omitzero"`
+	AppActivityType       *string     `json:"appActivityType,omitempty,omitzero"`
+	AppID                 *string     `json:"appId,omitempty,omitzero"`
+	AppName               *string     `json:"appName,omitempty,omitzero"`
+	DNSProtectionCategory *string     `json:"dnsProtectionCategory,omitempty,omitzero"`
+	EventType             *string     `json:"eventType,omitempty,omitzero"`
+	FileName              *string     `json:"fileName,omitempty,omitzero"`
+	RuleID                *string     `json:"ruleId,omitempty,omitzero"`
+	RuleName              *string     `json:"ruleName,omitempty,omitzero"`
+	ScanResult            *ScanResult `json:"scanResult,omitempty,omitzero"`
+	Severity              *string     `json:"severity,omitempty,omitzero"`
+	SignatureID           *string     `json:"signatureId,omitempty,omitzero"`
+	ThreatName            *string     `json:"threatName,omitempty,omitzero"`
+	ThreatType            *string     `json:"threatType,omitempty,omitzero"`
+	VirusName             *string     `json:"virusName,omitempty,omitzero"`
 }
 
+// Filter definition used by the eventsFeed query.
 type EventFeedFieldFilterInput struct {
 	FieldName EventFeedFilterFieldName `json:"fieldName"`
 	Operator  EventFeedFilterOperator  `json:"operator"`
@@ -4654,35 +5324,38 @@ type EventField struct {
 	Value Value          `json:"value"`
 }
 
+// Single event record returned by eventsFeed.
 type EventRecord struct {
-	FieldsMap  map[string]any `json:"fieldsMap,omitempty"`
-	FlatFields [][]string     `json:"flatFields,omitempty"`
-	Time       *string        `json:"time,omitempty"`
+	FieldsMap  map[string]any `json:"fieldsMap,omitempty,omitzero"`
+	FlatFields [][]string     `json:"flatFields,omitempty,omitzero"`
+	Time       *string        `json:"time,omitempty,omitzero"`
 }
 
 type Events struct {
-	From    *string         `json:"from,omitempty"`
-	ID      *string         `json:"id,omitempty"`
-	Records []*EventsRecord `json:"records,omitempty"`
-	To      *string         `json:"to,omitempty"`
-	Total   *int64          `json:"total,omitempty"`
-	Totals  map[string]any  `json:"totals,omitempty"`
+	From    *string         `json:"from,omitempty,omitzero"`
+	ID      *string         `json:"id,omitempty,omitzero"`
+	Records []*EventsRecord `json:"records,omitempty,omitzero"`
+	To      *string         `json:"to,omitempty,omitzero"`
+	Total   *int64          `json:"total,omitempty,omitzero"`
+	Totals  map[string]any  `json:"totals,omitempty,omitzero"`
 }
 
 type EventsDimension struct {
 	FieldName EventFieldName `json:"fieldName"`
 }
 
+// Event feed results for a single account.
 type EventsFeedAccountRecords struct {
-	ErrorString *string        `json:"errorString,omitempty"`
-	ID          *string        `json:"id,omitempty"`
-	Records     []*EventRecord `json:"records,omitempty"`
+	ErrorString *string        `json:"errorString,omitempty,omitzero"`
+	ID          *string        `json:"id,omitempty,omitzero"`
+	Records     []*EventRecord `json:"records,omitempty,omitzero"`
 }
 
+// Paged response returned by eventsFeed.
 type EventsFeedData struct {
-	Accounts     []*EventsFeedAccountRecords `json:"accounts,omitempty"`
+	Accounts     []*EventsFeedAccountRecords `json:"accounts,omitempty,omitzero"`
 	FetchedCount int64                       `json:"fetchedCount"`
-	Marker       *string                     `json:"marker,omitempty"`
+	Marker       *string                     `json:"marker,omitempty,omitzero"`
 }
 
 type EventsFilter struct {
@@ -4692,36 +5365,43 @@ type EventsFilter struct {
 }
 
 type EventsGraphQuery struct {
-	TimeSeriesEvents *TimeSeriesEvents `json:"timeSeriesEvents,omitempty"`
+	TimeSeriesEvents *TimeSeriesEvents `json:"timeSeriesEvents,omitempty,omitzero"`
 	Type             GraphType         `json:"type"`
 }
 
 type EventsMeasure struct {
 	AggType   AggregationType `json:"aggType"`
+	Alias     *string         `json:"alias,omitempty"`
 	FieldName EventFieldName  `json:"fieldName"`
 	Trend     *bool           `json:"trend,omitempty"`
 }
 
+type EventsPostAggFilter struct {
+	AggType AggregationType `json:"aggType"`
+	Filter  *EventsFilter   `json:"filter"`
+}
+
 type EventsRecord struct {
-	Fields          []*EventField  `json:"fields,omitempty"`
-	FieldsMap       map[string]any `json:"fieldsMap,omitempty"`
-	FieldsUnitTypes []UnitType     `json:"fieldsUnitTypes,omitempty"`
-	FlatFields      [][]string     `json:"flatFields,omitempty"`
-	PrevTimeFrame   map[string]any `json:"prevTimeFrame,omitempty"`
-	Trends          map[string]any `json:"trends,omitempty"`
+	Fields          []*EventField  `json:"fields,omitempty,omitzero"`
+	FieldsMap       map[string]any `json:"fieldsMap,omitempty,omitzero"`
+	FieldsUnitTypes []UnitType     `json:"fieldsUnitTypes,omitempty,omitzero"`
+	FlatFields      [][]string     `json:"flatFields,omitempty,omitzero"`
+	PrevTimeFrame   map[string]any `json:"prevTimeFrame,omitempty,omitzero"`
+	Trends          map[string]any `json:"trends,omitempty,omitzero"`
 }
 
 type EventsSort struct {
-	FieldName EventFieldName `json:"fieldName"`
-	Order     DirectionEnum  `json:"order"`
+	Alias     *string         `json:"alias,omitempty"`
+	FieldName *EventFieldName `json:"fieldName,omitempty"`
+	Order     DirectionEnum   `json:"order"`
 }
 
 type EventsTimeSeries struct {
-	From        *string       `json:"from,omitempty"`
-	Granularity *int64        `json:"granularity,omitempty"`
-	ID          *string       `json:"id,omitempty"`
-	Timeseries  []*Timeseries `json:"timeseries,omitempty"`
-	To          *string       `json:"to,omitempty"`
+	From        *string       `json:"from,omitempty,omitzero"`
+	Granularity *int64        `json:"granularity,omitempty,omitzero"`
+	ID          *string       `json:"id,omitempty,omitzero"`
+	Timeseries  []*Timeseries `json:"timeseries,omitempty,omitzero"`
+	To          *string       `json:"to,omitempty,omitzero"`
 }
 
 type ExchangeSocketPortsInput struct {
@@ -4743,17 +5423,46 @@ type ExchangedSocketInterface struct {
 // Response returned when initiating a CSV export job
 type ExportJobResponse struct {
 	JobID   string  `json:"jobId"`
-	Message *string `json:"message,omitempty"`
+	Message *string `json:"message,omitempty,omitzero"`
 }
 
 // Response containing the current status and details of an export job
 type ExportStatusResponse struct {
-	DownloadURL *string         `json:"downloadUrl,omitempty"`
-	ExpiresAt   *string         `json:"expiresAt,omitempty"`
+	DownloadURL *string         `json:"downloadUrl,omitempty,omitzero"`
+	ExpiresAt   *string         `json:"expiresAt,omitempty,omitzero"`
 	JobID       string          `json:"jobId"`
-	Message     *string         `json:"message,omitempty"`
-	Progress    *float64        `json:"progress,omitempty"`
+	Message     *string         `json:"message,omitempty,omitzero"`
+	Progress    *float64        `json:"progress,omitempty,omitzero"`
 	Status      ExportJobStatus `json:"status"`
+}
+
+type ExternalAccessMutations struct {
+	AddPartnerAccessRequest      *AddPartnerAccessRequestPayload      `json:"addPartnerAccessRequest"`
+	CancelPartnerAccess          *CancelPartnerAccessPayload          `json:"cancelPartnerAccess"`
+	ResolveIncomingAccessRequest *ResolveIncomingAccessRequestPayload `json:"resolveIncomingAccessRequest"`
+	RevokePartnerAccess          *RevokePartnerAccessPayload          `json:"revokePartnerAccess"`
+}
+
+type ExternalAccessQueries struct {
+	IncomingAccessRequestList *IncomingAccessRequestListPayload `json:"incomingAccessRequestList,omitempty,omitzero"`
+	PartnerAccessRequestList  *PartnerAccessRequestListPayload  `json:"partnerAccessRequestList,omitempty,omitzero"`
+}
+
+// Partner account access request details.
+type ExternalAccessRequest struct {
+	Account                            *AccountRef         `json:"account"`
+	ActiveDate                         string              `json:"activeDate"`
+	Admins                             []*AdminRef         `json:"admins"`
+	ExpirationDate                     string              `json:"expirationDate"`
+	Groups                             []*UsersGroupRef    `json:"groups"`
+	ID                                 string              `json:"id"`
+	IsAppliedOnAllFullyManagedAccounts bool                `json:"isAppliedOnAllFullyManagedAccounts"`
+	Partner                            *AccountRef         `json:"partner"`
+	PartnerNote                        *string             `json:"partnerNote,omitempty,omitzero"`
+	Reason                             *string             `json:"reason,omitempty,omitzero"`
+	RequestedDate                      string              `json:"requestedDate"`
+	Roles                              []*RBACRole         `json:"roles"`
+	Status                             AccessRequestStatus `json:"status"`
 }
 
 type Extra struct {
@@ -4769,15 +5478,15 @@ type FieldNameInput struct {
 }
 
 type FileDetails struct {
-	Issuer    *string `json:"issuer,omitempty"`
-	Md5       *string `json:"md5,omitempty"`
-	Name      *string `json:"name,omitempty"`
-	Path      *string `json:"path,omitempty"`
-	Publisher *string `json:"publisher,omitempty"`
-	Sha1      *string `json:"sha1,omitempty"`
-	Sha256    *string `json:"sha256,omitempty"`
-	Signer    *string `json:"signer,omitempty"`
-	Size      *int64  `json:"size,omitempty"`
+	Issuer    *string `json:"issuer,omitempty,omitzero"`
+	Md5       *string `json:"md5,omitempty,omitzero"`
+	Name      *string `json:"name,omitempty,omitzero"`
+	Path      *string `json:"path,omitempty,omitzero"`
+	Publisher *string `json:"publisher,omitempty,omitzero"`
+	Sha1      *string `json:"sha1,omitempty,omitzero"`
+	Sha256    *string `json:"sha256,omitempty,omitzero"`
+	Signer    *string `json:"signer,omitempty,omitzero"`
+	Size      *int64  `json:"size,omitempty,omitzero"`
 }
 
 // Returns data for the Floating Subnet object. Floating Subnets (ie. Floating Ranges) are used to identify traffic exactly matched
@@ -4804,19 +5513,23 @@ type FloatingSubnetRefInput struct {
 
 // A group with members of FQDN type
 type FqdnContainer struct {
-	Audit       *ContainerAudit `json:"audit"`
-	Description *string         `json:"description,omitempty"`
-	ID          string          `json:"id"`
-	Name        string          `json:"name"`
-	Size        int64           `json:"size"`
+	Audit         *ContainerAudit         `json:"audit"`
+	Description   *string                 `json:"description,omitempty,omitzero"`
+	ID            string                  `json:"id"`
+	Name          string                  `json:"name"`
+	Size          int64                   `json:"size"`
+	SyncData      *ContainerSyncData      `json:"syncData,omitempty,omitzero"`
+	SyncDataAudit *ContainerSyncDataAudit `json:"syncDataAudit,omitempty,omitzero"`
 }
 
-func (FqdnContainer) IsContainer()                   {}
-func (this FqdnContainer) GetAudit() *ContainerAudit { return this.Audit }
-func (this FqdnContainer) GetDescription() *string   { return this.Description }
-func (this FqdnContainer) GetID() string             { return this.ID }
-func (this FqdnContainer) GetName() string           { return this.Name }
-func (this FqdnContainer) GetSize() int64            { return this.Size }
+func (FqdnContainer) IsContainer()                                   {}
+func (this FqdnContainer) GetAudit() *ContainerAudit                 { return this.Audit }
+func (this FqdnContainer) GetDescription() *string                   { return this.Description }
+func (this FqdnContainer) GetID() string                             { return this.ID }
+func (this FqdnContainer) GetName() string                           { return this.Name }
+func (this FqdnContainer) GetSize() int64                            { return this.Size }
+func (this FqdnContainer) GetSyncData() *ContainerSyncData           { return this.SyncData }
+func (this FqdnContainer) GetSyncDataAudit() *ContainerSyncDataAudit { return this.SyncDataAudit }
 
 // Input for adding values to existing FQDN typed container
 type FqdnContainerAddValuesInput struct {
@@ -4833,15 +5546,19 @@ type FqdnContainerMutations struct {
 	AddValues      *FqdnContainerAddValuesPayload      `json:"addValues"`
 	CreateFromFile *CreateFqdnContainerFromFilePayload `json:"createFromFile"`
 	CreateFromList *CreateFqdnContainerFromListPayload `json:"createFromList"`
+	CreateFromURL  *CreateFqdnContainerFromURLPayload  `json:"createFromURL"`
 	RemoveValues   *FqdnContainerRemoveValuesPayload   `json:"removeValues"`
+	SyncFromURL    *SyncFqdnContainerFromURLPayload    `json:"syncFromURL"`
 	UpdateFromFile *UpdateFqdnContainerFromFilePayload `json:"updateFromFile"`
 	UpdateFromList *UpdateFqdnContainerFromListPayload `json:"updateFromList"`
+	UpdateFromURL  *UpdateFqdnContainerFromURLPayload  `json:"updateFromURL"`
 }
 
 type FqdnContainerQueries struct {
 	DownloadFile *DownloadFqdnContainerFilePayload `json:"downloadFile"`
 	Search       *FqdnContainerSearchPayload       `json:"search"`
 	SearchFqdn   *FqdnContainerSearchFqdnPayload   `json:"searchFqdn"`
+	TestFromURL  *TestContainerFromURLPayload      `json:"testFromURL"`
 }
 
 // A group with members of FQDN type
@@ -4895,11 +5612,134 @@ type FreeTextFilterInput struct {
 }
 
 type Gaussian struct {
-	Avg    *float64 `json:"avg,omitempty"`
-	N      *float64 `json:"n,omitempty"`
-	Ss     *float64 `json:"ss,omitempty"`
-	Std    *float64 `json:"std,omitempty"`
-	ZScore *float64 `json:"z_score,omitempty"`
+	Avg    *float64 `json:"avg,omitempty,omitzero"`
+	N      *float64 `json:"n,omitempty,omitzero"`
+	Ss     *float64 `json:"ss,omitempty,omitzero"`
+	Std    *float64 `json:"std,omitempty,omitzero"`
+	ZScore *float64 `json:"z_score,omitempty,omitzero"`
+}
+
+type GCPConfigInput struct {
+	InterfaceIP    string `json:"interfaceIp"`
+	LoadBalancerIP string `json:"loadBalancerIp"`
+}
+
+type GCPVSocketInfo struct {
+	ID             string   `json:"id"`
+	InterfaceIP    string   `json:"interfaceIp"`
+	LoadBalancerIP string   `json:"loadBalancerIp"`
+	Site           *SiteRef `json:"site"`
+}
+
+type GenericIncident struct {
+	AnalystFeedback     *AnalystFeedback           `json:"analystFeedback,omitempty,omitzero"`
+	Categories          []IncidentCategory         `json:"categories"`
+	ConnectionType      *ConnectionTypeEnum        `json:"connectionType,omitempty,omitzero"`
+	Criticality         *int64                     `json:"criticality,omitempty,omitzero"`
+	Description         *string                    `json:"description,omitempty,omitzero"`
+	EngineType          *StoryEngineTypeEnum       `json:"engineType,omitempty,omitzero"`
+	Entities            []*IncidentEntity          `json:"entities"`
+	Evidences           []*GenericIncidentEvidence `json:"evidences"`
+	FirstSignal         string                     `json:"firstSignal"`
+	ID                  string                     `json:"id"`
+	Indication          string                     `json:"indication"`
+	LastSignal          string                     `json:"lastSignal"`
+	Mitres              []*Mitre                   `json:"mitres,omitempty,omitzero"`
+	Muted               bool                       `json:"muted"`
+	PredictedThreatType *string                    `json:"predictedThreatType,omitempty,omitzero"`
+	PredictedVerdict    *StoryVerdictEnum          `json:"predictedVerdict,omitempty,omitzero"`
+	Producer            StoryProducerEnum          `json:"producer"`
+	ProducerName        string                     `json:"producerName"`
+	ProducerType        StoryProducerEnum          `json:"producerType"`
+	Queries             []*DataQuery               `json:"queries"`
+	QueryName           *string                    `json:"queryName,omitempty,omitzero"`
+	Research            *bool                      `json:"research,omitempty,omitzero"`
+	SimilarStoriesData  []*SimilarStoryData        `json:"similarStoriesData"`
+	Site                *SiteRef                   `json:"site,omitempty,omitzero"`
+	SiteName            *string                    `json:"siteName,omitempty,omitzero"`
+	Source              *string                    `json:"source,omitempty,omitzero"`
+	SourceIP            *string                    `json:"sourceIp,omitempty,omitzero"`
+	Status              *StoryStatusEnum           `json:"status,omitempty,omitzero"`
+	StatusInfo          *GenericIncidentStatusInfo `json:"statusInfo,omitempty,omitzero"`
+	StoryDuration       *int64                     `json:"storyDuration,omitempty,omitzero"`
+	Ticket              *string                    `json:"ticket,omitempty,omitzero"`
+	User                *UserRef                   `json:"user,omitempty,omitzero"`
+	Vendor              *VendorEnum                `json:"vendor,omitempty,omitzero"`
+	VendorInfo          *GenericIncidentVendorInfo `json:"vendorInfo,omitempty,omitzero"`
+}
+
+func (GenericIncident) IsMergedIncident()                         {}
+func (this GenericIncident) GetAnalystFeedback() *AnalystFeedback { return this.AnalystFeedback }
+func (this GenericIncident) GetCategories() []IncidentCategory {
+	if this.Categories == nil {
+		return nil
+	}
+	interfaceSlice := make([]IncidentCategory, 0, len(this.Categories))
+	for _, concrete := range this.Categories {
+		interfaceSlice = append(interfaceSlice, concrete)
+	}
+	return interfaceSlice
+}
+func (this GenericIncident) GetConnectionType() *ConnectionTypeEnum { return this.ConnectionType }
+func (this GenericIncident) GetCriticality() *int64                 { return this.Criticality }
+func (this GenericIncident) GetDescription() *string                { return this.Description }
+func (this GenericIncident) GetEngineType() *StoryEngineTypeEnum    { return this.EngineType }
+func (this GenericIncident) GetEntities() []*IncidentEntity {
+	if this.Entities == nil {
+		return nil
+	}
+	interfaceSlice := make([]*IncidentEntity, 0, len(this.Entities))
+	for _, concrete := range this.Entities {
+		interfaceSlice = append(interfaceSlice, concrete)
+	}
+	return interfaceSlice
+}
+func (this GenericIncident) GetFirstSignal() string                 { return this.FirstSignal }
+func (this GenericIncident) GetID() string                          { return this.ID }
+func (this GenericIncident) GetIndication() string                  { return this.Indication }
+func (this GenericIncident) GetLastSignal() string                  { return this.LastSignal }
+func (this GenericIncident) GetMuted() bool                         { return this.Muted }
+func (this GenericIncident) GetPredictedThreatType() *string        { return this.PredictedThreatType }
+func (this GenericIncident) GetPredictedVerdict() *StoryVerdictEnum { return this.PredictedVerdict }
+func (this GenericIncident) GetProducer() StoryProducerEnum         { return this.Producer }
+func (this GenericIncident) GetProducerName() string                { return this.ProducerName }
+func (this GenericIncident) GetProducerType() StoryProducerEnum     { return this.ProducerType }
+func (this GenericIncident) GetQueryName() *string                  { return this.QueryName }
+func (this GenericIncident) GetResearch() *bool                     { return this.Research }
+func (this GenericIncident) GetSite() *SiteRef                      { return this.Site }
+func (this GenericIncident) GetSiteName() *string                   { return this.SiteName }
+func (this GenericIncident) GetSource() *string                     { return this.Source }
+func (this GenericIncident) GetSourceIP() *string                   { return this.SourceIP }
+func (this GenericIncident) GetStatus() *StoryStatusEnum            { return this.Status }
+func (this GenericIncident) GetStoryDuration() *int64               { return this.StoryDuration }
+func (this GenericIncident) GetTicket() *string                     { return this.Ticket }
+func (this GenericIncident) GetUser() *UserRef                      { return this.User }
+func (this GenericIncident) GetVendor() *VendorEnum                 { return this.Vendor }
+
+type GenericIncidentEvidence struct {
+	Data  []*GenericIncidentEvidenceData `json:"data"`
+	Kind  *string                        `json:"kind,omitempty,omitzero"`
+	Type  GenericIncidentEvidenceType    `json:"type"`
+	Value *string                        `json:"value,omitempty,omitzero"`
+}
+
+type GenericIncidentEvidenceData struct {
+	FieldName string   `json:"fieldName"`
+	Values    []string `json:"values"`
+}
+
+type GenericIncidentStatusInfo struct {
+	Classification *string           `json:"classification,omitempty,omitzero"`
+	IncidentStatus *string           `json:"incidentStatus,omitempty,omitzero"`
+	Verdict        *StoryVerdictEnum `json:"verdict,omitempty,omitzero"`
+}
+
+type GenericIncidentVendorInfo struct {
+	EngineType  *string `json:"engineType,omitempty,omitzero"`
+	IncidentURL *string `json:"incidentUrl,omitempty,omitzero"`
+	Name        *string `json:"name,omitempty,omitzero"`
+	Product     *string `json:"product,omitempty,omitzero"`
+	Status      *string `json:"status,omitempty,omitzero"`
 }
 
 type GetAdminPayload struct {
@@ -4909,20 +5749,20 @@ type GetAdminPayload struct {
 	FirstName            string       `json:"firstName"`
 	ID                   string       `json:"id"`
 	LastName             string       `json:"lastName"`
-	ManagedRoles         []*AdminRole `json:"managedRoles,omitempty"`
+	ManagedRoles         []*AdminRole `json:"managedRoles,omitempty,omitzero"`
 	MfaEnabled           bool         `json:"mfaEnabled"`
 	PasswordNeverExpires bool         `json:"passwordNeverExpires"`
-	ResellerRoles        []*AdminRole `json:"resellerRoles,omitempty"`
+	ResellerRoles        []*AdminRole `json:"resellerRoles,omitempty,omitzero"`
 }
 
 type GetServicePrincipalAdminPayload struct {
 	AdminType     AdminType    `json:"adminType"`
 	CreationDate  string       `json:"creationDate"`
-	Email         *string      `json:"email,omitempty"`
+	Email         *string      `json:"email,omitempty,omitzero"`
 	ID            string       `json:"id"`
-	ManagedRoles  []*AdminRole `json:"managedRoles,omitempty"`
+	ManagedRoles  []*AdminRole `json:"managedRoles,omitempty,omitzero"`
 	Name          string       `json:"name"`
-	ResellerRoles []*AdminRole `json:"resellerRoles,omitempty"`
+	ResellerRoles []*AdminRole `json:"resellerRoles,omitempty,omitzero"`
 }
 
 // A reference identifying the GlobalIpRange object. ID: Unique GlobalIpRange Identifier, Name: The GlobalIpRange Name
@@ -4944,8 +5784,8 @@ type GlobalIPRangeRefInput struct {
 
 // License usage and allocation across all accounts
 type GlobalLicenseAllocations struct {
-	PublicIps *PublicIpsLicenseAllocations `json:"publicIps,omitempty"`
-	ZtnaUsers *ZtnaUsersLicenseAllocations `json:"ztnaUsers,omitempty"`
+	PublicIps *PublicIpsLicenseAllocations `json:"publicIps,omitempty,omitzero"`
+	ZtnaUsers *ZtnaUsersLicenseAllocations `json:"ztnaUsers,omitempty,omitzero"`
 }
 
 type GlobalRangeRef struct {
@@ -4972,7 +5812,7 @@ type GraphEventsFilter struct {
 type GraphEventsMeasure struct {
 	AggType   string `json:"aggType"`
 	FieldName string `json:"fieldName"`
-	Trend     *bool  `json:"trend,omitempty"`
+	Trend     *bool  `json:"trend,omitempty,omitzero"`
 }
 
 // A group is a collection of typed members (e.g., sites, hosts).
@@ -4984,7 +5824,7 @@ type GraphEventsMeasure struct {
 // A member type is valid if it's supported in the group and allowed in the policy scope.
 type Group struct {
 	Audit               *AuditingMetadata        `json:"audit"`
-	Description         *string                  `json:"description,omitempty"`
+	Description         *string                  `json:"description,omitempty,omitzero"`
 	ID                  string                   `json:"id"`
 	Members             *GroupMembersListPayload `json:"members"`
 	MembersCount        int64                    `json:"membersCount"`
@@ -5118,43 +5958,43 @@ type GroupWhereUsedPayload struct {
 
 // Operations for managing groups
 type GroupsMutations struct {
-	CreateGroup *CreateGroupPayload `json:"createGroup,omitempty"`
-	DeleteGroup *DeleteGroupPayload `json:"deleteGroup,omitempty"`
-	UpdateGroup *UpdateGroupPayload `json:"updateGroup,omitempty"`
+	CreateGroup *CreateGroupPayload `json:"createGroup,omitempty,omitzero"`
+	DeleteGroup *DeleteGroupPayload `json:"deleteGroup,omitempty,omitzero"`
+	UpdateGroup *UpdateGroupPayload `json:"updateGroup,omitempty,omitzero"`
 }
 
 // Queries for reading groups-related information
 type GroupsQueries struct {
-	Group     *Group                 `json:"group,omitempty"`
-	GroupList *GroupListPayload      `json:"groupList,omitempty"`
-	WhereUsed *GroupWhereUsedPayload `json:"whereUsed,omitempty"`
+	Group     *Group                 `json:"group,omitempty,omitzero"`
+	GroupList *GroupListPayload      `json:"groupList,omitempty,omitzero"`
+	WhereUsed *GroupWhereUsedPayload `json:"whereUsed,omitempty,omitzero"`
 }
 
 // Basic Site Ha readiness information
 type HaStatus struct {
-	Keepalive       *HaSubStatus `json:"keepalive,omitempty"`
-	Readiness       *HaReadiness `json:"readiness,omitempty"`
-	SocketVersion   *HaSubStatus `json:"socketVersion,omitempty"`
-	WanConnectivity *HaSubStatus `json:"wanConnectivity,omitempty"`
+	Keepalive       *HaSubStatus `json:"keepalive,omitempty,omitzero"`
+	Readiness       *HaReadiness `json:"readiness,omitempty,omitzero"`
+	SocketVersion   *HaSubStatus `json:"socketVersion,omitempty,omitzero"`
+	WanConnectivity *HaSubStatus `json:"wanConnectivity,omitempty,omitzero"`
 }
 
 type Hardware struct {
-	Account          *AccountRef         `json:"account,omitempty"`
+	Account          *AccountRef         `json:"account,omitempty,omitzero"`
 	ID               string              `json:"id"`
-	LastModified     *string             `json:"lastModified,omitempty"`
-	LicenseID        *string             `json:"licenseId,omitempty"`
-	LicenseStartDate *time.Time          `json:"licenseStartDate,omitempty"`
-	LocationID       *string             `json:"locationId,omitempty"`
-	MacAddress       *string             `json:"macAddress,omitempty"`
-	Model            *string             `json:"model,omitempty"`
-	PoNumber         *string             `json:"poNumber,omitempty"`
-	ProductType      *string             `json:"productType,omitempty"`
-	QuoteID          *string             `json:"quoteId,omitempty"`
-	SerialNumber     *string             `json:"serialNumber,omitempty"`
-	ShippingDetail   *ShippingDetails    `json:"shippingDetail,omitempty"`
-	ShippingTracking *ShippingTracking   `json:"shippingTracking,omitempty"`
-	SiteCountryName  *string             `json:"siteCountryName,omitempty"`
-	Validation       *HardwareValidation `json:"validation,omitempty"`
+	LastModified     *string             `json:"lastModified,omitempty,omitzero"`
+	LicenseID        *string             `json:"licenseId,omitempty,omitzero"`
+	LicenseStartDate *time.Time          `json:"licenseStartDate,omitempty,omitzero"`
+	LocationID       *string             `json:"locationId,omitempty,omitzero"`
+	MacAddress       *string             `json:"macAddress,omitempty,omitzero"`
+	Model            *string             `json:"model,omitempty,omitzero"`
+	PoNumber         *string             `json:"poNumber,omitempty,omitzero"`
+	ProductType      *string             `json:"productType,omitempty,omitzero"`
+	QuoteID          *string             `json:"quoteId,omitempty,omitzero"`
+	SerialNumber     *string             `json:"serialNumber,omitempty,omitzero"`
+	ShippingDetail   *ShippingDetails    `json:"shippingDetail,omitempty,omitzero"`
+	ShippingTracking *ShippingTracking   `json:"shippingTracking,omitempty,omitzero"`
+	SiteCountryName  *string             `json:"siteCountryName,omitempty,omitzero"`
+	Validation       *HardwareValidation `json:"validation,omitempty,omitzero"`
 }
 
 type HardwareFilterInput struct {
@@ -5171,20 +6011,22 @@ type HardwareFilterInput struct {
 }
 
 type HardwareManagementQueries struct {
-	SocketInventory *SocketInventoryPayload `json:"socketInventory"`
+	SocketInventory             *SocketInventoryPayload             `json:"socketInventory"`
+	SocketInventoryDistribution *SocketInventoryDistributionPayload `json:"socketInventoryDistribution"`
 }
 
 type HardwareMutations struct {
-	UpdateHardwareShipping *HardwarePayload `json:"updateHardwareShipping,omitempty"`
+	UpdateHwShipping *HardwarePayload `json:"updateHwShipping,omitempty,omitzero"`
 }
 
 type HardwarePayload struct {
 	Items    []*Hardware `json:"items"`
-	PageInfo *PageInfo   `json:"pageInfo,omitempty"`
+	PageInfo *PageInfo   `json:"pageInfo,omitempty,omitzero"`
 }
 
 type HardwareQueries struct {
-	Hardware *HardwarePayload `json:"hardware,omitempty"`
+	CountHardwareByStatus *StatusCount     `json:"countHardwareByStatus,omitempty,omitzero"`
+	Hardware              *HardwarePayload `json:"hardware,omitempty,omitzero"`
 }
 
 type HardwareSearchInput struct {
@@ -5193,13 +6035,7 @@ type HardwareSearchInput struct {
 	Sort   *HardwareSortInput   `json:"sort,omitempty"`
 }
 
-type HardwareShippingDetailsInput struct {
-	Details    *ShippingDetailsInput `json:"details"`
-	PowerCable *string               `json:"powerCable,omitempty"`
-}
-
 type HardwareSortInput struct {
-	AccountName      *SortOrderInput `json:"accountName,omitempty"`
 	Country          *SortOrderInput `json:"country,omitempty"`
 	Incoterms        *SortOrderInput `json:"incoterms,omitempty"`
 	LicenseID        *SortOrderInput `json:"licenseId,omitempty"`
@@ -5213,9 +6049,9 @@ type HardwareSortInput struct {
 }
 
 type HardwareValidation struct {
-	AddressValidationStatus *AddressValidationStatus `json:"addressValidationStatus,omitempty"`
+	AddressValidationStatus *AddressValidationStatus `json:"addressValidationStatus,omitempty,omitzero"`
 	Completed               bool                     `json:"completed"`
-	IncompleteReason        *string                  `json:"incompleteReason,omitempty"`
+	IncompleteReason        *string                  `json:"incompleteReason,omitempty,omitzero"`
 }
 
 // A reference identifying the Host object. ID: Unique Host Identifier, Name: The Host Name
@@ -5233,6 +6069,21 @@ type HostRefInput struct {
 	Input string      `json:"input"`
 }
 
+type HTTPHeaderNameValue struct {
+	Name  string `json:"name"`
+	Value string `json:"value"`
+}
+
+type HTTPHeaderNameValueInput struct {
+	Name  string `json:"name"`
+	Value string `json:"value"`
+}
+
+type HwShippingDetailsInput struct {
+	Details    *ShippingDetailsInputByLocationID `json:"details"`
+	PowerCable *string                           `json:"powerCable,omitempty"`
+}
+
 type IPAddressFilterInput struct {
 	Between []string `json:"between,omitempty"`
 	Eq      *string  `json:"eq,omitempty"`
@@ -5245,22 +6096,22 @@ type IPAddressFilterInput struct {
 
 // A general structure to contain IP detailed information
 type IPInfo struct {
-	City        *string  `json:"city,omitempty"`
-	CountryCode *string  `json:"countryCode,omitempty"`
-	CountryName *string  `json:"countryName,omitempty"`
-	IP          *string  `json:"ip,omitempty"`
-	Latitude    *float64 `json:"latitude,omitempty"`
-	Longitude   *float64 `json:"longitude,omitempty"`
-	Provider    *string  `json:"provider,omitempty"`
-	State       *string  `json:"state,omitempty"`
+	City        *string  `json:"city,omitempty,omitzero"`
+	CountryCode *string  `json:"countryCode,omitempty,omitzero"`
+	CountryName *string  `json:"countryName,omitempty,omitzero"`
+	IP          *string  `json:"ip,omitempty,omitzero"`
+	Latitude    *float64 `json:"latitude,omitempty,omitzero"`
+	Longitude   *float64 `json:"longitude,omitempty,omitzero"`
+	Provider    *string  `json:"provider,omitempty,omitzero"`
+	State       *string  `json:"state,omitempty,omitzero"`
 }
 
 // Basic IPSec configuration information
 type IPSecInfo struct {
-	CatoIP       *string         `json:"catoIP,omitempty"`
-	IkeVersion   *int64          `json:"ikeVersion,omitempty"`
-	IsPrimary    *bool           `json:"isPrimary,omitempty"`
-	RemoteIP     *string         `json:"remoteIP,omitempty"`
+	CatoIP       *string         `json:"catoIP,omitempty,omitzero"`
+	IkeVersion   *int64          `json:"ikeVersion,omitempty,omitzero"`
+	IsPrimary    *bool           `json:"isPrimary,omitempty,omitzero"`
+	RemoteIP     *string         `json:"remoteIP,omitempty,omitzero"`
 	TunnelConfig []*TunnelConfig `json:"tunnelConfig"`
 }
 
@@ -5272,36 +6123,36 @@ type IDFilterInput struct {
 }
 
 type IlmmContact struct {
-	Email *string `json:"email,omitempty"`
-	Name  *string `json:"name,omitempty"`
-	Phone *string `json:"phone,omitempty"`
+	Email *string `json:"email,omitempty,omitzero"`
+	Name  *string `json:"name,omitempty,omitzero"`
+	Phone *string `json:"phone,omitempty,omitzero"`
 }
 
 type IlmmDetails struct {
-	Contacts    []*IlmmContact   `json:"contacts,omitempty"`
-	IspDetails  *IlmmIspDetails  `json:"ispDetails,omitempty"`
-	LinkDetails *IlmmLinkDetails `json:"linkDetails,omitempty"`
+	Contacts    []*IlmmContact   `json:"contacts,omitempty,omitzero"`
+	IspDetails  *IlmmIspDetails  `json:"ispDetails,omitempty,omitzero"`
+	LinkDetails *IlmmLinkDetails `json:"linkDetails,omitempty,omitzero"`
 }
 
 type IlmmIspDetails struct {
-	CountryCode  *string     `json:"countryCode,omitempty"`
-	Description  *string     `json:"description,omitempty"`
-	IspAccountID *string     `json:"ispAccountId,omitempty"`
-	LoaFile      *IspLoaFile `json:"loaFile,omitempty"`
-	Name         *string     `json:"name,omitempty"`
-	SupportEmail *string     `json:"supportEmail,omitempty"`
-	SupportPhone *string     `json:"supportPhone,omitempty"`
+	CountryCode  *string     `json:"countryCode,omitempty,omitzero"`
+	Description  *string     `json:"description,omitempty,omitzero"`
+	IspAccountID *string     `json:"ispAccountId,omitempty,omitzero"`
+	LoaFile      *IspLoaFile `json:"loaFile,omitempty,omitzero"`
+	Name         *string     `json:"name,omitempty,omitzero"`
+	SupportEmail *string     `json:"supportEmail,omitempty,omitzero"`
+	SupportPhone *string     `json:"supportPhone,omitempty,omitzero"`
 }
 
 // Intelligent Last Mile Monitoring (ILMM) License details
 type IlmmLicense struct {
-	Description    *string       `json:"description,omitempty"`
+	Description    *string       `json:"description,omitempty,omitzero"`
 	ExpirationDate string        `json:"expirationDate"`
-	ID             *string       `json:"id,omitempty"`
-	LastUpdated    *string       `json:"lastUpdated,omitempty"`
+	ID             *string       `json:"id,omitempty,omitzero"`
+	LastUpdated    *string       `json:"lastUpdated,omitempty,omitzero"`
 	Plan           LicensePlan   `json:"plan"`
 	Sku            LicenseSku    `json:"sku"`
-	StartDate      *string       `json:"startDate,omitempty"`
+	StartDate      *string       `json:"startDate,omitempty,omitzero"`
 	Status         LicenseStatus `json:"status"`
 	Total          int64         `json:"total"`
 }
@@ -5321,65 +6172,131 @@ func (IlmmLicense) IsQuantifiableLicense() {}
 func (this IlmmLicense) GetTotal() int64 { return this.Total }
 
 type IlmmLinkDetails struct {
-	ActiveLicense    *bool                 `json:"activeLicense,omitempty"`
-	Comments         *string               `json:"comments,omitempty"`
-	Description      *string               `json:"description,omitempty"`
-	IspLinkID        *string               `json:"ispLinkId,omitempty"`
-	LinkID           *string               `json:"linkId,omitempty"`
-	OnboardingStatus *IlmmOnboardingStatus `json:"onboardingStatus,omitempty"`
+	ActiveLicense    *bool                 `json:"activeLicense,omitempty,omitzero"`
+	Comments         *string               `json:"comments,omitempty,omitzero"`
+	Description      *string               `json:"description,omitempty,omitzero"`
+	IspLinkID        *string               `json:"ispLinkId,omitempty,omitzero"`
+	LinkID           *string               `json:"linkId,omitempty,omitzero"`
+	OnboardingStatus *IlmmOnboardingStatus `json:"onboardingStatus,omitempty,omitzero"`
+}
+
+type ImportTypeFilterInput struct {
+	Eq  *ImportType  `json:"eq,omitempty"`
+	In  []ImportType `json:"in,omitempty"`
+	Neq *ImportType  `json:"neq,omitempty"`
+	Nin []ImportType `json:"nin,omitempty"`
+}
+
+type IncidentEntity struct {
+	Data []*IncidentEntityData `json:"data"`
+	Kind *string               `json:"kind,omitempty,omitzero"`
+	Ref  ObjectRef             `json:"ref"`
+	Role *string               `json:"role,omitempty,omitzero"`
+	Type *string               `json:"type,omitempty,omitzero"`
+}
+
+type IncidentEntityData struct {
+	FieldName string   `json:"fieldName"`
+	Values    []string `json:"values"`
 }
 
 type IncidentFlow struct {
-	AppName                *string `json:"appName,omitempty"`
-	ClientClass            *string `json:"clientClass,omitempty"`
-	CreatedAt              *string `json:"createdAt,omitempty"`
-	DestinationCountry     *string `json:"destinationCountry,omitempty"`
-	DestinationGeolocation *string `json:"destinationGeolocation,omitempty"`
-	DestinationIP          *string `json:"destinationIp,omitempty"`
-	DestinationPort        *int64  `json:"destinationPort,omitempty"`
-	Direction              *string `json:"direction,omitempty"`
-	DNSResponseIP          *string `json:"dnsResponseIP,omitempty"`
-	Domain                 *string `json:"domain,omitempty"`
-	FileHash               *string `json:"fileHash,omitempty"`
-	HTTPResponseCode       *int64  `json:"httpResponseCode,omitempty"`
-	Ja3                    *string `json:"ja3,omitempty"`
-	Method                 *string `json:"method,omitempty"`
-	Referer                *string `json:"referer,omitempty"`
-	SmbFileName            *string `json:"smbFileName,omitempty"`
-	SourceGeolocation      *string `json:"sourceGeolocation,omitempty"`
-	SourceIP               *string `json:"sourceIp,omitempty"`
-	SourcePort             *int64  `json:"sourcePort,omitempty"`
-	Target                 *string `json:"target,omitempty"`
-	TunnelGeolocation      *string `json:"tunnelGeolocation,omitempty"`
-	URL                    *string `json:"url,omitempty"`
-	User                   *string `json:"user,omitempty"`
-	UserAgent              *string `json:"userAgent,omitempty"`
+	AppName                *string `json:"appName,omitempty,omitzero"`
+	ClientClass            *string `json:"clientClass,omitempty,omitzero"`
+	CreatedAt              *string `json:"createdAt,omitempty,omitzero"`
+	DestinationCountry     *string `json:"destinationCountry,omitempty,omitzero"`
+	DestinationGeolocation *string `json:"destinationGeolocation,omitempty,omitzero"`
+	DestinationIP          *string `json:"destinationIp,omitempty,omitzero"`
+	DestinationPort        *int64  `json:"destinationPort,omitempty,omitzero"`
+	Direction              *string `json:"direction,omitempty,omitzero"`
+	DNSResponseIP          *string `json:"dnsResponseIP,omitempty,omitzero"`
+	Domain                 *string `json:"domain,omitempty,omitzero"`
+	FileHash               *string `json:"fileHash,omitempty,omitzero"`
+	HTTPResponseCode       *int64  `json:"httpResponseCode,omitempty,omitzero"`
+	Ja3                    *string `json:"ja3,omitempty,omitzero"`
+	Method                 *string `json:"method,omitempty,omitzero"`
+	Referer                *string `json:"referer,omitempty,omitzero"`
+	SmbFileName            *string `json:"smbFileName,omitempty,omitzero"`
+	SourceGeolocation      *string `json:"sourceGeolocation,omitempty,omitzero"`
+	SourceIP               *string `json:"sourceIp,omitempty,omitzero"`
+	SourcePort             *int64  `json:"sourcePort,omitempty,omitzero"`
+	Target                 *string `json:"target,omitempty,omitzero"`
+	TunnelGeolocation      *string `json:"tunnelGeolocation,omitempty,omitzero"`
+	URL                    *string `json:"url,omitempty,omitzero"`
+	User                   *string `json:"user,omitempty,omitzero"`
+	UserAgent              *string `json:"userAgent,omitempty,omitzero"`
 }
 
 type IncidentTargetRep struct {
-	AnalysisScore         *float64    `json:"analysisScore,omitempty"`
-	Categories            *string     `json:"categories,omitempty"`
-	CatoPopularity        *int64      `json:"catoPopularity,omitempty"`
-	CountryOfRegistration *string     `json:"countryOfRegistration,omitempty"`
-	CreationTime          *string     `json:"creationTime,omitempty"`
-	Engines               *int64      `json:"engines,omitempty"`
+	AnalysisScore         *float64    `json:"analysisScore,omitempty,omitzero"`
+	Categories            *string     `json:"categories,omitempty,omitzero"`
+	CatoPopularity        *int64      `json:"catoPopularity,omitempty,omitzero"`
+	CountryOfRegistration *string     `json:"countryOfRegistration,omitempty,omitzero"`
+	CreationTime          *string     `json:"creationTime,omitempty,omitzero"`
+	Engines               *int64      `json:"engines,omitempty,omitzero"`
 	EventData             []*Event    `json:"eventData"`
-	InfectionSource       *bool       `json:"infectionSource,omitempty"`
-	Name                  *string     `json:"name,omitempty"`
-	SearchHits            *string     `json:"searchHits,omitempty"`
-	ThreatFeeds           *int64      `json:"threatFeeds,omitempty"`
-	ThreatReference       *string     `json:"threatReference,omitempty"`
-	Type                  *TargetType `json:"type,omitempty"`
+	InfectionSource       *bool       `json:"infectionSource,omitempty,omitzero"`
+	Name                  *string     `json:"name,omitempty,omitzero"`
+	SearchHits            *string     `json:"searchHits,omitempty,omitzero"`
+	ThreatFeeds           *int64      `json:"threatFeeds,omitempty,omitzero"`
+	ThreatReference       *string     `json:"threatReference,omitempty,omitzero"`
+	Type                  *TargetType `json:"type,omitempty,omitzero"`
 }
 
 type IncidentTimeseries struct {
-	Data    [][]float64    `json:"data,omitempty"`
-	GroupBy *string        `json:"groupBy,omitempty"`
-	Info    []string       `json:"info,omitempty"`
-	Key     *TimeseriesKey `json:"key,omitempty"`
+	Data    [][]float64    `json:"data,omitempty,omitzero"`
+	GroupBy *string        `json:"groupBy,omitempty,omitzero"`
+	Info    []string       `json:"info,omitempty,omitzero"`
+	Key     *TimeseriesKey `json:"key,omitempty,omitzero"`
 	Label   string         `json:"label"`
-	Sum     *float64       `json:"sum,omitempty"`
-	Units   *UnitType      `json:"units,omitempty"`
+	Sum     *float64       `json:"sum,omitempty,omitzero"`
+	Units   *UnitType      `json:"units,omitempty,omitzero"`
+}
+
+// Filter criteria for listing managed account access requests.
+type IncomingAccessRequestFilterInput struct {
+	ExpirationDate *DateTimeFilterInput            `json:"expirationDate,omitempty"`
+	RequestedDate  *DateTimeFilterInput            `json:"requestedDate,omitempty"`
+	Search         *StringFilterInput              `json:"search,omitempty"`
+	Status         *AccessRequestStatusFilterInput `json:"status,omitempty"`
+}
+
+// Input for listing managed account access requests.
+type IncomingAccessRequestListInput struct {
+	Filter *IncomingAccessRequestFilterInput `json:"filter,omitempty"`
+	Paging *PagingInput                      `json:"paging"`
+	Sort   *AccessRequestSortInput           `json:"sort"`
+}
+
+// Output for listing managed account access requests.
+type IncomingAccessRequestListPayload struct {
+	Items  []*IncomingExternalAccessRequest `json:"items"`
+	Paging *PageInfo                        `json:"paging"`
+}
+
+// Permission requested for an account access request.
+type IncomingAccessRequestPermission struct {
+	Action   string `json:"action"`
+	Resource string `json:"resource"`
+}
+
+// Permissions requested for an account access request.
+type IncomingAccessRequestPermissions struct {
+	Permissions []*IncomingAccessRequestPermission `json:"permissions"`
+}
+
+// Managed account access request details.
+type IncomingExternalAccessRequest struct {
+	ActiveDate                         string                            `json:"activeDate"`
+	ExpirationDate                     string                            `json:"expirationDate"`
+	ID                                 string                            `json:"id"`
+	IsAppliedOnAllFullyManagedAccounts bool                              `json:"isAppliedOnAllFullyManagedAccounts"`
+	Note                               *string                           `json:"note,omitempty,omitzero"`
+	Partner                            *AccountRef                       `json:"partner"`
+	Permissions                        *IncomingAccessRequestPermissions `json:"permissions"`
+	Reason                             *string                           `json:"reason,omitempty,omitzero"`
+	RequestedDate                      string                            `json:"requestedDate"`
+	Status                             AccessRequestStatus               `json:"status"`
 }
 
 type IntFilterInput struct {
@@ -5404,98 +6321,131 @@ type IntPredicate struct {
 	NotIn []int64 `json:"not_in,omitempty"`
 }
 
+// Container for listing webhook integrations associated with a Subscription Group.
+type IntegrationList struct {
+	WebhookList []*Webhook `json:"webhookList"`
+}
+
+type IntegrationMutations struct {
+	CreateWebhook *CreateWebhookPayload `json:"createWebhook,omitempty,omitzero"`
+	DeleteWebhook *DeleteWebhookPayload `json:"deleteWebhook,omitempty,omitzero"`
+	TestWebhook   *TestWebhookPayload   `json:"testWebhook"`
+	UpdateWebhook *UpdateWebhookPayload `json:"updateWebhook,omitempty,omitzero"`
+}
+
+type IntegrationQueries struct {
+	ReferenceBodyTemplate     *WebhookReferenceBodyTemplate            `json:"referenceBodyTemplate,omitempty,omitzero"`
+	ReferenceBodyTemplateList *WebhookReferenceBodyTemplateListPayload `json:"referenceBodyTemplateList"`
+	Webhook                   *Webhook                                 `json:"webhook,omitempty,omitzero"`
+	WebhookFields             *WebhookFieldsPayload                    `json:"webhookFields,omitempty,omitzero"`
+	WebhookList               *WebhookListPayload                      `json:"webhookList"`
+}
+
+type IntegrationRefInput struct {
+	By    ObjectRefBy `json:"by"`
+	Input string      `json:"input"`
+}
+
 // Basic Socket Interface configuration information
 type InterfaceInfo struct {
-	DestType                         *string                 `json:"destType,omitempty"`
-	DownstreamBandwidth              *int64                  `json:"downstreamBandwidth,omitempty"`
-	DownstreamBandwidthMbpsPrecision *float64                `json:"downstreamBandwidthMbpsPrecision,omitempty"`
+	DestType                         *string                 `json:"destType,omitempty,omitzero"`
+	DownstreamBandwidth              *int64                  `json:"downstreamBandwidth,omitempty,omitzero"`
+	DownstreamBandwidthMbpsPrecision *float64                `json:"downstreamBandwidthMbpsPrecision,omitempty,omitzero"`
 	ID                               string                  `json:"id"`
-	Name                             *string                 `json:"name,omitempty"`
-	UpstreamBandwidth                *int64                  `json:"upstreamBandwidth,omitempty"`
-	UpstreamBandwidthMbpsPrecision   *float64                `json:"upstreamBandwidthMbpsPrecision,omitempty"`
-	WanRole                          *SocketInterfaceWanRole `json:"wanRole,omitempty"`
+	Name                             *string                 `json:"name,omitempty,omitzero"`
+	UpstreamBandwidth                *int64                  `json:"upstreamBandwidth,omitempty,omitzero"`
+	UpstreamBandwidthMbpsPrecision   *float64                `json:"upstreamBandwidthMbpsPrecision,omitempty,omitzero"`
+	WanRole                          *SocketInterfaceWanRole `json:"wanRole,omitempty,omitzero"`
 }
 
 type InterfaceLinkState struct {
-	Duplex      *string `json:"duplex,omitempty"`
-	HasAddress  *bool   `json:"hasAddress,omitempty"`
-	HasInternet *bool   `json:"hasInternet,omitempty"`
-	HasTunnel   *bool   `json:"hasTunnel,omitempty"`
-	ID          *string `json:"id,omitempty"`
-	LinkSpeed   *string `json:"linkSpeed,omitempty"`
-	MediaIn     *bool   `json:"mediaIn,omitempty"`
-	Up          *bool   `json:"up,omitempty"`
+	Duplex      *string `json:"duplex,omitempty,omitzero"`
+	HasAddress  *bool   `json:"hasAddress,omitempty,omitzero"`
+	HasInternet *bool   `json:"hasInternet,omitempty,omitzero"`
+	HasTunnel   *bool   `json:"hasTunnel,omitempty,omitzero"`
+	ID          *string `json:"id,omitempty,omitzero"`
+	LinkSpeed   *string `json:"linkSpeed,omitempty,omitzero"`
+	MediaIn     *bool   `json:"mediaIn,omitempty,omitzero"`
+	Up          *bool   `json:"up,omitempty,omitzero"`
 }
 
 type InterfaceMetrics struct {
-	Annotations   []*TimeAnnotation `json:"annotations,omitempty"`
-	InterfaceInfo *InterfaceInfo    `json:"interfaceInfo,omitempty"`
-	IpsecInfo     *IPSecInfo        `json:"ipsecInfo,omitempty"`
-	Metrics       *Metrics          `json:"metrics,omitempty"`
-	Name          *string           `json:"name,omitempty"`
-	Periods       []*TimePeriod     `json:"periods,omitempty"`
-	RemoteIP      *string           `json:"remoteIP,omitempty"`
-	RemoteIPInfo  *IPInfo           `json:"remoteIPInfo,omitempty"`
-	SocketInfo    *SocketInfo       `json:"socketInfo,omitempty"`
-	Timeseries    []*Timeseries     `json:"timeseries,omitempty"`
+	Annotations   []*TimeAnnotation `json:"annotations,omitempty,omitzero"`
+	InterfaceInfo *InterfaceInfo    `json:"interfaceInfo,omitempty,omitzero"`
+	IpsecInfo     *IPSecInfo        `json:"ipsecInfo,omitempty,omitzero"`
+	Metrics       *Metrics          `json:"metrics,omitempty,omitzero"`
+	Name          *string           `json:"name,omitempty,omitzero"`
+	Periods       []*TimePeriod     `json:"periods,omitempty,omitzero"`
+	RemoteIP      *string           `json:"remoteIP,omitempty,omitzero"`
+	RemoteIPInfo  *IPInfo           `json:"remoteIPInfo,omitempty,omitzero"`
+	SocketInfo    *SocketInfo       `json:"socketInfo,omitempty,omitzero"`
+	Timeseries    []*Timeseries     `json:"timeseries,omitempty,omitzero"`
 }
 
 type InterfaceSnapshot struct {
-	BgpState               *BgpState          `json:"bgpState,omitempty"`
-	CellularInterfaceInfo  *CellularInterface `json:"cellularInterfaceInfo,omitempty"`
-	Connected              *bool              `json:"connected,omitempty"`
-	ID                     *string            `json:"id,omitempty"`
-	Info                   *InterfaceInfo     `json:"info,omitempty"`
-	Name                   *string            `json:"name,omitempty"`
-	NaturalOrder           *int64             `json:"naturalOrder,omitempty"`
-	PhysicalPort           *int64             `json:"physicalPort,omitempty"`
-	PopName                *string            `json:"popName,omitempty"`
-	PreviousPopID          *int64             `json:"previousPopID,omitempty"`
-	PreviousPopName        *string            `json:"previousPopName,omitempty"`
-	TunnelConnectionReason *string            `json:"tunnelConnectionReason,omitempty"`
-	TunnelRemoteIP         *string            `json:"tunnelRemoteIP,omitempty"`
-	TunnelRemoteIPInfo     *IPInfo            `json:"tunnelRemoteIPInfo,omitempty"`
-	TunnelUptime           *int64             `json:"tunnelUptime,omitempty"`
-	Type                   *string            `json:"type,omitempty"`
+	BgpState               *BgpState          `json:"bgpState,omitempty,omitzero"`
+	CellularInterfaceInfo  *CellularInterface `json:"cellularInterfaceInfo,omitempty,omitzero"`
+	Connected              *bool              `json:"connected,omitempty,omitzero"`
+	ID                     *string            `json:"id,omitempty,omitzero"`
+	Info                   *InterfaceInfo     `json:"info,omitempty,omitzero"`
+	Name                   *string            `json:"name,omitempty,omitzero"`
+	NaturalOrder           *int64             `json:"naturalOrder,omitempty,omitzero"`
+	PhysicalPort           *int64             `json:"physicalPort,omitempty,omitzero"`
+	PopName                *string            `json:"popName,omitempty,omitzero"`
+	PreviousPopID          *int64             `json:"previousPopID,omitempty,omitzero"`
+	PreviousPopName        *string            `json:"previousPopName,omitempty,omitzero"`
+	TunnelConnectionReason *string            `json:"tunnelConnectionReason,omitempty,omitzero"`
+	TunnelRemoteIP         *string            `json:"tunnelRemoteIP,omitempty,omitzero"`
+	TunnelRemoteIPInfo     *IPInfo            `json:"tunnelRemoteIPInfo,omitempty,omitzero"`
+	TunnelUptime           *int64             `json:"tunnelUptime,omitempty,omitzero"`
+	Type                   *string            `json:"type,omitempty,omitzero"`
 }
 
+type InterfaceSubnetRef struct {
+	ID   string `json:"id"`
+	Name string `json:"name"`
+}
+
+func (InterfaceSubnetRef) IsObjectRef()         {}
+func (this InterfaceSubnetRef) GetID() string   { return this.ID }
+func (this InterfaceSubnetRef) GetName() string { return this.Name }
+
+// Configuration for Internet Firewall action
 type InternetFirewallActionConfig struct {
 	RbiProfile       []*RbiProfileRef               `json:"rbiProfile"`
 	UserNotification []*UserNotificationTemplateRef `json:"userNotification"`
 }
 
+// Configuration for Internet Firewall action
 type InternetFirewallActionConfigInput struct {
 	RbiProfile       []*RbiProfileRefInput               `json:"rbiProfile"`
 	UserNotification []*UserNotificationTemplateRefInput `json:"userNotification"`
 }
 
+// Configuration for Internet Firewall action
 type InternetFirewallActionConfigUpdateInput struct {
 	RbiProfile       []*RbiProfileRefInput               `json:"rbiProfile,omitempty"`
 	UserNotification []*UserNotificationTemplateRefInput `json:"userNotification,omitempty"`
 }
 
 type InternetFirewallAddRuleDataInput struct {
-	Action                 InternetFirewallActionEnum            `json:"action"`
-	ActionConfig           *InternetFirewallActionConfigInput    `json:"actionConfig,omitempty"`
-	ActivePeriod           *PolicyRuleActivePeriodInput          `json:"activePeriod"`
-	ConnectionOrigin       ConnectionOriginEnum                  `json:"connectionOrigin"`
-	ConnectionsOriginList  []ConnectionOriginsEnum               `json:"connectionsOriginList"`
-	ConnectionsOriginsList []ConnectionOriginsEnum               `json:"connectionsOriginsList"`
-	Country                []*CountryRefInput                    `json:"country"`
-	Description            string                                `json:"description"`
-	Destination            *InternetFirewallDestinationInput     `json:"destination"`
-	Device                 []*DeviceProfileRefInput              `json:"device"`
-	DeviceAttributes       *DeviceAttributesInput                `json:"deviceAttributes"`
-	DeviceOs               []OperatingSystem                     `json:"deviceOS"`
-	Enabled                bool                                  `json:"enabled"`
-	Exceptions             []*InternetFirewallRuleExceptionInput `json:"exceptions"`
-	Name                   string                                `json:"name"`
-	PostureAttributes      *PostureAttributesInput               `json:"postureAttributes,omitempty"`
-	Schedule               *PolicyScheduleInput                  `json:"schedule"`
-	Service                *InternetFirewallServiceTypeInput     `json:"service,omitempty"`
-	Source                 *InternetFirewallSourceInput          `json:"source"`
-	Tracking               *PolicyTrackingInput                  `json:"tracking"`
-	UserAttributes         *InternetFirewallUserAttributesInput  `json:"userAttributes,omitempty"`
+	Action           InternetFirewallActionEnum            `json:"action"`
+	ActionConfig     *InternetFirewallActionConfigInput    `json:"actionConfig"`
+	ActivePeriod     *PolicyRuleActivePeriodInput          `json:"activePeriod"`
+	ConnectionOrigin ConnectionOriginEnum                  `json:"connectionOrigin"`
+	Country          []*CountryRefInput                    `json:"country"`
+	Description      string                                `json:"description"`
+	Destination      *InternetFirewallDestinationInput     `json:"destination"`
+	Device           []*DeviceProfileRefInput              `json:"device"`
+	DeviceAttributes *DeviceAttributesInput                `json:"deviceAttributes"`
+	DeviceOs         []OperatingSystem                     `json:"deviceOS"`
+	Enabled          bool                                  `json:"enabled"`
+	Exceptions       []*InternetFirewallRuleExceptionInput `json:"exceptions"`
+	Name             string                                `json:"name"`
+	Schedule         *PolicyScheduleInput                  `json:"schedule"`
+	Service          *InternetFirewallServiceTypeInput     `json:"service"`
+	Source           *InternetFirewallSourceInput          `json:"source"`
+	Tracking         *PolicyTrackingInput                  `json:"tracking"`
 }
 
 // Rule parameters and relevant position
@@ -5517,7 +6467,7 @@ type InternetFirewallAddSubPolicyInput struct {
 
 type InternetFirewallAddSubPolicyMutationPayload struct {
 	Errors []*PolicyMutationError  `json:"errors"`
-	Policy *InternetFirewallPolicy `json:"policy,omitempty"`
+	Policy *InternetFirewallPolicy `json:"policy,omitempty,omitzero"`
 	Status PolicyMutationStatus    `json:"status"`
 }
 
@@ -5556,14 +6506,13 @@ type InternetFirewallContainerUpdateInput struct {
 type InternetFirewallDestination struct {
 	AppCategory            []*ApplicationCategoryRef    `json:"appCategory"`
 	Application            []*ApplicationRef            `json:"application"`
-	Containers             *InternetFirewallContainer   `json:"containers,omitempty"`
+	Containers             *InternetFirewallContainer   `json:"containers"`
 	Country                []*CountryRef                `json:"country"`
 	CustomApp              []*CustomApplicationRef      `json:"customApp"`
 	CustomCategory         []*CustomCategoryRef         `json:"customCategory"`
 	Domain                 []string                     `json:"domain"`
 	Fqdn                   []string                     `json:"fqdn"`
 	GlobalIPRange          []*GlobalIPRangeRef          `json:"globalIpRange"`
-	Group                  []*GroupRef                  `json:"group"`
 	IP                     []string                     `json:"ip"`
 	IPRange                []*IPAddressRange            `json:"ipRange"`
 	RemoteAsn              []scalars.Asn32              `json:"remoteAsn"`
@@ -5575,14 +6524,13 @@ type InternetFirewallDestination struct {
 type InternetFirewallDestinationInput struct {
 	AppCategory            []*ApplicationCategoryRefInput    `json:"appCategory"`
 	Application            []*ApplicationRefInput            `json:"application"`
-	Containers             *InternetFirewallContainerInput   `json:"containers,omitempty"`
+	Containers             *InternetFirewallContainerInput   `json:"containers"`
 	Country                []*CountryRefInput                `json:"country"`
 	CustomApp              []*CustomApplicationRefInput      `json:"customApp"`
 	CustomCategory         []*CustomCategoryRefInput         `json:"customCategory"`
 	Domain                 []string                          `json:"domain"`
 	Fqdn                   []string                          `json:"fqdn"`
 	GlobalIPRange          []*GlobalIPRangeRefInput          `json:"globalIpRange"`
-	Group                  []*GroupRefInput                  `json:"group"`
 	IP                     []string                          `json:"ip"`
 	IPRange                []*IPAddressRangeInput            `json:"ipRange"`
 	RemoteAsn              []scalars.Asn32                   `json:"remoteAsn"`
@@ -5601,7 +6549,6 @@ type InternetFirewallDestinationUpdateInput struct {
 	Domain                 []string                              `json:"domain,omitempty"`
 	Fqdn                   []string                              `json:"fqdn,omitempty"`
 	GlobalIPRange          []*GlobalIPRangeRefInput              `json:"globalIpRange,omitempty"`
-	Group                  []*GroupRefInput                      `json:"group,omitempty"`
 	IP                     []string                              `json:"ip,omitempty"`
 	IPRange                []*IPAddressRangeInput                `json:"ipRange,omitempty"`
 	RemoteAsn              []scalars.Asn32                       `json:"remoteAsn,omitempty"`
@@ -5610,17 +6557,16 @@ type InternetFirewallDestinationUpdateInput struct {
 }
 
 type InternetFirewallPolicy struct {
-	Access        *EntityAccess                       `json:"access"`
-	Audit         *PolicyAudit                        `json:"audit,omitempty"`
-	Description   string                              `json:"description"`
-	Enabled       bool                                `json:"enabled"`
-	HitCountAudit *PolicyHitCount                     `json:"hitCountAudit,omitempty"`
-	ID            string                              `json:"id"`
-	Name          string                              `json:"name"`
-	Revision      *PolicyRevision                     `json:"revision,omitempty"`
-	Rules         []*InternetFirewallRulePayload      `json:"rules"`
-	Sections      []*PolicySectionPayload             `json:"sections"`
-	SubPolicies   []*InternetFirewallSubPolicyPayload `json:"subPolicies"`
+	Access      *EntityAccess                       `json:"access"`
+	Audit       *PolicyAudit                        `json:"audit,omitempty,omitzero"`
+	Description string                              `json:"description"`
+	Enabled     bool                                `json:"enabled"`
+	ID          string                              `json:"id"`
+	Name        string                              `json:"name"`
+	Revision    *PolicyRevision                     `json:"revision,omitempty,omitzero"`
+	Rules       []*InternetFirewallRulePayload      `json:"rules"`
+	Sections    []*PolicySectionPayload             `json:"sections"`
+	SubPolicies []*InternetFirewallSubPolicyPayload `json:"subPolicies"`
 }
 
 func (InternetFirewallPolicy) IsIPolicy()                        {}
@@ -5711,7 +6657,7 @@ type InternetFirewallPolicyMutationInput struct {
 // Internet Firewall policy information provided in the API response
 type InternetFirewallPolicyMutationPayload struct {
 	Errors []*PolicyMutationError  `json:"errors"`
-	Policy *InternetFirewallPolicy `json:"policy,omitempty"`
+	Policy *InternetFirewallPolicy `json:"policy,omitempty,omitzero"`
 	Status PolicyMutationStatus    `json:"status"`
 }
 
@@ -5736,7 +6682,6 @@ type InternetFirewallPolicyMutations struct {
 	AddRule               *InternetFirewallRuleMutationPayload            `json:"addRule"`
 	AddSection            *PolicySectionMutationPayload                   `json:"addSection"`
 	AddSubPolicy          *InternetFirewallAddSubPolicyMutationPayload    `json:"addSubPolicy"`
-	CalculateHitCount     *CalculateHitCountResponse                      `json:"calculateHitCount"`
 	CreatePolicyRevision  *InternetFirewallPolicyMutationPayload          `json:"createPolicyRevision"`
 	DiscardPolicyRevision *InternetFirewallPolicyMutationPayload          `json:"discardPolicyRevision"`
 	MoveRule              *InternetFirewallRuleMutationPayload            `json:"moveRule"`
@@ -5744,9 +6689,8 @@ type InternetFirewallPolicyMutations struct {
 	PublishPolicyRevision *InternetFirewallPolicyMutationPayload          `json:"publishPolicyRevision"`
 	RemoveRule            *InternetFirewallRuleMutationPayload            `json:"removeRule"`
 	RemoveSection         *PolicySectionMutationPayload                   `json:"removeSection"`
-	RemoveSubPolicy       *InternetFirewallRemoveSubPolicyMutationPayload `json:"removeSubPolicy"`
 	ReorderPolicy         *InternetFirewallPolicyMutationPayload          `json:"reorderPolicy"`
-	ResetRuleHitCount     *ResetRuleHitCountsResponse                     `json:"resetRuleHitCount"`
+	RemoveSubPolicy       *InternetFirewallRemoveSubPolicyMutationPayload `json:"removeSubPolicy"`
 	UpdatePolicy          *InternetFirewallPolicyMutationPayload          `json:"updatePolicy"`
 	UpdateRule            *InternetFirewallRuleMutationPayload            `json:"updateRule"`
 	UpdateSection         *PolicySectionMutationPayload                   `json:"updateSection"`
@@ -5755,7 +6699,7 @@ type InternetFirewallPolicyMutations struct {
 type InternetFirewallPolicyQueries struct {
 	Policy     *InternetFirewallPolicy            `json:"policy"`
 	PolicyList *InternetFirewallPolicyListPayload `json:"policyList"`
-	Revisions  *PolicyRevisionsPayload            `json:"revisions,omitempty"`
+	Revisions  *PolicyRevisionsPayload            `json:"revisions,omitempty,omitzero"`
 }
 
 type InternetFirewallPolicyRef struct {
@@ -5788,7 +6732,7 @@ type InternetFirewallRemoveSubPolicyInput struct {
 
 type InternetFirewallRemoveSubPolicyMutationPayload struct {
 	Errors []*PolicyMutationError  `json:"errors"`
-	Policy *InternetFirewallPolicy `json:"policy,omitempty"`
+	Policy *InternetFirewallPolicy `json:"policy,omitempty,omitzero"`
 	Status PolicyMutationStatus    `json:"status"`
 }
 
@@ -5809,30 +6753,26 @@ func (this InternetFirewallRemoveSubPolicyMutationPayload) GetStatus() PolicyMut
 }
 
 type InternetFirewallRule struct {
-	Action                 InternetFirewallActionEnum       `json:"action"`
-	ActionConfig           *InternetFirewallActionConfig    `json:"actionConfig,omitempty"`
-	ActivePeriod           *PolicyRuleActivePeriod          `json:"activePeriod"`
-	ConnectionOrigin       ConnectionOriginEnum             `json:"connectionOrigin"`
-	ConnectionsOriginList  []ConnectionOriginsEnum          `json:"connectionsOriginList"`
-	ConnectionsOriginsList []ConnectionOriginsEnum          `json:"connectionsOriginsList"`
-	Country                []*CountryRef                    `json:"country"`
-	Description            string                           `json:"description"`
-	Destination            *InternetFirewallDestination     `json:"destination"`
-	Device                 []*DeviceProfileRef              `json:"device"`
-	DeviceAttributes       *DeviceAttributes                `json:"deviceAttributes"`
-	DeviceOs               []OperatingSystem                `json:"deviceOS"`
-	Enabled                bool                             `json:"enabled"`
-	Exceptions             []*InternetFirewallRuleException `json:"exceptions"`
-	ID                     string                           `json:"id"`
-	Index                  int64                            `json:"index"`
-	Name                   string                           `json:"name"`
-	PostureAttributes      *PostureAttributes               `json:"postureAttributes,omitempty"`
-	Schedule               *PolicySchedule                  `json:"schedule"`
-	Section                *PolicySectionInfo               `json:"section"`
-	Service                *InternetFirewallServiceType     `json:"service"`
-	Source                 *InternetFirewallSource          `json:"source"`
-	Tracking               *PolicyTracking                  `json:"tracking"`
-	UserAttributes         *InternetFirewallUserAttributes  `json:"userAttributes,omitempty"`
+	Action           InternetFirewallActionEnum       `json:"action"`
+	ActionConfig     *InternetFirewallActionConfig    `json:"actionConfig"`
+	ActivePeriod     *PolicyRuleActivePeriod          `json:"activePeriod"`
+	ConnectionOrigin ConnectionOriginEnum             `json:"connectionOrigin"`
+	Country          []*CountryRef                    `json:"country"`
+	Description      string                           `json:"description"`
+	Destination      *InternetFirewallDestination     `json:"destination"`
+	Device           []*DeviceProfileRef              `json:"device"`
+	DeviceAttributes *DeviceAttributes                `json:"deviceAttributes"`
+	DeviceOs         []OperatingSystem                `json:"deviceOS"`
+	Enabled          bool                             `json:"enabled"`
+	Exceptions       []*InternetFirewallRuleException `json:"exceptions"`
+	ID               string                           `json:"id"`
+	Index            int64                            `json:"index"`
+	Name             string                           `json:"name"`
+	Schedule         *PolicySchedule                  `json:"schedule"`
+	Section          *PolicySectionInfo               `json:"section"`
+	Service          *InternetFirewallServiceType     `json:"service"`
+	Source           *InternetFirewallSource          `json:"source"`
+	Tracking         *PolicyTracking                  `json:"tracking"`
 }
 
 func (InternetFirewallRule) IsIPolicyRule()                      {}
@@ -5845,41 +6785,33 @@ func (this InternetFirewallRule) GetSection() *PolicySectionInfo { return this.S
 
 // Exceptions define when a rule is ignored, and the firewall policy evaluation continues with the lower priority rules.
 type InternetFirewallRuleException struct {
-	ConnectionOrigin       ConnectionOriginEnum            `json:"connectionOrigin"`
-	ConnectionsOriginList  []ConnectionOriginsEnum         `json:"connectionsOriginList"`
-	ConnectionsOriginsList []ConnectionOriginsEnum         `json:"connectionsOriginsList"`
-	Country                []*CountryRef                   `json:"country"`
-	Destination            *InternetFirewallDestination    `json:"destination"`
-	Device                 []*DeviceProfileRef             `json:"device"`
-	DeviceAttributes       *DeviceAttributes               `json:"deviceAttributes"`
-	DeviceOs               []OperatingSystem               `json:"deviceOS"`
-	Name                   string                          `json:"name"`
-	PostureAttributes      *PostureAttributes              `json:"postureAttributes,omitempty"`
-	Service                *InternetFirewallServiceType    `json:"service"`
-	Source                 *InternetFirewallSource         `json:"source"`
-	UserAttributes         *InternetFirewallUserAttributes `json:"userAttributes,omitempty"`
+	ConnectionOrigin ConnectionOriginEnum         `json:"connectionOrigin"`
+	Country          []*CountryRef                `json:"country"`
+	Destination      *InternetFirewallDestination `json:"destination"`
+	Device           []*DeviceProfileRef          `json:"device"`
+	DeviceAttributes *DeviceAttributes            `json:"deviceAttributes"`
+	DeviceOs         []OperatingSystem            `json:"deviceOS"`
+	Name             string                       `json:"name"`
+	Service          *InternetFirewallServiceType `json:"service"`
+	Source           *InternetFirewallSource      `json:"source"`
 }
 
 // Exceptions define when a rule is ignored, and the firewall policy evaluation continues with the lower priority rules.
 type InternetFirewallRuleExceptionInput struct {
-	ConnectionOrigin       ConnectionOriginEnum                 `json:"connectionOrigin"`
-	ConnectionsOriginList  []ConnectionOriginsEnum              `json:"connectionsOriginList"`
-	ConnectionsOriginsList []ConnectionOriginsEnum              `json:"connectionsOriginsList"`
-	Country                []*CountryRefInput                   `json:"country"`
-	Destination            *InternetFirewallDestinationInput    `json:"destination"`
-	Device                 []*DeviceProfileRefInput             `json:"device"`
-	DeviceAttributes       *DeviceAttributesInput               `json:"deviceAttributes"`
-	DeviceOs               []OperatingSystem                    `json:"deviceOS"`
-	Name                   string                               `json:"name"`
-	PostureAttributes      *PostureAttributesInput              `json:"postureAttributes,omitempty"`
-	Service                *InternetFirewallServiceTypeInput    `json:"service,omitempty"`
-	Source                 *InternetFirewallSourceInput         `json:"source"`
-	UserAttributes         *InternetFirewallUserAttributesInput `json:"userAttributes,omitempty"`
+	ConnectionOrigin ConnectionOriginEnum              `json:"connectionOrigin"`
+	Country          []*CountryRefInput                `json:"country"`
+	Destination      *InternetFirewallDestinationInput `json:"destination"`
+	Device           []*DeviceProfileRefInput          `json:"device"`
+	DeviceAttributes *DeviceAttributesInput            `json:"deviceAttributes"`
+	DeviceOs         []OperatingSystem                 `json:"deviceOS"`
+	Name             string                            `json:"name"`
+	Service          *InternetFirewallServiceTypeInput `json:"service"`
+	Source           *InternetFirewallSourceInput      `json:"source"`
 }
 
 type InternetFirewallRuleMutationPayload struct {
 	Errors []*PolicyMutationError       `json:"errors"`
-	Rule   *InternetFirewallRulePayload `json:"rule,omitempty"`
+	Rule   *InternetFirewallRulePayload `json:"rule,omitempty,omitzero"`
 	Status PolicyMutationStatus         `json:"status"`
 }
 
@@ -5901,11 +6833,10 @@ func (this InternetFirewallRuleMutationPayload) GetStatus() PolicyMutationStatus
 type InternetFirewallRulePayload struct {
 	Access     *EntityAccess                 `json:"access"`
 	Audit      *PolicyElementAudit           `json:"audit"`
-	HitCount   *RuleHitCount                 `json:"hitCount,omitempty"`
 	Properties []PolicyElementPropertiesEnum `json:"properties"`
 	Rule       *InternetFirewallRule         `json:"rule"`
 	RuleType   PolicyRuleTypeEnum            `json:"ruleType"`
-	SubPolicy  *InternetFirewallPolicyRef    `json:"subPolicy,omitempty"`
+	SubPolicy  *InternetFirewallPolicyRef    `json:"subPolicy,omitempty,omitzero"`
 }
 
 func (InternetFirewallRulePayload) IsIPolicyRulePayload()              {}
@@ -6011,27 +6942,23 @@ func (this InternetFirewallSubPolicyPayload) GetProperties() []SubPolicyProperty
 }
 
 type InternetFirewallUpdateRuleDataInput struct {
-	Action                 *InternetFirewallActionEnum                `json:"action,omitempty"`
-	ActionConfig           *InternetFirewallActionConfigUpdateInput   `json:"actionConfig,omitempty"`
-	ActivePeriod           *PolicyRuleActivePeriodUpdateInput         `json:"activePeriod,omitempty"`
-	ConnectionOrigin       *ConnectionOriginEnum                      `json:"connectionOrigin,omitempty"`
-	ConnectionsOriginList  []ConnectionOriginsEnum                    `json:"connectionsOriginList,omitempty"`
-	ConnectionsOriginsList []ConnectionOriginsEnum                    `json:"connectionsOriginsList,omitempty"`
-	Country                []*CountryRefInput                         `json:"country,omitempty"`
-	Description            *string                                    `json:"description,omitempty"`
-	Destination            *InternetFirewallDestinationUpdateInput    `json:"destination,omitempty"`
-	Device                 []*DeviceProfileRefInput                   `json:"device,omitempty"`
-	DeviceAttributes       *DeviceAttributesUpdateInput               `json:"deviceAttributes,omitempty"`
-	DeviceOs               []OperatingSystem                          `json:"deviceOS,omitempty"`
-	Enabled                *bool                                      `json:"enabled,omitempty"`
-	Exceptions             []*InternetFirewallRuleExceptionInput      `json:"exceptions,omitempty"`
-	Name                   *string                                    `json:"name,omitempty"`
-	PostureAttributes      *PostureAttributesUpdateInput              `json:"postureAttributes,omitempty"`
-	Schedule               *PolicyScheduleUpdateInput                 `json:"schedule,omitempty"`
-	Service                *InternetFirewallServiceTypeUpdateInput    `json:"service,omitempty"`
-	Source                 *InternetFirewallSourceUpdateInput         `json:"source,omitempty"`
-	Tracking               *PolicyTrackingUpdateInput                 `json:"tracking,omitempty"`
-	UserAttributes         *InternetFirewallUserAttributesUpdateInput `json:"userAttributes,omitempty"`
+	Action           *InternetFirewallActionEnum              `json:"action,omitempty"`
+	ActionConfig     *InternetFirewallActionConfigUpdateInput `json:"actionConfig,omitempty"`
+	ActivePeriod     *PolicyRuleActivePeriodUpdateInput       `json:"activePeriod,omitempty"`
+	ConnectionOrigin *ConnectionOriginEnum                    `json:"connectionOrigin,omitempty"`
+	Country          []*CountryRefInput                       `json:"country,omitempty"`
+	Description      *string                                  `json:"description,omitempty"`
+	Destination      *InternetFirewallDestinationUpdateInput  `json:"destination,omitempty"`
+	Device           []*DeviceProfileRefInput                 `json:"device,omitempty"`
+	DeviceAttributes *DeviceAttributesUpdateInput             `json:"deviceAttributes,omitempty"`
+	DeviceOs         []OperatingSystem                        `json:"deviceOS,omitempty"`
+	Enabled          *bool                                    `json:"enabled,omitempty"`
+	Exceptions       []*InternetFirewallRuleExceptionInput    `json:"exceptions,omitempty"`
+	Name             *string                                  `json:"name,omitempty"`
+	Schedule         *PolicyScheduleUpdateInput               `json:"schedule,omitempty"`
+	Service          *InternetFirewallServiceTypeUpdateInput  `json:"service,omitempty"`
+	Source           *InternetFirewallSourceUpdateInput       `json:"source,omitempty"`
+	Tracking         *PolicyTrackingUpdateInput               `json:"tracking,omitempty"`
 }
 
 type InternetFirewallUpdateRuleInput struct {
@@ -6039,29 +6966,18 @@ type InternetFirewallUpdateRuleInput struct {
 	Rule *InternetFirewallUpdateRuleDataInput `json:"rule"`
 }
 
-type InternetFirewallUserAttributes struct {
-	RiskScore           *RiskScoreCondition  `json:"riskScore"`
-	UserConfidenceLevel *UserConfidenceLevel `json:"userConfidenceLevel,omitempty"`
-}
-
-func (InternetFirewallUserAttributes) IsUserAttributes()                      {}
-func (this InternetFirewallUserAttributes) GetRiskScore() *RiskScoreCondition { return this.RiskScore }
-
-type InternetFirewallUserAttributesInput struct {
-	RiskScore           *RiskScoreConditionInput `json:"riskScore"`
-	UserConfidenceLevel *UserConfidenceLevel     `json:"userConfidenceLevel,omitempty"`
-}
-
-type InternetFirewallUserAttributesUpdateInput struct {
-	RiskScore           *RiskScoreConditionUpdateInput `json:"riskScore,omitempty"`
-	UserConfidenceLevel *UserConfidenceLevel           `json:"userConfidenceLevel,omitempty"`
-}
-
 // Represents a member type in the group that is not supported in one or more scopes.
 // Each scope indicates where the member type is not allowed.
 type InvalidGroupMemberTypeInScope struct {
 	Scope []*GroupScope      `json:"scope"`
 	Type  GroupMemberRefType `json:"type"`
+}
+
+type InvestigationDetails struct {
+	InvestigationStatus      *string       `json:"investigationStatus,omitempty,omitzero"`
+	LastManagedComment       *StoryComment `json:"lastManagedComment,omitempty,omitzero"`
+	LastUserComment          *StoryComment `json:"lastUserComment,omitempty,omitzero"`
+	ManagedServiceTicketLink *string       `json:"managedServiceTicketLink,omitempty,omitzero"`
 }
 
 // Referring an invoice object
@@ -6076,13 +6992,13 @@ func (this InvoiceRef) GetName() string { return this.Name }
 
 // IoT/OT Security service license details
 type IotOtLicense struct {
-	Description    *string       `json:"description,omitempty"`
+	Description    *string       `json:"description,omitempty,omitzero"`
 	ExpirationDate string        `json:"expirationDate"`
-	ID             *string       `json:"id,omitempty"`
-	LastUpdated    *string       `json:"lastUpdated,omitempty"`
+	ID             *string       `json:"id,omitempty,omitzero"`
+	LastUpdated    *string       `json:"lastUpdated,omitempty,omitzero"`
 	Plan           LicensePlan   `json:"plan"`
 	Sku            LicenseSku    `json:"sku"`
-	StartDate      *string       `json:"startDate,omitempty"`
+	StartDate      *string       `json:"startDate,omitempty,omitzero"`
 	Status         LicenseStatus `json:"status"`
 }
 
@@ -6104,19 +7020,25 @@ type IPAddressRange struct {
 
 // A group with members of IPAddressRange type
 type IPAddressRangeContainer struct {
-	Audit       *ContainerAudit `json:"audit"`
-	Description *string         `json:"description,omitempty"`
-	ID          string          `json:"id"`
-	Name        string          `json:"name"`
-	Size        int64           `json:"size"`
+	Audit         *ContainerAudit         `json:"audit"`
+	Description   *string                 `json:"description,omitempty,omitzero"`
+	ID            string                  `json:"id"`
+	Name          string                  `json:"name"`
+	Size          int64                   `json:"size"`
+	SyncData      *ContainerSyncData      `json:"syncData,omitempty,omitzero"`
+	SyncDataAudit *ContainerSyncDataAudit `json:"syncDataAudit,omitempty,omitzero"`
 }
 
-func (IPAddressRangeContainer) IsContainer()                   {}
-func (this IPAddressRangeContainer) GetAudit() *ContainerAudit { return this.Audit }
-func (this IPAddressRangeContainer) GetDescription() *string   { return this.Description }
-func (this IPAddressRangeContainer) GetID() string             { return this.ID }
-func (this IPAddressRangeContainer) GetName() string           { return this.Name }
-func (this IPAddressRangeContainer) GetSize() int64            { return this.Size }
+func (IPAddressRangeContainer) IsContainer()                         {}
+func (this IPAddressRangeContainer) GetAudit() *ContainerAudit       { return this.Audit }
+func (this IPAddressRangeContainer) GetDescription() *string         { return this.Description }
+func (this IPAddressRangeContainer) GetID() string                   { return this.ID }
+func (this IPAddressRangeContainer) GetName() string                 { return this.Name }
+func (this IPAddressRangeContainer) GetSize() int64                  { return this.Size }
+func (this IPAddressRangeContainer) GetSyncData() *ContainerSyncData { return this.SyncData }
+func (this IPAddressRangeContainer) GetSyncDataAudit() *ContainerSyncDataAudit {
+	return this.SyncDataAudit
+}
 
 // Input for adding values to existing IPAddressRange typed container
 type IPAddressRangeContainerAddValuesInput struct {
@@ -6133,15 +7055,19 @@ type IPAddressRangeContainerMutations struct {
 	AddValues      *IPAddressRangeContainerAddValuesPayload      `json:"addValues"`
 	CreateFromFile *CreateIPAddressRangeContainerFromFilePayload `json:"createFromFile"`
 	CreateFromList *CreateIPAddressRangeContainerFromListPayload `json:"createFromList"`
+	CreateFromURL  *CreateIPAddressRangeContainerFromURLPayload  `json:"createFromURL"`
 	RemoveValues   *IPAddressRangeContainerRemoveValuesPayload   `json:"removeValues"`
+	SyncFromURL    *SyncIPAddressRangeContainerFromURLPayload    `json:"syncFromURL"`
 	UpdateFromFile *UpdateIPAddressRangeContainerFromFilePayload `json:"updateFromFile"`
 	UpdateFromList *UpdateIPAddressRangeContainerFromListPayload `json:"updateFromList"`
+	UpdateFromURL  *UpdateIPAddressRangeContainerFromURLPayload  `json:"updateFromURL"`
 }
 
 type IPAddressRangeContainerQueries struct {
 	DownloadFile         *DownloadIPAddressRangeContainerFilePayload         `json:"downloadFile"`
 	Search               *IPAddressRangeContainerSearchPayload               `json:"search"`
 	SearchIPAddressRange *IPAddressRangeContainerSearchIPAddressRangePayload `json:"searchIpAddressRange"`
+	TestFromURL          *TestContainerFromURLPayload                        `json:"testFromURL"`
 }
 
 // A group with members of IPAddressRange type
@@ -6198,13 +7124,13 @@ type IPAddressRangeInput struct {
 
 // Intrusion Prevention System (IPS) service license (Legacy license, replaced by TP)
 type IpsLicense struct {
-	Description    *string       `json:"description,omitempty"`
+	Description    *string       `json:"description,omitempty,omitzero"`
 	ExpirationDate string        `json:"expirationDate"`
-	ID             *string       `json:"id,omitempty"`
-	LastUpdated    *string       `json:"lastUpdated,omitempty"`
+	ID             *string       `json:"id,omitempty,omitzero"`
+	LastUpdated    *string       `json:"lastUpdated,omitempty,omitzero"`
 	Plan           LicensePlan   `json:"plan"`
 	Sku            LicenseSku    `json:"sku"`
-	StartDate      *string       `json:"startDate,omitempty"`
+	StartDate      *string       `json:"startDate,omitempty,omitzero"`
 	Status         LicenseStatus `json:"status"`
 }
 
@@ -6226,9 +7152,9 @@ type IpsecIkeV2MessageInput struct {
 }
 
 type IspLoaFile struct {
-	FileHash   *string       `json:"fileHash,omitempty"`
-	FileName   *string       `json:"fileName,omitempty"`
-	UploadedAt *scalars.Time `json:"uploadedAt,omitempty"`
+	FileHash   *string       `json:"fileHash,omitempty,omitzero"`
+	FileName   *string       `json:"fileName,omitempty,omitzero"`
+	UploadedAt *scalars.Time `json:"uploadedAt,omitempty,omitzero"`
 }
 
 type LastMileBwInput struct {
@@ -6240,6 +7166,9 @@ type LastMileBwInput struct {
 
 // Public license API
 type LicensingInfo struct {
+	Adsp                     []*AdspLicense                     `json:"adsp"`
+	AiSecurityApplications   []*AISecurityApplicationsLicense   `json:"aiSecurityApplications"`
+	AiSecurityUsers          []*AISecurityUsersLicense          `json:"aiSecurityUsers"`
 	Atp                      []*AtpLicense                      `json:"atp"`
 	Casb                     []*CasbLicense                     `json:"casb"`
 	DataLake                 []*DataLakeLicense                 `json:"dataLake"`
@@ -6268,26 +7197,31 @@ type LicensingInfo struct {
 }
 
 type LicensingMutations struct {
-	UpdateCommercialLicense *UpdateCommercialLicensePayload `json:"updateCommercialLicense,omitempty"`
+	AddLicenseToManagedAccount      *AddLicenseToManagedAccountPayload      `json:"addLicenseToManagedAccount,omitempty,omitzero"`
+	DisableServiceForManagedAccount *DisableServiceForManagedAccountPayload `json:"disableServiceForManagedAccount,omitempty,omitzero"`
+	EnableServiceForManagedAccount  *EnableServiceForManagedAccountPayload  `json:"enableServiceForManagedAccount,omitempty,omitzero"`
+	RemoveLicenseFromManagedAccount *RemoveLicenseFromManagedAccountPayload `json:"removeLicenseFromManagedAccount,omitempty,omitzero"`
+	UpdateCommercialLicense         *UpdateCommercialLicensePayload         `json:"updateCommercialLicense,omitempty,omitzero"`
+	UpdateLicenseForManagedAccount  *UpdateLicenseForManagedAccountPayload  `json:"updateLicenseForManagedAccount,omitempty,omitzero"`
 }
 
 type LicensingQueries struct {
-	LicensingInfo *LicensingInfo `json:"licensingInfo,omitempty"`
+	LicensingInfo *LicensingInfo `json:"licensingInfo,omitempty,omitzero"`
 }
 
 type LinkQualityIssue struct {
-	Current   *int64                    `json:"current,omitempty"`
-	Direction *TrafficDirectionEnum     `json:"direction,omitempty"`
-	IssueType *LinkQualityIssueTypeEnum `json:"issueType,omitempty"`
-	Threshold *int64                    `json:"threshold,omitempty"`
+	Current   *int64                    `json:"current,omitempty,omitzero"`
+	Direction *TrafficDirectionEnum     `json:"direction,omitempty,omitzero"`
+	IssueType *LinkQualityIssueTypeEnum `json:"issueType,omitempty,omitzero"`
+	Threshold *int64                    `json:"threshold,omitempty,omitzero"`
 }
 
 type Location struct {
 	Account      *AccountRef       `json:"account"`
 	Archived     bool              `json:"archived"`
 	Audit        *AuditingMetadata `json:"audit"`
-	BusinessUnit *string           `json:"businessUnit,omitempty"`
-	Description  *string           `json:"description,omitempty"`
+	BusinessUnit *string           `json:"businessUnit,omitempty,omitzero"`
+	Description  *string           `json:"description,omitempty,omitzero"`
 	Details      *LocationDetails  `json:"details"`
 	ID           string            `json:"id"`
 	Name         string            `json:"name"`
@@ -6295,11 +7229,11 @@ type Location struct {
 }
 
 type LocationDetails struct {
-	CompanyName      *string         `json:"companyName,omitempty"`
-	Contact          *ContactDetails `json:"contact,omitempty"`
+	CompanyName      *string         `json:"companyName,omitempty,omitzero"`
+	Contact          *ContactDetails `json:"contact,omitempty,omitzero"`
 	PostalAddress    *PostalAddress  `json:"postalAddress"`
 	ShippingLocation bool            `json:"shippingLocation"`
-	VatID            *string         `json:"vatId,omitempty"`
+	VatID            *string         `json:"vatId,omitempty,omitzero"`
 }
 
 type LocationFilterInput struct {
@@ -6348,15 +7282,38 @@ type MacAddressFilterInput struct {
 	Nin []string `json:"nin,omitempty"`
 }
 
+// Represents a Mailing List entity, including its
+// unique ID, name, type, associated email addresses, administrators,
+// and audit metadata.
+type MailingList struct {
+	Address []string                 `json:"address"`
+	Admin   []*AdminRef              `json:"admin"`
+	Audit   *AuditingMetadata        `json:"audit"`
+	ID      string                   `json:"id"`
+	Name    string                   `json:"name"`
+	Type    MailingListAddressesType `json:"type"`
+}
+
+// Response payload for retrieving a list of Mailing Lists associated with an account
+type MailingListListPayload struct {
+	Items  []*MailingList `json:"items"`
+	Paging *PageInfo      `json:"paging"`
+}
+
+type MailingListRefInput struct {
+	By    ObjectRefBy `json:"by"`
+	Input string      `json:"input"`
+}
+
 // Anti-Malware service license details (Legacy license, replaced by TP)
 type MalwareProtectionLicense struct {
-	Description    *string       `json:"description,omitempty"`
+	Description    *string       `json:"description,omitempty,omitzero"`
 	ExpirationDate string        `json:"expirationDate"`
-	ID             *string       `json:"id,omitempty"`
-	LastUpdated    *string       `json:"lastUpdated,omitempty"`
+	ID             *string       `json:"id,omitempty,omitzero"`
+	LastUpdated    *string       `json:"lastUpdated,omitempty,omitzero"`
 	Plan           LicensePlan   `json:"plan"`
 	Sku            LicenseSku    `json:"sku"`
-	StartDate      *string       `json:"startDate,omitempty"`
+	StartDate      *string       `json:"startDate,omitempty,omitzero"`
 	Status         LicenseStatus `json:"status"`
 }
 
@@ -6372,13 +7329,13 @@ func (this MalwareProtectionLicense) GetStatus() LicenseStatus  { return this.St
 
 // Managed XDR service license details
 type ManagedXdrLicense struct {
-	Description    *string       `json:"description,omitempty"`
+	Description    *string       `json:"description,omitempty,omitzero"`
 	ExpirationDate string        `json:"expirationDate"`
-	ID             *string       `json:"id,omitempty"`
-	LastUpdated    *string       `json:"lastUpdated,omitempty"`
+	ID             *string       `json:"id,omitempty,omitzero"`
+	LastUpdated    *string       `json:"lastUpdated,omitempty,omitzero"`
 	Plan           LicensePlan   `json:"plan"`
 	Sku            LicenseSku    `json:"sku"`
-	StartDate      *string       `json:"startDate,omitempty"`
+	StartDate      *string       `json:"startDate,omitempty,omitzero"`
 	Status         LicenseStatus `json:"status"`
 }
 
@@ -6394,13 +7351,13 @@ func (this ManagedXdrLicense) GetStatus() LicenseStatus  { return this.Status }
 
 // MDR service license details
 type MdrLicense struct {
-	Description    *string       `json:"description,omitempty"`
+	Description    *string       `json:"description,omitempty,omitzero"`
 	ExpirationDate string        `json:"expirationDate"`
-	ID             *string       `json:"id,omitempty"`
-	LastUpdated    *string       `json:"lastUpdated,omitempty"`
+	ID             *string       `json:"id,omitempty,omitzero"`
+	LastUpdated    *string       `json:"lastUpdated,omitempty,omitzero"`
 	Plan           LicensePlan   `json:"plan"`
 	Sku            LicenseSku    `json:"sku"`
-	StartDate      *string       `json:"startDate,omitempty"`
+	StartDate      *string       `json:"startDate,omitempty,omitzero"`
 	Status         LicenseStatus `json:"status"`
 }
 
@@ -6416,8 +7373,15 @@ func (this MdrLicense) GetStatus() LicenseStatus  { return this.Status }
 
 type Measure struct {
 	AggType   AggregationType   `json:"aggType"`
+	Alias     *string           `json:"alias,omitempty"`
 	FieldName AppStatsFieldName `json:"fieldName"`
 	Trend     *bool             `json:"trend,omitempty"`
+}
+
+type MeasuresParameters struct {
+	AggType   *string           `json:"aggType,omitempty,omitzero"`
+	FieldName *string           `json:"fieldName,omitempty,omitzero"`
+	UnitType  *MeasuresUnitType `json:"unitType,omitempty,omitzero"`
 }
 
 type Metric struct {
@@ -6431,33 +7395,33 @@ type MetricDetails struct {
 }
 
 type Metrics struct {
-	BytesDownstream            *float64 `json:"bytesDownstream,omitempty"`
-	BytesTotal                 *float64 `json:"bytesTotal,omitempty"`
-	BytesUpstream              *float64 `json:"bytesUpstream,omitempty"`
-	Duration                   *int64   `json:"duration,omitempty"`
-	FlowCount                  *float64 `json:"flowCount,omitempty"`
-	Granularity                *int64   `json:"granularity,omitempty"`
-	HostCount                  *float64 `json:"hostCount,omitempty"`
-	HostLimit                  *float64 `json:"hostLimit,omitempty"`
-	JitterDownstream           *float64 `json:"jitterDownstream,omitempty"`
-	JitterUpstream             *float64 `json:"jitterUpstream,omitempty"`
-	LostDownstream             *float64 `json:"lostDownstream,omitempty"`
-	LostDownstreamPcnt         *float64 `json:"lostDownstreamPcnt,omitempty"`
-	LostUpstream               *float64 `json:"lostUpstream,omitempty"`
-	LostUpstreamPcnt           *float64 `json:"lostUpstreamPcnt,omitempty"`
-	PacketsDiscardedDownstream *float64 `json:"packetsDiscardedDownstream,omitempty"`
-	PacketsDiscardedUpstream   *float64 `json:"packetsDiscardedUpstream,omitempty"`
-	PacketsDownstream          *float64 `json:"packetsDownstream,omitempty"`
-	PacketsUpstream            *float64 `json:"packetsUpstream,omitempty"`
-	Rtt                        *int64   `json:"rtt,omitempty"`
+	BytesDownstream            *float64 `json:"bytesDownstream,omitempty,omitzero"`
+	BytesTotal                 *float64 `json:"bytesTotal,omitempty,omitzero"`
+	BytesUpstream              *float64 `json:"bytesUpstream,omitempty,omitzero"`
+	Duration                   *int64   `json:"duration,omitempty,omitzero"`
+	FlowCount                  *float64 `json:"flowCount,omitempty,omitzero"`
+	Granularity                *int64   `json:"granularity,omitempty,omitzero"`
+	HostCount                  *float64 `json:"hostCount,omitempty,omitzero"`
+	HostLimit                  *float64 `json:"hostLimit,omitempty,omitzero"`
+	JitterDownstream           *float64 `json:"jitterDownstream,omitempty,omitzero"`
+	JitterUpstream             *float64 `json:"jitterUpstream,omitempty,omitzero"`
+	LostDownstream             *float64 `json:"lostDownstream,omitempty,omitzero"`
+	LostDownstreamPcnt         *float64 `json:"lostDownstreamPcnt,omitempty,omitzero"`
+	LostUpstream               *float64 `json:"lostUpstream,omitempty,omitzero"`
+	LostUpstreamPcnt           *float64 `json:"lostUpstreamPcnt,omitempty,omitzero"`
+	PacketsDiscardedDownstream *float64 `json:"packetsDiscardedDownstream,omitempty,omitzero"`
+	PacketsDiscardedUpstream   *float64 `json:"packetsDiscardedUpstream,omitempty,omitzero"`
+	PacketsDownstream          *float64 `json:"packetsDownstream,omitempty,omitzero"`
+	PacketsUpstream            *float64 `json:"packetsUpstream,omitempty,omitzero"`
+	Rtt                        *int64   `json:"rtt,omitempty,omitzero"`
 }
 
 // The `MicrosoftActivity` object represents an activity within Microsoft services, containing fields such as action type, timestamps for the first and last activity, and identifiers for the activity and its associated resources.
 type MicrosoftActivity struct {
-	Action                *string `json:"action,omitempty"`
-	FirstActivityDateTime *string `json:"firstActivityDateTime,omitempty"`
+	Action                *string `json:"action,omitempty,omitzero"`
+	FirstActivityDateTime *string `json:"firstActivityDateTime,omitempty,omitzero"`
 	ID                    string  `json:"id"`
-	LastActivityDateTime  *string `json:"lastActivityDateTime,omitempty"`
+	LastActivityDateTime  *string `json:"lastActivityDateTime,omitempty,omitzero"`
 	ParentResourceID      string  `json:"parentResourceId"`
 	ResourceID            string  `json:"resourceId"`
 }
@@ -6470,35 +7434,36 @@ func (this MicrosoftActivity) GetResourceID() string       { return this.Resourc
 // The `MicrosoftDefenderEndpointAlert` object represents an alert generated by Microsoft Defender for Endpoint, containing details such as activities, classification, criticality, detection source, and recommended actions, among other attributes, to help in identifying and managing security threats.
 type MicrosoftDefenderEndpointAlert struct {
 	Activities            []*MicrosoftActivity        `json:"activities"`
-	AlertWebURL           *string                     `json:"alertWebUrl,omitempty"`
-	Category              *string                     `json:"category,omitempty"`
-	Classification        *AlertClassificationEnum    `json:"classification,omitempty"`
+	AlertWebURL           *string                     `json:"alertWebUrl,omitempty,omitzero"`
+	Category              *string                     `json:"category,omitempty,omitzero"`
+	Classification        *AlertClassificationEnum    `json:"classification,omitempty,omitzero"`
 	Comments              []string                    `json:"comments"`
-	CreatedDateTime       *string                     `json:"createdDateTime,omitempty"`
-	Criticality           *int64                      `json:"criticality,omitempty"`
-	Description           *string                     `json:"description,omitempty"`
-	DestinationIP         *string                     `json:"destinationIp,omitempty"`
-	DestinationURL        *string                     `json:"destinationUrl,omitempty"`
-	DetectionSource       *DetectionSourceEnum        `json:"detectionSource,omitempty"`
-	Determination         *AlertDeterminationEnum     `json:"determination,omitempty"`
-	ExternalIP            *string                     `json:"externalIp,omitempty"`
-	FirstActivityDateTime *string                     `json:"firstActivityDateTime,omitempty"`
+	CreatedDateTime       *string                     `json:"createdDateTime,omitempty,omitzero"`
+	Criticality           *int64                      `json:"criticality,omitempty,omitzero"`
+	Description           *string                     `json:"description,omitempty,omitzero"`
+	DestinationIP         *string                     `json:"destinationIp,omitempty,omitzero"`
+	DestinationURL        *string                     `json:"destinationUrl,omitempty,omitzero"`
+	DetectionSource       *DetectionSourceEnum        `json:"detectionSource,omitempty,omitzero"`
+	Determination         *AlertDeterminationEnum     `json:"determination,omitempty,omitzero"`
+	Device                DeviceDetails               `json:"device,omitempty,omitzero"`
+	ExternalIP            *string                     `json:"externalIp,omitempty,omitzero"`
+	FirstActivityDateTime *string                     `json:"firstActivityDateTime,omitempty,omitzero"`
 	ID                    string                      `json:"id"`
-	LastActivityDateTime  *string                     `json:"lastActivityDateTime,omitempty"`
-	LastUpdateDateTime    *string                     `json:"lastUpdateDateTime,omitempty"`
-	LocalIP               *string                     `json:"localIp,omitempty"`
+	LastActivityDateTime  *string                     `json:"lastActivityDateTime,omitempty,omitzero"`
+	LastUpdateDateTime    *string                     `json:"lastUpdateDateTime,omitempty,omitzero"`
+	LocalIP               *string                     `json:"localIp,omitempty,omitzero"`
 	MitreSubTechnique     []*Mitre                    `json:"mitreSubTechnique"`
 	MitreTechnique        []*Mitre                    `json:"mitreTechnique"`
-	OwnerName             *string                     `json:"ownerName,omitempty"`
-	ProviderAlertID       *string                     `json:"providerAlertId,omitempty"`
-	RecommendedActions    *string                     `json:"recommendedActions,omitempty"`
-	ResolvedDateTime      *string                     `json:"resolvedDateTime,omitempty"`
+	OwnerName             *string                     `json:"ownerName,omitempty,omitzero"`
+	ProviderAlertID       *string                     `json:"providerAlertId,omitempty,omitzero"`
+	RecommendedActions    *string                     `json:"recommendedActions,omitempty,omitzero"`
+	ResolvedDateTime      *string                     `json:"resolvedDateTime,omitempty,omitzero"`
 	Resources             []MicrosoftEndpointResource `json:"resources"`
-	Status                *MsAlertStatus              `json:"status,omitempty"`
-	ThreatFamilyName      *string                     `json:"threatFamilyName,omitempty"`
-	ThreatName            *string                     `json:"threatName,omitempty"`
-	ThreatType            *string                     `json:"threatType,omitempty"`
-	Title                 *string                     `json:"title,omitempty"`
+	Status                *MsAlertStatus              `json:"status,omitempty,omitzero"`
+	ThreatFamilyName      *string                     `json:"threatFamilyName,omitempty,omitzero"`
+	ThreatName            *string                     `json:"threatName,omitempty,omitzero"`
+	ThreatType            *string                     `json:"threatType,omitempty,omitzero"`
+	Title                 *string                     `json:"title,omitempty,omitzero"`
 }
 
 func (MicrosoftDefenderEndpointAlert) IsEndpointAlert() {}
@@ -6553,19 +7518,19 @@ func (this MicrosoftDefenderEndpointAlert) GetTitle() *string      { return this
 
 // The `MicrosoftDeviceDetails` object represents detailed information about a Microsoft device, including its antivirus status, Azure AD device ID, device name, first seen date and time, health status, IP interfaces, logged-on users, onboarding status, operating system details, and RBAC group.
 type MicrosoftDeviceDetails struct {
-	AvStatus          *DeviceAvStatusEnum     `json:"avStatus,omitempty"`
-	AzureAdDeviceID   *string                 `json:"azureAdDeviceId,omitempty"`
-	DeviceName        *string                 `json:"deviceName,omitempty"`
-	ExternalIP        *string                 `json:"externalIp,omitempty"`
-	FirstSeenDateTime *string                 `json:"firstSeenDateTime,omitempty"`
-	HealthStatus      *DeviceHealthStatusEnum `json:"healthStatus,omitempty"`
+	AvStatus          *DeviceAvStatusEnum     `json:"avStatus,omitempty,omitzero"`
+	AzureAdDeviceID   *string                 `json:"azureAdDeviceId,omitempty,omitzero"`
+	DeviceName        *string                 `json:"deviceName,omitempty,omitzero"`
+	ExternalIP        *string                 `json:"externalIp,omitempty,omitzero"`
+	FirstSeenDateTime *string                 `json:"firstSeenDateTime,omitempty,omitzero"`
+	HealthStatus      *DeviceHealthStatusEnum `json:"healthStatus,omitempty,omitzero"`
 	ID                string                  `json:"id"`
 	IPInterfaces      []string                `json:"ipInterfaces"`
-	LocalIP           *string                 `json:"localIp,omitempty"`
+	LocalIP           *string                 `json:"localIp,omitempty,omitzero"`
 	LoggedOnUsers     []EndpointUser          `json:"loggedOnUsers"`
-	OnboardingStatus  *OnboardingStatusEnum   `json:"onboardingStatus,omitempty"`
-	OsDetails         *OsDetails              `json:"osDetails,omitempty"`
-	RbacGroup         *RbacGroup              `json:"rbacGroup,omitempty"`
+	OnboardingStatus  *OnboardingStatusEnum   `json:"onboardingStatus,omitempty,omitzero"`
+	OsDetails         *OsDetails              `json:"osDetails,omitempty,omitzero"`
+	RbacGroup         *RbacGroup              `json:"rbacGroup,omitempty,omitzero"`
 }
 
 func (MicrosoftDeviceDetails) IsDeviceDetails()            {}
@@ -6588,32 +7553,38 @@ func (this MicrosoftDeviceDetails) GetOsDetails() *OsDetails { return this.OsDet
 // The `MicrosoftEndpoint` object represents a comprehensive data structure used in GraphQL queries or mutations, containing fields related to security alerts, device details, threat predictions, and other metadata associated with Microsoft's security ecosystem.
 type MicrosoftEndpoint struct {
 	Alerts              []*MicrosoftDefenderEndpointAlert `json:"alerts"`
-	AnalystFeedback     *AnalystFeedback                  `json:"analystFeedback,omitempty"`
-	ConnectionType      *ConnectionTypeEnum               `json:"connectionType,omitempty"`
-	Criticality         *int64                            `json:"criticality,omitempty"`
-	Description         *string                           `json:"description,omitempty"`
-	Device              *MicrosoftDeviceDetails           `json:"device,omitempty"`
-	EngineType          *StoryEngineTypeEnum              `json:"engineType,omitempty"`
+	AnalystFeedback     *AnalystFeedback                  `json:"analystFeedback,omitempty,omitzero"`
+	Categories          []IncidentCategory                `json:"categories"`
+	ConnectionType      *ConnectionTypeEnum               `json:"connectionType,omitempty,omitzero"`
+	Criticality         *int64                            `json:"criticality,omitempty,omitzero"`
+	Description         *string                           `json:"description,omitempty,omitzero"`
+	Device              *MicrosoftDeviceDetails           `json:"device,omitempty,omitzero"`
+	EngineType          *StoryEngineTypeEnum              `json:"engineType,omitempty,omitzero"`
+	Entities            []*IncidentEntity                 `json:"entities"`
 	FirstSignal         string                            `json:"firstSignal"`
 	ID                  string                            `json:"id"`
 	Indication          string                            `json:"indication"`
 	LastSignal          string                            `json:"lastSignal"`
-	PredictedThreatType *string                           `json:"predictedThreatType,omitempty"`
-	PredictedVerdict    *StoryVerdictEnum                 `json:"predictedVerdict,omitempty"`
+	Muted               bool                              `json:"muted"`
+	PredictedThreatType *string                           `json:"predictedThreatType,omitempty,omitzero"`
+	PredictedVerdict    *StoryVerdictEnum                 `json:"predictedVerdict,omitempty,omitzero"`
 	Producer            StoryProducerEnum                 `json:"producer"`
 	ProducerName        string                            `json:"producerName"`
-	QueryName           *string                           `json:"queryName,omitempty"`
-	Research            *bool                             `json:"research,omitempty"`
+	ProducerType        StoryProducerEnum                 `json:"producerType"`
+	QueryName           *string                           `json:"queryName,omitempty,omitzero"`
+	Research            *bool                             `json:"research,omitempty,omitzero"`
 	SimilarStoriesData  []*SimilarStoryData               `json:"similarStoriesData"`
-	Site                *SiteRef                          `json:"site,omitempty"`
-	SiteName            *string                           `json:"siteName,omitempty"`
-	Source              *string                           `json:"source,omitempty"`
-	SourceIP            *string                           `json:"sourceIp,omitempty"`
-	Status              *StoryStatusEnum                  `json:"status,omitempty"`
-	StoryDuration       *int64                            `json:"storyDuration,omitempty"`
-	Ticket              *string                           `json:"ticket,omitempty"`
-	User                *UserRef                          `json:"user,omitempty"`
-	Vendor              *VendorEnum                       `json:"vendor,omitempty"`
+	Site                *SiteRef                          `json:"site,omitempty,omitzero"`
+	SiteName            *string                           `json:"siteName,omitempty,omitzero"`
+	Source              *string                           `json:"source,omitempty,omitzero"`
+	SourceIP            *string                           `json:"sourceIp,omitempty,omitzero"`
+	Status              *StoryStatusEnum                  `json:"status,omitempty,omitzero"`
+	StoryDuration       *int64                            `json:"storyDuration,omitempty,omitzero"`
+	Ticket              *string                           `json:"ticket,omitempty,omitzero"`
+	URL                 *string                           `json:"url,omitempty,omitzero"`
+	User                *UserRef                          `json:"user,omitempty,omitzero"`
+	Vendor              *VendorEnum                       `json:"vendor,omitempty,omitzero"`
+	VendorStatus        *DefenderIncidentStatus           `json:"vendorStatus,omitempty,omitzero"`
 }
 
 func (MicrosoftEndpoint) IsEndpoint() {}
@@ -6627,20 +7598,42 @@ func (this MicrosoftEndpoint) GetAlerts() []EndpointAlert {
 	}
 	return interfaceSlice
 }
-func (this MicrosoftEndpoint) GetAnalystFeedback() *AnalystFeedback   { return this.AnalystFeedback }
+func (this MicrosoftEndpoint) GetAnalystFeedback() *AnalystFeedback { return this.AnalystFeedback }
+func (this MicrosoftEndpoint) GetCategories() []IncidentCategory {
+	if this.Categories == nil {
+		return nil
+	}
+	interfaceSlice := make([]IncidentCategory, 0, len(this.Categories))
+	for _, concrete := range this.Categories {
+		interfaceSlice = append(interfaceSlice, concrete)
+	}
+	return interfaceSlice
+}
 func (this MicrosoftEndpoint) GetConnectionType() *ConnectionTypeEnum { return this.ConnectionType }
 func (this MicrosoftEndpoint) GetCriticality() *int64                 { return this.Criticality }
 func (this MicrosoftEndpoint) GetDescription() *string                { return this.Description }
 func (this MicrosoftEndpoint) GetDevice() DeviceDetails               { return *this.Device }
 func (this MicrosoftEndpoint) GetEngineType() *StoryEngineTypeEnum    { return this.EngineType }
+func (this MicrosoftEndpoint) GetEntities() []*IncidentEntity {
+	if this.Entities == nil {
+		return nil
+	}
+	interfaceSlice := make([]*IncidentEntity, 0, len(this.Entities))
+	for _, concrete := range this.Entities {
+		interfaceSlice = append(interfaceSlice, concrete)
+	}
+	return interfaceSlice
+}
 func (this MicrosoftEndpoint) GetFirstSignal() string                 { return this.FirstSignal }
 func (this MicrosoftEndpoint) GetID() string                          { return this.ID }
 func (this MicrosoftEndpoint) GetIndication() string                  { return this.Indication }
 func (this MicrosoftEndpoint) GetLastSignal() string                  { return this.LastSignal }
+func (this MicrosoftEndpoint) GetMuted() bool                         { return this.Muted }
 func (this MicrosoftEndpoint) GetPredictedThreatType() *string        { return this.PredictedThreatType }
 func (this MicrosoftEndpoint) GetPredictedVerdict() *StoryVerdictEnum { return this.PredictedVerdict }
 func (this MicrosoftEndpoint) GetProducer() StoryProducerEnum         { return this.Producer }
 func (this MicrosoftEndpoint) GetProducerName() string                { return this.ProducerName }
+func (this MicrosoftEndpoint) GetProducerType() StoryProducerEnum     { return this.ProducerType }
 func (this MicrosoftEndpoint) GetQueryName() *string                  { return this.QueryName }
 func (this MicrosoftEndpoint) GetResearch() *bool                     { return this.Research }
 func (this MicrosoftEndpoint) GetSimilarStoriesData() []*SimilarStoryData {
@@ -6667,12 +7660,12 @@ func (MicrosoftEndpoint) IsMergedIncident() {}
 
 // The `MicrosoftEndpointUser` object represents a user associated with a Microsoft endpoint, containing fields such as account name, domain name, unique identifier, user name, principal name, and user security identifier.
 type MicrosoftEndpointUser struct {
-	AccountName   *string `json:"accountName,omitempty"`
-	DomainName    *string `json:"domainName,omitempty"`
+	AccountName   *string `json:"accountName,omitempty,omitzero"`
+	DomainName    *string `json:"domainName,omitempty,omitzero"`
 	ID            string  `json:"id"`
 	Name          string  `json:"name"`
-	PrincipalName *string `json:"principalName,omitempty"`
-	UserSid       *string `json:"userSid,omitempty"`
+	PrincipalName *string `json:"principalName,omitempty,omitzero"`
+	UserSid       *string `json:"userSid,omitempty,omitzero"`
 }
 
 func (MicrosoftEndpointUser) IsEndpointUser()      {}
@@ -6681,15 +7674,15 @@ func (this MicrosoftEndpointUser) GetName() string { return this.Name }
 
 // The `MicrosoftFileResource` object represents a file resource in a Microsoft system, containing fields such as creation date, detection and remediation status, file details, unique identifier, roles, tags, and a verdict on the file's status.
 type MicrosoftFileResource struct {
-	CreatedDateTime          *string                `json:"createdDateTime,omitempty"`
-	DetectionStatus          *DetectionStatusEnum   `json:"detectionStatus,omitempty"`
-	FileDetails              *FileDetails           `json:"fileDetails,omitempty"`
+	CreatedDateTime          *string                `json:"createdDateTime,omitempty,omitzero"`
+	DetectionStatus          *DetectionStatusEnum   `json:"detectionStatus,omitempty,omitzero"`
+	FileDetails              *FileDetails           `json:"fileDetails,omitempty,omitzero"`
 	ID                       string                 `json:"id"`
-	RemediationStatus        *RemediationStatusEnum `json:"remediationStatus,omitempty"`
-	RemediationStatusDetails *string                `json:"remediationStatusDetails,omitempty"`
+	RemediationStatus        *RemediationStatusEnum `json:"remediationStatus,omitempty,omitzero"`
+	RemediationStatusDetails *string                `json:"remediationStatusDetails,omitempty,omitzero"`
 	Roles                    []ResourceRoleEnum     `json:"roles"`
 	Tags                     []string               `json:"tags"`
-	Verdict                  *MsResourceVerdictEnum `json:"verdict,omitempty"`
+	Verdict                  *MsResourceVerdictEnum `json:"verdict,omitempty,omitzero"`
 }
 
 func (MicrosoftFileResource) IsEndpointResource()              {}
@@ -6735,21 +7728,21 @@ func (this MicrosoftFileResource) GetVerdict() *MsResourceVerdictEnum { return t
 
 // The `MicrosoftNetworkResource` object represents a registry resource in a Microsoft environment, containing fields such as creation date, remediation status, roles, tags, and verdict, which are used to manage and assess the resource's status and attributes.
 type MicrosoftNetworkResource struct {
-	Action                   *string                `json:"action,omitempty"`
-	CreatedDateTime          *string                `json:"createdDateTime,omitempty"`
-	DestinationIP            *string                `json:"destinationIp,omitempty"`
-	DestinationPort          *int64                 `json:"destinationPort,omitempty"`
-	DNSRequest               *string                `json:"dnsRequest,omitempty"`
-	DNSResponse              *string                `json:"dnsResponse,omitempty"`
+	Action                   *string                `json:"action,omitempty,omitzero"`
+	CreatedDateTime          *string                `json:"createdDateTime,omitempty,omitzero"`
+	DestinationIP            *string                `json:"destinationIp,omitempty,omitzero"`
+	DestinationPort          *int64                 `json:"destinationPort,omitempty,omitzero"`
+	DNSRequest               *string                `json:"dnsRequest,omitempty,omitzero"`
+	DNSResponse              *string                `json:"dnsResponse,omitempty,omitzero"`
 	ID                       string                 `json:"id"`
-	Method                   *string                `json:"method,omitempty"`
-	RemediationStatus        *RemediationStatusEnum `json:"remediationStatus,omitempty"`
-	RemediationStatusDetails *string                `json:"remediationStatusDetails,omitempty"`
+	Method                   *string                `json:"method,omitempty,omitzero"`
+	RemediationStatus        *RemediationStatusEnum `json:"remediationStatus,omitempty,omitzero"`
+	RemediationStatusDetails *string                `json:"remediationStatusDetails,omitempty,omitzero"`
 	Roles                    []ResourceRoleEnum     `json:"roles"`
-	SourcePort               *int64                 `json:"sourcePort,omitempty"`
+	SourcePort               *int64                 `json:"sourcePort,omitempty,omitzero"`
 	Tags                     []string               `json:"tags"`
-	URL                      *string                `json:"url,omitempty"`
-	Verdict                  *MsResourceVerdictEnum `json:"verdict,omitempty"`
+	URL                      *string                `json:"url,omitempty,omitzero"`
+	Verdict                  *MsResourceVerdictEnum `json:"verdict,omitempty,omitzero"`
 }
 
 func (MicrosoftNetworkResource) IsEndpointResource()              {}
@@ -6800,18 +7793,18 @@ func (this MicrosoftNetworkResource) GetURL() *string       { return this.URL }
 
 // The `MicrosoftProcessResource` object represents a process resource in a Microsoft environment, containing fields such as creation date, process ID, command line details, remediation status, roles, tags, user account information, and a verdict on the process's nature.
 type MicrosoftProcessResource struct {
-	Action                   *string                `json:"action,omitempty"`
-	CreatedDateTime          *string                `json:"createdDateTime,omitempty"`
+	Action                   *string                `json:"action,omitempty,omitzero"`
+	CreatedDateTime          *string                `json:"createdDateTime,omitempty,omitzero"`
 	ID                       string                 `json:"id"`
-	ImageFile                *FileDetails           `json:"imageFile,omitempty"`
-	ProcessCommandLine       *string                `json:"processCommandLine,omitempty"`
+	ImageFile                *FileDetails           `json:"imageFile,omitempty,omitzero"`
+	ProcessCommandLine       *string                `json:"processCommandLine,omitempty,omitzero"`
 	ProcessID                int64                  `json:"processId"`
-	RemediationStatus        *RemediationStatusEnum `json:"remediationStatus,omitempty"`
-	RemediationStatusDetails *string                `json:"remediationStatusDetails,omitempty"`
+	RemediationStatus        *RemediationStatusEnum `json:"remediationStatus,omitempty,omitzero"`
+	RemediationStatusDetails *string                `json:"remediationStatusDetails,omitempty,omitzero"`
 	Roles                    []ResourceRoleEnum     `json:"roles"`
 	Tags                     []string               `json:"tags"`
-	UserAccount              EndpointUser           `json:"userAccount,omitempty"`
-	Verdict                  *MsResourceVerdictEnum `json:"verdict,omitempty"`
+	UserAccount              EndpointUser           `json:"userAccount,omitempty,omitzero"`
+	Verdict                  *MsResourceVerdictEnum `json:"verdict,omitempty,omitzero"`
 }
 
 func (MicrosoftProcessResource) IsEndpointResource()              {}
@@ -6858,18 +7851,18 @@ func (this MicrosoftProcessResource) GetUserAccount() EndpointUser { return this
 
 // The `MicrosoftRegistryResource` object represents a registry resource in a Microsoft environment, containing fields such as creation date, hive, key, remediation status, roles, tags, and verdict, which are used to manage and assess the resource's status and attributes.
 type MicrosoftRegistryResource struct {
-	CreatedDateTime          *string                `json:"createdDateTime,omitempty"`
-	Hive                     *string                `json:"hive,omitempty"`
+	CreatedDateTime          *string                `json:"createdDateTime,omitempty,omitzero"`
+	Hive                     *string                `json:"hive,omitempty,omitzero"`
 	ID                       string                 `json:"id"`
-	Key                      *string                `json:"key,omitempty"`
-	RemediationStatus        *RemediationStatusEnum `json:"remediationStatus,omitempty"`
-	RemediationStatusDetails *string                `json:"remediationStatusDetails,omitempty"`
+	Key                      *string                `json:"key,omitempty,omitzero"`
+	RemediationStatus        *RemediationStatusEnum `json:"remediationStatus,omitempty,omitzero"`
+	RemediationStatusDetails *string                `json:"remediationStatusDetails,omitempty,omitzero"`
 	Roles                    []ResourceRoleEnum     `json:"roles"`
 	Tags                     []string               `json:"tags"`
-	Value                    *string                `json:"value,omitempty"`
-	ValueName                *string                `json:"valueName,omitempty"`
-	ValueType                *string                `json:"valueType,omitempty"`
-	Verdict                  *MsResourceVerdictEnum `json:"verdict,omitempty"`
+	Value                    *string                `json:"value,omitempty,omitzero"`
+	ValueName                *string                `json:"valueName,omitempty,omitzero"`
+	ValueType                *string                `json:"valueType,omitempty,omitzero"`
+	Verdict                  *MsResourceVerdictEnum `json:"verdict,omitempty,omitzero"`
 }
 
 func (MicrosoftRegistryResource) IsEndpointResource()              {}
@@ -6917,22 +7910,238 @@ func (this MicrosoftRegistryResource) GetValueName() *string { return this.Value
 func (this MicrosoftRegistryResource) GetValueType() *string { return this.ValueType }
 
 type Mitre struct {
-	ID   *string `json:"id,omitempty"`
-	Name *string `json:"name,omitempty"`
+	ID   *string `json:"id,omitempty,omitzero"`
+	Name *string `json:"name,omitempty,omitzero"`
 }
+
+// Cato Advanced Threat Prevention - Bandwidth service license details
+type MspAtpBandwidthLicense struct {
+	Description    *string       `json:"description,omitempty,omitzero"`
+	ExpirationDate string        `json:"expirationDate"`
+	ID             *string       `json:"id,omitempty,omitzero"`
+	LastUpdated    *string       `json:"lastUpdated,omitempty,omitzero"`
+	Plan           LicensePlan   `json:"plan"`
+	Sku            LicenseSku    `json:"sku"`
+	StartDate      *string       `json:"startDate,omitempty,omitzero"`
+	Status         LicenseStatus `json:"status"`
+	Total          int64         `json:"total"`
+}
+
+func (MspAtpBandwidthLicense) IsLicense()                     {}
+func (this MspAtpBandwidthLicense) GetDescription() *string   { return this.Description }
+func (this MspAtpBandwidthLicense) GetExpirationDate() string { return this.ExpirationDate }
+func (this MspAtpBandwidthLicense) GetID() *string            { return this.ID }
+func (this MspAtpBandwidthLicense) GetLastUpdated() *string   { return this.LastUpdated }
+func (this MspAtpBandwidthLicense) GetPlan() LicensePlan      { return this.Plan }
+func (this MspAtpBandwidthLicense) GetSku() LicenseSku        { return this.Sku }
+func (this MspAtpBandwidthLicense) GetStartDate() *string     { return this.StartDate }
+func (this MspAtpBandwidthLicense) GetStatus() LicenseStatus  { return this.Status }
+
+func (MspAtpBandwidthLicense) IsQuantifiableLicense() {}
+
+func (this MspAtpBandwidthLicense) GetTotal() int64 { return this.Total }
+
+// Cato Advanced Threat Prevention - Users service license details
+type MspAtpUsersLicense struct {
+	Description    *string       `json:"description,omitempty,omitzero"`
+	ExpirationDate string        `json:"expirationDate"`
+	ID             *string       `json:"id,omitempty,omitzero"`
+	LastUpdated    *string       `json:"lastUpdated,omitempty,omitzero"`
+	Plan           LicensePlan   `json:"plan"`
+	Sku            LicenseSku    `json:"sku"`
+	StartDate      *string       `json:"startDate,omitempty,omitzero"`
+	Status         LicenseStatus `json:"status"`
+	Total          int64         `json:"total"`
+}
+
+func (MspAtpUsersLicense) IsLicense()                     {}
+func (this MspAtpUsersLicense) GetDescription() *string   { return this.Description }
+func (this MspAtpUsersLicense) GetExpirationDate() string { return this.ExpirationDate }
+func (this MspAtpUsersLicense) GetID() *string            { return this.ID }
+func (this MspAtpUsersLicense) GetLastUpdated() *string   { return this.LastUpdated }
+func (this MspAtpUsersLicense) GetPlan() LicensePlan      { return this.Plan }
+func (this MspAtpUsersLicense) GetSku() LicenseSku        { return this.Sku }
+func (this MspAtpUsersLicense) GetStartDate() *string     { return this.StartDate }
+func (this MspAtpUsersLicense) GetStatus() LicenseStatus  { return this.Status }
+
+func (MspAtpUsersLicense) IsQuantifiableLicense() {}
+
+func (this MspAtpUsersLicense) GetTotal() int64 { return this.Total }
+
+// Cato Cloud Access Security Broker - Bandwidth service license details
+type MspCasbBandwidthLicense struct {
+	Description    *string       `json:"description,omitempty,omitzero"`
+	ExpirationDate string        `json:"expirationDate"`
+	ID             *string       `json:"id,omitempty,omitzero"`
+	LastUpdated    *string       `json:"lastUpdated,omitempty,omitzero"`
+	Plan           LicensePlan   `json:"plan"`
+	Sku            LicenseSku    `json:"sku"`
+	StartDate      *string       `json:"startDate,omitempty,omitzero"`
+	Status         LicenseStatus `json:"status"`
+	Total          int64         `json:"total"`
+}
+
+func (MspCasbBandwidthLicense) IsLicense()                     {}
+func (this MspCasbBandwidthLicense) GetDescription() *string   { return this.Description }
+func (this MspCasbBandwidthLicense) GetExpirationDate() string { return this.ExpirationDate }
+func (this MspCasbBandwidthLicense) GetID() *string            { return this.ID }
+func (this MspCasbBandwidthLicense) GetLastUpdated() *string   { return this.LastUpdated }
+func (this MspCasbBandwidthLicense) GetPlan() LicensePlan      { return this.Plan }
+func (this MspCasbBandwidthLicense) GetSku() LicenseSku        { return this.Sku }
+func (this MspCasbBandwidthLicense) GetStartDate() *string     { return this.StartDate }
+func (this MspCasbBandwidthLicense) GetStatus() LicenseStatus  { return this.Status }
+
+func (MspCasbBandwidthLicense) IsQuantifiableLicense() {}
+
+func (this MspCasbBandwidthLicense) GetTotal() int64 { return this.Total }
+
+// Cato Cloud Access Security Broker - Users service license details
+type MspCasbUsersLicense struct {
+	Description    *string       `json:"description,omitempty,omitzero"`
+	ExpirationDate string        `json:"expirationDate"`
+	ID             *string       `json:"id,omitempty,omitzero"`
+	LastUpdated    *string       `json:"lastUpdated,omitempty,omitzero"`
+	Plan           LicensePlan   `json:"plan"`
+	Sku            LicenseSku    `json:"sku"`
+	StartDate      *string       `json:"startDate,omitempty,omitzero"`
+	Status         LicenseStatus `json:"status"`
+	Total          int64         `json:"total"`
+}
+
+func (MspCasbUsersLicense) IsLicense()                     {}
+func (this MspCasbUsersLicense) GetDescription() *string   { return this.Description }
+func (this MspCasbUsersLicense) GetExpirationDate() string { return this.ExpirationDate }
+func (this MspCasbUsersLicense) GetID() *string            { return this.ID }
+func (this MspCasbUsersLicense) GetLastUpdated() *string   { return this.LastUpdated }
+func (this MspCasbUsersLicense) GetPlan() LicensePlan      { return this.Plan }
+func (this MspCasbUsersLicense) GetSku() LicenseSku        { return this.Sku }
+func (this MspCasbUsersLicense) GetStartDate() *string     { return this.StartDate }
+func (this MspCasbUsersLicense) GetStatus() LicenseStatus  { return this.Status }
+
+func (MspCasbUsersLicense) IsQuantifiableLicense() {}
+
+func (this MspCasbUsersLicense) GetTotal() int64 { return this.Total }
+
+// Cato Data Loss Prevention - Bandwidth service license details
+type MspDlpBandwidthLicense struct {
+	Description    *string       `json:"description,omitempty,omitzero"`
+	ExpirationDate string        `json:"expirationDate"`
+	ID             *string       `json:"id,omitempty,omitzero"`
+	LastUpdated    *string       `json:"lastUpdated,omitempty,omitzero"`
+	Plan           LicensePlan   `json:"plan"`
+	Sku            LicenseSku    `json:"sku"`
+	StartDate      *string       `json:"startDate,omitempty,omitzero"`
+	Status         LicenseStatus `json:"status"`
+	Total          int64         `json:"total"`
+}
+
+func (MspDlpBandwidthLicense) IsLicense()                     {}
+func (this MspDlpBandwidthLicense) GetDescription() *string   { return this.Description }
+func (this MspDlpBandwidthLicense) GetExpirationDate() string { return this.ExpirationDate }
+func (this MspDlpBandwidthLicense) GetID() *string            { return this.ID }
+func (this MspDlpBandwidthLicense) GetLastUpdated() *string   { return this.LastUpdated }
+func (this MspDlpBandwidthLicense) GetPlan() LicensePlan      { return this.Plan }
+func (this MspDlpBandwidthLicense) GetSku() LicenseSku        { return this.Sku }
+func (this MspDlpBandwidthLicense) GetStartDate() *string     { return this.StartDate }
+func (this MspDlpBandwidthLicense) GetStatus() LicenseStatus  { return this.Status }
+
+func (MspDlpBandwidthLicense) IsQuantifiableLicense() {}
+
+func (this MspDlpBandwidthLicense) GetTotal() int64 { return this.Total }
+
+// Cato Data Loss Prevention - Users service license details
+type MspDlpUsersLicense struct {
+	Description    *string       `json:"description,omitempty,omitzero"`
+	ExpirationDate string        `json:"expirationDate"`
+	ID             *string       `json:"id,omitempty,omitzero"`
+	LastUpdated    *string       `json:"lastUpdated,omitempty,omitzero"`
+	Plan           LicensePlan   `json:"plan"`
+	Sku            LicenseSku    `json:"sku"`
+	StartDate      *string       `json:"startDate,omitempty,omitzero"`
+	Status         LicenseStatus `json:"status"`
+	Total          int64         `json:"total"`
+}
+
+func (MspDlpUsersLicense) IsLicense()                     {}
+func (this MspDlpUsersLicense) GetDescription() *string   { return this.Description }
+func (this MspDlpUsersLicense) GetExpirationDate() string { return this.ExpirationDate }
+func (this MspDlpUsersLicense) GetID() *string            { return this.ID }
+func (this MspDlpUsersLicense) GetLastUpdated() *string   { return this.LastUpdated }
+func (this MspDlpUsersLicense) GetPlan() LicensePlan      { return this.Plan }
+func (this MspDlpUsersLicense) GetSku() LicenseSku        { return this.Sku }
+func (this MspDlpUsersLicense) GetStartDate() *string     { return this.StartDate }
+func (this MspDlpUsersLicense) GetStatus() LicenseStatus  { return this.Status }
+
+func (MspDlpUsersLicense) IsQuantifiableLicense() {}
+
+func (this MspDlpUsersLicense) GetTotal() int64 { return this.Total }
+
+// Cato Threat Prevention - Bandwidth service license details
+type MspTpBandwidthLicense struct {
+	Description    *string       `json:"description,omitempty,omitzero"`
+	ExpirationDate string        `json:"expirationDate"`
+	ID             *string       `json:"id,omitempty,omitzero"`
+	LastUpdated    *string       `json:"lastUpdated,omitempty,omitzero"`
+	Plan           LicensePlan   `json:"plan"`
+	Sku            LicenseSku    `json:"sku"`
+	StartDate      *string       `json:"startDate,omitempty,omitzero"`
+	Status         LicenseStatus `json:"status"`
+	Total          int64         `json:"total"`
+}
+
+func (MspTpBandwidthLicense) IsLicense()                     {}
+func (this MspTpBandwidthLicense) GetDescription() *string   { return this.Description }
+func (this MspTpBandwidthLicense) GetExpirationDate() string { return this.ExpirationDate }
+func (this MspTpBandwidthLicense) GetID() *string            { return this.ID }
+func (this MspTpBandwidthLicense) GetLastUpdated() *string   { return this.LastUpdated }
+func (this MspTpBandwidthLicense) GetPlan() LicensePlan      { return this.Plan }
+func (this MspTpBandwidthLicense) GetSku() LicenseSku        { return this.Sku }
+func (this MspTpBandwidthLicense) GetStartDate() *string     { return this.StartDate }
+func (this MspTpBandwidthLicense) GetStatus() LicenseStatus  { return this.Status }
+
+func (MspTpBandwidthLicense) IsQuantifiableLicense() {}
+
+func (this MspTpBandwidthLicense) GetTotal() int64 { return this.Total }
+
+// Cato Threat Prevention - Users service license details
+type MspTpUsersLicense struct {
+	Description    *string       `json:"description,omitempty,omitzero"`
+	ExpirationDate string        `json:"expirationDate"`
+	ID             *string       `json:"id,omitempty,omitzero"`
+	LastUpdated    *string       `json:"lastUpdated,omitempty,omitzero"`
+	Plan           LicensePlan   `json:"plan"`
+	Sku            LicenseSku    `json:"sku"`
+	StartDate      *string       `json:"startDate,omitempty,omitzero"`
+	Status         LicenseStatus `json:"status"`
+	Total          int64         `json:"total"`
+}
+
+func (MspTpUsersLicense) IsLicense()                     {}
+func (this MspTpUsersLicense) GetDescription() *string   { return this.Description }
+func (this MspTpUsersLicense) GetExpirationDate() string { return this.ExpirationDate }
+func (this MspTpUsersLicense) GetID() *string            { return this.ID }
+func (this MspTpUsersLicense) GetLastUpdated() *string   { return this.LastUpdated }
+func (this MspTpUsersLicense) GetPlan() LicensePlan      { return this.Plan }
+func (this MspTpUsersLicense) GetSku() LicenseSku        { return this.Sku }
+func (this MspTpUsersLicense) GetStartDate() *string     { return this.StartDate }
+func (this MspTpUsersLicense) GetStatus() LicenseStatus  { return this.Status }
+
+func (MspTpUsersLicense) IsQuantifiableLicense() {}
+
+func (this MspTpUsersLicense) GetTotal() int64 { return this.Total }
 
 type Mutation struct {
 }
 
 // NOC as a Service (NOCaaS) service license details
 type NOCaaSLicense struct {
-	Description    *string       `json:"description,omitempty"`
+	Description    *string       `json:"description,omitempty,omitzero"`
 	ExpirationDate string        `json:"expirationDate"`
-	ID             *string       `json:"id,omitempty"`
-	LastUpdated    *string       `json:"lastUpdated,omitempty"`
+	ID             *string       `json:"id,omitempty,omitzero"`
+	LastUpdated    *string       `json:"lastUpdated,omitempty,omitzero"`
 	Plan           LicensePlan   `json:"plan"`
 	Sku            LicenseSku    `json:"sku"`
-	StartDate      *string       `json:"startDate,omitempty"`
+	StartDate      *string       `json:"startDate,omitempty,omitzero"`
 	Status         LicenseStatus `json:"status"`
 }
 
@@ -6969,29 +8178,26 @@ type NetworkInterfaceRefInput struct {
 }
 
 type NetworkRange struct {
-	AzureFloatingIP       *string                   `json:"azureFloatingIp,omitempty"`
-	DhcpSettings          *NetworkRangeDhcpSettings `json:"dhcpSettings,omitempty"`
-	Gateway               *string                   `json:"gateway,omitempty"`
-	GCPLoadBalancerIP     *string                   `json:"gcpLoadBalancerIp,omitempty"`
-	InternetOnly          bool                      `json:"internetOnly"`
-	LocalIP               *string                   `json:"localIp,omitempty"`
-	MdnsReflector         bool                      `json:"mdnsReflector"`
-	Name                  string                    `json:"name"`
-	NetworkRangeID        string                    `json:"networkRangeId"`
-	PrimaryManagementIP   *string                   `json:"primaryManagementIp,omitempty"`
-	RangeType             SubnetType                `json:"rangeType"`
-	SecondaryManagementIP *string                   `json:"secondaryManagementIp,omitempty"`
-	Subnet                string                    `json:"subnet"`
-	TranslatedSubnet      *string                   `json:"translatedSubnet,omitempty"`
-	Vlan                  *int64                    `json:"vlan,omitempty"`
+	AzureFloatingIP  *string                   `json:"azureFloatingIp,omitempty,omitzero"`
+	DhcpSettings     *NetworkRangeDhcpSettings `json:"dhcpSettings,omitempty,omitzero"`
+	Gateway          *string                   `json:"gateway,omitempty,omitzero"`
+	InternetOnly     bool                      `json:"internetOnly"`
+	LocalIP          *string                   `json:"localIp,omitempty,omitzero"`
+	MdnsReflector    bool                      `json:"mdnsReflector"`
+	Name             string                    `json:"name"`
+	NetworkRangeID   string                    `json:"networkRangeId"`
+	RangeType        SubnetType                `json:"rangeType"`
+	Subnet           string                    `json:"subnet"`
+	TranslatedSubnet *string                   `json:"translatedSubnet,omitempty,omitzero"`
+	Vlan             *int64                    `json:"vlan,omitempty,omitzero"`
 }
 
 type NetworkRangeDhcpSettings struct {
 	DhcpMicrosegmentation bool                   `json:"dhcpMicrosegmentation"`
 	DhcpType              DhcpType               `json:"dhcpType"`
-	IPRange               *string                `json:"ipRange,omitempty"`
-	LeaseTimeSettings     *DhcpLeaseTimeSettings `json:"leaseTimeSettings,omitempty"`
-	RelayGroupID          *string                `json:"relayGroupId,omitempty"`
+	IPRange               *string                `json:"ipRange,omitempty,omitzero"`
+	LeaseTimeSettings     *DhcpLeaseTimeSettings `json:"leaseTimeSettings,omitempty,omitzero"`
+	RelayGroupID          *string                `json:"relayGroupId,omitempty,omitzero"`
 }
 
 type NetworkRangeListInput struct {
@@ -7003,95 +8209,124 @@ type NetworkRangeListPayload struct {
 	Total int64           `json:"total"`
 }
 
+type NetworkRangeRefInput struct {
+	NetworkRangeID string `json:"networkRangeId"`
+}
+
 type NetworkTimelineEvent struct {
-	Acknowledged         *bool                     `json:"acknowledged,omitempty"`
-	BgpConnection        *BGPConnection            `json:"bgpConnection,omitempty"`
+	Acknowledged         *bool                     `json:"acknowledged,omitempty,omitzero"`
+	BgpConnection        *BGPConnection            `json:"bgpConnection,omitempty,omitzero"`
 	Created              string                    `json:"created"`
-	Description          *string                   `json:"description,omitempty"`
-	DeviceConfigHaRole   *DeviceConfigHaRoleEnum   `json:"deviceConfigHaRole,omitempty"`
-	DeviceHaRoleState    *DeviceHaRoleStateEnum    `json:"deviceHaRoleState,omitempty"`
+	Description          *string                   `json:"description,omitempty,omitzero"`
+	DeviceConfigHaRole   *DeviceConfigHaRoleEnum   `json:"deviceConfigHaRole,omitempty,omitzero"`
+	DeviceHaRoleState    *DeviceHaRoleStateEnum    `json:"deviceHaRoleState,omitempty,omitzero"`
 	EventIds             []string                  `json:"eventIds"`
-	EventType            *NetworkXDREventTypeEnum  `json:"eventType,omitempty"`
-	HostIP               *string                   `json:"hostIp,omitempty"`
-	IncidentID           *string                   `json:"incidentId,omitempty"`
-	Isp                  *string                   `json:"isp,omitempty"`
-	LinkConfigBandwidth  *string                   `json:"linkConfigBandwidth,omitempty"`
-	LinkConfigPrecedence *LinkConfigPrecedenceEnum `json:"linkConfigPrecedence,omitempty"`
-	LinkID               *string                   `json:"linkId,omitempty"`
-	LinkName             *string                   `json:"linkName,omitempty"`
-	LinkQualityIssue     *LinkQualityIssue         `json:"linkQualityIssue,omitempty"`
-	LinkStatus           *LinkStatusEnum           `json:"linkStatus,omitempty"`
-	Muted                *bool                     `json:"muted,omitempty"`
-	NetworkEventSource   *NetworkEventSourceEnum   `json:"networkEventSource,omitempty"`
-	Pop                  *string                   `json:"pop,omitempty"`
-	RuleName             *string                   `json:"ruleName,omitempty"`
-	SocketSerialID       *string                   `json:"socketSerialId,omitempty"`
-	TunnelResetCount     *int64                    `json:"tunnelResetCount,omitempty"`
+	EventType            *NetworkXDREventTypeEnum  `json:"eventType,omitempty,omitzero"`
+	HostIP               *string                   `json:"hostIp,omitempty,omitzero"`
+	IncidentID           *string                   `json:"incidentId,omitempty,omitzero"`
+	Isp                  *string                   `json:"isp,omitempty,omitzero"`
+	LinkConfigBandwidth  *string                   `json:"linkConfigBandwidth,omitempty,omitzero"`
+	LinkConfigPrecedence *LinkConfigPrecedenceEnum `json:"linkConfigPrecedence,omitempty,omitzero"`
+	LinkID               *string                   `json:"linkId,omitempty,omitzero"`
+	LinkName             *string                   `json:"linkName,omitempty,omitzero"`
+	LinkQualityIssue     *LinkQualityIssue         `json:"linkQualityIssue,omitempty,omitzero"`
+	LinkStatus           *LinkStatusEnum           `json:"linkStatus,omitempty,omitzero"`
+	Muted                *bool                     `json:"muted,omitempty,omitzero"`
+	NetworkEventSource   *NetworkEventSourceEnum   `json:"networkEventSource,omitempty,omitzero"`
+	Pop                  *string                   `json:"pop,omitempty,omitzero"`
+	RuleName             *string                   `json:"ruleName,omitempty,omitzero"`
+	SocketSerialID       *string                   `json:"socketSerialId,omitempty,omitzero"`
+	TunnelResetCount     *int64                    `json:"tunnelResetCount,omitempty,omitzero"`
 	Validated            string                    `json:"validated"`
 }
 
 // The `NetworkXDRIncident` object represents a detailed incident report within a network, containing various fields such as incident ID, description, criticality, timeline events, and associated metadata like connection type, site information, and predicted threat type, used for analyzing and managing network security incidents.
 type NetworkXDRIncident struct {
-	Acknowledged            *bool                     `json:"acknowledged,omitempty"`
-	AnalystFeedback         *AnalystFeedback          `json:"analystFeedback,omitempty"`
-	BgpConnection           *BGPConnection            `json:"bgpConnection,omitempty"`
-	ConnectionType          *ConnectionTypeEnum       `json:"connectionType,omitempty"`
-	Criticality             *int64                    `json:"criticality,omitempty"`
-	Description             *string                   `json:"description,omitempty"`
-	DeviceConfigHaRole      *DeviceConfigHaRoleEnum   `json:"deviceConfigHaRole,omitempty"`
-	EngineType              *StoryEngineTypeEnum      `json:"engineType,omitempty"`
+	Acknowledged            *bool                     `json:"acknowledged,omitempty,omitzero"`
+	AnalystFeedback         *AnalystFeedback          `json:"analystFeedback,omitempty,omitzero"`
+	BgpConnection           *BGPConnection            `json:"bgpConnection,omitempty,omitzero"`
+	Categories              []IncidentCategory        `json:"categories"`
+	ConnectionType          *ConnectionTypeEnum       `json:"connectionType,omitempty,omitzero"`
+	Criticality             *int64                    `json:"criticality,omitempty,omitzero"`
+	Description             *string                   `json:"description,omitempty,omitzero"`
+	DeviceConfigHaRole      *DeviceConfigHaRoleEnum   `json:"deviceConfigHaRole,omitempty,omitzero"`
+	EngineType              *StoryEngineTypeEnum      `json:"engineType,omitempty,omitzero"`
+	Entities                []*IncidentEntity         `json:"entities"`
 	FirstSignal             string                    `json:"firstSignal"`
-	HostIP                  *string                   `json:"hostIp,omitempty"`
+	HostIP                  *string                   `json:"hostIp,omitempty,omitzero"`
 	ID                      string                    `json:"id"`
-	IlmmDetails             *IlmmDetails              `json:"ilmmDetails,omitempty"`
+	IlmmDetails             *IlmmDetails              `json:"ilmmDetails,omitempty,omitzero"`
 	Indication              string                    `json:"indication"`
-	Isp                     *string                   `json:"isp,omitempty"`
+	Isp                     *string                   `json:"isp,omitempty,omitzero"`
 	LastSignal              string                    `json:"lastSignal"`
-	LicenseBandwidth        *string                   `json:"licenseBandwidth,omitempty"`
-	LicenseRegion           *string                   `json:"licenseRegion,omitempty"`
-	LinkConfigPrecedence    *LinkConfigPrecedenceEnum `json:"linkConfigPrecedence,omitempty"`
-	LinkID                  *string                   `json:"linkId,omitempty"`
-	LinkName                *string                   `json:"linkName,omitempty"`
-	Muted                   *bool                     `json:"muted,omitempty"`
+	LicenseBandwidth        *string                   `json:"licenseBandwidth,omitempty,omitzero"`
+	LicenseRegion           *string                   `json:"licenseRegion,omitempty,omitzero"`
+	LinkConfigPrecedence    *LinkConfigPrecedenceEnum `json:"linkConfigPrecedence,omitempty,omitzero"`
+	LinkID                  *string                   `json:"linkId,omitempty,omitzero"`
+	LinkName                *string                   `json:"linkName,omitempty,omitzero"`
+	Muted                   bool                      `json:"muted"`
 	NetworkIncidentTimeline []*NetworkTimelineEvent   `json:"networkIncidentTimeline"`
-	Occurrences             *int64                    `json:"occurrences,omitempty"`
-	Pop                     *string                   `json:"pop,omitempty"`
-	PredictedThreatType     *string                   `json:"predictedThreatType,omitempty"`
-	PredictedVerdict        *StoryVerdictEnum         `json:"predictedVerdict,omitempty"`
+	Occurrences             *int64                    `json:"occurrences,omitempty,omitzero"`
+	Pop                     *string                   `json:"pop,omitempty,omitzero"`
+	PredictedThreatType     *string                   `json:"predictedThreatType,omitempty,omitzero"`
+	PredictedVerdict        *StoryVerdictEnum         `json:"predictedVerdict,omitempty,omitzero"`
 	Producer                StoryProducerEnum         `json:"producer"`
 	ProducerName            string                    `json:"producerName"`
-	QueryName               *string                   `json:"queryName,omitempty"`
-	Research                *bool                     `json:"research,omitempty"`
-	RuleName                *string                   `json:"ruleName,omitempty"`
+	ProducerType            StoryProducerEnum         `json:"producerType"`
+	QueryName               *string                   `json:"queryName,omitempty,omitzero"`
+	Research                *bool                     `json:"research,omitempty,omitzero"`
+	RuleName                *string                   `json:"ruleName,omitempty,omitzero"`
 	SimilarStoriesData      []*SimilarStoryData       `json:"similarStoriesData"`
-	Site                    *SiteRef                  `json:"site,omitempty"`
-	SiteConfigLocation      *string                   `json:"siteConfigLocation,omitempty"`
-	SiteConnectionType      *string                   `json:"siteConnectionType,omitempty"`
+	Site                    *SiteRef                  `json:"site,omitempty,omitzero"`
+	SiteConfigLocation      *string                   `json:"siteConfigLocation,omitempty,omitzero"`
+	SiteConnectionType      *string                   `json:"siteConnectionType,omitempty,omitzero"`
 	SiteName                string                    `json:"siteName"`
-	Source                  *string                   `json:"source,omitempty"`
-	SourceIP                *string                   `json:"sourceIp,omitempty"`
-	Status                  *StoryStatusEnum          `json:"status,omitempty"`
-	StoryDuration           *int64                    `json:"storyDuration,omitempty"`
+	Source                  *string                   `json:"source,omitempty,omitzero"`
+	SourceIP                *string                   `json:"sourceIp,omitempty,omitzero"`
+	Status                  *StoryStatusEnum          `json:"status,omitempty,omitzero"`
+	StoryDuration           *int64                    `json:"storyDuration,omitempty,omitzero"`
 	StoryType               string                    `json:"storyType"`
-	Ticket                  *string                   `json:"ticket,omitempty"`
-	User                    *UserRef                  `json:"user,omitempty"`
-	Vendor                  *VendorEnum               `json:"vendor,omitempty"`
+	Ticket                  *string                   `json:"ticket,omitempty,omitzero"`
+	User                    *UserRef                  `json:"user,omitempty,omitzero"`
+	Vendor                  *VendorEnum               `json:"vendor,omitempty,omitzero"`
 }
 
-func (NetworkXDRIncident) IsMergedIncident()                           {}
-func (this NetworkXDRIncident) GetAnalystFeedback() *AnalystFeedback   { return this.AnalystFeedback }
+func (NetworkXDRIncident) IsMergedIncident()                         {}
+func (this NetworkXDRIncident) GetAnalystFeedback() *AnalystFeedback { return this.AnalystFeedback }
+func (this NetworkXDRIncident) GetCategories() []IncidentCategory {
+	if this.Categories == nil {
+		return nil
+	}
+	interfaceSlice := make([]IncidentCategory, 0, len(this.Categories))
+	for _, concrete := range this.Categories {
+		interfaceSlice = append(interfaceSlice, concrete)
+	}
+	return interfaceSlice
+}
 func (this NetworkXDRIncident) GetConnectionType() *ConnectionTypeEnum { return this.ConnectionType }
 func (this NetworkXDRIncident) GetCriticality() *int64                 { return this.Criticality }
 func (this NetworkXDRIncident) GetDescription() *string                { return this.Description }
 func (this NetworkXDRIncident) GetEngineType() *StoryEngineTypeEnum    { return this.EngineType }
+func (this NetworkXDRIncident) GetEntities() []*IncidentEntity {
+	if this.Entities == nil {
+		return nil
+	}
+	interfaceSlice := make([]*IncidentEntity, 0, len(this.Entities))
+	for _, concrete := range this.Entities {
+		interfaceSlice = append(interfaceSlice, concrete)
+	}
+	return interfaceSlice
+}
 func (this NetworkXDRIncident) GetFirstSignal() string                 { return this.FirstSignal }
 func (this NetworkXDRIncident) GetID() string                          { return this.ID }
 func (this NetworkXDRIncident) GetIndication() string                  { return this.Indication }
 func (this NetworkXDRIncident) GetLastSignal() string                  { return this.LastSignal }
+func (this NetworkXDRIncident) GetMuted() bool                         { return this.Muted }
 func (this NetworkXDRIncident) GetPredictedThreatType() *string        { return this.PredictedThreatType }
 func (this NetworkXDRIncident) GetPredictedVerdict() *StoryVerdictEnum { return this.PredictedVerdict }
 func (this NetworkXDRIncident) GetProducer() StoryProducerEnum         { return this.Producer }
 func (this NetworkXDRIncident) GetProducerName() string                { return this.ProducerName }
+func (this NetworkXDRIncident) GetProducerType() StoryProducerEnum     { return this.ProducerType }
 func (this NetworkXDRIncident) GetQueryName() *string                  { return this.QueryName }
 func (this NetworkXDRIncident) GetResearch() *bool                     { return this.Research }
 func (this NetworkXDRIncident) GetSite() *SiteRef                      { return this.Site }
@@ -7106,13 +8341,13 @@ func (this NetworkXDRIncident) GetVendor() *VendorEnum                 { return 
 
 // NG Anti-Malware service license details (Legacy license, replaced by TP)
 type NextGenMalwareProtectionLicense struct {
-	Description    *string       `json:"description,omitempty"`
+	Description    *string       `json:"description,omitempty,omitzero"`
 	ExpirationDate string        `json:"expirationDate"`
-	ID             *string       `json:"id,omitempty"`
-	LastUpdated    *string       `json:"lastUpdated,omitempty"`
+	ID             *string       `json:"id,omitempty,omitzero"`
+	LastUpdated    *string       `json:"lastUpdated,omitempty,omitzero"`
 	Plan           LicensePlan   `json:"plan"`
 	Sku            LicenseSku    `json:"sku"`
-	StartDate      *string       `json:"startDate,omitempty"`
+	StartDate      *string       `json:"startDate,omitempty,omitzero"`
 	Status         LicenseStatus `json:"status"`
 }
 
@@ -7126,6 +8361,31 @@ func (this NextGenMalwareProtectionLicense) GetSku() LicenseSku        { return 
 func (this NextGenMalwareProtectionLicense) GetStartDate() *string     { return this.StartDate }
 func (this NextGenMalwareProtectionLicense) GetStatus() LicenseStatus  { return this.Status }
 
+type NoAuth struct {
+	AuthType AuthType `json:"authType"`
+}
+
+func (NoAuth) IsAuthInterface()           {}
+func (this NoAuth) GetAuthType() AuthType { return this.AuthType }
+
+type NotificationSubscriptionMutations struct {
+	CreateMailingList       *CreateMailingListPayload       `json:"createMailingList"`
+	CreateSubscriptionGroup *CreateSubscriptionGroupPayload `json:"createSubscriptionGroup,omitempty,omitzero"`
+	DeleteMailingList       *DeleteMailingListPayload       `json:"deleteMailingList,omitempty,omitzero"`
+	DeleteSubscriptionGroup *DeleteSubscriptionGroupPayload `json:"deleteSubscriptionGroup,omitempty,omitzero"`
+	Integration             *IntegrationMutations           `json:"integration"`
+	UpdateMailingList       *UpdateMailingListPayload       `json:"updateMailingList"`
+	UpdateSubscriptionGroup *UpdateSubscriptionGroupPayload `json:"updateSubscriptionGroup,omitempty,omitzero"`
+}
+
+type NotificationSubscriptionQueries struct {
+	Integration           *IntegrationQueries           `json:"integration"`
+	MailingList           *MailingList                  `json:"mailingList,omitempty,omitzero"`
+	MailingListList       *MailingListListPayload       `json:"mailingListList"`
+	SubscriptionGroup     *SubscriptionGroup            `json:"subscriptionGroup,omitempty,omitzero"`
+	SubscriptionGroupList *SubscriptionGroupListPayload `json:"subscriptionGroupList"`
+}
+
 type OriginTypeFilterInput struct {
 	HasAll []OriginType `json:"hasAll,omitempty"`
 	In     []OriginType `json:"in,omitempty"`
@@ -7133,9 +8393,9 @@ type OriginTypeFilterInput struct {
 }
 
 type OsDetails struct {
-	OsBuild   *int64  `json:"osBuild,omitempty"`
+	OsBuild   *int64  `json:"osBuild,omitempty,omitzero"`
 	OsType    string  `json:"osType"`
-	OsVersion *string `json:"osVersion,omitempty"`
+	OsVersion *string `json:"osVersion,omitempty,omitzero"`
 }
 
 type PageInfo struct {
@@ -7153,15 +8413,54 @@ type PagingInput struct {
 	Limit int64 `json:"limit"`
 }
 
+// Filter criteria for listing partner access requests.
+type PartnerAccessRequestFilterInput struct {
+	ExpirationDate *DateTimeFilterInput            `json:"expirationDate,omitempty"`
+	RequestedDate  *DateTimeFilterInput            `json:"requestedDate,omitempty"`
+	Search         *StringFilterInput              `json:"search,omitempty"`
+	Status         *AccessRequestStatusFilterInput `json:"status,omitempty"`
+	Type           *AccessRequestTypeFilterInput   `json:"type,omitempty"`
+}
+
+// Input for listing partner access requests.
+type PartnerAccessRequestListInput struct {
+	Filter *PartnerAccessRequestFilterInput `json:"filter,omitempty"`
+	Paging *PagingInput                     `json:"paging"`
+	Sort   *PartnerAccessRequestSortInput   `json:"sort"`
+}
+
+// Output for listing partner access requests.
+type PartnerAccessRequestListPayload struct {
+	Items  []*ExternalAccessRequest `json:"items"`
+	Paging *PageInfo                `json:"paging"`
+}
+
+// Sort settings for partner account access requests.
+type PartnerAccessRequestSortInput struct {
+	AccountName    *SortOrderInput `json:"accountName,omitempty"`
+	ActiveDate     *SortOrderInput `json:"activeDate,omitempty"`
+	ExpirationDate *SortOrderInput `json:"expirationDate,omitempty"`
+	ID             *SortOrderInput `json:"id,omitempty"`
+	RequestedDate  *SortOrderInput `json:"requestedDate,omitempty"`
+	Status         *SortOrderInput `json:"status,omitempty"`
+	Type           *SortOrderInput `json:"type,omitempty"`
+}
+
 type PartnerPooledBandwidthLicenseAccount struct {
 	Account            *AccountRef `json:"account"`
 	AllocatedBandwidth int64       `json:"allocatedBandwidth"`
 }
 
+type PartnerZtnaUsersLicenseAccount struct {
+	Account        *AccountRef `json:"account"`
+	AllocatedUsers int64       `json:"allocatedUsers"`
+}
+
 // Represents available versions for a specific platform.
 type PlatformVersions struct {
-	Platform string   `json:"platform"`
-	Versions []string `json:"versions"`
+	Platform       string               `json:"platform"`
+	VersionDetails []*SocketVersionInfo `json:"versionDetails"`
+	Versions       []string             `json:"versions"`
 }
 
 // Input for adding section info to a policy
@@ -7239,10 +8538,6 @@ type PolicyElementAudit struct {
 type PolicyElementRefInput struct {
 	By    ObjectRefBy `json:"by"`
 	Input string      `json:"input"`
-}
-
-type PolicyHitCount struct {
-	LastUpdatedTime string `json:"lastUpdatedTime"`
 }
 
 type PolicyLevelEnumFilterInput struct {
@@ -7347,8 +8642,8 @@ type PolicyMoveSubRuleInput struct {
 // ### `sectionPositionInvalid`
 // - **Error Message:** "Section position is invalid"
 type PolicyMutationError struct {
-	ErrorCode    *string `json:"errorCode,omitempty"`
-	ErrorMessage *string `json:"errorMessage,omitempty"`
+	ErrorCode    *string `json:"errorCode,omitempty,omitzero"`
+	ErrorMessage *string `json:"errorMessage,omitempty,omitzero"`
 }
 
 type PolicyMutationRevisionInput struct {
@@ -7356,18 +8651,22 @@ type PolicyMutationRevisionInput struct {
 }
 
 type PolicyMutations struct {
-	AntiMalwareFileHash  *AntiMalwareFileHashPolicyMutations  `json:"antiMalwareFileHash,omitempty"`
-	AppTenantRestriction *AppTenantRestrictionPolicyMutations `json:"appTenantRestriction,omitempty"`
-	ApplicationControl   *ApplicationControlPolicyMutations   `json:"applicationControl,omitempty"`
-	DynamicIPAllocation  *DynamicIPAllocationPolicyMutations  `json:"dynamicIpAllocation,omitempty"`
-	InternetFirewall     *InternetFirewallPolicyMutations     `json:"internetFirewall,omitempty"`
-	PrivateAccess        *PrivateAccessPolicyMutations        `json:"privateAccess,omitempty"`
-	RemotePortFwd        *RemotePortFwdPolicyMutations        `json:"remotePortFwd,omitempty"`
-	SocketLan            *SocketLanPolicyMutations            `json:"socketLan,omitempty"`
-	TerminalServer       *TerminalServerPolicyMutations       `json:"terminalServer,omitempty"`
-	TLSInspect           *TLSInspectPolicyMutations           `json:"tlsInspect,omitempty"`
-	WanFirewall          *WanFirewallPolicyMutations          `json:"wanFirewall,omitempty"`
-	WanNetwork           *WanNetworkPolicyMutations           `json:"wanNetwork,omitempty"`
+	AntiMalwareFileHash  *AntiMalwareFileHashPolicyMutations  `json:"antiMalwareFileHash,omitempty,omitzero"`
+	AppTenantRestriction *AppTenantRestrictionPolicyMutations `json:"appTenantRestriction,omitempty,omitzero"`
+	ApplicationControl   *ApplicationControlPolicyMutations   `json:"applicationControl,omitempty,omitzero"`
+	ClientConnectivity   *ClientConnectivityPolicyMutations   `json:"clientConnectivity,omitempty,omitzero"`
+	DynamicIPAllocation  *DynamicIPAllocationPolicyMutations  `json:"dynamicIpAllocation,omitempty,omitzero"`
+	InternetFirewall     *InternetFirewallPolicyMutations     `json:"internetFirewall,omitempty,omitzero"`
+	PrivateAccess        *PrivateAccessPolicyMutations        `json:"privateAccess,omitempty,omitzero"`
+	RemotePortFwd        *RemotePortFwdPolicyMutations        `json:"remotePortFwd,omitempty,omitzero"`
+	SocketBypass         *SocketBypassPolicyMutations         `json:"socketBypass,omitempty,omitzero"`
+	SocketLan            *SocketLanPolicyMutations            `json:"socketLan,omitempty,omitzero"`
+	SplitTunnel          *SplitTunnelPolicyMutations          `json:"splitTunnel,omitempty,omitzero"`
+	TerminalServer       *TerminalServerPolicyMutations       `json:"terminalServer,omitempty,omitzero"`
+	TLSInspect           *TLSInspectPolicyMutations           `json:"tlsInspect,omitempty,omitzero"`
+	WanFirewall          *WanFirewallPolicyMutations          `json:"wanFirewall,omitempty,omitzero"`
+	WanNetwork           *WanNetworkPolicyMutations           `json:"wanNetwork,omitempty,omitzero"`
+	ZtnaAlwaysOn         *ZtnaAlwaysOnPolicyMutations         `json:"ztnaAlwaysOn,omitempty,omitzero"`
 }
 
 // Published revision is the active policy
@@ -7381,18 +8680,22 @@ type PolicyPublishRevisionInput struct {
 
 // policies which configuration can be read with query APIs.
 type PolicyQueries struct {
-	AntiMalwareFileHash  *AntiMalwareFileHashPolicyQueries  `json:"antiMalwareFileHash,omitempty"`
-	AppTenantRestriction *AppTenantRestrictionPolicyQueries `json:"appTenantRestriction,omitempty"`
-	ApplicationControl   *ApplicationControlPolicyQueries   `json:"applicationControl,omitempty"`
-	DynamicIPAllocation  *DynamicIPAllocationPolicyQueries  `json:"dynamicIpAllocation,omitempty"`
-	InternetFirewall     *InternetFirewallPolicyQueries     `json:"internetFirewall,omitempty"`
-	PrivateAccess        *PrivateAccessPolicyQueries        `json:"privateAccess,omitempty"`
-	RemotePortFwd        *RemotePortFwdPolicyQueries        `json:"remotePortFwd,omitempty"`
-	SocketLan            *SocketLanPolicyQueries            `json:"socketLan,omitempty"`
-	TerminalServer       *TerminalServerPolicyQueries       `json:"terminalServer,omitempty"`
-	TLSInspect           *TLSInspectPolicyQueries           `json:"tlsInspect,omitempty"`
-	WanFirewall          *WanFirewallPolicyQueries          `json:"wanFirewall,omitempty"`
-	WanNetwork           *WanNetworkPolicyQueries           `json:"wanNetwork,omitempty"`
+	AntiMalwareFileHash  *AntiMalwareFileHashPolicyQueries  `json:"antiMalwareFileHash,omitempty,omitzero"`
+	AppTenantRestriction *AppTenantRestrictionPolicyQueries `json:"appTenantRestriction,omitempty,omitzero"`
+	ApplicationControl   *ApplicationControlPolicyQueries   `json:"applicationControl,omitempty,omitzero"`
+	ClientConnectivity   *ClientConnectivityPolicyQueries   `json:"clientConnectivity,omitempty,omitzero"`
+	DynamicIPAllocation  *DynamicIPAllocationPolicyQueries  `json:"dynamicIpAllocation,omitempty,omitzero"`
+	InternetFirewall     *InternetFirewallPolicyQueries     `json:"internetFirewall,omitempty,omitzero"`
+	PrivateAccess        *PrivateAccessPolicyQueries        `json:"privateAccess,omitempty,omitzero"`
+	RemotePortFwd        *RemotePortFwdPolicyQueries        `json:"remotePortFwd,omitempty,omitzero"`
+	SocketBypass         *SocketBypassPolicyQueries         `json:"socketBypass,omitempty,omitzero"`
+	SocketLan            *SocketLanPolicyQueries            `json:"socketLan,omitempty,omitzero"`
+	SplitTunnel          *SplitTunnelPolicyQueries          `json:"splitTunnel,omitempty,omitzero"`
+	TerminalServer       *TerminalServerPolicyQueries       `json:"terminalServer,omitempty,omitzero"`
+	TLSInspect           *TLSInspectPolicyQueries           `json:"tlsInspect,omitempty,omitzero"`
+	WanFirewall          *WanFirewallPolicyQueries          `json:"wanFirewall,omitempty,omitzero"`
+	WanNetwork           *WanNetworkPolicyQueries           `json:"wanNetwork,omitempty,omitzero"`
+	ZtnaAlwaysOn         *ZtnaAlwaysOnPolicyQueries         `json:"ztnaAlwaysOn,omitempty,omitzero"`
 }
 
 // Input for removing a section from a policy
@@ -7401,7 +8704,7 @@ type PolicyRemoveSectionInput struct {
 }
 
 // Input for reordering an entire policy in a single mutation.
-// All sections, rules, and sub-rules must be provided — including system elements.
+// All sections, rules, and sub-rules must be provided, including system elements.
 // System sections and system rules must remain at their persisted positions (same array index).
 // The desired order is determined by the natural (array index) order of the elements.
 type PolicyReorderInput struct {
@@ -7452,13 +8755,12 @@ type PolicyRevisionsPayload struct {
 
 // Returns the time period during which the rule is active, outside this period, the rule is inactive
 type PolicyRuleActivePeriod struct {
-	EffectiveFrom    *string `json:"effectiveFrom,omitempty"`
-	ExpiresAt        *string `json:"expiresAt,omitempty"`
+	EffectiveFrom    *string `json:"effectiveFrom,omitempty,omitzero"`
+	ExpiresAt        *string `json:"expiresAt,omitempty,omitzero"`
 	UseEffectiveFrom bool    `json:"useEffectiveFrom"`
 	UseExpiresAt     bool    `json:"useExpiresAt"`
 }
 
-// Input of the time period during which the rule is active, outside this period, the rule is inactive
 type PolicyRuleActivePeriodInput struct {
 	EffectiveFrom    *string `json:"effectiveFrom,omitempty"`
 	ExpiresAt        *string `json:"expiresAt,omitempty"`
@@ -7466,7 +8768,6 @@ type PolicyRuleActivePeriodInput struct {
 	UseExpiresAt     bool    `json:"useExpiresAt"`
 }
 
-// Input of the time period during which the rule is active, outside this period, the rule is inactive
 type PolicyRuleActivePeriodUpdateInput struct {
 	EffectiveFrom    *string `json:"effectiveFrom,omitempty"`
 	ExpiresAt        *string `json:"expiresAt,omitempty"`
@@ -7524,8 +8825,8 @@ type PolicyRuleTrackingEventUpdateInput struct {
 
 type PolicySchedule struct {
 	ActiveOn        PolicyActiveOnEnum     `json:"activeOn"`
-	CustomRecurring *PolicyCustomRecurring `json:"customRecurring,omitempty"`
-	CustomTimeframe *PolicyCustomTimeframe `json:"customTimeframe,omitempty"`
+	CustomRecurring *PolicyCustomRecurring `json:"customRecurring,omitempty,omitzero"`
+	CustomTimeframe *PolicyCustomTimeframe `json:"customTimeframe,omitempty,omitzero"`
 }
 
 type PolicyScheduleInput struct {
@@ -7544,17 +8845,17 @@ type PolicyScheduleUpdateInput struct {
 type PolicySectionInfo struct {
 	ID          string  `json:"id"`
 	Name        string  `json:"name"`
-	SubPolicyID *string `json:"subPolicyId,omitempty"`
+	SubPolicyID *string `json:"subPolicyId,omitempty,omitzero"`
 }
 
 type PolicySectionMutationPayload struct {
 	Errors  []*PolicyMutationError `json:"errors"`
-	Section *PolicySectionPayload  `json:"section,omitempty"`
+	Section *PolicySectionPayload  `json:"section,omitempty,omitzero"`
 	Status  PolicyMutationStatus   `json:"status"`
 }
 
 type PolicySectionPayload struct {
-	Access     *EntityAccess                 `json:"access,omitempty"`
+	Access     *EntityAccess                 `json:"access,omitempty,omitzero"`
 	Audit      *PolicyElementAudit           `json:"audit"`
 	Properties []PolicyElementPropertiesEnum `json:"properties"`
 	Section    *PolicySectionInfo            `json:"section"`
@@ -7598,16 +8899,16 @@ type PolicyUpdateSectionInput struct {
 type PooledBandwidthLicense struct {
 	Accounts           []*PartnerPooledBandwidthLicenseAccount `json:"accounts"`
 	AllocatedBandwidth int64                                   `json:"allocatedBandwidth"`
-	Description        *string                                 `json:"description,omitempty"`
+	Description        *string                                 `json:"description,omitempty,omitzero"`
 	ExpirationDate     string                                  `json:"expirationDate"`
-	ID                 *string                                 `json:"id,omitempty"`
-	LastUpdated        *string                                 `json:"lastUpdated,omitempty"`
+	ID                 *string                                 `json:"id,omitempty,omitzero"`
+	LastUpdated        *string                                 `json:"lastUpdated,omitempty,omitzero"`
 	Plan               LicensePlan                             `json:"plan"`
 	SiteLicenseGroup   SiteLicenseGroup                        `json:"siteLicenseGroup"`
 	SiteLicenseType    SiteLicenseType                         `json:"siteLicenseType"`
 	Sites              []*PooledBandwidthLicenseSite           `json:"sites"`
 	Sku                LicenseSku                              `json:"sku"`
-	StartDate          *string                                 `json:"startDate,omitempty"`
+	StartDate          *string                                 `json:"startDate,omitempty,omitzero"`
 	Status             LicenseStatus                           `json:"status"`
 	Total              int64                                   `json:"total"`
 }
@@ -7640,6 +8941,73 @@ type PopLocation struct {
 	Name              string                          `json:"name"`
 }
 
+// Input for allocating an IP address for a PoP location.
+type PopLocationAddAllocatedIPInput struct {
+	Description *string                    `json:"description,omitempty"`
+	PopLocation *PopLocationRefInput       `json:"popLocation,omitempty"`
+	Type        PopLocationAllocatedIPType `json:"type"`
+}
+
+// Response payload for the allocate IP mutation.
+type PopLocationAddAllocatedIPPayload struct {
+	AllocatedIP *PopLocationAllocatedIP `json:"allocatedIp"`
+}
+
+// Input for allocating an IP address for a PoP location.
+type PopLocationAllocateIPInput struct {
+	Description *string                    `json:"description,omitempty"`
+	PopLocation *PopLocationRefInput       `json:"popLocation,omitempty"`
+	Type        PopLocationAllocatedIPType `json:"type"`
+}
+
+// Response payload for the allocate IP mutation.
+// This is deprecated and should not be used
+// Instead, use: PopLocationAddAllocatedIpPayload
+type PopLocationAllocateIPPayload struct {
+	AllocatedIP *PopLocationAllocatedIP `json:"allocatedIp"`
+}
+
+type PopLocationAllocatedIP struct {
+	Account        *AccountRef                  `json:"account"`
+	AllocationType PopLocationAllocatedIPType   `json:"allocationType"`
+	Description    *string                      `json:"description,omitempty,omitzero"`
+	ID             string                       `json:"id"`
+	IP             string                       `json:"ip"`
+	PopLocation    *PopLocationRef              `json:"popLocation"`
+	State          *PopLocationByoipSubnetState `json:"state,omitempty,omitzero"`
+	Subnet         *string                      `json:"subnet,omitempty,omitzero"`
+}
+
+// Filter options for querying allocated IP addresses for PoP locations.
+type PopLocationAllocatedIPFilterInput struct {
+	Account        *StringFilterInput                     `json:"account,omitempty"`
+	AllocatedIP    *StringFilterInput                     `json:"allocatedIp,omitempty"`
+	AllocationType *PopLocationAllocatedIPTypeFilterInput `json:"allocationType,omitempty"`
+	Description    *StringFilterInput                     `json:"description,omitempty"`
+	Global         *FreeTextFilterInput                   `json:"global,omitempty"`
+	ID             *StringFilterInput                     `json:"id,omitempty"`
+	PopLocation    *PopLocationRefFilterInput             `json:"popLocation,omitempty"`
+	Subnet         *StringFilterInput                     `json:"subnet,omitempty"`
+}
+
+// Input wrapper for filtering allocated IP addresses for PoP locations.
+type PopLocationAllocatedIPInput struct {
+	Filter *PopLocationAllocatedIPFilterInput `json:"filter,omitempty"`
+}
+
+// Response payload for the allocated IP list query.
+type PopLocationAllocatedIPPayload struct {
+	AllocatedIP []*PopLocationAllocatedIP `json:"allocatedIp"`
+	Paging      *PageInfo                 `json:"paging"`
+}
+
+type PopLocationAllocatedIPTypeFilterInput struct {
+	Eq  *PopLocationAllocatedIPType  `json:"eq,omitempty"`
+	In  []PopLocationAllocatedIPType `json:"in,omitempty"`
+	Neq *PopLocationAllocatedIPType  `json:"neq,omitempty"`
+	Nin []PopLocationAllocatedIPType `json:"nin,omitempty"`
+}
+
 type PopLocationCloudInterconnect struct {
 	ProviderName  string        `json:"providerName"`
 	TaggingMethod TaggingMethod `json:"taggingMethod"`
@@ -7668,12 +9036,21 @@ func (PopLocationMachineRef) IsObjectRef()         {}
 func (this PopLocationMachineRef) GetID() string   { return this.ID }
 func (this PopLocationMachineRef) GetName() string { return this.Name }
 
+type PopLocationMutations struct {
+	AddAllocatedIP               *PopLocationAddAllocatedIPPayload               `json:"addAllocatedIp,omitempty,omitzero"`
+	AllocateIP                   *PopLocationAllocateIPPayload                   `json:"allocateIp,omitempty,omitzero"`
+	ReleaseIP                    *PopLocationReleaseIPPayload                    `json:"releaseIp,omitempty,omitzero"`
+	RemoveAllocatedIP            *PopLocationRemoveAllocatedIPPayload            `json:"removeAllocatedIp,omitempty,omitzero"`
+	UpdateAllocatedIPDescription *PopLocationUpdateAllocatedIPDescriptionPayload `json:"updateAllocatedIpDescription,omitempty,omitzero"`
+}
+
 type PopLocationPayload struct {
 	Items []*PopLocation `json:"items"`
 }
 
 type PopLocationQueries struct {
-	PopLocationList *PopLocationPayload `json:"popLocationList,omitempty"`
+	AllocatedIPList *PopLocationAllocatedIPPayload `json:"allocatedIpList,omitempty,omitzero"`
+	PopLocationList *PopLocationPayload            `json:"popLocationList,omitempty,omitzero"`
 }
 
 // A reference identifying the PopLocation object. ID: Unique PopLocation Identifier, Name: The PopLocation Name
@@ -7686,9 +9063,38 @@ func (PopLocationRef) IsObjectRef()         {}
 func (this PopLocationRef) GetID() string   { return this.ID }
 func (this PopLocationRef) GetName() string { return this.Name }
 
+type PopLocationRefFilterInput struct {
+	Eq  *PopLocationRefInput   `json:"eq,omitempty"`
+	In  []*PopLocationRefInput `json:"in,omitempty"`
+	Neq *PopLocationRefInput   `json:"neq,omitempty"`
+	Nin []*PopLocationRefInput `json:"nin,omitempty"`
+}
+
 type PopLocationRefInput struct {
 	By    ObjectRefBy `json:"by"`
 	Input string      `json:"input"`
+}
+
+// Input for releasing an allocated IP address.
+// This is deprecated and should not be used
+// Instead, use: PopLocationRemoveAllocatedIpInput
+type PopLocationReleaseIPInput struct {
+	IP   string                     `json:"ip"`
+	Type PopLocationAllocatedIPType `json:"type"`
+}
+
+type PopLocationReleaseIPPayload struct {
+	AllocatedIP *PopLocationAllocatedIP `json:"allocatedIp"`
+}
+
+// Input for releasing an allocated IP address.
+type PopLocationRemoveAllocatedIPInput struct {
+	IP   string                     `json:"ip"`
+	Type PopLocationAllocatedIPType `json:"type"`
+}
+
+type PopLocationRemoveAllocatedIPPayload struct {
+	AllocatedIP *PopLocationAllocatedIP `json:"allocatedIp"`
 }
 
 type PopLocationServiceUnitRef struct {
@@ -7699,6 +9105,16 @@ type PopLocationServiceUnitRef struct {
 func (PopLocationServiceUnitRef) IsObjectRef()         {}
 func (this PopLocationServiceUnitRef) GetID() string   { return this.ID }
 func (this PopLocationServiceUnitRef) GetName() string { return this.Name }
+
+// Input for updating the description of an allocated IP address.
+type PopLocationUpdateAllocatedIPDescriptionInput struct {
+	Description string `json:"description"`
+	IP          string `json:"ip"`
+}
+
+type PopLocationUpdateAllocatedIPDescriptionPayload struct {
+	AllocatedIP *PopLocationAllocatedIP `json:"allocatedIp"`
+}
 
 // Inclusive network port range
 type PortRange struct {
@@ -7718,14 +9134,14 @@ type PortRangeUpdateInput struct {
 }
 
 type PostalAddress struct {
-	Address1         *string                 `json:"address1,omitempty"`
-	Address2         *string                 `json:"address2,omitempty"`
+	Address1         *string                 `json:"address1,omitempty,omitzero"`
+	Address2         *string                 `json:"address2,omitempty,omitzero"`
 	AddressValidated AddressValidationStatus `json:"addressValidated"`
-	CityName         *string                 `json:"cityName,omitempty"`
+	CityName         *string                 `json:"cityName,omitempty,omitzero"`
 	Country          *CountryRef             `json:"country"`
-	StateName        *string                 `json:"stateName,omitempty"`
-	Street           *string                 `json:"street,omitempty"`
-	ZipCode          *string                 `json:"zipCode,omitempty"`
+	StateName        *string                 `json:"stateName,omitempty,omitzero"`
+	Street           *string                 `json:"street,omitempty,omitzero"`
+	ZipCode          *string                 `json:"zipCode,omitempty,omitzero"`
 }
 
 type PostalAddressInput struct {
@@ -7736,18 +9152,6 @@ type PostalAddressInput struct {
 	StateName *string          `json:"stateName,omitempty"`
 	Street    *string          `json:"street,omitempty"`
 	ZipCode   *string          `json:"zipCode,omitempty"`
-}
-
-type PostureAttributes struct {
-	HostConfidenceLevel HostConfidenceLevelEnum `json:"hostConfidenceLevel"`
-}
-
-type PostureAttributesInput struct {
-	HostConfidenceLevel HostConfidenceLevelEnum `json:"hostConfidenceLevel"`
-}
-
-type PostureAttributesUpdateInput struct {
-	HostConfidenceLevel *HostConfidenceLevelEnum `json:"hostConfidenceLevel,omitempty"`
 }
 
 type PrivateAccessAddRuleDataInput struct {
@@ -7773,9 +9177,9 @@ type PrivateAccessAddRuleInput struct {
 }
 
 type PrivateAccessPolicy struct {
-	Audit    *PolicyAudit                `json:"audit,omitempty"`
+	Audit    *PolicyAudit                `json:"audit,omitempty,omitzero"`
 	Enabled  bool                        `json:"enabled"`
-	Revision *PolicyRevision             `json:"revision,omitempty"`
+	Revision *PolicyRevision             `json:"revision,omitempty,omitzero"`
 	Rules    []*PrivateAccessRulePayload `json:"rules"`
 	Sections []*PolicySectionPayload     `json:"sections"`
 }
@@ -7839,7 +9243,7 @@ type PrivateAccessPolicyMutationInput struct {
 
 type PrivateAccessPolicyMutationPayload struct {
 	Errors []*PolicyMutationError `json:"errors"`
-	Policy *PrivateAccessPolicy   `json:"policy,omitempty"`
+	Policy *PrivateAccessPolicy   `json:"policy,omitempty,omitzero"`
 	Status PolicyMutationStatus   `json:"status"`
 }
 
@@ -7874,22 +9278,25 @@ type PrivateAccessPolicyMutations struct {
 
 type PrivateAccessPolicyQueries struct {
 	Policy    *PrivateAccessPolicy    `json:"policy"`
-	Revisions *PolicyRevisionsPayload `json:"revisions,omitempty"`
+	Revisions *PolicyRevisionsPayload `json:"revisions,omitempty,omitzero"`
 }
 
 type PrivateAccessPolicySource struct {
-	User       []*UserRef       `json:"user"`
-	UsersGroup []*UsersGroupRef `json:"usersGroup"`
+	SystemGroup []*SystemGroupRef `json:"systemGroup"`
+	User        []*UserRef        `json:"user"`
+	UsersGroup  []*UsersGroupRef  `json:"usersGroup"`
 }
 
 type PrivateAccessPolicySourceInput struct {
-	User       []*UserRefInput       `json:"user"`
-	UsersGroup []*UsersGroupRefInput `json:"usersGroup"`
+	SystemGroup []*SystemGroupRefInput `json:"systemGroup"`
+	User        []*UserRefInput        `json:"user"`
+	UsersGroup  []*UsersGroupRefInput  `json:"usersGroup"`
 }
 
 type PrivateAccessPolicySourceUpdateInput struct {
-	User       []*UserRefInput       `json:"user,omitempty"`
-	UsersGroup []*UsersGroupRefInput `json:"usersGroup,omitempty"`
+	SystemGroup []*SystemGroupRefInput `json:"systemGroup,omitempty"`
+	User        []*UserRefInput        `json:"user,omitempty"`
+	UsersGroup  []*UsersGroupRefInput  `json:"usersGroup,omitempty"`
 }
 
 type PrivateAccessPolicyUpdateInput struct {
@@ -7930,7 +9337,7 @@ func (this PrivateAccessRule) GetSection() *PolicySectionInfo { return this.Sect
 
 type PrivateAccessRuleMutationPayload struct {
 	Errors []*PolicyMutationError    `json:"errors"`
-	Rule   *PrivateAccessRulePayload `json:"rule,omitempty"`
+	Rule   *PrivateAccessRulePayload `json:"rule,omitempty,omitzero"`
 	Status PolicyMutationStatus      `json:"status"`
 }
 
@@ -8005,6 +9412,7 @@ type PrivateAccessUserAttributesUpdateInput struct {
 	RiskScore *RiskScoreConditionUpdateInput `json:"riskScore,omitempty"`
 }
 
+// Health probing configuration used to determine the availability of a private application
 type PrivateAppProbing struct {
 	FaultThresholdDown int64  `json:"faultThresholdDown"`
 	ID                 string `json:"id"`
@@ -8019,26 +9427,44 @@ type PrivateAppProbingInput struct {
 	Type               *string `json:"type,omitempty"`
 }
 
+// Private Application represents an internal resource published via Cato Private Access.
+// It defines the internal address, access settings, and optional publishing configuration.
 type PrivateApplication struct {
 	AllowICMPProtocol  bool                `json:"allowIcmpProtocol"`
 	CreationTime       string              `json:"creationTime"`
-	Description        *string             `json:"description,omitempty"`
+	Description        *string             `json:"description,omitempty,omitzero"`
 	ID                 string              `json:"id"`
 	InternalAppAddress string              `json:"internalAppAddress"`
 	Name               string              `json:"name"`
-	PrivateAppProbing  *PrivateAppProbing  `json:"privateAppProbing,omitempty"`
+	PrivateAppProbing  *PrivateAppProbing  `json:"privateAppProbing,omitempty,omitzero"`
 	ProbingEnabled     bool                `json:"probingEnabled"`
 	ProtocolPorts      []*CustomService    `json:"protocolPorts"`
 	Published          bool                `json:"published"`
-	PublishedAppDomain *PublishedAppDomain `json:"publishedAppDomain,omitempty"`
+	PublishedAppDomain *PublishedAppDomain `json:"publishedAppDomain,omitempty,omitzero"`
 }
 
+type PrivateApplicationListFilterInput struct {
+	FreeText        []*FreeTextFilterInput `json:"freeText,omitempty"`
+	GroupName       []*StringFilterInput   `json:"groupName,omitempty"`
+	Name            []*StringFilterInput   `json:"name,omitempty"`
+	Published       *BooleanFilterInput    `json:"published,omitempty"`
+	SearchGroupName *FreeTextFilterInput   `json:"searchGroupName,omitempty"`
+	SearchName      *FreeTextFilterInput   `json:"searchName,omitempty"`
+}
+
+type PrivateApplicationListInput struct {
+	Filter *PrivateApplicationListFilterInput `json:"filter,omitempty"`
+	Paging *PagingInput                       `json:"paging,omitempty"`
+	Sort   *PrivateApplicationSortInput       `json:"sort,omitempty"`
+}
+
+// Paginated list of private applications matching the query criteria
 type PrivateApplicationListPayload struct {
 	Applications []*PrivateApplication `json:"applications"`
+	PageInfo     *PageInfo             `json:"pageInfo,omitempty,omitzero"`
 }
 
-// A reference identifying of the PrivateApplication object. ID: Unique PrivateApplication Identifier,
-// Name: The PrivateApplication Name
+// A reference identifying of the PrivateApplication object. ID: Unique PrivateApplication Identifier, Name: The PrivateApplication Name
 type PrivateApplicationRef struct {
 	ID   string `json:"id"`
 	Name string `json:"name"`
@@ -8053,15 +9479,26 @@ type PrivateApplicationRefInput struct {
 	Input string      `json:"input"`
 }
 
+type PrivateApplicationSortInput struct {
+	CreationTime *SortOrderInput `json:"creationTime,omitempty"`
+	ID           *SortOrderInput `json:"id,omitempty"`
+	Name         *SortOrderInput `json:"name,omitempty"`
+	Published    *SortOrderInput `json:"published,omitempty"`
+}
+
+type PskSecurityInput struct {
+	Passkey string `json:"passkey"`
+}
+
 // Public IP address license
 type PublicIpsLicense struct {
-	Description    *string       `json:"description,omitempty"`
+	Description    *string       `json:"description,omitempty,omitzero"`
 	ExpirationDate string        `json:"expirationDate"`
-	ID             *string       `json:"id,omitempty"`
-	LastUpdated    *string       `json:"lastUpdated,omitempty"`
+	ID             *string       `json:"id,omitempty,omitzero"`
+	LastUpdated    *string       `json:"lastUpdated,omitempty,omitzero"`
 	Plan           LicensePlan   `json:"plan"`
 	Sku            LicenseSku    `json:"sku"`
-	StartDate      *string       `json:"startDate,omitempty"`
+	StartDate      *string       `json:"startDate,omitempty,omitzero"`
 	Status         LicenseStatus `json:"status"`
 	Total          int64         `json:"total"`
 }
@@ -8087,9 +9524,10 @@ type PublicIpsLicenseAllocations struct {
 	Total     int64 `json:"total"`
 }
 
+// The domain that users use to access the application
 type PublishedAppDomain struct {
-	CatoIP             *string `json:"catoIp,omitempty"`
-	ConnectorGroupName *string `json:"connectorGroupName,omitempty"`
+	CatoIP             *string `json:"catoIp,omitempty,omitzero"`
+	ConnectorGroupName *string `json:"connectorGroupName,omitempty,omitzero"`
 	CreationTime       string  `json:"creationTime"`
 	ID                 string  `json:"id"`
 	PublishedAppDomain string  `json:"publishedAppDomain"`
@@ -8103,30 +9541,62 @@ type PublishedAppDomainInput struct {
 	PublishedAppDomain *string `json:"publishedAppDomain,omitempty"`
 }
 
+type QinQVlan struct {
+	CVlan scalars.Vlan `json:"cVlan"`
+	SVlan scalars.Vlan `json:"sVlan"`
+}
+
+type QinQVlanConfiguration struct {
+	CVlan scalars.Vlan `json:"cVlan"`
+	SVlan scalars.Vlan `json:"sVlan"`
+}
+
 type Query struct {
 }
 
+type QueryParameter struct {
+	Name     *string  `json:"name,omitempty,omitzero"`
+	Operator *string  `json:"operator,omitempty,omitzero"`
+	Value    *string  `json:"value,omitempty,omitzero"`
+	Values   []string `json:"values"`
+}
+
 type RBACRole struct {
-	Description  *string `json:"description,omitempty"`
+	Description  *string `json:"description,omitempty,omitzero"`
 	ID           string  `json:"id"`
 	IsPredefined bool    `json:"isPredefined"`
 	Name         string  `json:"name"`
 }
 
+// Reference input for an RBAC role.
+type RBACRoleRefInput struct {
+	By    ObjectRefBy `json:"by"`
+	Input string      `json:"input"`
+}
+
 type RbacGroup struct {
 	ID   string  `json:"id"`
-	Name *string `json:"name,omitempty"`
+	Name *string `json:"name,omitempty,omitzero"`
 }
+
+type RbacRoleRef struct {
+	ID   string `json:"id"`
+	Name string `json:"name"`
+}
+
+func (RbacRoleRef) IsObjectRef()         {}
+func (this RbacRoleRef) GetID() string   { return this.ID }
+func (this RbacRoleRef) GetName() string { return this.Name }
 
 // Remote Browser Isolation (RBI) service license details
 type RbiLicense struct {
-	Description    *string       `json:"description,omitempty"`
+	Description    *string       `json:"description,omitempty,omitzero"`
 	ExpirationDate string        `json:"expirationDate"`
-	ID             *string       `json:"id,omitempty"`
-	LastUpdated    *string       `json:"lastUpdated,omitempty"`
+	ID             *string       `json:"id,omitempty,omitzero"`
+	LastUpdated    *string       `json:"lastUpdated,omitempty,omitzero"`
 	Plan           LicensePlan   `json:"plan"`
 	Sku            LicenseSku    `json:"sku"`
-	StartDate      *string       `json:"startDate,omitempty"`
+	StartDate      *string       `json:"startDate,omitempty,omitzero"`
 	Status         LicenseStatus `json:"status"`
 }
 
@@ -8140,6 +9610,7 @@ func (this RbiLicense) GetSku() LicenseSku        { return this.Sku }
 func (this RbiLicense) GetStartDate() *string     { return this.StartDate }
 func (this RbiLicense) GetStatus() LicenseStatus  { return this.Status }
 
+// A reference identifying the Rbi Profile. ID: Unique RbiProfile Identifier, Name: The RbiProfile Name
 type RbiProfileRef struct {
 	ID   string `json:"id"`
 	Name string `json:"name"`
@@ -8155,13 +9626,13 @@ type RbiProfileRefInput struct {
 }
 
 type RecentConnection struct {
-	DeviceName    *string `json:"deviceName,omitempty"`
-	Duration      *int64  `json:"duration,omitempty"`
-	InterfaceName *string `json:"interfaceName,omitempty"`
-	LastConnected *string `json:"lastConnected,omitempty"`
-	PopName       *string `json:"popName,omitempty"`
-	RemoteIP      *string `json:"remoteIP,omitempty"`
-	RemoteIPInfo  *IPInfo `json:"remoteIPInfo,omitempty"`
+	DeviceName    *string `json:"deviceName,omitempty,omitzero"`
+	Duration      *int64  `json:"duration,omitempty,omitzero"`
+	InterfaceName *string `json:"interfaceName,omitempty,omitzero"`
+	LastConnected *string `json:"lastConnected,omitempty,omitzero"`
+	PopName       *string `json:"popName,omitempty,omitzero"`
+	RemoteIP      *string `json:"remoteIP,omitempty,omitzero"`
+	RemoteIPInfo  *IPInfo `json:"remoteIPInfo,omitempty,omitzero"`
 }
 
 type RemotePortFwdAddRuleDataInput struct {
@@ -8185,9 +9656,9 @@ type RemotePortFwdAddRuleInput struct {
 }
 
 type RemotePortFwdPolicy struct {
-	Audit    *PolicyAudit                `json:"audit,omitempty"`
+	Audit    *PolicyAudit                `json:"audit,omitempty,omitzero"`
 	Enabled  bool                        `json:"enabled"`
-	Revision *PolicyRevision             `json:"revision,omitempty"`
+	Revision *PolicyRevision             `json:"revision,omitempty,omitzero"`
 	Rules    []*RemotePortFwdRulePayload `json:"rules"`
 	Sections []*PolicySectionPayload     `json:"sections"`
 }
@@ -8228,7 +9699,7 @@ type RemotePortFwdPolicyMutationInput struct {
 // Remote port forwarding policy information provided in the API response
 type RemotePortFwdPolicyMutationPayload struct {
 	Errors []*PolicyMutationError `json:"errors"`
-	Policy *RemotePortFwdPolicy   `json:"policy,omitempty"`
+	Policy *RemotePortFwdPolicy   `json:"policy,omitempty,omitzero"`
 	Status PolicyMutationStatus   `json:"status"`
 }
 
@@ -8264,7 +9735,7 @@ type RemotePortFwdPolicyMutations struct {
 
 type RemotePortFwdPolicyQueries struct {
 	Policy    *RemotePortFwdPolicy    `json:"policy"`
-	Revisions *PolicyRevisionsPayload `json:"revisions,omitempty"`
+	Revisions *PolicyRevisionsPayload `json:"revisions,omitempty,omitzero"`
 }
 
 type RemotePortFwdPolicyUpdateInput struct {
@@ -8323,7 +9794,7 @@ func (this RemotePortFwdRule) GetSection() *PolicySectionInfo { return this.Sect
 
 type RemotePortFwdRuleMutationPayload struct {
 	Errors []*PolicyMutationError    `json:"errors"`
-	Rule   *RemotePortFwdRulePayload `json:"rule,omitempty"`
+	Rule   *RemotePortFwdRulePayload `json:"rule,omitempty,omitzero"`
 	Status PolicyMutationStatus      `json:"status"`
 }
 
@@ -8407,13 +9878,13 @@ type RemoveCloudInterconnectPhysicalConnectionPayload struct {
 }
 
 type RemoveIpsecIkeV2SiteMultiTunnelPayload struct {
-	Fqdn    *string                              `json:"fqdn,omitempty"`
+	Fqdn    *string                              `json:"fqdn,omitempty,omitzero"`
 	Tunnels []*RemoveIpsecIkeV2SiteTunnelPayload `json:"tunnels"`
 }
 
 type RemoveIpsecIkeV2SiteTunnelPayload struct {
-	LocalID  *string             `json:"localId,omitempty"`
-	TunnelID *IPSecV2InterfaceID `json:"tunnelId,omitempty"`
+	LocalID  *string             `json:"localId,omitempty,omitzero"`
+	TunnelID *IPSecV2InterfaceID `json:"tunnelId,omitempty,omitzero"`
 }
 
 type RemoveIpsecIkeV2SiteTunnelsInput struct {
@@ -8421,9 +9892,18 @@ type RemoveIpsecIkeV2SiteTunnelsInput struct {
 }
 
 type RemoveIpsecIkeV2SiteTunnelsPayload struct {
-	Primary   *RemoveIpsecIkeV2SiteMultiTunnelPayload `json:"primary,omitempty"`
-	Secondary *RemoveIpsecIkeV2SiteMultiTunnelPayload `json:"secondary,omitempty"`
+	Primary   *RemoveIpsecIkeV2SiteMultiTunnelPayload `json:"primary,omitempty,omitzero"`
+	Secondary *RemoveIpsecIkeV2SiteMultiTunnelPayload `json:"secondary,omitempty,omitzero"`
 	SiteID    string                                  `json:"siteId"`
+}
+
+type RemoveLicenseFromManagedAccountInput struct {
+	LicenseID        string `json:"licenseId"`
+	ManagedAccountID string `json:"managedAccountId"`
+}
+
+type RemoveLicenseFromManagedAccountPayload struct {
+	License License `json:"license"`
 }
 
 type RemoveNetworkRangePayload struct {
@@ -8436,6 +9916,14 @@ type RemoveSecondaryAWSVSocketPayload struct {
 
 type RemoveSecondaryAzureVSocketPayload struct {
 	SecondaryAzureVSocket *SecondaryAzureVSocket `json:"secondaryAzureVSocket"`
+}
+
+type RemoveSecondaryGCPVSocketInput struct {
+	ID string `json:"id"`
+}
+
+type RemoveSecondaryGCPVSocketPayload struct {
+	SocketInfo *GCPVSocketInfo `json:"socketInfo"`
 }
 
 type RemoveServicePrincipalAdminPayload struct {
@@ -8468,6 +9956,14 @@ type RemoveStaticHostPayload struct {
 	HostID string `json:"hostId"`
 }
 
+type RemoveWifiSsidInput struct {
+	WifiSsid *WifiSsidRefInput `json:"wifiSsid"`
+}
+
+type RemoveWifiSsidPayload struct {
+	WifiSsid *WifiSsid `json:"wifiSsid"`
+}
+
 type RemoveZtnaAppConnectorInput struct {
 	ZtnaAppConnector *ZtnaAppConnectorRefInput `json:"ztnaAppConnector"`
 }
@@ -8492,13 +9988,68 @@ type ReplaceSiteBwLicensePayload struct {
 	License License `json:"license"`
 }
 
-type ResetRuleHitCountsInput struct {
-	Rule string `json:"rule"`
+type ReservedDot1QVlans struct {
+	AccountID *string       `json:"accountId,omitempty,omitzero"`
+	SiteID    *string       `json:"siteId,omitempty,omitzero"`
+	Vlan      *scalars.Vlan `json:"vlan,omitempty,omitzero"`
 }
 
-type ResetRuleHitCountsResponse struct {
-	Errors []*PolicyMutationError `json:"errors"`
-	Status PolicyMutationStatus   `json:"status"`
+type ReservedQinQVlans struct {
+	AccountID *string   `json:"accountId,omitempty,omitzero"`
+	QinqVlan  *QinQVlan `json:"qinqVlan,omitempty,omitzero"`
+	SiteID    *string   `json:"siteId,omitempty,omitzero"`
+}
+
+// Input for approving or rejecting a managed account access request.
+type ResolveIncomingAccessRequestInput struct {
+	Approval  PartnerAccessApprovalResponse `json:"approval"`
+	Note      *string                       `json:"note,omitempty"`
+	RequestID string                        `json:"requestId"`
+}
+
+// Output for a managed account access request.
+type ResolveIncomingAccessRequestPayload struct {
+	Request *IncomingExternalAccessRequest `json:"request"`
+}
+
+type ResponsePolicyRuleRef struct {
+	ID   string `json:"id"`
+	Name string `json:"name"`
+}
+
+func (ResponsePolicyRuleRef) IsObjectRef()         {}
+func (this ResponsePolicyRuleRef) GetID() string   { return this.ID }
+func (this ResponsePolicyRuleRef) GetName() string { return this.Name }
+
+type RetrieveUsedVlanIDsInput struct {
+	EncapsulationMethod TaggingMethod        `json:"encapsulationMethod"`
+	PopLocation         *PopLocationRefInput `json:"popLocation"`
+	ServiceProviderName string               `json:"serviceProviderName"`
+}
+
+type RetrieveUsedVlanIDsPayload struct {
+	Ranges             []*VlanRange          `json:"ranges"`
+	ReservedDot1QVlans []*ReservedDot1QVlans `json:"reservedDot1QVlans"`
+	ReservedQinQVlans  []*ReservedQinQVlans  `json:"reservedQinQVlans"`
+}
+
+// Input for revoking partner access.
+type RevokePartnerAccessInput struct {
+	InvitationID string  `json:"invitationId"`
+	Reason       *string `json:"reason,omitempty"`
+}
+
+// Output for revoking partner access.
+type RevokePartnerAccessPayload struct {
+	Invitation *IncomingExternalAccessRequest `json:"invitation"`
+}
+
+type RevokeUserSessionInput struct {
+	UserID []scalars.Long `json:"userId"`
+}
+
+type RevokeUserSessionPayload struct {
+	Status RevokeUserSessionStatus `json:"status"`
 }
 
 type RiskScoreCondition struct {
@@ -8516,21 +10067,22 @@ type RiskScoreConditionUpdateInput struct {
 	Operator *RiskScoreOperator `json:"operator,omitempty"`
 }
 
-type RuleHitCount struct {
-	Count       scalars.Long `json:"count"`
-	LastHitTime string       `json:"lastHitTime"`
-	Percentile  float64      `json:"percentile"`
+type RiskScoreFilterInput struct {
+	Eq  *RiskScore  `json:"eq,omitempty"`
+	In  []RiskScore `json:"in,omitempty"`
+	Neq *RiskScore  `json:"neq,omitempty"`
+	Nin []RiskScore `json:"nin,omitempty"`
 }
 
 // SaaS Security API service license details
 type SaasSecurityAPILicense struct {
-	Description    *string       `json:"description,omitempty"`
+	Description    *string       `json:"description,omitempty,omitzero"`
 	ExpirationDate string        `json:"expirationDate"`
-	ID             *string       `json:"id,omitempty"`
-	LastUpdated    *string       `json:"lastUpdated,omitempty"`
+	ID             *string       `json:"id,omitempty,omitzero"`
+	LastUpdated    *string       `json:"lastUpdated,omitempty,omitzero"`
 	Plan           LicensePlan   `json:"plan"`
 	Sku            LicenseSku    `json:"sku"`
-	StartDate      *string       `json:"startDate,omitempty"`
+	StartDate      *string       `json:"startDate,omitempty,omitzero"`
 	Status         LicenseStatus `json:"status"`
 	Total          int64         `json:"total"`
 }
@@ -8576,13 +10128,13 @@ type SandboxQueries struct {
 // Sandbox report meta-data
 type SandboxReport struct {
 	CreationDate   string                `json:"creationDate"`
-	DownloadURL    *string               `json:"downloadUrl,omitempty"`
-	ExpirationDate *string               `json:"expirationDate,omitempty"`
-	FailureReason  *SandboxFailureReason `json:"failureReason,omitempty"`
+	DownloadURL    *string               `json:"downloadUrl,omitempty,omitzero"`
+	ExpirationDate *string               `json:"expirationDate,omitempty,omitzero"`
+	FailureReason  *SandboxFailureReason `json:"failureReason,omitempty,omitzero"`
 	FileHash       string                `json:"fileHash"`
-	FileName       *string               `json:"fileName,omitempty"`
+	FileName       *string               `json:"fileName,omitempty,omitzero"`
 	Status         SandboxStatus         `json:"status"`
-	Verdict        *SandboxVerdict       `json:"verdict,omitempty"`
+	Verdict        *SandboxVerdict       `json:"verdict,omitempty,omitzero"`
 }
 
 // Sandbox reports query filter
@@ -8626,6 +10178,22 @@ type SecondaryAzureVSocket struct {
 	Site        *SiteRef `json:"site"`
 }
 
+type SecondaryGCPVSocketInput struct {
+	ID string `json:"id"`
+}
+
+type SecondaryGCPVSocketPayload struct {
+	SocketInfo *GCPVSocketInfo `json:"socketInfo"`
+}
+
+type SecurityConfigInput struct {
+	AuthProtocol        WifiAuthProtocol         `json:"authProtocol"`
+	Enterprise          *EnterpriseSecurityInput `json:"enterprise,omitempty"`
+	Mode                WifiSecurityMode         `json:"mode"`
+	Psk                 *PskSecurityInput        `json:"psk,omitempty"`
+	TrackAuthentication *bool                    `json:"trackAuthentication,omitempty"`
+}
+
 // A reference identifying the Service object. ID: Unique Service Identifier, Name: The Service Name
 type ServiceRef struct {
 	ID   string `json:"id"`
@@ -8642,27 +10210,25 @@ type ServiceRefInput struct {
 }
 
 type ShippingDetails struct {
-	CityName    *string         `json:"cityName,omitempty"`
-	Comment     *string         `json:"comment,omitempty"`
-	CompanyName *string         `json:"companyName,omitempty"`
-	Contact     *ContactDetails `json:"contact,omitempty"`
-	CountryName *string         `json:"countryName,omitempty"`
-	Incoterms   *string         `json:"incoterms,omitempty"`
-	Instruction *string         `json:"instruction,omitempty"`
-	PowerCable  *string         `json:"powerCable,omitempty"`
-	StateName   *string         `json:"stateName,omitempty"`
-	Street      *string         `json:"street,omitempty"`
-	VatID       *string         `json:"vatId,omitempty"`
-	ZipCode     *string         `json:"zipCode,omitempty"`
+	CityName    *string         `json:"cityName,omitempty,omitzero"`
+	Comment     *string         `json:"comment,omitempty,omitzero"`
+	CompanyName *string         `json:"companyName,omitempty,omitzero"`
+	Contact     *ContactDetails `json:"contact,omitempty,omitzero"`
+	CountryName *string         `json:"countryName,omitempty,omitzero"`
+	Incoterms   *string         `json:"incoterms,omitempty,omitzero"`
+	Instruction *string         `json:"instruction,omitempty,omitzero"`
+	PowerCable  *string         `json:"powerCable,omitempty,omitzero"`
+	StateName   *string         `json:"stateName,omitempty,omitzero"`
+	Street      *string         `json:"street,omitempty,omitzero"`
+	VatID       *string         `json:"vatId,omitempty,omitzero"`
+	ZipCode     *string         `json:"zipCode,omitempty,omitzero"`
 }
 
-type ShippingDetailsInput struct {
-	Address     *AddressInput        `json:"address,omitempty"`
-	Comment     *string              `json:"comment,omitempty"`
-	Contact     *ContactDetailsInput `json:"contact,omitempty"`
-	Incoterms   *string              `json:"incoterms,omitempty"`
-	Instruction *string              `json:"instruction,omitempty"`
-	VatID       *string              `json:"vatId,omitempty"`
+type ShippingDetailsInputByLocationID struct {
+	Address     *string `json:"address,omitempty"`
+	Comment     *string `json:"comment,omitempty"`
+	Incoterms   *string `json:"incoterms,omitempty"`
+	Instruction *string `json:"instruction,omitempty"`
 }
 
 type ShippingStatusFilterInput struct {
@@ -8673,20 +10239,20 @@ type ShippingStatusFilterInput struct {
 }
 
 type ShippingTracking struct {
-	Carrier        *string         `json:"carrier,omitempty"`
-	ShippingDate   *time.Time      `json:"shippingDate,omitempty"`
-	ShippingStatus *ShippingStatus `json:"shippingStatus,omitempty"`
-	TrackingNumber *string         `json:"trackingNumber,omitempty"`
-	TrackingURL    *string         `json:"trackingUrl,omitempty"`
+	Carrier        *string         `json:"carrier,omitempty,omitzero"`
+	ShippingDate   *time.Time      `json:"shippingDate,omitempty,omitzero"`
+	ShippingStatus *ShippingStatus `json:"shippingStatus,omitempty,omitzero"`
+	TrackingNumber *string         `json:"trackingNumber,omitempty,omitzero"`
+	TrackingURL    *string         `json:"trackingUrl,omitempty,omitzero"`
 }
 
 type SimilarStoryData struct {
-	Indication           *string  `json:"indication,omitempty"`
-	SimilarityPercentage *float64 `json:"similarityPercentage,omitempty"`
-	StoryID              *string  `json:"storyId,omitempty"`
-	ThreatClassification *string  `json:"threatClassification,omitempty"`
-	ThreatTypeName       *string  `json:"threatTypeName,omitempty"`
-	Verdict              *string  `json:"verdict,omitempty"`
+	Indication           *string  `json:"indication,omitempty,omitzero"`
+	SimilarityPercentage *float64 `json:"similarityPercentage,omitempty,omitzero"`
+	StoryID              *string  `json:"storyId,omitempty,omitzero"`
+	ThreatClassification *string  `json:"threatClassification,omitempty,omitzero"`
+	ThreatTypeName       *string  `json:"threatTypeName,omitempty,omitzero"`
+	Verdict              *string  `json:"verdict,omitempty,omitzero"`
 }
 
 type SimpleService struct {
@@ -8695,6 +10261,29 @@ type SimpleService struct {
 
 type SimpleServiceInput struct {
 	Name SimpleServiceType `json:"name"`
+}
+
+type SimpleServiceRef struct {
+	ID   string `json:"id"`
+	Name string `json:"name"`
+}
+
+func (SimpleServiceRef) IsObjectRef()         {}
+func (this SimpleServiceRef) GetID() string   { return this.ID }
+func (this SimpleServiceRef) GetName() string { return this.Name }
+
+type SiteAddStaticHostInput struct {
+	IP         string  `json:"ip"`
+	MacAddress *string `json:"macAddress,omitempty"`
+	Name       string  `json:"name"`
+}
+
+type SiteBackhaulingPayload struct {
+	Destination         *BackhaulingDestination `json:"destination,omitempty,omitzero"`
+	NextHopIP           *string                 `json:"nextHopIP,omitempty,omitzero"`
+	PreferredSocketPort *string                 `json:"preferredSocketPort,omitempty,omitzero"`
+	Site                *SiteRef                `json:"site"`
+	UseAsBackhaulingGw  bool                    `json:"useAsBackhaulingGW"`
 }
 
 type SiteBgpStatus struct {
@@ -8707,45 +10296,47 @@ type SiteBgpStatusInput struct {
 }
 
 type SiteGeneralDetailsPayload struct {
-	Description          *string                   `json:"description,omitempty"`
-	PreferredPopLocation *SitePreferredPopLocation `json:"preferredPopLocation,omitempty"`
+	Description          *string                   `json:"description,omitempty,omitzero"`
+	DisableACLForSip     bool                      `json:"disableAclForSip"`
+	PreferredPopLocation *SitePreferredPopLocation `json:"preferredPopLocation,omitempty,omitzero"`
 	Site                 *SiteRef                  `json:"site"`
 	SiteLocation         *SiteLocation             `json:"siteLocation"`
 	SiteType             SiteType                  `json:"siteType"`
+	WorkingHours         *SiteWorkingHours         `json:"workingHours,omitempty,omitzero"`
 }
 
 // Basic Site configuration information
 type SiteInfo struct {
-	Address          *string          `json:"address,omitempty"`
-	CityName         *string          `json:"cityName,omitempty"`
-	ConnType         *ProtoType       `json:"connType,omitempty"`
-	CountryCode      *string          `json:"countryCode,omitempty"`
-	CountryName      *string          `json:"countryName,omitempty"`
-	CountryStateName *string          `json:"countryStateName,omitempty"`
-	CreationTime     *string          `json:"creationTime,omitempty"`
-	Description      *string          `json:"description,omitempty"`
-	Interfaces       []*InterfaceInfo `json:"interfaces,omitempty"`
-	Ipsec            []*IPSecInfo     `json:"ipsec,omitempty"`
-	IsHa             *bool            `json:"isHA,omitempty"`
-	Name             *string          `json:"name,omitempty"`
-	Region           *string          `json:"region,omitempty"`
-	Sockets          []*SocketInfo    `json:"sockets,omitempty"`
-	Type             *SiteType        `json:"type,omitempty"`
+	Address          *string          `json:"address,omitempty,omitzero"`
+	CityName         *string          `json:"cityName,omitempty,omitzero"`
+	ConnType         *ProtoType       `json:"connType,omitempty,omitzero"`
+	CountryCode      *string          `json:"countryCode,omitempty,omitzero"`
+	CountryName      *string          `json:"countryName,omitempty,omitzero"`
+	CountryStateName *string          `json:"countryStateName,omitempty,omitzero"`
+	CreationTime     *string          `json:"creationTime,omitempty,omitzero"`
+	Description      *string          `json:"description,omitempty,omitzero"`
+	Interfaces       []*InterfaceInfo `json:"interfaces,omitempty,omitzero"`
+	Ipsec            []*IPSecInfo     `json:"ipsec,omitempty,omitzero"`
+	IsHa             *bool            `json:"isHA,omitempty,omitzero"`
+	Name             *string          `json:"name,omitempty,omitzero"`
+	Region           *string          `json:"region,omitempty,omitzero"`
+	Sockets          []*SocketInfo    `json:"sockets,omitempty,omitzero"`
+	Type             *SiteType        `json:"type,omitempty,omitzero"`
 }
 
 // Site bandwidth license
 type SiteLicense struct {
-	Description      *string          `json:"description,omitempty"`
+	Description      *string          `json:"description,omitempty,omitzero"`
 	ExpirationDate   string           `json:"expirationDate"`
-	ID               *string          `json:"id,omitempty"`
-	LastUpdated      *string          `json:"lastUpdated,omitempty"`
+	ID               *string          `json:"id,omitempty,omitzero"`
+	LastUpdated      *string          `json:"lastUpdated,omitempty,omitzero"`
 	Plan             LicensePlan      `json:"plan"`
-	Regionality      *Regionality     `json:"regionality,omitempty"`
-	Site             *SiteRef         `json:"site,omitempty"`
+	Regionality      *Regionality     `json:"regionality,omitempty,omitzero"`
+	Site             *SiteRef         `json:"site,omitempty,omitzero"`
 	SiteLicenseGroup SiteLicenseGroup `json:"siteLicenseGroup"`
 	SiteLicenseType  SiteLicenseType  `json:"siteLicenseType"`
 	Sku              LicenseSku       `json:"sku"`
-	StartDate        *string          `json:"startDate,omitempty"`
+	StartDate        *string          `json:"startDate,omitempty,omitzero"`
 	Status           LicenseStatus    `json:"status"`
 	Total            int64            `json:"total"`
 }
@@ -8765,64 +10356,77 @@ func (SiteLicense) IsQuantifiableLicense() {}
 func (this SiteLicense) GetTotal() int64 { return this.Total }
 
 type SiteLocation struct {
-	Address     *string `json:"address,omitempty"`
-	CityName    *string `json:"cityName,omitempty"`
+	Address     *string `json:"address,omitempty,omitzero"`
+	CityName    *string `json:"cityName,omitempty,omitzero"`
 	CountryCode string  `json:"countryCode"`
-	StateCode   *string `json:"stateCode,omitempty"`
+	StateCode   *string `json:"stateCode,omitempty,omitzero"`
 	Timezone    string  `json:"timezone"`
 }
 
 type SiteMetrics struct {
-	FlowCount  *Timeseries         `json:"flowCount,omitempty"`
-	HostCount  *Timeseries         `json:"hostCount,omitempty"`
-	HostLimit  *Timeseries         `json:"hostLimit,omitempty"`
-	ID         *string             `json:"id,omitempty"`
-	Info       *SiteInfo           `json:"info,omitempty"`
-	Interfaces []*InterfaceMetrics `json:"interfaces,omitempty"`
-	Metrics    *Metrics            `json:"metrics,omitempty"`
-	Name       *string             `json:"name,omitempty"`
-	Samples    *int64              `json:"samples,omitempty"`
+	FlowCount  *Timeseries         `json:"flowCount,omitempty,omitzero"`
+	HostCount  *Timeseries         `json:"hostCount,omitempty,omitzero"`
+	HostLimit  *Timeseries         `json:"hostLimit,omitempty,omitzero"`
+	ID         *string             `json:"id,omitempty,omitzero"`
+	Info       *SiteInfo           `json:"info,omitempty,omitzero"`
+	Interfaces []*InterfaceMetrics `json:"interfaces,omitempty,omitzero"`
+	Metrics    *Metrics            `json:"metrics,omitempty,omitzero"`
+	Name       *string             `json:"name,omitempty,omitzero"`
+	Samples    *int64              `json:"samples,omitempty,omitzero"`
 }
 
 type SiteMutations struct {
-	AddBgpPeer                                *AddBgpPeerPayload                                `json:"addBgpPeer,omitempty"`
-	AddCloudInterconnectPhysicalConnection    *AddCloudInterconnectPhysicalConnectionPayload    `json:"addCloudInterconnectPhysicalConnection,omitempty"`
-	AddCloudInterconnectSite                  *AddCloudInterconnectSitePayload                  `json:"addCloudInterconnectSite,omitempty"`
-	AddIpsecIkeV2Site                         *AddIpsecIkeV2SitePayload                         `json:"addIpsecIkeV2Site,omitempty"`
-	AddIpsecIkeV2SiteTunnels                  *AddIpsecIkeV2SiteTunnelsPayload                  `json:"addIpsecIkeV2SiteTunnels,omitempty"`
-	AddNetworkRange                           *AddNetworkRangePayload                           `json:"addNetworkRange,omitempty"`
-	AddSecondaryAWSVSocket                    *AddSecondaryAWSVSocketPayload                    `json:"addSecondaryAwsVSocket,omitempty"`
-	AddSecondaryAzureVSocket                  *AddSecondaryAzureVSocketPayload                  `json:"addSecondaryAzureVSocket,omitempty"`
-	AddSocketAddOnCard                        *AddSocketAddOnCardPayload                        `json:"addSocketAddOnCard,omitempty"`
-	AddSocketSite                             *AddSocketSitePayload                             `json:"addSocketSite,omitempty"`
-	AddStaticHost                             *AddStaticHostPayload                             `json:"addStaticHost,omitempty"`
-	AssignSiteBwLicense                       *AssignSiteBwLicensePayload                       `json:"assignSiteBwLicense,omitempty"`
-	ExchangeSocketPorts                       *ExchangeSocketPortsPayload                       `json:"exchangeSocketPorts,omitempty"`
-	RemoveBgpPeer                             *RemoveBgpPeerPayload                             `json:"removeBgpPeer,omitempty"`
-	RemoveCloudInterconnectPhysicalConnection *RemoveCloudInterconnectPhysicalConnectionPayload `json:"removeCloudInterconnectPhysicalConnection,omitempty"`
-	RemoveIpsecIkeV2SiteTunnels               *RemoveIpsecIkeV2SiteTunnelsPayload               `json:"removeIpsecIkeV2SiteTunnels,omitempty"`
-	RemoveNetworkRange                        *RemoveNetworkRangePayload                        `json:"removeNetworkRange,omitempty"`
-	RemoveSecondaryAWSVSocket                 *RemoveSecondaryAWSVSocketPayload                 `json:"removeSecondaryAwsVSocket,omitempty"`
-	RemoveSecondaryAzureVSocket               *RemoveSecondaryAzureVSocketPayload               `json:"removeSecondaryAzureVSocket,omitempty"`
-	RemoveSite                                *RemoveSitePayload                                `json:"removeSite,omitempty"`
-	RemoveSiteBwLicense                       *RemoveSiteBwLicensePayload                       `json:"removeSiteBwLicense,omitempty"`
-	RemoveSocketAddOnCard                     *RemoveSocketAddOnCardPayload                     `json:"removeSocketAddOnCard,omitempty"`
-	RemoveStaticHost                          *RemoveStaticHostPayload                          `json:"removeStaticHost,omitempty"`
-	ReplaceSiteBwLicense                      *ReplaceSiteBwLicensePayload                      `json:"replaceSiteBwLicense,omitempty"`
-	StartSiteUpgrade                          *StartSiteUpgradePayload                          `json:"startSiteUpgrade,omitempty"`
-	UpdateBgpPeer                             *UpdateBgpPeerPayload                             `json:"updateBgpPeer,omitempty"`
-	UpdateCloudInterconnectPhysicalConnection *UpdateCloudInterconnectPhysicalConnectionPayload `json:"updateCloudInterconnectPhysicalConnection,omitempty"`
-	UpdateHa                                  *UpdateHaPayload                                  `json:"updateHa,omitempty"`
-	UpdateIpsecIkeV2SiteGeneralDetails        *UpdateIpsecIkeV2SiteGeneralDetailsPayload        `json:"updateIpsecIkeV2SiteGeneralDetails,omitempty"`
-	UpdateIpsecIkeV2SiteTunnels               *UpdateIpsecIkeV2SiteTunnelsPayload               `json:"updateIpsecIkeV2SiteTunnels,omitempty"`
-	UpdateNetworkRange                        *UpdateNetworkRangePayload                        `json:"updateNetworkRange,omitempty"`
-	UpdateSecondaryAWSVSocket                 *UpdateSecondaryAWSVSocketPayload                 `json:"updateSecondaryAwsVSocket,omitempty"`
-	UpdateSecondaryAzureVSocket               *UpdateSecondaryAzureVSocketPayload               `json:"updateSecondaryAzureVSocket,omitempty"`
-	UpdateSiteBwLicense                       *UpdateSiteBwLicensePayload                       `json:"updateSiteBwLicense,omitempty"`
-	UpdateSiteGeneralDetails                  *UpdateSiteGeneralDetailsPayload                  `json:"updateSiteGeneralDetails,omitempty"`
-	UpdateSiteSocketConfiguration             *UpdateSiteSocketConfigurationPayload             `json:"updateSiteSocketConfiguration,omitempty"`
-	UpdateSocketInterface                     *UpdateSocketInterfacePayload                     `json:"updateSocketInterface,omitempty"`
-	UpdateStaticHost                          *UpdateStaticHostPayload                          `json:"updateStaticHost,omitempty"`
+	AddBgpPeer                                *AddBgpPeerPayload                                `json:"addBgpPeer,omitempty,omitzero"`
+	AddCloudInterconnectPhysicalConnection    *AddCloudInterconnectPhysicalConnectionPayload    `json:"addCloudInterconnectPhysicalConnection,omitempty,omitzero"`
+	AddCloudInterconnectSite                  *AddCloudInterconnectSitePayload                  `json:"addCloudInterconnectSite,omitempty,omitzero"`
+	AddIpsecIkeV2Site                         *AddIpsecIkeV2SitePayload                         `json:"addIpsecIkeV2Site,omitempty,omitzero"`
+	AddIpsecIkeV2SiteTunnels                  *AddIpsecIkeV2SiteTunnelsPayload                  `json:"addIpsecIkeV2SiteTunnels,omitempty,omitzero"`
+	AddNetworkRange                           *AddNetworkRangePayload                           `json:"addNetworkRange,omitempty,omitzero"`
+	AddSecondaryAWSVSocket                    *AddSecondaryAWSVSocketPayload                    `json:"addSecondaryAwsVSocket,omitempty,omitzero"`
+	AddSecondaryAzureVSocket                  *AddSecondaryAzureVSocketPayload                  `json:"addSecondaryAzureVSocket,omitempty,omitzero"`
+	AddSecondaryGCPVSocket                    *AddSecondaryGCPVSocketPayload                    `json:"addSecondaryGcpVSocket,omitempty,omitzero"`
+	AddSocketAddOnCard                        *AddSocketAddOnCardPayload                        `json:"addSocketAddOnCard,omitempty,omitzero"`
+	AddSocketSite                             *AddSocketSitePayload                             `json:"addSocketSite,omitempty,omitzero"`
+	AddStaticHost                             *AddStaticHostPayload                             `json:"addStaticHost,omitempty,omitzero"`
+	AssignSiteBwLicense                       *AssignSiteBwLicensePayload                       `json:"assignSiteBwLicense,omitempty,omitzero"`
+	CreateWifiRadioProfile                    *CreateWifiRadioProfilePayload                    `json:"createWifiRadioProfile,omitempty,omitzero"`
+	CreateWifiSsid                            *CreateWifiSsidPayload                            `json:"createWifiSsid,omitempty,omitzero"`
+	ExchangeSocketPorts                       *ExchangeSocketPortsPayload                       `json:"exchangeSocketPorts,omitempty,omitzero"`
+	RemoveBgpPeer                             *RemoveBgpPeerPayload                             `json:"removeBgpPeer,omitempty,omitzero"`
+	RemoveCloudInterconnectPhysicalConnection *RemoveCloudInterconnectPhysicalConnectionPayload `json:"removeCloudInterconnectPhysicalConnection,omitempty,omitzero"`
+	RemoveIpsecIkeV2SiteTunnels               *RemoveIpsecIkeV2SiteTunnelsPayload               `json:"removeIpsecIkeV2SiteTunnels,omitempty,omitzero"`
+	RemoveNetworkRange                        *RemoveNetworkRangePayload                        `json:"removeNetworkRange,omitempty,omitzero"`
+	RemoveSecondaryAWSVSocket                 *RemoveSecondaryAWSVSocketPayload                 `json:"removeSecondaryAwsVSocket,omitempty,omitzero"`
+	RemoveSecondaryAzureVSocket               *RemoveSecondaryAzureVSocketPayload               `json:"removeSecondaryAzureVSocket,omitempty,omitzero"`
+	RemoveSecondaryGCPVSocket                 *RemoveSecondaryGCPVSocketPayload                 `json:"removeSecondaryGcpVSocket,omitempty,omitzero"`
+	RemoveSite                                *RemoveSitePayload                                `json:"removeSite,omitempty,omitzero"`
+	RemoveSiteBwLicense                       *RemoveSiteBwLicensePayload                       `json:"removeSiteBwLicense,omitempty,omitzero"`
+	RemoveSocketAddOnCard                     *RemoveSocketAddOnCardPayload                     `json:"removeSocketAddOnCard,omitempty,omitzero"`
+	RemoveStaticHost                          *RemoveStaticHostPayload                          `json:"removeStaticHost,omitempty,omitzero"`
+	RemoveWifiSsid                            *RemoveWifiSsidPayload                            `json:"removeWifiSsid,omitempty,omitzero"`
+	ReplaceSiteBwLicense                      *ReplaceSiteBwLicensePayload                      `json:"replaceSiteBwLicense,omitempty,omitzero"`
+	StartSiteUpgrade                          *StartSiteUpgradePayload                          `json:"startSiteUpgrade,omitempty,omitzero"`
+	UpdateBgpPeer                             *UpdateBgpPeerPayload                             `json:"updateBgpPeer,omitempty,omitzero"`
+	UpdateBgpPeers                            *UpdateBgpPeersPayload                            `json:"updateBgpPeers,omitempty,omitzero"`
+	UpdateCloudInterconnectPhysicalConnection *UpdateCloudInterconnectPhysicalConnectionPayload `json:"updateCloudInterconnectPhysicalConnection,omitempty,omitzero"`
+	UpdateHa                                  *UpdateHaPayload                                  `json:"updateHa,omitempty,omitzero"`
+	UpdateIpsecIkeV2SiteGeneralDetails        *UpdateIpsecIkeV2SiteGeneralDetailsPayload        `json:"updateIpsecIkeV2SiteGeneralDetails,omitempty,omitzero"`
+	UpdateIpsecIkeV2SiteTunnels               *UpdateIpsecIkeV2SiteTunnelsPayload               `json:"updateIpsecIkeV2SiteTunnels,omitempty,omitzero"`
+	UpdateNetworkRange                        *UpdateNetworkRangePayload                        `json:"updateNetworkRange,omitempty,omitzero"`
+	UpdateSecondaryAWSVSocket                 *UpdateSecondaryAWSVSocketPayload                 `json:"updateSecondaryAwsVSocket,omitempty,omitzero"`
+	UpdateSecondaryAzureVSocket               *UpdateSecondaryAzureVSocketPayload               `json:"updateSecondaryAzureVSocket,omitempty,omitzero"`
+	UpdateSecondaryGCPVSocket                 *UpdateSecondaryGCPVSocketPayload                 `json:"updateSecondaryGcpVSocket,omitempty,omitzero"`
+	UpdateSiteBackhauling                     *UpdateSiteBackhaulingPayload                     `json:"updateSiteBackhauling,omitempty,omitzero"`
+	UpdateSiteBwLicense                       *UpdateSiteBwLicensePayload                       `json:"updateSiteBwLicense,omitempty,omitzero"`
+	UpdateSiteGeneralDetails                  *UpdateSiteGeneralDetailsPayload                  `json:"updateSiteGeneralDetails,omitempty,omitzero"`
+	UpdateSiteNetworkRanges                   *UpdateSiteNetworkRangesPayload                   `json:"updateSiteNetworkRanges,omitempty,omitzero"`
+	UpdateSiteSocketConfiguration             *UpdateSiteSocketConfigurationPayload             `json:"updateSiteSocketConfiguration,omitempty,omitzero"`
+	UpdateSiteStaticHosts                     *UpdateSiteStaticHostsPayload                     `json:"updateSiteStaticHosts,omitempty,omitzero"`
+	UpdateSocketInterface                     *UpdateSocketInterfacePayload                     `json:"updateSocketInterface,omitempty,omitzero"`
+	UpdateSocketInterfaces                    *UpdateSocketInterfacesPayload                    `json:"updateSocketInterfaces,omitempty,omitzero"`
+	UpdateStaticHost                          *UpdateStaticHostPayload                          `json:"updateStaticHost,omitempty,omitzero"`
+	UpdateWifiRadioProfile                    *UpdateWifiRadioProfilePayload                    `json:"updateWifiRadioProfile,omitempty,omitzero"`
+	UpdateWifiSsid                            *UpdateWifiSsidPayload                            `json:"updateWifiSsid,omitempty,omitzero"`
 }
 
 // A reference identifying the SiteNetworkSubnet object. ID: Unique SiteNetworkSubnet Identifier, Name: The SiteNetworkSubnet Name
@@ -8844,24 +10448,38 @@ type SiteNetworkSubnetRefInput struct {
 
 type SitePreferredPopLocation struct {
 	PreferredOnly bool            `json:"preferredOnly"`
-	Primary       *PopLocationRef `json:"primary,omitempty"`
-	Secondary     *PopLocationRef `json:"secondary,omitempty"`
+	Primary       *PopLocationRef `json:"primary,omitempty,omitzero"`
+	Secondary     *PopLocationRef `json:"secondary,omitempty,omitzero"`
 }
 
 type SiteQueries struct {
-	AvailableVersionList                    *AvailableVersionListPayload             `json:"availableVersionList,omitempty"`
-	BgpPeer                                 *BgpPeer                                 `json:"bgpPeer,omitempty"`
-	BgpPeerList                             *BgpPeerListPayload                      `json:"bgpPeerList,omitempty"`
-	CloudInterconnectConnectionConnectivity *CloudInterconnectConnectionConnectivity `json:"cloudInterconnectConnectionConnectivity,omitempty"`
-	CloudInterconnectPhysicalConnection     *CloudInterconnectPhysicalConnection     `json:"cloudInterconnectPhysicalConnection,omitempty"`
-	CloudInterconnectPhysicalConnectionID   *CloudInterconnectPhysicalConnectionID   `json:"cloudInterconnectPhysicalConnectionId,omitempty"`
-	NetworkRange                            *NetworkRange                            `json:"networkRange,omitempty"`
-	NetworkRangeList                        *NetworkRangeListPayload                 `json:"networkRangeList,omitempty"`
-	SecondaryAWSVSocket                     *SecondaryAWSVSocket                     `json:"secondaryAwsVSocket,omitempty"`
-	SecondaryAzureVSocket                   *SecondaryAzureVSocket                   `json:"secondaryAzureVSocket,omitempty"`
-	SiteBgpStatus                           *SiteBgpStatus                           `json:"siteBgpStatus,omitempty"`
-	SiteGeneralDetails                      *SiteGeneralDetailsPayload               `json:"siteGeneralDetails,omitempty"`
-	SiteSocketConfiguration                 *SiteSocketConfiguration                 `json:"siteSocketConfiguration,omitempty"`
+	AvailableVersionList                    *AvailableVersionListPayload             `json:"availableVersionList,omitempty,omitzero"`
+	BgpPeer                                 *BgpPeer                                 `json:"bgpPeer,omitempty,omitzero"`
+	BgpPeerList                             *BgpPeerListPayload                      `json:"bgpPeerList,omitempty,omitzero"`
+	CloudInterconnectConnectionConnectivity *CloudInterconnectConnectionConnectivity `json:"cloudInterconnectConnectionConnectivity,omitempty,omitzero"`
+	CloudInterconnectPhysicalConnection     *CloudInterconnectPhysicalConnection     `json:"cloudInterconnectPhysicalConnection,omitempty,omitzero"`
+	CloudInterconnectPhysicalConnectionID   *CloudInterconnectPhysicalConnectionID   `json:"cloudInterconnectPhysicalConnectionId,omitempty,omitzero"`
+	NetworkRange                            *NetworkRange                            `json:"networkRange,omitempty,omitzero"`
+	NetworkRangeList                        *NetworkRangeListPayload                 `json:"networkRangeList,omitempty,omitzero"`
+	RetrieveUsedVlanIDs                     *RetrieveUsedVlanIDsPayload              `json:"retrieveUsedVlanIDs,omitempty,omitzero"`
+	SecondaryAWSVSocket                     *SecondaryAWSVSocket                     `json:"secondaryAwsVSocket,omitempty,omitzero"`
+	SecondaryAzureVSocket                   *SecondaryAzureVSocket                   `json:"secondaryAzureVSocket,omitempty,omitzero"`
+	SecondaryGCPVSocket                     *SecondaryGCPVSocketPayload              `json:"secondaryGcpVSocket,omitempty,omitzero"`
+	SiteBackhauling                         *SiteBackhaulingPayload                  `json:"siteBackhauling,omitempty,omitzero"`
+	SiteBgpStatus                           *SiteBgpStatus                           `json:"siteBgpStatus,omitempty,omitzero"`
+	SiteGeneralDetails                      *SiteGeneralDetailsPayload               `json:"siteGeneralDetails,omitempty,omitzero"`
+	SiteSocketConfiguration                 *SiteSocketConfiguration                 `json:"siteSocketConfiguration,omitempty,omitzero"`
+	StaticHost                              *StaticHostPayload                       `json:"staticHost,omitempty,omitzero"`
+	StaticHostList                          *StaticHostListPayload                   `json:"staticHostList,omitempty,omitzero"`
+	ValidWifiRadioSettings                  *ValidWifiRadioSettingsPayload           `json:"validWifiRadioSettings,omitempty,omitzero"`
+	ValidWifiRadioSettingsByCountry         *ValidWifiRadioSettingsPayload           `json:"validWifiRadioSettingsByCountry,omitempty,omitzero"`
+	ValidateWifiRadioProfile                *ValidateWifiRadioProfilePayload         `json:"validateWifiRadioProfile,omitempty,omitzero"`
+	ValidateWifiRadioProfileByCountry       *ValidateWifiRadioProfilePayload         `json:"validateWifiRadioProfileByCountry,omitempty,omitzero"`
+	WifiRadioProfile                        *WifiRadioProfile                        `json:"wifiRadioProfile,omitempty,omitzero"`
+	WifiRadioProfileBySite                  *WifiRadioProfile                        `json:"wifiRadioProfileBySite,omitempty,omitzero"`
+	WifiRadioProfileList                    *WifiRadioProfileListPayload             `json:"wifiRadioProfileList,omitempty,omitzero"`
+	WifiSsid                                *WifiSsid                                `json:"wifiSsid,omitempty,omitzero"`
+	WifiSsidList                            *WifiSsidListPayload                     `json:"wifiSsidList,omitempty,omitzero"`
 }
 
 // A reference identifying the Site object. ID: Unique Site Identifier, Name: The Site Name
@@ -8887,28 +10505,46 @@ type SiteRefInput struct {
 }
 
 type SiteSnapshot struct {
-	AltWanStatus       *string                    `json:"altWanStatus,omitempty"`
-	ConnectedSince     *string                    `json:"connectedSince,omitempty"`
-	ConnectivityStatus *ConnectivityStatus        `json:"connectivityStatus,omitempty"`
-	DegradedStatus     *DegradedStatus            `json:"degradedStatus,omitempty"`
-	Devices            []*DeviceSnapshot          `json:"devices,omitempty"`
-	HaStatus           *HaStatus                  `json:"haStatus,omitempty"`
-	HostCount          *int64                     `json:"hostCount,omitempty"`
-	ID                 *string                    `json:"id,omitempty"`
-	Info               *SiteInfo                  `json:"info,omitempty"`
-	LastConnected      *string                    `json:"lastConnected,omitempty"`
-	OperationalStatus  *scalars.OperationalStatus `json:"operationalStatus,omitempty"`
-	PopName            *string                    `json:"popName,omitempty"`
-	ProtoID            *int64                     `json:"protoId,omitempty"`
+	AltWanStatus       *string                    `json:"altWanStatus,omitempty,omitzero"`
+	ConnectedSince     *string                    `json:"connectedSince,omitempty,omitzero"`
+	ConnectivityStatus *ConnectivityStatus        `json:"connectivityStatus,omitempty,omitzero"`
+	DegradedStatus     *DegradedStatus            `json:"degradedStatus,omitempty,omitzero"`
+	Devices            []*DeviceSnapshot          `json:"devices,omitempty,omitzero"`
+	HaStatus           *HaStatus                  `json:"haStatus,omitempty,omitzero"`
+	HostCount          *int64                     `json:"hostCount,omitempty,omitzero"`
+	ID                 *string                    `json:"id,omitempty,omitzero"`
+	Info               *SiteInfo                  `json:"info,omitempty,omitzero"`
+	LastConnected      *string                    `json:"lastConnected,omitempty,omitzero"`
+	OperationalStatus  *scalars.OperationalStatus `json:"operationalStatus,omitempty,omitzero"`
+	PopName            *string                    `json:"popName,omitempty,omitzero"`
+	ProtoID            *string                    `json:"protoId,omitempty,omitzero"`
 }
 
 type SiteSocketConfiguration struct {
 	PrimarySocketConfiguration   *SocketConfiguration `json:"primarySocketConfiguration"`
-	SecondarySocketConfiguration *SocketConfiguration `json:"secondarySocketConfiguration,omitempty"`
+	SecondarySocketConfiguration *SocketConfiguration `json:"secondarySocketConfiguration,omitempty,omitzero"`
 }
 
 type SiteSocketConfigurationInput struct {
 	Site *SiteRefInput `json:"site"`
+}
+
+// A static host configured on a site.
+type SiteStaticHost struct {
+	HostID     string  `json:"hostId"`
+	IP         string  `json:"ip"`
+	MacAddress *string `json:"macAddress,omitempty,omitzero"`
+	Name       string  `json:"name"`
+}
+
+type SiteStaticHostConfigurationInput struct {
+	IP         string  `json:"ip"`
+	MacAddress *string `json:"macAddress,omitempty"`
+	Name       string  `json:"name"`
+}
+
+type SiteStaticHostRefInput struct {
+	HostID string `json:"hostId"`
 }
 
 // Information about a site upgrade.
@@ -8924,10 +10560,18 @@ type SiteUpgradeRequest struct {
 	TargetVersion string        `json:"targetVersion"`
 }
 
-// Represents the result of an upgrade request.
-type SiteUpgradeResult struct {
-	Site          *BulkUpgradeSiteInfo `json:"site"`
-	TargetVersion string               `json:"targetVersion"`
+type SiteWorkingHours struct {
+	FromTimeMinuteOffset *int64      `json:"fromTimeMinuteOffset,omitempty,omitzero"`
+	Override             bool        `json:"override"`
+	ToTimeMinuteOffset   *int64      `json:"toTimeMinuteOffset,omitempty,omitzero"`
+	WorkingDays          []DayOfWeek `json:"workingDays"`
+}
+
+type SiteWorkingHoursInput struct {
+	FromTimeMinuteOffset *int64      `json:"fromTimeMinuteOffset,omitempty"`
+	Override             bool        `json:"override"`
+	ToTimeMinuteOffset   *int64      `json:"toTimeMinuteOffset,omitempty"`
+	WorkingDays          []DayOfWeek `json:"workingDays"`
 }
 
 type SocketAddOnCard struct {
@@ -8940,8 +10584,339 @@ type SocketAddOnCardInput struct {
 	Type                SocketAddOnType                `json:"type"`
 }
 
+type SocketBypassAction struct {
+	Event *PolicyRuleTrackingEvent `json:"event"`
+	Port  BypassSocketPortType     `json:"port"`
+}
+
+type SocketBypassActionInput struct {
+	Event *PolicyRuleTrackingEventInput `json:"event"`
+	Port  BypassSocketPortType          `json:"port"`
+}
+
+type SocketBypassActionUpdateInput struct {
+	Event *PolicyRuleTrackingEventUpdateInput `json:"event,omitempty"`
+	Port  *BypassSocketPortType               `json:"port,omitempty"`
+}
+
+type SocketBypassAddRuleDataInput struct {
+	Action      *SocketBypassActionInput      `json:"action"`
+	Description string                        `json:"description"`
+	Destination *SocketBypassDestinationInput `json:"destination"`
+	Enabled     bool                          `json:"enabled"`
+	Exception   []*SocketBypassExceptionInput `json:"exception"`
+	Name        string                        `json:"name"`
+	Service     *SocketBypassServiceInput     `json:"service"`
+	Site        *SocketBypassSiteInput        `json:"site"`
+	Source      *SocketBypassSourceInput      `json:"source"`
+}
+
+type SocketBypassAddRuleInput struct {
+	At   *PolicyRulePositionInput      `json:"at,omitempty"`
+	Rule *SocketBypassAddRuleDataInput `json:"rule"`
+}
+
+// Defines destinations (Application/Category) for the Bypass policy.
+type SocketBypassDestination struct {
+	Application   []*ApplicationRef       `json:"application"`
+	CustomApp     []*CustomApplicationRef `json:"customApp"`
+	Domain        []string                `json:"domain"`
+	Fqdn          []string                `json:"fqdn"`
+	GlobalIPRange []*GlobalIPRangeRef     `json:"globalIpRange"`
+	IP            []string                `json:"ip"`
+	IPRange       []*IPAddressRange       `json:"ipRange"`
+	Subnet        []string                `json:"subnet"`
+}
+
+// Defines destinations (Application/Category) for the Bypass policy.
+type SocketBypassDestinationInput struct {
+	Application   []*ApplicationRefInput       `json:"application"`
+	CustomApp     []*CustomApplicationRefInput `json:"customApp"`
+	Domain        []string                     `json:"domain"`
+	Fqdn          []string                     `json:"fqdn"`
+	GlobalIPRange []*GlobalIPRangeRefInput     `json:"globalIpRange"`
+	IP            []string                     `json:"ip"`
+	IPRange       []*IPAddressRangeInput       `json:"ipRange"`
+	Subnet        []string                     `json:"subnet"`
+}
+
+// Defines destinations (Application/Category) for the Bypass policy.
+type SocketBypassDestinationUpdateInput struct {
+	Application   []*ApplicationRefInput       `json:"application,omitempty"`
+	CustomApp     []*CustomApplicationRefInput `json:"customApp,omitempty"`
+	Domain        []string                     `json:"domain,omitempty"`
+	Fqdn          []string                     `json:"fqdn,omitempty"`
+	GlobalIPRange []*GlobalIPRangeRefInput     `json:"globalIpRange,omitempty"`
+	IP            []string                     `json:"ip,omitempty"`
+	IPRange       []*IPAddressRangeInput       `json:"ipRange,omitempty"`
+	Subnet        []string                     `json:"subnet,omitempty"`
+}
+
+type SocketBypassException struct {
+	Destination *SocketBypassDestination `json:"destination"`
+	Name        string                   `json:"name"`
+	Service     *SocketBypassService     `json:"service"`
+	Site        *SocketBypassSite        `json:"site"`
+	Source      *SocketBypassSource      `json:"source"`
+}
+
+type SocketBypassExceptionInput struct {
+	Destination *SocketBypassDestinationInput `json:"destination"`
+	Name        string                        `json:"name"`
+	Service     *SocketBypassServiceInput     `json:"service"`
+	Site        *SocketBypassSiteInput        `json:"site"`
+	Source      *SocketBypassSourceInput      `json:"source"`
+}
+
+type SocketBypassPolicy struct {
+	Audit    *PolicyAudit               `json:"audit,omitempty,omitzero"`
+	Enabled  bool                       `json:"enabled"`
+	Revision *PolicyRevision            `json:"revision,omitempty,omitzero"`
+	Rules    []*SocketBypassRulePayload `json:"rules"`
+	Sections []*PolicySectionPayload    `json:"sections"`
+}
+
+func (SocketBypassPolicy) IsIPolicy()                        {}
+func (this SocketBypassPolicy) GetAudit() *PolicyAudit       { return this.Audit }
+func (this SocketBypassPolicy) GetEnabled() bool             { return this.Enabled }
+func (this SocketBypassPolicy) GetRevision() *PolicyRevision { return this.Revision }
+func (this SocketBypassPolicy) GetRules() []IPolicyRulePayload {
+	if this.Rules == nil {
+		return nil
+	}
+	interfaceSlice := make([]IPolicyRulePayload, 0, len(this.Rules))
+	for _, concrete := range this.Rules {
+		interfaceSlice = append(interfaceSlice, concrete)
+	}
+	return interfaceSlice
+}
+func (this SocketBypassPolicy) GetSections() []*PolicySectionPayload {
+	if this.Sections == nil {
+		return nil
+	}
+	interfaceSlice := make([]*PolicySectionPayload, 0, len(this.Sections))
+	for _, concrete := range this.Sections {
+		interfaceSlice = append(interfaceSlice, concrete)
+	}
+	return interfaceSlice
+}
+
+type SocketBypassPolicyInput struct {
+	Revision *PolicyRevisionInput `json:"revision,omitempty"`
+}
+
+type SocketBypassPolicyMutationInput struct {
+	Revision *PolicyMutationRevisionInput `json:"revision,omitempty"`
+}
+
+type SocketBypassPolicyMutationPayload struct {
+	Errors []*PolicyMutationError `json:"errors"`
+	Policy *SocketBypassPolicy    `json:"policy,omitempty,omitzero"`
+	Status PolicyMutationStatus   `json:"status"`
+}
+
+func (SocketBypassPolicyMutationPayload) IsIPolicyMutationPayload() {}
+func (this SocketBypassPolicyMutationPayload) GetErrors() []*PolicyMutationError {
+	if this.Errors == nil {
+		return nil
+	}
+	interfaceSlice := make([]*PolicyMutationError, 0, len(this.Errors))
+	for _, concrete := range this.Errors {
+		interfaceSlice = append(interfaceSlice, concrete)
+	}
+	return interfaceSlice
+}
+func (this SocketBypassPolicyMutationPayload) GetPolicy() IPolicy              { return *this.Policy }
+func (this SocketBypassPolicyMutationPayload) GetStatus() PolicyMutationStatus { return this.Status }
+
+type SocketBypassPolicyMutations struct {
+	AddRule               *SocketBypassRuleMutationPayload   `json:"addRule"`
+	AddSection            *PolicySectionMutationPayload      `json:"addSection"`
+	CreatePolicyRevision  *SocketBypassPolicyMutationPayload `json:"createPolicyRevision"`
+	DiscardPolicyRevision *SocketBypassPolicyMutationPayload `json:"discardPolicyRevision"`
+	MoveRule              *SocketBypassRuleMutationPayload   `json:"moveRule"`
+	MoveSection           *PolicySectionMutationPayload      `json:"moveSection"`
+	PublishPolicyRevision *SocketBypassPolicyMutationPayload `json:"publishPolicyRevision"`
+	RemoveRule            *SocketBypassRuleMutationPayload   `json:"removeRule"`
+	RemoveSection         *PolicySectionMutationPayload      `json:"removeSection"`
+	UpdatePolicy          *SocketBypassPolicyMutationPayload `json:"updatePolicy"`
+	UpdateRule            *SocketBypassRuleMutationPayload   `json:"updateRule"`
+	UpdateSection         *PolicySectionMutationPayload      `json:"updateSection"`
+}
+
+type SocketBypassPolicyQueries struct {
+	Policy    *SocketBypassPolicy     `json:"policy"`
+	Revisions *PolicyRevisionsPayload `json:"revisions,omitempty,omitzero"`
+}
+
+type SocketBypassPolicyUpdateInput struct {
+	State *PolicyToggleState `json:"state,omitempty"`
+}
+
+type SocketBypassRemoveRuleInput struct {
+	ID string `json:"id"`
+}
+
+type SocketBypassRule struct {
+	Action      *SocketBypassAction      `json:"action"`
+	Description string                   `json:"description"`
+	Destination *SocketBypassDestination `json:"destination"`
+	Enabled     bool                     `json:"enabled"`
+	Exception   []*SocketBypassException `json:"exception"`
+	ID          string                   `json:"id"`
+	Index       int64                    `json:"index"`
+	Name        string                   `json:"name"`
+	Section     *PolicySectionInfo       `json:"section"`
+	Service     *SocketBypassService     `json:"service"`
+	Site        *SocketBypassSite        `json:"site"`
+	Source      *SocketBypassSource      `json:"source"`
+}
+
+func (SocketBypassRule) IsIPolicyRule()                      {}
+func (this SocketBypassRule) GetDescription() *string        { return &this.Description }
+func (this SocketBypassRule) GetEnabled() bool               { return this.Enabled }
+func (this SocketBypassRule) GetID() string                  { return this.ID }
+func (this SocketBypassRule) GetIndex() int64                { return this.Index }
+func (this SocketBypassRule) GetName() string                { return this.Name }
+func (this SocketBypassRule) GetSection() *PolicySectionInfo { return this.Section }
+
+type SocketBypassRuleMutationPayload struct {
+	Errors []*PolicyMutationError   `json:"errors"`
+	Rule   *SocketBypassRulePayload `json:"rule,omitempty,omitzero"`
+	Status PolicyMutationStatus     `json:"status"`
+}
+
+func (SocketBypassRuleMutationPayload) IsIPolicyRuleMutationPayload() {}
+func (this SocketBypassRuleMutationPayload) GetErrors() []*PolicyMutationError {
+	if this.Errors == nil {
+		return nil
+	}
+	interfaceSlice := make([]*PolicyMutationError, 0, len(this.Errors))
+	for _, concrete := range this.Errors {
+		interfaceSlice = append(interfaceSlice, concrete)
+	}
+	return interfaceSlice
+}
+func (this SocketBypassRuleMutationPayload) GetRule() IPolicyRulePayload     { return *this.Rule }
+func (this SocketBypassRuleMutationPayload) GetStatus() PolicyMutationStatus { return this.Status }
+
+type SocketBypassRulePayload struct {
+	Audit      *PolicyElementAudit           `json:"audit"`
+	Properties []PolicyElementPropertiesEnum `json:"properties"`
+	Rule       *SocketBypassRule             `json:"rule"`
+}
+
+func (SocketBypassRulePayload) IsIPolicyRulePayload()              {}
+func (this SocketBypassRulePayload) GetAudit() *PolicyElementAudit { return this.Audit }
+func (this SocketBypassRulePayload) GetProperties() []PolicyElementPropertiesEnum {
+	if this.Properties == nil {
+		return nil
+	}
+	interfaceSlice := make([]PolicyElementPropertiesEnum, 0, len(this.Properties))
+	for _, concrete := range this.Properties {
+		interfaceSlice = append(interfaceSlice, concrete)
+	}
+	return interfaceSlice
+}
+func (this SocketBypassRulePayload) GetRule() IPolicyRule { return *this.Rule }
+
+// Defines services used in the Bypass policy.
+type SocketBypassService struct {
+	Custom []*CustomService `json:"custom"`
+	Simple []*SimpleService `json:"simple"`
+}
+
+// Defines services used in the Bypass policy.
+type SocketBypassServiceInput struct {
+	Custom []*CustomServiceInput `json:"custom"`
+	Simple []*SimpleServiceInput `json:"simple"`
+}
+
+// Defines services used in the Bypass policy.
+type SocketBypassServiceUpdateInput struct {
+	Custom []*CustomServiceInput `json:"custom,omitempty"`
+	Simple []*SimpleServiceInput `json:"simple,omitempty"`
+}
+
+// Represents the site configurations in the Bypass policy, empty site and group means 'ANY'
+type SocketBypassSite struct {
+	Group []*GroupRef `json:"group"`
+	Site  []*SiteRef  `json:"site"`
+}
+
+// Represents the site configurations in the Bypass policy, empty site and group means 'ANY'
+type SocketBypassSiteInput struct {
+	Group []*GroupRefInput `json:"group"`
+	Site  []*SiteRefInput  `json:"site"`
+}
+
+// Represents the site configurations in the Bypass policy, empty site and group means 'ANY'
+type SocketBypassSiteUpdateInput struct {
+	Group []*GroupRefInput `json:"group,omitempty"`
+	Site  []*SiteRefInput  `json:"site,omitempty"`
+}
+
+// Defines sources for the Bypass policy.
+type SocketBypassSource struct {
+	FloatingSubnet    []*FloatingSubnetRef    `json:"floatingSubnet"`
+	GlobalIPRange     []*GlobalIPRangeRef     `json:"globalIpRange"`
+	Group             []*GroupRef             `json:"group"`
+	Host              []*HostRef              `json:"host"`
+	IP                []string                `json:"ip"`
+	IPRange           []*IPAddressRange       `json:"ipRange"`
+	NetworkInterface  []*NetworkInterfaceRef  `json:"networkInterface"`
+	SiteNetworkSubnet []*SiteNetworkSubnetRef `json:"siteNetworkSubnet"`
+	Subnet            []string                `json:"subnet"`
+	Vlan              []scalars.Vlan          `json:"vlan"`
+}
+
+// Defines sources for the Bypass policy.
+type SocketBypassSourceInput struct {
+	FloatingSubnet    []*FloatingSubnetRefInput    `json:"floatingSubnet"`
+	GlobalIPRange     []*GlobalIPRangeRefInput     `json:"globalIpRange"`
+	Group             []*GroupRefInput             `json:"group"`
+	Host              []*HostRefInput              `json:"host"`
+	IP                []string                     `json:"ip"`
+	IPRange           []*IPAddressRangeInput       `json:"ipRange"`
+	NetworkInterface  []*NetworkInterfaceRefInput  `json:"networkInterface"`
+	SiteNetworkSubnet []*SiteNetworkSubnetRefInput `json:"siteNetworkSubnet"`
+	Subnet            []string                     `json:"subnet"`
+	Vlan              []scalars.Vlan               `json:"vlan"`
+}
+
+// Defines sources for the Bypass policy.
+type SocketBypassSourceUpdateInput struct {
+	FloatingSubnet    []*FloatingSubnetRefInput    `json:"floatingSubnet,omitempty"`
+	GlobalIPRange     []*GlobalIPRangeRefInput     `json:"globalIpRange,omitempty"`
+	Group             []*GroupRefInput             `json:"group,omitempty"`
+	Host              []*HostRefInput              `json:"host,omitempty"`
+	IP                []string                     `json:"ip,omitempty"`
+	IPRange           []*IPAddressRangeInput       `json:"ipRange,omitempty"`
+	NetworkInterface  []*NetworkInterfaceRefInput  `json:"networkInterface,omitempty"`
+	SiteNetworkSubnet []*SiteNetworkSubnetRefInput `json:"siteNetworkSubnet,omitempty"`
+	Subnet            []string                     `json:"subnet,omitempty"`
+	Vlan              []scalars.Vlan               `json:"vlan,omitempty"`
+}
+
+type SocketBypassUpdateRuleDataInput struct {
+	Action      *SocketBypassActionUpdateInput      `json:"action,omitempty"`
+	Description *string                             `json:"description,omitempty"`
+	Destination *SocketBypassDestinationUpdateInput `json:"destination,omitempty"`
+	Enabled     *bool                               `json:"enabled,omitempty"`
+	Exception   []*SocketBypassExceptionInput       `json:"exception,omitempty"`
+	Name        *string                             `json:"name,omitempty"`
+	Service     *SocketBypassServiceUpdateInput     `json:"service,omitempty"`
+	Site        *SocketBypassSiteUpdateInput        `json:"site,omitempty"`
+	Source      *SocketBypassSourceUpdateInput      `json:"source,omitempty"`
+}
+
+type SocketBypassUpdateRuleInput struct {
+	ID   string                           `json:"id"`
+	Rule *SocketBypassUpdateRuleDataInput `json:"rule"`
+}
+
 type SocketConfiguration struct {
-	Description *string `json:"description,omitempty"`
+	Description *string `json:"description,omitempty,omitzero"`
 }
 
 type SocketConfigurationInput struct {
@@ -8950,12 +10925,12 @@ type SocketConfigurationInput struct {
 
 // Basic information about socket
 type SocketInfo struct {
-	ID                *string         `json:"id,omitempty"`
-	IsPrimary         *bool           `json:"isPrimary,omitempty"`
-	Platform          *SocketPlatform `json:"platform,omitempty"`
-	Serial            *string         `json:"serial,omitempty"`
-	Version           *string         `json:"version,omitempty"`
-	VersionUpdateTime *string         `json:"versionUpdateTime,omitempty"`
+	ID                *string         `json:"id,omitempty,omitzero"`
+	IsPrimary         *bool           `json:"isPrimary,omitempty,omitzero"`
+	Platform          *SocketPlatform `json:"platform,omitempty,omitzero"`
+	Serial            *string         `json:"serial,omitempty,omitzero"`
+	Version           *string         `json:"version,omitempty,omitzero"`
+	VersionUpdateTime *string         `json:"versionUpdateTime,omitempty,omitzero"`
 }
 
 type SocketInterfaceAltWanInput struct {
@@ -8974,6 +10949,19 @@ type SocketInterfaceBandwidthInput struct {
 	DownstreamBandwidthMbpsPrecision *float64 `json:"downstreamBandwidthMbpsPrecision,omitempty"`
 	UpstreamBandwidth                *int64   `json:"upstreamBandwidth,omitempty"`
 	UpstreamBandwidthMbpsPrecision   *float64 `json:"upstreamBandwidthMbpsPrecision,omitempty"`
+}
+
+type SocketInterfaceConfigurationInput struct {
+	AltWan            *SocketInterfaceAltWanInput    `json:"altWan,omitempty"`
+	Bandwidth         *SocketInterfaceBandwidthInput `json:"bandwidth,omitempty"`
+	DestType          SocketInterfaceDestType        `json:"destType"`
+	Lag               *SocketInterfaceLagInput       `json:"lag,omitempty"`
+	Lan               *SocketInterfaceLanInput       `json:"lan,omitempty"`
+	Name              *string                        `json:"name,omitempty"`
+	OffCloud          *SocketInterfaceOffCloudInput  `json:"offCloud,omitempty"`
+	SocketInterfaceID SocketInterfaceIDEnum          `json:"socketInterfaceId"`
+	Vrrp              *SocketInterfaceVrrpInput      `json:"vrrp,omitempty"`
+	Wan               *SocketInterfaceWanInput       `json:"wan,omitempty"`
 }
 
 type SocketInterfaceLagInput struct {
@@ -9006,8 +10994,27 @@ type SocketInterfaceWanInput struct {
 	Role       SocketInterfaceRole           `json:"role"`
 }
 
+type SocketInventoryDistributionInput struct {
+	Filter *SocketInventoryFilterInput `json:"filter,omitempty"`
+}
+
+// Socket inventory distribution grouped by physical socket model type and hardware version.
+type SocketInventoryDistributionItem struct {
+	Count           int64                              `json:"count"`
+	HardwareVersion *SocketHardwareVersion             `json:"hardwareVersion,omitempty,omitzero"`
+	SocketType      *SocketModelTypeConfigurationValue `json:"socketType,omitempty,omitzero"`
+}
+
+type SocketInventoryDistributionPayload struct {
+	Items []*SocketInventoryDistributionItem `json:"items"`
+}
+
 type SocketInventoryFilterInput struct {
-	FreeText *FreeTextFilterInput `json:"freeText,omitempty"`
+	FreeText        *FreeTextFilterInput                `json:"freeText,omitempty"`
+	HardwareVersion []SocketHardwareVersion             `json:"hardwareVersion,omitempty"`
+	OrderType       []SocketOrderType                   `json:"orderType,omitempty"`
+	SocketType      []SocketModelTypeConfigurationValue `json:"socketType,omitempty"`
+	Status          []SocketInventoryItemStatus         `json:"status,omitempty"`
 }
 
 type SocketInventoryInput struct {
@@ -9019,23 +11026,24 @@ type SocketInventoryInput struct {
 type SocketInventoryItem struct {
 	Account                  *AccountRef                `json:"account"`
 	AvailableUpgradeVersions []string                   `json:"availableUpgradeVersions"`
-	DeliverySiteName         *string                    `json:"deliverySiteName,omitempty"`
-	Description              *string                    `json:"description,omitempty"`
-	HardwareVersion          *string                    `json:"hardwareVersion,omitempty"`
+	DeliverySiteName         *string                    `json:"deliverySiteName,omitempty,omitzero"`
+	Description              *string                    `json:"description,omitempty,omitzero"`
+	HardwareVersion          *string                    `json:"hardwareVersion,omitempty,omitzero"`
 	ID                       string                     `json:"id"`
 	IsPrimary                bool                       `json:"isPrimary"`
-	RegistrationStatus       *SocketRegistrationStatus  `json:"registrationStatus,omitempty"`
-	SerialNumber             *string                    `json:"serialNumber,omitempty"`
-	ShippingCompany          *string                    `json:"shippingCompany,omitempty"`
-	ShippingDate             *string                    `json:"shippingDate,omitempty"`
-	Site                     *SiteRef                   `json:"site,omitempty"`
-	SocketMac                *string                    `json:"socketMac,omitempty"`
-	SocketType               *SocketPlatform            `json:"socketType,omitempty"`
-	SocketVersion            *string                    `json:"socketVersion,omitempty"`
-	Status                   *SocketInventoryItemStatus `json:"status,omitempty"`
-	TrackingNumber           *string                    `json:"trackingNumber,omitempty"`
-	TrackingURL              *string                    `json:"trackingUrl,omitempty"`
-	UpgradeStatus            *SocketUpgradeStatus       `json:"upgradeStatus,omitempty"`
+	OrderType                *SocketOrderType           `json:"orderType,omitempty,omitzero"`
+	RegistrationStatus       *SocketRegistrationStatus  `json:"registrationStatus,omitempty,omitzero"`
+	SerialNumber             *string                    `json:"serialNumber,omitempty,omitzero"`
+	ShippingCompany          *string                    `json:"shippingCompany,omitempty,omitzero"`
+	ShippingDate             *string                    `json:"shippingDate,omitempty,omitzero"`
+	Site                     *SiteRef                   `json:"site,omitempty,omitzero"`
+	SocketMac                *string                    `json:"socketMac,omitempty,omitzero"`
+	SocketType               *SocketPlatform            `json:"socketType,omitempty,omitzero"`
+	SocketVersion            *string                    `json:"socketVersion,omitempty,omitzero"`
+	Status                   *SocketInventoryItemStatus `json:"status,omitempty,omitzero"`
+	TrackingNumber           *string                    `json:"trackingNumber,omitempty,omitzero"`
+	TrackingURL              *string                    `json:"trackingUrl,omitempty,omitzero"`
+	UpgradeStatus            *SocketUpgradeStatus       `json:"upgradeStatus,omitempty,omitzero"`
 	UpgradesPaused           bool                       `json:"upgradesPaused"`
 }
 
@@ -9259,7 +11267,7 @@ func (this SocketLanFirewallRule) GetSection() *PolicySectionInfo { return this.
 
 type SocketLanFirewallRuleMutationPayload struct {
 	Errors []*PolicyMutationError        `json:"errors"`
-	Rule   *SocketLanFirewallRulePayload `json:"rule,omitempty"`
+	Rule   *SocketLanFirewallRulePayload `json:"rule,omitempty,omitzero"`
 	Status PolicyMutationStatus          `json:"status"`
 }
 
@@ -9406,9 +11414,9 @@ type SocketLanNatSettingsUpdateInput struct {
 }
 
 type SocketLanPolicy struct {
-	Audit    *PolicyAudit            `json:"audit,omitempty"`
+	Audit    *PolicyAudit            `json:"audit,omitempty,omitzero"`
 	Enabled  bool                    `json:"enabled"`
-	Revision *PolicyRevision         `json:"revision,omitempty"`
+	Revision *PolicyRevision         `json:"revision,omitempty,omitzero"`
 	Rules    []*SocketLanRulePayload `json:"rules"`
 	Sections []*PolicySectionPayload `json:"sections"`
 }
@@ -9448,7 +11456,7 @@ type SocketLanPolicyMutationInput struct {
 
 type SocketLanPolicyMutationPayload struct {
 	Errors []*PolicyMutationError `json:"errors"`
-	Policy *SocketLanPolicy       `json:"policy,omitempty"`
+	Policy *SocketLanPolicy       `json:"policy,omitempty,omitzero"`
 	Status PolicyMutationStatus   `json:"status"`
 }
 
@@ -9484,8 +11492,19 @@ type SocketLanPolicyMutations struct {
 
 type SocketLanPolicyQueries struct {
 	Policy    *SocketLanPolicy        `json:"policy"`
-	Revisions *PolicyRevisionsPayload `json:"revisions,omitempty"`
+	Revisions *PolicyRevisionsPayload `json:"revisions,omitempty,omitzero"`
 }
+
+type SocketLanPolicyRef struct {
+	ID   string `json:"id"`
+	Name string `json:"name"`
+}
+
+func (SocketLanPolicyRef) IsObjectRef()         {}
+func (this SocketLanPolicyRef) GetID() string   { return this.ID }
+func (this SocketLanPolicyRef) GetName() string { return this.Name }
+
+func (SocketLanPolicyRef) IsPolicyRef() {}
 
 type SocketLanPolicyUpdateInput struct {
 	State *PolicyToggleState `json:"state,omitempty"`
@@ -9522,7 +11541,7 @@ func (this SocketLanRule) GetSection() *PolicySectionInfo { return this.Section 
 
 type SocketLanRuleMutationPayload struct {
 	Errors []*PolicyMutationError `json:"errors"`
-	Rule   *SocketLanRulePayload  `json:"rule,omitempty"`
+	Rule   *SocketLanRulePayload  `json:"rule,omitempty,omitzero"`
 	Status PolicyMutationStatus   `json:"status"`
 }
 
@@ -9659,13 +11678,20 @@ type SocketLanUpdateRuleInput struct {
 	Rule *SocketLanUpdateRuleDataInput `json:"rule"`
 }
 
+type SocketModelFilterInput struct {
+	Eq  *SocketModel  `json:"eq,omitempty"`
+	In  []SocketModel `json:"in,omitempty"`
+	Neq *SocketModel  `json:"neq,omitempty"`
+	Nin []SocketModel `json:"nin,omitempty"`
+}
+
 type SocketPortMetrics struct {
-	From    *string                    `json:"from,omitempty"`
-	ID      *string                    `json:"id,omitempty"`
-	Records []*SocketPortMetricsRecord `json:"records,omitempty"`
-	To      *string                    `json:"to,omitempty"`
-	Total   *int64                     `json:"total,omitempty"`
-	Totals  map[string]any             `json:"totals,omitempty"`
+	From    *string                    `json:"from,omitempty,omitzero"`
+	ID      *string                    `json:"id,omitempty,omitzero"`
+	Records []*SocketPortMetricsRecord `json:"records,omitempty,omitzero"`
+	To      *string                    `json:"to,omitempty,omitzero"`
+	Total   *int64                     `json:"total,omitempty,omitzero"`
+	Totals  map[string]any             `json:"totals,omitempty,omitzero"`
 }
 
 type SocketPortMetricsDimension struct {
@@ -9685,29 +11711,42 @@ type SocketPortMetricsFilter struct {
 
 type SocketPortMetricsMeasure struct {
 	AggType   AggregationType            `json:"aggType"`
+	Alias     *string                    `json:"alias,omitempty"`
 	FieldName SocketPortMetricsFieldName `json:"fieldName"`
 	Trend     *bool                      `json:"trend,omitempty"`
 }
 
+type SocketPortMetricsPostAggFilter struct {
+	AggType AggregationType          `json:"aggType"`
+	Filter  *SocketPortMetricsFilter `json:"filter"`
+}
+
 type SocketPortMetricsRecord struct {
-	Fields          []*SocketPortMetricsField `json:"fields,omitempty"`
-	FieldsMap       map[string]any            `json:"fieldsMap,omitempty"`
-	FieldsUnitTypes []UnitType                `json:"fieldsUnitTypes,omitempty"`
-	PrevTimeFrame   map[string]any            `json:"prevTimeFrame,omitempty"`
-	Trends          map[string]any            `json:"trends,omitempty"`
+	Fields          []*SocketPortMetricsField `json:"fields,omitempty,omitzero"`
+	FieldsMap       map[string]any            `json:"fieldsMap,omitempty,omitzero"`
+	FieldsUnitTypes []UnitType                `json:"fieldsUnitTypes,omitempty,omitzero"`
+	PrevTimeFrame   map[string]any            `json:"prevTimeFrame,omitempty,omitzero"`
+	Trends          map[string]any            `json:"trends,omitempty,omitzero"`
 }
 
 type SocketPortMetricsSort struct {
-	FieldName SocketPortMetricsFieldName `json:"fieldName"`
-	Order     DirectionEnum              `json:"order"`
+	Alias     *string                     `json:"alias,omitempty"`
+	FieldName *SocketPortMetricsFieldName `json:"fieldName,omitempty"`
+	Order     DirectionEnum               `json:"order"`
 }
 
 type SocketPortMetricsTimeSeries struct {
-	From        *string       `json:"from,omitempty"`
-	Granularity *int64        `json:"granularity,omitempty"`
-	ID          *string       `json:"id,omitempty"`
-	Timeseries  []*Timeseries `json:"timeseries,omitempty"`
-	To          *string       `json:"to,omitempty"`
+	From        *string       `json:"from,omitempty,omitzero"`
+	Granularity *int64        `json:"granularity,omitempty,omitzero"`
+	ID          *string       `json:"id,omitempty,omitzero"`
+	Timeseries  []*Timeseries `json:"timeseries,omitempty,omitzero"`
+	To          *string       `json:"to,omitempty,omitzero"`
+}
+
+// Detailed information about an available socket version.
+type SocketVersionInfo struct {
+	Label   *string `json:"label,omitempty,omitzero"`
+	Version string  `json:"version"`
 }
 
 type SortInput struct {
@@ -9743,18 +11782,24 @@ type SplitTunnelAddRuleInput struct {
 // Destination match criteria set
 type SplitTunnelDestination struct {
 	Application   []*ApplicationRef   `json:"application"`
+	Domain        []string            `json:"domain"`
+	Fqdn          []string            `json:"fqdn"`
 	GlobalIPRange []*GlobalIPRangeRef `json:"globalIpRange"`
 }
 
 // Destination match criteria set
 type SplitTunnelDestinationInput struct {
 	Application   []*ApplicationRefInput   `json:"application"`
+	Domain        []string                 `json:"domain"`
+	Fqdn          []string                 `json:"fqdn"`
 	GlobalIPRange []*GlobalIPRangeRefInput `json:"globalIpRange"`
 }
 
 // Destination match criteria set
 type SplitTunnelDestinationUpdateInput struct {
 	Application   []*ApplicationRefInput   `json:"application,omitempty"`
+	Domain        []string                 `json:"domain,omitempty"`
+	Fqdn          []string                 `json:"fqdn,omitempty"`
 	GlobalIPRange []*GlobalIPRangeRefInput `json:"globalIpRange,omitempty"`
 }
 
@@ -9771,9 +11816,9 @@ type SplitTunnelDNSExclusionUpdateInput struct {
 }
 
 type SplitTunnelPolicy struct {
-	Audit    *PolicyAudit              `json:"audit,omitempty"`
+	Audit    *PolicyAudit              `json:"audit,omitempty,omitzero"`
 	Enabled  bool                      `json:"enabled"`
-	Revision *PolicyRevision           `json:"revision,omitempty"`
+	Revision *PolicyRevision           `json:"revision,omitempty,omitzero"`
 	Rules    []*SplitTunnelRulePayload `json:"rules"`
 	Sections []*PolicySectionPayload   `json:"sections"`
 }
@@ -9813,7 +11858,7 @@ type SplitTunnelPolicyMutationInput struct {
 
 type SplitTunnelPolicyMutationPayload struct {
 	Errors []*PolicyMutationError `json:"errors"`
-	Policy *SplitTunnelPolicy     `json:"policy,omitempty"`
+	Policy *SplitTunnelPolicy     `json:"policy,omitempty,omitzero"`
 	Status PolicyMutationStatus   `json:"status"`
 }
 
@@ -9848,7 +11893,7 @@ type SplitTunnelPolicyMutations struct {
 
 type SplitTunnelPolicyQueries struct {
 	Policy    *SplitTunnelPolicy      `json:"policy"`
-	Revisions *PolicyRevisionsPayload `json:"revisions,omitempty"`
+	Revisions *PolicyRevisionsPayload `json:"revisions,omitempty,omitzero"`
 }
 
 type SplitTunnelPolicyUpdateInput struct {
@@ -9862,10 +11907,10 @@ type SplitTunnelRemoveRuleInput struct {
 type SplitTunnelRule struct {
 	Action          SplitTunnelActionEnum          `json:"action"`
 	Country         []*CountryRef                  `json:"country"`
-	Coverage        *SplitTunnelCoverageEnum       `json:"coverage,omitempty"`
+	Coverage        *SplitTunnelCoverageEnum       `json:"coverage,omitempty,omitzero"`
 	Description     string                         `json:"description"`
 	Destination     *SplitTunnelDestination        `json:"destination"`
-	DNSExclusion    *SplitTunnelDNSExclusion       `json:"dnsExclusion,omitempty"`
+	DNSExclusion    *SplitTunnelDNSExclusion       `json:"dnsExclusion,omitempty,omitzero"`
 	Enabled         bool                           `json:"enabled"`
 	ID              string                         `json:"id"`
 	Index           int64                          `json:"index"`
@@ -9887,7 +11932,7 @@ func (this SplitTunnelRule) GetSection() *PolicySectionInfo { return this.Sectio
 
 type SplitTunnelRuleMutationPayload struct {
 	Errors []*PolicyMutationError  `json:"errors"`
-	Rule   *SplitTunnelRulePayload `json:"rule,omitempty"`
+	Rule   *SplitTunnelRulePayload `json:"rule,omitempty,omitzero"`
 	Status PolicyMutationStatus    `json:"status"`
 }
 
@@ -9985,11 +12030,19 @@ type StartSiteUpgradePayload struct {
 	Results []*SiteUpgradeInfo `json:"results"`
 }
 
+type StaticHostListPayload struct {
+	Items []*SiteStaticHost `json:"items"`
+}
+
+type StaticHostPayload struct {
+	Host *SiteStaticHost `json:"host"`
+}
+
 type StatusCount struct {
-	ConfirmShipping *int64 `json:"CONFIRM_SHIPPING,omitempty"`
-	Delivered       *int64 `json:"DELIVERED,omitempty"`
-	InTransit       *int64 `json:"IN_TRANSIT,omitempty"`
-	PendingInfo     *int64 `json:"PENDING_INFO,omitempty"`
+	ConfirmShipping *int64 `json:"CONFIRM_SHIPPING,omitempty,omitzero"`
+	Delivered       *int64 `json:"DELIVERED,omitempty,omitzero"`
+	InTransit       *int64 `json:"IN_TRANSIT,omitempty,omitzero"`
+	PendingInfo     *int64 `json:"PENDING_INFO,omitempty,omitzero"`
 }
 
 type StoriesData struct {
@@ -9998,24 +12051,27 @@ type StoriesData struct {
 }
 
 type Story struct {
-	AccountID    int64           `json:"accountId"`
-	AccountName  *string         `json:"accountName,omitempty"`
-	AnalystEmail *string         `json:"analystEmail,omitempty"`
-	AnalystName  *string         `json:"analystName,omitempty"`
-	CreatedAt    string          `json:"createdAt"`
-	ID           string          `json:"id"`
-	Incident     MergedIncident  `json:"incident"`
-	Playbook     *string         `json:"playbook,omitempty"`
-	Summary      *string         `json:"summary,omitempty"`
-	Timeline     []*TimelineItem `json:"timeline"`
-	UpdatedAt    string          `json:"updatedAt"`
+	AccountID            int64                 `json:"accountId"`
+	AccountName          *string               `json:"accountName,omitempty,omitzero"`
+	AnalystEmail         *string               `json:"analystEmail,omitempty,omitzero"`
+	AnalystName          *string               `json:"analystName,omitempty,omitzero"`
+	CreatedAt            string                `json:"createdAt"`
+	ID                   string                `json:"id"`
+	Incident             MergedIncident        `json:"incident"`
+	InvestigationDetails *InvestigationDetails `json:"investigationDetails,omitempty,omitzero"`
+	Playbook             *string               `json:"playbook,omitempty,omitzero"`
+	Summary              *string               `json:"summary,omitempty,omitzero"`
+	Timeline             []*TimelineItem       `json:"timeline"`
+	UpdatedAt            string                `json:"updatedAt"`
 }
 
 type StoryComment struct {
 	Actor     ActorRef     `json:"actor"`
+	Author    *string      `json:"author,omitempty,omitzero"`
 	CreatedAt scalars.Time `json:"createdAt"`
 	ID        string       `json:"id"`
 	Text      string       `json:"text"`
+	Type      *CommentType `json:"type,omitempty,omitzero"`
 }
 
 type StoryDrillDownFilter struct {
@@ -10025,22 +12081,24 @@ type StoryDrillDownFilter struct {
 }
 
 type StoryFilterInput struct {
-	AccountID   *AccountIDPredicate     `json:"accountId,omitempty"`
-	Criticality *IntPredicate           `json:"criticality,omitempty"`
-	EngineType  *EngineTypePredicate    `json:"engineType,omitempty"`
-	IncidentID  *StringPredicate        `json:"incidentId,omitempty"`
-	Ioa         *StringPredicate        `json:"ioa,omitempty"`
-	Muted       *BooleanPredicate       `json:"muted,omitempty"`
-	Producer    *StoryProducerPredicate `json:"producer,omitempty"`
-	QueryName   *StringPredicate        `json:"queryName,omitempty"`
-	Severity    *StorySeverityPredicate `json:"severity,omitempty"`
-	Source      *StringPredicate        `json:"source,omitempty"`
-	SourceIP    *StringPredicate        `json:"sourceIp,omitempty"`
-	Status      *StoryStatusPredicate   `json:"status,omitempty"`
-	StoryID     *StoryIDPredicate       `json:"storyId,omitempty"`
-	TimeFrame   *TimeFramePredicate     `json:"timeFrame"`
-	Vendor      *VendorPredicate        `json:"vendor,omitempty"`
-	Verdict     *StoryVerdictPredicate  `json:"verdict,omitempty"`
+	AccountID    *AccountIDPredicate     `json:"accountId,omitempty"`
+	Criticality  *IntPredicate           `json:"criticality,omitempty"`
+	EngineType   *EngineTypePredicate    `json:"engineType,omitempty"`
+	IncidentID   *StringPredicate        `json:"incidentId,omitempty"`
+	Ioa          *StringPredicate        `json:"ioa,omitempty"`
+	Muted        *BooleanPredicate       `json:"muted,omitempty"`
+	Producer     *StoryProducerPredicate `json:"producer,omitempty"`
+	ProducerName *StringPredicate        `json:"producerName,omitempty"`
+	ProducerType *StoryProducerPredicate `json:"producerType,omitempty"`
+	QueryName    *StringPredicate        `json:"queryName,omitempty"`
+	Severity     *StorySeverityPredicate `json:"severity,omitempty"`
+	Source       *StringPredicate        `json:"source,omitempty"`
+	SourceIP     *StringPredicate        `json:"sourceIp,omitempty"`
+	Status       *StoryStatusPredicate   `json:"status,omitempty"`
+	StoryID      *StoryIDPredicate       `json:"storyId,omitempty"`
+	TimeFrame    *TimeFramePredicate     `json:"timeFrame"`
+	Vendor       *VendorPredicate        `json:"vendor,omitempty"`
+	Verdict      *StoryVerdictPredicate  `json:"verdict,omitempty"`
 }
 
 type StoryIDPredicate struct {
@@ -10099,7 +12157,7 @@ type StringPredicate struct {
 }
 
 type StringValue struct {
-	String *string `json:"string,omitempty"`
+	String *string `json:"string,omitempty,omitzero"`
 }
 
 func (StringValue) IsValue() {}
@@ -10123,6 +12181,20 @@ type SubDomain struct {
 	AccountName string `json:"accountName"`
 	AccountType string `json:"accountType"`
 	SubDomain   string `json:"subDomain"`
+}
+
+// Represents a Subscription Group that combines Mailing Lists and webhook integrations.
+type SubscriptionGroup struct {
+	ID          string           `json:"id"`
+	Integration *IntegrationList `json:"integration"`
+	MailingList []*MailingList   `json:"mailingList"`
+	Name        string           `json:"name"`
+}
+
+// Represents the response payload for a list of Subscription Groups.
+type SubscriptionGroupListPayload struct {
+	Items  []*SubscriptionGroup `json:"items"`
+	Paging *PageInfo            `json:"paging"`
 }
 
 // A reference identifying the SubscriptionGroup object. ID: Unique SubscriptionGroup Identifier, Name: The SubscriptionGroup Name
@@ -10170,6 +12242,22 @@ type SubscriptionWebhookRefInput struct {
 	Input string      `json:"input"`
 }
 
+type SyncFqdnContainerFromURLInput struct {
+	Ref *ContainerRefInput `json:"ref"`
+}
+
+type SyncFqdnContainerFromURLPayload struct {
+	Container *FqdnContainer `json:"container"`
+}
+
+type SyncIPAddressRangeContainerFromURLInput struct {
+	Ref *ContainerRefInput `json:"ref"`
+}
+
+type SyncIPAddressRangeContainerFromURLPayload struct {
+	Container *IPAddressRangeContainer `json:"container"`
+}
+
 // A reference identifying the SystemGroup object. ID: Unique SystemGroup Identifier, Name: The SystemGroup Name
 type SystemGroupRef struct {
 	ID   string `json:"id"`
@@ -10206,9 +12294,9 @@ type TerminalServerAddRuleInput struct {
 }
 
 type TerminalServerPolicy struct {
-	Audit    *PolicyAudit                 `json:"audit,omitempty"`
+	Audit    *PolicyAudit                 `json:"audit,omitempty,omitzero"`
 	Enabled  bool                         `json:"enabled"`
-	Revision *PolicyRevision              `json:"revision,omitempty"`
+	Revision *PolicyRevision              `json:"revision,omitempty,omitzero"`
 	Rules    []*TerminalServerRulePayload `json:"rules"`
 	Sections []*PolicySectionPayload      `json:"sections"`
 }
@@ -10248,7 +12336,7 @@ type TerminalServerPolicyMutationInput struct {
 
 type TerminalServerPolicyMutationPayload struct {
 	Errors []*PolicyMutationError `json:"errors"`
-	Policy *TerminalServerPolicy  `json:"policy,omitempty"`
+	Policy *TerminalServerPolicy  `json:"policy,omitempty,omitzero"`
 	Status PolicyMutationStatus   `json:"status"`
 }
 
@@ -10283,7 +12371,7 @@ type TerminalServerPolicyMutations struct {
 
 type TerminalServerPolicyQueries struct {
 	Policy    *TerminalServerPolicy   `json:"policy"`
-	Revisions *PolicyRevisionsPayload `json:"revisions,omitempty"`
+	Revisions *PolicyRevisionsPayload `json:"revisions,omitempty,omitzero"`
 }
 
 type TerminalServerPolicyUpdateInput struct {
@@ -10315,7 +12403,7 @@ func (this TerminalServerRule) GetSection() *PolicySectionInfo { return this.Sec
 
 type TerminalServerRuleMutationPayload struct {
 	Errors []*PolicyMutationError     `json:"errors"`
-	Rule   *TerminalServerRulePayload `json:"rule,omitempty"`
+	Rule   *TerminalServerRulePayload `json:"rule,omitempty,omitzero"`
 	Status PolicyMutationStatus       `json:"status"`
 }
 
@@ -10378,63 +12466,95 @@ type TestContainerFromURLPayload struct {
 	TopValid    []string `json:"topValid"`
 }
 
+// Response payload for a webhook test operation.
+type TestWebhookPayload struct {
+	ErrorMessage *string `json:"errorMessage,omitempty,omitzero"`
+	Success      bool    `json:"success"`
+}
+
 // The "Threat" object represents a comprehensive data structure used in GraphQL queries or mutations to encapsulate various attributes and metadata related to a threat incident, including details about the threat's origin, nature, risk assessment, and associated network traffic flows.
 type Threat struct {
-	AnalystFeedback     *AnalystFeedback      `json:"analystFeedback,omitempty"`
+	AnalystFeedback     *AnalystFeedback      `json:"analystFeedback,omitempty,omitzero"`
+	Categories          []IncidentCategory    `json:"categories"`
 	ClientClass         []string              `json:"clientClass"`
-	ConnectionType      *ConnectionTypeEnum   `json:"connectionType,omitempty"`
-	Criticality         *int64                `json:"criticality,omitempty"`
-	Description         *string               `json:"description,omitempty"`
-	DeviceName          *string               `json:"deviceName,omitempty"`
-	Direction           *string               `json:"direction,omitempty"`
-	EngineType          *StoryEngineTypeEnum  `json:"engineType,omitempty"`
-	Events              []*Event              `json:"events,omitempty"`
+	ConnectionType      *ConnectionTypeEnum   `json:"connectionType,omitempty,omitzero"`
+	Criticality         *int64                `json:"criticality,omitempty,omitzero"`
+	Description         *string               `json:"description,omitempty,omitzero"`
+	DeviceName          *string               `json:"deviceName,omitempty,omitzero"`
+	Direction           *string               `json:"direction,omitempty,omitzero"`
+	EngineType          *StoryEngineTypeEnum  `json:"engineType,omitempty,omitzero"`
+	Entities            []*IncidentEntity     `json:"entities"`
+	Events              []*Event              `json:"events,omitempty,omitzero"`
 	FirstSignal         string                `json:"firstSignal"`
-	Flows               []*IncidentFlow       `json:"flows,omitempty"`
-	FlowsCardinality    *int64                `json:"flowsCardinality,omitempty"`
+	Flows               []*IncidentFlow       `json:"flows,omitempty,omitzero"`
+	FlowsCardinality    *int64                `json:"flowsCardinality,omitempty,omitzero"`
 	ID                  string                `json:"id"`
 	Indication          string                `json:"indication"`
 	LastSignal          string                `json:"lastSignal"`
-	LogonName           *string               `json:"logonName,omitempty"`
-	MacAddress          *string               `json:"macAddress,omitempty"`
-	Mitres              []*Mitre              `json:"mitres,omitempty"`
-	Os                  *string               `json:"os,omitempty"`
-	PredictedThreatType *string               `json:"predictedThreatType,omitempty"`
-	PredictedVerdict    *StoryVerdictEnum     `json:"predictedVerdict,omitempty"`
+	LogonName           *string               `json:"logonName,omitempty,omitzero"`
+	MacAddress          *string               `json:"macAddress,omitempty,omitzero"`
+	Mitres              []*Mitre              `json:"mitres,omitempty,omitzero"`
+	Muted               bool                  `json:"muted"`
+	Os                  *string               `json:"os,omitempty,omitzero"`
+	PredictedThreatType *string               `json:"predictedThreatType,omitempty,omitzero"`
+	PredictedVerdict    *StoryVerdictEnum     `json:"predictedVerdict,omitempty,omitzero"`
 	Producer            StoryProducerEnum     `json:"producer"`
 	ProducerName        string                `json:"producerName"`
-	QueryName           *string               `json:"queryName,omitempty"`
-	Research            *bool                 `json:"research,omitempty"`
-	RiskLevel           *RiskLevelEnum        `json:"riskLevel,omitempty"`
+	ProducerType        StoryProducerEnum     `json:"producerType"`
+	QueryName           *string               `json:"queryName,omitempty,omitzero"`
+	Research            *bool                 `json:"research,omitempty,omitzero"`
+	RiskLevel           *RiskLevelEnum        `json:"riskLevel,omitempty,omitzero"`
 	SimilarStoriesData  []*SimilarStoryData   `json:"similarStoriesData"`
-	Site                *SiteRef              `json:"site,omitempty"`
-	SiteName            *string               `json:"siteName,omitempty"`
-	Source              *string               `json:"source,omitempty"`
-	SourceIP            *string               `json:"sourceIp,omitempty"`
-	SrcSiteID           *string               `json:"srcSiteId,omitempty"`
-	Status              *StoryStatusEnum      `json:"status,omitempty"`
-	StoryDuration       *int64                `json:"storyDuration,omitempty"`
+	Site                *SiteRef              `json:"site,omitempty,omitzero"`
+	SiteName            *string               `json:"siteName,omitempty,omitzero"`
+	Source              *string               `json:"source,omitempty,omitzero"`
+	SourceIP            *string               `json:"sourceIp,omitempty,omitzero"`
+	SrcSiteID           *string               `json:"srcSiteId,omitempty,omitzero"`
+	Status              *StoryStatusEnum      `json:"status,omitempty,omitzero"`
+	StoryDuration       *int64                `json:"storyDuration,omitempty,omitzero"`
 	Targets             []*IncidentTargetRep  `json:"targets"`
-	Ticket              *string               `json:"ticket,omitempty"`
-	TimeSeries          []*IncidentTimeseries `json:"timeSeries,omitempty"`
-	User                *UserRef              `json:"user,omitempty"`
-	Vendor              *VendorEnum           `json:"vendor,omitempty"`
+	Ticket              *string               `json:"ticket,omitempty,omitzero"`
+	TimeSeries          []*IncidentTimeseries `json:"timeSeries,omitempty,omitzero"`
+	User                *UserRef              `json:"user,omitempty,omitzero"`
+	Vendor              *VendorEnum           `json:"vendor,omitempty,omitzero"`
 }
 
-func (Threat) IsMergedIncident()                           {}
-func (this Threat) GetAnalystFeedback() *AnalystFeedback   { return this.AnalystFeedback }
+func (Threat) IsMergedIncident()                         {}
+func (this Threat) GetAnalystFeedback() *AnalystFeedback { return this.AnalystFeedback }
+func (this Threat) GetCategories() []IncidentCategory {
+	if this.Categories == nil {
+		return nil
+	}
+	interfaceSlice := make([]IncidentCategory, 0, len(this.Categories))
+	for _, concrete := range this.Categories {
+		interfaceSlice = append(interfaceSlice, concrete)
+	}
+	return interfaceSlice
+}
 func (this Threat) GetConnectionType() *ConnectionTypeEnum { return this.ConnectionType }
 func (this Threat) GetCriticality() *int64                 { return this.Criticality }
 func (this Threat) GetDescription() *string                { return this.Description }
 func (this Threat) GetEngineType() *StoryEngineTypeEnum    { return this.EngineType }
+func (this Threat) GetEntities() []*IncidentEntity {
+	if this.Entities == nil {
+		return nil
+	}
+	interfaceSlice := make([]*IncidentEntity, 0, len(this.Entities))
+	for _, concrete := range this.Entities {
+		interfaceSlice = append(interfaceSlice, concrete)
+	}
+	return interfaceSlice
+}
 func (this Threat) GetFirstSignal() string                 { return this.FirstSignal }
 func (this Threat) GetID() string                          { return this.ID }
 func (this Threat) GetIndication() string                  { return this.Indication }
 func (this Threat) GetLastSignal() string                  { return this.LastSignal }
+func (this Threat) GetMuted() bool                         { return this.Muted }
 func (this Threat) GetPredictedThreatType() *string        { return this.PredictedThreatType }
 func (this Threat) GetPredictedVerdict() *StoryVerdictEnum { return this.PredictedVerdict }
 func (this Threat) GetProducer() StoryProducerEnum         { return this.Producer }
 func (this Threat) GetProducerName() string                { return this.ProducerName }
+func (this Threat) GetProducerType() StoryProducerEnum     { return this.ProducerType }
 func (this Threat) GetQueryName() *string                  { return this.QueryName }
 func (this Threat) GetResearch() *bool                     { return this.Research }
 func (this Threat) GetSite() *SiteRef                      { return this.Site }
@@ -10447,63 +12567,98 @@ func (this Threat) GetTicket() *string                     { return this.Ticket 
 func (this Threat) GetUser() *UserRef                      { return this.User }
 func (this Threat) GetVendor() *VendorEnum                 { return this.Vendor }
 
+type ThreatClassificationRef struct {
+	ID   string `json:"id"`
+	Name string `json:"name"`
+}
+
+func (ThreatClassificationRef) IsObjectRef()         {}
+func (this ThreatClassificationRef) GetID() string   { return this.ID }
+func (this ThreatClassificationRef) GetName() string { return this.Name }
+
 // The `ThreatPrevention` object is a GraphQL type that represents the details of a threat prevention incident, including fields such as analyst feedback, client class, connection type, criticality, description, device name, and various other attributes related to the incident's signals, events, and status.
 type ThreatPrevention struct {
-	AnalystFeedback         *AnalystFeedback          `json:"analystFeedback,omitempty"`
+	AnalystFeedback         *AnalystFeedback          `json:"analystFeedback,omitempty,omitzero"`
+	Categories              []IncidentCategory        `json:"categories"`
 	ClientClass             []string                  `json:"clientClass"`
-	ConnectionType          *ConnectionTypeEnum       `json:"connectionType,omitempty"`
-	Criticality             *int64                    `json:"criticality,omitempty"`
-	Description             *string                   `json:"description,omitempty"`
-	DeviceName              *string                   `json:"deviceName,omitempty"`
-	Direction               *string                   `json:"direction,omitempty"`
-	EngineType              *StoryEngineTypeEnum      `json:"engineType,omitempty"`
-	Events                  []*Event                  `json:"events,omitempty"`
+	ConnectionType          *ConnectionTypeEnum       `json:"connectionType,omitempty,omitzero"`
+	Criticality             *int64                    `json:"criticality,omitempty,omitzero"`
+	Description             *string                   `json:"description,omitempty,omitzero"`
+	DeviceName              *string                   `json:"deviceName,omitempty,omitzero"`
+	Direction               *string                   `json:"direction,omitempty,omitzero"`
+	EngineType              *StoryEngineTypeEnum      `json:"engineType,omitempty,omitzero"`
+	Entities                []*IncidentEntity         `json:"entities"`
+	Events                  []*Event                  `json:"events,omitempty,omitzero"`
 	FirstSignal             string                    `json:"firstSignal"`
-	FlowsCardinality        *int64                    `json:"flowsCardinality,omitempty"`
+	FlowsCardinality        *int64                    `json:"flowsCardinality,omitempty,omitzero"`
 	ID                      string                    `json:"id"`
 	Indication              string                    `json:"indication"`
 	LastSignal              string                    `json:"lastSignal"`
-	LogonName               *string                   `json:"logonName,omitempty"`
-	MacAddress              *string                   `json:"macAddress,omitempty"`
-	Mitres                  []*Mitre                  `json:"mitres,omitempty"`
-	Os                      *string                   `json:"os,omitempty"`
-	PredictedThreatType     *string                   `json:"predictedThreatType,omitempty"`
-	PredictedVerdict        *StoryVerdictEnum         `json:"predictedVerdict,omitempty"`
+	LogonName               *string                   `json:"logonName,omitempty,omitzero"`
+	MacAddress              *string                   `json:"macAddress,omitempty,omitzero"`
+	Mitres                  []*Mitre                  `json:"mitres,omitempty,omitzero"`
+	Muted                   bool                      `json:"muted"`
+	Os                      *string                   `json:"os,omitempty,omitzero"`
+	PredictedThreatType     *string                   `json:"predictedThreatType,omitempty,omitzero"`
+	PredictedVerdict        *StoryVerdictEnum         `json:"predictedVerdict,omitempty,omitzero"`
 	Producer                StoryProducerEnum         `json:"producer"`
 	ProducerName            string                    `json:"producerName"`
-	QueryName               *string                   `json:"queryName,omitempty"`
-	Research                *bool                     `json:"research,omitempty"`
-	RiskLevel               *RiskLevelEnum            `json:"riskLevel,omitempty"`
+	ProducerType            StoryProducerEnum         `json:"producerType"`
+	QueryName               *string                   `json:"queryName,omitempty,omitzero"`
+	Research                *bool                     `json:"research,omitempty,omitzero"`
+	RiskLevel               *RiskLevelEnum            `json:"riskLevel,omitempty,omitzero"`
 	SimilarStoriesData      []*SimilarStoryData       `json:"similarStoriesData"`
-	Site                    *SiteRef                  `json:"site,omitempty"`
-	SiteName                *string                   `json:"siteName,omitempty"`
-	Source                  *string                   `json:"source,omitempty"`
-	SourceIP                *string                   `json:"sourceIp,omitempty"`
-	SrcSiteID               *string                   `json:"srcSiteId,omitempty"`
-	Status                  *StoryStatusEnum          `json:"status,omitempty"`
-	StoryDuration           *int64                    `json:"storyDuration,omitempty"`
+	Site                    *SiteRef                  `json:"site,omitempty,omitzero"`
+	SiteName                *string                   `json:"siteName,omitempty,omitzero"`
+	Source                  *string                   `json:"source,omitempty,omitzero"`
+	SourceIP                *string                   `json:"sourceIp,omitempty,omitzero"`
+	SrcSiteID               *string                   `json:"srcSiteId,omitempty,omitzero"`
+	Status                  *StoryStatusEnum          `json:"status,omitempty,omitzero"`
+	StoryDuration           *int64                    `json:"storyDuration,omitempty,omitzero"`
 	Targets                 []*IncidentTargetRep      `json:"targets"`
-	ThreatPreventionsEvents []*ThreatPreventionEvents `json:"threatPreventionsEvents,omitempty"`
-	Ticket                  *string                   `json:"ticket,omitempty"`
-	TimeSeries              []*IncidentTimeseries     `json:"timeSeries,omitempty"`
-	User                    *UserRef                  `json:"user,omitempty"`
-	Vendor                  *VendorEnum               `json:"vendor,omitempty"`
+	ThreatPreventionsEvents []*ThreatPreventionEvents `json:"threatPreventionsEvents,omitempty,omitzero"`
+	Ticket                  *string                   `json:"ticket,omitempty,omitzero"`
+	TimeSeries              []*IncidentTimeseries     `json:"timeSeries,omitempty,omitzero"`
+	User                    *UserRef                  `json:"user,omitempty,omitzero"`
+	Vendor                  *VendorEnum               `json:"vendor,omitempty,omitzero"`
 }
 
-func (ThreatPrevention) IsMergedIncident()                           {}
-func (this ThreatPrevention) GetAnalystFeedback() *AnalystFeedback   { return this.AnalystFeedback }
+func (ThreatPrevention) IsMergedIncident()                         {}
+func (this ThreatPrevention) GetAnalystFeedback() *AnalystFeedback { return this.AnalystFeedback }
+func (this ThreatPrevention) GetCategories() []IncidentCategory {
+	if this.Categories == nil {
+		return nil
+	}
+	interfaceSlice := make([]IncidentCategory, 0, len(this.Categories))
+	for _, concrete := range this.Categories {
+		interfaceSlice = append(interfaceSlice, concrete)
+	}
+	return interfaceSlice
+}
 func (this ThreatPrevention) GetConnectionType() *ConnectionTypeEnum { return this.ConnectionType }
 func (this ThreatPrevention) GetCriticality() *int64                 { return this.Criticality }
 func (this ThreatPrevention) GetDescription() *string                { return this.Description }
 func (this ThreatPrevention) GetEngineType() *StoryEngineTypeEnum    { return this.EngineType }
+func (this ThreatPrevention) GetEntities() []*IncidentEntity {
+	if this.Entities == nil {
+		return nil
+	}
+	interfaceSlice := make([]*IncidentEntity, 0, len(this.Entities))
+	for _, concrete := range this.Entities {
+		interfaceSlice = append(interfaceSlice, concrete)
+	}
+	return interfaceSlice
+}
 func (this ThreatPrevention) GetFirstSignal() string                 { return this.FirstSignal }
 func (this ThreatPrevention) GetID() string                          { return this.ID }
 func (this ThreatPrevention) GetIndication() string                  { return this.Indication }
 func (this ThreatPrevention) GetLastSignal() string                  { return this.LastSignal }
+func (this ThreatPrevention) GetMuted() bool                         { return this.Muted }
 func (this ThreatPrevention) GetPredictedThreatType() *string        { return this.PredictedThreatType }
 func (this ThreatPrevention) GetPredictedVerdict() *StoryVerdictEnum { return this.PredictedVerdict }
 func (this ThreatPrevention) GetProducer() StoryProducerEnum         { return this.Producer }
 func (this ThreatPrevention) GetProducerName() string                { return this.ProducerName }
+func (this ThreatPrevention) GetProducerType() StoryProducerEnum     { return this.ProducerType }
 func (this ThreatPrevention) GetQueryName() *string                  { return this.QueryName }
 func (this ThreatPrevention) GetResearch() *bool                     { return this.Research }
 func (this ThreatPrevention) GetSite() *SiteRef                      { return this.Site }
@@ -10517,41 +12672,41 @@ func (this ThreatPrevention) GetUser() *UserRef                      { return th
 func (this ThreatPrevention) GetVendor() *VendorEnum                 { return this.Vendor }
 
 type ThreatPreventionEvents struct {
-	AppName                *string `json:"appName,omitempty"`
-	ClientClass            *string `json:"clientClass,omitempty"`
-	CreatedAt              *string `json:"createdAt,omitempty"`
-	DestinationCountry     *string `json:"destinationCountry,omitempty"`
-	DestinationGeolocation *string `json:"destinationGeolocation,omitempty"`
-	DestinationIP          *string `json:"destinationIp,omitempty"`
-	DestinationPort        *int64  `json:"destinationPort,omitempty"`
-	Direction              *string `json:"direction,omitempty"`
-	DNSResponseIP          *string `json:"dnsResponseIP,omitempty"`
-	Domain                 *string `json:"domain,omitempty"`
-	FileHash               *string `json:"fileHash,omitempty"`
-	HTTPResponseCode       *int64  `json:"httpResponseCode,omitempty"`
-	Ja3                    *string `json:"ja3,omitempty"`
-	Method                 *string `json:"method,omitempty"`
-	Referrer               *string `json:"referrer,omitempty"`
-	SmbFileName            *string `json:"smbFileName,omitempty"`
-	SourceGeolocation      *string `json:"sourceGeolocation,omitempty"`
-	SourceIP               *string `json:"sourceIp,omitempty"`
-	SourcePort             *int64  `json:"sourcePort,omitempty"`
-	Target                 *string `json:"target,omitempty"`
-	TunnelGeolocation      *string `json:"tunnelGeolocation,omitempty"`
-	URL                    *string `json:"url,omitempty"`
-	User                   *string `json:"user,omitempty"`
-	UserAgent              *string `json:"userAgent,omitempty"`
+	AppName                *string `json:"appName,omitempty,omitzero"`
+	ClientClass            *string `json:"clientClass,omitempty,omitzero"`
+	CreatedAt              *string `json:"createdAt,omitempty,omitzero"`
+	DestinationCountry     *string `json:"destinationCountry,omitempty,omitzero"`
+	DestinationGeolocation *string `json:"destinationGeolocation,omitempty,omitzero"`
+	DestinationIP          *string `json:"destinationIp,omitempty,omitzero"`
+	DestinationPort        *int64  `json:"destinationPort,omitempty,omitzero"`
+	Direction              *string `json:"direction,omitempty,omitzero"`
+	DNSResponseIP          *string `json:"dnsResponseIP,omitempty,omitzero"`
+	Domain                 *string `json:"domain,omitempty,omitzero"`
+	FileHash               *string `json:"fileHash,omitempty,omitzero"`
+	HTTPResponseCode       *int64  `json:"httpResponseCode,omitempty,omitzero"`
+	Ja3                    *string `json:"ja3,omitempty,omitzero"`
+	Method                 *string `json:"method,omitempty,omitzero"`
+	Referrer               *string `json:"referrer,omitempty,omitzero"`
+	SmbFileName            *string `json:"smbFileName,omitempty,omitzero"`
+	SourceGeolocation      *string `json:"sourceGeolocation,omitempty,omitzero"`
+	SourceIP               *string `json:"sourceIp,omitempty,omitzero"`
+	SourcePort             *int64  `json:"sourcePort,omitempty,omitzero"`
+	Target                 *string `json:"target,omitempty,omitzero"`
+	TunnelGeolocation      *string `json:"tunnelGeolocation,omitempty,omitzero"`
+	URL                    *string `json:"url,omitempty,omitzero"`
+	User                   *string `json:"user,omitempty,omitzero"`
+	UserAgent              *string `json:"userAgent,omitempty,omitzero"`
 }
 
 // Threat Prevention (TP) license details
 type ThreatPreventionLicense struct {
-	Description    *string       `json:"description,omitempty"`
+	Description    *string       `json:"description,omitempty,omitzero"`
 	ExpirationDate string        `json:"expirationDate"`
-	ID             *string       `json:"id,omitempty"`
-	LastUpdated    *string       `json:"lastUpdated,omitempty"`
+	ID             *string       `json:"id,omitempty,omitzero"`
+	LastUpdated    *string       `json:"lastUpdated,omitempty,omitzero"`
 	Plan           LicensePlan   `json:"plan"`
 	Sku            LicenseSku    `json:"sku"`
-	StartDate      *string       `json:"startDate,omitempty"`
+	StartDate      *string       `json:"startDate,omitempty,omitzero"`
 	Status         LicenseStatus `json:"status"`
 }
 
@@ -10564,6 +12719,15 @@ func (this ThreatPreventionLicense) GetPlan() LicensePlan      { return this.Pla
 func (this ThreatPreventionLicense) GetSku() LicenseSku        { return this.Sku }
 func (this ThreatPreventionLicense) GetStartDate() *string     { return this.StartDate }
 func (this ThreatPreventionLicense) GetStatus() LicenseStatus  { return this.Status }
+
+type ThreatTypeRef struct {
+	ID   string `json:"id"`
+	Name string `json:"name"`
+}
+
+func (ThreatTypeRef) IsObjectRef()         {}
+func (this ThreatTypeRef) GetID() string   { return this.ID }
+func (this ThreatTypeRef) GetName() string { return this.Name }
 
 // An object for marking specific events in time.
 type TimeAnnotation struct {
@@ -10596,9 +12760,9 @@ type TimeSeriesEvents struct {
 
 // For XDR stories, items that happened during the lifetime of the story
 type TimelineItem struct {
-	AdditionalInfo *string                   `json:"additionalInfo,omitempty"`
-	AnalystInfo    *AnalystInfo              `json:"analystInfo,omitempty"`
-	Category       *TimelineItemCategoryEnum `json:"category,omitempty"`
+	AdditionalInfo *string                   `json:"additionalInfo,omitempty,omitzero"`
+	AnalystInfo    *AnalystInfo              `json:"analystInfo,omitempty,omitzero"`
+	Category       *TimelineItemCategoryEnum `json:"category,omitempty,omitzero"`
 	Context        string                    `json:"context"`
 	CreatedAt      string                    `json:"createdAt"`
 	Description    string                    `json:"description"`
@@ -10607,17 +12771,17 @@ type TimelineItem struct {
 }
 
 type Timeseries struct {
-	Data       [][]float64      `json:"data,omitempty"`
-	Dimensions []*DimensionData `json:"dimensions,omitempty"`
-	Info       []string         `json:"info,omitempty"`
-	Key        *TimeseriesKey   `json:"key,omitempty"`
+	Data       [][]float64      `json:"data,omitempty,omitzero"`
+	Dimensions []*DimensionData `json:"dimensions,omitempty,omitzero"`
+	Info       []string         `json:"info,omitempty,omitzero"`
+	Key        *TimeseriesKey   `json:"key,omitempty,omitzero"`
 	Label      string           `json:"label"`
-	Sum        *float64         `json:"sum,omitempty"`
-	Units      *UnitType        `json:"units,omitempty"`
+	Sum        *float64         `json:"sum,omitempty,omitzero"`
+	Units      *UnitType        `json:"units,omitempty,omitzero"`
 }
 
 type TimeseriesKey struct {
-	Dimensions       []*DimensionKey `json:"dimensions,omitempty"`
+	Dimensions       []*DimensionKey `json:"dimensions,omitempty,omitzero"`
 	MeasureFieldName string          `json:"measureFieldName"`
 }
 
@@ -10712,10 +12876,10 @@ type TLSInspectConfigInput struct {
 }
 
 type TLSInspectPolicy struct {
-	AdditionalAttributes *TLSInspectConfig        `json:"additionalAttributes,omitempty"`
-	Audit                *PolicyAudit             `json:"audit,omitempty"`
+	AdditionalAttributes *TLSInspectConfig        `json:"additionalAttributes,omitempty,omitzero"`
+	Audit                *PolicyAudit             `json:"audit,omitempty,omitzero"`
 	Enabled              bool                     `json:"enabled"`
-	Revision             *PolicyRevision          `json:"revision,omitempty"`
+	Revision             *PolicyRevision          `json:"revision,omitempty,omitzero"`
 	Rules                []*TLSInspectRulePayload `json:"rules"`
 	Sections             []*PolicySectionPayload  `json:"sections"`
 }
@@ -10755,7 +12919,7 @@ type TLSInspectPolicyMutationInput struct {
 
 type TLSInspectPolicyMutationPayload struct {
 	Errors []*PolicyMutationError `json:"errors"`
-	Policy *TLSInspectPolicy      `json:"policy,omitempty"`
+	Policy *TLSInspectPolicy      `json:"policy,omitempty,omitzero"`
 	Status PolicyMutationStatus   `json:"status"`
 }
 
@@ -10790,7 +12954,7 @@ type TLSInspectPolicyMutations struct {
 
 type TLSInspectPolicyQueries struct {
 	Policy    *TLSInspectPolicy       `json:"policy"`
-	Revisions *PolicyRevisionsPayload `json:"revisions,omitempty"`
+	Revisions *PolicyRevisionsPayload `json:"revisions,omitempty,omitzero"`
 }
 
 type TLSInspectPolicyUpdateInput struct {
@@ -10829,7 +12993,7 @@ func (this TLSInspectRule) GetSection() *PolicySectionInfo { return this.Section
 
 type TLSInspectRuleMutationPayload struct {
 	Errors []*PolicyMutationError `json:"errors"`
-	Rule   *TLSInspectRulePayload `json:"rule,omitempty"`
+	Rule   *TLSInspectRulePayload `json:"rule,omitempty,omitzero"`
 	Status PolicyMutationStatus   `json:"status"`
 }
 
@@ -10938,9 +13102,9 @@ type TLSInspectUpdateRuleInput struct {
 }
 
 type TunnelConfig struct {
-	LocalID                *string `json:"localId,omitempty"`
-	TunnelID               *string `json:"tunnelId,omitempty"`
-	TunnelRemoteIdentifier *string `json:"tunnelRemoteIdentifier,omitempty"`
+	LocalID                *string `json:"localId,omitempty,omitzero"`
+	TunnelID               *string `json:"tunnelId,omitempty,omitzero"`
+	TunnelRemoteIdentifier *string `json:"tunnelRemoteIdentifier,omitempty,omitzero"`
 }
 
 type UnassignSocketFromZtnaAppConnectorInput struct {
@@ -10950,6 +13114,15 @@ type UnassignSocketFromZtnaAppConnectorInput struct {
 type UnassignSocketFromZtnaAppConnectorPayload struct {
 	ZtnaAppConnector *ZtnaAppConnector `json:"ztnaAppConnector"`
 }
+
+type UnknownEntityRef struct {
+	ID   string `json:"id"`
+	Name string `json:"name"`
+}
+
+func (UnknownEntityRef) IsObjectRef()         {}
+func (this UnknownEntityRef) GetID() string   { return this.ID }
+func (this UnknownEntityRef) GetName() string { return this.Name }
 
 type UpdateAccountInput struct {
 	Description *string `json:"description,omitempty"`
@@ -10979,6 +13152,15 @@ type UpdateAdminRoleInput struct {
 	Role            *UpdateAccountRoleInput `json:"role"`
 }
 
+type UpdateBasicAuthInput struct {
+	Password *string `json:"password,omitempty"`
+	Username *string `json:"username,omitempty"`
+}
+
+type UpdateBearerTokenAuthInput struct {
+	BearerToken *string `json:"bearerToken,omitempty"`
+}
+
 type UpdateBgpPeerInput struct {
 	AdvertiseAllRoutes      *bool                   `json:"advertiseAllRoutes,omitempty"`
 	AdvertiseDefaultRoute   *bool                   `json:"advertiseDefaultRoute,omitempty"`
@@ -11006,17 +13188,30 @@ type UpdateBgpPeerPayload struct {
 	BgpPeer *BgpPeer `json:"bgpPeer"`
 }
 
+type UpdateBgpPeersInput struct {
+	BgpPeer         []*BgpPeerConfigurationInput `json:"bgpPeer,omitempty"`
+	BgpPeerToAdd    []*BgpPeerConfigurationInput `json:"bgpPeerToAdd,omitempty"`
+	BgpPeerToRemove []*BgpPeerRefInput           `json:"bgpPeerToRemove,omitempty"`
+	Site            *SiteRefInput                `json:"site"`
+}
+
+type UpdateBgpPeersPayload struct {
+	BgpPeer []*BgpPeer `json:"bgpPeer"`
+}
+
 // Input for updating an existing physical connection at a cloud interconnect site.
 type UpdateCloudInterconnectPhysicalConnectionInput struct {
-	DownstreamBwLimit   *string              `json:"downstreamBwLimit,omitempty"`
-	EncapsulationMethod *TaggingMethod       `json:"encapsulationMethod,omitempty"`
-	ID                  string               `json:"id"`
-	PopLocation         *PopLocationRefInput `json:"popLocation,omitempty"`
-	PrivateCatoIP       *string              `json:"privateCatoIp,omitempty"`
-	PrivateSiteIP       *string              `json:"privateSiteIp,omitempty"`
-	ServiceProviderName *string              `json:"serviceProviderName,omitempty"`
-	Subnet              *string              `json:"subnet,omitempty"`
-	UpstreamBwLimit     *string              `json:"upstreamBwLimit,omitempty"`
+	QinQVlanConfiguration *QinQVlanConfiguration `json:"QinQVlanConfiguration,omitempty"`
+	DownstreamBwLimit     *string                `json:"downstreamBwLimit,omitempty"`
+	EncapsulationMethod   *TaggingMethod         `json:"encapsulationMethod,omitempty"`
+	ID                    string                 `json:"id"`
+	PopLocation           *PopLocationRefInput   `json:"popLocation,omitempty"`
+	PrivateCatoIP         *string                `json:"privateCatoIp,omitempty"`
+	PrivateSiteIP         *string                `json:"privateSiteIp,omitempty"`
+	ServiceProviderName   *string                `json:"serviceProviderName,omitempty"`
+	Subnet                *string                `json:"subnet,omitempty"`
+	UpstreamBwLimit       *string                `json:"upstreamBwLimit,omitempty"`
+	Vlan                  *scalars.Vlan          `json:"vlan,omitempty"`
 }
 
 // Payload for updating an existing physical connection at a cloud interconnect site.
@@ -11047,6 +13242,23 @@ type UpdateContainerSyncDataNotificationInput struct {
 	Webhook           []*SubscriptionWebhookRefInput     `json:"webhook"`
 }
 
+type UpdateCustomApplicationInput struct {
+	Category    []*ApplicationCategoryRefInput    `json:"category,omitempty"`
+	Criteria    []*CustomApplicationCriteriaInput `json:"criteria,omitempty"`
+	Description *string                           `json:"description,omitempty"`
+	ID          string                            `json:"id"`
+	Name        *string                           `json:"name,omitempty"`
+}
+
+type UpdateCustomApplicationPayload struct {
+	CustomApplication *CustomApplication `json:"customApplication"`
+}
+
+type UpdateCustomHeaderAuthInput struct {
+	Name  *string `json:"name,omitempty"`
+	Value *string `json:"value,omitempty"`
+}
+
 // Input for updating FQDN typed container from file
 type UpdateFqdnContainerFromFileInput struct {
 	Description *string            `json:"description,omitempty"`
@@ -11068,6 +13280,17 @@ type UpdateFqdnContainerFromListInput struct {
 
 // Payload of UpdateFromList operation on FQDN typed container
 type UpdateFqdnContainerFromListPayload struct {
+	Container *FqdnContainer `json:"container"`
+}
+
+type UpdateFqdnContainerFromURLInput struct {
+	Description *string                       `json:"description,omitempty"`
+	FileType    *ContainerFileType            `json:"fileType,omitempty"`
+	Ref         *ContainerRefInput            `json:"ref"`
+	SyncData    *UpdateContainerSyncDataInput `json:"syncData,omitempty"`
+}
+
+type UpdateFqdnContainerFromURLPayload struct {
 	Container *FqdnContainer `json:"container"`
 }
 
@@ -11097,9 +13320,19 @@ type UpdateHaPayload struct {
 	SiteID string `json:"siteId"`
 }
 
-type UpdateHardwareShippingInput struct {
-	Details *HardwareShippingDetailsInput `json:"details"`
-	Ids     []string                      `json:"ids"`
+type UpdateHwShippingInput struct {
+	Details *HwShippingDetailsInput `json:"details"`
+	Ids     []string                `json:"ids"`
+}
+
+type UpdateInvestigationDetailsInput struct {
+	InvestigationStatus      *string `json:"investigationStatus,omitempty"`
+	ManagedServiceTicketLink *string `json:"managedServiceTicketLink,omitempty"`
+	StoryID                  string  `json:"storyId"`
+}
+
+type UpdateInvestigationDetailsPayload struct {
+	InvestigationDetails *InvestigationDetails `json:"investigationDetails,omitempty,omitzero"`
 }
 
 // Input for updating existing IPAddressRange typed container from file
@@ -11126,6 +13359,17 @@ type UpdateIPAddressRangeContainerFromListPayload struct {
 	Container *IPAddressRangeContainer `json:"container"`
 }
 
+type UpdateIPAddressRangeContainerFromURLInput struct {
+	Description *string                       `json:"description,omitempty"`
+	FileType    *ContainerFileType            `json:"fileType,omitempty"`
+	Ref         *ContainerRefInput            `json:"ref"`
+	SyncData    *UpdateContainerSyncDataInput `json:"syncData,omitempty"`
+}
+
+type UpdateIPAddressRangeContainerFromURLPayload struct {
+	Container *IPAddressRangeContainer `json:"container"`
+}
+
 type UpdateIpsecIkeV2SiteGeneralDetailsInput struct {
 	AuthMessage        *IpsecIkeV2MessageInput `json:"authMessage,omitempty"`
 	ConnectionMode     *ConnectionMode         `json:"connectionMode,omitempty"`
@@ -11135,18 +13379,18 @@ type UpdateIpsecIkeV2SiteGeneralDetailsInput struct {
 }
 
 type UpdateIpsecIkeV2SiteGeneralDetailsPayload struct {
-	LocalID *string `json:"localId,omitempty"`
+	LocalID *string `json:"localId,omitempty,omitzero"`
 	SiteID  string  `json:"siteId"`
 }
 
 type UpdateIpsecIkeV2SiteMultiTunnelPayload struct {
-	Fqdn    *string                              `json:"fqdn,omitempty"`
+	Fqdn    *string                              `json:"fqdn,omitempty,omitzero"`
 	Tunnels []*UpdateIpsecIkeV2SiteTunnelPayload `json:"tunnels"`
 }
 
 type UpdateIpsecIkeV2SiteTunnelPayload struct {
-	LocalID  *string             `json:"localId,omitempty"`
-	TunnelID *IPSecV2InterfaceID `json:"tunnelId,omitempty"`
+	LocalID  *string             `json:"localId,omitempty,omitzero"`
+	TunnelID *IPSecV2InterfaceID `json:"tunnelId,omitempty,omitzero"`
 }
 
 type UpdateIpsecIkeV2SiteTunnelsInput struct {
@@ -11155,8 +13399,8 @@ type UpdateIpsecIkeV2SiteTunnelsInput struct {
 }
 
 type UpdateIpsecIkeV2SiteTunnelsPayload struct {
-	Primary   *UpdateIpsecIkeV2SiteMultiTunnelPayload `json:"primary,omitempty"`
-	Secondary *UpdateIpsecIkeV2SiteMultiTunnelPayload `json:"secondary,omitempty"`
+	Primary   *UpdateIpsecIkeV2SiteMultiTunnelPayload `json:"primary,omitempty,omitzero"`
+	Secondary *UpdateIpsecIkeV2SiteMultiTunnelPayload `json:"secondary,omitempty,omitzero"`
 	SiteID    string                                  `json:"siteId"`
 }
 
@@ -11178,11 +13422,40 @@ type UpdateIpsecIkeV2TunnelsInput struct {
 	Tunnels         []*UpdateIpsecIkeV2TunnelInput `json:"tunnels"`
 }
 
+type UpdateLicenseForManagedAccountInput struct {
+	Bw               *int64 `json:"bw,omitempty"`
+	LicenseID        string `json:"licenseId"`
+	ManagedAccountID string `json:"managedAccountId"`
+	Users            *int64 `json:"users,omitempty"`
+}
+
+type UpdateLicenseForManagedAccountPayload struct {
+	License License `json:"license"`
+}
+
 type UpdateLocationDetailsInput struct {
 	CompanyName   *string              `json:"companyName,omitempty"`
 	Contact       *ContactDetailsInput `json:"contact,omitempty"`
 	PostalAddress *PostalAddressInput  `json:"postalAddress,omitempty"`
 	VatID         *string              `json:"vatId,omitempty"`
+}
+
+// Update an existing Mailing List. Specified fields are updated,
+// and no change to other fields. An empty Mailing List will remove all members.
+type UpdateMailingListInput struct {
+	Address         []string             `json:"address,omitempty"`
+	AddressToAdd    []string             `json:"addressToAdd,omitempty"`
+	AddressToRemove []string             `json:"addressToRemove,omitempty"`
+	Admin           []*AdminRefInput     `json:"admin,omitempty"`
+	AdminToAdd      []*AdminRefInput     `json:"adminToAdd,omitempty"`
+	AdminToRemove   []*AdminRefInput     `json:"adminToRemove,omitempty"`
+	MailingList     *MailingListRefInput `json:"mailingList"`
+	Name            *string              `json:"name,omitempty"`
+}
+
+// Returns the details of an updated Mailing List after a successful request.
+type UpdateMailingListPayload struct {
+	MailingList *MailingList `json:"mailingList"`
 }
 
 type UpdateNetworkRangeInput struct {
@@ -11216,6 +13489,7 @@ type UpdatePrivateApplicationInput struct {
 	PublishedAppDomain *PublishedAppDomainInput `json:"publishedAppDomain,omitempty"`
 }
 
+// Response payload returned after successfully updating a private application
 type UpdatePrivateApplicationPayload struct {
 	Application *PrivateApplication `json:"application"`
 }
@@ -11241,6 +13515,15 @@ type UpdateSecondaryAzureVSocketPayload struct {
 	SecondaryAzureVSocket *SecondaryAzureVSocket `json:"secondaryAzureVSocket"`
 }
 
+type UpdateSecondaryGCPVSocketInput struct {
+	GCPConfig *GCPConfigInput `json:"gcpConfig"`
+	ID        string          `json:"id"`
+}
+
+type UpdateSecondaryGCPVSocketPayload struct {
+	SocketInfo *GCPVSocketInfo `json:"socketInfo"`
+}
+
 type UpdateServicePrincipalAdminInput struct {
 	ManagedRoles  []*UpdateAdminRoleInput `json:"managedRoles,omitempty"`
 	Name          *string                 `json:"name,omitempty"`
@@ -11249,6 +13532,22 @@ type UpdateServicePrincipalAdminInput struct {
 
 type UpdateServicePrincipalAdminPayload struct {
 	AdminID string `json:"adminID"`
+}
+
+type UpdateSiteBackhaulingInput struct {
+	Destination         *BackhaulingDestination `json:"destination,omitempty"`
+	NextHopIP           *string                 `json:"nextHopIP,omitempty"`
+	PreferredSocketPort *string                 `json:"preferredSocketPort,omitempty"`
+	Site                *SiteRefInput           `json:"site"`
+	UseAsBackhaulingGw  *bool                   `json:"useAsBackhaulingGW,omitempty"`
+}
+
+type UpdateSiteBackhaulingPayload struct {
+	Destination         *BackhaulingDestination `json:"destination,omitempty,omitzero"`
+	NextHopIP           *string                 `json:"nextHopIP,omitempty,omitzero"`
+	PreferredSocketPort *string                 `json:"preferredSocketPort,omitempty,omitzero"`
+	Site                *SiteRef                `json:"site"`
+	UseAsBackhaulingGw  bool                    `json:"useAsBackhaulingGW"`
 }
 
 type UpdateSiteBwLicenseInput struct {
@@ -11263,10 +13562,12 @@ type UpdateSiteBwLicensePayload struct {
 
 type UpdateSiteGeneralDetailsInput struct {
 	Description          *string                              `json:"description,omitempty"`
+	DisableACLForSip     *bool                                `json:"disableAclForSip,omitempty"`
 	Name                 *string                              `json:"name,omitempty"`
 	PreferredPopLocation *UpdateSitePreferredPopLocationInput `json:"preferredPopLocation,omitempty"`
 	SiteLocation         *UpdateSiteLocationInput             `json:"siteLocation,omitempty"`
 	SiteType             *SiteType                            `json:"siteType,omitempty"`
+	WorkingHours         *SiteWorkingHoursInput               `json:"workingHours,omitempty"`
 }
 
 type UpdateSiteGeneralDetailsPayload struct {
@@ -11279,6 +13580,32 @@ type UpdateSiteLocationInput struct {
 	CountryCode *string `json:"countryCode,omitempty"`
 	StateCode   *string `json:"stateCode,omitempty"`
 	Timezone    *string `json:"timezone,omitempty"`
+}
+
+type UpdateSiteNetworkRangeInput struct {
+	AzureFloatingIP      *string                   `json:"azureFloatingIp,omitempty"`
+	DhcpSettings         *NetworkDhcpSettingsInput `json:"dhcpSettings,omitempty"`
+	Gateway              *string                   `json:"gateway,omitempty"`
+	InternetOnly         *bool                     `json:"internetOnly,omitempty"`
+	LanSocketInterfaceID string                    `json:"lanSocketInterfaceId"`
+	LocalIP              *string                   `json:"localIp,omitempty"`
+	MdnsReflector        *bool                     `json:"mdnsReflector,omitempty"`
+	Name                 string                    `json:"name"`
+	RangeType            SubnetType                `json:"rangeType"`
+	Subnet               string                    `json:"subnet"`
+	TranslatedSubnet     *string                   `json:"translatedSubnet,omitempty"`
+	Vlan                 *int64                    `json:"vlan,omitempty"`
+}
+
+type UpdateSiteNetworkRangesInput struct {
+	NetworkRange         []*UpdateSiteNetworkRangeInput `json:"networkRange,omitempty"`
+	NetworkRangeToAdd    []*UpdateSiteNetworkRangeInput `json:"networkRangeToAdd,omitempty"`
+	NetworkRangeToRemove []*NetworkRangeRefInput        `json:"networkRangeToRemove,omitempty"`
+	Site                 *SiteRefInput                  `json:"site"`
+}
+
+type UpdateSiteNetworkRangesPayload struct {
+	NetworkRange []*NetworkRange `json:"networkRange"`
 }
 
 type UpdateSitePreferredPopLocationInput struct {
@@ -11295,6 +13622,18 @@ type UpdateSiteSocketConfigurationInput struct {
 
 type UpdateSiteSocketConfigurationPayload struct {
 	SiteSocketConfiguration *SiteSocketConfiguration `json:"siteSocketConfiguration"`
+}
+
+// Input for updating the static hosts configured on a site.
+type UpdateSiteStaticHostsInput struct {
+	Host         []*SiteStaticHostConfigurationInput `json:"host,omitempty"`
+	HostToAdd    []*SiteAddStaticHostInput           `json:"hostToAdd,omitempty"`
+	HostToRemove []*SiteStaticHostRefInput           `json:"hostToRemove,omitempty"`
+	Site         *SiteRefInput                       `json:"site"`
+}
+
+type UpdateSiteStaticHostsPayload struct {
+	Host []*SiteStaticHost `json:"host"`
 }
 
 type UpdateSocketInterfaceInput struct {
@@ -11314,6 +13653,16 @@ type UpdateSocketInterfacePayload struct {
 	SocketInterfaceID SocketInterfaceIDEnum `json:"socketInterfaceId"`
 }
 
+type UpdateSocketInterfacesInput struct {
+	Site            *SiteRefInput                        `json:"site"`
+	SocketInterface []*SocketInterfaceConfigurationInput `json:"socketInterface"`
+}
+
+type UpdateSocketInterfacesPayload struct {
+	SiteID            string                  `json:"siteId"`
+	SocketInterfaceID []SocketInterfaceIDEnum `json:"socketInterfaceId"`
+}
+
 type UpdateStaticHostInput struct {
 	IP         *string `json:"ip,omitempty"`
 	MacAddress *string `json:"macAddress,omitempty"`
@@ -11322,6 +13671,105 @@ type UpdateStaticHostInput struct {
 
 type UpdateStaticHostPayload struct {
 	HostID string `json:"hostId"`
+}
+
+// Update parameters for an existing Subscription Group.
+// Specified fields will be updated, and there is no change for other fields.
+// An empty list will remove all members.
+type UpdateSubscriptionGroupInput struct {
+	Integration         []*IntegrationRefInput     `json:"integration,omitempty"`
+	IntegrationToAdd    []*IntegrationRefInput     `json:"integrationToAdd,omitempty"`
+	IntegrationToRemove []*IntegrationRefInput     `json:"integrationToRemove,omitempty"`
+	MailingList         []*MailingListRefInput     `json:"mailingList,omitempty"`
+	MailingListToAdd    []*MailingListRefInput     `json:"mailingListToAdd,omitempty"`
+	MailingListToRemove []*MailingListRefInput     `json:"mailingListToRemove,omitempty"`
+	Name                *string                    `json:"name,omitempty"`
+	SubscriptionGroup   *SubscriptionGroupRefInput `json:"subscriptionGroup"`
+}
+
+// Response payload for updating a Subscription Group.
+type UpdateSubscriptionGroupPayload struct {
+	SubscriptionGroup *SubscriptionGroup `json:"subscriptionGroup"`
+}
+
+type UpdateUserInput struct {
+	Department  *string `json:"department,omitempty"`
+	Email       *string `json:"email,omitempty"`
+	FirstName   *string `json:"firstName,omitempty"`
+	ID          string  `json:"id"`
+	JobTitle    *string `json:"jobTitle,omitempty"`
+	LastName    *string `json:"lastName,omitempty"`
+	PhoneNumber *string `json:"phoneNumber,omitempty"`
+}
+
+type UpdateUserPayload struct {
+	User *User `json:"user"`
+}
+
+// Authentication configuration for updating a webhook integration.
+// Only one authentication method should be provided.
+// If null, no authentication will be used.
+type UpdateWebhookAuthInput struct {
+	Basic  *UpdateBasicAuthInput        `json:"basic,omitempty"`
+	Bearer *UpdateBearerTokenAuthInput  `json:"bearer,omitempty"`
+	Custom *UpdateCustomHeaderAuthInput `json:"custom,omitempty"`
+}
+
+// Modified parameters for an existing webhook integration.
+// Specified fields will be updated, and no changes to other fields.
+// To remove all members, provide an empty list as the parameter.
+type UpdateWebhookInput struct {
+	Auth                    *UpdateWebhookAuthInput         `json:"auth,omitempty"`
+	Body                    *string                         `json:"body,omitempty"`
+	Enabled                 *bool                           `json:"enabled,omitempty"`
+	Header                  []*HTTPHeaderNameValueInput     `json:"header,omitempty"`
+	HeaderToAdd             []*HTTPHeaderNameValueInput     `json:"headerToAdd,omitempty"`
+	HeaderToRemove          []*HTTPHeaderNameValueInput     `json:"headerToRemove,omitempty"`
+	Name                    *string                         `json:"name,omitempty"`
+	RelatedWebhookRef       *WebhookIntegrationRefInput     `json:"relatedWebhookRef,omitempty"`
+	RequestMethod           *WebhookRequestMethod           `json:"requestMethod,omitempty"`
+	ResponseMapping         []*WebhookResponseMapEntryInput `json:"responseMapping,omitempty"`
+	ResponseMappingToAdd    []*WebhookResponseMapEntryInput `json:"responseMappingToAdd,omitempty"`
+	ResponseMappingToRemove []*WebhookResponseMapEntryInput `json:"responseMappingToRemove,omitempty"`
+	URL                     *string                         `json:"url,omitempty"`
+	Webhook                 *WebhookIntegrationRefInput     `json:"webhook"`
+}
+
+// Response payload for a webhook update operation.
+type UpdateWebhookPayload struct {
+	Webhook *Webhook `json:"webhook"`
+}
+
+type UpdateWifiRadioProfileInput struct {
+	Band24 *WifiBandProfileInput `json:"band24"`
+	Band5  *WifiBandProfileInput `json:"band5"`
+	ID     string                `json:"id"`
+}
+
+type UpdateWifiRadioProfilePayload struct {
+	WifiRadioProfile *WifiRadioProfile `json:"wifiRadioProfile"`
+}
+
+type UpdateWifiSsidInput struct {
+	Band                     *WifiRadioBand             `json:"band,omitempty"`
+	Category                 *WifiSsidCategory          `json:"category,omitempty"`
+	Dhcp                     *WifiSsidDhcpSettingsInput `json:"dhcp,omitempty"`
+	DhcpEnabled              *bool                      `json:"dhcpEnabled,omitempty"`
+	Enabled                  *bool                      `json:"enabled,omitempty"`
+	ID                       string                     `json:"id"`
+	InternetOnly             *bool                      `json:"internetOnly,omitempty"`
+	LocalIP                  *string                    `json:"localIp,omitempty"`
+	MdnsEnabled              *bool                      `json:"mdnsEnabled,omitempty"`
+	MicrosegmentationEnabled *bool                      `json:"microsegmentationEnabled,omitempty"`
+	Name                     *string                    `json:"name,omitempty"`
+	Security                 *SecurityConfigInput       `json:"security,omitempty"`
+	Subnet                   *string                    `json:"subnet,omitempty"`
+	Visible                  *bool                      `json:"visible,omitempty"`
+	VlanID                   *int64                     `json:"vlanId,omitempty"`
+}
+
+type UpdateWifiSsidPayload struct {
+	WifiSsid *WifiSsid `json:"wifiSsid"`
 }
 
 type UpdateZtnaAppConnectorInput struct {
@@ -11364,18 +13812,70 @@ type UploadFileInput struct {
 
 // Upload file response
 type UploadFilePayload struct {
-	UploadURL *string `json:"uploadUrl,omitempty"`
+	UploadURL *string `json:"uploadUrl,omitempty,omitzero"`
+}
+
+type User struct {
+	AuthInfo                   *AuthenticationInfo `json:"authInfo"`
+	CreationDate               string              `json:"creationDate"`
+	Department                 *string             `json:"department,omitempty,omitzero"`
+	DirectoryID                *string             `json:"directoryId,omitempty,omitzero"`
+	DisplayName                string              `json:"displayName"`
+	Email                      *string             `json:"email,omitempty,omitzero"`
+	FirstName                  *string             `json:"firstName,omitempty,omitzero"`
+	HasRemoteAccessEligibility bool                `json:"hasRemoteAccessEligibility"`
+	ID                         string              `json:"id"`
+	ImportType                 ImportType          `json:"importType"`
+	JobTitle                   *string             `json:"jobTitle,omitempty,omitzero"`
+	LastModified               string              `json:"lastModified"`
+	LastName                   *string             `json:"lastName,omitempty,omitzero"`
+	ObjectID                   *string             `json:"objectId,omitempty,omitzero"`
+	OnPremSid                  *string             `json:"onPremSid,omitempty,omitzero"`
+	Phone                      *string             `json:"phone,omitempty,omitzero"`
+	RiskScore                  RiskScore           `json:"riskScore"`
+	UserID                     *string             `json:"userId,omitempty,omitzero"`
+	UserPrincipalName          *string             `json:"userPrincipalName,omitempty,omitzero"`
+	UserStatus                 UserStatus          `json:"userStatus"`
+}
+
+type UserFilterInput struct {
+	Department              []*StringFilterInput     `json:"department,omitempty"`
+	DirectoryID             []*StringFilterInput     `json:"directoryId,omitempty"`
+	ImportType              []*ImportTypeFilterInput `json:"importType,omitempty"`
+	JobTitle                []*StringFilterInput     `json:"jobTitle,omitempty"`
+	RemoteAccessEligibility []*BooleanFilterInput    `json:"remoteAccessEligibility,omitempty"`
+	RiskScore               []*RiskScoreFilterInput  `json:"riskScore,omitempty"`
+	SearchTerm              *FreeTextFilterInput     `json:"searchTerm,omitempty"`
+	UserStatus              []*UserStatusFilterInput `json:"userStatus,omitempty"`
 }
 
 // Basic User configuration information
 type UserInfo struct {
-	AuthMethod   *string                    `json:"authMethod,omitempty"`
-	CreationTime *string                    `json:"creationTime,omitempty"`
-	Email        *string                    `json:"email,omitempty"`
-	Name         *string                    `json:"name,omitempty"`
-	Origin       *string                    `json:"origin,omitempty"`
-	PhoneNumber  *string                    `json:"phoneNumber,omitempty"`
-	Status       *scalars.OperationalStatus `json:"status,omitempty"`
+	AuthMethod   *string                    `json:"authMethod,omitempty,omitzero"`
+	CreationTime *string                    `json:"creationTime,omitempty,omitzero"`
+	Email        *string                    `json:"email,omitempty,omitzero"`
+	Name         *string                    `json:"name,omitempty,omitzero"`
+	Origin       *string                    `json:"origin,omitempty,omitzero"`
+	PhoneNumber  *string                    `json:"phoneNumber,omitempty,omitzero"`
+	Status       *scalars.OperationalStatus `json:"status,omitempty,omitzero"`
+}
+
+type UserListInput struct {
+	Filter *UserFilterInput `json:"filter,omitempty"`
+	Paging *PagingInput     `json:"paging,omitempty"`
+	Sort   *UserSortInput   `json:"sort,omitempty"`
+}
+
+type UserListPayload struct {
+	Items    []*User   `json:"items"`
+	PageInfo *PageInfo `json:"pageInfo"`
+}
+
+type UserMutations struct {
+	CreateUser        *CreateUserPayload        `json:"createUser,omitempty,omitzero"`
+	DeleteUser        *DeleteUserPayload        `json:"deleteUser,omitempty,omitzero"`
+	RevokeUserSession *RevokeUserSessionPayload `json:"revokeUserSession,omitempty,omitzero"`
+	UpdateUser        *UpdateUserPayload        `json:"updateUser,omitempty,omitzero"`
 }
 
 // A reference identifying the UserNotificationAiSecurityTemplate object. ID: Unique UserNotificationAiSecurityTemplate Identifier, Name: The UserNotificationAiSecurityTemplate Name
@@ -11403,6 +13903,10 @@ type UserNotificationTemplateRefInput struct {
 	Input string      `json:"input"`
 }
 
+type UserQueries struct {
+	UserList *UserListPayload `json:"userList,omitempty,omitzero"`
+}
+
 // A reference identifying the User object. ID: Unique User Identifier, Name: The User Name
 type UserRef struct {
 	ID   string `json:"id"`
@@ -11426,26 +13930,48 @@ type UserRefInput struct {
 }
 
 type UserSnapshot struct {
-	ConnectedInOffice  *bool                      `json:"connectedInOffice,omitempty"`
-	ConnectivityStatus *ConnectivityStatus        `json:"connectivityStatus,omitempty"`
-	DeviceName         *string                    `json:"deviceName,omitempty"`
-	Devices            []*DeviceSnapshot          `json:"devices,omitempty"`
-	ID                 *string                    `json:"id,omitempty"`
-	Info               *UserInfo                  `json:"info,omitempty"`
-	InternalIP         *string                    `json:"internalIP,omitempty"`
-	LastConnected      *string                    `json:"lastConnected,omitempty"`
-	Name               *string                    `json:"name,omitempty"`
-	OperationalStatus  *scalars.OperationalStatus `json:"operationalStatus,omitempty"`
-	OsType             *string                    `json:"osType,omitempty"`
-	OsVersion          *string                    `json:"osVersion,omitempty"`
-	PopID              *int64                     `json:"popID,omitempty"`
-	PopName            *string                    `json:"popName,omitempty"`
-	RecentConnections  []*RecentConnection        `json:"recentConnections,omitempty"`
-	RemoteIP           *string                    `json:"remoteIP,omitempty"`
-	RemoteIPInfo       *IPInfo                    `json:"remoteIPInfo,omitempty"`
-	Uptime             *int64                     `json:"uptime,omitempty"`
-	Version            *string                    `json:"version,omitempty"`
-	VersionNumber      *int64                     `json:"versionNumber,omitempty"`
+	ConnectedInOffice  *bool                      `json:"connectedInOffice,omitempty,omitzero"`
+	ConnectivityStatus *ConnectivityStatus        `json:"connectivityStatus,omitempty,omitzero"`
+	DeviceName         *string                    `json:"deviceName,omitempty,omitzero"`
+	Devices            []*DeviceSnapshot          `json:"devices,omitempty,omitzero"`
+	ID                 *string                    `json:"id,omitempty,omitzero"`
+	Info               *UserInfo                  `json:"info,omitempty,omitzero"`
+	InternalIP         *string                    `json:"internalIP,omitempty,omitzero"`
+	LastConnected      *string                    `json:"lastConnected,omitempty,omitzero"`
+	Name               *string                    `json:"name,omitempty,omitzero"`
+	OperationalStatus  *scalars.OperationalStatus `json:"operationalStatus,omitempty,omitzero"`
+	OsType             *string                    `json:"osType,omitempty,omitzero"`
+	OsVersion          *string                    `json:"osVersion,omitempty,omitzero"`
+	PopID              *int64                     `json:"popID,omitempty,omitzero"`
+	PopName            *string                    `json:"popName,omitempty,omitzero"`
+	RecentConnections  []*RecentConnection        `json:"recentConnections,omitempty,omitzero"`
+	RemoteIP           *string                    `json:"remoteIP,omitempty,omitzero"`
+	RemoteIPInfo       *IPInfo                    `json:"remoteIPInfo,omitempty,omitzero"`
+	Uptime             *int64                     `json:"uptime,omitempty,omitzero"`
+	Version            *string                    `json:"version,omitempty,omitzero"`
+	VersionNumber      *int64                     `json:"versionNumber,omitempty,omitzero"`
+}
+
+type UserSortInput struct {
+	CreationDate            *SortOrderInput `json:"creationDate,omitempty"`
+	Department              *SortOrderInput `json:"department,omitempty"`
+	Email                   *SortOrderInput `json:"email,omitempty"`
+	ImportType              *SortOrderInput `json:"importType,omitempty"`
+	JobTitle                *SortOrderInput `json:"jobTitle,omitempty"`
+	LastModified            *SortOrderInput `json:"lastModified,omitempty"`
+	Name                    *SortOrderInput `json:"name,omitempty"`
+	RemoteAccessEligibility *SortOrderInput `json:"remoteAccessEligibility,omitempty"`
+	RiskScore               *SortOrderInput `json:"riskScore,omitempty"`
+	UserID                  *SortOrderInput `json:"userId,omitempty"`
+	UserPrincipalName       *SortOrderInput `json:"userPrincipalName,omitempty"`
+	UserStatus              *SortOrderInput `json:"userStatus,omitempty"`
+}
+
+type UserStatusFilterInput struct {
+	Eq  *UserStatus  `json:"eq,omitempty"`
+	In  []UserStatus `json:"in,omitempty"`
+	Neq *UserStatus  `json:"neq,omitempty"`
+	Nin []UserStatus `json:"nin,omitempty"`
 }
 
 // A reference identifying the UsersGroup object. ID: Unique UsersGroup Identifier, Name: The UsersGroup Name
@@ -11463,45 +13989,88 @@ type UsersGroupRefInput struct {
 	Input string      `json:"input"`
 }
 
+type ValidWifiBandSettings struct {
+	ChannelWidths []WifiChannelWidth  `json:"channelWidths"`
+	Channels      []int64             `json:"channels"`
+	Standards     []WifiRadioStandard `json:"standards"`
+}
+
+type ValidWifiRadioSettingsByCountryInput struct {
+	Band24      *WifiBandSettingsFilterInput `json:"band24,omitempty"`
+	Band5       *WifiBandSettingsFilterInput `json:"band5,omitempty"`
+	CountryCode string                       `json:"countryCode"`
+}
+
+type ValidWifiRadioSettingsInput struct {
+	Band24 *WifiBandSettingsFilterInput `json:"band24,omitempty"`
+	Band5  *WifiBandSettingsFilterInput `json:"band5,omitempty"`
+	Site   *SiteRefInput                `json:"site"`
+}
+
+type ValidWifiRadioSettingsPayload struct {
+	Band24 *ValidWifiBandSettings `json:"band24"`
+	Band5  *ValidWifiBandSettings `json:"band5"`
+}
+
+type ValidateWifiRadioProfileByCountryInput struct {
+	CountryCode  string                 `json:"countryCode"`
+	RadioProfile *WifiRadioProfileInput `json:"radioProfile"`
+}
+
+type ValidateWifiRadioProfileInput struct {
+	RadioProfile *WifiRadioProfileInput `json:"radioProfile"`
+	Site         *SiteRefInput          `json:"site"`
+}
+
+type ValidateWifiRadioProfilePayload struct {
+	Result *WifiRadioProfileValidationResult `json:"result"`
+}
+
 type VendorPredicate struct {
 	In    []VendorEnum `json:"in,omitempty"`
 	NotIn []VendorEnum `json:"not_in,omitempty"`
 }
 
+type VlanRange struct {
+	From scalars.Vlan `json:"from"`
+	To   scalars.Vlan `json:"to"`
+}
+
+// Configuration for Wan Firewall action
 type WanFirewallActionConfig struct {
 	UserNotification []*UserNotificationTemplateRef `json:"userNotification"`
 }
 
+// Configuration for Wan Firewall action
 type WanFirewallActionConfigInput struct {
 	UserNotification []*UserNotificationTemplateRefInput `json:"userNotification"`
 }
 
+// Configuration for Wan Firewall action
 type WanFirewallActionConfigUpdateInput struct {
 	UserNotification []*UserNotificationTemplateRefInput `json:"userNotification,omitempty"`
 }
 
 type WanFirewallAddRuleDataInput struct {
-	Action                WanFirewallActionEnum            `json:"action"`
-	ActionConfig          *WanFirewallActionConfigInput    `json:"actionConfig,omitempty"`
-	ActivePeriod          *PolicyRuleActivePeriodInput     `json:"activePeriod"`
-	Application           *WanFirewallApplicationInput     `json:"application"`
-	ConnectionOrigin      ConnectionOriginEnum             `json:"connectionOrigin"`
-	ConnectionsOriginList []ConnectionOriginsEnum          `json:"connectionsOriginList"`
-	Country               []*CountryRefInput               `json:"country"`
-	Description           string                           `json:"description"`
-	Destination           *WanFirewallDestinationInput     `json:"destination,omitempty"`
-	Device                []*DeviceProfileRefInput         `json:"device"`
-	DeviceAttributes      *DeviceAttributesInput           `json:"deviceAttributes"`
-	DeviceOs              []OperatingSystem                `json:"deviceOS"`
-	Direction             WanFirewallDirectionEnum         `json:"direction"`
-	Enabled               bool                             `json:"enabled"`
-	Exceptions            []*WanFirewallRuleExceptionInput `json:"exceptions"`
-	Name                  string                           `json:"name"`
-	Schedule              *PolicyScheduleInput             `json:"schedule"`
-	Service               *WanFirewallServiceTypeInput     `json:"service,omitempty"`
-	Source                *WanFirewallSourceInput          `json:"source"`
-	Tracking              *PolicyTrackingInput             `json:"tracking"`
-	UserAttributes        *WanFirewallUserAttributesInput  `json:"userAttributes,omitempty"`
+	Action           WanFirewallActionEnum            `json:"action"`
+	ActionConfig     *WanFirewallActionConfigInput    `json:"actionConfig"`
+	ActivePeriod     *PolicyRuleActivePeriodInput     `json:"activePeriod"`
+	Application      *WanFirewallApplicationInput     `json:"application"`
+	ConnectionOrigin ConnectionOriginEnum             `json:"connectionOrigin"`
+	Country          []*CountryRefInput               `json:"country"`
+	Description      string                           `json:"description"`
+	Destination      *WanFirewallDestinationInput     `json:"destination"`
+	Device           []*DeviceProfileRefInput         `json:"device"`
+	DeviceAttributes *DeviceAttributesInput           `json:"deviceAttributes"`
+	DeviceOs         []OperatingSystem                `json:"deviceOS"`
+	Direction        WanFirewallDirectionEnum         `json:"direction"`
+	Enabled          bool                             `json:"enabled"`
+	Exceptions       []*WanFirewallRuleExceptionInput `json:"exceptions"`
+	Name             string                           `json:"name"`
+	Schedule         *PolicyScheduleInput             `json:"schedule"`
+	Service          *WanFirewallServiceTypeInput     `json:"service"`
+	Source           *WanFirewallSourceInput          `json:"source"`
+	Tracking         *PolicyTrackingInput             `json:"tracking"`
 }
 
 // Rule parameters and relevant position
@@ -11523,7 +14092,7 @@ type WanFirewallAddSubPolicyInput struct {
 
 type WanFirewallAddSubPolicyMutationPayload struct {
 	Errors []*PolicyMutationError `json:"errors"`
-	Policy *WanFirewallPolicy     `json:"policy,omitempty"`
+	Policy *WanFirewallPolicy     `json:"policy,omitempty,omitzero"`
 	Status PolicyMutationStatus   `json:"status"`
 }
 
@@ -11640,17 +14209,16 @@ type WanFirewallDestinationUpdateInput struct {
 }
 
 type WanFirewallPolicy struct {
-	Access        *EntityAccess                  `json:"access"`
-	Audit         *PolicyAudit                   `json:"audit,omitempty"`
-	Description   string                         `json:"description"`
-	Enabled       bool                           `json:"enabled"`
-	HitCountAudit *PolicyHitCount                `json:"hitCountAudit,omitempty"`
-	ID            string                         `json:"id"`
-	Name          string                         `json:"name"`
-	Revision      *PolicyRevision                `json:"revision,omitempty"`
-	Rules         []*WanFirewallRulePayload      `json:"rules"`
-	Sections      []*PolicySectionPayload        `json:"sections"`
-	SubPolicies   []*WanFirewallSubPolicyPayload `json:"subPolicies"`
+	Access      *EntityAccess                  `json:"access"`
+	Audit       *PolicyAudit                   `json:"audit,omitempty,omitzero"`
+	Description string                         `json:"description"`
+	Enabled     bool                           `json:"enabled"`
+	ID          string                         `json:"id"`
+	Name        string                         `json:"name"`
+	Revision    *PolicyRevision                `json:"revision,omitempty,omitzero"`
+	Rules       []*WanFirewallRulePayload      `json:"rules"`
+	Sections    []*PolicySectionPayload        `json:"sections"`
+	SubPolicies []*WanFirewallSubPolicyPayload `json:"subPolicies"`
 }
 
 func (WanFirewallPolicy) IsIPolicy()                        {}
@@ -11741,7 +14309,7 @@ type WanFirewallPolicyMutationInput struct {
 // Wan Firewall policy information provided in the API response
 type WanFirewallPolicyMutationPayload struct {
 	Errors []*PolicyMutationError `json:"errors"`
-	Policy *WanFirewallPolicy     `json:"policy,omitempty"`
+	Policy *WanFirewallPolicy     `json:"policy,omitempty,omitzero"`
 	Status PolicyMutationStatus   `json:"status"`
 }
 
@@ -11764,7 +14332,6 @@ type WanFirewallPolicyMutations struct {
 	AddRule               *WanFirewallRuleMutationPayload            `json:"addRule"`
 	AddSection            *PolicySectionMutationPayload              `json:"addSection"`
 	AddSubPolicy          *WanFirewallAddSubPolicyMutationPayload    `json:"addSubPolicy"`
-	CalculateHitCount     *CalculateHitCountResponse                 `json:"calculateHitCount"`
 	CreatePolicyRevision  *WanFirewallPolicyMutationPayload          `json:"createPolicyRevision"`
 	DiscardPolicyRevision *WanFirewallPolicyMutationPayload          `json:"discardPolicyRevision"`
 	MoveRule              *WanFirewallRuleMutationPayload            `json:"moveRule"`
@@ -11774,7 +14341,6 @@ type WanFirewallPolicyMutations struct {
 	RemoveSection         *PolicySectionMutationPayload              `json:"removeSection"`
 	RemoveSubPolicy       *WanFirewallRemoveSubPolicyMutationPayload `json:"removeSubPolicy"`
 	ReorderPolicy         *WanFirewallPolicyMutationPayload          `json:"reorderPolicy"`
-	ResetRuleHitCount     *ResetRuleHitCountsResponse                `json:"resetRuleHitCount"`
 	UpdatePolicy          *WanFirewallPolicyMutationPayload          `json:"updatePolicy"`
 	UpdateRule            *WanFirewallRuleMutationPayload            `json:"updateRule"`
 	UpdateSection         *PolicySectionMutationPayload              `json:"updateSection"`
@@ -11783,7 +14349,7 @@ type WanFirewallPolicyMutations struct {
 type WanFirewallPolicyQueries struct {
 	Policy     *WanFirewallPolicy            `json:"policy"`
 	PolicyList *WanFirewallPolicyListPayload `json:"policyList"`
-	Revisions  *PolicyRevisionsPayload       `json:"revisions,omitempty"`
+	Revisions  *PolicyRevisionsPayload       `json:"revisions,omitempty,omitzero"`
 }
 
 type WanFirewallPolicyRef struct {
@@ -11816,7 +14382,7 @@ type WanFirewallRemoveSubPolicyInput struct {
 
 type WanFirewallRemoveSubPolicyMutationPayload struct {
 	Errors []*PolicyMutationError `json:"errors"`
-	Policy *WanFirewallPolicy     `json:"policy,omitempty"`
+	Policy *WanFirewallPolicy     `json:"policy,omitempty,omitzero"`
 	Status PolicyMutationStatus   `json:"status"`
 }
 
@@ -11837,30 +14403,28 @@ func (this WanFirewallRemoveSubPolicyMutationPayload) GetStatus() PolicyMutation
 }
 
 type WanFirewallRule struct {
-	Action                WanFirewallActionEnum       `json:"action"`
-	ActionConfig          *WanFirewallActionConfig    `json:"actionConfig,omitempty"`
-	ActivePeriod          *PolicyRuleActivePeriod     `json:"activePeriod"`
-	Application           *WanFirewallApplication     `json:"application"`
-	ConnectionOrigin      ConnectionOriginEnum        `json:"connectionOrigin"`
-	ConnectionsOriginList []ConnectionOriginsEnum     `json:"connectionsOriginList"`
-	Country               []*CountryRef               `json:"country"`
-	Description           string                      `json:"description"`
-	Destination           *WanFirewallDestination     `json:"destination"`
-	Device                []*DeviceProfileRef         `json:"device"`
-	DeviceAttributes      *DeviceAttributes           `json:"deviceAttributes"`
-	DeviceOs              []OperatingSystem           `json:"deviceOS"`
-	Direction             WanFirewallDirectionEnum    `json:"direction"`
-	Enabled               bool                        `json:"enabled"`
-	Exceptions            []*WanFirewallRuleException `json:"exceptions"`
-	ID                    string                      `json:"id"`
-	Index                 int64                       `json:"index"`
-	Name                  string                      `json:"name"`
-	Schedule              *PolicySchedule             `json:"schedule"`
-	Section               *PolicySectionInfo          `json:"section"`
-	Service               *WanFirewallServiceType     `json:"service"`
-	Source                *WanFirewallSource          `json:"source"`
-	Tracking              *PolicyTracking             `json:"tracking"`
-	UserAttributes        *WanFirewallUserAttributes  `json:"userAttributes,omitempty"`
+	Action           WanFirewallActionEnum       `json:"action"`
+	ActionConfig     *WanFirewallActionConfig    `json:"actionConfig"`
+	ActivePeriod     *PolicyRuleActivePeriod     `json:"activePeriod"`
+	Application      *WanFirewallApplication     `json:"application"`
+	ConnectionOrigin ConnectionOriginEnum        `json:"connectionOrigin"`
+	Country          []*CountryRef               `json:"country"`
+	Description      string                      `json:"description"`
+	Destination      *WanFirewallDestination     `json:"destination"`
+	Device           []*DeviceProfileRef         `json:"device"`
+	DeviceAttributes *DeviceAttributes           `json:"deviceAttributes"`
+	DeviceOs         []OperatingSystem           `json:"deviceOS"`
+	Direction        WanFirewallDirectionEnum    `json:"direction"`
+	Enabled          bool                        `json:"enabled"`
+	Exceptions       []*WanFirewallRuleException `json:"exceptions"`
+	ID               string                      `json:"id"`
+	Index            int64                       `json:"index"`
+	Name             string                      `json:"name"`
+	Schedule         *PolicySchedule             `json:"schedule"`
+	Section          *PolicySectionInfo          `json:"section"`
+	Service          *WanFirewallServiceType     `json:"service"`
+	Source           *WanFirewallSource          `json:"source"`
+	Tracking         *PolicyTracking             `json:"tracking"`
 }
 
 func (WanFirewallRule) IsIPolicyRule()                      {}
@@ -11873,41 +14437,37 @@ func (this WanFirewallRule) GetSection() *PolicySectionInfo { return this.Sectio
 
 // Exceptions define when a rule is ignored, and the firewall policy evaluation continues with the lower priority rules.
 type WanFirewallRuleException struct {
-	Application           *WanFirewallApplication    `json:"application"`
-	ConnectionOrigin      ConnectionOriginEnum       `json:"connectionOrigin"`
-	ConnectionsOriginList []ConnectionOriginsEnum    `json:"connectionsOriginList"`
-	Country               []*CountryRef              `json:"country"`
-	Destination           *WanFirewallDestination    `json:"destination"`
-	Device                []*DeviceProfileRef        `json:"device"`
-	DeviceAttributes      *DeviceAttributes          `json:"deviceAttributes"`
-	DeviceOs              []OperatingSystem          `json:"deviceOS"`
-	Direction             WanFirewallDirectionEnum   `json:"direction"`
-	Name                  string                     `json:"name"`
-	Service               *WanFirewallServiceType    `json:"service"`
-	Source                *WanFirewallSource         `json:"source"`
-	UserAttributes        *WanFirewallUserAttributes `json:"userAttributes,omitempty"`
+	Application      *WanFirewallApplication  `json:"application"`
+	ConnectionOrigin ConnectionOriginEnum     `json:"connectionOrigin"`
+	Country          []*CountryRef            `json:"country"`
+	Destination      *WanFirewallDestination  `json:"destination"`
+	Device           []*DeviceProfileRef      `json:"device"`
+	DeviceAttributes *DeviceAttributes        `json:"deviceAttributes"`
+	DeviceOs         []OperatingSystem        `json:"deviceOS"`
+	Direction        WanFirewallDirectionEnum `json:"direction"`
+	Name             string                   `json:"name"`
+	Service          *WanFirewallServiceType  `json:"service"`
+	Source           *WanFirewallSource       `json:"source"`
 }
 
 // Exceptions define when a rule is ignored, and the firewall policy evaluation continues with the lower priority rules.
 type WanFirewallRuleExceptionInput struct {
-	Application           *WanFirewallApplicationInput    `json:"application"`
-	ConnectionOrigin      ConnectionOriginEnum            `json:"connectionOrigin"`
-	ConnectionsOriginList []ConnectionOriginsEnum         `json:"connectionsOriginList"`
-	Country               []*CountryRefInput              `json:"country"`
-	Destination           *WanFirewallDestinationInput    `json:"destination"`
-	Device                []*DeviceProfileRefInput        `json:"device"`
-	DeviceAttributes      *DeviceAttributesInput          `json:"deviceAttributes"`
-	DeviceOs              []OperatingSystem               `json:"deviceOS"`
-	Direction             WanFirewallDirectionEnum        `json:"direction"`
-	Name                  string                          `json:"name"`
-	Service               *WanFirewallServiceTypeInput    `json:"service,omitempty"`
-	Source                *WanFirewallSourceInput         `json:"source"`
-	UserAttributes        *WanFirewallUserAttributesInput `json:"userAttributes,omitempty"`
+	Application      *WanFirewallApplicationInput `json:"application"`
+	ConnectionOrigin ConnectionOriginEnum         `json:"connectionOrigin"`
+	Country          []*CountryRefInput           `json:"country"`
+	Destination      *WanFirewallDestinationInput `json:"destination"`
+	Device           []*DeviceProfileRefInput     `json:"device"`
+	DeviceAttributes *DeviceAttributesInput       `json:"deviceAttributes"`
+	DeviceOs         []OperatingSystem            `json:"deviceOS"`
+	Direction        WanFirewallDirectionEnum     `json:"direction"`
+	Name             string                       `json:"name"`
+	Service          *WanFirewallServiceTypeInput `json:"service"`
+	Source           *WanFirewallSourceInput      `json:"source"`
 }
 
 type WanFirewallRuleMutationPayload struct {
 	Errors []*PolicyMutationError  `json:"errors"`
-	Rule   *WanFirewallRulePayload `json:"rule,omitempty"`
+	Rule   *WanFirewallRulePayload `json:"rule,omitempty,omitzero"`
 	Status PolicyMutationStatus    `json:"status"`
 }
 
@@ -11929,11 +14489,10 @@ func (this WanFirewallRuleMutationPayload) GetStatus() PolicyMutationStatus { re
 type WanFirewallRulePayload struct {
 	Access     *EntityAccess                 `json:"access"`
 	Audit      *PolicyElementAudit           `json:"audit"`
-	HitCount   *RuleHitCount                 `json:"hitCount,omitempty"`
 	Properties []PolicyElementPropertiesEnum `json:"properties"`
 	Rule       *WanFirewallRule              `json:"rule"`
 	RuleType   PolicyRuleTypeEnum            `json:"ruleType"`
-	SubPolicy  *WanFirewallPolicyRef         `json:"subPolicy,omitempty"`
+	SubPolicy  *WanFirewallPolicyRef         `json:"subPolicy,omitempty,omitzero"`
 }
 
 func (WanFirewallRulePayload) IsIPolicyRulePayload()              {}
@@ -12039,50 +14598,30 @@ func (this WanFirewallSubPolicyPayload) GetProperties() []SubPolicyProperty {
 }
 
 type WanFirewallUpdateRuleDataInput struct {
-	Action                *WanFirewallActionEnum                `json:"action,omitempty"`
-	ActionConfig          *WanFirewallActionConfigUpdateInput   `json:"actionConfig,omitempty"`
-	ActivePeriod          *PolicyRuleActivePeriodUpdateInput    `json:"activePeriod,omitempty"`
-	Application           *WanFirewallApplicationUpdateInput    `json:"application,omitempty"`
-	ConnectionOrigin      *ConnectionOriginEnum                 `json:"connectionOrigin,omitempty"`
-	ConnectionsOriginList []ConnectionOriginsEnum               `json:"connectionsOriginList,omitempty"`
-	Country               []*CountryRefInput                    `json:"country,omitempty"`
-	Description           *string                               `json:"description,omitempty"`
-	Destination           *WanFirewallDestinationUpdateInput    `json:"destination,omitempty"`
-	Device                []*DeviceProfileRefInput              `json:"device,omitempty"`
-	DeviceAttributes      *DeviceAttributesUpdateInput          `json:"deviceAttributes,omitempty"`
-	DeviceOs              []OperatingSystem                     `json:"deviceOS,omitempty"`
-	Direction             *WanFirewallDirectionEnum             `json:"direction,omitempty"`
-	Enabled               *bool                                 `json:"enabled,omitempty"`
-	Exceptions            []*WanFirewallRuleExceptionInput      `json:"exceptions,omitempty"`
-	Name                  *string                               `json:"name,omitempty"`
-	Schedule              *PolicyScheduleUpdateInput            `json:"schedule,omitempty"`
-	Service               *WanFirewallServiceTypeUpdateInput    `json:"service,omitempty"`
-	Source                *WanFirewallSourceUpdateInput         `json:"source,omitempty"`
-	Tracking              *PolicyTrackingUpdateInput            `json:"tracking,omitempty"`
-	UserAttributes        *WanFirewallUserAttributesUpdateInput `json:"userAttributes,omitempty"`
+	Action           *WanFirewallActionEnum              `json:"action,omitempty"`
+	ActionConfig     *WanFirewallActionConfigUpdateInput `json:"actionConfig,omitempty"`
+	ActivePeriod     *PolicyRuleActivePeriodUpdateInput  `json:"activePeriod,omitempty"`
+	Application      *WanFirewallApplicationUpdateInput  `json:"application,omitempty"`
+	ConnectionOrigin *ConnectionOriginEnum               `json:"connectionOrigin,omitempty"`
+	Country          []*CountryRefInput                  `json:"country,omitempty"`
+	Description      *string                             `json:"description,omitempty"`
+	Destination      *WanFirewallDestinationUpdateInput  `json:"destination,omitempty"`
+	Device           []*DeviceProfileRefInput            `json:"device,omitempty"`
+	DeviceAttributes *DeviceAttributesUpdateInput        `json:"deviceAttributes,omitempty"`
+	DeviceOs         []OperatingSystem                   `json:"deviceOS,omitempty"`
+	Direction        *WanFirewallDirectionEnum           `json:"direction,omitempty"`
+	Enabled          *bool                               `json:"enabled,omitempty"`
+	Exceptions       []*WanFirewallRuleExceptionInput    `json:"exceptions,omitempty"`
+	Name             *string                             `json:"name,omitempty"`
+	Schedule         *PolicyScheduleUpdateInput          `json:"schedule,omitempty"`
+	Service          *WanFirewallServiceTypeUpdateInput  `json:"service,omitempty"`
+	Source           *WanFirewallSourceUpdateInput       `json:"source,omitempty"`
+	Tracking         *PolicyTrackingUpdateInput          `json:"tracking,omitempty"`
 }
 
 type WanFirewallUpdateRuleInput struct {
 	ID   string                          `json:"id"`
 	Rule *WanFirewallUpdateRuleDataInput `json:"rule"`
-}
-
-type WanFirewallUserAttributes struct {
-	RiskScore           *RiskScoreCondition  `json:"riskScore"`
-	UserConfidenceLevel *UserConfidenceLevel `json:"userConfidenceLevel,omitempty"`
-}
-
-func (WanFirewallUserAttributes) IsUserAttributes()                      {}
-func (this WanFirewallUserAttributes) GetRiskScore() *RiskScoreCondition { return this.RiskScore }
-
-type WanFirewallUserAttributesInput struct {
-	RiskScore           *RiskScoreConditionInput `json:"riskScore"`
-	UserConfidenceLevel *UserConfidenceLevel     `json:"userConfidenceLevel,omitempty"`
-}
-
-type WanFirewallUserAttributesUpdateInput struct {
-	RiskScore           *RiskScoreConditionUpdateInput `json:"riskScore,omitempty"`
-	UserConfidenceLevel *UserConfidenceLevel           `json:"userConfidenceLevel,omitempty"`
 }
 
 type WanNetworkAddRuleDataInput struct {
@@ -12105,9 +14644,9 @@ type WanNetworkAddRuleInput struct {
 }
 
 type WanNetworkPolicy struct {
-	Audit    *PolicyAudit             `json:"audit,omitempty"`
+	Audit    *PolicyAudit             `json:"audit,omitempty,omitzero"`
 	Enabled  bool                     `json:"enabled"`
-	Revision *PolicyRevision          `json:"revision,omitempty"`
+	Revision *PolicyRevision          `json:"revision,omitempty,omitzero"`
 	Rules    []*WanNetworkRulePayload `json:"rules"`
 	Sections []*PolicySectionPayload  `json:"sections"`
 }
@@ -12147,7 +14686,7 @@ type WanNetworkPolicyMutationInput struct {
 
 type WanNetworkPolicyMutationPayload struct {
 	Errors []*PolicyMutationError `json:"errors"`
-	Policy *WanNetworkPolicy      `json:"policy,omitempty"`
+	Policy *WanNetworkPolicy      `json:"policy,omitempty,omitzero"`
 	Status PolicyMutationStatus   `json:"status"`
 }
 
@@ -12182,7 +14721,7 @@ type WanNetworkPolicyMutations struct {
 
 type WanNetworkPolicyQueries struct {
 	Policy    *WanNetworkPolicy       `json:"policy"`
-	Revisions *PolicyRevisionsPayload `json:"revisions,omitempty"`
+	Revisions *PolicyRevisionsPayload `json:"revisions,omitempty,omitzero"`
 }
 
 type WanNetworkPolicyUpdateInput struct {
@@ -12351,7 +14890,7 @@ type WanNetworkRuleExceptionInput struct {
 
 type WanNetworkRuleMutationPayload struct {
 	Errors []*PolicyMutationError `json:"errors"`
-	Rule   *WanNetworkRulePayload `json:"rule,omitempty"`
+	Rule   *WanNetworkRulePayload `json:"rule,omitempty,omitzero"`
 	Status PolicyMutationStatus   `json:"status"`
 }
 
@@ -12474,20 +15013,207 @@ type WanNetworkUpdateRuleInput struct {
 	Rule *WanNetworkUpdateRuleDataInput `json:"rule"`
 }
 
+// Defines the structure of a webhook integration used to
+// send notifications to third-party services.
+type Webhook struct {
+	Auth             AuthInterface              `json:"auth"`
+	Body             string                     `json:"body"`
+	Enabled          bool                       `json:"enabled"`
+	Header           []*HTTPHeaderNameValue     `json:"header"`
+	ID               string                     `json:"id"`
+	Name             string                     `json:"name"`
+	RelatedWebhookID *string                    `json:"relatedWebhookId,omitempty,omitzero"`
+	RequestMethod    WebhookRequestMethod       `json:"requestMethod"`
+	ResponseMapping  []*WebhookResponseMapEntry `json:"responseMapping"`
+	URL              string                     `json:"url"`
+}
+
+// Lists all supported fields available for customizing webhook requests.
+type WebhookFieldsPayload struct {
+	BodyFields   []string `json:"bodyFields"`
+	HeaderFields []string `json:"headerFields"`
+	URLFields    []string `json:"urlFields"`
+}
+
+type WebhookIntegrationRefInput struct {
+	By    ObjectRefBy `json:"by"`
+	Input string      `json:"input"`
+}
+
+// Represents the response payload for a list of webhook integrations.
+type WebhookListPayload struct {
+	Items  []*Webhook `json:"items"`
+	Paging *PageInfo  `json:"paging"`
+}
+
+// Represents a reusable webhook body template for standardizing payload formats.
+type WebhookReferenceBodyTemplate struct {
+	Auth                AuthInterface              `json:"auth,omitempty,omitzero"`
+	BodyTemplate        string                     `json:"bodyTemplate"`
+	Header              []*HTTPHeaderNameValue     `json:"header"`
+	ID                  string                     `json:"id"`
+	Name                string                     `json:"name"`
+	RequestMethod       *WebhookRequestMethod      `json:"requestMethod,omitempty,omitzero"`
+	ResponseMapping     []*WebhookResponseMapEntry `json:"responseMapping"`
+	URL                 string                     `json:"url"`
+	WebhookRelationType *WebhookRelationType       `json:"webhookRelationType,omitempty,omitzero"`
+}
+
+// Represents the response payload for listing predefined webhook body templates.
+type WebhookReferenceBodyTemplateListPayload struct {
+	Items []*WebhookReferenceBodyTemplate `json:"items"`
+}
+
+type WebhookResponseMapEntry struct {
+	Key   string `json:"key"`
+	Value string `json:"value"`
+}
+
+type WebhookResponseMapEntryInput struct {
+	Key   string `json:"key"`
+	Value string `json:"value"`
+}
+
+type WebhookTemplateRefInput struct {
+	By    ObjectRefBy `json:"by"`
+	Input string      `json:"input"`
+}
+
+type WifiBandProfile struct {
+	Band         WifiRadioBand     `json:"band"`
+	Channel      int64             `json:"channel"`
+	ChannelWidth WifiChannelWidth  `json:"channelWidth"`
+	DfsEnabled   bool              `json:"dfsEnabled"`
+	Standard     WifiRadioStandard `json:"standard"`
+}
+
+type WifiBandProfileInput struct {
+	Band         WifiRadioBand      `json:"band"`
+	Channel      *int64             `json:"channel,omitempty"`
+	ChannelWidth *WifiChannelWidth  `json:"channelWidth,omitempty"`
+	DfsEnabled   *bool              `json:"dfsEnabled,omitempty"`
+	Standard     *WifiRadioStandard `json:"standard,omitempty"`
+}
+
+type WifiBandSettingsFilterInput struct {
+	ChannelWidth *WifiChannelWidth  `json:"channelWidth,omitempty"`
+	DfsEnabled   *bool              `json:"dfsEnabled,omitempty"`
+	Standard     *WifiRadioStandard `json:"standard,omitempty"`
+}
+
+type WifiRadioBandProfileValidationResult struct {
+	Errors  []string `json:"errors"`
+	IsValid bool     `json:"isValid"`
+}
+
+type WifiRadioProfile struct {
+	Band24 *WifiBandProfile `json:"band24"`
+	Band5  *WifiBandProfile `json:"band5"`
+	ID     string           `json:"id"`
+	Site   *SiteRef         `json:"site"`
+}
+
+type WifiRadioProfileInput struct {
+	Band24 *WifiBandProfileInput `json:"band24,omitempty"`
+	Band5  *WifiBandProfileInput `json:"band5,omitempty"`
+}
+
+type WifiRadioProfileListInput struct {
+	WifiRadioProfiles []*WifiRadioProfileRefInput `json:"wifiRadioProfiles"`
+}
+
+type WifiRadioProfileListPayload struct {
+	PageInfo          *PageInfo           `json:"pageInfo"`
+	WifiRadioProfiles []*WifiRadioProfile `json:"wifiRadioProfiles"`
+}
+
+type WifiRadioProfileRefInput struct {
+	By    ObjectRefBy `json:"by"`
+	Input string      `json:"input"`
+}
+
+type WifiRadioProfileValidationResult struct {
+	Band24 *WifiRadioBandProfileValidationResult `json:"band24,omitempty,omitzero"`
+	Band5  *WifiRadioBandProfileValidationResult `json:"band5,omitempty,omitzero"`
+}
+
+type WifiRadiusServer struct {
+	AccountingEnabled bool         `json:"accountingEnabled"`
+	ID                string       `json:"id"`
+	IP                string       `json:"ip"`
+	Name              string       `json:"name"`
+	Port              scalars.Port `json:"port"`
+}
+
+type WifiRadiusServerRefInput struct {
+	By    ObjectRefBy `json:"by"`
+	Input string      `json:"input"`
+}
+
+type WifiSecuritySummary struct {
+	AuthProtocol        WifiAuthProtocol  `json:"authProtocol"`
+	Mode                WifiSecurityMode  `json:"mode"`
+	PrimaryRadius       *WifiRadiusServer `json:"primaryRadius,omitempty,omitzero"`
+	SecondaryRadius     *WifiRadiusServer `json:"secondaryRadius,omitempty,omitzero"`
+	TrackAuthentication bool              `json:"trackAuthentication"`
+}
+
+type WifiSsid struct {
+	Band                     WifiRadioBand         `json:"band"`
+	Category                 WifiSsidCategory      `json:"category"`
+	Dhcp                     *WifiSsidDhcpSettings `json:"dhcp"`
+	DhcpEnabled              bool                  `json:"dhcpEnabled"`
+	Enabled                  bool                  `json:"enabled"`
+	ID                       string                `json:"id"`
+	InternetOnly             bool                  `json:"internetOnly"`
+	LocalIP                  string                `json:"localIp"`
+	MdnsEnabled              bool                  `json:"mdnsEnabled"`
+	MicrosegmentationEnabled bool                  `json:"microsegmentationEnabled"`
+	Name                     string                `json:"name"`
+	NetworkInterfaceID       string                `json:"networkInterfaceId"`
+	Security                 *WifiSecuritySummary  `json:"security"`
+	Site                     *SiteRef              `json:"site"`
+	Subnet                   string                `json:"subnet"`
+	Visible                  bool                  `json:"visible"`
+	VlanID                   *int64                `json:"vlanId,omitempty,omitzero"`
+}
+
+type WifiSsidDhcpSettings struct {
+	DhcpSubnet *string `json:"dhcpSubnet,omitempty,omitzero"`
+}
+
+type WifiSsidDhcpSettingsInput struct {
+	DhcpSubnet *string `json:"dhcpSubnet,omitempty"`
+}
+
+type WifiSsidListInput struct {
+	Site *SiteRefInput `json:"site"`
+}
+
+type WifiSsidListPayload struct {
+	PageInfo *PageInfo   `json:"pageInfo"`
+	WifiSsid []*WifiSsid `json:"wifiSsid"`
+}
+
+type WifiSsidRefInput struct {
+	By    ObjectRefBy `json:"by"`
+	Input string      `json:"input"`
+}
+
 type Xdr struct {
-	Stories *StoriesData `json:"stories,omitempty"`
-	Story   *Story       `json:"story,omitempty"`
+	Stories *StoriesData `json:"stories,omitempty,omitzero"`
+	Story   *Story       `json:"story,omitempty,omitzero"`
 }
 
 // XOps service license details
 type XOpsLicense struct {
-	Description    *string       `json:"description,omitempty"`
+	Description    *string       `json:"description,omitempty,omitzero"`
 	ExpirationDate string        `json:"expirationDate"`
-	ID             *string       `json:"id,omitempty"`
-	LastUpdated    *string       `json:"lastUpdated,omitempty"`
+	ID             *string       `json:"id,omitempty,omitzero"`
+	LastUpdated    *string       `json:"lastUpdated,omitempty,omitzero"`
 	Plan           LicensePlan   `json:"plan"`
 	Sku            LicenseSku    `json:"sku"`
-	StartDate      *string       `json:"startDate,omitempty"`
+	StartDate      *string       `json:"startDate,omitempty,omitzero"`
 	Status         LicenseStatus `json:"status"`
 }
 
@@ -12502,20 +15228,21 @@ func (this XOpsLicense) GetStartDate() *string     { return this.StartDate }
 func (this XOpsLicense) GetStatus() LicenseStatus  { return this.Status }
 
 type XdrMutations struct {
-	AddStoryComment    *AddStoryCommentPayload    `json:"addStoryComment,omitempty"`
-	AnalystFeedback    *AnalystFeedbackPayload    `json:"analystFeedback,omitempty"`
-	DeleteStoryComment *DeleteStoryCommentPayload `json:"deleteStoryComment,omitempty"`
+	AddStoryComment            *AddStoryCommentPayload            `json:"addStoryComment,omitempty,omitzero"`
+	AnalystFeedback            *AnalystFeedbackPayload            `json:"analystFeedback,omitempty,omitzero"`
+	DeleteStoryComment         *DeleteStoryCommentPayload         `json:"deleteStoryComment,omitempty,omitzero"`
+	UpdateInvestigationDetails *UpdateInvestigationDetailsPayload `json:"updateInvestigationDetails,omitempty,omitzero"`
 }
 
 // XDR Pro (extended detection and response) service license details
 type XdrProLicense struct {
-	Description    *string       `json:"description,omitempty"`
+	Description    *string       `json:"description,omitempty,omitzero"`
 	ExpirationDate string        `json:"expirationDate"`
-	ID             *string       `json:"id,omitempty"`
-	LastUpdated    *string       `json:"lastUpdated,omitempty"`
+	ID             *string       `json:"id,omitempty,omitzero"`
+	LastUpdated    *string       `json:"lastUpdated,omitempty,omitzero"`
 	Plan           LicensePlan   `json:"plan"`
 	Sku            LicenseSku    `json:"sku"`
-	StartDate      *string       `json:"startDate,omitempty"`
+	StartDate      *string       `json:"startDate,omitempty,omitzero"`
 	Status         LicenseStatus `json:"status"`
 	Total          int64         `json:"total"`
 }
@@ -12554,9 +15281,9 @@ type ZtnaAlwaysOnAddRuleInput struct {
 }
 
 type ZtnaAlwaysOnPolicy struct {
-	Audit    *PolicyAudit               `json:"audit,omitempty"`
+	Audit    *PolicyAudit               `json:"audit,omitempty,omitzero"`
 	Enabled  bool                       `json:"enabled"`
-	Revision *PolicyRevision            `json:"revision,omitempty"`
+	Revision *PolicyRevision            `json:"revision,omitempty,omitzero"`
 	Rules    []*ZtnaAlwaysOnRulePayload `json:"rules"`
 	Sections []*PolicySectionPayload    `json:"sections"`
 }
@@ -12596,7 +15323,7 @@ type ZtnaAlwaysOnPolicyMutationInput struct {
 
 type ZtnaAlwaysOnPolicyMutationPayload struct {
 	Errors []*PolicyMutationError `json:"errors"`
-	Policy *ZtnaAlwaysOnPolicy    `json:"policy,omitempty"`
+	Policy *ZtnaAlwaysOnPolicy    `json:"policy,omitempty,omitzero"`
 	Status PolicyMutationStatus   `json:"status"`
 }
 
@@ -12631,7 +15358,7 @@ type ZtnaAlwaysOnPolicyMutations struct {
 
 type ZtnaAlwaysOnPolicyQueries struct {
 	Policy    *ZtnaAlwaysOnPolicy     `json:"policy"`
-	Revisions *PolicyRevisionsPayload `json:"revisions,omitempty"`
+	Revisions *PolicyRevisionsPayload `json:"revisions,omitempty,omitzero"`
 }
 
 type ZtnaAlwaysOnPolicyUpdateInput struct {
@@ -12646,7 +15373,7 @@ type ZtnaAlwaysOnRule struct {
 	Action               ZtnaAlwaysOnRuleActionEnum `json:"action"`
 	AllowFailOpen        bool                       `json:"allowFailOpen"`
 	AllowUserBypass      bool                       `json:"allowUserBypass"`
-	AntiTamperMode       *AntiTamperModeEnum        `json:"antiTamperMode,omitempty"`
+	AntiTamperMode       *AntiTamperModeEnum        `json:"antiTamperMode,omitempty,omitzero"`
 	BypassDuration       *ZtnaAlwaysOnTime          `json:"bypassDuration"`
 	Description          string                     `json:"description"`
 	DevicePostureProfile []*DeviceProfileRef        `json:"devicePostureProfile"`
@@ -12669,7 +15396,7 @@ func (this ZtnaAlwaysOnRule) GetSection() *PolicySectionInfo { return this.Secti
 
 type ZtnaAlwaysOnRuleMutationPayload struct {
 	Errors []*PolicyMutationError   `json:"errors"`
-	Rule   *ZtnaAlwaysOnRulePayload `json:"rule,omitempty"`
+	Rule   *ZtnaAlwaysOnRulePayload `json:"rule,omitempty,omitzero"`
 	Status PolicyMutationStatus     `json:"status"`
 }
 
@@ -12763,17 +15490,55 @@ type ZtnaAlwaysOnUpdateRuleInput struct {
 }
 
 type ZtnaAppConnector struct {
-	Description          *string                               `json:"description,omitempty"`
+	CreatedAt            *string                               `json:"createdAt,omitempty,omitzero"`
+	Description          *string                               `json:"description,omitempty,omitzero"`
 	GroupName            string                                `json:"groupName"`
 	ID                   string                                `json:"id"`
+	IsRegistered         bool                                  `json:"isRegistered"`
 	Location             *ZtnaAppConnectorLocation             `json:"location"`
 	Name                 string                                `json:"name"`
-	PreferredPopLocation *ZtnaAppConnectorPreferredPopLocation `json:"preferredPopLocation,omitempty"`
+	PreferredPopLocation *ZtnaAppConnectorPreferredPopLocation `json:"preferredPopLocation,omitempty,omitzero"`
+	PrivateAppCount      int64                                 `json:"privateAppCount"`
 	PrivateAppRef        []*PrivateApplicationRef              `json:"privateAppRef"`
-	SerialNumber         *string                               `json:"serialNumber,omitempty"`
-	SocketID             *string                               `json:"socketId,omitempty"`
-	SocketModel          *SocketModel                          `json:"socketModel,omitempty"`
+	SerialNumber         *string                               `json:"serialNumber,omitempty,omitzero"`
+	SocketID             *string                               `json:"socketId,omitempty,omitzero"`
+	SocketModel          *SocketModel                          `json:"socketModel,omitempty,omitzero"`
 	Type                 ZtnaAppConnectorType                  `json:"type"`
+}
+
+type ZtnaAppConnectorConnectivityInfo struct {
+	FirstConnected *string                            `json:"firstConnected,omitempty,omitzero"`
+	LastConnected  *string                            `json:"lastConnected,omitempty,omitzero"`
+	PopLocation    *PopLocationRef                    `json:"popLocation,omitempty,omitzero"`
+	Status         ZtnaAppConnectorConnectivityStatus `json:"status"`
+}
+
+type ZtnaAppConnectorConnectivityStatusFilterInput struct {
+	Eq  *ZtnaAppConnectorConnectivityStatus  `json:"eq,omitempty"`
+	In  []ZtnaAppConnectorConnectivityStatus `json:"in,omitempty"`
+	Neq *ZtnaAppConnectorConnectivityStatus  `json:"neq,omitempty"`
+	Nin []ZtnaAppConnectorConnectivityStatus `json:"nin,omitempty"`
+}
+
+type ZtnaAppConnectorDeviceConnectivityInfo struct {
+	Platform     SocketPlatform `json:"platform"`
+	SerialNumber string         `json:"serialNumber"`
+	Version      string         `json:"version"`
+}
+
+type ZtnaAppConnectorDeviceInfo struct {
+	IsRegistered bool         `json:"isRegistered"`
+	Model        *SocketModel `json:"model,omitempty,omitzero"`
+	SerialNumber *string      `json:"serialNumber,omitempty,omitzero"`
+	SocketID     *string      `json:"socketId,omitempty,omitzero"`
+	Version      *string      `json:"version,omitempty,omitzero"`
+}
+
+type ZtnaAppConnectorDeviceSnapshot struct {
+	Connectivity *ZtnaAppConnectorDeviceConnectivityInfo `json:"connectivity,omitempty,omitzero"`
+	ID           string                                  `json:"id"`
+	Info         *ZtnaAppConnectorDeviceInfo             `json:"info"`
+	Interface    []*ZtnaAppConnectorInterfaceSnapshot    `json:"interface"`
 }
 
 // Filter object for connector group listing
@@ -12783,7 +15548,7 @@ type ZtnaAppConnectorGroupListFilterInput struct {
 
 type ZtnaAppConnectorGroupListInput struct {
 	Filter *ZtnaAppConnectorGroupListFilterInput `json:"filter,omitempty"`
-	Paging *PagingInput                          `json:"paging,omitempty"`
+	Paging *PagingInput                          `json:"paging"`
 }
 
 type ZtnaAppConnectorGroupListPayload struct {
@@ -12791,18 +15556,81 @@ type ZtnaAppConnectorGroupListPayload struct {
 	PageInfo *PageInfo `json:"pageInfo"`
 }
 
+type ZtnaAppConnectorGroupSnapshot struct {
+	ConnectivityStatus []*ZtnaAppConnectorSnapshotConnectivityStatusSummaryItem `json:"connectivityStatus"`
+	Connectors         []*ZtnaAppConnectorSnapshot                              `json:"connectors"`
+	GroupName          string                                                   `json:"groupName"`
+	PrivateAppCount    int64                                                    `json:"privateAppCount"`
+	PrivateApps        []*PrivateApplicationRef                                 `json:"privateApps"`
+	TotalConnectors    int64                                                    `json:"totalConnectors"`
+}
+
+type ZtnaAppConnectorGroupSnapshotFilterInput struct {
+	ConnectedPop       []*StringFilterInput                             `json:"connectedPop,omitempty"`
+	ConnectivityStatus []*ZtnaAppConnectorConnectivityStatusFilterInput `json:"connectivityStatus,omitempty"`
+	ConnectorName      []*StringFilterInput                             `json:"connectorName,omitempty"`
+	Country            []*StringFilterInput                             `json:"country,omitempty"`
+	CountryName        []*StringFilterInput                             `json:"countryName,omitempty"`
+	DeviceVersion      []*StringFilterInput                             `json:"deviceVersion,omitempty"`
+	DNSServer          []*StringFilterInput                             `json:"dnsServer,omitempty"`
+	FreeText           []*FreeTextFilterInput                           `json:"freeText,omitempty"`
+	GroupName          []*StringFilterInput                             `json:"groupName,omitempty"`
+	ID                 []*IDFilterInput                                 `json:"id,omitempty"`
+	LanIP              []*StringFilterInput                             `json:"lanIp,omitempty"`
+	Model              []*ZtnaAppConnectorModelFilterInput              `json:"model,omitempty"`
+	PrivateApp         []*StringFilterInput                             `json:"privateApp,omitempty"`
+	SerialNumber       []*StringFilterInput                             `json:"serialNumber,omitempty"`
+}
+
+type ZtnaAppConnectorGroupSnapshotInput struct {
+	Filter *ZtnaAppConnectorGroupSnapshotFilterInput `json:"filter,omitempty"`
+	Paging *PagingInput                              `json:"paging,omitempty"`
+}
+
+type ZtnaAppConnectorGroupSnapshotPayload struct {
+	Items    []*ZtnaAppConnectorGroupSnapshot `json:"items"`
+	PageInfo *PageInfo                        `json:"pageInfo"`
+}
+
+type ZtnaAppConnectorInfo struct {
+	CreatedAt *string                           `json:"createdAt,omitempty,omitzero"`
+	GroupName string                            `json:"groupName"`
+	Location  *ZtnaAppConnectorLocationSnapshot `json:"location"`
+	Type      ZtnaAppConnectorType              `json:"type"`
+}
+
+type ZtnaAppConnectorInterfaceConnectivityInfo struct {
+	DNSServer []string            `json:"dnsServer"`
+	LanIP     *string             `json:"lanIp,omitempty,omitzero"`
+	Status    *ConnectivityStatus `json:"status,omitempty,omitzero"`
+}
+
+type ZtnaAppConnectorInterfaceSnapshot struct {
+	Connectivity  *ZtnaAppConnectorInterfaceConnectivityInfo `json:"connectivity,omitempty,omitzero"`
+	ID            string                                     `json:"id"`
+	InterfaceType ZtnaAppConnectorInterfaceType              `json:"interfaceType"`
+}
+
 type ZtnaAppConnectorListFilterInput struct {
+	CountryCode     []*StringFilterInput             `json:"countryCode,omitempty"`
+	CountryName     []*StringFilterInput             `json:"countryName,omitempty"`
+	FreeText        []*FreeTextFilterInput           `json:"freeText,omitempty"`
 	GroupName       []*StringFilterInput             `json:"groupName,omitempty"`
+	ID              []*IDFilterInput                 `json:"id,omitempty"`
 	IsAssigned      *BooleanFilterInput              `json:"isAssigned,omitempty"`
+	Model           []*SocketModelFilterInput        `json:"model,omitempty"`
 	Name            []*StringFilterInput             `json:"name,omitempty"`
+	PrivateApp      []*StringFilterInput             `json:"privateApp,omitempty"`
 	SearchGroupName *FreeTextFilterInput             `json:"searchGroupName,omitempty"`
 	SearchName      *FreeTextFilterInput             `json:"searchName,omitempty"`
+	SerialNumber    []*StringFilterInput             `json:"serialNumber,omitempty"`
 	Type            *ZtnaAppConnectorTypeFilterInput `json:"type,omitempty"`
 }
 
 type ZtnaAppConnectorListInput struct {
 	Filter *ZtnaAppConnectorListFilterInput `json:"filter,omitempty"`
-	Paging *PagingInput                     `json:"paging,omitempty"`
+	Paging *PagingInput                     `json:"paging"`
+	Sort   *ZtnaAppConnectorListSortInput   `json:"sort"`
 }
 
 type ZtnaAppConnectorListPayload struct {
@@ -12810,11 +15638,18 @@ type ZtnaAppConnectorListPayload struct {
 	ZtnaAppConnector []*ZtnaAppConnector `json:"ztnaAppConnector"`
 }
 
+// Sort input for ZTNA App Connector list
+type ZtnaAppConnectorListSortInput struct {
+	CreatedAt *SortOrderInput `json:"createdAt,omitempty"`
+	Name      *SortOrderInput `json:"name,omitempty"`
+}
+
 type ZtnaAppConnectorLocation struct {
-	Address     *string `json:"address,omitempty"`
+	Address     *string `json:"address,omitempty,omitzero"`
 	CityName    string  `json:"cityName"`
 	CountryCode string  `json:"countryCode"`
-	StateCode   *string `json:"stateCode,omitempty"`
+	CountryName *string `json:"countryName,omitempty,omitzero"`
+	StateCode   *string `json:"stateCode,omitempty,omitzero"`
 	Timezone    string  `json:"timezone"`
 }
 
@@ -12826,10 +15661,22 @@ type ZtnaAppConnectorLocationInput struct {
 	Timezone    string  `json:"timezone"`
 }
 
+type ZtnaAppConnectorLocationSnapshot struct {
+	CityName    string `json:"cityName"`
+	CountryCode string `json:"countryCode"`
+	CountryName string `json:"countryName"`
+}
+
+type ZtnaAppConnectorModelFilterInput struct {
+	Eq  *SocketModel  `json:"eq,omitempty"`
+	In  []SocketModel `json:"in,omitempty"`
+	Neq *SocketModel  `json:"neq,omitempty"`
+	Nin []SocketModel `json:"nin,omitempty"`
+}
+
 type ZtnaAppConnectorMutations struct {
 	AddZtnaAppConnector                  *AddZtnaAppConnectorPayload                  `json:"addZtnaAppConnector"`
 	AddZtnaAppConnectorsConfiguration    *AddZtnaAppConnectorsConfigurationPayload    `json:"addZtnaAppConnectorsConfiguration"`
-	AssignSocketToZtnaAppConnector       *AssignSocketToZtnaAppConnectorPayload       `json:"assignSocketToZtnaAppConnector"`
 	RemoveZtnaAppConnector               *RemoveZtnaAppConnectorPayload               `json:"removeZtnaAppConnector"`
 	RemoveZtnaAppConnectorsConfiguration *RemoveZtnaAppConnectorsConfigurationPayload `json:"removeZtnaAppConnectorsConfiguration"`
 	UnassignSocketFromZtnaAppConnector   *UnassignSocketFromZtnaAppConnectorPayload   `json:"unassignSocketFromZtnaAppConnector"`
@@ -12841,8 +15688,8 @@ type ZtnaAppConnectorMutations struct {
 type ZtnaAppConnectorPreferredPopLocation struct {
 	Automatic     bool            `json:"automatic"`
 	PreferredOnly bool            `json:"preferredOnly"`
-	Primary       *PopLocationRef `json:"primary,omitempty"`
-	Secondary     *PopLocationRef `json:"secondary,omitempty"`
+	Primary       *PopLocationRef `json:"primary,omitempty,omitzero"`
+	Secondary     *PopLocationRef `json:"secondary,omitempty,omitzero"`
 }
 
 type ZtnaAppConnectorPreferredPopLocationInput struct {
@@ -12852,11 +15699,22 @@ type ZtnaAppConnectorPreferredPopLocationInput struct {
 	Secondary     *PopLocationRefInput `json:"secondary,omitempty"`
 }
 
+type ZtnaAppConnectorPrivateAppConnectivityInfo struct {
+	ProbingStatus ZtnaAppConnectorSnapshotProbingStatus `json:"probingStatus"`
+	RoutingStatus ZtnaAppConnectorSnapshotRoutingStatus `json:"routingStatus"`
+}
+
+type ZtnaAppConnectorPrivateAppSnapshot struct {
+	Connectivity *ZtnaAppConnectorPrivateAppConnectivityInfo `json:"connectivity,omitempty,omitzero"`
+	ID           string                                      `json:"id"`
+	Name         string                                      `json:"name"`
+}
+
 type ZtnaAppConnectorQueries struct {
-	ZtnaAppConnector               *ZtnaAppConnector                 `json:"ztnaAppConnector,omitempty"`
-	ZtnaAppConnectorGroupList      *ZtnaAppConnectorGroupListPayload `json:"ztnaAppConnectorGroupList,omitempty"`
-	ZtnaAppConnectorList           *ZtnaAppConnectorListPayload      `json:"ztnaAppConnectorList,omitempty"`
-	ZtnaAppConnectorsConfiguration *ZtnaAppConnectorsConfiguration   `json:"ztnaAppConnectorsConfiguration,omitempty"`
+	ZtnaAppConnector               *ZtnaAppConnector                 `json:"ztnaAppConnector,omitempty,omitzero"`
+	ZtnaAppConnectorGroupList      *ZtnaAppConnectorGroupListPayload `json:"ztnaAppConnectorGroupList,omitempty,omitzero"`
+	ZtnaAppConnectorList           *ZtnaAppConnectorListPayload      `json:"ztnaAppConnectorList,omitempty,omitzero"`
+	ZtnaAppConnectorsConfiguration *ZtnaAppConnectorsConfiguration   `json:"ztnaAppConnectorsConfiguration,omitempty,omitzero"`
 }
 
 type ZtnaAppConnectorRef struct {
@@ -12871,6 +15729,92 @@ func (this ZtnaAppConnectorRef) GetName() string { return this.Name }
 type ZtnaAppConnectorRefInput struct {
 	By    ObjectRefBy `json:"by"`
 	Input string      `json:"input"`
+}
+
+type ZtnaAppConnectorSnapshot struct {
+	Connectivity    *ZtnaAppConnectorConnectivityInfo     `json:"connectivity,omitempty,omitzero"`
+	Device          *ZtnaAppConnectorDeviceSnapshot       `json:"device,omitempty,omitzero"`
+	ID              string                                `json:"id"`
+	Info            *ZtnaAppConnectorInfo                 `json:"info"`
+	Name            string                                `json:"name"`
+	PrivateApp      []*ZtnaAppConnectorPrivateAppSnapshot `json:"privateApp"`
+	PrivateAppCount int64                                 `json:"privateAppCount"`
+}
+
+type ZtnaAppConnectorSnapshotAssignmentSummary struct {
+	Assigned int64 `json:"assigned"`
+	Total    int64 `json:"total"`
+}
+
+type ZtnaAppConnectorSnapshotConnectivityStatusSummaryItem struct {
+	ConnectivityStatus ZtnaAppConnectorConnectivityStatus `json:"connectivityStatus"`
+	Total              int64                              `json:"total"`
+}
+
+type ZtnaAppConnectorSnapshotFilterInput struct {
+	ConnectedPop       []*StringFilterInput                             `json:"connectedPop,omitempty"`
+	ConnectivityStatus []*ZtnaAppConnectorConnectivityStatusFilterInput `json:"connectivityStatus,omitempty"`
+	ConnectorName      []*StringFilterInput                             `json:"connectorName,omitempty"`
+	Country            []*StringFilterInput                             `json:"country,omitempty"`
+	CountryName        []*StringFilterInput                             `json:"countryName,omitempty"`
+	DeviceVersion      []*StringFilterInput                             `json:"deviceVersion,omitempty"`
+	DNSServer          []*StringFilterInput                             `json:"dnsServer,omitempty"`
+	FreeText           []*FreeTextFilterInput                           `json:"freeText,omitempty"`
+	GroupName          []*StringFilterInput                             `json:"groupName,omitempty"`
+	ID                 []*IDFilterInput                                 `json:"id,omitempty"`
+	LanIP              []*StringFilterInput                             `json:"lanIp,omitempty"`
+	Model              []*ZtnaAppConnectorModelFilterInput              `json:"model,omitempty"`
+	PrivateApp         []*StringFilterInput                             `json:"privateApp,omitempty"`
+	SerialNumber       []*StringFilterInput                             `json:"serialNumber,omitempty"`
+}
+
+type ZtnaAppConnectorSnapshotInput struct {
+	Filter *ZtnaAppConnectorSnapshotFilterInput `json:"filter,omitempty"`
+	Paging *PagingInput                         `json:"paging,omitempty"`
+	Sort   *ZtnaAppConnectorSnapshotSortInput   `json:"sort,omitempty"`
+}
+
+type ZtnaAppConnectorSnapshotPayload struct {
+	Items    []*ZtnaAppConnectorSnapshot `json:"items"`
+	PageInfo *PageInfo                   `json:"pageInfo"`
+}
+
+type ZtnaAppConnectorSnapshotSocketModelSummaryItem struct {
+	Model SocketModel `json:"model"`
+	Total int64       `json:"total"`
+}
+
+type ZtnaAppConnectorSnapshotSocketPlatformSummaryItem struct {
+	Platform SocketPlatform `json:"platform"`
+	Total    int64          `json:"total"`
+}
+
+type ZtnaAppConnectorSnapshotSortInput struct {
+	Connectivity *SortOrderInput `json:"connectivity,omitempty"`
+	CreatedAt    *SortOrderInput `json:"createdAt,omitempty"`
+	Name         *SortOrderInput `json:"name,omitempty"`
+}
+
+type ZtnaAppConnectorSnapshotSummaryFilterInput struct {
+	ConnectivityStatus []*ZtnaAppConnectorConnectivityStatusFilterInput `json:"connectivityStatus,omitempty"`
+}
+
+type ZtnaAppConnectorSnapshotSummaryInput struct {
+	Filter *ZtnaAppConnectorSnapshotSummaryFilterInput `json:"filter,omitempty"`
+}
+
+type ZtnaAppConnectorSnapshotSummaryPayload struct {
+	Assignment         *ZtnaAppConnectorSnapshotAssignmentSummary               `json:"assignment,omitempty,omitzero"`
+	ConnectivityStatus []*ZtnaAppConnectorSnapshotConnectivityStatusSummaryItem `json:"connectivityStatus"`
+	SocketModel        []*ZtnaAppConnectorSnapshotSocketModelSummaryItem        `json:"socketModel"`
+	SocketPlatform     []*ZtnaAppConnectorSnapshotSocketPlatformSummaryItem     `json:"socketPlatform"`
+	Total              int64                                                    `json:"total"`
+	Version            []*ZtnaAppConnectorSnapshotVersionSummaryItem            `json:"version"`
+}
+
+type ZtnaAppConnectorSnapshotVersionSummaryItem struct {
+	Total   int64  `json:"total"`
+	Version string `json:"version"`
 }
 
 // Filter input for ZTNA App Connector type
@@ -12893,22 +15837,23 @@ type ZtnaAppConnectorUpgradeRequest struct {
 
 // ZTNA App Connectors configuration for an account.
 type ZtnaAppConnectorsConfiguration struct {
-	AppConnectorManagementRange string `json:"appConnectorManagementRange"`
-	PrivateAppsServiceRange     string `json:"privateAppsServiceRange"`
+	AppConnectorManagementRange *string `json:"appConnectorManagementRange,omitempty,omitzero"`
+	PrivateAppsServiceRange     *string `json:"privateAppsServiceRange,omitempty,omitzero"`
 }
 
 // ZTNA remote users license
 type ZtnaUsersLicense struct {
-	Description           *string               `json:"description,omitempty"`
-	ExpirationDate        string                `json:"expirationDate"`
-	ID                    *string               `json:"id,omitempty"`
-	LastUpdated           *string               `json:"lastUpdated,omitempty"`
-	Plan                  LicensePlan           `json:"plan"`
-	Sku                   LicenseSku            `json:"sku"`
-	StartDate             *string               `json:"startDate,omitempty"`
-	Status                LicenseStatus         `json:"status"`
-	Total                 int64                 `json:"total"`
-	ZtnaUsersLicenseGroup ZtnaUsersLicenseGroup `json:"ztnaUsersLicenseGroup"`
+	Accounts              []*PartnerZtnaUsersLicenseAccount `json:"accounts"`
+	Description           *string                           `json:"description,omitempty,omitzero"`
+	ExpirationDate        string                            `json:"expirationDate"`
+	ID                    *string                           `json:"id,omitempty,omitzero"`
+	LastUpdated           *string                           `json:"lastUpdated,omitempty,omitzero"`
+	Plan                  LicensePlan                       `json:"plan"`
+	Sku                   LicenseSku                        `json:"sku"`
+	StartDate             *string                           `json:"startDate,omitempty,omitzero"`
+	Status                LicenseStatus                     `json:"status"`
+	Total                 int64                             `json:"total"`
+	ZtnaUsersLicenseGroup ZtnaUsersLicenseGroup             `json:"ztnaUsersLicenseGroup"`
 }
 
 func (ZtnaUsersLicense) IsLicense()                     {}
@@ -12930,6 +15875,67 @@ type ZtnaUsersLicenseAllocations struct {
 	Allocated int64 `json:"allocated"`
 	Available int64 `json:"available"`
 	Total     int64 `json:"total"`
+}
+
+type AccessRequestStatus string
+
+const (
+	AccessRequestStatusActive   AccessRequestStatus = "ACTIVE"
+	AccessRequestStatusExpired  AccessRequestStatus = "EXPIRED"
+	AccessRequestStatusPending  AccessRequestStatus = "PENDING"
+	AccessRequestStatusRejected AccessRequestStatus = "REJECTED"
+	AccessRequestStatusRevoked  AccessRequestStatus = "REVOKED"
+)
+
+var AllAccessRequestStatus = []AccessRequestStatus{
+	AccessRequestStatusActive,
+	AccessRequestStatusExpired,
+	AccessRequestStatusPending,
+	AccessRequestStatusRejected,
+	AccessRequestStatusRevoked,
+}
+
+func (e AccessRequestStatus) IsValid() bool {
+	switch e {
+	case AccessRequestStatusActive, AccessRequestStatusExpired, AccessRequestStatusPending, AccessRequestStatusRejected, AccessRequestStatusRevoked:
+		return true
+	}
+	return false
+}
+
+func (e AccessRequestStatus) String() string {
+	return string(e)
+}
+
+func (e *AccessRequestStatus) UnmarshalGQL(v any) error {
+	str, ok := v.(string)
+	if !ok {
+		return fmt.Errorf("enums must be strings")
+	}
+
+	*e = AccessRequestStatus(str)
+	if !e.IsValid() {
+		return fmt.Errorf("%s is not a valid AccessRequestStatus", str)
+	}
+	return nil
+}
+
+func (e AccessRequestStatus) MarshalGQL(w io.Writer) {
+	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+func (e *AccessRequestStatus) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e AccessRequestStatus) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
 }
 
 type AccountInclusion string
@@ -14123,6 +17129,8 @@ const (
 	AppStatsFieldNameAccountID AppStatsFieldName = "account_id"
 	//  Account name. CMA Name: Account Name
 	AppStatsFieldNameAccountName AppStatsFieldName = "account_name"
+	//  Firewall decision on this flow (Block/Allow). CMA Name: Action
+	AppStatsFieldNameAction AppStatsFieldName = "action"
 	//  Active Directory name. CMA Name: Ad Name
 	AppStatsFieldNameAdName AppStatsFieldName = "ad_name"
 	//  AI Proxy rule name. CMA Name: AI Proxy Rule Name
@@ -14159,6 +17167,10 @@ const (
 	AppStatsFieldNameDescription AppStatsFieldName = "description"
 	//  For Internet traffic, country where the destination host is located. CMA Name: Destination Country
 	AppStatsFieldNameDestCountry AppStatsFieldName = "dest_country"
+	//  Destination domain (FQDN-like) based on the SSL SNI, HTTP host name, or DNS name. CMA Name: Dest Domain
+	AppStatsFieldNameDestDomain AppStatsFieldName = "dest_domain"
+	//  Destination endpoint type (Site, SDP User, App Connector, or OOB). CMA Name: Destination Endpoint Type
+	AppStatsFieldNameDestEndpointType AppStatsFieldName = "dest_endpoint_type"
 	//  For Internet traffic, destination host IP address. CMA Name: Dest Ip
 	AppStatsFieldNameDestIP AppStatsFieldName = "dest_ip"
 	//  For WAN traffic, destination is site or SDP user. CMA Name: Dest Is Site Or Vpn
@@ -14173,6 +17185,8 @@ const (
 	AppStatsFieldNameDestSiteName AppStatsFieldName = "dest_site_name"
 	//  Device Categories. CMA Name: Device Category
 	AppStatsFieldNameDeviceCategories AppStatsFieldName = "device_categories"
+	//  The device compliance state at the time of the event, as reported by Intune. CMA Name: Device Compliance State
+	AppStatsFieldNameDeviceComplianceState AppStatsFieldName = "device_compliance_state"
 	//  Unique Cato ID for devices. CMA Name: Device ID
 	AppStatsFieldNameDeviceID AppStatsFieldName = "device_id"
 	//  Device Manufacturer. CMA Name: Device Manufacturer
@@ -14193,15 +17207,29 @@ const (
 	AppStatsFieldNameDomain AppStatsFieldName = "domain"
 	//  Bytes sent from the destination to the host. CMA Name: Downstream
 	AppStatsFieldNameDownstream AppStatsFieldName = "downstream"
-	//  Duration of the flow in ms. Only available for native flows data integration created in the CMA (e.g. Sentinel). Not available in the appstats or appstatsTimeSeries API.
+	//  Duration of the flow in ms. Only available for native flows data integration created in the CMA. Not available in the appstats or appstatsTimeSeries API.
 	AppStatsFieldNameDuration AppStatsFieldName = "duration"
 	//  Egress PoP Name. CMA Name: Egress PoP Name
 	AppStatsFieldNameEgressPopName AppStatsFieldName = "egress_pop_name"
 	//  Egress Site Name for backhauling traffic. CMA Name: Egress Site
 	AppStatsFieldNameEgressSiteName AppStatsFieldName = "egress_site_name"
-	//  Uniquely identifies a traffic flow and enables correlation of events and other records related to the same flow. Only available for native flows data integration created in the CMA (e.g. Sentinel). Not available in the appstats or appstatsTimeSeries API.
+	//  Experience Score Level. CMA Name: Experience Score Level. Requires license: CATO_DEM
+	AppStatsFieldNameExperienceScoreLevel AppStatsFieldName = "experience_score_level"
+	//  Total bytes sent from the destination to the host for the entire flow. Only available for native flows data integration created in the CMA. Not available in the appstats or appstatsTimeSeries API.
+	AppStatsFieldNameFlowBytesDownstream AppStatsFieldName = "flow_bytes_downstream"
+	//  Total bytes (upstream + downstream) for the entire flow. Only available for native flows data integration created in the CMA. Not available in the appstats or appstatsTimeSeries API.
+	AppStatsFieldNameFlowBytesTotal AppStatsFieldName = "flow_bytes_total"
+	//  Total bytes sent from the host to the destination for the entire flow. Only available for native flows data integration created in the CMA. Not available in the appstats or appstatsTimeSeries API.
+	AppStatsFieldNameFlowBytesUpstream AppStatsFieldName = "flow_bytes_upstream"
+	//  Uniquely identifies a traffic flow and enables correlation of events and other records related to the same flow. Only available for native flows data integration created in the CMA. Not available in the appstats or appstatsTimeSeries API.
 	AppStatsFieldNameFlowID AppStatsFieldName = "flow_id"
-	//  Time stamp of the flow start (Linux epoch format). Only available for native flows data integration created in the CMA (e.g. Sentinel). Not available in the appstats or appstatsTimeSeries API.
+	//  Total packets sent from the destination to the host for the entire flow. Only available for native flows data integration created in the CMA. Not available in the appstats or appstatsTimeSeries API.
+	AppStatsFieldNameFlowPacketsDownstream AppStatsFieldName = "flow_packets_downstream"
+	//  Total packets (upstream + downstream) for the entire flow. Only available for native flows data integration created in the CMA. Not available in the appstats or appstatsTimeSeries API.
+	AppStatsFieldNameFlowPacketsTotal AppStatsFieldName = "flow_packets_total"
+	//  Total packets sent from the host to the destination for the entire flow. Only available for native flows data integration created in the CMA. Not available in the appstats or appstatsTimeSeries API.
+	AppStatsFieldNameFlowPacketsUpstream AppStatsFieldName = "flow_packets_upstream"
+	//  Time stamp of the flow start (Linux epoch format). Only available for native flows data integration created in the CMA. Not available in the appstats or appstatsTimeSeries API.
 	AppStatsFieldNameFlowStartTime AppStatsFieldName = "flow_start_time"
 	//  Number of flows created for this event. CMA Name: Flows Created
 	AppStatsFieldNameFlowsCreated AppStatsFieldName = "flows_created"
@@ -14213,6 +17241,10 @@ const (
 	AppStatsFieldNameHostMac AppStatsFieldName = "host_mac"
 	//  Country of the application headquarters. CMA Name: Hq Location
 	AppStatsFieldNameHqLocation AppStatsFieldName = "hq_location"
+	//  Percentage of HTTP errors. CMA Name: Http Failures. Requires license: CATO_DEM
+	AppStatsFieldNameHTTPErrorRate AppStatsFieldName = "http_error_rate"
+	//  Average of HTTP connection time. CMA Name: Http Latency. Requires license: CATO_DEM
+	AppStatsFieldNameHTTPLatency AppStatsFieldName = "http_latency"
 	//  HTTP request method (ie. Get, Post). CMA Name: Request Method
 	AppStatsFieldNameHTTPRequestMethod AppStatsFieldName = "http_request_method"
 	//  Local IP address of the host. CMA Name: Local Ip
@@ -14221,7 +17253,7 @@ const (
 	AppStatsFieldNameIPProtocol AppStatsFieldName = "ip_protocol"
 	//  Is the application a cloud application? (True/False). CMA Name: Is Cloud App
 	AppStatsFieldNameIsCloudApp AppStatsFieldName = "is_cloud_app"
-	//  Is last sample for flow. Only available for native flows data integration created in the CMA (e.g. Sentinel). Not available in the appstats or appstatsTimeSeries API.
+	//  Is last sample for flow. Only available for native flows data integration created in the CMA. Not available in the appstats or appstatsTimeSeries API.
 	AppStatsFieldNameIsFlowTerminated AppStatsFieldName = "is_flow_terminated"
 	//  Is the app for this event defined as a sanctioned app? (True/False). CMA Name: Is Sanctioned App
 	AppStatsFieldNameIsSanctionedApp AppStatsFieldName = "is_sanctioned_app"
@@ -14231,6 +17263,12 @@ const (
 	AppStatsFieldNameNewApp AppStatsFieldName = "new_app"
 	//  OS version for the device (such as 14.3.0). CMA Name: OS Version
 	AppStatsFieldNameOsVersion AppStatsFieldName = "os_version"
+	//  Packets sent from the destination to the host. CMA Name: Packets Downstream
+	AppStatsFieldNamePacketsDownstream AppStatsFieldName = "packets_downstream"
+	//  Total packet count (upstream + downstream). CMA Name: Packets Total
+	AppStatsFieldNamePacketsTotal AppStatsFieldName = "packets_total"
+	//  Packets sent from the host to the destination. CMA Name: Packets Upstream
+	AppStatsFieldNamePacketsUpstream AppStatsFieldName = "packets_upstream"
 	//  Name of PoP location. CMA Name: Pop Name
 	AppStatsFieldNamePopName AppStatsFieldName = "pop_name"
 	//  QoS Priority value. CMA Name: QoS Priority
@@ -14251,6 +17289,8 @@ const (
 	AppStatsFieldNameSrcCountry AppStatsFieldName = "src_country"
 	//  Country Code of country in which the source host is located (detected via public IP address). CMA Name: Source Country Code
 	AppStatsFieldNameSrcCountryCode AppStatsFieldName = "src_country_code"
+	//  Source endpoint type (Site, SDP User, App Connector, API Client, or OOB). CMA Name: Source Endpoint Type
+	AppStatsFieldNameSrcEndpointType AppStatsFieldName = "src_endpoint_type"
 	//  IP for host or Cato Client. CMA Name: Src Ip
 	AppStatsFieldNameSrcIP AppStatsFieldName = "src_ip"
 	//  Source type: site or remote user. CMA Name: Src Is Site Or Vpn
@@ -14273,12 +17313,16 @@ const (
 	AppStatsFieldNameSubnetName AppStatsFieldName = "subnet_name"
 	//  Shows if traffic was TCP accelerated or not. CMA Name: TCP Acceleration
 	AppStatsFieldNameTCPAcceleration AppStatsFieldName = "tcp_acceleration"
-	//  Time stamp of the flow update (Human-readable format). Only available for native flows data integration created in the CMA (e.g. Sentinel). Not available in the appstats or appstatsTimeSeries API.
+	//  Average of TCP connection time. CMA Name: Tcp Handshake Duration. Requires license: CATO_DEM
+	AppStatsFieldNameTCPLatency AppStatsFieldName = "tcp_latency"
+	//  Time stamp of the flow update (Human-readable format). Only available for native flows data integration created in the CMA. Not available in the appstats or appstatsTimeSeries API.
 	AppStatsFieldNameTimeStr AppStatsFieldName = "time_str"
 	//  Top Level Domain of the host name. CMA Name: Tld
 	AppStatsFieldNameTld AppStatsFieldName = "tld"
 	//  Shows if traffic was TLS inspected or not. CMA Name: TLS Inspection
 	AppStatsFieldNameTLSInspection AppStatsFieldName = "tls_inspection"
+	//  Average of TLS connection time. CMA Name: Tls Handshake Duration. Requires license: CATO_DEM
+	AppStatsFieldNameTLSLatency AppStatsFieldName = "tls_latency"
 	//  TLS Inspection rule name. CMA Name: TLS Rule Name
 	AppStatsFieldNameTLSRuleName AppStatsFieldName = "tls_rule_name"
 	//  The total sum of upstream and downstream data in bytes. CMA Name: Traffic
@@ -14289,6 +17333,8 @@ const (
 	AppStatsFieldNameTranslatedClientIP AppStatsFieldName = "translated_client_ip"
 	//  Translated Server IP. CMA Name: Translated Server IP
 	AppStatsFieldNameTranslatedServerIP AppStatsFieldName = "translated_server_ip"
+	//  Average of Time To First Byte. CMA Name: Ttfb. Requires license: CATO_DEM
+	AppStatsFieldNameTtfb AppStatsFieldName = "ttfb"
 	//  Bytes sent from the host to the destination. CMA Name: Upstream
 	AppStatsFieldNameUpstream AppStatsFieldName = "upstream"
 	//  Method used to get identity with User Awareness (such as Identity Agent). CMA Name: User Awareness Method
@@ -14307,6 +17353,7 @@ var AllAppStatsFieldName = []AppStatsFieldName{
 	AppStatsFieldNameIspName,
 	AppStatsFieldNameAccountID,
 	AppStatsFieldNameAccountName,
+	AppStatsFieldNameAction,
 	AppStatsFieldNameAdName,
 	AppStatsFieldNameAiProxyRuleName,
 	AppStatsFieldNameApp,
@@ -14325,6 +17372,8 @@ var AllAppStatsFieldName = []AppStatsFieldName{
 	AppStatsFieldNameConnectionOrigin,
 	AppStatsFieldNameDescription,
 	AppStatsFieldNameDestCountry,
+	AppStatsFieldNameDestDomain,
+	AppStatsFieldNameDestEndpointType,
 	AppStatsFieldNameDestIP,
 	AppStatsFieldNameDestIsSiteOrVpn,
 	AppStatsFieldNameDestPort,
@@ -14332,6 +17381,7 @@ var AllAppStatsFieldName = []AppStatsFieldName{
 	AppStatsFieldNameDestSiteID,
 	AppStatsFieldNameDestSiteName,
 	AppStatsFieldNameDeviceCategories,
+	AppStatsFieldNameDeviceComplianceState,
 	AppStatsFieldNameDeviceID,
 	AppStatsFieldNameDeviceManufacturer,
 	AppStatsFieldNameDeviceModel,
@@ -14345,13 +17395,22 @@ var AllAppStatsFieldName = []AppStatsFieldName{
 	AppStatsFieldNameDuration,
 	AppStatsFieldNameEgressPopName,
 	AppStatsFieldNameEgressSiteName,
+	AppStatsFieldNameExperienceScoreLevel,
+	AppStatsFieldNameFlowBytesDownstream,
+	AppStatsFieldNameFlowBytesTotal,
+	AppStatsFieldNameFlowBytesUpstream,
 	AppStatsFieldNameFlowID,
+	AppStatsFieldNameFlowPacketsDownstream,
+	AppStatsFieldNameFlowPacketsTotal,
+	AppStatsFieldNameFlowPacketsUpstream,
 	AppStatsFieldNameFlowStartTime,
 	AppStatsFieldNameFlowsCreated,
 	AppStatsFieldNameFullPathURL,
 	AppStatsFieldNameHostIP,
 	AppStatsFieldNameHostMac,
 	AppStatsFieldNameHqLocation,
+	AppStatsFieldNameHTTPErrorRate,
+	AppStatsFieldNameHTTPLatency,
 	AppStatsFieldNameHTTPRequestMethod,
 	AppStatsFieldNameIP,
 	AppStatsFieldNameIPProtocol,
@@ -14361,6 +17420,9 @@ var AllAppStatsFieldName = []AppStatsFieldName{
 	AppStatsFieldNameNetworkRule,
 	AppStatsFieldNameNewApp,
 	AppStatsFieldNameOsVersion,
+	AppStatsFieldNamePacketsDownstream,
+	AppStatsFieldNamePacketsTotal,
+	AppStatsFieldNamePacketsUpstream,
 	AppStatsFieldNamePopName,
 	AppStatsFieldNameQosPriority,
 	AppStatsFieldNameRiskLevel,
@@ -14371,6 +17433,7 @@ var AllAppStatsFieldName = []AppStatsFieldName{
 	AppStatsFieldNameSocketInterface,
 	AppStatsFieldNameSrcCountry,
 	AppStatsFieldNameSrcCountryCode,
+	AppStatsFieldNameSrcEndpointType,
 	AppStatsFieldNameSrcIP,
 	AppStatsFieldNameSrcIsSiteOrVpn,
 	AppStatsFieldNameSrcIspIP,
@@ -14382,14 +17445,17 @@ var AllAppStatsFieldName = []AppStatsFieldName{
 	AppStatsFieldNameSubnet,
 	AppStatsFieldNameSubnetName,
 	AppStatsFieldNameTCPAcceleration,
+	AppStatsFieldNameTCPLatency,
 	AppStatsFieldNameTimeStr,
 	AppStatsFieldNameTld,
 	AppStatsFieldNameTLSInspection,
+	AppStatsFieldNameTLSLatency,
 	AppStatsFieldNameTLSRuleName,
 	AppStatsFieldNameTraffic,
 	AppStatsFieldNameTrafficDirection,
 	AppStatsFieldNameTranslatedClientIP,
 	AppStatsFieldNameTranslatedServerIP,
+	AppStatsFieldNameTtfb,
 	AppStatsFieldNameUpstream,
 	AppStatsFieldNameUserAwarenessMethod,
 	AppStatsFieldNameUserID,
@@ -14400,7 +17466,7 @@ var AllAppStatsFieldName = []AppStatsFieldName{
 
 func (e AppStatsFieldName) IsValid() bool {
 	switch e {
-	case AppStatsFieldNameIspName, AppStatsFieldNameAccountID, AppStatsFieldNameAccountName, AppStatsFieldNameAdName, AppStatsFieldNameAiProxyRuleName, AppStatsFieldNameApp, AppStatsFieldNameApplication, AppStatsFieldNameApplicationDescription, AppStatsFieldNameApplicationID, AppStatsFieldNameApplicationName, AppStatsFieldNameApplicationRiskLevel, AppStatsFieldNameApplicationRiskScore, AppStatsFieldNameApplicationType, AppStatsFieldNameCategories, AppStatsFieldNameCategory, AppStatsFieldNameClientClass, AppStatsFieldNameClientVersion, AppStatsFieldNameConfiguredHostName, AppStatsFieldNameConnectionOrigin, AppStatsFieldNameDescription, AppStatsFieldNameDestCountry, AppStatsFieldNameDestIP, AppStatsFieldNameDestIsSiteOrVpn, AppStatsFieldNameDestPort, AppStatsFieldNameDestSite, AppStatsFieldNameDestSiteID, AppStatsFieldNameDestSiteName, AppStatsFieldNameDeviceCategories, AppStatsFieldNameDeviceID, AppStatsFieldNameDeviceManufacturer, AppStatsFieldNameDeviceModel, AppStatsFieldNameDeviceName, AppStatsFieldNameDeviceOsType, AppStatsFieldNameDevicePostureProfile, AppStatsFieldNameDeviceType, AppStatsFieldNameDiscoveredApp, AppStatsFieldNameDomain, AppStatsFieldNameDownstream, AppStatsFieldNameDuration, AppStatsFieldNameEgressPopName, AppStatsFieldNameEgressSiteName, AppStatsFieldNameFlowID, AppStatsFieldNameFlowStartTime, AppStatsFieldNameFlowsCreated, AppStatsFieldNameFullPathURL, AppStatsFieldNameHostIP, AppStatsFieldNameHostMac, AppStatsFieldNameHqLocation, AppStatsFieldNameHTTPRequestMethod, AppStatsFieldNameIP, AppStatsFieldNameIPProtocol, AppStatsFieldNameIsCloudApp, AppStatsFieldNameIsFlowTerminated, AppStatsFieldNameIsSanctionedApp, AppStatsFieldNameNetworkRule, AppStatsFieldNameNewApp, AppStatsFieldNameOsVersion, AppStatsFieldNamePopName, AppStatsFieldNameQosPriority, AppStatsFieldNameRiskLevel, AppStatsFieldNameRiskScore, AppStatsFieldNameSanctioned, AppStatsFieldNameSiteCountry, AppStatsFieldNameSiteState, AppStatsFieldNameSocketInterface, AppStatsFieldNameSrcCountry, AppStatsFieldNameSrcCountryCode, AppStatsFieldNameSrcIP, AppStatsFieldNameSrcIsSiteOrVpn, AppStatsFieldNameSrcIspIP, AppStatsFieldNameSrcPort, AppStatsFieldNameSrcSiteCountryCode, AppStatsFieldNameSrcSiteID, AppStatsFieldNameSrcSiteName, AppStatsFieldNameSrcSiteState, AppStatsFieldNameSubnet, AppStatsFieldNameSubnetName, AppStatsFieldNameTCPAcceleration, AppStatsFieldNameTimeStr, AppStatsFieldNameTld, AppStatsFieldNameTLSInspection, AppStatsFieldNameTLSRuleName, AppStatsFieldNameTraffic, AppStatsFieldNameTrafficDirection, AppStatsFieldNameTranslatedClientIP, AppStatsFieldNameTranslatedServerIP, AppStatsFieldNameUpstream, AppStatsFieldNameUserAwarenessMethod, AppStatsFieldNameUserID, AppStatsFieldNameUserName, AppStatsFieldNameVpnUserEmail, AppStatsFieldNameVpnUserID:
+	case AppStatsFieldNameIspName, AppStatsFieldNameAccountID, AppStatsFieldNameAccountName, AppStatsFieldNameAction, AppStatsFieldNameAdName, AppStatsFieldNameAiProxyRuleName, AppStatsFieldNameApp, AppStatsFieldNameApplication, AppStatsFieldNameApplicationDescription, AppStatsFieldNameApplicationID, AppStatsFieldNameApplicationName, AppStatsFieldNameApplicationRiskLevel, AppStatsFieldNameApplicationRiskScore, AppStatsFieldNameApplicationType, AppStatsFieldNameCategories, AppStatsFieldNameCategory, AppStatsFieldNameClientClass, AppStatsFieldNameClientVersion, AppStatsFieldNameConfiguredHostName, AppStatsFieldNameConnectionOrigin, AppStatsFieldNameDescription, AppStatsFieldNameDestCountry, AppStatsFieldNameDestDomain, AppStatsFieldNameDestEndpointType, AppStatsFieldNameDestIP, AppStatsFieldNameDestIsSiteOrVpn, AppStatsFieldNameDestPort, AppStatsFieldNameDestSite, AppStatsFieldNameDestSiteID, AppStatsFieldNameDestSiteName, AppStatsFieldNameDeviceCategories, AppStatsFieldNameDeviceComplianceState, AppStatsFieldNameDeviceID, AppStatsFieldNameDeviceManufacturer, AppStatsFieldNameDeviceModel, AppStatsFieldNameDeviceName, AppStatsFieldNameDeviceOsType, AppStatsFieldNameDevicePostureProfile, AppStatsFieldNameDeviceType, AppStatsFieldNameDiscoveredApp, AppStatsFieldNameDomain, AppStatsFieldNameDownstream, AppStatsFieldNameDuration, AppStatsFieldNameEgressPopName, AppStatsFieldNameEgressSiteName, AppStatsFieldNameExperienceScoreLevel, AppStatsFieldNameFlowBytesDownstream, AppStatsFieldNameFlowBytesTotal, AppStatsFieldNameFlowBytesUpstream, AppStatsFieldNameFlowID, AppStatsFieldNameFlowPacketsDownstream, AppStatsFieldNameFlowPacketsTotal, AppStatsFieldNameFlowPacketsUpstream, AppStatsFieldNameFlowStartTime, AppStatsFieldNameFlowsCreated, AppStatsFieldNameFullPathURL, AppStatsFieldNameHostIP, AppStatsFieldNameHostMac, AppStatsFieldNameHqLocation, AppStatsFieldNameHTTPErrorRate, AppStatsFieldNameHTTPLatency, AppStatsFieldNameHTTPRequestMethod, AppStatsFieldNameIP, AppStatsFieldNameIPProtocol, AppStatsFieldNameIsCloudApp, AppStatsFieldNameIsFlowTerminated, AppStatsFieldNameIsSanctionedApp, AppStatsFieldNameNetworkRule, AppStatsFieldNameNewApp, AppStatsFieldNameOsVersion, AppStatsFieldNamePacketsDownstream, AppStatsFieldNamePacketsTotal, AppStatsFieldNamePacketsUpstream, AppStatsFieldNamePopName, AppStatsFieldNameQosPriority, AppStatsFieldNameRiskLevel, AppStatsFieldNameRiskScore, AppStatsFieldNameSanctioned, AppStatsFieldNameSiteCountry, AppStatsFieldNameSiteState, AppStatsFieldNameSocketInterface, AppStatsFieldNameSrcCountry, AppStatsFieldNameSrcCountryCode, AppStatsFieldNameSrcEndpointType, AppStatsFieldNameSrcIP, AppStatsFieldNameSrcIsSiteOrVpn, AppStatsFieldNameSrcIspIP, AppStatsFieldNameSrcPort, AppStatsFieldNameSrcSiteCountryCode, AppStatsFieldNameSrcSiteID, AppStatsFieldNameSrcSiteName, AppStatsFieldNameSrcSiteState, AppStatsFieldNameSubnet, AppStatsFieldNameSubnetName, AppStatsFieldNameTCPAcceleration, AppStatsFieldNameTCPLatency, AppStatsFieldNameTimeStr, AppStatsFieldNameTld, AppStatsFieldNameTLSInspection, AppStatsFieldNameTLSLatency, AppStatsFieldNameTLSRuleName, AppStatsFieldNameTraffic, AppStatsFieldNameTrafficDirection, AppStatsFieldNameTranslatedClientIP, AppStatsFieldNameTranslatedServerIP, AppStatsFieldNameTtfb, AppStatsFieldNameUpstream, AppStatsFieldNameUserAwarenessMethod, AppStatsFieldNameUserID, AppStatsFieldNameUserName, AppStatsFieldNameVpnUserEmail, AppStatsFieldNameVpnUserID:
 		return true
 	}
 	return false
@@ -15192,6 +18258,120 @@ func (e AuditFieldName) MarshalJSON() ([]byte, error) {
 	return buf.Bytes(), nil
 }
 
+type AuthType string
+
+const (
+	AuthTypeBasicAuth    AuthType = "BASIC_AUTH"
+	AuthTypeBearerToken  AuthType = "BEARER_TOKEN"
+	AuthTypeCustomHeader AuthType = "CUSTOM_HEADER"
+	AuthTypeNoAuth       AuthType = "NO_AUTH"
+)
+
+var AllAuthType = []AuthType{
+	AuthTypeBasicAuth,
+	AuthTypeBearerToken,
+	AuthTypeCustomHeader,
+	AuthTypeNoAuth,
+}
+
+func (e AuthType) IsValid() bool {
+	switch e {
+	case AuthTypeBasicAuth, AuthTypeBearerToken, AuthTypeCustomHeader, AuthTypeNoAuth:
+		return true
+	}
+	return false
+}
+
+func (e AuthType) String() string {
+	return string(e)
+}
+
+func (e *AuthType) UnmarshalGQL(v any) error {
+	str, ok := v.(string)
+	if !ok {
+		return fmt.Errorf("enums must be strings")
+	}
+
+	*e = AuthType(str)
+	if !e.IsValid() {
+		return fmt.Errorf("%s is not a valid AuthType", str)
+	}
+	return nil
+}
+
+func (e AuthType) MarshalGQL(w io.Writer) {
+	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+func (e *AuthType) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e AuthType) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
+}
+
+type BackhaulingDestination string
+
+const (
+	BackhaulingDestinationInternetBreakout BackhaulingDestination = "INTERNET_BREAKOUT"
+	BackhaulingDestinationLocalGatewayIP   BackhaulingDestination = "LOCAL_GATEWAY_IP"
+)
+
+var AllBackhaulingDestination = []BackhaulingDestination{
+	BackhaulingDestinationInternetBreakout,
+	BackhaulingDestinationLocalGatewayIP,
+}
+
+func (e BackhaulingDestination) IsValid() bool {
+	switch e {
+	case BackhaulingDestinationInternetBreakout, BackhaulingDestinationLocalGatewayIP:
+		return true
+	}
+	return false
+}
+
+func (e BackhaulingDestination) String() string {
+	return string(e)
+}
+
+func (e *BackhaulingDestination) UnmarshalGQL(v any) error {
+	str, ok := v.(string)
+	if !ok {
+		return fmt.Errorf("enums must be strings")
+	}
+
+	*e = BackhaulingDestination(str)
+	if !e.IsValid() {
+		return fmt.Errorf("%s is not a valid BackhaulingDestination", str)
+	}
+	return nil
+}
+
+func (e BackhaulingDestination) MarshalGQL(w io.Writer) {
+	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+func (e *BackhaulingDestination) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e BackhaulingDestination) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
+}
+
 type BgpCommunityFilterPredicate string
 
 const (
@@ -15366,6 +18546,72 @@ func (e *BgpState) UnmarshalJSON(b []byte) error {
 }
 
 func (e BgpState) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
+}
+
+type BypassSocketPortType string
+
+const (
+	//  Automatic socket port type.
+	BypassSocketPortTypeAutomatic BypassSocketPortType = "AUTOMATIC"
+	//  WAN1 socket port type.
+	BypassSocketPortTypeWan1 BypassSocketPortType = "WAN1"
+	//  WAN2 socket port type.
+	BypassSocketPortTypeWan2 BypassSocketPortType = "WAN2"
+	//  WAN3 socket port type.
+	BypassSocketPortTypeWan3 BypassSocketPortType = "WAN3"
+	//  WAN4 socket port type.
+	BypassSocketPortTypeWan4 BypassSocketPortType = "WAN4"
+)
+
+var AllBypassSocketPortType = []BypassSocketPortType{
+	BypassSocketPortTypeAutomatic,
+	BypassSocketPortTypeWan1,
+	BypassSocketPortTypeWan2,
+	BypassSocketPortTypeWan3,
+	BypassSocketPortTypeWan4,
+}
+
+func (e BypassSocketPortType) IsValid() bool {
+	switch e {
+	case BypassSocketPortTypeAutomatic, BypassSocketPortTypeWan1, BypassSocketPortTypeWan2, BypassSocketPortTypeWan3, BypassSocketPortTypeWan4:
+		return true
+	}
+	return false
+}
+
+func (e BypassSocketPortType) String() string {
+	return string(e)
+}
+
+func (e *BypassSocketPortType) UnmarshalGQL(v any) error {
+	str, ok := v.(string)
+	if !ok {
+		return fmt.Errorf("enums must be strings")
+	}
+
+	*e = BypassSocketPortType(str)
+	if !e.IsValid() {
+		return fmt.Errorf("%s is not a valid BypassSocketPortType", str)
+	}
+	return nil
+}
+
+func (e BypassSocketPortType) MarshalGQL(w io.Writer) {
+	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+func (e *BypassSocketPortType) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e BypassSocketPortType) MarshalJSON() ([]byte, error) {
 	var buf bytes.Buffer
 	e.MarshalGQL(&buf)
 	return buf.Bytes(), nil
@@ -16408,6 +19654,61 @@ func (e ClientConnectivityOriginEnum) MarshalJSON() ([]byte, error) {
 	return buf.Bytes(), nil
 }
 
+type CommentType string
+
+const (
+	CommentTypeManagedService CommentType = "MANAGED_SERVICE"
+	CommentTypeUser           CommentType = "USER"
+)
+
+var AllCommentType = []CommentType{
+	CommentTypeManagedService,
+	CommentTypeUser,
+}
+
+func (e CommentType) IsValid() bool {
+	switch e {
+	case CommentTypeManagedService, CommentTypeUser:
+		return true
+	}
+	return false
+}
+
+func (e CommentType) String() string {
+	return string(e)
+}
+
+func (e *CommentType) UnmarshalGQL(v any) error {
+	str, ok := v.(string)
+	if !ok {
+		return fmt.Errorf("enums must be strings")
+	}
+
+	*e = CommentType(str)
+	if !e.IsValid() {
+		return fmt.Errorf("%s is not a valid CommentType", str)
+	}
+	return nil
+}
+
+func (e CommentType) MarshalGQL(w io.Writer) {
+	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+func (e *CommentType) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e CommentType) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
+}
+
 type ConnectionMode string
 
 const (
@@ -16515,69 +19816,6 @@ func (e *ConnectionOriginEnum) UnmarshalJSON(b []byte) error {
 }
 
 func (e ConnectionOriginEnum) MarshalJSON() ([]byte, error) {
-	var buf bytes.Buffer
-	e.MarshalGQL(&buf)
-	return buf.Bytes(), nil
-}
-
-type ConnectionOriginsEnum string
-
-const (
-	//  User is connecting from the Cato browser
-	ConnectionOriginsEnumRemoteBrowser ConnectionOriginsEnum = "REMOTE_BROWSER"
-	//  User is connecting from the client
-	ConnectionOriginsEnumRemoteClient ConnectionOriginsEnum = "REMOTE_CLIENT"
-	//  User is connecting from the browser extension
-	ConnectionOriginsEnumRemoteExtension ConnectionOriginsEnum = "REMOTE_EXTENSION"
-	//  User is connecting from the site
-	ConnectionOriginsEnumSite ConnectionOriginsEnum = "SITE"
-)
-
-var AllConnectionOriginsEnum = []ConnectionOriginsEnum{
-	ConnectionOriginsEnumRemoteBrowser,
-	ConnectionOriginsEnumRemoteClient,
-	ConnectionOriginsEnumRemoteExtension,
-	ConnectionOriginsEnumSite,
-}
-
-func (e ConnectionOriginsEnum) IsValid() bool {
-	switch e {
-	case ConnectionOriginsEnumRemoteBrowser, ConnectionOriginsEnumRemoteClient, ConnectionOriginsEnumRemoteExtension, ConnectionOriginsEnumSite:
-		return true
-	}
-	return false
-}
-
-func (e ConnectionOriginsEnum) String() string {
-	return string(e)
-}
-
-func (e *ConnectionOriginsEnum) UnmarshalGQL(v any) error {
-	str, ok := v.(string)
-	if !ok {
-		return fmt.Errorf("enums must be strings")
-	}
-
-	*e = ConnectionOriginsEnum(str)
-	if !e.IsValid() {
-		return fmt.Errorf("%s is not a valid ConnectionOriginsEnum", str)
-	}
-	return nil
-}
-
-func (e ConnectionOriginsEnum) MarshalGQL(w io.Writer) {
-	fmt.Fprint(w, strconv.Quote(e.String()))
-}
-
-func (e *ConnectionOriginsEnum) UnmarshalJSON(b []byte) error {
-	s, err := strconv.Unquote(string(b))
-	if err != nil {
-		return err
-	}
-	return e.UnmarshalGQL(s)
-}
-
-func (e ConnectionOriginsEnum) MarshalJSON() ([]byte, error) {
 	var buf bytes.Buffer
 	e.MarshalGQL(&buf)
 	return buf.Bytes(), nil
@@ -16862,6 +20100,77 @@ func (e ContainerType) MarshalJSON() ([]byte, error) {
 	return buf.Bytes(), nil
 }
 
+type DataSourceEnum string
+
+const (
+	DataSourceEnumAppStats                    DataSourceEnum = "AppStats"
+	DataSourceEnumAppStatsTimeSeries          DataSourceEnum = "AppStatsTimeSeries"
+	DataSourceEnumConnectivityStats           DataSourceEnum = "ConnectivityStats"
+	DataSourceEnumConnectivityStatsTimeSeries DataSourceEnum = "ConnectivityStatsTimeSeries"
+	DataSourceEnumDeviceHardwareMetrics       DataSourceEnum = "DeviceHardwareMetrics"
+	DataSourceEnumEvents                      DataSourceEnum = "Events"
+	DataSourceEnumEventsList                  DataSourceEnum = "EventsList"
+	DataSourceEnumEventsTimeSeries            DataSourceEnum = "EventsTimeSeries"
+	DataSourceEnumHardwareMetricsTimeSeries   DataSourceEnum = "HardwareMetricsTimeSeries"
+	DataSourceEnumLmmTimeSeries               DataSourceEnum = "LmmTimeSeries"
+)
+
+var AllDataSourceEnum = []DataSourceEnum{
+	DataSourceEnumAppStats,
+	DataSourceEnumAppStatsTimeSeries,
+	DataSourceEnumConnectivityStats,
+	DataSourceEnumConnectivityStatsTimeSeries,
+	DataSourceEnumDeviceHardwareMetrics,
+	DataSourceEnumEvents,
+	DataSourceEnumEventsList,
+	DataSourceEnumEventsTimeSeries,
+	DataSourceEnumHardwareMetricsTimeSeries,
+	DataSourceEnumLmmTimeSeries,
+}
+
+func (e DataSourceEnum) IsValid() bool {
+	switch e {
+	case DataSourceEnumAppStats, DataSourceEnumAppStatsTimeSeries, DataSourceEnumConnectivityStats, DataSourceEnumConnectivityStatsTimeSeries, DataSourceEnumDeviceHardwareMetrics, DataSourceEnumEvents, DataSourceEnumEventsList, DataSourceEnumEventsTimeSeries, DataSourceEnumHardwareMetricsTimeSeries, DataSourceEnumLmmTimeSeries:
+		return true
+	}
+	return false
+}
+
+func (e DataSourceEnum) String() string {
+	return string(e)
+}
+
+func (e *DataSourceEnum) UnmarshalGQL(v any) error {
+	str, ok := v.(string)
+	if !ok {
+		return fmt.Errorf("enums must be strings")
+	}
+
+	*e = DataSourceEnum(str)
+	if !e.IsValid() {
+		return fmt.Errorf("%s is not a valid DataSourceEnum", str)
+	}
+	return nil
+}
+
+func (e DataSourceEnum) MarshalGQL(w io.Writer) {
+	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+func (e *DataSourceEnum) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e DataSourceEnum) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
+}
+
 type DayOfWeek string
 
 const (
@@ -16922,6 +20231,69 @@ func (e *DayOfWeek) UnmarshalJSON(b []byte) error {
 }
 
 func (e DayOfWeek) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
+}
+
+type DefenderIncidentStatus string
+
+const (
+	DefenderIncidentStatusActive         DefenderIncidentStatus = "ACTIVE"
+	DefenderIncidentStatusAwaitingAction DefenderIncidentStatus = "AWAITING_ACTION"
+	DefenderIncidentStatusInProgress     DefenderIncidentStatus = "IN_PROGRESS"
+	DefenderIncidentStatusRedirected     DefenderIncidentStatus = "REDIRECTED"
+	DefenderIncidentStatusResolved       DefenderIncidentStatus = "RESOLVED"
+	DefenderIncidentStatusUnknown        DefenderIncidentStatus = "UNKNOWN"
+)
+
+var AllDefenderIncidentStatus = []DefenderIncidentStatus{
+	DefenderIncidentStatusActive,
+	DefenderIncidentStatusAwaitingAction,
+	DefenderIncidentStatusInProgress,
+	DefenderIncidentStatusRedirected,
+	DefenderIncidentStatusResolved,
+	DefenderIncidentStatusUnknown,
+}
+
+func (e DefenderIncidentStatus) IsValid() bool {
+	switch e {
+	case DefenderIncidentStatusActive, DefenderIncidentStatusAwaitingAction, DefenderIncidentStatusInProgress, DefenderIncidentStatusRedirected, DefenderIncidentStatusResolved, DefenderIncidentStatusUnknown:
+		return true
+	}
+	return false
+}
+
+func (e DefenderIncidentStatus) String() string {
+	return string(e)
+}
+
+func (e *DefenderIncidentStatus) UnmarshalGQL(v any) error {
+	str, ok := v.(string)
+	if !ok {
+		return fmt.Errorf("enums must be strings")
+	}
+
+	*e = DefenderIncidentStatus(str)
+	if !e.IsValid() {
+		return fmt.Errorf("%s is not a valid DefenderIncidentStatus", str)
+	}
+	return nil
+}
+
+func (e DefenderIncidentStatus) MarshalGQL(w io.Writer) {
+	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+func (e *DefenderIncidentStatus) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e DefenderIncidentStatus) MarshalJSON() ([]byte, error) {
 	var buf bytes.Buffer
 	e.MarshalGQL(&buf)
 	return buf.Bytes(), nil
@@ -16997,6 +20369,63 @@ func (e *DegradedStatusReason) UnmarshalJSON(b []byte) error {
 }
 
 func (e DegradedStatusReason) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
+}
+
+type DeleteUserStatus string
+
+const (
+	//  Delete request failed.
+	DeleteUserStatusFailure DeleteUserStatus = "FAILURE"
+	//  Users were successfully deleted.
+	DeleteUserStatusSuccess DeleteUserStatus = "SUCCESS"
+)
+
+var AllDeleteUserStatus = []DeleteUserStatus{
+	DeleteUserStatusFailure,
+	DeleteUserStatusSuccess,
+}
+
+func (e DeleteUserStatus) IsValid() bool {
+	switch e {
+	case DeleteUserStatusFailure, DeleteUserStatusSuccess:
+		return true
+	}
+	return false
+}
+
+func (e DeleteUserStatus) String() string {
+	return string(e)
+}
+
+func (e *DeleteUserStatus) UnmarshalGQL(v any) error {
+	str, ok := v.(string)
+	if !ok {
+		return fmt.Errorf("enums must be strings")
+	}
+
+	*e = DeleteUserStatus(str)
+	if !e.IsValid() {
+		return fmt.Errorf("%s is not a valid DeleteUserStatus", str)
+	}
+	return nil
+}
+
+func (e DeleteUserStatus) MarshalGQL(w io.Writer) {
+	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+func (e *DeleteUserStatus) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e DeleteUserStatus) MarshalJSON() ([]byte, error) {
 	var buf bytes.Buffer
 	e.MarshalGQL(&buf)
 	return buf.Bytes(), nil
@@ -17256,69 +20685,6 @@ func (e DeviceAvStatusEnum) MarshalJSON() ([]byte, error) {
 	return buf.Bytes(), nil
 }
 
-type DeviceCategory string
-
-const (
-	DeviceCategoryIoT        DeviceCategory = "IoT"
-	DeviceCategoryMobile     DeviceCategory = "Mobile"
-	DeviceCategoryNetworking DeviceCategory = "Networking"
-	DeviceCategoryOt         DeviceCategory = "OT"
-	DeviceCategoryPc         DeviceCategory = "PC"
-	DeviceCategoryServer     DeviceCategory = "Server"
-)
-
-var AllDeviceCategory = []DeviceCategory{
-	DeviceCategoryIoT,
-	DeviceCategoryMobile,
-	DeviceCategoryNetworking,
-	DeviceCategoryOt,
-	DeviceCategoryPc,
-	DeviceCategoryServer,
-}
-
-func (e DeviceCategory) IsValid() bool {
-	switch e {
-	case DeviceCategoryIoT, DeviceCategoryMobile, DeviceCategoryNetworking, DeviceCategoryOt, DeviceCategoryPc, DeviceCategoryServer:
-		return true
-	}
-	return false
-}
-
-func (e DeviceCategory) String() string {
-	return string(e)
-}
-
-func (e *DeviceCategory) UnmarshalGQL(v any) error {
-	str, ok := v.(string)
-	if !ok {
-		return fmt.Errorf("enums must be strings")
-	}
-
-	*e = DeviceCategory(str)
-	if !e.IsValid() {
-		return fmt.Errorf("%s is not a valid DeviceCategory", str)
-	}
-	return nil
-}
-
-func (e DeviceCategory) MarshalGQL(w io.Writer) {
-	fmt.Fprint(w, strconv.Quote(e.String()))
-}
-
-func (e *DeviceCategory) UnmarshalJSON(b []byte) error {
-	s, err := strconv.Unquote(string(b))
-	if err != nil {
-		return err
-	}
-	return e.UnmarshalGQL(s)
-}
-
-func (e DeviceCategory) MarshalJSON() ([]byte, error) {
-	var buf bytes.Buffer
-	e.MarshalGQL(&buf)
-	return buf.Bytes(), nil
-}
-
 type DeviceConfidenceLevel string
 
 const (
@@ -17545,69 +20911,6 @@ func (e *DeviceHealthStatusEnum) UnmarshalJSON(b []byte) error {
 }
 
 func (e DeviceHealthStatusEnum) MarshalJSON() ([]byte, error) {
-	var buf bytes.Buffer
-	e.MarshalGQL(&buf)
-	return buf.Bytes(), nil
-}
-
-type DeviceV2Category string
-
-const (
-	DeviceV2CategoryIot        DeviceV2Category = "IOT"
-	DeviceV2CategoryMobile     DeviceV2Category = "MOBILE"
-	DeviceV2CategoryNetworking DeviceV2Category = "NETWORKING"
-	DeviceV2CategoryOt         DeviceV2Category = "OT"
-	DeviceV2CategoryPc         DeviceV2Category = "PC"
-	DeviceV2CategoryServer     DeviceV2Category = "SERVER"
-)
-
-var AllDeviceV2Category = []DeviceV2Category{
-	DeviceV2CategoryIot,
-	DeviceV2CategoryMobile,
-	DeviceV2CategoryNetworking,
-	DeviceV2CategoryOt,
-	DeviceV2CategoryPc,
-	DeviceV2CategoryServer,
-}
-
-func (e DeviceV2Category) IsValid() bool {
-	switch e {
-	case DeviceV2CategoryIot, DeviceV2CategoryMobile, DeviceV2CategoryNetworking, DeviceV2CategoryOt, DeviceV2CategoryPc, DeviceV2CategoryServer:
-		return true
-	}
-	return false
-}
-
-func (e DeviceV2Category) String() string {
-	return string(e)
-}
-
-func (e *DeviceV2Category) UnmarshalGQL(v any) error {
-	str, ok := v.(string)
-	if !ok {
-		return fmt.Errorf("enums must be strings")
-	}
-
-	*e = DeviceV2Category(str)
-	if !e.IsValid() {
-		return fmt.Errorf("%s is not a valid DeviceV2Category", str)
-	}
-	return nil
-}
-
-func (e DeviceV2Category) MarshalGQL(w io.Writer) {
-	fmt.Fprint(w, strconv.Quote(e.String()))
-}
-
-func (e *DeviceV2Category) UnmarshalJSON(b []byte) error {
-	s, err := strconv.Unquote(string(b))
-	if err != nil {
-		return err
-	}
-	return e.UnmarshalGQL(s)
-}
-
-func (e DeviceV2Category) MarshalJSON() ([]byte, error) {
 	var buf bytes.Buffer
 	e.MarshalGQL(&buf)
 	return buf.Bytes(), nil
@@ -17999,13 +21302,9 @@ const (
 	//  Any entity (matches everything)
 	EntityTypeAny EntityType = "any"
 	//  Pooled licenses available for use
-	EntityTypeAPIKey EntityType = "apiKey"
-	//  added by joe
 	EntityTypeAvailablePooledUsage EntityType = "availablePooledUsage"
 	//  Site licenses available for use
 	EntityTypeAvailableSiteUsage EntityType = "availableSiteUsage"
-	//  added by joe
-	EntityTypeCasbRule EntityType = "casbRule"
 	//  A settlement with over 1K population
 	EntityTypeCity EntityType = "city"
 	//  Geographical and political entity recognized internationally
@@ -18013,16 +21312,10 @@ const (
 	//  Represents a state or territory within a country. It is a sub-division of the country
 	EntityTypeCountryState EntityType = "countryState"
 	//  A reference to DHCP Relay Group within account
-	EntityTypeDhcpRelayGroup EntityType = "dhcpRelayGroup"
-	//  added by joe
-	EntityTypeGroup             EntityType = "group"
+	EntityTypeDhcpRelayGroup    EntityType = "dhcpRelayGroup"
 	EntityTypeGroupSubscription EntityType = "groupSubscription"
 	//  A reference to the configured Host within Site
 	EntityTypeHost EntityType = "host"
-	//  added by joe
-	EntityTypeInterfaceSubnet EntityType = "interfaceSubnet"
-	//  added by joe
-	EntityTypeIP EntityType = "ip"
 	//  A reference to LAN Firewall Rule within Site
 	EntityTypeLanFirewall EntityType = "lanFirewall"
 	//  A reference to Local Routing Rule within Site
@@ -18031,8 +21324,6 @@ const (
 	EntityTypeMailingListSubscription EntityType = "mailingListSubscription"
 	//  A reference to the configured Network Interface within Site
 	EntityTypeNetworkInterface EntityType = "networkInterface"
-	//  added by joe
-	EntityTypeNetworkRule EntityType = "networkRule"
 	//  Combination of protocol (TCP, UDP, TCP/UDP, ICMP) and port number
 	EntityTypePortProtocol EntityType = "portProtocol"
 	//  l4 services for LAN firewall rules
@@ -18041,14 +21332,8 @@ const (
 	EntityTypeSite EntityType = "site"
 	//  union of the globalRange and a Subnet
 	EntityTypeSiteRange EntityType = "siteRange"
-	//  added by joe
-	EntityTypeSocketInterface EntityType = "socketInterface"
-	//  added by joe
-	EntityTypeSubnet EntityType = "subnet"
 	//  Time zone, which is a geographical region where clocks are set to the same time
 	EntityTypeTimezone EntityType = "timezone"
-	//  added by joe
-	EntityTypeUsersGroup EntityType = "usersGroup"
 	//  A reference to the configured VPN User within Account
 	EntityTypeVpnUser             EntityType = "vpnUser"
 	EntityTypeWebhookSubscription EntityType = "webhookSubscription"
@@ -18059,40 +21344,31 @@ var AllEntityType = []EntityType{
 	EntityTypeAdmin,
 	EntityTypeAllocatedIP,
 	EntityTypeAny,
-	EntityTypeAPIKey,
 	EntityTypeAvailablePooledUsage,
 	EntityTypeAvailableSiteUsage,
-	EntityTypeCasbRule,
 	EntityTypeCity,
 	EntityTypeCountry,
 	EntityTypeCountryState,
 	EntityTypeDhcpRelayGroup,
-	EntityTypeGroup,
 	EntityTypeGroupSubscription,
 	EntityTypeHost,
-	EntityTypeInterfaceSubnet,
-	EntityTypeIP,
 	EntityTypeLanFirewall,
 	EntityTypeLocalRouting,
 	EntityTypeLocation,
 	EntityTypeMailingListSubscription,
 	EntityTypeNetworkInterface,
-	EntityTypeNetworkRule,
 	EntityTypePortProtocol,
 	EntityTypeSimpleService,
 	EntityTypeSite,
 	EntityTypeSiteRange,
-	EntityTypeSocketInterface,
-	EntityTypeSubnet,
 	EntityTypeTimezone,
-	EntityTypeUsersGroup,
 	EntityTypeVpnUser,
 	EntityTypeWebhookSubscription,
 }
 
 func (e EntityType) IsValid() bool {
 	switch e {
-	case EntityTypeAccount, EntityTypeAdmin, EntityTypeAllocatedIP, EntityTypeAny, EntityTypeAPIKey, EntityTypeAvailablePooledUsage, EntityTypeAvailableSiteUsage, EntityTypeCasbRule, EntityTypeCity, EntityTypeCountry, EntityTypeCountryState, EntityTypeDhcpRelayGroup, EntityTypeGroup, EntityTypeGroupSubscription, EntityTypeHost, EntityTypeInterfaceSubnet, EntityTypeIP, EntityTypeLanFirewall, EntityTypeLocalRouting, EntityTypeLocation, EntityTypeMailingListSubscription, EntityTypeNetworkInterface, EntityTypeNetworkRule, EntityTypePortProtocol, EntityTypeSimpleService, EntityTypeSite, EntityTypeSiteRange, EntityTypeSocketInterface, EntityTypeSubnet, EntityTypeTimezone, EntityTypeUsersGroup, EntityTypeVpnUser, EntityTypeWebhookSubscription:
+	case EntityTypeAccount, EntityTypeAdmin, EntityTypeAllocatedIP, EntityTypeAny, EntityTypeAvailablePooledUsage, EntityTypeAvailableSiteUsage, EntityTypeCity, EntityTypeCountry, EntityTypeCountryState, EntityTypeDhcpRelayGroup, EntityTypeGroupSubscription, EntityTypeHost, EntityTypeLanFirewall, EntityTypeLocalRouting, EntityTypeLocation, EntityTypeMailingListSubscription, EntityTypeNetworkInterface, EntityTypePortProtocol, EntityTypeSimpleService, EntityTypeSite, EntityTypeSiteRange, EntityTypeTimezone, EntityTypeVpnUser, EntityTypeWebhookSubscription:
 		return true
 	}
 	return false
@@ -18136,9 +21412,9 @@ func (e EntityType) MarshalJSON() ([]byte, error) {
 type EventFeedFilterFieldName string
 
 const (
-	//  Sub-type for Routing, Security, Connectivity, System or Sockets Management event
+	//  Specific subtype of the event. Supported values include: Dynamic Prevention, AI FireWall, Socket Password Reset, Data Security Alert, VPN Never-Off Bypass, XDR CDR, AI Firewall, External Access Request Update, XDR Endpoint, Recovery via Alt. WAN, SaaS Security API Anti Malware, BGP Events Discarded, ILMM Link Update, Alt. WAN Disconnected, AI User Interaction, New External Access Request Created, Alt. WAN Connected, MDR, Cloud Alert, Endpoint Protection, Remote Access, XDR Anomaly, Socket Bypass, Identity Alert, IP Conflict, Apps Security API Notification, XDR Threat, BFD Session, XDR Network, Registration Code, QUOTA LIMIT, WiFi API, LAN Monitoring, Link-Aggregation, MAC Address Authentication, Off-Cloud Recovery, User, HA Ready, HA Not Ready, LAN port connected, Socket WebUI Access, Misclassification, SDP Portal, SaaS Anomaly, DC Connectivity Failure, Socket Fail-Over, Endpoint Alert, Directory Services, LAN port disconnected, BGP Session, Socket Upgrade, Passive Connected, Passive Disconnected, User Risk Event, LDAP Provisioning, Changed Pop, BGP Routing, Sdp license, Cato Management Application, Last-Mile Quality, SCIM Provisioning, SaaS Security API Data Protection, SDP Activity, ApiKey, Multiple Users Detected, Off-Cloud Transport Disconnect, NG Anti Malware, Off-Cloud Transport Connect, Reconnected, DNS Protection, Always-On Bypass, Authenticated, Application Sign-in, LAN Firewall, Client Connectivity Policy, DHCP Lease, Apps Security API, Suspicious Activity, TLS, Anti Malware, IPS, Disconnected, Connected, Apps Security, RPF, WAN Firewall, Internet Firewall.
 	EventFeedFilterFieldNameEventSubType EventFeedFilterFieldName = "event_sub_type"
-	//  Routing, Security, Connectivity, System or Sockets Management event
+	//  High-level category of the event. Supported values: Security, Connectivity, System, Routing, Sockets Management, Detection and Response, AI Security, Research, Posture.
 	EventFeedFilterFieldNameEventType EventFeedFilterFieldName = "event_type"
 )
 
@@ -18190,13 +21466,17 @@ func (e EventFeedFilterFieldName) MarshalJSON() ([]byte, error) {
 	return buf.Bytes(), nil
 }
 
-// Search operators on Event Feed
+// Operators used when filtering events.
 type EventFeedFilterOperator string
 
 const (
-	EventFeedFilterOperatorIn    EventFeedFilterOperator = "in"
-	EventFeedFilterOperatorIs    EventFeedFilterOperator = "is"
+	//  Match any value in the provided list.
+	EventFeedFilterOperatorIn EventFeedFilterOperator = "in"
+	//  Match a single value.
+	EventFeedFilterOperatorIs EventFeedFilterOperator = "is"
+	//  Exclude a single value.
 	EventFeedFilterOperatorIsNot EventFeedFilterOperator = "is_not"
+	//  Exclude all values in the provided list.
 	EventFeedFilterOperatorNotIn EventFeedFilterOperator = "not_in"
 )
 
@@ -18253,197 +21533,237 @@ func (e EventFeedFilterOperator) MarshalJSON() ([]byte, error) {
 type EventFieldName string
 
 const (
-	//  The ISP related to this event (when the IP address isn't provided by the ISP, then the event message is IP Addresses are assigned statically)
+	//  The ISP related to this event (when the IP address isn't provided by the ISP, then the event message is IP Addresses are assigned statically). CMA Name: ISP Name
 	EventFieldNameIspName EventFieldName = "ISP_name"
-	//  Identifies system access software or device
+	//  Identifies system access software or device. CMA Name: Access Method
 	EventFieldNameAccessMethod EventFieldName = "access_method"
-	//  Account ID
+	//  Identifier of the Wi‑Fi access point (AP) that this event was recorded on. CMA Name: Access Point ID
+	EventFieldNameAccessPointID EventFieldName = "access_point_id"
+	//  Access Point Name. CMA Name: Access Point Name
+	EventFieldNameAccessPointName EventFieldName = "access_point_name"
+	//  Account ID. CMA Name: Account ID
 	EventFieldNameAccountID EventFieldName = "account_id"
-	//  Firewall, QoS or LAG action
+	//  Firewall, QoS or LAG action. CMA Name: Action
 	EventFieldNameAction EventFieldName = "action"
-	//  A list of actions taken, if more than one action was taken as defined by a policy
+	//  A list of actions taken, if more than one action was taken as defined by a policy. CMA Name: Actions Taken
 	EventFieldNameActionsTaken EventFieldName = "actions_taken"
-	//  The activity resource ID being referenced with resource type.
+	//  The activity resource ID being referenced with resource type. CMA Name: Activity Resource ID
 	EventFieldNameActivityResourceID EventFieldName = "activity_resource_id"
-	//  Defines the type of entity performing the action, helping to distinguish between different categories of users.
+	//  Defines the type of entity performing the action, helping to distinguish between different categories of users. CMA Name: Actor Type
 	EventFieldNameActorType EventFieldName = "actor_type"
-	//  Active Directory name
+	//  Active Directory name. CMA Name: Active Directory Name
 	EventFieldNameAdName EventFieldName = "ad_name"
-	//  A unique identifier of the alert notification
+	//  The estimated risk level of the AI threat. CMA Name: Ai App Risk Level
+	EventFieldNameAiAppRiskLevel EventFieldName = "ai_app_risk_level"
+	//  AI Proxy rule name. CMA Name: AI Proxy Rule Name
+	EventFieldNameAiProxyRuleName EventFieldName = "ai_proxy_rule_name"
+	//  A unique identifier of the alert notification. CMA Name: Alert id
 	EventFieldNameAlertID EventFieldName = "alert_id"
-	//  Always-on Configuration
+	//  Always-on Configuration. CMA Name: Always-On
 	EventFieldNameAlwaysOnConfiguration EventFieldName = "always_on_configuration"
-	//  Analyst Verdict
+	//  Analyst Verdict. CMA Name: Analyst Verdict
 	EventFieldNameAnalystVerdict EventFieldName = "analyst_verdict"
-	//  The name of the API, e.g. eventsFeed
+	//  Anti Tamper Bypass Duration In Seconds. CMA Name: Anti Tamper Bypass Duration (Seconds)
+	EventFieldNameAntiTamperBypassDurationSec EventFieldName = "anti_tamper_bypass_duration_sec"
+	//  Anti Tamper Bypass Method. CMA Name: Anti Tamper Bypass Method
+	EventFieldNameAntiTamperBypassMethod EventFieldName = "anti_tamper_bypass_method"
+	//  Anti Tamper Bypass Result. CMA Name: Anti Tamper Bypass Result
+	EventFieldNameAntiTamperBypassResult EventFieldName = "anti_tamper_bypass_result"
+	//  The name of the API, e.g. eventsFeed. CMA Name: Api Name
 	EventFieldNameAPIName EventFieldName = "api_name"
-	//  Specifies whether the API is a query (read) or a mutation (create/update/delete)
+	//  Specifies whether the API is a query (read) or a mutation (create/update/delete). CMA Name: Api Type
 	EventFieldNameAPIType EventFieldName = "api_type"
-	//  Name of application activity
+	//  Name of application activity. CMA Name: Application Activity
 	EventFieldNameAppActivity EventFieldName = "app_activity"
-	//  SaaS user activities into categories.
+	//  SaaS user activities into categories. CMA Name: App Activity Category
 	EventFieldNameAppActivityCategory EventFieldName = "app_activity_category"
-	//  Activity type
+	//  Activity type. CMA Name: App Activity Type
 	EventFieldNameAppActivityType EventFieldName = "app_activity_type"
-	//  Related Apps
+	//  Related Apps. CMA Name: Related Apps
 	EventFieldNameAppStack EventFieldName = "app_stack"
-	//  Application ID of the flow
+	//  Application ID of the flow. CMA Name: Application ID
 	EventFieldNameApplicationID EventFieldName = "application_id"
-	//  The name of the application associated with the flow
+	//  The name of the application associated with the flow. CMA Name: Application
 	EventFieldNameApplicationName EventFieldName = "application_name"
-	//  Application risk score
+	//  Application risk score. CMA Name: Application Risk
 	EventFieldNameApplicationRisk EventFieldName = "application_risk"
-	//  Connectivity authentication method: unauthenticated, OATH2, LDAP or VPN
+	//  Application type (Custom, Private or System). CMA Name: Application Type
+	EventFieldNameApplicationType EventFieldName = "application_type"
+	//  Connectivity authentication method: unauthenticated, OATH2, LDAP or VPN. CMA Name: Authentication Method
 	EventFieldNameAuthMethod EventFieldName = "auth_method"
-	//  Examples: MFA or password
+	//  Examples: MFA or password. CMA Name: Authentication Type
 	EventFieldNameAuthenticationType EventFieldName = "authentication_type"
-	//  BGP ASN for Cato peer
+	//  BGP ASN for Cato peer. CMA Name: BGP Cato ASN
 	EventFieldNameBgpCatoAsn EventFieldName = "bgp_cato_asn"
-	//  BGP IP for Cato peer
+	//  BGP IP for Cato peer. CMA Name: BGP Cato IP
 	EventFieldNameBgpCatoIP EventFieldName = "bgp_cato_ip"
-	//  BGP disconnect error code
+	//  BGP disconnect error code. CMA Name: BGP Disconnect Error Code
 	EventFieldNameBgpErrorCode EventFieldName = "bgp_error_code"
-	//  BGP ASN for remote peer
+	//  BGP ASN for remote peer. CMA Name: BGP Peer ASN
 	EventFieldNameBgpPeerAsn EventFieldName = "bgp_peer_asn"
-	//  BGP IP for remote peer
+	//  BGP IP for remote peer. CMA Name: BGP Peer IP
 	EventFieldNameBgpPeerIP EventFieldName = "bgp_peer_ip"
-	//  CIDR for BGP route
+	//  CIDR for BGP route. CMA Name: BGP Router CIDR
 	EventFieldNameBgpRouteCidr EventFieldName = "bgp_route_cidr"
-	//  BGP disconnect error message
+	//  BGP disconnect error message. CMA Name: BGP Disconnect Sub-error Code
 	EventFieldNameBgpSuberrorCode EventFieldName = "bgp_suberror_code"
-	//  Always-On Bypass Duration In Seconds
+	//  The browser on which the extension is installed. CMA Name: Browser Type
+	EventFieldNameBrowserType EventFieldName = "browser_type"
+	//  The current version of the browser. CMA Name: Browser Version
+	EventFieldNameBrowserVersion EventFieldName = "browser_version"
+	//  Always-On Bypass Duration In Seconds. CMA Name: Bypass Duration (Seconds)
 	EventFieldNameBypassDurationSec EventFieldName = "bypass_duration_sec"
-	//  Always-On Bypass Method
+	//  Always-On Bypass Method. CMA Name: Bypass Method
 	EventFieldNameBypassMethod EventFieldName = "bypass_method"
-	//  Always-On Bypass Reason
+	//  Always-On Bypass Reason. CMA Name: Bypass Reason
 	EventFieldNameBypassReason EventFieldName = "bypass_reason"
-	//  Cato system category
+	//  Cato system category. CMA Name: Category
 	EventFieldNameCategories EventFieldName = "categories"
-	//  Cato application name
+	//  Cato application name. CMA Name: Cato App
 	EventFieldNameCatoApp EventFieldName = "cato_app"
-	//  Activity classification, e.g. FALSE_POSITIVE
+	//  Activity classification, e.g. FALSE_POSITIVE. CMA Name: Classification
 	EventFieldNameClassification EventFieldName = "classification"
-	//  Expiration date for Client certificate
+	//  Expiration date for Client certificate. CMA Name: Certificate Expiration Date
 	EventFieldNameClientCertExpires EventFieldName = "client_cert_expires"
-	//  Name of Client certificate
+	//  Name of Client certificate. CMA Name: Client Certificate Name
 	EventFieldNameClientCertName EventFieldName = "client_cert_name"
-	//  Type of process generating this traffic
+	//  Type of process generating this traffic. CMA Name: Client Class
 	EventFieldNameClientClass EventFieldName = "client_class"
 	// Admins can configure the Client connection mode to control which types of traffic are routed and protected by Cato. The available options are:
 	// All Ports and Protocols – Secures all application traffic across any port or protocol.
 	// Web-only (HTTPS) – Secures only browser-based traffic over HTTPS.
+	// CMA Name: Client Connection Mode
 	EventFieldNameClientConnectionMode EventFieldName = "client_connection_mode"
-	//  Socket or SDP Client version
+	//  Client IP address. CMA Name: Client IP
+	EventFieldNameClientIP EventFieldName = "client_ip"
+	//  The TLS key exchange algorithm negotiated between the Cato PoP and the origin server during TLS inspection. This is the algorithm used to establish the shared secret for encrypting traffic on the client-facing (outbound) side of the proxy. CMA Name: Client Key Exchange Algorithm
+	EventFieldNameClientKeyExchangeAlgorithm EventFieldName = "client_key_exchange_algorithm"
+	//  Socket or SDP Client version. CMA Name: Client Version
 	EventFieldNameClientVersion EventFieldName = "client_version"
-	//  Shows the display name of the target user involved in an activity
+	//  Shows the display name of the target user involved in an activity. CMA Name: Collaborator Name
 	EventFieldNameCollaboratorName EventFieldName = "collaborator_name"
-	//  For SaaS Security API, email addresses of the users that received the file
+	//  Identifies the origin of the target user involved in an activity. CMA Name: Collaborator Origin
+	EventFieldNameCollaboratorOrigin EventFieldName = "collaborator_origin"
+	//  Shows the tenant of the target user involved in an activity. CMA Name: Collaborator Tenant
+	EventFieldNameCollaboratorTenant EventFieldName = "collaborator_tenant"
+	//  For SaaS Security API, email addresses of the users that received the file. CMA Name: Collaborators
 	EventFieldNameCollaborators EventFieldName = "collaborators"
-	//  Confidence Level
+	//  Confidence Level. CMA Name: Confidence Level
 	EventFieldNameConfidenceLevel EventFieldName = "confidence_level"
-	//  For hosts configured with a static IP in the Cato Management Application, the host name
+	//  For hosts configured with a static IP in the Cato Management Application, the host name. CMA Name: Configured Host Name
 	EventFieldNameConfiguredHostName EventFieldName = "configured_host_name"
-	//  The algorithm that is used (CUBIC /NewReno / BBR)
+	//  The algorithm that is used (CUBIC /NewReno / BBR). CMA Name: Congestion Algorithm
 	EventFieldNameCongestionAlgorithm EventFieldName = "congestion_algorithm"
-	//  Connect on boot Enabled/Disabled
+	//  Connect on boot Enabled/Disabled. CMA Name: Connect on Boot
 	EventFieldNameConnectOnBoot EventFieldName = "connect_on_boot"
-	//  Connection Origin
+	//  Connection Origin. CMA Name: Connection Origin
 	EventFieldNameConnectionOrigin EventFieldName = "connection_origin"
 	//  For SaaS Security API, unique identifier of the connector. CMA Name: Connector ID
 	EventFieldNameConnectorID EventFieldName = "connector_id"
 	//  For SaaS Security API, name of the connector. CMA Name: Connector Name
 	EventFieldNameConnectorName EventFieldName = "connector_name"
-	//  For SaaS Security API, status of the connector
+	//  For SaaS Security API, status of the connector. CMA Name: Connector Status
 	EventFieldNameConnectorStatus EventFieldName = "connector_status"
-	//  For SaaS Security API, SaaS app for the connector
+	//  For SaaS Security API, SaaS app for the connector. CMA Name: Connector Type
 	EventFieldNameConnectorType EventFieldName = "connector_type"
-	//  IoC Container Name
+	//  IoC Container Name. CMA Name: Container Name
 	EventFieldNameContainerName EventFieldName = "container_name"
-	//  An external system identifier used for correlation between related Cato entities. Example: external ticket id that correlates Cato XDR stories.
+	//  An external system identifier used for correlation between related Cato entities. Example: external ticket id that correlates Cato XDR stories. CMA Name: Correlation ID
 	EventFieldNameCorrelationID EventFieldName = "correlation_id"
 	//  CPU Core ID. CMA Name: Cpu Core ID
 	EventFieldNameCPUCoreID EventFieldName = "cpu_core_id"
 	//  Criticality. CMA Name: Criticality
 	EventFieldNameCriticality EventFieldName = "criticality"
-	//  Custom category ID
+	//  Custom category ID. CMA Name: Custom Category ID
 	EventFieldNameCustomCategoryID EventFieldName = "custom_category_id"
-	//  Custom category name
+	//  Custom category name. CMA Name: Custom Category Name
 	EventFieldNameCustomCategoryName EventFieldName = "custom_category_name"
-	//  For Internet traffic, country where the destination host is located
+	//  For Internet traffic, country where the destination host is located. CMA Name: Destination Country
 	EventFieldNameDestCountry EventFieldName = "dest_country"
-	//  For Internet traffic, the two letter country code where the destination host is located (based on ISO 3166-1 alpha-2)
+	//  For Internet traffic, the two letter country code where the destination host is located (based on ISO 3166-1 alpha-2). CMA Name: Destination Country Code
 	EventFieldNameDestCountryCode EventFieldName = "dest_country_code"
-	//  The unique identifier by the SaaS vendor for the target group in an activity.
+	//  Destination domain (FQDN-like) based on the SSL SNI, HTTP host name, or DNS name. CMA Name: Dest Domain
+	EventFieldNameDestDomain EventFieldName = "dest_domain"
+	//  Destination endpoint type (Site, SDP User, or App Connector). CMA Name: Destination Endpoint Type
+	EventFieldNameDestEndpointType EventFieldName = "dest_endpoint_type"
+	//  The unique identifier by the SaaS vendor for the target group in an activity. CMA Name: Dest Group ID
 	EventFieldNameDestGroupID EventFieldName = "dest_group_id"
-	//  Identifies the target group involved in an activity
+	//  Identifies the target group involved in an activity. CMA Name: Dest Group Name
 	EventFieldNameDestGroupName EventFieldName = "dest_group_name"
-	//  Destination IP address
+	//  Destination IP address. CMA Name: Destination IP
 	EventFieldNameDestIP EventFieldName = "dest_ip"
-	//  For WAN traffic, destination is site or SDP user
+	//  For WAN traffic, destination is site or SDP user. CMA Name: Destination is Site or SDP User
 	EventFieldNameDestIsSiteOrVpn EventFieldName = "dest_is_site_or_vpn"
-	//  The destination process ID
+	//  The destination process ID. CMA Name: Destination Process PID
 	EventFieldNameDestPid EventFieldName = "dest_pid"
-	//  Destination port
+	//  Destination port. CMA Name: Destination Port
 	EventFieldNameDestPort EventFieldName = "dest_port"
-	//  Destination process command line
+	//  Destination process command line. CMA Name: Destination Process Command Line
 	EventFieldNameDestProcessCmdline EventFieldName = "dest_process_cmdline"
-	//  Destination process parent file path
+	//  Destination process parent file path. CMA Name: Destination Process Parent Path
 	EventFieldNameDestProcessParentPath EventFieldName = "dest_process_parent_path"
-	//  Destination process parent process ID
+	//  Destination process parent process ID. CMA Name: Destination Process Parent PID
 	EventFieldNameDestProcessParentPid EventFieldName = "dest_process_parent_pid"
-	//  Destination process file path
+	//  Destination process file path. CMA Name: Destination Process Path
 	EventFieldNameDestProcessPath EventFieldName = "dest_process_path"
-	//  Unique internal Cato ID for the destination site or remote user
+	//  Unique internal Cato ID for the destination site or remote user. CMA Name: Dest Site ID
 	EventFieldNameDestSiteID EventFieldName = "dest_site_id"
-	//  The name of the destination site
+	//  The name of the destination site. CMA Name: Destination Site
 	EventFieldNameDestSiteName EventFieldName = "dest_site_name"
-	//  Short description of the detection
+	//  Short description of the detection. CMA Name: Detection Name
 	EventFieldNameDetectionName EventFieldName = "detection_name"
 	// Triggered when malware has been detected EPP Behavioral engines and has been dealt with:
 	// • on_detection: the event is triggered upon malware detection;
 	// • on_end_disinfect: the event is triggered upon detection and followed disinfection;
 	// • on_inject: the event is triggered upon code injection.
+	// CMA Name: Detection Stage
 	EventFieldNameDetectionStage EventFieldName = "detection_stage"
-	//  Device Categories
+	//  Device Categories. CMA Name: Device Category
 	EventFieldNameDeviceCategories EventFieldName = "device_categories"
-	//  Device Certificate Validated/Not Validated
+	//  Device Certificate Validated/Not Validated. CMA Name: Device Certificate
 	EventFieldNameDeviceCertificate EventFieldName = "device_certificate"
-	//  Unique Cato ID for devices
+	//  The device compliance state at the time of the event, as reported by Intune. CMA Name: Device Compliance State
+	EventFieldNameDeviceComplianceState EventFieldName = "device_compliance_state"
+	//  Unique Cato ID for devices. CMA Name: Device ID
 	EventFieldNameDeviceID EventFieldName = "device_id"
-	//  Device Manufacturer
+	//  Device Manufacturer. CMA Name: Device Manufacturer
 	EventFieldNameDeviceManufacturer EventFieldName = "device_manufacturer"
-	//  Device Model
+	//  Device Model. CMA Name: Device Model
 	EventFieldNameDeviceModel EventFieldName = "device_model"
-	//  Name for device related to the event
+	//  Name for device related to the event. CMA Name: Device Name
 	EventFieldNameDeviceName EventFieldName = "device_name"
-	//  Device OS Type
+	//  Device OS Type. CMA Name: Device OS Type
 	EventFieldNameDeviceOsType EventFieldName = "device_os_type"
-	//  Device posture profiles
+	//  Device posture profiles. CMA Name: Device Posture Profile
 	EventFieldNameDevicePostureProfile EventFieldName = "device_posture_profile"
-	//  Device Type
+	//  Device Type. CMA Name: Device Type
 	EventFieldNameDeviceType EventFieldName = "device_type"
-	//  Host name of Domain Controller that created LDAP event
+	//  Host name of Domain Controller that created LDAP event. CMA Name: Directory Host Name
 	EventFieldNameDirectoryHostName EventFieldName = "directory_host_name"
-	//  IP address of Domain Controller that created LDAP event
+	//  IP address of Domain Controller that created LDAP event. CMA Name: Directory IP
 	EventFieldNameDirectoryIP EventFieldName = "directory_ip"
-	//  Result of LDAP Domain Controller sync event
+	//  Result of LDAP Domain Controller sync event. CMA Name: Directory Sync Result
 	EventFieldNameDirectorySyncResult EventFieldName = "directory_sync_result"
-	//  Type of LDAP Domain Controller sync event
+	//  Type of LDAP Domain Controller sync event. CMA Name: Directory Sync Type
 	EventFieldNameDirectorySyncType EventFieldName = "directory_sync_type"
-	//  If policy is set to disinfect, return the result of this action
+	//  If policy is set to disinfect, return the result of this action. CMA Name: Disinfect Result
 	EventFieldNameDisinfectResult EventFieldName = "disinfect_result"
-	//  Describes the behavior when the DLP system encounters a failure
+	//  Describes the behavior when the DLP system encounters a failure. CMA Name: DLP Fail Mode
 	EventFieldNameDlpFailMode EventFieldName = "dlp_fail_mode"
-	//  DLP profiles related to the event
+	//  DLP profiles related to the event. CMA Name: DLP Profiles
 	EventFieldNameDlpProfiles EventFieldName = "dlp_profiles"
-	//  Defines the scanning methods used by the DLP system
+	//  Defines the scanning methods used by the DLP system. CMA Name: Data Classifier
 	EventFieldNameDlpScanTypes EventFieldName = "dlp_scan_types"
-	//  Cato’s DNS Protection type that matched the DNS request
+	//  Resolved address for the query. CMA Name: Dns Answer
+	EventFieldNameDNSAnswer EventFieldName = "dns_answer"
+	//  Cato’s DNS Protection type that matched the DNS request. CMA Name: DNS Protection Category
 	EventFieldNameDNSProtectionCategory EventFieldName = "dns_protection_category"
-	//  Domain queried in the DNS request
+	//  Domain queried in the DNS request. CMA Name: DNS Query
 	EventFieldNameDNSQuery EventFieldName = "dns_query"
 	//  Type of record (ie. DNS record: A, AAAA, MX, or PTR). CMA Name: Dns Record Type
 	EventFieldNameDNSRecordType EventFieldName = "dns_record_type"
+	//  The return code for the response. For details, see the Domain Name System Parameters on the Internet Assigned Numbers Authority (IANA) web site. CMA Name: Dns Reply Code
+	EventFieldNameDNSReplyCode EventFieldName = "dns_reply_code"
 	//  Domain name based on the SSL SNI, HTTP host name, or DNS name. CMA Name: Domain Name
 	EventFieldNameDomainName EventFieldName = "domain_name"
 	//  Duration in milliseconds between the start and end of a transaction or operation. For example, in DNS or HTTP events, this reflects the time between the request and the corresponding response. CMA Name: Duration Ms
@@ -18458,35 +21778,35 @@ const (
 	EventFieldNameDynamicControlThreatCategories EventFieldName = "dynamic_control_threat_categories"
 	//  Egress PoP Name. CMA Name: Egress PoP Name
 	EventFieldNameEgressPopName EventFieldName = "egress_pop_name"
-	//  Egress Site Name for backhauling traffic
+	//  Egress Site Name for backhauling traffic. CMA Name: Egress Site
 	EventFieldNameEgressSiteName EventFieldName = "egress_site_name"
-	//  Email Subject
+	//  Email Subject. CMA Name: Email Subject
 	EventFieldNameEmailSubject EventFieldName = "email_subject"
-	//  The ID for the endpoint
+	//  The ID for the endpoint. CMA Name: Endpoint ID
 	EventFieldNameEndpointID EventFieldName = "endpoint_id"
-	//  The engine type associated with the event
+	//  The engine type associated with the event. CMA Name: Engine Type
 	EventFieldNameEngineType EventFieldName = "engine_type"
 	//  The Endpoint Protection Engine that detected the malware. CMA Name: Engine Type
 	EventFieldNameEppEngineType EventFieldName = "epp_engine_type"
 	//  The profile assigned to the endpoint upon detection of the malware. CMA Name: Endpoint Protection Profile
 	EventFieldNameEppProfile EventFieldName = "epp_profile"
-	//  Count for events that are repeated multiple times during one minute
+	//  Count for events that are repeated multiple times during one minute. CMA Name: Event Count
 	EventFieldNameEventCount EventFieldName = "event_count"
-	//  Event Id
+	//  Event Id. CMA Name: Event ID
 	EventFieldNameEventID EventFieldName = "event_id"
-	//  Cato's description of the event
+	//  Cato's description of the event. CMA Name: Event Message
 	EventFieldNameEventMessage EventFieldName = "event_message"
-	//  Sub-type for Routing, Security, Connectivity, System or Sockets Management event
+	//  Sub-type for Routing, Security, Connectivity, System or Sockets Management event. CMA Name: Sub-Type
 	EventFieldNameEventSubType EventFieldName = "event_sub_type"
-	//  Routing, Security, Connectivity, System or Sockets Management event
+	//  Routing, Security, Connectivity, System or Sockets Management event. CMA Name: Event Type
 	EventFieldNameEventType EventFieldName = "event_type"
-	//  Provides details about why a specific action or process failed
+	//  Provides details about why a specific action or process failed. CMA Name: Failure Reason
 	EventFieldNameFailureReason EventFieldName = "failure_reason"
-	//  File hash
+	//  File hash. CMA Name: File Hash
 	EventFieldNameFileHash EventFieldName = "file_hash"
-	//  File name
+	//  File name. CMA Name: File Name
 	EventFieldNameFileName EventFieldName = "file_name"
-	//  The file operation when this event occurred
+	//  The file operation when this event occurred. CMA Name: File Operation
 	EventFieldNameFileOperation EventFieldName = "file_operation"
 	//  File path. CMA Name: File Path
 	EventFieldNameFilePath EventFieldName = "file_path"
@@ -18498,13 +21818,13 @@ const (
 	EventFieldNameFileTopicCategory EventFieldName = "file_topic_category"
 	//  File type. CMA Name: File Type
 	EventFieldNameFileType EventFieldName = "file_type"
-	//  The final status for this object after performing actions as defined by the policy
+	//  The final status for this object after performing actions as defined by the policy. CMA Name: Final Object Status
 	EventFieldNameFinalObjectStatus EventFieldName = "final_object_status"
-	//  Uniquely identifies a traffic flow and enables correlation of events and other records related to the same flow. Only available for native data integration created in the CMA (e.g. Sentinel) and eventsFeed API. Not available in the events or eventsTimeSeries API.
+	//  Uniquely identifies a traffic flow and enables correlation of events and other records related to the same flow. Only available for native data integration created in the CMA and eventsFeed API. Not available in the events or eventsTimeSeries API.
 	EventFieldNameFlowID EventFieldName = "flow_id"
 	//  Amount of flows for a given incident. CMA Name: Flows Cardinality
 	EventFieldNameFlowsCardinality EventFieldName = "flows_cardinality"
-	//  Full path URL application activity
+	//  Full path URL application activity. CMA Name: Full Path URL
 	EventFieldNameFullPathURL EventFieldName = "full_path_url"
 	//  A unique identifier for the AI Security Guard associated with the event. CMA Name: Guard ID
 	EventFieldNameGuardID EventFieldName = "guard_id"
@@ -18514,69 +21834,77 @@ const (
 	EventFieldNameGuardType EventFieldName = "guard_type"
 	//  An identifier for a guest user using Cato through a Captive Portal. CMA Name: Guest User
 	EventFieldNameGuestUser EventFieldName = "guest_user"
-	//  IP address of host related to event
+	//  IP address of host related to event. CMA Name: Host IP
 	EventFieldNameHostIP EventFieldName = "host_ip"
-	//  MAC address of host related to event
+	//  MAC address of host related to event. CMA Name: Host MAC Address
 	EventFieldNameHostMac EventFieldName = "host_mac"
-	//  HTTP request method (ie. Get, Post)
+	//  HTTP request method (ie. Get, Post). CMA Name: Request Method
 	EventFieldNameHTTPRequestMethod EventFieldName = "http_request_method"
 	//  HTTP status code returned (ie. for DNS request, DNS-over-HTTPS (DoH) server when DoH is used). CMA Name: Http Response Code
 	EventFieldNameHTTPResponseCode EventFieldName = "http_response_code"
 	//  For MDR service, a true/false value that indicates if this event is: A summary that aggregates many events (true) Raw network flows for a single event (false). CMA Name: Incident Aggregation
 	EventFieldNameIncidentAggregation EventFieldName = "incident_aggregation"
-	//  Unique Cato ID that identifies this security incident
+	//  Unique Cato ID that identifies this security incident. CMA Name: Incident ID
 	EventFieldNameIncidentID EventFieldName = "incident_id"
-	//  Indication
+	//  Indication. CMA Name: Indication
 	EventFieldNameIndication EventFieldName = "indication"
-	//  Indicator
+	//  Indicator. CMA Name: Indicator
 	EventFieldNameIndicator EventFieldName = "indicator"
-	//  The initial status of the object, before any policy was applied
+	//  The initial status of the object, before any policy was applied. CMA Name: Initial Object Status
 	EventFieldNameInitialObjectStatus EventFieldName = "initial_object_status"
-	//  Cato Internal-use only
+	//  Inferred user intent of the AI interaction (e.g. Seek Advice, Generate Content, Get Information), as classified by the AI Security Engine. CMA Name: Interaction Intent
+	EventFieldNameInteractionIntent EventFieldName = "interaction_intent"
+	//  Sub-topic of the user's AI interaction within the parent interaction_topic, as classified by the AI Security Engine (e.g. for the 'Human Resources' topic: Recruitment, Employee Performance, etc.). CMA Name: Interaction Sub Topic
+	EventFieldNameInteractionSubTopic EventFieldName = "interaction_sub_topic"
+	//  Topic of the user's AI interaction as classified by the AI Security Engine (e.g. Health, Legal, Finance). CMA Name: Interaction Topic
+	EventFieldNameInteractionTopic EventFieldName = "interaction_topic"
+	//  Cato Internal-use only. CMA Name: Internal ID
 	EventFieldNameInternalID EventFieldName = "internalId"
-	//  Network protocol for this event
+	//  Network protocol for this event. CMA Name: IP Protocol
 	EventFieldNameIPProtocol EventFieldName = "ip_protocol"
-	//  Classifies users based on their permissions.
+	//  Classifies users based on their permissions. CMA Name: Is Admin
 	EventFieldNameIsAdmin EventFieldName = "is_admin"
-	//  Indicates whether an activity requires administrative permissions.
+	//  Indicates whether an activity requires administrative permissions. CMA Name: Is Admin Activity
 	EventFieldNameIsAdminActivity EventFieldName = "is_admin_activity"
-	//  Is Compliant
+	//  Is the application a cloud application? True if it is, False if not, null if no catalog application is associated. CMA Name: Is Cloud App
+	EventFieldNameIsCloudApp EventFieldName = "is_cloud_app"
+	//  Is Compliant. CMA Name: Is Compliant
 	EventFieldNameIsCompliant EventFieldName = "is_compliant"
-	//  Is Managed
+	//  Is Managed. CMA Name: Is Managed
 	EventFieldNameIsManaged EventFieldName = "is_managed"
-	//  Is the app for this event defined as a sanctioned app? (True/False)
+	//  Is the app for this event defined as a sanctioned app? (True/False). CMA Name: Is Sanctioned App
 	EventFieldNameIsSanctionedApp EventFieldName = "is_sanctioned_app"
-	//  If the events was part of the sinkhole flow
+	//  If the events was part of the sinkhole flow. CMA Name: Is Sinkhole
 	EventFieldNameIsSinkhole EventFieldName = "is_sinkhole"
-	//  Name defined for the public API Key in the Cato Management Application
+	//  Name defined for the public API Key in the Cato Management Application. CMA Name: Api Key Name
 	EventFieldNameKeyName EventFieldName = "key_name"
-	//  A list of labels providing additional context for the event
+	//  A list of labels providing additional context for the event. CMA Name: Labels
 	EventFieldNameLabels EventFieldName = "labels"
 	//  Role of the conversation participant for the analyzed turn (user, assistant, or tool call). CMA Name: Last Turn Role
 	EventFieldNameLastTurnRole EventFieldName = "last_turn_role"
 	//  Data that measures the congestion for a specific link. CMA Name: Link Health is Congested
 	EventFieldNameLinkHealthIsCongested EventFieldName = "link_health_is_congested"
-	//  Data that measures the jitter for a specific link
+	//  Data that measures the jitter for a specific link. CMA Name: Link Health - Jitter
 	EventFieldNameLinkHealthJitter EventFieldName = "link_health_jitter"
-	//  Round Trip Delay in Milliseconds that it takes a packet to travel between the source and the PoP
+	//  Round Trip Delay in Milliseconds that it takes a packet to travel between the source and the PoP. CMA Name: Link Health - Latency
 	EventFieldNameLinkHealthLatency EventFieldName = "link_health_latency"
-	//  Data that measures the packet loss for a specific link
+	//  Data that measures the packet loss for a specific link. CMA Name: Link Health - Packet Loss
 	EventFieldNameLinkHealthPktLoss EventFieldName = "link_health_pkt_loss"
-	//  Link type – Cato, Alt. WAN or LAG
+	//  Link type – Cato, Alt. WAN or LAG. CMA Name: Link Type
 	EventFieldNameLinkType EventFieldName = "link_type"
-	//  The user logged into this endpoint during this event
+	//  The user logged into this endpoint during this event. CMA Name: Logged In User
 	EventFieldNameLoggedInUser EventFieldName = "logged_in_user"
-	//  Login action, values are: User portal (myvpn.catonetworks.com) or VPN client (Client or site traffic)
+	//  Login action, values are: User portal (myvpn.catonetworks.com) or VPN client (Client or site traffic). CMA Name: Login Type
 	EventFieldNameLoginType EventFieldName = "login_type"
-	//  Matched DLP data types related to the event
+	//  Matched DLP data types related to the event. CMA Name: Matched Data Types
 	EventFieldNameMatchedDataTypes EventFieldName = "matched_data_types"
 	//  Unique identifier used to correlate request and response events for the same message. CMA Name: Message ID
 	EventFieldNameMessageID EventFieldName = "message_id"
 	//  Mitre attack subtechniques. CMA Name: Mitre Attack Subtechniques
 	EventFieldNameMitreAttackSubtechniques EventFieldName = "mitre_attack_subtechniques"
-	//  Mitre attack tactics
+	//  Mitre attack tactics. CMA Name: Mitre Attack Tactics
 	EventFieldNameMitreAttackTactics EventFieldName = "mitre_attack_tactics"
-	//  Mitre attack techniques
+	//  Mitre attack techniques. CMA Name: Mitre Attack Techniques
 	EventFieldNameMitreAttackTechniques EventFieldName = "mitre_attack_techniques"
 	//  Flow NAT error reason. CMA Name: NAT Error
 	EventFieldNameNatError EventFieldName = "nat_error"
@@ -18586,73 +21914,75 @@ const (
 	EventFieldNameNetworkRule EventFieldName = "network_rule"
 	//  For SaaS Security API, API Error of Apps Security Notification. CMA Name: Notification API Error
 	EventFieldNameNotificationAPIError EventFieldName = "notification_api_error"
-	//  For SaaS Security API, description of Apps Security Notification
+	//  For SaaS Security API, description of Apps Security Notification. CMA Name: Notification Description
 	EventFieldNameNotificationDescription EventFieldName = "notification_description"
-	//  Unique identifier by the 3rd party App of the object being referenced
+	//  Unique identifier by the 3rd party App of the object being referenced. CMA Name: Object ID
 	EventFieldNameObjectID EventFieldName = "object_id"
-	//  The name of the object for this event (for example: file name)
+	//  The name of the object for this event (for example: file name). CMA Name: Object Name
 	EventFieldNameObjectName EventFieldName = "object_name"
-	//  Specifies the type of object being acted upon (e.g., file, folder)
+	//  Specifies the type of object being acted upon (e.g., file, folder). CMA Name: Object Type
 	EventFieldNameObjectType EventFieldName = "object_type"
-	//  Office mode Enabled/Disabled
+	//  Office mode Enabled/Disabled. CMA Name: Office Mode
 	EventFieldNameOfficeMode EventFieldName = "office_mode"
-	//  Host OS or tunnel device
+	//  Host OS or tunnel device. CMA Name: OS Type
 	EventFieldNameOsType EventFieldName = "os_type"
-	//  OS version for the device (such as 14.3.0)
+	//  OS version for the device (such as 14.3.0). CMA Name: OS Version
 	EventFieldNameOsVersion EventFieldName = "os_version"
-	//  Indicate if the Access to the 3rd Party SaaS App occurs without passing through Cato Cloud (direct access to saas App)
+	//  Indicate if the Access to the 3rd Party SaaS App occurs without passing through Cato Cloud (direct access to saas App). CMA Name: Out of Band Access
 	EventFieldNameOutOfBandAccess EventFieldName = "out_of_band_access"
 	//  Name of the on-prem deployment  environment where the event originated from. CMA Name: Outpost Environment Name
 	EventFieldNameOutpostEnvironmentName EventFieldName = "outpost_environment_name"
 	//  For SaaS Security API, email address of the file owner. CMA Name: Owner
 	EventFieldNameOwner EventFieldName = "owner"
-	//  Pac File Enabled/Disabled
+	//  Pac File Enabled/Disabled. CMA Name: PAC File
 	EventFieldNamePacFile EventFieldName = "pac_file"
-	//  For SaaS Security API, parent Microsoft 365 connector
+	//  For SaaS Security API, parent Microsoft 365 connector. CMA Name: Parent Connector Name
 	EventFieldNameParentConnectorName EventFieldName = "parent_connector_name"
-	//  Name of PoP location
+	//  Name of PoP location. CMA Name: PoP Name
 	EventFieldNamePopName EventFieldName = "pop_name"
-	//  Precedence
+	//  Precedence. CMA Name: Precedence
 	EventFieldNamePrecedence EventFieldName = "precedence"
-	//  Indicate how many processes are part of this event
+	//  Indicate how many processes are part of this event. CMA Name: Processes Involved Count
 	EventFieldNameProcessesCount EventFieldName = "processes_count"
-	//  Producer
+	//  Producer. CMA Name: Producer
 	EventFieldNameProducer EventFieldName = "producer"
-	//  Related project name(s)
+	//  Related project name(s). CMA Name: Projects
 	EventFieldNameProjects EventFieldName = "projects"
-	//  Prompt Page Selected Action
+	//  Prompt Page Selected Action. CMA Name: Prompt Action
 	EventFieldNamePromptAction EventFieldName = "prompt_action"
-	//  The name of the provider, for example cloud provider - AWS
+	//  The name of the provider, for example cloud provider - AWS. CMA Name: Provider Name
 	EventFieldNameProviderName EventFieldName = "provider_name"
-	//  Public source IP
+	//  Public source IP. CMA Name: Public Source IP
 	EventFieldNamePublicIP EventFieldName = "public_ip"
-	//  QoS Priority value
+	//  QoS Priority value. CMA Name: QoS Priority
 	EventFieldNameQosPriority EventFieldName = "qos_priority"
-	//  For QoS, the time that this QoS event started. The event is generated when the QoS event finishes
+	//  For QoS, the time that this QoS event started. The event is generated when the QoS event finishes. CMA Name: QoS Reported Time
 	EventFieldNameQosReportedTime EventFieldName = "qos_reported_time"
-	//  Specifies the path to a quarantine folder for isolated files
+	//  Specifies the path to a quarantine folder for isolated files. CMA Name: Quarantine Folder Path
 	EventFieldNameQuarantineFolderPath EventFieldName = "quarantine_folder_path"
-	//  A Unique ID for the quarantined file
+	//  A Unique ID for the quarantined file. CMA Name: Quarantine UUID
 	EventFieldNameQuarantineUUID EventFieldName = "quarantine_uuid"
-	//  Raw Data
+	//  Raw Data. Only available for native data integration created in the CMA and eventsFeed API. Not available in the events or eventsTimeSeries API.
 	EventFieldNameRawData EventFieldName = "raw_data"
-	//  Textual recommendation of the steps to take
+	//  RBI Profile used for RBI Session. CMA Name: RBI Profile
+	EventFieldNameRbiProfile EventFieldName = "rbi_profile"
+	//  Textual recommendation of the steps to take. CMA Name: Recommended Actions
 	EventFieldNameRecommendedActions EventFieldName = "recommended_actions"
-	//  The URL that links directly to the object involved in the activity
+	//  The URL that links directly to the object involved in the activity. CMA Name: Reference Url
 	EventFieldNameReferenceURL EventFieldName = "reference_url"
-	//  Referer URL from the HTTP request header indicating the source of the request.
+	//  Referer URL from the HTTP request header indicating the source of the request. CMA Name: Referer Url
 	EventFieldNameRefererURL EventFieldName = "referer_url"
-	//  The region of the object
+	//  The region of the object. CMA Name: Region Name
 	EventFieldNameRegionName EventFieldName = "region_name"
-	//  Registration code used the first time that a SDP user authenticates (the code is partially obfuscated)
+	//  Registration code used the first time that a SDP user authenticates (the code is partially obfuscated). CMA Name: Registration Code
 	EventFieldNameRegistrationCode EventFieldName = "registration_code"
 	//  Request packet size in bytes (ie. DNS request packet). CMA Name: Request Size
 	EventFieldNameRequestSize EventFieldName = "request_size"
 	//  The ID of the resource in the cloud provider. CMA Name: The ID of the resource
 	EventFieldNameResourceID EventFieldName = "resource_id"
-	//  The specific name or identifier of the resource.
+	//  The specific name or identifier of the resource. CMA Name: Resource Name
 	EventFieldNameResourceName EventFieldName = "resource_name"
-	//  The type of resource being referenced.
+	//  The type of resource being referenced. CMA Name: Resource Type
 	EventFieldNameResourceType EventFieldName = "resource_type"
 	//  Response packet size in bytes (ie. DNS response packet). CMA Name: Response Size
 	EventFieldNameResponseSize EventFieldName = "response_size"
@@ -18662,121 +21992,131 @@ const (
 	EventFieldNameRuleExpirationTime EventFieldName = "rule_expiration_time"
 	//  Unique Cato ID for the security rule related to the event. CMA Name: Rule ID
 	EventFieldNameRuleID EventFieldName = "rule_id"
-	//  Rule name
+	//  Rule name. CMA Name: Rule
 	EventFieldNameRuleName EventFieldName = "rule_name"
 	//  Secondary socket serial number. CMA Name: Secondary Socket Serial
 	EventFieldNameSecondarySocketSerial EventFieldName = "secondary_socket_serial"
 	//  Server IP address. CMA Name: Server IP
 	EventFieldNameServerIP EventFieldName = "server_ip"
+	//  The TLS key exchange algorithm negotiated between the connecting client and the Cato PoP during TLS inspection. This is the algorithm used to establish the shared secret for encrypting traffic on the server-facing (inbound) side of the proxy. CMA Name: Server Key Exchange Algorithm
+	EventFieldNameServerKeyExchangeAlgorithm EventFieldName = "server_key_exchange_algorithm"
 	//  Indicates the internal vendor service or module that produced the data reported in this event. CMA Name: Service Name
 	EventFieldNameServiceName EventFieldName = "service_name"
 	//  Unique identifier for grouping multiple messages within the same session. CMA Name: Session ID
 	EventFieldNameSessionID EventFieldName = "session_id"
 	//  Severity defined for the rule. CMA Name: Severity
 	EventFieldNameSeverity EventFieldName = "severity"
-	//  Sharing Options for the file (such as SharePoint)
+	//  Sharing Options for the file (such as SharePoint). CMA Name: Sharing Scope
 	EventFieldNameSharingScope EventFieldName = "sharing_scope"
-	//  Sign In Types
+	//  Sign In Types. CMA Name: Sign In Types
 	EventFieldNameSignInEventTypes EventFieldName = "sign_in_event_types"
-	//  For IPS and SAM, ID of the IPS signature
+	//  For IPS and SAM, ID of the IPS signature. CMA Name: Signature ID
 	EventFieldNameSignatureID EventFieldName = "signature_id"
-	//  Name for Socket interface
+	//  Socket description. CMA Name: Socket Description
+	EventFieldNameSocketDescription EventFieldName = "socket_description"
+	//  Name for Socket interface. CMA Name: Interface ID
 	EventFieldNameSocketInterface EventFieldName = "socket_interface"
-	//  Socket interface ID
+	//  Socket interface ID. CMA Name: Socket Interface ID
 	EventFieldNameSocketInterfaceID EventFieldName = "socket_interface_id"
-	//  For Socket upgrades, new version number
+	//  Socket MAC address. CMA Name: Socket MAC Address
+	EventFieldNameSocketMacAddress EventFieldName = "socket_mac_address"
+	//  For Socket upgrades, new version number. CMA Name: Socket New Version
 	EventFieldNameSocketNewVersion EventFieldName = "socket_new_version"
-	//  For Socket upgrade, previous version number
+	//  For Socket upgrade, previous version number. CMA Name: Socket Old Version
 	EventFieldNameSocketOldVersion EventFieldName = "socket_old_version"
-	//  Type of Socket reset (Hardware/Software)
+	//  Type of Socket reset (Hardware/Software). CMA Name: Socket Reset
 	EventFieldNameSocketReset EventFieldName = "socket_reset"
-	//  For Socket HA events, indicates if the Socket is primary or secondary
+	//  For Socket HA events, indicates if the Socket is primary or secondary. CMA Name: HA Role
 	EventFieldNameSocketRole EventFieldName = "socket_role"
-	//  Socket serial number
+	//  Socket serial number. CMA Name: Socket Serial
 	EventFieldNameSocketSerial EventFieldName = "socket_serial"
-	//  Socket version number
+	//  Socket version number. CMA Name: Socket Version
 	EventFieldNameSocketVersion EventFieldName = "socket_version"
-	//  Split Tunnel Configuration
+	//  Split Tunnel Configuration. CMA Name: Split Tunnel
 	EventFieldNameSplitTunnelConfiguration EventFieldName = "split_tunnel_configuration"
-	//  Country in which the source host is located (detected via public IP address)
+	//  Country in which the source host is located (detected via public IP address). CMA Name: Source Country
 	EventFieldNameSrcCountry EventFieldName = "src_country"
-	//  Country Code of country in which the source host is located (detected via public IP address)
+	//  Country Code of country in which the source host is located (detected via public IP address). CMA Name: Source Country Code
 	EventFieldNameSrcCountryCode EventFieldName = "src_country_code"
-	//  IP for host or Cato Client
+	//  Source endpoint type (Site, SDP User, App Connector, API Client, or OOB). CMA Name: Source Endpoint Type
+	EventFieldNameSrcEndpointType EventFieldName = "src_endpoint_type"
+	//  IP for host or Cato Client. CMA Name: Source IP
 	EventFieldNameSrcIP EventFieldName = "src_ip"
-	//  Source type: site or remote user
+	//  Source type: site or remote user. CMA Name: Source is Site or SDP User
 	EventFieldNameSrcIsSiteOrVpn EventFieldName = "src_is_site_or_vpn"
-	//  IP address provided by ISP to site or Client
+	//  IP address provided by ISP to site or Client. CMA Name: Source ISP IP
 	EventFieldNameSrcIspIP EventFieldName = "src_isp_ip"
-	//  Source process ID
+	//  Source process ID. CMA Name: Source Process PID
 	EventFieldNameSrcPid EventFieldName = "src_pid"
-	//  Internal port number
+	//  Internal port number. CMA Name: Source Port
 	EventFieldNameSrcPort EventFieldName = "src_port"
-	//  Source process command line
+	//  Source process command line. CMA Name: Source Process Command Line
 	EventFieldNameSrcProcessCmdline EventFieldName = "src_process_cmdline"
-	//  Source process parent file path
+	//  Source process parent file path. CMA Name: Source Process Parent Path
 	EventFieldNameSrcProcessParentPath EventFieldName = "src_process_parent_path"
-	//  Source process parent process ID
+	//  Source process parent process ID. CMA Name: Source Process Parent PID
 	EventFieldNameSrcProcessParentPid EventFieldName = "src_process_parent_pid"
-	//  Source process file path
+	//  Source process file path. CMA Name: Source Process Path
 	EventFieldNameSrcProcessPath EventFieldName = "src_process_path"
-	//  Unique internal Cato ID for the site or remote user
+	//  Unique internal Cato ID for the site or remote user. CMA Name: Src Site ID
 	EventFieldNameSrcSiteID EventFieldName = "src_site_id"
-	//  Source site or remote user
+	//  Source site or remote user. CMA Name: Source Site
 	EventFieldNameSrcSiteName EventFieldName = "src_site_name"
-	//  Static host
+	//  Static host. CMA Name: Static Host
 	EventFieldNameStaticHost EventFieldName = "static_host"
 	// The story status.
-	// Possible values: Open, Pending Analysis, Pending more info, Closed, Reopened, Monitoring
+	// Possible values: Open, Pending Analysis, Pending more info, Closed, Reopened, Monitoring.
+	// CMA Name: Status
 	EventFieldNameStatus EventFieldName = "status"
-	//  Story Id
+	//  Story Id. CMA Name: Story ID
 	EventFieldNameStoryID EventFieldName = "story_id"
-	//  Name of subnet as defined in Cato Management Application
+	//  Name of subnet as defined in Cato Management Application. CMA Name: Subnet Name
 	EventFieldNameSubnetName EventFieldName = "subnet_name"
-	//  The name of the subscription
+	//  The name of the subscription. CMA Name: Subscription Name
 	EventFieldNameSubscriptionName EventFieldName = "subscription_name"
-	//  Number of targets (servers) associated with this event
+	//  Number of targets (servers) associated with this event. CMA Name: Targets Cardinality
 	EventFieldNameTargetsCardinality EventFieldName = "targets_cardinality"
-	//  Shows if traffic was TCP accelerated or not
+	//  Shows if traffic was TCP accelerated or not. CMA Name: TCP Acceleration
 	EventFieldNameTCPAcceleration EventFieldName = "tcp_acceleration"
-	//  Unique identifier for the tenant within a multi-tenant environment
+	//  Unique identifier for the tenant within a multi-tenant environment. CMA Name: Tenant ID
 	EventFieldNameTenantID EventFieldName = "tenant_id"
-	//  Tenant Name
+	//  Tenant Name. CMA Name: Tenant Name
 	EventFieldNameTenantName EventFieldName = "tenant_name"
-	//  Tenant Restriction Rule Name
+	//  Tenant Restriction Rule Name. CMA Name: Tenant Restriction Rule Name
 	EventFieldNameTenantRestrictionRuleName EventFieldName = "tenant_restriction_rule_name"
 	// Contains the detection risk level. Could be one of the following:
 	// • Info - this is information-only event, the activity is not malicious;
 	// • Suspicious - the event is suspicious. It may be malicious, but there is not enough information
-	// • Malware - the event is malicious activity
+	// • Malware - the event is malicious activity.
+	// CMA Name: Threat Confidence
 	EventFieldNameThreatConfidence EventFieldName = "threat_confidence"
-	//  For anti-malware events, malware name For IPS events, explains the reason why the traffic was blocked
+	//  For anti-malware events, malware name For IPS events, explains the reason why the traffic was blocked. CMA Name: Threat Name
 	EventFieldNameThreatName EventFieldName = "threat_name"
-	//  Link to external malware reference
+	//  Link to external malware reference. CMA Name: Threat Reference
 	EventFieldNameThreatReference EventFieldName = "threat_reference"
-	//  The higher the score, the more dangerous the event. In range between 1 - 100 inclusive
+	//  The higher the score, the more dangerous the event. In range between 1 - 100 inclusive. CMA Name: Threat Score
 	EventFieldNameThreatScore EventFieldName = "threat_score"
-	//  Type of malware event
+	//  Type of malware event. CMA Name: Threat Type
 	EventFieldNameThreatType EventFieldName = "threat_type"
-	//  Result of malware event (clean indicates a safe file)
+	//  Result of malware event (clean indicates a safe file). CMA Name: Threat Verdict
 	EventFieldNameThreatVerdict EventFieldName = "threat_verdict"
-	//  Time stamp of the event (Linux epoch format)
+	//  Time stamp of the event (Linux epoch format). CMA Name: Time
 	EventFieldNameTime EventFieldName = "time"
-	//  Time stamp of the event (Human-readable format)
+	//  Time stamp of the event (Human-readable format). Only available for native data integration created in the CMA and eventsFeed API. Not available in the events or eventsTimeSeries API.
 	EventFieldNameTimeStr EventFieldName = "time_str"
-	//  A short summary of the activity
+	//  A short summary of the activity. CMA Name: Title
 	EventFieldNameTitle EventFieldName = "title"
-	//  TLS Certificate Error
+	//  TLS Certificate Error. CMA Name: TLS Certificate Error
 	EventFieldNameTLSCertificateError EventFieldName = "tls_certificate_error"
-	//  TLS Error Description
+	//  TLS Error Description. CMA Name: TLS Error Description
 	EventFieldNameTLSErrorDescription EventFieldName = "tls_error_description"
-	//  TLS Error Type
+	//  TLS Error Type. CMA Name: TLS Error Type
 	EventFieldNameTLSErrorType EventFieldName = "tls_error_type"
-	//  Shows if traffic was TLS inspected or not
+	//  Shows if traffic was TLS inspected or not. CMA Name: TLS Inspection
 	EventFieldNameTLSInspection EventFieldName = "tls_inspection"
-	//  TLS Inspection rule name
+	//  TLS Inspection rule name. CMA Name: TLS Rule Name
 	EventFieldNameTLSRuleName EventFieldName = "tls_rule_name"
-	//  TLS Version
+	//  TLS Version. CMA Name: TLS Version
 	EventFieldNameTLSVersion EventFieldName = "tls_version"
 	//  Total number of tokens processed. CMA Name: Total Tokens
 	EventFieldNameTotalTokens EventFieldName = "total_tokens"
@@ -18786,55 +22126,55 @@ const (
 	EventFieldNameTransactionSize EventFieldName = "transaction_size"
 	//  Translated Client IP. CMA Name: Translated Client IP
 	EventFieldNameTranslatedClientIP EventFieldName = "translated_client_ip"
-	//  Translated Server IP
+	//  Translated Server IP. CMA Name: Translated Server IP
 	EventFieldNameTranslatedServerIP EventFieldName = "translated_server_ip"
-	//  Trigger
+	//  Trigger. CMA Name: Trigger
 	EventFieldNameTrigger EventFieldName = "trigger"
-	//  Trust Type
+	//  Trust Type. CMA Name: Trust Type
 	EventFieldNameTrustType EventFieldName = "trust_type"
-	//  Trusted networks Enabled/Disabled
+	//  Trusted networks Enabled/Disabled. CMA Name: Trusted Networks
 	EventFieldNameTrustedNetworks EventFieldName = "trusted_networks"
-	//  Tunnel Protocol TCP/UDP
+	//  Tunnel Protocol TCP/UDP. CMA Name: Tunnel IP Protocol
 	EventFieldNameTunnelIPProtocol EventFieldName = "tunnel_ip_protocol"
-	//  Protocol for the tunnel
+	//  Protocol for the tunnel. CMA Name: Tunnel Protocol
 	EventFieldNameTunnelProtocol EventFieldName = "tunnel_protocol"
-	//  Socket upgrade end time (Linux epoch format):
+	//  Socket upgrade end time (Linux epoch format):. CMA Name: Upgrade End Time
 	EventFieldNameUpgradeEndTime EventFieldName = "upgrade_end_time"
-	//  Indicates if the Socket upgrade occurred during the maintenance window or initiated by Support (Cato Admin)
+	//  Indicates if the Socket upgrade occurred during the maintenance window or initiated by Support (Cato Admin). CMA Name: Upgrade Initiated By
 	EventFieldNameUpgradeInitiatedBy EventFieldName = "upgrade_initiated_by"
-	//  Socket upgrade start time (Linux epoch format)
+	//  Socket upgrade start time (Linux epoch format). CMA Name: Upgrade Start Time
 	EventFieldNameUpgradeStartTime EventFieldName = "upgrade_start_time"
-	//  URL associated with the event
+	//  URL associated with the event. CMA Name: URL
 	EventFieldNameURL EventFieldName = "url"
-	//  User Agent
+	//  User Agent. CMA Name: User Agent
 	EventFieldNameUserAgent EventFieldName = "user_agent"
-	//  Method used to get identity with User Awareness (such as Identity Agent)
+	//  Method used to get identity with User Awareness (such as Identity Agent). CMA Name: User Awareness Method
 	EventFieldNameUserAwarenessMethod EventFieldName = "user_awareness_method"
-	//  User ID
+	//  User ID. CMA Name: User ID
 	EventFieldNameUserID EventFieldName = "user_id"
-	//  User that generated the event
+	//  User that generated the event. CMA Name: User Name
 	EventFieldNameUserName EventFieldName = "user_name"
-	//  Identifies the origin of the user’s connection.
+	//  Identifies the origin of the user’s connection. CMA Name: User Origin
 	EventFieldNameUserOrigin EventFieldName = "user_origin"
-	//  For Block/Prompt page, reference ID to report incorrect category
+	//  For Block/Prompt page, reference ID to report incorrect category. CMA Name: Event Reference ID
 	EventFieldNameUserReferenceID EventFieldName = "user_reference_id"
-	//  User risk level category
+	//  User risk level category. CMA Name: User Risk Level
 	EventFieldNameUserRiskLevel EventFieldName = "user_risk_level"
-	//  The vendor that identified the incident, such as Cato or Microsoft
+	//  The vendor that identified the incident, such as Cato or Microsoft. CMA Name: Vendor
 	EventFieldNameVendor EventFieldName = "vendor"
-	//  Shows the id of the target user involved in an activity
+	//  Shows the id of the target user involved in an activity. CMA Name: Vendor Collaborator ID
 	EventFieldNameVendorCollaboratorID EventFieldName = "vendor_collaborator_id"
-	//  Vendor Device Id
+	//  Vendor Device Id. CMA Name: Vendor Device ID
 	EventFieldNameVendorDeviceID EventFieldName = "vendor_device_id"
-	//  Vendor Device Name
+	//  Vendor Device Name. CMA Name: Vendor Device Name
 	EventFieldNameVendorDeviceName EventFieldName = "vendor_device_name"
-	//  Vendor Event Id
+	//  Vendor Event Id. CMA Name: Vendor Event ID
 	EventFieldNameVendorEventID EventFieldName = "vendor_event_id"
 	//  Identifies the organization in the vendor’s system. CMA Name: Vendor Org ID
 	EventFieldNameVendorOrgID EventFieldName = "vendor_org_id"
 	//  Third party vendor policy description. CMA Name: Vendor Policy Description
 	EventFieldNameVendorPolicyDescription EventFieldName = "vendor_policy_description"
-	//  Third party vendor policy ID
+	//  Third party vendor policy ID. CMA Name: Vendor Policy ID
 	EventFieldNameVendorPolicyID EventFieldName = "vendor_policy_id"
 	//  Third party vendor policy name. CMA Name: Vendor Policy Name
 	EventFieldNameVendorPolicyName EventFieldName = "vendor_policy_name"
@@ -18842,11 +22182,11 @@ const (
 	EventFieldNameVendorSiteID EventFieldName = "vendor_site_id"
 	//  Identifies the user in the vendor’s system. CMA Name: Vendor User ID
 	EventFieldNameVendorUserID EventFieldName = "vendor_user_id"
-	//  Unique Cato Visible ID for devices
+	//  Unique Cato Visible ID for devices. CMA Name: Device ID
 	EventFieldNameVisibleDeviceID EventFieldName = "visible_device_id"
-	//  Lan access Allowed / Blocked
+	//  Lan access Allowed / Blocked. CMA Name: LAN Access
 	EventFieldNameVpnLanAccess EventFieldName = "vpn_lan_access"
-	//  User’s email address
+	//  User’s email address. CMA Name: SDP User Email
 	EventFieldNameVpnUserEmail EventFieldName = "vpn_user_email"
 	//  WiFi authentication type. CMA Name: Wifi Authentication Type
 	EventFieldNameWifiAuthenticationType EventFieldName = "wifi_authentication_type"
@@ -18862,6 +22202,8 @@ const (
 	EventFieldNameWifiEventType EventFieldName = "wifi_event_type"
 	//  Wifi Event Type Code. CMA Name: Wifi Event Type Code
 	EventFieldNameWifiEventTypeCode EventFieldName = "wifi_event_type_code"
+	//  WiFi event display name as shown in the vendor's management application. CMA Name: Wifi Event Vendor Name
+	EventFieldNameWifiEventVendorName EventFieldName = "wifi_event_vendor_name"
 	//  Wifi  Protocol. CMA Name: Wifi Protocol
 	EventFieldNameWifiProtocol EventFieldName = "wifi_protocol"
 	//  WiFi radio band. CMA Name: Wifi Radio Band
@@ -18883,15 +22225,22 @@ const (
 var AllEventFieldName = []EventFieldName{
 	EventFieldNameIspName,
 	EventFieldNameAccessMethod,
+	EventFieldNameAccessPointID,
+	EventFieldNameAccessPointName,
 	EventFieldNameAccountID,
 	EventFieldNameAction,
 	EventFieldNameActionsTaken,
 	EventFieldNameActivityResourceID,
 	EventFieldNameActorType,
 	EventFieldNameAdName,
+	EventFieldNameAiAppRiskLevel,
+	EventFieldNameAiProxyRuleName,
 	EventFieldNameAlertID,
 	EventFieldNameAlwaysOnConfiguration,
 	EventFieldNameAnalystVerdict,
+	EventFieldNameAntiTamperBypassDurationSec,
+	EventFieldNameAntiTamperBypassMethod,
+	EventFieldNameAntiTamperBypassResult,
 	EventFieldNameAPIName,
 	EventFieldNameAPIType,
 	EventFieldNameAppActivity,
@@ -18901,6 +22250,7 @@ var AllEventFieldName = []EventFieldName{
 	EventFieldNameApplicationID,
 	EventFieldNameApplicationName,
 	EventFieldNameApplicationRisk,
+	EventFieldNameApplicationType,
 	EventFieldNameAuthMethod,
 	EventFieldNameAuthenticationType,
 	EventFieldNameBgpCatoAsn,
@@ -18910,6 +22260,8 @@ var AllEventFieldName = []EventFieldName{
 	EventFieldNameBgpPeerIP,
 	EventFieldNameBgpRouteCidr,
 	EventFieldNameBgpSuberrorCode,
+	EventFieldNameBrowserType,
+	EventFieldNameBrowserVersion,
 	EventFieldNameBypassDurationSec,
 	EventFieldNameBypassMethod,
 	EventFieldNameBypassReason,
@@ -18920,8 +22272,12 @@ var AllEventFieldName = []EventFieldName{
 	EventFieldNameClientCertName,
 	EventFieldNameClientClass,
 	EventFieldNameClientConnectionMode,
+	EventFieldNameClientIP,
+	EventFieldNameClientKeyExchangeAlgorithm,
 	EventFieldNameClientVersion,
 	EventFieldNameCollaboratorName,
+	EventFieldNameCollaboratorOrigin,
+	EventFieldNameCollaboratorTenant,
 	EventFieldNameCollaborators,
 	EventFieldNameConfidenceLevel,
 	EventFieldNameConfiguredHostName,
@@ -18940,6 +22296,8 @@ var AllEventFieldName = []EventFieldName{
 	EventFieldNameCustomCategoryName,
 	EventFieldNameDestCountry,
 	EventFieldNameDestCountryCode,
+	EventFieldNameDestDomain,
+	EventFieldNameDestEndpointType,
 	EventFieldNameDestGroupID,
 	EventFieldNameDestGroupName,
 	EventFieldNameDestIP,
@@ -18956,6 +22314,7 @@ var AllEventFieldName = []EventFieldName{
 	EventFieldNameDetectionStage,
 	EventFieldNameDeviceCategories,
 	EventFieldNameDeviceCertificate,
+	EventFieldNameDeviceComplianceState,
 	EventFieldNameDeviceID,
 	EventFieldNameDeviceManufacturer,
 	EventFieldNameDeviceModel,
@@ -18971,9 +22330,11 @@ var AllEventFieldName = []EventFieldName{
 	EventFieldNameDlpFailMode,
 	EventFieldNameDlpProfiles,
 	EventFieldNameDlpScanTypes,
+	EventFieldNameDNSAnswer,
 	EventFieldNameDNSProtectionCategory,
 	EventFieldNameDNSQuery,
 	EventFieldNameDNSRecordType,
+	EventFieldNameDNSReplyCode,
 	EventFieldNameDomainName,
 	EventFieldNameDurationMs,
 	EventFieldNameDynamicControlIds,
@@ -19018,10 +22379,14 @@ var AllEventFieldName = []EventFieldName{
 	EventFieldNameIndication,
 	EventFieldNameIndicator,
 	EventFieldNameInitialObjectStatus,
+	EventFieldNameInteractionIntent,
+	EventFieldNameInteractionSubTopic,
+	EventFieldNameInteractionTopic,
 	EventFieldNameInternalID,
 	EventFieldNameIPProtocol,
 	EventFieldNameIsAdmin,
 	EventFieldNameIsAdminActivity,
+	EventFieldNameIsCloudApp,
 	EventFieldNameIsCompliant,
 	EventFieldNameIsManaged,
 	EventFieldNameIsSanctionedApp,
@@ -19070,6 +22435,7 @@ var AllEventFieldName = []EventFieldName{
 	EventFieldNameQuarantineFolderPath,
 	EventFieldNameQuarantineUUID,
 	EventFieldNameRawData,
+	EventFieldNameRbiProfile,
 	EventFieldNameRecommendedActions,
 	EventFieldNameReferenceURL,
 	EventFieldNameRefererURL,
@@ -19086,14 +22452,17 @@ var AllEventFieldName = []EventFieldName{
 	EventFieldNameRuleName,
 	EventFieldNameSecondarySocketSerial,
 	EventFieldNameServerIP,
+	EventFieldNameServerKeyExchangeAlgorithm,
 	EventFieldNameServiceName,
 	EventFieldNameSessionID,
 	EventFieldNameSeverity,
 	EventFieldNameSharingScope,
 	EventFieldNameSignInEventTypes,
 	EventFieldNameSignatureID,
+	EventFieldNameSocketDescription,
 	EventFieldNameSocketInterface,
 	EventFieldNameSocketInterfaceID,
+	EventFieldNameSocketMacAddress,
 	EventFieldNameSocketNewVersion,
 	EventFieldNameSocketOldVersion,
 	EventFieldNameSocketReset,
@@ -19103,6 +22472,7 @@ var AllEventFieldName = []EventFieldName{
 	EventFieldNameSplitTunnelConfiguration,
 	EventFieldNameSrcCountry,
 	EventFieldNameSrcCountryCode,
+	EventFieldNameSrcEndpointType,
 	EventFieldNameSrcIP,
 	EventFieldNameSrcIsSiteOrVpn,
 	EventFieldNameSrcIspIP,
@@ -19181,6 +22551,7 @@ var AllEventFieldName = []EventFieldName{
 	EventFieldNameWifiEventReasonCode,
 	EventFieldNameWifiEventType,
 	EventFieldNameWifiEventTypeCode,
+	EventFieldNameWifiEventVendorName,
 	EventFieldNameWifiProtocol,
 	EventFieldNameWifiRadioBand,
 	EventFieldNameWifiSecurity,
@@ -19193,7 +22564,7 @@ var AllEventFieldName = []EventFieldName{
 
 func (e EventFieldName) IsValid() bool {
 	switch e {
-	case EventFieldNameIspName, EventFieldNameAccessMethod, EventFieldNameAccountID, EventFieldNameAction, EventFieldNameActionsTaken, EventFieldNameActivityResourceID, EventFieldNameActorType, EventFieldNameAdName, EventFieldNameAlertID, EventFieldNameAlwaysOnConfiguration, EventFieldNameAnalystVerdict, EventFieldNameAPIName, EventFieldNameAPIType, EventFieldNameAppActivity, EventFieldNameAppActivityCategory, EventFieldNameAppActivityType, EventFieldNameAppStack, EventFieldNameApplicationID, EventFieldNameApplicationName, EventFieldNameApplicationRisk, EventFieldNameAuthMethod, EventFieldNameAuthenticationType, EventFieldNameBgpCatoAsn, EventFieldNameBgpCatoIP, EventFieldNameBgpErrorCode, EventFieldNameBgpPeerAsn, EventFieldNameBgpPeerIP, EventFieldNameBgpRouteCidr, EventFieldNameBgpSuberrorCode, EventFieldNameBypassDurationSec, EventFieldNameBypassMethod, EventFieldNameBypassReason, EventFieldNameCategories, EventFieldNameCatoApp, EventFieldNameClassification, EventFieldNameClientCertExpires, EventFieldNameClientCertName, EventFieldNameClientClass, EventFieldNameClientConnectionMode, EventFieldNameClientVersion, EventFieldNameCollaboratorName, EventFieldNameCollaborators, EventFieldNameConfidenceLevel, EventFieldNameConfiguredHostName, EventFieldNameCongestionAlgorithm, EventFieldNameConnectOnBoot, EventFieldNameConnectionOrigin, EventFieldNameConnectorID, EventFieldNameConnectorName, EventFieldNameConnectorStatus, EventFieldNameConnectorType, EventFieldNameContainerName, EventFieldNameCorrelationID, EventFieldNameCPUCoreID, EventFieldNameCriticality, EventFieldNameCustomCategoryID, EventFieldNameCustomCategoryName, EventFieldNameDestCountry, EventFieldNameDestCountryCode, EventFieldNameDestGroupID, EventFieldNameDestGroupName, EventFieldNameDestIP, EventFieldNameDestIsSiteOrVpn, EventFieldNameDestPid, EventFieldNameDestPort, EventFieldNameDestProcessCmdline, EventFieldNameDestProcessParentPath, EventFieldNameDestProcessParentPid, EventFieldNameDestProcessPath, EventFieldNameDestSiteID, EventFieldNameDestSiteName, EventFieldNameDetectionName, EventFieldNameDetectionStage, EventFieldNameDeviceCategories, EventFieldNameDeviceCertificate, EventFieldNameDeviceID, EventFieldNameDeviceManufacturer, EventFieldNameDeviceModel, EventFieldNameDeviceName, EventFieldNameDeviceOsType, EventFieldNameDevicePostureProfile, EventFieldNameDeviceType, EventFieldNameDirectoryHostName, EventFieldNameDirectoryIP, EventFieldNameDirectorySyncResult, EventFieldNameDirectorySyncType, EventFieldNameDisinfectResult, EventFieldNameDlpFailMode, EventFieldNameDlpProfiles, EventFieldNameDlpScanTypes, EventFieldNameDNSProtectionCategory, EventFieldNameDNSQuery, EventFieldNameDNSRecordType, EventFieldNameDomainName, EventFieldNameDurationMs, EventFieldNameDynamicControlIds, EventFieldNameDynamicControlNames, EventFieldNameDynamicControlScope, EventFieldNameDynamicControlThreatCategories, EventFieldNameEgressPopName, EventFieldNameEgressSiteName, EventFieldNameEmailSubject, EventFieldNameEndpointID, EventFieldNameEngineType, EventFieldNameEppEngineType, EventFieldNameEppProfile, EventFieldNameEventCount, EventFieldNameEventID, EventFieldNameEventMessage, EventFieldNameEventSubType, EventFieldNameEventType, EventFieldNameFailureReason, EventFieldNameFileHash, EventFieldNameFileName, EventFieldNameFileOperation, EventFieldNameFilePath, EventFieldNameFileSize, EventFieldNameFileTopic, EventFieldNameFileTopicCategory, EventFieldNameFileType, EventFieldNameFinalObjectStatus, EventFieldNameFlowID, EventFieldNameFlowsCardinality, EventFieldNameFullPathURL, EventFieldNameGuardID, EventFieldNameGuardName, EventFieldNameGuardType, EventFieldNameGuestUser, EventFieldNameHostIP, EventFieldNameHostMac, EventFieldNameHTTPRequestMethod, EventFieldNameHTTPResponseCode, EventFieldNameIncidentAggregation, EventFieldNameIncidentID, EventFieldNameIndication, EventFieldNameIndicator, EventFieldNameInitialObjectStatus, EventFieldNameInternalID, EventFieldNameIPProtocol, EventFieldNameIsAdmin, EventFieldNameIsAdminActivity, EventFieldNameIsCompliant, EventFieldNameIsManaged, EventFieldNameIsSanctionedApp, EventFieldNameIsSinkhole, EventFieldNameKeyName, EventFieldNameLabels, EventFieldNameLastTurnRole, EventFieldNameLinkHealthIsCongested, EventFieldNameLinkHealthJitter, EventFieldNameLinkHealthLatency, EventFieldNameLinkHealthPktLoss, EventFieldNameLinkType, EventFieldNameLoggedInUser, EventFieldNameLoginType, EventFieldNameMatchedDataTypes, EventFieldNameMessageID, EventFieldNameMitreAttackSubtechniques, EventFieldNameMitreAttackTactics, EventFieldNameMitreAttackTechniques, EventFieldNameNatError, EventFieldNameNetworkAccess, EventFieldNameNetworkRule, EventFieldNameNotificationAPIError, EventFieldNameNotificationDescription, EventFieldNameObjectID, EventFieldNameObjectName, EventFieldNameObjectType, EventFieldNameOfficeMode, EventFieldNameOsType, EventFieldNameOsVersion, EventFieldNameOutOfBandAccess, EventFieldNameOutpostEnvironmentName, EventFieldNameOwner, EventFieldNamePacFile, EventFieldNameParentConnectorName, EventFieldNamePopName, EventFieldNamePrecedence, EventFieldNameProcessesCount, EventFieldNameProducer, EventFieldNameProjects, EventFieldNamePromptAction, EventFieldNameProviderName, EventFieldNamePublicIP, EventFieldNameQosPriority, EventFieldNameQosReportedTime, EventFieldNameQuarantineFolderPath, EventFieldNameQuarantineUUID, EventFieldNameRawData, EventFieldNameRecommendedActions, EventFieldNameReferenceURL, EventFieldNameRefererURL, EventFieldNameRegionName, EventFieldNameRegistrationCode, EventFieldNameRequestSize, EventFieldNameResourceID, EventFieldNameResourceName, EventFieldNameResourceType, EventFieldNameResponseSize, EventFieldNameRiskLevel, EventFieldNameRuleExpirationTime, EventFieldNameRuleID, EventFieldNameRuleName, EventFieldNameSecondarySocketSerial, EventFieldNameServerIP, EventFieldNameServiceName, EventFieldNameSessionID, EventFieldNameSeverity, EventFieldNameSharingScope, EventFieldNameSignInEventTypes, EventFieldNameSignatureID, EventFieldNameSocketInterface, EventFieldNameSocketInterfaceID, EventFieldNameSocketNewVersion, EventFieldNameSocketOldVersion, EventFieldNameSocketReset, EventFieldNameSocketRole, EventFieldNameSocketSerial, EventFieldNameSocketVersion, EventFieldNameSplitTunnelConfiguration, EventFieldNameSrcCountry, EventFieldNameSrcCountryCode, EventFieldNameSrcIP, EventFieldNameSrcIsSiteOrVpn, EventFieldNameSrcIspIP, EventFieldNameSrcPid, EventFieldNameSrcPort, EventFieldNameSrcProcessCmdline, EventFieldNameSrcProcessParentPath, EventFieldNameSrcProcessParentPid, EventFieldNameSrcProcessPath, EventFieldNameSrcSiteID, EventFieldNameSrcSiteName, EventFieldNameStaticHost, EventFieldNameStatus, EventFieldNameStoryID, EventFieldNameSubnetName, EventFieldNameSubscriptionName, EventFieldNameTargetsCardinality, EventFieldNameTCPAcceleration, EventFieldNameTenantID, EventFieldNameTenantName, EventFieldNameTenantRestrictionRuleName, EventFieldNameThreatConfidence, EventFieldNameThreatName, EventFieldNameThreatReference, EventFieldNameThreatScore, EventFieldNameThreatType, EventFieldNameThreatVerdict, EventFieldNameTime, EventFieldNameTimeStr, EventFieldNameTitle, EventFieldNameTLSCertificateError, EventFieldNameTLSErrorDescription, EventFieldNameTLSErrorType, EventFieldNameTLSInspection, EventFieldNameTLSRuleName, EventFieldNameTLSVersion, EventFieldNameTotalTokens, EventFieldNameTrafficDirection, EventFieldNameTransactionSize, EventFieldNameTranslatedClientIP, EventFieldNameTranslatedServerIP, EventFieldNameTrigger, EventFieldNameTrustType, EventFieldNameTrustedNetworks, EventFieldNameTunnelIPProtocol, EventFieldNameTunnelProtocol, EventFieldNameUpgradeEndTime, EventFieldNameUpgradeInitiatedBy, EventFieldNameUpgradeStartTime, EventFieldNameURL, EventFieldNameUserAgent, EventFieldNameUserAwarenessMethod, EventFieldNameUserID, EventFieldNameUserName, EventFieldNameUserOrigin, EventFieldNameUserReferenceID, EventFieldNameUserRiskLevel, EventFieldNameVendor, EventFieldNameVendorCollaboratorID, EventFieldNameVendorDeviceID, EventFieldNameVendorDeviceName, EventFieldNameVendorEventID, EventFieldNameVendorOrgID, EventFieldNameVendorPolicyDescription, EventFieldNameVendorPolicyID, EventFieldNameVendorPolicyName, EventFieldNameVendorSiteID, EventFieldNameVendorUserID, EventFieldNameVisibleDeviceID, EventFieldNameVpnLanAccess, EventFieldNameVpnUserEmail, EventFieldNameWifiAuthenticationType, EventFieldNameWifiBssid, EventFieldNameWifiChannel, EventFieldNameWifiDescription, EventFieldNameWifiEventReasonCode, EventFieldNameWifiEventType, EventFieldNameWifiEventTypeCode, EventFieldNameWifiProtocol, EventFieldNameWifiRadioBand, EventFieldNameWifiSecurity, EventFieldNameWifiSignalStrength, EventFieldNameWifiSsid, EventFieldNameWifiTimeSinceAssocMs, EventFieldNameWindowsDomainName, EventFieldNameXff:
+	case EventFieldNameIspName, EventFieldNameAccessMethod, EventFieldNameAccessPointID, EventFieldNameAccessPointName, EventFieldNameAccountID, EventFieldNameAction, EventFieldNameActionsTaken, EventFieldNameActivityResourceID, EventFieldNameActorType, EventFieldNameAdName, EventFieldNameAiAppRiskLevel, EventFieldNameAiProxyRuleName, EventFieldNameAlertID, EventFieldNameAlwaysOnConfiguration, EventFieldNameAnalystVerdict, EventFieldNameAntiTamperBypassDurationSec, EventFieldNameAntiTamperBypassMethod, EventFieldNameAntiTamperBypassResult, EventFieldNameAPIName, EventFieldNameAPIType, EventFieldNameAppActivity, EventFieldNameAppActivityCategory, EventFieldNameAppActivityType, EventFieldNameAppStack, EventFieldNameApplicationID, EventFieldNameApplicationName, EventFieldNameApplicationRisk, EventFieldNameApplicationType, EventFieldNameAuthMethod, EventFieldNameAuthenticationType, EventFieldNameBgpCatoAsn, EventFieldNameBgpCatoIP, EventFieldNameBgpErrorCode, EventFieldNameBgpPeerAsn, EventFieldNameBgpPeerIP, EventFieldNameBgpRouteCidr, EventFieldNameBgpSuberrorCode, EventFieldNameBrowserType, EventFieldNameBrowserVersion, EventFieldNameBypassDurationSec, EventFieldNameBypassMethod, EventFieldNameBypassReason, EventFieldNameCategories, EventFieldNameCatoApp, EventFieldNameClassification, EventFieldNameClientCertExpires, EventFieldNameClientCertName, EventFieldNameClientClass, EventFieldNameClientConnectionMode, EventFieldNameClientIP, EventFieldNameClientKeyExchangeAlgorithm, EventFieldNameClientVersion, EventFieldNameCollaboratorName, EventFieldNameCollaboratorOrigin, EventFieldNameCollaboratorTenant, EventFieldNameCollaborators, EventFieldNameConfidenceLevel, EventFieldNameConfiguredHostName, EventFieldNameCongestionAlgorithm, EventFieldNameConnectOnBoot, EventFieldNameConnectionOrigin, EventFieldNameConnectorID, EventFieldNameConnectorName, EventFieldNameConnectorStatus, EventFieldNameConnectorType, EventFieldNameContainerName, EventFieldNameCorrelationID, EventFieldNameCPUCoreID, EventFieldNameCriticality, EventFieldNameCustomCategoryID, EventFieldNameCustomCategoryName, EventFieldNameDestCountry, EventFieldNameDestCountryCode, EventFieldNameDestDomain, EventFieldNameDestEndpointType, EventFieldNameDestGroupID, EventFieldNameDestGroupName, EventFieldNameDestIP, EventFieldNameDestIsSiteOrVpn, EventFieldNameDestPid, EventFieldNameDestPort, EventFieldNameDestProcessCmdline, EventFieldNameDestProcessParentPath, EventFieldNameDestProcessParentPid, EventFieldNameDestProcessPath, EventFieldNameDestSiteID, EventFieldNameDestSiteName, EventFieldNameDetectionName, EventFieldNameDetectionStage, EventFieldNameDeviceCategories, EventFieldNameDeviceCertificate, EventFieldNameDeviceComplianceState, EventFieldNameDeviceID, EventFieldNameDeviceManufacturer, EventFieldNameDeviceModel, EventFieldNameDeviceName, EventFieldNameDeviceOsType, EventFieldNameDevicePostureProfile, EventFieldNameDeviceType, EventFieldNameDirectoryHostName, EventFieldNameDirectoryIP, EventFieldNameDirectorySyncResult, EventFieldNameDirectorySyncType, EventFieldNameDisinfectResult, EventFieldNameDlpFailMode, EventFieldNameDlpProfiles, EventFieldNameDlpScanTypes, EventFieldNameDNSAnswer, EventFieldNameDNSProtectionCategory, EventFieldNameDNSQuery, EventFieldNameDNSRecordType, EventFieldNameDNSReplyCode, EventFieldNameDomainName, EventFieldNameDurationMs, EventFieldNameDynamicControlIds, EventFieldNameDynamicControlNames, EventFieldNameDynamicControlScope, EventFieldNameDynamicControlThreatCategories, EventFieldNameEgressPopName, EventFieldNameEgressSiteName, EventFieldNameEmailSubject, EventFieldNameEndpointID, EventFieldNameEngineType, EventFieldNameEppEngineType, EventFieldNameEppProfile, EventFieldNameEventCount, EventFieldNameEventID, EventFieldNameEventMessage, EventFieldNameEventSubType, EventFieldNameEventType, EventFieldNameFailureReason, EventFieldNameFileHash, EventFieldNameFileName, EventFieldNameFileOperation, EventFieldNameFilePath, EventFieldNameFileSize, EventFieldNameFileTopic, EventFieldNameFileTopicCategory, EventFieldNameFileType, EventFieldNameFinalObjectStatus, EventFieldNameFlowID, EventFieldNameFlowsCardinality, EventFieldNameFullPathURL, EventFieldNameGuardID, EventFieldNameGuardName, EventFieldNameGuardType, EventFieldNameGuestUser, EventFieldNameHostIP, EventFieldNameHostMac, EventFieldNameHTTPRequestMethod, EventFieldNameHTTPResponseCode, EventFieldNameIncidentAggregation, EventFieldNameIncidentID, EventFieldNameIndication, EventFieldNameIndicator, EventFieldNameInitialObjectStatus, EventFieldNameInteractionIntent, EventFieldNameInteractionSubTopic, EventFieldNameInteractionTopic, EventFieldNameInternalID, EventFieldNameIPProtocol, EventFieldNameIsAdmin, EventFieldNameIsAdminActivity, EventFieldNameIsCloudApp, EventFieldNameIsCompliant, EventFieldNameIsManaged, EventFieldNameIsSanctionedApp, EventFieldNameIsSinkhole, EventFieldNameKeyName, EventFieldNameLabels, EventFieldNameLastTurnRole, EventFieldNameLinkHealthIsCongested, EventFieldNameLinkHealthJitter, EventFieldNameLinkHealthLatency, EventFieldNameLinkHealthPktLoss, EventFieldNameLinkType, EventFieldNameLoggedInUser, EventFieldNameLoginType, EventFieldNameMatchedDataTypes, EventFieldNameMessageID, EventFieldNameMitreAttackSubtechniques, EventFieldNameMitreAttackTactics, EventFieldNameMitreAttackTechniques, EventFieldNameNatError, EventFieldNameNetworkAccess, EventFieldNameNetworkRule, EventFieldNameNotificationAPIError, EventFieldNameNotificationDescription, EventFieldNameObjectID, EventFieldNameObjectName, EventFieldNameObjectType, EventFieldNameOfficeMode, EventFieldNameOsType, EventFieldNameOsVersion, EventFieldNameOutOfBandAccess, EventFieldNameOutpostEnvironmentName, EventFieldNameOwner, EventFieldNamePacFile, EventFieldNameParentConnectorName, EventFieldNamePopName, EventFieldNamePrecedence, EventFieldNameProcessesCount, EventFieldNameProducer, EventFieldNameProjects, EventFieldNamePromptAction, EventFieldNameProviderName, EventFieldNamePublicIP, EventFieldNameQosPriority, EventFieldNameQosReportedTime, EventFieldNameQuarantineFolderPath, EventFieldNameQuarantineUUID, EventFieldNameRawData, EventFieldNameRbiProfile, EventFieldNameRecommendedActions, EventFieldNameReferenceURL, EventFieldNameRefererURL, EventFieldNameRegionName, EventFieldNameRegistrationCode, EventFieldNameRequestSize, EventFieldNameResourceID, EventFieldNameResourceName, EventFieldNameResourceType, EventFieldNameResponseSize, EventFieldNameRiskLevel, EventFieldNameRuleExpirationTime, EventFieldNameRuleID, EventFieldNameRuleName, EventFieldNameSecondarySocketSerial, EventFieldNameServerIP, EventFieldNameServerKeyExchangeAlgorithm, EventFieldNameServiceName, EventFieldNameSessionID, EventFieldNameSeverity, EventFieldNameSharingScope, EventFieldNameSignInEventTypes, EventFieldNameSignatureID, EventFieldNameSocketDescription, EventFieldNameSocketInterface, EventFieldNameSocketInterfaceID, EventFieldNameSocketMacAddress, EventFieldNameSocketNewVersion, EventFieldNameSocketOldVersion, EventFieldNameSocketReset, EventFieldNameSocketRole, EventFieldNameSocketSerial, EventFieldNameSocketVersion, EventFieldNameSplitTunnelConfiguration, EventFieldNameSrcCountry, EventFieldNameSrcCountryCode, EventFieldNameSrcEndpointType, EventFieldNameSrcIP, EventFieldNameSrcIsSiteOrVpn, EventFieldNameSrcIspIP, EventFieldNameSrcPid, EventFieldNameSrcPort, EventFieldNameSrcProcessCmdline, EventFieldNameSrcProcessParentPath, EventFieldNameSrcProcessParentPid, EventFieldNameSrcProcessPath, EventFieldNameSrcSiteID, EventFieldNameSrcSiteName, EventFieldNameStaticHost, EventFieldNameStatus, EventFieldNameStoryID, EventFieldNameSubnetName, EventFieldNameSubscriptionName, EventFieldNameTargetsCardinality, EventFieldNameTCPAcceleration, EventFieldNameTenantID, EventFieldNameTenantName, EventFieldNameTenantRestrictionRuleName, EventFieldNameThreatConfidence, EventFieldNameThreatName, EventFieldNameThreatReference, EventFieldNameThreatScore, EventFieldNameThreatType, EventFieldNameThreatVerdict, EventFieldNameTime, EventFieldNameTimeStr, EventFieldNameTitle, EventFieldNameTLSCertificateError, EventFieldNameTLSErrorDescription, EventFieldNameTLSErrorType, EventFieldNameTLSInspection, EventFieldNameTLSRuleName, EventFieldNameTLSVersion, EventFieldNameTotalTokens, EventFieldNameTrafficDirection, EventFieldNameTransactionSize, EventFieldNameTranslatedClientIP, EventFieldNameTranslatedServerIP, EventFieldNameTrigger, EventFieldNameTrustType, EventFieldNameTrustedNetworks, EventFieldNameTunnelIPProtocol, EventFieldNameTunnelProtocol, EventFieldNameUpgradeEndTime, EventFieldNameUpgradeInitiatedBy, EventFieldNameUpgradeStartTime, EventFieldNameURL, EventFieldNameUserAgent, EventFieldNameUserAwarenessMethod, EventFieldNameUserID, EventFieldNameUserName, EventFieldNameUserOrigin, EventFieldNameUserReferenceID, EventFieldNameUserRiskLevel, EventFieldNameVendor, EventFieldNameVendorCollaboratorID, EventFieldNameVendorDeviceID, EventFieldNameVendorDeviceName, EventFieldNameVendorEventID, EventFieldNameVendorOrgID, EventFieldNameVendorPolicyDescription, EventFieldNameVendorPolicyID, EventFieldNameVendorPolicyName, EventFieldNameVendorSiteID, EventFieldNameVendorUserID, EventFieldNameVisibleDeviceID, EventFieldNameVpnLanAccess, EventFieldNameVpnUserEmail, EventFieldNameWifiAuthenticationType, EventFieldNameWifiBssid, EventFieldNameWifiChannel, EventFieldNameWifiDescription, EventFieldNameWifiEventReasonCode, EventFieldNameWifiEventType, EventFieldNameWifiEventTypeCode, EventFieldNameWifiEventVendorName, EventFieldNameWifiProtocol, EventFieldNameWifiRadioBand, EventFieldNameWifiSecurity, EventFieldNameWifiSignalStrength, EventFieldNameWifiSsid, EventFieldNameWifiTimeSinceAssocMs, EventFieldNameWindowsDomainName, EventFieldNameXff:
 		return true
 	}
 	return false
@@ -19298,6 +22669,79 @@ func (e ExportJobStatus) MarshalJSON() ([]byte, error) {
 	return buf.Bytes(), nil
 }
 
+// External access request type.
+type ExternalAccessRequestType string
+
+const (
+	//  Automate access request.
+	ExternalAccessRequestTypeAutomate ExternalAccessRequestType = "AUTOMATE"
+	//  Default access request.
+	ExternalAccessRequestTypeDefault ExternalAccessRequestType = "DEFAULT"
+	//  Emergency access request.
+	ExternalAccessRequestTypeEmergency ExternalAccessRequestType = "EMERGENCY"
+	//  Exceptional access request.
+	ExternalAccessRequestTypeExceptional ExternalAccessRequestType = "EXCEPTIONAL"
+	//  Standard access request.
+	ExternalAccessRequestTypeStandard ExternalAccessRequestType = "STANDARD"
+	//  Support access request.
+	ExternalAccessRequestTypeSupport ExternalAccessRequestType = "SUPPORT"
+	//  Support access request requiring customer approval.
+	ExternalAccessRequestTypeSupportWithApproval ExternalAccessRequestType = "SUPPORT_WITH_APPROVAL"
+)
+
+var AllExternalAccessRequestType = []ExternalAccessRequestType{
+	ExternalAccessRequestTypeAutomate,
+	ExternalAccessRequestTypeDefault,
+	ExternalAccessRequestTypeEmergency,
+	ExternalAccessRequestTypeExceptional,
+	ExternalAccessRequestTypeStandard,
+	ExternalAccessRequestTypeSupport,
+	ExternalAccessRequestTypeSupportWithApproval,
+}
+
+func (e ExternalAccessRequestType) IsValid() bool {
+	switch e {
+	case ExternalAccessRequestTypeAutomate, ExternalAccessRequestTypeDefault, ExternalAccessRequestTypeEmergency, ExternalAccessRequestTypeExceptional, ExternalAccessRequestTypeStandard, ExternalAccessRequestTypeSupport, ExternalAccessRequestTypeSupportWithApproval:
+		return true
+	}
+	return false
+}
+
+func (e ExternalAccessRequestType) String() string {
+	return string(e)
+}
+
+func (e *ExternalAccessRequestType) UnmarshalGQL(v any) error {
+	str, ok := v.(string)
+	if !ok {
+		return fmt.Errorf("enums must be strings")
+	}
+
+	*e = ExternalAccessRequestType(str)
+	if !e.IsValid() {
+		return fmt.Errorf("%s is not a valid ExternalAccessRequestType", str)
+	}
+	return nil
+}
+
+func (e ExternalAccessRequestType) MarshalGQL(w io.Writer) {
+	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+func (e *ExternalAccessRequestType) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e ExternalAccessRequestType) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
+}
+
 type FilterOperator string
 
 const (
@@ -19368,6 +22812,83 @@ func (e *FilterOperator) UnmarshalJSON(b []byte) error {
 }
 
 func (e FilterOperator) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
+}
+
+type GenericIncidentEvidenceType string
+
+const (
+	GenericIncidentEvidenceTypeConfig       GenericIncidentEvidenceType = "CONFIG"
+	GenericIncidentEvidenceTypeDomain       GenericIncidentEvidenceType = "DOMAIN"
+	GenericIncidentEvidenceTypeEmail        GenericIncidentEvidenceType = "EMAIL"
+	GenericIncidentEvidenceTypeEmailAddress GenericIncidentEvidenceType = "EMAIL_ADDRESS"
+	GenericIncidentEvidenceTypeFile         GenericIncidentEvidenceType = "FILE"
+	GenericIncidentEvidenceTypeHash         GenericIncidentEvidenceType = "HASH"
+	GenericIncidentEvidenceTypeIP           GenericIncidentEvidenceType = "IP"
+	GenericIncidentEvidenceTypeMailbox      GenericIncidentEvidenceType = "MAILBOX"
+	GenericIncidentEvidenceTypeMetric       GenericIncidentEvidenceType = "METRIC"
+	GenericIncidentEvidenceTypeOs           GenericIncidentEvidenceType = "OS"
+	GenericIncidentEvidenceTypeOther        GenericIncidentEvidenceType = "OTHER"
+	GenericIncidentEvidenceTypeURL          GenericIncidentEvidenceType = "URL"
+	GenericIncidentEvidenceTypeUserAgent    GenericIncidentEvidenceType = "USER_AGENT"
+)
+
+var AllGenericIncidentEvidenceType = []GenericIncidentEvidenceType{
+	GenericIncidentEvidenceTypeConfig,
+	GenericIncidentEvidenceTypeDomain,
+	GenericIncidentEvidenceTypeEmail,
+	GenericIncidentEvidenceTypeEmailAddress,
+	GenericIncidentEvidenceTypeFile,
+	GenericIncidentEvidenceTypeHash,
+	GenericIncidentEvidenceTypeIP,
+	GenericIncidentEvidenceTypeMailbox,
+	GenericIncidentEvidenceTypeMetric,
+	GenericIncidentEvidenceTypeOs,
+	GenericIncidentEvidenceTypeOther,
+	GenericIncidentEvidenceTypeURL,
+	GenericIncidentEvidenceTypeUserAgent,
+}
+
+func (e GenericIncidentEvidenceType) IsValid() bool {
+	switch e {
+	case GenericIncidentEvidenceTypeConfig, GenericIncidentEvidenceTypeDomain, GenericIncidentEvidenceTypeEmail, GenericIncidentEvidenceTypeEmailAddress, GenericIncidentEvidenceTypeFile, GenericIncidentEvidenceTypeHash, GenericIncidentEvidenceTypeIP, GenericIncidentEvidenceTypeMailbox, GenericIncidentEvidenceTypeMetric, GenericIncidentEvidenceTypeOs, GenericIncidentEvidenceTypeOther, GenericIncidentEvidenceTypeURL, GenericIncidentEvidenceTypeUserAgent:
+		return true
+	}
+	return false
+}
+
+func (e GenericIncidentEvidenceType) String() string {
+	return string(e)
+}
+
+func (e *GenericIncidentEvidenceType) UnmarshalGQL(v any) error {
+	str, ok := v.(string)
+	if !ok {
+		return fmt.Errorf("enums must be strings")
+	}
+
+	*e = GenericIncidentEvidenceType(str)
+	if !e.IsValid() {
+		return fmt.Errorf("%s is not a valid GenericIncidentEvidenceType", str)
+	}
+	return nil
+}
+
+func (e GenericIncidentEvidenceType) MarshalGQL(w io.Writer) {
+	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+func (e *GenericIncidentEvidenceType) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e GenericIncidentEvidenceType) MarshalJSON() ([]byte, error) {
 	var buf bytes.Buffer
 	e.MarshalGQL(&buf)
 	return buf.Bytes(), nil
@@ -19655,63 +23176,6 @@ func (e HaSubStatus) MarshalJSON() ([]byte, error) {
 	return buf.Bytes(), nil
 }
 
-type HostConfidenceLevelEnum string
-
-const (
-	HostConfidenceLevelEnumAny  HostConfidenceLevelEnum = "ANY"
-	HostConfidenceLevelEnumHigh HostConfidenceLevelEnum = "HIGH"
-	HostConfidenceLevelEnumLow  HostConfidenceLevelEnum = "LOW"
-)
-
-var AllHostConfidenceLevelEnum = []HostConfidenceLevelEnum{
-	HostConfidenceLevelEnumAny,
-	HostConfidenceLevelEnumHigh,
-	HostConfidenceLevelEnumLow,
-}
-
-func (e HostConfidenceLevelEnum) IsValid() bool {
-	switch e {
-	case HostConfidenceLevelEnumAny, HostConfidenceLevelEnumHigh, HostConfidenceLevelEnumLow:
-		return true
-	}
-	return false
-}
-
-func (e HostConfidenceLevelEnum) String() string {
-	return string(e)
-}
-
-func (e *HostConfidenceLevelEnum) UnmarshalGQL(v any) error {
-	str, ok := v.(string)
-	if !ok {
-		return fmt.Errorf("enums must be strings")
-	}
-
-	*e = HostConfidenceLevelEnum(str)
-	if !e.IsValid() {
-		return fmt.Errorf("%s is not a valid HostConfidenceLevelEnum", str)
-	}
-	return nil
-}
-
-func (e HostConfidenceLevelEnum) MarshalGQL(w io.Writer) {
-	fmt.Fprint(w, strconv.Quote(e.String()))
-}
-
-func (e *HostConfidenceLevelEnum) UnmarshalJSON(b []byte) error {
-	s, err := strconv.Unquote(string(b))
-	if err != nil {
-		return err
-	}
-	return e.UnmarshalGQL(s)
-}
-
-func (e HostConfidenceLevelEnum) MarshalJSON() ([]byte, error) {
-	var buf bytes.Buffer
-	e.MarshalGQL(&buf)
-	return buf.Bytes(), nil
-}
-
 type IPSecV2InterfaceID string
 
 const (
@@ -19950,6 +23414,120 @@ func (e IlmmOnboardingStatus) MarshalJSON() ([]byte, error) {
 	return buf.Bytes(), nil
 }
 
+type ImportType string
+
+const (
+	ImportTypeLdap   ImportType = "LDAP"
+	ImportTypeManual ImportType = "MANUAL"
+	ImportTypeScim   ImportType = "SCIM"
+)
+
+var AllImportType = []ImportType{
+	ImportTypeLdap,
+	ImportTypeManual,
+	ImportTypeScim,
+}
+
+func (e ImportType) IsValid() bool {
+	switch e {
+	case ImportTypeLdap, ImportTypeManual, ImportTypeScim:
+		return true
+	}
+	return false
+}
+
+func (e ImportType) String() string {
+	return string(e)
+}
+
+func (e *ImportType) UnmarshalGQL(v any) error {
+	str, ok := v.(string)
+	if !ok {
+		return fmt.Errorf("enums must be strings")
+	}
+
+	*e = ImportType(str)
+	if !e.IsValid() {
+		return fmt.Errorf("%s is not a valid ImportType", str)
+	}
+	return nil
+}
+
+func (e ImportType) MarshalGQL(w io.Writer) {
+	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+func (e *ImportType) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e ImportType) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
+}
+
+type IncidentCategory string
+
+const (
+	IncidentCategoryOperational IncidentCategory = "OPERATIONAL"
+	IncidentCategoryOther       IncidentCategory = "OTHER"
+	IncidentCategorySecurity    IncidentCategory = "SECURITY"
+)
+
+var AllIncidentCategory = []IncidentCategory{
+	IncidentCategoryOperational,
+	IncidentCategoryOther,
+	IncidentCategorySecurity,
+}
+
+func (e IncidentCategory) IsValid() bool {
+	switch e {
+	case IncidentCategoryOperational, IncidentCategoryOther, IncidentCategorySecurity:
+		return true
+	}
+	return false
+}
+
+func (e IncidentCategory) String() string {
+	return string(e)
+}
+
+func (e *IncidentCategory) UnmarshalGQL(v any) error {
+	str, ok := v.(string)
+	if !ok {
+		return fmt.Errorf("enums must be strings")
+	}
+
+	*e = IncidentCategory(str)
+	if !e.IsValid() {
+		return fmt.Errorf("%s is not a valid IncidentCategory", str)
+	}
+	return nil
+}
+
+func (e IncidentCategory) MarshalGQL(w io.Writer) {
+	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+func (e *IncidentCategory) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e IncidentCategory) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
+}
+
 // The action applied by the Internet Firewall if the rule is matched
 type InternetFirewallActionEnum string
 
@@ -19964,8 +23542,6 @@ const (
 	InternetFirewallActionEnumPrompt InternetFirewallActionEnum = "PROMPT"
 	//  Apply Remote Browser Isolation (RBI) to the network traffic
 	InternetFirewallActionEnumRbi InternetFirewallActionEnum = "RBI"
-	//  Indicates that a rule is used as a scoping rule for sub policies and does not take any action itself
-	InternetFirewallActionEnumSubPolicy InternetFirewallActionEnum = "SUB_POLICY"
 )
 
 var AllInternetFirewallActionEnum = []InternetFirewallActionEnum{
@@ -19974,12 +23550,11 @@ var AllInternetFirewallActionEnum = []InternetFirewallActionEnum{
 	InternetFirewallActionEnumCaptivePortal,
 	InternetFirewallActionEnumPrompt,
 	InternetFirewallActionEnumRbi,
-	InternetFirewallActionEnumSubPolicy,
 }
 
 func (e InternetFirewallActionEnum) IsValid() bool {
 	switch e {
-	case InternetFirewallActionEnumAllow, InternetFirewallActionEnumBlock, InternetFirewallActionEnumCaptivePortal, InternetFirewallActionEnumPrompt, InternetFirewallActionEnumRbi, InternetFirewallActionEnumSubPolicy:
+	case InternetFirewallActionEnumAllow, InternetFirewallActionEnumBlock, InternetFirewallActionEnumCaptivePortal, InternetFirewallActionEnumPrompt, InternetFirewallActionEnumRbi:
 		return true
 	}
 	return false
@@ -20401,6 +23976,8 @@ func (e LicensePlan) MarshalJSON() ([]byte, error) {
 type LicenseSku string
 
 const (
+	//  Cato App & Data Security Package SKU
+	LicenseSkuCatoAdsp LicenseSku = "CATO_ADSP"
 	//  Cato App & Data Security Package BW SKU
 	LicenseSkuCatoAdspB LicenseSku = "CATO_ADSP_B"
 	//  Cato App & Data Security Package Users SKU
@@ -20571,6 +24148,7 @@ const (
 )
 
 var AllLicenseSku = []LicenseSku{
+	LicenseSkuCatoAdsp,
 	LicenseSkuCatoAdspB,
 	LicenseSkuCatoAdspU,
 	LicenseSkuCatoAiSecAppU,
@@ -20659,7 +24237,7 @@ var AllLicenseSku = []LicenseSku{
 
 func (e LicenseSku) IsValid() bool {
 	switch e {
-	case LicenseSkuCatoAdspB, LicenseSkuCatoAdspU, LicenseSkuCatoAiSecAppU, LicenseSkuCatoAiSecU, LicenseSkuCatoAntiMalware, LicenseSkuCatoAntiMalwareNg, LicenseSkuCatoAppConB, LicenseSkuCatoAppConU, LicenseSkuCatoAstsSec, LicenseSkuCatoAstsSec10k, LicenseSkuCatoAstsSec15k, LicenseSkuCatoAstsSec1_5k, LicenseSkuCatoAstsSec25k, LicenseSkuCatoAstsSec2_5k, LicenseSkuCatoAstsSec50k, LicenseSkuCatoAstsSecAbv50k, LicenseSkuCatoAtpB, LicenseSkuCatoAtpU, LicenseSkuCatoAtpUserSa, LicenseSkuCatoCasb, LicenseSkuCatoCasbB, LicenseSkuCatoCasbPbSa, LicenseSkuCatoCasbU, LicenseSkuCatoCasbUserSa, LicenseSkuCatoDatalake, LicenseSkuCatoDatalake12m, LicenseSkuCatoDatalake3m, LicenseSkuCatoDatalake6m, LicenseSkuCatoDem, LicenseSkuCatoDemU, LicenseSkuCatoDlp, LicenseSkuCatoDlpB, LicenseSkuCatoDlpPbSa, LicenseSkuCatoDlpU, LicenseSkuCatoDlpUserSa, LicenseSkuCatoEpp, LicenseSkuCatoEppU, LicenseSkuCatoHfmS, LicenseSkuCatoIlmm, LicenseSkuCatoIlmmS, LicenseSkuCatoIotOt, LicenseSkuCatoIPS, LicenseSkuCatoIPAdd, LicenseSkuCatoManagedXdr, LicenseSkuCatoMdr, LicenseSkuCatoMdrU, LicenseSkuCatoNocaasHf, LicenseSkuCatoNocaasHfS, LicenseSkuCatoPb, LicenseSkuCatoPbSse, LicenseSkuCatoRbi, LicenseSkuCatoRbiB, LicenseSkuCatoRbiU, LicenseSkuCatoRemoteU, LicenseSkuCatoSaas, LicenseSkuCatoSaasSecurityAPI, LicenseSkuCatoSaasSecurityAPIAllApps, LicenseSkuCatoSaasSecurityAPIOneApp, LicenseSkuCatoSaasSecurityAPITwoApps, LicenseSkuCatoSiaB, LicenseSkuCatoSiaU, LicenseSkuCatoSite, LicenseSkuCatoSndbxB, LicenseSkuCatoSndbxU, LicenseSkuCatoSocketX1500R, LicenseSkuCatoSocketX1600_5gR, LicenseSkuCatoSocketX1600LteR, LicenseSkuCatoSocketX1600R, LicenseSkuCatoSocketX1600Wifi5gR, LicenseSkuCatoSocketX1600WifiR, LicenseSkuCatoSocketX1700R, LicenseSkuCatoSseSite, LicenseSkuCatoThreatPrevention, LicenseSkuCatoThreatPreventionAdv, LicenseSkuCatoThreatPreventionAdvPbSa, LicenseSkuCatoThreatPreventionPbSa, LicenseSkuCatoThreatPreventionUserSa, LicenseSkuCatoWan, LicenseSkuCatoWanTpB, LicenseSkuCatoXdrPro, LicenseSkuCatoXops, LicenseSkuCatoXopsU, LicenseSkuCatoZtnaUsers, LicenseSkuMobileUsers:
+	case LicenseSkuCatoAdsp, LicenseSkuCatoAdspB, LicenseSkuCatoAdspU, LicenseSkuCatoAiSecAppU, LicenseSkuCatoAiSecU, LicenseSkuCatoAntiMalware, LicenseSkuCatoAntiMalwareNg, LicenseSkuCatoAppConB, LicenseSkuCatoAppConU, LicenseSkuCatoAstsSec, LicenseSkuCatoAstsSec10k, LicenseSkuCatoAstsSec15k, LicenseSkuCatoAstsSec1_5k, LicenseSkuCatoAstsSec25k, LicenseSkuCatoAstsSec2_5k, LicenseSkuCatoAstsSec50k, LicenseSkuCatoAstsSecAbv50k, LicenseSkuCatoAtpB, LicenseSkuCatoAtpU, LicenseSkuCatoAtpUserSa, LicenseSkuCatoCasb, LicenseSkuCatoCasbB, LicenseSkuCatoCasbPbSa, LicenseSkuCatoCasbU, LicenseSkuCatoCasbUserSa, LicenseSkuCatoDatalake, LicenseSkuCatoDatalake12m, LicenseSkuCatoDatalake3m, LicenseSkuCatoDatalake6m, LicenseSkuCatoDem, LicenseSkuCatoDemU, LicenseSkuCatoDlp, LicenseSkuCatoDlpB, LicenseSkuCatoDlpPbSa, LicenseSkuCatoDlpU, LicenseSkuCatoDlpUserSa, LicenseSkuCatoEpp, LicenseSkuCatoEppU, LicenseSkuCatoHfmS, LicenseSkuCatoIlmm, LicenseSkuCatoIlmmS, LicenseSkuCatoIotOt, LicenseSkuCatoIPS, LicenseSkuCatoIPAdd, LicenseSkuCatoManagedXdr, LicenseSkuCatoMdr, LicenseSkuCatoMdrU, LicenseSkuCatoNocaasHf, LicenseSkuCatoNocaasHfS, LicenseSkuCatoPb, LicenseSkuCatoPbSse, LicenseSkuCatoRbi, LicenseSkuCatoRbiB, LicenseSkuCatoRbiU, LicenseSkuCatoRemoteU, LicenseSkuCatoSaas, LicenseSkuCatoSaasSecurityAPI, LicenseSkuCatoSaasSecurityAPIAllApps, LicenseSkuCatoSaasSecurityAPIOneApp, LicenseSkuCatoSaasSecurityAPITwoApps, LicenseSkuCatoSiaB, LicenseSkuCatoSiaU, LicenseSkuCatoSite, LicenseSkuCatoSndbxB, LicenseSkuCatoSndbxU, LicenseSkuCatoSocketX1500R, LicenseSkuCatoSocketX1600_5gR, LicenseSkuCatoSocketX1600LteR, LicenseSkuCatoSocketX1600R, LicenseSkuCatoSocketX1600Wifi5gR, LicenseSkuCatoSocketX1600WifiR, LicenseSkuCatoSocketX1700R, LicenseSkuCatoSseSite, LicenseSkuCatoThreatPrevention, LicenseSkuCatoThreatPreventionAdv, LicenseSkuCatoThreatPreventionAdvPbSa, LicenseSkuCatoThreatPreventionPbSa, LicenseSkuCatoThreatPreventionUserSa, LicenseSkuCatoWan, LicenseSkuCatoWanTpB, LicenseSkuCatoXdrPro, LicenseSkuCatoXops, LicenseSkuCatoXopsU, LicenseSkuCatoZtnaUsers, LicenseSkuMobileUsers:
 		return true
 	}
 	return false
@@ -20948,7 +24526,6 @@ const (
 	LocationTypeCloudDataCenter LocationType = "CLOUD_DATA_CENTER"
 	LocationTypeDataCenter      LocationType = "DATA_CENTER"
 	LocationTypeHeadquarters    LocationType = "HEADQUARTERS"
-	LocationTypeOther           LocationType = "OTHER"
 	LocationTypeWarehouse       LocationType = "WAREHOUSE"
 )
 
@@ -20957,13 +24534,12 @@ var AllLocationType = []LocationType{
 	LocationTypeCloudDataCenter,
 	LocationTypeDataCenter,
 	LocationTypeHeadquarters,
-	LocationTypeOther,
 	LocationTypeWarehouse,
 }
 
 func (e LocationType) IsValid() bool {
 	switch e {
-	case LocationTypeBranch, LocationTypeCloudDataCenter, LocationTypeDataCenter, LocationTypeHeadquarters, LocationTypeOther, LocationTypeWarehouse:
+	case LocationTypeBranch, LocationTypeCloudDataCenter, LocationTypeDataCenter, LocationTypeHeadquarters, LocationTypeWarehouse:
 		return true
 	}
 	return false
@@ -21088,6 +24664,118 @@ func (e *LookupFilterType) UnmarshalJSON(b []byte) error {
 }
 
 func (e LookupFilterType) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
+}
+
+type MailingListAddressesType string
+
+const (
+	MailingListAddressesTypeSpecificEmails MailingListAddressesType = "SPECIFIC_EMAILS"
+)
+
+var AllMailingListAddressesType = []MailingListAddressesType{
+	MailingListAddressesTypeSpecificEmails,
+}
+
+func (e MailingListAddressesType) IsValid() bool {
+	switch e {
+	case MailingListAddressesTypeSpecificEmails:
+		return true
+	}
+	return false
+}
+
+func (e MailingListAddressesType) String() string {
+	return string(e)
+}
+
+func (e *MailingListAddressesType) UnmarshalGQL(v any) error {
+	str, ok := v.(string)
+	if !ok {
+		return fmt.Errorf("enums must be strings")
+	}
+
+	*e = MailingListAddressesType(str)
+	if !e.IsValid() {
+		return fmt.Errorf("%s is not a valid MailingListAddressesType", str)
+	}
+	return nil
+}
+
+func (e MailingListAddressesType) MarshalGQL(w io.Writer) {
+	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+func (e *MailingListAddressesType) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e MailingListAddressesType) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
+}
+
+type MeasuresUnitType string
+
+const (
+	MeasuresUnitTypeBitsPerSecond MeasuresUnitType = "BITS_PER_SECOND"
+	MeasuresUnitTypeCount         MeasuresUnitType = "COUNT"
+	MeasuresUnitTypeMilliseconds  MeasuresUnitType = "MILLISECONDS"
+	MeasuresUnitTypePercentage    MeasuresUnitType = "PERCENTAGE"
+)
+
+var AllMeasuresUnitType = []MeasuresUnitType{
+	MeasuresUnitTypeBitsPerSecond,
+	MeasuresUnitTypeCount,
+	MeasuresUnitTypeMilliseconds,
+	MeasuresUnitTypePercentage,
+}
+
+func (e MeasuresUnitType) IsValid() bool {
+	switch e {
+	case MeasuresUnitTypeBitsPerSecond, MeasuresUnitTypeCount, MeasuresUnitTypeMilliseconds, MeasuresUnitTypePercentage:
+		return true
+	}
+	return false
+}
+
+func (e MeasuresUnitType) String() string {
+	return string(e)
+}
+
+func (e *MeasuresUnitType) UnmarshalGQL(v any) error {
+	str, ok := v.(string)
+	if !ok {
+		return fmt.Errorf("enums must be strings")
+	}
+
+	*e = MeasuresUnitType(str)
+	if !e.IsValid() {
+		return fmt.Errorf("%s is not a valid MeasuresUnitType", str)
+	}
+	return nil
+}
+
+func (e MeasuresUnitType) MarshalGQL(w io.Writer) {
+	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+func (e *MeasuresUnitType) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e MeasuresUnitType) MarshalJSON() ([]byte, error) {
 	var buf bytes.Buffer
 	e.MarshalGQL(&buf)
 	return buf.Bytes(), nil
@@ -21500,6 +25188,7 @@ type OperatingSystem string
 
 const (
 	OperatingSystemAndroid  OperatingSystem = "ANDROID"
+	OperatingSystemChromeos OperatingSystem = "CHROMEOS"
 	OperatingSystemEmbedded OperatingSystem = "EMBEDDED"
 	OperatingSystemIos      OperatingSystem = "IOS"
 	OperatingSystemLinux    OperatingSystem = "LINUX"
@@ -21509,6 +25198,7 @@ const (
 
 var AllOperatingSystem = []OperatingSystem{
 	OperatingSystemAndroid,
+	OperatingSystemChromeos,
 	OperatingSystemEmbedded,
 	OperatingSystemIos,
 	OperatingSystemLinux,
@@ -21518,7 +25208,7 @@ var AllOperatingSystem = []OperatingSystem{
 
 func (e OperatingSystem) IsValid() bool {
 	switch e {
-	case OperatingSystemAndroid, OperatingSystemEmbedded, OperatingSystemIos, OperatingSystemLinux, OperatingSystemMacos, OperatingSystemWindows:
+	case OperatingSystemAndroid, OperatingSystemChromeos, OperatingSystemEmbedded, OperatingSystemIos, OperatingSystemLinux, OperatingSystemMacos, OperatingSystemWindows:
 		return true
 	}
 	return false
@@ -21636,6 +25326,61 @@ func (e *OriginType) UnmarshalJSON(b []byte) error {
 }
 
 func (e OriginType) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
+}
+
+type PartnerAccessApprovalResponse string
+
+const (
+	PartnerAccessApprovalResponseApprove PartnerAccessApprovalResponse = "APPROVE"
+	PartnerAccessApprovalResponseReject  PartnerAccessApprovalResponse = "REJECT"
+)
+
+var AllPartnerAccessApprovalResponse = []PartnerAccessApprovalResponse{
+	PartnerAccessApprovalResponseApprove,
+	PartnerAccessApprovalResponseReject,
+}
+
+func (e PartnerAccessApprovalResponse) IsValid() bool {
+	switch e {
+	case PartnerAccessApprovalResponseApprove, PartnerAccessApprovalResponseReject:
+		return true
+	}
+	return false
+}
+
+func (e PartnerAccessApprovalResponse) String() string {
+	return string(e)
+}
+
+func (e *PartnerAccessApprovalResponse) UnmarshalGQL(v any) error {
+	str, ok := v.(string)
+	if !ok {
+		return fmt.Errorf("enums must be strings")
+	}
+
+	*e = PartnerAccessApprovalResponse(str)
+	if !e.IsValid() {
+		return fmt.Errorf("%s is not a valid PartnerAccessApprovalResponse", str)
+	}
+	return nil
+}
+
+func (e PartnerAccessApprovalResponse) MarshalGQL(w io.Writer) {
+	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+func (e *PartnerAccessApprovalResponse) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e PartnerAccessApprovalResponse) MarshalJSON() ([]byte, error) {
 	var buf bytes.Buffer
 	e.MarshalGQL(&buf)
 	return buf.Bytes(), nil
@@ -22387,6 +26132,136 @@ func (e PolicyToggleState) MarshalJSON() ([]byte, error) {
 	return buf.Bytes(), nil
 }
 
+type PopLocationAllocatedIPType string
+
+const (
+	PopLocationAllocatedIPTypeByoip  PopLocationAllocatedIPType = "BYOIP"
+	PopLocationAllocatedIPTypeSystem PopLocationAllocatedIPType = "SYSTEM"
+)
+
+var AllPopLocationAllocatedIPType = []PopLocationAllocatedIPType{
+	PopLocationAllocatedIPTypeByoip,
+	PopLocationAllocatedIPTypeSystem,
+}
+
+func (e PopLocationAllocatedIPType) IsValid() bool {
+	switch e {
+	case PopLocationAllocatedIPTypeByoip, PopLocationAllocatedIPTypeSystem:
+		return true
+	}
+	return false
+}
+
+func (e PopLocationAllocatedIPType) String() string {
+	return string(e)
+}
+
+func (e *PopLocationAllocatedIPType) UnmarshalGQL(v any) error {
+	str, ok := v.(string)
+	if !ok {
+		return fmt.Errorf("enums must be strings")
+	}
+
+	*e = PopLocationAllocatedIPType(str)
+	if !e.IsValid() {
+		return fmt.Errorf("%s is not a valid PopLocationAllocatedIpType", str)
+	}
+	return nil
+}
+
+func (e PopLocationAllocatedIPType) MarshalGQL(w io.Writer) {
+	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+func (e *PopLocationAllocatedIPType) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e PopLocationAllocatedIPType) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
+}
+
+type PopLocationByoipSubnetState string
+
+const (
+	PopLocationByoipSubnetStateAdvertised            PopLocationByoipSubnetState = "ADVERTISED"
+	PopLocationByoipSubnetStateDeprovisioned         PopLocationByoipSubnetState = "DEPROVISIONED"
+	PopLocationByoipSubnetStateFailedAdvertaised     PopLocationByoipSubnetState = "FAILED_ADVERTAISED"
+	PopLocationByoipSubnetStateFailedDeprovisioning  PopLocationByoipSubnetState = "FAILED_DEPROVISIONING"
+	PopLocationByoipSubnetStateFailedProvisioning    PopLocationByoipSubnetState = "FAILED_PROVISIONING"
+	PopLocationByoipSubnetStateFailedWithdraw        PopLocationByoipSubnetState = "FAILED_WITHDRAW"
+	PopLocationByoipSubnetStatePendingAdvertaised    PopLocationByoipSubnetState = "PENDING_ADVERTAISED"
+	PopLocationByoipSubnetStatePendingDeprovisioning PopLocationByoipSubnetState = "PENDING_DEPROVISIONING"
+	PopLocationByoipSubnetStatePendingProvisioning   PopLocationByoipSubnetState = "PENDING_PROVISIONING"
+	PopLocationByoipSubnetStatePendingWithdraw       PopLocationByoipSubnetState = "PENDING_WITHDRAW"
+	PopLocationByoipSubnetStateProvisioned           PopLocationByoipSubnetState = "PROVISIONED"
+	PopLocationByoipSubnetStateWithdraw              PopLocationByoipSubnetState = "WITHDRAW"
+)
+
+var AllPopLocationByoipSubnetState = []PopLocationByoipSubnetState{
+	PopLocationByoipSubnetStateAdvertised,
+	PopLocationByoipSubnetStateDeprovisioned,
+	PopLocationByoipSubnetStateFailedAdvertaised,
+	PopLocationByoipSubnetStateFailedDeprovisioning,
+	PopLocationByoipSubnetStateFailedProvisioning,
+	PopLocationByoipSubnetStateFailedWithdraw,
+	PopLocationByoipSubnetStatePendingAdvertaised,
+	PopLocationByoipSubnetStatePendingDeprovisioning,
+	PopLocationByoipSubnetStatePendingProvisioning,
+	PopLocationByoipSubnetStatePendingWithdraw,
+	PopLocationByoipSubnetStateProvisioned,
+	PopLocationByoipSubnetStateWithdraw,
+}
+
+func (e PopLocationByoipSubnetState) IsValid() bool {
+	switch e {
+	case PopLocationByoipSubnetStateAdvertised, PopLocationByoipSubnetStateDeprovisioned, PopLocationByoipSubnetStateFailedAdvertaised, PopLocationByoipSubnetStateFailedDeprovisioning, PopLocationByoipSubnetStateFailedProvisioning, PopLocationByoipSubnetStateFailedWithdraw, PopLocationByoipSubnetStatePendingAdvertaised, PopLocationByoipSubnetStatePendingDeprovisioning, PopLocationByoipSubnetStatePendingProvisioning, PopLocationByoipSubnetStatePendingWithdraw, PopLocationByoipSubnetStateProvisioned, PopLocationByoipSubnetStateWithdraw:
+		return true
+	}
+	return false
+}
+
+func (e PopLocationByoipSubnetState) String() string {
+	return string(e)
+}
+
+func (e *PopLocationByoipSubnetState) UnmarshalGQL(v any) error {
+	str, ok := v.(string)
+	if !ok {
+		return fmt.Errorf("enums must be strings")
+	}
+
+	*e = PopLocationByoipSubnetState(str)
+	if !e.IsValid() {
+		return fmt.Errorf("%s is not a valid PopLocationByoipSubnetState", str)
+	}
+	return nil
+}
+
+func (e PopLocationByoipSubnetState) MarshalGQL(w io.Writer) {
+	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+func (e *PopLocationByoipSubnetState) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e PopLocationByoipSubnetState) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
+}
+
 type PrivateAccessPolicyActionEnum string
 
 const (
@@ -22518,63 +26393,45 @@ type ProtoType string
 
 const (
 	ProtoTypeCrossConnect    ProtoType = "CROSS_CONNECT"
-	ProtoTypeCrossConnectL2  ProtoType = "CROSS_CONNECT_L2"
-	ProtoTypeCrossConnectVrf ProtoType = "CROSS_CONNECT_VRF"
-	ProtoTypeGreTunnel       ProtoType = "GRE_TUNNEL"
 	ProtoTypeIpsecClient     ProtoType = "IPSEC_CLIENT"
 	ProtoTypeIpsecHost       ProtoType = "IPSEC_HOST"
 	ProtoTypeIpsecV2         ProtoType = "IPSEC_V2"
-	ProtoTypeNotDefined      ProtoType = "NOT_DEFINED"
-	ProtoTypePortalListener  ProtoType = "PORTAL_LISTENER"
 	ProtoTypeSocketAWS1500   ProtoType = "SOCKET_AWS1500"
 	ProtoTypeSocketAz1500    ProtoType = "SOCKET_AZ1500"
 	ProtoTypeSocketEsx1500   ProtoType = "SOCKET_ESX1500"
 	ProtoTypeSocketGCP1500   ProtoType = "SOCKET_GCP1500"
-	ProtoTypeSocketRpi64     ProtoType = "SOCKET_RPI64"
-	ProtoTypeSocketX1        ProtoType = "SOCKET_X1"
 	ProtoTypeSocketX1500     ProtoType = "SOCKET_X1500"
 	ProtoTypeSocketX1600     ProtoType = "SOCKET_X1600"
 	ProtoTypeSocketX1600Lte  ProtoType = "SOCKET_X1600_LTE"
 	ProtoTypeSocketX1700     ProtoType = "SOCKET_X1700"
-	ProtoTypeVsocketVgs      ProtoType = "VSOCKET_VGS"
 	ProtoTypeVsocketVgx      ProtoType = "VSOCKET_VGX"
 	ProtoTypeVsocketVgxAWS   ProtoType = "VSOCKET_VGX_AWS"
 	ProtoTypeVsocketVgxAzure ProtoType = "VSOCKET_VGX_AZURE"
 	ProtoTypeVsocketVgxEsx   ProtoType = "VSOCKET_VGX_ESX"
-	ProtoTypeVsocketVsh      ProtoType = "VSOCKET_VSH"
 )
 
 var AllProtoType = []ProtoType{
 	ProtoTypeCrossConnect,
-	ProtoTypeCrossConnectL2,
-	ProtoTypeCrossConnectVrf,
-	ProtoTypeGreTunnel,
 	ProtoTypeIpsecClient,
 	ProtoTypeIpsecHost,
 	ProtoTypeIpsecV2,
-	ProtoTypeNotDefined,
-	ProtoTypePortalListener,
 	ProtoTypeSocketAWS1500,
 	ProtoTypeSocketAz1500,
 	ProtoTypeSocketEsx1500,
 	ProtoTypeSocketGCP1500,
-	ProtoTypeSocketRpi64,
-	ProtoTypeSocketX1,
 	ProtoTypeSocketX1500,
 	ProtoTypeSocketX1600,
 	ProtoTypeSocketX1600Lte,
 	ProtoTypeSocketX1700,
-	ProtoTypeVsocketVgs,
 	ProtoTypeVsocketVgx,
 	ProtoTypeVsocketVgxAWS,
 	ProtoTypeVsocketVgxAzure,
 	ProtoTypeVsocketVgxEsx,
-	ProtoTypeVsocketVsh,
 }
 
 func (e ProtoType) IsValid() bool {
 	switch e {
-	case ProtoTypeCrossConnect, ProtoTypeCrossConnectL2, ProtoTypeCrossConnectVrf, ProtoTypeGreTunnel, ProtoTypeIpsecClient, ProtoTypeIpsecHost, ProtoTypeIpsecV2, ProtoTypeNotDefined, ProtoTypePortalListener, ProtoTypeSocketAWS1500, ProtoTypeSocketAz1500, ProtoTypeSocketEsx1500, ProtoTypeSocketGCP1500, ProtoTypeSocketRpi64, ProtoTypeSocketX1, ProtoTypeSocketX1500, ProtoTypeSocketX1600, ProtoTypeSocketX1600Lte, ProtoTypeSocketX1700, ProtoTypeVsocketVgs, ProtoTypeVsocketVgx, ProtoTypeVsocketVgxAWS, ProtoTypeVsocketVgxAzure, ProtoTypeVsocketVgxEsx, ProtoTypeVsocketVsh:
+	case ProtoTypeCrossConnect, ProtoTypeIpsecClient, ProtoTypeIpsecHost, ProtoTypeIpsecV2, ProtoTypeSocketAWS1500, ProtoTypeSocketAz1500, ProtoTypeSocketEsx1500, ProtoTypeSocketGCP1500, ProtoTypeSocketX1500, ProtoTypeSocketX1600, ProtoTypeSocketX1600Lte, ProtoTypeSocketX1700, ProtoTypeVsocketVgx, ProtoTypeVsocketVgxAWS, ProtoTypeVsocketVgxAzure, ProtoTypeVsocketVgxEsx:
 		return true
 	}
 	return false
@@ -22950,6 +26807,63 @@ func (e *ResourceRoleEnum) UnmarshalJSON(b []byte) error {
 }
 
 func (e ResourceRoleEnum) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
+}
+
+type RevokeUserSessionStatus string
+
+const (
+	//  Request failed
+	RevokeUserSessionStatusFailure RevokeUserSessionStatus = "FAILURE"
+	//  User sessions were successfully revoked.
+	RevokeUserSessionStatusSuccess RevokeUserSessionStatus = "SUCCESS"
+)
+
+var AllRevokeUserSessionStatus = []RevokeUserSessionStatus{
+	RevokeUserSessionStatusFailure,
+	RevokeUserSessionStatusSuccess,
+}
+
+func (e RevokeUserSessionStatus) IsValid() bool {
+	switch e {
+	case RevokeUserSessionStatusFailure, RevokeUserSessionStatusSuccess:
+		return true
+	}
+	return false
+}
+
+func (e RevokeUserSessionStatus) String() string {
+	return string(e)
+}
+
+func (e *RevokeUserSessionStatus) UnmarshalGQL(v any) error {
+	str, ok := v.(string)
+	if !ok {
+		return fmt.Errorf("enums must be strings")
+	}
+
+	*e = RevokeUserSessionStatus(str)
+	if !e.IsValid() {
+		return fmt.Errorf("%s is not a valid RevokeUserSessionStatus", str)
+	}
+	return nil
+}
+
+func (e RevokeUserSessionStatus) MarshalGQL(w io.Writer) {
+	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+func (e *RevokeUserSessionStatus) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e RevokeUserSessionStatus) MarshalJSON() ([]byte, error) {
 	var buf bytes.Buffer
 	e.MarshalGQL(&buf)
 	return buf.Bytes(), nil
@@ -24036,6 +27950,81 @@ func (e SocketAddOnType) MarshalJSON() ([]byte, error) {
 	return buf.Bytes(), nil
 }
 
+// Socket hardware version. Values sourced from Salesforce Hardware__c sync.
+// If a new hardware version appears in production, add it here and redeploy.
+type SocketHardwareVersion string
+
+const (
+	SocketHardwareVersionX1500    SocketHardwareVersion = "X1500"
+	SocketHardwareVersionX1500a   SocketHardwareVersion = "X1500A"
+	SocketHardwareVersionX1500b   SocketHardwareVersion = "X1500B"
+	SocketHardwareVersionX1500c   SocketHardwareVersion = "X1500C"
+	SocketHardwareVersionX1600    SocketHardwareVersion = "X1600"
+	SocketHardwareVersionX16005g  SocketHardwareVersion = "X16005G"
+	SocketHardwareVersionX1600Lte SocketHardwareVersion = "X1600_LTE"
+	SocketHardwareVersionX1700    SocketHardwareVersion = "X1700"
+	SocketHardwareVersionX1700a   SocketHardwareVersion = "X1700A"
+	SocketHardwareVersionX1700b   SocketHardwareVersion = "X1700B"
+	SocketHardwareVersionX1700c   SocketHardwareVersion = "X1700C"
+)
+
+var AllSocketHardwareVersion = []SocketHardwareVersion{
+	SocketHardwareVersionX1500,
+	SocketHardwareVersionX1500a,
+	SocketHardwareVersionX1500b,
+	SocketHardwareVersionX1500c,
+	SocketHardwareVersionX1600,
+	SocketHardwareVersionX16005g,
+	SocketHardwareVersionX1600Lte,
+	SocketHardwareVersionX1700,
+	SocketHardwareVersionX1700a,
+	SocketHardwareVersionX1700b,
+	SocketHardwareVersionX1700c,
+}
+
+func (e SocketHardwareVersion) IsValid() bool {
+	switch e {
+	case SocketHardwareVersionX1500, SocketHardwareVersionX1500a, SocketHardwareVersionX1500b, SocketHardwareVersionX1500c, SocketHardwareVersionX1600, SocketHardwareVersionX16005g, SocketHardwareVersionX1600Lte, SocketHardwareVersionX1700, SocketHardwareVersionX1700a, SocketHardwareVersionX1700b, SocketHardwareVersionX1700c:
+		return true
+	}
+	return false
+}
+
+func (e SocketHardwareVersion) String() string {
+	return string(e)
+}
+
+func (e *SocketHardwareVersion) UnmarshalGQL(v any) error {
+	str, ok := v.(string)
+	if !ok {
+		return fmt.Errorf("enums must be strings")
+	}
+
+	*e = SocketHardwareVersion(str)
+	if !e.IsValid() {
+		return fmt.Errorf("%s is not a valid SocketHardwareVersion", str)
+	}
+	return nil
+}
+
+func (e SocketHardwareVersion) MarshalGQL(w io.Writer) {
+	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+func (e *SocketHardwareVersion) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e SocketHardwareVersion) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
+}
+
 type SocketInterfaceDestType string
 
 const (
@@ -24320,16 +28309,11 @@ func (e SocketInterfaceRole) MarshalJSON() ([]byte, error) {
 type SocketInterfaceWanRole string
 
 const (
-	SocketInterfaceWanRoleNone  SocketInterfaceWanRole = "NONE"
-	SocketInterfaceWanRoleWan1  SocketInterfaceWanRole = "WAN_1"
-	SocketInterfaceWanRoleWan2  SocketInterfaceWanRole = "WAN_2"
-	SocketInterfaceWanRoleWan3  SocketInterfaceWanRole = "WAN_3"
-	SocketInterfaceWanRoleWan4  SocketInterfaceWanRole = "WAN_4"
-	SocketInterfaceWanRolenone  SocketInterfaceWanRole = "none"
-	SocketInterfaceWanRolewan_1 SocketInterfaceWanRole = "wan_1"
-	SocketInterfaceWanRolewan_2 SocketInterfaceWanRole = "wan_2"
-	SocketInterfaceWanRolewan_3 SocketInterfaceWanRole = "wan_3"
-	SocketInterfaceWanRolewan_4 SocketInterfaceWanRole = "wan_4"
+	SocketInterfaceWanRoleNone SocketInterfaceWanRole = "NONE"
+	SocketInterfaceWanRoleWan1 SocketInterfaceWanRole = "WAN_1"
+	SocketInterfaceWanRoleWan2 SocketInterfaceWanRole = "WAN_2"
+	SocketInterfaceWanRoleWan3 SocketInterfaceWanRole = "WAN_3"
+	SocketInterfaceWanRoleWan4 SocketInterfaceWanRole = "WAN_4"
 )
 
 var AllSocketInterfaceWanRole = []SocketInterfaceWanRole{
@@ -24338,16 +28322,11 @@ var AllSocketInterfaceWanRole = []SocketInterfaceWanRole{
 	SocketInterfaceWanRoleWan2,
 	SocketInterfaceWanRoleWan3,
 	SocketInterfaceWanRoleWan4,
-	SocketInterfaceWanRolenone,
-	SocketInterfaceWanRolewan_1,
-	SocketInterfaceWanRolewan_2,
-	SocketInterfaceWanRolewan_3,
-	SocketInterfaceWanRolewan_4,
 }
 
 func (e SocketInterfaceWanRole) IsValid() bool {
 	switch e {
-	case SocketInterfaceWanRoleNone, SocketInterfaceWanRoleWan1, SocketInterfaceWanRoleWan2, SocketInterfaceWanRoleWan3, SocketInterfaceWanRoleWan4, SocketInterfaceWanRolenone, SocketInterfaceWanRolewan_1, SocketInterfaceWanRolewan_2, SocketInterfaceWanRolewan_3, SocketInterfaceWanRolewan_4:
+	case SocketInterfaceWanRoleNone, SocketInterfaceWanRoleWan1, SocketInterfaceWanRoleWan2, SocketInterfaceWanRoleWan3, SocketInterfaceWanRoleWan4:
 		return true
 	}
 	return false
@@ -24391,24 +28370,28 @@ func (e SocketInterfaceWanRole) MarshalJSON() ([]byte, error) {
 type SocketInventoryItemStatus string
 
 const (
-	SocketInventoryItemStatusConnected SocketInventoryItemStatus = "CONNECTED"
-	SocketInventoryItemStatusDelivered SocketInventoryItemStatus = "DELIVERED"
-	SocketInventoryItemStatusInstalled SocketInventoryItemStatus = "INSTALLED"
-	SocketInventoryItemStatusOrdered   SocketInventoryItemStatus = "ORDERED"
-	SocketInventoryItemStatusShipped   SocketInventoryItemStatus = "SHIPPED"
+	SocketInventoryItemStatusConnected           SocketInventoryItemStatus = "CONNECTED"
+	SocketInventoryItemStatusDecommissioned      SocketInventoryItemStatus = "DECOMMISSIONED"
+	SocketInventoryItemStatusDelivered           SocketInventoryItemStatus = "DELIVERED"
+	SocketInventoryItemStatusInstalled           SocketInventoryItemStatus = "INSTALLED"
+	SocketInventoryItemStatusOrdered             SocketInventoryItemStatus = "ORDERED"
+	SocketInventoryItemStatusPendingDecommission SocketInventoryItemStatus = "PENDING_DECOMMISSION"
+	SocketInventoryItemStatusShipped             SocketInventoryItemStatus = "SHIPPED"
 )
 
 var AllSocketInventoryItemStatus = []SocketInventoryItemStatus{
 	SocketInventoryItemStatusConnected,
+	SocketInventoryItemStatusDecommissioned,
 	SocketInventoryItemStatusDelivered,
 	SocketInventoryItemStatusInstalled,
 	SocketInventoryItemStatusOrdered,
+	SocketInventoryItemStatusPendingDecommission,
 	SocketInventoryItemStatusShipped,
 }
 
 func (e SocketInventoryItemStatus) IsValid() bool {
 	switch e {
-	case SocketInventoryItemStatusConnected, SocketInventoryItemStatusDelivered, SocketInventoryItemStatusInstalled, SocketInventoryItemStatusOrdered, SocketInventoryItemStatusShipped:
+	case SocketInventoryItemStatusConnected, SocketInventoryItemStatusDecommissioned, SocketInventoryItemStatusDelivered, SocketInventoryItemStatusInstalled, SocketInventoryItemStatusOrdered, SocketInventoryItemStatusPendingDecommission, SocketInventoryItemStatusShipped:
 		return true
 	}
 	return false
@@ -24790,6 +28773,131 @@ func (e *SocketModel) UnmarshalJSON(b []byte) error {
 }
 
 func (e SocketModel) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
+}
+
+type SocketModelTypeConfigurationValue string
+
+const (
+	SocketModelTypeConfigurationValueAWS      SocketModelTypeConfigurationValue = "AWS"
+	SocketModelTypeConfigurationValueAzure    SocketModelTypeConfigurationValue = "AZURE"
+	SocketModelTypeConfigurationValueEsx      SocketModelTypeConfigurationValue = "ESX"
+	SocketModelTypeConfigurationValueGCP      SocketModelTypeConfigurationValue = "GCP"
+	SocketModelTypeConfigurationValueX1500    SocketModelTypeConfigurationValue = "X1500"
+	SocketModelTypeConfigurationValueX1600    SocketModelTypeConfigurationValue = "X1600"
+	SocketModelTypeConfigurationValueX1600Lte SocketModelTypeConfigurationValue = "X1600_LTE"
+	SocketModelTypeConfigurationValueX1700    SocketModelTypeConfigurationValue = "X1700"
+)
+
+var AllSocketModelTypeConfigurationValue = []SocketModelTypeConfigurationValue{
+	SocketModelTypeConfigurationValueAWS,
+	SocketModelTypeConfigurationValueAzure,
+	SocketModelTypeConfigurationValueEsx,
+	SocketModelTypeConfigurationValueGCP,
+	SocketModelTypeConfigurationValueX1500,
+	SocketModelTypeConfigurationValueX1600,
+	SocketModelTypeConfigurationValueX1600Lte,
+	SocketModelTypeConfigurationValueX1700,
+}
+
+func (e SocketModelTypeConfigurationValue) IsValid() bool {
+	switch e {
+	case SocketModelTypeConfigurationValueAWS, SocketModelTypeConfigurationValueAzure, SocketModelTypeConfigurationValueEsx, SocketModelTypeConfigurationValueGCP, SocketModelTypeConfigurationValueX1500, SocketModelTypeConfigurationValueX1600, SocketModelTypeConfigurationValueX1600Lte, SocketModelTypeConfigurationValueX1700:
+		return true
+	}
+	return false
+}
+
+func (e SocketModelTypeConfigurationValue) String() string {
+	return string(e)
+}
+
+func (e *SocketModelTypeConfigurationValue) UnmarshalGQL(v any) error {
+	str, ok := v.(string)
+	if !ok {
+		return fmt.Errorf("enums must be strings")
+	}
+
+	*e = SocketModelTypeConfigurationValue(str)
+	if !e.IsValid() {
+		return fmt.Errorf("%s is not a valid SocketModelTypeConfigurationValue", str)
+	}
+	return nil
+}
+
+func (e SocketModelTypeConfigurationValue) MarshalGQL(w io.Writer) {
+	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+func (e *SocketModelTypeConfigurationValue) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e SocketModelTypeConfigurationValue) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
+}
+
+// Order type - PURCHASE for standard orders, REFRESH for socket refresh, REPLACEMENT for RMA replacements
+type SocketOrderType string
+
+const (
+	SocketOrderTypePurchase    SocketOrderType = "PURCHASE"
+	SocketOrderTypeRefresh     SocketOrderType = "REFRESH"
+	SocketOrderTypeReplacement SocketOrderType = "REPLACEMENT"
+)
+
+var AllSocketOrderType = []SocketOrderType{
+	SocketOrderTypePurchase,
+	SocketOrderTypeRefresh,
+	SocketOrderTypeReplacement,
+}
+
+func (e SocketOrderType) IsValid() bool {
+	switch e {
+	case SocketOrderTypePurchase, SocketOrderTypeRefresh, SocketOrderTypeReplacement:
+		return true
+	}
+	return false
+}
+
+func (e SocketOrderType) String() string {
+	return string(e)
+}
+
+func (e *SocketOrderType) UnmarshalGQL(v any) error {
+	str, ok := v.(string)
+	if !ok {
+		return fmt.Errorf("enums must be strings")
+	}
+
+	*e = SocketOrderType(str)
+	if !e.IsValid() {
+		return fmt.Errorf("%s is not a valid SocketOrderType", str)
+	}
+	return nil
+}
+
+func (e SocketOrderType) MarshalGQL(w io.Writer) {
+	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+func (e *SocketOrderType) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e SocketOrderType) MarshalJSON() ([]byte, error) {
 	var buf bytes.Buffer
 	e.MarshalGQL(&buf)
 	return buf.Bytes(), nil
@@ -25604,19 +29712,21 @@ func (e StoryProducerEnum) MarshalJSON() ([]byte, error) {
 type StorySortFieldName string
 
 const (
-	StorySortFieldNameAccountName StorySortFieldName = "accountName"
-	StorySortFieldNameCreatedAt   StorySortFieldName = "createdAt"
-	StorySortFieldNameCriticality StorySortFieldName = "criticality"
-	StorySortFieldNameEngineType  StorySortFieldName = "engineType"
-	StorySortFieldNameFirstSignal StorySortFieldName = "firstSignal"
-	StorySortFieldNameProducer    StorySortFieldName = "producer"
-	StorySortFieldNameQueryName   StorySortFieldName = "queryName"
-	StorySortFieldNameRiskScore   StorySortFieldName = "riskScore"
-	StorySortFieldNameSeverity    StorySortFieldName = "severity"
-	StorySortFieldNameSource      StorySortFieldName = "source"
-	StorySortFieldNameSourceIP    StorySortFieldName = "sourceIp"
-	StorySortFieldNameStatus      StorySortFieldName = "status"
-	StorySortFieldNameUpdatedAt   StorySortFieldName = "updatedAt"
+	StorySortFieldNameAccountName  StorySortFieldName = "accountName"
+	StorySortFieldNameCreatedAt    StorySortFieldName = "createdAt"
+	StorySortFieldNameCriticality  StorySortFieldName = "criticality"
+	StorySortFieldNameEngineType   StorySortFieldName = "engineType"
+	StorySortFieldNameFirstSignal  StorySortFieldName = "firstSignal"
+	StorySortFieldNameProducer     StorySortFieldName = "producer"
+	StorySortFieldNameProducerName StorySortFieldName = "producerName"
+	StorySortFieldNameProducerType StorySortFieldName = "producerType"
+	StorySortFieldNameQueryName    StorySortFieldName = "queryName"
+	StorySortFieldNameRiskScore    StorySortFieldName = "riskScore"
+	StorySortFieldNameSeverity     StorySortFieldName = "severity"
+	StorySortFieldNameSource       StorySortFieldName = "source"
+	StorySortFieldNameSourceIP     StorySortFieldName = "sourceIp"
+	StorySortFieldNameStatus       StorySortFieldName = "status"
+	StorySortFieldNameUpdatedAt    StorySortFieldName = "updatedAt"
 )
 
 var AllStorySortFieldName = []StorySortFieldName{
@@ -25626,6 +29736,8 @@ var AllStorySortFieldName = []StorySortFieldName{
 	StorySortFieldNameEngineType,
 	StorySortFieldNameFirstSignal,
 	StorySortFieldNameProducer,
+	StorySortFieldNameProducerName,
+	StorySortFieldNameProducerType,
 	StorySortFieldNameQueryName,
 	StorySortFieldNameRiskScore,
 	StorySortFieldNameSeverity,
@@ -25637,7 +29749,7 @@ var AllStorySortFieldName = []StorySortFieldName{
 
 func (e StorySortFieldName) IsValid() bool {
 	switch e {
-	case StorySortFieldNameAccountName, StorySortFieldNameCreatedAt, StorySortFieldNameCriticality, StorySortFieldNameEngineType, StorySortFieldNameFirstSignal, StorySortFieldNameProducer, StorySortFieldNameQueryName, StorySortFieldNameRiskScore, StorySortFieldNameSeverity, StorySortFieldNameSource, StorySortFieldNameSourceIP, StorySortFieldNameStatus, StorySortFieldNameUpdatedAt:
+	case StorySortFieldNameAccountName, StorySortFieldNameCreatedAt, StorySortFieldNameCriticality, StorySortFieldNameEngineType, StorySortFieldNameFirstSignal, StorySortFieldNameProducer, StorySortFieldNameProducerName, StorySortFieldNameProducerType, StorySortFieldNameQueryName, StorySortFieldNameRiskScore, StorySortFieldNameSeverity, StorySortFieldNameSource, StorySortFieldNameSourceIP, StorySortFieldNameStatus, StorySortFieldNameUpdatedAt:
 		return true
 	}
 	return false
@@ -26621,50 +30733,53 @@ func (e UnitType) MarshalJSON() ([]byte, error) {
 	return buf.Bytes(), nil
 }
 
-type UserConfidenceLevel string
+type UserAuthMethod string
 
 const (
-	UserConfidenceLevelAny  UserConfidenceLevel = "ANY"
-	UserConfidenceLevelHigh UserConfidenceLevel = "HIGH"
-	UserConfidenceLevelLow  UserConfidenceLevel = "LOW"
+	//  User can authenticate using user & password, followed by a MFA authentication.
+	UserAuthMethodMfa UserAuthMethod = "MFA"
+	//  User can authenticate using SSO provided by Idp.
+	UserAuthMethodSso UserAuthMethod = "SSO"
+	//  User can authenticate using user & password.
+	UserAuthMethodUserPwd UserAuthMethod = "USER_PWD"
 )
 
-var AllUserConfidenceLevel = []UserConfidenceLevel{
-	UserConfidenceLevelAny,
-	UserConfidenceLevelHigh,
-	UserConfidenceLevelLow,
+var AllUserAuthMethod = []UserAuthMethod{
+	UserAuthMethodMfa,
+	UserAuthMethodSso,
+	UserAuthMethodUserPwd,
 }
 
-func (e UserConfidenceLevel) IsValid() bool {
+func (e UserAuthMethod) IsValid() bool {
 	switch e {
-	case UserConfidenceLevelAny, UserConfidenceLevelHigh, UserConfidenceLevelLow:
+	case UserAuthMethodMfa, UserAuthMethodSso, UserAuthMethodUserPwd:
 		return true
 	}
 	return false
 }
 
-func (e UserConfidenceLevel) String() string {
+func (e UserAuthMethod) String() string {
 	return string(e)
 }
 
-func (e *UserConfidenceLevel) UnmarshalGQL(v any) error {
+func (e *UserAuthMethod) UnmarshalGQL(v any) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
 	}
 
-	*e = UserConfidenceLevel(str)
+	*e = UserAuthMethod(str)
 	if !e.IsValid() {
-		return fmt.Errorf("%s is not a valid UserConfidenceLevel", str)
+		return fmt.Errorf("%s is not a valid UserAuthMethod", str)
 	}
 	return nil
 }
 
-func (e UserConfidenceLevel) MarshalGQL(w io.Writer) {
+func (e UserAuthMethod) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
-func (e *UserConfidenceLevel) UnmarshalJSON(b []byte) error {
+func (e *UserAuthMethod) UnmarshalJSON(b []byte) error {
 	s, err := strconv.Unquote(string(b))
 	if err != nil {
 		return err
@@ -26672,7 +30787,69 @@ func (e *UserConfidenceLevel) UnmarshalJSON(b []byte) error {
 	return e.UnmarshalGQL(s)
 }
 
-func (e UserConfidenceLevel) MarshalJSON() ([]byte, error) {
+func (e UserAuthMethod) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
+}
+
+type UserAuthStatus string
+
+const (
+	// The user has finished all required authentication setup.
+	// Password and, if required by the account, MFA are configured.
+	UserAuthStatusCompleted UserAuthStatus = "COMPLETED"
+	//  The user’s password is set, but MFA is not yet configured while MFA is required.
+	UserAuthStatusMfaNotSet UserAuthStatus = "MFA_NOT_SET"
+	// The user does not have a password configured yet.
+	// This is usually a brand‑new user or one that must define their password on first login.
+	UserAuthStatusPwdNotSet UserAuthStatus = "PWD_NOT_SET"
+)
+
+var AllUserAuthStatus = []UserAuthStatus{
+	UserAuthStatusCompleted,
+	UserAuthStatusMfaNotSet,
+	UserAuthStatusPwdNotSet,
+}
+
+func (e UserAuthStatus) IsValid() bool {
+	switch e {
+	case UserAuthStatusCompleted, UserAuthStatusMfaNotSet, UserAuthStatusPwdNotSet:
+		return true
+	}
+	return false
+}
+
+func (e UserAuthStatus) String() string {
+	return string(e)
+}
+
+func (e *UserAuthStatus) UnmarshalGQL(v any) error {
+	str, ok := v.(string)
+	if !ok {
+		return fmt.Errorf("enums must be strings")
+	}
+
+	*e = UserAuthStatus(str)
+	if !e.IsValid() {
+		return fmt.Errorf("%s is not a valid UserAuthStatus", str)
+	}
+	return nil
+}
+
+func (e UserAuthStatus) MarshalGQL(w io.Writer) {
+	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+func (e *UserAuthStatus) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e UserAuthStatus) MarshalJSON() ([]byte, error) {
 	var buf bytes.Buffer
 	e.MarshalGQL(&buf)
 	return buf.Bytes(), nil
@@ -26738,6 +30915,67 @@ func (e *UserRole) UnmarshalJSON(b []byte) error {
 }
 
 func (e UserRole) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
+}
+
+type UserStatus string
+
+const (
+	//  User is active, can authenticate or connect.
+	UserStatusActive UserStatus = "ACTIVE"
+	//  User is disabled as part of lifecycle management. Cannot authenticate or connect.
+	UserStatusDisabled UserStatus = "DISABLED"
+	// User is blocked from authenticating due to a security risk (suspected brute force, repeated wrong MFA, etc.).
+	// Lock can be cleared by authenticating after some timeout, or by admin action.
+	UserStatusLocked UserStatus = "LOCKED"
+)
+
+var AllUserStatus = []UserStatus{
+	UserStatusActive,
+	UserStatusDisabled,
+	UserStatusLocked,
+}
+
+func (e UserStatus) IsValid() bool {
+	switch e {
+	case UserStatusActive, UserStatusDisabled, UserStatusLocked:
+		return true
+	}
+	return false
+}
+
+func (e UserStatus) String() string {
+	return string(e)
+}
+
+func (e *UserStatus) UnmarshalGQL(v any) error {
+	str, ok := v.(string)
+	if !ok {
+		return fmt.Errorf("enums must be strings")
+	}
+
+	*e = UserStatus(str)
+	if !e.IsValid() {
+		return fmt.Errorf("%s is not a valid UserStatus", str)
+	}
+	return nil
+}
+
+func (e UserStatus) MarshalGQL(w io.Writer) {
+	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+func (e *UserStatus) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e UserStatus) MarshalJSON() ([]byte, error) {
 	var buf bytes.Buffer
 	e.MarshalGQL(&buf)
 	return buf.Bytes(), nil
@@ -26862,20 +31100,17 @@ const (
 	WanFirewallActionEnumBlock WanFirewallActionEnum = "BLOCK"
 	//  Requests user confirmation to allow or block network traffic.
 	WanFirewallActionEnumPrompt WanFirewallActionEnum = "PROMPT"
-	//  Indicates that a rule is used as a scoping rule for sub policies and does not take any action itself
-	WanFirewallActionEnumSubPolicy WanFirewallActionEnum = "SUB_POLICY"
 )
 
 var AllWanFirewallActionEnum = []WanFirewallActionEnum{
 	WanFirewallActionEnumAllow,
 	WanFirewallActionEnumBlock,
 	WanFirewallActionEnumPrompt,
-	WanFirewallActionEnumSubPolicy,
 }
 
 func (e WanFirewallActionEnum) IsValid() bool {
 	switch e {
-	case WanFirewallActionEnumAllow, WanFirewallActionEnumBlock, WanFirewallActionEnumPrompt, WanFirewallActionEnumSubPolicy:
+	case WanFirewallActionEnumAllow, WanFirewallActionEnumBlock, WanFirewallActionEnumPrompt:
 		return true
 	}
 	return false
@@ -27241,6 +31476,464 @@ func (e WanNetworkRuleType) MarshalJSON() ([]byte, error) {
 	return buf.Bytes(), nil
 }
 
+type WebhookRelationType string
+
+const (
+	WebhookRelationTypeCreate WebhookRelationType = "CREATE"
+	WebhookRelationTypeUpdate WebhookRelationType = "UPDATE"
+)
+
+var AllWebhookRelationType = []WebhookRelationType{
+	WebhookRelationTypeCreate,
+	WebhookRelationTypeUpdate,
+}
+
+func (e WebhookRelationType) IsValid() bool {
+	switch e {
+	case WebhookRelationTypeCreate, WebhookRelationTypeUpdate:
+		return true
+	}
+	return false
+}
+
+func (e WebhookRelationType) String() string {
+	return string(e)
+}
+
+func (e *WebhookRelationType) UnmarshalGQL(v any) error {
+	str, ok := v.(string)
+	if !ok {
+		return fmt.Errorf("enums must be strings")
+	}
+
+	*e = WebhookRelationType(str)
+	if !e.IsValid() {
+		return fmt.Errorf("%s is not a valid WebhookRelationType", str)
+	}
+	return nil
+}
+
+func (e WebhookRelationType) MarshalGQL(w io.Writer) {
+	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+func (e *WebhookRelationType) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e WebhookRelationType) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
+}
+
+type WebhookRequestMethod string
+
+const (
+	WebhookRequestMethodPost WebhookRequestMethod = "POST"
+	WebhookRequestMethodPut  WebhookRequestMethod = "PUT"
+)
+
+var AllWebhookRequestMethod = []WebhookRequestMethod{
+	WebhookRequestMethodPost,
+	WebhookRequestMethodPut,
+}
+
+func (e WebhookRequestMethod) IsValid() bool {
+	switch e {
+	case WebhookRequestMethodPost, WebhookRequestMethodPut:
+		return true
+	}
+	return false
+}
+
+func (e WebhookRequestMethod) String() string {
+	return string(e)
+}
+
+func (e *WebhookRequestMethod) UnmarshalGQL(v any) error {
+	str, ok := v.(string)
+	if !ok {
+		return fmt.Errorf("enums must be strings")
+	}
+
+	*e = WebhookRequestMethod(str)
+	if !e.IsValid() {
+		return fmt.Errorf("%s is not a valid WebhookRequestMethod", str)
+	}
+	return nil
+}
+
+func (e WebhookRequestMethod) MarshalGQL(w io.Writer) {
+	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+func (e *WebhookRequestMethod) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e WebhookRequestMethod) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
+}
+
+type WifiAuthProtocol string
+
+const (
+	WifiAuthProtocolWpa2           WifiAuthProtocol = "WPA2"
+	WifiAuthProtocolWpa3           WifiAuthProtocol = "WPA3"
+	WifiAuthProtocolWpa3Transition WifiAuthProtocol = "WPA3_TRANSITION"
+)
+
+var AllWifiAuthProtocol = []WifiAuthProtocol{
+	WifiAuthProtocolWpa2,
+	WifiAuthProtocolWpa3,
+	WifiAuthProtocolWpa3Transition,
+}
+
+func (e WifiAuthProtocol) IsValid() bool {
+	switch e {
+	case WifiAuthProtocolWpa2, WifiAuthProtocolWpa3, WifiAuthProtocolWpa3Transition:
+		return true
+	}
+	return false
+}
+
+func (e WifiAuthProtocol) String() string {
+	return string(e)
+}
+
+func (e *WifiAuthProtocol) UnmarshalGQL(v any) error {
+	str, ok := v.(string)
+	if !ok {
+		return fmt.Errorf("enums must be strings")
+	}
+
+	*e = WifiAuthProtocol(str)
+	if !e.IsValid() {
+		return fmt.Errorf("%s is not a valid WifiAuthProtocol", str)
+	}
+	return nil
+}
+
+func (e WifiAuthProtocol) MarshalGQL(w io.Writer) {
+	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+func (e *WifiAuthProtocol) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e WifiAuthProtocol) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
+}
+
+type WifiChannelWidth string
+
+const (
+	WifiChannelWidthAuto   WifiChannelWidth = "AUTO"
+	WifiChannelWidthMhz160 WifiChannelWidth = "MHZ_160"
+	WifiChannelWidthMhz20  WifiChannelWidth = "MHZ_20"
+	WifiChannelWidthMhz40  WifiChannelWidth = "MHZ_40"
+	WifiChannelWidthMhz80  WifiChannelWidth = "MHZ_80"
+)
+
+var AllWifiChannelWidth = []WifiChannelWidth{
+	WifiChannelWidthAuto,
+	WifiChannelWidthMhz160,
+	WifiChannelWidthMhz20,
+	WifiChannelWidthMhz40,
+	WifiChannelWidthMhz80,
+}
+
+func (e WifiChannelWidth) IsValid() bool {
+	switch e {
+	case WifiChannelWidthAuto, WifiChannelWidthMhz160, WifiChannelWidthMhz20, WifiChannelWidthMhz40, WifiChannelWidthMhz80:
+		return true
+	}
+	return false
+}
+
+func (e WifiChannelWidth) String() string {
+	return string(e)
+}
+
+func (e *WifiChannelWidth) UnmarshalGQL(v any) error {
+	str, ok := v.(string)
+	if !ok {
+		return fmt.Errorf("enums must be strings")
+	}
+
+	*e = WifiChannelWidth(str)
+	if !e.IsValid() {
+		return fmt.Errorf("%s is not a valid WifiChannelWidth", str)
+	}
+	return nil
+}
+
+func (e WifiChannelWidth) MarshalGQL(w io.Writer) {
+	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+func (e *WifiChannelWidth) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e WifiChannelWidth) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
+}
+
+type WifiRadioBand string
+
+const (
+	WifiRadioBandBand2p4g WifiRadioBand = "BAND_2P4G"
+	WifiRadioBandBand5g   WifiRadioBand = "BAND_5G"
+	WifiRadioBandBoth     WifiRadioBand = "BOTH"
+)
+
+var AllWifiRadioBand = []WifiRadioBand{
+	WifiRadioBandBand2p4g,
+	WifiRadioBandBand5g,
+	WifiRadioBandBoth,
+}
+
+func (e WifiRadioBand) IsValid() bool {
+	switch e {
+	case WifiRadioBandBand2p4g, WifiRadioBandBand5g, WifiRadioBandBoth:
+		return true
+	}
+	return false
+}
+
+func (e WifiRadioBand) String() string {
+	return string(e)
+}
+
+func (e *WifiRadioBand) UnmarshalGQL(v any) error {
+	str, ok := v.(string)
+	if !ok {
+		return fmt.Errorf("enums must be strings")
+	}
+
+	*e = WifiRadioBand(str)
+	if !e.IsValid() {
+		return fmt.Errorf("%s is not a valid WifiRadioBand", str)
+	}
+	return nil
+}
+
+func (e WifiRadioBand) MarshalGQL(w io.Writer) {
+	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+func (e *WifiRadioBand) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e WifiRadioBand) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
+}
+
+type WifiRadioStandard string
+
+const (
+	WifiRadioStandardAuto        WifiRadioStandard = "AUTO"
+	WifiRadioStandardIeee80211ac WifiRadioStandard = "IEEE80211AC"
+	WifiRadioStandardIeee80211ax WifiRadioStandard = "IEEE80211AX"
+	WifiRadioStandardIeee80211be WifiRadioStandard = "IEEE80211BE"
+	WifiRadioStandardIeee80211n  WifiRadioStandard = "IEEE80211N"
+)
+
+var AllWifiRadioStandard = []WifiRadioStandard{
+	WifiRadioStandardAuto,
+	WifiRadioStandardIeee80211ac,
+	WifiRadioStandardIeee80211ax,
+	WifiRadioStandardIeee80211be,
+	WifiRadioStandardIeee80211n,
+}
+
+func (e WifiRadioStandard) IsValid() bool {
+	switch e {
+	case WifiRadioStandardAuto, WifiRadioStandardIeee80211ac, WifiRadioStandardIeee80211ax, WifiRadioStandardIeee80211be, WifiRadioStandardIeee80211n:
+		return true
+	}
+	return false
+}
+
+func (e WifiRadioStandard) String() string {
+	return string(e)
+}
+
+func (e *WifiRadioStandard) UnmarshalGQL(v any) error {
+	str, ok := v.(string)
+	if !ok {
+		return fmt.Errorf("enums must be strings")
+	}
+
+	*e = WifiRadioStandard(str)
+	if !e.IsValid() {
+		return fmt.Errorf("%s is not a valid WifiRadioStandard", str)
+	}
+	return nil
+}
+
+func (e WifiRadioStandard) MarshalGQL(w io.Writer) {
+	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+func (e *WifiRadioStandard) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e WifiRadioStandard) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
+}
+
+type WifiSecurityMode string
+
+const (
+	WifiSecurityModeEnterprise WifiSecurityMode = "ENTERPRISE"
+	WifiSecurityModeOpen       WifiSecurityMode = "OPEN"
+	WifiSecurityModePsk        WifiSecurityMode = "PSK"
+)
+
+var AllWifiSecurityMode = []WifiSecurityMode{
+	WifiSecurityModeEnterprise,
+	WifiSecurityModeOpen,
+	WifiSecurityModePsk,
+}
+
+func (e WifiSecurityMode) IsValid() bool {
+	switch e {
+	case WifiSecurityModeEnterprise, WifiSecurityModeOpen, WifiSecurityModePsk:
+		return true
+	}
+	return false
+}
+
+func (e WifiSecurityMode) String() string {
+	return string(e)
+}
+
+func (e *WifiSecurityMode) UnmarshalGQL(v any) error {
+	str, ok := v.(string)
+	if !ok {
+		return fmt.Errorf("enums must be strings")
+	}
+
+	*e = WifiSecurityMode(str)
+	if !e.IsValid() {
+		return fmt.Errorf("%s is not a valid WifiSecurityMode", str)
+	}
+	return nil
+}
+
+func (e WifiSecurityMode) MarshalGQL(w io.Writer) {
+	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+func (e *WifiSecurityMode) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e WifiSecurityMode) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
+}
+
+type WifiSsidCategory string
+
+const (
+	WifiSsidCategoryCorporate WifiSsidCategory = "CORPORATE"
+	WifiSsidCategoryGuest     WifiSsidCategory = "GUEST"
+)
+
+var AllWifiSsidCategory = []WifiSsidCategory{
+	WifiSsidCategoryCorporate,
+	WifiSsidCategoryGuest,
+}
+
+func (e WifiSsidCategory) IsValid() bool {
+	switch e {
+	case WifiSsidCategoryCorporate, WifiSsidCategoryGuest:
+		return true
+	}
+	return false
+}
+
+func (e WifiSsidCategory) String() string {
+	return string(e)
+}
+
+func (e *WifiSsidCategory) UnmarshalGQL(v any) error {
+	str, ok := v.(string)
+	if !ok {
+		return fmt.Errorf("enums must be strings")
+	}
+
+	*e = WifiSsidCategory(str)
+	if !e.IsValid() {
+		return fmt.Errorf("%s is not a valid WifiSsidCategory", str)
+	}
+	return nil
+}
+
+func (e WifiSsidCategory) MarshalGQL(w io.Writer) {
+	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+func (e *WifiSsidCategory) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e WifiSsidCategory) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
+}
+
 // The action applied by the Always on policy if the rule is matched
 type ZtnaAlwaysOnRuleActionEnum string
 
@@ -27352,6 +32045,228 @@ func (e *ZtnaAlwaysOnTimeUnit) UnmarshalJSON(b []byte) error {
 }
 
 func (e ZtnaAlwaysOnTimeUnit) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
+}
+
+type ZtnaAppConnectorConnectivityStatus string
+
+const (
+	ZtnaAppConnectorConnectivityStatusConnected    ZtnaAppConnectorConnectivityStatus = "CONNECTED"
+	ZtnaAppConnectorConnectivityStatusDisconnected ZtnaAppConnectorConnectivityStatus = "DISCONNECTED"
+)
+
+var AllZtnaAppConnectorConnectivityStatus = []ZtnaAppConnectorConnectivityStatus{
+	ZtnaAppConnectorConnectivityStatusConnected,
+	ZtnaAppConnectorConnectivityStatusDisconnected,
+}
+
+func (e ZtnaAppConnectorConnectivityStatus) IsValid() bool {
+	switch e {
+	case ZtnaAppConnectorConnectivityStatusConnected, ZtnaAppConnectorConnectivityStatusDisconnected:
+		return true
+	}
+	return false
+}
+
+func (e ZtnaAppConnectorConnectivityStatus) String() string {
+	return string(e)
+}
+
+func (e *ZtnaAppConnectorConnectivityStatus) UnmarshalGQL(v any) error {
+	str, ok := v.(string)
+	if !ok {
+		return fmt.Errorf("enums must be strings")
+	}
+
+	*e = ZtnaAppConnectorConnectivityStatus(str)
+	if !e.IsValid() {
+		return fmt.Errorf("%s is not a valid ZtnaAppConnectorConnectivityStatus", str)
+	}
+	return nil
+}
+
+func (e ZtnaAppConnectorConnectivityStatus) MarshalGQL(w io.Writer) {
+	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+func (e *ZtnaAppConnectorConnectivityStatus) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e ZtnaAppConnectorConnectivityStatus) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
+}
+
+type ZtnaAppConnectorInterfaceType string
+
+const (
+	ZtnaAppConnectorInterfaceTypeCato ZtnaAppConnectorInterfaceType = "CATO"
+	ZtnaAppConnectorInterfaceTypeLan  ZtnaAppConnectorInterfaceType = "LAN"
+)
+
+var AllZtnaAppConnectorInterfaceType = []ZtnaAppConnectorInterfaceType{
+	ZtnaAppConnectorInterfaceTypeCato,
+	ZtnaAppConnectorInterfaceTypeLan,
+}
+
+func (e ZtnaAppConnectorInterfaceType) IsValid() bool {
+	switch e {
+	case ZtnaAppConnectorInterfaceTypeCato, ZtnaAppConnectorInterfaceTypeLan:
+		return true
+	}
+	return false
+}
+
+func (e ZtnaAppConnectorInterfaceType) String() string {
+	return string(e)
+}
+
+func (e *ZtnaAppConnectorInterfaceType) UnmarshalGQL(v any) error {
+	str, ok := v.(string)
+	if !ok {
+		return fmt.Errorf("enums must be strings")
+	}
+
+	*e = ZtnaAppConnectorInterfaceType(str)
+	if !e.IsValid() {
+		return fmt.Errorf("%s is not a valid ZtnaAppConnectorInterfaceType", str)
+	}
+	return nil
+}
+
+func (e ZtnaAppConnectorInterfaceType) MarshalGQL(w io.Writer) {
+	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+func (e *ZtnaAppConnectorInterfaceType) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e ZtnaAppConnectorInterfaceType) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
+}
+
+type ZtnaAppConnectorSnapshotProbingStatus string
+
+const (
+	ZtnaAppConnectorSnapshotProbingStatusDisabled ZtnaAppConnectorSnapshotProbingStatus = "DISABLED"
+	ZtnaAppConnectorSnapshotProbingStatusDown     ZtnaAppConnectorSnapshotProbingStatus = "DOWN"
+	ZtnaAppConnectorSnapshotProbingStatusUp       ZtnaAppConnectorSnapshotProbingStatus = "UP"
+)
+
+var AllZtnaAppConnectorSnapshotProbingStatus = []ZtnaAppConnectorSnapshotProbingStatus{
+	ZtnaAppConnectorSnapshotProbingStatusDisabled,
+	ZtnaAppConnectorSnapshotProbingStatusDown,
+	ZtnaAppConnectorSnapshotProbingStatusUp,
+}
+
+func (e ZtnaAppConnectorSnapshotProbingStatus) IsValid() bool {
+	switch e {
+	case ZtnaAppConnectorSnapshotProbingStatusDisabled, ZtnaAppConnectorSnapshotProbingStatusDown, ZtnaAppConnectorSnapshotProbingStatusUp:
+		return true
+	}
+	return false
+}
+
+func (e ZtnaAppConnectorSnapshotProbingStatus) String() string {
+	return string(e)
+}
+
+func (e *ZtnaAppConnectorSnapshotProbingStatus) UnmarshalGQL(v any) error {
+	str, ok := v.(string)
+	if !ok {
+		return fmt.Errorf("enums must be strings")
+	}
+
+	*e = ZtnaAppConnectorSnapshotProbingStatus(str)
+	if !e.IsValid() {
+		return fmt.Errorf("%s is not a valid ZtnaAppConnectorSnapshotProbingStatus", str)
+	}
+	return nil
+}
+
+func (e ZtnaAppConnectorSnapshotProbingStatus) MarshalGQL(w io.Writer) {
+	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+func (e *ZtnaAppConnectorSnapshotProbingStatus) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e ZtnaAppConnectorSnapshotProbingStatus) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
+}
+
+type ZtnaAppConnectorSnapshotRoutingStatus string
+
+const (
+	ZtnaAppConnectorSnapshotRoutingStatusDown ZtnaAppConnectorSnapshotRoutingStatus = "DOWN"
+	ZtnaAppConnectorSnapshotRoutingStatusUp   ZtnaAppConnectorSnapshotRoutingStatus = "UP"
+)
+
+var AllZtnaAppConnectorSnapshotRoutingStatus = []ZtnaAppConnectorSnapshotRoutingStatus{
+	ZtnaAppConnectorSnapshotRoutingStatusDown,
+	ZtnaAppConnectorSnapshotRoutingStatusUp,
+}
+
+func (e ZtnaAppConnectorSnapshotRoutingStatus) IsValid() bool {
+	switch e {
+	case ZtnaAppConnectorSnapshotRoutingStatusDown, ZtnaAppConnectorSnapshotRoutingStatusUp:
+		return true
+	}
+	return false
+}
+
+func (e ZtnaAppConnectorSnapshotRoutingStatus) String() string {
+	return string(e)
+}
+
+func (e *ZtnaAppConnectorSnapshotRoutingStatus) UnmarshalGQL(v any) error {
+	str, ok := v.(string)
+	if !ok {
+		return fmt.Errorf("enums must be strings")
+	}
+
+	*e = ZtnaAppConnectorSnapshotRoutingStatus(str)
+	if !e.IsValid() {
+		return fmt.Errorf("%s is not a valid ZtnaAppConnectorSnapshotRoutingStatus", str)
+	}
+	return nil
+}
+
+func (e ZtnaAppConnectorSnapshotRoutingStatus) MarshalGQL(w io.Writer) {
+	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+func (e *ZtnaAppConnectorSnapshotRoutingStatus) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e ZtnaAppConnectorSnapshotRoutingStatus) MarshalJSON() ([]byte, error) {
 	var buf bytes.Buffer
 	e.MarshalGQL(&buf)
 	return buf.Bytes(), nil

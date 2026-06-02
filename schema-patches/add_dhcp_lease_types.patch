@@ -1,0 +1,28 @@
+--- a/cato_api.graphqls
++++ b/cato_api.graphqls
+@@ -2065,6 +2065,11 @@
+   csvExport(input: DeviceCsvExportInput): ExportJobResponse! @beta
+   csvExportStatus(jobId: ID!): ExportStatusResponse! @beta
+   list(input: DeviceV2Input): DevicesPayload @beta
++}
++
++type DhcpLeaseTimeSettings {
++  leaseTime: Int!
++  timeUnit: LeaseTimeMeasureUnit!
+ }
+ 
+ type DhcpRelayGroupRef implements ObjectRef {
+@@ -14624,6 +14629,13 @@
+   SHA512
+ }
+ 
++enum LeaseTimeMeasureUnit {
++  DAYS
++  HOURS
++  MINUTES
++  SECONDS
++}
++
+ """ enum for license plan type (site license, service license, etc...) """
+ enum LicensePlan {
+   COMMERCIAL
