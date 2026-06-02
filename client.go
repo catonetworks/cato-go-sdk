@@ -84110,14 +84110,13 @@ func (t *AccountSnapshot_AccountSnapshot_Sites_Devices_Interfaces_TunnelRemoteIP
 }
 
 type AccountSnapshot_AccountSnapshot_Sites_Devices_Interfaces_InfoInterfaceSnapshot struct {
-	DestType                         *string                             "json:\"destType,omitempty\" graphql:\"destType\""
-	DownstreamBandwidth              *int64                              "json:\"downstreamBandwidth,omitempty\" graphql:\"downstreamBandwidth\""
-	DownstreamBandwidthMbpsPrecision *float64                            "json:\"downstreamBandwidthMbpsPrecision,omitempty\" graphql:\"downstreamBandwidthMbpsPrecision\""
-	ID                               string                              "json:\"id\" graphql:\"id\""
-	Name                             *string                             "json:\"name,omitempty\" graphql:\"name\""
-	UpstreamBandwidth                *int64                              "json:\"upstreamBandwidth,omitempty\" graphql:\"upstreamBandwidth\""
-	UpstreamBandwidthMbpsPrecision   *float64                            "json:\"upstreamBandwidthMbpsPrecision,omitempty\" graphql:\"upstreamBandwidthMbpsPrecision\""
-	WanRole                          *cato_models.SocketInterfaceWanRole "json:\"wanRole,omitempty\" graphql:\"wanRole\""
+	DestType                         *string  "json:\"destType,omitempty\" graphql:\"destType\""
+	DownstreamBandwidth              *int64   "json:\"downstreamBandwidth,omitempty\" graphql:\"downstreamBandwidth\""
+	DownstreamBandwidthMbpsPrecision *float64 "json:\"downstreamBandwidthMbpsPrecision,omitempty\" graphql:\"downstreamBandwidthMbpsPrecision\""
+	ID                               string   "json:\"id\" graphql:\"id\""
+	Name                             *string  "json:\"name,omitempty\" graphql:\"name\""
+	UpstreamBandwidth                *int64   "json:\"upstreamBandwidth,omitempty\" graphql:\"upstreamBandwidth\""
+	UpstreamBandwidthMbpsPrecision   *float64 "json:\"upstreamBandwidthMbpsPrecision,omitempty\" graphql:\"upstreamBandwidthMbpsPrecision\""
 }
 
 func (t *AccountSnapshot_AccountSnapshot_Sites_Devices_Interfaces_InfoInterfaceSnapshot) GetDestType() *string {
@@ -84161,12 +84160,6 @@ func (t *AccountSnapshot_AccountSnapshot_Sites_Devices_Interfaces_InfoInterfaceS
 		t = &AccountSnapshot_AccountSnapshot_Sites_Devices_Interfaces_InfoInterfaceSnapshot{}
 	}
 	return t.UpstreamBandwidthMbpsPrecision
-}
-func (t *AccountSnapshot_AccountSnapshot_Sites_Devices_Interfaces_InfoInterfaceSnapshot) GetWanRole() *cato_models.SocketInterfaceWanRole {
-	if t == nil {
-		t = &AccountSnapshot_AccountSnapshot_Sites_Devices_Interfaces_InfoInterfaceSnapshot{}
-	}
-	return t.WanRole
 }
 
 type AccountSnapshot_AccountSnapshot_Sites_Devices_Interfaces_CellularInterfaceInfoInterfaceSnapshot struct {
@@ -84786,14 +84779,13 @@ func (t *AccountSnapshot_AccountSnapshot_Sites_Devices) GetVersionNumber() *int6
 }
 
 type AccountSnapshot_AccountSnapshot_Sites_InfoSiteSnapshot_Interfaces struct {
-	DestType                         *string                             "json:\"destType,omitempty\" graphql:\"destType\""
-	DownstreamBandwidth              *int64                              "json:\"downstreamBandwidth,omitempty\" graphql:\"downstreamBandwidth\""
-	DownstreamBandwidthMbpsPrecision *float64                            "json:\"downstreamBandwidthMbpsPrecision,omitempty\" graphql:\"downstreamBandwidthMbpsPrecision\""
-	ID                               string                              "json:\"id\" graphql:\"id\""
-	Name                             *string                             "json:\"name,omitempty\" graphql:\"name\""
-	UpstreamBandwidth                *int64                              "json:\"upstreamBandwidth,omitempty\" graphql:\"upstreamBandwidth\""
-	UpstreamBandwidthMbpsPrecision   *float64                            "json:\"upstreamBandwidthMbpsPrecision,omitempty\" graphql:\"upstreamBandwidthMbpsPrecision\""
-	WanRoleInterfaceInfo             *cato_models.SocketInterfaceWanRole "json:\"wanRoleInterfaceInfo,omitempty\" graphql:\"wanRoleInterfaceInfo\""
+	DestType                         *string  "json:\"destType,omitempty\" graphql:\"destType\""
+	DownstreamBandwidth              *int64   "json:\"downstreamBandwidth,omitempty\" graphql:\"downstreamBandwidth\""
+	DownstreamBandwidthMbpsPrecision *float64 "json:\"downstreamBandwidthMbpsPrecision,omitempty\" graphql:\"downstreamBandwidthMbpsPrecision\""
+	ID                               string   "json:\"id\" graphql:\"id\""
+	Name                             *string  "json:\"name,omitempty\" graphql:\"name\""
+	UpstreamBandwidth                *int64   "json:\"upstreamBandwidth,omitempty\" graphql:\"upstreamBandwidth\""
+	UpstreamBandwidthMbpsPrecision   *float64 "json:\"upstreamBandwidthMbpsPrecision,omitempty\" graphql:\"upstreamBandwidthMbpsPrecision\""
 }
 
 func (t *AccountSnapshot_AccountSnapshot_Sites_InfoSiteSnapshot_Interfaces) GetDestType() *string {
@@ -84837,12 +84829,6 @@ func (t *AccountSnapshot_AccountSnapshot_Sites_InfoSiteSnapshot_Interfaces) GetU
 		t = &AccountSnapshot_AccountSnapshot_Sites_InfoSiteSnapshot_Interfaces{}
 	}
 	return t.UpstreamBandwidthMbpsPrecision
-}
-func (t *AccountSnapshot_AccountSnapshot_Sites_InfoSiteSnapshot_Interfaces) GetWanRoleInterfaceInfo() *cato_models.SocketInterfaceWanRole {
-	if t == nil {
-		t = &AccountSnapshot_AccountSnapshot_Sites_InfoSiteSnapshot_Interfaces{}
-	}
-	return t.WanRoleInterfaceInfo
 }
 
 type AccountSnapshot_AccountSnapshot_Sites_InfoSiteSnapshot_Sockets struct {
@@ -85044,7 +85030,6 @@ type AccountSnapshot_AccountSnapshot_Sites struct {
 	LastConnected                  *string                                                     "json:\"lastConnected,omitempty\" graphql:\"lastConnected\""
 	OperationalStatusSiteSnapshot  *scalars.OperationalStatus                                  "json:\"operationalStatusSiteSnapshot,omitempty\" graphql:\"operationalStatusSiteSnapshot\""
 	PopName                        *string                                                     "json:\"popName,omitempty\" graphql:\"popName\""
-	ProtoID                        *string                                                     "json:\"protoId,omitempty\" graphql:\"protoId\""
 }
 
 func (t *AccountSnapshot_AccountSnapshot_Sites) GetAltWanStatus() *string {
@@ -85112,12 +85097,6 @@ func (t *AccountSnapshot_AccountSnapshot_Sites) GetPopName() *string {
 		t = &AccountSnapshot_AccountSnapshot_Sites{}
 	}
 	return t.PopName
-}
-func (t *AccountSnapshot_AccountSnapshot_Sites) GetProtoID() *string {
-	if t == nil {
-		t = &AccountSnapshot_AccountSnapshot_Sites{}
-	}
-	return t.ProtoID
 }
 
 type AccountSnapshot_AccountSnapshot_Users_RemoteIPInfoUserSnapshot struct {
@@ -85241,14 +85220,13 @@ func (t *AccountSnapshot_AccountSnapshot_Users_Devices_Interfaces_TunnelRemoteIP
 }
 
 type AccountSnapshot_AccountSnapshot_Users_Devices_Interfaces_InfoInterfaceSnapshot struct {
-	DestType                         *string                             "json:\"destType,omitempty\" graphql:\"destType\""
-	DownstreamBandwidth              *int64                              "json:\"downstreamBandwidth,omitempty\" graphql:\"downstreamBandwidth\""
-	DownstreamBandwidthMbpsPrecision *float64                            "json:\"downstreamBandwidthMbpsPrecision,omitempty\" graphql:\"downstreamBandwidthMbpsPrecision\""
-	ID                               string                              "json:\"id\" graphql:\"id\""
-	Name                             *string                             "json:\"name,omitempty\" graphql:\"name\""
-	UpstreamBandwidth                *int64                              "json:\"upstreamBandwidth,omitempty\" graphql:\"upstreamBandwidth\""
-	UpstreamBandwidthMbpsPrecision   *float64                            "json:\"upstreamBandwidthMbpsPrecision,omitempty\" graphql:\"upstreamBandwidthMbpsPrecision\""
-	WanRole                          *cato_models.SocketInterfaceWanRole "json:\"wanRole,omitempty\" graphql:\"wanRole\""
+	DestType                         *string  "json:\"destType,omitempty\" graphql:\"destType\""
+	DownstreamBandwidth              *int64   "json:\"downstreamBandwidth,omitempty\" graphql:\"downstreamBandwidth\""
+	DownstreamBandwidthMbpsPrecision *float64 "json:\"downstreamBandwidthMbpsPrecision,omitempty\" graphql:\"downstreamBandwidthMbpsPrecision\""
+	ID                               string   "json:\"id\" graphql:\"id\""
+	Name                             *string  "json:\"name,omitempty\" graphql:\"name\""
+	UpstreamBandwidth                *int64   "json:\"upstreamBandwidth,omitempty\" graphql:\"upstreamBandwidth\""
+	UpstreamBandwidthMbpsPrecision   *float64 "json:\"upstreamBandwidthMbpsPrecision,omitempty\" graphql:\"upstreamBandwidthMbpsPrecision\""
 }
 
 func (t *AccountSnapshot_AccountSnapshot_Users_Devices_Interfaces_InfoInterfaceSnapshot) GetDestType() *string {
@@ -85292,12 +85270,6 @@ func (t *AccountSnapshot_AccountSnapshot_Users_Devices_Interfaces_InfoInterfaceS
 		t = &AccountSnapshot_AccountSnapshot_Users_Devices_Interfaces_InfoInterfaceSnapshot{}
 	}
 	return t.UpstreamBandwidthMbpsPrecision
-}
-func (t *AccountSnapshot_AccountSnapshot_Users_Devices_Interfaces_InfoInterfaceSnapshot) GetWanRole() *cato_models.SocketInterfaceWanRole {
-	if t == nil {
-		t = &AccountSnapshot_AccountSnapshot_Users_Devices_Interfaces_InfoInterfaceSnapshot{}
-	}
-	return t.WanRole
 }
 
 type AccountSnapshot_AccountSnapshot_Users_Devices_Interfaces_CellularInterfaceInfoInterfaceSnapshot struct {
@@ -131187,7 +131159,6 @@ const AccountSnapshotDocument = `query accountSnapshot ($siteIDs: [ID!], $userID
 		id
 		sites(siteIDs: $siteIDs) {
 			id
-			protoId
 			connectivityStatusSiteSnapshot: connectivityStatus
 			haStatusSiteSnapshot: haStatus {
 				readiness
@@ -131236,7 +131207,6 @@ const AccountSnapshotDocument = `query accountSnapshot ($siteIDs: [ID!], $userID
 						upstreamBandwidthMbpsPrecision
 						downstreamBandwidthMbpsPrecision
 						destType
-						wanRole
 					}
 					cellularInterfaceInfoInterfaceSnapshot: cellularInterfaceInfo {
 						networkType
@@ -131330,7 +131300,6 @@ const AccountSnapshotDocument = `query accountSnapshot ($siteIDs: [ID!], $userID
 					upstreamBandwidthMbpsPrecision
 					downstreamBandwidthMbpsPrecision
 					destType
-					wanRoleInterfaceInfo: wanRole
 				}
 				sockets {
 					id
@@ -131413,7 +131382,6 @@ const AccountSnapshotDocument = `query accountSnapshot ($siteIDs: [ID!], $userID
 						upstreamBandwidthMbpsPrecision
 						downstreamBandwidthMbpsPrecision
 						destType
-						wanRole
 					}
 					cellularInterfaceInfoInterfaceSnapshot: cellularInterfaceInfo {
 						networkType
