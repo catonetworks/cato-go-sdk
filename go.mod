@@ -1,6 +1,6 @@
 module github.com/catonetworks/cato-go-sdk
 
-go 1.25.8
+go 1.26.2
 
 ignore examples
 
@@ -8,6 +8,7 @@ require (
 	github.com/99designs/gqlgen v0.17.76
 	github.com/Yamashou/gqlgenc v0.30.2
 	github.com/charmbracelet/x/term v0.2.2
+	github.com/gqlgo/gqlgenc v0.37.0
 	github.com/hashicorp/go-retryablehttp v0.7.7
 	github.com/hashicorp/terraform-plugin-log v0.10.0
 	github.com/rs/zerolog v1.35.1
@@ -72,7 +73,7 @@ require (
 	github.com/clipperhouse/uax29/v2 v2.7.0 // indirect
 	github.com/cpuguy83/go-md2man/v2 v2.0.7 // indirect
 	github.com/curioswitch/go-reassign v0.3.0 // indirect
-	github.com/daixiang0/gci v0.13.7 // indirect
+	github.com/daixiang0/gci v0.14.0 // indirect
 	github.com/dave/dst v0.27.3 // indirect
 	github.com/davecgh/go-spew v1.1.1 // indirect
 	github.com/denis-tingaikin/go-header v0.5.0 // indirect

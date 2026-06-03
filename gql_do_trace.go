@@ -18,7 +18,7 @@ import (
 	"time"
 
 	"github.com/Yamashou/gqlgenc/clientv2"
-	"github.com/Yamashou/gqlgenc/graphqljson"
+	"github.com/gqlgo/gqlgenc/graphqljson"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
 )
 

@@ -32,3 +32,4 @@ query:
 generate:
   clientV2: true
   clientInterfaceName: "CatoClient"
+  omitEmptyTypes: true

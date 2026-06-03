@@ -14,12 +14,15 @@ query networkRangeList($accountID: ID!, $input: NetworkRangeListInput!) {
           relayGroupId
         }
         gateway
+        gcpLoadBalancerIp
         internetOnly
         localIp
         mdnsReflector
         name
         networkRangeId
+        primaryManagementIp
         rangeType
+        secondaryManagementIp
         subnet
         translatedSubnet
         vlan
