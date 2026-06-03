@@ -89633,7 +89633,7 @@ func (t *Policy_Policy_InternetFirewall_Policy_Rules_Rule_Destination_Containers
 type Policy_Policy_InternetFirewall_Policy_Rules_Rule_Destination struct {
 	AppCategory            []*Policy_Policy_InternetFirewall_Policy_Rules_Rule_Destination_AppCategory            "json:\"appCategory\" graphql:\"appCategory\""
 	Application            []*Policy_Policy_InternetFirewall_Policy_Rules_Rule_Destination_Application            "json:\"application\" graphql:\"application\""
-	Containers             *Policy_Policy_InternetFirewall_Policy_Rules_Rule_Destination_Containers               "json:\"containers,omitempty\" graphql:\"containers\""
+	Containers             Policy_Policy_InternetFirewall_Policy_Rules_Rule_Destination_Containers                "json:\"containers\" graphql:\"containers\""
 	Country                []*Policy_Policy_InternetFirewall_Policy_Rules_Rule_Destination_Country                "json:\"country\" graphql:\"country\""
 	CustomApp              []*Policy_Policy_InternetFirewall_Policy_Rules_Rule_Destination_CustomApp              "json:\"customApp\" graphql:\"customApp\""
 	CustomCategory         []*Policy_Policy_InternetFirewall_Policy_Rules_Rule_Destination_CustomCategory         "json:\"customCategory\" graphql:\"customCategory\""
@@ -89663,7 +89663,7 @@ func (t *Policy_Policy_InternetFirewall_Policy_Rules_Rule_Destination) GetContai
 	if t == nil {
 		t = &Policy_Policy_InternetFirewall_Policy_Rules_Rule_Destination{}
 	}
-	return t.Containers
+	return &t.Containers
 }
 func (t *Policy_Policy_InternetFirewall_Policy_Rules_Rule_Destination) GetCountry() []*Policy_Policy_InternetFirewall_Policy_Rules_Rule_Destination_Country {
 	if t == nil {
@@ -90563,7 +90563,7 @@ func (t *Policy_Policy_InternetFirewall_Policy_Rules_Rule_Exceptions_Destination
 type Policy_Policy_InternetFirewall_Policy_Rules_Rule_Exceptions_Destination struct {
 	AppCategory            []*Policy_Policy_InternetFirewall_Policy_Rules_Rule_Exceptions_Destination_AppCategory            "json:\"appCategory\" graphql:\"appCategory\""
 	Application            []*Policy_Policy_InternetFirewall_Policy_Rules_Rule_Exceptions_Destination_Application            "json:\"application\" graphql:\"application\""
-	Containers             *Policy_Policy_InternetFirewall_Policy_Rules_Rule_Exceptions_Destination_Containers               "json:\"containers,omitempty\" graphql:\"containers\""
+	Containers             Policy_Policy_InternetFirewall_Policy_Rules_Rule_Exceptions_Destination_Containers                "json:\"containers\" graphql:\"containers\""
 	Country                []*Policy_Policy_InternetFirewall_Policy_Rules_Rule_Exceptions_Destination_Country                "json:\"country\" graphql:\"country\""
 	CustomApp              []*Policy_Policy_InternetFirewall_Policy_Rules_Rule_Exceptions_Destination_CustomApp              "json:\"customApp\" graphql:\"customApp\""
 	CustomCategory         []*Policy_Policy_InternetFirewall_Policy_Rules_Rule_Exceptions_Destination_CustomCategory         "json:\"customCategory\" graphql:\"customCategory\""
@@ -90593,7 +90593,7 @@ func (t *Policy_Policy_InternetFirewall_Policy_Rules_Rule_Exceptions_Destination
 	if t == nil {
 		t = &Policy_Policy_InternetFirewall_Policy_Rules_Rule_Exceptions_Destination{}
 	}
-	return t.Containers
+	return &t.Containers
 }
 func (t *Policy_Policy_InternetFirewall_Policy_Rules_Rule_Exceptions_Destination) GetCountry() []*Policy_Policy_InternetFirewall_Policy_Rules_Rule_Exceptions_Destination_Country {
 	if t == nil {
@@ -94494,7 +94494,7 @@ func (t *InternetFirewallPolicy_Policy_InternetFirewall_Policy_Rules_Rule_Destin
 type InternetFirewallPolicy_Policy_InternetFirewall_Policy_Rules_Rule_Destination struct {
 	AppCategory            []*InternetFirewallPolicy_Policy_InternetFirewall_Policy_Rules_Rule_Destination_AppCategory            "json:\"appCategory\" graphql:\"appCategory\""
 	Application            []*InternetFirewallPolicy_Policy_InternetFirewall_Policy_Rules_Rule_Destination_Application            "json:\"application\" graphql:\"application\""
-	Containers             *InternetFirewallPolicy_Policy_InternetFirewall_Policy_Rules_Rule_Destination_Containers               "json:\"containers,omitempty\" graphql:\"containers\""
+	Containers             InternetFirewallPolicy_Policy_InternetFirewall_Policy_Rules_Rule_Destination_Containers                "json:\"containers\" graphql:\"containers\""
 	Country                []*InternetFirewallPolicy_Policy_InternetFirewall_Policy_Rules_Rule_Destination_Country                "json:\"country\" graphql:\"country\""
 	CustomApp              []*InternetFirewallPolicy_Policy_InternetFirewall_Policy_Rules_Rule_Destination_CustomApp              "json:\"customApp\" graphql:\"customApp\""
 	CustomCategory         []*InternetFirewallPolicy_Policy_InternetFirewall_Policy_Rules_Rule_Destination_CustomCategory         "json:\"customCategory\" graphql:\"customCategory\""
@@ -94524,7 +94524,7 @@ func (t *InternetFirewallPolicy_Policy_InternetFirewall_Policy_Rules_Rule_Destin
 	if t == nil {
 		t = &InternetFirewallPolicy_Policy_InternetFirewall_Policy_Rules_Rule_Destination{}
 	}
-	return t.Containers
+	return &t.Containers
 }
 func (t *InternetFirewallPolicy_Policy_InternetFirewall_Policy_Rules_Rule_Destination) GetCountry() []*InternetFirewallPolicy_Policy_InternetFirewall_Policy_Rules_Rule_Destination_Country {
 	if t == nil {
@@ -95424,7 +95424,7 @@ func (t *InternetFirewallPolicy_Policy_InternetFirewall_Policy_Rules_Rule_Except
 type InternetFirewallPolicy_Policy_InternetFirewall_Policy_Rules_Rule_Exceptions_Destination struct {
 	AppCategory            []*InternetFirewallPolicy_Policy_InternetFirewall_Policy_Rules_Rule_Exceptions_Destination_AppCategory            "json:\"appCategory\" graphql:\"appCategory\""
 	Application            []*InternetFirewallPolicy_Policy_InternetFirewall_Policy_Rules_Rule_Exceptions_Destination_Application            "json:\"application\" graphql:\"application\""
-	Containers             *InternetFirewallPolicy_Policy_InternetFirewall_Policy_Rules_Rule_Exceptions_Destination_Containers               "json:\"containers,omitempty\" graphql:\"containers\""
+	Containers             InternetFirewallPolicy_Policy_InternetFirewall_Policy_Rules_Rule_Exceptions_Destination_Containers                "json:\"containers\" graphql:\"containers\""
 	Country                []*InternetFirewallPolicy_Policy_InternetFirewall_Policy_Rules_Rule_Exceptions_Destination_Country                "json:\"country\" graphql:\"country\""
 	CustomApp              []*InternetFirewallPolicy_Policy_InternetFirewall_Policy_Rules_Rule_Exceptions_Destination_CustomApp              "json:\"customApp\" graphql:\"customApp\""
 	CustomCategory         []*InternetFirewallPolicy_Policy_InternetFirewall_Policy_Rules_Rule_Exceptions_Destination_CustomCategory         "json:\"customCategory\" graphql:\"customCategory\""
@@ -95454,7 +95454,7 @@ func (t *InternetFirewallPolicy_Policy_InternetFirewall_Policy_Rules_Rule_Except
 	if t == nil {
 		t = &InternetFirewallPolicy_Policy_InternetFirewall_Policy_Rules_Rule_Exceptions_Destination{}
 	}
-	return t.Containers
+	return &t.Containers
 }
 func (t *InternetFirewallPolicy_Policy_InternetFirewall_Policy_Rules_Rule_Exceptions_Destination) GetCountry() []*InternetFirewallPolicy_Policy_InternetFirewall_Policy_Rules_Rule_Exceptions_Destination_Country {
 	if t == nil {

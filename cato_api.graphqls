@@ -3785,6 +3785,9 @@ type NetworkInterfaceRef implements ObjectRef {
 type NetworkRange {
   azureFloatingIp: IPAddress
   dhcpSettings: NetworkRangeDhcpSettings
+  gcpLoadBalancerIp: IPAddress
+  primaryManagementIp: IPAddress
+  secondaryManagementIp: IPAddress
   gateway: IPAddress
   internetOnly: Boolean!
   localIp: IPAddress
