@@ -3,7 +3,6 @@ query accountSnapshot ( $siteIDs:[ID!] $userIDs:[ID!] $accountID:ID ) {
 		id 
 		sites ( siteIDs:$siteIDs  )  {
 			id
-			protoId
 			connectivityStatusSiteSnapshot: connectivityStatus
 			haStatusSiteSnapshot: haStatus {
 				readiness 
@@ -52,7 +51,6 @@ query accountSnapshot ( $siteIDs:[ID!] $userIDs:[ID!] $accountID:ID ) {
 						upstreamBandwidthMbpsPrecision 
 						downstreamBandwidthMbpsPrecision 
 						destType 
-						wanRole 
 					}
 					cellularInterfaceInfoInterfaceSnapshot: cellularInterfaceInfo {
 						networkType 
@@ -150,7 +148,6 @@ query accountSnapshot ( $siteIDs:[ID!] $userIDs:[ID!] $accountID:ID ) {
 					upstreamBandwidthMbpsPrecision
 					downstreamBandwidthMbpsPrecision
 					destType
-					wanRoleInterfaceInfo: wanRole
 				}
 
 				sockets  {
@@ -237,7 +234,6 @@ query accountSnapshot ( $siteIDs:[ID!] $userIDs:[ID!] $accountID:ID ) {
 						upstreamBandwidthMbpsPrecision 
 						downstreamBandwidthMbpsPrecision 
 						destType 
-						wanRole 
 					}
 					cellularInterfaceInfoInterfaceSnapshot: cellularInterfaceInfo {
 						networkType 

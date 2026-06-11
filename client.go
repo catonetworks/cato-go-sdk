@@ -84110,14 +84110,13 @@ func (t *AccountSnapshot_AccountSnapshot_Sites_Devices_Interfaces_TunnelRemoteIP
 }
 
 type AccountSnapshot_AccountSnapshot_Sites_Devices_Interfaces_InfoInterfaceSnapshot struct {
-	DestType                         *string                             "json:\"destType,omitempty\" graphql:\"destType\""
-	DownstreamBandwidth              *int64                              "json:\"downstreamBandwidth,omitempty\" graphql:\"downstreamBandwidth\""
-	DownstreamBandwidthMbpsPrecision *float64                            "json:\"downstreamBandwidthMbpsPrecision,omitempty\" graphql:\"downstreamBandwidthMbpsPrecision\""
-	ID                               string                              "json:\"id\" graphql:\"id\""
-	Name                             *string                             "json:\"name,omitempty\" graphql:\"name\""
-	UpstreamBandwidth                *int64                              "json:\"upstreamBandwidth,omitempty\" graphql:\"upstreamBandwidth\""
-	UpstreamBandwidthMbpsPrecision   *float64                            "json:\"upstreamBandwidthMbpsPrecision,omitempty\" graphql:\"upstreamBandwidthMbpsPrecision\""
-	WanRole                          *cato_models.SocketInterfaceWanRole "json:\"wanRole,omitempty\" graphql:\"wanRole\""
+	DestType                         *string  "json:\"destType,omitempty\" graphql:\"destType\""
+	DownstreamBandwidth              *int64   "json:\"downstreamBandwidth,omitempty\" graphql:\"downstreamBandwidth\""
+	DownstreamBandwidthMbpsPrecision *float64 "json:\"downstreamBandwidthMbpsPrecision,omitempty\" graphql:\"downstreamBandwidthMbpsPrecision\""
+	ID                               string   "json:\"id\" graphql:\"id\""
+	Name                             *string  "json:\"name,omitempty\" graphql:\"name\""
+	UpstreamBandwidth                *int64   "json:\"upstreamBandwidth,omitempty\" graphql:\"upstreamBandwidth\""
+	UpstreamBandwidthMbpsPrecision   *float64 "json:\"upstreamBandwidthMbpsPrecision,omitempty\" graphql:\"upstreamBandwidthMbpsPrecision\""
 }
 
 func (t *AccountSnapshot_AccountSnapshot_Sites_Devices_Interfaces_InfoInterfaceSnapshot) GetDestType() *string {
@@ -84161,12 +84160,6 @@ func (t *AccountSnapshot_AccountSnapshot_Sites_Devices_Interfaces_InfoInterfaceS
 		t = &AccountSnapshot_AccountSnapshot_Sites_Devices_Interfaces_InfoInterfaceSnapshot{}
 	}
 	return t.UpstreamBandwidthMbpsPrecision
-}
-func (t *AccountSnapshot_AccountSnapshot_Sites_Devices_Interfaces_InfoInterfaceSnapshot) GetWanRole() *cato_models.SocketInterfaceWanRole {
-	if t == nil {
-		t = &AccountSnapshot_AccountSnapshot_Sites_Devices_Interfaces_InfoInterfaceSnapshot{}
-	}
-	return t.WanRole
 }
 
 type AccountSnapshot_AccountSnapshot_Sites_Devices_Interfaces_CellularInterfaceInfoInterfaceSnapshot struct {
@@ -84786,14 +84779,13 @@ func (t *AccountSnapshot_AccountSnapshot_Sites_Devices) GetVersionNumber() *int6
 }
 
 type AccountSnapshot_AccountSnapshot_Sites_InfoSiteSnapshot_Interfaces struct {
-	DestType                         *string                             "json:\"destType,omitempty\" graphql:\"destType\""
-	DownstreamBandwidth              *int64                              "json:\"downstreamBandwidth,omitempty\" graphql:\"downstreamBandwidth\""
-	DownstreamBandwidthMbpsPrecision *float64                            "json:\"downstreamBandwidthMbpsPrecision,omitempty\" graphql:\"downstreamBandwidthMbpsPrecision\""
-	ID                               string                              "json:\"id\" graphql:\"id\""
-	Name                             *string                             "json:\"name,omitempty\" graphql:\"name\""
-	UpstreamBandwidth                *int64                              "json:\"upstreamBandwidth,omitempty\" graphql:\"upstreamBandwidth\""
-	UpstreamBandwidthMbpsPrecision   *float64                            "json:\"upstreamBandwidthMbpsPrecision,omitempty\" graphql:\"upstreamBandwidthMbpsPrecision\""
-	WanRoleInterfaceInfo             *cato_models.SocketInterfaceWanRole "json:\"wanRoleInterfaceInfo,omitempty\" graphql:\"wanRoleInterfaceInfo\""
+	DestType                         *string  "json:\"destType,omitempty\" graphql:\"destType\""
+	DownstreamBandwidth              *int64   "json:\"downstreamBandwidth,omitempty\" graphql:\"downstreamBandwidth\""
+	DownstreamBandwidthMbpsPrecision *float64 "json:\"downstreamBandwidthMbpsPrecision,omitempty\" graphql:\"downstreamBandwidthMbpsPrecision\""
+	ID                               string   "json:\"id\" graphql:\"id\""
+	Name                             *string  "json:\"name,omitempty\" graphql:\"name\""
+	UpstreamBandwidth                *int64   "json:\"upstreamBandwidth,omitempty\" graphql:\"upstreamBandwidth\""
+	UpstreamBandwidthMbpsPrecision   *float64 "json:\"upstreamBandwidthMbpsPrecision,omitempty\" graphql:\"upstreamBandwidthMbpsPrecision\""
 }
 
 func (t *AccountSnapshot_AccountSnapshot_Sites_InfoSiteSnapshot_Interfaces) GetDestType() *string {
@@ -84837,12 +84829,6 @@ func (t *AccountSnapshot_AccountSnapshot_Sites_InfoSiteSnapshot_Interfaces) GetU
 		t = &AccountSnapshot_AccountSnapshot_Sites_InfoSiteSnapshot_Interfaces{}
 	}
 	return t.UpstreamBandwidthMbpsPrecision
-}
-func (t *AccountSnapshot_AccountSnapshot_Sites_InfoSiteSnapshot_Interfaces) GetWanRoleInterfaceInfo() *cato_models.SocketInterfaceWanRole {
-	if t == nil {
-		t = &AccountSnapshot_AccountSnapshot_Sites_InfoSiteSnapshot_Interfaces{}
-	}
-	return t.WanRoleInterfaceInfo
 }
 
 type AccountSnapshot_AccountSnapshot_Sites_InfoSiteSnapshot_Sockets struct {
@@ -85044,7 +85030,6 @@ type AccountSnapshot_AccountSnapshot_Sites struct {
 	LastConnected                  *string                                                     "json:\"lastConnected,omitempty\" graphql:\"lastConnected\""
 	OperationalStatusSiteSnapshot  *scalars.OperationalStatus                                  "json:\"operationalStatusSiteSnapshot,omitempty\" graphql:\"operationalStatusSiteSnapshot\""
 	PopName                        *string                                                     "json:\"popName,omitempty\" graphql:\"popName\""
-	ProtoID                        *int64                                                      "json:\"protoId,omitempty\" graphql:\"protoId\""
 }
 
 func (t *AccountSnapshot_AccountSnapshot_Sites) GetAltWanStatus() *string {
@@ -85112,12 +85097,6 @@ func (t *AccountSnapshot_AccountSnapshot_Sites) GetPopName() *string {
 		t = &AccountSnapshot_AccountSnapshot_Sites{}
 	}
 	return t.PopName
-}
-func (t *AccountSnapshot_AccountSnapshot_Sites) GetProtoID() *int64 {
-	if t == nil {
-		t = &AccountSnapshot_AccountSnapshot_Sites{}
-	}
-	return t.ProtoID
 }
 
 type AccountSnapshot_AccountSnapshot_Users_RemoteIPInfoUserSnapshot struct {
@@ -85241,14 +85220,13 @@ func (t *AccountSnapshot_AccountSnapshot_Users_Devices_Interfaces_TunnelRemoteIP
 }
 
 type AccountSnapshot_AccountSnapshot_Users_Devices_Interfaces_InfoInterfaceSnapshot struct {
-	DestType                         *string                             "json:\"destType,omitempty\" graphql:\"destType\""
-	DownstreamBandwidth              *int64                              "json:\"downstreamBandwidth,omitempty\" graphql:\"downstreamBandwidth\""
-	DownstreamBandwidthMbpsPrecision *float64                            "json:\"downstreamBandwidthMbpsPrecision,omitempty\" graphql:\"downstreamBandwidthMbpsPrecision\""
-	ID                               string                              "json:\"id\" graphql:\"id\""
-	Name                             *string                             "json:\"name,omitempty\" graphql:\"name\""
-	UpstreamBandwidth                *int64                              "json:\"upstreamBandwidth,omitempty\" graphql:\"upstreamBandwidth\""
-	UpstreamBandwidthMbpsPrecision   *float64                            "json:\"upstreamBandwidthMbpsPrecision,omitempty\" graphql:\"upstreamBandwidthMbpsPrecision\""
-	WanRole                          *cato_models.SocketInterfaceWanRole "json:\"wanRole,omitempty\" graphql:\"wanRole\""
+	DestType                         *string  "json:\"destType,omitempty\" graphql:\"destType\""
+	DownstreamBandwidth              *int64   "json:\"downstreamBandwidth,omitempty\" graphql:\"downstreamBandwidth\""
+	DownstreamBandwidthMbpsPrecision *float64 "json:\"downstreamBandwidthMbpsPrecision,omitempty\" graphql:\"downstreamBandwidthMbpsPrecision\""
+	ID                               string   "json:\"id\" graphql:\"id\""
+	Name                             *string  "json:\"name,omitempty\" graphql:\"name\""
+	UpstreamBandwidth                *int64   "json:\"upstreamBandwidth,omitempty\" graphql:\"upstreamBandwidth\""
+	UpstreamBandwidthMbpsPrecision   *float64 "json:\"upstreamBandwidthMbpsPrecision,omitempty\" graphql:\"upstreamBandwidthMbpsPrecision\""
 }
 
 func (t *AccountSnapshot_AccountSnapshot_Users_Devices_Interfaces_InfoInterfaceSnapshot) GetDestType() *string {
@@ -85292,12 +85270,6 @@ func (t *AccountSnapshot_AccountSnapshot_Users_Devices_Interfaces_InfoInterfaceS
 		t = &AccountSnapshot_AccountSnapshot_Users_Devices_Interfaces_InfoInterfaceSnapshot{}
 	}
 	return t.UpstreamBandwidthMbpsPrecision
-}
-func (t *AccountSnapshot_AccountSnapshot_Users_Devices_Interfaces_InfoInterfaceSnapshot) GetWanRole() *cato_models.SocketInterfaceWanRole {
-	if t == nil {
-		t = &AccountSnapshot_AccountSnapshot_Users_Devices_Interfaces_InfoInterfaceSnapshot{}
-	}
-	return t.WanRole
 }
 
 type AccountSnapshot_AccountSnapshot_Users_Devices_Interfaces_CellularInterfaceInfoInterfaceSnapshot struct {
@@ -89661,7 +89633,7 @@ func (t *Policy_Policy_InternetFirewall_Policy_Rules_Rule_Destination_Containers
 type Policy_Policy_InternetFirewall_Policy_Rules_Rule_Destination struct {
 	AppCategory            []*Policy_Policy_InternetFirewall_Policy_Rules_Rule_Destination_AppCategory            "json:\"appCategory\" graphql:\"appCategory\""
 	Application            []*Policy_Policy_InternetFirewall_Policy_Rules_Rule_Destination_Application            "json:\"application\" graphql:\"application\""
-	Containers             *Policy_Policy_InternetFirewall_Policy_Rules_Rule_Destination_Containers               "json:\"containers,omitempty\" graphql:\"containers\""
+	Containers             Policy_Policy_InternetFirewall_Policy_Rules_Rule_Destination_Containers                "json:\"containers\" graphql:\"containers\""
 	Country                []*Policy_Policy_InternetFirewall_Policy_Rules_Rule_Destination_Country                "json:\"country\" graphql:\"country\""
 	CustomApp              []*Policy_Policy_InternetFirewall_Policy_Rules_Rule_Destination_CustomApp              "json:\"customApp\" graphql:\"customApp\""
 	CustomCategory         []*Policy_Policy_InternetFirewall_Policy_Rules_Rule_Destination_CustomCategory         "json:\"customCategory\" graphql:\"customCategory\""
@@ -89691,7 +89663,7 @@ func (t *Policy_Policy_InternetFirewall_Policy_Rules_Rule_Destination) GetContai
 	if t == nil {
 		t = &Policy_Policy_InternetFirewall_Policy_Rules_Rule_Destination{}
 	}
-	return t.Containers
+	return &t.Containers
 }
 func (t *Policy_Policy_InternetFirewall_Policy_Rules_Rule_Destination) GetCountry() []*Policy_Policy_InternetFirewall_Policy_Rules_Rule_Destination_Country {
 	if t == nil {
@@ -90591,7 +90563,7 @@ func (t *Policy_Policy_InternetFirewall_Policy_Rules_Rule_Exceptions_Destination
 type Policy_Policy_InternetFirewall_Policy_Rules_Rule_Exceptions_Destination struct {
 	AppCategory            []*Policy_Policy_InternetFirewall_Policy_Rules_Rule_Exceptions_Destination_AppCategory            "json:\"appCategory\" graphql:\"appCategory\""
 	Application            []*Policy_Policy_InternetFirewall_Policy_Rules_Rule_Exceptions_Destination_Application            "json:\"application\" graphql:\"application\""
-	Containers             *Policy_Policy_InternetFirewall_Policy_Rules_Rule_Exceptions_Destination_Containers               "json:\"containers,omitempty\" graphql:\"containers\""
+	Containers             Policy_Policy_InternetFirewall_Policy_Rules_Rule_Exceptions_Destination_Containers                "json:\"containers\" graphql:\"containers\""
 	Country                []*Policy_Policy_InternetFirewall_Policy_Rules_Rule_Exceptions_Destination_Country                "json:\"country\" graphql:\"country\""
 	CustomApp              []*Policy_Policy_InternetFirewall_Policy_Rules_Rule_Exceptions_Destination_CustomApp              "json:\"customApp\" graphql:\"customApp\""
 	CustomCategory         []*Policy_Policy_InternetFirewall_Policy_Rules_Rule_Exceptions_Destination_CustomCategory         "json:\"customCategory\" graphql:\"customCategory\""
@@ -90621,7 +90593,7 @@ func (t *Policy_Policy_InternetFirewall_Policy_Rules_Rule_Exceptions_Destination
 	if t == nil {
 		t = &Policy_Policy_InternetFirewall_Policy_Rules_Rule_Exceptions_Destination{}
 	}
-	return t.Containers
+	return &t.Containers
 }
 func (t *Policy_Policy_InternetFirewall_Policy_Rules_Rule_Exceptions_Destination) GetCountry() []*Policy_Policy_InternetFirewall_Policy_Rules_Rule_Exceptions_Destination_Country {
 	if t == nil {
@@ -94522,7 +94494,7 @@ func (t *InternetFirewallPolicy_Policy_InternetFirewall_Policy_Rules_Rule_Destin
 type InternetFirewallPolicy_Policy_InternetFirewall_Policy_Rules_Rule_Destination struct {
 	AppCategory            []*InternetFirewallPolicy_Policy_InternetFirewall_Policy_Rules_Rule_Destination_AppCategory            "json:\"appCategory\" graphql:\"appCategory\""
 	Application            []*InternetFirewallPolicy_Policy_InternetFirewall_Policy_Rules_Rule_Destination_Application            "json:\"application\" graphql:\"application\""
-	Containers             *InternetFirewallPolicy_Policy_InternetFirewall_Policy_Rules_Rule_Destination_Containers               "json:\"containers,omitempty\" graphql:\"containers\""
+	Containers             InternetFirewallPolicy_Policy_InternetFirewall_Policy_Rules_Rule_Destination_Containers                "json:\"containers\" graphql:\"containers\""
 	Country                []*InternetFirewallPolicy_Policy_InternetFirewall_Policy_Rules_Rule_Destination_Country                "json:\"country\" graphql:\"country\""
 	CustomApp              []*InternetFirewallPolicy_Policy_InternetFirewall_Policy_Rules_Rule_Destination_CustomApp              "json:\"customApp\" graphql:\"customApp\""
 	CustomCategory         []*InternetFirewallPolicy_Policy_InternetFirewall_Policy_Rules_Rule_Destination_CustomCategory         "json:\"customCategory\" graphql:\"customCategory\""
@@ -94552,7 +94524,7 @@ func (t *InternetFirewallPolicy_Policy_InternetFirewall_Policy_Rules_Rule_Destin
 	if t == nil {
 		t = &InternetFirewallPolicy_Policy_InternetFirewall_Policy_Rules_Rule_Destination{}
 	}
-	return t.Containers
+	return &t.Containers
 }
 func (t *InternetFirewallPolicy_Policy_InternetFirewall_Policy_Rules_Rule_Destination) GetCountry() []*InternetFirewallPolicy_Policy_InternetFirewall_Policy_Rules_Rule_Destination_Country {
 	if t == nil {
@@ -95452,7 +95424,7 @@ func (t *InternetFirewallPolicy_Policy_InternetFirewall_Policy_Rules_Rule_Except
 type InternetFirewallPolicy_Policy_InternetFirewall_Policy_Rules_Rule_Exceptions_Destination struct {
 	AppCategory            []*InternetFirewallPolicy_Policy_InternetFirewall_Policy_Rules_Rule_Exceptions_Destination_AppCategory            "json:\"appCategory\" graphql:\"appCategory\""
 	Application            []*InternetFirewallPolicy_Policy_InternetFirewall_Policy_Rules_Rule_Exceptions_Destination_Application            "json:\"application\" graphql:\"application\""
-	Containers             *InternetFirewallPolicy_Policy_InternetFirewall_Policy_Rules_Rule_Exceptions_Destination_Containers               "json:\"containers,omitempty\" graphql:\"containers\""
+	Containers             InternetFirewallPolicy_Policy_InternetFirewall_Policy_Rules_Rule_Exceptions_Destination_Containers                "json:\"containers\" graphql:\"containers\""
 	Country                []*InternetFirewallPolicy_Policy_InternetFirewall_Policy_Rules_Rule_Exceptions_Destination_Country                "json:\"country\" graphql:\"country\""
 	CustomApp              []*InternetFirewallPolicy_Policy_InternetFirewall_Policy_Rules_Rule_Exceptions_Destination_CustomApp              "json:\"customApp\" graphql:\"customApp\""
 	CustomCategory         []*InternetFirewallPolicy_Policy_InternetFirewall_Policy_Rules_Rule_Exceptions_Destination_CustomCategory         "json:\"customCategory\" graphql:\"customCategory\""
@@ -95482,7 +95454,7 @@ func (t *InternetFirewallPolicy_Policy_InternetFirewall_Policy_Rules_Rule_Except
 	if t == nil {
 		t = &InternetFirewallPolicy_Policy_InternetFirewall_Policy_Rules_Rule_Exceptions_Destination{}
 	}
-	return t.Containers
+	return &t.Containers
 }
 func (t *InternetFirewallPolicy_Policy_InternetFirewall_Policy_Rules_Rule_Exceptions_Destination) GetCountry() []*InternetFirewallPolicy_Policy_InternetFirewall_Policy_Rules_Rule_Exceptions_Destination_Country {
 	if t == nil {
@@ -111495,7 +111467,7 @@ type Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident struct {
 	BgpConnection           *Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_BgpConnection             "json:\"bgpConnection,omitempty\" graphql:\"bgpConnection\""
 	HostIP                  *string                                                                      "json:\"hostIp,omitempty\" graphql:\"hostIp\""
 	RuleName                *string                                                                      "json:\"ruleName,omitempty\" graphql:\"ruleName\""
-	Muted                   *bool                                                                        "json:\"muted,omitempty\" graphql:\"muted\""
+	Muted                   bool                                                                         "json:\"muted\" graphql:\"muted\""
 	IlmmDetails             *Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_IlmmDetails               "json:\"ilmmDetails,omitempty\" graphql:\"ilmmDetails\""
 }
 
@@ -111607,7 +111579,7 @@ func (t *Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident) GetRuleName() *strin
 	}
 	return t.RuleName
 }
-func (t *Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident) GetMuted() *bool {
+func (t *Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident) GetMuted() bool {
 	if t == nil {
 		t = &Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident{}
 	}
@@ -131187,7 +131159,6 @@ const AccountSnapshotDocument = `query accountSnapshot ($siteIDs: [ID!], $userID
 		id
 		sites(siteIDs: $siteIDs) {
 			id
-			protoId
 			connectivityStatusSiteSnapshot: connectivityStatus
 			haStatusSiteSnapshot: haStatus {
 				readiness
@@ -131236,7 +131207,6 @@ const AccountSnapshotDocument = `query accountSnapshot ($siteIDs: [ID!], $userID
 						upstreamBandwidthMbpsPrecision
 						downstreamBandwidthMbpsPrecision
 						destType
-						wanRole
 					}
 					cellularInterfaceInfoInterfaceSnapshot: cellularInterfaceInfo {
 						networkType
@@ -131330,7 +131300,6 @@ const AccountSnapshotDocument = `query accountSnapshot ($siteIDs: [ID!], $userID
 					upstreamBandwidthMbpsPrecision
 					downstreamBandwidthMbpsPrecision
 					destType
-					wanRoleInterfaceInfo: wanRole
 				}
 				sockets {
 					id
@@ -131413,7 +131382,6 @@ const AccountSnapshotDocument = `query accountSnapshot ($siteIDs: [ID!], $userID
 						upstreamBandwidthMbpsPrecision
 						downstreamBandwidthMbpsPrecision
 						destType
-						wanRole
 					}
 					cellularInterfaceInfoInterfaceSnapshot: cellularInterfaceInfo {
 						networkType

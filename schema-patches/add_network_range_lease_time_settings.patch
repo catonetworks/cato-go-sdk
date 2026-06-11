@@ -1,0 +1,10 @@
+--- a/cato_api.graphqls
++++ b/cato_api.graphqls
+@@ -3796,6 +3796,7 @@
+   dhcpMicrosegmentation: Boolean!
+   dhcpType: DhcpType!
+   ipRange: IPRange
++  leaseTimeSettings: DhcpLeaseTimeSettings
+   relayGroupId: ID
+ }
+ 

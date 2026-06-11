@@ -1,0 +1,34 @@
+--- a/cato_api.graphqls
++++ b/cato_api.graphqls
+@@ -3798,6 +3798,11 @@
+   ipRange: IPRange
+   leaseTimeSettings: DhcpLeaseTimeSettings
+   relayGroupId: ID
++}
++
++type NetworkRangeListPayload {
++  items: [NetworkRange!]!
++  total: Int!
+ }
+ 
+ type NetworkTimelineEvent {
+@@ -4971,6 +4976,8 @@
+   cloudInterconnectConnectionConnectivity(input: CloudInterconnectConnectionConnectivityInput!): CloudInterconnectConnectionConnectivity @beta
+   cloudInterconnectPhysicalConnection(input: CloudInterconnectPhysicalConnectionInput!): CloudInterconnectPhysicalConnection @beta
+   cloudInterconnectPhysicalConnectionId(input: CloudInterconnectPhysicalConnectionIdInput!): CloudInterconnectPhysicalConnectionId @beta
++  networkRange(networkRangeId: ID!): NetworkRange
++  networkRangeList(input: NetworkRangeListInput!): NetworkRangeListPayload
+   retrieveUsedVlanIDs(input: RetrieveUsedVlanIDsInput!): RetrieveUsedVlanIDsPayload @beta
+   secondaryAwsVSocket(socketId: ID!): SecondaryAwsVSocket @beta
+   secondaryAzureVSocket(socketId: ID!): SecondaryAzureVSocket @beta
+@@ -9507,6 +9514,10 @@
+ 
+ input NetworkRangeRefInput {
+   networkRangeId: ID!
++}
++
++input NetworkRangeListInput {
++  site: SiteRefInput!
+ }
+ 
+ input OriginTypeFilterInput {
