@@ -1,0 +1,14 @@
+mutation policyAppTenantRestricitionDeleteRule ( $accountID: ID!, $input: AppTenantRestrictionRemoveRuleInput! ) {
+  policy ( accountId: $accountID ) {
+    appTenantRestriction {
+      removeRule(input: $input) {
+        status
+        errors {
+          errorCode
+          errorMessage
+        }
+      }
+    }
+  }
+}
+

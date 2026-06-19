@@ -1,0 +1,19 @@
+mutation policyAppTenantRestricitionUpdateRule ( $accountID: ID!, $input: AppTenantRestrictionUpdateRuleInput! ) {
+  policy ( accountId: $accountID ) {
+    appTenantRestriction {
+      updateRule(input: $input) {
+        rule {
+          rule {
+            id
+          }
+        }
+        status
+        errors {
+          errorCode
+          errorMessage
+        }
+      }
+    }
+  }
+}
+

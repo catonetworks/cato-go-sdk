@@ -17,6 +17,10 @@ type CatoClient interface {
 	GroupsCreateGroup(ctx context.Context, createGroupInput cato_models.CreateGroupInput, accountID string, interceptors ...clientv2.RequestInterceptor) (*GroupsCreateGroup, error)
 	GroupsDeleteGroup(ctx context.Context, groupRefInput cato_models.GroupRefInput, accountID string, interceptors ...clientv2.RequestInterceptor) (*GroupsDeleteGroup, error)
 	GroupsUpdateGroup(ctx context.Context, updateGroupInput cato_models.UpdateGroupInput, accountID string, interceptors ...clientv2.RequestInterceptor) (*GroupsUpdateGroup, error)
+	PolicyAppTenantRestricitionAddRule(ctx context.Context, accountID string, input cato_models.AppTenantRestrictionAddRuleInput, interceptors ...clientv2.RequestInterceptor) (*PolicyAppTenantRestricitionAddRule, error)
+	PolicyAppTenantRestricitionDeleteRule(ctx context.Context, accountID string, input cato_models.AppTenantRestrictionRemoveRuleInput, interceptors ...clientv2.RequestInterceptor) (*PolicyAppTenantRestricitionDeleteRule, error)
+	PolicyAppTenantRestricitionMoveRule(ctx context.Context, accountID string, input cato_models.PolicyMoveRuleInput, interceptors ...clientv2.RequestInterceptor) (*PolicyAppTenantRestricitionMoveRule, error)
+	PolicyAppTenantRestricitionUpdateRule(ctx context.Context, accountID string, input cato_models.AppTenantRestrictionUpdateRuleInput, interceptors ...clientv2.RequestInterceptor) (*PolicyAppTenantRestricitionUpdateRule, error)
 	PolicyInternetFirewallDiscardPolicyRevision(ctx context.Context, internetFirewallPolicyMutationInput *cato_models.InternetFirewallPolicyMutationInput, policyDiscardRevisionInput *cato_models.PolicyDiscardRevisionInput, accountID string, interceptors ...clientv2.RequestInterceptor) (*PolicyInternetFirewallDiscardPolicyRevision, error)
 	PolicyInternetFirewallAddRule(ctx context.Context, internetFirewallAddRuleInput cato_models.InternetFirewallAddRuleInput, accountID string, interceptors ...clientv2.RequestInterceptor) (*PolicyInternetFirewallAddRule, error)
 	PolicyInternetFirewallAddSection(ctx context.Context, internetFirewallPolicyMutationInput *cato_models.InternetFirewallPolicyMutationInput, policyAddSectionInput cato_models.PolicyAddSectionInput, accountID string, interceptors ...clientv2.RequestInterceptor) (*PolicyInternetFirewallAddSection, error)
@@ -155,6 +159,7 @@ type CatoClient interface {
 	GroupsList(ctx context.Context, groupListInput *cato_models.GroupListInput, accountID string, interceptors ...clientv2.RequestInterceptor) (*GroupsList, error)
 	HardwareManagement(ctx context.Context, input *cato_models.SocketInventoryInput, accountID string, interceptors ...clientv2.RequestInterceptor) (*HardwareManagement, error)
 	Licensing(ctx context.Context, accountID string, interceptors ...clientv2.RequestInterceptor) (*Licensing, error)
+	PolicyReadAppTenantRestricitionPolicy(ctx context.Context, accountID string, interceptors ...clientv2.RequestInterceptor) (*PolicyReadAppTenantRestricitionPolicy, error)
 	Policy(ctx context.Context, internetFirewallPolicyInput *cato_models.InternetFirewallPolicyInput, wanFirewallPolicyInput *cato_models.WanFirewallPolicyInput, accountID string, interceptors ...clientv2.RequestInterceptor) (*Policy, error)
 	InternetFirewallPolicy(ctx context.Context, accountID string, interceptors ...clientv2.RequestInterceptor) (*InternetFirewallPolicy, error)
 	PolicyReadPrivateAccessPolicy(ctx context.Context, accountID string, interceptors ...clientv2.RequestInterceptor) (*PolicyReadPrivateAccessPolicy, error)
@@ -613,6 +618,325 @@ func (t *GroupsUpdateGroup_Groups) GetUpdateGroup() *GroupsUpdateGroup_Groups_Up
 		t = &GroupsUpdateGroup_Groups{}
 	}
 	return t.UpdateGroup
+}
+
+type PolicyAppTenantRestricitionAddRule_Policy_AppTenantRestriction_AddRule_Rule_Rule struct {
+	ID string "json:\"id\" graphql:\"id\""
+}
+
+func (t *PolicyAppTenantRestricitionAddRule_Policy_AppTenantRestriction_AddRule_Rule_Rule) GetID() string {
+	if t == nil {
+		t = &PolicyAppTenantRestricitionAddRule_Policy_AppTenantRestriction_AddRule_Rule_Rule{}
+	}
+	return t.ID
+}
+
+type PolicyAppTenantRestricitionAddRule_Policy_AppTenantRestriction_AddRule_Rule struct {
+	Rule PolicyAppTenantRestricitionAddRule_Policy_AppTenantRestriction_AddRule_Rule_Rule "json:\"rule\" graphql:\"rule\""
+}
+
+func (t *PolicyAppTenantRestricitionAddRule_Policy_AppTenantRestriction_AddRule_Rule) GetRule() *PolicyAppTenantRestricitionAddRule_Policy_AppTenantRestriction_AddRule_Rule_Rule {
+	if t == nil {
+		t = &PolicyAppTenantRestricitionAddRule_Policy_AppTenantRestriction_AddRule_Rule{}
+	}
+	return &t.Rule
+}
+
+type PolicyAppTenantRestricitionAddRule_Policy_AppTenantRestriction_AddRule_Errors struct {
+	ErrorCode    *string "json:\"errorCode,omitempty\" graphql:\"errorCode\""
+	ErrorMessage *string "json:\"errorMessage,omitempty\" graphql:\"errorMessage\""
+}
+
+func (t *PolicyAppTenantRestricitionAddRule_Policy_AppTenantRestriction_AddRule_Errors) GetErrorCode() *string {
+	if t == nil {
+		t = &PolicyAppTenantRestricitionAddRule_Policy_AppTenantRestriction_AddRule_Errors{}
+	}
+	return t.ErrorCode
+}
+func (t *PolicyAppTenantRestricitionAddRule_Policy_AppTenantRestriction_AddRule_Errors) GetErrorMessage() *string {
+	if t == nil {
+		t = &PolicyAppTenantRestricitionAddRule_Policy_AppTenantRestriction_AddRule_Errors{}
+	}
+	return t.ErrorMessage
+}
+
+type PolicyAppTenantRestricitionAddRule_Policy_AppTenantRestriction_AddRule struct {
+	Errors []*PolicyAppTenantRestricitionAddRule_Policy_AppTenantRestriction_AddRule_Errors "json:\"errors\" graphql:\"errors\""
+	Rule   *PolicyAppTenantRestricitionAddRule_Policy_AppTenantRestriction_AddRule_Rule     "json:\"rule,omitempty\" graphql:\"rule\""
+	Status cato_models.PolicyMutationStatus                                                 "json:\"status\" graphql:\"status\""
+}
+
+func (t *PolicyAppTenantRestricitionAddRule_Policy_AppTenantRestriction_AddRule) GetErrors() []*PolicyAppTenantRestricitionAddRule_Policy_AppTenantRestriction_AddRule_Errors {
+	if t == nil {
+		t = &PolicyAppTenantRestricitionAddRule_Policy_AppTenantRestriction_AddRule{}
+	}
+	return t.Errors
+}
+func (t *PolicyAppTenantRestricitionAddRule_Policy_AppTenantRestriction_AddRule) GetRule() *PolicyAppTenantRestricitionAddRule_Policy_AppTenantRestriction_AddRule_Rule {
+	if t == nil {
+		t = &PolicyAppTenantRestricitionAddRule_Policy_AppTenantRestriction_AddRule{}
+	}
+	return t.Rule
+}
+func (t *PolicyAppTenantRestricitionAddRule_Policy_AppTenantRestriction_AddRule) GetStatus() *cato_models.PolicyMutationStatus {
+	if t == nil {
+		t = &PolicyAppTenantRestricitionAddRule_Policy_AppTenantRestriction_AddRule{}
+	}
+	return &t.Status
+}
+
+type PolicyAppTenantRestricitionAddRule_Policy_AppTenantRestriction struct {
+	AddRule PolicyAppTenantRestricitionAddRule_Policy_AppTenantRestriction_AddRule "json:\"addRule\" graphql:\"addRule\""
+}
+
+func (t *PolicyAppTenantRestricitionAddRule_Policy_AppTenantRestriction) GetAddRule() *PolicyAppTenantRestricitionAddRule_Policy_AppTenantRestriction_AddRule {
+	if t == nil {
+		t = &PolicyAppTenantRestricitionAddRule_Policy_AppTenantRestriction{}
+	}
+	return &t.AddRule
+}
+
+type PolicyAppTenantRestricitionAddRule_Policy struct {
+	AppTenantRestriction *PolicyAppTenantRestricitionAddRule_Policy_AppTenantRestriction "json:\"appTenantRestriction,omitempty\" graphql:\"appTenantRestriction\""
+}
+
+func (t *PolicyAppTenantRestricitionAddRule_Policy) GetAppTenantRestriction() *PolicyAppTenantRestricitionAddRule_Policy_AppTenantRestriction {
+	if t == nil {
+		t = &PolicyAppTenantRestricitionAddRule_Policy{}
+	}
+	return t.AppTenantRestriction
+}
+
+type PolicyAppTenantRestricitionDeleteRule_Policy_AppTenantRestriction_RemoveRule_Errors struct {
+	ErrorCode    *string "json:\"errorCode,omitempty\" graphql:\"errorCode\""
+	ErrorMessage *string "json:\"errorMessage,omitempty\" graphql:\"errorMessage\""
+}
+
+func (t *PolicyAppTenantRestricitionDeleteRule_Policy_AppTenantRestriction_RemoveRule_Errors) GetErrorCode() *string {
+	if t == nil {
+		t = &PolicyAppTenantRestricitionDeleteRule_Policy_AppTenantRestriction_RemoveRule_Errors{}
+	}
+	return t.ErrorCode
+}
+func (t *PolicyAppTenantRestricitionDeleteRule_Policy_AppTenantRestriction_RemoveRule_Errors) GetErrorMessage() *string {
+	if t == nil {
+		t = &PolicyAppTenantRestricitionDeleteRule_Policy_AppTenantRestriction_RemoveRule_Errors{}
+	}
+	return t.ErrorMessage
+}
+
+type PolicyAppTenantRestricitionDeleteRule_Policy_AppTenantRestriction_RemoveRule struct {
+	Errors []*PolicyAppTenantRestricitionDeleteRule_Policy_AppTenantRestriction_RemoveRule_Errors "json:\"errors\" graphql:\"errors\""
+	Status cato_models.PolicyMutationStatus                                                       "json:\"status\" graphql:\"status\""
+}
+
+func (t *PolicyAppTenantRestricitionDeleteRule_Policy_AppTenantRestriction_RemoveRule) GetErrors() []*PolicyAppTenantRestricitionDeleteRule_Policy_AppTenantRestriction_RemoveRule_Errors {
+	if t == nil {
+		t = &PolicyAppTenantRestricitionDeleteRule_Policy_AppTenantRestriction_RemoveRule{}
+	}
+	return t.Errors
+}
+func (t *PolicyAppTenantRestricitionDeleteRule_Policy_AppTenantRestriction_RemoveRule) GetStatus() *cato_models.PolicyMutationStatus {
+	if t == nil {
+		t = &PolicyAppTenantRestricitionDeleteRule_Policy_AppTenantRestriction_RemoveRule{}
+	}
+	return &t.Status
+}
+
+type PolicyAppTenantRestricitionDeleteRule_Policy_AppTenantRestriction struct {
+	RemoveRule PolicyAppTenantRestricitionDeleteRule_Policy_AppTenantRestriction_RemoveRule "json:\"removeRule\" graphql:\"removeRule\""
+}
+
+func (t *PolicyAppTenantRestricitionDeleteRule_Policy_AppTenantRestriction) GetRemoveRule() *PolicyAppTenantRestricitionDeleteRule_Policy_AppTenantRestriction_RemoveRule {
+	if t == nil {
+		t = &PolicyAppTenantRestricitionDeleteRule_Policy_AppTenantRestriction{}
+	}
+	return &t.RemoveRule
+}
+
+type PolicyAppTenantRestricitionDeleteRule_Policy struct {
+	AppTenantRestriction *PolicyAppTenantRestricitionDeleteRule_Policy_AppTenantRestriction "json:\"appTenantRestriction,omitempty\" graphql:\"appTenantRestriction\""
+}
+
+func (t *PolicyAppTenantRestricitionDeleteRule_Policy) GetAppTenantRestriction() *PolicyAppTenantRestricitionDeleteRule_Policy_AppTenantRestriction {
+	if t == nil {
+		t = &PolicyAppTenantRestricitionDeleteRule_Policy{}
+	}
+	return t.AppTenantRestriction
+}
+
+type PolicyAppTenantRestricitionMoveRule_Policy_AppTenantRestriction_MoveRule_Rule_Rule struct {
+	ID string "json:\"id\" graphql:\"id\""
+}
+
+func (t *PolicyAppTenantRestricitionMoveRule_Policy_AppTenantRestriction_MoveRule_Rule_Rule) GetID() string {
+	if t == nil {
+		t = &PolicyAppTenantRestricitionMoveRule_Policy_AppTenantRestriction_MoveRule_Rule_Rule{}
+	}
+	return t.ID
+}
+
+type PolicyAppTenantRestricitionMoveRule_Policy_AppTenantRestriction_MoveRule_Rule struct {
+	Rule PolicyAppTenantRestricitionMoveRule_Policy_AppTenantRestriction_MoveRule_Rule_Rule "json:\"rule\" graphql:\"rule\""
+}
+
+func (t *PolicyAppTenantRestricitionMoveRule_Policy_AppTenantRestriction_MoveRule_Rule) GetRule() *PolicyAppTenantRestricitionMoveRule_Policy_AppTenantRestriction_MoveRule_Rule_Rule {
+	if t == nil {
+		t = &PolicyAppTenantRestricitionMoveRule_Policy_AppTenantRestriction_MoveRule_Rule{}
+	}
+	return &t.Rule
+}
+
+type PolicyAppTenantRestricitionMoveRule_Policy_AppTenantRestriction_MoveRule_Errors struct {
+	ErrorCode    *string "json:\"errorCode,omitempty\" graphql:\"errorCode\""
+	ErrorMessage *string "json:\"errorMessage,omitempty\" graphql:\"errorMessage\""
+}
+
+func (t *PolicyAppTenantRestricitionMoveRule_Policy_AppTenantRestriction_MoveRule_Errors) GetErrorCode() *string {
+	if t == nil {
+		t = &PolicyAppTenantRestricitionMoveRule_Policy_AppTenantRestriction_MoveRule_Errors{}
+	}
+	return t.ErrorCode
+}
+func (t *PolicyAppTenantRestricitionMoveRule_Policy_AppTenantRestriction_MoveRule_Errors) GetErrorMessage() *string {
+	if t == nil {
+		t = &PolicyAppTenantRestricitionMoveRule_Policy_AppTenantRestriction_MoveRule_Errors{}
+	}
+	return t.ErrorMessage
+}
+
+type PolicyAppTenantRestricitionMoveRule_Policy_AppTenantRestriction_MoveRule struct {
+	Errors []*PolicyAppTenantRestricitionMoveRule_Policy_AppTenantRestriction_MoveRule_Errors "json:\"errors\" graphql:\"errors\""
+	Rule   *PolicyAppTenantRestricitionMoveRule_Policy_AppTenantRestriction_MoveRule_Rule     "json:\"rule,omitempty\" graphql:\"rule\""
+	Status cato_models.PolicyMutationStatus                                                   "json:\"status\" graphql:\"status\""
+}
+
+func (t *PolicyAppTenantRestricitionMoveRule_Policy_AppTenantRestriction_MoveRule) GetErrors() []*PolicyAppTenantRestricitionMoveRule_Policy_AppTenantRestriction_MoveRule_Errors {
+	if t == nil {
+		t = &PolicyAppTenantRestricitionMoveRule_Policy_AppTenantRestriction_MoveRule{}
+	}
+	return t.Errors
+}
+func (t *PolicyAppTenantRestricitionMoveRule_Policy_AppTenantRestriction_MoveRule) GetRule() *PolicyAppTenantRestricitionMoveRule_Policy_AppTenantRestriction_MoveRule_Rule {
+	if t == nil {
+		t = &PolicyAppTenantRestricitionMoveRule_Policy_AppTenantRestriction_MoveRule{}
+	}
+	return t.Rule
+}
+func (t *PolicyAppTenantRestricitionMoveRule_Policy_AppTenantRestriction_MoveRule) GetStatus() *cato_models.PolicyMutationStatus {
+	if t == nil {
+		t = &PolicyAppTenantRestricitionMoveRule_Policy_AppTenantRestriction_MoveRule{}
+	}
+	return &t.Status
+}
+
+type PolicyAppTenantRestricitionMoveRule_Policy_AppTenantRestriction struct {
+	MoveRule PolicyAppTenantRestricitionMoveRule_Policy_AppTenantRestriction_MoveRule "json:\"moveRule\" graphql:\"moveRule\""
+}
+
+func (t *PolicyAppTenantRestricitionMoveRule_Policy_AppTenantRestriction) GetMoveRule() *PolicyAppTenantRestricitionMoveRule_Policy_AppTenantRestriction_MoveRule {
+	if t == nil {
+		t = &PolicyAppTenantRestricitionMoveRule_Policy_AppTenantRestriction{}
+	}
+	return &t.MoveRule
+}
+
+type PolicyAppTenantRestricitionMoveRule_Policy struct {
+	AppTenantRestriction *PolicyAppTenantRestricitionMoveRule_Policy_AppTenantRestriction "json:\"appTenantRestriction,omitempty\" graphql:\"appTenantRestriction\""
+}
+
+func (t *PolicyAppTenantRestricitionMoveRule_Policy) GetAppTenantRestriction() *PolicyAppTenantRestricitionMoveRule_Policy_AppTenantRestriction {
+	if t == nil {
+		t = &PolicyAppTenantRestricitionMoveRule_Policy{}
+	}
+	return t.AppTenantRestriction
+}
+
+type PolicyAppTenantRestricitionUpdateRule_Policy_AppTenantRestriction_UpdateRule_Rule_Rule struct {
+	ID string "json:\"id\" graphql:\"id\""
+}
+
+func (t *PolicyAppTenantRestricitionUpdateRule_Policy_AppTenantRestriction_UpdateRule_Rule_Rule) GetID() string {
+	if t == nil {
+		t = &PolicyAppTenantRestricitionUpdateRule_Policy_AppTenantRestriction_UpdateRule_Rule_Rule{}
+	}
+	return t.ID
+}
+
+type PolicyAppTenantRestricitionUpdateRule_Policy_AppTenantRestriction_UpdateRule_Rule struct {
+	Rule PolicyAppTenantRestricitionUpdateRule_Policy_AppTenantRestriction_UpdateRule_Rule_Rule "json:\"rule\" graphql:\"rule\""
+}
+
+func (t *PolicyAppTenantRestricitionUpdateRule_Policy_AppTenantRestriction_UpdateRule_Rule) GetRule() *PolicyAppTenantRestricitionUpdateRule_Policy_AppTenantRestriction_UpdateRule_Rule_Rule {
+	if t == nil {
+		t = &PolicyAppTenantRestricitionUpdateRule_Policy_AppTenantRestriction_UpdateRule_Rule{}
+	}
+	return &t.Rule
+}
+
+type PolicyAppTenantRestricitionUpdateRule_Policy_AppTenantRestriction_UpdateRule_Errors struct {
+	ErrorCode    *string "json:\"errorCode,omitempty\" graphql:\"errorCode\""
+	ErrorMessage *string "json:\"errorMessage,omitempty\" graphql:\"errorMessage\""
+}
+
+func (t *PolicyAppTenantRestricitionUpdateRule_Policy_AppTenantRestriction_UpdateRule_Errors) GetErrorCode() *string {
+	if t == nil {
+		t = &PolicyAppTenantRestricitionUpdateRule_Policy_AppTenantRestriction_UpdateRule_Errors{}
+	}
+	return t.ErrorCode
+}
+func (t *PolicyAppTenantRestricitionUpdateRule_Policy_AppTenantRestriction_UpdateRule_Errors) GetErrorMessage() *string {
+	if t == nil {
+		t = &PolicyAppTenantRestricitionUpdateRule_Policy_AppTenantRestriction_UpdateRule_Errors{}
+	}
+	return t.ErrorMessage
+}
+
+type PolicyAppTenantRestricitionUpdateRule_Policy_AppTenantRestriction_UpdateRule struct {
+	Errors []*PolicyAppTenantRestricitionUpdateRule_Policy_AppTenantRestriction_UpdateRule_Errors "json:\"errors\" graphql:\"errors\""
+	Rule   *PolicyAppTenantRestricitionUpdateRule_Policy_AppTenantRestriction_UpdateRule_Rule     "json:\"rule,omitempty\" graphql:\"rule\""
+	Status cato_models.PolicyMutationStatus                                                       "json:\"status\" graphql:\"status\""
+}
+
+func (t *PolicyAppTenantRestricitionUpdateRule_Policy_AppTenantRestriction_UpdateRule) GetErrors() []*PolicyAppTenantRestricitionUpdateRule_Policy_AppTenantRestriction_UpdateRule_Errors {
+	if t == nil {
+		t = &PolicyAppTenantRestricitionUpdateRule_Policy_AppTenantRestriction_UpdateRule{}
+	}
+	return t.Errors
+}
+func (t *PolicyAppTenantRestricitionUpdateRule_Policy_AppTenantRestriction_UpdateRule) GetRule() *PolicyAppTenantRestricitionUpdateRule_Policy_AppTenantRestriction_UpdateRule_Rule {
+	if t == nil {
+		t = &PolicyAppTenantRestricitionUpdateRule_Policy_AppTenantRestriction_UpdateRule{}
+	}
+	return t.Rule
+}
+func (t *PolicyAppTenantRestricitionUpdateRule_Policy_AppTenantRestriction_UpdateRule) GetStatus() *cato_models.PolicyMutationStatus {
+	if t == nil {
+		t = &PolicyAppTenantRestricitionUpdateRule_Policy_AppTenantRestriction_UpdateRule{}
+	}
+	return &t.Status
+}
+
+type PolicyAppTenantRestricitionUpdateRule_Policy_AppTenantRestriction struct {
+	UpdateRule PolicyAppTenantRestricitionUpdateRule_Policy_AppTenantRestriction_UpdateRule "json:\"updateRule\" graphql:\"updateRule\""
+}
+
+func (t *PolicyAppTenantRestricitionUpdateRule_Policy_AppTenantRestriction) GetUpdateRule() *PolicyAppTenantRestricitionUpdateRule_Policy_AppTenantRestriction_UpdateRule {
+	if t == nil {
+		t = &PolicyAppTenantRestricitionUpdateRule_Policy_AppTenantRestriction{}
+	}
+	return &t.UpdateRule
+}
+
+type PolicyAppTenantRestricitionUpdateRule_Policy struct {
+	AppTenantRestriction *PolicyAppTenantRestricitionUpdateRule_Policy_AppTenantRestriction "json:\"appTenantRestriction,omitempty\" graphql:\"appTenantRestriction\""
+}
+
+func (t *PolicyAppTenantRestricitionUpdateRule_Policy) GetAppTenantRestriction() *PolicyAppTenantRestricitionUpdateRule_Policy_AppTenantRestriction {
+	if t == nil {
+		t = &PolicyAppTenantRestricitionUpdateRule_Policy{}
+	}
+	return t.AppTenantRestriction
 }
 
 type PolicyInternetFirewallDiscardPolicyRevision_Policy_InternetFirewall_DiscardPolicyRevision_Policy_Rules_Audit struct {
@@ -89021,6 +89345,795 @@ func (t *Licensing_Licensing) GetLicensingInfo() *Licensing_Licensing_LicensingI
 	return t.LicensingInfo
 }
 
+type PolicyReadAppTenantRestricitionPolicy_Policy_AppTenantRestriction_Policy_Audit struct {
+	PublishedBy   string "json:\"publishedBy\" graphql:\"publishedBy\""
+	PublishedTime string "json:\"publishedTime\" graphql:\"publishedTime\""
+}
+
+func (t *PolicyReadAppTenantRestricitionPolicy_Policy_AppTenantRestriction_Policy_Audit) GetPublishedBy() string {
+	if t == nil {
+		t = &PolicyReadAppTenantRestricitionPolicy_Policy_AppTenantRestriction_Policy_Audit{}
+	}
+	return t.PublishedBy
+}
+func (t *PolicyReadAppTenantRestricitionPolicy_Policy_AppTenantRestriction_Policy_Audit) GetPublishedTime() string {
+	if t == nil {
+		t = &PolicyReadAppTenantRestricitionPolicy_Policy_AppTenantRestriction_Policy_Audit{}
+	}
+	return t.PublishedTime
+}
+
+type PolicyReadAppTenantRestricitionPolicy_Policy_AppTenantRestriction_Policy_Revision struct {
+	Changes     int64  "json:\"changes\" graphql:\"changes\""
+	CreatedTime string "json:\"createdTime\" graphql:\"createdTime\""
+	Description string "json:\"description\" graphql:\"description\""
+	ID          string "json:\"id\" graphql:\"id\""
+	Name        string "json:\"name\" graphql:\"name\""
+	UpdatedTime string "json:\"updatedTime\" graphql:\"updatedTime\""
+}
+
+func (t *PolicyReadAppTenantRestricitionPolicy_Policy_AppTenantRestriction_Policy_Revision) GetChanges() int64 {
+	if t == nil {
+		t = &PolicyReadAppTenantRestricitionPolicy_Policy_AppTenantRestriction_Policy_Revision{}
+	}
+	return t.Changes
+}
+func (t *PolicyReadAppTenantRestricitionPolicy_Policy_AppTenantRestriction_Policy_Revision) GetCreatedTime() string {
+	if t == nil {
+		t = &PolicyReadAppTenantRestricitionPolicy_Policy_AppTenantRestriction_Policy_Revision{}
+	}
+	return t.CreatedTime
+}
+func (t *PolicyReadAppTenantRestricitionPolicy_Policy_AppTenantRestriction_Policy_Revision) GetDescription() string {
+	if t == nil {
+		t = &PolicyReadAppTenantRestricitionPolicy_Policy_AppTenantRestriction_Policy_Revision{}
+	}
+	return t.Description
+}
+func (t *PolicyReadAppTenantRestricitionPolicy_Policy_AppTenantRestriction_Policy_Revision) GetID() string {
+	if t == nil {
+		t = &PolicyReadAppTenantRestricitionPolicy_Policy_AppTenantRestriction_Policy_Revision{}
+	}
+	return t.ID
+}
+func (t *PolicyReadAppTenantRestricitionPolicy_Policy_AppTenantRestriction_Policy_Revision) GetName() string {
+	if t == nil {
+		t = &PolicyReadAppTenantRestricitionPolicy_Policy_AppTenantRestriction_Policy_Revision{}
+	}
+	return t.Name
+}
+func (t *PolicyReadAppTenantRestricitionPolicy_Policy_AppTenantRestriction_Policy_Revision) GetUpdatedTime() string {
+	if t == nil {
+		t = &PolicyReadAppTenantRestricitionPolicy_Policy_AppTenantRestriction_Policy_Revision{}
+	}
+	return t.UpdatedTime
+}
+
+type PolicyReadAppTenantRestricitionPolicy_Policy_AppTenantRestriction_Policy_Rules_Audit struct {
+	UpdatedBy   string "json:\"updatedBy\" graphql:\"updatedBy\""
+	UpdatedTime string "json:\"updatedTime\" graphql:\"updatedTime\""
+}
+
+func (t *PolicyReadAppTenantRestricitionPolicy_Policy_AppTenantRestriction_Policy_Rules_Audit) GetUpdatedBy() string {
+	if t == nil {
+		t = &PolicyReadAppTenantRestricitionPolicy_Policy_AppTenantRestriction_Policy_Rules_Audit{}
+	}
+	return t.UpdatedBy
+}
+func (t *PolicyReadAppTenantRestricitionPolicy_Policy_AppTenantRestriction_Policy_Rules_Audit) GetUpdatedTime() string {
+	if t == nil {
+		t = &PolicyReadAppTenantRestricitionPolicy_Policy_AppTenantRestriction_Policy_Rules_Audit{}
+	}
+	return t.UpdatedTime
+}
+
+type PolicyReadAppTenantRestricitionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Application struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicyReadAppTenantRestricitionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Application) GetID() string {
+	if t == nil {
+		t = &PolicyReadAppTenantRestricitionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Application{}
+	}
+	return t.ID
+}
+func (t *PolicyReadAppTenantRestricitionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Application) GetName() string {
+	if t == nil {
+		t = &PolicyReadAppTenantRestricitionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Application{}
+	}
+	return t.Name
+}
+
+type PolicyReadAppTenantRestricitionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Headers struct {
+	Name  string "json:\"name\" graphql:\"name\""
+	Value string "json:\"value\" graphql:\"value\""
+}
+
+func (t *PolicyReadAppTenantRestricitionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Headers) GetName() string {
+	if t == nil {
+		t = &PolicyReadAppTenantRestricitionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Headers{}
+	}
+	return t.Name
+}
+func (t *PolicyReadAppTenantRestricitionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Headers) GetValue() string {
+	if t == nil {
+		t = &PolicyReadAppTenantRestricitionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Headers{}
+	}
+	return t.Value
+}
+
+type PolicyReadAppTenantRestricitionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Schedule_CustomRecurring struct {
+	Days []cato_models.DayOfWeek "json:\"days\" graphql:\"days\""
+	From scalars.Time            "json:\"from\" graphql:\"from\""
+	To   scalars.Time            "json:\"to\" graphql:\"to\""
+}
+
+func (t *PolicyReadAppTenantRestricitionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Schedule_CustomRecurring) GetDays() []cato_models.DayOfWeek {
+	if t == nil {
+		t = &PolicyReadAppTenantRestricitionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Schedule_CustomRecurring{}
+	}
+	return t.Days
+}
+func (t *PolicyReadAppTenantRestricitionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Schedule_CustomRecurring) GetFrom() *scalars.Time {
+	if t == nil {
+		t = &PolicyReadAppTenantRestricitionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Schedule_CustomRecurring{}
+	}
+	return &t.From
+}
+func (t *PolicyReadAppTenantRestricitionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Schedule_CustomRecurring) GetTo() *scalars.Time {
+	if t == nil {
+		t = &PolicyReadAppTenantRestricitionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Schedule_CustomRecurring{}
+	}
+	return &t.To
+}
+
+type PolicyReadAppTenantRestricitionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Schedule_CustomTimeframe struct {
+	From string "json:\"from\" graphql:\"from\""
+	To   string "json:\"to\" graphql:\"to\""
+}
+
+func (t *PolicyReadAppTenantRestricitionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Schedule_CustomTimeframe) GetFrom() string {
+	if t == nil {
+		t = &PolicyReadAppTenantRestricitionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Schedule_CustomTimeframe{}
+	}
+	return t.From
+}
+func (t *PolicyReadAppTenantRestricitionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Schedule_CustomTimeframe) GetTo() string {
+	if t == nil {
+		t = &PolicyReadAppTenantRestricitionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Schedule_CustomTimeframe{}
+	}
+	return t.To
+}
+
+type PolicyReadAppTenantRestricitionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Schedule struct {
+	ActiveOn        cato_models.PolicyActiveOnEnum                                                                                "json:\"activeOn\" graphql:\"activeOn\""
+	CustomRecurring *PolicyReadAppTenantRestricitionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Schedule_CustomRecurring "json:\"customRecurring,omitempty\" graphql:\"customRecurring\""
+	CustomTimeframe *PolicyReadAppTenantRestricitionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Schedule_CustomTimeframe "json:\"customTimeframe,omitempty\" graphql:\"customTimeframe\""
+}
+
+func (t *PolicyReadAppTenantRestricitionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Schedule) GetActiveOn() *cato_models.PolicyActiveOnEnum {
+	if t == nil {
+		t = &PolicyReadAppTenantRestricitionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Schedule{}
+	}
+	return &t.ActiveOn
+}
+func (t *PolicyReadAppTenantRestricitionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Schedule) GetCustomRecurring() *PolicyReadAppTenantRestricitionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Schedule_CustomRecurring {
+	if t == nil {
+		t = &PolicyReadAppTenantRestricitionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Schedule{}
+	}
+	return t.CustomRecurring
+}
+func (t *PolicyReadAppTenantRestricitionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Schedule) GetCustomTimeframe() *PolicyReadAppTenantRestricitionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Schedule_CustomTimeframe {
+	if t == nil {
+		t = &PolicyReadAppTenantRestricitionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Schedule{}
+	}
+	return t.CustomTimeframe
+}
+
+type PolicyReadAppTenantRestricitionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Section struct {
+	ID          string  "json:\"id\" graphql:\"id\""
+	Name        string  "json:\"name\" graphql:\"name\""
+	SubPolicyID *string "json:\"subPolicyId,omitempty\" graphql:\"subPolicyId\""
+}
+
+func (t *PolicyReadAppTenantRestricitionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Section) GetID() string {
+	if t == nil {
+		t = &PolicyReadAppTenantRestricitionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Section{}
+	}
+	return t.ID
+}
+func (t *PolicyReadAppTenantRestricitionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Section) GetName() string {
+	if t == nil {
+		t = &PolicyReadAppTenantRestricitionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Section{}
+	}
+	return t.Name
+}
+func (t *PolicyReadAppTenantRestricitionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Section) GetSubPolicyID() *string {
+	if t == nil {
+		t = &PolicyReadAppTenantRestricitionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Section{}
+	}
+	return t.SubPolicyID
+}
+
+type PolicyReadAppTenantRestricitionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Source_Country struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicyReadAppTenantRestricitionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Source_Country) GetID() string {
+	if t == nil {
+		t = &PolicyReadAppTenantRestricitionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Source_Country{}
+	}
+	return t.ID
+}
+func (t *PolicyReadAppTenantRestricitionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Source_Country) GetName() string {
+	if t == nil {
+		t = &PolicyReadAppTenantRestricitionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Source_Country{}
+	}
+	return t.Name
+}
+
+type PolicyReadAppTenantRestricitionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Source_FloatingSubnet struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicyReadAppTenantRestricitionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Source_FloatingSubnet) GetID() string {
+	if t == nil {
+		t = &PolicyReadAppTenantRestricitionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Source_FloatingSubnet{}
+	}
+	return t.ID
+}
+func (t *PolicyReadAppTenantRestricitionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Source_FloatingSubnet) GetName() string {
+	if t == nil {
+		t = &PolicyReadAppTenantRestricitionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Source_FloatingSubnet{}
+	}
+	return t.Name
+}
+
+type PolicyReadAppTenantRestricitionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Source_GlobalIPRange struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicyReadAppTenantRestricitionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Source_GlobalIPRange) GetID() string {
+	if t == nil {
+		t = &PolicyReadAppTenantRestricitionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Source_GlobalIPRange{}
+	}
+	return t.ID
+}
+func (t *PolicyReadAppTenantRestricitionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Source_GlobalIPRange) GetName() string {
+	if t == nil {
+		t = &PolicyReadAppTenantRestricitionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Source_GlobalIPRange{}
+	}
+	return t.Name
+}
+
+type PolicyReadAppTenantRestricitionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Source_Group struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicyReadAppTenantRestricitionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Source_Group) GetID() string {
+	if t == nil {
+		t = &PolicyReadAppTenantRestricitionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Source_Group{}
+	}
+	return t.ID
+}
+func (t *PolicyReadAppTenantRestricitionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Source_Group) GetName() string {
+	if t == nil {
+		t = &PolicyReadAppTenantRestricitionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Source_Group{}
+	}
+	return t.Name
+}
+
+type PolicyReadAppTenantRestricitionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Source_Host struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicyReadAppTenantRestricitionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Source_Host) GetID() string {
+	if t == nil {
+		t = &PolicyReadAppTenantRestricitionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Source_Host{}
+	}
+	return t.ID
+}
+func (t *PolicyReadAppTenantRestricitionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Source_Host) GetName() string {
+	if t == nil {
+		t = &PolicyReadAppTenantRestricitionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Source_Host{}
+	}
+	return t.Name
+}
+
+type PolicyReadAppTenantRestricitionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Source_IPRange struct {
+	From string "json:\"from\" graphql:\"from\""
+	To   string "json:\"to\" graphql:\"to\""
+}
+
+func (t *PolicyReadAppTenantRestricitionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Source_IPRange) GetFrom() string {
+	if t == nil {
+		t = &PolicyReadAppTenantRestricitionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Source_IPRange{}
+	}
+	return t.From
+}
+func (t *PolicyReadAppTenantRestricitionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Source_IPRange) GetTo() string {
+	if t == nil {
+		t = &PolicyReadAppTenantRestricitionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Source_IPRange{}
+	}
+	return t.To
+}
+
+type PolicyReadAppTenantRestricitionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Source_NetworkInterface struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicyReadAppTenantRestricitionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Source_NetworkInterface) GetID() string {
+	if t == nil {
+		t = &PolicyReadAppTenantRestricitionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Source_NetworkInterface{}
+	}
+	return t.ID
+}
+func (t *PolicyReadAppTenantRestricitionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Source_NetworkInterface) GetName() string {
+	if t == nil {
+		t = &PolicyReadAppTenantRestricitionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Source_NetworkInterface{}
+	}
+	return t.Name
+}
+
+type PolicyReadAppTenantRestricitionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Source_Site struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicyReadAppTenantRestricitionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Source_Site) GetID() string {
+	if t == nil {
+		t = &PolicyReadAppTenantRestricitionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Source_Site{}
+	}
+	return t.ID
+}
+func (t *PolicyReadAppTenantRestricitionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Source_Site) GetName() string {
+	if t == nil {
+		t = &PolicyReadAppTenantRestricitionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Source_Site{}
+	}
+	return t.Name
+}
+
+type PolicyReadAppTenantRestricitionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Source_SiteNetworkSubnet struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicyReadAppTenantRestricitionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Source_SiteNetworkSubnet) GetID() string {
+	if t == nil {
+		t = &PolicyReadAppTenantRestricitionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Source_SiteNetworkSubnet{}
+	}
+	return t.ID
+}
+func (t *PolicyReadAppTenantRestricitionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Source_SiteNetworkSubnet) GetName() string {
+	if t == nil {
+		t = &PolicyReadAppTenantRestricitionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Source_SiteNetworkSubnet{}
+	}
+	return t.Name
+}
+
+type PolicyReadAppTenantRestricitionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Source_SystemGroup struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicyReadAppTenantRestricitionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Source_SystemGroup) GetID() string {
+	if t == nil {
+		t = &PolicyReadAppTenantRestricitionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Source_SystemGroup{}
+	}
+	return t.ID
+}
+func (t *PolicyReadAppTenantRestricitionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Source_SystemGroup) GetName() string {
+	if t == nil {
+		t = &PolicyReadAppTenantRestricitionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Source_SystemGroup{}
+	}
+	return t.Name
+}
+
+type PolicyReadAppTenantRestricitionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Source_User struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicyReadAppTenantRestricitionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Source_User) GetID() string {
+	if t == nil {
+		t = &PolicyReadAppTenantRestricitionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Source_User{}
+	}
+	return t.ID
+}
+func (t *PolicyReadAppTenantRestricitionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Source_User) GetName() string {
+	if t == nil {
+		t = &PolicyReadAppTenantRestricitionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Source_User{}
+	}
+	return t.Name
+}
+
+type PolicyReadAppTenantRestricitionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Source_UsersGroup struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicyReadAppTenantRestricitionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Source_UsersGroup) GetID() string {
+	if t == nil {
+		t = &PolicyReadAppTenantRestricitionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Source_UsersGroup{}
+	}
+	return t.ID
+}
+func (t *PolicyReadAppTenantRestricitionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Source_UsersGroup) GetName() string {
+	if t == nil {
+		t = &PolicyReadAppTenantRestricitionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Source_UsersGroup{}
+	}
+	return t.Name
+}
+
+type PolicyReadAppTenantRestricitionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Source struct {
+	Country           []*PolicyReadAppTenantRestricitionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Source_Country           "json:\"country\" graphql:\"country\""
+	FloatingSubnet    []*PolicyReadAppTenantRestricitionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Source_FloatingSubnet    "json:\"floatingSubnet\" graphql:\"floatingSubnet\""
+	GlobalIPRange     []*PolicyReadAppTenantRestricitionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Source_GlobalIPRange     "json:\"globalIpRange\" graphql:\"globalIpRange\""
+	Group             []*PolicyReadAppTenantRestricitionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Source_Group             "json:\"group\" graphql:\"group\""
+	Host              []*PolicyReadAppTenantRestricitionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Source_Host              "json:\"host\" graphql:\"host\""
+	IP                []string                                                                                                        "json:\"ip\" graphql:\"ip\""
+	IPRange           []*PolicyReadAppTenantRestricitionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Source_IPRange           "json:\"ipRange\" graphql:\"ipRange\""
+	NetworkInterface  []*PolicyReadAppTenantRestricitionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Source_NetworkInterface  "json:\"networkInterface\" graphql:\"networkInterface\""
+	Site              []*PolicyReadAppTenantRestricitionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Source_Site              "json:\"site\" graphql:\"site\""
+	SiteNetworkSubnet []*PolicyReadAppTenantRestricitionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Source_SiteNetworkSubnet "json:\"siteNetworkSubnet\" graphql:\"siteNetworkSubnet\""
+	Subnet            []string                                                                                                        "json:\"subnet\" graphql:\"subnet\""
+	SystemGroup       []*PolicyReadAppTenantRestricitionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Source_SystemGroup       "json:\"systemGroup\" graphql:\"systemGroup\""
+	User              []*PolicyReadAppTenantRestricitionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Source_User              "json:\"user\" graphql:\"user\""
+	UsersGroup        []*PolicyReadAppTenantRestricitionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Source_UsersGroup        "json:\"usersGroup\" graphql:\"usersGroup\""
+}
+
+func (t *PolicyReadAppTenantRestricitionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Source) GetCountry() []*PolicyReadAppTenantRestricitionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Source_Country {
+	if t == nil {
+		t = &PolicyReadAppTenantRestricitionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Source{}
+	}
+	return t.Country
+}
+func (t *PolicyReadAppTenantRestricitionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Source) GetFloatingSubnet() []*PolicyReadAppTenantRestricitionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Source_FloatingSubnet {
+	if t == nil {
+		t = &PolicyReadAppTenantRestricitionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Source{}
+	}
+	return t.FloatingSubnet
+}
+func (t *PolicyReadAppTenantRestricitionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Source) GetGlobalIPRange() []*PolicyReadAppTenantRestricitionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Source_GlobalIPRange {
+	if t == nil {
+		t = &PolicyReadAppTenantRestricitionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Source{}
+	}
+	return t.GlobalIPRange
+}
+func (t *PolicyReadAppTenantRestricitionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Source) GetGroup() []*PolicyReadAppTenantRestricitionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Source_Group {
+	if t == nil {
+		t = &PolicyReadAppTenantRestricitionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Source{}
+	}
+	return t.Group
+}
+func (t *PolicyReadAppTenantRestricitionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Source) GetHost() []*PolicyReadAppTenantRestricitionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Source_Host {
+	if t == nil {
+		t = &PolicyReadAppTenantRestricitionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Source{}
+	}
+	return t.Host
+}
+func (t *PolicyReadAppTenantRestricitionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Source) GetIP() []string {
+	if t == nil {
+		t = &PolicyReadAppTenantRestricitionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Source{}
+	}
+	return t.IP
+}
+func (t *PolicyReadAppTenantRestricitionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Source) GetIPRange() []*PolicyReadAppTenantRestricitionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Source_IPRange {
+	if t == nil {
+		t = &PolicyReadAppTenantRestricitionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Source{}
+	}
+	return t.IPRange
+}
+func (t *PolicyReadAppTenantRestricitionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Source) GetNetworkInterface() []*PolicyReadAppTenantRestricitionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Source_NetworkInterface {
+	if t == nil {
+		t = &PolicyReadAppTenantRestricitionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Source{}
+	}
+	return t.NetworkInterface
+}
+func (t *PolicyReadAppTenantRestricitionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Source) GetSite() []*PolicyReadAppTenantRestricitionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Source_Site {
+	if t == nil {
+		t = &PolicyReadAppTenantRestricitionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Source{}
+	}
+	return t.Site
+}
+func (t *PolicyReadAppTenantRestricitionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Source) GetSiteNetworkSubnet() []*PolicyReadAppTenantRestricitionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Source_SiteNetworkSubnet {
+	if t == nil {
+		t = &PolicyReadAppTenantRestricitionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Source{}
+	}
+	return t.SiteNetworkSubnet
+}
+func (t *PolicyReadAppTenantRestricitionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Source) GetSubnet() []string {
+	if t == nil {
+		t = &PolicyReadAppTenantRestricitionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Source{}
+	}
+	return t.Subnet
+}
+func (t *PolicyReadAppTenantRestricitionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Source) GetSystemGroup() []*PolicyReadAppTenantRestricitionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Source_SystemGroup {
+	if t == nil {
+		t = &PolicyReadAppTenantRestricitionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Source{}
+	}
+	return t.SystemGroup
+}
+func (t *PolicyReadAppTenantRestricitionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Source) GetUser() []*PolicyReadAppTenantRestricitionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Source_User {
+	if t == nil {
+		t = &PolicyReadAppTenantRestricitionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Source{}
+	}
+	return t.User
+}
+func (t *PolicyReadAppTenantRestricitionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Source) GetUsersGroup() []*PolicyReadAppTenantRestricitionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Source_UsersGroup {
+	if t == nil {
+		t = &PolicyReadAppTenantRestricitionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Source{}
+	}
+	return t.UsersGroup
+}
+
+type PolicyReadAppTenantRestricitionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule struct {
+	Action      cato_models.AppTenantRestrictionActionEnum                                                      "json:\"action\" graphql:\"action\""
+	Application PolicyReadAppTenantRestricitionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Application "json:\"application\" graphql:\"application\""
+	Description string                                                                                          "json:\"description\" graphql:\"description\""
+	Enabled     bool                                                                                            "json:\"enabled\" graphql:\"enabled\""
+	Headers     []*PolicyReadAppTenantRestricitionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Headers  "json:\"headers\" graphql:\"headers\""
+	ID          string                                                                                          "json:\"id\" graphql:\"id\""
+	Index       int64                                                                                           "json:\"index\" graphql:\"index\""
+	Name        string                                                                                          "json:\"name\" graphql:\"name\""
+	Schedule    PolicyReadAppTenantRestricitionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Schedule    "json:\"schedule\" graphql:\"schedule\""
+	Section     PolicyReadAppTenantRestricitionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Section     "json:\"section\" graphql:\"section\""
+	Severity    cato_models.AppTenantRestrictionSeverityEnum                                                    "json:\"severity\" graphql:\"severity\""
+	Source      PolicyReadAppTenantRestricitionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Source      "json:\"source\" graphql:\"source\""
+}
+
+func (t *PolicyReadAppTenantRestricitionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule) GetAction() *cato_models.AppTenantRestrictionActionEnum {
+	if t == nil {
+		t = &PolicyReadAppTenantRestricitionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule{}
+	}
+	return &t.Action
+}
+func (t *PolicyReadAppTenantRestricitionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule) GetApplication() *PolicyReadAppTenantRestricitionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Application {
+	if t == nil {
+		t = &PolicyReadAppTenantRestricitionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule{}
+	}
+	return &t.Application
+}
+func (t *PolicyReadAppTenantRestricitionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule) GetDescription() string {
+	if t == nil {
+		t = &PolicyReadAppTenantRestricitionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule{}
+	}
+	return t.Description
+}
+func (t *PolicyReadAppTenantRestricitionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule) GetEnabled() bool {
+	if t == nil {
+		t = &PolicyReadAppTenantRestricitionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule{}
+	}
+	return t.Enabled
+}
+func (t *PolicyReadAppTenantRestricitionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule) GetHeaders() []*PolicyReadAppTenantRestricitionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Headers {
+	if t == nil {
+		t = &PolicyReadAppTenantRestricitionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule{}
+	}
+	return t.Headers
+}
+func (t *PolicyReadAppTenantRestricitionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule) GetID() string {
+	if t == nil {
+		t = &PolicyReadAppTenantRestricitionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule{}
+	}
+	return t.ID
+}
+func (t *PolicyReadAppTenantRestricitionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule) GetIndex() int64 {
+	if t == nil {
+		t = &PolicyReadAppTenantRestricitionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule{}
+	}
+	return t.Index
+}
+func (t *PolicyReadAppTenantRestricitionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule) GetName() string {
+	if t == nil {
+		t = &PolicyReadAppTenantRestricitionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule{}
+	}
+	return t.Name
+}
+func (t *PolicyReadAppTenantRestricitionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule) GetSchedule() *PolicyReadAppTenantRestricitionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Schedule {
+	if t == nil {
+		t = &PolicyReadAppTenantRestricitionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule{}
+	}
+	return &t.Schedule
+}
+func (t *PolicyReadAppTenantRestricitionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule) GetSection() *PolicyReadAppTenantRestricitionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Section {
+	if t == nil {
+		t = &PolicyReadAppTenantRestricitionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule{}
+	}
+	return &t.Section
+}
+func (t *PolicyReadAppTenantRestricitionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule) GetSeverity() *cato_models.AppTenantRestrictionSeverityEnum {
+	if t == nil {
+		t = &PolicyReadAppTenantRestricitionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule{}
+	}
+	return &t.Severity
+}
+func (t *PolicyReadAppTenantRestricitionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule) GetSource() *PolicyReadAppTenantRestricitionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Source {
+	if t == nil {
+		t = &PolicyReadAppTenantRestricitionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule{}
+	}
+	return &t.Source
+}
+
+type PolicyReadAppTenantRestricitionPolicy_Policy_AppTenantRestriction_Policy_Rules struct {
+	Audit      PolicyReadAppTenantRestricitionPolicy_Policy_AppTenantRestriction_Policy_Rules_Audit "json:\"audit\" graphql:\"audit\""
+	Properties []cato_models.PolicyElementPropertiesEnum                                            "json:\"properties\" graphql:\"properties\""
+	Rule       PolicyReadAppTenantRestricitionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule  "json:\"rule\" graphql:\"rule\""
+}
+
+func (t *PolicyReadAppTenantRestricitionPolicy_Policy_AppTenantRestriction_Policy_Rules) GetAudit() *PolicyReadAppTenantRestricitionPolicy_Policy_AppTenantRestriction_Policy_Rules_Audit {
+	if t == nil {
+		t = &PolicyReadAppTenantRestricitionPolicy_Policy_AppTenantRestriction_Policy_Rules{}
+	}
+	return &t.Audit
+}
+func (t *PolicyReadAppTenantRestricitionPolicy_Policy_AppTenantRestriction_Policy_Rules) GetProperties() []cato_models.PolicyElementPropertiesEnum {
+	if t == nil {
+		t = &PolicyReadAppTenantRestricitionPolicy_Policy_AppTenantRestriction_Policy_Rules{}
+	}
+	return t.Properties
+}
+func (t *PolicyReadAppTenantRestricitionPolicy_Policy_AppTenantRestriction_Policy_Rules) GetRule() *PolicyReadAppTenantRestricitionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule {
+	if t == nil {
+		t = &PolicyReadAppTenantRestricitionPolicy_Policy_AppTenantRestriction_Policy_Rules{}
+	}
+	return &t.Rule
+}
+
+type PolicyReadAppTenantRestricitionPolicy_Policy_AppTenantRestriction_Policy_Sections_Access struct {
+	Action cato_models.RBACAction "json:\"action\" graphql:\"action\""
+}
+
+func (t *PolicyReadAppTenantRestricitionPolicy_Policy_AppTenantRestriction_Policy_Sections_Access) GetAction() *cato_models.RBACAction {
+	if t == nil {
+		t = &PolicyReadAppTenantRestricitionPolicy_Policy_AppTenantRestriction_Policy_Sections_Access{}
+	}
+	return &t.Action
+}
+
+type PolicyReadAppTenantRestricitionPolicy_Policy_AppTenantRestriction_Policy_Sections_Audit struct {
+	UpdatedBy   string "json:\"updatedBy\" graphql:\"updatedBy\""
+	UpdatedTime string "json:\"updatedTime\" graphql:\"updatedTime\""
+}
+
+func (t *PolicyReadAppTenantRestricitionPolicy_Policy_AppTenantRestriction_Policy_Sections_Audit) GetUpdatedBy() string {
+	if t == nil {
+		t = &PolicyReadAppTenantRestricitionPolicy_Policy_AppTenantRestriction_Policy_Sections_Audit{}
+	}
+	return t.UpdatedBy
+}
+func (t *PolicyReadAppTenantRestricitionPolicy_Policy_AppTenantRestriction_Policy_Sections_Audit) GetUpdatedTime() string {
+	if t == nil {
+		t = &PolicyReadAppTenantRestricitionPolicy_Policy_AppTenantRestriction_Policy_Sections_Audit{}
+	}
+	return t.UpdatedTime
+}
+
+type PolicyReadAppTenantRestricitionPolicy_Policy_AppTenantRestriction_Policy_Sections_Section struct {
+	ID          string  "json:\"id\" graphql:\"id\""
+	Name        string  "json:\"name\" graphql:\"name\""
+	SubPolicyID *string "json:\"subPolicyId,omitempty\" graphql:\"subPolicyId\""
+}
+
+func (t *PolicyReadAppTenantRestricitionPolicy_Policy_AppTenantRestriction_Policy_Sections_Section) GetID() string {
+	if t == nil {
+		t = &PolicyReadAppTenantRestricitionPolicy_Policy_AppTenantRestriction_Policy_Sections_Section{}
+	}
+	return t.ID
+}
+func (t *PolicyReadAppTenantRestricitionPolicy_Policy_AppTenantRestriction_Policy_Sections_Section) GetName() string {
+	if t == nil {
+		t = &PolicyReadAppTenantRestricitionPolicy_Policy_AppTenantRestriction_Policy_Sections_Section{}
+	}
+	return t.Name
+}
+func (t *PolicyReadAppTenantRestricitionPolicy_Policy_AppTenantRestriction_Policy_Sections_Section) GetSubPolicyID() *string {
+	if t == nil {
+		t = &PolicyReadAppTenantRestricitionPolicy_Policy_AppTenantRestriction_Policy_Sections_Section{}
+	}
+	return t.SubPolicyID
+}
+
+type PolicyReadAppTenantRestricitionPolicy_Policy_AppTenantRestriction_Policy_Sections struct {
+	Access     *PolicyReadAppTenantRestricitionPolicy_Policy_AppTenantRestriction_Policy_Sections_Access "json:\"access,omitempty\" graphql:\"access\""
+	Audit      PolicyReadAppTenantRestricitionPolicy_Policy_AppTenantRestriction_Policy_Sections_Audit   "json:\"audit\" graphql:\"audit\""
+	Properties []cato_models.PolicyElementPropertiesEnum                                                 "json:\"properties\" graphql:\"properties\""
+	Section    PolicyReadAppTenantRestricitionPolicy_Policy_AppTenantRestriction_Policy_Sections_Section "json:\"section\" graphql:\"section\""
+}
+
+func (t *PolicyReadAppTenantRestricitionPolicy_Policy_AppTenantRestriction_Policy_Sections) GetAccess() *PolicyReadAppTenantRestricitionPolicy_Policy_AppTenantRestriction_Policy_Sections_Access {
+	if t == nil {
+		t = &PolicyReadAppTenantRestricitionPolicy_Policy_AppTenantRestriction_Policy_Sections{}
+	}
+	return t.Access
+}
+func (t *PolicyReadAppTenantRestricitionPolicy_Policy_AppTenantRestriction_Policy_Sections) GetAudit() *PolicyReadAppTenantRestricitionPolicy_Policy_AppTenantRestriction_Policy_Sections_Audit {
+	if t == nil {
+		t = &PolicyReadAppTenantRestricitionPolicy_Policy_AppTenantRestriction_Policy_Sections{}
+	}
+	return &t.Audit
+}
+func (t *PolicyReadAppTenantRestricitionPolicy_Policy_AppTenantRestriction_Policy_Sections) GetProperties() []cato_models.PolicyElementPropertiesEnum {
+	if t == nil {
+		t = &PolicyReadAppTenantRestricitionPolicy_Policy_AppTenantRestriction_Policy_Sections{}
+	}
+	return t.Properties
+}
+func (t *PolicyReadAppTenantRestricitionPolicy_Policy_AppTenantRestriction_Policy_Sections) GetSection() *PolicyReadAppTenantRestricitionPolicy_Policy_AppTenantRestriction_Policy_Sections_Section {
+	if t == nil {
+		t = &PolicyReadAppTenantRestricitionPolicy_Policy_AppTenantRestriction_Policy_Sections{}
+	}
+	return &t.Section
+}
+
+type PolicyReadAppTenantRestricitionPolicy_Policy_AppTenantRestriction_Policy struct {
+	Audit    *PolicyReadAppTenantRestricitionPolicy_Policy_AppTenantRestriction_Policy_Audit      "json:\"audit,omitempty\" graphql:\"audit\""
+	Enabled  bool                                                                                 "json:\"enabled\" graphql:\"enabled\""
+	Revision *PolicyReadAppTenantRestricitionPolicy_Policy_AppTenantRestriction_Policy_Revision   "json:\"revision,omitempty\" graphql:\"revision\""
+	Rules    []*PolicyReadAppTenantRestricitionPolicy_Policy_AppTenantRestriction_Policy_Rules    "json:\"rules\" graphql:\"rules\""
+	Sections []*PolicyReadAppTenantRestricitionPolicy_Policy_AppTenantRestriction_Policy_Sections "json:\"sections\" graphql:\"sections\""
+}
+
+func (t *PolicyReadAppTenantRestricitionPolicy_Policy_AppTenantRestriction_Policy) GetAudit() *PolicyReadAppTenantRestricitionPolicy_Policy_AppTenantRestriction_Policy_Audit {
+	if t == nil {
+		t = &PolicyReadAppTenantRestricitionPolicy_Policy_AppTenantRestriction_Policy{}
+	}
+	return t.Audit
+}
+func (t *PolicyReadAppTenantRestricitionPolicy_Policy_AppTenantRestriction_Policy) GetEnabled() bool {
+	if t == nil {
+		t = &PolicyReadAppTenantRestricitionPolicy_Policy_AppTenantRestriction_Policy{}
+	}
+	return t.Enabled
+}
+func (t *PolicyReadAppTenantRestricitionPolicy_Policy_AppTenantRestriction_Policy) GetRevision() *PolicyReadAppTenantRestricitionPolicy_Policy_AppTenantRestriction_Policy_Revision {
+	if t == nil {
+		t = &PolicyReadAppTenantRestricitionPolicy_Policy_AppTenantRestriction_Policy{}
+	}
+	return t.Revision
+}
+func (t *PolicyReadAppTenantRestricitionPolicy_Policy_AppTenantRestriction_Policy) GetRules() []*PolicyReadAppTenantRestricitionPolicy_Policy_AppTenantRestriction_Policy_Rules {
+	if t == nil {
+		t = &PolicyReadAppTenantRestricitionPolicy_Policy_AppTenantRestriction_Policy{}
+	}
+	return t.Rules
+}
+func (t *PolicyReadAppTenantRestricitionPolicy_Policy_AppTenantRestriction_Policy) GetSections() []*PolicyReadAppTenantRestricitionPolicy_Policy_AppTenantRestriction_Policy_Sections {
+	if t == nil {
+		t = &PolicyReadAppTenantRestricitionPolicy_Policy_AppTenantRestriction_Policy{}
+	}
+	return t.Sections
+}
+
+type PolicyReadAppTenantRestricitionPolicy_Policy_AppTenantRestriction struct {
+	Policy PolicyReadAppTenantRestricitionPolicy_Policy_AppTenantRestriction_Policy "json:\"policy\" graphql:\"policy\""
+}
+
+func (t *PolicyReadAppTenantRestricitionPolicy_Policy_AppTenantRestriction) GetPolicy() *PolicyReadAppTenantRestricitionPolicy_Policy_AppTenantRestriction_Policy {
+	if t == nil {
+		t = &PolicyReadAppTenantRestricitionPolicy_Policy_AppTenantRestriction{}
+	}
+	return &t.Policy
+}
+
+type PolicyReadAppTenantRestricitionPolicy_Policy struct {
+	AppTenantRestriction *PolicyReadAppTenantRestricitionPolicy_Policy_AppTenantRestriction "json:\"appTenantRestriction,omitempty\" graphql:\"appTenantRestriction\""
+}
+
+func (t *PolicyReadAppTenantRestricitionPolicy_Policy) GetAppTenantRestriction() *PolicyReadAppTenantRestricitionPolicy_Policy_AppTenantRestriction {
+	if t == nil {
+		t = &PolicyReadAppTenantRestricitionPolicy_Policy{}
+	}
+	return t.AppTenantRestriction
+}
+
 type Policy_Policy_InternetFirewall_Policy_Rules_Audit struct {
 	UpdatedBy   string "json:\"updatedBy\" graphql:\"updatedBy\""
 	UpdatedTime string "json:\"updatedTime\" graphql:\"updatedTime\""
@@ -113002,6 +114115,50 @@ func (t *GroupsUpdateGroup) GetGroups() *GroupsUpdateGroup_Groups {
 	return t.Groups
 }
 
+type PolicyAppTenantRestricitionAddRule struct {
+	Policy *PolicyAppTenantRestricitionAddRule_Policy "json:\"policy,omitempty\" graphql:\"policy\""
+}
+
+func (t *PolicyAppTenantRestricitionAddRule) GetPolicy() *PolicyAppTenantRestricitionAddRule_Policy {
+	if t == nil {
+		t = &PolicyAppTenantRestricitionAddRule{}
+	}
+	return t.Policy
+}
+
+type PolicyAppTenantRestricitionDeleteRule struct {
+	Policy *PolicyAppTenantRestricitionDeleteRule_Policy "json:\"policy,omitempty\" graphql:\"policy\""
+}
+
+func (t *PolicyAppTenantRestricitionDeleteRule) GetPolicy() *PolicyAppTenantRestricitionDeleteRule_Policy {
+	if t == nil {
+		t = &PolicyAppTenantRestricitionDeleteRule{}
+	}
+	return t.Policy
+}
+
+type PolicyAppTenantRestricitionMoveRule struct {
+	Policy *PolicyAppTenantRestricitionMoveRule_Policy "json:\"policy,omitempty\" graphql:\"policy\""
+}
+
+func (t *PolicyAppTenantRestricitionMoveRule) GetPolicy() *PolicyAppTenantRestricitionMoveRule_Policy {
+	if t == nil {
+		t = &PolicyAppTenantRestricitionMoveRule{}
+	}
+	return t.Policy
+}
+
+type PolicyAppTenantRestricitionUpdateRule struct {
+	Policy *PolicyAppTenantRestricitionUpdateRule_Policy "json:\"policy,omitempty\" graphql:\"policy\""
+}
+
+func (t *PolicyAppTenantRestricitionUpdateRule) GetPolicy() *PolicyAppTenantRestricitionUpdateRule_Policy {
+	if t == nil {
+		t = &PolicyAppTenantRestricitionUpdateRule{}
+	}
+	return t.Policy
+}
+
 type PolicyInternetFirewallDiscardPolicyRevision struct {
 	Policy *PolicyInternetFirewallDiscardPolicyRevision_Policy "json:\"policy,omitempty\" graphql:\"policy\""
 }
@@ -114520,6 +115677,17 @@ func (t *Licensing) GetLicensing() *Licensing_Licensing {
 	return t.Licensing
 }
 
+type PolicyReadAppTenantRestricitionPolicy struct {
+	Policy *PolicyReadAppTenantRestricitionPolicy_Policy "json:\"policy,omitempty\" graphql:\"policy\""
+}
+
+func (t *PolicyReadAppTenantRestricitionPolicy) GetPolicy() *PolicyReadAppTenantRestricitionPolicy_Policy {
+	if t == nil {
+		t = &PolicyReadAppTenantRestricitionPolicy{}
+	}
+	return t.Policy
+}
+
 type Policy struct {
 	Policy *Policy_Policy "json:\"policy,omitempty\" graphql:\"policy\""
 }
@@ -114919,6 +116087,153 @@ func (c *Client) GroupsUpdateGroup(ctx context.Context, updateGroupInput cato_mo
 
 	var res GroupsUpdateGroup
 	if err := c.Client.Post(ctx, "groupsUpdateGroup", GroupsUpdateGroupDocument, &res, vars, interceptors...); err != nil {
+		if c.Client.ParseDataWhenErrors {
+			return &res, err
+		}
+
+		return nil, err
+	}
+
+	return &res, nil
+}
+
+const PolicyAppTenantRestricitionAddRuleDocument = `mutation policyAppTenantRestricitionAddRule ($accountID: ID!, $input: AppTenantRestrictionAddRuleInput!) {
+	policy(accountId: $accountID) {
+		appTenantRestriction {
+			addRule(input: $input) {
+				rule {
+					rule {
+						id
+					}
+				}
+				status
+				errors {
+					errorCode
+					errorMessage
+				}
+			}
+		}
+	}
+}
+`
+
+func (c *Client) PolicyAppTenantRestricitionAddRule(ctx context.Context, accountID string, input cato_models.AppTenantRestrictionAddRuleInput, interceptors ...clientv2.RequestInterceptor) (*PolicyAppTenantRestricitionAddRule, error) {
+	vars := map[string]any{
+		"accountID": accountID,
+		"input":     input,
+	}
+
+	var res PolicyAppTenantRestricitionAddRule
+	if err := c.Client.Post(ctx, "policyAppTenantRestricitionAddRule", PolicyAppTenantRestricitionAddRuleDocument, &res, vars, interceptors...); err != nil {
+		if c.Client.ParseDataWhenErrors {
+			return &res, err
+		}
+
+		return nil, err
+	}
+
+	return &res, nil
+}
+
+const PolicyAppTenantRestricitionDeleteRuleDocument = `mutation policyAppTenantRestricitionDeleteRule ($accountID: ID!, $input: AppTenantRestrictionRemoveRuleInput!) {
+	policy(accountId: $accountID) {
+		appTenantRestriction {
+			removeRule(input: $input) {
+				status
+				errors {
+					errorCode
+					errorMessage
+				}
+			}
+		}
+	}
+}
+`
+
+func (c *Client) PolicyAppTenantRestricitionDeleteRule(ctx context.Context, accountID string, input cato_models.AppTenantRestrictionRemoveRuleInput, interceptors ...clientv2.RequestInterceptor) (*PolicyAppTenantRestricitionDeleteRule, error) {
+	vars := map[string]any{
+		"accountID": accountID,
+		"input":     input,
+	}
+
+	var res PolicyAppTenantRestricitionDeleteRule
+	if err := c.Client.Post(ctx, "policyAppTenantRestricitionDeleteRule", PolicyAppTenantRestricitionDeleteRuleDocument, &res, vars, interceptors...); err != nil {
+		if c.Client.ParseDataWhenErrors {
+			return &res, err
+		}
+
+		return nil, err
+	}
+
+	return &res, nil
+}
+
+const PolicyAppTenantRestricitionMoveRuleDocument = `mutation policyAppTenantRestricitionMoveRule ($accountID: ID!, $input: PolicyMoveRuleInput!) {
+	policy(accountId: $accountID) {
+		appTenantRestriction {
+			moveRule(input: $input) {
+				rule {
+					rule {
+						id
+					}
+				}
+				status
+				errors {
+					errorCode
+					errorMessage
+				}
+			}
+		}
+	}
+}
+`
+
+func (c *Client) PolicyAppTenantRestricitionMoveRule(ctx context.Context, accountID string, input cato_models.PolicyMoveRuleInput, interceptors ...clientv2.RequestInterceptor) (*PolicyAppTenantRestricitionMoveRule, error) {
+	vars := map[string]any{
+		"accountID": accountID,
+		"input":     input,
+	}
+
+	var res PolicyAppTenantRestricitionMoveRule
+	if err := c.Client.Post(ctx, "policyAppTenantRestricitionMoveRule", PolicyAppTenantRestricitionMoveRuleDocument, &res, vars, interceptors...); err != nil {
+		if c.Client.ParseDataWhenErrors {
+			return &res, err
+		}
+
+		return nil, err
+	}
+
+	return &res, nil
+}
+
+const PolicyAppTenantRestricitionUpdateRuleDocument = `mutation policyAppTenantRestricitionUpdateRule ($accountID: ID!, $input: AppTenantRestrictionUpdateRuleInput!) {
+	policy(accountId: $accountID) {
+		appTenantRestriction {
+			updateRule(input: $input) {
+				rule {
+					rule {
+						id
+					}
+				}
+				status
+				errors {
+					errorCode
+					errorMessage
+				}
+			}
+		}
+	}
+}
+`
+
+func (c *Client) PolicyAppTenantRestricitionUpdateRule(ctx context.Context, accountID string, input cato_models.AppTenantRestrictionUpdateRuleInput, interceptors ...clientv2.RequestInterceptor) (*PolicyAppTenantRestricitionUpdateRule, error) {
+	vars := map[string]any{
+		"accountID": accountID,
+		"input":     input,
+	}
+
+	var res PolicyAppTenantRestricitionUpdateRule
+	if err := c.Client.Post(ctx, "policyAppTenantRestricitionUpdateRule", PolicyAppTenantRestricitionUpdateRuleDocument, &res, vars, interceptors...); err != nil {
 		if c.Client.ParseDataWhenErrors {
 			return &res, err
 		}
@@ -132339,6 +133654,154 @@ func (c *Client) Licensing(ctx context.Context, accountID string, interceptors .
 	return &res, nil
 }
 
+const PolicyReadAppTenantRestricitionPolicyDocument = `query policyReadAppTenantRestricitionPolicy ($accountID: ID!) {
+	policy(accountId: $accountID) {
+		appTenantRestriction {
+			policy {
+				audit {
+					publishedBy
+					publishedTime
+				}
+				enabled
+				revision {
+					changes
+					createdTime
+					description
+					id
+					name
+					updatedTime
+				}
+				rules {
+					audit {
+						updatedBy
+						updatedTime
+					}
+					properties
+					rule {
+						action
+						application {
+							id
+							name
+						}
+						description
+						enabled
+						headers {
+							name
+							value
+						}
+						id
+						index
+						name
+						schedule {
+							activeOn
+							customRecurring {
+								days
+								from
+								to
+							}
+							customTimeframe {
+								from
+								to
+							}
+						}
+						section {
+							id
+							name
+							subPolicyId
+						}
+						severity
+						source {
+							country {
+								id
+								name
+							}
+							floatingSubnet {
+								id
+								name
+							}
+							globalIpRange {
+								id
+								name
+							}
+							group {
+								id
+								name
+							}
+							host {
+								id
+								name
+							}
+							ip
+							ipRange {
+								from
+								to
+							}
+							networkInterface {
+								id
+								name
+							}
+							site {
+								id
+								name
+							}
+							siteNetworkSubnet {
+								id
+								name
+							}
+							subnet
+							systemGroup {
+								id
+								name
+							}
+							user {
+								id
+								name
+							}
+							usersGroup {
+								id
+								name
+							}
+						}
+					}
+				}
+				sections {
+					access {
+						action
+					}
+					audit {
+						updatedBy
+						updatedTime
+					}
+					properties
+					section {
+						id
+						name
+						subPolicyId
+					}
+				}
+			}
+		}
+	}
+}
+`
+
+func (c *Client) PolicyReadAppTenantRestricitionPolicy(ctx context.Context, accountID string, interceptors ...clientv2.RequestInterceptor) (*PolicyReadAppTenantRestricitionPolicy, error) {
+	vars := map[string]any{
+		"accountID": accountID,
+	}
+
+	var res PolicyReadAppTenantRestricitionPolicy
+	if err := c.Client.Post(ctx, "policyReadAppTenantRestricitionPolicy", PolicyReadAppTenantRestricitionPolicyDocument, &res, vars, interceptors...); err != nil {
+		if c.Client.ParseDataWhenErrors {
+			return &res, err
+		}
+
+		return nil, err
+	}
+
+	return &res, nil
+}
+
 const PolicyDocument = `query policy ($internetFirewallPolicyInput: InternetFirewallPolicyInput, $wanFirewallPolicyInput: WanFirewallPolicyInput, $accountId: ID!) {
 	policy(accountId: $accountId) {
 		internetFirewall {
@@ -136525,6 +137988,10 @@ var DocumentOperationNames = map[string]string{
 	GroupsCreateGroupDocument:                           "groupsCreateGroup",
 	GroupsDeleteGroupDocument:                           "groupsDeleteGroup",
 	GroupsUpdateGroupDocument:                           "groupsUpdateGroup",
+	PolicyAppTenantRestricitionAddRuleDocument:          "policyAppTenantRestricitionAddRule",
+	PolicyAppTenantRestricitionDeleteRuleDocument:       "policyAppTenantRestricitionDeleteRule",
+	PolicyAppTenantRestricitionMoveRuleDocument:         "policyAppTenantRestricitionMoveRule",
+	PolicyAppTenantRestricitionUpdateRuleDocument:       "policyAppTenantRestricitionUpdateRule",
 	PolicyInternetFirewallDiscardPolicyRevisionDocument: "policyInternetFirewallDiscardPolicyRevision",
 	PolicyInternetFirewallAddRuleDocument:               "policyInternetFirewallAddRule",
 	PolicyInternetFirewallAddSectionDocument:            "policyInternetFirewallAddSection",
@@ -136663,6 +138130,7 @@ var DocumentOperationNames = map[string]string{
 	GroupsListDocument:                                  "groupsList",
 	HardwareManagementDocument:                          "hardwareManagement",
 	LicensingDocument:                                   "licensing",
+	PolicyReadAppTenantRestricitionPolicyDocument:       "policyReadAppTenantRestricitionPolicy",
 	PolicyDocument:                                      "policy",
 	InternetFirewallPolicyDocument:                      "internetFirewallPolicy",
 	PolicyReadPrivateAccessPolicyDocument:               "policyReadPrivateAccessPolicy",
