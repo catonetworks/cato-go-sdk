@@ -1,0 +1,23 @@
+mutation policyAppTenantRestrictionCreatePolicyRevision(
+  $policyCreateRevisionInput: PolicyCreateRevisionInput!
+  $accountId: ID!
+) {
+  policy(accountId: $accountId) {
+    appTenantRestriction {
+      createPolicyRevision(input: $policyCreateRevisionInput) {
+        policy {
+          enabled
+          revision {
+            id
+            name
+          }
+        }
+        status
+        errors {
+          errorMessage
+          errorCode
+        }
+      }
+    }
+  }
+}

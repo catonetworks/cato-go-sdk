@@ -1,0 +1,28 @@
+mutation policyApplicationControlAddRule(
+  $applicationControlAddRuleInput: ApplicationControlAddRuleInput!
+  $accountId: ID!
+) {
+  policy(accountId: $accountId) {
+    applicationControl {
+      addRule(input: $applicationControlAddRuleInput) {
+        rule {
+          rule {
+            id
+            name
+            index
+            ruleType
+            section {
+              id
+              name
+            }
+          }
+        }
+        status
+        errors {
+          errorMessage
+          errorCode
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,22 @@
+mutation policyAppTenantRestrictionMoveSection(
+  $policyMoveSectionInput: PolicyMoveSectionInput!
+  $accountId: ID!
+) {
+  policy(accountId: $accountId) {
+    appTenantRestriction {
+      moveSection(input: $policyMoveSectionInput) {
+        section {
+          section {
+            id
+            name
+          }
+        }
+        status
+        errors {
+          errorMessage
+          errorCode
+        }
+      }
+    }
+  }
+}

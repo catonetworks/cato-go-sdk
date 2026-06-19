@@ -1,0 +1,16 @@
+mutation policyApplicationControlDiscardPolicyRevision($accountId: ID!) {
+  policy(accountId: $accountId) {
+    applicationControl {
+      discardPolicyRevision {
+        policy {
+          enabled
+        }
+        status
+        errors {
+          errorMessage
+          errorCode
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,16 @@
+mutation policyApplicationControlRemoveSection(
+  $policyRemoveSectionInput: PolicyRemoveSectionInput!
+  $accountId: ID!
+) {
+  policy(accountId: $accountId) {
+    applicationControl {
+      removeSection(input: $policyRemoveSectionInput) {
+        status
+        errors {
+          errorMessage
+          errorCode
+        }
+      }
+    }
+  }
+}

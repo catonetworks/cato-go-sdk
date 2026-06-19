@@ -1,0 +1,19 @@
+mutation policyAppTenantRestrictionUpdatePolicy(
+  $appTenantRestrictionPolicyUpdateInput: AppTenantRestrictionPolicyUpdateInput!
+  $accountId: ID!
+) {
+  policy(accountId: $accountId) {
+    appTenantRestriction {
+      updatePolicy(input: $appTenantRestrictionPolicyUpdateInput) {
+        policy {
+          enabled
+        }
+        status
+        errors {
+          errorMessage
+          errorCode
+        }
+      }
+    }
+  }
+}

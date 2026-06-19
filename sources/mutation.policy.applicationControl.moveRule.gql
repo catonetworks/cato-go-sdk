@@ -1,0 +1,26 @@
+mutation policyApplicationControlMoveRule(
+  $policyMoveRuleInput: PolicyMoveRuleInput!
+  $accountId: ID!
+) {
+  policy(accountId: $accountId) {
+    applicationControl {
+      moveRule(input: $policyMoveRuleInput) {
+        rule {
+          rule {
+            id
+            index
+            section {
+              id
+              name
+            }
+          }
+        }
+        status
+        errors {
+          errorMessage
+          errorCode
+        }
+      }
+    }
+  }
+}

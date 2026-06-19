@@ -1,0 +1,22 @@
+mutation policyAppTenantRestrictionUpdateSection(
+  $policyUpdateSectionInput: PolicyUpdateSectionInput!
+  $accountId: ID!
+) {
+  policy(accountId: $accountId) {
+    appTenantRestriction {
+      updateSection(input: $policyUpdateSectionInput) {
+        section {
+          section {
+            id
+            name
+          }
+        }
+        status
+        errors {
+          errorMessage
+          errorCode
+        }
+      }
+    }
+  }
+}

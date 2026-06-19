@@ -1,0 +1,16 @@
+mutation policyAppTenantRestrictionDiscardPolicyRevision($accountId: ID!) {
+  policy(accountId: $accountId) {
+    appTenantRestriction {
+      discardPolicyRevision {
+        policy {
+          enabled
+        }
+        status
+        errors {
+          errorMessage
+          errorCode
+        }
+      }
+    }
+  }
+}
