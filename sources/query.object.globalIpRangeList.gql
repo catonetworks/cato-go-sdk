@@ -1,0 +1,13 @@
+query objectGlobalIpRangeList($accountID: ID!, $input: GlobalIpRangeListInput) {
+  object(accountId: $accountID) {
+    globalIpRangeList(input: $input) {
+      items {
+        description
+        id
+        ipRange
+        name
+      }
+      total
+    }
+  }
+}

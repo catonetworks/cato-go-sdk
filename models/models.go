@@ -4022,6 +4022,16 @@ type CreateFqdnContainerFromURLPayload struct {
 	Container *FqdnContainer `json:"container"`
 }
 
+type CreateGlobalIPRangeBulkPayload struct {
+	GlobalIPRange []*GlobalIPRange `json:"globalIpRange"`
+}
+
+type CreateGlobalIPRangeInput struct {
+	Description *string `json:"description,omitempty"`
+	IPRange     string  `json:"ipRange"`
+	Name        string  `json:"name"`
+}
+
 // Create a new group
 type CreateGroupInput struct {
 	Description *string                     `json:"description,omitempty"`
@@ -4454,6 +4464,10 @@ type DeleteCustomApplicationInput struct {
 
 type DeleteCustomApplicationPayload struct {
 	CustomApplication *CustomApplication `json:"customApplication"`
+}
+
+type DeleteGlobalIPRangeBulkPayload struct {
+	GlobalIPRange []*GlobalIPRange `json:"globalIpRange"`
 }
 
 // The deleted group object
@@ -5763,6 +5777,29 @@ type GetServicePrincipalAdminPayload struct {
 	ManagedRoles  []*AdminRole `json:"managedRoles,omitempty"`
 	Name          string       `json:"name"`
 	ResellerRoles []*AdminRole `json:"resellerRoles,omitempty"`
+}
+
+type GlobalIPRange struct {
+	Description *string `json:"description,omitempty"`
+	ID          string  `json:"id"`
+	IPRange     string  `json:"ipRange"`
+	Name        string  `json:"name"`
+	Subnet      *string `json:"subnet,omitempty"`
+}
+
+type GlobalIPRangeListFilterInput struct {
+	Description *StringFilterInput  `json:"description,omitempty"`
+	IPRange     *IPRangeFilterInput `json:"ipRange,omitempty"`
+	Name        *StringFilterInput  `json:"name,omitempty"`
+}
+
+type GlobalIPRangeListInput struct {
+	Filter *GlobalIPRangeListFilterInput `json:"filter,omitempty"`
+}
+
+type GlobalIPRangeListPayload struct {
+	Items []*GlobalIPRange `json:"items"`
+	Total int64            `json:"total"`
 }
 
 // A reference identifying the GlobalIpRange object. ID: Unique GlobalIpRange Identifier, Name: The GlobalIpRange Name
@@ -7122,6 +7159,10 @@ type IPAddressRangeInput struct {
 	To   string `json:"to"`
 }
 
+type IPRangeFilterInput struct {
+	ContainedIn *string `json:"containedIn,omitempty"`
+}
+
 // Intrusion Prevention System (IPS) service license (Legacy license, replaced by TP)
 type IpsLicense struct {
 	Description    *string       `json:"description,omitempty"`
@@ -8387,6 +8428,17 @@ type NotificationSubscriptionQueries struct {
 	MailingListList       *MailingListListPayload       `json:"mailingListList"`
 	SubscriptionGroup     *SubscriptionGroup            `json:"subscriptionGroup,omitempty"`
 	SubscriptionGroupList *SubscriptionGroupListPayload `json:"subscriptionGroupList"`
+}
+
+type ObjectMutations struct {
+	CreateGlobalIPRangeBulk *CreateGlobalIPRangeBulkPayload `json:"createGlobalIpRangeBulk,omitempty"`
+	DeleteGlobalIPRangeBulk *DeleteGlobalIPRangeBulkPayload `json:"deleteGlobalIpRangeBulk,omitempty"`
+	UpdateGlobalIPRangeBulk *UpdateGlobalIPRangeBulkPayload `json:"updateGlobalIpRangeBulk,omitempty"`
+}
+
+type ObjectQueries struct {
+	GlobalIPRange     *GlobalIPRange            `json:"globalIpRange,omitempty"`
+	GlobalIPRangeList *GlobalIPRangeListPayload `json:"globalIpRangeList,omitempty"`
 }
 
 type OriginTypeFilterInput struct {
@@ -13295,6 +13347,18 @@ type UpdateFqdnContainerFromURLInput struct {
 
 type UpdateFqdnContainerFromURLPayload struct {
 	Container *FqdnContainer `json:"container"`
+}
+
+type UpdateGlobalIPRangeBulkPayload struct {
+	GlobalIPRange []*GlobalIPRange `json:"globalIpRange"`
+}
+
+// Omit a field to leave unchanged.
+type UpdateGlobalIPRangeInput struct {
+	Description *string `json:"description,omitempty"`
+	ID          string  `json:"id"`
+	IPRange     *string `json:"ipRange,omitempty"`
+	Name        *string `json:"name,omitempty"`
 }
 
 // Update attributes for a group. Only the provided fields are updated - the other fields are not changed
