@@ -1959,7 +1959,7 @@ type ApplicationConnectorCatalogEntityRefSortOrderInput struct {
 type ApplicationControlAccessMethod struct {
 	AccessMethod ApplicationControlAccessMethodType `json:"accessMethod"`
 	Operator     ApplicationControlOperator         `json:"operator"`
-	Value        *string                            `json:"value,omitempty"`
+	Value        *scalars.ApplicationRisk           `json:"value,omitempty"`
 	ValueSet     *StringValueSetRef                 `json:"valueSet,omitempty"`
 }
 
@@ -1991,7 +1991,7 @@ type ApplicationControlActivity struct {
 	Activity *ApplicationControlActivityRef      `json:"activity"`
 	Field    *ApplicationControlActivityFieldRef `json:"field,omitempty"`
 	Operator *ApplicationControlOperator         `json:"operator,omitempty"`
-	Value    *string                             `json:"value,omitempty"`
+	Value    *scalars.ApplicationRisk            `json:"value,omitempty"`
 	ValueSet *StringValueSetRef                  `json:"valueSet,omitempty"`
 }
 
@@ -2345,7 +2345,7 @@ type ApplicationControlFileAttribute struct {
 	ContentTypeValues      []*ApplicationControlContentTypeRef      `json:"contentTypeValues"`
 	FileAttribute          ApplicationControlFileAttributeType      `json:"fileAttribute"`
 	Operator               ApplicationControlOperator               `json:"operator"`
-	Value                  *string                                  `json:"value,omitempty"`
+	Value                  *scalars.ApplicationRisk                 `json:"value,omitempty"`
 }
 
 // File attribute matching configuration
@@ -2503,13 +2503,13 @@ type ApplicationControlRemoveRuleInput struct {
 
 // Application risk
 type ApplicationControlRiskCriteria struct {
-	Risk         string                     `json:"risk"`
+	Risk         scalars.ApplicationRisk    `json:"risk"`
 	RiskOperator ApplicationControlOperator `json:"riskOperator"`
 }
 
 // Application risk
 type ApplicationControlRiskCriteriaInput struct {
-	Risk         string                     `json:"risk"`
+	Risk         scalars.ApplicationRisk    `json:"risk"`
 	RiskOperator ApplicationControlOperator `json:"riskOperator"`
 }
 
@@ -2672,7 +2672,7 @@ type ApplicationControlSourceUpdateInput struct {
 // Tenant matching configuration
 type ApplicationControlTenant struct {
 	Operator *ApplicationControlOperator `json:"operator,omitempty"`
-	Value    *string                     `json:"value,omitempty"`
+	Value    *scalars.ApplicationRisk    `json:"value,omitempty"`
 	ValueSet *StringValueSetRef          `json:"valueSet,omitempty"`
 }
 
@@ -3085,7 +3085,7 @@ type CatalogApplication struct {
 	OriginCountry                      *CountryRef                                           `json:"originCountry,omitempty"`
 	RecentlyAdded                      bool                                                  `json:"recentlyAdded"`
 	Region                             *string                                               `json:"region,omitempty"`
-	Risk                               *string                                               `json:"risk,omitempty"`
+	Risk                               *scalars.ApplicationRisk                              `json:"risk,omitempty"`
 	Sanctioned                         bool                                                  `json:"sanctioned"`
 	SecurityAttributes                 *CatalogApplicationSecurityAttributes                 `json:"securityAttributes"`
 	StandardPorts                      []*CustomService                                      `json:"standardPorts"`
