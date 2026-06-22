@@ -1,0 +1,12 @@
+mutation objectCreateGlobalIpRangeBulk ( $accountID: ID!, $input: [CreateGlobalIpRangeInput!]! ) {
+  object(accountId: $accountID) {
+    createGlobalIpRangeBulk(input: $input) {
+      globalIpRange {
+        id
+        description
+        ipRange
+        name
+      }
+    }
+  }
+}

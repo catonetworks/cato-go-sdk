@@ -17,6 +17,9 @@ type CatoClient interface {
 	GroupsCreateGroup(ctx context.Context, createGroupInput cato_models.CreateGroupInput, accountID string, interceptors ...clientv2.RequestInterceptor) (*GroupsCreateGroup, error)
 	GroupsDeleteGroup(ctx context.Context, groupRefInput cato_models.GroupRefInput, accountID string, interceptors ...clientv2.RequestInterceptor) (*GroupsDeleteGroup, error)
 	GroupsUpdateGroup(ctx context.Context, updateGroupInput cato_models.UpdateGroupInput, accountID string, interceptors ...clientv2.RequestInterceptor) (*GroupsUpdateGroup, error)
+	ObjectCreateGlobalIPRangeBulk(ctx context.Context, accountID string, input []*cato_models.CreateGlobalIPRangeInput, interceptors ...clientv2.RequestInterceptor) (*ObjectCreateGlobalIPRangeBulk, error)
+	ObjectDeleteGlobalIPRangeBulk(ctx context.Context, accountID string, input []*cato_models.GlobalIPRangeRefInput, interceptors ...clientv2.RequestInterceptor) (*ObjectDeleteGlobalIPRangeBulk, error)
+	ObjectUpdateGlobalIPRangeBulk(ctx context.Context, accountID string, input []*cato_models.UpdateGlobalIPRangeInput, interceptors ...clientv2.RequestInterceptor) (*ObjectUpdateGlobalIPRangeBulk, error)
 	PolicyInternetFirewallDiscardPolicyRevision(ctx context.Context, internetFirewallPolicyMutationInput *cato_models.InternetFirewallPolicyMutationInput, policyDiscardRevisionInput *cato_models.PolicyDiscardRevisionInput, accountID string, interceptors ...clientv2.RequestInterceptor) (*PolicyInternetFirewallDiscardPolicyRevision, error)
 	PolicyInternetFirewallAddRule(ctx context.Context, internetFirewallAddRuleInput cato_models.InternetFirewallAddRuleInput, accountID string, interceptors ...clientv2.RequestInterceptor) (*PolicyInternetFirewallAddRule, error)
 	PolicyInternetFirewallAddSection(ctx context.Context, internetFirewallPolicyMutationInput *cato_models.InternetFirewallPolicyMutationInput, policyAddSectionInput cato_models.PolicyAddSectionInput, accountID string, interceptors ...clientv2.RequestInterceptor) (*PolicyInternetFirewallAddSection, error)
@@ -155,6 +158,7 @@ type CatoClient interface {
 	GroupsList(ctx context.Context, groupListInput *cato_models.GroupListInput, accountID string, interceptors ...clientv2.RequestInterceptor) (*GroupsList, error)
 	HardwareManagement(ctx context.Context, input *cato_models.SocketInventoryInput, accountID string, interceptors ...clientv2.RequestInterceptor) (*HardwareManagement, error)
 	Licensing(ctx context.Context, accountID string, interceptors ...clientv2.RequestInterceptor) (*Licensing, error)
+	ObjectGlobalIPRangeList(ctx context.Context, accountID string, input *cato_models.GlobalIPRangeListInput, interceptors ...clientv2.RequestInterceptor) (*ObjectGlobalIPRangeList, error)
 	Policy(ctx context.Context, internetFirewallPolicyInput *cato_models.InternetFirewallPolicyInput, wanFirewallPolicyInput *cato_models.WanFirewallPolicyInput, accountID string, interceptors ...clientv2.RequestInterceptor) (*Policy, error)
 	InternetFirewallPolicy(ctx context.Context, accountID string, interceptors ...clientv2.RequestInterceptor) (*InternetFirewallPolicy, error)
 	PolicyReadPrivateAccessPolicy(ctx context.Context, accountID string, interceptors ...clientv2.RequestInterceptor) (*PolicyReadPrivateAccessPolicy, error)
@@ -613,6 +617,168 @@ func (t *GroupsUpdateGroup_Groups) GetUpdateGroup() *GroupsUpdateGroup_Groups_Up
 		t = &GroupsUpdateGroup_Groups{}
 	}
 	return t.UpdateGroup
+}
+
+type ObjectCreateGlobalIpRangeBulk_Object_CreateGlobalIPRangeBulk_GlobalIPRange struct {
+	Description *string "json:\"description,omitempty\" graphql:\"description\""
+	ID          string  "json:\"id\" graphql:\"id\""
+	IPRange     string  "json:\"ipRange\" graphql:\"ipRange\""
+	Name        string  "json:\"name\" graphql:\"name\""
+}
+
+func (t *ObjectCreateGlobalIpRangeBulk_Object_CreateGlobalIPRangeBulk_GlobalIPRange) GetDescription() *string {
+	if t == nil {
+		t = &ObjectCreateGlobalIpRangeBulk_Object_CreateGlobalIPRangeBulk_GlobalIPRange{}
+	}
+	return t.Description
+}
+func (t *ObjectCreateGlobalIpRangeBulk_Object_CreateGlobalIPRangeBulk_GlobalIPRange) GetID() string {
+	if t == nil {
+		t = &ObjectCreateGlobalIpRangeBulk_Object_CreateGlobalIPRangeBulk_GlobalIPRange{}
+	}
+	return t.ID
+}
+func (t *ObjectCreateGlobalIpRangeBulk_Object_CreateGlobalIPRangeBulk_GlobalIPRange) GetIPRange() string {
+	if t == nil {
+		t = &ObjectCreateGlobalIpRangeBulk_Object_CreateGlobalIPRangeBulk_GlobalIPRange{}
+	}
+	return t.IPRange
+}
+func (t *ObjectCreateGlobalIpRangeBulk_Object_CreateGlobalIPRangeBulk_GlobalIPRange) GetName() string {
+	if t == nil {
+		t = &ObjectCreateGlobalIpRangeBulk_Object_CreateGlobalIPRangeBulk_GlobalIPRange{}
+	}
+	return t.Name
+}
+
+type ObjectCreateGlobalIpRangeBulk_Object_CreateGlobalIPRangeBulk struct {
+	GlobalIPRange []*ObjectCreateGlobalIpRangeBulk_Object_CreateGlobalIPRangeBulk_GlobalIPRange "json:\"globalIpRange\" graphql:\"globalIpRange\""
+}
+
+func (t *ObjectCreateGlobalIpRangeBulk_Object_CreateGlobalIPRangeBulk) GetGlobalIPRange() []*ObjectCreateGlobalIpRangeBulk_Object_CreateGlobalIPRangeBulk_GlobalIPRange {
+	if t == nil {
+		t = &ObjectCreateGlobalIpRangeBulk_Object_CreateGlobalIPRangeBulk{}
+	}
+	return t.GlobalIPRange
+}
+
+type ObjectCreateGlobalIpRangeBulk_Object struct {
+	CreateGlobalIPRangeBulk *ObjectCreateGlobalIpRangeBulk_Object_CreateGlobalIPRangeBulk "json:\"createGlobalIpRangeBulk,omitempty\" graphql:\"createGlobalIpRangeBulk\""
+}
+
+func (t *ObjectCreateGlobalIpRangeBulk_Object) GetCreateGlobalIPRangeBulk() *ObjectCreateGlobalIpRangeBulk_Object_CreateGlobalIPRangeBulk {
+	if t == nil {
+		t = &ObjectCreateGlobalIpRangeBulk_Object{}
+	}
+	return t.CreateGlobalIPRangeBulk
+}
+
+type ObjectDeleteGlobalIpRangeBulk_Object_DeleteGlobalIPRangeBulk_GlobalIPRange struct {
+	Description *string "json:\"description,omitempty\" graphql:\"description\""
+	ID          string  "json:\"id\" graphql:\"id\""
+	IPRange     string  "json:\"ipRange\" graphql:\"ipRange\""
+	Name        string  "json:\"name\" graphql:\"name\""
+}
+
+func (t *ObjectDeleteGlobalIpRangeBulk_Object_DeleteGlobalIPRangeBulk_GlobalIPRange) GetDescription() *string {
+	if t == nil {
+		t = &ObjectDeleteGlobalIpRangeBulk_Object_DeleteGlobalIPRangeBulk_GlobalIPRange{}
+	}
+	return t.Description
+}
+func (t *ObjectDeleteGlobalIpRangeBulk_Object_DeleteGlobalIPRangeBulk_GlobalIPRange) GetID() string {
+	if t == nil {
+		t = &ObjectDeleteGlobalIpRangeBulk_Object_DeleteGlobalIPRangeBulk_GlobalIPRange{}
+	}
+	return t.ID
+}
+func (t *ObjectDeleteGlobalIpRangeBulk_Object_DeleteGlobalIPRangeBulk_GlobalIPRange) GetIPRange() string {
+	if t == nil {
+		t = &ObjectDeleteGlobalIpRangeBulk_Object_DeleteGlobalIPRangeBulk_GlobalIPRange{}
+	}
+	return t.IPRange
+}
+func (t *ObjectDeleteGlobalIpRangeBulk_Object_DeleteGlobalIPRangeBulk_GlobalIPRange) GetName() string {
+	if t == nil {
+		t = &ObjectDeleteGlobalIpRangeBulk_Object_DeleteGlobalIPRangeBulk_GlobalIPRange{}
+	}
+	return t.Name
+}
+
+type ObjectDeleteGlobalIpRangeBulk_Object_DeleteGlobalIPRangeBulk struct {
+	GlobalIPRange []*ObjectDeleteGlobalIpRangeBulk_Object_DeleteGlobalIPRangeBulk_GlobalIPRange "json:\"globalIpRange\" graphql:\"globalIpRange\""
+}
+
+func (t *ObjectDeleteGlobalIpRangeBulk_Object_DeleteGlobalIPRangeBulk) GetGlobalIPRange() []*ObjectDeleteGlobalIpRangeBulk_Object_DeleteGlobalIPRangeBulk_GlobalIPRange {
+	if t == nil {
+		t = &ObjectDeleteGlobalIpRangeBulk_Object_DeleteGlobalIPRangeBulk{}
+	}
+	return t.GlobalIPRange
+}
+
+type ObjectDeleteGlobalIpRangeBulk_Object struct {
+	DeleteGlobalIPRangeBulk *ObjectDeleteGlobalIpRangeBulk_Object_DeleteGlobalIPRangeBulk "json:\"deleteGlobalIpRangeBulk,omitempty\" graphql:\"deleteGlobalIpRangeBulk\""
+}
+
+func (t *ObjectDeleteGlobalIpRangeBulk_Object) GetDeleteGlobalIPRangeBulk() *ObjectDeleteGlobalIpRangeBulk_Object_DeleteGlobalIPRangeBulk {
+	if t == nil {
+		t = &ObjectDeleteGlobalIpRangeBulk_Object{}
+	}
+	return t.DeleteGlobalIPRangeBulk
+}
+
+type ObjectUpdateGlobalIpRangeBulk_Object_UpdateGlobalIPRangeBulk_GlobalIPRange struct {
+	Description *string "json:\"description,omitempty\" graphql:\"description\""
+	ID          string  "json:\"id\" graphql:\"id\""
+	IPRange     string  "json:\"ipRange\" graphql:\"ipRange\""
+	Name        string  "json:\"name\" graphql:\"name\""
+}
+
+func (t *ObjectUpdateGlobalIpRangeBulk_Object_UpdateGlobalIPRangeBulk_GlobalIPRange) GetDescription() *string {
+	if t == nil {
+		t = &ObjectUpdateGlobalIpRangeBulk_Object_UpdateGlobalIPRangeBulk_GlobalIPRange{}
+	}
+	return t.Description
+}
+func (t *ObjectUpdateGlobalIpRangeBulk_Object_UpdateGlobalIPRangeBulk_GlobalIPRange) GetID() string {
+	if t == nil {
+		t = &ObjectUpdateGlobalIpRangeBulk_Object_UpdateGlobalIPRangeBulk_GlobalIPRange{}
+	}
+	return t.ID
+}
+func (t *ObjectUpdateGlobalIpRangeBulk_Object_UpdateGlobalIPRangeBulk_GlobalIPRange) GetIPRange() string {
+	if t == nil {
+		t = &ObjectUpdateGlobalIpRangeBulk_Object_UpdateGlobalIPRangeBulk_GlobalIPRange{}
+	}
+	return t.IPRange
+}
+func (t *ObjectUpdateGlobalIpRangeBulk_Object_UpdateGlobalIPRangeBulk_GlobalIPRange) GetName() string {
+	if t == nil {
+		t = &ObjectUpdateGlobalIpRangeBulk_Object_UpdateGlobalIPRangeBulk_GlobalIPRange{}
+	}
+	return t.Name
+}
+
+type ObjectUpdateGlobalIpRangeBulk_Object_UpdateGlobalIPRangeBulk struct {
+	GlobalIPRange []*ObjectUpdateGlobalIpRangeBulk_Object_UpdateGlobalIPRangeBulk_GlobalIPRange "json:\"globalIpRange\" graphql:\"globalIpRange\""
+}
+
+func (t *ObjectUpdateGlobalIpRangeBulk_Object_UpdateGlobalIPRangeBulk) GetGlobalIPRange() []*ObjectUpdateGlobalIpRangeBulk_Object_UpdateGlobalIPRangeBulk_GlobalIPRange {
+	if t == nil {
+		t = &ObjectUpdateGlobalIpRangeBulk_Object_UpdateGlobalIPRangeBulk{}
+	}
+	return t.GlobalIPRange
+}
+
+type ObjectUpdateGlobalIpRangeBulk_Object struct {
+	UpdateGlobalIPRangeBulk *ObjectUpdateGlobalIpRangeBulk_Object_UpdateGlobalIPRangeBulk "json:\"updateGlobalIpRangeBulk,omitempty\" graphql:\"updateGlobalIpRangeBulk\""
+}
+
+func (t *ObjectUpdateGlobalIpRangeBulk_Object) GetUpdateGlobalIPRangeBulk() *ObjectUpdateGlobalIpRangeBulk_Object_UpdateGlobalIPRangeBulk {
+	if t == nil {
+		t = &ObjectUpdateGlobalIpRangeBulk_Object{}
+	}
+	return t.UpdateGlobalIPRangeBulk
 }
 
 type PolicyInternetFirewallDiscardPolicyRevision_Policy_InternetFirewall_DiscardPolicyRevision_Policy_Rules_Audit struct {
@@ -89021,6 +89187,67 @@ func (t *Licensing_Licensing) GetLicensingInfo() *Licensing_Licensing_LicensingI
 	return t.LicensingInfo
 }
 
+type ObjectGlobalIpRangeList_Object_GlobalIPRangeList_Items struct {
+	Description *string "json:\"description,omitempty\" graphql:\"description\""
+	ID          string  "json:\"id\" graphql:\"id\""
+	IPRange     string  "json:\"ipRange\" graphql:\"ipRange\""
+	Name        string  "json:\"name\" graphql:\"name\""
+}
+
+func (t *ObjectGlobalIpRangeList_Object_GlobalIPRangeList_Items) GetDescription() *string {
+	if t == nil {
+		t = &ObjectGlobalIpRangeList_Object_GlobalIPRangeList_Items{}
+	}
+	return t.Description
+}
+func (t *ObjectGlobalIpRangeList_Object_GlobalIPRangeList_Items) GetID() string {
+	if t == nil {
+		t = &ObjectGlobalIpRangeList_Object_GlobalIPRangeList_Items{}
+	}
+	return t.ID
+}
+func (t *ObjectGlobalIpRangeList_Object_GlobalIPRangeList_Items) GetIPRange() string {
+	if t == nil {
+		t = &ObjectGlobalIpRangeList_Object_GlobalIPRangeList_Items{}
+	}
+	return t.IPRange
+}
+func (t *ObjectGlobalIpRangeList_Object_GlobalIPRangeList_Items) GetName() string {
+	if t == nil {
+		t = &ObjectGlobalIpRangeList_Object_GlobalIPRangeList_Items{}
+	}
+	return t.Name
+}
+
+type ObjectGlobalIpRangeList_Object_GlobalIPRangeList struct {
+	Items []*ObjectGlobalIpRangeList_Object_GlobalIPRangeList_Items "json:\"items\" graphql:\"items\""
+	Total int64                                                     "json:\"total\" graphql:\"total\""
+}
+
+func (t *ObjectGlobalIpRangeList_Object_GlobalIPRangeList) GetItems() []*ObjectGlobalIpRangeList_Object_GlobalIPRangeList_Items {
+	if t == nil {
+		t = &ObjectGlobalIpRangeList_Object_GlobalIPRangeList{}
+	}
+	return t.Items
+}
+func (t *ObjectGlobalIpRangeList_Object_GlobalIPRangeList) GetTotal() int64 {
+	if t == nil {
+		t = &ObjectGlobalIpRangeList_Object_GlobalIPRangeList{}
+	}
+	return t.Total
+}
+
+type ObjectGlobalIpRangeList_Object struct {
+	GlobalIPRangeList *ObjectGlobalIpRangeList_Object_GlobalIPRangeList "json:\"globalIpRangeList,omitempty\" graphql:\"globalIpRangeList\""
+}
+
+func (t *ObjectGlobalIpRangeList_Object) GetGlobalIPRangeList() *ObjectGlobalIpRangeList_Object_GlobalIPRangeList {
+	if t == nil {
+		t = &ObjectGlobalIpRangeList_Object{}
+	}
+	return t.GlobalIPRangeList
+}
+
 type Policy_Policy_InternetFirewall_Policy_Rules_Audit struct {
 	UpdatedBy   string "json:\"updatedBy\" graphql:\"updatedBy\""
 	UpdatedTime string "json:\"updatedTime\" graphql:\"updatedTime\""
@@ -113002,6 +113229,39 @@ func (t *GroupsUpdateGroup) GetGroups() *GroupsUpdateGroup_Groups {
 	return t.Groups
 }
 
+type ObjectCreateGlobalIPRangeBulk struct {
+	Object *ObjectCreateGlobalIpRangeBulk_Object "json:\"object,omitempty\" graphql:\"object\""
+}
+
+func (t *ObjectCreateGlobalIPRangeBulk) GetObject() *ObjectCreateGlobalIpRangeBulk_Object {
+	if t == nil {
+		t = &ObjectCreateGlobalIPRangeBulk{}
+	}
+	return t.Object
+}
+
+type ObjectDeleteGlobalIPRangeBulk struct {
+	Object *ObjectDeleteGlobalIpRangeBulk_Object "json:\"object,omitempty\" graphql:\"object\""
+}
+
+func (t *ObjectDeleteGlobalIPRangeBulk) GetObject() *ObjectDeleteGlobalIpRangeBulk_Object {
+	if t == nil {
+		t = &ObjectDeleteGlobalIPRangeBulk{}
+	}
+	return t.Object
+}
+
+type ObjectUpdateGlobalIPRangeBulk struct {
+	Object *ObjectUpdateGlobalIpRangeBulk_Object "json:\"object,omitempty\" graphql:\"object\""
+}
+
+func (t *ObjectUpdateGlobalIPRangeBulk) GetObject() *ObjectUpdateGlobalIpRangeBulk_Object {
+	if t == nil {
+		t = &ObjectUpdateGlobalIPRangeBulk{}
+	}
+	return t.Object
+}
+
 type PolicyInternetFirewallDiscardPolicyRevision struct {
 	Policy *PolicyInternetFirewallDiscardPolicyRevision_Policy "json:\"policy,omitempty\" graphql:\"policy\""
 }
@@ -114520,6 +114780,17 @@ func (t *Licensing) GetLicensing() *Licensing_Licensing {
 	return t.Licensing
 }
 
+type ObjectGlobalIPRangeList struct {
+	Object *ObjectGlobalIpRangeList_Object "json:\"object,omitempty\" graphql:\"object\""
+}
+
+func (t *ObjectGlobalIPRangeList) GetObject() *ObjectGlobalIpRangeList_Object {
+	if t == nil {
+		t = &ObjectGlobalIPRangeList{}
+	}
+	return t.Object
+}
+
 type Policy struct {
 	Policy *Policy_Policy "json:\"policy,omitempty\" graphql:\"policy\""
 }
@@ -114919,6 +115190,102 @@ func (c *Client) GroupsUpdateGroup(ctx context.Context, updateGroupInput cato_mo
 
 	var res GroupsUpdateGroup
 	if err := c.Client.Post(ctx, "groupsUpdateGroup", GroupsUpdateGroupDocument, &res, vars, interceptors...); err != nil {
+		if c.Client.ParseDataWhenErrors {
+			return &res, err
+		}
+
+		return nil, err
+	}
+
+	return &res, nil
+}
+
+const ObjectCreateGlobalIPRangeBulkDocument = `mutation objectCreateGlobalIpRangeBulk ($accountID: ID!, $input: [CreateGlobalIpRangeInput!]!) {
+	object(accountId: $accountID) {
+		createGlobalIpRangeBulk(input: $input) {
+			globalIpRange {
+				id
+				description
+				ipRange
+				name
+			}
+		}
+	}
+}
+`
+
+func (c *Client) ObjectCreateGlobalIPRangeBulk(ctx context.Context, accountID string, input []*cato_models.CreateGlobalIPRangeInput, interceptors ...clientv2.RequestInterceptor) (*ObjectCreateGlobalIPRangeBulk, error) {
+	vars := map[string]any{
+		"accountID": accountID,
+		"input":     input,
+	}
+
+	var res ObjectCreateGlobalIPRangeBulk
+	if err := c.Client.Post(ctx, "objectCreateGlobalIpRangeBulk", ObjectCreateGlobalIPRangeBulkDocument, &res, vars, interceptors...); err != nil {
+		if c.Client.ParseDataWhenErrors {
+			return &res, err
+		}
+
+		return nil, err
+	}
+
+	return &res, nil
+}
+
+const ObjectDeleteGlobalIPRangeBulkDocument = `mutation objectDeleteGlobalIpRangeBulk ($accountID: ID!, $input: [GlobalIpRangeRefInput!]!) {
+	object(accountId: $accountID) {
+		deleteGlobalIpRangeBulk(input: $input) {
+			globalIpRange {
+				id
+				description
+				ipRange
+				name
+			}
+		}
+	}
+}
+`
+
+func (c *Client) ObjectDeleteGlobalIPRangeBulk(ctx context.Context, accountID string, input []*cato_models.GlobalIPRangeRefInput, interceptors ...clientv2.RequestInterceptor) (*ObjectDeleteGlobalIPRangeBulk, error) {
+	vars := map[string]any{
+		"accountID": accountID,
+		"input":     input,
+	}
+
+	var res ObjectDeleteGlobalIPRangeBulk
+	if err := c.Client.Post(ctx, "objectDeleteGlobalIpRangeBulk", ObjectDeleteGlobalIPRangeBulkDocument, &res, vars, interceptors...); err != nil {
+		if c.Client.ParseDataWhenErrors {
+			return &res, err
+		}
+
+		return nil, err
+	}
+
+	return &res, nil
+}
+
+const ObjectUpdateGlobalIPRangeBulkDocument = `mutation objectUpdateGlobalIpRangeBulk ($accountID: ID!, $input: [UpdateGlobalIpRangeInput!]!) {
+	object(accountId: $accountID) {
+		updateGlobalIpRangeBulk(input: $input) {
+			globalIpRange {
+				id
+				description
+				ipRange
+				name
+			}
+		}
+	}
+}
+`
+
+func (c *Client) ObjectUpdateGlobalIPRangeBulk(ctx context.Context, accountID string, input []*cato_models.UpdateGlobalIPRangeInput, interceptors ...clientv2.RequestInterceptor) (*ObjectUpdateGlobalIPRangeBulk, error) {
+	vars := map[string]any{
+		"accountID": accountID,
+		"input":     input,
+	}
+
+	var res ObjectUpdateGlobalIPRangeBulk
+	if err := c.Client.Post(ctx, "objectUpdateGlobalIpRangeBulk", ObjectUpdateGlobalIPRangeBulkDocument, &res, vars, interceptors...); err != nil {
 		if c.Client.ParseDataWhenErrors {
 			return &res, err
 		}
@@ -132339,6 +132706,39 @@ func (c *Client) Licensing(ctx context.Context, accountID string, interceptors .
 	return &res, nil
 }
 
+const ObjectGlobalIPRangeListDocument = `query objectGlobalIpRangeList ($accountID: ID!, $input: GlobalIpRangeListInput) {
+	object(accountId: $accountID) {
+		globalIpRangeList(input: $input) {
+			items {
+				description
+				id
+				ipRange
+				name
+			}
+			total
+		}
+	}
+}
+`
+
+func (c *Client) ObjectGlobalIPRangeList(ctx context.Context, accountID string, input *cato_models.GlobalIPRangeListInput, interceptors ...clientv2.RequestInterceptor) (*ObjectGlobalIPRangeList, error) {
+	vars := map[string]any{
+		"accountID": accountID,
+		"input":     input,
+	}
+
+	var res ObjectGlobalIPRangeList
+	if err := c.Client.Post(ctx, "objectGlobalIpRangeList", ObjectGlobalIPRangeListDocument, &res, vars, interceptors...); err != nil {
+		if c.Client.ParseDataWhenErrors {
+			return &res, err
+		}
+
+		return nil, err
+	}
+
+	return &res, nil
+}
+
 const PolicyDocument = `query policy ($internetFirewallPolicyInput: InternetFirewallPolicyInput, $wanFirewallPolicyInput: WanFirewallPolicyInput, $accountId: ID!) {
 	policy(accountId: $accountId) {
 		internetFirewall {
@@ -136525,6 +136925,9 @@ var DocumentOperationNames = map[string]string{
 	GroupsCreateGroupDocument:                           "groupsCreateGroup",
 	GroupsDeleteGroupDocument:                           "groupsDeleteGroup",
 	GroupsUpdateGroupDocument:                           "groupsUpdateGroup",
+	ObjectCreateGlobalIPRangeBulkDocument:               "objectCreateGlobalIpRangeBulk",
+	ObjectDeleteGlobalIPRangeBulkDocument:               "objectDeleteGlobalIpRangeBulk",
+	ObjectUpdateGlobalIPRangeBulkDocument:               "objectUpdateGlobalIpRangeBulk",
 	PolicyInternetFirewallDiscardPolicyRevisionDocument: "policyInternetFirewallDiscardPolicyRevision",
 	PolicyInternetFirewallAddRuleDocument:               "policyInternetFirewallAddRule",
 	PolicyInternetFirewallAddSectionDocument:            "policyInternetFirewallAddSection",
@@ -136663,6 +137066,7 @@ var DocumentOperationNames = map[string]string{
 	GroupsListDocument:                                  "groupsList",
 	HardwareManagementDocument:                          "hardwareManagement",
 	LicensingDocument:                                   "licensing",
+	ObjectGlobalIPRangeListDocument:                     "objectGlobalIpRangeList",
 	PolicyDocument:                                      "policy",
 	InternetFirewallPolicyDocument:                      "internetFirewallPolicy",
 	PolicyReadPrivateAccessPolicyDocument:               "policyReadPrivateAccessPolicy",

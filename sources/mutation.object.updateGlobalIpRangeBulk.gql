@@ -1,0 +1,13 @@
+mutation objectUpdateGlobalIpRangeBulk ( $accountID: ID!, $input: [UpdateGlobalIpRangeInput!]! ) {
+  object(accountId: $accountID) {
+    updateGlobalIpRangeBulk(input: $input) {
+      globalIpRange {
+        id
+        description
+        ipRange
+        name
+      }
+    }
+  }
+}
+

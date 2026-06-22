@@ -50,6 +50,7 @@ type Query {
   hardwareManagement(accountId: ID!): HardwareManagementQueries
   licensing(accountId: ID!): LicensingQueries
   notification(accountId: ID!): NotificationSubscriptionQueries @ga
+  object(accountId: ID!): ObjectQueries
   policy(accountId: ID!): PolicyQueries
   popLocations(accountId: ID!): PopLocationQueries
   privateApplication(accountId: ID!): AccessPrivateApplicationQueries @rollout
@@ -76,6 +77,7 @@ type Mutation {
   hardware(accountId: ID!): HardwareMutations
   licensing(accountId: ID!): LicensingMutations
   notification(accountId: ID!): NotificationSubscriptionMutations @ga
+  object(accountId: ID!): ObjectMutations
   policy(accountId: ID!): PolicyMutations
   popLocationMutations(accountId: ID!): PopLocationMutations
   privateApplication(accountId: ID!): AccessPrivateApplicationMutations @rollout
@@ -1685,6 +1687,10 @@ type CreateFqdnContainerFromUrlPayload {
   container: FqdnContainer!
 }
 
+type CreateGlobalIpRangeBulkPayload {
+  globalIpRange: [GlobalIpRange!]!
+}
+
 """ The created group object. """
 type CreateGroupPayload {
   group: Group!
@@ -1879,6 +1885,10 @@ type DeleteContainerPayload {
 
 type DeleteCustomApplicationPayload {
   customApplication: CustomApplication!
+}
+
+type DeleteGlobalIpRangeBulkPayload {
+  globalIpRange: [GlobalIpRange!]!
 }
 
 """ The deleted group object """
@@ -2582,6 +2592,19 @@ type GetServicePrincipalAdminPayload {
   managedRoles: [AdminRole!]
   name: String!
   resellerRoles: [AdminRole!]
+}
+
+type GlobalIpRange {
+  description: String
+  id: ID!
+  ipRange: IPRange!
+  name: String!
+  subnet: IPSubnet @deprecated(reason: "Use `ipRange` instead.")
+}
+
+type GlobalIpRangeListPayload {
+  items: [GlobalIpRange!]!
+  total: Int!
 }
 
 """ A reference identifying the GlobalIpRange object. ID: Unique GlobalIpRange Identifier, Name: The GlobalIpRange Name """
@@ -3923,6 +3946,17 @@ type NotificationSubscriptionQueries {
   mailingListList: MailingListListPayload!
   subscriptionGroup(input: SubscriptionGroupRefInput!): SubscriptionGroup
   subscriptionGroupList: SubscriptionGroupListPayload!
+}
+
+type ObjectMutations {
+  createGlobalIpRangeBulk(input: [CreateGlobalIpRangeInput!]!): CreateGlobalIpRangeBulkPayload @beta
+  deleteGlobalIpRangeBulk(input: [GlobalIpRangeRefInput!]!): DeleteGlobalIpRangeBulkPayload @beta
+  updateGlobalIpRangeBulk(input: [UpdateGlobalIpRangeInput!]!): UpdateGlobalIpRangeBulkPayload @beta
+}
+
+type ObjectQueries {
+  globalIpRange(input: GlobalIpRangeRefInput!): GlobalIpRange @beta
+  globalIpRangeList(input: GlobalIpRangeListInput): GlobalIpRangeListPayload @beta
 }
 
 type OsDetails {
@@ -6093,6 +6127,10 @@ type UpdateFqdnContainerFromListPayload {
 
 type UpdateFqdnContainerFromUrlPayload {
   container: FqdnContainer!
+}
+
+type UpdateGlobalIpRangeBulkPayload {
+  globalIpRange: [GlobalIpRange!]!
 }
 
 """ The updated group object """
@@ -8392,6 +8430,12 @@ input CreateFqdnContainerFromUrlInput {
   syncData: CreateContainerSyncDataInput!
 }
 
+input CreateGlobalIpRangeInput {
+  description: String
+  ipRange: IPRange!
+  name: String!
+}
+
 """ Create a new group """
 input CreateGroupInput {
   description: String
@@ -9005,6 +9049,16 @@ input GcpConfigInput {
   loadBalancerIp: IPAddress!
 }
 
+input GlobalIpRangeListFilterInput {
+  description: StringFilterInput
+  ipRange: IpRangeFilterInput
+  name: StringFilterInput
+}
+
+input GlobalIpRangeListInput {
+  filter: GlobalIpRangeListFilterInput
+}
+
 input GlobalIpRangeRefInput {
   by: ObjectRefBy! = ID
   input: String!
@@ -9444,6 +9498,10 @@ input IpAddressRangeContainerSearchIpAddressRangeInput {
 input IpAddressRangeInput {
   from: IPAddress!
   to: IPAddress!
+}
+
+input IpRangeFilterInput {
+  containedIn: IPRange
 }
 
 input IpsecIkeV2MessageInput {
@@ -11457,6 +11515,14 @@ input UpdateFqdnContainerFromUrlInput {
   fileType: ContainerFileType = CSV
   ref: ContainerRefInput!
   syncData: UpdateContainerSyncDataInput
+}
+
+""" Omit a field to leave unchanged. """
+input UpdateGlobalIpRangeInput {
+  description: String
+  id: ID!
+  ipRange: IPRange
+  name: String
 }
 
 """
