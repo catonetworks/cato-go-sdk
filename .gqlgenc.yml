@@ -19,6 +19,8 @@ models:
     model: github.com/catonetworks/cato-go-sdk/scalars.Long
   OperationalStatus:
     model: github.com/catonetworks/cato-go-sdk/scalars.OperationalStatus
+  SocketInterfaceWanRole:
+    model: github.com/catonetworks/cato-go-sdk/scalars.SocketInterfaceWanRole
   Port:
     model: github.com/catonetworks/cato-go-sdk/scalars.Port
   Time:
