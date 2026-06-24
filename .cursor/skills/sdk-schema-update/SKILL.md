@@ -90,7 +90,9 @@ Fix any compile errors before proceeding.
 
 Stage and commit:
 - `cato_api.graphqls` (updated schema)
+- `archives/cato_api-<date>.graphqls` (dated backup created by `make schema-update`)
 - `client.go` and `models/models.go` (regenerated)
+- any deleted patch files from `schema-patches/`
 - any new files in `scalars/` or `sources/`
 - `.gqlgenc.yml` if you added a scalar mapping
 
