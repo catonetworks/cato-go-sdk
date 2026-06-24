@@ -6385,14 +6385,14 @@ type IntegrationRefInput struct {
 
 // Basic Socket Interface configuration information
 type InterfaceInfo struct {
-	DestType                         *string                 `json:"destType,omitempty"`
-	DownstreamBandwidth              *int64                  `json:"downstreamBandwidth,omitempty"`
-	DownstreamBandwidthMbpsPrecision *float64                `json:"downstreamBandwidthMbpsPrecision,omitempty"`
-	ID                               string                  `json:"id"`
-	Name                             *string                 `json:"name,omitempty"`
-	UpstreamBandwidth                *int64                  `json:"upstreamBandwidth,omitempty"`
-	UpstreamBandwidthMbpsPrecision   *float64                `json:"upstreamBandwidthMbpsPrecision,omitempty"`
-	WanRole                          *SocketInterfaceWanRole `json:"wanRole,omitempty"`
+	DestType                         *string                         `json:"destType,omitempty"`
+	DownstreamBandwidth              *int64                          `json:"downstreamBandwidth,omitempty"`
+	DownstreamBandwidthMbpsPrecision *float64                        `json:"downstreamBandwidthMbpsPrecision,omitempty"`
+	ID                               string                          `json:"id"`
+	Name                             *string                         `json:"name,omitempty"`
+	UpstreamBandwidth                *int64                          `json:"upstreamBandwidth,omitempty"`
+	UpstreamBandwidthMbpsPrecision   *float64                        `json:"upstreamBandwidthMbpsPrecision,omitempty"`
+	WanRole                          *scalars.SocketInterfaceWanRole `json:"wanRole,omitempty"`
 }
 
 type InterfaceLinkState struct {
@@ -28368,67 +28368,6 @@ func (e *SocketInterfaceRole) UnmarshalJSON(b []byte) error {
 }
 
 func (e SocketInterfaceRole) MarshalJSON() ([]byte, error) {
-	var buf bytes.Buffer
-	e.MarshalGQL(&buf)
-	return buf.Bytes(), nil
-}
-
-type SocketInterfaceWanRole string
-
-const (
-	SocketInterfaceWanRoleNone SocketInterfaceWanRole = "NONE"
-	SocketInterfaceWanRoleWan1 SocketInterfaceWanRole = "WAN_1"
-	SocketInterfaceWanRoleWan2 SocketInterfaceWanRole = "WAN_2"
-	SocketInterfaceWanRoleWan3 SocketInterfaceWanRole = "WAN_3"
-	SocketInterfaceWanRoleWan4 SocketInterfaceWanRole = "WAN_4"
-)
-
-var AllSocketInterfaceWanRole = []SocketInterfaceWanRole{
-	SocketInterfaceWanRoleNone,
-	SocketInterfaceWanRoleWan1,
-	SocketInterfaceWanRoleWan2,
-	SocketInterfaceWanRoleWan3,
-	SocketInterfaceWanRoleWan4,
-}
-
-func (e SocketInterfaceWanRole) IsValid() bool {
-	switch e {
-	case SocketInterfaceWanRoleNone, SocketInterfaceWanRoleWan1, SocketInterfaceWanRoleWan2, SocketInterfaceWanRoleWan3, SocketInterfaceWanRoleWan4:
-		return true
-	}
-	return false
-}
-
-func (e SocketInterfaceWanRole) String() string {
-	return string(e)
-}
-
-func (e *SocketInterfaceWanRole) UnmarshalGQL(v any) error {
-	str, ok := v.(string)
-	if !ok {
-		return fmt.Errorf("enums must be strings")
-	}
-
-	*e = SocketInterfaceWanRole(str)
-	if !e.IsValid() {
-		return fmt.Errorf("%s is not a valid SocketInterfaceWanRole", str)
-	}
-	return nil
-}
-
-func (e SocketInterfaceWanRole) MarshalGQL(w io.Writer) {
-	fmt.Fprint(w, strconv.Quote(e.String()))
-}
-
-func (e *SocketInterfaceWanRole) UnmarshalJSON(b []byte) error {
-	s, err := strconv.Unquote(string(b))
-	if err != nil {
-		return err
-	}
-	return e.UnmarshalGQL(s)
-}
-
-func (e SocketInterfaceWanRole) MarshalJSON() ([]byte, error) {
 	var buf bytes.Buffer
 	e.MarshalGQL(&buf)
 	return buf.Bytes(), nil
