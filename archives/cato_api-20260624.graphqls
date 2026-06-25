@@ -446,12 +446,6 @@ type AiSecurityGuardRef implements ObjectRef {
   name: String!
 }
 
-""" A reference identifying the Homegrown App object. ID: Unique App Identifier, Name: The App Name """
-type AiSecurityHomegrownAppRef implements ObjectRef {
-  id: ID!
-  name: String!
-}
-
 """ A reference identifying the AllocatedIp object. ID: Unique AllocatedIp Identifier, Name: The AllocatedIp Name """
 type AllocatedIpRef implements ObjectRef {
   id: ID!
@@ -785,7 +779,7 @@ type ApplicationConnectorCatalogEntityRef implements ObjectRef {
 type ApplicationControlAccessMethod {
   accessMethod: ApplicationControlAccessMethodType!
   operator: ApplicationControlOperator!
-  value: ApplicationRisk
+  value: String
   valueSet: StringValueSetRef
 }
 
@@ -799,7 +793,7 @@ type ApplicationControlActivity {
   activity: ApplicationControlActivityRef!
   field: ApplicationControlActivityFieldRef
   operator: ApplicationControlOperator
-  value: ApplicationRisk
+  value: String
   valueSet: StringValueSetRef
 }
 
@@ -921,7 +915,7 @@ type ApplicationControlFileAttribute {
   contentTypeValues: [ApplicationControlContentTypeRef!]!
   fileAttribute: ApplicationControlFileAttributeType!
   operator: ApplicationControlOperator!
-  value: ApplicationRisk
+  value: String
 }
 
 """ Configuration for file-based control rules """
@@ -1041,7 +1035,7 @@ type ApplicationControlSource {
 """ Tenant matching configuration """
 type ApplicationControlTenant {
   operator: ApplicationControlOperator
-  value: ApplicationRisk
+  value: String
   valueSet: StringValueSetRef
 }
 
@@ -1376,12 +1370,6 @@ type CatalogApplicationSecurityAttributes {
   tlsVersionSupport: CatalogApplicationTlsVersionSupport
   trustedCertificate: CatalogApplicationAttribute!
   weakCipherSupport: CatalogApplicationWeakCipherSupport
-}
-
-""" Referring a CatalogProduct object. """
-type CatalogProductRef implements ObjectRef {
-  id: ID!
-  name: String!
 }
 
 type CatalogQueries {
@@ -1782,7 +1770,7 @@ type CustomApplicationCriteria {
 
 type CustomApplicationDestination {
   destinationIp: CustomApplicationIp
-  domain: [CustomDomain!]!
+  domain: [Domain!]!
   fqdn: [Fqdn!]!
 }
 
@@ -1812,12 +1800,6 @@ type CustomCategoryRef implements ObjectRef {
 type CustomHeaderAuth implements AuthInterface {
   authType: AuthType!
   name: String!
-}
-
-type CustomHeadersAuth implements AuthInterface {
-  authType: AuthType!
-  plainHeaders: [PlainHeaderEntry!]!
-  secretHeaders: [SecretHeaderEntry!]!
 }
 
 """ Returns data for Custom Service defined by a combination of L4 ports and an IP Protocol """
@@ -2000,15 +1982,6 @@ type DeviceConnectionProfile {
   directions: [String!]!
 }
 
-"""
-Reference to an Advanced Group (new-groups) a device belongs to.
-Resolved from the device's persisted group proto-ids through policy-platform.
-"""
-type DeviceGroupRef {
-  id: ID!
-  name: String
-}
-
 type DeviceHw {
   manufacturer: String
   model: String
@@ -2037,15 +2010,6 @@ type DeviceOs {
 
 """ A reference identifying the DeviceProfile object. ID: Unique DeviceProfile Identifier, Name: The DeviceProfile Name """
 type DeviceProfileRef implements ObjectRef {
-  id: ID!
-  name: String!
-}
-
-"""
-A reference identifying a Device (asset) object. ID: Unique Device Identifier, Name: The Device Name.
-Used as an Advanced Group member type; gated end-to-end by the NEW_GROUPS_DEVICE AccountTag.
-"""
-type DeviceRef implements ObjectRef {
   id: ID!
   name: String!
 }
@@ -2083,7 +2047,6 @@ type DeviceV2 {
   confidence: DeviceConfidenceLevel
   connectionProfile: DeviceConnectionProfile
   firstSeen: DateTime
-  groups: [DeviceGroupRef!]!
   hw: DeviceHw
   id: ID!
   ip: String @deprecated(reason: "Use nics.ip instead")
@@ -2418,10 +2381,10 @@ type ExportStatusResponse {
 }
 
 type ExternalAccessMutations {
-  addPartnerAccessRequest(input: AddPartnerAccessRequestInput!): AddPartnerAccessRequestPayload @beta
-  cancelPartnerAccess(input: CancelPartnerAccessInput!): CancelPartnerAccessPayload @beta
-  resolveIncomingAccessRequest(input: ResolveIncomingAccessRequestInput!): ResolveIncomingAccessRequestPayload @beta
-  revokePartnerAccess(input: RevokePartnerAccessInput!): RevokePartnerAccessPayload @beta
+  addPartnerAccessRequest(input: AddPartnerAccessRequestInput!): AddPartnerAccessRequestPayload! @beta
+  cancelPartnerAccess(input: CancelPartnerAccessInput!): CancelPartnerAccessPayload! @beta
+  resolveIncomingAccessRequest(input: ResolveIncomingAccessRequestInput!): ResolveIncomingAccessRequestPayload! @beta
+  revokePartnerAccess(input: RevokePartnerAccessInput!): RevokePartnerAccessPayload! @beta
 }
 
 type ExternalAccessQueries {
@@ -2782,7 +2745,6 @@ type Hardware {
   locationId: ID
   macAddress: String
   model: String
-  orderType: OrderType
   poNumber: String
   productType: String
   quoteId: String
@@ -3096,7 +3058,7 @@ type InternetFirewallDestination {
   country: [CountryRef!]!
   customApp: [CustomApplicationRef!]!
   customCategory: [CustomCategoryRef!]!
-  domain: [CustomDomain!]!
+  domain: [Domain!]!
   fqdn: [Fqdn!]!
   globalIpRange: [GlobalIpRangeRef!]!
   ip: [IPAddress!]!
@@ -3180,7 +3142,7 @@ type InternetFirewallRule implements IPolicyRule {
   action: InternetFirewallActionEnum!
   actionConfig: InternetFirewallActionConfig!
   activePeriod: PolicyRuleActivePeriod!
-  connectionOrigin: ConnectionOriginEnum! @deprecated(reason: "use connectionsOriginList instead. Planned end-of-life (EoL) date: November 13, 2026.")
+  connectionOrigin: ConnectionOriginEnum!
   country: [CountryRef!]!
   description: String!
   destination: InternetFirewallDestination!
@@ -3201,7 +3163,7 @@ type InternetFirewallRule implements IPolicyRule {
 
 """ Exceptions define when a rule is ignored, and the firewall policy evaluation continues with the lower priority rules. """
 type InternetFirewallRuleException {
-  connectionOrigin: ConnectionOriginEnum! @deprecated(reason: "use connectionsOriginList instead. Planned end-of-life (EoL) date: November 13, 2026.")
+  connectionOrigin: ConnectionOriginEnum!
   country: [CountryRef!]!
   destination: InternetFirewallDestination!
   device: [DeviceProfileRef!]!
@@ -3799,32 +3761,6 @@ type MspDlpUsersLicense implements License & QuantifiableLicense {
   total: Int!
 }
 
-""" Cato MDR - Bandwidth service license details """
-type MspMdrBandwidthLicense implements License & QuantifiableLicense {
-  description: String
-  expirationDate: DateTime!
-  id: ID
-  lastUpdated: DateTime
-  plan: LicensePlan!
-  sku: LicenseSku!
-  startDate: DateTime
-  status: LicenseStatus!
-  total: Int!
-}
-
-""" Cato MDR - Users service license details """
-type MspMdrUsersLicense implements License & QuantifiableLicense {
-  description: String
-  expirationDate: DateTime!
-  id: ID
-  lastUpdated: DateTime
-  plan: LicensePlan!
-  sku: LicenseSku!
-  startDate: DateTime
-  status: LicenseStatus!
-  total: Int!
-}
-
 """ Cato Threat Prevention - Bandwidth service license details """
 type MspTpBandwidthLicense implements License & QuantifiableLicense {
   description: String
@@ -3840,32 +3776,6 @@ type MspTpBandwidthLicense implements License & QuantifiableLicense {
 
 """ Cato Threat Prevention - Users service license details """
 type MspTpUsersLicense implements License & QuantifiableLicense {
-  description: String
-  expirationDate: DateTime!
-  id: ID
-  lastUpdated: DateTime
-  plan: LicensePlan!
-  sku: LicenseSku!
-  startDate: DateTime
-  status: LicenseStatus!
-  total: Int!
-}
-
-""" Cato XOps - Bandwidth service license details """
-type MspXOpsBandwidthLicense implements License & QuantifiableLicense {
-  description: String
-  expirationDate: DateTime!
-  id: ID
-  lastUpdated: DateTime
-  plan: LicensePlan!
-  sku: LicenseSku!
-  startDate: DateTime
-  status: LicenseStatus!
-  total: Int!
-}
-
-""" Cato XOps - Users service license details """
-type MspXOpsUsersLicense implements License & QuantifiableLicense {
   description: String
   expirationDate: DateTime!
   id: ID
@@ -3898,16 +3808,16 @@ type NetworkInterfaceRef implements ObjectRef {
 type NetworkRange {
   azureFloatingIp: IPAddress
   dhcpSettings: NetworkRangeDhcpSettings
-  gateway: IPAddress
   gcpLoadBalancerIp: IPAddress
+  primaryManagementIp: IPAddress
+  secondaryManagementIp: IPAddress
+  gateway: IPAddress
   internetOnly: Boolean!
   localIp: IPAddress
   mdnsReflector: Boolean!
   name: String!
   networkRangeId: ID!
-  primaryManagementIp: IPAddress
   rangeType: SubnetType!
-  secondaryManagementIp: IPAddress
   subnet: IPSubnet!
   translatedSubnet: IPSubnet
   vlan: Int
@@ -4079,11 +3989,6 @@ type PartnerPooledBandwidthLicenseAccount {
 type PartnerZtnaUsersLicenseAccount {
   account: AccountRef!
   allocatedUsers: Int!
-}
-
-type PlainHeaderEntry {
-  name: String!
-  value: String!
 }
 
 """ Represents available versions for a specific platform. """
@@ -4914,10 +4819,6 @@ type SecondaryGcpVSocketPayload {
   socketInfo: GcpVSocketInfo!
 }
 
-type SecretHeaderEntry {
-  name: String!
-}
-
 """ A reference identifying the Service object. ID: Unique Service Identifier, Name: The Service Name """
 type ServiceRef implements ObjectRef {
   id: ID!
@@ -5042,8 +4943,6 @@ type SiteMetrics {
   metrics(toRate: Boolean = false): Metrics
   name: String
   samples: Int @deprecated(reason: "internal use")
-  siteDownstreamThroughputMax: Timeseries
-  siteUpstreamThroughputMax: Timeseries
 }
 
 type SiteMutations {
@@ -5076,7 +4975,7 @@ type SiteMutations {
   removeStaticHost(hostId: ID!): RemoveStaticHostPayload @ga
   removeWifiSsid(input: RemoveWifiSsidInput!): RemoveWifiSsidPayload @rollout @beta
   replaceSiteBwLicense(input: ReplaceSiteBwLicenseInput!): ReplaceSiteBwLicensePayload @beta
-  startSiteUpgrade(input: StartSiteUpgradeInput!): StartSiteUpgradePayload @beta
+  startSiteUpgrade(input: StartSiteUpgradeInput!): StartSiteUpgradePayload @rollout @beta
   updateBgpPeer(input: UpdateBgpPeerInput!): UpdateBgpPeerPayload @beta
   updateBgpPeers(input: UpdateBgpPeersInput!): UpdateBgpPeersPayload @beta
   updateCloudInterconnectPhysicalConnection(input: UpdateCloudInterconnectPhysicalConnectionInput!): UpdateCloudInterconnectPhysicalConnectionPayload @beta
@@ -5113,14 +5012,14 @@ type SitePreferredPopLocation {
 }
 
 type SiteQueries {
-  availableVersionList(input: AvailableVersionListInput!): AvailableVersionListPayload @beta
+  availableVersionList(input: AvailableVersionListInput!): AvailableVersionListPayload @rollout @beta
   bgpPeer(input: BgpPeerRefInput!): BgpPeer @beta
   bgpPeerList(input: BgpPeerListInput!): BgpPeerListPayload @beta
   cloudInterconnectConnectionConnectivity(input: CloudInterconnectConnectionConnectivityInput!): CloudInterconnectConnectionConnectivity @beta
   cloudInterconnectPhysicalConnection(input: CloudInterconnectPhysicalConnectionInput!): CloudInterconnectPhysicalConnection @beta
   cloudInterconnectPhysicalConnectionId(input: CloudInterconnectPhysicalConnectionIdInput!): CloudInterconnectPhysicalConnectionId @beta
-  networkRange(networkRangeId: ID!): NetworkRange @beta
-  networkRangeList(input: NetworkRangeListInput!): NetworkRangeListPayload @beta
+  networkRange(networkRangeId: ID!): NetworkRange
+  networkRangeList(input: NetworkRangeListInput!): NetworkRangeListPayload
   retrieveUsedVlanIDs(input: RetrieveUsedVlanIDsInput!): RetrieveUsedVlanIDsPayload @beta
   secondaryAwsVSocket(socketId: ID!): SecondaryAwsVSocket @beta
   secondaryAzureVSocket(socketId: ID!): SecondaryAzureVSocket @beta
@@ -6078,7 +5977,7 @@ type TlsInspectApplication {
   customCategory: [CustomCategoryRef!]!
   customService: [CustomService!]!
   customServiceIp: [CustomServiceIp!]!
-  domain: [CustomDomain!]!
+  domain: [Domain!]!
   fqdn: [Fqdn!]!
   globalIpRange: [GlobalIpRangeRef!]!
   ip: [IPAddress!]!
@@ -6532,7 +6431,7 @@ type WanFirewallApplication {
   application: [ApplicationRef!]!
   customApp: [CustomApplicationRef!]!
   customCategory: [CustomCategoryRef!]!
-  domain: [CustomDomain!]!
+  domain: [Domain!]!
   fqdn: [Fqdn!]!
   globalIpRange: [GlobalIpRangeRef!]!
   ip: [IPAddress!]!
@@ -6633,7 +6532,7 @@ type WanFirewallRule implements IPolicyRule {
   actionConfig: WanFirewallActionConfig!
   activePeriod: PolicyRuleActivePeriod!
   application: WanFirewallApplication!
-  connectionOrigin: ConnectionOriginEnum! @deprecated(reason: "use connectionsOriginList instead. Planned end-of-life (EoL) date: November 13, 2026.")
+  connectionOrigin: ConnectionOriginEnum!
   country: [CountryRef!]!
   description: String!
   destination: WanFirewallDestination!
@@ -6656,7 +6555,7 @@ type WanFirewallRule implements IPolicyRule {
 """ Exceptions define when a rule is ignored, and the firewall policy evaluation continues with the lower priority rules. """
 type WanFirewallRuleException {
   application: WanFirewallApplication!
-  connectionOrigin: ConnectionOriginEnum! @deprecated(reason: "use connectionsOriginList instead. Planned end-of-life (EoL) date: November 13, 2026.")
+  connectionOrigin: ConnectionOriginEnum!
   country: [CountryRef!]!
   destination: WanFirewallDestination!
   device: [DeviceProfileRef!]!
@@ -6927,9 +6826,19 @@ type WifiRadioProfileValidationResult {
   band5: WifiRadioBandProfileValidationResult
 }
 
+type WifiRadiusServer {
+  accountingEnabled: Boolean!
+  id: ID!
+  ip: IPAddress!
+  name: String!
+  port: Port!
+}
+
 type WifiSecuritySummary {
   authProtocol: WifiAuthProtocol!
   mode: WifiSecurityMode!
+  primaryRadius: WifiRadiusServer
+  secondaryRadius: WifiRadiusServer
   trackAuthentication: Boolean!
 }
 
@@ -6960,12 +6869,6 @@ type WifiSsidDhcpSettings {
 type WifiSsidListPayload {
   pageInfo: PageInfo!
   wifiSsid: [WifiSsid!]!
-}
-
-""" A reference identifying an SSID. ID: unique SSID identifier, Name: the SSID's broadcast name. """
-type WifiSsidRef implements ObjectRef {
-  id: ID!
-  name: String!
 }
 
 type XDR {
@@ -8663,7 +8566,7 @@ input CustomApplicationCriteriaInput {
 
 input CustomApplicationDestinationInput {
   destinationIp: CustomApplicationIpInput
-  domain: [CustomDomain!]
+  domain: [Domain!]
   fqdn: [Fqdn!]
 }
 
@@ -8802,10 +8705,9 @@ input DeviceConfidenceLevelFilterInput {
   nin: [DeviceConfidenceLevel!]
 }
 
-""" Input for CSV export with optional filtering and time range """
+""" Input for CSV export with optional filtering """
 input DeviceCsvExportInput {
   filter: [DeviceV2FilterInput!]
-  timeFrame: DeviceTimeFrameInput
 }
 
 input DeviceHwFilterInput {
@@ -8880,12 +8782,6 @@ input DeviceSortInput {
   user: DeviceUserSortOrderInput
 }
 
-""" Inclusive-from, exclusive-to time window. """
-input DeviceTimeFrameInput {
-  from: DateTime!
-  to: DateTime!
-}
-
 input DeviceUserSortOrderInput {
   id: SortOrderInput
   name: SortOrderInput
@@ -8897,7 +8793,6 @@ input DeviceV2FilterInput {
   complianceState: [StringFilterInput!]
   confidence: [DeviceConfidenceLevelFilterInput!]
   firstSeen: [DateTimeFilterInput!]
-  freeText: FreeTextFilterInput
   hw: DeviceHwFilterInput
   id: [IdFilterInput!]
   ip: [StringFilterInput!] @deprecated(reason: "Use ipAddress instead")
@@ -9046,6 +8941,11 @@ input EnterpriseDirectoryUpdateLocationInput {
   id: ID!
   name: String
   type: LocationType
+}
+
+input EnterpriseSecurityInput {
+  primaryRadius: WifiRadiusServerRefInput
+  secondaryRadius: WifiRadiusServerRefInput
 }
 
 input EntityInput {
@@ -9240,7 +9140,6 @@ input HardwareFilterInput {
   freeText: FreeTextFilterInput
   id: [IdFilterInput!]
   licenseStartDate: [DateTimeFilterInput!]
-  orderType: [OrderTypeFilterInput!]
   product: [StringFilterInput!]
   serialNumber: [StringFilterInput!]
   shippingStatus: [ShippingStatusFilterInput!]
@@ -9363,7 +9262,7 @@ input InternetFirewallAddRuleDataInput {
   action: InternetFirewallActionEnum! = BLOCK
   actionConfig: InternetFirewallActionConfigInput! = {userNotification:[],rbiProfile:[]}
   activePeriod: PolicyRuleActivePeriodInput! = {useEffectiveFrom:false,useExpiresAt:false}
-  connectionOrigin: ConnectionOriginEnum! = ANY@deprecated(reason: "use connectionsOriginList instead. Planned end-of-life (EoL) date: November 13, 2026.")
+  connectionOrigin: ConnectionOriginEnum! = ANY
   country: [CountryRefInput!]! = []
   description: String! = ""
   destination: InternetFirewallDestinationInput! = {application:[],customApp:[],appCategory:[],customCategory:[],sanctionedAppsCategory:[],country:[],domain:[],fqdn:[],ip:[],subnet:[],ipRange:[],globalIpRange:[],remoteAsn:[],containers:{fqdnContainer:[],ipAddressRangeContainer:[]}}
@@ -9414,7 +9313,7 @@ input InternetFirewallDestinationInput {
   country: [CountryRefInput!]! = []
   customApp: [CustomApplicationRefInput!]! = []
   customCategory: [CustomCategoryRefInput!]! = []
-  domain: [CustomDomain!]! = []
+  domain: [Domain!]! = []
   fqdn: [Fqdn!]! = []
   globalIpRange: [GlobalIpRangeRefInput!]! = []
   ip: [IPAddress!]! = []
@@ -9432,7 +9331,7 @@ input InternetFirewallDestinationUpdateInput {
   country: [CountryRefInput!]
   customApp: [CustomApplicationRefInput!]
   customCategory: [CustomCategoryRefInput!]
-  domain: [CustomDomain!]
+  domain: [Domain!]
   fqdn: [Fqdn!]
   globalIpRange: [GlobalIpRangeRefInput!]
   ip: [IPAddress!]
@@ -9486,7 +9385,7 @@ input InternetFirewallRemoveSubPolicyInput {
 
 """ Exceptions define when a rule is ignored, and the firewall policy evaluation continues with the lower priority rules. """
 input InternetFirewallRuleExceptionInput {
-  connectionOrigin: ConnectionOriginEnum! = ANY@deprecated(reason: "use connectionsOriginList instead. Planned end-of-life (EoL) date: November 13, 2026.")
+  connectionOrigin: ConnectionOriginEnum! = ANY
   country: [CountryRefInput!]! = []
   destination: InternetFirewallDestinationInput! = {application:[],customApp:[],appCategory:[],customCategory:[],sanctionedAppsCategory:[],country:[],domain:[],fqdn:[],ip:[],subnet:[],ipRange:[],globalIpRange:[],remoteAsn:[],containers:{fqdnContainer:[],ipAddressRangeContainer:[]}}
   device: [DeviceProfileRefInput!]! = []
@@ -9547,7 +9446,7 @@ input InternetFirewallUpdateRuleDataInput {
   action: InternetFirewallActionEnum
   actionConfig: InternetFirewallActionConfigUpdateInput
   activePeriod: PolicyRuleActivePeriodUpdateInput
-  connectionOrigin: ConnectionOriginEnum @deprecated(reason: "use connectionsOriginList instead. Planned end-of-life (EoL) date: November 13, 2026.")
+  connectionOrigin: ConnectionOriginEnum
   country: [CountryRefInput!]
   description: String
   destination: InternetFirewallDestinationUpdateInput
@@ -9679,17 +9578,12 @@ input NetworkInterfaceRefInput {
   input: String!
 }
 
-input NetworkRangeListInput {
-  site: SiteRefInput!
-}
-
 input NetworkRangeRefInput {
   networkRangeId: ID!
 }
 
-input OrderTypeFilterInput {
-  eq: OrderType
-  in: [OrderType!]
+input NetworkRangeListInput {
+  site: SiteRefInput!
 }
 
 input OriginTypeFilterInput {
@@ -10416,6 +10310,7 @@ input SecondaryGcpVSocketInput {
 
 input SecurityConfigInput {
   authProtocol: WifiAuthProtocol! = WPA3
+  enterprise: EnterpriseSecurityInput
   mode: WifiSecurityMode!
   psk: PskSecurityInput
   trackAuthentication: Boolean
@@ -10714,7 +10609,6 @@ input SocketInterfaceWanInput {
 
 input SocketInventoryDistributionInput {
   filter: SocketInventoryFilterInput
-  includeDecommissioned: Boolean = true
 }
 
 input SocketInventoryFilterInput {
@@ -10727,7 +10621,6 @@ input SocketInventoryFilterInput {
 
 input SocketInventoryInput {
   filter: SocketInventoryFilterInput
-  includeDecommissioned: Boolean = true
   paging: PagingInput
   sort: SocketInventoryOrderInput
 }
@@ -10738,7 +10631,6 @@ input SocketInventoryOrderInput {
   description: SortOrderInput
   hardwareVersion: SortOrderInput
   installedSite: SortOrderInput
-  orderType: SortOrderInput
   serialNumber: SortOrderInput
   shippingCompany: SortOrderInput
   shippingDate: SortOrderInput
@@ -11384,7 +11276,7 @@ input TlsInspectApplicationInput {
   customCategory: [CustomCategoryRefInput!]! = []
   customService: [CustomServiceInput!]! = []
   customServiceIp: [CustomServiceIpInput!]! = []
-  domain: [CustomDomain!]! = []
+  domain: [Domain!]! = []
   fqdn: [Fqdn!]! = []
   globalIpRange: [GlobalIpRangeRefInput!]! = []
   ip: [IPAddress!]! = []
@@ -11404,7 +11296,7 @@ input TlsInspectApplicationUpdateInput {
   customCategory: [CustomCategoryRefInput!]
   customService: [CustomServiceInput!]
   customServiceIp: [CustomServiceIpInput!]
-  domain: [CustomDomain!]
+  domain: [Domain!]
   fqdn: [Fqdn!]
   globalIpRange: [GlobalIpRangeRefInput!]
   ip: [IPAddress!]
@@ -11748,14 +11640,11 @@ input UpdateNetworkRangeInput {
   azureFloatingIp: IPAddress
   dhcpSettings: NetworkDhcpSettingsInput
   gateway: IPAddress
-  gcpLoadBalancerIp: IPAddress @beta
   internetOnly: Boolean
   localIp: IPAddress
   mdnsReflector: Boolean
   name: String
-  primaryManagementIp: IPAddress @beta
   rangeType: SubnetType
-  secondaryManagementIp: IPAddress @beta
   subnet: IPSubnet
   translatedSubnet: IPSubnet
   vlan: Int
@@ -12108,7 +11997,7 @@ input WanFirewallAddRuleDataInput {
   actionConfig: WanFirewallActionConfigInput! = {userNotification:[]}
   activePeriod: PolicyRuleActivePeriodInput! = {useEffectiveFrom:false,useExpiresAt:false}
   application: WanFirewallApplicationInput! = {application:[],appCategory:[],customApp:[],customCategory:[],sanctionedAppsCategory:[],domain:[],fqdn:[],ip:[],subnet:[],ipRange:[],globalIpRange:[]}
-  connectionOrigin: ConnectionOriginEnum! = ANY@deprecated(reason: "use connectionsOriginList instead. Planned end-of-life (EoL) date: November 13, 2026.")
+  connectionOrigin: ConnectionOriginEnum! = ANY
   country: [CountryRefInput!]! = []
   description: String! = ""
   destination: WanFirewallDestinationInput! = {host:[],site:[],subnet:[],ip:[],ipRange:[],globalIpRange:[],networkInterface:[],siteNetworkSubnet:[],floatingSubnet:[],user:[],usersGroup:[],group:[],systemGroup:[]}
@@ -12148,7 +12037,7 @@ input WanFirewallApplicationInput {
   application: [ApplicationRefInput!]! = []
   customApp: [CustomApplicationRefInput!]! = []
   customCategory: [CustomCategoryRefInput!]! = []
-  domain: [CustomDomain!]! = []
+  domain: [Domain!]! = []
   fqdn: [Fqdn!]! = []
   globalIpRange: [GlobalIpRangeRefInput!]! = []
   ip: [IPAddress!]! = []
@@ -12163,7 +12052,7 @@ input WanFirewallApplicationUpdateInput {
   application: [ApplicationRefInput!]
   customApp: [CustomApplicationRefInput!]
   customCategory: [CustomCategoryRefInput!]
-  domain: [CustomDomain!]
+  domain: [Domain!]
   fqdn: [Fqdn!]
   globalIpRange: [GlobalIpRangeRefInput!]
   ip: [IPAddress!]
@@ -12251,7 +12140,7 @@ input WanFirewallRemoveSubPolicyInput {
 """ Exceptions define when a rule is ignored, and the firewall policy evaluation continues with the lower priority rules. """
 input WanFirewallRuleExceptionInput {
   application: WanFirewallApplicationInput! = {application:[],appCategory:[],customApp:[],customCategory:[],sanctionedAppsCategory:[],domain:[],fqdn:[],ip:[],subnet:[],ipRange:[],globalIpRange:[]}
-  connectionOrigin: ConnectionOriginEnum! = ANY@deprecated(reason: "use connectionsOriginList instead. Planned end-of-life (EoL) date: November 13, 2026.")
+  connectionOrigin: ConnectionOriginEnum! = ANY
   country: [CountryRefInput!]! = []
   destination: WanFirewallDestinationInput! = {host:[],site:[],subnet:[],ip:[],ipRange:[],globalIpRange:[],networkInterface:[],siteNetworkSubnet:[],floatingSubnet:[],user:[],usersGroup:[],group:[],systemGroup:[]}
   device: [DeviceProfileRefInput!]! = []
@@ -12314,7 +12203,7 @@ input WanFirewallUpdateRuleDataInput {
   actionConfig: WanFirewallActionConfigUpdateInput
   activePeriod: PolicyRuleActivePeriodUpdateInput
   application: WanFirewallApplicationUpdateInput
-  connectionOrigin: ConnectionOriginEnum @deprecated(reason: "use connectionsOriginList instead. Planned end-of-life (EoL) date: November 13, 2026.")
+  connectionOrigin: ConnectionOriginEnum
   country: [CountryRefInput!]
   description: String
   destination: WanFirewallDestinationUpdateInput
@@ -12558,6 +12447,11 @@ input WifiRadioProfileListInput {
 }
 
 input WifiRadioProfileRefInput {
+  by: ObjectRefBy! = ID
+  input: String!
+}
+
+input WifiRadiusServerRefInput {
   by: ObjectRefBy! = ID
   input: String!
 }
@@ -12806,9 +12700,6 @@ scalar Asn16
 
 """ 32 bit autonomous system number [0-4294967295] """
 scalar Asn32
-
-""" Internal/private enterprise domain matcher. Supports RFC1123-style labels, including single-label values and numeric labels. """
-scalar CustomDomain
 
 """ 2006-01-02 """
 scalar Date
@@ -13125,11 +13016,9 @@ enum AppStatsFieldName {
   configured_host_name
   """ Connection Origin. CMA Name: Connection Origin """
   connection_origin
-  """ The user's department. CMA Name: Department """
-  department
   """ Application description. CMA Name: Description """
   description @deprecated(reason: "use application_description instead. Planned end-of-life (EoL) date: June 30, 2026.")
-  """ Country where the destination host is located (Internet traffic via public IP, WAN-bound traffic via the destination site or app connector). CMA Name: Destination Country """
+  """ For Internet traffic, country where the destination host is located. CMA Name: Destination Country """
   dest_country
   """ Destination domain (FQDN-like) based on the SSL SNI, HTTP host name, or DNS name. CMA Name: Dest Domain """
   dest_domain
@@ -13221,8 +13110,6 @@ enum AppStatsFieldName {
   is_flow_terminated
   """ Is the app for this event defined as a sanctioned app? (True/False). CMA Name: Is Sanctioned App """
   is_sanctioned_app
-  """ The user's job title. CMA Name: Job Title """
-  job_title
   """ Matched network rule. CMA Name: Network Rule """
   network_rule
   """ new_app. CMA Name: New App """
@@ -13347,8 +13234,6 @@ enum ApplicationControlAction {
   BLOCK
   """ Log the action without enforcement """
   MONITOR
-  """ Notify the user when the rule is triggered """
-  NOTIFY
 }
 
 """ Attribute Value """
@@ -13453,7 +13338,6 @@ enum AuthType {
   BASIC_AUTH
   BEARER_TOKEN
   CUSTOM_HEADER
-  CUSTOM_HEADERS
   NO_AUTH
 }
 
@@ -13956,8 +13840,6 @@ enum EventFieldName {
   ai_proxy_rule_name
   """ A unique identifier of the alert notification. CMA Name: Alert id """
   alert_id
-  """ Alert name. CMA Name: Alert Name """
-  alert_name
   """ Always-on Configuration. CMA Name: Always-On """
   always_on_configuration
   """ Analyst Verdict. CMA Name: Analyst Verdict """
@@ -14079,8 +13961,6 @@ enum EventFieldName {
   custom_category_id
   """ Custom category name. CMA Name: Custom Category Name """
   custom_category_name
-  """ The user's department. CMA Name: Department """
-  department
   """ For Internet traffic, country where the destination host is located. CMA Name: Destination Country """
   dest_country
   """ For Internet traffic, the two letter country code where the destination host is located (based on ISO 3166-1 alpha-2). CMA Name: Destination Country Code """
@@ -14189,8 +14069,6 @@ enum EventFieldName {
   email_subject
   """ The ID for the endpoint. CMA Name: Endpoint ID """
   endpoint_id
-  """ Outcome of the user's response to an Access Policy engagement prompt (Continue, Redirect, Block). CMA Name: Engagement Outcome Action """
-  engagement_outcome_action
   """ The engine type associated with the event. CMA Name: Engine Type """
   engine_type
   """ The Endpoint Protection Engine that detected the malware. CMA Name: Engine Type """
@@ -14283,8 +14161,6 @@ enum EventFieldName {
   is_sanctioned_app
   """ If the events was part of the sinkhole flow. CMA Name: Is Sinkhole """
   is_sinkhole
-  """ The user's job title. CMA Name: Job Title """
-  job_title
   """ Name defined for the public API Key in the Cato Management Application. CMA Name: Api Key Name """
   key_name
   """ A list of labels providing additional context for the event. CMA Name: Labels """
@@ -14397,8 +14273,6 @@ enum EventFieldName {
   response_size
   """ (IPS or SAM event) Indicates the overall impact of a threat for the host or network: Low – ie. adware Medium – ie. network scans High – ie. spyware or worms. CMA Name: Risk Level """
   risk_level
-  """ Role of the user in the context of the event. CMA Name: Role """
-  role
   """ The time when the rule is no longer in active. CMA Name: Rule Expiration Time """
   rule_expiration_time
   """ Unique Cato ID for the security rule related to the event. CMA Name: Rule ID """
@@ -14469,8 +14343,6 @@ enum EventFieldName {
   src_process_parent_pid
   """ Source process file path. CMA Name: Source Process Path """
   src_process_path
-  """ Source Site Connection Type. CMA Name: Source Site Connection Type """
-  src_site_connection_type
   """ Unique internal Cato ID for the site or remote user. CMA Name: Src Site ID """
   src_site_id
   """ Source site or remote user. CMA Name: Source Site """
@@ -14569,8 +14441,6 @@ enum EventFieldName {
   user_awareness_method
   """ User ID. CMA Name: User ID """
   user_id
-  """ Freeform justification text entered by the user in response to an Access Policy engagement prompt. CMA Name: User Justification """
-  user_justification
   """ User that generated the event. CMA Name: User Name """
   user_name
   """ Identifies the origin of the user’s connection. CMA Name: User Origin """
@@ -14589,8 +14459,6 @@ enum EventFieldName {
   vendor_device_name
   """ Vendor Event Id. CMA Name: Vendor Event ID """
   vendor_event_id
-  """ The location of the vendor's application or service at the time of the event, as reported by the vendor. This could be a geographic location, data center region, or other relevant location information. CMA Name: Vendor Location """
-  vendor_location
   """ Identifies the organization in the vendor’s system. CMA Name: Vendor Org ID """
   vendor_org_id
   """ Third party vendor policy description. CMA Name: Vendor Policy Description """
@@ -14601,12 +14469,8 @@ enum EventFieldName {
   vendor_policy_name
   """ Identifies the site in the vendor’s system. CMA Name: Vendor Site ID """
   vendor_site_id
-  """ Timestamp marking the start time reported by the 3rd-party vendor. CMA Name: Vendor Start Time """
-  vendor_start_time
   """ Identifies the user in the vendor’s system. CMA Name: Vendor User ID """
   vendor_user_id
-  """ Version of the vendor’s client application. CMA Name: Vendor Version """
-  vendor_version
   """ Unique Cato Visible ID for devices. CMA Name: Device ID """
   visible_device_id @deprecated(reason: "use device_id instead. Planned end-of-life (EoL) date: April 1, 2026.")
   """ Lan access Allowed / Blocked. CMA Name: LAN Access """
@@ -14714,7 +14578,6 @@ enum GraphType {
 
 """ Member types that can be referenced in a group. """
 enum GroupMemberRefType {
-  DEVICE
   FLOATING_SUBNET
   GLOBAL_IP_RANGE
   HOST
@@ -14941,12 +14804,8 @@ enum LicenseSku {
   CATO_MANAGED_XDR
   """ Cato MDR service SKU """
   CATO_MDR
-  """ Cato MDR for MSP bandwidth SKU """
-  CATO_MDR_PB_SA
   """ Cato Managed Detection and Response SKU """
   CATO_MDR_U
-  """ Cato MDR for MSP users SKU """
-  CATO_MDR_USER_SA
   """ Cato NOCaaS service SKU """
   CATO_NOCAAS_HF
   """ Cato NOCaaS SKU """
@@ -15016,12 +14875,8 @@ enum LicenseSku {
   CATO_XDR_PRO
   """ Cato XOps service SKU """
   CATO_XOPS
-  """ Cato XOps for MSP bandwidth SKU """
-  CATO_XOPS_PB_SA
   """ Cato XOPs SKU """
   CATO_XOPS_U
-  """ Cato XOps for MSP users SKU """
-  CATO_XOPS_USER_SA
   """ ZTNA remote users SKU """
   CATO_ZTNA_USERS
   """ ZTNA remote users SKU """
@@ -15196,20 +15051,12 @@ enum OperationalStatus {
   pending_user_configuration
 }
 
-enum OrderType {
-  PURCHASE
-  REFRESH
-  REPLACEMENT
-}
-
 """ The origins (e.g., integrations, data feeds) that detected the device """
 enum OriginType {
   """ Device details reported by the Armis security platform """
   Armis
   """ Device information provided by the Cato Networks platform """
   CatoNetworks
-  """ Device information from Cisco Meraki endpoint platform """
-  CiscoMeraki
   """ Device data gathered from Claroty's security platform """
   Claroty
   """ Device details provided by CrowdStrike endpoint security """
@@ -16298,6 +16145,7 @@ enum WifiRadioStandard {
 }
 
 enum WifiSecurityMode {
+  ENTERPRISE
   OPEN
   PSK
 }
