@@ -1,0 +1,124 @@
+query appTenantRestrictionPolicy($accountId: ID!) {
+  policy(accountId: $accountId) {
+    appTenantRestriction {
+      policy {
+        enabled
+        audit {
+          publishedTime
+          publishedBy
+        }
+        revision {
+          id
+          name
+          description
+          changes
+          createdTime
+          updatedTime
+        }
+        sections {
+          audit {
+            updatedTime
+            updatedBy
+          }
+          section {
+            id
+            name
+          }
+          properties
+        }
+        rules {
+          audit {
+            updatedTime
+            updatedBy
+          }
+          properties
+          rule {
+            id
+            name
+            description
+            index
+            enabled
+            action
+            severity
+            application {
+              id
+              name
+            }
+            headers {
+              name
+              value
+            }
+            schedule {
+              activeOn
+              customTimeframeAppTenantRestriction: customTimeframe {
+                from
+                to
+              }
+              customRecurringAppTenantRestriction: customRecurring {
+                from
+                to
+                days
+              }
+            }
+            source {
+              country {
+                id
+                name
+              }
+              floatingSubnet {
+                id
+                name
+              }
+              globalIpRange {
+                id
+                name
+              }
+              group {
+                id
+                name
+              }
+              host {
+                id
+                name
+              }
+              ip
+              ipRange {
+                from
+                to
+              }
+              networkInterface {
+                id
+                name
+              }
+              site {
+                id
+                name
+              }
+              siteNetworkSubnet {
+                id
+                name
+              }
+              subnet
+              systemGroup {
+                id
+                name
+              }
+              user {
+                id
+                name
+              }
+              usersGroup {
+                id
+                name
+              }
+            }
+            section {
+              id
+              name
+            }
+          }
+        }
+      }
+    }
+  }
+}

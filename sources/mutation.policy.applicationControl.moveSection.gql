@@ -1,0 +1,22 @@
+mutation policyApplicationControlMoveSection(
+  $policyMoveSectionInput: PolicyMoveSectionInput!
+  $accountId: ID!
+) {
+  policy(accountId: $accountId) {
+    applicationControl {
+      moveSection(input: $policyMoveSectionInput) {
+        section {
+          section {
+            id
+            name
+          }
+        }
+        status
+        errors {
+          errorMessage
+          errorCode
+        }
+      }
+    }
+  }
+}

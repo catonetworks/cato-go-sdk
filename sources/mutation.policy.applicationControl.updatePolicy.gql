@@ -1,0 +1,22 @@
+mutation policyApplicationControlUpdatePolicy(
+  $applicationControlPolicyUpdateInput: ApplicationControlPolicyUpdateInput!
+  $accountId: ID!
+) {
+  policy(accountId: $accountId) {
+    applicationControl {
+      updatePolicy(input: $applicationControlPolicyUpdateInput) {
+        policy {
+          enabled
+          additionalAttributes {
+            dataControlEnabled
+          }
+        }
+        status
+        errors {
+          errorMessage
+          errorCode
+        }
+      }
+    }
+  }
+}

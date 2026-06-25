@@ -1,0 +1,21 @@
+mutation policyApplicationControlRemoveRule(
+  $applicationControlRemoveRuleInput: ApplicationControlRemoveRuleInput!
+  $accountId: ID!
+) {
+  policy(accountId: $accountId) {
+    applicationControl {
+      removeRule(input: $applicationControlRemoveRuleInput) {
+        rule {
+          rule {
+            id
+          }
+        }
+        status
+        errors {
+          errorMessage
+          errorCode
+        }
+      }
+    }
+  }
+}

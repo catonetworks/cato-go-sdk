@@ -1,0 +1,22 @@
+mutation policyApplicationControlUpdateSection(
+  $policyUpdateSectionInput: PolicyUpdateSectionInput!
+  $accountId: ID!
+) {
+  policy(accountId: $accountId) {
+    applicationControl {
+      updateSection(input: $policyUpdateSectionInput) {
+        section {
+          section {
+            id
+            name
+          }
+        }
+        status
+        errors {
+          errorMessage
+          errorCode
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,16 @@
+mutation policyAppTenantRestrictionRemoveSection(
+  $policyRemoveSectionInput: PolicyRemoveSectionInput!
+  $accountId: ID!
+) {
+  policy(accountId: $accountId) {
+    appTenantRestriction {
+      removeSection(input: $policyRemoveSectionInput) {
+        status
+        errors {
+          errorMessage
+          errorCode
+        }
+      }
+    }
+  }
+}

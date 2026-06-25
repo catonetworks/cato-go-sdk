@@ -1,0 +1,20 @@
+mutation policyAppTenantRestrictionPublishPolicyRevision($accountId: ID!) {
+  policy(accountId: $accountId) {
+    appTenantRestriction {
+      publishPolicyRevision {
+        policy {
+          enabled
+          revision {
+            id
+            name
+          }
+        }
+        status
+        errors {
+          errorMessage
+          errorCode
+        }
+      }
+    }
+  }
+}

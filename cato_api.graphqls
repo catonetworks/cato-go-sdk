@@ -779,7 +779,7 @@ type ApplicationConnectorCatalogEntityRef implements ObjectRef {
 type ApplicationControlAccessMethod {
   accessMethod: ApplicationControlAccessMethodType!
   operator: ApplicationControlOperator!
-  value: String
+  value: ApplicationRisk
   valueSet: StringValueSetRef
 }
 
@@ -793,7 +793,7 @@ type ApplicationControlActivity {
   activity: ApplicationControlActivityRef!
   field: ApplicationControlActivityFieldRef
   operator: ApplicationControlOperator
-  value: String
+  value: ApplicationRisk
   valueSet: StringValueSetRef
 }
 
@@ -915,7 +915,7 @@ type ApplicationControlFileAttribute {
   contentTypeValues: [ApplicationControlContentTypeRef!]!
   fileAttribute: ApplicationControlFileAttributeType!
   operator: ApplicationControlOperator!
-  value: String
+  value: ApplicationRisk
 }
 
 """ Configuration for file-based control rules """
@@ -1035,7 +1035,7 @@ type ApplicationControlSource {
 """ Tenant matching configuration """
 type ApplicationControlTenant {
   operator: ApplicationControlOperator
-  value: String
+  value: ApplicationRisk
   valueSet: StringValueSetRef
 }
 

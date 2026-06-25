@@ -1,0 +1,40 @@
+diff --git a/cato_api.graphqls b/cato_api.graphqls
+index 5eb045e..ba62b50 100644
+--- a/cato_api.graphqls
++++ b/cato_api.graphqls
+@@ -777,7 +777,7 @@ type ApplicationConnectorCatalogEntityRef implements ObjectRef {
+ type ApplicationControlAccessMethod {
+   accessMethod: ApplicationControlAccessMethodType!
+   operator: ApplicationControlOperator!
+-  value: String
++  value: ApplicationRisk
+   valueSet: StringValueSetRef
+ }
+ 
+@@ -791,7 +791,7 @@ type ApplicationControlActivity {
+   activity: ApplicationControlActivityRef!
+   field: ApplicationControlActivityFieldRef
+   operator: ApplicationControlOperator
+-  value: String
++  value: ApplicationRisk
+   valueSet: StringValueSetRef
+ }
+ 
+@@ -913,7 +913,7 @@ type ApplicationControlFileAttribute {
+   contentTypeValues: [ApplicationControlContentTypeRef!]!
+   fileAttribute: ApplicationControlFileAttributeType!
+   operator: ApplicationControlOperator!
+-  value: String
++  value: ApplicationRisk
+ }
+ 
+ """ Configuration for file-based control rules """
+@@ -1033,7 +1033,7 @@ type ApplicationControlSource {
+ """ Tenant matching configuration """
+ type ApplicationControlTenant {
+   operator: ApplicationControlOperator
+-  value: String
++  value: ApplicationRisk
+   valueSet: StringValueSetRef
+ }
+ 

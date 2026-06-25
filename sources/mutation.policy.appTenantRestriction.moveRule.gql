@@ -1,0 +1,26 @@
+mutation policyAppTenantRestrictionMoveRule(
+  $policyMoveRuleInput: PolicyMoveRuleInput!
+  $accountId: ID!
+) {
+  policy(accountId: $accountId) {
+    appTenantRestriction {
+      moveRule(input: $policyMoveRuleInput) {
+        rule {
+          rule {
+            id
+            index
+            section {
+              id
+              name
+            }
+          }
+        }
+        status
+        errors {
+          errorMessage
+          errorCode
+        }
+      }
+    }
+  }
+}

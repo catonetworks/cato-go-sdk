@@ -20,6 +20,30 @@ type CatoClient interface {
 	ObjectCreateGlobalIPRangeBulk(ctx context.Context, accountID string, input []*cato_models.CreateGlobalIPRangeInput, interceptors ...clientv2.RequestInterceptor) (*ObjectCreateGlobalIPRangeBulk, error)
 	ObjectDeleteGlobalIPRangeBulk(ctx context.Context, accountID string, input []*cato_models.GlobalIPRangeRefInput, interceptors ...clientv2.RequestInterceptor) (*ObjectDeleteGlobalIPRangeBulk, error)
 	ObjectUpdateGlobalIPRangeBulk(ctx context.Context, accountID string, input []*cato_models.UpdateGlobalIPRangeInput, interceptors ...clientv2.RequestInterceptor) (*ObjectUpdateGlobalIPRangeBulk, error)
+	PolicyAppTenantRestrictionAddRule(ctx context.Context, appTenantRestrictionAddRuleInput cato_models.AppTenantRestrictionAddRuleInput, accountID string, interceptors ...clientv2.RequestInterceptor) (*PolicyAppTenantRestrictionAddRule, error)
+	PolicyAppTenantRestrictionAddSection(ctx context.Context, policyAddSectionInput cato_models.PolicyAddSectionInput, accountID string, interceptors ...clientv2.RequestInterceptor) (*PolicyAppTenantRestrictionAddSection, error)
+	PolicyAppTenantRestrictionCreatePolicyRevision(ctx context.Context, policyCreateRevisionInput cato_models.PolicyCreateRevisionInput, accountID string, interceptors ...clientv2.RequestInterceptor) (*PolicyAppTenantRestrictionCreatePolicyRevision, error)
+	PolicyAppTenantRestrictionDiscardPolicyRevision(ctx context.Context, accountID string, interceptors ...clientv2.RequestInterceptor) (*PolicyAppTenantRestrictionDiscardPolicyRevision, error)
+	PolicyAppTenantRestrictionMoveRule(ctx context.Context, policyMoveRuleInput cato_models.PolicyMoveRuleInput, accountID string, interceptors ...clientv2.RequestInterceptor) (*PolicyAppTenantRestrictionMoveRule, error)
+	PolicyAppTenantRestrictionMoveSection(ctx context.Context, policyMoveSectionInput cato_models.PolicyMoveSectionInput, accountID string, interceptors ...clientv2.RequestInterceptor) (*PolicyAppTenantRestrictionMoveSection, error)
+	PolicyAppTenantRestrictionPublishPolicyRevision(ctx context.Context, accountID string, interceptors ...clientv2.RequestInterceptor) (*PolicyAppTenantRestrictionPublishPolicyRevision, error)
+	PolicyAppTenantRestrictionRemoveRule(ctx context.Context, appTenantRestrictionRemoveRuleInput cato_models.AppTenantRestrictionRemoveRuleInput, accountID string, interceptors ...clientv2.RequestInterceptor) (*PolicyAppTenantRestrictionRemoveRule, error)
+	PolicyAppTenantRestrictionRemoveSection(ctx context.Context, policyRemoveSectionInput cato_models.PolicyRemoveSectionInput, accountID string, interceptors ...clientv2.RequestInterceptor) (*PolicyAppTenantRestrictionRemoveSection, error)
+	PolicyAppTenantRestrictionUpdatePolicy(ctx context.Context, appTenantRestrictionPolicyUpdateInput cato_models.AppTenantRestrictionPolicyUpdateInput, accountID string, interceptors ...clientv2.RequestInterceptor) (*PolicyAppTenantRestrictionUpdatePolicy, error)
+	PolicyAppTenantRestrictionUpdateRule(ctx context.Context, appTenantRestrictionUpdateRuleInput cato_models.AppTenantRestrictionUpdateRuleInput, accountID string, interceptors ...clientv2.RequestInterceptor) (*PolicyAppTenantRestrictionUpdateRule, error)
+	PolicyAppTenantRestrictionUpdateSection(ctx context.Context, policyUpdateSectionInput cato_models.PolicyUpdateSectionInput, accountID string, interceptors ...clientv2.RequestInterceptor) (*PolicyAppTenantRestrictionUpdateSection, error)
+	PolicyApplicationControlAddRule(ctx context.Context, applicationControlAddRuleInput cato_models.ApplicationControlAddRuleInput, accountID string, interceptors ...clientv2.RequestInterceptor) (*PolicyApplicationControlAddRule, error)
+	PolicyApplicationControlAddSection(ctx context.Context, policyAddSectionInput cato_models.PolicyAddSectionInput, accountID string, interceptors ...clientv2.RequestInterceptor) (*PolicyApplicationControlAddSection, error)
+	PolicyApplicationControlCreatePolicyRevision(ctx context.Context, policyCreateRevisionInput cato_models.PolicyCreateRevisionInput, accountID string, interceptors ...clientv2.RequestInterceptor) (*PolicyApplicationControlCreatePolicyRevision, error)
+	PolicyApplicationControlDiscardPolicyRevision(ctx context.Context, accountID string, interceptors ...clientv2.RequestInterceptor) (*PolicyApplicationControlDiscardPolicyRevision, error)
+	PolicyApplicationControlMoveRule(ctx context.Context, policyMoveRuleInput cato_models.PolicyMoveRuleInput, accountID string, interceptors ...clientv2.RequestInterceptor) (*PolicyApplicationControlMoveRule, error)
+	PolicyApplicationControlMoveSection(ctx context.Context, policyMoveSectionInput cato_models.PolicyMoveSectionInput, accountID string, interceptors ...clientv2.RequestInterceptor) (*PolicyApplicationControlMoveSection, error)
+	PolicyApplicationControlPublishPolicyRevision(ctx context.Context, accountID string, interceptors ...clientv2.RequestInterceptor) (*PolicyApplicationControlPublishPolicyRevision, error)
+	PolicyApplicationControlRemoveRule(ctx context.Context, applicationControlRemoveRuleInput cato_models.ApplicationControlRemoveRuleInput, accountID string, interceptors ...clientv2.RequestInterceptor) (*PolicyApplicationControlRemoveRule, error)
+	PolicyApplicationControlRemoveSection(ctx context.Context, policyRemoveSectionInput cato_models.PolicyRemoveSectionInput, accountID string, interceptors ...clientv2.RequestInterceptor) (*PolicyApplicationControlRemoveSection, error)
+	PolicyApplicationControlUpdatePolicy(ctx context.Context, applicationControlPolicyUpdateInput cato_models.ApplicationControlPolicyUpdateInput, accountID string, interceptors ...clientv2.RequestInterceptor) (*PolicyApplicationControlUpdatePolicy, error)
+	PolicyApplicationControlUpdateRule(ctx context.Context, applicationControlUpdateRuleInput cato_models.ApplicationControlUpdateRuleInput, accountID string, interceptors ...clientv2.RequestInterceptor) (*PolicyApplicationControlUpdateRule, error)
+	PolicyApplicationControlUpdateSection(ctx context.Context, policyUpdateSectionInput cato_models.PolicyUpdateSectionInput, accountID string, interceptors ...clientv2.RequestInterceptor) (*PolicyApplicationControlUpdateSection, error)
 	PolicyInternetFirewallDiscardPolicyRevision(ctx context.Context, internetFirewallPolicyMutationInput *cato_models.InternetFirewallPolicyMutationInput, policyDiscardRevisionInput *cato_models.PolicyDiscardRevisionInput, accountID string, interceptors ...clientv2.RequestInterceptor) (*PolicyInternetFirewallDiscardPolicyRevision, error)
 	PolicyInternetFirewallAddRule(ctx context.Context, internetFirewallAddRuleInput cato_models.InternetFirewallAddRuleInput, accountID string, interceptors ...clientv2.RequestInterceptor) (*PolicyInternetFirewallAddRule, error)
 	PolicyInternetFirewallAddSection(ctx context.Context, internetFirewallPolicyMutationInput *cato_models.InternetFirewallPolicyMutationInput, policyAddSectionInput cato_models.PolicyAddSectionInput, accountID string, interceptors ...clientv2.RequestInterceptor) (*PolicyInternetFirewallAddSection, error)
@@ -159,6 +183,8 @@ type CatoClient interface {
 	HardwareManagement(ctx context.Context, input *cato_models.SocketInventoryInput, accountID string, interceptors ...clientv2.RequestInterceptor) (*HardwareManagement, error)
 	Licensing(ctx context.Context, accountID string, interceptors ...clientv2.RequestInterceptor) (*Licensing, error)
 	ObjectGlobalIPRangeList(ctx context.Context, accountID string, input *cato_models.GlobalIPRangeListInput, interceptors ...clientv2.RequestInterceptor) (*ObjectGlobalIPRangeList, error)
+	AppTenantRestrictionPolicy(ctx context.Context, accountID string, interceptors ...clientv2.RequestInterceptor) (*AppTenantRestrictionPolicy, error)
+	ApplicationControlPolicy(ctx context.Context, accountID string, interceptors ...clientv2.RequestInterceptor) (*ApplicationControlPolicy, error)
 	Policy(ctx context.Context, internetFirewallPolicyInput *cato_models.InternetFirewallPolicyInput, wanFirewallPolicyInput *cato_models.WanFirewallPolicyInput, accountID string, interceptors ...clientv2.RequestInterceptor) (*Policy, error)
 	InternetFirewallPolicy(ctx context.Context, accountID string, interceptors ...clientv2.RequestInterceptor) (*InternetFirewallPolicy, error)
 	PolicyReadPrivateAccessPolicy(ctx context.Context, accountID string, interceptors ...clientv2.RequestInterceptor) (*PolicyReadPrivateAccessPolicy, error)
@@ -779,6 +805,2406 @@ func (t *ObjectUpdateGlobalIpRangeBulk_Object) GetUpdateGlobalIPRangeBulk() *Obj
 		t = &ObjectUpdateGlobalIpRangeBulk_Object{}
 	}
 	return t.UpdateGlobalIPRangeBulk
+}
+
+type PolicyAppTenantRestrictionAddRule_Policy_AppTenantRestriction_AddRule_Rule_Rule_Section struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicyAppTenantRestrictionAddRule_Policy_AppTenantRestriction_AddRule_Rule_Rule_Section) GetID() string {
+	if t == nil {
+		t = &PolicyAppTenantRestrictionAddRule_Policy_AppTenantRestriction_AddRule_Rule_Rule_Section{}
+	}
+	return t.ID
+}
+func (t *PolicyAppTenantRestrictionAddRule_Policy_AppTenantRestriction_AddRule_Rule_Rule_Section) GetName() string {
+	if t == nil {
+		t = &PolicyAppTenantRestrictionAddRule_Policy_AppTenantRestriction_AddRule_Rule_Rule_Section{}
+	}
+	return t.Name
+}
+
+type PolicyAppTenantRestrictionAddRule_Policy_AppTenantRestriction_AddRule_Rule_Rule struct {
+	ID      string                                                                                  "json:\"id\" graphql:\"id\""
+	Index   int64                                                                                   "json:\"index\" graphql:\"index\""
+	Name    string                                                                                  "json:\"name\" graphql:\"name\""
+	Section PolicyAppTenantRestrictionAddRule_Policy_AppTenantRestriction_AddRule_Rule_Rule_Section "json:\"section\" graphql:\"section\""
+}
+
+func (t *PolicyAppTenantRestrictionAddRule_Policy_AppTenantRestriction_AddRule_Rule_Rule) GetID() string {
+	if t == nil {
+		t = &PolicyAppTenantRestrictionAddRule_Policy_AppTenantRestriction_AddRule_Rule_Rule{}
+	}
+	return t.ID
+}
+func (t *PolicyAppTenantRestrictionAddRule_Policy_AppTenantRestriction_AddRule_Rule_Rule) GetIndex() int64 {
+	if t == nil {
+		t = &PolicyAppTenantRestrictionAddRule_Policy_AppTenantRestriction_AddRule_Rule_Rule{}
+	}
+	return t.Index
+}
+func (t *PolicyAppTenantRestrictionAddRule_Policy_AppTenantRestriction_AddRule_Rule_Rule) GetName() string {
+	if t == nil {
+		t = &PolicyAppTenantRestrictionAddRule_Policy_AppTenantRestriction_AddRule_Rule_Rule{}
+	}
+	return t.Name
+}
+func (t *PolicyAppTenantRestrictionAddRule_Policy_AppTenantRestriction_AddRule_Rule_Rule) GetSection() *PolicyAppTenantRestrictionAddRule_Policy_AppTenantRestriction_AddRule_Rule_Rule_Section {
+	if t == nil {
+		t = &PolicyAppTenantRestrictionAddRule_Policy_AppTenantRestriction_AddRule_Rule_Rule{}
+	}
+	return &t.Section
+}
+
+type PolicyAppTenantRestrictionAddRule_Policy_AppTenantRestriction_AddRule_Rule struct {
+	Rule PolicyAppTenantRestrictionAddRule_Policy_AppTenantRestriction_AddRule_Rule_Rule "json:\"rule\" graphql:\"rule\""
+}
+
+func (t *PolicyAppTenantRestrictionAddRule_Policy_AppTenantRestriction_AddRule_Rule) GetRule() *PolicyAppTenantRestrictionAddRule_Policy_AppTenantRestriction_AddRule_Rule_Rule {
+	if t == nil {
+		t = &PolicyAppTenantRestrictionAddRule_Policy_AppTenantRestriction_AddRule_Rule{}
+	}
+	return &t.Rule
+}
+
+type PolicyAppTenantRestrictionAddRule_Policy_AppTenantRestriction_AddRule_Errors struct {
+	ErrorCode    *string "json:\"errorCode,omitempty\" graphql:\"errorCode\""
+	ErrorMessage *string "json:\"errorMessage,omitempty\" graphql:\"errorMessage\""
+}
+
+func (t *PolicyAppTenantRestrictionAddRule_Policy_AppTenantRestriction_AddRule_Errors) GetErrorCode() *string {
+	if t == nil {
+		t = &PolicyAppTenantRestrictionAddRule_Policy_AppTenantRestriction_AddRule_Errors{}
+	}
+	return t.ErrorCode
+}
+func (t *PolicyAppTenantRestrictionAddRule_Policy_AppTenantRestriction_AddRule_Errors) GetErrorMessage() *string {
+	if t == nil {
+		t = &PolicyAppTenantRestrictionAddRule_Policy_AppTenantRestriction_AddRule_Errors{}
+	}
+	return t.ErrorMessage
+}
+
+type PolicyAppTenantRestrictionAddRule_Policy_AppTenantRestriction_AddRule struct {
+	Errors []*PolicyAppTenantRestrictionAddRule_Policy_AppTenantRestriction_AddRule_Errors "json:\"errors\" graphql:\"errors\""
+	Rule   *PolicyAppTenantRestrictionAddRule_Policy_AppTenantRestriction_AddRule_Rule     "json:\"rule,omitempty\" graphql:\"rule\""
+	Status cato_models.PolicyMutationStatus                                                "json:\"status\" graphql:\"status\""
+}
+
+func (t *PolicyAppTenantRestrictionAddRule_Policy_AppTenantRestriction_AddRule) GetErrors() []*PolicyAppTenantRestrictionAddRule_Policy_AppTenantRestriction_AddRule_Errors {
+	if t == nil {
+		t = &PolicyAppTenantRestrictionAddRule_Policy_AppTenantRestriction_AddRule{}
+	}
+	return t.Errors
+}
+func (t *PolicyAppTenantRestrictionAddRule_Policy_AppTenantRestriction_AddRule) GetRule() *PolicyAppTenantRestrictionAddRule_Policy_AppTenantRestriction_AddRule_Rule {
+	if t == nil {
+		t = &PolicyAppTenantRestrictionAddRule_Policy_AppTenantRestriction_AddRule{}
+	}
+	return t.Rule
+}
+func (t *PolicyAppTenantRestrictionAddRule_Policy_AppTenantRestriction_AddRule) GetStatus() *cato_models.PolicyMutationStatus {
+	if t == nil {
+		t = &PolicyAppTenantRestrictionAddRule_Policy_AppTenantRestriction_AddRule{}
+	}
+	return &t.Status
+}
+
+type PolicyAppTenantRestrictionAddRule_Policy_AppTenantRestriction struct {
+	AddRule PolicyAppTenantRestrictionAddRule_Policy_AppTenantRestriction_AddRule "json:\"addRule\" graphql:\"addRule\""
+}
+
+func (t *PolicyAppTenantRestrictionAddRule_Policy_AppTenantRestriction) GetAddRule() *PolicyAppTenantRestrictionAddRule_Policy_AppTenantRestriction_AddRule {
+	if t == nil {
+		t = &PolicyAppTenantRestrictionAddRule_Policy_AppTenantRestriction{}
+	}
+	return &t.AddRule
+}
+
+type PolicyAppTenantRestrictionAddRule_Policy struct {
+	AppTenantRestriction *PolicyAppTenantRestrictionAddRule_Policy_AppTenantRestriction "json:\"appTenantRestriction,omitempty\" graphql:\"appTenantRestriction\""
+}
+
+func (t *PolicyAppTenantRestrictionAddRule_Policy) GetAppTenantRestriction() *PolicyAppTenantRestrictionAddRule_Policy_AppTenantRestriction {
+	if t == nil {
+		t = &PolicyAppTenantRestrictionAddRule_Policy{}
+	}
+	return t.AppTenantRestriction
+}
+
+type PolicyAppTenantRestrictionAddSection_Policy_AppTenantRestriction_AddSection_Section_Audit struct {
+	UpdatedBy   string "json:\"updatedBy\" graphql:\"updatedBy\""
+	UpdatedTime string "json:\"updatedTime\" graphql:\"updatedTime\""
+}
+
+func (t *PolicyAppTenantRestrictionAddSection_Policy_AppTenantRestriction_AddSection_Section_Audit) GetUpdatedBy() string {
+	if t == nil {
+		t = &PolicyAppTenantRestrictionAddSection_Policy_AppTenantRestriction_AddSection_Section_Audit{}
+	}
+	return t.UpdatedBy
+}
+func (t *PolicyAppTenantRestrictionAddSection_Policy_AppTenantRestriction_AddSection_Section_Audit) GetUpdatedTime() string {
+	if t == nil {
+		t = &PolicyAppTenantRestrictionAddSection_Policy_AppTenantRestriction_AddSection_Section_Audit{}
+	}
+	return t.UpdatedTime
+}
+
+type PolicyAppTenantRestrictionAddSection_Policy_AppTenantRestriction_AddSection_Section_Section struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicyAppTenantRestrictionAddSection_Policy_AppTenantRestriction_AddSection_Section_Section) GetID() string {
+	if t == nil {
+		t = &PolicyAppTenantRestrictionAddSection_Policy_AppTenantRestriction_AddSection_Section_Section{}
+	}
+	return t.ID
+}
+func (t *PolicyAppTenantRestrictionAddSection_Policy_AppTenantRestriction_AddSection_Section_Section) GetName() string {
+	if t == nil {
+		t = &PolicyAppTenantRestrictionAddSection_Policy_AppTenantRestriction_AddSection_Section_Section{}
+	}
+	return t.Name
+}
+
+type PolicyAppTenantRestrictionAddSection_Policy_AppTenantRestriction_AddSection_Section struct {
+	Audit      PolicyAppTenantRestrictionAddSection_Policy_AppTenantRestriction_AddSection_Section_Audit   "json:\"audit\" graphql:\"audit\""
+	Properties []cato_models.PolicyElementPropertiesEnum                                                   "json:\"properties\" graphql:\"properties\""
+	Section    PolicyAppTenantRestrictionAddSection_Policy_AppTenantRestriction_AddSection_Section_Section "json:\"section\" graphql:\"section\""
+}
+
+func (t *PolicyAppTenantRestrictionAddSection_Policy_AppTenantRestriction_AddSection_Section) GetAudit() *PolicyAppTenantRestrictionAddSection_Policy_AppTenantRestriction_AddSection_Section_Audit {
+	if t == nil {
+		t = &PolicyAppTenantRestrictionAddSection_Policy_AppTenantRestriction_AddSection_Section{}
+	}
+	return &t.Audit
+}
+func (t *PolicyAppTenantRestrictionAddSection_Policy_AppTenantRestriction_AddSection_Section) GetProperties() []cato_models.PolicyElementPropertiesEnum {
+	if t == nil {
+		t = &PolicyAppTenantRestrictionAddSection_Policy_AppTenantRestriction_AddSection_Section{}
+	}
+	return t.Properties
+}
+func (t *PolicyAppTenantRestrictionAddSection_Policy_AppTenantRestriction_AddSection_Section) GetSection() *PolicyAppTenantRestrictionAddSection_Policy_AppTenantRestriction_AddSection_Section_Section {
+	if t == nil {
+		t = &PolicyAppTenantRestrictionAddSection_Policy_AppTenantRestriction_AddSection_Section{}
+	}
+	return &t.Section
+}
+
+type PolicyAppTenantRestrictionAddSection_Policy_AppTenantRestriction_AddSection_Errors struct {
+	ErrorCode    *string "json:\"errorCode,omitempty\" graphql:\"errorCode\""
+	ErrorMessage *string "json:\"errorMessage,omitempty\" graphql:\"errorMessage\""
+}
+
+func (t *PolicyAppTenantRestrictionAddSection_Policy_AppTenantRestriction_AddSection_Errors) GetErrorCode() *string {
+	if t == nil {
+		t = &PolicyAppTenantRestrictionAddSection_Policy_AppTenantRestriction_AddSection_Errors{}
+	}
+	return t.ErrorCode
+}
+func (t *PolicyAppTenantRestrictionAddSection_Policy_AppTenantRestriction_AddSection_Errors) GetErrorMessage() *string {
+	if t == nil {
+		t = &PolicyAppTenantRestrictionAddSection_Policy_AppTenantRestriction_AddSection_Errors{}
+	}
+	return t.ErrorMessage
+}
+
+type PolicyAppTenantRestrictionAddSection_Policy_AppTenantRestriction_AddSection struct {
+	Errors  []*PolicyAppTenantRestrictionAddSection_Policy_AppTenantRestriction_AddSection_Errors "json:\"errors\" graphql:\"errors\""
+	Section *PolicyAppTenantRestrictionAddSection_Policy_AppTenantRestriction_AddSection_Section  "json:\"section,omitempty\" graphql:\"section\""
+	Status  cato_models.PolicyMutationStatus                                                      "json:\"status\" graphql:\"status\""
+}
+
+func (t *PolicyAppTenantRestrictionAddSection_Policy_AppTenantRestriction_AddSection) GetErrors() []*PolicyAppTenantRestrictionAddSection_Policy_AppTenantRestriction_AddSection_Errors {
+	if t == nil {
+		t = &PolicyAppTenantRestrictionAddSection_Policy_AppTenantRestriction_AddSection{}
+	}
+	return t.Errors
+}
+func (t *PolicyAppTenantRestrictionAddSection_Policy_AppTenantRestriction_AddSection) GetSection() *PolicyAppTenantRestrictionAddSection_Policy_AppTenantRestriction_AddSection_Section {
+	if t == nil {
+		t = &PolicyAppTenantRestrictionAddSection_Policy_AppTenantRestriction_AddSection{}
+	}
+	return t.Section
+}
+func (t *PolicyAppTenantRestrictionAddSection_Policy_AppTenantRestriction_AddSection) GetStatus() *cato_models.PolicyMutationStatus {
+	if t == nil {
+		t = &PolicyAppTenantRestrictionAddSection_Policy_AppTenantRestriction_AddSection{}
+	}
+	return &t.Status
+}
+
+type PolicyAppTenantRestrictionAddSection_Policy_AppTenantRestriction struct {
+	AddSection PolicyAppTenantRestrictionAddSection_Policy_AppTenantRestriction_AddSection "json:\"addSection\" graphql:\"addSection\""
+}
+
+func (t *PolicyAppTenantRestrictionAddSection_Policy_AppTenantRestriction) GetAddSection() *PolicyAppTenantRestrictionAddSection_Policy_AppTenantRestriction_AddSection {
+	if t == nil {
+		t = &PolicyAppTenantRestrictionAddSection_Policy_AppTenantRestriction{}
+	}
+	return &t.AddSection
+}
+
+type PolicyAppTenantRestrictionAddSection_Policy struct {
+	AppTenantRestriction *PolicyAppTenantRestrictionAddSection_Policy_AppTenantRestriction "json:\"appTenantRestriction,omitempty\" graphql:\"appTenantRestriction\""
+}
+
+func (t *PolicyAppTenantRestrictionAddSection_Policy) GetAppTenantRestriction() *PolicyAppTenantRestrictionAddSection_Policy_AppTenantRestriction {
+	if t == nil {
+		t = &PolicyAppTenantRestrictionAddSection_Policy{}
+	}
+	return t.AppTenantRestriction
+}
+
+type PolicyAppTenantRestrictionCreatePolicyRevision_Policy_AppTenantRestriction_CreatePolicyRevision_Policy_Revision struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicyAppTenantRestrictionCreatePolicyRevision_Policy_AppTenantRestriction_CreatePolicyRevision_Policy_Revision) GetID() string {
+	if t == nil {
+		t = &PolicyAppTenantRestrictionCreatePolicyRevision_Policy_AppTenantRestriction_CreatePolicyRevision_Policy_Revision{}
+	}
+	return t.ID
+}
+func (t *PolicyAppTenantRestrictionCreatePolicyRevision_Policy_AppTenantRestriction_CreatePolicyRevision_Policy_Revision) GetName() string {
+	if t == nil {
+		t = &PolicyAppTenantRestrictionCreatePolicyRevision_Policy_AppTenantRestriction_CreatePolicyRevision_Policy_Revision{}
+	}
+	return t.Name
+}
+
+type PolicyAppTenantRestrictionCreatePolicyRevision_Policy_AppTenantRestriction_CreatePolicyRevision_Policy struct {
+	Enabled  bool                                                                                                             "json:\"enabled\" graphql:\"enabled\""
+	Revision *PolicyAppTenantRestrictionCreatePolicyRevision_Policy_AppTenantRestriction_CreatePolicyRevision_Policy_Revision "json:\"revision,omitempty\" graphql:\"revision\""
+}
+
+func (t *PolicyAppTenantRestrictionCreatePolicyRevision_Policy_AppTenantRestriction_CreatePolicyRevision_Policy) GetEnabled() bool {
+	if t == nil {
+		t = &PolicyAppTenantRestrictionCreatePolicyRevision_Policy_AppTenantRestriction_CreatePolicyRevision_Policy{}
+	}
+	return t.Enabled
+}
+func (t *PolicyAppTenantRestrictionCreatePolicyRevision_Policy_AppTenantRestriction_CreatePolicyRevision_Policy) GetRevision() *PolicyAppTenantRestrictionCreatePolicyRevision_Policy_AppTenantRestriction_CreatePolicyRevision_Policy_Revision {
+	if t == nil {
+		t = &PolicyAppTenantRestrictionCreatePolicyRevision_Policy_AppTenantRestriction_CreatePolicyRevision_Policy{}
+	}
+	return t.Revision
+}
+
+type PolicyAppTenantRestrictionCreatePolicyRevision_Policy_AppTenantRestriction_CreatePolicyRevision_Errors struct {
+	ErrorCode    *string "json:\"errorCode,omitempty\" graphql:\"errorCode\""
+	ErrorMessage *string "json:\"errorMessage,omitempty\" graphql:\"errorMessage\""
+}
+
+func (t *PolicyAppTenantRestrictionCreatePolicyRevision_Policy_AppTenantRestriction_CreatePolicyRevision_Errors) GetErrorCode() *string {
+	if t == nil {
+		t = &PolicyAppTenantRestrictionCreatePolicyRevision_Policy_AppTenantRestriction_CreatePolicyRevision_Errors{}
+	}
+	return t.ErrorCode
+}
+func (t *PolicyAppTenantRestrictionCreatePolicyRevision_Policy_AppTenantRestriction_CreatePolicyRevision_Errors) GetErrorMessage() *string {
+	if t == nil {
+		t = &PolicyAppTenantRestrictionCreatePolicyRevision_Policy_AppTenantRestriction_CreatePolicyRevision_Errors{}
+	}
+	return t.ErrorMessage
+}
+
+type PolicyAppTenantRestrictionCreatePolicyRevision_Policy_AppTenantRestriction_CreatePolicyRevision struct {
+	Errors []*PolicyAppTenantRestrictionCreatePolicyRevision_Policy_AppTenantRestriction_CreatePolicyRevision_Errors "json:\"errors\" graphql:\"errors\""
+	Policy *PolicyAppTenantRestrictionCreatePolicyRevision_Policy_AppTenantRestriction_CreatePolicyRevision_Policy   "json:\"policy,omitempty\" graphql:\"policy\""
+	Status cato_models.PolicyMutationStatus                                                                          "json:\"status\" graphql:\"status\""
+}
+
+func (t *PolicyAppTenantRestrictionCreatePolicyRevision_Policy_AppTenantRestriction_CreatePolicyRevision) GetErrors() []*PolicyAppTenantRestrictionCreatePolicyRevision_Policy_AppTenantRestriction_CreatePolicyRevision_Errors {
+	if t == nil {
+		t = &PolicyAppTenantRestrictionCreatePolicyRevision_Policy_AppTenantRestriction_CreatePolicyRevision{}
+	}
+	return t.Errors
+}
+func (t *PolicyAppTenantRestrictionCreatePolicyRevision_Policy_AppTenantRestriction_CreatePolicyRevision) GetPolicy() *PolicyAppTenantRestrictionCreatePolicyRevision_Policy_AppTenantRestriction_CreatePolicyRevision_Policy {
+	if t == nil {
+		t = &PolicyAppTenantRestrictionCreatePolicyRevision_Policy_AppTenantRestriction_CreatePolicyRevision{}
+	}
+	return t.Policy
+}
+func (t *PolicyAppTenantRestrictionCreatePolicyRevision_Policy_AppTenantRestriction_CreatePolicyRevision) GetStatus() *cato_models.PolicyMutationStatus {
+	if t == nil {
+		t = &PolicyAppTenantRestrictionCreatePolicyRevision_Policy_AppTenantRestriction_CreatePolicyRevision{}
+	}
+	return &t.Status
+}
+
+type PolicyAppTenantRestrictionCreatePolicyRevision_Policy_AppTenantRestriction struct {
+	CreatePolicyRevision PolicyAppTenantRestrictionCreatePolicyRevision_Policy_AppTenantRestriction_CreatePolicyRevision "json:\"createPolicyRevision\" graphql:\"createPolicyRevision\""
+}
+
+func (t *PolicyAppTenantRestrictionCreatePolicyRevision_Policy_AppTenantRestriction) GetCreatePolicyRevision() *PolicyAppTenantRestrictionCreatePolicyRevision_Policy_AppTenantRestriction_CreatePolicyRevision {
+	if t == nil {
+		t = &PolicyAppTenantRestrictionCreatePolicyRevision_Policy_AppTenantRestriction{}
+	}
+	return &t.CreatePolicyRevision
+}
+
+type PolicyAppTenantRestrictionCreatePolicyRevision_Policy struct {
+	AppTenantRestriction *PolicyAppTenantRestrictionCreatePolicyRevision_Policy_AppTenantRestriction "json:\"appTenantRestriction,omitempty\" graphql:\"appTenantRestriction\""
+}
+
+func (t *PolicyAppTenantRestrictionCreatePolicyRevision_Policy) GetAppTenantRestriction() *PolicyAppTenantRestrictionCreatePolicyRevision_Policy_AppTenantRestriction {
+	if t == nil {
+		t = &PolicyAppTenantRestrictionCreatePolicyRevision_Policy{}
+	}
+	return t.AppTenantRestriction
+}
+
+type PolicyAppTenantRestrictionDiscardPolicyRevision_Policy_AppTenantRestriction_DiscardPolicyRevision_Policy struct {
+	Enabled bool "json:\"enabled\" graphql:\"enabled\""
+}
+
+func (t *PolicyAppTenantRestrictionDiscardPolicyRevision_Policy_AppTenantRestriction_DiscardPolicyRevision_Policy) GetEnabled() bool {
+	if t == nil {
+		t = &PolicyAppTenantRestrictionDiscardPolicyRevision_Policy_AppTenantRestriction_DiscardPolicyRevision_Policy{}
+	}
+	return t.Enabled
+}
+
+type PolicyAppTenantRestrictionDiscardPolicyRevision_Policy_AppTenantRestriction_DiscardPolicyRevision_Errors struct {
+	ErrorCode    *string "json:\"errorCode,omitempty\" graphql:\"errorCode\""
+	ErrorMessage *string "json:\"errorMessage,omitempty\" graphql:\"errorMessage\""
+}
+
+func (t *PolicyAppTenantRestrictionDiscardPolicyRevision_Policy_AppTenantRestriction_DiscardPolicyRevision_Errors) GetErrorCode() *string {
+	if t == nil {
+		t = &PolicyAppTenantRestrictionDiscardPolicyRevision_Policy_AppTenantRestriction_DiscardPolicyRevision_Errors{}
+	}
+	return t.ErrorCode
+}
+func (t *PolicyAppTenantRestrictionDiscardPolicyRevision_Policy_AppTenantRestriction_DiscardPolicyRevision_Errors) GetErrorMessage() *string {
+	if t == nil {
+		t = &PolicyAppTenantRestrictionDiscardPolicyRevision_Policy_AppTenantRestriction_DiscardPolicyRevision_Errors{}
+	}
+	return t.ErrorMessage
+}
+
+type PolicyAppTenantRestrictionDiscardPolicyRevision_Policy_AppTenantRestriction_DiscardPolicyRevision struct {
+	Errors []*PolicyAppTenantRestrictionDiscardPolicyRevision_Policy_AppTenantRestriction_DiscardPolicyRevision_Errors "json:\"errors\" graphql:\"errors\""
+	Policy *PolicyAppTenantRestrictionDiscardPolicyRevision_Policy_AppTenantRestriction_DiscardPolicyRevision_Policy   "json:\"policy,omitempty\" graphql:\"policy\""
+	Status cato_models.PolicyMutationStatus                                                                            "json:\"status\" graphql:\"status\""
+}
+
+func (t *PolicyAppTenantRestrictionDiscardPolicyRevision_Policy_AppTenantRestriction_DiscardPolicyRevision) GetErrors() []*PolicyAppTenantRestrictionDiscardPolicyRevision_Policy_AppTenantRestriction_DiscardPolicyRevision_Errors {
+	if t == nil {
+		t = &PolicyAppTenantRestrictionDiscardPolicyRevision_Policy_AppTenantRestriction_DiscardPolicyRevision{}
+	}
+	return t.Errors
+}
+func (t *PolicyAppTenantRestrictionDiscardPolicyRevision_Policy_AppTenantRestriction_DiscardPolicyRevision) GetPolicy() *PolicyAppTenantRestrictionDiscardPolicyRevision_Policy_AppTenantRestriction_DiscardPolicyRevision_Policy {
+	if t == nil {
+		t = &PolicyAppTenantRestrictionDiscardPolicyRevision_Policy_AppTenantRestriction_DiscardPolicyRevision{}
+	}
+	return t.Policy
+}
+func (t *PolicyAppTenantRestrictionDiscardPolicyRevision_Policy_AppTenantRestriction_DiscardPolicyRevision) GetStatus() *cato_models.PolicyMutationStatus {
+	if t == nil {
+		t = &PolicyAppTenantRestrictionDiscardPolicyRevision_Policy_AppTenantRestriction_DiscardPolicyRevision{}
+	}
+	return &t.Status
+}
+
+type PolicyAppTenantRestrictionDiscardPolicyRevision_Policy_AppTenantRestriction struct {
+	DiscardPolicyRevision PolicyAppTenantRestrictionDiscardPolicyRevision_Policy_AppTenantRestriction_DiscardPolicyRevision "json:\"discardPolicyRevision\" graphql:\"discardPolicyRevision\""
+}
+
+func (t *PolicyAppTenantRestrictionDiscardPolicyRevision_Policy_AppTenantRestriction) GetDiscardPolicyRevision() *PolicyAppTenantRestrictionDiscardPolicyRevision_Policy_AppTenantRestriction_DiscardPolicyRevision {
+	if t == nil {
+		t = &PolicyAppTenantRestrictionDiscardPolicyRevision_Policy_AppTenantRestriction{}
+	}
+	return &t.DiscardPolicyRevision
+}
+
+type PolicyAppTenantRestrictionDiscardPolicyRevision_Policy struct {
+	AppTenantRestriction *PolicyAppTenantRestrictionDiscardPolicyRevision_Policy_AppTenantRestriction "json:\"appTenantRestriction,omitempty\" graphql:\"appTenantRestriction\""
+}
+
+func (t *PolicyAppTenantRestrictionDiscardPolicyRevision_Policy) GetAppTenantRestriction() *PolicyAppTenantRestrictionDiscardPolicyRevision_Policy_AppTenantRestriction {
+	if t == nil {
+		t = &PolicyAppTenantRestrictionDiscardPolicyRevision_Policy{}
+	}
+	return t.AppTenantRestriction
+}
+
+type PolicyAppTenantRestrictionMoveRule_Policy_AppTenantRestriction_MoveRule_Rule_Rule_Section struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicyAppTenantRestrictionMoveRule_Policy_AppTenantRestriction_MoveRule_Rule_Rule_Section) GetID() string {
+	if t == nil {
+		t = &PolicyAppTenantRestrictionMoveRule_Policy_AppTenantRestriction_MoveRule_Rule_Rule_Section{}
+	}
+	return t.ID
+}
+func (t *PolicyAppTenantRestrictionMoveRule_Policy_AppTenantRestriction_MoveRule_Rule_Rule_Section) GetName() string {
+	if t == nil {
+		t = &PolicyAppTenantRestrictionMoveRule_Policy_AppTenantRestriction_MoveRule_Rule_Rule_Section{}
+	}
+	return t.Name
+}
+
+type PolicyAppTenantRestrictionMoveRule_Policy_AppTenantRestriction_MoveRule_Rule_Rule struct {
+	ID      string                                                                                    "json:\"id\" graphql:\"id\""
+	Index   int64                                                                                     "json:\"index\" graphql:\"index\""
+	Section PolicyAppTenantRestrictionMoveRule_Policy_AppTenantRestriction_MoveRule_Rule_Rule_Section "json:\"section\" graphql:\"section\""
+}
+
+func (t *PolicyAppTenantRestrictionMoveRule_Policy_AppTenantRestriction_MoveRule_Rule_Rule) GetID() string {
+	if t == nil {
+		t = &PolicyAppTenantRestrictionMoveRule_Policy_AppTenantRestriction_MoveRule_Rule_Rule{}
+	}
+	return t.ID
+}
+func (t *PolicyAppTenantRestrictionMoveRule_Policy_AppTenantRestriction_MoveRule_Rule_Rule) GetIndex() int64 {
+	if t == nil {
+		t = &PolicyAppTenantRestrictionMoveRule_Policy_AppTenantRestriction_MoveRule_Rule_Rule{}
+	}
+	return t.Index
+}
+func (t *PolicyAppTenantRestrictionMoveRule_Policy_AppTenantRestriction_MoveRule_Rule_Rule) GetSection() *PolicyAppTenantRestrictionMoveRule_Policy_AppTenantRestriction_MoveRule_Rule_Rule_Section {
+	if t == nil {
+		t = &PolicyAppTenantRestrictionMoveRule_Policy_AppTenantRestriction_MoveRule_Rule_Rule{}
+	}
+	return &t.Section
+}
+
+type PolicyAppTenantRestrictionMoveRule_Policy_AppTenantRestriction_MoveRule_Rule struct {
+	Rule PolicyAppTenantRestrictionMoveRule_Policy_AppTenantRestriction_MoveRule_Rule_Rule "json:\"rule\" graphql:\"rule\""
+}
+
+func (t *PolicyAppTenantRestrictionMoveRule_Policy_AppTenantRestriction_MoveRule_Rule) GetRule() *PolicyAppTenantRestrictionMoveRule_Policy_AppTenantRestriction_MoveRule_Rule_Rule {
+	if t == nil {
+		t = &PolicyAppTenantRestrictionMoveRule_Policy_AppTenantRestriction_MoveRule_Rule{}
+	}
+	return &t.Rule
+}
+
+type PolicyAppTenantRestrictionMoveRule_Policy_AppTenantRestriction_MoveRule_Errors struct {
+	ErrorCode    *string "json:\"errorCode,omitempty\" graphql:\"errorCode\""
+	ErrorMessage *string "json:\"errorMessage,omitempty\" graphql:\"errorMessage\""
+}
+
+func (t *PolicyAppTenantRestrictionMoveRule_Policy_AppTenantRestriction_MoveRule_Errors) GetErrorCode() *string {
+	if t == nil {
+		t = &PolicyAppTenantRestrictionMoveRule_Policy_AppTenantRestriction_MoveRule_Errors{}
+	}
+	return t.ErrorCode
+}
+func (t *PolicyAppTenantRestrictionMoveRule_Policy_AppTenantRestriction_MoveRule_Errors) GetErrorMessage() *string {
+	if t == nil {
+		t = &PolicyAppTenantRestrictionMoveRule_Policy_AppTenantRestriction_MoveRule_Errors{}
+	}
+	return t.ErrorMessage
+}
+
+type PolicyAppTenantRestrictionMoveRule_Policy_AppTenantRestriction_MoveRule struct {
+	Errors []*PolicyAppTenantRestrictionMoveRule_Policy_AppTenantRestriction_MoveRule_Errors "json:\"errors\" graphql:\"errors\""
+	Rule   *PolicyAppTenantRestrictionMoveRule_Policy_AppTenantRestriction_MoveRule_Rule     "json:\"rule,omitempty\" graphql:\"rule\""
+	Status cato_models.PolicyMutationStatus                                                  "json:\"status\" graphql:\"status\""
+}
+
+func (t *PolicyAppTenantRestrictionMoveRule_Policy_AppTenantRestriction_MoveRule) GetErrors() []*PolicyAppTenantRestrictionMoveRule_Policy_AppTenantRestriction_MoveRule_Errors {
+	if t == nil {
+		t = &PolicyAppTenantRestrictionMoveRule_Policy_AppTenantRestriction_MoveRule{}
+	}
+	return t.Errors
+}
+func (t *PolicyAppTenantRestrictionMoveRule_Policy_AppTenantRestriction_MoveRule) GetRule() *PolicyAppTenantRestrictionMoveRule_Policy_AppTenantRestriction_MoveRule_Rule {
+	if t == nil {
+		t = &PolicyAppTenantRestrictionMoveRule_Policy_AppTenantRestriction_MoveRule{}
+	}
+	return t.Rule
+}
+func (t *PolicyAppTenantRestrictionMoveRule_Policy_AppTenantRestriction_MoveRule) GetStatus() *cato_models.PolicyMutationStatus {
+	if t == nil {
+		t = &PolicyAppTenantRestrictionMoveRule_Policy_AppTenantRestriction_MoveRule{}
+	}
+	return &t.Status
+}
+
+type PolicyAppTenantRestrictionMoveRule_Policy_AppTenantRestriction struct {
+	MoveRule PolicyAppTenantRestrictionMoveRule_Policy_AppTenantRestriction_MoveRule "json:\"moveRule\" graphql:\"moveRule\""
+}
+
+func (t *PolicyAppTenantRestrictionMoveRule_Policy_AppTenantRestriction) GetMoveRule() *PolicyAppTenantRestrictionMoveRule_Policy_AppTenantRestriction_MoveRule {
+	if t == nil {
+		t = &PolicyAppTenantRestrictionMoveRule_Policy_AppTenantRestriction{}
+	}
+	return &t.MoveRule
+}
+
+type PolicyAppTenantRestrictionMoveRule_Policy struct {
+	AppTenantRestriction *PolicyAppTenantRestrictionMoveRule_Policy_AppTenantRestriction "json:\"appTenantRestriction,omitempty\" graphql:\"appTenantRestriction\""
+}
+
+func (t *PolicyAppTenantRestrictionMoveRule_Policy) GetAppTenantRestriction() *PolicyAppTenantRestrictionMoveRule_Policy_AppTenantRestriction {
+	if t == nil {
+		t = &PolicyAppTenantRestrictionMoveRule_Policy{}
+	}
+	return t.AppTenantRestriction
+}
+
+type PolicyAppTenantRestrictionMoveSection_Policy_AppTenantRestriction_MoveSection_Section_Section struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicyAppTenantRestrictionMoveSection_Policy_AppTenantRestriction_MoveSection_Section_Section) GetID() string {
+	if t == nil {
+		t = &PolicyAppTenantRestrictionMoveSection_Policy_AppTenantRestriction_MoveSection_Section_Section{}
+	}
+	return t.ID
+}
+func (t *PolicyAppTenantRestrictionMoveSection_Policy_AppTenantRestriction_MoveSection_Section_Section) GetName() string {
+	if t == nil {
+		t = &PolicyAppTenantRestrictionMoveSection_Policy_AppTenantRestriction_MoveSection_Section_Section{}
+	}
+	return t.Name
+}
+
+type PolicyAppTenantRestrictionMoveSection_Policy_AppTenantRestriction_MoveSection_Section struct {
+	Section PolicyAppTenantRestrictionMoveSection_Policy_AppTenantRestriction_MoveSection_Section_Section "json:\"section\" graphql:\"section\""
+}
+
+func (t *PolicyAppTenantRestrictionMoveSection_Policy_AppTenantRestriction_MoveSection_Section) GetSection() *PolicyAppTenantRestrictionMoveSection_Policy_AppTenantRestriction_MoveSection_Section_Section {
+	if t == nil {
+		t = &PolicyAppTenantRestrictionMoveSection_Policy_AppTenantRestriction_MoveSection_Section{}
+	}
+	return &t.Section
+}
+
+type PolicyAppTenantRestrictionMoveSection_Policy_AppTenantRestriction_MoveSection_Errors struct {
+	ErrorCode    *string "json:\"errorCode,omitempty\" graphql:\"errorCode\""
+	ErrorMessage *string "json:\"errorMessage,omitempty\" graphql:\"errorMessage\""
+}
+
+func (t *PolicyAppTenantRestrictionMoveSection_Policy_AppTenantRestriction_MoveSection_Errors) GetErrorCode() *string {
+	if t == nil {
+		t = &PolicyAppTenantRestrictionMoveSection_Policy_AppTenantRestriction_MoveSection_Errors{}
+	}
+	return t.ErrorCode
+}
+func (t *PolicyAppTenantRestrictionMoveSection_Policy_AppTenantRestriction_MoveSection_Errors) GetErrorMessage() *string {
+	if t == nil {
+		t = &PolicyAppTenantRestrictionMoveSection_Policy_AppTenantRestriction_MoveSection_Errors{}
+	}
+	return t.ErrorMessage
+}
+
+type PolicyAppTenantRestrictionMoveSection_Policy_AppTenantRestriction_MoveSection struct {
+	Errors  []*PolicyAppTenantRestrictionMoveSection_Policy_AppTenantRestriction_MoveSection_Errors "json:\"errors\" graphql:\"errors\""
+	Section *PolicyAppTenantRestrictionMoveSection_Policy_AppTenantRestriction_MoveSection_Section  "json:\"section,omitempty\" graphql:\"section\""
+	Status  cato_models.PolicyMutationStatus                                                        "json:\"status\" graphql:\"status\""
+}
+
+func (t *PolicyAppTenantRestrictionMoveSection_Policy_AppTenantRestriction_MoveSection) GetErrors() []*PolicyAppTenantRestrictionMoveSection_Policy_AppTenantRestriction_MoveSection_Errors {
+	if t == nil {
+		t = &PolicyAppTenantRestrictionMoveSection_Policy_AppTenantRestriction_MoveSection{}
+	}
+	return t.Errors
+}
+func (t *PolicyAppTenantRestrictionMoveSection_Policy_AppTenantRestriction_MoveSection) GetSection() *PolicyAppTenantRestrictionMoveSection_Policy_AppTenantRestriction_MoveSection_Section {
+	if t == nil {
+		t = &PolicyAppTenantRestrictionMoveSection_Policy_AppTenantRestriction_MoveSection{}
+	}
+	return t.Section
+}
+func (t *PolicyAppTenantRestrictionMoveSection_Policy_AppTenantRestriction_MoveSection) GetStatus() *cato_models.PolicyMutationStatus {
+	if t == nil {
+		t = &PolicyAppTenantRestrictionMoveSection_Policy_AppTenantRestriction_MoveSection{}
+	}
+	return &t.Status
+}
+
+type PolicyAppTenantRestrictionMoveSection_Policy_AppTenantRestriction struct {
+	MoveSection PolicyAppTenantRestrictionMoveSection_Policy_AppTenantRestriction_MoveSection "json:\"moveSection\" graphql:\"moveSection\""
+}
+
+func (t *PolicyAppTenantRestrictionMoveSection_Policy_AppTenantRestriction) GetMoveSection() *PolicyAppTenantRestrictionMoveSection_Policy_AppTenantRestriction_MoveSection {
+	if t == nil {
+		t = &PolicyAppTenantRestrictionMoveSection_Policy_AppTenantRestriction{}
+	}
+	return &t.MoveSection
+}
+
+type PolicyAppTenantRestrictionMoveSection_Policy struct {
+	AppTenantRestriction *PolicyAppTenantRestrictionMoveSection_Policy_AppTenantRestriction "json:\"appTenantRestriction,omitempty\" graphql:\"appTenantRestriction\""
+}
+
+func (t *PolicyAppTenantRestrictionMoveSection_Policy) GetAppTenantRestriction() *PolicyAppTenantRestrictionMoveSection_Policy_AppTenantRestriction {
+	if t == nil {
+		t = &PolicyAppTenantRestrictionMoveSection_Policy{}
+	}
+	return t.AppTenantRestriction
+}
+
+type PolicyAppTenantRestrictionPublishPolicyRevision_Policy_AppTenantRestriction_PublishPolicyRevision_Policy_Revision struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicyAppTenantRestrictionPublishPolicyRevision_Policy_AppTenantRestriction_PublishPolicyRevision_Policy_Revision) GetID() string {
+	if t == nil {
+		t = &PolicyAppTenantRestrictionPublishPolicyRevision_Policy_AppTenantRestriction_PublishPolicyRevision_Policy_Revision{}
+	}
+	return t.ID
+}
+func (t *PolicyAppTenantRestrictionPublishPolicyRevision_Policy_AppTenantRestriction_PublishPolicyRevision_Policy_Revision) GetName() string {
+	if t == nil {
+		t = &PolicyAppTenantRestrictionPublishPolicyRevision_Policy_AppTenantRestriction_PublishPolicyRevision_Policy_Revision{}
+	}
+	return t.Name
+}
+
+type PolicyAppTenantRestrictionPublishPolicyRevision_Policy_AppTenantRestriction_PublishPolicyRevision_Policy struct {
+	Enabled  bool                                                                                                               "json:\"enabled\" graphql:\"enabled\""
+	Revision *PolicyAppTenantRestrictionPublishPolicyRevision_Policy_AppTenantRestriction_PublishPolicyRevision_Policy_Revision "json:\"revision,omitempty\" graphql:\"revision\""
+}
+
+func (t *PolicyAppTenantRestrictionPublishPolicyRevision_Policy_AppTenantRestriction_PublishPolicyRevision_Policy) GetEnabled() bool {
+	if t == nil {
+		t = &PolicyAppTenantRestrictionPublishPolicyRevision_Policy_AppTenantRestriction_PublishPolicyRevision_Policy{}
+	}
+	return t.Enabled
+}
+func (t *PolicyAppTenantRestrictionPublishPolicyRevision_Policy_AppTenantRestriction_PublishPolicyRevision_Policy) GetRevision() *PolicyAppTenantRestrictionPublishPolicyRevision_Policy_AppTenantRestriction_PublishPolicyRevision_Policy_Revision {
+	if t == nil {
+		t = &PolicyAppTenantRestrictionPublishPolicyRevision_Policy_AppTenantRestriction_PublishPolicyRevision_Policy{}
+	}
+	return t.Revision
+}
+
+type PolicyAppTenantRestrictionPublishPolicyRevision_Policy_AppTenantRestriction_PublishPolicyRevision_Errors struct {
+	ErrorCode    *string "json:\"errorCode,omitempty\" graphql:\"errorCode\""
+	ErrorMessage *string "json:\"errorMessage,omitempty\" graphql:\"errorMessage\""
+}
+
+func (t *PolicyAppTenantRestrictionPublishPolicyRevision_Policy_AppTenantRestriction_PublishPolicyRevision_Errors) GetErrorCode() *string {
+	if t == nil {
+		t = &PolicyAppTenantRestrictionPublishPolicyRevision_Policy_AppTenantRestriction_PublishPolicyRevision_Errors{}
+	}
+	return t.ErrorCode
+}
+func (t *PolicyAppTenantRestrictionPublishPolicyRevision_Policy_AppTenantRestriction_PublishPolicyRevision_Errors) GetErrorMessage() *string {
+	if t == nil {
+		t = &PolicyAppTenantRestrictionPublishPolicyRevision_Policy_AppTenantRestriction_PublishPolicyRevision_Errors{}
+	}
+	return t.ErrorMessage
+}
+
+type PolicyAppTenantRestrictionPublishPolicyRevision_Policy_AppTenantRestriction_PublishPolicyRevision struct {
+	Errors []*PolicyAppTenantRestrictionPublishPolicyRevision_Policy_AppTenantRestriction_PublishPolicyRevision_Errors "json:\"errors\" graphql:\"errors\""
+	Policy *PolicyAppTenantRestrictionPublishPolicyRevision_Policy_AppTenantRestriction_PublishPolicyRevision_Policy   "json:\"policy,omitempty\" graphql:\"policy\""
+	Status cato_models.PolicyMutationStatus                                                                            "json:\"status\" graphql:\"status\""
+}
+
+func (t *PolicyAppTenantRestrictionPublishPolicyRevision_Policy_AppTenantRestriction_PublishPolicyRevision) GetErrors() []*PolicyAppTenantRestrictionPublishPolicyRevision_Policy_AppTenantRestriction_PublishPolicyRevision_Errors {
+	if t == nil {
+		t = &PolicyAppTenantRestrictionPublishPolicyRevision_Policy_AppTenantRestriction_PublishPolicyRevision{}
+	}
+	return t.Errors
+}
+func (t *PolicyAppTenantRestrictionPublishPolicyRevision_Policy_AppTenantRestriction_PublishPolicyRevision) GetPolicy() *PolicyAppTenantRestrictionPublishPolicyRevision_Policy_AppTenantRestriction_PublishPolicyRevision_Policy {
+	if t == nil {
+		t = &PolicyAppTenantRestrictionPublishPolicyRevision_Policy_AppTenantRestriction_PublishPolicyRevision{}
+	}
+	return t.Policy
+}
+func (t *PolicyAppTenantRestrictionPublishPolicyRevision_Policy_AppTenantRestriction_PublishPolicyRevision) GetStatus() *cato_models.PolicyMutationStatus {
+	if t == nil {
+		t = &PolicyAppTenantRestrictionPublishPolicyRevision_Policy_AppTenantRestriction_PublishPolicyRevision{}
+	}
+	return &t.Status
+}
+
+type PolicyAppTenantRestrictionPublishPolicyRevision_Policy_AppTenantRestriction struct {
+	PublishPolicyRevision PolicyAppTenantRestrictionPublishPolicyRevision_Policy_AppTenantRestriction_PublishPolicyRevision "json:\"publishPolicyRevision\" graphql:\"publishPolicyRevision\""
+}
+
+func (t *PolicyAppTenantRestrictionPublishPolicyRevision_Policy_AppTenantRestriction) GetPublishPolicyRevision() *PolicyAppTenantRestrictionPublishPolicyRevision_Policy_AppTenantRestriction_PublishPolicyRevision {
+	if t == nil {
+		t = &PolicyAppTenantRestrictionPublishPolicyRevision_Policy_AppTenantRestriction{}
+	}
+	return &t.PublishPolicyRevision
+}
+
+type PolicyAppTenantRestrictionPublishPolicyRevision_Policy struct {
+	AppTenantRestriction *PolicyAppTenantRestrictionPublishPolicyRevision_Policy_AppTenantRestriction "json:\"appTenantRestriction,omitempty\" graphql:\"appTenantRestriction\""
+}
+
+func (t *PolicyAppTenantRestrictionPublishPolicyRevision_Policy) GetAppTenantRestriction() *PolicyAppTenantRestrictionPublishPolicyRevision_Policy_AppTenantRestriction {
+	if t == nil {
+		t = &PolicyAppTenantRestrictionPublishPolicyRevision_Policy{}
+	}
+	return t.AppTenantRestriction
+}
+
+type PolicyAppTenantRestrictionRemoveRule_Policy_AppTenantRestriction_RemoveRule_Rule_Rule struct {
+	ID string "json:\"id\" graphql:\"id\""
+}
+
+func (t *PolicyAppTenantRestrictionRemoveRule_Policy_AppTenantRestriction_RemoveRule_Rule_Rule) GetID() string {
+	if t == nil {
+		t = &PolicyAppTenantRestrictionRemoveRule_Policy_AppTenantRestriction_RemoveRule_Rule_Rule{}
+	}
+	return t.ID
+}
+
+type PolicyAppTenantRestrictionRemoveRule_Policy_AppTenantRestriction_RemoveRule_Rule struct {
+	Rule PolicyAppTenantRestrictionRemoveRule_Policy_AppTenantRestriction_RemoveRule_Rule_Rule "json:\"rule\" graphql:\"rule\""
+}
+
+func (t *PolicyAppTenantRestrictionRemoveRule_Policy_AppTenantRestriction_RemoveRule_Rule) GetRule() *PolicyAppTenantRestrictionRemoveRule_Policy_AppTenantRestriction_RemoveRule_Rule_Rule {
+	if t == nil {
+		t = &PolicyAppTenantRestrictionRemoveRule_Policy_AppTenantRestriction_RemoveRule_Rule{}
+	}
+	return &t.Rule
+}
+
+type PolicyAppTenantRestrictionRemoveRule_Policy_AppTenantRestriction_RemoveRule_Errors struct {
+	ErrorCode    *string "json:\"errorCode,omitempty\" graphql:\"errorCode\""
+	ErrorMessage *string "json:\"errorMessage,omitempty\" graphql:\"errorMessage\""
+}
+
+func (t *PolicyAppTenantRestrictionRemoveRule_Policy_AppTenantRestriction_RemoveRule_Errors) GetErrorCode() *string {
+	if t == nil {
+		t = &PolicyAppTenantRestrictionRemoveRule_Policy_AppTenantRestriction_RemoveRule_Errors{}
+	}
+	return t.ErrorCode
+}
+func (t *PolicyAppTenantRestrictionRemoveRule_Policy_AppTenantRestriction_RemoveRule_Errors) GetErrorMessage() *string {
+	if t == nil {
+		t = &PolicyAppTenantRestrictionRemoveRule_Policy_AppTenantRestriction_RemoveRule_Errors{}
+	}
+	return t.ErrorMessage
+}
+
+type PolicyAppTenantRestrictionRemoveRule_Policy_AppTenantRestriction_RemoveRule struct {
+	Errors []*PolicyAppTenantRestrictionRemoveRule_Policy_AppTenantRestriction_RemoveRule_Errors "json:\"errors\" graphql:\"errors\""
+	Rule   *PolicyAppTenantRestrictionRemoveRule_Policy_AppTenantRestriction_RemoveRule_Rule     "json:\"rule,omitempty\" graphql:\"rule\""
+	Status cato_models.PolicyMutationStatus                                                      "json:\"status\" graphql:\"status\""
+}
+
+func (t *PolicyAppTenantRestrictionRemoveRule_Policy_AppTenantRestriction_RemoveRule) GetErrors() []*PolicyAppTenantRestrictionRemoveRule_Policy_AppTenantRestriction_RemoveRule_Errors {
+	if t == nil {
+		t = &PolicyAppTenantRestrictionRemoveRule_Policy_AppTenantRestriction_RemoveRule{}
+	}
+	return t.Errors
+}
+func (t *PolicyAppTenantRestrictionRemoveRule_Policy_AppTenantRestriction_RemoveRule) GetRule() *PolicyAppTenantRestrictionRemoveRule_Policy_AppTenantRestriction_RemoveRule_Rule {
+	if t == nil {
+		t = &PolicyAppTenantRestrictionRemoveRule_Policy_AppTenantRestriction_RemoveRule{}
+	}
+	return t.Rule
+}
+func (t *PolicyAppTenantRestrictionRemoveRule_Policy_AppTenantRestriction_RemoveRule) GetStatus() *cato_models.PolicyMutationStatus {
+	if t == nil {
+		t = &PolicyAppTenantRestrictionRemoveRule_Policy_AppTenantRestriction_RemoveRule{}
+	}
+	return &t.Status
+}
+
+type PolicyAppTenantRestrictionRemoveRule_Policy_AppTenantRestriction struct {
+	RemoveRule PolicyAppTenantRestrictionRemoveRule_Policy_AppTenantRestriction_RemoveRule "json:\"removeRule\" graphql:\"removeRule\""
+}
+
+func (t *PolicyAppTenantRestrictionRemoveRule_Policy_AppTenantRestriction) GetRemoveRule() *PolicyAppTenantRestrictionRemoveRule_Policy_AppTenantRestriction_RemoveRule {
+	if t == nil {
+		t = &PolicyAppTenantRestrictionRemoveRule_Policy_AppTenantRestriction{}
+	}
+	return &t.RemoveRule
+}
+
+type PolicyAppTenantRestrictionRemoveRule_Policy struct {
+	AppTenantRestriction *PolicyAppTenantRestrictionRemoveRule_Policy_AppTenantRestriction "json:\"appTenantRestriction,omitempty\" graphql:\"appTenantRestriction\""
+}
+
+func (t *PolicyAppTenantRestrictionRemoveRule_Policy) GetAppTenantRestriction() *PolicyAppTenantRestrictionRemoveRule_Policy_AppTenantRestriction {
+	if t == nil {
+		t = &PolicyAppTenantRestrictionRemoveRule_Policy{}
+	}
+	return t.AppTenantRestriction
+}
+
+type PolicyAppTenantRestrictionRemoveSection_Policy_AppTenantRestriction_RemoveSection_Errors struct {
+	ErrorCode    *string "json:\"errorCode,omitempty\" graphql:\"errorCode\""
+	ErrorMessage *string "json:\"errorMessage,omitempty\" graphql:\"errorMessage\""
+}
+
+func (t *PolicyAppTenantRestrictionRemoveSection_Policy_AppTenantRestriction_RemoveSection_Errors) GetErrorCode() *string {
+	if t == nil {
+		t = &PolicyAppTenantRestrictionRemoveSection_Policy_AppTenantRestriction_RemoveSection_Errors{}
+	}
+	return t.ErrorCode
+}
+func (t *PolicyAppTenantRestrictionRemoveSection_Policy_AppTenantRestriction_RemoveSection_Errors) GetErrorMessage() *string {
+	if t == nil {
+		t = &PolicyAppTenantRestrictionRemoveSection_Policy_AppTenantRestriction_RemoveSection_Errors{}
+	}
+	return t.ErrorMessage
+}
+
+type PolicyAppTenantRestrictionRemoveSection_Policy_AppTenantRestriction_RemoveSection struct {
+	Errors []*PolicyAppTenantRestrictionRemoveSection_Policy_AppTenantRestriction_RemoveSection_Errors "json:\"errors\" graphql:\"errors\""
+	Status cato_models.PolicyMutationStatus                                                            "json:\"status\" graphql:\"status\""
+}
+
+func (t *PolicyAppTenantRestrictionRemoveSection_Policy_AppTenantRestriction_RemoveSection) GetErrors() []*PolicyAppTenantRestrictionRemoveSection_Policy_AppTenantRestriction_RemoveSection_Errors {
+	if t == nil {
+		t = &PolicyAppTenantRestrictionRemoveSection_Policy_AppTenantRestriction_RemoveSection{}
+	}
+	return t.Errors
+}
+func (t *PolicyAppTenantRestrictionRemoveSection_Policy_AppTenantRestriction_RemoveSection) GetStatus() *cato_models.PolicyMutationStatus {
+	if t == nil {
+		t = &PolicyAppTenantRestrictionRemoveSection_Policy_AppTenantRestriction_RemoveSection{}
+	}
+	return &t.Status
+}
+
+type PolicyAppTenantRestrictionRemoveSection_Policy_AppTenantRestriction struct {
+	RemoveSection PolicyAppTenantRestrictionRemoveSection_Policy_AppTenantRestriction_RemoveSection "json:\"removeSection\" graphql:\"removeSection\""
+}
+
+func (t *PolicyAppTenantRestrictionRemoveSection_Policy_AppTenantRestriction) GetRemoveSection() *PolicyAppTenantRestrictionRemoveSection_Policy_AppTenantRestriction_RemoveSection {
+	if t == nil {
+		t = &PolicyAppTenantRestrictionRemoveSection_Policy_AppTenantRestriction{}
+	}
+	return &t.RemoveSection
+}
+
+type PolicyAppTenantRestrictionRemoveSection_Policy struct {
+	AppTenantRestriction *PolicyAppTenantRestrictionRemoveSection_Policy_AppTenantRestriction "json:\"appTenantRestriction,omitempty\" graphql:\"appTenantRestriction\""
+}
+
+func (t *PolicyAppTenantRestrictionRemoveSection_Policy) GetAppTenantRestriction() *PolicyAppTenantRestrictionRemoveSection_Policy_AppTenantRestriction {
+	if t == nil {
+		t = &PolicyAppTenantRestrictionRemoveSection_Policy{}
+	}
+	return t.AppTenantRestriction
+}
+
+type PolicyAppTenantRestrictionUpdatePolicy_Policy_AppTenantRestriction_UpdatePolicy_Policy struct {
+	Enabled bool "json:\"enabled\" graphql:\"enabled\""
+}
+
+func (t *PolicyAppTenantRestrictionUpdatePolicy_Policy_AppTenantRestriction_UpdatePolicy_Policy) GetEnabled() bool {
+	if t == nil {
+		t = &PolicyAppTenantRestrictionUpdatePolicy_Policy_AppTenantRestriction_UpdatePolicy_Policy{}
+	}
+	return t.Enabled
+}
+
+type PolicyAppTenantRestrictionUpdatePolicy_Policy_AppTenantRestriction_UpdatePolicy_Errors struct {
+	ErrorCode    *string "json:\"errorCode,omitempty\" graphql:\"errorCode\""
+	ErrorMessage *string "json:\"errorMessage,omitempty\" graphql:\"errorMessage\""
+}
+
+func (t *PolicyAppTenantRestrictionUpdatePolicy_Policy_AppTenantRestriction_UpdatePolicy_Errors) GetErrorCode() *string {
+	if t == nil {
+		t = &PolicyAppTenantRestrictionUpdatePolicy_Policy_AppTenantRestriction_UpdatePolicy_Errors{}
+	}
+	return t.ErrorCode
+}
+func (t *PolicyAppTenantRestrictionUpdatePolicy_Policy_AppTenantRestriction_UpdatePolicy_Errors) GetErrorMessage() *string {
+	if t == nil {
+		t = &PolicyAppTenantRestrictionUpdatePolicy_Policy_AppTenantRestriction_UpdatePolicy_Errors{}
+	}
+	return t.ErrorMessage
+}
+
+type PolicyAppTenantRestrictionUpdatePolicy_Policy_AppTenantRestriction_UpdatePolicy struct {
+	Errors []*PolicyAppTenantRestrictionUpdatePolicy_Policy_AppTenantRestriction_UpdatePolicy_Errors "json:\"errors\" graphql:\"errors\""
+	Policy *PolicyAppTenantRestrictionUpdatePolicy_Policy_AppTenantRestriction_UpdatePolicy_Policy   "json:\"policy,omitempty\" graphql:\"policy\""
+	Status cato_models.PolicyMutationStatus                                                          "json:\"status\" graphql:\"status\""
+}
+
+func (t *PolicyAppTenantRestrictionUpdatePolicy_Policy_AppTenantRestriction_UpdatePolicy) GetErrors() []*PolicyAppTenantRestrictionUpdatePolicy_Policy_AppTenantRestriction_UpdatePolicy_Errors {
+	if t == nil {
+		t = &PolicyAppTenantRestrictionUpdatePolicy_Policy_AppTenantRestriction_UpdatePolicy{}
+	}
+	return t.Errors
+}
+func (t *PolicyAppTenantRestrictionUpdatePolicy_Policy_AppTenantRestriction_UpdatePolicy) GetPolicy() *PolicyAppTenantRestrictionUpdatePolicy_Policy_AppTenantRestriction_UpdatePolicy_Policy {
+	if t == nil {
+		t = &PolicyAppTenantRestrictionUpdatePolicy_Policy_AppTenantRestriction_UpdatePolicy{}
+	}
+	return t.Policy
+}
+func (t *PolicyAppTenantRestrictionUpdatePolicy_Policy_AppTenantRestriction_UpdatePolicy) GetStatus() *cato_models.PolicyMutationStatus {
+	if t == nil {
+		t = &PolicyAppTenantRestrictionUpdatePolicy_Policy_AppTenantRestriction_UpdatePolicy{}
+	}
+	return &t.Status
+}
+
+type PolicyAppTenantRestrictionUpdatePolicy_Policy_AppTenantRestriction struct {
+	UpdatePolicy PolicyAppTenantRestrictionUpdatePolicy_Policy_AppTenantRestriction_UpdatePolicy "json:\"updatePolicy\" graphql:\"updatePolicy\""
+}
+
+func (t *PolicyAppTenantRestrictionUpdatePolicy_Policy_AppTenantRestriction) GetUpdatePolicy() *PolicyAppTenantRestrictionUpdatePolicy_Policy_AppTenantRestriction_UpdatePolicy {
+	if t == nil {
+		t = &PolicyAppTenantRestrictionUpdatePolicy_Policy_AppTenantRestriction{}
+	}
+	return &t.UpdatePolicy
+}
+
+type PolicyAppTenantRestrictionUpdatePolicy_Policy struct {
+	AppTenantRestriction *PolicyAppTenantRestrictionUpdatePolicy_Policy_AppTenantRestriction "json:\"appTenantRestriction,omitempty\" graphql:\"appTenantRestriction\""
+}
+
+func (t *PolicyAppTenantRestrictionUpdatePolicy_Policy) GetAppTenantRestriction() *PolicyAppTenantRestrictionUpdatePolicy_Policy_AppTenantRestriction {
+	if t == nil {
+		t = &PolicyAppTenantRestrictionUpdatePolicy_Policy{}
+	}
+	return t.AppTenantRestriction
+}
+
+type PolicyAppTenantRestrictionUpdateRule_Policy_AppTenantRestriction_UpdateRule_Rule_Rule_Section struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicyAppTenantRestrictionUpdateRule_Policy_AppTenantRestriction_UpdateRule_Rule_Rule_Section) GetID() string {
+	if t == nil {
+		t = &PolicyAppTenantRestrictionUpdateRule_Policy_AppTenantRestriction_UpdateRule_Rule_Rule_Section{}
+	}
+	return t.ID
+}
+func (t *PolicyAppTenantRestrictionUpdateRule_Policy_AppTenantRestriction_UpdateRule_Rule_Rule_Section) GetName() string {
+	if t == nil {
+		t = &PolicyAppTenantRestrictionUpdateRule_Policy_AppTenantRestriction_UpdateRule_Rule_Rule_Section{}
+	}
+	return t.Name
+}
+
+type PolicyAppTenantRestrictionUpdateRule_Policy_AppTenantRestriction_UpdateRule_Rule_Rule struct {
+	ID      string                                                                                        "json:\"id\" graphql:\"id\""
+	Index   int64                                                                                         "json:\"index\" graphql:\"index\""
+	Name    string                                                                                        "json:\"name\" graphql:\"name\""
+	Section PolicyAppTenantRestrictionUpdateRule_Policy_AppTenantRestriction_UpdateRule_Rule_Rule_Section "json:\"section\" graphql:\"section\""
+}
+
+func (t *PolicyAppTenantRestrictionUpdateRule_Policy_AppTenantRestriction_UpdateRule_Rule_Rule) GetID() string {
+	if t == nil {
+		t = &PolicyAppTenantRestrictionUpdateRule_Policy_AppTenantRestriction_UpdateRule_Rule_Rule{}
+	}
+	return t.ID
+}
+func (t *PolicyAppTenantRestrictionUpdateRule_Policy_AppTenantRestriction_UpdateRule_Rule_Rule) GetIndex() int64 {
+	if t == nil {
+		t = &PolicyAppTenantRestrictionUpdateRule_Policy_AppTenantRestriction_UpdateRule_Rule_Rule{}
+	}
+	return t.Index
+}
+func (t *PolicyAppTenantRestrictionUpdateRule_Policy_AppTenantRestriction_UpdateRule_Rule_Rule) GetName() string {
+	if t == nil {
+		t = &PolicyAppTenantRestrictionUpdateRule_Policy_AppTenantRestriction_UpdateRule_Rule_Rule{}
+	}
+	return t.Name
+}
+func (t *PolicyAppTenantRestrictionUpdateRule_Policy_AppTenantRestriction_UpdateRule_Rule_Rule) GetSection() *PolicyAppTenantRestrictionUpdateRule_Policy_AppTenantRestriction_UpdateRule_Rule_Rule_Section {
+	if t == nil {
+		t = &PolicyAppTenantRestrictionUpdateRule_Policy_AppTenantRestriction_UpdateRule_Rule_Rule{}
+	}
+	return &t.Section
+}
+
+type PolicyAppTenantRestrictionUpdateRule_Policy_AppTenantRestriction_UpdateRule_Rule struct {
+	Rule PolicyAppTenantRestrictionUpdateRule_Policy_AppTenantRestriction_UpdateRule_Rule_Rule "json:\"rule\" graphql:\"rule\""
+}
+
+func (t *PolicyAppTenantRestrictionUpdateRule_Policy_AppTenantRestriction_UpdateRule_Rule) GetRule() *PolicyAppTenantRestrictionUpdateRule_Policy_AppTenantRestriction_UpdateRule_Rule_Rule {
+	if t == nil {
+		t = &PolicyAppTenantRestrictionUpdateRule_Policy_AppTenantRestriction_UpdateRule_Rule{}
+	}
+	return &t.Rule
+}
+
+type PolicyAppTenantRestrictionUpdateRule_Policy_AppTenantRestriction_UpdateRule_Errors struct {
+	ErrorCode    *string "json:\"errorCode,omitempty\" graphql:\"errorCode\""
+	ErrorMessage *string "json:\"errorMessage,omitempty\" graphql:\"errorMessage\""
+}
+
+func (t *PolicyAppTenantRestrictionUpdateRule_Policy_AppTenantRestriction_UpdateRule_Errors) GetErrorCode() *string {
+	if t == nil {
+		t = &PolicyAppTenantRestrictionUpdateRule_Policy_AppTenantRestriction_UpdateRule_Errors{}
+	}
+	return t.ErrorCode
+}
+func (t *PolicyAppTenantRestrictionUpdateRule_Policy_AppTenantRestriction_UpdateRule_Errors) GetErrorMessage() *string {
+	if t == nil {
+		t = &PolicyAppTenantRestrictionUpdateRule_Policy_AppTenantRestriction_UpdateRule_Errors{}
+	}
+	return t.ErrorMessage
+}
+
+type PolicyAppTenantRestrictionUpdateRule_Policy_AppTenantRestriction_UpdateRule struct {
+	Errors []*PolicyAppTenantRestrictionUpdateRule_Policy_AppTenantRestriction_UpdateRule_Errors "json:\"errors\" graphql:\"errors\""
+	Rule   *PolicyAppTenantRestrictionUpdateRule_Policy_AppTenantRestriction_UpdateRule_Rule     "json:\"rule,omitempty\" graphql:\"rule\""
+	Status cato_models.PolicyMutationStatus                                                      "json:\"status\" graphql:\"status\""
+}
+
+func (t *PolicyAppTenantRestrictionUpdateRule_Policy_AppTenantRestriction_UpdateRule) GetErrors() []*PolicyAppTenantRestrictionUpdateRule_Policy_AppTenantRestriction_UpdateRule_Errors {
+	if t == nil {
+		t = &PolicyAppTenantRestrictionUpdateRule_Policy_AppTenantRestriction_UpdateRule{}
+	}
+	return t.Errors
+}
+func (t *PolicyAppTenantRestrictionUpdateRule_Policy_AppTenantRestriction_UpdateRule) GetRule() *PolicyAppTenantRestrictionUpdateRule_Policy_AppTenantRestriction_UpdateRule_Rule {
+	if t == nil {
+		t = &PolicyAppTenantRestrictionUpdateRule_Policy_AppTenantRestriction_UpdateRule{}
+	}
+	return t.Rule
+}
+func (t *PolicyAppTenantRestrictionUpdateRule_Policy_AppTenantRestriction_UpdateRule) GetStatus() *cato_models.PolicyMutationStatus {
+	if t == nil {
+		t = &PolicyAppTenantRestrictionUpdateRule_Policy_AppTenantRestriction_UpdateRule{}
+	}
+	return &t.Status
+}
+
+type PolicyAppTenantRestrictionUpdateRule_Policy_AppTenantRestriction struct {
+	UpdateRule PolicyAppTenantRestrictionUpdateRule_Policy_AppTenantRestriction_UpdateRule "json:\"updateRule\" graphql:\"updateRule\""
+}
+
+func (t *PolicyAppTenantRestrictionUpdateRule_Policy_AppTenantRestriction) GetUpdateRule() *PolicyAppTenantRestrictionUpdateRule_Policy_AppTenantRestriction_UpdateRule {
+	if t == nil {
+		t = &PolicyAppTenantRestrictionUpdateRule_Policy_AppTenantRestriction{}
+	}
+	return &t.UpdateRule
+}
+
+type PolicyAppTenantRestrictionUpdateRule_Policy struct {
+	AppTenantRestriction *PolicyAppTenantRestrictionUpdateRule_Policy_AppTenantRestriction "json:\"appTenantRestriction,omitempty\" graphql:\"appTenantRestriction\""
+}
+
+func (t *PolicyAppTenantRestrictionUpdateRule_Policy) GetAppTenantRestriction() *PolicyAppTenantRestrictionUpdateRule_Policy_AppTenantRestriction {
+	if t == nil {
+		t = &PolicyAppTenantRestrictionUpdateRule_Policy{}
+	}
+	return t.AppTenantRestriction
+}
+
+type PolicyAppTenantRestrictionUpdateSection_Policy_AppTenantRestriction_UpdateSection_Section_Section struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicyAppTenantRestrictionUpdateSection_Policy_AppTenantRestriction_UpdateSection_Section_Section) GetID() string {
+	if t == nil {
+		t = &PolicyAppTenantRestrictionUpdateSection_Policy_AppTenantRestriction_UpdateSection_Section_Section{}
+	}
+	return t.ID
+}
+func (t *PolicyAppTenantRestrictionUpdateSection_Policy_AppTenantRestriction_UpdateSection_Section_Section) GetName() string {
+	if t == nil {
+		t = &PolicyAppTenantRestrictionUpdateSection_Policy_AppTenantRestriction_UpdateSection_Section_Section{}
+	}
+	return t.Name
+}
+
+type PolicyAppTenantRestrictionUpdateSection_Policy_AppTenantRestriction_UpdateSection_Section struct {
+	Section PolicyAppTenantRestrictionUpdateSection_Policy_AppTenantRestriction_UpdateSection_Section_Section "json:\"section\" graphql:\"section\""
+}
+
+func (t *PolicyAppTenantRestrictionUpdateSection_Policy_AppTenantRestriction_UpdateSection_Section) GetSection() *PolicyAppTenantRestrictionUpdateSection_Policy_AppTenantRestriction_UpdateSection_Section_Section {
+	if t == nil {
+		t = &PolicyAppTenantRestrictionUpdateSection_Policy_AppTenantRestriction_UpdateSection_Section{}
+	}
+	return &t.Section
+}
+
+type PolicyAppTenantRestrictionUpdateSection_Policy_AppTenantRestriction_UpdateSection_Errors struct {
+	ErrorCode    *string "json:\"errorCode,omitempty\" graphql:\"errorCode\""
+	ErrorMessage *string "json:\"errorMessage,omitempty\" graphql:\"errorMessage\""
+}
+
+func (t *PolicyAppTenantRestrictionUpdateSection_Policy_AppTenantRestriction_UpdateSection_Errors) GetErrorCode() *string {
+	if t == nil {
+		t = &PolicyAppTenantRestrictionUpdateSection_Policy_AppTenantRestriction_UpdateSection_Errors{}
+	}
+	return t.ErrorCode
+}
+func (t *PolicyAppTenantRestrictionUpdateSection_Policy_AppTenantRestriction_UpdateSection_Errors) GetErrorMessage() *string {
+	if t == nil {
+		t = &PolicyAppTenantRestrictionUpdateSection_Policy_AppTenantRestriction_UpdateSection_Errors{}
+	}
+	return t.ErrorMessage
+}
+
+type PolicyAppTenantRestrictionUpdateSection_Policy_AppTenantRestriction_UpdateSection struct {
+	Errors  []*PolicyAppTenantRestrictionUpdateSection_Policy_AppTenantRestriction_UpdateSection_Errors "json:\"errors\" graphql:\"errors\""
+	Section *PolicyAppTenantRestrictionUpdateSection_Policy_AppTenantRestriction_UpdateSection_Section  "json:\"section,omitempty\" graphql:\"section\""
+	Status  cato_models.PolicyMutationStatus                                                            "json:\"status\" graphql:\"status\""
+}
+
+func (t *PolicyAppTenantRestrictionUpdateSection_Policy_AppTenantRestriction_UpdateSection) GetErrors() []*PolicyAppTenantRestrictionUpdateSection_Policy_AppTenantRestriction_UpdateSection_Errors {
+	if t == nil {
+		t = &PolicyAppTenantRestrictionUpdateSection_Policy_AppTenantRestriction_UpdateSection{}
+	}
+	return t.Errors
+}
+func (t *PolicyAppTenantRestrictionUpdateSection_Policy_AppTenantRestriction_UpdateSection) GetSection() *PolicyAppTenantRestrictionUpdateSection_Policy_AppTenantRestriction_UpdateSection_Section {
+	if t == nil {
+		t = &PolicyAppTenantRestrictionUpdateSection_Policy_AppTenantRestriction_UpdateSection{}
+	}
+	return t.Section
+}
+func (t *PolicyAppTenantRestrictionUpdateSection_Policy_AppTenantRestriction_UpdateSection) GetStatus() *cato_models.PolicyMutationStatus {
+	if t == nil {
+		t = &PolicyAppTenantRestrictionUpdateSection_Policy_AppTenantRestriction_UpdateSection{}
+	}
+	return &t.Status
+}
+
+type PolicyAppTenantRestrictionUpdateSection_Policy_AppTenantRestriction struct {
+	UpdateSection PolicyAppTenantRestrictionUpdateSection_Policy_AppTenantRestriction_UpdateSection "json:\"updateSection\" graphql:\"updateSection\""
+}
+
+func (t *PolicyAppTenantRestrictionUpdateSection_Policy_AppTenantRestriction) GetUpdateSection() *PolicyAppTenantRestrictionUpdateSection_Policy_AppTenantRestriction_UpdateSection {
+	if t == nil {
+		t = &PolicyAppTenantRestrictionUpdateSection_Policy_AppTenantRestriction{}
+	}
+	return &t.UpdateSection
+}
+
+type PolicyAppTenantRestrictionUpdateSection_Policy struct {
+	AppTenantRestriction *PolicyAppTenantRestrictionUpdateSection_Policy_AppTenantRestriction "json:\"appTenantRestriction,omitempty\" graphql:\"appTenantRestriction\""
+}
+
+func (t *PolicyAppTenantRestrictionUpdateSection_Policy) GetAppTenantRestriction() *PolicyAppTenantRestrictionUpdateSection_Policy_AppTenantRestriction {
+	if t == nil {
+		t = &PolicyAppTenantRestrictionUpdateSection_Policy{}
+	}
+	return t.AppTenantRestriction
+}
+
+type PolicyApplicationControlAddRule_Policy_ApplicationControl_AddRule_Rule_Rule_Section struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicyApplicationControlAddRule_Policy_ApplicationControl_AddRule_Rule_Rule_Section) GetID() string {
+	if t == nil {
+		t = &PolicyApplicationControlAddRule_Policy_ApplicationControl_AddRule_Rule_Rule_Section{}
+	}
+	return t.ID
+}
+func (t *PolicyApplicationControlAddRule_Policy_ApplicationControl_AddRule_Rule_Rule_Section) GetName() string {
+	if t == nil {
+		t = &PolicyApplicationControlAddRule_Policy_ApplicationControl_AddRule_Rule_Rule_Section{}
+	}
+	return t.Name
+}
+
+type PolicyApplicationControlAddRule_Policy_ApplicationControl_AddRule_Rule_Rule struct {
+	ID       string                                                                              "json:\"id\" graphql:\"id\""
+	Index    int64                                                                               "json:\"index\" graphql:\"index\""
+	Name     string                                                                              "json:\"name\" graphql:\"name\""
+	RuleType cato_models.ApplicationControlRuleType                                              "json:\"ruleType\" graphql:\"ruleType\""
+	Section  PolicyApplicationControlAddRule_Policy_ApplicationControl_AddRule_Rule_Rule_Section "json:\"section\" graphql:\"section\""
+}
+
+func (t *PolicyApplicationControlAddRule_Policy_ApplicationControl_AddRule_Rule_Rule) GetID() string {
+	if t == nil {
+		t = &PolicyApplicationControlAddRule_Policy_ApplicationControl_AddRule_Rule_Rule{}
+	}
+	return t.ID
+}
+func (t *PolicyApplicationControlAddRule_Policy_ApplicationControl_AddRule_Rule_Rule) GetIndex() int64 {
+	if t == nil {
+		t = &PolicyApplicationControlAddRule_Policy_ApplicationControl_AddRule_Rule_Rule{}
+	}
+	return t.Index
+}
+func (t *PolicyApplicationControlAddRule_Policy_ApplicationControl_AddRule_Rule_Rule) GetName() string {
+	if t == nil {
+		t = &PolicyApplicationControlAddRule_Policy_ApplicationControl_AddRule_Rule_Rule{}
+	}
+	return t.Name
+}
+func (t *PolicyApplicationControlAddRule_Policy_ApplicationControl_AddRule_Rule_Rule) GetRuleType() *cato_models.ApplicationControlRuleType {
+	if t == nil {
+		t = &PolicyApplicationControlAddRule_Policy_ApplicationControl_AddRule_Rule_Rule{}
+	}
+	return &t.RuleType
+}
+func (t *PolicyApplicationControlAddRule_Policy_ApplicationControl_AddRule_Rule_Rule) GetSection() *PolicyApplicationControlAddRule_Policy_ApplicationControl_AddRule_Rule_Rule_Section {
+	if t == nil {
+		t = &PolicyApplicationControlAddRule_Policy_ApplicationControl_AddRule_Rule_Rule{}
+	}
+	return &t.Section
+}
+
+type PolicyApplicationControlAddRule_Policy_ApplicationControl_AddRule_Rule struct {
+	Rule PolicyApplicationControlAddRule_Policy_ApplicationControl_AddRule_Rule_Rule "json:\"rule\" graphql:\"rule\""
+}
+
+func (t *PolicyApplicationControlAddRule_Policy_ApplicationControl_AddRule_Rule) GetRule() *PolicyApplicationControlAddRule_Policy_ApplicationControl_AddRule_Rule_Rule {
+	if t == nil {
+		t = &PolicyApplicationControlAddRule_Policy_ApplicationControl_AddRule_Rule{}
+	}
+	return &t.Rule
+}
+
+type PolicyApplicationControlAddRule_Policy_ApplicationControl_AddRule_Errors struct {
+	ErrorCode    *string "json:\"errorCode,omitempty\" graphql:\"errorCode\""
+	ErrorMessage *string "json:\"errorMessage,omitempty\" graphql:\"errorMessage\""
+}
+
+func (t *PolicyApplicationControlAddRule_Policy_ApplicationControl_AddRule_Errors) GetErrorCode() *string {
+	if t == nil {
+		t = &PolicyApplicationControlAddRule_Policy_ApplicationControl_AddRule_Errors{}
+	}
+	return t.ErrorCode
+}
+func (t *PolicyApplicationControlAddRule_Policy_ApplicationControl_AddRule_Errors) GetErrorMessage() *string {
+	if t == nil {
+		t = &PolicyApplicationControlAddRule_Policy_ApplicationControl_AddRule_Errors{}
+	}
+	return t.ErrorMessage
+}
+
+type PolicyApplicationControlAddRule_Policy_ApplicationControl_AddRule struct {
+	Errors []*PolicyApplicationControlAddRule_Policy_ApplicationControl_AddRule_Errors "json:\"errors\" graphql:\"errors\""
+	Rule   *PolicyApplicationControlAddRule_Policy_ApplicationControl_AddRule_Rule     "json:\"rule,omitempty\" graphql:\"rule\""
+	Status cato_models.PolicyMutationStatus                                            "json:\"status\" graphql:\"status\""
+}
+
+func (t *PolicyApplicationControlAddRule_Policy_ApplicationControl_AddRule) GetErrors() []*PolicyApplicationControlAddRule_Policy_ApplicationControl_AddRule_Errors {
+	if t == nil {
+		t = &PolicyApplicationControlAddRule_Policy_ApplicationControl_AddRule{}
+	}
+	return t.Errors
+}
+func (t *PolicyApplicationControlAddRule_Policy_ApplicationControl_AddRule) GetRule() *PolicyApplicationControlAddRule_Policy_ApplicationControl_AddRule_Rule {
+	if t == nil {
+		t = &PolicyApplicationControlAddRule_Policy_ApplicationControl_AddRule{}
+	}
+	return t.Rule
+}
+func (t *PolicyApplicationControlAddRule_Policy_ApplicationControl_AddRule) GetStatus() *cato_models.PolicyMutationStatus {
+	if t == nil {
+		t = &PolicyApplicationControlAddRule_Policy_ApplicationControl_AddRule{}
+	}
+	return &t.Status
+}
+
+type PolicyApplicationControlAddRule_Policy_ApplicationControl struct {
+	AddRule PolicyApplicationControlAddRule_Policy_ApplicationControl_AddRule "json:\"addRule\" graphql:\"addRule\""
+}
+
+func (t *PolicyApplicationControlAddRule_Policy_ApplicationControl) GetAddRule() *PolicyApplicationControlAddRule_Policy_ApplicationControl_AddRule {
+	if t == nil {
+		t = &PolicyApplicationControlAddRule_Policy_ApplicationControl{}
+	}
+	return &t.AddRule
+}
+
+type PolicyApplicationControlAddRule_Policy struct {
+	ApplicationControl *PolicyApplicationControlAddRule_Policy_ApplicationControl "json:\"applicationControl,omitempty\" graphql:\"applicationControl\""
+}
+
+func (t *PolicyApplicationControlAddRule_Policy) GetApplicationControl() *PolicyApplicationControlAddRule_Policy_ApplicationControl {
+	if t == nil {
+		t = &PolicyApplicationControlAddRule_Policy{}
+	}
+	return t.ApplicationControl
+}
+
+type PolicyApplicationControlAddSection_Policy_ApplicationControl_AddSection_Section_Audit struct {
+	UpdatedBy   string "json:\"updatedBy\" graphql:\"updatedBy\""
+	UpdatedTime string "json:\"updatedTime\" graphql:\"updatedTime\""
+}
+
+func (t *PolicyApplicationControlAddSection_Policy_ApplicationControl_AddSection_Section_Audit) GetUpdatedBy() string {
+	if t == nil {
+		t = &PolicyApplicationControlAddSection_Policy_ApplicationControl_AddSection_Section_Audit{}
+	}
+	return t.UpdatedBy
+}
+func (t *PolicyApplicationControlAddSection_Policy_ApplicationControl_AddSection_Section_Audit) GetUpdatedTime() string {
+	if t == nil {
+		t = &PolicyApplicationControlAddSection_Policy_ApplicationControl_AddSection_Section_Audit{}
+	}
+	return t.UpdatedTime
+}
+
+type PolicyApplicationControlAddSection_Policy_ApplicationControl_AddSection_Section_Section struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicyApplicationControlAddSection_Policy_ApplicationControl_AddSection_Section_Section) GetID() string {
+	if t == nil {
+		t = &PolicyApplicationControlAddSection_Policy_ApplicationControl_AddSection_Section_Section{}
+	}
+	return t.ID
+}
+func (t *PolicyApplicationControlAddSection_Policy_ApplicationControl_AddSection_Section_Section) GetName() string {
+	if t == nil {
+		t = &PolicyApplicationControlAddSection_Policy_ApplicationControl_AddSection_Section_Section{}
+	}
+	return t.Name
+}
+
+type PolicyApplicationControlAddSection_Policy_ApplicationControl_AddSection_Section struct {
+	Audit      PolicyApplicationControlAddSection_Policy_ApplicationControl_AddSection_Section_Audit   "json:\"audit\" graphql:\"audit\""
+	Properties []cato_models.PolicyElementPropertiesEnum                                               "json:\"properties\" graphql:\"properties\""
+	Section    PolicyApplicationControlAddSection_Policy_ApplicationControl_AddSection_Section_Section "json:\"section\" graphql:\"section\""
+}
+
+func (t *PolicyApplicationControlAddSection_Policy_ApplicationControl_AddSection_Section) GetAudit() *PolicyApplicationControlAddSection_Policy_ApplicationControl_AddSection_Section_Audit {
+	if t == nil {
+		t = &PolicyApplicationControlAddSection_Policy_ApplicationControl_AddSection_Section{}
+	}
+	return &t.Audit
+}
+func (t *PolicyApplicationControlAddSection_Policy_ApplicationControl_AddSection_Section) GetProperties() []cato_models.PolicyElementPropertiesEnum {
+	if t == nil {
+		t = &PolicyApplicationControlAddSection_Policy_ApplicationControl_AddSection_Section{}
+	}
+	return t.Properties
+}
+func (t *PolicyApplicationControlAddSection_Policy_ApplicationControl_AddSection_Section) GetSection() *PolicyApplicationControlAddSection_Policy_ApplicationControl_AddSection_Section_Section {
+	if t == nil {
+		t = &PolicyApplicationControlAddSection_Policy_ApplicationControl_AddSection_Section{}
+	}
+	return &t.Section
+}
+
+type PolicyApplicationControlAddSection_Policy_ApplicationControl_AddSection_Errors struct {
+	ErrorCode    *string "json:\"errorCode,omitempty\" graphql:\"errorCode\""
+	ErrorMessage *string "json:\"errorMessage,omitempty\" graphql:\"errorMessage\""
+}
+
+func (t *PolicyApplicationControlAddSection_Policy_ApplicationControl_AddSection_Errors) GetErrorCode() *string {
+	if t == nil {
+		t = &PolicyApplicationControlAddSection_Policy_ApplicationControl_AddSection_Errors{}
+	}
+	return t.ErrorCode
+}
+func (t *PolicyApplicationControlAddSection_Policy_ApplicationControl_AddSection_Errors) GetErrorMessage() *string {
+	if t == nil {
+		t = &PolicyApplicationControlAddSection_Policy_ApplicationControl_AddSection_Errors{}
+	}
+	return t.ErrorMessage
+}
+
+type PolicyApplicationControlAddSection_Policy_ApplicationControl_AddSection struct {
+	Errors  []*PolicyApplicationControlAddSection_Policy_ApplicationControl_AddSection_Errors "json:\"errors\" graphql:\"errors\""
+	Section *PolicyApplicationControlAddSection_Policy_ApplicationControl_AddSection_Section  "json:\"section,omitempty\" graphql:\"section\""
+	Status  cato_models.PolicyMutationStatus                                                  "json:\"status\" graphql:\"status\""
+}
+
+func (t *PolicyApplicationControlAddSection_Policy_ApplicationControl_AddSection) GetErrors() []*PolicyApplicationControlAddSection_Policy_ApplicationControl_AddSection_Errors {
+	if t == nil {
+		t = &PolicyApplicationControlAddSection_Policy_ApplicationControl_AddSection{}
+	}
+	return t.Errors
+}
+func (t *PolicyApplicationControlAddSection_Policy_ApplicationControl_AddSection) GetSection() *PolicyApplicationControlAddSection_Policy_ApplicationControl_AddSection_Section {
+	if t == nil {
+		t = &PolicyApplicationControlAddSection_Policy_ApplicationControl_AddSection{}
+	}
+	return t.Section
+}
+func (t *PolicyApplicationControlAddSection_Policy_ApplicationControl_AddSection) GetStatus() *cato_models.PolicyMutationStatus {
+	if t == nil {
+		t = &PolicyApplicationControlAddSection_Policy_ApplicationControl_AddSection{}
+	}
+	return &t.Status
+}
+
+type PolicyApplicationControlAddSection_Policy_ApplicationControl struct {
+	AddSection PolicyApplicationControlAddSection_Policy_ApplicationControl_AddSection "json:\"addSection\" graphql:\"addSection\""
+}
+
+func (t *PolicyApplicationControlAddSection_Policy_ApplicationControl) GetAddSection() *PolicyApplicationControlAddSection_Policy_ApplicationControl_AddSection {
+	if t == nil {
+		t = &PolicyApplicationControlAddSection_Policy_ApplicationControl{}
+	}
+	return &t.AddSection
+}
+
+type PolicyApplicationControlAddSection_Policy struct {
+	ApplicationControl *PolicyApplicationControlAddSection_Policy_ApplicationControl "json:\"applicationControl,omitempty\" graphql:\"applicationControl\""
+}
+
+func (t *PolicyApplicationControlAddSection_Policy) GetApplicationControl() *PolicyApplicationControlAddSection_Policy_ApplicationControl {
+	if t == nil {
+		t = &PolicyApplicationControlAddSection_Policy{}
+	}
+	return t.ApplicationControl
+}
+
+type PolicyApplicationControlCreatePolicyRevision_Policy_ApplicationControl_CreatePolicyRevision_Policy_Revision struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicyApplicationControlCreatePolicyRevision_Policy_ApplicationControl_CreatePolicyRevision_Policy_Revision) GetID() string {
+	if t == nil {
+		t = &PolicyApplicationControlCreatePolicyRevision_Policy_ApplicationControl_CreatePolicyRevision_Policy_Revision{}
+	}
+	return t.ID
+}
+func (t *PolicyApplicationControlCreatePolicyRevision_Policy_ApplicationControl_CreatePolicyRevision_Policy_Revision) GetName() string {
+	if t == nil {
+		t = &PolicyApplicationControlCreatePolicyRevision_Policy_ApplicationControl_CreatePolicyRevision_Policy_Revision{}
+	}
+	return t.Name
+}
+
+type PolicyApplicationControlCreatePolicyRevision_Policy_ApplicationControl_CreatePolicyRevision_Policy struct {
+	Enabled  bool                                                                                                         "json:\"enabled\" graphql:\"enabled\""
+	Revision *PolicyApplicationControlCreatePolicyRevision_Policy_ApplicationControl_CreatePolicyRevision_Policy_Revision "json:\"revision,omitempty\" graphql:\"revision\""
+}
+
+func (t *PolicyApplicationControlCreatePolicyRevision_Policy_ApplicationControl_CreatePolicyRevision_Policy) GetEnabled() bool {
+	if t == nil {
+		t = &PolicyApplicationControlCreatePolicyRevision_Policy_ApplicationControl_CreatePolicyRevision_Policy{}
+	}
+	return t.Enabled
+}
+func (t *PolicyApplicationControlCreatePolicyRevision_Policy_ApplicationControl_CreatePolicyRevision_Policy) GetRevision() *PolicyApplicationControlCreatePolicyRevision_Policy_ApplicationControl_CreatePolicyRevision_Policy_Revision {
+	if t == nil {
+		t = &PolicyApplicationControlCreatePolicyRevision_Policy_ApplicationControl_CreatePolicyRevision_Policy{}
+	}
+	return t.Revision
+}
+
+type PolicyApplicationControlCreatePolicyRevision_Policy_ApplicationControl_CreatePolicyRevision_Errors struct {
+	ErrorCode    *string "json:\"errorCode,omitempty\" graphql:\"errorCode\""
+	ErrorMessage *string "json:\"errorMessage,omitempty\" graphql:\"errorMessage\""
+}
+
+func (t *PolicyApplicationControlCreatePolicyRevision_Policy_ApplicationControl_CreatePolicyRevision_Errors) GetErrorCode() *string {
+	if t == nil {
+		t = &PolicyApplicationControlCreatePolicyRevision_Policy_ApplicationControl_CreatePolicyRevision_Errors{}
+	}
+	return t.ErrorCode
+}
+func (t *PolicyApplicationControlCreatePolicyRevision_Policy_ApplicationControl_CreatePolicyRevision_Errors) GetErrorMessage() *string {
+	if t == nil {
+		t = &PolicyApplicationControlCreatePolicyRevision_Policy_ApplicationControl_CreatePolicyRevision_Errors{}
+	}
+	return t.ErrorMessage
+}
+
+type PolicyApplicationControlCreatePolicyRevision_Policy_ApplicationControl_CreatePolicyRevision struct {
+	Errors []*PolicyApplicationControlCreatePolicyRevision_Policy_ApplicationControl_CreatePolicyRevision_Errors "json:\"errors\" graphql:\"errors\""
+	Policy *PolicyApplicationControlCreatePolicyRevision_Policy_ApplicationControl_CreatePolicyRevision_Policy   "json:\"policy,omitempty\" graphql:\"policy\""
+	Status cato_models.PolicyMutationStatus                                                                      "json:\"status\" graphql:\"status\""
+}
+
+func (t *PolicyApplicationControlCreatePolicyRevision_Policy_ApplicationControl_CreatePolicyRevision) GetErrors() []*PolicyApplicationControlCreatePolicyRevision_Policy_ApplicationControl_CreatePolicyRevision_Errors {
+	if t == nil {
+		t = &PolicyApplicationControlCreatePolicyRevision_Policy_ApplicationControl_CreatePolicyRevision{}
+	}
+	return t.Errors
+}
+func (t *PolicyApplicationControlCreatePolicyRevision_Policy_ApplicationControl_CreatePolicyRevision) GetPolicy() *PolicyApplicationControlCreatePolicyRevision_Policy_ApplicationControl_CreatePolicyRevision_Policy {
+	if t == nil {
+		t = &PolicyApplicationControlCreatePolicyRevision_Policy_ApplicationControl_CreatePolicyRevision{}
+	}
+	return t.Policy
+}
+func (t *PolicyApplicationControlCreatePolicyRevision_Policy_ApplicationControl_CreatePolicyRevision) GetStatus() *cato_models.PolicyMutationStatus {
+	if t == nil {
+		t = &PolicyApplicationControlCreatePolicyRevision_Policy_ApplicationControl_CreatePolicyRevision{}
+	}
+	return &t.Status
+}
+
+type PolicyApplicationControlCreatePolicyRevision_Policy_ApplicationControl struct {
+	CreatePolicyRevision PolicyApplicationControlCreatePolicyRevision_Policy_ApplicationControl_CreatePolicyRevision "json:\"createPolicyRevision\" graphql:\"createPolicyRevision\""
+}
+
+func (t *PolicyApplicationControlCreatePolicyRevision_Policy_ApplicationControl) GetCreatePolicyRevision() *PolicyApplicationControlCreatePolicyRevision_Policy_ApplicationControl_CreatePolicyRevision {
+	if t == nil {
+		t = &PolicyApplicationControlCreatePolicyRevision_Policy_ApplicationControl{}
+	}
+	return &t.CreatePolicyRevision
+}
+
+type PolicyApplicationControlCreatePolicyRevision_Policy struct {
+	ApplicationControl *PolicyApplicationControlCreatePolicyRevision_Policy_ApplicationControl "json:\"applicationControl,omitempty\" graphql:\"applicationControl\""
+}
+
+func (t *PolicyApplicationControlCreatePolicyRevision_Policy) GetApplicationControl() *PolicyApplicationControlCreatePolicyRevision_Policy_ApplicationControl {
+	if t == nil {
+		t = &PolicyApplicationControlCreatePolicyRevision_Policy{}
+	}
+	return t.ApplicationControl
+}
+
+type PolicyApplicationControlDiscardPolicyRevision_Policy_ApplicationControl_DiscardPolicyRevision_Policy struct {
+	Enabled bool "json:\"enabled\" graphql:\"enabled\""
+}
+
+func (t *PolicyApplicationControlDiscardPolicyRevision_Policy_ApplicationControl_DiscardPolicyRevision_Policy) GetEnabled() bool {
+	if t == nil {
+		t = &PolicyApplicationControlDiscardPolicyRevision_Policy_ApplicationControl_DiscardPolicyRevision_Policy{}
+	}
+	return t.Enabled
+}
+
+type PolicyApplicationControlDiscardPolicyRevision_Policy_ApplicationControl_DiscardPolicyRevision_Errors struct {
+	ErrorCode    *string "json:\"errorCode,omitempty\" graphql:\"errorCode\""
+	ErrorMessage *string "json:\"errorMessage,omitempty\" graphql:\"errorMessage\""
+}
+
+func (t *PolicyApplicationControlDiscardPolicyRevision_Policy_ApplicationControl_DiscardPolicyRevision_Errors) GetErrorCode() *string {
+	if t == nil {
+		t = &PolicyApplicationControlDiscardPolicyRevision_Policy_ApplicationControl_DiscardPolicyRevision_Errors{}
+	}
+	return t.ErrorCode
+}
+func (t *PolicyApplicationControlDiscardPolicyRevision_Policy_ApplicationControl_DiscardPolicyRevision_Errors) GetErrorMessage() *string {
+	if t == nil {
+		t = &PolicyApplicationControlDiscardPolicyRevision_Policy_ApplicationControl_DiscardPolicyRevision_Errors{}
+	}
+	return t.ErrorMessage
+}
+
+type PolicyApplicationControlDiscardPolicyRevision_Policy_ApplicationControl_DiscardPolicyRevision struct {
+	Errors []*PolicyApplicationControlDiscardPolicyRevision_Policy_ApplicationControl_DiscardPolicyRevision_Errors "json:\"errors\" graphql:\"errors\""
+	Policy *PolicyApplicationControlDiscardPolicyRevision_Policy_ApplicationControl_DiscardPolicyRevision_Policy   "json:\"policy,omitempty\" graphql:\"policy\""
+	Status cato_models.PolicyMutationStatus                                                                        "json:\"status\" graphql:\"status\""
+}
+
+func (t *PolicyApplicationControlDiscardPolicyRevision_Policy_ApplicationControl_DiscardPolicyRevision) GetErrors() []*PolicyApplicationControlDiscardPolicyRevision_Policy_ApplicationControl_DiscardPolicyRevision_Errors {
+	if t == nil {
+		t = &PolicyApplicationControlDiscardPolicyRevision_Policy_ApplicationControl_DiscardPolicyRevision{}
+	}
+	return t.Errors
+}
+func (t *PolicyApplicationControlDiscardPolicyRevision_Policy_ApplicationControl_DiscardPolicyRevision) GetPolicy() *PolicyApplicationControlDiscardPolicyRevision_Policy_ApplicationControl_DiscardPolicyRevision_Policy {
+	if t == nil {
+		t = &PolicyApplicationControlDiscardPolicyRevision_Policy_ApplicationControl_DiscardPolicyRevision{}
+	}
+	return t.Policy
+}
+func (t *PolicyApplicationControlDiscardPolicyRevision_Policy_ApplicationControl_DiscardPolicyRevision) GetStatus() *cato_models.PolicyMutationStatus {
+	if t == nil {
+		t = &PolicyApplicationControlDiscardPolicyRevision_Policy_ApplicationControl_DiscardPolicyRevision{}
+	}
+	return &t.Status
+}
+
+type PolicyApplicationControlDiscardPolicyRevision_Policy_ApplicationControl struct {
+	DiscardPolicyRevision PolicyApplicationControlDiscardPolicyRevision_Policy_ApplicationControl_DiscardPolicyRevision "json:\"discardPolicyRevision\" graphql:\"discardPolicyRevision\""
+}
+
+func (t *PolicyApplicationControlDiscardPolicyRevision_Policy_ApplicationControl) GetDiscardPolicyRevision() *PolicyApplicationControlDiscardPolicyRevision_Policy_ApplicationControl_DiscardPolicyRevision {
+	if t == nil {
+		t = &PolicyApplicationControlDiscardPolicyRevision_Policy_ApplicationControl{}
+	}
+	return &t.DiscardPolicyRevision
+}
+
+type PolicyApplicationControlDiscardPolicyRevision_Policy struct {
+	ApplicationControl *PolicyApplicationControlDiscardPolicyRevision_Policy_ApplicationControl "json:\"applicationControl,omitempty\" graphql:\"applicationControl\""
+}
+
+func (t *PolicyApplicationControlDiscardPolicyRevision_Policy) GetApplicationControl() *PolicyApplicationControlDiscardPolicyRevision_Policy_ApplicationControl {
+	if t == nil {
+		t = &PolicyApplicationControlDiscardPolicyRevision_Policy{}
+	}
+	return t.ApplicationControl
+}
+
+type PolicyApplicationControlMoveRule_Policy_ApplicationControl_MoveRule_Rule_Rule_Section struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicyApplicationControlMoveRule_Policy_ApplicationControl_MoveRule_Rule_Rule_Section) GetID() string {
+	if t == nil {
+		t = &PolicyApplicationControlMoveRule_Policy_ApplicationControl_MoveRule_Rule_Rule_Section{}
+	}
+	return t.ID
+}
+func (t *PolicyApplicationControlMoveRule_Policy_ApplicationControl_MoveRule_Rule_Rule_Section) GetName() string {
+	if t == nil {
+		t = &PolicyApplicationControlMoveRule_Policy_ApplicationControl_MoveRule_Rule_Rule_Section{}
+	}
+	return t.Name
+}
+
+type PolicyApplicationControlMoveRule_Policy_ApplicationControl_MoveRule_Rule_Rule struct {
+	ID      string                                                                                "json:\"id\" graphql:\"id\""
+	Index   int64                                                                                 "json:\"index\" graphql:\"index\""
+	Section PolicyApplicationControlMoveRule_Policy_ApplicationControl_MoveRule_Rule_Rule_Section "json:\"section\" graphql:\"section\""
+}
+
+func (t *PolicyApplicationControlMoveRule_Policy_ApplicationControl_MoveRule_Rule_Rule) GetID() string {
+	if t == nil {
+		t = &PolicyApplicationControlMoveRule_Policy_ApplicationControl_MoveRule_Rule_Rule{}
+	}
+	return t.ID
+}
+func (t *PolicyApplicationControlMoveRule_Policy_ApplicationControl_MoveRule_Rule_Rule) GetIndex() int64 {
+	if t == nil {
+		t = &PolicyApplicationControlMoveRule_Policy_ApplicationControl_MoveRule_Rule_Rule{}
+	}
+	return t.Index
+}
+func (t *PolicyApplicationControlMoveRule_Policy_ApplicationControl_MoveRule_Rule_Rule) GetSection() *PolicyApplicationControlMoveRule_Policy_ApplicationControl_MoveRule_Rule_Rule_Section {
+	if t == nil {
+		t = &PolicyApplicationControlMoveRule_Policy_ApplicationControl_MoveRule_Rule_Rule{}
+	}
+	return &t.Section
+}
+
+type PolicyApplicationControlMoveRule_Policy_ApplicationControl_MoveRule_Rule struct {
+	Rule PolicyApplicationControlMoveRule_Policy_ApplicationControl_MoveRule_Rule_Rule "json:\"rule\" graphql:\"rule\""
+}
+
+func (t *PolicyApplicationControlMoveRule_Policy_ApplicationControl_MoveRule_Rule) GetRule() *PolicyApplicationControlMoveRule_Policy_ApplicationControl_MoveRule_Rule_Rule {
+	if t == nil {
+		t = &PolicyApplicationControlMoveRule_Policy_ApplicationControl_MoveRule_Rule{}
+	}
+	return &t.Rule
+}
+
+type PolicyApplicationControlMoveRule_Policy_ApplicationControl_MoveRule_Errors struct {
+	ErrorCode    *string "json:\"errorCode,omitempty\" graphql:\"errorCode\""
+	ErrorMessage *string "json:\"errorMessage,omitempty\" graphql:\"errorMessage\""
+}
+
+func (t *PolicyApplicationControlMoveRule_Policy_ApplicationControl_MoveRule_Errors) GetErrorCode() *string {
+	if t == nil {
+		t = &PolicyApplicationControlMoveRule_Policy_ApplicationControl_MoveRule_Errors{}
+	}
+	return t.ErrorCode
+}
+func (t *PolicyApplicationControlMoveRule_Policy_ApplicationControl_MoveRule_Errors) GetErrorMessage() *string {
+	if t == nil {
+		t = &PolicyApplicationControlMoveRule_Policy_ApplicationControl_MoveRule_Errors{}
+	}
+	return t.ErrorMessage
+}
+
+type PolicyApplicationControlMoveRule_Policy_ApplicationControl_MoveRule struct {
+	Errors []*PolicyApplicationControlMoveRule_Policy_ApplicationControl_MoveRule_Errors "json:\"errors\" graphql:\"errors\""
+	Rule   *PolicyApplicationControlMoveRule_Policy_ApplicationControl_MoveRule_Rule     "json:\"rule,omitempty\" graphql:\"rule\""
+	Status cato_models.PolicyMutationStatus                                              "json:\"status\" graphql:\"status\""
+}
+
+func (t *PolicyApplicationControlMoveRule_Policy_ApplicationControl_MoveRule) GetErrors() []*PolicyApplicationControlMoveRule_Policy_ApplicationControl_MoveRule_Errors {
+	if t == nil {
+		t = &PolicyApplicationControlMoveRule_Policy_ApplicationControl_MoveRule{}
+	}
+	return t.Errors
+}
+func (t *PolicyApplicationControlMoveRule_Policy_ApplicationControl_MoveRule) GetRule() *PolicyApplicationControlMoveRule_Policy_ApplicationControl_MoveRule_Rule {
+	if t == nil {
+		t = &PolicyApplicationControlMoveRule_Policy_ApplicationControl_MoveRule{}
+	}
+	return t.Rule
+}
+func (t *PolicyApplicationControlMoveRule_Policy_ApplicationControl_MoveRule) GetStatus() *cato_models.PolicyMutationStatus {
+	if t == nil {
+		t = &PolicyApplicationControlMoveRule_Policy_ApplicationControl_MoveRule{}
+	}
+	return &t.Status
+}
+
+type PolicyApplicationControlMoveRule_Policy_ApplicationControl struct {
+	MoveRule PolicyApplicationControlMoveRule_Policy_ApplicationControl_MoveRule "json:\"moveRule\" graphql:\"moveRule\""
+}
+
+func (t *PolicyApplicationControlMoveRule_Policy_ApplicationControl) GetMoveRule() *PolicyApplicationControlMoveRule_Policy_ApplicationControl_MoveRule {
+	if t == nil {
+		t = &PolicyApplicationControlMoveRule_Policy_ApplicationControl{}
+	}
+	return &t.MoveRule
+}
+
+type PolicyApplicationControlMoveRule_Policy struct {
+	ApplicationControl *PolicyApplicationControlMoveRule_Policy_ApplicationControl "json:\"applicationControl,omitempty\" graphql:\"applicationControl\""
+}
+
+func (t *PolicyApplicationControlMoveRule_Policy) GetApplicationControl() *PolicyApplicationControlMoveRule_Policy_ApplicationControl {
+	if t == nil {
+		t = &PolicyApplicationControlMoveRule_Policy{}
+	}
+	return t.ApplicationControl
+}
+
+type PolicyApplicationControlMoveSection_Policy_ApplicationControl_MoveSection_Section_Section struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicyApplicationControlMoveSection_Policy_ApplicationControl_MoveSection_Section_Section) GetID() string {
+	if t == nil {
+		t = &PolicyApplicationControlMoveSection_Policy_ApplicationControl_MoveSection_Section_Section{}
+	}
+	return t.ID
+}
+func (t *PolicyApplicationControlMoveSection_Policy_ApplicationControl_MoveSection_Section_Section) GetName() string {
+	if t == nil {
+		t = &PolicyApplicationControlMoveSection_Policy_ApplicationControl_MoveSection_Section_Section{}
+	}
+	return t.Name
+}
+
+type PolicyApplicationControlMoveSection_Policy_ApplicationControl_MoveSection_Section struct {
+	Section PolicyApplicationControlMoveSection_Policy_ApplicationControl_MoveSection_Section_Section "json:\"section\" graphql:\"section\""
+}
+
+func (t *PolicyApplicationControlMoveSection_Policy_ApplicationControl_MoveSection_Section) GetSection() *PolicyApplicationControlMoveSection_Policy_ApplicationControl_MoveSection_Section_Section {
+	if t == nil {
+		t = &PolicyApplicationControlMoveSection_Policy_ApplicationControl_MoveSection_Section{}
+	}
+	return &t.Section
+}
+
+type PolicyApplicationControlMoveSection_Policy_ApplicationControl_MoveSection_Errors struct {
+	ErrorCode    *string "json:\"errorCode,omitempty\" graphql:\"errorCode\""
+	ErrorMessage *string "json:\"errorMessage,omitempty\" graphql:\"errorMessage\""
+}
+
+func (t *PolicyApplicationControlMoveSection_Policy_ApplicationControl_MoveSection_Errors) GetErrorCode() *string {
+	if t == nil {
+		t = &PolicyApplicationControlMoveSection_Policy_ApplicationControl_MoveSection_Errors{}
+	}
+	return t.ErrorCode
+}
+func (t *PolicyApplicationControlMoveSection_Policy_ApplicationControl_MoveSection_Errors) GetErrorMessage() *string {
+	if t == nil {
+		t = &PolicyApplicationControlMoveSection_Policy_ApplicationControl_MoveSection_Errors{}
+	}
+	return t.ErrorMessage
+}
+
+type PolicyApplicationControlMoveSection_Policy_ApplicationControl_MoveSection struct {
+	Errors  []*PolicyApplicationControlMoveSection_Policy_ApplicationControl_MoveSection_Errors "json:\"errors\" graphql:\"errors\""
+	Section *PolicyApplicationControlMoveSection_Policy_ApplicationControl_MoveSection_Section  "json:\"section,omitempty\" graphql:\"section\""
+	Status  cato_models.PolicyMutationStatus                                                    "json:\"status\" graphql:\"status\""
+}
+
+func (t *PolicyApplicationControlMoveSection_Policy_ApplicationControl_MoveSection) GetErrors() []*PolicyApplicationControlMoveSection_Policy_ApplicationControl_MoveSection_Errors {
+	if t == nil {
+		t = &PolicyApplicationControlMoveSection_Policy_ApplicationControl_MoveSection{}
+	}
+	return t.Errors
+}
+func (t *PolicyApplicationControlMoveSection_Policy_ApplicationControl_MoveSection) GetSection() *PolicyApplicationControlMoveSection_Policy_ApplicationControl_MoveSection_Section {
+	if t == nil {
+		t = &PolicyApplicationControlMoveSection_Policy_ApplicationControl_MoveSection{}
+	}
+	return t.Section
+}
+func (t *PolicyApplicationControlMoveSection_Policy_ApplicationControl_MoveSection) GetStatus() *cato_models.PolicyMutationStatus {
+	if t == nil {
+		t = &PolicyApplicationControlMoveSection_Policy_ApplicationControl_MoveSection{}
+	}
+	return &t.Status
+}
+
+type PolicyApplicationControlMoveSection_Policy_ApplicationControl struct {
+	MoveSection PolicyApplicationControlMoveSection_Policy_ApplicationControl_MoveSection "json:\"moveSection\" graphql:\"moveSection\""
+}
+
+func (t *PolicyApplicationControlMoveSection_Policy_ApplicationControl) GetMoveSection() *PolicyApplicationControlMoveSection_Policy_ApplicationControl_MoveSection {
+	if t == nil {
+		t = &PolicyApplicationControlMoveSection_Policy_ApplicationControl{}
+	}
+	return &t.MoveSection
+}
+
+type PolicyApplicationControlMoveSection_Policy struct {
+	ApplicationControl *PolicyApplicationControlMoveSection_Policy_ApplicationControl "json:\"applicationControl,omitempty\" graphql:\"applicationControl\""
+}
+
+func (t *PolicyApplicationControlMoveSection_Policy) GetApplicationControl() *PolicyApplicationControlMoveSection_Policy_ApplicationControl {
+	if t == nil {
+		t = &PolicyApplicationControlMoveSection_Policy{}
+	}
+	return t.ApplicationControl
+}
+
+type PolicyApplicationControlPublishPolicyRevision_Policy_ApplicationControl_PublishPolicyRevision_Policy_Revision struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicyApplicationControlPublishPolicyRevision_Policy_ApplicationControl_PublishPolicyRevision_Policy_Revision) GetID() string {
+	if t == nil {
+		t = &PolicyApplicationControlPublishPolicyRevision_Policy_ApplicationControl_PublishPolicyRevision_Policy_Revision{}
+	}
+	return t.ID
+}
+func (t *PolicyApplicationControlPublishPolicyRevision_Policy_ApplicationControl_PublishPolicyRevision_Policy_Revision) GetName() string {
+	if t == nil {
+		t = &PolicyApplicationControlPublishPolicyRevision_Policy_ApplicationControl_PublishPolicyRevision_Policy_Revision{}
+	}
+	return t.Name
+}
+
+type PolicyApplicationControlPublishPolicyRevision_Policy_ApplicationControl_PublishPolicyRevision_Policy struct {
+	Enabled  bool                                                                                                           "json:\"enabled\" graphql:\"enabled\""
+	Revision *PolicyApplicationControlPublishPolicyRevision_Policy_ApplicationControl_PublishPolicyRevision_Policy_Revision "json:\"revision,omitempty\" graphql:\"revision\""
+}
+
+func (t *PolicyApplicationControlPublishPolicyRevision_Policy_ApplicationControl_PublishPolicyRevision_Policy) GetEnabled() bool {
+	if t == nil {
+		t = &PolicyApplicationControlPublishPolicyRevision_Policy_ApplicationControl_PublishPolicyRevision_Policy{}
+	}
+	return t.Enabled
+}
+func (t *PolicyApplicationControlPublishPolicyRevision_Policy_ApplicationControl_PublishPolicyRevision_Policy) GetRevision() *PolicyApplicationControlPublishPolicyRevision_Policy_ApplicationControl_PublishPolicyRevision_Policy_Revision {
+	if t == nil {
+		t = &PolicyApplicationControlPublishPolicyRevision_Policy_ApplicationControl_PublishPolicyRevision_Policy{}
+	}
+	return t.Revision
+}
+
+type PolicyApplicationControlPublishPolicyRevision_Policy_ApplicationControl_PublishPolicyRevision_Errors struct {
+	ErrorCode    *string "json:\"errorCode,omitempty\" graphql:\"errorCode\""
+	ErrorMessage *string "json:\"errorMessage,omitempty\" graphql:\"errorMessage\""
+}
+
+func (t *PolicyApplicationControlPublishPolicyRevision_Policy_ApplicationControl_PublishPolicyRevision_Errors) GetErrorCode() *string {
+	if t == nil {
+		t = &PolicyApplicationControlPublishPolicyRevision_Policy_ApplicationControl_PublishPolicyRevision_Errors{}
+	}
+	return t.ErrorCode
+}
+func (t *PolicyApplicationControlPublishPolicyRevision_Policy_ApplicationControl_PublishPolicyRevision_Errors) GetErrorMessage() *string {
+	if t == nil {
+		t = &PolicyApplicationControlPublishPolicyRevision_Policy_ApplicationControl_PublishPolicyRevision_Errors{}
+	}
+	return t.ErrorMessage
+}
+
+type PolicyApplicationControlPublishPolicyRevision_Policy_ApplicationControl_PublishPolicyRevision struct {
+	Errors []*PolicyApplicationControlPublishPolicyRevision_Policy_ApplicationControl_PublishPolicyRevision_Errors "json:\"errors\" graphql:\"errors\""
+	Policy *PolicyApplicationControlPublishPolicyRevision_Policy_ApplicationControl_PublishPolicyRevision_Policy   "json:\"policy,omitempty\" graphql:\"policy\""
+	Status cato_models.PolicyMutationStatus                                                                        "json:\"status\" graphql:\"status\""
+}
+
+func (t *PolicyApplicationControlPublishPolicyRevision_Policy_ApplicationControl_PublishPolicyRevision) GetErrors() []*PolicyApplicationControlPublishPolicyRevision_Policy_ApplicationControl_PublishPolicyRevision_Errors {
+	if t == nil {
+		t = &PolicyApplicationControlPublishPolicyRevision_Policy_ApplicationControl_PublishPolicyRevision{}
+	}
+	return t.Errors
+}
+func (t *PolicyApplicationControlPublishPolicyRevision_Policy_ApplicationControl_PublishPolicyRevision) GetPolicy() *PolicyApplicationControlPublishPolicyRevision_Policy_ApplicationControl_PublishPolicyRevision_Policy {
+	if t == nil {
+		t = &PolicyApplicationControlPublishPolicyRevision_Policy_ApplicationControl_PublishPolicyRevision{}
+	}
+	return t.Policy
+}
+func (t *PolicyApplicationControlPublishPolicyRevision_Policy_ApplicationControl_PublishPolicyRevision) GetStatus() *cato_models.PolicyMutationStatus {
+	if t == nil {
+		t = &PolicyApplicationControlPublishPolicyRevision_Policy_ApplicationControl_PublishPolicyRevision{}
+	}
+	return &t.Status
+}
+
+type PolicyApplicationControlPublishPolicyRevision_Policy_ApplicationControl struct {
+	PublishPolicyRevision PolicyApplicationControlPublishPolicyRevision_Policy_ApplicationControl_PublishPolicyRevision "json:\"publishPolicyRevision\" graphql:\"publishPolicyRevision\""
+}
+
+func (t *PolicyApplicationControlPublishPolicyRevision_Policy_ApplicationControl) GetPublishPolicyRevision() *PolicyApplicationControlPublishPolicyRevision_Policy_ApplicationControl_PublishPolicyRevision {
+	if t == nil {
+		t = &PolicyApplicationControlPublishPolicyRevision_Policy_ApplicationControl{}
+	}
+	return &t.PublishPolicyRevision
+}
+
+type PolicyApplicationControlPublishPolicyRevision_Policy struct {
+	ApplicationControl *PolicyApplicationControlPublishPolicyRevision_Policy_ApplicationControl "json:\"applicationControl,omitempty\" graphql:\"applicationControl\""
+}
+
+func (t *PolicyApplicationControlPublishPolicyRevision_Policy) GetApplicationControl() *PolicyApplicationControlPublishPolicyRevision_Policy_ApplicationControl {
+	if t == nil {
+		t = &PolicyApplicationControlPublishPolicyRevision_Policy{}
+	}
+	return t.ApplicationControl
+}
+
+type PolicyApplicationControlRemoveRule_Policy_ApplicationControl_RemoveRule_Rule_Rule struct {
+	ID string "json:\"id\" graphql:\"id\""
+}
+
+func (t *PolicyApplicationControlRemoveRule_Policy_ApplicationControl_RemoveRule_Rule_Rule) GetID() string {
+	if t == nil {
+		t = &PolicyApplicationControlRemoveRule_Policy_ApplicationControl_RemoveRule_Rule_Rule{}
+	}
+	return t.ID
+}
+
+type PolicyApplicationControlRemoveRule_Policy_ApplicationControl_RemoveRule_Rule struct {
+	Rule PolicyApplicationControlRemoveRule_Policy_ApplicationControl_RemoveRule_Rule_Rule "json:\"rule\" graphql:\"rule\""
+}
+
+func (t *PolicyApplicationControlRemoveRule_Policy_ApplicationControl_RemoveRule_Rule) GetRule() *PolicyApplicationControlRemoveRule_Policy_ApplicationControl_RemoveRule_Rule_Rule {
+	if t == nil {
+		t = &PolicyApplicationControlRemoveRule_Policy_ApplicationControl_RemoveRule_Rule{}
+	}
+	return &t.Rule
+}
+
+type PolicyApplicationControlRemoveRule_Policy_ApplicationControl_RemoveRule_Errors struct {
+	ErrorCode    *string "json:\"errorCode,omitempty\" graphql:\"errorCode\""
+	ErrorMessage *string "json:\"errorMessage,omitempty\" graphql:\"errorMessage\""
+}
+
+func (t *PolicyApplicationControlRemoveRule_Policy_ApplicationControl_RemoveRule_Errors) GetErrorCode() *string {
+	if t == nil {
+		t = &PolicyApplicationControlRemoveRule_Policy_ApplicationControl_RemoveRule_Errors{}
+	}
+	return t.ErrorCode
+}
+func (t *PolicyApplicationControlRemoveRule_Policy_ApplicationControl_RemoveRule_Errors) GetErrorMessage() *string {
+	if t == nil {
+		t = &PolicyApplicationControlRemoveRule_Policy_ApplicationControl_RemoveRule_Errors{}
+	}
+	return t.ErrorMessage
+}
+
+type PolicyApplicationControlRemoveRule_Policy_ApplicationControl_RemoveRule struct {
+	Errors []*PolicyApplicationControlRemoveRule_Policy_ApplicationControl_RemoveRule_Errors "json:\"errors\" graphql:\"errors\""
+	Rule   *PolicyApplicationControlRemoveRule_Policy_ApplicationControl_RemoveRule_Rule     "json:\"rule,omitempty\" graphql:\"rule\""
+	Status cato_models.PolicyMutationStatus                                                  "json:\"status\" graphql:\"status\""
+}
+
+func (t *PolicyApplicationControlRemoveRule_Policy_ApplicationControl_RemoveRule) GetErrors() []*PolicyApplicationControlRemoveRule_Policy_ApplicationControl_RemoveRule_Errors {
+	if t == nil {
+		t = &PolicyApplicationControlRemoveRule_Policy_ApplicationControl_RemoveRule{}
+	}
+	return t.Errors
+}
+func (t *PolicyApplicationControlRemoveRule_Policy_ApplicationControl_RemoveRule) GetRule() *PolicyApplicationControlRemoveRule_Policy_ApplicationControl_RemoveRule_Rule {
+	if t == nil {
+		t = &PolicyApplicationControlRemoveRule_Policy_ApplicationControl_RemoveRule{}
+	}
+	return t.Rule
+}
+func (t *PolicyApplicationControlRemoveRule_Policy_ApplicationControl_RemoveRule) GetStatus() *cato_models.PolicyMutationStatus {
+	if t == nil {
+		t = &PolicyApplicationControlRemoveRule_Policy_ApplicationControl_RemoveRule{}
+	}
+	return &t.Status
+}
+
+type PolicyApplicationControlRemoveRule_Policy_ApplicationControl struct {
+	RemoveRule PolicyApplicationControlRemoveRule_Policy_ApplicationControl_RemoveRule "json:\"removeRule\" graphql:\"removeRule\""
+}
+
+func (t *PolicyApplicationControlRemoveRule_Policy_ApplicationControl) GetRemoveRule() *PolicyApplicationControlRemoveRule_Policy_ApplicationControl_RemoveRule {
+	if t == nil {
+		t = &PolicyApplicationControlRemoveRule_Policy_ApplicationControl{}
+	}
+	return &t.RemoveRule
+}
+
+type PolicyApplicationControlRemoveRule_Policy struct {
+	ApplicationControl *PolicyApplicationControlRemoveRule_Policy_ApplicationControl "json:\"applicationControl,omitempty\" graphql:\"applicationControl\""
+}
+
+func (t *PolicyApplicationControlRemoveRule_Policy) GetApplicationControl() *PolicyApplicationControlRemoveRule_Policy_ApplicationControl {
+	if t == nil {
+		t = &PolicyApplicationControlRemoveRule_Policy{}
+	}
+	return t.ApplicationControl
+}
+
+type PolicyApplicationControlRemoveSection_Policy_ApplicationControl_RemoveSection_Errors struct {
+	ErrorCode    *string "json:\"errorCode,omitempty\" graphql:\"errorCode\""
+	ErrorMessage *string "json:\"errorMessage,omitempty\" graphql:\"errorMessage\""
+}
+
+func (t *PolicyApplicationControlRemoveSection_Policy_ApplicationControl_RemoveSection_Errors) GetErrorCode() *string {
+	if t == nil {
+		t = &PolicyApplicationControlRemoveSection_Policy_ApplicationControl_RemoveSection_Errors{}
+	}
+	return t.ErrorCode
+}
+func (t *PolicyApplicationControlRemoveSection_Policy_ApplicationControl_RemoveSection_Errors) GetErrorMessage() *string {
+	if t == nil {
+		t = &PolicyApplicationControlRemoveSection_Policy_ApplicationControl_RemoveSection_Errors{}
+	}
+	return t.ErrorMessage
+}
+
+type PolicyApplicationControlRemoveSection_Policy_ApplicationControl_RemoveSection struct {
+	Errors []*PolicyApplicationControlRemoveSection_Policy_ApplicationControl_RemoveSection_Errors "json:\"errors\" graphql:\"errors\""
+	Status cato_models.PolicyMutationStatus                                                        "json:\"status\" graphql:\"status\""
+}
+
+func (t *PolicyApplicationControlRemoveSection_Policy_ApplicationControl_RemoveSection) GetErrors() []*PolicyApplicationControlRemoveSection_Policy_ApplicationControl_RemoveSection_Errors {
+	if t == nil {
+		t = &PolicyApplicationControlRemoveSection_Policy_ApplicationControl_RemoveSection{}
+	}
+	return t.Errors
+}
+func (t *PolicyApplicationControlRemoveSection_Policy_ApplicationControl_RemoveSection) GetStatus() *cato_models.PolicyMutationStatus {
+	if t == nil {
+		t = &PolicyApplicationControlRemoveSection_Policy_ApplicationControl_RemoveSection{}
+	}
+	return &t.Status
+}
+
+type PolicyApplicationControlRemoveSection_Policy_ApplicationControl struct {
+	RemoveSection PolicyApplicationControlRemoveSection_Policy_ApplicationControl_RemoveSection "json:\"removeSection\" graphql:\"removeSection\""
+}
+
+func (t *PolicyApplicationControlRemoveSection_Policy_ApplicationControl) GetRemoveSection() *PolicyApplicationControlRemoveSection_Policy_ApplicationControl_RemoveSection {
+	if t == nil {
+		t = &PolicyApplicationControlRemoveSection_Policy_ApplicationControl{}
+	}
+	return &t.RemoveSection
+}
+
+type PolicyApplicationControlRemoveSection_Policy struct {
+	ApplicationControl *PolicyApplicationControlRemoveSection_Policy_ApplicationControl "json:\"applicationControl,omitempty\" graphql:\"applicationControl\""
+}
+
+func (t *PolicyApplicationControlRemoveSection_Policy) GetApplicationControl() *PolicyApplicationControlRemoveSection_Policy_ApplicationControl {
+	if t == nil {
+		t = &PolicyApplicationControlRemoveSection_Policy{}
+	}
+	return t.ApplicationControl
+}
+
+type PolicyApplicationControlUpdatePolicy_Policy_ApplicationControl_UpdatePolicy_Policy_AdditionalAttributes struct {
+	DataControlEnabled cato_models.PolicyToggleState "json:\"dataControlEnabled\" graphql:\"dataControlEnabled\""
+}
+
+func (t *PolicyApplicationControlUpdatePolicy_Policy_ApplicationControl_UpdatePolicy_Policy_AdditionalAttributes) GetDataControlEnabled() *cato_models.PolicyToggleState {
+	if t == nil {
+		t = &PolicyApplicationControlUpdatePolicy_Policy_ApplicationControl_UpdatePolicy_Policy_AdditionalAttributes{}
+	}
+	return &t.DataControlEnabled
+}
+
+type PolicyApplicationControlUpdatePolicy_Policy_ApplicationControl_UpdatePolicy_Policy struct {
+	AdditionalAttributes *PolicyApplicationControlUpdatePolicy_Policy_ApplicationControl_UpdatePolicy_Policy_AdditionalAttributes "json:\"additionalAttributes,omitempty\" graphql:\"additionalAttributes\""
+	Enabled              bool                                                                                                     "json:\"enabled\" graphql:\"enabled\""
+}
+
+func (t *PolicyApplicationControlUpdatePolicy_Policy_ApplicationControl_UpdatePolicy_Policy) GetAdditionalAttributes() *PolicyApplicationControlUpdatePolicy_Policy_ApplicationControl_UpdatePolicy_Policy_AdditionalAttributes {
+	if t == nil {
+		t = &PolicyApplicationControlUpdatePolicy_Policy_ApplicationControl_UpdatePolicy_Policy{}
+	}
+	return t.AdditionalAttributes
+}
+func (t *PolicyApplicationControlUpdatePolicy_Policy_ApplicationControl_UpdatePolicy_Policy) GetEnabled() bool {
+	if t == nil {
+		t = &PolicyApplicationControlUpdatePolicy_Policy_ApplicationControl_UpdatePolicy_Policy{}
+	}
+	return t.Enabled
+}
+
+type PolicyApplicationControlUpdatePolicy_Policy_ApplicationControl_UpdatePolicy_Errors struct {
+	ErrorCode    *string "json:\"errorCode,omitempty\" graphql:\"errorCode\""
+	ErrorMessage *string "json:\"errorMessage,omitempty\" graphql:\"errorMessage\""
+}
+
+func (t *PolicyApplicationControlUpdatePolicy_Policy_ApplicationControl_UpdatePolicy_Errors) GetErrorCode() *string {
+	if t == nil {
+		t = &PolicyApplicationControlUpdatePolicy_Policy_ApplicationControl_UpdatePolicy_Errors{}
+	}
+	return t.ErrorCode
+}
+func (t *PolicyApplicationControlUpdatePolicy_Policy_ApplicationControl_UpdatePolicy_Errors) GetErrorMessage() *string {
+	if t == nil {
+		t = &PolicyApplicationControlUpdatePolicy_Policy_ApplicationControl_UpdatePolicy_Errors{}
+	}
+	return t.ErrorMessage
+}
+
+type PolicyApplicationControlUpdatePolicy_Policy_ApplicationControl_UpdatePolicy struct {
+	Errors []*PolicyApplicationControlUpdatePolicy_Policy_ApplicationControl_UpdatePolicy_Errors "json:\"errors\" graphql:\"errors\""
+	Policy *PolicyApplicationControlUpdatePolicy_Policy_ApplicationControl_UpdatePolicy_Policy   "json:\"policy,omitempty\" graphql:\"policy\""
+	Status cato_models.PolicyMutationStatus                                                      "json:\"status\" graphql:\"status\""
+}
+
+func (t *PolicyApplicationControlUpdatePolicy_Policy_ApplicationControl_UpdatePolicy) GetErrors() []*PolicyApplicationControlUpdatePolicy_Policy_ApplicationControl_UpdatePolicy_Errors {
+	if t == nil {
+		t = &PolicyApplicationControlUpdatePolicy_Policy_ApplicationControl_UpdatePolicy{}
+	}
+	return t.Errors
+}
+func (t *PolicyApplicationControlUpdatePolicy_Policy_ApplicationControl_UpdatePolicy) GetPolicy() *PolicyApplicationControlUpdatePolicy_Policy_ApplicationControl_UpdatePolicy_Policy {
+	if t == nil {
+		t = &PolicyApplicationControlUpdatePolicy_Policy_ApplicationControl_UpdatePolicy{}
+	}
+	return t.Policy
+}
+func (t *PolicyApplicationControlUpdatePolicy_Policy_ApplicationControl_UpdatePolicy) GetStatus() *cato_models.PolicyMutationStatus {
+	if t == nil {
+		t = &PolicyApplicationControlUpdatePolicy_Policy_ApplicationControl_UpdatePolicy{}
+	}
+	return &t.Status
+}
+
+type PolicyApplicationControlUpdatePolicy_Policy_ApplicationControl struct {
+	UpdatePolicy PolicyApplicationControlUpdatePolicy_Policy_ApplicationControl_UpdatePolicy "json:\"updatePolicy\" graphql:\"updatePolicy\""
+}
+
+func (t *PolicyApplicationControlUpdatePolicy_Policy_ApplicationControl) GetUpdatePolicy() *PolicyApplicationControlUpdatePolicy_Policy_ApplicationControl_UpdatePolicy {
+	if t == nil {
+		t = &PolicyApplicationControlUpdatePolicy_Policy_ApplicationControl{}
+	}
+	return &t.UpdatePolicy
+}
+
+type PolicyApplicationControlUpdatePolicy_Policy struct {
+	ApplicationControl *PolicyApplicationControlUpdatePolicy_Policy_ApplicationControl "json:\"applicationControl,omitempty\" graphql:\"applicationControl\""
+}
+
+func (t *PolicyApplicationControlUpdatePolicy_Policy) GetApplicationControl() *PolicyApplicationControlUpdatePolicy_Policy_ApplicationControl {
+	if t == nil {
+		t = &PolicyApplicationControlUpdatePolicy_Policy{}
+	}
+	return t.ApplicationControl
+}
+
+type PolicyApplicationControlUpdateRule_Policy_ApplicationControl_UpdateRule_Rule_Rule_Section struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicyApplicationControlUpdateRule_Policy_ApplicationControl_UpdateRule_Rule_Rule_Section) GetID() string {
+	if t == nil {
+		t = &PolicyApplicationControlUpdateRule_Policy_ApplicationControl_UpdateRule_Rule_Rule_Section{}
+	}
+	return t.ID
+}
+func (t *PolicyApplicationControlUpdateRule_Policy_ApplicationControl_UpdateRule_Rule_Rule_Section) GetName() string {
+	if t == nil {
+		t = &PolicyApplicationControlUpdateRule_Policy_ApplicationControl_UpdateRule_Rule_Rule_Section{}
+	}
+	return t.Name
+}
+
+type PolicyApplicationControlUpdateRule_Policy_ApplicationControl_UpdateRule_Rule_Rule struct {
+	ID       string                                                                                    "json:\"id\" graphql:\"id\""
+	Index    int64                                                                                     "json:\"index\" graphql:\"index\""
+	Name     string                                                                                    "json:\"name\" graphql:\"name\""
+	RuleType cato_models.ApplicationControlRuleType                                                    "json:\"ruleType\" graphql:\"ruleType\""
+	Section  PolicyApplicationControlUpdateRule_Policy_ApplicationControl_UpdateRule_Rule_Rule_Section "json:\"section\" graphql:\"section\""
+}
+
+func (t *PolicyApplicationControlUpdateRule_Policy_ApplicationControl_UpdateRule_Rule_Rule) GetID() string {
+	if t == nil {
+		t = &PolicyApplicationControlUpdateRule_Policy_ApplicationControl_UpdateRule_Rule_Rule{}
+	}
+	return t.ID
+}
+func (t *PolicyApplicationControlUpdateRule_Policy_ApplicationControl_UpdateRule_Rule_Rule) GetIndex() int64 {
+	if t == nil {
+		t = &PolicyApplicationControlUpdateRule_Policy_ApplicationControl_UpdateRule_Rule_Rule{}
+	}
+	return t.Index
+}
+func (t *PolicyApplicationControlUpdateRule_Policy_ApplicationControl_UpdateRule_Rule_Rule) GetName() string {
+	if t == nil {
+		t = &PolicyApplicationControlUpdateRule_Policy_ApplicationControl_UpdateRule_Rule_Rule{}
+	}
+	return t.Name
+}
+func (t *PolicyApplicationControlUpdateRule_Policy_ApplicationControl_UpdateRule_Rule_Rule) GetRuleType() *cato_models.ApplicationControlRuleType {
+	if t == nil {
+		t = &PolicyApplicationControlUpdateRule_Policy_ApplicationControl_UpdateRule_Rule_Rule{}
+	}
+	return &t.RuleType
+}
+func (t *PolicyApplicationControlUpdateRule_Policy_ApplicationControl_UpdateRule_Rule_Rule) GetSection() *PolicyApplicationControlUpdateRule_Policy_ApplicationControl_UpdateRule_Rule_Rule_Section {
+	if t == nil {
+		t = &PolicyApplicationControlUpdateRule_Policy_ApplicationControl_UpdateRule_Rule_Rule{}
+	}
+	return &t.Section
+}
+
+type PolicyApplicationControlUpdateRule_Policy_ApplicationControl_UpdateRule_Rule struct {
+	Rule PolicyApplicationControlUpdateRule_Policy_ApplicationControl_UpdateRule_Rule_Rule "json:\"rule\" graphql:\"rule\""
+}
+
+func (t *PolicyApplicationControlUpdateRule_Policy_ApplicationControl_UpdateRule_Rule) GetRule() *PolicyApplicationControlUpdateRule_Policy_ApplicationControl_UpdateRule_Rule_Rule {
+	if t == nil {
+		t = &PolicyApplicationControlUpdateRule_Policy_ApplicationControl_UpdateRule_Rule{}
+	}
+	return &t.Rule
+}
+
+type PolicyApplicationControlUpdateRule_Policy_ApplicationControl_UpdateRule_Errors struct {
+	ErrorCode    *string "json:\"errorCode,omitempty\" graphql:\"errorCode\""
+	ErrorMessage *string "json:\"errorMessage,omitempty\" graphql:\"errorMessage\""
+}
+
+func (t *PolicyApplicationControlUpdateRule_Policy_ApplicationControl_UpdateRule_Errors) GetErrorCode() *string {
+	if t == nil {
+		t = &PolicyApplicationControlUpdateRule_Policy_ApplicationControl_UpdateRule_Errors{}
+	}
+	return t.ErrorCode
+}
+func (t *PolicyApplicationControlUpdateRule_Policy_ApplicationControl_UpdateRule_Errors) GetErrorMessage() *string {
+	if t == nil {
+		t = &PolicyApplicationControlUpdateRule_Policy_ApplicationControl_UpdateRule_Errors{}
+	}
+	return t.ErrorMessage
+}
+
+type PolicyApplicationControlUpdateRule_Policy_ApplicationControl_UpdateRule struct {
+	Errors []*PolicyApplicationControlUpdateRule_Policy_ApplicationControl_UpdateRule_Errors "json:\"errors\" graphql:\"errors\""
+	Rule   *PolicyApplicationControlUpdateRule_Policy_ApplicationControl_UpdateRule_Rule     "json:\"rule,omitempty\" graphql:\"rule\""
+	Status cato_models.PolicyMutationStatus                                                  "json:\"status\" graphql:\"status\""
+}
+
+func (t *PolicyApplicationControlUpdateRule_Policy_ApplicationControl_UpdateRule) GetErrors() []*PolicyApplicationControlUpdateRule_Policy_ApplicationControl_UpdateRule_Errors {
+	if t == nil {
+		t = &PolicyApplicationControlUpdateRule_Policy_ApplicationControl_UpdateRule{}
+	}
+	return t.Errors
+}
+func (t *PolicyApplicationControlUpdateRule_Policy_ApplicationControl_UpdateRule) GetRule() *PolicyApplicationControlUpdateRule_Policy_ApplicationControl_UpdateRule_Rule {
+	if t == nil {
+		t = &PolicyApplicationControlUpdateRule_Policy_ApplicationControl_UpdateRule{}
+	}
+	return t.Rule
+}
+func (t *PolicyApplicationControlUpdateRule_Policy_ApplicationControl_UpdateRule) GetStatus() *cato_models.PolicyMutationStatus {
+	if t == nil {
+		t = &PolicyApplicationControlUpdateRule_Policy_ApplicationControl_UpdateRule{}
+	}
+	return &t.Status
+}
+
+type PolicyApplicationControlUpdateRule_Policy_ApplicationControl struct {
+	UpdateRule PolicyApplicationControlUpdateRule_Policy_ApplicationControl_UpdateRule "json:\"updateRule\" graphql:\"updateRule\""
+}
+
+func (t *PolicyApplicationControlUpdateRule_Policy_ApplicationControl) GetUpdateRule() *PolicyApplicationControlUpdateRule_Policy_ApplicationControl_UpdateRule {
+	if t == nil {
+		t = &PolicyApplicationControlUpdateRule_Policy_ApplicationControl{}
+	}
+	return &t.UpdateRule
+}
+
+type PolicyApplicationControlUpdateRule_Policy struct {
+	ApplicationControl *PolicyApplicationControlUpdateRule_Policy_ApplicationControl "json:\"applicationControl,omitempty\" graphql:\"applicationControl\""
+}
+
+func (t *PolicyApplicationControlUpdateRule_Policy) GetApplicationControl() *PolicyApplicationControlUpdateRule_Policy_ApplicationControl {
+	if t == nil {
+		t = &PolicyApplicationControlUpdateRule_Policy{}
+	}
+	return t.ApplicationControl
+}
+
+type PolicyApplicationControlUpdateSection_Policy_ApplicationControl_UpdateSection_Section_Section struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicyApplicationControlUpdateSection_Policy_ApplicationControl_UpdateSection_Section_Section) GetID() string {
+	if t == nil {
+		t = &PolicyApplicationControlUpdateSection_Policy_ApplicationControl_UpdateSection_Section_Section{}
+	}
+	return t.ID
+}
+func (t *PolicyApplicationControlUpdateSection_Policy_ApplicationControl_UpdateSection_Section_Section) GetName() string {
+	if t == nil {
+		t = &PolicyApplicationControlUpdateSection_Policy_ApplicationControl_UpdateSection_Section_Section{}
+	}
+	return t.Name
+}
+
+type PolicyApplicationControlUpdateSection_Policy_ApplicationControl_UpdateSection_Section struct {
+	Section PolicyApplicationControlUpdateSection_Policy_ApplicationControl_UpdateSection_Section_Section "json:\"section\" graphql:\"section\""
+}
+
+func (t *PolicyApplicationControlUpdateSection_Policy_ApplicationControl_UpdateSection_Section) GetSection() *PolicyApplicationControlUpdateSection_Policy_ApplicationControl_UpdateSection_Section_Section {
+	if t == nil {
+		t = &PolicyApplicationControlUpdateSection_Policy_ApplicationControl_UpdateSection_Section{}
+	}
+	return &t.Section
+}
+
+type PolicyApplicationControlUpdateSection_Policy_ApplicationControl_UpdateSection_Errors struct {
+	ErrorCode    *string "json:\"errorCode,omitempty\" graphql:\"errorCode\""
+	ErrorMessage *string "json:\"errorMessage,omitempty\" graphql:\"errorMessage\""
+}
+
+func (t *PolicyApplicationControlUpdateSection_Policy_ApplicationControl_UpdateSection_Errors) GetErrorCode() *string {
+	if t == nil {
+		t = &PolicyApplicationControlUpdateSection_Policy_ApplicationControl_UpdateSection_Errors{}
+	}
+	return t.ErrorCode
+}
+func (t *PolicyApplicationControlUpdateSection_Policy_ApplicationControl_UpdateSection_Errors) GetErrorMessage() *string {
+	if t == nil {
+		t = &PolicyApplicationControlUpdateSection_Policy_ApplicationControl_UpdateSection_Errors{}
+	}
+	return t.ErrorMessage
+}
+
+type PolicyApplicationControlUpdateSection_Policy_ApplicationControl_UpdateSection struct {
+	Errors  []*PolicyApplicationControlUpdateSection_Policy_ApplicationControl_UpdateSection_Errors "json:\"errors\" graphql:\"errors\""
+	Section *PolicyApplicationControlUpdateSection_Policy_ApplicationControl_UpdateSection_Section  "json:\"section,omitempty\" graphql:\"section\""
+	Status  cato_models.PolicyMutationStatus                                                        "json:\"status\" graphql:\"status\""
+}
+
+func (t *PolicyApplicationControlUpdateSection_Policy_ApplicationControl_UpdateSection) GetErrors() []*PolicyApplicationControlUpdateSection_Policy_ApplicationControl_UpdateSection_Errors {
+	if t == nil {
+		t = &PolicyApplicationControlUpdateSection_Policy_ApplicationControl_UpdateSection{}
+	}
+	return t.Errors
+}
+func (t *PolicyApplicationControlUpdateSection_Policy_ApplicationControl_UpdateSection) GetSection() *PolicyApplicationControlUpdateSection_Policy_ApplicationControl_UpdateSection_Section {
+	if t == nil {
+		t = &PolicyApplicationControlUpdateSection_Policy_ApplicationControl_UpdateSection{}
+	}
+	return t.Section
+}
+func (t *PolicyApplicationControlUpdateSection_Policy_ApplicationControl_UpdateSection) GetStatus() *cato_models.PolicyMutationStatus {
+	if t == nil {
+		t = &PolicyApplicationControlUpdateSection_Policy_ApplicationControl_UpdateSection{}
+	}
+	return &t.Status
+}
+
+type PolicyApplicationControlUpdateSection_Policy_ApplicationControl struct {
+	UpdateSection PolicyApplicationControlUpdateSection_Policy_ApplicationControl_UpdateSection "json:\"updateSection\" graphql:\"updateSection\""
+}
+
+func (t *PolicyApplicationControlUpdateSection_Policy_ApplicationControl) GetUpdateSection() *PolicyApplicationControlUpdateSection_Policy_ApplicationControl_UpdateSection {
+	if t == nil {
+		t = &PolicyApplicationControlUpdateSection_Policy_ApplicationControl{}
+	}
+	return &t.UpdateSection
+}
+
+type PolicyApplicationControlUpdateSection_Policy struct {
+	ApplicationControl *PolicyApplicationControlUpdateSection_Policy_ApplicationControl "json:\"applicationControl,omitempty\" graphql:\"applicationControl\""
+}
+
+func (t *PolicyApplicationControlUpdateSection_Policy) GetApplicationControl() *PolicyApplicationControlUpdateSection_Policy_ApplicationControl {
+	if t == nil {
+		t = &PolicyApplicationControlUpdateSection_Policy{}
+	}
+	return t.ApplicationControl
 }
 
 type PolicyInternetFirewallDiscardPolicyRevision_Policy_InternetFirewall_DiscardPolicyRevision_Policy_Rules_Audit struct {
@@ -89248,6 +91674,4428 @@ func (t *ObjectGlobalIpRangeList_Object) GetGlobalIPRangeList() *ObjectGlobalIpR
 	return t.GlobalIPRangeList
 }
 
+type AppTenantRestrictionPolicy_Policy_AppTenantRestriction_Policy_Audit struct {
+	PublishedBy   string "json:\"publishedBy\" graphql:\"publishedBy\""
+	PublishedTime string "json:\"publishedTime\" graphql:\"publishedTime\""
+}
+
+func (t *AppTenantRestrictionPolicy_Policy_AppTenantRestriction_Policy_Audit) GetPublishedBy() string {
+	if t == nil {
+		t = &AppTenantRestrictionPolicy_Policy_AppTenantRestriction_Policy_Audit{}
+	}
+	return t.PublishedBy
+}
+func (t *AppTenantRestrictionPolicy_Policy_AppTenantRestriction_Policy_Audit) GetPublishedTime() string {
+	if t == nil {
+		t = &AppTenantRestrictionPolicy_Policy_AppTenantRestriction_Policy_Audit{}
+	}
+	return t.PublishedTime
+}
+
+type AppTenantRestrictionPolicy_Policy_AppTenantRestriction_Policy_Revision struct {
+	Changes     int64  "json:\"changes\" graphql:\"changes\""
+	CreatedTime string "json:\"createdTime\" graphql:\"createdTime\""
+	Description string "json:\"description\" graphql:\"description\""
+	ID          string "json:\"id\" graphql:\"id\""
+	Name        string "json:\"name\" graphql:\"name\""
+	UpdatedTime string "json:\"updatedTime\" graphql:\"updatedTime\""
+}
+
+func (t *AppTenantRestrictionPolicy_Policy_AppTenantRestriction_Policy_Revision) GetChanges() int64 {
+	if t == nil {
+		t = &AppTenantRestrictionPolicy_Policy_AppTenantRestriction_Policy_Revision{}
+	}
+	return t.Changes
+}
+func (t *AppTenantRestrictionPolicy_Policy_AppTenantRestriction_Policy_Revision) GetCreatedTime() string {
+	if t == nil {
+		t = &AppTenantRestrictionPolicy_Policy_AppTenantRestriction_Policy_Revision{}
+	}
+	return t.CreatedTime
+}
+func (t *AppTenantRestrictionPolicy_Policy_AppTenantRestriction_Policy_Revision) GetDescription() string {
+	if t == nil {
+		t = &AppTenantRestrictionPolicy_Policy_AppTenantRestriction_Policy_Revision{}
+	}
+	return t.Description
+}
+func (t *AppTenantRestrictionPolicy_Policy_AppTenantRestriction_Policy_Revision) GetID() string {
+	if t == nil {
+		t = &AppTenantRestrictionPolicy_Policy_AppTenantRestriction_Policy_Revision{}
+	}
+	return t.ID
+}
+func (t *AppTenantRestrictionPolicy_Policy_AppTenantRestriction_Policy_Revision) GetName() string {
+	if t == nil {
+		t = &AppTenantRestrictionPolicy_Policy_AppTenantRestriction_Policy_Revision{}
+	}
+	return t.Name
+}
+func (t *AppTenantRestrictionPolicy_Policy_AppTenantRestriction_Policy_Revision) GetUpdatedTime() string {
+	if t == nil {
+		t = &AppTenantRestrictionPolicy_Policy_AppTenantRestriction_Policy_Revision{}
+	}
+	return t.UpdatedTime
+}
+
+type AppTenantRestrictionPolicy_Policy_AppTenantRestriction_Policy_Sections_Audit struct {
+	UpdatedBy   string "json:\"updatedBy\" graphql:\"updatedBy\""
+	UpdatedTime string "json:\"updatedTime\" graphql:\"updatedTime\""
+}
+
+func (t *AppTenantRestrictionPolicy_Policy_AppTenantRestriction_Policy_Sections_Audit) GetUpdatedBy() string {
+	if t == nil {
+		t = &AppTenantRestrictionPolicy_Policy_AppTenantRestriction_Policy_Sections_Audit{}
+	}
+	return t.UpdatedBy
+}
+func (t *AppTenantRestrictionPolicy_Policy_AppTenantRestriction_Policy_Sections_Audit) GetUpdatedTime() string {
+	if t == nil {
+		t = &AppTenantRestrictionPolicy_Policy_AppTenantRestriction_Policy_Sections_Audit{}
+	}
+	return t.UpdatedTime
+}
+
+type AppTenantRestrictionPolicy_Policy_AppTenantRestriction_Policy_Sections_Section struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *AppTenantRestrictionPolicy_Policy_AppTenantRestriction_Policy_Sections_Section) GetID() string {
+	if t == nil {
+		t = &AppTenantRestrictionPolicy_Policy_AppTenantRestriction_Policy_Sections_Section{}
+	}
+	return t.ID
+}
+func (t *AppTenantRestrictionPolicy_Policy_AppTenantRestriction_Policy_Sections_Section) GetName() string {
+	if t == nil {
+		t = &AppTenantRestrictionPolicy_Policy_AppTenantRestriction_Policy_Sections_Section{}
+	}
+	return t.Name
+}
+
+type AppTenantRestrictionPolicy_Policy_AppTenantRestriction_Policy_Sections struct {
+	Audit      AppTenantRestrictionPolicy_Policy_AppTenantRestriction_Policy_Sections_Audit   "json:\"audit\" graphql:\"audit\""
+	Properties []cato_models.PolicyElementPropertiesEnum                                      "json:\"properties\" graphql:\"properties\""
+	Section    AppTenantRestrictionPolicy_Policy_AppTenantRestriction_Policy_Sections_Section "json:\"section\" graphql:\"section\""
+}
+
+func (t *AppTenantRestrictionPolicy_Policy_AppTenantRestriction_Policy_Sections) GetAudit() *AppTenantRestrictionPolicy_Policy_AppTenantRestriction_Policy_Sections_Audit {
+	if t == nil {
+		t = &AppTenantRestrictionPolicy_Policy_AppTenantRestriction_Policy_Sections{}
+	}
+	return &t.Audit
+}
+func (t *AppTenantRestrictionPolicy_Policy_AppTenantRestriction_Policy_Sections) GetProperties() []cato_models.PolicyElementPropertiesEnum {
+	if t == nil {
+		t = &AppTenantRestrictionPolicy_Policy_AppTenantRestriction_Policy_Sections{}
+	}
+	return t.Properties
+}
+func (t *AppTenantRestrictionPolicy_Policy_AppTenantRestriction_Policy_Sections) GetSection() *AppTenantRestrictionPolicy_Policy_AppTenantRestriction_Policy_Sections_Section {
+	if t == nil {
+		t = &AppTenantRestrictionPolicy_Policy_AppTenantRestriction_Policy_Sections{}
+	}
+	return &t.Section
+}
+
+type AppTenantRestrictionPolicy_Policy_AppTenantRestriction_Policy_Rules_Audit struct {
+	UpdatedBy   string "json:\"updatedBy\" graphql:\"updatedBy\""
+	UpdatedTime string "json:\"updatedTime\" graphql:\"updatedTime\""
+}
+
+func (t *AppTenantRestrictionPolicy_Policy_AppTenantRestriction_Policy_Rules_Audit) GetUpdatedBy() string {
+	if t == nil {
+		t = &AppTenantRestrictionPolicy_Policy_AppTenantRestriction_Policy_Rules_Audit{}
+	}
+	return t.UpdatedBy
+}
+func (t *AppTenantRestrictionPolicy_Policy_AppTenantRestriction_Policy_Rules_Audit) GetUpdatedTime() string {
+	if t == nil {
+		t = &AppTenantRestrictionPolicy_Policy_AppTenantRestriction_Policy_Rules_Audit{}
+	}
+	return t.UpdatedTime
+}
+
+type AppTenantRestrictionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Application struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *AppTenantRestrictionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Application) GetID() string {
+	if t == nil {
+		t = &AppTenantRestrictionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Application{}
+	}
+	return t.ID
+}
+func (t *AppTenantRestrictionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Application) GetName() string {
+	if t == nil {
+		t = &AppTenantRestrictionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Application{}
+	}
+	return t.Name
+}
+
+type AppTenantRestrictionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Headers struct {
+	Name  string "json:\"name\" graphql:\"name\""
+	Value string "json:\"value\" graphql:\"value\""
+}
+
+func (t *AppTenantRestrictionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Headers) GetName() string {
+	if t == nil {
+		t = &AppTenantRestrictionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Headers{}
+	}
+	return t.Name
+}
+func (t *AppTenantRestrictionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Headers) GetValue() string {
+	if t == nil {
+		t = &AppTenantRestrictionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Headers{}
+	}
+	return t.Value
+}
+
+type AppTenantRestrictionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Schedule_CustomTimeframeAppTenantRestriction struct {
+	From string "json:\"from\" graphql:\"from\""
+	To   string "json:\"to\" graphql:\"to\""
+}
+
+func (t *AppTenantRestrictionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Schedule_CustomTimeframeAppTenantRestriction) GetFrom() string {
+	if t == nil {
+		t = &AppTenantRestrictionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Schedule_CustomTimeframeAppTenantRestriction{}
+	}
+	return t.From
+}
+func (t *AppTenantRestrictionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Schedule_CustomTimeframeAppTenantRestriction) GetTo() string {
+	if t == nil {
+		t = &AppTenantRestrictionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Schedule_CustomTimeframeAppTenantRestriction{}
+	}
+	return t.To
+}
+
+type AppTenantRestrictionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Schedule_CustomRecurringAppTenantRestriction struct {
+	Days []cato_models.DayOfWeek "json:\"days\" graphql:\"days\""
+	From scalars.Time            "json:\"from\" graphql:\"from\""
+	To   scalars.Time            "json:\"to\" graphql:\"to\""
+}
+
+func (t *AppTenantRestrictionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Schedule_CustomRecurringAppTenantRestriction) GetDays() []cato_models.DayOfWeek {
+	if t == nil {
+		t = &AppTenantRestrictionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Schedule_CustomRecurringAppTenantRestriction{}
+	}
+	return t.Days
+}
+func (t *AppTenantRestrictionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Schedule_CustomRecurringAppTenantRestriction) GetFrom() *scalars.Time {
+	if t == nil {
+		t = &AppTenantRestrictionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Schedule_CustomRecurringAppTenantRestriction{}
+	}
+	return &t.From
+}
+func (t *AppTenantRestrictionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Schedule_CustomRecurringAppTenantRestriction) GetTo() *scalars.Time {
+	if t == nil {
+		t = &AppTenantRestrictionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Schedule_CustomRecurringAppTenantRestriction{}
+	}
+	return &t.To
+}
+
+type AppTenantRestrictionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Schedule struct {
+	ActiveOn                            cato_models.PolicyActiveOnEnum                                                                                         "json:\"activeOn\" graphql:\"activeOn\""
+	CustomRecurringAppTenantRestriction *AppTenantRestrictionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Schedule_CustomRecurringAppTenantRestriction "json:\"customRecurringAppTenantRestriction,omitempty\" graphql:\"customRecurringAppTenantRestriction\""
+	CustomTimeframeAppTenantRestriction *AppTenantRestrictionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Schedule_CustomTimeframeAppTenantRestriction "json:\"customTimeframeAppTenantRestriction,omitempty\" graphql:\"customTimeframeAppTenantRestriction\""
+}
+
+func (t *AppTenantRestrictionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Schedule) GetActiveOn() *cato_models.PolicyActiveOnEnum {
+	if t == nil {
+		t = &AppTenantRestrictionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Schedule{}
+	}
+	return &t.ActiveOn
+}
+func (t *AppTenantRestrictionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Schedule) GetCustomRecurringAppTenantRestriction() *AppTenantRestrictionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Schedule_CustomRecurringAppTenantRestriction {
+	if t == nil {
+		t = &AppTenantRestrictionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Schedule{}
+	}
+	return t.CustomRecurringAppTenantRestriction
+}
+func (t *AppTenantRestrictionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Schedule) GetCustomTimeframeAppTenantRestriction() *AppTenantRestrictionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Schedule_CustomTimeframeAppTenantRestriction {
+	if t == nil {
+		t = &AppTenantRestrictionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Schedule{}
+	}
+	return t.CustomTimeframeAppTenantRestriction
+}
+
+type AppTenantRestrictionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Source_Country struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *AppTenantRestrictionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Source_Country) GetID() string {
+	if t == nil {
+		t = &AppTenantRestrictionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Source_Country{}
+	}
+	return t.ID
+}
+func (t *AppTenantRestrictionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Source_Country) GetName() string {
+	if t == nil {
+		t = &AppTenantRestrictionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Source_Country{}
+	}
+	return t.Name
+}
+
+type AppTenantRestrictionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Source_FloatingSubnet struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *AppTenantRestrictionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Source_FloatingSubnet) GetID() string {
+	if t == nil {
+		t = &AppTenantRestrictionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Source_FloatingSubnet{}
+	}
+	return t.ID
+}
+func (t *AppTenantRestrictionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Source_FloatingSubnet) GetName() string {
+	if t == nil {
+		t = &AppTenantRestrictionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Source_FloatingSubnet{}
+	}
+	return t.Name
+}
+
+type AppTenantRestrictionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Source_GlobalIPRange struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *AppTenantRestrictionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Source_GlobalIPRange) GetID() string {
+	if t == nil {
+		t = &AppTenantRestrictionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Source_GlobalIPRange{}
+	}
+	return t.ID
+}
+func (t *AppTenantRestrictionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Source_GlobalIPRange) GetName() string {
+	if t == nil {
+		t = &AppTenantRestrictionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Source_GlobalIPRange{}
+	}
+	return t.Name
+}
+
+type AppTenantRestrictionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Source_Group struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *AppTenantRestrictionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Source_Group) GetID() string {
+	if t == nil {
+		t = &AppTenantRestrictionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Source_Group{}
+	}
+	return t.ID
+}
+func (t *AppTenantRestrictionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Source_Group) GetName() string {
+	if t == nil {
+		t = &AppTenantRestrictionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Source_Group{}
+	}
+	return t.Name
+}
+
+type AppTenantRestrictionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Source_Host struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *AppTenantRestrictionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Source_Host) GetID() string {
+	if t == nil {
+		t = &AppTenantRestrictionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Source_Host{}
+	}
+	return t.ID
+}
+func (t *AppTenantRestrictionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Source_Host) GetName() string {
+	if t == nil {
+		t = &AppTenantRestrictionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Source_Host{}
+	}
+	return t.Name
+}
+
+type AppTenantRestrictionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Source_IPRange struct {
+	From string "json:\"from\" graphql:\"from\""
+	To   string "json:\"to\" graphql:\"to\""
+}
+
+func (t *AppTenantRestrictionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Source_IPRange) GetFrom() string {
+	if t == nil {
+		t = &AppTenantRestrictionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Source_IPRange{}
+	}
+	return t.From
+}
+func (t *AppTenantRestrictionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Source_IPRange) GetTo() string {
+	if t == nil {
+		t = &AppTenantRestrictionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Source_IPRange{}
+	}
+	return t.To
+}
+
+type AppTenantRestrictionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Source_NetworkInterface struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *AppTenantRestrictionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Source_NetworkInterface) GetID() string {
+	if t == nil {
+		t = &AppTenantRestrictionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Source_NetworkInterface{}
+	}
+	return t.ID
+}
+func (t *AppTenantRestrictionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Source_NetworkInterface) GetName() string {
+	if t == nil {
+		t = &AppTenantRestrictionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Source_NetworkInterface{}
+	}
+	return t.Name
+}
+
+type AppTenantRestrictionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Source_Site struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *AppTenantRestrictionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Source_Site) GetID() string {
+	if t == nil {
+		t = &AppTenantRestrictionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Source_Site{}
+	}
+	return t.ID
+}
+func (t *AppTenantRestrictionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Source_Site) GetName() string {
+	if t == nil {
+		t = &AppTenantRestrictionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Source_Site{}
+	}
+	return t.Name
+}
+
+type AppTenantRestrictionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Source_SiteNetworkSubnet struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *AppTenantRestrictionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Source_SiteNetworkSubnet) GetID() string {
+	if t == nil {
+		t = &AppTenantRestrictionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Source_SiteNetworkSubnet{}
+	}
+	return t.ID
+}
+func (t *AppTenantRestrictionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Source_SiteNetworkSubnet) GetName() string {
+	if t == nil {
+		t = &AppTenantRestrictionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Source_SiteNetworkSubnet{}
+	}
+	return t.Name
+}
+
+type AppTenantRestrictionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Source_SystemGroup struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *AppTenantRestrictionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Source_SystemGroup) GetID() string {
+	if t == nil {
+		t = &AppTenantRestrictionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Source_SystemGroup{}
+	}
+	return t.ID
+}
+func (t *AppTenantRestrictionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Source_SystemGroup) GetName() string {
+	if t == nil {
+		t = &AppTenantRestrictionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Source_SystemGroup{}
+	}
+	return t.Name
+}
+
+type AppTenantRestrictionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Source_User struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *AppTenantRestrictionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Source_User) GetID() string {
+	if t == nil {
+		t = &AppTenantRestrictionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Source_User{}
+	}
+	return t.ID
+}
+func (t *AppTenantRestrictionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Source_User) GetName() string {
+	if t == nil {
+		t = &AppTenantRestrictionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Source_User{}
+	}
+	return t.Name
+}
+
+type AppTenantRestrictionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Source_UsersGroup struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *AppTenantRestrictionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Source_UsersGroup) GetID() string {
+	if t == nil {
+		t = &AppTenantRestrictionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Source_UsersGroup{}
+	}
+	return t.ID
+}
+func (t *AppTenantRestrictionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Source_UsersGroup) GetName() string {
+	if t == nil {
+		t = &AppTenantRestrictionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Source_UsersGroup{}
+	}
+	return t.Name
+}
+
+type AppTenantRestrictionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Source struct {
+	Country           []*AppTenantRestrictionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Source_Country           "json:\"country\" graphql:\"country\""
+	FloatingSubnet    []*AppTenantRestrictionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Source_FloatingSubnet    "json:\"floatingSubnet\" graphql:\"floatingSubnet\""
+	GlobalIPRange     []*AppTenantRestrictionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Source_GlobalIPRange     "json:\"globalIpRange\" graphql:\"globalIpRange\""
+	Group             []*AppTenantRestrictionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Source_Group             "json:\"group\" graphql:\"group\""
+	Host              []*AppTenantRestrictionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Source_Host              "json:\"host\" graphql:\"host\""
+	IP                []string                                                                                             "json:\"ip\" graphql:\"ip\""
+	IPRange           []*AppTenantRestrictionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Source_IPRange           "json:\"ipRange\" graphql:\"ipRange\""
+	NetworkInterface  []*AppTenantRestrictionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Source_NetworkInterface  "json:\"networkInterface\" graphql:\"networkInterface\""
+	Site              []*AppTenantRestrictionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Source_Site              "json:\"site\" graphql:\"site\""
+	SiteNetworkSubnet []*AppTenantRestrictionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Source_SiteNetworkSubnet "json:\"siteNetworkSubnet\" graphql:\"siteNetworkSubnet\""
+	Subnet            []string                                                                                             "json:\"subnet\" graphql:\"subnet\""
+	SystemGroup       []*AppTenantRestrictionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Source_SystemGroup       "json:\"systemGroup\" graphql:\"systemGroup\""
+	User              []*AppTenantRestrictionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Source_User              "json:\"user\" graphql:\"user\""
+	UsersGroup        []*AppTenantRestrictionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Source_UsersGroup        "json:\"usersGroup\" graphql:\"usersGroup\""
+}
+
+func (t *AppTenantRestrictionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Source) GetCountry() []*AppTenantRestrictionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Source_Country {
+	if t == nil {
+		t = &AppTenantRestrictionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Source{}
+	}
+	return t.Country
+}
+func (t *AppTenantRestrictionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Source) GetFloatingSubnet() []*AppTenantRestrictionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Source_FloatingSubnet {
+	if t == nil {
+		t = &AppTenantRestrictionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Source{}
+	}
+	return t.FloatingSubnet
+}
+func (t *AppTenantRestrictionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Source) GetGlobalIPRange() []*AppTenantRestrictionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Source_GlobalIPRange {
+	if t == nil {
+		t = &AppTenantRestrictionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Source{}
+	}
+	return t.GlobalIPRange
+}
+func (t *AppTenantRestrictionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Source) GetGroup() []*AppTenantRestrictionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Source_Group {
+	if t == nil {
+		t = &AppTenantRestrictionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Source{}
+	}
+	return t.Group
+}
+func (t *AppTenantRestrictionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Source) GetHost() []*AppTenantRestrictionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Source_Host {
+	if t == nil {
+		t = &AppTenantRestrictionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Source{}
+	}
+	return t.Host
+}
+func (t *AppTenantRestrictionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Source) GetIP() []string {
+	if t == nil {
+		t = &AppTenantRestrictionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Source{}
+	}
+	return t.IP
+}
+func (t *AppTenantRestrictionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Source) GetIPRange() []*AppTenantRestrictionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Source_IPRange {
+	if t == nil {
+		t = &AppTenantRestrictionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Source{}
+	}
+	return t.IPRange
+}
+func (t *AppTenantRestrictionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Source) GetNetworkInterface() []*AppTenantRestrictionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Source_NetworkInterface {
+	if t == nil {
+		t = &AppTenantRestrictionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Source{}
+	}
+	return t.NetworkInterface
+}
+func (t *AppTenantRestrictionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Source) GetSite() []*AppTenantRestrictionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Source_Site {
+	if t == nil {
+		t = &AppTenantRestrictionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Source{}
+	}
+	return t.Site
+}
+func (t *AppTenantRestrictionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Source) GetSiteNetworkSubnet() []*AppTenantRestrictionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Source_SiteNetworkSubnet {
+	if t == nil {
+		t = &AppTenantRestrictionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Source{}
+	}
+	return t.SiteNetworkSubnet
+}
+func (t *AppTenantRestrictionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Source) GetSubnet() []string {
+	if t == nil {
+		t = &AppTenantRestrictionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Source{}
+	}
+	return t.Subnet
+}
+func (t *AppTenantRestrictionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Source) GetSystemGroup() []*AppTenantRestrictionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Source_SystemGroup {
+	if t == nil {
+		t = &AppTenantRestrictionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Source{}
+	}
+	return t.SystemGroup
+}
+func (t *AppTenantRestrictionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Source) GetUser() []*AppTenantRestrictionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Source_User {
+	if t == nil {
+		t = &AppTenantRestrictionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Source{}
+	}
+	return t.User
+}
+func (t *AppTenantRestrictionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Source) GetUsersGroup() []*AppTenantRestrictionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Source_UsersGroup {
+	if t == nil {
+		t = &AppTenantRestrictionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Source{}
+	}
+	return t.UsersGroup
+}
+
+type AppTenantRestrictionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Section struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *AppTenantRestrictionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Section) GetID() string {
+	if t == nil {
+		t = &AppTenantRestrictionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Section{}
+	}
+	return t.ID
+}
+func (t *AppTenantRestrictionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Section) GetName() string {
+	if t == nil {
+		t = &AppTenantRestrictionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Section{}
+	}
+	return t.Name
+}
+
+type AppTenantRestrictionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule struct {
+	Action      cato_models.AppTenantRestrictionActionEnum                                           "json:\"action\" graphql:\"action\""
+	Application AppTenantRestrictionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Application "json:\"application\" graphql:\"application\""
+	Description string                                                                               "json:\"description\" graphql:\"description\""
+	Enabled     bool                                                                                 "json:\"enabled\" graphql:\"enabled\""
+	Headers     []*AppTenantRestrictionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Headers  "json:\"headers\" graphql:\"headers\""
+	ID          string                                                                               "json:\"id\" graphql:\"id\""
+	Index       int64                                                                                "json:\"index\" graphql:\"index\""
+	Name        string                                                                               "json:\"name\" graphql:\"name\""
+	Schedule    AppTenantRestrictionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Schedule    "json:\"schedule\" graphql:\"schedule\""
+	Section     AppTenantRestrictionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Section     "json:\"section\" graphql:\"section\""
+	Severity    cato_models.AppTenantRestrictionSeverityEnum                                         "json:\"severity\" graphql:\"severity\""
+	Source      AppTenantRestrictionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Source      "json:\"source\" graphql:\"source\""
+}
+
+func (t *AppTenantRestrictionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule) GetAction() *cato_models.AppTenantRestrictionActionEnum {
+	if t == nil {
+		t = &AppTenantRestrictionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule{}
+	}
+	return &t.Action
+}
+func (t *AppTenantRestrictionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule) GetApplication() *AppTenantRestrictionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Application {
+	if t == nil {
+		t = &AppTenantRestrictionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule{}
+	}
+	return &t.Application
+}
+func (t *AppTenantRestrictionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule) GetDescription() string {
+	if t == nil {
+		t = &AppTenantRestrictionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule{}
+	}
+	return t.Description
+}
+func (t *AppTenantRestrictionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule) GetEnabled() bool {
+	if t == nil {
+		t = &AppTenantRestrictionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule{}
+	}
+	return t.Enabled
+}
+func (t *AppTenantRestrictionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule) GetHeaders() []*AppTenantRestrictionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Headers {
+	if t == nil {
+		t = &AppTenantRestrictionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule{}
+	}
+	return t.Headers
+}
+func (t *AppTenantRestrictionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule) GetID() string {
+	if t == nil {
+		t = &AppTenantRestrictionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule{}
+	}
+	return t.ID
+}
+func (t *AppTenantRestrictionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule) GetIndex() int64 {
+	if t == nil {
+		t = &AppTenantRestrictionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule{}
+	}
+	return t.Index
+}
+func (t *AppTenantRestrictionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule) GetName() string {
+	if t == nil {
+		t = &AppTenantRestrictionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule{}
+	}
+	return t.Name
+}
+func (t *AppTenantRestrictionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule) GetSchedule() *AppTenantRestrictionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Schedule {
+	if t == nil {
+		t = &AppTenantRestrictionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule{}
+	}
+	return &t.Schedule
+}
+func (t *AppTenantRestrictionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule) GetSection() *AppTenantRestrictionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Section {
+	if t == nil {
+		t = &AppTenantRestrictionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule{}
+	}
+	return &t.Section
+}
+func (t *AppTenantRestrictionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule) GetSeverity() *cato_models.AppTenantRestrictionSeverityEnum {
+	if t == nil {
+		t = &AppTenantRestrictionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule{}
+	}
+	return &t.Severity
+}
+func (t *AppTenantRestrictionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule) GetSource() *AppTenantRestrictionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule_Source {
+	if t == nil {
+		t = &AppTenantRestrictionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule{}
+	}
+	return &t.Source
+}
+
+type AppTenantRestrictionPolicy_Policy_AppTenantRestriction_Policy_Rules struct {
+	Audit      AppTenantRestrictionPolicy_Policy_AppTenantRestriction_Policy_Rules_Audit "json:\"audit\" graphql:\"audit\""
+	Properties []cato_models.PolicyElementPropertiesEnum                                 "json:\"properties\" graphql:\"properties\""
+	Rule       AppTenantRestrictionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule  "json:\"rule\" graphql:\"rule\""
+}
+
+func (t *AppTenantRestrictionPolicy_Policy_AppTenantRestriction_Policy_Rules) GetAudit() *AppTenantRestrictionPolicy_Policy_AppTenantRestriction_Policy_Rules_Audit {
+	if t == nil {
+		t = &AppTenantRestrictionPolicy_Policy_AppTenantRestriction_Policy_Rules{}
+	}
+	return &t.Audit
+}
+func (t *AppTenantRestrictionPolicy_Policy_AppTenantRestriction_Policy_Rules) GetProperties() []cato_models.PolicyElementPropertiesEnum {
+	if t == nil {
+		t = &AppTenantRestrictionPolicy_Policy_AppTenantRestriction_Policy_Rules{}
+	}
+	return t.Properties
+}
+func (t *AppTenantRestrictionPolicy_Policy_AppTenantRestriction_Policy_Rules) GetRule() *AppTenantRestrictionPolicy_Policy_AppTenantRestriction_Policy_Rules_Rule {
+	if t == nil {
+		t = &AppTenantRestrictionPolicy_Policy_AppTenantRestriction_Policy_Rules{}
+	}
+	return &t.Rule
+}
+
+type AppTenantRestrictionPolicy_Policy_AppTenantRestriction_Policy struct {
+	Audit    *AppTenantRestrictionPolicy_Policy_AppTenantRestriction_Policy_Audit      "json:\"audit,omitempty\" graphql:\"audit\""
+	Enabled  bool                                                                      "json:\"enabled\" graphql:\"enabled\""
+	Revision *AppTenantRestrictionPolicy_Policy_AppTenantRestriction_Policy_Revision   "json:\"revision,omitempty\" graphql:\"revision\""
+	Rules    []*AppTenantRestrictionPolicy_Policy_AppTenantRestriction_Policy_Rules    "json:\"rules\" graphql:\"rules\""
+	Sections []*AppTenantRestrictionPolicy_Policy_AppTenantRestriction_Policy_Sections "json:\"sections\" graphql:\"sections\""
+}
+
+func (t *AppTenantRestrictionPolicy_Policy_AppTenantRestriction_Policy) GetAudit() *AppTenantRestrictionPolicy_Policy_AppTenantRestriction_Policy_Audit {
+	if t == nil {
+		t = &AppTenantRestrictionPolicy_Policy_AppTenantRestriction_Policy{}
+	}
+	return t.Audit
+}
+func (t *AppTenantRestrictionPolicy_Policy_AppTenantRestriction_Policy) GetEnabled() bool {
+	if t == nil {
+		t = &AppTenantRestrictionPolicy_Policy_AppTenantRestriction_Policy{}
+	}
+	return t.Enabled
+}
+func (t *AppTenantRestrictionPolicy_Policy_AppTenantRestriction_Policy) GetRevision() *AppTenantRestrictionPolicy_Policy_AppTenantRestriction_Policy_Revision {
+	if t == nil {
+		t = &AppTenantRestrictionPolicy_Policy_AppTenantRestriction_Policy{}
+	}
+	return t.Revision
+}
+func (t *AppTenantRestrictionPolicy_Policy_AppTenantRestriction_Policy) GetRules() []*AppTenantRestrictionPolicy_Policy_AppTenantRestriction_Policy_Rules {
+	if t == nil {
+		t = &AppTenantRestrictionPolicy_Policy_AppTenantRestriction_Policy{}
+	}
+	return t.Rules
+}
+func (t *AppTenantRestrictionPolicy_Policy_AppTenantRestriction_Policy) GetSections() []*AppTenantRestrictionPolicy_Policy_AppTenantRestriction_Policy_Sections {
+	if t == nil {
+		t = &AppTenantRestrictionPolicy_Policy_AppTenantRestriction_Policy{}
+	}
+	return t.Sections
+}
+
+type AppTenantRestrictionPolicy_Policy_AppTenantRestriction struct {
+	Policy AppTenantRestrictionPolicy_Policy_AppTenantRestriction_Policy "json:\"policy\" graphql:\"policy\""
+}
+
+func (t *AppTenantRestrictionPolicy_Policy_AppTenantRestriction) GetPolicy() *AppTenantRestrictionPolicy_Policy_AppTenantRestriction_Policy {
+	if t == nil {
+		t = &AppTenantRestrictionPolicy_Policy_AppTenantRestriction{}
+	}
+	return &t.Policy
+}
+
+type AppTenantRestrictionPolicy_Policy struct {
+	AppTenantRestriction *AppTenantRestrictionPolicy_Policy_AppTenantRestriction "json:\"appTenantRestriction,omitempty\" graphql:\"appTenantRestriction\""
+}
+
+func (t *AppTenantRestrictionPolicy_Policy) GetAppTenantRestriction() *AppTenantRestrictionPolicy_Policy_AppTenantRestriction {
+	if t == nil {
+		t = &AppTenantRestrictionPolicy_Policy{}
+	}
+	return t.AppTenantRestriction
+}
+
+type ApplicationControlPolicy_Policy_ApplicationControl_Policy_AdditionalAttributes struct {
+	DataControlEnabled cato_models.PolicyToggleState "json:\"dataControlEnabled\" graphql:\"dataControlEnabled\""
+}
+
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_AdditionalAttributes) GetDataControlEnabled() *cato_models.PolicyToggleState {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_AdditionalAttributes{}
+	}
+	return &t.DataControlEnabled
+}
+
+type ApplicationControlPolicy_Policy_ApplicationControl_Policy_Audit struct {
+	PublishedBy   string "json:\"publishedBy\" graphql:\"publishedBy\""
+	PublishedTime string "json:\"publishedTime\" graphql:\"publishedTime\""
+}
+
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Audit) GetPublishedBy() string {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Audit{}
+	}
+	return t.PublishedBy
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Audit) GetPublishedTime() string {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Audit{}
+	}
+	return t.PublishedTime
+}
+
+type ApplicationControlPolicy_Policy_ApplicationControl_Policy_Revision struct {
+	Changes     int64  "json:\"changes\" graphql:\"changes\""
+	CreatedTime string "json:\"createdTime\" graphql:\"createdTime\""
+	Description string "json:\"description\" graphql:\"description\""
+	ID          string "json:\"id\" graphql:\"id\""
+	Name        string "json:\"name\" graphql:\"name\""
+	UpdatedTime string "json:\"updatedTime\" graphql:\"updatedTime\""
+}
+
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Revision) GetChanges() int64 {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Revision{}
+	}
+	return t.Changes
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Revision) GetCreatedTime() string {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Revision{}
+	}
+	return t.CreatedTime
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Revision) GetDescription() string {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Revision{}
+	}
+	return t.Description
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Revision) GetID() string {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Revision{}
+	}
+	return t.ID
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Revision) GetName() string {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Revision{}
+	}
+	return t.Name
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Revision) GetUpdatedTime() string {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Revision{}
+	}
+	return t.UpdatedTime
+}
+
+type ApplicationControlPolicy_Policy_ApplicationControl_Policy_Sections_Audit struct {
+	UpdatedBy   string "json:\"updatedBy\" graphql:\"updatedBy\""
+	UpdatedTime string "json:\"updatedTime\" graphql:\"updatedTime\""
+}
+
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Sections_Audit) GetUpdatedBy() string {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Sections_Audit{}
+	}
+	return t.UpdatedBy
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Sections_Audit) GetUpdatedTime() string {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Sections_Audit{}
+	}
+	return t.UpdatedTime
+}
+
+type ApplicationControlPolicy_Policy_ApplicationControl_Policy_Sections_Section struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Sections_Section) GetID() string {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Sections_Section{}
+	}
+	return t.ID
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Sections_Section) GetName() string {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Sections_Section{}
+	}
+	return t.Name
+}
+
+type ApplicationControlPolicy_Policy_ApplicationControl_Policy_Sections struct {
+	Audit      ApplicationControlPolicy_Policy_ApplicationControl_Policy_Sections_Audit   "json:\"audit\" graphql:\"audit\""
+	Properties []cato_models.PolicyElementPropertiesEnum                                  "json:\"properties\" graphql:\"properties\""
+	Section    ApplicationControlPolicy_Policy_ApplicationControl_Policy_Sections_Section "json:\"section\" graphql:\"section\""
+}
+
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Sections) GetAudit() *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Sections_Audit {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Sections{}
+	}
+	return &t.Audit
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Sections) GetProperties() []cato_models.PolicyElementPropertiesEnum {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Sections{}
+	}
+	return t.Properties
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Sections) GetSection() *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Sections_Section {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Sections{}
+	}
+	return &t.Section
+}
+
+type ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Audit struct {
+	UpdatedBy   string "json:\"updatedBy\" graphql:\"updatedBy\""
+	UpdatedTime string "json:\"updatedTime\" graphql:\"updatedTime\""
+}
+
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Audit) GetUpdatedBy() string {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Audit{}
+	}
+	return t.UpdatedBy
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Audit) GetUpdatedTime() string {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Audit{}
+	}
+	return t.UpdatedTime
+}
+
+type ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_Section struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_Section) GetID() string {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_Section{}
+	}
+	return t.ID
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_Section) GetName() string {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_Section{}
+	}
+	return t.Name
+}
+
+type ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_AccessMethod_ValueSet struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_AccessMethod_ValueSet) GetID() string {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_AccessMethod_ValueSet{}
+	}
+	return t.ID
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_AccessMethod_ValueSet) GetName() string {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_AccessMethod_ValueSet{}
+	}
+	return t.Name
+}
+
+type ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_AccessMethod struct {
+	AccessMethod cato_models.ApplicationControlAccessMethodType                                                              "json:\"accessMethod\" graphql:\"accessMethod\""
+	Operator     cato_models.ApplicationControlOperator                                                                      "json:\"operator\" graphql:\"operator\""
+	Value        *scalars.ApplicationRisk                                                                                    "json:\"value,omitempty\" graphql:\"value\""
+	ValueSet     *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_AccessMethod_ValueSet "json:\"valueSet,omitempty\" graphql:\"valueSet\""
+}
+
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_AccessMethod) GetAccessMethod() *cato_models.ApplicationControlAccessMethodType {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_AccessMethod{}
+	}
+	return &t.AccessMethod
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_AccessMethod) GetOperator() *cato_models.ApplicationControlOperator {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_AccessMethod{}
+	}
+	return &t.Operator
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_AccessMethod) GetValue() *scalars.ApplicationRisk {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_AccessMethod{}
+	}
+	return t.Value
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_AccessMethod) GetValueSet() *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_AccessMethod_ValueSet {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_AccessMethod{}
+	}
+	return t.ValueSet
+}
+
+type ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_ActionConfig_UserNotification struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_ActionConfig_UserNotification) GetID() string {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_ActionConfig_UserNotification{}
+	}
+	return t.ID
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_ActionConfig_UserNotification) GetName() string {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_ActionConfig_UserNotification{}
+	}
+	return t.Name
+}
+
+type ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_ActionConfig struct {
+	UserNotification []*ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_ActionConfig_UserNotification "json:\"userNotification\" graphql:\"userNotification\""
+}
+
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_ActionConfig) GetUserNotification() []*ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_ActionConfig_UserNotification {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_ActionConfig{}
+	}
+	return t.UserNotification
+}
+
+type ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_Application_Application struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_Application_Application) GetID() string {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_Application_Application{}
+	}
+	return t.ID
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_Application_Application) GetName() string {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_Application_Application{}
+	}
+	return t.Name
+}
+
+type ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_Application_AppCategory struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_Application_AppCategory) GetID() string {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_Application_AppCategory{}
+	}
+	return t.ID
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_Application_AppCategory) GetName() string {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_Application_AppCategory{}
+	}
+	return t.Name
+}
+
+type ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_Application_CustomApp struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_Application_CustomApp) GetID() string {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_Application_CustomApp{}
+	}
+	return t.ID
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_Application_CustomApp) GetName() string {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_Application_CustomApp{}
+	}
+	return t.Name
+}
+
+type ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_Application_CustomCategory struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_Application_CustomCategory) GetID() string {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_Application_CustomCategory{}
+	}
+	return t.ID
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_Application_CustomCategory) GetName() string {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_Application_CustomCategory{}
+	}
+	return t.Name
+}
+
+type ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_Application_SanctionedAppsCategory struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_Application_SanctionedAppsCategory) GetID() string {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_Application_SanctionedAppsCategory{}
+	}
+	return t.ID
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_Application_SanctionedAppsCategory) GetName() string {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_Application_SanctionedAppsCategory{}
+	}
+	return t.Name
+}
+
+type ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_Application struct {
+	AppCategory            *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_Application_AppCategory            "json:\"appCategory,omitempty\" graphql:\"appCategory\""
+	Application            *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_Application_Application            "json:\"application,omitempty\" graphql:\"application\""
+	ApplicationType        []cato_models.ApplicationType                                                                                            "json:\"applicationType\" graphql:\"applicationType\""
+	CustomApp              *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_Application_CustomApp              "json:\"customApp,omitempty\" graphql:\"customApp\""
+	CustomCategory         *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_Application_CustomCategory         "json:\"customCategory,omitempty\" graphql:\"customCategory\""
+	SanctionedAppsCategory *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_Application_SanctionedAppsCategory "json:\"sanctionedAppsCategory,omitempty\" graphql:\"sanctionedAppsCategory\""
+}
+
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_Application) GetAppCategory() *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_Application_AppCategory {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_Application{}
+	}
+	return t.AppCategory
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_Application) GetApplication() *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_Application_Application {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_Application{}
+	}
+	return t.Application
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_Application) GetApplicationType() []cato_models.ApplicationType {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_Application{}
+	}
+	return t.ApplicationType
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_Application) GetCustomApp() *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_Application_CustomApp {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_Application{}
+	}
+	return t.CustomApp
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_Application) GetCustomCategory() *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_Application_CustomCategory {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_Application{}
+	}
+	return t.CustomCategory
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_Application) GetSanctionedAppsCategory() *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_Application_SanctionedAppsCategory {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_Application{}
+	}
+	return t.SanctionedAppsCategory
+}
+
+type ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_ApplicationActivity_Activity struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_ApplicationActivity_Activity) GetID() string {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_ApplicationActivity_Activity{}
+	}
+	return t.ID
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_ApplicationActivity_Activity) GetName() string {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_ApplicationActivity_Activity{}
+	}
+	return t.Name
+}
+
+type ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_ApplicationActivity_Field struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_ApplicationActivity_Field) GetID() string {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_ApplicationActivity_Field{}
+	}
+	return t.ID
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_ApplicationActivity_Field) GetName() string {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_ApplicationActivity_Field{}
+	}
+	return t.Name
+}
+
+type ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_ApplicationActivity_ValueSet struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_ApplicationActivity_ValueSet) GetID() string {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_ApplicationActivity_ValueSet{}
+	}
+	return t.ID
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_ApplicationActivity_ValueSet) GetName() string {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_ApplicationActivity_ValueSet{}
+	}
+	return t.Name
+}
+
+type ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_ApplicationActivity struct {
+	Activity ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_ApplicationActivity_Activity  "json:\"activity\" graphql:\"activity\""
+	Field    *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_ApplicationActivity_Field    "json:\"field,omitempty\" graphql:\"field\""
+	Operator *cato_models.ApplicationControlOperator                                                                            "json:\"operator,omitempty\" graphql:\"operator\""
+	Value    *scalars.ApplicationRisk                                                                                           "json:\"value,omitempty\" graphql:\"value\""
+	ValueSet *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_ApplicationActivity_ValueSet "json:\"valueSet,omitempty\" graphql:\"valueSet\""
+}
+
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_ApplicationActivity) GetActivity() *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_ApplicationActivity_Activity {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_ApplicationActivity{}
+	}
+	return &t.Activity
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_ApplicationActivity) GetField() *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_ApplicationActivity_Field {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_ApplicationActivity{}
+	}
+	return t.Field
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_ApplicationActivity) GetOperator() *cato_models.ApplicationControlOperator {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_ApplicationActivity{}
+	}
+	return t.Operator
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_ApplicationActivity) GetValue() *scalars.ApplicationRisk {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_ApplicationActivity{}
+	}
+	return t.Value
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_ApplicationActivity) GetValueSet() *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_ApplicationActivity_ValueSet {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_ApplicationActivity{}
+	}
+	return t.ValueSet
+}
+
+type ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_ApplicationContext_ApplicationTenant_ValueSet struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_ApplicationContext_ApplicationTenant_ValueSet) GetID() string {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_ApplicationContext_ApplicationTenant_ValueSet{}
+	}
+	return t.ID
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_ApplicationContext_ApplicationTenant_ValueSet) GetName() string {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_ApplicationContext_ApplicationTenant_ValueSet{}
+	}
+	return t.Name
+}
+
+type ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_ApplicationContext_ApplicationTenant struct {
+	Operator *cato_models.ApplicationControlOperator                                                                                             "json:\"operator,omitempty\" graphql:\"operator\""
+	Value    *scalars.ApplicationRisk                                                                                                            "json:\"value,omitempty\" graphql:\"value\""
+	ValueSet *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_ApplicationContext_ApplicationTenant_ValueSet "json:\"valueSet,omitempty\" graphql:\"valueSet\""
+}
+
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_ApplicationContext_ApplicationTenant) GetOperator() *cato_models.ApplicationControlOperator {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_ApplicationContext_ApplicationTenant{}
+	}
+	return t.Operator
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_ApplicationContext_ApplicationTenant) GetValue() *scalars.ApplicationRisk {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_ApplicationContext_ApplicationTenant{}
+	}
+	return t.Value
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_ApplicationContext_ApplicationTenant) GetValueSet() *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_ApplicationContext_ApplicationTenant_ValueSet {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_ApplicationContext_ApplicationTenant{}
+	}
+	return t.ValueSet
+}
+
+type ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_ApplicationContext struct {
+	ApplicationTenant []*ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_ApplicationContext_ApplicationTenant "json:\"applicationTenant\" graphql:\"applicationTenant\""
+}
+
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_ApplicationContext) GetApplicationTenant() []*ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_ApplicationContext_ApplicationTenant {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_ApplicationContext{}
+	}
+	return t.ApplicationTenant
+}
+
+type ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_ApplicationCriteria_Attributes_ComplianceAttributes struct {
+	Hippa    cato_models.ApplicationControlAttributeValue "json:\"hippa\" graphql:\"hippa\""
+	Isae3402 cato_models.ApplicationControlAttributeValue "json:\"isae3402\" graphql:\"isae3402\""
+	Iso27001 cato_models.ApplicationControlAttributeValue "json:\"iso27001\" graphql:\"iso27001\""
+	PciDss   cato_models.ApplicationControlAttributeValue "json:\"pciDss\" graphql:\"pciDss\""
+	Soc1     cato_models.ApplicationControlAttributeValue "json:\"soc1\" graphql:\"soc1\""
+	Soc2     cato_models.ApplicationControlAttributeValue "json:\"soc2\" graphql:\"soc2\""
+	Soc3     cato_models.ApplicationControlAttributeValue "json:\"soc3\" graphql:\"soc3\""
+	Sox      cato_models.ApplicationControlAttributeValue "json:\"sox\" graphql:\"sox\""
+}
+
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_ApplicationCriteria_Attributes_ComplianceAttributes) GetHippa() *cato_models.ApplicationControlAttributeValue {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_ApplicationCriteria_Attributes_ComplianceAttributes{}
+	}
+	return &t.Hippa
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_ApplicationCriteria_Attributes_ComplianceAttributes) GetIsae3402() *cato_models.ApplicationControlAttributeValue {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_ApplicationCriteria_Attributes_ComplianceAttributes{}
+	}
+	return &t.Isae3402
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_ApplicationCriteria_Attributes_ComplianceAttributes) GetIso27001() *cato_models.ApplicationControlAttributeValue {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_ApplicationCriteria_Attributes_ComplianceAttributes{}
+	}
+	return &t.Iso27001
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_ApplicationCriteria_Attributes_ComplianceAttributes) GetPciDss() *cato_models.ApplicationControlAttributeValue {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_ApplicationCriteria_Attributes_ComplianceAttributes{}
+	}
+	return &t.PciDss
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_ApplicationCriteria_Attributes_ComplianceAttributes) GetSoc1() *cato_models.ApplicationControlAttributeValue {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_ApplicationCriteria_Attributes_ComplianceAttributes{}
+	}
+	return &t.Soc1
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_ApplicationCriteria_Attributes_ComplianceAttributes) GetSoc2() *cato_models.ApplicationControlAttributeValue {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_ApplicationCriteria_Attributes_ComplianceAttributes{}
+	}
+	return &t.Soc2
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_ApplicationCriteria_Attributes_ComplianceAttributes) GetSoc3() *cato_models.ApplicationControlAttributeValue {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_ApplicationCriteria_Attributes_ComplianceAttributes{}
+	}
+	return &t.Soc3
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_ApplicationCriteria_Attributes_ComplianceAttributes) GetSox() *cato_models.ApplicationControlAttributeValue {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_ApplicationCriteria_Attributes_ComplianceAttributes{}
+	}
+	return &t.Sox
+}
+
+type ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_ApplicationCriteria_Attributes_SecurityAttributes struct {
+	AuditTrail          cato_models.ApplicationControlAttributeValue "json:\"auditTrail\" graphql:\"auditTrail\""
+	EncryptionAtRest    cato_models.ApplicationControlAttributeValue "json:\"encryptionAtRest\" graphql:\"encryptionAtRest\""
+	HTTPSecurityHeaders cato_models.ApplicationControlAttributeValue "json:\"httpSecurityHeaders\" graphql:\"httpSecurityHeaders\""
+	Mfa                 cato_models.ApplicationControlAttributeValue "json:\"mfa\" graphql:\"mfa\""
+	Rbac                cato_models.ApplicationControlAttributeValue "json:\"rbac\" graphql:\"rbac\""
+	RememberPassword    cato_models.ApplicationControlAttributeValue "json:\"rememberPassword\" graphql:\"rememberPassword\""
+	Sso                 cato_models.ApplicationControlAttributeValue "json:\"sso\" graphql:\"sso\""
+	TLSEnforcement      cato_models.ApplicationControlAttributeValue "json:\"tlsEnforcement\" graphql:\"tlsEnforcement\""
+	TrustedCertificate  cato_models.ApplicationControlAttributeValue "json:\"trustedCertificate\" graphql:\"trustedCertificate\""
+}
+
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_ApplicationCriteria_Attributes_SecurityAttributes) GetAuditTrail() *cato_models.ApplicationControlAttributeValue {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_ApplicationCriteria_Attributes_SecurityAttributes{}
+	}
+	return &t.AuditTrail
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_ApplicationCriteria_Attributes_SecurityAttributes) GetEncryptionAtRest() *cato_models.ApplicationControlAttributeValue {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_ApplicationCriteria_Attributes_SecurityAttributes{}
+	}
+	return &t.EncryptionAtRest
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_ApplicationCriteria_Attributes_SecurityAttributes) GetHTTPSecurityHeaders() *cato_models.ApplicationControlAttributeValue {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_ApplicationCriteria_Attributes_SecurityAttributes{}
+	}
+	return &t.HTTPSecurityHeaders
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_ApplicationCriteria_Attributes_SecurityAttributes) GetMfa() *cato_models.ApplicationControlAttributeValue {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_ApplicationCriteria_Attributes_SecurityAttributes{}
+	}
+	return &t.Mfa
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_ApplicationCriteria_Attributes_SecurityAttributes) GetRbac() *cato_models.ApplicationControlAttributeValue {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_ApplicationCriteria_Attributes_SecurityAttributes{}
+	}
+	return &t.Rbac
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_ApplicationCriteria_Attributes_SecurityAttributes) GetRememberPassword() *cato_models.ApplicationControlAttributeValue {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_ApplicationCriteria_Attributes_SecurityAttributes{}
+	}
+	return &t.RememberPassword
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_ApplicationCriteria_Attributes_SecurityAttributes) GetSso() *cato_models.ApplicationControlAttributeValue {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_ApplicationCriteria_Attributes_SecurityAttributes{}
+	}
+	return &t.Sso
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_ApplicationCriteria_Attributes_SecurityAttributes) GetTLSEnforcement() *cato_models.ApplicationControlAttributeValue {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_ApplicationCriteria_Attributes_SecurityAttributes{}
+	}
+	return &t.TLSEnforcement
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_ApplicationCriteria_Attributes_SecurityAttributes) GetTrustedCertificate() *cato_models.ApplicationControlAttributeValue {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_ApplicationCriteria_Attributes_SecurityAttributes{}
+	}
+	return &t.TrustedCertificate
+}
+
+type ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_ApplicationCriteria_Attributes struct {
+	ComplianceAttributes ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_ApplicationCriteria_Attributes_ComplianceAttributes "json:\"complianceAttributes\" graphql:\"complianceAttributes\""
+	SecurityAttributes   ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_ApplicationCriteria_Attributes_SecurityAttributes   "json:\"securityAttributes\" graphql:\"securityAttributes\""
+}
+
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_ApplicationCriteria_Attributes) GetComplianceAttributes() *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_ApplicationCriteria_Attributes_ComplianceAttributes {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_ApplicationCriteria_Attributes{}
+	}
+	return &t.ComplianceAttributes
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_ApplicationCriteria_Attributes) GetSecurityAttributes() *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_ApplicationCriteria_Attributes_SecurityAttributes {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_ApplicationCriteria_Attributes{}
+	}
+	return &t.SecurityAttributes
+}
+
+type ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_ApplicationCriteria_OriginCountry struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_ApplicationCriteria_OriginCountry) GetID() string {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_ApplicationCriteria_OriginCountry{}
+	}
+	return t.ID
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_ApplicationCriteria_OriginCountry) GetName() string {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_ApplicationCriteria_OriginCountry{}
+	}
+	return t.Name
+}
+
+type ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_ApplicationCriteria_Risk struct {
+	Risk         scalars.ApplicationRisk                "json:\"risk\" graphql:\"risk\""
+	RiskOperator cato_models.ApplicationControlOperator "json:\"riskOperator\" graphql:\"riskOperator\""
+}
+
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_ApplicationCriteria_Risk) GetRisk() *scalars.ApplicationRisk {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_ApplicationCriteria_Risk{}
+	}
+	return &t.Risk
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_ApplicationCriteria_Risk) GetRiskOperator() *cato_models.ApplicationControlOperator {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_ApplicationCriteria_Risk{}
+	}
+	return &t.RiskOperator
+}
+
+type ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_ApplicationCriteria struct {
+	Attributes    ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_ApplicationCriteria_Attributes       "json:\"attributes\" graphql:\"attributes\""
+	OriginCountry []*ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_ApplicationCriteria_OriginCountry "json:\"originCountry\" graphql:\"originCountry\""
+	Risk          []*ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_ApplicationCriteria_Risk          "json:\"risk\" graphql:\"risk\""
+}
+
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_ApplicationCriteria) GetAttributes() *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_ApplicationCriteria_Attributes {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_ApplicationCriteria{}
+	}
+	return &t.Attributes
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_ApplicationCriteria) GetOriginCountry() []*ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_ApplicationCriteria_OriginCountry {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_ApplicationCriteria{}
+	}
+	return t.OriginCountry
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_ApplicationCriteria) GetRisk() []*ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_ApplicationCriteria_Risk {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_ApplicationCriteria{}
+	}
+	return t.Risk
+}
+
+type ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_Device struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_Device) GetID() string {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_Device{}
+	}
+	return t.ID
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_Device) GetName() string {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_Device{}
+	}
+	return t.Name
+}
+
+type ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_Schedule_CustomTimeframeApplicationRule struct {
+	From string "json:\"from\" graphql:\"from\""
+	To   string "json:\"to\" graphql:\"to\""
+}
+
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_Schedule_CustomTimeframeApplicationRule) GetFrom() string {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_Schedule_CustomTimeframeApplicationRule{}
+	}
+	return t.From
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_Schedule_CustomTimeframeApplicationRule) GetTo() string {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_Schedule_CustomTimeframeApplicationRule{}
+	}
+	return t.To
+}
+
+type ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_Schedule_CustomRecurringApplicationRule struct {
+	Days []cato_models.DayOfWeek "json:\"days\" graphql:\"days\""
+	From scalars.Time            "json:\"from\" graphql:\"from\""
+	To   scalars.Time            "json:\"to\" graphql:\"to\""
+}
+
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_Schedule_CustomRecurringApplicationRule) GetDays() []cato_models.DayOfWeek {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_Schedule_CustomRecurringApplicationRule{}
+	}
+	return t.Days
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_Schedule_CustomRecurringApplicationRule) GetFrom() *scalars.Time {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_Schedule_CustomRecurringApplicationRule{}
+	}
+	return &t.From
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_Schedule_CustomRecurringApplicationRule) GetTo() *scalars.Time {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_Schedule_CustomRecurringApplicationRule{}
+	}
+	return &t.To
+}
+
+type ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_Schedule struct {
+	ActiveOn                       cato_models.PolicyActiveOnEnum                                                                                                "json:\"activeOn\" graphql:\"activeOn\""
+	CustomRecurringApplicationRule *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_Schedule_CustomRecurringApplicationRule "json:\"customRecurringApplicationRule,omitempty\" graphql:\"customRecurringApplicationRule\""
+	CustomTimeframeApplicationRule *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_Schedule_CustomTimeframeApplicationRule "json:\"customTimeframeApplicationRule,omitempty\" graphql:\"customTimeframeApplicationRule\""
+}
+
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_Schedule) GetActiveOn() *cato_models.PolicyActiveOnEnum {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_Schedule{}
+	}
+	return &t.ActiveOn
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_Schedule) GetCustomRecurringApplicationRule() *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_Schedule_CustomRecurringApplicationRule {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_Schedule{}
+	}
+	return t.CustomRecurringApplicationRule
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_Schedule) GetCustomTimeframeApplicationRule() *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_Schedule_CustomTimeframeApplicationRule {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_Schedule{}
+	}
+	return t.CustomTimeframeApplicationRule
+}
+
+type ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_Source_Country struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_Source_Country) GetID() string {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_Source_Country{}
+	}
+	return t.ID
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_Source_Country) GetName() string {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_Source_Country{}
+	}
+	return t.Name
+}
+
+type ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_Source_FloatingSubnet struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_Source_FloatingSubnet) GetID() string {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_Source_FloatingSubnet{}
+	}
+	return t.ID
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_Source_FloatingSubnet) GetName() string {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_Source_FloatingSubnet{}
+	}
+	return t.Name
+}
+
+type ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_Source_GlobalIPRange struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_Source_GlobalIPRange) GetID() string {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_Source_GlobalIPRange{}
+	}
+	return t.ID
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_Source_GlobalIPRange) GetName() string {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_Source_GlobalIPRange{}
+	}
+	return t.Name
+}
+
+type ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_Source_Group struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_Source_Group) GetID() string {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_Source_Group{}
+	}
+	return t.ID
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_Source_Group) GetName() string {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_Source_Group{}
+	}
+	return t.Name
+}
+
+type ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_Source_Host struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_Source_Host) GetID() string {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_Source_Host{}
+	}
+	return t.ID
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_Source_Host) GetName() string {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_Source_Host{}
+	}
+	return t.Name
+}
+
+type ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_Source_IPRange struct {
+	From string "json:\"from\" graphql:\"from\""
+	To   string "json:\"to\" graphql:\"to\""
+}
+
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_Source_IPRange) GetFrom() string {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_Source_IPRange{}
+	}
+	return t.From
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_Source_IPRange) GetTo() string {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_Source_IPRange{}
+	}
+	return t.To
+}
+
+type ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_Source_NetworkInterface struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_Source_NetworkInterface) GetID() string {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_Source_NetworkInterface{}
+	}
+	return t.ID
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_Source_NetworkInterface) GetName() string {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_Source_NetworkInterface{}
+	}
+	return t.Name
+}
+
+type ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_Source_Site struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_Source_Site) GetID() string {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_Source_Site{}
+	}
+	return t.ID
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_Source_Site) GetName() string {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_Source_Site{}
+	}
+	return t.Name
+}
+
+type ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_Source_SiteNetworkSubnet struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_Source_SiteNetworkSubnet) GetID() string {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_Source_SiteNetworkSubnet{}
+	}
+	return t.ID
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_Source_SiteNetworkSubnet) GetName() string {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_Source_SiteNetworkSubnet{}
+	}
+	return t.Name
+}
+
+type ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_Source_SystemGroup struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_Source_SystemGroup) GetID() string {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_Source_SystemGroup{}
+	}
+	return t.ID
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_Source_SystemGroup) GetName() string {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_Source_SystemGroup{}
+	}
+	return t.Name
+}
+
+type ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_Source_User struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_Source_User) GetID() string {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_Source_User{}
+	}
+	return t.ID
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_Source_User) GetName() string {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_Source_User{}
+	}
+	return t.Name
+}
+
+type ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_Source_UsersGroup struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_Source_UsersGroup) GetID() string {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_Source_UsersGroup{}
+	}
+	return t.ID
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_Source_UsersGroup) GetName() string {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_Source_UsersGroup{}
+	}
+	return t.Name
+}
+
+type ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_Source struct {
+	Country           []*ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_Source_Country           "json:\"country\" graphql:\"country\""
+	FloatingSubnet    []*ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_Source_FloatingSubnet    "json:\"floatingSubnet\" graphql:\"floatingSubnet\""
+	GlobalIPRange     []*ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_Source_GlobalIPRange     "json:\"globalIpRange\" graphql:\"globalIpRange\""
+	Group             []*ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_Source_Group             "json:\"group\" graphql:\"group\""
+	Host              []*ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_Source_Host              "json:\"host\" graphql:\"host\""
+	IP                []string                                                                                                         "json:\"ip\" graphql:\"ip\""
+	IPRange           []*ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_Source_IPRange           "json:\"ipRange\" graphql:\"ipRange\""
+	NetworkInterface  []*ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_Source_NetworkInterface  "json:\"networkInterface\" graphql:\"networkInterface\""
+	Site              []*ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_Source_Site              "json:\"site\" graphql:\"site\""
+	SiteNetworkSubnet []*ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_Source_SiteNetworkSubnet "json:\"siteNetworkSubnet\" graphql:\"siteNetworkSubnet\""
+	Subnet            []string                                                                                                         "json:\"subnet\" graphql:\"subnet\""
+	SystemGroup       []*ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_Source_SystemGroup       "json:\"systemGroup\" graphql:\"systemGroup\""
+	User              []*ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_Source_User              "json:\"user\" graphql:\"user\""
+	UsersGroup        []*ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_Source_UsersGroup        "json:\"usersGroup\" graphql:\"usersGroup\""
+}
+
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_Source) GetCountry() []*ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_Source_Country {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_Source{}
+	}
+	return t.Country
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_Source) GetFloatingSubnet() []*ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_Source_FloatingSubnet {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_Source{}
+	}
+	return t.FloatingSubnet
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_Source) GetGlobalIPRange() []*ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_Source_GlobalIPRange {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_Source{}
+	}
+	return t.GlobalIPRange
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_Source) GetGroup() []*ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_Source_Group {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_Source{}
+	}
+	return t.Group
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_Source) GetHost() []*ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_Source_Host {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_Source{}
+	}
+	return t.Host
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_Source) GetIP() []string {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_Source{}
+	}
+	return t.IP
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_Source) GetIPRange() []*ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_Source_IPRange {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_Source{}
+	}
+	return t.IPRange
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_Source) GetNetworkInterface() []*ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_Source_NetworkInterface {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_Source{}
+	}
+	return t.NetworkInterface
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_Source) GetSite() []*ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_Source_Site {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_Source{}
+	}
+	return t.Site
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_Source) GetSiteNetworkSubnet() []*ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_Source_SiteNetworkSubnet {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_Source{}
+	}
+	return t.SiteNetworkSubnet
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_Source) GetSubnet() []string {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_Source{}
+	}
+	return t.Subnet
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_Source) GetSystemGroup() []*ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_Source_SystemGroup {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_Source{}
+	}
+	return t.SystemGroup
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_Source) GetUser() []*ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_Source_User {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_Source{}
+	}
+	return t.User
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_Source) GetUsersGroup() []*ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_Source_UsersGroup {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_Source{}
+	}
+	return t.UsersGroup
+}
+
+type ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_Tracking_Event struct {
+	Enabled bool "json:\"enabled\" graphql:\"enabled\""
+}
+
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_Tracking_Event) GetEnabled() bool {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_Tracking_Event{}
+	}
+	return t.Enabled
+}
+
+type ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_Tracking_Alert_SubscriptionGroup struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_Tracking_Alert_SubscriptionGroup) GetID() string {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_Tracking_Alert_SubscriptionGroup{}
+	}
+	return t.ID
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_Tracking_Alert_SubscriptionGroup) GetName() string {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_Tracking_Alert_SubscriptionGroup{}
+	}
+	return t.Name
+}
+
+type ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_Tracking_Alert_Webhook struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_Tracking_Alert_Webhook) GetID() string {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_Tracking_Alert_Webhook{}
+	}
+	return t.ID
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_Tracking_Alert_Webhook) GetName() string {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_Tracking_Alert_Webhook{}
+	}
+	return t.Name
+}
+
+type ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_Tracking_Alert_MailingList struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_Tracking_Alert_MailingList) GetID() string {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_Tracking_Alert_MailingList{}
+	}
+	return t.ID
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_Tracking_Alert_MailingList) GetName() string {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_Tracking_Alert_MailingList{}
+	}
+	return t.Name
+}
+
+type ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_Tracking_Alert struct {
+	Enabled           bool                                                                                                                     "json:\"enabled\" graphql:\"enabled\""
+	Frequency         cato_models.PolicyRuleTrackingFrequencyEnum                                                                              "json:\"frequency\" graphql:\"frequency\""
+	MailingList       []*ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_Tracking_Alert_MailingList       "json:\"mailingList\" graphql:\"mailingList\""
+	SubscriptionGroup []*ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_Tracking_Alert_SubscriptionGroup "json:\"subscriptionGroup\" graphql:\"subscriptionGroup\""
+	Webhook           []*ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_Tracking_Alert_Webhook           "json:\"webhook\" graphql:\"webhook\""
+}
+
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_Tracking_Alert) GetEnabled() bool {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_Tracking_Alert{}
+	}
+	return t.Enabled
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_Tracking_Alert) GetFrequency() *cato_models.PolicyRuleTrackingFrequencyEnum {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_Tracking_Alert{}
+	}
+	return &t.Frequency
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_Tracking_Alert) GetMailingList() []*ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_Tracking_Alert_MailingList {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_Tracking_Alert{}
+	}
+	return t.MailingList
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_Tracking_Alert) GetSubscriptionGroup() []*ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_Tracking_Alert_SubscriptionGroup {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_Tracking_Alert{}
+	}
+	return t.SubscriptionGroup
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_Tracking_Alert) GetWebhook() []*ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_Tracking_Alert_Webhook {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_Tracking_Alert{}
+	}
+	return t.Webhook
+}
+
+type ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_Tracking struct {
+	Alert ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_Tracking_Alert "json:\"alert\" graphql:\"alert\""
+	Event ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_Tracking_Event "json:\"event\" graphql:\"event\""
+}
+
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_Tracking) GetAlert() *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_Tracking_Alert {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_Tracking{}
+	}
+	return &t.Alert
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_Tracking) GetEvent() *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_Tracking_Event {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_Tracking{}
+	}
+	return &t.Event
+}
+
+type ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule struct {
+	AccessMethod               []*ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_AccessMethod        "json:\"accessMethod\" graphql:\"accessMethod\""
+	Action                     cato_models.ApplicationControlAction                                                                        "json:\"action\" graphql:\"action\""
+	ActionConfig               ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_ActionConfig           "json:\"actionConfig\" graphql:\"actionConfig\""
+	Application                ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_Application            "json:\"application\" graphql:\"application\""
+	ApplicationActivity        []*ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_ApplicationActivity "json:\"applicationActivity\" graphql:\"applicationActivity\""
+	ApplicationActivitySatisfy cato_models.ApplicationControlSatisfy                                                                       "json:\"applicationActivitySatisfy\" graphql:\"applicationActivitySatisfy\""
+	ApplicationContext         ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_ApplicationContext     "json:\"applicationContext\" graphql:\"applicationContext\""
+	ApplicationCriteria        ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_ApplicationCriteria    "json:\"applicationCriteria\" graphql:\"applicationCriteria\""
+	ApplicationCriteriaSatisfy cato_models.ApplicationControlSatisfy                                                                       "json:\"applicationCriteriaSatisfy\" graphql:\"applicationCriteriaSatisfy\""
+	Device                     []*ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_Device              "json:\"device\" graphql:\"device\""
+	Schedule                   ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_Schedule               "json:\"schedule\" graphql:\"schedule\""
+	Severity                   cato_models.ApplicationControlSeverity                                                                      "json:\"severity\" graphql:\"severity\""
+	Source                     ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_Source                 "json:\"source\" graphql:\"source\""
+	Tracking                   ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_Tracking               "json:\"tracking\" graphql:\"tracking\""
+}
+
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule) GetAccessMethod() []*ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_AccessMethod {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule{}
+	}
+	return t.AccessMethod
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule) GetAction() *cato_models.ApplicationControlAction {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule{}
+	}
+	return &t.Action
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule) GetActionConfig() *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_ActionConfig {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule{}
+	}
+	return &t.ActionConfig
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule) GetApplication() *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_Application {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule{}
+	}
+	return &t.Application
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule) GetApplicationActivity() []*ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_ApplicationActivity {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule{}
+	}
+	return t.ApplicationActivity
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule) GetApplicationActivitySatisfy() *cato_models.ApplicationControlSatisfy {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule{}
+	}
+	return &t.ApplicationActivitySatisfy
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule) GetApplicationContext() *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_ApplicationContext {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule{}
+	}
+	return &t.ApplicationContext
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule) GetApplicationCriteria() *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_ApplicationCriteria {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule{}
+	}
+	return &t.ApplicationCriteria
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule) GetApplicationCriteriaSatisfy() *cato_models.ApplicationControlSatisfy {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule{}
+	}
+	return &t.ApplicationCriteriaSatisfy
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule) GetDevice() []*ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_Device {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule{}
+	}
+	return t.Device
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule) GetSchedule() *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_Schedule {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule{}
+	}
+	return &t.Schedule
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule) GetSeverity() *cato_models.ApplicationControlSeverity {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule{}
+	}
+	return &t.Severity
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule) GetSource() *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_Source {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule{}
+	}
+	return &t.Source
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule) GetTracking() *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule_Tracking {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule{}
+	}
+	return &t.Tracking
+}
+
+type ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_AccessMethod_ValueSet struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_AccessMethod_ValueSet) GetID() string {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_AccessMethod_ValueSet{}
+	}
+	return t.ID
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_AccessMethod_ValueSet) GetName() string {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_AccessMethod_ValueSet{}
+	}
+	return t.Name
+}
+
+type ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_AccessMethod struct {
+	AccessMethod cato_models.ApplicationControlAccessMethodType                                                       "json:\"accessMethod\" graphql:\"accessMethod\""
+	Operator     cato_models.ApplicationControlOperator                                                               "json:\"operator\" graphql:\"operator\""
+	Value        *scalars.ApplicationRisk                                                                             "json:\"value,omitempty\" graphql:\"value\""
+	ValueSet     *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_AccessMethod_ValueSet "json:\"valueSet,omitempty\" graphql:\"valueSet\""
+}
+
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_AccessMethod) GetAccessMethod() *cato_models.ApplicationControlAccessMethodType {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_AccessMethod{}
+	}
+	return &t.AccessMethod
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_AccessMethod) GetOperator() *cato_models.ApplicationControlOperator {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_AccessMethod{}
+	}
+	return &t.Operator
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_AccessMethod) GetValue() *scalars.ApplicationRisk {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_AccessMethod{}
+	}
+	return t.Value
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_AccessMethod) GetValueSet() *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_AccessMethod_ValueSet {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_AccessMethod{}
+	}
+	return t.ValueSet
+}
+
+type ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_ActionConfig_UserNotification struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_ActionConfig_UserNotification) GetID() string {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_ActionConfig_UserNotification{}
+	}
+	return t.ID
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_ActionConfig_UserNotification) GetName() string {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_ActionConfig_UserNotification{}
+	}
+	return t.Name
+}
+
+type ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_ActionConfig struct {
+	UserNotification []*ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_ActionConfig_UserNotification "json:\"userNotification\" graphql:\"userNotification\""
+}
+
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_ActionConfig) GetUserNotification() []*ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_ActionConfig_UserNotification {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_ActionConfig{}
+	}
+	return t.UserNotification
+}
+
+type ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_Application_Application struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_Application_Application) GetID() string {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_Application_Application{}
+	}
+	return t.ID
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_Application_Application) GetName() string {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_Application_Application{}
+	}
+	return t.Name
+}
+
+type ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_Application_AppCategory struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_Application_AppCategory) GetID() string {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_Application_AppCategory{}
+	}
+	return t.ID
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_Application_AppCategory) GetName() string {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_Application_AppCategory{}
+	}
+	return t.Name
+}
+
+type ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_Application_CustomApp struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_Application_CustomApp) GetID() string {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_Application_CustomApp{}
+	}
+	return t.ID
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_Application_CustomApp) GetName() string {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_Application_CustomApp{}
+	}
+	return t.Name
+}
+
+type ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_Application_CustomCategory struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_Application_CustomCategory) GetID() string {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_Application_CustomCategory{}
+	}
+	return t.ID
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_Application_CustomCategory) GetName() string {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_Application_CustomCategory{}
+	}
+	return t.Name
+}
+
+type ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_Application_SanctionedAppsCategory struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_Application_SanctionedAppsCategory) GetID() string {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_Application_SanctionedAppsCategory{}
+	}
+	return t.ID
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_Application_SanctionedAppsCategory) GetName() string {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_Application_SanctionedAppsCategory{}
+	}
+	return t.Name
+}
+
+type ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_Application struct {
+	AppCategory            *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_Application_AppCategory            "json:\"appCategory,omitempty\" graphql:\"appCategory\""
+	Application            *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_Application_Application            "json:\"application,omitempty\" graphql:\"application\""
+	ApplicationType        []cato_models.ApplicationType                                                                                     "json:\"applicationType\" graphql:\"applicationType\""
+	CustomApp              *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_Application_CustomApp              "json:\"customApp,omitempty\" graphql:\"customApp\""
+	CustomCategory         *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_Application_CustomCategory         "json:\"customCategory,omitempty\" graphql:\"customCategory\""
+	SanctionedAppsCategory *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_Application_SanctionedAppsCategory "json:\"sanctionedAppsCategory,omitempty\" graphql:\"sanctionedAppsCategory\""
+}
+
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_Application) GetAppCategory() *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_Application_AppCategory {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_Application{}
+	}
+	return t.AppCategory
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_Application) GetApplication() *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_Application_Application {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_Application{}
+	}
+	return t.Application
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_Application) GetApplicationType() []cato_models.ApplicationType {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_Application{}
+	}
+	return t.ApplicationType
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_Application) GetCustomApp() *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_Application_CustomApp {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_Application{}
+	}
+	return t.CustomApp
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_Application) GetCustomCategory() *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_Application_CustomCategory {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_Application{}
+	}
+	return t.CustomCategory
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_Application) GetSanctionedAppsCategory() *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_Application_SanctionedAppsCategory {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_Application{}
+	}
+	return t.SanctionedAppsCategory
+}
+
+type ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_ApplicationActivity_Activity struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_ApplicationActivity_Activity) GetID() string {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_ApplicationActivity_Activity{}
+	}
+	return t.ID
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_ApplicationActivity_Activity) GetName() string {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_ApplicationActivity_Activity{}
+	}
+	return t.Name
+}
+
+type ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_ApplicationActivity_Field struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_ApplicationActivity_Field) GetID() string {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_ApplicationActivity_Field{}
+	}
+	return t.ID
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_ApplicationActivity_Field) GetName() string {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_ApplicationActivity_Field{}
+	}
+	return t.Name
+}
+
+type ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_ApplicationActivity_ValueSet struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_ApplicationActivity_ValueSet) GetID() string {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_ApplicationActivity_ValueSet{}
+	}
+	return t.ID
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_ApplicationActivity_ValueSet) GetName() string {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_ApplicationActivity_ValueSet{}
+	}
+	return t.Name
+}
+
+type ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_ApplicationActivity struct {
+	Activity ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_ApplicationActivity_Activity  "json:\"activity\" graphql:\"activity\""
+	Field    *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_ApplicationActivity_Field    "json:\"field,omitempty\" graphql:\"field\""
+	Operator *cato_models.ApplicationControlOperator                                                                     "json:\"operator,omitempty\" graphql:\"operator\""
+	Value    *scalars.ApplicationRisk                                                                                    "json:\"value,omitempty\" graphql:\"value\""
+	ValueSet *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_ApplicationActivity_ValueSet "json:\"valueSet,omitempty\" graphql:\"valueSet\""
+}
+
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_ApplicationActivity) GetActivity() *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_ApplicationActivity_Activity {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_ApplicationActivity{}
+	}
+	return &t.Activity
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_ApplicationActivity) GetField() *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_ApplicationActivity_Field {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_ApplicationActivity{}
+	}
+	return t.Field
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_ApplicationActivity) GetOperator() *cato_models.ApplicationControlOperator {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_ApplicationActivity{}
+	}
+	return t.Operator
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_ApplicationActivity) GetValue() *scalars.ApplicationRisk {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_ApplicationActivity{}
+	}
+	return t.Value
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_ApplicationActivity) GetValueSet() *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_ApplicationActivity_ValueSet {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_ApplicationActivity{}
+	}
+	return t.ValueSet
+}
+
+type ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_ApplicationContext_ApplicationTenant_ValueSet struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_ApplicationContext_ApplicationTenant_ValueSet) GetID() string {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_ApplicationContext_ApplicationTenant_ValueSet{}
+	}
+	return t.ID
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_ApplicationContext_ApplicationTenant_ValueSet) GetName() string {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_ApplicationContext_ApplicationTenant_ValueSet{}
+	}
+	return t.Name
+}
+
+type ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_ApplicationContext_ApplicationTenant struct {
+	Operator *cato_models.ApplicationControlOperator                                                                                      "json:\"operator,omitempty\" graphql:\"operator\""
+	Value    *scalars.ApplicationRisk                                                                                                     "json:\"value,omitempty\" graphql:\"value\""
+	ValueSet *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_ApplicationContext_ApplicationTenant_ValueSet "json:\"valueSet,omitempty\" graphql:\"valueSet\""
+}
+
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_ApplicationContext_ApplicationTenant) GetOperator() *cato_models.ApplicationControlOperator {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_ApplicationContext_ApplicationTenant{}
+	}
+	return t.Operator
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_ApplicationContext_ApplicationTenant) GetValue() *scalars.ApplicationRisk {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_ApplicationContext_ApplicationTenant{}
+	}
+	return t.Value
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_ApplicationContext_ApplicationTenant) GetValueSet() *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_ApplicationContext_ApplicationTenant_ValueSet {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_ApplicationContext_ApplicationTenant{}
+	}
+	return t.ValueSet
+}
+
+type ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_ApplicationContext struct {
+	ApplicationTenant []*ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_ApplicationContext_ApplicationTenant "json:\"applicationTenant\" graphql:\"applicationTenant\""
+}
+
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_ApplicationContext) GetApplicationTenant() []*ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_ApplicationContext_ApplicationTenant {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_ApplicationContext{}
+	}
+	return t.ApplicationTenant
+}
+
+type ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_Device struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_Device) GetID() string {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_Device{}
+	}
+	return t.ID
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_Device) GetName() string {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_Device{}
+	}
+	return t.Name
+}
+
+type ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_DlpProfile_ContentProfile struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_DlpProfile_ContentProfile) GetID() string {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_DlpProfile_ContentProfile{}
+	}
+	return t.ID
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_DlpProfile_ContentProfile) GetName() string {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_DlpProfile_ContentProfile{}
+	}
+	return t.Name
+}
+
+type ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_DlpProfile_EdmProfile struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_DlpProfile_EdmProfile) GetID() string {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_DlpProfile_EdmProfile{}
+	}
+	return t.ID
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_DlpProfile_EdmProfile) GetName() string {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_DlpProfile_EdmProfile{}
+	}
+	return t.Name
+}
+
+type ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_DlpProfile struct {
+	ContentProfile []*ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_DlpProfile_ContentProfile "json:\"contentProfile\" graphql:\"contentProfile\""
+	EdmProfile     []*ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_DlpProfile_EdmProfile     "json:\"edmProfile\" graphql:\"edmProfile\""
+}
+
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_DlpProfile) GetContentProfile() []*ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_DlpProfile_ContentProfile {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_DlpProfile{}
+	}
+	return t.ContentProfile
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_DlpProfile) GetEdmProfile() []*ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_DlpProfile_EdmProfile {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_DlpProfile{}
+	}
+	return t.EdmProfile
+}
+
+type ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_FileAttribute_ContentTypeGroupValues struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_FileAttribute_ContentTypeGroupValues) GetID() string {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_FileAttribute_ContentTypeGroupValues{}
+	}
+	return t.ID
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_FileAttribute_ContentTypeGroupValues) GetName() string {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_FileAttribute_ContentTypeGroupValues{}
+	}
+	return t.Name
+}
+
+type ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_FileAttribute_ContentTypeValues struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_FileAttribute_ContentTypeValues) GetID() string {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_FileAttribute_ContentTypeValues{}
+	}
+	return t.ID
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_FileAttribute_ContentTypeValues) GetName() string {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_FileAttribute_ContentTypeValues{}
+	}
+	return t.Name
+}
+
+type ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_FileAttribute struct {
+	ContentTypeGroupValues []*ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_FileAttribute_ContentTypeGroupValues "json:\"contentTypeGroupValues\" graphql:\"contentTypeGroupValues\""
+	ContentTypeValues      []*ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_FileAttribute_ContentTypeValues      "json:\"contentTypeValues\" graphql:\"contentTypeValues\""
+	FileAttribute          cato_models.ApplicationControlFileAttributeType                                                                       "json:\"fileAttribute\" graphql:\"fileAttribute\""
+	Operator               cato_models.ApplicationControlOperator                                                                                "json:\"operator\" graphql:\"operator\""
+	Value                  *scalars.ApplicationRisk                                                                                              "json:\"value,omitempty\" graphql:\"value\""
+}
+
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_FileAttribute) GetContentTypeGroupValues() []*ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_FileAttribute_ContentTypeGroupValues {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_FileAttribute{}
+	}
+	return t.ContentTypeGroupValues
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_FileAttribute) GetContentTypeValues() []*ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_FileAttribute_ContentTypeValues {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_FileAttribute{}
+	}
+	return t.ContentTypeValues
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_FileAttribute) GetFileAttribute() *cato_models.ApplicationControlFileAttributeType {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_FileAttribute{}
+	}
+	return &t.FileAttribute
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_FileAttribute) GetOperator() *cato_models.ApplicationControlOperator {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_FileAttribute{}
+	}
+	return &t.Operator
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_FileAttribute) GetValue() *scalars.ApplicationRisk {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_FileAttribute{}
+	}
+	return t.Value
+}
+
+type ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_Schedule_CustomTimeframeDataRule struct {
+	From string "json:\"from\" graphql:\"from\""
+	To   string "json:\"to\" graphql:\"to\""
+}
+
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_Schedule_CustomTimeframeDataRule) GetFrom() string {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_Schedule_CustomTimeframeDataRule{}
+	}
+	return t.From
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_Schedule_CustomTimeframeDataRule) GetTo() string {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_Schedule_CustomTimeframeDataRule{}
+	}
+	return t.To
+}
+
+type ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_Schedule_CustomRecurringDataRule struct {
+	Days []cato_models.DayOfWeek "json:\"days\" graphql:\"days\""
+	From scalars.Time            "json:\"from\" graphql:\"from\""
+	To   scalars.Time            "json:\"to\" graphql:\"to\""
+}
+
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_Schedule_CustomRecurringDataRule) GetDays() []cato_models.DayOfWeek {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_Schedule_CustomRecurringDataRule{}
+	}
+	return t.Days
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_Schedule_CustomRecurringDataRule) GetFrom() *scalars.Time {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_Schedule_CustomRecurringDataRule{}
+	}
+	return &t.From
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_Schedule_CustomRecurringDataRule) GetTo() *scalars.Time {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_Schedule_CustomRecurringDataRule{}
+	}
+	return &t.To
+}
+
+type ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_Schedule struct {
+	ActiveOn                cato_models.PolicyActiveOnEnum                                                                                  "json:\"activeOn\" graphql:\"activeOn\""
+	CustomRecurringDataRule *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_Schedule_CustomRecurringDataRule "json:\"customRecurringDataRule,omitempty\" graphql:\"customRecurringDataRule\""
+	CustomTimeframeDataRule *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_Schedule_CustomTimeframeDataRule "json:\"customTimeframeDataRule,omitempty\" graphql:\"customTimeframeDataRule\""
+}
+
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_Schedule) GetActiveOn() *cato_models.PolicyActiveOnEnum {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_Schedule{}
+	}
+	return &t.ActiveOn
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_Schedule) GetCustomRecurringDataRule() *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_Schedule_CustomRecurringDataRule {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_Schedule{}
+	}
+	return t.CustomRecurringDataRule
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_Schedule) GetCustomTimeframeDataRule() *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_Schedule_CustomTimeframeDataRule {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_Schedule{}
+	}
+	return t.CustomTimeframeDataRule
+}
+
+type ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_Source_Country struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_Source_Country) GetID() string {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_Source_Country{}
+	}
+	return t.ID
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_Source_Country) GetName() string {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_Source_Country{}
+	}
+	return t.Name
+}
+
+type ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_Source_FloatingSubnet struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_Source_FloatingSubnet) GetID() string {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_Source_FloatingSubnet{}
+	}
+	return t.ID
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_Source_FloatingSubnet) GetName() string {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_Source_FloatingSubnet{}
+	}
+	return t.Name
+}
+
+type ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_Source_GlobalIPRange struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_Source_GlobalIPRange) GetID() string {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_Source_GlobalIPRange{}
+	}
+	return t.ID
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_Source_GlobalIPRange) GetName() string {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_Source_GlobalIPRange{}
+	}
+	return t.Name
+}
+
+type ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_Source_Group struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_Source_Group) GetID() string {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_Source_Group{}
+	}
+	return t.ID
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_Source_Group) GetName() string {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_Source_Group{}
+	}
+	return t.Name
+}
+
+type ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_Source_Host struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_Source_Host) GetID() string {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_Source_Host{}
+	}
+	return t.ID
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_Source_Host) GetName() string {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_Source_Host{}
+	}
+	return t.Name
+}
+
+type ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_Source_IPRange struct {
+	From string "json:\"from\" graphql:\"from\""
+	To   string "json:\"to\" graphql:\"to\""
+}
+
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_Source_IPRange) GetFrom() string {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_Source_IPRange{}
+	}
+	return t.From
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_Source_IPRange) GetTo() string {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_Source_IPRange{}
+	}
+	return t.To
+}
+
+type ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_Source_NetworkInterface struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_Source_NetworkInterface) GetID() string {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_Source_NetworkInterface{}
+	}
+	return t.ID
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_Source_NetworkInterface) GetName() string {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_Source_NetworkInterface{}
+	}
+	return t.Name
+}
+
+type ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_Source_Site struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_Source_Site) GetID() string {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_Source_Site{}
+	}
+	return t.ID
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_Source_Site) GetName() string {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_Source_Site{}
+	}
+	return t.Name
+}
+
+type ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_Source_SiteNetworkSubnet struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_Source_SiteNetworkSubnet) GetID() string {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_Source_SiteNetworkSubnet{}
+	}
+	return t.ID
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_Source_SiteNetworkSubnet) GetName() string {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_Source_SiteNetworkSubnet{}
+	}
+	return t.Name
+}
+
+type ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_Source_SystemGroup struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_Source_SystemGroup) GetID() string {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_Source_SystemGroup{}
+	}
+	return t.ID
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_Source_SystemGroup) GetName() string {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_Source_SystemGroup{}
+	}
+	return t.Name
+}
+
+type ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_Source_User struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_Source_User) GetID() string {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_Source_User{}
+	}
+	return t.ID
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_Source_User) GetName() string {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_Source_User{}
+	}
+	return t.Name
+}
+
+type ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_Source_UsersGroup struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_Source_UsersGroup) GetID() string {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_Source_UsersGroup{}
+	}
+	return t.ID
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_Source_UsersGroup) GetName() string {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_Source_UsersGroup{}
+	}
+	return t.Name
+}
+
+type ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_Source struct {
+	Country           []*ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_Source_Country           "json:\"country\" graphql:\"country\""
+	FloatingSubnet    []*ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_Source_FloatingSubnet    "json:\"floatingSubnet\" graphql:\"floatingSubnet\""
+	GlobalIPRange     []*ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_Source_GlobalIPRange     "json:\"globalIpRange\" graphql:\"globalIpRange\""
+	Group             []*ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_Source_Group             "json:\"group\" graphql:\"group\""
+	Host              []*ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_Source_Host              "json:\"host\" graphql:\"host\""
+	IP                []string                                                                                                  "json:\"ip\" graphql:\"ip\""
+	IPRange           []*ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_Source_IPRange           "json:\"ipRange\" graphql:\"ipRange\""
+	NetworkInterface  []*ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_Source_NetworkInterface  "json:\"networkInterface\" graphql:\"networkInterface\""
+	Site              []*ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_Source_Site              "json:\"site\" graphql:\"site\""
+	SiteNetworkSubnet []*ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_Source_SiteNetworkSubnet "json:\"siteNetworkSubnet\" graphql:\"siteNetworkSubnet\""
+	Subnet            []string                                                                                                  "json:\"subnet\" graphql:\"subnet\""
+	SystemGroup       []*ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_Source_SystemGroup       "json:\"systemGroup\" graphql:\"systemGroup\""
+	User              []*ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_Source_User              "json:\"user\" graphql:\"user\""
+	UsersGroup        []*ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_Source_UsersGroup        "json:\"usersGroup\" graphql:\"usersGroup\""
+}
+
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_Source) GetCountry() []*ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_Source_Country {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_Source{}
+	}
+	return t.Country
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_Source) GetFloatingSubnet() []*ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_Source_FloatingSubnet {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_Source{}
+	}
+	return t.FloatingSubnet
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_Source) GetGlobalIPRange() []*ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_Source_GlobalIPRange {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_Source{}
+	}
+	return t.GlobalIPRange
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_Source) GetGroup() []*ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_Source_Group {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_Source{}
+	}
+	return t.Group
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_Source) GetHost() []*ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_Source_Host {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_Source{}
+	}
+	return t.Host
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_Source) GetIP() []string {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_Source{}
+	}
+	return t.IP
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_Source) GetIPRange() []*ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_Source_IPRange {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_Source{}
+	}
+	return t.IPRange
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_Source) GetNetworkInterface() []*ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_Source_NetworkInterface {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_Source{}
+	}
+	return t.NetworkInterface
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_Source) GetSite() []*ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_Source_Site {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_Source{}
+	}
+	return t.Site
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_Source) GetSiteNetworkSubnet() []*ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_Source_SiteNetworkSubnet {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_Source{}
+	}
+	return t.SiteNetworkSubnet
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_Source) GetSubnet() []string {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_Source{}
+	}
+	return t.Subnet
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_Source) GetSystemGroup() []*ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_Source_SystemGroup {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_Source{}
+	}
+	return t.SystemGroup
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_Source) GetUser() []*ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_Source_User {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_Source{}
+	}
+	return t.User
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_Source) GetUsersGroup() []*ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_Source_UsersGroup {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_Source{}
+	}
+	return t.UsersGroup
+}
+
+type ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_Tracking_Event struct {
+	Enabled bool "json:\"enabled\" graphql:\"enabled\""
+}
+
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_Tracking_Event) GetEnabled() bool {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_Tracking_Event{}
+	}
+	return t.Enabled
+}
+
+type ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_Tracking_Alert_SubscriptionGroup struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_Tracking_Alert_SubscriptionGroup) GetID() string {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_Tracking_Alert_SubscriptionGroup{}
+	}
+	return t.ID
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_Tracking_Alert_SubscriptionGroup) GetName() string {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_Tracking_Alert_SubscriptionGroup{}
+	}
+	return t.Name
+}
+
+type ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_Tracking_Alert_Webhook struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_Tracking_Alert_Webhook) GetID() string {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_Tracking_Alert_Webhook{}
+	}
+	return t.ID
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_Tracking_Alert_Webhook) GetName() string {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_Tracking_Alert_Webhook{}
+	}
+	return t.Name
+}
+
+type ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_Tracking_Alert_MailingList struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_Tracking_Alert_MailingList) GetID() string {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_Tracking_Alert_MailingList{}
+	}
+	return t.ID
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_Tracking_Alert_MailingList) GetName() string {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_Tracking_Alert_MailingList{}
+	}
+	return t.Name
+}
+
+type ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_Tracking_Alert struct {
+	Enabled           bool                                                                                                              "json:\"enabled\" graphql:\"enabled\""
+	Frequency         cato_models.PolicyRuleTrackingFrequencyEnum                                                                       "json:\"frequency\" graphql:\"frequency\""
+	MailingList       []*ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_Tracking_Alert_MailingList       "json:\"mailingList\" graphql:\"mailingList\""
+	SubscriptionGroup []*ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_Tracking_Alert_SubscriptionGroup "json:\"subscriptionGroup\" graphql:\"subscriptionGroup\""
+	Webhook           []*ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_Tracking_Alert_Webhook           "json:\"webhook\" graphql:\"webhook\""
+}
+
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_Tracking_Alert) GetEnabled() bool {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_Tracking_Alert{}
+	}
+	return t.Enabled
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_Tracking_Alert) GetFrequency() *cato_models.PolicyRuleTrackingFrequencyEnum {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_Tracking_Alert{}
+	}
+	return &t.Frequency
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_Tracking_Alert) GetMailingList() []*ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_Tracking_Alert_MailingList {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_Tracking_Alert{}
+	}
+	return t.MailingList
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_Tracking_Alert) GetSubscriptionGroup() []*ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_Tracking_Alert_SubscriptionGroup {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_Tracking_Alert{}
+	}
+	return t.SubscriptionGroup
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_Tracking_Alert) GetWebhook() []*ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_Tracking_Alert_Webhook {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_Tracking_Alert{}
+	}
+	return t.Webhook
+}
+
+type ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_Tracking struct {
+	Alert ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_Tracking_Alert "json:\"alert\" graphql:\"alert\""
+	Event ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_Tracking_Event "json:\"event\" graphql:\"event\""
+}
+
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_Tracking) GetAlert() *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_Tracking_Alert {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_Tracking{}
+	}
+	return &t.Alert
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_Tracking) GetEvent() *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_Tracking_Event {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_Tracking{}
+	}
+	return &t.Event
+}
+
+type ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule struct {
+	AccessMethod               []*ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_AccessMethod        "json:\"accessMethod\" graphql:\"accessMethod\""
+	Action                     cato_models.ApplicationControlAction                                                                 "json:\"action\" graphql:\"action\""
+	ActionConfig               *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_ActionConfig          "json:\"actionConfig,omitempty\" graphql:\"actionConfig\""
+	Application                ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_Application            "json:\"application\" graphql:\"application\""
+	ApplicationActivity        []*ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_ApplicationActivity "json:\"applicationActivity\" graphql:\"applicationActivity\""
+	ApplicationActivitySatisfy cato_models.ApplicationControlSatisfy                                                                "json:\"applicationActivitySatisfy\" graphql:\"applicationActivitySatisfy\""
+	ApplicationContext         ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_ApplicationContext     "json:\"applicationContext\" graphql:\"applicationContext\""
+	Device                     []*ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_Device              "json:\"device\" graphql:\"device\""
+	DlpProfile                 ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_DlpProfile             "json:\"dlpProfile\" graphql:\"dlpProfile\""
+	FileAttribute              []*ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_FileAttribute       "json:\"fileAttribute\" graphql:\"fileAttribute\""
+	FileAttributeSatisfy       cato_models.ApplicationControlSatisfy                                                                "json:\"fileAttributeSatisfy\" graphql:\"fileAttributeSatisfy\""
+	Schedule                   ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_Schedule               "json:\"schedule\" graphql:\"schedule\""
+	Severity                   cato_models.ApplicationControlSeverity                                                               "json:\"severity\" graphql:\"severity\""
+	Source                     ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_Source                 "json:\"source\" graphql:\"source\""
+	Tracking                   ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_Tracking               "json:\"tracking\" graphql:\"tracking\""
+}
+
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule) GetAccessMethod() []*ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_AccessMethod {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule{}
+	}
+	return t.AccessMethod
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule) GetAction() *cato_models.ApplicationControlAction {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule{}
+	}
+	return &t.Action
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule) GetActionConfig() *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_ActionConfig {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule{}
+	}
+	return t.ActionConfig
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule) GetApplication() *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_Application {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule{}
+	}
+	return &t.Application
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule) GetApplicationActivity() []*ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_ApplicationActivity {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule{}
+	}
+	return t.ApplicationActivity
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule) GetApplicationActivitySatisfy() *cato_models.ApplicationControlSatisfy {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule{}
+	}
+	return &t.ApplicationActivitySatisfy
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule) GetApplicationContext() *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_ApplicationContext {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule{}
+	}
+	return &t.ApplicationContext
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule) GetDevice() []*ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_Device {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule{}
+	}
+	return t.Device
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule) GetDlpProfile() *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_DlpProfile {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule{}
+	}
+	return &t.DlpProfile
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule) GetFileAttribute() []*ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_FileAttribute {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule{}
+	}
+	return t.FileAttribute
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule) GetFileAttributeSatisfy() *cato_models.ApplicationControlSatisfy {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule{}
+	}
+	return &t.FileAttributeSatisfy
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule) GetSchedule() *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_Schedule {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule{}
+	}
+	return &t.Schedule
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule) GetSeverity() *cato_models.ApplicationControlSeverity {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule{}
+	}
+	return &t.Severity
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule) GetSource() *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_Source {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule{}
+	}
+	return &t.Source
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule) GetTracking() *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule_Tracking {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule{}
+	}
+	return &t.Tracking
+}
+
+type ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_AccessMethod_ValueSet struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_AccessMethod_ValueSet) GetID() string {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_AccessMethod_ValueSet{}
+	}
+	return t.ID
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_AccessMethod_ValueSet) GetName() string {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_AccessMethod_ValueSet{}
+	}
+	return t.Name
+}
+
+type ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_AccessMethod struct {
+	AccessMethod cato_models.ApplicationControlAccessMethodType                                                       "json:\"accessMethod\" graphql:\"accessMethod\""
+	Operator     cato_models.ApplicationControlOperator                                                               "json:\"operator\" graphql:\"operator\""
+	Value        *scalars.ApplicationRisk                                                                             "json:\"value,omitempty\" graphql:\"value\""
+	ValueSet     *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_AccessMethod_ValueSet "json:\"valueSet,omitempty\" graphql:\"valueSet\""
+}
+
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_AccessMethod) GetAccessMethod() *cato_models.ApplicationControlAccessMethodType {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_AccessMethod{}
+	}
+	return &t.AccessMethod
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_AccessMethod) GetOperator() *cato_models.ApplicationControlOperator {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_AccessMethod{}
+	}
+	return &t.Operator
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_AccessMethod) GetValue() *scalars.ApplicationRisk {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_AccessMethod{}
+	}
+	return t.Value
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_AccessMethod) GetValueSet() *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_AccessMethod_ValueSet {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_AccessMethod{}
+	}
+	return t.ValueSet
+}
+
+type ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_ActionConfig_UserNotification struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_ActionConfig_UserNotification) GetID() string {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_ActionConfig_UserNotification{}
+	}
+	return t.ID
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_ActionConfig_UserNotification) GetName() string {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_ActionConfig_UserNotification{}
+	}
+	return t.Name
+}
+
+type ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_ActionConfig struct {
+	UserNotification []*ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_ActionConfig_UserNotification "json:\"userNotification\" graphql:\"userNotification\""
+}
+
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_ActionConfig) GetUserNotification() []*ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_ActionConfig_UserNotification {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_ActionConfig{}
+	}
+	return t.UserNotification
+}
+
+type ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_Application_Application struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_Application_Application) GetID() string {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_Application_Application{}
+	}
+	return t.ID
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_Application_Application) GetName() string {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_Application_Application{}
+	}
+	return t.Name
+}
+
+type ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_Application_AppCategory struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_Application_AppCategory) GetID() string {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_Application_AppCategory{}
+	}
+	return t.ID
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_Application_AppCategory) GetName() string {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_Application_AppCategory{}
+	}
+	return t.Name
+}
+
+type ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_Application_CustomApp struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_Application_CustomApp) GetID() string {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_Application_CustomApp{}
+	}
+	return t.ID
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_Application_CustomApp) GetName() string {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_Application_CustomApp{}
+	}
+	return t.Name
+}
+
+type ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_Application_CustomCategory struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_Application_CustomCategory) GetID() string {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_Application_CustomCategory{}
+	}
+	return t.ID
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_Application_CustomCategory) GetName() string {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_Application_CustomCategory{}
+	}
+	return t.Name
+}
+
+type ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_Application_SanctionedAppsCategory struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_Application_SanctionedAppsCategory) GetID() string {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_Application_SanctionedAppsCategory{}
+	}
+	return t.ID
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_Application_SanctionedAppsCategory) GetName() string {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_Application_SanctionedAppsCategory{}
+	}
+	return t.Name
+}
+
+type ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_Application struct {
+	AppCategory            *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_Application_AppCategory            "json:\"appCategory,omitempty\" graphql:\"appCategory\""
+	Application            *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_Application_Application            "json:\"application,omitempty\" graphql:\"application\""
+	ApplicationType        []cato_models.ApplicationType                                                                                     "json:\"applicationType\" graphql:\"applicationType\""
+	CustomApp              *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_Application_CustomApp              "json:\"customApp,omitempty\" graphql:\"customApp\""
+	CustomCategory         *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_Application_CustomCategory         "json:\"customCategory,omitempty\" graphql:\"customCategory\""
+	SanctionedAppsCategory *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_Application_SanctionedAppsCategory "json:\"sanctionedAppsCategory,omitempty\" graphql:\"sanctionedAppsCategory\""
+}
+
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_Application) GetAppCategory() *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_Application_AppCategory {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_Application{}
+	}
+	return t.AppCategory
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_Application) GetApplication() *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_Application_Application {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_Application{}
+	}
+	return t.Application
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_Application) GetApplicationType() []cato_models.ApplicationType {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_Application{}
+	}
+	return t.ApplicationType
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_Application) GetCustomApp() *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_Application_CustomApp {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_Application{}
+	}
+	return t.CustomApp
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_Application) GetCustomCategory() *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_Application_CustomCategory {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_Application{}
+	}
+	return t.CustomCategory
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_Application) GetSanctionedAppsCategory() *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_Application_SanctionedAppsCategory {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_Application{}
+	}
+	return t.SanctionedAppsCategory
+}
+
+type ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_ApplicationActivity_Activity struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_ApplicationActivity_Activity) GetID() string {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_ApplicationActivity_Activity{}
+	}
+	return t.ID
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_ApplicationActivity_Activity) GetName() string {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_ApplicationActivity_Activity{}
+	}
+	return t.Name
+}
+
+type ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_ApplicationActivity_Field struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_ApplicationActivity_Field) GetID() string {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_ApplicationActivity_Field{}
+	}
+	return t.ID
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_ApplicationActivity_Field) GetName() string {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_ApplicationActivity_Field{}
+	}
+	return t.Name
+}
+
+type ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_ApplicationActivity_ValueSet struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_ApplicationActivity_ValueSet) GetID() string {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_ApplicationActivity_ValueSet{}
+	}
+	return t.ID
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_ApplicationActivity_ValueSet) GetName() string {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_ApplicationActivity_ValueSet{}
+	}
+	return t.Name
+}
+
+type ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_ApplicationActivity struct {
+	Activity ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_ApplicationActivity_Activity  "json:\"activity\" graphql:\"activity\""
+	Field    *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_ApplicationActivity_Field    "json:\"field,omitempty\" graphql:\"field\""
+	Operator *cato_models.ApplicationControlOperator                                                                     "json:\"operator,omitempty\" graphql:\"operator\""
+	Value    *scalars.ApplicationRisk                                                                                    "json:\"value,omitempty\" graphql:\"value\""
+	ValueSet *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_ApplicationActivity_ValueSet "json:\"valueSet,omitempty\" graphql:\"valueSet\""
+}
+
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_ApplicationActivity) GetActivity() *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_ApplicationActivity_Activity {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_ApplicationActivity{}
+	}
+	return &t.Activity
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_ApplicationActivity) GetField() *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_ApplicationActivity_Field {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_ApplicationActivity{}
+	}
+	return t.Field
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_ApplicationActivity) GetOperator() *cato_models.ApplicationControlOperator {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_ApplicationActivity{}
+	}
+	return t.Operator
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_ApplicationActivity) GetValue() *scalars.ApplicationRisk {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_ApplicationActivity{}
+	}
+	return t.Value
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_ApplicationActivity) GetValueSet() *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_ApplicationActivity_ValueSet {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_ApplicationActivity{}
+	}
+	return t.ValueSet
+}
+
+type ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_Device struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_Device) GetID() string {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_Device{}
+	}
+	return t.ID
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_Device) GetName() string {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_Device{}
+	}
+	return t.Name
+}
+
+type ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_FileAttribute_ContentTypeGroupValues struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_FileAttribute_ContentTypeGroupValues) GetID() string {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_FileAttribute_ContentTypeGroupValues{}
+	}
+	return t.ID
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_FileAttribute_ContentTypeGroupValues) GetName() string {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_FileAttribute_ContentTypeGroupValues{}
+	}
+	return t.Name
+}
+
+type ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_FileAttribute_ContentTypeValues struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_FileAttribute_ContentTypeValues) GetID() string {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_FileAttribute_ContentTypeValues{}
+	}
+	return t.ID
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_FileAttribute_ContentTypeValues) GetName() string {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_FileAttribute_ContentTypeValues{}
+	}
+	return t.Name
+}
+
+type ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_FileAttribute struct {
+	ContentTypeGroupValues []*ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_FileAttribute_ContentTypeGroupValues "json:\"contentTypeGroupValues\" graphql:\"contentTypeGroupValues\""
+	ContentTypeValues      []*ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_FileAttribute_ContentTypeValues      "json:\"contentTypeValues\" graphql:\"contentTypeValues\""
+	FileAttribute          cato_models.ApplicationControlFileAttributeType                                                                       "json:\"fileAttribute\" graphql:\"fileAttribute\""
+	Operator               cato_models.ApplicationControlOperator                                                                                "json:\"operator\" graphql:\"operator\""
+	Value                  *scalars.ApplicationRisk                                                                                              "json:\"value,omitempty\" graphql:\"value\""
+}
+
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_FileAttribute) GetContentTypeGroupValues() []*ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_FileAttribute_ContentTypeGroupValues {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_FileAttribute{}
+	}
+	return t.ContentTypeGroupValues
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_FileAttribute) GetContentTypeValues() []*ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_FileAttribute_ContentTypeValues {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_FileAttribute{}
+	}
+	return t.ContentTypeValues
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_FileAttribute) GetFileAttribute() *cato_models.ApplicationControlFileAttributeType {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_FileAttribute{}
+	}
+	return &t.FileAttribute
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_FileAttribute) GetOperator() *cato_models.ApplicationControlOperator {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_FileAttribute{}
+	}
+	return &t.Operator
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_FileAttribute) GetValue() *scalars.ApplicationRisk {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_FileAttribute{}
+	}
+	return t.Value
+}
+
+type ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_Schedule_CustomTimeframeFileRule struct {
+	From string "json:\"from\" graphql:\"from\""
+	To   string "json:\"to\" graphql:\"to\""
+}
+
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_Schedule_CustomTimeframeFileRule) GetFrom() string {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_Schedule_CustomTimeframeFileRule{}
+	}
+	return t.From
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_Schedule_CustomTimeframeFileRule) GetTo() string {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_Schedule_CustomTimeframeFileRule{}
+	}
+	return t.To
+}
+
+type ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_Schedule_CustomRecurringFileRule struct {
+	Days []cato_models.DayOfWeek "json:\"days\" graphql:\"days\""
+	From scalars.Time            "json:\"from\" graphql:\"from\""
+	To   scalars.Time            "json:\"to\" graphql:\"to\""
+}
+
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_Schedule_CustomRecurringFileRule) GetDays() []cato_models.DayOfWeek {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_Schedule_CustomRecurringFileRule{}
+	}
+	return t.Days
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_Schedule_CustomRecurringFileRule) GetFrom() *scalars.Time {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_Schedule_CustomRecurringFileRule{}
+	}
+	return &t.From
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_Schedule_CustomRecurringFileRule) GetTo() *scalars.Time {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_Schedule_CustomRecurringFileRule{}
+	}
+	return &t.To
+}
+
+type ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_Schedule struct {
+	ActiveOn                cato_models.PolicyActiveOnEnum                                                                                  "json:\"activeOn\" graphql:\"activeOn\""
+	CustomRecurringFileRule *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_Schedule_CustomRecurringFileRule "json:\"customRecurringFileRule,omitempty\" graphql:\"customRecurringFileRule\""
+	CustomTimeframeFileRule *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_Schedule_CustomTimeframeFileRule "json:\"customTimeframeFileRule,omitempty\" graphql:\"customTimeframeFileRule\""
+}
+
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_Schedule) GetActiveOn() *cato_models.PolicyActiveOnEnum {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_Schedule{}
+	}
+	return &t.ActiveOn
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_Schedule) GetCustomRecurringFileRule() *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_Schedule_CustomRecurringFileRule {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_Schedule{}
+	}
+	return t.CustomRecurringFileRule
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_Schedule) GetCustomTimeframeFileRule() *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_Schedule_CustomTimeframeFileRule {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_Schedule{}
+	}
+	return t.CustomTimeframeFileRule
+}
+
+type ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_Source_Country struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_Source_Country) GetID() string {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_Source_Country{}
+	}
+	return t.ID
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_Source_Country) GetName() string {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_Source_Country{}
+	}
+	return t.Name
+}
+
+type ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_Source_FloatingSubnet struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_Source_FloatingSubnet) GetID() string {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_Source_FloatingSubnet{}
+	}
+	return t.ID
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_Source_FloatingSubnet) GetName() string {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_Source_FloatingSubnet{}
+	}
+	return t.Name
+}
+
+type ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_Source_GlobalIPRange struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_Source_GlobalIPRange) GetID() string {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_Source_GlobalIPRange{}
+	}
+	return t.ID
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_Source_GlobalIPRange) GetName() string {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_Source_GlobalIPRange{}
+	}
+	return t.Name
+}
+
+type ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_Source_Group struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_Source_Group) GetID() string {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_Source_Group{}
+	}
+	return t.ID
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_Source_Group) GetName() string {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_Source_Group{}
+	}
+	return t.Name
+}
+
+type ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_Source_Host struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_Source_Host) GetID() string {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_Source_Host{}
+	}
+	return t.ID
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_Source_Host) GetName() string {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_Source_Host{}
+	}
+	return t.Name
+}
+
+type ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_Source_IPRange struct {
+	From string "json:\"from\" graphql:\"from\""
+	To   string "json:\"to\" graphql:\"to\""
+}
+
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_Source_IPRange) GetFrom() string {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_Source_IPRange{}
+	}
+	return t.From
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_Source_IPRange) GetTo() string {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_Source_IPRange{}
+	}
+	return t.To
+}
+
+type ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_Source_NetworkInterface struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_Source_NetworkInterface) GetID() string {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_Source_NetworkInterface{}
+	}
+	return t.ID
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_Source_NetworkInterface) GetName() string {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_Source_NetworkInterface{}
+	}
+	return t.Name
+}
+
+type ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_Source_Site struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_Source_Site) GetID() string {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_Source_Site{}
+	}
+	return t.ID
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_Source_Site) GetName() string {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_Source_Site{}
+	}
+	return t.Name
+}
+
+type ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_Source_SiteNetworkSubnet struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_Source_SiteNetworkSubnet) GetID() string {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_Source_SiteNetworkSubnet{}
+	}
+	return t.ID
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_Source_SiteNetworkSubnet) GetName() string {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_Source_SiteNetworkSubnet{}
+	}
+	return t.Name
+}
+
+type ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_Source_SystemGroup struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_Source_SystemGroup) GetID() string {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_Source_SystemGroup{}
+	}
+	return t.ID
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_Source_SystemGroup) GetName() string {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_Source_SystemGroup{}
+	}
+	return t.Name
+}
+
+type ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_Source_User struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_Source_User) GetID() string {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_Source_User{}
+	}
+	return t.ID
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_Source_User) GetName() string {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_Source_User{}
+	}
+	return t.Name
+}
+
+type ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_Source_UsersGroup struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_Source_UsersGroup) GetID() string {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_Source_UsersGroup{}
+	}
+	return t.ID
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_Source_UsersGroup) GetName() string {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_Source_UsersGroup{}
+	}
+	return t.Name
+}
+
+type ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_Source struct {
+	Country           []*ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_Source_Country           "json:\"country\" graphql:\"country\""
+	FloatingSubnet    []*ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_Source_FloatingSubnet    "json:\"floatingSubnet\" graphql:\"floatingSubnet\""
+	GlobalIPRange     []*ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_Source_GlobalIPRange     "json:\"globalIpRange\" graphql:\"globalIpRange\""
+	Group             []*ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_Source_Group             "json:\"group\" graphql:\"group\""
+	Host              []*ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_Source_Host              "json:\"host\" graphql:\"host\""
+	IP                []string                                                                                                  "json:\"ip\" graphql:\"ip\""
+	IPRange           []*ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_Source_IPRange           "json:\"ipRange\" graphql:\"ipRange\""
+	NetworkInterface  []*ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_Source_NetworkInterface  "json:\"networkInterface\" graphql:\"networkInterface\""
+	Site              []*ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_Source_Site              "json:\"site\" graphql:\"site\""
+	SiteNetworkSubnet []*ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_Source_SiteNetworkSubnet "json:\"siteNetworkSubnet\" graphql:\"siteNetworkSubnet\""
+	Subnet            []string                                                                                                  "json:\"subnet\" graphql:\"subnet\""
+	SystemGroup       []*ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_Source_SystemGroup       "json:\"systemGroup\" graphql:\"systemGroup\""
+	User              []*ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_Source_User              "json:\"user\" graphql:\"user\""
+	UsersGroup        []*ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_Source_UsersGroup        "json:\"usersGroup\" graphql:\"usersGroup\""
+}
+
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_Source) GetCountry() []*ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_Source_Country {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_Source{}
+	}
+	return t.Country
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_Source) GetFloatingSubnet() []*ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_Source_FloatingSubnet {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_Source{}
+	}
+	return t.FloatingSubnet
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_Source) GetGlobalIPRange() []*ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_Source_GlobalIPRange {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_Source{}
+	}
+	return t.GlobalIPRange
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_Source) GetGroup() []*ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_Source_Group {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_Source{}
+	}
+	return t.Group
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_Source) GetHost() []*ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_Source_Host {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_Source{}
+	}
+	return t.Host
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_Source) GetIP() []string {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_Source{}
+	}
+	return t.IP
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_Source) GetIPRange() []*ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_Source_IPRange {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_Source{}
+	}
+	return t.IPRange
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_Source) GetNetworkInterface() []*ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_Source_NetworkInterface {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_Source{}
+	}
+	return t.NetworkInterface
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_Source) GetSite() []*ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_Source_Site {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_Source{}
+	}
+	return t.Site
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_Source) GetSiteNetworkSubnet() []*ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_Source_SiteNetworkSubnet {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_Source{}
+	}
+	return t.SiteNetworkSubnet
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_Source) GetSubnet() []string {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_Source{}
+	}
+	return t.Subnet
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_Source) GetSystemGroup() []*ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_Source_SystemGroup {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_Source{}
+	}
+	return t.SystemGroup
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_Source) GetUser() []*ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_Source_User {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_Source{}
+	}
+	return t.User
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_Source) GetUsersGroup() []*ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_Source_UsersGroup {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_Source{}
+	}
+	return t.UsersGroup
+}
+
+type ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_Tracking_Event struct {
+	Enabled bool "json:\"enabled\" graphql:\"enabled\""
+}
+
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_Tracking_Event) GetEnabled() bool {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_Tracking_Event{}
+	}
+	return t.Enabled
+}
+
+type ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_Tracking_Alert_SubscriptionGroup struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_Tracking_Alert_SubscriptionGroup) GetID() string {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_Tracking_Alert_SubscriptionGroup{}
+	}
+	return t.ID
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_Tracking_Alert_SubscriptionGroup) GetName() string {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_Tracking_Alert_SubscriptionGroup{}
+	}
+	return t.Name
+}
+
+type ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_Tracking_Alert_Webhook struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_Tracking_Alert_Webhook) GetID() string {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_Tracking_Alert_Webhook{}
+	}
+	return t.ID
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_Tracking_Alert_Webhook) GetName() string {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_Tracking_Alert_Webhook{}
+	}
+	return t.Name
+}
+
+type ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_Tracking_Alert_MailingList struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_Tracking_Alert_MailingList) GetID() string {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_Tracking_Alert_MailingList{}
+	}
+	return t.ID
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_Tracking_Alert_MailingList) GetName() string {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_Tracking_Alert_MailingList{}
+	}
+	return t.Name
+}
+
+type ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_Tracking_Alert struct {
+	Enabled           bool                                                                                                              "json:\"enabled\" graphql:\"enabled\""
+	Frequency         cato_models.PolicyRuleTrackingFrequencyEnum                                                                       "json:\"frequency\" graphql:\"frequency\""
+	MailingList       []*ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_Tracking_Alert_MailingList       "json:\"mailingList\" graphql:\"mailingList\""
+	SubscriptionGroup []*ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_Tracking_Alert_SubscriptionGroup "json:\"subscriptionGroup\" graphql:\"subscriptionGroup\""
+	Webhook           []*ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_Tracking_Alert_Webhook           "json:\"webhook\" graphql:\"webhook\""
+}
+
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_Tracking_Alert) GetEnabled() bool {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_Tracking_Alert{}
+	}
+	return t.Enabled
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_Tracking_Alert) GetFrequency() *cato_models.PolicyRuleTrackingFrequencyEnum {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_Tracking_Alert{}
+	}
+	return &t.Frequency
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_Tracking_Alert) GetMailingList() []*ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_Tracking_Alert_MailingList {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_Tracking_Alert{}
+	}
+	return t.MailingList
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_Tracking_Alert) GetSubscriptionGroup() []*ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_Tracking_Alert_SubscriptionGroup {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_Tracking_Alert{}
+	}
+	return t.SubscriptionGroup
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_Tracking_Alert) GetWebhook() []*ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_Tracking_Alert_Webhook {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_Tracking_Alert{}
+	}
+	return t.Webhook
+}
+
+type ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_Tracking struct {
+	Alert ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_Tracking_Alert "json:\"alert\" graphql:\"alert\""
+	Event ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_Tracking_Event "json:\"event\" graphql:\"event\""
+}
+
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_Tracking) GetAlert() *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_Tracking_Alert {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_Tracking{}
+	}
+	return &t.Alert
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_Tracking) GetEvent() *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_Tracking_Event {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_Tracking{}
+	}
+	return &t.Event
+}
+
+type ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule struct {
+	AccessMethod               []*ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_AccessMethod        "json:\"accessMethod\" graphql:\"accessMethod\""
+	Action                     cato_models.ApplicationControlAction                                                                 "json:\"action\" graphql:\"action\""
+	ActionConfig               *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_ActionConfig          "json:\"actionConfig,omitempty\" graphql:\"actionConfig\""
+	Application                ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_Application            "json:\"application\" graphql:\"application\""
+	ApplicationActivity        []*ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_ApplicationActivity "json:\"applicationActivity\" graphql:\"applicationActivity\""
+	ApplicationActivitySatisfy cato_models.ApplicationControlSatisfy                                                                "json:\"applicationActivitySatisfy\" graphql:\"applicationActivitySatisfy\""
+	Device                     []*ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_Device              "json:\"device\" graphql:\"device\""
+	FileAttribute              []*ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_FileAttribute       "json:\"fileAttribute\" graphql:\"fileAttribute\""
+	FileAttributeSatisfy       cato_models.ApplicationControlSatisfy                                                                "json:\"fileAttributeSatisfy\" graphql:\"fileAttributeSatisfy\""
+	Schedule                   ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_Schedule               "json:\"schedule\" graphql:\"schedule\""
+	Severity                   cato_models.ApplicationControlSeverity                                                               "json:\"severity\" graphql:\"severity\""
+	Source                     ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_Source                 "json:\"source\" graphql:\"source\""
+	Tracking                   ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_Tracking               "json:\"tracking\" graphql:\"tracking\""
+}
+
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule) GetAccessMethod() []*ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_AccessMethod {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule{}
+	}
+	return t.AccessMethod
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule) GetAction() *cato_models.ApplicationControlAction {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule{}
+	}
+	return &t.Action
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule) GetActionConfig() *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_ActionConfig {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule{}
+	}
+	return t.ActionConfig
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule) GetApplication() *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_Application {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule{}
+	}
+	return &t.Application
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule) GetApplicationActivity() []*ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_ApplicationActivity {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule{}
+	}
+	return t.ApplicationActivity
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule) GetApplicationActivitySatisfy() *cato_models.ApplicationControlSatisfy {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule{}
+	}
+	return &t.ApplicationActivitySatisfy
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule) GetDevice() []*ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_Device {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule{}
+	}
+	return t.Device
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule) GetFileAttribute() []*ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_FileAttribute {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule{}
+	}
+	return t.FileAttribute
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule) GetFileAttributeSatisfy() *cato_models.ApplicationControlSatisfy {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule{}
+	}
+	return &t.FileAttributeSatisfy
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule) GetSchedule() *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_Schedule {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule{}
+	}
+	return &t.Schedule
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule) GetSeverity() *cato_models.ApplicationControlSeverity {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule{}
+	}
+	return &t.Severity
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule) GetSource() *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_Source {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule{}
+	}
+	return &t.Source
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule) GetTracking() *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule_Tracking {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule{}
+	}
+	return &t.Tracking
+}
+
+type ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule struct {
+	ApplicationRule *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule "json:\"applicationRule,omitempty\" graphql:\"applicationRule\""
+	DataRule        *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule        "json:\"dataRule,omitempty\" graphql:\"dataRule\""
+	Description     string                                                                                "json:\"description\" graphql:\"description\""
+	Enabled         bool                                                                                  "json:\"enabled\" graphql:\"enabled\""
+	FileRule        *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule        "json:\"fileRule,omitempty\" graphql:\"fileRule\""
+	ID              string                                                                                "json:\"id\" graphql:\"id\""
+	Index           int64                                                                                 "json:\"index\" graphql:\"index\""
+	Name            string                                                                                "json:\"name\" graphql:\"name\""
+	RuleType        cato_models.ApplicationControlRuleType                                                "json:\"ruleType\" graphql:\"ruleType\""
+	Section         ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_Section          "json:\"section\" graphql:\"section\""
+}
+
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule) GetApplicationRule() *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_ApplicationRule {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule{}
+	}
+	return t.ApplicationRule
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule) GetDataRule() *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_DataRule {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule{}
+	}
+	return t.DataRule
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule) GetDescription() string {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule{}
+	}
+	return t.Description
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule) GetEnabled() bool {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule{}
+	}
+	return t.Enabled
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule) GetFileRule() *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_FileRule {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule{}
+	}
+	return t.FileRule
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule) GetID() string {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule{}
+	}
+	return t.ID
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule) GetIndex() int64 {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule{}
+	}
+	return t.Index
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule) GetName() string {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule{}
+	}
+	return t.Name
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule) GetRuleType() *cato_models.ApplicationControlRuleType {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule{}
+	}
+	return &t.RuleType
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule) GetSection() *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule_Section {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule{}
+	}
+	return &t.Section
+}
+
+type ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules struct {
+	Audit      ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Audit "json:\"audit\" graphql:\"audit\""
+	Properties []cato_models.PolicyElementPropertiesEnum                             "json:\"properties\" graphql:\"properties\""
+	Rule       ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule  "json:\"rule\" graphql:\"rule\""
+}
+
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules) GetAudit() *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Audit {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules{}
+	}
+	return &t.Audit
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules) GetProperties() []cato_models.PolicyElementPropertiesEnum {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules{}
+	}
+	return t.Properties
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules) GetRule() *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules_Rule {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules{}
+	}
+	return &t.Rule
+}
+
+type ApplicationControlPolicy_Policy_ApplicationControl_Policy struct {
+	AdditionalAttributes *ApplicationControlPolicy_Policy_ApplicationControl_Policy_AdditionalAttributes "json:\"additionalAttributes,omitempty\" graphql:\"additionalAttributes\""
+	Audit                *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Audit                "json:\"audit,omitempty\" graphql:\"audit\""
+	Enabled              bool                                                                            "json:\"enabled\" graphql:\"enabled\""
+	Revision             *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Revision             "json:\"revision,omitempty\" graphql:\"revision\""
+	Rules                []*ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules              "json:\"rules\" graphql:\"rules\""
+	Sections             []*ApplicationControlPolicy_Policy_ApplicationControl_Policy_Sections           "json:\"sections\" graphql:\"sections\""
+}
+
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy) GetAdditionalAttributes() *ApplicationControlPolicy_Policy_ApplicationControl_Policy_AdditionalAttributes {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy{}
+	}
+	return t.AdditionalAttributes
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy) GetAudit() *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Audit {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy{}
+	}
+	return t.Audit
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy) GetEnabled() bool {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy{}
+	}
+	return t.Enabled
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy) GetRevision() *ApplicationControlPolicy_Policy_ApplicationControl_Policy_Revision {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy{}
+	}
+	return t.Revision
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy) GetRules() []*ApplicationControlPolicy_Policy_ApplicationControl_Policy_Rules {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy{}
+	}
+	return t.Rules
+}
+func (t *ApplicationControlPolicy_Policy_ApplicationControl_Policy) GetSections() []*ApplicationControlPolicy_Policy_ApplicationControl_Policy_Sections {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl_Policy{}
+	}
+	return t.Sections
+}
+
+type ApplicationControlPolicy_Policy_ApplicationControl struct {
+	Policy ApplicationControlPolicy_Policy_ApplicationControl_Policy "json:\"policy\" graphql:\"policy\""
+}
+
+func (t *ApplicationControlPolicy_Policy_ApplicationControl) GetPolicy() *ApplicationControlPolicy_Policy_ApplicationControl_Policy {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy_ApplicationControl{}
+	}
+	return &t.Policy
+}
+
+type ApplicationControlPolicy_Policy struct {
+	ApplicationControl *ApplicationControlPolicy_Policy_ApplicationControl "json:\"applicationControl,omitempty\" graphql:\"applicationControl\""
+}
+
+func (t *ApplicationControlPolicy_Policy) GetApplicationControl() *ApplicationControlPolicy_Policy_ApplicationControl {
+	if t == nil {
+		t = &ApplicationControlPolicy_Policy{}
+	}
+	return t.ApplicationControl
+}
+
 type Policy_Policy_InternetFirewall_Policy_Rules_Audit struct {
 	UpdatedBy   string "json:\"updatedBy\" graphql:\"updatedBy\""
 	UpdatedTime string "json:\"updatedTime\" graphql:\"updatedTime\""
@@ -113262,6 +120110,270 @@ func (t *ObjectUpdateGlobalIPRangeBulk) GetObject() *ObjectUpdateGlobalIpRangeBu
 	return t.Object
 }
 
+type PolicyAppTenantRestrictionAddRule struct {
+	Policy *PolicyAppTenantRestrictionAddRule_Policy "json:\"policy,omitempty\" graphql:\"policy\""
+}
+
+func (t *PolicyAppTenantRestrictionAddRule) GetPolicy() *PolicyAppTenantRestrictionAddRule_Policy {
+	if t == nil {
+		t = &PolicyAppTenantRestrictionAddRule{}
+	}
+	return t.Policy
+}
+
+type PolicyAppTenantRestrictionAddSection struct {
+	Policy *PolicyAppTenantRestrictionAddSection_Policy "json:\"policy,omitempty\" graphql:\"policy\""
+}
+
+func (t *PolicyAppTenantRestrictionAddSection) GetPolicy() *PolicyAppTenantRestrictionAddSection_Policy {
+	if t == nil {
+		t = &PolicyAppTenantRestrictionAddSection{}
+	}
+	return t.Policy
+}
+
+type PolicyAppTenantRestrictionCreatePolicyRevision struct {
+	Policy *PolicyAppTenantRestrictionCreatePolicyRevision_Policy "json:\"policy,omitempty\" graphql:\"policy\""
+}
+
+func (t *PolicyAppTenantRestrictionCreatePolicyRevision) GetPolicy() *PolicyAppTenantRestrictionCreatePolicyRevision_Policy {
+	if t == nil {
+		t = &PolicyAppTenantRestrictionCreatePolicyRevision{}
+	}
+	return t.Policy
+}
+
+type PolicyAppTenantRestrictionDiscardPolicyRevision struct {
+	Policy *PolicyAppTenantRestrictionDiscardPolicyRevision_Policy "json:\"policy,omitempty\" graphql:\"policy\""
+}
+
+func (t *PolicyAppTenantRestrictionDiscardPolicyRevision) GetPolicy() *PolicyAppTenantRestrictionDiscardPolicyRevision_Policy {
+	if t == nil {
+		t = &PolicyAppTenantRestrictionDiscardPolicyRevision{}
+	}
+	return t.Policy
+}
+
+type PolicyAppTenantRestrictionMoveRule struct {
+	Policy *PolicyAppTenantRestrictionMoveRule_Policy "json:\"policy,omitempty\" graphql:\"policy\""
+}
+
+func (t *PolicyAppTenantRestrictionMoveRule) GetPolicy() *PolicyAppTenantRestrictionMoveRule_Policy {
+	if t == nil {
+		t = &PolicyAppTenantRestrictionMoveRule{}
+	}
+	return t.Policy
+}
+
+type PolicyAppTenantRestrictionMoveSection struct {
+	Policy *PolicyAppTenantRestrictionMoveSection_Policy "json:\"policy,omitempty\" graphql:\"policy\""
+}
+
+func (t *PolicyAppTenantRestrictionMoveSection) GetPolicy() *PolicyAppTenantRestrictionMoveSection_Policy {
+	if t == nil {
+		t = &PolicyAppTenantRestrictionMoveSection{}
+	}
+	return t.Policy
+}
+
+type PolicyAppTenantRestrictionPublishPolicyRevision struct {
+	Policy *PolicyAppTenantRestrictionPublishPolicyRevision_Policy "json:\"policy,omitempty\" graphql:\"policy\""
+}
+
+func (t *PolicyAppTenantRestrictionPublishPolicyRevision) GetPolicy() *PolicyAppTenantRestrictionPublishPolicyRevision_Policy {
+	if t == nil {
+		t = &PolicyAppTenantRestrictionPublishPolicyRevision{}
+	}
+	return t.Policy
+}
+
+type PolicyAppTenantRestrictionRemoveRule struct {
+	Policy *PolicyAppTenantRestrictionRemoveRule_Policy "json:\"policy,omitempty\" graphql:\"policy\""
+}
+
+func (t *PolicyAppTenantRestrictionRemoveRule) GetPolicy() *PolicyAppTenantRestrictionRemoveRule_Policy {
+	if t == nil {
+		t = &PolicyAppTenantRestrictionRemoveRule{}
+	}
+	return t.Policy
+}
+
+type PolicyAppTenantRestrictionRemoveSection struct {
+	Policy *PolicyAppTenantRestrictionRemoveSection_Policy "json:\"policy,omitempty\" graphql:\"policy\""
+}
+
+func (t *PolicyAppTenantRestrictionRemoveSection) GetPolicy() *PolicyAppTenantRestrictionRemoveSection_Policy {
+	if t == nil {
+		t = &PolicyAppTenantRestrictionRemoveSection{}
+	}
+	return t.Policy
+}
+
+type PolicyAppTenantRestrictionUpdatePolicy struct {
+	Policy *PolicyAppTenantRestrictionUpdatePolicy_Policy "json:\"policy,omitempty\" graphql:\"policy\""
+}
+
+func (t *PolicyAppTenantRestrictionUpdatePolicy) GetPolicy() *PolicyAppTenantRestrictionUpdatePolicy_Policy {
+	if t == nil {
+		t = &PolicyAppTenantRestrictionUpdatePolicy{}
+	}
+	return t.Policy
+}
+
+type PolicyAppTenantRestrictionUpdateRule struct {
+	Policy *PolicyAppTenantRestrictionUpdateRule_Policy "json:\"policy,omitempty\" graphql:\"policy\""
+}
+
+func (t *PolicyAppTenantRestrictionUpdateRule) GetPolicy() *PolicyAppTenantRestrictionUpdateRule_Policy {
+	if t == nil {
+		t = &PolicyAppTenantRestrictionUpdateRule{}
+	}
+	return t.Policy
+}
+
+type PolicyAppTenantRestrictionUpdateSection struct {
+	Policy *PolicyAppTenantRestrictionUpdateSection_Policy "json:\"policy,omitempty\" graphql:\"policy\""
+}
+
+func (t *PolicyAppTenantRestrictionUpdateSection) GetPolicy() *PolicyAppTenantRestrictionUpdateSection_Policy {
+	if t == nil {
+		t = &PolicyAppTenantRestrictionUpdateSection{}
+	}
+	return t.Policy
+}
+
+type PolicyApplicationControlAddRule struct {
+	Policy *PolicyApplicationControlAddRule_Policy "json:\"policy,omitempty\" graphql:\"policy\""
+}
+
+func (t *PolicyApplicationControlAddRule) GetPolicy() *PolicyApplicationControlAddRule_Policy {
+	if t == nil {
+		t = &PolicyApplicationControlAddRule{}
+	}
+	return t.Policy
+}
+
+type PolicyApplicationControlAddSection struct {
+	Policy *PolicyApplicationControlAddSection_Policy "json:\"policy,omitempty\" graphql:\"policy\""
+}
+
+func (t *PolicyApplicationControlAddSection) GetPolicy() *PolicyApplicationControlAddSection_Policy {
+	if t == nil {
+		t = &PolicyApplicationControlAddSection{}
+	}
+	return t.Policy
+}
+
+type PolicyApplicationControlCreatePolicyRevision struct {
+	Policy *PolicyApplicationControlCreatePolicyRevision_Policy "json:\"policy,omitempty\" graphql:\"policy\""
+}
+
+func (t *PolicyApplicationControlCreatePolicyRevision) GetPolicy() *PolicyApplicationControlCreatePolicyRevision_Policy {
+	if t == nil {
+		t = &PolicyApplicationControlCreatePolicyRevision{}
+	}
+	return t.Policy
+}
+
+type PolicyApplicationControlDiscardPolicyRevision struct {
+	Policy *PolicyApplicationControlDiscardPolicyRevision_Policy "json:\"policy,omitempty\" graphql:\"policy\""
+}
+
+func (t *PolicyApplicationControlDiscardPolicyRevision) GetPolicy() *PolicyApplicationControlDiscardPolicyRevision_Policy {
+	if t == nil {
+		t = &PolicyApplicationControlDiscardPolicyRevision{}
+	}
+	return t.Policy
+}
+
+type PolicyApplicationControlMoveRule struct {
+	Policy *PolicyApplicationControlMoveRule_Policy "json:\"policy,omitempty\" graphql:\"policy\""
+}
+
+func (t *PolicyApplicationControlMoveRule) GetPolicy() *PolicyApplicationControlMoveRule_Policy {
+	if t == nil {
+		t = &PolicyApplicationControlMoveRule{}
+	}
+	return t.Policy
+}
+
+type PolicyApplicationControlMoveSection struct {
+	Policy *PolicyApplicationControlMoveSection_Policy "json:\"policy,omitempty\" graphql:\"policy\""
+}
+
+func (t *PolicyApplicationControlMoveSection) GetPolicy() *PolicyApplicationControlMoveSection_Policy {
+	if t == nil {
+		t = &PolicyApplicationControlMoveSection{}
+	}
+	return t.Policy
+}
+
+type PolicyApplicationControlPublishPolicyRevision struct {
+	Policy *PolicyApplicationControlPublishPolicyRevision_Policy "json:\"policy,omitempty\" graphql:\"policy\""
+}
+
+func (t *PolicyApplicationControlPublishPolicyRevision) GetPolicy() *PolicyApplicationControlPublishPolicyRevision_Policy {
+	if t == nil {
+		t = &PolicyApplicationControlPublishPolicyRevision{}
+	}
+	return t.Policy
+}
+
+type PolicyApplicationControlRemoveRule struct {
+	Policy *PolicyApplicationControlRemoveRule_Policy "json:\"policy,omitempty\" graphql:\"policy\""
+}
+
+func (t *PolicyApplicationControlRemoveRule) GetPolicy() *PolicyApplicationControlRemoveRule_Policy {
+	if t == nil {
+		t = &PolicyApplicationControlRemoveRule{}
+	}
+	return t.Policy
+}
+
+type PolicyApplicationControlRemoveSection struct {
+	Policy *PolicyApplicationControlRemoveSection_Policy "json:\"policy,omitempty\" graphql:\"policy\""
+}
+
+func (t *PolicyApplicationControlRemoveSection) GetPolicy() *PolicyApplicationControlRemoveSection_Policy {
+	if t == nil {
+		t = &PolicyApplicationControlRemoveSection{}
+	}
+	return t.Policy
+}
+
+type PolicyApplicationControlUpdatePolicy struct {
+	Policy *PolicyApplicationControlUpdatePolicy_Policy "json:\"policy,omitempty\" graphql:\"policy\""
+}
+
+func (t *PolicyApplicationControlUpdatePolicy) GetPolicy() *PolicyApplicationControlUpdatePolicy_Policy {
+	if t == nil {
+		t = &PolicyApplicationControlUpdatePolicy{}
+	}
+	return t.Policy
+}
+
+type PolicyApplicationControlUpdateRule struct {
+	Policy *PolicyApplicationControlUpdateRule_Policy "json:\"policy,omitempty\" graphql:\"policy\""
+}
+
+func (t *PolicyApplicationControlUpdateRule) GetPolicy() *PolicyApplicationControlUpdateRule_Policy {
+	if t == nil {
+		t = &PolicyApplicationControlUpdateRule{}
+	}
+	return t.Policy
+}
+
+type PolicyApplicationControlUpdateSection struct {
+	Policy *PolicyApplicationControlUpdateSection_Policy "json:\"policy,omitempty\" graphql:\"policy\""
+}
+
+func (t *PolicyApplicationControlUpdateSection) GetPolicy() *PolicyApplicationControlUpdateSection_Policy {
+	if t == nil {
+		t = &PolicyApplicationControlUpdateSection{}
+	}
+	return t.Policy
+}
+
 type PolicyInternetFirewallDiscardPolicyRevision struct {
 	Policy *PolicyInternetFirewallDiscardPolicyRevision_Policy "json:\"policy,omitempty\" graphql:\"policy\""
 }
@@ -114791,6 +121903,28 @@ func (t *ObjectGlobalIPRangeList) GetObject() *ObjectGlobalIpRangeList_Object {
 	return t.Object
 }
 
+type AppTenantRestrictionPolicy struct {
+	Policy *AppTenantRestrictionPolicy_Policy "json:\"policy,omitempty\" graphql:\"policy\""
+}
+
+func (t *AppTenantRestrictionPolicy) GetPolicy() *AppTenantRestrictionPolicy_Policy {
+	if t == nil {
+		t = &AppTenantRestrictionPolicy{}
+	}
+	return t.Policy
+}
+
+type ApplicationControlPolicy struct {
+	Policy *ApplicationControlPolicy_Policy "json:\"policy,omitempty\" graphql:\"policy\""
+}
+
+func (t *ApplicationControlPolicy) GetPolicy() *ApplicationControlPolicy_Policy {
+	if t == nil {
+		t = &ApplicationControlPolicy{}
+	}
+	return t.Policy
+}
+
 type Policy struct {
 	Policy *Policy_Policy "json:\"policy,omitempty\" graphql:\"policy\""
 }
@@ -115286,6 +122420,959 @@ func (c *Client) ObjectUpdateGlobalIPRangeBulk(ctx context.Context, accountID st
 
 	var res ObjectUpdateGlobalIPRangeBulk
 	if err := c.Client.Post(ctx, "objectUpdateGlobalIpRangeBulk", ObjectUpdateGlobalIPRangeBulkDocument, &res, vars, interceptors...); err != nil {
+		if c.Client.ParseDataWhenErrors {
+			return &res, err
+		}
+
+		return nil, err
+	}
+
+	return &res, nil
+}
+
+const PolicyAppTenantRestrictionAddRuleDocument = `mutation policyAppTenantRestrictionAddRule ($appTenantRestrictionAddRuleInput: AppTenantRestrictionAddRuleInput!, $accountId: ID!) {
+	policy(accountId: $accountId) {
+		appTenantRestriction {
+			addRule(input: $appTenantRestrictionAddRuleInput) {
+				rule {
+					rule {
+						id
+						name
+						index
+						section {
+							id
+							name
+						}
+					}
+				}
+				status
+				errors {
+					errorMessage
+					errorCode
+				}
+			}
+		}
+	}
+}
+`
+
+func (c *Client) PolicyAppTenantRestrictionAddRule(ctx context.Context, appTenantRestrictionAddRuleInput cato_models.AppTenantRestrictionAddRuleInput, accountID string, interceptors ...clientv2.RequestInterceptor) (*PolicyAppTenantRestrictionAddRule, error) {
+	vars := map[string]any{
+		"appTenantRestrictionAddRuleInput": appTenantRestrictionAddRuleInput,
+		"accountId":                        accountID,
+	}
+
+	var res PolicyAppTenantRestrictionAddRule
+	if err := c.Client.Post(ctx, "policyAppTenantRestrictionAddRule", PolicyAppTenantRestrictionAddRuleDocument, &res, vars, interceptors...); err != nil {
+		if c.Client.ParseDataWhenErrors {
+			return &res, err
+		}
+
+		return nil, err
+	}
+
+	return &res, nil
+}
+
+const PolicyAppTenantRestrictionAddSectionDocument = `mutation policyAppTenantRestrictionAddSection ($policyAddSectionInput: PolicyAddSectionInput!, $accountId: ID!) {
+	policy(accountId: $accountId) {
+		appTenantRestriction {
+			addSection(input: $policyAddSectionInput) {
+				section {
+					audit {
+						updatedTime
+						updatedBy
+					}
+					section {
+						id
+						name
+					}
+					properties
+				}
+				status
+				errors {
+					errorMessage
+					errorCode
+				}
+			}
+		}
+	}
+}
+`
+
+func (c *Client) PolicyAppTenantRestrictionAddSection(ctx context.Context, policyAddSectionInput cato_models.PolicyAddSectionInput, accountID string, interceptors ...clientv2.RequestInterceptor) (*PolicyAppTenantRestrictionAddSection, error) {
+	vars := map[string]any{
+		"policyAddSectionInput": policyAddSectionInput,
+		"accountId":             accountID,
+	}
+
+	var res PolicyAppTenantRestrictionAddSection
+	if err := c.Client.Post(ctx, "policyAppTenantRestrictionAddSection", PolicyAppTenantRestrictionAddSectionDocument, &res, vars, interceptors...); err != nil {
+		if c.Client.ParseDataWhenErrors {
+			return &res, err
+		}
+
+		return nil, err
+	}
+
+	return &res, nil
+}
+
+const PolicyAppTenantRestrictionCreatePolicyRevisionDocument = `mutation policyAppTenantRestrictionCreatePolicyRevision ($policyCreateRevisionInput: PolicyCreateRevisionInput!, $accountId: ID!) {
+	policy(accountId: $accountId) {
+		appTenantRestriction {
+			createPolicyRevision(input: $policyCreateRevisionInput) {
+				policy {
+					enabled
+					revision {
+						id
+						name
+					}
+				}
+				status
+				errors {
+					errorMessage
+					errorCode
+				}
+			}
+		}
+	}
+}
+`
+
+func (c *Client) PolicyAppTenantRestrictionCreatePolicyRevision(ctx context.Context, policyCreateRevisionInput cato_models.PolicyCreateRevisionInput, accountID string, interceptors ...clientv2.RequestInterceptor) (*PolicyAppTenantRestrictionCreatePolicyRevision, error) {
+	vars := map[string]any{
+		"policyCreateRevisionInput": policyCreateRevisionInput,
+		"accountId":                 accountID,
+	}
+
+	var res PolicyAppTenantRestrictionCreatePolicyRevision
+	if err := c.Client.Post(ctx, "policyAppTenantRestrictionCreatePolicyRevision", PolicyAppTenantRestrictionCreatePolicyRevisionDocument, &res, vars, interceptors...); err != nil {
+		if c.Client.ParseDataWhenErrors {
+			return &res, err
+		}
+
+		return nil, err
+	}
+
+	return &res, nil
+}
+
+const PolicyAppTenantRestrictionDiscardPolicyRevisionDocument = `mutation policyAppTenantRestrictionDiscardPolicyRevision ($accountId: ID!) {
+	policy(accountId: $accountId) {
+		appTenantRestriction {
+			discardPolicyRevision {
+				policy {
+					enabled
+				}
+				status
+				errors {
+					errorMessage
+					errorCode
+				}
+			}
+		}
+	}
+}
+`
+
+func (c *Client) PolicyAppTenantRestrictionDiscardPolicyRevision(ctx context.Context, accountID string, interceptors ...clientv2.RequestInterceptor) (*PolicyAppTenantRestrictionDiscardPolicyRevision, error) {
+	vars := map[string]any{
+		"accountId": accountID,
+	}
+
+	var res PolicyAppTenantRestrictionDiscardPolicyRevision
+	if err := c.Client.Post(ctx, "policyAppTenantRestrictionDiscardPolicyRevision", PolicyAppTenantRestrictionDiscardPolicyRevisionDocument, &res, vars, interceptors...); err != nil {
+		if c.Client.ParseDataWhenErrors {
+			return &res, err
+		}
+
+		return nil, err
+	}
+
+	return &res, nil
+}
+
+const PolicyAppTenantRestrictionMoveRuleDocument = `mutation policyAppTenantRestrictionMoveRule ($policyMoveRuleInput: PolicyMoveRuleInput!, $accountId: ID!) {
+	policy(accountId: $accountId) {
+		appTenantRestriction {
+			moveRule(input: $policyMoveRuleInput) {
+				rule {
+					rule {
+						id
+						index
+						section {
+							id
+							name
+						}
+					}
+				}
+				status
+				errors {
+					errorMessage
+					errorCode
+				}
+			}
+		}
+	}
+}
+`
+
+func (c *Client) PolicyAppTenantRestrictionMoveRule(ctx context.Context, policyMoveRuleInput cato_models.PolicyMoveRuleInput, accountID string, interceptors ...clientv2.RequestInterceptor) (*PolicyAppTenantRestrictionMoveRule, error) {
+	vars := map[string]any{
+		"policyMoveRuleInput": policyMoveRuleInput,
+		"accountId":           accountID,
+	}
+
+	var res PolicyAppTenantRestrictionMoveRule
+	if err := c.Client.Post(ctx, "policyAppTenantRestrictionMoveRule", PolicyAppTenantRestrictionMoveRuleDocument, &res, vars, interceptors...); err != nil {
+		if c.Client.ParseDataWhenErrors {
+			return &res, err
+		}
+
+		return nil, err
+	}
+
+	return &res, nil
+}
+
+const PolicyAppTenantRestrictionMoveSectionDocument = `mutation policyAppTenantRestrictionMoveSection ($policyMoveSectionInput: PolicyMoveSectionInput!, $accountId: ID!) {
+	policy(accountId: $accountId) {
+		appTenantRestriction {
+			moveSection(input: $policyMoveSectionInput) {
+				section {
+					section {
+						id
+						name
+					}
+				}
+				status
+				errors {
+					errorMessage
+					errorCode
+				}
+			}
+		}
+	}
+}
+`
+
+func (c *Client) PolicyAppTenantRestrictionMoveSection(ctx context.Context, policyMoveSectionInput cato_models.PolicyMoveSectionInput, accountID string, interceptors ...clientv2.RequestInterceptor) (*PolicyAppTenantRestrictionMoveSection, error) {
+	vars := map[string]any{
+		"policyMoveSectionInput": policyMoveSectionInput,
+		"accountId":              accountID,
+	}
+
+	var res PolicyAppTenantRestrictionMoveSection
+	if err := c.Client.Post(ctx, "policyAppTenantRestrictionMoveSection", PolicyAppTenantRestrictionMoveSectionDocument, &res, vars, interceptors...); err != nil {
+		if c.Client.ParseDataWhenErrors {
+			return &res, err
+		}
+
+		return nil, err
+	}
+
+	return &res, nil
+}
+
+const PolicyAppTenantRestrictionPublishPolicyRevisionDocument = `mutation policyAppTenantRestrictionPublishPolicyRevision ($accountId: ID!) {
+	policy(accountId: $accountId) {
+		appTenantRestriction {
+			publishPolicyRevision {
+				policy {
+					enabled
+					revision {
+						id
+						name
+					}
+				}
+				status
+				errors {
+					errorMessage
+					errorCode
+				}
+			}
+		}
+	}
+}
+`
+
+func (c *Client) PolicyAppTenantRestrictionPublishPolicyRevision(ctx context.Context, accountID string, interceptors ...clientv2.RequestInterceptor) (*PolicyAppTenantRestrictionPublishPolicyRevision, error) {
+	vars := map[string]any{
+		"accountId": accountID,
+	}
+
+	var res PolicyAppTenantRestrictionPublishPolicyRevision
+	if err := c.Client.Post(ctx, "policyAppTenantRestrictionPublishPolicyRevision", PolicyAppTenantRestrictionPublishPolicyRevisionDocument, &res, vars, interceptors...); err != nil {
+		if c.Client.ParseDataWhenErrors {
+			return &res, err
+		}
+
+		return nil, err
+	}
+
+	return &res, nil
+}
+
+const PolicyAppTenantRestrictionRemoveRuleDocument = `mutation policyAppTenantRestrictionRemoveRule ($appTenantRestrictionRemoveRuleInput: AppTenantRestrictionRemoveRuleInput!, $accountId: ID!) {
+	policy(accountId: $accountId) {
+		appTenantRestriction {
+			removeRule(input: $appTenantRestrictionRemoveRuleInput) {
+				rule {
+					rule {
+						id
+					}
+				}
+				status
+				errors {
+					errorMessage
+					errorCode
+				}
+			}
+		}
+	}
+}
+`
+
+func (c *Client) PolicyAppTenantRestrictionRemoveRule(ctx context.Context, appTenantRestrictionRemoveRuleInput cato_models.AppTenantRestrictionRemoveRuleInput, accountID string, interceptors ...clientv2.RequestInterceptor) (*PolicyAppTenantRestrictionRemoveRule, error) {
+	vars := map[string]any{
+		"appTenantRestrictionRemoveRuleInput": appTenantRestrictionRemoveRuleInput,
+		"accountId":                           accountID,
+	}
+
+	var res PolicyAppTenantRestrictionRemoveRule
+	if err := c.Client.Post(ctx, "policyAppTenantRestrictionRemoveRule", PolicyAppTenantRestrictionRemoveRuleDocument, &res, vars, interceptors...); err != nil {
+		if c.Client.ParseDataWhenErrors {
+			return &res, err
+		}
+
+		return nil, err
+	}
+
+	return &res, nil
+}
+
+const PolicyAppTenantRestrictionRemoveSectionDocument = `mutation policyAppTenantRestrictionRemoveSection ($policyRemoveSectionInput: PolicyRemoveSectionInput!, $accountId: ID!) {
+	policy(accountId: $accountId) {
+		appTenantRestriction {
+			removeSection(input: $policyRemoveSectionInput) {
+				status
+				errors {
+					errorMessage
+					errorCode
+				}
+			}
+		}
+	}
+}
+`
+
+func (c *Client) PolicyAppTenantRestrictionRemoveSection(ctx context.Context, policyRemoveSectionInput cato_models.PolicyRemoveSectionInput, accountID string, interceptors ...clientv2.RequestInterceptor) (*PolicyAppTenantRestrictionRemoveSection, error) {
+	vars := map[string]any{
+		"policyRemoveSectionInput": policyRemoveSectionInput,
+		"accountId":                accountID,
+	}
+
+	var res PolicyAppTenantRestrictionRemoveSection
+	if err := c.Client.Post(ctx, "policyAppTenantRestrictionRemoveSection", PolicyAppTenantRestrictionRemoveSectionDocument, &res, vars, interceptors...); err != nil {
+		if c.Client.ParseDataWhenErrors {
+			return &res, err
+		}
+
+		return nil, err
+	}
+
+	return &res, nil
+}
+
+const PolicyAppTenantRestrictionUpdatePolicyDocument = `mutation policyAppTenantRestrictionUpdatePolicy ($appTenantRestrictionPolicyUpdateInput: AppTenantRestrictionPolicyUpdateInput!, $accountId: ID!) {
+	policy(accountId: $accountId) {
+		appTenantRestriction {
+			updatePolicy(input: $appTenantRestrictionPolicyUpdateInput) {
+				policy {
+					enabled
+				}
+				status
+				errors {
+					errorMessage
+					errorCode
+				}
+			}
+		}
+	}
+}
+`
+
+func (c *Client) PolicyAppTenantRestrictionUpdatePolicy(ctx context.Context, appTenantRestrictionPolicyUpdateInput cato_models.AppTenantRestrictionPolicyUpdateInput, accountID string, interceptors ...clientv2.RequestInterceptor) (*PolicyAppTenantRestrictionUpdatePolicy, error) {
+	vars := map[string]any{
+		"appTenantRestrictionPolicyUpdateInput": appTenantRestrictionPolicyUpdateInput,
+		"accountId":                             accountID,
+	}
+
+	var res PolicyAppTenantRestrictionUpdatePolicy
+	if err := c.Client.Post(ctx, "policyAppTenantRestrictionUpdatePolicy", PolicyAppTenantRestrictionUpdatePolicyDocument, &res, vars, interceptors...); err != nil {
+		if c.Client.ParseDataWhenErrors {
+			return &res, err
+		}
+
+		return nil, err
+	}
+
+	return &res, nil
+}
+
+const PolicyAppTenantRestrictionUpdateRuleDocument = `mutation policyAppTenantRestrictionUpdateRule ($appTenantRestrictionUpdateRuleInput: AppTenantRestrictionUpdateRuleInput!, $accountId: ID!) {
+	policy(accountId: $accountId) {
+		appTenantRestriction {
+			updateRule(input: $appTenantRestrictionUpdateRuleInput) {
+				rule {
+					rule {
+						id
+						name
+						index
+						section {
+							id
+							name
+						}
+					}
+				}
+				status
+				errors {
+					errorMessage
+					errorCode
+				}
+			}
+		}
+	}
+}
+`
+
+func (c *Client) PolicyAppTenantRestrictionUpdateRule(ctx context.Context, appTenantRestrictionUpdateRuleInput cato_models.AppTenantRestrictionUpdateRuleInput, accountID string, interceptors ...clientv2.RequestInterceptor) (*PolicyAppTenantRestrictionUpdateRule, error) {
+	vars := map[string]any{
+		"appTenantRestrictionUpdateRuleInput": appTenantRestrictionUpdateRuleInput,
+		"accountId":                           accountID,
+	}
+
+	var res PolicyAppTenantRestrictionUpdateRule
+	if err := c.Client.Post(ctx, "policyAppTenantRestrictionUpdateRule", PolicyAppTenantRestrictionUpdateRuleDocument, &res, vars, interceptors...); err != nil {
+		if c.Client.ParseDataWhenErrors {
+			return &res, err
+		}
+
+		return nil, err
+	}
+
+	return &res, nil
+}
+
+const PolicyAppTenantRestrictionUpdateSectionDocument = `mutation policyAppTenantRestrictionUpdateSection ($policyUpdateSectionInput: PolicyUpdateSectionInput!, $accountId: ID!) {
+	policy(accountId: $accountId) {
+		appTenantRestriction {
+			updateSection(input: $policyUpdateSectionInput) {
+				section {
+					section {
+						id
+						name
+					}
+				}
+				status
+				errors {
+					errorMessage
+					errorCode
+				}
+			}
+		}
+	}
+}
+`
+
+func (c *Client) PolicyAppTenantRestrictionUpdateSection(ctx context.Context, policyUpdateSectionInput cato_models.PolicyUpdateSectionInput, accountID string, interceptors ...clientv2.RequestInterceptor) (*PolicyAppTenantRestrictionUpdateSection, error) {
+	vars := map[string]any{
+		"policyUpdateSectionInput": policyUpdateSectionInput,
+		"accountId":                accountID,
+	}
+
+	var res PolicyAppTenantRestrictionUpdateSection
+	if err := c.Client.Post(ctx, "policyAppTenantRestrictionUpdateSection", PolicyAppTenantRestrictionUpdateSectionDocument, &res, vars, interceptors...); err != nil {
+		if c.Client.ParseDataWhenErrors {
+			return &res, err
+		}
+
+		return nil, err
+	}
+
+	return &res, nil
+}
+
+const PolicyApplicationControlAddRuleDocument = `mutation policyApplicationControlAddRule ($applicationControlAddRuleInput: ApplicationControlAddRuleInput!, $accountId: ID!) {
+	policy(accountId: $accountId) {
+		applicationControl {
+			addRule(input: $applicationControlAddRuleInput) {
+				rule {
+					rule {
+						id
+						name
+						index
+						ruleType
+						section {
+							id
+							name
+						}
+					}
+				}
+				status
+				errors {
+					errorMessage
+					errorCode
+				}
+			}
+		}
+	}
+}
+`
+
+func (c *Client) PolicyApplicationControlAddRule(ctx context.Context, applicationControlAddRuleInput cato_models.ApplicationControlAddRuleInput, accountID string, interceptors ...clientv2.RequestInterceptor) (*PolicyApplicationControlAddRule, error) {
+	vars := map[string]any{
+		"applicationControlAddRuleInput": applicationControlAddRuleInput,
+		"accountId":                      accountID,
+	}
+
+	var res PolicyApplicationControlAddRule
+	if err := c.Client.Post(ctx, "policyApplicationControlAddRule", PolicyApplicationControlAddRuleDocument, &res, vars, interceptors...); err != nil {
+		if c.Client.ParseDataWhenErrors {
+			return &res, err
+		}
+
+		return nil, err
+	}
+
+	return &res, nil
+}
+
+const PolicyApplicationControlAddSectionDocument = `mutation policyApplicationControlAddSection ($policyAddSectionInput: PolicyAddSectionInput!, $accountId: ID!) {
+	policy(accountId: $accountId) {
+		applicationControl {
+			addSection(input: $policyAddSectionInput) {
+				section {
+					audit {
+						updatedTime
+						updatedBy
+					}
+					section {
+						id
+						name
+					}
+					properties
+				}
+				status
+				errors {
+					errorMessage
+					errorCode
+				}
+			}
+		}
+	}
+}
+`
+
+func (c *Client) PolicyApplicationControlAddSection(ctx context.Context, policyAddSectionInput cato_models.PolicyAddSectionInput, accountID string, interceptors ...clientv2.RequestInterceptor) (*PolicyApplicationControlAddSection, error) {
+	vars := map[string]any{
+		"policyAddSectionInput": policyAddSectionInput,
+		"accountId":             accountID,
+	}
+
+	var res PolicyApplicationControlAddSection
+	if err := c.Client.Post(ctx, "policyApplicationControlAddSection", PolicyApplicationControlAddSectionDocument, &res, vars, interceptors...); err != nil {
+		if c.Client.ParseDataWhenErrors {
+			return &res, err
+		}
+
+		return nil, err
+	}
+
+	return &res, nil
+}
+
+const PolicyApplicationControlCreatePolicyRevisionDocument = `mutation policyApplicationControlCreatePolicyRevision ($policyCreateRevisionInput: PolicyCreateRevisionInput!, $accountId: ID!) {
+	policy(accountId: $accountId) {
+		applicationControl {
+			createPolicyRevision(input: $policyCreateRevisionInput) {
+				policy {
+					enabled
+					revision {
+						id
+						name
+					}
+				}
+				status
+				errors {
+					errorMessage
+					errorCode
+				}
+			}
+		}
+	}
+}
+`
+
+func (c *Client) PolicyApplicationControlCreatePolicyRevision(ctx context.Context, policyCreateRevisionInput cato_models.PolicyCreateRevisionInput, accountID string, interceptors ...clientv2.RequestInterceptor) (*PolicyApplicationControlCreatePolicyRevision, error) {
+	vars := map[string]any{
+		"policyCreateRevisionInput": policyCreateRevisionInput,
+		"accountId":                 accountID,
+	}
+
+	var res PolicyApplicationControlCreatePolicyRevision
+	if err := c.Client.Post(ctx, "policyApplicationControlCreatePolicyRevision", PolicyApplicationControlCreatePolicyRevisionDocument, &res, vars, interceptors...); err != nil {
+		if c.Client.ParseDataWhenErrors {
+			return &res, err
+		}
+
+		return nil, err
+	}
+
+	return &res, nil
+}
+
+const PolicyApplicationControlDiscardPolicyRevisionDocument = `mutation policyApplicationControlDiscardPolicyRevision ($accountId: ID!) {
+	policy(accountId: $accountId) {
+		applicationControl {
+			discardPolicyRevision {
+				policy {
+					enabled
+				}
+				status
+				errors {
+					errorMessage
+					errorCode
+				}
+			}
+		}
+	}
+}
+`
+
+func (c *Client) PolicyApplicationControlDiscardPolicyRevision(ctx context.Context, accountID string, interceptors ...clientv2.RequestInterceptor) (*PolicyApplicationControlDiscardPolicyRevision, error) {
+	vars := map[string]any{
+		"accountId": accountID,
+	}
+
+	var res PolicyApplicationControlDiscardPolicyRevision
+	if err := c.Client.Post(ctx, "policyApplicationControlDiscardPolicyRevision", PolicyApplicationControlDiscardPolicyRevisionDocument, &res, vars, interceptors...); err != nil {
+		if c.Client.ParseDataWhenErrors {
+			return &res, err
+		}
+
+		return nil, err
+	}
+
+	return &res, nil
+}
+
+const PolicyApplicationControlMoveRuleDocument = `mutation policyApplicationControlMoveRule ($policyMoveRuleInput: PolicyMoveRuleInput!, $accountId: ID!) {
+	policy(accountId: $accountId) {
+		applicationControl {
+			moveRule(input: $policyMoveRuleInput) {
+				rule {
+					rule {
+						id
+						index
+						section {
+							id
+							name
+						}
+					}
+				}
+				status
+				errors {
+					errorMessage
+					errorCode
+				}
+			}
+		}
+	}
+}
+`
+
+func (c *Client) PolicyApplicationControlMoveRule(ctx context.Context, policyMoveRuleInput cato_models.PolicyMoveRuleInput, accountID string, interceptors ...clientv2.RequestInterceptor) (*PolicyApplicationControlMoveRule, error) {
+	vars := map[string]any{
+		"policyMoveRuleInput": policyMoveRuleInput,
+		"accountId":           accountID,
+	}
+
+	var res PolicyApplicationControlMoveRule
+	if err := c.Client.Post(ctx, "policyApplicationControlMoveRule", PolicyApplicationControlMoveRuleDocument, &res, vars, interceptors...); err != nil {
+		if c.Client.ParseDataWhenErrors {
+			return &res, err
+		}
+
+		return nil, err
+	}
+
+	return &res, nil
+}
+
+const PolicyApplicationControlMoveSectionDocument = `mutation policyApplicationControlMoveSection ($policyMoveSectionInput: PolicyMoveSectionInput!, $accountId: ID!) {
+	policy(accountId: $accountId) {
+		applicationControl {
+			moveSection(input: $policyMoveSectionInput) {
+				section {
+					section {
+						id
+						name
+					}
+				}
+				status
+				errors {
+					errorMessage
+					errorCode
+				}
+			}
+		}
+	}
+}
+`
+
+func (c *Client) PolicyApplicationControlMoveSection(ctx context.Context, policyMoveSectionInput cato_models.PolicyMoveSectionInput, accountID string, interceptors ...clientv2.RequestInterceptor) (*PolicyApplicationControlMoveSection, error) {
+	vars := map[string]any{
+		"policyMoveSectionInput": policyMoveSectionInput,
+		"accountId":              accountID,
+	}
+
+	var res PolicyApplicationControlMoveSection
+	if err := c.Client.Post(ctx, "policyApplicationControlMoveSection", PolicyApplicationControlMoveSectionDocument, &res, vars, interceptors...); err != nil {
+		if c.Client.ParseDataWhenErrors {
+			return &res, err
+		}
+
+		return nil, err
+	}
+
+	return &res, nil
+}
+
+const PolicyApplicationControlPublishPolicyRevisionDocument = `mutation policyApplicationControlPublishPolicyRevision ($accountId: ID!) {
+	policy(accountId: $accountId) {
+		applicationControl {
+			publishPolicyRevision {
+				policy {
+					enabled
+					revision {
+						id
+						name
+					}
+				}
+				status
+				errors {
+					errorMessage
+					errorCode
+				}
+			}
+		}
+	}
+}
+`
+
+func (c *Client) PolicyApplicationControlPublishPolicyRevision(ctx context.Context, accountID string, interceptors ...clientv2.RequestInterceptor) (*PolicyApplicationControlPublishPolicyRevision, error) {
+	vars := map[string]any{
+		"accountId": accountID,
+	}
+
+	var res PolicyApplicationControlPublishPolicyRevision
+	if err := c.Client.Post(ctx, "policyApplicationControlPublishPolicyRevision", PolicyApplicationControlPublishPolicyRevisionDocument, &res, vars, interceptors...); err != nil {
+		if c.Client.ParseDataWhenErrors {
+			return &res, err
+		}
+
+		return nil, err
+	}
+
+	return &res, nil
+}
+
+const PolicyApplicationControlRemoveRuleDocument = `mutation policyApplicationControlRemoveRule ($applicationControlRemoveRuleInput: ApplicationControlRemoveRuleInput!, $accountId: ID!) {
+	policy(accountId: $accountId) {
+		applicationControl {
+			removeRule(input: $applicationControlRemoveRuleInput) {
+				rule {
+					rule {
+						id
+					}
+				}
+				status
+				errors {
+					errorMessage
+					errorCode
+				}
+			}
+		}
+	}
+}
+`
+
+func (c *Client) PolicyApplicationControlRemoveRule(ctx context.Context, applicationControlRemoveRuleInput cato_models.ApplicationControlRemoveRuleInput, accountID string, interceptors ...clientv2.RequestInterceptor) (*PolicyApplicationControlRemoveRule, error) {
+	vars := map[string]any{
+		"applicationControlRemoveRuleInput": applicationControlRemoveRuleInput,
+		"accountId":                         accountID,
+	}
+
+	var res PolicyApplicationControlRemoveRule
+	if err := c.Client.Post(ctx, "policyApplicationControlRemoveRule", PolicyApplicationControlRemoveRuleDocument, &res, vars, interceptors...); err != nil {
+		if c.Client.ParseDataWhenErrors {
+			return &res, err
+		}
+
+		return nil, err
+	}
+
+	return &res, nil
+}
+
+const PolicyApplicationControlRemoveSectionDocument = `mutation policyApplicationControlRemoveSection ($policyRemoveSectionInput: PolicyRemoveSectionInput!, $accountId: ID!) {
+	policy(accountId: $accountId) {
+		applicationControl {
+			removeSection(input: $policyRemoveSectionInput) {
+				status
+				errors {
+					errorMessage
+					errorCode
+				}
+			}
+		}
+	}
+}
+`
+
+func (c *Client) PolicyApplicationControlRemoveSection(ctx context.Context, policyRemoveSectionInput cato_models.PolicyRemoveSectionInput, accountID string, interceptors ...clientv2.RequestInterceptor) (*PolicyApplicationControlRemoveSection, error) {
+	vars := map[string]any{
+		"policyRemoveSectionInput": policyRemoveSectionInput,
+		"accountId":                accountID,
+	}
+
+	var res PolicyApplicationControlRemoveSection
+	if err := c.Client.Post(ctx, "policyApplicationControlRemoveSection", PolicyApplicationControlRemoveSectionDocument, &res, vars, interceptors...); err != nil {
+		if c.Client.ParseDataWhenErrors {
+			return &res, err
+		}
+
+		return nil, err
+	}
+
+	return &res, nil
+}
+
+const PolicyApplicationControlUpdatePolicyDocument = `mutation policyApplicationControlUpdatePolicy ($applicationControlPolicyUpdateInput: ApplicationControlPolicyUpdateInput!, $accountId: ID!) {
+	policy(accountId: $accountId) {
+		applicationControl {
+			updatePolicy(input: $applicationControlPolicyUpdateInput) {
+				policy {
+					enabled
+					additionalAttributes {
+						dataControlEnabled
+					}
+				}
+				status
+				errors {
+					errorMessage
+					errorCode
+				}
+			}
+		}
+	}
+}
+`
+
+func (c *Client) PolicyApplicationControlUpdatePolicy(ctx context.Context, applicationControlPolicyUpdateInput cato_models.ApplicationControlPolicyUpdateInput, accountID string, interceptors ...clientv2.RequestInterceptor) (*PolicyApplicationControlUpdatePolicy, error) {
+	vars := map[string]any{
+		"applicationControlPolicyUpdateInput": applicationControlPolicyUpdateInput,
+		"accountId":                           accountID,
+	}
+
+	var res PolicyApplicationControlUpdatePolicy
+	if err := c.Client.Post(ctx, "policyApplicationControlUpdatePolicy", PolicyApplicationControlUpdatePolicyDocument, &res, vars, interceptors...); err != nil {
+		if c.Client.ParseDataWhenErrors {
+			return &res, err
+		}
+
+		return nil, err
+	}
+
+	return &res, nil
+}
+
+const PolicyApplicationControlUpdateRuleDocument = `mutation policyApplicationControlUpdateRule ($applicationControlUpdateRuleInput: ApplicationControlUpdateRuleInput!, $accountId: ID!) {
+	policy(accountId: $accountId) {
+		applicationControl {
+			updateRule(input: $applicationControlUpdateRuleInput) {
+				rule {
+					rule {
+						id
+						name
+						index
+						ruleType
+						section {
+							id
+							name
+						}
+					}
+				}
+				status
+				errors {
+					errorMessage
+					errorCode
+				}
+			}
+		}
+	}
+}
+`
+
+func (c *Client) PolicyApplicationControlUpdateRule(ctx context.Context, applicationControlUpdateRuleInput cato_models.ApplicationControlUpdateRuleInput, accountID string, interceptors ...clientv2.RequestInterceptor) (*PolicyApplicationControlUpdateRule, error) {
+	vars := map[string]any{
+		"applicationControlUpdateRuleInput": applicationControlUpdateRuleInput,
+		"accountId":                         accountID,
+	}
+
+	var res PolicyApplicationControlUpdateRule
+	if err := c.Client.Post(ctx, "policyApplicationControlUpdateRule", PolicyApplicationControlUpdateRuleDocument, &res, vars, interceptors...); err != nil {
+		if c.Client.ParseDataWhenErrors {
+			return &res, err
+		}
+
+		return nil, err
+	}
+
+	return &res, nil
+}
+
+const PolicyApplicationControlUpdateSectionDocument = `mutation policyApplicationControlUpdateSection ($policyUpdateSectionInput: PolicyUpdateSectionInput!, $accountId: ID!) {
+	policy(accountId: $accountId) {
+		applicationControl {
+			updateSection(input: $policyUpdateSectionInput) {
+				section {
+					section {
+						id
+						name
+					}
+				}
+				status
+				errors {
+					errorMessage
+					errorCode
+				}
+			}
+		}
+	}
+}
+`
+
+func (c *Client) PolicyApplicationControlUpdateSection(ctx context.Context, policyUpdateSectionInput cato_models.PolicyUpdateSectionInput, accountID string, interceptors ...clientv2.RequestInterceptor) (*PolicyApplicationControlUpdateSection, error) {
+	vars := map[string]any{
+		"policyUpdateSectionInput": policyUpdateSectionInput,
+		"accountId":                accountID,
+	}
+
+	var res PolicyApplicationControlUpdateSection
+	if err := c.Client.Post(ctx, "policyApplicationControlUpdateSection", PolicyApplicationControlUpdateSectionDocument, &res, vars, interceptors...); err != nil {
 		if c.Client.ParseDataWhenErrors {
 			return &res, err
 		}
@@ -132739,6 +140826,758 @@ func (c *Client) ObjectGlobalIPRangeList(ctx context.Context, accountID string, 
 	return &res, nil
 }
 
+const AppTenantRestrictionPolicyDocument = `query appTenantRestrictionPolicy ($accountId: ID!) {
+	policy(accountId: $accountId) {
+		appTenantRestriction {
+			policy {
+				enabled
+				audit {
+					publishedTime
+					publishedBy
+				}
+				revision {
+					id
+					name
+					description
+					changes
+					createdTime
+					updatedTime
+				}
+				sections {
+					audit {
+						updatedTime
+						updatedBy
+					}
+					section {
+						id
+						name
+					}
+					properties
+				}
+				rules {
+					audit {
+						updatedTime
+						updatedBy
+					}
+					properties
+					rule {
+						id
+						name
+						description
+						index
+						enabled
+						action
+						severity
+						application {
+							id
+							name
+						}
+						headers {
+							name
+							value
+						}
+						schedule {
+							activeOn
+							customTimeframeAppTenantRestriction: customTimeframe {
+								from
+								to
+							}
+							customRecurringAppTenantRestriction: customRecurring {
+								from
+								to
+								days
+							}
+						}
+						source {
+							country {
+								id
+								name
+							}
+							floatingSubnet {
+								id
+								name
+							}
+							globalIpRange {
+								id
+								name
+							}
+							group {
+								id
+								name
+							}
+							host {
+								id
+								name
+							}
+							ip
+							ipRange {
+								from
+								to
+							}
+							networkInterface {
+								id
+								name
+							}
+							site {
+								id
+								name
+							}
+							siteNetworkSubnet {
+								id
+								name
+							}
+							subnet
+							systemGroup {
+								id
+								name
+							}
+							user {
+								id
+								name
+							}
+							usersGroup {
+								id
+								name
+							}
+						}
+						section {
+							id
+							name
+						}
+					}
+				}
+			}
+		}
+	}
+}
+`
+
+func (c *Client) AppTenantRestrictionPolicy(ctx context.Context, accountID string, interceptors ...clientv2.RequestInterceptor) (*AppTenantRestrictionPolicy, error) {
+	vars := map[string]any{
+		"accountId": accountID,
+	}
+
+	var res AppTenantRestrictionPolicy
+	if err := c.Client.Post(ctx, "appTenantRestrictionPolicy", AppTenantRestrictionPolicyDocument, &res, vars, interceptors...); err != nil {
+		if c.Client.ParseDataWhenErrors {
+			return &res, err
+		}
+
+		return nil, err
+	}
+
+	return &res, nil
+}
+
+const ApplicationControlPolicyDocument = `query applicationControlPolicy ($accountId: ID!) {
+	policy(accountId: $accountId) {
+		applicationControl {
+			policy {
+				enabled
+				additionalAttributes {
+					dataControlEnabled
+				}
+				audit {
+					publishedTime
+					publishedBy
+				}
+				revision {
+					id
+					name
+					description
+					changes
+					createdTime
+					updatedTime
+				}
+				sections {
+					audit {
+						updatedTime
+						updatedBy
+					}
+					section {
+						id
+						name
+					}
+					properties
+				}
+				rules {
+					audit {
+						updatedTime
+						updatedBy
+					}
+					properties
+					rule {
+						id
+						name
+						description
+						index
+						enabled
+						ruleType
+						section {
+							id
+							name
+						}
+						applicationRule {
+							action
+							applicationActivitySatisfy
+							applicationCriteriaSatisfy
+							severity
+							accessMethod {
+								accessMethod
+								operator
+								value
+								valueSet {
+									id
+									name
+								}
+							}
+							actionConfig {
+								userNotification {
+									id
+									name
+								}
+							}
+							application {
+								application {
+									id
+									name
+								}
+								appCategory {
+									id
+									name
+								}
+								applicationType
+								customApp {
+									id
+									name
+								}
+								customCategory {
+									id
+									name
+								}
+								sanctionedAppsCategory {
+									id
+									name
+								}
+							}
+							applicationActivity {
+								activity {
+									id
+									name
+								}
+								field {
+									id
+									name
+								}
+								operator
+								value
+								valueSet {
+									id
+									name
+								}
+							}
+							applicationContext {
+								applicationTenant {
+									operator
+									value
+									valueSet {
+										id
+										name
+									}
+								}
+							}
+							applicationCriteria {
+								attributes {
+									complianceAttributes {
+										hippa
+										isae3402
+										iso27001
+										pciDss
+										soc1
+										soc2
+										soc3
+										sox
+									}
+									securityAttributes {
+										auditTrail
+										encryptionAtRest
+										httpSecurityHeaders
+										mfa
+										rbac
+										rememberPassword
+										sso
+										tlsEnforcement
+										trustedCertificate
+									}
+								}
+								originCountry {
+									id
+									name
+								}
+								risk {
+									risk
+									riskOperator
+								}
+							}
+							device {
+								id
+								name
+							}
+							schedule {
+								activeOn
+								customTimeframeApplicationRule: customTimeframe {
+									from
+									to
+								}
+								customRecurringApplicationRule: customRecurring {
+									from
+									to
+									days
+								}
+							}
+							source {
+								country {
+									id
+									name
+								}
+								floatingSubnet {
+									id
+									name
+								}
+								globalIpRange {
+									id
+									name
+								}
+								group {
+									id
+									name
+								}
+								host {
+									id
+									name
+								}
+								ip
+								ipRange {
+									from
+									to
+								}
+								networkInterface {
+									id
+									name
+								}
+								site {
+									id
+									name
+								}
+								siteNetworkSubnet {
+									id
+									name
+								}
+								subnet
+								systemGroup {
+									id
+									name
+								}
+								user {
+									id
+									name
+								}
+								usersGroup {
+									id
+									name
+								}
+							}
+							tracking {
+								event {
+									enabled
+								}
+								alert {
+									enabled
+									frequency
+									subscriptionGroup {
+										id
+										name
+									}
+									webhook {
+										id
+										name
+									}
+									mailingList {
+										id
+										name
+									}
+								}
+							}
+						}
+						dataRule {
+							action
+							applicationActivitySatisfy
+							fileAttributeSatisfy
+							severity
+							accessMethod {
+								accessMethod
+								operator
+								value
+								valueSet {
+									id
+									name
+								}
+							}
+							actionConfig {
+								userNotification {
+									id
+									name
+								}
+							}
+							application {
+								application {
+									id
+									name
+								}
+								appCategory {
+									id
+									name
+								}
+								applicationType
+								customApp {
+									id
+									name
+								}
+								customCategory {
+									id
+									name
+								}
+								sanctionedAppsCategory {
+									id
+									name
+								}
+							}
+							applicationActivity {
+								activity {
+									id
+									name
+								}
+								field {
+									id
+									name
+								}
+								operator
+								value
+								valueSet {
+									id
+									name
+								}
+							}
+							applicationContext {
+								applicationTenant {
+									operator
+									value
+									valueSet {
+										id
+										name
+									}
+								}
+							}
+							device {
+								id
+								name
+							}
+							dlpProfile {
+								contentProfile {
+									id
+									name
+								}
+								edmProfile {
+									id
+									name
+								}
+							}
+							fileAttribute {
+								contentTypeGroupValues {
+									id
+									name
+								}
+								contentTypeValues {
+									id
+									name
+								}
+								fileAttribute
+								operator
+								value
+							}
+							schedule {
+								activeOn
+								customTimeframeDataRule: customTimeframe {
+									from
+									to
+								}
+								customRecurringDataRule: customRecurring {
+									from
+									to
+									days
+								}
+							}
+							source {
+								country {
+									id
+									name
+								}
+								floatingSubnet {
+									id
+									name
+								}
+								globalIpRange {
+									id
+									name
+								}
+								group {
+									id
+									name
+								}
+								host {
+									id
+									name
+								}
+								ip
+								ipRange {
+									from
+									to
+								}
+								networkInterface {
+									id
+									name
+								}
+								site {
+									id
+									name
+								}
+								siteNetworkSubnet {
+									id
+									name
+								}
+								subnet
+								systemGroup {
+									id
+									name
+								}
+								user {
+									id
+									name
+								}
+								usersGroup {
+									id
+									name
+								}
+							}
+							tracking {
+								event {
+									enabled
+								}
+								alert {
+									enabled
+									frequency
+									subscriptionGroup {
+										id
+										name
+									}
+									webhook {
+										id
+										name
+									}
+									mailingList {
+										id
+										name
+									}
+								}
+							}
+						}
+						fileRule {
+							action
+							applicationActivitySatisfy
+							fileAttributeSatisfy
+							severity
+							accessMethod {
+								accessMethod
+								operator
+								value
+								valueSet {
+									id
+									name
+								}
+							}
+							actionConfig {
+								userNotification {
+									id
+									name
+								}
+							}
+							application {
+								application {
+									id
+									name
+								}
+								appCategory {
+									id
+									name
+								}
+								applicationType
+								customApp {
+									id
+									name
+								}
+								customCategory {
+									id
+									name
+								}
+								sanctionedAppsCategory {
+									id
+									name
+								}
+							}
+							applicationActivity {
+								activity {
+									id
+									name
+								}
+								field {
+									id
+									name
+								}
+								operator
+								value
+								valueSet {
+									id
+									name
+								}
+							}
+							device {
+								id
+								name
+							}
+							fileAttribute {
+								contentTypeGroupValues {
+									id
+									name
+								}
+								contentTypeValues {
+									id
+									name
+								}
+								fileAttribute
+								operator
+								value
+							}
+							schedule {
+								activeOn
+								customTimeframeFileRule: customTimeframe {
+									from
+									to
+								}
+								customRecurringFileRule: customRecurring {
+									from
+									to
+									days
+								}
+							}
+							source {
+								country {
+									id
+									name
+								}
+								floatingSubnet {
+									id
+									name
+								}
+								globalIpRange {
+									id
+									name
+								}
+								group {
+									id
+									name
+								}
+								host {
+									id
+									name
+								}
+								ip
+								ipRange {
+									from
+									to
+								}
+								networkInterface {
+									id
+									name
+								}
+								site {
+									id
+									name
+								}
+								siteNetworkSubnet {
+									id
+									name
+								}
+								subnet
+								systemGroup {
+									id
+									name
+								}
+								user {
+									id
+									name
+								}
+								usersGroup {
+									id
+									name
+								}
+							}
+							tracking {
+								event {
+									enabled
+								}
+								alert {
+									enabled
+									frequency
+									subscriptionGroup {
+										id
+										name
+									}
+									webhook {
+										id
+										name
+									}
+									mailingList {
+										id
+										name
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}
+`
+
+func (c *Client) ApplicationControlPolicy(ctx context.Context, accountID string, interceptors ...clientv2.RequestInterceptor) (*ApplicationControlPolicy, error) {
+	vars := map[string]any{
+		"accountId": accountID,
+	}
+
+	var res ApplicationControlPolicy
+	if err := c.Client.Post(ctx, "applicationControlPolicy", ApplicationControlPolicyDocument, &res, vars, interceptors...); err != nil {
+		if c.Client.ParseDataWhenErrors {
+			return &res, err
+		}
+
+		return nil, err
+	}
+
+	return &res, nil
+}
+
 const PolicyDocument = `query policy ($internetFirewallPolicyInput: InternetFirewallPolicyInput, $wanFirewallPolicyInput: WanFirewallPolicyInput, $accountId: ID!) {
 	policy(accountId: $accountId) {
 		internetFirewall {
@@ -136919,170 +145758,196 @@ func (c *Client) AppConnectorReadGroups(ctx context.Context, accountID string, i
 }
 
 var DocumentOperationNames = map[string]string{
-	AdminAddAdminDocument:                               "adminAddAdmin",
-	AdminRemoveAdminDocument:                            "adminRemoveAdmin",
-	AdminUpdateAdminDocument:                            "adminUpdateAdmin",
-	GroupsCreateGroupDocument:                           "groupsCreateGroup",
-	GroupsDeleteGroupDocument:                           "groupsDeleteGroup",
-	GroupsUpdateGroupDocument:                           "groupsUpdateGroup",
-	ObjectCreateGlobalIPRangeBulkDocument:               "objectCreateGlobalIpRangeBulk",
-	ObjectDeleteGlobalIPRangeBulkDocument:               "objectDeleteGlobalIpRangeBulk",
-	ObjectUpdateGlobalIPRangeBulkDocument:               "objectUpdateGlobalIpRangeBulk",
-	PolicyInternetFirewallDiscardPolicyRevisionDocument: "policyInternetFirewallDiscardPolicyRevision",
-	PolicyInternetFirewallAddRuleDocument:               "policyInternetFirewallAddRule",
-	PolicyInternetFirewallAddSectionDocument:            "policyInternetFirewallAddSection",
-	PolicyInternetFirewallCreatePolicyRevisionDocument:  "policyInternetFirewallCreatePolicyRevision",
-	PolicyInternetFirewallMoveRuleDocument:              "policyInternetFirewallMoveRule",
-	PolicyInternetFirewallMoveSectionDocument:           "policyInternetFirewallMoveSection",
-	PolicyInternetFirewallPublishPolicyRevisionDocument: "policyInternetFirewallPublishPolicyRevision",
-	PolicyInternetFirewallRemoveRuleDocument:            "policyInternetFirewallRemoveRule",
-	PolicyInternetFirewallRemoveSectionDocument:         "policyInternetFirewallRemoveSection",
-	PolicyInternetFirewallReorderPolicyDocument:         "policyInternetFirewallReorderPolicy",
-	PolicyInternetFirewallUpdatePolicyDocument:          "policyInternetFirewallUpdatePolicy",
-	PolicyInternetFirewallUpdateRuleDocument:            "policyInternetFirewallUpdateRule",
-	PolicyInternetFirewallUpdateSectionDocument:         "policyInternetFirewallUpdateSection",
-	PolicyPrivateAccessAddRuleDocument:                  "policyPrivateAccessAddRule",
-	PolicyPrivateAccessDeleteRuleDocument:               "policyPrivateAccessDeleteRule",
-	PolicyPrivateAccessDiscardRevisionDocument:          "policyPrivateAccessDiscardRevision",
-	PolicyPrivateAccessMoveRuleDocument:                 "policyPrivateAccessMoveRule",
-	PolicyPrivateAccessPublishRevisionDocument:          "policyPrivateAccessPublishRevision",
-	PolicyPrivateAccessUpdatePolicyDocument:             "policyPrivateAccessUpdatePolicy",
-	PolicyPrivateAccessUpdateRuleDocument:               "policyPrivateAccessUpdateRule",
-	PolicyRemotePortFwdAddRuleDocument:                  "policyRemotePortFwdAddRule",
-	PolicyRemotePortFwdAddSectionDocument:               "policyRemotePortFwdAddSection",
-	PolicyRemotePortFwdMoveRuleDocument:                 "policyRemotePortFwdMoveRule",
-	PolicyRemotePortFwdMoveSectionDocument:              "policyRemotePortFwdMoveSection",
-	PolicyRemotePortFwdPublishPolicyRevisionDocument:    "policyRemotePortFwdPublishPolicyRevision",
-	PolicyRemotePortFwdRemoveRuleDocument:               "policyRemotePortFwdRemoveRule",
-	PolicyRemotePortFwdRemoveSectionDocument:            "policyRemotePortFwdRemoveSection",
-	PolicyRemotePortFwdUpdateRuleDocument:               "policyRemotePortFwdUpdateRule",
-	PolicyRemotePortFwdUpdateSectionDocument:            "policyRemotePortFwdUpdateSection",
-	PolicySocketLanAddRuleDocument:                      "policySocketLanAddRule",
-	PolicySocketLanAddSectionDocument:                   "policySocketLanAddSection",
-	PolicySocketLanCreatePolicyRevisionDocument:         "policySocketLanCreatePolicyRevision",
-	PolicySocketLanDiscardPolicyRevisionDocument:        "policySocketLanDiscardPolicyRevision",
-	PolicySocketLanFirewallAddRuleDocument:              "policySocketLanFirewallAddRule",
-	PolicySocketLanFirewallMoveRuleDocument:             "policySocketLanFirewallMoveRule",
-	PolicySocketLanFirewallRemoveRuleDocument:           "policySocketLanFirewallRemoveRule",
-	PolicySocketLanFirewallUpdateRuleDocument:           "policySocketLanFirewallUpdateRule",
-	PolicySocketLanMoveRuleDocument:                     "policySocketLanMoveRule",
-	PolicySocketLanMoveSectionDocument:                  "policySocketLanMoveSection",
-	PolicySocketLanPublishPolicyRevisionDocument:        "policySocketLanPublishPolicyRevision",
-	PolicySocketLanRemoveRuleDocument:                   "policySocketLanRemoveRule",
-	PolicySocketLanRemoveSectionDocument:                "policySocketLanRemoveSection",
-	PolicySocketLanUpdatePolicyDocument:                 "policySocketLanUpdatePolicy",
-	PolicySocketLanUpdateRuleDocument:                   "policySocketLanUpdateRule",
-	PolicySocketLanUpdateSectionDocument:                "policySocketLanUpdateSection",
-	PolicyTLSInspectAddRuleDocument:                     "policyTlsInspectAddRule",
-	PolicyTLSInspectAddSectionDocument:                  "policyTlsInspectAddSection",
-	PolicyTLSInspectCreatePolicyRevisionDocument:        "policyTlsInspectCreatePolicyRevision",
-	PolicyTLSInspectDiscardPolicyRevisionDocument:       "policyTlsInspectDiscardPolicyRevision",
-	PolicyTLSInspectMoveRuleDocument:                    "policyTlsInspectMoveRule",
-	PolicyTLSInspectMoveSectionDocument:                 "policyTlsInspectMoveSection",
-	PolicyTLSInspectPublishPolicyRevisionDocument:       "policyTlsInspectPublishPolicyRevision",
-	PolicyTLSInspectRemoveRuleDocument:                  "policyTlsInspectRemoveRule",
-	PolicyTLSInspectRemoveSectionDocument:               "policyTlsInspectRemoveSection",
-	PolicyTLSInspectUpdatePolicyDocument:                "policyTlsInspectUpdatePolicy",
-	PolicyTLSInspectUpdateRuleDocument:                  "policyTlsInspectUpdateRule",
-	PolicyTLSInspectUpdateSectionDocument:               "policyTlsInspectUpdateSection",
-	PolicyWanFirewallAddRuleDocument:                    "policyWanFirewallAddRule",
-	PolicyWanFirewallAddSectionDocument:                 "policyWanFirewallAddSection",
-	PolicyWanFirewallCreatePolicyRevisionDocument:       "policyWanFirewallCreatePolicyRevision",
-	PolicyWanFirewallDiscardPolicyRevisionDocument:      "policyWanFirewallDiscardPolicyRevision",
-	PolicyWanFirewallMoveRuleDocument:                   "policyWanFirewallMoveRule",
-	PolicyWanFirewallMoveSectionDocument:                "policyWanFirewallMoveSection",
-	PolicyWanFirewallPublishPolicyRevisionDocument:      "policyWanFirewallPublishPolicyRevision",
-	PolicyWanFirewallRemoveRuleDocument:                 "policyWanFirewallRemoveRule",
-	PolicyWanFirewallRemoveSectionDocument:              "policyWanFirewallRemoveSection",
-	PolicyWanFirewallReorderPolicyDocument:              "policyWanFirewallReorderPolicy",
-	PolicyWanFirewallUpdatePolicyDocument:               "policyWanFirewallUpdatePolicy",
-	PolicyWanFirewallUpdateRuleDocument:                 "policyWanFirewallUpdateRule",
-	PolicyWanFirewallUpdateSectionDocument:              "policyWanFirewallUpdateSection",
-	PolicyWanNetworkAddRuleDocument:                     "policyWanNetworkAddRule",
-	PolicyWanNetworkAddSectionDocument:                  "policyWanNetworkAddSection",
-	PolicyWanNetworkCreatePolicyRevisionDocument:        "policyWanNetworkCreatePolicyRevision",
-	PolicyWanNetworkDiscardPolicyRevisionDocument:       "policyWanNetworkDiscardPolicyRevision",
-	PolicyWanNetworkMoveRuleDocument:                    "policyWanNetworkMoveRule",
-	PolicyWanNetworkMoveSectionDocument:                 "policyWanNetworkMoveSection",
-	PolicyWanNetworkPublishPolicyRevisionDocument:       "policyWanNetworkPublishPolicyRevision",
-	PolicyWanNetworkRemoveRuleDocument:                  "policyWanNetworkRemoveRule",
-	PolicyWanNetworkRemoveSectionDocument:               "policyWanNetworkRemoveSection",
-	PolicyWanNetworkUpdatePolicyDocument:                "policyWanNetworkUpdatePolicy",
-	PolicyWanNetworkUpdateRuleDocument:                  "policyWanNetworkUpdateRule",
-	PolicyWanNetworkUpdateSectionDocument:               "policyWanNetworkUpdateSection",
-	PrivateAppCreatePrivateAppDocument:                  "privateAppCreatePrivateApp",
-	PrivateAppDeletePrivateAppDocument:                  "privateAppDeletePrivateApp",
-	PrivateAppUpdatePrivateAppDocument:                  "privateAppUpdatePrivateApp",
-	SiteAddBgpPeerDocument:                              "siteAddBgpPeer",
-	SiteAddIpsecIkeV2SiteDocument:                       "siteAddIpsecIkeV2Site",
-	SiteAddIpsecIkeV2SiteTunnelsDocument:                "siteAddIpsecIkeV2SiteTunnels",
-	SiteAddNetworkRangeDocument:                         "siteAddNetworkRange",
-	SiteAddSocketSiteDocument:                           "siteAddSocketSite",
-	SiteAddStaticHostDocument:                           "siteAddStaticHost",
-	AssignSiteBwLicenseDocument:                         "assignSiteBwLicense",
-	SiteExchangeSocketPortsDocument:                     "siteExchangeSocketPorts",
-	SiteRemoveBgpPeerDocument:                           "siteRemoveBgpPeer",
-	SiteRemoveNetworkRangeDocument:                      "siteRemoveNetworkRange",
-	SiteRemoveSiteDocument:                              "siteRemoveSite",
-	RemoveSiteBwLicenseDocument:                         "removeSiteBwLicense",
-	SiteRemoveStaticHostDocument:                        "siteRemoveStaticHost",
-	ReplaceSiteBwLicenseDocument:                        "replaceSiteBwLicense",
-	SiteUpdateBgpPeerDocument:                           "siteUpdateBgpPeer",
-	SiteUpdateHaDocument:                                "siteUpdateHa",
-	SiteUpdateIpsecIkeV2SiteGeneralDetailsDocument:      "siteUpdateIpsecIkeV2SiteGeneralDetails",
-	SiteUpdateIpsecIkeV2SiteTunnelsDocument:             "siteUpdateIpsecIkeV2SiteTunnels",
-	SiteUpdateNetworkRangeDocument:                      "siteUpdateNetworkRange",
-	UpdateSiteBwLicenseDocument:                         "updateSiteBwLicense",
-	SiteUpdateSiteGeneralDetailsDocument:                "siteUpdateSiteGeneralDetails",
-	SiteUpdateSiteSocketConfigurationDocument:           "siteUpdateSiteSocketConfiguration",
-	SiteUpdateSocketInterfaceDocument:                   "siteUpdateSocketInterface",
-	SiteUpdateStaticHostDocument:                        "siteUpdateStaticHost",
-	SitesAddBgpPeerDocument:                             "sitesAddBgpPeer",
-	SitesRemoveBgpPeerDocument:                          "sitesRemoveBgpPeer",
-	SitesUpdateBgpPeerDocument:                          "sitesUpdateBgpPeer",
-	AppConnectorCreateConnectorDocument:                 "appConnectorCreateConnector",
-	AppConnectorDeleteConnectorDocument:                 "appConnectorDeleteConnector",
-	AppConnectorUpdateConnectorDocument:                 "appConnectorUpdateConnector",
-	AccountBySubdomainDocument:                          "accountBySubdomain",
-	AccountManagementAddAccountDocument:                 "accountManagementAddAccount",
-	AccountManagementDocument:                           "accountManagement",
-	AccountManagementRemoveAccountDocument:              "accountManagementRemoveAccount",
-	AccountManagementUpdateAccountDocument:              "accountManagementUpdateAccount",
-	AccountMetricsDocument:                              "accountMetrics",
-	AccountRolesDocument:                                "accountRoles",
-	AccountSnapshotDocument:                             "accountSnapshot",
-	AdminDocument:                                       "admin",
-	AdminsDocument:                                      "admins",
-	AppStatsDocument:                                    "appStats",
-	AppStatsTimeSeriesDocument:                          "appStatsTimeSeries",
-	AuditFeedDocument:                                   "auditFeed",
-	EntityLookupDocument:                                "entityLookup",
-	EventsDocument:                                      "events",
-	EventsFeedDocument:                                  "eventsFeed",
-	EventsTimeSeriesDocument:                            "eventsTimeSeries",
-	GroupsGroupDocument:                                 "groupsGroup",
-	GroupsMembersDocument:                               "groupsMembers",
-	GroupsWhereUsedDocument:                             "groupsWhereUsed",
-	GroupsListDocument:                                  "groupsList",
-	HardwareManagementDocument:                          "hardwareManagement",
-	LicensingDocument:                                   "licensing",
-	ObjectGlobalIPRangeListDocument:                     "objectGlobalIpRangeList",
-	PolicyDocument:                                      "policy",
-	InternetFirewallPolicyDocument:                      "internetFirewallPolicy",
-	PolicyReadPrivateAccessPolicyDocument:               "policyReadPrivateAccessPolicy",
-	PolicyRemotePortFwdDocument:                         "policyRemotePortFwd",
-	RemotePortFwdPolicyDocument:                         "remotePortFwdPolicy",
-	PolicySocketLanPolicyDocument:                       "policySocketLanPolicy",
-	TlsinspectpolicyDocument:                            "tlsinspectpolicy",
-	WanFirewallPolicyDocument:                           "wanFirewallPolicy",
-	WanNetworkPolicyDocument:                            "wanNetworkPolicy",
-	PrivateAppReadPrivateAppDocument:                    "privateAppReadPrivateApp",
-	SiteDocument:                                        "site",
-	NetworkRangeDocument:                                "networkRange",
-	NetworkRangeListDocument:                            "networkRangeList",
-	SiteGeneralDetailsDocument:                          "siteGeneralDetails",
-	SubDomainsDocument:                                  "subDomains",
-	XdrDocument:                                         "xdr",
-	AppConnectorReadConnectorDocument:                   "appConnectorReadConnector",
-	AppConnectorReadGroupsDocument:                      "appConnectorReadGroups",
+	AdminAddAdminDocument:                                   "adminAddAdmin",
+	AdminRemoveAdminDocument:                                "adminRemoveAdmin",
+	AdminUpdateAdminDocument:                                "adminUpdateAdmin",
+	GroupsCreateGroupDocument:                               "groupsCreateGroup",
+	GroupsDeleteGroupDocument:                               "groupsDeleteGroup",
+	GroupsUpdateGroupDocument:                               "groupsUpdateGroup",
+	ObjectCreateGlobalIPRangeBulkDocument:                   "objectCreateGlobalIpRangeBulk",
+	ObjectDeleteGlobalIPRangeBulkDocument:                   "objectDeleteGlobalIpRangeBulk",
+	ObjectUpdateGlobalIPRangeBulkDocument:                   "objectUpdateGlobalIpRangeBulk",
+	PolicyAppTenantRestrictionAddRuleDocument:               "policyAppTenantRestrictionAddRule",
+	PolicyAppTenantRestrictionAddSectionDocument:            "policyAppTenantRestrictionAddSection",
+	PolicyAppTenantRestrictionCreatePolicyRevisionDocument:  "policyAppTenantRestrictionCreatePolicyRevision",
+	PolicyAppTenantRestrictionDiscardPolicyRevisionDocument: "policyAppTenantRestrictionDiscardPolicyRevision",
+	PolicyAppTenantRestrictionMoveRuleDocument:              "policyAppTenantRestrictionMoveRule",
+	PolicyAppTenantRestrictionMoveSectionDocument:           "policyAppTenantRestrictionMoveSection",
+	PolicyAppTenantRestrictionPublishPolicyRevisionDocument: "policyAppTenantRestrictionPublishPolicyRevision",
+	PolicyAppTenantRestrictionRemoveRuleDocument:            "policyAppTenantRestrictionRemoveRule",
+	PolicyAppTenantRestrictionRemoveSectionDocument:         "policyAppTenantRestrictionRemoveSection",
+	PolicyAppTenantRestrictionUpdatePolicyDocument:          "policyAppTenantRestrictionUpdatePolicy",
+	PolicyAppTenantRestrictionUpdateRuleDocument:            "policyAppTenantRestrictionUpdateRule",
+	PolicyAppTenantRestrictionUpdateSectionDocument:         "policyAppTenantRestrictionUpdateSection",
+	PolicyApplicationControlAddRuleDocument:                 "policyApplicationControlAddRule",
+	PolicyApplicationControlAddSectionDocument:              "policyApplicationControlAddSection",
+	PolicyApplicationControlCreatePolicyRevisionDocument:    "policyApplicationControlCreatePolicyRevision",
+	PolicyApplicationControlDiscardPolicyRevisionDocument:   "policyApplicationControlDiscardPolicyRevision",
+	PolicyApplicationControlMoveRuleDocument:                "policyApplicationControlMoveRule",
+	PolicyApplicationControlMoveSectionDocument:             "policyApplicationControlMoveSection",
+	PolicyApplicationControlPublishPolicyRevisionDocument:   "policyApplicationControlPublishPolicyRevision",
+	PolicyApplicationControlRemoveRuleDocument:              "policyApplicationControlRemoveRule",
+	PolicyApplicationControlRemoveSectionDocument:           "policyApplicationControlRemoveSection",
+	PolicyApplicationControlUpdatePolicyDocument:            "policyApplicationControlUpdatePolicy",
+	PolicyApplicationControlUpdateRuleDocument:              "policyApplicationControlUpdateRule",
+	PolicyApplicationControlUpdateSectionDocument:           "policyApplicationControlUpdateSection",
+	PolicyInternetFirewallDiscardPolicyRevisionDocument:     "policyInternetFirewallDiscardPolicyRevision",
+	PolicyInternetFirewallAddRuleDocument:                   "policyInternetFirewallAddRule",
+	PolicyInternetFirewallAddSectionDocument:                "policyInternetFirewallAddSection",
+	PolicyInternetFirewallCreatePolicyRevisionDocument:      "policyInternetFirewallCreatePolicyRevision",
+	PolicyInternetFirewallMoveRuleDocument:                  "policyInternetFirewallMoveRule",
+	PolicyInternetFirewallMoveSectionDocument:               "policyInternetFirewallMoveSection",
+	PolicyInternetFirewallPublishPolicyRevisionDocument:     "policyInternetFirewallPublishPolicyRevision",
+	PolicyInternetFirewallRemoveRuleDocument:                "policyInternetFirewallRemoveRule",
+	PolicyInternetFirewallRemoveSectionDocument:             "policyInternetFirewallRemoveSection",
+	PolicyInternetFirewallReorderPolicyDocument:             "policyInternetFirewallReorderPolicy",
+	PolicyInternetFirewallUpdatePolicyDocument:              "policyInternetFirewallUpdatePolicy",
+	PolicyInternetFirewallUpdateRuleDocument:                "policyInternetFirewallUpdateRule",
+	PolicyInternetFirewallUpdateSectionDocument:             "policyInternetFirewallUpdateSection",
+	PolicyPrivateAccessAddRuleDocument:                      "policyPrivateAccessAddRule",
+	PolicyPrivateAccessDeleteRuleDocument:                   "policyPrivateAccessDeleteRule",
+	PolicyPrivateAccessDiscardRevisionDocument:              "policyPrivateAccessDiscardRevision",
+	PolicyPrivateAccessMoveRuleDocument:                     "policyPrivateAccessMoveRule",
+	PolicyPrivateAccessPublishRevisionDocument:              "policyPrivateAccessPublishRevision",
+	PolicyPrivateAccessUpdatePolicyDocument:                 "policyPrivateAccessUpdatePolicy",
+	PolicyPrivateAccessUpdateRuleDocument:                   "policyPrivateAccessUpdateRule",
+	PolicyRemotePortFwdAddRuleDocument:                      "policyRemotePortFwdAddRule",
+	PolicyRemotePortFwdAddSectionDocument:                   "policyRemotePortFwdAddSection",
+	PolicyRemotePortFwdMoveRuleDocument:                     "policyRemotePortFwdMoveRule",
+	PolicyRemotePortFwdMoveSectionDocument:                  "policyRemotePortFwdMoveSection",
+	PolicyRemotePortFwdPublishPolicyRevisionDocument:        "policyRemotePortFwdPublishPolicyRevision",
+	PolicyRemotePortFwdRemoveRuleDocument:                   "policyRemotePortFwdRemoveRule",
+	PolicyRemotePortFwdRemoveSectionDocument:                "policyRemotePortFwdRemoveSection",
+	PolicyRemotePortFwdUpdateRuleDocument:                   "policyRemotePortFwdUpdateRule",
+	PolicyRemotePortFwdUpdateSectionDocument:                "policyRemotePortFwdUpdateSection",
+	PolicySocketLanAddRuleDocument:                          "policySocketLanAddRule",
+	PolicySocketLanAddSectionDocument:                       "policySocketLanAddSection",
+	PolicySocketLanCreatePolicyRevisionDocument:             "policySocketLanCreatePolicyRevision",
+	PolicySocketLanDiscardPolicyRevisionDocument:            "policySocketLanDiscardPolicyRevision",
+	PolicySocketLanFirewallAddRuleDocument:                  "policySocketLanFirewallAddRule",
+	PolicySocketLanFirewallMoveRuleDocument:                 "policySocketLanFirewallMoveRule",
+	PolicySocketLanFirewallRemoveRuleDocument:               "policySocketLanFirewallRemoveRule",
+	PolicySocketLanFirewallUpdateRuleDocument:               "policySocketLanFirewallUpdateRule",
+	PolicySocketLanMoveRuleDocument:                         "policySocketLanMoveRule",
+	PolicySocketLanMoveSectionDocument:                      "policySocketLanMoveSection",
+	PolicySocketLanPublishPolicyRevisionDocument:            "policySocketLanPublishPolicyRevision",
+	PolicySocketLanRemoveRuleDocument:                       "policySocketLanRemoveRule",
+	PolicySocketLanRemoveSectionDocument:                    "policySocketLanRemoveSection",
+	PolicySocketLanUpdatePolicyDocument:                     "policySocketLanUpdatePolicy",
+	PolicySocketLanUpdateRuleDocument:                       "policySocketLanUpdateRule",
+	PolicySocketLanUpdateSectionDocument:                    "policySocketLanUpdateSection",
+	PolicyTLSInspectAddRuleDocument:                         "policyTlsInspectAddRule",
+	PolicyTLSInspectAddSectionDocument:                      "policyTlsInspectAddSection",
+	PolicyTLSInspectCreatePolicyRevisionDocument:            "policyTlsInspectCreatePolicyRevision",
+	PolicyTLSInspectDiscardPolicyRevisionDocument:           "policyTlsInspectDiscardPolicyRevision",
+	PolicyTLSInspectMoveRuleDocument:                        "policyTlsInspectMoveRule",
+	PolicyTLSInspectMoveSectionDocument:                     "policyTlsInspectMoveSection",
+	PolicyTLSInspectPublishPolicyRevisionDocument:           "policyTlsInspectPublishPolicyRevision",
+	PolicyTLSInspectRemoveRuleDocument:                      "policyTlsInspectRemoveRule",
+	PolicyTLSInspectRemoveSectionDocument:                   "policyTlsInspectRemoveSection",
+	PolicyTLSInspectUpdatePolicyDocument:                    "policyTlsInspectUpdatePolicy",
+	PolicyTLSInspectUpdateRuleDocument:                      "policyTlsInspectUpdateRule",
+	PolicyTLSInspectUpdateSectionDocument:                   "policyTlsInspectUpdateSection",
+	PolicyWanFirewallAddRuleDocument:                        "policyWanFirewallAddRule",
+	PolicyWanFirewallAddSectionDocument:                     "policyWanFirewallAddSection",
+	PolicyWanFirewallCreatePolicyRevisionDocument:           "policyWanFirewallCreatePolicyRevision",
+	PolicyWanFirewallDiscardPolicyRevisionDocument:          "policyWanFirewallDiscardPolicyRevision",
+	PolicyWanFirewallMoveRuleDocument:                       "policyWanFirewallMoveRule",
+	PolicyWanFirewallMoveSectionDocument:                    "policyWanFirewallMoveSection",
+	PolicyWanFirewallPublishPolicyRevisionDocument:          "policyWanFirewallPublishPolicyRevision",
+	PolicyWanFirewallRemoveRuleDocument:                     "policyWanFirewallRemoveRule",
+	PolicyWanFirewallRemoveSectionDocument:                  "policyWanFirewallRemoveSection",
+	PolicyWanFirewallReorderPolicyDocument:                  "policyWanFirewallReorderPolicy",
+	PolicyWanFirewallUpdatePolicyDocument:                   "policyWanFirewallUpdatePolicy",
+	PolicyWanFirewallUpdateRuleDocument:                     "policyWanFirewallUpdateRule",
+	PolicyWanFirewallUpdateSectionDocument:                  "policyWanFirewallUpdateSection",
+	PolicyWanNetworkAddRuleDocument:                         "policyWanNetworkAddRule",
+	PolicyWanNetworkAddSectionDocument:                      "policyWanNetworkAddSection",
+	PolicyWanNetworkCreatePolicyRevisionDocument:            "policyWanNetworkCreatePolicyRevision",
+	PolicyWanNetworkDiscardPolicyRevisionDocument:           "policyWanNetworkDiscardPolicyRevision",
+	PolicyWanNetworkMoveRuleDocument:                        "policyWanNetworkMoveRule",
+	PolicyWanNetworkMoveSectionDocument:                     "policyWanNetworkMoveSection",
+	PolicyWanNetworkPublishPolicyRevisionDocument:           "policyWanNetworkPublishPolicyRevision",
+	PolicyWanNetworkRemoveRuleDocument:                      "policyWanNetworkRemoveRule",
+	PolicyWanNetworkRemoveSectionDocument:                   "policyWanNetworkRemoveSection",
+	PolicyWanNetworkUpdatePolicyDocument:                    "policyWanNetworkUpdatePolicy",
+	PolicyWanNetworkUpdateRuleDocument:                      "policyWanNetworkUpdateRule",
+	PolicyWanNetworkUpdateSectionDocument:                   "policyWanNetworkUpdateSection",
+	PrivateAppCreatePrivateAppDocument:                      "privateAppCreatePrivateApp",
+	PrivateAppDeletePrivateAppDocument:                      "privateAppDeletePrivateApp",
+	PrivateAppUpdatePrivateAppDocument:                      "privateAppUpdatePrivateApp",
+	SiteAddBgpPeerDocument:                                  "siteAddBgpPeer",
+	SiteAddIpsecIkeV2SiteDocument:                           "siteAddIpsecIkeV2Site",
+	SiteAddIpsecIkeV2SiteTunnelsDocument:                    "siteAddIpsecIkeV2SiteTunnels",
+	SiteAddNetworkRangeDocument:                             "siteAddNetworkRange",
+	SiteAddSocketSiteDocument:                               "siteAddSocketSite",
+	SiteAddStaticHostDocument:                               "siteAddStaticHost",
+	AssignSiteBwLicenseDocument:                             "assignSiteBwLicense",
+	SiteExchangeSocketPortsDocument:                         "siteExchangeSocketPorts",
+	SiteRemoveBgpPeerDocument:                               "siteRemoveBgpPeer",
+	SiteRemoveNetworkRangeDocument:                          "siteRemoveNetworkRange",
+	SiteRemoveSiteDocument:                                  "siteRemoveSite",
+	RemoveSiteBwLicenseDocument:                             "removeSiteBwLicense",
+	SiteRemoveStaticHostDocument:                            "siteRemoveStaticHost",
+	ReplaceSiteBwLicenseDocument:                            "replaceSiteBwLicense",
+	SiteUpdateBgpPeerDocument:                               "siteUpdateBgpPeer",
+	SiteUpdateHaDocument:                                    "siteUpdateHa",
+	SiteUpdateIpsecIkeV2SiteGeneralDetailsDocument:          "siteUpdateIpsecIkeV2SiteGeneralDetails",
+	SiteUpdateIpsecIkeV2SiteTunnelsDocument:                 "siteUpdateIpsecIkeV2SiteTunnels",
+	SiteUpdateNetworkRangeDocument:                          "siteUpdateNetworkRange",
+	UpdateSiteBwLicenseDocument:                             "updateSiteBwLicense",
+	SiteUpdateSiteGeneralDetailsDocument:                    "siteUpdateSiteGeneralDetails",
+	SiteUpdateSiteSocketConfigurationDocument:               "siteUpdateSiteSocketConfiguration",
+	SiteUpdateSocketInterfaceDocument:                       "siteUpdateSocketInterface",
+	SiteUpdateStaticHostDocument:                            "siteUpdateStaticHost",
+	SitesAddBgpPeerDocument:                                 "sitesAddBgpPeer",
+	SitesRemoveBgpPeerDocument:                              "sitesRemoveBgpPeer",
+	SitesUpdateBgpPeerDocument:                              "sitesUpdateBgpPeer",
+	AppConnectorCreateConnectorDocument:                     "appConnectorCreateConnector",
+	AppConnectorDeleteConnectorDocument:                     "appConnectorDeleteConnector",
+	AppConnectorUpdateConnectorDocument:                     "appConnectorUpdateConnector",
+	AccountBySubdomainDocument:                              "accountBySubdomain",
+	AccountManagementAddAccountDocument:                     "accountManagementAddAccount",
+	AccountManagementDocument:                               "accountManagement",
+	AccountManagementRemoveAccountDocument:                  "accountManagementRemoveAccount",
+	AccountManagementUpdateAccountDocument:                  "accountManagementUpdateAccount",
+	AccountMetricsDocument:                                  "accountMetrics",
+	AccountRolesDocument:                                    "accountRoles",
+	AccountSnapshotDocument:                                 "accountSnapshot",
+	AdminDocument:                                           "admin",
+	AdminsDocument:                                          "admins",
+	AppStatsDocument:                                        "appStats",
+	AppStatsTimeSeriesDocument:                              "appStatsTimeSeries",
+	AuditFeedDocument:                                       "auditFeed",
+	EntityLookupDocument:                                    "entityLookup",
+	EventsDocument:                                          "events",
+	EventsFeedDocument:                                      "eventsFeed",
+	EventsTimeSeriesDocument:                                "eventsTimeSeries",
+	GroupsGroupDocument:                                     "groupsGroup",
+	GroupsMembersDocument:                                   "groupsMembers",
+	GroupsWhereUsedDocument:                                 "groupsWhereUsed",
+	GroupsListDocument:                                      "groupsList",
+	HardwareManagementDocument:                              "hardwareManagement",
+	LicensingDocument:                                       "licensing",
+	ObjectGlobalIPRangeListDocument:                         "objectGlobalIpRangeList",
+	AppTenantRestrictionPolicyDocument:                      "appTenantRestrictionPolicy",
+	ApplicationControlPolicyDocument:                        "applicationControlPolicy",
+	PolicyDocument:                                          "policy",
+	InternetFirewallPolicyDocument:                          "internetFirewallPolicy",
+	PolicyReadPrivateAccessPolicyDocument:                   "policyReadPrivateAccessPolicy",
+	PolicyRemotePortFwdDocument:                             "policyRemotePortFwd",
+	RemotePortFwdPolicyDocument:                             "remotePortFwdPolicy",
+	PolicySocketLanPolicyDocument:                           "policySocketLanPolicy",
+	TlsinspectpolicyDocument:                                "tlsinspectpolicy",
+	WanFirewallPolicyDocument:                               "wanFirewallPolicy",
+	WanNetworkPolicyDocument:                                "wanNetworkPolicy",
+	PrivateAppReadPrivateAppDocument:                        "privateAppReadPrivateApp",
+	SiteDocument:                                            "site",
+	NetworkRangeDocument:                                    "networkRange",
+	NetworkRangeListDocument:                                "networkRangeList",
+	SiteGeneralDetailsDocument:                              "siteGeneralDetails",
+	SubDomainsDocument:                                      "subDomains",
+	XdrDocument:                                             "xdr",
+	AppConnectorReadConnectorDocument:                       "appConnectorReadConnector",
+	AppConnectorReadGroupsDocument:                          "appConnectorReadGroups",
 }
