@@ -79,9 +79,11 @@ pipeline {
 
         stage('Run AccTests') {
             environment {
-                CATO_ACCOUNT_ID = credentials('cato-acctest-account-id')
-                CATO_BASEURL    = credentials('cato-acctest-baseurl')
-                CATO_TOKEN      = credentials('cato-acctest-token')
+                CATO_ACCOUNT_ID    = credentials('cato-acctest-account-id')
+                CATO_BASEURL       = credentials('cato-acctest-baseurl')
+                CATO_TOKEN         = credentials('cato-acctest-token')
+                TFACC_TEST_SKIP    = credentials('cato-acctest-test-skip')
+                TFACC_TEST_VARS    = credentials('cato-acctest-test-vars')
             }
             steps {
                 dir('terraform-provider-cato') {
