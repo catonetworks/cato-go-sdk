@@ -32,12 +32,6 @@ pipeline {
         )
     }
 
-    environment {
-        CATO_ACCOUNT_ID = credentials('cato-acctest-account-id')
-        CATO_BASEURL    = credentials('cato-acctest-baseurl')
-        CATO_TOKEN      = credentials('cato-acctest-token')
-    }
-
     options {
         disableConcurrentBuilds()
         buildDiscarder(logRotator(numToKeepStr: '20'))
@@ -79,6 +73,11 @@ pipeline {
         }
 
         stage('Run AccTests') {
+            environment {
+                CATO_ACCOUNT_ID = credentials('cato-acctest-account-id')
+                CATO_BASEURL    = credentials('cato-acctest-baseurl')
+                CATO_TOKEN      = credentials('cato-acctest-token')
+            }
             steps {
                 dir('terraform-provider-cato') {
                     script {
