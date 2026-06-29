@@ -12,9 +12,7 @@
 //   automation-github-user   →  used to clone provider repo
 
 pipeline {
-    agent {
-        label 'ec2-spot-base'
-    }
+    agent any
 
     parameters {
         string(
