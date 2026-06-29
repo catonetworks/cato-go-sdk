@@ -12,7 +12,9 @@
 //   automation-github-user   →  used to clone provider repo
 
 pipeline {
-    agent any
+    agent {
+        docker { image 'golang:1.26' }
+    }
 
     parameters {
         string(
