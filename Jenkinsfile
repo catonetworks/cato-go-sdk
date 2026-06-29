@@ -96,7 +96,9 @@ pipeline {
 
     post {
         always {
-            cleanWs()
+            script {
+                try { cleanWs() } catch (ignore) {}
+            }
         }
         success {
             slackSend(
