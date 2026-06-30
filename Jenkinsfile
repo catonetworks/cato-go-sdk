@@ -82,48 +82,50 @@ pipeline {
                 CATO_ACCOUNT_ID = credentials('cato-acctest-account-id')
                 CATO_BASEURL    = credentials('cato-acctest-baseurl')
                 CATO_TOKEN      = credentials('cato-acctest-token')
+                TFACC_ENABLE_RULES_INDEX_CRUD = 'true'
                 TFACC_TEST_SKIP = '''{
   "TestAccInternetFw_Full":      "ENG-184274 - policy.internetFirewall.addRule - Internal server error",
   "TestAccInternetFw_IDName":    "ENG-184283 - policy.internetFirewall.addRule - Rule has an invalid entity for users by ID and name",
   "TestAccInternetFw_Timeframe": "ENG-184310 - policy.internetFirewall.addRule - Invalid DateTime format in customTimeframePolicySchedule",
+  "TestAccInternetFw_UserID":    "ENG-183543 - TF Bug: Terraform - Update policy by name",
   "TestAccSocketSite_Location":  "ENG-171068 Unable to remove the state code by Site location API",
   "TestAccLicense":              "does not work on trial accounts"
 }'''
                 TFACC_TEST_VARS = '''{
   "global_ip_ranges": [
-    { "name": "global_ip_range_1", "id": "1410255" },
-    { "name": "global_ip_range_2", "id": "1410256" },
-    { "name": "global_ip_range_3", "id": "1410257" }
+    { "name": "global_ip_range",   "id": "1305171" },
+    { "name": "global_ip_range_2", "id": "1305172" },
+    { "name": "global_ip_range_3", "id": "1401240" }
   ],
   "floating_ranges": [
-    { "name": "floating_range_1", "id": "1410274" },
-    { "name": "floating_range_2", "id": "1410276" },
-    { "name": "floating_range_3", "id": "1410275" }
+    { "name": "floating_range",   "id": "1305173" },
+    { "name": "floating_range_2", "id": "1305174" },
+    { "name": "floating_range_3", "id": "1401245" }
   ],
   "user_groups": [
-    { "name": "user_group_1", "id": "500000000" },
-    { "name": "user_group_2", "id": "500000001" },
-    { "name": "user_group_3", "id": "500000002" }
+    { "name": "user_group_1", "id": "500000016" },
+    { "name": "user_group_2", "id": "500000017" },
+    { "name": "user_group_3", "id": "500000019" }
   ],
   "system_groups": [
-    { "name": "All Floating Ranges", "id": "9S" },
-    { "name": "All SDP Users",       "id": "2S" },
-    { "name": "All Users",           "id": "13S" }
+    { "name": "All Floating Ranges", "id": "7S"        },
+    { "name": "All SDP Users",       "id": "2S"        },
+    { "name": "All LDAP Users",      "id": "10000010S" }
   ],
   "device_postures": [
-    { "name": "acctest_device_posture_1", "id": "476177" },
-    { "name": "acctest_device_posture_2", "id": "476178" },
-    { "name": "acctest_device_posture_3", "id": "476179" }
+    { "name": "Test Device Posture Profile", "id": "445784" },
+    { "name": "Test device posture 1",       "id": "463096" },
+    { "name": "Test device posture 2",       "id": "473896" }
   ],
   "custom_apps": [
-    { "name": "acctest_custom_app_1", "id": "869ff5b6-411a-468c-864c-9d596c24d485" },
-    { "name": "acctest_custom_app_2", "id": "0969d8a5-4ad1-4fac-9e23-03845e23df74" },
-    { "name": "acctest_custom_app_3", "id": "f2bba2e6-c59b-49b3-b558-22a7c9bae35f" }
+    { "name": "acctest_custom_app_1", "id": "3bc976fc-4f77-4f88-837c-ec73e9de8f9d" },
+    { "name": "acctest_custom_app_2", "id": "d86a1e1e-1ae4-48c3-a40b-031cd95b62c2" },
+    { "name": "acctest_custom_app_3", "id": "af990dd3-afcf-4bb5-9ccb-7813fbfd0201" }
   ],
   "custom_categories": [
-    { "name": "acctest_custom_category_1", "id": "74798" },
-    { "name": "acctest_custom_category_2", "id": "74799" },
-    { "name": "acctest_custom_category_3", "id": "74800" }
+    { "name": "acctest_custom_category_1", "id": "74382" },
+    { "name": "acctest_custom_category_2", "id": "74383" },
+    { "name": "acctest_custom_category_3", "id": "74477" }
   ]
 }'''
             }
