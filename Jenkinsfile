@@ -1,7 +1,12 @@
-// Triggered manually or via GitHub webhook.
+// Triggered manually or via GitHub webhook (Generic Webhook Trigger plugin).
 // Checks out a feature branch of cato-go-sdk, clones terraform-provider-cato
 // at the requested branch, replaces its go.mod SDK dependency with the local
 // checkout, and runs acceptance tests against a real Cato API account.
+//
+// GitHub webhook setup (one-time, per repo):
+//   URL:          https://jenkins.automation.catonetworks.club/generic-webhook-trigger/invoke?token=sdk-acctest
+//   Content type: application/json
+//   Events:       Pull requests
 //
 // Required Jenkins credentials (Secret text):
 //   cato-acctest-account-id  →  CATO_ACCOUNT_ID
@@ -17,6 +22,22 @@ pipeline {
             image 'golang:1.26'
             args  '-e GOCACHE=/tmp/go-cache -e GOPATH=/tmp/gopath'
         }
+    }
+
+    triggers {
+        GenericTrigger(
+            genericVariables: [
+                [key: 'SDK_BRANCH',      value: '$.pull_request.head.ref'],
+                [key: 'WEBHOOK_ACTION',  value: '$.action']
+            ],
+            token: 'sdk-acctest',
+            causeString: 'GitHub PR event ($WEBHOOK_ACTION) on branch: $SDK_BRANCH',
+            // Only react to PR open / push / reopen; ignore label, assign, etc.
+            regexpFilterText:       '$WEBHOOK_ACTION',
+            regexpFilterExpression: '^(opened|synchronize|reopened)$',
+            printContributedVariables: true,
+            printPostContent: false
+        )
     }
 
     parameters {
@@ -151,18 +172,24 @@ pipeline {
             }
         }
         success {
-            slackSend(
-                channel: '#eng-proj-terraform-tests',
-                color: 'good',
-                message: "✅ SDK AccTest passed | SDK: `${params.SDK_BRANCH}` | Provider: `${params.PROVIDER_BRANCH}` | <${env.BUILD_URL}|Build #${env.BUILD_NUMBER}>"
-            )
+            script {
+                def sdkBranch = env.SDK_BRANCH ?: params.SDK_BRANCH
+                slackSend(
+                    channel: '#eng-proj-terraform-tests',
+                    color: 'good',
+                    message: "✅ SDK AccTest passed | SDK: `${sdkBranch}` | Provider: `${params.PROVIDER_BRANCH}` | <${env.BUILD_URL}|Build #${env.BUILD_NUMBER}>"
+                )
+            }
         }
         failure {
-            slackSend(
-                channel: '#eng-proj-terraform-tests',
-                color: 'danger',
-                message: "❌ SDK AccTest FAILED | SDK: `${params.SDK_BRANCH}` | Provider: `${params.PROVIDER_BRANCH}` | <${env.BUILD_URL}|Build #${env.BUILD_NUMBER}>"
-            )
+            script {
+                def sdkBranch = env.SDK_BRANCH ?: params.SDK_BRANCH
+                slackSend(
+                    channel: '#eng-proj-terraform-tests',
+                    color: 'danger',
+                    message: "❌ SDK AccTest FAILED | SDK: `${sdkBranch}` | Provider: `${params.PROVIDER_BRANCH}` | <${env.BUILD_URL}|Build #${env.BUILD_NUMBER}>"
+                )
+            }
         }
     }
 }
