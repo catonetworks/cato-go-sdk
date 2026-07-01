@@ -6,7 +6,7 @@
 // GitHub webhook setup (one-time, per repo):
 //   URL:          https://jenkins.automation.catonetworks.club/generic-webhook-trigger/invoke?token=sdk-acctest
 //   Content type: application/json
-//   Events:       Pull requests
+//   Events:       Pushes   ← select "Pushes" (not "Pull requests")
 //
 // Required Jenkins credentials (Secret text):
 //   cato-acctest-account-id  →  CATO_ACCOUNT_ID
@@ -27,14 +27,14 @@ pipeline {
     triggers {
         GenericTrigger(
             genericVariables: [
-                [key: 'SDK_BRANCH',      value: '$.pull_request.head.ref'],
-                [key: 'WEBHOOK_ACTION',  value: '$.action']
+                // Push payload carries the full ref: refs/heads/<branch>
+                [key: 'GIT_REF', value: '$.ref', defaultValue: '']
             ],
             token: 'sdk-acctest',
-            causeString: 'GitHub PR event ($WEBHOOK_ACTION) on branch: $SDK_BRANCH',
-            // Only react to PR open / push / reopen; ignore label, assign, etc.
-            regexpFilterText:       '$WEBHOOK_ACTION',
-            regexpFilterExpression: '^(opened|synchronize|reopened)$',
+            causeString: 'Push to $GIT_REF',
+            // Only trigger on feature branch pushes — skip main, master, and tags.
+            regexpFilterText:       '$GIT_REF',
+            regexpFilterExpression: '^refs/heads/(?!main$|master$).+',
             printContributedVariables: true,
             printPostContent: false
         )
@@ -68,10 +68,15 @@ pipeline {
     stages {
         stage('Checkout SDK branch') {
             steps {
-                // Jenkins checks out the default branch to read this Jenkinsfile.
-                // Fetch and hard-reset to the requested feature branch tip so the
-                // workspace always reflects the remote state cleanly.
-                sh 'git fetch origin && git checkout -B ${SDK_BRANCH} origin/${SDK_BRANCH}'
+                // GIT_REF (from webhook) is refs/heads/<branch>; SDK_BRANCH (manual param)
+                // is just the bare name. Normalise to a bare branch name either way.
+                sh '''
+                    RAW="${GIT_REF:-${SDK_BRANCH}}"
+                    BRANCH="${RAW#refs/heads/}"
+                    git fetch origin
+                    git checkout -B "$BRANCH" "origin/$BRANCH"
+                    echo "RESOLVED_BRANCH=$BRANCH" > resolved_branch.env
+                '''
             }
         }
 
@@ -175,7 +180,8 @@ pipeline {
         }
         success {
             script {
-                def sdkBranch = env.SDK_BRANCH ?: params.SDK_BRANCH
+                def rawRef = env.GIT_REF ?: params.SDK_BRANCH
+                def sdkBranch = rawRef.replaceFirst('^refs/heads/', '')
                 slackSend(
                     channel: '#eng-proj-terraform-tests',
                     color: 'good',
@@ -185,7 +191,8 @@ pipeline {
         }
         failure {
             script {
-                def sdkBranch = env.SDK_BRANCH ?: params.SDK_BRANCH
+                def rawRef = env.GIT_REF ?: params.SDK_BRANCH
+                def sdkBranch = rawRef.replaceFirst('^refs/heads/', '')
                 slackSend(
                     channel: '#eng-proj-terraform-tests',
                     color: 'danger',
