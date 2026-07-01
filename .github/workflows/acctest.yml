@@ -1,0 +1,34 @@
+name: Trigger AccTests on Jenkins
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+jobs:
+  trigger-jenkins:
+    name: Trigger Jenkins AccTest
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger Jenkins build
+        env:
+          JENKINS_URL: https://jenkins.automation.catonetworks.club
+          JENKINS_USER: ${{ secrets.JENKINS_USER }}
+          JENKINS_TOKEN: ${{ secrets.JENKINS_TOKEN }}
+          SDK_BRANCH: ${{ github.head_ref }}
+        run: |
+          HTTP_STATUS=$(curl -s -o /tmp/jenkins_response.txt -w "%{http_code}" \
+            -X POST \
+            -u "$JENKINS_USER:$JENKINS_TOKEN" \
+            "$JENKINS_URL/job/cato-go-sdk-acc/buildWithParameters" \
+            --data-urlencode "SDK_BRANCH=$SDK_BRANCH" \
+            --data-urlencode "PROVIDER_BRANCH=main")
+
+          echo "Jenkins response: HTTP $HTTP_STATUS"
+          cat /tmp/jenkins_response.txt || true
+
+          if [ "$HTTP_STATUS" -eq 201 ]; then
+            echo "✅ Jenkins build triggered for branch: $SDK_BRANCH"
+          else
+            echo "❌ Failed to trigger Jenkins (HTTP $HTTP_STATUS)"
+            exit 1
+          fi
