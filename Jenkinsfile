@@ -12,8 +12,7 @@
 //   cato-acctest-account-id  →  CATO_ACCOUNT_ID
 //   cato-acctest-baseurl     →  CATO_BASEURL
 //   cato-acctest-token       →  CATO_TOKEN
-//   automation-github-user   →  used to clone provider repo
-//   github-status-token      →  GitHub PAT with repo:status scope (posts check to PR)
+//   automation-github-user   →  used to clone provider repo + post commit status to GitHub
 //
 // TFACC_TEST_SKIP and TFACC_TEST_VARS are stored in-repo (non-sensitive config).
 
@@ -90,10 +89,10 @@ pipeline {
 
         stage('Notify GitHub: pending') {
             steps {
-                withCredentials([string(credentialsId: 'github-status-token', variable: 'GH_TOKEN')]) {
+                withCredentials([usernamePassword(credentialsId: 'automation-github-user', usernameVariable: 'GH_USER', passwordVariable: 'GH_TOKEN')]) {
                     sh """
                         curl -s -o /dev/null -X POST \\
-                          -H 'Authorization: token \$GH_TOKEN' \\
+                          -u "\$GH_USER:\$GH_TOKEN" \\
                           -H 'Content-Type: application/json' \\
                           -d '{"state":"pending","target_url":"${env.BUILD_URL}","description":"AccTests running...","context":"jenkins/sdk-acctest"}' \\
                           "https://api.github.com/repos/catonetworks/cato-go-sdk/statuses/${env.COMMIT_SHA}"
@@ -205,10 +204,10 @@ pipeline {
                 def rawRef  = env.GIT_REF ?: params.SDK_BRANCH
                 def sdkBranch = rawRef.replaceFirst('^refs/heads/', '')
                 if (env.COMMIT_SHA) {
-                    withCredentials([string(credentialsId: 'github-status-token', variable: 'GH_TOKEN')]) {
+                    withCredentials([usernamePassword(credentialsId: 'automation-github-user', usernameVariable: 'GH_USER', passwordVariable: 'GH_TOKEN')]) {
                         sh """
                             curl -s -o /dev/null -X POST \\
-                              -H 'Authorization: token \$GH_TOKEN' \\
+                              -u "\$GH_USER:\$GH_TOKEN" \\
                               -H 'Content-Type: application/json' \\
                               -d '{"state":"success","target_url":"${env.BUILD_URL}","description":"AccTests passed","context":"jenkins/sdk-acctest"}' \\
                               "https://api.github.com/repos/catonetworks/cato-go-sdk/statuses/${env.COMMIT_SHA}"
@@ -227,10 +226,10 @@ pipeline {
                 def rawRef = env.GIT_REF ?: params.SDK_BRANCH
                 def sdkBranch = rawRef.replaceFirst('^refs/heads/', '')
                 if (env.COMMIT_SHA) {
-                    withCredentials([string(credentialsId: 'github-status-token', variable: 'GH_TOKEN')]) {
+                    withCredentials([usernamePassword(credentialsId: 'automation-github-user', usernameVariable: 'GH_USER', passwordVariable: 'GH_TOKEN')]) {
                         sh """
                             curl -s -o /dev/null -X POST \\
-                              -H 'Authorization: token \$GH_TOKEN' \\
+                              -u "\$GH_USER:\$GH_TOKEN" \\
                               -H 'Content-Type: application/json' \\
                               -d '{"state":"failure","target_url":"${env.BUILD_URL}","description":"AccTests failed","context":"jenkins/sdk-acctest"}' \\
                               "https://api.github.com/repos/catonetworks/cato-go-sdk/statuses/${env.COMMIT_SHA}"
