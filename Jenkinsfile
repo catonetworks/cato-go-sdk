@@ -13,6 +13,7 @@
 //   cato-acctest-baseurl     →  CATO_BASEURL
 //   cato-acctest-token       →  CATO_TOKEN
 //   automation-github-user   →  used to clone provider repo
+//   github-status-token      →  GitHub PAT with repo:status scope (posts check to PR)
 //
 // TFACC_TEST_SKIP and TFACC_TEST_VARS are stored in-repo (non-sensitive config).
 
@@ -28,7 +29,9 @@ pipeline {
         GenericTrigger(
             genericVariables: [
                 // Push payload carries the full ref: refs/heads/<branch>
-                [key: 'GIT_REF', value: '$.ref', defaultValue: '']
+                [key: 'GIT_REF', value: '$.ref',   defaultValue: ''],
+                // Commit SHA after the push — used to post status back to GitHub
+                [key: 'GIT_SHA', value: '$.after', defaultValue: '']
             ],
             token: 'sdk-acctest',
             causeString: 'Push to $GIT_REF',
@@ -70,13 +73,32 @@ pipeline {
             steps {
                 // GIT_REF (from webhook) is refs/heads/<branch>; SDK_BRANCH (manual param)
                 // is just the bare name. Normalise to a bare branch name either way.
-                sh '''
-                    RAW="${GIT_REF:-${SDK_BRANCH}}"
-                    BRANCH="${RAW#refs/heads/}"
-                    git fetch origin
-                    git checkout -B "$BRANCH" "origin/$BRANCH"
-                    echo "RESOLVED_BRANCH=$BRANCH" > resolved_branch.env
-                '''
+                script {
+                    sh '''
+                        RAW="${GIT_REF:-${SDK_BRANCH}}"
+                        BRANCH="${RAW#refs/heads/}"
+                        git fetch origin
+                        git checkout -B "$BRANCH" "origin/$BRANCH"
+                    '''
+                    // Capture the actual commit SHA so we can post status back to GitHub.
+                    // For webhook builds GIT_SHA comes from $.after; for manual builds we
+                    // read it from git after checkout.
+                    env.COMMIT_SHA = env.GIT_SHA?.trim() ?: sh(script: 'git rev-parse HEAD', returnStdout: true).trim()
+                }
+            }
+        }
+
+        stage('Notify GitHub: pending') {
+            steps {
+                withCredentials([string(credentialsId: 'github-status-token', variable: 'GH_TOKEN')]) {
+                    sh """
+                        curl -s -o /dev/null -X POST \\
+                          -H 'Authorization: token \$GH_TOKEN' \\
+                          -H 'Content-Type: application/json' \\
+                          -d '{"state":"pending","target_url":"${env.BUILD_URL}","description":"AccTests running...","context":"jenkins/sdk-acctest"}' \\
+                          "https://api.github.com/repos/catonetworks/cato-go-sdk/statuses/${env.COMMIT_SHA}"
+                    """
+                }
             }
         }
 
@@ -180,8 +202,19 @@ pipeline {
         }
         success {
             script {
-                def rawRef = env.GIT_REF ?: params.SDK_BRANCH
+                def rawRef  = env.GIT_REF ?: params.SDK_BRANCH
                 def sdkBranch = rawRef.replaceFirst('^refs/heads/', '')
+                if (env.COMMIT_SHA) {
+                    withCredentials([string(credentialsId: 'github-status-token', variable: 'GH_TOKEN')]) {
+                        sh """
+                            curl -s -o /dev/null -X POST \\
+                              -H 'Authorization: token \$GH_TOKEN' \\
+                              -H 'Content-Type: application/json' \\
+                              -d '{"state":"success","target_url":"${env.BUILD_URL}","description":"AccTests passed","context":"jenkins/sdk-acctest"}' \\
+                              "https://api.github.com/repos/catonetworks/cato-go-sdk/statuses/${env.COMMIT_SHA}"
+                        """
+                    }
+                }
                 slackSend(
                     channel: '#eng-proj-terraform-tests',
                     color: 'good',
@@ -193,6 +226,17 @@ pipeline {
             script {
                 def rawRef = env.GIT_REF ?: params.SDK_BRANCH
                 def sdkBranch = rawRef.replaceFirst('^refs/heads/', '')
+                if (env.COMMIT_SHA) {
+                    withCredentials([string(credentialsId: 'github-status-token', variable: 'GH_TOKEN')]) {
+                        sh """
+                            curl -s -o /dev/null -X POST \\
+                              -H 'Authorization: token \$GH_TOKEN' \\
+                              -H 'Content-Type: application/json' \\
+                              -d '{"state":"failure","target_url":"${env.BUILD_URL}","description":"AccTests failed","context":"jenkins/sdk-acctest"}' \\
+                              "https://api.github.com/repos/catonetworks/cato-go-sdk/statuses/${env.COMMIT_SHA}"
+                        """
+                    }
+                }
                 slackSend(
                     channel: '#eng-proj-terraform-tests',
                     color: 'danger',
