@@ -92,11 +92,13 @@ pipeline {
             steps {
                 withCredentials([string(credentialsId: 'cato-acctest-gh-token', variable: 'GH_TOKEN')]) {
                     sh """
-                        curl -s -o /dev/null -X POST \\
+                        HTTP=\$(curl -s -w '%{http_code}' -o /tmp/gh_status_response.txt -X POST \\
                           -H "Authorization: token \$GH_TOKEN" \\
                           -H 'Content-Type: application/json' \\
                           -d '{"state":"pending","target_url":"${env.BUILD_URL}","description":"AccTests running...","context":"jenkins/sdk-acctest"}' \\
-                          "https://api.github.com/repos/catonetworks/cato-go-sdk/statuses/${env.COMMIT_SHA}"
+                          "https://api.github.com/repos/catonetworks/cato-go-sdk/statuses/${env.COMMIT_SHA}")
+                        echo "GitHub status API response: HTTP \$HTTP"
+                        cat /tmp/gh_status_response.txt || true
                     """
                 }
             }
@@ -209,11 +211,13 @@ pipeline {
                 if (env.COMMIT_SHA) {
                     withCredentials([string(credentialsId: 'cato-acctest-gh-token', variable: 'GH_TOKEN')]) {
                         sh """
-                            curl -s -o /dev/null -X POST \\
+                            HTTP=\$(curl -s -w '%{http_code}' -o /tmp/gh_status_response.txt -X POST \\
                               -H "Authorization: token \$GH_TOKEN" \\
                               -H 'Content-Type: application/json' \\
                               -d '{"state":"success","target_url":"${env.BUILD_URL}","description":"AccTests passed","context":"jenkins/sdk-acctest"}' \\
-                              "https://api.github.com/repos/catonetworks/cato-go-sdk/statuses/${env.COMMIT_SHA}"
+                              "https://api.github.com/repos/catonetworks/cato-go-sdk/statuses/${env.COMMIT_SHA}")
+                            echo "GitHub status API response: HTTP \$HTTP"
+                            cat /tmp/gh_status_response.txt || true
                         """
                     }
                 }
@@ -231,11 +235,13 @@ pipeline {
                 if (env.COMMIT_SHA) {
                     withCredentials([string(credentialsId: 'cato-acctest-gh-token', variable: 'GH_TOKEN')]) {
                         sh """
-                            curl -s -o /dev/null -X POST \\
+                            HTTP=\$(curl -s -w '%{http_code}' -o /tmp/gh_status_response.txt -X POST \\
                               -H "Authorization: token \$GH_TOKEN" \\
                               -H 'Content-Type: application/json' \\
                               -d '{"state":"failure","target_url":"${env.BUILD_URL}","description":"AccTests failed","context":"jenkins/sdk-acctest"}' \\
-                              "https://api.github.com/repos/catonetworks/cato-go-sdk/statuses/${env.COMMIT_SHA}"
+                              "https://api.github.com/repos/catonetworks/cato-go-sdk/statuses/${env.COMMIT_SHA}")
+                            echo "GitHub status API response: HTTP \$HTTP"
+                            cat /tmp/gh_status_response.txt || true
                         """
                     }
                 }
