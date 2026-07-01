@@ -61,15 +61,17 @@ pipeline {
     options {
         disableConcurrentBuilds()
         buildDiscarder(logRotator(numToKeepStr: '20'))
+        timeout(time: 2, unit: 'HOURS')
         timestamps()
     }
 
     stages {
         stage('Checkout SDK branch') {
             steps {
-                // Jenkins already checked out the SDK repo to run this
-                // Jenkinsfile — switch to the requested feature branch.
-                sh 'git checkout ${SDK_BRANCH}'
+                // Jenkins checks out the default branch to read this Jenkinsfile.
+                // Fetch and hard-reset to the requested feature branch tip so the
+                // workspace always reflects the remote state cleanly.
+                sh 'git fetch origin && git checkout -B ${SDK_BRANCH} origin/${SDK_BRANCH}'
             }
         }
 
