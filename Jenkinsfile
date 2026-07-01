@@ -195,7 +195,9 @@ pipeline {
     }
 
     post {
-        always {
+        // cleanup runs after all other post conditions (success/failure),
+        // so the workspace is still available when curl/slack steps execute.
+        cleanup {
             script {
                 try { cleanWs() } catch (ignore) {}
             }
