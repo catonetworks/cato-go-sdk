@@ -81,8 +81,7 @@ pipeline {
                         git checkout -B "$BRANCH" "origin/$BRANCH"
                     '''
                     // Capture the actual commit SHA so we can post status back to GitHub.
-                    // For webhook builds GIT_SHA comes from $.after; for manual builds we
-                    // read it from git after checkout.
+                    // For webhook builds GIT_SHA comes from $.after; for manual builds we read it from git after checkout.
                     env.COMMIT_SHA = env.GIT_SHA?.trim() ?: sh(script: 'git rev-parse HEAD', returnStdout: true).trim()
                 }
             }
