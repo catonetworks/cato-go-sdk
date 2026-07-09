@@ -20,7 +20,7 @@ Run steps in order. Stop and report if any step fails.
 make schema-update
 ```
 
-Archives the current `cato_api.graphqls` to `archives/` and replaces it with the normalized upstream schema.
+Replaces `cato_api.graphqls` with the normalized upstream schema.
 
 ### 2. Triage and update patches
 
@@ -90,7 +90,6 @@ Fix any compile errors before proceeding.
 
 Stage and commit:
 - `cato_api.graphqls` (updated schema)
-- `archives/cato_api-<date>.graphqls` (dated backup created by `make schema-update`)
 - `client.go` and `models/models.go` (regenerated)
 - any deleted patch files from `schema-patches/`
 - any new files in `scalars/` or `sources/`
@@ -126,7 +125,6 @@ models:
 | `scalars/` | Hand-written scalar type implementations |
 | `schema-patches/` | Patches applied on top of the upstream schema |
 | `sources/*.gql` | GraphQL operation files fed to gqlgenc |
-| `archives/` | Dated backups of previous schemas |
 
 ---
 

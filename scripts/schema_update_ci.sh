@@ -5,7 +5,6 @@ schema_file="${SCHEMA_FILE:-cato_api.graphqls}"
 patch_dir="${PATCH_DIR:-schema-patches}"
 schema_url="${SCHEMA_CURL_URL:-https://system.cc.catonetworks.com/api/schema?with_undocumented=true}"
 allow_custom_schema_url="${ALLOW_CUSTOM_SCHEMA_URL:-false}"
-archive_file="archives/cato_api-$(date +%Y%m%d).graphqls"
 manual_work_file="${SCHEMA_PATCH_MANUAL_WORK_FILE:-schema-patch-manual-work-needed.txt}"
 
 validate_schema_url() {
@@ -71,17 +70,6 @@ triage_schema_patches() {
 	done
 }
 
-cleanup_noop_archive() {
-	if [ ! -f "${archive_file}" ]; then
-		return 0
-	fi
-
-	if git diff --quiet -- "${schema_file}"; then
-		echo "Schema content is unchanged; removing no-op archive ${archive_file}."
-		rm -f "${archive_file}"
-	fi
-}
-
 validate_schema_url
 rm -f "${manual_work_file}"
 
@@ -102,5 +90,3 @@ fi
 
 echo "Verifying Go build"
 go build ./...
-
-cleanup_noop_archive

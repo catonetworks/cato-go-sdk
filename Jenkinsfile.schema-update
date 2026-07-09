@@ -94,7 +94,6 @@ pipeline {
                         git checkout -B "$SCHEMA_UPDATE_BRANCH"
                         git add -A -- \
                           cato_api.graphqls \
-                          archives \
                           client.go \
                           models/models.go \
                           schema-patches \
