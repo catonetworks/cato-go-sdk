@@ -1,4 +1,5 @@
 import groovy.json.JsonOutput
+import groovy.json.JsonSlurper
 
 // Scheduled SDK schema refresh job.
 //
@@ -35,6 +36,11 @@ pipeline {
             name: 'SLACK_CHANNEL',
             defaultValue: '#eng-proj-terraform-tests',
             description: 'Slack channel for schema update failure notifications.'
+        )
+        string(
+            name: 'PR_SLACK_CHANNEL',
+            defaultValue: '#terraform-prs',
+            description: 'Slack channel for schema update pull request notifications.'
         )
         booleanParam(
             name: 'ALLOW_CUSTOM_SCHEMA_URL',
@@ -192,6 +198,20 @@ EOF
                             exit 1
                         fi
                     '''
+                }
+
+                script {
+                    def prResponse = new JsonSlurper().parseText(readFile('pr_response.json'))
+                    env.SCHEMA_UPDATE_PR_URL = prResponse.html_url
+                    if (!env.SCHEMA_UPDATE_PR_URL) {
+                        error('GitHub pull request response did not include html_url.')
+                    }
+
+                    def schemaUpdateDate = sh(script: 'date -u +%F', returnStdout: true).trim()
+                    slackSend(
+                        channel: params.PR_SLACK_CHANNEL,
+                        message: "SDK Schema Update ${schemaUpdateDate} <${env.SCHEMA_UPDATE_PR_URL}>"
+                    )
                 }
             }
         }
