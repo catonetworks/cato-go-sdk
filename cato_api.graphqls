@@ -34,6 +34,7 @@ type Query {
   appStats(accountID: ID!, timeFrame: TimeFrame!, measures: [Measure], dimensions: [Dimension], filters: [AppStatsFilter!], postAggFilters: [AppStatsPostAggFilter!], sort: [AppStatsSort!]): AppStats @ga
   appStatsTimeSeries(accountID: ID!, timeFrame: TimeFrame!, measures: [Measure], dimensions: [Dimension], filters: [AppStatsFilter!]): AppStatsTimeSeries @ga
   auditFeed(accountIDs: [ID!], ids: [ID!] @deprecated(reason: "by accountIDs"), timeFrame: TimeFrame!, filters: [AuditFieldFilterInput!], marker: String): AuditFeed @ga
+  businessPlatform(accountId: ID!): BusinessPlatformQueries @rollout
   catalogs(accountId: ID!): CatalogQueries
   connectivitySnapshots(accountId: ID!): ConnectivitySnapshotsQueries! @rollout
   container(accountId: ID!): ContainerQueries
@@ -69,6 +70,7 @@ type Query {
 type Mutation {
   accountManagement(accountId: ID!): AccountManagementMutations
   admin(accountId: ID!): AdminMutations!
+  businessPlatform(accountId: ID!): BusinessPlatformMutations @rollout
   container(accountId: ID!): ContainerMutations
   customAppData(accountId: ID!): CustomAppDataMutations!
   enterpriseDirectory(accountId: ID!): EnterpriseDirectoryMutations
@@ -218,6 +220,7 @@ type AccountSnapshot {
 
 type AddAdminPayload {
   adminID: ID!
+  passwordSetupUrl: String
 }
 
 type AddBgpPeerPayload {
@@ -741,12 +744,14 @@ type AppTenantRestrictionRule implements IPolicyRule {
 
 type AppTenantRestrictionRuleMutationPayload implements IPolicyRuleMutationPayload {
   errors: [PolicyMutationError!]!
+  revision: PolicyRevision
   rule: AppTenantRestrictionRulePayload
   status: PolicyMutationStatus!
 }
 
 type AppTenantRestrictionRulePayload implements IPolicyRulePayload {
   audit: PolicyElementAudit!
+  metadata: PolicyElementMetadata
   properties: [PolicyElementPropertiesEnum!]!
   rule: AppTenantRestrictionRule!
 }
@@ -899,6 +904,8 @@ type ApplicationControlDataRule {
   applicationActivity: [ApplicationControlActivity!]!
   applicationActivitySatisfy: ApplicationControlSatisfy!
   applicationContext: ApplicationControlContext!
+  applicationCriteria: ApplicationControlCriteria!
+  applicationCriteriaSatisfy: ApplicationControlSatisfy!
   device: [DeviceProfileRef!]!
   dlpProfile: ApplicationControlDlpProfile!
   fileAttribute: [ApplicationControlFileAttribute!]!
@@ -932,6 +939,8 @@ type ApplicationControlFileRule {
   application: ApplicationControlApplication!
   applicationActivity: [ApplicationControlActivity!]!
   applicationActivitySatisfy: ApplicationControlSatisfy!
+  applicationCriteria: ApplicationControlCriteria!
+  applicationCriteriaSatisfy: ApplicationControlSatisfy!
   device: [DeviceProfileRef!]!
   fileAttribute: [ApplicationControlFileAttribute!]!
   fileAttributeSatisfy: ApplicationControlSatisfy!
@@ -997,12 +1006,14 @@ type ApplicationControlRule implements IPolicyRule {
 
 type ApplicationControlRuleMutationPayload implements IPolicyRuleMutationPayload {
   errors: [PolicyMutationError!]!
+  revision: PolicyRevision
   rule: ApplicationControlRulePayload
   status: PolicyMutationStatus!
 }
 
 type ApplicationControlRulePayload implements IPolicyRulePayload {
   audit: PolicyElementAudit!
+  metadata: PolicyElementMetadata
   properties: [PolicyElementPropertiesEnum!]!
   rule: ApplicationControlRule!
 }
@@ -1049,6 +1060,19 @@ type ApplicationControlTenant {
 type ApplicationRef implements ObjectRef {
   id: ID!
   name: String!
+}
+
+""" Asset Security service license details """
+type AssetsSecurityLicense implements License & QuantifiableLicense {
+  description: String
+  expirationDate: DateTime!
+  id: ID
+  lastUpdated: DateTime
+  plan: LicensePlan!
+  sku: LicenseSku!
+  startDate: DateTime
+  status: LicenseStatus!
+  total: Int!
 }
 
 type AssignSiteBwLicensePayload {
@@ -1103,6 +1127,7 @@ type AuditingMetadata {
   updatedTime: DateTime!
 }
 
+""" Authentication method and status details for a user. """
 type AuthenticationInfo {
   authMethod: UserAuthMethod!
   authStatus: UserAuthStatus!
@@ -1234,6 +1259,57 @@ type BgpTracking {
   subscriptionId: ID
 }
 
+type BusinessPlatformAccount {
+  account: AccountRef
+  accountExternalName: String!
+  city: String
+  cmaCreatedAt: Date
+  cmaCreatedBy: String
+  cmaId: Long @deprecated(reason: "replaced by partner reference, to be removed soon")
+  companyWebsite: String
+  contactEmail: String
+  contactFirstName: String
+  contactLastName: String
+  country: String
+  description: String
+  estimatedCloseDate: Date
+  expireOn: Date
+  expiresOn: Date
+  externalName: String! @deprecated(reason: "replaced by account reference, to be removed soon")
+  id: ID! @deprecated(reason: "replaced by account reference, to be removed soon")
+  name: String!
+  partner: AccountRef!
+  partnerId: Long! @deprecated(reason: "replaced by partner reference, to be removed soon")
+  partnerName: String!
+  plan: BusinessPlatformAccountPlan! @deprecated(reason: "replaced by expiresOn, to be removed soon")
+  postalCode: String
+  state: String
+  street: String
+}
+
+type BusinessPlatformAccountListPayload {
+  items: [BusinessPlatformAccount!]!
+  pageInfo: PageInfo
+}
+
+type BusinessPlatformCreateTrialAccountPayload {
+  account: BusinessPlatformAccount
+}
+
+type BusinessPlatformLinkToTrialAccountPayload {
+  account: BusinessPlatformAccount
+}
+
+type BusinessPlatformMutations {
+  createTrialAccount(input: BusinessPlatformCreateTrialAccountInput!): BusinessPlatformCreateTrialAccountPayload @beta
+  linkToTrialAccount(input: BusinessPlatformLinkToTrialAccountInput!): BusinessPlatformLinkToTrialAccountPayload @beta
+}
+
+type BusinessPlatformQueries {
+  accountList(input: BusinessPlatformAccountListInput): BusinessPlatformAccountListPayload @beta
+  countAccountByPlan: PlanCount @beta
+}
+
 """ Output for canceling a partner access request. """
 type CancelPartnerAccessPayload {
   invitation: ExternalAccessRequest!
@@ -1260,6 +1336,7 @@ type CatalogApplication {
   complianceAttributes: CatalogApplicationComplianceAttributes!
   description: String
   descriptionSummary: String
+  fqdn: [Fqdn!]!
   id: ID!
   identityAccessManagementAttributes: CatalogApplicationIdentityAccessManagementAttributes
   ipoStatus: String
@@ -1737,6 +1814,7 @@ type CreateSubscriptionGroupPayload {
   subscriptionGroup: SubscriptionGroup!
 }
 
+""" Response payload for the createUser mutation. """
 type CreateUserPayload {
   user: User!
 }
@@ -1938,6 +2016,7 @@ type DeleteSubscriptionGroupPayload {
   subscriptionGroup: SubscriptionGroup!
 }
 
+""" Response payload for the deleteUser mutation. """
 type DeleteUserPayload {
   status: DeleteUserStatus!
 }
@@ -2142,6 +2221,11 @@ type DisableServiceForManagedAccountPayload {
   isSuccess: Boolean!
 }
 
+""" Response payload for the disableUser mutation. """
+type DisableUserPayload {
+  users: [User!]!
+}
+
 type DlpContentProfileRef implements ObjectRef {
   id: ID!
   name: String!
@@ -2248,6 +2332,11 @@ type DynamicIpAllocationSource {
 
 type EnableServiceForManagedAccountPayload {
   isSuccess: Boolean!
+}
+
+""" Response payload for the enableUser mutation. """
+type EnableUserPayload {
+  users: [User!]!
 }
 
 """ End Point Protection (EPP) license details """
@@ -2779,7 +2868,8 @@ type Hardware {
   lastModified: DateTime
   licenseId: ID
   licenseStartDate: Date
-  locationId: ID
+  locationId: ID @deprecated(reason: "Use locationName instead; locationId will be removed in a future version.")
+  locationName: String
   macAddress: String
   model: String
   orderType: OrderType
@@ -3376,6 +3466,7 @@ type LicensingInfo {
   adsp: [AdspLicense!]!
   aiSecurityApplications: [AISecurityApplicationsLicense!]!
   aiSecurityUsers: [AISecurityUsersLicense!]!
+  assetsSecurity: [AssetsSecurityLicense!]!
   atp: [AtpLicense!]!
   casb: [CasbLicense!]!
   dataLake: [DataLakeLicense!]!
@@ -3895,6 +3986,7 @@ type NetworkInterfaceRef implements ObjectRef {
   name: String!
 }
 
+""" A network range configured on a site. """
 type NetworkRange {
   azureFloatingIp: IPAddress
   dhcpSettings: NetworkRangeDhcpSettings
@@ -4086,6 +4178,14 @@ type PlainHeaderEntry {
   value: String!
 }
 
+type PlanCount {
+  commercial: Int
+  lost: Int
+  pendingApproval: Int
+  prospect: Int
+  trial: Int
+}
+
 """ Represents available versions for a specific platform. """
 type PlatformVersions {
   platform: String!
@@ -4114,6 +4214,18 @@ type PolicyCustomTimeframe {
 type PolicyElementAudit {
   updatedBy: String!
   updatedTime: DateTime!
+}
+
+""" Lock info for a rule or section held by another revision """
+type PolicyElementLock {
+  lockingAdminEmail: String!
+  lockingRevisionId: ID!
+  lockingTime: DateTime!
+}
+
+""" Additional metadata attached to a rule or section """
+type PolicyElementMetadata {
+  lock: PolicyElementLock
 }
 
 """
@@ -4433,7 +4545,6 @@ type PostalAddress {
   cityName: String
   country: CountryRef!
   stateName: String
-  street: String @deprecated(reason: "replaced by address1 and address2")
   zipCode: String
 }
 
@@ -4535,6 +4646,7 @@ It defines the internal address, access settings, and optional publishing config
 """
 type PrivateApplication {
   allowIcmpProtocol: Boolean!
+  connectivityStatus: PrivateAppConnectivityStatus!
   creationTime: DateTime!
   description: String
   id: ID!
@@ -4840,6 +4952,7 @@ type RevokePartnerAccessPayload {
   invitation: IncomingExternalAccessRequest!
 }
 
+""" Response payload for the revokeUserSession mutation. """
 type RevokeUserSessionPayload {
   status: RevokeUserSessionStatus!
 }
@@ -6130,6 +6243,11 @@ type TlsInspectPolicyQueries {
   revisions: PolicyRevisionsPayload @beta
 }
 
+type TlsInspectPolicyRef implements ObjectRef & PolicyRef {
+  id: ID!
+  name: String!
+}
+
 type TlsInspectRule implements IPolicyRule {
   action: TlsInspectAction!
   application: TlsInspectApplication!
@@ -6149,12 +6267,14 @@ type TlsInspectRule implements IPolicyRule {
 
 type TlsInspectRuleMutationPayload implements IPolicyRuleMutationPayload {
   errors: [PolicyMutationError!]!
+  revision: PolicyRevision
   rule: TlsInspectRulePayload
   status: PolicyMutationStatus!
 }
 
 type TlsInspectRulePayload implements IPolicyRulePayload {
   audit: PolicyElementAudit!
+  metadata: PolicyElementMetadata
   properties: [PolicyElementPropertiesEnum!]!
   rule: TlsInspectRule!
 }
@@ -6363,6 +6483,7 @@ type UpdateSubscriptionGroupPayload {
   subscriptionGroup: SubscriptionGroup!
 }
 
+""" Response payload for the updateUser mutation. """
 type UpdateUserPayload {
   user: User!
 }
@@ -6398,6 +6519,7 @@ type UploadFilePayload {
   uploadUrl: Url
 }
 
+""" User identity, profile, authentication, and risk details. """
 type User {
   authInfo: AuthenticationInfo!
   creationDate: DateTime!
@@ -6432,16 +6554,19 @@ type UserInfo {
   status: OperationalStatus
 }
 
+""" Response payload for the userList query. """
 type UserListPayload {
   items: [User!]!
   pageInfo: PageInfo!
 }
 
 type UserMutations {
-  createUser(input: CreateUserInput!): CreateUserPayload @rollout @beta
-  deleteUser(input: DeleteUserInput!): DeleteUserPayload @rollout @beta
-  revokeUserSession(input: RevokeUserSessionInput!): RevokeUserSessionPayload @rollout @beta
-  updateUser(input: UpdateUserInput!): UpdateUserPayload @rollout @beta
+  createUser(input: CreateUserInput!): CreateUserPayload @beta
+  deleteUser(input: DeleteUserInput!): DeleteUserPayload @beta
+  disableUser(input: DisableUserInput!): DisableUserPayload @ea @beta
+  enableUser(input: EnableUserInput!): EnableUserPayload @ea @beta
+  revokeUserSession(input: RevokeUserSessionInput!): RevokeUserSessionPayload @beta
+  updateUser(input: UpdateUserInput!): UpdateUserPayload @beta
 }
 
 """ A reference identifying the UserNotificationAiSecurityTemplate object. ID: Unique UserNotificationAiSecurityTemplate Identifier, Name: The UserNotificationAiSecurityTemplate Name """
@@ -6457,7 +6582,7 @@ type UserNotificationTemplateRef implements ObjectRef {
 }
 
 type UserQueries {
-  userList(input: UserListInput!): UserListPayload @rollout @beta
+  userList(input: UserListInput!): UserListPayload @beta
 }
 
 """ A reference identifying the User object. ID: Unique User Identifier, Name: The User Name """
@@ -7369,6 +7494,7 @@ input AddAdminInput {
   mfaEnabled: Boolean @deprecated(reason: "It is recommended to always require MFA when using User Credential authentication.")
   passwordNeverExpires: Boolean!
   resellerRoles: [UpdateAdminRoleInput!]
+  shouldSendInvitationEmail: Boolean
 }
 
 input AddBgpPeerInput {
@@ -7570,6 +7696,12 @@ If not provided, default ranges will be used (100.64.0.0/16 for Private Apps Ser
 input AddZtnaAppConnectorsConfigurationInput {
   appConnectorManagementRange: NetworkSubnet!
   privateAppsServiceRange: NetworkSubnet!
+}
+
+input AdminData {
+  email: String!
+  firstName: String!
+  lastName: String!
 }
 
 input AdminRefInput {
@@ -7813,10 +7945,10 @@ input ApplicationControlActivityRefInput {
 
 input ApplicationControlAddRuleDataInput {
   applicationRule: ApplicationControlApplicationRuleInput = {application:{applicationType:[]},applicationActivitySatisfy:ANY,applicationActivity:[],applicationContext:{applicationTenant:[]},accessMethod:[],source:{country:[],host:[],site:[],subnet:[],ip:[],ipRange:[],globalIpRange:[],networkInterface:[],siteNetworkSubnet:[],floatingSubnet:[],user:[],usersGroup:[],group:[],systemGroup:[]},device:[],action:BLOCK,tracking:{event:{enabled:false},alert:{enabled:false,frequency:HOURLY,subscriptionGroup:[],webhook:[],mailingList:[]}},schedule:{activeOn:ALWAYS},severity:HIGH,applicationCriteriaSatisfy:ANY,applicationCriteria:{attributes:{complianceAttributes:{iso27001:ANY,sox:ANY,hippa:ANY,soc1:ANY,soc2:ANY,soc3:ANY,isae3402:ANY,pciDss:ANY},securityAttributes:{mfa:ANY,encryptionAtRest:ANY,auditTrail:ANY,rbac:ANY,rememberPassword:ANY,sso:ANY,trustedCertificate:ANY,tlsEnforcement:ANY,httpSecurityHeaders:ANY}},originCountry:[],risk:[]},actionConfig:{userNotification:[]}}
-  dataRule: ApplicationControlDataRuleInput = {application:{applicationType:[]},applicationContext:{applicationTenant:[]},applicationActivitySatisfy:ANY,applicationActivity:[],accessMethod:[],source:{country:[],host:[],site:[],subnet:[],ip:[],ipRange:[],globalIpRange:[],networkInterface:[],siteNetworkSubnet:[],floatingSubnet:[],user:[],usersGroup:[],group:[],systemGroup:[]},device:[],action:BLOCK,tracking:{event:{enabled:false},alert:{enabled:false,frequency:HOURLY,subscriptionGroup:[],webhook:[],mailingList:[]}},schedule:{activeOn:ALWAYS},severity:HIGH,fileAttributeSatisfy:ANY,fileAttribute:[],dlpProfile:{contentProfile:[],edmProfile:[]},actionConfig:{userNotification:[]}}
+  dataRule: ApplicationControlDataRuleInput = {application:{applicationType:[]},applicationContext:{applicationTenant:[]},applicationActivitySatisfy:ANY,applicationActivity:[],accessMethod:[],source:{country:[],host:[],site:[],subnet:[],ip:[],ipRange:[],globalIpRange:[],networkInterface:[],siteNetworkSubnet:[],floatingSubnet:[],user:[],usersGroup:[],group:[],systemGroup:[]},device:[],action:BLOCK,tracking:{event:{enabled:false},alert:{enabled:false,frequency:HOURLY,subscriptionGroup:[],webhook:[],mailingList:[]}},schedule:{activeOn:ALWAYS},severity:HIGH,fileAttributeSatisfy:ANY,fileAttribute:[],dlpProfile:{contentProfile:[],edmProfile:[]},applicationCriteriaSatisfy:ANY,applicationCriteria:{attributes:{complianceAttributes:{iso27001:ANY,sox:ANY,hippa:ANY,soc1:ANY,soc2:ANY,soc3:ANY,isae3402:ANY,pciDss:ANY},securityAttributes:{mfa:ANY,encryptionAtRest:ANY,auditTrail:ANY,rbac:ANY,rememberPassword:ANY,sso:ANY,trustedCertificate:ANY,tlsEnforcement:ANY,httpSecurityHeaders:ANY}},originCountry:[],risk:[]},actionConfig:{userNotification:[]}}
   description: String! = ""
   enabled: Boolean!
-  fileRule: ApplicationControlFileRuleInput = {application:{applicationType:[]},applicationActivitySatisfy:ANY,applicationActivity:[],accessMethod:[],source:{country:[],host:[],site:[],subnet:[],ip:[],ipRange:[],globalIpRange:[],networkInterface:[],siteNetworkSubnet:[],floatingSubnet:[],user:[],usersGroup:[],group:[],systemGroup:[]},device:[],action:BLOCK,tracking:{event:{enabled:false},alert:{enabled:false,frequency:HOURLY,subscriptionGroup:[],webhook:[],mailingList:[]}},schedule:{activeOn:ALWAYS},severity:HIGH,fileAttributeSatisfy:ANY,fileAttribute:[],actionConfig:{userNotification:[]}}
+  fileRule: ApplicationControlFileRuleInput = {application:{applicationType:[]},applicationActivitySatisfy:ANY,applicationActivity:[],accessMethod:[],source:{country:[],host:[],site:[],subnet:[],ip:[],ipRange:[],globalIpRange:[],networkInterface:[],siteNetworkSubnet:[],floatingSubnet:[],user:[],usersGroup:[],group:[],systemGroup:[]},device:[],action:BLOCK,tracking:{event:{enabled:false},alert:{enabled:false,frequency:HOURLY,subscriptionGroup:[],webhook:[],mailingList:[]}},schedule:{activeOn:ALWAYS},severity:HIGH,fileAttributeSatisfy:ANY,fileAttribute:[],applicationCriteriaSatisfy:ANY,applicationCriteria:{attributes:{complianceAttributes:{iso27001:ANY,sox:ANY,hippa:ANY,soc1:ANY,soc2:ANY,soc3:ANY,isae3402:ANY,pciDss:ANY},securityAttributes:{mfa:ANY,encryptionAtRest:ANY,auditTrail:ANY,rbac:ANY,rememberPassword:ANY,sso:ANY,trustedCertificate:ANY,tlsEnforcement:ANY,httpSecurityHeaders:ANY}},originCountry:[],risk:[]},actionConfig:{userNotification:[]}}
   name: String!
   ruleType: ApplicationControlRuleType! = APPLICATION
 }
@@ -7963,6 +8095,8 @@ input ApplicationControlDataRuleInput {
   applicationActivity: [ApplicationControlActivityInput!]! = []
   applicationActivitySatisfy: ApplicationControlSatisfy! = ANY
   applicationContext: ApplicationControlContextInput! = {applicationTenant:[]}
+  applicationCriteria: ApplicationControlCriteriaInput! = {attributes:{complianceAttributes:{iso27001:ANY,sox:ANY,hippa:ANY,soc1:ANY,soc2:ANY,soc3:ANY,isae3402:ANY,pciDss:ANY},securityAttributes:{mfa:ANY,encryptionAtRest:ANY,auditTrail:ANY,rbac:ANY,rememberPassword:ANY,sso:ANY,trustedCertificate:ANY,tlsEnforcement:ANY,httpSecurityHeaders:ANY}},originCountry:[],risk:[]}
+  applicationCriteriaSatisfy: ApplicationControlSatisfy! = ANY
   device: [DeviceProfileRefInput!]! = []
   dlpProfile: ApplicationControlDlpProfileInput! = {contentProfile:[],edmProfile:[]}
   fileAttribute: [ApplicationControlFileAttributeInput!]! = []
@@ -7982,6 +8116,8 @@ input ApplicationControlDataRuleUpdateInput {
   applicationActivity: [ApplicationControlActivityInput!]
   applicationActivitySatisfy: ApplicationControlSatisfy
   applicationContext: ApplicationControlContextUpdateInput
+  applicationCriteria: ApplicationControlCriteriaUpdateInput
+  applicationCriteriaSatisfy: ApplicationControlSatisfy
   device: [DeviceProfileRefInput!]
   dlpProfile: ApplicationControlDlpProfileUpdateInput
   fileAttribute: [ApplicationControlFileAttributeInput!]
@@ -8021,6 +8157,8 @@ input ApplicationControlFileRuleInput {
   application: ApplicationControlApplicationInput! = {applicationType:[]}
   applicationActivity: [ApplicationControlActivityInput!]! = []
   applicationActivitySatisfy: ApplicationControlSatisfy! = ANY
+  applicationCriteria: ApplicationControlCriteriaInput! = {attributes:{complianceAttributes:{iso27001:ANY,sox:ANY,hippa:ANY,soc1:ANY,soc2:ANY,soc3:ANY,isae3402:ANY,pciDss:ANY},securityAttributes:{mfa:ANY,encryptionAtRest:ANY,auditTrail:ANY,rbac:ANY,rememberPassword:ANY,sso:ANY,trustedCertificate:ANY,tlsEnforcement:ANY,httpSecurityHeaders:ANY}},originCountry:[],risk:[]}
+  applicationCriteriaSatisfy: ApplicationControlSatisfy! = ANY
   device: [DeviceProfileRefInput!]! = []
   fileAttribute: [ApplicationControlFileAttributeInput!]! = []
   fileAttributeSatisfy: ApplicationControlSatisfy! = ANY
@@ -8038,6 +8176,8 @@ input ApplicationControlFileRuleUpdateInput {
   application: ApplicationControlApplicationUpdateInput
   applicationActivity: [ApplicationControlActivityInput!]
   applicationActivitySatisfy: ApplicationControlSatisfy
+  applicationCriteria: ApplicationControlCriteriaUpdateInput
+  applicationCriteriaSatisfy: ApplicationControlSatisfy
   device: [DeviceProfileRefInput!]
   fileAttribute: [ApplicationControlFileAttributeInput!]
   fileAttributeSatisfy: ApplicationControlSatisfy
@@ -8276,6 +8416,44 @@ input BooleanFilterInput {
 
 input BooleanPredicate {
   is: String!
+}
+
+input BusinessPlatformAccountListInput {
+  filter: BusinessPlatformFilterInput
+  paging: PagingInput = {limit:100,from:0}
+  sort: BusinessPlatformSortInput = {name:{direction:ASC,priority:1}}
+}
+
+input BusinessPlatformAccountPlanFilterInput {
+  eq: BusinessPlatformAccountPlan
+  in: [BusinessPlatformAccountPlan!]
+}
+
+input BusinessPlatformCreateTrialAccountInput {
+  accountData: AddAccountInput!
+  adminData: AdminData
+  canManageSubAccounts: Boolean = true
+  id: String!
+}
+
+input BusinessPlatformFilterInput {
+  account: AccountFilter
+  expireOn: [DateFilterInput]
+  freeText: FreeTextFilterInput
+  plan: [BusinessPlatformAccountPlanFilterInput!]
+}
+
+input BusinessPlatformLinkToTrialAccountInput {
+  cmaId: Long!
+  id: String!
+}
+
+input BusinessPlatformSortInput {
+  createdAt: SortOrderInput
+  createdBy: SortOrderInput
+  name: SortOrderInput
+  partnerName: SortOrderInput
+  plan: SortOrderInput
 }
 
 """ Input for canceling a partner access request. """
@@ -8592,6 +8770,7 @@ input CreateSubscriptionGroupInput {
   name: String!
 }
 
+""" Input for creating a manual user in the CMA. """
 input CreateUserInput {
   department: String
   email: Email!
@@ -8715,6 +8894,18 @@ input CustomServiceIpInput {
   name: String!
 }
 
+input DateFilterInput {
+  between: [Date!]
+  eq: Date
+  gt: Date
+  gte: Date
+  in: [Date!]
+  lt: Date
+  lte: Date
+  neq: Date
+  nin: [Date!]
+}
+
 input DateTimeFilterInput {
   between: [DateTime!]
   eq: DateTime
@@ -8750,6 +8941,7 @@ input DeleteStoryCommentInput {
   storyId: ID!
 }
 
+""" Input for deleting users. """
 input DeleteUserInput {
   userId: [Long!]!
 }
@@ -8929,6 +9121,11 @@ input DisableServiceForManagedAccountInput {
   service: LicenseSku!
 }
 
+""" Input for disabling users. """
+input DisableUserInput {
+  userId: [Long!]!
+}
+
 input DlpContentProfileRefInput {
   by: ObjectRefBy! = ID
   input: String!
@@ -9018,6 +9215,11 @@ input DynamicIpAllocationUpdateRuleInput {
 input EnableServiceForManagedAccountInput {
   managedAccountId: ID!
   service: LicenseSku!
+}
+
+""" Input for enabling users. """
+input EnableUserInput {
+  userId: [Long!]!
 }
 
 input EngineTypePredicate {
@@ -9298,6 +9500,7 @@ input IdFilterInput {
   nin: [ID!]
 }
 
+""" Input for filtering users by import type. """
 input ImportTypeFilterInput {
   eq: ImportType
   in: [ImportType!]
@@ -10067,7 +10270,6 @@ input PostalAddressInput {
   cityName: String
   country: CountryRefInput!
   stateName: String
-  street: String @deprecated(reason: "replaced by address1 and address2")
   zipCode: String
 }
 
@@ -10175,6 +10377,7 @@ input PrivateAppProbingInput {
 }
 
 input PrivateApplicationListFilterInput {
+  connectivityStatus: [StringFilterInput!]
   freeText: [FreeTextFilterInput!]
   groupName: [StringFilterInput!]
   name: [StringFilterInput!]
@@ -10195,6 +10398,7 @@ input PrivateApplicationRefInput {
 }
 
 input PrivateApplicationSortInput {
+  connectivityStatus: SortOrderInput
   creationTime: SortOrderInput
   id: SortOrderInput
   name: SortOrderInput
@@ -10364,6 +10568,7 @@ input RevokePartnerAccessInput {
   reason: String
 }
 
+""" Input for revoking user sessions. """
 input RevokeUserSessionInput {
   userId: [Long!]!
 }
@@ -10378,6 +10583,7 @@ input RiskScoreConditionUpdateInput {
   operator: RiskScoreOperator
 }
 
+""" Input for filtering users by risk score. """
 input RiskScoreFilterInput {
   eq: RiskScore
   in: [RiskScore!]
@@ -11911,6 +12117,7 @@ input UpdateSubscriptionGroupInput {
   subscriptionGroup: SubscriptionGroupRefInput!
 }
 
+""" Input for updating a manual user. """
 input UpdateUserInput {
   department: String
   email: Email
@@ -12005,6 +12212,7 @@ input UploadFileInput {
   fileName: String!
 }
 
+""" Input for filtering users. """
 input UserFilterInput {
   department: [StringFilterInput!]
   directoryId: [StringFilterInput!]
@@ -12013,9 +12221,11 @@ input UserFilterInput {
   remoteAccessEligibility: [BooleanFilterInput!]
   riskScore: [RiskScoreFilterInput!]
   searchTerm: FreeTextFilterInput
+  userId: [IdFilterInput!] @ea
   userStatus: [UserStatusFilterInput!]
 }
 
+""" Input for filtering, sorting, and paging users. """
 input UserListInput {
   filter: UserFilterInput
   paging: PagingInput = {limit:50,from:0}
@@ -12039,6 +12249,7 @@ input UserRefInput {
   input: String!
 }
 
+""" Input for sorting users. """
 input UserSortInput {
   creationDate: SortOrderInput
   department: SortOrderInput
@@ -12054,6 +12265,7 @@ input UserSortInput {
   userStatus: SortOrderInput
 }
 
+""" Input for filtering users by operational status. """
 input UserStatusFilterInput {
   eq: UserStatus
   in: [UserStatus!]
@@ -13486,6 +13698,14 @@ enum BgpState {
   StateMAX
 }
 
+enum BusinessPlatformAccountPlan {
+  COMMERCIAL
+  LOST
+  PENDING_APPROVAL
+  PROSPECT
+  TRIAL
+}
+
 enum BypassSocketPortType {
   """ Automatic socket port type. """
   AUTOMATIC
@@ -13732,6 +13952,7 @@ enum DegradedStatusReason {
   WAN_TUNNEL_DISCONNECTED
 }
 
+""" Status for deleteUser call. """
 enum DeleteUserStatus {
   """ Delete request failed. """
   FAILURE
@@ -13988,10 +14209,16 @@ enum EventFieldName {
   application_risk
   """ Application type (Custom, Private or System). CMA Name: Application Type """
   application_type
+  """ Reasons from each ATP feed that contributed to the detection, resolved via chained enrichment: sigId to feedIds to per-device reason. CMA Name: ATP Feed Reasons """
+  atp_feed_reasons
   """ Connectivity authentication method: unauthenticated, OATH2, LDAP or VPN. CMA Name: Authentication Method """
   auth_method
   """ Examples: MFA or password. CMA Name: Authentication Type """
   authentication_type
+  """ Baseline average for the monitored metric. CMA Name: Baseline Average """
+  baseline_average
+  """ Baseline standard deviation for the monitored metric. CMA Name: Baseline Std """
+  baseline_std
   """ BGP ASN for Cato peer. CMA Name: BGP Cato ASN """
   bgp_cato_asn
   """ BGP IP for Cato peer. CMA Name: BGP Cato IP """
@@ -14123,6 +14350,8 @@ enum EventFieldName {
   CMA Name: Detection Stage
   """
   detection_stage
+  """ Names of the detectors that fired and caused this detection event. CMA Name: Detectors """
+  detectors
   """ Device Categories. CMA Name: Device Category """
   device_categories
   """ Device Certificate Validated/Not Validated. CMA Name: Device Certificate """
@@ -14259,6 +14488,8 @@ enum EventFieldName {
   indicator
   """ The initial status of the object, before any policy was applied. CMA Name: Initial Object Status """
   initial_object_status
+  """ Unique identifier for a single AI interaction between an application and an AI model. CMA Name: Interaction ID """
+  interaction_id
   """ Inferred user intent of the AI interaction (e.g. Seek Advice, Generate Content, Get Information), as classified by the AI Security Engine. CMA Name: Interaction Intent """
   interaction_intent
   """ Sub-topic of the user's AI interaction within the parent interaction_topic, as classified by the AI Security Engine (e.g. for the 'Human Resources' topic: Recruitment, Employee Performance, etc.). CMA Name: Interaction Sub Topic """
@@ -14267,6 +14498,8 @@ enum EventFieldName {
   interaction_topic
   """ Cato Internal-use only. CMA Name: Internal ID """
   internalId @deprecated(reason: "use event_id instead. Planned end-of-life (EoL) date: May 1, 2025.")
+  """ Unique identifier for a single AI invocation between an application and an AI model. CMA Name: Invocation ID """
+  invocation_id
   """ Network protocol for this event. CMA Name: IP Protocol """
   ip_protocol
   """ Classifies users based on their permissions. CMA Name: Is Admin """
@@ -14309,6 +14542,10 @@ enum EventFieldName {
   matched_data_types
   """ Unique identifier used to correlate request and response events for the same message. CMA Name: Message ID """
   message_id
+  """ Name of the monitored metric (e.g. avg_http_latency). CMA Name: Metric """
+  metric
+  """ Value of the monitored metric. CMA Name: Metric Value """
+  metric_value
   """ Mitre attack subtechniques. CMA Name: Mitre Attack Subtechniques """
   mitre_attack_subtechniques
   """ Mitre attack tactics. CMA Name: Mitre Attack Tactics """
@@ -14423,6 +14660,16 @@ enum EventFieldName {
   sign_in_event_types
   """ For IPS and SAM, ID of the IPS signature. CMA Name: Signature ID """
   signature_id
+  """ Site web proxy instance ID. CMA Name: Site Web Proxy ID """
+  site_web_proxy_id
+  """ Site web proxy instance name. CMA Name: Site Web Proxy """
+  site_web_proxy_name
+  """ Site web proxy traffic rule action (Allow or Authenticate). CMA Name: Site Web Proxy Rule Action """
+  site_web_proxy_rule_action
+  """ Site web proxy traffic rule ID. CMA Name: Site Web Proxy Rule ID """
+  site_web_proxy_rule_id
+  """ Site web proxy traffic rule name. CMA Name: Site Web Proxy Rule """
+  site_web_proxy_rule_name
   """ Socket description. CMA Name: Socket Description """
   socket_description
   """ Name for Socket interface. CMA Name: Interface ID """
@@ -14767,9 +15014,15 @@ enum IlmmOnboardingStatus {
   PENDING
 }
 
+""" Shows if user was created or imported from an IdP. """
 enum ImportType {
+  """ User was imported from an integration. """
+  INTEGRATION
+  """ User was imported from LDAP. """
   LDAP
+  """ User was created manually. """
   MANUAL
+  """ User was imported from SCIM. """
   SCIM
 }
 
@@ -14853,6 +15106,8 @@ enum LicenseSku {
   CATO_ADSP
   """ Cato App & Data Security Package BW SKU """
   CATO_ADSP_B
+  """ Cato Advanced Security Package quantity-based SKU """
+  CATO_ADSP_Q
   """ Cato App & Data Security Package Users SKU """
   CATO_ADSP_U
   """ Cato AI Security Applications SKU """
@@ -14867,7 +15122,7 @@ enum LicenseSku {
   CATO_APP_CON_B
   """ Cato App Connector User SKU """
   CATO_APP_CON_U
-  """ Cato Assets Group SKU """
+  """ Cato Assets Security Group SKU """
   CATO_ASTS_SEC
   """ Cato Assets Security 2.5K - 10K Devices SKU """
   CATO_ASTS_SEC_10K
@@ -14885,6 +15140,8 @@ enum LicenseSku {
   CATO_ASTS_SEC_ABV_50K
   """ Cato Advanced Protection BW SKU """
   CATO_ATP_B
+  """ Cato Advanced Threat Prevention quantity-based SKU """
+  CATO_ATP_Q
   """ Cato Advanced Protection Users SKU """
   CATO_ATP_U
   """ Cato ATP for MSP users SKU """
@@ -14895,6 +15152,8 @@ enum LicenseSku {
   CATO_CASB_B
   """ Cato CASB for MSP bandwidth SKU """
   CATO_CASB_PB_SA
+  """ Cato Cloud Access Security Broker quantity-based SKU """
+  CATO_CASB_Q
   """ Cato Cloud Access Security Broker Users SKU """
   CATO_CASB_U
   """ Cato CASB for MSP users SKU """
@@ -14917,6 +15176,8 @@ enum LicenseSku {
   CATO_DLP_B
   """ Cato DLP for MSP bandwidth SKU """
   CATO_DLP_PB_SA
+  """ Cato Data Loss Prevention quantity-based SKU """
+  CATO_DLP_Q
   """ Cato Data Loss Prevention Users SKU """
   CATO_DLP_U
   """ Cato DLP for MSP users SKU """
@@ -14925,6 +15186,8 @@ enum LicenseSku {
   CATO_EPP
   """ Cato Endpoint Protection SKU """
   CATO_EPP_U
+  """ Cato Hands Free Management SKU """
+  CATO_HFM
   """ Cato Hands Free Management SKU """
   CATO_HFM_S
   """ Cato ILMM service SKU """
@@ -14943,6 +15206,8 @@ enum LicenseSku {
   CATO_MDR
   """ Cato MDR for MSP bandwidth SKU """
   CATO_MDR_PB_SA
+  """ Cato Managed Detection and Response quantity-based SKU """
+  CATO_MDR_Q
   """ Cato Managed Detection and Response SKU """
   CATO_MDR_U
   """ Cato MDR for MSP users SKU """
@@ -14953,6 +15218,8 @@ enum LicenseSku {
   CATO_NOCAAS_HF_S
   """ Site pooled bandwidth SASE SKU """
   CATO_PB
+  """ Cato pooled bandwidth quantity-based SKU """
+  CATO_PB_Q
   """ Site pooled bandwidth SSE SKU """
   CATO_PB_SSE
   """ Cato Remote Browser Isolation (RBI) service SKU """
@@ -15008,6 +15275,8 @@ enum LicenseSku {
   CATO_THREAT_PREVENTION_PB_SA
   """ Cato TP for MSP users SKU """
   CATO_THREAT_PREVENTION_USER_SA
+  """ Cato Threat Prevention quantity-based SKU """
+  CATO_TP_Q
   """ Cato WAN Bandwidth SKU """
   CATO_WAN
   """ Cato WAN Threat Prevention BW SKU """
@@ -15018,10 +15287,14 @@ enum LicenseSku {
   CATO_XOPS
   """ Cato XOps for MSP bandwidth SKU """
   CATO_XOPS_PB_SA
+  """ Cato XOps quantity-based SKU """
+  CATO_XOPS_Q
   """ Cato XOPs SKU """
   CATO_XOPS_U
   """ Cato XOps for MSP users SKU """
   CATO_XOPS_USER_SA
+  """ Cato ZTNA users quantity-based SKU """
+  CATO_ZTNA_Q
   """ ZTNA remote users SKU """
   CATO_ZTNA_USERS
   """ ZTNA remote users SKU """
@@ -15399,6 +15672,16 @@ enum PrivateAccessPolicyOriginEnum {
   SITE
 }
 
+""" Connectivity status of a private application """
+enum PrivateAppConnectivityStatus {
+  """ Application is reachable """
+  CONNECTED
+  """ Application is unreachable """
+  DISCONNECTED
+  """ No connectivity data available (probing disabled or no updates received) """
+  NOT_REPORTING
+}
+
 enum ProtoType {
   CROSS_CONNECT
   IPSEC_CLIENT
@@ -15477,6 +15760,7 @@ enum ResourceRoleEnum {
   SUSPICIOUS
 }
 
+""" Revoke user session operation status. """
 enum RevokeUserSessionStatus {
   """ Request failed """
   FAILURE
@@ -15494,23 +15778,18 @@ enum RiskLevelEnum {
   nan
 }
 
+""" Cato Risk level assigned to a user. """
 enum RiskScore {
   """
   User is considered extremely risky.
-  Policies can block or heavily restrict WAN/Internet for such a user.
+  Policies can block or heavily restrict WAN/Internet access for the user.
   """
   CRITICAL
-  """
-  User is considered significantly risky;
-  multiple or persistent suspicious events.
-  """
+  """ User is considered significantly risky, multiple or persistent suspicious events. """
   HIGH
   """ Normal behavior. """
   LOW
-  """
-  User shows some risky behavior (phishing-like activity, suspicious browsing, malware indicators, etc.),
-  but not yet severe.
-  """
+  """ User shows some risky behavior (phishing-like activity, suspicious browsing, malware indicators, etc.). """
   MEDIUM
 }
 
@@ -16133,26 +16412,28 @@ enum UnitType {
   seconds
 }
 
+""" Authentication method for a user. """
 enum UserAuthMethod {
-  """ User can authenticate using user & password, followed by a MFA authentication. """
+  """ User authenticates using Cato username & password, followed by MFA authentication. """
   MFA
-  """ User can authenticate using SSO provided by Idp. """
+  """ User authenticates using SSO provided by IdP. """
   SSO
-  """ User can authenticate using user & password. """
+  """ User authenticates using Cato username & password. """
   USER_PWD
 }
 
+""" User account and authentication setup status. """
 enum UserAuthStatus {
   """
-  The user has finished all required authentication setup.
+  The user has finished setting up all required authentication steps.
   Password and, if required by the account, MFA are configured.
   """
   COMPLETED
-  """ The user’s password is set, but MFA is not yet configured while MFA is required. """
+  """ The user’s password is set, but MFA is not yet configured. """
   MFA_NOT_SET
   """
   The user does not have a password configured yet.
-  This is usually a brand‑new user or one that must define their password on first login.
+  This is usually a brand‑new user or one who must define their password on first login.
   """
   PWD_NOT_SET
 }
@@ -16167,6 +16448,7 @@ enum UserRole {
   VIEWER
 }
 
+""" Operational status for a user. """
 enum UserStatus {
   """ User is active, can authenticate or connect. """
   ACTIVE
@@ -16174,7 +16456,7 @@ enum UserStatus {
   DISABLED
   """
   User is blocked from authenticating due to a security risk (suspected brute force, repeated wrong MFA, etc.).
-  Lock can be cleared by authenticating after some timeout, or by admin action.
+  Lock can be cleared by authenticating after a timeout, or by admin clearing the lock.
   """
   LOCKED
 }

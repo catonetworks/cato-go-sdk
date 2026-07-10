@@ -611,18 +611,20 @@ type AddAccountInput struct {
 }
 
 type AddAdminInput struct {
-	AdminType            *AdminType              `json:"adminType,omitempty"`
-	Email                *string                 `json:"email,omitempty"`
-	FirstName            string                  `json:"firstName"`
-	LastName             string                  `json:"lastName"`
-	ManagedRoles         []*UpdateAdminRoleInput `json:"managedRoles,omitempty"`
-	MfaEnabled           *bool                   `json:"mfaEnabled,omitempty"`
-	PasswordNeverExpires bool                    `json:"passwordNeverExpires"`
-	ResellerRoles        []*UpdateAdminRoleInput `json:"resellerRoles,omitempty"`
+	AdminType                 *AdminType              `json:"adminType,omitempty"`
+	Email                     *string                 `json:"email,omitempty"`
+	FirstName                 string                  `json:"firstName"`
+	LastName                  string                  `json:"lastName"`
+	ManagedRoles              []*UpdateAdminRoleInput `json:"managedRoles,omitempty"`
+	MfaEnabled                *bool                   `json:"mfaEnabled,omitempty"`
+	PasswordNeverExpires      bool                    `json:"passwordNeverExpires"`
+	ResellerRoles             []*UpdateAdminRoleInput `json:"resellerRoles,omitempty"`
+	ShouldSendInvitationEmail *bool                   `json:"shouldSendInvitationEmail,omitempty"`
 }
 
 type AddAdminPayload struct {
-	AdminID string `json:"adminID"`
+	AdminID          string  `json:"adminID"`
+	PasswordSetupURL *string `json:"passwordSetupUrl,omitempty"`
 }
 
 type AddBgpPeerInput struct {
@@ -935,6 +937,12 @@ type Admin struct {
 	Role                  *UserRole                  `json:"role,omitempty"`
 	Status                *scalars.OperationalStatus `json:"status,omitempty"`
 	Version               string                     `json:"version"`
+}
+
+type AdminData struct {
+	Email     string `json:"email"`
+	FirstName string `json:"firstName"`
+	LastName  string `json:"lastName"`
 }
 
 type AdminMutations struct {
@@ -1814,9 +1822,10 @@ func (this AppTenantRestrictionRule) GetName() string                { return th
 func (this AppTenantRestrictionRule) GetSection() *PolicySectionInfo { return this.Section }
 
 type AppTenantRestrictionRuleMutationPayload struct {
-	Errors []*PolicyMutationError           `json:"errors"`
-	Rule   *AppTenantRestrictionRulePayload `json:"rule,omitempty"`
-	Status PolicyMutationStatus             `json:"status"`
+	Errors   []*PolicyMutationError           `json:"errors"`
+	Revision *PolicyRevision                  `json:"revision,omitempty"`
+	Rule     *AppTenantRestrictionRulePayload `json:"rule,omitempty"`
+	Status   PolicyMutationStatus             `json:"status"`
 }
 
 func (AppTenantRestrictionRuleMutationPayload) IsIPolicyRuleMutationPayload() {}
@@ -1837,6 +1846,7 @@ func (this AppTenantRestrictionRuleMutationPayload) GetStatus() PolicyMutationSt
 
 type AppTenantRestrictionRulePayload struct {
 	Audit      *PolicyElementAudit           `json:"audit"`
+	Metadata   *PolicyElementMetadata        `json:"metadata,omitempty"`
 	Properties []PolicyElementPropertiesEnum `json:"properties"`
 	Rule       *AppTenantRestrictionRule     `json:"rule"`
 }
@@ -2283,6 +2293,8 @@ type ApplicationControlDataRule struct {
 	ApplicationActivity        []*ApplicationControlActivity      `json:"applicationActivity"`
 	ApplicationActivitySatisfy ApplicationControlSatisfy          `json:"applicationActivitySatisfy"`
 	ApplicationContext         *ApplicationControlContext         `json:"applicationContext"`
+	ApplicationCriteria        *ApplicationControlCriteria        `json:"applicationCriteria"`
+	ApplicationCriteriaSatisfy ApplicationControlSatisfy          `json:"applicationCriteriaSatisfy"`
 	Device                     []*DeviceProfileRef                `json:"device"`
 	DlpProfile                 *ApplicationControlDlpProfile      `json:"dlpProfile"`
 	FileAttribute              []*ApplicationControlFileAttribute `json:"fileAttribute"`
@@ -2302,6 +2314,8 @@ type ApplicationControlDataRuleInput struct {
 	ApplicationActivity        []*ApplicationControlActivityInput      `json:"applicationActivity"`
 	ApplicationActivitySatisfy ApplicationControlSatisfy               `json:"applicationActivitySatisfy"`
 	ApplicationContext         *ApplicationControlContextInput         `json:"applicationContext"`
+	ApplicationCriteria        *ApplicationControlCriteriaInput        `json:"applicationCriteria"`
+	ApplicationCriteriaSatisfy ApplicationControlSatisfy               `json:"applicationCriteriaSatisfy"`
 	Device                     []*DeviceProfileRefInput                `json:"device"`
 	DlpProfile                 *ApplicationControlDlpProfileInput      `json:"dlpProfile"`
 	FileAttribute              []*ApplicationControlFileAttributeInput `json:"fileAttribute"`
@@ -2321,6 +2335,8 @@ type ApplicationControlDataRuleUpdateInput struct {
 	ApplicationActivity        []*ApplicationControlActivityInput         `json:"applicationActivity,omitempty"`
 	ApplicationActivitySatisfy *ApplicationControlSatisfy                 `json:"applicationActivitySatisfy,omitempty"`
 	ApplicationContext         *ApplicationControlContextUpdateInput      `json:"applicationContext,omitempty"`
+	ApplicationCriteria        *ApplicationControlCriteriaUpdateInput     `json:"applicationCriteria,omitempty"`
+	ApplicationCriteriaSatisfy *ApplicationControlSatisfy                 `json:"applicationCriteriaSatisfy,omitempty"`
 	Device                     []*DeviceProfileRefInput                   `json:"device,omitempty"`
 	DlpProfile                 *ApplicationControlDlpProfileUpdateInput   `json:"dlpProfile,omitempty"`
 	FileAttribute              []*ApplicationControlFileAttributeInput    `json:"fileAttribute,omitempty"`
@@ -2375,6 +2391,8 @@ type ApplicationControlFileRule struct {
 	Application                *ApplicationControlApplication     `json:"application"`
 	ApplicationActivity        []*ApplicationControlActivity      `json:"applicationActivity"`
 	ApplicationActivitySatisfy ApplicationControlSatisfy          `json:"applicationActivitySatisfy"`
+	ApplicationCriteria        *ApplicationControlCriteria        `json:"applicationCriteria"`
+	ApplicationCriteriaSatisfy ApplicationControlSatisfy          `json:"applicationCriteriaSatisfy"`
 	Device                     []*DeviceProfileRef                `json:"device"`
 	FileAttribute              []*ApplicationControlFileAttribute `json:"fileAttribute"`
 	FileAttributeSatisfy       ApplicationControlSatisfy          `json:"fileAttributeSatisfy"`
@@ -2392,6 +2410,8 @@ type ApplicationControlFileRuleInput struct {
 	Application                *ApplicationControlApplicationInput     `json:"application"`
 	ApplicationActivity        []*ApplicationControlActivityInput      `json:"applicationActivity"`
 	ApplicationActivitySatisfy ApplicationControlSatisfy               `json:"applicationActivitySatisfy"`
+	ApplicationCriteria        *ApplicationControlCriteriaInput        `json:"applicationCriteria"`
+	ApplicationCriteriaSatisfy ApplicationControlSatisfy               `json:"applicationCriteriaSatisfy"`
 	Device                     []*DeviceProfileRefInput                `json:"device"`
 	FileAttribute              []*ApplicationControlFileAttributeInput `json:"fileAttribute"`
 	FileAttributeSatisfy       ApplicationControlSatisfy               `json:"fileAttributeSatisfy"`
@@ -2409,6 +2429,8 @@ type ApplicationControlFileRuleUpdateInput struct {
 	Application                *ApplicationControlApplicationUpdateInput  `json:"application,omitempty"`
 	ApplicationActivity        []*ApplicationControlActivityInput         `json:"applicationActivity,omitempty"`
 	ApplicationActivitySatisfy *ApplicationControlSatisfy                 `json:"applicationActivitySatisfy,omitempty"`
+	ApplicationCriteria        *ApplicationControlCriteriaUpdateInput     `json:"applicationCriteria,omitempty"`
+	ApplicationCriteriaSatisfy *ApplicationControlSatisfy                 `json:"applicationCriteriaSatisfy,omitempty"`
 	Device                     []*DeviceProfileRefInput                   `json:"device,omitempty"`
 	FileAttribute              []*ApplicationControlFileAttributeInput    `json:"fileAttribute,omitempty"`
 	FileAttributeSatisfy       *ApplicationControlSatisfy                 `json:"fileAttributeSatisfy,omitempty"`
@@ -2545,9 +2567,10 @@ func (this ApplicationControlRule) GetName() string                { return this
 func (this ApplicationControlRule) GetSection() *PolicySectionInfo { return this.Section }
 
 type ApplicationControlRuleMutationPayload struct {
-	Errors []*PolicyMutationError         `json:"errors"`
-	Rule   *ApplicationControlRulePayload `json:"rule,omitempty"`
-	Status PolicyMutationStatus           `json:"status"`
+	Errors   []*PolicyMutationError         `json:"errors"`
+	Revision *PolicyRevision                `json:"revision,omitempty"`
+	Rule     *ApplicationControlRulePayload `json:"rule,omitempty"`
+	Status   PolicyMutationStatus           `json:"status"`
 }
 
 func (ApplicationControlRuleMutationPayload) IsIPolicyRuleMutationPayload() {}
@@ -2568,6 +2591,7 @@ func (this ApplicationControlRuleMutationPayload) GetStatus() PolicyMutationStat
 
 type ApplicationControlRulePayload struct {
 	Audit      *PolicyElementAudit           `json:"audit"`
+	Metadata   *PolicyElementMetadata        `json:"metadata,omitempty"`
 	Properties []PolicyElementPropertiesEnum `json:"properties"`
 	Rule       *ApplicationControlRule       `json:"rule"`
 }
@@ -2723,6 +2747,33 @@ type ApplicationRefInput struct {
 	Input string      `json:"input"`
 }
 
+// Asset Security service license details
+type AssetsSecurityLicense struct {
+	Description    *string       `json:"description,omitempty"`
+	ExpirationDate string        `json:"expirationDate"`
+	ID             *string       `json:"id,omitempty"`
+	LastUpdated    *string       `json:"lastUpdated,omitempty"`
+	Plan           LicensePlan   `json:"plan"`
+	Sku            LicenseSku    `json:"sku"`
+	StartDate      *string       `json:"startDate,omitempty"`
+	Status         LicenseStatus `json:"status"`
+	Total          int64         `json:"total"`
+}
+
+func (AssetsSecurityLicense) IsLicense()                     {}
+func (this AssetsSecurityLicense) GetDescription() *string   { return this.Description }
+func (this AssetsSecurityLicense) GetExpirationDate() string { return this.ExpirationDate }
+func (this AssetsSecurityLicense) GetID() *string            { return this.ID }
+func (this AssetsSecurityLicense) GetLastUpdated() *string   { return this.LastUpdated }
+func (this AssetsSecurityLicense) GetPlan() LicensePlan      { return this.Plan }
+func (this AssetsSecurityLicense) GetSku() LicenseSku        { return this.Sku }
+func (this AssetsSecurityLicense) GetStartDate() *string     { return this.StartDate }
+func (this AssetsSecurityLicense) GetStatus() LicenseStatus  { return this.Status }
+
+func (AssetsSecurityLicense) IsQuantifiableLicense() {}
+
+func (this AssetsSecurityLicense) GetTotal() int64 { return this.Total }
+
 type AssignSiteBwLicenseInput struct {
 	Bw        *int64        `json:"bw,omitempty"`
 	LicenseID string        `json:"licenseId"`
@@ -2807,6 +2858,7 @@ type AuditingMetadataSortInput struct {
 	UpdatedTime *SortOrderInput `json:"updatedTime,omitempty"`
 }
 
+// Authentication method and status details for a user.
 type AuthenticationInfo struct {
 	AuthMethod UserAuthMethod `json:"authMethod"`
 	AuthStatus UserAuthStatus `json:"authStatus"`
@@ -3045,6 +3097,95 @@ type BooleanPredicate struct {
 	Is string `json:"is"`
 }
 
+type BusinessPlatformAccount struct {
+	Account             *AccountRef                 `json:"account,omitempty"`
+	AccountExternalName string                      `json:"accountExternalName"`
+	City                *string                     `json:"city,omitempty"`
+	CmaCreatedAt        *time.Time                  `json:"cmaCreatedAt,omitempty"`
+	CmaCreatedBy        *string                     `json:"cmaCreatedBy,omitempty"`
+	CmaID               *scalars.Long               `json:"cmaId,omitempty"`
+	CompanyWebsite      *string                     `json:"companyWebsite,omitempty"`
+	ContactEmail        *string                     `json:"contactEmail,omitempty"`
+	ContactFirstName    *string                     `json:"contactFirstName,omitempty"`
+	ContactLastName     *string                     `json:"contactLastName,omitempty"`
+	Country             *string                     `json:"country,omitempty"`
+	Description         *string                     `json:"description,omitempty"`
+	EstimatedCloseDate  *time.Time                  `json:"estimatedCloseDate,omitempty"`
+	ExpireOn            *time.Time                  `json:"expireOn,omitempty"`
+	ExpiresOn           *time.Time                  `json:"expiresOn,omitempty"`
+	ExternalName        string                      `json:"externalName"`
+	ID                  string                      `json:"id"`
+	Name                string                      `json:"name"`
+	Partner             *AccountRef                 `json:"partner"`
+	PartnerID           scalars.Long                `json:"partnerId"`
+	PartnerName         string                      `json:"partnerName"`
+	Plan                BusinessPlatformAccountPlan `json:"plan"`
+	PostalCode          *string                     `json:"postalCode,omitempty"`
+	State               *string                     `json:"state,omitempty"`
+	Street              *string                     `json:"street,omitempty"`
+}
+
+type BusinessPlatformAccountListInput struct {
+	Filter *BusinessPlatformFilterInput `json:"filter,omitempty"`
+	Paging *PagingInput                 `json:"paging,omitempty"`
+	Sort   *BusinessPlatformSortInput   `json:"sort,omitempty"`
+}
+
+type BusinessPlatformAccountListPayload struct {
+	Items    []*BusinessPlatformAccount `json:"items"`
+	PageInfo *PageInfo                  `json:"pageInfo,omitempty"`
+}
+
+type BusinessPlatformAccountPlanFilterInput struct {
+	Eq *BusinessPlatformAccountPlan  `json:"eq,omitempty"`
+	In []BusinessPlatformAccountPlan `json:"in,omitempty"`
+}
+
+type BusinessPlatformCreateTrialAccountInput struct {
+	AccountData          *AddAccountInput `json:"accountData"`
+	AdminData            *AdminData       `json:"adminData,omitempty"`
+	CanManageSubAccounts *bool            `json:"canManageSubAccounts,omitempty"`
+	ID                   string           `json:"id"`
+}
+
+type BusinessPlatformCreateTrialAccountPayload struct {
+	Account *BusinessPlatformAccount `json:"account,omitempty"`
+}
+
+type BusinessPlatformFilterInput struct {
+	Account  *AccountFilter                            `json:"account,omitempty"`
+	ExpireOn []*DateFilterInput                        `json:"expireOn,omitempty"`
+	FreeText *FreeTextFilterInput                      `json:"freeText,omitempty"`
+	Plan     []*BusinessPlatformAccountPlanFilterInput `json:"plan,omitempty"`
+}
+
+type BusinessPlatformLinkToTrialAccountInput struct {
+	CmaID scalars.Long `json:"cmaId"`
+	ID    string       `json:"id"`
+}
+
+type BusinessPlatformLinkToTrialAccountPayload struct {
+	Account *BusinessPlatformAccount `json:"account,omitempty"`
+}
+
+type BusinessPlatformMutations struct {
+	CreateTrialAccount *BusinessPlatformCreateTrialAccountPayload `json:"createTrialAccount,omitempty"`
+	LinkToTrialAccount *BusinessPlatformLinkToTrialAccountPayload `json:"linkToTrialAccount,omitempty"`
+}
+
+type BusinessPlatformQueries struct {
+	AccountList        *BusinessPlatformAccountListPayload `json:"accountList,omitempty"`
+	CountAccountByPlan *PlanCount                          `json:"countAccountByPlan,omitempty"`
+}
+
+type BusinessPlatformSortInput struct {
+	CreatedAt   *SortOrderInput `json:"createdAt,omitempty"`
+	CreatedBy   *SortOrderInput `json:"createdBy,omitempty"`
+	Name        *SortOrderInput `json:"name,omitempty"`
+	PartnerName *SortOrderInput `json:"partnerName,omitempty"`
+	Plan        *SortOrderInput `json:"plan,omitempty"`
+}
+
 // Input for canceling a partner access request.
 type CancelPartnerAccessInput struct {
 	InvitationID string  `json:"invitationId"`
@@ -3087,6 +3228,7 @@ type CatalogApplication struct {
 	ComplianceAttributes               *CatalogApplicationComplianceAttributes               `json:"complianceAttributes"`
 	Description                        *string                                               `json:"description,omitempty"`
 	DescriptionSummary                 *string                                               `json:"descriptionSummary,omitempty"`
+	Fqdn                               []string                                              `json:"fqdn"`
 	ID                                 string                                                `json:"id"`
 	IdentityAccessManagementAttributes *CatalogApplicationIdentityAccessManagementAttributes `json:"identityAccessManagementAttributes,omitempty"`
 	IpoStatus                          *string                                               `json:"ipoStatus,omitempty"`
@@ -4145,6 +4287,7 @@ type CreateSubscriptionGroupPayload struct {
 	SubscriptionGroup *SubscriptionGroup `json:"subscriptionGroup"`
 }
 
+// Input for creating a manual user in the CMA.
 type CreateUserInput struct {
 	Department  *string `json:"department,omitempty"`
 	Email       string  `json:"email"`
@@ -4154,6 +4297,7 @@ type CreateUserInput struct {
 	PhoneNumber *string `json:"phoneNumber,omitempty"`
 }
 
+// Response payload for the createUser mutation.
 type CreateUserPayload struct {
 	User *User `json:"user"`
 }
@@ -4412,6 +4556,18 @@ type DataQuery struct {
 	Measures   []*MeasuresParameters `json:"measures"`
 }
 
+type DateFilterInput struct {
+	Between []*time.Time `json:"between,omitempty"`
+	Eq      *time.Time   `json:"eq,omitempty"`
+	Gt      *time.Time   `json:"gt,omitempty"`
+	Gte     *time.Time   `json:"gte,omitempty"`
+	In      []*time.Time `json:"in,omitempty"`
+	Lt      *time.Time   `json:"lt,omitempty"`
+	Lte     *time.Time   `json:"lte,omitempty"`
+	Neq     *time.Time   `json:"neq,omitempty"`
+	Nin     []*time.Time `json:"nin,omitempty"`
+}
+
 type DateTimeFilterInput struct {
 	Between []string `json:"between,omitempty"`
 	Eq      *string  `json:"eq,omitempty"`
@@ -4542,10 +4698,12 @@ type DeleteSubscriptionGroupPayload struct {
 	SubscriptionGroup *SubscriptionGroup `json:"subscriptionGroup"`
 }
 
+// Input for deleting users.
 type DeleteUserInput struct {
 	UserID []scalars.Long `json:"userId"`
 }
 
+// Response payload for the deleteUser mutation.
 type DeleteUserPayload struct {
 	Status DeleteUserStatus `json:"status"`
 }
@@ -4947,6 +5105,16 @@ type DisableServiceForManagedAccountPayload struct {
 	IsSuccess bool `json:"isSuccess"`
 }
 
+// Input for disabling users.
+type DisableUserInput struct {
+	UserID []scalars.Long `json:"userId"`
+}
+
+// Response payload for the disableUser mutation.
+type DisableUserPayload struct {
+	Users []*User `json:"users"`
+}
+
 type DlpContentProfileRef struct {
 	ID   string `json:"id"`
 	Name string `json:"name"`
@@ -5241,6 +5409,16 @@ type EnableServiceForManagedAccountInput struct {
 
 type EnableServiceForManagedAccountPayload struct {
 	IsSuccess bool `json:"isSuccess"`
+}
+
+// Input for enabling users.
+type EnableUserInput struct {
+	UserID []scalars.Long `json:"userId"`
+}
+
+// Response payload for the enableUser mutation.
+type EnableUserPayload struct {
+	Users []*User `json:"users"`
 }
 
 // End Point Protection (EPP) license details
@@ -6073,6 +6251,7 @@ type Hardware struct {
 	LicenseID        *string             `json:"licenseId,omitempty"`
 	LicenseStartDate *time.Time          `json:"licenseStartDate,omitempty"`
 	LocationID       *string             `json:"locationId,omitempty"`
+	LocationName     *string             `json:"locationName,omitempty"`
 	MacAddress       *string             `json:"macAddress,omitempty"`
 	Model            *string             `json:"model,omitempty"`
 	OrderType        *OrderType          `json:"orderType,omitempty"`
@@ -6270,6 +6449,7 @@ type IlmmLinkDetails struct {
 	OnboardingStatus *IlmmOnboardingStatus `json:"onboardingStatus,omitempty"`
 }
 
+// Input for filtering users by import type.
 type ImportTypeFilterInput struct {
 	Eq  *ImportType  `json:"eq,omitempty"`
 	In  []ImportType `json:"in,omitempty"`
@@ -7263,6 +7443,7 @@ type LicensingInfo struct {
 	Adsp                     []*AdspLicense                     `json:"adsp"`
 	AiSecurityApplications   []*AISecurityApplicationsLicense   `json:"aiSecurityApplications"`
 	AiSecurityUsers          []*AISecurityUsersLicense          `json:"aiSecurityUsers"`
+	AssetsSecurity           []*AssetsSecurityLicense           `json:"assetsSecurity"`
 	Atp                      []*AtpLicense                      `json:"atp"`
 	Casb                     []*CasbLicense                     `json:"casb"`
 	DataLake                 []*DataLakeLicense                 `json:"dataLake"`
@@ -8379,6 +8560,7 @@ type NetworkInterfaceRefInput struct {
 	Input string      `json:"input"`
 }
 
+// A network range configured on a site.
 type NetworkRange struct {
 	AzureFloatingIP       *string                   `json:"azureFloatingIp,omitempty"`
 	DhcpSettings          *NetworkRangeDhcpSettings `json:"dhcpSettings,omitempty"`
@@ -8682,6 +8864,14 @@ type PlainHeaderEntry struct {
 	Value string `json:"value"`
 }
 
+type PlanCount struct {
+	Commercial      *int64 `json:"commercial,omitempty"`
+	Lost            *int64 `json:"lost,omitempty"`
+	PendingApproval *int64 `json:"pendingApproval,omitempty"`
+	Prospect        *int64 `json:"prospect,omitempty"`
+	Trial           *int64 `json:"trial,omitempty"`
+}
+
 // Represents available versions for a specific platform.
 type PlatformVersions struct {
 	Platform       string               `json:"platform"`
@@ -8757,6 +8947,18 @@ type PolicyDiscardRevisionInput struct {
 type PolicyElementAudit struct {
 	UpdatedBy   string `json:"updatedBy"`
 	UpdatedTime string `json:"updatedTime"`
+}
+
+// Lock info for a rule or section held by another revision
+type PolicyElementLock struct {
+	LockingAdminEmail string `json:"lockingAdminEmail"`
+	LockingRevisionID string `json:"lockingRevisionId"`
+	LockingTime       string `json:"lockingTime"`
+}
+
+// Additional metadata attached to a rule or section
+type PolicyElementMetadata struct {
+	Lock *PolicyElementLock `json:"lock,omitempty"`
 }
 
 // Reference to a policy element (section, rule, or sub-rule) identified by ID or name.
@@ -9366,7 +9568,6 @@ type PostalAddress struct {
 	CityName         *string                 `json:"cityName,omitempty"`
 	Country          *CountryRef             `json:"country"`
 	StateName        *string                 `json:"stateName,omitempty"`
-	Street           *string                 `json:"street,omitempty"`
 	ZipCode          *string                 `json:"zipCode,omitempty"`
 }
 
@@ -9376,7 +9577,6 @@ type PostalAddressInput struct {
 	CityName  *string          `json:"cityName,omitempty"`
 	Country   *CountryRefInput `json:"country"`
 	StateName *string          `json:"stateName,omitempty"`
-	Street    *string          `json:"street,omitempty"`
 	ZipCode   *string          `json:"zipCode,omitempty"`
 }
 
@@ -9656,26 +9856,28 @@ type PrivateAppProbingInput struct {
 // Private Application represents an internal resource published via Cato Private Access.
 // It defines the internal address, access settings, and optional publishing configuration.
 type PrivateApplication struct {
-	AllowICMPProtocol  bool                `json:"allowIcmpProtocol"`
-	CreationTime       string              `json:"creationTime"`
-	Description        *string             `json:"description,omitempty"`
-	ID                 string              `json:"id"`
-	InternalAppAddress string              `json:"internalAppAddress"`
-	Name               string              `json:"name"`
-	PrivateAppProbing  *PrivateAppProbing  `json:"privateAppProbing,omitempty"`
-	ProbingEnabled     bool                `json:"probingEnabled"`
-	ProtocolPorts      []*CustomService    `json:"protocolPorts"`
-	Published          bool                `json:"published"`
-	PublishedAppDomain *PublishedAppDomain `json:"publishedAppDomain,omitempty"`
+	AllowICMPProtocol  bool                         `json:"allowIcmpProtocol"`
+	ConnectivityStatus PrivateAppConnectivityStatus `json:"connectivityStatus"`
+	CreationTime       string                       `json:"creationTime"`
+	Description        *string                      `json:"description,omitempty"`
+	ID                 string                       `json:"id"`
+	InternalAppAddress string                       `json:"internalAppAddress"`
+	Name               string                       `json:"name"`
+	PrivateAppProbing  *PrivateAppProbing           `json:"privateAppProbing,omitempty"`
+	ProbingEnabled     bool                         `json:"probingEnabled"`
+	ProtocolPorts      []*CustomService             `json:"protocolPorts"`
+	Published          bool                         `json:"published"`
+	PublishedAppDomain *PublishedAppDomain          `json:"publishedAppDomain,omitempty"`
 }
 
 type PrivateApplicationListFilterInput struct {
-	FreeText        []*FreeTextFilterInput `json:"freeText,omitempty"`
-	GroupName       []*StringFilterInput   `json:"groupName,omitempty"`
-	Name            []*StringFilterInput   `json:"name,omitempty"`
-	Published       *BooleanFilterInput    `json:"published,omitempty"`
-	SearchGroupName *FreeTextFilterInput   `json:"searchGroupName,omitempty"`
-	SearchName      *FreeTextFilterInput   `json:"searchName,omitempty"`
+	ConnectivityStatus []*StringFilterInput   `json:"connectivityStatus,omitempty"`
+	FreeText           []*FreeTextFilterInput `json:"freeText,omitempty"`
+	GroupName          []*StringFilterInput   `json:"groupName,omitempty"`
+	Name               []*StringFilterInput   `json:"name,omitempty"`
+	Published          *BooleanFilterInput    `json:"published,omitempty"`
+	SearchGroupName    *FreeTextFilterInput   `json:"searchGroupName,omitempty"`
+	SearchName         *FreeTextFilterInput   `json:"searchName,omitempty"`
 }
 
 type PrivateApplicationListInput struct {
@@ -9706,10 +9908,11 @@ type PrivateApplicationRefInput struct {
 }
 
 type PrivateApplicationSortInput struct {
-	CreationTime *SortOrderInput `json:"creationTime,omitempty"`
-	ID           *SortOrderInput `json:"id,omitempty"`
-	Name         *SortOrderInput `json:"name,omitempty"`
-	Published    *SortOrderInput `json:"published,omitempty"`
+	ConnectivityStatus *SortOrderInput `json:"connectivityStatus,omitempty"`
+	CreationTime       *SortOrderInput `json:"creationTime,omitempty"`
+	ID                 *SortOrderInput `json:"id,omitempty"`
+	Name               *SortOrderInput `json:"name,omitempty"`
+	Published          *SortOrderInput `json:"published,omitempty"`
 }
 
 type PskSecurityInput struct {
@@ -10270,10 +10473,12 @@ type RevokePartnerAccessPayload struct {
 	Invitation *IncomingExternalAccessRequest `json:"invitation"`
 }
 
+// Input for revoking user sessions.
 type RevokeUserSessionInput struct {
 	UserID []scalars.Long `json:"userId"`
 }
 
+// Response payload for the revokeUserSession mutation.
 type RevokeUserSessionPayload struct {
 	Status RevokeUserSessionStatus `json:"status"`
 }
@@ -10293,6 +10498,7 @@ type RiskScoreConditionUpdateInput struct {
 	Operator *RiskScoreOperator `json:"operator,omitempty"`
 }
 
+// Input for filtering users by risk score.
 type RiskScoreFilterInput struct {
 	Eq  *RiskScore  `json:"eq,omitempty"`
 	In  []RiskScore `json:"in,omitempty"`
@@ -13191,6 +13397,17 @@ type TLSInspectPolicyQueries struct {
 	Revisions *PolicyRevisionsPayload `json:"revisions,omitempty"`
 }
 
+type TLSInspectPolicyRef struct {
+	ID   string `json:"id"`
+	Name string `json:"name"`
+}
+
+func (TLSInspectPolicyRef) IsObjectRef()         {}
+func (this TLSInspectPolicyRef) GetID() string   { return this.ID }
+func (this TLSInspectPolicyRef) GetName() string { return this.Name }
+
+func (TLSInspectPolicyRef) IsPolicyRef() {}
+
 type TLSInspectPolicyUpdateInput struct {
 	AdditionalAttributes *TLSInspectConfigInput `json:"additionalAttributes,omitempty"`
 	State                *PolicyToggleState     `json:"state,omitempty"`
@@ -13226,9 +13443,10 @@ func (this TLSInspectRule) GetName() string                { return this.Name }
 func (this TLSInspectRule) GetSection() *PolicySectionInfo { return this.Section }
 
 type TLSInspectRuleMutationPayload struct {
-	Errors []*PolicyMutationError `json:"errors"`
-	Rule   *TLSInspectRulePayload `json:"rule,omitempty"`
-	Status PolicyMutationStatus   `json:"status"`
+	Errors   []*PolicyMutationError `json:"errors"`
+	Revision *PolicyRevision        `json:"revision,omitempty"`
+	Rule     *TLSInspectRulePayload `json:"rule,omitempty"`
+	Status   PolicyMutationStatus   `json:"status"`
 }
 
 func (TLSInspectRuleMutationPayload) IsIPolicyRuleMutationPayload() {}
@@ -13247,6 +13465,7 @@ func (this TLSInspectRuleMutationPayload) GetStatus() PolicyMutationStatus { ret
 
 type TLSInspectRulePayload struct {
 	Audit      *PolicyElementAudit           `json:"audit"`
+	Metadata   *PolicyElementMetadata        `json:"metadata,omitempty"`
 	Properties []PolicyElementPropertiesEnum `json:"properties"`
 	Rule       *TLSInspectRule               `json:"rule"`
 }
@@ -13941,6 +14160,7 @@ type UpdateSubscriptionGroupPayload struct {
 	SubscriptionGroup *SubscriptionGroup `json:"subscriptionGroup"`
 }
 
+// Input for updating a manual user.
 type UpdateUserInput struct {
 	Department  *string `json:"department,omitempty"`
 	Email       *string `json:"email,omitempty"`
@@ -13951,6 +14171,7 @@ type UpdateUserInput struct {
 	PhoneNumber *string `json:"phoneNumber,omitempty"`
 }
 
+// Response payload for the updateUser mutation.
 type UpdateUserPayload struct {
 	User *User `json:"user"`
 }
@@ -14064,6 +14285,7 @@ type UploadFilePayload struct {
 	UploadURL *string `json:"uploadUrl,omitempty"`
 }
 
+// User identity, profile, authentication, and risk details.
 type User struct {
 	AuthInfo                   *AuthenticationInfo `json:"authInfo"`
 	CreationDate               string              `json:"creationDate"`
@@ -14087,6 +14309,7 @@ type User struct {
 	UserStatus                 UserStatus          `json:"userStatus"`
 }
 
+// Input for filtering users.
 type UserFilterInput struct {
 	Department              []*StringFilterInput     `json:"department,omitempty"`
 	DirectoryID             []*StringFilterInput     `json:"directoryId,omitempty"`
@@ -14095,6 +14318,7 @@ type UserFilterInput struct {
 	RemoteAccessEligibility []*BooleanFilterInput    `json:"remoteAccessEligibility,omitempty"`
 	RiskScore               []*RiskScoreFilterInput  `json:"riskScore,omitempty"`
 	SearchTerm              *FreeTextFilterInput     `json:"searchTerm,omitempty"`
+	UserID                  []*IDFilterInput         `json:"userId,omitempty"`
 	UserStatus              []*UserStatusFilterInput `json:"userStatus,omitempty"`
 }
 
@@ -14109,12 +14333,14 @@ type UserInfo struct {
 	Status       *scalars.OperationalStatus `json:"status,omitempty"`
 }
 
+// Input for filtering, sorting, and paging users.
 type UserListInput struct {
 	Filter *UserFilterInput `json:"filter,omitempty"`
 	Paging *PagingInput     `json:"paging,omitempty"`
 	Sort   *UserSortInput   `json:"sort,omitempty"`
 }
 
+// Response payload for the userList query.
 type UserListPayload struct {
 	Items    []*User   `json:"items"`
 	PageInfo *PageInfo `json:"pageInfo"`
@@ -14123,6 +14349,8 @@ type UserListPayload struct {
 type UserMutations struct {
 	CreateUser        *CreateUserPayload        `json:"createUser,omitempty"`
 	DeleteUser        *DeleteUserPayload        `json:"deleteUser,omitempty"`
+	DisableUser       *DisableUserPayload       `json:"disableUser,omitempty"`
+	EnableUser        *EnableUserPayload        `json:"enableUser,omitempty"`
 	RevokeUserSession *RevokeUserSessionPayload `json:"revokeUserSession,omitempty"`
 	UpdateUser        *UpdateUserPayload        `json:"updateUser,omitempty"`
 }
@@ -14201,6 +14429,7 @@ type UserSnapshot struct {
 	VersionNumber      *int64                     `json:"versionNumber,omitempty"`
 }
 
+// Input for sorting users.
 type UserSortInput struct {
 	CreationDate            *SortOrderInput `json:"creationDate,omitempty"`
 	Department              *SortOrderInput `json:"department,omitempty"`
@@ -14216,6 +14445,7 @@ type UserSortInput struct {
 	UserStatus              *SortOrderInput `json:"userStatus,omitempty"`
 }
 
+// Input for filtering users by operational status.
 type UserStatusFilterInput struct {
 	Eq  *UserStatus  `json:"eq,omitempty"`
 	In  []UserStatus `json:"in,omitempty"`
@@ -18806,6 +19036,67 @@ func (e BgpState) MarshalJSON() ([]byte, error) {
 	return buf.Bytes(), nil
 }
 
+type BusinessPlatformAccountPlan string
+
+const (
+	BusinessPlatformAccountPlanCommercial      BusinessPlatformAccountPlan = "COMMERCIAL"
+	BusinessPlatformAccountPlanLost            BusinessPlatformAccountPlan = "LOST"
+	BusinessPlatformAccountPlanPendingApproval BusinessPlatformAccountPlan = "PENDING_APPROVAL"
+	BusinessPlatformAccountPlanProspect        BusinessPlatformAccountPlan = "PROSPECT"
+	BusinessPlatformAccountPlanTrial           BusinessPlatformAccountPlan = "TRIAL"
+)
+
+var AllBusinessPlatformAccountPlan = []BusinessPlatformAccountPlan{
+	BusinessPlatformAccountPlanCommercial,
+	BusinessPlatformAccountPlanLost,
+	BusinessPlatformAccountPlanPendingApproval,
+	BusinessPlatformAccountPlanProspect,
+	BusinessPlatformAccountPlanTrial,
+}
+
+func (e BusinessPlatformAccountPlan) IsValid() bool {
+	switch e {
+	case BusinessPlatformAccountPlanCommercial, BusinessPlatformAccountPlanLost, BusinessPlatformAccountPlanPendingApproval, BusinessPlatformAccountPlanProspect, BusinessPlatformAccountPlanTrial:
+		return true
+	}
+	return false
+}
+
+func (e BusinessPlatformAccountPlan) String() string {
+	return string(e)
+}
+
+func (e *BusinessPlatformAccountPlan) UnmarshalGQL(v any) error {
+	str, ok := v.(string)
+	if !ok {
+		return fmt.Errorf("enums must be strings")
+	}
+
+	*e = BusinessPlatformAccountPlan(str)
+	if !e.IsValid() {
+		return fmt.Errorf("%s is not a valid BusinessPlatformAccountPlan", str)
+	}
+	return nil
+}
+
+func (e BusinessPlatformAccountPlan) MarshalGQL(w io.Writer) {
+	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+func (e *BusinessPlatformAccountPlan) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e BusinessPlatformAccountPlan) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
+}
+
 type BypassSocketPortType string
 
 const (
@@ -20629,6 +20920,7 @@ func (e DegradedStatusReason) MarshalJSON() ([]byte, error) {
 	return buf.Bytes(), nil
 }
 
+// Status for deleteUser call.
 type DeleteUserStatus string
 
 const (
@@ -21846,10 +22138,16 @@ const (
 	EventFieldNameApplicationRisk EventFieldName = "application_risk"
 	//  Application type (Custom, Private or System). CMA Name: Application Type
 	EventFieldNameApplicationType EventFieldName = "application_type"
+	//  Reasons from each ATP feed that contributed to the detection, resolved via chained enrichment: sigId to feedIds to per-device reason. CMA Name: ATP Feed Reasons
+	EventFieldNameAtpFeedReasons EventFieldName = "atp_feed_reasons"
 	//  Connectivity authentication method: unauthenticated, OATH2, LDAP or VPN. CMA Name: Authentication Method
 	EventFieldNameAuthMethod EventFieldName = "auth_method"
 	//  Examples: MFA or password. CMA Name: Authentication Type
 	EventFieldNameAuthenticationType EventFieldName = "authentication_type"
+	//  Baseline average for the monitored metric. CMA Name: Baseline Average
+	EventFieldNameBaselineAverage EventFieldName = "baseline_average"
+	//  Baseline standard deviation for the monitored metric. CMA Name: Baseline Std
+	EventFieldNameBaselineStd EventFieldName = "baseline_std"
 	//  BGP ASN for Cato peer. CMA Name: BGP Cato ASN
 	EventFieldNameBgpCatoAsn EventFieldName = "bgp_cato_asn"
 	//  BGP IP for Cato peer. CMA Name: BGP Cato IP
@@ -21977,6 +22275,8 @@ const (
 	// • on_inject: the event is triggered upon code injection.
 	// CMA Name: Detection Stage
 	EventFieldNameDetectionStage EventFieldName = "detection_stage"
+	//  Names of the detectors that fired and caused this detection event. CMA Name: Detectors
+	EventFieldNameDetectors EventFieldName = "detectors"
 	//  Device Categories. CMA Name: Device Category
 	EventFieldNameDeviceCategories EventFieldName = "device_categories"
 	//  Device Certificate Validated/Not Validated. CMA Name: Device Certificate
@@ -22113,6 +22413,8 @@ const (
 	EventFieldNameIndicator EventFieldName = "indicator"
 	//  The initial status of the object, before any policy was applied. CMA Name: Initial Object Status
 	EventFieldNameInitialObjectStatus EventFieldName = "initial_object_status"
+	//  Unique identifier for a single AI interaction between an application and an AI model. CMA Name: Interaction ID
+	EventFieldNameInteractionID EventFieldName = "interaction_id"
 	//  Inferred user intent of the AI interaction (e.g. Seek Advice, Generate Content, Get Information), as classified by the AI Security Engine. CMA Name: Interaction Intent
 	EventFieldNameInteractionIntent EventFieldName = "interaction_intent"
 	//  Sub-topic of the user's AI interaction within the parent interaction_topic, as classified by the AI Security Engine (e.g. for the 'Human Resources' topic: Recruitment, Employee Performance, etc.). CMA Name: Interaction Sub Topic
@@ -22121,6 +22423,8 @@ const (
 	EventFieldNameInteractionTopic EventFieldName = "interaction_topic"
 	//  Cato Internal-use only. CMA Name: Internal ID
 	EventFieldNameInternalID EventFieldName = "internalId"
+	//  Unique identifier for a single AI invocation between an application and an AI model. CMA Name: Invocation ID
+	EventFieldNameInvocationID EventFieldName = "invocation_id"
 	//  Network protocol for this event. CMA Name: IP Protocol
 	EventFieldNameIPProtocol EventFieldName = "ip_protocol"
 	//  Classifies users based on their permissions. CMA Name: Is Admin
@@ -22163,6 +22467,10 @@ const (
 	EventFieldNameMatchedDataTypes EventFieldName = "matched_data_types"
 	//  Unique identifier used to correlate request and response events for the same message. CMA Name: Message ID
 	EventFieldNameMessageID EventFieldName = "message_id"
+	//  Name of the monitored metric (e.g. avg_http_latency). CMA Name: Metric
+	EventFieldNameMetric EventFieldName = "metric"
+	//  Value of the monitored metric. CMA Name: Metric Value
+	EventFieldNameMetricValue EventFieldName = "metric_value"
 	//  Mitre attack subtechniques. CMA Name: Mitre Attack Subtechniques
 	EventFieldNameMitreAttackSubtechniques EventFieldName = "mitre_attack_subtechniques"
 	//  Mitre attack tactics. CMA Name: Mitre Attack Tactics
@@ -22277,6 +22585,16 @@ const (
 	EventFieldNameSignInEventTypes EventFieldName = "sign_in_event_types"
 	//  For IPS and SAM, ID of the IPS signature. CMA Name: Signature ID
 	EventFieldNameSignatureID EventFieldName = "signature_id"
+	//  Site web proxy instance ID. CMA Name: Site Web Proxy ID
+	EventFieldNameSiteWebProxyID EventFieldName = "site_web_proxy_id"
+	//  Site web proxy instance name. CMA Name: Site Web Proxy
+	EventFieldNameSiteWebProxyName EventFieldName = "site_web_proxy_name"
+	//  Site web proxy traffic rule action (Allow or Authenticate). CMA Name: Site Web Proxy Rule Action
+	EventFieldNameSiteWebProxyRuleAction EventFieldName = "site_web_proxy_rule_action"
+	//  Site web proxy traffic rule ID. CMA Name: Site Web Proxy Rule ID
+	EventFieldNameSiteWebProxyRuleID EventFieldName = "site_web_proxy_rule_id"
+	//  Site web proxy traffic rule name. CMA Name: Site Web Proxy Rule
+	EventFieldNameSiteWebProxyRuleName EventFieldName = "site_web_proxy_rule_name"
 	//  Socket description. CMA Name: Socket Description
 	EventFieldNameSocketDescription EventFieldName = "socket_description"
 	//  Name for Socket interface. CMA Name: Interface ID
@@ -22527,8 +22845,11 @@ var AllEventFieldName = []EventFieldName{
 	EventFieldNameApplicationName,
 	EventFieldNameApplicationRisk,
 	EventFieldNameApplicationType,
+	EventFieldNameAtpFeedReasons,
 	EventFieldNameAuthMethod,
 	EventFieldNameAuthenticationType,
+	EventFieldNameBaselineAverage,
+	EventFieldNameBaselineStd,
 	EventFieldNameBgpCatoAsn,
 	EventFieldNameBgpCatoIP,
 	EventFieldNameBgpErrorCode,
@@ -22589,6 +22910,7 @@ var AllEventFieldName = []EventFieldName{
 	EventFieldNameDestSiteName,
 	EventFieldNameDetectionName,
 	EventFieldNameDetectionStage,
+	EventFieldNameDetectors,
 	EventFieldNameDeviceCategories,
 	EventFieldNameDeviceCertificate,
 	EventFieldNameDeviceComplianceState,
@@ -22657,10 +22979,12 @@ var AllEventFieldName = []EventFieldName{
 	EventFieldNameIndication,
 	EventFieldNameIndicator,
 	EventFieldNameInitialObjectStatus,
+	EventFieldNameInteractionID,
 	EventFieldNameInteractionIntent,
 	EventFieldNameInteractionSubTopic,
 	EventFieldNameInteractionTopic,
 	EventFieldNameInternalID,
+	EventFieldNameInvocationID,
 	EventFieldNameIPProtocol,
 	EventFieldNameIsAdmin,
 	EventFieldNameIsAdminActivity,
@@ -22682,6 +23006,8 @@ var AllEventFieldName = []EventFieldName{
 	EventFieldNameLoginType,
 	EventFieldNameMatchedDataTypes,
 	EventFieldNameMessageID,
+	EventFieldNameMetric,
+	EventFieldNameMetricValue,
 	EventFieldNameMitreAttackSubtechniques,
 	EventFieldNameMitreAttackTactics,
 	EventFieldNameMitreAttackTechniques,
@@ -22739,6 +23065,11 @@ var AllEventFieldName = []EventFieldName{
 	EventFieldNameSharingScope,
 	EventFieldNameSignInEventTypes,
 	EventFieldNameSignatureID,
+	EventFieldNameSiteWebProxyID,
+	EventFieldNameSiteWebProxyName,
+	EventFieldNameSiteWebProxyRuleAction,
+	EventFieldNameSiteWebProxyRuleID,
+	EventFieldNameSiteWebProxyRuleName,
 	EventFieldNameSocketDescription,
 	EventFieldNameSocketInterface,
 	EventFieldNameSocketInterfaceID,
@@ -22849,7 +23180,7 @@ var AllEventFieldName = []EventFieldName{
 
 func (e EventFieldName) IsValid() bool {
 	switch e {
-	case EventFieldNameIspName, EventFieldNameAccessMethod, EventFieldNameAccessPointID, EventFieldNameAccessPointName, EventFieldNameAccountID, EventFieldNameAction, EventFieldNameActionsTaken, EventFieldNameActivityResourceID, EventFieldNameActorType, EventFieldNameAdName, EventFieldNameAiAppRiskLevel, EventFieldNameAiProxyRuleName, EventFieldNameAlertID, EventFieldNameAlertName, EventFieldNameAlwaysOnConfiguration, EventFieldNameAnalystVerdict, EventFieldNameAntiTamperBypassDurationSec, EventFieldNameAntiTamperBypassMethod, EventFieldNameAntiTamperBypassResult, EventFieldNameAPIName, EventFieldNameAPIType, EventFieldNameAppActivity, EventFieldNameAppActivityCategory, EventFieldNameAppActivityType, EventFieldNameAppStack, EventFieldNameApplicationID, EventFieldNameApplicationName, EventFieldNameApplicationRisk, EventFieldNameApplicationType, EventFieldNameAuthMethod, EventFieldNameAuthenticationType, EventFieldNameBgpCatoAsn, EventFieldNameBgpCatoIP, EventFieldNameBgpErrorCode, EventFieldNameBgpPeerAsn, EventFieldNameBgpPeerIP, EventFieldNameBgpRouteCidr, EventFieldNameBgpSuberrorCode, EventFieldNameBrowserType, EventFieldNameBrowserVersion, EventFieldNameBypassDurationSec, EventFieldNameBypassMethod, EventFieldNameBypassReason, EventFieldNameCategories, EventFieldNameCatoApp, EventFieldNameClassification, EventFieldNameClientCertExpires, EventFieldNameClientCertName, EventFieldNameClientClass, EventFieldNameClientConnectionMode, EventFieldNameClientIP, EventFieldNameClientKeyExchangeAlgorithm, EventFieldNameClientVersion, EventFieldNameCollaboratorName, EventFieldNameCollaboratorOrigin, EventFieldNameCollaboratorTenant, EventFieldNameCollaborators, EventFieldNameConfidenceLevel, EventFieldNameConfiguredHostName, EventFieldNameCongestionAlgorithm, EventFieldNameConnectOnBoot, EventFieldNameConnectionOrigin, EventFieldNameConnectorID, EventFieldNameConnectorName, EventFieldNameConnectorStatus, EventFieldNameConnectorType, EventFieldNameContainerName, EventFieldNameCorrelationID, EventFieldNameCPUCoreID, EventFieldNameCriticality, EventFieldNameCustomCategoryID, EventFieldNameCustomCategoryName, EventFieldNameDepartment, EventFieldNameDestCountry, EventFieldNameDestCountryCode, EventFieldNameDestDomain, EventFieldNameDestEndpointType, EventFieldNameDestGroupID, EventFieldNameDestGroupName, EventFieldNameDestIP, EventFieldNameDestIsSiteOrVpn, EventFieldNameDestPid, EventFieldNameDestPort, EventFieldNameDestProcessCmdline, EventFieldNameDestProcessParentPath, EventFieldNameDestProcessParentPid, EventFieldNameDestProcessPath, EventFieldNameDestSiteID, EventFieldNameDestSiteName, EventFieldNameDetectionName, EventFieldNameDetectionStage, EventFieldNameDeviceCategories, EventFieldNameDeviceCertificate, EventFieldNameDeviceComplianceState, EventFieldNameDeviceID, EventFieldNameDeviceManufacturer, EventFieldNameDeviceModel, EventFieldNameDeviceName, EventFieldNameDeviceOsType, EventFieldNameDevicePostureProfile, EventFieldNameDeviceType, EventFieldNameDirectoryHostName, EventFieldNameDirectoryIP, EventFieldNameDirectorySyncResult, EventFieldNameDirectorySyncType, EventFieldNameDisinfectResult, EventFieldNameDlpFailMode, EventFieldNameDlpProfiles, EventFieldNameDlpScanTypes, EventFieldNameDNSAnswer, EventFieldNameDNSProtectionCategory, EventFieldNameDNSQuery, EventFieldNameDNSRecordType, EventFieldNameDNSReplyCode, EventFieldNameDomainName, EventFieldNameDurationMs, EventFieldNameDynamicControlIds, EventFieldNameDynamicControlNames, EventFieldNameDynamicControlScope, EventFieldNameDynamicControlThreatCategories, EventFieldNameEgressPopName, EventFieldNameEgressSiteName, EventFieldNameEmailSubject, EventFieldNameEndpointID, EventFieldNameEngagementOutcomeAction, EventFieldNameEngineType, EventFieldNameEppEngineType, EventFieldNameEppProfile, EventFieldNameEventCount, EventFieldNameEventID, EventFieldNameEventMessage, EventFieldNameEventSubType, EventFieldNameEventType, EventFieldNameFailureReason, EventFieldNameFileHash, EventFieldNameFileName, EventFieldNameFileOperation, EventFieldNameFilePath, EventFieldNameFileSize, EventFieldNameFileTopic, EventFieldNameFileTopicCategory, EventFieldNameFileType, EventFieldNameFinalObjectStatus, EventFieldNameFlowID, EventFieldNameFlowsCardinality, EventFieldNameFullPathURL, EventFieldNameGuardID, EventFieldNameGuardName, EventFieldNameGuardType, EventFieldNameGuestUser, EventFieldNameHostIP, EventFieldNameHostMac, EventFieldNameHTTPRequestMethod, EventFieldNameHTTPResponseCode, EventFieldNameIncidentAggregation, EventFieldNameIncidentID, EventFieldNameIndication, EventFieldNameIndicator, EventFieldNameInitialObjectStatus, EventFieldNameInteractionIntent, EventFieldNameInteractionSubTopic, EventFieldNameInteractionTopic, EventFieldNameInternalID, EventFieldNameIPProtocol, EventFieldNameIsAdmin, EventFieldNameIsAdminActivity, EventFieldNameIsCloudApp, EventFieldNameIsCompliant, EventFieldNameIsManaged, EventFieldNameIsSanctionedApp, EventFieldNameIsSinkhole, EventFieldNameJobTitle, EventFieldNameKeyName, EventFieldNameLabels, EventFieldNameLastTurnRole, EventFieldNameLinkHealthIsCongested, EventFieldNameLinkHealthJitter, EventFieldNameLinkHealthLatency, EventFieldNameLinkHealthPktLoss, EventFieldNameLinkType, EventFieldNameLoggedInUser, EventFieldNameLoginType, EventFieldNameMatchedDataTypes, EventFieldNameMessageID, EventFieldNameMitreAttackSubtechniques, EventFieldNameMitreAttackTactics, EventFieldNameMitreAttackTechniques, EventFieldNameNatError, EventFieldNameNetworkAccess, EventFieldNameNetworkRule, EventFieldNameNotificationAPIError, EventFieldNameNotificationDescription, EventFieldNameObjectID, EventFieldNameObjectName, EventFieldNameObjectType, EventFieldNameOfficeMode, EventFieldNameOsType, EventFieldNameOsVersion, EventFieldNameOutOfBandAccess, EventFieldNameOutpostEnvironmentName, EventFieldNameOwner, EventFieldNamePacFile, EventFieldNameParentConnectorName, EventFieldNamePopName, EventFieldNamePrecedence, EventFieldNameProcessesCount, EventFieldNameProducer, EventFieldNameProjects, EventFieldNamePromptAction, EventFieldNameProviderName, EventFieldNamePublicIP, EventFieldNameQosPriority, EventFieldNameQosReportedTime, EventFieldNameQuarantineFolderPath, EventFieldNameQuarantineUUID, EventFieldNameRawData, EventFieldNameRbiProfile, EventFieldNameRecommendedActions, EventFieldNameReferenceURL, EventFieldNameRefererURL, EventFieldNameRegionName, EventFieldNameRegistrationCode, EventFieldNameRequestSize, EventFieldNameResourceID, EventFieldNameResourceName, EventFieldNameResourceType, EventFieldNameResponseSize, EventFieldNameRiskLevel, EventFieldNameRole, EventFieldNameRuleExpirationTime, EventFieldNameRuleID, EventFieldNameRuleName, EventFieldNameSecondarySocketSerial, EventFieldNameServerIP, EventFieldNameServerKeyExchangeAlgorithm, EventFieldNameServiceName, EventFieldNameSessionID, EventFieldNameSeverity, EventFieldNameSharingScope, EventFieldNameSignInEventTypes, EventFieldNameSignatureID, EventFieldNameSocketDescription, EventFieldNameSocketInterface, EventFieldNameSocketInterfaceID, EventFieldNameSocketMacAddress, EventFieldNameSocketNewVersion, EventFieldNameSocketOldVersion, EventFieldNameSocketReset, EventFieldNameSocketRole, EventFieldNameSocketSerial, EventFieldNameSocketVersion, EventFieldNameSplitTunnelConfiguration, EventFieldNameSrcCountry, EventFieldNameSrcCountryCode, EventFieldNameSrcEndpointType, EventFieldNameSrcIP, EventFieldNameSrcIsSiteOrVpn, EventFieldNameSrcIspIP, EventFieldNameSrcPid, EventFieldNameSrcPort, EventFieldNameSrcProcessCmdline, EventFieldNameSrcProcessParentPath, EventFieldNameSrcProcessParentPid, EventFieldNameSrcProcessPath, EventFieldNameSrcSiteConnectionType, EventFieldNameSrcSiteID, EventFieldNameSrcSiteName, EventFieldNameStaticHost, EventFieldNameStatus, EventFieldNameStoryID, EventFieldNameSubnetName, EventFieldNameSubscriptionName, EventFieldNameTargetsCardinality, EventFieldNameTCPAcceleration, EventFieldNameTenantID, EventFieldNameTenantName, EventFieldNameTenantRestrictionRuleName, EventFieldNameThreatConfidence, EventFieldNameThreatName, EventFieldNameThreatReference, EventFieldNameThreatScore, EventFieldNameThreatType, EventFieldNameThreatVerdict, EventFieldNameTime, EventFieldNameTimeStr, EventFieldNameTitle, EventFieldNameTLSCertificateError, EventFieldNameTLSErrorDescription, EventFieldNameTLSErrorType, EventFieldNameTLSInspection, EventFieldNameTLSRuleName, EventFieldNameTLSVersion, EventFieldNameTotalTokens, EventFieldNameTrafficDirection, EventFieldNameTransactionSize, EventFieldNameTranslatedClientIP, EventFieldNameTranslatedServerIP, EventFieldNameTrigger, EventFieldNameTrustType, EventFieldNameTrustedNetworks, EventFieldNameTunnelIPProtocol, EventFieldNameTunnelProtocol, EventFieldNameUpgradeEndTime, EventFieldNameUpgradeInitiatedBy, EventFieldNameUpgradeStartTime, EventFieldNameURL, EventFieldNameUserAgent, EventFieldNameUserAwarenessMethod, EventFieldNameUserID, EventFieldNameUserJustification, EventFieldNameUserName, EventFieldNameUserOrigin, EventFieldNameUserReferenceID, EventFieldNameUserRiskLevel, EventFieldNameVendor, EventFieldNameVendorCollaboratorID, EventFieldNameVendorDeviceID, EventFieldNameVendorDeviceName, EventFieldNameVendorEventID, EventFieldNameVendorLocation, EventFieldNameVendorOrgID, EventFieldNameVendorPolicyDescription, EventFieldNameVendorPolicyID, EventFieldNameVendorPolicyName, EventFieldNameVendorSiteID, EventFieldNameVendorStartTime, EventFieldNameVendorUserID, EventFieldNameVendorVersion, EventFieldNameVisibleDeviceID, EventFieldNameVpnLanAccess, EventFieldNameVpnUserEmail, EventFieldNameWifiAuthenticationType, EventFieldNameWifiBssid, EventFieldNameWifiChannel, EventFieldNameWifiDescription, EventFieldNameWifiEventReasonCode, EventFieldNameWifiEventType, EventFieldNameWifiEventTypeCode, EventFieldNameWifiEventVendorName, EventFieldNameWifiProtocol, EventFieldNameWifiRadioBand, EventFieldNameWifiSecurity, EventFieldNameWifiSignalStrength, EventFieldNameWifiSsid, EventFieldNameWifiTimeSinceAssocMs, EventFieldNameWindowsDomainName, EventFieldNameXff:
+	case EventFieldNameIspName, EventFieldNameAccessMethod, EventFieldNameAccessPointID, EventFieldNameAccessPointName, EventFieldNameAccountID, EventFieldNameAction, EventFieldNameActionsTaken, EventFieldNameActivityResourceID, EventFieldNameActorType, EventFieldNameAdName, EventFieldNameAiAppRiskLevel, EventFieldNameAiProxyRuleName, EventFieldNameAlertID, EventFieldNameAlertName, EventFieldNameAlwaysOnConfiguration, EventFieldNameAnalystVerdict, EventFieldNameAntiTamperBypassDurationSec, EventFieldNameAntiTamperBypassMethod, EventFieldNameAntiTamperBypassResult, EventFieldNameAPIName, EventFieldNameAPIType, EventFieldNameAppActivity, EventFieldNameAppActivityCategory, EventFieldNameAppActivityType, EventFieldNameAppStack, EventFieldNameApplicationID, EventFieldNameApplicationName, EventFieldNameApplicationRisk, EventFieldNameApplicationType, EventFieldNameAtpFeedReasons, EventFieldNameAuthMethod, EventFieldNameAuthenticationType, EventFieldNameBaselineAverage, EventFieldNameBaselineStd, EventFieldNameBgpCatoAsn, EventFieldNameBgpCatoIP, EventFieldNameBgpErrorCode, EventFieldNameBgpPeerAsn, EventFieldNameBgpPeerIP, EventFieldNameBgpRouteCidr, EventFieldNameBgpSuberrorCode, EventFieldNameBrowserType, EventFieldNameBrowserVersion, EventFieldNameBypassDurationSec, EventFieldNameBypassMethod, EventFieldNameBypassReason, EventFieldNameCategories, EventFieldNameCatoApp, EventFieldNameClassification, EventFieldNameClientCertExpires, EventFieldNameClientCertName, EventFieldNameClientClass, EventFieldNameClientConnectionMode, EventFieldNameClientIP, EventFieldNameClientKeyExchangeAlgorithm, EventFieldNameClientVersion, EventFieldNameCollaboratorName, EventFieldNameCollaboratorOrigin, EventFieldNameCollaboratorTenant, EventFieldNameCollaborators, EventFieldNameConfidenceLevel, EventFieldNameConfiguredHostName, EventFieldNameCongestionAlgorithm, EventFieldNameConnectOnBoot, EventFieldNameConnectionOrigin, EventFieldNameConnectorID, EventFieldNameConnectorName, EventFieldNameConnectorStatus, EventFieldNameConnectorType, EventFieldNameContainerName, EventFieldNameCorrelationID, EventFieldNameCPUCoreID, EventFieldNameCriticality, EventFieldNameCustomCategoryID, EventFieldNameCustomCategoryName, EventFieldNameDepartment, EventFieldNameDestCountry, EventFieldNameDestCountryCode, EventFieldNameDestDomain, EventFieldNameDestEndpointType, EventFieldNameDestGroupID, EventFieldNameDestGroupName, EventFieldNameDestIP, EventFieldNameDestIsSiteOrVpn, EventFieldNameDestPid, EventFieldNameDestPort, EventFieldNameDestProcessCmdline, EventFieldNameDestProcessParentPath, EventFieldNameDestProcessParentPid, EventFieldNameDestProcessPath, EventFieldNameDestSiteID, EventFieldNameDestSiteName, EventFieldNameDetectionName, EventFieldNameDetectionStage, EventFieldNameDetectors, EventFieldNameDeviceCategories, EventFieldNameDeviceCertificate, EventFieldNameDeviceComplianceState, EventFieldNameDeviceID, EventFieldNameDeviceManufacturer, EventFieldNameDeviceModel, EventFieldNameDeviceName, EventFieldNameDeviceOsType, EventFieldNameDevicePostureProfile, EventFieldNameDeviceType, EventFieldNameDirectoryHostName, EventFieldNameDirectoryIP, EventFieldNameDirectorySyncResult, EventFieldNameDirectorySyncType, EventFieldNameDisinfectResult, EventFieldNameDlpFailMode, EventFieldNameDlpProfiles, EventFieldNameDlpScanTypes, EventFieldNameDNSAnswer, EventFieldNameDNSProtectionCategory, EventFieldNameDNSQuery, EventFieldNameDNSRecordType, EventFieldNameDNSReplyCode, EventFieldNameDomainName, EventFieldNameDurationMs, EventFieldNameDynamicControlIds, EventFieldNameDynamicControlNames, EventFieldNameDynamicControlScope, EventFieldNameDynamicControlThreatCategories, EventFieldNameEgressPopName, EventFieldNameEgressSiteName, EventFieldNameEmailSubject, EventFieldNameEndpointID, EventFieldNameEngagementOutcomeAction, EventFieldNameEngineType, EventFieldNameEppEngineType, EventFieldNameEppProfile, EventFieldNameEventCount, EventFieldNameEventID, EventFieldNameEventMessage, EventFieldNameEventSubType, EventFieldNameEventType, EventFieldNameFailureReason, EventFieldNameFileHash, EventFieldNameFileName, EventFieldNameFileOperation, EventFieldNameFilePath, EventFieldNameFileSize, EventFieldNameFileTopic, EventFieldNameFileTopicCategory, EventFieldNameFileType, EventFieldNameFinalObjectStatus, EventFieldNameFlowID, EventFieldNameFlowsCardinality, EventFieldNameFullPathURL, EventFieldNameGuardID, EventFieldNameGuardName, EventFieldNameGuardType, EventFieldNameGuestUser, EventFieldNameHostIP, EventFieldNameHostMac, EventFieldNameHTTPRequestMethod, EventFieldNameHTTPResponseCode, EventFieldNameIncidentAggregation, EventFieldNameIncidentID, EventFieldNameIndication, EventFieldNameIndicator, EventFieldNameInitialObjectStatus, EventFieldNameInteractionID, EventFieldNameInteractionIntent, EventFieldNameInteractionSubTopic, EventFieldNameInteractionTopic, EventFieldNameInternalID, EventFieldNameInvocationID, EventFieldNameIPProtocol, EventFieldNameIsAdmin, EventFieldNameIsAdminActivity, EventFieldNameIsCloudApp, EventFieldNameIsCompliant, EventFieldNameIsManaged, EventFieldNameIsSanctionedApp, EventFieldNameIsSinkhole, EventFieldNameJobTitle, EventFieldNameKeyName, EventFieldNameLabels, EventFieldNameLastTurnRole, EventFieldNameLinkHealthIsCongested, EventFieldNameLinkHealthJitter, EventFieldNameLinkHealthLatency, EventFieldNameLinkHealthPktLoss, EventFieldNameLinkType, EventFieldNameLoggedInUser, EventFieldNameLoginType, EventFieldNameMatchedDataTypes, EventFieldNameMessageID, EventFieldNameMetric, EventFieldNameMetricValue, EventFieldNameMitreAttackSubtechniques, EventFieldNameMitreAttackTactics, EventFieldNameMitreAttackTechniques, EventFieldNameNatError, EventFieldNameNetworkAccess, EventFieldNameNetworkRule, EventFieldNameNotificationAPIError, EventFieldNameNotificationDescription, EventFieldNameObjectID, EventFieldNameObjectName, EventFieldNameObjectType, EventFieldNameOfficeMode, EventFieldNameOsType, EventFieldNameOsVersion, EventFieldNameOutOfBandAccess, EventFieldNameOutpostEnvironmentName, EventFieldNameOwner, EventFieldNamePacFile, EventFieldNameParentConnectorName, EventFieldNamePopName, EventFieldNamePrecedence, EventFieldNameProcessesCount, EventFieldNameProducer, EventFieldNameProjects, EventFieldNamePromptAction, EventFieldNameProviderName, EventFieldNamePublicIP, EventFieldNameQosPriority, EventFieldNameQosReportedTime, EventFieldNameQuarantineFolderPath, EventFieldNameQuarantineUUID, EventFieldNameRawData, EventFieldNameRbiProfile, EventFieldNameRecommendedActions, EventFieldNameReferenceURL, EventFieldNameRefererURL, EventFieldNameRegionName, EventFieldNameRegistrationCode, EventFieldNameRequestSize, EventFieldNameResourceID, EventFieldNameResourceName, EventFieldNameResourceType, EventFieldNameResponseSize, EventFieldNameRiskLevel, EventFieldNameRole, EventFieldNameRuleExpirationTime, EventFieldNameRuleID, EventFieldNameRuleName, EventFieldNameSecondarySocketSerial, EventFieldNameServerIP, EventFieldNameServerKeyExchangeAlgorithm, EventFieldNameServiceName, EventFieldNameSessionID, EventFieldNameSeverity, EventFieldNameSharingScope, EventFieldNameSignInEventTypes, EventFieldNameSignatureID, EventFieldNameSiteWebProxyID, EventFieldNameSiteWebProxyName, EventFieldNameSiteWebProxyRuleAction, EventFieldNameSiteWebProxyRuleID, EventFieldNameSiteWebProxyRuleName, EventFieldNameSocketDescription, EventFieldNameSocketInterface, EventFieldNameSocketInterfaceID, EventFieldNameSocketMacAddress, EventFieldNameSocketNewVersion, EventFieldNameSocketOldVersion, EventFieldNameSocketReset, EventFieldNameSocketRole, EventFieldNameSocketSerial, EventFieldNameSocketVersion, EventFieldNameSplitTunnelConfiguration, EventFieldNameSrcCountry, EventFieldNameSrcCountryCode, EventFieldNameSrcEndpointType, EventFieldNameSrcIP, EventFieldNameSrcIsSiteOrVpn, EventFieldNameSrcIspIP, EventFieldNameSrcPid, EventFieldNameSrcPort, EventFieldNameSrcProcessCmdline, EventFieldNameSrcProcessParentPath, EventFieldNameSrcProcessParentPid, EventFieldNameSrcProcessPath, EventFieldNameSrcSiteConnectionType, EventFieldNameSrcSiteID, EventFieldNameSrcSiteName, EventFieldNameStaticHost, EventFieldNameStatus, EventFieldNameStoryID, EventFieldNameSubnetName, EventFieldNameSubscriptionName, EventFieldNameTargetsCardinality, EventFieldNameTCPAcceleration, EventFieldNameTenantID, EventFieldNameTenantName, EventFieldNameTenantRestrictionRuleName, EventFieldNameThreatConfidence, EventFieldNameThreatName, EventFieldNameThreatReference, EventFieldNameThreatScore, EventFieldNameThreatType, EventFieldNameThreatVerdict, EventFieldNameTime, EventFieldNameTimeStr, EventFieldNameTitle, EventFieldNameTLSCertificateError, EventFieldNameTLSErrorDescription, EventFieldNameTLSErrorType, EventFieldNameTLSInspection, EventFieldNameTLSRuleName, EventFieldNameTLSVersion, EventFieldNameTotalTokens, EventFieldNameTrafficDirection, EventFieldNameTransactionSize, EventFieldNameTranslatedClientIP, EventFieldNameTranslatedServerIP, EventFieldNameTrigger, EventFieldNameTrustType, EventFieldNameTrustedNetworks, EventFieldNameTunnelIPProtocol, EventFieldNameTunnelProtocol, EventFieldNameUpgradeEndTime, EventFieldNameUpgradeInitiatedBy, EventFieldNameUpgradeStartTime, EventFieldNameURL, EventFieldNameUserAgent, EventFieldNameUserAwarenessMethod, EventFieldNameUserID, EventFieldNameUserJustification, EventFieldNameUserName, EventFieldNameUserOrigin, EventFieldNameUserReferenceID, EventFieldNameUserRiskLevel, EventFieldNameVendor, EventFieldNameVendorCollaboratorID, EventFieldNameVendorDeviceID, EventFieldNameVendorDeviceName, EventFieldNameVendorEventID, EventFieldNameVendorLocation, EventFieldNameVendorOrgID, EventFieldNameVendorPolicyDescription, EventFieldNameVendorPolicyID, EventFieldNameVendorPolicyName, EventFieldNameVendorSiteID, EventFieldNameVendorStartTime, EventFieldNameVendorUserID, EventFieldNameVendorVersion, EventFieldNameVisibleDeviceID, EventFieldNameVpnLanAccess, EventFieldNameVpnUserEmail, EventFieldNameWifiAuthenticationType, EventFieldNameWifiBssid, EventFieldNameWifiChannel, EventFieldNameWifiDescription, EventFieldNameWifiEventReasonCode, EventFieldNameWifiEventType, EventFieldNameWifiEventTypeCode, EventFieldNameWifiEventVendorName, EventFieldNameWifiProtocol, EventFieldNameWifiRadioBand, EventFieldNameWifiSecurity, EventFieldNameWifiSignalStrength, EventFieldNameWifiSsid, EventFieldNameWifiTimeSinceAssocMs, EventFieldNameWindowsDomainName, EventFieldNameXff:
 		return true
 	}
 	return false
@@ -23701,15 +24032,22 @@ func (e IlmmOnboardingStatus) MarshalJSON() ([]byte, error) {
 	return buf.Bytes(), nil
 }
 
+// Shows if user was created or imported from an IdP.
 type ImportType string
 
 const (
-	ImportTypeLdap   ImportType = "LDAP"
+	//  User was imported from an integration.
+	ImportTypeIntegration ImportType = "INTEGRATION"
+	//  User was imported from LDAP.
+	ImportTypeLdap ImportType = "LDAP"
+	//  User was created manually.
 	ImportTypeManual ImportType = "MANUAL"
-	ImportTypeScim   ImportType = "SCIM"
+	//  User was imported from SCIM.
+	ImportTypeScim ImportType = "SCIM"
 )
 
 var AllImportType = []ImportType{
+	ImportTypeIntegration,
 	ImportTypeLdap,
 	ImportTypeManual,
 	ImportTypeScim,
@@ -23717,7 +24055,7 @@ var AllImportType = []ImportType{
 
 func (e ImportType) IsValid() bool {
 	switch e {
-	case ImportTypeLdap, ImportTypeManual, ImportTypeScim:
+	case ImportTypeIntegration, ImportTypeLdap, ImportTypeManual, ImportTypeScim:
 		return true
 	}
 	return false
@@ -24267,6 +24605,8 @@ const (
 	LicenseSkuCatoAdsp LicenseSku = "CATO_ADSP"
 	//  Cato App & Data Security Package BW SKU
 	LicenseSkuCatoAdspB LicenseSku = "CATO_ADSP_B"
+	//  Cato Advanced Security Package quantity-based SKU
+	LicenseSkuCatoAdspQ LicenseSku = "CATO_ADSP_Q"
 	//  Cato App & Data Security Package Users SKU
 	LicenseSkuCatoAdspU LicenseSku = "CATO_ADSP_U"
 	//  Cato AI Security Applications SKU
@@ -24281,7 +24621,7 @@ const (
 	LicenseSkuCatoAppConB LicenseSku = "CATO_APP_CON_B"
 	//  Cato App Connector User SKU
 	LicenseSkuCatoAppConU LicenseSku = "CATO_APP_CON_U"
-	//  Cato Assets Group SKU
+	//  Cato Assets Security Group SKU
 	LicenseSkuCatoAstsSec LicenseSku = "CATO_ASTS_SEC"
 	//  Cato Assets Security 2.5K - 10K Devices SKU
 	LicenseSkuCatoAstsSec10k LicenseSku = "CATO_ASTS_SEC_10K"
@@ -24299,6 +24639,8 @@ const (
 	LicenseSkuCatoAstsSecAbv50k LicenseSku = "CATO_ASTS_SEC_ABV_50K"
 	//  Cato Advanced Protection BW SKU
 	LicenseSkuCatoAtpB LicenseSku = "CATO_ATP_B"
+	//  Cato Advanced Threat Prevention quantity-based SKU
+	LicenseSkuCatoAtpQ LicenseSku = "CATO_ATP_Q"
 	//  Cato Advanced Protection Users SKU
 	LicenseSkuCatoAtpU LicenseSku = "CATO_ATP_U"
 	//  Cato ATP for MSP users SKU
@@ -24309,6 +24651,8 @@ const (
 	LicenseSkuCatoCasbB LicenseSku = "CATO_CASB_B"
 	//  Cato CASB for MSP bandwidth SKU
 	LicenseSkuCatoCasbPbSa LicenseSku = "CATO_CASB_PB_SA"
+	//  Cato Cloud Access Security Broker quantity-based SKU
+	LicenseSkuCatoCasbQ LicenseSku = "CATO_CASB_Q"
 	//  Cato Cloud Access Security Broker Users SKU
 	LicenseSkuCatoCasbU LicenseSku = "CATO_CASB_U"
 	//  Cato CASB for MSP users SKU
@@ -24331,6 +24675,8 @@ const (
 	LicenseSkuCatoDlpB LicenseSku = "CATO_DLP_B"
 	//  Cato DLP for MSP bandwidth SKU
 	LicenseSkuCatoDlpPbSa LicenseSku = "CATO_DLP_PB_SA"
+	//  Cato Data Loss Prevention quantity-based SKU
+	LicenseSkuCatoDlpQ LicenseSku = "CATO_DLP_Q"
 	//  Cato Data Loss Prevention Users SKU
 	LicenseSkuCatoDlpU LicenseSku = "CATO_DLP_U"
 	//  Cato DLP for MSP users SKU
@@ -24339,6 +24685,8 @@ const (
 	LicenseSkuCatoEpp LicenseSku = "CATO_EPP"
 	//  Cato Endpoint Protection SKU
 	LicenseSkuCatoEppU LicenseSku = "CATO_EPP_U"
+	//  Cato Hands Free Management SKU
+	LicenseSkuCatoHfm LicenseSku = "CATO_HFM"
 	//  Cato Hands Free Management SKU
 	LicenseSkuCatoHfmS LicenseSku = "CATO_HFM_S"
 	//  Cato ILMM service SKU
@@ -24357,6 +24705,8 @@ const (
 	LicenseSkuCatoMdr LicenseSku = "CATO_MDR"
 	//  Cato MDR for MSP bandwidth SKU
 	LicenseSkuCatoMdrPbSa LicenseSku = "CATO_MDR_PB_SA"
+	//  Cato Managed Detection and Response quantity-based SKU
+	LicenseSkuCatoMdrQ LicenseSku = "CATO_MDR_Q"
 	//  Cato Managed Detection and Response SKU
 	LicenseSkuCatoMdrU LicenseSku = "CATO_MDR_U"
 	//  Cato MDR for MSP users SKU
@@ -24367,6 +24717,8 @@ const (
 	LicenseSkuCatoNocaasHfS LicenseSku = "CATO_NOCAAS_HF_S"
 	//  Site pooled bandwidth SASE SKU
 	LicenseSkuCatoPb LicenseSku = "CATO_PB"
+	//  Cato pooled bandwidth quantity-based SKU
+	LicenseSkuCatoPbQ LicenseSku = "CATO_PB_Q"
 	//  Site pooled bandwidth SSE SKU
 	LicenseSkuCatoPbSse LicenseSku = "CATO_PB_SSE"
 	//  Cato Remote Browser Isolation (RBI) service SKU
@@ -24422,6 +24774,8 @@ const (
 	LicenseSkuCatoThreatPreventionPbSa LicenseSku = "CATO_THREAT_PREVENTION_PB_SA"
 	//  Cato TP for MSP users SKU
 	LicenseSkuCatoThreatPreventionUserSa LicenseSku = "CATO_THREAT_PREVENTION_USER_SA"
+	//  Cato Threat Prevention quantity-based SKU
+	LicenseSkuCatoTpQ LicenseSku = "CATO_TP_Q"
 	//  Cato WAN Bandwidth SKU
 	LicenseSkuCatoWan LicenseSku = "CATO_WAN"
 	//  Cato WAN Threat Prevention BW SKU
@@ -24432,10 +24786,14 @@ const (
 	LicenseSkuCatoXops LicenseSku = "CATO_XOPS"
 	//  Cato XOps for MSP bandwidth SKU
 	LicenseSkuCatoXopsPbSa LicenseSku = "CATO_XOPS_PB_SA"
+	//  Cato XOps quantity-based SKU
+	LicenseSkuCatoXopsQ LicenseSku = "CATO_XOPS_Q"
 	//  Cato XOPs SKU
 	LicenseSkuCatoXopsU LicenseSku = "CATO_XOPS_U"
 	//  Cato XOps for MSP users SKU
 	LicenseSkuCatoXopsUserSa LicenseSku = "CATO_XOPS_USER_SA"
+	//  Cato ZTNA users quantity-based SKU
+	LicenseSkuCatoZtnaQ LicenseSku = "CATO_ZTNA_Q"
 	//  ZTNA remote users SKU
 	LicenseSkuCatoZtnaUsers LicenseSku = "CATO_ZTNA_USERS"
 	//  ZTNA remote users SKU
@@ -24445,6 +24803,7 @@ const (
 var AllLicenseSku = []LicenseSku{
 	LicenseSkuCatoAdsp,
 	LicenseSkuCatoAdspB,
+	LicenseSkuCatoAdspQ,
 	LicenseSkuCatoAdspU,
 	LicenseSkuCatoAiSecAppU,
 	LicenseSkuCatoAiSecU,
@@ -24461,11 +24820,13 @@ var AllLicenseSku = []LicenseSku{
 	LicenseSkuCatoAstsSec50k,
 	LicenseSkuCatoAstsSecAbv50k,
 	LicenseSkuCatoAtpB,
+	LicenseSkuCatoAtpQ,
 	LicenseSkuCatoAtpU,
 	LicenseSkuCatoAtpUserSa,
 	LicenseSkuCatoCasb,
 	LicenseSkuCatoCasbB,
 	LicenseSkuCatoCasbPbSa,
+	LicenseSkuCatoCasbQ,
 	LicenseSkuCatoCasbU,
 	LicenseSkuCatoCasbUserSa,
 	LicenseSkuCatoDatalake,
@@ -24477,10 +24838,12 @@ var AllLicenseSku = []LicenseSku{
 	LicenseSkuCatoDlp,
 	LicenseSkuCatoDlpB,
 	LicenseSkuCatoDlpPbSa,
+	LicenseSkuCatoDlpQ,
 	LicenseSkuCatoDlpU,
 	LicenseSkuCatoDlpUserSa,
 	LicenseSkuCatoEpp,
 	LicenseSkuCatoEppU,
+	LicenseSkuCatoHfm,
 	LicenseSkuCatoHfmS,
 	LicenseSkuCatoIlmm,
 	LicenseSkuCatoIlmmS,
@@ -24490,11 +24853,13 @@ var AllLicenseSku = []LicenseSku{
 	LicenseSkuCatoManagedXdr,
 	LicenseSkuCatoMdr,
 	LicenseSkuCatoMdrPbSa,
+	LicenseSkuCatoMdrQ,
 	LicenseSkuCatoMdrU,
 	LicenseSkuCatoMdrUserSa,
 	LicenseSkuCatoNocaasHf,
 	LicenseSkuCatoNocaasHfS,
 	LicenseSkuCatoPb,
+	LicenseSkuCatoPbQ,
 	LicenseSkuCatoPbSse,
 	LicenseSkuCatoRbi,
 	LicenseSkuCatoRbiB,
@@ -24523,20 +24888,23 @@ var AllLicenseSku = []LicenseSku{
 	LicenseSkuCatoThreatPreventionAdvPbSa,
 	LicenseSkuCatoThreatPreventionPbSa,
 	LicenseSkuCatoThreatPreventionUserSa,
+	LicenseSkuCatoTpQ,
 	LicenseSkuCatoWan,
 	LicenseSkuCatoWanTpB,
 	LicenseSkuCatoXdrPro,
 	LicenseSkuCatoXops,
 	LicenseSkuCatoXopsPbSa,
+	LicenseSkuCatoXopsQ,
 	LicenseSkuCatoXopsU,
 	LicenseSkuCatoXopsUserSa,
+	LicenseSkuCatoZtnaQ,
 	LicenseSkuCatoZtnaUsers,
 	LicenseSkuMobileUsers,
 }
 
 func (e LicenseSku) IsValid() bool {
 	switch e {
-	case LicenseSkuCatoAdsp, LicenseSkuCatoAdspB, LicenseSkuCatoAdspU, LicenseSkuCatoAiSecAppU, LicenseSkuCatoAiSecU, LicenseSkuCatoAntiMalware, LicenseSkuCatoAntiMalwareNg, LicenseSkuCatoAppConB, LicenseSkuCatoAppConU, LicenseSkuCatoAstsSec, LicenseSkuCatoAstsSec10k, LicenseSkuCatoAstsSec15k, LicenseSkuCatoAstsSec1_5k, LicenseSkuCatoAstsSec25k, LicenseSkuCatoAstsSec2_5k, LicenseSkuCatoAstsSec50k, LicenseSkuCatoAstsSecAbv50k, LicenseSkuCatoAtpB, LicenseSkuCatoAtpU, LicenseSkuCatoAtpUserSa, LicenseSkuCatoCasb, LicenseSkuCatoCasbB, LicenseSkuCatoCasbPbSa, LicenseSkuCatoCasbU, LicenseSkuCatoCasbUserSa, LicenseSkuCatoDatalake, LicenseSkuCatoDatalake12m, LicenseSkuCatoDatalake3m, LicenseSkuCatoDatalake6m, LicenseSkuCatoDem, LicenseSkuCatoDemU, LicenseSkuCatoDlp, LicenseSkuCatoDlpB, LicenseSkuCatoDlpPbSa, LicenseSkuCatoDlpU, LicenseSkuCatoDlpUserSa, LicenseSkuCatoEpp, LicenseSkuCatoEppU, LicenseSkuCatoHfmS, LicenseSkuCatoIlmm, LicenseSkuCatoIlmmS, LicenseSkuCatoIotOt, LicenseSkuCatoIPS, LicenseSkuCatoIPAdd, LicenseSkuCatoManagedXdr, LicenseSkuCatoMdr, LicenseSkuCatoMdrPbSa, LicenseSkuCatoMdrU, LicenseSkuCatoMdrUserSa, LicenseSkuCatoNocaasHf, LicenseSkuCatoNocaasHfS, LicenseSkuCatoPb, LicenseSkuCatoPbSse, LicenseSkuCatoRbi, LicenseSkuCatoRbiB, LicenseSkuCatoRbiU, LicenseSkuCatoRemoteU, LicenseSkuCatoSaas, LicenseSkuCatoSaasSecurityAPI, LicenseSkuCatoSaasSecurityAPIAllApps, LicenseSkuCatoSaasSecurityAPIOneApp, LicenseSkuCatoSaasSecurityAPITwoApps, LicenseSkuCatoSiaB, LicenseSkuCatoSiaU, LicenseSkuCatoSite, LicenseSkuCatoSndbxB, LicenseSkuCatoSndbxU, LicenseSkuCatoSocketX1500R, LicenseSkuCatoSocketX1600_5gR, LicenseSkuCatoSocketX1600LteR, LicenseSkuCatoSocketX1600R, LicenseSkuCatoSocketX1600Wifi5gR, LicenseSkuCatoSocketX1600WifiR, LicenseSkuCatoSocketX1700R, LicenseSkuCatoSseSite, LicenseSkuCatoThreatPrevention, LicenseSkuCatoThreatPreventionAdv, LicenseSkuCatoThreatPreventionAdvPbSa, LicenseSkuCatoThreatPreventionPbSa, LicenseSkuCatoThreatPreventionUserSa, LicenseSkuCatoWan, LicenseSkuCatoWanTpB, LicenseSkuCatoXdrPro, LicenseSkuCatoXops, LicenseSkuCatoXopsPbSa, LicenseSkuCatoXopsU, LicenseSkuCatoXopsUserSa, LicenseSkuCatoZtnaUsers, LicenseSkuMobileUsers:
+	case LicenseSkuCatoAdsp, LicenseSkuCatoAdspB, LicenseSkuCatoAdspQ, LicenseSkuCatoAdspU, LicenseSkuCatoAiSecAppU, LicenseSkuCatoAiSecU, LicenseSkuCatoAntiMalware, LicenseSkuCatoAntiMalwareNg, LicenseSkuCatoAppConB, LicenseSkuCatoAppConU, LicenseSkuCatoAstsSec, LicenseSkuCatoAstsSec10k, LicenseSkuCatoAstsSec15k, LicenseSkuCatoAstsSec1_5k, LicenseSkuCatoAstsSec25k, LicenseSkuCatoAstsSec2_5k, LicenseSkuCatoAstsSec50k, LicenseSkuCatoAstsSecAbv50k, LicenseSkuCatoAtpB, LicenseSkuCatoAtpQ, LicenseSkuCatoAtpU, LicenseSkuCatoAtpUserSa, LicenseSkuCatoCasb, LicenseSkuCatoCasbB, LicenseSkuCatoCasbPbSa, LicenseSkuCatoCasbQ, LicenseSkuCatoCasbU, LicenseSkuCatoCasbUserSa, LicenseSkuCatoDatalake, LicenseSkuCatoDatalake12m, LicenseSkuCatoDatalake3m, LicenseSkuCatoDatalake6m, LicenseSkuCatoDem, LicenseSkuCatoDemU, LicenseSkuCatoDlp, LicenseSkuCatoDlpB, LicenseSkuCatoDlpPbSa, LicenseSkuCatoDlpQ, LicenseSkuCatoDlpU, LicenseSkuCatoDlpUserSa, LicenseSkuCatoEpp, LicenseSkuCatoEppU, LicenseSkuCatoHfm, LicenseSkuCatoHfmS, LicenseSkuCatoIlmm, LicenseSkuCatoIlmmS, LicenseSkuCatoIotOt, LicenseSkuCatoIPS, LicenseSkuCatoIPAdd, LicenseSkuCatoManagedXdr, LicenseSkuCatoMdr, LicenseSkuCatoMdrPbSa, LicenseSkuCatoMdrQ, LicenseSkuCatoMdrU, LicenseSkuCatoMdrUserSa, LicenseSkuCatoNocaasHf, LicenseSkuCatoNocaasHfS, LicenseSkuCatoPb, LicenseSkuCatoPbQ, LicenseSkuCatoPbSse, LicenseSkuCatoRbi, LicenseSkuCatoRbiB, LicenseSkuCatoRbiU, LicenseSkuCatoRemoteU, LicenseSkuCatoSaas, LicenseSkuCatoSaasSecurityAPI, LicenseSkuCatoSaasSecurityAPIAllApps, LicenseSkuCatoSaasSecurityAPIOneApp, LicenseSkuCatoSaasSecurityAPITwoApps, LicenseSkuCatoSiaB, LicenseSkuCatoSiaU, LicenseSkuCatoSite, LicenseSkuCatoSndbxB, LicenseSkuCatoSndbxU, LicenseSkuCatoSocketX1500R, LicenseSkuCatoSocketX1600_5gR, LicenseSkuCatoSocketX1600LteR, LicenseSkuCatoSocketX1600R, LicenseSkuCatoSocketX1600Wifi5gR, LicenseSkuCatoSocketX1600WifiR, LicenseSkuCatoSocketX1700R, LicenseSkuCatoSseSite, LicenseSkuCatoThreatPrevention, LicenseSkuCatoThreatPreventionAdv, LicenseSkuCatoThreatPreventionAdvPbSa, LicenseSkuCatoThreatPreventionPbSa, LicenseSkuCatoThreatPreventionUserSa, LicenseSkuCatoTpQ, LicenseSkuCatoWan, LicenseSkuCatoWanTpB, LicenseSkuCatoXdrPro, LicenseSkuCatoXops, LicenseSkuCatoXopsPbSa, LicenseSkuCatoXopsQ, LicenseSkuCatoXopsU, LicenseSkuCatoXopsUserSa, LicenseSkuCatoZtnaQ, LicenseSkuCatoZtnaUsers, LicenseSkuMobileUsers:
 		return true
 	}
 	return false
@@ -26748,6 +27116,67 @@ func (e PrivateAccessPolicyOriginEnum) MarshalJSON() ([]byte, error) {
 	return buf.Bytes(), nil
 }
 
+// Connectivity status of a private application
+type PrivateAppConnectivityStatus string
+
+const (
+	//  Application is reachable
+	PrivateAppConnectivityStatusConnected PrivateAppConnectivityStatus = "CONNECTED"
+	//  Application is unreachable
+	PrivateAppConnectivityStatusDisconnected PrivateAppConnectivityStatus = "DISCONNECTED"
+	//  No connectivity data available (probing disabled or no updates received)
+	PrivateAppConnectivityStatusNotReporting PrivateAppConnectivityStatus = "NOT_REPORTING"
+)
+
+var AllPrivateAppConnectivityStatus = []PrivateAppConnectivityStatus{
+	PrivateAppConnectivityStatusConnected,
+	PrivateAppConnectivityStatusDisconnected,
+	PrivateAppConnectivityStatusNotReporting,
+}
+
+func (e PrivateAppConnectivityStatus) IsValid() bool {
+	switch e {
+	case PrivateAppConnectivityStatusConnected, PrivateAppConnectivityStatusDisconnected, PrivateAppConnectivityStatusNotReporting:
+		return true
+	}
+	return false
+}
+
+func (e PrivateAppConnectivityStatus) String() string {
+	return string(e)
+}
+
+func (e *PrivateAppConnectivityStatus) UnmarshalGQL(v any) error {
+	str, ok := v.(string)
+	if !ok {
+		return fmt.Errorf("enums must be strings")
+	}
+
+	*e = PrivateAppConnectivityStatus(str)
+	if !e.IsValid() {
+		return fmt.Errorf("%s is not a valid PrivateAppConnectivityStatus", str)
+	}
+	return nil
+}
+
+func (e PrivateAppConnectivityStatus) MarshalGQL(w io.Writer) {
+	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+func (e *PrivateAppConnectivityStatus) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e PrivateAppConnectivityStatus) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
+}
+
 type ProtoType string
 
 const (
@@ -27171,6 +27600,7 @@ func (e ResourceRoleEnum) MarshalJSON() ([]byte, error) {
 	return buf.Bytes(), nil
 }
 
+// Revoke user session operation status.
 type RevokeUserSessionStatus string
 
 const (
@@ -27293,19 +27723,18 @@ func (e RiskLevelEnum) MarshalJSON() ([]byte, error) {
 	return buf.Bytes(), nil
 }
 
+// Cato Risk level assigned to a user.
 type RiskScore string
 
 const (
 	// User is considered extremely risky.
-	// Policies can block or heavily restrict WAN/Internet for such a user.
+	// Policies can block or heavily restrict WAN/Internet access for the user.
 	RiskScoreCritical RiskScore = "CRITICAL"
-	// User is considered significantly risky;
-	// multiple or persistent suspicious events.
+	//  User is considered significantly risky, multiple or persistent suspicious events.
 	RiskScoreHigh RiskScore = "HIGH"
 	//  Normal behavior.
 	RiskScoreLow RiskScore = "LOW"
-	// User shows some risky behavior (phishing-like activity, suspicious browsing, malware indicators, etc.),
-	// but not yet severe.
+	//  User shows some risky behavior (phishing-like activity, suspicious browsing, malware indicators, etc.).
 	RiskScoreMedium RiskScore = "MEDIUM"
 )
 
@@ -31031,14 +31460,15 @@ func (e UnitType) MarshalJSON() ([]byte, error) {
 	return buf.Bytes(), nil
 }
 
+// Authentication method for a user.
 type UserAuthMethod string
 
 const (
-	//  User can authenticate using user & password, followed by a MFA authentication.
+	//  User authenticates using Cato username & password, followed by MFA authentication.
 	UserAuthMethodMfa UserAuthMethod = "MFA"
-	//  User can authenticate using SSO provided by Idp.
+	//  User authenticates using SSO provided by IdP.
 	UserAuthMethodSso UserAuthMethod = "SSO"
-	//  User can authenticate using user & password.
+	//  User authenticates using Cato username & password.
 	UserAuthMethodUserPwd UserAuthMethod = "USER_PWD"
 )
 
@@ -31091,16 +31521,17 @@ func (e UserAuthMethod) MarshalJSON() ([]byte, error) {
 	return buf.Bytes(), nil
 }
 
+// User account and authentication setup status.
 type UserAuthStatus string
 
 const (
-	// The user has finished all required authentication setup.
+	// The user has finished setting up all required authentication steps.
 	// Password and, if required by the account, MFA are configured.
 	UserAuthStatusCompleted UserAuthStatus = "COMPLETED"
-	//  The user’s password is set, but MFA is not yet configured while MFA is required.
+	//  The user’s password is set, but MFA is not yet configured.
 	UserAuthStatusMfaNotSet UserAuthStatus = "MFA_NOT_SET"
 	// The user does not have a password configured yet.
-	// This is usually a brand‑new user or one that must define their password on first login.
+	// This is usually a brand‑new user or one who must define their password on first login.
 	UserAuthStatusPwdNotSet UserAuthStatus = "PWD_NOT_SET"
 )
 
@@ -31218,6 +31649,7 @@ func (e UserRole) MarshalJSON() ([]byte, error) {
 	return buf.Bytes(), nil
 }
 
+// Operational status for a user.
 type UserStatus string
 
 const (
@@ -31226,7 +31658,7 @@ const (
 	//  User is disabled as part of lifecycle management. Cannot authenticate or connect.
 	UserStatusDisabled UserStatus = "DISABLED"
 	// User is blocked from authenticating due to a security risk (suspected brute force, repeated wrong MFA, etc.).
-	// Lock can be cleared by authenticating after some timeout, or by admin action.
+	// Lock can be cleared by authenticating after a timeout, or by admin clearing the lock.
 	UserStatusLocked UserStatus = "LOCKED"
 )
 
