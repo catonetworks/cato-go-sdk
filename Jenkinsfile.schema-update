@@ -1,11 +1,4 @@
 import groovy.json.JsonOutput
-import groovy.json.JsonSlurperClassic
-
-@NonCPS
-String pullRequestUrlFromResponse(String responseBody) {
-    def response = new JsonSlurperClassic().parseText(responseBody)
-    return response.html_url as String
-}
 
 // Scheduled SDK schema refresh job.
 //
@@ -14,6 +7,7 @@ String pullRequestUrlFromResponse(String responseBody) {
 //   cato-schema-update-gh-token  -> GitHub token with least-privilege access to
 //                                   push branches and create pull requests in
 //                                   catonetworks/cato-go-sdk
+//   cato-acc-slack-token         -> Jenkins Bot token to send PR updates
 
 pipeline {
     agent {
@@ -207,14 +201,17 @@ EOF
                 }
 
                 script {
-                    env.SCHEMA_UPDATE_PR_URL = pullRequestUrlFromResponse(readFile('pr_response.json'))
+                    def response = readJSON(file: 'pr_response.json', returnPojo: true)
+                    env.SCHEMA_UPDATE_PR_URL = response.html_url as String
                     if (!env.SCHEMA_UPDATE_PR_URL) {
                         error('GitHub pull request response did not include html_url.')
                     }
 
                     def schemaUpdateDate = sh(script: 'date -u +%F', returnStdout: true).trim()
                     slackSend(
-                        channel: params.PR_SLACK_CHANNEL,
+                        channel: 'C0AUBS790S0',
+                        botUser: true,
+                        tokenCredentialId: 'cato-acc-slack-token',
                         message: "SDK Schema Update ${schemaUpdateDate} <${env.SCHEMA_UPDATE_PR_URL}>"
                     )
                 }
