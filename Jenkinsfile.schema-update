@@ -207,8 +207,14 @@ EOF
                     }
 
                     def schemaUpdateDate = sh(script: 'date -u +%F', returnStdout: true).trim()
+                    // slackSend(
+                    //     channel: params.PR_SLACK_CHANNEL,
+                    //     message: "SDK Schema Update ${schemaUpdateDate} <${env.SCHEMA_UPDATE_PR_URL}>"
+                    // )
                     slackSend(
-                        channel: params.PR_SLACK_CHANNEL,
+                        channel: 'C0BGWMY7LQN',
+                        botUser: true,
+                        tokenCredentialId: 'global-automation-jenkins-slack-token',
                         message: "SDK Schema Update ${schemaUpdateDate} <${env.SCHEMA_UPDATE_PR_URL}>"
                     )
                 }
