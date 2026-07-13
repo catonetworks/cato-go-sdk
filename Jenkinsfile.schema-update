@@ -213,7 +213,7 @@ pipeline {
                     //     message: "SDK Schema Update ${schemaUpdateDate} <${env.SCHEMA_UPDATE_PR_URL}>"
                     // )
                     slackSend(
-                        channel: 'C0BGWMY7LQN',
+                        channel: 'C0AUBS790S0',
                         botUser: true,
                         tokenCredentialId: 'cato-acc-slack-token',
                         message: "SDK Schema Update ${schemaUpdateDate} <${env.SCHEMA_UPDATE_PR_URL}>"
