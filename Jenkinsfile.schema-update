@@ -1,11 +1,4 @@
 import groovy.json.JsonOutput
-import groovy.json.JsonSlurperClassic
-
-@NonCPS
-String pullRequestUrlFromResponse(String responseBody) {
-    def response = new JsonSlurperClassic().parseText(responseBody)
-    return response.html_url as String
-}
 
 // Scheduled SDK schema refresh job.
 //
@@ -207,7 +200,8 @@ EOF
                 }
 
                 script {
-                    env.SCHEMA_UPDATE_PR_URL = pullRequestUrlFromResponse(readFile('pr_response.json'))
+                    def response = readJSON(file: 'pr_response.json', returnPojo: true)
+                    env.SCHEMA_UPDATE_PR_URL = response.html_url as String
                     if (!env.SCHEMA_UPDATE_PR_URL) {
                         error('GitHub pull request response did not include html_url.')
                     }
