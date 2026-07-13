@@ -2391,6 +2391,7 @@ type ApplicationControlFileRule struct {
 	Application                *ApplicationControlApplication     `json:"application"`
 	ApplicationActivity        []*ApplicationControlActivity      `json:"applicationActivity"`
 	ApplicationActivitySatisfy ApplicationControlSatisfy          `json:"applicationActivitySatisfy"`
+	ApplicationContext         *ApplicationControlContext         `json:"applicationContext"`
 	ApplicationCriteria        *ApplicationControlCriteria        `json:"applicationCriteria"`
 	ApplicationCriteriaSatisfy ApplicationControlSatisfy          `json:"applicationCriteriaSatisfy"`
 	Device                     []*DeviceProfileRef                `json:"device"`
@@ -2410,6 +2411,7 @@ type ApplicationControlFileRuleInput struct {
 	Application                *ApplicationControlApplicationInput     `json:"application"`
 	ApplicationActivity        []*ApplicationControlActivityInput      `json:"applicationActivity"`
 	ApplicationActivitySatisfy ApplicationControlSatisfy               `json:"applicationActivitySatisfy"`
+	ApplicationContext         *ApplicationControlContextInput         `json:"applicationContext"`
 	ApplicationCriteria        *ApplicationControlCriteriaInput        `json:"applicationCriteria"`
 	ApplicationCriteriaSatisfy ApplicationControlSatisfy               `json:"applicationCriteriaSatisfy"`
 	Device                     []*DeviceProfileRefInput                `json:"device"`
@@ -2429,6 +2431,7 @@ type ApplicationControlFileRuleUpdateInput struct {
 	Application                *ApplicationControlApplicationUpdateInput  `json:"application,omitempty"`
 	ApplicationActivity        []*ApplicationControlActivityInput         `json:"applicationActivity,omitempty"`
 	ApplicationActivitySatisfy *ApplicationControlSatisfy                 `json:"applicationActivitySatisfy,omitempty"`
+	ApplicationContext         *ApplicationControlContextUpdateInput      `json:"applicationContext,omitempty"`
 	ApplicationCriteria        *ApplicationControlCriteriaUpdateInput     `json:"applicationCriteria,omitempty"`
 	ApplicationCriteriaSatisfy *ApplicationControlSatisfy                 `json:"applicationCriteriaSatisfy,omitempty"`
 	Device                     []*DeviceProfileRefInput                   `json:"device,omitempty"`
@@ -9277,14 +9280,16 @@ type PolicySectionInfo struct {
 }
 
 type PolicySectionMutationPayload struct {
-	Errors  []*PolicyMutationError `json:"errors"`
-	Section *PolicySectionPayload  `json:"section,omitempty"`
-	Status  PolicyMutationStatus   `json:"status"`
+	Errors   []*PolicyMutationError `json:"errors"`
+	Revision *PolicyRevision        `json:"revision,omitempty"`
+	Section  *PolicySectionPayload  `json:"section,omitempty"`
+	Status   PolicyMutationStatus   `json:"status"`
 }
 
 type PolicySectionPayload struct {
 	Access     *EntityAccess                 `json:"access,omitempty"`
 	Audit      *PolicyElementAudit           `json:"audit"`
+	Metadata   *PolicyElementMetadata        `json:"metadata,omitempty"`
 	Properties []PolicyElementPropertiesEnum `json:"properties"`
 	Section    *PolicySectionInfo            `json:"section"`
 }
@@ -23574,6 +23579,7 @@ const (
 	GroupMemberRefTypeNetworkInterface  GroupMemberRefType = "NETWORK_INTERFACE"
 	GroupMemberRefTypeSite              GroupMemberRefType = "SITE"
 	GroupMemberRefTypeSiteNetworkSubnet GroupMemberRefType = "SITE_NETWORK_SUBNET"
+	GroupMemberRefTypeVlan              GroupMemberRefType = "VLAN"
 )
 
 var AllGroupMemberRefType = []GroupMemberRefType{
@@ -23584,11 +23590,12 @@ var AllGroupMemberRefType = []GroupMemberRefType{
 	GroupMemberRefTypeNetworkInterface,
 	GroupMemberRefTypeSite,
 	GroupMemberRefTypeSiteNetworkSubnet,
+	GroupMemberRefTypeVlan,
 }
 
 func (e GroupMemberRefType) IsValid() bool {
 	switch e {
-	case GroupMemberRefTypeDevice, GroupMemberRefTypeFloatingSubnet, GroupMemberRefTypeGlobalIPRange, GroupMemberRefTypeHost, GroupMemberRefTypeNetworkInterface, GroupMemberRefTypeSite, GroupMemberRefTypeSiteNetworkSubnet:
+	case GroupMemberRefTypeDevice, GroupMemberRefTypeFloatingSubnet, GroupMemberRefTypeGlobalIPRange, GroupMemberRefTypeHost, GroupMemberRefTypeNetworkInterface, GroupMemberRefTypeSite, GroupMemberRefTypeSiteNetworkSubnet, GroupMemberRefTypeVlan:
 		return true
 	}
 	return false
@@ -26632,16 +26639,19 @@ const (
 	PolicyRuleTypeEnumPolicyRule PolicyRuleTypeEnum = "POLICY_RULE"
 	//  Indicate the rule is a scoping context for sub policy
 	PolicyRuleTypeEnumSubPolicyScope PolicyRuleTypeEnum = "SUB_POLICY_SCOPE"
+	//  Indicate the rule is a nested rule under a parent rule (e.g. a firewall exception)
+	PolicyRuleTypeEnumSubRule PolicyRuleTypeEnum = "SUB_RULE"
 )
 
 var AllPolicyRuleTypeEnum = []PolicyRuleTypeEnum{
 	PolicyRuleTypeEnumPolicyRule,
 	PolicyRuleTypeEnumSubPolicyScope,
+	PolicyRuleTypeEnumSubRule,
 }
 
 func (e PolicyRuleTypeEnum) IsValid() bool {
 	switch e {
-	case PolicyRuleTypeEnumPolicyRule, PolicyRuleTypeEnumSubPolicyScope:
+	case PolicyRuleTypeEnumPolicyRule, PolicyRuleTypeEnumSubPolicyScope, PolicyRuleTypeEnumSubRule:
 		return true
 	}
 	return false
