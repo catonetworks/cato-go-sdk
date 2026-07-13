@@ -202,7 +202,7 @@ EOF
 
                 script {
                     def response = readJSON(file: 'pr_response.json', returnPojo: true)
-                    env.SCHEMA_UPDATE_PR_URL = response.html_url as String\
+                    env.SCHEMA_UPDATE_PR_URL = response.html_url as String
                     if (!env.SCHEMA_UPDATE_PR_URL) {
                         error('GitHub pull request response did not include html_url.')
                     }
