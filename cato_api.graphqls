@@ -939,6 +939,7 @@ type ApplicationControlFileRule {
   application: ApplicationControlApplication!
   applicationActivity: [ApplicationControlActivity!]!
   applicationActivitySatisfy: ApplicationControlSatisfy!
+  applicationContext: ApplicationControlContext!
   applicationCriteria: ApplicationControlCriteria!
   applicationCriteriaSatisfy: ApplicationControlSatisfy!
   device: [DeviceProfileRef!]!
@@ -4404,6 +4405,7 @@ type PolicySectionInfo {
 
 type PolicySectionMutationPayload {
   errors: [PolicyMutationError!]!
+  revision: PolicyRevision
   section: PolicySectionPayload
   status: PolicyMutationStatus!
 }
@@ -4411,6 +4413,7 @@ type PolicySectionMutationPayload {
 type PolicySectionPayload {
   access: EntityAccess
   audit: PolicyElementAudit!
+  metadata: PolicyElementMetadata
   properties: [PolicyElementPropertiesEnum!]!
   section: PolicySectionInfo!
 }
@@ -7948,7 +7951,7 @@ input ApplicationControlAddRuleDataInput {
   dataRule: ApplicationControlDataRuleInput = {application:{applicationType:[]},applicationContext:{applicationTenant:[]},applicationActivitySatisfy:ANY,applicationActivity:[],accessMethod:[],source:{country:[],host:[],site:[],subnet:[],ip:[],ipRange:[],globalIpRange:[],networkInterface:[],siteNetworkSubnet:[],floatingSubnet:[],user:[],usersGroup:[],group:[],systemGroup:[]},device:[],action:BLOCK,tracking:{event:{enabled:false},alert:{enabled:false,frequency:HOURLY,subscriptionGroup:[],webhook:[],mailingList:[]}},schedule:{activeOn:ALWAYS},severity:HIGH,fileAttributeSatisfy:ANY,fileAttribute:[],dlpProfile:{contentProfile:[],edmProfile:[]},applicationCriteriaSatisfy:ANY,applicationCriteria:{attributes:{complianceAttributes:{iso27001:ANY,sox:ANY,hippa:ANY,soc1:ANY,soc2:ANY,soc3:ANY,isae3402:ANY,pciDss:ANY},securityAttributes:{mfa:ANY,encryptionAtRest:ANY,auditTrail:ANY,rbac:ANY,rememberPassword:ANY,sso:ANY,trustedCertificate:ANY,tlsEnforcement:ANY,httpSecurityHeaders:ANY}},originCountry:[],risk:[]},actionConfig:{userNotification:[]}}
   description: String! = ""
   enabled: Boolean!
-  fileRule: ApplicationControlFileRuleInput = {application:{applicationType:[]},applicationActivitySatisfy:ANY,applicationActivity:[],accessMethod:[],source:{country:[],host:[],site:[],subnet:[],ip:[],ipRange:[],globalIpRange:[],networkInterface:[],siteNetworkSubnet:[],floatingSubnet:[],user:[],usersGroup:[],group:[],systemGroup:[]},device:[],action:BLOCK,tracking:{event:{enabled:false},alert:{enabled:false,frequency:HOURLY,subscriptionGroup:[],webhook:[],mailingList:[]}},schedule:{activeOn:ALWAYS},severity:HIGH,fileAttributeSatisfy:ANY,fileAttribute:[],applicationCriteriaSatisfy:ANY,applicationCriteria:{attributes:{complianceAttributes:{iso27001:ANY,sox:ANY,hippa:ANY,soc1:ANY,soc2:ANY,soc3:ANY,isae3402:ANY,pciDss:ANY},securityAttributes:{mfa:ANY,encryptionAtRest:ANY,auditTrail:ANY,rbac:ANY,rememberPassword:ANY,sso:ANY,trustedCertificate:ANY,tlsEnforcement:ANY,httpSecurityHeaders:ANY}},originCountry:[],risk:[]},actionConfig:{userNotification:[]}}
+  fileRule: ApplicationControlFileRuleInput = {application:{applicationType:[]},applicationContext:{applicationTenant:[]},applicationActivitySatisfy:ANY,applicationActivity:[],accessMethod:[],source:{country:[],host:[],site:[],subnet:[],ip:[],ipRange:[],globalIpRange:[],networkInterface:[],siteNetworkSubnet:[],floatingSubnet:[],user:[],usersGroup:[],group:[],systemGroup:[]},device:[],action:BLOCK,tracking:{event:{enabled:false},alert:{enabled:false,frequency:HOURLY,subscriptionGroup:[],webhook:[],mailingList:[]}},schedule:{activeOn:ALWAYS},severity:HIGH,fileAttributeSatisfy:ANY,fileAttribute:[],applicationCriteriaSatisfy:ANY,applicationCriteria:{attributes:{complianceAttributes:{iso27001:ANY,sox:ANY,hippa:ANY,soc1:ANY,soc2:ANY,soc3:ANY,isae3402:ANY,pciDss:ANY},securityAttributes:{mfa:ANY,encryptionAtRest:ANY,auditTrail:ANY,rbac:ANY,rememberPassword:ANY,sso:ANY,trustedCertificate:ANY,tlsEnforcement:ANY,httpSecurityHeaders:ANY}},originCountry:[],risk:[]},actionConfig:{userNotification:[]}}
   name: String!
   ruleType: ApplicationControlRuleType! = APPLICATION
 }
@@ -8157,6 +8160,7 @@ input ApplicationControlFileRuleInput {
   application: ApplicationControlApplicationInput! = {applicationType:[]}
   applicationActivity: [ApplicationControlActivityInput!]! = []
   applicationActivitySatisfy: ApplicationControlSatisfy! = ANY
+  applicationContext: ApplicationControlContextInput! = {applicationTenant:[]}
   applicationCriteria: ApplicationControlCriteriaInput! = {attributes:{complianceAttributes:{iso27001:ANY,sox:ANY,hippa:ANY,soc1:ANY,soc2:ANY,soc3:ANY,isae3402:ANY,pciDss:ANY},securityAttributes:{mfa:ANY,encryptionAtRest:ANY,auditTrail:ANY,rbac:ANY,rememberPassword:ANY,sso:ANY,trustedCertificate:ANY,tlsEnforcement:ANY,httpSecurityHeaders:ANY}},originCountry:[],risk:[]}
   applicationCriteriaSatisfy: ApplicationControlSatisfy! = ANY
   device: [DeviceProfileRefInput!]! = []
@@ -8176,6 +8180,7 @@ input ApplicationControlFileRuleUpdateInput {
   application: ApplicationControlApplicationUpdateInput
   applicationActivity: [ApplicationControlActivityInput!]
   applicationActivitySatisfy: ApplicationControlSatisfy
+  applicationContext: ApplicationControlContextUpdateInput
   applicationCriteria: ApplicationControlCriteriaUpdateInput
   applicationCriteriaSatisfy: ApplicationControlSatisfy
   device: [DeviceProfileRefInput!]
@@ -14968,6 +14973,7 @@ enum GroupMemberRefType {
   NETWORK_INTERFACE
   SITE
   SITE_NETWORK_SUBNET
+  VLAN
 }
 
 enum HaReadiness {
@@ -15604,6 +15610,8 @@ enum PolicyRuleTypeEnum {
   POLICY_RULE
   """ Indicate the rule is a scoping context for sub policy """
   SUB_POLICY_SCOPE
+  """ Indicate the rule is a nested rule under a parent rule (e.g. a firewall exception) """
+  SUB_RULE
 }
 
 enum PolicySectionPositionEnum {
