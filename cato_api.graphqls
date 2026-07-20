@@ -420,6 +420,12 @@ type AiOperationsPlaybook {
   title: String!
 }
 
+""" Reference to an AI security guard. """
+type AiSecurityAppsGuardRef implements ObjectRef {
+  id: ID!
+  name: String!
+}
+
 type AiSecurityAttributes {
   dataUsagePolicy: AiSecurityDataUsagePolicy
   risk: AiSecurityRisk
@@ -1333,6 +1339,7 @@ type CatalogApplication {
   aiSecurity: AiSecurityAttributes
   capability: [CatalogApplicationCapability!]!
   category: [ApplicationCategoryRef!]!
+  childApp: [ApplicationRef!]!
   city: String
   complianceAttributes: CatalogApplicationComplianceAttributes!
   description: String
@@ -1344,6 +1351,7 @@ type CatalogApplication {
   name: String!
   numOfEmployees: EmployeeRange
   originCountry: CountryRef
+  parentApp: [ApplicationRef!]!
   recentlyAdded: Boolean!
   region: String
   risk: ApplicationRisk
@@ -1638,12 +1646,14 @@ type ClientConnectivityRule implements IPolicyRule {
 
 type ClientConnectivityRuleMutationPayload implements IPolicyRuleMutationPayload {
   errors: [PolicyMutationError!]!
+  revision: PolicyRevision
   rule: ClientConnectivityRulePayload
   status: PolicyMutationStatus!
 }
 
 type ClientConnectivityRulePayload implements IPolicyRulePayload {
   audit: PolicyElementAudit!
+  metadata: PolicyElementMetadata
   properties: [PolicyElementPropertiesEnum!]!
   rule: ClientConnectivityRule!
 }
@@ -2060,6 +2070,7 @@ type DeviceAttributesCatalogQueries {
   manufacturer(input: DeviceAttributeCatalogInput): DeviceAttributeCatalogPayload!
   model(input: DeviceAttributeCatalogInput): DeviceAttributeCatalogPayload!
   os(input: DeviceAttributeCatalogInput): DeviceAttributeCatalogPayload!
+  risk(input: DeviceRiskCatalogInput): DeviceRiskCatalogPayload!
   type(input: DeviceAttributeCatalogInput): DeviceAttributeCatalogPayload!
 }
 
@@ -2128,6 +2139,16 @@ Used as an Advanced Group member type; gated end-to-end by the NEW_GROUPS_DEVICE
 type DeviceRef implements ObjectRef {
   id: ID!
   name: String!
+}
+
+type DeviceRiskCatalogItem {
+  applicationConnector: ApplicationConnectorCatalogEntityRef!
+  level: ExternalDeviceRiskLevel!
+}
+
+type DeviceRiskCatalogPayload {
+  items: [DeviceRiskCatalogItem!]!
+  pageInfo: PageInfo!
 }
 
 type DeviceSnapshot {
@@ -2316,12 +2337,14 @@ type DynamicIpAllocationRule implements IPolicyRule {
 
 type DynamicIpAllocationRuleMutationPayload implements IPolicyRuleMutationPayload {
   errors: [PolicyMutationError!]!
+  revision: PolicyRevision
   rule: DynamicIpAllocationRulePayload
   status: PolicyMutationStatus!
 }
 
 type DynamicIpAllocationRulePayload implements IPolicyRulePayload {
   audit: PolicyElementAudit!
+  metadata: PolicyElementMetadata
   properties: [PolicyElementPropertiesEnum!]!
   rule: DynamicIpAllocationRule!
 }
@@ -2534,6 +2557,20 @@ type ExternalAccessRequest {
   requestedDate: DateTime!
   roles: [RBACRole!]!
   status: AccessRequestStatus!
+}
+
+"""
+Labelled severity band for a vendor's raw device risk score. Each vendor
+publishes its own set of levels (low / medium / high / critical); `id`
+is the canonical label and `min`/`max` bound the numeric score range
+(both inclusive). Named "Level" rather than "Range" because the entries
+are labelled severities — min/max are properties of the level, not the
+identity of it.
+"""
+type ExternalDeviceRiskLevel {
+  id: ID!
+  max: Int!
+  min: Int!
 }
 
 type Extra {
@@ -3305,6 +3342,7 @@ type InternetFirewallRuleException {
 
 type InternetFirewallRuleMutationPayload implements IPolicyRuleMutationPayload {
   errors: [PolicyMutationError!]!
+  revision: PolicyRevision
   rule: InternetFirewallRulePayload
   status: PolicyMutationStatus!
 }
@@ -3313,6 +3351,7 @@ type InternetFirewallRuleMutationPayload implements IPolicyRuleMutationPayload {
 type InternetFirewallRulePayload implements IPolicyRulePayload {
   access: EntityAccess!
   audit: PolicyElementAudit!
+  metadata: PolicyElementMetadata
   properties: [PolicyElementPropertiesEnum!]!
   rule: InternetFirewallRule!
   ruleType: PolicyRuleTypeEnum!
@@ -4621,12 +4660,14 @@ type PrivateAccessRule implements IPolicyRule {
 
 type PrivateAccessRuleMutationPayload implements IPolicyRuleMutationPayload {
   errors: [PolicyMutationError!]!
+  revision: PolicyRevision
   rule: PrivateAccessRulePayload
   status: PolicyMutationStatus!
 }
 
 type PrivateAccessRulePayload implements IPolicyRulePayload {
   audit: PolicyElementAudit!
+  metadata: PolicyElementMetadata
   properties: [PolicyElementPropertiesEnum!]!
   rule: PrivateAccessRule!
 }
@@ -4822,12 +4863,14 @@ type RemotePortFwdRule implements IPolicyRule {
 
 type RemotePortFwdRuleMutationPayload implements IPolicyRuleMutationPayload {
   errors: [PolicyMutationError!]!
+  revision: PolicyRevision
   rule: RemotePortFwdRulePayload
   status: PolicyMutationStatus!
 }
 
 type RemotePortFwdRulePayload implements IPolicyRulePayload {
   audit: PolicyElementAudit!
+  metadata: PolicyElementMetadata
   properties: [PolicyElementPropertiesEnum!]!
   rule: RemotePortFwdRule!
 }
@@ -5426,6 +5469,7 @@ type SocketBypassSource {
 
 type SocketConfiguration {
   description: String
+  serial: String
 }
 
 """ Basic information about socket """
@@ -5784,12 +5828,14 @@ type SplitTunnelRule implements IPolicyRule {
 
 type SplitTunnelRuleMutationPayload implements IPolicyRuleMutationPayload {
   errors: [PolicyMutationError!]!
+  revision: PolicyRevision
   rule: SplitTunnelRulePayload
   status: PolicyMutationStatus!
 }
 
 type SplitTunnelRulePayload implements IPolicyRulePayload {
   audit: PolicyElementAudit!
+  metadata: PolicyElementMetadata
   properties: [PolicyElementPropertiesEnum!]!
   rule: SplitTunnelRule!
 }
@@ -5968,12 +6014,14 @@ type TerminalServerRule implements IPolicyRule {
 
 type TerminalServerRuleMutationPayload implements IPolicyRuleMutationPayload {
   errors: [PolicyMutationError!]!
+  revision: PolicyRevision
   rule: TerminalServerRulePayload
   status: PolicyMutationStatus!
 }
 
 type TerminalServerRulePayload implements IPolicyRulePayload {
   audit: PolicyElementAudit!
+  metadata: PolicyElementMetadata
   properties: [PolicyElementPropertiesEnum!]!
   rule: TerminalServerRule!
 }
@@ -6798,6 +6846,7 @@ type WanFirewallRuleException {
 
 type WanFirewallRuleMutationPayload implements IPolicyRuleMutationPayload {
   errors: [PolicyMutationError!]!
+  revision: PolicyRevision
   rule: WanFirewallRulePayload
   status: PolicyMutationStatus!
 }
@@ -6806,6 +6855,7 @@ type WanFirewallRuleMutationPayload implements IPolicyRuleMutationPayload {
 type WanFirewallRulePayload implements IPolicyRulePayload {
   access: EntityAccess!
   audit: PolicyElementAudit!
+  metadata: PolicyElementMetadata
   properties: [PolicyElementPropertiesEnum!]!
   rule: WanFirewallRule!
   ruleType: PolicyRuleTypeEnum!
@@ -7186,12 +7236,14 @@ type ZtnaAlwaysOnRule implements IPolicyRule {
 
 type ZtnaAlwaysOnRuleMutationPayload implements IPolicyRuleMutationPayload {
   errors: [PolicyMutationError!]!
+  revision: PolicyRevision
   rule: ZtnaAlwaysOnRulePayload
   status: PolicyMutationStatus!
 }
 
 type ZtnaAlwaysOnRulePayload implements IPolicyRulePayload {
   audit: PolicyElementAudit!
+  metadata: PolicyElementMetadata
   properties: [PolicyElementPropertiesEnum!]!
   rule: ZtnaAlwaysOnRule!
 }
@@ -9052,6 +9104,20 @@ input DeviceOsSortOrderInput {
 input DeviceProfileRefInput {
   by: ObjectRefBy! = ID
   input: String!
+}
+
+input DeviceRiskCatalogInput {
+  filter: DeviceRiskFilterInput
+  paging: PagingInput
+  sort: DeviceRiskSortInput
+}
+
+input DeviceRiskFilterInput {
+  applicationConnector: ApplicationConnectorCatalogEntityRefFilterInput
+}
+
+input DeviceRiskSortInput {
+  applicationConnector: ApplicationConnectorCatalogEntityRefSortOrderInput
 }
 
 input DeviceSiteSortOrderInput {
@@ -14180,6 +14246,8 @@ enum EventFieldName {
   ai_app_risk_level
   """ AI Proxy rule name. CMA Name: AI Proxy Rule Name """
   ai_proxy_rule_name
+  """ AI Findings reason text from the feed. CMA Name: Ai Reason """
+  ai_reason
   """ A unique identifier of the alert notification. CMA Name: Alert id """
   alert_id
   """ Alert name. CMA Name: Alert Name """
@@ -14216,6 +14284,8 @@ enum EventFieldName {
   application_type
   """ Reasons from each ATP feed that contributed to the detection, resolved via chained enrichment: sigId to feedIds to per-device reason. CMA Name: ATP Feed Reasons """
   atp_feed_reasons
+  """ Unique identifier of the audit record. CMA Name: Audit ID """
+  audit_id
   """ Connectivity authentication method: unauthenticated, OATH2, LDAP or VPN. CMA Name: Authentication Method """
   auth_method
   """ Examples: MFA or password. CMA Name: Authentication Type """
@@ -14252,6 +14322,8 @@ enum EventFieldName {
   categories
   """ Cato application name. CMA Name: Cato App """
   cato_app
+  """ values when applicable. Only available for native data integration created in the CMA and eventsFeed API. Not available in the events or eventsTimeSeries API. """
+  changes
   """ Activity classification, e.g. FALSE_POSITIVE. CMA Name: Classification """
   classification
   """ Expiration date for Client certificate. CMA Name: Certificate Expiration Date """
@@ -14311,6 +14383,10 @@ enum EventFieldName {
   custom_category_id
   """ Custom category name. CMA Name: Custom Category Name """
   custom_category_name
+  """ Data categories of the discovered data (e.g. Financial, PII, PHI, Legal, Intellectual Property, Credentials). CMA Name: Data Categories """
+  data_categories
+  """ Names of the data classifiers that matched the discovered data. CMA Name: Data Classifiers """
+  data_classifiers
   """ The user's department. CMA Name: Department """
   department
   """ For Internet traffic, country where the destination host is located. CMA Name: Destination Country """
@@ -14465,6 +14541,8 @@ enum EventFieldName {
   flow_id
   """ Amount of flows for a given incident. CMA Name: Flows Cardinality """
   flows_cardinality
+  """ Change details, including """
+  from
   """ Full path URL application activity. CMA Name: Full Path URL """
   full_path_url
   """ A unique identifier for the AI Security Guard associated with the event. CMA Name: Guard ID """
@@ -14503,6 +14581,8 @@ enum EventFieldName {
   interaction_topic
   """ Cato Internal-use only. CMA Name: Internal ID """
   internalId @deprecated(reason: "use event_id instead. Planned end-of-life (EoL) date: May 1, 2025.")
+  """ Time range analyzed by the AI agent (for example: last 24 hour). CMA Name: Investigation Time Window """
+  investigation_time_window
   """ Unique identifier for a single AI invocation between an application and an AI model. CMA Name: Invocation ID """
   invocation_id
   """ Network protocol for this event. CMA Name: IP Protocol """
@@ -14569,6 +14649,8 @@ enum EventFieldName {
   notification_description
   """ Unique identifier by the 3rd party App of the object being referenced. CMA Name: Object ID """
   object_id
+  """ The policy or feature where the change occurred. For example: Internet Firewall Policy. CMA name: Module. CMA Name: Object Module """
+  object_module
   """ The name of the object for this event (for example: file name). CMA Name: Object Name """
   object_name
   """ Specifies the type of object being acted upon (e.g., file, folder). CMA Name: Object Type """
@@ -14787,6 +14869,8 @@ enum EventFieldName {
   tls_rule_name
   """ TLS Version. CMA Name: TLS Version """
   tls_version
+  """ and """
+  to
   """ Total number of tokens processed. CMA Name: Total Tokens """
   total_tokens
   """ Direction of network traffic for this event, values are inbound or outbound. CMA Name: Traffic Direction """
@@ -16137,6 +16221,12 @@ enum SocketPortMetricsFieldName {
   device_id
   """ Indicates the high-availability (HA) role of the device (e.g., active, standby). """
   ha_role
+  """ Packet count received downstream (from the network to the device). """
+  packets_downstream
+  """ Combined total packet count (upstream + downstream). """
+  packets_total
+  """ Packet count sent upstream (from the device to the network). """
+  packets_upstream
   """ Type of physical interface (e.g., ethernet, cellular). """
   physical_interface_type
   """ SIM card number (for cellular interfaces). """
@@ -16159,6 +16249,10 @@ enum SocketPortMetricsFieldName {
 
 enum SocketRegistrationStatus {
   ASSIGNED_SITE
+  """
+  ASSIGNED_SITE_PENDING_REGISTER Meaning socket was assigned to site from UI.
+  But still waiting for next /register request from socket to finalize socket db state.
+  """
   ASSIGNED_SITE_PENDING_REGISTER
   NEW
   PENDING
