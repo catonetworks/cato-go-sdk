@@ -15134,6 +15134,8 @@ enum InternetFirewallActionEnum {
   PROMPT
   """ Apply Remote Browser Isolation (RBI) to the network traffic """
   RBI
+  """ Internal action returned for SUB_POLICY_SCOPE rules. """
+  SUB_POLICY
 }
 
 enum IpProtocol {
@@ -16580,6 +16582,8 @@ enum WanFirewallActionEnum {
   BLOCK
   """ Requests user confirmation to allow or block network traffic. """
   PROMPT
+  """ Internal action returned for SUB_POLICY_SCOPE rules. """
+  SUB_POLICY
 }
 
 enum WanFirewallDirectionEnum {

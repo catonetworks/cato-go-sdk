@@ -1,0 +1,13 @@
+mutation policyInternetFirewallRemoveSubPolicy ( $internetFirewallPolicyMutationInput:InternetFirewallPolicyMutationInput $internetFirewallRemoveSubPolicyInput:InternetFirewallRemoveSubPolicyInput! $accountId:ID! ) {
+	policy ( accountId:$accountId  ) {
+		internetFirewall ( input:$internetFirewallPolicyMutationInput  )  {
+			removeSubPolicy ( input:$internetFirewallRemoveSubPolicyInput   ) {
+				status
+				errors  {
+					errorMessage
+					errorCode
+				}
+			}
+		}
+	}
+}
