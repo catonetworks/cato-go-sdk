@@ -1,0 +1,13 @@
+mutation policyWanFirewallRemoveSubPolicy ( $wanFirewallRemoveSubPolicyInput:WanFirewallRemoveSubPolicyInput! $accountId:ID! ) {
+	policy ( accountId:$accountId  ) {
+		wanFirewall  {
+			removeSubPolicy ( input:$wanFirewallRemoveSubPolicyInput   ) {
+				status
+				errors  {
+					errorMessage
+					errorCode
+				}
+			}
+		}
+	}
+}

@@ -1,0 +1,13 @@
+mutation policyWanFirewallAddSubPolicy ( $wanFirewallAddSubPolicyInput:WanFirewallAddSubPolicyInput! $accountId:ID! ) {
+	policy ( accountId:$accountId  ) {
+		wanFirewall  {
+			addSubPolicy ( input:$wanFirewallAddSubPolicyInput   ) {
+				status
+				errors  {
+					errorMessage
+					errorCode
+				}
+			}
+		}
+	}
+}

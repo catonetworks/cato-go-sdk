@@ -1,0 +1,13 @@
+mutation policyInternetFirewallAddSubPolicy ( $internetFirewallPolicyMutationInput:InternetFirewallPolicyMutationInput $internetFirewallAddSubPolicyInput:InternetFirewallAddSubPolicyInput! $accountId:ID! ) {
+	policy ( accountId:$accountId  ) {
+		internetFirewall ( input:$internetFirewallPolicyMutationInput  )  {
+			addSubPolicy ( input:$internetFirewallAddSubPolicyInput   ) {
+				status
+				errors  {
+					errorMessage
+					errorCode
+				}
+			}
+		}
+	}
+}

@@ -156,7 +156,22 @@ const PolicyDocumentWanFirewall = `query policy ($wanFirewallPolicyInput: WanFir
 		wanFirewall {
 			policy(input: $wanFirewallPolicyInput) {
 				enabled
+				subPolicies {
+					policy {
+						id
+						name
+						description
+						enabled
+						policyLevel
+					}
+					properties
+				}
 				rules {
+					ruleType
+					subPolicy {
+						id
+						name
+					}
 					audit {
 						updatedTime
 						updatedBy

@@ -159,7 +159,22 @@ const PolicyDocumentInternetFirewall = `query policy ($internetFirewallPolicyInp
 		internetFirewall {
 			policy(input: $internetFirewallPolicyInput) {
 				enabled
+				subPolicies {
+					policy {
+						id
+						name
+						description
+						enabled
+						policyLevel
+					}
+					properties
+				}
 				rules {
+					ruleType
+					subPolicy {
+						id
+						name
+					}
 					audit {
 						updatedTime
 						updatedBy

@@ -24269,6 +24269,8 @@ const (
 	InternetFirewallActionEnumPrompt InternetFirewallActionEnum = "PROMPT"
 	//  Apply Remote Browser Isolation (RBI) to the network traffic
 	InternetFirewallActionEnumRbi InternetFirewallActionEnum = "RBI"
+	//  Internal action returned for SUB_POLICY_SCOPE rules.
+	InternetFirewallActionEnumSubPolicy InternetFirewallActionEnum = "SUB_POLICY"
 )
 
 var AllInternetFirewallActionEnum = []InternetFirewallActionEnum{
@@ -24277,11 +24279,12 @@ var AllInternetFirewallActionEnum = []InternetFirewallActionEnum{
 	InternetFirewallActionEnumCaptivePortal,
 	InternetFirewallActionEnumPrompt,
 	InternetFirewallActionEnumRbi,
+	InternetFirewallActionEnumSubPolicy,
 }
 
 func (e InternetFirewallActionEnum) IsValid() bool {
 	switch e {
-	case InternetFirewallActionEnumAllow, InternetFirewallActionEnumBlock, InternetFirewallActionEnumCaptivePortal, InternetFirewallActionEnumPrompt, InternetFirewallActionEnumRbi:
+	case InternetFirewallActionEnumAllow, InternetFirewallActionEnumBlock, InternetFirewallActionEnumCaptivePortal, InternetFirewallActionEnumPrompt, InternetFirewallActionEnumRbi, InternetFirewallActionEnumSubPolicy:
 		return true
 	}
 	return false
@@ -31946,17 +31949,20 @@ const (
 	WanFirewallActionEnumBlock WanFirewallActionEnum = "BLOCK"
 	//  Requests user confirmation to allow or block network traffic.
 	WanFirewallActionEnumPrompt WanFirewallActionEnum = "PROMPT"
+	//  Internal action returned for SUB_POLICY_SCOPE rules.
+	WanFirewallActionEnumSubPolicy WanFirewallActionEnum = "SUB_POLICY"
 )
 
 var AllWanFirewallActionEnum = []WanFirewallActionEnum{
 	WanFirewallActionEnumAllow,
 	WanFirewallActionEnumBlock,
 	WanFirewallActionEnumPrompt,
+	WanFirewallActionEnumSubPolicy,
 }
 
 func (e WanFirewallActionEnum) IsValid() bool {
 	switch e {
-	case WanFirewallActionEnumAllow, WanFirewallActionEnumBlock, WanFirewallActionEnumPrompt:
+	case WanFirewallActionEnumAllow, WanFirewallActionEnumBlock, WanFirewallActionEnumPrompt, WanFirewallActionEnumSubPolicy:
 		return true
 	}
 	return false
