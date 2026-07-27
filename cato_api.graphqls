@@ -159,7 +159,7 @@ type AccountInfo {
 
 type AccountManagementMutations {
   addAccount(input: AddAccountInput!): AccountInfo @ga
-  disableAccount(accountId: ID!): DisableAccountPayload @beta
+  disableAccount(accountId: ID!): DisableAccountPayload @ga
   removeAccount(accountId: ID!): RemoveAccountPayload @ga
   updateAccount(input: UpdateAccountInput!): AccountInfo @ga
 }
@@ -1310,11 +1310,21 @@ type BusinessPlatformLinkToTrialAccountPayload {
 type BusinessPlatformMutations {
   createTrialAccount(input: BusinessPlatformCreateTrialAccountInput!): BusinessPlatformCreateTrialAccountPayload @beta
   linkToTrialAccount(input: BusinessPlatformLinkToTrialAccountInput!): BusinessPlatformLinkToTrialAccountPayload @beta
+  updateSettings(input: BusinessPlatformUpdateSettingsInput!): BusinessPlatformUpdateSettingsPayload @beta
 }
 
 type BusinessPlatformQueries {
   accountList(input: BusinessPlatformAccountListInput): BusinessPlatformAccountListPayload @beta
   countAccountByPlan: PlanCount @beta
+  settings: BusinessPlatformSettings @beta
+}
+
+type BusinessPlatformSettings {
+  approvalEnabled: Boolean!
+}
+
+type BusinessPlatformUpdateSettingsPayload {
+  approvalEnabled: Boolean!
 }
 
 """ Output for canceling a partner access request. """
@@ -1773,6 +1783,10 @@ type CountryRef implements ObjectRef {
   name: String!
 }
 
+type CreateBgpPeerBulkPayload {
+  bgpPeer: [BgpPeer!]!
+}
+
 """ Payload of CreateFromFile operation on FQDN typed container """
 type CreateFqdnContainerFromFilePayload {
   container: FqdnContainer!
@@ -1815,9 +1829,17 @@ type CreateMailingListPayload {
   mailingList: MailingList!
 }
 
+type CreateNetworkRangeBulkPayload {
+  networkRange: [NetworkRange!]!
+}
+
 """ Response payload returned after successfully creating a private application """
 type CreatePrivateApplicationPayload {
   application: PrivateApplication!
+}
+
+type CreateStaticHostBulkPayload {
+  host: [SiteStaticHost!]!
 }
 
 """ Response payload for creating a Subscription Group. """
@@ -1986,6 +2008,10 @@ type DegradedStatusSocketVersionsArgs {
   secondaryVersion: String!
 }
 
+type DeleteBgpPeerBulkPayload {
+  bgpPeer: [BgpPeer!]!
+}
+
 type DeleteContainerPayload {
   container: Container!
 }
@@ -2008,6 +2034,10 @@ type DeleteMailingListPayload {
   mailingList: MailingList!
 }
 
+type DeleteNetworkRangeBulkPayload {
+  networkRange: [NetworkRange!]!
+}
+
 """ Response payload returned after successfully deleting a private application """
 type DeletePrivateApplicationPayload {
   application: ID!
@@ -2016,6 +2046,10 @@ type DeletePrivateApplicationPayload {
 """ Delete report response """
 type DeleteReportPayload {
   fileHash: String!
+}
+
+type DeleteStaticHostBulkPayload {
+  host: [SiteStaticHost!]!
 }
 
 type DeleteStoryCommentPayload {
@@ -4498,6 +4532,10 @@ type PopLocationAddAllocatedIpPayload {
   allocatedIp: PopLocationAllocatedIp!
 }
 
+type PopLocationAddBgpProfilePayload {
+  bgpProfile: PopLocationBgpProfile
+}
+
 """
 Response payload for the allocate IP mutation.
 This is deprecated and should not be used
@@ -4524,6 +4562,19 @@ type PopLocationAllocatedIpPayload {
   paging: PageInfo!
 }
 
+type PopLocationBgpProfile {
+  communities: [BgpCommunity!]!
+  createdAt: DateTime!
+  description: String
+  id: ID!
+  lastUpdatedAt: DateTime!
+  name: String!
+}
+
+type PopLocationBgpProfileListPayload {
+  items: [PopLocationBgpProfile!]!
+}
+
 type PopLocationCloudInterconnect {
   providerName: String!
   taggingMethod: TaggingMethod!
@@ -4536,10 +4587,13 @@ type PopLocationMachineRef implements ObjectRef {
 
 type PopLocationMutations {
   addAllocatedIp(input: PopLocationAddAllocatedIpInput!): PopLocationAddAllocatedIpPayload @beta
+  addBgpProfile(input: PopLocationAddBgpProfileInput!): PopLocationAddBgpProfilePayload @beta
   allocateIp(input: PopLocationAllocateIpInput!): PopLocationAllocateIpPayload @deprecated(reason: "Use addAllocatedIp instead.") @beta
   releaseIp(input: PopLocationReleaseIpInput!): PopLocationReleaseIpPayload @deprecated(reason: "Use removeAllocatedIp instead.") @beta
   removeAllocatedIp(input: PopLocationRemoveAllocatedIpInput!): PopLocationRemoveAllocatedIpPayload @beta
+  removeBgpProfile(bgpProfileId: ID!): PopLocationRemoveBgpProfilePayload @beta
   updateAllocatedIpDescription(input: PopLocationUpdateAllocatedIpDescriptionInput!): PopLocationUpdateAllocatedIpDescriptionPayload @beta
+  updateBgpProfile(input: PopLocationUpdateBgpProfileInput!): PopLocationUpdateBgpProfilePayload @beta
 }
 
 type PopLocationPayload {
@@ -4548,6 +4602,8 @@ type PopLocationPayload {
 
 type PopLocationQueries {
   allocatedIpList(input: PopLocationAllocatedIpInput): PopLocationAllocatedIpPayload @beta
+  bgpProfile(id: ID!): PopLocationBgpProfile @beta
+  bgpProfileList: PopLocationBgpProfileListPayload @beta
   popLocationList(input: PopLocationFilterInput): PopLocationPayload @beta
 }
 
@@ -4565,6 +4621,10 @@ type PopLocationRemoveAllocatedIpPayload {
   allocatedIp: PopLocationAllocatedIp!
 }
 
+type PopLocationRemoveBgpProfilePayload {
+  bgpProfile: PopLocationBgpProfile
+}
+
 type PopLocationServiceUnitRef implements ObjectRef {
   id: ID!
   name: String!
@@ -4572,6 +4632,10 @@ type PopLocationServiceUnitRef implements ObjectRef {
 
 type PopLocationUpdateAllocatedIpDescriptionPayload {
   allocatedIp: PopLocationAllocatedIp!
+}
+
+type PopLocationUpdateBgpProfilePayload {
+  bgpProfile: PopLocationBgpProfile
 }
 
 """ Inclusive network port range """
@@ -5219,8 +5283,14 @@ type SiteMutations {
   addSocketSite(input: AddSocketSiteInput!): AddSocketSitePayload @ga
   addStaticHost(siteId: ID!, input: AddStaticHostInput!): AddStaticHostPayload @ga
   assignSiteBwLicense(input: AssignSiteBwLicenseInput!): AssignSiteBwLicensePayload @beta
+  createBgpPeerBulk(input: CreateBgpPeerBulkInput!): CreateBgpPeerBulkPayload @beta
+  createNetworkRangeBulk(input: CreateNetworkRangeBulkInput!): CreateNetworkRangeBulkPayload @beta
+  createStaticHostBulk(input: CreateStaticHostBulkInput!): CreateStaticHostBulkPayload @beta
   createWifiRadioProfile(input: CreateWifiRadioProfileInput!): CreateWifiRadioProfilePayload @rollout @beta
   createWifiSsid(input: CreateWifiSsidInput!): CreateWifiSsidPayload @rollout @beta
+  deleteBgpPeerBulk(input: DeleteBgpPeerBulkInput!): DeleteBgpPeerBulkPayload @beta
+  deleteNetworkRangeBulk(input: DeleteNetworkRangeBulkInput!): DeleteNetworkRangeBulkPayload @beta
+  deleteStaticHostBulk(input: DeleteStaticHostBulkInput!): DeleteStaticHostBulkPayload @beta
   exchangeSocketPorts(input: ExchangeSocketPortsInput!): ExchangeSocketPortsPayload @beta
   removeBgpPeer(input: RemoveBgpPeerInput!): RemoveBgpPeerPayload @beta
   removeCloudInterconnectPhysicalConnection(input: RemoveCloudInterconnectPhysicalConnectionInput!): RemoveCloudInterconnectPhysicalConnectionPayload @beta
@@ -5237,12 +5307,14 @@ type SiteMutations {
   replaceSiteBwLicense(input: ReplaceSiteBwLicenseInput!): ReplaceSiteBwLicensePayload @beta
   startSiteUpgrade(input: StartSiteUpgradeInput!): StartSiteUpgradePayload @beta
   updateBgpPeer(input: UpdateBgpPeerInput!): UpdateBgpPeerPayload @beta
-  updateBgpPeers(input: UpdateBgpPeersInput!): UpdateBgpPeersPayload @beta
+  updateBgpPeerBulk(input: UpdateBgpPeerBulkInput!): UpdateBgpPeerBulkPayload @beta
+  updateBgpPeers(input: UpdateBgpPeersInput!): UpdateBgpPeersPayload @deprecated(reason: "Use the bulk BGP peer mutations 'createBgpPeerBulk', 'updateBgpPeerBulk', and 'deleteBgpPeerBulk' instead") @beta
   updateCloudInterconnectPhysicalConnection(input: UpdateCloudInterconnectPhysicalConnectionInput!): UpdateCloudInterconnectPhysicalConnectionPayload @beta
   updateHa(siteId: ID!, input: UpdateHaInput!): UpdateHaPayload @ga
   updateIpsecIkeV2SiteGeneralDetails(siteId: ID!, input: UpdateIpsecIkeV2SiteGeneralDetailsInput!): UpdateIpsecIkeV2SiteGeneralDetailsPayload @beta
   updateIpsecIkeV2SiteTunnels(siteId: ID!, input: UpdateIpsecIkeV2SiteTunnelsInput!): UpdateIpsecIkeV2SiteTunnelsPayload @beta
   updateNetworkRange(networkRangeId: ID!, input: UpdateNetworkRangeInput!): UpdateNetworkRangePayload @ga
+  updateNetworkRangeBulk(input: UpdateNetworkRangeBulkInput!): UpdateNetworkRangeBulkPayload @beta
   updateSecondaryAwsVSocket(input: UpdateSecondaryAwsVSocketInput!): UpdateSecondaryAwsVSocketPayload @beta
   updateSecondaryAzureVSocket(input: UpdateSecondaryAzureVSocketInput!): UpdateSecondaryAzureVSocketPayload @beta
   updateSecondaryGcpVSocket(input: UpdateSecondaryGcpVSocketInput!): UpdateSecondaryGcpVSocketPayload @rollout @beta
@@ -5255,6 +5327,7 @@ type SiteMutations {
   updateSocketInterface(siteId: ID!, socketInterfaceId: SocketInterfaceIDEnum!, input: UpdateSocketInterfaceInput!): UpdateSocketInterfacePayload @ga
   updateSocketInterfaces(input: UpdateSocketInterfacesInput!): UpdateSocketInterfacesPayload @beta
   updateStaticHost(hostId: ID!, input: UpdateStaticHostInput!): UpdateStaticHostPayload @ga
+  updateStaticHostBulk(input: UpdateStaticHostBulkInput!): UpdateStaticHostBulkPayload @beta
   updateWifiRadioProfile(input: UpdateWifiRadioProfileInput!): UpdateWifiRadioProfilePayload @rollout @beta
   updateWifiSsid(input: UpdateWifiSsidInput!): UpdateWifiSsidPayload @rollout @beta
 }
@@ -5326,6 +5399,15 @@ type SiteSnapshot {
 type SiteSocketConfiguration {
   primarySocketConfiguration: SocketConfiguration!
   secondarySocketConfiguration: SocketConfiguration
+}
+
+type SiteSocketInfo {
+  isPrimary: Boolean!
+  model: SocketModel
+  platform: String
+  registrationStatus: SocketRegistrationStatus
+  version: String
+  wifiSupported: SocketWifiSupport!
 }
 
 """ A static host configured on a site. """
@@ -5469,7 +5551,9 @@ type SocketBypassSource {
 
 type SocketConfiguration {
   description: String
+  managementIp: IPAddress
   serial: String
+  socketInfo: SiteSocketInfo!
 }
 
 """ Basic information about socket """
@@ -6366,12 +6450,20 @@ type UpdateAdminPayload {
   adminID: ID!
 }
 
+type UpdateBgpPeerBulkPayload {
+  bgpPeer: [BgpPeer!]!
+}
+
 type UpdateBgpPeerPayload {
   bgpPeer: BgpPeer!
 }
 
+"""
+Deprecated: payload of the deprecated `updateBgpPeers` mutation. Use the bulk BGP peer mutations
+(`createBgpPeerBulk`, `updateBgpPeerBulk`, `deleteBgpPeerBulk`) and their payloads instead.
+"""
 type UpdateBgpPeersPayload {
-  bgpPeer: [BgpPeer!]!
+  bgpPeer: [BgpPeer!]! @deprecated(reason: "Use the bulk BGP peer mutations 'createBgpPeerBulk', 'updateBgpPeerBulk', and 'deleteBgpPeerBulk' instead")
 }
 
 """ Payload for updating an existing physical connection at a cloud interconnect site. """
@@ -6462,6 +6554,10 @@ type UpdateMailingListPayload {
   mailingList: MailingList!
 }
 
+type UpdateNetworkRangeBulkPayload {
+  networkRange: [NetworkRange!]!
+}
+
 type UpdateNetworkRangePayload {
   networkRangeId: ID!
 }
@@ -6523,6 +6619,10 @@ type UpdateSocketInterfacePayload {
 type UpdateSocketInterfacesPayload {
   siteId: ID!
   socketInterfaceId: [SocketInterfaceIDEnum!]!
+}
+
+type UpdateStaticHostBulkPayload {
+  host: [SiteStaticHost!]!
 }
 
 type UpdateStaticHostPayload {
@@ -8513,6 +8613,10 @@ input BusinessPlatformSortInput {
   plan: SortOrderInput
 }
 
+input BusinessPlatformUpdateSettingsInput {
+  approvalEnabled: Boolean
+}
+
 """ Input for canceling a partner access request. """
 input CancelPartnerAccessInput {
   invitationId: ID!
@@ -8722,6 +8826,11 @@ input CreateBearerTokenAuthInput {
   bearerToken: Secret!
 }
 
+input CreateBgpPeerBulkInput {
+  bgpPeer: [BgpPeerConfigurationInput!]!
+  site: SiteRefInput!
+}
+
 """ Create synchronization data for a container """
 input CreateContainerSyncDataInput {
   notifications: CreateContainerSyncDataNotificationInput!
@@ -8809,6 +8918,28 @@ input CreateMailingListInput {
   name: String!
 }
 
+""" Wrapper input for `createNetworkRangeBulk`. All items in `networkRange` are applied to the single site identified by `site`. """
+input CreateNetworkRangeBulkInput {
+  networkRange: [CreateNetworkRangeInput!]!
+  site: SiteRefInput!
+}
+
+""" Per-item input for `createNetworkRangeBulk`. The owning site is provided at the wrapper level (`CreateNetworkRangeBulkInput.site`). """
+input CreateNetworkRangeInput {
+  azureFloatingIp: IPAddress
+  dhcpSettings: NetworkDhcpSettingsInput
+  gateway: IPAddress
+  internetOnly: Boolean
+  lanSocketInterfaceId: ID!
+  localIp: IPAddress
+  mdnsReflector: Boolean
+  name: String!
+  rangeType: SubnetType!
+  subnet: IPSubnet!
+  translatedSubnet: IPSubnet
+  vlan: Int
+}
+
 input CreatePrivateApplicationInput {
   allowIcmpProtocol: Boolean! = true
   description: String
@@ -8819,6 +8950,12 @@ input CreatePrivateApplicationInput {
   protocolPorts: [CustomServiceInput!]
   published: Boolean! = false
   publishedAppDomain: PublishedAppDomainInput
+}
+
+""" Wrapper input for `createStaticHostBulk`. All items in `host` are applied to the single site identified by `site`. """
+input CreateStaticHostBulkInput {
+  host: [SiteAddStaticHostInput!]!
+  site: SiteRefInput!
 }
 
 input CreateSubscriptionGroupInput {
@@ -8975,6 +9112,11 @@ input DateTimeFilterInput {
   nin: [DateTime!]
 }
 
+input DeleteBgpPeerBulkInput {
+  bgpPeer: [BgpPeerRefInput!]!
+  site: SiteRefInput!
+}
+
 """ Identification of container for delete operation """
 input DeleteContainerInput {
   ref: ContainerRefInput!
@@ -8984,6 +9126,12 @@ input DeleteCustomApplicationInput {
   customApplication: CustomApplicationRefInput!
 }
 
+""" Wrapper input for `deleteNetworkRangeBulk`. All items in `networkRange` reference network ranges on the single site identified by `site`. """
+input DeleteNetworkRangeBulkInput {
+  networkRange: [NetworkRangeRefInput!]!
+  site: SiteRefInput!
+}
+
 input DeletePrivateApplicationInput {
   privateApplication: PrivateApplicationRefInput!
 }
@@ -8991,6 +9139,12 @@ input DeletePrivateApplicationInput {
 """ Delete report input """
 input DeleteReportInput {
   fileHash: String!
+}
+
+""" Wrapper input for `deleteStaticHostBulk`. All items in `host` reference static hosts on the single site identified by `site`. """
+input DeleteStaticHostBulkInput {
+  host: [SiteStaticHostRefInput!]!
+  site: SiteRefInput!
 }
 
 input DeleteStoryCommentInput {
@@ -10245,6 +10399,12 @@ input PopLocationAddAllocatedIpInput {
   type: PopLocationAllocatedIpType! = BYOIP
 }
 
+input PopLocationAddBgpProfileInput {
+  communities: [BgpCommunityInput!]!
+  description: String
+  name: String!
+}
+
 """ Input for allocating an IP address for a PoP location. """
 input PopLocationAllocateIpInput {
   description: String
@@ -10322,6 +10482,12 @@ input PopLocationRemoveAllocatedIpInput {
 input PopLocationUpdateAllocatedIpDescriptionInput {
   description: String!
   ip: IPAddress!
+}
+
+input PopLocationUpdateBgpProfileInput {
+  description: String
+  id: ID!
+  name: String
 }
 
 """ Inclusive network port range """
@@ -10760,6 +10926,13 @@ input SiteStaticHostConfigurationInput {
 
 input SiteStaticHostRefInput {
   hostId: ID!
+}
+
+input SiteUpdateStaticHostInput {
+  hostId: ID!
+  ip: IPAddress
+  macAddress: String
+  name: String
 }
 
 """ Represents a single site upgrade request. """
@@ -11804,6 +11977,11 @@ input UpdateBearerTokenAuthInput {
   bearerToken: Secret
 }
 
+input UpdateBgpPeerBulkInput {
+  bgpPeer: [UpdateBgpPeerInput!]!
+  site: SiteRefInput!
+}
+
 input UpdateBgpPeerInput {
   advertiseAllRoutes: Boolean
   advertiseDefaultRoute: Boolean
@@ -11827,10 +12005,14 @@ input UpdateBgpPeerInput {
   tracking: BgpTrackingInput
 }
 
+"""
+Deprecated: input of the deprecated `updateBgpPeers` mutation. Use the bulk BGP peer mutations
+(`createBgpPeerBulk`, `updateBgpPeerBulk`, `deleteBgpPeerBulk`) and their inputs instead.
+"""
 input UpdateBgpPeersInput {
-  bgpPeer: [BgpPeerConfigurationInput!]
-  bgpPeerToAdd: [BgpPeerConfigurationInput!]
-  bgpPeerToRemove: [BgpPeerRefInput!]
+  bgpPeer: [BgpPeerConfigurationInput!] @deprecated(reason: "Use the 'createBgpPeerBulk' / 'updateBgpPeerBulk' / 'deleteBgpPeerBulk' mutations instead")
+  bgpPeerToAdd: [BgpPeerConfigurationInput!] @deprecated(reason: "Use the 'createBgpPeerBulk' mutation instead")
+  bgpPeerToRemove: [BgpPeerRefInput!] @deprecated(reason: "Use the 'deleteBgpPeerBulk' mutation instead")
   site: SiteRefInput!
 }
 
@@ -12021,6 +12203,12 @@ input UpdateMailingListInput {
   name: String
 }
 
+""" Wrapper input for `updateNetworkRangeBulk`. All items in `networkRange` are applied to the single site identified by `site`; each item must reference a network range that already belongs to that site. """
+input UpdateNetworkRangeBulkInput {
+  networkRange: [UpdateSiteNetworkRangeV2Input!]!
+  site: SiteRefInput!
+}
+
 input UpdateNetworkRangeInput {
   azureFloatingIp: IPAddress
   dhcpSettings: NetworkDhcpSettingsInput
@@ -12122,6 +12310,29 @@ input UpdateSiteNetworkRangeInput {
   vlan: Int
 }
 
+"""
+Per-item input for `updateNetworkRangeBulk`. Each item targets an existing
+network range by `id`; all other fields are optional and follow
+omit-to-leave-unchanged semantics.
+"""
+input UpdateSiteNetworkRangeV2Input {
+  azureFloatingIp: IPAddress
+  dhcpSettings: NetworkDhcpSettingsInput
+  gateway: IPAddress
+  gcpLoadBalancerIp: IPAddress
+  id: ID!
+  internetOnly: Boolean
+  localIp: IPAddress
+  mdnsReflector: Boolean
+  name: String
+  primaryManagementIp: IPAddress
+  rangeType: SubnetType
+  secondaryManagementIp: IPAddress
+  subnet: IPSubnet
+  translatedSubnet: IPSubnet
+  vlan: Int
+}
+
 input UpdateSiteNetworkRangesInput {
   networkRange: [UpdateSiteNetworkRangeInput!]
   networkRangeToAdd: [UpdateSiteNetworkRangeInput!]
@@ -12164,6 +12375,12 @@ input UpdateSocketInterfaceInput {
 input UpdateSocketInterfacesInput {
   site: SiteRefInput!
   socketInterface: [SocketInterfaceConfigurationInput!]!
+}
+
+""" Wrapper input for `updateStaticHostBulk`. All items in `host` are applied to the single site identified by `site`; each item targets an existing static host by `hostId`. """
+input UpdateStaticHostBulkInput {
+  host: [SiteUpdateStaticHostInput!]!
+  site: SiteRefInput!
 }
 
 input UpdateStaticHostInput {
@@ -14322,7 +14539,7 @@ enum EventFieldName {
   categories
   """ Cato application name. CMA Name: Cato App """
   cato_app
-  """ values when applicable. Only available for native data integration created in the CMA and eventsFeed API. Not available in the events or eventsTimeSeries API. """
+  """ Change details, including 'from' and 'to' values when applicable. Only available for native data integration created in the CMA and eventsFeed API. Not available in the events or eventsTimeSeries API. """
   changes
   """ Activity classification, e.g. FALSE_POSITIVE. CMA Name: Classification """
   classification
@@ -14541,8 +14758,6 @@ enum EventFieldName {
   flow_id
   """ Amount of flows for a given incident. CMA Name: Flows Cardinality """
   flows_cardinality
-  """ Change details, including """
-  from
   """ Full path URL application activity. CMA Name: Full Path URL """
   full_path_url
   """ A unique identifier for the AI Security Guard associated with the event. CMA Name: Guard ID """
@@ -14869,8 +15084,6 @@ enum EventFieldName {
   tls_rule_name
   """ TLS Version. CMA Name: TLS Version """
   tls_version
-  """ and """
-  to
   """ Total number of tokens processed. CMA Name: Total Tokens """
   total_tokens
   """ Direction of network traffic for this event, values are inbound or outbound. CMA Name: Traffic Direction """
@@ -16274,6 +16487,12 @@ enum SocketUpgradeStatus {
   STARTED
   STARTING
   SUCCESS
+}
+
+enum SocketWifiSupport {
+  FALSE
+  TRUE
+  UNKNOWN
 }
 
 enum SortDirectionEnum {
