@@ -31,8 +31,8 @@ type Query {
   accountSnapshot(accountID: ID, id: ID @deprecated(reason: "by accountID")): AccountSnapshot @ga
   admin(accountId: ID!, adminID: ID!): GetAdminPayload @ga
   admins(accountID: ID!, limit: Int = 50, from: Int = 0, search: String = "", sort: [SortInput], adminIDs: [ID!]): AdminsResult @ga
-  appStats(accountID: ID!, timeFrame: TimeFrame!, measures: [Measure], dimensions: [Dimension], filters: [AppStatsFilter!], postAggFilters: [AppStatsPostAggFilter!], sort: [AppStatsSort!]): AppStats @ga
-  appStatsTimeSeries(accountID: ID!, timeFrame: TimeFrame!, measures: [Measure], dimensions: [Dimension], filters: [AppStatsFilter!]): AppStatsTimeSeries @ga
+  appStats(accountID: ID!, timeFrame: TimeFrame!, measures: [Measure], dimensions: [Dimension], filters: [AppStatsFilter!], postAggFilters: [AppStatsPostAggFilter!], sort: [AppStatsSort!], includeEmptyDimension: Boolean): AppStats @ga
+  appStatsTimeSeries(accountID: ID!, timeFrame: TimeFrame!, measures: [Measure], dimensions: [Dimension], filters: [AppStatsFilter!], includeEmptyDimension: Boolean): AppStatsTimeSeries @ga
   auditFeed(accountIDs: [ID!], ids: [ID!] @deprecated(reason: "by accountIDs"), timeFrame: TimeFrame!, filters: [AuditFieldFilterInput!], marker: String): AuditFeed @ga
   businessPlatform(accountId: ID!): BusinessPlatformQueries @rollout
   catalogs(accountId: ID!): CatalogQueries
@@ -42,9 +42,9 @@ type Query {
   devices(accountId: ID!): DevicesQueries! @beta
   enterpriseDirectory(accountId: ID!): EnterpriseDirectoryQueries
   entityLookup(accountID: ID!, type: EntityType!, limit: Int = 50, from: Int = 0, parent: EntityInput, search: String = "", entityIDs: [ID!], sort: [SortInput], filters: [LookupFilterInput], helperFields: [String!]): EntityLookupResult! @ga
-  events(accountID: ID!, timeFrame: TimeFrame!, measures: [EventsMeasure], dimensions: [EventsDimension], filters: [EventsFilter!], postAggFilters: [EventsPostAggFilter!], sort: [EventsSort!]): Events @ga
+  events(accountID: ID!, timeFrame: TimeFrame!, measures: [EventsMeasure], dimensions: [EventsDimension], filters: [EventsFilter!], postAggFilters: [EventsPostAggFilter!], sort: [EventsSort!], includeEmptyDimension: Boolean): Events @ga
   eventsFeed(accountIDs: [ID!], filters: [EventFeedFieldFilterInput!], marker: String): EventsFeedData @ga
-  eventsTimeSeries(accountID: ID!, timeFrame: TimeFrame!, measures: [EventsMeasure], dimensions: [EventsDimension], filters: [EventsFilter!]): EventsTimeSeries @ga
+  eventsTimeSeries(accountID: ID!, timeFrame: TimeFrame!, measures: [EventsMeasure], dimensions: [EventsDimension], filters: [EventsFilter!], includeEmptyDimension: Boolean): EventsTimeSeries @ga
   externalAccess(accountId: ID!): ExternalAccessQueries!
   groups(accountId: ID!): GroupsQueries
   hardware(accountId: ID!): HardwareQueries
@@ -5513,12 +5513,14 @@ type SocketBypassRule implements IPolicyRule {
 
 type SocketBypassRuleMutationPayload implements IPolicyRuleMutationPayload {
   errors: [PolicyMutationError!]!
+  revision: PolicyRevision
   rule: SocketBypassRulePayload
   status: PolicyMutationStatus!
 }
 
 type SocketBypassRulePayload implements IPolicyRulePayload {
   audit: PolicyElementAudit!
+  metadata: PolicyElementMetadata
   properties: [PolicyElementPropertiesEnum!]!
   rule: SocketBypassRule!
 }
@@ -5674,12 +5676,14 @@ type SocketLanFirewallRule implements IPolicyRule {
 
 type SocketLanFirewallRuleMutationPayload implements IPolicyRuleMutationPayload {
   errors: [PolicyMutationError!]!
+  revision: PolicyRevision
   rule: SocketLanFirewallRulePayload
   status: PolicyMutationStatus!
 }
 
 type SocketLanFirewallRulePayload implements IPolicyRulePayload {
   audit: PolicyElementAudit!
+  metadata: PolicyElementMetadata
   properties: [PolicyElementPropertiesEnum!]!
   rule: SocketLanFirewallRule!
 }
@@ -5773,12 +5777,14 @@ type SocketLanRule implements IPolicyRule {
 
 type SocketLanRuleMutationPayload implements IPolicyRuleMutationPayload {
   errors: [PolicyMutationError!]!
+  revision: PolicyRevision
   rule: SocketLanRulePayload
   status: PolicyMutationStatus!
 }
 
 type SocketLanRulePayload implements IPolicyRulePayload {
   audit: PolicyElementAudit!
+  metadata: PolicyElementMetadata
   properties: [PolicyElementPropertiesEnum!]!
   rule: SocketLanRule!
 }
@@ -7090,12 +7096,14 @@ type WanNetworkRuleException {
 
 type WanNetworkRuleMutationPayload implements IPolicyRuleMutationPayload {
   errors: [PolicyMutationError!]!
+  revision: PolicyRevision
   rule: WanNetworkRulePayload
   status: PolicyMutationStatus!
 }
 
 type WanNetworkRulePayload implements IPolicyRulePayload {
   audit: PolicyElementAudit!
+  metadata: PolicyElementMetadata
   properties: [PolicyElementPropertiesEnum!]!
   rule: WanNetworkRule!
 }
@@ -7373,6 +7381,7 @@ type ZtnaAppConnector {
   privateAppRef: [PrivateApplicationRef!]!
   serialNumber: String
   socketId: ID
+  socketInfo: ZtnaAppConnectorSocketInfo
   socketModel: SocketModel
   type: ZtnaAppConnectorType!
 }
@@ -7551,6 +7560,15 @@ type ZtnaAppConnectorSnapshotSummaryPayload {
 type ZtnaAppConnectorSnapshotVersionSummaryItem {
   total: Int!
   version: String!
+}
+
+""" Socket runtime/version info for an assigned App Connector. Null when no socket is assigned. """
+type ZtnaAppConnectorSocketInfo {
+  rollbackEligibleUntil: DateTime
+  rollbackTargetVersion: String
+  upgradesPaused: Boolean!
+  version: String
+  versionUpdateTime: DateTime
 }
 
 type ZtnaAppConnectorUpgradeInfo {
@@ -9437,6 +9455,13 @@ input DynamicIpAllocationUpdateRuleInput {
   rule: DynamicIpAllocationUpdateRuleDataInput!
 }
 
+input EmailFilterInput {
+  eq: Email
+  in: [Email!]
+  neq: Email
+  nin: [Email!]
+}
+
 input EnableServiceForManagedAccountInput {
   managedAccountId: ID!
   service: LicenseSku!
@@ -10412,7 +10437,10 @@ input PopLocationAllocateIpInput {
   type: PopLocationAllocatedIpType! = BYOIP
 }
 
-""" Filter options for querying allocated IP addresses for PoP locations. """
+"""
+a
+Filter options for querying allocated IP addresses for PoP locations.
+"""
 input PopLocationAllocatedIpFilterInput {
   account: StringFilterInput
   allocatedIp: StringFilterInput
@@ -12504,12 +12532,13 @@ input UploadFileInput {
 input UserFilterInput {
   department: [StringFilterInput!]
   directoryId: [StringFilterInput!]
+  email: [EmailFilterInput!]
+  id: [IdFilterInput!] @ea
   importType: [ImportTypeFilterInput!]
   jobTitle: [StringFilterInput!]
   remoteAccessEligibility: [BooleanFilterInput!]
   riskScore: [RiskScoreFilterInput!]
   searchTerm: FreeTextFilterInput
-  userId: [IdFilterInput!] @ea
   userStatus: [UserStatusFilterInput!]
 }
 
@@ -14463,7 +14492,7 @@ enum EventFieldName {
   ai_app_risk_level
   """ AI Proxy rule name. CMA Name: AI Proxy Rule Name """
   ai_proxy_rule_name
-  """ AI Findings reason text from the feed. CMA Name: Ai Reason """
+  """ AI Findings reason text from the feed. CMA Name: AI Reason """
   ai_reason
   """ A unique identifier of the alert notification. CMA Name: Alert id """
   alert_id
@@ -14680,6 +14709,8 @@ enum EventFieldName {
   directory_sync_type
   """ If policy is set to disinfect, return the result of this action. CMA Name: Disinfect Result """
   disinfect_result
+  """ Display Name. CMA Name: Display Name """
+  display_name
   """ Describes the behavior when the DLP system encounters a failure. CMA Name: DLP Fail Mode """
   dlp_fail_mode
   """ DLP profiles related to the event. CMA Name: DLP Profiles """
@@ -14786,6 +14817,8 @@ enum EventFieldName {
   indicator
   """ The initial status of the object, before any policy was applied. CMA Name: Initial Object Status """
   initial_object_status
+  """ Inspection Mode. CMA Name: Inspection Mode """
+  inspection_mode
   """ Unique identifier for a single AI interaction between an application and an AI model. CMA Name: Interaction ID """
   interaction_id
   """ Inferred user intent of the AI interaction (e.g. Seek Advice, Generate Content, Get Information), as classified by the AI Security Engine. CMA Name: Interaction Intent """
@@ -14810,8 +14843,12 @@ enum EventFieldName {
   is_cloud_app
   """ Is Compliant. CMA Name: Is Compliant """
   is_compliant
+  """ Is Encrypted. CMA Name: Is Encrypted """
+  is_encrypted
   """ Is Managed. CMA Name: Is Managed """
   is_managed
+  """ Is Public. CMA Name: Is Public """
+  is_public
   """ Is the app for this event defined as a sanctioned app? (True/False). CMA Name: Is Sanctioned App """
   is_sanctioned_app
   """ If the events was part of the sinkhole flow. CMA Name: Is Sinkhole """
@@ -14822,6 +14859,10 @@ enum EventFieldName {
   key_name
   """ A list of labels providing additional context for the event. CMA Name: Labels """
   labels
+  """ Last Modified. CMA Name: Last Modified """
+  last_modified_at
+  """ Last Seen. CMA Name: Last Seen """
+  last_seen_at
   """ Role of the conversation participant for the analyzed turn (user, assistant, or tool call). CMA Name: Last Turn Role """
   last_turn_role
   """ Data that measures the congestion for a specific link. CMA Name: Link Health is Congested """
@@ -14838,6 +14879,8 @@ enum EventFieldName {
   logged_in_user
   """ Login action, values are: User portal (myvpn.catonetworks.com) or VPN client (Client or site traffic). CMA Name: Login Type """
   login_type
+  """ Matched count for each DLP data types found to the event. CMA Name: Matched Count """
+  matched_count
   """ Matched DLP data types related to the event. CMA Name: Matched Data Types """
   matched_data_types
   """ Unique identifier used to correlate request and response events for the same message. CMA Name: Message ID """
@@ -14946,6 +14989,8 @@ enum EventFieldName {
   rule_name
   """ Secondary socket serial number. CMA Name: Secondary Socket Serial """
   secondary_socket_serial @deprecated(reason: "use socket_serial instead. Planned end-of-life (EoL) date: April 1, 2026.")
+  """ Sensitivity Display Name. CMA Name: Sensitivity Display Name """
+  sensitivity_display_name
   """ Server IP address. CMA Name: Server IP """
   server_ip
   """ The TLS key exchange algorithm negotiated between the connecting client and the Cato PoP during TLS inspection. This is the algorithm used to establish the shared secret for encrypting traffic on the server-facing (inbound) side of the proxy. CMA Name: Server Key Exchange Algorithm """
@@ -14960,6 +15005,8 @@ enum EventFieldName {
   sharing_scope
   """ Sign In Types. CMA Name: Sign In Types """
   sign_in_event_types
+  """ Signal Source. CMA Name: Signal Source """
+  signal_source
   """ For IPS and SAM, ID of the IPS signature. CMA Name: Signature ID """
   signature_id
   """ Site web proxy instance ID. CMA Name: Site Web Proxy ID """
@@ -16592,9 +16639,17 @@ enum StoryStatusEnum {
 
 enum StoryVerdictEnum {
   Benign
+  ConfigurationIssue
+  FalsePositive
+  HardwareIssue
   Informational
+  InsufficientData
   Malicious
+  OverlayIssue
+  PlannedMaintenance
+  SelfRecovered
   Suspicious
+  UnderlayIssue
 }
 
 enum SubPolicyProperty {
