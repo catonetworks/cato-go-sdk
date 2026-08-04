@@ -7110,8 +7110,8 @@ type InternetFirewallPolicyMutations struct {
 	PublishPolicyRevision *InternetFirewallPolicyMutationPayload          `json:"publishPolicyRevision"`
 	RemoveRule            *InternetFirewallRuleMutationPayload            `json:"removeRule"`
 	RemoveSection         *PolicySectionMutationPayload                   `json:"removeSection"`
-	ReorderPolicy         *InternetFirewallPolicyMutationPayload          `json:"reorderPolicy"`
 	RemoveSubPolicy       *InternetFirewallRemoveSubPolicyMutationPayload `json:"removeSubPolicy"`
+	ReorderPolicy         *InternetFirewallPolicyMutationPayload          `json:"reorderPolicy"`
 	UpdatePolicy          *InternetFirewallPolicyMutationPayload          `json:"updatePolicy"`
 	UpdateRule            *InternetFirewallRuleMutationPayload            `json:"updateRule"`
 	UpdateSection         *PolicySectionMutationPayload                   `json:"updateSection"`
@@ -11755,6 +11755,37 @@ type SocketLanAddRuleInput struct {
 	Rule *SocketLanAddRuleDataInput `json:"rule"`
 }
 
+type SocketLanAddSubPolicyDataInput struct {
+	Description string `json:"description"`
+	Name        string `json:"name"`
+}
+
+type SocketLanAddSubPolicyInput struct {
+	At     *PolicyRulePositionInput        `json:"at"`
+	Policy *SocketLanAddSubPolicyDataInput `json:"policy,omitempty"`
+	Scope  *SocketLanAddRuleDataInput      `json:"scope"`
+}
+
+type SocketLanAddSubPolicyMutationPayload struct {
+	Errors []*PolicyMutationError `json:"errors"`
+	Policy *SocketLanPolicy       `json:"policy,omitempty"`
+	Status PolicyMutationStatus   `json:"status"`
+}
+
+func (SocketLanAddSubPolicyMutationPayload) IsIPolicyMutationPayload() {}
+func (this SocketLanAddSubPolicyMutationPayload) GetErrors() []*PolicyMutationError {
+	if this.Errors == nil {
+		return nil
+	}
+	interfaceSlice := make([]*PolicyMutationError, 0, len(this.Errors))
+	for _, concrete := range this.Errors {
+		interfaceSlice = append(interfaceSlice, concrete)
+	}
+	return interfaceSlice
+}
+func (this SocketLanAddSubPolicyMutationPayload) GetPolicy() IPolicy              { return *this.Policy }
+func (this SocketLanAddSubPolicyMutationPayload) GetStatus() PolicyMutationStatus { return this.Status }
+
 // Returns the settings for Destination of a Wan Firewall rule.
 type SocketLanDestination struct {
 	FloatingSubnet    []*FloatingSubnetRef    `json:"floatingSubnet"`
@@ -11909,6 +11940,18 @@ type SocketLanFirewallPolicyMutations struct {
 	UpdateRule *SocketLanFirewallRuleMutationPayload `json:"updateRule"`
 }
 
+// A reference to a SocketLAN Firewall sub-policy. Sub-model rules are always POLICY_RULE type; this field is present for PPS RBAC field compatibility.
+type SocketLanFirewallPolicyRef struct {
+	ID   string `json:"id"`
+	Name string `json:"name"`
+}
+
+func (SocketLanFirewallPolicyRef) IsObjectRef()         {}
+func (this SocketLanFirewallPolicyRef) GetID() string   { return this.ID }
+func (this SocketLanFirewallPolicyRef) GetName() string { return this.Name }
+
+func (SocketLanFirewallPolicyRef) IsPolicyRef() {}
+
 type SocketLanFirewallRemoveRuleInput struct {
 	ID string `json:"id"`
 }
@@ -11959,10 +12002,13 @@ func (this SocketLanFirewallRuleMutationPayload) GetRule() IPolicyRulePayload   
 func (this SocketLanFirewallRuleMutationPayload) GetStatus() PolicyMutationStatus { return this.Status }
 
 type SocketLanFirewallRulePayload struct {
+	Access     *EntityAccess                 `json:"access"`
 	Audit      *PolicyElementAudit           `json:"audit"`
 	Metadata   *PolicyElementMetadata        `json:"metadata,omitempty"`
 	Properties []PolicyElementPropertiesEnum `json:"properties"`
 	Rule       *SocketLanFirewallRule        `json:"rule"`
+	RuleType   PolicyRuleTypeEnum            `json:"ruleType"`
+	SubPolicy  *SocketLanFirewallPolicyRef   `json:"subPolicy,omitempty"`
 }
 
 func (SocketLanFirewallRulePayload) IsIPolicyRulePayload()              {}
@@ -12088,11 +12134,16 @@ type SocketLanNatSettingsUpdateInput struct {
 }
 
 type SocketLanPolicy struct {
-	Audit    *PolicyAudit            `json:"audit,omitempty"`
-	Enabled  bool                    `json:"enabled"`
-	Revision *PolicyRevision         `json:"revision,omitempty"`
-	Rules    []*SocketLanRulePayload `json:"rules"`
-	Sections []*PolicySectionPayload `json:"sections"`
+	Access      *EntityAccess                `json:"access"`
+	Audit       *PolicyAudit                 `json:"audit,omitempty"`
+	Description string                       `json:"description"`
+	Enabled     bool                         `json:"enabled"`
+	ID          string                       `json:"id"`
+	Name        string                       `json:"name"`
+	Revision    *PolicyRevision              `json:"revision,omitempty"`
+	Rules       []*SocketLanRulePayload      `json:"rules"`
+	Sections    []*PolicySectionPayload      `json:"sections"`
+	SubPolicies []*SocketLanSubPolicyPayload `json:"subPolicies"`
 }
 
 func (SocketLanPolicy) IsIPolicy()                        {}
@@ -12120,8 +12171,60 @@ func (this SocketLanPolicy) GetSections() []*PolicySectionPayload {
 	return interfaceSlice
 }
 
+type SocketLanPolicyInfo struct {
+	Audit       *PolicyAudit    `json:"audit"`
+	Description string          `json:"description"`
+	Enabled     bool            `json:"enabled"`
+	ID          string          `json:"id"`
+	Name        string          `json:"name"`
+	PolicyLevel PolicyLevelEnum `json:"policyLevel"`
+}
+
+func (SocketLanPolicyInfo) IsPolicyInfo()                        {}
+func (this SocketLanPolicyInfo) GetAudit() *PolicyAudit          { return this.Audit }
+func (this SocketLanPolicyInfo) GetDescription() string          { return this.Description }
+func (this SocketLanPolicyInfo) GetEnabled() bool                { return this.Enabled }
+func (this SocketLanPolicyInfo) GetID() string                   { return this.ID }
+func (this SocketLanPolicyInfo) GetName() string                 { return this.Name }
+func (this SocketLanPolicyInfo) GetPolicyLevel() PolicyLevelEnum { return this.PolicyLevel }
+
 type SocketLanPolicyInput struct {
 	Revision *PolicyRevisionInput `json:"revision,omitempty"`
+}
+
+type SocketLanPolicyListFilterInput struct {
+	ID          []*IDFilterInput              `json:"id,omitempty"`
+	Name        []*StringFilterInput          `json:"name,omitempty"`
+	PolicyLevel []*PolicyLevelEnumFilterInput `json:"policyLevel,omitempty"`
+}
+
+type SocketLanPolicyListInput struct {
+	Filter *SocketLanPolicyListFilterInput `json:"filter,omitempty"`
+	Paging *PagingInput                    `json:"paging"`
+	Sort   *SocketLanPolicyListSortInput   `json:"sort"`
+}
+
+type SocketLanPolicyListPayload struct {
+	Items  []*SocketLanPolicyInfo `json:"items"`
+	Paging *PageInfo              `json:"paging"`
+}
+
+func (SocketLanPolicyListPayload) IsPolicyListPayload() {}
+func (this SocketLanPolicyListPayload) GetItems() []PolicyInfo {
+	if this.Items == nil {
+		return nil
+	}
+	interfaceSlice := make([]PolicyInfo, 0, len(this.Items))
+	for _, concrete := range this.Items {
+		interfaceSlice = append(interfaceSlice, concrete)
+	}
+	return interfaceSlice
+}
+func (this SocketLanPolicyListPayload) GetPaging() *PageInfo { return this.Paging }
+
+type SocketLanPolicyListSortInput struct {
+	Name        *SortOrderInput `json:"name,omitempty"`
+	PolicyLevel *SortOrderInput `json:"policyLevel,omitempty"`
 }
 
 type SocketLanPolicyMutationInput struct {
@@ -12149,24 +12252,28 @@ func (this SocketLanPolicyMutationPayload) GetPolicy() IPolicy              { re
 func (this SocketLanPolicyMutationPayload) GetStatus() PolicyMutationStatus { return this.Status }
 
 type SocketLanPolicyMutations struct {
-	AddRule               *SocketLanRuleMutationPayload     `json:"addRule"`
-	AddSection            *PolicySectionMutationPayload     `json:"addSection"`
-	CreatePolicyRevision  *SocketLanPolicyMutationPayload   `json:"createPolicyRevision"`
-	DiscardPolicyRevision *SocketLanPolicyMutationPayload   `json:"discardPolicyRevision"`
-	Firewall              *SocketLanFirewallPolicyMutations `json:"firewall"`
-	MoveRule              *SocketLanRuleMutationPayload     `json:"moveRule"`
-	MoveSection           *PolicySectionMutationPayload     `json:"moveSection"`
-	PublishPolicyRevision *SocketLanPolicyMutationPayload   `json:"publishPolicyRevision"`
-	RemoveRule            *SocketLanRuleMutationPayload     `json:"removeRule"`
-	RemoveSection         *PolicySectionMutationPayload     `json:"removeSection"`
-	UpdatePolicy          *SocketLanPolicyMutationPayload   `json:"updatePolicy"`
-	UpdateRule            *SocketLanRuleMutationPayload     `json:"updateRule"`
-	UpdateSection         *PolicySectionMutationPayload     `json:"updateSection"`
+	AddRule               *SocketLanRuleMutationPayload            `json:"addRule"`
+	AddSection            *PolicySectionMutationPayload            `json:"addSection"`
+	AddSubPolicy          *SocketLanAddSubPolicyMutationPayload    `json:"addSubPolicy"`
+	CreatePolicyRevision  *SocketLanPolicyMutationPayload          `json:"createPolicyRevision"`
+	DiscardPolicyRevision *SocketLanPolicyMutationPayload          `json:"discardPolicyRevision"`
+	Firewall              *SocketLanFirewallPolicyMutations        `json:"firewall"`
+	MoveRule              *SocketLanRuleMutationPayload            `json:"moveRule"`
+	MoveSection           *PolicySectionMutationPayload            `json:"moveSection"`
+	PublishPolicyRevision *SocketLanPolicyMutationPayload          `json:"publishPolicyRevision"`
+	RemoveRule            *SocketLanRuleMutationPayload            `json:"removeRule"`
+	RemoveSection         *PolicySectionMutationPayload            `json:"removeSection"`
+	RemoveSubPolicy       *SocketLanRemoveSubPolicyMutationPayload `json:"removeSubPolicy"`
+	ReorderPolicy         *SocketLanPolicyMutationPayload          `json:"reorderPolicy"`
+	UpdatePolicy          *SocketLanPolicyMutationPayload          `json:"updatePolicy"`
+	UpdateRule            *SocketLanRuleMutationPayload            `json:"updateRule"`
+	UpdateSection         *PolicySectionMutationPayload            `json:"updateSection"`
 }
 
 type SocketLanPolicyQueries struct {
-	Policy    *SocketLanPolicy        `json:"policy"`
-	Revisions *PolicyRevisionsPayload `json:"revisions,omitempty"`
+	Policy     *SocketLanPolicy            `json:"policy"`
+	PolicyList *SocketLanPolicyListPayload `json:"policyList"`
+	Revisions  *PolicyRevisionsPayload     `json:"revisions,omitempty"`
 }
 
 type SocketLanPolicyRef struct {
@@ -12180,12 +12287,43 @@ func (this SocketLanPolicyRef) GetName() string { return this.Name }
 
 func (SocketLanPolicyRef) IsPolicyRef() {}
 
+type SocketLanPolicyRefInput struct {
+	By    ObjectRefBy `json:"by"`
+	Input string      `json:"input"`
+}
+
 type SocketLanPolicyUpdateInput struct {
 	State *PolicyToggleState `json:"state,omitempty"`
 }
 
 type SocketLanRemoveRuleInput struct {
 	ID string `json:"id"`
+}
+
+type SocketLanRemoveSubPolicyInput struct {
+	Ref *SocketLanPolicyRefInput `json:"ref"`
+}
+
+type SocketLanRemoveSubPolicyMutationPayload struct {
+	Errors []*PolicyMutationError `json:"errors"`
+	Policy *SocketLanPolicy       `json:"policy,omitempty"`
+	Status PolicyMutationStatus   `json:"status"`
+}
+
+func (SocketLanRemoveSubPolicyMutationPayload) IsIPolicyMutationPayload() {}
+func (this SocketLanRemoveSubPolicyMutationPayload) GetErrors() []*PolicyMutationError {
+	if this.Errors == nil {
+		return nil
+	}
+	interfaceSlice := make([]*PolicyMutationError, 0, len(this.Errors))
+	for _, concrete := range this.Errors {
+		interfaceSlice = append(interfaceSlice, concrete)
+	}
+	return interfaceSlice
+}
+func (this SocketLanRemoveSubPolicyMutationPayload) GetPolicy() IPolicy { return *this.Policy }
+func (this SocketLanRemoveSubPolicyMutationPayload) GetStatus() PolicyMutationStatus {
+	return this.Status
 }
 
 type SocketLanRule struct {
@@ -12235,10 +12373,13 @@ func (this SocketLanRuleMutationPayload) GetRule() IPolicyRulePayload     { retu
 func (this SocketLanRuleMutationPayload) GetStatus() PolicyMutationStatus { return this.Status }
 
 type SocketLanRulePayload struct {
+	Access     *EntityAccess                 `json:"access"`
 	Audit      *PolicyElementAudit           `json:"audit"`
 	Metadata   *PolicyElementMetadata        `json:"metadata,omitempty"`
 	Properties []PolicyElementPropertiesEnum `json:"properties"`
 	Rule       *SocketLanRule                `json:"rule"`
+	RuleType   PolicyRuleTypeEnum            `json:"ruleType"`
+	SubPolicy  *SocketLanPolicyRef           `json:"subPolicy,omitempty"`
 }
 
 func (SocketLanRulePayload) IsIPolicyRulePayload()              {}
@@ -12334,6 +12475,25 @@ type SocketLanSourceUpdateInput struct {
 	Subnet            []string                     `json:"subnet,omitempty"`
 	SystemGroup       []*SystemGroupRefInput       `json:"systemGroup,omitempty"`
 	Vlan              []scalars.Vlan               `json:"vlan,omitempty"`
+}
+
+type SocketLanSubPolicyPayload struct {
+	Access     *EntityAccess        `json:"access"`
+	Policy     *SocketLanPolicyInfo `json:"policy"`
+	Properties []SubPolicyProperty  `json:"properties"`
+}
+
+func (SocketLanSubPolicyPayload) IsSubPolicyPayload()        {}
+func (this SocketLanSubPolicyPayload) GetPolicy() PolicyInfo { return *this.Policy }
+func (this SocketLanSubPolicyPayload) GetProperties() []SubPolicyProperty {
+	if this.Properties == nil {
+		return nil
+	}
+	interfaceSlice := make([]SubPolicyProperty, 0, len(this.Properties))
+	for _, concrete := range this.Properties {
+		interfaceSlice = append(interfaceSlice, concrete)
+	}
+	return interfaceSlice
 }
 
 type SocketLanUpdateRuleDataInput struct {

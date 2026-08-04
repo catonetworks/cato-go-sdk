@@ -3314,8 +3314,8 @@ type InternetFirewallPolicyMutations {
   publishPolicyRevision(input: PolicyPublishRevisionInput): InternetFirewallPolicyMutationPayload! @beta
   removeRule(input: InternetFirewallRemoveRuleInput!): InternetFirewallRuleMutationPayload! @beta
   removeSection(input: PolicyRemoveSectionInput!): PolicySectionMutationPayload! @beta
-  reorderPolicy(input: PolicyReorderInput!): InternetFirewallPolicyMutationPayload! @beta
   removeSubPolicy(input: InternetFirewallRemoveSubPolicyInput!): InternetFirewallRemoveSubPolicyMutationPayload! @beta
+  reorderPolicy(input: PolicyReorderInput!): InternetFirewallPolicyMutationPayload! @beta
   updatePolicy(input: InternetFirewallPolicyUpdateInput!): InternetFirewallPolicyMutationPayload! @beta
   updateRule(input: InternetFirewallUpdateRuleInput!): InternetFirewallRuleMutationPayload! @beta
   updateSection(input: PolicyUpdateSectionInput!): PolicySectionMutationPayload! @beta
@@ -5608,6 +5608,12 @@ type SocketInventoryPayload {
   pageInfo: PageInfo!
 }
 
+type SocketLanAddSubPolicyMutationPayload implements IPolicyMutationPayload {
+  errors: [PolicyMutationError!]!
+  policy: SocketLanPolicy
+  status: PolicyMutationStatus!
+}
+
 """ Returns the settings for Destination of a Wan Firewall rule. """
 type SocketLanDestination {
   floatingSubnet: [FloatingSubnetRef!]!
@@ -5658,6 +5664,12 @@ type SocketLanFirewallPolicyMutations {
   updateRule(input: SocketLanFirewallUpdateRuleInput!): SocketLanFirewallRuleMutationPayload! @beta
 }
 
+""" A reference to a SocketLAN Firewall sub-policy. Sub-model rules are always POLICY_RULE type; this field is present for PPS RBAC field compatibility. """
+type SocketLanFirewallPolicyRef implements ObjectRef & PolicyRef {
+  id: ID!
+  name: String!
+}
+
 type SocketLanFirewallRule implements IPolicyRule {
   action: SocketLanFirewallAction!
   application: SocketLanFirewallApplication!
@@ -5682,10 +5694,13 @@ type SocketLanFirewallRuleMutationPayload implements IPolicyRuleMutationPayload 
 }
 
 type SocketLanFirewallRulePayload implements IPolicyRulePayload {
+  access: EntityAccess!
   audit: PolicyElementAudit!
   metadata: PolicyElementMetadata
   properties: [PolicyElementPropertiesEnum!]!
   rule: SocketLanFirewallRule!
+  ruleType: PolicyRuleTypeEnum!
+  subPolicy: SocketLanFirewallPolicyRef
 }
 
 """ Defines services used in the socket LAN firewall. """
@@ -5719,11 +5734,30 @@ type SocketLanNatSettings {
 }
 
 type SocketLanPolicy implements IPolicy {
+  access: EntityAccess!
   audit: PolicyAudit
+  description: String!
   enabled: Boolean!
+  id: ID!
+  name: String!
   revision: PolicyRevision
   rules: [SocketLanRulePayload!]!
   sections: [PolicySectionPayload!]!
+  subPolicies: [SocketLanSubPolicyPayload!]!
+}
+
+type SocketLanPolicyInfo implements PolicyInfo {
+  audit: PolicyAudit!
+  description: String!
+  enabled: Boolean!
+  id: ID!
+  name: String!
+  policyLevel: PolicyLevelEnum!
+}
+
+type SocketLanPolicyListPayload implements PolicyListPayload {
+  items: [SocketLanPolicyInfo!]!
+  paging: PageInfo!
 }
 
 type SocketLanPolicyMutationPayload implements IPolicyMutationPayload {
@@ -5735,6 +5769,7 @@ type SocketLanPolicyMutationPayload implements IPolicyMutationPayload {
 type SocketLanPolicyMutations {
   addRule(input: SocketLanAddRuleInput!): SocketLanRuleMutationPayload! @beta
   addSection(input: PolicyAddSectionInput!): PolicySectionMutationPayload! @beta
+  addSubPolicy(input: SocketLanAddSubPolicyInput!): SocketLanAddSubPolicyMutationPayload! @beta
   createPolicyRevision(input: PolicyCreateRevisionInput!): SocketLanPolicyMutationPayload! @beta
   discardPolicyRevision(input: PolicyDiscardRevisionInput): SocketLanPolicyMutationPayload! @beta
   firewall: SocketLanFirewallPolicyMutations!
@@ -5743,6 +5778,8 @@ type SocketLanPolicyMutations {
   publishPolicyRevision(input: PolicyPublishRevisionInput): SocketLanPolicyMutationPayload! @beta
   removeRule(input: SocketLanRemoveRuleInput!): SocketLanRuleMutationPayload! @beta
   removeSection(input: PolicyRemoveSectionInput!): PolicySectionMutationPayload! @beta
+  removeSubPolicy(input: SocketLanRemoveSubPolicyInput!): SocketLanRemoveSubPolicyMutationPayload! @beta
+  reorderPolicy(input: PolicyReorderInput!): SocketLanPolicyMutationPayload! @beta
   updatePolicy(input: SocketLanPolicyUpdateInput!): SocketLanPolicyMutationPayload! @beta
   updateRule(input: SocketLanUpdateRuleInput!): SocketLanRuleMutationPayload! @beta
   updateSection(input: PolicyUpdateSectionInput!): PolicySectionMutationPayload! @beta
@@ -5750,12 +5787,19 @@ type SocketLanPolicyMutations {
 
 type SocketLanPolicyQueries {
   policy(input: SocketLanPolicyInput): SocketLanPolicy! @beta
+  policyList(input: SocketLanPolicyListInput! = {sort:{name:{direction:ASC,priority:1},policyLevel:{direction:ASC,priority:2}},paging:{limit:100,from:0}}): SocketLanPolicyListPayload! @beta
   revisions: PolicyRevisionsPayload @beta
 }
 
 type SocketLanPolicyRef implements ObjectRef & PolicyRef {
   id: ID!
   name: String!
+}
+
+type SocketLanRemoveSubPolicyMutationPayload implements IPolicyMutationPayload {
+  errors: [PolicyMutationError!]!
+  policy: SocketLanPolicy
+  status: PolicyMutationStatus!
 }
 
 type SocketLanRule implements IPolicyRule {
@@ -5783,10 +5827,13 @@ type SocketLanRuleMutationPayload implements IPolicyRuleMutationPayload {
 }
 
 type SocketLanRulePayload implements IPolicyRulePayload {
+  access: EntityAccess!
   audit: PolicyElementAudit!
   metadata: PolicyElementMetadata
   properties: [PolicyElementPropertiesEnum!]!
   rule: SocketLanRule!
+  ruleType: PolicyRuleTypeEnum!
+  subPolicy: SocketLanPolicyRef
 }
 
 """ Defines services used in the socket LAN policy. """
@@ -5814,6 +5861,12 @@ type SocketLanSource {
   subnet: [NetworkSubnet!]!
   systemGroup: [SystemGroupRef!]!
   vlan: [Vlan!]!
+}
+
+type SocketLanSubPolicyPayload implements SubPolicyPayload {
+  access: EntityAccess!
+  policy: SocketLanPolicyInfo!
+  properties: [SubPolicyProperty!]!
 }
 
 type SocketPortMetrics {
@@ -11242,6 +11295,17 @@ input SocketLanAddRuleInput {
   rule: SocketLanAddRuleDataInput!
 }
 
+input SocketLanAddSubPolicyDataInput {
+  description: String!
+  name: String!
+}
+
+input SocketLanAddSubPolicyInput {
+  at: PolicyRulePositionInput!
+  policy: SocketLanAddSubPolicyDataInput
+  scope: SocketLanAddRuleDataInput!
+}
+
 """ Input of the settings for Destination of a Wan Firewall rule. """
 input SocketLanDestinationInput {
   floatingSubnet: [FloatingSubnetRefInput!]! = []
@@ -11432,8 +11496,30 @@ input SocketLanPolicyInput {
   revision: PolicyRevisionInput
 }
 
+input SocketLanPolicyListFilterInput {
+  id: [IdFilterInput!]
+  name: [StringFilterInput!]
+  policyLevel: [PolicyLevelEnumFilterInput!]
+}
+
+input SocketLanPolicyListInput {
+  filter: SocketLanPolicyListFilterInput
+  paging: PagingInput! = {limit:100,from:0}
+  sort: SocketLanPolicyListSortInput! = {name:{direction:ASC,priority:1},policyLevel:{direction:ASC,priority:2}}
+}
+
+input SocketLanPolicyListSortInput {
+  name: SortOrderInput
+  policyLevel: SortOrderInput
+}
+
 input SocketLanPolicyMutationInput {
   revision: PolicyMutationRevisionInput
+}
+
+input SocketLanPolicyRefInput {
+  by: ObjectRefBy!
+  input: String!
 }
 
 input SocketLanPolicyUpdateInput {
@@ -11442,6 +11528,10 @@ input SocketLanPolicyUpdateInput {
 
 input SocketLanRemoveRuleInput {
   id: ID!
+}
+
+input SocketLanRemoveSubPolicyInput {
+  ref: SocketLanPolicyRefInput!
 }
 
 """ Defines services used in the socket LAN policy. """
