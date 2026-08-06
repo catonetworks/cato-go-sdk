@@ -297,6 +297,10 @@ query policySocketLanPolicy ( $accountId:ID! $socketLanPolicyInput:SocketLanPoli
 						transport
 					}
 					properties
+					subPolicy {
+						id
+						name
+					}
 				}
 				sections {
 					audit {
