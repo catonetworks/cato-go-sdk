@@ -102851,10 +102851,29 @@ func (t *PolicySocketLanPolicy_Policy_SocketLan_Policy_Rules_Rule) GetTransport(
 	return &t.Transport
 }
 
+type PolicySocketLanPolicy_Policy_SocketLan_Policy_Rules_SubPolicy struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicySocketLanPolicy_Policy_SocketLan_Policy_Rules_SubPolicy) GetID() string {
+	if t == nil {
+		t = &PolicySocketLanPolicy_Policy_SocketLan_Policy_Rules_SubPolicy{}
+	}
+	return t.ID
+}
+func (t *PolicySocketLanPolicy_Policy_SocketLan_Policy_Rules_SubPolicy) GetName() string {
+	if t == nil {
+		t = &PolicySocketLanPolicy_Policy_SocketLan_Policy_Rules_SubPolicy{}
+	}
+	return t.Name
+}
+
 type PolicySocketLanPolicy_Policy_SocketLan_Policy_Rules struct {
-	Audit      PolicySocketLanPolicy_Policy_SocketLan_Policy_Rules_Audit "json:\"audit\" graphql:\"audit\""
-	Properties []cato_models.PolicyElementPropertiesEnum                 "json:\"properties\" graphql:\"properties\""
-	Rule       PolicySocketLanPolicy_Policy_SocketLan_Policy_Rules_Rule  "json:\"rule\" graphql:\"rule\""
+	Audit      PolicySocketLanPolicy_Policy_SocketLan_Policy_Rules_Audit      "json:\"audit\" graphql:\"audit\""
+	Properties []cato_models.PolicyElementPropertiesEnum                      "json:\"properties\" graphql:\"properties\""
+	Rule       PolicySocketLanPolicy_Policy_SocketLan_Policy_Rules_Rule       "json:\"rule\" graphql:\"rule\""
+	SubPolicy  *PolicySocketLanPolicy_Policy_SocketLan_Policy_Rules_SubPolicy "json:\"subPolicy,omitempty\" graphql:\"subPolicy\""
 }
 
 func (t *PolicySocketLanPolicy_Policy_SocketLan_Policy_Rules) GetAudit() *PolicySocketLanPolicy_Policy_SocketLan_Policy_Rules_Audit {
@@ -102874,6 +102893,12 @@ func (t *PolicySocketLanPolicy_Policy_SocketLan_Policy_Rules) GetRule() *PolicyS
 		t = &PolicySocketLanPolicy_Policy_SocketLan_Policy_Rules{}
 	}
 	return &t.Rule
+}
+func (t *PolicySocketLanPolicy_Policy_SocketLan_Policy_Rules) GetSubPolicy() *PolicySocketLanPolicy_Policy_SocketLan_Policy_Rules_SubPolicy {
+	if t == nil {
+		t = &PolicySocketLanPolicy_Policy_SocketLan_Policy_Rules{}
+	}
+	return t.SubPolicy
 }
 
 type PolicySocketLanPolicy_Policy_SocketLan_Policy_Sections_Audit struct {
@@ -139081,6 +139106,10 @@ const PolicySocketLanPolicyDocument = `query policySocketLanPolicy ($accountId: 
 						transport
 					}
 					properties
+					subPolicy {
+						id
+						name
+					}
 				}
 				sections {
 					audit {
