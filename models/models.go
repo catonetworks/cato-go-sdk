@@ -27559,6 +27559,7 @@ const (
 	ProtoTypeSocketX1600     ProtoType = "SOCKET_X1600"
 	ProtoTypeSocketX1600Lte  ProtoType = "SOCKET_X1600_LTE"
 	ProtoTypeSocketX1700     ProtoType = "SOCKET_X1700"
+	ProtoTypeVsocketKvm      ProtoType = "VSOCKET_KVM"
 	ProtoTypeVsocketVgx      ProtoType = "VSOCKET_VGX"
 	ProtoTypeVsocketVgxAWS   ProtoType = "VSOCKET_VGX_AWS"
 	ProtoTypeVsocketVgxAzure ProtoType = "VSOCKET_VGX_AZURE"
@@ -27578,6 +27579,7 @@ var AllProtoType = []ProtoType{
 	ProtoTypeSocketX1600,
 	ProtoTypeSocketX1600Lte,
 	ProtoTypeSocketX1700,
+	ProtoTypeVsocketKvm,
 	ProtoTypeVsocketVgx,
 	ProtoTypeVsocketVgxAWS,
 	ProtoTypeVsocketVgxAzure,
@@ -27586,7 +27588,7 @@ var AllProtoType = []ProtoType{
 
 func (e ProtoType) IsValid() bool {
 	switch e {
-	case ProtoTypeCrossConnect, ProtoTypeIpsecClient, ProtoTypeIpsecHost, ProtoTypeIpsecV2, ProtoTypeSocketAWS1500, ProtoTypeSocketAz1500, ProtoTypeSocketEsx1500, ProtoTypeSocketGCP1500, ProtoTypeSocketX1500, ProtoTypeSocketX1600, ProtoTypeSocketX1600Lte, ProtoTypeSocketX1700, ProtoTypeVsocketVgx, ProtoTypeVsocketVgxAWS, ProtoTypeVsocketVgxAzure, ProtoTypeVsocketVgxEsx:
+	case ProtoTypeCrossConnect, ProtoTypeIpsecClient, ProtoTypeIpsecHost, ProtoTypeIpsecV2, ProtoTypeSocketAWS1500, ProtoTypeSocketAz1500, ProtoTypeSocketEsx1500, ProtoTypeSocketGCP1500, ProtoTypeSocketX1500, ProtoTypeSocketX1600, ProtoTypeSocketX1600Lte, ProtoTypeSocketX1700, ProtoTypeVsocketKvm, ProtoTypeVsocketVgx, ProtoTypeVsocketVgxAWS, ProtoTypeVsocketVgxAzure, ProtoTypeVsocketVgxEsx:
 		return true
 	}
 	return false
@@ -30000,18 +30002,19 @@ func (e SocketOrderType) MarshalJSON() ([]byte, error) {
 type SocketPlatform string
 
 const (
-	SocketPlatformAWS1500   SocketPlatform = "AWS1500"
-	SocketPlatformAz1500    SocketPlatform = "AZ1500"
-	SocketPlatformEsx1500   SocketPlatform = "ESX1500"
-	SocketPlatformGCP1500   SocketPlatform = "GCP1500"
-	SocketPlatformX1500     SocketPlatform = "X1500"
-	SocketPlatformX1500bBr2 SocketPlatform = "X1500B_BR2"
-	SocketPlatformX1500Br2  SocketPlatform = "X1500_BR2"
-	SocketPlatformX1600     SocketPlatform = "X1600"
-	SocketPlatformX1600_5g  SocketPlatform = "X1600_5G"
-	SocketPlatformX1600Lte  SocketPlatform = "X1600_LTE"
-	SocketPlatformX1700     SocketPlatform = "X1700"
-	SocketPlatformX1700b    SocketPlatform = "X1700B"
+	SocketPlatformAWS1500     SocketPlatform = "AWS1500"
+	SocketPlatformAz1500      SocketPlatform = "AZ1500"
+	SocketPlatformEsx1500     SocketPlatform = "ESX1500"
+	SocketPlatformGCP1500     SocketPlatform = "GCP1500"
+	SocketPlatformVx86Generic SocketPlatform = "VX86_GENERIC"
+	SocketPlatformX1500       SocketPlatform = "X1500"
+	SocketPlatformX1500bBr2   SocketPlatform = "X1500B_BR2"
+	SocketPlatformX1500Br2    SocketPlatform = "X1500_BR2"
+	SocketPlatformX1600       SocketPlatform = "X1600"
+	SocketPlatformX1600_5g    SocketPlatform = "X1600_5G"
+	SocketPlatformX1600Lte    SocketPlatform = "X1600_LTE"
+	SocketPlatformX1700       SocketPlatform = "X1700"
+	SocketPlatformX1700b      SocketPlatform = "X1700B"
 )
 
 var AllSocketPlatform = []SocketPlatform{
@@ -30019,6 +30022,7 @@ var AllSocketPlatform = []SocketPlatform{
 	SocketPlatformAz1500,
 	SocketPlatformEsx1500,
 	SocketPlatformGCP1500,
+	SocketPlatformVx86Generic,
 	SocketPlatformX1500,
 	SocketPlatformX1500bBr2,
 	SocketPlatformX1500Br2,
@@ -30031,7 +30035,7 @@ var AllSocketPlatform = []SocketPlatform{
 
 func (e SocketPlatform) IsValid() bool {
 	switch e {
-	case SocketPlatformAWS1500, SocketPlatformAz1500, SocketPlatformEsx1500, SocketPlatformGCP1500, SocketPlatformX1500, SocketPlatformX1500bBr2, SocketPlatformX1500Br2, SocketPlatformX1600, SocketPlatformX1600_5g, SocketPlatformX1600Lte, SocketPlatformX1700, SocketPlatformX1700b:
+	case SocketPlatformAWS1500, SocketPlatformAz1500, SocketPlatformEsx1500, SocketPlatformGCP1500, SocketPlatformVx86Generic, SocketPlatformX1500, SocketPlatformX1500bBr2, SocketPlatformX1500Br2, SocketPlatformX1600, SocketPlatformX1600_5g, SocketPlatformX1600Lte, SocketPlatformX1700, SocketPlatformX1700b:
 		return true
 	}
 	return false
