@@ -3,6 +3,21 @@ query policySocketLanPolicy ( $accountId:ID! $socketLanPolicyInput:SocketLanPoli
 		socketLan {
 			policy ( input:$socketLanPolicyInput   ) {
 				enabled
+
+				subPolicies {
+					access {
+						action
+					}
+					properties
+					policy {
+						id
+						name
+						policyLevel
+						enabled
+						description
+					}
+				}
+
 				rules {
 					audit {
 						updatedTime

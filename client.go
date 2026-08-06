@@ -101055,6 +101055,81 @@ func (t *RemotePortFwdPolicy_Policy) GetRemotePortFwd() *RemotePortFwdPolicy_Pol
 	return t.RemotePortFwd
 }
 
+type PolicySocketLanPolicy_Policy_SocketLan_Policy_SubPolicies_Access struct {
+	Action cato_models.RBACAction "json:\"action\" graphql:\"action\""
+}
+
+func (t *PolicySocketLanPolicy_Policy_SocketLan_Policy_SubPolicies_Access) GetAction() *cato_models.RBACAction {
+	if t == nil {
+		t = &PolicySocketLanPolicy_Policy_SocketLan_Policy_SubPolicies_Access{}
+	}
+	return &t.Action
+}
+
+type PolicySocketLanPolicy_Policy_SocketLan_Policy_SubPolicies_Policy struct {
+	Description string                      "json:\"description\" graphql:\"description\""
+	Enabled     bool                        "json:\"enabled\" graphql:\"enabled\""
+	ID          string                      "json:\"id\" graphql:\"id\""
+	Name        string                      "json:\"name\" graphql:\"name\""
+	PolicyLevel cato_models.PolicyLevelEnum "json:\"policyLevel\" graphql:\"policyLevel\""
+}
+
+func (t *PolicySocketLanPolicy_Policy_SocketLan_Policy_SubPolicies_Policy) GetDescription() string {
+	if t == nil {
+		t = &PolicySocketLanPolicy_Policy_SocketLan_Policy_SubPolicies_Policy{}
+	}
+	return t.Description
+}
+func (t *PolicySocketLanPolicy_Policy_SocketLan_Policy_SubPolicies_Policy) GetEnabled() bool {
+	if t == nil {
+		t = &PolicySocketLanPolicy_Policy_SocketLan_Policy_SubPolicies_Policy{}
+	}
+	return t.Enabled
+}
+func (t *PolicySocketLanPolicy_Policy_SocketLan_Policy_SubPolicies_Policy) GetID() string {
+	if t == nil {
+		t = &PolicySocketLanPolicy_Policy_SocketLan_Policy_SubPolicies_Policy{}
+	}
+	return t.ID
+}
+func (t *PolicySocketLanPolicy_Policy_SocketLan_Policy_SubPolicies_Policy) GetName() string {
+	if t == nil {
+		t = &PolicySocketLanPolicy_Policy_SocketLan_Policy_SubPolicies_Policy{}
+	}
+	return t.Name
+}
+func (t *PolicySocketLanPolicy_Policy_SocketLan_Policy_SubPolicies_Policy) GetPolicyLevel() *cato_models.PolicyLevelEnum {
+	if t == nil {
+		t = &PolicySocketLanPolicy_Policy_SocketLan_Policy_SubPolicies_Policy{}
+	}
+	return &t.PolicyLevel
+}
+
+type PolicySocketLanPolicy_Policy_SocketLan_Policy_SubPolicies struct {
+	Access     PolicySocketLanPolicy_Policy_SocketLan_Policy_SubPolicies_Access "json:\"access\" graphql:\"access\""
+	Policy     PolicySocketLanPolicy_Policy_SocketLan_Policy_SubPolicies_Policy "json:\"policy\" graphql:\"policy\""
+	Properties []cato_models.SubPolicyProperty                                  "json:\"properties\" graphql:\"properties\""
+}
+
+func (t *PolicySocketLanPolicy_Policy_SocketLan_Policy_SubPolicies) GetAccess() *PolicySocketLanPolicy_Policy_SocketLan_Policy_SubPolicies_Access {
+	if t == nil {
+		t = &PolicySocketLanPolicy_Policy_SocketLan_Policy_SubPolicies{}
+	}
+	return &t.Access
+}
+func (t *PolicySocketLanPolicy_Policy_SocketLan_Policy_SubPolicies) GetPolicy() *PolicySocketLanPolicy_Policy_SocketLan_Policy_SubPolicies_Policy {
+	if t == nil {
+		t = &PolicySocketLanPolicy_Policy_SocketLan_Policy_SubPolicies{}
+	}
+	return &t.Policy
+}
+func (t *PolicySocketLanPolicy_Policy_SocketLan_Policy_SubPolicies) GetProperties() []cato_models.SubPolicyProperty {
+	if t == nil {
+		t = &PolicySocketLanPolicy_Policy_SocketLan_Policy_SubPolicies{}
+	}
+	return t.Properties
+}
+
 type PolicySocketLanPolicy_Policy_SocketLan_Policy_Rules_Audit struct {
 	UpdatedBy   string "json:\"updatedBy\" graphql:\"updatedBy\""
 	UpdatedTime string "json:\"updatedTime\" graphql:\"updatedTime\""
@@ -102927,11 +103002,12 @@ func (t *PolicySocketLanPolicy_Policy_SocketLan_Policy_Revision) GetUpdatedTime(
 }
 
 type PolicySocketLanPolicy_Policy_SocketLan_Policy struct {
-	Audit    *PolicySocketLanPolicy_Policy_SocketLan_Policy_Audit      "json:\"audit,omitempty\" graphql:\"audit\""
-	Enabled  bool                                                      "json:\"enabled\" graphql:\"enabled\""
-	Revision *PolicySocketLanPolicy_Policy_SocketLan_Policy_Revision   "json:\"revision,omitempty\" graphql:\"revision\""
-	Rules    []*PolicySocketLanPolicy_Policy_SocketLan_Policy_Rules    "json:\"rules\" graphql:\"rules\""
-	Sections []*PolicySocketLanPolicy_Policy_SocketLan_Policy_Sections "json:\"sections\" graphql:\"sections\""
+	Audit       *PolicySocketLanPolicy_Policy_SocketLan_Policy_Audit         "json:\"audit,omitempty\" graphql:\"audit\""
+	Enabled     bool                                                         "json:\"enabled\" graphql:\"enabled\""
+	Revision    *PolicySocketLanPolicy_Policy_SocketLan_Policy_Revision      "json:\"revision,omitempty\" graphql:\"revision\""
+	Rules       []*PolicySocketLanPolicy_Policy_SocketLan_Policy_Rules       "json:\"rules\" graphql:\"rules\""
+	Sections    []*PolicySocketLanPolicy_Policy_SocketLan_Policy_Sections    "json:\"sections\" graphql:\"sections\""
+	SubPolicies []*PolicySocketLanPolicy_Policy_SocketLan_Policy_SubPolicies "json:\"subPolicies\" graphql:\"subPolicies\""
 }
 
 func (t *PolicySocketLanPolicy_Policy_SocketLan_Policy) GetAudit() *PolicySocketLanPolicy_Policy_SocketLan_Policy_Audit {
@@ -102963,6 +103039,12 @@ func (t *PolicySocketLanPolicy_Policy_SocketLan_Policy) GetSections() []*PolicyS
 		t = &PolicySocketLanPolicy_Policy_SocketLan_Policy{}
 	}
 	return t.Sections
+}
+func (t *PolicySocketLanPolicy_Policy_SocketLan_Policy) GetSubPolicies() []*PolicySocketLanPolicy_Policy_SocketLan_Policy_SubPolicies {
+	if t == nil {
+		t = &PolicySocketLanPolicy_Policy_SocketLan_Policy{}
+	}
+	return t.SubPolicies
 }
 
 type PolicySocketLanPolicy_Policy_SocketLan struct {
@@ -138707,6 +138789,19 @@ const PolicySocketLanPolicyDocument = `query policySocketLanPolicy ($accountId: 
 		socketLan {
 			policy(input: $socketLanPolicyInput) {
 				enabled
+				subPolicies {
+					access {
+						action
+					}
+					properties
+					policy {
+						id
+						name
+						policyLevel
+						enabled
+						description
+					}
+				}
 				rules {
 					audit {
 						updatedTime
