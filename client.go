@@ -134,6 +134,8 @@ type CatoClient interface {
 	PrivateAppDeletePrivateApp(ctx context.Context, accountID string, input cato_models.DeletePrivateApplicationInput, interceptors ...clientv2.RequestInterceptor) (*PrivateAppDeletePrivateApp, error)
 	PrivateAppUpdatePrivateApp(ctx context.Context, accountID string, input cato_models.UpdatePrivateApplicationInput, interceptors ...clientv2.RequestInterceptor) (*PrivateAppUpdatePrivateApp, error)
 	SiteAddBgpPeer(ctx context.Context, addBgpPeerInput cato_models.AddBgpPeerInput, accountID string, interceptors ...clientv2.RequestInterceptor) (*SiteAddBgpPeer, error)
+	SiteAddCloudInterconnectPhysicalConnection(ctx context.Context, addCloudInterconnectPhysicalConnectionInput cato_models.AddCloudInterconnectPhysicalConnectionInput, accountID string, interceptors ...clientv2.RequestInterceptor) (*SiteAddCloudInterconnectPhysicalConnection, error)
+	SiteAddCloudInterconnectSite(ctx context.Context, addCloudInterconnectSiteInput cato_models.AddCloudInterconnectSiteInput, accountID string, interceptors ...clientv2.RequestInterceptor) (*SiteAddCloudInterconnectSite, error)
 	SiteAddIpsecIkeV2Site(ctx context.Context, addIpsecIkeV2SiteInput cato_models.AddIpsecIkeV2SiteInput, accountID string, interceptors ...clientv2.RequestInterceptor) (*SiteAddIpsecIkeV2Site, error)
 	SiteAddIpsecIkeV2SiteTunnels(ctx context.Context, siteID string, addIpsecIkeV2SiteTunnelsInput cato_models.AddIpsecIkeV2SiteTunnelsInput, accountID string, interceptors ...clientv2.RequestInterceptor) (*SiteAddIpsecIkeV2SiteTunnels, error)
 	SiteAddNetworkRange(ctx context.Context, lanSocketInterfaceID string, addNetworkRangeInput cato_models.AddNetworkRangeInput, accountID string, interceptors ...clientv2.RequestInterceptor) (*SiteAddNetworkRange, error)
@@ -142,12 +144,14 @@ type CatoClient interface {
 	AssignSiteBwLicense(ctx context.Context, accountID string, input cato_models.AssignSiteBwLicenseInput, interceptors ...clientv2.RequestInterceptor) (*AssignSiteBwLicense, error)
 	SiteExchangeSocketPorts(ctx context.Context, accountID string, exchangeSocketPortsInput cato_models.ExchangeSocketPortsInput, interceptors ...clientv2.RequestInterceptor) (*SiteExchangeSocketPorts, error)
 	SiteRemoveBgpPeer(ctx context.Context, removeBgpPeerInput cato_models.RemoveBgpPeerInput, accountID string, interceptors ...clientv2.RequestInterceptor) (*SiteRemoveBgpPeer, error)
+	SiteRemoveCloudInterconnectPhysicalConnection(ctx context.Context, removeCloudInterconnectPhysicalConnectionInput cato_models.RemoveCloudInterconnectPhysicalConnectionInput, accountID string, interceptors ...clientv2.RequestInterceptor) (*SiteRemoveCloudInterconnectPhysicalConnection, error)
 	SiteRemoveNetworkRange(ctx context.Context, networkRangeID string, accountID string, interceptors ...clientv2.RequestInterceptor) (*SiteRemoveNetworkRange, error)
 	SiteRemoveSite(ctx context.Context, siteID string, accountID string, interceptors ...clientv2.RequestInterceptor) (*SiteRemoveSite, error)
 	RemoveSiteBwLicense(ctx context.Context, accountID string, input cato_models.RemoveSiteBwLicenseInput, interceptors ...clientv2.RequestInterceptor) (*RemoveSiteBwLicense, error)
 	SiteRemoveStaticHost(ctx context.Context, hostID string, accountID string, interceptors ...clientv2.RequestInterceptor) (*SiteRemoveStaticHost, error)
 	ReplaceSiteBwLicense(ctx context.Context, accountID string, input cato_models.ReplaceSiteBwLicenseInput, interceptors ...clientv2.RequestInterceptor) (*ReplaceSiteBwLicense, error)
 	SiteUpdateBgpPeer(ctx context.Context, updateBgpPeerInput cato_models.UpdateBgpPeerInput, accountID string, interceptors ...clientv2.RequestInterceptor) (*SiteUpdateBgpPeer, error)
+	SiteUpdateCloudInterconnectPhysicalConnection(ctx context.Context, updateCloudInterconnectPhysicalConnectionInput cato_models.UpdateCloudInterconnectPhysicalConnectionInput, accountID string, interceptors ...clientv2.RequestInterceptor) (*SiteUpdateCloudInterconnectPhysicalConnection, error)
 	SiteUpdateHa(ctx context.Context, accountID string, siteID string, updateHaInput cato_models.UpdateHaInput, interceptors ...clientv2.RequestInterceptor) (*SiteUpdateHa, error)
 	SiteUpdateIpsecIkeV2SiteGeneralDetails(ctx context.Context, siteID string, updateIpsecIkeV2SiteGeneralDetailsInput cato_models.UpdateIpsecIkeV2SiteGeneralDetailsInput, accountID string, interceptors ...clientv2.RequestInterceptor) (*SiteUpdateIpsecIkeV2SiteGeneralDetails, error)
 	SiteUpdateIpsecIkeV2SiteTunnels(ctx context.Context, siteID string, updateIpsecIkeV2SiteTunnelsInput cato_models.UpdateIpsecIkeV2SiteTunnelsInput, accountID string, interceptors ...clientv2.RequestInterceptor) (*SiteUpdateIpsecIkeV2SiteTunnels, error)
@@ -77539,6 +77543,50 @@ func (t *SiteAddBgpPeer_Site) GetAddBgpPeer() *SiteAddBgpPeer_Site_AddBgpPeer {
 	return t.AddBgpPeer
 }
 
+type SiteAddCloudInterconnectPhysicalConnection_Site_AddCloudInterconnectPhysicalConnection struct {
+	ID string "json:\"id\" graphql:\"id\""
+}
+
+func (t *SiteAddCloudInterconnectPhysicalConnection_Site_AddCloudInterconnectPhysicalConnection) GetID() string {
+	if t == nil {
+		t = &SiteAddCloudInterconnectPhysicalConnection_Site_AddCloudInterconnectPhysicalConnection{}
+	}
+	return t.ID
+}
+
+type SiteAddCloudInterconnectPhysicalConnection_Site struct {
+	AddCloudInterconnectPhysicalConnection *SiteAddCloudInterconnectPhysicalConnection_Site_AddCloudInterconnectPhysicalConnection "json:\"addCloudInterconnectPhysicalConnection,omitempty\" graphql:\"addCloudInterconnectPhysicalConnection\""
+}
+
+func (t *SiteAddCloudInterconnectPhysicalConnection_Site) GetAddCloudInterconnectPhysicalConnection() *SiteAddCloudInterconnectPhysicalConnection_Site_AddCloudInterconnectPhysicalConnection {
+	if t == nil {
+		t = &SiteAddCloudInterconnectPhysicalConnection_Site{}
+	}
+	return t.AddCloudInterconnectPhysicalConnection
+}
+
+type SiteAddCloudInterconnectSite_Site_AddCloudInterconnectSite struct {
+	SiteID string "json:\"siteId\" graphql:\"siteId\""
+}
+
+func (t *SiteAddCloudInterconnectSite_Site_AddCloudInterconnectSite) GetSiteID() string {
+	if t == nil {
+		t = &SiteAddCloudInterconnectSite_Site_AddCloudInterconnectSite{}
+	}
+	return t.SiteID
+}
+
+type SiteAddCloudInterconnectSite_Site struct {
+	AddCloudInterconnectSite *SiteAddCloudInterconnectSite_Site_AddCloudInterconnectSite "json:\"addCloudInterconnectSite,omitempty\" graphql:\"addCloudInterconnectSite\""
+}
+
+func (t *SiteAddCloudInterconnectSite_Site) GetAddCloudInterconnectSite() *SiteAddCloudInterconnectSite_Site_AddCloudInterconnectSite {
+	if t == nil {
+		t = &SiteAddCloudInterconnectSite_Site{}
+	}
+	return t.AddCloudInterconnectSite
+}
+
 type SiteAddIpsecIkeV2Site_Site_AddIpsecIkeV2Site struct {
 	SiteID string "json:\"siteId\" graphql:\"siteId\""
 }
@@ -78229,6 +78277,28 @@ func (t *SiteRemoveBgpPeer_Site) GetRemoveBgpPeer() *SiteRemoveBgpPeer_Site_Remo
 		t = &SiteRemoveBgpPeer_Site{}
 	}
 	return t.RemoveBgpPeer
+}
+
+type SiteRemoveCloudInterconnectPhysicalConnection_Site_RemoveCloudInterconnectPhysicalConnection struct {
+	ID string "json:\"id\" graphql:\"id\""
+}
+
+func (t *SiteRemoveCloudInterconnectPhysicalConnection_Site_RemoveCloudInterconnectPhysicalConnection) GetID() string {
+	if t == nil {
+		t = &SiteRemoveCloudInterconnectPhysicalConnection_Site_RemoveCloudInterconnectPhysicalConnection{}
+	}
+	return t.ID
+}
+
+type SiteRemoveCloudInterconnectPhysicalConnection_Site struct {
+	RemoveCloudInterconnectPhysicalConnection *SiteRemoveCloudInterconnectPhysicalConnection_Site_RemoveCloudInterconnectPhysicalConnection "json:\"removeCloudInterconnectPhysicalConnection,omitempty\" graphql:\"removeCloudInterconnectPhysicalConnection\""
+}
+
+func (t *SiteRemoveCloudInterconnectPhysicalConnection_Site) GetRemoveCloudInterconnectPhysicalConnection() *SiteRemoveCloudInterconnectPhysicalConnection_Site_RemoveCloudInterconnectPhysicalConnection {
+	if t == nil {
+		t = &SiteRemoveCloudInterconnectPhysicalConnection_Site{}
+	}
+	return t.RemoveCloudInterconnectPhysicalConnection
 }
 
 type SiteRemoveNetworkRange_Site_RemoveNetworkRange struct {
@@ -78937,6 +79007,28 @@ func (t *SiteUpdateBgpPeer_Site) GetUpdateBgpPeer() *SiteUpdateBgpPeer_Site_Upda
 		t = &SiteUpdateBgpPeer_Site{}
 	}
 	return t.UpdateBgpPeer
+}
+
+type SiteUpdateCloudInterconnectPhysicalConnection_Site_UpdateCloudInterconnectPhysicalConnection struct {
+	ID string "json:\"id\" graphql:\"id\""
+}
+
+func (t *SiteUpdateCloudInterconnectPhysicalConnection_Site_UpdateCloudInterconnectPhysicalConnection) GetID() string {
+	if t == nil {
+		t = &SiteUpdateCloudInterconnectPhysicalConnection_Site_UpdateCloudInterconnectPhysicalConnection{}
+	}
+	return t.ID
+}
+
+type SiteUpdateCloudInterconnectPhysicalConnection_Site struct {
+	UpdateCloudInterconnectPhysicalConnection *SiteUpdateCloudInterconnectPhysicalConnection_Site_UpdateCloudInterconnectPhysicalConnection "json:\"updateCloudInterconnectPhysicalConnection,omitempty\" graphql:\"updateCloudInterconnectPhysicalConnection\""
+}
+
+func (t *SiteUpdateCloudInterconnectPhysicalConnection_Site) GetUpdateCloudInterconnectPhysicalConnection() *SiteUpdateCloudInterconnectPhysicalConnection_Site_UpdateCloudInterconnectPhysicalConnection {
+	if t == nil {
+		t = &SiteUpdateCloudInterconnectPhysicalConnection_Site{}
+	}
+	return t.UpdateCloudInterconnectPhysicalConnection
 }
 
 type SiteUpdateHa_Site_UpdateHa struct {
@@ -117444,6 +117536,28 @@ func (t *SiteAddBgpPeer) GetSite() *SiteAddBgpPeer_Site {
 	return &t.Site
 }
 
+type SiteAddCloudInterconnectPhysicalConnection struct {
+	Site SiteAddCloudInterconnectPhysicalConnection_Site "json:\"site\" graphql:\"site\""
+}
+
+func (t *SiteAddCloudInterconnectPhysicalConnection) GetSite() *SiteAddCloudInterconnectPhysicalConnection_Site {
+	if t == nil {
+		t = &SiteAddCloudInterconnectPhysicalConnection{}
+	}
+	return &t.Site
+}
+
+type SiteAddCloudInterconnectSite struct {
+	Site SiteAddCloudInterconnectSite_Site "json:\"site\" graphql:\"site\""
+}
+
+func (t *SiteAddCloudInterconnectSite) GetSite() *SiteAddCloudInterconnectSite_Site {
+	if t == nil {
+		t = &SiteAddCloudInterconnectSite{}
+	}
+	return &t.Site
+}
+
 type SiteAddIpsecIkeV2Site struct {
 	Site SiteAddIpsecIkeV2Site_Site "json:\"site\" graphql:\"site\""
 }
@@ -117532,6 +117646,17 @@ func (t *SiteRemoveBgpPeer) GetSite() *SiteRemoveBgpPeer_Site {
 	return &t.Site
 }
 
+type SiteRemoveCloudInterconnectPhysicalConnection struct {
+	Site SiteRemoveCloudInterconnectPhysicalConnection_Site "json:\"site\" graphql:\"site\""
+}
+
+func (t *SiteRemoveCloudInterconnectPhysicalConnection) GetSite() *SiteRemoveCloudInterconnectPhysicalConnection_Site {
+	if t == nil {
+		t = &SiteRemoveCloudInterconnectPhysicalConnection{}
+	}
+	return &t.Site
+}
+
 type SiteRemoveNetworkRange struct {
 	Site SiteRemoveNetworkRange_Site "json:\"site\" graphql:\"site\""
 }
@@ -117594,6 +117719,17 @@ type SiteUpdateBgpPeer struct {
 func (t *SiteUpdateBgpPeer) GetSite() *SiteUpdateBgpPeer_Site {
 	if t == nil {
 		t = &SiteUpdateBgpPeer{}
+	}
+	return &t.Site
+}
+
+type SiteUpdateCloudInterconnectPhysicalConnection struct {
+	Site SiteUpdateCloudInterconnectPhysicalConnection_Site "json:\"site\" graphql:\"site\""
+}
+
+func (t *SiteUpdateCloudInterconnectPhysicalConnection) GetSite() *SiteUpdateCloudInterconnectPhysicalConnection_Site {
+	if t == nil {
+		t = &SiteUpdateCloudInterconnectPhysicalConnection{}
 	}
 	return &t.Site
 }
@@ -133519,6 +133655,60 @@ func (c *Client) SiteAddBgpPeer(ctx context.Context, addBgpPeerInput cato_models
 	return &res, nil
 }
 
+const SiteAddCloudInterconnectPhysicalConnectionDocument = `mutation siteAddCloudInterconnectPhysicalConnection ($addCloudInterconnectPhysicalConnectionInput: AddCloudInterconnectPhysicalConnectionInput!, $accountId: ID!) {
+	site(accountId: $accountId) {
+		addCloudInterconnectPhysicalConnection(input: $addCloudInterconnectPhysicalConnectionInput) {
+			id
+		}
+	}
+}
+`
+
+func (c *Client) SiteAddCloudInterconnectPhysicalConnection(ctx context.Context, addCloudInterconnectPhysicalConnectionInput cato_models.AddCloudInterconnectPhysicalConnectionInput, accountID string, interceptors ...clientv2.RequestInterceptor) (*SiteAddCloudInterconnectPhysicalConnection, error) {
+	vars := map[string]any{
+		"addCloudInterconnectPhysicalConnectionInput": addCloudInterconnectPhysicalConnectionInput,
+		"accountId": accountID,
+	}
+
+	var res SiteAddCloudInterconnectPhysicalConnection
+	if err := c.Client.Post(ctx, "siteAddCloudInterconnectPhysicalConnection", SiteAddCloudInterconnectPhysicalConnectionDocument, &res, vars, interceptors...); err != nil {
+		if c.Client.ParseDataWhenErrors {
+			return &res, err
+		}
+
+		return nil, err
+	}
+
+	return &res, nil
+}
+
+const SiteAddCloudInterconnectSiteDocument = `mutation siteAddCloudInterconnectSite ($addCloudInterconnectSiteInput: AddCloudInterconnectSiteInput!, $accountId: ID!) {
+	site(accountId: $accountId) {
+		addCloudInterconnectSite(input: $addCloudInterconnectSiteInput) {
+			siteId
+		}
+	}
+}
+`
+
+func (c *Client) SiteAddCloudInterconnectSite(ctx context.Context, addCloudInterconnectSiteInput cato_models.AddCloudInterconnectSiteInput, accountID string, interceptors ...clientv2.RequestInterceptor) (*SiteAddCloudInterconnectSite, error) {
+	vars := map[string]any{
+		"addCloudInterconnectSiteInput": addCloudInterconnectSiteInput,
+		"accountId":                     accountID,
+	}
+
+	var res SiteAddCloudInterconnectSite
+	if err := c.Client.Post(ctx, "siteAddCloudInterconnectSite", SiteAddCloudInterconnectSiteDocument, &res, vars, interceptors...); err != nil {
+		if c.Client.ParseDataWhenErrors {
+			return &res, err
+		}
+
+		return nil, err
+	}
+
+	return &res, nil
+}
+
 const SiteAddIpsecIkeV2SiteDocument = `mutation siteAddIpsecIkeV2Site ($addIpsecIkeV2SiteInput: AddIpsecIkeV2SiteInput!, $accountId: ID!) {
 	site(accountId: $accountId) {
 		addIpsecIkeV2Site(input: $addIpsecIkeV2SiteInput) {
@@ -133819,6 +134009,33 @@ func (c *Client) SiteRemoveBgpPeer(ctx context.Context, removeBgpPeerInput cato_
 	return &res, nil
 }
 
+const SiteRemoveCloudInterconnectPhysicalConnectionDocument = `mutation siteRemoveCloudInterconnectPhysicalConnection ($removeCloudInterconnectPhysicalConnectionInput: RemoveCloudInterconnectPhysicalConnectionInput!, $accountId: ID!) {
+	site(accountId: $accountId) {
+		removeCloudInterconnectPhysicalConnection(input: $removeCloudInterconnectPhysicalConnectionInput) {
+			id
+		}
+	}
+}
+`
+
+func (c *Client) SiteRemoveCloudInterconnectPhysicalConnection(ctx context.Context, removeCloudInterconnectPhysicalConnectionInput cato_models.RemoveCloudInterconnectPhysicalConnectionInput, accountID string, interceptors ...clientv2.RequestInterceptor) (*SiteRemoveCloudInterconnectPhysicalConnection, error) {
+	vars := map[string]any{
+		"removeCloudInterconnectPhysicalConnectionInput": removeCloudInterconnectPhysicalConnectionInput,
+		"accountId": accountID,
+	}
+
+	var res SiteRemoveCloudInterconnectPhysicalConnection
+	if err := c.Client.Post(ctx, "siteRemoveCloudInterconnectPhysicalConnection", SiteRemoveCloudInterconnectPhysicalConnectionDocument, &res, vars, interceptors...); err != nil {
+		if c.Client.ParseDataWhenErrors {
+			return &res, err
+		}
+
+		return nil, err
+	}
+
+	return &res, nil
+}
+
 const SiteRemoveNetworkRangeDocument = `mutation siteRemoveNetworkRange ($networkRangeId: ID!, $accountId: ID!) {
 	site(accountId: $accountId) {
 		removeNetworkRange(networkRangeId: $networkRangeId) {
@@ -134061,6 +134278,33 @@ func (c *Client) SiteUpdateBgpPeer(ctx context.Context, updateBgpPeerInput cato_
 
 	var res SiteUpdateBgpPeer
 	if err := c.Client.Post(ctx, "siteUpdateBgpPeer", SiteUpdateBgpPeerDocument, &res, vars, interceptors...); err != nil {
+		if c.Client.ParseDataWhenErrors {
+			return &res, err
+		}
+
+		return nil, err
+	}
+
+	return &res, nil
+}
+
+const SiteUpdateCloudInterconnectPhysicalConnectionDocument = `mutation siteUpdateCloudInterconnectPhysicalConnection ($updateCloudInterconnectPhysicalConnectionInput: UpdateCloudInterconnectPhysicalConnectionInput!, $accountId: ID!) {
+	site(accountId: $accountId) {
+		updateCloudInterconnectPhysicalConnection(input: $updateCloudInterconnectPhysicalConnectionInput) {
+			id
+		}
+	}
+}
+`
+
+func (c *Client) SiteUpdateCloudInterconnectPhysicalConnection(ctx context.Context, updateCloudInterconnectPhysicalConnectionInput cato_models.UpdateCloudInterconnectPhysicalConnectionInput, accountID string, interceptors ...clientv2.RequestInterceptor) (*SiteUpdateCloudInterconnectPhysicalConnection, error) {
+	vars := map[string]any{
+		"updateCloudInterconnectPhysicalConnectionInput": updateCloudInterconnectPhysicalConnectionInput,
+		"accountId": accountID,
+	}
+
+	var res SiteUpdateCloudInterconnectPhysicalConnection
+	if err := c.Client.Post(ctx, "siteUpdateCloudInterconnectPhysicalConnection", SiteUpdateCloudInterconnectPhysicalConnectionDocument, &res, vars, interceptors...); err != nil {
 		if c.Client.ParseDataWhenErrors {
 			return &res, err
 		}
@@ -141475,6 +141719,8 @@ var DocumentOperationNames = map[string]string{
 	PrivateAppDeletePrivateAppDocument:                      "privateAppDeletePrivateApp",
 	PrivateAppUpdatePrivateAppDocument:                      "privateAppUpdatePrivateApp",
 	SiteAddBgpPeerDocument:                                  "siteAddBgpPeer",
+	SiteAddCloudInterconnectPhysicalConnectionDocument:      "siteAddCloudInterconnectPhysicalConnection",
+	SiteAddCloudInterconnectSiteDocument:                    "siteAddCloudInterconnectSite",
 	SiteAddIpsecIkeV2SiteDocument:                           "siteAddIpsecIkeV2Site",
 	SiteAddIpsecIkeV2SiteTunnelsDocument:                    "siteAddIpsecIkeV2SiteTunnels",
 	SiteAddNetworkRangeDocument:                             "siteAddNetworkRange",
@@ -141483,12 +141729,14 @@ var DocumentOperationNames = map[string]string{
 	AssignSiteBwLicenseDocument:                             "assignSiteBwLicense",
 	SiteExchangeSocketPortsDocument:                         "siteExchangeSocketPorts",
 	SiteRemoveBgpPeerDocument:                               "siteRemoveBgpPeer",
+	SiteRemoveCloudInterconnectPhysicalConnectionDocument:   "siteRemoveCloudInterconnectPhysicalConnection",
 	SiteRemoveNetworkRangeDocument:                          "siteRemoveNetworkRange",
 	SiteRemoveSiteDocument:                                  "siteRemoveSite",
 	RemoveSiteBwLicenseDocument:                             "removeSiteBwLicense",
 	SiteRemoveStaticHostDocument:                            "siteRemoveStaticHost",
 	ReplaceSiteBwLicenseDocument:                            "replaceSiteBwLicense",
 	SiteUpdateBgpPeerDocument:                               "siteUpdateBgpPeer",
+	SiteUpdateCloudInterconnectPhysicalConnectionDocument:   "siteUpdateCloudInterconnectPhysicalConnection",
 	SiteUpdateHaDocument:                                    "siteUpdateHa",
 	SiteUpdateIpsecIkeV2SiteGeneralDetailsDocument:          "siteUpdateIpsecIkeV2SiteGeneralDetails",
 	SiteUpdateIpsecIkeV2SiteTunnelsDocument:                 "siteUpdateIpsecIkeV2SiteTunnels",

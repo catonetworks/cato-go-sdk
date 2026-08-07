@@ -1,0 +1,11 @@
+--- a/cato_api.graphqls
++++ b/cato_api.graphqls
+@@ -16049,7 +16049,8 @@
+   SOCKET_X1600
+   SOCKET_X1600_LTE
+   SOCKET_X1700
++  VSOCKET_KVM
+   VSOCKET_VGX
+   VSOCKET_VGX_AWS
+   VSOCKET_VGX_AZURE
+   VSOCKET_VGX_ESX
