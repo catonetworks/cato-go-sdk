@@ -1118,6 +1118,42 @@ func (AiSecurityAppsGuardRef) IsObjectRef()         {}
 func (this AiSecurityAppsGuardRef) GetID() string   { return this.ID }
 func (this AiSecurityAppsGuardRef) GetName() string { return this.Name }
 
+// A single invocation (any call to or response from an LLM) intercepted by the AI Security guard.
+type AiSecurityAppsInvocation struct {
+	Action     AiSecurityAppsInvocationAction `json:"action"`
+	Data       *AiSecurityAppsInvocationData  `json:"data"`
+	Guard      *AiSecurityAppsGuardRef        `json:"guard,omitempty"`
+	ID         string                         `json:"id"`
+	SessionID  *string                        `json:"sessionId,omitempty"`
+	Timestamp  string                         `json:"timestamp"`
+	TokenCount int64                          `json:"tokenCount"`
+}
+
+// The input data of an invocation.
+type AiSecurityAppsInvocationData struct {
+	Message []*AiSecurityAppsInvocationMessage `json:"message"`
+}
+
+type AiSecurityAppsInvocationInput struct {
+	ID string `json:"id"`
+}
+
+// A single message within an invocation's chat.
+type AiSecurityAppsInvocationMessage struct {
+	Content []*AiSecurityAppsInvocationMessageContent `json:"content"`
+	Role    string                                    `json:"role"`
+}
+
+// A single content item within a message.
+type AiSecurityAppsInvocationMessageContent struct {
+	Text *string `json:"text,omitempty"`
+}
+
+// Root of the AI App Protection query namespace.
+type AiSecurityAppsQueries struct {
+	Invocation *AiSecurityAppsInvocation `json:"invocation,omitempty"`
+}
+
 type AiSecurityAttributes struct {
 	DataUsagePolicy *AiSecurityDataUsagePolicy `json:"dataUsagePolicy,omitempty"`
 	Risk            *AiSecurityRisk            `json:"risk,omitempty"`
@@ -1143,6 +1179,25 @@ type AiSecurityDataUsagePolicy struct {
 	Type          *AiSecurityDataUsagePolicyType `json:"type,omitempty"`
 }
 
+// A single end-user conversation's prompt sensitive information (PSI).
+type AiSecurityEndUsersConversation struct {
+	LlmResponse *string `json:"llmResponse,omitempty"`
+	UserPrompt  string  `json:"userPrompt"`
+}
+
+// Root of the User Protection query namespace.
+type AiSecurityEndUsersQueries struct {
+	SessionConversation *AiSecurityEndUsersConversation `json:"sessionConversation,omitempty"`
+}
+
+// Input for fetching a single end-user conversation's PSI by message id.
+type AiSecurityEndUsersSessionConversationInput struct {
+	AppID     string  `json:"appId"`
+	MessageID string  `json:"messageId"`
+	SessionID string  `json:"sessionId"`
+	UserID    *string `json:"userId,omitempty"`
+}
+
 // A reference identifying the Guard object. ID: Unique Guard Identifier, Name: The Guard Name
 type AiSecurityGuardRef struct {
 	ID   string `json:"id"`
@@ -1162,6 +1217,12 @@ type AiSecurityHomegrownAppRef struct {
 func (AiSecurityHomegrownAppRef) IsObjectRef()         {}
 func (this AiSecurityHomegrownAppRef) GetID() string   { return this.ID }
 func (this AiSecurityHomegrownAppRef) GetName() string { return this.Name }
+
+// Root of the AI Security query namespace for an account.
+type AiSecurityQueries struct {
+	Apps     *AiSecurityAppsQueries     `json:"apps,omitempty"`
+	EndUsers *AiSecurityEndUsersQueries `json:"endUsers,omitempty"`
+}
 
 // A reference identifying the AllocatedIp object. ID: Unique AllocatedIp Identifier, Name: The AllocatedIp Name
 type AllocatedIPRef struct {
@@ -17353,6 +17414,70 @@ func (e *AiOperationsIncidentTypeEnum) UnmarshalJSON(b []byte) error {
 }
 
 func (e AiOperationsIncidentTypeEnum) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
+}
+
+// The enforcement outcome applied to an invocation.
+type AiSecurityAppsInvocationAction string
+
+const (
+	//  Sensitive content was masked before forwarding.
+	AiSecurityAppsInvocationActionAnonymize AiSecurityAppsInvocationAction = "ANONYMIZE"
+	//  The request or response was blocked.
+	AiSecurityAppsInvocationActionBlock AiSecurityAppsInvocationAction = "BLOCK"
+	//  No action was taken — all matched rules are in monitor mode.
+	AiSecurityAppsInvocationActionMonitor AiSecurityAppsInvocationAction = "MONITOR"
+	//  No action was taken — no rules matched.
+	AiSecurityAppsInvocationActionNone AiSecurityAppsInvocationAction = "NONE"
+)
+
+var AllAiSecurityAppsInvocationAction = []AiSecurityAppsInvocationAction{
+	AiSecurityAppsInvocationActionAnonymize,
+	AiSecurityAppsInvocationActionBlock,
+	AiSecurityAppsInvocationActionMonitor,
+	AiSecurityAppsInvocationActionNone,
+}
+
+func (e AiSecurityAppsInvocationAction) IsValid() bool {
+	switch e {
+	case AiSecurityAppsInvocationActionAnonymize, AiSecurityAppsInvocationActionBlock, AiSecurityAppsInvocationActionMonitor, AiSecurityAppsInvocationActionNone:
+		return true
+	}
+	return false
+}
+
+func (e AiSecurityAppsInvocationAction) String() string {
+	return string(e)
+}
+
+func (e *AiSecurityAppsInvocationAction) UnmarshalGQL(v any) error {
+	str, ok := v.(string)
+	if !ok {
+		return fmt.Errorf("enums must be strings")
+	}
+
+	*e = AiSecurityAppsInvocationAction(str)
+	if !e.IsValid() {
+		return fmt.Errorf("%s is not a valid AiSecurityAppsInvocationAction", str)
+	}
+	return nil
+}
+
+func (e AiSecurityAppsInvocationAction) MarshalGQL(w io.Writer) {
+	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+func (e *AiSecurityAppsInvocationAction) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e AiSecurityAppsInvocationAction) MarshalJSON() ([]byte, error) {
 	var buf bytes.Buffer
 	e.MarshalGQL(&buf)
 	return buf.Bytes(), nil

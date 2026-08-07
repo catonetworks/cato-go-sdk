@@ -31,6 +31,7 @@ type Query {
   accountSnapshot(accountID: ID, id: ID @deprecated(reason: "by accountID")): AccountSnapshot @ga
   admin(accountId: ID!, adminID: ID!): GetAdminPayload @ga
   admins(accountID: ID!, limit: Int = 50, from: Int = 0, search: String = "", sort: [SortInput], adminIDs: [ID!]): AdminsResult @ga
+  aiSecurity(accountId: ID!): AiSecurityQueries
   appStats(accountID: ID!, timeFrame: TimeFrame!, measures: [Measure], dimensions: [Dimension], filters: [AppStatsFilter!], postAggFilters: [AppStatsPostAggFilter!], sort: [AppStatsSort!], includeEmptyDimension: Boolean): AppStats @ga
   appStatsTimeSeries(accountID: ID!, timeFrame: TimeFrame!, measures: [Measure], dimensions: [Dimension], filters: [AppStatsFilter!], includeEmptyDimension: Boolean): AppStatsTimeSeries @ga
   auditFeed(accountIDs: [ID!], ids: [ID!] @deprecated(reason: "by accountIDs"), timeFrame: TimeFrame!, filters: [AuditFieldFilterInput!], marker: String): AuditFeed @ga
@@ -426,6 +427,38 @@ type AiSecurityAppsGuardRef implements ObjectRef {
   name: String!
 }
 
+""" A single invocation (any call to or response from an LLM) intercepted by the AI Security guard. """
+type AiSecurityAppsInvocation {
+  action: AiSecurityAppsInvocationAction!
+  data: AiSecurityAppsInvocationData!
+  guard: AiSecurityAppsGuardRef
+  id: ID!
+  sessionId: ID
+  timestamp: DateTime!
+  tokenCount: Int!
+}
+
+""" The input data of an invocation. """
+type AiSecurityAppsInvocationData {
+  message: [AiSecurityAppsInvocationMessage!]!
+}
+
+""" A single message within an invocation's chat. """
+type AiSecurityAppsInvocationMessage {
+  content: [AiSecurityAppsInvocationMessageContent!]!
+  role: String!
+}
+
+""" A single content item within a message. """
+type AiSecurityAppsInvocationMessageContent {
+  text: String
+}
+
+""" Root of the AI App Protection query namespace. """
+type AiSecurityAppsQueries {
+  invocation(input: AiSecurityAppsInvocationInput!): AiSecurityAppsInvocation @beta
+}
+
 type AiSecurityAttributes {
   dataUsagePolicy: AiSecurityDataUsagePolicy
   risk: AiSecurityRisk
@@ -449,6 +482,17 @@ type AiSecurityDataUsagePolicy {
   type: AiSecurityDataUsagePolicyType
 }
 
+""" A single end-user conversation's prompt sensitive information (PSI). """
+type AiSecurityEndUsersConversation {
+  llmResponse: String
+  userPrompt: String!
+}
+
+""" Root of the User Protection query namespace. """
+type AiSecurityEndUsersQueries {
+  sessionConversation(input: AiSecurityEndUsersSessionConversationInput!): AiSecurityEndUsersConversation @beta
+}
+
 """ A reference identifying the Guard object. ID: Unique Guard Identifier, Name: The Guard Name """
 type AiSecurityGuardRef implements ObjectRef {
   id: ID!
@@ -459,6 +503,12 @@ type AiSecurityGuardRef implements ObjectRef {
 type AiSecurityHomegrownAppRef implements ObjectRef {
   id: ID!
   name: String!
+}
+
+""" Root of the AI Security query namespace for an account. """
+type AiSecurityQueries {
+  apps: AiSecurityAppsQueries
+  endUsers: AiSecurityEndUsersQueries
 }
 
 """ A reference identifying the AllocatedIp object. ID: Unique AllocatedIp Identifier, Name: The AllocatedIp Name """
@@ -7890,6 +7940,18 @@ input AdvancedStringFilterInput {
   regex: String
 }
 
+input AiSecurityAppsInvocationInput {
+  id: ID!
+}
+
+""" Input for fetching a single end-user conversation's PSI by message id. """
+input AiSecurityEndUsersSessionConversationInput {
+  appId: ID!
+  messageId: ID!
+  sessionId: ID!
+  userId: ID
+}
+
 input AllocatedIpRefInput {
   by: ObjectRefBy! = ID
   input: String!
@@ -13535,6 +13597,18 @@ enum AggregationType {
 
 enum AiOperationsIncidentTypeEnum {
   Account
+}
+
+""" The enforcement outcome applied to an invocation. """
+enum AiSecurityAppsInvocationAction {
+  """ Sensitive content was masked before forwarding. """
+  ANONYMIZE
+  """ The request or response was blocked. """
+  BLOCK
+  """ No action was taken — all matched rules are in monitor mode. """
+  MONITOR
+  """ No action was taken — no rules matched. """
+  NONE
 }
 
 enum AiSecurityDataUsagePolicyType {
