@@ -1,0 +1,13 @@
+mutation policySocketLanRemoveSubPolicy ( $socketLanPolicyMutationInput:SocketLanPolicyMutationInput $socketLanRemoveSubPolicyInput:SocketLanRemoveSubPolicyInput! $accountID:ID! ) {
+	policy ( accountId:$accountID ) {
+		socketLan ( input:$socketLanPolicyMutationInput )  {
+			removeSubPolicy ( input:$socketLanRemoveSubPolicyInput ) {
+				status
+				errors {
+					errorMessage
+					errorCode
+				}
+			}
+		}
+	}
+}

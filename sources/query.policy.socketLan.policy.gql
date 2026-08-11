@@ -23,6 +23,7 @@ query policySocketLanPolicy ( $accountId:ID! $socketLanPolicyInput:SocketLanPoli
 						updatedTime
 						updatedBy
 					}
+					ruleType
 					rule {
 						id
 						name
@@ -310,6 +311,7 @@ query policySocketLanPolicy ( $accountId:ID! $socketLanPolicyInput:SocketLanPoli
 					section {
 						id
 						name
+						subPolicyId
 					}
 					properties
 				}
