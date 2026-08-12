@@ -1,0 +1,201 @@
+diff --git a/cato_api.graphqls b/cato_api.graphqls
+--- a/cato_api.graphqls
++++ b/cato_api.graphqls
+@@ -5664,6 +5664,12 @@ type SocketInventoryPayload {
+   pageInfo: PageInfo!
+ }
+ 
++type SocketLanAddSubPolicyMutationPayload implements IPolicyMutationPayload {
++  errors: [PolicyMutationError!]!
++  policy: SocketLanPolicy
++  status: PolicyMutationStatus!
++}
++
+ """ Returns the settings for Destination of a Wan Firewall rule. """
+ type SocketLanDestination {
+   floatingSubnet: [FloatingSubnetRef!]!
+@@ -5714,6 +5720,12 @@ type SocketLanFirewallPolicyMutations {
+   updateRule(input: SocketLanFirewallUpdateRuleInput!): SocketLanFirewallRuleMutationPayload! @beta
+ }
+ 
++""" A reference to a SocketLAN Firewall sub-policy. Sub-model rules are always POLICY_RULE type; this field is present for PPS RBAC field compatibility. """
++type SocketLanFirewallPolicyRef implements ObjectRef & PolicyRef {
++  id: ID!
++  name: String!
++}
++
+ type SocketLanFirewallRule implements IPolicyRule {
+   action: SocketLanFirewallAction!
+   application: SocketLanFirewallApplication!
+@@ -5738,10 +5750,13 @@ type SocketLanFirewallRuleMutationPayload implements IPolicyRuleMutationPayload
+ }
+ 
+ type SocketLanFirewallRulePayload implements IPolicyRulePayload {
++  access: EntityAccess!
+   audit: PolicyElementAudit!
+   metadata: PolicyElementMetadata
+   properties: [PolicyElementPropertiesEnum!]!
+   rule: SocketLanFirewallRule!
++  ruleType: PolicyRuleTypeEnum!
++  subPolicy: SocketLanFirewallPolicyRef
+ }
+ 
+ """ Defines services used in the socket LAN firewall. """
+@@ -5775,11 +5790,30 @@ type SocketLanNatSettings {
+ }
+ 
+ type SocketLanPolicy implements IPolicy {
++  access: EntityAccess!
+   audit: PolicyAudit
++  description: String!
+   enabled: Boolean!
++  id: ID!
++  name: String!
+   revision: PolicyRevision
+   rules: [SocketLanRulePayload!]!
+   sections: [PolicySectionPayload!]!
++  subPolicies: [SocketLanSubPolicyPayload!]!
++}
++
++type SocketLanPolicyInfo implements PolicyInfo {
++  audit: PolicyAudit!
++  description: String!
++  enabled: Boolean!
++  id: ID!
++  name: String!
++  policyLevel: PolicyLevelEnum!
++}
++
++type SocketLanPolicyListPayload implements PolicyListPayload {
++  items: [SocketLanPolicyInfo!]!
++  paging: PageInfo!
+ }
+ 
+ type SocketLanPolicyMutationPayload implements IPolicyMutationPayload {
+@@ -5791,6 +5825,7 @@ type SocketLanPolicyMutationPayload implements IPolicyMutationPayload {
+ type SocketLanPolicyMutations {
+   addRule(input: SocketLanAddRuleInput!): SocketLanRuleMutationPayload! @beta
+   addSection(input: PolicyAddSectionInput!): PolicySectionMutationPayload! @beta
++  addSubPolicy(input: SocketLanAddSubPolicyInput!): SocketLanAddSubPolicyMutationPayload! @beta
+   createPolicyRevision(input: PolicyCreateRevisionInput!): SocketLanPolicyMutationPayload! @beta
+   discardPolicyRevision(input: PolicyDiscardRevisionInput): SocketLanPolicyMutationPayload! @beta
+   firewall: SocketLanFirewallPolicyMutations!
+@@ -5799,6 +5834,8 @@ type SocketLanPolicyMutations {
+   publishPolicyRevision(input: PolicyPublishRevisionInput): SocketLanPolicyMutationPayload! @beta
+   removeRule(input: SocketLanRemoveRuleInput!): SocketLanRuleMutationPayload! @beta
+   removeSection(input: PolicyRemoveSectionInput!): PolicySectionMutationPayload! @beta
++  removeSubPolicy(input: SocketLanRemoveSubPolicyInput!): SocketLanRemoveSubPolicyMutationPayload! @beta
++  reorderPolicy(input: PolicyReorderInput!): SocketLanPolicyMutationPayload! @beta
+   updatePolicy(input: SocketLanPolicyUpdateInput!): SocketLanPolicyMutationPayload! @beta
+   updateRule(input: SocketLanUpdateRuleInput!): SocketLanRuleMutationPayload! @beta
+   updateSection(input: PolicyUpdateSectionInput!): PolicySectionMutationPayload! @beta
+@@ -5806,6 +5843,7 @@ type SocketLanPolicyMutations {
+ 
+ type SocketLanPolicyQueries {
+   policy(input: SocketLanPolicyInput): SocketLanPolicy! @beta
++  policyList(input: SocketLanPolicyListInput! = {sort:{name:{direction:ASC,priority:1},policyLevel:{direction:ASC,priority:2}},paging:{limit:100,from:0}}): SocketLanPolicyListPayload! @beta
+   revisions: PolicyRevisionsPayload @beta
+ }
+ 
+@@ -5814,6 +5852,12 @@ type SocketLanPolicyRef implements ObjectRef & PolicyRef {
+   name: String!
+ }
+ 
++type SocketLanRemoveSubPolicyMutationPayload implements IPolicyMutationPayload {
++  errors: [PolicyMutationError!]!
++  policy: SocketLanPolicy
++  status: PolicyMutationStatus!
++}
++
+ type SocketLanRule implements IPolicyRule {
+   description: String!
+   destination: SocketLanDestination!
+@@ -5839,10 +5883,13 @@ type SocketLanRuleMutationPayload implements IPolicyRuleMutationPayload {
+ }
+ 
+ type SocketLanRulePayload implements IPolicyRulePayload {
++  access: EntityAccess!
+   audit: PolicyElementAudit!
+   metadata: PolicyElementMetadata
+   properties: [PolicyElementPropertiesEnum!]!
+   rule: SocketLanRule!
++  ruleType: PolicyRuleTypeEnum!
++  subPolicy: SocketLanPolicyRef
+ }
+ 
+ """ Defines services used in the socket LAN policy. """
+@@ -5872,6 +5919,12 @@ type SocketLanSource {
+   vlan: [Vlan!]!
+ }
+ 
++type SocketLanSubPolicyPayload implements SubPolicyPayload {
++  access: EntityAccess!
++  policy: SocketLanPolicyInfo!
++  properties: [SubPolicyProperty!]!
++}
++
+ type SocketPortMetrics {
+   from: DateTime
+   id: ID
+@@ -11318,6 +11371,17 @@ input SocketLanAddRuleInput {
+   rule: SocketLanAddRuleDataInput!
+ }
+ 
++input SocketLanAddSubPolicyDataInput {
++  description: String!
++  name: String!
++}
++
++input SocketLanAddSubPolicyInput {
++  at: PolicyRulePositionInput!
++  policy: SocketLanAddSubPolicyDataInput
++  scope: SocketLanAddRuleDataInput!
++}
++
+ """ Input of the settings for Destination of a Wan Firewall rule. """
+ input SocketLanDestinationInput {
+   floatingSubnet: [FloatingSubnetRefInput!]! = []
+@@ -11508,10 +11572,32 @@ input SocketLanPolicyInput {
+   revision: PolicyRevisionInput
+ }
+ 
++input SocketLanPolicyListFilterInput {
++  id: [IdFilterInput!]
++  name: [StringFilterInput!]
++  policyLevel: [PolicyLevelEnumFilterInput!]
++}
++
++input SocketLanPolicyListInput {
++  filter: SocketLanPolicyListFilterInput
++  paging: PagingInput! = {limit:100,from:0}
++  sort: SocketLanPolicyListSortInput! = {name:{direction:ASC,priority:1},policyLevel:{direction:ASC,priority:2}}
++}
++
++input SocketLanPolicyListSortInput {
++  name: SortOrderInput
++  policyLevel: SortOrderInput
++}
++
+ input SocketLanPolicyMutationInput {
+   revision: PolicyMutationRevisionInput
+ }
+ 
++input SocketLanPolicyRefInput {
++  by: ObjectRefBy!
++  input: String!
++}
++
+ input SocketLanPolicyUpdateInput {
+   state: PolicyToggleState
+ }
+@@ -11520,6 +11606,10 @@ input SocketLanRemoveRuleInput {
+   id: ID!
+ }
+ 
++input SocketLanRemoveSubPolicyInput {
++  ref: SocketLanPolicyRefInput!
++}
++
+ """ Defines services used in the socket LAN policy. """
+ input SocketLanServiceInput {
+   custom: [CustomServiceInput!]! = []

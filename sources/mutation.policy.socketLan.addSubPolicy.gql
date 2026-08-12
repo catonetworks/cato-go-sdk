@@ -1,0 +1,19 @@
+mutation policySocketLanAddSubPolicy ( $input: SocketLanAddSubPolicyInput! $accountID:ID! ) {
+  policy(accountId: $accountID) {
+    socketLan {
+      addSubPolicy(input: $input) {
+        policy {
+          id
+          name
+        }
+        status
+        errors {
+          errorMessage
+          errorCode
+        }
+      }
+    }
+  }
+}
+
+

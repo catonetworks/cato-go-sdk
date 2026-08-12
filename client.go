@@ -77,6 +77,7 @@ type CatoClient interface {
 	PolicyRemotePortFwdUpdateSection(ctx context.Context, policyUpdateSectionInput cato_models.PolicyUpdateSectionInput, accountID string, interceptors ...clientv2.RequestInterceptor) (*PolicyRemotePortFwdUpdateSection, error)
 	PolicySocketLanAddRule(ctx context.Context, socketLanAddRuleInput cato_models.SocketLanAddRuleInput, accountID string, interceptors ...clientv2.RequestInterceptor) (*PolicySocketLanAddRule, error)
 	PolicySocketLanAddSection(ctx context.Context, policyAddSectionInput cato_models.PolicyAddSectionInput, accountID string, interceptors ...clientv2.RequestInterceptor) (*PolicySocketLanAddSection, error)
+	PolicySocketLanAddSubPolicy(ctx context.Context, input cato_models.SocketLanAddSubPolicyInput, accountID string, interceptors ...clientv2.RequestInterceptor) (*PolicySocketLanAddSubPolicy, error)
 	PolicySocketLanCreatePolicyRevision(ctx context.Context, socketLanPolicyMutationInput *cato_models.SocketLanPolicyMutationInput, policyCreateRevisionInput cato_models.PolicyCreateRevisionInput, accountID string, interceptors ...clientv2.RequestInterceptor) (*PolicySocketLanCreatePolicyRevision, error)
 	PolicySocketLanDiscardPolicyRevision(ctx context.Context, socketLanPolicyMutationInput *cato_models.SocketLanPolicyMutationInput, policyDiscardRevisionInput *cato_models.PolicyDiscardRevisionInput, accountID string, interceptors ...clientv2.RequestInterceptor) (*PolicySocketLanDiscardPolicyRevision, error)
 	PolicySocketLanFirewallAddRule(ctx context.Context, accountID string, socketLanPolicyMutationInput *cato_models.SocketLanPolicyMutationInput, socketLanFirewallAddRuleInput cato_models.SocketLanFirewallAddRuleInput, interceptors ...clientv2.RequestInterceptor) (*PolicySocketLanFirewallAddRule, error)
@@ -88,6 +89,7 @@ type CatoClient interface {
 	PolicySocketLanPublishPolicyRevision(ctx context.Context, socketLanPolicyMutationInput *cato_models.SocketLanPolicyMutationInput, policyPublishRevisionInput *cato_models.PolicyPublishRevisionInput, accountID string, interceptors ...clientv2.RequestInterceptor) (*PolicySocketLanPublishPolicyRevision, error)
 	PolicySocketLanRemoveRule(ctx context.Context, socketLanPolicyMutationInput *cato_models.SocketLanPolicyMutationInput, socketLanRemoveRuleInput cato_models.SocketLanRemoveRuleInput, accountID string, interceptors ...clientv2.RequestInterceptor) (*PolicySocketLanRemoveRule, error)
 	PolicySocketLanRemoveSection(ctx context.Context, socketLanPolicyMutationInput *cato_models.SocketLanPolicyMutationInput, policyRemoveSectionInput cato_models.PolicyRemoveSectionInput, accountID string, interceptors ...clientv2.RequestInterceptor) (*PolicySocketLanRemoveSection, error)
+	PolicySocketLanRemoveSubPolicy(ctx context.Context, socketLanPolicyMutationInput *cato_models.SocketLanPolicyMutationInput, socketLanRemoveSubPolicyInput cato_models.SocketLanRemoveSubPolicyInput, accountID string, interceptors ...clientv2.RequestInterceptor) (*PolicySocketLanRemoveSubPolicy, error)
 	PolicySocketLanUpdatePolicy(ctx context.Context, socketLanPolicyMutationInput *cato_models.SocketLanPolicyMutationInput, socketLanPolicyUpdateInput cato_models.SocketLanPolicyUpdateInput, accountID string, interceptors ...clientv2.RequestInterceptor) (*PolicySocketLanUpdatePolicy, error)
 	PolicySocketLanUpdateRule(ctx context.Context, socketLanPolicyMutationInput *cato_models.SocketLanPolicyMutationInput, socketLanUpdateRuleInput cato_models.SocketLanUpdateRuleInput, accountID string, interceptors ...clientv2.RequestInterceptor) (*PolicySocketLanUpdateRule, error)
 	PolicySocketLanUpdateSection(ctx context.Context, socketLanPolicyMutationInput *cato_models.SocketLanPolicyMutationInput, policyUpdateSectionInput cato_models.PolicyUpdateSectionInput, accountID string, interceptors ...clientv2.RequestInterceptor) (*PolicySocketLanUpdateSection, error)
@@ -21645,6 +21647,89 @@ func (t *PolicySocketLanAddSection_Policy) GetSocketLan() *PolicySocketLanAddSec
 	return t.SocketLan
 }
 
+type PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy) GetID() string {
+	if t == nil {
+		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy{}
+	}
+	return t.ID
+}
+func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy) GetName() string {
+	if t == nil {
+		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy{}
+	}
+	return t.Name
+}
+
+type PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Errors struct {
+	ErrorCode    *string "json:\"errorCode,omitempty\" graphql:\"errorCode\""
+	ErrorMessage *string "json:\"errorMessage,omitempty\" graphql:\"errorMessage\""
+}
+
+func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Errors) GetErrorCode() *string {
+	if t == nil {
+		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Errors{}
+	}
+	return t.ErrorCode
+}
+func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Errors) GetErrorMessage() *string {
+	if t == nil {
+		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Errors{}
+	}
+	return t.ErrorMessage
+}
+
+type PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy struct {
+	Errors []*PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Errors "json:\"errors\" graphql:\"errors\""
+	Policy *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy   "json:\"policy,omitempty\" graphql:\"policy\""
+	Status cato_models.PolicyMutationStatus                                    "json:\"status\" graphql:\"status\""
+}
+
+func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy) GetErrors() []*PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Errors {
+	if t == nil {
+		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy{}
+	}
+	return t.Errors
+}
+func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy) GetPolicy() *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy_Policy {
+	if t == nil {
+		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy{}
+	}
+	return t.Policy
+}
+func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy) GetStatus() *cato_models.PolicyMutationStatus {
+	if t == nil {
+		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy{}
+	}
+	return &t.Status
+}
+
+type PolicySocketLanAddSubPolicy_Policy_SocketLan struct {
+	AddSubPolicy PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy "json:\"addSubPolicy\" graphql:\"addSubPolicy\""
+}
+
+func (t *PolicySocketLanAddSubPolicy_Policy_SocketLan) GetAddSubPolicy() *PolicySocketLanAddSubPolicy_Policy_SocketLan_AddSubPolicy {
+	if t == nil {
+		t = &PolicySocketLanAddSubPolicy_Policy_SocketLan{}
+	}
+	return &t.AddSubPolicy
+}
+
+type PolicySocketLanAddSubPolicy_Policy struct {
+	SocketLan *PolicySocketLanAddSubPolicy_Policy_SocketLan "json:\"socketLan,omitempty\" graphql:\"socketLan\""
+}
+
+func (t *PolicySocketLanAddSubPolicy_Policy) GetSocketLan() *PolicySocketLanAddSubPolicy_Policy_SocketLan {
+	if t == nil {
+		t = &PolicySocketLanAddSubPolicy_Policy{}
+	}
+	return t.SocketLan
+}
+
 type PolicySocketLanCreatePolicyRevision_Policy_SocketLan_CreatePolicyRevision_Policy_Rules_Audit struct {
 	UpdatedBy   string "json:\"updatedBy\" graphql:\"updatedBy\""
 	UpdatedTime string "json:\"updatedTime\" graphql:\"updatedTime\""
@@ -30720,6 +30805,64 @@ type PolicySocketLanRemoveSection_Policy struct {
 func (t *PolicySocketLanRemoveSection_Policy) GetSocketLan() *PolicySocketLanRemoveSection_Policy_SocketLan {
 	if t == nil {
 		t = &PolicySocketLanRemoveSection_Policy{}
+	}
+	return t.SocketLan
+}
+
+type PolicySocketLanRemoveSubPolicy_Policy_SocketLan_RemoveSubPolicy_Errors struct {
+	ErrorCode    *string "json:\"errorCode,omitempty\" graphql:\"errorCode\""
+	ErrorMessage *string "json:\"errorMessage,omitempty\" graphql:\"errorMessage\""
+}
+
+func (t *PolicySocketLanRemoveSubPolicy_Policy_SocketLan_RemoveSubPolicy_Errors) GetErrorCode() *string {
+	if t == nil {
+		t = &PolicySocketLanRemoveSubPolicy_Policy_SocketLan_RemoveSubPolicy_Errors{}
+	}
+	return t.ErrorCode
+}
+func (t *PolicySocketLanRemoveSubPolicy_Policy_SocketLan_RemoveSubPolicy_Errors) GetErrorMessage() *string {
+	if t == nil {
+		t = &PolicySocketLanRemoveSubPolicy_Policy_SocketLan_RemoveSubPolicy_Errors{}
+	}
+	return t.ErrorMessage
+}
+
+type PolicySocketLanRemoveSubPolicy_Policy_SocketLan_RemoveSubPolicy struct {
+	Errors []*PolicySocketLanRemoveSubPolicy_Policy_SocketLan_RemoveSubPolicy_Errors "json:\"errors\" graphql:\"errors\""
+	Status cato_models.PolicyMutationStatus                                          "json:\"status\" graphql:\"status\""
+}
+
+func (t *PolicySocketLanRemoveSubPolicy_Policy_SocketLan_RemoveSubPolicy) GetErrors() []*PolicySocketLanRemoveSubPolicy_Policy_SocketLan_RemoveSubPolicy_Errors {
+	if t == nil {
+		t = &PolicySocketLanRemoveSubPolicy_Policy_SocketLan_RemoveSubPolicy{}
+	}
+	return t.Errors
+}
+func (t *PolicySocketLanRemoveSubPolicy_Policy_SocketLan_RemoveSubPolicy) GetStatus() *cato_models.PolicyMutationStatus {
+	if t == nil {
+		t = &PolicySocketLanRemoveSubPolicy_Policy_SocketLan_RemoveSubPolicy{}
+	}
+	return &t.Status
+}
+
+type PolicySocketLanRemoveSubPolicy_Policy_SocketLan struct {
+	RemoveSubPolicy PolicySocketLanRemoveSubPolicy_Policy_SocketLan_RemoveSubPolicy "json:\"removeSubPolicy\" graphql:\"removeSubPolicy\""
+}
+
+func (t *PolicySocketLanRemoveSubPolicy_Policy_SocketLan) GetRemoveSubPolicy() *PolicySocketLanRemoveSubPolicy_Policy_SocketLan_RemoveSubPolicy {
+	if t == nil {
+		t = &PolicySocketLanRemoveSubPolicy_Policy_SocketLan{}
+	}
+	return &t.RemoveSubPolicy
+}
+
+type PolicySocketLanRemoveSubPolicy_Policy struct {
+	SocketLan *PolicySocketLanRemoveSubPolicy_Policy_SocketLan "json:\"socketLan,omitempty\" graphql:\"socketLan\""
+}
+
+func (t *PolicySocketLanRemoveSubPolicy_Policy) GetSocketLan() *PolicySocketLanRemoveSubPolicy_Policy_SocketLan {
+	if t == nil {
+		t = &PolicySocketLanRemoveSubPolicy_Policy{}
 	}
 	return t.SocketLan
 }
@@ -101147,6 +101290,81 @@ func (t *RemotePortFwdPolicy_Policy) GetRemotePortFwd() *RemotePortFwdPolicy_Pol
 	return t.RemotePortFwd
 }
 
+type PolicySocketLanPolicy_Policy_SocketLan_Policy_SubPolicies_Access struct {
+	Action cato_models.RBACAction "json:\"action\" graphql:\"action\""
+}
+
+func (t *PolicySocketLanPolicy_Policy_SocketLan_Policy_SubPolicies_Access) GetAction() *cato_models.RBACAction {
+	if t == nil {
+		t = &PolicySocketLanPolicy_Policy_SocketLan_Policy_SubPolicies_Access{}
+	}
+	return &t.Action
+}
+
+type PolicySocketLanPolicy_Policy_SocketLan_Policy_SubPolicies_Policy struct {
+	Description string                      "json:\"description\" graphql:\"description\""
+	Enabled     bool                        "json:\"enabled\" graphql:\"enabled\""
+	ID          string                      "json:\"id\" graphql:\"id\""
+	Name        string                      "json:\"name\" graphql:\"name\""
+	PolicyLevel cato_models.PolicyLevelEnum "json:\"policyLevel\" graphql:\"policyLevel\""
+}
+
+func (t *PolicySocketLanPolicy_Policy_SocketLan_Policy_SubPolicies_Policy) GetDescription() string {
+	if t == nil {
+		t = &PolicySocketLanPolicy_Policy_SocketLan_Policy_SubPolicies_Policy{}
+	}
+	return t.Description
+}
+func (t *PolicySocketLanPolicy_Policy_SocketLan_Policy_SubPolicies_Policy) GetEnabled() bool {
+	if t == nil {
+		t = &PolicySocketLanPolicy_Policy_SocketLan_Policy_SubPolicies_Policy{}
+	}
+	return t.Enabled
+}
+func (t *PolicySocketLanPolicy_Policy_SocketLan_Policy_SubPolicies_Policy) GetID() string {
+	if t == nil {
+		t = &PolicySocketLanPolicy_Policy_SocketLan_Policy_SubPolicies_Policy{}
+	}
+	return t.ID
+}
+func (t *PolicySocketLanPolicy_Policy_SocketLan_Policy_SubPolicies_Policy) GetName() string {
+	if t == nil {
+		t = &PolicySocketLanPolicy_Policy_SocketLan_Policy_SubPolicies_Policy{}
+	}
+	return t.Name
+}
+func (t *PolicySocketLanPolicy_Policy_SocketLan_Policy_SubPolicies_Policy) GetPolicyLevel() *cato_models.PolicyLevelEnum {
+	if t == nil {
+		t = &PolicySocketLanPolicy_Policy_SocketLan_Policy_SubPolicies_Policy{}
+	}
+	return &t.PolicyLevel
+}
+
+type PolicySocketLanPolicy_Policy_SocketLan_Policy_SubPolicies struct {
+	Access     PolicySocketLanPolicy_Policy_SocketLan_Policy_SubPolicies_Access "json:\"access\" graphql:\"access\""
+	Policy     PolicySocketLanPolicy_Policy_SocketLan_Policy_SubPolicies_Policy "json:\"policy\" graphql:\"policy\""
+	Properties []cato_models.SubPolicyProperty                                  "json:\"properties\" graphql:\"properties\""
+}
+
+func (t *PolicySocketLanPolicy_Policy_SocketLan_Policy_SubPolicies) GetAccess() *PolicySocketLanPolicy_Policy_SocketLan_Policy_SubPolicies_Access {
+	if t == nil {
+		t = &PolicySocketLanPolicy_Policy_SocketLan_Policy_SubPolicies{}
+	}
+	return &t.Access
+}
+func (t *PolicySocketLanPolicy_Policy_SocketLan_Policy_SubPolicies) GetPolicy() *PolicySocketLanPolicy_Policy_SocketLan_Policy_SubPolicies_Policy {
+	if t == nil {
+		t = &PolicySocketLanPolicy_Policy_SocketLan_Policy_SubPolicies{}
+	}
+	return &t.Policy
+}
+func (t *PolicySocketLanPolicy_Policy_SocketLan_Policy_SubPolicies) GetProperties() []cato_models.SubPolicyProperty {
+	if t == nil {
+		t = &PolicySocketLanPolicy_Policy_SocketLan_Policy_SubPolicies{}
+	}
+	return t.Properties
+}
+
 type PolicySocketLanPolicy_Policy_SocketLan_Policy_Rules_Audit struct {
 	UpdatedBy   string "json:\"updatedBy\" graphql:\"updatedBy\""
 	UpdatedTime string "json:\"updatedTime\" graphql:\"updatedTime\""
@@ -102868,10 +103086,30 @@ func (t *PolicySocketLanPolicy_Policy_SocketLan_Policy_Rules_Rule) GetTransport(
 	return &t.Transport
 }
 
+type PolicySocketLanPolicy_Policy_SocketLan_Policy_Rules_SubPolicy struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicySocketLanPolicy_Policy_SocketLan_Policy_Rules_SubPolicy) GetID() string {
+	if t == nil {
+		t = &PolicySocketLanPolicy_Policy_SocketLan_Policy_Rules_SubPolicy{}
+	}
+	return t.ID
+}
+func (t *PolicySocketLanPolicy_Policy_SocketLan_Policy_Rules_SubPolicy) GetName() string {
+	if t == nil {
+		t = &PolicySocketLanPolicy_Policy_SocketLan_Policy_Rules_SubPolicy{}
+	}
+	return t.Name
+}
+
 type PolicySocketLanPolicy_Policy_SocketLan_Policy_Rules struct {
-	Audit      PolicySocketLanPolicy_Policy_SocketLan_Policy_Rules_Audit "json:\"audit\" graphql:\"audit\""
-	Properties []cato_models.PolicyElementPropertiesEnum                 "json:\"properties\" graphql:\"properties\""
-	Rule       PolicySocketLanPolicy_Policy_SocketLan_Policy_Rules_Rule  "json:\"rule\" graphql:\"rule\""
+	Audit      PolicySocketLanPolicy_Policy_SocketLan_Policy_Rules_Audit      "json:\"audit\" graphql:\"audit\""
+	Properties []cato_models.PolicyElementPropertiesEnum                      "json:\"properties\" graphql:\"properties\""
+	Rule       PolicySocketLanPolicy_Policy_SocketLan_Policy_Rules_Rule       "json:\"rule\" graphql:\"rule\""
+	RuleType   cato_models.PolicyRuleTypeEnum                                 "json:\"ruleType\" graphql:\"ruleType\""
+	SubPolicy  *PolicySocketLanPolicy_Policy_SocketLan_Policy_Rules_SubPolicy "json:\"subPolicy,omitempty\" graphql:\"subPolicy\""
 }
 
 func (t *PolicySocketLanPolicy_Policy_SocketLan_Policy_Rules) GetAudit() *PolicySocketLanPolicy_Policy_SocketLan_Policy_Rules_Audit {
@@ -102891,6 +103129,18 @@ func (t *PolicySocketLanPolicy_Policy_SocketLan_Policy_Rules) GetRule() *PolicyS
 		t = &PolicySocketLanPolicy_Policy_SocketLan_Policy_Rules{}
 	}
 	return &t.Rule
+}
+func (t *PolicySocketLanPolicy_Policy_SocketLan_Policy_Rules) GetRuleType() *cato_models.PolicyRuleTypeEnum {
+	if t == nil {
+		t = &PolicySocketLanPolicy_Policy_SocketLan_Policy_Rules{}
+	}
+	return &t.RuleType
+}
+func (t *PolicySocketLanPolicy_Policy_SocketLan_Policy_Rules) GetSubPolicy() *PolicySocketLanPolicy_Policy_SocketLan_Policy_Rules_SubPolicy {
+	if t == nil {
+		t = &PolicySocketLanPolicy_Policy_SocketLan_Policy_Rules{}
+	}
+	return t.SubPolicy
 }
 
 type PolicySocketLanPolicy_Policy_SocketLan_Policy_Sections_Audit struct {
@@ -102912,8 +103162,9 @@ func (t *PolicySocketLanPolicy_Policy_SocketLan_Policy_Sections_Audit) GetUpdate
 }
 
 type PolicySocketLanPolicy_Policy_SocketLan_Policy_Sections_Section struct {
-	ID   string "json:\"id\" graphql:\"id\""
-	Name string "json:\"name\" graphql:\"name\""
+	ID          string  "json:\"id\" graphql:\"id\""
+	Name        string  "json:\"name\" graphql:\"name\""
+	SubPolicyID *string "json:\"subPolicyId,omitempty\" graphql:\"subPolicyId\""
 }
 
 func (t *PolicySocketLanPolicy_Policy_SocketLan_Policy_Sections_Section) GetID() string {
@@ -102927,6 +103178,12 @@ func (t *PolicySocketLanPolicy_Policy_SocketLan_Policy_Sections_Section) GetName
 		t = &PolicySocketLanPolicy_Policy_SocketLan_Policy_Sections_Section{}
 	}
 	return t.Name
+}
+func (t *PolicySocketLanPolicy_Policy_SocketLan_Policy_Sections_Section) GetSubPolicyID() *string {
+	if t == nil {
+		t = &PolicySocketLanPolicy_Policy_SocketLan_Policy_Sections_Section{}
+	}
+	return t.SubPolicyID
 }
 
 type PolicySocketLanPolicy_Policy_SocketLan_Policy_Sections struct {
@@ -103019,11 +103276,12 @@ func (t *PolicySocketLanPolicy_Policy_SocketLan_Policy_Revision) GetUpdatedTime(
 }
 
 type PolicySocketLanPolicy_Policy_SocketLan_Policy struct {
-	Audit    *PolicySocketLanPolicy_Policy_SocketLan_Policy_Audit      "json:\"audit,omitempty\" graphql:\"audit\""
-	Enabled  bool                                                      "json:\"enabled\" graphql:\"enabled\""
-	Revision *PolicySocketLanPolicy_Policy_SocketLan_Policy_Revision   "json:\"revision,omitempty\" graphql:\"revision\""
-	Rules    []*PolicySocketLanPolicy_Policy_SocketLan_Policy_Rules    "json:\"rules\" graphql:\"rules\""
-	Sections []*PolicySocketLanPolicy_Policy_SocketLan_Policy_Sections "json:\"sections\" graphql:\"sections\""
+	Audit       *PolicySocketLanPolicy_Policy_SocketLan_Policy_Audit         "json:\"audit,omitempty\" graphql:\"audit\""
+	Enabled     bool                                                         "json:\"enabled\" graphql:\"enabled\""
+	Revision    *PolicySocketLanPolicy_Policy_SocketLan_Policy_Revision      "json:\"revision,omitempty\" graphql:\"revision\""
+	Rules       []*PolicySocketLanPolicy_Policy_SocketLan_Policy_Rules       "json:\"rules\" graphql:\"rules\""
+	Sections    []*PolicySocketLanPolicy_Policy_SocketLan_Policy_Sections    "json:\"sections\" graphql:\"sections\""
+	SubPolicies []*PolicySocketLanPolicy_Policy_SocketLan_Policy_SubPolicies "json:\"subPolicies\" graphql:\"subPolicies\""
 }
 
 func (t *PolicySocketLanPolicy_Policy_SocketLan_Policy) GetAudit() *PolicySocketLanPolicy_Policy_SocketLan_Policy_Audit {
@@ -103055,6 +103313,12 @@ func (t *PolicySocketLanPolicy_Policy_SocketLan_Policy) GetSections() []*PolicyS
 		t = &PolicySocketLanPolicy_Policy_SocketLan_Policy{}
 	}
 	return t.Sections
+}
+func (t *PolicySocketLanPolicy_Policy_SocketLan_Policy) GetSubPolicies() []*PolicySocketLanPolicy_Policy_SocketLan_Policy_SubPolicies {
+	if t == nil {
+		t = &PolicySocketLanPolicy_Policy_SocketLan_Policy{}
+	}
+	return t.SubPolicies
 }
 
 type PolicySocketLanPolicy_Policy_SocketLan struct {
@@ -116909,6 +117173,17 @@ func (t *PolicySocketLanAddSection) GetPolicy() *PolicySocketLanAddSection_Polic
 	return t.Policy
 }
 
+type PolicySocketLanAddSubPolicy struct {
+	Policy *PolicySocketLanAddSubPolicy_Policy "json:\"policy,omitempty\" graphql:\"policy\""
+}
+
+func (t *PolicySocketLanAddSubPolicy) GetPolicy() *PolicySocketLanAddSubPolicy_Policy {
+	if t == nil {
+		t = &PolicySocketLanAddSubPolicy{}
+	}
+	return t.Policy
+}
+
 type PolicySocketLanCreatePolicyRevision struct {
 	Policy *PolicySocketLanCreatePolicyRevision_Policy "json:\"policy,omitempty\" graphql:\"policy\""
 }
@@ -117026,6 +117301,17 @@ type PolicySocketLanRemoveSection struct {
 func (t *PolicySocketLanRemoveSection) GetPolicy() *PolicySocketLanRemoveSection_Policy {
 	if t == nil {
 		t = &PolicySocketLanRemoveSection{}
+	}
+	return t.Policy
+}
+
+type PolicySocketLanRemoveSubPolicy struct {
+	Policy *PolicySocketLanRemoveSubPolicy_Policy "json:\"policy,omitempty\" graphql:\"policy\""
+}
+
+func (t *PolicySocketLanRemoveSubPolicy) GetPolicy() *PolicySocketLanRemoveSubPolicy_Policy {
+	if t == nil {
+		t = &PolicySocketLanRemoveSubPolicy{}
 	}
 	return t.Policy
 }
@@ -123378,6 +123664,43 @@ func (c *Client) PolicySocketLanAddSection(ctx context.Context, policyAddSection
 	return &res, nil
 }
 
+const PolicySocketLanAddSubPolicyDocument = `mutation policySocketLanAddSubPolicy ($input: SocketLanAddSubPolicyInput!, $accountID: ID!) {
+	policy(accountId: $accountID) {
+		socketLan {
+			addSubPolicy(input: $input) {
+				policy {
+					id
+					name
+				}
+				status
+				errors {
+					errorMessage
+					errorCode
+				}
+			}
+		}
+	}
+}
+`
+
+func (c *Client) PolicySocketLanAddSubPolicy(ctx context.Context, input cato_models.SocketLanAddSubPolicyInput, accountID string, interceptors ...clientv2.RequestInterceptor) (*PolicySocketLanAddSubPolicy, error) {
+	vars := map[string]any{
+		"input":     input,
+		"accountID": accountID,
+	}
+
+	var res PolicySocketLanAddSubPolicy
+	if err := c.Client.Post(ctx, "policySocketLanAddSubPolicy", PolicySocketLanAddSubPolicyDocument, &res, vars, interceptors...); err != nil {
+		if c.Client.ParseDataWhenErrors {
+			return &res, err
+		}
+
+		return nil, err
+	}
+
+	return &res, nil
+}
+
 const PolicySocketLanCreatePolicyRevisionDocument = `mutation policySocketLanCreatePolicyRevision ($socketLanPolicyMutationInput: SocketLanPolicyMutationInput, $policyCreateRevisionInput: PolicyCreateRevisionInput!, $accountId: ID!) {
 	policy(accountId: $accountId) {
 		socketLan(input: $socketLanPolicyMutationInput) {
@@ -125089,6 +125412,40 @@ func (c *Client) PolicySocketLanRemoveSection(ctx context.Context, socketLanPoli
 
 	var res PolicySocketLanRemoveSection
 	if err := c.Client.Post(ctx, "policySocketLanRemoveSection", PolicySocketLanRemoveSectionDocument, &res, vars, interceptors...); err != nil {
+		if c.Client.ParseDataWhenErrors {
+			return &res, err
+		}
+
+		return nil, err
+	}
+
+	return &res, nil
+}
+
+const PolicySocketLanRemoveSubPolicyDocument = `mutation policySocketLanRemoveSubPolicy ($socketLanPolicyMutationInput: SocketLanPolicyMutationInput, $socketLanRemoveSubPolicyInput: SocketLanRemoveSubPolicyInput!, $accountID: ID!) {
+	policy(accountId: $accountID) {
+		socketLan(input: $socketLanPolicyMutationInput) {
+			removeSubPolicy(input: $socketLanRemoveSubPolicyInput) {
+				status
+				errors {
+					errorMessage
+					errorCode
+				}
+			}
+		}
+	}
+}
+`
+
+func (c *Client) PolicySocketLanRemoveSubPolicy(ctx context.Context, socketLanPolicyMutationInput *cato_models.SocketLanPolicyMutationInput, socketLanRemoveSubPolicyInput cato_models.SocketLanRemoveSubPolicyInput, accountID string, interceptors ...clientv2.RequestInterceptor) (*PolicySocketLanRemoveSubPolicy, error) {
+	vars := map[string]any{
+		"socketLanPolicyMutationInput":  socketLanPolicyMutationInput,
+		"socketLanRemoveSubPolicyInput": socketLanRemoveSubPolicyInput,
+		"accountID":                     accountID,
+	}
+
+	var res PolicySocketLanRemoveSubPolicy
+	if err := c.Client.Post(ctx, "policySocketLanRemoveSubPolicy", PolicySocketLanRemoveSubPolicyDocument, &res, vars, interceptors...); err != nil {
 		if c.Client.ParseDataWhenErrors {
 			return &res, err
 		}
@@ -138951,11 +139308,25 @@ const PolicySocketLanPolicyDocument = `query policySocketLanPolicy ($accountId: 
 		socketLan {
 			policy(input: $socketLanPolicyInput) {
 				enabled
+				subPolicies {
+					access {
+						action
+					}
+					properties
+					policy {
+						id
+						name
+						policyLevel
+						enabled
+						description
+					}
+				}
 				rules {
 					audit {
 						updatedTime
 						updatedBy
 					}
+					ruleType
 					rule {
 						id
 						name
@@ -139230,6 +139601,10 @@ const PolicySocketLanPolicyDocument = `query policySocketLanPolicy ($accountId: 
 						transport
 					}
 					properties
+					subPolicy {
+						id
+						name
+					}
 				}
 				sections {
 					audit {
@@ -139239,6 +139614,7 @@ const PolicySocketLanPolicyDocument = `query policySocketLanPolicy ($accountId: 
 					section {
 						id
 						name
+						subPolicyId
 					}
 					properties
 				}
@@ -141662,6 +142038,7 @@ var DocumentOperationNames = map[string]string{
 	PolicyRemotePortFwdUpdateSectionDocument:                "policyRemotePortFwdUpdateSection",
 	PolicySocketLanAddRuleDocument:                          "policySocketLanAddRule",
 	PolicySocketLanAddSectionDocument:                       "policySocketLanAddSection",
+	PolicySocketLanAddSubPolicyDocument:                     "policySocketLanAddSubPolicy",
 	PolicySocketLanCreatePolicyRevisionDocument:             "policySocketLanCreatePolicyRevision",
 	PolicySocketLanDiscardPolicyRevisionDocument:            "policySocketLanDiscardPolicyRevision",
 	PolicySocketLanFirewallAddRuleDocument:                  "policySocketLanFirewallAddRule",
@@ -141673,6 +142050,7 @@ var DocumentOperationNames = map[string]string{
 	PolicySocketLanPublishPolicyRevisionDocument:            "policySocketLanPublishPolicyRevision",
 	PolicySocketLanRemoveRuleDocument:                       "policySocketLanRemoveRule",
 	PolicySocketLanRemoveSectionDocument:                    "policySocketLanRemoveSection",
+	PolicySocketLanRemoveSubPolicyDocument:                  "policySocketLanRemoveSubPolicy",
 	PolicySocketLanUpdatePolicyDocument:                     "policySocketLanUpdatePolicy",
 	PolicySocketLanUpdateRuleDocument:                       "policySocketLanUpdateRule",
 	PolicySocketLanUpdateSectionDocument:                    "policySocketLanUpdateSection",
