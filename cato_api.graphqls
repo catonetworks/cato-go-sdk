@@ -31,6 +31,7 @@ type Query {
   accountSnapshot(accountID: ID, id: ID @deprecated(reason: "by accountID")): AccountSnapshot @ga
   admin(accountId: ID!, adminID: ID!): GetAdminPayload @ga
   admins(accountID: ID!, limit: Int = 50, from: Int = 0, search: String = "", sort: [SortInput], adminIDs: [ID!]): AdminsResult @ga
+  aiSecurity(accountId: ID!): AiSecurityQueries
   appStats(accountID: ID!, timeFrame: TimeFrame!, measures: [Measure], dimensions: [Dimension], filters: [AppStatsFilter!], postAggFilters: [AppStatsPostAggFilter!], sort: [AppStatsSort!], includeEmptyDimension: Boolean): AppStats @ga
   appStatsTimeSeries(accountID: ID!, timeFrame: TimeFrame!, measures: [Measure], dimensions: [Dimension], filters: [AppStatsFilter!], includeEmptyDimension: Boolean): AppStatsTimeSeries @ga
   auditFeed(accountIDs: [ID!], ids: [ID!] @deprecated(reason: "by accountIDs"), timeFrame: TimeFrame!, filters: [AuditFieldFilterInput!], marker: String): AuditFeed @ga
@@ -426,6 +427,38 @@ type AiSecurityAppsGuardRef implements ObjectRef {
   name: String!
 }
 
+""" A single invocation (any call to or response from an LLM) intercepted by the AI Security guard. """
+type AiSecurityAppsInvocation {
+  action: AiSecurityAppsInvocationAction!
+  data: AiSecurityAppsInvocationData!
+  guard: AiSecurityAppsGuardRef
+  id: ID!
+  sessionId: ID
+  timestamp: DateTime!
+  tokenCount: Int!
+}
+
+""" The input data of an invocation. """
+type AiSecurityAppsInvocationData {
+  message: [AiSecurityAppsInvocationMessage!]!
+}
+
+""" A single message within an invocation's chat. """
+type AiSecurityAppsInvocationMessage {
+  content: [AiSecurityAppsInvocationMessageContent!]!
+  role: String!
+}
+
+""" A single content item within a message. """
+type AiSecurityAppsInvocationMessageContent {
+  text: String
+}
+
+""" Root of the AI App Protection query namespace. """
+type AiSecurityAppsQueries {
+  invocation(input: AiSecurityAppsInvocationInput!): AiSecurityAppsInvocation @beta
+}
+
 type AiSecurityAttributes {
   dataUsagePolicy: AiSecurityDataUsagePolicy
   risk: AiSecurityRisk
@@ -449,6 +482,17 @@ type AiSecurityDataUsagePolicy {
   type: AiSecurityDataUsagePolicyType
 }
 
+""" A single end-user conversation's prompt sensitive information (PSI). """
+type AiSecurityEndUsersConversation {
+  llmResponse: String
+  userPrompt: String!
+}
+
+""" Root of the User Protection query namespace. """
+type AiSecurityEndUsersQueries {
+  sessionConversation(input: AiSecurityEndUsersSessionConversationInput!): AiSecurityEndUsersConversation @beta
+}
+
 """ A reference identifying the Guard object. ID: Unique Guard Identifier, Name: The Guard Name """
 type AiSecurityGuardRef implements ObjectRef {
   id: ID!
@@ -459,6 +503,12 @@ type AiSecurityGuardRef implements ObjectRef {
 type AiSecurityHomegrownAppRef implements ObjectRef {
   id: ID!
   name: String!
+}
+
+""" Root of the AI Security query namespace for an account. """
+type AiSecurityQueries {
+  apps: AiSecurityAppsQueries
+  endUsers: AiSecurityEndUsersQueries
 }
 
 """ A reference identifying the AllocatedIp object. ID: Unique AllocatedIp Identifier, Name: The AllocatedIp Name """
@@ -1266,63 +1316,77 @@ type BgpTracking {
   subscriptionId: ID
 }
 
+""" A partner's Business Platform account. """
 type BusinessPlatformAccount {
   account: AccountRef
   accountExternalName: String!
   city: String
   cmaCreatedAt: Date
   cmaCreatedBy: String
-  cmaId: Long @deprecated(reason: "replaced by partner reference, to be removed soon")
   companyWebsite: String
-  contactEmail: String
+  contactEmail: Email
   contactFirstName: String
   contactLastName: String
   country: String
   description: String
   estimatedCloseDate: Date
-  expireOn: Date
   expiresOn: Date
-  externalName: String! @deprecated(reason: "replaced by account reference, to be removed soon")
-  id: ID! @deprecated(reason: "replaced by account reference, to be removed soon")
-  name: String!
+  externalName: String!
+  id: ID!
   partner: AccountRef!
-  partnerId: Long! @deprecated(reason: "replaced by partner reference, to be removed soon")
-  partnerName: String!
-  plan: BusinessPlatformAccountPlan! @deprecated(reason: "replaced by expiresOn, to be removed soon")
+  plan: BusinessPlatformAccountPlan!
   postalCode: String
   state: String
   street: String
 }
 
+""" Response payload for a Business Platform account list query. """
 type BusinessPlatformAccountListPayload {
   items: [BusinessPlatformAccount!]!
-  pageInfo: PageInfo
+  paging: PageInfo!
 }
 
+""" Response payload for creating a trial account. """
 type BusinessPlatformCreateTrialAccountPayload {
-  account: BusinessPlatformAccount
+  account: BusinessPlatformAccount!
 }
 
+""" Response payload for linking a Business Platform account to a trial account. """
 type BusinessPlatformLinkToTrialAccountPayload {
-  account: BusinessPlatformAccount
+  account: BusinessPlatformAccount!
 }
 
+""" Business Platform Mutations """
 type BusinessPlatformMutations {
   createTrialAccount(input: BusinessPlatformCreateTrialAccountInput!): BusinessPlatformCreateTrialAccountPayload @beta
   linkToTrialAccount(input: BusinessPlatformLinkToTrialAccountInput!): BusinessPlatformLinkToTrialAccountPayload @beta
   updateSettings(input: BusinessPlatformUpdateSettingsInput!): BusinessPlatformUpdateSettingsPayload @beta
 }
 
+""" Count of Business Platform accounts grouped by plan. """
+type BusinessPlatformPlanCountItem {
+  count: Int!
+  plan: BusinessPlatformAccountPlan!
+}
+
+""" Count of Business Platform accounts grouped by plan. """
+type BusinessPlatformPlanCountPayload {
+  items: [BusinessPlatformPlanCountItem!]!
+}
+
+""" Business Platform Queries """
 type BusinessPlatformQueries {
   accountList(input: BusinessPlatformAccountListInput): BusinessPlatformAccountListPayload @beta
-  countAccountByPlan: PlanCount @beta
+  countAccountByPlan: BusinessPlatformPlanCountPayload @beta
   settings: BusinessPlatformSettings @beta
 }
 
+""" Business Platform settings for an account. """
 type BusinessPlatformSettings {
   approvalEnabled: Boolean!
 }
 
+""" Response payload for updating Business Platform settings. """
 type BusinessPlatformUpdateSettingsPayload {
   approvalEnabled: Boolean!
 }
@@ -4250,14 +4314,6 @@ type PartnerZtnaUsersLicenseAccount {
 type PlainHeaderEntry {
   name: String!
   value: String!
-}
-
-type PlanCount {
-  commercial: Int
-  lost: Int
-  pendingApproval: Int
-  prospect: Int
-  trial: Int
 }
 
 """ Represents available versions for a specific platform. """
@@ -7924,12 +7980,6 @@ input AddZtnaAppConnectorsConfigurationInput {
   privateAppsServiceRange: NetworkSubnet!
 }
 
-input AdminData {
-  email: String!
-  firstName: String!
-  lastName: String!
-}
-
 input AdminRefInput {
   by: ObjectRefBy! = ID
   input: String!
@@ -7941,6 +7991,18 @@ input AdvancedStringFilterInput {
   neq: String
   nin: [String!]
   regex: String
+}
+
+input AiSecurityAppsInvocationInput {
+  id: ID!
+}
+
+""" Input for fetching a single end-user conversation's PSI by message id. """
+input AiSecurityEndUsersSessionConversationInput {
+  appId: ID!
+  messageId: ID!
+  sessionId: ID!
+  userId: ID
 }
 
 input AllocatedIpRefInput {
@@ -8646,44 +8708,58 @@ input BooleanPredicate {
   is: String!
 }
 
+""" Input for listing Business Platform accounts. """
 input BusinessPlatformAccountListInput {
   filter: BusinessPlatformFilterInput
   paging: PagingInput = {limit:100,from:0}
-  sort: BusinessPlatformSortInput = {name:{direction:ASC,priority:1}}
+  sort: BusinessPlatformSortInput = {account:{direction:ASC,priority:1}}
 }
 
+""" Filter by Business Platform account plan. """
 input BusinessPlatformAccountPlanFilterInput {
   eq: BusinessPlatformAccountPlan
   in: [BusinessPlatformAccountPlan!]
 }
 
-input BusinessPlatformCreateTrialAccountInput {
-  accountData: AddAccountInput!
-  adminData: AdminData
-  canManageSubAccounts: Boolean = true
-  id: String!
+""" Details of the initial admin user for a new account. """
+input BusinessPlatformAdminData {
+  email: Email!
+  firstName: String!
+  lastName: String!
 }
 
+""" Input for creating a trial account. """
+input BusinessPlatformCreateTrialAccountInput {
+  accountData: AddAccountInput!
+  adminData: BusinessPlatformAdminData
+  canManageSubAccounts: Boolean = true
+  id: ID!
+}
+
+""" Filter criteria for listing Business Platform accounts. """
 input BusinessPlatformFilterInput {
   account: AccountFilter
-  expireOn: [DateFilterInput]
+  expiresOn: [DateFilterInput!]
   freeText: FreeTextFilterInput
   plan: [BusinessPlatformAccountPlanFilterInput!]
 }
 
+""" Input for linking a Business Platform account to an existing trial (CMA) account. """
 input BusinessPlatformLinkToTrialAccountInput {
-  cmaId: Long!
-  id: String!
+  cmaId: ID!
+  id: ID!
 }
 
+""" Sort criteria for listing Business Platform accounts. """
 input BusinessPlatformSortInput {
-  createdAt: SortOrderInput
-  createdBy: SortOrderInput
-  name: SortOrderInput
-  partnerName: SortOrderInput
+  account: SortOrderInput
+  cmaCreatedAt: SortOrderInput
+  cmaCreatedBy: SortOrderInput
+  partner: SortOrderInput
   plan: SortOrderInput
 }
 
+""" Input for updating Business Platform settings. """
 input BusinessPlatformUpdateSettingsInput {
   approvalEnabled: Boolean
 }
@@ -13627,6 +13703,18 @@ enum AiOperationsIncidentTypeEnum {
   Account
 }
 
+""" The enforcement outcome applied to an invocation. """
+enum AiSecurityAppsInvocationAction {
+  """ Sensitive content was masked before forwarding. """
+  ANONYMIZE
+  """ The request or response was blocked. """
+  BLOCK
+  """ No action was taken — all matched rules are in monitor mode. """
+  MONITOR
+  """ No action was taken — no rules matched. """
+  NONE
+}
+
 enum AiSecurityDataUsagePolicyType {
   GENERAL_DATA_USAGE
   NOT_MENTIONED
@@ -14105,11 +14193,17 @@ enum BgpState {
   StateMAX
 }
 
+""" Plan of a Business Platform account. """
 enum BusinessPlatformAccountPlan {
+  """ Account is on a paid commercial plan. """
   COMMERCIAL
+  """ Deal was lost and the account is no longer active. """
   LOST
+  """ Account is awaiting approval before it can be provisioned. """
   PENDING_APPROVAL
+  """ Prospective account that has not started a trial yet. """
   PROSPECT
+  """ Account is on a trial plan. """
   TRIAL
 }
 
@@ -15131,6 +15225,8 @@ enum EventFieldName {
   socket_version
   """ Split Tunnel Configuration. CMA Name: Split Tunnel """
   split_tunnel_configuration
+  """ City in which the source host is located (detected via public IP address). CMA Name: Source City """
+  src_city
   """ Country in which the source host is located (detected via public IP address). CMA Name: Source Country """
   src_country
   """ Country Code of country in which the source host is located (detected via public IP address). CMA Name: Source Country Code """
@@ -16139,6 +16235,7 @@ enum ProtoType {
   SOCKET_X1600
   SOCKET_X1600_LTE
   SOCKET_X1700
+  VSOCKET_KVM
   VSOCKET_VGX
   VSOCKET_VGX_AWS
   VSOCKET_VGX_AZURE
@@ -16540,6 +16637,7 @@ enum SocketPlatform {
   AZ1500
   ESX1500
   GCP1500
+  VX86_GENERIC
   X1500
   X1500B_BR2
   X1500_BR2
