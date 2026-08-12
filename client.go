@@ -207,6 +207,7 @@ type CatoClient interface {
 	NetworkRange(ctx context.Context, accountID string, networkRangeID string, interceptors ...clientv2.RequestInterceptor) (*NetworkRange, error)
 	NetworkRangeList(ctx context.Context, accountID string, input cato_models.NetworkRangeListInput, interceptors ...clientv2.RequestInterceptor) (*NetworkRangeList, error)
 	SiteGeneralDetails(ctx context.Context, siteRefInput cato_models.SiteRefInput, accountID string, interceptors ...clientv2.RequestInterceptor) (*SiteGeneralDetails, error)
+	SiteSocketConfiguration(ctx context.Context, siteSocketConfigurationInput cato_models.SiteSocketConfigurationInput, accountID string, interceptors ...clientv2.RequestInterceptor) (*SiteSocketConfiguration, error)
 	SubDomains(ctx context.Context, accountID string, managedAccount *bool, interceptors ...clientv2.RequestInterceptor) (*SubDomains, error)
 	Xdr(ctx context.Context, storyInput cato_models.StoryInput, accountID string, interceptors ...clientv2.RequestInterceptor) (*Xdr, error)
 	AppConnectorReadConnector(ctx context.Context, accountID string, ref cato_models.ZtnaAppConnectorRefInput, interceptors ...clientv2.RequestInterceptor) (*AppConnectorReadConnector, error)
@@ -110527,6 +110528,191 @@ func (t *SiteGeneralDetails_Site) GetSiteGeneralDetails() *SiteGeneralDetails_Si
 	return t.SiteGeneralDetails
 }
 
+type SiteSocketConfiguration_Site_SiteSocketConfiguration_PrimarySocketConfiguration_SocketInfo struct {
+	IsPrimary          bool                                  "json:\"isPrimary\" graphql:\"isPrimary\""
+	Model              *cato_models.SocketModel              "json:\"model,omitempty\" graphql:\"model\""
+	Platform           *string                               "json:\"platform,omitempty\" graphql:\"platform\""
+	RegistrationStatus *cato_models.SocketRegistrationStatus "json:\"registrationStatus,omitempty\" graphql:\"registrationStatus\""
+	Version            *string                               "json:\"version,omitempty\" graphql:\"version\""
+	WifiSupported      cato_models.SocketWifiSupport         "json:\"wifiSupported\" graphql:\"wifiSupported\""
+}
+
+func (t *SiteSocketConfiguration_Site_SiteSocketConfiguration_PrimarySocketConfiguration_SocketInfo) GetIsPrimary() bool {
+	if t == nil {
+		t = &SiteSocketConfiguration_Site_SiteSocketConfiguration_PrimarySocketConfiguration_SocketInfo{}
+	}
+	return t.IsPrimary
+}
+func (t *SiteSocketConfiguration_Site_SiteSocketConfiguration_PrimarySocketConfiguration_SocketInfo) GetModel() *cato_models.SocketModel {
+	if t == nil {
+		t = &SiteSocketConfiguration_Site_SiteSocketConfiguration_PrimarySocketConfiguration_SocketInfo{}
+	}
+	return t.Model
+}
+func (t *SiteSocketConfiguration_Site_SiteSocketConfiguration_PrimarySocketConfiguration_SocketInfo) GetPlatform() *string {
+	if t == nil {
+		t = &SiteSocketConfiguration_Site_SiteSocketConfiguration_PrimarySocketConfiguration_SocketInfo{}
+	}
+	return t.Platform
+}
+func (t *SiteSocketConfiguration_Site_SiteSocketConfiguration_PrimarySocketConfiguration_SocketInfo) GetRegistrationStatus() *cato_models.SocketRegistrationStatus {
+	if t == nil {
+		t = &SiteSocketConfiguration_Site_SiteSocketConfiguration_PrimarySocketConfiguration_SocketInfo{}
+	}
+	return t.RegistrationStatus
+}
+func (t *SiteSocketConfiguration_Site_SiteSocketConfiguration_PrimarySocketConfiguration_SocketInfo) GetVersion() *string {
+	if t == nil {
+		t = &SiteSocketConfiguration_Site_SiteSocketConfiguration_PrimarySocketConfiguration_SocketInfo{}
+	}
+	return t.Version
+}
+func (t *SiteSocketConfiguration_Site_SiteSocketConfiguration_PrimarySocketConfiguration_SocketInfo) GetWifiSupported() *cato_models.SocketWifiSupport {
+	if t == nil {
+		t = &SiteSocketConfiguration_Site_SiteSocketConfiguration_PrimarySocketConfiguration_SocketInfo{}
+	}
+	return &t.WifiSupported
+}
+
+type SiteSocketConfiguration_Site_SiteSocketConfiguration_PrimarySocketConfiguration struct {
+	Description  *string                                                                                    "json:\"description,omitempty\" graphql:\"description\""
+	ManagementIP *string                                                                                    "json:\"managementIp,omitempty\" graphql:\"managementIp\""
+	Serial       *string                                                                                    "json:\"serial,omitempty\" graphql:\"serial\""
+	SocketInfo   SiteSocketConfiguration_Site_SiteSocketConfiguration_PrimarySocketConfiguration_SocketInfo "json:\"socketInfo\" graphql:\"socketInfo\""
+}
+
+func (t *SiteSocketConfiguration_Site_SiteSocketConfiguration_PrimarySocketConfiguration) GetDescription() *string {
+	if t == nil {
+		t = &SiteSocketConfiguration_Site_SiteSocketConfiguration_PrimarySocketConfiguration{}
+	}
+	return t.Description
+}
+func (t *SiteSocketConfiguration_Site_SiteSocketConfiguration_PrimarySocketConfiguration) GetManagementIP() *string {
+	if t == nil {
+		t = &SiteSocketConfiguration_Site_SiteSocketConfiguration_PrimarySocketConfiguration{}
+	}
+	return t.ManagementIP
+}
+func (t *SiteSocketConfiguration_Site_SiteSocketConfiguration_PrimarySocketConfiguration) GetSerial() *string {
+	if t == nil {
+		t = &SiteSocketConfiguration_Site_SiteSocketConfiguration_PrimarySocketConfiguration{}
+	}
+	return t.Serial
+}
+func (t *SiteSocketConfiguration_Site_SiteSocketConfiguration_PrimarySocketConfiguration) GetSocketInfo() *SiteSocketConfiguration_Site_SiteSocketConfiguration_PrimarySocketConfiguration_SocketInfo {
+	if t == nil {
+		t = &SiteSocketConfiguration_Site_SiteSocketConfiguration_PrimarySocketConfiguration{}
+	}
+	return &t.SocketInfo
+}
+
+type SiteSocketConfiguration_Site_SiteSocketConfiguration_SecondarySocketConfiguration_SocketInfo struct {
+	IsPrimary          bool                                  "json:\"isPrimary\" graphql:\"isPrimary\""
+	Model              *cato_models.SocketModel              "json:\"model,omitempty\" graphql:\"model\""
+	Platform           *string                               "json:\"platform,omitempty\" graphql:\"platform\""
+	RegistrationStatus *cato_models.SocketRegistrationStatus "json:\"registrationStatus,omitempty\" graphql:\"registrationStatus\""
+	Version            *string                               "json:\"version,omitempty\" graphql:\"version\""
+	WifiSupported      cato_models.SocketWifiSupport         "json:\"wifiSupported\" graphql:\"wifiSupported\""
+}
+
+func (t *SiteSocketConfiguration_Site_SiteSocketConfiguration_SecondarySocketConfiguration_SocketInfo) GetIsPrimary() bool {
+	if t == nil {
+		t = &SiteSocketConfiguration_Site_SiteSocketConfiguration_SecondarySocketConfiguration_SocketInfo{}
+	}
+	return t.IsPrimary
+}
+func (t *SiteSocketConfiguration_Site_SiteSocketConfiguration_SecondarySocketConfiguration_SocketInfo) GetModel() *cato_models.SocketModel {
+	if t == nil {
+		t = &SiteSocketConfiguration_Site_SiteSocketConfiguration_SecondarySocketConfiguration_SocketInfo{}
+	}
+	return t.Model
+}
+func (t *SiteSocketConfiguration_Site_SiteSocketConfiguration_SecondarySocketConfiguration_SocketInfo) GetPlatform() *string {
+	if t == nil {
+		t = &SiteSocketConfiguration_Site_SiteSocketConfiguration_SecondarySocketConfiguration_SocketInfo{}
+	}
+	return t.Platform
+}
+func (t *SiteSocketConfiguration_Site_SiteSocketConfiguration_SecondarySocketConfiguration_SocketInfo) GetRegistrationStatus() *cato_models.SocketRegistrationStatus {
+	if t == nil {
+		t = &SiteSocketConfiguration_Site_SiteSocketConfiguration_SecondarySocketConfiguration_SocketInfo{}
+	}
+	return t.RegistrationStatus
+}
+func (t *SiteSocketConfiguration_Site_SiteSocketConfiguration_SecondarySocketConfiguration_SocketInfo) GetVersion() *string {
+	if t == nil {
+		t = &SiteSocketConfiguration_Site_SiteSocketConfiguration_SecondarySocketConfiguration_SocketInfo{}
+	}
+	return t.Version
+}
+func (t *SiteSocketConfiguration_Site_SiteSocketConfiguration_SecondarySocketConfiguration_SocketInfo) GetWifiSupported() *cato_models.SocketWifiSupport {
+	if t == nil {
+		t = &SiteSocketConfiguration_Site_SiteSocketConfiguration_SecondarySocketConfiguration_SocketInfo{}
+	}
+	return &t.WifiSupported
+}
+
+type SiteSocketConfiguration_Site_SiteSocketConfiguration_SecondarySocketConfiguration struct {
+	Description  *string                                                                                      "json:\"description,omitempty\" graphql:\"description\""
+	ManagementIP *string                                                                                      "json:\"managementIp,omitempty\" graphql:\"managementIp\""
+	Serial       *string                                                                                      "json:\"serial,omitempty\" graphql:\"serial\""
+	SocketInfo   SiteSocketConfiguration_Site_SiteSocketConfiguration_SecondarySocketConfiguration_SocketInfo "json:\"socketInfo\" graphql:\"socketInfo\""
+}
+
+func (t *SiteSocketConfiguration_Site_SiteSocketConfiguration_SecondarySocketConfiguration) GetDescription() *string {
+	if t == nil {
+		t = &SiteSocketConfiguration_Site_SiteSocketConfiguration_SecondarySocketConfiguration{}
+	}
+	return t.Description
+}
+func (t *SiteSocketConfiguration_Site_SiteSocketConfiguration_SecondarySocketConfiguration) GetManagementIP() *string {
+	if t == nil {
+		t = &SiteSocketConfiguration_Site_SiteSocketConfiguration_SecondarySocketConfiguration{}
+	}
+	return t.ManagementIP
+}
+func (t *SiteSocketConfiguration_Site_SiteSocketConfiguration_SecondarySocketConfiguration) GetSerial() *string {
+	if t == nil {
+		t = &SiteSocketConfiguration_Site_SiteSocketConfiguration_SecondarySocketConfiguration{}
+	}
+	return t.Serial
+}
+func (t *SiteSocketConfiguration_Site_SiteSocketConfiguration_SecondarySocketConfiguration) GetSocketInfo() *SiteSocketConfiguration_Site_SiteSocketConfiguration_SecondarySocketConfiguration_SocketInfo {
+	if t == nil {
+		t = &SiteSocketConfiguration_Site_SiteSocketConfiguration_SecondarySocketConfiguration{}
+	}
+	return &t.SocketInfo
+}
+
+type SiteSocketConfiguration_Site_SiteSocketConfiguration struct {
+	PrimarySocketConfiguration   SiteSocketConfiguration_Site_SiteSocketConfiguration_PrimarySocketConfiguration    "json:\"primarySocketConfiguration\" graphql:\"primarySocketConfiguration\""
+	SecondarySocketConfiguration *SiteSocketConfiguration_Site_SiteSocketConfiguration_SecondarySocketConfiguration "json:\"secondarySocketConfiguration,omitempty\" graphql:\"secondarySocketConfiguration\""
+}
+
+func (t *SiteSocketConfiguration_Site_SiteSocketConfiguration) GetPrimarySocketConfiguration() *SiteSocketConfiguration_Site_SiteSocketConfiguration_PrimarySocketConfiguration {
+	if t == nil {
+		t = &SiteSocketConfiguration_Site_SiteSocketConfiguration{}
+	}
+	return &t.PrimarySocketConfiguration
+}
+func (t *SiteSocketConfiguration_Site_SiteSocketConfiguration) GetSecondarySocketConfiguration() *SiteSocketConfiguration_Site_SiteSocketConfiguration_SecondarySocketConfiguration {
+	if t == nil {
+		t = &SiteSocketConfiguration_Site_SiteSocketConfiguration{}
+	}
+	return t.SecondarySocketConfiguration
+}
+
+type SiteSocketConfiguration_Site struct {
+	SiteSocketConfiguration *SiteSocketConfiguration_Site_SiteSocketConfiguration "json:\"siteSocketConfiguration,omitempty\" graphql:\"siteSocketConfiguration\""
+}
+
+func (t *SiteSocketConfiguration_Site) GetSiteSocketConfiguration() *SiteSocketConfiguration_Site_SiteSocketConfiguration {
+	if t == nil {
+		t = &SiteSocketConfiguration_Site{}
+	}
+	return t.SiteSocketConfiguration
+}
+
 type SubDomains_SubDomains struct {
 	AccountID   string "json:\"accountId\" graphql:\"accountId\""
 	AccountName string "json:\"accountName\" graphql:\"accountName\""
@@ -118335,6 +118521,17 @@ type SiteGeneralDetails struct {
 func (t *SiteGeneralDetails) GetSite() *SiteGeneralDetails_Site {
 	if t == nil {
 		t = &SiteGeneralDetails{}
+	}
+	return &t.Site
+}
+
+type SiteSocketConfiguration struct {
+	Site SiteSocketConfiguration_Site "json:\"site\" graphql:\"site\""
+}
+
+func (t *SiteSocketConfiguration) GetSite() *SiteSocketConfiguration_Site {
+	if t == nil {
+		t = &SiteSocketConfiguration{}
 	}
 	return &t.Site
 }
@@ -140645,6 +140842,58 @@ func (c *Client) SiteGeneralDetails(ctx context.Context, siteRefInput cato_model
 	return &res, nil
 }
 
+const SiteSocketConfigurationDocument = `query siteSocketConfiguration ($siteSocketConfigurationInput: SiteSocketConfigurationInput!, $accountId: ID!) {
+	site(accountId: $accountId) {
+		siteSocketConfiguration(input: $siteSocketConfigurationInput) {
+			primarySocketConfiguration {
+				description
+				serial
+				managementIp
+				socketInfo {
+					model
+					platform
+					version
+					registrationStatus
+					wifiSupported
+					isPrimary
+				}
+			}
+			secondarySocketConfiguration {
+				description
+				serial
+				managementIp
+				socketInfo {
+					model
+					platform
+					version
+					registrationStatus
+					wifiSupported
+					isPrimary
+				}
+			}
+		}
+	}
+}
+`
+
+func (c *Client) SiteSocketConfiguration(ctx context.Context, siteSocketConfigurationInput cato_models.SiteSocketConfigurationInput, accountID string, interceptors ...clientv2.RequestInterceptor) (*SiteSocketConfiguration, error) {
+	vars := map[string]any{
+		"siteSocketConfigurationInput": siteSocketConfigurationInput,
+		"accountId":                    accountID,
+	}
+
+	var res SiteSocketConfiguration
+	if err := c.Client.Post(ctx, "siteSocketConfiguration", SiteSocketConfigurationDocument, &res, vars, interceptors...); err != nil {
+		if c.Client.ParseDataWhenErrors {
+			return &res, err
+		}
+
+		return nil, err
+	}
+
+	return &res, nil
+}
+
 const SubDomainsDocument = `query subDomains ($accountID: ID!, $managedAccount: Boolean) {
 	subDomains(accountID: $accountID, managedAccount: $managedAccount) {
 		accountId
@@ -141792,6 +142041,7 @@ var DocumentOperationNames = map[string]string{
 	NetworkRangeDocument:                                    "networkRange",
 	NetworkRangeListDocument:                                "networkRangeList",
 	SiteGeneralDetailsDocument:                              "siteGeneralDetails",
+	SiteSocketConfigurationDocument:                         "siteSocketConfiguration",
 	SubDomainsDocument:                                      "subDomains",
 	XdrDocument:                                             "xdr",
 	AppConnectorReadConnectorDocument:                       "appConnectorReadConnector",
