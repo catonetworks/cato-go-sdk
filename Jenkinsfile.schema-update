@@ -222,6 +222,20 @@ EOF
     post {
         failure {
             script {
+                if (!env.SCHEMA_UPDATE_PR_URL) {
+                    try {
+                        slackSend(
+                            channel: params.PR_SLACK_CHANNEL,
+                            color: 'danger',
+                            botUser: true,
+                            tokenCredentialId: 'cato-acc-slack-token',
+                            message: "SDK schema update failed before pull request creation | <${env.BUILD_URL}|Build #${env.BUILD_NUMBER}>"
+                        )
+                    } catch (notificationError) {
+                        echo "Failed to send pre-PR failure notification: ${notificationError.message}"
+                    }
+                }
+
                 try {
                     if (fileExists('schema-patch-manual-work-needed.txt')) {
                         def manualWorkMessage = readFile('schema-patch-manual-work-needed.txt').trim()
