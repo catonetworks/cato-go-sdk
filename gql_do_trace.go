@@ -82,7 +82,10 @@ func executeGQLWithTrace(ctx context.Context, gqlc *clientv2.Client, req *http.R
 		return fmt.Errorf("failed to read response body: %w", err)
 	}
 
-	parseErr := parseGQLResponse(gqlc, body, resp.StatusCode, res)
+	parseErr, parseFailed := parseGQLResponse(gqlc, body, resp.StatusCode, res)
+	if parseFailed {
+		logResponseParseFailure(ctx, traceID, requestBody, body)
+	}
 	if parseErr == nil {
 		return parseErr
 	}
@@ -105,7 +108,20 @@ type gqlEnvelope struct {
 	Errors json.RawMessage `json:"errors"`
 }
 
-func parseGQLResponse(gqlc *clientv2.Client, body []byte, httpCode int, result any) error {
+type responseParseError struct {
+	err   error
+	cause error
+}
+
+func (e *responseParseError) Error() string {
+	return e.err.Error()
+}
+
+func (e *responseParseError) Unwrap() error {
+	return e.cause
+}
+
+func parseGQLResponse(gqlc *clientv2.Client, body []byte, httpCode int, result any) (error, bool) {
 	errResponse := &clientv2.ErrorResponse{}
 	notOK := httpCode < 200 || 299 < httpCode
 	if notOK {
@@ -116,32 +132,41 @@ func parseGQLResponse(gqlc *clientv2.Client, body []byte, httpCode int, result a
 	}
 
 	if err := gqlUnmarshalResponse(gqlc, body, result); err != nil {
+		var parseErr *responseParseError
+		parseFailed := errors.As(err, &parseErr)
+
 		var gqlErr *clientv2.GqlErrorList
 		if errors.As(err, &gqlErr) {
 			errResponse.GqlErrors = &gqlErr.Errors
 		} else if !notOK {
-			return err
+			return err, parseFailed
+		}
+
+		if errResponse.HasErrors() {
+			return errResponse, parseFailed
 		}
 	}
 
 	if errResponse.HasErrors() {
-		return errResponse
+		return errResponse, false
 	}
 
-	return nil
+	return nil, false
 }
 
 func gqlUnmarshalResponse(gqlc *clientv2.Client, data []byte, res any) error {
 	resp := gqlEnvelope{}
 	if err := json.Unmarshal(data, &resp); err != nil {
-		return fmt.Errorf("failed to decode data %s: %w", string(data), err)
+		parseErr := fmt.Errorf("failed to decode data %s: %w", string(data), err)
+		return &responseParseError{err: parseErr, cause: err}
 	}
 
 	var err error
 	if len(resp.Errors) > 0 {
 		err = &clientv2.GqlErrorList{}
 		if e := json.Unmarshal(data, err); e != nil {
-			return fmt.Errorf("faild to parse graphql errors. Response content %s - %w", string(data), e)
+			parseErr := fmt.Errorf("failed to parse graphql errors. Response content %s: %w", string(data), e)
+			return &responseParseError{err: parseErr, cause: e}
 		}
 		if !gqlc.ParseDataWhenErrors {
 			return err
@@ -149,13 +174,88 @@ func gqlUnmarshalResponse(gqlc *clientv2.Client, data []byte, res any) error {
 	}
 
 	if errData := graphqljson.UnmarshalData(resp.Data, res); errData != nil {
-		if gqlc.ParseDataWhenErrors {
-			return err
+		parseErr := fmt.Errorf("failed to decode data into response %s: %w", string(data), errData)
+		if gqlc.ParseDataWhenErrors && err != nil {
+			return &responseParseError{err: parseErr, cause: err}
 		}
-		return fmt.Errorf("failed to decode data into response %s: %w", string(data), errData)
+		return &responseParseError{err: parseErr, cause: errData}
 	}
 
 	return err
+}
+
+const maxResponseLogLineRunes = 4096
+
+func logResponseParseFailure(ctx context.Context, traceID, requestBody string, body []byte) {
+	fields := map[string]any{
+		"operation_name": getOperationName(requestBody),
+		"trace_id":       traceID,
+	}
+	tflog.Error(ctx, "Failed to parse API response", fields)
+
+	var formatted bytes.Buffer
+	if err := json.Indent(&formatted, body, "", "  "); err != nil {
+		formatted.Reset()
+		formatted.Write(body)
+	}
+
+	for _, line := range strings.Split(renderJSONStrings(formatted.Bytes()), "\n") {
+		runes := []rune(line)
+		if len(runes) == 0 {
+			tflog.Error(ctx, "API response:", fields)
+			continue
+		}
+		for len(runes) > 0 {
+			chunkSize := min(len(runes), maxResponseLogLineRunes)
+			tflog.Error(ctx, "API response: "+string(runes[:chunkSize]), fields)
+			runes = runes[chunkSize:]
+		}
+	}
+}
+
+func renderJSONStrings(data []byte) string {
+	var rendered strings.Builder
+	rendered.Grow(len(data))
+
+	for offset := 0; offset < len(data); {
+		if data[offset] != '"' {
+			rendered.WriteByte(data[offset])
+			offset++
+			continue
+		}
+
+		start := offset
+		offset++
+		escaped := false
+		for offset < len(data) {
+			if escaped {
+				escaped = false
+				offset++
+				continue
+			}
+			if data[offset] == '\\' {
+				escaped = true
+				offset++
+				continue
+			}
+			if data[offset] == '"' {
+				offset++
+				break
+			}
+			offset++
+		}
+
+		var value string
+		if err := json.Unmarshal(data[start:offset], &value); err != nil {
+			rendered.Write(data[start:offset])
+			continue
+		}
+		rendered.WriteByte('"')
+		rendered.WriteString(value)
+		rendered.WriteByte('"')
+	}
+
+	return rendered.String()
 }
 
 func requestBodyForError(req *http.Request) string {
