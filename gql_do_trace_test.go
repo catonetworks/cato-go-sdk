@@ -13,6 +13,12 @@ import (
 	"github.com/hashicorp/terraform-plugin-log/tflogtest"
 )
 
+const (
+	testRequestBody          = `{"query":"q","variables":{"id":"1"}}`
+	accountSnapshotOperation = "accountSnapshot"
+	jsonNull                 = `null`
+)
+
 func TestTraceIDFromResponseHeader(t *testing.T) {
 	t.Parallel()
 	h := http.Header{}
@@ -33,7 +39,7 @@ func TestAPIErrorIncludesRequestBody(t *testing.T) {
 	err := &APIError{
 		Err:         errors.New("boom"),
 		TraceID:     "trace-1",
-		RequestBody: `{"query":"q","variables":{"id":"1"}}`,
+		RequestBody: testRequestBody,
 	}
 
 	msg := err.Error()
@@ -43,7 +49,7 @@ func TestAPIErrorIncludesRequestBody(t *testing.T) {
 	if !strings.Contains(msg, `requestBody: {"query":"q","variables":{"id":"1"}}`) {
 		t.Fatalf("missing request body in message: %q", msg)
 	}
-	if got := RequestBodyFromError(err); got != `{"query":"q","variables":{"id":"1"}}` {
+	if got := RequestBodyFromError(err); got != testRequestBody {
 		t.Fatalf("unexpected request body from helper: %q", got)
 	}
 }
@@ -52,11 +58,12 @@ func TestParseGQLResponseMarksMalformedResponse(t *testing.T) {
 	t.Parallel()
 
 	var result struct{}
-	err, parseFailed := parseGQLResponse(&clientv2.Client{}, []byte("not-json"), &result)
+	err := parseGQLResponse(&clientv2.Client{}, []byte("not-json"), &result)
 	if err == nil {
 		t.Fatal("expected malformed response error")
 	}
-	if !parseFailed {
+	var parseErr *responseParseError
+	if !errors.As(err, &parseErr) {
 		t.Fatal("expected malformed response to be marked as a parse failure")
 	}
 }
@@ -69,7 +76,7 @@ func TestParseGQLResponseReturnsDataDecodeErrorWhenParsingDataWithErrors(t *test
 		Value int `json:"value"`
 	}
 
-	err, parseFailed := parseGQLResponse(
+	err := parseGQLResponse(
 		gqlc,
 		[]byte(`{"data":{"value":"not-an-integer"}}`),
 		&result,
@@ -77,7 +84,8 @@ func TestParseGQLResponseReturnsDataDecodeErrorWhenParsingDataWithErrors(t *test
 	if err == nil {
 		t.Fatal("expected data decode error")
 	}
-	if !parseFailed {
+	var parseErr *responseParseError
+	if !errors.As(err, &parseErr) {
 		t.Fatal("expected data decode error to be marked as a parse failure")
 	}
 }
@@ -90,7 +98,7 @@ func TestParseGQLResponseMarksInt64OverflowFromAccountSnapshot(t *testing.T) {
 			Timestamp int64 `json:"timestamp"`
 		} `json:"accountSnapshot"`
 	}
-	err, parseFailed := parseGQLResponse(
+	err := parseGQLResponse(
 		&clientv2.Client{},
 		[]byte(`{"data":{"accountSnapshot":{"timestamp":18446744073709551613}}}`),
 		&result,
@@ -98,7 +106,8 @@ func TestParseGQLResponseMarksInt64OverflowFromAccountSnapshot(t *testing.T) {
 	if err == nil {
 		t.Fatal("expected int64 overflow error")
 	}
-	if !parseFailed {
+	var parseErr *responseParseError
+	if !errors.As(err, &parseErr) {
 		t.Fatal("expected int64 overflow to be marked as a parse failure")
 	}
 	if !strings.Contains(err.Error(), "cannot unmarshal number 18446744073709551613") {
@@ -110,7 +119,7 @@ func TestParseGQLResponseDoesNotMarkGraphQLErrorAsParseFailure(t *testing.T) {
 	t.Parallel()
 
 	var result struct{}
-	err, parseFailed := parseGQLResponse(
+	err := parseGQLResponse(
 		&clientv2.Client{},
 		[]byte(`{"errors":[{"message":"request rejected"}]}`),
 		&result,
@@ -118,8 +127,31 @@ func TestParseGQLResponseDoesNotMarkGraphQLErrorAsParseFailure(t *testing.T) {
 	if err == nil {
 		t.Fatal("expected GraphQL error")
 	}
-	if parseFailed {
+	var parseErr *responseParseError
+	if errors.As(err, &parseErr) {
 		t.Fatal("valid GraphQL error must not be marked as a parse failure")
+	}
+}
+
+func TestParseGQLResponsePreservesParseMarkerWithGraphQLError(t *testing.T) {
+	t.Parallel()
+
+	var result struct {
+		Value int `json:"value"`
+	}
+	err := parseGQLResponse(
+		&clientv2.Client{ParseDataWhenErrors: true},
+		[]byte(`{"errors":[{"message":"request rejected"}],"data":{"value":"invalid"}}`),
+		&result,
+	)
+
+	var parseErr *responseParseError
+	if !errors.As(err, &parseErr) {
+		t.Fatal("expected data decode failure to retain parse marker")
+	}
+	var errResponse *clientv2.ErrorResponse
+	if !errors.As(err, &errResponse) {
+		t.Fatal("expected data decode failure to retain GraphQL error response")
 	}
 }
 
@@ -163,11 +195,12 @@ func TestExecuteGQLWithTraceDoesNotDecodeDataForHTTPError(t *testing.T) {
 func TestParseGQLHTTPErrorExtractsGraphQLErrors(t *testing.T) {
 	t.Parallel()
 
-	err, parseFailed := parseGQLHTTPError(
+	err := parseGQLHTTPError(
 		[]byte(`{"errors":[{"message":"request rejected"}],"data":{"value":2}}`),
 		http.StatusBadRequest,
 	)
-	if parseFailed {
+	var parseErr *responseParseError
+	if errors.As(err, &parseErr) {
 		t.Fatal("valid GraphQL error must not be marked as a parse failure")
 	}
 
@@ -183,11 +216,12 @@ func TestParseGQLHTTPErrorExtractsGraphQLErrors(t *testing.T) {
 func TestParseGQLHTTPErrorMarksMalformedBody(t *testing.T) {
 	t.Parallel()
 
-	err, parseFailed := parseGQLHTTPError([]byte("<html>bad gateway</html>"), http.StatusBadGateway)
+	err := parseGQLHTTPError([]byte("<html>bad gateway</html>"), http.StatusBadGateway)
 	if err == nil {
 		t.Fatal("expected HTTP error")
 	}
-	if !parseFailed {
+	var parseErr *responseParseError
+	if !errors.As(err, &parseErr) {
 		t.Fatal("expected malformed HTTP error body to be marked as a parse failure")
 	}
 }
@@ -200,7 +234,7 @@ func TestLogResponseParseFailureIncludesOperationAndRenderedResponse(t *testing.
 	logResponseParseFailure(
 		ctx,
 		"trace-1",
-		`{"operationName":"accountSnapshot"}`,
+		`{"operationName":"`+accountSnapshotOperation+`"}`,
 		[]byte(`{"data":{"message":"line one\n\t\t\"quoted\""}}`),
 	)
 
@@ -211,7 +245,7 @@ func TestLogResponseParseFailureIncludesOperationAndRenderedResponse(t *testing.
 	if len(entries) < 2 {
 		t.Fatalf("expected parse failure and response logs, got %d entries", len(entries))
 	}
-	if got := entries[0]["operation_name"]; got != "accountSnapshot" {
+	if got := entries[0]["operation_name"]; got != accountSnapshotOperation {
 		t.Fatalf("unexpected operation name: %v", got)
 	}
 
@@ -230,5 +264,26 @@ func TestLogResponseParseFailureIncludesOperationAndRenderedResponse(t *testing.
 	}
 	if !strings.Contains(rendered, "\t\t\"quoted\"") {
 		t.Fatalf("response does not contain rendered whitespace and quotes: %q", rendered)
+	}
+}
+
+func TestRenderJSONStringsPreservesNonStringLiterals(t *testing.T) {
+	t.Parallel()
+
+	tests := map[string]string{
+		"integer": `42`,
+		"number":  `-1.25e+3`,
+		"boolean": `true`,
+		"null":    jsonNull,
+		"array":   `[1,false,null,{"value":2}]`,
+		"object":  `{"number":42,"enabled":true,"missing":null}`,
+	}
+	for name, input := range tests {
+		t.Run(name, func(t *testing.T) {
+			t.Parallel()
+			if got := renderJSONStrings([]byte(input)); got != input {
+				t.Fatalf("non-string JSON changed: got %q, want %q", got, input)
+			}
+		})
 	}
 }

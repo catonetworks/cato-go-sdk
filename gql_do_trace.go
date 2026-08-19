@@ -22,7 +22,10 @@ import (
 	"github.com/hashicorp/terraform-plugin-log/tflog"
 )
 
-const dumpDirVariable = "TF_API_DUMP_DIR"
+const (
+	dumpDirVariable = "TF_API_DUMP_DIR"
+	traceIDLogField = "trace_id"
+)
 
 type ContextKey string
 type ResourceInfo struct {
@@ -83,17 +86,18 @@ func executeGQLWithTrace(ctx context.Context, gqlc *clientv2.Client, req *http.R
 	}
 
 	var parseErr error
-	var parseFailed bool
 	if resp.StatusCode < http.StatusOK || resp.StatusCode >= http.StatusMultipleChoices {
-		parseErr, parseFailed = parseGQLHTTPError(body, resp.StatusCode)
+		parseErr = parseGQLHTTPError(body, resp.StatusCode)
 	} else {
-		parseErr, parseFailed = parseGQLResponse(gqlc, body, res)
+		parseErr = parseGQLResponse(gqlc, body, res)
 	}
-	if parseFailed {
+
+	var responseParseErr *responseParseError
+	if errors.As(parseErr, &responseParseErr) {
 		logResponseParseFailure(ctx, traceID, requestBody, body)
 	}
 	if parseErr == nil {
-		return parseErr
+		return nil
 	}
 
 	var api *APIError
@@ -127,24 +131,25 @@ func (e *responseParseError) Unwrap() error {
 	return e.cause
 }
 
-func parseGQLResponse(gqlc *clientv2.Client, body []byte, result any) (error, bool) {
+func parseGQLResponse(gqlc *clientv2.Client, body []byte, result any) error {
 	if err := gqlUnmarshalResponse(gqlc, body, result); err != nil {
 		var parseErr *responseParseError
-		parseFailed := errors.As(err, &parseErr)
-
 		var gqlErr *clientv2.GqlErrorList
 		if errors.As(err, &gqlErr) {
 			errResponse := &clientv2.ErrorResponse{}
 			errResponse.GqlErrors = &gqlErr.Errors
-			return errResponse, parseFailed
+			if errors.As(err, &parseErr) {
+				return &responseParseError{err: errResponse, cause: errResponse}
+			}
+			return errResponse
 		}
-		return err, parseFailed
+		return err
 	}
 
-	return nil, false
+	return nil
 }
 
-func parseGQLHTTPError(body []byte, httpCode int) (error, bool) {
+func parseGQLHTTPError(body []byte, httpCode int) error {
 	errResponse := &clientv2.ErrorResponse{
 		NetworkError: &clientv2.HTTPError{
 			Code:    httpCode,
@@ -153,24 +158,24 @@ func parseGQLHTTPError(body []byte, httpCode int) (error, bool) {
 	}
 
 	if len(bytes.TrimSpace(body)) == 0 {
-		return errResponse, false
+		return errResponse
 	}
 
 	var envelope gqlEnvelope
 	if err := json.Unmarshal(body, &envelope); err != nil {
-		return errResponse, true
+		return &responseParseError{err: errResponse, cause: errResponse}
 	}
 	if len(envelope.Errors) == 0 {
-		return errResponse, false
+		return errResponse
 	}
 
 	gqlErr := &clientv2.GqlErrorList{}
 	if err := json.Unmarshal(body, gqlErr); err != nil {
-		return errResponse, true
+		return &responseParseError{err: errResponse, cause: errResponse}
 	}
 	errResponse.GqlErrors = &gqlErr.Errors
 
-	return errResponse, false
+	return errResponse
 }
 
 func gqlUnmarshalResponse(gqlc *clientv2.Client, data []byte, res any) error {
@@ -208,7 +213,7 @@ const maxResponseLogLineRunes = 4096
 func logResponseParseFailure(ctx context.Context, traceID, requestBody string, body []byte) {
 	fields := map[string]any{
 		"operation_name": getOperationName(requestBody),
-		"trace_id":       traceID,
+		traceIDLogField:  traceID,
 	}
 	tflog.Error(ctx, "Failed to parse API response", fields)
 
@@ -310,7 +315,7 @@ func requestBodyForError(req *http.Request) string {
 
 // recordCall logs the request and response, and optionally dumps them to a file if TF_API_DUMP_DIR is set.
 func recordCall(ctx context.Context, traceID, requestBody, responseBody string, callDuration time.Duration) {
-	tflog.Debug(ctx, "API Call", map[string]any{"request": requestBody, "response": responseBody, "trace_id": traceID})
+	tflog.Debug(ctx, "API Call", map[string]any{"request": requestBody, "response": responseBody, traceIDLogField: traceID})
 	dumpDir := os.Getenv(dumpDirVariable)
 	if dumpDir == "" {
 		return
