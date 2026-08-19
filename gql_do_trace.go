@@ -82,7 +82,13 @@ func executeGQLWithTrace(ctx context.Context, gqlc *clientv2.Client, req *http.R
 		return fmt.Errorf("failed to read response body: %w", err)
 	}
 
-	parseErr, parseFailed := parseGQLResponse(gqlc, body, resp.StatusCode, res)
+	var parseErr error
+	var parseFailed bool
+	if resp.StatusCode < http.StatusOK || resp.StatusCode >= http.StatusMultipleChoices {
+		parseErr, parseFailed = parseGQLHTTPError(body, resp.StatusCode)
+	} else {
+		parseErr, parseFailed = parseGQLResponse(gqlc, body, res)
+	}
 	if parseFailed {
 		logResponseParseFailure(ctx, traceID, requestBody, body)
 	}
@@ -121,37 +127,50 @@ func (e *responseParseError) Unwrap() error {
 	return e.cause
 }
 
-func parseGQLResponse(gqlc *clientv2.Client, body []byte, httpCode int, result any) (error, bool) {
-	errResponse := &clientv2.ErrorResponse{}
-	notOK := httpCode < 200 || 299 < httpCode
-	if notOK {
-		errResponse.NetworkError = &clientv2.HTTPError{
-			Code:    httpCode,
-			Message: fmt.Sprintf("Response body %s", string(body)),
-		}
-	}
-
+func parseGQLResponse(gqlc *clientv2.Client, body []byte, result any) (error, bool) {
 	if err := gqlUnmarshalResponse(gqlc, body, result); err != nil {
 		var parseErr *responseParseError
 		parseFailed := errors.As(err, &parseErr)
 
 		var gqlErr *clientv2.GqlErrorList
 		if errors.As(err, &gqlErr) {
+			errResponse := &clientv2.ErrorResponse{}
 			errResponse.GqlErrors = &gqlErr.Errors
-		} else if !notOK {
-			return err, parseFailed
-		}
-
-		if errResponse.HasErrors() {
 			return errResponse, parseFailed
 		}
-	}
-
-	if errResponse.HasErrors() {
-		return errResponse, false
+		return err, parseFailed
 	}
 
 	return nil, false
+}
+
+func parseGQLHTTPError(body []byte, httpCode int) (error, bool) {
+	errResponse := &clientv2.ErrorResponse{
+		NetworkError: &clientv2.HTTPError{
+			Code:    httpCode,
+			Message: fmt.Sprintf("Response body %s", string(body)),
+		},
+	}
+
+	if len(bytes.TrimSpace(body)) == 0 {
+		return errResponse, false
+	}
+
+	var envelope gqlEnvelope
+	if err := json.Unmarshal(body, &envelope); err != nil {
+		return errResponse, true
+	}
+	if len(envelope.Errors) == 0 {
+		return errResponse, false
+	}
+
+	gqlErr := &clientv2.GqlErrorList{}
+	if err := json.Unmarshal(body, gqlErr); err != nil {
+		return errResponse, true
+	}
+	errResponse.GqlErrors = &gqlErr.Errors
+
+	return errResponse, false
 }
 
 func gqlUnmarshalResponse(gqlc *clientv2.Client, data []byte, res any) error {

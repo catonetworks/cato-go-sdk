@@ -5,6 +5,7 @@ import (
 	"context"
 	"errors"
 	"net/http"
+	"net/http/httptest"
 	"strings"
 	"testing"
 
@@ -51,7 +52,7 @@ func TestParseGQLResponseMarksMalformedResponse(t *testing.T) {
 	t.Parallel()
 
 	var result struct{}
-	err, parseFailed := parseGQLResponse(&clientv2.Client{}, []byte("not-json"), http.StatusOK, &result)
+	err, parseFailed := parseGQLResponse(&clientv2.Client{}, []byte("not-json"), &result)
 	if err == nil {
 		t.Fatal("expected malformed response error")
 	}
@@ -71,7 +72,6 @@ func TestParseGQLResponseReturnsDataDecodeErrorWhenParsingDataWithErrors(t *test
 	err, parseFailed := parseGQLResponse(
 		gqlc,
 		[]byte(`{"data":{"value":"not-an-integer"}}`),
-		http.StatusOK,
 		&result,
 	)
 	if err == nil {
@@ -93,7 +93,6 @@ func TestParseGQLResponseMarksInt64OverflowFromAccountSnapshot(t *testing.T) {
 	err, parseFailed := parseGQLResponse(
 		&clientv2.Client{},
 		[]byte(`{"data":{"accountSnapshot":{"timestamp":18446744073709551613}}}`),
-		http.StatusOK,
 		&result,
 	)
 	if err == nil {
@@ -114,7 +113,6 @@ func TestParseGQLResponseDoesNotMarkGraphQLErrorAsParseFailure(t *testing.T) {
 	err, parseFailed := parseGQLResponse(
 		&clientv2.Client{},
 		[]byte(`{"errors":[{"message":"request rejected"}]}`),
-		http.StatusOK,
 		&result,
 	)
 	if err == nil {
@@ -122,6 +120,75 @@ func TestParseGQLResponseDoesNotMarkGraphQLErrorAsParseFailure(t *testing.T) {
 	}
 	if parseFailed {
 		t.Fatal("valid GraphQL error must not be marked as a parse failure")
+	}
+}
+
+func TestExecuteGQLWithTraceDoesNotDecodeDataForHTTPError(t *testing.T) {
+	t.Parallel()
+
+	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, _ *http.Request) {
+		w.WriteHeader(http.StatusBadRequest)
+		_, _ = w.Write([]byte(`{"data":{"value":2}}`))
+	}))
+	defer server.Close()
+
+	req, err := http.NewRequestWithContext(
+		context.Background(),
+		http.MethodPost,
+		server.URL,
+		strings.NewReader(`{"operationName":"test"}`),
+	)
+	if err != nil {
+		t.Fatalf("create request: %v", err)
+	}
+
+	result := struct {
+		Value int `json:"value"`
+	}{Value: 1}
+	err = executeGQLWithTrace(
+		context.Background(),
+		&clientv2.Client{Client: server.Client()},
+		req,
+		nil,
+		&result,
+	)
+	if err == nil {
+		t.Fatal("expected HTTP error")
+	}
+	if result.Value != 1 {
+		t.Fatalf("HTTP error response modified result: got %d", result.Value)
+	}
+}
+
+func TestParseGQLHTTPErrorExtractsGraphQLErrors(t *testing.T) {
+	t.Parallel()
+
+	err, parseFailed := parseGQLHTTPError(
+		[]byte(`{"errors":[{"message":"request rejected"}],"data":{"value":2}}`),
+		http.StatusBadRequest,
+	)
+	if parseFailed {
+		t.Fatal("valid GraphQL error must not be marked as a parse failure")
+	}
+
+	var errResponse *clientv2.ErrorResponse
+	if !errors.As(err, &errResponse) {
+		t.Fatalf("expected GraphQL HTTP error response, got %T", err)
+	}
+	if errResponse.GqlErrors == nil || len(*errResponse.GqlErrors) != 1 {
+		t.Fatalf("expected one GraphQL error, got %#v", errResponse.GqlErrors)
+	}
+}
+
+func TestParseGQLHTTPErrorMarksMalformedBody(t *testing.T) {
+	t.Parallel()
+
+	err, parseFailed := parseGQLHTTPError([]byte("<html>bad gateway</html>"), http.StatusBadGateway)
+	if err == nil {
+		t.Fatal("expected HTTP error")
+	}
+	if !parseFailed {
+		t.Fatal("expected malformed HTTP error body to be marked as a parse failure")
 	}
 }
 
