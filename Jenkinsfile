@@ -20,7 +20,7 @@
 pipeline {
     agent {
         docker {
-            image 'golang:1.26'
+            image 'golang:1.26.6'
             args  '-e GOCACHE=/tmp/go-cache -e GOPATH=/tmp/gopath'
         }
     }
