@@ -22,7 +22,10 @@ import (
 	"github.com/hashicorp/terraform-plugin-log/tflog"
 )
 
-const dumpDirVariable = "TF_API_DUMP_DIR"
+const (
+	dumpDirVariable = "TF_API_DUMP_DIR"
+	traceIDLogField = "trace_id"
+)
 
 type ContextKey string
 type ResourceInfo struct {
@@ -82,9 +85,19 @@ func executeGQLWithTrace(ctx context.Context, gqlc *clientv2.Client, req *http.R
 		return fmt.Errorf("failed to read response body: %w", err)
 	}
 
-	parseErr := parseGQLResponse(gqlc, body, resp.StatusCode, res)
+	var parseErr error
+	if resp.StatusCode < http.StatusOK || resp.StatusCode >= http.StatusMultipleChoices {
+		parseErr = parseGQLHTTPError(body, resp.StatusCode)
+	} else {
+		parseErr = parseGQLResponse(gqlc, body, res)
+	}
+
+	var responseParseErr *responseParseError
+	if errors.As(parseErr, &responseParseErr) {
+		logResponseParseFailure(ctx, traceID, requestBody, body)
+	}
 	if parseErr == nil {
-		return parseErr
+		return nil
 	}
 
 	var api *APIError
@@ -105,43 +118,79 @@ type gqlEnvelope struct {
 	Errors json.RawMessage `json:"errors"`
 }
 
-func parseGQLResponse(gqlc *clientv2.Client, body []byte, httpCode int, result any) error {
-	errResponse := &clientv2.ErrorResponse{}
-	notOK := httpCode < 200 || 299 < httpCode
-	if notOK {
-		errResponse.NetworkError = &clientv2.HTTPError{
-			Code:    httpCode,
-			Message: fmt.Sprintf("Response body %s", string(body)),
-		}
-	}
+type responseParseError struct {
+	err   error
+	cause error
+}
 
+func (e *responseParseError) Error() string {
+	return e.err.Error()
+}
+
+func (e *responseParseError) Unwrap() error {
+	return e.cause
+}
+
+func parseGQLResponse(gqlc *clientv2.Client, body []byte, result any) error {
 	if err := gqlUnmarshalResponse(gqlc, body, result); err != nil {
+		var parseErr *responseParseError
 		var gqlErr *clientv2.GqlErrorList
 		if errors.As(err, &gqlErr) {
+			errResponse := &clientv2.ErrorResponse{}
 			errResponse.GqlErrors = &gqlErr.Errors
-		} else if !notOK {
-			return err
+			if errors.As(err, &parseErr) {
+				return &responseParseError{err: errResponse, cause: errResponse}
+			}
+			return errResponse
 		}
-	}
-
-	if errResponse.HasErrors() {
-		return errResponse
+		return err
 	}
 
 	return nil
 }
 
+func parseGQLHTTPError(body []byte, httpCode int) error {
+	errResponse := &clientv2.ErrorResponse{
+		NetworkError: &clientv2.HTTPError{
+			Code:    httpCode,
+			Message: fmt.Sprintf("Response body %s", string(body)),
+		},
+	}
+
+	if len(bytes.TrimSpace(body)) == 0 {
+		return errResponse
+	}
+
+	var envelope gqlEnvelope
+	if err := json.Unmarshal(body, &envelope); err != nil {
+		return &responseParseError{err: errResponse, cause: errResponse}
+	}
+	if len(envelope.Errors) == 0 {
+		return errResponse
+	}
+
+	gqlErr := &clientv2.GqlErrorList{}
+	if err := json.Unmarshal(body, gqlErr); err != nil {
+		return &responseParseError{err: errResponse, cause: errResponse}
+	}
+	errResponse.GqlErrors = &gqlErr.Errors
+
+	return errResponse
+}
+
 func gqlUnmarshalResponse(gqlc *clientv2.Client, data []byte, res any) error {
 	resp := gqlEnvelope{}
 	if err := json.Unmarshal(data, &resp); err != nil {
-		return fmt.Errorf("failed to decode data %s: %w", string(data), err)
+		parseErr := fmt.Errorf("failed to decode data %s: %w", string(data), err)
+		return &responseParseError{err: parseErr, cause: err}
 	}
 
 	var err error
 	if len(resp.Errors) > 0 {
 		err = &clientv2.GqlErrorList{}
 		if e := json.Unmarshal(data, err); e != nil {
-			return fmt.Errorf("faild to parse graphql errors. Response content %s - %w", string(data), e)
+			parseErr := fmt.Errorf("failed to parse graphql errors. Response content %s: %w", string(data), e)
+			return &responseParseError{err: parseErr, cause: e}
 		}
 		if !gqlc.ParseDataWhenErrors {
 			return err
@@ -149,13 +198,88 @@ func gqlUnmarshalResponse(gqlc *clientv2.Client, data []byte, res any) error {
 	}
 
 	if errData := graphqljson.UnmarshalData(resp.Data, res); errData != nil {
-		if gqlc.ParseDataWhenErrors {
-			return err
+		parseErr := fmt.Errorf("failed to decode data into response %s: %w", string(data), errData)
+		if gqlc.ParseDataWhenErrors && err != nil {
+			return &responseParseError{err: parseErr, cause: err}
 		}
-		return fmt.Errorf("failed to decode data into response %s: %w", string(data), errData)
+		return &responseParseError{err: parseErr, cause: errData}
 	}
 
 	return err
+}
+
+const maxResponseLogLineRunes = 4096
+
+func logResponseParseFailure(ctx context.Context, traceID, requestBody string, body []byte) {
+	fields := map[string]any{
+		"operation_name": getOperationName(requestBody),
+		traceIDLogField:  traceID,
+	}
+	tflog.Error(ctx, "Failed to parse API response", fields)
+
+	var formatted bytes.Buffer
+	if err := json.Indent(&formatted, body, "", "  "); err != nil {
+		formatted.Reset()
+		formatted.Write(body)
+	}
+
+	for _, line := range strings.Split(renderJSONStrings(formatted.Bytes()), "\n") {
+		runes := []rune(line)
+		if len(runes) == 0 {
+			tflog.Error(ctx, "API response:", fields)
+			continue
+		}
+		for len(runes) > 0 {
+			chunkSize := min(len(runes), maxResponseLogLineRunes)
+			tflog.Error(ctx, "API response: "+string(runes[:chunkSize]), fields)
+			runes = runes[chunkSize:]
+		}
+	}
+}
+
+func renderJSONStrings(data []byte) string {
+	var rendered strings.Builder
+	rendered.Grow(len(data))
+
+	for offset := 0; offset < len(data); {
+		if data[offset] != '"' {
+			rendered.WriteByte(data[offset])
+			offset++
+			continue
+		}
+
+		start := offset
+		offset++
+		escaped := false
+		for offset < len(data) {
+			if escaped {
+				escaped = false
+				offset++
+				continue
+			}
+			if data[offset] == '\\' {
+				escaped = true
+				offset++
+				continue
+			}
+			if data[offset] == '"' {
+				offset++
+				break
+			}
+			offset++
+		}
+
+		var value string
+		if err := json.Unmarshal(data[start:offset], &value); err != nil {
+			rendered.Write(data[start:offset])
+			continue
+		}
+		rendered.WriteByte('"')
+		rendered.WriteString(value)
+		rendered.WriteByte('"')
+	}
+
+	return rendered.String()
 }
 
 func requestBodyForError(req *http.Request) string {
@@ -191,7 +315,7 @@ func requestBodyForError(req *http.Request) string {
 
 // recordCall logs the request and response, and optionally dumps them to a file if TF_API_DUMP_DIR is set.
 func recordCall(ctx context.Context, traceID, requestBody, responseBody string, callDuration time.Duration) {
-	tflog.Debug(ctx, "API Call", map[string]any{"request": requestBody, "response": responseBody, "trace_id": traceID})
+	tflog.Debug(ctx, "API Call", map[string]any{"request": requestBody, "response": responseBody, traceIDLogField: traceID})
 	dumpDir := os.Getenv(dumpDirVariable)
 	if dumpDir == "" {
 		return

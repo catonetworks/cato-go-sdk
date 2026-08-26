@@ -1,7 +1,7 @@
 # https://golangci-lint.run/usage/configuration/
 version: "2"
 run:
-  go: "1.25"
+  go: "1.26.6"
 output:
   formats:
     text:
