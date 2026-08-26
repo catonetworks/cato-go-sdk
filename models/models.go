@@ -828,6 +828,14 @@ type AddSecondaryGCPVSocketPayload struct {
 	SocketInfo *GCPVSocketInfo `json:"socketInfo"`
 }
 
+type AddSecondaryKvmVSocketInput struct {
+	Site *SiteRefInput `json:"site"`
+}
+
+type AddSecondaryKvmVSocketPayload struct {
+	ID string `json:"id"`
+}
+
 type AddServicePrincipalAdminInput struct {
 	Email         *string                 `json:"email,omitempty"`
 	ManagedRoles  []*UpdateAdminRoleInput `json:"managedRoles,omitempty"`
@@ -5623,6 +5631,21 @@ type DynamicIPAllocationUpdateRuleDataInput struct {
 type DynamicIPAllocationUpdateRuleInput struct {
 	ID   string                                  `json:"id"`
 	Rule *DynamicIPAllocationUpdateRuleDataInput `json:"rule"`
+}
+
+// The settings for a single dynamic user group attribute
+type DynamicUserGroupAttributeSettings struct {
+	Enabled bool `json:"enabled"`
+}
+
+// Settings change for a single dynamic user group attribute
+type DynamicUserGroupAttributeSettingsInput struct {
+	Enabled bool `json:"enabled"`
+}
+
+// The account's dynamic user groups configuration.
+type DynamicUserGroupsConfigurationPayload struct {
+	Department *DynamicUserGroupAttributeSettings `json:"department"`
 }
 
 type EmailFilterInput struct {
@@ -10639,6 +10662,14 @@ type RemoveSecondaryGCPVSocketPayload struct {
 	SocketInfo *GCPVSocketInfo `json:"socketInfo"`
 }
 
+type RemoveSecondaryKvmVSocketInput struct {
+	ID string `json:"id"`
+}
+
+type RemoveSecondaryKvmVSocketPayload struct {
+	ID string `json:"id"`
+}
+
 type RemoveServicePrincipalAdminPayload struct {
 	AdminID string `json:"adminID"`
 }
@@ -11139,6 +11170,7 @@ type SiteMutations struct {
 	AddSecondaryAWSVSocket                    *AddSecondaryAWSVSocketPayload                    `json:"addSecondaryAwsVSocket,omitempty"`
 	AddSecondaryAzureVSocket                  *AddSecondaryAzureVSocketPayload                  `json:"addSecondaryAzureVSocket,omitempty"`
 	AddSecondaryGCPVSocket                    *AddSecondaryGCPVSocketPayload                    `json:"addSecondaryGcpVSocket,omitempty"`
+	AddSecondaryKvmVSocket                    *AddSecondaryKvmVSocketPayload                    `json:"addSecondaryKvmVSocket,omitempty"`
 	AddSocketAddOnCard                        *AddSocketAddOnCardPayload                        `json:"addSocketAddOnCard,omitempty"`
 	AddSocketSite                             *AddSocketSitePayload                             `json:"addSocketSite,omitempty"`
 	AddStaticHost                             *AddStaticHostPayload                             `json:"addStaticHost,omitempty"`
@@ -11159,6 +11191,7 @@ type SiteMutations struct {
 	RemoveSecondaryAWSVSocket                 *RemoveSecondaryAWSVSocketPayload                 `json:"removeSecondaryAwsVSocket,omitempty"`
 	RemoveSecondaryAzureVSocket               *RemoveSecondaryAzureVSocketPayload               `json:"removeSecondaryAzureVSocket,omitempty"`
 	RemoveSecondaryGCPVSocket                 *RemoveSecondaryGCPVSocketPayload                 `json:"removeSecondaryGcpVSocket,omitempty"`
+	RemoveSecondaryKvmVSocket                 *RemoveSecondaryKvmVSocketPayload                 `json:"removeSecondaryKvmVSocket,omitempty"`
 	RemoveSite                                *RemoveSitePayload                                `json:"removeSite,omitempty"`
 	RemoveSiteBwLicense                       *RemoveSiteBwLicensePayload                       `json:"removeSiteBwLicense,omitempty"`
 	RemoveSocketAddOnCard                     *RemoveSocketAddOnCardPayload                     `json:"removeSocketAddOnCard,omitempty"`
@@ -14247,6 +14280,16 @@ type UpdateCustomHeaderAuthInput struct {
 	Value *string `json:"value,omitempty"`
 }
 
+// Input for updating the account's dynamic-groups configuration.
+type UpdateDynamicUserGroupsConfigurationInput struct {
+	Department *DynamicUserGroupAttributeSettingsInput `json:"department,omitempty"`
+}
+
+// Result of updating the account's dynamic user groups configuration.
+type UpdateDynamicUserGroupsConfigurationPayload struct {
+	Department *DynamicUserGroupAttributeSettings `json:"department"`
+}
+
 // Input for updating FQDN typed container from file
 type UpdateFqdnContainerFromFileInput struct {
 	Description *string            `json:"description,omitempty"`
@@ -14881,22 +14924,32 @@ type User struct {
 	Phone                      *string             `json:"phone,omitempty"`
 	RiskScore                  RiskScore           `json:"riskScore"`
 	UserID                     *string             `json:"userId,omitempty"`
+	UserImportType             UserImportType      `json:"userImportType"`
 	UserPrincipalName          *string             `json:"userPrincipalName,omitempty"`
 	UserStatus                 UserStatus          `json:"userStatus"`
 }
 
 // Input for filtering users.
 type UserFilterInput struct {
-	Department              []*StringFilterInput     `json:"department,omitempty"`
-	DirectoryID             []*StringFilterInput     `json:"directoryId,omitempty"`
-	Email                   []*EmailFilterInput      `json:"email,omitempty"`
-	ID                      []*IDFilterInput         `json:"id,omitempty"`
-	ImportType              []*ImportTypeFilterInput `json:"importType,omitempty"`
-	JobTitle                []*StringFilterInput     `json:"jobTitle,omitempty"`
-	RemoteAccessEligibility []*BooleanFilterInput    `json:"remoteAccessEligibility,omitempty"`
-	RiskScore               []*RiskScoreFilterInput  `json:"riskScore,omitempty"`
-	SearchTerm              *FreeTextFilterInput     `json:"searchTerm,omitempty"`
-	UserStatus              []*UserStatusFilterInput `json:"userStatus,omitempty"`
+	Department              []*StringFilterInput         `json:"department,omitempty"`
+	DirectoryID             []*StringFilterInput         `json:"directoryId,omitempty"`
+	Email                   []*EmailFilterInput          `json:"email,omitempty"`
+	ID                      []*IDFilterInput             `json:"id,omitempty"`
+	ImportType              []*ImportTypeFilterInput     `json:"importType,omitempty"`
+	JobTitle                []*StringFilterInput         `json:"jobTitle,omitempty"`
+	RemoteAccessEligibility []*BooleanFilterInput        `json:"remoteAccessEligibility,omitempty"`
+	RiskScore               []*RiskScoreFilterInput      `json:"riskScore,omitempty"`
+	SearchTerm              *FreeTextFilterInput         `json:"searchTerm,omitempty"`
+	UserImportType          []*UserImportTypeFilterInput `json:"userImportType,omitempty"`
+	UserStatus              []*UserStatusFilterInput     `json:"userStatus,omitempty"`
+}
+
+// Input for filtering users by import type.
+type UserImportTypeFilterInput struct {
+	Eq  *UserImportType  `json:"eq,omitempty"`
+	In  []UserImportType `json:"in,omitempty"`
+	Neq *UserImportType  `json:"neq,omitempty"`
+	Nin []UserImportType `json:"nin,omitempty"`
 }
 
 // Basic User configuration information
@@ -14924,12 +14977,13 @@ type UserListPayload struct {
 }
 
 type UserMutations struct {
-	CreateUser        *CreateUserPayload        `json:"createUser,omitempty"`
-	DeleteUser        *DeleteUserPayload        `json:"deleteUser,omitempty"`
-	DisableUser       *DisableUserPayload       `json:"disableUser,omitempty"`
-	EnableUser        *EnableUserPayload        `json:"enableUser,omitempty"`
-	RevokeUserSession *RevokeUserSessionPayload `json:"revokeUserSession,omitempty"`
-	UpdateUser        *UpdateUserPayload        `json:"updateUser,omitempty"`
+	CreateUser                           *CreateUserPayload                           `json:"createUser,omitempty"`
+	DeleteUser                           *DeleteUserPayload                           `json:"deleteUser,omitempty"`
+	DisableUser                          *DisableUserPayload                          `json:"disableUser,omitempty"`
+	EnableUser                           *EnableUserPayload                           `json:"enableUser,omitempty"`
+	RevokeUserSession                    *RevokeUserSessionPayload                    `json:"revokeUserSession,omitempty"`
+	UpdateDynamicUserGroupsConfiguration *UpdateDynamicUserGroupsConfigurationPayload `json:"updateDynamicUserGroupsConfiguration,omitempty"`
+	UpdateUser                           *UpdateUserPayload                           `json:"updateUser,omitempty"`
 }
 
 // A reference identifying the UserNotificationAiSecurityTemplate object. ID: Unique UserNotificationAiSecurityTemplate Identifier, Name: The UserNotificationAiSecurityTemplate Name
@@ -14958,7 +15012,8 @@ type UserNotificationTemplateRefInput struct {
 }
 
 type UserQueries struct {
-	UserList *UserListPayload `json:"userList,omitempty"`
+	DynamicUserGroupsConfiguration *DynamicUserGroupsConfigurationPayload `json:"dynamicUserGroupsConfiguration,omitempty"`
+	UserList                       *UserListPayload                       `json:"userList,omitempty"`
 }
 
 // A reference identifying the User object. ID: Unique User Identifier, Name: The User Name
@@ -15018,6 +15073,7 @@ type UserSortInput struct {
 	RemoteAccessEligibility *SortOrderInput `json:"remoteAccessEligibility,omitempty"`
 	RiskScore               *SortOrderInput `json:"riskScore,omitempty"`
 	UserID                  *SortOrderInput `json:"userId,omitempty"`
+	UserImportType          *SortOrderInput `json:"userImportType,omitempty"`
 	UserPrincipalName       *SortOrderInput `json:"userPrincipalName,omitempty"`
 	UserStatus              *SortOrderInput `json:"userStatus,omitempty"`
 }
@@ -29113,6 +29169,7 @@ const (
 	SiteConnectionTypeEnumSocketX1600    SiteConnectionTypeEnum = "SOCKET_X1600"
 	SiteConnectionTypeEnumSocketX1600Lte SiteConnectionTypeEnum = "SOCKET_X1600_LTE"
 	SiteConnectionTypeEnumSocketX1700    SiteConnectionTypeEnum = "SOCKET_X1700"
+	SiteConnectionTypeEnumVsocketKvm     SiteConnectionTypeEnum = "VSOCKET_KVM"
 )
 
 var AllSiteConnectionTypeEnum = []SiteConnectionTypeEnum{
@@ -29124,11 +29181,12 @@ var AllSiteConnectionTypeEnum = []SiteConnectionTypeEnum{
 	SiteConnectionTypeEnumSocketX1600,
 	SiteConnectionTypeEnumSocketX1600Lte,
 	SiteConnectionTypeEnumSocketX1700,
+	SiteConnectionTypeEnumVsocketKvm,
 }
 
 func (e SiteConnectionTypeEnum) IsValid() bool {
 	switch e {
-	case SiteConnectionTypeEnumSocketAWS1500, SiteConnectionTypeEnumSocketAz1500, SiteConnectionTypeEnumSocketEsx1500, SiteConnectionTypeEnumSocketGCP1500, SiteConnectionTypeEnumSocketX1500, SiteConnectionTypeEnumSocketX1600, SiteConnectionTypeEnumSocketX1600Lte, SiteConnectionTypeEnumSocketX1700:
+	case SiteConnectionTypeEnumSocketAWS1500, SiteConnectionTypeEnumSocketAz1500, SiteConnectionTypeEnumSocketEsx1500, SiteConnectionTypeEnumSocketGCP1500, SiteConnectionTypeEnumSocketX1500, SiteConnectionTypeEnumSocketX1600, SiteConnectionTypeEnumSocketX1600Lte, SiteConnectionTypeEnumSocketX1700, SiteConnectionTypeEnumVsocketKvm:
 		return true
 	}
 	return false
@@ -30256,6 +30314,7 @@ const (
 	SocketModelAzure    SocketModel = "AZURE"
 	SocketModelEsx      SocketModel = "ESX"
 	SocketModelGCP      SocketModel = "GCP"
+	SocketModelKvm      SocketModel = "KVM"
 	SocketModelX1500    SocketModel = "X1500"
 	SocketModelX1600    SocketModel = "X1600"
 	SocketModelX1600Lte SocketModel = "X1600_LTE"
@@ -30267,6 +30326,7 @@ var AllSocketModel = []SocketModel{
 	SocketModelAzure,
 	SocketModelEsx,
 	SocketModelGCP,
+	SocketModelKvm,
 	SocketModelX1500,
 	SocketModelX1600,
 	SocketModelX1600Lte,
@@ -30275,7 +30335,7 @@ var AllSocketModel = []SocketModel{
 
 func (e SocketModel) IsValid() bool {
 	switch e {
-	case SocketModelAWS, SocketModelAzure, SocketModelEsx, SocketModelGCP, SocketModelX1500, SocketModelX1600, SocketModelX1600Lte, SocketModelX1700:
+	case SocketModelAWS, SocketModelAzure, SocketModelEsx, SocketModelGCP, SocketModelKvm, SocketModelX1500, SocketModelX1600, SocketModelX1600Lte, SocketModelX1700:
 		return true
 	}
 	return false
@@ -32476,6 +32536,70 @@ func (e *UserAuthStatus) UnmarshalJSON(b []byte) error {
 }
 
 func (e UserAuthStatus) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
+}
+
+// Shows if user was created or imported from an IdP.
+type UserImportType string
+
+const (
+	//  User was imported from an integration.
+	UserImportTypeIntegration UserImportType = "INTEGRATION"
+	//  User was imported from LDAP.
+	UserImportTypeLdap UserImportType = "LDAP"
+	//  User was created manually.
+	UserImportTypeManual UserImportType = "MANUAL"
+	//  User was imported from SCIM.
+	UserImportTypeScim UserImportType = "SCIM"
+)
+
+var AllUserImportType = []UserImportType{
+	UserImportTypeIntegration,
+	UserImportTypeLdap,
+	UserImportTypeManual,
+	UserImportTypeScim,
+}
+
+func (e UserImportType) IsValid() bool {
+	switch e {
+	case UserImportTypeIntegration, UserImportTypeLdap, UserImportTypeManual, UserImportTypeScim:
+		return true
+	}
+	return false
+}
+
+func (e UserImportType) String() string {
+	return string(e)
+}
+
+func (e *UserImportType) UnmarshalGQL(v any) error {
+	str, ok := v.(string)
+	if !ok {
+		return fmt.Errorf("enums must be strings")
+	}
+
+	*e = UserImportType(str)
+	if !e.IsValid() {
+		return fmt.Errorf("%s is not a valid UserImportType", str)
+	}
+	return nil
+}
+
+func (e UserImportType) MarshalGQL(w io.Writer) {
+	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+func (e *UserImportType) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e UserImportType) MarshalJSON() ([]byte, error) {
 	var buf bytes.Buffer
 	e.MarshalGQL(&buf)
 	return buf.Bytes(), nil

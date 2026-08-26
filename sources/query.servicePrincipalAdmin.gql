@@ -1,0 +1,37 @@
+query servicePrincipalAdmin ( $accountId:ID! $adminID:ID!) {
+	servicePrincipalAdmin ( accountId:$accountId adminID:$adminID ) {
+		id
+		name
+		email
+		creationDate
+		adminType
+		managedRoles {
+			role {
+				id
+				name
+				description
+				isPredefined
+			}
+			allowedEntities {
+				id
+				name
+				type
+			}
+			allowedAccounts
+		}
+		resellerRoles {
+			role {
+				id
+				name
+				description
+				isPredefined
+			}
+			allowedEntities {
+				id
+				name
+				type
+			}
+			allowedAccounts
+		}
+	}	
+}

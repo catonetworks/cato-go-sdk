@@ -1,0 +1,45 @@
+mutation containerIpAddressRangeUpdateFromFile ( $accountId:ID! $updateIpAddressRangeContainerFromFileInput:UpdateIpAddressRangeContainerFromFileInput!) {
+	container ( accountId:$accountId ) {
+		ipAddressRange {
+			updateFromFile ( input:$updateIpAddressRangeContainerFromFileInput   ) {
+				container {
+					id
+					name
+					description
+					size
+					audit {
+						createdBy
+						lastModifiedBy
+						lastModifiedAt
+						createdAt
+					}
+					syncData {
+						fileType
+						url
+						timeInterval
+						timeUnit
+						notifications {
+							subscriptionGroup {
+								id
+								name
+							}
+							webhook {
+								id
+								name
+							}
+							mailingList {
+								id
+								name
+							}
+						}
+					}
+					syncDataAudit {
+						lastSynced
+						lastSyncAttempt
+						errorMsg
+					}
+				}
+			}
+		}
+	}	
+}

@@ -1,0 +1,45 @@
+mutation containerIpAddressRangeCreateFromList ( $accountId:ID! $createIpAddressRangeContainerFromListInput:CreateIpAddressRangeContainerFromListInput!) {
+	container ( accountId:$accountId ) {
+		ipAddressRange {
+			createFromList ( input:$createIpAddressRangeContainerFromListInput   ) {
+				container {
+					id
+					name
+					description
+					size
+					audit {
+						createdBy
+						lastModifiedBy
+						lastModifiedAt
+						createdAt
+					}
+					syncData {
+						fileType
+						url
+						timeInterval
+						timeUnit
+						notifications {
+							subscriptionGroup {
+								id
+								name
+							}
+							webhook {
+								id
+								name
+							}
+							mailingList {
+								id
+								name
+							}
+						}
+					}
+					syncDataAudit {
+						lastSynced
+						lastSyncAttempt
+						errorMsg
+					}
+				}
+			}
+		}
+	}	
+}

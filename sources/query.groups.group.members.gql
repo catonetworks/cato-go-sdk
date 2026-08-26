@@ -1,0 +1,16 @@
+query groupsGroupMembers ( $accountId:ID! $groupRefInput:GroupRefInput! $groupMembersListInput:GroupMembersListInput!) {
+	groups ( accountId:$accountId ) {
+		group ( input:$groupRefInput  )  {
+			members ( input:$groupMembersListInput   ) {
+				items {
+					id
+					name
+					type
+				}
+				paging {
+					total
+				}
+			}
+		}
+	}	
+}

@@ -1,0 +1,85 @@
+query policyDynamicIpAllocationPolicy ( $accountId:ID! $dynamicIpAllocationPolicyInput:DynamicIpAllocationPolicyInput) {
+	policy ( accountId:$accountId ) {
+		dynamicIpAllocation {
+			policy ( input:$dynamicIpAllocationPolicyInput   ) {
+				enabled
+				rules {
+					audit {
+						updatedTime
+						updatedBy
+					}
+					metadata {
+						lock {
+							lockingAdminEmail
+							lockingTime
+							lockingRevisionId
+						}
+					}
+					rule {
+						id
+						name
+						description
+						index
+						section {
+							id
+							name
+						}
+						enabled
+						source {
+							user {
+								id
+								name
+							}
+							usersGroup {
+								id
+								name
+							}
+						}
+						platform
+						country {
+							id
+							name
+						}
+						range {
+							globalIpRange {
+								id
+								name
+							}
+						}
+					}
+					properties
+				}
+				sections {
+					audit {
+						updatedTime
+						updatedBy
+					}
+					metadata {
+						lock {
+							lockingAdminEmail
+							lockingTime
+							lockingRevisionId
+						}
+					}
+					section {
+						id
+						name
+					}
+					properties
+				}
+				audit {
+					publishedTime
+					publishedBy
+				}
+				revision {
+					id
+					name
+					description
+					changes
+					createdTime
+					updatedTime
+				}
+			}
+		}
+	}	
+}

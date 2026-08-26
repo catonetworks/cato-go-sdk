@@ -1,0 +1,39 @@
+mutation policySplitTunnelRemoveSection ( $accountId:ID! $splitTunnelPolicyMutationInput:SplitTunnelPolicyMutationInput $policyRemoveSectionInput:PolicyRemoveSectionInput!) {
+	policy ( accountId:$accountId ) {
+		splitTunnel ( input:$splitTunnelPolicyMutationInput  )  {
+			removeSection ( input:$policyRemoveSectionInput   ) {
+				section {
+					audit {
+						updatedTime
+						updatedBy
+					}
+					metadata {
+						lock {
+							lockingAdminEmail
+							lockingTime
+							lockingRevisionId
+						}
+					}
+					section {
+						id
+						name
+					}
+					properties
+				}
+				status
+				errors {
+					errorMessage
+					errorCode
+				}
+				revision {
+					id
+					name
+					description
+					changes
+					createdTime
+					updatedTime
+				}
+			}
+		}
+	}	
+}

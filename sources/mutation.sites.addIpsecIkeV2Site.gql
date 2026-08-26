@@ -1,0 +1,7 @@
+mutation sitesAddIpsecIkeV2Site ( $accountId:ID! $addIpsecIkeV2SiteInput:AddIpsecIkeV2SiteInput!) {
+	sites ( accountId:$accountId ) {
+		addIpsecIkeV2Site ( input:$addIpsecIkeV2SiteInput  )  {
+			siteId
+		}
+	}	
+}

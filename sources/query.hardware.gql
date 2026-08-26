@@ -1,0 +1,65 @@
+query hardware ( $accountId:ID! $hardwareSearchInput:HardwareSearchInput) {
+	hardware ( accountId:$accountId ) {
+		hardware ( input:$hardwareSearchInput  )  {
+			items {
+				id
+				account {
+					id
+					name
+				}
+				siteCountryName
+				productType
+				orderType
+				model
+				serialNumber
+				macAddress
+				poNumber
+				quoteId
+				licenseId
+				licenseStartDate
+				shippingTracking {
+					shippingStatus
+					shippingDate
+					trackingUrl
+					trackingNumber
+					carrier
+				}
+				shippingDetail {
+					companyName
+					street
+					cityName
+					countryName
+					stateName
+					zipCode
+					incoterms
+					instruction
+					vatId
+					contact {
+						name
+						phone
+						email
+					}
+					comment
+					powerCable
+				}
+				validation {
+					completed
+					incompleteReason
+					addressValidationStatus
+				}
+				lastModified
+				locationId
+				locationName
+			}
+			pageInfo {
+				total
+			}
+		}
+		countHardwareByStatus {
+			PENDING_INFO
+			CONFIRM_SHIPPING
+			IN_TRANSIT
+			DELIVERED
+		}
+	}	
+}

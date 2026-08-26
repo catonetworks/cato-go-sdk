@@ -1,0 +1,26 @@
+query siteCloudInterconnectPhysicalConnection ( $accountId:ID! $cloudInterconnectPhysicalConnectionInput:CloudInterconnectPhysicalConnectionInput!) {
+	site ( accountId:$accountId ) {
+		cloudInterconnectPhysicalConnection ( input:$cloudInterconnectPhysicalConnectionInput  )  {
+			id
+			site {
+				id
+				name
+			}
+			haRole
+			popLocation {
+				id
+				name
+			}
+			serviceProviderName
+			encapsulationMethod
+			subnet
+			privateCatoIp
+			privateSiteIp
+			upstreamBwLimit
+			downstreamBwLimit
+			vlan
+			sVlan
+			cVlan
+		}
+	}	
+}

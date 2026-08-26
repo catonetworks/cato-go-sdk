@@ -1,0 +1,14 @@
+mutation siteStartSiteUpgrade ( $accountId:ID! $startSiteUpgradeInput:StartSiteUpgradeInput!) {
+	site ( accountId:$accountId ) {
+		startSiteUpgrade ( input:$startSiteUpgradeInput  )  {
+			results {
+				site {
+					id
+					name
+				}
+				targetVersion
+				scheduledAt
+			}
+		}
+	}	
+}

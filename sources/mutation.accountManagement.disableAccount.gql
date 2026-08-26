@@ -1,0 +1,20 @@
+mutation accountManagementDisableAccount ( $accountId:ID!) {
+	accountManagement ( accountId:$accountId ) {
+		disableAccount ( accountId:$accountId ) {
+			accountInfo {
+				id
+				name
+				description
+				timeZone
+				type
+				tenancy
+				audit {
+					createdBy
+					createdTime
+				}
+				plan
+				status
+			}
+		}
+	}	
+}

@@ -1,0 +1,47 @@
+mutation enterpriseDirectoryUpdateLocation ( $accountId:ID! $enterpriseDirectoryUpdateLocationInput:EnterpriseDirectoryUpdateLocationInput!) {
+	enterpriseDirectory ( accountId:$accountId ) {
+		updateLocation ( input:$enterpriseDirectoryUpdateLocationInput  )  {
+			location {
+				id
+				account {
+					id
+					name
+				}
+				type
+				name
+				businessUnit
+				description
+				details {
+					companyName
+					postalAddress {
+						address1
+						address2
+						cityName
+						country {
+							id
+							name
+						}
+						stateName
+						zipCode
+						addressValidated
+					}
+					vatId
+					contact {
+						name
+						phone
+						email
+					}
+					shippingLocation
+				}
+				archived
+				audit {
+					updatedTime
+					updatedBy {
+						id
+						name
+					}
+				}
+			}
+		}
+	}	
+}

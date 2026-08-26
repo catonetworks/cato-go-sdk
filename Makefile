@@ -4,12 +4,31 @@ SCHEMA_CURL_URL ?= https://system.cc.catonetworks.com/api/schema?with_undocument
 SCHEMA_FILE ?= cato_api.graphqls
 PATCH_DIR ?= schema-patches
 PATCH_FILES := $(sort $(wildcard $(PATCH_DIR)/*.patch))
+CLI_ROOT ?= ../cato-cli
+EXPECTED_OPERATIONS ?= 544
 
 ##@ Generator
-.PHONY: generate
+.PHONY: generate operations-import operations-check generate-check
 
-generate: ## Generate client and models
+generate: operations-check ## Validate operations, then generate client and models
 	go tool gqlgenc
+
+operations-import: ## Import validated GraphQL operations from cato-cli
+	go run ./cmd/gqlops import --cli-root "$(CLI_ROOT)" --expected "$(EXPECTED_OPERATIONS)"
+
+operations-check: ## Validate canonical GraphQL operations and manifest
+	go run ./cmd/gqlops check --expected "$(EXPECTED_OPERATIONS)"
+
+generate-check: operations-check ## Require generated client and models to be current and deterministic
+	@tmp_dir="$$(mktemp -d)"; \
+	set -e; \
+	trap 'rm -rf "$$tmp_dir"' EXIT; \
+	mkdir -p "$$tmp_dir/models"; \
+	cp client.go "$$tmp_dir/client.go"; \
+	cp models/models.go "$$tmp_dir/models/models.go"; \
+	go tool gqlgenc; \
+	cmp client.go "$$tmp_dir/client.go"; \
+	cmp models/models.go "$$tmp_dir/models/models.go"
 
 .PHONY: schema-update
 schema-update: ## Update cato_api schema using curl source + normalize

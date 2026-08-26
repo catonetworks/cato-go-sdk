@@ -1,0 +1,21 @@
+mutation sitesUpdateIpsecIkeV2SiteTunnels ( $accountId:ID! $siteId:ID! $updateIpsecIkeV2SiteTunnelsInput:UpdateIpsecIkeV2SiteTunnelsInput!) {
+	sites ( accountId:$accountId ) {
+		updateIpsecIkeV2SiteTunnels ( siteId:$siteId  input:$updateIpsecIkeV2SiteTunnelsInput  )  {
+			siteId
+			primary {
+				fqdn
+				tunnels {
+					tunnelId
+					localId
+				}
+			}
+			secondary {
+				fqdn
+				tunnels {
+					tunnelId
+					localId
+				}
+			}
+		}
+	}	
+}

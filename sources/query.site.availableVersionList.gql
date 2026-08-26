@@ -1,0 +1,14 @@
+query siteAvailableVersionList ( $accountId:ID! $availableVersionListInput:AvailableVersionListInput!) {
+	site ( accountId:$accountId ) {
+		availableVersionList ( input:$availableVersionListInput  )  {
+			items {
+				platform
+				versions
+				versionDetails {
+					version
+					label
+				}
+			}
+		}
+	}	
+}

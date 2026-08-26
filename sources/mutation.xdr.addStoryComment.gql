@@ -1,0 +1,25 @@
+mutation xdrAddStoryComment ( $accountId:ID! $addStoryCommentInput:AddStoryCommentInput!) {
+	xdr ( accountId:$accountId ) {
+		addStoryComment ( input:$addStoryCommentInput  )  {
+			comment {
+				id
+				createdAt
+				text
+				actor {
+					id
+					name
+					... on AdminRef {
+						id
+						name
+					}
+					... on ApiKeyRef {
+						id
+						name
+					}
+				}
+				type
+				author
+			}
+		}
+	}	
+}

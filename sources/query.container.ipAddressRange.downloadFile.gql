@@ -1,0 +1,11 @@
+query containerIpAddressRangeDownloadFile ( $accountId:ID! $downloadIpAddressRangeContainerFileInput:DownloadIpAddressRangeContainerFileInput!) {
+	container ( accountId:$accountId ) {
+		ipAddressRange {
+			downloadFile ( input:$downloadIpAddressRangeContainerFileInput   ) {
+				id
+				name
+				encodedFile
+			}
+		}
+	}	
+}

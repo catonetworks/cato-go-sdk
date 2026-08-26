@@ -1,0 +1,13 @@
+query siteSecondaryAzureVSocket ( $accountId:ID! $socketId:ID!) {
+	site ( accountId:$accountId ) {
+		secondaryAzureVSocket ( socketId:$socketId  )  {
+			site {
+				id
+				name
+			}
+			id
+			interfaceIp
+			floatingIp
+		}
+	}	
+}

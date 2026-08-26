@@ -1,0 +1,16 @@
+mutation siteUpdateSecondaryAwsVSocket ( $accountId:ID! $updateSecondaryAwsVSocketInput:UpdateSecondaryAwsVSocketInput!) {
+	site ( accountId:$accountId ) {
+		updateSecondaryAwsVSocket ( input:$updateSecondaryAwsVSocketInput  )  {
+			secondaryAwsVSocket {
+				site {
+					id
+					name
+				}
+				id
+				ipAddress
+				subnet
+				routeTableId
+			}
+		}
+	}	
+}

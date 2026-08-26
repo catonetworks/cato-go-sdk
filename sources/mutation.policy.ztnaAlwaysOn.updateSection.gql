@@ -1,0 +1,39 @@
+mutation policyZtnaAlwaysOnUpdateSection ( $accountId:ID! $ztnaAlwaysOnPolicyMutationInput:ZtnaAlwaysOnPolicyMutationInput $policyUpdateSectionInput:PolicyUpdateSectionInput!) {
+	policy ( accountId:$accountId ) {
+		ztnaAlwaysOn ( input:$ztnaAlwaysOnPolicyMutationInput  )  {
+			updateSection ( input:$policyUpdateSectionInput   ) {
+				section {
+					audit {
+						updatedTime
+						updatedBy
+					}
+					metadata {
+						lock {
+							lockingAdminEmail
+							lockingTime
+							lockingRevisionId
+						}
+					}
+					section {
+						id
+						name
+					}
+					properties
+				}
+				status
+				errors {
+					errorMessage
+					errorCode
+				}
+				revision {
+					id
+					name
+					description
+					changes
+					createdTime
+					updatedTime
+				}
+			}
+		}
+	}	
+}
