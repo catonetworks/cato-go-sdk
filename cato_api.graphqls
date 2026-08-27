@@ -287,6 +287,10 @@ type AddSecondaryGcpVSocketPayload {
   socketInfo: GcpVSocketInfo!
 }
 
+type AddSecondaryKvmVSocketPayload {
+  id: ID!
+}
+
 type AddServicePrincipalAdminPayload {
   adminID: ID!
 }
@@ -2450,6 +2454,16 @@ type DynamicIpAllocationRulePayload implements IPolicyRulePayload {
 type DynamicIpAllocationSource {
   user: [UserRef!]!
   usersGroup: [UsersGroupRef!]!
+}
+
+""" The settings for a single dynamic user group attribute """
+type DynamicUserGroupAttributeSettings {
+  enabled: Boolean!
+}
+
+""" The account's dynamic user groups configuration. """
+type DynamicUserGroupsConfigurationPayload {
+  department: DynamicUserGroupAttributeSettings!
 }
 
 type EnableServiceForManagedAccountPayload {
@@ -5048,6 +5062,10 @@ type RemoveSecondaryGcpVSocketPayload {
   socketInfo: GcpVSocketInfo!
 }
 
+type RemoveSecondaryKvmVSocketPayload {
+  id: ID!
+}
+
 type RemoveServicePrincipalAdminPayload {
   adminID: ID!
 }
@@ -5362,6 +5380,7 @@ type SiteMutations {
   addSecondaryAwsVSocket(input: AddSecondaryAwsVSocketInput!): AddSecondaryAwsVSocketPayload @beta
   addSecondaryAzureVSocket(input: AddSecondaryAzureVSocketInput!): AddSecondaryAzureVSocketPayload @beta
   addSecondaryGcpVSocket(input: AddSecondaryGcpVSocketInput!): AddSecondaryGcpVSocketPayload @rollout @beta
+  addSecondaryKvmVSocket(input: AddSecondaryKvmVSocketInput!): AddSecondaryKvmVSocketPayload @rollout @beta
   addSocketAddOnCard(input: AddSocketAddOnCardInput!): AddSocketAddOnCardPayload @beta
   addSocketSite(input: AddSocketSiteInput!): AddSocketSitePayload @ga
   addStaticHost(siteId: ID!, input: AddStaticHostInput!): AddStaticHostPayload @ga
@@ -5382,6 +5401,7 @@ type SiteMutations {
   removeSecondaryAwsVSocket(socketId: ID!): RemoveSecondaryAwsVSocketPayload @beta
   removeSecondaryAzureVSocket(socketId: ID!): RemoveSecondaryAzureVSocketPayload @beta
   removeSecondaryGcpVSocket(input: RemoveSecondaryGcpVSocketInput!): RemoveSecondaryGcpVSocketPayload @rollout @beta
+  removeSecondaryKvmVSocket(input: RemoveSecondaryKvmVSocketInput!): RemoveSecondaryKvmVSocketPayload @rollout @beta
   removeSite(siteId: ID!): RemoveSitePayload @ga
   removeSiteBwLicense(input: RemoveSiteBwLicenseInput!): RemoveSiteBwLicensePayload @beta
   removeSocketAddOnCard(input: RemoveSocketAddOnCardInput!): RemoveSocketAddOnCardPayload @beta
@@ -6623,6 +6643,11 @@ type UpdateCustomApplicationPayload {
   customApplication: CustomApplication!
 }
 
+""" Result of updating the account's dynamic user groups configuration. """
+type UpdateDynamicUserGroupsConfigurationPayload {
+  department: DynamicUserGroupAttributeSettings!
+}
+
 """ Payload of UpdateFromFile operation on FQDN typed container """
 type UpdateFqdnContainerFromFilePayload {
   container: FqdnContainer!
@@ -6825,7 +6850,7 @@ type User {
   firstName: String
   hasRemoteAccessEligibility: Boolean!
   id: ID!
-  importType: ImportType!
+  importType: ImportType! @deprecated(reason: "use userImportType instead. Planned end-of-life (EoL) date: 09 13, 2026.")
   jobTitle: String
   lastModified: DateTime!
   lastName: String
@@ -6834,6 +6859,7 @@ type User {
   phone: Phone
   riskScore: RiskScore!
   userId: String
+  userImportType: UserImportType!
   userPrincipalName: String
   userStatus: UserStatus!
 }
@@ -6861,6 +6887,7 @@ type UserMutations {
   disableUser(input: DisableUserInput!): DisableUserPayload @ea @beta
   enableUser(input: EnableUserInput!): EnableUserPayload @ea @beta
   revokeUserSession(input: RevokeUserSessionInput!): RevokeUserSessionPayload @beta
+  updateDynamicUserGroupsConfiguration(input: UpdateDynamicUserGroupsConfigurationInput!): UpdateDynamicUserGroupsConfigurationPayload @ea @beta
   updateUser(input: UpdateUserInput!): UpdateUserPayload @beta
 }
 
@@ -6877,6 +6904,7 @@ type UserNotificationTemplateRef implements ObjectRef {
 }
 
 type UserQueries {
+  dynamicUserGroupsConfiguration: DynamicUserGroupsConfigurationPayload @ea @beta
   userList(input: UserListInput!): UserListPayload @beta
 }
 
@@ -7944,6 +7972,10 @@ input AddSecondaryAzureVSocketInput {
 
 input AddSecondaryGcpVSocketInput {
   gcpConfig: GcpConfigInput!
+  site: SiteRefInput!
+}
+
+input AddSecondaryKvmVSocketInput {
   site: SiteRefInput!
 }
 
@@ -9622,6 +9654,11 @@ input DynamicIpAllocationUpdateRuleInput {
   rule: DynamicIpAllocationUpdateRuleDataInput!
 }
 
+""" Settings change for a single dynamic user group attribute """
+input DynamicUserGroupAttributeSettingsInput {
+  enabled: Boolean!
+}
+
 input EmailFilterInput {
   eq: Email
   in: [Email!]
@@ -10950,6 +10987,10 @@ input RemoveLicenseFromManagedAccountInput {
 }
 
 input RemoveSecondaryGcpVSocketInput {
+  id: ID!
+}
+
+input RemoveSecondaryKvmVSocketInput {
   id: ID!
 }
 
@@ -12303,6 +12344,11 @@ input UpdateCustomHeaderAuthInput {
   value: Secret
 }
 
+""" Input for updating the account's dynamic-groups configuration. """
+input UpdateDynamicUserGroupsConfigurationInput {
+  department: DynamicUserGroupAttributeSettingsInput
+}
+
 """ Input for updating FQDN typed container from file """
 input UpdateFqdnContainerFromFileInput {
   description: String
@@ -12746,12 +12792,21 @@ input UserFilterInput {
   directoryId: [StringFilterInput!]
   email: [EmailFilterInput!]
   id: [IdFilterInput!] @ea
-  importType: [ImportTypeFilterInput!]
+  importType: [ImportTypeFilterInput!] @deprecated(reason: "use userImportType instead. Planned end-of-life (EoL) date: 09 13, 2026.")
   jobTitle: [StringFilterInput!]
   remoteAccessEligibility: [BooleanFilterInput!]
   riskScore: [RiskScoreFilterInput!]
   searchTerm: FreeTextFilterInput
+  userImportType: [UserImportTypeFilterInput!]
   userStatus: [UserStatusFilterInput!]
+}
+
+""" Input for filtering users by import type. """
+input UserImportTypeFilterInput {
+  eq: UserImportType
+  in: [UserImportType!]
+  neq: UserImportType
+  nin: [UserImportType!]
 }
 
 """ Input for filtering, sorting, and paging users. """
@@ -12783,13 +12838,14 @@ input UserSortInput {
   creationDate: SortOrderInput
   department: SortOrderInput
   email: SortOrderInput
-  importType: SortOrderInput
+  importType: SortOrderInput @deprecated(reason: "use userImportType instead. Planned end-of-life (EoL) date: 09 13, 2026.")
   jobTitle: SortOrderInput
   lastModified: SortOrderInput
   name: SortOrderInput
   remoteAccessEligibility: SortOrderInput
   riskScore: SortOrderInput
   userId: SortOrderInput
+  userImportType: SortOrderInput
   userPrincipalName: SortOrderInput
   userStatus: SortOrderInput
 }
@@ -16496,6 +16552,7 @@ enum SiteConnectionTypeEnum {
   SOCKET_X1600
   SOCKET_X1600_LTE
   SOCKET_X1700
+  VSOCKET_KVM
 }
 
 """ How a known host's IP address was allocated. """
@@ -16683,6 +16740,7 @@ enum SocketModel {
   AZURE
   ESX
   GCP
+  KVM
   X1500
   X1600
   X1600_LTE
@@ -17077,6 +17135,18 @@ enum UserAuthStatus {
   This is usually a brand‑new user or one who must define their password on first login.
   """
   PWD_NOT_SET
+}
+
+""" Shows if user was created or imported from an IdP. """
+enum UserImportType {
+  """ User was imported from an integration. """
+  INTEGRATION
+  """ User was imported from LDAP. """
+  LDAP
+  """ User was created manually. """
+  MANUAL
+  """ User was imported from SCIM. """
+  SCIM
 }
 
 enum UserRole {

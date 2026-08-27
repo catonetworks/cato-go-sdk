@@ -1,0 +1,7 @@
+mutation sitesRemoveNetworkRange ( $accountId:ID! $networkRangeId:ID!) {
+	sites ( accountId:$accountId ) {
+		removeNetworkRange ( networkRangeId:$networkRangeId  )  {
+			networkRangeId
+		}
+	}	
+}

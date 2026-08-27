@@ -1,0 +1,43 @@
+mutation containerDelete ( $accountId:ID! $deleteContainerInput:DeleteContainerInput!) {
+	container ( accountId:$accountId ) {
+		delete ( input:$deleteContainerInput  )  {
+			container {
+				id
+				name
+				description
+				size
+				audit {
+					createdBy
+					lastModifiedBy
+					lastModifiedAt
+					createdAt
+				}
+				syncData {
+					fileType
+					url
+					timeInterval
+					timeUnit
+					notifications {
+						subscriptionGroup {
+							id
+							name
+						}
+						webhook {
+							id
+							name
+						}
+						mailingList {
+							id
+							name
+						}
+					}
+				}
+				syncDataAudit {
+					lastSynced
+					lastSyncAttempt
+					errorMsg
+				}
+			}
+		}
+	}	
+}

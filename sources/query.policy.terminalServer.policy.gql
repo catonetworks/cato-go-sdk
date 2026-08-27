@@ -1,0 +1,72 @@
+query policyTerminalServerPolicy ( $accountId:ID! $terminalServerPolicyInput:TerminalServerPolicyInput) {
+	policy ( accountId:$accountId ) {
+		terminalServer {
+			policy ( input:$terminalServerPolicyInput   ) {
+				enabled
+				rules {
+					audit {
+						updatedTime
+						updatedBy
+					}
+					metadata {
+						lock {
+							lockingAdminEmail
+							lockingTime
+							lockingRevisionId
+						}
+					}
+					rule {
+						id
+						name
+						description
+						index
+						section {
+							id
+							name
+						}
+						enabled
+						allowedHostIP {
+							id
+							name
+						}
+						excludeTraffic {
+							id
+							name
+						}
+					}
+					properties
+				}
+				sections {
+					audit {
+						updatedTime
+						updatedBy
+					}
+					metadata {
+						lock {
+							lockingAdminEmail
+							lockingTime
+							lockingRevisionId
+						}
+					}
+					section {
+						id
+						name
+					}
+					properties
+				}
+				audit {
+					publishedTime
+					publishedBy
+				}
+				revision {
+					id
+					name
+					description
+					changes
+					createdTime
+					updatedTime
+				}
+			}
+		}
+	}	
+}

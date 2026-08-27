@@ -1,0 +1,45 @@
+mutation containerFqdnUpdateFromList ( $accountId:ID! $updateFqdnContainerFromListInput:UpdateFqdnContainerFromListInput!) {
+	container ( accountId:$accountId ) {
+		fqdn {
+			updateFromList ( input:$updateFqdnContainerFromListInput   ) {
+				container {
+					id
+					name
+					description
+					size
+					audit {
+						createdBy
+						lastModifiedBy
+						lastModifiedAt
+						createdAt
+					}
+					syncData {
+						fileType
+						url
+						timeInterval
+						timeUnit
+						notifications {
+							subscriptionGroup {
+								id
+								name
+							}
+							webhook {
+								id
+								name
+							}
+							mailingList {
+								id
+								name
+							}
+						}
+					}
+					syncDataAudit {
+						lastSynced
+						lastSyncAttempt
+						errorMsg
+					}
+				}
+			}
+		}
+	}	
+}

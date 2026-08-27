@@ -1,0 +1,7 @@
+query siteCloudInterconnectPhysicalConnectionId ( $accountId:ID! $cloudInterconnectPhysicalConnectionIdInput:CloudInterconnectPhysicalConnectionIdInput!) {
+	site ( accountId:$accountId ) {
+		cloudInterconnectPhysicalConnectionId ( input:$cloudInterconnectPhysicalConnectionIdInput  )  {
+			id
+		}
+	}	
+}

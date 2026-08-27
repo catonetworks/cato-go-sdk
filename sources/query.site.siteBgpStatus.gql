@@ -1,0 +1,24 @@
+query siteSiteBgpStatus ( $accountId:ID! $siteBgpStatusInput:SiteBgpStatusInput!) {
+	site ( accountId:$accountId ) {
+		siteBgpStatus ( input:$siteBgpStatusInput  )  {
+			status {
+				remoteIp
+				bgpSession
+				bfdSession
+				routesFromPeer
+				routesToPeer
+				rejectedRoutesFromPeer {
+					subnet
+					type
+					community {
+						from
+						to
+					}
+					rule
+					lastPublishAttempt
+				}
+			}
+			rawStatus
+		}
+	}	
+}

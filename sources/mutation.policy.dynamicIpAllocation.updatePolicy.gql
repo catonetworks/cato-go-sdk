@@ -1,0 +1,92 @@
+mutation policyDynamicIpAllocationUpdatePolicy ( $accountId:ID! $dynamicIpAllocationPolicyMutationInput:DynamicIpAllocationPolicyMutationInput $dynamicIpAllocationPolicyUpdateInput:DynamicIpAllocationPolicyUpdateInput!) {
+	policy ( accountId:$accountId ) {
+		dynamicIpAllocation ( input:$dynamicIpAllocationPolicyMutationInput  )  {
+			updatePolicy ( input:$dynamicIpAllocationPolicyUpdateInput   ) {
+				policy {
+					enabled
+					rules {
+						audit {
+							updatedTime
+							updatedBy
+						}
+						metadata {
+							lock {
+								lockingAdminEmail
+								lockingTime
+								lockingRevisionId
+							}
+						}
+						rule {
+							id
+							name
+							description
+							index
+							section {
+								id
+								name
+							}
+							enabled
+							source {
+								user {
+									id
+									name
+								}
+								usersGroup {
+									id
+									name
+								}
+							}
+							platform
+							country {
+								id
+								name
+							}
+							range {
+								globalIpRange {
+									id
+									name
+								}
+							}
+						}
+						properties
+					}
+					sections {
+						audit {
+							updatedTime
+							updatedBy
+						}
+						metadata {
+							lock {
+								lockingAdminEmail
+								lockingTime
+								lockingRevisionId
+							}
+						}
+						section {
+							id
+							name
+						}
+						properties
+					}
+					audit {
+						publishedTime
+						publishedBy
+					}
+					revision {
+						id
+						name
+						description
+						changes
+						createdTime
+						updatedTime
+					}
+				}
+				status
+				errors {
+					errorMessage
+					errorCode
+				}
+			}
+		}
+	}	
+}

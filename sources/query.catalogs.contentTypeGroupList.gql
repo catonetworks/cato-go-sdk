@@ -1,0 +1,17 @@
+query catalogsContentTypeGroupList ( $accountId:ID! $catalogApplicationContentTypeGroupListInput:CatalogApplicationContentTypeGroupListInput!) {
+	catalogs ( accountId:$accountId ) {
+		contentTypeGroupList ( input:$catalogApplicationContentTypeGroupListInput  )  {
+			contentTypeGroup {
+				id
+				name
+				contentType {
+					id
+					name
+				}
+			}
+			pageInfo {
+				total
+			}
+		}
+	}	
+}

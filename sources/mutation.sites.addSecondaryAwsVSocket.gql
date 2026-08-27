@@ -1,0 +1,7 @@
+mutation sitesAddSecondaryAwsVSocket ( $accountId:ID! $addSecondaryAwsVSocketInput:AddSecondaryAwsVSocketInput!) {
+	sites ( accountId:$accountId ) {
+		addSecondaryAwsVSocket ( input:$addSecondaryAwsVSocketInput  )  {
+			id
+		}
+	}	
+}

@@ -1,0 +1,11 @@
+query containerFqdnDownloadFile ( $accountId:ID! $downloadFqdnContainerFileInput:DownloadFqdnContainerFileInput!) {
+	container ( accountId:$accountId ) {
+		fqdn {
+			downloadFile ( input:$downloadFqdnContainerFileInput   ) {
+				id
+				name
+				encodedFile
+			}
+		}
+	}	
+}

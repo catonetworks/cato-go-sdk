@@ -1,0 +1,45 @@
+query containerIpAddressRangeSearch ( $accountId:ID! $ipAddressRangeContainerSearchInput:IpAddressRangeContainerSearchInput!) {
+	container ( accountId:$accountId ) {
+		ipAddressRange {
+			search ( input:$ipAddressRangeContainerSearchInput   ) {
+				container {
+					id
+					name
+					description
+					size
+					audit {
+						createdBy
+						lastModifiedBy
+						lastModifiedAt
+						createdAt
+					}
+					syncData {
+						fileType
+						url
+						timeInterval
+						timeUnit
+						notifications {
+							subscriptionGroup {
+								id
+								name
+							}
+							webhook {
+								id
+								name
+							}
+							mailingList {
+								id
+								name
+							}
+						}
+					}
+					syncDataAudit {
+						lastSynced
+						lastSyncAttempt
+						errorMsg
+					}
+				}
+			}
+		}
+	}	
+}

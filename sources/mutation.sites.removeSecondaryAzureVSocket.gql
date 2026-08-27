@@ -1,0 +1,15 @@
+mutation sitesRemoveSecondaryAzureVSocket ( $accountId:ID! $socketId:ID!) {
+	sites ( accountId:$accountId ) {
+		removeSecondaryAzureVSocket ( socketId:$socketId  )  {
+			secondaryAzureVSocket {
+				site {
+					id
+					name
+				}
+				id
+				interfaceIp
+				floatingIp
+			}
+		}
+	}	
+}

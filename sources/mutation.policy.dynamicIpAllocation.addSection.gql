@@ -1,0 +1,39 @@
+mutation policyDynamicIpAllocationAddSection ( $accountId:ID! $dynamicIpAllocationPolicyMutationInput:DynamicIpAllocationPolicyMutationInput $policyAddSectionInput:PolicyAddSectionInput!) {
+	policy ( accountId:$accountId ) {
+		dynamicIpAllocation ( input:$dynamicIpAllocationPolicyMutationInput  )  {
+			addSection ( input:$policyAddSectionInput   ) {
+				section {
+					audit {
+						updatedTime
+						updatedBy
+					}
+					metadata {
+						lock {
+							lockingAdminEmail
+							lockingTime
+							lockingRevisionId
+						}
+					}
+					section {
+						id
+						name
+					}
+					properties
+				}
+				status
+				errors {
+					errorMessage
+					errorCode
+				}
+				revision {
+					id
+					name
+					description
+					changes
+					createdTime
+					updatedTime
+				}
+			}
+		}
+	}	
+}

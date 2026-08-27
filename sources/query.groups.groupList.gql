@@ -1,0 +1,36 @@
+query groupsGroupList ( $accountId:ID! $groupListInput:GroupListInput $groupMembersListInput:GroupMembersListInput!) {
+	groups ( accountId:$accountId ) {
+		groupList ( input:$groupListInput  )  {
+			items {
+				id
+				name
+				description
+				audit {
+					updatedTime
+					updatedBy {
+						id
+						name
+					}
+				}
+				members ( input:$groupMembersListInput  )  {
+					items {
+						id
+						name
+						type
+					}
+					paging {
+						total
+					}
+				}
+				membersCount
+				membersCountPerType {
+					type
+					membersCount
+				}
+			}
+			paging {
+				total
+			}
+		}
+	}	
+}

@@ -1,0 +1,34 @@
+mutation sitesUpdateSiteSocketConfiguration ( $accountId:ID! $updateSiteSocketConfigurationInput:UpdateSiteSocketConfigurationInput!) {
+	sites ( accountId:$accountId ) {
+		updateSiteSocketConfiguration ( input:$updateSiteSocketConfigurationInput  )  {
+			siteSocketConfiguration {
+				primarySocketConfiguration {
+					description
+					serial
+					managementIp
+					socketInfo {
+						model
+						platform
+						version
+						registrationStatus
+						wifiSupported
+						isPrimary
+					}
+				}
+				secondarySocketConfiguration {
+					description
+					serial
+					managementIp
+					socketInfo {
+						model
+						platform
+						version
+						registrationStatus
+						wifiSupported
+						isPrimary
+					}
+				}
+			}
+		}
+	}	
+}

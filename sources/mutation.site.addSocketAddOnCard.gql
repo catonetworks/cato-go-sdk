@@ -1,0 +1,10 @@
+mutation siteAddSocketAddOnCard ( $accountId:ID! $addSocketAddOnCardInput:AddSocketAddOnCardInput!) {
+	site ( accountId:$accountId ) {
+		addSocketAddOnCard ( input:$addSocketAddOnCardInput  )  {
+			addOns {
+				expansionSlotNumber
+				type
+			}
+		}
+	}	
+}

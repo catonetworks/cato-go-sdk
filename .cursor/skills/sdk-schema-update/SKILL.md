@@ -68,7 +68,18 @@ Once all patches are triaged:
 make apply-patches
 ```
 
-### 3. Run codegen
+### 3. Validate operations
+
+```bash
+make operations-check
+```
+
+Every `sources/*.gql` document must validate against the updated schema. The
+operation manifest, semantic keys, operation names, generated Go identifiers,
+and content hashes must also remain consistent. Fix operation documents or
+update the manifest through `make operations-import`; never bypass this check.
+
+### 4. Run codegen
 
 ```bash
 make generate
@@ -78,15 +89,17 @@ Regenerates `client.go` and `models/models.go` via `go tool gqlgenc`.
 
 **If codegen fails with an unknown scalar type**, see [Resolving new custom scalars](#resolving-new-custom-scalars) below.
 
-### 4. Verify build
+### 5. Verify build
 
 ```bash
+make generate-check
+go test ./...
 go build ./...
 ```
 
 Fix any compile errors before proceeding.
 
-### 5. Commit
+### 6. Commit
 
 Stage and commit:
 - `cato_api.graphqls` (updated schema)
@@ -125,6 +138,8 @@ models:
 | `scalars/` | Hand-written scalar type implementations |
 | `schema-patches/` | Patches applied on top of the upstream schema |
 | `sources/*.gql` | GraphQL operation files fed to gqlgenc |
+| `operations/manifest.json` | Canonical operation inventory and CLI migration mapping |
+| `cmd/gqlops` | Operation import and validation command |
 
 ---
 

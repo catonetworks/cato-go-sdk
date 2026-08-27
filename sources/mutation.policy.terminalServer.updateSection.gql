@@ -1,0 +1,39 @@
+mutation policyTerminalServerUpdateSection ( $accountId:ID! $terminalServerPolicyMutationInput:TerminalServerPolicyMutationInput $policyUpdateSectionInput:PolicyUpdateSectionInput!) {
+	policy ( accountId:$accountId ) {
+		terminalServer ( input:$terminalServerPolicyMutationInput  )  {
+			updateSection ( input:$policyUpdateSectionInput   ) {
+				section {
+					audit {
+						updatedTime
+						updatedBy
+					}
+					metadata {
+						lock {
+							lockingAdminEmail
+							lockingTime
+							lockingRevisionId
+						}
+					}
+					section {
+						id
+						name
+					}
+					properties
+				}
+				status
+				errors {
+					errorMessage
+					errorCode
+				}
+				revision {
+					id
+					name
+					description
+					changes
+					createdTime
+					updatedTime
+				}
+			}
+		}
+	}	
+}

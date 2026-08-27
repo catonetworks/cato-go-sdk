@@ -1,0 +1,94 @@
+mutation policyZtnaAlwaysOnCreatePolicyRevision ( $accountId:ID! $ztnaAlwaysOnPolicyMutationInput:ZtnaAlwaysOnPolicyMutationInput $policyCreateRevisionInput:PolicyCreateRevisionInput!) {
+	policy ( accountId:$accountId ) {
+		ztnaAlwaysOn ( input:$ztnaAlwaysOnPolicyMutationInput  )  {
+			createPolicyRevision ( input:$policyCreateRevisionInput   ) {
+				policy {
+					enabled
+					rules {
+						audit {
+							updatedTime
+							updatedBy
+						}
+						metadata {
+							lock {
+								lockingAdminEmail
+								lockingTime
+								lockingRevisionId
+							}
+						}
+						rule {
+							id
+							name
+							description
+							index
+							section {
+								id
+								name
+							}
+							enabled
+							source {
+								user {
+									id
+									name
+								}
+								usersGroup {
+									id
+									name
+								}
+							}
+							platform
+							devicePostureProfile {
+								id
+								name
+							}
+							action
+							allowUserBypass
+							bypassDuration {
+								time
+								unit
+							}
+							allowFailOpen
+							antiTamperMode
+						}
+						properties
+					}
+					sections {
+						audit {
+							updatedTime
+							updatedBy
+						}
+						metadata {
+							lock {
+								lockingAdminEmail
+								lockingTime
+								lockingRevisionId
+							}
+						}
+						section {
+							id
+							name
+						}
+						properties
+					}
+					audit {
+						publishedTime
+						publishedBy
+					}
+					revision {
+						id
+						name
+						description
+						changes
+						createdTime
+						updatedTime
+					}
+				}
+				status
+				errors {
+					errorMessage
+					errorCode
+				}
+			}
+		}
+	}	
+}

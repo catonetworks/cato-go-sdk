@@ -1,0 +1,9 @@
+mutation xdrAnalystFeedback($accountId: ID!, $analystFeedbackInput: AnalystFeedbackInput!) {
+  xdr(accountId: $accountId) {
+    analystFeedback(input: $analystFeedbackInput) {
+      story {
+        id
+      }
+    }
+  }
+}

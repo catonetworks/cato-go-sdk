@@ -1,0 +1,45 @@
+mutation containerFqdnRemoveValues ( $accountId:ID! $fqdnContainerRemoveValuesInput:FqdnContainerRemoveValuesInput!) {
+	container ( accountId:$accountId ) {
+		fqdn {
+			removeValues ( input:$fqdnContainerRemoveValuesInput   ) {
+				container {
+					id
+					name
+					description
+					size
+					audit {
+						createdBy
+						lastModifiedBy
+						lastModifiedAt
+						createdAt
+					}
+					syncData {
+						fileType
+						url
+						timeInterval
+						timeUnit
+						notifications {
+							subscriptionGroup {
+								id
+								name
+							}
+							webhook {
+								id
+								name
+							}
+							mailingList {
+								id
+								name
+							}
+						}
+					}
+					syncDataAudit {
+						lastSynced
+						lastSyncAttempt
+						errorMsg
+					}
+				}
+			}
+		}
+	}	
+}
