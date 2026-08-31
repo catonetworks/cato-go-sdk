@@ -51,6 +51,7 @@ type Query {
   hardware(accountId: ID!): HardwareQueries
   hardwareManagement(accountId: ID!): HardwareManagementQueries
   licensing(accountId: ID!): LicensingQueries
+  networkConfig(accountId: ID!): NetworkConfigQueries
   notification(accountId: ID!): NotificationSubscriptionQueries @ga
   object(accountId: ID!): ObjectQueries
   policy(accountId: ID!): PolicyQueries
@@ -79,6 +80,7 @@ type Mutation {
   groups(accountId: ID!): GroupsMutations
   hardware(accountId: ID!): HardwareMutations
   licensing(accountId: ID!): LicensingMutations
+  networkConfig(accountId: ID!): NetworkConfigMutations
   notification(accountId: ID!): NotificationSubscriptionMutations @ga
   object(accountId: ID!): ObjectMutations
   policy(accountId: ID!): PolicyMutations
@@ -4132,6 +4134,295 @@ type NOCaaSLicense implements License {
   status: LicenseStatus!
 }
 
+""" Result of creating DHCP options. """
+type NetworkConfigDhcpCreateOptionPayload {
+  option: [NetworkConfigDhcpOption!]!
+}
+
+""" Result of creating DHCP relay groups. """
+type NetworkConfigDhcpCreateRelayGroupPayload {
+  relayGroup: [NetworkConfigDhcpRelayGroup!]!
+}
+
+""" Result of deleting DHCP options. """
+type NetworkConfigDhcpDeleteOptionPayload {
+  option: [NetworkConfigDhcpOption!]!
+}
+
+""" Result of deleting DHCP relay groups. """
+type NetworkConfigDhcpDeleteRelayGroupPayload {
+  relayGroup: [NetworkConfigDhcpRelayGroup!]!
+}
+
+""" DHCP write operations for the account. """
+type NetworkConfigDhcpMutations {
+  createOption(input: NetworkConfigDhcpCreateOptionInput!): NetworkConfigDhcpCreateOptionPayload @rollout @beta
+  createRelayGroup(input: NetworkConfigDhcpCreateRelayGroupInput!): NetworkConfigDhcpCreateRelayGroupPayload @rollout @beta
+  deleteOption(input: NetworkConfigDhcpDeleteOptionInput!): NetworkConfigDhcpDeleteOptionPayload @rollout @beta
+  deleteRelayGroup(input: NetworkConfigDhcpDeleteRelayGroupInput!): NetworkConfigDhcpDeleteRelayGroupPayload @rollout @beta
+  setOption(input: NetworkConfigDhcpSetOptionInput!): NetworkConfigDhcpSetOptionPayload @rollout @beta
+  setRelayGroup(input: NetworkConfigDhcpSetRelayGroupInput!): NetworkConfigDhcpSetRelayGroupPayload @rollout @beta
+  updateOption(input: NetworkConfigDhcpUpdateOptionInput!): NetworkConfigDhcpUpdateOptionPayload @rollout @beta
+  updateRelayGroup(input: NetworkConfigDhcpUpdateRelayGroupInput!): NetworkConfigDhcpUpdateRelayGroupPayload @rollout @beta
+  updateSettings(input: NetworkConfigDhcpUpdateSettingsInput!): NetworkConfigDhcpUpdateSettingsPayload @rollout @beta
+}
+
+""" A single DHCP option (a code/value pair advertised to DHCP clients). """
+type NetworkConfigDhcpOption {
+  description: String
+  id: ID!
+  tag: Int!
+  type: NetworkConfigDhcpOptionType!
+  value: String!
+}
+
+""" Response payload for the DHCP options list. """
+type NetworkConfigDhcpOptionListPayload {
+  items: [NetworkConfigDhcpOption!]!
+  paging: PageInfo!
+}
+
+""" DHCP read operations for the account. """
+type NetworkConfigDhcpQueries {
+  option(input: NetworkConfigDhcpOptionRefInput!): NetworkConfigDhcpOption @rollout @beta
+  optionList(input: NetworkConfigDhcpOptionListInput! = {sort:{tag:{direction:ASC,priority:1}},paging:{limit:100,from:0}}): NetworkConfigDhcpOptionListPayload @rollout @beta
+  relayGroup(input: NetworkConfigDhcpRelayGroupRefInput!): NetworkConfigDhcpRelayGroup @rollout @beta
+  relayGroupList(input: NetworkConfigDhcpRelayGroupListInput! = {sort:{name:{direction:ASC,priority:1}},paging:{limit:100,from:0}}): NetworkConfigDhcpRelayGroupListPayload @rollout @beta
+  settings: NetworkConfigDhcpSettings @rollout @beta
+}
+
+""" DHCP relay configuration for the account. """
+type NetworkConfigDhcpRelay {
+  enabled: Boolean!
+  group: NetworkConfigDhcpRelayGroupRef
+  timeout: Int
+}
+
+""" A named group of DHCP relay servers. """
+type NetworkConfigDhcpRelayGroup {
+  id: ID!
+  name: String!
+  server: [IPAddress!]!
+}
+
+""" Response payload for the DHCP relay-groups list. """
+type NetworkConfigDhcpRelayGroupListPayload {
+  items: [NetworkConfigDhcpRelayGroup!]!
+  paging: PageInfo!
+}
+
+""" A reference to an existing DHCP relay group. """
+type NetworkConfigDhcpRelayGroupRef {
+  id: ID!
+  name: String!
+}
+
+""" Result of replacing the DHCP options collection. """
+type NetworkConfigDhcpSetOptionPayload {
+  option: [NetworkConfigDhcpOption!]!
+}
+
+""" Result of replacing the DHCP relay-group catalog. """
+type NetworkConfigDhcpSetRelayGroupPayload {
+  relayGroup: [NetworkConfigDhcpRelayGroup!]!
+}
+
+""" Account-level DHCP settings. Exactly one instance exists per account. """
+type NetworkConfigDhcpSettings {
+  leaseTime: Int!
+  relay: NetworkConfigDhcpRelay!
+}
+
+""" Result of updating DHCP options. """
+type NetworkConfigDhcpUpdateOptionPayload {
+  option: [NetworkConfigDhcpOption!]!
+}
+
+""" Result of updating DHCP relay groups. """
+type NetworkConfigDhcpUpdateRelayGroupPayload {
+  relayGroup: [NetworkConfigDhcpRelayGroup!]!
+}
+
+""" Result of updating the account-level DHCP settings. """
+type NetworkConfigDhcpUpdateSettingsPayload {
+  settings: NetworkConfigDhcpSettings!
+}
+
+""" Result of creating DNS forwarding rules. """
+type NetworkConfigDnsCreateForwardingRulePayload {
+  forwardingRule: [NetworkConfigDnsForwardingRule!]!
+}
+
+""" Result of creating DNS server sets. """
+type NetworkConfigDnsCreateServerSetPayload {
+  dnsServerSet: [NetworkConfigDnsServerSet!]!
+}
+
+""" Result of creating DNS suffix sets. """
+type NetworkConfigDnsCreateSuffixSetPayload {
+  dnsSuffixSet: [NetworkConfigDnsSuffixSet!]!
+}
+
+""" Result of deleting DNS forwarding rules. """
+type NetworkConfigDnsDeleteForwardingRulePayload {
+  forwardingRule: [NetworkConfigDnsForwardingRule!]!
+}
+
+""" Result of deleting DNS server sets. """
+type NetworkConfigDnsDeleteServerSetPayload {
+  dnsServerSet: [NetworkConfigDnsServerSet!]!
+}
+
+""" Result of deleting DNS suffix sets. """
+type NetworkConfigDnsDeleteSuffixSetPayload {
+  dnsSuffixSet: [NetworkConfigDnsSuffixSet!]!
+}
+
+""" A DNS forwarding rule: DNS queries for `domain` are forwarded to `server`. """
+type NetworkConfigDnsForwardingRule {
+  domain: Domain!
+  id: ID!
+  server: [IPAddress!]!
+}
+
+""" Response payload for the DNS forwarding-rules list. """
+type NetworkConfigDnsForwardingRuleListPayload {
+  items: [NetworkConfigDnsForwardingRule!]!
+  paging: PageInfo!
+}
+
+""" DNS write operations for the account. """
+type NetworkConfigDnsMutations {
+  createForwardingRule(input: NetworkConfigDnsCreateForwardingRuleInput!): NetworkConfigDnsCreateForwardingRulePayload @rollout @beta
+  createServerSet(input: NetworkConfigDnsCreateServerSetInput!): NetworkConfigDnsCreateServerSetPayload @rollout @beta
+  createSuffixSet(input: NetworkConfigDnsCreateSuffixSetInput!): NetworkConfigDnsCreateSuffixSetPayload @rollout @beta
+  deleteForwardingRule(input: NetworkConfigDnsDeleteForwardingRuleInput!): NetworkConfigDnsDeleteForwardingRulePayload @rollout @beta
+  deleteServerSet(input: NetworkConfigDnsDeleteServerSetInput!): NetworkConfigDnsDeleteServerSetPayload @rollout @beta
+  deleteSuffixSet(input: NetworkConfigDnsDeleteSuffixSetInput!): NetworkConfigDnsDeleteSuffixSetPayload @rollout @beta
+  removeSiteSettings(input: NetworkConfigDnsRemoveSiteSettingsInput!): NetworkConfigDnsRemoveSiteSettingsPayload @rollout @beta
+  setForwardingRule(input: NetworkConfigDnsSetForwardingRuleInput!): NetworkConfigDnsSetForwardingRulePayload @rollout @beta
+  setServerSet(input: NetworkConfigDnsSetServerSetInput!): NetworkConfigDnsSetServerSetPayload @rollout @beta
+  setSuffixSet(input: NetworkConfigDnsSetSuffixSetInput!): NetworkConfigDnsSetSuffixSetPayload @rollout @beta
+  updateForwardingRule(input: NetworkConfigDnsUpdateForwardingRuleInput!): NetworkConfigDnsUpdateForwardingRulePayload @rollout @beta
+  updateServerSet(input: NetworkConfigDnsUpdateServerSetInput!): NetworkConfigDnsUpdateServerSetPayload @rollout @beta
+  updateSettings(input: NetworkConfigDnsUpdateSettingsInput!): NetworkConfigDnsUpdateSettingsPayload @rollout @beta
+  updateSiteSettings(input: NetworkConfigDnsUpdateSiteSettingsInput!): NetworkConfigDnsUpdateSiteSettingsPayload @rollout @beta
+  updateSuffixSet(input: NetworkConfigDnsUpdateSuffixSetInput!): NetworkConfigDnsUpdateSuffixSetPayload @rollout @beta
+}
+
+""" DNS read operations for the account. """
+type NetworkConfigDnsQueries {
+  forwardingRule(input: NetworkConfigDnsForwardingRuleRefInput!): NetworkConfigDnsForwardingRule @rollout @beta
+  forwardingRuleList(input: NetworkConfigDnsForwardingRuleListInput! = {sort:{domain:{direction:ASC,priority:1}},paging:{limit:100,from:0}}): NetworkConfigDnsForwardingRuleListPayload @rollout @beta
+  serverSet(input: NetworkConfigDnsServerSetRefInput!): NetworkConfigDnsServerSet @rollout @beta
+  serverSetList(input: NetworkConfigDnsServerSetListInput! = {sort:{name:{direction:ASC,priority:1}},paging:{limit:100,from:0}}): NetworkConfigDnsServerSetListPayload @rollout @beta
+  settings: NetworkConfigDnsSettings @rollout @beta
+  siteSettings(site: SiteRefInput!): NetworkConfigDnsSiteSettings @rollout @beta
+  suffixSet(input: NetworkConfigDnsSuffixSetRefInput!): NetworkConfigDnsSuffixSet @rollout @beta
+  suffixSetList(input: NetworkConfigDnsSuffixSetListInput! = {sort:{name:{direction:ASC,priority:1}},paging:{limit:100,from:0}}): NetworkConfigDnsSuffixSetListPayload @rollout @beta
+}
+
+""" Result of removing site DNS overrides. """
+type NetworkConfigDnsRemoveSiteSettingsPayload {
+  siteSettings: [NetworkConfigDnsSiteSettings!]!
+}
+
+""" A named set of DNS servers a DHCP profile can hand out. """
+type NetworkConfigDnsServerSet {
+  audit: AuditingMetadata
+  id: ID!
+  name: String!
+  server: [IPAddress!]!
+}
+
+""" Response payload for the DNS server sets list. """
+type NetworkConfigDnsServerSetListPayload {
+  items: [NetworkConfigDnsServerSet!]!
+  paging: PageInfo!
+}
+
+""" Result of replacing the DNS forwarding-rule collection. """
+type NetworkConfigDnsSetForwardingRulePayload {
+  forwardingRule: [NetworkConfigDnsForwardingRule!]!
+}
+
+""" Result of replacing the DNS server set collection. """
+type NetworkConfigDnsSetServerSetPayload {
+  dnsServerSet: [NetworkConfigDnsServerSet!]!
+}
+
+""" Result of replacing the DNS suffix set collection. """
+type NetworkConfigDnsSetSuffixSetPayload {
+  dnsSuffixSet: [NetworkConfigDnsSuffixSet!]!
+}
+
+""" Account-level DNS settings. Exactly one instance exists per account. """
+type NetworkConfigDnsSettings {
+  acceptDnsRequestsOnLanInterfaceIp: Boolean!
+  primaryServer: IPAddress
+  secondaryServer: IPAddress
+  suffix: [Domain!]!
+}
+
+""" DNS settings overriding the account default for a single site. """
+type NetworkConfigDnsSiteSettings {
+  primaryServer: IPAddress
+  secondaryServer: IPAddress
+  siteId: ID!
+  suffix: [Domain!]!
+}
+
+""" A named, ordered list of DNS search suffixes a DHCP profile can hand out. """
+type NetworkConfigDnsSuffixSet {
+  audit: AuditingMetadata
+  id: ID!
+  name: String!
+  suffix: [Domain!]!
+}
+
+""" Response payload for the DNS suffix sets list. """
+type NetworkConfigDnsSuffixSetListPayload {
+  items: [NetworkConfigDnsSuffixSet!]!
+  paging: PageInfo!
+}
+
+""" Result of updating DNS forwarding rules. """
+type NetworkConfigDnsUpdateForwardingRulePayload {
+  forwardingRule: [NetworkConfigDnsForwardingRule!]!
+}
+
+""" Result of updating DNS server sets. """
+type NetworkConfigDnsUpdateServerSetPayload {
+  dnsServerSet: [NetworkConfigDnsServerSet!]!
+}
+
+""" Result of updating the account-level DNS settings. """
+type NetworkConfigDnsUpdateSettingsPayload {
+  settings: NetworkConfigDnsSettings!
+}
+
+""" Result of creating or updating site DNS overrides. """
+type NetworkConfigDnsUpdateSiteSettingsPayload {
+  siteSettings: [NetworkConfigDnsSiteSettings!]!
+}
+
+""" Result of updating DNS suffix sets. """
+type NetworkConfigDnsUpdateSuffixSetPayload {
+  dnsSuffixSet: [NetworkConfigDnsSuffixSet!]!
+}
+
+""" Network-configuration write operations. """
+type NetworkConfigMutations {
+  dhcp: NetworkConfigDhcpMutations!
+  dns: NetworkConfigDnsMutations!
+}
+
+""" Network-configuration read operations. """
+type NetworkConfigQueries {
+  dhcp: NetworkConfigDhcpQueries!
+  dns: NetworkConfigDnsQueries!
+}
+
 """ A reference identifying the NetworkInterface object. ID: Unique NetworkInterface Identifier, Name: The NetworkInterface Name """
 type NetworkInterfaceRef implements ObjectRef {
   id: ID!
@@ -4776,7 +5067,8 @@ type PrivateAccessRule implements IPolicyRule {
   action: PrivateAccessPolicyAction!
   activePeriod: PolicyRuleActivePeriod!
   applications: PrivateAccessPolicyApplication!
-  connectionOrigin: [PrivateAccessPolicyOriginEnum!]!
+  connectionOrigin: [PrivateAccessPolicyOriginEnum!]! @deprecated(reason: "use connectionsOriginList instead. Planned end-of-life (EoL) date: 08 25, 2026.")
+  connectionsOriginList: [ConnectionOriginsEnum!]!
   country: [CountryRef!]!
   description: String!
   device: [DeviceProfileRef!]!
@@ -5785,7 +6077,7 @@ type SocketLanFirewallRule implements IPolicyRule {
   id: ID!
   index: Int!
   name: String!
-  section: PolicySectionInfo!
+  section: PolicySectionInfo
   service: SocketLanFirewallServiceType!
   source: SocketLanFirewallSource!
   tracking: PolicyTracking!
@@ -7198,6 +7490,11 @@ type WanNetworkPolicyQueries {
   revisions: PolicyRevisionsPayload @beta
 }
 
+type WanNetworkPolicyRef implements ObjectRef & PolicyRef {
+  id: ID!
+  name: String!
+}
+
 type WanNetworkRule implements IPolicyRule {
   application: WanNetworkRuleApplication!
   bandwidthPriority: BandwidthManagementRef!
@@ -8004,6 +8301,7 @@ input AddSocketSiteInput {
   description: String
   name: String!
   nativeNetworkRange: IPSubnet!
+  secondaryVSocket: SecondaryVSocketAtCreationInput @beta @ea
   siteLocation: AddSiteLocationInput!
   siteType: SiteType! = BRANCH
   translatedSubnet: IPSubnet
@@ -10324,6 +10622,376 @@ input Measure {
   trend: Boolean
 }
 
+""" Input for creating DHCP options. """
+input NetworkConfigDhcpCreateOptionInput {
+  option: [NetworkConfigDhcpOptionCreateInput!]!
+}
+
+""" Input for creating DHCP relay groups. """
+input NetworkConfigDhcpCreateRelayGroupInput {
+  relayGroup: [NetworkConfigDhcpRelayGroupCreateInput!]!
+}
+
+""" Input for deleting DHCP options. """
+input NetworkConfigDhcpDeleteOptionInput {
+  id: [ID!]!
+}
+
+""" Input for deleting DHCP relay groups. """
+input NetworkConfigDhcpDeleteRelayGroupInput {
+  id: [ID!]!
+}
+
+""" Fields for creating a DHCP option. """
+input NetworkConfigDhcpOptionCreateInput {
+  description: String
+  tag: Int!
+  type: NetworkConfigDhcpOptionType!
+  value: String!
+}
+
+""" Conditions an option must match to appear in the result. """
+input NetworkConfigDhcpOptionFilterInput {
+  description: AdvancedStringFilterInput
+  tag: IntFilterInput
+  type: NetworkConfigDhcpOptionTypeFilterInput
+}
+
+""" Input for listing DHCP options. """
+input NetworkConfigDhcpOptionListInput {
+  filter: NetworkConfigDhcpOptionFilterInput
+  paging: PagingInput = {limit:100,from:0}
+  sort: NetworkConfigDhcpOptionSortInput! = {tag:{direction:ASC,priority:1}}
+}
+
+""" A reference to an existing DHCP option. NAME means its description, which is not unique - a description matching more than one option is rejected. """
+input NetworkConfigDhcpOptionRefInput {
+  by: ObjectRefBy! = ID
+  input: String!
+}
+
+""" The order DHCP options are returned in. """
+input NetworkConfigDhcpOptionSortInput {
+  tag: SortOrderInput
+}
+
+""" Match a DHCP option type. """
+input NetworkConfigDhcpOptionTypeFilterInput {
+  eq: NetworkConfigDhcpOptionType
+  in: [NetworkConfigDhcpOptionType!]
+  neq: NetworkConfigDhcpOptionType
+  nin: [NetworkConfigDhcpOptionType!]
+}
+
+""" Fields for updating an existing DHCP option, addressed by id. """
+input NetworkConfigDhcpOptionUpdateInput {
+  description: String
+  id: ID!
+  tag: Int
+  type: NetworkConfigDhcpOptionType
+  value: String
+}
+
+""" A desired DHCP option for setOption. With an id it updates the existing option; without an id a new option is created. """
+input NetworkConfigDhcpOptionUpsertInput {
+  description: String
+  id: ID
+  tag: Int!
+  type: NetworkConfigDhcpOptionType!
+  value: String!
+}
+
+""" Fields for creating a DHCP relay group. """
+input NetworkConfigDhcpRelayGroupCreateInput {
+  name: String!
+  server: [IPAddress!]!
+}
+
+""" Conditions a relay group must match to appear in the result. """
+input NetworkConfigDhcpRelayGroupFilterInput {
+  name: AdvancedStringFilterInput
+}
+
+""" Input for listing DHCP relay groups. """
+input NetworkConfigDhcpRelayGroupListInput {
+  filter: NetworkConfigDhcpRelayGroupFilterInput
+  paging: PagingInput = {limit:100,from:0}
+  sort: NetworkConfigDhcpRelayGroupSortInput! = {name:{direction:ASC,priority:1}}
+}
+
+""" A reference to an existing DHCP relay group, by id or name. """
+input NetworkConfigDhcpRelayGroupRefInput {
+  by: ObjectRefBy! = ID
+  input: String!
+}
+
+""" The order DHCP relay groups are returned in. """
+input NetworkConfigDhcpRelayGroupSortInput {
+  name: SortOrderInput
+}
+
+""" Fields for updating an existing DHCP relay group, addressed by id. """
+input NetworkConfigDhcpRelayGroupUpdateInput {
+  id: ID!
+  name: String
+  server: [IPAddress!]
+}
+
+""" A desired DHCP relay group for setRelayGroup. With an id it updates the existing group; without an id a new group is created. """
+input NetworkConfigDhcpRelayGroupUpsertInput {
+  id: ID
+  name: String!
+  server: [IPAddress!]!
+}
+
+""" Changes to the DHCP relay configuration. """
+input NetworkConfigDhcpRelayInput {
+  enabled: Boolean
+  group: NetworkConfigDhcpRelayGroupRefInput
+  timeout: Int
+}
+
+""" Input for replacing the whole DHCP options collection. """
+input NetworkConfigDhcpSetOptionInput {
+  option: [NetworkConfigDhcpOptionUpsertInput!]!
+}
+
+""" Input for replacing the whole DHCP relay-group catalog. """
+input NetworkConfigDhcpSetRelayGroupInput {
+  relayGroup: [NetworkConfigDhcpRelayGroupUpsertInput!]!
+}
+
+""" Input for updating existing DHCP options, addressed by id. """
+input NetworkConfigDhcpUpdateOptionInput {
+  option: [NetworkConfigDhcpOptionUpdateInput!]!
+}
+
+""" Input for updating existing DHCP relay groups, addressed by id. """
+input NetworkConfigDhcpUpdateRelayGroupInput {
+  relayGroup: [NetworkConfigDhcpRelayGroupUpdateInput!]!
+}
+
+""" Input for updating the account-level DHCP settings. """
+input NetworkConfigDhcpUpdateSettingsInput {
+  leaseTime: Int
+  relay: NetworkConfigDhcpRelayInput
+}
+
+""" Input for creating DNS forwarding rules. """
+input NetworkConfigDnsCreateForwardingRuleInput {
+  forwardingRule: [NetworkConfigDnsForwardingRuleCreateInput!]!
+}
+
+""" Input for creating DNS server sets. """
+input NetworkConfigDnsCreateServerSetInput {
+  dnsServerSet: [NetworkConfigDnsServerSetCreateInput!]!
+}
+
+""" Input for creating DNS suffix sets. """
+input NetworkConfigDnsCreateSuffixSetInput {
+  dnsSuffixSet: [NetworkConfigDnsSuffixSetCreateInput!]!
+}
+
+""" Input for deleting DNS forwarding rules. """
+input NetworkConfigDnsDeleteForwardingRuleInput {
+  id: [ID!]!
+}
+
+""" Input for deleting DNS server sets. """
+input NetworkConfigDnsDeleteServerSetInput {
+  id: [ID!]!
+}
+
+""" Input for deleting DNS suffix sets. """
+input NetworkConfigDnsDeleteSuffixSetInput {
+  id: [ID!]!
+}
+
+""" Fields for creating a DNS forwarding rule. """
+input NetworkConfigDnsForwardingRuleCreateInput {
+  domain: Domain!
+  server: [IPAddress!]!
+}
+
+""" Conditions a forwarding rule must match to appear in the result. """
+input NetworkConfigDnsForwardingRuleFilterInput {
+  domain: AdvancedStringFilterInput
+}
+
+""" Input for listing DNS forwarding rules. """
+input NetworkConfigDnsForwardingRuleListInput {
+  filter: NetworkConfigDnsForwardingRuleFilterInput
+  paging: PagingInput = {limit:100,from:0}
+  sort: NetworkConfigDnsForwardingRuleSortInput! = {domain:{direction:ASC,priority:1}}
+}
+
+""" A reference to an existing DNS forwarding rule. NAME means its domain, unique per account. """
+input NetworkConfigDnsForwardingRuleRefInput {
+  by: ObjectRefBy! = ID
+  input: String!
+}
+
+""" The order DNS forwarding rules are returned in. """
+input NetworkConfigDnsForwardingRuleSortInput {
+  domain: SortOrderInput
+}
+
+""" Fields for updating an existing DNS forwarding rule, addressed by id. """
+input NetworkConfigDnsForwardingRuleUpdateInput {
+  domain: Domain
+  id: ID!
+  server: [IPAddress!]
+}
+
+""" A desired DNS forwarding rule for setForwardingRule. With an id it updates the existing rule; without an id a new rule is created. """
+input NetworkConfigDnsForwardingRuleUpsertInput {
+  domain: Domain!
+  id: ID
+  server: [IPAddress!]!
+}
+
+""" Input for removing the DNS override from one or more sites. """
+input NetworkConfigDnsRemoveSiteSettingsInput {
+  site: [SiteRefInput!]!
+}
+
+""" Fields for creating a DNS server set. """
+input NetworkConfigDnsServerSetCreateInput {
+  name: String!
+  server: [IPAddress!]!
+}
+
+""" Conditions a DNS server set must match to appear in the result. """
+input NetworkConfigDnsServerSetFilterInput {
+  name: AdvancedStringFilterInput
+}
+
+""" Input for listing DNS server sets. """
+input NetworkConfigDnsServerSetListInput {
+  filter: NetworkConfigDnsServerSetFilterInput
+  paging: PagingInput = {limit:100,from:0}
+  sort: NetworkConfigDnsServerSetSortInput! = {name:{direction:ASC,priority:1}}
+}
+
+""" A reference to an existing DNS server set, by id or name. """
+input NetworkConfigDnsServerSetRefInput {
+  by: ObjectRefBy! = ID
+  input: String!
+}
+
+""" The order DNS server sets are returned in. """
+input NetworkConfigDnsServerSetSortInput {
+  name: SortOrderInput
+}
+
+""" Changes to an existing DNS server set, addressed by id. An omitted field is left unchanged. """
+input NetworkConfigDnsServerSetUpdateInput {
+  id: ID!
+  name: String
+  server: [IPAddress!]
+}
+
+""" A desired DNS server set for setDnsServerSet. With an id it replaces the existing set; without an id a new set is created. """
+input NetworkConfigDnsServerSetUpsertInput {
+  id: ID
+  name: String!
+  server: [IPAddress!]!
+}
+
+""" Input for replacing the whole DNS forwarding-rule collection. """
+input NetworkConfigDnsSetForwardingRuleInput {
+  forwardingRule: [NetworkConfigDnsForwardingRuleUpsertInput!]!
+}
+
+""" Input for replacing the whole DNS server set collection. """
+input NetworkConfigDnsSetServerSetInput {
+  dnsServerSet: [NetworkConfigDnsServerSetUpsertInput!]!
+}
+
+""" Input for replacing the whole DNS suffix set collection. """
+input NetworkConfigDnsSetSuffixSetInput {
+  dnsSuffixSet: [NetworkConfigDnsSuffixSetUpsertInput!]!
+}
+
+""" A DNS override for a single site, addressed by site id or name. Every field but `site` is optional and an omitted field is left unchanged (subject to "no secondary/suffix without primary"). """
+input NetworkConfigDnsSiteSettingsUpdateInput {
+  primaryServer: IPAddress
+  secondaryServer: IPAddress
+  site: SiteRefInput!
+  suffix: [Domain!]
+}
+
+""" Fields for creating a DNS suffix set. """
+input NetworkConfigDnsSuffixSetCreateInput {
+  name: String!
+  suffix: [Domain!]!
+}
+
+""" Conditions a DNS suffix set must match to appear in the result. """
+input NetworkConfigDnsSuffixSetFilterInput {
+  name: AdvancedStringFilterInput
+}
+
+""" Input for listing DNS suffix sets. """
+input NetworkConfigDnsSuffixSetListInput {
+  filter: NetworkConfigDnsSuffixSetFilterInput
+  paging: PagingInput = {limit:100,from:0}
+  sort: NetworkConfigDnsSuffixSetSortInput! = {name:{direction:ASC,priority:1}}
+}
+
+""" A reference to an existing DNS suffix set, by id or name. """
+input NetworkConfigDnsSuffixSetRefInput {
+  by: ObjectRefBy! = ID
+  input: String!
+}
+
+""" The order DNS suffix sets are returned in. """
+input NetworkConfigDnsSuffixSetSortInput {
+  name: SortOrderInput
+}
+
+""" Changes to an existing DNS suffix set, addressed by id. An omitted field is left unchanged. """
+input NetworkConfigDnsSuffixSetUpdateInput {
+  id: ID!
+  name: String
+  suffix: [Domain!]
+}
+
+""" A desired DNS suffix set for setDnsSuffixSet. With an id it replaces the existing set; without an id a new set is created. """
+input NetworkConfigDnsSuffixSetUpsertInput {
+  id: ID
+  name: String!
+  suffix: [Domain!]!
+}
+
+""" Input for updating existing DNS forwarding rules, addressed by id. """
+input NetworkConfigDnsUpdateForwardingRuleInput {
+  forwardingRule: [NetworkConfigDnsForwardingRuleUpdateInput!]!
+}
+
+""" Input for updating existing DNS server sets, addressed by id. """
+input NetworkConfigDnsUpdateServerSetInput {
+  dnsServerSet: [NetworkConfigDnsServerSetUpdateInput!]!
+}
+
+""" Input for updating the account-level DNS settings. Every field is optional and an omitted field is left unchanged, subject to "no secondary server or suffix without a primary server". """
+input NetworkConfigDnsUpdateSettingsInput {
+  acceptDnsRequestsOnLanInterfaceIp: Boolean
+  primaryServer: IPAddress
+  secondaryServer: IPAddress
+  suffix: [Domain!]
+}
+
+""" Input for creating or updating the DNS override for one or more sites. """
+input NetworkConfigDnsUpdateSiteSettingsInput {
+  siteSettings: [NetworkConfigDnsSiteSettingsUpdateInput!]!
+}
+
+""" Input for updating existing DNS suffix sets, addressed by id. """
+input NetworkConfigDnsUpdateSuffixSetInput {
+  dnsSuffixSet: [NetworkConfigDnsSuffixSetUpdateInput!]!
+}
+
 input NetworkDhcpSettingsInput {
   dhcpMicrosegmentation: Boolean
   dhcpType: DhcpType!
@@ -10440,6 +11108,43 @@ input PolicyElementRefInput {
   input: String!
 }
 
+"""
+Input for reordering an entire policy in a single mutation.
+All sections, rules, and sub-rules must be provided — including system elements.
+System sections and system rules must remain at their persisted positions (same array index).
+The desired order is determined by the natural (array index) order of the elements.
+"""
+input PolicyReorderInput {
+  sections: [PolicyReorderSectionInput!]!
+  subPolicyId: ID
+}
+
+"""
+Defines the desired order of a rule and its sub-rules within a section.
+Rules are reordered based on their natural position in the array.
+"""
+input PolicyReorderRuleInput {
+  ref: PolicyElementRefInput!
+  subRules: [PolicyReorderSubRuleInput!]! = []
+}
+
+"""
+Defines the desired order of a section and its rules within the policy.
+Sections are reordered based on their natural position in the array.
+"""
+input PolicyReorderSectionInput {
+  ref: PolicyElementRefInput!
+  rules: [PolicyReorderRuleInput!]!
+}
+
+"""
+Defines the desired order of sub-rules within a parent rule.
+Sub-rules are reordered based on their natural position in the array.
+"""
+input PolicyReorderSubRuleInput {
+  ref: PolicyElementRefInput!
+}
+
 input PolicyLevelEnumFilterInput {
   eq: PolicyLevelEnum
   in: [PolicyLevelEnum!]
@@ -10483,43 +11188,6 @@ input PolicyPublishRevisionInput {
 """ Input for removing a section from a policy """
 input PolicyRemoveSectionInput {
   id: ID!
-}
-
-"""
-Input for reordering an entire policy in a single mutation.
-All sections, rules, and sub-rules must be provided — including system elements.
-System sections and system rules must remain at their persisted positions (same array index).
-The desired order is determined by the natural (array index) order of the elements.
-"""
-input PolicyReorderInput {
-  sections: [PolicyReorderSectionInput!]!
-  subPolicyId: ID
-}
-
-"""
-Defines the desired order of a rule and its sub-rules within a section.
-Rules are reordered based on their natural position in the array.
-"""
-input PolicyReorderRuleInput {
-  ref: PolicyElementRefInput!
-  subRules: [PolicyReorderSubRuleInput!]! = []
-}
-
-"""
-Defines the desired order of a section and its rules within the policy.
-Sections are reordered based on their natural position in the array.
-"""
-input PolicyReorderSectionInput {
-  ref: PolicyElementRefInput!
-  rules: [PolicyReorderRuleInput!]!
-}
-
-"""
-Defines the desired order of sub-rules within a parent rule.
-Sub-rules are reordered based on their natural position in the array.
-"""
-input PolicyReorderSubRuleInput {
-  ref: PolicyElementRefInput!
 }
 
 """ Input for specifying a policy revision """
@@ -10743,7 +11411,8 @@ input PrivateAccessAddRuleDataInput {
   action: PrivateAccessPolicyActionInput! = {action:ALLOW}
   activePeriod: PolicyRuleActivePeriodInput! = {useEffectiveFrom:false,useExpiresAt:false}
   applications: PrivateAccessPolicyApplicationInput!
-  connectionOrigin: [PrivateAccessPolicyOriginEnum!]! = []
+  connectionOrigin: [PrivateAccessPolicyOriginEnum!]! = []@deprecated(reason: "use connectionsOriginList instead. Planned end-of-life (EoL) date: 08 25, 2026.")
+  connectionsOriginList: [ConnectionOriginsEnum!]! = []
   country: [CountryRefInput!]! = []
   description: String! = ""
   device: [DeviceProfileRefInput!]! = []
@@ -10809,7 +11478,8 @@ input PrivateAccessUpdateRuleDataInput {
   action: PrivateAccessPolicyActionUpdateInput
   activePeriod: PolicyRuleActivePeriodUpdateInput
   applications: PrivateAccessPolicyApplicationUpdateInput
-  connectionOrigin: [PrivateAccessPolicyOriginEnum!]
+  connectionOrigin: [PrivateAccessPolicyOriginEnum!] @deprecated(reason: "use connectionsOriginList instead. Planned end-of-life (EoL) date: 08 25, 2026.")
+  connectionsOriginList: [ConnectionOriginsEnum!]
   country: [CountryRefInput!]
   description: String
   device: [DeviceProfileRefInput!]
@@ -11086,8 +11756,36 @@ input SandboxReportsSortInput {
   reportCreateDate: SortOrderInput
 }
 
+input SecondaryAwsVSocketConfigInput {
+  eniIpAddress: IPAddress!
+  eniIpSubnet: NetworkSubnet!
+  routeTableId: String!
+}
+
+input SecondaryAzureVSocketConfigInput {
+  floatingIp: IPAddress!
+  interfaceIp: IPAddress!
+}
+
+input SecondaryGcpVSocketConfigInput {
+  interfaceIp: IPAddress!
+  loadBalancerIp: IPAddress!
+}
+
 input SecondaryGcpVSocketInput {
   id: ID!
+}
+
+"""
+Secondary vSocket parameters supplied at site creation to build a vSocket HA site with both sockets.
+Provide exactly one block, and it must correspond to the site's connectionType — supported for the
+cloud vSockets only (SOCKET_AWS1500, SOCKET_AZ1500, SOCKET_GCP1500). Any other connectionType, or a
+block that does not match it, is rejected.
+"""
+input SecondaryVSocketAtCreationInput {
+  aws: SecondaryAwsVSocketConfigInput
+  azure: SecondaryAzureVSocketConfigInput
+  gcp: SecondaryGcpVSocketConfigInput
 }
 
 input SecurityConfigInput {
@@ -13920,6 +14618,8 @@ enum AppStatsFieldName {
   application_risk_level
   """ Risk score of the application, based on Cato's risk assessment. CMA Name: Application Risk Score """
   application_risk_score
+  """ Current effective risk score of the application (latest classification, not historical). CMA Name: Application Risk Score Current State """
+  application_risk_score_current_state
   """ Application type (Custom, Private or System). CMA Name: Application Type """
   application_type
   """ Cato system category. CMA Name: Categories """
@@ -14030,6 +14730,8 @@ enum AppStatsFieldName {
   is_flow_terminated
   """ Is the app for this event defined as a sanctioned app? (True/False). CMA Name: Is Sanctioned App """
   is_sanctioned_app
+  """ Current effective sanctioned-app state of the application (latest classification, not historical). CMA Name: Is Sanctioned App Current State """
+  is_sanctioned_app_current_state
   """ The user's job title. CMA Name: Job Title """
   job_title
   """ Matched network rule. CMA Name: Network Rule """
@@ -14485,6 +15187,18 @@ enum ConnectionOriginEnum {
   SITE
 }
 
+""" Defines Origin of the connections """
+enum ConnectionOriginsEnum {
+  """ User is connecting from the Cato browser """
+  REMOTE_BROWSER
+  """ User is connecting from the client """
+  REMOTE_CLIENT
+  """ User is connecting from the browser extension """
+  REMOTE_EXTENSION
+  """ User is connecting from the site """
+  SITE
+}
+
 enum ConnectionTypeEnum {
   Host
   Site
@@ -14773,6 +15487,8 @@ enum EventFieldName {
   action
   """ A list of actions taken, if more than one action was taken as defined by a policy. CMA Name: Actions Taken """
   actions_taken
+  """ Browser engine used for interactive client authentication. CMA Name: Active Auth Browser """
+  active_auth_browser
   """ The activity resource ID being referenced with resource type. CMA Name: Activity Resource ID """
   activity_resource_id
   """ Defines the type of entity performing the action, helping to distinguish between different categories of users. CMA Name: Actor Type """
@@ -14789,6 +15505,8 @@ enum EventFieldName {
   alert_id
   """ Alert name. CMA Name: Alert Name """
   alert_name
+  """ JSON array of alerts associated with the story. Only available for native data integration created in the CMA and eventsFeed API. Not available in the events or eventsTimeSeries API. """
+  alerts
   """ Always-on Configuration. CMA Name: Always-On """
   always_on_configuration
   """ Analyst Verdict. CMA Name: Analyst Verdict """
@@ -14823,6 +15541,8 @@ enum EventFieldName {
   atp_feed_reasons
   """ Unique identifier of the audit record. CMA Name: Audit ID """
   audit_id
+  """ Reason the interactive client authentication browser used a fallback engine. CMA Name: Auth Browser Fallback Reason """
+  auth_browser_fallback_reason
   """ Connectivity authentication method: unauthenticated, OATH2, LDAP or VPN. CMA Name: Authentication Method """
   auth_method
   """ Examples: MFA or password. CMA Name: Authentication Type """
@@ -14841,6 +15561,8 @@ enum EventFieldName {
   bgp_peer_asn
   """ BGP IP for remote peer. CMA Name: BGP Peer IP """
   bgp_peer_ip
+  """ Name of the BGP peer connection. CMA Name: Bgp Peer Name """
+  bgp_peer_name
   """ CIDR for BGP route. CMA Name: BGP Router CIDR """
   bgp_route_cidr
   """ BGP disconnect error message. CMA Name: BGP Disconnect Sub-error Code """
@@ -14892,6 +15614,8 @@ enum EventFieldName {
   collaborators
   """ Confidence Level. CMA Name: Confidence Level """
   confidence_level
+  """ Browser engine configured for interactive client authentication. CMA Name: Configured Auth Browser """
+  configured_auth_browser
   """ For hosts configured with a static IP in the Cato Management Application, the host name. CMA Name: Configured Host Name """
   configured_host_name
   """ The algorithm that is used (CUBIC /NewReno / BBR). CMA Name: Congestion Algorithm """
@@ -14978,6 +15702,8 @@ enum EventFieldName {
   device_certificate
   """ The device compliance state at the time of the event, as reported by Intune. CMA Name: Device Compliance State """
   device_compliance_state
+  """ Risk score of device from CrowdStrike. CMA Name: Device Crowdstrike Risk Score """
+  device_crowdstrike_risk_score
   """ Unique Cato ID for devices. CMA Name: Device ID """
   device_id
   """ Device Manufacturer. CMA Name: Device Manufacturer """
@@ -15080,6 +15806,8 @@ enum EventFieldName {
   final_object_status
   """ Uniquely identifies a traffic flow and enables correlation of events and other records related to the same flow. Only available for native data integration created in the CMA and eventsFeed API. Not available in the events or eventsTimeSeries API. """
   flow_id
+  """ JSON array of network flows associated with the story. Only available for native data integration created in the CMA and eventsFeed API. Not available in the events or eventsTimeSeries API. """
+  flows
   """ Amount of flows for a given incident. CMA Name: Flows Cardinality """
   flows_cardinality
   """ Full path URL application activity. CMA Name: Full Path URL """
@@ -15128,6 +15856,8 @@ enum EventFieldName {
   invocation_id
   """ Network protocol for this event. CMA Name: IP Protocol """
   ip_protocol
+  """ Indicates whether the the story is acknowledged. CMA Name: Is Acknowledged """
+  is_acknowledged
   """ Classifies users based on their permissions. CMA Name: Is Admin """
   is_admin
   """ Indicates whether an activity requires administrative permissions. CMA Name: Is Admin Activity """
@@ -15140,6 +15870,8 @@ enum EventFieldName {
   is_encrypted
   """ Is Managed. CMA Name: Is Managed """
   is_managed
+  """ Indicates whether the story is muted. CMA Name: Is Muted """
+  is_muted
   """ Is Public. CMA Name: Is Public """
   is_public
   """ Is the app for this event defined as a sanctioned app? (True/False). CMA Name: Is Sanctioned App """
@@ -15184,6 +15916,8 @@ enum EventFieldName {
   message_id
   """ Name of the monitored metric (e.g. avg_http_latency). CMA Name: Metric """
   metric
+  """ Units used by the incident metric. CMA Name: Metric Units """
+  metric_units
   """ Value of the monitored metric. CMA Name: Metric Value """
   metric_value
   """ Mitre attack subtechniques. CMA Name: Mitre Attack Subtechniques """
@@ -15414,6 +16148,8 @@ enum EventFieldName {
   threat_type
   """ Result of malware event (clean indicates a safe file). CMA Name: Threat Verdict """
   threat_verdict
+  """ Ticket associated with the story. CMA Name: Ticket """
+  ticket
   """ Time stamp of the event (Linux epoch format). CMA Name: Time """
   time
   """ Time stamp of the event (Human-readable format). Only available for native data integration created in the CMA and eventsFeed API. Not available in the events or eventsTimeSeries API. """
@@ -15504,6 +16240,8 @@ enum EventFieldName {
   vendor_user_id
   """ Version of the vendor’s client application. CMA Name: Vendor Version """
   vendor_version
+  """ Additional information provided with the analyst verdict. CMA Name: Verdict Elaboration """
+  verdict_elaboration
   """ Unique Cato Visible ID for devices. CMA Name: Device ID """
   visible_device_id @deprecated(reason: "use device_id instead. Planned end-of-life (EoL) date: April 1, 2026.")
   """ Lan access Allowed / Blocked. CMA Name: LAN Access """
@@ -16070,6 +16808,16 @@ enum MsResourceVerdictEnum {
   Informational
   Malicious
   Suspicious
+}
+
+""" The type of a DHCP option value. """
+enum NetworkConfigDhcpOptionType {
+  """ ASCII text. """
+  ASCII
+  """ Hexadecimal bytes. """
+  HEX
+  """ An IP address. """
+  IP
 }
 
 enum NetworkEventSourceEnum {
