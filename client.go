@@ -78201,7 +78201,7 @@ type PolicySocketLanReorderPolicy_Policy_SocketLan_ReorderPolicy_Policy_Rules_Ru
 	ID          string                                                                                                  "json:\"id\" graphql:\"id\""
 	Index       int64                                                                                                   "json:\"index\" graphql:\"index\""
 	Name        string                                                                                                  "json:\"name\" graphql:\"name\""
-	Section     PolicySocketLanReorderPolicy_Policy_SocketLan_ReorderPolicy_Policy_Rules_Rule_Firewall_Rule_Section     "json:\"section\" graphql:\"section\""
+	Section     *PolicySocketLanReorderPolicy_Policy_SocketLan_ReorderPolicy_Policy_Rules_Rule_Firewall_Rule_Section    "json:\"section,omitempty\" graphql:\"section\""
 	Service     PolicySocketLanReorderPolicy_Policy_SocketLan_ReorderPolicy_Policy_Rules_Rule_Firewall_Rule_Service     "json:\"service\" graphql:\"service\""
 	Source      PolicySocketLanReorderPolicy_Policy_SocketLan_ReorderPolicy_Policy_Rules_Rule_Firewall_Rule_Source      "json:\"source\" graphql:\"source\""
 	Tracking    PolicySocketLanReorderPolicy_Policy_SocketLan_ReorderPolicy_Policy_Rules_Rule_Firewall_Rule_Tracking    "json:\"tracking\" graphql:\"tracking\""
@@ -78265,7 +78265,7 @@ func (t *PolicySocketLanReorderPolicy_Policy_SocketLan_ReorderPolicy_Policy_Rule
 	if t == nil {
 		t = &PolicySocketLanReorderPolicy_Policy_SocketLan_ReorderPolicy_Policy_Rules_Rule_Firewall_Rule{}
 	}
-	return &t.Section
+	return t.Section
 }
 func (t *PolicySocketLanReorderPolicy_Policy_SocketLan_ReorderPolicy_Policy_Rules_Rule_Firewall_Rule) GetService() *PolicySocketLanReorderPolicy_Policy_SocketLan_ReorderPolicy_Policy_Rules_Rule_Firewall_Rule_Service {
 	if t == nil {

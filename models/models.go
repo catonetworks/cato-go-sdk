@@ -865,14 +865,15 @@ type AddSocketAddOnCardPayload struct {
 }
 
 type AddSocketSiteInput struct {
-	ConnectionType     SiteConnectionTypeEnum `json:"connectionType"`
-	Description        *string                `json:"description,omitempty"`
-	Name               string                 `json:"name"`
-	NativeNetworkRange string                 `json:"nativeNetworkRange"`
-	SiteLocation       *AddSiteLocationInput  `json:"siteLocation"`
-	SiteType           SiteType               `json:"siteType"`
-	TranslatedSubnet   *string                `json:"translatedSubnet,omitempty"`
-	Vlan               *scalars.Vlan          `json:"vlan,omitempty"`
+	ConnectionType     SiteConnectionTypeEnum           `json:"connectionType"`
+	Description        *string                          `json:"description,omitempty"`
+	Name               string                           `json:"name"`
+	NativeNetworkRange string                           `json:"nativeNetworkRange"`
+	SecondaryVSocket   *SecondaryVSocketAtCreationInput `json:"secondaryVSocket,omitempty"`
+	SiteLocation       *AddSiteLocationInput            `json:"siteLocation"`
+	SiteType           SiteType                         `json:"siteType"`
+	TranslatedSubnet   *string                          `json:"translatedSubnet,omitempty"`
+	Vlan               *scalars.Vlan                    `json:"vlan,omitempty"`
 }
 
 type AddSocketSitePayload struct {
@@ -8805,6 +8806,665 @@ func (this NOCaaSLicense) GetSku() LicenseSku        { return this.Sku }
 func (this NOCaaSLicense) GetStartDate() *string     { return this.StartDate }
 func (this NOCaaSLicense) GetStatus() LicenseStatus  { return this.Status }
 
+// Input for creating DHCP options.
+type NetworkConfigDhcpCreateOptionInput struct {
+	Option []*NetworkConfigDhcpOptionCreateInput `json:"option"`
+}
+
+// Result of creating DHCP options.
+type NetworkConfigDhcpCreateOptionPayload struct {
+	Option []*NetworkConfigDhcpOption `json:"option"`
+}
+
+// Input for creating DHCP relay groups.
+type NetworkConfigDhcpCreateRelayGroupInput struct {
+	RelayGroup []*NetworkConfigDhcpRelayGroupCreateInput `json:"relayGroup"`
+}
+
+// Result of creating DHCP relay groups.
+type NetworkConfigDhcpCreateRelayGroupPayload struct {
+	RelayGroup []*NetworkConfigDhcpRelayGroup `json:"relayGroup"`
+}
+
+// Input for deleting DHCP options.
+type NetworkConfigDhcpDeleteOptionInput struct {
+	ID []string `json:"id"`
+}
+
+// Result of deleting DHCP options.
+type NetworkConfigDhcpDeleteOptionPayload struct {
+	Option []*NetworkConfigDhcpOption `json:"option"`
+}
+
+// Input for deleting DHCP relay groups.
+type NetworkConfigDhcpDeleteRelayGroupInput struct {
+	ID []string `json:"id"`
+}
+
+// Result of deleting DHCP relay groups.
+type NetworkConfigDhcpDeleteRelayGroupPayload struct {
+	RelayGroup []*NetworkConfigDhcpRelayGroup `json:"relayGroup"`
+}
+
+// DHCP write operations for the account.
+type NetworkConfigDhcpMutations struct {
+	CreateOption     *NetworkConfigDhcpCreateOptionPayload     `json:"createOption,omitempty"`
+	CreateRelayGroup *NetworkConfigDhcpCreateRelayGroupPayload `json:"createRelayGroup,omitempty"`
+	DeleteOption     *NetworkConfigDhcpDeleteOptionPayload     `json:"deleteOption,omitempty"`
+	DeleteRelayGroup *NetworkConfigDhcpDeleteRelayGroupPayload `json:"deleteRelayGroup,omitempty"`
+	SetOption        *NetworkConfigDhcpSetOptionPayload        `json:"setOption,omitempty"`
+	SetRelayGroup    *NetworkConfigDhcpSetRelayGroupPayload    `json:"setRelayGroup,omitempty"`
+	UpdateOption     *NetworkConfigDhcpUpdateOptionPayload     `json:"updateOption,omitempty"`
+	UpdateRelayGroup *NetworkConfigDhcpUpdateRelayGroupPayload `json:"updateRelayGroup,omitempty"`
+	UpdateSettings   *NetworkConfigDhcpUpdateSettingsPayload   `json:"updateSettings,omitempty"`
+}
+
+// A single DHCP option (a code/value pair advertised to DHCP clients).
+type NetworkConfigDhcpOption struct {
+	Description *string                     `json:"description,omitempty"`
+	ID          string                      `json:"id"`
+	Tag         int64                       `json:"tag"`
+	Type        NetworkConfigDhcpOptionType `json:"type"`
+	Value       string                      `json:"value"`
+}
+
+// Fields for creating a DHCP option.
+type NetworkConfigDhcpOptionCreateInput struct {
+	Description *string                     `json:"description,omitempty"`
+	Tag         int64                       `json:"tag"`
+	Type        NetworkConfigDhcpOptionType `json:"type"`
+	Value       string                      `json:"value"`
+}
+
+// Conditions an option must match to appear in the result.
+type NetworkConfigDhcpOptionFilterInput struct {
+	Description *AdvancedStringFilterInput              `json:"description,omitempty"`
+	Tag         *IntFilterInput                         `json:"tag,omitempty"`
+	Type        *NetworkConfigDhcpOptionTypeFilterInput `json:"type,omitempty"`
+}
+
+// Input for listing DHCP options.
+type NetworkConfigDhcpOptionListInput struct {
+	Filter *NetworkConfigDhcpOptionFilterInput `json:"filter,omitempty"`
+	Paging *PagingInput                        `json:"paging,omitempty"`
+	Sort   *NetworkConfigDhcpOptionSortInput   `json:"sort"`
+}
+
+// Response payload for the DHCP options list.
+type NetworkConfigDhcpOptionListPayload struct {
+	Items  []*NetworkConfigDhcpOption `json:"items"`
+	Paging *PageInfo                  `json:"paging"`
+}
+
+// A reference to an existing DHCP option. NAME means its description, which is not unique - a description matching more than one option is rejected.
+type NetworkConfigDhcpOptionRefInput struct {
+	By    ObjectRefBy `json:"by"`
+	Input string      `json:"input"`
+}
+
+// The order DHCP options are returned in.
+type NetworkConfigDhcpOptionSortInput struct {
+	Tag *SortOrderInput `json:"tag,omitempty"`
+}
+
+// Match a DHCP option type.
+type NetworkConfigDhcpOptionTypeFilterInput struct {
+	Eq  *NetworkConfigDhcpOptionType  `json:"eq,omitempty"`
+	In  []NetworkConfigDhcpOptionType `json:"in,omitempty"`
+	Neq *NetworkConfigDhcpOptionType  `json:"neq,omitempty"`
+	Nin []NetworkConfigDhcpOptionType `json:"nin,omitempty"`
+}
+
+// Fields for updating an existing DHCP option, addressed by id.
+type NetworkConfigDhcpOptionUpdateInput struct {
+	Description *string                      `json:"description,omitempty"`
+	ID          string                       `json:"id"`
+	Tag         *int64                       `json:"tag,omitempty"`
+	Type        *NetworkConfigDhcpOptionType `json:"type,omitempty"`
+	Value       *string                      `json:"value,omitempty"`
+}
+
+// A desired DHCP option for setOption. With an id it updates the existing option; without an id a new option is created.
+type NetworkConfigDhcpOptionUpsertInput struct {
+	Description *string                     `json:"description,omitempty"`
+	ID          *string                     `json:"id,omitempty"`
+	Tag         int64                       `json:"tag"`
+	Type        NetworkConfigDhcpOptionType `json:"type"`
+	Value       string                      `json:"value"`
+}
+
+// DHCP read operations for the account.
+type NetworkConfigDhcpQueries struct {
+	Option         *NetworkConfigDhcpOption                `json:"option,omitempty"`
+	OptionList     *NetworkConfigDhcpOptionListPayload     `json:"optionList,omitempty"`
+	RelayGroup     *NetworkConfigDhcpRelayGroup            `json:"relayGroup,omitempty"`
+	RelayGroupList *NetworkConfigDhcpRelayGroupListPayload `json:"relayGroupList,omitempty"`
+	Settings       *NetworkConfigDhcpSettings              `json:"settings,omitempty"`
+}
+
+// DHCP relay configuration for the account.
+type NetworkConfigDhcpRelay struct {
+	Enabled bool                            `json:"enabled"`
+	Group   *NetworkConfigDhcpRelayGroupRef `json:"group,omitempty"`
+	Timeout *int64                          `json:"timeout,omitempty"`
+}
+
+// A named group of DHCP relay servers.
+type NetworkConfigDhcpRelayGroup struct {
+	ID     string   `json:"id"`
+	Name   string   `json:"name"`
+	Server []string `json:"server"`
+}
+
+// Fields for creating a DHCP relay group.
+type NetworkConfigDhcpRelayGroupCreateInput struct {
+	Name   string   `json:"name"`
+	Server []string `json:"server"`
+}
+
+// Conditions a relay group must match to appear in the result.
+type NetworkConfigDhcpRelayGroupFilterInput struct {
+	Name *AdvancedStringFilterInput `json:"name,omitempty"`
+}
+
+// Input for listing DHCP relay groups.
+type NetworkConfigDhcpRelayGroupListInput struct {
+	Filter *NetworkConfigDhcpRelayGroupFilterInput `json:"filter,omitempty"`
+	Paging *PagingInput                            `json:"paging,omitempty"`
+	Sort   *NetworkConfigDhcpRelayGroupSortInput   `json:"sort"`
+}
+
+// Response payload for the DHCP relay-groups list.
+type NetworkConfigDhcpRelayGroupListPayload struct {
+	Items  []*NetworkConfigDhcpRelayGroup `json:"items"`
+	Paging *PageInfo                      `json:"paging"`
+}
+
+// A reference to an existing DHCP relay group.
+type NetworkConfigDhcpRelayGroupRef struct {
+	ID   string `json:"id"`
+	Name string `json:"name"`
+}
+
+// A reference to an existing DHCP relay group, by id or name.
+type NetworkConfigDhcpRelayGroupRefInput struct {
+	By    ObjectRefBy `json:"by"`
+	Input string      `json:"input"`
+}
+
+// The order DHCP relay groups are returned in.
+type NetworkConfigDhcpRelayGroupSortInput struct {
+	Name *SortOrderInput `json:"name,omitempty"`
+}
+
+// Fields for updating an existing DHCP relay group, addressed by id.
+type NetworkConfigDhcpRelayGroupUpdateInput struct {
+	ID     string   `json:"id"`
+	Name   *string  `json:"name,omitempty"`
+	Server []string `json:"server,omitempty"`
+}
+
+// A desired DHCP relay group for setRelayGroup. With an id it updates the existing group; without an id a new group is created.
+type NetworkConfigDhcpRelayGroupUpsertInput struct {
+	ID     *string  `json:"id,omitempty"`
+	Name   string   `json:"name"`
+	Server []string `json:"server"`
+}
+
+// Changes to the DHCP relay configuration.
+type NetworkConfigDhcpRelayInput struct {
+	Enabled *bool                                `json:"enabled,omitempty"`
+	Group   *NetworkConfigDhcpRelayGroupRefInput `json:"group,omitempty"`
+	Timeout *int64                               `json:"timeout,omitempty"`
+}
+
+// Input for replacing the whole DHCP options collection.
+type NetworkConfigDhcpSetOptionInput struct {
+	Option []*NetworkConfigDhcpOptionUpsertInput `json:"option"`
+}
+
+// Result of replacing the DHCP options collection.
+type NetworkConfigDhcpSetOptionPayload struct {
+	Option []*NetworkConfigDhcpOption `json:"option"`
+}
+
+// Input for replacing the whole DHCP relay-group catalog.
+type NetworkConfigDhcpSetRelayGroupInput struct {
+	RelayGroup []*NetworkConfigDhcpRelayGroupUpsertInput `json:"relayGroup"`
+}
+
+// Result of replacing the DHCP relay-group catalog.
+type NetworkConfigDhcpSetRelayGroupPayload struct {
+	RelayGroup []*NetworkConfigDhcpRelayGroup `json:"relayGroup"`
+}
+
+// Account-level DHCP settings. Exactly one instance exists per account.
+type NetworkConfigDhcpSettings struct {
+	LeaseTime int64                   `json:"leaseTime"`
+	Relay     *NetworkConfigDhcpRelay `json:"relay"`
+}
+
+// Input for updating existing DHCP options, addressed by id.
+type NetworkConfigDhcpUpdateOptionInput struct {
+	Option []*NetworkConfigDhcpOptionUpdateInput `json:"option"`
+}
+
+// Result of updating DHCP options.
+type NetworkConfigDhcpUpdateOptionPayload struct {
+	Option []*NetworkConfigDhcpOption `json:"option"`
+}
+
+// Input for updating existing DHCP relay groups, addressed by id.
+type NetworkConfigDhcpUpdateRelayGroupInput struct {
+	RelayGroup []*NetworkConfigDhcpRelayGroupUpdateInput `json:"relayGroup"`
+}
+
+// Result of updating DHCP relay groups.
+type NetworkConfigDhcpUpdateRelayGroupPayload struct {
+	RelayGroup []*NetworkConfigDhcpRelayGroup `json:"relayGroup"`
+}
+
+// Input for updating the account-level DHCP settings.
+type NetworkConfigDhcpUpdateSettingsInput struct {
+	LeaseTime *int64                       `json:"leaseTime,omitempty"`
+	Relay     *NetworkConfigDhcpRelayInput `json:"relay,omitempty"`
+}
+
+// Result of updating the account-level DHCP settings.
+type NetworkConfigDhcpUpdateSettingsPayload struct {
+	Settings *NetworkConfigDhcpSettings `json:"settings"`
+}
+
+// Input for creating DNS forwarding rules.
+type NetworkConfigDNSCreateForwardingRuleInput struct {
+	ForwardingRule []*NetworkConfigDNSForwardingRuleCreateInput `json:"forwardingRule"`
+}
+
+// Result of creating DNS forwarding rules.
+type NetworkConfigDNSCreateForwardingRulePayload struct {
+	ForwardingRule []*NetworkConfigDNSForwardingRule `json:"forwardingRule"`
+}
+
+// Input for creating DNS server sets.
+type NetworkConfigDNSCreateServerSetInput struct {
+	DNSServerSet []*NetworkConfigDNSServerSetCreateInput `json:"dnsServerSet"`
+}
+
+// Result of creating DNS server sets.
+type NetworkConfigDNSCreateServerSetPayload struct {
+	DNSServerSet []*NetworkConfigDNSServerSet `json:"dnsServerSet"`
+}
+
+// Input for creating DNS suffix sets.
+type NetworkConfigDNSCreateSuffixSetInput struct {
+	DNSSuffixSet []*NetworkConfigDNSSuffixSetCreateInput `json:"dnsSuffixSet"`
+}
+
+// Result of creating DNS suffix sets.
+type NetworkConfigDNSCreateSuffixSetPayload struct {
+	DNSSuffixSet []*NetworkConfigDNSSuffixSet `json:"dnsSuffixSet"`
+}
+
+// Input for deleting DNS forwarding rules.
+type NetworkConfigDNSDeleteForwardingRuleInput struct {
+	ID []string `json:"id"`
+}
+
+// Result of deleting DNS forwarding rules.
+type NetworkConfigDNSDeleteForwardingRulePayload struct {
+	ForwardingRule []*NetworkConfigDNSForwardingRule `json:"forwardingRule"`
+}
+
+// Input for deleting DNS server sets.
+type NetworkConfigDNSDeleteServerSetInput struct {
+	ID []string `json:"id"`
+}
+
+// Result of deleting DNS server sets.
+type NetworkConfigDNSDeleteServerSetPayload struct {
+	DNSServerSet []*NetworkConfigDNSServerSet `json:"dnsServerSet"`
+}
+
+// Input for deleting DNS suffix sets.
+type NetworkConfigDNSDeleteSuffixSetInput struct {
+	ID []string `json:"id"`
+}
+
+// Result of deleting DNS suffix sets.
+type NetworkConfigDNSDeleteSuffixSetPayload struct {
+	DNSSuffixSet []*NetworkConfigDNSSuffixSet `json:"dnsSuffixSet"`
+}
+
+// A DNS forwarding rule: DNS queries for `domain` are forwarded to `server`.
+type NetworkConfigDNSForwardingRule struct {
+	Domain string   `json:"domain"`
+	ID     string   `json:"id"`
+	Server []string `json:"server"`
+}
+
+// Fields for creating a DNS forwarding rule.
+type NetworkConfigDNSForwardingRuleCreateInput struct {
+	Domain string   `json:"domain"`
+	Server []string `json:"server"`
+}
+
+// Conditions a forwarding rule must match to appear in the result.
+type NetworkConfigDNSForwardingRuleFilterInput struct {
+	Domain *AdvancedStringFilterInput `json:"domain,omitempty"`
+}
+
+// Input for listing DNS forwarding rules.
+type NetworkConfigDNSForwardingRuleListInput struct {
+	Filter *NetworkConfigDNSForwardingRuleFilterInput `json:"filter,omitempty"`
+	Paging *PagingInput                               `json:"paging,omitempty"`
+	Sort   *NetworkConfigDNSForwardingRuleSortInput   `json:"sort"`
+}
+
+// Response payload for the DNS forwarding-rules list.
+type NetworkConfigDNSForwardingRuleListPayload struct {
+	Items  []*NetworkConfigDNSForwardingRule `json:"items"`
+	Paging *PageInfo                         `json:"paging"`
+}
+
+// A reference to an existing DNS forwarding rule. NAME means its domain, unique per account.
+type NetworkConfigDNSForwardingRuleRefInput struct {
+	By    ObjectRefBy `json:"by"`
+	Input string      `json:"input"`
+}
+
+// The order DNS forwarding rules are returned in.
+type NetworkConfigDNSForwardingRuleSortInput struct {
+	Domain *SortOrderInput `json:"domain,omitempty"`
+}
+
+// Fields for updating an existing DNS forwarding rule, addressed by id.
+type NetworkConfigDNSForwardingRuleUpdateInput struct {
+	Domain *string  `json:"domain,omitempty"`
+	ID     string   `json:"id"`
+	Server []string `json:"server,omitempty"`
+}
+
+// A desired DNS forwarding rule for setForwardingRule. With an id it updates the existing rule; without an id a new rule is created.
+type NetworkConfigDNSForwardingRuleUpsertInput struct {
+	Domain string   `json:"domain"`
+	ID     *string  `json:"id,omitempty"`
+	Server []string `json:"server"`
+}
+
+// DNS write operations for the account.
+type NetworkConfigDNSMutations struct {
+	CreateForwardingRule *NetworkConfigDNSCreateForwardingRulePayload `json:"createForwardingRule,omitempty"`
+	CreateServerSet      *NetworkConfigDNSCreateServerSetPayload      `json:"createServerSet,omitempty"`
+	CreateSuffixSet      *NetworkConfigDNSCreateSuffixSetPayload      `json:"createSuffixSet,omitempty"`
+	DeleteForwardingRule *NetworkConfigDNSDeleteForwardingRulePayload `json:"deleteForwardingRule,omitempty"`
+	DeleteServerSet      *NetworkConfigDNSDeleteServerSetPayload      `json:"deleteServerSet,omitempty"`
+	DeleteSuffixSet      *NetworkConfigDNSDeleteSuffixSetPayload      `json:"deleteSuffixSet,omitempty"`
+	RemoveSiteSettings   *NetworkConfigDNSRemoveSiteSettingsPayload   `json:"removeSiteSettings,omitempty"`
+	SetForwardingRule    *NetworkConfigDNSSetForwardingRulePayload    `json:"setForwardingRule,omitempty"`
+	SetServerSet         *NetworkConfigDNSSetServerSetPayload         `json:"setServerSet,omitempty"`
+	SetSuffixSet         *NetworkConfigDNSSetSuffixSetPayload         `json:"setSuffixSet,omitempty"`
+	UpdateForwardingRule *NetworkConfigDNSUpdateForwardingRulePayload `json:"updateForwardingRule,omitempty"`
+	UpdateServerSet      *NetworkConfigDNSUpdateServerSetPayload      `json:"updateServerSet,omitempty"`
+	UpdateSettings       *NetworkConfigDNSUpdateSettingsPayload       `json:"updateSettings,omitempty"`
+	UpdateSiteSettings   *NetworkConfigDNSUpdateSiteSettingsPayload   `json:"updateSiteSettings,omitempty"`
+	UpdateSuffixSet      *NetworkConfigDNSUpdateSuffixSetPayload      `json:"updateSuffixSet,omitempty"`
+}
+
+// DNS read operations for the account.
+type NetworkConfigDNSQueries struct {
+	ForwardingRule     *NetworkConfigDNSForwardingRule            `json:"forwardingRule,omitempty"`
+	ForwardingRuleList *NetworkConfigDNSForwardingRuleListPayload `json:"forwardingRuleList,omitempty"`
+	ServerSet          *NetworkConfigDNSServerSet                 `json:"serverSet,omitempty"`
+	ServerSetList      *NetworkConfigDNSServerSetListPayload      `json:"serverSetList,omitempty"`
+	Settings           *NetworkConfigDNSSettings                  `json:"settings,omitempty"`
+	SiteSettings       *NetworkConfigDNSSiteSettings              `json:"siteSettings,omitempty"`
+	SuffixSet          *NetworkConfigDNSSuffixSet                 `json:"suffixSet,omitempty"`
+	SuffixSetList      *NetworkConfigDNSSuffixSetListPayload      `json:"suffixSetList,omitempty"`
+}
+
+// Input for removing the DNS override from one or more sites.
+type NetworkConfigDNSRemoveSiteSettingsInput struct {
+	Site []*SiteRefInput `json:"site"`
+}
+
+// Result of removing site DNS overrides.
+type NetworkConfigDNSRemoveSiteSettingsPayload struct {
+	SiteSettings []*NetworkConfigDNSSiteSettings `json:"siteSettings"`
+}
+
+// A named set of DNS servers a DHCP profile can hand out.
+type NetworkConfigDNSServerSet struct {
+	Audit  *AuditingMetadata `json:"audit,omitempty"`
+	ID     string            `json:"id"`
+	Name   string            `json:"name"`
+	Server []string          `json:"server"`
+}
+
+// Fields for creating a DNS server set.
+type NetworkConfigDNSServerSetCreateInput struct {
+	Name   string   `json:"name"`
+	Server []string `json:"server"`
+}
+
+// Conditions a DNS server set must match to appear in the result.
+type NetworkConfigDNSServerSetFilterInput struct {
+	Name *AdvancedStringFilterInput `json:"name,omitempty"`
+}
+
+// Input for listing DNS server sets.
+type NetworkConfigDNSServerSetListInput struct {
+	Filter *NetworkConfigDNSServerSetFilterInput `json:"filter,omitempty"`
+	Paging *PagingInput                          `json:"paging,omitempty"`
+	Sort   *NetworkConfigDNSServerSetSortInput   `json:"sort"`
+}
+
+// Response payload for the DNS server sets list.
+type NetworkConfigDNSServerSetListPayload struct {
+	Items  []*NetworkConfigDNSServerSet `json:"items"`
+	Paging *PageInfo                    `json:"paging"`
+}
+
+// A reference to an existing DNS server set, by id or name.
+type NetworkConfigDNSServerSetRefInput struct {
+	By    ObjectRefBy `json:"by"`
+	Input string      `json:"input"`
+}
+
+// The order DNS server sets are returned in.
+type NetworkConfigDNSServerSetSortInput struct {
+	Name *SortOrderInput `json:"name,omitempty"`
+}
+
+// Changes to an existing DNS server set, addressed by id. An omitted field is left unchanged.
+type NetworkConfigDNSServerSetUpdateInput struct {
+	ID     string   `json:"id"`
+	Name   *string  `json:"name,omitempty"`
+	Server []string `json:"server,omitempty"`
+}
+
+// A desired DNS server set for setDnsServerSet. With an id it replaces the existing set; without an id a new set is created.
+type NetworkConfigDNSServerSetUpsertInput struct {
+	ID     *string  `json:"id,omitempty"`
+	Name   string   `json:"name"`
+	Server []string `json:"server"`
+}
+
+// Input for replacing the whole DNS forwarding-rule collection.
+type NetworkConfigDNSSetForwardingRuleInput struct {
+	ForwardingRule []*NetworkConfigDNSForwardingRuleUpsertInput `json:"forwardingRule"`
+}
+
+// Result of replacing the DNS forwarding-rule collection.
+type NetworkConfigDNSSetForwardingRulePayload struct {
+	ForwardingRule []*NetworkConfigDNSForwardingRule `json:"forwardingRule"`
+}
+
+// Input for replacing the whole DNS server set collection.
+type NetworkConfigDNSSetServerSetInput struct {
+	DNSServerSet []*NetworkConfigDNSServerSetUpsertInput `json:"dnsServerSet"`
+}
+
+// Result of replacing the DNS server set collection.
+type NetworkConfigDNSSetServerSetPayload struct {
+	DNSServerSet []*NetworkConfigDNSServerSet `json:"dnsServerSet"`
+}
+
+// Input for replacing the whole DNS suffix set collection.
+type NetworkConfigDNSSetSuffixSetInput struct {
+	DNSSuffixSet []*NetworkConfigDNSSuffixSetUpsertInput `json:"dnsSuffixSet"`
+}
+
+// Result of replacing the DNS suffix set collection.
+type NetworkConfigDNSSetSuffixSetPayload struct {
+	DNSSuffixSet []*NetworkConfigDNSSuffixSet `json:"dnsSuffixSet"`
+}
+
+// Account-level DNS settings. Exactly one instance exists per account.
+type NetworkConfigDNSSettings struct {
+	AcceptDNSRequestsOnLanInterfaceIP bool     `json:"acceptDnsRequestsOnLanInterfaceIp"`
+	PrimaryServer                     *string  `json:"primaryServer,omitempty"`
+	SecondaryServer                   *string  `json:"secondaryServer,omitempty"`
+	Suffix                            []string `json:"suffix"`
+}
+
+// DNS settings overriding the account default for a single site.
+type NetworkConfigDNSSiteSettings struct {
+	PrimaryServer   *string  `json:"primaryServer,omitempty"`
+	SecondaryServer *string  `json:"secondaryServer,omitempty"`
+	SiteID          string   `json:"siteId"`
+	Suffix          []string `json:"suffix"`
+}
+
+// A DNS override for a single site, addressed by site id or name. Every field but `site` is optional and an omitted field is left unchanged (subject to "no secondary/suffix without primary").
+type NetworkConfigDNSSiteSettingsUpdateInput struct {
+	PrimaryServer   *string       `json:"primaryServer,omitempty"`
+	SecondaryServer *string       `json:"secondaryServer,omitempty"`
+	Site            *SiteRefInput `json:"site"`
+	Suffix          []string      `json:"suffix,omitempty"`
+}
+
+// A named, ordered list of DNS search suffixes a DHCP profile can hand out.
+type NetworkConfigDNSSuffixSet struct {
+	Audit  *AuditingMetadata `json:"audit,omitempty"`
+	ID     string            `json:"id"`
+	Name   string            `json:"name"`
+	Suffix []string          `json:"suffix"`
+}
+
+// Fields for creating a DNS suffix set.
+type NetworkConfigDNSSuffixSetCreateInput struct {
+	Name   string   `json:"name"`
+	Suffix []string `json:"suffix"`
+}
+
+// Conditions a DNS suffix set must match to appear in the result.
+type NetworkConfigDNSSuffixSetFilterInput struct {
+	Name *AdvancedStringFilterInput `json:"name,omitempty"`
+}
+
+// Input for listing DNS suffix sets.
+type NetworkConfigDNSSuffixSetListInput struct {
+	Filter *NetworkConfigDNSSuffixSetFilterInput `json:"filter,omitempty"`
+	Paging *PagingInput                          `json:"paging,omitempty"`
+	Sort   *NetworkConfigDNSSuffixSetSortInput   `json:"sort"`
+}
+
+// Response payload for the DNS suffix sets list.
+type NetworkConfigDNSSuffixSetListPayload struct {
+	Items  []*NetworkConfigDNSSuffixSet `json:"items"`
+	Paging *PageInfo                    `json:"paging"`
+}
+
+// A reference to an existing DNS suffix set, by id or name.
+type NetworkConfigDNSSuffixSetRefInput struct {
+	By    ObjectRefBy `json:"by"`
+	Input string      `json:"input"`
+}
+
+// The order DNS suffix sets are returned in.
+type NetworkConfigDNSSuffixSetSortInput struct {
+	Name *SortOrderInput `json:"name,omitempty"`
+}
+
+// Changes to an existing DNS suffix set, addressed by id. An omitted field is left unchanged.
+type NetworkConfigDNSSuffixSetUpdateInput struct {
+	ID     string   `json:"id"`
+	Name   *string  `json:"name,omitempty"`
+	Suffix []string `json:"suffix,omitempty"`
+}
+
+// A desired DNS suffix set for setDnsSuffixSet. With an id it replaces the existing set; without an id a new set is created.
+type NetworkConfigDNSSuffixSetUpsertInput struct {
+	ID     *string  `json:"id,omitempty"`
+	Name   string   `json:"name"`
+	Suffix []string `json:"suffix"`
+}
+
+// Input for updating existing DNS forwarding rules, addressed by id.
+type NetworkConfigDNSUpdateForwardingRuleInput struct {
+	ForwardingRule []*NetworkConfigDNSForwardingRuleUpdateInput `json:"forwardingRule"`
+}
+
+// Result of updating DNS forwarding rules.
+type NetworkConfigDNSUpdateForwardingRulePayload struct {
+	ForwardingRule []*NetworkConfigDNSForwardingRule `json:"forwardingRule"`
+}
+
+// Input for updating existing DNS server sets, addressed by id.
+type NetworkConfigDNSUpdateServerSetInput struct {
+	DNSServerSet []*NetworkConfigDNSServerSetUpdateInput `json:"dnsServerSet"`
+}
+
+// Result of updating DNS server sets.
+type NetworkConfigDNSUpdateServerSetPayload struct {
+	DNSServerSet []*NetworkConfigDNSServerSet `json:"dnsServerSet"`
+}
+
+// Input for updating the account-level DNS settings. Every field is optional and an omitted field is left unchanged, subject to "no secondary server or suffix without a primary server".
+type NetworkConfigDNSUpdateSettingsInput struct {
+	AcceptDNSRequestsOnLanInterfaceIP *bool    `json:"acceptDnsRequestsOnLanInterfaceIp,omitempty"`
+	PrimaryServer                     *string  `json:"primaryServer,omitempty"`
+	SecondaryServer                   *string  `json:"secondaryServer,omitempty"`
+	Suffix                            []string `json:"suffix,omitempty"`
+}
+
+// Result of updating the account-level DNS settings.
+type NetworkConfigDNSUpdateSettingsPayload struct {
+	Settings *NetworkConfigDNSSettings `json:"settings"`
+}
+
+// Input for creating or updating the DNS override for one or more sites.
+type NetworkConfigDNSUpdateSiteSettingsInput struct {
+	SiteSettings []*NetworkConfigDNSSiteSettingsUpdateInput `json:"siteSettings"`
+}
+
+// Result of creating or updating site DNS overrides.
+type NetworkConfigDNSUpdateSiteSettingsPayload struct {
+	SiteSettings []*NetworkConfigDNSSiteSettings `json:"siteSettings"`
+}
+
+// Input for updating existing DNS suffix sets, addressed by id.
+type NetworkConfigDNSUpdateSuffixSetInput struct {
+	DNSSuffixSet []*NetworkConfigDNSSuffixSetUpdateInput `json:"dnsSuffixSet"`
+}
+
+// Result of updating DNS suffix sets.
+type NetworkConfigDNSUpdateSuffixSetPayload struct {
+	DNSSuffixSet []*NetworkConfigDNSSuffixSet `json:"dnsSuffixSet"`
+}
+
+// Network-configuration write operations.
+type NetworkConfigMutations struct {
+	Dhcp *NetworkConfigDhcpMutations `json:"dhcp"`
+	DNS  *NetworkConfigDNSMutations  `json:"dns"`
+}
+
+// Network-configuration read operations.
+type NetworkConfigQueries struct {
+	Dhcp *NetworkConfigDhcpQueries `json:"dhcp"`
+	DNS  *NetworkConfigDNSQueries  `json:"dns"`
+}
+
 type NetworkDhcpSettingsInput struct {
 	DhcpMicrosegmentation *bool    `json:"dhcpMicrosegmentation,omitempty"`
 	DhcpType              DhcpType `json:"dhcpType"`
@@ -9884,20 +10544,21 @@ type PostalAddressInput struct {
 }
 
 type PrivateAccessAddRuleDataInput struct {
-	Action           *PrivateAccessPolicyActionInput      `json:"action"`
-	ActivePeriod     *PolicyRuleActivePeriodInput         `json:"activePeriod"`
-	Applications     *PrivateAccessPolicyApplicationInput `json:"applications"`
-	ConnectionOrigin []PrivateAccessPolicyOriginEnum      `json:"connectionOrigin"`
-	Country          []*CountryRefInput                   `json:"country"`
-	Description      string                               `json:"description"`
-	Device           []*DeviceProfileRefInput             `json:"device"`
-	Enabled          bool                                 `json:"enabled"`
-	Name             string                               `json:"name"`
-	Platform         []OperatingSystem                    `json:"platform"`
-	Schedule         *PolicyScheduleInput                 `json:"schedule"`
-	Source           *PrivateAccessPolicySourceInput      `json:"source"`
-	Tracking         *PolicyTrackingInput                 `json:"tracking"`
-	UserAttributes   *PrivateAccessUserAttributesInput    `json:"userAttributes"`
+	Action                *PrivateAccessPolicyActionInput      `json:"action"`
+	ActivePeriod          *PolicyRuleActivePeriodInput         `json:"activePeriod"`
+	Applications          *PrivateAccessPolicyApplicationInput `json:"applications"`
+	ConnectionOrigin      []PrivateAccessPolicyOriginEnum      `json:"connectionOrigin"`
+	ConnectionsOriginList []ConnectionOriginsEnum              `json:"connectionsOriginList"`
+	Country               []*CountryRefInput                   `json:"country"`
+	Description           string                               `json:"description"`
+	Device                []*DeviceProfileRefInput             `json:"device"`
+	Enabled               bool                                 `json:"enabled"`
+	Name                  string                               `json:"name"`
+	Platform              []OperatingSystem                    `json:"platform"`
+	Schedule              *PolicyScheduleInput                 `json:"schedule"`
+	Source                *PrivateAccessPolicySourceInput      `json:"source"`
+	Tracking              *PolicyTrackingInput                 `json:"tracking"`
+	UserAttributes        *PrivateAccessUserAttributesInput    `json:"userAttributes"`
 }
 
 type PrivateAccessAddRuleInput struct {
@@ -10037,23 +10698,24 @@ type PrivateAccessRemoveRuleInput struct {
 }
 
 type PrivateAccessRule struct {
-	Action           *PrivateAccessPolicyAction      `json:"action"`
-	ActivePeriod     *PolicyRuleActivePeriod         `json:"activePeriod"`
-	Applications     *PrivateAccessPolicyApplication `json:"applications"`
-	ConnectionOrigin []PrivateAccessPolicyOriginEnum `json:"connectionOrigin"`
-	Country          []*CountryRef                   `json:"country"`
-	Description      string                          `json:"description"`
-	Device           []*DeviceProfileRef             `json:"device"`
-	Enabled          bool                            `json:"enabled"`
-	ID               string                          `json:"id"`
-	Index            int64                           `json:"index"`
-	Name             string                          `json:"name"`
-	Platform         []OperatingSystem               `json:"platform"`
-	Schedule         *PolicySchedule                 `json:"schedule"`
-	Section          *PolicySectionInfo              `json:"section"`
-	Source           *PrivateAccessPolicySource      `json:"source"`
-	Tracking         *PolicyTracking                 `json:"tracking"`
-	UserAttributes   *PrivateAccessUserAttributes    `json:"userAttributes"`
+	Action                *PrivateAccessPolicyAction      `json:"action"`
+	ActivePeriod          *PolicyRuleActivePeriod         `json:"activePeriod"`
+	Applications          *PrivateAccessPolicyApplication `json:"applications"`
+	ConnectionOrigin      []PrivateAccessPolicyOriginEnum `json:"connectionOrigin"`
+	ConnectionsOriginList []ConnectionOriginsEnum         `json:"connectionsOriginList"`
+	Country               []*CountryRef                   `json:"country"`
+	Description           string                          `json:"description"`
+	Device                []*DeviceProfileRef             `json:"device"`
+	Enabled               bool                            `json:"enabled"`
+	ID                    string                          `json:"id"`
+	Index                 int64                           `json:"index"`
+	Name                  string                          `json:"name"`
+	Platform              []OperatingSystem               `json:"platform"`
+	Schedule              *PolicySchedule                 `json:"schedule"`
+	Section               *PolicySectionInfo              `json:"section"`
+	Source                *PrivateAccessPolicySource      `json:"source"`
+	Tracking              *PolicyTracking                 `json:"tracking"`
+	UserAttributes        *PrivateAccessUserAttributes    `json:"userAttributes"`
 }
 
 func (PrivateAccessRule) IsIPolicyRule()                      {}
@@ -10107,20 +10769,21 @@ func (this PrivateAccessRulePayload) GetProperties() []PolicyElementPropertiesEn
 func (this PrivateAccessRulePayload) GetRule() IPolicyRule { return *this.Rule }
 
 type PrivateAccessUpdateRuleDataInput struct {
-	Action           *PrivateAccessPolicyActionUpdateInput      `json:"action,omitempty"`
-	ActivePeriod     *PolicyRuleActivePeriodUpdateInput         `json:"activePeriod,omitempty"`
-	Applications     *PrivateAccessPolicyApplicationUpdateInput `json:"applications,omitempty"`
-	ConnectionOrigin []PrivateAccessPolicyOriginEnum            `json:"connectionOrigin,omitempty"`
-	Country          []*CountryRefInput                         `json:"country,omitempty"`
-	Description      *string                                    `json:"description,omitempty"`
-	Device           []*DeviceProfileRefInput                   `json:"device,omitempty"`
-	Enabled          *bool                                      `json:"enabled,omitempty"`
-	Name             *string                                    `json:"name,omitempty"`
-	Platform         []OperatingSystem                          `json:"platform,omitempty"`
-	Schedule         *PolicyScheduleUpdateInput                 `json:"schedule,omitempty"`
-	Source           *PrivateAccessPolicySourceUpdateInput      `json:"source,omitempty"`
-	Tracking         *PolicyTrackingUpdateInput                 `json:"tracking,omitempty"`
-	UserAttributes   *PrivateAccessUserAttributesUpdateInput    `json:"userAttributes,omitempty"`
+	Action                *PrivateAccessPolicyActionUpdateInput      `json:"action,omitempty"`
+	ActivePeriod          *PolicyRuleActivePeriodUpdateInput         `json:"activePeriod,omitempty"`
+	Applications          *PrivateAccessPolicyApplicationUpdateInput `json:"applications,omitempty"`
+	ConnectionOrigin      []PrivateAccessPolicyOriginEnum            `json:"connectionOrigin,omitempty"`
+	ConnectionsOriginList []ConnectionOriginsEnum                    `json:"connectionsOriginList,omitempty"`
+	Country               []*CountryRefInput                         `json:"country,omitempty"`
+	Description           *string                                    `json:"description,omitempty"`
+	Device                []*DeviceProfileRefInput                   `json:"device,omitempty"`
+	Enabled               *bool                                      `json:"enabled,omitempty"`
+	Name                  *string                                    `json:"name,omitempty"`
+	Platform              []OperatingSystem                          `json:"platform,omitempty"`
+	Schedule              *PolicyScheduleUpdateInput                 `json:"schedule,omitempty"`
+	Source                *PrivateAccessPolicySourceUpdateInput      `json:"source,omitempty"`
+	Tracking              *PolicyTrackingUpdateInput                 `json:"tracking,omitempty"`
+	UserAttributes        *PrivateAccessUserAttributesUpdateInput    `json:"userAttributes,omitempty"`
 }
 
 type PrivateAccessUpdateRuleInput struct {
@@ -10918,11 +11581,27 @@ type SecondaryAWSVSocket struct {
 	Subnet       string   `json:"subnet"`
 }
 
+type SecondaryAWSVSocketConfigInput struct {
+	EniIPAddress string `json:"eniIpAddress"`
+	EniIPSubnet  string `json:"eniIpSubnet"`
+	RouteTableID string `json:"routeTableId"`
+}
+
 type SecondaryAzureVSocket struct {
 	FloatingIP  string   `json:"floatingIp"`
 	ID          string   `json:"id"`
 	InterfaceIP string   `json:"interfaceIp"`
 	Site        *SiteRef `json:"site"`
+}
+
+type SecondaryAzureVSocketConfigInput struct {
+	FloatingIP  string `json:"floatingIp"`
+	InterfaceIP string `json:"interfaceIp"`
+}
+
+type SecondaryGCPVSocketConfigInput struct {
+	InterfaceIP    string `json:"interfaceIp"`
+	LoadBalancerIP string `json:"loadBalancerIp"`
 }
 
 type SecondaryGCPVSocketInput struct {
@@ -10931,6 +11610,16 @@ type SecondaryGCPVSocketInput struct {
 
 type SecondaryGCPVSocketPayload struct {
 	SocketInfo *GCPVSocketInfo `json:"socketInfo"`
+}
+
+// Secondary vSocket parameters supplied at site creation to build a vSocket HA site with both sockets.
+// Provide exactly one block, and it must correspond to the site's connectionType — supported for the
+// cloud vSockets only (SOCKET_AWS1500, SOCKET_AZ1500, SOCKET_GCP1500). Any other connectionType, or a
+// block that does not match it, is rejected.
+type SecondaryVSocketAtCreationInput struct {
+	AWS   *SecondaryAWSVSocketConfigInput   `json:"aws,omitempty"`
+	Azure *SecondaryAzureVSocketConfigInput `json:"azure,omitempty"`
+	GCP   *SecondaryGCPVSocketConfigInput   `json:"gcp,omitempty"`
 }
 
 type SecretHeaderEntry struct {
@@ -12120,7 +12809,7 @@ type SocketLanFirewallRule struct {
 	ID          string                        `json:"id"`
 	Index       int64                         `json:"index"`
 	Name        string                        `json:"name"`
-	Section     *PolicySectionInfo            `json:"section"`
+	Section     *PolicySectionInfo            `json:"section,omitempty"`
 	Service     *SocketLanFirewallServiceType `json:"service"`
 	Source      *SocketLanFirewallSource      `json:"source"`
 	Tracking    *PolicyTracking               `json:"tracking"`
@@ -15839,6 +16528,17 @@ type WanNetworkPolicyQueries struct {
 	Revisions *PolicyRevisionsPayload `json:"revisions,omitempty"`
 }
 
+type WanNetworkPolicyRef struct {
+	ID   string `json:"id"`
+	Name string `json:"name"`
+}
+
+func (WanNetworkPolicyRef) IsObjectRef()         {}
+func (this WanNetworkPolicyRef) GetID() string   { return this.ID }
+func (this WanNetworkPolicyRef) GetName() string { return this.Name }
+
+func (WanNetworkPolicyRef) IsPolicyRef() {}
+
 type WanNetworkPolicyUpdateInput struct {
 	State *PolicyToggleState `json:"state,omitempty"`
 }
@@ -18337,6 +19037,8 @@ const (
 	AppStatsFieldNameApplicationRiskLevel AppStatsFieldName = "application_risk_level"
 	//  Risk score of the application, based on Cato's risk assessment. CMA Name: Application Risk Score
 	AppStatsFieldNameApplicationRiskScore AppStatsFieldName = "application_risk_score"
+	//  Current effective risk score of the application (latest classification, not historical). CMA Name: Application Risk Score Current State
+	AppStatsFieldNameApplicationRiskScoreCurrentState AppStatsFieldName = "application_risk_score_current_state"
 	//  Application type (Custom, Private or System). CMA Name: Application Type
 	AppStatsFieldNameApplicationType AppStatsFieldName = "application_type"
 	//  Cato system category. CMA Name: Categories
@@ -18447,6 +19149,8 @@ const (
 	AppStatsFieldNameIsFlowTerminated AppStatsFieldName = "is_flow_terminated"
 	//  Is the app for this event defined as a sanctioned app? (True/False). CMA Name: Is Sanctioned App
 	AppStatsFieldNameIsSanctionedApp AppStatsFieldName = "is_sanctioned_app"
+	//  Current effective sanctioned-app state of the application (latest classification, not historical). CMA Name: Is Sanctioned App Current State
+	AppStatsFieldNameIsSanctionedAppCurrentState AppStatsFieldName = "is_sanctioned_app_current_state"
 	//  The user's job title. CMA Name: Job Title
 	AppStatsFieldNameJobTitle AppStatsFieldName = "job_title"
 	//  Matched network rule. CMA Name: Network Rule
@@ -18555,6 +19259,7 @@ var AllAppStatsFieldName = []AppStatsFieldName{
 	AppStatsFieldNameApplicationName,
 	AppStatsFieldNameApplicationRiskLevel,
 	AppStatsFieldNameApplicationRiskScore,
+	AppStatsFieldNameApplicationRiskScoreCurrentState,
 	AppStatsFieldNameApplicationType,
 	AppStatsFieldNameCategories,
 	AppStatsFieldNameCategory,
@@ -18610,6 +19315,7 @@ var AllAppStatsFieldName = []AppStatsFieldName{
 	AppStatsFieldNameIsCloudApp,
 	AppStatsFieldNameIsFlowTerminated,
 	AppStatsFieldNameIsSanctionedApp,
+	AppStatsFieldNameIsSanctionedAppCurrentState,
 	AppStatsFieldNameJobTitle,
 	AppStatsFieldNameNetworkRule,
 	AppStatsFieldNameNewApp,
@@ -18660,7 +19366,7 @@ var AllAppStatsFieldName = []AppStatsFieldName{
 
 func (e AppStatsFieldName) IsValid() bool {
 	switch e {
-	case AppStatsFieldNameIspName, AppStatsFieldNameAccountID, AppStatsFieldNameAccountName, AppStatsFieldNameAction, AppStatsFieldNameAdName, AppStatsFieldNameAiProxyRuleName, AppStatsFieldNameApp, AppStatsFieldNameApplication, AppStatsFieldNameApplicationDescription, AppStatsFieldNameApplicationID, AppStatsFieldNameApplicationName, AppStatsFieldNameApplicationRiskLevel, AppStatsFieldNameApplicationRiskScore, AppStatsFieldNameApplicationType, AppStatsFieldNameCategories, AppStatsFieldNameCategory, AppStatsFieldNameClientClass, AppStatsFieldNameClientVersion, AppStatsFieldNameConfiguredHostName, AppStatsFieldNameConnectionOrigin, AppStatsFieldNameDepartment, AppStatsFieldNameDescription, AppStatsFieldNameDestCountry, AppStatsFieldNameDestDomain, AppStatsFieldNameDestEndpointType, AppStatsFieldNameDestIP, AppStatsFieldNameDestIsSiteOrVpn, AppStatsFieldNameDestPort, AppStatsFieldNameDestSite, AppStatsFieldNameDestSiteID, AppStatsFieldNameDestSiteName, AppStatsFieldNameDeviceCategories, AppStatsFieldNameDeviceComplianceState, AppStatsFieldNameDeviceID, AppStatsFieldNameDeviceManufacturer, AppStatsFieldNameDeviceModel, AppStatsFieldNameDeviceName, AppStatsFieldNameDeviceOsType, AppStatsFieldNameDevicePostureProfile, AppStatsFieldNameDeviceType, AppStatsFieldNameDiscoveredApp, AppStatsFieldNameDomain, AppStatsFieldNameDownstream, AppStatsFieldNameDuration, AppStatsFieldNameEgressPopName, AppStatsFieldNameEgressSiteName, AppStatsFieldNameExperienceScoreLevel, AppStatsFieldNameFlowBytesDownstream, AppStatsFieldNameFlowBytesTotal, AppStatsFieldNameFlowBytesUpstream, AppStatsFieldNameFlowID, AppStatsFieldNameFlowPacketsDownstream, AppStatsFieldNameFlowPacketsTotal, AppStatsFieldNameFlowPacketsUpstream, AppStatsFieldNameFlowStartTime, AppStatsFieldNameFlowsCreated, AppStatsFieldNameFullPathURL, AppStatsFieldNameHostIP, AppStatsFieldNameHostMac, AppStatsFieldNameHqLocation, AppStatsFieldNameHTTPErrorRate, AppStatsFieldNameHTTPLatency, AppStatsFieldNameHTTPRequestMethod, AppStatsFieldNameIP, AppStatsFieldNameIPProtocol, AppStatsFieldNameIsCloudApp, AppStatsFieldNameIsFlowTerminated, AppStatsFieldNameIsSanctionedApp, AppStatsFieldNameJobTitle, AppStatsFieldNameNetworkRule, AppStatsFieldNameNewApp, AppStatsFieldNameOsVersion, AppStatsFieldNamePacketsDownstream, AppStatsFieldNamePacketsTotal, AppStatsFieldNamePacketsUpstream, AppStatsFieldNamePopName, AppStatsFieldNameQosPriority, AppStatsFieldNameRiskLevel, AppStatsFieldNameRiskScore, AppStatsFieldNameSanctioned, AppStatsFieldNameSiteCountry, AppStatsFieldNameSiteState, AppStatsFieldNameSocketInterface, AppStatsFieldNameSrcCountry, AppStatsFieldNameSrcCountryCode, AppStatsFieldNameSrcEndpointType, AppStatsFieldNameSrcIP, AppStatsFieldNameSrcIsSiteOrVpn, AppStatsFieldNameSrcIspIP, AppStatsFieldNameSrcPort, AppStatsFieldNameSrcSiteCountryCode, AppStatsFieldNameSrcSiteID, AppStatsFieldNameSrcSiteName, AppStatsFieldNameSrcSiteState, AppStatsFieldNameSubnet, AppStatsFieldNameSubnetName, AppStatsFieldNameTCPAcceleration, AppStatsFieldNameTCPLatency, AppStatsFieldNameTimeStr, AppStatsFieldNameTld, AppStatsFieldNameTLSInspection, AppStatsFieldNameTLSLatency, AppStatsFieldNameTLSRuleName, AppStatsFieldNameTraffic, AppStatsFieldNameTrafficDirection, AppStatsFieldNameTranslatedClientIP, AppStatsFieldNameTranslatedServerIP, AppStatsFieldNameTtfb, AppStatsFieldNameUpstream, AppStatsFieldNameUserAwarenessMethod, AppStatsFieldNameUserID, AppStatsFieldNameUserName, AppStatsFieldNameVpnUserEmail, AppStatsFieldNameVpnUserID:
+	case AppStatsFieldNameIspName, AppStatsFieldNameAccountID, AppStatsFieldNameAccountName, AppStatsFieldNameAction, AppStatsFieldNameAdName, AppStatsFieldNameAiProxyRuleName, AppStatsFieldNameApp, AppStatsFieldNameApplication, AppStatsFieldNameApplicationDescription, AppStatsFieldNameApplicationID, AppStatsFieldNameApplicationName, AppStatsFieldNameApplicationRiskLevel, AppStatsFieldNameApplicationRiskScore, AppStatsFieldNameApplicationRiskScoreCurrentState, AppStatsFieldNameApplicationType, AppStatsFieldNameCategories, AppStatsFieldNameCategory, AppStatsFieldNameClientClass, AppStatsFieldNameClientVersion, AppStatsFieldNameConfiguredHostName, AppStatsFieldNameConnectionOrigin, AppStatsFieldNameDepartment, AppStatsFieldNameDescription, AppStatsFieldNameDestCountry, AppStatsFieldNameDestDomain, AppStatsFieldNameDestEndpointType, AppStatsFieldNameDestIP, AppStatsFieldNameDestIsSiteOrVpn, AppStatsFieldNameDestPort, AppStatsFieldNameDestSite, AppStatsFieldNameDestSiteID, AppStatsFieldNameDestSiteName, AppStatsFieldNameDeviceCategories, AppStatsFieldNameDeviceComplianceState, AppStatsFieldNameDeviceID, AppStatsFieldNameDeviceManufacturer, AppStatsFieldNameDeviceModel, AppStatsFieldNameDeviceName, AppStatsFieldNameDeviceOsType, AppStatsFieldNameDevicePostureProfile, AppStatsFieldNameDeviceType, AppStatsFieldNameDiscoveredApp, AppStatsFieldNameDomain, AppStatsFieldNameDownstream, AppStatsFieldNameDuration, AppStatsFieldNameEgressPopName, AppStatsFieldNameEgressSiteName, AppStatsFieldNameExperienceScoreLevel, AppStatsFieldNameFlowBytesDownstream, AppStatsFieldNameFlowBytesTotal, AppStatsFieldNameFlowBytesUpstream, AppStatsFieldNameFlowID, AppStatsFieldNameFlowPacketsDownstream, AppStatsFieldNameFlowPacketsTotal, AppStatsFieldNameFlowPacketsUpstream, AppStatsFieldNameFlowStartTime, AppStatsFieldNameFlowsCreated, AppStatsFieldNameFullPathURL, AppStatsFieldNameHostIP, AppStatsFieldNameHostMac, AppStatsFieldNameHqLocation, AppStatsFieldNameHTTPErrorRate, AppStatsFieldNameHTTPLatency, AppStatsFieldNameHTTPRequestMethod, AppStatsFieldNameIP, AppStatsFieldNameIPProtocol, AppStatsFieldNameIsCloudApp, AppStatsFieldNameIsFlowTerminated, AppStatsFieldNameIsSanctionedApp, AppStatsFieldNameIsSanctionedAppCurrentState, AppStatsFieldNameJobTitle, AppStatsFieldNameNetworkRule, AppStatsFieldNameNewApp, AppStatsFieldNameOsVersion, AppStatsFieldNamePacketsDownstream, AppStatsFieldNamePacketsTotal, AppStatsFieldNamePacketsUpstream, AppStatsFieldNamePopName, AppStatsFieldNameQosPriority, AppStatsFieldNameRiskLevel, AppStatsFieldNameRiskScore, AppStatsFieldNameSanctioned, AppStatsFieldNameSiteCountry, AppStatsFieldNameSiteState, AppStatsFieldNameSocketInterface, AppStatsFieldNameSrcCountry, AppStatsFieldNameSrcCountryCode, AppStatsFieldNameSrcEndpointType, AppStatsFieldNameSrcIP, AppStatsFieldNameSrcIsSiteOrVpn, AppStatsFieldNameSrcIspIP, AppStatsFieldNameSrcPort, AppStatsFieldNameSrcSiteCountryCode, AppStatsFieldNameSrcSiteID, AppStatsFieldNameSrcSiteName, AppStatsFieldNameSrcSiteState, AppStatsFieldNameSubnet, AppStatsFieldNameSubnetName, AppStatsFieldNameTCPAcceleration, AppStatsFieldNameTCPLatency, AppStatsFieldNameTimeStr, AppStatsFieldNameTld, AppStatsFieldNameTLSInspection, AppStatsFieldNameTLSLatency, AppStatsFieldNameTLSRuleName, AppStatsFieldNameTraffic, AppStatsFieldNameTrafficDirection, AppStatsFieldNameTranslatedClientIP, AppStatsFieldNameTranslatedServerIP, AppStatsFieldNameTtfb, AppStatsFieldNameUpstream, AppStatsFieldNameUserAwarenessMethod, AppStatsFieldNameUserID, AppStatsFieldNameUserName, AppStatsFieldNameVpnUserEmail, AppStatsFieldNameVpnUserID:
 		return true
 	}
 	return false
@@ -21091,6 +21797,70 @@ func (e ConnectionOriginEnum) MarshalJSON() ([]byte, error) {
 	return buf.Bytes(), nil
 }
 
+// Defines Origin of the connections
+type ConnectionOriginsEnum string
+
+const (
+	//  User is connecting from the Cato browser
+	ConnectionOriginsEnumRemoteBrowser ConnectionOriginsEnum = "REMOTE_BROWSER"
+	//  User is connecting from the client
+	ConnectionOriginsEnumRemoteClient ConnectionOriginsEnum = "REMOTE_CLIENT"
+	//  User is connecting from the browser extension
+	ConnectionOriginsEnumRemoteExtension ConnectionOriginsEnum = "REMOTE_EXTENSION"
+	//  User is connecting from the site
+	ConnectionOriginsEnumSite ConnectionOriginsEnum = "SITE"
+)
+
+var AllConnectionOriginsEnum = []ConnectionOriginsEnum{
+	ConnectionOriginsEnumRemoteBrowser,
+	ConnectionOriginsEnumRemoteClient,
+	ConnectionOriginsEnumRemoteExtension,
+	ConnectionOriginsEnumSite,
+}
+
+func (e ConnectionOriginsEnum) IsValid() bool {
+	switch e {
+	case ConnectionOriginsEnumRemoteBrowser, ConnectionOriginsEnumRemoteClient, ConnectionOriginsEnumRemoteExtension, ConnectionOriginsEnumSite:
+		return true
+	}
+	return false
+}
+
+func (e ConnectionOriginsEnum) String() string {
+	return string(e)
+}
+
+func (e *ConnectionOriginsEnum) UnmarshalGQL(v any) error {
+	str, ok := v.(string)
+	if !ok {
+		return fmt.Errorf("enums must be strings")
+	}
+
+	*e = ConnectionOriginsEnum(str)
+	if !e.IsValid() {
+		return fmt.Errorf("%s is not a valid ConnectionOriginsEnum", str)
+	}
+	return nil
+}
+
+func (e ConnectionOriginsEnum) MarshalGQL(w io.Writer) {
+	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+func (e *ConnectionOriginsEnum) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e ConnectionOriginsEnum) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
+}
+
 type ConnectionTypeEnum string
 
 const (
@@ -22818,6 +23588,8 @@ const (
 	EventFieldNameAction EventFieldName = "action"
 	//  A list of actions taken, if more than one action was taken as defined by a policy. CMA Name: Actions Taken
 	EventFieldNameActionsTaken EventFieldName = "actions_taken"
+	//  Browser engine used for interactive client authentication. CMA Name: Active Auth Browser
+	EventFieldNameActiveAuthBrowser EventFieldName = "active_auth_browser"
 	//  The activity resource ID being referenced with resource type. CMA Name: Activity Resource ID
 	EventFieldNameActivityResourceID EventFieldName = "activity_resource_id"
 	//  Defines the type of entity performing the action, helping to distinguish between different categories of users. CMA Name: Actor Type
@@ -22834,6 +23606,8 @@ const (
 	EventFieldNameAlertID EventFieldName = "alert_id"
 	//  Alert name. CMA Name: Alert Name
 	EventFieldNameAlertName EventFieldName = "alert_name"
+	//  JSON array of alerts associated with the story. Only available for native data integration created in the CMA and eventsFeed API. Not available in the events or eventsTimeSeries API.
+	EventFieldNameAlerts EventFieldName = "alerts"
 	//  Always-on Configuration. CMA Name: Always-On
 	EventFieldNameAlwaysOnConfiguration EventFieldName = "always_on_configuration"
 	//  Analyst Verdict. CMA Name: Analyst Verdict
@@ -22868,6 +23642,8 @@ const (
 	EventFieldNameAtpFeedReasons EventFieldName = "atp_feed_reasons"
 	//  Unique identifier of the audit record. CMA Name: Audit ID
 	EventFieldNameAuditID EventFieldName = "audit_id"
+	//  Reason the interactive client authentication browser used a fallback engine. CMA Name: Auth Browser Fallback Reason
+	EventFieldNameAuthBrowserFallbackReason EventFieldName = "auth_browser_fallback_reason"
 	//  Connectivity authentication method: unauthenticated, OATH2, LDAP or VPN. CMA Name: Authentication Method
 	EventFieldNameAuthMethod EventFieldName = "auth_method"
 	//  Examples: MFA or password. CMA Name: Authentication Type
@@ -22886,6 +23662,8 @@ const (
 	EventFieldNameBgpPeerAsn EventFieldName = "bgp_peer_asn"
 	//  BGP IP for remote peer. CMA Name: BGP Peer IP
 	EventFieldNameBgpPeerIP EventFieldName = "bgp_peer_ip"
+	//  Name of the BGP peer connection. CMA Name: Bgp Peer Name
+	EventFieldNameBgpPeerName EventFieldName = "bgp_peer_name"
 	//  CIDR for BGP route. CMA Name: BGP Router CIDR
 	EventFieldNameBgpRouteCidr EventFieldName = "bgp_route_cidr"
 	//  BGP disconnect error message. CMA Name: BGP Disconnect Sub-error Code
@@ -22935,6 +23713,8 @@ const (
 	EventFieldNameCollaborators EventFieldName = "collaborators"
 	//  Confidence Level. CMA Name: Confidence Level
 	EventFieldNameConfidenceLevel EventFieldName = "confidence_level"
+	//  Browser engine configured for interactive client authentication. CMA Name: Configured Auth Browser
+	EventFieldNameConfiguredAuthBrowser EventFieldName = "configured_auth_browser"
 	//  For hosts configured with a static IP in the Cato Management Application, the host name. CMA Name: Configured Host Name
 	EventFieldNameConfiguredHostName EventFieldName = "configured_host_name"
 	//  The algorithm that is used (CUBIC /NewReno / BBR). CMA Name: Congestion Algorithm
@@ -23019,6 +23799,8 @@ const (
 	EventFieldNameDeviceCertificate EventFieldName = "device_certificate"
 	//  The device compliance state at the time of the event, as reported by Intune. CMA Name: Device Compliance State
 	EventFieldNameDeviceComplianceState EventFieldName = "device_compliance_state"
+	//  Risk score of device from CrowdStrike. CMA Name: Device Crowdstrike Risk Score
+	EventFieldNameDeviceCrowdstrikeRiskScore EventFieldName = "device_crowdstrike_risk_score"
 	//  Unique Cato ID for devices. CMA Name: Device ID
 	EventFieldNameDeviceID EventFieldName = "device_id"
 	//  Device Manufacturer. CMA Name: Device Manufacturer
@@ -23121,6 +23903,8 @@ const (
 	EventFieldNameFinalObjectStatus EventFieldName = "final_object_status"
 	//  Uniquely identifies a traffic flow and enables correlation of events and other records related to the same flow. Only available for native data integration created in the CMA and eventsFeed API. Not available in the events or eventsTimeSeries API.
 	EventFieldNameFlowID EventFieldName = "flow_id"
+	//  JSON array of network flows associated with the story. Only available for native data integration created in the CMA and eventsFeed API. Not available in the events or eventsTimeSeries API.
+	EventFieldNameFlows EventFieldName = "flows"
 	//  Amount of flows for a given incident. CMA Name: Flows Cardinality
 	EventFieldNameFlowsCardinality EventFieldName = "flows_cardinality"
 	//  Full path URL application activity. CMA Name: Full Path URL
@@ -23169,6 +23953,8 @@ const (
 	EventFieldNameInvocationID EventFieldName = "invocation_id"
 	//  Network protocol for this event. CMA Name: IP Protocol
 	EventFieldNameIPProtocol EventFieldName = "ip_protocol"
+	//  Indicates whether the the story is acknowledged. CMA Name: Is Acknowledged
+	EventFieldNameIsAcknowledged EventFieldName = "is_acknowledged"
 	//  Classifies users based on their permissions. CMA Name: Is Admin
 	EventFieldNameIsAdmin EventFieldName = "is_admin"
 	//  Indicates whether an activity requires administrative permissions. CMA Name: Is Admin Activity
@@ -23181,6 +23967,8 @@ const (
 	EventFieldNameIsEncrypted EventFieldName = "is_encrypted"
 	//  Is Managed. CMA Name: Is Managed
 	EventFieldNameIsManaged EventFieldName = "is_managed"
+	//  Indicates whether the story is muted. CMA Name: Is Muted
+	EventFieldNameIsMuted EventFieldName = "is_muted"
 	//  Is Public. CMA Name: Is Public
 	EventFieldNameIsPublic EventFieldName = "is_public"
 	//  Is the app for this event defined as a sanctioned app? (True/False). CMA Name: Is Sanctioned App
@@ -23225,6 +24013,8 @@ const (
 	EventFieldNameMessageID EventFieldName = "message_id"
 	//  Name of the monitored metric (e.g. avg_http_latency). CMA Name: Metric
 	EventFieldNameMetric EventFieldName = "metric"
+	//  Units used by the incident metric. CMA Name: Metric Units
+	EventFieldNameMetricUnits EventFieldName = "metric_units"
 	//  Value of the monitored metric. CMA Name: Metric Value
 	EventFieldNameMetricValue EventFieldName = "metric_value"
 	//  Mitre attack subtechniques. CMA Name: Mitre Attack Subtechniques
@@ -23451,6 +24241,8 @@ const (
 	EventFieldNameThreatType EventFieldName = "threat_type"
 	//  Result of malware event (clean indicates a safe file). CMA Name: Threat Verdict
 	EventFieldNameThreatVerdict EventFieldName = "threat_verdict"
+	//  Ticket associated with the story. CMA Name: Ticket
+	EventFieldNameTicket EventFieldName = "ticket"
 	//  Time stamp of the event (Linux epoch format). CMA Name: Time
 	EventFieldNameTime EventFieldName = "time"
 	//  Time stamp of the event (Human-readable format). Only available for native data integration created in the CMA and eventsFeed API. Not available in the events or eventsTimeSeries API.
@@ -23541,6 +24333,8 @@ const (
 	EventFieldNameVendorUserID EventFieldName = "vendor_user_id"
 	//  Version of the vendor’s client application. CMA Name: Vendor Version
 	EventFieldNameVendorVersion EventFieldName = "vendor_version"
+	//  Additional information provided with the analyst verdict. CMA Name: Verdict Elaboration
+	EventFieldNameVerdictElaboration EventFieldName = "verdict_elaboration"
 	//  Unique Cato Visible ID for devices. CMA Name: Device ID
 	EventFieldNameVisibleDeviceID EventFieldName = "visible_device_id"
 	//  Lan access Allowed / Blocked. CMA Name: LAN Access
@@ -23589,6 +24383,7 @@ var AllEventFieldName = []EventFieldName{
 	EventFieldNameAccountID,
 	EventFieldNameAction,
 	EventFieldNameActionsTaken,
+	EventFieldNameActiveAuthBrowser,
 	EventFieldNameActivityResourceID,
 	EventFieldNameActorType,
 	EventFieldNameAdName,
@@ -23597,6 +24392,7 @@ var AllEventFieldName = []EventFieldName{
 	EventFieldNameAiReason,
 	EventFieldNameAlertID,
 	EventFieldNameAlertName,
+	EventFieldNameAlerts,
 	EventFieldNameAlwaysOnConfiguration,
 	EventFieldNameAnalystVerdict,
 	EventFieldNameAntiTamperBypassDurationSec,
@@ -23614,6 +24410,7 @@ var AllEventFieldName = []EventFieldName{
 	EventFieldNameApplicationType,
 	EventFieldNameAtpFeedReasons,
 	EventFieldNameAuditID,
+	EventFieldNameAuthBrowserFallbackReason,
 	EventFieldNameAuthMethod,
 	EventFieldNameAuthenticationType,
 	EventFieldNameBaselineAverage,
@@ -23623,6 +24420,7 @@ var AllEventFieldName = []EventFieldName{
 	EventFieldNameBgpErrorCode,
 	EventFieldNameBgpPeerAsn,
 	EventFieldNameBgpPeerIP,
+	EventFieldNameBgpPeerName,
 	EventFieldNameBgpRouteCidr,
 	EventFieldNameBgpSuberrorCode,
 	EventFieldNameBrowserType,
@@ -23646,6 +24444,7 @@ var AllEventFieldName = []EventFieldName{
 	EventFieldNameCollaboratorTenant,
 	EventFieldNameCollaborators,
 	EventFieldNameConfidenceLevel,
+	EventFieldNameConfiguredAuthBrowser,
 	EventFieldNameConfiguredHostName,
 	EventFieldNameCongestionAlgorithm,
 	EventFieldNameConnectOnBoot,
@@ -23686,6 +24485,7 @@ var AllEventFieldName = []EventFieldName{
 	EventFieldNameDeviceCategories,
 	EventFieldNameDeviceCertificate,
 	EventFieldNameDeviceComplianceState,
+	EventFieldNameDeviceCrowdstrikeRiskScore,
 	EventFieldNameDeviceID,
 	EventFieldNameDeviceManufacturer,
 	EventFieldNameDeviceModel,
@@ -23737,6 +24537,7 @@ var AllEventFieldName = []EventFieldName{
 	EventFieldNameFileType,
 	EventFieldNameFinalObjectStatus,
 	EventFieldNameFlowID,
+	EventFieldNameFlows,
 	EventFieldNameFlowsCardinality,
 	EventFieldNameFullPathURL,
 	EventFieldNameGuardID,
@@ -23761,12 +24562,14 @@ var AllEventFieldName = []EventFieldName{
 	EventFieldNameInvestigationTimeWindow,
 	EventFieldNameInvocationID,
 	EventFieldNameIPProtocol,
+	EventFieldNameIsAcknowledged,
 	EventFieldNameIsAdmin,
 	EventFieldNameIsAdminActivity,
 	EventFieldNameIsCloudApp,
 	EventFieldNameIsCompliant,
 	EventFieldNameIsEncrypted,
 	EventFieldNameIsManaged,
+	EventFieldNameIsMuted,
 	EventFieldNameIsPublic,
 	EventFieldNameIsSanctionedApp,
 	EventFieldNameIsSinkhole,
@@ -23789,6 +24592,7 @@ var AllEventFieldName = []EventFieldName{
 	EventFieldNameMd5,
 	EventFieldNameMessageID,
 	EventFieldNameMetric,
+	EventFieldNameMetricUnits,
 	EventFieldNameMetricValue,
 	EventFieldNameMitreAttackSubtechniques,
 	EventFieldNameMitreAttackTactics,
@@ -23899,6 +24703,7 @@ var AllEventFieldName = []EventFieldName{
 	EventFieldNameThreatScore,
 	EventFieldNameThreatType,
 	EventFieldNameThreatVerdict,
+	EventFieldNameTicket,
 	EventFieldNameTime,
 	EventFieldNameTimeStr,
 	EventFieldNameTitle,
@@ -23944,6 +24749,7 @@ var AllEventFieldName = []EventFieldName{
 	EventFieldNameVendorStartTime,
 	EventFieldNameVendorUserID,
 	EventFieldNameVendorVersion,
+	EventFieldNameVerdictElaboration,
 	EventFieldNameVisibleDeviceID,
 	EventFieldNameVpnLanAccess,
 	EventFieldNameVpnUserEmail,
@@ -23967,7 +24773,7 @@ var AllEventFieldName = []EventFieldName{
 
 func (e EventFieldName) IsValid() bool {
 	switch e {
-	case EventFieldNameIspName, EventFieldNameAccessMethod, EventFieldNameAccessPointID, EventFieldNameAccessPointName, EventFieldNameAccountID, EventFieldNameAction, EventFieldNameActionsTaken, EventFieldNameActivityResourceID, EventFieldNameActorType, EventFieldNameAdName, EventFieldNameAiAppRiskLevel, EventFieldNameAiProxyRuleName, EventFieldNameAiReason, EventFieldNameAlertID, EventFieldNameAlertName, EventFieldNameAlwaysOnConfiguration, EventFieldNameAnalystVerdict, EventFieldNameAntiTamperBypassDurationSec, EventFieldNameAntiTamperBypassMethod, EventFieldNameAntiTamperBypassResult, EventFieldNameAPIName, EventFieldNameAPIType, EventFieldNameAppActivity, EventFieldNameAppActivityCategory, EventFieldNameAppActivityType, EventFieldNameAppStack, EventFieldNameApplicationID, EventFieldNameApplicationName, EventFieldNameApplicationRisk, EventFieldNameApplicationType, EventFieldNameAtpFeedReasons, EventFieldNameAuditID, EventFieldNameAuthMethod, EventFieldNameAuthenticationType, EventFieldNameBaselineAverage, EventFieldNameBaselineStd, EventFieldNameBgpCatoAsn, EventFieldNameBgpCatoIP, EventFieldNameBgpErrorCode, EventFieldNameBgpPeerAsn, EventFieldNameBgpPeerIP, EventFieldNameBgpRouteCidr, EventFieldNameBgpSuberrorCode, EventFieldNameBrowserType, EventFieldNameBrowserVersion, EventFieldNameBypassDurationSec, EventFieldNameBypassMethod, EventFieldNameBypassReason, EventFieldNameCategories, EventFieldNameCatoApp, EventFieldNameChanges, EventFieldNameClassification, EventFieldNameClientCertExpires, EventFieldNameClientCertName, EventFieldNameClientClass, EventFieldNameClientConnectionMode, EventFieldNameClientIP, EventFieldNameClientKeyExchangeAlgorithm, EventFieldNameClientVersion, EventFieldNameCollaboratorName, EventFieldNameCollaboratorOrigin, EventFieldNameCollaboratorTenant, EventFieldNameCollaborators, EventFieldNameConfidenceLevel, EventFieldNameConfiguredHostName, EventFieldNameCongestionAlgorithm, EventFieldNameConnectOnBoot, EventFieldNameConnectionOrigin, EventFieldNameConnectorID, EventFieldNameConnectorName, EventFieldNameConnectorStatus, EventFieldNameConnectorType, EventFieldNameContainerName, EventFieldNameCorrelationID, EventFieldNameCPUCoreID, EventFieldNameCreatedAt, EventFieldNameCriticality, EventFieldNameCustomCategoryID, EventFieldNameCustomCategoryName, EventFieldNameDataCategories, EventFieldNameDataClassifiers, EventFieldNameDepartment, EventFieldNameDestCountry, EventFieldNameDestCountryCode, EventFieldNameDestDomain, EventFieldNameDestEndpointType, EventFieldNameDestGroupID, EventFieldNameDestGroupName, EventFieldNameDestIP, EventFieldNameDestIsSiteOrVpn, EventFieldNameDestPid, EventFieldNameDestPort, EventFieldNameDestProcessCmdline, EventFieldNameDestProcessParentPath, EventFieldNameDestProcessParentPid, EventFieldNameDestProcessPath, EventFieldNameDestSiteID, EventFieldNameDestSiteName, EventFieldNameDetectionName, EventFieldNameDetectionStage, EventFieldNameDetectors, EventFieldNameDeviceCategories, EventFieldNameDeviceCertificate, EventFieldNameDeviceComplianceState, EventFieldNameDeviceID, EventFieldNameDeviceManufacturer, EventFieldNameDeviceModel, EventFieldNameDeviceName, EventFieldNameDeviceOsType, EventFieldNameDevicePostureProfile, EventFieldNameDeviceType, EventFieldNameDirectoryHostName, EventFieldNameDirectoryIP, EventFieldNameDirectorySyncResult, EventFieldNameDirectorySyncType, EventFieldNameDisinfectResult, EventFieldNameDisplayName, EventFieldNameDlpFailMode, EventFieldNameDlpProfiles, EventFieldNameDlpScanTypes, EventFieldNameDNSAnswer, EventFieldNameDNSProtectionCategory, EventFieldNameDNSQuery, EventFieldNameDNSRecordType, EventFieldNameDNSReplyCode, EventFieldNameDomainName, EventFieldNameDurationMs, EventFieldNameDynamicControlIds, EventFieldNameDynamicControlNames, EventFieldNameDynamicControlScope, EventFieldNameDynamicControlThreatCategories, EventFieldNameEgressPopName, EventFieldNameEgressSiteName, EventFieldNameEmailSubject, EventFieldNameEndpointID, EventFieldNameEngagementOutcomeAction, EventFieldNameEngineType, EventFieldNameEppEngineType, EventFieldNameEppProfile, EventFieldNameEventCount, EventFieldNameEventID, EventFieldNameEventMessage, EventFieldNameEventSubType, EventFieldNameEventType, EventFieldNameFailureReason, EventFieldNameFileHash, EventFieldNameFileName, EventFieldNameFileOperation, EventFieldNameFilePath, EventFieldNameFileSize, EventFieldNameFileTopic, EventFieldNameFileTopicCategory, EventFieldNameFileType, EventFieldNameFinalObjectStatus, EventFieldNameFlowID, EventFieldNameFlowsCardinality, EventFieldNameFullPathURL, EventFieldNameGuardID, EventFieldNameGuardName, EventFieldNameGuardType, EventFieldNameGuestUser, EventFieldNameHostIP, EventFieldNameHostMac, EventFieldNameHTTPRequestMethod, EventFieldNameHTTPResponseCode, EventFieldNameIncidentAggregation, EventFieldNameIncidentID, EventFieldNameIndication, EventFieldNameIndicator, EventFieldNameInitialObjectStatus, EventFieldNameInspectionMode, EventFieldNameInteractionID, EventFieldNameInteractionIntent, EventFieldNameInteractionSubTopic, EventFieldNameInteractionTopic, EventFieldNameInternalID, EventFieldNameInvestigationTimeWindow, EventFieldNameInvocationID, EventFieldNameIPProtocol, EventFieldNameIsAdmin, EventFieldNameIsAdminActivity, EventFieldNameIsCloudApp, EventFieldNameIsCompliant, EventFieldNameIsEncrypted, EventFieldNameIsManaged, EventFieldNameIsPublic, EventFieldNameIsSanctionedApp, EventFieldNameIsSinkhole, EventFieldNameJobTitle, EventFieldNameKeyName, EventFieldNameLabels, EventFieldNameLastModifiedAt, EventFieldNameLastSeenAt, EventFieldNameLastTurnRole, EventFieldNameLinkHealthIsCongested, EventFieldNameLinkHealthJitter, EventFieldNameLinkHealthLatency, EventFieldNameLinkHealthPktLoss, EventFieldNameLinkType, EventFieldNameLoggedInUser, EventFieldNameLoginType, EventFieldNameMatchedCount, EventFieldNameMatchedCounts, EventFieldNameMatchedDataTypes, EventFieldNameMd5, EventFieldNameMessageID, EventFieldNameMetric, EventFieldNameMetricValue, EventFieldNameMitreAttackSubtechniques, EventFieldNameMitreAttackTactics, EventFieldNameMitreAttackTechniques, EventFieldNameNatError, EventFieldNameNetworkAccess, EventFieldNameNetworkRule, EventFieldNameNotificationAPIError, EventFieldNameNotificationDescription, EventFieldNameObjectID, EventFieldNameObjectModule, EventFieldNameObjectName, EventFieldNameObjectType, EventFieldNameOfficeMode, EventFieldNameOsType, EventFieldNameOsVersion, EventFieldNameOutOfBandAccess, EventFieldNameOutpostEnvironmentName, EventFieldNameOwner, EventFieldNamePacFile, EventFieldNameParentConnectorName, EventFieldNamePopName, EventFieldNamePrecedence, EventFieldNameProcessesCount, EventFieldNameProducer, EventFieldNameProjects, EventFieldNamePromptAction, EventFieldNameProviderName, EventFieldNamePublicIP, EventFieldNameQosPriority, EventFieldNameQosReportedTime, EventFieldNameQuarantineFolderPath, EventFieldNameQuarantineUUID, EventFieldNameRawData, EventFieldNameRbiProfile, EventFieldNameRecommendedActions, EventFieldNameReferenceURL, EventFieldNameRefererURL, EventFieldNameRegionName, EventFieldNameRegistrationCode, EventFieldNameRequestSize, EventFieldNameResourceID, EventFieldNameResourceName, EventFieldNameResourceType, EventFieldNameResponseSize, EventFieldNameRetentionLabel, EventFieldNameRiskLevel, EventFieldNameRole, EventFieldNameRuleExpirationTime, EventFieldNameRuleID, EventFieldNameRuleName, EventFieldNameSecondarySocketSerial, EventFieldNameSensitivityDisplayName, EventFieldNameServerIP, EventFieldNameServerKeyExchangeAlgorithm, EventFieldNameServiceName, EventFieldNameSessionID, EventFieldNameSeverity, EventFieldNameSharingScope, EventFieldNameSignInEventTypes, EventFieldNameSignalSource, EventFieldNameSignatureID, EventFieldNameSiteWebProxyID, EventFieldNameSiteWebProxyName, EventFieldNameSiteWebProxyRuleAction, EventFieldNameSiteWebProxyRuleID, EventFieldNameSiteWebProxyRuleName, EventFieldNameSocketDescription, EventFieldNameSocketInterface, EventFieldNameSocketInterfaceID, EventFieldNameSocketMacAddress, EventFieldNameSocketNewVersion, EventFieldNameSocketOldVersion, EventFieldNameSocketReset, EventFieldNameSocketRole, EventFieldNameSocketSerial, EventFieldNameSocketVersion, EventFieldNameSplitTunnelConfiguration, EventFieldNameSrcCity, EventFieldNameSrcCountry, EventFieldNameSrcCountryCode, EventFieldNameSrcEndpointType, EventFieldNameSrcIP, EventFieldNameSrcIsSiteOrVpn, EventFieldNameSrcIspIP, EventFieldNameSrcPid, EventFieldNameSrcPort, EventFieldNameSrcProcessCmdline, EventFieldNameSrcProcessParentPath, EventFieldNameSrcProcessParentPid, EventFieldNameSrcProcessPath, EventFieldNameSrcSiteConnectionType, EventFieldNameSrcSiteID, EventFieldNameSrcSiteName, EventFieldNameStaticHost, EventFieldNameStatus, EventFieldNameStoryID, EventFieldNameSubnetName, EventFieldNameSubscriptionName, EventFieldNameTargetsCardinality, EventFieldNameTCPAcceleration, EventFieldNameTenantID, EventFieldNameTenantName, EventFieldNameTenantRestrictionRuleName, EventFieldNameThreatConfidence, EventFieldNameThreatName, EventFieldNameThreatReference, EventFieldNameThreatScore, EventFieldNameThreatType, EventFieldNameThreatVerdict, EventFieldNameTime, EventFieldNameTimeStr, EventFieldNameTitle, EventFieldNameTLSCertificateError, EventFieldNameTLSErrorDescription, EventFieldNameTLSErrorType, EventFieldNameTLSInspection, EventFieldNameTLSRuleName, EventFieldNameTLSVersion, EventFieldNameTotalTokens, EventFieldNameTrafficDirection, EventFieldNameTransactionSize, EventFieldNameTranslatedClientIP, EventFieldNameTranslatedServerIP, EventFieldNameTrigger, EventFieldNameTrustType, EventFieldNameTrustedNetworks, EventFieldNameTunnelIPProtocol, EventFieldNameTunnelProtocol, EventFieldNameUpgradeEndTime, EventFieldNameUpgradeInitiatedBy, EventFieldNameUpgradeStartTime, EventFieldNameURL, EventFieldNameUserAgent, EventFieldNameUserAwarenessMethod, EventFieldNameUserID, EventFieldNameUserJustification, EventFieldNameUserName, EventFieldNameUserOrigin, EventFieldNameUserReferenceID, EventFieldNameUserRiskLevel, EventFieldNameVendor, EventFieldNameVendorCollaboratorID, EventFieldNameVendorDeviceID, EventFieldNameVendorDeviceName, EventFieldNameVendorEventID, EventFieldNameVendorLocation, EventFieldNameVendorOrgID, EventFieldNameVendorPolicyDescription, EventFieldNameVendorPolicyID, EventFieldNameVendorPolicyName, EventFieldNameVendorSiteID, EventFieldNameVendorStartTime, EventFieldNameVendorUserID, EventFieldNameVendorVersion, EventFieldNameVisibleDeviceID, EventFieldNameVpnLanAccess, EventFieldNameVpnUserEmail, EventFieldNameWifiAuthenticationType, EventFieldNameWifiBssid, EventFieldNameWifiChannel, EventFieldNameWifiDescription, EventFieldNameWifiEventReasonCode, EventFieldNameWifiEventType, EventFieldNameWifiEventTypeCode, EventFieldNameWifiEventVendorName, EventFieldNameWifiProtocol, EventFieldNameWifiRadioBand, EventFieldNameWifiSecurity, EventFieldNameWifiSignalStrength, EventFieldNameWifiSsid, EventFieldNameWifiTimeSinceAssocMs, EventFieldNameWindowsDomainName, EventFieldNameXff:
+	case EventFieldNameIspName, EventFieldNameAccessMethod, EventFieldNameAccessPointID, EventFieldNameAccessPointName, EventFieldNameAccountID, EventFieldNameAction, EventFieldNameActionsTaken, EventFieldNameActiveAuthBrowser, EventFieldNameActivityResourceID, EventFieldNameActorType, EventFieldNameAdName, EventFieldNameAiAppRiskLevel, EventFieldNameAiProxyRuleName, EventFieldNameAiReason, EventFieldNameAlertID, EventFieldNameAlertName, EventFieldNameAlerts, EventFieldNameAlwaysOnConfiguration, EventFieldNameAnalystVerdict, EventFieldNameAntiTamperBypassDurationSec, EventFieldNameAntiTamperBypassMethod, EventFieldNameAntiTamperBypassResult, EventFieldNameAPIName, EventFieldNameAPIType, EventFieldNameAppActivity, EventFieldNameAppActivityCategory, EventFieldNameAppActivityType, EventFieldNameAppStack, EventFieldNameApplicationID, EventFieldNameApplicationName, EventFieldNameApplicationRisk, EventFieldNameApplicationType, EventFieldNameAtpFeedReasons, EventFieldNameAuditID, EventFieldNameAuthBrowserFallbackReason, EventFieldNameAuthMethod, EventFieldNameAuthenticationType, EventFieldNameBaselineAverage, EventFieldNameBaselineStd, EventFieldNameBgpCatoAsn, EventFieldNameBgpCatoIP, EventFieldNameBgpErrorCode, EventFieldNameBgpPeerAsn, EventFieldNameBgpPeerIP, EventFieldNameBgpPeerName, EventFieldNameBgpRouteCidr, EventFieldNameBgpSuberrorCode, EventFieldNameBrowserType, EventFieldNameBrowserVersion, EventFieldNameBypassDurationSec, EventFieldNameBypassMethod, EventFieldNameBypassReason, EventFieldNameCategories, EventFieldNameCatoApp, EventFieldNameChanges, EventFieldNameClassification, EventFieldNameClientCertExpires, EventFieldNameClientCertName, EventFieldNameClientClass, EventFieldNameClientConnectionMode, EventFieldNameClientIP, EventFieldNameClientKeyExchangeAlgorithm, EventFieldNameClientVersion, EventFieldNameCollaboratorName, EventFieldNameCollaboratorOrigin, EventFieldNameCollaboratorTenant, EventFieldNameCollaborators, EventFieldNameConfidenceLevel, EventFieldNameConfiguredAuthBrowser, EventFieldNameConfiguredHostName, EventFieldNameCongestionAlgorithm, EventFieldNameConnectOnBoot, EventFieldNameConnectionOrigin, EventFieldNameConnectorID, EventFieldNameConnectorName, EventFieldNameConnectorStatus, EventFieldNameConnectorType, EventFieldNameContainerName, EventFieldNameCorrelationID, EventFieldNameCPUCoreID, EventFieldNameCreatedAt, EventFieldNameCriticality, EventFieldNameCustomCategoryID, EventFieldNameCustomCategoryName, EventFieldNameDataCategories, EventFieldNameDataClassifiers, EventFieldNameDepartment, EventFieldNameDestCountry, EventFieldNameDestCountryCode, EventFieldNameDestDomain, EventFieldNameDestEndpointType, EventFieldNameDestGroupID, EventFieldNameDestGroupName, EventFieldNameDestIP, EventFieldNameDestIsSiteOrVpn, EventFieldNameDestPid, EventFieldNameDestPort, EventFieldNameDestProcessCmdline, EventFieldNameDestProcessParentPath, EventFieldNameDestProcessParentPid, EventFieldNameDestProcessPath, EventFieldNameDestSiteID, EventFieldNameDestSiteName, EventFieldNameDetectionName, EventFieldNameDetectionStage, EventFieldNameDetectors, EventFieldNameDeviceCategories, EventFieldNameDeviceCertificate, EventFieldNameDeviceComplianceState, EventFieldNameDeviceCrowdstrikeRiskScore, EventFieldNameDeviceID, EventFieldNameDeviceManufacturer, EventFieldNameDeviceModel, EventFieldNameDeviceName, EventFieldNameDeviceOsType, EventFieldNameDevicePostureProfile, EventFieldNameDeviceType, EventFieldNameDirectoryHostName, EventFieldNameDirectoryIP, EventFieldNameDirectorySyncResult, EventFieldNameDirectorySyncType, EventFieldNameDisinfectResult, EventFieldNameDisplayName, EventFieldNameDlpFailMode, EventFieldNameDlpProfiles, EventFieldNameDlpScanTypes, EventFieldNameDNSAnswer, EventFieldNameDNSProtectionCategory, EventFieldNameDNSQuery, EventFieldNameDNSRecordType, EventFieldNameDNSReplyCode, EventFieldNameDomainName, EventFieldNameDurationMs, EventFieldNameDynamicControlIds, EventFieldNameDynamicControlNames, EventFieldNameDynamicControlScope, EventFieldNameDynamicControlThreatCategories, EventFieldNameEgressPopName, EventFieldNameEgressSiteName, EventFieldNameEmailSubject, EventFieldNameEndpointID, EventFieldNameEngagementOutcomeAction, EventFieldNameEngineType, EventFieldNameEppEngineType, EventFieldNameEppProfile, EventFieldNameEventCount, EventFieldNameEventID, EventFieldNameEventMessage, EventFieldNameEventSubType, EventFieldNameEventType, EventFieldNameFailureReason, EventFieldNameFileHash, EventFieldNameFileName, EventFieldNameFileOperation, EventFieldNameFilePath, EventFieldNameFileSize, EventFieldNameFileTopic, EventFieldNameFileTopicCategory, EventFieldNameFileType, EventFieldNameFinalObjectStatus, EventFieldNameFlowID, EventFieldNameFlows, EventFieldNameFlowsCardinality, EventFieldNameFullPathURL, EventFieldNameGuardID, EventFieldNameGuardName, EventFieldNameGuardType, EventFieldNameGuestUser, EventFieldNameHostIP, EventFieldNameHostMac, EventFieldNameHTTPRequestMethod, EventFieldNameHTTPResponseCode, EventFieldNameIncidentAggregation, EventFieldNameIncidentID, EventFieldNameIndication, EventFieldNameIndicator, EventFieldNameInitialObjectStatus, EventFieldNameInspectionMode, EventFieldNameInteractionID, EventFieldNameInteractionIntent, EventFieldNameInteractionSubTopic, EventFieldNameInteractionTopic, EventFieldNameInternalID, EventFieldNameInvestigationTimeWindow, EventFieldNameInvocationID, EventFieldNameIPProtocol, EventFieldNameIsAcknowledged, EventFieldNameIsAdmin, EventFieldNameIsAdminActivity, EventFieldNameIsCloudApp, EventFieldNameIsCompliant, EventFieldNameIsEncrypted, EventFieldNameIsManaged, EventFieldNameIsMuted, EventFieldNameIsPublic, EventFieldNameIsSanctionedApp, EventFieldNameIsSinkhole, EventFieldNameJobTitle, EventFieldNameKeyName, EventFieldNameLabels, EventFieldNameLastModifiedAt, EventFieldNameLastSeenAt, EventFieldNameLastTurnRole, EventFieldNameLinkHealthIsCongested, EventFieldNameLinkHealthJitter, EventFieldNameLinkHealthLatency, EventFieldNameLinkHealthPktLoss, EventFieldNameLinkType, EventFieldNameLoggedInUser, EventFieldNameLoginType, EventFieldNameMatchedCount, EventFieldNameMatchedCounts, EventFieldNameMatchedDataTypes, EventFieldNameMd5, EventFieldNameMessageID, EventFieldNameMetric, EventFieldNameMetricUnits, EventFieldNameMetricValue, EventFieldNameMitreAttackSubtechniques, EventFieldNameMitreAttackTactics, EventFieldNameMitreAttackTechniques, EventFieldNameNatError, EventFieldNameNetworkAccess, EventFieldNameNetworkRule, EventFieldNameNotificationAPIError, EventFieldNameNotificationDescription, EventFieldNameObjectID, EventFieldNameObjectModule, EventFieldNameObjectName, EventFieldNameObjectType, EventFieldNameOfficeMode, EventFieldNameOsType, EventFieldNameOsVersion, EventFieldNameOutOfBandAccess, EventFieldNameOutpostEnvironmentName, EventFieldNameOwner, EventFieldNamePacFile, EventFieldNameParentConnectorName, EventFieldNamePopName, EventFieldNamePrecedence, EventFieldNameProcessesCount, EventFieldNameProducer, EventFieldNameProjects, EventFieldNamePromptAction, EventFieldNameProviderName, EventFieldNamePublicIP, EventFieldNameQosPriority, EventFieldNameQosReportedTime, EventFieldNameQuarantineFolderPath, EventFieldNameQuarantineUUID, EventFieldNameRawData, EventFieldNameRbiProfile, EventFieldNameRecommendedActions, EventFieldNameReferenceURL, EventFieldNameRefererURL, EventFieldNameRegionName, EventFieldNameRegistrationCode, EventFieldNameRequestSize, EventFieldNameResourceID, EventFieldNameResourceName, EventFieldNameResourceType, EventFieldNameResponseSize, EventFieldNameRetentionLabel, EventFieldNameRiskLevel, EventFieldNameRole, EventFieldNameRuleExpirationTime, EventFieldNameRuleID, EventFieldNameRuleName, EventFieldNameSecondarySocketSerial, EventFieldNameSensitivityDisplayName, EventFieldNameServerIP, EventFieldNameServerKeyExchangeAlgorithm, EventFieldNameServiceName, EventFieldNameSessionID, EventFieldNameSeverity, EventFieldNameSharingScope, EventFieldNameSignInEventTypes, EventFieldNameSignalSource, EventFieldNameSignatureID, EventFieldNameSiteWebProxyID, EventFieldNameSiteWebProxyName, EventFieldNameSiteWebProxyRuleAction, EventFieldNameSiteWebProxyRuleID, EventFieldNameSiteWebProxyRuleName, EventFieldNameSocketDescription, EventFieldNameSocketInterface, EventFieldNameSocketInterfaceID, EventFieldNameSocketMacAddress, EventFieldNameSocketNewVersion, EventFieldNameSocketOldVersion, EventFieldNameSocketReset, EventFieldNameSocketRole, EventFieldNameSocketSerial, EventFieldNameSocketVersion, EventFieldNameSplitTunnelConfiguration, EventFieldNameSrcCity, EventFieldNameSrcCountry, EventFieldNameSrcCountryCode, EventFieldNameSrcEndpointType, EventFieldNameSrcIP, EventFieldNameSrcIsSiteOrVpn, EventFieldNameSrcIspIP, EventFieldNameSrcPid, EventFieldNameSrcPort, EventFieldNameSrcProcessCmdline, EventFieldNameSrcProcessParentPath, EventFieldNameSrcProcessParentPid, EventFieldNameSrcProcessPath, EventFieldNameSrcSiteConnectionType, EventFieldNameSrcSiteID, EventFieldNameSrcSiteName, EventFieldNameStaticHost, EventFieldNameStatus, EventFieldNameStoryID, EventFieldNameSubnetName, EventFieldNameSubscriptionName, EventFieldNameTargetsCardinality, EventFieldNameTCPAcceleration, EventFieldNameTenantID, EventFieldNameTenantName, EventFieldNameTenantRestrictionRuleName, EventFieldNameThreatConfidence, EventFieldNameThreatName, EventFieldNameThreatReference, EventFieldNameThreatScore, EventFieldNameThreatType, EventFieldNameThreatVerdict, EventFieldNameTicket, EventFieldNameTime, EventFieldNameTimeStr, EventFieldNameTitle, EventFieldNameTLSCertificateError, EventFieldNameTLSErrorDescription, EventFieldNameTLSErrorType, EventFieldNameTLSInspection, EventFieldNameTLSRuleName, EventFieldNameTLSVersion, EventFieldNameTotalTokens, EventFieldNameTrafficDirection, EventFieldNameTransactionSize, EventFieldNameTranslatedClientIP, EventFieldNameTranslatedServerIP, EventFieldNameTrigger, EventFieldNameTrustType, EventFieldNameTrustedNetworks, EventFieldNameTunnelIPProtocol, EventFieldNameTunnelProtocol, EventFieldNameUpgradeEndTime, EventFieldNameUpgradeInitiatedBy, EventFieldNameUpgradeStartTime, EventFieldNameURL, EventFieldNameUserAgent, EventFieldNameUserAwarenessMethod, EventFieldNameUserID, EventFieldNameUserJustification, EventFieldNameUserName, EventFieldNameUserOrigin, EventFieldNameUserReferenceID, EventFieldNameUserRiskLevel, EventFieldNameVendor, EventFieldNameVendorCollaboratorID, EventFieldNameVendorDeviceID, EventFieldNameVendorDeviceName, EventFieldNameVendorEventID, EventFieldNameVendorLocation, EventFieldNameVendorOrgID, EventFieldNameVendorPolicyDescription, EventFieldNameVendorPolicyID, EventFieldNameVendorPolicyName, EventFieldNameVendorSiteID, EventFieldNameVendorStartTime, EventFieldNameVendorUserID, EventFieldNameVendorVersion, EventFieldNameVerdictElaboration, EventFieldNameVisibleDeviceID, EventFieldNameVpnLanAccess, EventFieldNameVpnUserEmail, EventFieldNameWifiAuthenticationType, EventFieldNameWifiBssid, EventFieldNameWifiChannel, EventFieldNameWifiDescription, EventFieldNameWifiEventReasonCode, EventFieldNameWifiEventType, EventFieldNameWifiEventTypeCode, EventFieldNameWifiEventVendorName, EventFieldNameWifiProtocol, EventFieldNameWifiRadioBand, EventFieldNameWifiSecurity, EventFieldNameWifiSignalStrength, EventFieldNameWifiSsid, EventFieldNameWifiTimeSinceAssocMs, EventFieldNameWindowsDomainName, EventFieldNameXff:
 		return true
 	}
 	return false
@@ -26410,6 +27216,67 @@ func (e *MsResourceVerdictEnum) UnmarshalJSON(b []byte) error {
 }
 
 func (e MsResourceVerdictEnum) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
+}
+
+// The type of a DHCP option value.
+type NetworkConfigDhcpOptionType string
+
+const (
+	//  ASCII text.
+	NetworkConfigDhcpOptionTypeASCII NetworkConfigDhcpOptionType = "ASCII"
+	//  Hexadecimal bytes.
+	NetworkConfigDhcpOptionTypeHex NetworkConfigDhcpOptionType = "HEX"
+	//  An IP address.
+	NetworkConfigDhcpOptionTypeIP NetworkConfigDhcpOptionType = "IP"
+)
+
+var AllNetworkConfigDhcpOptionType = []NetworkConfigDhcpOptionType{
+	NetworkConfigDhcpOptionTypeASCII,
+	NetworkConfigDhcpOptionTypeHex,
+	NetworkConfigDhcpOptionTypeIP,
+}
+
+func (e NetworkConfigDhcpOptionType) IsValid() bool {
+	switch e {
+	case NetworkConfigDhcpOptionTypeASCII, NetworkConfigDhcpOptionTypeHex, NetworkConfigDhcpOptionTypeIP:
+		return true
+	}
+	return false
+}
+
+func (e NetworkConfigDhcpOptionType) String() string {
+	return string(e)
+}
+
+func (e *NetworkConfigDhcpOptionType) UnmarshalGQL(v any) error {
+	str, ok := v.(string)
+	if !ok {
+		return fmt.Errorf("enums must be strings")
+	}
+
+	*e = NetworkConfigDhcpOptionType(str)
+	if !e.IsValid() {
+		return fmt.Errorf("%s is not a valid NetworkConfigDhcpOptionType", str)
+	}
+	return nil
+}
+
+func (e NetworkConfigDhcpOptionType) MarshalGQL(w io.Writer) {
+	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+func (e *NetworkConfigDhcpOptionType) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e NetworkConfigDhcpOptionType) MarshalJSON() ([]byte, error) {
 	var buf bytes.Buffer
 	e.MarshalGQL(&buf)
 	return buf.Bytes(), nil

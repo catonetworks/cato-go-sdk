@@ -1,0 +1,55 @@
+--- a/cato_api.graphqls
++++ b/cato_api.graphqls
+@@ -11090,9 +11090,52 @@ input PolicyDiscardRevisionInput {
+ input PolicyDiscardRevisionInput {
+   id: ID
+ }
+ 
++""" Reference to a policy element (section, rule, or sub-rule) identified by ID or name. """
++input PolicyElementRefInput {
++  by: ObjectRefBy! = ID
++  input: String!
++}
++
++"""
++Input for reordering an entire policy in a single mutation.
++All sections, rules, and sub-rules must be provided — including system elements.
++System sections and system rules must remain at their persisted positions (same array index).
++The desired order is determined by the natural (array index) order of the elements.
++"""
++input PolicyReorderInput {
++  sections: [PolicyReorderSectionInput!]!
++  subPolicyId: ID
++}
++
++"""
++Defines the desired order of a rule and its sub-rules within a section.
++Rules are reordered based on their natural position in the array.
++"""
++input PolicyReorderRuleInput {
++  ref: PolicyElementRefInput!
++  subRules: [PolicyReorderSubRuleInput!]! = []
++}
++
++"""
++Defines the desired order of a section and its rules within the policy.
++Sections are reordered based on their natural position in the array.
++"""
++input PolicyReorderSectionInput {
++  ref: PolicyElementRefInput!
++  rules: [PolicyReorderRuleInput!]!
++}
++
++"""
++Defines the desired order of sub-rules within a parent rule.
++Sub-rules are reordered based on their natural position in the array.
++"""
++input PolicyReorderSubRuleInput {
++  ref: PolicyElementRefInput!
++}
++
+ input PolicyLevelEnumFilterInput {
+   eq: PolicyLevelEnum
+   in: [PolicyLevelEnum!]
+   neq: PolicyLevelEnum
+   nin: [PolicyLevelEnum!]
