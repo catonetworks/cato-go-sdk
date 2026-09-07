@@ -226534,2313 +226534,2313 @@ func (t *ObjectUpdateGlobalIPRangeBulk) GetObject() *ObjectUpdateGlobalIpRangeBu
 }
 
 type PolicyAntiMalwareFileHashAddRule struct {
-	Policy *PolicyAntiMalwareFileHashAddRule_Policy "json:\"policy,omitempty\" graphql:\"policy\""
+	Policy PolicyAntiMalwareFileHashAddRule_Policy "json:\"policy\" graphql:\"policy\""
 }
 
 func (t *PolicyAntiMalwareFileHashAddRule) GetPolicy() *PolicyAntiMalwareFileHashAddRule_Policy {
 	if t == nil {
 		t = &PolicyAntiMalwareFileHashAddRule{}
 	}
-	return t.Policy
+	return &t.Policy
 }
 
 type PolicyAntiMalwareFileHashAddSection struct {
-	Policy *PolicyAntiMalwareFileHashAddSection_Policy "json:\"policy,omitempty\" graphql:\"policy\""
+	Policy PolicyAntiMalwareFileHashAddSection_Policy "json:\"policy\" graphql:\"policy\""
 }
 
 func (t *PolicyAntiMalwareFileHashAddSection) GetPolicy() *PolicyAntiMalwareFileHashAddSection_Policy {
 	if t == nil {
 		t = &PolicyAntiMalwareFileHashAddSection{}
 	}
-	return t.Policy
+	return &t.Policy
 }
 
 type PolicyAntiMalwareFileHashCreatePolicyRevision struct {
-	Policy *PolicyAntiMalwareFileHashCreatePolicyRevision_Policy "json:\"policy,omitempty\" graphql:\"policy\""
+	Policy PolicyAntiMalwareFileHashCreatePolicyRevision_Policy "json:\"policy\" graphql:\"policy\""
 }
 
 func (t *PolicyAntiMalwareFileHashCreatePolicyRevision) GetPolicy() *PolicyAntiMalwareFileHashCreatePolicyRevision_Policy {
 	if t == nil {
 		t = &PolicyAntiMalwareFileHashCreatePolicyRevision{}
 	}
-	return t.Policy
+	return &t.Policy
 }
 
 type PolicyAntiMalwareFileHashDiscardPolicyRevision struct {
-	Policy *PolicyAntiMalwareFileHashDiscardPolicyRevision_Policy "json:\"policy,omitempty\" graphql:\"policy\""
+	Policy PolicyAntiMalwareFileHashDiscardPolicyRevision_Policy "json:\"policy\" graphql:\"policy\""
 }
 
 func (t *PolicyAntiMalwareFileHashDiscardPolicyRevision) GetPolicy() *PolicyAntiMalwareFileHashDiscardPolicyRevision_Policy {
 	if t == nil {
 		t = &PolicyAntiMalwareFileHashDiscardPolicyRevision{}
 	}
-	return t.Policy
+	return &t.Policy
 }
 
 type PolicyAntiMalwareFileHashMoveRule struct {
-	Policy *PolicyAntiMalwareFileHashMoveRule_Policy "json:\"policy,omitempty\" graphql:\"policy\""
+	Policy PolicyAntiMalwareFileHashMoveRule_Policy "json:\"policy\" graphql:\"policy\""
 }
 
 func (t *PolicyAntiMalwareFileHashMoveRule) GetPolicy() *PolicyAntiMalwareFileHashMoveRule_Policy {
 	if t == nil {
 		t = &PolicyAntiMalwareFileHashMoveRule{}
 	}
-	return t.Policy
+	return &t.Policy
 }
 
 type PolicyAntiMalwareFileHashMoveSection struct {
-	Policy *PolicyAntiMalwareFileHashMoveSection_Policy "json:\"policy,omitempty\" graphql:\"policy\""
+	Policy PolicyAntiMalwareFileHashMoveSection_Policy "json:\"policy\" graphql:\"policy\""
 }
 
 func (t *PolicyAntiMalwareFileHashMoveSection) GetPolicy() *PolicyAntiMalwareFileHashMoveSection_Policy {
 	if t == nil {
 		t = &PolicyAntiMalwareFileHashMoveSection{}
 	}
-	return t.Policy
+	return &t.Policy
 }
 
 type PolicyAntiMalwareFileHashPublishPolicyRevision struct {
-	Policy *PolicyAntiMalwareFileHashPublishPolicyRevision_Policy "json:\"policy,omitempty\" graphql:\"policy\""
+	Policy PolicyAntiMalwareFileHashPublishPolicyRevision_Policy "json:\"policy\" graphql:\"policy\""
 }
 
 func (t *PolicyAntiMalwareFileHashPublishPolicyRevision) GetPolicy() *PolicyAntiMalwareFileHashPublishPolicyRevision_Policy {
 	if t == nil {
 		t = &PolicyAntiMalwareFileHashPublishPolicyRevision{}
 	}
-	return t.Policy
+	return &t.Policy
 }
 
 type PolicyAntiMalwareFileHashRemoveRule struct {
-	Policy *PolicyAntiMalwareFileHashRemoveRule_Policy "json:\"policy,omitempty\" graphql:\"policy\""
+	Policy PolicyAntiMalwareFileHashRemoveRule_Policy "json:\"policy\" graphql:\"policy\""
 }
 
 func (t *PolicyAntiMalwareFileHashRemoveRule) GetPolicy() *PolicyAntiMalwareFileHashRemoveRule_Policy {
 	if t == nil {
 		t = &PolicyAntiMalwareFileHashRemoveRule{}
 	}
-	return t.Policy
+	return &t.Policy
 }
 
 type PolicyAntiMalwareFileHashRemoveSection struct {
-	Policy *PolicyAntiMalwareFileHashRemoveSection_Policy "json:\"policy,omitempty\" graphql:\"policy\""
+	Policy PolicyAntiMalwareFileHashRemoveSection_Policy "json:\"policy\" graphql:\"policy\""
 }
 
 func (t *PolicyAntiMalwareFileHashRemoveSection) GetPolicy() *PolicyAntiMalwareFileHashRemoveSection_Policy {
 	if t == nil {
 		t = &PolicyAntiMalwareFileHashRemoveSection{}
 	}
-	return t.Policy
+	return &t.Policy
 }
 
 type PolicyAntiMalwareFileHashUpdatePolicy struct {
-	Policy *PolicyAntiMalwareFileHashUpdatePolicy_Policy "json:\"policy,omitempty\" graphql:\"policy\""
+	Policy PolicyAntiMalwareFileHashUpdatePolicy_Policy "json:\"policy\" graphql:\"policy\""
 }
 
 func (t *PolicyAntiMalwareFileHashUpdatePolicy) GetPolicy() *PolicyAntiMalwareFileHashUpdatePolicy_Policy {
 	if t == nil {
 		t = &PolicyAntiMalwareFileHashUpdatePolicy{}
 	}
-	return t.Policy
+	return &t.Policy
 }
 
 type PolicyAntiMalwareFileHashUpdateRule struct {
-	Policy *PolicyAntiMalwareFileHashUpdateRule_Policy "json:\"policy,omitempty\" graphql:\"policy\""
+	Policy PolicyAntiMalwareFileHashUpdateRule_Policy "json:\"policy\" graphql:\"policy\""
 }
 
 func (t *PolicyAntiMalwareFileHashUpdateRule) GetPolicy() *PolicyAntiMalwareFileHashUpdateRule_Policy {
 	if t == nil {
 		t = &PolicyAntiMalwareFileHashUpdateRule{}
 	}
-	return t.Policy
+	return &t.Policy
 }
 
 type PolicyAntiMalwareFileHashUpdateSection struct {
-	Policy *PolicyAntiMalwareFileHashUpdateSection_Policy "json:\"policy,omitempty\" graphql:\"policy\""
+	Policy PolicyAntiMalwareFileHashUpdateSection_Policy "json:\"policy\" graphql:\"policy\""
 }
 
 func (t *PolicyAntiMalwareFileHashUpdateSection) GetPolicy() *PolicyAntiMalwareFileHashUpdateSection_Policy {
 	if t == nil {
 		t = &PolicyAntiMalwareFileHashUpdateSection{}
 	}
-	return t.Policy
+	return &t.Policy
 }
 
 type PolicyAppTenantRestrictionAddRule struct {
-	Policy *PolicyAppTenantRestrictionAddRule_Policy "json:\"policy,omitempty\" graphql:\"policy\""
+	Policy PolicyAppTenantRestrictionAddRule_Policy "json:\"policy\" graphql:\"policy\""
 }
 
 func (t *PolicyAppTenantRestrictionAddRule) GetPolicy() *PolicyAppTenantRestrictionAddRule_Policy {
 	if t == nil {
 		t = &PolicyAppTenantRestrictionAddRule{}
 	}
-	return t.Policy
+	return &t.Policy
 }
 
 type PolicyAppTenantRestrictionAddSection struct {
-	Policy *PolicyAppTenantRestrictionAddSection_Policy "json:\"policy,omitempty\" graphql:\"policy\""
+	Policy PolicyAppTenantRestrictionAddSection_Policy "json:\"policy\" graphql:\"policy\""
 }
 
 func (t *PolicyAppTenantRestrictionAddSection) GetPolicy() *PolicyAppTenantRestrictionAddSection_Policy {
 	if t == nil {
 		t = &PolicyAppTenantRestrictionAddSection{}
 	}
-	return t.Policy
+	return &t.Policy
 }
 
 type PolicyAppTenantRestrictionCreatePolicyRevision struct {
-	Policy *PolicyAppTenantRestrictionCreatePolicyRevision_Policy "json:\"policy,omitempty\" graphql:\"policy\""
+	Policy PolicyAppTenantRestrictionCreatePolicyRevision_Policy "json:\"policy\" graphql:\"policy\""
 }
 
 func (t *PolicyAppTenantRestrictionCreatePolicyRevision) GetPolicy() *PolicyAppTenantRestrictionCreatePolicyRevision_Policy {
 	if t == nil {
 		t = &PolicyAppTenantRestrictionCreatePolicyRevision{}
 	}
-	return t.Policy
+	return &t.Policy
 }
 
 type PolicyAppTenantRestrictionDiscardPolicyRevision struct {
-	Policy *PolicyAppTenantRestrictionDiscardPolicyRevision_Policy "json:\"policy,omitempty\" graphql:\"policy\""
+	Policy PolicyAppTenantRestrictionDiscardPolicyRevision_Policy "json:\"policy\" graphql:\"policy\""
 }
 
 func (t *PolicyAppTenantRestrictionDiscardPolicyRevision) GetPolicy() *PolicyAppTenantRestrictionDiscardPolicyRevision_Policy {
 	if t == nil {
 		t = &PolicyAppTenantRestrictionDiscardPolicyRevision{}
 	}
-	return t.Policy
+	return &t.Policy
 }
 
 type PolicyAppTenantRestrictionMoveRule struct {
-	Policy *PolicyAppTenantRestrictionMoveRule_Policy "json:\"policy,omitempty\" graphql:\"policy\""
+	Policy PolicyAppTenantRestrictionMoveRule_Policy "json:\"policy\" graphql:\"policy\""
 }
 
 func (t *PolicyAppTenantRestrictionMoveRule) GetPolicy() *PolicyAppTenantRestrictionMoveRule_Policy {
 	if t == nil {
 		t = &PolicyAppTenantRestrictionMoveRule{}
 	}
-	return t.Policy
+	return &t.Policy
 }
 
 type PolicyAppTenantRestrictionMoveSection struct {
-	Policy *PolicyAppTenantRestrictionMoveSection_Policy "json:\"policy,omitempty\" graphql:\"policy\""
+	Policy PolicyAppTenantRestrictionMoveSection_Policy "json:\"policy\" graphql:\"policy\""
 }
 
 func (t *PolicyAppTenantRestrictionMoveSection) GetPolicy() *PolicyAppTenantRestrictionMoveSection_Policy {
 	if t == nil {
 		t = &PolicyAppTenantRestrictionMoveSection{}
 	}
-	return t.Policy
+	return &t.Policy
 }
 
 type PolicyAppTenantRestrictionPublishPolicyRevision struct {
-	Policy *PolicyAppTenantRestrictionPublishPolicyRevision_Policy "json:\"policy,omitempty\" graphql:\"policy\""
+	Policy PolicyAppTenantRestrictionPublishPolicyRevision_Policy "json:\"policy\" graphql:\"policy\""
 }
 
 func (t *PolicyAppTenantRestrictionPublishPolicyRevision) GetPolicy() *PolicyAppTenantRestrictionPublishPolicyRevision_Policy {
 	if t == nil {
 		t = &PolicyAppTenantRestrictionPublishPolicyRevision{}
 	}
-	return t.Policy
+	return &t.Policy
 }
 
 type PolicyAppTenantRestrictionRemoveRule struct {
-	Policy *PolicyAppTenantRestrictionRemoveRule_Policy "json:\"policy,omitempty\" graphql:\"policy\""
+	Policy PolicyAppTenantRestrictionRemoveRule_Policy "json:\"policy\" graphql:\"policy\""
 }
 
 func (t *PolicyAppTenantRestrictionRemoveRule) GetPolicy() *PolicyAppTenantRestrictionRemoveRule_Policy {
 	if t == nil {
 		t = &PolicyAppTenantRestrictionRemoveRule{}
 	}
-	return t.Policy
+	return &t.Policy
 }
 
 type PolicyAppTenantRestrictionRemoveSection struct {
-	Policy *PolicyAppTenantRestrictionRemoveSection_Policy "json:\"policy,omitempty\" graphql:\"policy\""
+	Policy PolicyAppTenantRestrictionRemoveSection_Policy "json:\"policy\" graphql:\"policy\""
 }
 
 func (t *PolicyAppTenantRestrictionRemoveSection) GetPolicy() *PolicyAppTenantRestrictionRemoveSection_Policy {
 	if t == nil {
 		t = &PolicyAppTenantRestrictionRemoveSection{}
 	}
-	return t.Policy
+	return &t.Policy
 }
 
 type PolicyAppTenantRestrictionUpdatePolicy struct {
-	Policy *PolicyAppTenantRestrictionUpdatePolicy_Policy "json:\"policy,omitempty\" graphql:\"policy\""
+	Policy PolicyAppTenantRestrictionUpdatePolicy_Policy "json:\"policy\" graphql:\"policy\""
 }
 
 func (t *PolicyAppTenantRestrictionUpdatePolicy) GetPolicy() *PolicyAppTenantRestrictionUpdatePolicy_Policy {
 	if t == nil {
 		t = &PolicyAppTenantRestrictionUpdatePolicy{}
 	}
-	return t.Policy
+	return &t.Policy
 }
 
 type PolicyAppTenantRestrictionUpdateRule struct {
-	Policy *PolicyAppTenantRestrictionUpdateRule_Policy "json:\"policy,omitempty\" graphql:\"policy\""
+	Policy PolicyAppTenantRestrictionUpdateRule_Policy "json:\"policy\" graphql:\"policy\""
 }
 
 func (t *PolicyAppTenantRestrictionUpdateRule) GetPolicy() *PolicyAppTenantRestrictionUpdateRule_Policy {
 	if t == nil {
 		t = &PolicyAppTenantRestrictionUpdateRule{}
 	}
-	return t.Policy
+	return &t.Policy
 }
 
 type PolicyAppTenantRestrictionUpdateSection struct {
-	Policy *PolicyAppTenantRestrictionUpdateSection_Policy "json:\"policy,omitempty\" graphql:\"policy\""
+	Policy PolicyAppTenantRestrictionUpdateSection_Policy "json:\"policy\" graphql:\"policy\""
 }
 
 func (t *PolicyAppTenantRestrictionUpdateSection) GetPolicy() *PolicyAppTenantRestrictionUpdateSection_Policy {
 	if t == nil {
 		t = &PolicyAppTenantRestrictionUpdateSection{}
 	}
-	return t.Policy
+	return &t.Policy
 }
 
 type PolicyApplicationControlAddRule struct {
-	Policy *PolicyApplicationControlAddRule_Policy "json:\"policy,omitempty\" graphql:\"policy\""
+	Policy PolicyApplicationControlAddRule_Policy "json:\"policy\" graphql:\"policy\""
 }
 
 func (t *PolicyApplicationControlAddRule) GetPolicy() *PolicyApplicationControlAddRule_Policy {
 	if t == nil {
 		t = &PolicyApplicationControlAddRule{}
 	}
-	return t.Policy
+	return &t.Policy
 }
 
 type PolicyApplicationControlAddSection struct {
-	Policy *PolicyApplicationControlAddSection_Policy "json:\"policy,omitempty\" graphql:\"policy\""
+	Policy PolicyApplicationControlAddSection_Policy "json:\"policy\" graphql:\"policy\""
 }
 
 func (t *PolicyApplicationControlAddSection) GetPolicy() *PolicyApplicationControlAddSection_Policy {
 	if t == nil {
 		t = &PolicyApplicationControlAddSection{}
 	}
-	return t.Policy
+	return &t.Policy
 }
 
 type PolicyApplicationControlCreatePolicyRevision struct {
-	Policy *PolicyApplicationControlCreatePolicyRevision_Policy "json:\"policy,omitempty\" graphql:\"policy\""
+	Policy PolicyApplicationControlCreatePolicyRevision_Policy "json:\"policy\" graphql:\"policy\""
 }
 
 func (t *PolicyApplicationControlCreatePolicyRevision) GetPolicy() *PolicyApplicationControlCreatePolicyRevision_Policy {
 	if t == nil {
 		t = &PolicyApplicationControlCreatePolicyRevision{}
 	}
-	return t.Policy
+	return &t.Policy
 }
 
 type PolicyApplicationControlDiscardPolicyRevision struct {
-	Policy *PolicyApplicationControlDiscardPolicyRevision_Policy "json:\"policy,omitempty\" graphql:\"policy\""
+	Policy PolicyApplicationControlDiscardPolicyRevision_Policy "json:\"policy\" graphql:\"policy\""
 }
 
 func (t *PolicyApplicationControlDiscardPolicyRevision) GetPolicy() *PolicyApplicationControlDiscardPolicyRevision_Policy {
 	if t == nil {
 		t = &PolicyApplicationControlDiscardPolicyRevision{}
 	}
-	return t.Policy
+	return &t.Policy
 }
 
 type PolicyApplicationControlMoveRule struct {
-	Policy *PolicyApplicationControlMoveRule_Policy "json:\"policy,omitempty\" graphql:\"policy\""
+	Policy PolicyApplicationControlMoveRule_Policy "json:\"policy\" graphql:\"policy\""
 }
 
 func (t *PolicyApplicationControlMoveRule) GetPolicy() *PolicyApplicationControlMoveRule_Policy {
 	if t == nil {
 		t = &PolicyApplicationControlMoveRule{}
 	}
-	return t.Policy
+	return &t.Policy
 }
 
 type PolicyApplicationControlMoveSection struct {
-	Policy *PolicyApplicationControlMoveSection_Policy "json:\"policy,omitempty\" graphql:\"policy\""
+	Policy PolicyApplicationControlMoveSection_Policy "json:\"policy\" graphql:\"policy\""
 }
 
 func (t *PolicyApplicationControlMoveSection) GetPolicy() *PolicyApplicationControlMoveSection_Policy {
 	if t == nil {
 		t = &PolicyApplicationControlMoveSection{}
 	}
-	return t.Policy
+	return &t.Policy
 }
 
 type PolicyApplicationControlPublishPolicyRevision struct {
-	Policy *PolicyApplicationControlPublishPolicyRevision_Policy "json:\"policy,omitempty\" graphql:\"policy\""
+	Policy PolicyApplicationControlPublishPolicyRevision_Policy "json:\"policy\" graphql:\"policy\""
 }
 
 func (t *PolicyApplicationControlPublishPolicyRevision) GetPolicy() *PolicyApplicationControlPublishPolicyRevision_Policy {
 	if t == nil {
 		t = &PolicyApplicationControlPublishPolicyRevision{}
 	}
-	return t.Policy
+	return &t.Policy
 }
 
 type PolicyApplicationControlRemoveRule struct {
-	Policy *PolicyApplicationControlRemoveRule_Policy "json:\"policy,omitempty\" graphql:\"policy\""
+	Policy PolicyApplicationControlRemoveRule_Policy "json:\"policy\" graphql:\"policy\""
 }
 
 func (t *PolicyApplicationControlRemoveRule) GetPolicy() *PolicyApplicationControlRemoveRule_Policy {
 	if t == nil {
 		t = &PolicyApplicationControlRemoveRule{}
 	}
-	return t.Policy
+	return &t.Policy
 }
 
 type PolicyApplicationControlRemoveSection struct {
-	Policy *PolicyApplicationControlRemoveSection_Policy "json:\"policy,omitempty\" graphql:\"policy\""
+	Policy PolicyApplicationControlRemoveSection_Policy "json:\"policy\" graphql:\"policy\""
 }
 
 func (t *PolicyApplicationControlRemoveSection) GetPolicy() *PolicyApplicationControlRemoveSection_Policy {
 	if t == nil {
 		t = &PolicyApplicationControlRemoveSection{}
 	}
-	return t.Policy
+	return &t.Policy
 }
 
 type PolicyApplicationControlUpdatePolicy struct {
-	Policy *PolicyApplicationControlUpdatePolicy_Policy "json:\"policy,omitempty\" graphql:\"policy\""
+	Policy PolicyApplicationControlUpdatePolicy_Policy "json:\"policy\" graphql:\"policy\""
 }
 
 func (t *PolicyApplicationControlUpdatePolicy) GetPolicy() *PolicyApplicationControlUpdatePolicy_Policy {
 	if t == nil {
 		t = &PolicyApplicationControlUpdatePolicy{}
 	}
-	return t.Policy
+	return &t.Policy
 }
 
 type PolicyApplicationControlUpdateRule struct {
-	Policy *PolicyApplicationControlUpdateRule_Policy "json:\"policy,omitempty\" graphql:\"policy\""
+	Policy PolicyApplicationControlUpdateRule_Policy "json:\"policy\" graphql:\"policy\""
 }
 
 func (t *PolicyApplicationControlUpdateRule) GetPolicy() *PolicyApplicationControlUpdateRule_Policy {
 	if t == nil {
 		t = &PolicyApplicationControlUpdateRule{}
 	}
-	return t.Policy
+	return &t.Policy
 }
 
 type PolicyApplicationControlUpdateSection struct {
-	Policy *PolicyApplicationControlUpdateSection_Policy "json:\"policy,omitempty\" graphql:\"policy\""
+	Policy PolicyApplicationControlUpdateSection_Policy "json:\"policy\" graphql:\"policy\""
 }
 
 func (t *PolicyApplicationControlUpdateSection) GetPolicy() *PolicyApplicationControlUpdateSection_Policy {
 	if t == nil {
 		t = &PolicyApplicationControlUpdateSection{}
 	}
-	return t.Policy
+	return &t.Policy
 }
 
 type PolicyClientConnectivityAddRule struct {
-	Policy *PolicyClientConnectivityAddRule_Policy "json:\"policy,omitempty\" graphql:\"policy\""
+	Policy PolicyClientConnectivityAddRule_Policy "json:\"policy\" graphql:\"policy\""
 }
 
 func (t *PolicyClientConnectivityAddRule) GetPolicy() *PolicyClientConnectivityAddRule_Policy {
 	if t == nil {
 		t = &PolicyClientConnectivityAddRule{}
 	}
-	return t.Policy
+	return &t.Policy
 }
 
 type PolicyClientConnectivityAddSection struct {
-	Policy *PolicyClientConnectivityAddSection_Policy "json:\"policy,omitempty\" graphql:\"policy\""
+	Policy PolicyClientConnectivityAddSection_Policy "json:\"policy\" graphql:\"policy\""
 }
 
 func (t *PolicyClientConnectivityAddSection) GetPolicy() *PolicyClientConnectivityAddSection_Policy {
 	if t == nil {
 		t = &PolicyClientConnectivityAddSection{}
 	}
-	return t.Policy
+	return &t.Policy
 }
 
 type PolicyClientConnectivityCreatePolicyRevision struct {
-	Policy *PolicyClientConnectivityCreatePolicyRevision_Policy "json:\"policy,omitempty\" graphql:\"policy\""
+	Policy PolicyClientConnectivityCreatePolicyRevision_Policy "json:\"policy\" graphql:\"policy\""
 }
 
 func (t *PolicyClientConnectivityCreatePolicyRevision) GetPolicy() *PolicyClientConnectivityCreatePolicyRevision_Policy {
 	if t == nil {
 		t = &PolicyClientConnectivityCreatePolicyRevision{}
 	}
-	return t.Policy
+	return &t.Policy
 }
 
 type PolicyClientConnectivityDiscardPolicyRevision struct {
-	Policy *PolicyClientConnectivityDiscardPolicyRevision_Policy "json:\"policy,omitempty\" graphql:\"policy\""
+	Policy PolicyClientConnectivityDiscardPolicyRevision_Policy "json:\"policy\" graphql:\"policy\""
 }
 
 func (t *PolicyClientConnectivityDiscardPolicyRevision) GetPolicy() *PolicyClientConnectivityDiscardPolicyRevision_Policy {
 	if t == nil {
 		t = &PolicyClientConnectivityDiscardPolicyRevision{}
 	}
-	return t.Policy
+	return &t.Policy
 }
 
 type PolicyClientConnectivityMoveRule struct {
-	Policy *PolicyClientConnectivityMoveRule_Policy "json:\"policy,omitempty\" graphql:\"policy\""
+	Policy PolicyClientConnectivityMoveRule_Policy "json:\"policy\" graphql:\"policy\""
 }
 
 func (t *PolicyClientConnectivityMoveRule) GetPolicy() *PolicyClientConnectivityMoveRule_Policy {
 	if t == nil {
 		t = &PolicyClientConnectivityMoveRule{}
 	}
-	return t.Policy
+	return &t.Policy
 }
 
 type PolicyClientConnectivityMoveSection struct {
-	Policy *PolicyClientConnectivityMoveSection_Policy "json:\"policy,omitempty\" graphql:\"policy\""
+	Policy PolicyClientConnectivityMoveSection_Policy "json:\"policy\" graphql:\"policy\""
 }
 
 func (t *PolicyClientConnectivityMoveSection) GetPolicy() *PolicyClientConnectivityMoveSection_Policy {
 	if t == nil {
 		t = &PolicyClientConnectivityMoveSection{}
 	}
-	return t.Policy
+	return &t.Policy
 }
 
 type PolicyClientConnectivityPublishPolicyRevision struct {
-	Policy *PolicyClientConnectivityPublishPolicyRevision_Policy "json:\"policy,omitempty\" graphql:\"policy\""
+	Policy PolicyClientConnectivityPublishPolicyRevision_Policy "json:\"policy\" graphql:\"policy\""
 }
 
 func (t *PolicyClientConnectivityPublishPolicyRevision) GetPolicy() *PolicyClientConnectivityPublishPolicyRevision_Policy {
 	if t == nil {
 		t = &PolicyClientConnectivityPublishPolicyRevision{}
 	}
-	return t.Policy
+	return &t.Policy
 }
 
 type PolicyClientConnectivityRemoveRule struct {
-	Policy *PolicyClientConnectivityRemoveRule_Policy "json:\"policy,omitempty\" graphql:\"policy\""
+	Policy PolicyClientConnectivityRemoveRule_Policy "json:\"policy\" graphql:\"policy\""
 }
 
 func (t *PolicyClientConnectivityRemoveRule) GetPolicy() *PolicyClientConnectivityRemoveRule_Policy {
 	if t == nil {
 		t = &PolicyClientConnectivityRemoveRule{}
 	}
-	return t.Policy
+	return &t.Policy
 }
 
 type PolicyClientConnectivityRemoveSection struct {
-	Policy *PolicyClientConnectivityRemoveSection_Policy "json:\"policy,omitempty\" graphql:\"policy\""
+	Policy PolicyClientConnectivityRemoveSection_Policy "json:\"policy\" graphql:\"policy\""
 }
 
 func (t *PolicyClientConnectivityRemoveSection) GetPolicy() *PolicyClientConnectivityRemoveSection_Policy {
 	if t == nil {
 		t = &PolicyClientConnectivityRemoveSection{}
 	}
-	return t.Policy
+	return &t.Policy
 }
 
 type PolicyClientConnectivityUpdatePolicy struct {
-	Policy *PolicyClientConnectivityUpdatePolicy_Policy "json:\"policy,omitempty\" graphql:\"policy\""
+	Policy PolicyClientConnectivityUpdatePolicy_Policy "json:\"policy\" graphql:\"policy\""
 }
 
 func (t *PolicyClientConnectivityUpdatePolicy) GetPolicy() *PolicyClientConnectivityUpdatePolicy_Policy {
 	if t == nil {
 		t = &PolicyClientConnectivityUpdatePolicy{}
 	}
-	return t.Policy
+	return &t.Policy
 }
 
 type PolicyClientConnectivityUpdateRule struct {
-	Policy *PolicyClientConnectivityUpdateRule_Policy "json:\"policy,omitempty\" graphql:\"policy\""
+	Policy PolicyClientConnectivityUpdateRule_Policy "json:\"policy\" graphql:\"policy\""
 }
 
 func (t *PolicyClientConnectivityUpdateRule) GetPolicy() *PolicyClientConnectivityUpdateRule_Policy {
 	if t == nil {
 		t = &PolicyClientConnectivityUpdateRule{}
 	}
-	return t.Policy
+	return &t.Policy
 }
 
 type PolicyClientConnectivityUpdateSection struct {
-	Policy *PolicyClientConnectivityUpdateSection_Policy "json:\"policy,omitempty\" graphql:\"policy\""
+	Policy PolicyClientConnectivityUpdateSection_Policy "json:\"policy\" graphql:\"policy\""
 }
 
 func (t *PolicyClientConnectivityUpdateSection) GetPolicy() *PolicyClientConnectivityUpdateSection_Policy {
 	if t == nil {
 		t = &PolicyClientConnectivityUpdateSection{}
 	}
-	return t.Policy
+	return &t.Policy
 }
 
 type PolicyInternetFirewallDiscardPolicyRevision struct {
-	Policy *PolicyInternetFirewallDiscardPolicyRevision_Policy "json:\"policy,omitempty\" graphql:\"policy\""
+	Policy PolicyInternetFirewallDiscardPolicyRevision_Policy "json:\"policy\" graphql:\"policy\""
 }
 
 func (t *PolicyInternetFirewallDiscardPolicyRevision) GetPolicy() *PolicyInternetFirewallDiscardPolicyRevision_Policy {
 	if t == nil {
 		t = &PolicyInternetFirewallDiscardPolicyRevision{}
 	}
-	return t.Policy
+	return &t.Policy
 }
 
 type PolicyDynamicIPAllocationAddRule struct {
-	Policy *PolicyDynamicIpAllocationAddRule_Policy "json:\"policy,omitempty\" graphql:\"policy\""
+	Policy PolicyDynamicIpAllocationAddRule_Policy "json:\"policy\" graphql:\"policy\""
 }
 
 func (t *PolicyDynamicIPAllocationAddRule) GetPolicy() *PolicyDynamicIpAllocationAddRule_Policy {
 	if t == nil {
 		t = &PolicyDynamicIPAllocationAddRule{}
 	}
-	return t.Policy
+	return &t.Policy
 }
 
 type PolicyDynamicIPAllocationAddSection struct {
-	Policy *PolicyDynamicIpAllocationAddSection_Policy "json:\"policy,omitempty\" graphql:\"policy\""
+	Policy PolicyDynamicIpAllocationAddSection_Policy "json:\"policy\" graphql:\"policy\""
 }
 
 func (t *PolicyDynamicIPAllocationAddSection) GetPolicy() *PolicyDynamicIpAllocationAddSection_Policy {
 	if t == nil {
 		t = &PolicyDynamicIPAllocationAddSection{}
 	}
-	return t.Policy
+	return &t.Policy
 }
 
 type PolicyDynamicIPAllocationCreatePolicyRevision struct {
-	Policy *PolicyDynamicIpAllocationCreatePolicyRevision_Policy "json:\"policy,omitempty\" graphql:\"policy\""
+	Policy PolicyDynamicIpAllocationCreatePolicyRevision_Policy "json:\"policy\" graphql:\"policy\""
 }
 
 func (t *PolicyDynamicIPAllocationCreatePolicyRevision) GetPolicy() *PolicyDynamicIpAllocationCreatePolicyRevision_Policy {
 	if t == nil {
 		t = &PolicyDynamicIPAllocationCreatePolicyRevision{}
 	}
-	return t.Policy
+	return &t.Policy
 }
 
 type PolicyDynamicIPAllocationDiscardPolicyRevision struct {
-	Policy *PolicyDynamicIpAllocationDiscardPolicyRevision_Policy "json:\"policy,omitempty\" graphql:\"policy\""
+	Policy PolicyDynamicIpAllocationDiscardPolicyRevision_Policy "json:\"policy\" graphql:\"policy\""
 }
 
 func (t *PolicyDynamicIPAllocationDiscardPolicyRevision) GetPolicy() *PolicyDynamicIpAllocationDiscardPolicyRevision_Policy {
 	if t == nil {
 		t = &PolicyDynamicIPAllocationDiscardPolicyRevision{}
 	}
-	return t.Policy
+	return &t.Policy
 }
 
 type PolicyDynamicIPAllocationMoveRule struct {
-	Policy *PolicyDynamicIpAllocationMoveRule_Policy "json:\"policy,omitempty\" graphql:\"policy\""
+	Policy PolicyDynamicIpAllocationMoveRule_Policy "json:\"policy\" graphql:\"policy\""
 }
 
 func (t *PolicyDynamicIPAllocationMoveRule) GetPolicy() *PolicyDynamicIpAllocationMoveRule_Policy {
 	if t == nil {
 		t = &PolicyDynamicIPAllocationMoveRule{}
 	}
-	return t.Policy
+	return &t.Policy
 }
 
 type PolicyDynamicIPAllocationMoveSection struct {
-	Policy *PolicyDynamicIpAllocationMoveSection_Policy "json:\"policy,omitempty\" graphql:\"policy\""
+	Policy PolicyDynamicIpAllocationMoveSection_Policy "json:\"policy\" graphql:\"policy\""
 }
 
 func (t *PolicyDynamicIPAllocationMoveSection) GetPolicy() *PolicyDynamicIpAllocationMoveSection_Policy {
 	if t == nil {
 		t = &PolicyDynamicIPAllocationMoveSection{}
 	}
-	return t.Policy
+	return &t.Policy
 }
 
 type PolicyDynamicIPAllocationPublishPolicyRevision struct {
-	Policy *PolicyDynamicIpAllocationPublishPolicyRevision_Policy "json:\"policy,omitempty\" graphql:\"policy\""
+	Policy PolicyDynamicIpAllocationPublishPolicyRevision_Policy "json:\"policy\" graphql:\"policy\""
 }
 
 func (t *PolicyDynamicIPAllocationPublishPolicyRevision) GetPolicy() *PolicyDynamicIpAllocationPublishPolicyRevision_Policy {
 	if t == nil {
 		t = &PolicyDynamicIPAllocationPublishPolicyRevision{}
 	}
-	return t.Policy
+	return &t.Policy
 }
 
 type PolicyDynamicIPAllocationRemoveRule struct {
-	Policy *PolicyDynamicIpAllocationRemoveRule_Policy "json:\"policy,omitempty\" graphql:\"policy\""
+	Policy PolicyDynamicIpAllocationRemoveRule_Policy "json:\"policy\" graphql:\"policy\""
 }
 
 func (t *PolicyDynamicIPAllocationRemoveRule) GetPolicy() *PolicyDynamicIpAllocationRemoveRule_Policy {
 	if t == nil {
 		t = &PolicyDynamicIPAllocationRemoveRule{}
 	}
-	return t.Policy
+	return &t.Policy
 }
 
 type PolicyDynamicIPAllocationRemoveSection struct {
-	Policy *PolicyDynamicIpAllocationRemoveSection_Policy "json:\"policy,omitempty\" graphql:\"policy\""
+	Policy PolicyDynamicIpAllocationRemoveSection_Policy "json:\"policy\" graphql:\"policy\""
 }
 
 func (t *PolicyDynamicIPAllocationRemoveSection) GetPolicy() *PolicyDynamicIpAllocationRemoveSection_Policy {
 	if t == nil {
 		t = &PolicyDynamicIPAllocationRemoveSection{}
 	}
-	return t.Policy
+	return &t.Policy
 }
 
 type PolicyDynamicIPAllocationUpdatePolicy struct {
-	Policy *PolicyDynamicIpAllocationUpdatePolicy_Policy "json:\"policy,omitempty\" graphql:\"policy\""
+	Policy PolicyDynamicIpAllocationUpdatePolicy_Policy "json:\"policy\" graphql:\"policy\""
 }
 
 func (t *PolicyDynamicIPAllocationUpdatePolicy) GetPolicy() *PolicyDynamicIpAllocationUpdatePolicy_Policy {
 	if t == nil {
 		t = &PolicyDynamicIPAllocationUpdatePolicy{}
 	}
-	return t.Policy
+	return &t.Policy
 }
 
 type PolicyDynamicIPAllocationUpdateRule struct {
-	Policy *PolicyDynamicIpAllocationUpdateRule_Policy "json:\"policy,omitempty\" graphql:\"policy\""
+	Policy PolicyDynamicIpAllocationUpdateRule_Policy "json:\"policy\" graphql:\"policy\""
 }
 
 func (t *PolicyDynamicIPAllocationUpdateRule) GetPolicy() *PolicyDynamicIpAllocationUpdateRule_Policy {
 	if t == nil {
 		t = &PolicyDynamicIPAllocationUpdateRule{}
 	}
-	return t.Policy
+	return &t.Policy
 }
 
 type PolicyDynamicIPAllocationUpdateSection struct {
-	Policy *PolicyDynamicIpAllocationUpdateSection_Policy "json:\"policy,omitempty\" graphql:\"policy\""
+	Policy PolicyDynamicIpAllocationUpdateSection_Policy "json:\"policy\" graphql:\"policy\""
 }
 
 func (t *PolicyDynamicIPAllocationUpdateSection) GetPolicy() *PolicyDynamicIpAllocationUpdateSection_Policy {
 	if t == nil {
 		t = &PolicyDynamicIPAllocationUpdateSection{}
 	}
-	return t.Policy
+	return &t.Policy
 }
 
 type PolicyInternetFirewallAddRule struct {
-	Policy *PolicyInternetFirewallAddRule_Policy "json:\"policy,omitempty\" graphql:\"policy\""
+	Policy PolicyInternetFirewallAddRule_Policy "json:\"policy\" graphql:\"policy\""
 }
 
 func (t *PolicyInternetFirewallAddRule) GetPolicy() *PolicyInternetFirewallAddRule_Policy {
 	if t == nil {
 		t = &PolicyInternetFirewallAddRule{}
 	}
-	return t.Policy
+	return &t.Policy
 }
 
 type PolicyInternetFirewallAddSection struct {
-	Policy *PolicyInternetFirewallAddSection_Policy "json:\"policy,omitempty\" graphql:\"policy\""
+	Policy PolicyInternetFirewallAddSection_Policy "json:\"policy\" graphql:\"policy\""
 }
 
 func (t *PolicyInternetFirewallAddSection) GetPolicy() *PolicyInternetFirewallAddSection_Policy {
 	if t == nil {
 		t = &PolicyInternetFirewallAddSection{}
 	}
-	return t.Policy
+	return &t.Policy
 }
 
 type PolicyInternetFirewallAddSubPolicy struct {
-	Policy *PolicyInternetFirewallAddSubPolicy_Policy "json:\"policy,omitempty\" graphql:\"policy\""
+	Policy PolicyInternetFirewallAddSubPolicy_Policy "json:\"policy\" graphql:\"policy\""
 }
 
 func (t *PolicyInternetFirewallAddSubPolicy) GetPolicy() *PolicyInternetFirewallAddSubPolicy_Policy {
 	if t == nil {
 		t = &PolicyInternetFirewallAddSubPolicy{}
 	}
-	return t.Policy
+	return &t.Policy
 }
 
 type PolicyInternetFirewallCreatePolicyRevision struct {
-	Policy *PolicyInternetFirewallCreatePolicyRevision_Policy "json:\"policy,omitempty\" graphql:\"policy\""
+	Policy PolicyInternetFirewallCreatePolicyRevision_Policy "json:\"policy\" graphql:\"policy\""
 }
 
 func (t *PolicyInternetFirewallCreatePolicyRevision) GetPolicy() *PolicyInternetFirewallCreatePolicyRevision_Policy {
 	if t == nil {
 		t = &PolicyInternetFirewallCreatePolicyRevision{}
 	}
-	return t.Policy
+	return &t.Policy
 }
 
 type PolicyInternetFirewallMoveRule struct {
-	Policy *PolicyInternetFirewallMoveRule_Policy "json:\"policy,omitempty\" graphql:\"policy\""
+	Policy PolicyInternetFirewallMoveRule_Policy "json:\"policy\" graphql:\"policy\""
 }
 
 func (t *PolicyInternetFirewallMoveRule) GetPolicy() *PolicyInternetFirewallMoveRule_Policy {
 	if t == nil {
 		t = &PolicyInternetFirewallMoveRule{}
 	}
-	return t.Policy
+	return &t.Policy
 }
 
 type PolicyInternetFirewallMoveSection struct {
-	Policy *PolicyInternetFirewallMoveSection_Policy "json:\"policy,omitempty\" graphql:\"policy\""
+	Policy PolicyInternetFirewallMoveSection_Policy "json:\"policy\" graphql:\"policy\""
 }
 
 func (t *PolicyInternetFirewallMoveSection) GetPolicy() *PolicyInternetFirewallMoveSection_Policy {
 	if t == nil {
 		t = &PolicyInternetFirewallMoveSection{}
 	}
-	return t.Policy
+	return &t.Policy
 }
 
 type PolicyInternetFirewallPublishPolicyRevision struct {
-	Policy *PolicyInternetFirewallPublishPolicyRevision_Policy "json:\"policy,omitempty\" graphql:\"policy\""
+	Policy PolicyInternetFirewallPublishPolicyRevision_Policy "json:\"policy\" graphql:\"policy\""
 }
 
 func (t *PolicyInternetFirewallPublishPolicyRevision) GetPolicy() *PolicyInternetFirewallPublishPolicyRevision_Policy {
 	if t == nil {
 		t = &PolicyInternetFirewallPublishPolicyRevision{}
 	}
-	return t.Policy
+	return &t.Policy
 }
 
 type PolicyInternetFirewallRemoveRule struct {
-	Policy *PolicyInternetFirewallRemoveRule_Policy "json:\"policy,omitempty\" graphql:\"policy\""
+	Policy PolicyInternetFirewallRemoveRule_Policy "json:\"policy\" graphql:\"policy\""
 }
 
 func (t *PolicyInternetFirewallRemoveRule) GetPolicy() *PolicyInternetFirewallRemoveRule_Policy {
 	if t == nil {
 		t = &PolicyInternetFirewallRemoveRule{}
 	}
-	return t.Policy
+	return &t.Policy
 }
 
 type PolicyInternetFirewallRemoveSection struct {
-	Policy *PolicyInternetFirewallRemoveSection_Policy "json:\"policy,omitempty\" graphql:\"policy\""
+	Policy PolicyInternetFirewallRemoveSection_Policy "json:\"policy\" graphql:\"policy\""
 }
 
 func (t *PolicyInternetFirewallRemoveSection) GetPolicy() *PolicyInternetFirewallRemoveSection_Policy {
 	if t == nil {
 		t = &PolicyInternetFirewallRemoveSection{}
 	}
-	return t.Policy
+	return &t.Policy
 }
 
 type PolicyInternetFirewallRemoveSubPolicy struct {
-	Policy *PolicyInternetFirewallRemoveSubPolicy_Policy "json:\"policy,omitempty\" graphql:\"policy\""
+	Policy PolicyInternetFirewallRemoveSubPolicy_Policy "json:\"policy\" graphql:\"policy\""
 }
 
 func (t *PolicyInternetFirewallRemoveSubPolicy) GetPolicy() *PolicyInternetFirewallRemoveSubPolicy_Policy {
 	if t == nil {
 		t = &PolicyInternetFirewallRemoveSubPolicy{}
 	}
-	return t.Policy
+	return &t.Policy
 }
 
 type PolicyInternetFirewallReorderPolicy struct {
-	Policy *PolicyInternetFirewallReorderPolicy_Policy "json:\"policy,omitempty\" graphql:\"policy\""
+	Policy PolicyInternetFirewallReorderPolicy_Policy "json:\"policy\" graphql:\"policy\""
 }
 
 func (t *PolicyInternetFirewallReorderPolicy) GetPolicy() *PolicyInternetFirewallReorderPolicy_Policy {
 	if t == nil {
 		t = &PolicyInternetFirewallReorderPolicy{}
 	}
-	return t.Policy
+	return &t.Policy
 }
 
 type PolicyInternetFirewallUpdatePolicy struct {
-	Policy *PolicyInternetFirewallUpdatePolicy_Policy "json:\"policy,omitempty\" graphql:\"policy\""
+	Policy PolicyInternetFirewallUpdatePolicy_Policy "json:\"policy\" graphql:\"policy\""
 }
 
 func (t *PolicyInternetFirewallUpdatePolicy) GetPolicy() *PolicyInternetFirewallUpdatePolicy_Policy {
 	if t == nil {
 		t = &PolicyInternetFirewallUpdatePolicy{}
 	}
-	return t.Policy
+	return &t.Policy
 }
 
 type PolicyInternetFirewallUpdateRule struct {
-	Policy *PolicyInternetFirewallUpdateRule_Policy "json:\"policy,omitempty\" graphql:\"policy\""
+	Policy PolicyInternetFirewallUpdateRule_Policy "json:\"policy\" graphql:\"policy\""
 }
 
 func (t *PolicyInternetFirewallUpdateRule) GetPolicy() *PolicyInternetFirewallUpdateRule_Policy {
 	if t == nil {
 		t = &PolicyInternetFirewallUpdateRule{}
 	}
-	return t.Policy
+	return &t.Policy
 }
 
 type PolicyInternetFirewallUpdateSection struct {
-	Policy *PolicyInternetFirewallUpdateSection_Policy "json:\"policy,omitempty\" graphql:\"policy\""
+	Policy PolicyInternetFirewallUpdateSection_Policy "json:\"policy\" graphql:\"policy\""
 }
 
 func (t *PolicyInternetFirewallUpdateSection) GetPolicy() *PolicyInternetFirewallUpdateSection_Policy {
 	if t == nil {
 		t = &PolicyInternetFirewallUpdateSection{}
 	}
-	return t.Policy
+	return &t.Policy
 }
 
 type PolicyPrivateAccessAddRule struct {
-	Policy *PolicyPrivateAccessAddRule_Policy "json:\"policy,omitempty\" graphql:\"policy\""
+	Policy PolicyPrivateAccessAddRule_Policy "json:\"policy\" graphql:\"policy\""
 }
 
 func (t *PolicyPrivateAccessAddRule) GetPolicy() *PolicyPrivateAccessAddRule_Policy {
 	if t == nil {
 		t = &PolicyPrivateAccessAddRule{}
 	}
-	return t.Policy
+	return &t.Policy
 }
 
 type PolicyPrivateAccessAddSection struct {
-	Policy *PolicyPrivateAccessAddSection_Policy "json:\"policy,omitempty\" graphql:\"policy\""
+	Policy PolicyPrivateAccessAddSection_Policy "json:\"policy\" graphql:\"policy\""
 }
 
 func (t *PolicyPrivateAccessAddSection) GetPolicy() *PolicyPrivateAccessAddSection_Policy {
 	if t == nil {
 		t = &PolicyPrivateAccessAddSection{}
 	}
-	return t.Policy
+	return &t.Policy
 }
 
 type PolicyPrivateAccessCreatePolicyRevision struct {
-	Policy *PolicyPrivateAccessCreatePolicyRevision_Policy "json:\"policy,omitempty\" graphql:\"policy\""
+	Policy PolicyPrivateAccessCreatePolicyRevision_Policy "json:\"policy\" graphql:\"policy\""
 }
 
 func (t *PolicyPrivateAccessCreatePolicyRevision) GetPolicy() *PolicyPrivateAccessCreatePolicyRevision_Policy {
 	if t == nil {
 		t = &PolicyPrivateAccessCreatePolicyRevision{}
 	}
-	return t.Policy
+	return &t.Policy
 }
 
 type PolicyPrivateAccessDeleteRule struct {
-	Policy *PolicyPrivateAccessDeleteRule_Policy "json:\"policy,omitempty\" graphql:\"policy\""
+	Policy PolicyPrivateAccessDeleteRule_Policy "json:\"policy\" graphql:\"policy\""
 }
 
 func (t *PolicyPrivateAccessDeleteRule) GetPolicy() *PolicyPrivateAccessDeleteRule_Policy {
 	if t == nil {
 		t = &PolicyPrivateAccessDeleteRule{}
 	}
-	return t.Policy
+	return &t.Policy
 }
 
 type PolicyPrivateAccessDiscardPolicyRevision struct {
-	Policy *PolicyPrivateAccessDiscardPolicyRevision_Policy "json:\"policy,omitempty\" graphql:\"policy\""
+	Policy PolicyPrivateAccessDiscardPolicyRevision_Policy "json:\"policy\" graphql:\"policy\""
 }
 
 func (t *PolicyPrivateAccessDiscardPolicyRevision) GetPolicy() *PolicyPrivateAccessDiscardPolicyRevision_Policy {
 	if t == nil {
 		t = &PolicyPrivateAccessDiscardPolicyRevision{}
 	}
-	return t.Policy
+	return &t.Policy
 }
 
 type PolicyPrivateAccessDiscardRevision struct {
-	Policy *PolicyPrivateAccessDiscardRevision_Policy "json:\"policy,omitempty\" graphql:\"policy\""
+	Policy PolicyPrivateAccessDiscardRevision_Policy "json:\"policy\" graphql:\"policy\""
 }
 
 func (t *PolicyPrivateAccessDiscardRevision) GetPolicy() *PolicyPrivateAccessDiscardRevision_Policy {
 	if t == nil {
 		t = &PolicyPrivateAccessDiscardRevision{}
 	}
-	return t.Policy
+	return &t.Policy
 }
 
 type PolicyPrivateAccessMoveRule struct {
-	Policy *PolicyPrivateAccessMoveRule_Policy "json:\"policy,omitempty\" graphql:\"policy\""
+	Policy PolicyPrivateAccessMoveRule_Policy "json:\"policy\" graphql:\"policy\""
 }
 
 func (t *PolicyPrivateAccessMoveRule) GetPolicy() *PolicyPrivateAccessMoveRule_Policy {
 	if t == nil {
 		t = &PolicyPrivateAccessMoveRule{}
 	}
-	return t.Policy
+	return &t.Policy
 }
 
 type PolicyPrivateAccessMoveSection struct {
-	Policy *PolicyPrivateAccessMoveSection_Policy "json:\"policy,omitempty\" graphql:\"policy\""
+	Policy PolicyPrivateAccessMoveSection_Policy "json:\"policy\" graphql:\"policy\""
 }
 
 func (t *PolicyPrivateAccessMoveSection) GetPolicy() *PolicyPrivateAccessMoveSection_Policy {
 	if t == nil {
 		t = &PolicyPrivateAccessMoveSection{}
 	}
-	return t.Policy
+	return &t.Policy
 }
 
 type PolicyPrivateAccessPublishPolicyRevision struct {
-	Policy *PolicyPrivateAccessPublishPolicyRevision_Policy "json:\"policy,omitempty\" graphql:\"policy\""
+	Policy PolicyPrivateAccessPublishPolicyRevision_Policy "json:\"policy\" graphql:\"policy\""
 }
 
 func (t *PolicyPrivateAccessPublishPolicyRevision) GetPolicy() *PolicyPrivateAccessPublishPolicyRevision_Policy {
 	if t == nil {
 		t = &PolicyPrivateAccessPublishPolicyRevision{}
 	}
-	return t.Policy
+	return &t.Policy
 }
 
 type PolicyPrivateAccessPublishRevision struct {
-	Policy *PolicyPrivateAccessPublishRevision_Policy "json:\"policy,omitempty\" graphql:\"policy\""
+	Policy PolicyPrivateAccessPublishRevision_Policy "json:\"policy\" graphql:\"policy\""
 }
 
 func (t *PolicyPrivateAccessPublishRevision) GetPolicy() *PolicyPrivateAccessPublishRevision_Policy {
 	if t == nil {
 		t = &PolicyPrivateAccessPublishRevision{}
 	}
-	return t.Policy
+	return &t.Policy
 }
 
 type PolicyPrivateAccessRemoveRule struct {
-	Policy *PolicyPrivateAccessRemoveRule_Policy "json:\"policy,omitempty\" graphql:\"policy\""
+	Policy PolicyPrivateAccessRemoveRule_Policy "json:\"policy\" graphql:\"policy\""
 }
 
 func (t *PolicyPrivateAccessRemoveRule) GetPolicy() *PolicyPrivateAccessRemoveRule_Policy {
 	if t == nil {
 		t = &PolicyPrivateAccessRemoveRule{}
 	}
-	return t.Policy
+	return &t.Policy
 }
 
 type PolicyPrivateAccessRemoveSection struct {
-	Policy *PolicyPrivateAccessRemoveSection_Policy "json:\"policy,omitempty\" graphql:\"policy\""
+	Policy PolicyPrivateAccessRemoveSection_Policy "json:\"policy\" graphql:\"policy\""
 }
 
 func (t *PolicyPrivateAccessRemoveSection) GetPolicy() *PolicyPrivateAccessRemoveSection_Policy {
 	if t == nil {
 		t = &PolicyPrivateAccessRemoveSection{}
 	}
-	return t.Policy
+	return &t.Policy
 }
 
 type PolicyPrivateAccessUpdatePolicy struct {
-	Policy *PolicyPrivateAccessUpdatePolicy_Policy "json:\"policy,omitempty\" graphql:\"policy\""
+	Policy PolicyPrivateAccessUpdatePolicy_Policy "json:\"policy\" graphql:\"policy\""
 }
 
 func (t *PolicyPrivateAccessUpdatePolicy) GetPolicy() *PolicyPrivateAccessUpdatePolicy_Policy {
 	if t == nil {
 		t = &PolicyPrivateAccessUpdatePolicy{}
 	}
-	return t.Policy
+	return &t.Policy
 }
 
 type PolicyPrivateAccessUpdateRule struct {
-	Policy *PolicyPrivateAccessUpdateRule_Policy "json:\"policy,omitempty\" graphql:\"policy\""
+	Policy PolicyPrivateAccessUpdateRule_Policy "json:\"policy\" graphql:\"policy\""
 }
 
 func (t *PolicyPrivateAccessUpdateRule) GetPolicy() *PolicyPrivateAccessUpdateRule_Policy {
 	if t == nil {
 		t = &PolicyPrivateAccessUpdateRule{}
 	}
-	return t.Policy
+	return &t.Policy
 }
 
 type PolicyPrivateAccessUpdateSection struct {
-	Policy *PolicyPrivateAccessUpdateSection_Policy "json:\"policy,omitempty\" graphql:\"policy\""
+	Policy PolicyPrivateAccessUpdateSection_Policy "json:\"policy\" graphql:\"policy\""
 }
 
 func (t *PolicyPrivateAccessUpdateSection) GetPolicy() *PolicyPrivateAccessUpdateSection_Policy {
 	if t == nil {
 		t = &PolicyPrivateAccessUpdateSection{}
 	}
-	return t.Policy
+	return &t.Policy
 }
 
 type PolicyRemotePortFwdAddRule struct {
-	Policy *PolicyRemotePortFwdAddRule_Policy "json:\"policy,omitempty\" graphql:\"policy\""
+	Policy PolicyRemotePortFwdAddRule_Policy "json:\"policy\" graphql:\"policy\""
 }
 
 func (t *PolicyRemotePortFwdAddRule) GetPolicy() *PolicyRemotePortFwdAddRule_Policy {
 	if t == nil {
 		t = &PolicyRemotePortFwdAddRule{}
 	}
-	return t.Policy
+	return &t.Policy
 }
 
 type PolicyRemotePortFwdAddSection struct {
-	Policy *PolicyRemotePortFwdAddSection_Policy "json:\"policy,omitempty\" graphql:\"policy\""
+	Policy PolicyRemotePortFwdAddSection_Policy "json:\"policy\" graphql:\"policy\""
 }
 
 func (t *PolicyRemotePortFwdAddSection) GetPolicy() *PolicyRemotePortFwdAddSection_Policy {
 	if t == nil {
 		t = &PolicyRemotePortFwdAddSection{}
 	}
-	return t.Policy
+	return &t.Policy
 }
 
 type PolicyRemotePortFwdCreatePolicyRevision struct {
-	Policy *PolicyRemotePortFwdCreatePolicyRevision_Policy "json:\"policy,omitempty\" graphql:\"policy\""
+	Policy PolicyRemotePortFwdCreatePolicyRevision_Policy "json:\"policy\" graphql:\"policy\""
 }
 
 func (t *PolicyRemotePortFwdCreatePolicyRevision) GetPolicy() *PolicyRemotePortFwdCreatePolicyRevision_Policy {
 	if t == nil {
 		t = &PolicyRemotePortFwdCreatePolicyRevision{}
 	}
-	return t.Policy
+	return &t.Policy
 }
 
 type PolicyRemotePortFwdDiscardPolicyRevision struct {
-	Policy *PolicyRemotePortFwdDiscardPolicyRevision_Policy "json:\"policy,omitempty\" graphql:\"policy\""
+	Policy PolicyRemotePortFwdDiscardPolicyRevision_Policy "json:\"policy\" graphql:\"policy\""
 }
 
 func (t *PolicyRemotePortFwdDiscardPolicyRevision) GetPolicy() *PolicyRemotePortFwdDiscardPolicyRevision_Policy {
 	if t == nil {
 		t = &PolicyRemotePortFwdDiscardPolicyRevision{}
 	}
-	return t.Policy
+	return &t.Policy
 }
 
 type PolicyRemotePortFwdMoveRule struct {
-	Policy *PolicyRemotePortFwdMoveRule_Policy "json:\"policy,omitempty\" graphql:\"policy\""
+	Policy PolicyRemotePortFwdMoveRule_Policy "json:\"policy\" graphql:\"policy\""
 }
 
 func (t *PolicyRemotePortFwdMoveRule) GetPolicy() *PolicyRemotePortFwdMoveRule_Policy {
 	if t == nil {
 		t = &PolicyRemotePortFwdMoveRule{}
 	}
-	return t.Policy
+	return &t.Policy
 }
 
 type PolicyRemotePortFwdMoveSection struct {
-	Policy *PolicyRemotePortFwdMoveSection_Policy "json:\"policy,omitempty\" graphql:\"policy\""
+	Policy PolicyRemotePortFwdMoveSection_Policy "json:\"policy\" graphql:\"policy\""
 }
 
 func (t *PolicyRemotePortFwdMoveSection) GetPolicy() *PolicyRemotePortFwdMoveSection_Policy {
 	if t == nil {
 		t = &PolicyRemotePortFwdMoveSection{}
 	}
-	return t.Policy
+	return &t.Policy
 }
 
 type PolicyRemotePortFwdPublishPolicyRevision struct {
-	Policy *PolicyRemotePortFwdPublishPolicyRevision_Policy "json:\"policy,omitempty\" graphql:\"policy\""
+	Policy PolicyRemotePortFwdPublishPolicyRevision_Policy "json:\"policy\" graphql:\"policy\""
 }
 
 func (t *PolicyRemotePortFwdPublishPolicyRevision) GetPolicy() *PolicyRemotePortFwdPublishPolicyRevision_Policy {
 	if t == nil {
 		t = &PolicyRemotePortFwdPublishPolicyRevision{}
 	}
-	return t.Policy
+	return &t.Policy
 }
 
 type PolicyRemotePortFwdRemoveRule struct {
-	Policy *PolicyRemotePortFwdRemoveRule_Policy "json:\"policy,omitempty\" graphql:\"policy\""
+	Policy PolicyRemotePortFwdRemoveRule_Policy "json:\"policy\" graphql:\"policy\""
 }
 
 func (t *PolicyRemotePortFwdRemoveRule) GetPolicy() *PolicyRemotePortFwdRemoveRule_Policy {
 	if t == nil {
 		t = &PolicyRemotePortFwdRemoveRule{}
 	}
-	return t.Policy
+	return &t.Policy
 }
 
 type PolicyRemotePortFwdRemoveSection struct {
-	Policy *PolicyRemotePortFwdRemoveSection_Policy "json:\"policy,omitempty\" graphql:\"policy\""
+	Policy PolicyRemotePortFwdRemoveSection_Policy "json:\"policy\" graphql:\"policy\""
 }
 
 func (t *PolicyRemotePortFwdRemoveSection) GetPolicy() *PolicyRemotePortFwdRemoveSection_Policy {
 	if t == nil {
 		t = &PolicyRemotePortFwdRemoveSection{}
 	}
-	return t.Policy
+	return &t.Policy
 }
 
 type PolicyRemotePortFwdUpdatePolicy struct {
-	Policy *PolicyRemotePortFwdUpdatePolicy_Policy "json:\"policy,omitempty\" graphql:\"policy\""
+	Policy PolicyRemotePortFwdUpdatePolicy_Policy "json:\"policy\" graphql:\"policy\""
 }
 
 func (t *PolicyRemotePortFwdUpdatePolicy) GetPolicy() *PolicyRemotePortFwdUpdatePolicy_Policy {
 	if t == nil {
 		t = &PolicyRemotePortFwdUpdatePolicy{}
 	}
-	return t.Policy
+	return &t.Policy
 }
 
 type PolicyRemotePortFwdUpdateRule struct {
-	Policy *PolicyRemotePortFwdUpdateRule_Policy "json:\"policy,omitempty\" graphql:\"policy\""
+	Policy PolicyRemotePortFwdUpdateRule_Policy "json:\"policy\" graphql:\"policy\""
 }
 
 func (t *PolicyRemotePortFwdUpdateRule) GetPolicy() *PolicyRemotePortFwdUpdateRule_Policy {
 	if t == nil {
 		t = &PolicyRemotePortFwdUpdateRule{}
 	}
-	return t.Policy
+	return &t.Policy
 }
 
 type PolicyRemotePortFwdUpdateSection struct {
-	Policy *PolicyRemotePortFwdUpdateSection_Policy "json:\"policy,omitempty\" graphql:\"policy\""
+	Policy PolicyRemotePortFwdUpdateSection_Policy "json:\"policy\" graphql:\"policy\""
 }
 
 func (t *PolicyRemotePortFwdUpdateSection) GetPolicy() *PolicyRemotePortFwdUpdateSection_Policy {
 	if t == nil {
 		t = &PolicyRemotePortFwdUpdateSection{}
 	}
-	return t.Policy
+	return &t.Policy
 }
 
 type PolicySocketBypassAddRule struct {
-	Policy *PolicySocketBypassAddRule_Policy "json:\"policy,omitempty\" graphql:\"policy\""
+	Policy PolicySocketBypassAddRule_Policy "json:\"policy\" graphql:\"policy\""
 }
 
 func (t *PolicySocketBypassAddRule) GetPolicy() *PolicySocketBypassAddRule_Policy {
 	if t == nil {
 		t = &PolicySocketBypassAddRule{}
 	}
-	return t.Policy
+	return &t.Policy
 }
 
 type PolicySocketBypassAddSection struct {
-	Policy *PolicySocketBypassAddSection_Policy "json:\"policy,omitempty\" graphql:\"policy\""
+	Policy PolicySocketBypassAddSection_Policy "json:\"policy\" graphql:\"policy\""
 }
 
 func (t *PolicySocketBypassAddSection) GetPolicy() *PolicySocketBypassAddSection_Policy {
 	if t == nil {
 		t = &PolicySocketBypassAddSection{}
 	}
-	return t.Policy
+	return &t.Policy
 }
 
 type PolicySocketBypassCreatePolicyRevision struct {
-	Policy *PolicySocketBypassCreatePolicyRevision_Policy "json:\"policy,omitempty\" graphql:\"policy\""
+	Policy PolicySocketBypassCreatePolicyRevision_Policy "json:\"policy\" graphql:\"policy\""
 }
 
 func (t *PolicySocketBypassCreatePolicyRevision) GetPolicy() *PolicySocketBypassCreatePolicyRevision_Policy {
 	if t == nil {
 		t = &PolicySocketBypassCreatePolicyRevision{}
 	}
-	return t.Policy
+	return &t.Policy
 }
 
 type PolicySocketBypassDiscardPolicyRevision struct {
-	Policy *PolicySocketBypassDiscardPolicyRevision_Policy "json:\"policy,omitempty\" graphql:\"policy\""
+	Policy PolicySocketBypassDiscardPolicyRevision_Policy "json:\"policy\" graphql:\"policy\""
 }
 
 func (t *PolicySocketBypassDiscardPolicyRevision) GetPolicy() *PolicySocketBypassDiscardPolicyRevision_Policy {
 	if t == nil {
 		t = &PolicySocketBypassDiscardPolicyRevision{}
 	}
-	return t.Policy
+	return &t.Policy
 }
 
 type PolicySocketBypassMoveRule struct {
-	Policy *PolicySocketBypassMoveRule_Policy "json:\"policy,omitempty\" graphql:\"policy\""
+	Policy PolicySocketBypassMoveRule_Policy "json:\"policy\" graphql:\"policy\""
 }
 
 func (t *PolicySocketBypassMoveRule) GetPolicy() *PolicySocketBypassMoveRule_Policy {
 	if t == nil {
 		t = &PolicySocketBypassMoveRule{}
 	}
-	return t.Policy
+	return &t.Policy
 }
 
 type PolicySocketBypassMoveSection struct {
-	Policy *PolicySocketBypassMoveSection_Policy "json:\"policy,omitempty\" graphql:\"policy\""
+	Policy PolicySocketBypassMoveSection_Policy "json:\"policy\" graphql:\"policy\""
 }
 
 func (t *PolicySocketBypassMoveSection) GetPolicy() *PolicySocketBypassMoveSection_Policy {
 	if t == nil {
 		t = &PolicySocketBypassMoveSection{}
 	}
-	return t.Policy
+	return &t.Policy
 }
 
 type PolicySocketBypassPublishPolicyRevision struct {
-	Policy *PolicySocketBypassPublishPolicyRevision_Policy "json:\"policy,omitempty\" graphql:\"policy\""
+	Policy PolicySocketBypassPublishPolicyRevision_Policy "json:\"policy\" graphql:\"policy\""
 }
 
 func (t *PolicySocketBypassPublishPolicyRevision) GetPolicy() *PolicySocketBypassPublishPolicyRevision_Policy {
 	if t == nil {
 		t = &PolicySocketBypassPublishPolicyRevision{}
 	}
-	return t.Policy
+	return &t.Policy
 }
 
 type PolicySocketBypassRemoveRule struct {
-	Policy *PolicySocketBypassRemoveRule_Policy "json:\"policy,omitempty\" graphql:\"policy\""
+	Policy PolicySocketBypassRemoveRule_Policy "json:\"policy\" graphql:\"policy\""
 }
 
 func (t *PolicySocketBypassRemoveRule) GetPolicy() *PolicySocketBypassRemoveRule_Policy {
 	if t == nil {
 		t = &PolicySocketBypassRemoveRule{}
 	}
-	return t.Policy
+	return &t.Policy
 }
 
 type PolicySocketBypassRemoveSection struct {
-	Policy *PolicySocketBypassRemoveSection_Policy "json:\"policy,omitempty\" graphql:\"policy\""
+	Policy PolicySocketBypassRemoveSection_Policy "json:\"policy\" graphql:\"policy\""
 }
 
 func (t *PolicySocketBypassRemoveSection) GetPolicy() *PolicySocketBypassRemoveSection_Policy {
 	if t == nil {
 		t = &PolicySocketBypassRemoveSection{}
 	}
-	return t.Policy
+	return &t.Policy
 }
 
 type PolicySocketBypassReorderPolicy struct {
-	Policy *PolicySocketBypassReorderPolicy_Policy "json:\"policy,omitempty\" graphql:\"policy\""
+	Policy PolicySocketBypassReorderPolicy_Policy "json:\"policy\" graphql:\"policy\""
 }
 
 func (t *PolicySocketBypassReorderPolicy) GetPolicy() *PolicySocketBypassReorderPolicy_Policy {
 	if t == nil {
 		t = &PolicySocketBypassReorderPolicy{}
 	}
-	return t.Policy
+	return &t.Policy
 }
 
 type PolicySocketBypassUpdatePolicy struct {
-	Policy *PolicySocketBypassUpdatePolicy_Policy "json:\"policy,omitempty\" graphql:\"policy\""
+	Policy PolicySocketBypassUpdatePolicy_Policy "json:\"policy\" graphql:\"policy\""
 }
 
 func (t *PolicySocketBypassUpdatePolicy) GetPolicy() *PolicySocketBypassUpdatePolicy_Policy {
 	if t == nil {
 		t = &PolicySocketBypassUpdatePolicy{}
 	}
-	return t.Policy
+	return &t.Policy
 }
 
 type PolicySocketBypassUpdateRule struct {
-	Policy *PolicySocketBypassUpdateRule_Policy "json:\"policy,omitempty\" graphql:\"policy\""
+	Policy PolicySocketBypassUpdateRule_Policy "json:\"policy\" graphql:\"policy\""
 }
 
 func (t *PolicySocketBypassUpdateRule) GetPolicy() *PolicySocketBypassUpdateRule_Policy {
 	if t == nil {
 		t = &PolicySocketBypassUpdateRule{}
 	}
-	return t.Policy
+	return &t.Policy
 }
 
 type PolicySocketBypassUpdateSection struct {
-	Policy *PolicySocketBypassUpdateSection_Policy "json:\"policy,omitempty\" graphql:\"policy\""
+	Policy PolicySocketBypassUpdateSection_Policy "json:\"policy\" graphql:\"policy\""
 }
 
 func (t *PolicySocketBypassUpdateSection) GetPolicy() *PolicySocketBypassUpdateSection_Policy {
 	if t == nil {
 		t = &PolicySocketBypassUpdateSection{}
 	}
-	return t.Policy
+	return &t.Policy
 }
 
 type PolicySocketLanAddRule struct {
-	Policy *PolicySocketLanAddRule_Policy "json:\"policy,omitempty\" graphql:\"policy\""
+	Policy PolicySocketLanAddRule_Policy "json:\"policy\" graphql:\"policy\""
 }
 
 func (t *PolicySocketLanAddRule) GetPolicy() *PolicySocketLanAddRule_Policy {
 	if t == nil {
 		t = &PolicySocketLanAddRule{}
 	}
-	return t.Policy
+	return &t.Policy
 }
 
 type PolicySocketLanAddSection struct {
-	Policy *PolicySocketLanAddSection_Policy "json:\"policy,omitempty\" graphql:\"policy\""
+	Policy PolicySocketLanAddSection_Policy "json:\"policy\" graphql:\"policy\""
 }
 
 func (t *PolicySocketLanAddSection) GetPolicy() *PolicySocketLanAddSection_Policy {
 	if t == nil {
 		t = &PolicySocketLanAddSection{}
 	}
-	return t.Policy
+	return &t.Policy
 }
 
 type PolicySocketLanAddSubPolicy struct {
-	Policy *PolicySocketLanAddSubPolicy_Policy "json:\"policy,omitempty\" graphql:\"policy\""
+	Policy PolicySocketLanAddSubPolicy_Policy "json:\"policy\" graphql:\"policy\""
 }
 
 func (t *PolicySocketLanAddSubPolicy) GetPolicy() *PolicySocketLanAddSubPolicy_Policy {
 	if t == nil {
 		t = &PolicySocketLanAddSubPolicy{}
 	}
-	return t.Policy
+	return &t.Policy
 }
 
 type PolicySocketLanCreatePolicyRevision struct {
-	Policy *PolicySocketLanCreatePolicyRevision_Policy "json:\"policy,omitempty\" graphql:\"policy\""
+	Policy PolicySocketLanCreatePolicyRevision_Policy "json:\"policy\" graphql:\"policy\""
 }
 
 func (t *PolicySocketLanCreatePolicyRevision) GetPolicy() *PolicySocketLanCreatePolicyRevision_Policy {
 	if t == nil {
 		t = &PolicySocketLanCreatePolicyRevision{}
 	}
-	return t.Policy
+	return &t.Policy
 }
 
 type PolicySocketLanDiscardPolicyRevision struct {
-	Policy *PolicySocketLanDiscardPolicyRevision_Policy "json:\"policy,omitempty\" graphql:\"policy\""
+	Policy PolicySocketLanDiscardPolicyRevision_Policy "json:\"policy\" graphql:\"policy\""
 }
 
 func (t *PolicySocketLanDiscardPolicyRevision) GetPolicy() *PolicySocketLanDiscardPolicyRevision_Policy {
 	if t == nil {
 		t = &PolicySocketLanDiscardPolicyRevision{}
 	}
-	return t.Policy
+	return &t.Policy
 }
 
 type PolicySocketLanFirewallAddRule struct {
-	Policy *PolicySocketLanFirewallAddRule_Policy "json:\"policy,omitempty\" graphql:\"policy\""
+	Policy PolicySocketLanFirewallAddRule_Policy "json:\"policy\" graphql:\"policy\""
 }
 
 func (t *PolicySocketLanFirewallAddRule) GetPolicy() *PolicySocketLanFirewallAddRule_Policy {
 	if t == nil {
 		t = &PolicySocketLanFirewallAddRule{}
 	}
-	return t.Policy
+	return &t.Policy
 }
 
 type PolicySocketLanFirewallMoveRule struct {
-	Policy *PolicySocketLanFirewallMoveRule_Policy "json:\"policy,omitempty\" graphql:\"policy\""
+	Policy PolicySocketLanFirewallMoveRule_Policy "json:\"policy\" graphql:\"policy\""
 }
 
 func (t *PolicySocketLanFirewallMoveRule) GetPolicy() *PolicySocketLanFirewallMoveRule_Policy {
 	if t == nil {
 		t = &PolicySocketLanFirewallMoveRule{}
 	}
-	return t.Policy
+	return &t.Policy
 }
 
 type PolicySocketLanFirewallRemoveRule struct {
-	Policy *PolicySocketLanFirewallRemoveRule_Policy "json:\"policy,omitempty\" graphql:\"policy\""
+	Policy PolicySocketLanFirewallRemoveRule_Policy "json:\"policy\" graphql:\"policy\""
 }
 
 func (t *PolicySocketLanFirewallRemoveRule) GetPolicy() *PolicySocketLanFirewallRemoveRule_Policy {
 	if t == nil {
 		t = &PolicySocketLanFirewallRemoveRule{}
 	}
-	return t.Policy
+	return &t.Policy
 }
 
 type PolicySocketLanFirewallUpdateRule struct {
-	Policy *PolicySocketLanFirewallUpdateRule_Policy "json:\"policy,omitempty\" graphql:\"policy\""
+	Policy PolicySocketLanFirewallUpdateRule_Policy "json:\"policy\" graphql:\"policy\""
 }
 
 func (t *PolicySocketLanFirewallUpdateRule) GetPolicy() *PolicySocketLanFirewallUpdateRule_Policy {
 	if t == nil {
 		t = &PolicySocketLanFirewallUpdateRule{}
 	}
-	return t.Policy
+	return &t.Policy
 }
 
 type PolicySocketLanMoveRule struct {
-	Policy *PolicySocketLanMoveRule_Policy "json:\"policy,omitempty\" graphql:\"policy\""
+	Policy PolicySocketLanMoveRule_Policy "json:\"policy\" graphql:\"policy\""
 }
 
 func (t *PolicySocketLanMoveRule) GetPolicy() *PolicySocketLanMoveRule_Policy {
 	if t == nil {
 		t = &PolicySocketLanMoveRule{}
 	}
-	return t.Policy
+	return &t.Policy
 }
 
 type PolicySocketLanMoveSection struct {
-	Policy *PolicySocketLanMoveSection_Policy "json:\"policy,omitempty\" graphql:\"policy\""
+	Policy PolicySocketLanMoveSection_Policy "json:\"policy\" graphql:\"policy\""
 }
 
 func (t *PolicySocketLanMoveSection) GetPolicy() *PolicySocketLanMoveSection_Policy {
 	if t == nil {
 		t = &PolicySocketLanMoveSection{}
 	}
-	return t.Policy
+	return &t.Policy
 }
 
 type PolicySocketLanPublishPolicyRevision struct {
-	Policy *PolicySocketLanPublishPolicyRevision_Policy "json:\"policy,omitempty\" graphql:\"policy\""
+	Policy PolicySocketLanPublishPolicyRevision_Policy "json:\"policy\" graphql:\"policy\""
 }
 
 func (t *PolicySocketLanPublishPolicyRevision) GetPolicy() *PolicySocketLanPublishPolicyRevision_Policy {
 	if t == nil {
 		t = &PolicySocketLanPublishPolicyRevision{}
 	}
-	return t.Policy
+	return &t.Policy
 }
 
 type PolicySocketLanRemoveRule struct {
-	Policy *PolicySocketLanRemoveRule_Policy "json:\"policy,omitempty\" graphql:\"policy\""
+	Policy PolicySocketLanRemoveRule_Policy "json:\"policy\" graphql:\"policy\""
 }
 
 func (t *PolicySocketLanRemoveRule) GetPolicy() *PolicySocketLanRemoveRule_Policy {
 	if t == nil {
 		t = &PolicySocketLanRemoveRule{}
 	}
-	return t.Policy
+	return &t.Policy
 }
 
 type PolicySocketLanRemoveSection struct {
-	Policy *PolicySocketLanRemoveSection_Policy "json:\"policy,omitempty\" graphql:\"policy\""
+	Policy PolicySocketLanRemoveSection_Policy "json:\"policy\" graphql:\"policy\""
 }
 
 func (t *PolicySocketLanRemoveSection) GetPolicy() *PolicySocketLanRemoveSection_Policy {
 	if t == nil {
 		t = &PolicySocketLanRemoveSection{}
 	}
-	return t.Policy
+	return &t.Policy
 }
 
 type PolicySocketLanRemoveSubPolicy struct {
-	Policy *PolicySocketLanRemoveSubPolicy_Policy "json:\"policy,omitempty\" graphql:\"policy\""
+	Policy PolicySocketLanRemoveSubPolicy_Policy "json:\"policy\" graphql:\"policy\""
 }
 
 func (t *PolicySocketLanRemoveSubPolicy) GetPolicy() *PolicySocketLanRemoveSubPolicy_Policy {
 	if t == nil {
 		t = &PolicySocketLanRemoveSubPolicy{}
 	}
-	return t.Policy
+	return &t.Policy
 }
 
 type PolicySocketLanReorderPolicy struct {
-	Policy *PolicySocketLanReorderPolicy_Policy "json:\"policy,omitempty\" graphql:\"policy\""
+	Policy PolicySocketLanReorderPolicy_Policy "json:\"policy\" graphql:\"policy\""
 }
 
 func (t *PolicySocketLanReorderPolicy) GetPolicy() *PolicySocketLanReorderPolicy_Policy {
 	if t == nil {
 		t = &PolicySocketLanReorderPolicy{}
 	}
-	return t.Policy
+	return &t.Policy
 }
 
 type PolicySocketLanUpdatePolicy struct {
-	Policy *PolicySocketLanUpdatePolicy_Policy "json:\"policy,omitempty\" graphql:\"policy\""
+	Policy PolicySocketLanUpdatePolicy_Policy "json:\"policy\" graphql:\"policy\""
 }
 
 func (t *PolicySocketLanUpdatePolicy) GetPolicy() *PolicySocketLanUpdatePolicy_Policy {
 	if t == nil {
 		t = &PolicySocketLanUpdatePolicy{}
 	}
-	return t.Policy
+	return &t.Policy
 }
 
 type PolicySocketLanUpdateRule struct {
-	Policy *PolicySocketLanUpdateRule_Policy "json:\"policy,omitempty\" graphql:\"policy\""
+	Policy PolicySocketLanUpdateRule_Policy "json:\"policy\" graphql:\"policy\""
 }
 
 func (t *PolicySocketLanUpdateRule) GetPolicy() *PolicySocketLanUpdateRule_Policy {
 	if t == nil {
 		t = &PolicySocketLanUpdateRule{}
 	}
-	return t.Policy
+	return &t.Policy
 }
 
 type PolicySocketLanUpdateSection struct {
-	Policy *PolicySocketLanUpdateSection_Policy "json:\"policy,omitempty\" graphql:\"policy\""
+	Policy PolicySocketLanUpdateSection_Policy "json:\"policy\" graphql:\"policy\""
 }
 
 func (t *PolicySocketLanUpdateSection) GetPolicy() *PolicySocketLanUpdateSection_Policy {
 	if t == nil {
 		t = &PolicySocketLanUpdateSection{}
 	}
-	return t.Policy
+	return &t.Policy
 }
 
 type PolicySplitTunnelAddRule struct {
-	Policy *PolicySplitTunnelAddRule_Policy "json:\"policy,omitempty\" graphql:\"policy\""
+	Policy PolicySplitTunnelAddRule_Policy "json:\"policy\" graphql:\"policy\""
 }
 
 func (t *PolicySplitTunnelAddRule) GetPolicy() *PolicySplitTunnelAddRule_Policy {
 	if t == nil {
 		t = &PolicySplitTunnelAddRule{}
 	}
-	return t.Policy
+	return &t.Policy
 }
 
 type PolicySplitTunnelAddSection struct {
-	Policy *PolicySplitTunnelAddSection_Policy "json:\"policy,omitempty\" graphql:\"policy\""
+	Policy PolicySplitTunnelAddSection_Policy "json:\"policy\" graphql:\"policy\""
 }
 
 func (t *PolicySplitTunnelAddSection) GetPolicy() *PolicySplitTunnelAddSection_Policy {
 	if t == nil {
 		t = &PolicySplitTunnelAddSection{}
 	}
-	return t.Policy
+	return &t.Policy
 }
 
 type PolicySplitTunnelCreatePolicyRevision struct {
-	Policy *PolicySplitTunnelCreatePolicyRevision_Policy "json:\"policy,omitempty\" graphql:\"policy\""
+	Policy PolicySplitTunnelCreatePolicyRevision_Policy "json:\"policy\" graphql:\"policy\""
 }
 
 func (t *PolicySplitTunnelCreatePolicyRevision) GetPolicy() *PolicySplitTunnelCreatePolicyRevision_Policy {
 	if t == nil {
 		t = &PolicySplitTunnelCreatePolicyRevision{}
 	}
-	return t.Policy
+	return &t.Policy
 }
 
 type PolicySplitTunnelDiscardPolicyRevision struct {
-	Policy *PolicySplitTunnelDiscardPolicyRevision_Policy "json:\"policy,omitempty\" graphql:\"policy\""
+	Policy PolicySplitTunnelDiscardPolicyRevision_Policy "json:\"policy\" graphql:\"policy\""
 }
 
 func (t *PolicySplitTunnelDiscardPolicyRevision) GetPolicy() *PolicySplitTunnelDiscardPolicyRevision_Policy {
 	if t == nil {
 		t = &PolicySplitTunnelDiscardPolicyRevision{}
 	}
-	return t.Policy
+	return &t.Policy
 }
 
 type PolicySplitTunnelMoveRule struct {
-	Policy *PolicySplitTunnelMoveRule_Policy "json:\"policy,omitempty\" graphql:\"policy\""
+	Policy PolicySplitTunnelMoveRule_Policy "json:\"policy\" graphql:\"policy\""
 }
 
 func (t *PolicySplitTunnelMoveRule) GetPolicy() *PolicySplitTunnelMoveRule_Policy {
 	if t == nil {
 		t = &PolicySplitTunnelMoveRule{}
 	}
-	return t.Policy
+	return &t.Policy
 }
 
 type PolicySplitTunnelMoveSection struct {
-	Policy *PolicySplitTunnelMoveSection_Policy "json:\"policy,omitempty\" graphql:\"policy\""
+	Policy PolicySplitTunnelMoveSection_Policy "json:\"policy\" graphql:\"policy\""
 }
 
 func (t *PolicySplitTunnelMoveSection) GetPolicy() *PolicySplitTunnelMoveSection_Policy {
 	if t == nil {
 		t = &PolicySplitTunnelMoveSection{}
 	}
-	return t.Policy
+	return &t.Policy
 }
 
 type PolicySplitTunnelPublishPolicyRevision struct {
-	Policy *PolicySplitTunnelPublishPolicyRevision_Policy "json:\"policy,omitempty\" graphql:\"policy\""
+	Policy PolicySplitTunnelPublishPolicyRevision_Policy "json:\"policy\" graphql:\"policy\""
 }
 
 func (t *PolicySplitTunnelPublishPolicyRevision) GetPolicy() *PolicySplitTunnelPublishPolicyRevision_Policy {
 	if t == nil {
 		t = &PolicySplitTunnelPublishPolicyRevision{}
 	}
-	return t.Policy
+	return &t.Policy
 }
 
 type PolicySplitTunnelRemoveRule struct {
-	Policy *PolicySplitTunnelRemoveRule_Policy "json:\"policy,omitempty\" graphql:\"policy\""
+	Policy PolicySplitTunnelRemoveRule_Policy "json:\"policy\" graphql:\"policy\""
 }
 
 func (t *PolicySplitTunnelRemoveRule) GetPolicy() *PolicySplitTunnelRemoveRule_Policy {
 	if t == nil {
 		t = &PolicySplitTunnelRemoveRule{}
 	}
-	return t.Policy
+	return &t.Policy
 }
 
 type PolicySplitTunnelRemoveSection struct {
-	Policy *PolicySplitTunnelRemoveSection_Policy "json:\"policy,omitempty\" graphql:\"policy\""
+	Policy PolicySplitTunnelRemoveSection_Policy "json:\"policy\" graphql:\"policy\""
 }
 
 func (t *PolicySplitTunnelRemoveSection) GetPolicy() *PolicySplitTunnelRemoveSection_Policy {
 	if t == nil {
 		t = &PolicySplitTunnelRemoveSection{}
 	}
-	return t.Policy
+	return &t.Policy
 }
 
 type PolicySplitTunnelUpdatePolicy struct {
-	Policy *PolicySplitTunnelUpdatePolicy_Policy "json:\"policy,omitempty\" graphql:\"policy\""
+	Policy PolicySplitTunnelUpdatePolicy_Policy "json:\"policy\" graphql:\"policy\""
 }
 
 func (t *PolicySplitTunnelUpdatePolicy) GetPolicy() *PolicySplitTunnelUpdatePolicy_Policy {
 	if t == nil {
 		t = &PolicySplitTunnelUpdatePolicy{}
 	}
-	return t.Policy
+	return &t.Policy
 }
 
 type PolicySplitTunnelUpdateRule struct {
-	Policy *PolicySplitTunnelUpdateRule_Policy "json:\"policy,omitempty\" graphql:\"policy\""
+	Policy PolicySplitTunnelUpdateRule_Policy "json:\"policy\" graphql:\"policy\""
 }
 
 func (t *PolicySplitTunnelUpdateRule) GetPolicy() *PolicySplitTunnelUpdateRule_Policy {
 	if t == nil {
 		t = &PolicySplitTunnelUpdateRule{}
 	}
-	return t.Policy
+	return &t.Policy
 }
 
 type PolicySplitTunnelUpdateSection struct {
-	Policy *PolicySplitTunnelUpdateSection_Policy "json:\"policy,omitempty\" graphql:\"policy\""
+	Policy PolicySplitTunnelUpdateSection_Policy "json:\"policy\" graphql:\"policy\""
 }
 
 func (t *PolicySplitTunnelUpdateSection) GetPolicy() *PolicySplitTunnelUpdateSection_Policy {
 	if t == nil {
 		t = &PolicySplitTunnelUpdateSection{}
 	}
-	return t.Policy
+	return &t.Policy
 }
 
 type PolicyTerminalServerAddRule struct {
-	Policy *PolicyTerminalServerAddRule_Policy "json:\"policy,omitempty\" graphql:\"policy\""
+	Policy PolicyTerminalServerAddRule_Policy "json:\"policy\" graphql:\"policy\""
 }
 
 func (t *PolicyTerminalServerAddRule) GetPolicy() *PolicyTerminalServerAddRule_Policy {
 	if t == nil {
 		t = &PolicyTerminalServerAddRule{}
 	}
-	return t.Policy
+	return &t.Policy
 }
 
 type PolicyTerminalServerAddSection struct {
-	Policy *PolicyTerminalServerAddSection_Policy "json:\"policy,omitempty\" graphql:\"policy\""
+	Policy PolicyTerminalServerAddSection_Policy "json:\"policy\" graphql:\"policy\""
 }
 
 func (t *PolicyTerminalServerAddSection) GetPolicy() *PolicyTerminalServerAddSection_Policy {
 	if t == nil {
 		t = &PolicyTerminalServerAddSection{}
 	}
-	return t.Policy
+	return &t.Policy
 }
 
 type PolicyTerminalServerCreatePolicyRevision struct {
-	Policy *PolicyTerminalServerCreatePolicyRevision_Policy "json:\"policy,omitempty\" graphql:\"policy\""
+	Policy PolicyTerminalServerCreatePolicyRevision_Policy "json:\"policy\" graphql:\"policy\""
 }
 
 func (t *PolicyTerminalServerCreatePolicyRevision) GetPolicy() *PolicyTerminalServerCreatePolicyRevision_Policy {
 	if t == nil {
 		t = &PolicyTerminalServerCreatePolicyRevision{}
 	}
-	return t.Policy
+	return &t.Policy
 }
 
 type PolicyTerminalServerDiscardPolicyRevision struct {
-	Policy *PolicyTerminalServerDiscardPolicyRevision_Policy "json:\"policy,omitempty\" graphql:\"policy\""
+	Policy PolicyTerminalServerDiscardPolicyRevision_Policy "json:\"policy\" graphql:\"policy\""
 }
 
 func (t *PolicyTerminalServerDiscardPolicyRevision) GetPolicy() *PolicyTerminalServerDiscardPolicyRevision_Policy {
 	if t == nil {
 		t = &PolicyTerminalServerDiscardPolicyRevision{}
 	}
-	return t.Policy
+	return &t.Policy
 }
 
 type PolicyTerminalServerMoveRule struct {
-	Policy *PolicyTerminalServerMoveRule_Policy "json:\"policy,omitempty\" graphql:\"policy\""
+	Policy PolicyTerminalServerMoveRule_Policy "json:\"policy\" graphql:\"policy\""
 }
 
 func (t *PolicyTerminalServerMoveRule) GetPolicy() *PolicyTerminalServerMoveRule_Policy {
 	if t == nil {
 		t = &PolicyTerminalServerMoveRule{}
 	}
-	return t.Policy
+	return &t.Policy
 }
 
 type PolicyTerminalServerMoveSection struct {
-	Policy *PolicyTerminalServerMoveSection_Policy "json:\"policy,omitempty\" graphql:\"policy\""
+	Policy PolicyTerminalServerMoveSection_Policy "json:\"policy\" graphql:\"policy\""
 }
 
 func (t *PolicyTerminalServerMoveSection) GetPolicy() *PolicyTerminalServerMoveSection_Policy {
 	if t == nil {
 		t = &PolicyTerminalServerMoveSection{}
 	}
-	return t.Policy
+	return &t.Policy
 }
 
 type PolicyTerminalServerPublishPolicyRevision struct {
-	Policy *PolicyTerminalServerPublishPolicyRevision_Policy "json:\"policy,omitempty\" graphql:\"policy\""
+	Policy PolicyTerminalServerPublishPolicyRevision_Policy "json:\"policy\" graphql:\"policy\""
 }
 
 func (t *PolicyTerminalServerPublishPolicyRevision) GetPolicy() *PolicyTerminalServerPublishPolicyRevision_Policy {
 	if t == nil {
 		t = &PolicyTerminalServerPublishPolicyRevision{}
 	}
-	return t.Policy
+	return &t.Policy
 }
 
 type PolicyTerminalServerRemoveRule struct {
-	Policy *PolicyTerminalServerRemoveRule_Policy "json:\"policy,omitempty\" graphql:\"policy\""
+	Policy PolicyTerminalServerRemoveRule_Policy "json:\"policy\" graphql:\"policy\""
 }
 
 func (t *PolicyTerminalServerRemoveRule) GetPolicy() *PolicyTerminalServerRemoveRule_Policy {
 	if t == nil {
 		t = &PolicyTerminalServerRemoveRule{}
 	}
-	return t.Policy
+	return &t.Policy
 }
 
 type PolicyTerminalServerRemoveSection struct {
-	Policy *PolicyTerminalServerRemoveSection_Policy "json:\"policy,omitempty\" graphql:\"policy\""
+	Policy PolicyTerminalServerRemoveSection_Policy "json:\"policy\" graphql:\"policy\""
 }
 
 func (t *PolicyTerminalServerRemoveSection) GetPolicy() *PolicyTerminalServerRemoveSection_Policy {
 	if t == nil {
 		t = &PolicyTerminalServerRemoveSection{}
 	}
-	return t.Policy
+	return &t.Policy
 }
 
 type PolicyTerminalServerUpdatePolicy struct {
-	Policy *PolicyTerminalServerUpdatePolicy_Policy "json:\"policy,omitempty\" graphql:\"policy\""
+	Policy PolicyTerminalServerUpdatePolicy_Policy "json:\"policy\" graphql:\"policy\""
 }
 
 func (t *PolicyTerminalServerUpdatePolicy) GetPolicy() *PolicyTerminalServerUpdatePolicy_Policy {
 	if t == nil {
 		t = &PolicyTerminalServerUpdatePolicy{}
 	}
-	return t.Policy
+	return &t.Policy
 }
 
 type PolicyTerminalServerUpdateRule struct {
-	Policy *PolicyTerminalServerUpdateRule_Policy "json:\"policy,omitempty\" graphql:\"policy\""
+	Policy PolicyTerminalServerUpdateRule_Policy "json:\"policy\" graphql:\"policy\""
 }
 
 func (t *PolicyTerminalServerUpdateRule) GetPolicy() *PolicyTerminalServerUpdateRule_Policy {
 	if t == nil {
 		t = &PolicyTerminalServerUpdateRule{}
 	}
-	return t.Policy
+	return &t.Policy
 }
 
 type PolicyTerminalServerUpdateSection struct {
-	Policy *PolicyTerminalServerUpdateSection_Policy "json:\"policy,omitempty\" graphql:\"policy\""
+	Policy PolicyTerminalServerUpdateSection_Policy "json:\"policy\" graphql:\"policy\""
 }
 
 func (t *PolicyTerminalServerUpdateSection) GetPolicy() *PolicyTerminalServerUpdateSection_Policy {
 	if t == nil {
 		t = &PolicyTerminalServerUpdateSection{}
 	}
-	return t.Policy
+	return &t.Policy
 }
 
 type PolicyTLSInspectAddRule struct {
-	Policy *PolicyTlsInspectAddRule_Policy "json:\"policy,omitempty\" graphql:\"policy\""
+	Policy PolicyTlsInspectAddRule_Policy "json:\"policy\" graphql:\"policy\""
 }
 
 func (t *PolicyTLSInspectAddRule) GetPolicy() *PolicyTlsInspectAddRule_Policy {
 	if t == nil {
 		t = &PolicyTLSInspectAddRule{}
 	}
-	return t.Policy
+	return &t.Policy
 }
 
 type PolicyTLSInspectAddSection struct {
-	Policy *PolicyTlsInspectAddSection_Policy "json:\"policy,omitempty\" graphql:\"policy\""
+	Policy PolicyTlsInspectAddSection_Policy "json:\"policy\" graphql:\"policy\""
 }
 
 func (t *PolicyTLSInspectAddSection) GetPolicy() *PolicyTlsInspectAddSection_Policy {
 	if t == nil {
 		t = &PolicyTLSInspectAddSection{}
 	}
-	return t.Policy
+	return &t.Policy
 }
 
 type PolicyTLSInspectCreatePolicyRevision struct {
-	Policy *PolicyTlsInspectCreatePolicyRevision_Policy "json:\"policy,omitempty\" graphql:\"policy\""
+	Policy PolicyTlsInspectCreatePolicyRevision_Policy "json:\"policy\" graphql:\"policy\""
 }
 
 func (t *PolicyTLSInspectCreatePolicyRevision) GetPolicy() *PolicyTlsInspectCreatePolicyRevision_Policy {
 	if t == nil {
 		t = &PolicyTLSInspectCreatePolicyRevision{}
 	}
-	return t.Policy
+	return &t.Policy
 }
 
 type PolicyTLSInspectDiscardPolicyRevision struct {
-	Policy *PolicyTlsInspectDiscardPolicyRevision_Policy "json:\"policy,omitempty\" graphql:\"policy\""
+	Policy PolicyTlsInspectDiscardPolicyRevision_Policy "json:\"policy\" graphql:\"policy\""
 }
 
 func (t *PolicyTLSInspectDiscardPolicyRevision) GetPolicy() *PolicyTlsInspectDiscardPolicyRevision_Policy {
 	if t == nil {
 		t = &PolicyTLSInspectDiscardPolicyRevision{}
 	}
-	return t.Policy
+	return &t.Policy
 }
 
 type PolicyTLSInspectMoveRule struct {
-	Policy *PolicyTlsInspectMoveRule_Policy "json:\"policy,omitempty\" graphql:\"policy\""
+	Policy PolicyTlsInspectMoveRule_Policy "json:\"policy\" graphql:\"policy\""
 }
 
 func (t *PolicyTLSInspectMoveRule) GetPolicy() *PolicyTlsInspectMoveRule_Policy {
 	if t == nil {
 		t = &PolicyTLSInspectMoveRule{}
 	}
-	return t.Policy
+	return &t.Policy
 }
 
 type PolicyTLSInspectMoveSection struct {
-	Policy *PolicyTlsInspectMoveSection_Policy "json:\"policy,omitempty\" graphql:\"policy\""
+	Policy PolicyTlsInspectMoveSection_Policy "json:\"policy\" graphql:\"policy\""
 }
 
 func (t *PolicyTLSInspectMoveSection) GetPolicy() *PolicyTlsInspectMoveSection_Policy {
 	if t == nil {
 		t = &PolicyTLSInspectMoveSection{}
 	}
-	return t.Policy
+	return &t.Policy
 }
 
 type PolicyTLSInspectPublishPolicyRevision struct {
-	Policy *PolicyTlsInspectPublishPolicyRevision_Policy "json:\"policy,omitempty\" graphql:\"policy\""
+	Policy PolicyTlsInspectPublishPolicyRevision_Policy "json:\"policy\" graphql:\"policy\""
 }
 
 func (t *PolicyTLSInspectPublishPolicyRevision) GetPolicy() *PolicyTlsInspectPublishPolicyRevision_Policy {
 	if t == nil {
 		t = &PolicyTLSInspectPublishPolicyRevision{}
 	}
-	return t.Policy
+	return &t.Policy
 }
 
 type PolicyTLSInspectRemoveRule struct {
-	Policy *PolicyTlsInspectRemoveRule_Policy "json:\"policy,omitempty\" graphql:\"policy\""
+	Policy PolicyTlsInspectRemoveRule_Policy "json:\"policy\" graphql:\"policy\""
 }
 
 func (t *PolicyTLSInspectRemoveRule) GetPolicy() *PolicyTlsInspectRemoveRule_Policy {
 	if t == nil {
 		t = &PolicyTLSInspectRemoveRule{}
 	}
-	return t.Policy
+	return &t.Policy
 }
 
 type PolicyTLSInspectRemoveSection struct {
-	Policy *PolicyTlsInspectRemoveSection_Policy "json:\"policy,omitempty\" graphql:\"policy\""
+	Policy PolicyTlsInspectRemoveSection_Policy "json:\"policy\" graphql:\"policy\""
 }
 
 func (t *PolicyTLSInspectRemoveSection) GetPolicy() *PolicyTlsInspectRemoveSection_Policy {
 	if t == nil {
 		t = &PolicyTLSInspectRemoveSection{}
 	}
-	return t.Policy
+	return &t.Policy
 }
 
 type PolicyTLSInspectUpdatePolicy struct {
-	Policy *PolicyTlsInspectUpdatePolicy_Policy "json:\"policy,omitempty\" graphql:\"policy\""
+	Policy PolicyTlsInspectUpdatePolicy_Policy "json:\"policy\" graphql:\"policy\""
 }
 
 func (t *PolicyTLSInspectUpdatePolicy) GetPolicy() *PolicyTlsInspectUpdatePolicy_Policy {
 	if t == nil {
 		t = &PolicyTLSInspectUpdatePolicy{}
 	}
-	return t.Policy
+	return &t.Policy
 }
 
 type PolicyTLSInspectUpdateRule struct {
-	Policy *PolicyTlsInspectUpdateRule_Policy "json:\"policy,omitempty\" graphql:\"policy\""
+	Policy PolicyTlsInspectUpdateRule_Policy "json:\"policy\" graphql:\"policy\""
 }
 
 func (t *PolicyTLSInspectUpdateRule) GetPolicy() *PolicyTlsInspectUpdateRule_Policy {
 	if t == nil {
 		t = &PolicyTLSInspectUpdateRule{}
 	}
-	return t.Policy
+	return &t.Policy
 }
 
 type PolicyTLSInspectUpdateSection struct {
-	Policy *PolicyTlsInspectUpdateSection_Policy "json:\"policy,omitempty\" graphql:\"policy\""
+	Policy PolicyTlsInspectUpdateSection_Policy "json:\"policy\" graphql:\"policy\""
 }
 
 func (t *PolicyTLSInspectUpdateSection) GetPolicy() *PolicyTlsInspectUpdateSection_Policy {
 	if t == nil {
 		t = &PolicyTLSInspectUpdateSection{}
 	}
-	return t.Policy
+	return &t.Policy
 }
 
 type PolicyWanFirewallAddRule struct {
-	Policy *PolicyWanFirewallAddRule_Policy "json:\"policy,omitempty\" graphql:\"policy\""
+	Policy PolicyWanFirewallAddRule_Policy "json:\"policy\" graphql:\"policy\""
 }
 
 func (t *PolicyWanFirewallAddRule) GetPolicy() *PolicyWanFirewallAddRule_Policy {
 	if t == nil {
 		t = &PolicyWanFirewallAddRule{}
 	}
-	return t.Policy
+	return &t.Policy
 }
 
 type PolicyWanFirewallAddSection struct {
-	Policy *PolicyWanFirewallAddSection_Policy "json:\"policy,omitempty\" graphql:\"policy\""
+	Policy PolicyWanFirewallAddSection_Policy "json:\"policy\" graphql:\"policy\""
 }
 
 func (t *PolicyWanFirewallAddSection) GetPolicy() *PolicyWanFirewallAddSection_Policy {
 	if t == nil {
 		t = &PolicyWanFirewallAddSection{}
 	}
-	return t.Policy
+	return &t.Policy
 }
 
 type PolicyWanFirewallAddSubPolicy struct {
-	Policy *PolicyWanFirewallAddSubPolicy_Policy "json:\"policy,omitempty\" graphql:\"policy\""
+	Policy PolicyWanFirewallAddSubPolicy_Policy "json:\"policy\" graphql:\"policy\""
 }
 
 func (t *PolicyWanFirewallAddSubPolicy) GetPolicy() *PolicyWanFirewallAddSubPolicy_Policy {
 	if t == nil {
 		t = &PolicyWanFirewallAddSubPolicy{}
 	}
-	return t.Policy
+	return &t.Policy
 }
 
 type PolicyWanFirewallCreatePolicyRevision struct {
-	Policy *PolicyWanFirewallCreatePolicyRevision_Policy "json:\"policy,omitempty\" graphql:\"policy\""
+	Policy PolicyWanFirewallCreatePolicyRevision_Policy "json:\"policy\" graphql:\"policy\""
 }
 
 func (t *PolicyWanFirewallCreatePolicyRevision) GetPolicy() *PolicyWanFirewallCreatePolicyRevision_Policy {
 	if t == nil {
 		t = &PolicyWanFirewallCreatePolicyRevision{}
 	}
-	return t.Policy
+	return &t.Policy
 }
 
 type PolicyWanFirewallDiscardPolicyRevision struct {
-	Policy *PolicyWanFirewallDiscardPolicyRevision_Policy "json:\"policy,omitempty\" graphql:\"policy\""
+	Policy PolicyWanFirewallDiscardPolicyRevision_Policy "json:\"policy\" graphql:\"policy\""
 }
 
 func (t *PolicyWanFirewallDiscardPolicyRevision) GetPolicy() *PolicyWanFirewallDiscardPolicyRevision_Policy {
 	if t == nil {
 		t = &PolicyWanFirewallDiscardPolicyRevision{}
 	}
-	return t.Policy
+	return &t.Policy
 }
 
 type PolicyWanFirewallMoveRule struct {
-	Policy *PolicyWanFirewallMoveRule_Policy "json:\"policy,omitempty\" graphql:\"policy\""
+	Policy PolicyWanFirewallMoveRule_Policy "json:\"policy\" graphql:\"policy\""
 }
 
 func (t *PolicyWanFirewallMoveRule) GetPolicy() *PolicyWanFirewallMoveRule_Policy {
 	if t == nil {
 		t = &PolicyWanFirewallMoveRule{}
 	}
-	return t.Policy
+	return &t.Policy
 }
 
 type PolicyWanFirewallMoveSection struct {
-	Policy *PolicyWanFirewallMoveSection_Policy "json:\"policy,omitempty\" graphql:\"policy\""
+	Policy PolicyWanFirewallMoveSection_Policy "json:\"policy\" graphql:\"policy\""
 }
 
 func (t *PolicyWanFirewallMoveSection) GetPolicy() *PolicyWanFirewallMoveSection_Policy {
 	if t == nil {
 		t = &PolicyWanFirewallMoveSection{}
 	}
-	return t.Policy
+	return &t.Policy
 }
 
 type PolicyWanFirewallPublishPolicyRevision struct {
-	Policy *PolicyWanFirewallPublishPolicyRevision_Policy "json:\"policy,omitempty\" graphql:\"policy\""
+	Policy PolicyWanFirewallPublishPolicyRevision_Policy "json:\"policy\" graphql:\"policy\""
 }
 
 func (t *PolicyWanFirewallPublishPolicyRevision) GetPolicy() *PolicyWanFirewallPublishPolicyRevision_Policy {
 	if t == nil {
 		t = &PolicyWanFirewallPublishPolicyRevision{}
 	}
-	return t.Policy
+	return &t.Policy
 }
 
 type PolicyWanFirewallRemoveRule struct {
-	Policy *PolicyWanFirewallRemoveRule_Policy "json:\"policy,omitempty\" graphql:\"policy\""
+	Policy PolicyWanFirewallRemoveRule_Policy "json:\"policy\" graphql:\"policy\""
 }
 
 func (t *PolicyWanFirewallRemoveRule) GetPolicy() *PolicyWanFirewallRemoveRule_Policy {
 	if t == nil {
 		t = &PolicyWanFirewallRemoveRule{}
 	}
-	return t.Policy
+	return &t.Policy
 }
 
 type PolicyWanFirewallRemoveSection struct {
-	Policy *PolicyWanFirewallRemoveSection_Policy "json:\"policy,omitempty\" graphql:\"policy\""
+	Policy PolicyWanFirewallRemoveSection_Policy "json:\"policy\" graphql:\"policy\""
 }
 
 func (t *PolicyWanFirewallRemoveSection) GetPolicy() *PolicyWanFirewallRemoveSection_Policy {
 	if t == nil {
 		t = &PolicyWanFirewallRemoveSection{}
 	}
-	return t.Policy
+	return &t.Policy
 }
 
 type PolicyWanFirewallRemoveSubPolicy struct {
-	Policy *PolicyWanFirewallRemoveSubPolicy_Policy "json:\"policy,omitempty\" graphql:\"policy\""
+	Policy PolicyWanFirewallRemoveSubPolicy_Policy "json:\"policy\" graphql:\"policy\""
 }
 
 func (t *PolicyWanFirewallRemoveSubPolicy) GetPolicy() *PolicyWanFirewallRemoveSubPolicy_Policy {
 	if t == nil {
 		t = &PolicyWanFirewallRemoveSubPolicy{}
 	}
-	return t.Policy
+	return &t.Policy
 }
 
 type PolicyWanFirewallReorderPolicy struct {
-	Policy *PolicyWanFirewallReorderPolicy_Policy "json:\"policy,omitempty\" graphql:\"policy\""
+	Policy PolicyWanFirewallReorderPolicy_Policy "json:\"policy\" graphql:\"policy\""
 }
 
 func (t *PolicyWanFirewallReorderPolicy) GetPolicy() *PolicyWanFirewallReorderPolicy_Policy {
 	if t == nil {
 		t = &PolicyWanFirewallReorderPolicy{}
 	}
-	return t.Policy
+	return &t.Policy
 }
 
 type PolicyWanFirewallUpdatePolicy struct {
-	Policy *PolicyWanFirewallUpdatePolicy_Policy "json:\"policy,omitempty\" graphql:\"policy\""
+	Policy PolicyWanFirewallUpdatePolicy_Policy "json:\"policy\" graphql:\"policy\""
 }
 
 func (t *PolicyWanFirewallUpdatePolicy) GetPolicy() *PolicyWanFirewallUpdatePolicy_Policy {
 	if t == nil {
 		t = &PolicyWanFirewallUpdatePolicy{}
 	}
-	return t.Policy
+	return &t.Policy
 }
 
 type PolicyWanFirewallUpdateRule struct {
-	Policy *PolicyWanFirewallUpdateRule_Policy "json:\"policy,omitempty\" graphql:\"policy\""
+	Policy PolicyWanFirewallUpdateRule_Policy "json:\"policy\" graphql:\"policy\""
 }
 
 func (t *PolicyWanFirewallUpdateRule) GetPolicy() *PolicyWanFirewallUpdateRule_Policy {
 	if t == nil {
 		t = &PolicyWanFirewallUpdateRule{}
 	}
-	return t.Policy
+	return &t.Policy
 }
 
 type PolicyWanFirewallUpdateSection struct {
-	Policy *PolicyWanFirewallUpdateSection_Policy "json:\"policy,omitempty\" graphql:\"policy\""
+	Policy PolicyWanFirewallUpdateSection_Policy "json:\"policy\" graphql:\"policy\""
 }
 
 func (t *PolicyWanFirewallUpdateSection) GetPolicy() *PolicyWanFirewallUpdateSection_Policy {
 	if t == nil {
 		t = &PolicyWanFirewallUpdateSection{}
 	}
-	return t.Policy
+	return &t.Policy
 }
 
 type PolicyWanNetworkAddRule struct {
-	Policy *PolicyWanNetworkAddRule_Policy "json:\"policy,omitempty\" graphql:\"policy\""
+	Policy PolicyWanNetworkAddRule_Policy "json:\"policy\" graphql:\"policy\""
 }
 
 func (t *PolicyWanNetworkAddRule) GetPolicy() *PolicyWanNetworkAddRule_Policy {
 	if t == nil {
 		t = &PolicyWanNetworkAddRule{}
 	}
-	return t.Policy
+	return &t.Policy
 }
 
 type PolicyWanNetworkAddSection struct {
-	Policy *PolicyWanNetworkAddSection_Policy "json:\"policy,omitempty\" graphql:\"policy\""
+	Policy PolicyWanNetworkAddSection_Policy "json:\"policy\" graphql:\"policy\""
 }
 
 func (t *PolicyWanNetworkAddSection) GetPolicy() *PolicyWanNetworkAddSection_Policy {
 	if t == nil {
 		t = &PolicyWanNetworkAddSection{}
 	}
-	return t.Policy
+	return &t.Policy
 }
 
 type PolicyWanNetworkCreatePolicyRevision struct {
-	Policy *PolicyWanNetworkCreatePolicyRevision_Policy "json:\"policy,omitempty\" graphql:\"policy\""
+	Policy PolicyWanNetworkCreatePolicyRevision_Policy "json:\"policy\" graphql:\"policy\""
 }
 
 func (t *PolicyWanNetworkCreatePolicyRevision) GetPolicy() *PolicyWanNetworkCreatePolicyRevision_Policy {
 	if t == nil {
 		t = &PolicyWanNetworkCreatePolicyRevision{}
 	}
-	return t.Policy
+	return &t.Policy
 }
 
 type PolicyWanNetworkDiscardPolicyRevision struct {
-	Policy *PolicyWanNetworkDiscardPolicyRevision_Policy "json:\"policy,omitempty\" graphql:\"policy\""
+	Policy PolicyWanNetworkDiscardPolicyRevision_Policy "json:\"policy\" graphql:\"policy\""
 }
 
 func (t *PolicyWanNetworkDiscardPolicyRevision) GetPolicy() *PolicyWanNetworkDiscardPolicyRevision_Policy {
 	if t == nil {
 		t = &PolicyWanNetworkDiscardPolicyRevision{}
 	}
-	return t.Policy
+	return &t.Policy
 }
 
 type PolicyWanNetworkMoveRule struct {
-	Policy *PolicyWanNetworkMoveRule_Policy "json:\"policy,omitempty\" graphql:\"policy\""
+	Policy PolicyWanNetworkMoveRule_Policy "json:\"policy\" graphql:\"policy\""
 }
 
 func (t *PolicyWanNetworkMoveRule) GetPolicy() *PolicyWanNetworkMoveRule_Policy {
 	if t == nil {
 		t = &PolicyWanNetworkMoveRule{}
 	}
-	return t.Policy
+	return &t.Policy
 }
 
 type PolicyWanNetworkMoveSection struct {
-	Policy *PolicyWanNetworkMoveSection_Policy "json:\"policy,omitempty\" graphql:\"policy\""
+	Policy PolicyWanNetworkMoveSection_Policy "json:\"policy\" graphql:\"policy\""
 }
 
 func (t *PolicyWanNetworkMoveSection) GetPolicy() *PolicyWanNetworkMoveSection_Policy {
 	if t == nil {
 		t = &PolicyWanNetworkMoveSection{}
 	}
-	return t.Policy
+	return &t.Policy
 }
 
 type PolicyWanNetworkPublishPolicyRevision struct {
-	Policy *PolicyWanNetworkPublishPolicyRevision_Policy "json:\"policy,omitempty\" graphql:\"policy\""
+	Policy PolicyWanNetworkPublishPolicyRevision_Policy "json:\"policy\" graphql:\"policy\""
 }
 
 func (t *PolicyWanNetworkPublishPolicyRevision) GetPolicy() *PolicyWanNetworkPublishPolicyRevision_Policy {
 	if t == nil {
 		t = &PolicyWanNetworkPublishPolicyRevision{}
 	}
-	return t.Policy
+	return &t.Policy
 }
 
 type PolicyWanNetworkRemoveRule struct {
-	Policy *PolicyWanNetworkRemoveRule_Policy "json:\"policy,omitempty\" graphql:\"policy\""
+	Policy PolicyWanNetworkRemoveRule_Policy "json:\"policy\" graphql:\"policy\""
 }
 
 func (t *PolicyWanNetworkRemoveRule) GetPolicy() *PolicyWanNetworkRemoveRule_Policy {
 	if t == nil {
 		t = &PolicyWanNetworkRemoveRule{}
 	}
-	return t.Policy
+	return &t.Policy
 }
 
 type PolicyWanNetworkRemoveSection struct {
-	Policy *PolicyWanNetworkRemoveSection_Policy "json:\"policy,omitempty\" graphql:\"policy\""
+	Policy PolicyWanNetworkRemoveSection_Policy "json:\"policy\" graphql:\"policy\""
 }
 
 func (t *PolicyWanNetworkRemoveSection) GetPolicy() *PolicyWanNetworkRemoveSection_Policy {
 	if t == nil {
 		t = &PolicyWanNetworkRemoveSection{}
 	}
-	return t.Policy
+	return &t.Policy
 }
 
 type PolicyWanNetworkReorderPolicy struct {
-	Policy *PolicyWanNetworkReorderPolicy_Policy "json:\"policy,omitempty\" graphql:\"policy\""
+	Policy PolicyWanNetworkReorderPolicy_Policy "json:\"policy\" graphql:\"policy\""
 }
 
 func (t *PolicyWanNetworkReorderPolicy) GetPolicy() *PolicyWanNetworkReorderPolicy_Policy {
 	if t == nil {
 		t = &PolicyWanNetworkReorderPolicy{}
 	}
-	return t.Policy
+	return &t.Policy
 }
 
 type PolicyWanNetworkUpdatePolicy struct {
-	Policy *PolicyWanNetworkUpdatePolicy_Policy "json:\"policy,omitempty\" graphql:\"policy\""
+	Policy PolicyWanNetworkUpdatePolicy_Policy "json:\"policy\" graphql:\"policy\""
 }
 
 func (t *PolicyWanNetworkUpdatePolicy) GetPolicy() *PolicyWanNetworkUpdatePolicy_Policy {
 	if t == nil {
 		t = &PolicyWanNetworkUpdatePolicy{}
 	}
-	return t.Policy
+	return &t.Policy
 }
 
 type PolicyWanNetworkUpdateRule struct {
-	Policy *PolicyWanNetworkUpdateRule_Policy "json:\"policy,omitempty\" graphql:\"policy\""
+	Policy PolicyWanNetworkUpdateRule_Policy "json:\"policy\" graphql:\"policy\""
 }
 
 func (t *PolicyWanNetworkUpdateRule) GetPolicy() *PolicyWanNetworkUpdateRule_Policy {
 	if t == nil {
 		t = &PolicyWanNetworkUpdateRule{}
 	}
-	return t.Policy
+	return &t.Policy
 }
 
 type PolicyWanNetworkUpdateSection struct {
-	Policy *PolicyWanNetworkUpdateSection_Policy "json:\"policy,omitempty\" graphql:\"policy\""
+	Policy PolicyWanNetworkUpdateSection_Policy "json:\"policy\" graphql:\"policy\""
 }
 
 func (t *PolicyWanNetworkUpdateSection) GetPolicy() *PolicyWanNetworkUpdateSection_Policy {
 	if t == nil {
 		t = &PolicyWanNetworkUpdateSection{}
 	}
-	return t.Policy
+	return &t.Policy
 }
 
 type PolicyZtnaAlwaysOnAddRule struct {
-	Policy *PolicyZtnaAlwaysOnAddRule_Policy "json:\"policy,omitempty\" graphql:\"policy\""
+	Policy PolicyZtnaAlwaysOnAddRule_Policy "json:\"policy\" graphql:\"policy\""
 }
 
 func (t *PolicyZtnaAlwaysOnAddRule) GetPolicy() *PolicyZtnaAlwaysOnAddRule_Policy {
 	if t == nil {
 		t = &PolicyZtnaAlwaysOnAddRule{}
 	}
-	return t.Policy
+	return &t.Policy
 }
 
 type PolicyZtnaAlwaysOnAddSection struct {
-	Policy *PolicyZtnaAlwaysOnAddSection_Policy "json:\"policy,omitempty\" graphql:\"policy\""
+	Policy PolicyZtnaAlwaysOnAddSection_Policy "json:\"policy\" graphql:\"policy\""
 }
 
 func (t *PolicyZtnaAlwaysOnAddSection) GetPolicy() *PolicyZtnaAlwaysOnAddSection_Policy {
 	if t == nil {
 		t = &PolicyZtnaAlwaysOnAddSection{}
 	}
-	return t.Policy
+	return &t.Policy
 }
 
 type PolicyZtnaAlwaysOnCreatePolicyRevision struct {
-	Policy *PolicyZtnaAlwaysOnCreatePolicyRevision_Policy "json:\"policy,omitempty\" graphql:\"policy\""
+	Policy PolicyZtnaAlwaysOnCreatePolicyRevision_Policy "json:\"policy\" graphql:\"policy\""
 }
 
 func (t *PolicyZtnaAlwaysOnCreatePolicyRevision) GetPolicy() *PolicyZtnaAlwaysOnCreatePolicyRevision_Policy {
 	if t == nil {
 		t = &PolicyZtnaAlwaysOnCreatePolicyRevision{}
 	}
-	return t.Policy
+	return &t.Policy
 }
 
 type PolicyZtnaAlwaysOnDiscardPolicyRevision struct {
-	Policy *PolicyZtnaAlwaysOnDiscardPolicyRevision_Policy "json:\"policy,omitempty\" graphql:\"policy\""
+	Policy PolicyZtnaAlwaysOnDiscardPolicyRevision_Policy "json:\"policy\" graphql:\"policy\""
 }
 
 func (t *PolicyZtnaAlwaysOnDiscardPolicyRevision) GetPolicy() *PolicyZtnaAlwaysOnDiscardPolicyRevision_Policy {
 	if t == nil {
 		t = &PolicyZtnaAlwaysOnDiscardPolicyRevision{}
 	}
-	return t.Policy
+	return &t.Policy
 }
 
 type PolicyZtnaAlwaysOnMoveRule struct {
-	Policy *PolicyZtnaAlwaysOnMoveRule_Policy "json:\"policy,omitempty\" graphql:\"policy\""
+	Policy PolicyZtnaAlwaysOnMoveRule_Policy "json:\"policy\" graphql:\"policy\""
 }
 
 func (t *PolicyZtnaAlwaysOnMoveRule) GetPolicy() *PolicyZtnaAlwaysOnMoveRule_Policy {
 	if t == nil {
 		t = &PolicyZtnaAlwaysOnMoveRule{}
 	}
-	return t.Policy
+	return &t.Policy
 }
 
 type PolicyZtnaAlwaysOnMoveSection struct {
-	Policy *PolicyZtnaAlwaysOnMoveSection_Policy "json:\"policy,omitempty\" graphql:\"policy\""
+	Policy PolicyZtnaAlwaysOnMoveSection_Policy "json:\"policy\" graphql:\"policy\""
 }
 
 func (t *PolicyZtnaAlwaysOnMoveSection) GetPolicy() *PolicyZtnaAlwaysOnMoveSection_Policy {
 	if t == nil {
 		t = &PolicyZtnaAlwaysOnMoveSection{}
 	}
-	return t.Policy
+	return &t.Policy
 }
 
 type PolicyZtnaAlwaysOnPublishPolicyRevision struct {
-	Policy *PolicyZtnaAlwaysOnPublishPolicyRevision_Policy "json:\"policy,omitempty\" graphql:\"policy\""
+	Policy PolicyZtnaAlwaysOnPublishPolicyRevision_Policy "json:\"policy\" graphql:\"policy\""
 }
 
 func (t *PolicyZtnaAlwaysOnPublishPolicyRevision) GetPolicy() *PolicyZtnaAlwaysOnPublishPolicyRevision_Policy {
 	if t == nil {
 		t = &PolicyZtnaAlwaysOnPublishPolicyRevision{}
 	}
-	return t.Policy
+	return &t.Policy
 }
 
 type PolicyZtnaAlwaysOnRemoveRule struct {
-	Policy *PolicyZtnaAlwaysOnRemoveRule_Policy "json:\"policy,omitempty\" graphql:\"policy\""
+	Policy PolicyZtnaAlwaysOnRemoveRule_Policy "json:\"policy\" graphql:\"policy\""
 }
 
 func (t *PolicyZtnaAlwaysOnRemoveRule) GetPolicy() *PolicyZtnaAlwaysOnRemoveRule_Policy {
 	if t == nil {
 		t = &PolicyZtnaAlwaysOnRemoveRule{}
 	}
-	return t.Policy
+	return &t.Policy
 }
 
 type PolicyZtnaAlwaysOnRemoveSection struct {
-	Policy *PolicyZtnaAlwaysOnRemoveSection_Policy "json:\"policy,omitempty\" graphql:\"policy\""
+	Policy PolicyZtnaAlwaysOnRemoveSection_Policy "json:\"policy\" graphql:\"policy\""
 }
 
 func (t *PolicyZtnaAlwaysOnRemoveSection) GetPolicy() *PolicyZtnaAlwaysOnRemoveSection_Policy {
 	if t == nil {
 		t = &PolicyZtnaAlwaysOnRemoveSection{}
 	}
-	return t.Policy
+	return &t.Policy
 }
 
 type PolicyZtnaAlwaysOnUpdatePolicy struct {
-	Policy *PolicyZtnaAlwaysOnUpdatePolicy_Policy "json:\"policy,omitempty\" graphql:\"policy\""
+	Policy PolicyZtnaAlwaysOnUpdatePolicy_Policy "json:\"policy\" graphql:\"policy\""
 }
 
 func (t *PolicyZtnaAlwaysOnUpdatePolicy) GetPolicy() *PolicyZtnaAlwaysOnUpdatePolicy_Policy {
 	if t == nil {
 		t = &PolicyZtnaAlwaysOnUpdatePolicy{}
 	}
-	return t.Policy
+	return &t.Policy
 }
 
 type PolicyZtnaAlwaysOnUpdateRule struct {
-	Policy *PolicyZtnaAlwaysOnUpdateRule_Policy "json:\"policy,omitempty\" graphql:\"policy\""
+	Policy PolicyZtnaAlwaysOnUpdateRule_Policy "json:\"policy\" graphql:\"policy\""
 }
 
 func (t *PolicyZtnaAlwaysOnUpdateRule) GetPolicy() *PolicyZtnaAlwaysOnUpdateRule_Policy {
 	if t == nil {
 		t = &PolicyZtnaAlwaysOnUpdateRule{}
 	}
-	return t.Policy
+	return &t.Policy
 }
 
 type PolicyZtnaAlwaysOnUpdateSection struct {
-	Policy *PolicyZtnaAlwaysOnUpdateSection_Policy "json:\"policy,omitempty\" graphql:\"policy\""
+	Policy PolicyZtnaAlwaysOnUpdateSection_Policy "json:\"policy\" graphql:\"policy\""
 }
 
 func (t *PolicyZtnaAlwaysOnUpdateSection) GetPolicy() *PolicyZtnaAlwaysOnUpdateSection_Policy {
 	if t == nil {
 		t = &PolicyZtnaAlwaysOnUpdateSection{}
 	}
-	return t.Policy
+	return &t.Policy
 }
 
 type PopLocationMutationsAddAllocatedIP struct {
@@ -231143,234 +231143,234 @@ func (t *Object) GetObject() *Object_Object {
 }
 
 type PolicyAntiMalwareFileHashPolicy struct {
-	Policy *PolicyAntiMalwareFileHashPolicy_Policy "json:\"policy,omitempty\" graphql:\"policy\""
+	Policy PolicyAntiMalwareFileHashPolicy_Policy "json:\"policy\" graphql:\"policy\""
 }
 
 func (t *PolicyAntiMalwareFileHashPolicy) GetPolicy() *PolicyAntiMalwareFileHashPolicy_Policy {
 	if t == nil {
 		t = &PolicyAntiMalwareFileHashPolicy{}
 	}
-	return t.Policy
+	return &t.Policy
 }
 
 type AppTenantRestrictionPolicy struct {
-	Policy *AppTenantRestrictionPolicy_Policy "json:\"policy,omitempty\" graphql:\"policy\""
+	Policy AppTenantRestrictionPolicy_Policy "json:\"policy\" graphql:\"policy\""
 }
 
 func (t *AppTenantRestrictionPolicy) GetPolicy() *AppTenantRestrictionPolicy_Policy {
 	if t == nil {
 		t = &AppTenantRestrictionPolicy{}
 	}
-	return t.Policy
+	return &t.Policy
 }
 
 type ApplicationControlPolicy struct {
-	Policy *ApplicationControlPolicy_Policy "json:\"policy,omitempty\" graphql:\"policy\""
+	Policy ApplicationControlPolicy_Policy "json:\"policy\" graphql:\"policy\""
 }
 
 func (t *ApplicationControlPolicy) GetPolicy() *ApplicationControlPolicy_Policy {
 	if t == nil {
 		t = &ApplicationControlPolicy{}
 	}
-	return t.Policy
+	return &t.Policy
 }
 
 type PolicyClientConnectivityPolicy struct {
-	Policy *PolicyClientConnectivityPolicy_Policy "json:\"policy,omitempty\" graphql:\"policy\""
+	Policy PolicyClientConnectivityPolicy_Policy "json:\"policy\" graphql:\"policy\""
 }
 
 func (t *PolicyClientConnectivityPolicy) GetPolicy() *PolicyClientConnectivityPolicy_Policy {
 	if t == nil {
 		t = &PolicyClientConnectivityPolicy{}
 	}
-	return t.Policy
+	return &t.Policy
 }
 
 type PolicyDynamicIPAllocationPolicy struct {
-	Policy *PolicyDynamicIpAllocationPolicy_Policy "json:\"policy,omitempty\" graphql:\"policy\""
+	Policy PolicyDynamicIpAllocationPolicy_Policy "json:\"policy\" graphql:\"policy\""
 }
 
 func (t *PolicyDynamicIPAllocationPolicy) GetPolicy() *PolicyDynamicIpAllocationPolicy_Policy {
 	if t == nil {
 		t = &PolicyDynamicIPAllocationPolicy{}
 	}
-	return t.Policy
+	return &t.Policy
 }
 
 type Policy struct {
-	Policy *Policy_Policy "json:\"policy,omitempty\" graphql:\"policy\""
+	Policy Policy_Policy "json:\"policy\" graphql:\"policy\""
 }
 
 func (t *Policy) GetPolicy() *Policy_Policy {
 	if t == nil {
 		t = &Policy{}
 	}
-	return t.Policy
+	return &t.Policy
 }
 
 type InternetFirewallPolicy struct {
-	Policy *InternetFirewallPolicy_Policy "json:\"policy,omitempty\" graphql:\"policy\""
+	Policy InternetFirewallPolicy_Policy "json:\"policy\" graphql:\"policy\""
 }
 
 func (t *InternetFirewallPolicy) GetPolicy() *InternetFirewallPolicy_Policy {
 	if t == nil {
 		t = &InternetFirewallPolicy{}
 	}
-	return t.Policy
+	return &t.Policy
 }
 
 type PolicyInternetFirewallPolicyList struct {
-	Policy *PolicyInternetFirewallPolicyList_Policy "json:\"policy,omitempty\" graphql:\"policy\""
+	Policy PolicyInternetFirewallPolicyList_Policy "json:\"policy\" graphql:\"policy\""
 }
 
 func (t *PolicyInternetFirewallPolicyList) GetPolicy() *PolicyInternetFirewallPolicyList_Policy {
 	if t == nil {
 		t = &PolicyInternetFirewallPolicyList{}
 	}
-	return t.Policy
+	return &t.Policy
 }
 
 type PolicyReadPrivateAccessPolicy struct {
-	Policy *PolicyReadPrivateAccessPolicy_Policy "json:\"policy,omitempty\" graphql:\"policy\""
+	Policy PolicyReadPrivateAccessPolicy_Policy "json:\"policy\" graphql:\"policy\""
 }
 
 func (t *PolicyReadPrivateAccessPolicy) GetPolicy() *PolicyReadPrivateAccessPolicy_Policy {
 	if t == nil {
 		t = &PolicyReadPrivateAccessPolicy{}
 	}
-	return t.Policy
+	return &t.Policy
 }
 
 type PolicyRemotePortFwd struct {
-	Policy *PolicyRemotePortFwd_Policy "json:\"policy,omitempty\" graphql:\"policy\""
+	Policy PolicyRemotePortFwd_Policy "json:\"policy\" graphql:\"policy\""
 }
 
 func (t *PolicyRemotePortFwd) GetPolicy() *PolicyRemotePortFwd_Policy {
 	if t == nil {
 		t = &PolicyRemotePortFwd{}
 	}
-	return t.Policy
+	return &t.Policy
 }
 
 type RemotePortFwdPolicy struct {
-	Policy *RemotePortFwdPolicy_Policy "json:\"policy,omitempty\" graphql:\"policy\""
+	Policy RemotePortFwdPolicy_Policy "json:\"policy\" graphql:\"policy\""
 }
 
 func (t *RemotePortFwdPolicy) GetPolicy() *RemotePortFwdPolicy_Policy {
 	if t == nil {
 		t = &RemotePortFwdPolicy{}
 	}
-	return t.Policy
+	return &t.Policy
 }
 
 type PolicySocketBypassPolicy struct {
-	Policy *PolicySocketBypassPolicy_Policy "json:\"policy,omitempty\" graphql:\"policy\""
+	Policy PolicySocketBypassPolicy_Policy "json:\"policy\" graphql:\"policy\""
 }
 
 func (t *PolicySocketBypassPolicy) GetPolicy() *PolicySocketBypassPolicy_Policy {
 	if t == nil {
 		t = &PolicySocketBypassPolicy{}
 	}
-	return t.Policy
+	return &t.Policy
 }
 
 type PolicySocketLanPolicy struct {
-	Policy *PolicySocketLanPolicy_Policy "json:\"policy,omitempty\" graphql:\"policy\""
+	Policy PolicySocketLanPolicy_Policy "json:\"policy\" graphql:\"policy\""
 }
 
 func (t *PolicySocketLanPolicy) GetPolicy() *PolicySocketLanPolicy_Policy {
 	if t == nil {
 		t = &PolicySocketLanPolicy{}
 	}
-	return t.Policy
+	return &t.Policy
 }
 
 type PolicySocketLanPolicyList struct {
-	Policy *PolicySocketLanPolicyList_Policy "json:\"policy,omitempty\" graphql:\"policy\""
+	Policy PolicySocketLanPolicyList_Policy "json:\"policy\" graphql:\"policy\""
 }
 
 func (t *PolicySocketLanPolicyList) GetPolicy() *PolicySocketLanPolicyList_Policy {
 	if t == nil {
 		t = &PolicySocketLanPolicyList{}
 	}
-	return t.Policy
+	return &t.Policy
 }
 
 type PolicySplitTunnelPolicy struct {
-	Policy *PolicySplitTunnelPolicy_Policy "json:\"policy,omitempty\" graphql:\"policy\""
+	Policy PolicySplitTunnelPolicy_Policy "json:\"policy\" graphql:\"policy\""
 }
 
 func (t *PolicySplitTunnelPolicy) GetPolicy() *PolicySplitTunnelPolicy_Policy {
 	if t == nil {
 		t = &PolicySplitTunnelPolicy{}
 	}
-	return t.Policy
+	return &t.Policy
 }
 
 type PolicyTerminalServerPolicy struct {
-	Policy *PolicyTerminalServerPolicy_Policy "json:\"policy,omitempty\" graphql:\"policy\""
+	Policy PolicyTerminalServerPolicy_Policy "json:\"policy\" graphql:\"policy\""
 }
 
 func (t *PolicyTerminalServerPolicy) GetPolicy() *PolicyTerminalServerPolicy_Policy {
 	if t == nil {
 		t = &PolicyTerminalServerPolicy{}
 	}
-	return t.Policy
+	return &t.Policy
 }
 
 type Tlsinspectpolicy struct {
-	Policy *Tlsinspectpolicy_Policy "json:\"policy,omitempty\" graphql:\"policy\""
+	Policy Tlsinspectpolicy_Policy "json:\"policy\" graphql:\"policy\""
 }
 
 func (t *Tlsinspectpolicy) GetPolicy() *Tlsinspectpolicy_Policy {
 	if t == nil {
 		t = &Tlsinspectpolicy{}
 	}
-	return t.Policy
+	return &t.Policy
 }
 
 type WanFirewallPolicy struct {
-	Policy *WanFirewallPolicy_Policy "json:\"policy,omitempty\" graphql:\"policy\""
+	Policy WanFirewallPolicy_Policy "json:\"policy\" graphql:\"policy\""
 }
 
 func (t *WanFirewallPolicy) GetPolicy() *WanFirewallPolicy_Policy {
 	if t == nil {
 		t = &WanFirewallPolicy{}
 	}
-	return t.Policy
+	return &t.Policy
 }
 
 type PolicyWanFirewallPolicyList struct {
-	Policy *PolicyWanFirewallPolicyList_Policy "json:\"policy,omitempty\" graphql:\"policy\""
+	Policy PolicyWanFirewallPolicyList_Policy "json:\"policy\" graphql:\"policy\""
 }
 
 func (t *PolicyWanFirewallPolicyList) GetPolicy() *PolicyWanFirewallPolicyList_Policy {
 	if t == nil {
 		t = &PolicyWanFirewallPolicyList{}
 	}
-	return t.Policy
+	return &t.Policy
 }
 
 type WanNetworkPolicy struct {
-	Policy *WanNetworkPolicy_Policy "json:\"policy,omitempty\" graphql:\"policy\""
+	Policy WanNetworkPolicy_Policy "json:\"policy\" graphql:\"policy\""
 }
 
 func (t *WanNetworkPolicy) GetPolicy() *WanNetworkPolicy_Policy {
 	if t == nil {
 		t = &WanNetworkPolicy{}
 	}
-	return t.Policy
+	return &t.Policy
 }
 
 type PolicyZtnaAlwaysOnPolicy struct {
-	Policy *PolicyZtnaAlwaysOnPolicy_Policy "json:\"policy,omitempty\" graphql:\"policy\""
+	Policy PolicyZtnaAlwaysOnPolicy_Policy "json:\"policy\" graphql:\"policy\""
 }
 
 func (t *PolicyZtnaAlwaysOnPolicy) GetPolicy() *PolicyZtnaAlwaysOnPolicy_Policy {
 	if t == nil {
 		t = &PolicyZtnaAlwaysOnPolicy{}
 	}
-	return t.Policy
+	return &t.Policy
 }
 
 type PopLocations struct {

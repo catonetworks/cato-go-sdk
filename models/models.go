@@ -478,15 +478,6 @@ type AccessRequestTypeFilterInput struct {
 	Nin []ExternalAccessRequestType `json:"nin,omitempty"`
 }
 
-type AccessTokenRef struct {
-	ID   string `json:"id"`
-	Name string `json:"name"`
-}
-
-func (AccessTokenRef) IsObjectRef()         {}
-func (this AccessTokenRef) GetID() string   { return this.ID }
-func (this AccessTokenRef) GetName() string { return this.Name }
-
 type AccountAuditData struct {
 	CreatedBy   string `json:"createdBy"`
 	CreatedTime string `json:"createdTime"`
@@ -3341,6 +3332,7 @@ func (this CasbLicense) GetStatus() LicenseStatus  { return this.Status }
 type CatalogApplication struct {
 	Activity                           []*CatalogApplicationActivity                         `json:"activity"`
 	AiSecurity                         *AiSecurityAttributes                                 `json:"aiSecurity,omitempty"`
+	Asn                                []scalars.Asn32                                       `json:"asn"`
 	Capability                         []CatalogApplicationCapability                        `json:"capability"`
 	Category                           []*ApplicationCategoryRef                             `json:"category"`
 	ChildApp                           []*ApplicationRef                                     `json:"childApp"`
@@ -3348,6 +3340,7 @@ type CatalogApplication struct {
 	ComplianceAttributes               *CatalogApplicationComplianceAttributes               `json:"complianceAttributes"`
 	Description                        *string                                               `json:"description,omitempty"`
 	DescriptionSummary                 *string                                               `json:"descriptionSummary,omitempty"`
+	DynamicIPSource                    []string                                              `json:"dynamicIpSource"`
 	Fqdn                               []string                                              `json:"fqdn"`
 	ID                                 string                                                `json:"id"`
 	IdentityAccessManagementAttributes *CatalogApplicationIdentityAccessManagementAttributes `json:"identityAccessManagementAttributes,omitempty"`
@@ -3362,6 +3355,7 @@ type CatalogApplication struct {
 	Sanctioned                         bool                                                  `json:"sanctioned"`
 	SecurityAttributes                 *CatalogApplicationSecurityAttributes                 `json:"securityAttributes"`
 	StandardPorts                      []*CustomService                                      `json:"standardPorts"`
+	StaticIPRange                      []string                                              `json:"staticIpRange"`
 	TenantActivity                     []*CatalogApplicationActivity                         `json:"tenantActivity"`
 	Type                               CatalogApplicationType                                `json:"type"`
 	Website                            *string                                               `json:"website,omitempty"`
@@ -5673,6 +5667,14 @@ type EnableUserInput struct {
 // Response payload for the enableUser mutation.
 type EnableUserPayload struct {
 	Users []*User `json:"users"`
+}
+
+type EncryptKeytabFileInput struct {
+	File graphql.Upload `json:"file"`
+}
+
+type EncryptKeytabFilePayload struct {
+	EncryptedFile string `json:"encryptedFile"`
 }
 
 // End Point Protection (EPP) license details
@@ -8933,6 +8935,16 @@ type NetworkConfigDhcpOptionUpsertInput struct {
 	Value       string                      `json:"value"`
 }
 
+// A reference to an existing DHCP profile.
+type NetworkConfigDhcpProfileRef struct {
+	ID   string `json:"id"`
+	Name string `json:"name"`
+}
+
+func (NetworkConfigDhcpProfileRef) IsObjectRef()         {}
+func (this NetworkConfigDhcpProfileRef) GetID() string   { return this.ID }
+func (this NetworkConfigDhcpProfileRef) GetName() string { return this.Name }
+
 // DHCP read operations for the account.
 type NetworkConfigDhcpQueries struct {
 	Option         *NetworkConfigDhcpOption                `json:"option,omitempty"`
@@ -9264,6 +9276,16 @@ type NetworkConfigDNSServerSetListPayload struct {
 	Paging *PageInfo                    `json:"paging"`
 }
 
+// A reference to an existing DNS server set.
+type NetworkConfigDNSServerSetRef struct {
+	ID   string `json:"id"`
+	Name string `json:"name"`
+}
+
+func (NetworkConfigDNSServerSetRef) IsObjectRef()         {}
+func (this NetworkConfigDNSServerSetRef) GetID() string   { return this.ID }
+func (this NetworkConfigDNSServerSetRef) GetName() string { return this.Name }
+
 // A reference to an existing DNS server set, by id or name.
 type NetworkConfigDNSServerSetRefInput struct {
 	By    ObjectRefBy `json:"by"`
@@ -9375,6 +9397,16 @@ type NetworkConfigDNSSuffixSetListPayload struct {
 	Paging *PageInfo                    `json:"paging"`
 }
 
+// A reference to an existing DNS suffix set.
+type NetworkConfigDNSSuffixSetRef struct {
+	ID   string `json:"id"`
+	Name string `json:"name"`
+}
+
+func (NetworkConfigDNSSuffixSetRef) IsObjectRef()         {}
+func (this NetworkConfigDNSSuffixSetRef) GetID() string   { return this.ID }
+func (this NetworkConfigDNSSuffixSetRef) GetName() string { return this.Name }
+
 // A reference to an existing DNS suffix set, by id or name.
 type NetworkConfigDNSSuffixSetRefInput struct {
 	By    ObjectRefBy `json:"by"`
@@ -9464,6 +9496,16 @@ type NetworkConfigQueries struct {
 	Dhcp *NetworkConfigDhcpQueries `json:"dhcp"`
 	DNS  *NetworkConfigDNSQueries  `json:"dns"`
 }
+
+// A reference to an existing SNMP profile.
+type NetworkConfigSnmpProfileRef struct {
+	ID   string `json:"id"`
+	Name string `json:"name"`
+}
+
+func (NetworkConfigSnmpProfileRef) IsObjectRef()         {}
+func (this NetworkConfigSnmpProfileRef) GetID() string   { return this.ID }
+func (this NetworkConfigSnmpProfileRef) GetName() string { return this.Name }
 
 type NetworkDhcpSettingsInput struct {
 	DhcpMicrosegmentation *bool    `json:"dhcpMicrosegmentation,omitempty"`
@@ -10005,6 +10047,7 @@ type PolicyMutations struct {
 	InternetFirewall     *InternetFirewallPolicyMutations     `json:"internetFirewall,omitempty"`
 	PrivateAccess        *PrivateAccessPolicyMutations        `json:"privateAccess,omitempty"`
 	RemotePortFwd        *RemotePortFwdPolicyMutations        `json:"remotePortFwd,omitempty"`
+	SiteWebProxy         *SiteWebProxyPolicyMutations         `json:"siteWebProxy,omitempty"`
 	SocketBypass         *SocketBypassPolicyMutations         `json:"socketBypass,omitempty"`
 	SocketLan            *SocketLanPolicyMutations            `json:"socketLan,omitempty"`
 	SplitTunnel          *SplitTunnelPolicyMutations          `json:"splitTunnel,omitempty"`
@@ -10034,6 +10077,7 @@ type PolicyQueries struct {
 	InternetFirewall     *InternetFirewallPolicyQueries     `json:"internetFirewall,omitempty"`
 	PrivateAccess        *PrivateAccessPolicyQueries        `json:"privateAccess,omitempty"`
 	RemotePortFwd        *RemotePortFwdPolicyQueries        `json:"remotePortFwd,omitempty"`
+	SiteWebProxy         *SiteWebProxyPolicyQueries         `json:"siteWebProxy,omitempty"`
 	SocketBypass         *SocketBypassPolicyQueries         `json:"socketBypass,omitempty"`
 	SocketLan            *SocketLanPolicyQueries            `json:"socketLan,omitempty"`
 	SplitTunnel          *SplitTunnelPolicyQueries          `json:"splitTunnel,omitempty"`
@@ -10498,9 +10542,10 @@ type PopLocationUpdateAllocatedIPDescriptionPayload struct {
 }
 
 type PopLocationUpdateBgpProfileInput struct {
-	Description *string `json:"description,omitempty"`
-	ID          string  `json:"id"`
-	Name        *string `json:"name,omitempty"`
+	Communities []*BgpCommunityInput `json:"communities,omitempty"`
+	Description *string              `json:"description,omitempty"`
+	ID          string               `json:"id"`
+	Name        *string              `json:"name,omitempty"`
 }
 
 type PopLocationUpdateBgpProfilePayload struct {
@@ -12064,6 +12109,389 @@ type SiteUpgradeRequest struct {
 
 type SiteUpgradeScheduleInput struct {
 	Time string `json:"time"`
+}
+
+type SiteWebProxyAddRuleDataInput struct {
+	AssociatedSite              []*SiteRefInput                        `json:"associatedSite"`
+	AuthenticationConfig        *SiteWebProxyAuthenticationConfigInput `json:"authenticationConfig"`
+	Description                 string                                 `json:"description"`
+	Enabled                     bool                                   `json:"enabled"`
+	Fqdn                        string                                 `json:"fqdn"`
+	Name                        string                                 `json:"name"`
+	Port                        scalars.Port                           `json:"port"`
+	ShouldAssociateWithAllSites bool                                   `json:"shouldAssociateWithAllSites"`
+}
+
+type SiteWebProxyAddRuleInput struct {
+	At   *PolicyRulePositionInput      `json:"at,omitempty"`
+	Rule *SiteWebProxyAddRuleDataInput `json:"rule"`
+}
+
+// Authentication configuration for the web proxy, including any required protocol-specific settings.
+type SiteWebProxyAuthenticationConfig struct {
+	KerberosConfig *SiteWebProxyKerberosConfig `json:"kerberosConfig,omitempty"`
+	Method         *SiteWebProxyAuthMethod     `json:"method,omitempty"`
+}
+
+// Authentication configuration for the web proxy, including any required protocol-specific settings.
+type SiteWebProxyAuthenticationConfigInput struct {
+	KerberosConfig *SiteWebProxyKerberosConfigInput `json:"kerberosConfig,omitempty"`
+	Method         *SiteWebProxyAuthMethod          `json:"method,omitempty"`
+}
+
+// Authentication configuration for the web proxy, including any required protocol-specific settings.
+type SiteWebProxyAuthenticationConfigUpdateInput struct {
+	KerberosConfig *SiteWebProxyKerberosConfigUpdateInput `json:"kerberosConfig,omitempty"`
+	Method         *SiteWebProxyAuthMethod                `json:"method,omitempty"`
+}
+
+// Destination criteria matched by a web proxy traffic rule. To specify 'ANY' destination, an empty list must be provided for each match criteria field (e.g. fqdn: [], ip: []).
+type SiteWebProxyDestination struct {
+	Domain []string `json:"domain"`
+	Fqdn   []string `json:"fqdn"`
+	IP     []string `json:"ip"`
+}
+
+// Destination criteria matched by a web proxy traffic rule. To specify 'ANY' destination, an empty list must be provided for each match criteria field (e.g. fqdn: [], ip: []).
+type SiteWebProxyDestinationInput struct {
+	Domain []string `json:"domain"`
+	Fqdn   []string `json:"fqdn"`
+	IP     []string `json:"ip"`
+}
+
+// Destination criteria matched by a web proxy traffic rule. To specify 'ANY' destination, an empty list must be provided for each match criteria field (e.g. fqdn: [], ip: []).
+type SiteWebProxyDestinationUpdateInput struct {
+	Domain []string `json:"domain,omitempty"`
+	Fqdn   []string `json:"fqdn,omitempty"`
+	IP     []string `json:"ip,omitempty"`
+}
+
+// Kerberos authentication settings for the web proxy.
+type SiteWebProxyKerberosConfig struct {
+	EncryptedKeytab *string `json:"encryptedKeytab,omitempty"`
+	IsEnabled       bool    `json:"isEnabled"`
+}
+
+// Kerberos authentication settings for the web proxy.
+type SiteWebProxyKerberosConfigInput struct {
+	EncryptedKeytab *string `json:"encryptedKeytab,omitempty"`
+	IsEnabled       bool    `json:"isEnabled"`
+}
+
+// Kerberos authentication settings for the web proxy.
+type SiteWebProxyKerberosConfigUpdateInput struct {
+	EncryptedKeytab *string `json:"encryptedKeytab,omitempty"`
+	IsEnabled       *bool   `json:"isEnabled,omitempty"`
+}
+
+type SiteWebProxyPolicy struct {
+	Audit    *PolicyAudit               `json:"audit,omitempty"`
+	Enabled  bool                       `json:"enabled"`
+	Revision *PolicyRevision            `json:"revision,omitempty"`
+	Rules    []*SiteWebProxyRulePayload `json:"rules"`
+	Sections []*PolicySectionPayload    `json:"sections"`
+}
+
+func (SiteWebProxyPolicy) IsIPolicy()                        {}
+func (this SiteWebProxyPolicy) GetAudit() *PolicyAudit       { return this.Audit }
+func (this SiteWebProxyPolicy) GetEnabled() bool             { return this.Enabled }
+func (this SiteWebProxyPolicy) GetRevision() *PolicyRevision { return this.Revision }
+func (this SiteWebProxyPolicy) GetRules() []IPolicyRulePayload {
+	if this.Rules == nil {
+		return nil
+	}
+	interfaceSlice := make([]IPolicyRulePayload, 0, len(this.Rules))
+	for _, concrete := range this.Rules {
+		interfaceSlice = append(interfaceSlice, concrete)
+	}
+	return interfaceSlice
+}
+func (this SiteWebProxyPolicy) GetSections() []*PolicySectionPayload {
+	if this.Sections == nil {
+		return nil
+	}
+	interfaceSlice := make([]*PolicySectionPayload, 0, len(this.Sections))
+	for _, concrete := range this.Sections {
+		interfaceSlice = append(interfaceSlice, concrete)
+	}
+	return interfaceSlice
+}
+
+type SiteWebProxyPolicyInput struct {
+	Revision *PolicyRevisionInput `json:"revision,omitempty"`
+}
+
+type SiteWebProxyPolicyMutationInput struct {
+	Revision *PolicyMutationRevisionInput `json:"revision,omitempty"`
+}
+
+type SiteWebProxyPolicyMutationPayload struct {
+	Errors []*PolicyMutationError `json:"errors"`
+	Policy *SiteWebProxyPolicy    `json:"policy,omitempty"`
+	Status PolicyMutationStatus   `json:"status"`
+}
+
+func (SiteWebProxyPolicyMutationPayload) IsIPolicyMutationPayload() {}
+func (this SiteWebProxyPolicyMutationPayload) GetErrors() []*PolicyMutationError {
+	if this.Errors == nil {
+		return nil
+	}
+	interfaceSlice := make([]*PolicyMutationError, 0, len(this.Errors))
+	for _, concrete := range this.Errors {
+		interfaceSlice = append(interfaceSlice, concrete)
+	}
+	return interfaceSlice
+}
+func (this SiteWebProxyPolicyMutationPayload) GetPolicy() IPolicy              { return *this.Policy }
+func (this SiteWebProxyPolicyMutationPayload) GetStatus() PolicyMutationStatus { return this.Status }
+
+type SiteWebProxyPolicyMutations struct {
+	AddRule               *SiteWebProxyRuleMutationPayload    `json:"addRule"`
+	AddSection            *PolicySectionMutationPayload       `json:"addSection"`
+	CreatePolicyRevision  *SiteWebProxyPolicyMutationPayload  `json:"createPolicyRevision"`
+	DiscardPolicyRevision *SiteWebProxyPolicyMutationPayload  `json:"discardPolicyRevision"`
+	MoveRule              *SiteWebProxyRuleMutationPayload    `json:"moveRule"`
+	MoveSection           *PolicySectionMutationPayload       `json:"moveSection"`
+	PublishPolicyRevision *SiteWebProxyPolicyMutationPayload  `json:"publishPolicyRevision"`
+	RemoveRule            *SiteWebProxyRuleMutationPayload    `json:"removeRule"`
+	RemoveSection         *PolicySectionMutationPayload       `json:"removeSection"`
+	UpdatePolicy          *SiteWebProxyPolicyMutationPayload  `json:"updatePolicy"`
+	UpdateRule            *SiteWebProxyRuleMutationPayload    `json:"updateRule"`
+	UpdateSection         *PolicySectionMutationPayload       `json:"updateSection"`
+	WebProxyTraffic       *SiteWebProxyTrafficPolicyMutations `json:"webProxyTraffic"`
+}
+
+type SiteWebProxyPolicyQueries struct {
+	Policy    *SiteWebProxyPolicy     `json:"policy"`
+	Revisions *PolicyRevisionsPayload `json:"revisions,omitempty"`
+}
+
+type SiteWebProxyPolicyUpdateInput struct {
+	State *PolicyToggleState `json:"state,omitempty"`
+}
+
+type SiteWebProxyRemoveRuleInput struct {
+	ID string `json:"id"`
+}
+
+type SiteWebProxyRule struct {
+	AssociatedSite              []*SiteRef                        `json:"associatedSite"`
+	AuthenticationConfig        *SiteWebProxyAuthenticationConfig `json:"authenticationConfig"`
+	Description                 string                            `json:"description"`
+	Enabled                     bool                              `json:"enabled"`
+	Fqdn                        string                            `json:"fqdn"`
+	ID                          string                            `json:"id"`
+	Index                       int64                             `json:"index"`
+	Name                        string                            `json:"name"`
+	Port                        scalars.Port                      `json:"port"`
+	Section                     *PolicySectionInfo                `json:"section"`
+	ShouldAssociateWithAllSites bool                              `json:"shouldAssociateWithAllSites"`
+	WebProxyTraffic             []*SiteWebProxyTrafficRulePayload `json:"webProxyTraffic"`
+}
+
+func (SiteWebProxyRule) IsIPolicyRule()                      {}
+func (this SiteWebProxyRule) GetDescription() *string        { return &this.Description }
+func (this SiteWebProxyRule) GetEnabled() bool               { return this.Enabled }
+func (this SiteWebProxyRule) GetID() string                  { return this.ID }
+func (this SiteWebProxyRule) GetIndex() int64                { return this.Index }
+func (this SiteWebProxyRule) GetName() string                { return this.Name }
+func (this SiteWebProxyRule) GetSection() *PolicySectionInfo { return this.Section }
+
+type SiteWebProxyRuleMutationPayload struct {
+	Errors   []*PolicyMutationError   `json:"errors"`
+	Revision *PolicyRevision          `json:"revision,omitempty"`
+	Rule     *SiteWebProxyRulePayload `json:"rule,omitempty"`
+	Status   PolicyMutationStatus     `json:"status"`
+}
+
+func (SiteWebProxyRuleMutationPayload) IsIPolicyRuleMutationPayload() {}
+func (this SiteWebProxyRuleMutationPayload) GetErrors() []*PolicyMutationError {
+	if this.Errors == nil {
+		return nil
+	}
+	interfaceSlice := make([]*PolicyMutationError, 0, len(this.Errors))
+	for _, concrete := range this.Errors {
+		interfaceSlice = append(interfaceSlice, concrete)
+	}
+	return interfaceSlice
+}
+func (this SiteWebProxyRuleMutationPayload) GetRule() IPolicyRulePayload     { return *this.Rule }
+func (this SiteWebProxyRuleMutationPayload) GetStatus() PolicyMutationStatus { return this.Status }
+
+type SiteWebProxyRulePayload struct {
+	Audit      *PolicyElementAudit           `json:"audit"`
+	Metadata   *PolicyElementMetadata        `json:"metadata,omitempty"`
+	Properties []PolicyElementPropertiesEnum `json:"properties"`
+	Rule       *SiteWebProxyRule             `json:"rule"`
+}
+
+func (SiteWebProxyRulePayload) IsIPolicyRulePayload()              {}
+func (this SiteWebProxyRulePayload) GetAudit() *PolicyElementAudit { return this.Audit }
+func (this SiteWebProxyRulePayload) GetProperties() []PolicyElementPropertiesEnum {
+	if this.Properties == nil {
+		return nil
+	}
+	interfaceSlice := make([]PolicyElementPropertiesEnum, 0, len(this.Properties))
+	for _, concrete := range this.Properties {
+		interfaceSlice = append(interfaceSlice, concrete)
+	}
+	return interfaceSlice
+}
+func (this SiteWebProxyRulePayload) GetRule() IPolicyRule { return *this.Rule }
+
+// Source criteria matched by a web proxy traffic rule. To specify 'ANY' source, an empty list must be provided for each match criteria field (e.g. ip: [], site: [], etc...).
+type SiteWebProxySource struct {
+	GlobalIPRange     []*GlobalIPRangeRef     `json:"globalIpRange"`
+	Group             []*GroupRef             `json:"group"`
+	IP                []string                `json:"ip"`
+	IPRange           []*IPAddressRange       `json:"ipRange"`
+	NetworkInterface  []*NetworkInterfaceRef  `json:"networkInterface"`
+	Site              []*SiteRef              `json:"site"`
+	SiteNetworkSubnet []*SiteNetworkSubnetRef `json:"siteNetworkSubnet"`
+	Subnet            []string                `json:"subnet"`
+}
+
+// Source criteria matched by a web proxy traffic rule. To specify 'ANY' source, an empty list must be provided for each match criteria field (e.g. ip: [], site: [], etc...).
+type SiteWebProxySourceInput struct {
+	GlobalIPRange     []*GlobalIPRangeRefInput     `json:"globalIpRange"`
+	Group             []*GroupRefInput             `json:"group"`
+	IP                []string                     `json:"ip"`
+	IPRange           []*IPAddressRangeInput       `json:"ipRange"`
+	NetworkInterface  []*NetworkInterfaceRefInput  `json:"networkInterface"`
+	Site              []*SiteRefInput              `json:"site"`
+	SiteNetworkSubnet []*SiteNetworkSubnetRefInput `json:"siteNetworkSubnet"`
+	Subnet            []string                     `json:"subnet"`
+}
+
+// Source criteria matched by a web proxy traffic rule. To specify 'ANY' source, an empty list must be provided for each match criteria field (e.g. ip: [], site: [], etc...).
+type SiteWebProxySourceUpdateInput struct {
+	GlobalIPRange     []*GlobalIPRangeRefInput     `json:"globalIpRange,omitempty"`
+	Group             []*GroupRefInput             `json:"group,omitempty"`
+	IP                []string                     `json:"ip,omitempty"`
+	IPRange           []*IPAddressRangeInput       `json:"ipRange,omitempty"`
+	NetworkInterface  []*NetworkInterfaceRefInput  `json:"networkInterface,omitempty"`
+	Site              []*SiteRefInput              `json:"site,omitempty"`
+	SiteNetworkSubnet []*SiteNetworkSubnetRefInput `json:"siteNetworkSubnet,omitempty"`
+	Subnet            []string                     `json:"subnet,omitempty"`
+}
+
+type SiteWebProxyTrafficAddRuleDataInput struct {
+	Action      SiteWebProxyAction            `json:"action"`
+	Description string                        `json:"description"`
+	Destination *SiteWebProxyDestinationInput `json:"destination"`
+	Enabled     bool                          `json:"enabled"`
+	Name        string                        `json:"name"`
+	Source      *SiteWebProxySourceInput      `json:"source"`
+}
+
+type SiteWebProxyTrafficAddRuleInput struct {
+	At   *PolicySubRulePositionInput          `json:"at,omitempty"`
+	Rule *SiteWebProxyTrafficAddRuleDataInput `json:"rule"`
+}
+
+type SiteWebProxyTrafficPolicyMutations struct {
+	AddRule    *SiteWebProxyTrafficRuleMutationPayload `json:"addRule"`
+	MoveRule   *SiteWebProxyTrafficRuleMutationPayload `json:"moveRule"`
+	RemoveRule *SiteWebProxyTrafficRuleMutationPayload `json:"removeRule"`
+	UpdateRule *SiteWebProxyTrafficRuleMutationPayload `json:"updateRule"`
+}
+
+type SiteWebProxyTrafficRemoveRuleInput struct {
+	ID string `json:"id"`
+}
+
+type SiteWebProxyTrafficRule struct {
+	Action      SiteWebProxyAction       `json:"action"`
+	Description string                   `json:"description"`
+	Destination *SiteWebProxyDestination `json:"destination"`
+	Enabled     bool                     `json:"enabled"`
+	ID          string                   `json:"id"`
+	Index       int64                    `json:"index"`
+	Name        string                   `json:"name"`
+	Section     *PolicySectionInfo       `json:"section,omitempty"`
+	Source      *SiteWebProxySource      `json:"source"`
+}
+
+func (SiteWebProxyTrafficRule) IsIPolicyRule()                      {}
+func (this SiteWebProxyTrafficRule) GetDescription() *string        { return &this.Description }
+func (this SiteWebProxyTrafficRule) GetEnabled() bool               { return this.Enabled }
+func (this SiteWebProxyTrafficRule) GetID() string                  { return this.ID }
+func (this SiteWebProxyTrafficRule) GetIndex() int64                { return this.Index }
+func (this SiteWebProxyTrafficRule) GetName() string                { return this.Name }
+func (this SiteWebProxyTrafficRule) GetSection() *PolicySectionInfo { return this.Section }
+
+type SiteWebProxyTrafficRuleMutationPayload struct {
+	Errors   []*PolicyMutationError          `json:"errors"`
+	Revision *PolicyRevision                 `json:"revision,omitempty"`
+	Rule     *SiteWebProxyTrafficRulePayload `json:"rule,omitempty"`
+	Status   PolicyMutationStatus            `json:"status"`
+}
+
+func (SiteWebProxyTrafficRuleMutationPayload) IsIPolicyRuleMutationPayload() {}
+func (this SiteWebProxyTrafficRuleMutationPayload) GetErrors() []*PolicyMutationError {
+	if this.Errors == nil {
+		return nil
+	}
+	interfaceSlice := make([]*PolicyMutationError, 0, len(this.Errors))
+	for _, concrete := range this.Errors {
+		interfaceSlice = append(interfaceSlice, concrete)
+	}
+	return interfaceSlice
+}
+func (this SiteWebProxyTrafficRuleMutationPayload) GetRule() IPolicyRulePayload { return *this.Rule }
+func (this SiteWebProxyTrafficRuleMutationPayload) GetStatus() PolicyMutationStatus {
+	return this.Status
+}
+
+type SiteWebProxyTrafficRulePayload struct {
+	Audit      *PolicyElementAudit           `json:"audit"`
+	Metadata   *PolicyElementMetadata        `json:"metadata,omitempty"`
+	Properties []PolicyElementPropertiesEnum `json:"properties"`
+	Rule       *SiteWebProxyTrafficRule      `json:"rule"`
+}
+
+func (SiteWebProxyTrafficRulePayload) IsIPolicyRulePayload()              {}
+func (this SiteWebProxyTrafficRulePayload) GetAudit() *PolicyElementAudit { return this.Audit }
+func (this SiteWebProxyTrafficRulePayload) GetProperties() []PolicyElementPropertiesEnum {
+	if this.Properties == nil {
+		return nil
+	}
+	interfaceSlice := make([]PolicyElementPropertiesEnum, 0, len(this.Properties))
+	for _, concrete := range this.Properties {
+		interfaceSlice = append(interfaceSlice, concrete)
+	}
+	return interfaceSlice
+}
+func (this SiteWebProxyTrafficRulePayload) GetRule() IPolicyRule { return *this.Rule }
+
+type SiteWebProxyTrafficUpdateRuleDataInput struct {
+	Action      *SiteWebProxyAction                 `json:"action,omitempty"`
+	Description *string                             `json:"description,omitempty"`
+	Destination *SiteWebProxyDestinationUpdateInput `json:"destination,omitempty"`
+	Enabled     *bool                               `json:"enabled,omitempty"`
+	Name        *string                             `json:"name,omitempty"`
+	Source      *SiteWebProxySourceUpdateInput      `json:"source,omitempty"`
+}
+
+type SiteWebProxyTrafficUpdateRuleInput struct {
+	ID   string                                  `json:"id"`
+	Rule *SiteWebProxyTrafficUpdateRuleDataInput `json:"rule"`
+}
+
+type SiteWebProxyUpdateRuleDataInput struct {
+	AssociatedSite              []*SiteRefInput                              `json:"associatedSite,omitempty"`
+	AuthenticationConfig        *SiteWebProxyAuthenticationConfigUpdateInput `json:"authenticationConfig,omitempty"`
+	Description                 *string                                      `json:"description,omitempty"`
+	Enabled                     *bool                                        `json:"enabled,omitempty"`
+	Fqdn                        *string                                      `json:"fqdn,omitempty"`
+	Name                        *string                                      `json:"name,omitempty"`
+	Port                        *scalars.Port                                `json:"port,omitempty"`
+	ShouldAssociateWithAllSites *bool                                        `json:"shouldAssociateWithAllSites,omitempty"`
+}
+
+type SiteWebProxyUpdateRuleInput struct {
+	ID   string                           `json:"id"`
+	Rule *SiteWebProxyUpdateRuleDataInput `json:"rule"`
 }
 
 type SiteWorkingHours struct {
@@ -15046,6 +15474,9 @@ type UpdateHaInput struct {
 	PrimaryManagementIP   *string `json:"primaryManagementIp,omitempty"`
 	SecondaryManagementIP *string `json:"secondaryManagementIp,omitempty"`
 	Vrid                  *int64  `json:"vrid,omitempty"`
+	// Enable Cloud Router mode for a GCP vSocket HA site, using the Socket LAN interface for BGP peering.
+	// Only relevant for GCP HA sites; requires the account and Sockets to support the feature.
+	IsCloudRouter *bool `json:"isCloudRouter,omitempty"`
 }
 
 type UpdateHaPayload struct {
@@ -23847,13 +24278,13 @@ const (
 	EventFieldNameDomainName EventFieldName = "domain_name"
 	//  Duration in milliseconds between the start and end of a transaction or operation. For example, in DNS or HTTP events, this reflects the time between the request and the corresponding response. CMA Name: Duration Ms
 	EventFieldNameDurationMs EventFieldName = "duration_ms"
-	//  Dynamic Control IDs applied in the event. CMA Name: Dynamic Control IDs
+	//  Control IDs applied in the event. CMA Name: Control IDs
 	EventFieldNameDynamicControlIds EventFieldName = "dynamic_control_ids"
-	//  Dynamic control names applied in the event. CMA Name: Dynamic Control Names
+	//  Control names applied in the event. CMA Name: Control Names
 	EventFieldNameDynamicControlNames EventFieldName = "dynamic_control_names"
-	//  The scope of the dynamic control Applied in the event. CMA Name: Dynamic Control Scope
+	//  The scope of the control applied in the event. CMA Name: Dynamic Control Scope
 	EventFieldNameDynamicControlScope EventFieldName = "dynamic_control_scope"
-	//  Dynamic control threat categories applied in the event. CMA Name: Dynamic Control Threat Categories
+	//  Control threat categories applied in the event. CMA Name: Dynamic Control Threat Categories
 	EventFieldNameDynamicControlThreatCategories EventFieldName = "dynamic_control_threat_categories"
 	//  Egress PoP Name. CMA Name: Egress PoP Name
 	EventFieldNameEgressPopName EventFieldName = "egress_pop_name"
@@ -30355,6 +30786,125 @@ func (e *SiteType) UnmarshalJSON(b []byte) error {
 }
 
 func (e SiteType) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
+}
+
+// Action that the web proxy applies to traffic matching the rule.
+type SiteWebProxyAction string
+
+const (
+	//  Specifies that the web proxy should not authenticate users and should forward traffic as is.
+	SiteWebProxyActionAllow SiteWebProxyAction = "ALLOW"
+	//  Specifies that the web proxy should authenticate users using the chosen authentication method.
+	SiteWebProxyActionAuthenticate SiteWebProxyAction = "AUTHENTICATE"
+	//  Specifies that the web proxy should block the traffic.
+	SiteWebProxyActionBlock SiteWebProxyAction = "BLOCK"
+)
+
+var AllSiteWebProxyAction = []SiteWebProxyAction{
+	SiteWebProxyActionAllow,
+	SiteWebProxyActionAuthenticate,
+	SiteWebProxyActionBlock,
+}
+
+func (e SiteWebProxyAction) IsValid() bool {
+	switch e {
+	case SiteWebProxyActionAllow, SiteWebProxyActionAuthenticate, SiteWebProxyActionBlock:
+		return true
+	}
+	return false
+}
+
+func (e SiteWebProxyAction) String() string {
+	return string(e)
+}
+
+func (e *SiteWebProxyAction) UnmarshalGQL(v any) error {
+	str, ok := v.(string)
+	if !ok {
+		return fmt.Errorf("enums must be strings")
+	}
+
+	*e = SiteWebProxyAction(str)
+	if !e.IsValid() {
+		return fmt.Errorf("%s is not a valid SiteWebProxyAction", str)
+	}
+	return nil
+}
+
+func (e SiteWebProxyAction) MarshalGQL(w io.Writer) {
+	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+func (e *SiteWebProxyAction) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e SiteWebProxyAction) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
+}
+
+// Authentication method used by the web proxy.
+type SiteWebProxyAuthMethod string
+
+const (
+	//  Kerberos (keytab-based) authentication.
+	SiteWebProxyAuthMethodKerberos SiteWebProxyAuthMethod = "KERBEROS"
+	//  No authentication - traffic is forwarded without authenticating users.
+	SiteWebProxyAuthMethodNone SiteWebProxyAuthMethod = "NONE"
+)
+
+var AllSiteWebProxyAuthMethod = []SiteWebProxyAuthMethod{
+	SiteWebProxyAuthMethodKerberos,
+	SiteWebProxyAuthMethodNone,
+}
+
+func (e SiteWebProxyAuthMethod) IsValid() bool {
+	switch e {
+	case SiteWebProxyAuthMethodKerberos, SiteWebProxyAuthMethodNone:
+		return true
+	}
+	return false
+}
+
+func (e SiteWebProxyAuthMethod) String() string {
+	return string(e)
+}
+
+func (e *SiteWebProxyAuthMethod) UnmarshalGQL(v any) error {
+	str, ok := v.(string)
+	if !ok {
+		return fmt.Errorf("enums must be strings")
+	}
+
+	*e = SiteWebProxyAuthMethod(str)
+	if !e.IsValid() {
+		return fmt.Errorf("%s is not a valid SiteWebProxyAuthMethod", str)
+	}
+	return nil
+}
+
+func (e SiteWebProxyAuthMethod) MarshalGQL(w io.Writer) {
+	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+func (e *SiteWebProxyAuthMethod) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e SiteWebProxyAuthMethod) MarshalJSON() ([]byte, error) {
 	var buf bytes.Buffer
 	e.MarshalGQL(&buf)
 	return buf.Bytes(), nil
