@@ -1,0 +1,14 @@
+--- a/cato_api.graphqls
++++ b/cato_api.graphqls
+@@ -13343,6 +13343,11 @@
+   primaryManagementIp: IPAddress
+   secondaryManagementIp: IPAddress
+   vrid: Int
++  """
++  Enable Cloud Router mode for a GCP vSocket HA site, using the Socket LAN interface for BGP peering.
++  Only relevant for GCP HA sites; requires the account and Sockets to support the feature.
++  """
++  isCloudRouter: Boolean
+ }
+ 
+ input UpdateHwShippingInput {

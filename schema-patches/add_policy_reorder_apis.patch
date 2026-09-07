@@ -1,27 +1,26 @@
 --- a/cato_api.graphqls
 +++ b/cato_api.graphqls
-@@ -5879,6 +5879,7 @@ type SocketBypassPolicyMutations {
-   publishPolicyRevision(input: PolicyPublishRevisionInput): SocketBypassPolicyMutationPayload! @beta
-   removeRule(input: SocketBypassRemoveRuleInput!): SocketBypassRuleMutationPayload! @beta
-   removeSection(input: PolicyRemoveSectionInput!): PolicySectionMutationPayload! @beta
+@@ -6032,6 +6032,7 @@
+   publishPolicyRevision(input: PolicyPublishRevisionInput): SocketBypassPolicyMutationPayload!
+   removeRule(input: SocketBypassRemoveRuleInput!): SocketBypassRuleMutationPayload!
+   removeSection(input: PolicyRemoveSectionInput!): PolicySectionMutationPayload!
 +  reorderPolicy(input: PolicyReorderInput!): SocketBypassPolicyMutationPayload! @beta
-   updatePolicy(input: SocketBypassPolicyUpdateInput!): SocketBypassPolicyMutationPayload! @beta
-   updateRule(input: SocketBypassUpdateRuleInput!): SocketBypassRuleMutationPayload! @beta
-   updateSection(input: PolicyUpdateSectionInput!): PolicySectionMutationPayload! @beta
-@@ -6172,7 +6172,8 @@ type SocketLanPolicyMutations {
-   publishPolicyRevision(input: PolicyPublishRevisionInput): SocketLanPolicyMutationPayload! @beta
-   removeRule(input: SocketLanRemoveRuleInput!): SocketLanRuleMutationPayload! @beta
-   removeSection(input: PolicyRemoveSectionInput!): PolicySectionMutationPayload! @beta
-   removeSubPolicy(input: SocketLanRemoveSubPolicyInput!): SocketLanRemoveSubPolicyMutationPayload! @beta
+   updatePolicy(input: SocketBypassPolicyUpdateInput!): SocketBypassPolicyMutationPayload!
+   updateRule(input: SocketBypassUpdateRuleInput!): SocketBypassRuleMutationPayload!
+   updateSection(input: PolicyUpdateSectionInput!): PolicySectionMutationPayload!
+@@ -6325,6 +6326,7 @@
+   removeRule(input: SocketLanRemoveRuleInput!): SocketLanRuleMutationPayload!
+   removeSection(input: PolicyRemoveSectionInput!): PolicySectionMutationPayload!
+   removeSubPolicy(input: SocketLanRemoveSubPolicyInput!): SocketLanRemoveSubPolicyMutationPayload!
 +  reorderPolicy(input: PolicyReorderInput!): SocketLanPolicyMutationPayload! @beta
-   updatePolicy(input: SocketLanPolicyUpdateInput!): SocketLanPolicyMutationPayload! @beta
-   updateRule(input: SocketLanUpdateRuleInput!): SocketLanRuleMutationPayload! @beta
-   updateSection(input: PolicyUpdateSectionInput!): PolicySectionMutationPayload! @beta
-@@ -7477,6 +7477,7 @@ type WanNetworkPolicyMutations {
-   publishPolicyRevision(input: PolicyPublishRevisionInput): WanNetworkPolicyMutationPayload! @beta
-   removeRule(input: WanNetworkRemoveRuleInput!): WanNetworkRuleMutationPayload! @beta
-   removeSection(input: PolicyRemoveSectionInput!): PolicySectionMutationPayload! @beta
+   updatePolicy(input: SocketLanPolicyUpdateInput!): SocketLanPolicyMutationPayload!
+   updateRule(input: SocketLanUpdateRuleInput!): SocketLanRuleMutationPayload!
+   updateSection(input: PolicyUpdateSectionInput!): PolicySectionMutationPayload!
+@@ -7626,6 +7628,7 @@
+   publishPolicyRevision(input: PolicyPublishRevisionInput): WanNetworkPolicyMutationPayload!
+   removeRule(input: WanNetworkRemoveRuleInput!): WanNetworkRuleMutationPayload!
+   removeSection(input: PolicyRemoveSectionInput!): PolicySectionMutationPayload!
 +  reorderPolicy(input: PolicyReorderInput!): WanNetworkPolicyMutationPayload! @beta
-   updatePolicy(input: WanNetworkPolicyUpdateInput!): WanNetworkPolicyMutationPayload! @beta
-   updateRule(input: WanNetworkUpdateRuleInput!): WanNetworkRuleMutationPayload! @beta
-   updateSection(input: PolicyUpdateSectionInput!): PolicySectionMutationPayload! @beta
+   updatePolicy(input: WanNetworkPolicyUpdateInput!): WanNetworkPolicyMutationPayload!
+   updateRule(input: WanNetworkUpdateRuleInput!): WanNetworkRuleMutationPayload!
+   updateSection(input: PolicyUpdateSectionInput!): PolicySectionMutationPayload!
