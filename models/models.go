@@ -1006,6 +1006,28 @@ type AdvancedStringFilterInput struct {
 	Regex *string  `json:"regex,omitempty"`
 }
 
+// Agentic Threat Prevention (AGTP) service license details
+type AgenticThreatPreventionLicense struct {
+	Description    *string       `json:"description,omitempty"`
+	ExpirationDate string        `json:"expirationDate"`
+	ID             *string       `json:"id,omitempty"`
+	LastUpdated    *string       `json:"lastUpdated,omitempty"`
+	Plan           LicensePlan   `json:"plan"`
+	Sku            LicenseSku    `json:"sku"`
+	StartDate      *string       `json:"startDate,omitempty"`
+	Status         LicenseStatus `json:"status"`
+}
+
+func (AgenticThreatPreventionLicense) IsLicense()                     {}
+func (this AgenticThreatPreventionLicense) GetDescription() *string   { return this.Description }
+func (this AgenticThreatPreventionLicense) GetExpirationDate() string { return this.ExpirationDate }
+func (this AgenticThreatPreventionLicense) GetID() *string            { return this.ID }
+func (this AgenticThreatPreventionLicense) GetLastUpdated() *string   { return this.LastUpdated }
+func (this AgenticThreatPreventionLicense) GetPlan() LicensePlan      { return this.Plan }
+func (this AgenticThreatPreventionLicense) GetSku() LicenseSku        { return this.Sku }
+func (this AgenticThreatPreventionLicense) GetStartDate() *string     { return this.StartDate }
+func (this AgenticThreatPreventionLicense) GetStatus() LicenseStatus  { return this.Status }
+
 type AiOperationsIncident struct {
 	AccountOperationIncident *AccountOperationsIncident    `json:"accountOperationIncident,omitempty"`
 	AnalystFeedback          *AnalystFeedback              `json:"analystFeedback,omitempty"`
@@ -3180,6 +3202,7 @@ type BusinessPlatformAccount struct {
 	Description         *string                     `json:"description,omitempty"`
 	EstimatedCloseDate  *time.Time                  `json:"estimatedCloseDate,omitempty"`
 	ExpiresOn           *time.Time                  `json:"expiresOn,omitempty"`
+	ExternalID          *string                     `json:"externalId,omitempty"`
 	ExternalName        string                      `json:"externalName"`
 	ID                  string                      `json:"id"`
 	Partner             *AccountRef                 `json:"partner"`
@@ -6318,8 +6341,11 @@ type GlobalIPRangeRefInput struct {
 
 // License usage and allocation across all accounts
 type GlobalLicenseAllocations struct {
-	PublicIps *PublicIpsLicenseAllocations `json:"publicIps,omitempty"`
-	ZtnaUsers *ZtnaUsersLicenseAllocations `json:"ztnaUsers,omitempty"`
+	MspAiSecurityApplications []*MspQuantityServiceAllocation `json:"mspAiSecurityApplications"`
+	MspAiSecurityUsers        []*MspQuantityServiceAllocation `json:"mspAiSecurityUsers"`
+	MspDem                    []*MspQuantityServiceAllocation `json:"mspDem"`
+	PublicIps                 *PublicIpsLicenseAllocations    `json:"publicIps,omitempty"`
+	ZtnaUsers                 *ZtnaUsersLicenseAllocations    `json:"ztnaUsers,omitempty"`
 }
 
 type GlobalRangeRef struct {
@@ -7711,6 +7737,7 @@ type LastMileBwInput struct {
 // Public license API
 type LicensingInfo struct {
 	Adsp                     []*AdspLicense                     `json:"adsp"`
+	AgenticThreatPrevention  []*AgenticThreatPreventionLicense  `json:"agenticThreatPrevention"`
 	AiSecurityApplications   []*AISecurityApplicationsLicense   `json:"aiSecurityApplications"`
 	AiSecurityUsers          []*AISecurityUsersLicense          `json:"aiSecurityUsers"`
 	AssetsSecurity           []*AssetsSecurityLicense           `json:"assetsSecurity"`
@@ -8674,6 +8701,14 @@ func (this MspMdrUsersLicense) GetStatus() LicenseStatus  { return this.Status }
 func (MspMdrUsersLicense) IsQuantifiableLicense() {}
 
 func (this MspMdrUsersLicense) GetTotal() int64 { return this.Total }
+
+// Aggregate view of a partner's pool capacity and per-managed-account allocation for a quantity-based service (e.g. CATO_DEM). Populated only for partner accounts.
+type MspQuantityServiceAllocation struct {
+	Accounts          []*PartnerQuantityServiceAllocation `json:"accounts"`
+	AllocatedQuantity int64                               `json:"allocatedQuantity"`
+	Sku               LicenseSku                          `json:"sku"`
+	Total             int64                               `json:"total"`
+}
 
 // Cato Threat Prevention - Bandwidth service license details
 type MspTpBandwidthLicense struct {
@@ -9821,6 +9856,12 @@ type PartnerAccessRequestSortInput struct {
 type PartnerPooledBandwidthLicenseAccount struct {
 	Account            *AccountRef `json:"account"`
 	AllocatedBandwidth int64       `json:"allocatedBandwidth"`
+}
+
+// Managed account reference for a quantity-based MSP pool allocation
+type PartnerQuantityServiceAllocation struct {
+	Account           *AccountRef `json:"account"`
+	AllocatedQuantity int64       `json:"allocatedQuantity"`
 }
 
 type PartnerZtnaUsersLicenseAccount struct {
@@ -19466,6 +19507,8 @@ const (
 	AppStatsFieldNameApplicationName AppStatsFieldName = "application_name"
 	//  Application risk level based on the application risk score. CMA Name: Application Risk Level
 	AppStatsFieldNameApplicationRiskLevel AppStatsFieldName = "application_risk_level"
+	//  Current effective risk level of the application, derived from the current-state risk score. CMA Name: Application Risk Level Current State
+	AppStatsFieldNameApplicationRiskLevelCurrentState AppStatsFieldName = "application_risk_level_current_state"
 	//  Risk score of the application, based on Cato's risk assessment. CMA Name: Application Risk Score
 	AppStatsFieldNameApplicationRiskScore AppStatsFieldName = "application_risk_score"
 	//  Current effective risk score of the application (latest classification, not historical). CMA Name: Application Risk Score Current State
@@ -19689,6 +19732,7 @@ var AllAppStatsFieldName = []AppStatsFieldName{
 	AppStatsFieldNameApplicationID,
 	AppStatsFieldNameApplicationName,
 	AppStatsFieldNameApplicationRiskLevel,
+	AppStatsFieldNameApplicationRiskLevelCurrentState,
 	AppStatsFieldNameApplicationRiskScore,
 	AppStatsFieldNameApplicationRiskScoreCurrentState,
 	AppStatsFieldNameApplicationType,
@@ -19797,7 +19841,7 @@ var AllAppStatsFieldName = []AppStatsFieldName{
 
 func (e AppStatsFieldName) IsValid() bool {
 	switch e {
-	case AppStatsFieldNameIspName, AppStatsFieldNameAccountID, AppStatsFieldNameAccountName, AppStatsFieldNameAction, AppStatsFieldNameAdName, AppStatsFieldNameAiProxyRuleName, AppStatsFieldNameApp, AppStatsFieldNameApplication, AppStatsFieldNameApplicationDescription, AppStatsFieldNameApplicationID, AppStatsFieldNameApplicationName, AppStatsFieldNameApplicationRiskLevel, AppStatsFieldNameApplicationRiskScore, AppStatsFieldNameApplicationRiskScoreCurrentState, AppStatsFieldNameApplicationType, AppStatsFieldNameCategories, AppStatsFieldNameCategory, AppStatsFieldNameClientClass, AppStatsFieldNameClientVersion, AppStatsFieldNameConfiguredHostName, AppStatsFieldNameConnectionOrigin, AppStatsFieldNameDepartment, AppStatsFieldNameDescription, AppStatsFieldNameDestCountry, AppStatsFieldNameDestDomain, AppStatsFieldNameDestEndpointType, AppStatsFieldNameDestIP, AppStatsFieldNameDestIsSiteOrVpn, AppStatsFieldNameDestPort, AppStatsFieldNameDestSite, AppStatsFieldNameDestSiteID, AppStatsFieldNameDestSiteName, AppStatsFieldNameDeviceCategories, AppStatsFieldNameDeviceComplianceState, AppStatsFieldNameDeviceID, AppStatsFieldNameDeviceManufacturer, AppStatsFieldNameDeviceModel, AppStatsFieldNameDeviceName, AppStatsFieldNameDeviceOsType, AppStatsFieldNameDevicePostureProfile, AppStatsFieldNameDeviceType, AppStatsFieldNameDiscoveredApp, AppStatsFieldNameDomain, AppStatsFieldNameDownstream, AppStatsFieldNameDuration, AppStatsFieldNameEgressPopName, AppStatsFieldNameEgressSiteName, AppStatsFieldNameExperienceScoreLevel, AppStatsFieldNameFlowBytesDownstream, AppStatsFieldNameFlowBytesTotal, AppStatsFieldNameFlowBytesUpstream, AppStatsFieldNameFlowID, AppStatsFieldNameFlowPacketsDownstream, AppStatsFieldNameFlowPacketsTotal, AppStatsFieldNameFlowPacketsUpstream, AppStatsFieldNameFlowStartTime, AppStatsFieldNameFlowsCreated, AppStatsFieldNameFullPathURL, AppStatsFieldNameHostIP, AppStatsFieldNameHostMac, AppStatsFieldNameHqLocation, AppStatsFieldNameHTTPErrorRate, AppStatsFieldNameHTTPLatency, AppStatsFieldNameHTTPRequestMethod, AppStatsFieldNameIP, AppStatsFieldNameIPProtocol, AppStatsFieldNameIsCloudApp, AppStatsFieldNameIsFlowTerminated, AppStatsFieldNameIsSanctionedApp, AppStatsFieldNameIsSanctionedAppCurrentState, AppStatsFieldNameJobTitle, AppStatsFieldNameNetworkRule, AppStatsFieldNameNewApp, AppStatsFieldNameOsVersion, AppStatsFieldNamePacketsDownstream, AppStatsFieldNamePacketsTotal, AppStatsFieldNamePacketsUpstream, AppStatsFieldNamePopName, AppStatsFieldNameQosPriority, AppStatsFieldNameRiskLevel, AppStatsFieldNameRiskScore, AppStatsFieldNameSanctioned, AppStatsFieldNameSiteCountry, AppStatsFieldNameSiteState, AppStatsFieldNameSocketInterface, AppStatsFieldNameSrcCountry, AppStatsFieldNameSrcCountryCode, AppStatsFieldNameSrcEndpointType, AppStatsFieldNameSrcIP, AppStatsFieldNameSrcIsSiteOrVpn, AppStatsFieldNameSrcIspIP, AppStatsFieldNameSrcPort, AppStatsFieldNameSrcSiteCountryCode, AppStatsFieldNameSrcSiteID, AppStatsFieldNameSrcSiteName, AppStatsFieldNameSrcSiteState, AppStatsFieldNameSubnet, AppStatsFieldNameSubnetName, AppStatsFieldNameTCPAcceleration, AppStatsFieldNameTCPLatency, AppStatsFieldNameTimeStr, AppStatsFieldNameTld, AppStatsFieldNameTLSInspection, AppStatsFieldNameTLSLatency, AppStatsFieldNameTLSRuleName, AppStatsFieldNameTraffic, AppStatsFieldNameTrafficDirection, AppStatsFieldNameTranslatedClientIP, AppStatsFieldNameTranslatedServerIP, AppStatsFieldNameTtfb, AppStatsFieldNameUpstream, AppStatsFieldNameUserAwarenessMethod, AppStatsFieldNameUserID, AppStatsFieldNameUserName, AppStatsFieldNameVpnUserEmail, AppStatsFieldNameVpnUserID:
+	case AppStatsFieldNameIspName, AppStatsFieldNameAccountID, AppStatsFieldNameAccountName, AppStatsFieldNameAction, AppStatsFieldNameAdName, AppStatsFieldNameAiProxyRuleName, AppStatsFieldNameApp, AppStatsFieldNameApplication, AppStatsFieldNameApplicationDescription, AppStatsFieldNameApplicationID, AppStatsFieldNameApplicationName, AppStatsFieldNameApplicationRiskLevel, AppStatsFieldNameApplicationRiskLevelCurrentState, AppStatsFieldNameApplicationRiskScore, AppStatsFieldNameApplicationRiskScoreCurrentState, AppStatsFieldNameApplicationType, AppStatsFieldNameCategories, AppStatsFieldNameCategory, AppStatsFieldNameClientClass, AppStatsFieldNameClientVersion, AppStatsFieldNameConfiguredHostName, AppStatsFieldNameConnectionOrigin, AppStatsFieldNameDepartment, AppStatsFieldNameDescription, AppStatsFieldNameDestCountry, AppStatsFieldNameDestDomain, AppStatsFieldNameDestEndpointType, AppStatsFieldNameDestIP, AppStatsFieldNameDestIsSiteOrVpn, AppStatsFieldNameDestPort, AppStatsFieldNameDestSite, AppStatsFieldNameDestSiteID, AppStatsFieldNameDestSiteName, AppStatsFieldNameDeviceCategories, AppStatsFieldNameDeviceComplianceState, AppStatsFieldNameDeviceID, AppStatsFieldNameDeviceManufacturer, AppStatsFieldNameDeviceModel, AppStatsFieldNameDeviceName, AppStatsFieldNameDeviceOsType, AppStatsFieldNameDevicePostureProfile, AppStatsFieldNameDeviceType, AppStatsFieldNameDiscoveredApp, AppStatsFieldNameDomain, AppStatsFieldNameDownstream, AppStatsFieldNameDuration, AppStatsFieldNameEgressPopName, AppStatsFieldNameEgressSiteName, AppStatsFieldNameExperienceScoreLevel, AppStatsFieldNameFlowBytesDownstream, AppStatsFieldNameFlowBytesTotal, AppStatsFieldNameFlowBytesUpstream, AppStatsFieldNameFlowID, AppStatsFieldNameFlowPacketsDownstream, AppStatsFieldNameFlowPacketsTotal, AppStatsFieldNameFlowPacketsUpstream, AppStatsFieldNameFlowStartTime, AppStatsFieldNameFlowsCreated, AppStatsFieldNameFullPathURL, AppStatsFieldNameHostIP, AppStatsFieldNameHostMac, AppStatsFieldNameHqLocation, AppStatsFieldNameHTTPErrorRate, AppStatsFieldNameHTTPLatency, AppStatsFieldNameHTTPRequestMethod, AppStatsFieldNameIP, AppStatsFieldNameIPProtocol, AppStatsFieldNameIsCloudApp, AppStatsFieldNameIsFlowTerminated, AppStatsFieldNameIsSanctionedApp, AppStatsFieldNameIsSanctionedAppCurrentState, AppStatsFieldNameJobTitle, AppStatsFieldNameNetworkRule, AppStatsFieldNameNewApp, AppStatsFieldNameOsVersion, AppStatsFieldNamePacketsDownstream, AppStatsFieldNamePacketsTotal, AppStatsFieldNamePacketsUpstream, AppStatsFieldNamePopName, AppStatsFieldNameQosPriority, AppStatsFieldNameRiskLevel, AppStatsFieldNameRiskScore, AppStatsFieldNameSanctioned, AppStatsFieldNameSiteCountry, AppStatsFieldNameSiteState, AppStatsFieldNameSocketInterface, AppStatsFieldNameSrcCountry, AppStatsFieldNameSrcCountryCode, AppStatsFieldNameSrcEndpointType, AppStatsFieldNameSrcIP, AppStatsFieldNameSrcIsSiteOrVpn, AppStatsFieldNameSrcIspIP, AppStatsFieldNameSrcPort, AppStatsFieldNameSrcSiteCountryCode, AppStatsFieldNameSrcSiteID, AppStatsFieldNameSrcSiteName, AppStatsFieldNameSrcSiteState, AppStatsFieldNameSubnet, AppStatsFieldNameSubnetName, AppStatsFieldNameTCPAcceleration, AppStatsFieldNameTCPLatency, AppStatsFieldNameTimeStr, AppStatsFieldNameTld, AppStatsFieldNameTLSInspection, AppStatsFieldNameTLSLatency, AppStatsFieldNameTLSRuleName, AppStatsFieldNameTraffic, AppStatsFieldNameTrafficDirection, AppStatsFieldNameTranslatedClientIP, AppStatsFieldNameTranslatedServerIP, AppStatsFieldNameTtfb, AppStatsFieldNameUpstream, AppStatsFieldNameUserAwarenessMethod, AppStatsFieldNameUserID, AppStatsFieldNameUserName, AppStatsFieldNameVpnUserEmail, AppStatsFieldNameVpnUserID:
 		return true
 	}
 	return false
@@ -25313,6 +25357,10 @@ func (e ExportJobStatus) MarshalJSON() ([]byte, error) {
 type ExternalAccessRequestType string
 
 const (
+	// Access request scoped to the fully-managed accounts under a partner in the requesting partner's
+	// hierarchy, and auto-approved by that hierarchy. The named partner is a scope, not a grantee - it
+	// is never granted access itself.
+	ExternalAccessRequestTypeAccessAutoApprovedByPartnerHierarchy ExternalAccessRequestType = "ACCESS_AUTO_APPROVED_BY_PARTNER_HIERARCHY"
 	//  Automate access request.
 	ExternalAccessRequestTypeAutomate ExternalAccessRequestType = "AUTOMATE"
 	//  Default access request.
@@ -25330,6 +25378,7 @@ const (
 )
 
 var AllExternalAccessRequestType = []ExternalAccessRequestType{
+	ExternalAccessRequestTypeAccessAutoApprovedByPartnerHierarchy,
 	ExternalAccessRequestTypeAutomate,
 	ExternalAccessRequestTypeDefault,
 	ExternalAccessRequestTypeEmergency,
@@ -25341,7 +25390,7 @@ var AllExternalAccessRequestType = []ExternalAccessRequestType{
 
 func (e ExternalAccessRequestType) IsValid() bool {
 	switch e {
-	case ExternalAccessRequestTypeAutomate, ExternalAccessRequestTypeDefault, ExternalAccessRequestTypeEmergency, ExternalAccessRequestTypeExceptional, ExternalAccessRequestTypeStandard, ExternalAccessRequestTypeSupport, ExternalAccessRequestTypeSupportWithApproval:
+	case ExternalAccessRequestTypeAccessAutoApprovedByPartnerHierarchy, ExternalAccessRequestTypeAutomate, ExternalAccessRequestTypeDefault, ExternalAccessRequestTypeEmergency, ExternalAccessRequestTypeExceptional, ExternalAccessRequestTypeStandard, ExternalAccessRequestTypeSupport, ExternalAccessRequestTypeSupportWithApproval:
 		return true
 	}
 	return false
@@ -26638,6 +26687,10 @@ const (
 	LicenseSkuCatoAdspQ LicenseSku = "CATO_ADSP_Q"
 	//  Cato App & Data Security Package Users SKU
 	LicenseSkuCatoAdspU LicenseSku = "CATO_ADSP_U"
+	//  Cato Agentic Threat Prevention (AGTP) service SKU
+	LicenseSkuCatoAgtp LicenseSku = "CATO_AGTP"
+	//  Cato Agentic Threat Prevention (AGTP) quantity-based SKU
+	LicenseSkuCatoAgtpQ LicenseSku = "CATO_AGTP_Q"
 	//  Cato AI Security Applications SKU
 	LicenseSkuCatoAiSecApp LicenseSku = "CATO_AI_SEC_APP"
 	//  Cato AI Security Applications Group SKU
@@ -26838,6 +26891,8 @@ var AllLicenseSku = []LicenseSku{
 	LicenseSkuCatoAdspB,
 	LicenseSkuCatoAdspQ,
 	LicenseSkuCatoAdspU,
+	LicenseSkuCatoAgtp,
+	LicenseSkuCatoAgtpQ,
 	LicenseSkuCatoAiSecApp,
 	LicenseSkuCatoAiSecAppGroup,
 	LicenseSkuCatoAiSecAppU,
@@ -26939,7 +26994,7 @@ var AllLicenseSku = []LicenseSku{
 
 func (e LicenseSku) IsValid() bool {
 	switch e {
-	case LicenseSkuCatoAdsp, LicenseSkuCatoAdspB, LicenseSkuCatoAdspQ, LicenseSkuCatoAdspU, LicenseSkuCatoAiSecApp, LicenseSkuCatoAiSecAppGroup, LicenseSkuCatoAiSecAppU, LicenseSkuCatoAiSecU, LicenseSkuCatoAntiMalware, LicenseSkuCatoAntiMalwareNg, LicenseSkuCatoAppConB, LicenseSkuCatoAppConU, LicenseSkuCatoAstsSec, LicenseSkuCatoAstsSec10k, LicenseSkuCatoAstsSec15k, LicenseSkuCatoAstsSec1_5k, LicenseSkuCatoAstsSec25k, LicenseSkuCatoAstsSec2_5k, LicenseSkuCatoAstsSec50k, LicenseSkuCatoAstsSecAbv50k, LicenseSkuCatoAtpB, LicenseSkuCatoAtpQ, LicenseSkuCatoAtpU, LicenseSkuCatoAtpUserSa, LicenseSkuCatoCasb, LicenseSkuCatoCasbB, LicenseSkuCatoCasbPbSa, LicenseSkuCatoCasbQ, LicenseSkuCatoCasbU, LicenseSkuCatoCasbUserSa, LicenseSkuCatoDatalake, LicenseSkuCatoDatalake12m, LicenseSkuCatoDatalake3m, LicenseSkuCatoDatalake6m, LicenseSkuCatoDem, LicenseSkuCatoDemU, LicenseSkuCatoDlp, LicenseSkuCatoDlpB, LicenseSkuCatoDlpPbSa, LicenseSkuCatoDlpQ, LicenseSkuCatoDlpU, LicenseSkuCatoDlpUserSa, LicenseSkuCatoEpp, LicenseSkuCatoEppU, LicenseSkuCatoHfm, LicenseSkuCatoHfmS, LicenseSkuCatoIlmm, LicenseSkuCatoIlmmS, LicenseSkuCatoIotOt, LicenseSkuCatoIPS, LicenseSkuCatoIPAdd, LicenseSkuCatoManagedXdr, LicenseSkuCatoMdr, LicenseSkuCatoMdrPbSa, LicenseSkuCatoMdrQ, LicenseSkuCatoMdrU, LicenseSkuCatoMdrUserSa, LicenseSkuCatoNocaasHf, LicenseSkuCatoNocaasHfS, LicenseSkuCatoPb, LicenseSkuCatoPbQ, LicenseSkuCatoPbSse, LicenseSkuCatoRbi, LicenseSkuCatoRbiB, LicenseSkuCatoRbiU, LicenseSkuCatoRemoteU, LicenseSkuCatoSaas, LicenseSkuCatoSaasSecurityAPI, LicenseSkuCatoSaasSecurityAPIAllApps, LicenseSkuCatoSaasSecurityAPIOneApp, LicenseSkuCatoSaasSecurityAPITwoApps, LicenseSkuCatoSiaB, LicenseSkuCatoSiaU, LicenseSkuCatoSite, LicenseSkuCatoSndbxB, LicenseSkuCatoSndbxU, LicenseSkuCatoSocketX1500R, LicenseSkuCatoSocketX1600_5gR, LicenseSkuCatoSocketX1600LteR, LicenseSkuCatoSocketX1600R, LicenseSkuCatoSocketX1600Wifi5gR, LicenseSkuCatoSocketX1600WifiR, LicenseSkuCatoSocketX1700R, LicenseSkuCatoSseSite, LicenseSkuCatoThreatPrevention, LicenseSkuCatoThreatPreventionAdv, LicenseSkuCatoThreatPreventionAdvPbSa, LicenseSkuCatoThreatPreventionPbSa, LicenseSkuCatoThreatPreventionUserSa, LicenseSkuCatoTpQ, LicenseSkuCatoWan, LicenseSkuCatoWanTpB, LicenseSkuCatoXdrPro, LicenseSkuCatoXops, LicenseSkuCatoXopsPbSa, LicenseSkuCatoXopsQ, LicenseSkuCatoXopsU, LicenseSkuCatoXopsUserSa, LicenseSkuCatoZtnaQ, LicenseSkuCatoZtnaUsers, LicenseSkuMobileUsers:
+	case LicenseSkuCatoAdsp, LicenseSkuCatoAdspB, LicenseSkuCatoAdspQ, LicenseSkuCatoAdspU, LicenseSkuCatoAgtp, LicenseSkuCatoAgtpQ, LicenseSkuCatoAiSecApp, LicenseSkuCatoAiSecAppGroup, LicenseSkuCatoAiSecAppU, LicenseSkuCatoAiSecU, LicenseSkuCatoAntiMalware, LicenseSkuCatoAntiMalwareNg, LicenseSkuCatoAppConB, LicenseSkuCatoAppConU, LicenseSkuCatoAstsSec, LicenseSkuCatoAstsSec10k, LicenseSkuCatoAstsSec15k, LicenseSkuCatoAstsSec1_5k, LicenseSkuCatoAstsSec25k, LicenseSkuCatoAstsSec2_5k, LicenseSkuCatoAstsSec50k, LicenseSkuCatoAstsSecAbv50k, LicenseSkuCatoAtpB, LicenseSkuCatoAtpQ, LicenseSkuCatoAtpU, LicenseSkuCatoAtpUserSa, LicenseSkuCatoCasb, LicenseSkuCatoCasbB, LicenseSkuCatoCasbPbSa, LicenseSkuCatoCasbQ, LicenseSkuCatoCasbU, LicenseSkuCatoCasbUserSa, LicenseSkuCatoDatalake, LicenseSkuCatoDatalake12m, LicenseSkuCatoDatalake3m, LicenseSkuCatoDatalake6m, LicenseSkuCatoDem, LicenseSkuCatoDemU, LicenseSkuCatoDlp, LicenseSkuCatoDlpB, LicenseSkuCatoDlpPbSa, LicenseSkuCatoDlpQ, LicenseSkuCatoDlpU, LicenseSkuCatoDlpUserSa, LicenseSkuCatoEpp, LicenseSkuCatoEppU, LicenseSkuCatoHfm, LicenseSkuCatoHfmS, LicenseSkuCatoIlmm, LicenseSkuCatoIlmmS, LicenseSkuCatoIotOt, LicenseSkuCatoIPS, LicenseSkuCatoIPAdd, LicenseSkuCatoManagedXdr, LicenseSkuCatoMdr, LicenseSkuCatoMdrPbSa, LicenseSkuCatoMdrQ, LicenseSkuCatoMdrU, LicenseSkuCatoMdrUserSa, LicenseSkuCatoNocaasHf, LicenseSkuCatoNocaasHfS, LicenseSkuCatoPb, LicenseSkuCatoPbQ, LicenseSkuCatoPbSse, LicenseSkuCatoRbi, LicenseSkuCatoRbiB, LicenseSkuCatoRbiU, LicenseSkuCatoRemoteU, LicenseSkuCatoSaas, LicenseSkuCatoSaasSecurityAPI, LicenseSkuCatoSaasSecurityAPIAllApps, LicenseSkuCatoSaasSecurityAPIOneApp, LicenseSkuCatoSaasSecurityAPITwoApps, LicenseSkuCatoSiaB, LicenseSkuCatoSiaU, LicenseSkuCatoSite, LicenseSkuCatoSndbxB, LicenseSkuCatoSndbxU, LicenseSkuCatoSocketX1500R, LicenseSkuCatoSocketX1600_5gR, LicenseSkuCatoSocketX1600LteR, LicenseSkuCatoSocketX1600R, LicenseSkuCatoSocketX1600Wifi5gR, LicenseSkuCatoSocketX1600WifiR, LicenseSkuCatoSocketX1700R, LicenseSkuCatoSseSite, LicenseSkuCatoThreatPrevention, LicenseSkuCatoThreatPreventionAdv, LicenseSkuCatoThreatPreventionAdvPbSa, LicenseSkuCatoThreatPreventionPbSa, LicenseSkuCatoThreatPreventionUserSa, LicenseSkuCatoTpQ, LicenseSkuCatoWan, LicenseSkuCatoWanTpB, LicenseSkuCatoXdrPro, LicenseSkuCatoXops, LicenseSkuCatoXopsPbSa, LicenseSkuCatoXopsQ, LicenseSkuCatoXopsU, LicenseSkuCatoXopsUserSa, LicenseSkuCatoZtnaQ, LicenseSkuCatoZtnaUsers, LicenseSkuMobileUsers:
 		return true
 	}
 	return false

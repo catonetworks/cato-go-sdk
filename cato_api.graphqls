@@ -377,6 +377,18 @@ type AdspLicense implements License {
   status: LicenseStatus!
 }
 
+""" Agentic Threat Prevention (AGTP) service license details """
+type AgenticThreatPreventionLicense implements License {
+  description: String
+  expirationDate: DateTime!
+  id: ID
+  lastUpdated: DateTime
+  plan: LicensePlan!
+  sku: LicenseSku!
+  startDate: DateTime
+  status: LicenseStatus!
+}
+
 type AiOperationsIncident implements MergedIncident {
   accountOperationIncident: AccountOperationsIncident
   analystFeedback: AnalystFeedback
@@ -1333,6 +1345,7 @@ type BusinessPlatformAccount {
   description: String
   estimatedCloseDate: Date
   expiresOn: Date
+  externalId: String
   externalName: String!
   id: ID!
   partner: AccountRef!
@@ -2896,6 +2909,9 @@ type GlobalIpRangeRef implements ObjectRef {
 
 """ License usage and allocation across all accounts """
 type GlobalLicenseAllocations {
+  mspAiSecurityApplications: [MspQuantityServiceAllocation!]!
+  mspAiSecurityUsers: [MspQuantityServiceAllocation!]!
+  mspDem: [MspQuantityServiceAllocation!]!
   publicIps: PublicIpsLicenseAllocations
   ztnaUsers: ZtnaUsersLicenseAllocations
 }
@@ -3621,6 +3637,7 @@ type IspLoaFile {
 """ Public license API """
 type LicensingInfo {
   adsp: [AdspLicense!]!
+  agenticThreatPrevention: [AgenticThreatPreventionLicense!]!
   aiSecurityApplications: [AISecurityApplicationsLicense!]!
   aiSecurityUsers: [AISecurityUsersLicense!]!
   assetsSecurity: [AssetsSecurityLicense!]!
@@ -4070,6 +4087,14 @@ type MspMdrUsersLicense implements License & QuantifiableLicense {
   sku: LicenseSku!
   startDate: DateTime
   status: LicenseStatus!
+  total: Int!
+}
+
+""" Aggregate view of a partner's pool capacity and per-managed-account allocation for a quantity-based service (e.g. CATO_DEM). Populated only for partner accounts. """
+type MspQuantityServiceAllocation {
+  accounts: [PartnerQuantityServiceAllocation!]!
+  allocatedQuantity: Int!
+  sku: LicenseSku!
   total: Int!
 }
 
@@ -4636,6 +4661,12 @@ type PartnerAccessRequestListPayload {
 type PartnerPooledBandwidthLicenseAccount {
   account: AccountRef!
   allocatedBandwidth: Int!
+}
+
+""" Managed account reference for a quantity-based MSP pool allocation """
+type PartnerQuantityServiceAllocation {
+  account: AccountRef!
+  allocatedQuantity: Int!
 }
 
 type PartnerZtnaUsersLicenseAccount {
@@ -14925,6 +14956,8 @@ enum AppStatsFieldName {
   application_name
   """ Application risk level based on the application risk score. CMA Name: Application Risk Level """
   application_risk_level
+  """ Current effective risk level of the application, derived from the current-state risk score. CMA Name: Application Risk Level Current State """
+  application_risk_level_current_state
   """ Risk score of the application, based on Cato's risk assessment. CMA Name: Application Risk Score """
   application_risk_score
   """ Current effective risk score of the application (latest classification, not historical). CMA Name: Application Risk Score Current State """
@@ -16605,6 +16638,12 @@ enum ExportJobStatus {
 
 """ External access request type. """
 enum ExternalAccessRequestType {
+  """
+  Access request scoped to the fully-managed accounts under a partner in the requesting partner's
+  hierarchy, and auto-approved by that hierarchy. The named partner is a scope, not a grantee - it
+  is never granted access itself.
+  """
+  ACCESS_AUTO_APPROVED_BY_PARTNER_HIERARCHY
   """ Automate access request. """
   AUTOMATE
   """ Default access request. """
@@ -16810,6 +16849,10 @@ enum LicenseSku {
   CATO_ADSP_Q
   """ Cato App & Data Security Package Users SKU """
   CATO_ADSP_U
+  """ Cato Agentic Threat Prevention (AGTP) service SKU """
+  CATO_AGTP
+  """ Cato Agentic Threat Prevention (AGTP) quantity-based SKU """
+  CATO_AGTP_Q
   """ Cato AI Security Applications SKU """
   CATO_AI_SEC_APP
   """ Cato AI Security Applications Group SKU """
