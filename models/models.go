@@ -645,6 +645,17 @@ type AddBgpPeerPayload struct {
 	BgpPeer *BgpPeer `json:"bgpPeer"`
 }
 
+// Input for the `addCheckComment` mutation.
+type AddCheckCommentInput struct {
+	CheckID string `json:"checkId"`
+	Text    string `json:"text"`
+}
+
+// Response payload for the `addCheckComment` mutation.
+type AddCheckCommentPayload struct {
+	Comments []*PostureCheckComment `json:"comments"`
+}
+
 // Input for adding a new physical connection to a cloud interconnect site.
 type AddCloudInterconnectPhysicalConnectionInput struct {
 	QinQVlanConfiguration *QinQVlanConfiguration `json:"QinQVlanConfiguration,omitempty"`
@@ -1005,6 +1016,28 @@ type AdvancedStringFilterInput struct {
 	Nin   []string `json:"nin,omitempty"`
 	Regex *string  `json:"regex,omitempty"`
 }
+
+// Agentic Threat Prevention (AGTP) service license details
+type AgenticThreatPreventionLicense struct {
+	Description    *string       `json:"description,omitempty"`
+	ExpirationDate string        `json:"expirationDate"`
+	ID             *string       `json:"id,omitempty"`
+	LastUpdated    *string       `json:"lastUpdated,omitempty"`
+	Plan           LicensePlan   `json:"plan"`
+	Sku            LicenseSku    `json:"sku"`
+	StartDate      *string       `json:"startDate,omitempty"`
+	Status         LicenseStatus `json:"status"`
+}
+
+func (AgenticThreatPreventionLicense) IsLicense()                     {}
+func (this AgenticThreatPreventionLicense) GetDescription() *string   { return this.Description }
+func (this AgenticThreatPreventionLicense) GetExpirationDate() string { return this.ExpirationDate }
+func (this AgenticThreatPreventionLicense) GetID() *string            { return this.ID }
+func (this AgenticThreatPreventionLicense) GetLastUpdated() *string   { return this.LastUpdated }
+func (this AgenticThreatPreventionLicense) GetPlan() LicensePlan      { return this.Plan }
+func (this AgenticThreatPreventionLicense) GetSku() LicenseSku        { return this.Sku }
+func (this AgenticThreatPreventionLicense) GetStartDate() *string     { return this.StartDate }
+func (this AgenticThreatPreventionLicense) GetStatus() LicenseStatus  { return this.Status }
 
 type AiOperationsIncident struct {
 	AccountOperationIncident *AccountOperationsIncident    `json:"accountOperationIncident,omitempty"`
@@ -3180,6 +3213,7 @@ type BusinessPlatformAccount struct {
 	Description         *string                     `json:"description,omitempty"`
 	EstimatedCloseDate  *time.Time                  `json:"estimatedCloseDate,omitempty"`
 	ExpiresOn           *time.Time                  `json:"expiresOn,omitempty"`
+	ExternalID          *string                     `json:"externalId,omitempty"`
 	ExternalName        string                      `json:"externalName"`
 	ID                  string                      `json:"id"`
 	Partner             *AccountRef                 `json:"partner"`
@@ -3338,6 +3372,7 @@ type CatalogApplication struct {
 	ChildApp                           []*ApplicationRef                                     `json:"childApp"`
 	City                               *string                                               `json:"city,omitempty"`
 	ComplianceAttributes               *CatalogApplicationComplianceAttributes               `json:"complianceAttributes"`
+	DefaultCategory                    []*ApplicationCategoryRef                             `json:"defaultCategory"`
 	Description                        *string                                               `json:"description,omitempty"`
 	DescriptionSummary                 *string                                               `json:"descriptionSummary,omitempty"`
 	DynamicIPSource                    []string                                              `json:"dynamicIpSource"`
@@ -3485,6 +3520,7 @@ type CatalogApplicationFilterInput struct {
 	ID             []*IDFilterInput                           `json:"id,omitempty"`
 	Name           []*StringFilterInput                       `json:"name,omitempty"`
 	OriginCountry  []*StringFilterInput                       `json:"originCountry,omitempty"`
+	Overridden     []*CatalogApplicationOverriddenFilterInput `json:"overridden,omitempty"`
 	RecentlyAdded  []*BooleanFilterInput                      `json:"recentlyAdded,omitempty"`
 	Risk           []*IntFilterInput                          `json:"risk,omitempty"`
 	TenantActivity []*BooleanFilterInput                      `json:"tenantActivity,omitempty"`
@@ -3506,6 +3542,12 @@ type CatalogApplicationListInput struct {
 type CatalogApplicationListPayload struct {
 	Application []*CatalogApplication `json:"application"`
 	PageInfo    *PageInfo             `json:"pageInfo"`
+}
+
+// Filters applications by whether their catalog values were overridden for this account
+type CatalogApplicationOverriddenFilterInput struct {
+	Category *BooleanFilterInput `json:"category,omitempty"`
+	Risk     *BooleanFilterInput `json:"risk,omitempty"`
 }
 
 type CatalogApplicationSecurityAttributes struct {
@@ -6318,8 +6360,11 @@ type GlobalIPRangeRefInput struct {
 
 // License usage and allocation across all accounts
 type GlobalLicenseAllocations struct {
-	PublicIps *PublicIpsLicenseAllocations `json:"publicIps,omitempty"`
-	ZtnaUsers *ZtnaUsersLicenseAllocations `json:"ztnaUsers,omitempty"`
+	MspAiSecurityApplications []*MspQuantityServiceAllocation `json:"mspAiSecurityApplications"`
+	MspAiSecurityUsers        []*MspQuantityServiceAllocation `json:"mspAiSecurityUsers"`
+	MspDem                    []*MspQuantityServiceAllocation `json:"mspDem"`
+	PublicIps                 *PublicIpsLicenseAllocations    `json:"publicIps,omitempty"`
+	ZtnaUsers                 *ZtnaUsersLicenseAllocations    `json:"ztnaUsers,omitempty"`
 }
 
 type GlobalRangeRef struct {
@@ -7711,6 +7756,7 @@ type LastMileBwInput struct {
 // Public license API
 type LicensingInfo struct {
 	Adsp                     []*AdspLicense                     `json:"adsp"`
+	AgenticThreatPrevention  []*AgenticThreatPreventionLicense  `json:"agenticThreatPrevention"`
 	AiSecurityApplications   []*AISecurityApplicationsLicense   `json:"aiSecurityApplications"`
 	AiSecurityUsers          []*AISecurityUsersLicense          `json:"aiSecurityUsers"`
 	AssetsSecurity           []*AssetsSecurityLicense           `json:"assetsSecurity"`
@@ -8674,6 +8720,14 @@ func (this MspMdrUsersLicense) GetStatus() LicenseStatus  { return this.Status }
 func (MspMdrUsersLicense) IsQuantifiableLicense() {}
 
 func (this MspMdrUsersLicense) GetTotal() int64 { return this.Total }
+
+// Aggregate view of a partner's pool capacity and per-managed-account allocation for a quantity-based service (e.g. CATO_DEM). Populated only for partner accounts.
+type MspQuantityServiceAllocation struct {
+	Accounts          []*PartnerQuantityServiceAllocation `json:"accounts"`
+	AllocatedQuantity int64                               `json:"allocatedQuantity"`
+	Sku               LicenseSku                          `json:"sku"`
+	Total             int64                               `json:"total"`
+}
 
 // Cato Threat Prevention - Bandwidth service license details
 type MspTpBandwidthLicense struct {
@@ -9823,6 +9877,12 @@ type PartnerPooledBandwidthLicenseAccount struct {
 	AllocatedBandwidth int64       `json:"allocatedBandwidth"`
 }
 
+// Managed account reference for a quantity-based MSP pool allocation
+type PartnerQuantityServiceAllocation struct {
+	Account           *AccountRef `json:"account"`
+	AllocatedQuantity int64       `json:"allocatedQuantity"`
+}
+
 type PartnerZtnaUsersLicenseAccount struct {
 	Account        *AccountRef `json:"account"`
 	AllocatedUsers int64       `json:"allocatedUsers"`
@@ -10586,6 +10646,668 @@ type PostalAddressInput struct {
 	Country   *CountryRefInput `json:"country"`
 	StateName *string          `json:"stateName,omitempty"`
 	ZipCode   *string          `json:"zipCode,omitempty"`
+}
+
+type PostureAccountComparison struct {
+	Average         int64                 `json:"average"`
+	ComparisonType  PostureComparisonType `json:"comparisonType"`
+	ComparisonValue *string               `json:"comparisonValue,omitempty"`
+	Percentile      int64                 `json:"percentile"`
+}
+
+// Posture summary for a single account in a partner-level view.
+type PostureAccountSummary struct {
+	Account *AccountRef `json:"account"`
+	Score   int64       `json:"score"`
+}
+
+// Input for the `accountSummaryList` query.
+type PostureAccountSummaryListInput struct {
+	Sort *PostureAccountSummarySortInput `json:"sort"`
+}
+
+// Response payload for the `accountSummaryList` query (partner-level view).
+type PostureAccountSummaryListPayload struct {
+	Items  []*PostureAccountSummary `json:"items"`
+	Paging *PageInfo                `json:"paging"`
+}
+
+// Sort options for the account summary list.
+type PostureAccountSummarySortInput struct {
+	AccountName *SortOrderInput `json:"accountName,omitempty"`
+	Score       *SortOrderInput `json:"score,omitempty"`
+}
+
+type PostureApplicationScore struct {
+	Application string               `json:"application"`
+	Score       int64                `json:"score"`
+	Stats       *PostureStatsDetails `json:"stats"`
+}
+
+type PostureArea struct {
+	ID   string `json:"id"`
+	Name string `json:"name"`
+}
+
+type PostureAreaScore struct {
+	Area           *PostureArea            `json:"area"`
+	CategoryScores []*PostureCategoryScore `json:"categoryScores"`
+	CheckCount     int64                   `json:"checkCount"`
+	Score          int64                   `json:"score"`
+}
+
+type PostureCategory struct {
+	ID   string `json:"id"`
+	Name string `json:"name"`
+}
+
+// Input for the `categoryList` query.
+type PostureCategoryListInput struct {
+	Sort *PostureCategorySortInput `json:"sort"`
+}
+
+// Response payload for the `categoryList` query.
+type PostureCategoryListPayload struct {
+	Items  []*PostureCategoryMetadata `json:"items"`
+	Paging *PageInfo                  `json:"paging"`
+}
+
+// Metadata for a Posture Check category, including its Area, visibility settings,
+// and whether it is included in the Account Score.
+type PostureCategoryMetadata struct {
+	Area                       *PostureArea `json:"area,omitempty"`
+	ID                         string       `json:"id"`
+	IsChecksHiddenInCatalog    bool         `json:"isChecksHiddenInCatalog"`
+	IsExcludedFromPostureScore bool         `json:"isExcludedFromPostureScore"`
+	Name                       string       `json:"name"`
+	RbacPermission             *string      `json:"rbacPermission,omitempty"`
+	ResultsTTLDays             *int64       `json:"resultsTtlDays,omitempty"`
+}
+
+type PostureCategoryScore struct {
+	Category *PostureCategory     `json:"category"`
+	Score    int64                `json:"score"`
+	Stats    *PostureStatsDetails `json:"stats"`
+}
+
+// Sort options for categories.
+type PostureCategorySortInput struct {
+	Name *SortOrderInput `json:"name,omitempty"`
+}
+
+// A Posture Check result, combining the check's static definition with its current
+// evaluation result, findings, audit events, and peer comparisons.
+type PostureCheck struct {
+	Comparisons   []*PostureCheckComparison  `json:"comparisons"`
+	Definition    *PostureCheckDefinition    `json:"definition"`
+	Events        []*PostureCheckEvent       `json:"events"`
+	Findings      []*PostureCheckFinding     `json:"findings"`
+	FindingsCount *PostureCheckFindingsCount `json:"findingsCount"`
+	Result        *PostureResult             `json:"result"`
+}
+
+// A comment entry in the history of a Posture Check result.
+type PostureCheckComment struct {
+	Actor     *PostureCheckEventActor `json:"actor"`
+	ID        string                  `json:"id"`
+	Text      *string                 `json:"text,omitempty"`
+	Timestamp string                  `json:"timestamp"`
+}
+
+type PostureCheckComparison struct {
+	ComparisonType  PostureComparisonType `json:"comparisonType"`
+	ComparisonValue *string               `json:"comparisonValue,omitempty"`
+	Percentile      int64                 `json:"percentile"`
+}
+
+type PostureCheckCountsPerState struct {
+	Disabled int64 `json:"disabled"`
+	Failed   int64 `json:"failed"`
+	NewCount int64 `json:"newCount"`
+	Passed   int64 `json:"passed"`
+	Total    int64 `json:"total"`
+}
+
+// Static definition of a Posture Check as it appears in the Posture Check Catalog.
+type PostureCheckDefinition struct {
+	Application          *string                     `json:"application,omitempty"`
+	Area                 *PostureArea                `json:"area"`
+	Category             *PostureCategory            `json:"category"`
+	CheckType            *string                     `json:"checkType,omitempty"`
+	ComplianceControls   []*PostureComplianceControl `json:"complianceControls"`
+	ComplianceFrameworks []string                    `json:"complianceFrameworks"`
+	Description          *string                     `json:"description,omitempty"`
+	Domain               *PostureDomain              `json:"domain"`
+	ID                   string                      `json:"id"`
+	Impact               PostureImpact               `json:"impact"`
+	Name                 string                      `json:"name"`
+	RecommendedActions   []*PostureRecommendedAction `json:"recommendedActions"`
+	SecurityDomain       *string                     `json:"securityDomain,omitempty"`
+	SuppressedStatus     *PostureSuppressedStatus    `json:"suppressedStatus,omitempty"`
+	Tags                 []string                    `json:"tags"`
+}
+
+// An audit event in the history of a Posture Check result.
+type PostureCheckEvent struct {
+	Actor     *PostureCheckEventActor `json:"actor"`
+	FindingID *string                 `json:"findingId,omitempty"`
+	ID        string                  `json:"id"`
+	Metadata  *string                 `json:"metadata,omitempty"`
+	Text      *string                 `json:"text,omitempty"`
+	Timestamp string                  `json:"timestamp"`
+	Title     string                  `json:"title"`
+	Type      PostureCheckEventType   `json:"type"`
+}
+
+type PostureCheckEventActor struct {
+	Name string                     `json:"name"`
+	Type PostureCheckEventActorType `json:"type"`
+}
+
+type PostureCheckFinding struct {
+	AdditionalInfo     []*PostureCheckFindingDetail `json:"additionalInfo"`
+	AppInstance        *string                      `json:"appInstance,omitempty"`
+	CheckDefinition    *PostureCheckDefinition      `json:"checkDefinition"`
+	CheckID            string                       `json:"checkId"`
+	Description        *string                      `json:"description,omitempty"`
+	ExternalID         string                       `json:"externalId"`
+	ID                 string                       `json:"id"`
+	Impact             *PostureImpact               `json:"impact,omitempty"`
+	ImpactedEntities   []*PostureImpactedEntity     `json:"impactedEntities"`
+	MuteDurationInDays *int64                       `json:"muteDurationInDays,omitempty"`
+	MuteReason         *string                      `json:"muteReason,omitempty"`
+	MuteStatus         PostureMuteStatus            `json:"muteStatus"`
+	MutedAt            *string                      `json:"mutedAt,omitempty"`
+	Name               *string                      `json:"name,omitempty"`
+	ResolutionStatus   *PostureResolutionStatus     `json:"resolutionStatus,omitempty"`
+}
+
+type PostureCheckFindingDetail struct {
+	Key   string `json:"key"`
+	Value string `json:"value"`
+}
+
+type PostureCheckFindingsCount struct {
+	Breakdown                        []*PostureCheckFindingsCountBreakdown            `json:"breakdown"`
+	OpenFindingsAppInstanceBreakdown []*PostureCheckFindingsCountAppInstanceBreakdown `json:"openFindingsAppInstanceBreakdown"`
+}
+
+// A single mute status / application instance bucket of a check result's open findings.
+type PostureCheckFindingsCountAppInstanceBreakdown struct {
+	AppInstance *string           `json:"appInstance,omitempty"`
+	Count       int64             `json:"count"`
+	MuteStatus  PostureMuteStatus `json:"muteStatus"`
+}
+
+// A single mute status / resolution status bucket of a check result's findings.
+type PostureCheckFindingsCountBreakdown struct {
+	Count            int64                   `json:"count"`
+	MuteStatus       PostureMuteStatus       `json:"muteStatus"`
+	ResolutionStatus PostureResolutionStatus `json:"resolutionStatus"`
+}
+
+// Filter criteria for Posture Check result list and summary queries.
+type PostureCheckResultListFilterInput struct {
+	Application         []*AdvancedStringFilterInput             `json:"application,omitempty"`
+	AreaID              []*IDFilterInput                         `json:"areaId,omitempty"`
+	CategoryID          []*IDFilterInput                         `json:"categoryId,omitempty"`
+	CheckID             []*IDFilterInput                         `json:"checkId,omitempty"`
+	CheckType           []*AdvancedStringFilterInput             `json:"checkType,omitempty"`
+	ComplianceControl   []*AdvancedStringFilterInput             `json:"complianceControl,omitempty"`
+	ComplianceFramework []*AdvancedStringFilterInput             `json:"complianceFramework,omitempty"`
+	FindingName         []*AdvancedStringFilterInput             `json:"findingName,omitempty"`
+	Label               []*AdvancedStringFilterInput             `json:"label,omitempty"`
+	MuteStatus          []*PostureMuteStatusFilterInput          `json:"muteStatus,omitempty"`
+	Name                []*AdvancedStringFilterInput             `json:"name,omitempty"`
+	SecurityDomain      []*AdvancedStringFilterInput             `json:"securityDomain,omitempty"`
+	Severity            []*PostureCheckResultSeverityFilterInput `json:"severity,omitempty"`
+	Status              []*PostureResultStatusFilterInput        `json:"status,omitempty"`
+	SuppressedStatus    []*PostureSuppressedStatusFilterInput    `json:"suppressedStatus,omitempty"`
+}
+
+// Input for the `checkResultList` query.
+type PostureCheckResultListInput struct {
+	Filter *PostureCheckResultListFilterInput `json:"filter,omitempty"`
+	Paging *PagingInput                       `json:"paging,omitempty"`
+	Sort   *PostureCheckResultSortInput       `json:"sort"`
+}
+
+// Response payload for the `checkResultList` query.
+type PostureCheckResultListPayload struct {
+	Items  []*PostureCheck `json:"items"`
+	Paging *PageInfo       `json:"paging"`
+}
+
+type PostureCheckResultSeverityFilterInput struct {
+	Eq  *PostureImpact  `json:"eq,omitempty"`
+	In  []PostureImpact `json:"in,omitempty"`
+	Neq *PostureImpact  `json:"neq,omitempty"`
+	Nin []PostureImpact `json:"nin,omitempty"`
+}
+
+type PostureCheckResultSortInput struct {
+	Application    *SortOrderInput `json:"application,omitempty"`
+	LastChecked    *SortOrderInput `json:"lastChecked,omitempty"`
+	Name           *SortOrderInput `json:"name,omitempty"`
+	SecurityDomain *SortOrderInput `json:"securityDomain,omitempty"`
+	Severity       *SortOrderInput `json:"severity,omitempty"`
+}
+
+// Aggregated summary of Posture Check results across multiple breakdown dimensions,
+// including score and state counts.
+type PostureCheckSummary struct {
+	ApplicationBreakdown         []*PostureCheckSummaryBreakdown                    `json:"applicationBreakdown"`
+	AreaBreakdown                []*PostureCheckSummaryAreaBreakdown                `json:"areaBreakdown"`
+	CategoryBreakdown            []*PostureCheckSummaryBreakdown                    `json:"categoryBreakdown"`
+	CheckTypeBreakdown           []*PostureCheckSummaryBreakdown                    `json:"checkTypeBreakdown"`
+	Comparisons                  []*PostureAccountComparison                        `json:"comparisons"`
+	ComplianceControlBreakdown   []*PostureCheckSummaryBreakdown                    `json:"complianceControlBreakdown"`
+	ComplianceFrameworkBreakdown []*PostureCheckSummaryComplianceFrameworkBreakdown `json:"complianceFrameworkBreakdown"`
+	Counts                       *PostureCheckCountsPerState                        `json:"counts"`
+	EvaluatedAt                  string                                             `json:"evaluatedAt"`
+	Score                        int64                                              `json:"score"`
+	SecurityDomainBreakdown      []*PostureCheckSummaryBreakdown                    `json:"securityDomainBreakdown"`
+	SeverityBreakdown            []*PostureCheckSummaryBreakdown                    `json:"severityBreakdown"`
+}
+
+type PostureCheckSummaryAreaBreakdown struct {
+	CategoryBreakdown []*PostureCheckSummaryBreakdown `json:"categoryBreakdown"`
+	Counts            *PostureCheckCountsPerState     `json:"counts"`
+	Key               string                          `json:"key"`
+	Name              *string                         `json:"name,omitempty"`
+	Score             int64                           `json:"score"`
+}
+
+type PostureCheckSummaryBreakdown struct {
+	Counts *PostureCheckCountsPerState `json:"counts"`
+	Key    string                      `json:"key"`
+	Name   *string                     `json:"name,omitempty"`
+	Score  int64                       `json:"score"`
+}
+
+type PostureCheckSummaryComplianceControlBreakdown struct {
+	Control *PostureComplianceControl   `json:"control"`
+	Counts  *PostureCheckCountsPerState `json:"counts"`
+	Key     string                      `json:"key"`
+	Score   int64                       `json:"score"`
+}
+
+type PostureCheckSummaryComplianceFrameworkBreakdown struct {
+	ComplianceControlBreakdown []*PostureCheckSummaryComplianceControlBreakdown `json:"complianceControlBreakdown"`
+	Counts                     *PostureCheckCountsPerState                      `json:"counts"`
+	Key                        string                                           `json:"key"`
+	Name                       *string                                          `json:"name,omitempty"`
+	Score                      int64                                            `json:"score"`
+}
+
+// Input for the `checkSummary` query.
+type PostureCheckSummaryInput struct {
+	Filter                *PostureCheckResultListFilterInput `json:"filter,omitempty"`
+	NewCheckDaysThreshold *int64                             `json:"newCheckDaysThreshold,omitempty"`
+}
+
+// Response payload for the `checkSummary` query.
+type PostureCheckSummaryPayload struct {
+	Summary *PostureCheckSummary `json:"summary"`
+}
+
+// A compliance control entry mapping a Posture Check to a specific control
+// within a compliance framework.
+type PostureComplianceControl struct {
+	Description *string `json:"description,omitempty"`
+	Framework   string  `json:"framework"`
+	Key         *string `json:"key,omitempty"`
+	Title       *string `json:"title,omitempty"`
+}
+
+// Response payload for the `complianceFrameworkList` query.
+type PostureComplianceFrameworkListPayload struct {
+	Items  []string  `json:"items"`
+	Paging *PageInfo `json:"paging"`
+}
+
+type PostureDailySummary struct {
+	EvaluatedAt string          `json:"evaluatedAt"`
+	Summary     *PostureSummary `json:"summary"`
+}
+
+// Filter for the daily Posture summary list query.
+type PostureDailySummaryListFilterInput struct {
+	TimeFrame string `json:"timeFrame"`
+}
+
+// Input for the `dailySummaryList` query.
+type PostureDailySummaryListInput struct {
+	Filter *PostureDailySummaryListFilterInput `json:"filter"`
+}
+
+// Response payload for the `dailySummaryList` query.
+type PostureDailySummaryListPayload struct {
+	Items  []*PostureDailySummary `json:"items"`
+	Paging *PageInfo              `json:"paging"`
+}
+
+// Input for the `definitionList` query.
+type PostureDefinitionListInput struct {
+	Sort *PostureDefinitionSortInput `json:"sort"`
+}
+
+// Response payload for the `definitionList` query.
+type PostureDefinitionListPayload struct {
+	Items  []*PostureCheckDefinition `json:"items"`
+	Paging *PageInfo                 `json:"paging"`
+}
+
+// Sort options for check definitions.
+type PostureDefinitionSortInput struct {
+	Name     *SortOrderInput `json:"name,omitempty"`
+	Severity *SortOrderInput `json:"severity,omitempty"`
+}
+
+// Input for the `dismissFinding` mutation.
+type PostureDismissFindingInput struct {
+	FindingID string  `json:"findingId"`
+	Reason    *string `json:"reason,omitempty"`
+}
+
+// Response payload for the `dismissFinding` mutation.
+type PostureDismissFindingPayload struct {
+	Finding *PostureCheckFinding `json:"finding"`
+}
+
+type PostureDomain struct {
+	ID   string `json:"id"`
+	Name string `json:"name"`
+}
+
+type PostureDomainScore struct {
+	CheckCount int64          `json:"checkCount"`
+	Domain     *PostureDomain `json:"domain"`
+	Score      int64          `json:"score"`
+}
+
+type PostureFindingListFilterInput struct {
+	AppInstance         []*AdvancedStringFilterInput             `json:"appInstance,omitempty"`
+	Application         []*AdvancedStringFilterInput             `json:"application,omitempty"`
+	AreaID              []*IDFilterInput                         `json:"areaId,omitempty"`
+	CategoryID          []*IDFilterInput                         `json:"categoryId,omitempty"`
+	CheckID             []*IDFilterInput                         `json:"checkId,omitempty"`
+	CheckName           []*AdvancedStringFilterInput             `json:"checkName,omitempty"`
+	CheckSeverity       []*PostureCheckResultSeverityFilterInput `json:"checkSeverity,omitempty"`
+	CheckType           []*AdvancedStringFilterInput             `json:"checkType,omitempty"`
+	ComplianceControl   []*AdvancedStringFilterInput             `json:"complianceControl,omitempty"`
+	ComplianceFramework []*AdvancedStringFilterInput             `json:"complianceFramework,omitempty"`
+	ID                  []*IDFilterInput                         `json:"id,omitempty"`
+	Label               []*AdvancedStringFilterInput             `json:"label,omitempty"`
+	MuteStatus          []*PostureMuteStatusFilterInput          `json:"muteStatus,omitempty"`
+	Name                []*AdvancedStringFilterInput             `json:"name,omitempty"`
+	ResolutionStatus    []*PostureResolutionStatusFilterInput    `json:"resolutionStatus,omitempty"`
+	SecurityDomain      []*AdvancedStringFilterInput             `json:"securityDomain,omitempty"`
+	Severity            []*PostureCheckResultSeverityFilterInput `json:"severity,omitempty"`
+	SuppressedStatus    []*PostureSuppressedStatusFilterInput    `json:"suppressedStatus,omitempty"`
+}
+
+type PostureFindingListInput struct {
+	Filter *PostureFindingListFilterInput `json:"filter"`
+	Paging *PagingInput                   `json:"paging,omitempty"`
+	Sort   *PostureFindingSortInput       `json:"sort"`
+}
+
+// Response payload for the `findingList` query.
+type PostureFindingListPayload struct {
+	Items  []*PostureCheckFinding `json:"items"`
+	Paging *PageInfo              `json:"paging"`
+}
+
+type PostureFindingSortInput struct {
+	Name             *SortOrderInput `json:"name,omitempty"`
+	ResolutionStatus *SortOrderInput `json:"resolutionStatus,omitempty"`
+	Severity         *SortOrderInput `json:"severity,omitempty"`
+}
+
+// Finding counters grouped by each supported dimension. Dimensions derived from the owning check
+// are returned as plain lists; dimensions read from the finding row itself are wrapped, because
+// their value set is open-ended and the returned buckets may be truncated.
+//
+// A check carrying no value for a dimension contributes to no bucket of it, so a breakdown can sum
+// up to less than `total`. Multi-valued dimensions such as compliance frameworks can exceed it.
+type PostureFindingSummary struct {
+	AppInstanceBreakdown         *PostureFindingSummaryValueBreakdown `json:"appInstanceBreakdown"`
+	ApplicationBreakdown         []*PostureFindingSummaryBreakdown    `json:"applicationBreakdown"`
+	AreaBreakdown                []*PostureFindingSummaryBreakdown    `json:"areaBreakdown"`
+	CategoryBreakdown            []*PostureFindingSummaryBreakdown    `json:"categoryBreakdown"`
+	CheckSeverityBreakdown       []*PostureFindingSummaryBreakdown    `json:"checkSeverityBreakdown"`
+	CheckTypeBreakdown           []*PostureFindingSummaryBreakdown    `json:"checkTypeBreakdown"`
+	ComplianceControlBreakdown   []*PostureFindingSummaryBreakdown    `json:"complianceControlBreakdown"`
+	ComplianceFrameworkBreakdown []*PostureFindingSummaryBreakdown    `json:"complianceFrameworkBreakdown"`
+	MuteStatusBreakdown          *PostureFindingSummaryValueBreakdown `json:"muteStatusBreakdown"`
+	ResolutionStatusBreakdown    *PostureFindingSummaryValueBreakdown `json:"resolutionStatusBreakdown"`
+	SecurityDomainBreakdown      []*PostureFindingSummaryBreakdown    `json:"securityDomainBreakdown"`
+	SeverityBreakdown            *PostureFindingSummaryValueBreakdown `json:"severityBreakdown"`
+	Total                        int64                                `json:"total"`
+}
+
+// One value of a breakdown dimension derived from the finding's owning check.
+type PostureFindingSummaryBreakdown struct {
+	CheckCount   int64   `json:"checkCount"`
+	FindingCount int64   `json:"findingCount"`
+	Key          string  `json:"key"`
+	Name         *string `json:"name,omitempty"`
+}
+
+// Input for the `findingSummary` query.
+type PostureFindingSummaryInput struct {
+	Filter              *PostureFindingListFilterInput `json:"filter,omitempty"`
+	ValueBreakdownLimit *int64                         `json:"valueBreakdownLimit,omitempty"`
+}
+
+// Response payload for the `findingSummary` query.
+type PostureFindingSummaryPayload struct {
+	Summary *PostureFindingSummary `json:"summary"`
+}
+
+// Buckets of a breakdown dimension read from the finding row itself.
+type PostureFindingSummaryValueBreakdown struct {
+	Items []*PostureFindingSummaryValueBucket `json:"items"`
+	Total int64                               `json:"total"`
+}
+
+// One value of a breakdown dimension read from the finding row itself.
+type PostureFindingSummaryValueBucket struct {
+	CheckCount   int64   `json:"checkCount"`
+	FindingCount int64   `json:"findingCount"`
+	Key          *string `json:"key,omitempty"`
+}
+
+type PostureImpactedEntity struct {
+	ID   string                    `json:"id"`
+	Name string                    `json:"name"`
+	Type PostureImpactedEntityType `json:"type"`
+}
+
+// Available Posture mutation operations for an account.
+type PostureMutations struct {
+	AddCheckComment          *AddCheckCommentPayload                 `json:"addCheckComment,omitempty"`
+	DismissFinding           *PostureDismissFindingPayload           `json:"dismissFinding,omitempty"`
+	MuteCheck                *PostureMuteCheckPayload                `json:"muteCheck,omitempty"`
+	MuteFinding              *PostureMuteFindingPayload              `json:"muteFinding,omitempty"`
+	ReevaluateChecks         *PostureReevaluateChecksPayload         `json:"reevaluateChecks,omitempty"`
+	UndismissFinding         *PostureUndismissFindingPayload         `json:"undismissFinding,omitempty"`
+	UnmuteCheck              *PostureUnmuteCheckPayload              `json:"unmuteCheck,omitempty"`
+	UnmuteFinding            *PostureUnmuteFindingPayload            `json:"unmuteFinding,omitempty"`
+	UpdateCheckConfiguration *PostureUpdateCheckConfigurationPayload `json:"updateCheckConfiguration,omitempty"`
+}
+
+// Input for the `muteCheck` mutation.
+type PostureMuteCheckInput struct {
+	CheckID        string  `json:"checkId"`
+	DurationInDays *int64  `json:"durationInDays,omitempty"`
+	Reason         *string `json:"reason,omitempty"`
+}
+
+// Response payload for the `muteCheck` mutation.
+type PostureMuteCheckPayload struct {
+	Check *PostureCheck `json:"check"`
+}
+
+// Input for the `muteFinding` mutation.
+type PostureMuteFindingInput struct {
+	DurationInDays *int64  `json:"durationInDays,omitempty"`
+	FindingID      string  `json:"findingId"`
+	Reason         *string `json:"reason,omitempty"`
+}
+
+// Response payload for the `muteFinding` mutation.
+type PostureMuteFindingPayload struct {
+	Finding *PostureCheckFinding `json:"finding"`
+}
+
+type PostureMuteStatusFilterInput struct {
+	Eq  *PostureMuteStatus  `json:"eq,omitempty"`
+	In  []PostureMuteStatus `json:"in,omitempty"`
+	Neq *PostureMuteStatus  `json:"neq,omitempty"`
+	Nin []PostureMuteStatus `json:"nin,omitempty"`
+}
+
+// Available Posture query operations for an account.
+type PostureQueries struct {
+	AccountSummaryList      *PostureAccountSummaryListPayload      `json:"accountSummaryList,omitempty"`
+	CategoryList            *PostureCategoryListPayload            `json:"categoryList,omitempty"`
+	CheckResultList         *PostureCheckResultListPayload         `json:"checkResultList,omitempty"`
+	CheckSummary            *PostureCheckSummaryPayload            `json:"checkSummary,omitempty"`
+	ComplianceFrameworkList *PostureComplianceFrameworkListPayload `json:"complianceFrameworkList,omitempty"`
+	DailySummaryList        *PostureDailySummaryListPayload        `json:"dailySummaryList,omitempty"`
+	DefinitionList          *PostureDefinitionListPayload          `json:"definitionList,omitempty"`
+	FindingList             *PostureFindingListPayload             `json:"findingList,omitempty"`
+	FindingSummary          *PostureFindingSummaryPayload          `json:"findingSummary,omitempty"`
+}
+
+type PostureRecommendedAction struct {
+	RecommendedAction     string                        `json:"recommendedAction"`
+	RecommendedActionLink *PostureRecommendedActionLink `json:"recommendedActionLink,omitempty"`
+}
+
+type PostureRecommendedActionLink struct {
+	Text string `json:"text"`
+	URL  string `json:"url"`
+}
+
+// Response payload for the `reevaluateChecks` mutation.
+type PostureReevaluateChecksPayload struct {
+	Success bool `json:"success"`
+}
+
+type PostureResolutionStatusFilterInput struct {
+	Eq  *PostureResolutionStatus  `json:"eq,omitempty"`
+	In  []PostureResolutionStatus `json:"in,omitempty"`
+	Neq *PostureResolutionStatus  `json:"neq,omitempty"`
+	Nin []PostureResolutionStatus `json:"nin,omitempty"`
+}
+
+// The current evaluation result for a Posture Check, including status,
+// impacted entities, mute state, and last evaluation timestamp.
+type PostureResult struct {
+	EvaluatedAt        string                   `json:"evaluatedAt"`
+	ID                 string                   `json:"id"`
+	ImpactedEntities   []*PostureImpactedEntity `json:"impactedEntities"`
+	MuteDurationInDays *int64                   `json:"muteDurationInDays,omitempty"`
+	MuteReason         *string                  `json:"muteReason,omitempty"`
+	MuteStatus         PostureMuteStatus        `json:"muteStatus"`
+	MutedAt            *string                  `json:"mutedAt,omitempty"`
+	Status             PostureResultStatus      `json:"status"`
+}
+
+type PostureResultStatusFilterInput struct {
+	Eq  *PostureResultStatus  `json:"eq,omitempty"`
+	In  []PostureResultStatus `json:"in,omitempty"`
+	Neq *PostureResultStatus  `json:"neq,omitempty"`
+	Nin []PostureResultStatus `json:"nin,omitempty"`
+}
+
+type PostureSecurityDomainScore struct {
+	Score          int64                `json:"score"`
+	SecurityDomain string               `json:"securityDomain"`
+	Stats          *PostureStatsDetails `json:"stats"`
+}
+
+type PostureStats struct {
+	Categories    *PostureStatsDetails `json:"categories"`
+	Checks        *PostureStatsDetails `json:"checks"`
+	SubCategories *PostureStatsDetails `json:"subCategories,omitempty"`
+}
+
+type PostureStatsDetails struct {
+	Disabled int64 `json:"disabled"`
+	Failed   int64 `json:"failed"`
+	Passed   int64 `json:"passed"`
+	Total    int64 `json:"total"`
+}
+
+// Aggregated Posture summary for the account, including the Account Score
+// and per-dimension breakdowns.
+type PostureSummary struct {
+	ApplicationScores    []*PostureApplicationScore    `json:"applicationScores"`
+	AreaScores           []*PostureAreaScore           `json:"areaScores"`
+	CategoryScores       []*PostureCategoryScore       `json:"categoryScores"`
+	Comparisons          []*PostureAccountComparison   `json:"comparisons"`
+	DomainScores         []*PostureDomainScore         `json:"domainScores"`
+	EvaluatedAt          string                        `json:"evaluatedAt"`
+	Score                int64                         `json:"score"`
+	SecurityDomainScores []*PostureSecurityDomainScore `json:"securityDomainScores"`
+	Stats                *PostureStats                 `json:"stats,omitempty"`
+}
+
+type PostureSuppressedStatusFilterInput struct {
+	Eq  *PostureSuppressedStatus  `json:"eq,omitempty"`
+	In  []PostureSuppressedStatus `json:"in,omitempty"`
+	Neq *PostureSuppressedStatus  `json:"neq,omitempty"`
+	Nin []PostureSuppressedStatus `json:"nin,omitempty"`
+}
+
+// Specifies the desired suppressed status for a single Posture Check.
+type PostureSuppressedStatusInput struct {
+	ID     string                  `json:"id"`
+	Status PostureSuppressedStatus `json:"status"`
+}
+
+// Input for the `undismissFinding` mutation.
+type PostureUndismissFindingInput struct {
+	FindingID string `json:"findingId"`
+}
+
+// Response payload for the `undismissFinding` mutation.
+type PostureUndismissFindingPayload struct {
+	Finding *PostureCheckFinding `json:"finding"`
+}
+
+// Input for the `unmuteCheck` mutation.
+type PostureUnmuteCheckInput struct {
+	CheckID string `json:"checkId"`
+}
+
+// Response payload for the `unmuteCheck` mutation.
+type PostureUnmuteCheckPayload struct {
+	Check *PostureCheck `json:"check"`
+}
+
+// Input for the `unmuteFinding` mutation.
+type PostureUnmuteFindingInput struct {
+	FindingID string `json:"findingId"`
+}
+
+// Response payload for the `unmuteFinding` mutation.
+type PostureUnmuteFindingPayload struct {
+	Finding *PostureCheckFinding `json:"finding"`
+}
+
+// Input for the `updateCheckConfiguration` mutation.
+type PostureUpdateCheckConfigurationInput struct {
+	SuppressedCheckStatus []*PostureSuppressedStatusInput `json:"suppressedCheckStatus"`
+}
+
+// Response payload for the `updateCheckConfiguration` mutation.
+type PostureUpdateCheckConfigurationPayload struct {
+	Items []*PostureCheckDefinition `json:"items"`
 }
 
 type PrivateAccessAddRuleDataInput struct {
@@ -15471,12 +16193,10 @@ type UpdateGroupPayload struct {
 }
 
 type UpdateHaInput struct {
+	IsCloudRouter         *bool   `json:"isCloudRouter,omitempty"`
 	PrimaryManagementIP   *string `json:"primaryManagementIp,omitempty"`
 	SecondaryManagementIP *string `json:"secondaryManagementIp,omitempty"`
 	Vrid                  *int64  `json:"vrid,omitempty"`
-	// Enable Cloud Router mode for a GCP vSocket HA site, using the Socket LAN interface for BGP peering.
-	// Only relevant for GCP HA sites; requires the account and Sockets to support the feature.
-	IsCloudRouter *bool `json:"isCloudRouter,omitempty"`
 }
 
 type UpdateHaPayload struct {
@@ -19466,6 +20186,8 @@ const (
 	AppStatsFieldNameApplicationName AppStatsFieldName = "application_name"
 	//  Application risk level based on the application risk score. CMA Name: Application Risk Level
 	AppStatsFieldNameApplicationRiskLevel AppStatsFieldName = "application_risk_level"
+	//  Current effective risk level of the application, derived from the current-state risk score. CMA Name: Application Risk Level Current State
+	AppStatsFieldNameApplicationRiskLevelCurrentState AppStatsFieldName = "application_risk_level_current_state"
 	//  Risk score of the application, based on Cato's risk assessment. CMA Name: Application Risk Score
 	AppStatsFieldNameApplicationRiskScore AppStatsFieldName = "application_risk_score"
 	//  Current effective risk score of the application (latest classification, not historical). CMA Name: Application Risk Score Current State
@@ -19689,6 +20411,7 @@ var AllAppStatsFieldName = []AppStatsFieldName{
 	AppStatsFieldNameApplicationID,
 	AppStatsFieldNameApplicationName,
 	AppStatsFieldNameApplicationRiskLevel,
+	AppStatsFieldNameApplicationRiskLevelCurrentState,
 	AppStatsFieldNameApplicationRiskScore,
 	AppStatsFieldNameApplicationRiskScoreCurrentState,
 	AppStatsFieldNameApplicationType,
@@ -19797,7 +20520,7 @@ var AllAppStatsFieldName = []AppStatsFieldName{
 
 func (e AppStatsFieldName) IsValid() bool {
 	switch e {
-	case AppStatsFieldNameIspName, AppStatsFieldNameAccountID, AppStatsFieldNameAccountName, AppStatsFieldNameAction, AppStatsFieldNameAdName, AppStatsFieldNameAiProxyRuleName, AppStatsFieldNameApp, AppStatsFieldNameApplication, AppStatsFieldNameApplicationDescription, AppStatsFieldNameApplicationID, AppStatsFieldNameApplicationName, AppStatsFieldNameApplicationRiskLevel, AppStatsFieldNameApplicationRiskScore, AppStatsFieldNameApplicationRiskScoreCurrentState, AppStatsFieldNameApplicationType, AppStatsFieldNameCategories, AppStatsFieldNameCategory, AppStatsFieldNameClientClass, AppStatsFieldNameClientVersion, AppStatsFieldNameConfiguredHostName, AppStatsFieldNameConnectionOrigin, AppStatsFieldNameDepartment, AppStatsFieldNameDescription, AppStatsFieldNameDestCountry, AppStatsFieldNameDestDomain, AppStatsFieldNameDestEndpointType, AppStatsFieldNameDestIP, AppStatsFieldNameDestIsSiteOrVpn, AppStatsFieldNameDestPort, AppStatsFieldNameDestSite, AppStatsFieldNameDestSiteID, AppStatsFieldNameDestSiteName, AppStatsFieldNameDeviceCategories, AppStatsFieldNameDeviceComplianceState, AppStatsFieldNameDeviceID, AppStatsFieldNameDeviceManufacturer, AppStatsFieldNameDeviceModel, AppStatsFieldNameDeviceName, AppStatsFieldNameDeviceOsType, AppStatsFieldNameDevicePostureProfile, AppStatsFieldNameDeviceType, AppStatsFieldNameDiscoveredApp, AppStatsFieldNameDomain, AppStatsFieldNameDownstream, AppStatsFieldNameDuration, AppStatsFieldNameEgressPopName, AppStatsFieldNameEgressSiteName, AppStatsFieldNameExperienceScoreLevel, AppStatsFieldNameFlowBytesDownstream, AppStatsFieldNameFlowBytesTotal, AppStatsFieldNameFlowBytesUpstream, AppStatsFieldNameFlowID, AppStatsFieldNameFlowPacketsDownstream, AppStatsFieldNameFlowPacketsTotal, AppStatsFieldNameFlowPacketsUpstream, AppStatsFieldNameFlowStartTime, AppStatsFieldNameFlowsCreated, AppStatsFieldNameFullPathURL, AppStatsFieldNameHostIP, AppStatsFieldNameHostMac, AppStatsFieldNameHqLocation, AppStatsFieldNameHTTPErrorRate, AppStatsFieldNameHTTPLatency, AppStatsFieldNameHTTPRequestMethod, AppStatsFieldNameIP, AppStatsFieldNameIPProtocol, AppStatsFieldNameIsCloudApp, AppStatsFieldNameIsFlowTerminated, AppStatsFieldNameIsSanctionedApp, AppStatsFieldNameIsSanctionedAppCurrentState, AppStatsFieldNameJobTitle, AppStatsFieldNameNetworkRule, AppStatsFieldNameNewApp, AppStatsFieldNameOsVersion, AppStatsFieldNamePacketsDownstream, AppStatsFieldNamePacketsTotal, AppStatsFieldNamePacketsUpstream, AppStatsFieldNamePopName, AppStatsFieldNameQosPriority, AppStatsFieldNameRiskLevel, AppStatsFieldNameRiskScore, AppStatsFieldNameSanctioned, AppStatsFieldNameSiteCountry, AppStatsFieldNameSiteState, AppStatsFieldNameSocketInterface, AppStatsFieldNameSrcCountry, AppStatsFieldNameSrcCountryCode, AppStatsFieldNameSrcEndpointType, AppStatsFieldNameSrcIP, AppStatsFieldNameSrcIsSiteOrVpn, AppStatsFieldNameSrcIspIP, AppStatsFieldNameSrcPort, AppStatsFieldNameSrcSiteCountryCode, AppStatsFieldNameSrcSiteID, AppStatsFieldNameSrcSiteName, AppStatsFieldNameSrcSiteState, AppStatsFieldNameSubnet, AppStatsFieldNameSubnetName, AppStatsFieldNameTCPAcceleration, AppStatsFieldNameTCPLatency, AppStatsFieldNameTimeStr, AppStatsFieldNameTld, AppStatsFieldNameTLSInspection, AppStatsFieldNameTLSLatency, AppStatsFieldNameTLSRuleName, AppStatsFieldNameTraffic, AppStatsFieldNameTrafficDirection, AppStatsFieldNameTranslatedClientIP, AppStatsFieldNameTranslatedServerIP, AppStatsFieldNameTtfb, AppStatsFieldNameUpstream, AppStatsFieldNameUserAwarenessMethod, AppStatsFieldNameUserID, AppStatsFieldNameUserName, AppStatsFieldNameVpnUserEmail, AppStatsFieldNameVpnUserID:
+	case AppStatsFieldNameIspName, AppStatsFieldNameAccountID, AppStatsFieldNameAccountName, AppStatsFieldNameAction, AppStatsFieldNameAdName, AppStatsFieldNameAiProxyRuleName, AppStatsFieldNameApp, AppStatsFieldNameApplication, AppStatsFieldNameApplicationDescription, AppStatsFieldNameApplicationID, AppStatsFieldNameApplicationName, AppStatsFieldNameApplicationRiskLevel, AppStatsFieldNameApplicationRiskLevelCurrentState, AppStatsFieldNameApplicationRiskScore, AppStatsFieldNameApplicationRiskScoreCurrentState, AppStatsFieldNameApplicationType, AppStatsFieldNameCategories, AppStatsFieldNameCategory, AppStatsFieldNameClientClass, AppStatsFieldNameClientVersion, AppStatsFieldNameConfiguredHostName, AppStatsFieldNameConnectionOrigin, AppStatsFieldNameDepartment, AppStatsFieldNameDescription, AppStatsFieldNameDestCountry, AppStatsFieldNameDestDomain, AppStatsFieldNameDestEndpointType, AppStatsFieldNameDestIP, AppStatsFieldNameDestIsSiteOrVpn, AppStatsFieldNameDestPort, AppStatsFieldNameDestSite, AppStatsFieldNameDestSiteID, AppStatsFieldNameDestSiteName, AppStatsFieldNameDeviceCategories, AppStatsFieldNameDeviceComplianceState, AppStatsFieldNameDeviceID, AppStatsFieldNameDeviceManufacturer, AppStatsFieldNameDeviceModel, AppStatsFieldNameDeviceName, AppStatsFieldNameDeviceOsType, AppStatsFieldNameDevicePostureProfile, AppStatsFieldNameDeviceType, AppStatsFieldNameDiscoveredApp, AppStatsFieldNameDomain, AppStatsFieldNameDownstream, AppStatsFieldNameDuration, AppStatsFieldNameEgressPopName, AppStatsFieldNameEgressSiteName, AppStatsFieldNameExperienceScoreLevel, AppStatsFieldNameFlowBytesDownstream, AppStatsFieldNameFlowBytesTotal, AppStatsFieldNameFlowBytesUpstream, AppStatsFieldNameFlowID, AppStatsFieldNameFlowPacketsDownstream, AppStatsFieldNameFlowPacketsTotal, AppStatsFieldNameFlowPacketsUpstream, AppStatsFieldNameFlowStartTime, AppStatsFieldNameFlowsCreated, AppStatsFieldNameFullPathURL, AppStatsFieldNameHostIP, AppStatsFieldNameHostMac, AppStatsFieldNameHqLocation, AppStatsFieldNameHTTPErrorRate, AppStatsFieldNameHTTPLatency, AppStatsFieldNameHTTPRequestMethod, AppStatsFieldNameIP, AppStatsFieldNameIPProtocol, AppStatsFieldNameIsCloudApp, AppStatsFieldNameIsFlowTerminated, AppStatsFieldNameIsSanctionedApp, AppStatsFieldNameIsSanctionedAppCurrentState, AppStatsFieldNameJobTitle, AppStatsFieldNameNetworkRule, AppStatsFieldNameNewApp, AppStatsFieldNameOsVersion, AppStatsFieldNamePacketsDownstream, AppStatsFieldNamePacketsTotal, AppStatsFieldNamePacketsUpstream, AppStatsFieldNamePopName, AppStatsFieldNameQosPriority, AppStatsFieldNameRiskLevel, AppStatsFieldNameRiskScore, AppStatsFieldNameSanctioned, AppStatsFieldNameSiteCountry, AppStatsFieldNameSiteState, AppStatsFieldNameSocketInterface, AppStatsFieldNameSrcCountry, AppStatsFieldNameSrcCountryCode, AppStatsFieldNameSrcEndpointType, AppStatsFieldNameSrcIP, AppStatsFieldNameSrcIsSiteOrVpn, AppStatsFieldNameSrcIspIP, AppStatsFieldNameSrcPort, AppStatsFieldNameSrcSiteCountryCode, AppStatsFieldNameSrcSiteID, AppStatsFieldNameSrcSiteName, AppStatsFieldNameSrcSiteState, AppStatsFieldNameSubnet, AppStatsFieldNameSubnetName, AppStatsFieldNameTCPAcceleration, AppStatsFieldNameTCPLatency, AppStatsFieldNameTimeStr, AppStatsFieldNameTld, AppStatsFieldNameTLSInspection, AppStatsFieldNameTLSLatency, AppStatsFieldNameTLSRuleName, AppStatsFieldNameTraffic, AppStatsFieldNameTrafficDirection, AppStatsFieldNameTranslatedClientIP, AppStatsFieldNameTranslatedServerIP, AppStatsFieldNameTtfb, AppStatsFieldNameUpstream, AppStatsFieldNameUserAwarenessMethod, AppStatsFieldNameUserID, AppStatsFieldNameUserName, AppStatsFieldNameVpnUserEmail, AppStatsFieldNameVpnUserID:
 		return true
 	}
 	return false
@@ -24027,6 +24750,8 @@ const (
 	EventFieldNameActorType EventFieldName = "actor_type"
 	//  Active Directory name. CMA Name: Active Directory Name
 	EventFieldNameAdName EventFieldName = "ad_name"
+	//  Entities the analyst investigation found to be affected, one JSON object per entity. Only available for native data integration created in the CMA and eventsFeed API. Not available in the events or eventsTimeSeries API.
+	EventFieldNameAffectedEntities EventFieldName = "affected_entities"
 	//  The estimated risk level of the AI threat. CMA Name: Ai App Risk Level
 	EventFieldNameAiAppRiskLevel EventFieldName = "ai_app_risk_level"
 	//  AI Proxy rule name. CMA Name: AI Proxy Rule Name
@@ -24312,6 +25037,8 @@ const (
 	EventFieldNameEventSubType EventFieldName = "event_sub_type"
 	//  Routing, Security, Connectivity, System or Sockets Management event. CMA Name: Event Type
 	EventFieldNameEventType EventFieldName = "event_type"
+	//  Findings collected by the analyst investigation to support the verdict, one JSON object per finding. Only available for native data integration created in the CMA and eventsFeed API. Not available in the events or eventsTimeSeries API.
+	EventFieldNameEvidence EventFieldName = "evidence"
 	//  Provides details about why a specific action or process failed. CMA Name: Failure Reason
 	EventFieldNameFailureReason EventFieldName = "failure_reason"
 	//  File hash. CMA Name: File Hash
@@ -24428,6 +25155,8 @@ const (
 	EventFieldNameLinkHealthPktLoss EventFieldName = "link_health_pkt_loss"
 	//  Link type – Cato, Alt. WAN or LAG. CMA Name: Link Type
 	EventFieldNameLinkType EventFieldName = "link_type"
+	//  Local IP address. CMA Name: Local IP
+	EventFieldNameLocalIP EventFieldName = "local_ip"
 	//  The user logged into this endpoint during this event. CMA Name: Logged In User
 	EventFieldNameLoggedInUser EventFieldName = "logged_in_user"
 	//  Login action, values are: User portal (myvpn.catonetworks.com) or VPN client (Client or site traffic). CMA Name: Login Type
@@ -24764,6 +25493,8 @@ const (
 	EventFieldNameVendorUserID EventFieldName = "vendor_user_id"
 	//  Version of the vendor’s client application. CMA Name: Vendor Version
 	EventFieldNameVendorVersion EventFieldName = "vendor_version"
+	//  Who set the analyst verdict - an AI agent or a human analyst. CMA Name: Verdict Author
+	EventFieldNameVerdictAuthor EventFieldName = "verdict_author"
 	//  Additional information provided with the analyst verdict. CMA Name: Verdict Elaboration
 	EventFieldNameVerdictElaboration EventFieldName = "verdict_elaboration"
 	//  Unique Cato Visible ID for devices. CMA Name: Device ID
@@ -24818,6 +25549,7 @@ var AllEventFieldName = []EventFieldName{
 	EventFieldNameActivityResourceID,
 	EventFieldNameActorType,
 	EventFieldNameAdName,
+	EventFieldNameAffectedEntities,
 	EventFieldNameAiAppRiskLevel,
 	EventFieldNameAiProxyRuleName,
 	EventFieldNameAiReason,
@@ -24957,6 +25689,7 @@ var AllEventFieldName = []EventFieldName{
 	EventFieldNameEventMessage,
 	EventFieldNameEventSubType,
 	EventFieldNameEventType,
+	EventFieldNameEvidence,
 	EventFieldNameFailureReason,
 	EventFieldNameFileHash,
 	EventFieldNameFileName,
@@ -25015,6 +25748,7 @@ var AllEventFieldName = []EventFieldName{
 	EventFieldNameLinkHealthLatency,
 	EventFieldNameLinkHealthPktLoss,
 	EventFieldNameLinkType,
+	EventFieldNameLocalIP,
 	EventFieldNameLoggedInUser,
 	EventFieldNameLoginType,
 	EventFieldNameMatchedCount,
@@ -25180,6 +25914,7 @@ var AllEventFieldName = []EventFieldName{
 	EventFieldNameVendorStartTime,
 	EventFieldNameVendorUserID,
 	EventFieldNameVendorVersion,
+	EventFieldNameVerdictAuthor,
 	EventFieldNameVerdictElaboration,
 	EventFieldNameVisibleDeviceID,
 	EventFieldNameVpnLanAccess,
@@ -25204,7 +25939,7 @@ var AllEventFieldName = []EventFieldName{
 
 func (e EventFieldName) IsValid() bool {
 	switch e {
-	case EventFieldNameIspName, EventFieldNameAccessMethod, EventFieldNameAccessPointID, EventFieldNameAccessPointName, EventFieldNameAccountID, EventFieldNameAction, EventFieldNameActionsTaken, EventFieldNameActiveAuthBrowser, EventFieldNameActivityResourceID, EventFieldNameActorType, EventFieldNameAdName, EventFieldNameAiAppRiskLevel, EventFieldNameAiProxyRuleName, EventFieldNameAiReason, EventFieldNameAlertID, EventFieldNameAlertName, EventFieldNameAlerts, EventFieldNameAlwaysOnConfiguration, EventFieldNameAnalystVerdict, EventFieldNameAntiTamperBypassDurationSec, EventFieldNameAntiTamperBypassMethod, EventFieldNameAntiTamperBypassResult, EventFieldNameAPIName, EventFieldNameAPIType, EventFieldNameAppActivity, EventFieldNameAppActivityCategory, EventFieldNameAppActivityType, EventFieldNameAppStack, EventFieldNameApplicationID, EventFieldNameApplicationName, EventFieldNameApplicationRisk, EventFieldNameApplicationType, EventFieldNameAtpFeedReasons, EventFieldNameAuditID, EventFieldNameAuthBrowserFallbackReason, EventFieldNameAuthMethod, EventFieldNameAuthenticationType, EventFieldNameBaselineAverage, EventFieldNameBaselineStd, EventFieldNameBgpCatoAsn, EventFieldNameBgpCatoIP, EventFieldNameBgpErrorCode, EventFieldNameBgpPeerAsn, EventFieldNameBgpPeerIP, EventFieldNameBgpPeerName, EventFieldNameBgpRouteCidr, EventFieldNameBgpSuberrorCode, EventFieldNameBrowserType, EventFieldNameBrowserVersion, EventFieldNameBypassDurationSec, EventFieldNameBypassMethod, EventFieldNameBypassReason, EventFieldNameCategories, EventFieldNameCatoApp, EventFieldNameChanges, EventFieldNameClassification, EventFieldNameClientCertExpires, EventFieldNameClientCertName, EventFieldNameClientClass, EventFieldNameClientConnectionMode, EventFieldNameClientIP, EventFieldNameClientKeyExchangeAlgorithm, EventFieldNameClientVersion, EventFieldNameCollaboratorName, EventFieldNameCollaboratorOrigin, EventFieldNameCollaboratorTenant, EventFieldNameCollaborators, EventFieldNameConfidenceLevel, EventFieldNameConfiguredAuthBrowser, EventFieldNameConfiguredHostName, EventFieldNameCongestionAlgorithm, EventFieldNameConnectOnBoot, EventFieldNameConnectionOrigin, EventFieldNameConnectorID, EventFieldNameConnectorName, EventFieldNameConnectorStatus, EventFieldNameConnectorType, EventFieldNameContainerName, EventFieldNameCorrelationID, EventFieldNameCPUCoreID, EventFieldNameCreatedAt, EventFieldNameCriticality, EventFieldNameCustomCategoryID, EventFieldNameCustomCategoryName, EventFieldNameDataCategories, EventFieldNameDataClassifiers, EventFieldNameDepartment, EventFieldNameDestCountry, EventFieldNameDestCountryCode, EventFieldNameDestDomain, EventFieldNameDestEndpointType, EventFieldNameDestGroupID, EventFieldNameDestGroupName, EventFieldNameDestIP, EventFieldNameDestIsSiteOrVpn, EventFieldNameDestPid, EventFieldNameDestPort, EventFieldNameDestProcessCmdline, EventFieldNameDestProcessParentPath, EventFieldNameDestProcessParentPid, EventFieldNameDestProcessPath, EventFieldNameDestSiteID, EventFieldNameDestSiteName, EventFieldNameDetectionName, EventFieldNameDetectionStage, EventFieldNameDetectors, EventFieldNameDeviceCategories, EventFieldNameDeviceCertificate, EventFieldNameDeviceComplianceState, EventFieldNameDeviceCrowdstrikeRiskScore, EventFieldNameDeviceID, EventFieldNameDeviceManufacturer, EventFieldNameDeviceModel, EventFieldNameDeviceName, EventFieldNameDeviceOsType, EventFieldNameDevicePostureProfile, EventFieldNameDeviceType, EventFieldNameDirectoryHostName, EventFieldNameDirectoryIP, EventFieldNameDirectorySyncResult, EventFieldNameDirectorySyncType, EventFieldNameDisinfectResult, EventFieldNameDisplayName, EventFieldNameDlpFailMode, EventFieldNameDlpProfiles, EventFieldNameDlpScanTypes, EventFieldNameDNSAnswer, EventFieldNameDNSProtectionCategory, EventFieldNameDNSQuery, EventFieldNameDNSRecordType, EventFieldNameDNSReplyCode, EventFieldNameDomainName, EventFieldNameDurationMs, EventFieldNameDynamicControlIds, EventFieldNameDynamicControlNames, EventFieldNameDynamicControlScope, EventFieldNameDynamicControlThreatCategories, EventFieldNameEgressPopName, EventFieldNameEgressSiteName, EventFieldNameEmailSubject, EventFieldNameEndpointID, EventFieldNameEngagementOutcomeAction, EventFieldNameEngineType, EventFieldNameEppEngineType, EventFieldNameEppProfile, EventFieldNameEventCount, EventFieldNameEventID, EventFieldNameEventMessage, EventFieldNameEventSubType, EventFieldNameEventType, EventFieldNameFailureReason, EventFieldNameFileHash, EventFieldNameFileName, EventFieldNameFileOperation, EventFieldNameFilePath, EventFieldNameFileSize, EventFieldNameFileTopic, EventFieldNameFileTopicCategory, EventFieldNameFileType, EventFieldNameFinalObjectStatus, EventFieldNameFlowID, EventFieldNameFlows, EventFieldNameFlowsCardinality, EventFieldNameFullPathURL, EventFieldNameGuardID, EventFieldNameGuardName, EventFieldNameGuardType, EventFieldNameGuestUser, EventFieldNameHostIP, EventFieldNameHostMac, EventFieldNameHTTPRequestMethod, EventFieldNameHTTPResponseCode, EventFieldNameIncidentAggregation, EventFieldNameIncidentID, EventFieldNameIndication, EventFieldNameIndicator, EventFieldNameInitialObjectStatus, EventFieldNameInspectionMode, EventFieldNameInteractionID, EventFieldNameInteractionIntent, EventFieldNameInteractionSubTopic, EventFieldNameInteractionTopic, EventFieldNameInternalID, EventFieldNameInvestigationTimeWindow, EventFieldNameInvocationID, EventFieldNameIPProtocol, EventFieldNameIsAcknowledged, EventFieldNameIsAdmin, EventFieldNameIsAdminActivity, EventFieldNameIsCloudApp, EventFieldNameIsCompliant, EventFieldNameIsEncrypted, EventFieldNameIsManaged, EventFieldNameIsMuted, EventFieldNameIsPublic, EventFieldNameIsSanctionedApp, EventFieldNameIsSinkhole, EventFieldNameJobTitle, EventFieldNameKeyName, EventFieldNameLabels, EventFieldNameLastModifiedAt, EventFieldNameLastSeenAt, EventFieldNameLastTurnRole, EventFieldNameLinkHealthIsCongested, EventFieldNameLinkHealthJitter, EventFieldNameLinkHealthLatency, EventFieldNameLinkHealthPktLoss, EventFieldNameLinkType, EventFieldNameLoggedInUser, EventFieldNameLoginType, EventFieldNameMatchedCount, EventFieldNameMatchedCounts, EventFieldNameMatchedDataTypes, EventFieldNameMd5, EventFieldNameMessageID, EventFieldNameMetric, EventFieldNameMetricUnits, EventFieldNameMetricValue, EventFieldNameMitreAttackSubtechniques, EventFieldNameMitreAttackTactics, EventFieldNameMitreAttackTechniques, EventFieldNameNatError, EventFieldNameNetworkAccess, EventFieldNameNetworkRule, EventFieldNameNotificationAPIError, EventFieldNameNotificationDescription, EventFieldNameObjectID, EventFieldNameObjectModule, EventFieldNameObjectName, EventFieldNameObjectType, EventFieldNameOfficeMode, EventFieldNameOsType, EventFieldNameOsVersion, EventFieldNameOutOfBandAccess, EventFieldNameOutpostEnvironmentName, EventFieldNameOwner, EventFieldNamePacFile, EventFieldNameParentConnectorName, EventFieldNamePopName, EventFieldNamePrecedence, EventFieldNameProcessesCount, EventFieldNameProducer, EventFieldNameProjects, EventFieldNamePromptAction, EventFieldNameProviderName, EventFieldNamePublicIP, EventFieldNameQosPriority, EventFieldNameQosReportedTime, EventFieldNameQuarantineFolderPath, EventFieldNameQuarantineUUID, EventFieldNameRawData, EventFieldNameRbiProfile, EventFieldNameRecommendedActions, EventFieldNameReferenceURL, EventFieldNameRefererURL, EventFieldNameRegionName, EventFieldNameRegistrationCode, EventFieldNameRequestSize, EventFieldNameResourceID, EventFieldNameResourceName, EventFieldNameResourceType, EventFieldNameResponseSize, EventFieldNameRetentionLabel, EventFieldNameRiskLevel, EventFieldNameRole, EventFieldNameRuleExpirationTime, EventFieldNameRuleID, EventFieldNameRuleName, EventFieldNameSecondarySocketSerial, EventFieldNameSensitivityDisplayName, EventFieldNameServerIP, EventFieldNameServerKeyExchangeAlgorithm, EventFieldNameServiceName, EventFieldNameSessionID, EventFieldNameSeverity, EventFieldNameSharingScope, EventFieldNameSignInEventTypes, EventFieldNameSignalSource, EventFieldNameSignatureID, EventFieldNameSiteWebProxyID, EventFieldNameSiteWebProxyName, EventFieldNameSiteWebProxyRuleAction, EventFieldNameSiteWebProxyRuleID, EventFieldNameSiteWebProxyRuleName, EventFieldNameSocketDescription, EventFieldNameSocketInterface, EventFieldNameSocketInterfaceID, EventFieldNameSocketMacAddress, EventFieldNameSocketNewVersion, EventFieldNameSocketOldVersion, EventFieldNameSocketReset, EventFieldNameSocketRole, EventFieldNameSocketSerial, EventFieldNameSocketVersion, EventFieldNameSplitTunnelConfiguration, EventFieldNameSrcCity, EventFieldNameSrcCountry, EventFieldNameSrcCountryCode, EventFieldNameSrcEndpointType, EventFieldNameSrcIP, EventFieldNameSrcIsSiteOrVpn, EventFieldNameSrcIspIP, EventFieldNameSrcPid, EventFieldNameSrcPort, EventFieldNameSrcProcessCmdline, EventFieldNameSrcProcessParentPath, EventFieldNameSrcProcessParentPid, EventFieldNameSrcProcessPath, EventFieldNameSrcSiteConnectionType, EventFieldNameSrcSiteID, EventFieldNameSrcSiteName, EventFieldNameStaticHost, EventFieldNameStatus, EventFieldNameStoryID, EventFieldNameSubnetName, EventFieldNameSubscriptionName, EventFieldNameTargetsCardinality, EventFieldNameTCPAcceleration, EventFieldNameTenantID, EventFieldNameTenantName, EventFieldNameTenantRestrictionRuleName, EventFieldNameThreatConfidence, EventFieldNameThreatName, EventFieldNameThreatReference, EventFieldNameThreatScore, EventFieldNameThreatType, EventFieldNameThreatVerdict, EventFieldNameTicket, EventFieldNameTime, EventFieldNameTimeStr, EventFieldNameTitle, EventFieldNameTLSCertificateError, EventFieldNameTLSErrorDescription, EventFieldNameTLSErrorType, EventFieldNameTLSInspection, EventFieldNameTLSRuleName, EventFieldNameTLSVersion, EventFieldNameTotalTokens, EventFieldNameTrafficDirection, EventFieldNameTransactionSize, EventFieldNameTranslatedClientIP, EventFieldNameTranslatedServerIP, EventFieldNameTrigger, EventFieldNameTrustType, EventFieldNameTrustedNetworks, EventFieldNameTunnelIPProtocol, EventFieldNameTunnelProtocol, EventFieldNameUpgradeEndTime, EventFieldNameUpgradeInitiatedBy, EventFieldNameUpgradeStartTime, EventFieldNameURL, EventFieldNameUserAgent, EventFieldNameUserAwarenessMethod, EventFieldNameUserID, EventFieldNameUserJustification, EventFieldNameUserName, EventFieldNameUserOrigin, EventFieldNameUserReferenceID, EventFieldNameUserRiskLevel, EventFieldNameVendor, EventFieldNameVendorCollaboratorID, EventFieldNameVendorDeviceID, EventFieldNameVendorDeviceName, EventFieldNameVendorEventID, EventFieldNameVendorLocation, EventFieldNameVendorOrgID, EventFieldNameVendorPolicyDescription, EventFieldNameVendorPolicyID, EventFieldNameVendorPolicyName, EventFieldNameVendorSiteID, EventFieldNameVendorStartTime, EventFieldNameVendorUserID, EventFieldNameVendorVersion, EventFieldNameVerdictElaboration, EventFieldNameVisibleDeviceID, EventFieldNameVpnLanAccess, EventFieldNameVpnUserEmail, EventFieldNameWifiAuthenticationType, EventFieldNameWifiBssid, EventFieldNameWifiChannel, EventFieldNameWifiDescription, EventFieldNameWifiEventReasonCode, EventFieldNameWifiEventType, EventFieldNameWifiEventTypeCode, EventFieldNameWifiEventVendorName, EventFieldNameWifiProtocol, EventFieldNameWifiRadioBand, EventFieldNameWifiSecurity, EventFieldNameWifiSignalStrength, EventFieldNameWifiSsid, EventFieldNameWifiTimeSinceAssocMs, EventFieldNameWindowsDomainName, EventFieldNameXff:
+	case EventFieldNameIspName, EventFieldNameAccessMethod, EventFieldNameAccessPointID, EventFieldNameAccessPointName, EventFieldNameAccountID, EventFieldNameAction, EventFieldNameActionsTaken, EventFieldNameActiveAuthBrowser, EventFieldNameActivityResourceID, EventFieldNameActorType, EventFieldNameAdName, EventFieldNameAffectedEntities, EventFieldNameAiAppRiskLevel, EventFieldNameAiProxyRuleName, EventFieldNameAiReason, EventFieldNameAlertID, EventFieldNameAlertName, EventFieldNameAlerts, EventFieldNameAlwaysOnConfiguration, EventFieldNameAnalystVerdict, EventFieldNameAntiTamperBypassDurationSec, EventFieldNameAntiTamperBypassMethod, EventFieldNameAntiTamperBypassResult, EventFieldNameAPIName, EventFieldNameAPIType, EventFieldNameAppActivity, EventFieldNameAppActivityCategory, EventFieldNameAppActivityType, EventFieldNameAppStack, EventFieldNameApplicationID, EventFieldNameApplicationName, EventFieldNameApplicationRisk, EventFieldNameApplicationType, EventFieldNameAtpFeedReasons, EventFieldNameAuditID, EventFieldNameAuthBrowserFallbackReason, EventFieldNameAuthMethod, EventFieldNameAuthenticationType, EventFieldNameBaselineAverage, EventFieldNameBaselineStd, EventFieldNameBgpCatoAsn, EventFieldNameBgpCatoIP, EventFieldNameBgpErrorCode, EventFieldNameBgpPeerAsn, EventFieldNameBgpPeerIP, EventFieldNameBgpPeerName, EventFieldNameBgpRouteCidr, EventFieldNameBgpSuberrorCode, EventFieldNameBrowserType, EventFieldNameBrowserVersion, EventFieldNameBypassDurationSec, EventFieldNameBypassMethod, EventFieldNameBypassReason, EventFieldNameCategories, EventFieldNameCatoApp, EventFieldNameChanges, EventFieldNameClassification, EventFieldNameClientCertExpires, EventFieldNameClientCertName, EventFieldNameClientClass, EventFieldNameClientConnectionMode, EventFieldNameClientIP, EventFieldNameClientKeyExchangeAlgorithm, EventFieldNameClientVersion, EventFieldNameCollaboratorName, EventFieldNameCollaboratorOrigin, EventFieldNameCollaboratorTenant, EventFieldNameCollaborators, EventFieldNameConfidenceLevel, EventFieldNameConfiguredAuthBrowser, EventFieldNameConfiguredHostName, EventFieldNameCongestionAlgorithm, EventFieldNameConnectOnBoot, EventFieldNameConnectionOrigin, EventFieldNameConnectorID, EventFieldNameConnectorName, EventFieldNameConnectorStatus, EventFieldNameConnectorType, EventFieldNameContainerName, EventFieldNameCorrelationID, EventFieldNameCPUCoreID, EventFieldNameCreatedAt, EventFieldNameCriticality, EventFieldNameCustomCategoryID, EventFieldNameCustomCategoryName, EventFieldNameDataCategories, EventFieldNameDataClassifiers, EventFieldNameDepartment, EventFieldNameDestCountry, EventFieldNameDestCountryCode, EventFieldNameDestDomain, EventFieldNameDestEndpointType, EventFieldNameDestGroupID, EventFieldNameDestGroupName, EventFieldNameDestIP, EventFieldNameDestIsSiteOrVpn, EventFieldNameDestPid, EventFieldNameDestPort, EventFieldNameDestProcessCmdline, EventFieldNameDestProcessParentPath, EventFieldNameDestProcessParentPid, EventFieldNameDestProcessPath, EventFieldNameDestSiteID, EventFieldNameDestSiteName, EventFieldNameDetectionName, EventFieldNameDetectionStage, EventFieldNameDetectors, EventFieldNameDeviceCategories, EventFieldNameDeviceCertificate, EventFieldNameDeviceComplianceState, EventFieldNameDeviceCrowdstrikeRiskScore, EventFieldNameDeviceID, EventFieldNameDeviceManufacturer, EventFieldNameDeviceModel, EventFieldNameDeviceName, EventFieldNameDeviceOsType, EventFieldNameDevicePostureProfile, EventFieldNameDeviceType, EventFieldNameDirectoryHostName, EventFieldNameDirectoryIP, EventFieldNameDirectorySyncResult, EventFieldNameDirectorySyncType, EventFieldNameDisinfectResult, EventFieldNameDisplayName, EventFieldNameDlpFailMode, EventFieldNameDlpProfiles, EventFieldNameDlpScanTypes, EventFieldNameDNSAnswer, EventFieldNameDNSProtectionCategory, EventFieldNameDNSQuery, EventFieldNameDNSRecordType, EventFieldNameDNSReplyCode, EventFieldNameDomainName, EventFieldNameDurationMs, EventFieldNameDynamicControlIds, EventFieldNameDynamicControlNames, EventFieldNameDynamicControlScope, EventFieldNameDynamicControlThreatCategories, EventFieldNameEgressPopName, EventFieldNameEgressSiteName, EventFieldNameEmailSubject, EventFieldNameEndpointID, EventFieldNameEngagementOutcomeAction, EventFieldNameEngineType, EventFieldNameEppEngineType, EventFieldNameEppProfile, EventFieldNameEventCount, EventFieldNameEventID, EventFieldNameEventMessage, EventFieldNameEventSubType, EventFieldNameEventType, EventFieldNameEvidence, EventFieldNameFailureReason, EventFieldNameFileHash, EventFieldNameFileName, EventFieldNameFileOperation, EventFieldNameFilePath, EventFieldNameFileSize, EventFieldNameFileTopic, EventFieldNameFileTopicCategory, EventFieldNameFileType, EventFieldNameFinalObjectStatus, EventFieldNameFlowID, EventFieldNameFlows, EventFieldNameFlowsCardinality, EventFieldNameFullPathURL, EventFieldNameGuardID, EventFieldNameGuardName, EventFieldNameGuardType, EventFieldNameGuestUser, EventFieldNameHostIP, EventFieldNameHostMac, EventFieldNameHTTPRequestMethod, EventFieldNameHTTPResponseCode, EventFieldNameIncidentAggregation, EventFieldNameIncidentID, EventFieldNameIndication, EventFieldNameIndicator, EventFieldNameInitialObjectStatus, EventFieldNameInspectionMode, EventFieldNameInteractionID, EventFieldNameInteractionIntent, EventFieldNameInteractionSubTopic, EventFieldNameInteractionTopic, EventFieldNameInternalID, EventFieldNameInvestigationTimeWindow, EventFieldNameInvocationID, EventFieldNameIPProtocol, EventFieldNameIsAcknowledged, EventFieldNameIsAdmin, EventFieldNameIsAdminActivity, EventFieldNameIsCloudApp, EventFieldNameIsCompliant, EventFieldNameIsEncrypted, EventFieldNameIsManaged, EventFieldNameIsMuted, EventFieldNameIsPublic, EventFieldNameIsSanctionedApp, EventFieldNameIsSinkhole, EventFieldNameJobTitle, EventFieldNameKeyName, EventFieldNameLabels, EventFieldNameLastModifiedAt, EventFieldNameLastSeenAt, EventFieldNameLastTurnRole, EventFieldNameLinkHealthIsCongested, EventFieldNameLinkHealthJitter, EventFieldNameLinkHealthLatency, EventFieldNameLinkHealthPktLoss, EventFieldNameLinkType, EventFieldNameLocalIP, EventFieldNameLoggedInUser, EventFieldNameLoginType, EventFieldNameMatchedCount, EventFieldNameMatchedCounts, EventFieldNameMatchedDataTypes, EventFieldNameMd5, EventFieldNameMessageID, EventFieldNameMetric, EventFieldNameMetricUnits, EventFieldNameMetricValue, EventFieldNameMitreAttackSubtechniques, EventFieldNameMitreAttackTactics, EventFieldNameMitreAttackTechniques, EventFieldNameNatError, EventFieldNameNetworkAccess, EventFieldNameNetworkRule, EventFieldNameNotificationAPIError, EventFieldNameNotificationDescription, EventFieldNameObjectID, EventFieldNameObjectModule, EventFieldNameObjectName, EventFieldNameObjectType, EventFieldNameOfficeMode, EventFieldNameOsType, EventFieldNameOsVersion, EventFieldNameOutOfBandAccess, EventFieldNameOutpostEnvironmentName, EventFieldNameOwner, EventFieldNamePacFile, EventFieldNameParentConnectorName, EventFieldNamePopName, EventFieldNamePrecedence, EventFieldNameProcessesCount, EventFieldNameProducer, EventFieldNameProjects, EventFieldNamePromptAction, EventFieldNameProviderName, EventFieldNamePublicIP, EventFieldNameQosPriority, EventFieldNameQosReportedTime, EventFieldNameQuarantineFolderPath, EventFieldNameQuarantineUUID, EventFieldNameRawData, EventFieldNameRbiProfile, EventFieldNameRecommendedActions, EventFieldNameReferenceURL, EventFieldNameRefererURL, EventFieldNameRegionName, EventFieldNameRegistrationCode, EventFieldNameRequestSize, EventFieldNameResourceID, EventFieldNameResourceName, EventFieldNameResourceType, EventFieldNameResponseSize, EventFieldNameRetentionLabel, EventFieldNameRiskLevel, EventFieldNameRole, EventFieldNameRuleExpirationTime, EventFieldNameRuleID, EventFieldNameRuleName, EventFieldNameSecondarySocketSerial, EventFieldNameSensitivityDisplayName, EventFieldNameServerIP, EventFieldNameServerKeyExchangeAlgorithm, EventFieldNameServiceName, EventFieldNameSessionID, EventFieldNameSeverity, EventFieldNameSharingScope, EventFieldNameSignInEventTypes, EventFieldNameSignalSource, EventFieldNameSignatureID, EventFieldNameSiteWebProxyID, EventFieldNameSiteWebProxyName, EventFieldNameSiteWebProxyRuleAction, EventFieldNameSiteWebProxyRuleID, EventFieldNameSiteWebProxyRuleName, EventFieldNameSocketDescription, EventFieldNameSocketInterface, EventFieldNameSocketInterfaceID, EventFieldNameSocketMacAddress, EventFieldNameSocketNewVersion, EventFieldNameSocketOldVersion, EventFieldNameSocketReset, EventFieldNameSocketRole, EventFieldNameSocketSerial, EventFieldNameSocketVersion, EventFieldNameSplitTunnelConfiguration, EventFieldNameSrcCity, EventFieldNameSrcCountry, EventFieldNameSrcCountryCode, EventFieldNameSrcEndpointType, EventFieldNameSrcIP, EventFieldNameSrcIsSiteOrVpn, EventFieldNameSrcIspIP, EventFieldNameSrcPid, EventFieldNameSrcPort, EventFieldNameSrcProcessCmdline, EventFieldNameSrcProcessParentPath, EventFieldNameSrcProcessParentPid, EventFieldNameSrcProcessPath, EventFieldNameSrcSiteConnectionType, EventFieldNameSrcSiteID, EventFieldNameSrcSiteName, EventFieldNameStaticHost, EventFieldNameStatus, EventFieldNameStoryID, EventFieldNameSubnetName, EventFieldNameSubscriptionName, EventFieldNameTargetsCardinality, EventFieldNameTCPAcceleration, EventFieldNameTenantID, EventFieldNameTenantName, EventFieldNameTenantRestrictionRuleName, EventFieldNameThreatConfidence, EventFieldNameThreatName, EventFieldNameThreatReference, EventFieldNameThreatScore, EventFieldNameThreatType, EventFieldNameThreatVerdict, EventFieldNameTicket, EventFieldNameTime, EventFieldNameTimeStr, EventFieldNameTitle, EventFieldNameTLSCertificateError, EventFieldNameTLSErrorDescription, EventFieldNameTLSErrorType, EventFieldNameTLSInspection, EventFieldNameTLSRuleName, EventFieldNameTLSVersion, EventFieldNameTotalTokens, EventFieldNameTrafficDirection, EventFieldNameTransactionSize, EventFieldNameTranslatedClientIP, EventFieldNameTranslatedServerIP, EventFieldNameTrigger, EventFieldNameTrustType, EventFieldNameTrustedNetworks, EventFieldNameTunnelIPProtocol, EventFieldNameTunnelProtocol, EventFieldNameUpgradeEndTime, EventFieldNameUpgradeInitiatedBy, EventFieldNameUpgradeStartTime, EventFieldNameURL, EventFieldNameUserAgent, EventFieldNameUserAwarenessMethod, EventFieldNameUserID, EventFieldNameUserJustification, EventFieldNameUserName, EventFieldNameUserOrigin, EventFieldNameUserReferenceID, EventFieldNameUserRiskLevel, EventFieldNameVendor, EventFieldNameVendorCollaboratorID, EventFieldNameVendorDeviceID, EventFieldNameVendorDeviceName, EventFieldNameVendorEventID, EventFieldNameVendorLocation, EventFieldNameVendorOrgID, EventFieldNameVendorPolicyDescription, EventFieldNameVendorPolicyID, EventFieldNameVendorPolicyName, EventFieldNameVendorSiteID, EventFieldNameVendorStartTime, EventFieldNameVendorUserID, EventFieldNameVendorVersion, EventFieldNameVerdictAuthor, EventFieldNameVerdictElaboration, EventFieldNameVisibleDeviceID, EventFieldNameVpnLanAccess, EventFieldNameVpnUserEmail, EventFieldNameWifiAuthenticationType, EventFieldNameWifiBssid, EventFieldNameWifiChannel, EventFieldNameWifiDescription, EventFieldNameWifiEventReasonCode, EventFieldNameWifiEventType, EventFieldNameWifiEventTypeCode, EventFieldNameWifiEventVendorName, EventFieldNameWifiProtocol, EventFieldNameWifiRadioBand, EventFieldNameWifiSecurity, EventFieldNameWifiSignalStrength, EventFieldNameWifiSsid, EventFieldNameWifiTimeSinceAssocMs, EventFieldNameWindowsDomainName, EventFieldNameXff:
 		return true
 	}
 	return false
@@ -25313,6 +26048,10 @@ func (e ExportJobStatus) MarshalJSON() ([]byte, error) {
 type ExternalAccessRequestType string
 
 const (
+	// Access request scoped to the fully-managed accounts under a partner in the requesting partner's
+	// hierarchy, and auto-approved by that hierarchy. The named partner is a scope, not a grantee - it
+	// is never granted access itself.
+	ExternalAccessRequestTypeAccessAutoApprovedByPartnerHierarchy ExternalAccessRequestType = "ACCESS_AUTO_APPROVED_BY_PARTNER_HIERARCHY"
 	//  Automate access request.
 	ExternalAccessRequestTypeAutomate ExternalAccessRequestType = "AUTOMATE"
 	//  Default access request.
@@ -25330,6 +26069,7 @@ const (
 )
 
 var AllExternalAccessRequestType = []ExternalAccessRequestType{
+	ExternalAccessRequestTypeAccessAutoApprovedByPartnerHierarchy,
 	ExternalAccessRequestTypeAutomate,
 	ExternalAccessRequestTypeDefault,
 	ExternalAccessRequestTypeEmergency,
@@ -25341,7 +26081,7 @@ var AllExternalAccessRequestType = []ExternalAccessRequestType{
 
 func (e ExternalAccessRequestType) IsValid() bool {
 	switch e {
-	case ExternalAccessRequestTypeAutomate, ExternalAccessRequestTypeDefault, ExternalAccessRequestTypeEmergency, ExternalAccessRequestTypeExceptional, ExternalAccessRequestTypeStandard, ExternalAccessRequestTypeSupport, ExternalAccessRequestTypeSupportWithApproval:
+	case ExternalAccessRequestTypeAccessAutoApprovedByPartnerHierarchy, ExternalAccessRequestTypeAutomate, ExternalAccessRequestTypeDefault, ExternalAccessRequestTypeEmergency, ExternalAccessRequestTypeExceptional, ExternalAccessRequestTypeStandard, ExternalAccessRequestTypeSupport, ExternalAccessRequestTypeSupportWithApproval:
 		return true
 	}
 	return false
@@ -26638,6 +27378,10 @@ const (
 	LicenseSkuCatoAdspQ LicenseSku = "CATO_ADSP_Q"
 	//  Cato App & Data Security Package Users SKU
 	LicenseSkuCatoAdspU LicenseSku = "CATO_ADSP_U"
+	//  Cato Agentic Threat Prevention (AGTP) service SKU
+	LicenseSkuCatoAgtp LicenseSku = "CATO_AGTP"
+	//  Cato Agentic Threat Prevention (AGTP) quantity-based SKU
+	LicenseSkuCatoAgtpQ LicenseSku = "CATO_AGTP_Q"
 	//  Cato AI Security Applications SKU
 	LicenseSkuCatoAiSecApp LicenseSku = "CATO_AI_SEC_APP"
 	//  Cato AI Security Applications Group SKU
@@ -26838,6 +27582,8 @@ var AllLicenseSku = []LicenseSku{
 	LicenseSkuCatoAdspB,
 	LicenseSkuCatoAdspQ,
 	LicenseSkuCatoAdspU,
+	LicenseSkuCatoAgtp,
+	LicenseSkuCatoAgtpQ,
 	LicenseSkuCatoAiSecApp,
 	LicenseSkuCatoAiSecAppGroup,
 	LicenseSkuCatoAiSecAppU,
@@ -26939,7 +27685,7 @@ var AllLicenseSku = []LicenseSku{
 
 func (e LicenseSku) IsValid() bool {
 	switch e {
-	case LicenseSkuCatoAdsp, LicenseSkuCatoAdspB, LicenseSkuCatoAdspQ, LicenseSkuCatoAdspU, LicenseSkuCatoAiSecApp, LicenseSkuCatoAiSecAppGroup, LicenseSkuCatoAiSecAppU, LicenseSkuCatoAiSecU, LicenseSkuCatoAntiMalware, LicenseSkuCatoAntiMalwareNg, LicenseSkuCatoAppConB, LicenseSkuCatoAppConU, LicenseSkuCatoAstsSec, LicenseSkuCatoAstsSec10k, LicenseSkuCatoAstsSec15k, LicenseSkuCatoAstsSec1_5k, LicenseSkuCatoAstsSec25k, LicenseSkuCatoAstsSec2_5k, LicenseSkuCatoAstsSec50k, LicenseSkuCatoAstsSecAbv50k, LicenseSkuCatoAtpB, LicenseSkuCatoAtpQ, LicenseSkuCatoAtpU, LicenseSkuCatoAtpUserSa, LicenseSkuCatoCasb, LicenseSkuCatoCasbB, LicenseSkuCatoCasbPbSa, LicenseSkuCatoCasbQ, LicenseSkuCatoCasbU, LicenseSkuCatoCasbUserSa, LicenseSkuCatoDatalake, LicenseSkuCatoDatalake12m, LicenseSkuCatoDatalake3m, LicenseSkuCatoDatalake6m, LicenseSkuCatoDem, LicenseSkuCatoDemU, LicenseSkuCatoDlp, LicenseSkuCatoDlpB, LicenseSkuCatoDlpPbSa, LicenseSkuCatoDlpQ, LicenseSkuCatoDlpU, LicenseSkuCatoDlpUserSa, LicenseSkuCatoEpp, LicenseSkuCatoEppU, LicenseSkuCatoHfm, LicenseSkuCatoHfmS, LicenseSkuCatoIlmm, LicenseSkuCatoIlmmS, LicenseSkuCatoIotOt, LicenseSkuCatoIPS, LicenseSkuCatoIPAdd, LicenseSkuCatoManagedXdr, LicenseSkuCatoMdr, LicenseSkuCatoMdrPbSa, LicenseSkuCatoMdrQ, LicenseSkuCatoMdrU, LicenseSkuCatoMdrUserSa, LicenseSkuCatoNocaasHf, LicenseSkuCatoNocaasHfS, LicenseSkuCatoPb, LicenseSkuCatoPbQ, LicenseSkuCatoPbSse, LicenseSkuCatoRbi, LicenseSkuCatoRbiB, LicenseSkuCatoRbiU, LicenseSkuCatoRemoteU, LicenseSkuCatoSaas, LicenseSkuCatoSaasSecurityAPI, LicenseSkuCatoSaasSecurityAPIAllApps, LicenseSkuCatoSaasSecurityAPIOneApp, LicenseSkuCatoSaasSecurityAPITwoApps, LicenseSkuCatoSiaB, LicenseSkuCatoSiaU, LicenseSkuCatoSite, LicenseSkuCatoSndbxB, LicenseSkuCatoSndbxU, LicenseSkuCatoSocketX1500R, LicenseSkuCatoSocketX1600_5gR, LicenseSkuCatoSocketX1600LteR, LicenseSkuCatoSocketX1600R, LicenseSkuCatoSocketX1600Wifi5gR, LicenseSkuCatoSocketX1600WifiR, LicenseSkuCatoSocketX1700R, LicenseSkuCatoSseSite, LicenseSkuCatoThreatPrevention, LicenseSkuCatoThreatPreventionAdv, LicenseSkuCatoThreatPreventionAdvPbSa, LicenseSkuCatoThreatPreventionPbSa, LicenseSkuCatoThreatPreventionUserSa, LicenseSkuCatoTpQ, LicenseSkuCatoWan, LicenseSkuCatoWanTpB, LicenseSkuCatoXdrPro, LicenseSkuCatoXops, LicenseSkuCatoXopsPbSa, LicenseSkuCatoXopsQ, LicenseSkuCatoXopsU, LicenseSkuCatoXopsUserSa, LicenseSkuCatoZtnaQ, LicenseSkuCatoZtnaUsers, LicenseSkuMobileUsers:
+	case LicenseSkuCatoAdsp, LicenseSkuCatoAdspB, LicenseSkuCatoAdspQ, LicenseSkuCatoAdspU, LicenseSkuCatoAgtp, LicenseSkuCatoAgtpQ, LicenseSkuCatoAiSecApp, LicenseSkuCatoAiSecAppGroup, LicenseSkuCatoAiSecAppU, LicenseSkuCatoAiSecU, LicenseSkuCatoAntiMalware, LicenseSkuCatoAntiMalwareNg, LicenseSkuCatoAppConB, LicenseSkuCatoAppConU, LicenseSkuCatoAstsSec, LicenseSkuCatoAstsSec10k, LicenseSkuCatoAstsSec15k, LicenseSkuCatoAstsSec1_5k, LicenseSkuCatoAstsSec25k, LicenseSkuCatoAstsSec2_5k, LicenseSkuCatoAstsSec50k, LicenseSkuCatoAstsSecAbv50k, LicenseSkuCatoAtpB, LicenseSkuCatoAtpQ, LicenseSkuCatoAtpU, LicenseSkuCatoAtpUserSa, LicenseSkuCatoCasb, LicenseSkuCatoCasbB, LicenseSkuCatoCasbPbSa, LicenseSkuCatoCasbQ, LicenseSkuCatoCasbU, LicenseSkuCatoCasbUserSa, LicenseSkuCatoDatalake, LicenseSkuCatoDatalake12m, LicenseSkuCatoDatalake3m, LicenseSkuCatoDatalake6m, LicenseSkuCatoDem, LicenseSkuCatoDemU, LicenseSkuCatoDlp, LicenseSkuCatoDlpB, LicenseSkuCatoDlpPbSa, LicenseSkuCatoDlpQ, LicenseSkuCatoDlpU, LicenseSkuCatoDlpUserSa, LicenseSkuCatoEpp, LicenseSkuCatoEppU, LicenseSkuCatoHfm, LicenseSkuCatoHfmS, LicenseSkuCatoIlmm, LicenseSkuCatoIlmmS, LicenseSkuCatoIotOt, LicenseSkuCatoIPS, LicenseSkuCatoIPAdd, LicenseSkuCatoManagedXdr, LicenseSkuCatoMdr, LicenseSkuCatoMdrPbSa, LicenseSkuCatoMdrQ, LicenseSkuCatoMdrU, LicenseSkuCatoMdrUserSa, LicenseSkuCatoNocaasHf, LicenseSkuCatoNocaasHfS, LicenseSkuCatoPb, LicenseSkuCatoPbQ, LicenseSkuCatoPbSse, LicenseSkuCatoRbi, LicenseSkuCatoRbiB, LicenseSkuCatoRbiU, LicenseSkuCatoRemoteU, LicenseSkuCatoSaas, LicenseSkuCatoSaasSecurityAPI, LicenseSkuCatoSaasSecurityAPIAllApps, LicenseSkuCatoSaasSecurityAPIOneApp, LicenseSkuCatoSaasSecurityAPITwoApps, LicenseSkuCatoSiaB, LicenseSkuCatoSiaU, LicenseSkuCatoSite, LicenseSkuCatoSndbxB, LicenseSkuCatoSndbxU, LicenseSkuCatoSocketX1500R, LicenseSkuCatoSocketX1600_5gR, LicenseSkuCatoSocketX1600LteR, LicenseSkuCatoSocketX1600R, LicenseSkuCatoSocketX1600Wifi5gR, LicenseSkuCatoSocketX1600WifiR, LicenseSkuCatoSocketX1700R, LicenseSkuCatoSseSite, LicenseSkuCatoThreatPrevention, LicenseSkuCatoThreatPreventionAdv, LicenseSkuCatoThreatPreventionAdvPbSa, LicenseSkuCatoThreatPreventionPbSa, LicenseSkuCatoThreatPreventionUserSa, LicenseSkuCatoTpQ, LicenseSkuCatoWan, LicenseSkuCatoWanTpB, LicenseSkuCatoXdrPro, LicenseSkuCatoXops, LicenseSkuCatoXopsPbSa, LicenseSkuCatoXopsQ, LicenseSkuCatoXopsU, LicenseSkuCatoXopsUserSa, LicenseSkuCatoZtnaQ, LicenseSkuCatoZtnaUsers, LicenseSkuMobileUsers:
 		return true
 	}
 	return false
@@ -29088,6 +29834,547 @@ func (e PopLocationByoipSubnetState) MarshalJSON() ([]byte, error) {
 	return buf.Bytes(), nil
 }
 
+type PostureCheckEventActorType string
+
+const (
+	PostureCheckEventActorTypeSystem PostureCheckEventActorType = "SYSTEM"
+	PostureCheckEventActorTypeUser   PostureCheckEventActorType = "USER"
+)
+
+var AllPostureCheckEventActorType = []PostureCheckEventActorType{
+	PostureCheckEventActorTypeSystem,
+	PostureCheckEventActorTypeUser,
+}
+
+func (e PostureCheckEventActorType) IsValid() bool {
+	switch e {
+	case PostureCheckEventActorTypeSystem, PostureCheckEventActorTypeUser:
+		return true
+	}
+	return false
+}
+
+func (e PostureCheckEventActorType) String() string {
+	return string(e)
+}
+
+func (e *PostureCheckEventActorType) UnmarshalGQL(v any) error {
+	str, ok := v.(string)
+	if !ok {
+		return fmt.Errorf("enums must be strings")
+	}
+
+	*e = PostureCheckEventActorType(str)
+	if !e.IsValid() {
+		return fmt.Errorf("%s is not a valid PostureCheckEventActorType", str)
+	}
+	return nil
+}
+
+func (e PostureCheckEventActorType) MarshalGQL(w io.Writer) {
+	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+func (e *PostureCheckEventActorType) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e PostureCheckEventActorType) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
+}
+
+type PostureCheckEventType string
+
+const (
+	PostureCheckEventTypeCheckMuted              PostureCheckEventType = "CHECK_MUTED"
+	PostureCheckEventTypeCheckUnmuted            PostureCheckEventType = "CHECK_UNMUTED"
+	PostureCheckEventTypeCommentAdded            PostureCheckEventType = "COMMENT_ADDED"
+	PostureCheckEventTypeCreated                 PostureCheckEventType = "CREATED"
+	PostureCheckEventTypeFindingDismissed        PostureCheckEventType = "FINDING_DISMISSED"
+	PostureCheckEventTypeFindingMuted            PostureCheckEventType = "FINDING_MUTED"
+	PostureCheckEventTypeFindingUndismissed      PostureCheckEventType = "FINDING_UNDISMISSED"
+	PostureCheckEventTypeFindingUnmuted          PostureCheckEventType = "FINDING_UNMUTED"
+	PostureCheckEventTypeStatusChanged           PostureCheckEventType = "STATUS_CHANGED"
+	PostureCheckEventTypeSuppressedStatusChanged PostureCheckEventType = "SUPPRESSED_STATUS_CHANGED"
+)
+
+var AllPostureCheckEventType = []PostureCheckEventType{
+	PostureCheckEventTypeCheckMuted,
+	PostureCheckEventTypeCheckUnmuted,
+	PostureCheckEventTypeCommentAdded,
+	PostureCheckEventTypeCreated,
+	PostureCheckEventTypeFindingDismissed,
+	PostureCheckEventTypeFindingMuted,
+	PostureCheckEventTypeFindingUndismissed,
+	PostureCheckEventTypeFindingUnmuted,
+	PostureCheckEventTypeStatusChanged,
+	PostureCheckEventTypeSuppressedStatusChanged,
+}
+
+func (e PostureCheckEventType) IsValid() bool {
+	switch e {
+	case PostureCheckEventTypeCheckMuted, PostureCheckEventTypeCheckUnmuted, PostureCheckEventTypeCommentAdded, PostureCheckEventTypeCreated, PostureCheckEventTypeFindingDismissed, PostureCheckEventTypeFindingMuted, PostureCheckEventTypeFindingUndismissed, PostureCheckEventTypeFindingUnmuted, PostureCheckEventTypeStatusChanged, PostureCheckEventTypeSuppressedStatusChanged:
+		return true
+	}
+	return false
+}
+
+func (e PostureCheckEventType) String() string {
+	return string(e)
+}
+
+func (e *PostureCheckEventType) UnmarshalGQL(v any) error {
+	str, ok := v.(string)
+	if !ok {
+		return fmt.Errorf("enums must be strings")
+	}
+
+	*e = PostureCheckEventType(str)
+	if !e.IsValid() {
+		return fmt.Errorf("%s is not a valid PostureCheckEventType", str)
+	}
+	return nil
+}
+
+func (e PostureCheckEventType) MarshalGQL(w io.Writer) {
+	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+func (e *PostureCheckEventType) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e PostureCheckEventType) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
+}
+
+type PostureComparisonType string
+
+const (
+	PostureComparisonTypeAllAccounts PostureComparisonType = "ALL_ACCOUNTS"
+	PostureComparisonTypeRegion      PostureComparisonType = "REGION"
+	PostureComparisonTypeVertical    PostureComparisonType = "VERTICAL"
+)
+
+var AllPostureComparisonType = []PostureComparisonType{
+	PostureComparisonTypeAllAccounts,
+	PostureComparisonTypeRegion,
+	PostureComparisonTypeVertical,
+}
+
+func (e PostureComparisonType) IsValid() bool {
+	switch e {
+	case PostureComparisonTypeAllAccounts, PostureComparisonTypeRegion, PostureComparisonTypeVertical:
+		return true
+	}
+	return false
+}
+
+func (e PostureComparisonType) String() string {
+	return string(e)
+}
+
+func (e *PostureComparisonType) UnmarshalGQL(v any) error {
+	str, ok := v.(string)
+	if !ok {
+		return fmt.Errorf("enums must be strings")
+	}
+
+	*e = PostureComparisonType(str)
+	if !e.IsValid() {
+		return fmt.Errorf("%s is not a valid PostureComparisonType", str)
+	}
+	return nil
+}
+
+func (e PostureComparisonType) MarshalGQL(w io.Writer) {
+	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+func (e *PostureComparisonType) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e PostureComparisonType) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
+}
+
+type PostureImpact string
+
+const (
+	PostureImpactCritical      PostureImpact = "CRITICAL"
+	PostureImpactHigh          PostureImpact = "HIGH"
+	PostureImpactInformational PostureImpact = "INFORMATIONAL"
+	PostureImpactLow           PostureImpact = "LOW"
+	PostureImpactMedium        PostureImpact = "MEDIUM"
+	PostureImpactNone          PostureImpact = "NONE"
+)
+
+var AllPostureImpact = []PostureImpact{
+	PostureImpactCritical,
+	PostureImpactHigh,
+	PostureImpactInformational,
+	PostureImpactLow,
+	PostureImpactMedium,
+	PostureImpactNone,
+}
+
+func (e PostureImpact) IsValid() bool {
+	switch e {
+	case PostureImpactCritical, PostureImpactHigh, PostureImpactInformational, PostureImpactLow, PostureImpactMedium, PostureImpactNone:
+		return true
+	}
+	return false
+}
+
+func (e PostureImpact) String() string {
+	return string(e)
+}
+
+func (e *PostureImpact) UnmarshalGQL(v any) error {
+	str, ok := v.(string)
+	if !ok {
+		return fmt.Errorf("enums must be strings")
+	}
+
+	*e = PostureImpact(str)
+	if !e.IsValid() {
+		return fmt.Errorf("%s is not a valid PostureImpact", str)
+	}
+	return nil
+}
+
+func (e PostureImpact) MarshalGQL(w io.Writer) {
+	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+func (e *PostureImpact) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e PostureImpact) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
+}
+
+type PostureImpactedEntityType string
+
+const (
+	PostureImpactedEntityTypeAccount     PostureImpactedEntityType = "ACCOUNT"
+	PostureImpactedEntityTypeApplication PostureImpactedEntityType = "APPLICATION"
+	PostureImpactedEntityTypeDevice      PostureImpactedEntityType = "DEVICE"
+	PostureImpactedEntityTypeExternal    PostureImpactedEntityType = "EXTERNAL"
+	PostureImpactedEntityTypeInstance    PostureImpactedEntityType = "INSTANCE"
+	PostureImpactedEntityTypeOther       PostureImpactedEntityType = "OTHER"
+	PostureImpactedEntityTypeRule        PostureImpactedEntityType = "RULE"
+	PostureImpactedEntityTypeSite        PostureImpactedEntityType = "SITE"
+	PostureImpactedEntityTypeUser        PostureImpactedEntityType = "USER"
+)
+
+var AllPostureImpactedEntityType = []PostureImpactedEntityType{
+	PostureImpactedEntityTypeAccount,
+	PostureImpactedEntityTypeApplication,
+	PostureImpactedEntityTypeDevice,
+	PostureImpactedEntityTypeExternal,
+	PostureImpactedEntityTypeInstance,
+	PostureImpactedEntityTypeOther,
+	PostureImpactedEntityTypeRule,
+	PostureImpactedEntityTypeSite,
+	PostureImpactedEntityTypeUser,
+}
+
+func (e PostureImpactedEntityType) IsValid() bool {
+	switch e {
+	case PostureImpactedEntityTypeAccount, PostureImpactedEntityTypeApplication, PostureImpactedEntityTypeDevice, PostureImpactedEntityTypeExternal, PostureImpactedEntityTypeInstance, PostureImpactedEntityTypeOther, PostureImpactedEntityTypeRule, PostureImpactedEntityTypeSite, PostureImpactedEntityTypeUser:
+		return true
+	}
+	return false
+}
+
+func (e PostureImpactedEntityType) String() string {
+	return string(e)
+}
+
+func (e *PostureImpactedEntityType) UnmarshalGQL(v any) error {
+	str, ok := v.(string)
+	if !ok {
+		return fmt.Errorf("enums must be strings")
+	}
+
+	*e = PostureImpactedEntityType(str)
+	if !e.IsValid() {
+		return fmt.Errorf("%s is not a valid PostureImpactedEntityType", str)
+	}
+	return nil
+}
+
+func (e PostureImpactedEntityType) MarshalGQL(w io.Writer) {
+	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+func (e *PostureImpactedEntityType) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e PostureImpactedEntityType) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
+}
+
+type PostureMuteStatus string
+
+const (
+	PostureMuteStatusDismissed PostureMuteStatus = "DISMISSED"
+	PostureMuteStatusMuted     PostureMuteStatus = "MUTED"
+	PostureMuteStatusNone      PostureMuteStatus = "NONE"
+)
+
+var AllPostureMuteStatus = []PostureMuteStatus{
+	PostureMuteStatusDismissed,
+	PostureMuteStatusMuted,
+	PostureMuteStatusNone,
+}
+
+func (e PostureMuteStatus) IsValid() bool {
+	switch e {
+	case PostureMuteStatusDismissed, PostureMuteStatusMuted, PostureMuteStatusNone:
+		return true
+	}
+	return false
+}
+
+func (e PostureMuteStatus) String() string {
+	return string(e)
+}
+
+func (e *PostureMuteStatus) UnmarshalGQL(v any) error {
+	str, ok := v.(string)
+	if !ok {
+		return fmt.Errorf("enums must be strings")
+	}
+
+	*e = PostureMuteStatus(str)
+	if !e.IsValid() {
+		return fmt.Errorf("%s is not a valid PostureMuteStatus", str)
+	}
+	return nil
+}
+
+func (e PostureMuteStatus) MarshalGQL(w io.Writer) {
+	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+func (e *PostureMuteStatus) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e PostureMuteStatus) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
+}
+
+type PostureResolutionStatus string
+
+const (
+	PostureResolutionStatusOpen     PostureResolutionStatus = "OPEN"
+	PostureResolutionStatusResolved PostureResolutionStatus = "RESOLVED"
+)
+
+var AllPostureResolutionStatus = []PostureResolutionStatus{
+	PostureResolutionStatusOpen,
+	PostureResolutionStatusResolved,
+}
+
+func (e PostureResolutionStatus) IsValid() bool {
+	switch e {
+	case PostureResolutionStatusOpen, PostureResolutionStatusResolved:
+		return true
+	}
+	return false
+}
+
+func (e PostureResolutionStatus) String() string {
+	return string(e)
+}
+
+func (e *PostureResolutionStatus) UnmarshalGQL(v any) error {
+	str, ok := v.(string)
+	if !ok {
+		return fmt.Errorf("enums must be strings")
+	}
+
+	*e = PostureResolutionStatus(str)
+	if !e.IsValid() {
+		return fmt.Errorf("%s is not a valid PostureResolutionStatus", str)
+	}
+	return nil
+}
+
+func (e PostureResolutionStatus) MarshalGQL(w io.Writer) {
+	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+func (e *PostureResolutionStatus) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e PostureResolutionStatus) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
+}
+
+type PostureResultStatus string
+
+const (
+	PostureResultStatusFailed        PostureResultStatus = "FAILED"
+	PostureResultStatusNotApplicable PostureResultStatus = "NOT_APPLICABLE"
+	PostureResultStatusPassed        PostureResultStatus = "PASSED"
+	PostureResultStatusPending       PostureResultStatus = "PENDING"
+)
+
+var AllPostureResultStatus = []PostureResultStatus{
+	PostureResultStatusFailed,
+	PostureResultStatusNotApplicable,
+	PostureResultStatusPassed,
+	PostureResultStatusPending,
+}
+
+func (e PostureResultStatus) IsValid() bool {
+	switch e {
+	case PostureResultStatusFailed, PostureResultStatusNotApplicable, PostureResultStatusPassed, PostureResultStatusPending:
+		return true
+	}
+	return false
+}
+
+func (e PostureResultStatus) String() string {
+	return string(e)
+}
+
+func (e *PostureResultStatus) UnmarshalGQL(v any) error {
+	str, ok := v.(string)
+	if !ok {
+		return fmt.Errorf("enums must be strings")
+	}
+
+	*e = PostureResultStatus(str)
+	if !e.IsValid() {
+		return fmt.Errorf("%s is not a valid PostureResultStatus", str)
+	}
+	return nil
+}
+
+func (e PostureResultStatus) MarshalGQL(w io.Writer) {
+	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+func (e *PostureResultStatus) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e PostureResultStatus) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
+}
+
+type PostureSuppressedStatus string
+
+const (
+	PostureSuppressedStatusDisabled PostureSuppressedStatus = "DISABLED"
+	PostureSuppressedStatusEnabled  PostureSuppressedStatus = "ENABLED"
+)
+
+var AllPostureSuppressedStatus = []PostureSuppressedStatus{
+	PostureSuppressedStatusDisabled,
+	PostureSuppressedStatusEnabled,
+}
+
+func (e PostureSuppressedStatus) IsValid() bool {
+	switch e {
+	case PostureSuppressedStatusDisabled, PostureSuppressedStatusEnabled:
+		return true
+	}
+	return false
+}
+
+func (e PostureSuppressedStatus) String() string {
+	return string(e)
+}
+
+func (e *PostureSuppressedStatus) UnmarshalGQL(v any) error {
+	str, ok := v.(string)
+	if !ok {
+		return fmt.Errorf("enums must be strings")
+	}
+
+	*e = PostureSuppressedStatus(str)
+	if !e.IsValid() {
+		return fmt.Errorf("%s is not a valid PostureSuppressedStatus", str)
+	}
+	return nil
+}
+
+func (e PostureSuppressedStatus) MarshalGQL(w io.Writer) {
+	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+func (e *PostureSuppressedStatus) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e PostureSuppressedStatus) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
+}
+
 type PrivateAccessPolicyActionEnum string
 
 const (
@@ -29291,7 +30578,6 @@ const (
 	ProtoTypeSocketX1600     ProtoType = "SOCKET_X1600"
 	ProtoTypeSocketX1600Lte  ProtoType = "SOCKET_X1600_LTE"
 	ProtoTypeSocketX1700     ProtoType = "SOCKET_X1700"
-	ProtoTypeVsocketKvm      ProtoType = "VSOCKET_KVM"
 	ProtoTypeVsocketVgx      ProtoType = "VSOCKET_VGX"
 	ProtoTypeVsocketVgxAWS   ProtoType = "VSOCKET_VGX_AWS"
 	ProtoTypeVsocketVgxAzure ProtoType = "VSOCKET_VGX_AZURE"
@@ -29311,7 +30597,6 @@ var AllProtoType = []ProtoType{
 	ProtoTypeSocketX1600,
 	ProtoTypeSocketX1600Lte,
 	ProtoTypeSocketX1700,
-	ProtoTypeVsocketKvm,
 	ProtoTypeVsocketVgx,
 	ProtoTypeVsocketVgxAWS,
 	ProtoTypeVsocketVgxAzure,
@@ -29320,7 +30605,7 @@ var AllProtoType = []ProtoType{
 
 func (e ProtoType) IsValid() bool {
 	switch e {
-	case ProtoTypeCrossConnect, ProtoTypeIpsecClient, ProtoTypeIpsecHost, ProtoTypeIpsecV2, ProtoTypeSocketAWS1500, ProtoTypeSocketAz1500, ProtoTypeSocketEsx1500, ProtoTypeSocketGCP1500, ProtoTypeSocketX1500, ProtoTypeSocketX1600, ProtoTypeSocketX1600Lte, ProtoTypeSocketX1700, ProtoTypeVsocketKvm, ProtoTypeVsocketVgx, ProtoTypeVsocketVgxAWS, ProtoTypeVsocketVgxAzure, ProtoTypeVsocketVgxEsx:
+	case ProtoTypeCrossConnect, ProtoTypeIpsecClient, ProtoTypeIpsecHost, ProtoTypeIpsecV2, ProtoTypeSocketAWS1500, ProtoTypeSocketAz1500, ProtoTypeSocketEsx1500, ProtoTypeSocketGCP1500, ProtoTypeSocketX1500, ProtoTypeSocketX1600, ProtoTypeSocketX1600Lte, ProtoTypeSocketX1700, ProtoTypeVsocketVgx, ProtoTypeVsocketVgxAWS, ProtoTypeVsocketVgxAzure, ProtoTypeVsocketVgxEsx:
 		return true
 	}
 	return false
@@ -31934,6 +33219,7 @@ const (
 	SocketPlatformX1600Lte    SocketPlatform = "X1600_LTE"
 	SocketPlatformX1700       SocketPlatform = "X1700"
 	SocketPlatformX1700b      SocketPlatform = "X1700B"
+	SocketPlatformX1700c      SocketPlatform = "X1700C"
 )
 
 var AllSocketPlatform = []SocketPlatform{
@@ -31950,11 +33236,12 @@ var AllSocketPlatform = []SocketPlatform{
 	SocketPlatformX1600Lte,
 	SocketPlatformX1700,
 	SocketPlatformX1700b,
+	SocketPlatformX1700c,
 }
 
 func (e SocketPlatform) IsValid() bool {
 	switch e {
-	case SocketPlatformAWS1500, SocketPlatformAz1500, SocketPlatformEsx1500, SocketPlatformGCP1500, SocketPlatformVx86Generic, SocketPlatformX1500, SocketPlatformX1500bBr2, SocketPlatformX1500Br2, SocketPlatformX1600, SocketPlatformX1600_5g, SocketPlatformX1600Lte, SocketPlatformX1700, SocketPlatformX1700b:
+	case SocketPlatformAWS1500, SocketPlatformAz1500, SocketPlatformEsx1500, SocketPlatformGCP1500, SocketPlatformVx86Generic, SocketPlatformX1500, SocketPlatformX1500bBr2, SocketPlatformX1500Br2, SocketPlatformX1600, SocketPlatformX1600_5g, SocketPlatformX1600Lte, SocketPlatformX1700, SocketPlatformX1700b, SocketPlatformX1700c:
 		return true
 	}
 	return false

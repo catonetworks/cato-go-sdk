@@ -56,6 +56,7 @@ type Query {
   object(accountId: ID!): ObjectQueries
   policy(accountId: ID!): PolicyQueries!
   popLocations(accountId: ID!): PopLocationQueries
+  posture(accountId: ID!): PostureQueries!
   privateApplication(accountId: ID!): AccessPrivateApplicationQueries @rollout
   sandbox(accountId: ID!): SandboxQueries @rollout
   servicePrincipalAdmin(accountId: ID!, adminID: ID!): GetServicePrincipalAdminPayload @ga
@@ -86,6 +87,7 @@ type Mutation {
   object(accountId: ID!): ObjectMutations
   policy(accountId: ID!): PolicyMutations!
   popLocationMutations(accountId: ID!): PopLocationMutations
+  posture(accountId: ID!): PostureMutations!
   privateApplication(accountId: ID!): AccessPrivateApplicationMutations @rollout
   sandbox(accountId: ID!): SandboxMutations @rollout
   site(accountId: ID!): SiteMutations!
@@ -224,6 +226,11 @@ type AddAdminPayload {
 
 type AddBgpPeerPayload {
   bgpPeer: BgpPeer!
+}
+
+""" Response payload for the `addCheckComment` mutation. """
+type AddCheckCommentPayload {
+  comments: [PostureCheckComment!]!
 }
 
 """ Payload for adding a new physical connection to a cloud interconnect site. """
@@ -367,6 +374,18 @@ type AdminsResult {
 
 """ App & Data Security Package (ADSP) service license details """
 type AdspLicense implements License {
+  description: String
+  expirationDate: DateTime!
+  id: ID
+  lastUpdated: DateTime
+  plan: LicensePlan!
+  sku: LicenseSku!
+  startDate: DateTime
+  status: LicenseStatus!
+}
+
+""" Agentic Threat Prevention (AGTP) service license details """
+type AgenticThreatPreventionLicense implements License {
   description: String
   expirationDate: DateTime!
   id: ID
@@ -1333,6 +1352,7 @@ type BusinessPlatformAccount {
   description: String
   estimatedCloseDate: Date
   expiresOn: Date
+  externalId: String
   externalName: String!
   id: ID!
   partner: AccountRef!
@@ -1419,6 +1439,7 @@ type CatalogApplication {
   childApp: [ApplicationRef!]!
   city: String
   complianceAttributes: CatalogApplicationComplianceAttributes!
+  defaultCategory: [ApplicationCategoryRef!]!
   description: String
   descriptionSummary: String
   dynamicIpSource: [String!]! @rollout
@@ -2896,6 +2917,9 @@ type GlobalIpRangeRef implements ObjectRef {
 
 """ License usage and allocation across all accounts """
 type GlobalLicenseAllocations {
+  mspAiSecurityApplications: [MspQuantityServiceAllocation!]!
+  mspAiSecurityUsers: [MspQuantityServiceAllocation!]!
+  mspDem: [MspQuantityServiceAllocation!]!
   publicIps: PublicIpsLicenseAllocations
   ztnaUsers: ZtnaUsersLicenseAllocations
 }
@@ -3621,6 +3645,7 @@ type IspLoaFile {
 """ Public license API """
 type LicensingInfo {
   adsp: [AdspLicense!]!
+  agenticThreatPrevention: [AgenticThreatPreventionLicense!]!
   aiSecurityApplications: [AISecurityApplicationsLicense!]!
   aiSecurityUsers: [AISecurityUsersLicense!]!
   assetsSecurity: [AssetsSecurityLicense!]!
@@ -4070,6 +4095,14 @@ type MspMdrUsersLicense implements License & QuantifiableLicense {
   sku: LicenseSku!
   startDate: DateTime
   status: LicenseStatus!
+  total: Int!
+}
+
+""" Aggregate view of a partner's pool capacity and per-managed-account allocation for a quantity-based service (e.g. CATO_DEM). Populated only for partner accounts. """
+type MspQuantityServiceAllocation {
+  accounts: [PartnerQuantityServiceAllocation!]!
+  allocatedQuantity: Int!
+  sku: LicenseSku!
   total: Int!
 }
 
@@ -4638,6 +4671,12 @@ type PartnerPooledBandwidthLicenseAccount {
   allocatedBandwidth: Int!
 }
 
+""" Managed account reference for a quantity-based MSP pool allocation """
+type PartnerQuantityServiceAllocation {
+  account: AccountRef!
+  allocatedQuantity: Int!
+}
+
 type PartnerZtnaUsersLicenseAccount {
   account: AccountRef!
   allocatedUsers: Int!
@@ -5042,6 +5081,480 @@ type PostalAddress {
   country: CountryRef!
   stateName: String
   zipCode: String
+}
+
+type PostureAccountComparison {
+  average: Int!
+  comparisonType: PostureComparisonType!
+  comparisonValue: String
+  percentile: Int!
+}
+
+""" Posture summary for a single account in a partner-level view. """
+type PostureAccountSummary {
+  account: AccountRef!
+  score: Int!
+}
+
+""" Response payload for the `accountSummaryList` query (partner-level view). """
+type PostureAccountSummaryListPayload {
+  items: [PostureAccountSummary!]!
+  paging: PageInfo!
+}
+
+type PostureApplicationScore {
+  application: String!
+  score: Int!
+  stats: PostureStatsDetails!
+}
+
+type PostureArea {
+  id: ID!
+  name: String!
+}
+
+type PostureAreaScore {
+  area: PostureArea!
+  categoryScores: [PostureCategoryScore!]!
+  checkCount: Int!
+  score: Int!
+}
+
+type PostureCategory {
+  id: ID!
+  name: String!
+}
+
+""" Response payload for the `categoryList` query. """
+type PostureCategoryListPayload {
+  items: [PostureCategoryMetadata!]!
+  paging: PageInfo!
+}
+
+"""
+Metadata for a Posture Check category, including its Area, visibility settings,
+and whether it is included in the Account Score.
+"""
+type PostureCategoryMetadata {
+  area: PostureArea
+  id: ID!
+  isChecksHiddenInCatalog: Boolean!
+  isExcludedFromPostureScore: Boolean!
+  name: String!
+  rbacPermission: String
+  resultsTtlDays: Int
+}
+
+type PostureCategoryScore {
+  category: PostureCategory!
+  score: Int!
+  stats: PostureStatsDetails!
+}
+
+"""
+A Posture Check result, combining the check's static definition with its current
+evaluation result, findings, audit events, and peer comparisons.
+"""
+type PostureCheck {
+  comparisons: [PostureCheckComparison!]!
+  definition: PostureCheckDefinition!
+  events: [PostureCheckEvent!]!
+  findings: [PostureCheckFinding!]!
+  findingsCount: PostureCheckFindingsCount!
+  result: PostureResult!
+}
+
+""" A comment entry in the history of a Posture Check result. """
+type PostureCheckComment {
+  actor: PostureCheckEventActor!
+  id: ID!
+  text: String
+  timestamp: DateTime!
+}
+
+type PostureCheckComparison {
+  comparisonType: PostureComparisonType!
+  comparisonValue: String
+  percentile: Int!
+}
+
+type PostureCheckCountsPerState {
+  disabled: Int!
+  failed: Int!
+  newCount: Int!
+  passed: Int!
+  total: Int!
+}
+
+""" Static definition of a Posture Check as it appears in the Posture Check Catalog. """
+type PostureCheckDefinition {
+  application: String
+  area: PostureArea!
+  category: PostureCategory!
+  checkType: String
+  complianceControls: [PostureComplianceControl!]!
+  complianceFrameworks: [String!]!
+  description: String
+  domain: PostureDomain!
+  id: ID!
+  impact: PostureImpact!
+  name: String!
+  recommendedActions: [PostureRecommendedAction!]!
+  securityDomain: String
+  suppressedStatus: PostureSuppressedStatus
+  tags: [String!]!
+}
+
+""" An audit event in the history of a Posture Check result. """
+type PostureCheckEvent {
+  actor: PostureCheckEventActor!
+  findingId: ID
+  id: ID!
+  metadata: String
+  text: String
+  timestamp: DateTime!
+  title: String!
+  type: PostureCheckEventType!
+}
+
+type PostureCheckEventActor {
+  name: String!
+  type: PostureCheckEventActorType!
+}
+
+type PostureCheckFinding {
+  additionalInfo: [PostureCheckFindingDetail!]!
+  appInstance: String
+  checkDefinition: PostureCheckDefinition!
+  checkId: ID!
+  description: String
+  externalId: ID!
+  id: ID!
+  impact: PostureImpact
+  impactedEntities: [PostureImpactedEntity!]!
+  muteDurationInDays: Int
+  muteReason: String
+  muteStatus: PostureMuteStatus!
+  mutedAt: DateTime
+  name: String
+  resolutionStatus: PostureResolutionStatus
+}
+
+type PostureCheckFindingDetail {
+  key: String!
+  value: String!
+}
+
+type PostureCheckFindingsCount {
+  breakdown: [PostureCheckFindingsCountBreakdown!]!
+  openFindingsAppInstanceBreakdown: [PostureCheckFindingsCountAppInstanceBreakdown!]!
+}
+
+""" A single mute status / application instance bucket of a check result's open findings. """
+type PostureCheckFindingsCountAppInstanceBreakdown {
+  appInstance: String
+  count: Int!
+  muteStatus: PostureMuteStatus!
+}
+
+""" A single mute status / resolution status bucket of a check result's findings. """
+type PostureCheckFindingsCountBreakdown {
+  count: Int!
+  muteStatus: PostureMuteStatus!
+  resolutionStatus: PostureResolutionStatus!
+}
+
+""" Response payload for the `checkResultList` query. """
+type PostureCheckResultListPayload {
+  items: [PostureCheck!]!
+  paging: PageInfo!
+}
+
+"""
+Aggregated summary of Posture Check results across multiple breakdown dimensions,
+including score and state counts.
+"""
+type PostureCheckSummary {
+  applicationBreakdown: [PostureCheckSummaryBreakdown!]!
+  areaBreakdown: [PostureCheckSummaryAreaBreakdown!]!
+  categoryBreakdown: [PostureCheckSummaryBreakdown!]!
+  checkTypeBreakdown: [PostureCheckSummaryBreakdown!]!
+  comparisons: [PostureAccountComparison!]!
+  complianceControlBreakdown: [PostureCheckSummaryBreakdown!]!
+  complianceFrameworkBreakdown: [PostureCheckSummaryComplianceFrameworkBreakdown!]!
+  counts: PostureCheckCountsPerState!
+  evaluatedAt: DateTime!
+  score: Int!
+  securityDomainBreakdown: [PostureCheckSummaryBreakdown!]!
+  severityBreakdown: [PostureCheckSummaryBreakdown!]!
+}
+
+type PostureCheckSummaryAreaBreakdown {
+  categoryBreakdown: [PostureCheckSummaryBreakdown!]!
+  counts: PostureCheckCountsPerState!
+  key: String!
+  name: String
+  score: Int!
+}
+
+type PostureCheckSummaryBreakdown {
+  counts: PostureCheckCountsPerState!
+  key: String!
+  name: String
+  score: Int!
+}
+
+type PostureCheckSummaryComplianceControlBreakdown {
+  control: PostureComplianceControl!
+  counts: PostureCheckCountsPerState!
+  key: String!
+  score: Int!
+}
+
+type PostureCheckSummaryComplianceFrameworkBreakdown {
+  complianceControlBreakdown: [PostureCheckSummaryComplianceControlBreakdown!]!
+  counts: PostureCheckCountsPerState!
+  key: String!
+  name: String
+  score: Int!
+}
+
+""" Response payload for the `checkSummary` query. """
+type PostureCheckSummaryPayload {
+  summary: PostureCheckSummary!
+}
+
+"""
+A compliance control entry mapping a Posture Check to a specific control
+within a compliance framework.
+"""
+type PostureComplianceControl {
+  description: String
+  framework: String!
+  key: String
+  title: String
+}
+
+""" Response payload for the `complianceFrameworkList` query. """
+type PostureComplianceFrameworkListPayload {
+  items: [String!]!
+  paging: PageInfo!
+}
+
+type PostureDailySummary {
+  evaluatedAt: DateTime!
+  summary: PostureSummary!
+}
+
+""" Response payload for the `dailySummaryList` query. """
+type PostureDailySummaryListPayload {
+  items: [PostureDailySummary!]!
+  paging: PageInfo!
+}
+
+""" Response payload for the `definitionList` query. """
+type PostureDefinitionListPayload {
+  items: [PostureCheckDefinition!]!
+  paging: PageInfo!
+}
+
+""" Response payload for the `dismissFinding` mutation. """
+type PostureDismissFindingPayload {
+  finding: PostureCheckFinding!
+}
+
+type PostureDomain {
+  id: ID!
+  name: String!
+}
+
+type PostureDomainScore {
+  checkCount: Int!
+  domain: PostureDomain!
+  score: Int!
+}
+
+""" Response payload for the `findingList` query. """
+type PostureFindingListPayload {
+  items: [PostureCheckFinding!]!
+  paging: PageInfo!
+}
+
+"""
+Finding counters grouped by each supported dimension. Dimensions derived from the owning check
+are returned as plain lists; dimensions read from the finding row itself are wrapped, because
+their value set is open-ended and the returned buckets may be truncated.
+
+A check carrying no value for a dimension contributes to no bucket of it, so a breakdown can sum
+up to less than `total`. Multi-valued dimensions such as compliance frameworks can exceed it.
+"""
+type PostureFindingSummary {
+  appInstanceBreakdown: PostureFindingSummaryValueBreakdown!
+  applicationBreakdown: [PostureFindingSummaryBreakdown!]!
+  areaBreakdown: [PostureFindingSummaryBreakdown!]!
+  categoryBreakdown: [PostureFindingSummaryBreakdown!]!
+  checkSeverityBreakdown: [PostureFindingSummaryBreakdown!]!
+  checkTypeBreakdown: [PostureFindingSummaryBreakdown!]!
+  complianceControlBreakdown: [PostureFindingSummaryBreakdown!]!
+  complianceFrameworkBreakdown: [PostureFindingSummaryBreakdown!]!
+  muteStatusBreakdown: PostureFindingSummaryValueBreakdown!
+  resolutionStatusBreakdown: PostureFindingSummaryValueBreakdown!
+  securityDomainBreakdown: [PostureFindingSummaryBreakdown!]!
+  severityBreakdown: PostureFindingSummaryValueBreakdown!
+  total: Int!
+}
+
+""" One value of a breakdown dimension derived from the finding's owning check. """
+type PostureFindingSummaryBreakdown {
+  checkCount: Int!
+  findingCount: Int!
+  key: String!
+  name: String
+}
+
+""" Response payload for the `findingSummary` query. """
+type PostureFindingSummaryPayload {
+  summary: PostureFindingSummary!
+}
+
+""" Buckets of a breakdown dimension read from the finding row itself. """
+type PostureFindingSummaryValueBreakdown {
+  items: [PostureFindingSummaryValueBucket!]!
+  total: Int!
+}
+
+""" One value of a breakdown dimension read from the finding row itself. """
+type PostureFindingSummaryValueBucket {
+  checkCount: Int!
+  findingCount: Int!
+  key: String
+}
+
+type PostureImpactedEntity {
+  id: ID!
+  name: String!
+  type: PostureImpactedEntityType!
+}
+
+""" Available Posture mutation operations for an account. """
+type PostureMutations {
+  addCheckComment(input: AddCheckCommentInput!): AddCheckCommentPayload @beta
+  dismissFinding(input: PostureDismissFindingInput!): PostureDismissFindingPayload @beta
+  muteCheck(input: PostureMuteCheckInput!): PostureMuteCheckPayload @beta
+  muteFinding(input: PostureMuteFindingInput!): PostureMuteFindingPayload @beta
+  reevaluateChecks: PostureReevaluateChecksPayload @beta
+  undismissFinding(input: PostureUndismissFindingInput!): PostureUndismissFindingPayload @beta
+  unmuteCheck(input: PostureUnmuteCheckInput!): PostureUnmuteCheckPayload @beta
+  unmuteFinding(input: PostureUnmuteFindingInput!): PostureUnmuteFindingPayload @beta
+  updateCheckConfiguration(input: PostureUpdateCheckConfigurationInput!): PostureUpdateCheckConfigurationPayload @beta
+}
+
+""" Response payload for the `muteCheck` mutation. """
+type PostureMuteCheckPayload {
+  check: PostureCheck!
+}
+
+""" Response payload for the `muteFinding` mutation. """
+type PostureMuteFindingPayload {
+  finding: PostureCheckFinding!
+}
+
+""" Available Posture query operations for an account. """
+type PostureQueries {
+  accountSummaryList(input: PostureAccountSummaryListInput): PostureAccountSummaryListPayload @beta
+  categoryList(input: PostureCategoryListInput): PostureCategoryListPayload @beta
+  checkResultList(input: PostureCheckResultListInput!): PostureCheckResultListPayload @beta
+  checkSummary(input: PostureCheckSummaryInput): PostureCheckSummaryPayload @beta
+  complianceFrameworkList: PostureComplianceFrameworkListPayload @beta
+  dailySummaryList(input: PostureDailySummaryListInput!): PostureDailySummaryListPayload @beta
+  definitionList(input: PostureDefinitionListInput): PostureDefinitionListPayload @beta
+  findingList(input: PostureFindingListInput!): PostureFindingListPayload @beta
+  findingSummary(input: PostureFindingSummaryInput): PostureFindingSummaryPayload @beta
+}
+
+type PostureRecommendedAction {
+  recommendedAction: String!
+  recommendedActionLink: PostureRecommendedActionLink
+}
+
+type PostureRecommendedActionLink {
+  text: String!
+  url: String!
+}
+
+""" Response payload for the `reevaluateChecks` mutation. """
+type PostureReevaluateChecksPayload {
+  success: Boolean!
+}
+
+"""
+The current evaluation result for a Posture Check, including status,
+impacted entities, mute state, and last evaluation timestamp.
+"""
+type PostureResult {
+  evaluatedAt: DateTime!
+  id: ID!
+  impactedEntities: [PostureImpactedEntity!]!
+  muteDurationInDays: Int
+  muteReason: String
+  muteStatus: PostureMuteStatus!
+  mutedAt: DateTime
+  status: PostureResultStatus!
+}
+
+type PostureSecurityDomainScore {
+  score: Int!
+  securityDomain: String!
+  stats: PostureStatsDetails!
+}
+
+type PostureStats {
+  categories: PostureStatsDetails!
+  checks: PostureStatsDetails!
+  subCategories: PostureStatsDetails
+}
+
+type PostureStatsDetails {
+  disabled: Int!
+  failed: Int!
+  passed: Int!
+  total: Int!
+}
+
+"""
+Aggregated Posture summary for the account, including the Account Score
+and per-dimension breakdowns.
+"""
+type PostureSummary {
+  applicationScores: [PostureApplicationScore!]!
+  areaScores: [PostureAreaScore!]!
+  categoryScores: [PostureCategoryScore!]!
+  comparisons: [PostureAccountComparison!]!
+  domainScores: [PostureDomainScore!]!
+  evaluatedAt: DateTime!
+  score: Int!
+  securityDomainScores: [PostureSecurityDomainScore!]!
+  stats: PostureStats
+}
+
+""" Response payload for the `undismissFinding` mutation. """
+type PostureUndismissFindingPayload {
+  finding: PostureCheckFinding!
+}
+
+""" Response payload for the `unmuteCheck` mutation. """
+type PostureUnmuteCheckPayload {
+  check: PostureCheck!
+}
+
+""" Response payload for the `unmuteFinding` mutation. """
+type PostureUnmuteFindingPayload {
+  finding: PostureCheckFinding!
+}
+
+""" Response payload for the `updateCheckConfiguration` mutation. """
+type PostureUpdateCheckConfigurationPayload {
+  items: [PostureCheckDefinition!]!
 }
 
 type PrivateAccessPolicy implements IPolicy {
@@ -8314,6 +8827,12 @@ input AddBgpPeerInput {
   tracking: BgpTrackingInput
 }
 
+""" Input for the `addCheckComment` mutation. """
+input AddCheckCommentInput {
+  checkId: ID!
+  text: String!
+}
+
 """ Input for adding a new physical connection to a cloud interconnect site. """
 input AddCloudInterconnectPhysicalConnectionInput {
   QinQVlanConfiguration: QinQVlanConfiguration
@@ -9345,6 +9864,7 @@ input CatalogApplicationFilterInput {
   id: [IdFilterInput!]
   name: [StringFilterInput!]
   originCountry: [StringFilterInput!]
+  overridden: [CatalogApplicationOverriddenFilterInput!]
   recentlyAdded: [BooleanFilterInput!]
   risk: [IntFilterInput!]
   tenantActivity: [BooleanFilterInput!]
@@ -9355,6 +9875,12 @@ input CatalogApplicationListInput {
   filter: [CatalogApplicationFilterInput!]
   paging: PagingInput = {limit:100,from:0}
   sort: CatalogApplicationSortInput
+}
+
+""" Filters applications by whether their catalog values were overridden for this account """
+input CatalogApplicationOverriddenFilterInput {
+  category: BooleanFilterInput
+  risk: BooleanFilterInput
 }
 
 input CatalogApplicationSortInput {
@@ -11569,6 +12095,208 @@ input PostalAddressInput {
   zipCode: String
 }
 
+""" Input for the `accountSummaryList` query. """
+input PostureAccountSummaryListInput {
+  sort: PostureAccountSummarySortInput! = {score:{direction:DESC,priority:1}}
+}
+
+""" Sort options for the account summary list. """
+input PostureAccountSummarySortInput {
+  accountName: SortOrderInput
+  score: SortOrderInput
+}
+
+""" Input for the `categoryList` query. """
+input PostureCategoryListInput {
+  sort: PostureCategorySortInput! = {name:{direction:ASC,priority:1}}
+}
+
+""" Sort options for categories. """
+input PostureCategorySortInput {
+  name: SortOrderInput
+}
+
+""" Filter criteria for Posture Check result list and summary queries. """
+input PostureCheckResultListFilterInput {
+  application: [AdvancedStringFilterInput!]
+  areaId: [IdFilterInput!]
+  categoryId: [IdFilterInput!]
+  checkId: [IdFilterInput!]
+  checkType: [AdvancedStringFilterInput!]
+  complianceControl: [AdvancedStringFilterInput!]
+  complianceFramework: [AdvancedStringFilterInput!]
+  findingName: [AdvancedStringFilterInput!]
+  label: [AdvancedStringFilterInput!]
+  muteStatus: [PostureMuteStatusFilterInput!]
+  name: [AdvancedStringFilterInput!]
+  securityDomain: [AdvancedStringFilterInput!]
+  severity: [PostureCheckResultSeverityFilterInput!]
+  status: [PostureResultStatusFilterInput!]
+  suppressedStatus: [PostureSuppressedStatusFilterInput!]
+}
+
+""" Input for the `checkResultList` query. """
+input PostureCheckResultListInput {
+  filter: PostureCheckResultListFilterInput
+  paging: PagingInput = {limit:100,from:0}
+  sort: PostureCheckResultSortInput! = {severity:{direction:DESC,priority:1}}
+}
+
+input PostureCheckResultSeverityFilterInput {
+  eq: PostureImpact
+  in: [PostureImpact!]
+  neq: PostureImpact
+  nin: [PostureImpact!]
+}
+
+input PostureCheckResultSortInput {
+  application: SortOrderInput
+  lastChecked: SortOrderInput
+  name: SortOrderInput
+  securityDomain: SortOrderInput
+  severity: SortOrderInput
+}
+
+""" Input for the `checkSummary` query. """
+input PostureCheckSummaryInput {
+  filter: PostureCheckResultListFilterInput
+  newCheckDaysThreshold: Int
+}
+
+""" Filter for the daily Posture summary list query. """
+input PostureDailySummaryListFilterInput {
+  timeFrame: TimeFrame!
+}
+
+""" Input for the `dailySummaryList` query. """
+input PostureDailySummaryListInput {
+  filter: PostureDailySummaryListFilterInput!
+}
+
+""" Input for the `definitionList` query. """
+input PostureDefinitionListInput {
+  sort: PostureDefinitionSortInput! = {severity:{direction:DESC,priority:1},name:{direction:ASC,priority:2}}
+}
+
+""" Sort options for check definitions. """
+input PostureDefinitionSortInput {
+  name: SortOrderInput
+  severity: SortOrderInput
+}
+
+""" Input for the `dismissFinding` mutation. """
+input PostureDismissFindingInput {
+  findingId: ID!
+  reason: String
+}
+
+input PostureFindingListFilterInput {
+  appInstance: [AdvancedStringFilterInput!]
+  application: [AdvancedStringFilterInput!]
+  areaId: [IdFilterInput!]
+  categoryId: [IdFilterInput!]
+  checkId: [IdFilterInput!]
+  checkName: [AdvancedStringFilterInput!]
+  checkSeverity: [PostureCheckResultSeverityFilterInput!]
+  checkType: [AdvancedStringFilterInput!]
+  complianceControl: [AdvancedStringFilterInput!]
+  complianceFramework: [AdvancedStringFilterInput!]
+  id: [IdFilterInput!]
+  label: [AdvancedStringFilterInput!]
+  muteStatus: [PostureMuteStatusFilterInput!]
+  name: [AdvancedStringFilterInput!]
+  resolutionStatus: [PostureResolutionStatusFilterInput!]
+  securityDomain: [AdvancedStringFilterInput!]
+  severity: [PostureCheckResultSeverityFilterInput!]
+  suppressedStatus: [PostureSuppressedStatusFilterInput!]
+}
+
+input PostureFindingListInput {
+  filter: PostureFindingListFilterInput!
+  paging: PagingInput = {limit:100,from:0}
+  sort: PostureFindingSortInput! = {severity:{direction:DESC,priority:1}}
+}
+
+input PostureFindingSortInput {
+  name: SortOrderInput
+  resolutionStatus: SortOrderInput
+  severity: SortOrderInput
+}
+
+""" Input for the `findingSummary` query. """
+input PostureFindingSummaryInput {
+  filter: PostureFindingListFilterInput
+  valueBreakdownLimit: Int = 100
+}
+
+""" Input for the `muteCheck` mutation. """
+input PostureMuteCheckInput {
+  checkId: ID!
+  durationInDays: Int
+  reason: String
+}
+
+""" Input for the `muteFinding` mutation. """
+input PostureMuteFindingInput {
+  durationInDays: Int
+  findingId: ID!
+  reason: String
+}
+
+input PostureMuteStatusFilterInput {
+  eq: PostureMuteStatus
+  in: [PostureMuteStatus!]
+  neq: PostureMuteStatus
+  nin: [PostureMuteStatus!]
+}
+
+input PostureResolutionStatusFilterInput {
+  eq: PostureResolutionStatus
+  in: [PostureResolutionStatus!]
+  neq: PostureResolutionStatus
+  nin: [PostureResolutionStatus!]
+}
+
+input PostureResultStatusFilterInput {
+  eq: PostureResultStatus
+  in: [PostureResultStatus!]
+  neq: PostureResultStatus
+  nin: [PostureResultStatus!]
+}
+
+input PostureSuppressedStatusFilterInput {
+  eq: PostureSuppressedStatus
+  in: [PostureSuppressedStatus!]
+  neq: PostureSuppressedStatus
+  nin: [PostureSuppressedStatus!]
+}
+
+""" Specifies the desired suppressed status for a single Posture Check. """
+input PostureSuppressedStatusInput {
+  id: String!
+  status: PostureSuppressedStatus!
+}
+
+""" Input for the `undismissFinding` mutation. """
+input PostureUndismissFindingInput {
+  findingId: ID!
+}
+
+""" Input for the `unmuteCheck` mutation. """
+input PostureUnmuteCheckInput {
+  checkId: ID!
+}
+
+""" Input for the `unmuteFinding` mutation. """
+input PostureUnmuteFindingInput {
+  findingId: ID!
+}
+
+""" Input for the `updateCheckConfiguration` mutation. """
+input PostureUpdateCheckConfigurationInput {
+  suppressedCheckStatus: [PostureSuppressedStatusInput!]!
+}
+
 input PrivateAccessAddRuleDataInput {
   action: PrivateAccessPolicyActionInput! = {action:ALLOW}
   activePeriod: PolicyRuleActivePeriodInput! = {useEffectiveFrom:false,useExpiresAt:false}
@@ -13394,14 +14122,10 @@ input UpdateGroupInput {
 }
 
 input UpdateHaInput {
+  isCloudRouter: Boolean
   primaryManagementIp: IPAddress
   secondaryManagementIp: IPAddress
   vrid: Int
-  """
-  Enable Cloud Router mode for a GCP vSocket HA site, using the Socket LAN interface for BGP peering.
-  Only relevant for GCP HA sites; requires the account and Sockets to support the feature.
-  """
-  isCloudRouter: Boolean
 }
 
 input UpdateHwShippingInput {
@@ -14925,6 +15649,8 @@ enum AppStatsFieldName {
   application_name
   """ Application risk level based on the application risk score. CMA Name: Application Risk Level """
   application_risk_level
+  """ Current effective risk level of the application, derived from the current-state risk score. CMA Name: Application Risk Level Current State """
+  application_risk_level_current_state
   """ Risk score of the application, based on Cato's risk assessment. CMA Name: Application Risk Score """
   application_risk_score
   """ Current effective risk score of the application (latest classification, not historical). CMA Name: Application Risk Score Current State """
@@ -15804,6 +16530,8 @@ enum EventFieldName {
   actor_type
   """ Active Directory name. CMA Name: Active Directory Name """
   ad_name
+  """ Entities the analyst investigation found to be affected, one JSON object per entity. Only available for native data integration created in the CMA and eventsFeed API. Not available in the events or eventsTimeSeries API. """
+  affected_entities
   """ The estimated risk level of the AI threat. CMA Name: Ai App Risk Level """
   ai_app_risk_level
   """ AI Proxy rule name. CMA Name: AI Proxy Rule Name """
@@ -16093,6 +16821,8 @@ enum EventFieldName {
   event_sub_type
   """ Routing, Security, Connectivity, System or Sockets Management event. CMA Name: Event Type """
   event_type
+  """ Findings collected by the analyst investigation to support the verdict, one JSON object per finding. Only available for native data integration created in the CMA and eventsFeed API. Not available in the events or eventsTimeSeries API. """
+  evidence
   """ Provides details about why a specific action or process failed. CMA Name: Failure Reason """
   failure_reason
   """ File hash. CMA Name: File Hash """
@@ -16209,6 +16939,8 @@ enum EventFieldName {
   link_health_pkt_loss
   """ Link type – Cato, Alt. WAN or LAG. CMA Name: Link Type """
   link_type
+  """ Local IP address. CMA Name: Local IP """
+  local_ip
   """ The user logged into this endpoint during this event. CMA Name: Logged In User """
   logged_in_user
   """ Login action, values are: User portal (myvpn.catonetworks.com) or VPN client (Client or site traffic). CMA Name: Login Type """
@@ -16549,6 +17281,8 @@ enum EventFieldName {
   vendor_user_id
   """ Version of the vendor’s client application. CMA Name: Vendor Version """
   vendor_version
+  """ Who set the analyst verdict - an AI agent or a human analyst. CMA Name: Verdict Author """
+  verdict_author
   """ Additional information provided with the analyst verdict. CMA Name: Verdict Elaboration """
   verdict_elaboration
   """ Unique Cato Visible ID for devices. CMA Name: Device ID """
@@ -16605,6 +17339,12 @@ enum ExportJobStatus {
 
 """ External access request type. """
 enum ExternalAccessRequestType {
+  """
+  Access request scoped to the fully-managed accounts under a partner in the requesting partner's
+  hierarchy, and auto-approved by that hierarchy. The named partner is a scope, not a grantee - it
+  is never granted access itself.
+  """
+  ACCESS_AUTO_APPROVED_BY_PARTNER_HIERARCHY
   """ Automate access request. """
   AUTOMATE
   """ Default access request. """
@@ -16810,6 +17550,10 @@ enum LicenseSku {
   CATO_ADSP_Q
   """ Cato App & Data Security Package Users SKU """
   CATO_ADSP_U
+  """ Cato Agentic Threat Prevention (AGTP) service SKU """
+  CATO_AGTP
+  """ Cato Agentic Threat Prevention (AGTP) quantity-based SKU """
+  CATO_AGTP_Q
   """ Cato AI Security Applications SKU """
   CATO_AI_SEC_APP
   """ Cato AI Security Applications Group SKU """
@@ -17366,6 +18110,74 @@ enum PopLocationByoipSubnetState {
   WITHDRAW
 }
 
+enum PostureCheckEventActorType {
+  SYSTEM
+  USER
+}
+
+enum PostureCheckEventType {
+  CHECK_MUTED
+  CHECK_UNMUTED
+  COMMENT_ADDED
+  CREATED
+  FINDING_DISMISSED
+  FINDING_MUTED
+  FINDING_UNDISMISSED
+  FINDING_UNMUTED
+  STATUS_CHANGED
+  SUPPRESSED_STATUS_CHANGED
+}
+
+enum PostureComparisonType {
+  ALL_ACCOUNTS
+  REGION
+  VERTICAL
+}
+
+enum PostureImpact {
+  CRITICAL
+  HIGH
+  INFORMATIONAL
+  LOW
+  MEDIUM
+  NONE
+}
+
+enum PostureImpactedEntityType {
+  ACCOUNT
+  APPLICATION
+  DEVICE
+  EXTERNAL
+  INSTANCE
+  OTHER
+  RULE
+  SITE
+  USER
+}
+
+enum PostureMuteStatus {
+  DISMISSED
+  MUTED
+  NONE
+}
+
+enum PostureResolutionStatus {
+  OPEN
+  RESOLVED
+}
+
+enum PostureResultStatus {
+  FAILED
+  NOT_APPLICABLE
+  PASSED
+  PENDING
+}
+
+enum PostureSuppressedStatus {
+  DISABLED
+  ENABLED
+}
+
 enum PrivateAccessPolicyActionEnum {
   ALLOW
   BLOCK
@@ -17411,7 +18223,6 @@ enum ProtoType {
   SOCKET_X1600
   SOCKET_X1600_LTE
   SOCKET_X1700
-  VSOCKET_KVM
   VSOCKET_VGX
   VSOCKET_VGX_AWS
   VSOCKET_VGX_AZURE
@@ -17854,6 +18665,7 @@ enum SocketPlatform {
   X1600_LTE
   X1700
   X1700B
+  X1700C
 }
 
 enum SocketPortMetricsFieldName {
