@@ -24,6 +24,33 @@ validate_schema_url() {
 	exit 1
 }
 
+patch_additions_present() {
+	local patch="$1"
+
+	awk '
+		NR == FNR {
+			schema_lines[$0] = 1
+			next
+		}
+		/^\+\+\+ / {
+			next
+		}
+		/^\+/ {
+			line = substr($0, 2)
+			if (line == "") {
+				next
+			}
+			additions++
+			if (!(line in schema_lines)) {
+				missing = 1
+			}
+		}
+		END {
+			exit !(additions > 0 && !missing)
+		}
+	' "${schema_file}" "${patch}"
+}
+
 triage_schema_patches() {
 	if [ ! -d "${patch_dir}" ]; then
 		echo "No patch directory found: ${patch_dir}"
@@ -42,7 +69,8 @@ triage_schema_patches() {
 	for patch in "${patches[@]}"; do
 		echo "Checking schema patch: ${patch}"
 
-		if git apply --reverse --check "${patch}" >/dev/null 2>&1; then
+		if git apply --reverse --check "${patch}" >/dev/null 2>&1 ||
+			patch_additions_present "${patch}"; then
 			echo "Patch ${patch} is now included in the upstream schema; deleting it."
 			rm -f "${patch}"
 			continue
