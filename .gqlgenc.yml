@@ -1,6 +1,7 @@
 model:
   package: cato_models
   filename: ./models/models.go
+  model_template: ./gqlgen-models.gotpl
 client:
   package: cato_go_sdk
   filename: ./client.go

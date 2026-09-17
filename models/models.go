@@ -18889,9 +18889,6 @@ func (e *AccessRequestStatus) UnmarshalGQL(v any) error {
 	}
 
 	*e = AccessRequestStatus(str)
-	if !e.IsValid() {
-		return fmt.Errorf("%s is not a valid AccessRequestStatus", str)
-	}
 	return nil
 }
 
@@ -18944,9 +18941,6 @@ func (e *AccountInclusion) UnmarshalGQL(v any) error {
 	}
 
 	*e = AccountInclusion(str)
-	if !e.IsValid() {
-		return fmt.Errorf("%s is not a valid AccountInclusion", str)
-	}
 	return nil
 }
 
@@ -18999,9 +18993,6 @@ func (e *AccountOperationsTimelineType) UnmarshalGQL(v any) error {
 	}
 
 	*e = AccountOperationsTimelineType(str)
-	if !e.IsValid() {
-		return fmt.Errorf("%s is not a valid AccountOperationsTimelineType", str)
-	}
 	return nil
 }
 
@@ -19055,9 +19046,6 @@ func (e *AccountPlan) UnmarshalGQL(v any) error {
 	}
 
 	*e = AccountPlan(str)
-	if !e.IsValid() {
-		return fmt.Errorf("%s is not a valid AccountPlan", str)
-	}
 	return nil
 }
 
@@ -19113,9 +19101,6 @@ func (e *AccountProfileType) UnmarshalGQL(v any) error {
 	}
 
 	*e = AccountProfileType(str)
-	if !e.IsValid() {
-		return fmt.Errorf("%s is not a valid AccountProfileType", str)
-	}
 	return nil
 }
 
@@ -19171,9 +19156,6 @@ func (e *AccountStatus) UnmarshalGQL(v any) error {
 	}
 
 	*e = AccountStatus(str)
-	if !e.IsValid() {
-		return fmt.Errorf("%s is not a valid AccountStatus", str)
-	}
 	return nil
 }
 
@@ -19229,9 +19211,6 @@ func (e *AccountTenancy) UnmarshalGQL(v any) error {
 	}
 
 	*e = AccountTenancy(str)
-	if !e.IsValid() {
-		return fmt.Errorf("%s is not a valid AccountTenancy", str)
-	}
 	return nil
 }
 
@@ -19288,9 +19267,6 @@ func (e *AccountType) UnmarshalGQL(v any) error {
 	}
 
 	*e = AccountType(str)
-	if !e.IsValid() {
-		return fmt.Errorf("%s is not a valid AccountType", str)
-	}
 	return nil
 }
 
@@ -19345,9 +19321,6 @@ func (e *AddressValidationStatus) UnmarshalGQL(v any) error {
 	}
 
 	*e = AddressValidationStatus(str)
-	if !e.IsValid() {
-		return fmt.Errorf("%s is not a valid AddressValidationStatus", str)
-	}
 	return nil
 }
 
@@ -19400,9 +19373,6 @@ func (e *AdminType) UnmarshalGQL(v any) error {
 	}
 
 	*e = AdminType(str)
-	if !e.IsValid() {
-		return fmt.Errorf("%s is not a valid AdminType", str)
-	}
 	return nil
 }
 
@@ -19471,9 +19441,6 @@ func (e *AggregationType) UnmarshalGQL(v any) error {
 	}
 
 	*e = AggregationType(str)
-	if !e.IsValid() {
-		return fmt.Errorf("%s is not a valid AggregationType", str)
-	}
 	return nil
 }
 
@@ -19524,9 +19491,6 @@ func (e *AiOperationsIncidentTypeEnum) UnmarshalGQL(v any) error {
 	}
 
 	*e = AiOperationsIncidentTypeEnum(str)
-	if !e.IsValid() {
-		return fmt.Errorf("%s is not a valid AiOperationsIncidentTypeEnum", str)
-	}
 	return nil
 }
 
@@ -19588,9 +19552,6 @@ func (e *AiSecurityAppsInvocationAction) UnmarshalGQL(v any) error {
 	}
 
 	*e = AiSecurityAppsInvocationAction(str)
-	if !e.IsValid() {
-		return fmt.Errorf("%s is not a valid AiSecurityAppsInvocationAction", str)
-	}
 	return nil
 }
 
@@ -19647,9 +19608,6 @@ func (e *AiSecurityDataUsagePolicyType) UnmarshalGQL(v any) error {
 	}
 
 	*e = AiSecurityDataUsagePolicyType(str)
-	if !e.IsValid() {
-		return fmt.Errorf("%s is not a valid AiSecurityDataUsagePolicyType", str)
-	}
 	return nil
 }
 
@@ -19706,9 +19664,6 @@ func (e *AiSecurityRisk) UnmarshalGQL(v any) error {
 	}
 
 	*e = AiSecurityRisk(str)
-	if !e.IsValid() {
-		return fmt.Errorf("%s is not a valid AiSecurityRisk", str)
-	}
 	return nil
 }
 
@@ -19761,9 +19716,6 @@ func (e *AiSecurityScope) UnmarshalGQL(v any) error {
 	}
 
 	*e = AiSecurityScope(str)
-	if !e.IsValid() {
-		return fmt.Errorf("%s is not a valid AiSecurityScope", str)
-	}
 	return nil
 }
 
@@ -19818,9 +19770,6 @@ func (e *AlertClassificationEnum) UnmarshalGQL(v any) error {
 	}
 
 	*e = AlertClassificationEnum(str)
-	if !e.IsValid() {
-		return fmt.Errorf("%s is not a valid AlertClassificationEnum", str)
-	}
 	return nil
 }
 
@@ -19897,9 +19846,6 @@ func (e *AlertDeterminationEnum) UnmarshalGQL(v any) error {
 	}
 
 	*e = AlertDeterminationEnum(str)
-	if !e.IsValid() {
-		return fmt.Errorf("%s is not a valid AlertDeterminationEnum", str)
-	}
 	return nil
 }
 
@@ -19960,9 +19906,6 @@ func (e *AnnotationType) UnmarshalGQL(v any) error {
 	}
 
 	*e = AnnotationType(str)
-	if !e.IsValid() {
-		return fmt.Errorf("%s is not a valid AnnotationType", str)
-	}
 	return nil
 }
 
@@ -20017,9 +19960,6 @@ func (e *AntiMalwareFileHashAction) UnmarshalGQL(v any) error {
 	}
 
 	*e = AntiMalwareFileHashAction(str)
-	if !e.IsValid() {
-		return fmt.Errorf("%s is not a valid AntiMalwareFileHashAction", str)
-	}
 	return nil
 }
 
@@ -20078,9 +20018,6 @@ func (e *AntiTamperModeEnum) UnmarshalGQL(v any) error {
 	}
 
 	*e = AntiTamperModeEnum(str)
-	if !e.IsValid() {
-		return fmt.Errorf("%s is not a valid AntiTamperModeEnum", str)
-	}
 	return nil
 }
 
@@ -20135,9 +20072,6 @@ func (e *ApnMethod) UnmarshalGQL(v any) error {
 	}
 
 	*e = ApnMethod(str)
-	if !e.IsValid() {
-		return fmt.Errorf("%s is not a valid ApnMethod", str)
-	}
 	return nil
 }
 
@@ -20537,9 +20471,6 @@ func (e *AppStatsFieldName) UnmarshalGQL(v any) error {
 	}
 
 	*e = AppStatsFieldName(str)
-	if !e.IsValid() {
-		return fmt.Errorf("%s is not a valid AppStatsFieldName", str)
-	}
 	return nil
 }
 
@@ -20595,9 +20526,6 @@ func (e *AppTenantRestrictionActionEnum) UnmarshalGQL(v any) error {
 	}
 
 	*e = AppTenantRestrictionActionEnum(str)
-	if !e.IsValid() {
-		return fmt.Errorf("%s is not a valid AppTenantRestrictionActionEnum", str)
-	}
 	return nil
 }
 
@@ -20656,9 +20584,6 @@ func (e *AppTenantRestrictionSeverityEnum) UnmarshalGQL(v any) error {
 	}
 
 	*e = AppTenantRestrictionSeverityEnum(str)
-	if !e.IsValid() {
-		return fmt.Errorf("%s is not a valid AppTenantRestrictionSeverityEnum", str)
-	}
 	return nil
 }
 
@@ -20711,9 +20636,6 @@ func (e *ApplicationControlAccessMethodType) UnmarshalGQL(v any) error {
 	}
 
 	*e = ApplicationControlAccessMethodType(str)
-	if !e.IsValid() {
-		return fmt.Errorf("%s is not a valid ApplicationControlAccessMethodType", str)
-	}
 	return nil
 }
 
@@ -20775,9 +20697,6 @@ func (e *ApplicationControlAction) UnmarshalGQL(v any) error {
 	}
 
 	*e = ApplicationControlAction(str)
-	if !e.IsValid() {
-		return fmt.Errorf("%s is not a valid ApplicationControlAction", str)
-	}
 	return nil
 }
 
@@ -20836,9 +20755,6 @@ func (e *ApplicationControlAttributeValue) UnmarshalGQL(v any) error {
 	}
 
 	*e = ApplicationControlAttributeValue(str)
-	if !e.IsValid() {
-		return fmt.Errorf("%s is not a valid ApplicationControlAttributeValue", str)
-	}
 	return nil
 }
 
@@ -20897,9 +20813,6 @@ func (e *ApplicationControlFileAttributeType) UnmarshalGQL(v any) error {
 	}
 
 	*e = ApplicationControlFileAttributeType(str)
-	if !e.IsValid() {
-		return fmt.Errorf("%s is not a valid ApplicationControlFileAttributeType", str)
-	}
 	return nil
 }
 
@@ -20964,9 +20877,6 @@ func (e *ApplicationControlOperator) UnmarshalGQL(v any) error {
 	}
 
 	*e = ApplicationControlOperator(str)
-	if !e.IsValid() {
-		return fmt.Errorf("%s is not a valid ApplicationControlOperator", str)
-	}
 	return nil
 }
 
@@ -21025,9 +20935,6 @@ func (e *ApplicationControlRuleType) UnmarshalGQL(v any) error {
 	}
 
 	*e = ApplicationControlRuleType(str)
-	if !e.IsValid() {
-		return fmt.Errorf("%s is not a valid ApplicationControlRuleType", str)
-	}
 	return nil
 }
 
@@ -21083,9 +20990,6 @@ func (e *ApplicationControlSatisfy) UnmarshalGQL(v any) error {
 	}
 
 	*e = ApplicationControlSatisfy(str)
-	if !e.IsValid() {
-		return fmt.Errorf("%s is not a valid ApplicationControlSatisfy", str)
-	}
 	return nil
 }
 
@@ -21144,9 +21048,6 @@ func (e *ApplicationControlSeverity) UnmarshalGQL(v any) error {
 	}
 
 	*e = ApplicationControlSeverity(str)
-	if !e.IsValid() {
-		return fmt.Errorf("%s is not a valid ApplicationControlSeverity", str)
-	}
 	return nil
 }
 
@@ -21205,9 +21106,6 @@ func (e *ApplicationType) UnmarshalGQL(v any) error {
 	}
 
 	*e = ApplicationType(str)
-	if !e.IsValid() {
-		return fmt.Errorf("%s is not a valid ApplicationType", str)
-	}
 	return nil
 }
 
@@ -21291,9 +21189,6 @@ func (e *AuditFieldName) UnmarshalGQL(v any) error {
 	}
 
 	*e = AuditFieldName(str)
-	if !e.IsValid() {
-		return fmt.Errorf("%s is not a valid AuditFieldName", str)
-	}
 	return nil
 }
 
@@ -21352,9 +21247,6 @@ func (e *AuthType) UnmarshalGQL(v any) error {
 	}
 
 	*e = AuthType(str)
-	if !e.IsValid() {
-		return fmt.Errorf("%s is not a valid AuthType", str)
-	}
 	return nil
 }
 
@@ -21407,9 +21299,6 @@ func (e *BackhaulingDestination) UnmarshalGQL(v any) error {
 	}
 
 	*e = BackhaulingDestination(str)
-	if !e.IsValid() {
-		return fmt.Errorf("%s is not a valid BackhaulingDestination", str)
-	}
 	return nil
 }
 
@@ -21464,9 +21353,6 @@ func (e *BgpCommunityFilterPredicate) UnmarshalGQL(v any) error {
 	}
 
 	*e = BgpCommunityFilterPredicate(str)
-	if !e.IsValid() {
-		return fmt.Errorf("%s is not a valid BgpCommunityFilterPredicate", str)
-	}
 	return nil
 }
 
@@ -21521,9 +21407,6 @@ func (e *BgpDefaultAction) UnmarshalGQL(v any) error {
 	}
 
 	*e = BgpDefaultAction(str)
-	if !e.IsValid() {
-		return fmt.Errorf("%s is not a valid BgpDefaultAction", str)
-	}
 	return nil
 }
 
@@ -21586,9 +21469,6 @@ func (e *BgpState) UnmarshalGQL(v any) error {
 	}
 
 	*e = BgpState(str)
-	if !e.IsValid() {
-		return fmt.Errorf("%s is not a valid BgpState", str)
-	}
 	return nil
 }
 
@@ -21657,9 +21537,6 @@ func (e *BusinessPlatformAccountPlan) UnmarshalGQL(v any) error {
 	}
 
 	*e = BusinessPlatformAccountPlan(str)
-	if !e.IsValid() {
-		return fmt.Errorf("%s is not a valid BusinessPlatformAccountPlan", str)
-	}
 	return nil
 }
 
@@ -21723,9 +21600,6 @@ func (e *BypassSocketPortType) UnmarshalGQL(v any) error {
 	}
 
 	*e = BypassSocketPortType(str)
-	if !e.IsValid() {
-		return fmt.Errorf("%s is not a valid BypassSocketPortType", str)
-	}
 	return nil
 }
 
@@ -21784,9 +21658,6 @@ func (e *CatalogApplicationActivityFieldOperator) UnmarshalGQL(v any) error {
 	}
 
 	*e = CatalogApplicationActivityFieldOperator(str)
-	if !e.IsValid() {
-		return fmt.Errorf("%s is not a valid CatalogApplicationActivityFieldOperator", str)
-	}
 	return nil
 }
 
@@ -21841,9 +21712,6 @@ func (e *CatalogApplicationAttribute) UnmarshalGQL(v any) error {
 	}
 
 	*e = CatalogApplicationAttribute(str)
-	if !e.IsValid() {
-		return fmt.Errorf("%s is not a valid CatalogApplicationAttribute", str)
-	}
 	return nil
 }
 
@@ -21914,9 +21782,6 @@ func (e *CatalogApplicationCapability) UnmarshalGQL(v any) error {
 	}
 
 	*e = CatalogApplicationCapability(str)
-	if !e.IsValid() {
-		return fmt.Errorf("%s is not a valid CatalogApplicationCapability", str)
-	}
 	return nil
 }
 
@@ -21979,9 +21844,6 @@ func (e *CatalogApplicationDataDeletionPolicy) UnmarshalGQL(v any) error {
 	}
 
 	*e = CatalogApplicationDataDeletionPolicy(str)
-	if !e.IsValid() {
-		return fmt.Errorf("%s is not a valid CatalogApplicationDataDeletionPolicy", str)
-	}
 	return nil
 }
 
@@ -22038,9 +21900,6 @@ func (e *CatalogApplicationDataOwnership) UnmarshalGQL(v any) error {
 	}
 
 	*e = CatalogApplicationDataOwnership(str)
-	if !e.IsValid() {
-		return fmt.Errorf("%s is not a valid CatalogApplicationDataOwnership", str)
-	}
 	return nil
 }
 
@@ -22103,9 +21962,6 @@ func (e *CatalogApplicationDataRetentionPolicy) UnmarshalGQL(v any) error {
 	}
 
 	*e = CatalogApplicationDataRetentionPolicy(str)
-	if !e.IsValid() {
-		return fmt.Errorf("%s is not a valid CatalogApplicationDataRetentionPolicy", str)
-	}
 	return nil
 }
 
@@ -22166,9 +22022,6 @@ func (e *CatalogApplicationEncryptionStrengthAtRest) UnmarshalGQL(v any) error {
 	}
 
 	*e = CatalogApplicationEncryptionStrengthAtRest(str)
-	if !e.IsValid() {
-		return fmt.Errorf("%s is not a valid CatalogApplicationEncryptionStrengthAtRest", str)
-	}
 	return nil
 }
 
@@ -22227,9 +22080,6 @@ func (e *CatalogApplicationTLSVersionSupport) UnmarshalGQL(v any) error {
 	}
 
 	*e = CatalogApplicationTLSVersionSupport(str)
-	if !e.IsValid() {
-		return fmt.Errorf("%s is not a valid CatalogApplicationTlsVersionSupport", str)
-	}
 	return nil
 }
 
@@ -22284,9 +22134,6 @@ func (e *CatalogApplicationType) UnmarshalGQL(v any) error {
 	}
 
 	*e = CatalogApplicationType(str)
-	if !e.IsValid() {
-		return fmt.Errorf("%s is not a valid CatalogApplicationType", str)
-	}
 	return nil
 }
 
@@ -22349,9 +22196,6 @@ func (e *CatalogApplicationWeakCipherSupport) UnmarshalGQL(v any) error {
 	}
 
 	*e = CatalogApplicationWeakCipherSupport(str)
-	if !e.IsValid() {
-		return fmt.Errorf("%s is not a valid CatalogApplicationWeakCipherSupport", str)
-	}
 	return nil
 }
 
@@ -22404,9 +22248,6 @@ func (e *CatoEndpointEngineType) UnmarshalGQL(v any) error {
 	}
 
 	*e = CatoEndpointEngineType(str)
-	if !e.IsValid() {
-		return fmt.Errorf("%s is not a valid CatoEndpointEngineType", str)
-	}
 	return nil
 }
 
@@ -22459,9 +22300,6 @@ func (e *CellularDisconnectionReason) UnmarshalGQL(v any) error {
 	}
 
 	*e = CellularDisconnectionReason(str)
-	if !e.IsValid() {
-		return fmt.Errorf("%s is not a valid CellularDisconnectionReason", str)
-	}
 	return nil
 }
 
@@ -22516,9 +22354,6 @@ func (e *CellularModemStatus) UnmarshalGQL(v any) error {
 	}
 
 	*e = CellularModemStatus(str)
-	if !e.IsValid() {
-		return fmt.Errorf("%s is not a valid CellularModemStatus", str)
-	}
 	return nil
 }
 
@@ -22577,9 +22412,6 @@ func (e *CellularNetworkType) UnmarshalGQL(v any) error {
 	}
 
 	*e = CellularNetworkType(str)
-	if !e.IsValid() {
-		return fmt.Errorf("%s is not a valid CellularNetworkType", str)
-	}
 	return nil
 }
 
@@ -22638,9 +22470,6 @@ func (e *ClientConnectivityActionEnum) UnmarshalGQL(v any) error {
 	}
 
 	*e = ClientConnectivityActionEnum(str)
-	if !e.IsValid() {
-		return fmt.Errorf("%s is not a valid ClientConnectivityActionEnum", str)
-	}
 	return nil
 }
 
@@ -22699,9 +22528,6 @@ func (e *ClientConnectivityConfidenceLevelEnum) UnmarshalGQL(v any) error {
 	}
 
 	*e = ClientConnectivityConfidenceLevelEnum(str)
-	if !e.IsValid() {
-		return fmt.Errorf("%s is not a valid ClientConnectivityConfidenceLevelEnum", str)
-	}
 	return nil
 }
 
@@ -22760,9 +22586,6 @@ func (e *ClientConnectivityOriginEnum) UnmarshalGQL(v any) error {
 	}
 
 	*e = ClientConnectivityOriginEnum(str)
-	if !e.IsValid() {
-		return fmt.Errorf("%s is not a valid ClientConnectivityOriginEnum", str)
-	}
 	return nil
 }
 
@@ -22815,9 +22638,6 @@ func (e *CommentType) UnmarshalGQL(v any) error {
 	}
 
 	*e = CommentType(str)
-	if !e.IsValid() {
-		return fmt.Errorf("%s is not a valid CommentType", str)
-	}
 	return nil
 }
 
@@ -22870,9 +22690,6 @@ func (e *ConnectionMode) UnmarshalGQL(v any) error {
 	}
 
 	*e = ConnectionMode(str)
-	if !e.IsValid() {
-		return fmt.Errorf("%s is not a valid ConnectionMode", str)
-	}
 	return nil
 }
 
@@ -22927,9 +22744,6 @@ func (e *ConnectionOriginEnum) UnmarshalGQL(v any) error {
 	}
 
 	*e = ConnectionOriginEnum(str)
-	if !e.IsValid() {
-		return fmt.Errorf("%s is not a valid ConnectionOriginEnum", str)
-	}
 	return nil
 }
 
@@ -22991,9 +22805,6 @@ func (e *ConnectionOriginsEnum) UnmarshalGQL(v any) error {
 	}
 
 	*e = ConnectionOriginsEnum(str)
-	if !e.IsValid() {
-		return fmt.Errorf("%s is not a valid ConnectionOriginsEnum", str)
-	}
 	return nil
 }
 
@@ -23048,9 +22859,6 @@ func (e *ConnectionTypeEnum) UnmarshalGQL(v any) error {
 	}
 
 	*e = ConnectionTypeEnum(str)
-	if !e.IsValid() {
-		return fmt.Errorf("%s is not a valid ConnectionTypeEnum", str)
-	}
 	return nil
 }
 
@@ -23105,9 +22913,6 @@ func (e *ConnectivityStatus) UnmarshalGQL(v any) error {
 	}
 
 	*e = ConnectivityStatus(str)
-	if !e.IsValid() {
-		return fmt.Errorf("%s is not a valid ConnectivityStatus", str)
-	}
 	return nil
 }
 
@@ -23160,9 +22965,6 @@ func (e *ContainerFileType) UnmarshalGQL(v any) error {
 	}
 
 	*e = ContainerFileType(str)
-	if !e.IsValid() {
-		return fmt.Errorf("%s is not a valid ContainerFileType", str)
-	}
 	return nil
 }
 
@@ -23215,9 +23017,6 @@ func (e *ContainerSyncDataTimeUnit) UnmarshalGQL(v any) error {
 	}
 
 	*e = ContainerSyncDataTimeUnit(str)
-	if !e.IsValid() {
-		return fmt.Errorf("%s is not a valid ContainerSyncDataTimeUnit", str)
-	}
 	return nil
 }
 
@@ -23270,9 +23069,6 @@ func (e *ContainerType) UnmarshalGQL(v any) error {
 	}
 
 	*e = ContainerType(str)
-	if !e.IsValid() {
-		return fmt.Errorf("%s is not a valid ContainerType", str)
-	}
 	return nil
 }
 
@@ -23341,9 +23137,6 @@ func (e *DataSourceEnum) UnmarshalGQL(v any) error {
 	}
 
 	*e = DataSourceEnum(str)
-	if !e.IsValid() {
-		return fmt.Errorf("%s is not a valid DataSourceEnum", str)
-	}
 	return nil
 }
 
@@ -23406,9 +23199,6 @@ func (e *DayOfWeek) UnmarshalGQL(v any) error {
 	}
 
 	*e = DayOfWeek(str)
-	if !e.IsValid() {
-		return fmt.Errorf("%s is not a valid DayOfWeek", str)
-	}
 	return nil
 }
 
@@ -23469,9 +23259,6 @@ func (e *DefenderIncidentStatus) UnmarshalGQL(v any) error {
 	}
 
 	*e = DefenderIncidentStatus(str)
-	if !e.IsValid() {
-		return fmt.Errorf("%s is not a valid DefenderIncidentStatus", str)
-	}
 	return nil
 }
 
@@ -23544,9 +23331,6 @@ func (e *DegradedStatusReason) UnmarshalGQL(v any) error {
 	}
 
 	*e = DegradedStatusReason(str)
-	if !e.IsValid() {
-		return fmt.Errorf("%s is not a valid DegradedStatusReason", str)
-	}
 	return nil
 }
 
@@ -23602,9 +23386,6 @@ func (e *DeleteUserStatus) UnmarshalGQL(v any) error {
 	}
 
 	*e = DeleteUserStatus(str)
-	if !e.IsValid() {
-		return fmt.Errorf("%s is not a valid DeleteUserStatus", str)
-	}
 	return nil
 }
 
@@ -23657,9 +23438,6 @@ func (e *DestinationType) UnmarshalGQL(v any) error {
 	}
 
 	*e = DestinationType(str)
-	if !e.IsValid() {
-		return fmt.Errorf("%s is not a valid DestinationType", str)
-	}
 	return nil
 }
 
@@ -23740,9 +23518,6 @@ func (e *DetectionSourceEnum) UnmarshalGQL(v any) error {
 	}
 
 	*e = DetectionSourceEnum(str)
-	if !e.IsValid() {
-		return fmt.Errorf("%s is not a valid DetectionSourceEnum", str)
-	}
 	return nil
 }
 
@@ -23797,9 +23572,6 @@ func (e *DetectionStatusEnum) UnmarshalGQL(v any) error {
 	}
 
 	*e = DetectionStatusEnum(str)
-	if !e.IsValid() {
-		return fmt.Errorf("%s is not a valid DetectionStatusEnum", str)
-	}
 	return nil
 }
 
@@ -23856,9 +23628,6 @@ func (e *DeviceAvStatusEnum) UnmarshalGQL(v any) error {
 	}
 
 	*e = DeviceAvStatusEnum(str)
-	if !e.IsValid() {
-		return fmt.Errorf("%s is not a valid DeviceAvStatusEnum", str)
-	}
 	return nil
 }
 
@@ -23916,9 +23685,6 @@ func (e *DeviceConfidenceLevel) UnmarshalGQL(v any) error {
 	}
 
 	*e = DeviceConfidenceLevel(str)
-	if !e.IsValid() {
-		return fmt.Errorf("%s is not a valid DeviceConfidenceLevel", str)
-	}
 	return nil
 }
 
@@ -23971,9 +23737,6 @@ func (e *DeviceConfigHaRoleEnum) UnmarshalGQL(v any) error {
 	}
 
 	*e = DeviceConfigHaRoleEnum(str)
-	if !e.IsValid() {
-		return fmt.Errorf("%s is not a valid DeviceConfigHaRoleEnum", str)
-	}
 	return nil
 }
 
@@ -24026,9 +23789,6 @@ func (e *DeviceHaRoleStateEnum) UnmarshalGQL(v any) error {
 	}
 
 	*e = DeviceHaRoleStateEnum(str)
-	if !e.IsValid() {
-		return fmt.Errorf("%s is not a valid DeviceHaRoleStateEnum", str)
-	}
 	return nil
 }
 
@@ -24087,9 +23847,6 @@ func (e *DeviceHealthStatusEnum) UnmarshalGQL(v any) error {
 	}
 
 	*e = DeviceHealthStatusEnum(str)
-	if !e.IsValid() {
-		return fmt.Errorf("%s is not a valid DeviceHealthStatusEnum", str)
-	}
 	return nil
 }
 
@@ -24146,9 +23903,6 @@ func (e *DhcpType) UnmarshalGQL(v any) error {
 	}
 
 	*e = DhcpType(str)
-	if !e.IsValid() {
-		return fmt.Errorf("%s is not a valid DhcpType", str)
-	}
 	return nil
 }
 
@@ -24201,9 +23955,6 @@ func (e *DirectionEnum) UnmarshalGQL(v any) error {
 	}
 
 	*e = DirectionEnum(str)
-	if !e.IsValid() {
-		return fmt.Errorf("%s is not a valid DirectionEnum", str)
-	}
 	return nil
 }
 
@@ -24256,9 +24007,6 @@ func (e *DirectionInput) UnmarshalGQL(v any) error {
 	}
 
 	*e = DirectionInput(str)
-	if !e.IsValid() {
-		return fmt.Errorf("%s is not a valid DirectionInput", str)
-	}
 	return nil
 }
 
@@ -24314,9 +24062,6 @@ func (e *DpaVersion) UnmarshalGQL(v any) error {
 	}
 
 	*e = DpaVersion(str)
-	if !e.IsValid() {
-		return fmt.Errorf("%s is not a valid DpaVersion", str)
-	}
 	return nil
 }
 
@@ -24383,9 +24128,6 @@ func (e *ElasticOperator) UnmarshalGQL(v any) error {
 	}
 
 	*e = ElasticOperator(str)
-	if !e.IsValid() {
-		return fmt.Errorf("%s is not a valid ElasticOperator", str)
-	}
 	return nil
 }
 
@@ -24461,9 +24203,6 @@ func (e *EmployeeRange) UnmarshalGQL(v any) error {
 	}
 
 	*e = EmployeeRange(str)
-	if !e.IsValid() {
-		return fmt.Errorf("%s is not a valid EmployeeRange", str)
-	}
 	return nil
 }
 
@@ -24580,9 +24319,6 @@ func (e *EntityType) UnmarshalGQL(v any) error {
 	}
 
 	*e = EntityType(str)
-	if !e.IsValid() {
-		return fmt.Errorf("%s is not a valid EntityType", str)
-	}
 	return nil
 }
 
@@ -24637,9 +24373,6 @@ func (e *EventFeedFilterFieldName) UnmarshalGQL(v any) error {
 	}
 
 	*e = EventFeedFilterFieldName(str)
-	if !e.IsValid() {
-		return fmt.Errorf("%s is not a valid EventFeedFilterFieldName", str)
-	}
 	return nil
 }
 
@@ -24701,9 +24434,6 @@ func (e *EventFeedFilterOperator) UnmarshalGQL(v any) error {
 	}
 
 	*e = EventFeedFilterOperator(str)
-	if !e.IsValid() {
-		return fmt.Errorf("%s is not a valid EventFeedFilterOperator", str)
-	}
 	return nil
 }
 
@@ -25956,9 +25686,6 @@ func (e *EventFieldName) UnmarshalGQL(v any) error {
 	}
 
 	*e = EventFieldName(str)
-	if !e.IsValid() {
-		return fmt.Errorf("%s is not a valid EventFieldName", str)
-	}
 	return nil
 }
 
@@ -26020,9 +25747,6 @@ func (e *ExportJobStatus) UnmarshalGQL(v any) error {
 	}
 
 	*e = ExportJobStatus(str)
-	if !e.IsValid() {
-		return fmt.Errorf("%s is not a valid ExportJobStatus", str)
-	}
 	return nil
 }
 
@@ -26098,9 +25822,6 @@ func (e *ExternalAccessRequestType) UnmarshalGQL(v any) error {
 	}
 
 	*e = ExternalAccessRequestType(str)
-	if !e.IsValid() {
-		return fmt.Errorf("%s is not a valid ExternalAccessRequestType", str)
-	}
 	return nil
 }
 
@@ -26173,9 +25894,6 @@ func (e *FilterOperator) UnmarshalGQL(v any) error {
 	}
 
 	*e = FilterOperator(str)
-	if !e.IsValid() {
-		return fmt.Errorf("%s is not a valid FilterOperator", str)
-	}
 	return nil
 }
 
@@ -26250,9 +25968,6 @@ func (e *GenericIncidentEvidenceType) UnmarshalGQL(v any) error {
 	}
 
 	*e = GenericIncidentEvidenceType(str)
-	if !e.IsValid() {
-		return fmt.Errorf("%s is not a valid GenericIncidentEvidenceType", str)
-	}
 	return nil
 }
 
@@ -26303,9 +26018,6 @@ func (e *GraphType) UnmarshalGQL(v any) error {
 	}
 
 	*e = GraphType(str)
-	if !e.IsValid() {
-		return fmt.Errorf("%s is not a valid GraphType", str)
-	}
 	return nil
 }
 
@@ -26371,9 +26083,6 @@ func (e *GroupMemberRefType) UnmarshalGQL(v any) error {
 	}
 
 	*e = GroupMemberRefType(str)
-	if !e.IsValid() {
-		return fmt.Errorf("%s is not a valid GroupMemberRefType", str)
-	}
 	return nil
 }
 
@@ -26426,9 +26135,6 @@ func (e *HaReadiness) UnmarshalGQL(v any) error {
 	}
 
 	*e = HaReadiness(str)
-	if !e.IsValid() {
-		return fmt.Errorf("%s is not a valid HaReadiness", str)
-	}
 	return nil
 }
 
@@ -26481,9 +26187,6 @@ func (e *HaRole) UnmarshalGQL(v any) error {
 	}
 
 	*e = HaRole(str)
-	if !e.IsValid() {
-		return fmt.Errorf("%s is not a valid HaRole", str)
-	}
 	return nil
 }
 
@@ -26536,9 +26239,6 @@ func (e *HaSubStatus) UnmarshalGQL(v any) error {
 	}
 
 	*e = HaSubStatus(str)
-	if !e.IsValid() {
-		return fmt.Errorf("%s is not a valid HaSubStatus", str)
-	}
 	return nil
 }
 
@@ -26599,9 +26299,6 @@ func (e *IPSecV2InterfaceID) UnmarshalGQL(v any) error {
 	}
 
 	*e = IPSecV2InterfaceID(str)
-	if !e.IsValid() {
-		return fmt.Errorf("%s is not a valid IPSecV2InterfaceId", str)
-	}
 	return nil
 }
 
@@ -26656,9 +26353,6 @@ func (e *IPSecV2TunnelRole) UnmarshalGQL(v any) error {
 	}
 
 	*e = IPSecV2TunnelRole(str)
-	if !e.IsValid() {
-		return fmt.Errorf("%s is not a valid IPSecV2TunnelRole", str)
-	}
 	return nil
 }
 
@@ -26715,9 +26409,6 @@ func (e *IdentificationType) UnmarshalGQL(v any) error {
 	}
 
 	*e = IdentificationType(str)
-	if !e.IsValid() {
-		return fmt.Errorf("%s is not a valid IdentificationType", str)
-	}
 	return nil
 }
 
@@ -26774,9 +26465,6 @@ func (e *IlmmOnboardingStatus) UnmarshalGQL(v any) error {
 	}
 
 	*e = IlmmOnboardingStatus(str)
-	if !e.IsValid() {
-		return fmt.Errorf("%s is not a valid IlmmOnboardingStatus", str)
-	}
 	return nil
 }
 
@@ -26838,9 +26526,6 @@ func (e *ImportType) UnmarshalGQL(v any) error {
 	}
 
 	*e = ImportType(str)
-	if !e.IsValid() {
-		return fmt.Errorf("%s is not a valid ImportType", str)
-	}
 	return nil
 }
 
@@ -26895,9 +26580,6 @@ func (e *IncidentCategory) UnmarshalGQL(v any) error {
 	}
 
 	*e = IncidentCategory(str)
-	if !e.IsValid() {
-		return fmt.Errorf("%s is not a valid IncidentCategory", str)
-	}
 	return nil
 }
 
@@ -26965,9 +26647,6 @@ func (e *InternetFirewallActionEnum) UnmarshalGQL(v any) error {
 	}
 
 	*e = InternetFirewallActionEnum(str)
-	if !e.IsValid() {
-		return fmt.Errorf("%s is not a valid InternetFirewallActionEnum", str)
-	}
 	return nil
 }
 
@@ -27027,9 +26706,6 @@ func (e *IPProtocol) UnmarshalGQL(v any) error {
 	}
 
 	*e = IPProtocol(str)
-	if !e.IsValid() {
-		return fmt.Errorf("%s is not a valid IpProtocol", str)
-	}
 	return nil
 }
 
@@ -27092,9 +26768,6 @@ func (e *IPSecCipher) UnmarshalGQL(v any) error {
 	}
 
 	*e = IPSecCipher(str)
-	if !e.IsValid() {
-		return fmt.Errorf("%s is not a valid IpSecCipher", str)
-	}
 	return nil
 }
 
@@ -27163,9 +26836,6 @@ func (e *IPSecDHGroup) UnmarshalGQL(v any) error {
 	}
 
 	*e = IPSecDHGroup(str)
-	if !e.IsValid() {
-		return fmt.Errorf("%s is not a valid IpSecDHGroup", str)
-	}
 	return nil
 }
 
@@ -27228,9 +26898,6 @@ func (e *IPSecHash) UnmarshalGQL(v any) error {
 	}
 
 	*e = IPSecHash(str)
-	if !e.IsValid() {
-		return fmt.Errorf("%s is not a valid IpSecHash", str)
-	}
 	return nil
 }
 
@@ -27287,9 +26954,6 @@ func (e *LeaseTimeMeasureUnit) UnmarshalGQL(v any) error {
 	}
 
 	*e = LeaseTimeMeasureUnit(str)
-	if !e.IsValid() {
-		return fmt.Errorf("%s is not a valid LeaseTimeMeasureUnit", str)
-	}
 	return nil
 }
 
@@ -27343,9 +27007,6 @@ func (e *LicensePlan) UnmarshalGQL(v any) error {
 	}
 
 	*e = LicensePlan(str)
-	if !e.IsValid() {
-		return fmt.Errorf("%s is not a valid LicensePlan", str)
-	}
 	return nil
 }
 
@@ -27702,9 +27363,6 @@ func (e *LicenseSku) UnmarshalGQL(v any) error {
 	}
 
 	*e = LicenseSku(str)
-	if !e.IsValid() {
-		return fmt.Errorf("%s is not a valid LicenseSku", str)
-	}
 	return nil
 }
 
@@ -27772,9 +27430,6 @@ func (e *LicenseStatus) UnmarshalGQL(v any) error {
 	}
 
 	*e = LicenseStatus(str)
-	if !e.IsValid() {
-		return fmt.Errorf("%s is not a valid LicenseStatus", str)
-	}
 	return nil
 }
 
@@ -27829,9 +27484,6 @@ func (e *LinkConfigPrecedenceEnum) UnmarshalGQL(v any) error {
 	}
 
 	*e = LinkConfigPrecedenceEnum(str)
-	if !e.IsValid() {
-		return fmt.Errorf("%s is not a valid LinkConfigPrecedenceEnum", str)
-	}
 	return nil
 }
 
@@ -27888,9 +27540,6 @@ func (e *LinkQualityIssueTypeEnum) UnmarshalGQL(v any) error {
 	}
 
 	*e = LinkQualityIssueTypeEnum(str)
-	if !e.IsValid() {
-		return fmt.Errorf("%s is not a valid LinkQualityIssueTypeEnum", str)
-	}
 	return nil
 }
 
@@ -27943,9 +27592,6 @@ func (e *LinkStatusEnum) UnmarshalGQL(v any) error {
 	}
 
 	*e = LinkStatusEnum(str)
-	if !e.IsValid() {
-		return fmt.Errorf("%s is not a valid LinkStatusEnum", str)
-	}
 	return nil
 }
 
@@ -28004,9 +27650,6 @@ func (e *LocationType) UnmarshalGQL(v any) error {
 	}
 
 	*e = LocationType(str)
-	if !e.IsValid() {
-		return fmt.Errorf("%s is not a valid LocationType", str)
-	}
 	return nil
 }
 
@@ -28093,9 +27736,6 @@ func (e *LookupFilterType) UnmarshalGQL(v any) error {
 	}
 
 	*e = LookupFilterType(str)
-	if !e.IsValid() {
-		return fmt.Errorf("%s is not a valid LookupFilterType", str)
-	}
 	return nil
 }
 
@@ -28146,9 +27786,6 @@ func (e *MailingListAddressesType) UnmarshalGQL(v any) error {
 	}
 
 	*e = MailingListAddressesType(str)
-	if !e.IsValid() {
-		return fmt.Errorf("%s is not a valid MailingListAddressesType", str)
-	}
 	return nil
 }
 
@@ -28205,9 +27842,6 @@ func (e *MeasuresUnitType) UnmarshalGQL(v any) error {
 	}
 
 	*e = MeasuresUnitType(str)
-	if !e.IsValid() {
-		return fmt.Errorf("%s is not a valid MeasuresUnitType", str)
-	}
 	return nil
 }
 
@@ -28258,9 +27892,6 @@ func (e *MetadataType) UnmarshalGQL(v any) error {
 	}
 
 	*e = MetadataType(str)
-	if !e.IsValid() {
-		return fmt.Errorf("%s is not a valid MetadataType", str)
-	}
 	return nil
 }
 
@@ -28315,9 +27946,6 @@ func (e *MsAlertStatus) UnmarshalGQL(v any) error {
 	}
 
 	*e = MsAlertStatus(str)
-	if !e.IsValid() {
-		return fmt.Errorf("%s is not a valid MsAlertStatus", str)
-	}
 	return nil
 }
 
@@ -28374,9 +28002,6 @@ func (e *MsResourceVerdictEnum) UnmarshalGQL(v any) error {
 	}
 
 	*e = MsResourceVerdictEnum(str)
-	if !e.IsValid() {
-		return fmt.Errorf("%s is not a valid MsResourceVerdictEnum", str)
-	}
 	return nil
 }
 
@@ -28435,9 +28060,6 @@ func (e *NetworkConfigDhcpOptionType) UnmarshalGQL(v any) error {
 	}
 
 	*e = NetworkConfigDhcpOptionType(str)
-	if !e.IsValid() {
-		return fmt.Errorf("%s is not a valid NetworkConfigDhcpOptionType", str)
-	}
 	return nil
 }
 
@@ -28500,9 +28122,6 @@ func (e *NetworkEventSourceEnum) UnmarshalGQL(v any) error {
 	}
 
 	*e = NetworkEventSourceEnum(str)
-	if !e.IsValid() {
-		return fmt.Errorf("%s is not a valid NetworkEventSourceEnum", str)
-	}
 	return nil
 }
 
@@ -28557,9 +28176,6 @@ func (e *NetworkXDREventTypeEnum) UnmarshalGQL(v any) error {
 	}
 
 	*e = NetworkXDREventTypeEnum(str)
-	if !e.IsValid() {
-		return fmt.Errorf("%s is not a valid NetworkXDREventTypeEnum", str)
-	}
 	return nil
 }
 
@@ -28612,9 +28228,6 @@ func (e *ObjectRefBy) UnmarshalGQL(v any) error {
 	}
 
 	*e = ObjectRefBy(str)
-	if !e.IsValid() {
-		return fmt.Errorf("%s is not a valid ObjectRefBy", str)
-	}
 	return nil
 }
 
@@ -28669,9 +28282,6 @@ func (e *OnboardingStatusEnum) UnmarshalGQL(v any) error {
 	}
 
 	*e = OnboardingStatusEnum(str)
-	if !e.IsValid() {
-		return fmt.Errorf("%s is not a valid OnboardingStatusEnum", str)
-	}
 	return nil
 }
 
@@ -28734,9 +28344,6 @@ func (e *OperatingSystem) UnmarshalGQL(v any) error {
 	}
 
 	*e = OperatingSystem(str)
-	if !e.IsValid() {
-		return fmt.Errorf("%s is not a valid OperatingSystem", str)
-	}
 	return nil
 }
 
@@ -28791,9 +28398,6 @@ func (e *OrderType) UnmarshalGQL(v any) error {
 	}
 
 	*e = OrderType(str)
-	if !e.IsValid() {
-		return fmt.Errorf("%s is not a valid OrderType", str)
-	}
 	return nil
 }
 
@@ -28876,9 +28480,6 @@ func (e *OriginType) UnmarshalGQL(v any) error {
 	}
 
 	*e = OriginType(str)
-	if !e.IsValid() {
-		return fmt.Errorf("%s is not a valid OriginType", str)
-	}
 	return nil
 }
 
@@ -28931,9 +28532,6 @@ func (e *PartnerAccessApprovalResponse) UnmarshalGQL(v any) error {
 	}
 
 	*e = PartnerAccessApprovalResponse(str)
-	if !e.IsValid() {
-		return fmt.Errorf("%s is not a valid PartnerAccessApprovalResponse", str)
-	}
 	return nil
 }
 
@@ -29012,9 +28610,6 @@ func (e *PeriodType) UnmarshalGQL(v any) error {
 	}
 
 	*e = PeriodType(str)
-	if !e.IsValid() {
-		return fmt.Errorf("%s is not a valid PeriodType", str)
-	}
 	return nil
 }
 
@@ -29072,9 +28667,6 @@ func (e *PolicyActiveOnEnum) UnmarshalGQL(v any) error {
 	}
 
 	*e = PolicyActiveOnEnum(str)
-	if !e.IsValid() {
-		return fmt.Errorf("%s is not a valid PolicyActiveOnEnum", str)
-	}
 	return nil
 }
 
@@ -29146,9 +28738,6 @@ func (e *PolicyElementPropertiesEnum) UnmarshalGQL(v any) error {
 	}
 
 	*e = PolicyElementPropertiesEnum(str)
-	if !e.IsValid() {
-		return fmt.Errorf("%s is not a valid PolicyElementPropertiesEnum", str)
-	}
 	return nil
 }
 
@@ -29201,9 +28790,6 @@ func (e *PolicyLevelEnum) UnmarshalGQL(v any) error {
 	}
 
 	*e = PolicyLevelEnum(str)
-	if !e.IsValid() {
-		return fmt.Errorf("%s is not a valid PolicyLevelEnum", str)
-	}
 	return nil
 }
 
@@ -29257,9 +28843,6 @@ func (e *PolicyMutationStatus) UnmarshalGQL(v any) error {
 	}
 
 	*e = PolicyMutationStatus(str)
-	if !e.IsValid() {
-		return fmt.Errorf("%s is not a valid PolicyMutationStatus", str)
-	}
 	return nil
 }
 
@@ -29313,9 +28896,6 @@ func (e *PolicyRevisionType) UnmarshalGQL(v any) error {
 	}
 
 	*e = PolicyRevisionType(str)
-	if !e.IsValid() {
-		return fmt.Errorf("%s is not a valid PolicyRevisionType", str)
-	}
 	return nil
 }
 
@@ -29383,9 +28963,6 @@ func (e *PolicyRulePositionEnum) UnmarshalGQL(v any) error {
 	}
 
 	*e = PolicyRulePositionEnum(str)
-	if !e.IsValid() {
-		return fmt.Errorf("%s is not a valid PolicyRulePositionEnum", str)
-	}
 	return nil
 }
 
@@ -29443,9 +29020,6 @@ func (e *PolicyRuleTrackingFrequencyEnum) UnmarshalGQL(v any) error {
 	}
 
 	*e = PolicyRuleTrackingFrequencyEnum(str)
-	if !e.IsValid() {
-		return fmt.Errorf("%s is not a valid PolicyRuleTrackingFrequencyEnum", str)
-	}
 	return nil
 }
 
@@ -29503,9 +29077,6 @@ func (e *PolicyRuleTypeEnum) UnmarshalGQL(v any) error {
 	}
 
 	*e = PolicyRuleTypeEnum(str)
-	if !e.IsValid() {
-		return fmt.Errorf("%s is not a valid PolicyRuleTypeEnum", str)
-	}
 	return nil
 }
 
@@ -29560,9 +29131,6 @@ func (e *PolicySectionPositionEnum) UnmarshalGQL(v any) error {
 	}
 
 	*e = PolicySectionPositionEnum(str)
-	if !e.IsValid() {
-		return fmt.Errorf("%s is not a valid PolicySectionPositionEnum", str)
-	}
 	return nil
 }
 
@@ -29624,9 +29192,6 @@ func (e *PolicySubRulePositionEnum) UnmarshalGQL(v any) error {
 	}
 
 	*e = PolicySubRulePositionEnum(str)
-	if !e.IsValid() {
-		return fmt.Errorf("%s is not a valid PolicySubRulePositionEnum", str)
-	}
 	return nil
 }
 
@@ -29680,9 +29245,6 @@ func (e *PolicyToggleState) UnmarshalGQL(v any) error {
 	}
 
 	*e = PolicyToggleState(str)
-	if !e.IsValid() {
-		return fmt.Errorf("%s is not a valid PolicyToggleState", str)
-	}
 	return nil
 }
 
@@ -29735,9 +29297,6 @@ func (e *PopLocationAllocatedIPType) UnmarshalGQL(v any) error {
 	}
 
 	*e = PopLocationAllocatedIPType(str)
-	if !e.IsValid() {
-		return fmt.Errorf("%s is not a valid PopLocationAllocatedIpType", str)
-	}
 	return nil
 }
 
@@ -29810,9 +29369,6 @@ func (e *PopLocationByoipSubnetState) UnmarshalGQL(v any) error {
 	}
 
 	*e = PopLocationByoipSubnetState(str)
-	if !e.IsValid() {
-		return fmt.Errorf("%s is not a valid PopLocationByoipSubnetState", str)
-	}
 	return nil
 }
 
@@ -30406,9 +29962,6 @@ func (e *PrivateAccessPolicyActionEnum) UnmarshalGQL(v any) error {
 	}
 
 	*e = PrivateAccessPolicyActionEnum(str)
-	if !e.IsValid() {
-		return fmt.Errorf("%s is not a valid PrivateAccessPolicyActionEnum", str)
-	}
 	return nil
 }
 
@@ -30478,9 +30031,6 @@ func (e *PrivateAccessPolicyOriginEnum) UnmarshalGQL(v any) error {
 	}
 
 	*e = PrivateAccessPolicyOriginEnum(str)
-	if !e.IsValid() {
-		return fmt.Errorf("%s is not a valid PrivateAccessPolicyOriginEnum", str)
-	}
 	return nil
 }
 
@@ -30539,9 +30089,6 @@ func (e *PrivateAppConnectivityStatus) UnmarshalGQL(v any) error {
 	}
 
 	*e = PrivateAppConnectivityStatus(str)
-	if !e.IsValid() {
-		return fmt.Errorf("%s is not a valid PrivateAppConnectivityStatus", str)
-	}
 	return nil
 }
 
@@ -30622,9 +30169,6 @@ func (e *ProtoType) UnmarshalGQL(v any) error {
 	}
 
 	*e = ProtoType(str)
-	if !e.IsValid() {
-		return fmt.Errorf("%s is not a valid ProtoType", str)
-	}
 	return nil
 }
 
@@ -30679,9 +30223,6 @@ func (e *RBACAction) UnmarshalGQL(v any) error {
 	}
 
 	*e = RBACAction(str)
-	if !e.IsValid() {
-		return fmt.Errorf("%s is not a valid RBACAction", str)
-	}
 	return nil
 }
 
@@ -30737,9 +30278,6 @@ func (e *Regionality) UnmarshalGQL(v any) error {
 	}
 
 	*e = Regionality(str)
-	if !e.IsValid() {
-		return fmt.Errorf("%s is not a valid Regionality", str)
-	}
 	return nil
 }
 
@@ -30828,9 +30366,6 @@ func (e *RemediationStatusEnum) UnmarshalGQL(v any) error {
 	}
 
 	*e = RemediationStatusEnum(str)
-	if !e.IsValid() {
-		return fmt.Errorf("%s is not a valid RemediationStatusEnum", str)
-	}
 	return nil
 }
 
@@ -30883,9 +30418,6 @@ func (e *RemotePortFwdRestrictionType) UnmarshalGQL(v any) error {
 	}
 
 	*e = RemotePortFwdRestrictionType(str)
-	if !e.IsValid() {
-		return fmt.Errorf("%s is not a valid RemotePortFwdRestrictionType", str)
-	}
 	return nil
 }
 
@@ -30962,9 +30494,6 @@ func (e *ResourceRoleEnum) UnmarshalGQL(v any) error {
 	}
 
 	*e = ResourceRoleEnum(str)
-	if !e.IsValid() {
-		return fmt.Errorf("%s is not a valid ResourceRoleEnum", str)
-	}
 	return nil
 }
 
@@ -31020,9 +30549,6 @@ func (e *RevokeUserSessionStatus) UnmarshalGQL(v any) error {
 	}
 
 	*e = RevokeUserSessionStatus(str)
-	if !e.IsValid() {
-		return fmt.Errorf("%s is not a valid RevokeUserSessionStatus", str)
-	}
 	return nil
 }
 
@@ -31085,9 +30611,6 @@ func (e *RiskLevelEnum) UnmarshalGQL(v any) error {
 	}
 
 	*e = RiskLevelEnum(str)
-	if !e.IsValid() {
-		return fmt.Errorf("%s is not a valid RiskLevelEnum", str)
-	}
 	return nil
 }
 
@@ -31150,9 +30673,6 @@ func (e *RiskScore) UnmarshalGQL(v any) error {
 	}
 
 	*e = RiskScore(str)
-	if !e.IsValid() {
-		return fmt.Errorf("%s is not a valid RiskScore", str)
-	}
 	return nil
 }
 
@@ -31211,9 +30731,6 @@ func (e *RiskScoreCategory) UnmarshalGQL(v any) error {
 	}
 
 	*e = RiskScoreCategory(str)
-	if !e.IsValid() {
-		return fmt.Errorf("%s is not a valid RiskScoreCategory", str)
-	}
 	return nil
 }
 
@@ -31266,9 +30783,6 @@ func (e *RiskScoreOperator) UnmarshalGQL(v any) error {
 	}
 
 	*e = RiskScoreOperator(str)
-	if !e.IsValid() {
-		return fmt.Errorf("%s is not a valid RiskScoreOperator", str)
-	}
 	return nil
 }
 
@@ -31336,9 +30850,6 @@ func (e *SandboxFailureReason) UnmarshalGQL(v any) error {
 	}
 
 	*e = SandboxFailureReason(str)
-	if !e.IsValid() {
-		return fmt.Errorf("%s is not a valid SandboxFailureReason", str)
-	}
 	return nil
 }
 
@@ -31406,9 +30917,6 @@ func (e *SandboxStatus) UnmarshalGQL(v any) error {
 	}
 
 	*e = SandboxStatus(str)
-	if !e.IsValid() {
-		return fmt.Errorf("%s is not a valid SandboxStatus", str)
-	}
 	return nil
 }
 
@@ -31467,9 +30975,6 @@ func (e *SandboxVerdict) UnmarshalGQL(v any) error {
 	}
 
 	*e = SandboxVerdict(str)
-	if !e.IsValid() {
-		return fmt.Errorf("%s is not a valid SandboxVerdict", str)
-	}
 	return nil
 }
 
@@ -31532,9 +31037,6 @@ func (e *ScanResult) UnmarshalGQL(v any) error {
 	}
 
 	*e = ScanResult(str)
-	if !e.IsValid() {
-		return fmt.Errorf("%s is not a valid ScanResult", str)
-	}
 	return nil
 }
 
@@ -31589,9 +31091,6 @@ func (e *SeverityEnum) UnmarshalGQL(v any) error {
 	}
 
 	*e = SeverityEnum(str)
-	if !e.IsValid() {
-		return fmt.Errorf("%s is not a valid SeverityEnum", str)
-	}
 	return nil
 }
 
@@ -31648,9 +31147,6 @@ func (e *ShippingStatus) UnmarshalGQL(v any) error {
 	}
 
 	*e = ShippingStatus(str)
-	if !e.IsValid() {
-		return fmt.Errorf("%s is not a valid ShippingStatus", str)
-	}
 	return nil
 }
 
@@ -31717,9 +31213,6 @@ func (e *SimpleServiceType) UnmarshalGQL(v any) error {
 	}
 
 	*e = SimpleServiceType(str)
-	if !e.IsValid() {
-		return fmt.Errorf("%s is not a valid SimpleServiceType", str)
-	}
 	return nil
 }
 
@@ -31786,9 +31279,6 @@ func (e *SiteConnectionTypeEnum) UnmarshalGQL(v any) error {
 	}
 
 	*e = SiteConnectionTypeEnum(str)
-	if !e.IsValid() {
-		return fmt.Errorf("%s is not a valid SiteConnectionTypeEnum", str)
-	}
 	return nil
 }
 
@@ -31850,9 +31340,6 @@ func (e *SiteKnownHostIPAllocationType) UnmarshalGQL(v any) error {
 	}
 
 	*e = SiteKnownHostIPAllocationType(str)
-	if !e.IsValid() {
-		return fmt.Errorf("%s is not a valid SiteKnownHostIpAllocationType", str)
-	}
 	return nil
 }
 
@@ -31938,9 +31425,6 @@ func (e *SiteLicenseGroup) UnmarshalGQL(v any) error {
 	}
 
 	*e = SiteLicenseGroup(str)
-	if !e.IsValid() {
-		return fmt.Errorf("%s is not a valid SiteLicenseGroup", str)
-	}
 	return nil
 }
 
@@ -31993,9 +31477,6 @@ func (e *SiteLicenseType) UnmarshalGQL(v any) error {
 	}
 
 	*e = SiteLicenseType(str)
-	if !e.IsValid() {
-		return fmt.Errorf("%s is not a valid SiteLicenseType", str)
-	}
 	return nil
 }
 
@@ -32052,9 +31533,6 @@ func (e *SiteType) UnmarshalGQL(v any) error {
 	}
 
 	*e = SiteType(str)
-	if !e.IsValid() {
-		return fmt.Errorf("%s is not a valid SiteType", str)
-	}
 	return nil
 }
 
@@ -32113,9 +31591,6 @@ func (e *SiteWebProxyAction) UnmarshalGQL(v any) error {
 	}
 
 	*e = SiteWebProxyAction(str)
-	if !e.IsValid() {
-		return fmt.Errorf("%s is not a valid SiteWebProxyAction", str)
-	}
 	return nil
 }
 
@@ -32171,9 +31646,6 @@ func (e *SiteWebProxyAuthMethod) UnmarshalGQL(v any) error {
 	}
 
 	*e = SiteWebProxyAuthMethod(str)
-	if !e.IsValid() {
-		return fmt.Errorf("%s is not a valid SiteWebProxyAuthMethod", str)
-	}
 	return nil
 }
 
@@ -32226,9 +31698,6 @@ func (e *SocketAddOnExpansionSlotNumber) UnmarshalGQL(v any) error {
 	}
 
 	*e = SocketAddOnExpansionSlotNumber(str)
-	if !e.IsValid() {
-		return fmt.Errorf("%s is not a valid SocketAddOnExpansionSlotNumber", str)
-	}
 	return nil
 }
 
@@ -32285,9 +31754,6 @@ func (e *SocketAddOnType) UnmarshalGQL(v any) error {
 	}
 
 	*e = SocketAddOnType(str)
-	if !e.IsValid() {
-		return fmt.Errorf("%s is not a valid SocketAddOnType", str)
-	}
 	return nil
 }
 
@@ -32360,9 +31826,6 @@ func (e *SocketHardwareVersion) UnmarshalGQL(v any) error {
 	}
 
 	*e = SocketHardwareVersion(str)
-	if !e.IsValid() {
-		return fmt.Errorf("%s is not a valid SocketHardwareVersion", str)
-	}
 	return nil
 }
 
@@ -32433,9 +31896,6 @@ func (e *SocketInterfaceDestType) UnmarshalGQL(v any) error {
 	}
 
 	*e = SocketInterfaceDestType(str)
-	if !e.IsValid() {
-		return fmt.Errorf("%s is not a valid SocketInterfaceDestType", str)
-	}
 	return nil
 }
 
@@ -32525,9 +31985,6 @@ func (e *SocketInterfaceIDEnum) UnmarshalGQL(v any) error {
 	}
 
 	*e = SocketInterfaceIDEnum(str)
-	if !e.IsValid() {
-		return fmt.Errorf("%s is not a valid SocketInterfaceIDEnum", str)
-	}
 	return nil
 }
 
@@ -32582,9 +32039,6 @@ func (e *SocketInterfacePrecedenceEnum) UnmarshalGQL(v any) error {
 	}
 
 	*e = SocketInterfacePrecedenceEnum(str)
-	if !e.IsValid() {
-		return fmt.Errorf("%s is not a valid SocketInterfacePrecedenceEnum", str)
-	}
 	return nil
 }
 
@@ -32641,9 +32095,6 @@ func (e *SocketInterfaceRole) UnmarshalGQL(v any) error {
 	}
 
 	*e = SocketInterfaceRole(str)
-	if !e.IsValid() {
-		return fmt.Errorf("%s is not a valid SocketInterfaceRole", str)
-	}
 	return nil
 }
 
@@ -32706,9 +32157,6 @@ func (e *SocketInventoryItemStatus) UnmarshalGQL(v any) error {
 	}
 
 	*e = SocketInventoryItemStatus(str)
-	if !e.IsValid() {
-		return fmt.Errorf("%s is not a valid SocketInventoryItemStatus", str)
-	}
 	return nil
 }
 
@@ -32763,9 +32211,6 @@ func (e *SocketLanDirection) UnmarshalGQL(v any) error {
 	}
 
 	*e = SocketLanDirection(str)
-	if !e.IsValid() {
-		return fmt.Errorf("%s is not a valid SocketLanDirection", str)
-	}
 	return nil
 }
 
@@ -32818,9 +32263,6 @@ func (e *SocketLanFirewallAction) UnmarshalGQL(v any) error {
 	}
 
 	*e = SocketLanFirewallAction(str)
-	if !e.IsValid() {
-		return fmt.Errorf("%s is not a valid SocketLanFirewallAction", str)
-	}
 	return nil
 }
 
@@ -32875,9 +32317,6 @@ func (e *SocketLanFirewallDirection) UnmarshalGQL(v any) error {
 	}
 
 	*e = SocketLanFirewallDirection(str)
-	if !e.IsValid() {
-		return fmt.Errorf("%s is not a valid SocketLanFirewallDirection", str)
-	}
 	return nil
 }
 
@@ -32928,9 +32367,6 @@ func (e *SocketLanNatType) UnmarshalGQL(v any) error {
 	}
 
 	*e = SocketLanNatType(str)
-	if !e.IsValid() {
-		return fmt.Errorf("%s is not a valid SocketLanNatType", str)
-	}
 	return nil
 }
 
@@ -32985,9 +32421,6 @@ func (e *SocketLanTransportType) UnmarshalGQL(v any) error {
 	}
 
 	*e = SocketLanTransportType(str)
-	if !e.IsValid() {
-		return fmt.Errorf("%s is not a valid SocketLanTransportType", str)
-	}
 	return nil
 }
 
@@ -33054,9 +32487,6 @@ func (e *SocketModel) UnmarshalGQL(v any) error {
 	}
 
 	*e = SocketModel(str)
-	if !e.IsValid() {
-		return fmt.Errorf("%s is not a valid SocketModel", str)
-	}
 	return nil
 }
 
@@ -33121,9 +32551,6 @@ func (e *SocketModelTypeConfigurationValue) UnmarshalGQL(v any) error {
 	}
 
 	*e = SocketModelTypeConfigurationValue(str)
-	if !e.IsValid() {
-		return fmt.Errorf("%s is not a valid SocketModelTypeConfigurationValue", str)
-	}
 	return nil
 }
 
@@ -33179,9 +32606,6 @@ func (e *SocketOrderType) UnmarshalGQL(v any) error {
 	}
 
 	*e = SocketOrderType(str)
-	if !e.IsValid() {
-		return fmt.Errorf("%s is not a valid SocketOrderType", str)
-	}
 	return nil
 }
 
@@ -33258,9 +32682,6 @@ func (e *SocketPlatform) UnmarshalGQL(v any) error {
 	}
 
 	*e = SocketPlatform(str)
-	if !e.IsValid() {
-		return fmt.Errorf("%s is not a valid SocketPlatform", str)
-	}
 	return nil
 }
 
@@ -33378,9 +32799,6 @@ func (e *SocketPortMetricsFieldName) UnmarshalGQL(v any) error {
 	}
 
 	*e = SocketPortMetricsFieldName(str)
-	if !e.IsValid() {
-		return fmt.Errorf("%s is not a valid SocketPortMetricsFieldName", str)
-	}
 	return nil
 }
 
@@ -33445,9 +32863,6 @@ func (e *SocketRegistrationStatus) UnmarshalGQL(v any) error {
 	}
 
 	*e = SocketRegistrationStatus(str)
-	if !e.IsValid() {
-		return fmt.Errorf("%s is not a valid SocketRegistrationStatus", str)
-	}
 	return nil
 }
 
@@ -33516,9 +32931,6 @@ func (e *SocketUpgradeStatus) UnmarshalGQL(v any) error {
 	}
 
 	*e = SocketUpgradeStatus(str)
-	if !e.IsValid() {
-		return fmt.Errorf("%s is not a valid SocketUpgradeStatus", str)
-	}
 	return nil
 }
 
@@ -33573,9 +32985,6 @@ func (e *SocketWifiSupport) UnmarshalGQL(v any) error {
 	}
 
 	*e = SocketWifiSupport(str)
-	if !e.IsValid() {
-		return fmt.Errorf("%s is not a valid SocketWifiSupport", str)
-	}
 	return nil
 }
 
@@ -33628,9 +33037,6 @@ func (e *SortDirectionEnum) UnmarshalGQL(v any) error {
 	}
 
 	*e = SortDirectionEnum(str)
-	if !e.IsValid() {
-		return fmt.Errorf("%s is not a valid SortDirectionEnum", str)
-	}
 	return nil
 }
 
@@ -33683,9 +33089,6 @@ func (e *SortOrder) UnmarshalGQL(v any) error {
 	}
 
 	*e = SortOrder(str)
-	if !e.IsValid() {
-		return fmt.Errorf("%s is not a valid SortOrder", str)
-	}
 	return nil
 }
 
@@ -33752,9 +33155,6 @@ func (e *SplitTunnelActionEnum) UnmarshalGQL(v any) error {
 	}
 
 	*e = SplitTunnelActionEnum(str)
-	if !e.IsValid() {
-		return fmt.Errorf("%s is not a valid SplitTunnelActionEnum", str)
-	}
 	return nil
 }
 
@@ -33809,9 +33209,6 @@ func (e *SplitTunnelCoverageEnum) UnmarshalGQL(v any) error {
 	}
 
 	*e = SplitTunnelCoverageEnum(str)
-	if !e.IsValid() {
-		return fmt.Errorf("%s is not a valid SplitTunnelCoverageEnum", str)
-	}
 	return nil
 }
 
@@ -33865,9 +33262,6 @@ func (e *SplitTunnelRoutingPriorityEnum) UnmarshalGQL(v any) error {
 	}
 
 	*e = SplitTunnelRoutingPriorityEnum(str)
-	if !e.IsValid() {
-		return fmt.Errorf("%s is not a valid SplitTunnelRoutingPriorityEnum", str)
-	}
 	return nil
 }
 
@@ -33924,9 +33318,6 @@ func (e *SplitTunnelSourceNetworkTypeEnum) UnmarshalGQL(v any) error {
 	}
 
 	*e = SplitTunnelSourceNetworkTypeEnum(str)
-	if !e.IsValid() {
-		return fmt.Errorf("%s is not a valid SplitTunnelSourceNetworkTypeEnum", str)
-	}
 	return nil
 }
 
@@ -33985,9 +33376,6 @@ func (e *StoryEngineTypeEnum) UnmarshalGQL(v any) error {
 	}
 
 	*e = StoryEngineTypeEnum(str)
-	if !e.IsValid() {
-		return fmt.Errorf("%s is not a valid StoryEngineTypeEnum", str)
-	}
 	return nil
 }
 
@@ -34057,9 +33445,6 @@ func (e *StoryProducerEnum) UnmarshalGQL(v any) error {
 	}
 
 	*e = StoryProducerEnum(str)
-	if !e.IsValid() {
-		return fmt.Errorf("%s is not a valid StoryProducerEnum", str)
-	}
 	return nil
 }
 
@@ -34138,9 +33523,6 @@ func (e *StorySortFieldName) UnmarshalGQL(v any) error {
 	}
 
 	*e = StorySortFieldName(str)
-	if !e.IsValid() {
-		return fmt.Errorf("%s is not a valid StorySortFieldName", str)
-	}
 	return nil
 }
 
@@ -34201,9 +33583,6 @@ func (e *StoryStatusEnum) UnmarshalGQL(v any) error {
 	}
 
 	*e = StoryStatusEnum(str)
-	if !e.IsValid() {
-		return fmt.Errorf("%s is not a valid StoryStatusEnum", str)
-	}
 	return nil
 }
 
@@ -34276,9 +33655,6 @@ func (e *StoryVerdictEnum) UnmarshalGQL(v any) error {
 	}
 
 	*e = StoryVerdictEnum(str)
-	if !e.IsValid() {
-		return fmt.Errorf("%s is not a valid StoryVerdictEnum", str)
-	}
 	return nil
 }
 
@@ -34329,9 +33705,6 @@ func (e *SubPolicyProperty) UnmarshalGQL(v any) error {
 	}
 
 	*e = SubPolicyProperty(str)
-	if !e.IsValid() {
-		return fmt.Errorf("%s is not a valid SubPolicyProperty", str)
-	}
 	return nil
 }
 
@@ -34390,9 +33763,6 @@ func (e *SubnetType) UnmarshalGQL(v any) error {
 	}
 
 	*e = SubnetType(str)
-	if !e.IsValid() {
-		return fmt.Errorf("%s is not a valid SubnetType", str)
-	}
 	return nil
 }
 
@@ -34445,9 +33815,6 @@ func (e *TaggingMethod) UnmarshalGQL(v any) error {
 	}
 
 	*e = TaggingMethod(str)
-	if !e.IsValid() {
-		return fmt.Errorf("%s is not a valid TaggingMethod", str)
-	}
 	return nil
 }
 
@@ -34504,9 +33871,6 @@ func (e *TargetType) UnmarshalGQL(v any) error {
 	}
 
 	*e = TargetType(str)
-	if !e.IsValid() {
-		return fmt.Errorf("%s is not a valid TargetType", str)
-	}
 	return nil
 }
 
@@ -34561,9 +33925,6 @@ func (e *TimeFrameModifier) UnmarshalGQL(v any) error {
 	}
 
 	*e = TimeFrameModifier(str)
-	if !e.IsValid() {
-		return fmt.Errorf("%s is not a valid TimeFrameModifier", str)
-	}
 	return nil
 }
 
@@ -34618,9 +33979,6 @@ func (e *TimelineItemCategoryEnum) UnmarshalGQL(v any) error {
 	}
 
 	*e = TimelineItemCategoryEnum(str)
-	if !e.IsValid() {
-		return fmt.Errorf("%s is not a valid TimelineItemCategoryEnum", str)
-	}
 	return nil
 }
 
@@ -34675,9 +34033,6 @@ func (e *TimelineTypeEnum) UnmarshalGQL(v any) error {
 	}
 
 	*e = TimelineTypeEnum(str)
-	if !e.IsValid() {
-		return fmt.Errorf("%s is not a valid TimelineTypeEnum", str)
-	}
 	return nil
 }
 
@@ -34794,9 +34149,6 @@ func (e *TimeseriesMetricType) UnmarshalGQL(v any) error {
 	}
 
 	*e = TimeseriesMetricType(str)
-	if !e.IsValid() {
-		return fmt.Errorf("%s is not a valid TimeseriesMetricType", str)
-	}
 	return nil
 }
 
@@ -34849,9 +34201,6 @@ func (e *TLSInspectAction) UnmarshalGQL(v any) error {
 	}
 
 	*e = TLSInspectAction(str)
-	if !e.IsValid() {
-		return fmt.Errorf("%s is not a valid TlsInspectAction", str)
-	}
 	return nil
 }
 
@@ -34907,9 +34256,6 @@ func (e *TLSInspectSystemCategory) UnmarshalGQL(v any) error {
 	}
 
 	*e = TLSInspectSystemCategory(str)
-	if !e.IsValid() {
-		return fmt.Errorf("%s is not a valid TlsInspectSystemCategory", str)
-	}
 	return nil
 }
 
@@ -34964,9 +34310,6 @@ func (e *TLSInspectUntrustedCertificateAction) UnmarshalGQL(v any) error {
 	}
 
 	*e = TLSInspectUntrustedCertificateAction(str)
-	if !e.IsValid() {
-		return fmt.Errorf("%s is not a valid TlsInspectUntrustedCertificateAction", str)
-	}
 	return nil
 }
 
@@ -35019,9 +34362,6 @@ func (e *TrafficDirectionEnum) UnmarshalGQL(v any) error {
 	}
 
 	*e = TrafficDirectionEnum(str)
-	if !e.IsValid() {
-		return fmt.Errorf("%s is not a valid TrafficDirectionEnum", str)
-	}
 	return nil
 }
 
@@ -35097,9 +34437,6 @@ func (e *UnitType) UnmarshalGQL(v any) error {
 	}
 
 	*e = UnitType(str)
-	if !e.IsValid() {
-		return fmt.Errorf("%s is not a valid UnitType", str)
-	}
 	return nil
 }
 
@@ -35158,9 +34495,6 @@ func (e *UserAuthMethod) UnmarshalGQL(v any) error {
 	}
 
 	*e = UserAuthMethod(str)
-	if !e.IsValid() {
-		return fmt.Errorf("%s is not a valid UserAuthMethod", str)
-	}
 	return nil
 }
 
@@ -35221,9 +34555,6 @@ func (e *UserAuthStatus) UnmarshalGQL(v any) error {
 	}
 
 	*e = UserAuthStatus(str)
-	if !e.IsValid() {
-		return fmt.Errorf("%s is not a valid UserAuthStatus", str)
-	}
 	return nil
 }
 
@@ -35285,9 +34616,6 @@ func (e *UserImportType) UnmarshalGQL(v any) error {
 	}
 
 	*e = UserImportType(str)
-	if !e.IsValid() {
-		return fmt.Errorf("%s is not a valid UserImportType", str)
-	}
 	return nil
 }
 
@@ -35350,9 +34678,6 @@ func (e *UserRole) UnmarshalGQL(v any) error {
 	}
 
 	*e = UserRole(str)
-	if !e.IsValid() {
-		return fmt.Errorf("%s is not a valid UserRole", str)
-	}
 	return nil
 }
 
@@ -35412,9 +34737,6 @@ func (e *UserStatus) UnmarshalGQL(v any) error {
 	}
 
 	*e = UserStatus(str)
-	if !e.IsValid() {
-		return fmt.Errorf("%s is not a valid UserStatus", str)
-	}
 	return nil
 }
 
@@ -35467,9 +34789,6 @@ func (e *VendorEnum) UnmarshalGQL(v any) error {
 	}
 
 	*e = VendorEnum(str)
-	if !e.IsValid() {
-		return fmt.Errorf("%s is not a valid VendorEnum", str)
-	}
 	return nil
 }
 
@@ -35522,9 +34841,6 @@ func (e *VrrpType) UnmarshalGQL(v any) error {
 	}
 
 	*e = VrrpType(str)
-	if !e.IsValid() {
-		return fmt.Errorf("%s is not a valid VrrpType", str)
-	}
 	return nil
 }
 
@@ -35585,9 +34901,6 @@ func (e *WanFirewallActionEnum) UnmarshalGQL(v any) error {
 	}
 
 	*e = WanFirewallActionEnum(str)
-	if !e.IsValid() {
-		return fmt.Errorf("%s is not a valid WanFirewallActionEnum", str)
-	}
 	return nil
 }
 
@@ -35640,9 +34953,6 @@ func (e *WanFirewallDirectionEnum) UnmarshalGQL(v any) error {
 	}
 
 	*e = WanFirewallDirectionEnum(str)
-	if !e.IsValid() {
-		return fmt.Errorf("%s is not a valid WanFirewallDirectionEnum", str)
-	}
 	return nil
 }
 
@@ -35715,9 +35025,6 @@ func (e *WanNetworkRuleInterfaceRole) UnmarshalGQL(v any) error {
 	}
 
 	*e = WanNetworkRuleInterfaceRole(str)
-	if !e.IsValid() {
-		return fmt.Errorf("%s is not a valid WanNetworkRuleInterfaceRole", str)
-	}
 	return nil
 }
 
@@ -35784,9 +35091,6 @@ func (e *WanNetworkRuleRouteType) UnmarshalGQL(v any) error {
 	}
 
 	*e = WanNetworkRuleRouteType(str)
-	if !e.IsValid() {
-		return fmt.Errorf("%s is not a valid WanNetworkRuleRouteType", str)
-	}
 	return nil
 }
 
@@ -35850,9 +35154,6 @@ func (e *WanNetworkRuleTransportType) UnmarshalGQL(v any) error {
 	}
 
 	*e = WanNetworkRuleTransportType(str)
-	if !e.IsValid() {
-		return fmt.Errorf("%s is not a valid WanNetworkRuleTransportType", str)
-	}
 	return nil
 }
 
@@ -35910,9 +35211,6 @@ func (e *WanNetworkRuleType) UnmarshalGQL(v any) error {
 	}
 
 	*e = WanNetworkRuleType(str)
-	if !e.IsValid() {
-		return fmt.Errorf("%s is not a valid WanNetworkRuleType", str)
-	}
 	return nil
 }
 
@@ -35965,9 +35263,6 @@ func (e *WebhookRelationType) UnmarshalGQL(v any) error {
 	}
 
 	*e = WebhookRelationType(str)
-	if !e.IsValid() {
-		return fmt.Errorf("%s is not a valid WebhookRelationType", str)
-	}
 	return nil
 }
 
@@ -36020,9 +35315,6 @@ func (e *WebhookRequestMethod) UnmarshalGQL(v any) error {
 	}
 
 	*e = WebhookRequestMethod(str)
-	if !e.IsValid() {
-		return fmt.Errorf("%s is not a valid WebhookRequestMethod", str)
-	}
 	return nil
 }
 
@@ -36077,9 +35369,6 @@ func (e *WifiAuthProtocol) UnmarshalGQL(v any) error {
 	}
 
 	*e = WifiAuthProtocol(str)
-	if !e.IsValid() {
-		return fmt.Errorf("%s is not a valid WifiAuthProtocol", str)
-	}
 	return nil
 }
 
@@ -36136,9 +35425,6 @@ func (e *WifiChannelWidth) UnmarshalGQL(v any) error {
 	}
 
 	*e = WifiChannelWidth(str)
-	if !e.IsValid() {
-		return fmt.Errorf("%s is not a valid WifiChannelWidth", str)
-	}
 	return nil
 }
 
@@ -36193,9 +35479,6 @@ func (e *WifiRadioBand) UnmarshalGQL(v any) error {
 	}
 
 	*e = WifiRadioBand(str)
-	if !e.IsValid() {
-		return fmt.Errorf("%s is not a valid WifiRadioBand", str)
-	}
 	return nil
 }
 
@@ -36254,9 +35537,6 @@ func (e *WifiRadioStandard) UnmarshalGQL(v any) error {
 	}
 
 	*e = WifiRadioStandard(str)
-	if !e.IsValid() {
-		return fmt.Errorf("%s is not a valid WifiRadioStandard", str)
-	}
 	return nil
 }
 
@@ -36309,9 +35589,6 @@ func (e *WifiSecurityMode) UnmarshalGQL(v any) error {
 	}
 
 	*e = WifiSecurityMode(str)
-	if !e.IsValid() {
-		return fmt.Errorf("%s is not a valid WifiSecurityMode", str)
-	}
 	return nil
 }
 
@@ -36364,9 +35641,6 @@ func (e *WifiSsidCategory) UnmarshalGQL(v any) error {
 	}
 
 	*e = WifiSsidCategory(str)
-	if !e.IsValid() {
-		return fmt.Errorf("%s is not a valid WifiSsidCategory", str)
-	}
 	return nil
 }
 
@@ -36422,9 +35696,6 @@ func (e *ZtnaAlwaysOnRuleActionEnum) UnmarshalGQL(v any) error {
 	}
 
 	*e = ZtnaAlwaysOnRuleActionEnum(str)
-	if !e.IsValid() {
-		return fmt.Errorf("%s is not a valid ZtnaAlwaysOnRuleActionEnum", str)
-	}
 	return nil
 }
 
@@ -36480,9 +35751,6 @@ func (e *ZtnaAlwaysOnTimeUnit) UnmarshalGQL(v any) error {
 	}
 
 	*e = ZtnaAlwaysOnTimeUnit(str)
-	if !e.IsValid() {
-		return fmt.Errorf("%s is not a valid ZtnaAlwaysOnTimeUnit", str)
-	}
 	return nil
 }
 
@@ -36535,9 +35803,6 @@ func (e *ZtnaAppConnectorConnectivityStatus) UnmarshalGQL(v any) error {
 	}
 
 	*e = ZtnaAppConnectorConnectivityStatus(str)
-	if !e.IsValid() {
-		return fmt.Errorf("%s is not a valid ZtnaAppConnectorConnectivityStatus", str)
-	}
 	return nil
 }
 
@@ -36590,9 +35855,6 @@ func (e *ZtnaAppConnectorInterfaceType) UnmarshalGQL(v any) error {
 	}
 
 	*e = ZtnaAppConnectorInterfaceType(str)
-	if !e.IsValid() {
-		return fmt.Errorf("%s is not a valid ZtnaAppConnectorInterfaceType", str)
-	}
 	return nil
 }
 
@@ -36647,9 +35909,6 @@ func (e *ZtnaAppConnectorSnapshotProbingStatus) UnmarshalGQL(v any) error {
 	}
 
 	*e = ZtnaAppConnectorSnapshotProbingStatus(str)
-	if !e.IsValid() {
-		return fmt.Errorf("%s is not a valid ZtnaAppConnectorSnapshotProbingStatus", str)
-	}
 	return nil
 }
 
@@ -36702,9 +35961,6 @@ func (e *ZtnaAppConnectorSnapshotRoutingStatus) UnmarshalGQL(v any) error {
 	}
 
 	*e = ZtnaAppConnectorSnapshotRoutingStatus(str)
-	if !e.IsValid() {
-		return fmt.Errorf("%s is not a valid ZtnaAppConnectorSnapshotRoutingStatus", str)
-	}
 	return nil
 }
 
@@ -36759,9 +36015,6 @@ func (e *ZtnaAppConnectorType) UnmarshalGQL(v any) error {
 	}
 
 	*e = ZtnaAppConnectorType(str)
-	if !e.IsValid() {
-		return fmt.Errorf("%s is not a valid ZtnaAppConnectorType", str)
-	}
 	return nil
 }
 
@@ -36828,9 +36081,6 @@ func (e *ZtnaUsersLicenseGroup) UnmarshalGQL(v any) error {
 	}
 
 	*e = ZtnaUsersLicenseGroup(str)
-	if !e.IsValid() {
-		return fmt.Errorf("%s is not a valid ZtnaUsersLicenseGroup", str)
-	}
 	return nil
 }
 
