@@ -10,6 +10,7 @@ import (
 	"testing"
 
 	"github.com/Yamashou/gqlgenc/clientv2"
+	cato_models "github.com/catonetworks/cato-go-sdk/models"
 	"github.com/hashicorp/terraform-plugin-log/tflogtest"
 )
 
@@ -65,6 +66,39 @@ func TestParseGQLResponseMarksMalformedResponse(t *testing.T) {
 	var parseErr *responseParseError
 	if !errors.As(err, &parseErr) {
 		t.Fatal("expected malformed response to be marked as a parse failure")
+	}
+}
+
+func TestParseGQLResponsePreservesUnknownEnum(t *testing.T) {
+	t.Parallel()
+
+	const unknownStatus = "FUTURE_STATUS"
+	var result struct {
+		Status cato_models.AccessRequestStatus `json:"status"`
+	}
+
+	err := parseGQLResponse(
+		&clientv2.Client{},
+		[]byte(`{"data":{"status":"FUTURE_STATUS"}}`),
+		&result,
+	)
+	if err != nil {
+		t.Fatalf("unexpected response parse error: %v", err)
+	}
+	if got := result.Status.String(); got != unknownStatus {
+		t.Fatalf("status: got %q, want %q", got, unknownStatus)
+	}
+	if result.Status.IsValid() {
+		t.Fatalf("unknown status %q must not be reported as schema-known", result.Status)
+	}
+}
+
+func TestGeneratedEnumRejectsNonString(t *testing.T) {
+	t.Parallel()
+
+	var status cato_models.AccessRequestStatus
+	if err := status.UnmarshalGQL(42); err == nil {
+		t.Fatal("expected non-string enum value to be rejected")
 	}
 }
 
