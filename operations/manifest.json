@@ -119,7 +119,7 @@
       "document_sha256": "38d6518cdaab7003c561282f858f4162d1807af8944d2588e951b16837c7f6f6",
       "cli_file": "queryPayloads/mutation.businessPlatform.createTrialAccount.txt",
       "cli_name": "businessPlatformCreateTrialAccount",
-      "cli_sha256": "38d6518cdaab7003c561282f858f4162d1807af8944d2588e951b16837c7f6f6",
+      "cli_sha256": "1e97e52dabb1ac82595fcfadbc188c56f8b49f8d21a13cb51252caab8dc36094",
       "status": "imported"
     },
     {
@@ -130,7 +130,7 @@
       "document_sha256": "5507856e5c5d4ddfb30c91085a4e2b8f43b0807ff14c98c2b9138c93cecfd460",
       "cli_file": "queryPayloads/mutation.businessPlatform.linkToTrialAccount.txt",
       "cli_name": "businessPlatformLinkToTrialAccount",
-      "cli_sha256": "5507856e5c5d4ddfb30c91085a4e2b8f43b0807ff14c98c2b9138c93cecfd460",
+      "cli_sha256": "e0d6a1aacedd5917de61b588b38525684f9637a05ee488d1a8b3969b38e0d23f",
       "status": "imported"
     },
     {
@@ -387,6 +387,17 @@
       "status": "imported"
     },
     {
+      "key": "mutation.encryptKeytabFile",
+      "kind": "mutation",
+      "sdk_file": "sources/mutation.encryptKeytabFile.gql",
+      "sdk_name": "encryptKeytabFile",
+      "document_sha256": "cfa79e5f74c66acc202c97ab8df58d8cffed1838d46137d5839f92e32ed45bbc",
+      "cli_file": "queryPayloads/mutation.encryptKeytabFile.txt",
+      "cli_name": "encryptKeytabFile",
+      "cli_sha256": "3d9e8c3cbc7164beb57564d2a7e291f09f39cc309e4683fab9e4a281ede2d16d",
+      "status": "imported"
+    },
+    {
       "key": "mutation.enterpriseDirectory.archiveLocation",
       "kind": "mutation",
       "sdk_file": "sources/mutation.enterpriseDirectory.archiveLocation.gql",
@@ -582,6 +593,270 @@
       "cli_file": "queryPayloads/mutation.licensing.updateLicenseForManagedAccount.txt",
       "cli_name": "licensingUpdateLicenseForManagedAccount",
       "cli_sha256": "fdb1b7c686e989d80e5a7fb5e4f047d04c5862e2b34c417e1e116c95c9603c06",
+      "status": "imported"
+    },
+    {
+      "key": "mutation.networkConfig.dhcp.createOption",
+      "kind": "mutation",
+      "sdk_file": "sources/mutation.networkConfig.dhcp.createOption.gql",
+      "sdk_name": "networkConfigDhcpCreateOption",
+      "document_sha256": "5d078a39df316e8c5869cdbf6a941ac0cf67d0fc5312c94a625839732fb4a159",
+      "cli_file": "queryPayloads/mutation.networkConfig.dhcp.createOption.txt",
+      "cli_name": "networkConfigDhcpCreateOption",
+      "cli_sha256": "77a886b67b062adc3630a300edcbed9e4ad25de244c33c44dce370ad97bdc625",
+      "status": "imported"
+    },
+    {
+      "key": "mutation.networkConfig.dhcp.createRelayGroup",
+      "kind": "mutation",
+      "sdk_file": "sources/mutation.networkConfig.dhcp.createRelayGroup.gql",
+      "sdk_name": "networkConfigDhcpCreateRelayGroup",
+      "document_sha256": "3076b701f3e5b1d2fb59ddec84ac74fe13d4880e524ba2270e3952e18fde7dd4",
+      "cli_file": "queryPayloads/mutation.networkConfig.dhcp.createRelayGroup.txt",
+      "cli_name": "networkConfigDhcpCreateRelayGroup",
+      "cli_sha256": "d568fae0127cc843622d6b455a3af65ad985624fb014d955d26f8fbcb5f224c8",
+      "status": "imported"
+    },
+    {
+      "key": "mutation.networkConfig.dhcp.deleteOption",
+      "kind": "mutation",
+      "sdk_file": "sources/mutation.networkConfig.dhcp.deleteOption.gql",
+      "sdk_name": "networkConfigDhcpDeleteOption",
+      "document_sha256": "da425539c81c72fcc1cf0057298462759b31f95de06102e1341793181de31b63",
+      "cli_file": "queryPayloads/mutation.networkConfig.dhcp.deleteOption.txt",
+      "cli_name": "networkConfigDhcpDeleteOption",
+      "cli_sha256": "2f1bdbb04c0b6601662d9bd7a78acdab47a902834354fd44e7e80cddcf9d5689",
+      "status": "imported"
+    },
+    {
+      "key": "mutation.networkConfig.dhcp.deleteRelayGroup",
+      "kind": "mutation",
+      "sdk_file": "sources/mutation.networkConfig.dhcp.deleteRelayGroup.gql",
+      "sdk_name": "networkConfigDhcpDeleteRelayGroup",
+      "document_sha256": "f927d7f199c4b8d138f17b6cb4971dc8a49bade7bd575bf6d1ddf067f91a01b8",
+      "cli_file": "queryPayloads/mutation.networkConfig.dhcp.deleteRelayGroup.txt",
+      "cli_name": "networkConfigDhcpDeleteRelayGroup",
+      "cli_sha256": "416fdf1ff805e5f7e0baca90ef44ba4ed35043dbe2571b9f8e2457dc5117e59e",
+      "status": "imported"
+    },
+    {
+      "key": "mutation.networkConfig.dhcp.setOption",
+      "kind": "mutation",
+      "sdk_file": "sources/mutation.networkConfig.dhcp.setOption.gql",
+      "sdk_name": "networkConfigDhcpSetOption",
+      "document_sha256": "95faae713ebc09cb56d6e46a6a8849ec83f3a24e0126d03e000e9a8130ae789b",
+      "cli_file": "queryPayloads/mutation.networkConfig.dhcp.setOption.txt",
+      "cli_name": "networkConfigDhcpSetOption",
+      "cli_sha256": "3d9df414c78a0e3e40b3a3614250811b0531a7856e64115b0b334ec10197a9c0",
+      "status": "imported"
+    },
+    {
+      "key": "mutation.networkConfig.dhcp.setRelayGroup",
+      "kind": "mutation",
+      "sdk_file": "sources/mutation.networkConfig.dhcp.setRelayGroup.gql",
+      "sdk_name": "networkConfigDhcpSetRelayGroup",
+      "document_sha256": "9d3013ccb46d5603b09be82ce1519f2dad72b6a3d3d5ee2c6ba49bcac667f6e6",
+      "cli_file": "queryPayloads/mutation.networkConfig.dhcp.setRelayGroup.txt",
+      "cli_name": "networkConfigDhcpSetRelayGroup",
+      "cli_sha256": "6f04e4d0137ae8f2d0047885a4a652e2ff229eb1be2d04d5508050a9ca9de7bf",
+      "status": "imported"
+    },
+    {
+      "key": "mutation.networkConfig.dhcp.updateOption",
+      "kind": "mutation",
+      "sdk_file": "sources/mutation.networkConfig.dhcp.updateOption.gql",
+      "sdk_name": "networkConfigDhcpUpdateOption",
+      "document_sha256": "25fbf2a21f71c05b5f33b053c2609a915e9b99145c9ef8b54529ed67c41dca4e",
+      "cli_file": "queryPayloads/mutation.networkConfig.dhcp.updateOption.txt",
+      "cli_name": "networkConfigDhcpUpdateOption",
+      "cli_sha256": "4b10a8b10fc7d1974f3e7464d04496c66927822cc330b6f4660a9581ff9324a9",
+      "status": "imported"
+    },
+    {
+      "key": "mutation.networkConfig.dhcp.updateRelayGroup",
+      "kind": "mutation",
+      "sdk_file": "sources/mutation.networkConfig.dhcp.updateRelayGroup.gql",
+      "sdk_name": "networkConfigDhcpUpdateRelayGroup",
+      "document_sha256": "c5f87524e54eaf10454bf132f578fdabad1c765a644429a46c1e590c6c3fef10",
+      "cli_file": "queryPayloads/mutation.networkConfig.dhcp.updateRelayGroup.txt",
+      "cli_name": "networkConfigDhcpUpdateRelayGroup",
+      "cli_sha256": "244f6e31379e76c19536f8dafb668b10b5b01281ce346d60ab9777e40678f0cd",
+      "status": "imported"
+    },
+    {
+      "key": "mutation.networkConfig.dhcp.updateSettings",
+      "kind": "mutation",
+      "sdk_file": "sources/mutation.networkConfig.dhcp.updateSettings.gql",
+      "sdk_name": "networkConfigDhcpUpdateSettings",
+      "document_sha256": "eb0f23861af65d276bd9b73d42f39cfeb8cc363f650bbcf9972c8447febed17b",
+      "cli_file": "queryPayloads/mutation.networkConfig.dhcp.updateSettings.txt",
+      "cli_name": "networkConfigDhcpUpdateSettings",
+      "cli_sha256": "808957b5e8d9bb6096f898a67819555cbf7537a17da900f2e78513b1888bd5e3",
+      "status": "imported"
+    },
+    {
+      "key": "mutation.networkConfig.dns.createForwardingRule",
+      "kind": "mutation",
+      "sdk_file": "sources/mutation.networkConfig.dns.createForwardingRule.gql",
+      "sdk_name": "networkConfigDnsCreateForwardingRule",
+      "document_sha256": "2d2b48df9108cdc345b28da16c44499bfcfa96b560654aec5403ea2ebd3ba148",
+      "cli_file": "queryPayloads/mutation.networkConfig.dns.createForwardingRule.txt",
+      "cli_name": "networkConfigDnsCreateForwardingRule",
+      "cli_sha256": "dc5037ef237bb5374a3456d4fbe13f39fb4fe4d7e02fd6cb52c873b3982b3bec",
+      "status": "imported"
+    },
+    {
+      "key": "mutation.networkConfig.dns.createServerSet",
+      "kind": "mutation",
+      "sdk_file": "sources/mutation.networkConfig.dns.createServerSet.gql",
+      "sdk_name": "networkConfigDnsCreateServerSet",
+      "document_sha256": "6e25b55d20c5a4b4cafafa8230e61318339bfb29fb3db75008277fe4b8585270",
+      "cli_file": "queryPayloads/mutation.networkConfig.dns.createServerSet.txt",
+      "cli_name": "networkConfigDnsCreateServerSet",
+      "cli_sha256": "180321d861c2dd6beba57b680a52b2499597eb68ef51dd57fab7ef04322b9657",
+      "status": "imported"
+    },
+    {
+      "key": "mutation.networkConfig.dns.createSuffixSet",
+      "kind": "mutation",
+      "sdk_file": "sources/mutation.networkConfig.dns.createSuffixSet.gql",
+      "sdk_name": "networkConfigDnsCreateSuffixSet",
+      "document_sha256": "8202b0d921d2da61bc63947f9829db25d881420a67d5d2e5cfe861314f282782",
+      "cli_file": "queryPayloads/mutation.networkConfig.dns.createSuffixSet.txt",
+      "cli_name": "networkConfigDnsCreateSuffixSet",
+      "cli_sha256": "b53163d439e415c7c83ed1094a8580044059652cfc279282cc873296c2a1ad18",
+      "status": "imported"
+    },
+    {
+      "key": "mutation.networkConfig.dns.deleteForwardingRule",
+      "kind": "mutation",
+      "sdk_file": "sources/mutation.networkConfig.dns.deleteForwardingRule.gql",
+      "sdk_name": "networkConfigDnsDeleteForwardingRule",
+      "document_sha256": "bcb5d39f197f04a97a23a04dc3aacd7e224dde2ed3b4086fbf713d179a77ab2a",
+      "cli_file": "queryPayloads/mutation.networkConfig.dns.deleteForwardingRule.txt",
+      "cli_name": "networkConfigDnsDeleteForwardingRule",
+      "cli_sha256": "17c473afebffcfd1fe5d9afc241f6e93f1bfe8f59b7f76c75296a169d2f10385",
+      "status": "imported"
+    },
+    {
+      "key": "mutation.networkConfig.dns.deleteServerSet",
+      "kind": "mutation",
+      "sdk_file": "sources/mutation.networkConfig.dns.deleteServerSet.gql",
+      "sdk_name": "networkConfigDnsDeleteServerSet",
+      "document_sha256": "49fbb4e01053755bea6072015cf390cf3b8fa3250be7b0f1b4d32660273e8732",
+      "cli_file": "queryPayloads/mutation.networkConfig.dns.deleteServerSet.txt",
+      "cli_name": "networkConfigDnsDeleteServerSet",
+      "cli_sha256": "23c65c6e139498c3eafcf403fec2f69753ce930d40f7e7d750f99606c9bdf9d3",
+      "status": "imported"
+    },
+    {
+      "key": "mutation.networkConfig.dns.deleteSuffixSet",
+      "kind": "mutation",
+      "sdk_file": "sources/mutation.networkConfig.dns.deleteSuffixSet.gql",
+      "sdk_name": "networkConfigDnsDeleteSuffixSet",
+      "document_sha256": "862b9d008fe55abfa30bc170b1a9684445a1745ade1e7df79fd5dd9c034a1027",
+      "cli_file": "queryPayloads/mutation.networkConfig.dns.deleteSuffixSet.txt",
+      "cli_name": "networkConfigDnsDeleteSuffixSet",
+      "cli_sha256": "3ad395ee76486009a6e3a2f18f58dc1b07b8dd5349385e89e6b9eba2467cdeb6",
+      "status": "imported"
+    },
+    {
+      "key": "mutation.networkConfig.dns.removeSiteSettings",
+      "kind": "mutation",
+      "sdk_file": "sources/mutation.networkConfig.dns.removeSiteSettings.gql",
+      "sdk_name": "networkConfigDnsRemoveSiteSettings",
+      "document_sha256": "035f970cea74d1fbdae4621c559e990704a6a845d10addefd33e023943c9837e",
+      "cli_file": "queryPayloads/mutation.networkConfig.dns.removeSiteSettings.txt",
+      "cli_name": "networkConfigDnsRemoveSiteSettings",
+      "cli_sha256": "4baaec772c2049e5fb714abde9ea783e6c89e234644af924aa765f5d05fad580",
+      "status": "imported"
+    },
+    {
+      "key": "mutation.networkConfig.dns.setForwardingRule",
+      "kind": "mutation",
+      "sdk_file": "sources/mutation.networkConfig.dns.setForwardingRule.gql",
+      "sdk_name": "networkConfigDnsSetForwardingRule",
+      "document_sha256": "a71549eaa3322d809a93a73a0fbecd798cf4cab3dcfa34b83195da2811b7d9ca",
+      "cli_file": "queryPayloads/mutation.networkConfig.dns.setForwardingRule.txt",
+      "cli_name": "networkConfigDnsSetForwardingRule",
+      "cli_sha256": "6d7a3f35ad2816c445d338868066caca60ab6d41cefdcc8c1c4c085fb3b3a555",
+      "status": "imported"
+    },
+    {
+      "key": "mutation.networkConfig.dns.setServerSet",
+      "kind": "mutation",
+      "sdk_file": "sources/mutation.networkConfig.dns.setServerSet.gql",
+      "sdk_name": "networkConfigDnsSetServerSet",
+      "document_sha256": "db7959dc2755c0de5bb0437ce69cd022ecc856aa4f9505d4459bbc3015d8772c",
+      "cli_file": "queryPayloads/mutation.networkConfig.dns.setServerSet.txt",
+      "cli_name": "networkConfigDnsSetServerSet",
+      "cli_sha256": "728610cfd3cd8718797459fc22c28ae95835b4ab06c94e84c56011e3bc92a82a",
+      "status": "imported"
+    },
+    {
+      "key": "mutation.networkConfig.dns.setSuffixSet",
+      "kind": "mutation",
+      "sdk_file": "sources/mutation.networkConfig.dns.setSuffixSet.gql",
+      "sdk_name": "networkConfigDnsSetSuffixSet",
+      "document_sha256": "7191c82542be834cf654da26101081980cad32d20c3f047c99aed78c593937f9",
+      "cli_file": "queryPayloads/mutation.networkConfig.dns.setSuffixSet.txt",
+      "cli_name": "networkConfigDnsSetSuffixSet",
+      "cli_sha256": "50e2dc59a79512431cd2ef6d83fef8d96fc5156af43a16df34a7f37d0fa9b290",
+      "status": "imported"
+    },
+    {
+      "key": "mutation.networkConfig.dns.updateForwardingRule",
+      "kind": "mutation",
+      "sdk_file": "sources/mutation.networkConfig.dns.updateForwardingRule.gql",
+      "sdk_name": "networkConfigDnsUpdateForwardingRule",
+      "document_sha256": "bc0b93201cd57b6efd21abf123536139d81232c09c1a4efe984525407bceca5b",
+      "cli_file": "queryPayloads/mutation.networkConfig.dns.updateForwardingRule.txt",
+      "cli_name": "networkConfigDnsUpdateForwardingRule",
+      "cli_sha256": "25b880d36dc353e5e303b1ae71abea2edc0cb4004e9fce4aa5bd8138fdb10a00",
+      "status": "imported"
+    },
+    {
+      "key": "mutation.networkConfig.dns.updateServerSet",
+      "kind": "mutation",
+      "sdk_file": "sources/mutation.networkConfig.dns.updateServerSet.gql",
+      "sdk_name": "networkConfigDnsUpdateServerSet",
+      "document_sha256": "c75d947dd6542d2f7be566b2a937522d0e25de7d6ff6231e8e7058fc0c246c65",
+      "cli_file": "queryPayloads/mutation.networkConfig.dns.updateServerSet.txt",
+      "cli_name": "networkConfigDnsUpdateServerSet",
+      "cli_sha256": "0919ce36ba8c8f7f2dd9d59e72561fc11ddaf553ac97d02d894cfa5d247e3904",
+      "status": "imported"
+    },
+    {
+      "key": "mutation.networkConfig.dns.updateSettings",
+      "kind": "mutation",
+      "sdk_file": "sources/mutation.networkConfig.dns.updateSettings.gql",
+      "sdk_name": "networkConfigDnsUpdateSettings",
+      "document_sha256": "12bec69a1aeefbd0244576174af6141d001446255b4cbb2d2db0b44ed43cc3f5",
+      "cli_file": "queryPayloads/mutation.networkConfig.dns.updateSettings.txt",
+      "cli_name": "networkConfigDnsUpdateSettings",
+      "cli_sha256": "2133c46784937dc2452e7ab1e78cb4eae698f767b9d0c26678476e984d125e41",
+      "status": "imported"
+    },
+    {
+      "key": "mutation.networkConfig.dns.updateSiteSettings",
+      "kind": "mutation",
+      "sdk_file": "sources/mutation.networkConfig.dns.updateSiteSettings.gql",
+      "sdk_name": "networkConfigDnsUpdateSiteSettings",
+      "document_sha256": "a502c1ef1bbd7f5b34d598b19bfdefe77805dd0c5b32fe0d240f2f7d92af4054",
+      "cli_file": "queryPayloads/mutation.networkConfig.dns.updateSiteSettings.txt",
+      "cli_name": "networkConfigDnsUpdateSiteSettings",
+      "cli_sha256": "7ae2a12b513cb3b8cbb0cb35a3ce7a8528f896aa37141e8970aceebc6daebea8",
+      "status": "imported"
+    },
+    {
+      "key": "mutation.networkConfig.dns.updateSuffixSet",
+      "kind": "mutation",
+      "sdk_file": "sources/mutation.networkConfig.dns.updateSuffixSet.gql",
+      "sdk_name": "networkConfigDnsUpdateSuffixSet",
+      "document_sha256": "c9409ccab2500ee6e1920b4164430b23d4c11fef704088b901e3394cb2e277e1",
+      "cli_file": "queryPayloads/mutation.networkConfig.dns.updateSuffixSet.txt",
+      "cli_name": "networkConfigDnsUpdateSuffixSet",
+      "cli_sha256": "9e5cea52d98845456f73ec044081538a6acfd0ed9c485ce8903e72358bd3b35f",
       "status": "imported"
     },
     {
@@ -1513,7 +1788,7 @@
       "document_sha256": "ab85dfe47b2a2108bc3932706d24244871fdb037254978d002bec9247a07efb6",
       "cli_file": "queryPayloads/mutation.policy.privateAccess.addRule.txt",
       "cli_name": "policyPrivateAccessAddRule",
-      "cli_sha256": "eaefe9ced92cb555a96337baec324904224d8a5e3d25ce6f2245986408f3f47c",
+      "cli_sha256": "d7b72be39d89fd1723961d910f2ca343bf7418ddc300f0405177afbd283c2e6c",
       "status": "mapped"
     },
     {
@@ -1535,7 +1810,7 @@
       "document_sha256": "85463c282c9b1d6a4f0e9363435b94029c704eb8af315ad6f04b5ae3cf2d43f4",
       "cli_file": "queryPayloads/mutation.policy.privateAccess.createPolicyRevision.txt",
       "cli_name": "policyPrivateAccessCreatePolicyRevision",
-      "cli_sha256": "85463c282c9b1d6a4f0e9363435b94029c704eb8af315ad6f04b5ae3cf2d43f4",
+      "cli_sha256": "a180f45058f04f11018d310b07b14dfefb47f55cd95f8db7642e2864ca473ae2",
       "status": "imported"
     },
     {
@@ -1554,7 +1829,7 @@
       "document_sha256": "52b574acfc5187a7f2cf49384248decac7fe22eae842209cb0e7feec70956d6a",
       "cli_file": "queryPayloads/mutation.policy.privateAccess.discardPolicyRevision.txt",
       "cli_name": "policyPrivateAccessDiscardPolicyRevision",
-      "cli_sha256": "52b574acfc5187a7f2cf49384248decac7fe22eae842209cb0e7feec70956d6a",
+      "cli_sha256": "e0795da32d577bc6d0f7bd92aca9709e56d14542c224e1ebc8e655c6385c90ab",
       "status": "imported"
     },
     {
@@ -1573,7 +1848,7 @@
       "document_sha256": "38b2f30d282b5af7ce598d0de68eb64735e9e926057c2ec56ad19e80f7236012",
       "cli_file": "queryPayloads/mutation.policy.privateAccess.moveRule.txt",
       "cli_name": "policyPrivateAccessMoveRule",
-      "cli_sha256": "11c0bb35b4c321bcb75f4c055597088f1d9c333ea0f3fb76aa99512d44e90cde",
+      "cli_sha256": "bb7f88d49c86c2b15c0a90addde94b525ae119fded549cfe40fb8e78bd4fad3b",
       "status": "mapped"
     },
     {
@@ -1595,7 +1870,7 @@
       "document_sha256": "34b2c09bb20490dd853df2d99b38de43140159121d4ce2049b1af82c299e415b",
       "cli_file": "queryPayloads/mutation.policy.privateAccess.publishPolicyRevision.txt",
       "cli_name": "policyPrivateAccessPublishPolicyRevision",
-      "cli_sha256": "34b2c09bb20490dd853df2d99b38de43140159121d4ce2049b1af82c299e415b",
+      "cli_sha256": "6706afc774af96e7063e4ab412b82a76235e99684f827e477579ac7261a3c865",
       "status": "imported"
     },
     {
@@ -1614,7 +1889,7 @@
       "document_sha256": "9045da99cb9d6190db9c954e936d05009d41f112d2aa9d647c68ba968d681b8f",
       "cli_file": "queryPayloads/mutation.policy.privateAccess.removeRule.txt",
       "cli_name": "policyPrivateAccessRemoveRule",
-      "cli_sha256": "9045da99cb9d6190db9c954e936d05009d41f112d2aa9d647c68ba968d681b8f",
+      "cli_sha256": "389d1f0d8a27d3b5800cf69b89fc0c49f1034178f4655d1b2cc678edbe4f493b",
       "status": "imported"
     },
     {
@@ -1636,7 +1911,7 @@
       "document_sha256": "6e4c785a4cd3718e97473b214c2bca0ff91d2cb3dc8e2bf8421f5a6ee83d7d91",
       "cli_file": "queryPayloads/mutation.policy.privateAccess.updatePolicy.txt",
       "cli_name": "policyPrivateAccessUpdatePolicy",
-      "cli_sha256": "763fefa4ee93ec487517771f958e6d1646595e13afa50b7b0b024e97ae53d78a",
+      "cli_sha256": "4044de6b6275b0d8536ba9f6d625b4fbe8ecac19435f901cd4e9b6e1c5cbed4c",
       "status": "mapped"
     },
     {
@@ -1647,7 +1922,7 @@
       "document_sha256": "ef613a4882945f5b5203f6cff05a109f8edeb872fbb146f61d82afe2f264cc05",
       "cli_file": "queryPayloads/mutation.policy.privateAccess.updateRule.txt",
       "cli_name": "policyPrivateAccessUpdateRule",
-      "cli_sha256": "f9bfdaf4d405b5fc223c564e8ddea2d57b3d5f05b32ea7800df7a20a7f0c5288",
+      "cli_sha256": "be46538aaaa6ac1997eca261a43693907c88f1fcc5b35640ed2362ec375595de",
       "status": "mapped"
     },
     {
@@ -1794,6 +2069,138 @@
       "status": "mapped"
     },
     {
+      "key": "mutation.policy.siteWebProxy.addRule",
+      "kind": "mutation",
+      "sdk_file": "sources/mutation.policy.siteWebProxy.addRule.gql",
+      "sdk_name": "policySiteWebProxyAddRule",
+      "document_sha256": "51a5d50868db22b8fcb00daf57558334e16ab69327b6d2062a2c54b8b5e5d8ea",
+      "cli_file": "queryPayloads/mutation.policy.siteWebProxy.addRule.txt",
+      "cli_name": "policySiteWebProxyAddRule",
+      "cli_sha256": "9eeb2a0368d7f69e5e8f7cff57407d4a825b971c188fb5e862cd32b861f72066",
+      "status": "imported"
+    },
+    {
+      "key": "mutation.policy.siteWebProxy.addSection",
+      "kind": "mutation",
+      "sdk_file": "sources/mutation.policy.siteWebProxy.addSection.gql",
+      "sdk_name": "policySiteWebProxyAddSection",
+      "document_sha256": "01e40a435803f0882ca9faabc83b12bcfe527e095fff9bba1b3595f2a0eb65e0",
+      "cli_file": "queryPayloads/mutation.policy.siteWebProxy.addSection.txt",
+      "cli_name": "policySiteWebProxyAddSection",
+      "cli_sha256": "283a8d44c69809c91a74eed10ab67b81432b0d33aa266c5c6d28b864da560904",
+      "status": "imported"
+    },
+    {
+      "key": "mutation.policy.siteWebProxy.createPolicyRevision",
+      "kind": "mutation",
+      "sdk_file": "sources/mutation.policy.siteWebProxy.createPolicyRevision.gql",
+      "sdk_name": "policySiteWebProxyCreatePolicyRevision",
+      "document_sha256": "29f671ea8471fcceede683c1b0979a6c631969780987e0fb32233c9e23ffc7e0",
+      "cli_file": "queryPayloads/mutation.policy.siteWebProxy.createPolicyRevision.txt",
+      "cli_name": "policySiteWebProxyCreatePolicyRevision",
+      "cli_sha256": "27161e036b4e908fd26503ead97918a7105a39d8eb1ca4cca99733b876a8d88c",
+      "status": "imported"
+    },
+    {
+      "key": "mutation.policy.siteWebProxy.discardPolicyRevision",
+      "kind": "mutation",
+      "sdk_file": "sources/mutation.policy.siteWebProxy.discardPolicyRevision.gql",
+      "sdk_name": "policySiteWebProxyDiscardPolicyRevision",
+      "document_sha256": "652bc16876614db3022171c54a92e86c063719b154ac8c9a4245b3f832aec19b",
+      "cli_file": "queryPayloads/mutation.policy.siteWebProxy.discardPolicyRevision.txt",
+      "cli_name": "policySiteWebProxyDiscardPolicyRevision",
+      "cli_sha256": "78995e1d40009f87fd0b3ea42f895e426ef1cc6a3eade55c059afd9be2e89115",
+      "status": "imported"
+    },
+    {
+      "key": "mutation.policy.siteWebProxy.moveRule",
+      "kind": "mutation",
+      "sdk_file": "sources/mutation.policy.siteWebProxy.moveRule.gql",
+      "sdk_name": "policySiteWebProxyMoveRule",
+      "document_sha256": "9a590fedb7a79e0d0e12ea21a3251e92caf127e6e814ecd9a7441f1376a6e639",
+      "cli_file": "queryPayloads/mutation.policy.siteWebProxy.moveRule.txt",
+      "cli_name": "policySiteWebProxyMoveRule",
+      "cli_sha256": "b43029e99845919859258f62558be40eaf05a4e2a4e934fdd4a03ea0b6bd4941",
+      "status": "imported"
+    },
+    {
+      "key": "mutation.policy.siteWebProxy.moveSection",
+      "kind": "mutation",
+      "sdk_file": "sources/mutation.policy.siteWebProxy.moveSection.gql",
+      "sdk_name": "policySiteWebProxyMoveSection",
+      "document_sha256": "b6e218fd5059d42755418d0f4db5baaa772854d3f5cc5fbc372118daaeb21ba5",
+      "cli_file": "queryPayloads/mutation.policy.siteWebProxy.moveSection.txt",
+      "cli_name": "policySiteWebProxyMoveSection",
+      "cli_sha256": "e73c3fafb43ed87783627caf73803bd6ac6b0fb290edd4194fc88a2ddb397dd5",
+      "status": "imported"
+    },
+    {
+      "key": "mutation.policy.siteWebProxy.publishPolicyRevision",
+      "kind": "mutation",
+      "sdk_file": "sources/mutation.policy.siteWebProxy.publishPolicyRevision.gql",
+      "sdk_name": "policySiteWebProxyPublishPolicyRevision",
+      "document_sha256": "46a029a5f746de4d7c6512e33c661c8e115e28af22bda0ab7f3fc4db4f4297dc",
+      "cli_file": "queryPayloads/mutation.policy.siteWebProxy.publishPolicyRevision.txt",
+      "cli_name": "policySiteWebProxyPublishPolicyRevision",
+      "cli_sha256": "83cfef228a3aa3e0fcb50eb5f90c1df55f47bda438be671fdbf3660db3da673b",
+      "status": "imported"
+    },
+    {
+      "key": "mutation.policy.siteWebProxy.removeRule",
+      "kind": "mutation",
+      "sdk_file": "sources/mutation.policy.siteWebProxy.removeRule.gql",
+      "sdk_name": "policySiteWebProxyRemoveRule",
+      "document_sha256": "f63ebdcf69c223cdb8b196b301e42900be5b5304e41e7054e984b1bfce678c54",
+      "cli_file": "queryPayloads/mutation.policy.siteWebProxy.removeRule.txt",
+      "cli_name": "policySiteWebProxyRemoveRule",
+      "cli_sha256": "81a244ea77aa8bc0efd74499601249a884a1471bf4d9406a0b0ccda1f1c5bd79",
+      "status": "imported"
+    },
+    {
+      "key": "mutation.policy.siteWebProxy.removeSection",
+      "kind": "mutation",
+      "sdk_file": "sources/mutation.policy.siteWebProxy.removeSection.gql",
+      "sdk_name": "policySiteWebProxyRemoveSection",
+      "document_sha256": "e30cc2f72bc3251416de80621500fa0fb19de8c69eb0e301bbf3767121cd0dfe",
+      "cli_file": "queryPayloads/mutation.policy.siteWebProxy.removeSection.txt",
+      "cli_name": "policySiteWebProxyRemoveSection",
+      "cli_sha256": "bda591d7373e729fd55e3e58d3d464585af57f8e36f03bab208ad60fd31d72ae",
+      "status": "imported"
+    },
+    {
+      "key": "mutation.policy.siteWebProxy.updatePolicy",
+      "kind": "mutation",
+      "sdk_file": "sources/mutation.policy.siteWebProxy.updatePolicy.gql",
+      "sdk_name": "policySiteWebProxyUpdatePolicy",
+      "document_sha256": "e28bc88db42a7ba2a09156aa252533ff58e4b904b1d48b8021e19a7e7c7348b6",
+      "cli_file": "queryPayloads/mutation.policy.siteWebProxy.updatePolicy.txt",
+      "cli_name": "policySiteWebProxyUpdatePolicy",
+      "cli_sha256": "a84662c18e7e1301d9da6d92b83d0e62add6f73d4b7b980d780c7c2be7f1471f",
+      "status": "imported"
+    },
+    {
+      "key": "mutation.policy.siteWebProxy.updateRule",
+      "kind": "mutation",
+      "sdk_file": "sources/mutation.policy.siteWebProxy.updateRule.gql",
+      "sdk_name": "policySiteWebProxyUpdateRule",
+      "document_sha256": "a7a602263409b982bb5a9381379a91dc65c11f3d4d4b0a250bdb6229cead7c5c",
+      "cli_file": "queryPayloads/mutation.policy.siteWebProxy.updateRule.txt",
+      "cli_name": "policySiteWebProxyUpdateRule",
+      "cli_sha256": "1387b48e7d24ff878b701bcfeac130ed1236407a91b7a4bfdc9252f222f508fc",
+      "status": "imported"
+    },
+    {
+      "key": "mutation.policy.siteWebProxy.updateSection",
+      "kind": "mutation",
+      "sdk_file": "sources/mutation.policy.siteWebProxy.updateSection.gql",
+      "sdk_name": "policySiteWebProxyUpdateSection",
+      "document_sha256": "234b96c54725b5caaa8781a6b7eea1c57441c396cb714f8a4b881456a287455b",
+      "cli_file": "queryPayloads/mutation.policy.siteWebProxy.updateSection.txt",
+      "cli_name": "policySiteWebProxyUpdateSection",
+      "cli_sha256": "511895892880a82cd3c2bf3618df7f7032068592c20910566c9af2b4a68f22b1",
+      "status": "imported"
+    },
+    {
       "key": "mutation.policy.socketBypass.addRule",
       "kind": "mutation",
       "sdk_file": "sources/mutation.policy.socketBypass.addRule.gql",
@@ -1898,10 +2305,7 @@
       "sdk_file": "sources/mutation.policy.socketBypass.reorderPolicy.gql",
       "sdk_name": "policySocketBypassReorderPolicy",
       "document_sha256": "56347dd79e2ce372c8e364cdd44af1611173e1b50b5f4ab175df3272ba103693",
-      "cli_file": "queryPayloads/mutation.policy.socketBypass.reorderPolicy.txt",
-      "cli_name": "policySocketBypassReorderPolicy",
-      "cli_sha256": "56347dd79e2ce372c8e364cdd44af1611173e1b50b5f4ab175df3272ba103693",
-      "status": "imported"
+      "status": "sdk_only"
     },
     {
       "key": "mutation.policy.socketBypass.updatePolicy",
@@ -2107,10 +2511,7 @@
       "sdk_file": "sources/mutation.policy.socketLan.reorderPolicy.gql",
       "sdk_name": "policySocketLanReorderPolicy",
       "document_sha256": "924db662411ad8da283804ae95d1afdfb21af2f38fcf3ad55b92ff56a90cb212",
-      "cli_file": "queryPayloads/mutation.policy.socketLan.reorderPolicy.txt",
-      "cli_name": "policySocketLanReorderPolicy",
-      "cli_sha256": "924db662411ad8da283804ae95d1afdfb21af2f38fcf3ad55b92ff56a90cb212",
-      "status": "imported"
+      "status": "sdk_only"
     },
     {
       "key": "mutation.policy.socketLan.updatePolicy",
@@ -2808,10 +3209,7 @@
       "sdk_file": "sources/mutation.policy.wanNetwork.reorderPolicy.gql",
       "sdk_name": "policyWanNetworkReorderPolicy",
       "document_sha256": "fee704bf8d8476569b57a0c25a5af1b70ff2debd8e58d249e307e967c0245fba",
-      "cli_file": "queryPayloads/mutation.policy.wanNetwork.reorderPolicy.txt",
-      "cli_name": "policyWanNetworkReorderPolicy",
-      "cli_sha256": "fee704bf8d8476569b57a0c25a5af1b70ff2debd8e58d249e307e967c0245fba",
-      "status": "imported"
+      "status": "sdk_only"
     },
     {
       "key": "mutation.policy.wanNetwork.updatePolicy",
@@ -3064,6 +3462,105 @@
       "cli_file": "queryPayloads/mutation.popLocationMutations.updateBgpProfile.txt",
       "cli_name": "popLocationMutationsUpdateBgpProfile",
       "cli_sha256": "23ef38e9a23c35c7cf5c81eb9e2eec586c3e4417da8a84bd3ec072c5348da78e",
+      "status": "imported"
+    },
+    {
+      "key": "mutation.posture.addCheckComment",
+      "kind": "mutation",
+      "sdk_file": "sources/mutation.posture.addCheckComment.gql",
+      "sdk_name": "postureAddCheckComment",
+      "document_sha256": "9b4375d2781f9d915bea484be908a74c547f8122dfba816d762aa0a74acf1b89",
+      "cli_file": "queryPayloads/mutation.posture.addCheckComment.txt",
+      "cli_name": "postureAddCheckComment",
+      "cli_sha256": "19d90c2f4ee17408d78edf990dcc1d3697121293e52f4104d4be076f943f6864",
+      "status": "imported"
+    },
+    {
+      "key": "mutation.posture.dismissFinding",
+      "kind": "mutation",
+      "sdk_file": "sources/mutation.posture.dismissFinding.gql",
+      "sdk_name": "postureDismissFinding",
+      "document_sha256": "33e2d4ed6a9a10ffbf7f69bc84a34c4ba1d2fed53d44c0789312972aa0610dd8",
+      "cli_file": "queryPayloads/mutation.posture.dismissFinding.txt",
+      "cli_name": "postureDismissFinding",
+      "cli_sha256": "baee4202a5bdee94510129cb15919bf8bf00e77dfa6102f2824fba821781303a",
+      "status": "imported"
+    },
+    {
+      "key": "mutation.posture.muteCheck",
+      "kind": "mutation",
+      "sdk_file": "sources/mutation.posture.muteCheck.gql",
+      "sdk_name": "postureMuteCheck",
+      "document_sha256": "0900ef691c6e779bf6b15cf134f22430d8ed3b4ff46c042de4bc9b811bebb68d",
+      "cli_file": "queryPayloads/mutation.posture.muteCheck.txt",
+      "cli_name": "postureMuteCheck",
+      "cli_sha256": "fe0112d6bd3a66ea43d80bb98ce638cbe1a1beca010f195c344c773209aedc80",
+      "status": "imported"
+    },
+    {
+      "key": "mutation.posture.muteFinding",
+      "kind": "mutation",
+      "sdk_file": "sources/mutation.posture.muteFinding.gql",
+      "sdk_name": "postureMuteFinding",
+      "document_sha256": "b131592c0c8577df5a307a9ed845a6ca15ad2809b5aaab05c4d9f19d11691da9",
+      "cli_file": "queryPayloads/mutation.posture.muteFinding.txt",
+      "cli_name": "postureMuteFinding",
+      "cli_sha256": "9f762349db83a9501b9909156c010ff085b62c705600ed10c1d4b19d9895f26c",
+      "status": "imported"
+    },
+    {
+      "key": "mutation.posture.reevaluateChecks",
+      "kind": "mutation",
+      "sdk_file": "sources/mutation.posture.reevaluateChecks.gql",
+      "sdk_name": "postureReevaluateChecks",
+      "document_sha256": "53502c5335e26be670a7f92c4054ba856c6fa586fa9ba92b176d4a7fd2c48533",
+      "cli_file": "queryPayloads/mutation.posture.reevaluateChecks.txt",
+      "cli_name": "postureReevaluateChecks",
+      "cli_sha256": "ca9fb868e94728e2008e71c9223dc873e889797eb30bd7ea5f7d4b47a80ad0f7",
+      "status": "imported"
+    },
+    {
+      "key": "mutation.posture.undismissFinding",
+      "kind": "mutation",
+      "sdk_file": "sources/mutation.posture.undismissFinding.gql",
+      "sdk_name": "postureUndismissFinding",
+      "document_sha256": "a052eee463e8b143775e00fe31829613d2c59c04c920d9725bc83dfc4ec0f677",
+      "cli_file": "queryPayloads/mutation.posture.undismissFinding.txt",
+      "cli_name": "postureUndismissFinding",
+      "cli_sha256": "f586628b10c51924ebab65cd32be20f1d2c42c61ba55b8649581b0784fed17f8",
+      "status": "imported"
+    },
+    {
+      "key": "mutation.posture.unmuteCheck",
+      "kind": "mutation",
+      "sdk_file": "sources/mutation.posture.unmuteCheck.gql",
+      "sdk_name": "postureUnmuteCheck",
+      "document_sha256": "8c600d0561229afa66c9f4d232d4c75683ab65d53130b63d811b6cd34a26c7e6",
+      "cli_file": "queryPayloads/mutation.posture.unmuteCheck.txt",
+      "cli_name": "postureUnmuteCheck",
+      "cli_sha256": "72eade7a2821a2ac350bf83cc028c94c07e827bd03a3b79584e1841ced75fdc8",
+      "status": "imported"
+    },
+    {
+      "key": "mutation.posture.unmuteFinding",
+      "kind": "mutation",
+      "sdk_file": "sources/mutation.posture.unmuteFinding.gql",
+      "sdk_name": "postureUnmuteFinding",
+      "document_sha256": "fe0f531269580f2f7e5732c5de4cc8cb034eae358ac2f1ed5e171fbb8a5e3648",
+      "cli_file": "queryPayloads/mutation.posture.unmuteFinding.txt",
+      "cli_name": "postureUnmuteFinding",
+      "cli_sha256": "15ca1f7d2bc2753952971e76a17686bcf936f58548ff81888fa802138c8a7f59",
+      "status": "imported"
+    },
+    {
+      "key": "mutation.posture.updateCheckConfiguration",
+      "kind": "mutation",
+      "sdk_file": "sources/mutation.posture.updateCheckConfiguration.gql",
+      "sdk_name": "postureUpdateCheckConfiguration",
+      "document_sha256": "0bdc0184608f8cc7f7d7312033bae8d669a6361e40b3b87d30965afe56e43577",
+      "cli_file": "queryPayloads/mutation.posture.updateCheckConfiguration.txt",
+      "cli_name": "postureUpdateCheckConfiguration",
+      "cli_sha256": "e6d0734e28c0a5d13bc07a7ee08612feae77a1393b53b76b635fa2da1b3deed4",
       "status": "imported"
     },
     {
@@ -4605,7 +5102,7 @@
       "document_sha256": "07808f7d6535f3d46d9cf0e546981e9e94d3c0224aa4d4c14bd973042eca82cb",
       "cli_file": "queryPayloads/mutation.xdr.analystFeedback.txt",
       "cli_name": "xdrAnalystFeedback",
-      "cli_sha256": "1896011e961dde95a68063d727ad1a661fc52dfe8aabab81e9cc2626b004d21e",
+      "cli_sha256": "92a116f5669650b6f56c3a33fb67b932cd912078a92b85df351def4d11f7a945",
       "status": "imported"
     },
     {
@@ -4860,7 +5357,7 @@
       "document_sha256": "7e60d72cfc1fd6df40fe73119f2fee1be7ec8688f682e270b2d6965a36157524",
       "cli_file": "queryPayloads/query.businessPlatform.txt",
       "cli_name": "businessPlatform",
-      "cli_sha256": "7e60d72cfc1fd6df40fe73119f2fee1be7ec8688f682e270b2d6965a36157524",
+      "cli_sha256": "04fcdc40350d5e598d1914979ff4c44e99a195e796dfee4b66670e43e351806d",
       "status": "imported"
     },
     {
@@ -4882,7 +5379,7 @@
       "document_sha256": "4c8f276db3cb6f896032d5316f4905e025d0406b1e78fc88b9b8d7ed99e1a201",
       "cli_file": "queryPayloads/query.catalogs.catalogApplicationList.txt",
       "cli_name": "catalogsCatalogApplicationList",
-      "cli_sha256": "4c8f276db3cb6f896032d5316f4905e025d0406b1e78fc88b9b8d7ed99e1a201",
+      "cli_sha256": "05a556852912dfdb7fa5f025b828d1063510f88a85f3c4171063e80fe2a15612",
       "status": "imported"
     },
     {
@@ -5181,8 +5678,151 @@
       "document_sha256": "66f6b8ed9c69ca100452730dd89435eaee735699df4083b2c66a75b3c479504e",
       "cli_file": "queryPayloads/query.licensing.txt",
       "cli_name": "licensing",
-      "cli_sha256": "af077d684d29ffd0dbd23790f927f506ff20c43aa1411ebf11b0ce6254087657",
+      "cli_sha256": "214b6234c191abbf6b6a1610cdd98f83fd9905a5904d2f13329a76921d62c635",
       "status": "mapped"
+    },
+    {
+      "key": "query.networkConfig.dhcp.option",
+      "kind": "query",
+      "sdk_file": "sources/query.networkConfig.dhcp.option.gql",
+      "sdk_name": "networkConfigDhcpOption",
+      "document_sha256": "e50ab325ed1bdc291a48d3ff2227dae3cd8d88e72235c5b277c2226841b09448",
+      "cli_file": "queryPayloads/query.networkConfig.dhcp.option.txt",
+      "cli_name": "networkConfigDhcpOption",
+      "cli_sha256": "1c499dc33b89549958005a04c520fbd1095acf1afc654253b436feca275b2d52",
+      "status": "imported"
+    },
+    {
+      "key": "query.networkConfig.dhcp.optionList",
+      "kind": "query",
+      "sdk_file": "sources/query.networkConfig.dhcp.optionList.gql",
+      "sdk_name": "networkConfigDhcpOptionList",
+      "document_sha256": "02593ed4aeb20b5fedd8350f65a7acd1fb173a2ef8b07aea2ee0c7bebaec8298",
+      "cli_file": "queryPayloads/query.networkConfig.dhcp.optionList.txt",
+      "cli_name": "networkConfigDhcpOptionList",
+      "cli_sha256": "b8bdbe8ccff88d20c52307d264f21bdb25444b4bc48a3ec74224150877ecd24c",
+      "status": "imported"
+    },
+    {
+      "key": "query.networkConfig.dhcp.relayGroup",
+      "kind": "query",
+      "sdk_file": "sources/query.networkConfig.dhcp.relayGroup.gql",
+      "sdk_name": "networkConfigDhcpRelayGroup",
+      "document_sha256": "43d91e51f76357ac8c765afaf86a1aa696394be11fcab6ec9e2295550c23cf55",
+      "cli_file": "queryPayloads/query.networkConfig.dhcp.relayGroup.txt",
+      "cli_name": "networkConfigDhcpRelayGroup",
+      "cli_sha256": "b4abfb49d0209b258a7911523ccaef9e174262b8428c9a6952877d9a1aab1cea",
+      "status": "imported"
+    },
+    {
+      "key": "query.networkConfig.dhcp.relayGroupList",
+      "kind": "query",
+      "sdk_file": "sources/query.networkConfig.dhcp.relayGroupList.gql",
+      "sdk_name": "networkConfigDhcpRelayGroupList",
+      "document_sha256": "16a318d700c56d6e31c00721aeb44742cd9faf98915abc489903a91725df4b3f",
+      "cli_file": "queryPayloads/query.networkConfig.dhcp.relayGroupList.txt",
+      "cli_name": "networkConfigDhcpRelayGroupList",
+      "cli_sha256": "7cf2c00a3178aadbf2265a1f45ec7919860acd438b3299f527ccec02837c8c54",
+      "status": "imported"
+    },
+    {
+      "key": "query.networkConfig.dhcp.settings",
+      "kind": "query",
+      "sdk_file": "sources/query.networkConfig.dhcp.settings.gql",
+      "sdk_name": "networkConfigDhcpSettings",
+      "document_sha256": "ac654e8aba5edc9fe3dc29a97b38990908378950c9c1095b84229cf547b99874",
+      "cli_file": "queryPayloads/query.networkConfig.dhcp.settings.txt",
+      "cli_name": "networkConfigDhcpSettings",
+      "cli_sha256": "c0043c3af7d52da45d861b2de6baba059a5dc4e50a0ab817c466624b3252db67",
+      "status": "imported"
+    },
+    {
+      "key": "query.networkConfig.dns.forwardingRule",
+      "kind": "query",
+      "sdk_file": "sources/query.networkConfig.dns.forwardingRule.gql",
+      "sdk_name": "networkConfigDnsForwardingRule",
+      "document_sha256": "f0667b7b237af606ec5e2f12dccc3c602fc85eee08a1eb2050adea588e8c9b38",
+      "cli_file": "queryPayloads/query.networkConfig.dns.forwardingRule.txt",
+      "cli_name": "networkConfigDnsForwardingRule",
+      "cli_sha256": "7b38213c850b8461f0e8dbdf714950511802694aef62d2051c6de96aa8460881",
+      "status": "imported"
+    },
+    {
+      "key": "query.networkConfig.dns.forwardingRuleList",
+      "kind": "query",
+      "sdk_file": "sources/query.networkConfig.dns.forwardingRuleList.gql",
+      "sdk_name": "networkConfigDnsForwardingRuleList",
+      "document_sha256": "aaf11d481632f5c0a97caf881f2bb86b07b05c591c67b715b9a0bb001dc27462",
+      "cli_file": "queryPayloads/query.networkConfig.dns.forwardingRuleList.txt",
+      "cli_name": "networkConfigDnsForwardingRuleList",
+      "cli_sha256": "2f4819f9cff0dee822a9e7b845c116e71457397c12160480b92e9c97af007cfd",
+      "status": "imported"
+    },
+    {
+      "key": "query.networkConfig.dns.serverSet",
+      "kind": "query",
+      "sdk_file": "sources/query.networkConfig.dns.serverSet.gql",
+      "sdk_name": "networkConfigDnsServerSet",
+      "document_sha256": "884de737158a8121fa3adab5d7f08b47866a706f3bd43a3d11d5c2ce18ee1e37",
+      "cli_file": "queryPayloads/query.networkConfig.dns.serverSet.txt",
+      "cli_name": "networkConfigDnsServerSet",
+      "cli_sha256": "a8aef1b2885d2c677eee2ffd7605762d6b73fa172b66a0fc6216c234733f8f29",
+      "status": "imported"
+    },
+    {
+      "key": "query.networkConfig.dns.serverSetList",
+      "kind": "query",
+      "sdk_file": "sources/query.networkConfig.dns.serverSetList.gql",
+      "sdk_name": "networkConfigDnsServerSetList",
+      "document_sha256": "dadb7c344e2546f72da7dced3c61a81b19d17f535c773258f41b11a4cd2c7475",
+      "cli_file": "queryPayloads/query.networkConfig.dns.serverSetList.txt",
+      "cli_name": "networkConfigDnsServerSetList",
+      "cli_sha256": "ee3b7cc92aeb11d4ac3d599f0dfb0fcefedfac066d7137e0963eef63b09b2100",
+      "status": "imported"
+    },
+    {
+      "key": "query.networkConfig.dns.settings",
+      "kind": "query",
+      "sdk_file": "sources/query.networkConfig.dns.settings.gql",
+      "sdk_name": "networkConfigDnsSettings",
+      "document_sha256": "9bf284943738306d3fb4bfc3b6a63737bbdc6c10389d33164d91af1d0b442086",
+      "cli_file": "queryPayloads/query.networkConfig.dns.settings.txt",
+      "cli_name": "networkConfigDnsSettings",
+      "cli_sha256": "46d9dd9d3337c1522ece2399885dfd8905f0c21993bb0f285e9fdb381408e122",
+      "status": "imported"
+    },
+    {
+      "key": "query.networkConfig.dns.siteSettings",
+      "kind": "query",
+      "sdk_file": "sources/query.networkConfig.dns.siteSettings.gql",
+      "sdk_name": "networkConfigDnsSiteSettings",
+      "document_sha256": "bef0657f7f9334bd59ba2c7474d6371a956a6b018a2bc8cccaf6ee2ed291f00b",
+      "cli_file": "queryPayloads/query.networkConfig.dns.siteSettings.txt",
+      "cli_name": "networkConfigDnsSiteSettings",
+      "cli_sha256": "2382b201ccd3ed5648e3cbb0b02d91230761f3a89d00dd6f393841fc66ed640c",
+      "status": "imported"
+    },
+    {
+      "key": "query.networkConfig.dns.suffixSet",
+      "kind": "query",
+      "sdk_file": "sources/query.networkConfig.dns.suffixSet.gql",
+      "sdk_name": "networkConfigDnsSuffixSet",
+      "document_sha256": "bb60c0b5bd01a816d45938aa793fbf62c28da5c00d49574a646008bbe795ef56",
+      "cli_file": "queryPayloads/query.networkConfig.dns.suffixSet.txt",
+      "cli_name": "networkConfigDnsSuffixSet",
+      "cli_sha256": "cca2a898eaccc23e3739e52fd6ecf9c68e80a94fc91d06d270634257adc7d3d1",
+      "status": "imported"
+    },
+    {
+      "key": "query.networkConfig.dns.suffixSetList",
+      "kind": "query",
+      "sdk_file": "sources/query.networkConfig.dns.suffixSetList.gql",
+      "sdk_name": "networkConfigDnsSuffixSetList",
+      "document_sha256": "b1f8dc3e84f9e0bfc7bb60d1eaabf7769bcc52962c96b2802ff8ec9a8698d55f",
+      "cli_file": "queryPayloads/query.networkConfig.dns.suffixSetList.txt",
+      "cli_name": "networkConfigDnsSuffixSetList",
+      "cli_sha256": "29d79b7f04d6177c09130b2afa10a52c48451689466c3430b6e59059767f6563",
+      "status": "imported"
     },
     {
       "key": "query.notification",
@@ -5307,7 +5947,7 @@
       "document_sha256": "fbaca6be709a53cbedb1f194d0cf5a130e884a652f9aaf0fcd32d4ec61aac176",
       "cli_file": "queryPayloads/query.policy.privateAccess.policy.txt",
       "cli_name": "policyPrivateAccessPolicy",
-      "cli_sha256": "bae4831938d307faab34be71cfe390dd1d5742e4953aba3122e77f7d8b9adba2",
+      "cli_sha256": "551ad61e09c917f24fb72c15f1fa9ed253b14aa14b6645484329241dc9ca33d2",
       "status": "mapped"
     },
     {
@@ -5328,6 +5968,17 @@
       "cli_name": "policyRemotePortFwdPolicy",
       "cli_sha256": "37e61afdf9e48072b95679a6e9f98475ca3d4152dabeed547b953f0eee98dbd7",
       "status": "mapped"
+    },
+    {
+      "key": "query.policy.siteWebProxy.policy",
+      "kind": "query",
+      "sdk_file": "sources/query.policy.siteWebProxy.policy.gql",
+      "sdk_name": "policySiteWebProxyPolicy",
+      "document_sha256": "949939601b0e841415ecf15a12dac0f3fd544ec413256c4ce47160d677cdb922",
+      "cli_file": "queryPayloads/query.policy.siteWebProxy.policy.txt",
+      "cli_name": "policySiteWebProxyPolicy",
+      "cli_sha256": "348e02691649536e496b2523a2e6e5cf439ec492458925e592749e3652d04a43",
+      "status": "imported"
     },
     {
       "key": "query.policy.socketBypass.policy",
@@ -5448,6 +6099,105 @@
       "cli_file": "queryPayloads/query.popLocations.txt",
       "cli_name": "popLocations",
       "cli_sha256": "d02d0c4506ea6a649697b82ecb30f960a5d9e7b231f3b8cdf16e48a925d665e2",
+      "status": "imported"
+    },
+    {
+      "key": "query.posture.accountSummaryList",
+      "kind": "query",
+      "sdk_file": "sources/query.posture.accountSummaryList.gql",
+      "sdk_name": "postureAccountSummaryList",
+      "document_sha256": "656de321f6a3c65b84be23b94b8881936e8adb48852aa638c8b4fd9570c03d88",
+      "cli_file": "queryPayloads/query.posture.accountSummaryList.txt",
+      "cli_name": "postureAccountSummaryList",
+      "cli_sha256": "d636e416dbff6737d96553d1392e8b6fa30ed0a5b56eb2155090edd488f4effc",
+      "status": "imported"
+    },
+    {
+      "key": "query.posture.categoryList",
+      "kind": "query",
+      "sdk_file": "sources/query.posture.categoryList.gql",
+      "sdk_name": "postureCategoryList",
+      "document_sha256": "6870eb40034a570ab8c0ff616c614da57f8f077f5069c385e1c7c11f7fdde4dd",
+      "cli_file": "queryPayloads/query.posture.categoryList.txt",
+      "cli_name": "postureCategoryList",
+      "cli_sha256": "7511e7bfb3f5ec3ba91bf780d9d47eba79d52944568162a871be524181e09f71",
+      "status": "imported"
+    },
+    {
+      "key": "query.posture.checkResultList",
+      "kind": "query",
+      "sdk_file": "sources/query.posture.checkResultList.gql",
+      "sdk_name": "postureCheckResultList",
+      "document_sha256": "9dba868fefa904540770e72d3a811972aa507e45f06d6bdbaa75ab4bca0d0764",
+      "cli_file": "queryPayloads/query.posture.checkResultList.txt",
+      "cli_name": "postureCheckResultList",
+      "cli_sha256": "961e7122aeda987412c5983627bfdbaf1b0cca3b5c30c060b9b2b4af2fa155bc",
+      "status": "imported"
+    },
+    {
+      "key": "query.posture.checkSummary",
+      "kind": "query",
+      "sdk_file": "sources/query.posture.checkSummary.gql",
+      "sdk_name": "postureCheckSummary",
+      "document_sha256": "bfbc7eed6a2cb93823e34a3b23fc30168b6cb642b46fad503787465fec45d6d6",
+      "cli_file": "queryPayloads/query.posture.checkSummary.txt",
+      "cli_name": "postureCheckSummary",
+      "cli_sha256": "ecc879dea4c2193a91de098a2e0d2722167e9f885b39c2ceb214f2fb316f089a",
+      "status": "imported"
+    },
+    {
+      "key": "query.posture.complianceFrameworkList",
+      "kind": "query",
+      "sdk_file": "sources/query.posture.complianceFrameworkList.gql",
+      "sdk_name": "postureComplianceFrameworkList",
+      "document_sha256": "41b416564b3ee423e7951a708f244e381391c01208c154c1b743d50c53bd6f9c",
+      "cli_file": "queryPayloads/query.posture.complianceFrameworkList.txt",
+      "cli_name": "postureComplianceFrameworkList",
+      "cli_sha256": "e8aa3865089721469785815b7d0399a1511b5c6c0e4169118128580038e55fe7",
+      "status": "imported"
+    },
+    {
+      "key": "query.posture.dailySummaryList",
+      "kind": "query",
+      "sdk_file": "sources/query.posture.dailySummaryList.gql",
+      "sdk_name": "postureDailySummaryList",
+      "document_sha256": "8b18c7f48b27bbbf68d7622683f5cfe2c70ad80d5c50d0c32b07076b0acc79b7",
+      "cli_file": "queryPayloads/query.posture.dailySummaryList.txt",
+      "cli_name": "postureDailySummaryList",
+      "cli_sha256": "db5b5047c3187647f302020382c43c5b5a96882e27301ed28c23f8ad3882f206",
+      "status": "imported"
+    },
+    {
+      "key": "query.posture.definitionList",
+      "kind": "query",
+      "sdk_file": "sources/query.posture.definitionList.gql",
+      "sdk_name": "postureDefinitionList",
+      "document_sha256": "790d04c12aea84a3d54f1cd4c1e7f110f48f3148f085a19486ce6d22faa23339",
+      "cli_file": "queryPayloads/query.posture.definitionList.txt",
+      "cli_name": "postureDefinitionList",
+      "cli_sha256": "9e1d6400a2db3aa299c67bc7cd9aafa64b32ccd9c0fa03264b70cd4ce281df1f",
+      "status": "imported"
+    },
+    {
+      "key": "query.posture.findingList",
+      "kind": "query",
+      "sdk_file": "sources/query.posture.findingList.gql",
+      "sdk_name": "postureFindingList",
+      "document_sha256": "b4172553d82a853633f6201785fce3cc48b368f0724183fa2f57a2b91328348e",
+      "cli_file": "queryPayloads/query.posture.findingList.txt",
+      "cli_name": "postureFindingList",
+      "cli_sha256": "5e62377ae8fd56cebb903e6ec126d35682905a954b9d1da0dec8896c122e9cdf",
+      "status": "imported"
+    },
+    {
+      "key": "query.posture.findingSummary",
+      "kind": "query",
+      "sdk_file": "sources/query.posture.findingSummary.gql",
+      "sdk_name": "postureFindingSummary",
+      "document_sha256": "d651bce0a2d26ef56878a1eb60396adcdbc1eddee1a9715ad14a6fd73c4b3db6",
+      "cli_file": "queryPayloads/query.posture.findingSummary.txt",
+      "cli_name": "postureFindingSummary",
+      "cli_sha256": "3632d874f60c05b7ae3c949f8874f4cc63dd7a9de234931b30b36a96a6029f23",
       "status": "imported"
     },
     {
@@ -5859,7 +6609,7 @@
       "document_sha256": "1f50789ac138ebe3720a6474fc4009847e2f8a668b1912db4cbff1dba1c31d42",
       "cli_file": "queryPayloads/query.xdr.stories.txt",
       "cli_name": "xdrStories",
-      "cli_sha256": "8214e9aa651f8f6e8c4998a864021e72842228ffedff4cbd8ed182760a4b5175",
+      "cli_sha256": "ea3d1137603426c46ceb05a6884142e394fdcd9717c3d30f5122550b5508a080",
       "status": "mapped"
     },
     {

@@ -5,16 +5,19 @@ SCHEMA_FILE ?= cato_api.graphqls
 PATCH_DIR ?= schema-patches
 PATCH_FILES := $(sort $(wildcard $(PATCH_DIR)/*.patch))
 CLI_ROOT ?= ../cato-cli
-EXPECTED_OPERATIONS ?= 544
+EXPECTED_OPERATIONS ?= 0
 
 ##@ Generator
-.PHONY: generate operations-import operations-check generate-check
+.PHONY: generate operations-import operations-sync operations-check generate-check
 
 generate: operations-check ## Validate operations, then generate client and models
 	go tool gqlgenc
 
 operations-import: ## Import validated GraphQL operations from cato-cli
 	go run ./cmd/gqlops import --cli-root "$(CLI_ROOT)" --expected "$(EXPECTED_OPERATIONS)"
+
+operations-sync: ## Import cato-cli operations and regenerate the SDK
+	./scripts/sync_operations.sh "$(CLI_ROOT)"
 
 operations-check: ## Validate canonical GraphQL operations and manifest
 	go run ./cmd/gqlops check --expected "$(EXPECTED_OPERATIONS)"
