@@ -9,7 +9,7 @@ import (
 	"github.com/catonetworks/cato-go-sdk/internal/gqlops"
 )
 
-const expectedOperations = 544
+const expectedOperations = 0
 
 func main() {
 	if err := run(os.Args[1:], os.Stdout, os.Stderr); err != nil {
@@ -90,7 +90,11 @@ func runCheck(arguments []string, stdout, stderr io.Writer) error {
 	if err := gqlops.Check(gqlops.CheckConfig{SDKRoot: *sdkRoot, Expected: *expected}); err != nil {
 		return err
 	}
-	fmt.Fprintf(stdout, "validated %d canonical operations\n", *expected)
+	if *expected > 0 {
+		fmt.Fprintf(stdout, "validated %d canonical operations\n", *expected)
+	} else {
+		fmt.Fprintln(stdout, "validated canonical operations")
+	}
 	return nil
 }
 

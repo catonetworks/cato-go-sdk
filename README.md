@@ -190,6 +190,16 @@ has the same semantic path or operation name. New documents are installed only
 after the complete candidate set validates. `operations/manifest.json` records
 the mapping and source hashes.
 
+To import CLI operations and regenerate and verify the SDK in one step:
+
+```sh
+make operations-sync CLI_ROOT=../cato-cli
+```
+
+Operation-count checks are opt-in. `operations-sync` discovers the current
+count from the CLI; pin one explicitly with `EXPECTED_OPERATIONS=<count>` when
+needed.
+
 Before generation, validate operation names, semantic keys, schema
 compatibility, file paths, and manifest coverage:
 

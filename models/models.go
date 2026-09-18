@@ -29421,9 +29421,6 @@ func (e *PostureCheckEventActorType) UnmarshalGQL(v any) error {
 	}
 
 	*e = PostureCheckEventActorType(str)
-	if !e.IsValid() {
-		return fmt.Errorf("%s is not a valid PostureCheckEventActorType", str)
-	}
 	return nil
 }
 
@@ -29492,9 +29489,6 @@ func (e *PostureCheckEventType) UnmarshalGQL(v any) error {
 	}
 
 	*e = PostureCheckEventType(str)
-	if !e.IsValid() {
-		return fmt.Errorf("%s is not a valid PostureCheckEventType", str)
-	}
 	return nil
 }
 
@@ -29549,9 +29543,6 @@ func (e *PostureComparisonType) UnmarshalGQL(v any) error {
 	}
 
 	*e = PostureComparisonType(str)
-	if !e.IsValid() {
-		return fmt.Errorf("%s is not a valid PostureComparisonType", str)
-	}
 	return nil
 }
 
@@ -29612,9 +29603,6 @@ func (e *PostureImpact) UnmarshalGQL(v any) error {
 	}
 
 	*e = PostureImpact(str)
-	if !e.IsValid() {
-		return fmt.Errorf("%s is not a valid PostureImpact", str)
-	}
 	return nil
 }
 
@@ -29681,9 +29669,6 @@ func (e *PostureImpactedEntityType) UnmarshalGQL(v any) error {
 	}
 
 	*e = PostureImpactedEntityType(str)
-	if !e.IsValid() {
-		return fmt.Errorf("%s is not a valid PostureImpactedEntityType", str)
-	}
 	return nil
 }
 
@@ -29738,9 +29723,6 @@ func (e *PostureMuteStatus) UnmarshalGQL(v any) error {
 	}
 
 	*e = PostureMuteStatus(str)
-	if !e.IsValid() {
-		return fmt.Errorf("%s is not a valid PostureMuteStatus", str)
-	}
 	return nil
 }
 
@@ -29793,9 +29775,6 @@ func (e *PostureResolutionStatus) UnmarshalGQL(v any) error {
 	}
 
 	*e = PostureResolutionStatus(str)
-	if !e.IsValid() {
-		return fmt.Errorf("%s is not a valid PostureResolutionStatus", str)
-	}
 	return nil
 }
 
@@ -29852,9 +29831,6 @@ func (e *PostureResultStatus) UnmarshalGQL(v any) error {
 	}
 
 	*e = PostureResultStatus(str)
-	if !e.IsValid() {
-		return fmt.Errorf("%s is not a valid PostureResultStatus", str)
-	}
 	return nil
 }
 
@@ -29907,9 +29883,6 @@ func (e *PostureSuppressedStatus) UnmarshalGQL(v any) error {
 	}
 
 	*e = PostureSuppressedStatus(str)
-	if !e.IsValid() {
-		return fmt.Errorf("%s is not a valid PostureSuppressedStatus", str)
-	}
 	return nil
 }
 
