@@ -17,10 +17,6 @@ pipeline {
         }
     }
 
-    triggers {
-        cron('H H * * 1')
-    }
-
     parameters {
         string(
             name: 'BASE_BRANCH',
@@ -102,6 +98,7 @@ pipeline {
         stage('Prepare branch') {
             steps {
                 script {
+                    sh 'rm -rf -- cato-cli'
                     env.CHANGES_DETECTED = sh(
                         script: 'if [ -n "$(git status --porcelain)" ]; then echo true; else echo false; fi',
                         returnStdout: true
