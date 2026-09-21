@@ -1,5 +1,5 @@
 // Triggered manually or via GitHub webhook (Generic Webhook Trigger plugin).
-// Checks out a feature branch of cato-go-sdk, clones terraform-provider-cato
+// Checks out a branch of cato-go-sdk, clones terraform-provider-cato
 // at the requested branch, replaces its go.mod SDK dependency with the local
 // checkout, and runs acceptance tests against a real Cato API account.
 //
@@ -13,7 +13,7 @@
 //   cato-acctest-baseurl     →  CATO_BASEURL
 //   cato-acctest-token       →  CATO_TOKEN
 //   automation-github-user   →  used to clone provider repo
-//   cato-acctest-gh-token    →  GitHub PAT with repo:status scope (posts check to PR)
+//   cato-acctest-gh-token    →  GitHub PAT with repo:status scope (posts commit status)
 //
 // TFACC_TEST_SKIP and TFACC_TEST_VARS are stored in-repo (non-sensitive config).
 
@@ -30,14 +30,15 @@ pipeline {
             genericVariables: [
                 // Push payload carries the full ref: refs/heads/<branch>
                 [key: 'GIT_REF', value: '$.ref',   defaultValue: ''],
-                // Commit SHA after the push — used to post status back to GitHub
+                // Commit SHA after the push — also rejects branch-deletion events
                 [key: 'GIT_SHA', value: '$.after', defaultValue: '']
             ],
             token: 'sdk-acctest',
             causeString: 'Push to $GIT_REF',
-            // Only trigger on feature branch pushes — skip main, master, and tags.
-            regexpFilterText:       '$GIT_REF',
-            regexpFilterExpression: '^refs/heads/(?!main$|master$).+',
+            // Trigger on branch pushes, including merges to main. Reject tags and
+            // branch-deletion pushes, whose $.after is 40 zeroes.
+            regexpFilterText:       '$GIT_REF:$GIT_SHA',
+            regexpFilterExpression: '^refs/heads/.+:(?!0{40}$)[0-9a-fA-F]{40}$',
             printContributedVariables: true,
             printPostContent: false
         )
@@ -47,7 +48,7 @@ pipeline {
         string(
             name: 'SDK_BRANCH',
             defaultValue: 'main',
-            description: 'Feature branch of cato-go-sdk to test (e.g. feat/my-new-query)'
+            description: 'Branch of cato-go-sdk to test (e.g. feat/my-new-query)'
         )
         string(
             name: 'PROVIDER_BRANCH',
@@ -77,6 +78,10 @@ pipeline {
                     sh '''
                         RAW="${GIT_REF:-${SDK_BRANCH}}"
                         BRANCH="${RAW#refs/heads/}"
+                        if [ -z "$BRANCH" ]; then
+                            echo "SDK branch is empty" >&2
+                            exit 1
+                        fi
                         git fetch origin
                         git checkout -B "$BRANCH" "origin/$BRANCH"
                     '''
