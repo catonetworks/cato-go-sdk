@@ -6,6 +6,7 @@ patch_dir="${PATCH_DIR:-schema-patches}"
 schema_url="${SCHEMA_CURL_URL:-https://system.cc.catonetworks.com/api/schema?with_undocumented=true}"
 allow_custom_schema_url="${ALLOW_CUSTOM_SCHEMA_URL:-false}"
 manual_work_file="${SCHEMA_PATCH_MANUAL_WORK_FILE:-schema-patch-manual-work-needed.txt}"
+cli_root="${CLI_ROOT:-}"
 
 validate_schema_url() {
 	case "${schema_url}" in
@@ -109,11 +110,27 @@ triage_schema_patches
 echo "Applying schema patches"
 make apply-patches
 
-echo "Generating SDK client and models"
-if ! make generate; then
-	echo "Code generation failed." >&2
-	echo "If this is an unmapped custom scalar, add a scalar implementation and .gqlgenc.yml mapping." >&2
-	exit 1
+if [[ -n "${cli_root}" ]]; then
+	if [[ ! -d "${cli_root}/queryPayloads" ]]; then
+		echo "CLI checkout has no queryPayloads directory: ${cli_root}" >&2
+		exit 1
+	fi
+
+	echo "Importing CLI queries and mutations and regenerating SDK"
+	if ! make operations-sync \
+		CLI_ROOT="${cli_root}" \
+		EXPECTED_OPERATIONS="${EXPECTED_OPERATIONS:-0}"; then
+		echo "CLI operation sync or SDK generation failed." >&2
+		echo "If this is an unmapped custom scalar, add a scalar implementation and .gqlgenc.yml mapping." >&2
+		exit 1
+	fi
+else
+	echo "Generating SDK client and models"
+	if ! make generate; then
+		echo "Code generation failed." >&2
+		echo "If this is an unmapped custom scalar, add a scalar implementation and .gqlgenc.yml mapping." >&2
+		exit 1
+	fi
 fi
 
 echo "Verifying Go build"

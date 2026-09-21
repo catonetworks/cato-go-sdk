@@ -33,6 +33,11 @@ pipeline {
             description: 'Schema endpoint. Scheduled runs should use the default Cato endpoint.'
         )
         string(
+            name: 'CLI_REF',
+            defaultValue: 'main',
+            description: 'cato-cli branch or ref whose generated queries and mutations are imported.'
+        )
+        string(
             name: 'SLACK_CHANNEL',
             defaultValue: '#eng-proj-terraform-tests',
             description: 'Slack channel for schema update failure notifications.'
@@ -68,14 +73,28 @@ pipeline {
             }
         }
 
+        stage('Checkout CLI operations') {
+            steps {
+                dir('cato-cli') {
+                    git(
+                        url: 'https://github.com/catonetworks/cato-cli.git',
+                        branch: params.CLI_REF
+                    )
+                }
+            }
+        }
+
         stage('Refresh schema') {
             steps {
-                withEnv([
-                    "SCHEMA_CURL_URL=${params.SCHEMA_CURL_URL}",
-                    "ALLOW_CUSTOM_SCHEMA_URL=${params.ALLOW_CUSTOM_SCHEMA_URL}",
-                    'SCHEMA_PATCH_MANUAL_WORK_FILE=schema-patch-manual-work-needed.txt'
-                ]) {
-                    sh 'bash scripts/schema_update_ci.sh'
+                script {
+                    withEnv([
+                        "SCHEMA_CURL_URL=${params.SCHEMA_CURL_URL}",
+                        "ALLOW_CUSTOM_SCHEMA_URL=${params.ALLOW_CUSTOM_SCHEMA_URL}",
+                        "CLI_ROOT=${pwd()}/cato-cli",
+                        'SCHEMA_PATCH_MANUAL_WORK_FILE=schema-patch-manual-work-needed.txt'
+                    ]) {
+                        sh 'bash scripts/schema_update_ci.sh'
+                    }
                 }
             }
         }
@@ -105,6 +124,7 @@ pipeline {
                           schema-patches \
                           scalars \
                           sources \
+                          operations/manifest.json \
                           .gqlgenc.yml \
                           go.mod \
                           go.sum
@@ -156,6 +176,7 @@ EOF
                     def prBody = '''## Summary
 - Refreshes cato_api.graphqls from the upstream Cato schema endpoint.
 - Applies and validates schema patches, deleting patch files that upstream now includes.
+- Imports generated queries and mutations from the matching cato-cli schema branch.
 - Regenerates the Go SDK client/models and verifies `go build ./...`.
 
 ## Test plan
