@@ -200,6 +200,11 @@ Operation-count checks are opt-in. `operations-sync` discovers the current
 count from the CLI; pin one explicitly with `EXPECTED_OPERATIONS=<count>` when
 needed.
 
+The schema-update CI job checks out the CLI ref that triggered it, sets
+`CLI_ROOT`, and runs this same sync script before generating the SDK. This keeps
+new CLI queries and mutations validated, imported, and represented in the
+operation manifest.
+
 Before generation, validate operation names, semantic keys, schema
 compatibility, file paths, and manifest coverage:
 
