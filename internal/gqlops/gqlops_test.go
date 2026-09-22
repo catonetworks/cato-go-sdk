@@ -39,6 +39,13 @@ func TestImportAndCheck(t *testing.T) {
 	if result != (ImportResult{Canonical: 2, Imported: 1, Mapped: 1, SDKOnly: 0}) {
 		t.Fatalf("Import() result = %#v", result)
 	}
+	replaced, err := os.ReadFile(filepath.Join(sdkRoot, "sources", "query.existing.gql"))
+	if err != nil {
+		t.Fatal(err)
+	}
+	if string(replaced) != "query cliExisting { existing }\n" {
+		t.Fatalf("matched SDK source was not replaced:\n%s", replaced)
+	}
 	if err := Check(CheckConfig{SDKRoot: sdkRoot, Expected: 2}); err != nil {
 		t.Fatalf("Check() error = %v", err)
 	}

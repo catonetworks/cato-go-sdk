@@ -150,21 +150,6 @@ func buildImport( //nolint:funlen // Keeping candidate collection in one pass gu
 			continue
 		}
 
-		cliRelative := filepath.ToSlash(filepath.Join("queryPayloads", filepath.Base(cliPath)))
-		existingIndex, exists := indexByKey[normalizedKey(key)]
-		if !exists {
-			existingIndex, exists = indexByName[operationName(cliContent)]
-		}
-		if exists {
-			if err := mapCLIEntry(&records[existingIndex], cliRelative, cliContent); err != nil {
-				validationErrors = append(validationErrors, err)
-			} else {
-				result.Mapped++
-				result.SDKOnly--
-			}
-			continue
-		}
-
 		curatedContent, err := curateCLIContent(cliPath, cliContent)
 		if err != nil {
 			validationErrors = append(validationErrors, err)
@@ -182,6 +167,43 @@ func buildImport( //nolint:funlen // Keeping candidate collection in one pass gu
 				parsed.kind,
 				cliKind,
 			))
+			continue
+		}
+
+		cliRelative := filepath.ToSlash(filepath.Join("queryPayloads", filepath.Base(cliPath)))
+		existingIndex, exists := indexByKey[normalizedKey(key)]
+		if !exists {
+			existingIndex, exists = indexByName[parsed.name]
+		}
+		if exists {
+			existing := documents[existingIndex]
+			if parsed.kind != existing.kind {
+				validationErrors = append(validationErrors, fmt.Errorf(
+					"CLI operation %q kind %q does not match SDK operation %q kind %q",
+					cliPath,
+					parsed.kind,
+					existing.relative,
+					existing.kind,
+				))
+				continue
+			}
+
+			parsed.key = existing.key
+			parsed.path = existing.path
+			parsed.relative = existing.relative
+			parsed.content = curatedContent
+			parsed.hash = contentHash(curatedContent)
+			if err := mapCLIEntry(&records[existingIndex], cliRelative, cliContent, parsed); err != nil {
+				validationErrors = append(validationErrors, err)
+			} else {
+				documents[existingIndex] = parsed
+				delete(indexByName, existing.name)
+				indexByKey[normalizedKey(key)] = existingIndex
+				indexByName[parsed.name] = existingIndex
+				candidates = append(candidates, candidate{document: parsed, destination: existing.path})
+				result.Mapped++
+				result.SDKOnly--
+			}
 			continue
 		}
 
@@ -209,7 +231,7 @@ func buildImport( //nolint:funlen // Keeping candidate collection in one pass gu
 			SDKName:        parsed.name,
 			DocumentSHA256: parsed.hash,
 			CLIFile:        cliRelative,
-			CLIName:        operationName(cliContent),
+			CLIName:        parsed.name,
 			CLISHA256:      contentHash(cliContent),
 			Status:         statusImported,
 		})
@@ -243,14 +265,18 @@ func entryFromSDK(sdkDocument document) ManifestEntry {
 	}
 }
 
-func updateMappedEntry(entry *ManifestEntry, cliRelative string, cliContent []byte) {
+func updateMappedEntry(entry *ManifestEntry, cliRelative string, cliContent []byte, document document) {
+	entry.Key = document.key
+	entry.Kind = document.kind
+	entry.SDKName = document.name
+	entry.DocumentSHA256 = document.hash
 	entry.CLIFile = cliRelative
-	entry.CLIName = operationName(cliContent)
+	entry.CLIName = document.name
 	entry.CLISHA256 = contentHash(cliContent)
 	entry.Status = statusMapped
 }
 
-func mapCLIEntry(entry *ManifestEntry, cliRelative string, cliContent []byte) error {
+func mapCLIEntry(entry *ManifestEntry, cliRelative string, cliContent []byte, document document) error {
 	if entry.Status != statusSDKOnly {
 		return fmt.Errorf(
 			"CLI operations %q and %q both map to %q",
@@ -259,7 +285,7 @@ func mapCLIEntry(entry *ManifestEntry, cliRelative string, cliContent []byte) er
 			entry.SDKFile,
 		)
 	}
-	updateMappedEntry(entry, cliRelative, cliContent)
+	updateMappedEntry(entry, cliRelative, cliContent, document)
 	return nil
 }
 
