@@ -47032,23 +47032,23 @@ func (t *PolicyPrivateAccessCreatePolicyRevision_Policy_PrivateAccess_CreatePoli
 }
 
 type PolicyPrivateAccessCreatePolicyRevision_Policy_PrivateAccess_CreatePolicyRevision_Policy_Rules_Rule struct {
-	Action           PolicyPrivateAccessCreatePolicyRevision_Policy_PrivateAccess_CreatePolicyRevision_Policy_Rules_Rule_Action         "json:\"action\" graphql:\"action\""
-	ActivePeriod     PolicyPrivateAccessCreatePolicyRevision_Policy_PrivateAccess_CreatePolicyRevision_Policy_Rules_Rule_ActivePeriod   "json:\"activePeriod\" graphql:\"activePeriod\""
-	Applications     PolicyPrivateAccessCreatePolicyRevision_Policy_PrivateAccess_CreatePolicyRevision_Policy_Rules_Rule_Applications   "json:\"applications\" graphql:\"applications\""
-	ConnectionOrigin []cato_models.PrivateAccessPolicyOriginEnum                                                                        "json:\"connectionOrigin\" graphql:\"connectionOrigin\""
-	Country          []*PolicyPrivateAccessCreatePolicyRevision_Policy_PrivateAccess_CreatePolicyRevision_Policy_Rules_Rule_Country     "json:\"country\" graphql:\"country\""
-	Description      string                                                                                                             "json:\"description\" graphql:\"description\""
-	Device           []*PolicyPrivateAccessCreatePolicyRevision_Policy_PrivateAccess_CreatePolicyRevision_Policy_Rules_Rule_Device      "json:\"device\" graphql:\"device\""
-	Enabled          bool                                                                                                               "json:\"enabled\" graphql:\"enabled\""
-	ID               string                                                                                                             "json:\"id\" graphql:\"id\""
-	Index            int64                                                                                                              "json:\"index\" graphql:\"index\""
-	Name             string                                                                                                             "json:\"name\" graphql:\"name\""
-	Platform         []cato_models.OperatingSystem                                                                                      "json:\"platform\" graphql:\"platform\""
-	Schedule         PolicyPrivateAccessCreatePolicyRevision_Policy_PrivateAccess_CreatePolicyRevision_Policy_Rules_Rule_Schedule       "json:\"schedule\" graphql:\"schedule\""
-	Section          PolicyPrivateAccessCreatePolicyRevision_Policy_PrivateAccess_CreatePolicyRevision_Policy_Rules_Rule_Section        "json:\"section\" graphql:\"section\""
-	Source           PolicyPrivateAccessCreatePolicyRevision_Policy_PrivateAccess_CreatePolicyRevision_Policy_Rules_Rule_Source         "json:\"source\" graphql:\"source\""
-	Tracking         PolicyPrivateAccessCreatePolicyRevision_Policy_PrivateAccess_CreatePolicyRevision_Policy_Rules_Rule_Tracking       "json:\"tracking\" graphql:\"tracking\""
-	UserAttributes   PolicyPrivateAccessCreatePolicyRevision_Policy_PrivateAccess_CreatePolicyRevision_Policy_Rules_Rule_UserAttributes "json:\"userAttributes\" graphql:\"userAttributes\""
+	Action                PolicyPrivateAccessCreatePolicyRevision_Policy_PrivateAccess_CreatePolicyRevision_Policy_Rules_Rule_Action         "json:\"action\" graphql:\"action\""
+	ActivePeriod          PolicyPrivateAccessCreatePolicyRevision_Policy_PrivateAccess_CreatePolicyRevision_Policy_Rules_Rule_ActivePeriod   "json:\"activePeriod\" graphql:\"activePeriod\""
+	Applications          PolicyPrivateAccessCreatePolicyRevision_Policy_PrivateAccess_CreatePolicyRevision_Policy_Rules_Rule_Applications   "json:\"applications\" graphql:\"applications\""
+	ConnectionsOriginList []cato_models.ConnectionOriginsEnum                                                                                "json:\"connectionsOriginList\" graphql:\"connectionsOriginList\""
+	Country               []*PolicyPrivateAccessCreatePolicyRevision_Policy_PrivateAccess_CreatePolicyRevision_Policy_Rules_Rule_Country     "json:\"country\" graphql:\"country\""
+	Description           string                                                                                                             "json:\"description\" graphql:\"description\""
+	Device                []*PolicyPrivateAccessCreatePolicyRevision_Policy_PrivateAccess_CreatePolicyRevision_Policy_Rules_Rule_Device      "json:\"device\" graphql:\"device\""
+	Enabled               bool                                                                                                               "json:\"enabled\" graphql:\"enabled\""
+	ID                    string                                                                                                             "json:\"id\" graphql:\"id\""
+	Index                 int64                                                                                                              "json:\"index\" graphql:\"index\""
+	Name                  string                                                                                                             "json:\"name\" graphql:\"name\""
+	Platform              []cato_models.OperatingSystem                                                                                      "json:\"platform\" graphql:\"platform\""
+	Schedule              PolicyPrivateAccessCreatePolicyRevision_Policy_PrivateAccess_CreatePolicyRevision_Policy_Rules_Rule_Schedule       "json:\"schedule\" graphql:\"schedule\""
+	Section               PolicyPrivateAccessCreatePolicyRevision_Policy_PrivateAccess_CreatePolicyRevision_Policy_Rules_Rule_Section        "json:\"section\" graphql:\"section\""
+	Source                PolicyPrivateAccessCreatePolicyRevision_Policy_PrivateAccess_CreatePolicyRevision_Policy_Rules_Rule_Source         "json:\"source\" graphql:\"source\""
+	Tracking              PolicyPrivateAccessCreatePolicyRevision_Policy_PrivateAccess_CreatePolicyRevision_Policy_Rules_Rule_Tracking       "json:\"tracking\" graphql:\"tracking\""
+	UserAttributes        PolicyPrivateAccessCreatePolicyRevision_Policy_PrivateAccess_CreatePolicyRevision_Policy_Rules_Rule_UserAttributes "json:\"userAttributes\" graphql:\"userAttributes\""
 }
 
 func (t *PolicyPrivateAccessCreatePolicyRevision_Policy_PrivateAccess_CreatePolicyRevision_Policy_Rules_Rule) GetAction() *PolicyPrivateAccessCreatePolicyRevision_Policy_PrivateAccess_CreatePolicyRevision_Policy_Rules_Rule_Action {
@@ -47069,11 +47069,11 @@ func (t *PolicyPrivateAccessCreatePolicyRevision_Policy_PrivateAccess_CreatePoli
 	}
 	return &t.Applications
 }
-func (t *PolicyPrivateAccessCreatePolicyRevision_Policy_PrivateAccess_CreatePolicyRevision_Policy_Rules_Rule) GetConnectionOrigin() []cato_models.PrivateAccessPolicyOriginEnum {
+func (t *PolicyPrivateAccessCreatePolicyRevision_Policy_PrivateAccess_CreatePolicyRevision_Policy_Rules_Rule) GetConnectionsOriginList() []cato_models.ConnectionOriginsEnum {
 	if t == nil {
 		t = &PolicyPrivateAccessCreatePolicyRevision_Policy_PrivateAccess_CreatePolicyRevision_Policy_Rules_Rule{}
 	}
-	return t.ConnectionOrigin
+	return t.ConnectionsOriginList
 }
 func (t *PolicyPrivateAccessCreatePolicyRevision_Policy_PrivateAccess_CreatePolicyRevision_Policy_Rules_Rule) GetCountry() []*PolicyPrivateAccessCreatePolicyRevision_Policy_PrivateAccess_CreatePolicyRevision_Policy_Rules_Rule_Country {
 	if t == nil {
@@ -47995,23 +47995,23 @@ func (t *PolicyPrivateAccessDiscardPolicyRevision_Policy_PrivateAccess_DiscardPo
 }
 
 type PolicyPrivateAccessDiscardPolicyRevision_Policy_PrivateAccess_DiscardPolicyRevision_Policy_Rules_Rule struct {
-	Action           PolicyPrivateAccessDiscardPolicyRevision_Policy_PrivateAccess_DiscardPolicyRevision_Policy_Rules_Rule_Action         "json:\"action\" graphql:\"action\""
-	ActivePeriod     PolicyPrivateAccessDiscardPolicyRevision_Policy_PrivateAccess_DiscardPolicyRevision_Policy_Rules_Rule_ActivePeriod   "json:\"activePeriod\" graphql:\"activePeriod\""
-	Applications     PolicyPrivateAccessDiscardPolicyRevision_Policy_PrivateAccess_DiscardPolicyRevision_Policy_Rules_Rule_Applications   "json:\"applications\" graphql:\"applications\""
-	ConnectionOrigin []cato_models.PrivateAccessPolicyOriginEnum                                                                          "json:\"connectionOrigin\" graphql:\"connectionOrigin\""
-	Country          []*PolicyPrivateAccessDiscardPolicyRevision_Policy_PrivateAccess_DiscardPolicyRevision_Policy_Rules_Rule_Country     "json:\"country\" graphql:\"country\""
-	Description      string                                                                                                               "json:\"description\" graphql:\"description\""
-	Device           []*PolicyPrivateAccessDiscardPolicyRevision_Policy_PrivateAccess_DiscardPolicyRevision_Policy_Rules_Rule_Device      "json:\"device\" graphql:\"device\""
-	Enabled          bool                                                                                                                 "json:\"enabled\" graphql:\"enabled\""
-	ID               string                                                                                                               "json:\"id\" graphql:\"id\""
-	Index            int64                                                                                                                "json:\"index\" graphql:\"index\""
-	Name             string                                                                                                               "json:\"name\" graphql:\"name\""
-	Platform         []cato_models.OperatingSystem                                                                                        "json:\"platform\" graphql:\"platform\""
-	Schedule         PolicyPrivateAccessDiscardPolicyRevision_Policy_PrivateAccess_DiscardPolicyRevision_Policy_Rules_Rule_Schedule       "json:\"schedule\" graphql:\"schedule\""
-	Section          PolicyPrivateAccessDiscardPolicyRevision_Policy_PrivateAccess_DiscardPolicyRevision_Policy_Rules_Rule_Section        "json:\"section\" graphql:\"section\""
-	Source           PolicyPrivateAccessDiscardPolicyRevision_Policy_PrivateAccess_DiscardPolicyRevision_Policy_Rules_Rule_Source         "json:\"source\" graphql:\"source\""
-	Tracking         PolicyPrivateAccessDiscardPolicyRevision_Policy_PrivateAccess_DiscardPolicyRevision_Policy_Rules_Rule_Tracking       "json:\"tracking\" graphql:\"tracking\""
-	UserAttributes   PolicyPrivateAccessDiscardPolicyRevision_Policy_PrivateAccess_DiscardPolicyRevision_Policy_Rules_Rule_UserAttributes "json:\"userAttributes\" graphql:\"userAttributes\""
+	Action                PolicyPrivateAccessDiscardPolicyRevision_Policy_PrivateAccess_DiscardPolicyRevision_Policy_Rules_Rule_Action         "json:\"action\" graphql:\"action\""
+	ActivePeriod          PolicyPrivateAccessDiscardPolicyRevision_Policy_PrivateAccess_DiscardPolicyRevision_Policy_Rules_Rule_ActivePeriod   "json:\"activePeriod\" graphql:\"activePeriod\""
+	Applications          PolicyPrivateAccessDiscardPolicyRevision_Policy_PrivateAccess_DiscardPolicyRevision_Policy_Rules_Rule_Applications   "json:\"applications\" graphql:\"applications\""
+	ConnectionsOriginList []cato_models.ConnectionOriginsEnum                                                                                  "json:\"connectionsOriginList\" graphql:\"connectionsOriginList\""
+	Country               []*PolicyPrivateAccessDiscardPolicyRevision_Policy_PrivateAccess_DiscardPolicyRevision_Policy_Rules_Rule_Country     "json:\"country\" graphql:\"country\""
+	Description           string                                                                                                               "json:\"description\" graphql:\"description\""
+	Device                []*PolicyPrivateAccessDiscardPolicyRevision_Policy_PrivateAccess_DiscardPolicyRevision_Policy_Rules_Rule_Device      "json:\"device\" graphql:\"device\""
+	Enabled               bool                                                                                                                 "json:\"enabled\" graphql:\"enabled\""
+	ID                    string                                                                                                               "json:\"id\" graphql:\"id\""
+	Index                 int64                                                                                                                "json:\"index\" graphql:\"index\""
+	Name                  string                                                                                                               "json:\"name\" graphql:\"name\""
+	Platform              []cato_models.OperatingSystem                                                                                        "json:\"platform\" graphql:\"platform\""
+	Schedule              PolicyPrivateAccessDiscardPolicyRevision_Policy_PrivateAccess_DiscardPolicyRevision_Policy_Rules_Rule_Schedule       "json:\"schedule\" graphql:\"schedule\""
+	Section               PolicyPrivateAccessDiscardPolicyRevision_Policy_PrivateAccess_DiscardPolicyRevision_Policy_Rules_Rule_Section        "json:\"section\" graphql:\"section\""
+	Source                PolicyPrivateAccessDiscardPolicyRevision_Policy_PrivateAccess_DiscardPolicyRevision_Policy_Rules_Rule_Source         "json:\"source\" graphql:\"source\""
+	Tracking              PolicyPrivateAccessDiscardPolicyRevision_Policy_PrivateAccess_DiscardPolicyRevision_Policy_Rules_Rule_Tracking       "json:\"tracking\" graphql:\"tracking\""
+	UserAttributes        PolicyPrivateAccessDiscardPolicyRevision_Policy_PrivateAccess_DiscardPolicyRevision_Policy_Rules_Rule_UserAttributes "json:\"userAttributes\" graphql:\"userAttributes\""
 }
 
 func (t *PolicyPrivateAccessDiscardPolicyRevision_Policy_PrivateAccess_DiscardPolicyRevision_Policy_Rules_Rule) GetAction() *PolicyPrivateAccessDiscardPolicyRevision_Policy_PrivateAccess_DiscardPolicyRevision_Policy_Rules_Rule_Action {
@@ -48032,11 +48032,11 @@ func (t *PolicyPrivateAccessDiscardPolicyRevision_Policy_PrivateAccess_DiscardPo
 	}
 	return &t.Applications
 }
-func (t *PolicyPrivateAccessDiscardPolicyRevision_Policy_PrivateAccess_DiscardPolicyRevision_Policy_Rules_Rule) GetConnectionOrigin() []cato_models.PrivateAccessPolicyOriginEnum {
+func (t *PolicyPrivateAccessDiscardPolicyRevision_Policy_PrivateAccess_DiscardPolicyRevision_Policy_Rules_Rule) GetConnectionsOriginList() []cato_models.ConnectionOriginsEnum {
 	if t == nil {
 		t = &PolicyPrivateAccessDiscardPolicyRevision_Policy_PrivateAccess_DiscardPolicyRevision_Policy_Rules_Rule{}
 	}
-	return t.ConnectionOrigin
+	return t.ConnectionsOriginList
 }
 func (t *PolicyPrivateAccessDiscardPolicyRevision_Policy_PrivateAccess_DiscardPolicyRevision_Policy_Rules_Rule) GetCountry() []*PolicyPrivateAccessDiscardPolicyRevision_Policy_PrivateAccess_DiscardPolicyRevision_Policy_Rules_Rule_Country {
 	if t == nil {
@@ -49267,23 +49267,23 @@ func (t *PolicyPrivateAccessPublishPolicyRevision_Policy_PrivateAccess_PublishPo
 }
 
 type PolicyPrivateAccessPublishPolicyRevision_Policy_PrivateAccess_PublishPolicyRevision_Policy_Rules_Rule struct {
-	Action           PolicyPrivateAccessPublishPolicyRevision_Policy_PrivateAccess_PublishPolicyRevision_Policy_Rules_Rule_Action         "json:\"action\" graphql:\"action\""
-	ActivePeriod     PolicyPrivateAccessPublishPolicyRevision_Policy_PrivateAccess_PublishPolicyRevision_Policy_Rules_Rule_ActivePeriod   "json:\"activePeriod\" graphql:\"activePeriod\""
-	Applications     PolicyPrivateAccessPublishPolicyRevision_Policy_PrivateAccess_PublishPolicyRevision_Policy_Rules_Rule_Applications   "json:\"applications\" graphql:\"applications\""
-	ConnectionOrigin []cato_models.PrivateAccessPolicyOriginEnum                                                                          "json:\"connectionOrigin\" graphql:\"connectionOrigin\""
-	Country          []*PolicyPrivateAccessPublishPolicyRevision_Policy_PrivateAccess_PublishPolicyRevision_Policy_Rules_Rule_Country     "json:\"country\" graphql:\"country\""
-	Description      string                                                                                                               "json:\"description\" graphql:\"description\""
-	Device           []*PolicyPrivateAccessPublishPolicyRevision_Policy_PrivateAccess_PublishPolicyRevision_Policy_Rules_Rule_Device      "json:\"device\" graphql:\"device\""
-	Enabled          bool                                                                                                                 "json:\"enabled\" graphql:\"enabled\""
-	ID               string                                                                                                               "json:\"id\" graphql:\"id\""
-	Index            int64                                                                                                                "json:\"index\" graphql:\"index\""
-	Name             string                                                                                                               "json:\"name\" graphql:\"name\""
-	Platform         []cato_models.OperatingSystem                                                                                        "json:\"platform\" graphql:\"platform\""
-	Schedule         PolicyPrivateAccessPublishPolicyRevision_Policy_PrivateAccess_PublishPolicyRevision_Policy_Rules_Rule_Schedule       "json:\"schedule\" graphql:\"schedule\""
-	Section          PolicyPrivateAccessPublishPolicyRevision_Policy_PrivateAccess_PublishPolicyRevision_Policy_Rules_Rule_Section        "json:\"section\" graphql:\"section\""
-	Source           PolicyPrivateAccessPublishPolicyRevision_Policy_PrivateAccess_PublishPolicyRevision_Policy_Rules_Rule_Source         "json:\"source\" graphql:\"source\""
-	Tracking         PolicyPrivateAccessPublishPolicyRevision_Policy_PrivateAccess_PublishPolicyRevision_Policy_Rules_Rule_Tracking       "json:\"tracking\" graphql:\"tracking\""
-	UserAttributes   PolicyPrivateAccessPublishPolicyRevision_Policy_PrivateAccess_PublishPolicyRevision_Policy_Rules_Rule_UserAttributes "json:\"userAttributes\" graphql:\"userAttributes\""
+	Action                PolicyPrivateAccessPublishPolicyRevision_Policy_PrivateAccess_PublishPolicyRevision_Policy_Rules_Rule_Action         "json:\"action\" graphql:\"action\""
+	ActivePeriod          PolicyPrivateAccessPublishPolicyRevision_Policy_PrivateAccess_PublishPolicyRevision_Policy_Rules_Rule_ActivePeriod   "json:\"activePeriod\" graphql:\"activePeriod\""
+	Applications          PolicyPrivateAccessPublishPolicyRevision_Policy_PrivateAccess_PublishPolicyRevision_Policy_Rules_Rule_Applications   "json:\"applications\" graphql:\"applications\""
+	ConnectionsOriginList []cato_models.ConnectionOriginsEnum                                                                                  "json:\"connectionsOriginList\" graphql:\"connectionsOriginList\""
+	Country               []*PolicyPrivateAccessPublishPolicyRevision_Policy_PrivateAccess_PublishPolicyRevision_Policy_Rules_Rule_Country     "json:\"country\" graphql:\"country\""
+	Description           string                                                                                                               "json:\"description\" graphql:\"description\""
+	Device                []*PolicyPrivateAccessPublishPolicyRevision_Policy_PrivateAccess_PublishPolicyRevision_Policy_Rules_Rule_Device      "json:\"device\" graphql:\"device\""
+	Enabled               bool                                                                                                                 "json:\"enabled\" graphql:\"enabled\""
+	ID                    string                                                                                                               "json:\"id\" graphql:\"id\""
+	Index                 int64                                                                                                                "json:\"index\" graphql:\"index\""
+	Name                  string                                                                                                               "json:\"name\" graphql:\"name\""
+	Platform              []cato_models.OperatingSystem                                                                                        "json:\"platform\" graphql:\"platform\""
+	Schedule              PolicyPrivateAccessPublishPolicyRevision_Policy_PrivateAccess_PublishPolicyRevision_Policy_Rules_Rule_Schedule       "json:\"schedule\" graphql:\"schedule\""
+	Section               PolicyPrivateAccessPublishPolicyRevision_Policy_PrivateAccess_PublishPolicyRevision_Policy_Rules_Rule_Section        "json:\"section\" graphql:\"section\""
+	Source                PolicyPrivateAccessPublishPolicyRevision_Policy_PrivateAccess_PublishPolicyRevision_Policy_Rules_Rule_Source         "json:\"source\" graphql:\"source\""
+	Tracking              PolicyPrivateAccessPublishPolicyRevision_Policy_PrivateAccess_PublishPolicyRevision_Policy_Rules_Rule_Tracking       "json:\"tracking\" graphql:\"tracking\""
+	UserAttributes        PolicyPrivateAccessPublishPolicyRevision_Policy_PrivateAccess_PublishPolicyRevision_Policy_Rules_Rule_UserAttributes "json:\"userAttributes\" graphql:\"userAttributes\""
 }
 
 func (t *PolicyPrivateAccessPublishPolicyRevision_Policy_PrivateAccess_PublishPolicyRevision_Policy_Rules_Rule) GetAction() *PolicyPrivateAccessPublishPolicyRevision_Policy_PrivateAccess_PublishPolicyRevision_Policy_Rules_Rule_Action {
@@ -49304,11 +49304,11 @@ func (t *PolicyPrivateAccessPublishPolicyRevision_Policy_PrivateAccess_PublishPo
 	}
 	return &t.Applications
 }
-func (t *PolicyPrivateAccessPublishPolicyRevision_Policy_PrivateAccess_PublishPolicyRevision_Policy_Rules_Rule) GetConnectionOrigin() []cato_models.PrivateAccessPolicyOriginEnum {
+func (t *PolicyPrivateAccessPublishPolicyRevision_Policy_PrivateAccess_PublishPolicyRevision_Policy_Rules_Rule) GetConnectionsOriginList() []cato_models.ConnectionOriginsEnum {
 	if t == nil {
 		t = &PolicyPrivateAccessPublishPolicyRevision_Policy_PrivateAccess_PublishPolicyRevision_Policy_Rules_Rule{}
 	}
-	return t.ConnectionOrigin
+	return t.ConnectionsOriginList
 }
 func (t *PolicyPrivateAccessPublishPolicyRevision_Policy_PrivateAccess_PublishPolicyRevision_Policy_Rules_Rule) GetCountry() []*PolicyPrivateAccessPublishPolicyRevision_Policy_PrivateAccess_PublishPolicyRevision_Policy_Rules_Rule_Country {
 	if t == nil {
@@ -50230,23 +50230,23 @@ func (t *PolicyPrivateAccessRemoveRule_Policy_PrivateAccess_RemoveRule_Rule_Rule
 }
 
 type PolicyPrivateAccessRemoveRule_Policy_PrivateAccess_RemoveRule_Rule_Rule struct {
-	Action           PolicyPrivateAccessRemoveRule_Policy_PrivateAccess_RemoveRule_Rule_Rule_Action         "json:\"action\" graphql:\"action\""
-	ActivePeriod     PolicyPrivateAccessRemoveRule_Policy_PrivateAccess_RemoveRule_Rule_Rule_ActivePeriod   "json:\"activePeriod\" graphql:\"activePeriod\""
-	Applications     PolicyPrivateAccessRemoveRule_Policy_PrivateAccess_RemoveRule_Rule_Rule_Applications   "json:\"applications\" graphql:\"applications\""
-	ConnectionOrigin []cato_models.PrivateAccessPolicyOriginEnum                                            "json:\"connectionOrigin\" graphql:\"connectionOrigin\""
-	Country          []*PolicyPrivateAccessRemoveRule_Policy_PrivateAccess_RemoveRule_Rule_Rule_Country     "json:\"country\" graphql:\"country\""
-	Description      string                                                                                 "json:\"description\" graphql:\"description\""
-	Device           []*PolicyPrivateAccessRemoveRule_Policy_PrivateAccess_RemoveRule_Rule_Rule_Device      "json:\"device\" graphql:\"device\""
-	Enabled          bool                                                                                   "json:\"enabled\" graphql:\"enabled\""
-	ID               string                                                                                 "json:\"id\" graphql:\"id\""
-	Index            int64                                                                                  "json:\"index\" graphql:\"index\""
-	Name             string                                                                                 "json:\"name\" graphql:\"name\""
-	Platform         []cato_models.OperatingSystem                                                          "json:\"platform\" graphql:\"platform\""
-	Schedule         PolicyPrivateAccessRemoveRule_Policy_PrivateAccess_RemoveRule_Rule_Rule_Schedule       "json:\"schedule\" graphql:\"schedule\""
-	Section          PolicyPrivateAccessRemoveRule_Policy_PrivateAccess_RemoveRule_Rule_Rule_Section        "json:\"section\" graphql:\"section\""
-	Source           PolicyPrivateAccessRemoveRule_Policy_PrivateAccess_RemoveRule_Rule_Rule_Source         "json:\"source\" graphql:\"source\""
-	Tracking         PolicyPrivateAccessRemoveRule_Policy_PrivateAccess_RemoveRule_Rule_Rule_Tracking       "json:\"tracking\" graphql:\"tracking\""
-	UserAttributes   PolicyPrivateAccessRemoveRule_Policy_PrivateAccess_RemoveRule_Rule_Rule_UserAttributes "json:\"userAttributes\" graphql:\"userAttributes\""
+	Action                PolicyPrivateAccessRemoveRule_Policy_PrivateAccess_RemoveRule_Rule_Rule_Action         "json:\"action\" graphql:\"action\""
+	ActivePeriod          PolicyPrivateAccessRemoveRule_Policy_PrivateAccess_RemoveRule_Rule_Rule_ActivePeriod   "json:\"activePeriod\" graphql:\"activePeriod\""
+	Applications          PolicyPrivateAccessRemoveRule_Policy_PrivateAccess_RemoveRule_Rule_Rule_Applications   "json:\"applications\" graphql:\"applications\""
+	ConnectionsOriginList []cato_models.ConnectionOriginsEnum                                                    "json:\"connectionsOriginList\" graphql:\"connectionsOriginList\""
+	Country               []*PolicyPrivateAccessRemoveRule_Policy_PrivateAccess_RemoveRule_Rule_Rule_Country     "json:\"country\" graphql:\"country\""
+	Description           string                                                                                 "json:\"description\" graphql:\"description\""
+	Device                []*PolicyPrivateAccessRemoveRule_Policy_PrivateAccess_RemoveRule_Rule_Rule_Device      "json:\"device\" graphql:\"device\""
+	Enabled               bool                                                                                   "json:\"enabled\" graphql:\"enabled\""
+	ID                    string                                                                                 "json:\"id\" graphql:\"id\""
+	Index                 int64                                                                                  "json:\"index\" graphql:\"index\""
+	Name                  string                                                                                 "json:\"name\" graphql:\"name\""
+	Platform              []cato_models.OperatingSystem                                                          "json:\"platform\" graphql:\"platform\""
+	Schedule              PolicyPrivateAccessRemoveRule_Policy_PrivateAccess_RemoveRule_Rule_Rule_Schedule       "json:\"schedule\" graphql:\"schedule\""
+	Section               PolicyPrivateAccessRemoveRule_Policy_PrivateAccess_RemoveRule_Rule_Rule_Section        "json:\"section\" graphql:\"section\""
+	Source                PolicyPrivateAccessRemoveRule_Policy_PrivateAccess_RemoveRule_Rule_Rule_Source         "json:\"source\" graphql:\"source\""
+	Tracking              PolicyPrivateAccessRemoveRule_Policy_PrivateAccess_RemoveRule_Rule_Rule_Tracking       "json:\"tracking\" graphql:\"tracking\""
+	UserAttributes        PolicyPrivateAccessRemoveRule_Policy_PrivateAccess_RemoveRule_Rule_Rule_UserAttributes "json:\"userAttributes\" graphql:\"userAttributes\""
 }
 
 func (t *PolicyPrivateAccessRemoveRule_Policy_PrivateAccess_RemoveRule_Rule_Rule) GetAction() *PolicyPrivateAccessRemoveRule_Policy_PrivateAccess_RemoveRule_Rule_Rule_Action {
@@ -50267,11 +50267,11 @@ func (t *PolicyPrivateAccessRemoveRule_Policy_PrivateAccess_RemoveRule_Rule_Rule
 	}
 	return &t.Applications
 }
-func (t *PolicyPrivateAccessRemoveRule_Policy_PrivateAccess_RemoveRule_Rule_Rule) GetConnectionOrigin() []cato_models.PrivateAccessPolicyOriginEnum {
+func (t *PolicyPrivateAccessRemoveRule_Policy_PrivateAccess_RemoveRule_Rule_Rule) GetConnectionsOriginList() []cato_models.ConnectionOriginsEnum {
 	if t == nil {
 		t = &PolicyPrivateAccessRemoveRule_Policy_PrivateAccess_RemoveRule_Rule_Rule{}
 	}
-	return t.ConnectionOrigin
+	return t.ConnectionsOriginList
 }
 func (t *PolicyPrivateAccessRemoveRule_Policy_PrivateAccess_RemoveRule_Rule_Rule) GetCountry() []*PolicyPrivateAccessRemoveRule_Policy_PrivateAccess_RemoveRule_Rule_Rule_Country {
 	if t == nil {
@@ -208094,23 +208094,23 @@ func (t *PolicyReadPrivateAccessPolicy_Policy_PrivateAccess_Policy_Rules_Rule_Tr
 }
 
 type PolicyReadPrivateAccessPolicy_Policy_PrivateAccess_Policy_Rules_Rule struct {
-	Action           PolicyReadPrivateAccessPolicy_Policy_PrivateAccess_Policy_Rules_Rule_Action         "json:\"action\" graphql:\"action\""
-	ActivePeriod     PolicyReadPrivateAccessPolicy_Policy_PrivateAccess_Policy_Rules_Rule_ActivePeriod   "json:\"activePeriod\" graphql:\"activePeriod\""
-	Applications     PolicyReadPrivateAccessPolicy_Policy_PrivateAccess_Policy_Rules_Rule_Applications   "json:\"applications\" graphql:\"applications\""
-	ConnectionOrigin []cato_models.PrivateAccessPolicyOriginEnum                                         "json:\"connectionOrigin\" graphql:\"connectionOrigin\""
-	Country          []*PolicyReadPrivateAccessPolicy_Policy_PrivateAccess_Policy_Rules_Rule_Country     "json:\"country\" graphql:\"country\""
-	Description      string                                                                              "json:\"description\" graphql:\"description\""
-	Device           []*PolicyReadPrivateAccessPolicy_Policy_PrivateAccess_Policy_Rules_Rule_Device      "json:\"device\" graphql:\"device\""
-	Enabled          bool                                                                                "json:\"enabled\" graphql:\"enabled\""
-	ID               string                                                                              "json:\"id\" graphql:\"id\""
-	Index            int64                                                                               "json:\"index\" graphql:\"index\""
-	Name             string                                                                              "json:\"name\" graphql:\"name\""
-	Platform         []cato_models.OperatingSystem                                                       "json:\"platform\" graphql:\"platform\""
-	Schedule         PolicyReadPrivateAccessPolicy_Policy_PrivateAccess_Policy_Rules_Rule_Schedule       "json:\"schedule\" graphql:\"schedule\""
-	Section          PolicyReadPrivateAccessPolicy_Policy_PrivateAccess_Policy_Rules_Rule_Section        "json:\"section\" graphql:\"section\""
-	Source           PolicyReadPrivateAccessPolicy_Policy_PrivateAccess_Policy_Rules_Rule_Source         "json:\"source\" graphql:\"source\""
-	Tracking         PolicyReadPrivateAccessPolicy_Policy_PrivateAccess_Policy_Rules_Rule_Tracking       "json:\"tracking\" graphql:\"tracking\""
-	UserAttributes   PolicyReadPrivateAccessPolicy_Policy_PrivateAccess_Policy_Rules_Rule_UserAttributes "json:\"userAttributes\" graphql:\"userAttributes\""
+	Action                PolicyReadPrivateAccessPolicy_Policy_PrivateAccess_Policy_Rules_Rule_Action         "json:\"action\" graphql:\"action\""
+	ActivePeriod          PolicyReadPrivateAccessPolicy_Policy_PrivateAccess_Policy_Rules_Rule_ActivePeriod   "json:\"activePeriod\" graphql:\"activePeriod\""
+	Applications          PolicyReadPrivateAccessPolicy_Policy_PrivateAccess_Policy_Rules_Rule_Applications   "json:\"applications\" graphql:\"applications\""
+	ConnectionsOriginList []cato_models.ConnectionOriginsEnum                                                 "json:\"connectionsOriginList\" graphql:\"connectionsOriginList\""
+	Country               []*PolicyReadPrivateAccessPolicy_Policy_PrivateAccess_Policy_Rules_Rule_Country     "json:\"country\" graphql:\"country\""
+	Description           string                                                                              "json:\"description\" graphql:\"description\""
+	Device                []*PolicyReadPrivateAccessPolicy_Policy_PrivateAccess_Policy_Rules_Rule_Device      "json:\"device\" graphql:\"device\""
+	Enabled               bool                                                                                "json:\"enabled\" graphql:\"enabled\""
+	ID                    string                                                                              "json:\"id\" graphql:\"id\""
+	Index                 int64                                                                               "json:\"index\" graphql:\"index\""
+	Name                  string                                                                              "json:\"name\" graphql:\"name\""
+	Platform              []cato_models.OperatingSystem                                                       "json:\"platform\" graphql:\"platform\""
+	Schedule              PolicyReadPrivateAccessPolicy_Policy_PrivateAccess_Policy_Rules_Rule_Schedule       "json:\"schedule\" graphql:\"schedule\""
+	Section               PolicyReadPrivateAccessPolicy_Policy_PrivateAccess_Policy_Rules_Rule_Section        "json:\"section\" graphql:\"section\""
+	Source                PolicyReadPrivateAccessPolicy_Policy_PrivateAccess_Policy_Rules_Rule_Source         "json:\"source\" graphql:\"source\""
+	Tracking              PolicyReadPrivateAccessPolicy_Policy_PrivateAccess_Policy_Rules_Rule_Tracking       "json:\"tracking\" graphql:\"tracking\""
+	UserAttributes        PolicyReadPrivateAccessPolicy_Policy_PrivateAccess_Policy_Rules_Rule_UserAttributes "json:\"userAttributes\" graphql:\"userAttributes\""
 }
 
 func (t *PolicyReadPrivateAccessPolicy_Policy_PrivateAccess_Policy_Rules_Rule) GetAction() *PolicyReadPrivateAccessPolicy_Policy_PrivateAccess_Policy_Rules_Rule_Action {
@@ -208131,11 +208131,11 @@ func (t *PolicyReadPrivateAccessPolicy_Policy_PrivateAccess_Policy_Rules_Rule) G
 	}
 	return &t.Applications
 }
-func (t *PolicyReadPrivateAccessPolicy_Policy_PrivateAccess_Policy_Rules_Rule) GetConnectionOrigin() []cato_models.PrivateAccessPolicyOriginEnum {
+func (t *PolicyReadPrivateAccessPolicy_Policy_PrivateAccess_Policy_Rules_Rule) GetConnectionsOriginList() []cato_models.ConnectionOriginsEnum {
 	if t == nil {
 		t = &PolicyReadPrivateAccessPolicy_Policy_PrivateAccess_Policy_Rules_Rule{}
 	}
-	return t.ConnectionOrigin
+	return t.ConnectionsOriginList
 }
 func (t *PolicyReadPrivateAccessPolicy_Policy_PrivateAccess_Policy_Rules_Rule) GetCountry() []*PolicyReadPrivateAccessPolicy_Policy_PrivateAccess_Policy_Rules_Rule_Country {
 	if t == nil {
@@ -263320,7 +263320,7 @@ const PolicyPrivateAccessCreatePolicyRevisionDocument = `mutation policyPrivateA
 									name
 								}
 							}
-							connectionOrigin
+							connectionsOriginList
 							action {
 								action
 							}
@@ -263523,7 +263523,7 @@ const PolicyPrivateAccessDiscardPolicyRevisionDocument = `mutation policyPrivate
 									name
 								}
 							}
-							connectionOrigin
+							connectionsOriginList
 							action {
 								action
 							}
@@ -263823,7 +263823,7 @@ const PolicyPrivateAccessPublishPolicyRevisionDocument = `mutation policyPrivate
 									name
 								}
 							}
-							connectionOrigin
+							connectionsOriginList
 							action {
 								action
 							}
@@ -264023,7 +264023,7 @@ const PolicyPrivateAccessRemoveRuleDocument = `mutation policyPrivateAccessRemov
 								name
 							}
 						}
-						connectionOrigin
+						connectionsOriginList
 						action {
 							action
 						}
@@ -298114,7 +298114,7 @@ const PolicyReadPrivateAccessPolicyDocument = `query policyReadPrivateAccessPoli
 								name
 							}
 						}
-						connectionOrigin
+						connectionsOriginList
 						action {
 							action
 						}

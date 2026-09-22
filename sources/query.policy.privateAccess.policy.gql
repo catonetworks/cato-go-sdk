@@ -30,7 +30,7 @@ query policyReadPrivateAccessPolicy($accountID: ID!) {
                 name
               }
             }
-            connectionOrigin
+            connectionsOriginList
             action {
               action
             }
