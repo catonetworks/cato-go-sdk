@@ -174,9 +174,11 @@ go run ./cmd/gqlschema/ fetch --convert -o new-cato_api.graphqls
 
 ### GraphQL operations
 
-The SDK is the canonical owner of GraphQL operation documents. Typed methods,
-response types, and document constants are generated from `sources/*.gql`.
-Do not edit `client.go` or `models/models.go` directly.
+The neighboring `cato-cli` checkout is the source of truth for GraphQL
+operation documents. The importer validates and copies
+`queryPayloads/*.txt` into `sources/*.gql`; typed methods, response types, and
+document constants are generated from those SDK sources. Do not edit
+`client.go` or `models/models.go` directly.
 
 To migrate newly generated operations from a neighboring `cato-cli` checkout:
 
@@ -185,10 +187,10 @@ make operations-import CLI_ROOT=../cato-cli
 ```
 
 The importer parses and validates every CLI operation against
-`cato_api.graphqls`. Existing curated SDK documents win when a CLI operation
-has the same semantic path or operation name. New documents are installed only
-after the complete candidate set validates. `operations/manifest.json` records
-the mapping and source hashes.
+`cato_api.graphqls`. A matching CLI operation replaces the existing SDK source
+when it has the same semantic path or operation name. New documents are
+installed only after the complete candidate set validates.
+`operations/manifest.json` records the mapping and source hashes.
 
 To import CLI operations and regenerate and verify the SDK in one step:
 
