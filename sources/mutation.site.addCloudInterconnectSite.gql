@@ -1,7 +1,8 @@
-mutation siteAddCloudInterconnectSite ( $accountId:ID! $addCloudInterconnectSiteInput:AddCloudInterconnectSiteInput!) {
-	site ( accountId:$accountId ) {
+mutation siteAddCloudInterconnectSite ( $addCloudInterconnectSiteInput:AddCloudInterconnectSiteInput! $accountId:ID! ) {
+	site ( accountId:$accountId  ) {
 		addCloudInterconnectSite ( input:$addCloudInterconnectSiteInput  )  {
 			siteId
 		}
-	}	
+
+	}
 }

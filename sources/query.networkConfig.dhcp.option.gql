@@ -9,5 +9,5 @@ query networkConfigDhcpOption ( $accountId:ID! $networkConfigDhcpOptionRefInput:
 				type
 			}
 		}
-	}	
+	}
 }

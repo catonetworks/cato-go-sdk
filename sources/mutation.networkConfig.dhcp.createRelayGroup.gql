@@ -9,5 +9,5 @@ mutation networkConfigDhcpCreateRelayGroup ( $accountId:ID! $networkConfigDhcpCr
 				}
 			}
 		}
-	}	
+	}
 }

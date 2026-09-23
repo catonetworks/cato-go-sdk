@@ -42,5 +42,5 @@ query postureDefinitionList ( $accountId:ID! $postureDefinitionListInput:Posture
 				total
 			}
 		}
-	}	
+	}
 }

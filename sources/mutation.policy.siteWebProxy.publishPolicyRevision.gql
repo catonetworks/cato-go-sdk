@@ -140,5 +140,5 @@ mutation policySiteWebProxyPublishPolicyRevision ( $accountId:ID! $siteWebProxyP
 				}
 			}
 		}
-	}	
+	}
 }

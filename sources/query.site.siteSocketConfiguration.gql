@@ -1,32 +1,35 @@
-query siteSiteSocketConfiguration ( $accountId:ID! $siteSocketConfigurationInput:SiteSocketConfigurationInput!) {
-	site ( accountId:$accountId ) {
-		siteSocketConfiguration ( input:$siteSocketConfigurationInput  )  {
-			primarySocketConfiguration {
-				description
-				serial
-				managementIp
-				socketInfo {
-					model
-					platform
-					version
-					registrationStatus
-					wifiSupported
-					isPrimary
-				}
-			}
-			secondarySocketConfiguration {
-				description
-				serial
-				managementIp
-				socketInfo {
-					model
-					platform
-					version
-					registrationStatus
-					wifiSupported
-					isPrimary
-				}
-			}
-		}
-	}	
+query siteSocketConfiguration(
+  $siteSocketConfigurationInput: SiteSocketConfigurationInput!
+  $accountId: ID!
+) {
+  site(accountId: $accountId) {
+    siteSocketConfiguration(input: $siteSocketConfigurationInput) {
+      primarySocketConfiguration {
+        description
+        serial
+        managementIp
+        socketInfo {
+          model
+          platform
+          version
+          registrationStatus
+          wifiSupported
+          isPrimary
+        }
+      }
+      secondarySocketConfiguration {
+        description
+        serial
+        managementIp
+        socketInfo {
+          model
+          platform
+          version
+          registrationStatus
+          wifiSupported
+          isPrimary
+        }
+      }
+    }
+  }
 }

@@ -1,138 +1,124 @@
-query policyAppTenantRestrictionPolicy ( $accountId:ID! $appTenantRestrictionPolicyInput:AppTenantRestrictionPolicyInput) {
-	policy ( accountId:$accountId ) {
-		appTenantRestriction {
-			policy ( input:$appTenantRestrictionPolicyInput   ) {
-				enabled
-				rules {
-					audit {
-						updatedTime
-						updatedBy
-					}
-					metadata {
-						lock {
-							lockingAdminEmail
-							lockingTime
-							lockingRevisionId
-						}
-					}
-					rule {
-						id
-						name
-						description
-						index
-						section {
-							id
-							name
-						}
-						enabled
-						application {
-							id
-							name
-						}
-						headers {
-							name
-							value
-						}
-						source {
-							ip
-							host {
-								id
-								name
-							}
-							site {
-								id
-								name
-							}
-							subnet
-							ipRange {
-								from
-								to
-							}
-							globalIpRange {
-								id
-								name
-							}
-							networkInterface {
-								id
-								name
-							}
-							siteNetworkSubnet {
-								id
-								name
-							}
-							floatingSubnet {
-								id
-								name
-							}
-							user {
-								id
-								name
-							}
-							usersGroup {
-								id
-								name
-							}
-							group {
-								id
-								name
-							}
-							systemGroup {
-								id
-								name
-							}
-							country {
-								id
-								name
-							}
-						}
-						schedule {
-							activeOn
-							customTimeframe {
-								from
-								to
-							}
-							customRecurring {
-								from
-								to
-								days
-							}
-						}
-						action
-						severity
-					}
-					properties
-				}
-				sections {
-					audit {
-						updatedTime
-						updatedBy
-					}
-					metadata {
-						lock {
-							lockingAdminEmail
-							lockingTime
-							lockingRevisionId
-						}
-					}
-					section {
-						id
-						name
-					}
-					properties
-				}
-				audit {
-					publishedTime
-					publishedBy
-				}
-				revision {
-					id
-					name
-					description
-					changes
-					createdTime
-					updatedTime
-				}
-			}
-		}
-	}	
+query appTenantRestrictionPolicy($accountId: ID!) {
+  policy(accountId: $accountId) {
+    appTenantRestriction {
+      policy {
+        enabled
+        audit {
+          publishedTime
+          publishedBy
+        }
+        revision {
+          id
+          name
+          description
+          changes
+          createdTime
+          updatedTime
+        }
+        sections {
+          audit {
+            updatedTime
+            updatedBy
+          }
+          section {
+            id
+            name
+          }
+          properties
+        }
+        rules {
+          audit {
+            updatedTime
+            updatedBy
+          }
+          properties
+          rule {
+            id
+            name
+            description
+            index
+            enabled
+            action
+            severity
+            application {
+              id
+              name
+            }
+            headers {
+              name
+              value
+            }
+            schedule {
+              activeOn
+              customTimeframeAppTenantRestriction: customTimeframe {
+                from
+                to
+              }
+              customRecurringAppTenantRestriction: customRecurring {
+                from
+                to
+                days
+              }
+            }
+            source {
+              country {
+                id
+                name
+              }
+              floatingSubnet {
+                id
+                name
+              }
+              globalIpRange {
+                id
+                name
+              }
+              group {
+                id
+                name
+              }
+              host {
+                id
+                name
+              }
+              ip
+              ipRange {
+                from
+                to
+              }
+              networkInterface {
+                id
+                name
+              }
+              site {
+                id
+                name
+              }
+              siteNetworkSubnet {
+                id
+                name
+              }
+              subnet
+              systemGroup {
+                id
+                name
+              }
+              user {
+                id
+                name
+              }
+              usersGroup {
+                id
+                name
+              }
+            }
+            section {
+              id
+              name
+            }
+          }
+        }
+      }
+    }
+  }
 }

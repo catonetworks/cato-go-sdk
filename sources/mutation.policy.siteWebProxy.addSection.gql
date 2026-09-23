@@ -35,5 +35,5 @@ mutation policySiteWebProxyAddSection ( $accountId:ID! $siteWebProxyPolicyMutati
 				}
 			}
 		}
-	}	
+	}
 }

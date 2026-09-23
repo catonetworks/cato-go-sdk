@@ -1,18 +1,16 @@
-mutation accountManagementAddAccount ( $accountId:ID! $addAccountInput:AddAccountInput!) {
-	accountManagement ( accountId:$accountId ) {
-		addAccount ( input:$addAccountInput  )  {
-			id
-			name
-			description
-			timeZone
-			type
-			tenancy
-			audit {
-				createdBy
-				createdTime
-			}
-			plan
-			status
-		}
-	}	
+mutation accountManagementAddAccount($addAccountInput: AddAccountInput!, $accountId: ID!) {
+    accountManagement(accountId: $accountId) {
+        addAccount(input: $addAccountInput) {
+            id
+            name
+            description
+            timeZone
+            type
+            tenancy
+            audit {
+                createdBy
+                createdTime
+            }
+        }
+    }
 }

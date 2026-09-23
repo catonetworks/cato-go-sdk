@@ -1,39 +1,27 @@
-mutation policyWanFirewallAddSection ( $accountId:ID! $wanFirewallPolicyMutationInput:WanFirewallPolicyMutationInput $policyAddSectionInput:PolicyAddSectionInput!) {
-	policy ( accountId:$accountId ) {
-		wanFirewall ( input:$wanFirewallPolicyMutationInput  )  {
+mutation policyWanFirewallAddSection ( $policyAddSectionInput:PolicyAddSectionInput! $accountId:ID! ) {
+	policy ( accountId:$accountId  ) {
+		wanFirewall  {
 			addSection ( input:$policyAddSectionInput   ) {
-				section {
+				section  {
 					audit {
-						updatedTime
-						updatedBy
-					}
-					metadata {
-						lock {
-							lockingAdminEmail
-							lockingTime
-							lockingRevisionId
-						}
+						updatedTime 
+						updatedBy 
 					}
 					section {
-						id
-						name
+						id 
+						name 
 					}
 					properties
 				}
-				status
-				errors {
+
+				status 
+				errors  {
 					errorMessage
 					errorCode
 				}
-				revision {
-					id
-					name
-					description
-					changes
-					createdTime
-					updatedTime
-				}
+
 			}
 		}
+
 	}	
 }

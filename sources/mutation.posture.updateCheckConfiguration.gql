@@ -39,5 +39,5 @@ mutation postureUpdateCheckConfiguration ( $accountId:ID! $postureUpdateCheckCon
 				securityDomain
 			}
 		}
-	}	
+	}
 }

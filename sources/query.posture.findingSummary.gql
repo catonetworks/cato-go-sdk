@@ -85,5 +85,5 @@ query postureFindingSummary ( $accountId:ID! $postureFindingSummaryInput:Posture
 				}
 			}
 		}
-	}	
+	}
 }

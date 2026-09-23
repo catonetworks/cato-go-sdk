@@ -9,5 +9,5 @@ mutation networkConfigDnsDeleteForwardingRule ( $accountId:ID! $networkConfigDns
 				}
 			}
 		}
-	}	
+	}
 }

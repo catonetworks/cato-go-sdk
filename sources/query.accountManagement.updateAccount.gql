@@ -1,18 +1,16 @@
-mutation accountManagementUpdateAccount ( $accountId:ID! $updateAccountInput:UpdateAccountInput!) {
-	accountManagement ( accountId:$accountId ) {
-		updateAccount ( input:$updateAccountInput  )  {
-			id
-			name
-			description
-			timeZone
-			type
-			tenancy
-			audit {
-				createdBy
-				createdTime
-			}
-			plan
-			status
-		}
-	}	
+mutation accountManagementUpdateAccount($updateAccountInput: UpdateAccountInput!, $accountId: ID!) {
+    accountManagement(accountId: $accountId) {
+        updateAccount(input: $updateAccountInput) {
+            id
+            name
+            description
+            timeZone
+            type
+            tenancy
+            audit {
+                createdBy
+                createdTime
+            }
+        }
+    }
 }

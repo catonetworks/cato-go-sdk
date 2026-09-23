@@ -9,5 +9,5 @@ mutation networkConfigDnsSetForwardingRule ( $accountId:ID! $networkConfigDnsSet
 				}
 			}
 		}
-	}	
+	}
 }

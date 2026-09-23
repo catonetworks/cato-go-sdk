@@ -1,13 +1,13 @@
-mutation objectDeleteGlobalIpRangeBulk ( $accountId:ID! $globalIpRangeRefInput:[GlobalIpRangeRefInput!]!) {
-	object ( accountId:$accountId ) {
-		deleteGlobalIpRangeBulk ( input:$globalIpRangeRefInput  )  {
-			globalIpRange {
-				id
-				name
-				description
-				ipRange
-				subnet
-			}
-		}
-	}	
+mutation objectDeleteGlobalIpRangeBulk ( $accountID: ID!, $input: [GlobalIpRangeRefInput!]! ) {
+  object(accountId: $accountID) {
+    deleteGlobalIpRangeBulk(input: $input) {
+      globalIpRange {
+        id
+        description
+        ipRange
+        name
+      }
+    }
+  }
 }
+

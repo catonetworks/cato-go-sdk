@@ -1,39 +1,22 @@
-mutation policyAppTenantRestrictionMoveSection ( $accountId:ID! $appTenantRestrictionPolicyMutationInput:AppTenantRestrictionPolicyMutationInput $policyMoveSectionInput:PolicyMoveSectionInput!) {
-	policy ( accountId:$accountId ) {
-		appTenantRestriction ( input:$appTenantRestrictionPolicyMutationInput  )  {
-			moveSection ( input:$policyMoveSectionInput   ) {
-				section {
-					audit {
-						updatedTime
-						updatedBy
-					}
-					metadata {
-						lock {
-							lockingAdminEmail
-							lockingTime
-							lockingRevisionId
-						}
-					}
-					section {
-						id
-						name
-					}
-					properties
-				}
-				status
-				errors {
-					errorMessage
-					errorCode
-				}
-				revision {
-					id
-					name
-					description
-					changes
-					createdTime
-					updatedTime
-				}
-			}
-		}
-	}	
+mutation policyAppTenantRestrictionMoveSection(
+  $policyMoveSectionInput: PolicyMoveSectionInput!
+  $accountId: ID!
+) {
+  policy(accountId: $accountId) {
+    appTenantRestriction {
+      moveSection(input: $policyMoveSectionInput) {
+        section {
+          section {
+            id
+            name
+          }
+        }
+        status
+        errors {
+          errorMessage
+          errorCode
+        }
+      }
+    }
+  }
 }

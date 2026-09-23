@@ -1,33 +1,26 @@
-mutation groupsCreateGroup ( $accountId:ID! $createGroupInput:CreateGroupInput! $groupMembersListInput:GroupMembersListInput!) {
-	groups ( accountId:$accountId ) {
-		createGroup ( input:$createGroupInput  )  {
-			group {
-				id
-				name
-				description
-				audit {
-					updatedTime
-					updatedBy {
-						id
-						name
-					}
-				}
-				members ( input:$groupMembersListInput  )  {
-					items {
-						id
-						name
-						type
-					}
-					paging {
-						total
-					}
-				}
-				membersCount
-				membersCountPerType {
-					type
-					membersCount
-				}
-			}
-		}
-	}	
+mutation groupsCreateGroup ( $createGroupInput:CreateGroupInput! $accountId:ID! ) {
+  groups ( accountId:$accountId  ) {
+    createGroup ( input:$createGroupInput  )  {
+      group  {
+        id 
+        name 
+        description 
+        audit  {
+          updatedTime
+          updatedBy  {
+            id 
+            name 
+          }
+        }
+
+        membersCount 
+        membersCountPerType  {
+          typeGroupMemberTypeCount: type
+          membersCount
+        }
+
+      }
+    }
+
+  }  
 }

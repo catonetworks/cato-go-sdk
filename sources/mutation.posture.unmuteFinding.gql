@@ -62,5 +62,5 @@ mutation postureUnmuteFinding ( $accountId:ID! $postureUnmuteFindingInput:Postur
 				}
 			}
 		}
-	}	
+	}
 }

@@ -145,5 +145,5 @@ mutation postureUnmuteCheck ( $accountId:ID! $postureUnmuteCheckInput:PostureUnm
 				}
 			}
 		}
-	}	
+	}
 }

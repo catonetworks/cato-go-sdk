@@ -1,39 +1,27 @@
-mutation policyTlsInspectRemoveSection ( $accountId:ID! $tlsInspectPolicyMutationInput:TlsInspectPolicyMutationInput $policyRemoveSectionInput:PolicyRemoveSectionInput!) {
-	policy ( accountId:$accountId ) {
-		tlsInspect ( input:$tlsInspectPolicyMutationInput  )  {
-			removeSection ( input:$policyRemoveSectionInput   ) {
-				section {
-					audit {
-						updatedTime
-						updatedBy
-					}
-					metadata {
-						lock {
-							lockingAdminEmail
-							lockingTime
-							lockingRevisionId
-						}
-					}
-					section {
-						id
-						name
-					}
-					properties
-				}
-				status
-				errors {
-					errorMessage
-					errorCode
-				}
-				revision {
-					id
-					name
-					description
-					changes
-					createdTime
-					updatedTime
-				}
-			}
-		}
-	}	
+mutation policyTlsInspectRemoveSection ( $policyRemoveSectionInput:PolicyRemoveSectionInput! $accountId:ID! ) {
+  policy ( accountId:$accountId  ) {
+    tlsInspect  {
+      removeSection ( input:$policyRemoveSectionInput   )  {
+        section  {
+          audit  {
+            updatedTime 
+            updatedBy 
+          }
+          section  {
+            id 
+            name 
+          }
+          properties
+        }
+
+        status 
+        errors  {
+          errorMessage
+          errorCode
+        }
+
+      }
+    }
+
+  }  
 }

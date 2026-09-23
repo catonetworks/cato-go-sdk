@@ -18,6 +18,14 @@ mutation notificationCreateSubscriptionGroup ( $accountId:ID! $createSubscriptio
 						updatedBy {
 							id
 							name
+							... on AdminRef {
+								id
+								name
+							}
+							... on ApiKeyRef {
+								id
+								name
+							}
 						}
 					}
 				}
@@ -30,13 +38,19 @@ mutation notificationCreateSubscriptionGroup ( $accountId:ID! $createSubscriptio
 						requestMethod
 						auth {
 							authType
+							... on BearerTokenAuth {
+								authType
+							}
 							... on BasicAuth {
+								authType
 								username
 							}
 							... on CustomHeaderAuth {
+								authType
 								name
 							}
 							... on CustomHeadersAuth {
+								authType
 								plainHeaders {
 									name
 									value
@@ -44,6 +58,9 @@ mutation notificationCreateSubscriptionGroup ( $accountId:ID! $createSubscriptio
 								secretHeaders {
 									name
 								}
+							}
+							... on NoAuth {
+								authType
 							}
 						}
 						header {

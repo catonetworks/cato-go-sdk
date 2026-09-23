@@ -11,5 +11,5 @@ mutation postureAddCheckComment ( $accountId:ID! $addCheckCommentInput:AddCheckC
 				}
 			}
 		}
-	}	
+	}
 }

@@ -1,4 +1,4 @@
-query xdrStory ( $accountID:ID! $storyId:ID $producer:StoryProducerEnum $incidentId:ID) {
+query xdrStoryQuery ( $accountID:ID! $storyId:ID $producer:StoryProducerEnum $incidentId:ID) {
 	xdr ( accountID:$accountID ) {
 		story ( storyId:$storyId  producer:$producer  incidentId:$incidentId  )  {
 			id
@@ -155,10 +155,16 @@ query xdrStory ( $accountID:ID! $storyId:ID $producer:StoryProducerEnum $inciden
 									id
 									name
 									... on MicrosoftEndpointUser {
+										id
+										name
 										userSid
 										accountName
 										domainName
 										principalName
+									}
+									... on CatoEndpointUser {
+										id
+										name
 									}
 								}
 							}
@@ -235,10 +241,16 @@ query xdrStory ( $accountID:ID! $storyId:ID $producer:StoryProducerEnum $inciden
 								id
 								name
 								... on MicrosoftEndpointUser {
+									id
+									name
 									userSid
 									accountName
 									domainName
 									principalName
+								}
+								... on CatoEndpointUser {
+									id
+									name
 								}
 							}
 							externalIp
@@ -956,10 +968,16 @@ query xdrStory ( $accountID:ID! $storyId:ID $producer:StoryProducerEnum $inciden
 									id
 									name
 									... on MicrosoftEndpointUser {
+										id
+										name
 										userSid
 										accountName
 										domainName
 										principalName
+									}
+									... on CatoEndpointUser {
+										id
+										name
 									}
 								}
 							}

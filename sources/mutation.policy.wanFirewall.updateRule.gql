@@ -1,429 +1,449 @@
-mutation policyWanFirewallUpdateRule ( $accountId:ID! $wanFirewallPolicyMutationInput:WanFirewallPolicyMutationInput $wanFirewallUpdateRuleInput:WanFirewallUpdateRuleInput!) {
-	policy ( accountId:$accountId ) {
-		wanFirewall ( input:$wanFirewallPolicyMutationInput  )  {
+mutation policyWanFirewallUpdateRule ( $wanFirewallUpdateRuleInput:WanFirewallUpdateRuleInput! $accountId:ID! ) {
+	policy ( accountId:$accountId  ) {
+		wanFirewall  {
 			updateRule ( input:$wanFirewallUpdateRuleInput   ) {
-				rule {
+				rule  {
 					audit {
-						updatedTime
-						updatedBy
-					}
-					metadata {
-						lock {
-							lockingAdminEmail
-							lockingTime
-							lockingRevisionId
-						}
+						updatedTime 
+						updatedBy 
 					}
 					rule {
-						id
-						name
-						description
-						index
-						section {
+						id 
+						name 
+						description 
+						index 
+						section  {
 							id
 							name
 						}
-						enabled
-						source {
+
+						enabled 
+						source  {
 							host {
-								id
-								name
+								id 
+								name 
 							}
 							site {
-								id
-								name
+								id 
+								name 
 							}
 							subnet
 							ip
 							ipRange {
-								from
-								to
+								from 
+								to 
 							}
 							globalIpRange {
-								id
-								name
+								id 
+								name 
 							}
 							networkInterface {
-								id
-								name
+								id 
+								name 
 							}
 							siteNetworkSubnet {
-								id
-								name
+								id 
+								name 
 							}
 							floatingSubnet {
-								id
-								name
+								id 
+								name 
 							}
 							user {
-								id
-								name
+								id 
+								name 
 							}
 							usersGroup {
-								id
-								name
+								id 
+								name 
 							}
 							group {
-								id
-								name
+								id 
+								name 
 							}
 							systemGroup {
-								id
-								name
+								id 
+								name 
 							}
 						}
-						connectionOrigin
-						country {
+
+						connectionOrigin 
+						country  {
 							id
 							name
 						}
-						device {
+
+						device  {
 							id
 							name
 						}
-						deviceOS
-						deviceAttributes {
+
+						deviceOS 
+						deviceAttributes  {
 							category
 							type
 							model
 							manufacturer
 							os
 							osVersion
-						}
-						destination {
+						}						
+						destination  {
 							host {
-								id
-								name
+								id 
+								name 
 							}
 							site {
-								id
-								name
+								id 
+								name 
 							}
 							subnet
 							ip
 							ipRange {
-								from
-								to
+								from 
+								to 
 							}
 							globalIpRange {
-								id
-								name
+								id 
+								name 
 							}
 							networkInterface {
-								id
-								name
+								id 
+								name 
 							}
 							siteNetworkSubnet {
-								id
-								name
+								id 
+								name 
 							}
 							floatingSubnet {
-								id
-								name
+								id 
+								name 
 							}
 							user {
-								id
-								name
+								id 
+								name 
 							}
 							usersGroup {
-								id
-								name
+								id 
+								name 
 							}
 							group {
-								id
-								name
+								id 
+								name 
 							}
 							systemGroup {
-								id
-								name
+								id 
+								name 
 							}
 						}
-						application {
+
+						application  {
 							application {
-								id
-								name
+								id 
+								name 
 							}
 							appCategory {
-								id
-								name
+								id 
+								name 
 							}
 							customApp {
-								id
-								name
+								id 
+								name 
 							}
 							customCategory {
-								id
-								name
+								id 
+								name 
 							}
 							sanctionedAppsCategory {
-								id
-								name
+								id 
+								name 
 							}
 							domain
 							fqdn
 							ip
 							subnet
 							ipRange {
-								from
-								to
+								from 
+								to 
 							}
 							globalIpRange {
-								id
-								name
+								id 
+								name 
 							}
 						}
-						service {
+
+						service  {
 							standard {
-								id
-								name
+								id 
+								name 
 							}
 							custom {
-								port
-								portRange {
+								port 
+								portRange  {
 									from
 									to
 								}
-								protocol
+
+								protocol 
 							}
 						}
-						action
-						tracking {
+
+						action 
+						tracking  {
 							event {
-								enabled
+								enabled 
 							}
 							alert {
-								enabled
-								frequency
-								subscriptionGroup {
+								enabled 
+								frequency 
+								subscriptionGroup  {
 									id
 									name
 								}
-								webhook {
+
+								webhook  {
 									id
 									name
 								}
-								mailingList {
+
+								mailingList  {
 									id
 									name
 								}
+
 							}
 						}
-						schedule {
-							activeOn
-							customTimeframe {
-								from
-								to
+
+						schedule  {
+							activeOnPolicySchedule: activeOn
+							customTimeframePolicySchedule: customTimeframe {
+								from 
+								to 
 							}
-							customRecurring {
-								from
-								to
-								days
+							customRecurringPolicySchedule: customRecurring {
+								from 
+								to 
+								days 
 							}
 						}
-						activePeriod {
+
+						activePeriod  {
 							useEffectiveFrom
 							effectiveFrom
 							useExpiresAt
 							expiresAt
-						}
-						direction
-						exceptions {
+						}						
+
+						direction 
+						exceptions  {
 							name
 							source {
-								host {
+								host  {
 									id
 									name
 								}
-								site {
+
+								site  {
 									id
 									name
 								}
-								subnet
-								ip
-								ipRange {
+
+								subnet 
+								ip 
+								ipRange  {
 									from
 									to
 								}
-								globalIpRange {
+
+								globalIpRange  {
 									id
 									name
 								}
-								networkInterface {
+
+								networkInterface  {
 									id
 									name
 								}
-								siteNetworkSubnet {
+
+								siteNetworkSubnet  {
 									id
 									name
 								}
-								floatingSubnet {
+
+								floatingSubnet  {
 									id
 									name
 								}
-								user {
+
+								user  {
 									id
 									name
 								}
-								usersGroup {
+
+								usersGroup  {
 									id
 									name
 								}
-								group {
+
+								group  {
 									id
 									name
 								}
-								systemGroup {
+
+								systemGroup  {
 									id
 									name
 								}
+
 							}
 							deviceOS
-							destination {
-								host {
-									id
-									name
-								}
-								site {
-									id
-									name
-								}
-								subnet
-								ip
-								ipRange {
-									from
-									to
-								}
-								globalIpRange {
-									id
-									name
-								}
-								networkInterface {
-									id
-									name
-								}
-								siteNetworkSubnet {
-									id
-									name
-								}
-								floatingSubnet {
-									id
-									name
-								}
-								user {
-									id
-									name
-								}
-								usersGroup {
-									id
-									name
-								}
-								group {
-									id
-									name
-								}
-								systemGroup {
-									id
-									name
-								}
-							}
-							country {
-								id
-								name
-							}
-							device {
-								id
-								name
-							}
-							deviceAttributes {
+							deviceAttributes  {
 								category
 								type
 								model
 								manufacturer
 								os
 								osVersion
-							}
-							application {
-								application {
+							}							
+							destination {
+								host  {
 									id
 									name
 								}
-								appCategory {
+
+								site  {
 									id
 									name
 								}
-								customApp {
-									id
-									name
-								}
-								customCategory {
-									id
-									name
-								}
-								sanctionedAppsCategory {
-									id
-									name
-								}
-								domain
-								fqdn
-								ip
-								subnet
-								ipRange {
+
+								subnet 
+								ip 
+								ipRange  {
 									from
 									to
 								}
-								globalIpRange {
+
+								globalIpRange  {
 									id
 									name
 								}
+
+								networkInterface  {
+									id
+									name
+								}
+
+								siteNetworkSubnet  {
+									id
+									name
+								}
+
+								floatingSubnet  {
+									id
+									name
+								}
+
+								user  {
+									id
+									name
+								}
+
+								usersGroup  {
+									id
+									name
+								}
+
+								group  {
+									id
+									name
+								}
+
+								systemGroup  {
+									id
+									name
+								}
+
+							}
+							country {
+								id 
+								name 
+							}
+							device {
+								id 
+								name 
+							}
+							application {
+								application  {
+									id
+									name
+								}
+
+								appCategory  {
+									id
+									name
+								}
+
+								customApp  {
+									id
+									name
+								}
+
+								customCategory  {
+									id
+									name
+								}
+
+								sanctionedAppsCategory  {
+									id
+									name
+								}
+
+								domain 
+								fqdn 
+								ip 
+								subnet 
+								ipRange  {
+									from
+									to
+								}
+
+								globalIpRange  {
+									id
+									name
+								}
+
 							}
 							service {
-								standard {
+								standard  {
 									id
 									name
 								}
-								custom {
+
+								custom  {
 									port
-									portRange {
-										from
-										to
+									portRangeCustomService: portRange {
+										from 
+										to 
 									}
 									protocol
 								}
+
 							}
-							connectionOrigin
-							direction
+							connectionOriginWanFirewallRuleException: connectionOrigin
+							directionWanFirewallRuleException: direction
 						}
-						actionConfig {
-							userNotification {
-								id
-								name
-							}
-						}
+
 					}
 					properties
-					ruleType
-					subPolicy {
-						id
-						name
-					}
-					access {
-						action
-					}
 				}
-				revision {
-					id
-					name
-					description
-					changes
-					createdTime
-					updatedTime
-				}
-				status
-				errors {
+
+				status 
+				errors  {
 					errorMessage
 					errorCode
 				}
+
 			}
 		}
+
 	}	
 }

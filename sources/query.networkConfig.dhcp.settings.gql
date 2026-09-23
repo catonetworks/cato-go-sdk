@@ -13,5 +13,5 @@ query networkConfigDhcpSettings ( $accountId:ID!) {
 				leaseTime
 			}
 		}
-	}	
+	}
 }

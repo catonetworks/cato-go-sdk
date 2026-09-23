@@ -44,7 +44,6 @@ query devices ( $accountId:ID! $deviceV2Input:DeviceV2Input $sortOrderInput:Sort
 							name
 						}
 					}
-
 					vendor
 				}
 				os {
@@ -116,7 +115,6 @@ query devices ( $accountId:ID! $deviceV2Input:DeviceV2Input $sortOrderInput:Sort
 							name
 						}
 					}
-
 					vendor
 				}
 				groups {
