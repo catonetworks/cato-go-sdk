@@ -1,4 +1,4 @@
-query accountMetrics ($toRate: Boolean, $types: [String!], $withMissingData3: Boolean, $siteIDs: [ID!], $ids: [String!], $userIDs: [ID!], $perSecond7: Boolean, $labels1: [TimeseriesMetricType!], $buckets1: Int, $accountID: ID, $id: ID, $timeFrame: TimeFrame!, $groupInterfaces: Boolean, $groupDevices: Boolean, $useDefaultSizeBucket: Boolean) {
+query accountMetrics ($toRate: Boolean, $perSecond: Boolean, $withMissingData: Boolean, $buckets: Int, $labels: [TimeseriesMetricType!], $types: [String!], $siteIDs: [ID!], $ids: [String!], $userIDs: [ID!], $accountID: ID, $id: ID, $timeFrame: TimeFrame!, $groupInterfaces: Boolean, $groupDevices: Boolean, $useDefaultSizeBucket: Boolean) {
 	accountMetrics(timeFrame: $timeFrame, groupInterfaces: $groupInterfaces, groupDevices: $groupDevices, accountID: $accountID, id: $id) {
 		id
 		from
@@ -29,8 +29,8 @@ query accountMetrics ($toRate: Boolean, $types: [String!], $withMissingData3: Bo
 					flowCount
 				}
 				name
-				timeseries(buckets: $buckets1, labels: $labels1) {
-					data(perSecond: $perSecond7, withMissingData: $withMissingData3, useDefaultSizeBucket: $useDefaultSizeBucket)
+				timeseries(buckets: $buckets, labels: $labels) {
+					data(perSecond: $perSecond, withMissingData: $withMissingData, useDefaultSizeBucket: $useDefaultSizeBucket)
 					label
 					dimensions {
 						label
@@ -165,7 +165,7 @@ query accountMetrics ($toRate: Boolean, $types: [String!], $withMissingData3: Bo
 				}
 			}
 			hostCount {
-				data(perSecond: $perSecond7, withMissingData: $withMissingData3, useDefaultSizeBucket: $useDefaultSizeBucket)
+				data(perSecond: $perSecond, withMissingData: $withMissingData, useDefaultSizeBucket: $useDefaultSizeBucket)
 				label
 				dimensions {
 					label
@@ -183,7 +183,7 @@ query accountMetrics ($toRate: Boolean, $types: [String!], $withMissingData3: Bo
 				info
 			}
 			flowCount {
-				data(perSecond: $perSecond7, withMissingData: $withMissingData3, useDefaultSizeBucket: $useDefaultSizeBucket)
+				data(perSecond: $perSecond, withMissingData: $withMissingData, useDefaultSizeBucket: $useDefaultSizeBucket)
 				label
 				dimensions {
 					label
@@ -201,7 +201,7 @@ query accountMetrics ($toRate: Boolean, $types: [String!], $withMissingData3: Bo
 				info
 			}
 			hostLimit {
-				data(perSecond: $perSecond7, withMissingData: $withMissingData3, useDefaultSizeBucket: $useDefaultSizeBucket)
+				data(perSecond: $perSecond, withMissingData: $withMissingData, useDefaultSizeBucket: $useDefaultSizeBucket)
 				label
 				dimensions {
 					label
@@ -219,7 +219,7 @@ query accountMetrics ($toRate: Boolean, $types: [String!], $withMissingData3: Bo
 				info
 			}
 			siteUpstreamThroughputMax {
-				data(perSecond: $perSecond7, withMissingData: $withMissingData3, useDefaultSizeBucket: $useDefaultSizeBucket)
+				data(perSecond: $perSecond, withMissingData: $withMissingData, useDefaultSizeBucket: $useDefaultSizeBucket)
 				label
 				dimensions {
 					label
@@ -237,7 +237,7 @@ query accountMetrics ($toRate: Boolean, $types: [String!], $withMissingData3: Bo
 				info
 			}
 			siteDownstreamThroughputMax {
-				data(perSecond: $perSecond7, withMissingData: $withMissingData3, useDefaultSizeBucket: $useDefaultSizeBucket)
+				data(perSecond: $perSecond, withMissingData: $withMissingData, useDefaultSizeBucket: $useDefaultSizeBucket)
 				label
 				dimensions {
 					label
@@ -281,8 +281,8 @@ query accountMetrics ($toRate: Boolean, $types: [String!], $withMissingData3: Bo
 					flowCount
 				}
 				name
-				timeseries(buckets: $buckets1, labels: $labels1) {
-					data(perSecond: $perSecond7, withMissingData: $withMissingData3, useDefaultSizeBucket: $useDefaultSizeBucket)
+				timeseries(buckets: $buckets, labels: $labels) {
+					data(perSecond: $perSecond, withMissingData: $withMissingData, useDefaultSizeBucket: $useDefaultSizeBucket)
 					label
 					dimensions {
 						label
@@ -417,7 +417,7 @@ query accountMetrics ($toRate: Boolean, $types: [String!], $withMissingData3: Bo
 				}
 			}
 			hostCount {
-				data(perSecond: $perSecond7, withMissingData: $withMissingData3, useDefaultSizeBucket: $useDefaultSizeBucket)
+				data(perSecond: $perSecond, withMissingData: $withMissingData, useDefaultSizeBucket: $useDefaultSizeBucket)
 				label
 				dimensions {
 					label
@@ -435,7 +435,7 @@ query accountMetrics ($toRate: Boolean, $types: [String!], $withMissingData3: Bo
 				info
 			}
 			flowCount {
-				data(perSecond: $perSecond7, withMissingData: $withMissingData3, useDefaultSizeBucket: $useDefaultSizeBucket)
+				data(perSecond: $perSecond, withMissingData: $withMissingData, useDefaultSizeBucket: $useDefaultSizeBucket)
 				label
 				dimensions {
 					label
@@ -453,7 +453,7 @@ query accountMetrics ($toRate: Boolean, $types: [String!], $withMissingData3: Bo
 				info
 			}
 			hostLimit {
-				data(perSecond: $perSecond7, withMissingData: $withMissingData3, useDefaultSizeBucket: $useDefaultSizeBucket)
+				data(perSecond: $perSecond, withMissingData: $withMissingData, useDefaultSizeBucket: $useDefaultSizeBucket)
 				label
 				dimensions {
 					label
@@ -471,7 +471,7 @@ query accountMetrics ($toRate: Boolean, $types: [String!], $withMissingData3: Bo
 				info
 			}
 			siteUpstreamThroughputMax {
-				data(perSecond: $perSecond7, withMissingData: $withMissingData3, useDefaultSizeBucket: $useDefaultSizeBucket)
+				data(perSecond: $perSecond, withMissingData: $withMissingData, useDefaultSizeBucket: $useDefaultSizeBucket)
 				label
 				dimensions {
 					label
@@ -489,7 +489,7 @@ query accountMetrics ($toRate: Boolean, $types: [String!], $withMissingData3: Bo
 				info
 			}
 			siteDownstreamThroughputMax {
-				data(perSecond: $perSecond7, withMissingData: $withMissingData3, useDefaultSizeBucket: $useDefaultSizeBucket)
+				data(perSecond: $perSecond, withMissingData: $withMissingData, useDefaultSizeBucket: $useDefaultSizeBucket)
 				label
 				dimensions {
 					label
@@ -508,8 +508,8 @@ query accountMetrics ($toRate: Boolean, $types: [String!], $withMissingData3: Bo
 			}
 			samples
 		}
-		timeseries(labels: $labels1, buckets: $buckets1) {
-			data(perSecond: $perSecond7, withMissingData: $withMissingData3, useDefaultSizeBucket: $useDefaultSizeBucket)
+		timeseries(labels: $labels, buckets: $buckets) {
+			data(perSecond: $perSecond, withMissingData: $withMissingData, useDefaultSizeBucket: $useDefaultSizeBucket)
 			label
 			dimensions {
 				label

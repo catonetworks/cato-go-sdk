@@ -40,7 +40,7 @@ func normalizeMappedOperation(
 		if preserveRemoved {
 			preserveRemovedVariableBindings(existingOperation, incomingOperation)
 		}
-		preserveVariableBindings(existing, incoming)
+		preserveVariableBindingsAcrossSiteRoot(existing, incoming)
 		incomingOperation.VariableDefinitions = stableVariableOrder(
 			existingOperation.VariableDefinitions,
 			incomingOperation.VariableDefinitions,
@@ -59,6 +59,19 @@ func normalizeMappedOperation(
 		return content, nil
 	}
 	return normalize(false)
+}
+
+func preserveVariableBindingsAcrossSiteRoot(existing, incoming *ast.QueryDocument) {
+	previous := directField(existing.Operations[0].SelectionSet, "sites")
+	current := directField(incoming.Operations[0].SelectionSet, "site")
+	if previous == nil || current == nil || !shareDirectChild(previous.SelectionSet, current.SelectionSet) {
+		preserveVariableBindings(existing, incoming)
+		return
+	}
+
+	current.Name = previous.Name
+	preserveVariableBindings(existing, incoming)
+	current.Name = "site"
 }
 
 func preserveSiteRootAlias(existing, incoming ast.SelectionSet) {
@@ -175,26 +188,7 @@ func preserveVariableBindings(existing, incoming *ast.QueryDocument) {
 		incomingNames[definition.Variable] = struct{}{}
 	}
 
-	renames := make(map[string]string)
-	claimedOldNames := make(map[string]string)
-	for key, incomingName := range incomingBindings {
-		existingName, exists := existingBindings[key]
-		if !exists || existingName == incomingName {
-			continue
-		}
-		if _, collision := incomingNames[existingName]; collision {
-			continue
-		}
-		if previous, conflict := renames[incomingName]; conflict && previous != existingName {
-			delete(renames, incomingName)
-			continue
-		}
-		if previous, conflict := claimedOldNames[existingName]; conflict && previous != incomingName {
-			continue
-		}
-		renames[incomingName] = existingName
-		claimedOldNames[existingName] = incomingName
-	}
+	renames := stableVariableRenames(existingBindings, incomingBindings, incomingNames)
 	if len(renames) == 0 {
 		return
 	}
@@ -210,6 +204,62 @@ func preserveVariableBindings(existing, incoming *ast.QueryDocument) {
 		renameVariablesInSelections(fragment.SelectionSet, renames)
 		renameVariablesInDirectives(fragment.Directives, renames)
 	}
+}
+
+func stableVariableRenames(
+	existingBindings map[string]string,
+	incomingBindings map[string]string,
+	incomingNames map[string]struct{},
+) map[string]string {
+	keys := make([]string, 0, len(incomingBindings))
+	for key := range incomingBindings {
+		keys = append(keys, key)
+	}
+	sort.Strings(keys)
+
+	candidates := make(map[string]map[string]struct{})
+	for _, key := range keys {
+		incomingName := incomingBindings[key]
+		existingName, exists := existingBindings[key]
+		if !exists {
+			continue
+		}
+		if candidates[incomingName] == nil {
+			candidates[incomingName] = make(map[string]struct{})
+		}
+		candidates[incomingName][existingName] = struct{}{}
+	}
+
+	renames := make(map[string]string)
+	claimedOldNames := make(map[string]string)
+	incomingNamesSorted := make([]string, 0, len(candidates))
+	for incomingName := range candidates {
+		incomingNamesSorted = append(incomingNamesSorted, incomingName)
+	}
+	sort.Strings(incomingNamesSorted)
+	for _, incomingName := range incomingNamesSorted {
+		oldNames := candidates[incomingName]
+		if len(oldNames) != 1 {
+			continue
+		}
+		var existingName string
+		for name := range oldNames {
+			existingName = name
+		}
+		if existingName == incomingName {
+			continue
+		}
+		if _, collision := incomingNames[existingName]; collision {
+			continue
+		}
+		if previous, conflict := claimedOldNames[existingName]; conflict {
+			delete(renames, previous)
+			continue
+		}
+		renames[incomingName] = existingName
+		claimedOldNames[existingName] = incomingName
+	}
+	return renames
 }
 
 func collectVariableBindings(query *ast.QueryDocument) map[string]string {

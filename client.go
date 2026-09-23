@@ -357,7 +357,7 @@ type CatoClient interface {
 	SiteAddSocketAddOnCard(ctx context.Context, accountID string, addSocketAddOnCardInput cato_models.AddSocketAddOnCardInput, interceptors ...clientv2.RequestInterceptor) (*SiteAddSocketAddOnCard, error)
 	SiteAddSocketSite(ctx context.Context, addSocketSiteInput cato_models.AddSocketSiteInput, accountID string, interceptors ...clientv2.RequestInterceptor) (*SiteAddSocketSite, error)
 	SiteAddStaticHost(ctx context.Context, siteID string, addStaticHostInput cato_models.AddStaticHostInput, accountID string, interceptors ...clientv2.RequestInterceptor) (*SiteAddStaticHost, error)
-	AssignSiteBwLicense(ctx context.Context, accountID string, assignSiteBwLicenseInput cato_models.AssignSiteBwLicenseInput, interceptors ...clientv2.RequestInterceptor) (*AssignSiteBwLicense, error)
+	AssignSiteBwLicense(ctx context.Context, accountID string, input cato_models.AssignSiteBwLicenseInput, interceptors ...clientv2.RequestInterceptor) (*AssignSiteBwLicense, error)
 	SiteCreateBgpPeerBulk(ctx context.Context, accountID string, createBgpPeerBulkInput cato_models.CreateBgpPeerBulkInput, interceptors ...clientv2.RequestInterceptor) (*SiteCreateBgpPeerBulk, error)
 	SiteCreateNetworkRangeBulk(ctx context.Context, accountID string, createNetworkRangeBulkInput cato_models.CreateNetworkRangeBulkInput, interceptors ...clientv2.RequestInterceptor) (*SiteCreateNetworkRangeBulk, error)
 	SiteCreateStaticHostBulk(ctx context.Context, accountID string, createStaticHostBulkInput cato_models.CreateStaticHostBulkInput, interceptors ...clientv2.RequestInterceptor) (*SiteCreateStaticHostBulk, error)
@@ -376,11 +376,11 @@ type CatoClient interface {
 	SiteRemoveSecondaryGCPVSocket(ctx context.Context, accountID string, removeSecondaryGCPVSocketInput cato_models.RemoveSecondaryGCPVSocketInput, interceptors ...clientv2.RequestInterceptor) (*SiteRemoveSecondaryGCPVSocket, error)
 	SiteRemoveSecondaryKvmVSocket(ctx context.Context, accountID string, removeSecondaryKvmVSocketInput cato_models.RemoveSecondaryKvmVSocketInput, interceptors ...clientv2.RequestInterceptor) (*SiteRemoveSecondaryKvmVSocket, error)
 	SiteRemoveSite(ctx context.Context, siteID string, accountID string, interceptors ...clientv2.RequestInterceptor) (*SiteRemoveSite, error)
-	RemoveSiteBwLicense(ctx context.Context, accountID string, removeSiteBwLicenseInput cato_models.RemoveSiteBwLicenseInput, interceptors ...clientv2.RequestInterceptor) (*RemoveSiteBwLicense, error)
+	RemoveSiteBwLicense(ctx context.Context, accountID string, input cato_models.RemoveSiteBwLicenseInput, interceptors ...clientv2.RequestInterceptor) (*RemoveSiteBwLicense, error)
 	SiteRemoveSocketAddOnCard(ctx context.Context, accountID string, removeSocketAddOnCardInput cato_models.RemoveSocketAddOnCardInput, interceptors ...clientv2.RequestInterceptor) (*SiteRemoveSocketAddOnCard, error)
 	SiteRemoveStaticHost(ctx context.Context, hostID string, accountID string, interceptors ...clientv2.RequestInterceptor) (*SiteRemoveStaticHost, error)
 	SiteRemoveWifiSsid(ctx context.Context, accountID string, removeWifiSsidInput cato_models.RemoveWifiSsidInput, interceptors ...clientv2.RequestInterceptor) (*SiteRemoveWifiSsid, error)
-	ReplaceSiteBwLicense(ctx context.Context, accountID string, replaceSiteBwLicenseInput cato_models.ReplaceSiteBwLicenseInput, interceptors ...clientv2.RequestInterceptor) (*ReplaceSiteBwLicense, error)
+	ReplaceSiteBwLicense(ctx context.Context, accountID string, input cato_models.ReplaceSiteBwLicenseInput, interceptors ...clientv2.RequestInterceptor) (*ReplaceSiteBwLicense, error)
 	SiteStartSiteUpgrade(ctx context.Context, accountID string, startSiteUpgradeInput cato_models.StartSiteUpgradeInput, interceptors ...clientv2.RequestInterceptor) (*SiteStartSiteUpgrade, error)
 	SiteUpdateBgpPeer(ctx context.Context, updateBgpPeerInput cato_models.UpdateBgpPeerInput, accountID string, interceptors ...clientv2.RequestInterceptor) (*SiteUpdateBgpPeer, error)
 	SiteUpdateBgpPeerBulk(ctx context.Context, accountID string, updateBgpPeerBulkInput cato_models.UpdateBgpPeerBulkInput, interceptors ...clientv2.RequestInterceptor) (*SiteUpdateBgpPeerBulk, error)
@@ -395,7 +395,7 @@ type CatoClient interface {
 	SiteUpdateSecondaryAzureVSocket(ctx context.Context, accountID string, updateSecondaryAzureVSocketInput cato_models.UpdateSecondaryAzureVSocketInput, interceptors ...clientv2.RequestInterceptor) (*SiteUpdateSecondaryAzureVSocket, error)
 	SiteUpdateSecondaryGCPVSocket(ctx context.Context, accountID string, updateSecondaryGCPVSocketInput cato_models.UpdateSecondaryGCPVSocketInput, interceptors ...clientv2.RequestInterceptor) (*SiteUpdateSecondaryGCPVSocket, error)
 	SiteUpdateSiteBackhauling(ctx context.Context, accountID string, updateSiteBackhaulingInput cato_models.UpdateSiteBackhaulingInput, interceptors ...clientv2.RequestInterceptor) (*SiteUpdateSiteBackhauling, error)
-	UpdateSiteBwLicense(ctx context.Context, accountID string, updateSiteBwLicenseInput cato_models.UpdateSiteBwLicenseInput, interceptors ...clientv2.RequestInterceptor) (*UpdateSiteBwLicense, error)
+	UpdateSiteBwLicense(ctx context.Context, accountID string, input cato_models.UpdateSiteBwLicenseInput, interceptors ...clientv2.RequestInterceptor) (*UpdateSiteBwLicense, error)
 	SiteUpdateSiteGeneralDetails(ctx context.Context, siteID string, updateSiteGeneralDetailsInput cato_models.UpdateSiteGeneralDetailsInput, accountID string, interceptors ...clientv2.RequestInterceptor) (*SiteUpdateSiteGeneralDetails, error)
 	SiteUpdateSiteNetworkRanges(ctx context.Context, accountID string, updateSiteNetworkRangesInput cato_models.UpdateSiteNetworkRangesInput, interceptors ...clientv2.RequestInterceptor) (*SiteUpdateSiteNetworkRanges, error)
 	SiteUpdateSiteSocketConfiguration(ctx context.Context, accountID string, updateSiteSocketConfigurationInput cato_models.UpdateSiteSocketConfigurationInput, interceptors ...clientv2.RequestInterceptor) (*SiteUpdateSiteSocketConfiguration, error)
@@ -494,7 +494,7 @@ type CatoClient interface {
 	AccountManagement(ctx context.Context, accountID string, interceptors ...clientv2.RequestInterceptor) (*AccountManagement, error)
 	AccountManagementRemoveAccount(ctx context.Context, accountIDToRemove string, accountID string, interceptors ...clientv2.RequestInterceptor) (*AccountManagementRemoveAccount, error)
 	AccountManagementUpdateAccount(ctx context.Context, updateAccountInput cato_models.UpdateAccountInput, accountID string, interceptors ...clientv2.RequestInterceptor) (*AccountManagementUpdateAccount, error)
-	AccountMetrics(ctx context.Context, toRate *bool, types []string, withMissingData3 *bool, siteIDs []string, ids []string, userIDs []string, perSecond7 *bool, labels1 []cato_models.TimeseriesMetricType, buckets1 *int64, accountID *string, id *string, timeFrame string, groupInterfaces *bool, groupDevices *bool, useDefaultSizeBucket *bool, interceptors ...clientv2.RequestInterceptor) (*AccountMetrics, error)
+	AccountMetrics(ctx context.Context, toRate *bool, perSecond *bool, withMissingData *bool, buckets *int64, labels []cato_models.TimeseriesMetricType, types []string, siteIDs []string, ids []string, userIDs []string, accountID *string, id *string, timeFrame string, groupInterfaces *bool, groupDevices *bool, useDefaultSizeBucket *bool, interceptors ...clientv2.RequestInterceptor) (*AccountMetrics, error)
 	AccountRoles(ctx context.Context, accountID string, accountType *cato_models.AccountType, interceptors ...clientv2.RequestInterceptor) (*AccountRoles, error)
 	AccountSnapshot(ctx context.Context, siteIDs []string, userIDs []string, accountID *string, interceptors ...clientv2.RequestInterceptor) (*AccountSnapshot, error)
 	Admin(ctx context.Context, accountID string, adminID string, interceptors ...clientv2.RequestInterceptor) (*Admin, error)
@@ -403636,9 +403636,9 @@ func (c *Client) SiteAddStaticHost(ctx context.Context, siteID string, addStatic
 	return &res, nil
 }
 
-const AssignSiteBwLicenseDocument = `mutation assignSiteBwLicense ($accountId: ID!, $assignSiteBwLicenseInput: AssignSiteBwLicenseInput!) {
+const AssignSiteBwLicenseDocument = `mutation assignSiteBwLicense ($accountId: ID!, $input: AssignSiteBwLicenseInput!) {
 	sites: site(accountId: $accountId) {
-		assignSiteBwLicense(input: $assignSiteBwLicenseInput) {
+		assignSiteBwLicense(input: $input) {
 			license {
 				id
 				description
@@ -403763,10 +403763,10 @@ const AssignSiteBwLicenseDocument = `mutation assignSiteBwLicense ($accountId: I
 }
 `
 
-func (c *Client) AssignSiteBwLicense(ctx context.Context, accountID string, assignSiteBwLicenseInput cato_models.AssignSiteBwLicenseInput, interceptors ...clientv2.RequestInterceptor) (*AssignSiteBwLicense, error) {
+func (c *Client) AssignSiteBwLicense(ctx context.Context, accountID string, input cato_models.AssignSiteBwLicenseInput, interceptors ...clientv2.RequestInterceptor) (*AssignSiteBwLicense, error) {
 	vars := map[string]any{
-		"accountId":                accountID,
-		"assignSiteBwLicenseInput": assignSiteBwLicenseInput,
+		"accountId": accountID,
+		"input":     input,
 	}
 
 	var res AssignSiteBwLicense
@@ -404640,9 +404640,9 @@ func (c *Client) SiteRemoveSite(ctx context.Context, siteID string, accountID st
 	return &res, nil
 }
 
-const RemoveSiteBwLicenseDocument = `mutation removeSiteBwLicense ($accountId: ID!, $removeSiteBwLicenseInput: RemoveSiteBwLicenseInput!) {
+const RemoveSiteBwLicenseDocument = `mutation removeSiteBwLicense ($accountId: ID!, $input: RemoveSiteBwLicenseInput!) {
 	sites: site(accountId: $accountId) {
-		removeSiteBwLicense(input: $removeSiteBwLicenseInput) {
+		removeSiteBwLicense(input: $input) {
 			license {
 				id
 				description
@@ -404767,10 +404767,10 @@ const RemoveSiteBwLicenseDocument = `mutation removeSiteBwLicense ($accountId: I
 }
 `
 
-func (c *Client) RemoveSiteBwLicense(ctx context.Context, accountID string, removeSiteBwLicenseInput cato_models.RemoveSiteBwLicenseInput, interceptors ...clientv2.RequestInterceptor) (*RemoveSiteBwLicense, error) {
+func (c *Client) RemoveSiteBwLicense(ctx context.Context, accountID string, input cato_models.RemoveSiteBwLicenseInput, interceptors ...clientv2.RequestInterceptor) (*RemoveSiteBwLicense, error) {
 	vars := map[string]any{
-		"accountId":                accountID,
-		"removeSiteBwLicenseInput": removeSiteBwLicenseInput,
+		"accountId": accountID,
+		"input":     input,
 	}
 
 	var res RemoveSiteBwLicense
@@ -404896,9 +404896,9 @@ func (c *Client) SiteRemoveWifiSsid(ctx context.Context, accountID string, remov
 	return &res, nil
 }
 
-const ReplaceSiteBwLicenseDocument = `mutation replaceSiteBwLicense ($accountId: ID!, $replaceSiteBwLicenseInput: ReplaceSiteBwLicenseInput!) {
+const ReplaceSiteBwLicenseDocument = `mutation replaceSiteBwLicense ($accountId: ID!, $input: ReplaceSiteBwLicenseInput!) {
 	sites: site(accountId: $accountId) {
-		replaceSiteBwLicense(input: $replaceSiteBwLicenseInput) {
+		replaceSiteBwLicense(input: $input) {
 			license {
 				id
 				description
@@ -405023,10 +405023,10 @@ const ReplaceSiteBwLicenseDocument = `mutation replaceSiteBwLicense ($accountId:
 }
 `
 
-func (c *Client) ReplaceSiteBwLicense(ctx context.Context, accountID string, replaceSiteBwLicenseInput cato_models.ReplaceSiteBwLicenseInput, interceptors ...clientv2.RequestInterceptor) (*ReplaceSiteBwLicense, error) {
+func (c *Client) ReplaceSiteBwLicense(ctx context.Context, accountID string, input cato_models.ReplaceSiteBwLicenseInput, interceptors ...clientv2.RequestInterceptor) (*ReplaceSiteBwLicense, error) {
 	vars := map[string]any{
-		"accountId":                 accountID,
-		"replaceSiteBwLicenseInput": replaceSiteBwLicenseInput,
+		"accountId": accountID,
+		"input":     input,
 	}
 
 	var res ReplaceSiteBwLicense
@@ -405729,9 +405729,9 @@ func (c *Client) SiteUpdateSiteBackhauling(ctx context.Context, accountID string
 	return &res, nil
 }
 
-const UpdateSiteBwLicenseDocument = `mutation updateSiteBwLicense ($accountId: ID!, $updateSiteBwLicenseInput: UpdateSiteBwLicenseInput!) {
+const UpdateSiteBwLicenseDocument = `mutation updateSiteBwLicense ($accountId: ID!, $input: UpdateSiteBwLicenseInput!) {
 	sites: site(accountId: $accountId) {
-		updateSiteBwLicense(input: $updateSiteBwLicenseInput) {
+		updateSiteBwLicense(input: $input) {
 			license {
 				id
 				description
@@ -405856,10 +405856,10 @@ const UpdateSiteBwLicenseDocument = `mutation updateSiteBwLicense ($accountId: I
 }
 `
 
-func (c *Client) UpdateSiteBwLicense(ctx context.Context, accountID string, updateSiteBwLicenseInput cato_models.UpdateSiteBwLicenseInput, interceptors ...clientv2.RequestInterceptor) (*UpdateSiteBwLicense, error) {
+func (c *Client) UpdateSiteBwLicense(ctx context.Context, accountID string, input cato_models.UpdateSiteBwLicenseInput, interceptors ...clientv2.RequestInterceptor) (*UpdateSiteBwLicense, error) {
 	vars := map[string]any{
-		"accountId":                accountID,
-		"updateSiteBwLicenseInput": updateSiteBwLicenseInput,
+		"accountId": accountID,
+		"input":     input,
 	}
 
 	var res UpdateSiteBwLicense
@@ -411426,7 +411426,7 @@ func (c *Client) AccountManagementUpdateAccount(ctx context.Context, updateAccou
 	return &res, nil
 }
 
-const AccountMetricsDocument = `query accountMetrics ($toRate: Boolean, $types: [String!], $withMissingData3: Boolean, $siteIDs: [ID!], $ids: [String!], $userIDs: [ID!], $perSecond7: Boolean, $labels1: [TimeseriesMetricType!], $buckets1: Int, $accountID: ID, $id: ID, $timeFrame: TimeFrame!, $groupInterfaces: Boolean, $groupDevices: Boolean, $useDefaultSizeBucket: Boolean) {
+const AccountMetricsDocument = `query accountMetrics ($toRate: Boolean, $perSecond: Boolean, $withMissingData: Boolean, $buckets: Int, $labels: [TimeseriesMetricType!], $types: [String!], $siteIDs: [ID!], $ids: [String!], $userIDs: [ID!], $accountID: ID, $id: ID, $timeFrame: TimeFrame!, $groupInterfaces: Boolean, $groupDevices: Boolean, $useDefaultSizeBucket: Boolean) {
 	accountMetrics(timeFrame: $timeFrame, groupInterfaces: $groupInterfaces, groupDevices: $groupDevices, accountID: $accountID, id: $id) {
 		id
 		from
@@ -411457,8 +411457,8 @@ const AccountMetricsDocument = `query accountMetrics ($toRate: Boolean, $types: 
 					flowCount
 				}
 				name
-				timeseries(buckets: $buckets1, labels: $labels1) {
-					data(perSecond: $perSecond7, withMissingData: $withMissingData3, useDefaultSizeBucket: $useDefaultSizeBucket)
+				timeseries(buckets: $buckets, labels: $labels) {
+					data(perSecond: $perSecond, withMissingData: $withMissingData, useDefaultSizeBucket: $useDefaultSizeBucket)
 					label
 					dimensions {
 						label
@@ -411593,7 +411593,7 @@ const AccountMetricsDocument = `query accountMetrics ($toRate: Boolean, $types: 
 				}
 			}
 			hostCount {
-				data(perSecond: $perSecond7, withMissingData: $withMissingData3, useDefaultSizeBucket: $useDefaultSizeBucket)
+				data(perSecond: $perSecond, withMissingData: $withMissingData, useDefaultSizeBucket: $useDefaultSizeBucket)
 				label
 				dimensions {
 					label
@@ -411611,7 +411611,7 @@ const AccountMetricsDocument = `query accountMetrics ($toRate: Boolean, $types: 
 				info
 			}
 			flowCount {
-				data(perSecond: $perSecond7, withMissingData: $withMissingData3, useDefaultSizeBucket: $useDefaultSizeBucket)
+				data(perSecond: $perSecond, withMissingData: $withMissingData, useDefaultSizeBucket: $useDefaultSizeBucket)
 				label
 				dimensions {
 					label
@@ -411629,7 +411629,7 @@ const AccountMetricsDocument = `query accountMetrics ($toRate: Boolean, $types: 
 				info
 			}
 			hostLimit {
-				data(perSecond: $perSecond7, withMissingData: $withMissingData3, useDefaultSizeBucket: $useDefaultSizeBucket)
+				data(perSecond: $perSecond, withMissingData: $withMissingData, useDefaultSizeBucket: $useDefaultSizeBucket)
 				label
 				dimensions {
 					label
@@ -411647,7 +411647,7 @@ const AccountMetricsDocument = `query accountMetrics ($toRate: Boolean, $types: 
 				info
 			}
 			siteUpstreamThroughputMax {
-				data(perSecond: $perSecond7, withMissingData: $withMissingData3, useDefaultSizeBucket: $useDefaultSizeBucket)
+				data(perSecond: $perSecond, withMissingData: $withMissingData, useDefaultSizeBucket: $useDefaultSizeBucket)
 				label
 				dimensions {
 					label
@@ -411665,7 +411665,7 @@ const AccountMetricsDocument = `query accountMetrics ($toRate: Boolean, $types: 
 				info
 			}
 			siteDownstreamThroughputMax {
-				data(perSecond: $perSecond7, withMissingData: $withMissingData3, useDefaultSizeBucket: $useDefaultSizeBucket)
+				data(perSecond: $perSecond, withMissingData: $withMissingData, useDefaultSizeBucket: $useDefaultSizeBucket)
 				label
 				dimensions {
 					label
@@ -411709,8 +411709,8 @@ const AccountMetricsDocument = `query accountMetrics ($toRate: Boolean, $types: 
 					flowCount
 				}
 				name
-				timeseries(buckets: $buckets1, labels: $labels1) {
-					data(perSecond: $perSecond7, withMissingData: $withMissingData3, useDefaultSizeBucket: $useDefaultSizeBucket)
+				timeseries(buckets: $buckets, labels: $labels) {
+					data(perSecond: $perSecond, withMissingData: $withMissingData, useDefaultSizeBucket: $useDefaultSizeBucket)
 					label
 					dimensions {
 						label
@@ -411845,7 +411845,7 @@ const AccountMetricsDocument = `query accountMetrics ($toRate: Boolean, $types: 
 				}
 			}
 			hostCount {
-				data(perSecond: $perSecond7, withMissingData: $withMissingData3, useDefaultSizeBucket: $useDefaultSizeBucket)
+				data(perSecond: $perSecond, withMissingData: $withMissingData, useDefaultSizeBucket: $useDefaultSizeBucket)
 				label
 				dimensions {
 					label
@@ -411863,7 +411863,7 @@ const AccountMetricsDocument = `query accountMetrics ($toRate: Boolean, $types: 
 				info
 			}
 			flowCount {
-				data(perSecond: $perSecond7, withMissingData: $withMissingData3, useDefaultSizeBucket: $useDefaultSizeBucket)
+				data(perSecond: $perSecond, withMissingData: $withMissingData, useDefaultSizeBucket: $useDefaultSizeBucket)
 				label
 				dimensions {
 					label
@@ -411881,7 +411881,7 @@ const AccountMetricsDocument = `query accountMetrics ($toRate: Boolean, $types: 
 				info
 			}
 			hostLimit {
-				data(perSecond: $perSecond7, withMissingData: $withMissingData3, useDefaultSizeBucket: $useDefaultSizeBucket)
+				data(perSecond: $perSecond, withMissingData: $withMissingData, useDefaultSizeBucket: $useDefaultSizeBucket)
 				label
 				dimensions {
 					label
@@ -411899,7 +411899,7 @@ const AccountMetricsDocument = `query accountMetrics ($toRate: Boolean, $types: 
 				info
 			}
 			siteUpstreamThroughputMax {
-				data(perSecond: $perSecond7, withMissingData: $withMissingData3, useDefaultSizeBucket: $useDefaultSizeBucket)
+				data(perSecond: $perSecond, withMissingData: $withMissingData, useDefaultSizeBucket: $useDefaultSizeBucket)
 				label
 				dimensions {
 					label
@@ -411917,7 +411917,7 @@ const AccountMetricsDocument = `query accountMetrics ($toRate: Boolean, $types: 
 				info
 			}
 			siteDownstreamThroughputMax {
-				data(perSecond: $perSecond7, withMissingData: $withMissingData3, useDefaultSizeBucket: $useDefaultSizeBucket)
+				data(perSecond: $perSecond, withMissingData: $withMissingData, useDefaultSizeBucket: $useDefaultSizeBucket)
 				label
 				dimensions {
 					label
@@ -411936,8 +411936,8 @@ const AccountMetricsDocument = `query accountMetrics ($toRate: Boolean, $types: 
 			}
 			samples
 		}
-		timeseries(labels: $labels1, buckets: $buckets1) {
-			data(perSecond: $perSecond7, withMissingData: $withMissingData3, useDefaultSizeBucket: $useDefaultSizeBucket)
+		timeseries(labels: $labels, buckets: $buckets) {
+			data(perSecond: $perSecond, withMissingData: $withMissingData, useDefaultSizeBucket: $useDefaultSizeBucket)
 			label
 			dimensions {
 				label
@@ -411958,17 +411958,17 @@ const AccountMetricsDocument = `query accountMetrics ($toRate: Boolean, $types: 
 }
 `
 
-func (c *Client) AccountMetrics(ctx context.Context, toRate *bool, types []string, withMissingData3 *bool, siteIDs []string, ids []string, userIDs []string, perSecond7 *bool, labels1 []cato_models.TimeseriesMetricType, buckets1 *int64, accountID *string, id *string, timeFrame string, groupInterfaces *bool, groupDevices *bool, useDefaultSizeBucket *bool, interceptors ...clientv2.RequestInterceptor) (*AccountMetrics, error) {
+func (c *Client) AccountMetrics(ctx context.Context, toRate *bool, perSecond *bool, withMissingData *bool, buckets *int64, labels []cato_models.TimeseriesMetricType, types []string, siteIDs []string, ids []string, userIDs []string, accountID *string, id *string, timeFrame string, groupInterfaces *bool, groupDevices *bool, useDefaultSizeBucket *bool, interceptors ...clientv2.RequestInterceptor) (*AccountMetrics, error) {
 	vars := map[string]any{
 		"toRate":               toRate,
+		"perSecond":            perSecond,
+		"withMissingData":      withMissingData,
+		"buckets":              buckets,
+		"labels":               labels,
 		"types":                types,
-		"withMissingData3":     withMissingData3,
 		"siteIDs":              siteIDs,
 		"ids":                  ids,
 		"userIDs":              userIDs,
-		"perSecond7":           perSecond7,
-		"labels1":              labels1,
-		"buckets1":             buckets1,
 		"accountID":            accountID,
 		"id":                   id,
 		"timeFrame":            timeFrame,

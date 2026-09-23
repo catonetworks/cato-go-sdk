@@ -5417,9 +5417,9 @@
       "sdk_name": "assignSiteBwLicense",
       "variables": [
         "accountId",
-        "assignSiteBwLicenseInput"
+        "input"
       ],
-      "document_sha256": "11cbe0ce385ef299e95233292b75a7b697dc3ac6afcb5e8d8dbd94088f18e25e",
+      "document_sha256": "33c79a8e68861e49a4a0829e2f847601814138f9cf42e46046143e8169a9a7b2",
       "cli_file": "queryPayloads/mutation.site.assignSiteBwLicense.txt",
       "cli_name": "siteAssignSiteBwLicense",
       "cli_sha256": "0464ec10b36ef9ba551b1589b49bd43a745d086cfb69f0e93c3474a3d9b28774",
@@ -5703,9 +5703,9 @@
       "sdk_name": "removeSiteBwLicense",
       "variables": [
         "accountId",
-        "removeSiteBwLicenseInput"
+        "input"
       ],
-      "document_sha256": "6256fd2154a327dabf0f7f39e4e2ddfbfec930eefa3097462fe0d1da28215257",
+      "document_sha256": "d4ba6ceaf576dde4158458ff4348bd7be705f0dfb6798d7bcee8c0b48f180d73",
       "cli_file": "queryPayloads/mutation.site.removeSiteBwLicense.txt",
       "cli_name": "siteRemoveSiteBwLicense",
       "cli_sha256": "5f981272ef06ca4c940193840cf0e579c2534198cd5fb00a9c738ee78722e2bc",
@@ -5763,9 +5763,9 @@
       "sdk_name": "replaceSiteBwLicense",
       "variables": [
         "accountId",
-        "replaceSiteBwLicenseInput"
+        "input"
       ],
-      "document_sha256": "71339037d42bbfd61038e720865b95492e9964470d2e0cfbcc7218392cdab997",
+      "document_sha256": "1aaf092332f6d2016be86aab76b369b5ec37510fbf0d5c705a8dba18dcd0342b",
       "cli_file": "queryPayloads/mutation.site.replaceSiteBwLicense.txt",
       "cli_name": "siteReplaceSiteBwLicense",
       "cli_sha256": "78177fba1cefeb5332a61a9b92268ae029e184315bb0101b82cdd18ab130b9ad",
@@ -5992,9 +5992,9 @@
       "sdk_name": "updateSiteBwLicense",
       "variables": [
         "accountId",
-        "updateSiteBwLicenseInput"
+        "input"
       ],
-      "document_sha256": "1a56a7e2130623497cff5fad1b6d9888fca88500d5dd1b32b0752886f60edb89",
+      "document_sha256": "b9cdc732244f0e0da8dc3e971a62ab15c554b577eb2b5c64d1b903311a014189",
       "cli_file": "queryPayloads/mutation.site.updateSiteBwLicense.txt",
       "cli_name": "siteUpdateSiteBwLicense",
       "cli_sha256": "0e38fb27d3f10490fbec714b4c8f106649c22959b2c9f2a717f33b0077fd7d17",
@@ -7438,14 +7438,14 @@
       "sdk_name": "accountMetrics",
       "variables": [
         "toRate",
+        "perSecond",
+        "withMissingData",
+        "buckets",
+        "labels",
         "types",
-        "withMissingData3",
         "siteIDs",
         "ids",
         "userIDs",
-        "perSecond7",
-        "labels1",
-        "buckets1",
         "accountID",
         "id",
         "timeFrame",
@@ -7453,7 +7453,7 @@
         "groupDevices",
         "useDefaultSizeBucket"
       ],
-      "document_sha256": "8b65efc9d91526a14f814c030002dd84fab4d41e8647fa39186113cb5842f073",
+      "document_sha256": "3cb7838a029db0872d0a4ec1857df5187ae2d533b8f20e75f1104f25dacd4e2c",
       "cli_file": "queryPayloads/query.accountMetrics.txt",
       "cli_name": "accountMetrics",
       "cli_sha256": "989ff54037f1c15256c3c0053793d9fae0cad313af0bcc81d77df234e5afc1aa",

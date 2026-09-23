@@ -1,6 +1,6 @@
-mutation assignSiteBwLicense ($accountId: ID!, $assignSiteBwLicenseInput: AssignSiteBwLicenseInput!) {
+mutation assignSiteBwLicense ($accountId: ID!, $input: AssignSiteBwLicenseInput!) {
 	sites: site(accountId: $accountId) {
-		assignSiteBwLicense(input: $assignSiteBwLicenseInput) {
+		assignSiteBwLicense(input: $input) {
 			license {
 				id
 				description

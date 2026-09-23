@@ -170,7 +170,8 @@ func TestNormalizeMappedOperationPreservesSiteRootResponseName(t *testing.T) {
 	schema, err := gqlparser.LoadSchema(&ast.Source{Input: `
 		schema { mutation: Mutation }
 		type Mutation { sites: Site!, site: Site! }
-		type Site { change: String! }
+		type Site { change(input: ChangeInput!): String! }
+		input ChangeInput { value: String! }
 	`})
 	if err != nil {
 		t.Fatal(err)
@@ -179,8 +180,8 @@ func TestNormalizeMappedOperationPreservesSiteRootResponseName(t *testing.T) {
 	content, err := normalizeMappedOperation(
 		schema,
 		"mutation.site.change.txt",
-		[]byte("mutation stable { sites { change } }\n"),
-		[]byte("mutation generated { site { change } }\n"),
+		[]byte("mutation stable($input: ChangeInput!) { sites { change(input: $input) } }\n"),
+		[]byte("mutation generated($changeInput: ChangeInput!) { site { change(input: $changeInput) } }\n"),
 		"stable",
 	)
 	if err != nil {
@@ -188,6 +189,43 @@ func TestNormalizeMappedOperationPreservesSiteRootResponseName(t *testing.T) {
 	}
 	if !strings.Contains(string(content), "sites: site") {
 		t.Fatalf("site root response name was not retained:\n%s", content)
+	}
+	if !strings.Contains(string(content), "$input: ChangeInput!") ||
+		strings.Contains(string(content), "$changeInput") {
+		t.Fatalf("site root variable binding was not retained:\n%s", content)
+	}
+}
+
+func TestNormalizeMappedOperationDoesNotRandomlyChooseAmbiguousVariableName(t *testing.T) {
+	t.Parallel()
+
+	schema, err := gqlparser.LoadSchema(&ast.Source{Input: `
+		type Query { first(value: String!): String!, second(value: String!): String! }
+	`})
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	content, err := normalizeMappedOperation(
+		schema,
+		"query.metrics.txt",
+		[]byte(`query stable($firstValue: String!, $secondValue: String!) {
+			first(value: $firstValue)
+			second(value: $secondValue)
+		}`),
+		[]byte(`query generated($value: String!) {
+			first(value: $value)
+			second(value: $value)
+		}`),
+		"stable",
+	)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if !strings.Contains(string(content), "$value: String!") ||
+		strings.Contains(string(content), "$firstValue") ||
+		strings.Contains(string(content), "$secondValue") {
+		t.Fatalf("ambiguous variable binding was renamed:\n%s", content)
 	}
 }
 

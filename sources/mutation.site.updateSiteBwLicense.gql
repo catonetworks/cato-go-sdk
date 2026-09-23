@@ -1,6 +1,6 @@
-mutation updateSiteBwLicense ($accountId: ID!, $updateSiteBwLicenseInput: UpdateSiteBwLicenseInput!) {
+mutation updateSiteBwLicense ($accountId: ID!, $input: UpdateSiteBwLicenseInput!) {
 	sites: site(accountId: $accountId) {
-		updateSiteBwLicense(input: $updateSiteBwLicenseInput) {
+		updateSiteBwLicense(input: $input) {
 			license {
 				id
 				description
