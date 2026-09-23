@@ -17,5 +17,5 @@ query postureCategoryList ( $accountId:ID! $postureCategoryListInput:PostureCate
 				total
 			}
 		}
-	}
+	}	
 }

@@ -116,5 +116,5 @@ mutation policySiteWebProxyMoveRule ( $accountId:ID! $siteWebProxyPolicyMutation
 				}
 			}
 		}
-	}
+	}	
 }

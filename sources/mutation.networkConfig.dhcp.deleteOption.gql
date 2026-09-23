@@ -11,5 +11,5 @@ mutation networkConfigDhcpDeleteOption ( $accountId:ID! $networkConfigDhcpDelete
 				}
 			}
 		}
-	}
+	}	
 }

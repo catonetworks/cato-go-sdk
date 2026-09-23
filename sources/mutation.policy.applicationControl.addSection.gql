@@ -1,27 +1,39 @@
-mutation policyApplicationControlAddSection(
-  $policyAddSectionInput: PolicyAddSectionInput!
-  $accountId: ID!
-) {
-  policy(accountId: $accountId) {
-    applicationControl {
-      addSection(input: $policyAddSectionInput) {
-        section {
-          audit {
-            updatedTime
-            updatedBy
-          }
-          section {
-            id
-            name
-          }
-          properties
-        }
-        status
-        errors {
-          errorMessage
-          errorCode
-        }
-      }
-    }
-  }
+mutation policyApplicationControlAddSection ( $accountId:ID! $applicationControlPolicyMutationInput:ApplicationControlPolicyMutationInput $policyAddSectionInput:PolicyAddSectionInput!) {
+	policy ( accountId:$accountId ) {
+		applicationControl ( input:$applicationControlPolicyMutationInput  )  {
+			addSection ( input:$policyAddSectionInput   ) {
+				section {
+					audit {
+						updatedTime
+						updatedBy
+					}
+					metadata {
+						lock {
+							lockingAdminEmail
+							lockingTime
+							lockingRevisionId
+						}
+					}
+					section {
+						id
+						name
+					}
+					properties
+				}
+				status
+				errors {
+					errorMessage
+					errorCode
+				}
+				revision {
+					id
+					name
+					description
+					changes
+					createdTime
+					updatedTime
+				}
+			}
+		}
+	}	
 }

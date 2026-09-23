@@ -1,27 +1,39 @@
-mutation policyWanNetworkAddSection ( $policyAddSectionInput:PolicyAddSectionInput! $accountId:ID! ) {
-  policy ( accountId:$accountId  ) {
-    wanNetwork  {
-      addSection ( input:$policyAddSectionInput   )  {
-        section  {
-          audit  {
-            updatedTime 
-            updatedBy 
-          }
-          section  {
-            id 
-            name 
-          }
-          properties
-        }
-
-        status 
-        errors  {
-          errorMessage
-          errorCode
-        }
-
-      }
-    }
-
-  }  
+mutation policyWanNetworkAddSection ( $accountId:ID! $wanNetworkPolicyMutationInput:WanNetworkPolicyMutationInput $policyAddSectionInput:PolicyAddSectionInput!) {
+	policy ( accountId:$accountId ) {
+		wanNetwork ( input:$wanNetworkPolicyMutationInput  )  {
+			addSection ( input:$policyAddSectionInput   ) {
+				section {
+					audit {
+						updatedTime
+						updatedBy
+					}
+					metadata {
+						lock {
+							lockingAdminEmail
+							lockingTime
+							lockingRevisionId
+						}
+					}
+					section {
+						id
+						name
+					}
+					properties
+				}
+				status
+				errors {
+					errorMessage
+					errorCode
+				}
+				revision {
+					id
+					name
+					description
+					changes
+					createdTime
+					updatedTime
+				}
+			}
+		}
+	}	
 }

@@ -51,6 +51,7 @@ mutation policyPrivateAccessCreatePolicyRevision ( $accountId:ID! $privateAccess
 									name
 								}
 							}
+							connectionOrigin
 							connectionsOriginList
 							action {
 								action

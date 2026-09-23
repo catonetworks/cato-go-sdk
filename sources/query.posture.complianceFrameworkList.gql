@@ -6,5 +6,5 @@ query postureComplianceFrameworkList ( $accountId:ID!) {
 				total
 			}
 		}
-	}
+	}	
 }

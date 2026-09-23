@@ -8,11 +8,22 @@ mutation policySocketLanFirewallUpdateRule ( $accountId:ID! $socketLanPolicyMuta
 							updatedTime
 							updatedBy
 						}
+						metadata {
+							lock {
+								lockingAdminEmail
+								lockingTime
+								lockingRevisionId
+							}
+						}
 						rule {
 							id
 							name
 							description
 							index
+							section {
+								id
+								name
+							}
 							enabled
 							source {
 								vlan
@@ -161,6 +172,22 @@ mutation policySocketLanFirewallUpdateRule ( $accountId:ID! $socketLanPolicyMuta
 							}
 						}
 						properties
+						ruleType
+						subPolicy {
+							id
+							name
+						}
+						access {
+							action
+						}
+					}
+					revision {
+						id
+						name
+						description
+						changes
+						createdTime
+						updatedTime
 					}
 					status
 					errors {

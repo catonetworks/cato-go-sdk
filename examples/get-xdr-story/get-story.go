@@ -35,7 +35,7 @@ func main() {
 
 	ctx := context.Background()
 
-	queryResult, err := catoClient.XdrStory(ctx, &storyId, &incidentId, accountId)
+	queryResult, err := catoClient.XdrStory(ctx, accountId, &storyId, nil, &incidentId)
 	if err != nil {
 		fmt.Println("policy query error: ", err)
 		return

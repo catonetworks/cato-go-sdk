@@ -1,27 +1,39 @@
-mutation policyAppTenantRestrictionAddSection(
-  $policyAddSectionInput: PolicyAddSectionInput!
-  $accountId: ID!
-) {
-  policy(accountId: $accountId) {
-    appTenantRestriction {
-      addSection(input: $policyAddSectionInput) {
-        section {
-          audit {
-            updatedTime
-            updatedBy
-          }
-          section {
-            id
-            name
-          }
-          properties
-        }
-        status
-        errors {
-          errorMessage
-          errorCode
-        }
-      }
-    }
-  }
+mutation policyAppTenantRestrictionAddSection ( $accountId:ID! $appTenantRestrictionPolicyMutationInput:AppTenantRestrictionPolicyMutationInput $policyAddSectionInput:PolicyAddSectionInput!) {
+	policy ( accountId:$accountId ) {
+		appTenantRestriction ( input:$appTenantRestrictionPolicyMutationInput  )  {
+			addSection ( input:$policyAddSectionInput   ) {
+				section {
+					audit {
+						updatedTime
+						updatedBy
+					}
+					metadata {
+						lock {
+							lockingAdminEmail
+							lockingTime
+							lockingRevisionId
+						}
+					}
+					section {
+						id
+						name
+					}
+					properties
+				}
+				status
+				errors {
+					errorMessage
+					errorCode
+				}
+				revision {
+					id
+					name
+					description
+					changes
+					createdTime
+					updatedTime
+				}
+			}
+		}
+	}	
 }

@@ -7,5 +7,5 @@ query networkConfigDhcpRelayGroup ( $accountId:ID! $networkConfigDhcpRelayGroupR
 				server
 			}
 		}
-	}
+	}	
 }

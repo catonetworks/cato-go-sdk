@@ -1,16 +1,39 @@
-mutation policyAppTenantRestrictionRemoveSection(
-  $policyRemoveSectionInput: PolicyRemoveSectionInput!
-  $accountId: ID!
-) {
-  policy(accountId: $accountId) {
-    appTenantRestriction {
-      removeSection(input: $policyRemoveSectionInput) {
-        status
-        errors {
-          errorMessage
-          errorCode
-        }
-      }
-    }
-  }
+mutation policyAppTenantRestrictionRemoveSection ( $accountId:ID! $appTenantRestrictionPolicyMutationInput:AppTenantRestrictionPolicyMutationInput $policyRemoveSectionInput:PolicyRemoveSectionInput!) {
+	policy ( accountId:$accountId ) {
+		appTenantRestriction ( input:$appTenantRestrictionPolicyMutationInput  )  {
+			removeSection ( input:$policyRemoveSectionInput   ) {
+				section {
+					audit {
+						updatedTime
+						updatedBy
+					}
+					metadata {
+						lock {
+							lockingAdminEmail
+							lockingTime
+							lockingRevisionId
+						}
+					}
+					section {
+						id
+						name
+					}
+					properties
+				}
+				status
+				errors {
+					errorMessage
+					errorCode
+				}
+				revision {
+					id
+					name
+					description
+					changes
+					createdTime
+					updatedTime
+				}
+			}
+		}
+	}	
 }

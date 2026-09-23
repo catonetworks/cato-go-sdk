@@ -49,6 +49,7 @@ mutation policyPrivateAccessRemoveRule ( $accountId:ID! $privateAccessPolicyMuta
 								name
 							}
 						}
+						connectionOrigin
 						connectionsOriginList
 						action {
 							action
