@@ -1,6 +1,6 @@
-mutation xdrUpdateInvestigationDetails ( $accountId:ID! $updateInvestigationDetailsInput:UpdateInvestigationDetailsInput!) {
-	xdr ( accountId:$accountId ) {
-		updateInvestigationDetails ( input:$updateInvestigationDetailsInput  )  {
+mutation xdrUpdateInvestigationDetails ($accountId: ID!, $updateInvestigationDetailsInput: UpdateInvestigationDetailsInput!) {
+	xdr(accountId: $accountId) {
+		updateInvestigationDetails(input: $updateInvestigationDetailsInput) {
 			investigationDetails {
 				investigationStatus
 				managedServiceTicketLink
@@ -28,5 +28,5 @@ mutation xdrUpdateInvestigationDetails ( $accountId:ID! $updateInvestigationDeta
 				}
 			}
 		}
-	}	
+	}
 }

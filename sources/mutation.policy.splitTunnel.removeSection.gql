@@ -1,7 +1,7 @@
-mutation policySplitTunnelRemoveSection ( $accountId:ID! $splitTunnelPolicyMutationInput:SplitTunnelPolicyMutationInput $policyRemoveSectionInput:PolicyRemoveSectionInput!) {
-	policy ( accountId:$accountId ) {
-		splitTunnel ( input:$splitTunnelPolicyMutationInput  )  {
-			removeSection ( input:$policyRemoveSectionInput   ) {
+mutation policySplitTunnelRemoveSection ($accountId: ID!, $splitTunnelPolicyMutationInput: SplitTunnelPolicyMutationInput, $policyRemoveSectionInput: PolicyRemoveSectionInput!) {
+	policy(accountId: $accountId) {
+		splitTunnel(input: $splitTunnelPolicyMutationInput) {
+			removeSection(input: $policyRemoveSectionInput) {
 				section {
 					audit {
 						updatedTime
@@ -35,5 +35,5 @@ mutation policySplitTunnelRemoveSection ( $accountId:ID! $splitTunnelPolicyMutat
 				}
 			}
 		}
-	}	
+	}
 }

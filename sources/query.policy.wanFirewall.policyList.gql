@@ -1,7 +1,7 @@
-query policyWanFirewallPolicyList ( $accountId:ID! $wanFirewallPolicyListInput:WanFirewallPolicyListInput!) {
-	policy ( accountId:$accountId ) {
+query policyWanFirewallPolicyList ($accountId: ID!, $wanFirewallPolicyListInput: WanFirewallPolicyListInput!) {
+	policy(accountId: $accountId) {
 		wanFirewall {
-			policyList ( input:$wanFirewallPolicyListInput   ) {
+			policyList(input: $wanFirewallPolicyListInput) {
 				items {
 					id
 					name
@@ -18,5 +18,5 @@ query policyWanFirewallPolicyList ( $accountId:ID! $wanFirewallPolicyListInput:W
 				}
 			}
 		}
-	}	
+	}
 }

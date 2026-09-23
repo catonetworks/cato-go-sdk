@@ -1,6 +1,6 @@
-mutation enterpriseDirectoryArchiveLocation ( $accountId:ID! $locationId:ID) {
-	enterpriseDirectory ( accountId:$accountId ) {
-		archiveLocation ( locationId:$locationId  )  {
+mutation enterpriseDirectoryArchiveLocation ($accountId: ID!, $locationId: ID) {
+	enterpriseDirectory(accountId: $accountId) {
+		archiveLocation(locationId: $locationId) {
 			location {
 				id
 				account {
@@ -43,5 +43,5 @@ mutation enterpriseDirectoryArchiveLocation ( $accountId:ID! $locationId:ID) {
 				}
 			}
 		}
-	}	
+	}
 }

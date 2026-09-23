@@ -1,7 +1,7 @@
-query policySplitTunnelPolicy ( $accountId:ID! $splitTunnelPolicyInput:SplitTunnelPolicyInput) {
-	policy ( accountId:$accountId ) {
+query policySplitTunnelPolicy ($accountId: ID!, $splitTunnelPolicyInput: SplitTunnelPolicyInput) {
+	policy(accountId: $accountId) {
 		splitTunnel {
-			policy ( input:$splitTunnelPolicyInput   ) {
+			policy(input: $splitTunnelPolicyInput) {
 				enabled
 				rules {
 					audit {
@@ -96,5 +96,5 @@ query policySplitTunnelPolicy ( $accountId:ID! $splitTunnelPolicyInput:SplitTunn
 				}
 			}
 		}
-	}	
+	}
 }

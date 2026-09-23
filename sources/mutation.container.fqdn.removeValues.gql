@@ -1,7 +1,7 @@
-mutation containerFqdnRemoveValues ( $accountId:ID! $fqdnContainerRemoveValuesInput:FqdnContainerRemoveValuesInput!) {
-	container ( accountId:$accountId ) {
+mutation containerFqdnRemoveValues ($accountId: ID!, $fqdnContainerRemoveValuesInput: FqdnContainerRemoveValuesInput!) {
+	container(accountId: $accountId) {
 		fqdn {
-			removeValues ( input:$fqdnContainerRemoveValuesInput   ) {
+			removeValues(input: $fqdnContainerRemoveValuesInput) {
 				container {
 					id
 					name
@@ -41,5 +41,5 @@ mutation containerFqdnRemoveValues ( $accountId:ID! $fqdnContainerRemoveValuesIn
 				}
 			}
 		}
-	}	
+	}
 }

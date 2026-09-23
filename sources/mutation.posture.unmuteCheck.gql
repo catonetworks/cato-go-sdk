@@ -1,6 +1,6 @@
-mutation postureUnmuteCheck ( $accountId:ID! $postureUnmuteCheckInput:PostureUnmuteCheckInput!) {
-	posture ( accountId:$accountId ) {
-		unmuteCheck ( input:$postureUnmuteCheckInput  )  {
+mutation postureUnmuteCheck ($accountId: ID!, $postureUnmuteCheckInput: PostureUnmuteCheckInput!) {
+	posture(accountId: $accountId) {
+		unmuteCheck(input: $postureUnmuteCheckInput) {
 			check {
 				definition {
 					id

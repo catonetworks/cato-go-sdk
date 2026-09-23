@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"os"
 	"path/filepath"
-	"regexp"
 	"sort"
 	"strings"
 
@@ -13,14 +12,11 @@ import (
 )
 
 const (
-	statusImported          = "imported"
-	statusMapped            = "mapped"
-	statusSDKOnly           = "sdk_only"
-	operationNameMatchParts = 2
-	fileNameSplitParts      = 2
+	statusImported     = "imported"
+	statusMapped       = "mapped"
+	statusSDKOnly      = "sdk_only"
+	fileNameSplitParts = 2
 )
-
-var operationNamePattern = regexp.MustCompile(`(?m)^\s*(?:query|mutation)\s+([_A-Za-z][_0-9A-Za-z]*)`)
 
 // ImportConfig configures migration from cato-cli into cato-go-sdk.
 type ImportConfig struct {
@@ -54,7 +50,7 @@ func Import(config ImportConfig) (ImportResult, error) {
 	if err != nil {
 		return ImportResult{}, err
 	}
-	sdkDocuments, err := loadSDKDocuments(config.SDKRoot, schema)
+	sdkDocuments, err := loadSDKDocumentsForImport(config.SDKRoot)
 	if err != nil {
 		return ImportResult{}, err
 	}
@@ -127,7 +123,7 @@ func preserveImportedStatuses(path string, manifest *Manifest) error {
 	return nil
 }
 
-func buildImport( //nolint:funlen // Keeping candidate collection in one pass guarantees validation completes before any write.
+func buildImport( //nolint:funlen,gocyclo // Keeping candidate collection in one pass guarantees validation completes before any write.
 	schema *ast.Schema,
 	config ImportConfig,
 	sdkDocuments []document,
@@ -289,6 +285,9 @@ func buildImport( //nolint:funlen // Keeping candidate collection in one pass gu
 	if err := validateUniqueDocuments(documents); err != nil {
 		return nil, nil, ImportResult{}, fmt.Errorf("validate canonical operations: %w", err)
 	}
+	if err := validateDocumentsAgainstSchema(schema, documents); err != nil {
+		return nil, nil, ImportResult{}, fmt.Errorf("validate canonical operations against schema: %w", err)
+	}
 
 	sort.Slice(records, func(left, right int) bool {
 		return normalizedKey(records[left].Key) < normalizedKey(records[right].Key)
@@ -349,14 +348,6 @@ func mapCLIEntry(
 	}
 	updateMappedEntry(entry, cliRelative, cliContent, cliName, document)
 	return nil
-}
-
-func operationName(content []byte) string {
-	match := operationNamePattern.FindSubmatch(content)
-	if len(match) != operationNameMatchParts {
-		return ""
-	}
-	return string(match[1])
 }
 
 func cliOperationPaths(cliRoot string) ([]string, error) {

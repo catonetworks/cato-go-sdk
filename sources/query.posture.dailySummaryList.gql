@@ -1,6 +1,6 @@
-query postureDailySummaryList ( $accountId:ID! $postureDailySummaryListInput:PostureDailySummaryListInput!) {
-	posture ( accountId:$accountId ) {
-		dailySummaryList ( input:$postureDailySummaryListInput  )  {
+query postureDailySummaryList ($accountId: ID!, $postureDailySummaryListInput: PostureDailySummaryListInput!) {
+	posture(accountId: $accountId) {
+		dailySummaryList(input: $postureDailySummaryListInput) {
 			items {
 				evaluatedAt
 				summary {

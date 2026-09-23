@@ -1,6 +1,6 @@
-mutation sitesRemoveSiteBwLicense ( $accountId:ID! $removeSiteBwLicenseInput:RemoveSiteBwLicenseInput!) {
-	sites ( accountId:$accountId ) {
-		removeSiteBwLicense ( input:$removeSiteBwLicenseInput  )  {
+mutation sitesRemoveSiteBwLicense ($accountId: ID!, $removeSiteBwLicenseInput: RemoveSiteBwLicenseInput!) {
+	sites(accountId: $accountId) {
+		removeSiteBwLicense(input: $removeSiteBwLicenseInput) {
 			license {
 				id
 				description
@@ -121,5 +121,5 @@ mutation sitesRemoveSiteBwLicense ( $accountId:ID! $removeSiteBwLicenseInput:Rem
 				}
 			}
 		}
-	}	
+	}
 }

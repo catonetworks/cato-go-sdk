@@ -1,7 +1,7 @@
-query networkConfigDhcpRelayGroupList ( $accountId:ID! $networkConfigDhcpRelayGroupListInput:NetworkConfigDhcpRelayGroupListInput!) {
-	networkConfig ( accountId:$accountId ) {
+query networkConfigDhcpRelayGroupList ($accountId: ID!, $networkConfigDhcpRelayGroupListInput: NetworkConfigDhcpRelayGroupListInput!) {
+	networkConfig(accountId: $accountId) {
 		dhcp {
-			relayGroupList ( input:$networkConfigDhcpRelayGroupListInput   ) {
+			relayGroupList(input: $networkConfigDhcpRelayGroupListInput) {
 				items {
 					id
 					name

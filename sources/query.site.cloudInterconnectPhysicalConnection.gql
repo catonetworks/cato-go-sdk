@@ -1,6 +1,6 @@
-query siteCloudInterconnectPhysicalConnection ( $accountId:ID! $cloudInterconnectPhysicalConnectionInput:CloudInterconnectPhysicalConnectionInput!) {
-	site ( accountId:$accountId ) {
-		cloudInterconnectPhysicalConnection ( input:$cloudInterconnectPhysicalConnectionInput  )  {
+query siteCloudInterconnectPhysicalConnection ($accountId: ID!, $cloudInterconnectPhysicalConnectionInput: CloudInterconnectPhysicalConnectionInput!) {
+	site(accountId: $accountId) {
+		cloudInterconnectPhysicalConnection(input: $cloudInterconnectPhysicalConnectionInput) {
 			id
 			site {
 				id
@@ -22,5 +22,5 @@ query siteCloudInterconnectPhysicalConnection ( $accountId:ID! $cloudInterconnec
 			sVlan
 			cVlan
 		}
-	}	
+	}
 }

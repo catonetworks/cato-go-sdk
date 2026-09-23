@@ -2307,12 +2307,15 @@ type DeviceV2 {
   complianceState: String
   confidence: DeviceConfidenceLevel
   connectionProfile: DeviceConnectionProfile
+  crownJewelSource: DeviceCrownJewelSource
+  customerReasonType: String
   firstSeen: DateTime
   groups: [DeviceGroupRef!]!
   hw: DeviceHw
   id: ID!
   ip: String @deprecated(reason: "Use nics.ip instead")
   ipAddress: IPAddress @deprecated(reason: "Use nics.ip instead")
+  isCrownJewel: Boolean!
   isManaged: Boolean!
   lastSeen: DateTime
   name: String
@@ -2322,6 +2325,7 @@ type DeviceV2 {
   nics: [DeviceNic!]!
   originTypes: [OriginType!]!
   os: DeviceOs
+  researchReasonTypes: [String!]!
   riskScore: Int
   site: SiteRef @deprecated(reason: "Use nics.site instead")
   user: UserRef
@@ -3681,12 +3685,27 @@ type LicensingMutations {
   disableServiceForManagedAccount(input: DisableServiceForManagedAccountInput!): DisableServiceForManagedAccountPayload @beta
   enableServiceForManagedAccount(input: EnableServiceForManagedAccountInput!): EnableServiceForManagedAccountPayload @beta
   removeLicenseFromManagedAccount(input: RemoveLicenseFromManagedAccountInput!): RemoveLicenseFromManagedAccountPayload @beta
+  startServiceTrial(input: LicensingStartServiceTrialInput!): LicensingStartServiceTrialPayload @beta
   updateCommercialLicense(input: UpdateCommercialLicenseInput!): UpdateCommercialLicensePayload @beta
   updateLicenseForManagedAccount(input: UpdateLicenseForManagedAccountInput!): UpdateLicenseForManagedAccountPayload @beta
 }
 
 type LicensingQueries {
   licensingInfo: LicensingInfo @beta
+}
+
+""" A self-service trial stored in the account's CC2 plan. """
+type LicensingServiceTrial {
+  expirationDate: DateTime!
+  plan: LicensePlan!
+  service: LicenseSku!
+  startDate: DateTime!
+  status: LicenseStatus!
+}
+
+""" The service trial state written to the account's CC2 plan. """
+type LicensingStartServiceTrialPayload {
+  trial: LicensingServiceTrial!
 }
 
 type LinkQualityIssue {
@@ -5083,6 +5102,7 @@ type PostalAddress {
   zipCode: String
 }
 
+""" Peer-group comparison metrics for an account's Posture score. """
 type PostureAccountComparison {
   average: Int!
   comparisonType: PostureComparisonType!
@@ -5102,17 +5122,20 @@ type PostureAccountSummaryListPayload {
   paging: PageInfo!
 }
 
+""" Posture score and state counts for an application. """
 type PostureApplicationScore {
   application: String!
   score: Int!
   stats: PostureStatsDetails!
 }
 
+""" Basic metadata for a Posture Check area. """
 type PostureArea {
   id: ID!
   name: String!
 }
 
+""" Posture score, check count, and category scores for an area. """
 type PostureAreaScore {
   area: PostureArea!
   categoryScores: [PostureCategoryScore!]!
@@ -5120,6 +5143,7 @@ type PostureAreaScore {
   score: Int!
 }
 
+""" Basic metadata for a Posture Check category. """
 type PostureCategory {
   id: ID!
   name: String!
@@ -5145,6 +5169,7 @@ type PostureCategoryMetadata {
   resultsTtlDays: Int
 }
 
+""" Posture score and state counts for a category. """
 type PostureCategoryScore {
   category: PostureCategory!
   score: Int!
@@ -5172,12 +5197,14 @@ type PostureCheckComment {
   timestamp: DateTime!
 }
 
+""" Peer-group percentile comparison for a Posture Check. """
 type PostureCheckComparison {
   comparisonType: PostureComparisonType!
   comparisonValue: String
   percentile: Int!
 }
 
+""" Counts of Posture Checks by evaluation state. """
 type PostureCheckCountsPerState {
   disabled: Int!
   failed: Int!
@@ -5217,11 +5244,13 @@ type PostureCheckEvent {
   type: PostureCheckEventType!
 }
 
+""" The user or system responsible for a Posture Check event. """
 type PostureCheckEventActor {
   name: String!
   type: PostureCheckEventActorType!
 }
 
+""" A specific issue identified while evaluating a Posture Check. """
 type PostureCheckFinding {
   additionalInfo: [PostureCheckFindingDetail!]!
   appInstance: String
@@ -5240,11 +5269,13 @@ type PostureCheckFinding {
   resolutionStatus: PostureResolutionStatus
 }
 
+""" A key-value detail associated with a Posture Check finding. """
 type PostureCheckFindingDetail {
   key: String!
   value: String!
 }
 
+""" Aggregated finding counts for a Posture Check result. """
 type PostureCheckFindingsCount {
   breakdown: [PostureCheckFindingsCountBreakdown!]!
   openFindingsAppInstanceBreakdown: [PostureCheckFindingsCountAppInstanceBreakdown!]!
@@ -5289,6 +5320,7 @@ type PostureCheckSummary {
   severityBreakdown: [PostureCheckSummaryBreakdown!]!
 }
 
+""" Score and state-count summary for an area and its categories. """
 type PostureCheckSummaryAreaBreakdown {
   categoryBreakdown: [PostureCheckSummaryBreakdown!]!
   counts: PostureCheckCountsPerState!
@@ -5297,6 +5329,7 @@ type PostureCheckSummaryAreaBreakdown {
   score: Int!
 }
 
+""" Score and state-count summary for one Posture Check breakdown bucket. """
 type PostureCheckSummaryBreakdown {
   counts: PostureCheckCountsPerState!
   key: String!
@@ -5304,6 +5337,7 @@ type PostureCheckSummaryBreakdown {
   score: Int!
 }
 
+""" Score and state-count summary for a compliance control. """
 type PostureCheckSummaryComplianceControlBreakdown {
   control: PostureComplianceControl!
   counts: PostureCheckCountsPerState!
@@ -5311,6 +5345,7 @@ type PostureCheckSummaryComplianceControlBreakdown {
   score: Int!
 }
 
+""" Score and state-count summary for a compliance framework and its controls. """
 type PostureCheckSummaryComplianceFrameworkBreakdown {
   complianceControlBreakdown: [PostureCheckSummaryComplianceControlBreakdown!]!
   counts: PostureCheckCountsPerState!
@@ -5341,6 +5376,7 @@ type PostureComplianceFrameworkListPayload {
   paging: PageInfo!
 }
 
+""" A dated snapshot of an account's Posture summary. """
 type PostureDailySummary {
   evaluatedAt: DateTime!
   summary: PostureSummary!
@@ -5363,11 +5399,13 @@ type PostureDismissFindingPayload {
   finding: PostureCheckFinding!
 }
 
+""" Basic metadata for a Posture Check domain. """
 type PostureDomain {
   id: ID!
   name: String!
 }
 
+""" Posture score and check count for a domain. """
 type PostureDomainScore {
   checkCount: Int!
   domain: PostureDomain!
@@ -5430,6 +5468,7 @@ type PostureFindingSummaryValueBucket {
   key: String
 }
 
+""" An entity affected by a Posture Check result or finding. """
 type PostureImpactedEntity {
   id: ID!
   name: String!
@@ -5472,11 +5511,13 @@ type PostureQueries {
   findingSummary(input: PostureFindingSummaryInput): PostureFindingSummaryPayload @beta
 }
 
+""" A recommended remediation action for a Posture Check. """
 type PostureRecommendedAction {
   recommendedAction: String!
   recommendedActionLink: PostureRecommendedActionLink
 }
 
+""" An optional external link associated with a recommended action. """
 type PostureRecommendedActionLink {
   text: String!
   url: String!
@@ -5502,18 +5543,21 @@ type PostureResult {
   status: PostureResultStatus!
 }
 
+""" Posture score and state counts for a security domain. """
 type PostureSecurityDomainScore {
   score: Int!
   securityDomain: String!
   stats: PostureStatsDetails!
 }
 
+""" Pass, fail, and disabled counters grouped by Posture hierarchy level. """
 type PostureStats {
   categories: PostureStatsDetails!
   checks: PostureStatsDetails!
   subCategories: PostureStatsDetails
 }
 
+""" Pass, fail, disabled, and total counters for a Posture hierarchy level. """
 type PostureStatsDetails {
   disabled: Int!
   failed: Int!
@@ -7812,7 +7856,6 @@ type User {
   firstName: String
   hasRemoteAccessEligibility: Boolean!
   id: ID!
-  importType: ImportType! @deprecated(reason: "use userImportType instead. Planned end-of-life (EoL) date: 09 13, 2026.")
   jobTitle: String
   lastModified: DateTime!
   lastName: String
@@ -7846,10 +7889,10 @@ type UserListPayload {
 type UserMutations {
   createUser(input: CreateUserInput!): CreateUserPayload @beta
   deleteUser(input: DeleteUserInput!): DeleteUserPayload @beta
-  disableUser(input: DisableUserInput!): DisableUserPayload @ea @beta
-  enableUser(input: EnableUserInput!): EnableUserPayload @ea @beta
+  disableUser(input: DisableUserInput!): DisableUserPayload @ga
+  enableUser(input: EnableUserInput!): EnableUserPayload @ga
   revokeUserSession(input: RevokeUserSessionInput!): RevokeUserSessionPayload @beta
-  updateDynamicUserGroupsConfiguration(input: UpdateDynamicUserGroupsConfigurationInput!): UpdateDynamicUserGroupsConfigurationPayload @ea @beta
+  updateDynamicUserGroupsConfiguration(input: UpdateDynamicUserGroupsConfigurationInput!): UpdateDynamicUserGroupsConfigurationPayload @rollout @beta
   updateUser(input: UpdateUserInput!): UpdateUserPayload @beta
 }
 
@@ -7866,8 +7909,8 @@ type UserNotificationTemplateRef implements ObjectRef {
 }
 
 type UserQueries {
-  dynamicUserGroupsConfiguration: DynamicUserGroupsConfigurationPayload @ea @beta
-  userList(input: UserListInput!): UserListPayload @beta
+  dynamicUserGroupsConfiguration: DynamicUserGroupsConfigurationPayload @rollout @beta
+  userList(input: UserListInput!): UserListPayload @ga
 }
 
 """ A reference identifying the User object. ID: Unique User Identifier, Name: The User Name """
@@ -10517,6 +10560,7 @@ input DeviceV2FilterInput {
   id: [IdFilterInput!]
   ip: [StringFilterInput!] @deprecated(reason: "Use ipAddress instead")
   ipAddress: [IPAddressFilterInput!]
+  isCrownJewel: [BooleanFilterInput!]
   isManaged: [BooleanFilterInput!]
   lastSeen: [DateTimeFilterInput!]
   name: [StringFilterInput!]
@@ -10939,14 +10983,6 @@ input IdFilterInput {
   nin: [ID!]
 }
 
-""" Input for filtering users by import type. """
-input ImportTypeFilterInput {
-  eq: ImportType
-  in: [ImportType!]
-  neq: ImportType
-  nin: [ImportType!]
-}
-
 """ Filter criteria for listing managed account access requests. """
 input IncomingAccessRequestFilterInput {
   expirationDate: DateTimeFilterInput
@@ -11259,6 +11295,12 @@ input LastMileBwInput {
   downstreamMbpsPrecision: Float
   upstream: Int
   upstreamMbpsPrecision: Float
+}
+
+""" Input for starting a self-service trial on the account. """
+input LicensingStartServiceTrialInput {
+  durationDays: Int!
+  service: LicenseSku!
 }
 
 input LocationFilterInput {
@@ -12142,6 +12184,7 @@ input PostureCheckResultListInput {
   sort: PostureCheckResultSortInput! = {severity:{direction:DESC,priority:1}}
 }
 
+""" Comparison operators for filtering checks or findings by severity. """
 input PostureCheckResultSeverityFilterInput {
   eq: PostureImpact
   in: [PostureImpact!]
@@ -12149,12 +12192,24 @@ input PostureCheckResultSeverityFilterInput {
   nin: [PostureImpact!]
 }
 
+""" Sort options for the check result list. """
 input PostureCheckResultSortInput {
   application: SortOrderInput
+  areaId: SortOrderInput
+  categoryId: SortOrderInput
+  checkId: SortOrderInput
+  checkType: SortOrderInput
+  complianceControl: SortOrderInput
+  complianceFramework: SortOrderInput
+  findingName: SortOrderInput
+  label: SortOrderInput
   lastChecked: SortOrderInput
+  muteStatus: SortOrderInput
   name: SortOrderInput
   securityDomain: SortOrderInput
   severity: SortOrderInput
+  status: SortOrderInput
+  suppressedStatus: SortOrderInput
 }
 
 """ Input for the `checkSummary` query. """
@@ -12190,6 +12245,7 @@ input PostureDismissFindingInput {
   reason: String
 }
 
+""" Filter criteria for Posture findings and their associated checks. """
 input PostureFindingListFilterInput {
   appInstance: [AdvancedStringFilterInput!]
   application: [AdvancedStringFilterInput!]
@@ -12211,16 +12267,33 @@ input PostureFindingListFilterInput {
   suppressedStatus: [PostureSuppressedStatusFilterInput!]
 }
 
+""" Input for the `findingList` query, with filtering, sorting, and paging options. """
 input PostureFindingListInput {
   filter: PostureFindingListFilterInput!
   paging: PagingInput = {limit:100,from:0}
   sort: PostureFindingSortInput! = {severity:{direction:DESC,priority:1}}
 }
 
+""" Sort options for the finding list. """
 input PostureFindingSortInput {
+  appInstance: SortOrderInput
+  application: SortOrderInput
+  areaId: SortOrderInput
+  categoryId: SortOrderInput
+  checkId: SortOrderInput
+  checkName: SortOrderInput
+  checkSeverity: SortOrderInput
+  checkType: SortOrderInput
+  complianceControl: SortOrderInput
+  complianceFramework: SortOrderInput
+  id: SortOrderInput
+  label: SortOrderInput
+  muteStatus: SortOrderInput
   name: SortOrderInput
   resolutionStatus: SortOrderInput
+  securityDomain: SortOrderInput
   severity: SortOrderInput
+  suppressedStatus: SortOrderInput
 }
 
 """ Input for the `findingSummary` query. """
@@ -12243,6 +12316,7 @@ input PostureMuteFindingInput {
   reason: String
 }
 
+""" Comparison operators for filtering checks or findings by mute status. """
 input PostureMuteStatusFilterInput {
   eq: PostureMuteStatus
   in: [PostureMuteStatus!]
@@ -12250,6 +12324,7 @@ input PostureMuteStatusFilterInput {
   nin: [PostureMuteStatus!]
 }
 
+""" Comparison operators for filtering findings by resolution status. """
 input PostureResolutionStatusFilterInput {
   eq: PostureResolutionStatus
   in: [PostureResolutionStatus!]
@@ -12257,6 +12332,7 @@ input PostureResolutionStatusFilterInput {
   nin: [PostureResolutionStatus!]
 }
 
+""" Comparison operators for filtering checks by evaluation result status. """
 input PostureResultStatusFilterInput {
   eq: PostureResultStatus
   in: [PostureResultStatus!]
@@ -12264,6 +12340,7 @@ input PostureResultStatusFilterInput {
   nin: [PostureResultStatus!]
 }
 
+""" Comparison operators for filtering checks by enabled or disabled status. """
 input PostureSuppressedStatusFilterInput {
   eq: PostureSuppressedStatus
   in: [PostureSuppressedStatus!]
@@ -14522,8 +14599,7 @@ input UserFilterInput {
   department: [StringFilterInput!]
   directoryId: [StringFilterInput!]
   email: [EmailFilterInput!]
-  id: [IdFilterInput!] @ea
-  importType: [ImportTypeFilterInput!] @deprecated(reason: "use userImportType instead. Planned end-of-life (EoL) date: 09 13, 2026.")
+  id: [IdFilterInput!]
   jobTitle: [StringFilterInput!]
   remoteAccessEligibility: [BooleanFilterInput!]
   riskScore: [RiskScoreFilterInput!]
@@ -14569,7 +14645,6 @@ input UserSortInput {
   creationDate: SortOrderInput
   department: SortOrderInput
   email: SortOrderInput
-  importType: SortOrderInput @deprecated(reason: "use userImportType instead. Planned end-of-life (EoL) date: 09 13, 2026.")
   jobTitle: SortOrderInput
   lastModified: SortOrderInput
   name: SortOrderInput
@@ -16368,6 +16443,15 @@ enum DeviceConfigHaRoleEnum {
   SECONDARY
 }
 
+enum DeviceCrownJewelSource {
+  """ Cleared by an administrator (device is no longer marked a crown jewel) """
+  CLEARED
+  """ Set by an administrator """
+  MANUAL
+  """ Detected by research """
+  RESEARCH
+}
+
 enum DeviceHaRoleStateEnum {
   BACKUP
   MASTER
@@ -16859,6 +16943,8 @@ enum EventFieldName {
   guard_type
   """ An identifier for a guest user using Cato through a Captive Portal. CMA Name: Guest User """
   guest_user
+  """ Identifies the agent environment or client generating the interaction. CMA Name: Harness """
+  harness
   """ IP address of host related to event. CMA Name: Host IP """
   host_ip
   """ MAC address of host related to event. CMA Name: Host MAC Address """
@@ -16877,6 +16963,8 @@ enum EventFieldName {
   indicator
   """ The initial status of the object, before any policy was applied. CMA Name: Initial Object Status """
   initial_object_status
+  """ Indicates if the Socket upgrade or rollback occurred during the maintenance window or was initiated by Support (Cato Admin). CMA Name: Initiated By """
+  initiated_by
   """ Inspection Mode. CMA Name: Inspection Mode """
   inspection_mode
   """ Unique identifier for a single AI interaction between an application and an AI model. CMA Name: Interaction ID """
@@ -17450,18 +17538,6 @@ enum IlmmOnboardingStatus {
   FAILED
   MISSING
   PENDING
-}
-
-""" Shows if user was created or imported from an IdP. """
-enum ImportType {
-  """ User was imported from an integration. """
-  INTEGRATION
-  """ User was imported from LDAP. """
-  LDAP
-  """ User was created manually. """
-  MANUAL
-  """ User was imported from SCIM. """
-  SCIM
 }
 
 enum IncidentCategory {
@@ -18110,71 +18186,121 @@ enum PopLocationByoipSubnetState {
   WITHDRAW
 }
 
+""" Kinds of actors that can trigger Posture Check events. """
 enum PostureCheckEventActorType {
+  """ The system generated the event. """
   SYSTEM
+  """ A user initiated the event. """
   USER
 }
 
+""" Event types recorded in a Posture Check audit trail. """
 enum PostureCheckEventType {
+  """ A check was muted. """
   CHECK_MUTED
+  """ A check was unmuted. """
   CHECK_UNMUTED
+  """ A comment was added to a check result. """
   COMMENT_ADDED
+  """ A check result was created. """
   CREATED
+  """ A finding was dismissed. """
   FINDING_DISMISSED
+  """ A finding was muted. """
   FINDING_MUTED
+  """ A dismissed finding was restored. """
   FINDING_UNDISMISSED
+  """ A finding was unmuted. """
   FINDING_UNMUTED
+  """ The evaluation status of a check result changed. """
   STATUS_CHANGED
+  """ A check was enabled or disabled. """
   SUPPRESSED_STATUS_CHANGED
 }
 
+""" Dimensions available for peer-group Posture score comparisons. """
 enum PostureComparisonType {
+  """ Comparison across all accounts in the peer-comparison dataset. """
   ALL_ACCOUNTS
+  """ Comparison with accounts in the same region. """
   REGION
+  """ Comparison with accounts in the same industry vertical. """
   VERTICAL
 }
 
+""" Severity levels assigned to Posture Checks and findings. """
 enum PostureImpact {
+  """ Critical severity. """
   CRITICAL
+  """ High severity. """
   HIGH
+  """ Informational severity. """
   INFORMATIONAL
+  """ Low severity. """
   LOW
+  """ Medium severity. """
   MEDIUM
+  """ No assigned impact level. """
   NONE
 }
 
+""" Kinds of entities that can be affected by a Posture Check. """
 enum PostureImpactedEntityType {
+  """ An account. """
   ACCOUNT
+  """ An application. """
   APPLICATION
+  """ A device. """
   DEVICE
+  """ An entity from an external system. """
   EXTERNAL
+  """ An application instance. """
   INSTANCE
+  """ An entity that does not fall into another listed category. """
   OTHER
+  """ A policy rule. """
   RULE
+  """ A site. """
   SITE
+  """ A user. """
   USER
 }
 
+""" Mute and dismissal states for a Posture Check or finding. """
 enum PostureMuteStatus {
+  """ The finding is dismissed until it is explicitly restored. """
   DISMISSED
+  """ The check or finding is temporarily muted. """
   MUTED
+  """ The check or finding is neither muted nor dismissed. """
   NONE
 }
 
+""" Resolution states for a Posture Check finding. """
 enum PostureResolutionStatus {
+  """ The finding has not been resolved. """
   OPEN
+  """ The finding has been resolved. """
   RESOLVED
 }
 
+""" Evaluation states for a Posture Check result. """
 enum PostureResultStatus {
+  """ The check failed and still requires attention. """
   FAILED
+  """ The check does not apply to the account's current configuration. """
   NOT_APPLICABLE
+  """ The check passed, or all associated findings are resolved or otherwise handled. """
   PASSED
+  """ Remediation has been applied and the check is awaiting confirmation by reevaluation. """
   PENDING
 }
 
+""" Whether a Posture Check is enabled or disabled. """
 enum PostureSuppressedStatus {
+  """ The check is disabled. """
   DISABLED
+  """ The check is enabled. """
   ENABLED
 }
 

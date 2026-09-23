@@ -1,7 +1,7 @@
-mutation networkConfigDhcpSetRelayGroup ( $accountId:ID! $networkConfigDhcpSetRelayGroupInput:NetworkConfigDhcpSetRelayGroupInput!) {
-	networkConfig ( accountId:$accountId ) {
+mutation networkConfigDhcpSetRelayGroup ($accountId: ID!, $networkConfigDhcpSetRelayGroupInput: NetworkConfigDhcpSetRelayGroupInput!) {
+	networkConfig(accountId: $accountId) {
 		dhcp {
-			setRelayGroup ( input:$networkConfigDhcpSetRelayGroupInput   ) {
+			setRelayGroup(input: $networkConfigDhcpSetRelayGroupInput) {
 				relayGroup {
 					id
 					name

@@ -1,7 +1,7 @@
-mutation containerIpAddressRangeSyncFromURL ( $accountId:ID! $syncIpAddressRangeContainerFromUrlInput:SyncIpAddressRangeContainerFromUrlInput!) {
-	container ( accountId:$accountId ) {
+mutation containerIpAddressRangeSyncFromURL ($accountId: ID!, $syncIpAddressRangeContainerFromUrlInput: SyncIpAddressRangeContainerFromUrlInput!) {
+	container(accountId: $accountId) {
 		ipAddressRange {
-			syncFromURL ( input:$syncIpAddressRangeContainerFromUrlInput   ) {
+			syncFromURL(input: $syncIpAddressRangeContainerFromUrlInput) {
 				container {
 					id
 					name
@@ -41,5 +41,5 @@ mutation containerIpAddressRangeSyncFromURL ( $accountId:ID! $syncIpAddressRange
 				}
 			}
 		}
-	}	
+	}
 }

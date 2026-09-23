@@ -1,6 +1,6 @@
-query connectivitySnapshots ( $accountId:ID! $ztnaAppConnectorSnapshotInput:ZtnaAppConnectorSnapshotInput! $ztnaAppConnectorSnapshotSummaryInput:ZtnaAppConnectorSnapshotSummaryInput! $ztnaAppConnectorGroupSnapshotInput:ZtnaAppConnectorGroupSnapshotInput!) {
-	connectivitySnapshots ( accountId:$accountId ) {
-		ztnaAppConnectorSnapshot ( input:$ztnaAppConnectorSnapshotInput  )  {
+query connectivitySnapshots ($accountId: ID!, $ztnaAppConnectorSnapshotInput: ZtnaAppConnectorSnapshotInput!, $ztnaAppConnectorSnapshotSummaryInput: ZtnaAppConnectorSnapshotSummaryInput!, $ztnaAppConnectorGroupSnapshotInput: ZtnaAppConnectorGroupSnapshotInput!) {
+	connectivitySnapshots(accountId: $accountId) {
+		ztnaAppConnectorSnapshot(input: $ztnaAppConnectorSnapshotInput) {
 			items {
 				id
 				name
@@ -61,7 +61,7 @@ query connectivitySnapshots ( $accountId:ID! $ztnaAppConnectorSnapshotInput:Ztna
 				total
 			}
 		}
-		ztnaAppConnectorSnapshotSummary ( input:$ztnaAppConnectorSnapshotSummaryInput  )  {
+		ztnaAppConnectorSnapshotSummary(input: $ztnaAppConnectorSnapshotSummaryInput) {
 			connectivityStatus {
 				connectivityStatus
 				total
@@ -84,7 +84,7 @@ query connectivitySnapshots ( $accountId:ID! $ztnaAppConnectorSnapshotInput:Ztna
 			}
 			total
 		}
-		ztnaAppConnectorGroupSnapshot ( input:$ztnaAppConnectorGroupSnapshotInput  )  {
+		ztnaAppConnectorGroupSnapshot(input: $ztnaAppConnectorGroupSnapshotInput) {
 			items {
 				groupName
 				totalConnectors
@@ -158,5 +158,5 @@ query connectivitySnapshots ( $accountId:ID! $ztnaAppConnectorSnapshotInput:Ztna
 				total
 			}
 		}
-	}	
+	}
 }

@@ -1,6 +1,6 @@
-mutation siteUpdateBgpPeerBulk ( $accountId:ID! $updateBgpPeerBulkInput:UpdateBgpPeerBulkInput!) {
-	site ( accountId:$accountId ) {
-		updateBgpPeerBulk ( input:$updateBgpPeerBulkInput  )  {
+mutation siteUpdateBgpPeerBulk ($accountId: ID!, $updateBgpPeerBulkInput: UpdateBgpPeerBulkInput!) {
+	site(accountId: $accountId) {
+		updateBgpPeerBulk(input: $updateBgpPeerBulkInput) {
 			bgpPeer {
 				site {
 					id
@@ -80,5 +80,5 @@ mutation siteUpdateBgpPeerBulk ( $accountId:ID! $updateBgpPeerBulkInput:UpdateBg
 				}
 			}
 		}
-	}	
+	}
 }

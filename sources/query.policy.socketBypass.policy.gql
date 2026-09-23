@@ -1,7 +1,7 @@
-query policySocketBypassPolicy ( $accountId:ID! $socketBypassPolicyInput:SocketBypassPolicyInput) {
-	policy ( accountId:$accountId ) {
+query policySocketBypassPolicy ($accountId: ID!, $socketBypassPolicyInput: SocketBypassPolicyInput) {
+	policy(accountId: $accountId) {
 		socketBypass {
-			policy ( input:$socketBypassPolicyInput   ) {
+			policy(input: $socketBypassPolicyInput) {
 				enabled
 				rules {
 					audit {
@@ -225,5 +225,5 @@ query policySocketBypassPolicy ( $accountId:ID! $socketBypassPolicyInput:SocketB
 				}
 			}
 		}
-	}	
+	}
 }

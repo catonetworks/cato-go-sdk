@@ -1,6 +1,6 @@
-query siteBgpPeerQuery ( $accountId:ID! $bgpPeerRefInput:BgpPeerRefInput!) {
-	site ( accountId:$accountId ) {
-		bgpPeer ( input:$bgpPeerRefInput  )  {
+query siteBgpPeerQuery ($accountId: ID!, $bgpPeerRefInput: BgpPeerRefInput!) {
+	site(accountId: $accountId) {
+		bgpPeer(input: $bgpPeerRefInput) {
 			site {
 				id
 				name
@@ -78,5 +78,5 @@ query siteBgpPeerQuery ( $accountId:ID! $bgpPeerRefInput:BgpPeerRefInput!) {
 				subscriptionId
 			}
 		}
-	}	
+	}
 }

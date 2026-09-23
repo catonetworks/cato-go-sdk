@@ -1,6 +1,6 @@
-query postureFindingList ( $accountId:ID! $postureFindingListInput:PostureFindingListInput!) {
-	posture ( accountId:$accountId ) {
-		findingList ( input:$postureFindingListInput  )  {
+query postureFindingList ($accountId: ID!, $postureFindingListInput: PostureFindingListInput!) {
+	posture(accountId: $accountId) {
+		findingList(input: $postureFindingListInput) {
 			items {
 				id
 				externalId

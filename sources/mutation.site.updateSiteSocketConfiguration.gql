@@ -1,14 +1,34 @@
-mutation siteUpdateSiteSocketConfiguration ( $accountId:ID! $updateSiteSocketConfigurationInput:UpdateSiteSocketConfigurationInput!) {
-	site ( accountId:$accountId ) {
-		updateSiteSocketConfiguration ( input:$updateSiteSocketConfigurationInput  )  {
+mutation siteUpdateSiteSocketConfiguration ($accountId: ID!, $updateSiteSocketConfigurationInput: UpdateSiteSocketConfigurationInput!) {
+	site(accountId: $accountId) {
+		updateSiteSocketConfiguration(input: $updateSiteSocketConfigurationInput) {
 			siteSocketConfiguration {
 				primarySocketConfiguration {
 					description
+					serial
+					managementIp
+					socketInfo {
+						model
+						platform
+						version
+						registrationStatus
+						wifiSupported
+						isPrimary
+					}
 				}
 				secondarySocketConfiguration {
 					description
+					serial
+					managementIp
+					socketInfo {
+						model
+						platform
+						version
+						registrationStatus
+						wifiSupported
+						isPrimary
+					}
 				}
 			}
 		}
-	}	
+	}
 }

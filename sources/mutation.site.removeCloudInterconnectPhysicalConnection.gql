@@ -1,8 +1,7 @@
-mutation siteRemoveCloudInterconnectPhysicalConnection ( $removeCloudInterconnectPhysicalConnectionInput:RemoveCloudInterconnectPhysicalConnectionInput! $accountId:ID! ) {
-	site ( accountId:$accountId  ) {
-		removeCloudInterconnectPhysicalConnection ( input:$removeCloudInterconnectPhysicalConnectionInput  )  {
+mutation siteRemoveCloudInterconnectPhysicalConnection ($removeCloudInterconnectPhysicalConnectionInput: RemoveCloudInterconnectPhysicalConnectionInput!, $accountId: ID!) {
+	site(accountId: $accountId) {
+		removeCloudInterconnectPhysicalConnection(input: $removeCloudInterconnectPhysicalConnectionInput) {
 			id
 		}
-
 	}
 }

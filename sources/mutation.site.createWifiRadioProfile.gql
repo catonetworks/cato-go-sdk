@@ -1,6 +1,6 @@
-mutation siteCreateWifiRadioProfile ( $accountId:ID! $createWifiRadioProfileInput:CreateWifiRadioProfileInput!) {
-	site ( accountId:$accountId ) {
-		createWifiRadioProfile ( input:$createWifiRadioProfileInput  )  {
+mutation siteCreateWifiRadioProfile ($accountId: ID!, $createWifiRadioProfileInput: CreateWifiRadioProfileInput!) {
+	site(accountId: $accountId) {
+		createWifiRadioProfile(input: $createWifiRadioProfileInput) {
 			wifiRadioProfile {
 				id
 				site {
@@ -23,5 +23,5 @@ mutation siteCreateWifiRadioProfile ( $accountId:ID! $createWifiRadioProfileInpu
 				}
 			}
 		}
-	}	
+	}
 }

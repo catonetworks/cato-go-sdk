@@ -1,6 +1,6 @@
-query siteBgpPeerListQuery ( $accountId:ID! $bgpPeerListInput:BgpPeerListInput!) {
-	site ( accountId:$accountId ) {
-		bgpPeerList ( input:$bgpPeerListInput  )  {
+query siteBgpPeerListQuery ($accountId: ID!, $bgpPeerListInput: BgpPeerListInput!) {
+	site(accountId: $accountId) {
+		bgpPeerList(input: $bgpPeerListInput) {
 			bgpPeer {
 				site {
 					id
@@ -81,5 +81,5 @@ query siteBgpPeerListQuery ( $accountId:ID! $bgpPeerListInput:BgpPeerListInput!)
 			}
 			total
 		}
-	}	
+	}
 }

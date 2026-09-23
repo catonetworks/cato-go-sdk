@@ -1,7 +1,7 @@
-mutation policyWanFirewallPublishPolicyRevision ($policyPublishRevisionInput: PolicyPublishRevisionInput, $accountId: ID!, $wanFirewallPolicyMutationInput: WanFirewallPolicyMutationInput) {
+mutation mutationPolicyInternetFirewallDiscardPolicyRevision ($accountId: ID!, $internetFirewallPolicyMutationInput: InternetFirewallPolicyMutationInput, $policyDiscardRevisionInput: PolicyDiscardRevisionInput) {
 	policy(accountId: $accountId) {
-		wanFirewall(input: $wanFirewallPolicyMutationInput) {
-			publishPolicyRevision(input: $policyPublishRevisionInput) {
+		internetFirewall(input: $internetFirewallPolicyMutationInput) {
+			discardPolicyRevision(input: $policyDiscardRevisionInput) {
 				policy {
 					id
 					name
@@ -30,6 +30,7 @@ mutation policyWanFirewallPublishPolicyRevision ($policyPublishRevisionInput: Po
 							}
 							enabled
 							source {
+								ip
 								host {
 									id
 									name
@@ -39,7 +40,6 @@ mutation policyWanFirewallPublishPolicyRevision ($policyPublishRevisionInput: Po
 									name
 								}
 								subnet
-								ip
 								ipRange {
 									from
 									to
@@ -96,63 +96,15 @@ mutation policyWanFirewallPublishPolicyRevision ($policyPublishRevisionInput: Po
 								osVersion
 							}
 							destination {
-								host {
-									id
-									name
-								}
-								site {
-									id
-									name
-								}
-								subnet
-								ip
-								ipRange {
-									from
-									to
-								}
-								globalIpRange {
-									id
-									name
-								}
-								networkInterface {
-									id
-									name
-								}
-								siteNetworkSubnet {
-									id
-									name
-								}
-								floatingSubnet {
-									id
-									name
-								}
-								user {
-									id
-									name
-								}
-								usersGroup {
-									id
-									name
-								}
-								group {
-									id
-									name
-								}
-								systemGroup {
-									id
-									name
-								}
-							}
-							application {
 								application {
 									id
 									name
 								}
-								appCategory {
+								customApp {
 									id
 									name
 								}
-								customApp {
+								appCategory {
 									id
 									name
 								}
@@ -161,6 +113,10 @@ mutation policyWanFirewallPublishPolicyRevision ($policyPublishRevisionInput: Po
 									name
 								}
 								sanctionedAppsCategory {
+									id
+									name
+								}
+								country {
 									id
 									name
 								}
@@ -175,6 +131,17 @@ mutation policyWanFirewallPublishPolicyRevision ($policyPublishRevisionInput: Po
 								globalIpRange {
 									id
 									name
+								}
+								remoteAsn
+								containers {
+									fqdnContainer {
+										id
+										name
+									}
+									ipAddressRangeContainer {
+										id
+										name
+									}
 								}
 							}
 							service {
@@ -231,10 +198,10 @@ mutation policyWanFirewallPublishPolicyRevision ($policyPublishRevisionInput: Po
 								useExpiresAt
 								expiresAt
 							}
-							direction
 							exceptions {
 								name
 								source {
+									ip
 									host {
 										id
 										name
@@ -244,7 +211,6 @@ mutation policyWanFirewallPublishPolicyRevision ($policyPublishRevisionInput: Po
 										name
 									}
 									subnet
-									ip
 									ipRange {
 										from
 										to
@@ -283,54 +249,6 @@ mutation policyWanFirewallPublishPolicyRevision ($policyPublishRevisionInput: Po
 									}
 								}
 								deviceOS
-								destination {
-									host {
-										id
-										name
-									}
-									site {
-										id
-										name
-									}
-									subnet
-									ip
-									ipRange {
-										from
-										to
-									}
-									globalIpRange {
-										id
-										name
-									}
-									networkInterface {
-										id
-										name
-									}
-									siteNetworkSubnet {
-										id
-										name
-									}
-									floatingSubnet {
-										id
-										name
-									}
-									user {
-										id
-										name
-									}
-									usersGroup {
-										id
-										name
-									}
-									group {
-										id
-										name
-									}
-									systemGroup {
-										id
-										name
-									}
-								}
 								country {
 									id
 									name
@@ -347,16 +265,16 @@ mutation policyWanFirewallPublishPolicyRevision ($policyPublishRevisionInput: Po
 									os
 									osVersion
 								}
-								application {
+								destination {
 									application {
 										id
 										name
 									}
-									appCategory {
+									customApp {
 										id
 										name
 									}
-									customApp {
+									appCategory {
 										id
 										name
 									}
@@ -365,6 +283,10 @@ mutation policyWanFirewallPublishPolicyRevision ($policyPublishRevisionInput: Po
 										name
 									}
 									sanctionedAppsCategory {
+										id
+										name
+									}
+									country {
 										id
 										name
 									}
@@ -379,6 +301,17 @@ mutation policyWanFirewallPublishPolicyRevision ($policyPublishRevisionInput: Po
 									globalIpRange {
 										id
 										name
+									}
+									remoteAsn
+									containers {
+										fqdnContainer {
+											id
+											name
+										}
+										ipAddressRangeContainer {
+											id
+											name
+										}
 									}
 								}
 								service {
@@ -396,10 +329,13 @@ mutation policyWanFirewallPublishPolicyRevision ($policyPublishRevisionInput: Po
 									}
 								}
 								connectionOrigin
-								direction
 							}
 							actionConfig {
 								userNotification {
+									id
+									name
+								}
+								rbiProfile {
 									id
 									name
 								}

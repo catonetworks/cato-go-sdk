@@ -1,6 +1,6 @@
-mutation ztnaAppConnectorUnassignSocketFromZtnaAppConnector ( $accountId:ID! $unassignSocketFromZtnaAppConnectorInput:UnassignSocketFromZtnaAppConnectorInput!) {
-	ztnaAppConnector ( accountId:$accountId ) {
-		unassignSocketFromZtnaAppConnector ( input:$unassignSocketFromZtnaAppConnectorInput  )  {
+mutation ztnaAppConnectorUnassignSocketFromZtnaAppConnector ($accountId: ID!, $unassignSocketFromZtnaAppConnectorInput: UnassignSocketFromZtnaAppConnectorInput!) {
+	ztnaAppConnector(accountId: $accountId) {
+		unassignSocketFromZtnaAppConnector(input: $unassignSocketFromZtnaAppConnectorInput) {
 			ztnaAppConnector {
 				id
 				createdAt
@@ -46,5 +46,5 @@ mutation ztnaAppConnectorUnassignSocketFromZtnaAppConnector ( $accountId:ID! $un
 				}
 			}
 		}
-	}	
+	}
 }

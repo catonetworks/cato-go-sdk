@@ -1,8 +1,8 @@
-mutation siteUpdateSocketInterfaces ( $accountId:ID! $updateSocketInterfacesInput:UpdateSocketInterfacesInput!) {
-	site ( accountId:$accountId ) {
-		updateSocketInterfaces ( input:$updateSocketInterfacesInput  )  {
+mutation siteUpdateSocketInterfaces ($accountId: ID!, $updateSocketInterfacesInput: UpdateSocketInterfacesInput!) {
+	site(accountId: $accountId) {
+		updateSocketInterfaces(input: $updateSocketInterfacesInput) {
 			siteId
 			socketInterfaceId
 		}
-	}	
+	}
 }

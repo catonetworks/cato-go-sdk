@@ -1,7 +1,7 @@
-mutation networkConfigDnsDeleteServerSet ( $accountId:ID! $networkConfigDnsDeleteServerSetInput:NetworkConfigDnsDeleteServerSetInput!) {
-	networkConfig ( accountId:$accountId ) {
+mutation networkConfigDnsDeleteServerSet ($accountId: ID!, $networkConfigDnsDeleteServerSetInput: NetworkConfigDnsDeleteServerSetInput!) {
+	networkConfig(accountId: $accountId) {
 		dns {
-			deleteServerSet ( input:$networkConfigDnsDeleteServerSetInput   ) {
+			deleteServerSet(input: $networkConfigDnsDeleteServerSetInput) {
 				dnsServerSet {
 					id
 					name
@@ -11,14 +11,6 @@ mutation networkConfigDnsDeleteServerSet ( $accountId:ID! $networkConfigDnsDelet
 						updatedBy {
 							id
 							name
-							... on AdminRef {
-								id
-								name
-							}
-							... on ApiKeyRef {
-								id
-								name
-							}
 						}
 					}
 				}

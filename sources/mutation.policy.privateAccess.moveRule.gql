@@ -1,18 +1,125 @@
-mutation policyPrivateAccessMoveRule ( $accountID: ID!, $input: PolicyMoveRuleInput! ) {
-  policy ( accountId: $accountID ) {
-    privateAccess {
-      moveRule(input: $input) {
-        rule {
-          rule {
-            id
-          }
-        }
-        status
-        errors {
-          errorCode
-          errorMessage
-        }
-      }
-    }
-  }
+mutation policyPrivateAccessMoveRule ($accountID: ID!, $input: PolicyMoveRuleInput!, $privateAccessPolicyMutationInput: PrivateAccessPolicyMutationInput) {
+	policy(accountId: $accountID) {
+		privateAccess(input: $privateAccessPolicyMutationInput) {
+			moveRule(input: $input) {
+				rule {
+					audit {
+						updatedTime
+						updatedBy
+					}
+					metadata {
+						lock {
+							lockingAdminEmail
+							lockingTime
+							lockingRevisionId
+						}
+					}
+					rule {
+						id
+						name
+						description
+						index
+						section {
+							id
+							name
+						}
+						enabled
+						source {
+							user {
+								id
+								name
+							}
+							usersGroup {
+								id
+								name
+							}
+							systemGroup {
+								id
+								name
+							}
+						}
+						platform
+						country {
+							id
+							name
+						}
+						applications {
+							application {
+								id
+								name
+							}
+						}
+						connectionOrigin
+						connectionsOriginList
+						action {
+							action
+						}
+						tracking {
+							event {
+								enabled
+							}
+							alert {
+								enabled
+								frequency
+								subscriptionGroup {
+									id
+									name
+								}
+								webhook {
+									id
+									name
+								}
+								mailingList {
+									id
+									name
+								}
+							}
+						}
+						device {
+							id
+							name
+						}
+						userAttributes {
+							riskScore {
+								category
+								operator
+							}
+						}
+						schedule {
+							activeOn
+							customTimeframe {
+								from
+								to
+							}
+							customRecurring {
+								from
+								to
+								days
+							}
+						}
+						activePeriod {
+							useEffectiveFrom
+							effectiveFrom
+							useExpiresAt
+							expiresAt
+						}
+					}
+					properties
+				}
+				revision {
+					id
+					name
+					description
+					changes
+					createdTime
+					updatedTime
+				}
+				status
+				errors {
+					errorMessage
+					errorCode
+				}
+			}
+		}
+	}
 }

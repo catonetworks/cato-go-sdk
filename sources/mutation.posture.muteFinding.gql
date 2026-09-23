@@ -1,6 +1,6 @@
-mutation postureMuteFinding ( $accountId:ID! $postureMuteFindingInput:PostureMuteFindingInput!) {
-	posture ( accountId:$accountId ) {
-		muteFinding ( input:$postureMuteFindingInput  )  {
+mutation postureMuteFinding ($accountId: ID!, $postureMuteFindingInput: PostureMuteFindingInput!) {
+	posture(accountId: $accountId) {
+		muteFinding(input: $postureMuteFindingInput) {
 			finding {
 				id
 				externalId

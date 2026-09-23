@@ -35,6 +35,7 @@ func normalizeMappedOperation(
 	existingOperation := existing.Operations[0]
 	incomingOperation := incoming.Operations[0]
 	incomingOperation.Name = stableName
+	preserveVariableBindings(existing, incoming)
 	incomingOperation.VariableDefinitions = stableVariableOrder(
 		existingOperation.VariableDefinitions,
 		incomingOperation.VariableDefinitions,
@@ -45,6 +46,117 @@ func normalizeMappedOperation(
 	applyFragmentAliases(existing, incoming)
 
 	return formatAndValidate(schema, path, incoming, stableName)
+}
+
+func preserveVariableBindings(existing, incoming *ast.QueryDocument) {
+	existingBindings := collectVariableBindings(existing)
+	incomingBindings := collectVariableBindings(incoming)
+	incomingNames := make(map[string]struct{}, len(incoming.Operations[0].VariableDefinitions))
+	for _, definition := range incoming.Operations[0].VariableDefinitions {
+		incomingNames[definition.Variable] = struct{}{}
+	}
+
+	renames := make(map[string]string)
+	claimedOldNames := make(map[string]string)
+	for key, incomingName := range incomingBindings {
+		existingName, exists := existingBindings[key]
+		if !exists || existingName == incomingName {
+			continue
+		}
+		if _, collision := incomingNames[existingName]; collision {
+			continue
+		}
+		if previous, conflict := renames[incomingName]; conflict && previous != existingName {
+			delete(renames, incomingName)
+			continue
+		}
+		if previous, conflict := claimedOldNames[existingName]; conflict && previous != incomingName {
+			continue
+		}
+		renames[incomingName] = existingName
+		claimedOldNames[existingName] = incomingName
+	}
+	if len(renames) == 0 {
+		return
+	}
+
+	for _, definition := range incoming.Operations[0].VariableDefinitions {
+		if stableName, exists := renames[definition.Variable]; exists {
+			definition.Variable = stableName
+		}
+	}
+	renameVariablesInSelections(incoming.Operations[0].SelectionSet, renames)
+	renameVariablesInDirectives(incoming.Operations[0].Directives, renames)
+	for _, fragment := range incoming.Fragments {
+		renameVariablesInSelections(fragment.SelectionSet, renames)
+		renameVariablesInDirectives(fragment.Directives, renames)
+	}
+}
+
+func collectVariableBindings(query *ast.QueryDocument) map[string]string {
+	bindings := make(map[string]string)
+	collectVariableBindingsFromSelections(query.Operations[0].SelectionSet, nil, bindings)
+	for _, fragment := range query.Fragments {
+		path := []string{"fragment:" + fragment.Name, "on:" + fragment.TypeCondition}
+		collectVariableBindingsFromSelections(fragment.SelectionSet, path, bindings)
+	}
+	return bindings
+}
+
+func collectVariableBindingsFromSelections(
+	selections ast.SelectionSet,
+	path []string,
+	bindings map[string]string,
+) {
+	walkSelections(selections, path, func(key string, field *ast.Field) {
+		for _, argument := range field.Arguments {
+			if argument.Value != nil && argument.Value.Kind == ast.Variable {
+				bindings[key+"/arg:"+argument.Name] = argument.Value.Raw
+			}
+		}
+	})
+}
+
+func renameVariablesInSelections(selections ast.SelectionSet, renames map[string]string) {
+	for _, selection := range selections {
+		switch current := selection.(type) {
+		case *ast.Field:
+			renameVariablesInArguments(current.Arguments, renames)
+			renameVariablesInDirectives(current.Directives, renames)
+			renameVariablesInSelections(current.SelectionSet, renames)
+		case *ast.InlineFragment:
+			renameVariablesInDirectives(current.Directives, renames)
+			renameVariablesInSelections(current.SelectionSet, renames)
+		case *ast.FragmentSpread:
+			renameVariablesInDirectives(current.Directives, renames)
+		}
+	}
+}
+
+func renameVariablesInDirectives(directives ast.DirectiveList, renames map[string]string) {
+	for _, directive := range directives {
+		renameVariablesInArguments(directive.Arguments, renames)
+	}
+}
+
+func renameVariablesInArguments(arguments ast.ArgumentList, renames map[string]string) {
+	for _, argument := range arguments {
+		renameVariablesInValue(argument.Value, renames)
+	}
+}
+
+func renameVariablesInValue(value *ast.Value, renames map[string]string) {
+	if value == nil {
+		return
+	}
+	if value.Kind == ast.Variable {
+		if stableName, exists := renames[value.Raw]; exists {
+			value.Raw = stableName
+		}
+	}
+	for _, child := range value.Children {
+		renameVariablesInValue(child.Value, renames)
+	}
 }
 
 func normalizeNewOperation(
@@ -180,12 +292,7 @@ func walkSelections(
 }
 
 func fieldSignature(field *ast.Field) string {
-	arguments := make([]string, 0, len(field.Arguments))
-	for _, argument := range field.Arguments {
-		arguments = append(arguments, argument.Name)
-	}
-	sort.Strings(arguments)
-	return field.Name + "(" + strings.Join(arguments, ",") + ")"
+	return field.Name
 }
 
 func appendPath(path []string, element string) []string {

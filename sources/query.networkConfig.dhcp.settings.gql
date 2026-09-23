@@ -1,5 +1,5 @@
-query networkConfigDhcpSettings ( $accountId:ID!) {
-	networkConfig ( accountId:$accountId ) {
+query networkConfigDhcpSettings ($accountId: ID!) {
+	networkConfig(accountId: $accountId) {
 		dhcp {
 			settings {
 				relay {

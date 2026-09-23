@@ -38,7 +38,10 @@ if [[ ! "${canonical_count}" =~ ^[1-9][0-9]*$ ]]; then
 	exit 1
 fi
 
-expected_count="${EXPECTED_OPERATIONS:-${canonical_count}}"
+expected_count="${EXPECTED_OPERATIONS:-0}"
+if [[ "${expected_count}" == "0" ]]; then
+	expected_count="${canonical_count}"
+fi
 if [[ ! "${expected_count}" =~ ^[1-9][0-9]*$ ]]; then
 	echo "EXPECTED_OPERATIONS must be a positive integer." >&2
 	exit 1

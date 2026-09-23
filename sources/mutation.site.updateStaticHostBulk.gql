@@ -1,6 +1,6 @@
-mutation siteUpdateStaticHostBulk ( $accountId:ID! $updateStaticHostBulkInput:UpdateStaticHostBulkInput!) {
-	site ( accountId:$accountId ) {
-		updateStaticHostBulk ( input:$updateStaticHostBulkInput  )  {
+mutation siteUpdateStaticHostBulk ($accountId: ID!, $updateStaticHostBulkInput: UpdateStaticHostBulkInput!) {
+	site(accountId: $accountId) {
+		updateStaticHostBulk(input: $updateStaticHostBulkInput) {
 			host {
 				hostId
 				name
@@ -8,5 +8,5 @@ mutation siteUpdateStaticHostBulk ( $accountId:ID! $updateStaticHostBulkInput:Up
 				macAddress
 			}
 		}
-	}	
+	}
 }

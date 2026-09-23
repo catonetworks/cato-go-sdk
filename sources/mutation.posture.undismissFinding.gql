@@ -1,6 +1,6 @@
-mutation postureUndismissFinding ( $accountId:ID! $postureUndismissFindingInput:PostureUndismissFindingInput!) {
-	posture ( accountId:$accountId ) {
-		undismissFinding ( input:$postureUndismissFindingInput  )  {
+mutation postureUndismissFinding ($accountId: ID!, $postureUndismissFindingInput: PostureUndismissFindingInput!) {
+	posture(accountId: $accountId) {
+		undismissFinding(input: $postureUndismissFindingInput) {
 			finding {
 				id
 				externalId

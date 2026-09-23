@@ -1,7 +1,7 @@
-query networkConfigDnsForwardingRule ( $accountId:ID! $networkConfigDnsForwardingRuleRefInput:NetworkConfigDnsForwardingRuleRefInput!) {
-	networkConfig ( accountId:$accountId ) {
+query networkConfigDnsForwardingRule ($accountId: ID!, $networkConfigDnsForwardingRuleRefInput: NetworkConfigDnsForwardingRuleRefInput!) {
+	networkConfig(accountId: $accountId) {
 		dns {
-			forwardingRule ( input:$networkConfigDnsForwardingRuleRefInput   ) {
+			forwardingRule(input: $networkConfigDnsForwardingRuleRefInput) {
 				id
 				domain
 				server

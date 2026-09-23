@@ -5265,28 +5265,32 @@ type DeviceUserSortOrderInput struct {
 }
 
 type DeviceV2 struct {
-	Category          *string                  `json:"category,omitempty"`
-	ComplianceState   *string                  `json:"complianceState,omitempty"`
-	Confidence        *DeviceConfidenceLevel   `json:"confidence,omitempty"`
-	ConnectionProfile *DeviceConnectionProfile `json:"connectionProfile,omitempty"`
-	FirstSeen         *string                  `json:"firstSeen,omitempty"`
-	Groups            []*DeviceGroupRef        `json:"groups"`
-	Hw                *DeviceHw                `json:"hw,omitempty"`
-	ID                string                   `json:"id"`
-	IP                *string                  `json:"ip,omitempty"`
-	IPAddress         *string                  `json:"ipAddress,omitempty"`
-	IsManaged         bool                     `json:"isManaged"`
-	LastSeen          *string                  `json:"lastSeen,omitempty"`
-	Name              *string                  `json:"name,omitempty"`
-	Network           *DeviceNetwork           `json:"network,omitempty"`
-	NetworkInfo       DeviceNetworkRef         `json:"networkInfo,omitempty"`
-	Nic               *DeviceNic               `json:"nic,omitempty"`
-	Nics              []*DeviceNic             `json:"nics"`
-	OriginTypes       []OriginType             `json:"originTypes"`
-	Os                *DeviceOs                `json:"os,omitempty"`
-	RiskScore         *int64                   `json:"riskScore,omitempty"`
-	Site              *SiteRef                 `json:"site,omitempty"`
-	User              *UserRef                 `json:"user,omitempty"`
+	Category            *string                  `json:"category,omitempty"`
+	ComplianceState     *string                  `json:"complianceState,omitempty"`
+	Confidence          *DeviceConfidenceLevel   `json:"confidence,omitempty"`
+	ConnectionProfile   *DeviceConnectionProfile `json:"connectionProfile,omitempty"`
+	CrownJewelSource    *DeviceCrownJewelSource  `json:"crownJewelSource,omitempty"`
+	CustomerReasonType  *string                  `json:"customerReasonType,omitempty"`
+	FirstSeen           *string                  `json:"firstSeen,omitempty"`
+	Groups              []*DeviceGroupRef        `json:"groups"`
+	Hw                  *DeviceHw                `json:"hw,omitempty"`
+	ID                  string                   `json:"id"`
+	IP                  *string                  `json:"ip,omitempty"`
+	IPAddress           *string                  `json:"ipAddress,omitempty"`
+	IsCrownJewel        bool                     `json:"isCrownJewel"`
+	IsManaged           bool                     `json:"isManaged"`
+	LastSeen            *string                  `json:"lastSeen,omitempty"`
+	Name                *string                  `json:"name,omitempty"`
+	Network             *DeviceNetwork           `json:"network,omitempty"`
+	NetworkInfo         DeviceNetworkRef         `json:"networkInfo,omitempty"`
+	Nic                 *DeviceNic               `json:"nic,omitempty"`
+	Nics                []*DeviceNic             `json:"nics"`
+	OriginTypes         []OriginType             `json:"originTypes"`
+	Os                  *DeviceOs                `json:"os,omitempty"`
+	ResearchReasonTypes []string                 `json:"researchReasonTypes"`
+	RiskScore           *int64                   `json:"riskScore,omitempty"`
+	Site                *SiteRef                 `json:"site,omitempty"`
+	User                *UserRef                 `json:"user,omitempty"`
 }
 
 // Input for filtering devices by various criteria
@@ -5300,6 +5304,7 @@ type DeviceV2FilterInput struct {
 	ID              []*IDFilterInput                    `json:"id,omitempty"`
 	IP              []*StringFilterInput                `json:"ip,omitempty"`
 	IPAddress       []*IPAddressFilterInput             `json:"ipAddress,omitempty"`
+	IsCrownJewel    []*BooleanFilterInput               `json:"isCrownJewel,omitempty"`
 	IsManaged       []*BooleanFilterInput               `json:"isManaged,omitempty"`
 	LastSeen        []*DateTimeFilterInput              `json:"lastSeen,omitempty"`
 	Name            []*StringFilterInput                `json:"name,omitempty"`
@@ -6762,14 +6767,6 @@ type IlmmLinkDetails struct {
 	OnboardingStatus *IlmmOnboardingStatus `json:"onboardingStatus,omitempty"`
 }
 
-// Input for filtering users by import type.
-type ImportTypeFilterInput struct {
-	Eq  *ImportType  `json:"eq,omitempty"`
-	In  []ImportType `json:"in,omitempty"`
-	Neq *ImportType  `json:"neq,omitempty"`
-	Nin []ImportType `json:"nin,omitempty"`
-}
-
 type IncidentEntity struct {
 	Data []*IncidentEntityData `json:"data"`
 	Kind *string               `json:"kind,omitempty"`
@@ -7792,12 +7789,33 @@ type LicensingMutations struct {
 	DisableServiceForManagedAccount *DisableServiceForManagedAccountPayload `json:"disableServiceForManagedAccount,omitempty"`
 	EnableServiceForManagedAccount  *EnableServiceForManagedAccountPayload  `json:"enableServiceForManagedAccount,omitempty"`
 	RemoveLicenseFromManagedAccount *RemoveLicenseFromManagedAccountPayload `json:"removeLicenseFromManagedAccount,omitempty"`
+	StartServiceTrial               *LicensingStartServiceTrialPayload      `json:"startServiceTrial,omitempty"`
 	UpdateCommercialLicense         *UpdateCommercialLicensePayload         `json:"updateCommercialLicense,omitempty"`
 	UpdateLicenseForManagedAccount  *UpdateLicenseForManagedAccountPayload  `json:"updateLicenseForManagedAccount,omitempty"`
 }
 
 type LicensingQueries struct {
 	LicensingInfo *LicensingInfo `json:"licensingInfo,omitempty"`
+}
+
+// A self-service trial stored in the account's CC2 plan.
+type LicensingServiceTrial struct {
+	ExpirationDate string        `json:"expirationDate"`
+	Plan           LicensePlan   `json:"plan"`
+	Service        LicenseSku    `json:"service"`
+	StartDate      string        `json:"startDate"`
+	Status         LicenseStatus `json:"status"`
+}
+
+// Input for starting a self-service trial on the account.
+type LicensingStartServiceTrialInput struct {
+	DurationDays int64      `json:"durationDays"`
+	Service      LicenseSku `json:"service"`
+}
+
+// The service trial state written to the account's CC2 plan.
+type LicensingStartServiceTrialPayload struct {
+	Trial *LicensingServiceTrial `json:"trial"`
 }
 
 type LinkQualityIssue struct {
@@ -10648,6 +10666,7 @@ type PostalAddressInput struct {
 	ZipCode   *string          `json:"zipCode,omitempty"`
 }
 
+// Peer-group comparison metrics for an account's Posture score.
 type PostureAccountComparison struct {
 	Average         int64                 `json:"average"`
 	ComparisonType  PostureComparisonType `json:"comparisonType"`
@@ -10678,17 +10697,20 @@ type PostureAccountSummarySortInput struct {
 	Score       *SortOrderInput `json:"score,omitempty"`
 }
 
+// Posture score and state counts for an application.
 type PostureApplicationScore struct {
 	Application string               `json:"application"`
 	Score       int64                `json:"score"`
 	Stats       *PostureStatsDetails `json:"stats"`
 }
 
+// Basic metadata for a Posture Check area.
 type PostureArea struct {
 	ID   string `json:"id"`
 	Name string `json:"name"`
 }
 
+// Posture score, check count, and category scores for an area.
 type PostureAreaScore struct {
 	Area           *PostureArea            `json:"area"`
 	CategoryScores []*PostureCategoryScore `json:"categoryScores"`
@@ -10696,6 +10718,7 @@ type PostureAreaScore struct {
 	Score          int64                   `json:"score"`
 }
 
+// Basic metadata for a Posture Check category.
 type PostureCategory struct {
 	ID   string `json:"id"`
 	Name string `json:"name"`
@@ -10724,6 +10747,7 @@ type PostureCategoryMetadata struct {
 	ResultsTTLDays             *int64       `json:"resultsTtlDays,omitempty"`
 }
 
+// Posture score and state counts for a category.
 type PostureCategoryScore struct {
 	Category *PostureCategory     `json:"category"`
 	Score    int64                `json:"score"`
@@ -10754,12 +10778,14 @@ type PostureCheckComment struct {
 	Timestamp string                  `json:"timestamp"`
 }
 
+// Peer-group percentile comparison for a Posture Check.
 type PostureCheckComparison struct {
 	ComparisonType  PostureComparisonType `json:"comparisonType"`
 	ComparisonValue *string               `json:"comparisonValue,omitempty"`
 	Percentile      int64                 `json:"percentile"`
 }
 
+// Counts of Posture Checks by evaluation state.
 type PostureCheckCountsPerState struct {
 	Disabled int64 `json:"disabled"`
 	Failed   int64 `json:"failed"`
@@ -10799,11 +10825,13 @@ type PostureCheckEvent struct {
 	Type      PostureCheckEventType   `json:"type"`
 }
 
+// The user or system responsible for a Posture Check event.
 type PostureCheckEventActor struct {
 	Name string                     `json:"name"`
 	Type PostureCheckEventActorType `json:"type"`
 }
 
+// A specific issue identified while evaluating a Posture Check.
 type PostureCheckFinding struct {
 	AdditionalInfo     []*PostureCheckFindingDetail `json:"additionalInfo"`
 	AppInstance        *string                      `json:"appInstance,omitempty"`
@@ -10822,11 +10850,13 @@ type PostureCheckFinding struct {
 	ResolutionStatus   *PostureResolutionStatus     `json:"resolutionStatus,omitempty"`
 }
 
+// A key-value detail associated with a Posture Check finding.
 type PostureCheckFindingDetail struct {
 	Key   string `json:"key"`
 	Value string `json:"value"`
 }
 
+// Aggregated finding counts for a Posture Check result.
 type PostureCheckFindingsCount struct {
 	Breakdown                        []*PostureCheckFindingsCountBreakdown            `json:"breakdown"`
 	OpenFindingsAppInstanceBreakdown []*PostureCheckFindingsCountAppInstanceBreakdown `json:"openFindingsAppInstanceBreakdown"`
@@ -10878,6 +10908,7 @@ type PostureCheckResultListPayload struct {
 	Paging *PageInfo       `json:"paging"`
 }
 
+// Comparison operators for filtering checks or findings by severity.
 type PostureCheckResultSeverityFilterInput struct {
 	Eq  *PostureImpact  `json:"eq,omitempty"`
 	In  []PostureImpact `json:"in,omitempty"`
@@ -10885,12 +10916,24 @@ type PostureCheckResultSeverityFilterInput struct {
 	Nin []PostureImpact `json:"nin,omitempty"`
 }
 
+// Sort options for the check result list.
 type PostureCheckResultSortInput struct {
-	Application    *SortOrderInput `json:"application,omitempty"`
-	LastChecked    *SortOrderInput `json:"lastChecked,omitempty"`
-	Name           *SortOrderInput `json:"name,omitempty"`
-	SecurityDomain *SortOrderInput `json:"securityDomain,omitempty"`
-	Severity       *SortOrderInput `json:"severity,omitempty"`
+	Application         *SortOrderInput `json:"application,omitempty"`
+	AreaID              *SortOrderInput `json:"areaId,omitempty"`
+	CategoryID          *SortOrderInput `json:"categoryId,omitempty"`
+	CheckID             *SortOrderInput `json:"checkId,omitempty"`
+	CheckType           *SortOrderInput `json:"checkType,omitempty"`
+	ComplianceControl   *SortOrderInput `json:"complianceControl,omitempty"`
+	ComplianceFramework *SortOrderInput `json:"complianceFramework,omitempty"`
+	FindingName         *SortOrderInput `json:"findingName,omitempty"`
+	Label               *SortOrderInput `json:"label,omitempty"`
+	LastChecked         *SortOrderInput `json:"lastChecked,omitempty"`
+	MuteStatus          *SortOrderInput `json:"muteStatus,omitempty"`
+	Name                *SortOrderInput `json:"name,omitempty"`
+	SecurityDomain      *SortOrderInput `json:"securityDomain,omitempty"`
+	Severity            *SortOrderInput `json:"severity,omitempty"`
+	Status              *SortOrderInput `json:"status,omitempty"`
+	SuppressedStatus    *SortOrderInput `json:"suppressedStatus,omitempty"`
 }
 
 // Aggregated summary of Posture Check results across multiple breakdown dimensions,
@@ -10910,6 +10953,7 @@ type PostureCheckSummary struct {
 	SeverityBreakdown            []*PostureCheckSummaryBreakdown                    `json:"severityBreakdown"`
 }
 
+// Score and state-count summary for an area and its categories.
 type PostureCheckSummaryAreaBreakdown struct {
 	CategoryBreakdown []*PostureCheckSummaryBreakdown `json:"categoryBreakdown"`
 	Counts            *PostureCheckCountsPerState     `json:"counts"`
@@ -10918,6 +10962,7 @@ type PostureCheckSummaryAreaBreakdown struct {
 	Score             int64                           `json:"score"`
 }
 
+// Score and state-count summary for one Posture Check breakdown bucket.
 type PostureCheckSummaryBreakdown struct {
 	Counts *PostureCheckCountsPerState `json:"counts"`
 	Key    string                      `json:"key"`
@@ -10925,6 +10970,7 @@ type PostureCheckSummaryBreakdown struct {
 	Score  int64                       `json:"score"`
 }
 
+// Score and state-count summary for a compliance control.
 type PostureCheckSummaryComplianceControlBreakdown struct {
 	Control *PostureComplianceControl   `json:"control"`
 	Counts  *PostureCheckCountsPerState `json:"counts"`
@@ -10932,6 +10978,7 @@ type PostureCheckSummaryComplianceControlBreakdown struct {
 	Score   int64                       `json:"score"`
 }
 
+// Score and state-count summary for a compliance framework and its controls.
 type PostureCheckSummaryComplianceFrameworkBreakdown struct {
 	ComplianceControlBreakdown []*PostureCheckSummaryComplianceControlBreakdown `json:"complianceControlBreakdown"`
 	Counts                     *PostureCheckCountsPerState                      `json:"counts"`
@@ -10966,6 +11013,7 @@ type PostureComplianceFrameworkListPayload struct {
 	Paging *PageInfo `json:"paging"`
 }
 
+// A dated snapshot of an account's Posture summary.
 type PostureDailySummary struct {
 	EvaluatedAt string          `json:"evaluatedAt"`
 	Summary     *PostureSummary `json:"summary"`
@@ -11015,17 +11063,20 @@ type PostureDismissFindingPayload struct {
 	Finding *PostureCheckFinding `json:"finding"`
 }
 
+// Basic metadata for a Posture Check domain.
 type PostureDomain struct {
 	ID   string `json:"id"`
 	Name string `json:"name"`
 }
 
+// Posture score and check count for a domain.
 type PostureDomainScore struct {
 	CheckCount int64          `json:"checkCount"`
 	Domain     *PostureDomain `json:"domain"`
 	Score      int64          `json:"score"`
 }
 
+// Filter criteria for Posture findings and their associated checks.
 type PostureFindingListFilterInput struct {
 	AppInstance         []*AdvancedStringFilterInput             `json:"appInstance,omitempty"`
 	Application         []*AdvancedStringFilterInput             `json:"application,omitempty"`
@@ -11047,6 +11098,7 @@ type PostureFindingListFilterInput struct {
 	SuppressedStatus    []*PostureSuppressedStatusFilterInput    `json:"suppressedStatus,omitempty"`
 }
 
+// Input for the `findingList` query, with filtering, sorting, and paging options.
 type PostureFindingListInput struct {
 	Filter *PostureFindingListFilterInput `json:"filter"`
 	Paging *PagingInput                   `json:"paging,omitempty"`
@@ -11059,10 +11111,26 @@ type PostureFindingListPayload struct {
 	Paging *PageInfo              `json:"paging"`
 }
 
+// Sort options for the finding list.
 type PostureFindingSortInput struct {
-	Name             *SortOrderInput `json:"name,omitempty"`
-	ResolutionStatus *SortOrderInput `json:"resolutionStatus,omitempty"`
-	Severity         *SortOrderInput `json:"severity,omitempty"`
+	AppInstance         *SortOrderInput `json:"appInstance,omitempty"`
+	Application         *SortOrderInput `json:"application,omitempty"`
+	AreaID              *SortOrderInput `json:"areaId,omitempty"`
+	CategoryID          *SortOrderInput `json:"categoryId,omitempty"`
+	CheckID             *SortOrderInput `json:"checkId,omitempty"`
+	CheckName           *SortOrderInput `json:"checkName,omitempty"`
+	CheckSeverity       *SortOrderInput `json:"checkSeverity,omitempty"`
+	CheckType           *SortOrderInput `json:"checkType,omitempty"`
+	ComplianceControl   *SortOrderInput `json:"complianceControl,omitempty"`
+	ComplianceFramework *SortOrderInput `json:"complianceFramework,omitempty"`
+	ID                  *SortOrderInput `json:"id,omitempty"`
+	Label               *SortOrderInput `json:"label,omitempty"`
+	MuteStatus          *SortOrderInput `json:"muteStatus,omitempty"`
+	Name                *SortOrderInput `json:"name,omitempty"`
+	ResolutionStatus    *SortOrderInput `json:"resolutionStatus,omitempty"`
+	SecurityDomain      *SortOrderInput `json:"securityDomain,omitempty"`
+	Severity            *SortOrderInput `json:"severity,omitempty"`
+	SuppressedStatus    *SortOrderInput `json:"suppressedStatus,omitempty"`
 }
 
 // Finding counters grouped by each supported dimension. Dimensions derived from the owning check
@@ -11119,6 +11187,7 @@ type PostureFindingSummaryValueBucket struct {
 	Key          *string `json:"key,omitempty"`
 }
 
+// An entity affected by a Posture Check result or finding.
 type PostureImpactedEntity struct {
 	ID   string                    `json:"id"`
 	Name string                    `json:"name"`
@@ -11162,6 +11231,7 @@ type PostureMuteFindingPayload struct {
 	Finding *PostureCheckFinding `json:"finding"`
 }
 
+// Comparison operators for filtering checks or findings by mute status.
 type PostureMuteStatusFilterInput struct {
 	Eq  *PostureMuteStatus  `json:"eq,omitempty"`
 	In  []PostureMuteStatus `json:"in,omitempty"`
@@ -11182,11 +11252,13 @@ type PostureQueries struct {
 	FindingSummary          *PostureFindingSummaryPayload          `json:"findingSummary,omitempty"`
 }
 
+// A recommended remediation action for a Posture Check.
 type PostureRecommendedAction struct {
 	RecommendedAction     string                        `json:"recommendedAction"`
 	RecommendedActionLink *PostureRecommendedActionLink `json:"recommendedActionLink,omitempty"`
 }
 
+// An optional external link associated with a recommended action.
 type PostureRecommendedActionLink struct {
 	Text string `json:"text"`
 	URL  string `json:"url"`
@@ -11197,6 +11269,7 @@ type PostureReevaluateChecksPayload struct {
 	Success bool `json:"success"`
 }
 
+// Comparison operators for filtering findings by resolution status.
 type PostureResolutionStatusFilterInput struct {
 	Eq  *PostureResolutionStatus  `json:"eq,omitempty"`
 	In  []PostureResolutionStatus `json:"in,omitempty"`
@@ -11217,6 +11290,7 @@ type PostureResult struct {
 	Status             PostureResultStatus      `json:"status"`
 }
 
+// Comparison operators for filtering checks by evaluation result status.
 type PostureResultStatusFilterInput struct {
 	Eq  *PostureResultStatus  `json:"eq,omitempty"`
 	In  []PostureResultStatus `json:"in,omitempty"`
@@ -11224,18 +11298,21 @@ type PostureResultStatusFilterInput struct {
 	Nin []PostureResultStatus `json:"nin,omitempty"`
 }
 
+// Posture score and state counts for a security domain.
 type PostureSecurityDomainScore struct {
 	Score          int64                `json:"score"`
 	SecurityDomain string               `json:"securityDomain"`
 	Stats          *PostureStatsDetails `json:"stats"`
 }
 
+// Pass, fail, and disabled counters grouped by Posture hierarchy level.
 type PostureStats struct {
 	Categories    *PostureStatsDetails `json:"categories"`
 	Checks        *PostureStatsDetails `json:"checks"`
 	SubCategories *PostureStatsDetails `json:"subCategories,omitempty"`
 }
 
+// Pass, fail, disabled, and total counters for a Posture hierarchy level.
 type PostureStatsDetails struct {
 	Disabled int64 `json:"disabled"`
 	Failed   int64 `json:"failed"`
@@ -11257,6 +11334,7 @@ type PostureSummary struct {
 	Stats                *PostureStats                 `json:"stats,omitempty"`
 }
 
+// Comparison operators for filtering checks by enabled or disabled status.
 type PostureSuppressedStatusFilterInput struct {
 	Eq  *PostureSuppressedStatus  `json:"eq,omitempty"`
 	In  []PostureSuppressedStatus `json:"in,omitempty"`
@@ -16755,7 +16833,6 @@ type User struct {
 	FirstName                  *string             `json:"firstName,omitempty"`
 	HasRemoteAccessEligibility bool                `json:"hasRemoteAccessEligibility"`
 	ID                         string              `json:"id"`
-	ImportType                 ImportType          `json:"importType"`
 	JobTitle                   *string             `json:"jobTitle,omitempty"`
 	LastModified               string              `json:"lastModified"`
 	LastName                   *string             `json:"lastName,omitempty"`
@@ -16775,7 +16852,6 @@ type UserFilterInput struct {
 	DirectoryID             []*StringFilterInput         `json:"directoryId,omitempty"`
 	Email                   []*EmailFilterInput          `json:"email,omitempty"`
 	ID                      []*IDFilterInput             `json:"id,omitempty"`
-	ImportType              []*ImportTypeFilterInput     `json:"importType,omitempty"`
 	JobTitle                []*StringFilterInput         `json:"jobTitle,omitempty"`
 	RemoteAccessEligibility []*BooleanFilterInput        `json:"remoteAccessEligibility,omitempty"`
 	RiskScore               []*RiskScoreFilterInput      `json:"riskScore,omitempty"`
@@ -16906,7 +16982,6 @@ type UserSortInput struct {
 	CreationDate            *SortOrderInput `json:"creationDate,omitempty"`
 	Department              *SortOrderInput `json:"department,omitempty"`
 	Email                   *SortOrderInput `json:"email,omitempty"`
-	ImportType              *SortOrderInput `json:"importType,omitempty"`
 	JobTitle                *SortOrderInput `json:"jobTitle,omitempty"`
 	LastModified            *SortOrderInput `json:"lastModified,omitempty"`
 	Name                    *SortOrderInput `json:"name,omitempty"`
@@ -23758,6 +23833,63 @@ func (e DeviceConfigHaRoleEnum) MarshalJSON() ([]byte, error) {
 	return buf.Bytes(), nil
 }
 
+type DeviceCrownJewelSource string
+
+const (
+	//  Cleared by an administrator (device is no longer marked a crown jewel)
+	DeviceCrownJewelSourceCleared DeviceCrownJewelSource = "CLEARED"
+	//  Set by an administrator
+	DeviceCrownJewelSourceManual DeviceCrownJewelSource = "MANUAL"
+	//  Detected by research
+	DeviceCrownJewelSourceResearch DeviceCrownJewelSource = "RESEARCH"
+)
+
+var AllDeviceCrownJewelSource = []DeviceCrownJewelSource{
+	DeviceCrownJewelSourceCleared,
+	DeviceCrownJewelSourceManual,
+	DeviceCrownJewelSourceResearch,
+}
+
+func (e DeviceCrownJewelSource) IsValid() bool {
+	switch e {
+	case DeviceCrownJewelSourceCleared, DeviceCrownJewelSourceManual, DeviceCrownJewelSourceResearch:
+		return true
+	}
+	return false
+}
+
+func (e DeviceCrownJewelSource) String() string {
+	return string(e)
+}
+
+func (e *DeviceCrownJewelSource) UnmarshalGQL(v any) error {
+	str, ok := v.(string)
+	if !ok {
+		return fmt.Errorf("enums must be strings")
+	}
+
+	*e = DeviceCrownJewelSource(str)
+	return nil
+}
+
+func (e DeviceCrownJewelSource) MarshalGQL(w io.Writer) {
+	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+func (e *DeviceCrownJewelSource) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e DeviceCrownJewelSource) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
+}
+
 type DeviceHaRoleStateEnum string
 
 const (
@@ -24805,6 +24937,8 @@ const (
 	EventFieldNameGuardType EventFieldName = "guard_type"
 	//  An identifier for a guest user using Cato through a Captive Portal. CMA Name: Guest User
 	EventFieldNameGuestUser EventFieldName = "guest_user"
+	//  Identifies the agent environment or client generating the interaction. CMA Name: Harness
+	EventFieldNameHarness EventFieldName = "harness"
 	//  IP address of host related to event. CMA Name: Host IP
 	EventFieldNameHostIP EventFieldName = "host_ip"
 	//  MAC address of host related to event. CMA Name: Host MAC Address
@@ -24823,6 +24957,8 @@ const (
 	EventFieldNameIndicator EventFieldName = "indicator"
 	//  The initial status of the object, before any policy was applied. CMA Name: Initial Object Status
 	EventFieldNameInitialObjectStatus EventFieldName = "initial_object_status"
+	//  Indicates if the Socket upgrade or rollback occurred during the maintenance window or was initiated by Support (Cato Admin). CMA Name: Initiated By
+	EventFieldNameInitiatedBy EventFieldName = "initiated_by"
 	//  Inspection Mode. CMA Name: Inspection Mode
 	EventFieldNameInspectionMode EventFieldName = "inspection_mode"
 	//  Unique identifier for a single AI interaction between an application and an AI model. CMA Name: Interaction ID
@@ -25438,6 +25574,7 @@ var AllEventFieldName = []EventFieldName{
 	EventFieldNameGuardName,
 	EventFieldNameGuardType,
 	EventFieldNameGuestUser,
+	EventFieldNameHarness,
 	EventFieldNameHostIP,
 	EventFieldNameHostMac,
 	EventFieldNameHTTPRequestMethod,
@@ -25447,6 +25584,7 @@ var AllEventFieldName = []EventFieldName{
 	EventFieldNameIndication,
 	EventFieldNameIndicator,
 	EventFieldNameInitialObjectStatus,
+	EventFieldNameInitiatedBy,
 	EventFieldNameInspectionMode,
 	EventFieldNameInteractionID,
 	EventFieldNameInteractionIntent,
@@ -25669,7 +25807,7 @@ var AllEventFieldName = []EventFieldName{
 
 func (e EventFieldName) IsValid() bool {
 	switch e {
-	case EventFieldNameIspName, EventFieldNameAccessMethod, EventFieldNameAccessPointID, EventFieldNameAccessPointName, EventFieldNameAccountID, EventFieldNameAction, EventFieldNameActionsTaken, EventFieldNameActiveAuthBrowser, EventFieldNameActivityResourceID, EventFieldNameActorType, EventFieldNameAdName, EventFieldNameAffectedEntities, EventFieldNameAiAppRiskLevel, EventFieldNameAiProxyRuleName, EventFieldNameAiReason, EventFieldNameAlertID, EventFieldNameAlertName, EventFieldNameAlerts, EventFieldNameAlwaysOnConfiguration, EventFieldNameAnalystVerdict, EventFieldNameAntiTamperBypassDurationSec, EventFieldNameAntiTamperBypassMethod, EventFieldNameAntiTamperBypassResult, EventFieldNameAPIName, EventFieldNameAPIType, EventFieldNameAppActivity, EventFieldNameAppActivityCategory, EventFieldNameAppActivityType, EventFieldNameAppStack, EventFieldNameApplicationID, EventFieldNameApplicationName, EventFieldNameApplicationRisk, EventFieldNameApplicationType, EventFieldNameAtpFeedReasons, EventFieldNameAuditID, EventFieldNameAuthBrowserFallbackReason, EventFieldNameAuthMethod, EventFieldNameAuthenticationType, EventFieldNameBaselineAverage, EventFieldNameBaselineStd, EventFieldNameBgpCatoAsn, EventFieldNameBgpCatoIP, EventFieldNameBgpErrorCode, EventFieldNameBgpPeerAsn, EventFieldNameBgpPeerIP, EventFieldNameBgpPeerName, EventFieldNameBgpRouteCidr, EventFieldNameBgpSuberrorCode, EventFieldNameBrowserType, EventFieldNameBrowserVersion, EventFieldNameBypassDurationSec, EventFieldNameBypassMethod, EventFieldNameBypassReason, EventFieldNameCategories, EventFieldNameCatoApp, EventFieldNameChanges, EventFieldNameClassification, EventFieldNameClientCertExpires, EventFieldNameClientCertName, EventFieldNameClientClass, EventFieldNameClientConnectionMode, EventFieldNameClientIP, EventFieldNameClientKeyExchangeAlgorithm, EventFieldNameClientVersion, EventFieldNameCollaboratorName, EventFieldNameCollaboratorOrigin, EventFieldNameCollaboratorTenant, EventFieldNameCollaborators, EventFieldNameConfidenceLevel, EventFieldNameConfiguredAuthBrowser, EventFieldNameConfiguredHostName, EventFieldNameCongestionAlgorithm, EventFieldNameConnectOnBoot, EventFieldNameConnectionOrigin, EventFieldNameConnectorID, EventFieldNameConnectorName, EventFieldNameConnectorStatus, EventFieldNameConnectorType, EventFieldNameContainerName, EventFieldNameCorrelationID, EventFieldNameCPUCoreID, EventFieldNameCreatedAt, EventFieldNameCriticality, EventFieldNameCustomCategoryID, EventFieldNameCustomCategoryName, EventFieldNameDataCategories, EventFieldNameDataClassifiers, EventFieldNameDepartment, EventFieldNameDestCountry, EventFieldNameDestCountryCode, EventFieldNameDestDomain, EventFieldNameDestEndpointType, EventFieldNameDestGroupID, EventFieldNameDestGroupName, EventFieldNameDestIP, EventFieldNameDestIsSiteOrVpn, EventFieldNameDestPid, EventFieldNameDestPort, EventFieldNameDestProcessCmdline, EventFieldNameDestProcessParentPath, EventFieldNameDestProcessParentPid, EventFieldNameDestProcessPath, EventFieldNameDestSiteID, EventFieldNameDestSiteName, EventFieldNameDetectionName, EventFieldNameDetectionStage, EventFieldNameDetectors, EventFieldNameDeviceCategories, EventFieldNameDeviceCertificate, EventFieldNameDeviceComplianceState, EventFieldNameDeviceCrowdstrikeRiskScore, EventFieldNameDeviceID, EventFieldNameDeviceManufacturer, EventFieldNameDeviceModel, EventFieldNameDeviceName, EventFieldNameDeviceOsType, EventFieldNameDevicePostureProfile, EventFieldNameDeviceType, EventFieldNameDirectoryHostName, EventFieldNameDirectoryIP, EventFieldNameDirectorySyncResult, EventFieldNameDirectorySyncType, EventFieldNameDisinfectResult, EventFieldNameDisplayName, EventFieldNameDlpFailMode, EventFieldNameDlpProfiles, EventFieldNameDlpScanTypes, EventFieldNameDNSAnswer, EventFieldNameDNSProtectionCategory, EventFieldNameDNSQuery, EventFieldNameDNSRecordType, EventFieldNameDNSReplyCode, EventFieldNameDomainName, EventFieldNameDurationMs, EventFieldNameDynamicControlIds, EventFieldNameDynamicControlNames, EventFieldNameDynamicControlScope, EventFieldNameDynamicControlThreatCategories, EventFieldNameEgressPopName, EventFieldNameEgressSiteName, EventFieldNameEmailSubject, EventFieldNameEndpointID, EventFieldNameEngagementOutcomeAction, EventFieldNameEngineType, EventFieldNameEppEngineType, EventFieldNameEppProfile, EventFieldNameEventCount, EventFieldNameEventID, EventFieldNameEventMessage, EventFieldNameEventSubType, EventFieldNameEventType, EventFieldNameEvidence, EventFieldNameFailureReason, EventFieldNameFileHash, EventFieldNameFileName, EventFieldNameFileOperation, EventFieldNameFilePath, EventFieldNameFileSize, EventFieldNameFileTopic, EventFieldNameFileTopicCategory, EventFieldNameFileType, EventFieldNameFinalObjectStatus, EventFieldNameFlowID, EventFieldNameFlows, EventFieldNameFlowsCardinality, EventFieldNameFullPathURL, EventFieldNameGuardID, EventFieldNameGuardName, EventFieldNameGuardType, EventFieldNameGuestUser, EventFieldNameHostIP, EventFieldNameHostMac, EventFieldNameHTTPRequestMethod, EventFieldNameHTTPResponseCode, EventFieldNameIncidentAggregation, EventFieldNameIncidentID, EventFieldNameIndication, EventFieldNameIndicator, EventFieldNameInitialObjectStatus, EventFieldNameInspectionMode, EventFieldNameInteractionID, EventFieldNameInteractionIntent, EventFieldNameInteractionSubTopic, EventFieldNameInteractionTopic, EventFieldNameInternalID, EventFieldNameInvestigationTimeWindow, EventFieldNameInvocationID, EventFieldNameIPProtocol, EventFieldNameIsAcknowledged, EventFieldNameIsAdmin, EventFieldNameIsAdminActivity, EventFieldNameIsCloudApp, EventFieldNameIsCompliant, EventFieldNameIsEncrypted, EventFieldNameIsManaged, EventFieldNameIsMuted, EventFieldNameIsPublic, EventFieldNameIsSanctionedApp, EventFieldNameIsSinkhole, EventFieldNameJobTitle, EventFieldNameKeyName, EventFieldNameLabels, EventFieldNameLastModifiedAt, EventFieldNameLastSeenAt, EventFieldNameLastTurnRole, EventFieldNameLinkHealthIsCongested, EventFieldNameLinkHealthJitter, EventFieldNameLinkHealthLatency, EventFieldNameLinkHealthPktLoss, EventFieldNameLinkType, EventFieldNameLocalIP, EventFieldNameLoggedInUser, EventFieldNameLoginType, EventFieldNameMatchedCount, EventFieldNameMatchedCounts, EventFieldNameMatchedDataTypes, EventFieldNameMd5, EventFieldNameMessageID, EventFieldNameMetric, EventFieldNameMetricUnits, EventFieldNameMetricValue, EventFieldNameMitreAttackSubtechniques, EventFieldNameMitreAttackTactics, EventFieldNameMitreAttackTechniques, EventFieldNameNatError, EventFieldNameNetworkAccess, EventFieldNameNetworkRule, EventFieldNameNotificationAPIError, EventFieldNameNotificationDescription, EventFieldNameObjectID, EventFieldNameObjectModule, EventFieldNameObjectName, EventFieldNameObjectType, EventFieldNameOfficeMode, EventFieldNameOsType, EventFieldNameOsVersion, EventFieldNameOutOfBandAccess, EventFieldNameOutpostEnvironmentName, EventFieldNameOwner, EventFieldNamePacFile, EventFieldNameParentConnectorName, EventFieldNamePopName, EventFieldNamePrecedence, EventFieldNameProcessesCount, EventFieldNameProducer, EventFieldNameProjects, EventFieldNamePromptAction, EventFieldNameProviderName, EventFieldNamePublicIP, EventFieldNameQosPriority, EventFieldNameQosReportedTime, EventFieldNameQuarantineFolderPath, EventFieldNameQuarantineUUID, EventFieldNameRawData, EventFieldNameRbiProfile, EventFieldNameRecommendedActions, EventFieldNameReferenceURL, EventFieldNameRefererURL, EventFieldNameRegionName, EventFieldNameRegistrationCode, EventFieldNameRequestSize, EventFieldNameResourceID, EventFieldNameResourceName, EventFieldNameResourceType, EventFieldNameResponseSize, EventFieldNameRetentionLabel, EventFieldNameRiskLevel, EventFieldNameRole, EventFieldNameRuleExpirationTime, EventFieldNameRuleID, EventFieldNameRuleName, EventFieldNameSecondarySocketSerial, EventFieldNameSensitivityDisplayName, EventFieldNameServerIP, EventFieldNameServerKeyExchangeAlgorithm, EventFieldNameServiceName, EventFieldNameSessionID, EventFieldNameSeverity, EventFieldNameSharingScope, EventFieldNameSignInEventTypes, EventFieldNameSignalSource, EventFieldNameSignatureID, EventFieldNameSiteWebProxyID, EventFieldNameSiteWebProxyName, EventFieldNameSiteWebProxyRuleAction, EventFieldNameSiteWebProxyRuleID, EventFieldNameSiteWebProxyRuleName, EventFieldNameSocketDescription, EventFieldNameSocketInterface, EventFieldNameSocketInterfaceID, EventFieldNameSocketMacAddress, EventFieldNameSocketNewVersion, EventFieldNameSocketOldVersion, EventFieldNameSocketReset, EventFieldNameSocketRole, EventFieldNameSocketSerial, EventFieldNameSocketVersion, EventFieldNameSplitTunnelConfiguration, EventFieldNameSrcCity, EventFieldNameSrcCountry, EventFieldNameSrcCountryCode, EventFieldNameSrcEndpointType, EventFieldNameSrcIP, EventFieldNameSrcIsSiteOrVpn, EventFieldNameSrcIspIP, EventFieldNameSrcPid, EventFieldNameSrcPort, EventFieldNameSrcProcessCmdline, EventFieldNameSrcProcessParentPath, EventFieldNameSrcProcessParentPid, EventFieldNameSrcProcessPath, EventFieldNameSrcSiteConnectionType, EventFieldNameSrcSiteID, EventFieldNameSrcSiteName, EventFieldNameStaticHost, EventFieldNameStatus, EventFieldNameStoryID, EventFieldNameSubnetName, EventFieldNameSubscriptionName, EventFieldNameTargetsCardinality, EventFieldNameTCPAcceleration, EventFieldNameTenantID, EventFieldNameTenantName, EventFieldNameTenantRestrictionRuleName, EventFieldNameThreatConfidence, EventFieldNameThreatName, EventFieldNameThreatReference, EventFieldNameThreatScore, EventFieldNameThreatType, EventFieldNameThreatVerdict, EventFieldNameTicket, EventFieldNameTime, EventFieldNameTimeStr, EventFieldNameTitle, EventFieldNameTLSCertificateError, EventFieldNameTLSErrorDescription, EventFieldNameTLSErrorType, EventFieldNameTLSInspection, EventFieldNameTLSRuleName, EventFieldNameTLSVersion, EventFieldNameTotalTokens, EventFieldNameTrafficDirection, EventFieldNameTransactionSize, EventFieldNameTranslatedClientIP, EventFieldNameTranslatedServerIP, EventFieldNameTrigger, EventFieldNameTrustType, EventFieldNameTrustedNetworks, EventFieldNameTunnelIPProtocol, EventFieldNameTunnelProtocol, EventFieldNameUpgradeEndTime, EventFieldNameUpgradeInitiatedBy, EventFieldNameUpgradeStartTime, EventFieldNameURL, EventFieldNameUserAgent, EventFieldNameUserAwarenessMethod, EventFieldNameUserID, EventFieldNameUserJustification, EventFieldNameUserName, EventFieldNameUserOrigin, EventFieldNameUserReferenceID, EventFieldNameUserRiskLevel, EventFieldNameVendor, EventFieldNameVendorCollaboratorID, EventFieldNameVendorDeviceID, EventFieldNameVendorDeviceName, EventFieldNameVendorEventID, EventFieldNameVendorLocation, EventFieldNameVendorOrgID, EventFieldNameVendorPolicyDescription, EventFieldNameVendorPolicyID, EventFieldNameVendorPolicyName, EventFieldNameVendorSiteID, EventFieldNameVendorStartTime, EventFieldNameVendorUserID, EventFieldNameVendorVersion, EventFieldNameVerdictAuthor, EventFieldNameVerdictElaboration, EventFieldNameVisibleDeviceID, EventFieldNameVpnLanAccess, EventFieldNameVpnUserEmail, EventFieldNameWifiAuthenticationType, EventFieldNameWifiBssid, EventFieldNameWifiChannel, EventFieldNameWifiDescription, EventFieldNameWifiEventReasonCode, EventFieldNameWifiEventType, EventFieldNameWifiEventTypeCode, EventFieldNameWifiEventVendorName, EventFieldNameWifiProtocol, EventFieldNameWifiRadioBand, EventFieldNameWifiSecurity, EventFieldNameWifiSignalStrength, EventFieldNameWifiSsid, EventFieldNameWifiTimeSinceAssocMs, EventFieldNameWindowsDomainName, EventFieldNameXff:
+	case EventFieldNameIspName, EventFieldNameAccessMethod, EventFieldNameAccessPointID, EventFieldNameAccessPointName, EventFieldNameAccountID, EventFieldNameAction, EventFieldNameActionsTaken, EventFieldNameActiveAuthBrowser, EventFieldNameActivityResourceID, EventFieldNameActorType, EventFieldNameAdName, EventFieldNameAffectedEntities, EventFieldNameAiAppRiskLevel, EventFieldNameAiProxyRuleName, EventFieldNameAiReason, EventFieldNameAlertID, EventFieldNameAlertName, EventFieldNameAlerts, EventFieldNameAlwaysOnConfiguration, EventFieldNameAnalystVerdict, EventFieldNameAntiTamperBypassDurationSec, EventFieldNameAntiTamperBypassMethod, EventFieldNameAntiTamperBypassResult, EventFieldNameAPIName, EventFieldNameAPIType, EventFieldNameAppActivity, EventFieldNameAppActivityCategory, EventFieldNameAppActivityType, EventFieldNameAppStack, EventFieldNameApplicationID, EventFieldNameApplicationName, EventFieldNameApplicationRisk, EventFieldNameApplicationType, EventFieldNameAtpFeedReasons, EventFieldNameAuditID, EventFieldNameAuthBrowserFallbackReason, EventFieldNameAuthMethod, EventFieldNameAuthenticationType, EventFieldNameBaselineAverage, EventFieldNameBaselineStd, EventFieldNameBgpCatoAsn, EventFieldNameBgpCatoIP, EventFieldNameBgpErrorCode, EventFieldNameBgpPeerAsn, EventFieldNameBgpPeerIP, EventFieldNameBgpPeerName, EventFieldNameBgpRouteCidr, EventFieldNameBgpSuberrorCode, EventFieldNameBrowserType, EventFieldNameBrowserVersion, EventFieldNameBypassDurationSec, EventFieldNameBypassMethod, EventFieldNameBypassReason, EventFieldNameCategories, EventFieldNameCatoApp, EventFieldNameChanges, EventFieldNameClassification, EventFieldNameClientCertExpires, EventFieldNameClientCertName, EventFieldNameClientClass, EventFieldNameClientConnectionMode, EventFieldNameClientIP, EventFieldNameClientKeyExchangeAlgorithm, EventFieldNameClientVersion, EventFieldNameCollaboratorName, EventFieldNameCollaboratorOrigin, EventFieldNameCollaboratorTenant, EventFieldNameCollaborators, EventFieldNameConfidenceLevel, EventFieldNameConfiguredAuthBrowser, EventFieldNameConfiguredHostName, EventFieldNameCongestionAlgorithm, EventFieldNameConnectOnBoot, EventFieldNameConnectionOrigin, EventFieldNameConnectorID, EventFieldNameConnectorName, EventFieldNameConnectorStatus, EventFieldNameConnectorType, EventFieldNameContainerName, EventFieldNameCorrelationID, EventFieldNameCPUCoreID, EventFieldNameCreatedAt, EventFieldNameCriticality, EventFieldNameCustomCategoryID, EventFieldNameCustomCategoryName, EventFieldNameDataCategories, EventFieldNameDataClassifiers, EventFieldNameDepartment, EventFieldNameDestCountry, EventFieldNameDestCountryCode, EventFieldNameDestDomain, EventFieldNameDestEndpointType, EventFieldNameDestGroupID, EventFieldNameDestGroupName, EventFieldNameDestIP, EventFieldNameDestIsSiteOrVpn, EventFieldNameDestPid, EventFieldNameDestPort, EventFieldNameDestProcessCmdline, EventFieldNameDestProcessParentPath, EventFieldNameDestProcessParentPid, EventFieldNameDestProcessPath, EventFieldNameDestSiteID, EventFieldNameDestSiteName, EventFieldNameDetectionName, EventFieldNameDetectionStage, EventFieldNameDetectors, EventFieldNameDeviceCategories, EventFieldNameDeviceCertificate, EventFieldNameDeviceComplianceState, EventFieldNameDeviceCrowdstrikeRiskScore, EventFieldNameDeviceID, EventFieldNameDeviceManufacturer, EventFieldNameDeviceModel, EventFieldNameDeviceName, EventFieldNameDeviceOsType, EventFieldNameDevicePostureProfile, EventFieldNameDeviceType, EventFieldNameDirectoryHostName, EventFieldNameDirectoryIP, EventFieldNameDirectorySyncResult, EventFieldNameDirectorySyncType, EventFieldNameDisinfectResult, EventFieldNameDisplayName, EventFieldNameDlpFailMode, EventFieldNameDlpProfiles, EventFieldNameDlpScanTypes, EventFieldNameDNSAnswer, EventFieldNameDNSProtectionCategory, EventFieldNameDNSQuery, EventFieldNameDNSRecordType, EventFieldNameDNSReplyCode, EventFieldNameDomainName, EventFieldNameDurationMs, EventFieldNameDynamicControlIds, EventFieldNameDynamicControlNames, EventFieldNameDynamicControlScope, EventFieldNameDynamicControlThreatCategories, EventFieldNameEgressPopName, EventFieldNameEgressSiteName, EventFieldNameEmailSubject, EventFieldNameEndpointID, EventFieldNameEngagementOutcomeAction, EventFieldNameEngineType, EventFieldNameEppEngineType, EventFieldNameEppProfile, EventFieldNameEventCount, EventFieldNameEventID, EventFieldNameEventMessage, EventFieldNameEventSubType, EventFieldNameEventType, EventFieldNameEvidence, EventFieldNameFailureReason, EventFieldNameFileHash, EventFieldNameFileName, EventFieldNameFileOperation, EventFieldNameFilePath, EventFieldNameFileSize, EventFieldNameFileTopic, EventFieldNameFileTopicCategory, EventFieldNameFileType, EventFieldNameFinalObjectStatus, EventFieldNameFlowID, EventFieldNameFlows, EventFieldNameFlowsCardinality, EventFieldNameFullPathURL, EventFieldNameGuardID, EventFieldNameGuardName, EventFieldNameGuardType, EventFieldNameGuestUser, EventFieldNameHarness, EventFieldNameHostIP, EventFieldNameHostMac, EventFieldNameHTTPRequestMethod, EventFieldNameHTTPResponseCode, EventFieldNameIncidentAggregation, EventFieldNameIncidentID, EventFieldNameIndication, EventFieldNameIndicator, EventFieldNameInitialObjectStatus, EventFieldNameInitiatedBy, EventFieldNameInspectionMode, EventFieldNameInteractionID, EventFieldNameInteractionIntent, EventFieldNameInteractionSubTopic, EventFieldNameInteractionTopic, EventFieldNameInternalID, EventFieldNameInvestigationTimeWindow, EventFieldNameInvocationID, EventFieldNameIPProtocol, EventFieldNameIsAcknowledged, EventFieldNameIsAdmin, EventFieldNameIsAdminActivity, EventFieldNameIsCloudApp, EventFieldNameIsCompliant, EventFieldNameIsEncrypted, EventFieldNameIsManaged, EventFieldNameIsMuted, EventFieldNameIsPublic, EventFieldNameIsSanctionedApp, EventFieldNameIsSinkhole, EventFieldNameJobTitle, EventFieldNameKeyName, EventFieldNameLabels, EventFieldNameLastModifiedAt, EventFieldNameLastSeenAt, EventFieldNameLastTurnRole, EventFieldNameLinkHealthIsCongested, EventFieldNameLinkHealthJitter, EventFieldNameLinkHealthLatency, EventFieldNameLinkHealthPktLoss, EventFieldNameLinkType, EventFieldNameLocalIP, EventFieldNameLoggedInUser, EventFieldNameLoginType, EventFieldNameMatchedCount, EventFieldNameMatchedCounts, EventFieldNameMatchedDataTypes, EventFieldNameMd5, EventFieldNameMessageID, EventFieldNameMetric, EventFieldNameMetricUnits, EventFieldNameMetricValue, EventFieldNameMitreAttackSubtechniques, EventFieldNameMitreAttackTactics, EventFieldNameMitreAttackTechniques, EventFieldNameNatError, EventFieldNameNetworkAccess, EventFieldNameNetworkRule, EventFieldNameNotificationAPIError, EventFieldNameNotificationDescription, EventFieldNameObjectID, EventFieldNameObjectModule, EventFieldNameObjectName, EventFieldNameObjectType, EventFieldNameOfficeMode, EventFieldNameOsType, EventFieldNameOsVersion, EventFieldNameOutOfBandAccess, EventFieldNameOutpostEnvironmentName, EventFieldNameOwner, EventFieldNamePacFile, EventFieldNameParentConnectorName, EventFieldNamePopName, EventFieldNamePrecedence, EventFieldNameProcessesCount, EventFieldNameProducer, EventFieldNameProjects, EventFieldNamePromptAction, EventFieldNameProviderName, EventFieldNamePublicIP, EventFieldNameQosPriority, EventFieldNameQosReportedTime, EventFieldNameQuarantineFolderPath, EventFieldNameQuarantineUUID, EventFieldNameRawData, EventFieldNameRbiProfile, EventFieldNameRecommendedActions, EventFieldNameReferenceURL, EventFieldNameRefererURL, EventFieldNameRegionName, EventFieldNameRegistrationCode, EventFieldNameRequestSize, EventFieldNameResourceID, EventFieldNameResourceName, EventFieldNameResourceType, EventFieldNameResponseSize, EventFieldNameRetentionLabel, EventFieldNameRiskLevel, EventFieldNameRole, EventFieldNameRuleExpirationTime, EventFieldNameRuleID, EventFieldNameRuleName, EventFieldNameSecondarySocketSerial, EventFieldNameSensitivityDisplayName, EventFieldNameServerIP, EventFieldNameServerKeyExchangeAlgorithm, EventFieldNameServiceName, EventFieldNameSessionID, EventFieldNameSeverity, EventFieldNameSharingScope, EventFieldNameSignInEventTypes, EventFieldNameSignalSource, EventFieldNameSignatureID, EventFieldNameSiteWebProxyID, EventFieldNameSiteWebProxyName, EventFieldNameSiteWebProxyRuleAction, EventFieldNameSiteWebProxyRuleID, EventFieldNameSiteWebProxyRuleName, EventFieldNameSocketDescription, EventFieldNameSocketInterface, EventFieldNameSocketInterfaceID, EventFieldNameSocketMacAddress, EventFieldNameSocketNewVersion, EventFieldNameSocketOldVersion, EventFieldNameSocketReset, EventFieldNameSocketRole, EventFieldNameSocketSerial, EventFieldNameSocketVersion, EventFieldNameSplitTunnelConfiguration, EventFieldNameSrcCity, EventFieldNameSrcCountry, EventFieldNameSrcCountryCode, EventFieldNameSrcEndpointType, EventFieldNameSrcIP, EventFieldNameSrcIsSiteOrVpn, EventFieldNameSrcIspIP, EventFieldNameSrcPid, EventFieldNameSrcPort, EventFieldNameSrcProcessCmdline, EventFieldNameSrcProcessParentPath, EventFieldNameSrcProcessParentPid, EventFieldNameSrcProcessPath, EventFieldNameSrcSiteConnectionType, EventFieldNameSrcSiteID, EventFieldNameSrcSiteName, EventFieldNameStaticHost, EventFieldNameStatus, EventFieldNameStoryID, EventFieldNameSubnetName, EventFieldNameSubscriptionName, EventFieldNameTargetsCardinality, EventFieldNameTCPAcceleration, EventFieldNameTenantID, EventFieldNameTenantName, EventFieldNameTenantRestrictionRuleName, EventFieldNameThreatConfidence, EventFieldNameThreatName, EventFieldNameThreatReference, EventFieldNameThreatScore, EventFieldNameThreatType, EventFieldNameThreatVerdict, EventFieldNameTicket, EventFieldNameTime, EventFieldNameTimeStr, EventFieldNameTitle, EventFieldNameTLSCertificateError, EventFieldNameTLSErrorDescription, EventFieldNameTLSErrorType, EventFieldNameTLSInspection, EventFieldNameTLSRuleName, EventFieldNameTLSVersion, EventFieldNameTotalTokens, EventFieldNameTrafficDirection, EventFieldNameTransactionSize, EventFieldNameTranslatedClientIP, EventFieldNameTranslatedServerIP, EventFieldNameTrigger, EventFieldNameTrustType, EventFieldNameTrustedNetworks, EventFieldNameTunnelIPProtocol, EventFieldNameTunnelProtocol, EventFieldNameUpgradeEndTime, EventFieldNameUpgradeInitiatedBy, EventFieldNameUpgradeStartTime, EventFieldNameURL, EventFieldNameUserAgent, EventFieldNameUserAwarenessMethod, EventFieldNameUserID, EventFieldNameUserJustification, EventFieldNameUserName, EventFieldNameUserOrigin, EventFieldNameUserReferenceID, EventFieldNameUserRiskLevel, EventFieldNameVendor, EventFieldNameVendorCollaboratorID, EventFieldNameVendorDeviceID, EventFieldNameVendorDeviceName, EventFieldNameVendorEventID, EventFieldNameVendorLocation, EventFieldNameVendorOrgID, EventFieldNameVendorPolicyDescription, EventFieldNameVendorPolicyID, EventFieldNameVendorPolicyName, EventFieldNameVendorSiteID, EventFieldNameVendorStartTime, EventFieldNameVendorUserID, EventFieldNameVendorVersion, EventFieldNameVerdictAuthor, EventFieldNameVerdictElaboration, EventFieldNameVisibleDeviceID, EventFieldNameVpnLanAccess, EventFieldNameVpnUserEmail, EventFieldNameWifiAuthenticationType, EventFieldNameWifiBssid, EventFieldNameWifiChannel, EventFieldNameWifiDescription, EventFieldNameWifiEventReasonCode, EventFieldNameWifiEventType, EventFieldNameWifiEventTypeCode, EventFieldNameWifiEventVendorName, EventFieldNameWifiProtocol, EventFieldNameWifiRadioBand, EventFieldNameWifiSecurity, EventFieldNameWifiSignalStrength, EventFieldNameWifiSsid, EventFieldNameWifiTimeSinceAssocMs, EventFieldNameWindowsDomainName, EventFieldNameXff:
 		return true
 	}
 	return false
@@ -26481,67 +26619,6 @@ func (e *IlmmOnboardingStatus) UnmarshalJSON(b []byte) error {
 }
 
 func (e IlmmOnboardingStatus) MarshalJSON() ([]byte, error) {
-	var buf bytes.Buffer
-	e.MarshalGQL(&buf)
-	return buf.Bytes(), nil
-}
-
-// Shows if user was created or imported from an IdP.
-type ImportType string
-
-const (
-	//  User was imported from an integration.
-	ImportTypeIntegration ImportType = "INTEGRATION"
-	//  User was imported from LDAP.
-	ImportTypeLdap ImportType = "LDAP"
-	//  User was created manually.
-	ImportTypeManual ImportType = "MANUAL"
-	//  User was imported from SCIM.
-	ImportTypeScim ImportType = "SCIM"
-)
-
-var AllImportType = []ImportType{
-	ImportTypeIntegration,
-	ImportTypeLdap,
-	ImportTypeManual,
-	ImportTypeScim,
-}
-
-func (e ImportType) IsValid() bool {
-	switch e {
-	case ImportTypeIntegration, ImportTypeLdap, ImportTypeManual, ImportTypeScim:
-		return true
-	}
-	return false
-}
-
-func (e ImportType) String() string {
-	return string(e)
-}
-
-func (e *ImportType) UnmarshalGQL(v any) error {
-	str, ok := v.(string)
-	if !ok {
-		return fmt.Errorf("enums must be strings")
-	}
-
-	*e = ImportType(str)
-	return nil
-}
-
-func (e ImportType) MarshalGQL(w io.Writer) {
-	fmt.Fprint(w, strconv.Quote(e.String()))
-}
-
-func (e *ImportType) UnmarshalJSON(b []byte) error {
-	s, err := strconv.Unquote(string(b))
-	if err != nil {
-		return err
-	}
-	return e.UnmarshalGQL(s)
-}
-
-func (e ImportType) MarshalJSON() ([]byte, error) {
 	var buf bytes.Buffer
 	e.MarshalGQL(&buf)
 	return buf.Bytes(), nil
@@ -29390,11 +29467,14 @@ func (e PopLocationByoipSubnetState) MarshalJSON() ([]byte, error) {
 	return buf.Bytes(), nil
 }
 
+// Kinds of actors that can trigger Posture Check events.
 type PostureCheckEventActorType string
 
 const (
+	//  The system generated the event.
 	PostureCheckEventActorTypeSystem PostureCheckEventActorType = "SYSTEM"
-	PostureCheckEventActorTypeUser   PostureCheckEventActorType = "USER"
+	//  A user initiated the event.
+	PostureCheckEventActorTypeUser PostureCheckEventActorType = "USER"
 )
 
 var AllPostureCheckEventActorType = []PostureCheckEventActorType{
@@ -29442,18 +29522,29 @@ func (e PostureCheckEventActorType) MarshalJSON() ([]byte, error) {
 	return buf.Bytes(), nil
 }
 
+// Event types recorded in a Posture Check audit trail.
 type PostureCheckEventType string
 
 const (
-	PostureCheckEventTypeCheckMuted              PostureCheckEventType = "CHECK_MUTED"
-	PostureCheckEventTypeCheckUnmuted            PostureCheckEventType = "CHECK_UNMUTED"
-	PostureCheckEventTypeCommentAdded            PostureCheckEventType = "COMMENT_ADDED"
-	PostureCheckEventTypeCreated                 PostureCheckEventType = "CREATED"
-	PostureCheckEventTypeFindingDismissed        PostureCheckEventType = "FINDING_DISMISSED"
-	PostureCheckEventTypeFindingMuted            PostureCheckEventType = "FINDING_MUTED"
-	PostureCheckEventTypeFindingUndismissed      PostureCheckEventType = "FINDING_UNDISMISSED"
-	PostureCheckEventTypeFindingUnmuted          PostureCheckEventType = "FINDING_UNMUTED"
-	PostureCheckEventTypeStatusChanged           PostureCheckEventType = "STATUS_CHANGED"
+	//  A check was muted.
+	PostureCheckEventTypeCheckMuted PostureCheckEventType = "CHECK_MUTED"
+	//  A check was unmuted.
+	PostureCheckEventTypeCheckUnmuted PostureCheckEventType = "CHECK_UNMUTED"
+	//  A comment was added to a check result.
+	PostureCheckEventTypeCommentAdded PostureCheckEventType = "COMMENT_ADDED"
+	//  A check result was created.
+	PostureCheckEventTypeCreated PostureCheckEventType = "CREATED"
+	//  A finding was dismissed.
+	PostureCheckEventTypeFindingDismissed PostureCheckEventType = "FINDING_DISMISSED"
+	//  A finding was muted.
+	PostureCheckEventTypeFindingMuted PostureCheckEventType = "FINDING_MUTED"
+	//  A dismissed finding was restored.
+	PostureCheckEventTypeFindingUndismissed PostureCheckEventType = "FINDING_UNDISMISSED"
+	//  A finding was unmuted.
+	PostureCheckEventTypeFindingUnmuted PostureCheckEventType = "FINDING_UNMUTED"
+	//  The evaluation status of a check result changed.
+	PostureCheckEventTypeStatusChanged PostureCheckEventType = "STATUS_CHANGED"
+	//  A check was enabled or disabled.
 	PostureCheckEventTypeSuppressedStatusChanged PostureCheckEventType = "SUPPRESSED_STATUS_CHANGED"
 )
 
@@ -29510,12 +29601,16 @@ func (e PostureCheckEventType) MarshalJSON() ([]byte, error) {
 	return buf.Bytes(), nil
 }
 
+// Dimensions available for peer-group Posture score comparisons.
 type PostureComparisonType string
 
 const (
+	//  Comparison across all accounts in the peer-comparison dataset.
 	PostureComparisonTypeAllAccounts PostureComparisonType = "ALL_ACCOUNTS"
-	PostureComparisonTypeRegion      PostureComparisonType = "REGION"
-	PostureComparisonTypeVertical    PostureComparisonType = "VERTICAL"
+	//  Comparison with accounts in the same region.
+	PostureComparisonTypeRegion PostureComparisonType = "REGION"
+	//  Comparison with accounts in the same industry vertical.
+	PostureComparisonTypeVertical PostureComparisonType = "VERTICAL"
 )
 
 var AllPostureComparisonType = []PostureComparisonType{
@@ -29564,15 +29659,22 @@ func (e PostureComparisonType) MarshalJSON() ([]byte, error) {
 	return buf.Bytes(), nil
 }
 
+// Severity levels assigned to Posture Checks and findings.
 type PostureImpact string
 
 const (
-	PostureImpactCritical      PostureImpact = "CRITICAL"
-	PostureImpactHigh          PostureImpact = "HIGH"
+	//  Critical severity.
+	PostureImpactCritical PostureImpact = "CRITICAL"
+	//  High severity.
+	PostureImpactHigh PostureImpact = "HIGH"
+	//  Informational severity.
 	PostureImpactInformational PostureImpact = "INFORMATIONAL"
-	PostureImpactLow           PostureImpact = "LOW"
-	PostureImpactMedium        PostureImpact = "MEDIUM"
-	PostureImpactNone          PostureImpact = "NONE"
+	//  Low severity.
+	PostureImpactLow PostureImpact = "LOW"
+	//  Medium severity.
+	PostureImpactMedium PostureImpact = "MEDIUM"
+	//  No assigned impact level.
+	PostureImpactNone PostureImpact = "NONE"
 )
 
 var AllPostureImpact = []PostureImpact{
@@ -29624,18 +29726,28 @@ func (e PostureImpact) MarshalJSON() ([]byte, error) {
 	return buf.Bytes(), nil
 }
 
+// Kinds of entities that can be affected by a Posture Check.
 type PostureImpactedEntityType string
 
 const (
-	PostureImpactedEntityTypeAccount     PostureImpactedEntityType = "ACCOUNT"
+	//  An account.
+	PostureImpactedEntityTypeAccount PostureImpactedEntityType = "ACCOUNT"
+	//  An application.
 	PostureImpactedEntityTypeApplication PostureImpactedEntityType = "APPLICATION"
-	PostureImpactedEntityTypeDevice      PostureImpactedEntityType = "DEVICE"
-	PostureImpactedEntityTypeExternal    PostureImpactedEntityType = "EXTERNAL"
-	PostureImpactedEntityTypeInstance    PostureImpactedEntityType = "INSTANCE"
-	PostureImpactedEntityTypeOther       PostureImpactedEntityType = "OTHER"
-	PostureImpactedEntityTypeRule        PostureImpactedEntityType = "RULE"
-	PostureImpactedEntityTypeSite        PostureImpactedEntityType = "SITE"
-	PostureImpactedEntityTypeUser        PostureImpactedEntityType = "USER"
+	//  A device.
+	PostureImpactedEntityTypeDevice PostureImpactedEntityType = "DEVICE"
+	//  An entity from an external system.
+	PostureImpactedEntityTypeExternal PostureImpactedEntityType = "EXTERNAL"
+	//  An application instance.
+	PostureImpactedEntityTypeInstance PostureImpactedEntityType = "INSTANCE"
+	//  An entity that does not fall into another listed category.
+	PostureImpactedEntityTypeOther PostureImpactedEntityType = "OTHER"
+	//  A policy rule.
+	PostureImpactedEntityTypeRule PostureImpactedEntityType = "RULE"
+	//  A site.
+	PostureImpactedEntityTypeSite PostureImpactedEntityType = "SITE"
+	//  A user.
+	PostureImpactedEntityTypeUser PostureImpactedEntityType = "USER"
 )
 
 var AllPostureImpactedEntityType = []PostureImpactedEntityType{
@@ -29690,12 +29802,16 @@ func (e PostureImpactedEntityType) MarshalJSON() ([]byte, error) {
 	return buf.Bytes(), nil
 }
 
+// Mute and dismissal states for a Posture Check or finding.
 type PostureMuteStatus string
 
 const (
+	//  The finding is dismissed until it is explicitly restored.
 	PostureMuteStatusDismissed PostureMuteStatus = "DISMISSED"
-	PostureMuteStatusMuted     PostureMuteStatus = "MUTED"
-	PostureMuteStatusNone      PostureMuteStatus = "NONE"
+	//  The check or finding is temporarily muted.
+	PostureMuteStatusMuted PostureMuteStatus = "MUTED"
+	//  The check or finding is neither muted nor dismissed.
+	PostureMuteStatusNone PostureMuteStatus = "NONE"
 )
 
 var AllPostureMuteStatus = []PostureMuteStatus{
@@ -29744,10 +29860,13 @@ func (e PostureMuteStatus) MarshalJSON() ([]byte, error) {
 	return buf.Bytes(), nil
 }
 
+// Resolution states for a Posture Check finding.
 type PostureResolutionStatus string
 
 const (
-	PostureResolutionStatusOpen     PostureResolutionStatus = "OPEN"
+	//  The finding has not been resolved.
+	PostureResolutionStatusOpen PostureResolutionStatus = "OPEN"
+	//  The finding has been resolved.
 	PostureResolutionStatusResolved PostureResolutionStatus = "RESOLVED"
 )
 
@@ -29796,13 +29915,18 @@ func (e PostureResolutionStatus) MarshalJSON() ([]byte, error) {
 	return buf.Bytes(), nil
 }
 
+// Evaluation states for a Posture Check result.
 type PostureResultStatus string
 
 const (
-	PostureResultStatusFailed        PostureResultStatus = "FAILED"
+	//  The check failed and still requires attention.
+	PostureResultStatusFailed PostureResultStatus = "FAILED"
+	//  The check does not apply to the account's current configuration.
 	PostureResultStatusNotApplicable PostureResultStatus = "NOT_APPLICABLE"
-	PostureResultStatusPassed        PostureResultStatus = "PASSED"
-	PostureResultStatusPending       PostureResultStatus = "PENDING"
+	//  The check passed, or all associated findings are resolved or otherwise handled.
+	PostureResultStatusPassed PostureResultStatus = "PASSED"
+	//  Remediation has been applied and the check is awaiting confirmation by reevaluation.
+	PostureResultStatusPending PostureResultStatus = "PENDING"
 )
 
 var AllPostureResultStatus = []PostureResultStatus{
@@ -29852,11 +29976,14 @@ func (e PostureResultStatus) MarshalJSON() ([]byte, error) {
 	return buf.Bytes(), nil
 }
 
+// Whether a Posture Check is enabled or disabled.
 type PostureSuppressedStatus string
 
 const (
+	//  The check is disabled.
 	PostureSuppressedStatusDisabled PostureSuppressedStatus = "DISABLED"
-	PostureSuppressedStatusEnabled  PostureSuppressedStatus = "ENABLED"
+	//  The check is enabled.
+	PostureSuppressedStatusEnabled PostureSuppressedStatus = "ENABLED"
 )
 
 var AllPostureSuppressedStatus = []PostureSuppressedStatus{

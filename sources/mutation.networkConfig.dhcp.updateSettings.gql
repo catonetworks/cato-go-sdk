@@ -1,7 +1,7 @@
-mutation networkConfigDhcpUpdateSettings ( $accountId:ID! $networkConfigDhcpUpdateSettingsInput:NetworkConfigDhcpUpdateSettingsInput!) {
-	networkConfig ( accountId:$accountId ) {
+mutation networkConfigDhcpUpdateSettings ($accountId: ID!, $networkConfigDhcpUpdateSettingsInput: NetworkConfigDhcpUpdateSettingsInput!) {
+	networkConfig(accountId: $accountId) {
 		dhcp {
-			updateSettings ( input:$networkConfigDhcpUpdateSettingsInput   ) {
+			updateSettings(input: $networkConfigDhcpUpdateSettingsInput) {
 				settings {
 					relay {
 						enabled

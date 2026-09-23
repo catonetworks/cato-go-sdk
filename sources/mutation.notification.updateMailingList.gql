@@ -1,6 +1,6 @@
-mutation notificationUpdateMailingList ( $accountId:ID! $updateMailingListInput:UpdateMailingListInput!) {
-	notification ( accountId:$accountId ) {
-		updateMailingList ( input:$updateMailingListInput  )  {
+mutation notificationUpdateMailingList ($accountId: ID!, $updateMailingListInput: UpdateMailingListInput!) {
+	notification(accountId: $accountId) {
+		updateMailingList(input: $updateMailingListInput) {
 			mailingList {
 				id
 				name
@@ -19,5 +19,5 @@ mutation notificationUpdateMailingList ( $accountId:ID! $updateMailingListInput:
 				}
 			}
 		}
-	}	
+	}
 }

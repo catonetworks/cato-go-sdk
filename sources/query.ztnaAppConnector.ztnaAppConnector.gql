@@ -1,6 +1,6 @@
-query ztnaAppConnectorZtnaAppConnector ( $accountId:ID! $ztnaAppConnectorRefInput:ZtnaAppConnectorRefInput!) {
-	ztnaAppConnector ( accountId:$accountId ) {
-		ztnaAppConnector ( input:$ztnaAppConnectorRefInput  )  {
+query ztnaAppConnectorZtnaAppConnector ($accountId: ID!, $ztnaAppConnectorRefInput: ZtnaAppConnectorRefInput!) {
+	ztnaAppConnector(accountId: $accountId) {
+		ztnaAppConnector(input: $ztnaAppConnectorRefInput) {
 			id
 			createdAt
 			name
@@ -44,5 +44,5 @@ query ztnaAppConnectorZtnaAppConnector ( $accountId:ID! $ztnaAppConnectorRefInpu
 				upgradesPaused
 			}
 		}
-	}	
+	}
 }

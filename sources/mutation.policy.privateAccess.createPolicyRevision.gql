@@ -1,7 +1,7 @@
-mutation policyPrivateAccessCreatePolicyRevision ( $accountId:ID! $privateAccessPolicyMutationInput:PrivateAccessPolicyMutationInput $policyCreateRevisionInput:PolicyCreateRevisionInput!) {
-	policy ( accountId:$accountId ) {
-		privateAccess ( input:$privateAccessPolicyMutationInput  )  {
-			createPolicyRevision ( input:$policyCreateRevisionInput   ) {
+mutation policyPrivateAccessCreatePolicyRevision ($accountId: ID!, $privateAccessPolicyMutationInput: PrivateAccessPolicyMutationInput, $policyCreateRevisionInput: PolicyCreateRevisionInput!) {
+	policy(accountId: $accountId) {
+		privateAccess(input: $privateAccessPolicyMutationInput) {
+			createPolicyRevision(input: $policyCreateRevisionInput) {
 				policy {
 					enabled
 					rules {
@@ -51,6 +51,7 @@ mutation policyPrivateAccessCreatePolicyRevision ( $accountId:ID! $privateAccess
 									name
 								}
 							}
+							connectionOrigin
 							connectionsOriginList
 							action {
 								action
@@ -145,5 +146,5 @@ mutation policyPrivateAccessCreatePolicyRevision ( $accountId:ID! $privateAccess
 				}
 			}
 		}
-	}	
+	}
 }

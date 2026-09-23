@@ -1,7 +1,7 @@
-query networkConfigDnsSuffixSetList ( $accountId:ID! $networkConfigDnsSuffixSetListInput:NetworkConfigDnsSuffixSetListInput!) {
-	networkConfig ( accountId:$accountId ) {
+query networkConfigDnsSuffixSetList ($accountId: ID!, $networkConfigDnsSuffixSetListInput: NetworkConfigDnsSuffixSetListInput!) {
+	networkConfig(accountId: $accountId) {
 		dns {
-			suffixSetList ( input:$networkConfigDnsSuffixSetListInput   ) {
+			suffixSetList(input: $networkConfigDnsSuffixSetListInput) {
 				items {
 					id
 					name
@@ -11,14 +11,6 @@ query networkConfigDnsSuffixSetList ( $accountId:ID! $networkConfigDnsSuffixSetL
 						updatedBy {
 							id
 							name
-							... on AdminRef {
-								id
-								name
-							}
-							... on ApiKeyRef {
-								id
-								name
-							}
 						}
 					}
 				}

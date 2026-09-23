@@ -1,7 +1,7 @@
-mutation policyTerminalServerAddSection ( $accountId:ID! $terminalServerPolicyMutationInput:TerminalServerPolicyMutationInput $policyAddSectionInput:PolicyAddSectionInput!) {
-	policy ( accountId:$accountId ) {
-		terminalServer ( input:$terminalServerPolicyMutationInput  )  {
-			addSection ( input:$policyAddSectionInput   ) {
+mutation policyTerminalServerAddSection ($accountId: ID!, $terminalServerPolicyMutationInput: TerminalServerPolicyMutationInput, $policyAddSectionInput: PolicyAddSectionInput!) {
+	policy(accountId: $accountId) {
+		terminalServer(input: $terminalServerPolicyMutationInput) {
+			addSection(input: $policyAddSectionInput) {
 				section {
 					audit {
 						updatedTime
@@ -35,5 +35,5 @@ mutation policyTerminalServerAddSection ( $accountId:ID! $terminalServerPolicyMu
 				}
 			}
 		}
-	}	
+	}
 }

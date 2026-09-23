@@ -1,91 +1,500 @@
-query licensing ( $accountId:ID! ) {
-	licensing ( accountId:$accountId  ) {
-		licensingInfo  {
+query licensing ($accountId: ID!) {
+	licensing(accountId: $accountId) {
+		licensingInfo {
 			licenses {
-                id
-				description 
-				plan 
-				sku 
-				status 
-				startDate 
-				expirationDate 
-				lastUpdated 
+				id
+				description
+				plan
+				sku
+				status
+				startDate
+				expirationDate
+				lastUpdated
 				... on DataLakeLicense {
-					dpaVersion 
-					retentionPeriod 
-					total 
+					dpaVersion
+					retentionPeriod
+					total
 				}
 				... on PublicIpsLicense {
-					total 
+					total
 				}
 				... on SiteLicense {
-					siteLicenseGroup 
-					regionality 
-					siteLicenseType 
-					total 
-					site  {
+					siteLicenseGroup
+					regionality
+					siteLicenseType
+					total
+					site {
 						id
 						name
 					}
-
 				}
 				... on PooledBandwidthLicense {
-					siteLicenseGroup 
-					siteLicenseType 
-					total 
-					allocatedBandwidth 
-					sites  {
+					siteLicenseGroup
+					siteLicenseType
+					total
+					allocatedBandwidth
+					sites {
 						sitePooledBandwidthLicenseSite: site {
-							id 
-							name 
+							id
+							name
 						}
 						allocatedBandwidth
 					}
-
-					accounts  {
-						account {
-							id 
-							name 
+					accounts {
+						accountPartnerPooledBandwidthLicenseAccount: account {
+							id
+							name
 						}
 						allocatedBandwidth
 					}
-
 				}
 				... on ZtnaUsersLicense {
-					ztnaUsersLicenseGroup 
-					total 
+					ztnaUsersLicenseGroup
+					accounts {
+						accountPartnerZtnaUsersLicenseAccount: account {
+							id
+							name
+						}
+						allocatedUsers
+					}
+					total
 				}
 				... on EndpointProtectionLicense {
-					total 
+					total
 				}
 				... on IlmmLicense {
-					total 
+					total
 				}
 				... on SaasSecurityApiLicense {
-					total 
+					total
 				}
 				... on XdrProLicense {
-					total 
+					total
 				}
 				... on DemLicense {
-					total 
+					total
 				}
+				... on AssetsSecurityLicense {
+					total
+				}
+				... on AISecurityUsersLicense {
+					total
+				}
+				... on AISecurityApplicationsLicense {
+					total
+				}
+				... on MspCasbUsersLicense {
+					total
+				}
+				... on MspCasbBandwidthLicense {
+					total
+				}
+				... on MspDlpUsersLicense {
+					total
+				}
+				... on MspDlpBandwidthLicense {
+					total
+				}
+				... on MspTpUsersLicense {
+					total
+				}
+				... on MspTpBandwidthLicense {
+					total
+				}
+				... on MspAtpUsersLicense {
+					total
+				}
+				... on MspAtpBandwidthLicense {
+					total
+				}
+				... on MspXOpsUsersLicense {
+					total
+				}
+				... on MspXOpsBandwidthLicense {
+					total
+				}
+				... on MspMdrUsersLicense {
+					total
+				}
+				... on MspMdrBandwidthLicense {
+					total
+				}
+			}
+			dataLake {
+				id
+				description
+				plan
+				sku
+				status
+				startDate
+				expirationDate
+				lastUpdated
+				dpaVersion
+				retentionPeriod
+				total
+			}
+			publicIps {
+				id
+				description
+				plan
+				sku
+				status
+				startDate
+				expirationDate
+				lastUpdated
+				total
+			}
+			site {
+				id
+				description
+				plan
+				sku
+				status
+				startDate
+				expirationDate
+				lastUpdated
+				siteLicenseGroup
+				regionality
+				siteLicenseType
+				total
+				site {
+					id
+					name
+				}
+			}
+			pooledBandwidth {
+				id
+				description
+				plan
+				sku
+				status
+				startDate
+				expirationDate
+				lastUpdated
+				siteLicenseGroup
+				siteLicenseType
+				total
+				allocatedBandwidth
+				sites {
+					site {
+						id
+						name
+					}
+					allocatedBandwidth
+				}
+				accounts {
+					account {
+						id
+						name
+					}
+					allocatedBandwidth
+				}
+			}
+			ztnaUsers {
+				id
+				description
+				plan
+				sku
+				status
+				startDate
+				expirationDate
+				lastUpdated
+				ztnaUsersLicenseGroup
+				accounts {
+					account {
+						id
+						name
+					}
+					allocatedUsers
+				}
+				total
+			}
+			endpointProtection {
+				id
+				description
+				plan
+				sku
+				status
+				startDate
+				expirationDate
+				lastUpdated
+				total
+			}
+			ilmm {
+				id
+				description
+				plan
+				sku
+				status
+				startDate
+				expirationDate
+				lastUpdated
+				total
+			}
+			ips {
+				id
+				description
+				plan
+				sku
+				status
+				startDate
+				expirationDate
+				lastUpdated
+			}
+			malwareProtection {
+				id
+				description
+				plan
+				sku
+				status
+				startDate
+				expirationDate
+				lastUpdated
+			}
+			nextGenMalwareProtection {
+				id
+				description
+				plan
+				sku
+				status
+				startDate
+				expirationDate
+				lastUpdated
+			}
+			threatPrevention {
+				id
+				description
+				plan
+				sku
+				status
+				startDate
+				expirationDate
+				lastUpdated
+			}
+			nocaas {
+				id
+				description
+				plan
+				sku
+				status
+				startDate
+				expirationDate
+				lastUpdated
+			}
+			casb {
+				id
+				description
+				plan
+				sku
+				status
+				startDate
+				expirationDate
+				lastUpdated
+			}
+			dlp {
+				id
+				description
+				plan
+				sku
+				status
+				startDate
+				expirationDate
+				lastUpdated
+			}
+			adsp {
+				id
+				description
+				plan
+				sku
+				status
+				startDate
+				expirationDate
+				lastUpdated
+			}
+			mdr {
+				id
+				description
+				plan
+				sku
+				status
+				startDate
+				expirationDate
+				lastUpdated
+			}
+			managedXdr {
+				id
+				description
+				plan
+				sku
+				status
+				startDate
+				expirationDate
+				lastUpdated
+			}
+			rbi {
+				id
+				description
+				plan
+				sku
+				status
+				startDate
+				expirationDate
+				lastUpdated
+			}
+			saasSecurityApi {
+				id
+				description
+				plan
+				sku
+				status
+				startDate
+				expirationDate
+				lastUpdated
+				total
+			}
+			xdrPro {
+				id
+				description
+				plan
+				sku
+				status
+				startDate
+				expirationDate
+				lastUpdated
+				total
+			}
+			dem {
+				id
+				description
+				plan
+				sku
+				status
+				startDate
+				expirationDate
+				lastUpdated
+				total
+			}
+			iotOt {
+				id
+				description
+				plan
+				sku
+				status
+				startDate
+				expirationDate
+				lastUpdated
+			}
+			assetsSecurity {
+				id
+				description
+				plan
+				sku
+				status
+				startDate
+				expirationDate
+				lastUpdated
+				total
+			}
+			atp {
+				id
+				description
+				plan
+				sku
+				status
+				startDate
+				expirationDate
+				lastUpdated
+			}
+			agenticThreatPrevention {
+				id
+				description
+				plan
+				sku
+				status
+				startDate
+				expirationDate
+				lastUpdated
+			}
+			xOps {
+				id
+				description
+				plan
+				sku
+				status
+				startDate
+				expirationDate
+				lastUpdated
+			}
+			aiSecurityUsers {
+				id
+				description
+				plan
+				sku
+				status
+				startDate
+				expirationDate
+				lastUpdated
+				total
+			}
+			aiSecurityApplications {
+				id
+				description
+				plan
+				sku
+				status
+				startDate
+				expirationDate
+				lastUpdated
+				total
 			}
 			globalLicenseAllocations {
-				publicIps  {
+				publicIps {
 					total
 					allocated
 					available
 				}
-
-				ztnaUsers  {
+				ztnaUsers {
 					total
 					allocated
 					available
 				}
-
+				mspDem {
+					sku
+					total
+					allocatedQuantity
+					accounts {
+						account {
+							id
+							name
+						}
+						allocatedQuantity
+					}
+				}
+				mspAiSecurityUsers {
+					sku
+					total
+					allocatedQuantity
+					accounts {
+						account {
+							id
+							name
+						}
+						allocatedQuantity
+					}
+				}
+				mspAiSecurityApplications {
+					sku
+					total
+					allocatedQuantity
+					accounts {
+						account {
+							id
+							name
+						}
+						allocatedQuantity
+					}
+				}
 			}
 		}
-
-	}	
+	}
 }

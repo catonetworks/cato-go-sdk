@@ -1,6 +1,6 @@
-mutation siteUpdateWifiSsid ( $accountId:ID! $updateWifiSsidInput:UpdateWifiSsidInput!) {
-	site ( accountId:$accountId ) {
-		updateWifiSsid ( input:$updateWifiSsidInput  )  {
+mutation siteUpdateWifiSsid ($accountId: ID!, $updateWifiSsidInput: UpdateWifiSsidInput!) {
+	site(accountId: $accountId) {
+		updateWifiSsid(input: $updateWifiSsidInput) {
 			wifiSsid {
 				id
 				networkInterfaceId
@@ -30,5 +30,5 @@ mutation siteUpdateWifiSsid ( $accountId:ID! $updateWifiSsidInput:UpdateWifiSsid
 				band
 			}
 		}
-	}	
+	}
 }

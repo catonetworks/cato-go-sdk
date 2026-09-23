@@ -1,6 +1,6 @@
-query siteValidateWifiRadioProfileByCountry ( $accountId:ID! $validateWifiRadioProfileByCountryInput:ValidateWifiRadioProfileByCountryInput!) {
-	site ( accountId:$accountId ) {
-		validateWifiRadioProfileByCountry ( input:$validateWifiRadioProfileByCountryInput  )  {
+query siteValidateWifiRadioProfileByCountry ($accountId: ID!, $validateWifiRadioProfileByCountryInput: ValidateWifiRadioProfileByCountryInput!) {
+	site(accountId: $accountId) {
+		validateWifiRadioProfileByCountry(input: $validateWifiRadioProfileByCountryInput) {
 			result {
 				band24 {
 					isValid
@@ -12,5 +12,5 @@ query siteValidateWifiRadioProfileByCountry ( $accountId:ID! $validateWifiRadioP
 				}
 			}
 		}
-	}	
+	}
 }

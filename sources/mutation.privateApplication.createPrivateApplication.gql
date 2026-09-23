@@ -1,6 +1,6 @@
-mutation privateApplicationCreatePrivateApplication ( $accountId:ID! $createPrivateApplicationInput:CreatePrivateApplicationInput!) {
-	privateApplication ( accountId:$accountId ) {
-		createPrivateApplication ( input:$createPrivateApplicationInput  )  {
+mutation privateApplicationCreatePrivateApplication ($accountId: ID!, $createPrivateApplicationInput: CreatePrivateApplicationInput!) {
+	privateApplication(accountId: $accountId) {
+		createPrivateApplication(input: $createPrivateApplicationInput) {
 			application {
 				id
 				creationTime
@@ -34,5 +34,5 @@ mutation privateApplicationCreatePrivateApplication ( $accountId:ID! $createPriv
 				connectivityStatus
 			}
 		}
-	}	
+	}
 }

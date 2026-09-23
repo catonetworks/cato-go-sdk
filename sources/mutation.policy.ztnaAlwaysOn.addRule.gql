@@ -1,7 +1,7 @@
-mutation policyZtnaAlwaysOnAddRule ( $accountId:ID! $ztnaAlwaysOnPolicyMutationInput:ZtnaAlwaysOnPolicyMutationInput $ztnaAlwaysOnAddRuleInput:ZtnaAlwaysOnAddRuleInput!) {
-	policy ( accountId:$accountId ) {
-		ztnaAlwaysOn ( input:$ztnaAlwaysOnPolicyMutationInput  )  {
-			addRule ( input:$ztnaAlwaysOnAddRuleInput   ) {
+mutation policyZtnaAlwaysOnAddRule ($accountId: ID!, $ztnaAlwaysOnPolicyMutationInput: ZtnaAlwaysOnPolicyMutationInput, $ztnaAlwaysOnAddRuleInput: ZtnaAlwaysOnAddRuleInput!) {
+	policy(accountId: $accountId) {
+		ztnaAlwaysOn(input: $ztnaAlwaysOnPolicyMutationInput) {
+			addRule(input: $ztnaAlwaysOnAddRuleInput) {
 				rule {
 					audit {
 						updatedTime
@@ -65,5 +65,5 @@ mutation policyZtnaAlwaysOnAddRule ( $accountId:ID! $ztnaAlwaysOnPolicyMutationI
 				}
 			}
 		}
-	}	
+	}
 }

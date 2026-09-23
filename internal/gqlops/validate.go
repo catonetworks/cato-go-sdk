@@ -13,6 +13,7 @@ import (
 
 	"github.com/vektah/gqlparser/v2"
 	"github.com/vektah/gqlparser/v2/ast"
+	"github.com/vektah/gqlparser/v2/parser"
 	"github.com/vektah/gqlparser/v2/validator/rules"
 )
 
@@ -48,6 +49,19 @@ func loadSchema(sdkRoot string) (*ast.Schema, error) {
 }
 
 func loadSDKDocuments(sdkRoot string, schema *ast.Schema) ([]document, error) {
+	return loadSDKDocumentsWithParser(sdkRoot, func(path string, content []byte) (document, error) {
+		return parseOperation(schema, path, content)
+	})
+}
+
+func loadSDKDocumentsForImport(sdkRoot string) ([]document, error) {
+	return loadSDKDocumentsWithParser(sdkRoot, parseOperationSyntax)
+}
+
+func loadSDKDocumentsWithParser(
+	sdkRoot string,
+	parse func(string, []byte) (document, error),
+) ([]document, error) {
 	sourcePattern := filepath.Join(sdkRoot, "sources", "*.gql")
 	paths, err := filepath.Glob(sourcePattern)
 	if err != nil {
@@ -64,7 +78,7 @@ func loadSDKDocuments(sdkRoot string, schema *ast.Schema) ([]document, error) {
 			validationErrors = append(validationErrors, readErr)
 			continue
 		}
-		parsed, parseErr := parseOperation(schema, path, content)
+		parsed, parseErr := parse(path, content)
 		if parseErr != nil {
 			validationErrors = append(validationErrors, parseErr)
 			continue
@@ -90,11 +104,23 @@ func loadSDKDocuments(sdkRoot string, schema *ast.Schema) ([]document, error) {
 	return documents, nil
 }
 
+func parseOperationSyntax(path string, content []byte) (document, error) {
+	query, err := parser.ParseQuery(&ast.Source{Name: path, Input: string(content)})
+	if err != nil {
+		return document{}, fmt.Errorf("parse operation %q: %w", path, err)
+	}
+	return documentFromQuery(path, query)
+}
+
 func parseOperation(schema *ast.Schema, path string, content []byte) (document, error) {
 	query, err := gqlparser.LoadQueryWithRules(schema, string(content), rules.NewDefaultRules())
 	if err != nil {
 		return document{}, fmt.Errorf("validate operation %q: %w", path, err)
 	}
+	return documentFromQuery(path, query)
+}
+
+func documentFromQuery(path string, query *ast.QueryDocument) (document, error) {
 	if len(query.Operations) != 1 {
 		return document{}, fmt.Errorf("operation file %q contains %d operations; want 1", path, len(query.Operations))
 	}
@@ -114,6 +140,16 @@ func parseOperation(schema *ast.Schema, path string, content []byte) (document, 
 	}
 
 	return document{kind: kind, name: operation.Name, variables: variables}, nil
+}
+
+func validateDocumentsAgainstSchema(schema *ast.Schema, documents []document) error {
+	var validationErrors []error
+	for _, current := range documents {
+		if _, err := parseOperation(schema, current.path, current.content); err != nil {
+			validationErrors = append(validationErrors, err)
+		}
+	}
+	return errors.Join(validationErrors...)
 }
 
 func validateUniqueDocuments(documents []document) error {

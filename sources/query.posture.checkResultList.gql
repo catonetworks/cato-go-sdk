@@ -1,6 +1,6 @@
-query postureCheckResultList ( $accountId:ID! $postureCheckResultListInput:PostureCheckResultListInput!) {
-	posture ( accountId:$accountId ) {
-		checkResultList ( input:$postureCheckResultListInput  )  {
+query postureCheckResultList ($accountId: ID!, $postureCheckResultListInput: PostureCheckResultListInput!) {
+	posture(accountId: $accountId) {
+		checkResultList(input: $postureCheckResultListInput) {
 			items {
 				definition {
 					id

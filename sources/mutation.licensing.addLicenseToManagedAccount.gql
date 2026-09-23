@@ -1,6 +1,6 @@
-mutation licensingAddLicenseToManagedAccount ( $accountId:ID! $addLicenseToManagedAccountInput:AddLicenseToManagedAccountInput!) {
-	licensing ( accountId:$accountId ) {
-		addLicenseToManagedAccount ( input:$addLicenseToManagedAccountInput  )  {
+mutation licensingAddLicenseToManagedAccount ($accountId: ID!, $addLicenseToManagedAccountInput: AddLicenseToManagedAccountInput!) {
+	licensing(accountId: $accountId) {
+		addLicenseToManagedAccount(input: $addLicenseToManagedAccountInput) {
 			license {
 				id
 				description
@@ -121,5 +121,5 @@ mutation licensingAddLicenseToManagedAccount ( $accountId:ID! $addLicenseToManag
 				}
 			}
 		}
-	}	
+	}
 }

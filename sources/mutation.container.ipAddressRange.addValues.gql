@@ -1,7 +1,7 @@
-mutation containerIpAddressRangeAddValues ( $accountId:ID! $ipAddressRangeContainerAddValuesInput:IpAddressRangeContainerAddValuesInput!) {
-	container ( accountId:$accountId ) {
+mutation containerIpAddressRangeAddValues ($accountId: ID!, $ipAddressRangeContainerAddValuesInput: IpAddressRangeContainerAddValuesInput!) {
+	container(accountId: $accountId) {
 		ipAddressRange {
-			addValues ( input:$ipAddressRangeContainerAddValuesInput   ) {
+			addValues(input: $ipAddressRangeContainerAddValuesInput) {
 				container {
 					id
 					name
@@ -41,5 +41,5 @@ mutation containerIpAddressRangeAddValues ( $accountId:ID! $ipAddressRangeContai
 				}
 			}
 		}
-	}	
+	}
 }

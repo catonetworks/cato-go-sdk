@@ -1,7 +1,7 @@
-mutation policyPrivateAccessRemoveRule ( $accountId:ID! $privateAccessPolicyMutationInput:PrivateAccessPolicyMutationInput $privateAccessRemoveRuleInput:PrivateAccessRemoveRuleInput!) {
-	policy ( accountId:$accountId ) {
-		privateAccess ( input:$privateAccessPolicyMutationInput  )  {
-			removeRule ( input:$privateAccessRemoveRuleInput   ) {
+mutation policyPrivateAccessRemoveRule ($accountId: ID!, $privateAccessPolicyMutationInput: PrivateAccessPolicyMutationInput, $privateAccessRemoveRuleInput: PrivateAccessRemoveRuleInput!) {
+	policy(accountId: $accountId) {
+		privateAccess(input: $privateAccessPolicyMutationInput) {
+			removeRule(input: $privateAccessRemoveRuleInput) {
 				rule {
 					audit {
 						updatedTime
@@ -49,6 +49,7 @@ mutation policyPrivateAccessRemoveRule ( $accountId:ID! $privateAccessPolicyMuta
 								name
 							}
 						}
+						connectionOrigin
 						connectionsOriginList
 						action {
 							action
@@ -120,5 +121,5 @@ mutation policyPrivateAccessRemoveRule ( $accountId:ID! $privateAccessPolicyMuta
 				}
 			}
 		}
-	}	
+	}
 }

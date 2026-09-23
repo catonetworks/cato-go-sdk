@@ -1,6 +1,6 @@
-query siteKnownHostList ( $accountId:ID! $siteKnownHostListInput:SiteKnownHostListInput!) {
-	site ( accountId:$accountId ) {
-		knownHostList ( input:$siteKnownHostListInput  )  {
+query siteKnownHostList ($accountId: ID!, $siteKnownHostListInput: SiteKnownHostListInput!) {
+	site(accountId: $accountId) {
+		knownHostList(input: $siteKnownHostListInput) {
 			knownHost {
 				hostName
 				ip
@@ -21,5 +21,5 @@ query siteKnownHostList ( $accountId:ID! $siteKnownHostListInput:SiteKnownHostLi
 				total
 			}
 		}
-	}	
+	}
 }

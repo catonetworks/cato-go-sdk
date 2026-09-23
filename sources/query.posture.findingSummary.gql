@@ -1,6 +1,6 @@
-query postureFindingSummary ( $accountId:ID! $postureFindingSummaryInput:PostureFindingSummaryInput) {
-	posture ( accountId:$accountId ) {
-		findingSummary ( input:$postureFindingSummaryInput  )  {
+query postureFindingSummary ($accountId: ID!, $postureFindingSummaryInput: PostureFindingSummaryInput) {
+	posture(accountId: $accountId) {
+		findingSummary(input: $postureFindingSummaryInput) {
 			summary {
 				total
 				checkSeverityBreakdown {
