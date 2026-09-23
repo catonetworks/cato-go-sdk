@@ -8,5 +8,5 @@ query networkConfigDnsSiteSettings ( $accountId:ID! $siteRefInput:SiteRefInput!)
 				suffix
 			}
 		}
-	}
+	}	
 }

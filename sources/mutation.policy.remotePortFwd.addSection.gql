@@ -1,27 +1,39 @@
-mutation policyRemotePortFwdAddSection ( $policyAddSectionInput:PolicyAddSectionInput! $accountId:ID! ) {
-  policy ( accountId:$accountId  ) {
-    remotePortFwd  {
-      addSection ( input:$policyAddSectionInput   )  {
-        section  {
-          audit  {
-            updatedTime 
-            updatedBy 
-          }
-          section  {
-            id 
-            name 
-          }
-          properties
-        }
-
-        status 
-        errors  {
-          errorMessage
-          errorCode
-        }
-
-      }
-    }
-
-  }  
+mutation policyRemotePortFwdAddSection ( $accountId:ID! $remotePortFwdPolicyMutationInput:RemotePortFwdPolicyMutationInput $policyAddSectionInput:PolicyAddSectionInput!) {
+	policy ( accountId:$accountId ) {
+		remotePortFwd ( input:$remotePortFwdPolicyMutationInput  )  {
+			addSection ( input:$policyAddSectionInput   ) {
+				section {
+					audit {
+						updatedTime
+						updatedBy
+					}
+					metadata {
+						lock {
+							lockingAdminEmail
+							lockingTime
+							lockingRevisionId
+						}
+					}
+					section {
+						id
+						name
+					}
+					properties
+				}
+				status
+				errors {
+					errorMessage
+					errorCode
+				}
+				revision {
+					id
+					name
+					description
+					changes
+					createdTime
+					updatedTime
+				}
+			}
+		}
+	}	
 }

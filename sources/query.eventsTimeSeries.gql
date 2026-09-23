@@ -1,26 +1,26 @@
-query eventsTimeSeries($perSecond: Boolean, $withMissingData: Boolean, $buckets: Int!, $accountID: ID!, $timeFrame: TimeFrame!, $measures: [EventsMeasure], $dimensions: [EventsDimension], $filters: [EventsFilter!]){
-    eventsTimeSeries(accountID: $accountID, timeFrame: $timeFrame, measures: $measures, dimensions: $dimensions, filters: $filters){
-        id
-        from
-        to
-        granularity
-        timeseries(buckets: $buckets){
-            data(perSecond: $perSecond, withMissingData: $withMissingData)
-            label
-            dimensions{
-                label
-                value
-            }
-            key{
-                measureFieldName
-                dimensions{
-                    fieldName
-                    value
-                }
-            }
-            sum
-            units
-            info
-        }
-    }
+query eventsTimeSeries ( $accountID:ID! $timeFrame:TimeFrame! $eventsMeasure:[EventsMeasure] $eventsDimension:[EventsDimension] $eventsFilter:[EventsFilter!] $includeEmptyDimension:Boolean $buckets:Int! $perSecond:Boolean $withMissingData:Boolean $useDefaultSizeBucket:Boolean) {
+	eventsTimeSeries ( accountID:$accountID timeFrame:$timeFrame measures:$eventsMeasure dimensions:$eventsDimension filters:$eventsFilter includeEmptyDimension:$includeEmptyDimension ) {
+		id
+		from
+		to
+		granularity
+		timeseries ( buckets:$buckets  )  {
+			data ( perSecond:$perSecond  withMissingData:$withMissingData  useDefaultSizeBucket:$useDefaultSizeBucket   )
+			label
+			dimensions {
+				label
+				value
+			}
+			key {
+				measureFieldName
+				dimensions {
+					fieldName
+					value
+				}
+			}
+			sum
+			units
+			info
+		}
+	}	
 }

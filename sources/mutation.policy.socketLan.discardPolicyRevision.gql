@@ -1,187 +1,383 @@
-mutation policySocketLanDiscardPolicyRevision ( $socketLanPolicyMutationInput:SocketLanPolicyMutationInput $policyDiscardRevisionInput:PolicyDiscardRevisionInput $accountId:ID! ) {
-	policy ( accountId:$accountId  ) {
+mutation policySocketLanDiscardPolicyRevision ( $accountId:ID! $socketLanPolicyMutationInput:SocketLanPolicyMutationInput $policyDiscardRevisionInput:PolicyDiscardRevisionInput) {
+	policy ( accountId:$accountId ) {
 		socketLan ( input:$socketLanPolicyMutationInput  )  {
 			discardPolicyRevision ( input:$policyDiscardRevisionInput   ) {
-				policy  {
+				policy {
+					id
+					name
+					description
 					enabled
 					rules {
-						audit  {
+						audit {
 							updatedTime
 							updatedBy
 						}
-
-						rule  {
+						metadata {
+							lock {
+								lockingAdminEmail
+								lockingTime
+								lockingRevisionId
+							}
+						}
+						rule {
 							id
 							name
 							description
 							index
 							section {
-								id 
-								name 
+								id
+								name
 							}
 							enabled
+							firewall {
+								audit {
+									updatedTime
+									updatedBy
+								}
+								metadata {
+									lock {
+										lockingAdminEmail
+										lockingTime
+										lockingRevisionId
+									}
+								}
+								rule {
+									id
+									name
+									description
+									index
+									section {
+										id
+										name
+									}
+									enabled
+									source {
+										vlan
+										mac
+										ipRange {
+											from
+											to
+										}
+										group {
+											id
+											name
+										}
+										subnet
+										site {
+											id
+											name
+										}
+										networkInterface {
+											id
+											name
+										}
+										systemGroup {
+											id
+											name
+										}
+										host {
+											id
+											name
+										}
+										ip
+										globalIpRange {
+											id
+											name
+										}
+										floatingSubnet {
+											id
+											name
+										}
+										siteNetworkSubnet {
+											id
+											name
+										}
+									}
+									destination {
+										vlan
+										ipRange {
+											from
+											to
+										}
+										subnet
+										site {
+											id
+											name
+										}
+										networkInterface {
+											id
+											name
+										}
+										systemGroup {
+											id
+											name
+										}
+										host {
+											id
+											name
+										}
+										ip
+										globalIpRange {
+											id
+											name
+										}
+										group {
+											id
+											name
+										}
+										floatingSubnet {
+											id
+											name
+										}
+										siteNetworkSubnet {
+											id
+											name
+										}
+									}
+									direction
+									application {
+										application {
+											id
+											name
+										}
+										customApp {
+											id
+											name
+										}
+										domain
+										fqdn
+										ip
+										subnet
+										ipRange {
+											from
+											to
+										}
+										globalIpRange {
+											id
+											name
+										}
+									}
+									service {
+										simple {
+											name
+										}
+										standard {
+											id
+											name
+										}
+										custom {
+											port
+											portRange {
+												from
+												to
+											}
+											protocol
+										}
+									}
+									action
+									tracking {
+										event {
+											enabled
+										}
+										alert {
+											enabled
+											frequency
+											subscriptionGroup {
+												id
+												name
+											}
+											webhook {
+												id
+												name
+											}
+											mailingList {
+												id
+												name
+											}
+										}
+									}
+								}
+								properties
+								ruleType
+								subPolicy {
+									id
+									name
+								}
+								access {
+									action
+								}
+							}
 							site {
-								site  {
+								site {
 									id
 									name
 								}
-
-								group  {
+								group {
 									id
 									name
 								}
-
 							}
 							source {
-								vlan 
-								ipRange  {
+								vlan
+								ipRange {
 									from
 									to
 								}
-
-								group  {
+								group {
 									id
 									name
 								}
-
-								subnet 
-								networkInterface  {
+								subnet
+								networkInterface {
 									id
 									name
 								}
-
-								systemGroup  {
+								systemGroup {
 									id
 									name
 								}
-
-								host  {
+								host {
 									id
 									name
 								}
-
-								ip 
-								globalIpRange  {
+								ip
+								globalIpRange {
 									id
 									name
 								}
-
-								floatingSubnet  {
+								floatingSubnet {
 									id
 									name
 								}
-
-								siteNetworkSubnet  {
+								siteNetworkSubnet {
 									id
 									name
 								}
-
 							}
 							destination {
-								vlan 
-								ipRange  {
+								vlan
+								ipRange {
 									from
 									to
 								}
-
-								subnet 
-								networkInterface  {
+								subnet
+								networkInterface {
 									id
 									name
 								}
-
-								systemGroup  {
+								systemGroup {
 									id
 									name
 								}
-
-								host  {
+								host {
 									id
 									name
 								}
-
-								ip 
-								globalIpRange  {
+								ip
+								globalIpRange {
 									id
 									name
 								}
-
-								group  {
+								group {
 									id
 									name
 								}
-
-								floatingSubnet  {
+								floatingSubnet {
 									id
 									name
 								}
-
-								siteNetworkSubnet  {
+								siteNetworkSubnet {
 									id
 									name
 								}
-
 							}
 							direction
 							service {
-								simple  {
+								simple {
 									name
 								}
-
-								custom  {
+								custom {
 									port
-									portRangeCustomService: portRange {
-										from 
-										to 
+									portRange {
+										from
+										to
 									}
 									protocol
 								}
-
 							}
 							nat {
-								enabled 
-								natType 
+								enabled
+								natType
 							}
 							transport
 						}
-
-						properties 
-					}
-					sections {
-						audit  {
-							updatedTime
-							updatedBy
-						}
-
-						section  {
+						properties
+						ruleType
+						subPolicy {
 							id
 							name
 						}
-
-						properties 
+						access {
+							action
+						}
 					}
-					auditSocketLanPolicy: audit {
-						publishedTime 
-						publishedBy 
+					sections {
+						audit {
+							updatedTime
+							updatedBy
+						}
+						metadata {
+							lock {
+								lockingAdminEmail
+								lockingTime
+								lockingRevisionId
+							}
+						}
+						section {
+							id
+							name
+						}
+						properties
 					}
-					revisionSocketLanPolicy: revision {
-						id 
-						name 
-						description 
-						changes 
-						createdTime 
-						updatedTime 
+					audit {
+						publishedTime
+						publishedBy
+					}
+					revision {
+						id
+						name
+						description
+						changes
+						createdTime
+						updatedTime
+					}
+					subPolicies {
+						policy {
+							id
+							name
+							description
+							enabled
+							policyLevel
+							audit {
+								publishedTime
+								publishedBy
+							}
+						}
+						properties
+						access {
+							action
+						}
+					}
+					access {
+						action
 					}
 				}
-
-				status 
-				errors  {
+				status
+				errors {
 					errorMessage
 					errorCode
 				}
-
 			}
 		}
-
 	}	
 }

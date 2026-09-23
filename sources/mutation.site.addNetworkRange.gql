@@ -1,8 +1,7 @@
-mutation siteAddNetworkRange ( $lanSocketInterfaceId:ID! $addNetworkRangeInput:AddNetworkRangeInput! $accountId:ID! ) {
-	site ( accountId:$accountId  ) {
+mutation siteAddNetworkRange ( $accountId:ID! $lanSocketInterfaceId:ID! $addNetworkRangeInput:AddNetworkRangeInput!) {
+	site ( accountId:$accountId ) {
 		addNetworkRange ( lanSocketInterfaceId:$lanSocketInterfaceId  input:$addNetworkRangeInput  )  {
 			networkRangeId
 		}
-
 	}	
 }

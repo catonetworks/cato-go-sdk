@@ -48,7 +48,13 @@ func curateCLIContent(path string, content []byte) ([]byte, error) {
 }
 
 func replaceRequired(content, oldValue, newValue []byte, path string) ([]byte, error) {
-	if bytes.Count(content, oldValue) != 1 {
+	oldCount := bytes.Count(content, oldValue)
+	alreadyRepaired := bytes.Count(content, newValue) == 1 ||
+		bytes.Contains(content, []byte("disableAccount ("))
+	if oldCount == 0 && alreadyRepaired {
+		return content, nil
+	}
+	if oldCount != 1 {
 		return nil, fmt.Errorf("known repair for %q expected exactly one %q", path, oldValue)
 	}
 	return bytes.Replace(content, oldValue, newValue, 1), nil
@@ -82,7 +88,7 @@ func removeAnonymousSelectionSets(content []byte) ([]byte, error) {
 		}
 	}
 
-	if removed != devicesAnonymousSelectionSets {
+	if removed != 0 && removed != devicesAnonymousSelectionSets {
 		return nil, fmt.Errorf(
 			"devices repair removed %d anonymous selection sets; want %d",
 			removed,

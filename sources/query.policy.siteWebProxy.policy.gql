@@ -133,5 +133,5 @@ query policySiteWebProxyPolicy ( $accountId:ID! $siteWebProxyPolicyInput:SiteWeb
 				}
 			}
 		}
-	}
+	}	
 }

@@ -8,5 +8,5 @@ query networkConfigDnsSettings ( $accountId:ID!) {
 				acceptDnsRequestsOnLanInterfaceIp
 			}
 		}
-	}
+	}	
 }
