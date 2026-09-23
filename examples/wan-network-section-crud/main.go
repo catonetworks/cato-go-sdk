@@ -53,11 +53,7 @@ func main() {
 		// Add at parameter if you want to specify position
 	}
 
-	wanNetworkPolicyMutationInput := cato_models.WanNetworkPolicyMutationInput{
-		// Add revision information if needed
-	}
-
-	result, err := catoClient.PolicyWanNetworkAddSection(ctx, accountId, policyAddSectionInput, &wanNetworkPolicyMutationInput)
+	result, err := catoClient.PolicyWanNetworkAddSection(ctx, policyAddSectionInput, accountId, nil)
 	if err != nil {
 		fmt.Println("error adding WAN network section: ", err)
 		os.Exit(1)
@@ -69,8 +65,8 @@ func main() {
 	fmt.Println(string(resultJson))
 
 	// Access specific fields
-	if result.Policy.WanNetwork.AddSection.PolicySectionPayloadSection != nil {
-		section := result.Policy.WanNetwork.AddSection.PolicySectionPayloadSection
+	if result.Policy.WanNetwork.AddSection.Section != nil {
+		section := result.Policy.WanNetwork.AddSection.Section
 		fmt.Printf("\nSection Details:\n")
 		fmt.Printf("ID: %s\n", section.Section.ID)
 		fmt.Printf("Name: %s\n", section.Section.Name)
@@ -79,9 +75,9 @@ func main() {
 	}
 
 	// Check for any errors
-	if len(result.Policy.WanNetwork.AddSection.PolicyMutationErrorErrors) > 0 {
+	if len(result.Policy.WanNetwork.AddSection.Errors) > 0 {
 		fmt.Printf("\nErrors:\n")
-		for _, err := range result.Policy.WanNetwork.AddSection.PolicyMutationErrorErrors {
+		for _, err := range result.Policy.WanNetwork.AddSection.Errors {
 			fmt.Printf("- %s (Code: %s)\n", *err.ErrorMessage, *err.ErrorCode)
 		}
 	}
@@ -91,15 +87,15 @@ func main() {
 	//////////////////////////////////////
 
 	// Read and verify the section we just created
-	if result.Policy.WanNetwork.AddSection.PolicySectionPayloadSection != nil {
-		sectionId := result.Policy.WanNetwork.AddSection.PolicySectionPayloadSection.Section.ID
-		sectionName := result.Policy.WanNetwork.AddSection.PolicySectionPayloadSection.Section.Name
+	if result.Policy.WanNetwork.AddSection.Section != nil {
+		sectionId := result.Policy.WanNetwork.AddSection.Section.Section.ID
+		sectionName := result.Policy.WanNetwork.AddSection.Section.Section.Name
 
 		fmt.Printf("\n======================================\n")
 		fmt.Printf("Reading WAN Network Section\n")
 		fmt.Printf("======================================\n")
 		// Query the WAN network policy to get the current state of all sections
-		policyResult, err := catoClient.WanNetworkPolicy(ctx, accountId)
+		policyResult, err := catoClient.WanNetworkPolicy(ctx, accountId, nil)
 		if err != nil {
 			fmt.Println("error reading WAN network policy: ", err)
 			os.Exit(1)
@@ -146,14 +142,14 @@ func main() {
 		}
 
 		// Update the section
-		updateResult, err := catoClient.PolicyWanNetworkUpdateSection(ctx, accountId, policyUpdateSectionInput, &wanNetworkPolicyMutationInput)
+		updateResult, err := catoClient.PolicyWanNetworkUpdateSection(ctx, policyUpdateSectionInput, accountId, nil)
 		if err != nil {
 			fmt.Println("error updating WAN network section: ", err)
 			os.Exit(1)
 		}
 
-		if updateResult.Policy.WanNetwork.UpdateSection.PolicySectionPayloadSection != nil {
-			section := updateResult.Policy.WanNetwork.UpdateSection.PolicySectionPayloadSection
+		if updateResult.Policy.WanNetwork.UpdateSection.Section != nil {
+			section := updateResult.Policy.WanNetwork.UpdateSection.Section
 			fmt.Printf("Section ID: %s\n", section.Section.ID)
 			fmt.Printf("Section Name: %s\n", section.Section.Name)
 			if section.Section.ID == sectionId {
@@ -164,9 +160,9 @@ func main() {
 		}
 
 		// Check for any errors
-		if len(updateResult.Policy.WanNetwork.UpdateSection.PolicyMutationErrorErrors) > 0 {
+		if len(updateResult.Policy.WanNetwork.UpdateSection.Errors) > 0 {
 			fmt.Printf("\nUpdate Errors:\n")
-			for _, err := range updateResult.Policy.WanNetwork.UpdateSection.PolicyMutationErrorErrors {
+			for _, err := range updateResult.Policy.WanNetwork.UpdateSection.Errors {
 				fmt.Printf("- %s (Code: %s)\n", *err.ErrorMessage, *err.ErrorCode)
 			}
 		}
@@ -181,7 +177,7 @@ func main() {
 		}
 
 		// Remove the section
-		removeResult, err := catoClient.PolicyWanNetworkRemoveSection(ctx, accountId, policyRemoveSectionInput, &wanNetworkPolicyMutationInput)
+		removeResult, err := catoClient.PolicyWanNetworkRemoveSection(ctx, policyRemoveSectionInput, accountId, nil)
 		if err != nil {
 			fmt.Println("error removing WAN network section: ", err)
 			os.Exit(1)
@@ -193,16 +189,16 @@ func main() {
 		fmt.Println(string(removeResultJson))
 
 		// Check for any errors
-		if len(removeResult.Policy.WanNetwork.RemoveSection.PolicyMutationErrorErrors) > 0 {
+		if len(removeResult.Policy.WanNetwork.RemoveSection.Errors) > 0 {
 			fmt.Printf("\nRemove Errors:\n")
-			for _, err := range removeResult.Policy.WanNetwork.RemoveSection.PolicyMutationErrorErrors {
+			for _, err := range removeResult.Policy.WanNetwork.RemoveSection.Errors {
 				fmt.Printf("- %s (Code: %s)\n", *err.ErrorMessage, *err.ErrorCode)
 			}
 		}
 
 		// Show confirmation of deletion
-		if removeResult.Policy.WanNetwork.RemoveSection.PolicySectionPayloadSection != nil {
-			section := removeResult.Policy.WanNetwork.RemoveSection.PolicySectionPayloadSection
+		if removeResult.Policy.WanNetwork.RemoveSection.Section != nil {
+			section := removeResult.Policy.WanNetwork.RemoveSection.Section
 			fmt.Printf("\nDeleted Section Details:\n")
 			fmt.Printf("ID: %s\n", section.Section.ID)
 			fmt.Printf("Name: %s\n", section.Section.Name)
@@ -217,7 +213,7 @@ func main() {
 		//////////////////////////////////////
 
 		// Publish the policy revision to make changes live
-		publishResult, err := catoClient.PolicyWanNetworkPublishPolicyRevision(ctx, accountId, nil, &wanNetworkPolicyMutationInput)
+		publishResult, err := catoClient.PolicyWanNetworkPublishPolicyRevision(ctx, accountId, nil, nil)
 		if err != nil {
 			fmt.Println("error publishing WAN network policy revision: ", err)
 			os.Exit(1)
@@ -229,12 +225,12 @@ func main() {
 		fmt.Println(string(publishResultJson))
 
 		// Access specific fields
-		fmt.Printf("\nPublish Status: %s\n", publishResult.Policy.WanNetwork.PublishPolicyRevision.PolicyMutationStatusStatus)
+		fmt.Printf("\nPublish Status: %s\n", publishResult.Policy.WanNetwork.PublishPolicyRevision.Status)
 
 		// Check for any errors
-		if len(publishResult.Policy.WanNetwork.PublishPolicyRevision.PolicyMutationErrorErrors) > 0 {
+		if len(publishResult.Policy.WanNetwork.PublishPolicyRevision.Errors) > 0 {
 			fmt.Printf("\nPublish Errors:\n")
-			errorsJson, _ := json.MarshalIndent(publishResult.Policy.WanNetwork.PublishPolicyRevision.PolicyMutationErrorErrors, "", "  ")
+			errorsJson, _ := json.MarshalIndent(publishResult.Policy.WanNetwork.PublishPolicyRevision.Errors, "", "  ")
 			fmt.Println(string(errorsJson))
 		} else {
 			fmt.Printf("\nThe WAN network policy revision has been successfully published and is now live.\n")

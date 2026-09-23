@@ -73,7 +73,7 @@ func main() {
 		},
 	}
 
-	result, err := catoClient.PolicyWanNetworkAddRule(ctx, wanNetworkAddRuleInput, accountId)
+	result, err := catoClient.PolicyWanNetworkAddRule(ctx, wanNetworkAddRuleInput, accountId, nil)
 	if err != nil {
 		fmt.Println("error adding WAN network rule: ", err)
 		os.Exit(1)
@@ -110,7 +110,7 @@ func main() {
 		fmt.Printf("Reading WAN Network Section\n")
 		fmt.Printf("======================================\n")
 		// Query the WAN network policy to get the current state of all sections
-		policyResult, err := catoClient.WanNetworkPolicy(ctx, accountId)
+		policyResult, err := catoClient.WanNetworkPolicy(ctx, accountId, nil)
 		if err != nil {
 			fmt.Println("error reading WAN network policy: ", err)
 			os.Exit(1)
@@ -194,7 +194,7 @@ func main() {
 		}
 
 		// Perform the update
-		updateResult, err := catoClient.PolicyWanNetworkUpdateRule(ctx, wanNetworkUpdateRuleInput, accountId)
+		updateResult, err := catoClient.PolicyWanNetworkUpdateRule(ctx, wanNetworkUpdateRuleInput, accountId, nil)
 		if err != nil {
 			fmt.Println("error updating WAN network rule: ", err)
 			os.Exit(1)
@@ -249,7 +249,7 @@ func main() {
 		}
 
 		// Perform the delete operation
-		deleteResult, err := catoClient.PolicyWanNetworkRemoveRule(ctx, wanNetworkRemoveRuleInput, accountId)
+		deleteResult, err := catoClient.PolicyWanNetworkRemoveRule(ctx, wanNetworkRemoveRuleInput, accountId, nil)
 		if err != nil {
 			fmt.Println("error deleting WAN network rule: ", err)
 			os.Exit(1)
@@ -279,7 +279,7 @@ func main() {
 		// Publish the WAN network policy   //
 		//////////////////////////////////////
 
-		publishResult, err := catoClient.PolicyWanNetworkPublishPolicyRevision(ctx, accountId)
+		publishResult, err := catoClient.PolicyWanNetworkPublishPolicyRevision(ctx, accountId, nil, nil)
 		if err != nil {
 			fmt.Println("error publishing WAN network policy revision: ", err)
 			os.Exit(1)
