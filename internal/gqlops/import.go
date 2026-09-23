@@ -24,10 +24,11 @@ var operationNamePattern = regexp.MustCompile(`(?m)^\s*(?:query|mutation)\s+([_A
 
 // ImportConfig configures migration from cato-cli into cato-go-sdk.
 type ImportConfig struct {
-	CLIRoot  string
-	SDKRoot  string
-	Expected int
-	DryRun   bool
+	CLIRoot      string
+	SDKRoot      string
+	CLICommitSHA string
+	Expected     int
+	DryRun       bool
 }
 
 // ImportResult summarizes an operation migration.
@@ -60,13 +61,23 @@ func Import(config ImportConfig) (ImportResult, error) {
 	if err := validateUniqueDocuments(sdkDocuments); err != nil {
 		return ImportResult{}, fmt.Errorf("validate existing SDK operations: %w", err)
 	}
+	reservedGoNames, err := handwrittenGoNames(config.SDKRoot)
+	if err != nil {
+		return ImportResult{}, err
+	}
 
 	cliPaths, err := cliOperationPaths(config.CLIRoot)
 	if err != nil {
 		return ImportResult{}, err
 	}
 
-	manifest, candidates, result, err := buildImport(schema, config, sdkDocuments, cliPaths)
+	manifest, candidates, result, err := buildImport(
+		schema,
+		config,
+		sdkDocuments,
+		cliPaths,
+		reservedGoNames,
+	)
 	if err != nil {
 		return ImportResult{}, err
 	}
@@ -121,6 +132,7 @@ func buildImport( //nolint:funlen // Keeping candidate collection in one pass gu
 	config ImportConfig,
 	sdkDocuments []document,
 	cliPaths []string,
+	reservedGoNames map[string]struct{},
 ) (*Manifest, []candidate, ImportResult, error) {
 	records := make([]ManifestEntry, 0, len(sdkDocuments)+len(cliPaths))
 	documents := append([]document(nil), sdkDocuments...)
@@ -130,6 +142,7 @@ func buildImport( //nolint:funlen // Keeping candidate collection in one pass gu
 	for _, sdkDocument := range sdkDocuments {
 		indexByKey[normalizedKey(sdkDocument.key)] = len(records)
 		indexByName[sdkDocument.name] = len(records)
+		reservedGoNames[goIdentifier(sdkDocument.name)] = struct{}{}
 		records = append(records, entryFromSDK(sdkDocument))
 	}
 
@@ -172,9 +185,6 @@ func buildImport( //nolint:funlen // Keeping candidate collection in one pass gu
 
 		cliRelative := filepath.ToSlash(filepath.Join("queryPayloads", filepath.Base(cliPath)))
 		existingIndex, exists := indexByKey[normalizedKey(key)]
-		if !exists {
-			existingIndex, exists = indexByName[parsed.name]
-		}
 		if exists {
 			existing := documents[existingIndex]
 			if parsed.kind != existing.kind {
@@ -188,18 +198,33 @@ func buildImport( //nolint:funlen // Keeping candidate collection in one pass gu
 				continue
 			}
 
+			cliName := parsed.name
+			normalizedContent, normalizeErr := normalizeMappedOperation(
+				schema,
+				cliPath,
+				existing.content,
+				curatedContent,
+				existing.name,
+			)
+			if normalizeErr != nil {
+				validationErrors = append(validationErrors, normalizeErr)
+				continue
+			}
+			parsed, err = parseOperation(schema, cliPath, normalizedContent)
+			if err != nil {
+				validationErrors = append(validationErrors, err)
+				continue
+			}
 			parsed.key = existing.key
 			parsed.path = existing.path
 			parsed.relative = existing.relative
-			parsed.content = curatedContent
-			parsed.hash = contentHash(curatedContent)
-			if err := mapCLIEntry(&records[existingIndex], cliRelative, cliContent, parsed); err != nil {
+			parsed.content = normalizedContent
+			parsed.hash = contentHash(normalizedContent)
+			if err := mapCLIEntry(&records[existingIndex], cliRelative, cliContent, cliName, parsed); err != nil {
 				validationErrors = append(validationErrors, err)
 			} else {
 				documents[existingIndex] = parsed
-				delete(indexByName, existing.name)
 				indexByKey[normalizedKey(key)] = existingIndex
-				indexByName[parsed.name] = existingIndex
 				candidates = append(candidates, candidate{document: parsed, destination: existing.path})
 				result.Mapped++
 				result.SDKOnly--
@@ -216,22 +241,41 @@ func buildImport( //nolint:funlen // Keeping candidate collection in one pass gu
 			continue
 		}
 
+		cliName := parsed.name
+		stableName := stableOperationName(cliName, key, indexByName, reservedGoNames)
+		normalizedContent, normalizeErr := normalizeNewOperation(
+			schema,
+			cliPath,
+			curatedContent,
+			stableName,
+		)
+		if normalizeErr != nil {
+			validationErrors = append(validationErrors, normalizeErr)
+			continue
+		}
+		parsed, err = parseOperation(schema, cliPath, normalizedContent)
+		if err != nil {
+			validationErrors = append(validationErrors, err)
+			continue
+		}
 		parsed.key = key
 		parsed.path = destination
 		parsed.relative = filepath.ToSlash(filepath.Join("sources", filepath.Base(destination)))
-		parsed.content = curatedContent
-		parsed.hash = contentHash(curatedContent)
+		parsed.content = normalizedContent
+		parsed.hash = contentHash(normalizedContent)
 		documents = append(documents, parsed)
 		indexByKey[normalizedKey(key)] = len(records)
 		indexByName[parsed.name] = len(records)
+		reservedGoNames[goIdentifier(parsed.name)] = struct{}{}
 		records = append(records, ManifestEntry{
 			Key:            key,
 			Kind:           parsed.kind,
 			SDKFile:        parsed.relative,
 			SDKName:        parsed.name,
+			Variables:      parsed.variables,
 			DocumentSHA256: parsed.hash,
 			CLIFile:        cliRelative,
-			CLIName:        parsed.name,
+			CLIName:        cliName,
 			CLISHA256:      contentHash(cliContent),
 			Status:         statusImported,
 		})
@@ -251,7 +295,11 @@ func buildImport( //nolint:funlen // Keeping candidate collection in one pass gu
 	})
 	result.Canonical = len(records)
 
-	return &Manifest{Version: manifestVersion, Operations: records}, candidates, result, nil
+	return &Manifest{
+		Version:      manifestVersion,
+		CLICommitSHA: config.CLICommitSHA,
+		Operations:   records,
+	}, candidates, result, nil
 }
 
 func entryFromSDK(sdkDocument document) ManifestEntry {
@@ -260,23 +308,37 @@ func entryFromSDK(sdkDocument document) ManifestEntry {
 		Kind:           sdkDocument.kind,
 		SDKFile:        sdkDocument.relative,
 		SDKName:        sdkDocument.name,
+		Variables:      sdkDocument.variables,
 		DocumentSHA256: sdkDocument.hash,
 		Status:         statusSDKOnly,
 	}
 }
 
-func updateMappedEntry(entry *ManifestEntry, cliRelative string, cliContent []byte, document document) {
+func updateMappedEntry(
+	entry *ManifestEntry,
+	cliRelative string,
+	cliContent []byte,
+	cliName string,
+	document document,
+) {
 	entry.Key = document.key
 	entry.Kind = document.kind
 	entry.SDKName = document.name
+	entry.Variables = document.variables
 	entry.DocumentSHA256 = document.hash
 	entry.CLIFile = cliRelative
-	entry.CLIName = document.name
+	entry.CLIName = cliName
 	entry.CLISHA256 = contentHash(cliContent)
 	entry.Status = statusMapped
 }
 
-func mapCLIEntry(entry *ManifestEntry, cliRelative string, cliContent []byte, document document) error {
+func mapCLIEntry(
+	entry *ManifestEntry,
+	cliRelative string,
+	cliContent []byte,
+	cliName string,
+	document document,
+) error {
 	if entry.Status != statusSDKOnly {
 		return fmt.Errorf(
 			"CLI operations %q and %q both map to %q",
@@ -285,7 +347,7 @@ func mapCLIEntry(entry *ManifestEntry, cliRelative string, cliContent []byte, do
 			entry.SDKFile,
 		)
 	}
-	updateMappedEntry(entry, cliRelative, cliContent, document)
+	updateMappedEntry(entry, cliRelative, cliContent, cliName, document)
 	return nil
 }
 
@@ -348,6 +410,9 @@ func validateImportConfig(config ImportConfig) error {
 	}
 	if config.SDKRoot == "" {
 		return errors.New("SDK root is required")
+	}
+	if !commitSHAPattern.MatchString(config.CLICommitSHA) {
+		return fmt.Errorf("CLI commit SHA %q is not a full commit SHA", config.CLICommitSHA)
 	}
 	if err := confinedPath(config.CLIRoot, filepath.Join(config.CLIRoot, "queryPayloads")); err != nil {
 		return err

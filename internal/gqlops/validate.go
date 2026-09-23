@@ -22,13 +22,14 @@ const (
 )
 
 type document struct {
-	key      string
-	kind     string
-	name     string
-	path     string
-	relative string
-	content  []byte
-	hash     string
+	key       string
+	kind      string
+	name      string
+	variables []string
+	path      string
+	relative  string
+	content   []byte
+	hash      string
 }
 
 func loadSchema(sdkRoot string) (*ast.Schema, error) {
@@ -107,7 +108,12 @@ func parseOperation(schema *ast.Schema, path string, content []byte) (document, 
 		return document{}, fmt.Errorf("operation file %q has no operation name", path)
 	}
 
-	return document{kind: kind, name: operation.Name}, nil
+	variables := make([]string, 0, len(operation.VariableDefinitions))
+	for _, definition := range operation.VariableDefinitions {
+		variables = append(variables, definition.Variable)
+	}
+
+	return document{kind: kind, name: operation.Name, variables: variables}, nil
 }
 
 func validateUniqueDocuments(documents []document) error {
