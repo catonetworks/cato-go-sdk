@@ -1,5 +1,5 @@
 mutation removeSiteBwLicense ($accountId: ID!, $removeSiteBwLicenseInput: RemoveSiteBwLicenseInput!) {
-	site(accountId: $accountId) {
+	sites: site(accountId: $accountId) {
 		removeSiteBwLicense(input: $removeSiteBwLicenseInput) {
 			license {
 				id

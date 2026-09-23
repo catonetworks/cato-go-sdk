@@ -1,5 +1,5 @@
 mutation assignSiteBwLicense ($accountId: ID!, $assignSiteBwLicenseInput: AssignSiteBwLicenseInput!) {
-	site(accountId: $accountId) {
+	sites: site(accountId: $accountId) {
 		assignSiteBwLicense(input: $assignSiteBwLicenseInput) {
 			license {
 				id

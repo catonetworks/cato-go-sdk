@@ -5419,7 +5419,7 @@
         "accountId",
         "assignSiteBwLicenseInput"
       ],
-      "document_sha256": "a772f6ccbfaeb25d6c9eaacb75402c9717b912209692e7b4ec781cae67892db1",
+      "document_sha256": "11cbe0ce385ef299e95233292b75a7b697dc3ac6afcb5e8d8dbd94088f18e25e",
       "cli_file": "queryPayloads/mutation.site.assignSiteBwLicense.txt",
       "cli_name": "siteAssignSiteBwLicense",
       "cli_sha256": "0464ec10b36ef9ba551b1589b49bd43a745d086cfb69f0e93c3474a3d9b28774",
@@ -5705,7 +5705,7 @@
         "accountId",
         "removeSiteBwLicenseInput"
       ],
-      "document_sha256": "63404da008ce1c89784384cb14a36389017c8843f45d3ee94d01bdc7c8501ef3",
+      "document_sha256": "6256fd2154a327dabf0f7f39e4e2ddfbfec930eefa3097462fe0d1da28215257",
       "cli_file": "queryPayloads/mutation.site.removeSiteBwLicense.txt",
       "cli_name": "siteRemoveSiteBwLicense",
       "cli_sha256": "5f981272ef06ca4c940193840cf0e579c2534198cd5fb00a9c738ee78722e2bc",
@@ -5765,7 +5765,7 @@
         "accountId",
         "replaceSiteBwLicenseInput"
       ],
-      "document_sha256": "94918b6c334c23e7b0ced95dc7af4099989fe72e3135b3ba2fb6068272cdb3e2",
+      "document_sha256": "71339037d42bbfd61038e720865b95492e9964470d2e0cfbcc7218392cdab997",
       "cli_file": "queryPayloads/mutation.site.replaceSiteBwLicense.txt",
       "cli_name": "siteReplaceSiteBwLicense",
       "cli_sha256": "78177fba1cefeb5332a61a9b92268ae029e184315bb0101b82cdd18ab130b9ad",
@@ -5994,7 +5994,7 @@
         "accountId",
         "updateSiteBwLicenseInput"
       ],
-      "document_sha256": "182283d6c28d75cb033a5fcda0e81ce9a2ad55ba0873eca47d231f9d4237fce9",
+      "document_sha256": "1a56a7e2130623497cff5fad1b6d9888fca88500d5dd1b32b0752886f60edb89",
       "cli_file": "queryPayloads/mutation.site.updateSiteBwLicense.txt",
       "cli_name": "siteUpdateSiteBwLicense",
       "cli_sha256": "0e38fb27d3f10490fbec714b4c8f106649c22959b2c9f2a717f33b0077fd7d17",
@@ -7439,11 +7439,11 @@
       "variables": [
         "toRate",
         "types",
+        "withMissingData3",
         "siteIDs",
         "ids",
-        "withMissingData5",
-        "perSecond6",
         "userIDs",
+        "perSecond7",
         "labels1",
         "buckets1",
         "accountID",
@@ -7453,7 +7453,7 @@
         "groupDevices",
         "useDefaultSizeBucket"
       ],
-      "document_sha256": "8e835af6b2e0210d2baa59cc891e8aeb064761e134245a9e3f9e2d2718e06c1b",
+      "document_sha256": "8b65efc9d91526a14f814c030002dd84fab4d41e8647fa39186113cb5842f073",
       "cli_file": "queryPayloads/query.accountMetrics.txt",
       "cli_name": "accountMetrics",
       "cli_sha256": "989ff54037f1c15256c3c0053793d9fae0cad313af0bcc81d77df234e5afc1aa",

@@ -164,6 +164,33 @@ func TestImportPreservesStableMappedAPIAndIsIdempotent(t *testing.T) { //nolint:
 	}
 }
 
+func TestNormalizeMappedOperationPreservesSiteRootResponseName(t *testing.T) {
+	t.Parallel()
+
+	schema, err := gqlparser.LoadSchema(&ast.Source{Input: `
+		schema { mutation: Mutation }
+		type Mutation { sites: Site!, site: Site! }
+		type Site { change: String! }
+	`})
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	content, err := normalizeMappedOperation(
+		schema,
+		"mutation.site.change.txt",
+		[]byte("mutation stable { sites { change } }\n"),
+		[]byte("mutation generated { site { change } }\n"),
+		"stable",
+	)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if !strings.Contains(string(content), "sites: site") {
+		t.Fatalf("site root response name was not retained:\n%s", content)
+	}
+}
+
 func TestImportAvoidsHandwrittenCollisionAndRetainsSDKOnlySource(t *testing.T) {
 	t.Parallel()
 

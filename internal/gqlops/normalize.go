@@ -46,6 +46,7 @@ func normalizeMappedOperation(
 			incomingOperation.VariableDefinitions,
 		)
 
+		preserveSiteRootAlias(existingOperation.SelectionSet, incomingOperation.SelectionSet)
 		aliases := collectAliases(existingOperation.SelectionSet, nil)
 		applyAliases(incomingOperation.SelectionSet, nil, aliases)
 		applyFragmentAliases(existing, incoming)
@@ -58,6 +59,45 @@ func normalizeMappedOperation(
 		return content, nil
 	}
 	return normalize(false)
+}
+
+func preserveSiteRootAlias(existing, incoming ast.SelectionSet) {
+	previous := directField(existing, "sites")
+	current := directField(incoming, "site")
+	if previous == nil || current == nil || !shareDirectChild(previous.SelectionSet, current.SelectionSet) {
+		return
+	}
+	current.Alias = previous.Alias
+	if current.Alias == "" || current.Alias == previous.Name {
+		current.Alias = previous.Name
+	}
+}
+
+func directField(selections ast.SelectionSet, name string) *ast.Field {
+	for _, selection := range selections {
+		field, ok := selection.(*ast.Field)
+		if ok && field.Name == name {
+			return field
+		}
+	}
+	return nil
+}
+
+func shareDirectChild(left, right ast.SelectionSet) bool {
+	names := make(map[string]struct{})
+	for _, selection := range left {
+		if field, ok := selection.(*ast.Field); ok {
+			names[field.Name] = struct{}{}
+		}
+	}
+	for _, selection := range right {
+		if field, ok := selection.(*ast.Field); ok {
+			if _, exists := names[field.Name]; exists {
+				return true
+			}
+		}
+	}
+	return false
 }
 
 type fieldRecord struct {

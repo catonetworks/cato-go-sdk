@@ -494,7 +494,7 @@ type CatoClient interface {
 	AccountManagement(ctx context.Context, accountID string, interceptors ...clientv2.RequestInterceptor) (*AccountManagement, error)
 	AccountManagementRemoveAccount(ctx context.Context, accountIDToRemove string, accountID string, interceptors ...clientv2.RequestInterceptor) (*AccountManagementRemoveAccount, error)
 	AccountManagementUpdateAccount(ctx context.Context, updateAccountInput cato_models.UpdateAccountInput, accountID string, interceptors ...clientv2.RequestInterceptor) (*AccountManagementUpdateAccount, error)
-	AccountMetrics(ctx context.Context, toRate *bool, types []string, siteIDs []string, ids []string, withMissingData5 *bool, perSecond6 *bool, userIDs []string, labels1 []cato_models.TimeseriesMetricType, buckets1 *int64, accountID *string, id *string, timeFrame string, groupInterfaces *bool, groupDevices *bool, useDefaultSizeBucket *bool, interceptors ...clientv2.RequestInterceptor) (*AccountMetrics, error)
+	AccountMetrics(ctx context.Context, toRate *bool, types []string, withMissingData3 *bool, siteIDs []string, ids []string, userIDs []string, perSecond7 *bool, labels1 []cato_models.TimeseriesMetricType, buckets1 *int64, accountID *string, id *string, timeFrame string, groupInterfaces *bool, groupDevices *bool, useDefaultSizeBucket *bool, interceptors ...clientv2.RequestInterceptor) (*AccountMetrics, error)
 	AccountRoles(ctx context.Context, accountID string, accountType *cato_models.AccountType, interceptors ...clientv2.RequestInterceptor) (*AccountRoles, error)
 	AccountSnapshot(ctx context.Context, siteIDs []string, userIDs []string, accountID *string, interceptors ...clientv2.RequestInterceptor) (*AccountSnapshot, error)
 	Admin(ctx context.Context, accountID string, adminID string, interceptors ...clientv2.RequestInterceptor) (*Admin, error)
@@ -244821,751 +244821,751 @@ func (t *SiteAddStaticHost_Site) GetAddStaticHost() *SiteAddStaticHost_Site_AddS
 	return t.AddStaticHost
 }
 
-type AssignSiteBwLicense_Site_AssignSiteBwLicense_License_DataLakeLicense struct {
+type AssignSiteBwLicense_Sites_AssignSiteBwLicense_License_DataLakeLicense struct {
 	DpaVersion      cato_models.DpaVersion "json:\"dpaVersion\" graphql:\"dpaVersion\""
 	RetentionPeriod *int64                 "json:\"retentionPeriod,omitempty\" graphql:\"retentionPeriod\""
 	Total           int64                  "json:\"total\" graphql:\"total\""
 }
 
-func (t *AssignSiteBwLicense_Site_AssignSiteBwLicense_License_DataLakeLicense) GetDpaVersion() *cato_models.DpaVersion {
+func (t *AssignSiteBwLicense_Sites_AssignSiteBwLicense_License_DataLakeLicense) GetDpaVersion() *cato_models.DpaVersion {
 	if t == nil {
-		t = &AssignSiteBwLicense_Site_AssignSiteBwLicense_License_DataLakeLicense{}
+		t = &AssignSiteBwLicense_Sites_AssignSiteBwLicense_License_DataLakeLicense{}
 	}
 	return &t.DpaVersion
 }
-func (t *AssignSiteBwLicense_Site_AssignSiteBwLicense_License_DataLakeLicense) GetRetentionPeriod() *int64 {
+func (t *AssignSiteBwLicense_Sites_AssignSiteBwLicense_License_DataLakeLicense) GetRetentionPeriod() *int64 {
 	if t == nil {
-		t = &AssignSiteBwLicense_Site_AssignSiteBwLicense_License_DataLakeLicense{}
+		t = &AssignSiteBwLicense_Sites_AssignSiteBwLicense_License_DataLakeLicense{}
 	}
 	return t.RetentionPeriod
 }
-func (t *AssignSiteBwLicense_Site_AssignSiteBwLicense_License_DataLakeLicense) GetTotal() int64 {
+func (t *AssignSiteBwLicense_Sites_AssignSiteBwLicense_License_DataLakeLicense) GetTotal() int64 {
 	if t == nil {
-		t = &AssignSiteBwLicense_Site_AssignSiteBwLicense_License_DataLakeLicense{}
+		t = &AssignSiteBwLicense_Sites_AssignSiteBwLicense_License_DataLakeLicense{}
 	}
 	return t.Total
 }
 
-type AssignSiteBwLicense_Site_AssignSiteBwLicense_License_PublicIpsLicense struct {
+type AssignSiteBwLicense_Sites_AssignSiteBwLicense_License_PublicIpsLicense struct {
 	Total int64 "json:\"total\" graphql:\"total\""
 }
 
-func (t *AssignSiteBwLicense_Site_AssignSiteBwLicense_License_PublicIpsLicense) GetTotal() int64 {
+func (t *AssignSiteBwLicense_Sites_AssignSiteBwLicense_License_PublicIpsLicense) GetTotal() int64 {
 	if t == nil {
-		t = &AssignSiteBwLicense_Site_AssignSiteBwLicense_License_PublicIpsLicense{}
+		t = &AssignSiteBwLicense_Sites_AssignSiteBwLicense_License_PublicIpsLicense{}
 	}
 	return t.Total
 }
 
-type AssignSiteBwLicense_Site_AssignSiteBwLicense_License_SiteLicense_Site struct {
+type AssignSiteBwLicense_Sites_AssignSiteBwLicense_License_SiteLicense_Site struct {
 	ID   string "json:\"id\" graphql:\"id\""
 	Name string "json:\"name\" graphql:\"name\""
 }
 
-func (t *AssignSiteBwLicense_Site_AssignSiteBwLicense_License_SiteLicense_Site) GetID() string {
+func (t *AssignSiteBwLicense_Sites_AssignSiteBwLicense_License_SiteLicense_Site) GetID() string {
 	if t == nil {
-		t = &AssignSiteBwLicense_Site_AssignSiteBwLicense_License_SiteLicense_Site{}
+		t = &AssignSiteBwLicense_Sites_AssignSiteBwLicense_License_SiteLicense_Site{}
 	}
 	return t.ID
 }
-func (t *AssignSiteBwLicense_Site_AssignSiteBwLicense_License_SiteLicense_Site) GetName() string {
+func (t *AssignSiteBwLicense_Sites_AssignSiteBwLicense_License_SiteLicense_Site) GetName() string {
 	if t == nil {
-		t = &AssignSiteBwLicense_Site_AssignSiteBwLicense_License_SiteLicense_Site{}
+		t = &AssignSiteBwLicense_Sites_AssignSiteBwLicense_License_SiteLicense_Site{}
 	}
 	return t.Name
 }
 
-type AssignSiteBwLicense_Site_AssignSiteBwLicense_License_SiteLicense struct {
-	SiteLicenseGroup cato_models.SiteLicenseGroup                                           "json:\"siteLicenseGroup\" graphql:\"siteLicenseGroup\""
-	Regionality      *cato_models.Regionality                                               "json:\"regionality,omitempty\" graphql:\"regionality\""
-	SiteLicenseType  cato_models.SiteLicenseType                                            "json:\"siteLicenseType\" graphql:\"siteLicenseType\""
-	Total            int64                                                                  "json:\"total\" graphql:\"total\""
-	Site             *AssignSiteBwLicense_Site_AssignSiteBwLicense_License_SiteLicense_Site "json:\"site,omitempty\" graphql:\"site\""
+type AssignSiteBwLicense_Sites_AssignSiteBwLicense_License_SiteLicense struct {
+	SiteLicenseGroup cato_models.SiteLicenseGroup                                            "json:\"siteLicenseGroup\" graphql:\"siteLicenseGroup\""
+	Regionality      *cato_models.Regionality                                                "json:\"regionality,omitempty\" graphql:\"regionality\""
+	SiteLicenseType  cato_models.SiteLicenseType                                             "json:\"siteLicenseType\" graphql:\"siteLicenseType\""
+	Total            int64                                                                   "json:\"total\" graphql:\"total\""
+	Site             *AssignSiteBwLicense_Sites_AssignSiteBwLicense_License_SiteLicense_Site "json:\"site,omitempty\" graphql:\"site\""
 }
 
-func (t *AssignSiteBwLicense_Site_AssignSiteBwLicense_License_SiteLicense) GetSiteLicenseGroup() *cato_models.SiteLicenseGroup {
+func (t *AssignSiteBwLicense_Sites_AssignSiteBwLicense_License_SiteLicense) GetSiteLicenseGroup() *cato_models.SiteLicenseGroup {
 	if t == nil {
-		t = &AssignSiteBwLicense_Site_AssignSiteBwLicense_License_SiteLicense{}
+		t = &AssignSiteBwLicense_Sites_AssignSiteBwLicense_License_SiteLicense{}
 	}
 	return &t.SiteLicenseGroup
 }
-func (t *AssignSiteBwLicense_Site_AssignSiteBwLicense_License_SiteLicense) GetRegionality() *cato_models.Regionality {
+func (t *AssignSiteBwLicense_Sites_AssignSiteBwLicense_License_SiteLicense) GetRegionality() *cato_models.Regionality {
 	if t == nil {
-		t = &AssignSiteBwLicense_Site_AssignSiteBwLicense_License_SiteLicense{}
+		t = &AssignSiteBwLicense_Sites_AssignSiteBwLicense_License_SiteLicense{}
 	}
 	return t.Regionality
 }
-func (t *AssignSiteBwLicense_Site_AssignSiteBwLicense_License_SiteLicense) GetSiteLicenseType() *cato_models.SiteLicenseType {
+func (t *AssignSiteBwLicense_Sites_AssignSiteBwLicense_License_SiteLicense) GetSiteLicenseType() *cato_models.SiteLicenseType {
 	if t == nil {
-		t = &AssignSiteBwLicense_Site_AssignSiteBwLicense_License_SiteLicense{}
+		t = &AssignSiteBwLicense_Sites_AssignSiteBwLicense_License_SiteLicense{}
 	}
 	return &t.SiteLicenseType
 }
-func (t *AssignSiteBwLicense_Site_AssignSiteBwLicense_License_SiteLicense) GetTotal() int64 {
+func (t *AssignSiteBwLicense_Sites_AssignSiteBwLicense_License_SiteLicense) GetTotal() int64 {
 	if t == nil {
-		t = &AssignSiteBwLicense_Site_AssignSiteBwLicense_License_SiteLicense{}
+		t = &AssignSiteBwLicense_Sites_AssignSiteBwLicense_License_SiteLicense{}
 	}
 	return t.Total
 }
-func (t *AssignSiteBwLicense_Site_AssignSiteBwLicense_License_SiteLicense) GetSite() *AssignSiteBwLicense_Site_AssignSiteBwLicense_License_SiteLicense_Site {
+func (t *AssignSiteBwLicense_Sites_AssignSiteBwLicense_License_SiteLicense) GetSite() *AssignSiteBwLicense_Sites_AssignSiteBwLicense_License_SiteLicense_Site {
 	if t == nil {
-		t = &AssignSiteBwLicense_Site_AssignSiteBwLicense_License_SiteLicense{}
+		t = &AssignSiteBwLicense_Sites_AssignSiteBwLicense_License_SiteLicense{}
 	}
 	return t.Site
 }
 
-type AssignSiteBwLicense_Site_AssignSiteBwLicense_License_PooledBandwidthLicense_Sites_SitePooledBandwidthLicenseSite struct {
+type AssignSiteBwLicense_Sites_AssignSiteBwLicense_License_PooledBandwidthLicense_Sites_SitePooledBandwidthLicenseSite struct {
 	ID   string "json:\"id\" graphql:\"id\""
 	Name string "json:\"name\" graphql:\"name\""
 }
 
-func (t *AssignSiteBwLicense_Site_AssignSiteBwLicense_License_PooledBandwidthLicense_Sites_SitePooledBandwidthLicenseSite) GetID() string {
+func (t *AssignSiteBwLicense_Sites_AssignSiteBwLicense_License_PooledBandwidthLicense_Sites_SitePooledBandwidthLicenseSite) GetID() string {
 	if t == nil {
-		t = &AssignSiteBwLicense_Site_AssignSiteBwLicense_License_PooledBandwidthLicense_Sites_SitePooledBandwidthLicenseSite{}
+		t = &AssignSiteBwLicense_Sites_AssignSiteBwLicense_License_PooledBandwidthLicense_Sites_SitePooledBandwidthLicenseSite{}
 	}
 	return t.ID
 }
-func (t *AssignSiteBwLicense_Site_AssignSiteBwLicense_License_PooledBandwidthLicense_Sites_SitePooledBandwidthLicenseSite) GetName() string {
+func (t *AssignSiteBwLicense_Sites_AssignSiteBwLicense_License_PooledBandwidthLicense_Sites_SitePooledBandwidthLicenseSite) GetName() string {
 	if t == nil {
-		t = &AssignSiteBwLicense_Site_AssignSiteBwLicense_License_PooledBandwidthLicense_Sites_SitePooledBandwidthLicenseSite{}
+		t = &AssignSiteBwLicense_Sites_AssignSiteBwLicense_License_PooledBandwidthLicense_Sites_SitePooledBandwidthLicenseSite{}
 	}
 	return t.Name
 }
 
-type AssignSiteBwLicense_Site_AssignSiteBwLicense_License_PooledBandwidthLicense_Sites struct {
-	AllocatedBandwidth             int64                                                                                                            "json:\"allocatedBandwidth\" graphql:\"allocatedBandwidth\""
-	SitePooledBandwidthLicenseSite AssignSiteBwLicense_Site_AssignSiteBwLicense_License_PooledBandwidthLicense_Sites_SitePooledBandwidthLicenseSite "json:\"sitePooledBandwidthLicenseSite\" graphql:\"sitePooledBandwidthLicenseSite\""
+type AssignSiteBwLicense_Sites_AssignSiteBwLicense_License_PooledBandwidthLicense_Sites struct {
+	AllocatedBandwidth             int64                                                                                                             "json:\"allocatedBandwidth\" graphql:\"allocatedBandwidth\""
+	SitePooledBandwidthLicenseSite AssignSiteBwLicense_Sites_AssignSiteBwLicense_License_PooledBandwidthLicense_Sites_SitePooledBandwidthLicenseSite "json:\"sitePooledBandwidthLicenseSite\" graphql:\"sitePooledBandwidthLicenseSite\""
 }
 
-func (t *AssignSiteBwLicense_Site_AssignSiteBwLicense_License_PooledBandwidthLicense_Sites) GetAllocatedBandwidth() int64 {
+func (t *AssignSiteBwLicense_Sites_AssignSiteBwLicense_License_PooledBandwidthLicense_Sites) GetAllocatedBandwidth() int64 {
 	if t == nil {
-		t = &AssignSiteBwLicense_Site_AssignSiteBwLicense_License_PooledBandwidthLicense_Sites{}
+		t = &AssignSiteBwLicense_Sites_AssignSiteBwLicense_License_PooledBandwidthLicense_Sites{}
 	}
 	return t.AllocatedBandwidth
 }
-func (t *AssignSiteBwLicense_Site_AssignSiteBwLicense_License_PooledBandwidthLicense_Sites) GetSitePooledBandwidthLicenseSite() *AssignSiteBwLicense_Site_AssignSiteBwLicense_License_PooledBandwidthLicense_Sites_SitePooledBandwidthLicenseSite {
+func (t *AssignSiteBwLicense_Sites_AssignSiteBwLicense_License_PooledBandwidthLicense_Sites) GetSitePooledBandwidthLicenseSite() *AssignSiteBwLicense_Sites_AssignSiteBwLicense_License_PooledBandwidthLicense_Sites_SitePooledBandwidthLicenseSite {
 	if t == nil {
-		t = &AssignSiteBwLicense_Site_AssignSiteBwLicense_License_PooledBandwidthLicense_Sites{}
+		t = &AssignSiteBwLicense_Sites_AssignSiteBwLicense_License_PooledBandwidthLicense_Sites{}
 	}
 	return &t.SitePooledBandwidthLicenseSite
 }
 
-type AssignSiteBwLicense_Site_AssignSiteBwLicense_License_PooledBandwidthLicense_Accounts_AccountPartnerPooledBandwidthLicenseAccount struct {
+type AssignSiteBwLicense_Sites_AssignSiteBwLicense_License_PooledBandwidthLicense_Accounts_AccountPartnerPooledBandwidthLicenseAccount struct {
 	ID   string "json:\"id\" graphql:\"id\""
 	Name string "json:\"name\" graphql:\"name\""
 }
 
-func (t *AssignSiteBwLicense_Site_AssignSiteBwLicense_License_PooledBandwidthLicense_Accounts_AccountPartnerPooledBandwidthLicenseAccount) GetID() string {
+func (t *AssignSiteBwLicense_Sites_AssignSiteBwLicense_License_PooledBandwidthLicense_Accounts_AccountPartnerPooledBandwidthLicenseAccount) GetID() string {
 	if t == nil {
-		t = &AssignSiteBwLicense_Site_AssignSiteBwLicense_License_PooledBandwidthLicense_Accounts_AccountPartnerPooledBandwidthLicenseAccount{}
+		t = &AssignSiteBwLicense_Sites_AssignSiteBwLicense_License_PooledBandwidthLicense_Accounts_AccountPartnerPooledBandwidthLicenseAccount{}
 	}
 	return t.ID
 }
-func (t *AssignSiteBwLicense_Site_AssignSiteBwLicense_License_PooledBandwidthLicense_Accounts_AccountPartnerPooledBandwidthLicenseAccount) GetName() string {
+func (t *AssignSiteBwLicense_Sites_AssignSiteBwLicense_License_PooledBandwidthLicense_Accounts_AccountPartnerPooledBandwidthLicenseAccount) GetName() string {
 	if t == nil {
-		t = &AssignSiteBwLicense_Site_AssignSiteBwLicense_License_PooledBandwidthLicense_Accounts_AccountPartnerPooledBandwidthLicenseAccount{}
+		t = &AssignSiteBwLicense_Sites_AssignSiteBwLicense_License_PooledBandwidthLicense_Accounts_AccountPartnerPooledBandwidthLicenseAccount{}
 	}
 	return t.Name
 }
 
-type AssignSiteBwLicense_Site_AssignSiteBwLicense_License_PooledBandwidthLicense_Accounts struct {
-	AccountPartnerPooledBandwidthLicenseAccount AssignSiteBwLicense_Site_AssignSiteBwLicense_License_PooledBandwidthLicense_Accounts_AccountPartnerPooledBandwidthLicenseAccount "json:\"accountPartnerPooledBandwidthLicenseAccount\" graphql:\"accountPartnerPooledBandwidthLicenseAccount\""
-	AllocatedBandwidth                          int64                                                                                                                            "json:\"allocatedBandwidth\" graphql:\"allocatedBandwidth\""
+type AssignSiteBwLicense_Sites_AssignSiteBwLicense_License_PooledBandwidthLicense_Accounts struct {
+	AccountPartnerPooledBandwidthLicenseAccount AssignSiteBwLicense_Sites_AssignSiteBwLicense_License_PooledBandwidthLicense_Accounts_AccountPartnerPooledBandwidthLicenseAccount "json:\"accountPartnerPooledBandwidthLicenseAccount\" graphql:\"accountPartnerPooledBandwidthLicenseAccount\""
+	AllocatedBandwidth                          int64                                                                                                                             "json:\"allocatedBandwidth\" graphql:\"allocatedBandwidth\""
 }
 
-func (t *AssignSiteBwLicense_Site_AssignSiteBwLicense_License_PooledBandwidthLicense_Accounts) GetAccountPartnerPooledBandwidthLicenseAccount() *AssignSiteBwLicense_Site_AssignSiteBwLicense_License_PooledBandwidthLicense_Accounts_AccountPartnerPooledBandwidthLicenseAccount {
+func (t *AssignSiteBwLicense_Sites_AssignSiteBwLicense_License_PooledBandwidthLicense_Accounts) GetAccountPartnerPooledBandwidthLicenseAccount() *AssignSiteBwLicense_Sites_AssignSiteBwLicense_License_PooledBandwidthLicense_Accounts_AccountPartnerPooledBandwidthLicenseAccount {
 	if t == nil {
-		t = &AssignSiteBwLicense_Site_AssignSiteBwLicense_License_PooledBandwidthLicense_Accounts{}
+		t = &AssignSiteBwLicense_Sites_AssignSiteBwLicense_License_PooledBandwidthLicense_Accounts{}
 	}
 	return &t.AccountPartnerPooledBandwidthLicenseAccount
 }
-func (t *AssignSiteBwLicense_Site_AssignSiteBwLicense_License_PooledBandwidthLicense_Accounts) GetAllocatedBandwidth() int64 {
+func (t *AssignSiteBwLicense_Sites_AssignSiteBwLicense_License_PooledBandwidthLicense_Accounts) GetAllocatedBandwidth() int64 {
 	if t == nil {
-		t = &AssignSiteBwLicense_Site_AssignSiteBwLicense_License_PooledBandwidthLicense_Accounts{}
+		t = &AssignSiteBwLicense_Sites_AssignSiteBwLicense_License_PooledBandwidthLicense_Accounts{}
 	}
 	return t.AllocatedBandwidth
 }
 
-type AssignSiteBwLicense_Site_AssignSiteBwLicense_License_PooledBandwidthLicense struct {
-	SiteLicenseGroup   cato_models.SiteLicenseGroup                                                            "json:\"siteLicenseGroup\" graphql:\"siteLicenseGroup\""
-	SiteLicenseType    cato_models.SiteLicenseType                                                             "json:\"siteLicenseType\" graphql:\"siteLicenseType\""
-	Total              int64                                                                                   "json:\"total\" graphql:\"total\""
-	AllocatedBandwidth int64                                                                                   "json:\"allocatedBandwidth\" graphql:\"allocatedBandwidth\""
-	Sites              []*AssignSiteBwLicense_Site_AssignSiteBwLicense_License_PooledBandwidthLicense_Sites    "json:\"sites\" graphql:\"sites\""
-	Accounts           []*AssignSiteBwLicense_Site_AssignSiteBwLicense_License_PooledBandwidthLicense_Accounts "json:\"accounts\" graphql:\"accounts\""
+type AssignSiteBwLicense_Sites_AssignSiteBwLicense_License_PooledBandwidthLicense struct {
+	SiteLicenseGroup   cato_models.SiteLicenseGroup                                                             "json:\"siteLicenseGroup\" graphql:\"siteLicenseGroup\""
+	SiteLicenseType    cato_models.SiteLicenseType                                                              "json:\"siteLicenseType\" graphql:\"siteLicenseType\""
+	Total              int64                                                                                    "json:\"total\" graphql:\"total\""
+	AllocatedBandwidth int64                                                                                    "json:\"allocatedBandwidth\" graphql:\"allocatedBandwidth\""
+	Sites              []*AssignSiteBwLicense_Sites_AssignSiteBwLicense_License_PooledBandwidthLicense_Sites    "json:\"sites\" graphql:\"sites\""
+	Accounts           []*AssignSiteBwLicense_Sites_AssignSiteBwLicense_License_PooledBandwidthLicense_Accounts "json:\"accounts\" graphql:\"accounts\""
 }
 
-func (t *AssignSiteBwLicense_Site_AssignSiteBwLicense_License_PooledBandwidthLicense) GetSiteLicenseGroup() *cato_models.SiteLicenseGroup {
+func (t *AssignSiteBwLicense_Sites_AssignSiteBwLicense_License_PooledBandwidthLicense) GetSiteLicenseGroup() *cato_models.SiteLicenseGroup {
 	if t == nil {
-		t = &AssignSiteBwLicense_Site_AssignSiteBwLicense_License_PooledBandwidthLicense{}
+		t = &AssignSiteBwLicense_Sites_AssignSiteBwLicense_License_PooledBandwidthLicense{}
 	}
 	return &t.SiteLicenseGroup
 }
-func (t *AssignSiteBwLicense_Site_AssignSiteBwLicense_License_PooledBandwidthLicense) GetSiteLicenseType() *cato_models.SiteLicenseType {
+func (t *AssignSiteBwLicense_Sites_AssignSiteBwLicense_License_PooledBandwidthLicense) GetSiteLicenseType() *cato_models.SiteLicenseType {
 	if t == nil {
-		t = &AssignSiteBwLicense_Site_AssignSiteBwLicense_License_PooledBandwidthLicense{}
+		t = &AssignSiteBwLicense_Sites_AssignSiteBwLicense_License_PooledBandwidthLicense{}
 	}
 	return &t.SiteLicenseType
 }
-func (t *AssignSiteBwLicense_Site_AssignSiteBwLicense_License_PooledBandwidthLicense) GetTotal() int64 {
+func (t *AssignSiteBwLicense_Sites_AssignSiteBwLicense_License_PooledBandwidthLicense) GetTotal() int64 {
 	if t == nil {
-		t = &AssignSiteBwLicense_Site_AssignSiteBwLicense_License_PooledBandwidthLicense{}
+		t = &AssignSiteBwLicense_Sites_AssignSiteBwLicense_License_PooledBandwidthLicense{}
 	}
 	return t.Total
 }
-func (t *AssignSiteBwLicense_Site_AssignSiteBwLicense_License_PooledBandwidthLicense) GetAllocatedBandwidth() int64 {
+func (t *AssignSiteBwLicense_Sites_AssignSiteBwLicense_License_PooledBandwidthLicense) GetAllocatedBandwidth() int64 {
 	if t == nil {
-		t = &AssignSiteBwLicense_Site_AssignSiteBwLicense_License_PooledBandwidthLicense{}
+		t = &AssignSiteBwLicense_Sites_AssignSiteBwLicense_License_PooledBandwidthLicense{}
 	}
 	return t.AllocatedBandwidth
 }
-func (t *AssignSiteBwLicense_Site_AssignSiteBwLicense_License_PooledBandwidthLicense) GetSites() []*AssignSiteBwLicense_Site_AssignSiteBwLicense_License_PooledBandwidthLicense_Sites {
+func (t *AssignSiteBwLicense_Sites_AssignSiteBwLicense_License_PooledBandwidthLicense) GetSites() []*AssignSiteBwLicense_Sites_AssignSiteBwLicense_License_PooledBandwidthLicense_Sites {
 	if t == nil {
-		t = &AssignSiteBwLicense_Site_AssignSiteBwLicense_License_PooledBandwidthLicense{}
+		t = &AssignSiteBwLicense_Sites_AssignSiteBwLicense_License_PooledBandwidthLicense{}
 	}
 	return t.Sites
 }
-func (t *AssignSiteBwLicense_Site_AssignSiteBwLicense_License_PooledBandwidthLicense) GetAccounts() []*AssignSiteBwLicense_Site_AssignSiteBwLicense_License_PooledBandwidthLicense_Accounts {
+func (t *AssignSiteBwLicense_Sites_AssignSiteBwLicense_License_PooledBandwidthLicense) GetAccounts() []*AssignSiteBwLicense_Sites_AssignSiteBwLicense_License_PooledBandwidthLicense_Accounts {
 	if t == nil {
-		t = &AssignSiteBwLicense_Site_AssignSiteBwLicense_License_PooledBandwidthLicense{}
+		t = &AssignSiteBwLicense_Sites_AssignSiteBwLicense_License_PooledBandwidthLicense{}
 	}
 	return t.Accounts
 }
 
-type AssignSiteBwLicense_Site_AssignSiteBwLicense_License_ZtnaUsersLicense_Accounts_AccountPartnerZtnaUsersLicenseAccount struct {
+type AssignSiteBwLicense_Sites_AssignSiteBwLicense_License_ZtnaUsersLicense_Accounts_AccountPartnerZtnaUsersLicenseAccount struct {
 	ID   string "json:\"id\" graphql:\"id\""
 	Name string "json:\"name\" graphql:\"name\""
 }
 
-func (t *AssignSiteBwLicense_Site_AssignSiteBwLicense_License_ZtnaUsersLicense_Accounts_AccountPartnerZtnaUsersLicenseAccount) GetID() string {
+func (t *AssignSiteBwLicense_Sites_AssignSiteBwLicense_License_ZtnaUsersLicense_Accounts_AccountPartnerZtnaUsersLicenseAccount) GetID() string {
 	if t == nil {
-		t = &AssignSiteBwLicense_Site_AssignSiteBwLicense_License_ZtnaUsersLicense_Accounts_AccountPartnerZtnaUsersLicenseAccount{}
+		t = &AssignSiteBwLicense_Sites_AssignSiteBwLicense_License_ZtnaUsersLicense_Accounts_AccountPartnerZtnaUsersLicenseAccount{}
 	}
 	return t.ID
 }
-func (t *AssignSiteBwLicense_Site_AssignSiteBwLicense_License_ZtnaUsersLicense_Accounts_AccountPartnerZtnaUsersLicenseAccount) GetName() string {
+func (t *AssignSiteBwLicense_Sites_AssignSiteBwLicense_License_ZtnaUsersLicense_Accounts_AccountPartnerZtnaUsersLicenseAccount) GetName() string {
 	if t == nil {
-		t = &AssignSiteBwLicense_Site_AssignSiteBwLicense_License_ZtnaUsersLicense_Accounts_AccountPartnerZtnaUsersLicenseAccount{}
+		t = &AssignSiteBwLicense_Sites_AssignSiteBwLicense_License_ZtnaUsersLicense_Accounts_AccountPartnerZtnaUsersLicenseAccount{}
 	}
 	return t.Name
 }
 
-type AssignSiteBwLicense_Site_AssignSiteBwLicense_License_ZtnaUsersLicense_Accounts struct {
-	AccountPartnerZtnaUsersLicenseAccount AssignSiteBwLicense_Site_AssignSiteBwLicense_License_ZtnaUsersLicense_Accounts_AccountPartnerZtnaUsersLicenseAccount "json:\"accountPartnerZtnaUsersLicenseAccount\" graphql:\"accountPartnerZtnaUsersLicenseAccount\""
-	AllocatedUsers                        int64                                                                                                                "json:\"allocatedUsers\" graphql:\"allocatedUsers\""
+type AssignSiteBwLicense_Sites_AssignSiteBwLicense_License_ZtnaUsersLicense_Accounts struct {
+	AccountPartnerZtnaUsersLicenseAccount AssignSiteBwLicense_Sites_AssignSiteBwLicense_License_ZtnaUsersLicense_Accounts_AccountPartnerZtnaUsersLicenseAccount "json:\"accountPartnerZtnaUsersLicenseAccount\" graphql:\"accountPartnerZtnaUsersLicenseAccount\""
+	AllocatedUsers                        int64                                                                                                                 "json:\"allocatedUsers\" graphql:\"allocatedUsers\""
 }
 
-func (t *AssignSiteBwLicense_Site_AssignSiteBwLicense_License_ZtnaUsersLicense_Accounts) GetAccountPartnerZtnaUsersLicenseAccount() *AssignSiteBwLicense_Site_AssignSiteBwLicense_License_ZtnaUsersLicense_Accounts_AccountPartnerZtnaUsersLicenseAccount {
+func (t *AssignSiteBwLicense_Sites_AssignSiteBwLicense_License_ZtnaUsersLicense_Accounts) GetAccountPartnerZtnaUsersLicenseAccount() *AssignSiteBwLicense_Sites_AssignSiteBwLicense_License_ZtnaUsersLicense_Accounts_AccountPartnerZtnaUsersLicenseAccount {
 	if t == nil {
-		t = &AssignSiteBwLicense_Site_AssignSiteBwLicense_License_ZtnaUsersLicense_Accounts{}
+		t = &AssignSiteBwLicense_Sites_AssignSiteBwLicense_License_ZtnaUsersLicense_Accounts{}
 	}
 	return &t.AccountPartnerZtnaUsersLicenseAccount
 }
-func (t *AssignSiteBwLicense_Site_AssignSiteBwLicense_License_ZtnaUsersLicense_Accounts) GetAllocatedUsers() int64 {
+func (t *AssignSiteBwLicense_Sites_AssignSiteBwLicense_License_ZtnaUsersLicense_Accounts) GetAllocatedUsers() int64 {
 	if t == nil {
-		t = &AssignSiteBwLicense_Site_AssignSiteBwLicense_License_ZtnaUsersLicense_Accounts{}
+		t = &AssignSiteBwLicense_Sites_AssignSiteBwLicense_License_ZtnaUsersLicense_Accounts{}
 	}
 	return t.AllocatedUsers
 }
 
-type AssignSiteBwLicense_Site_AssignSiteBwLicense_License_ZtnaUsersLicense struct {
-	ZtnaUsersLicenseGroup cato_models.ZtnaUsersLicenseGroup                                                 "json:\"ztnaUsersLicenseGroup\" graphql:\"ztnaUsersLicenseGroup\""
-	Accounts              []*AssignSiteBwLicense_Site_AssignSiteBwLicense_License_ZtnaUsersLicense_Accounts "json:\"accounts\" graphql:\"accounts\""
-	Total                 int64                                                                             "json:\"total\" graphql:\"total\""
+type AssignSiteBwLicense_Sites_AssignSiteBwLicense_License_ZtnaUsersLicense struct {
+	ZtnaUsersLicenseGroup cato_models.ZtnaUsersLicenseGroup                                                  "json:\"ztnaUsersLicenseGroup\" graphql:\"ztnaUsersLicenseGroup\""
+	Accounts              []*AssignSiteBwLicense_Sites_AssignSiteBwLicense_License_ZtnaUsersLicense_Accounts "json:\"accounts\" graphql:\"accounts\""
+	Total                 int64                                                                              "json:\"total\" graphql:\"total\""
 }
 
-func (t *AssignSiteBwLicense_Site_AssignSiteBwLicense_License_ZtnaUsersLicense) GetZtnaUsersLicenseGroup() *cato_models.ZtnaUsersLicenseGroup {
+func (t *AssignSiteBwLicense_Sites_AssignSiteBwLicense_License_ZtnaUsersLicense) GetZtnaUsersLicenseGroup() *cato_models.ZtnaUsersLicenseGroup {
 	if t == nil {
-		t = &AssignSiteBwLicense_Site_AssignSiteBwLicense_License_ZtnaUsersLicense{}
+		t = &AssignSiteBwLicense_Sites_AssignSiteBwLicense_License_ZtnaUsersLicense{}
 	}
 	return &t.ZtnaUsersLicenseGroup
 }
-func (t *AssignSiteBwLicense_Site_AssignSiteBwLicense_License_ZtnaUsersLicense) GetAccounts() []*AssignSiteBwLicense_Site_AssignSiteBwLicense_License_ZtnaUsersLicense_Accounts {
+func (t *AssignSiteBwLicense_Sites_AssignSiteBwLicense_License_ZtnaUsersLicense) GetAccounts() []*AssignSiteBwLicense_Sites_AssignSiteBwLicense_License_ZtnaUsersLicense_Accounts {
 	if t == nil {
-		t = &AssignSiteBwLicense_Site_AssignSiteBwLicense_License_ZtnaUsersLicense{}
+		t = &AssignSiteBwLicense_Sites_AssignSiteBwLicense_License_ZtnaUsersLicense{}
 	}
 	return t.Accounts
 }
-func (t *AssignSiteBwLicense_Site_AssignSiteBwLicense_License_ZtnaUsersLicense) GetTotal() int64 {
+func (t *AssignSiteBwLicense_Sites_AssignSiteBwLicense_License_ZtnaUsersLicense) GetTotal() int64 {
 	if t == nil {
-		t = &AssignSiteBwLicense_Site_AssignSiteBwLicense_License_ZtnaUsersLicense{}
+		t = &AssignSiteBwLicense_Sites_AssignSiteBwLicense_License_ZtnaUsersLicense{}
 	}
 	return t.Total
 }
 
-type AssignSiteBwLicense_Site_AssignSiteBwLicense_License_EndpointProtectionLicense struct {
+type AssignSiteBwLicense_Sites_AssignSiteBwLicense_License_EndpointProtectionLicense struct {
 	Total int64 "json:\"total\" graphql:\"total\""
 }
 
-func (t *AssignSiteBwLicense_Site_AssignSiteBwLicense_License_EndpointProtectionLicense) GetTotal() int64 {
+func (t *AssignSiteBwLicense_Sites_AssignSiteBwLicense_License_EndpointProtectionLicense) GetTotal() int64 {
 	if t == nil {
-		t = &AssignSiteBwLicense_Site_AssignSiteBwLicense_License_EndpointProtectionLicense{}
+		t = &AssignSiteBwLicense_Sites_AssignSiteBwLicense_License_EndpointProtectionLicense{}
 	}
 	return t.Total
 }
 
-type AssignSiteBwLicense_Site_AssignSiteBwLicense_License_IlmmLicense struct {
+type AssignSiteBwLicense_Sites_AssignSiteBwLicense_License_IlmmLicense struct {
 	Total int64 "json:\"total\" graphql:\"total\""
 }
 
-func (t *AssignSiteBwLicense_Site_AssignSiteBwLicense_License_IlmmLicense) GetTotal() int64 {
+func (t *AssignSiteBwLicense_Sites_AssignSiteBwLicense_License_IlmmLicense) GetTotal() int64 {
 	if t == nil {
-		t = &AssignSiteBwLicense_Site_AssignSiteBwLicense_License_IlmmLicense{}
+		t = &AssignSiteBwLicense_Sites_AssignSiteBwLicense_License_IlmmLicense{}
 	}
 	return t.Total
 }
 
-type AssignSiteBwLicense_Site_AssignSiteBwLicense_License_SaasSecurityAPILicense struct {
+type AssignSiteBwLicense_Sites_AssignSiteBwLicense_License_SaasSecurityAPILicense struct {
 	Total int64 "json:\"total\" graphql:\"total\""
 }
 
-func (t *AssignSiteBwLicense_Site_AssignSiteBwLicense_License_SaasSecurityAPILicense) GetTotal() int64 {
+func (t *AssignSiteBwLicense_Sites_AssignSiteBwLicense_License_SaasSecurityAPILicense) GetTotal() int64 {
 	if t == nil {
-		t = &AssignSiteBwLicense_Site_AssignSiteBwLicense_License_SaasSecurityAPILicense{}
+		t = &AssignSiteBwLicense_Sites_AssignSiteBwLicense_License_SaasSecurityAPILicense{}
 	}
 	return t.Total
 }
 
-type AssignSiteBwLicense_Site_AssignSiteBwLicense_License_XdrProLicense struct {
+type AssignSiteBwLicense_Sites_AssignSiteBwLicense_License_XdrProLicense struct {
 	Total int64 "json:\"total\" graphql:\"total\""
 }
 
-func (t *AssignSiteBwLicense_Site_AssignSiteBwLicense_License_XdrProLicense) GetTotal() int64 {
+func (t *AssignSiteBwLicense_Sites_AssignSiteBwLicense_License_XdrProLicense) GetTotal() int64 {
 	if t == nil {
-		t = &AssignSiteBwLicense_Site_AssignSiteBwLicense_License_XdrProLicense{}
+		t = &AssignSiteBwLicense_Sites_AssignSiteBwLicense_License_XdrProLicense{}
 	}
 	return t.Total
 }
 
-type AssignSiteBwLicense_Site_AssignSiteBwLicense_License_DemLicense struct {
+type AssignSiteBwLicense_Sites_AssignSiteBwLicense_License_DemLicense struct {
 	Total int64 "json:\"total\" graphql:\"total\""
 }
 
-func (t *AssignSiteBwLicense_Site_AssignSiteBwLicense_License_DemLicense) GetTotal() int64 {
+func (t *AssignSiteBwLicense_Sites_AssignSiteBwLicense_License_DemLicense) GetTotal() int64 {
 	if t == nil {
-		t = &AssignSiteBwLicense_Site_AssignSiteBwLicense_License_DemLicense{}
+		t = &AssignSiteBwLicense_Sites_AssignSiteBwLicense_License_DemLicense{}
 	}
 	return t.Total
 }
 
-type AssignSiteBwLicense_Site_AssignSiteBwLicense_License_AssetsSecurityLicense struct {
+type AssignSiteBwLicense_Sites_AssignSiteBwLicense_License_AssetsSecurityLicense struct {
 	Total int64 "json:\"total\" graphql:\"total\""
 }
 
-func (t *AssignSiteBwLicense_Site_AssignSiteBwLicense_License_AssetsSecurityLicense) GetTotal() int64 {
+func (t *AssignSiteBwLicense_Sites_AssignSiteBwLicense_License_AssetsSecurityLicense) GetTotal() int64 {
 	if t == nil {
-		t = &AssignSiteBwLicense_Site_AssignSiteBwLicense_License_AssetsSecurityLicense{}
+		t = &AssignSiteBwLicense_Sites_AssignSiteBwLicense_License_AssetsSecurityLicense{}
 	}
 	return t.Total
 }
 
-type AssignSiteBwLicense_Site_AssignSiteBwLicense_License_AISecurityUsersLicense struct {
+type AssignSiteBwLicense_Sites_AssignSiteBwLicense_License_AISecurityUsersLicense struct {
 	Total int64 "json:\"total\" graphql:\"total\""
 }
 
-func (t *AssignSiteBwLicense_Site_AssignSiteBwLicense_License_AISecurityUsersLicense) GetTotal() int64 {
+func (t *AssignSiteBwLicense_Sites_AssignSiteBwLicense_License_AISecurityUsersLicense) GetTotal() int64 {
 	if t == nil {
-		t = &AssignSiteBwLicense_Site_AssignSiteBwLicense_License_AISecurityUsersLicense{}
+		t = &AssignSiteBwLicense_Sites_AssignSiteBwLicense_License_AISecurityUsersLicense{}
 	}
 	return t.Total
 }
 
-type AssignSiteBwLicense_Site_AssignSiteBwLicense_License_AISecurityApplicationsLicense struct {
+type AssignSiteBwLicense_Sites_AssignSiteBwLicense_License_AISecurityApplicationsLicense struct {
 	Total int64 "json:\"total\" graphql:\"total\""
 }
 
-func (t *AssignSiteBwLicense_Site_AssignSiteBwLicense_License_AISecurityApplicationsLicense) GetTotal() int64 {
+func (t *AssignSiteBwLicense_Sites_AssignSiteBwLicense_License_AISecurityApplicationsLicense) GetTotal() int64 {
 	if t == nil {
-		t = &AssignSiteBwLicense_Site_AssignSiteBwLicense_License_AISecurityApplicationsLicense{}
+		t = &AssignSiteBwLicense_Sites_AssignSiteBwLicense_License_AISecurityApplicationsLicense{}
 	}
 	return t.Total
 }
 
-type AssignSiteBwLicense_Site_AssignSiteBwLicense_License_MspCasbUsersLicense struct {
+type AssignSiteBwLicense_Sites_AssignSiteBwLicense_License_MspCasbUsersLicense struct {
 	Total int64 "json:\"total\" graphql:\"total\""
 }
 
-func (t *AssignSiteBwLicense_Site_AssignSiteBwLicense_License_MspCasbUsersLicense) GetTotal() int64 {
+func (t *AssignSiteBwLicense_Sites_AssignSiteBwLicense_License_MspCasbUsersLicense) GetTotal() int64 {
 	if t == nil {
-		t = &AssignSiteBwLicense_Site_AssignSiteBwLicense_License_MspCasbUsersLicense{}
+		t = &AssignSiteBwLicense_Sites_AssignSiteBwLicense_License_MspCasbUsersLicense{}
 	}
 	return t.Total
 }
 
-type AssignSiteBwLicense_Site_AssignSiteBwLicense_License_MspCasbBandwidthLicense struct {
+type AssignSiteBwLicense_Sites_AssignSiteBwLicense_License_MspCasbBandwidthLicense struct {
 	Total int64 "json:\"total\" graphql:\"total\""
 }
 
-func (t *AssignSiteBwLicense_Site_AssignSiteBwLicense_License_MspCasbBandwidthLicense) GetTotal() int64 {
+func (t *AssignSiteBwLicense_Sites_AssignSiteBwLicense_License_MspCasbBandwidthLicense) GetTotal() int64 {
 	if t == nil {
-		t = &AssignSiteBwLicense_Site_AssignSiteBwLicense_License_MspCasbBandwidthLicense{}
+		t = &AssignSiteBwLicense_Sites_AssignSiteBwLicense_License_MspCasbBandwidthLicense{}
 	}
 	return t.Total
 }
 
-type AssignSiteBwLicense_Site_AssignSiteBwLicense_License_MspDlpUsersLicense struct {
+type AssignSiteBwLicense_Sites_AssignSiteBwLicense_License_MspDlpUsersLicense struct {
 	Total int64 "json:\"total\" graphql:\"total\""
 }
 
-func (t *AssignSiteBwLicense_Site_AssignSiteBwLicense_License_MspDlpUsersLicense) GetTotal() int64 {
+func (t *AssignSiteBwLicense_Sites_AssignSiteBwLicense_License_MspDlpUsersLicense) GetTotal() int64 {
 	if t == nil {
-		t = &AssignSiteBwLicense_Site_AssignSiteBwLicense_License_MspDlpUsersLicense{}
+		t = &AssignSiteBwLicense_Sites_AssignSiteBwLicense_License_MspDlpUsersLicense{}
 	}
 	return t.Total
 }
 
-type AssignSiteBwLicense_Site_AssignSiteBwLicense_License_MspDlpBandwidthLicense struct {
+type AssignSiteBwLicense_Sites_AssignSiteBwLicense_License_MspDlpBandwidthLicense struct {
 	Total int64 "json:\"total\" graphql:\"total\""
 }
 
-func (t *AssignSiteBwLicense_Site_AssignSiteBwLicense_License_MspDlpBandwidthLicense) GetTotal() int64 {
+func (t *AssignSiteBwLicense_Sites_AssignSiteBwLicense_License_MspDlpBandwidthLicense) GetTotal() int64 {
 	if t == nil {
-		t = &AssignSiteBwLicense_Site_AssignSiteBwLicense_License_MspDlpBandwidthLicense{}
+		t = &AssignSiteBwLicense_Sites_AssignSiteBwLicense_License_MspDlpBandwidthLicense{}
 	}
 	return t.Total
 }
 
-type AssignSiteBwLicense_Site_AssignSiteBwLicense_License_MspTpUsersLicense struct {
+type AssignSiteBwLicense_Sites_AssignSiteBwLicense_License_MspTpUsersLicense struct {
 	Total int64 "json:\"total\" graphql:\"total\""
 }
 
-func (t *AssignSiteBwLicense_Site_AssignSiteBwLicense_License_MspTpUsersLicense) GetTotal() int64 {
+func (t *AssignSiteBwLicense_Sites_AssignSiteBwLicense_License_MspTpUsersLicense) GetTotal() int64 {
 	if t == nil {
-		t = &AssignSiteBwLicense_Site_AssignSiteBwLicense_License_MspTpUsersLicense{}
+		t = &AssignSiteBwLicense_Sites_AssignSiteBwLicense_License_MspTpUsersLicense{}
 	}
 	return t.Total
 }
 
-type AssignSiteBwLicense_Site_AssignSiteBwLicense_License_MspTpBandwidthLicense struct {
+type AssignSiteBwLicense_Sites_AssignSiteBwLicense_License_MspTpBandwidthLicense struct {
 	Total int64 "json:\"total\" graphql:\"total\""
 }
 
-func (t *AssignSiteBwLicense_Site_AssignSiteBwLicense_License_MspTpBandwidthLicense) GetTotal() int64 {
+func (t *AssignSiteBwLicense_Sites_AssignSiteBwLicense_License_MspTpBandwidthLicense) GetTotal() int64 {
 	if t == nil {
-		t = &AssignSiteBwLicense_Site_AssignSiteBwLicense_License_MspTpBandwidthLicense{}
+		t = &AssignSiteBwLicense_Sites_AssignSiteBwLicense_License_MspTpBandwidthLicense{}
 	}
 	return t.Total
 }
 
-type AssignSiteBwLicense_Site_AssignSiteBwLicense_License_MspAtpUsersLicense struct {
+type AssignSiteBwLicense_Sites_AssignSiteBwLicense_License_MspAtpUsersLicense struct {
 	Total int64 "json:\"total\" graphql:\"total\""
 }
 
-func (t *AssignSiteBwLicense_Site_AssignSiteBwLicense_License_MspAtpUsersLicense) GetTotal() int64 {
+func (t *AssignSiteBwLicense_Sites_AssignSiteBwLicense_License_MspAtpUsersLicense) GetTotal() int64 {
 	if t == nil {
-		t = &AssignSiteBwLicense_Site_AssignSiteBwLicense_License_MspAtpUsersLicense{}
+		t = &AssignSiteBwLicense_Sites_AssignSiteBwLicense_License_MspAtpUsersLicense{}
 	}
 	return t.Total
 }
 
-type AssignSiteBwLicense_Site_AssignSiteBwLicense_License_MspAtpBandwidthLicense struct {
+type AssignSiteBwLicense_Sites_AssignSiteBwLicense_License_MspAtpBandwidthLicense struct {
 	Total int64 "json:\"total\" graphql:\"total\""
 }
 
-func (t *AssignSiteBwLicense_Site_AssignSiteBwLicense_License_MspAtpBandwidthLicense) GetTotal() int64 {
+func (t *AssignSiteBwLicense_Sites_AssignSiteBwLicense_License_MspAtpBandwidthLicense) GetTotal() int64 {
 	if t == nil {
-		t = &AssignSiteBwLicense_Site_AssignSiteBwLicense_License_MspAtpBandwidthLicense{}
+		t = &AssignSiteBwLicense_Sites_AssignSiteBwLicense_License_MspAtpBandwidthLicense{}
 	}
 	return t.Total
 }
 
-type AssignSiteBwLicense_Site_AssignSiteBwLicense_License_MspXOpsUsersLicense struct {
+type AssignSiteBwLicense_Sites_AssignSiteBwLicense_License_MspXOpsUsersLicense struct {
 	Total int64 "json:\"total\" graphql:\"total\""
 }
 
-func (t *AssignSiteBwLicense_Site_AssignSiteBwLicense_License_MspXOpsUsersLicense) GetTotal() int64 {
+func (t *AssignSiteBwLicense_Sites_AssignSiteBwLicense_License_MspXOpsUsersLicense) GetTotal() int64 {
 	if t == nil {
-		t = &AssignSiteBwLicense_Site_AssignSiteBwLicense_License_MspXOpsUsersLicense{}
+		t = &AssignSiteBwLicense_Sites_AssignSiteBwLicense_License_MspXOpsUsersLicense{}
 	}
 	return t.Total
 }
 
-type AssignSiteBwLicense_Site_AssignSiteBwLicense_License_MspXOpsBandwidthLicense struct {
+type AssignSiteBwLicense_Sites_AssignSiteBwLicense_License_MspXOpsBandwidthLicense struct {
 	Total int64 "json:\"total\" graphql:\"total\""
 }
 
-func (t *AssignSiteBwLicense_Site_AssignSiteBwLicense_License_MspXOpsBandwidthLicense) GetTotal() int64 {
+func (t *AssignSiteBwLicense_Sites_AssignSiteBwLicense_License_MspXOpsBandwidthLicense) GetTotal() int64 {
 	if t == nil {
-		t = &AssignSiteBwLicense_Site_AssignSiteBwLicense_License_MspXOpsBandwidthLicense{}
+		t = &AssignSiteBwLicense_Sites_AssignSiteBwLicense_License_MspXOpsBandwidthLicense{}
 	}
 	return t.Total
 }
 
-type AssignSiteBwLicense_Site_AssignSiteBwLicense_License_MspMdrUsersLicense struct {
+type AssignSiteBwLicense_Sites_AssignSiteBwLicense_License_MspMdrUsersLicense struct {
 	Total int64 "json:\"total\" graphql:\"total\""
 }
 
-func (t *AssignSiteBwLicense_Site_AssignSiteBwLicense_License_MspMdrUsersLicense) GetTotal() int64 {
+func (t *AssignSiteBwLicense_Sites_AssignSiteBwLicense_License_MspMdrUsersLicense) GetTotal() int64 {
 	if t == nil {
-		t = &AssignSiteBwLicense_Site_AssignSiteBwLicense_License_MspMdrUsersLicense{}
+		t = &AssignSiteBwLicense_Sites_AssignSiteBwLicense_License_MspMdrUsersLicense{}
 	}
 	return t.Total
 }
 
-type AssignSiteBwLicense_Site_AssignSiteBwLicense_License_MspMdrBandwidthLicense struct {
+type AssignSiteBwLicense_Sites_AssignSiteBwLicense_License_MspMdrBandwidthLicense struct {
 	Total int64 "json:\"total\" graphql:\"total\""
 }
 
-func (t *AssignSiteBwLicense_Site_AssignSiteBwLicense_License_MspMdrBandwidthLicense) GetTotal() int64 {
+func (t *AssignSiteBwLicense_Sites_AssignSiteBwLicense_License_MspMdrBandwidthLicense) GetTotal() int64 {
 	if t == nil {
-		t = &AssignSiteBwLicense_Site_AssignSiteBwLicense_License_MspMdrBandwidthLicense{}
+		t = &AssignSiteBwLicense_Sites_AssignSiteBwLicense_License_MspMdrBandwidthLicense{}
 	}
 	return t.Total
 }
 
-type AssignSiteBwLicense_Site_AssignSiteBwLicense_License struct {
-	AISecurityApplicationsLicense AssignSiteBwLicense_Site_AssignSiteBwLicense_License_AISecurityApplicationsLicense "graphql:\"... on AISecurityApplicationsLicense\""
-	AISecurityUsersLicense        AssignSiteBwLicense_Site_AssignSiteBwLicense_License_AISecurityUsersLicense        "graphql:\"... on AISecurityUsersLicense\""
-	AssetsSecurityLicense         AssignSiteBwLicense_Site_AssignSiteBwLicense_License_AssetsSecurityLicense         "graphql:\"... on AssetsSecurityLicense\""
-	DataLakeLicense               AssignSiteBwLicense_Site_AssignSiteBwLicense_License_DataLakeLicense               "graphql:\"... on DataLakeLicense\""
-	DemLicense                    AssignSiteBwLicense_Site_AssignSiteBwLicense_License_DemLicense                    "graphql:\"... on DemLicense\""
-	EndpointProtectionLicense     AssignSiteBwLicense_Site_AssignSiteBwLicense_License_EndpointProtectionLicense     "graphql:\"... on EndpointProtectionLicense\""
-	IlmmLicense                   AssignSiteBwLicense_Site_AssignSiteBwLicense_License_IlmmLicense                   "graphql:\"... on IlmmLicense\""
-	MspAtpBandwidthLicense        AssignSiteBwLicense_Site_AssignSiteBwLicense_License_MspAtpBandwidthLicense        "graphql:\"... on MspAtpBandwidthLicense\""
-	MspAtpUsersLicense            AssignSiteBwLicense_Site_AssignSiteBwLicense_License_MspAtpUsersLicense            "graphql:\"... on MspAtpUsersLicense\""
-	MspCasbBandwidthLicense       AssignSiteBwLicense_Site_AssignSiteBwLicense_License_MspCasbBandwidthLicense       "graphql:\"... on MspCasbBandwidthLicense\""
-	MspCasbUsersLicense           AssignSiteBwLicense_Site_AssignSiteBwLicense_License_MspCasbUsersLicense           "graphql:\"... on MspCasbUsersLicense\""
-	MspDlpBandwidthLicense        AssignSiteBwLicense_Site_AssignSiteBwLicense_License_MspDlpBandwidthLicense        "graphql:\"... on MspDlpBandwidthLicense\""
-	MspDlpUsersLicense            AssignSiteBwLicense_Site_AssignSiteBwLicense_License_MspDlpUsersLicense            "graphql:\"... on MspDlpUsersLicense\""
-	MspMdrBandwidthLicense        AssignSiteBwLicense_Site_AssignSiteBwLicense_License_MspMdrBandwidthLicense        "graphql:\"... on MspMdrBandwidthLicense\""
-	MspMdrUsersLicense            AssignSiteBwLicense_Site_AssignSiteBwLicense_License_MspMdrUsersLicense            "graphql:\"... on MspMdrUsersLicense\""
-	MspTpBandwidthLicense         AssignSiteBwLicense_Site_AssignSiteBwLicense_License_MspTpBandwidthLicense         "graphql:\"... on MspTpBandwidthLicense\""
-	MspTpUsersLicense             AssignSiteBwLicense_Site_AssignSiteBwLicense_License_MspTpUsersLicense             "graphql:\"... on MspTpUsersLicense\""
-	MspXOpsBandwidthLicense       AssignSiteBwLicense_Site_AssignSiteBwLicense_License_MspXOpsBandwidthLicense       "graphql:\"... on MspXOpsBandwidthLicense\""
-	MspXOpsUsersLicense           AssignSiteBwLicense_Site_AssignSiteBwLicense_License_MspXOpsUsersLicense           "graphql:\"... on MspXOpsUsersLicense\""
-	PooledBandwidthLicense        AssignSiteBwLicense_Site_AssignSiteBwLicense_License_PooledBandwidthLicense        "graphql:\"... on PooledBandwidthLicense\""
-	PublicIpsLicense              AssignSiteBwLicense_Site_AssignSiteBwLicense_License_PublicIpsLicense              "graphql:\"... on PublicIpsLicense\""
-	SaasSecurityAPILicense        AssignSiteBwLicense_Site_AssignSiteBwLicense_License_SaasSecurityAPILicense        "graphql:\"... on SaasSecurityApiLicense\""
-	SiteLicense                   AssignSiteBwLicense_Site_AssignSiteBwLicense_License_SiteLicense                   "graphql:\"... on SiteLicense\""
-	XdrProLicense                 AssignSiteBwLicense_Site_AssignSiteBwLicense_License_XdrProLicense                 "graphql:\"... on XdrProLicense\""
-	ZtnaUsersLicense              AssignSiteBwLicense_Site_AssignSiteBwLicense_License_ZtnaUsersLicense              "graphql:\"... on ZtnaUsersLicense\""
-	Description                   *string                                                                            "json:\"description,omitempty\" graphql:\"description\""
-	ExpirationDate                string                                                                             "json:\"expirationDate\" graphql:\"expirationDate\""
-	ID                            *string                                                                            "json:\"id,omitempty\" graphql:\"id\""
-	LastUpdated                   *string                                                                            "json:\"lastUpdated,omitempty\" graphql:\"lastUpdated\""
-	Plan                          cato_models.LicensePlan                                                            "json:\"plan\" graphql:\"plan\""
-	Sku                           cato_models.LicenseSku                                                             "json:\"sku\" graphql:\"sku\""
-	StartDate                     *string                                                                            "json:\"startDate,omitempty\" graphql:\"startDate\""
-	Status                        cato_models.LicenseStatus                                                          "json:\"status\" graphql:\"status\""
+type AssignSiteBwLicense_Sites_AssignSiteBwLicense_License struct {
+	AISecurityApplicationsLicense AssignSiteBwLicense_Sites_AssignSiteBwLicense_License_AISecurityApplicationsLicense "graphql:\"... on AISecurityApplicationsLicense\""
+	AISecurityUsersLicense        AssignSiteBwLicense_Sites_AssignSiteBwLicense_License_AISecurityUsersLicense        "graphql:\"... on AISecurityUsersLicense\""
+	AssetsSecurityLicense         AssignSiteBwLicense_Sites_AssignSiteBwLicense_License_AssetsSecurityLicense         "graphql:\"... on AssetsSecurityLicense\""
+	DataLakeLicense               AssignSiteBwLicense_Sites_AssignSiteBwLicense_License_DataLakeLicense               "graphql:\"... on DataLakeLicense\""
+	DemLicense                    AssignSiteBwLicense_Sites_AssignSiteBwLicense_License_DemLicense                    "graphql:\"... on DemLicense\""
+	EndpointProtectionLicense     AssignSiteBwLicense_Sites_AssignSiteBwLicense_License_EndpointProtectionLicense     "graphql:\"... on EndpointProtectionLicense\""
+	IlmmLicense                   AssignSiteBwLicense_Sites_AssignSiteBwLicense_License_IlmmLicense                   "graphql:\"... on IlmmLicense\""
+	MspAtpBandwidthLicense        AssignSiteBwLicense_Sites_AssignSiteBwLicense_License_MspAtpBandwidthLicense        "graphql:\"... on MspAtpBandwidthLicense\""
+	MspAtpUsersLicense            AssignSiteBwLicense_Sites_AssignSiteBwLicense_License_MspAtpUsersLicense            "graphql:\"... on MspAtpUsersLicense\""
+	MspCasbBandwidthLicense       AssignSiteBwLicense_Sites_AssignSiteBwLicense_License_MspCasbBandwidthLicense       "graphql:\"... on MspCasbBandwidthLicense\""
+	MspCasbUsersLicense           AssignSiteBwLicense_Sites_AssignSiteBwLicense_License_MspCasbUsersLicense           "graphql:\"... on MspCasbUsersLicense\""
+	MspDlpBandwidthLicense        AssignSiteBwLicense_Sites_AssignSiteBwLicense_License_MspDlpBandwidthLicense        "graphql:\"... on MspDlpBandwidthLicense\""
+	MspDlpUsersLicense            AssignSiteBwLicense_Sites_AssignSiteBwLicense_License_MspDlpUsersLicense            "graphql:\"... on MspDlpUsersLicense\""
+	MspMdrBandwidthLicense        AssignSiteBwLicense_Sites_AssignSiteBwLicense_License_MspMdrBandwidthLicense        "graphql:\"... on MspMdrBandwidthLicense\""
+	MspMdrUsersLicense            AssignSiteBwLicense_Sites_AssignSiteBwLicense_License_MspMdrUsersLicense            "graphql:\"... on MspMdrUsersLicense\""
+	MspTpBandwidthLicense         AssignSiteBwLicense_Sites_AssignSiteBwLicense_License_MspTpBandwidthLicense         "graphql:\"... on MspTpBandwidthLicense\""
+	MspTpUsersLicense             AssignSiteBwLicense_Sites_AssignSiteBwLicense_License_MspTpUsersLicense             "graphql:\"... on MspTpUsersLicense\""
+	MspXOpsBandwidthLicense       AssignSiteBwLicense_Sites_AssignSiteBwLicense_License_MspXOpsBandwidthLicense       "graphql:\"... on MspXOpsBandwidthLicense\""
+	MspXOpsUsersLicense           AssignSiteBwLicense_Sites_AssignSiteBwLicense_License_MspXOpsUsersLicense           "graphql:\"... on MspXOpsUsersLicense\""
+	PooledBandwidthLicense        AssignSiteBwLicense_Sites_AssignSiteBwLicense_License_PooledBandwidthLicense        "graphql:\"... on PooledBandwidthLicense\""
+	PublicIpsLicense              AssignSiteBwLicense_Sites_AssignSiteBwLicense_License_PublicIpsLicense              "graphql:\"... on PublicIpsLicense\""
+	SaasSecurityAPILicense        AssignSiteBwLicense_Sites_AssignSiteBwLicense_License_SaasSecurityAPILicense        "graphql:\"... on SaasSecurityApiLicense\""
+	SiteLicense                   AssignSiteBwLicense_Sites_AssignSiteBwLicense_License_SiteLicense                   "graphql:\"... on SiteLicense\""
+	XdrProLicense                 AssignSiteBwLicense_Sites_AssignSiteBwLicense_License_XdrProLicense                 "graphql:\"... on XdrProLicense\""
+	ZtnaUsersLicense              AssignSiteBwLicense_Sites_AssignSiteBwLicense_License_ZtnaUsersLicense              "graphql:\"... on ZtnaUsersLicense\""
+	Description                   *string                                                                             "json:\"description,omitempty\" graphql:\"description\""
+	ExpirationDate                string                                                                              "json:\"expirationDate\" graphql:\"expirationDate\""
+	ID                            *string                                                                             "json:\"id,omitempty\" graphql:\"id\""
+	LastUpdated                   *string                                                                             "json:\"lastUpdated,omitempty\" graphql:\"lastUpdated\""
+	Plan                          cato_models.LicensePlan                                                             "json:\"plan\" graphql:\"plan\""
+	Sku                           cato_models.LicenseSku                                                              "json:\"sku\" graphql:\"sku\""
+	StartDate                     *string                                                                             "json:\"startDate,omitempty\" graphql:\"startDate\""
+	Status                        cato_models.LicenseStatus                                                           "json:\"status\" graphql:\"status\""
 }
 
-func (t *AssignSiteBwLicense_Site_AssignSiteBwLicense_License) GetAISecurityApplicationsLicense() *AssignSiteBwLicense_Site_AssignSiteBwLicense_License_AISecurityApplicationsLicense {
+func (t *AssignSiteBwLicense_Sites_AssignSiteBwLicense_License) GetAISecurityApplicationsLicense() *AssignSiteBwLicense_Sites_AssignSiteBwLicense_License_AISecurityApplicationsLicense {
 	if t == nil {
-		t = &AssignSiteBwLicense_Site_AssignSiteBwLicense_License{}
+		t = &AssignSiteBwLicense_Sites_AssignSiteBwLicense_License{}
 	}
 	return &t.AISecurityApplicationsLicense
 }
-func (t *AssignSiteBwLicense_Site_AssignSiteBwLicense_License) GetAISecurityUsersLicense() *AssignSiteBwLicense_Site_AssignSiteBwLicense_License_AISecurityUsersLicense {
+func (t *AssignSiteBwLicense_Sites_AssignSiteBwLicense_License) GetAISecurityUsersLicense() *AssignSiteBwLicense_Sites_AssignSiteBwLicense_License_AISecurityUsersLicense {
 	if t == nil {
-		t = &AssignSiteBwLicense_Site_AssignSiteBwLicense_License{}
+		t = &AssignSiteBwLicense_Sites_AssignSiteBwLicense_License{}
 	}
 	return &t.AISecurityUsersLicense
 }
-func (t *AssignSiteBwLicense_Site_AssignSiteBwLicense_License) GetAssetsSecurityLicense() *AssignSiteBwLicense_Site_AssignSiteBwLicense_License_AssetsSecurityLicense {
+func (t *AssignSiteBwLicense_Sites_AssignSiteBwLicense_License) GetAssetsSecurityLicense() *AssignSiteBwLicense_Sites_AssignSiteBwLicense_License_AssetsSecurityLicense {
 	if t == nil {
-		t = &AssignSiteBwLicense_Site_AssignSiteBwLicense_License{}
+		t = &AssignSiteBwLicense_Sites_AssignSiteBwLicense_License{}
 	}
 	return &t.AssetsSecurityLicense
 }
-func (t *AssignSiteBwLicense_Site_AssignSiteBwLicense_License) GetDataLakeLicense() *AssignSiteBwLicense_Site_AssignSiteBwLicense_License_DataLakeLicense {
+func (t *AssignSiteBwLicense_Sites_AssignSiteBwLicense_License) GetDataLakeLicense() *AssignSiteBwLicense_Sites_AssignSiteBwLicense_License_DataLakeLicense {
 	if t == nil {
-		t = &AssignSiteBwLicense_Site_AssignSiteBwLicense_License{}
+		t = &AssignSiteBwLicense_Sites_AssignSiteBwLicense_License{}
 	}
 	return &t.DataLakeLicense
 }
-func (t *AssignSiteBwLicense_Site_AssignSiteBwLicense_License) GetDemLicense() *AssignSiteBwLicense_Site_AssignSiteBwLicense_License_DemLicense {
+func (t *AssignSiteBwLicense_Sites_AssignSiteBwLicense_License) GetDemLicense() *AssignSiteBwLicense_Sites_AssignSiteBwLicense_License_DemLicense {
 	if t == nil {
-		t = &AssignSiteBwLicense_Site_AssignSiteBwLicense_License{}
+		t = &AssignSiteBwLicense_Sites_AssignSiteBwLicense_License{}
 	}
 	return &t.DemLicense
 }
-func (t *AssignSiteBwLicense_Site_AssignSiteBwLicense_License) GetEndpointProtectionLicense() *AssignSiteBwLicense_Site_AssignSiteBwLicense_License_EndpointProtectionLicense {
+func (t *AssignSiteBwLicense_Sites_AssignSiteBwLicense_License) GetEndpointProtectionLicense() *AssignSiteBwLicense_Sites_AssignSiteBwLicense_License_EndpointProtectionLicense {
 	if t == nil {
-		t = &AssignSiteBwLicense_Site_AssignSiteBwLicense_License{}
+		t = &AssignSiteBwLicense_Sites_AssignSiteBwLicense_License{}
 	}
 	return &t.EndpointProtectionLicense
 }
-func (t *AssignSiteBwLicense_Site_AssignSiteBwLicense_License) GetIlmmLicense() *AssignSiteBwLicense_Site_AssignSiteBwLicense_License_IlmmLicense {
+func (t *AssignSiteBwLicense_Sites_AssignSiteBwLicense_License) GetIlmmLicense() *AssignSiteBwLicense_Sites_AssignSiteBwLicense_License_IlmmLicense {
 	if t == nil {
-		t = &AssignSiteBwLicense_Site_AssignSiteBwLicense_License{}
+		t = &AssignSiteBwLicense_Sites_AssignSiteBwLicense_License{}
 	}
 	return &t.IlmmLicense
 }
-func (t *AssignSiteBwLicense_Site_AssignSiteBwLicense_License) GetMspAtpBandwidthLicense() *AssignSiteBwLicense_Site_AssignSiteBwLicense_License_MspAtpBandwidthLicense {
+func (t *AssignSiteBwLicense_Sites_AssignSiteBwLicense_License) GetMspAtpBandwidthLicense() *AssignSiteBwLicense_Sites_AssignSiteBwLicense_License_MspAtpBandwidthLicense {
 	if t == nil {
-		t = &AssignSiteBwLicense_Site_AssignSiteBwLicense_License{}
+		t = &AssignSiteBwLicense_Sites_AssignSiteBwLicense_License{}
 	}
 	return &t.MspAtpBandwidthLicense
 }
-func (t *AssignSiteBwLicense_Site_AssignSiteBwLicense_License) GetMspAtpUsersLicense() *AssignSiteBwLicense_Site_AssignSiteBwLicense_License_MspAtpUsersLicense {
+func (t *AssignSiteBwLicense_Sites_AssignSiteBwLicense_License) GetMspAtpUsersLicense() *AssignSiteBwLicense_Sites_AssignSiteBwLicense_License_MspAtpUsersLicense {
 	if t == nil {
-		t = &AssignSiteBwLicense_Site_AssignSiteBwLicense_License{}
+		t = &AssignSiteBwLicense_Sites_AssignSiteBwLicense_License{}
 	}
 	return &t.MspAtpUsersLicense
 }
-func (t *AssignSiteBwLicense_Site_AssignSiteBwLicense_License) GetMspCasbBandwidthLicense() *AssignSiteBwLicense_Site_AssignSiteBwLicense_License_MspCasbBandwidthLicense {
+func (t *AssignSiteBwLicense_Sites_AssignSiteBwLicense_License) GetMspCasbBandwidthLicense() *AssignSiteBwLicense_Sites_AssignSiteBwLicense_License_MspCasbBandwidthLicense {
 	if t == nil {
-		t = &AssignSiteBwLicense_Site_AssignSiteBwLicense_License{}
+		t = &AssignSiteBwLicense_Sites_AssignSiteBwLicense_License{}
 	}
 	return &t.MspCasbBandwidthLicense
 }
-func (t *AssignSiteBwLicense_Site_AssignSiteBwLicense_License) GetMspCasbUsersLicense() *AssignSiteBwLicense_Site_AssignSiteBwLicense_License_MspCasbUsersLicense {
+func (t *AssignSiteBwLicense_Sites_AssignSiteBwLicense_License) GetMspCasbUsersLicense() *AssignSiteBwLicense_Sites_AssignSiteBwLicense_License_MspCasbUsersLicense {
 	if t == nil {
-		t = &AssignSiteBwLicense_Site_AssignSiteBwLicense_License{}
+		t = &AssignSiteBwLicense_Sites_AssignSiteBwLicense_License{}
 	}
 	return &t.MspCasbUsersLicense
 }
-func (t *AssignSiteBwLicense_Site_AssignSiteBwLicense_License) GetMspDlpBandwidthLicense() *AssignSiteBwLicense_Site_AssignSiteBwLicense_License_MspDlpBandwidthLicense {
+func (t *AssignSiteBwLicense_Sites_AssignSiteBwLicense_License) GetMspDlpBandwidthLicense() *AssignSiteBwLicense_Sites_AssignSiteBwLicense_License_MspDlpBandwidthLicense {
 	if t == nil {
-		t = &AssignSiteBwLicense_Site_AssignSiteBwLicense_License{}
+		t = &AssignSiteBwLicense_Sites_AssignSiteBwLicense_License{}
 	}
 	return &t.MspDlpBandwidthLicense
 }
-func (t *AssignSiteBwLicense_Site_AssignSiteBwLicense_License) GetMspDlpUsersLicense() *AssignSiteBwLicense_Site_AssignSiteBwLicense_License_MspDlpUsersLicense {
+func (t *AssignSiteBwLicense_Sites_AssignSiteBwLicense_License) GetMspDlpUsersLicense() *AssignSiteBwLicense_Sites_AssignSiteBwLicense_License_MspDlpUsersLicense {
 	if t == nil {
-		t = &AssignSiteBwLicense_Site_AssignSiteBwLicense_License{}
+		t = &AssignSiteBwLicense_Sites_AssignSiteBwLicense_License{}
 	}
 	return &t.MspDlpUsersLicense
 }
-func (t *AssignSiteBwLicense_Site_AssignSiteBwLicense_License) GetMspMdrBandwidthLicense() *AssignSiteBwLicense_Site_AssignSiteBwLicense_License_MspMdrBandwidthLicense {
+func (t *AssignSiteBwLicense_Sites_AssignSiteBwLicense_License) GetMspMdrBandwidthLicense() *AssignSiteBwLicense_Sites_AssignSiteBwLicense_License_MspMdrBandwidthLicense {
 	if t == nil {
-		t = &AssignSiteBwLicense_Site_AssignSiteBwLicense_License{}
+		t = &AssignSiteBwLicense_Sites_AssignSiteBwLicense_License{}
 	}
 	return &t.MspMdrBandwidthLicense
 }
-func (t *AssignSiteBwLicense_Site_AssignSiteBwLicense_License) GetMspMdrUsersLicense() *AssignSiteBwLicense_Site_AssignSiteBwLicense_License_MspMdrUsersLicense {
+func (t *AssignSiteBwLicense_Sites_AssignSiteBwLicense_License) GetMspMdrUsersLicense() *AssignSiteBwLicense_Sites_AssignSiteBwLicense_License_MspMdrUsersLicense {
 	if t == nil {
-		t = &AssignSiteBwLicense_Site_AssignSiteBwLicense_License{}
+		t = &AssignSiteBwLicense_Sites_AssignSiteBwLicense_License{}
 	}
 	return &t.MspMdrUsersLicense
 }
-func (t *AssignSiteBwLicense_Site_AssignSiteBwLicense_License) GetMspTpBandwidthLicense() *AssignSiteBwLicense_Site_AssignSiteBwLicense_License_MspTpBandwidthLicense {
+func (t *AssignSiteBwLicense_Sites_AssignSiteBwLicense_License) GetMspTpBandwidthLicense() *AssignSiteBwLicense_Sites_AssignSiteBwLicense_License_MspTpBandwidthLicense {
 	if t == nil {
-		t = &AssignSiteBwLicense_Site_AssignSiteBwLicense_License{}
+		t = &AssignSiteBwLicense_Sites_AssignSiteBwLicense_License{}
 	}
 	return &t.MspTpBandwidthLicense
 }
-func (t *AssignSiteBwLicense_Site_AssignSiteBwLicense_License) GetMspTpUsersLicense() *AssignSiteBwLicense_Site_AssignSiteBwLicense_License_MspTpUsersLicense {
+func (t *AssignSiteBwLicense_Sites_AssignSiteBwLicense_License) GetMspTpUsersLicense() *AssignSiteBwLicense_Sites_AssignSiteBwLicense_License_MspTpUsersLicense {
 	if t == nil {
-		t = &AssignSiteBwLicense_Site_AssignSiteBwLicense_License{}
+		t = &AssignSiteBwLicense_Sites_AssignSiteBwLicense_License{}
 	}
 	return &t.MspTpUsersLicense
 }
-func (t *AssignSiteBwLicense_Site_AssignSiteBwLicense_License) GetMspXOpsBandwidthLicense() *AssignSiteBwLicense_Site_AssignSiteBwLicense_License_MspXOpsBandwidthLicense {
+func (t *AssignSiteBwLicense_Sites_AssignSiteBwLicense_License) GetMspXOpsBandwidthLicense() *AssignSiteBwLicense_Sites_AssignSiteBwLicense_License_MspXOpsBandwidthLicense {
 	if t == nil {
-		t = &AssignSiteBwLicense_Site_AssignSiteBwLicense_License{}
+		t = &AssignSiteBwLicense_Sites_AssignSiteBwLicense_License{}
 	}
 	return &t.MspXOpsBandwidthLicense
 }
-func (t *AssignSiteBwLicense_Site_AssignSiteBwLicense_License) GetMspXOpsUsersLicense() *AssignSiteBwLicense_Site_AssignSiteBwLicense_License_MspXOpsUsersLicense {
+func (t *AssignSiteBwLicense_Sites_AssignSiteBwLicense_License) GetMspXOpsUsersLicense() *AssignSiteBwLicense_Sites_AssignSiteBwLicense_License_MspXOpsUsersLicense {
 	if t == nil {
-		t = &AssignSiteBwLicense_Site_AssignSiteBwLicense_License{}
+		t = &AssignSiteBwLicense_Sites_AssignSiteBwLicense_License{}
 	}
 	return &t.MspXOpsUsersLicense
 }
-func (t *AssignSiteBwLicense_Site_AssignSiteBwLicense_License) GetPooledBandwidthLicense() *AssignSiteBwLicense_Site_AssignSiteBwLicense_License_PooledBandwidthLicense {
+func (t *AssignSiteBwLicense_Sites_AssignSiteBwLicense_License) GetPooledBandwidthLicense() *AssignSiteBwLicense_Sites_AssignSiteBwLicense_License_PooledBandwidthLicense {
 	if t == nil {
-		t = &AssignSiteBwLicense_Site_AssignSiteBwLicense_License{}
+		t = &AssignSiteBwLicense_Sites_AssignSiteBwLicense_License{}
 	}
 	return &t.PooledBandwidthLicense
 }
-func (t *AssignSiteBwLicense_Site_AssignSiteBwLicense_License) GetPublicIpsLicense() *AssignSiteBwLicense_Site_AssignSiteBwLicense_License_PublicIpsLicense {
+func (t *AssignSiteBwLicense_Sites_AssignSiteBwLicense_License) GetPublicIpsLicense() *AssignSiteBwLicense_Sites_AssignSiteBwLicense_License_PublicIpsLicense {
 	if t == nil {
-		t = &AssignSiteBwLicense_Site_AssignSiteBwLicense_License{}
+		t = &AssignSiteBwLicense_Sites_AssignSiteBwLicense_License{}
 	}
 	return &t.PublicIpsLicense
 }
-func (t *AssignSiteBwLicense_Site_AssignSiteBwLicense_License) GetSaasSecurityAPILicense() *AssignSiteBwLicense_Site_AssignSiteBwLicense_License_SaasSecurityAPILicense {
+func (t *AssignSiteBwLicense_Sites_AssignSiteBwLicense_License) GetSaasSecurityAPILicense() *AssignSiteBwLicense_Sites_AssignSiteBwLicense_License_SaasSecurityAPILicense {
 	if t == nil {
-		t = &AssignSiteBwLicense_Site_AssignSiteBwLicense_License{}
+		t = &AssignSiteBwLicense_Sites_AssignSiteBwLicense_License{}
 	}
 	return &t.SaasSecurityAPILicense
 }
-func (t *AssignSiteBwLicense_Site_AssignSiteBwLicense_License) GetSiteLicense() *AssignSiteBwLicense_Site_AssignSiteBwLicense_License_SiteLicense {
+func (t *AssignSiteBwLicense_Sites_AssignSiteBwLicense_License) GetSiteLicense() *AssignSiteBwLicense_Sites_AssignSiteBwLicense_License_SiteLicense {
 	if t == nil {
-		t = &AssignSiteBwLicense_Site_AssignSiteBwLicense_License{}
+		t = &AssignSiteBwLicense_Sites_AssignSiteBwLicense_License{}
 	}
 	return &t.SiteLicense
 }
-func (t *AssignSiteBwLicense_Site_AssignSiteBwLicense_License) GetXdrProLicense() *AssignSiteBwLicense_Site_AssignSiteBwLicense_License_XdrProLicense {
+func (t *AssignSiteBwLicense_Sites_AssignSiteBwLicense_License) GetXdrProLicense() *AssignSiteBwLicense_Sites_AssignSiteBwLicense_License_XdrProLicense {
 	if t == nil {
-		t = &AssignSiteBwLicense_Site_AssignSiteBwLicense_License{}
+		t = &AssignSiteBwLicense_Sites_AssignSiteBwLicense_License{}
 	}
 	return &t.XdrProLicense
 }
-func (t *AssignSiteBwLicense_Site_AssignSiteBwLicense_License) GetZtnaUsersLicense() *AssignSiteBwLicense_Site_AssignSiteBwLicense_License_ZtnaUsersLicense {
+func (t *AssignSiteBwLicense_Sites_AssignSiteBwLicense_License) GetZtnaUsersLicense() *AssignSiteBwLicense_Sites_AssignSiteBwLicense_License_ZtnaUsersLicense {
 	if t == nil {
-		t = &AssignSiteBwLicense_Site_AssignSiteBwLicense_License{}
+		t = &AssignSiteBwLicense_Sites_AssignSiteBwLicense_License{}
 	}
 	return &t.ZtnaUsersLicense
 }
-func (t *AssignSiteBwLicense_Site_AssignSiteBwLicense_License) GetDescription() *string {
+func (t *AssignSiteBwLicense_Sites_AssignSiteBwLicense_License) GetDescription() *string {
 	if t == nil {
-		t = &AssignSiteBwLicense_Site_AssignSiteBwLicense_License{}
+		t = &AssignSiteBwLicense_Sites_AssignSiteBwLicense_License{}
 	}
 	return t.Description
 }
-func (t *AssignSiteBwLicense_Site_AssignSiteBwLicense_License) GetExpirationDate() string {
+func (t *AssignSiteBwLicense_Sites_AssignSiteBwLicense_License) GetExpirationDate() string {
 	if t == nil {
-		t = &AssignSiteBwLicense_Site_AssignSiteBwLicense_License{}
+		t = &AssignSiteBwLicense_Sites_AssignSiteBwLicense_License{}
 	}
 	return t.ExpirationDate
 }
-func (t *AssignSiteBwLicense_Site_AssignSiteBwLicense_License) GetID() *string {
+func (t *AssignSiteBwLicense_Sites_AssignSiteBwLicense_License) GetID() *string {
 	if t == nil {
-		t = &AssignSiteBwLicense_Site_AssignSiteBwLicense_License{}
+		t = &AssignSiteBwLicense_Sites_AssignSiteBwLicense_License{}
 	}
 	return t.ID
 }
-func (t *AssignSiteBwLicense_Site_AssignSiteBwLicense_License) GetLastUpdated() *string {
+func (t *AssignSiteBwLicense_Sites_AssignSiteBwLicense_License) GetLastUpdated() *string {
 	if t == nil {
-		t = &AssignSiteBwLicense_Site_AssignSiteBwLicense_License{}
+		t = &AssignSiteBwLicense_Sites_AssignSiteBwLicense_License{}
 	}
 	return t.LastUpdated
 }
-func (t *AssignSiteBwLicense_Site_AssignSiteBwLicense_License) GetPlan() *cato_models.LicensePlan {
+func (t *AssignSiteBwLicense_Sites_AssignSiteBwLicense_License) GetPlan() *cato_models.LicensePlan {
 	if t == nil {
-		t = &AssignSiteBwLicense_Site_AssignSiteBwLicense_License{}
+		t = &AssignSiteBwLicense_Sites_AssignSiteBwLicense_License{}
 	}
 	return &t.Plan
 }
-func (t *AssignSiteBwLicense_Site_AssignSiteBwLicense_License) GetSku() *cato_models.LicenseSku {
+func (t *AssignSiteBwLicense_Sites_AssignSiteBwLicense_License) GetSku() *cato_models.LicenseSku {
 	if t == nil {
-		t = &AssignSiteBwLicense_Site_AssignSiteBwLicense_License{}
+		t = &AssignSiteBwLicense_Sites_AssignSiteBwLicense_License{}
 	}
 	return &t.Sku
 }
-func (t *AssignSiteBwLicense_Site_AssignSiteBwLicense_License) GetStartDate() *string {
+func (t *AssignSiteBwLicense_Sites_AssignSiteBwLicense_License) GetStartDate() *string {
 	if t == nil {
-		t = &AssignSiteBwLicense_Site_AssignSiteBwLicense_License{}
+		t = &AssignSiteBwLicense_Sites_AssignSiteBwLicense_License{}
 	}
 	return t.StartDate
 }
-func (t *AssignSiteBwLicense_Site_AssignSiteBwLicense_License) GetStatus() *cato_models.LicenseStatus {
+func (t *AssignSiteBwLicense_Sites_AssignSiteBwLicense_License) GetStatus() *cato_models.LicenseStatus {
 	if t == nil {
-		t = &AssignSiteBwLicense_Site_AssignSiteBwLicense_License{}
+		t = &AssignSiteBwLicense_Sites_AssignSiteBwLicense_License{}
 	}
 	return &t.Status
 }
 
-type AssignSiteBwLicense_Site_AssignSiteBwLicense struct {
-	License AssignSiteBwLicense_Site_AssignSiteBwLicense_License "json:\"license\" graphql:\"license\""
+type AssignSiteBwLicense_Sites_AssignSiteBwLicense struct {
+	License AssignSiteBwLicense_Sites_AssignSiteBwLicense_License "json:\"license\" graphql:\"license\""
 }
 
-func (t *AssignSiteBwLicense_Site_AssignSiteBwLicense) GetLicense() *AssignSiteBwLicense_Site_AssignSiteBwLicense_License {
+func (t *AssignSiteBwLicense_Sites_AssignSiteBwLicense) GetLicense() *AssignSiteBwLicense_Sites_AssignSiteBwLicense_License {
 	if t == nil {
-		t = &AssignSiteBwLicense_Site_AssignSiteBwLicense{}
+		t = &AssignSiteBwLicense_Sites_AssignSiteBwLicense{}
 	}
 	return &t.License
 }
 
-type AssignSiteBwLicense_Site struct {
-	AssignSiteBwLicense *AssignSiteBwLicense_Site_AssignSiteBwLicense "json:\"assignSiteBwLicense,omitempty\" graphql:\"assignSiteBwLicense\""
+type AssignSiteBwLicense_Sites struct {
+	AssignSiteBwLicense *AssignSiteBwLicense_Sites_AssignSiteBwLicense "json:\"assignSiteBwLicense,omitempty\" graphql:\"assignSiteBwLicense\""
 }
 
-func (t *AssignSiteBwLicense_Site) GetAssignSiteBwLicense() *AssignSiteBwLicense_Site_AssignSiteBwLicense {
+func (t *AssignSiteBwLicense_Sites) GetAssignSiteBwLicense() *AssignSiteBwLicense_Sites_AssignSiteBwLicense {
 	if t == nil {
-		t = &AssignSiteBwLicense_Site{}
+		t = &AssignSiteBwLicense_Sites{}
 	}
 	return t.AssignSiteBwLicense
 }
@@ -248360,751 +248360,751 @@ func (t *SiteRemoveSite_Site) GetRemoveSite() *SiteRemoveSite_Site_RemoveSite {
 	return t.RemoveSite
 }
 
-type RemoveSiteBwLicense_Site_RemoveSiteBwLicense_License_DataLakeLicense struct {
+type RemoveSiteBwLicense_Sites_RemoveSiteBwLicense_License_DataLakeLicense struct {
 	DpaVersion      cato_models.DpaVersion "json:\"dpaVersion\" graphql:\"dpaVersion\""
 	RetentionPeriod *int64                 "json:\"retentionPeriod,omitempty\" graphql:\"retentionPeriod\""
 	Total           int64                  "json:\"total\" graphql:\"total\""
 }
 
-func (t *RemoveSiteBwLicense_Site_RemoveSiteBwLicense_License_DataLakeLicense) GetDpaVersion() *cato_models.DpaVersion {
+func (t *RemoveSiteBwLicense_Sites_RemoveSiteBwLicense_License_DataLakeLicense) GetDpaVersion() *cato_models.DpaVersion {
 	if t == nil {
-		t = &RemoveSiteBwLicense_Site_RemoveSiteBwLicense_License_DataLakeLicense{}
+		t = &RemoveSiteBwLicense_Sites_RemoveSiteBwLicense_License_DataLakeLicense{}
 	}
 	return &t.DpaVersion
 }
-func (t *RemoveSiteBwLicense_Site_RemoveSiteBwLicense_License_DataLakeLicense) GetRetentionPeriod() *int64 {
+func (t *RemoveSiteBwLicense_Sites_RemoveSiteBwLicense_License_DataLakeLicense) GetRetentionPeriod() *int64 {
 	if t == nil {
-		t = &RemoveSiteBwLicense_Site_RemoveSiteBwLicense_License_DataLakeLicense{}
+		t = &RemoveSiteBwLicense_Sites_RemoveSiteBwLicense_License_DataLakeLicense{}
 	}
 	return t.RetentionPeriod
 }
-func (t *RemoveSiteBwLicense_Site_RemoveSiteBwLicense_License_DataLakeLicense) GetTotal() int64 {
+func (t *RemoveSiteBwLicense_Sites_RemoveSiteBwLicense_License_DataLakeLicense) GetTotal() int64 {
 	if t == nil {
-		t = &RemoveSiteBwLicense_Site_RemoveSiteBwLicense_License_DataLakeLicense{}
+		t = &RemoveSiteBwLicense_Sites_RemoveSiteBwLicense_License_DataLakeLicense{}
 	}
 	return t.Total
 }
 
-type RemoveSiteBwLicense_Site_RemoveSiteBwLicense_License_PublicIpsLicense struct {
+type RemoveSiteBwLicense_Sites_RemoveSiteBwLicense_License_PublicIpsLicense struct {
 	Total int64 "json:\"total\" graphql:\"total\""
 }
 
-func (t *RemoveSiteBwLicense_Site_RemoveSiteBwLicense_License_PublicIpsLicense) GetTotal() int64 {
+func (t *RemoveSiteBwLicense_Sites_RemoveSiteBwLicense_License_PublicIpsLicense) GetTotal() int64 {
 	if t == nil {
-		t = &RemoveSiteBwLicense_Site_RemoveSiteBwLicense_License_PublicIpsLicense{}
+		t = &RemoveSiteBwLicense_Sites_RemoveSiteBwLicense_License_PublicIpsLicense{}
 	}
 	return t.Total
 }
 
-type RemoveSiteBwLicense_Site_RemoveSiteBwLicense_License_SiteLicense_Site struct {
+type RemoveSiteBwLicense_Sites_RemoveSiteBwLicense_License_SiteLicense_Site struct {
 	ID   string "json:\"id\" graphql:\"id\""
 	Name string "json:\"name\" graphql:\"name\""
 }
 
-func (t *RemoveSiteBwLicense_Site_RemoveSiteBwLicense_License_SiteLicense_Site) GetID() string {
+func (t *RemoveSiteBwLicense_Sites_RemoveSiteBwLicense_License_SiteLicense_Site) GetID() string {
 	if t == nil {
-		t = &RemoveSiteBwLicense_Site_RemoveSiteBwLicense_License_SiteLicense_Site{}
+		t = &RemoveSiteBwLicense_Sites_RemoveSiteBwLicense_License_SiteLicense_Site{}
 	}
 	return t.ID
 }
-func (t *RemoveSiteBwLicense_Site_RemoveSiteBwLicense_License_SiteLicense_Site) GetName() string {
+func (t *RemoveSiteBwLicense_Sites_RemoveSiteBwLicense_License_SiteLicense_Site) GetName() string {
 	if t == nil {
-		t = &RemoveSiteBwLicense_Site_RemoveSiteBwLicense_License_SiteLicense_Site{}
+		t = &RemoveSiteBwLicense_Sites_RemoveSiteBwLicense_License_SiteLicense_Site{}
 	}
 	return t.Name
 }
 
-type RemoveSiteBwLicense_Site_RemoveSiteBwLicense_License_SiteLicense struct {
-	SiteLicenseGroup cato_models.SiteLicenseGroup                                           "json:\"siteLicenseGroup\" graphql:\"siteLicenseGroup\""
-	Regionality      *cato_models.Regionality                                               "json:\"regionality,omitempty\" graphql:\"regionality\""
-	SiteLicenseType  cato_models.SiteLicenseType                                            "json:\"siteLicenseType\" graphql:\"siteLicenseType\""
-	Total            int64                                                                  "json:\"total\" graphql:\"total\""
-	Site             *RemoveSiteBwLicense_Site_RemoveSiteBwLicense_License_SiteLicense_Site "json:\"site,omitempty\" graphql:\"site\""
+type RemoveSiteBwLicense_Sites_RemoveSiteBwLicense_License_SiteLicense struct {
+	SiteLicenseGroup cato_models.SiteLicenseGroup                                            "json:\"siteLicenseGroup\" graphql:\"siteLicenseGroup\""
+	Regionality      *cato_models.Regionality                                                "json:\"regionality,omitempty\" graphql:\"regionality\""
+	SiteLicenseType  cato_models.SiteLicenseType                                             "json:\"siteLicenseType\" graphql:\"siteLicenseType\""
+	Total            int64                                                                   "json:\"total\" graphql:\"total\""
+	Site             *RemoveSiteBwLicense_Sites_RemoveSiteBwLicense_License_SiteLicense_Site "json:\"site,omitempty\" graphql:\"site\""
 }
 
-func (t *RemoveSiteBwLicense_Site_RemoveSiteBwLicense_License_SiteLicense) GetSiteLicenseGroup() *cato_models.SiteLicenseGroup {
+func (t *RemoveSiteBwLicense_Sites_RemoveSiteBwLicense_License_SiteLicense) GetSiteLicenseGroup() *cato_models.SiteLicenseGroup {
 	if t == nil {
-		t = &RemoveSiteBwLicense_Site_RemoveSiteBwLicense_License_SiteLicense{}
+		t = &RemoveSiteBwLicense_Sites_RemoveSiteBwLicense_License_SiteLicense{}
 	}
 	return &t.SiteLicenseGroup
 }
-func (t *RemoveSiteBwLicense_Site_RemoveSiteBwLicense_License_SiteLicense) GetRegionality() *cato_models.Regionality {
+func (t *RemoveSiteBwLicense_Sites_RemoveSiteBwLicense_License_SiteLicense) GetRegionality() *cato_models.Regionality {
 	if t == nil {
-		t = &RemoveSiteBwLicense_Site_RemoveSiteBwLicense_License_SiteLicense{}
+		t = &RemoveSiteBwLicense_Sites_RemoveSiteBwLicense_License_SiteLicense{}
 	}
 	return t.Regionality
 }
-func (t *RemoveSiteBwLicense_Site_RemoveSiteBwLicense_License_SiteLicense) GetSiteLicenseType() *cato_models.SiteLicenseType {
+func (t *RemoveSiteBwLicense_Sites_RemoveSiteBwLicense_License_SiteLicense) GetSiteLicenseType() *cato_models.SiteLicenseType {
 	if t == nil {
-		t = &RemoveSiteBwLicense_Site_RemoveSiteBwLicense_License_SiteLicense{}
+		t = &RemoveSiteBwLicense_Sites_RemoveSiteBwLicense_License_SiteLicense{}
 	}
 	return &t.SiteLicenseType
 }
-func (t *RemoveSiteBwLicense_Site_RemoveSiteBwLicense_License_SiteLicense) GetTotal() int64 {
+func (t *RemoveSiteBwLicense_Sites_RemoveSiteBwLicense_License_SiteLicense) GetTotal() int64 {
 	if t == nil {
-		t = &RemoveSiteBwLicense_Site_RemoveSiteBwLicense_License_SiteLicense{}
+		t = &RemoveSiteBwLicense_Sites_RemoveSiteBwLicense_License_SiteLicense{}
 	}
 	return t.Total
 }
-func (t *RemoveSiteBwLicense_Site_RemoveSiteBwLicense_License_SiteLicense) GetSite() *RemoveSiteBwLicense_Site_RemoveSiteBwLicense_License_SiteLicense_Site {
+func (t *RemoveSiteBwLicense_Sites_RemoveSiteBwLicense_License_SiteLicense) GetSite() *RemoveSiteBwLicense_Sites_RemoveSiteBwLicense_License_SiteLicense_Site {
 	if t == nil {
-		t = &RemoveSiteBwLicense_Site_RemoveSiteBwLicense_License_SiteLicense{}
+		t = &RemoveSiteBwLicense_Sites_RemoveSiteBwLicense_License_SiteLicense{}
 	}
 	return t.Site
 }
 
-type RemoveSiteBwLicense_Site_RemoveSiteBwLicense_License_PooledBandwidthLicense_Sites_SitePooledBandwidthLicenseSite struct {
+type RemoveSiteBwLicense_Sites_RemoveSiteBwLicense_License_PooledBandwidthLicense_Sites_SitePooledBandwidthLicenseSite struct {
 	ID   string "json:\"id\" graphql:\"id\""
 	Name string "json:\"name\" graphql:\"name\""
 }
 
-func (t *RemoveSiteBwLicense_Site_RemoveSiteBwLicense_License_PooledBandwidthLicense_Sites_SitePooledBandwidthLicenseSite) GetID() string {
+func (t *RemoveSiteBwLicense_Sites_RemoveSiteBwLicense_License_PooledBandwidthLicense_Sites_SitePooledBandwidthLicenseSite) GetID() string {
 	if t == nil {
-		t = &RemoveSiteBwLicense_Site_RemoveSiteBwLicense_License_PooledBandwidthLicense_Sites_SitePooledBandwidthLicenseSite{}
+		t = &RemoveSiteBwLicense_Sites_RemoveSiteBwLicense_License_PooledBandwidthLicense_Sites_SitePooledBandwidthLicenseSite{}
 	}
 	return t.ID
 }
-func (t *RemoveSiteBwLicense_Site_RemoveSiteBwLicense_License_PooledBandwidthLicense_Sites_SitePooledBandwidthLicenseSite) GetName() string {
+func (t *RemoveSiteBwLicense_Sites_RemoveSiteBwLicense_License_PooledBandwidthLicense_Sites_SitePooledBandwidthLicenseSite) GetName() string {
 	if t == nil {
-		t = &RemoveSiteBwLicense_Site_RemoveSiteBwLicense_License_PooledBandwidthLicense_Sites_SitePooledBandwidthLicenseSite{}
+		t = &RemoveSiteBwLicense_Sites_RemoveSiteBwLicense_License_PooledBandwidthLicense_Sites_SitePooledBandwidthLicenseSite{}
 	}
 	return t.Name
 }
 
-type RemoveSiteBwLicense_Site_RemoveSiteBwLicense_License_PooledBandwidthLicense_Sites struct {
-	AllocatedBandwidth             int64                                                                                                            "json:\"allocatedBandwidth\" graphql:\"allocatedBandwidth\""
-	SitePooledBandwidthLicenseSite RemoveSiteBwLicense_Site_RemoveSiteBwLicense_License_PooledBandwidthLicense_Sites_SitePooledBandwidthLicenseSite "json:\"sitePooledBandwidthLicenseSite\" graphql:\"sitePooledBandwidthLicenseSite\""
+type RemoveSiteBwLicense_Sites_RemoveSiteBwLicense_License_PooledBandwidthLicense_Sites struct {
+	AllocatedBandwidth             int64                                                                                                             "json:\"allocatedBandwidth\" graphql:\"allocatedBandwidth\""
+	SitePooledBandwidthLicenseSite RemoveSiteBwLicense_Sites_RemoveSiteBwLicense_License_PooledBandwidthLicense_Sites_SitePooledBandwidthLicenseSite "json:\"sitePooledBandwidthLicenseSite\" graphql:\"sitePooledBandwidthLicenseSite\""
 }
 
-func (t *RemoveSiteBwLicense_Site_RemoveSiteBwLicense_License_PooledBandwidthLicense_Sites) GetAllocatedBandwidth() int64 {
+func (t *RemoveSiteBwLicense_Sites_RemoveSiteBwLicense_License_PooledBandwidthLicense_Sites) GetAllocatedBandwidth() int64 {
 	if t == nil {
-		t = &RemoveSiteBwLicense_Site_RemoveSiteBwLicense_License_PooledBandwidthLicense_Sites{}
+		t = &RemoveSiteBwLicense_Sites_RemoveSiteBwLicense_License_PooledBandwidthLicense_Sites{}
 	}
 	return t.AllocatedBandwidth
 }
-func (t *RemoveSiteBwLicense_Site_RemoveSiteBwLicense_License_PooledBandwidthLicense_Sites) GetSitePooledBandwidthLicenseSite() *RemoveSiteBwLicense_Site_RemoveSiteBwLicense_License_PooledBandwidthLicense_Sites_SitePooledBandwidthLicenseSite {
+func (t *RemoveSiteBwLicense_Sites_RemoveSiteBwLicense_License_PooledBandwidthLicense_Sites) GetSitePooledBandwidthLicenseSite() *RemoveSiteBwLicense_Sites_RemoveSiteBwLicense_License_PooledBandwidthLicense_Sites_SitePooledBandwidthLicenseSite {
 	if t == nil {
-		t = &RemoveSiteBwLicense_Site_RemoveSiteBwLicense_License_PooledBandwidthLicense_Sites{}
+		t = &RemoveSiteBwLicense_Sites_RemoveSiteBwLicense_License_PooledBandwidthLicense_Sites{}
 	}
 	return &t.SitePooledBandwidthLicenseSite
 }
 
-type RemoveSiteBwLicense_Site_RemoveSiteBwLicense_License_PooledBandwidthLicense_Accounts_AccountPartnerPooledBandwidthLicenseAccount struct {
+type RemoveSiteBwLicense_Sites_RemoveSiteBwLicense_License_PooledBandwidthLicense_Accounts_AccountPartnerPooledBandwidthLicenseAccount struct {
 	ID   string "json:\"id\" graphql:\"id\""
 	Name string "json:\"name\" graphql:\"name\""
 }
 
-func (t *RemoveSiteBwLicense_Site_RemoveSiteBwLicense_License_PooledBandwidthLicense_Accounts_AccountPartnerPooledBandwidthLicenseAccount) GetID() string {
+func (t *RemoveSiteBwLicense_Sites_RemoveSiteBwLicense_License_PooledBandwidthLicense_Accounts_AccountPartnerPooledBandwidthLicenseAccount) GetID() string {
 	if t == nil {
-		t = &RemoveSiteBwLicense_Site_RemoveSiteBwLicense_License_PooledBandwidthLicense_Accounts_AccountPartnerPooledBandwidthLicenseAccount{}
+		t = &RemoveSiteBwLicense_Sites_RemoveSiteBwLicense_License_PooledBandwidthLicense_Accounts_AccountPartnerPooledBandwidthLicenseAccount{}
 	}
 	return t.ID
 }
-func (t *RemoveSiteBwLicense_Site_RemoveSiteBwLicense_License_PooledBandwidthLicense_Accounts_AccountPartnerPooledBandwidthLicenseAccount) GetName() string {
+func (t *RemoveSiteBwLicense_Sites_RemoveSiteBwLicense_License_PooledBandwidthLicense_Accounts_AccountPartnerPooledBandwidthLicenseAccount) GetName() string {
 	if t == nil {
-		t = &RemoveSiteBwLicense_Site_RemoveSiteBwLicense_License_PooledBandwidthLicense_Accounts_AccountPartnerPooledBandwidthLicenseAccount{}
+		t = &RemoveSiteBwLicense_Sites_RemoveSiteBwLicense_License_PooledBandwidthLicense_Accounts_AccountPartnerPooledBandwidthLicenseAccount{}
 	}
 	return t.Name
 }
 
-type RemoveSiteBwLicense_Site_RemoveSiteBwLicense_License_PooledBandwidthLicense_Accounts struct {
-	AccountPartnerPooledBandwidthLicenseAccount RemoveSiteBwLicense_Site_RemoveSiteBwLicense_License_PooledBandwidthLicense_Accounts_AccountPartnerPooledBandwidthLicenseAccount "json:\"accountPartnerPooledBandwidthLicenseAccount\" graphql:\"accountPartnerPooledBandwidthLicenseAccount\""
-	AllocatedBandwidth                          int64                                                                                                                            "json:\"allocatedBandwidth\" graphql:\"allocatedBandwidth\""
+type RemoveSiteBwLicense_Sites_RemoveSiteBwLicense_License_PooledBandwidthLicense_Accounts struct {
+	AccountPartnerPooledBandwidthLicenseAccount RemoveSiteBwLicense_Sites_RemoveSiteBwLicense_License_PooledBandwidthLicense_Accounts_AccountPartnerPooledBandwidthLicenseAccount "json:\"accountPartnerPooledBandwidthLicenseAccount\" graphql:\"accountPartnerPooledBandwidthLicenseAccount\""
+	AllocatedBandwidth                          int64                                                                                                                             "json:\"allocatedBandwidth\" graphql:\"allocatedBandwidth\""
 }
 
-func (t *RemoveSiteBwLicense_Site_RemoveSiteBwLicense_License_PooledBandwidthLicense_Accounts) GetAccountPartnerPooledBandwidthLicenseAccount() *RemoveSiteBwLicense_Site_RemoveSiteBwLicense_License_PooledBandwidthLicense_Accounts_AccountPartnerPooledBandwidthLicenseAccount {
+func (t *RemoveSiteBwLicense_Sites_RemoveSiteBwLicense_License_PooledBandwidthLicense_Accounts) GetAccountPartnerPooledBandwidthLicenseAccount() *RemoveSiteBwLicense_Sites_RemoveSiteBwLicense_License_PooledBandwidthLicense_Accounts_AccountPartnerPooledBandwidthLicenseAccount {
 	if t == nil {
-		t = &RemoveSiteBwLicense_Site_RemoveSiteBwLicense_License_PooledBandwidthLicense_Accounts{}
+		t = &RemoveSiteBwLicense_Sites_RemoveSiteBwLicense_License_PooledBandwidthLicense_Accounts{}
 	}
 	return &t.AccountPartnerPooledBandwidthLicenseAccount
 }
-func (t *RemoveSiteBwLicense_Site_RemoveSiteBwLicense_License_PooledBandwidthLicense_Accounts) GetAllocatedBandwidth() int64 {
+func (t *RemoveSiteBwLicense_Sites_RemoveSiteBwLicense_License_PooledBandwidthLicense_Accounts) GetAllocatedBandwidth() int64 {
 	if t == nil {
-		t = &RemoveSiteBwLicense_Site_RemoveSiteBwLicense_License_PooledBandwidthLicense_Accounts{}
+		t = &RemoveSiteBwLicense_Sites_RemoveSiteBwLicense_License_PooledBandwidthLicense_Accounts{}
 	}
 	return t.AllocatedBandwidth
 }
 
-type RemoveSiteBwLicense_Site_RemoveSiteBwLicense_License_PooledBandwidthLicense struct {
-	SiteLicenseGroup   cato_models.SiteLicenseGroup                                                            "json:\"siteLicenseGroup\" graphql:\"siteLicenseGroup\""
-	SiteLicenseType    cato_models.SiteLicenseType                                                             "json:\"siteLicenseType\" graphql:\"siteLicenseType\""
-	Total              int64                                                                                   "json:\"total\" graphql:\"total\""
-	AllocatedBandwidth int64                                                                                   "json:\"allocatedBandwidth\" graphql:\"allocatedBandwidth\""
-	Sites              []*RemoveSiteBwLicense_Site_RemoveSiteBwLicense_License_PooledBandwidthLicense_Sites    "json:\"sites\" graphql:\"sites\""
-	Accounts           []*RemoveSiteBwLicense_Site_RemoveSiteBwLicense_License_PooledBandwidthLicense_Accounts "json:\"accounts\" graphql:\"accounts\""
+type RemoveSiteBwLicense_Sites_RemoveSiteBwLicense_License_PooledBandwidthLicense struct {
+	SiteLicenseGroup   cato_models.SiteLicenseGroup                                                             "json:\"siteLicenseGroup\" graphql:\"siteLicenseGroup\""
+	SiteLicenseType    cato_models.SiteLicenseType                                                              "json:\"siteLicenseType\" graphql:\"siteLicenseType\""
+	Total              int64                                                                                    "json:\"total\" graphql:\"total\""
+	AllocatedBandwidth int64                                                                                    "json:\"allocatedBandwidth\" graphql:\"allocatedBandwidth\""
+	Sites              []*RemoveSiteBwLicense_Sites_RemoveSiteBwLicense_License_PooledBandwidthLicense_Sites    "json:\"sites\" graphql:\"sites\""
+	Accounts           []*RemoveSiteBwLicense_Sites_RemoveSiteBwLicense_License_PooledBandwidthLicense_Accounts "json:\"accounts\" graphql:\"accounts\""
 }
 
-func (t *RemoveSiteBwLicense_Site_RemoveSiteBwLicense_License_PooledBandwidthLicense) GetSiteLicenseGroup() *cato_models.SiteLicenseGroup {
+func (t *RemoveSiteBwLicense_Sites_RemoveSiteBwLicense_License_PooledBandwidthLicense) GetSiteLicenseGroup() *cato_models.SiteLicenseGroup {
 	if t == nil {
-		t = &RemoveSiteBwLicense_Site_RemoveSiteBwLicense_License_PooledBandwidthLicense{}
+		t = &RemoveSiteBwLicense_Sites_RemoveSiteBwLicense_License_PooledBandwidthLicense{}
 	}
 	return &t.SiteLicenseGroup
 }
-func (t *RemoveSiteBwLicense_Site_RemoveSiteBwLicense_License_PooledBandwidthLicense) GetSiteLicenseType() *cato_models.SiteLicenseType {
+func (t *RemoveSiteBwLicense_Sites_RemoveSiteBwLicense_License_PooledBandwidthLicense) GetSiteLicenseType() *cato_models.SiteLicenseType {
 	if t == nil {
-		t = &RemoveSiteBwLicense_Site_RemoveSiteBwLicense_License_PooledBandwidthLicense{}
+		t = &RemoveSiteBwLicense_Sites_RemoveSiteBwLicense_License_PooledBandwidthLicense{}
 	}
 	return &t.SiteLicenseType
 }
-func (t *RemoveSiteBwLicense_Site_RemoveSiteBwLicense_License_PooledBandwidthLicense) GetTotal() int64 {
+func (t *RemoveSiteBwLicense_Sites_RemoveSiteBwLicense_License_PooledBandwidthLicense) GetTotal() int64 {
 	if t == nil {
-		t = &RemoveSiteBwLicense_Site_RemoveSiteBwLicense_License_PooledBandwidthLicense{}
+		t = &RemoveSiteBwLicense_Sites_RemoveSiteBwLicense_License_PooledBandwidthLicense{}
 	}
 	return t.Total
 }
-func (t *RemoveSiteBwLicense_Site_RemoveSiteBwLicense_License_PooledBandwidthLicense) GetAllocatedBandwidth() int64 {
+func (t *RemoveSiteBwLicense_Sites_RemoveSiteBwLicense_License_PooledBandwidthLicense) GetAllocatedBandwidth() int64 {
 	if t == nil {
-		t = &RemoveSiteBwLicense_Site_RemoveSiteBwLicense_License_PooledBandwidthLicense{}
+		t = &RemoveSiteBwLicense_Sites_RemoveSiteBwLicense_License_PooledBandwidthLicense{}
 	}
 	return t.AllocatedBandwidth
 }
-func (t *RemoveSiteBwLicense_Site_RemoveSiteBwLicense_License_PooledBandwidthLicense) GetSites() []*RemoveSiteBwLicense_Site_RemoveSiteBwLicense_License_PooledBandwidthLicense_Sites {
+func (t *RemoveSiteBwLicense_Sites_RemoveSiteBwLicense_License_PooledBandwidthLicense) GetSites() []*RemoveSiteBwLicense_Sites_RemoveSiteBwLicense_License_PooledBandwidthLicense_Sites {
 	if t == nil {
-		t = &RemoveSiteBwLicense_Site_RemoveSiteBwLicense_License_PooledBandwidthLicense{}
+		t = &RemoveSiteBwLicense_Sites_RemoveSiteBwLicense_License_PooledBandwidthLicense{}
 	}
 	return t.Sites
 }
-func (t *RemoveSiteBwLicense_Site_RemoveSiteBwLicense_License_PooledBandwidthLicense) GetAccounts() []*RemoveSiteBwLicense_Site_RemoveSiteBwLicense_License_PooledBandwidthLicense_Accounts {
+func (t *RemoveSiteBwLicense_Sites_RemoveSiteBwLicense_License_PooledBandwidthLicense) GetAccounts() []*RemoveSiteBwLicense_Sites_RemoveSiteBwLicense_License_PooledBandwidthLicense_Accounts {
 	if t == nil {
-		t = &RemoveSiteBwLicense_Site_RemoveSiteBwLicense_License_PooledBandwidthLicense{}
+		t = &RemoveSiteBwLicense_Sites_RemoveSiteBwLicense_License_PooledBandwidthLicense{}
 	}
 	return t.Accounts
 }
 
-type RemoveSiteBwLicense_Site_RemoveSiteBwLicense_License_ZtnaUsersLicense_Accounts_AccountPartnerZtnaUsersLicenseAccount struct {
+type RemoveSiteBwLicense_Sites_RemoveSiteBwLicense_License_ZtnaUsersLicense_Accounts_AccountPartnerZtnaUsersLicenseAccount struct {
 	ID   string "json:\"id\" graphql:\"id\""
 	Name string "json:\"name\" graphql:\"name\""
 }
 
-func (t *RemoveSiteBwLicense_Site_RemoveSiteBwLicense_License_ZtnaUsersLicense_Accounts_AccountPartnerZtnaUsersLicenseAccount) GetID() string {
+func (t *RemoveSiteBwLicense_Sites_RemoveSiteBwLicense_License_ZtnaUsersLicense_Accounts_AccountPartnerZtnaUsersLicenseAccount) GetID() string {
 	if t == nil {
-		t = &RemoveSiteBwLicense_Site_RemoveSiteBwLicense_License_ZtnaUsersLicense_Accounts_AccountPartnerZtnaUsersLicenseAccount{}
+		t = &RemoveSiteBwLicense_Sites_RemoveSiteBwLicense_License_ZtnaUsersLicense_Accounts_AccountPartnerZtnaUsersLicenseAccount{}
 	}
 	return t.ID
 }
-func (t *RemoveSiteBwLicense_Site_RemoveSiteBwLicense_License_ZtnaUsersLicense_Accounts_AccountPartnerZtnaUsersLicenseAccount) GetName() string {
+func (t *RemoveSiteBwLicense_Sites_RemoveSiteBwLicense_License_ZtnaUsersLicense_Accounts_AccountPartnerZtnaUsersLicenseAccount) GetName() string {
 	if t == nil {
-		t = &RemoveSiteBwLicense_Site_RemoveSiteBwLicense_License_ZtnaUsersLicense_Accounts_AccountPartnerZtnaUsersLicenseAccount{}
+		t = &RemoveSiteBwLicense_Sites_RemoveSiteBwLicense_License_ZtnaUsersLicense_Accounts_AccountPartnerZtnaUsersLicenseAccount{}
 	}
 	return t.Name
 }
 
-type RemoveSiteBwLicense_Site_RemoveSiteBwLicense_License_ZtnaUsersLicense_Accounts struct {
-	AccountPartnerZtnaUsersLicenseAccount RemoveSiteBwLicense_Site_RemoveSiteBwLicense_License_ZtnaUsersLicense_Accounts_AccountPartnerZtnaUsersLicenseAccount "json:\"accountPartnerZtnaUsersLicenseAccount\" graphql:\"accountPartnerZtnaUsersLicenseAccount\""
-	AllocatedUsers                        int64                                                                                                                "json:\"allocatedUsers\" graphql:\"allocatedUsers\""
+type RemoveSiteBwLicense_Sites_RemoveSiteBwLicense_License_ZtnaUsersLicense_Accounts struct {
+	AccountPartnerZtnaUsersLicenseAccount RemoveSiteBwLicense_Sites_RemoveSiteBwLicense_License_ZtnaUsersLicense_Accounts_AccountPartnerZtnaUsersLicenseAccount "json:\"accountPartnerZtnaUsersLicenseAccount\" graphql:\"accountPartnerZtnaUsersLicenseAccount\""
+	AllocatedUsers                        int64                                                                                                                 "json:\"allocatedUsers\" graphql:\"allocatedUsers\""
 }
 
-func (t *RemoveSiteBwLicense_Site_RemoveSiteBwLicense_License_ZtnaUsersLicense_Accounts) GetAccountPartnerZtnaUsersLicenseAccount() *RemoveSiteBwLicense_Site_RemoveSiteBwLicense_License_ZtnaUsersLicense_Accounts_AccountPartnerZtnaUsersLicenseAccount {
+func (t *RemoveSiteBwLicense_Sites_RemoveSiteBwLicense_License_ZtnaUsersLicense_Accounts) GetAccountPartnerZtnaUsersLicenseAccount() *RemoveSiteBwLicense_Sites_RemoveSiteBwLicense_License_ZtnaUsersLicense_Accounts_AccountPartnerZtnaUsersLicenseAccount {
 	if t == nil {
-		t = &RemoveSiteBwLicense_Site_RemoveSiteBwLicense_License_ZtnaUsersLicense_Accounts{}
+		t = &RemoveSiteBwLicense_Sites_RemoveSiteBwLicense_License_ZtnaUsersLicense_Accounts{}
 	}
 	return &t.AccountPartnerZtnaUsersLicenseAccount
 }
-func (t *RemoveSiteBwLicense_Site_RemoveSiteBwLicense_License_ZtnaUsersLicense_Accounts) GetAllocatedUsers() int64 {
+func (t *RemoveSiteBwLicense_Sites_RemoveSiteBwLicense_License_ZtnaUsersLicense_Accounts) GetAllocatedUsers() int64 {
 	if t == nil {
-		t = &RemoveSiteBwLicense_Site_RemoveSiteBwLicense_License_ZtnaUsersLicense_Accounts{}
+		t = &RemoveSiteBwLicense_Sites_RemoveSiteBwLicense_License_ZtnaUsersLicense_Accounts{}
 	}
 	return t.AllocatedUsers
 }
 
-type RemoveSiteBwLicense_Site_RemoveSiteBwLicense_License_ZtnaUsersLicense struct {
-	ZtnaUsersLicenseGroup cato_models.ZtnaUsersLicenseGroup                                                 "json:\"ztnaUsersLicenseGroup\" graphql:\"ztnaUsersLicenseGroup\""
-	Accounts              []*RemoveSiteBwLicense_Site_RemoveSiteBwLicense_License_ZtnaUsersLicense_Accounts "json:\"accounts\" graphql:\"accounts\""
-	Total                 int64                                                                             "json:\"total\" graphql:\"total\""
+type RemoveSiteBwLicense_Sites_RemoveSiteBwLicense_License_ZtnaUsersLicense struct {
+	ZtnaUsersLicenseGroup cato_models.ZtnaUsersLicenseGroup                                                  "json:\"ztnaUsersLicenseGroup\" graphql:\"ztnaUsersLicenseGroup\""
+	Accounts              []*RemoveSiteBwLicense_Sites_RemoveSiteBwLicense_License_ZtnaUsersLicense_Accounts "json:\"accounts\" graphql:\"accounts\""
+	Total                 int64                                                                              "json:\"total\" graphql:\"total\""
 }
 
-func (t *RemoveSiteBwLicense_Site_RemoveSiteBwLicense_License_ZtnaUsersLicense) GetZtnaUsersLicenseGroup() *cato_models.ZtnaUsersLicenseGroup {
+func (t *RemoveSiteBwLicense_Sites_RemoveSiteBwLicense_License_ZtnaUsersLicense) GetZtnaUsersLicenseGroup() *cato_models.ZtnaUsersLicenseGroup {
 	if t == nil {
-		t = &RemoveSiteBwLicense_Site_RemoveSiteBwLicense_License_ZtnaUsersLicense{}
+		t = &RemoveSiteBwLicense_Sites_RemoveSiteBwLicense_License_ZtnaUsersLicense{}
 	}
 	return &t.ZtnaUsersLicenseGroup
 }
-func (t *RemoveSiteBwLicense_Site_RemoveSiteBwLicense_License_ZtnaUsersLicense) GetAccounts() []*RemoveSiteBwLicense_Site_RemoveSiteBwLicense_License_ZtnaUsersLicense_Accounts {
+func (t *RemoveSiteBwLicense_Sites_RemoveSiteBwLicense_License_ZtnaUsersLicense) GetAccounts() []*RemoveSiteBwLicense_Sites_RemoveSiteBwLicense_License_ZtnaUsersLicense_Accounts {
 	if t == nil {
-		t = &RemoveSiteBwLicense_Site_RemoveSiteBwLicense_License_ZtnaUsersLicense{}
+		t = &RemoveSiteBwLicense_Sites_RemoveSiteBwLicense_License_ZtnaUsersLicense{}
 	}
 	return t.Accounts
 }
-func (t *RemoveSiteBwLicense_Site_RemoveSiteBwLicense_License_ZtnaUsersLicense) GetTotal() int64 {
+func (t *RemoveSiteBwLicense_Sites_RemoveSiteBwLicense_License_ZtnaUsersLicense) GetTotal() int64 {
 	if t == nil {
-		t = &RemoveSiteBwLicense_Site_RemoveSiteBwLicense_License_ZtnaUsersLicense{}
+		t = &RemoveSiteBwLicense_Sites_RemoveSiteBwLicense_License_ZtnaUsersLicense{}
 	}
 	return t.Total
 }
 
-type RemoveSiteBwLicense_Site_RemoveSiteBwLicense_License_EndpointProtectionLicense struct {
+type RemoveSiteBwLicense_Sites_RemoveSiteBwLicense_License_EndpointProtectionLicense struct {
 	Total int64 "json:\"total\" graphql:\"total\""
 }
 
-func (t *RemoveSiteBwLicense_Site_RemoveSiteBwLicense_License_EndpointProtectionLicense) GetTotal() int64 {
+func (t *RemoveSiteBwLicense_Sites_RemoveSiteBwLicense_License_EndpointProtectionLicense) GetTotal() int64 {
 	if t == nil {
-		t = &RemoveSiteBwLicense_Site_RemoveSiteBwLicense_License_EndpointProtectionLicense{}
+		t = &RemoveSiteBwLicense_Sites_RemoveSiteBwLicense_License_EndpointProtectionLicense{}
 	}
 	return t.Total
 }
 
-type RemoveSiteBwLicense_Site_RemoveSiteBwLicense_License_IlmmLicense struct {
+type RemoveSiteBwLicense_Sites_RemoveSiteBwLicense_License_IlmmLicense struct {
 	Total int64 "json:\"total\" graphql:\"total\""
 }
 
-func (t *RemoveSiteBwLicense_Site_RemoveSiteBwLicense_License_IlmmLicense) GetTotal() int64 {
+func (t *RemoveSiteBwLicense_Sites_RemoveSiteBwLicense_License_IlmmLicense) GetTotal() int64 {
 	if t == nil {
-		t = &RemoveSiteBwLicense_Site_RemoveSiteBwLicense_License_IlmmLicense{}
+		t = &RemoveSiteBwLicense_Sites_RemoveSiteBwLicense_License_IlmmLicense{}
 	}
 	return t.Total
 }
 
-type RemoveSiteBwLicense_Site_RemoveSiteBwLicense_License_SaasSecurityAPILicense struct {
+type RemoveSiteBwLicense_Sites_RemoveSiteBwLicense_License_SaasSecurityAPILicense struct {
 	Total int64 "json:\"total\" graphql:\"total\""
 }
 
-func (t *RemoveSiteBwLicense_Site_RemoveSiteBwLicense_License_SaasSecurityAPILicense) GetTotal() int64 {
+func (t *RemoveSiteBwLicense_Sites_RemoveSiteBwLicense_License_SaasSecurityAPILicense) GetTotal() int64 {
 	if t == nil {
-		t = &RemoveSiteBwLicense_Site_RemoveSiteBwLicense_License_SaasSecurityAPILicense{}
+		t = &RemoveSiteBwLicense_Sites_RemoveSiteBwLicense_License_SaasSecurityAPILicense{}
 	}
 	return t.Total
 }
 
-type RemoveSiteBwLicense_Site_RemoveSiteBwLicense_License_XdrProLicense struct {
+type RemoveSiteBwLicense_Sites_RemoveSiteBwLicense_License_XdrProLicense struct {
 	Total int64 "json:\"total\" graphql:\"total\""
 }
 
-func (t *RemoveSiteBwLicense_Site_RemoveSiteBwLicense_License_XdrProLicense) GetTotal() int64 {
+func (t *RemoveSiteBwLicense_Sites_RemoveSiteBwLicense_License_XdrProLicense) GetTotal() int64 {
 	if t == nil {
-		t = &RemoveSiteBwLicense_Site_RemoveSiteBwLicense_License_XdrProLicense{}
+		t = &RemoveSiteBwLicense_Sites_RemoveSiteBwLicense_License_XdrProLicense{}
 	}
 	return t.Total
 }
 
-type RemoveSiteBwLicense_Site_RemoveSiteBwLicense_License_DemLicense struct {
+type RemoveSiteBwLicense_Sites_RemoveSiteBwLicense_License_DemLicense struct {
 	Total int64 "json:\"total\" graphql:\"total\""
 }
 
-func (t *RemoveSiteBwLicense_Site_RemoveSiteBwLicense_License_DemLicense) GetTotal() int64 {
+func (t *RemoveSiteBwLicense_Sites_RemoveSiteBwLicense_License_DemLicense) GetTotal() int64 {
 	if t == nil {
-		t = &RemoveSiteBwLicense_Site_RemoveSiteBwLicense_License_DemLicense{}
+		t = &RemoveSiteBwLicense_Sites_RemoveSiteBwLicense_License_DemLicense{}
 	}
 	return t.Total
 }
 
-type RemoveSiteBwLicense_Site_RemoveSiteBwLicense_License_AssetsSecurityLicense struct {
+type RemoveSiteBwLicense_Sites_RemoveSiteBwLicense_License_AssetsSecurityLicense struct {
 	Total int64 "json:\"total\" graphql:\"total\""
 }
 
-func (t *RemoveSiteBwLicense_Site_RemoveSiteBwLicense_License_AssetsSecurityLicense) GetTotal() int64 {
+func (t *RemoveSiteBwLicense_Sites_RemoveSiteBwLicense_License_AssetsSecurityLicense) GetTotal() int64 {
 	if t == nil {
-		t = &RemoveSiteBwLicense_Site_RemoveSiteBwLicense_License_AssetsSecurityLicense{}
+		t = &RemoveSiteBwLicense_Sites_RemoveSiteBwLicense_License_AssetsSecurityLicense{}
 	}
 	return t.Total
 }
 
-type RemoveSiteBwLicense_Site_RemoveSiteBwLicense_License_AISecurityUsersLicense struct {
+type RemoveSiteBwLicense_Sites_RemoveSiteBwLicense_License_AISecurityUsersLicense struct {
 	Total int64 "json:\"total\" graphql:\"total\""
 }
 
-func (t *RemoveSiteBwLicense_Site_RemoveSiteBwLicense_License_AISecurityUsersLicense) GetTotal() int64 {
+func (t *RemoveSiteBwLicense_Sites_RemoveSiteBwLicense_License_AISecurityUsersLicense) GetTotal() int64 {
 	if t == nil {
-		t = &RemoveSiteBwLicense_Site_RemoveSiteBwLicense_License_AISecurityUsersLicense{}
+		t = &RemoveSiteBwLicense_Sites_RemoveSiteBwLicense_License_AISecurityUsersLicense{}
 	}
 	return t.Total
 }
 
-type RemoveSiteBwLicense_Site_RemoveSiteBwLicense_License_AISecurityApplicationsLicense struct {
+type RemoveSiteBwLicense_Sites_RemoveSiteBwLicense_License_AISecurityApplicationsLicense struct {
 	Total int64 "json:\"total\" graphql:\"total\""
 }
 
-func (t *RemoveSiteBwLicense_Site_RemoveSiteBwLicense_License_AISecurityApplicationsLicense) GetTotal() int64 {
+func (t *RemoveSiteBwLicense_Sites_RemoveSiteBwLicense_License_AISecurityApplicationsLicense) GetTotal() int64 {
 	if t == nil {
-		t = &RemoveSiteBwLicense_Site_RemoveSiteBwLicense_License_AISecurityApplicationsLicense{}
+		t = &RemoveSiteBwLicense_Sites_RemoveSiteBwLicense_License_AISecurityApplicationsLicense{}
 	}
 	return t.Total
 }
 
-type RemoveSiteBwLicense_Site_RemoveSiteBwLicense_License_MspCasbUsersLicense struct {
+type RemoveSiteBwLicense_Sites_RemoveSiteBwLicense_License_MspCasbUsersLicense struct {
 	Total int64 "json:\"total\" graphql:\"total\""
 }
 
-func (t *RemoveSiteBwLicense_Site_RemoveSiteBwLicense_License_MspCasbUsersLicense) GetTotal() int64 {
+func (t *RemoveSiteBwLicense_Sites_RemoveSiteBwLicense_License_MspCasbUsersLicense) GetTotal() int64 {
 	if t == nil {
-		t = &RemoveSiteBwLicense_Site_RemoveSiteBwLicense_License_MspCasbUsersLicense{}
+		t = &RemoveSiteBwLicense_Sites_RemoveSiteBwLicense_License_MspCasbUsersLicense{}
 	}
 	return t.Total
 }
 
-type RemoveSiteBwLicense_Site_RemoveSiteBwLicense_License_MspCasbBandwidthLicense struct {
+type RemoveSiteBwLicense_Sites_RemoveSiteBwLicense_License_MspCasbBandwidthLicense struct {
 	Total int64 "json:\"total\" graphql:\"total\""
 }
 
-func (t *RemoveSiteBwLicense_Site_RemoveSiteBwLicense_License_MspCasbBandwidthLicense) GetTotal() int64 {
+func (t *RemoveSiteBwLicense_Sites_RemoveSiteBwLicense_License_MspCasbBandwidthLicense) GetTotal() int64 {
 	if t == nil {
-		t = &RemoveSiteBwLicense_Site_RemoveSiteBwLicense_License_MspCasbBandwidthLicense{}
+		t = &RemoveSiteBwLicense_Sites_RemoveSiteBwLicense_License_MspCasbBandwidthLicense{}
 	}
 	return t.Total
 }
 
-type RemoveSiteBwLicense_Site_RemoveSiteBwLicense_License_MspDlpUsersLicense struct {
+type RemoveSiteBwLicense_Sites_RemoveSiteBwLicense_License_MspDlpUsersLicense struct {
 	Total int64 "json:\"total\" graphql:\"total\""
 }
 
-func (t *RemoveSiteBwLicense_Site_RemoveSiteBwLicense_License_MspDlpUsersLicense) GetTotal() int64 {
+func (t *RemoveSiteBwLicense_Sites_RemoveSiteBwLicense_License_MspDlpUsersLicense) GetTotal() int64 {
 	if t == nil {
-		t = &RemoveSiteBwLicense_Site_RemoveSiteBwLicense_License_MspDlpUsersLicense{}
+		t = &RemoveSiteBwLicense_Sites_RemoveSiteBwLicense_License_MspDlpUsersLicense{}
 	}
 	return t.Total
 }
 
-type RemoveSiteBwLicense_Site_RemoveSiteBwLicense_License_MspDlpBandwidthLicense struct {
+type RemoveSiteBwLicense_Sites_RemoveSiteBwLicense_License_MspDlpBandwidthLicense struct {
 	Total int64 "json:\"total\" graphql:\"total\""
 }
 
-func (t *RemoveSiteBwLicense_Site_RemoveSiteBwLicense_License_MspDlpBandwidthLicense) GetTotal() int64 {
+func (t *RemoveSiteBwLicense_Sites_RemoveSiteBwLicense_License_MspDlpBandwidthLicense) GetTotal() int64 {
 	if t == nil {
-		t = &RemoveSiteBwLicense_Site_RemoveSiteBwLicense_License_MspDlpBandwidthLicense{}
+		t = &RemoveSiteBwLicense_Sites_RemoveSiteBwLicense_License_MspDlpBandwidthLicense{}
 	}
 	return t.Total
 }
 
-type RemoveSiteBwLicense_Site_RemoveSiteBwLicense_License_MspTpUsersLicense struct {
+type RemoveSiteBwLicense_Sites_RemoveSiteBwLicense_License_MspTpUsersLicense struct {
 	Total int64 "json:\"total\" graphql:\"total\""
 }
 
-func (t *RemoveSiteBwLicense_Site_RemoveSiteBwLicense_License_MspTpUsersLicense) GetTotal() int64 {
+func (t *RemoveSiteBwLicense_Sites_RemoveSiteBwLicense_License_MspTpUsersLicense) GetTotal() int64 {
 	if t == nil {
-		t = &RemoveSiteBwLicense_Site_RemoveSiteBwLicense_License_MspTpUsersLicense{}
+		t = &RemoveSiteBwLicense_Sites_RemoveSiteBwLicense_License_MspTpUsersLicense{}
 	}
 	return t.Total
 }
 
-type RemoveSiteBwLicense_Site_RemoveSiteBwLicense_License_MspTpBandwidthLicense struct {
+type RemoveSiteBwLicense_Sites_RemoveSiteBwLicense_License_MspTpBandwidthLicense struct {
 	Total int64 "json:\"total\" graphql:\"total\""
 }
 
-func (t *RemoveSiteBwLicense_Site_RemoveSiteBwLicense_License_MspTpBandwidthLicense) GetTotal() int64 {
+func (t *RemoveSiteBwLicense_Sites_RemoveSiteBwLicense_License_MspTpBandwidthLicense) GetTotal() int64 {
 	if t == nil {
-		t = &RemoveSiteBwLicense_Site_RemoveSiteBwLicense_License_MspTpBandwidthLicense{}
+		t = &RemoveSiteBwLicense_Sites_RemoveSiteBwLicense_License_MspTpBandwidthLicense{}
 	}
 	return t.Total
 }
 
-type RemoveSiteBwLicense_Site_RemoveSiteBwLicense_License_MspAtpUsersLicense struct {
+type RemoveSiteBwLicense_Sites_RemoveSiteBwLicense_License_MspAtpUsersLicense struct {
 	Total int64 "json:\"total\" graphql:\"total\""
 }
 
-func (t *RemoveSiteBwLicense_Site_RemoveSiteBwLicense_License_MspAtpUsersLicense) GetTotal() int64 {
+func (t *RemoveSiteBwLicense_Sites_RemoveSiteBwLicense_License_MspAtpUsersLicense) GetTotal() int64 {
 	if t == nil {
-		t = &RemoveSiteBwLicense_Site_RemoveSiteBwLicense_License_MspAtpUsersLicense{}
+		t = &RemoveSiteBwLicense_Sites_RemoveSiteBwLicense_License_MspAtpUsersLicense{}
 	}
 	return t.Total
 }
 
-type RemoveSiteBwLicense_Site_RemoveSiteBwLicense_License_MspAtpBandwidthLicense struct {
+type RemoveSiteBwLicense_Sites_RemoveSiteBwLicense_License_MspAtpBandwidthLicense struct {
 	Total int64 "json:\"total\" graphql:\"total\""
 }
 
-func (t *RemoveSiteBwLicense_Site_RemoveSiteBwLicense_License_MspAtpBandwidthLicense) GetTotal() int64 {
+func (t *RemoveSiteBwLicense_Sites_RemoveSiteBwLicense_License_MspAtpBandwidthLicense) GetTotal() int64 {
 	if t == nil {
-		t = &RemoveSiteBwLicense_Site_RemoveSiteBwLicense_License_MspAtpBandwidthLicense{}
+		t = &RemoveSiteBwLicense_Sites_RemoveSiteBwLicense_License_MspAtpBandwidthLicense{}
 	}
 	return t.Total
 }
 
-type RemoveSiteBwLicense_Site_RemoveSiteBwLicense_License_MspXOpsUsersLicense struct {
+type RemoveSiteBwLicense_Sites_RemoveSiteBwLicense_License_MspXOpsUsersLicense struct {
 	Total int64 "json:\"total\" graphql:\"total\""
 }
 
-func (t *RemoveSiteBwLicense_Site_RemoveSiteBwLicense_License_MspXOpsUsersLicense) GetTotal() int64 {
+func (t *RemoveSiteBwLicense_Sites_RemoveSiteBwLicense_License_MspXOpsUsersLicense) GetTotal() int64 {
 	if t == nil {
-		t = &RemoveSiteBwLicense_Site_RemoveSiteBwLicense_License_MspXOpsUsersLicense{}
+		t = &RemoveSiteBwLicense_Sites_RemoveSiteBwLicense_License_MspXOpsUsersLicense{}
 	}
 	return t.Total
 }
 
-type RemoveSiteBwLicense_Site_RemoveSiteBwLicense_License_MspXOpsBandwidthLicense struct {
+type RemoveSiteBwLicense_Sites_RemoveSiteBwLicense_License_MspXOpsBandwidthLicense struct {
 	Total int64 "json:\"total\" graphql:\"total\""
 }
 
-func (t *RemoveSiteBwLicense_Site_RemoveSiteBwLicense_License_MspXOpsBandwidthLicense) GetTotal() int64 {
+func (t *RemoveSiteBwLicense_Sites_RemoveSiteBwLicense_License_MspXOpsBandwidthLicense) GetTotal() int64 {
 	if t == nil {
-		t = &RemoveSiteBwLicense_Site_RemoveSiteBwLicense_License_MspXOpsBandwidthLicense{}
+		t = &RemoveSiteBwLicense_Sites_RemoveSiteBwLicense_License_MspXOpsBandwidthLicense{}
 	}
 	return t.Total
 }
 
-type RemoveSiteBwLicense_Site_RemoveSiteBwLicense_License_MspMdrUsersLicense struct {
+type RemoveSiteBwLicense_Sites_RemoveSiteBwLicense_License_MspMdrUsersLicense struct {
 	Total int64 "json:\"total\" graphql:\"total\""
 }
 
-func (t *RemoveSiteBwLicense_Site_RemoveSiteBwLicense_License_MspMdrUsersLicense) GetTotal() int64 {
+func (t *RemoveSiteBwLicense_Sites_RemoveSiteBwLicense_License_MspMdrUsersLicense) GetTotal() int64 {
 	if t == nil {
-		t = &RemoveSiteBwLicense_Site_RemoveSiteBwLicense_License_MspMdrUsersLicense{}
+		t = &RemoveSiteBwLicense_Sites_RemoveSiteBwLicense_License_MspMdrUsersLicense{}
 	}
 	return t.Total
 }
 
-type RemoveSiteBwLicense_Site_RemoveSiteBwLicense_License_MspMdrBandwidthLicense struct {
+type RemoveSiteBwLicense_Sites_RemoveSiteBwLicense_License_MspMdrBandwidthLicense struct {
 	Total int64 "json:\"total\" graphql:\"total\""
 }
 
-func (t *RemoveSiteBwLicense_Site_RemoveSiteBwLicense_License_MspMdrBandwidthLicense) GetTotal() int64 {
+func (t *RemoveSiteBwLicense_Sites_RemoveSiteBwLicense_License_MspMdrBandwidthLicense) GetTotal() int64 {
 	if t == nil {
-		t = &RemoveSiteBwLicense_Site_RemoveSiteBwLicense_License_MspMdrBandwidthLicense{}
+		t = &RemoveSiteBwLicense_Sites_RemoveSiteBwLicense_License_MspMdrBandwidthLicense{}
 	}
 	return t.Total
 }
 
-type RemoveSiteBwLicense_Site_RemoveSiteBwLicense_License struct {
-	AISecurityApplicationsLicense RemoveSiteBwLicense_Site_RemoveSiteBwLicense_License_AISecurityApplicationsLicense "graphql:\"... on AISecurityApplicationsLicense\""
-	AISecurityUsersLicense        RemoveSiteBwLicense_Site_RemoveSiteBwLicense_License_AISecurityUsersLicense        "graphql:\"... on AISecurityUsersLicense\""
-	AssetsSecurityLicense         RemoveSiteBwLicense_Site_RemoveSiteBwLicense_License_AssetsSecurityLicense         "graphql:\"... on AssetsSecurityLicense\""
-	DataLakeLicense               RemoveSiteBwLicense_Site_RemoveSiteBwLicense_License_DataLakeLicense               "graphql:\"... on DataLakeLicense\""
-	DemLicense                    RemoveSiteBwLicense_Site_RemoveSiteBwLicense_License_DemLicense                    "graphql:\"... on DemLicense\""
-	EndpointProtectionLicense     RemoveSiteBwLicense_Site_RemoveSiteBwLicense_License_EndpointProtectionLicense     "graphql:\"... on EndpointProtectionLicense\""
-	IlmmLicense                   RemoveSiteBwLicense_Site_RemoveSiteBwLicense_License_IlmmLicense                   "graphql:\"... on IlmmLicense\""
-	MspAtpBandwidthLicense        RemoveSiteBwLicense_Site_RemoveSiteBwLicense_License_MspAtpBandwidthLicense        "graphql:\"... on MspAtpBandwidthLicense\""
-	MspAtpUsersLicense            RemoveSiteBwLicense_Site_RemoveSiteBwLicense_License_MspAtpUsersLicense            "graphql:\"... on MspAtpUsersLicense\""
-	MspCasbBandwidthLicense       RemoveSiteBwLicense_Site_RemoveSiteBwLicense_License_MspCasbBandwidthLicense       "graphql:\"... on MspCasbBandwidthLicense\""
-	MspCasbUsersLicense           RemoveSiteBwLicense_Site_RemoveSiteBwLicense_License_MspCasbUsersLicense           "graphql:\"... on MspCasbUsersLicense\""
-	MspDlpBandwidthLicense        RemoveSiteBwLicense_Site_RemoveSiteBwLicense_License_MspDlpBandwidthLicense        "graphql:\"... on MspDlpBandwidthLicense\""
-	MspDlpUsersLicense            RemoveSiteBwLicense_Site_RemoveSiteBwLicense_License_MspDlpUsersLicense            "graphql:\"... on MspDlpUsersLicense\""
-	MspMdrBandwidthLicense        RemoveSiteBwLicense_Site_RemoveSiteBwLicense_License_MspMdrBandwidthLicense        "graphql:\"... on MspMdrBandwidthLicense\""
-	MspMdrUsersLicense            RemoveSiteBwLicense_Site_RemoveSiteBwLicense_License_MspMdrUsersLicense            "graphql:\"... on MspMdrUsersLicense\""
-	MspTpBandwidthLicense         RemoveSiteBwLicense_Site_RemoveSiteBwLicense_License_MspTpBandwidthLicense         "graphql:\"... on MspTpBandwidthLicense\""
-	MspTpUsersLicense             RemoveSiteBwLicense_Site_RemoveSiteBwLicense_License_MspTpUsersLicense             "graphql:\"... on MspTpUsersLicense\""
-	MspXOpsBandwidthLicense       RemoveSiteBwLicense_Site_RemoveSiteBwLicense_License_MspXOpsBandwidthLicense       "graphql:\"... on MspXOpsBandwidthLicense\""
-	MspXOpsUsersLicense           RemoveSiteBwLicense_Site_RemoveSiteBwLicense_License_MspXOpsUsersLicense           "graphql:\"... on MspXOpsUsersLicense\""
-	PooledBandwidthLicense        RemoveSiteBwLicense_Site_RemoveSiteBwLicense_License_PooledBandwidthLicense        "graphql:\"... on PooledBandwidthLicense\""
-	PublicIpsLicense              RemoveSiteBwLicense_Site_RemoveSiteBwLicense_License_PublicIpsLicense              "graphql:\"... on PublicIpsLicense\""
-	SaasSecurityAPILicense        RemoveSiteBwLicense_Site_RemoveSiteBwLicense_License_SaasSecurityAPILicense        "graphql:\"... on SaasSecurityApiLicense\""
-	SiteLicense                   RemoveSiteBwLicense_Site_RemoveSiteBwLicense_License_SiteLicense                   "graphql:\"... on SiteLicense\""
-	XdrProLicense                 RemoveSiteBwLicense_Site_RemoveSiteBwLicense_License_XdrProLicense                 "graphql:\"... on XdrProLicense\""
-	ZtnaUsersLicense              RemoveSiteBwLicense_Site_RemoveSiteBwLicense_License_ZtnaUsersLicense              "graphql:\"... on ZtnaUsersLicense\""
-	Description                   *string                                                                            "json:\"description,omitempty\" graphql:\"description\""
-	ExpirationDate                string                                                                             "json:\"expirationDate\" graphql:\"expirationDate\""
-	ID                            *string                                                                            "json:\"id,omitempty\" graphql:\"id\""
-	LastUpdated                   *string                                                                            "json:\"lastUpdated,omitempty\" graphql:\"lastUpdated\""
-	Plan                          cato_models.LicensePlan                                                            "json:\"plan\" graphql:\"plan\""
-	Sku                           cato_models.LicenseSku                                                             "json:\"sku\" graphql:\"sku\""
-	StartDate                     *string                                                                            "json:\"startDate,omitempty\" graphql:\"startDate\""
-	Status                        cato_models.LicenseStatus                                                          "json:\"status\" graphql:\"status\""
+type RemoveSiteBwLicense_Sites_RemoveSiteBwLicense_License struct {
+	AISecurityApplicationsLicense RemoveSiteBwLicense_Sites_RemoveSiteBwLicense_License_AISecurityApplicationsLicense "graphql:\"... on AISecurityApplicationsLicense\""
+	AISecurityUsersLicense        RemoveSiteBwLicense_Sites_RemoveSiteBwLicense_License_AISecurityUsersLicense        "graphql:\"... on AISecurityUsersLicense\""
+	AssetsSecurityLicense         RemoveSiteBwLicense_Sites_RemoveSiteBwLicense_License_AssetsSecurityLicense         "graphql:\"... on AssetsSecurityLicense\""
+	DataLakeLicense               RemoveSiteBwLicense_Sites_RemoveSiteBwLicense_License_DataLakeLicense               "graphql:\"... on DataLakeLicense\""
+	DemLicense                    RemoveSiteBwLicense_Sites_RemoveSiteBwLicense_License_DemLicense                    "graphql:\"... on DemLicense\""
+	EndpointProtectionLicense     RemoveSiteBwLicense_Sites_RemoveSiteBwLicense_License_EndpointProtectionLicense     "graphql:\"... on EndpointProtectionLicense\""
+	IlmmLicense                   RemoveSiteBwLicense_Sites_RemoveSiteBwLicense_License_IlmmLicense                   "graphql:\"... on IlmmLicense\""
+	MspAtpBandwidthLicense        RemoveSiteBwLicense_Sites_RemoveSiteBwLicense_License_MspAtpBandwidthLicense        "graphql:\"... on MspAtpBandwidthLicense\""
+	MspAtpUsersLicense            RemoveSiteBwLicense_Sites_RemoveSiteBwLicense_License_MspAtpUsersLicense            "graphql:\"... on MspAtpUsersLicense\""
+	MspCasbBandwidthLicense       RemoveSiteBwLicense_Sites_RemoveSiteBwLicense_License_MspCasbBandwidthLicense       "graphql:\"... on MspCasbBandwidthLicense\""
+	MspCasbUsersLicense           RemoveSiteBwLicense_Sites_RemoveSiteBwLicense_License_MspCasbUsersLicense           "graphql:\"... on MspCasbUsersLicense\""
+	MspDlpBandwidthLicense        RemoveSiteBwLicense_Sites_RemoveSiteBwLicense_License_MspDlpBandwidthLicense        "graphql:\"... on MspDlpBandwidthLicense\""
+	MspDlpUsersLicense            RemoveSiteBwLicense_Sites_RemoveSiteBwLicense_License_MspDlpUsersLicense            "graphql:\"... on MspDlpUsersLicense\""
+	MspMdrBandwidthLicense        RemoveSiteBwLicense_Sites_RemoveSiteBwLicense_License_MspMdrBandwidthLicense        "graphql:\"... on MspMdrBandwidthLicense\""
+	MspMdrUsersLicense            RemoveSiteBwLicense_Sites_RemoveSiteBwLicense_License_MspMdrUsersLicense            "graphql:\"... on MspMdrUsersLicense\""
+	MspTpBandwidthLicense         RemoveSiteBwLicense_Sites_RemoveSiteBwLicense_License_MspTpBandwidthLicense         "graphql:\"... on MspTpBandwidthLicense\""
+	MspTpUsersLicense             RemoveSiteBwLicense_Sites_RemoveSiteBwLicense_License_MspTpUsersLicense             "graphql:\"... on MspTpUsersLicense\""
+	MspXOpsBandwidthLicense       RemoveSiteBwLicense_Sites_RemoveSiteBwLicense_License_MspXOpsBandwidthLicense       "graphql:\"... on MspXOpsBandwidthLicense\""
+	MspXOpsUsersLicense           RemoveSiteBwLicense_Sites_RemoveSiteBwLicense_License_MspXOpsUsersLicense           "graphql:\"... on MspXOpsUsersLicense\""
+	PooledBandwidthLicense        RemoveSiteBwLicense_Sites_RemoveSiteBwLicense_License_PooledBandwidthLicense        "graphql:\"... on PooledBandwidthLicense\""
+	PublicIpsLicense              RemoveSiteBwLicense_Sites_RemoveSiteBwLicense_License_PublicIpsLicense              "graphql:\"... on PublicIpsLicense\""
+	SaasSecurityAPILicense        RemoveSiteBwLicense_Sites_RemoveSiteBwLicense_License_SaasSecurityAPILicense        "graphql:\"... on SaasSecurityApiLicense\""
+	SiteLicense                   RemoveSiteBwLicense_Sites_RemoveSiteBwLicense_License_SiteLicense                   "graphql:\"... on SiteLicense\""
+	XdrProLicense                 RemoveSiteBwLicense_Sites_RemoveSiteBwLicense_License_XdrProLicense                 "graphql:\"... on XdrProLicense\""
+	ZtnaUsersLicense              RemoveSiteBwLicense_Sites_RemoveSiteBwLicense_License_ZtnaUsersLicense              "graphql:\"... on ZtnaUsersLicense\""
+	Description                   *string                                                                             "json:\"description,omitempty\" graphql:\"description\""
+	ExpirationDate                string                                                                              "json:\"expirationDate\" graphql:\"expirationDate\""
+	ID                            *string                                                                             "json:\"id,omitempty\" graphql:\"id\""
+	LastUpdated                   *string                                                                             "json:\"lastUpdated,omitempty\" graphql:\"lastUpdated\""
+	Plan                          cato_models.LicensePlan                                                             "json:\"plan\" graphql:\"plan\""
+	Sku                           cato_models.LicenseSku                                                              "json:\"sku\" graphql:\"sku\""
+	StartDate                     *string                                                                             "json:\"startDate,omitempty\" graphql:\"startDate\""
+	Status                        cato_models.LicenseStatus                                                           "json:\"status\" graphql:\"status\""
 }
 
-func (t *RemoveSiteBwLicense_Site_RemoveSiteBwLicense_License) GetAISecurityApplicationsLicense() *RemoveSiteBwLicense_Site_RemoveSiteBwLicense_License_AISecurityApplicationsLicense {
+func (t *RemoveSiteBwLicense_Sites_RemoveSiteBwLicense_License) GetAISecurityApplicationsLicense() *RemoveSiteBwLicense_Sites_RemoveSiteBwLicense_License_AISecurityApplicationsLicense {
 	if t == nil {
-		t = &RemoveSiteBwLicense_Site_RemoveSiteBwLicense_License{}
+		t = &RemoveSiteBwLicense_Sites_RemoveSiteBwLicense_License{}
 	}
 	return &t.AISecurityApplicationsLicense
 }
-func (t *RemoveSiteBwLicense_Site_RemoveSiteBwLicense_License) GetAISecurityUsersLicense() *RemoveSiteBwLicense_Site_RemoveSiteBwLicense_License_AISecurityUsersLicense {
+func (t *RemoveSiteBwLicense_Sites_RemoveSiteBwLicense_License) GetAISecurityUsersLicense() *RemoveSiteBwLicense_Sites_RemoveSiteBwLicense_License_AISecurityUsersLicense {
 	if t == nil {
-		t = &RemoveSiteBwLicense_Site_RemoveSiteBwLicense_License{}
+		t = &RemoveSiteBwLicense_Sites_RemoveSiteBwLicense_License{}
 	}
 	return &t.AISecurityUsersLicense
 }
-func (t *RemoveSiteBwLicense_Site_RemoveSiteBwLicense_License) GetAssetsSecurityLicense() *RemoveSiteBwLicense_Site_RemoveSiteBwLicense_License_AssetsSecurityLicense {
+func (t *RemoveSiteBwLicense_Sites_RemoveSiteBwLicense_License) GetAssetsSecurityLicense() *RemoveSiteBwLicense_Sites_RemoveSiteBwLicense_License_AssetsSecurityLicense {
 	if t == nil {
-		t = &RemoveSiteBwLicense_Site_RemoveSiteBwLicense_License{}
+		t = &RemoveSiteBwLicense_Sites_RemoveSiteBwLicense_License{}
 	}
 	return &t.AssetsSecurityLicense
 }
-func (t *RemoveSiteBwLicense_Site_RemoveSiteBwLicense_License) GetDataLakeLicense() *RemoveSiteBwLicense_Site_RemoveSiteBwLicense_License_DataLakeLicense {
+func (t *RemoveSiteBwLicense_Sites_RemoveSiteBwLicense_License) GetDataLakeLicense() *RemoveSiteBwLicense_Sites_RemoveSiteBwLicense_License_DataLakeLicense {
 	if t == nil {
-		t = &RemoveSiteBwLicense_Site_RemoveSiteBwLicense_License{}
+		t = &RemoveSiteBwLicense_Sites_RemoveSiteBwLicense_License{}
 	}
 	return &t.DataLakeLicense
 }
-func (t *RemoveSiteBwLicense_Site_RemoveSiteBwLicense_License) GetDemLicense() *RemoveSiteBwLicense_Site_RemoveSiteBwLicense_License_DemLicense {
+func (t *RemoveSiteBwLicense_Sites_RemoveSiteBwLicense_License) GetDemLicense() *RemoveSiteBwLicense_Sites_RemoveSiteBwLicense_License_DemLicense {
 	if t == nil {
-		t = &RemoveSiteBwLicense_Site_RemoveSiteBwLicense_License{}
+		t = &RemoveSiteBwLicense_Sites_RemoveSiteBwLicense_License{}
 	}
 	return &t.DemLicense
 }
-func (t *RemoveSiteBwLicense_Site_RemoveSiteBwLicense_License) GetEndpointProtectionLicense() *RemoveSiteBwLicense_Site_RemoveSiteBwLicense_License_EndpointProtectionLicense {
+func (t *RemoveSiteBwLicense_Sites_RemoveSiteBwLicense_License) GetEndpointProtectionLicense() *RemoveSiteBwLicense_Sites_RemoveSiteBwLicense_License_EndpointProtectionLicense {
 	if t == nil {
-		t = &RemoveSiteBwLicense_Site_RemoveSiteBwLicense_License{}
+		t = &RemoveSiteBwLicense_Sites_RemoveSiteBwLicense_License{}
 	}
 	return &t.EndpointProtectionLicense
 }
-func (t *RemoveSiteBwLicense_Site_RemoveSiteBwLicense_License) GetIlmmLicense() *RemoveSiteBwLicense_Site_RemoveSiteBwLicense_License_IlmmLicense {
+func (t *RemoveSiteBwLicense_Sites_RemoveSiteBwLicense_License) GetIlmmLicense() *RemoveSiteBwLicense_Sites_RemoveSiteBwLicense_License_IlmmLicense {
 	if t == nil {
-		t = &RemoveSiteBwLicense_Site_RemoveSiteBwLicense_License{}
+		t = &RemoveSiteBwLicense_Sites_RemoveSiteBwLicense_License{}
 	}
 	return &t.IlmmLicense
 }
-func (t *RemoveSiteBwLicense_Site_RemoveSiteBwLicense_License) GetMspAtpBandwidthLicense() *RemoveSiteBwLicense_Site_RemoveSiteBwLicense_License_MspAtpBandwidthLicense {
+func (t *RemoveSiteBwLicense_Sites_RemoveSiteBwLicense_License) GetMspAtpBandwidthLicense() *RemoveSiteBwLicense_Sites_RemoveSiteBwLicense_License_MspAtpBandwidthLicense {
 	if t == nil {
-		t = &RemoveSiteBwLicense_Site_RemoveSiteBwLicense_License{}
+		t = &RemoveSiteBwLicense_Sites_RemoveSiteBwLicense_License{}
 	}
 	return &t.MspAtpBandwidthLicense
 }
-func (t *RemoveSiteBwLicense_Site_RemoveSiteBwLicense_License) GetMspAtpUsersLicense() *RemoveSiteBwLicense_Site_RemoveSiteBwLicense_License_MspAtpUsersLicense {
+func (t *RemoveSiteBwLicense_Sites_RemoveSiteBwLicense_License) GetMspAtpUsersLicense() *RemoveSiteBwLicense_Sites_RemoveSiteBwLicense_License_MspAtpUsersLicense {
 	if t == nil {
-		t = &RemoveSiteBwLicense_Site_RemoveSiteBwLicense_License{}
+		t = &RemoveSiteBwLicense_Sites_RemoveSiteBwLicense_License{}
 	}
 	return &t.MspAtpUsersLicense
 }
-func (t *RemoveSiteBwLicense_Site_RemoveSiteBwLicense_License) GetMspCasbBandwidthLicense() *RemoveSiteBwLicense_Site_RemoveSiteBwLicense_License_MspCasbBandwidthLicense {
+func (t *RemoveSiteBwLicense_Sites_RemoveSiteBwLicense_License) GetMspCasbBandwidthLicense() *RemoveSiteBwLicense_Sites_RemoveSiteBwLicense_License_MspCasbBandwidthLicense {
 	if t == nil {
-		t = &RemoveSiteBwLicense_Site_RemoveSiteBwLicense_License{}
+		t = &RemoveSiteBwLicense_Sites_RemoveSiteBwLicense_License{}
 	}
 	return &t.MspCasbBandwidthLicense
 }
-func (t *RemoveSiteBwLicense_Site_RemoveSiteBwLicense_License) GetMspCasbUsersLicense() *RemoveSiteBwLicense_Site_RemoveSiteBwLicense_License_MspCasbUsersLicense {
+func (t *RemoveSiteBwLicense_Sites_RemoveSiteBwLicense_License) GetMspCasbUsersLicense() *RemoveSiteBwLicense_Sites_RemoveSiteBwLicense_License_MspCasbUsersLicense {
 	if t == nil {
-		t = &RemoveSiteBwLicense_Site_RemoveSiteBwLicense_License{}
+		t = &RemoveSiteBwLicense_Sites_RemoveSiteBwLicense_License{}
 	}
 	return &t.MspCasbUsersLicense
 }
-func (t *RemoveSiteBwLicense_Site_RemoveSiteBwLicense_License) GetMspDlpBandwidthLicense() *RemoveSiteBwLicense_Site_RemoveSiteBwLicense_License_MspDlpBandwidthLicense {
+func (t *RemoveSiteBwLicense_Sites_RemoveSiteBwLicense_License) GetMspDlpBandwidthLicense() *RemoveSiteBwLicense_Sites_RemoveSiteBwLicense_License_MspDlpBandwidthLicense {
 	if t == nil {
-		t = &RemoveSiteBwLicense_Site_RemoveSiteBwLicense_License{}
+		t = &RemoveSiteBwLicense_Sites_RemoveSiteBwLicense_License{}
 	}
 	return &t.MspDlpBandwidthLicense
 }
-func (t *RemoveSiteBwLicense_Site_RemoveSiteBwLicense_License) GetMspDlpUsersLicense() *RemoveSiteBwLicense_Site_RemoveSiteBwLicense_License_MspDlpUsersLicense {
+func (t *RemoveSiteBwLicense_Sites_RemoveSiteBwLicense_License) GetMspDlpUsersLicense() *RemoveSiteBwLicense_Sites_RemoveSiteBwLicense_License_MspDlpUsersLicense {
 	if t == nil {
-		t = &RemoveSiteBwLicense_Site_RemoveSiteBwLicense_License{}
+		t = &RemoveSiteBwLicense_Sites_RemoveSiteBwLicense_License{}
 	}
 	return &t.MspDlpUsersLicense
 }
-func (t *RemoveSiteBwLicense_Site_RemoveSiteBwLicense_License) GetMspMdrBandwidthLicense() *RemoveSiteBwLicense_Site_RemoveSiteBwLicense_License_MspMdrBandwidthLicense {
+func (t *RemoveSiteBwLicense_Sites_RemoveSiteBwLicense_License) GetMspMdrBandwidthLicense() *RemoveSiteBwLicense_Sites_RemoveSiteBwLicense_License_MspMdrBandwidthLicense {
 	if t == nil {
-		t = &RemoveSiteBwLicense_Site_RemoveSiteBwLicense_License{}
+		t = &RemoveSiteBwLicense_Sites_RemoveSiteBwLicense_License{}
 	}
 	return &t.MspMdrBandwidthLicense
 }
-func (t *RemoveSiteBwLicense_Site_RemoveSiteBwLicense_License) GetMspMdrUsersLicense() *RemoveSiteBwLicense_Site_RemoveSiteBwLicense_License_MspMdrUsersLicense {
+func (t *RemoveSiteBwLicense_Sites_RemoveSiteBwLicense_License) GetMspMdrUsersLicense() *RemoveSiteBwLicense_Sites_RemoveSiteBwLicense_License_MspMdrUsersLicense {
 	if t == nil {
-		t = &RemoveSiteBwLicense_Site_RemoveSiteBwLicense_License{}
+		t = &RemoveSiteBwLicense_Sites_RemoveSiteBwLicense_License{}
 	}
 	return &t.MspMdrUsersLicense
 }
-func (t *RemoveSiteBwLicense_Site_RemoveSiteBwLicense_License) GetMspTpBandwidthLicense() *RemoveSiteBwLicense_Site_RemoveSiteBwLicense_License_MspTpBandwidthLicense {
+func (t *RemoveSiteBwLicense_Sites_RemoveSiteBwLicense_License) GetMspTpBandwidthLicense() *RemoveSiteBwLicense_Sites_RemoveSiteBwLicense_License_MspTpBandwidthLicense {
 	if t == nil {
-		t = &RemoveSiteBwLicense_Site_RemoveSiteBwLicense_License{}
+		t = &RemoveSiteBwLicense_Sites_RemoveSiteBwLicense_License{}
 	}
 	return &t.MspTpBandwidthLicense
 }
-func (t *RemoveSiteBwLicense_Site_RemoveSiteBwLicense_License) GetMspTpUsersLicense() *RemoveSiteBwLicense_Site_RemoveSiteBwLicense_License_MspTpUsersLicense {
+func (t *RemoveSiteBwLicense_Sites_RemoveSiteBwLicense_License) GetMspTpUsersLicense() *RemoveSiteBwLicense_Sites_RemoveSiteBwLicense_License_MspTpUsersLicense {
 	if t == nil {
-		t = &RemoveSiteBwLicense_Site_RemoveSiteBwLicense_License{}
+		t = &RemoveSiteBwLicense_Sites_RemoveSiteBwLicense_License{}
 	}
 	return &t.MspTpUsersLicense
 }
-func (t *RemoveSiteBwLicense_Site_RemoveSiteBwLicense_License) GetMspXOpsBandwidthLicense() *RemoveSiteBwLicense_Site_RemoveSiteBwLicense_License_MspXOpsBandwidthLicense {
+func (t *RemoveSiteBwLicense_Sites_RemoveSiteBwLicense_License) GetMspXOpsBandwidthLicense() *RemoveSiteBwLicense_Sites_RemoveSiteBwLicense_License_MspXOpsBandwidthLicense {
 	if t == nil {
-		t = &RemoveSiteBwLicense_Site_RemoveSiteBwLicense_License{}
+		t = &RemoveSiteBwLicense_Sites_RemoveSiteBwLicense_License{}
 	}
 	return &t.MspXOpsBandwidthLicense
 }
-func (t *RemoveSiteBwLicense_Site_RemoveSiteBwLicense_License) GetMspXOpsUsersLicense() *RemoveSiteBwLicense_Site_RemoveSiteBwLicense_License_MspXOpsUsersLicense {
+func (t *RemoveSiteBwLicense_Sites_RemoveSiteBwLicense_License) GetMspXOpsUsersLicense() *RemoveSiteBwLicense_Sites_RemoveSiteBwLicense_License_MspXOpsUsersLicense {
 	if t == nil {
-		t = &RemoveSiteBwLicense_Site_RemoveSiteBwLicense_License{}
+		t = &RemoveSiteBwLicense_Sites_RemoveSiteBwLicense_License{}
 	}
 	return &t.MspXOpsUsersLicense
 }
-func (t *RemoveSiteBwLicense_Site_RemoveSiteBwLicense_License) GetPooledBandwidthLicense() *RemoveSiteBwLicense_Site_RemoveSiteBwLicense_License_PooledBandwidthLicense {
+func (t *RemoveSiteBwLicense_Sites_RemoveSiteBwLicense_License) GetPooledBandwidthLicense() *RemoveSiteBwLicense_Sites_RemoveSiteBwLicense_License_PooledBandwidthLicense {
 	if t == nil {
-		t = &RemoveSiteBwLicense_Site_RemoveSiteBwLicense_License{}
+		t = &RemoveSiteBwLicense_Sites_RemoveSiteBwLicense_License{}
 	}
 	return &t.PooledBandwidthLicense
 }
-func (t *RemoveSiteBwLicense_Site_RemoveSiteBwLicense_License) GetPublicIpsLicense() *RemoveSiteBwLicense_Site_RemoveSiteBwLicense_License_PublicIpsLicense {
+func (t *RemoveSiteBwLicense_Sites_RemoveSiteBwLicense_License) GetPublicIpsLicense() *RemoveSiteBwLicense_Sites_RemoveSiteBwLicense_License_PublicIpsLicense {
 	if t == nil {
-		t = &RemoveSiteBwLicense_Site_RemoveSiteBwLicense_License{}
+		t = &RemoveSiteBwLicense_Sites_RemoveSiteBwLicense_License{}
 	}
 	return &t.PublicIpsLicense
 }
-func (t *RemoveSiteBwLicense_Site_RemoveSiteBwLicense_License) GetSaasSecurityAPILicense() *RemoveSiteBwLicense_Site_RemoveSiteBwLicense_License_SaasSecurityAPILicense {
+func (t *RemoveSiteBwLicense_Sites_RemoveSiteBwLicense_License) GetSaasSecurityAPILicense() *RemoveSiteBwLicense_Sites_RemoveSiteBwLicense_License_SaasSecurityAPILicense {
 	if t == nil {
-		t = &RemoveSiteBwLicense_Site_RemoveSiteBwLicense_License{}
+		t = &RemoveSiteBwLicense_Sites_RemoveSiteBwLicense_License{}
 	}
 	return &t.SaasSecurityAPILicense
 }
-func (t *RemoveSiteBwLicense_Site_RemoveSiteBwLicense_License) GetSiteLicense() *RemoveSiteBwLicense_Site_RemoveSiteBwLicense_License_SiteLicense {
+func (t *RemoveSiteBwLicense_Sites_RemoveSiteBwLicense_License) GetSiteLicense() *RemoveSiteBwLicense_Sites_RemoveSiteBwLicense_License_SiteLicense {
 	if t == nil {
-		t = &RemoveSiteBwLicense_Site_RemoveSiteBwLicense_License{}
+		t = &RemoveSiteBwLicense_Sites_RemoveSiteBwLicense_License{}
 	}
 	return &t.SiteLicense
 }
-func (t *RemoveSiteBwLicense_Site_RemoveSiteBwLicense_License) GetXdrProLicense() *RemoveSiteBwLicense_Site_RemoveSiteBwLicense_License_XdrProLicense {
+func (t *RemoveSiteBwLicense_Sites_RemoveSiteBwLicense_License) GetXdrProLicense() *RemoveSiteBwLicense_Sites_RemoveSiteBwLicense_License_XdrProLicense {
 	if t == nil {
-		t = &RemoveSiteBwLicense_Site_RemoveSiteBwLicense_License{}
+		t = &RemoveSiteBwLicense_Sites_RemoveSiteBwLicense_License{}
 	}
 	return &t.XdrProLicense
 }
-func (t *RemoveSiteBwLicense_Site_RemoveSiteBwLicense_License) GetZtnaUsersLicense() *RemoveSiteBwLicense_Site_RemoveSiteBwLicense_License_ZtnaUsersLicense {
+func (t *RemoveSiteBwLicense_Sites_RemoveSiteBwLicense_License) GetZtnaUsersLicense() *RemoveSiteBwLicense_Sites_RemoveSiteBwLicense_License_ZtnaUsersLicense {
 	if t == nil {
-		t = &RemoveSiteBwLicense_Site_RemoveSiteBwLicense_License{}
+		t = &RemoveSiteBwLicense_Sites_RemoveSiteBwLicense_License{}
 	}
 	return &t.ZtnaUsersLicense
 }
-func (t *RemoveSiteBwLicense_Site_RemoveSiteBwLicense_License) GetDescription() *string {
+func (t *RemoveSiteBwLicense_Sites_RemoveSiteBwLicense_License) GetDescription() *string {
 	if t == nil {
-		t = &RemoveSiteBwLicense_Site_RemoveSiteBwLicense_License{}
+		t = &RemoveSiteBwLicense_Sites_RemoveSiteBwLicense_License{}
 	}
 	return t.Description
 }
-func (t *RemoveSiteBwLicense_Site_RemoveSiteBwLicense_License) GetExpirationDate() string {
+func (t *RemoveSiteBwLicense_Sites_RemoveSiteBwLicense_License) GetExpirationDate() string {
 	if t == nil {
-		t = &RemoveSiteBwLicense_Site_RemoveSiteBwLicense_License{}
+		t = &RemoveSiteBwLicense_Sites_RemoveSiteBwLicense_License{}
 	}
 	return t.ExpirationDate
 }
-func (t *RemoveSiteBwLicense_Site_RemoveSiteBwLicense_License) GetID() *string {
+func (t *RemoveSiteBwLicense_Sites_RemoveSiteBwLicense_License) GetID() *string {
 	if t == nil {
-		t = &RemoveSiteBwLicense_Site_RemoveSiteBwLicense_License{}
+		t = &RemoveSiteBwLicense_Sites_RemoveSiteBwLicense_License{}
 	}
 	return t.ID
 }
-func (t *RemoveSiteBwLicense_Site_RemoveSiteBwLicense_License) GetLastUpdated() *string {
+func (t *RemoveSiteBwLicense_Sites_RemoveSiteBwLicense_License) GetLastUpdated() *string {
 	if t == nil {
-		t = &RemoveSiteBwLicense_Site_RemoveSiteBwLicense_License{}
+		t = &RemoveSiteBwLicense_Sites_RemoveSiteBwLicense_License{}
 	}
 	return t.LastUpdated
 }
-func (t *RemoveSiteBwLicense_Site_RemoveSiteBwLicense_License) GetPlan() *cato_models.LicensePlan {
+func (t *RemoveSiteBwLicense_Sites_RemoveSiteBwLicense_License) GetPlan() *cato_models.LicensePlan {
 	if t == nil {
-		t = &RemoveSiteBwLicense_Site_RemoveSiteBwLicense_License{}
+		t = &RemoveSiteBwLicense_Sites_RemoveSiteBwLicense_License{}
 	}
 	return &t.Plan
 }
-func (t *RemoveSiteBwLicense_Site_RemoveSiteBwLicense_License) GetSku() *cato_models.LicenseSku {
+func (t *RemoveSiteBwLicense_Sites_RemoveSiteBwLicense_License) GetSku() *cato_models.LicenseSku {
 	if t == nil {
-		t = &RemoveSiteBwLicense_Site_RemoveSiteBwLicense_License{}
+		t = &RemoveSiteBwLicense_Sites_RemoveSiteBwLicense_License{}
 	}
 	return &t.Sku
 }
-func (t *RemoveSiteBwLicense_Site_RemoveSiteBwLicense_License) GetStartDate() *string {
+func (t *RemoveSiteBwLicense_Sites_RemoveSiteBwLicense_License) GetStartDate() *string {
 	if t == nil {
-		t = &RemoveSiteBwLicense_Site_RemoveSiteBwLicense_License{}
+		t = &RemoveSiteBwLicense_Sites_RemoveSiteBwLicense_License{}
 	}
 	return t.StartDate
 }
-func (t *RemoveSiteBwLicense_Site_RemoveSiteBwLicense_License) GetStatus() *cato_models.LicenseStatus {
+func (t *RemoveSiteBwLicense_Sites_RemoveSiteBwLicense_License) GetStatus() *cato_models.LicenseStatus {
 	if t == nil {
-		t = &RemoveSiteBwLicense_Site_RemoveSiteBwLicense_License{}
+		t = &RemoveSiteBwLicense_Sites_RemoveSiteBwLicense_License{}
 	}
 	return &t.Status
 }
 
-type RemoveSiteBwLicense_Site_RemoveSiteBwLicense struct {
-	License RemoveSiteBwLicense_Site_RemoveSiteBwLicense_License "json:\"license\" graphql:\"license\""
+type RemoveSiteBwLicense_Sites_RemoveSiteBwLicense struct {
+	License RemoveSiteBwLicense_Sites_RemoveSiteBwLicense_License "json:\"license\" graphql:\"license\""
 }
 
-func (t *RemoveSiteBwLicense_Site_RemoveSiteBwLicense) GetLicense() *RemoveSiteBwLicense_Site_RemoveSiteBwLicense_License {
+func (t *RemoveSiteBwLicense_Sites_RemoveSiteBwLicense) GetLicense() *RemoveSiteBwLicense_Sites_RemoveSiteBwLicense_License {
 	if t == nil {
-		t = &RemoveSiteBwLicense_Site_RemoveSiteBwLicense{}
+		t = &RemoveSiteBwLicense_Sites_RemoveSiteBwLicense{}
 	}
 	return &t.License
 }
 
-type RemoveSiteBwLicense_Site struct {
-	RemoveSiteBwLicense *RemoveSiteBwLicense_Site_RemoveSiteBwLicense "json:\"removeSiteBwLicense,omitempty\" graphql:\"removeSiteBwLicense\""
+type RemoveSiteBwLicense_Sites struct {
+	RemoveSiteBwLicense *RemoveSiteBwLicense_Sites_RemoveSiteBwLicense "json:\"removeSiteBwLicense,omitempty\" graphql:\"removeSiteBwLicense\""
 }
 
-func (t *RemoveSiteBwLicense_Site) GetRemoveSiteBwLicense() *RemoveSiteBwLicense_Site_RemoveSiteBwLicense {
+func (t *RemoveSiteBwLicense_Sites) GetRemoveSiteBwLicense() *RemoveSiteBwLicense_Sites_RemoveSiteBwLicense {
 	if t == nil {
-		t = &RemoveSiteBwLicense_Site{}
+		t = &RemoveSiteBwLicense_Sites{}
 	}
 	return t.RemoveSiteBwLicense
 }
@@ -249370,751 +249370,751 @@ func (t *SiteRemoveWifiSsid_Site) GetRemoveWifiSsid() *SiteRemoveWifiSsid_Site_R
 	return t.RemoveWifiSsid
 }
 
-type ReplaceSiteBwLicense_Site_ReplaceSiteBwLicense_License_DataLakeLicense struct {
+type ReplaceSiteBwLicense_Sites_ReplaceSiteBwLicense_License_DataLakeLicense struct {
 	DpaVersion      cato_models.DpaVersion "json:\"dpaVersion\" graphql:\"dpaVersion\""
 	RetentionPeriod *int64                 "json:\"retentionPeriod,omitempty\" graphql:\"retentionPeriod\""
 	Total           int64                  "json:\"total\" graphql:\"total\""
 }
 
-func (t *ReplaceSiteBwLicense_Site_ReplaceSiteBwLicense_License_DataLakeLicense) GetDpaVersion() *cato_models.DpaVersion {
+func (t *ReplaceSiteBwLicense_Sites_ReplaceSiteBwLicense_License_DataLakeLicense) GetDpaVersion() *cato_models.DpaVersion {
 	if t == nil {
-		t = &ReplaceSiteBwLicense_Site_ReplaceSiteBwLicense_License_DataLakeLicense{}
+		t = &ReplaceSiteBwLicense_Sites_ReplaceSiteBwLicense_License_DataLakeLicense{}
 	}
 	return &t.DpaVersion
 }
-func (t *ReplaceSiteBwLicense_Site_ReplaceSiteBwLicense_License_DataLakeLicense) GetRetentionPeriod() *int64 {
+func (t *ReplaceSiteBwLicense_Sites_ReplaceSiteBwLicense_License_DataLakeLicense) GetRetentionPeriod() *int64 {
 	if t == nil {
-		t = &ReplaceSiteBwLicense_Site_ReplaceSiteBwLicense_License_DataLakeLicense{}
+		t = &ReplaceSiteBwLicense_Sites_ReplaceSiteBwLicense_License_DataLakeLicense{}
 	}
 	return t.RetentionPeriod
 }
-func (t *ReplaceSiteBwLicense_Site_ReplaceSiteBwLicense_License_DataLakeLicense) GetTotal() int64 {
+func (t *ReplaceSiteBwLicense_Sites_ReplaceSiteBwLicense_License_DataLakeLicense) GetTotal() int64 {
 	if t == nil {
-		t = &ReplaceSiteBwLicense_Site_ReplaceSiteBwLicense_License_DataLakeLicense{}
+		t = &ReplaceSiteBwLicense_Sites_ReplaceSiteBwLicense_License_DataLakeLicense{}
 	}
 	return t.Total
 }
 
-type ReplaceSiteBwLicense_Site_ReplaceSiteBwLicense_License_PublicIpsLicense struct {
+type ReplaceSiteBwLicense_Sites_ReplaceSiteBwLicense_License_PublicIpsLicense struct {
 	Total int64 "json:\"total\" graphql:\"total\""
 }
 
-func (t *ReplaceSiteBwLicense_Site_ReplaceSiteBwLicense_License_PublicIpsLicense) GetTotal() int64 {
+func (t *ReplaceSiteBwLicense_Sites_ReplaceSiteBwLicense_License_PublicIpsLicense) GetTotal() int64 {
 	if t == nil {
-		t = &ReplaceSiteBwLicense_Site_ReplaceSiteBwLicense_License_PublicIpsLicense{}
+		t = &ReplaceSiteBwLicense_Sites_ReplaceSiteBwLicense_License_PublicIpsLicense{}
 	}
 	return t.Total
 }
 
-type ReplaceSiteBwLicense_Site_ReplaceSiteBwLicense_License_SiteLicense_Site struct {
+type ReplaceSiteBwLicense_Sites_ReplaceSiteBwLicense_License_SiteLicense_Site struct {
 	ID   string "json:\"id\" graphql:\"id\""
 	Name string "json:\"name\" graphql:\"name\""
 }
 
-func (t *ReplaceSiteBwLicense_Site_ReplaceSiteBwLicense_License_SiteLicense_Site) GetID() string {
+func (t *ReplaceSiteBwLicense_Sites_ReplaceSiteBwLicense_License_SiteLicense_Site) GetID() string {
 	if t == nil {
-		t = &ReplaceSiteBwLicense_Site_ReplaceSiteBwLicense_License_SiteLicense_Site{}
+		t = &ReplaceSiteBwLicense_Sites_ReplaceSiteBwLicense_License_SiteLicense_Site{}
 	}
 	return t.ID
 }
-func (t *ReplaceSiteBwLicense_Site_ReplaceSiteBwLicense_License_SiteLicense_Site) GetName() string {
+func (t *ReplaceSiteBwLicense_Sites_ReplaceSiteBwLicense_License_SiteLicense_Site) GetName() string {
 	if t == nil {
-		t = &ReplaceSiteBwLicense_Site_ReplaceSiteBwLicense_License_SiteLicense_Site{}
+		t = &ReplaceSiteBwLicense_Sites_ReplaceSiteBwLicense_License_SiteLicense_Site{}
 	}
 	return t.Name
 }
 
-type ReplaceSiteBwLicense_Site_ReplaceSiteBwLicense_License_SiteLicense struct {
-	SiteLicenseGroup cato_models.SiteLicenseGroup                                             "json:\"siteLicenseGroup\" graphql:\"siteLicenseGroup\""
-	Regionality      *cato_models.Regionality                                                 "json:\"regionality,omitempty\" graphql:\"regionality\""
-	SiteLicenseType  cato_models.SiteLicenseType                                              "json:\"siteLicenseType\" graphql:\"siteLicenseType\""
-	Total            int64                                                                    "json:\"total\" graphql:\"total\""
-	Site             *ReplaceSiteBwLicense_Site_ReplaceSiteBwLicense_License_SiteLicense_Site "json:\"site,omitempty\" graphql:\"site\""
+type ReplaceSiteBwLicense_Sites_ReplaceSiteBwLicense_License_SiteLicense struct {
+	SiteLicenseGroup cato_models.SiteLicenseGroup                                              "json:\"siteLicenseGroup\" graphql:\"siteLicenseGroup\""
+	Regionality      *cato_models.Regionality                                                  "json:\"regionality,omitempty\" graphql:\"regionality\""
+	SiteLicenseType  cato_models.SiteLicenseType                                               "json:\"siteLicenseType\" graphql:\"siteLicenseType\""
+	Total            int64                                                                     "json:\"total\" graphql:\"total\""
+	Site             *ReplaceSiteBwLicense_Sites_ReplaceSiteBwLicense_License_SiteLicense_Site "json:\"site,omitempty\" graphql:\"site\""
 }
 
-func (t *ReplaceSiteBwLicense_Site_ReplaceSiteBwLicense_License_SiteLicense) GetSiteLicenseGroup() *cato_models.SiteLicenseGroup {
+func (t *ReplaceSiteBwLicense_Sites_ReplaceSiteBwLicense_License_SiteLicense) GetSiteLicenseGroup() *cato_models.SiteLicenseGroup {
 	if t == nil {
-		t = &ReplaceSiteBwLicense_Site_ReplaceSiteBwLicense_License_SiteLicense{}
+		t = &ReplaceSiteBwLicense_Sites_ReplaceSiteBwLicense_License_SiteLicense{}
 	}
 	return &t.SiteLicenseGroup
 }
-func (t *ReplaceSiteBwLicense_Site_ReplaceSiteBwLicense_License_SiteLicense) GetRegionality() *cato_models.Regionality {
+func (t *ReplaceSiteBwLicense_Sites_ReplaceSiteBwLicense_License_SiteLicense) GetRegionality() *cato_models.Regionality {
 	if t == nil {
-		t = &ReplaceSiteBwLicense_Site_ReplaceSiteBwLicense_License_SiteLicense{}
+		t = &ReplaceSiteBwLicense_Sites_ReplaceSiteBwLicense_License_SiteLicense{}
 	}
 	return t.Regionality
 }
-func (t *ReplaceSiteBwLicense_Site_ReplaceSiteBwLicense_License_SiteLicense) GetSiteLicenseType() *cato_models.SiteLicenseType {
+func (t *ReplaceSiteBwLicense_Sites_ReplaceSiteBwLicense_License_SiteLicense) GetSiteLicenseType() *cato_models.SiteLicenseType {
 	if t == nil {
-		t = &ReplaceSiteBwLicense_Site_ReplaceSiteBwLicense_License_SiteLicense{}
+		t = &ReplaceSiteBwLicense_Sites_ReplaceSiteBwLicense_License_SiteLicense{}
 	}
 	return &t.SiteLicenseType
 }
-func (t *ReplaceSiteBwLicense_Site_ReplaceSiteBwLicense_License_SiteLicense) GetTotal() int64 {
+func (t *ReplaceSiteBwLicense_Sites_ReplaceSiteBwLicense_License_SiteLicense) GetTotal() int64 {
 	if t == nil {
-		t = &ReplaceSiteBwLicense_Site_ReplaceSiteBwLicense_License_SiteLicense{}
+		t = &ReplaceSiteBwLicense_Sites_ReplaceSiteBwLicense_License_SiteLicense{}
 	}
 	return t.Total
 }
-func (t *ReplaceSiteBwLicense_Site_ReplaceSiteBwLicense_License_SiteLicense) GetSite() *ReplaceSiteBwLicense_Site_ReplaceSiteBwLicense_License_SiteLicense_Site {
+func (t *ReplaceSiteBwLicense_Sites_ReplaceSiteBwLicense_License_SiteLicense) GetSite() *ReplaceSiteBwLicense_Sites_ReplaceSiteBwLicense_License_SiteLicense_Site {
 	if t == nil {
-		t = &ReplaceSiteBwLicense_Site_ReplaceSiteBwLicense_License_SiteLicense{}
+		t = &ReplaceSiteBwLicense_Sites_ReplaceSiteBwLicense_License_SiteLicense{}
 	}
 	return t.Site
 }
 
-type ReplaceSiteBwLicense_Site_ReplaceSiteBwLicense_License_PooledBandwidthLicense_Sites_SitePooledBandwidthLicenseSite struct {
+type ReplaceSiteBwLicense_Sites_ReplaceSiteBwLicense_License_PooledBandwidthLicense_Sites_SitePooledBandwidthLicenseSite struct {
 	ID   string "json:\"id\" graphql:\"id\""
 	Name string "json:\"name\" graphql:\"name\""
 }
 
-func (t *ReplaceSiteBwLicense_Site_ReplaceSiteBwLicense_License_PooledBandwidthLicense_Sites_SitePooledBandwidthLicenseSite) GetID() string {
+func (t *ReplaceSiteBwLicense_Sites_ReplaceSiteBwLicense_License_PooledBandwidthLicense_Sites_SitePooledBandwidthLicenseSite) GetID() string {
 	if t == nil {
-		t = &ReplaceSiteBwLicense_Site_ReplaceSiteBwLicense_License_PooledBandwidthLicense_Sites_SitePooledBandwidthLicenseSite{}
+		t = &ReplaceSiteBwLicense_Sites_ReplaceSiteBwLicense_License_PooledBandwidthLicense_Sites_SitePooledBandwidthLicenseSite{}
 	}
 	return t.ID
 }
-func (t *ReplaceSiteBwLicense_Site_ReplaceSiteBwLicense_License_PooledBandwidthLicense_Sites_SitePooledBandwidthLicenseSite) GetName() string {
+func (t *ReplaceSiteBwLicense_Sites_ReplaceSiteBwLicense_License_PooledBandwidthLicense_Sites_SitePooledBandwidthLicenseSite) GetName() string {
 	if t == nil {
-		t = &ReplaceSiteBwLicense_Site_ReplaceSiteBwLicense_License_PooledBandwidthLicense_Sites_SitePooledBandwidthLicenseSite{}
+		t = &ReplaceSiteBwLicense_Sites_ReplaceSiteBwLicense_License_PooledBandwidthLicense_Sites_SitePooledBandwidthLicenseSite{}
 	}
 	return t.Name
 }
 
-type ReplaceSiteBwLicense_Site_ReplaceSiteBwLicense_License_PooledBandwidthLicense_Sites struct {
-	AllocatedBandwidth             int64                                                                                                              "json:\"allocatedBandwidth\" graphql:\"allocatedBandwidth\""
-	SitePooledBandwidthLicenseSite ReplaceSiteBwLicense_Site_ReplaceSiteBwLicense_License_PooledBandwidthLicense_Sites_SitePooledBandwidthLicenseSite "json:\"sitePooledBandwidthLicenseSite\" graphql:\"sitePooledBandwidthLicenseSite\""
+type ReplaceSiteBwLicense_Sites_ReplaceSiteBwLicense_License_PooledBandwidthLicense_Sites struct {
+	AllocatedBandwidth             int64                                                                                                               "json:\"allocatedBandwidth\" graphql:\"allocatedBandwidth\""
+	SitePooledBandwidthLicenseSite ReplaceSiteBwLicense_Sites_ReplaceSiteBwLicense_License_PooledBandwidthLicense_Sites_SitePooledBandwidthLicenseSite "json:\"sitePooledBandwidthLicenseSite\" graphql:\"sitePooledBandwidthLicenseSite\""
 }
 
-func (t *ReplaceSiteBwLicense_Site_ReplaceSiteBwLicense_License_PooledBandwidthLicense_Sites) GetAllocatedBandwidth() int64 {
+func (t *ReplaceSiteBwLicense_Sites_ReplaceSiteBwLicense_License_PooledBandwidthLicense_Sites) GetAllocatedBandwidth() int64 {
 	if t == nil {
-		t = &ReplaceSiteBwLicense_Site_ReplaceSiteBwLicense_License_PooledBandwidthLicense_Sites{}
+		t = &ReplaceSiteBwLicense_Sites_ReplaceSiteBwLicense_License_PooledBandwidthLicense_Sites{}
 	}
 	return t.AllocatedBandwidth
 }
-func (t *ReplaceSiteBwLicense_Site_ReplaceSiteBwLicense_License_PooledBandwidthLicense_Sites) GetSitePooledBandwidthLicenseSite() *ReplaceSiteBwLicense_Site_ReplaceSiteBwLicense_License_PooledBandwidthLicense_Sites_SitePooledBandwidthLicenseSite {
+func (t *ReplaceSiteBwLicense_Sites_ReplaceSiteBwLicense_License_PooledBandwidthLicense_Sites) GetSitePooledBandwidthLicenseSite() *ReplaceSiteBwLicense_Sites_ReplaceSiteBwLicense_License_PooledBandwidthLicense_Sites_SitePooledBandwidthLicenseSite {
 	if t == nil {
-		t = &ReplaceSiteBwLicense_Site_ReplaceSiteBwLicense_License_PooledBandwidthLicense_Sites{}
+		t = &ReplaceSiteBwLicense_Sites_ReplaceSiteBwLicense_License_PooledBandwidthLicense_Sites{}
 	}
 	return &t.SitePooledBandwidthLicenseSite
 }
 
-type ReplaceSiteBwLicense_Site_ReplaceSiteBwLicense_License_PooledBandwidthLicense_Accounts_AccountPartnerPooledBandwidthLicenseAccount struct {
+type ReplaceSiteBwLicense_Sites_ReplaceSiteBwLicense_License_PooledBandwidthLicense_Accounts_AccountPartnerPooledBandwidthLicenseAccount struct {
 	ID   string "json:\"id\" graphql:\"id\""
 	Name string "json:\"name\" graphql:\"name\""
 }
 
-func (t *ReplaceSiteBwLicense_Site_ReplaceSiteBwLicense_License_PooledBandwidthLicense_Accounts_AccountPartnerPooledBandwidthLicenseAccount) GetID() string {
+func (t *ReplaceSiteBwLicense_Sites_ReplaceSiteBwLicense_License_PooledBandwidthLicense_Accounts_AccountPartnerPooledBandwidthLicenseAccount) GetID() string {
 	if t == nil {
-		t = &ReplaceSiteBwLicense_Site_ReplaceSiteBwLicense_License_PooledBandwidthLicense_Accounts_AccountPartnerPooledBandwidthLicenseAccount{}
+		t = &ReplaceSiteBwLicense_Sites_ReplaceSiteBwLicense_License_PooledBandwidthLicense_Accounts_AccountPartnerPooledBandwidthLicenseAccount{}
 	}
 	return t.ID
 }
-func (t *ReplaceSiteBwLicense_Site_ReplaceSiteBwLicense_License_PooledBandwidthLicense_Accounts_AccountPartnerPooledBandwidthLicenseAccount) GetName() string {
+func (t *ReplaceSiteBwLicense_Sites_ReplaceSiteBwLicense_License_PooledBandwidthLicense_Accounts_AccountPartnerPooledBandwidthLicenseAccount) GetName() string {
 	if t == nil {
-		t = &ReplaceSiteBwLicense_Site_ReplaceSiteBwLicense_License_PooledBandwidthLicense_Accounts_AccountPartnerPooledBandwidthLicenseAccount{}
+		t = &ReplaceSiteBwLicense_Sites_ReplaceSiteBwLicense_License_PooledBandwidthLicense_Accounts_AccountPartnerPooledBandwidthLicenseAccount{}
 	}
 	return t.Name
 }
 
-type ReplaceSiteBwLicense_Site_ReplaceSiteBwLicense_License_PooledBandwidthLicense_Accounts struct {
-	AccountPartnerPooledBandwidthLicenseAccount ReplaceSiteBwLicense_Site_ReplaceSiteBwLicense_License_PooledBandwidthLicense_Accounts_AccountPartnerPooledBandwidthLicenseAccount "json:\"accountPartnerPooledBandwidthLicenseAccount\" graphql:\"accountPartnerPooledBandwidthLicenseAccount\""
-	AllocatedBandwidth                          int64                                                                                                                              "json:\"allocatedBandwidth\" graphql:\"allocatedBandwidth\""
+type ReplaceSiteBwLicense_Sites_ReplaceSiteBwLicense_License_PooledBandwidthLicense_Accounts struct {
+	AccountPartnerPooledBandwidthLicenseAccount ReplaceSiteBwLicense_Sites_ReplaceSiteBwLicense_License_PooledBandwidthLicense_Accounts_AccountPartnerPooledBandwidthLicenseAccount "json:\"accountPartnerPooledBandwidthLicenseAccount\" graphql:\"accountPartnerPooledBandwidthLicenseAccount\""
+	AllocatedBandwidth                          int64                                                                                                                               "json:\"allocatedBandwidth\" graphql:\"allocatedBandwidth\""
 }
 
-func (t *ReplaceSiteBwLicense_Site_ReplaceSiteBwLicense_License_PooledBandwidthLicense_Accounts) GetAccountPartnerPooledBandwidthLicenseAccount() *ReplaceSiteBwLicense_Site_ReplaceSiteBwLicense_License_PooledBandwidthLicense_Accounts_AccountPartnerPooledBandwidthLicenseAccount {
+func (t *ReplaceSiteBwLicense_Sites_ReplaceSiteBwLicense_License_PooledBandwidthLicense_Accounts) GetAccountPartnerPooledBandwidthLicenseAccount() *ReplaceSiteBwLicense_Sites_ReplaceSiteBwLicense_License_PooledBandwidthLicense_Accounts_AccountPartnerPooledBandwidthLicenseAccount {
 	if t == nil {
-		t = &ReplaceSiteBwLicense_Site_ReplaceSiteBwLicense_License_PooledBandwidthLicense_Accounts{}
+		t = &ReplaceSiteBwLicense_Sites_ReplaceSiteBwLicense_License_PooledBandwidthLicense_Accounts{}
 	}
 	return &t.AccountPartnerPooledBandwidthLicenseAccount
 }
-func (t *ReplaceSiteBwLicense_Site_ReplaceSiteBwLicense_License_PooledBandwidthLicense_Accounts) GetAllocatedBandwidth() int64 {
+func (t *ReplaceSiteBwLicense_Sites_ReplaceSiteBwLicense_License_PooledBandwidthLicense_Accounts) GetAllocatedBandwidth() int64 {
 	if t == nil {
-		t = &ReplaceSiteBwLicense_Site_ReplaceSiteBwLicense_License_PooledBandwidthLicense_Accounts{}
+		t = &ReplaceSiteBwLicense_Sites_ReplaceSiteBwLicense_License_PooledBandwidthLicense_Accounts{}
 	}
 	return t.AllocatedBandwidth
 }
 
-type ReplaceSiteBwLicense_Site_ReplaceSiteBwLicense_License_PooledBandwidthLicense struct {
-	SiteLicenseGroup   cato_models.SiteLicenseGroup                                                              "json:\"siteLicenseGroup\" graphql:\"siteLicenseGroup\""
-	SiteLicenseType    cato_models.SiteLicenseType                                                               "json:\"siteLicenseType\" graphql:\"siteLicenseType\""
-	Total              int64                                                                                     "json:\"total\" graphql:\"total\""
-	AllocatedBandwidth int64                                                                                     "json:\"allocatedBandwidth\" graphql:\"allocatedBandwidth\""
-	Sites              []*ReplaceSiteBwLicense_Site_ReplaceSiteBwLicense_License_PooledBandwidthLicense_Sites    "json:\"sites\" graphql:\"sites\""
-	Accounts           []*ReplaceSiteBwLicense_Site_ReplaceSiteBwLicense_License_PooledBandwidthLicense_Accounts "json:\"accounts\" graphql:\"accounts\""
+type ReplaceSiteBwLicense_Sites_ReplaceSiteBwLicense_License_PooledBandwidthLicense struct {
+	SiteLicenseGroup   cato_models.SiteLicenseGroup                                                               "json:\"siteLicenseGroup\" graphql:\"siteLicenseGroup\""
+	SiteLicenseType    cato_models.SiteLicenseType                                                                "json:\"siteLicenseType\" graphql:\"siteLicenseType\""
+	Total              int64                                                                                      "json:\"total\" graphql:\"total\""
+	AllocatedBandwidth int64                                                                                      "json:\"allocatedBandwidth\" graphql:\"allocatedBandwidth\""
+	Sites              []*ReplaceSiteBwLicense_Sites_ReplaceSiteBwLicense_License_PooledBandwidthLicense_Sites    "json:\"sites\" graphql:\"sites\""
+	Accounts           []*ReplaceSiteBwLicense_Sites_ReplaceSiteBwLicense_License_PooledBandwidthLicense_Accounts "json:\"accounts\" graphql:\"accounts\""
 }
 
-func (t *ReplaceSiteBwLicense_Site_ReplaceSiteBwLicense_License_PooledBandwidthLicense) GetSiteLicenseGroup() *cato_models.SiteLicenseGroup {
+func (t *ReplaceSiteBwLicense_Sites_ReplaceSiteBwLicense_License_PooledBandwidthLicense) GetSiteLicenseGroup() *cato_models.SiteLicenseGroup {
 	if t == nil {
-		t = &ReplaceSiteBwLicense_Site_ReplaceSiteBwLicense_License_PooledBandwidthLicense{}
+		t = &ReplaceSiteBwLicense_Sites_ReplaceSiteBwLicense_License_PooledBandwidthLicense{}
 	}
 	return &t.SiteLicenseGroup
 }
-func (t *ReplaceSiteBwLicense_Site_ReplaceSiteBwLicense_License_PooledBandwidthLicense) GetSiteLicenseType() *cato_models.SiteLicenseType {
+func (t *ReplaceSiteBwLicense_Sites_ReplaceSiteBwLicense_License_PooledBandwidthLicense) GetSiteLicenseType() *cato_models.SiteLicenseType {
 	if t == nil {
-		t = &ReplaceSiteBwLicense_Site_ReplaceSiteBwLicense_License_PooledBandwidthLicense{}
+		t = &ReplaceSiteBwLicense_Sites_ReplaceSiteBwLicense_License_PooledBandwidthLicense{}
 	}
 	return &t.SiteLicenseType
 }
-func (t *ReplaceSiteBwLicense_Site_ReplaceSiteBwLicense_License_PooledBandwidthLicense) GetTotal() int64 {
+func (t *ReplaceSiteBwLicense_Sites_ReplaceSiteBwLicense_License_PooledBandwidthLicense) GetTotal() int64 {
 	if t == nil {
-		t = &ReplaceSiteBwLicense_Site_ReplaceSiteBwLicense_License_PooledBandwidthLicense{}
+		t = &ReplaceSiteBwLicense_Sites_ReplaceSiteBwLicense_License_PooledBandwidthLicense{}
 	}
 	return t.Total
 }
-func (t *ReplaceSiteBwLicense_Site_ReplaceSiteBwLicense_License_PooledBandwidthLicense) GetAllocatedBandwidth() int64 {
+func (t *ReplaceSiteBwLicense_Sites_ReplaceSiteBwLicense_License_PooledBandwidthLicense) GetAllocatedBandwidth() int64 {
 	if t == nil {
-		t = &ReplaceSiteBwLicense_Site_ReplaceSiteBwLicense_License_PooledBandwidthLicense{}
+		t = &ReplaceSiteBwLicense_Sites_ReplaceSiteBwLicense_License_PooledBandwidthLicense{}
 	}
 	return t.AllocatedBandwidth
 }
-func (t *ReplaceSiteBwLicense_Site_ReplaceSiteBwLicense_License_PooledBandwidthLicense) GetSites() []*ReplaceSiteBwLicense_Site_ReplaceSiteBwLicense_License_PooledBandwidthLicense_Sites {
+func (t *ReplaceSiteBwLicense_Sites_ReplaceSiteBwLicense_License_PooledBandwidthLicense) GetSites() []*ReplaceSiteBwLicense_Sites_ReplaceSiteBwLicense_License_PooledBandwidthLicense_Sites {
 	if t == nil {
-		t = &ReplaceSiteBwLicense_Site_ReplaceSiteBwLicense_License_PooledBandwidthLicense{}
+		t = &ReplaceSiteBwLicense_Sites_ReplaceSiteBwLicense_License_PooledBandwidthLicense{}
 	}
 	return t.Sites
 }
-func (t *ReplaceSiteBwLicense_Site_ReplaceSiteBwLicense_License_PooledBandwidthLicense) GetAccounts() []*ReplaceSiteBwLicense_Site_ReplaceSiteBwLicense_License_PooledBandwidthLicense_Accounts {
+func (t *ReplaceSiteBwLicense_Sites_ReplaceSiteBwLicense_License_PooledBandwidthLicense) GetAccounts() []*ReplaceSiteBwLicense_Sites_ReplaceSiteBwLicense_License_PooledBandwidthLicense_Accounts {
 	if t == nil {
-		t = &ReplaceSiteBwLicense_Site_ReplaceSiteBwLicense_License_PooledBandwidthLicense{}
+		t = &ReplaceSiteBwLicense_Sites_ReplaceSiteBwLicense_License_PooledBandwidthLicense{}
 	}
 	return t.Accounts
 }
 
-type ReplaceSiteBwLicense_Site_ReplaceSiteBwLicense_License_ZtnaUsersLicense_Accounts_AccountPartnerZtnaUsersLicenseAccount struct {
+type ReplaceSiteBwLicense_Sites_ReplaceSiteBwLicense_License_ZtnaUsersLicense_Accounts_AccountPartnerZtnaUsersLicenseAccount struct {
 	ID   string "json:\"id\" graphql:\"id\""
 	Name string "json:\"name\" graphql:\"name\""
 }
 
-func (t *ReplaceSiteBwLicense_Site_ReplaceSiteBwLicense_License_ZtnaUsersLicense_Accounts_AccountPartnerZtnaUsersLicenseAccount) GetID() string {
+func (t *ReplaceSiteBwLicense_Sites_ReplaceSiteBwLicense_License_ZtnaUsersLicense_Accounts_AccountPartnerZtnaUsersLicenseAccount) GetID() string {
 	if t == nil {
-		t = &ReplaceSiteBwLicense_Site_ReplaceSiteBwLicense_License_ZtnaUsersLicense_Accounts_AccountPartnerZtnaUsersLicenseAccount{}
+		t = &ReplaceSiteBwLicense_Sites_ReplaceSiteBwLicense_License_ZtnaUsersLicense_Accounts_AccountPartnerZtnaUsersLicenseAccount{}
 	}
 	return t.ID
 }
-func (t *ReplaceSiteBwLicense_Site_ReplaceSiteBwLicense_License_ZtnaUsersLicense_Accounts_AccountPartnerZtnaUsersLicenseAccount) GetName() string {
+func (t *ReplaceSiteBwLicense_Sites_ReplaceSiteBwLicense_License_ZtnaUsersLicense_Accounts_AccountPartnerZtnaUsersLicenseAccount) GetName() string {
 	if t == nil {
-		t = &ReplaceSiteBwLicense_Site_ReplaceSiteBwLicense_License_ZtnaUsersLicense_Accounts_AccountPartnerZtnaUsersLicenseAccount{}
+		t = &ReplaceSiteBwLicense_Sites_ReplaceSiteBwLicense_License_ZtnaUsersLicense_Accounts_AccountPartnerZtnaUsersLicenseAccount{}
 	}
 	return t.Name
 }
 
-type ReplaceSiteBwLicense_Site_ReplaceSiteBwLicense_License_ZtnaUsersLicense_Accounts struct {
-	AccountPartnerZtnaUsersLicenseAccount ReplaceSiteBwLicense_Site_ReplaceSiteBwLicense_License_ZtnaUsersLicense_Accounts_AccountPartnerZtnaUsersLicenseAccount "json:\"accountPartnerZtnaUsersLicenseAccount\" graphql:\"accountPartnerZtnaUsersLicenseAccount\""
-	AllocatedUsers                        int64                                                                                                                  "json:\"allocatedUsers\" graphql:\"allocatedUsers\""
+type ReplaceSiteBwLicense_Sites_ReplaceSiteBwLicense_License_ZtnaUsersLicense_Accounts struct {
+	AccountPartnerZtnaUsersLicenseAccount ReplaceSiteBwLicense_Sites_ReplaceSiteBwLicense_License_ZtnaUsersLicense_Accounts_AccountPartnerZtnaUsersLicenseAccount "json:\"accountPartnerZtnaUsersLicenseAccount\" graphql:\"accountPartnerZtnaUsersLicenseAccount\""
+	AllocatedUsers                        int64                                                                                                                   "json:\"allocatedUsers\" graphql:\"allocatedUsers\""
 }
 
-func (t *ReplaceSiteBwLicense_Site_ReplaceSiteBwLicense_License_ZtnaUsersLicense_Accounts) GetAccountPartnerZtnaUsersLicenseAccount() *ReplaceSiteBwLicense_Site_ReplaceSiteBwLicense_License_ZtnaUsersLicense_Accounts_AccountPartnerZtnaUsersLicenseAccount {
+func (t *ReplaceSiteBwLicense_Sites_ReplaceSiteBwLicense_License_ZtnaUsersLicense_Accounts) GetAccountPartnerZtnaUsersLicenseAccount() *ReplaceSiteBwLicense_Sites_ReplaceSiteBwLicense_License_ZtnaUsersLicense_Accounts_AccountPartnerZtnaUsersLicenseAccount {
 	if t == nil {
-		t = &ReplaceSiteBwLicense_Site_ReplaceSiteBwLicense_License_ZtnaUsersLicense_Accounts{}
+		t = &ReplaceSiteBwLicense_Sites_ReplaceSiteBwLicense_License_ZtnaUsersLicense_Accounts{}
 	}
 	return &t.AccountPartnerZtnaUsersLicenseAccount
 }
-func (t *ReplaceSiteBwLicense_Site_ReplaceSiteBwLicense_License_ZtnaUsersLicense_Accounts) GetAllocatedUsers() int64 {
+func (t *ReplaceSiteBwLicense_Sites_ReplaceSiteBwLicense_License_ZtnaUsersLicense_Accounts) GetAllocatedUsers() int64 {
 	if t == nil {
-		t = &ReplaceSiteBwLicense_Site_ReplaceSiteBwLicense_License_ZtnaUsersLicense_Accounts{}
+		t = &ReplaceSiteBwLicense_Sites_ReplaceSiteBwLicense_License_ZtnaUsersLicense_Accounts{}
 	}
 	return t.AllocatedUsers
 }
 
-type ReplaceSiteBwLicense_Site_ReplaceSiteBwLicense_License_ZtnaUsersLicense struct {
-	ZtnaUsersLicenseGroup cato_models.ZtnaUsersLicenseGroup                                                   "json:\"ztnaUsersLicenseGroup\" graphql:\"ztnaUsersLicenseGroup\""
-	Accounts              []*ReplaceSiteBwLicense_Site_ReplaceSiteBwLicense_License_ZtnaUsersLicense_Accounts "json:\"accounts\" graphql:\"accounts\""
-	Total                 int64                                                                               "json:\"total\" graphql:\"total\""
+type ReplaceSiteBwLicense_Sites_ReplaceSiteBwLicense_License_ZtnaUsersLicense struct {
+	ZtnaUsersLicenseGroup cato_models.ZtnaUsersLicenseGroup                                                    "json:\"ztnaUsersLicenseGroup\" graphql:\"ztnaUsersLicenseGroup\""
+	Accounts              []*ReplaceSiteBwLicense_Sites_ReplaceSiteBwLicense_License_ZtnaUsersLicense_Accounts "json:\"accounts\" graphql:\"accounts\""
+	Total                 int64                                                                                "json:\"total\" graphql:\"total\""
 }
 
-func (t *ReplaceSiteBwLicense_Site_ReplaceSiteBwLicense_License_ZtnaUsersLicense) GetZtnaUsersLicenseGroup() *cato_models.ZtnaUsersLicenseGroup {
+func (t *ReplaceSiteBwLicense_Sites_ReplaceSiteBwLicense_License_ZtnaUsersLicense) GetZtnaUsersLicenseGroup() *cato_models.ZtnaUsersLicenseGroup {
 	if t == nil {
-		t = &ReplaceSiteBwLicense_Site_ReplaceSiteBwLicense_License_ZtnaUsersLicense{}
+		t = &ReplaceSiteBwLicense_Sites_ReplaceSiteBwLicense_License_ZtnaUsersLicense{}
 	}
 	return &t.ZtnaUsersLicenseGroup
 }
-func (t *ReplaceSiteBwLicense_Site_ReplaceSiteBwLicense_License_ZtnaUsersLicense) GetAccounts() []*ReplaceSiteBwLicense_Site_ReplaceSiteBwLicense_License_ZtnaUsersLicense_Accounts {
+func (t *ReplaceSiteBwLicense_Sites_ReplaceSiteBwLicense_License_ZtnaUsersLicense) GetAccounts() []*ReplaceSiteBwLicense_Sites_ReplaceSiteBwLicense_License_ZtnaUsersLicense_Accounts {
 	if t == nil {
-		t = &ReplaceSiteBwLicense_Site_ReplaceSiteBwLicense_License_ZtnaUsersLicense{}
+		t = &ReplaceSiteBwLicense_Sites_ReplaceSiteBwLicense_License_ZtnaUsersLicense{}
 	}
 	return t.Accounts
 }
-func (t *ReplaceSiteBwLicense_Site_ReplaceSiteBwLicense_License_ZtnaUsersLicense) GetTotal() int64 {
+func (t *ReplaceSiteBwLicense_Sites_ReplaceSiteBwLicense_License_ZtnaUsersLicense) GetTotal() int64 {
 	if t == nil {
-		t = &ReplaceSiteBwLicense_Site_ReplaceSiteBwLicense_License_ZtnaUsersLicense{}
+		t = &ReplaceSiteBwLicense_Sites_ReplaceSiteBwLicense_License_ZtnaUsersLicense{}
 	}
 	return t.Total
 }
 
-type ReplaceSiteBwLicense_Site_ReplaceSiteBwLicense_License_EndpointProtectionLicense struct {
+type ReplaceSiteBwLicense_Sites_ReplaceSiteBwLicense_License_EndpointProtectionLicense struct {
 	Total int64 "json:\"total\" graphql:\"total\""
 }
 
-func (t *ReplaceSiteBwLicense_Site_ReplaceSiteBwLicense_License_EndpointProtectionLicense) GetTotal() int64 {
+func (t *ReplaceSiteBwLicense_Sites_ReplaceSiteBwLicense_License_EndpointProtectionLicense) GetTotal() int64 {
 	if t == nil {
-		t = &ReplaceSiteBwLicense_Site_ReplaceSiteBwLicense_License_EndpointProtectionLicense{}
+		t = &ReplaceSiteBwLicense_Sites_ReplaceSiteBwLicense_License_EndpointProtectionLicense{}
 	}
 	return t.Total
 }
 
-type ReplaceSiteBwLicense_Site_ReplaceSiteBwLicense_License_IlmmLicense struct {
+type ReplaceSiteBwLicense_Sites_ReplaceSiteBwLicense_License_IlmmLicense struct {
 	Total int64 "json:\"total\" graphql:\"total\""
 }
 
-func (t *ReplaceSiteBwLicense_Site_ReplaceSiteBwLicense_License_IlmmLicense) GetTotal() int64 {
+func (t *ReplaceSiteBwLicense_Sites_ReplaceSiteBwLicense_License_IlmmLicense) GetTotal() int64 {
 	if t == nil {
-		t = &ReplaceSiteBwLicense_Site_ReplaceSiteBwLicense_License_IlmmLicense{}
+		t = &ReplaceSiteBwLicense_Sites_ReplaceSiteBwLicense_License_IlmmLicense{}
 	}
 	return t.Total
 }
 
-type ReplaceSiteBwLicense_Site_ReplaceSiteBwLicense_License_SaasSecurityAPILicense struct {
+type ReplaceSiteBwLicense_Sites_ReplaceSiteBwLicense_License_SaasSecurityAPILicense struct {
 	Total int64 "json:\"total\" graphql:\"total\""
 }
 
-func (t *ReplaceSiteBwLicense_Site_ReplaceSiteBwLicense_License_SaasSecurityAPILicense) GetTotal() int64 {
+func (t *ReplaceSiteBwLicense_Sites_ReplaceSiteBwLicense_License_SaasSecurityAPILicense) GetTotal() int64 {
 	if t == nil {
-		t = &ReplaceSiteBwLicense_Site_ReplaceSiteBwLicense_License_SaasSecurityAPILicense{}
+		t = &ReplaceSiteBwLicense_Sites_ReplaceSiteBwLicense_License_SaasSecurityAPILicense{}
 	}
 	return t.Total
 }
 
-type ReplaceSiteBwLicense_Site_ReplaceSiteBwLicense_License_XdrProLicense struct {
+type ReplaceSiteBwLicense_Sites_ReplaceSiteBwLicense_License_XdrProLicense struct {
 	Total int64 "json:\"total\" graphql:\"total\""
 }
 
-func (t *ReplaceSiteBwLicense_Site_ReplaceSiteBwLicense_License_XdrProLicense) GetTotal() int64 {
+func (t *ReplaceSiteBwLicense_Sites_ReplaceSiteBwLicense_License_XdrProLicense) GetTotal() int64 {
 	if t == nil {
-		t = &ReplaceSiteBwLicense_Site_ReplaceSiteBwLicense_License_XdrProLicense{}
+		t = &ReplaceSiteBwLicense_Sites_ReplaceSiteBwLicense_License_XdrProLicense{}
 	}
 	return t.Total
 }
 
-type ReplaceSiteBwLicense_Site_ReplaceSiteBwLicense_License_DemLicense struct {
+type ReplaceSiteBwLicense_Sites_ReplaceSiteBwLicense_License_DemLicense struct {
 	Total int64 "json:\"total\" graphql:\"total\""
 }
 
-func (t *ReplaceSiteBwLicense_Site_ReplaceSiteBwLicense_License_DemLicense) GetTotal() int64 {
+func (t *ReplaceSiteBwLicense_Sites_ReplaceSiteBwLicense_License_DemLicense) GetTotal() int64 {
 	if t == nil {
-		t = &ReplaceSiteBwLicense_Site_ReplaceSiteBwLicense_License_DemLicense{}
+		t = &ReplaceSiteBwLicense_Sites_ReplaceSiteBwLicense_License_DemLicense{}
 	}
 	return t.Total
 }
 
-type ReplaceSiteBwLicense_Site_ReplaceSiteBwLicense_License_AssetsSecurityLicense struct {
+type ReplaceSiteBwLicense_Sites_ReplaceSiteBwLicense_License_AssetsSecurityLicense struct {
 	Total int64 "json:\"total\" graphql:\"total\""
 }
 
-func (t *ReplaceSiteBwLicense_Site_ReplaceSiteBwLicense_License_AssetsSecurityLicense) GetTotal() int64 {
+func (t *ReplaceSiteBwLicense_Sites_ReplaceSiteBwLicense_License_AssetsSecurityLicense) GetTotal() int64 {
 	if t == nil {
-		t = &ReplaceSiteBwLicense_Site_ReplaceSiteBwLicense_License_AssetsSecurityLicense{}
+		t = &ReplaceSiteBwLicense_Sites_ReplaceSiteBwLicense_License_AssetsSecurityLicense{}
 	}
 	return t.Total
 }
 
-type ReplaceSiteBwLicense_Site_ReplaceSiteBwLicense_License_AISecurityUsersLicense struct {
+type ReplaceSiteBwLicense_Sites_ReplaceSiteBwLicense_License_AISecurityUsersLicense struct {
 	Total int64 "json:\"total\" graphql:\"total\""
 }
 
-func (t *ReplaceSiteBwLicense_Site_ReplaceSiteBwLicense_License_AISecurityUsersLicense) GetTotal() int64 {
+func (t *ReplaceSiteBwLicense_Sites_ReplaceSiteBwLicense_License_AISecurityUsersLicense) GetTotal() int64 {
 	if t == nil {
-		t = &ReplaceSiteBwLicense_Site_ReplaceSiteBwLicense_License_AISecurityUsersLicense{}
+		t = &ReplaceSiteBwLicense_Sites_ReplaceSiteBwLicense_License_AISecurityUsersLicense{}
 	}
 	return t.Total
 }
 
-type ReplaceSiteBwLicense_Site_ReplaceSiteBwLicense_License_AISecurityApplicationsLicense struct {
+type ReplaceSiteBwLicense_Sites_ReplaceSiteBwLicense_License_AISecurityApplicationsLicense struct {
 	Total int64 "json:\"total\" graphql:\"total\""
 }
 
-func (t *ReplaceSiteBwLicense_Site_ReplaceSiteBwLicense_License_AISecurityApplicationsLicense) GetTotal() int64 {
+func (t *ReplaceSiteBwLicense_Sites_ReplaceSiteBwLicense_License_AISecurityApplicationsLicense) GetTotal() int64 {
 	if t == nil {
-		t = &ReplaceSiteBwLicense_Site_ReplaceSiteBwLicense_License_AISecurityApplicationsLicense{}
+		t = &ReplaceSiteBwLicense_Sites_ReplaceSiteBwLicense_License_AISecurityApplicationsLicense{}
 	}
 	return t.Total
 }
 
-type ReplaceSiteBwLicense_Site_ReplaceSiteBwLicense_License_MspCasbUsersLicense struct {
+type ReplaceSiteBwLicense_Sites_ReplaceSiteBwLicense_License_MspCasbUsersLicense struct {
 	Total int64 "json:\"total\" graphql:\"total\""
 }
 
-func (t *ReplaceSiteBwLicense_Site_ReplaceSiteBwLicense_License_MspCasbUsersLicense) GetTotal() int64 {
+func (t *ReplaceSiteBwLicense_Sites_ReplaceSiteBwLicense_License_MspCasbUsersLicense) GetTotal() int64 {
 	if t == nil {
-		t = &ReplaceSiteBwLicense_Site_ReplaceSiteBwLicense_License_MspCasbUsersLicense{}
+		t = &ReplaceSiteBwLicense_Sites_ReplaceSiteBwLicense_License_MspCasbUsersLicense{}
 	}
 	return t.Total
 }
 
-type ReplaceSiteBwLicense_Site_ReplaceSiteBwLicense_License_MspCasbBandwidthLicense struct {
+type ReplaceSiteBwLicense_Sites_ReplaceSiteBwLicense_License_MspCasbBandwidthLicense struct {
 	Total int64 "json:\"total\" graphql:\"total\""
 }
 
-func (t *ReplaceSiteBwLicense_Site_ReplaceSiteBwLicense_License_MspCasbBandwidthLicense) GetTotal() int64 {
+func (t *ReplaceSiteBwLicense_Sites_ReplaceSiteBwLicense_License_MspCasbBandwidthLicense) GetTotal() int64 {
 	if t == nil {
-		t = &ReplaceSiteBwLicense_Site_ReplaceSiteBwLicense_License_MspCasbBandwidthLicense{}
+		t = &ReplaceSiteBwLicense_Sites_ReplaceSiteBwLicense_License_MspCasbBandwidthLicense{}
 	}
 	return t.Total
 }
 
-type ReplaceSiteBwLicense_Site_ReplaceSiteBwLicense_License_MspDlpUsersLicense struct {
+type ReplaceSiteBwLicense_Sites_ReplaceSiteBwLicense_License_MspDlpUsersLicense struct {
 	Total int64 "json:\"total\" graphql:\"total\""
 }
 
-func (t *ReplaceSiteBwLicense_Site_ReplaceSiteBwLicense_License_MspDlpUsersLicense) GetTotal() int64 {
+func (t *ReplaceSiteBwLicense_Sites_ReplaceSiteBwLicense_License_MspDlpUsersLicense) GetTotal() int64 {
 	if t == nil {
-		t = &ReplaceSiteBwLicense_Site_ReplaceSiteBwLicense_License_MspDlpUsersLicense{}
+		t = &ReplaceSiteBwLicense_Sites_ReplaceSiteBwLicense_License_MspDlpUsersLicense{}
 	}
 	return t.Total
 }
 
-type ReplaceSiteBwLicense_Site_ReplaceSiteBwLicense_License_MspDlpBandwidthLicense struct {
+type ReplaceSiteBwLicense_Sites_ReplaceSiteBwLicense_License_MspDlpBandwidthLicense struct {
 	Total int64 "json:\"total\" graphql:\"total\""
 }
 
-func (t *ReplaceSiteBwLicense_Site_ReplaceSiteBwLicense_License_MspDlpBandwidthLicense) GetTotal() int64 {
+func (t *ReplaceSiteBwLicense_Sites_ReplaceSiteBwLicense_License_MspDlpBandwidthLicense) GetTotal() int64 {
 	if t == nil {
-		t = &ReplaceSiteBwLicense_Site_ReplaceSiteBwLicense_License_MspDlpBandwidthLicense{}
+		t = &ReplaceSiteBwLicense_Sites_ReplaceSiteBwLicense_License_MspDlpBandwidthLicense{}
 	}
 	return t.Total
 }
 
-type ReplaceSiteBwLicense_Site_ReplaceSiteBwLicense_License_MspTpUsersLicense struct {
+type ReplaceSiteBwLicense_Sites_ReplaceSiteBwLicense_License_MspTpUsersLicense struct {
 	Total int64 "json:\"total\" graphql:\"total\""
 }
 
-func (t *ReplaceSiteBwLicense_Site_ReplaceSiteBwLicense_License_MspTpUsersLicense) GetTotal() int64 {
+func (t *ReplaceSiteBwLicense_Sites_ReplaceSiteBwLicense_License_MspTpUsersLicense) GetTotal() int64 {
 	if t == nil {
-		t = &ReplaceSiteBwLicense_Site_ReplaceSiteBwLicense_License_MspTpUsersLicense{}
+		t = &ReplaceSiteBwLicense_Sites_ReplaceSiteBwLicense_License_MspTpUsersLicense{}
 	}
 	return t.Total
 }
 
-type ReplaceSiteBwLicense_Site_ReplaceSiteBwLicense_License_MspTpBandwidthLicense struct {
+type ReplaceSiteBwLicense_Sites_ReplaceSiteBwLicense_License_MspTpBandwidthLicense struct {
 	Total int64 "json:\"total\" graphql:\"total\""
 }
 
-func (t *ReplaceSiteBwLicense_Site_ReplaceSiteBwLicense_License_MspTpBandwidthLicense) GetTotal() int64 {
+func (t *ReplaceSiteBwLicense_Sites_ReplaceSiteBwLicense_License_MspTpBandwidthLicense) GetTotal() int64 {
 	if t == nil {
-		t = &ReplaceSiteBwLicense_Site_ReplaceSiteBwLicense_License_MspTpBandwidthLicense{}
+		t = &ReplaceSiteBwLicense_Sites_ReplaceSiteBwLicense_License_MspTpBandwidthLicense{}
 	}
 	return t.Total
 }
 
-type ReplaceSiteBwLicense_Site_ReplaceSiteBwLicense_License_MspAtpUsersLicense struct {
+type ReplaceSiteBwLicense_Sites_ReplaceSiteBwLicense_License_MspAtpUsersLicense struct {
 	Total int64 "json:\"total\" graphql:\"total\""
 }
 
-func (t *ReplaceSiteBwLicense_Site_ReplaceSiteBwLicense_License_MspAtpUsersLicense) GetTotal() int64 {
+func (t *ReplaceSiteBwLicense_Sites_ReplaceSiteBwLicense_License_MspAtpUsersLicense) GetTotal() int64 {
 	if t == nil {
-		t = &ReplaceSiteBwLicense_Site_ReplaceSiteBwLicense_License_MspAtpUsersLicense{}
+		t = &ReplaceSiteBwLicense_Sites_ReplaceSiteBwLicense_License_MspAtpUsersLicense{}
 	}
 	return t.Total
 }
 
-type ReplaceSiteBwLicense_Site_ReplaceSiteBwLicense_License_MspAtpBandwidthLicense struct {
+type ReplaceSiteBwLicense_Sites_ReplaceSiteBwLicense_License_MspAtpBandwidthLicense struct {
 	Total int64 "json:\"total\" graphql:\"total\""
 }
 
-func (t *ReplaceSiteBwLicense_Site_ReplaceSiteBwLicense_License_MspAtpBandwidthLicense) GetTotal() int64 {
+func (t *ReplaceSiteBwLicense_Sites_ReplaceSiteBwLicense_License_MspAtpBandwidthLicense) GetTotal() int64 {
 	if t == nil {
-		t = &ReplaceSiteBwLicense_Site_ReplaceSiteBwLicense_License_MspAtpBandwidthLicense{}
+		t = &ReplaceSiteBwLicense_Sites_ReplaceSiteBwLicense_License_MspAtpBandwidthLicense{}
 	}
 	return t.Total
 }
 
-type ReplaceSiteBwLicense_Site_ReplaceSiteBwLicense_License_MspXOpsUsersLicense struct {
+type ReplaceSiteBwLicense_Sites_ReplaceSiteBwLicense_License_MspXOpsUsersLicense struct {
 	Total int64 "json:\"total\" graphql:\"total\""
 }
 
-func (t *ReplaceSiteBwLicense_Site_ReplaceSiteBwLicense_License_MspXOpsUsersLicense) GetTotal() int64 {
+func (t *ReplaceSiteBwLicense_Sites_ReplaceSiteBwLicense_License_MspXOpsUsersLicense) GetTotal() int64 {
 	if t == nil {
-		t = &ReplaceSiteBwLicense_Site_ReplaceSiteBwLicense_License_MspXOpsUsersLicense{}
+		t = &ReplaceSiteBwLicense_Sites_ReplaceSiteBwLicense_License_MspXOpsUsersLicense{}
 	}
 	return t.Total
 }
 
-type ReplaceSiteBwLicense_Site_ReplaceSiteBwLicense_License_MspXOpsBandwidthLicense struct {
+type ReplaceSiteBwLicense_Sites_ReplaceSiteBwLicense_License_MspXOpsBandwidthLicense struct {
 	Total int64 "json:\"total\" graphql:\"total\""
 }
 
-func (t *ReplaceSiteBwLicense_Site_ReplaceSiteBwLicense_License_MspXOpsBandwidthLicense) GetTotal() int64 {
+func (t *ReplaceSiteBwLicense_Sites_ReplaceSiteBwLicense_License_MspXOpsBandwidthLicense) GetTotal() int64 {
 	if t == nil {
-		t = &ReplaceSiteBwLicense_Site_ReplaceSiteBwLicense_License_MspXOpsBandwidthLicense{}
+		t = &ReplaceSiteBwLicense_Sites_ReplaceSiteBwLicense_License_MspXOpsBandwidthLicense{}
 	}
 	return t.Total
 }
 
-type ReplaceSiteBwLicense_Site_ReplaceSiteBwLicense_License_MspMdrUsersLicense struct {
+type ReplaceSiteBwLicense_Sites_ReplaceSiteBwLicense_License_MspMdrUsersLicense struct {
 	Total int64 "json:\"total\" graphql:\"total\""
 }
 
-func (t *ReplaceSiteBwLicense_Site_ReplaceSiteBwLicense_License_MspMdrUsersLicense) GetTotal() int64 {
+func (t *ReplaceSiteBwLicense_Sites_ReplaceSiteBwLicense_License_MspMdrUsersLicense) GetTotal() int64 {
 	if t == nil {
-		t = &ReplaceSiteBwLicense_Site_ReplaceSiteBwLicense_License_MspMdrUsersLicense{}
+		t = &ReplaceSiteBwLicense_Sites_ReplaceSiteBwLicense_License_MspMdrUsersLicense{}
 	}
 	return t.Total
 }
 
-type ReplaceSiteBwLicense_Site_ReplaceSiteBwLicense_License_MspMdrBandwidthLicense struct {
+type ReplaceSiteBwLicense_Sites_ReplaceSiteBwLicense_License_MspMdrBandwidthLicense struct {
 	Total int64 "json:\"total\" graphql:\"total\""
 }
 
-func (t *ReplaceSiteBwLicense_Site_ReplaceSiteBwLicense_License_MspMdrBandwidthLicense) GetTotal() int64 {
+func (t *ReplaceSiteBwLicense_Sites_ReplaceSiteBwLicense_License_MspMdrBandwidthLicense) GetTotal() int64 {
 	if t == nil {
-		t = &ReplaceSiteBwLicense_Site_ReplaceSiteBwLicense_License_MspMdrBandwidthLicense{}
+		t = &ReplaceSiteBwLicense_Sites_ReplaceSiteBwLicense_License_MspMdrBandwidthLicense{}
 	}
 	return t.Total
 }
 
-type ReplaceSiteBwLicense_Site_ReplaceSiteBwLicense_License struct {
-	AISecurityApplicationsLicense ReplaceSiteBwLicense_Site_ReplaceSiteBwLicense_License_AISecurityApplicationsLicense "graphql:\"... on AISecurityApplicationsLicense\""
-	AISecurityUsersLicense        ReplaceSiteBwLicense_Site_ReplaceSiteBwLicense_License_AISecurityUsersLicense        "graphql:\"... on AISecurityUsersLicense\""
-	AssetsSecurityLicense         ReplaceSiteBwLicense_Site_ReplaceSiteBwLicense_License_AssetsSecurityLicense         "graphql:\"... on AssetsSecurityLicense\""
-	DataLakeLicense               ReplaceSiteBwLicense_Site_ReplaceSiteBwLicense_License_DataLakeLicense               "graphql:\"... on DataLakeLicense\""
-	DemLicense                    ReplaceSiteBwLicense_Site_ReplaceSiteBwLicense_License_DemLicense                    "graphql:\"... on DemLicense\""
-	EndpointProtectionLicense     ReplaceSiteBwLicense_Site_ReplaceSiteBwLicense_License_EndpointProtectionLicense     "graphql:\"... on EndpointProtectionLicense\""
-	IlmmLicense                   ReplaceSiteBwLicense_Site_ReplaceSiteBwLicense_License_IlmmLicense                   "graphql:\"... on IlmmLicense\""
-	MspAtpBandwidthLicense        ReplaceSiteBwLicense_Site_ReplaceSiteBwLicense_License_MspAtpBandwidthLicense        "graphql:\"... on MspAtpBandwidthLicense\""
-	MspAtpUsersLicense            ReplaceSiteBwLicense_Site_ReplaceSiteBwLicense_License_MspAtpUsersLicense            "graphql:\"... on MspAtpUsersLicense\""
-	MspCasbBandwidthLicense       ReplaceSiteBwLicense_Site_ReplaceSiteBwLicense_License_MspCasbBandwidthLicense       "graphql:\"... on MspCasbBandwidthLicense\""
-	MspCasbUsersLicense           ReplaceSiteBwLicense_Site_ReplaceSiteBwLicense_License_MspCasbUsersLicense           "graphql:\"... on MspCasbUsersLicense\""
-	MspDlpBandwidthLicense        ReplaceSiteBwLicense_Site_ReplaceSiteBwLicense_License_MspDlpBandwidthLicense        "graphql:\"... on MspDlpBandwidthLicense\""
-	MspDlpUsersLicense            ReplaceSiteBwLicense_Site_ReplaceSiteBwLicense_License_MspDlpUsersLicense            "graphql:\"... on MspDlpUsersLicense\""
-	MspMdrBandwidthLicense        ReplaceSiteBwLicense_Site_ReplaceSiteBwLicense_License_MspMdrBandwidthLicense        "graphql:\"... on MspMdrBandwidthLicense\""
-	MspMdrUsersLicense            ReplaceSiteBwLicense_Site_ReplaceSiteBwLicense_License_MspMdrUsersLicense            "graphql:\"... on MspMdrUsersLicense\""
-	MspTpBandwidthLicense         ReplaceSiteBwLicense_Site_ReplaceSiteBwLicense_License_MspTpBandwidthLicense         "graphql:\"... on MspTpBandwidthLicense\""
-	MspTpUsersLicense             ReplaceSiteBwLicense_Site_ReplaceSiteBwLicense_License_MspTpUsersLicense             "graphql:\"... on MspTpUsersLicense\""
-	MspXOpsBandwidthLicense       ReplaceSiteBwLicense_Site_ReplaceSiteBwLicense_License_MspXOpsBandwidthLicense       "graphql:\"... on MspXOpsBandwidthLicense\""
-	MspXOpsUsersLicense           ReplaceSiteBwLicense_Site_ReplaceSiteBwLicense_License_MspXOpsUsersLicense           "graphql:\"... on MspXOpsUsersLicense\""
-	PooledBandwidthLicense        ReplaceSiteBwLicense_Site_ReplaceSiteBwLicense_License_PooledBandwidthLicense        "graphql:\"... on PooledBandwidthLicense\""
-	PublicIpsLicense              ReplaceSiteBwLicense_Site_ReplaceSiteBwLicense_License_PublicIpsLicense              "graphql:\"... on PublicIpsLicense\""
-	SaasSecurityAPILicense        ReplaceSiteBwLicense_Site_ReplaceSiteBwLicense_License_SaasSecurityAPILicense        "graphql:\"... on SaasSecurityApiLicense\""
-	SiteLicense                   ReplaceSiteBwLicense_Site_ReplaceSiteBwLicense_License_SiteLicense                   "graphql:\"... on SiteLicense\""
-	XdrProLicense                 ReplaceSiteBwLicense_Site_ReplaceSiteBwLicense_License_XdrProLicense                 "graphql:\"... on XdrProLicense\""
-	ZtnaUsersLicense              ReplaceSiteBwLicense_Site_ReplaceSiteBwLicense_License_ZtnaUsersLicense              "graphql:\"... on ZtnaUsersLicense\""
-	Description                   *string                                                                              "json:\"description,omitempty\" graphql:\"description\""
-	ExpirationDate                string                                                                               "json:\"expirationDate\" graphql:\"expirationDate\""
-	ID                            *string                                                                              "json:\"id,omitempty\" graphql:\"id\""
-	LastUpdated                   *string                                                                              "json:\"lastUpdated,omitempty\" graphql:\"lastUpdated\""
-	Plan                          cato_models.LicensePlan                                                              "json:\"plan\" graphql:\"plan\""
-	Sku                           cato_models.LicenseSku                                                               "json:\"sku\" graphql:\"sku\""
-	StartDate                     *string                                                                              "json:\"startDate,omitempty\" graphql:\"startDate\""
-	Status                        cato_models.LicenseStatus                                                            "json:\"status\" graphql:\"status\""
+type ReplaceSiteBwLicense_Sites_ReplaceSiteBwLicense_License struct {
+	AISecurityApplicationsLicense ReplaceSiteBwLicense_Sites_ReplaceSiteBwLicense_License_AISecurityApplicationsLicense "graphql:\"... on AISecurityApplicationsLicense\""
+	AISecurityUsersLicense        ReplaceSiteBwLicense_Sites_ReplaceSiteBwLicense_License_AISecurityUsersLicense        "graphql:\"... on AISecurityUsersLicense\""
+	AssetsSecurityLicense         ReplaceSiteBwLicense_Sites_ReplaceSiteBwLicense_License_AssetsSecurityLicense         "graphql:\"... on AssetsSecurityLicense\""
+	DataLakeLicense               ReplaceSiteBwLicense_Sites_ReplaceSiteBwLicense_License_DataLakeLicense               "graphql:\"... on DataLakeLicense\""
+	DemLicense                    ReplaceSiteBwLicense_Sites_ReplaceSiteBwLicense_License_DemLicense                    "graphql:\"... on DemLicense\""
+	EndpointProtectionLicense     ReplaceSiteBwLicense_Sites_ReplaceSiteBwLicense_License_EndpointProtectionLicense     "graphql:\"... on EndpointProtectionLicense\""
+	IlmmLicense                   ReplaceSiteBwLicense_Sites_ReplaceSiteBwLicense_License_IlmmLicense                   "graphql:\"... on IlmmLicense\""
+	MspAtpBandwidthLicense        ReplaceSiteBwLicense_Sites_ReplaceSiteBwLicense_License_MspAtpBandwidthLicense        "graphql:\"... on MspAtpBandwidthLicense\""
+	MspAtpUsersLicense            ReplaceSiteBwLicense_Sites_ReplaceSiteBwLicense_License_MspAtpUsersLicense            "graphql:\"... on MspAtpUsersLicense\""
+	MspCasbBandwidthLicense       ReplaceSiteBwLicense_Sites_ReplaceSiteBwLicense_License_MspCasbBandwidthLicense       "graphql:\"... on MspCasbBandwidthLicense\""
+	MspCasbUsersLicense           ReplaceSiteBwLicense_Sites_ReplaceSiteBwLicense_License_MspCasbUsersLicense           "graphql:\"... on MspCasbUsersLicense\""
+	MspDlpBandwidthLicense        ReplaceSiteBwLicense_Sites_ReplaceSiteBwLicense_License_MspDlpBandwidthLicense        "graphql:\"... on MspDlpBandwidthLicense\""
+	MspDlpUsersLicense            ReplaceSiteBwLicense_Sites_ReplaceSiteBwLicense_License_MspDlpUsersLicense            "graphql:\"... on MspDlpUsersLicense\""
+	MspMdrBandwidthLicense        ReplaceSiteBwLicense_Sites_ReplaceSiteBwLicense_License_MspMdrBandwidthLicense        "graphql:\"... on MspMdrBandwidthLicense\""
+	MspMdrUsersLicense            ReplaceSiteBwLicense_Sites_ReplaceSiteBwLicense_License_MspMdrUsersLicense            "graphql:\"... on MspMdrUsersLicense\""
+	MspTpBandwidthLicense         ReplaceSiteBwLicense_Sites_ReplaceSiteBwLicense_License_MspTpBandwidthLicense         "graphql:\"... on MspTpBandwidthLicense\""
+	MspTpUsersLicense             ReplaceSiteBwLicense_Sites_ReplaceSiteBwLicense_License_MspTpUsersLicense             "graphql:\"... on MspTpUsersLicense\""
+	MspXOpsBandwidthLicense       ReplaceSiteBwLicense_Sites_ReplaceSiteBwLicense_License_MspXOpsBandwidthLicense       "graphql:\"... on MspXOpsBandwidthLicense\""
+	MspXOpsUsersLicense           ReplaceSiteBwLicense_Sites_ReplaceSiteBwLicense_License_MspXOpsUsersLicense           "graphql:\"... on MspXOpsUsersLicense\""
+	PooledBandwidthLicense        ReplaceSiteBwLicense_Sites_ReplaceSiteBwLicense_License_PooledBandwidthLicense        "graphql:\"... on PooledBandwidthLicense\""
+	PublicIpsLicense              ReplaceSiteBwLicense_Sites_ReplaceSiteBwLicense_License_PublicIpsLicense              "graphql:\"... on PublicIpsLicense\""
+	SaasSecurityAPILicense        ReplaceSiteBwLicense_Sites_ReplaceSiteBwLicense_License_SaasSecurityAPILicense        "graphql:\"... on SaasSecurityApiLicense\""
+	SiteLicense                   ReplaceSiteBwLicense_Sites_ReplaceSiteBwLicense_License_SiteLicense                   "graphql:\"... on SiteLicense\""
+	XdrProLicense                 ReplaceSiteBwLicense_Sites_ReplaceSiteBwLicense_License_XdrProLicense                 "graphql:\"... on XdrProLicense\""
+	ZtnaUsersLicense              ReplaceSiteBwLicense_Sites_ReplaceSiteBwLicense_License_ZtnaUsersLicense              "graphql:\"... on ZtnaUsersLicense\""
+	Description                   *string                                                                               "json:\"description,omitempty\" graphql:\"description\""
+	ExpirationDate                string                                                                                "json:\"expirationDate\" graphql:\"expirationDate\""
+	ID                            *string                                                                               "json:\"id,omitempty\" graphql:\"id\""
+	LastUpdated                   *string                                                                               "json:\"lastUpdated,omitempty\" graphql:\"lastUpdated\""
+	Plan                          cato_models.LicensePlan                                                               "json:\"plan\" graphql:\"plan\""
+	Sku                           cato_models.LicenseSku                                                                "json:\"sku\" graphql:\"sku\""
+	StartDate                     *string                                                                               "json:\"startDate,omitempty\" graphql:\"startDate\""
+	Status                        cato_models.LicenseStatus                                                             "json:\"status\" graphql:\"status\""
 }
 
-func (t *ReplaceSiteBwLicense_Site_ReplaceSiteBwLicense_License) GetAISecurityApplicationsLicense() *ReplaceSiteBwLicense_Site_ReplaceSiteBwLicense_License_AISecurityApplicationsLicense {
+func (t *ReplaceSiteBwLicense_Sites_ReplaceSiteBwLicense_License) GetAISecurityApplicationsLicense() *ReplaceSiteBwLicense_Sites_ReplaceSiteBwLicense_License_AISecurityApplicationsLicense {
 	if t == nil {
-		t = &ReplaceSiteBwLicense_Site_ReplaceSiteBwLicense_License{}
+		t = &ReplaceSiteBwLicense_Sites_ReplaceSiteBwLicense_License{}
 	}
 	return &t.AISecurityApplicationsLicense
 }
-func (t *ReplaceSiteBwLicense_Site_ReplaceSiteBwLicense_License) GetAISecurityUsersLicense() *ReplaceSiteBwLicense_Site_ReplaceSiteBwLicense_License_AISecurityUsersLicense {
+func (t *ReplaceSiteBwLicense_Sites_ReplaceSiteBwLicense_License) GetAISecurityUsersLicense() *ReplaceSiteBwLicense_Sites_ReplaceSiteBwLicense_License_AISecurityUsersLicense {
 	if t == nil {
-		t = &ReplaceSiteBwLicense_Site_ReplaceSiteBwLicense_License{}
+		t = &ReplaceSiteBwLicense_Sites_ReplaceSiteBwLicense_License{}
 	}
 	return &t.AISecurityUsersLicense
 }
-func (t *ReplaceSiteBwLicense_Site_ReplaceSiteBwLicense_License) GetAssetsSecurityLicense() *ReplaceSiteBwLicense_Site_ReplaceSiteBwLicense_License_AssetsSecurityLicense {
+func (t *ReplaceSiteBwLicense_Sites_ReplaceSiteBwLicense_License) GetAssetsSecurityLicense() *ReplaceSiteBwLicense_Sites_ReplaceSiteBwLicense_License_AssetsSecurityLicense {
 	if t == nil {
-		t = &ReplaceSiteBwLicense_Site_ReplaceSiteBwLicense_License{}
+		t = &ReplaceSiteBwLicense_Sites_ReplaceSiteBwLicense_License{}
 	}
 	return &t.AssetsSecurityLicense
 }
-func (t *ReplaceSiteBwLicense_Site_ReplaceSiteBwLicense_License) GetDataLakeLicense() *ReplaceSiteBwLicense_Site_ReplaceSiteBwLicense_License_DataLakeLicense {
+func (t *ReplaceSiteBwLicense_Sites_ReplaceSiteBwLicense_License) GetDataLakeLicense() *ReplaceSiteBwLicense_Sites_ReplaceSiteBwLicense_License_DataLakeLicense {
 	if t == nil {
-		t = &ReplaceSiteBwLicense_Site_ReplaceSiteBwLicense_License{}
+		t = &ReplaceSiteBwLicense_Sites_ReplaceSiteBwLicense_License{}
 	}
 	return &t.DataLakeLicense
 }
-func (t *ReplaceSiteBwLicense_Site_ReplaceSiteBwLicense_License) GetDemLicense() *ReplaceSiteBwLicense_Site_ReplaceSiteBwLicense_License_DemLicense {
+func (t *ReplaceSiteBwLicense_Sites_ReplaceSiteBwLicense_License) GetDemLicense() *ReplaceSiteBwLicense_Sites_ReplaceSiteBwLicense_License_DemLicense {
 	if t == nil {
-		t = &ReplaceSiteBwLicense_Site_ReplaceSiteBwLicense_License{}
+		t = &ReplaceSiteBwLicense_Sites_ReplaceSiteBwLicense_License{}
 	}
 	return &t.DemLicense
 }
-func (t *ReplaceSiteBwLicense_Site_ReplaceSiteBwLicense_License) GetEndpointProtectionLicense() *ReplaceSiteBwLicense_Site_ReplaceSiteBwLicense_License_EndpointProtectionLicense {
+func (t *ReplaceSiteBwLicense_Sites_ReplaceSiteBwLicense_License) GetEndpointProtectionLicense() *ReplaceSiteBwLicense_Sites_ReplaceSiteBwLicense_License_EndpointProtectionLicense {
 	if t == nil {
-		t = &ReplaceSiteBwLicense_Site_ReplaceSiteBwLicense_License{}
+		t = &ReplaceSiteBwLicense_Sites_ReplaceSiteBwLicense_License{}
 	}
 	return &t.EndpointProtectionLicense
 }
-func (t *ReplaceSiteBwLicense_Site_ReplaceSiteBwLicense_License) GetIlmmLicense() *ReplaceSiteBwLicense_Site_ReplaceSiteBwLicense_License_IlmmLicense {
+func (t *ReplaceSiteBwLicense_Sites_ReplaceSiteBwLicense_License) GetIlmmLicense() *ReplaceSiteBwLicense_Sites_ReplaceSiteBwLicense_License_IlmmLicense {
 	if t == nil {
-		t = &ReplaceSiteBwLicense_Site_ReplaceSiteBwLicense_License{}
+		t = &ReplaceSiteBwLicense_Sites_ReplaceSiteBwLicense_License{}
 	}
 	return &t.IlmmLicense
 }
-func (t *ReplaceSiteBwLicense_Site_ReplaceSiteBwLicense_License) GetMspAtpBandwidthLicense() *ReplaceSiteBwLicense_Site_ReplaceSiteBwLicense_License_MspAtpBandwidthLicense {
+func (t *ReplaceSiteBwLicense_Sites_ReplaceSiteBwLicense_License) GetMspAtpBandwidthLicense() *ReplaceSiteBwLicense_Sites_ReplaceSiteBwLicense_License_MspAtpBandwidthLicense {
 	if t == nil {
-		t = &ReplaceSiteBwLicense_Site_ReplaceSiteBwLicense_License{}
+		t = &ReplaceSiteBwLicense_Sites_ReplaceSiteBwLicense_License{}
 	}
 	return &t.MspAtpBandwidthLicense
 }
-func (t *ReplaceSiteBwLicense_Site_ReplaceSiteBwLicense_License) GetMspAtpUsersLicense() *ReplaceSiteBwLicense_Site_ReplaceSiteBwLicense_License_MspAtpUsersLicense {
+func (t *ReplaceSiteBwLicense_Sites_ReplaceSiteBwLicense_License) GetMspAtpUsersLicense() *ReplaceSiteBwLicense_Sites_ReplaceSiteBwLicense_License_MspAtpUsersLicense {
 	if t == nil {
-		t = &ReplaceSiteBwLicense_Site_ReplaceSiteBwLicense_License{}
+		t = &ReplaceSiteBwLicense_Sites_ReplaceSiteBwLicense_License{}
 	}
 	return &t.MspAtpUsersLicense
 }
-func (t *ReplaceSiteBwLicense_Site_ReplaceSiteBwLicense_License) GetMspCasbBandwidthLicense() *ReplaceSiteBwLicense_Site_ReplaceSiteBwLicense_License_MspCasbBandwidthLicense {
+func (t *ReplaceSiteBwLicense_Sites_ReplaceSiteBwLicense_License) GetMspCasbBandwidthLicense() *ReplaceSiteBwLicense_Sites_ReplaceSiteBwLicense_License_MspCasbBandwidthLicense {
 	if t == nil {
-		t = &ReplaceSiteBwLicense_Site_ReplaceSiteBwLicense_License{}
+		t = &ReplaceSiteBwLicense_Sites_ReplaceSiteBwLicense_License{}
 	}
 	return &t.MspCasbBandwidthLicense
 }
-func (t *ReplaceSiteBwLicense_Site_ReplaceSiteBwLicense_License) GetMspCasbUsersLicense() *ReplaceSiteBwLicense_Site_ReplaceSiteBwLicense_License_MspCasbUsersLicense {
+func (t *ReplaceSiteBwLicense_Sites_ReplaceSiteBwLicense_License) GetMspCasbUsersLicense() *ReplaceSiteBwLicense_Sites_ReplaceSiteBwLicense_License_MspCasbUsersLicense {
 	if t == nil {
-		t = &ReplaceSiteBwLicense_Site_ReplaceSiteBwLicense_License{}
+		t = &ReplaceSiteBwLicense_Sites_ReplaceSiteBwLicense_License{}
 	}
 	return &t.MspCasbUsersLicense
 }
-func (t *ReplaceSiteBwLicense_Site_ReplaceSiteBwLicense_License) GetMspDlpBandwidthLicense() *ReplaceSiteBwLicense_Site_ReplaceSiteBwLicense_License_MspDlpBandwidthLicense {
+func (t *ReplaceSiteBwLicense_Sites_ReplaceSiteBwLicense_License) GetMspDlpBandwidthLicense() *ReplaceSiteBwLicense_Sites_ReplaceSiteBwLicense_License_MspDlpBandwidthLicense {
 	if t == nil {
-		t = &ReplaceSiteBwLicense_Site_ReplaceSiteBwLicense_License{}
+		t = &ReplaceSiteBwLicense_Sites_ReplaceSiteBwLicense_License{}
 	}
 	return &t.MspDlpBandwidthLicense
 }
-func (t *ReplaceSiteBwLicense_Site_ReplaceSiteBwLicense_License) GetMspDlpUsersLicense() *ReplaceSiteBwLicense_Site_ReplaceSiteBwLicense_License_MspDlpUsersLicense {
+func (t *ReplaceSiteBwLicense_Sites_ReplaceSiteBwLicense_License) GetMspDlpUsersLicense() *ReplaceSiteBwLicense_Sites_ReplaceSiteBwLicense_License_MspDlpUsersLicense {
 	if t == nil {
-		t = &ReplaceSiteBwLicense_Site_ReplaceSiteBwLicense_License{}
+		t = &ReplaceSiteBwLicense_Sites_ReplaceSiteBwLicense_License{}
 	}
 	return &t.MspDlpUsersLicense
 }
-func (t *ReplaceSiteBwLicense_Site_ReplaceSiteBwLicense_License) GetMspMdrBandwidthLicense() *ReplaceSiteBwLicense_Site_ReplaceSiteBwLicense_License_MspMdrBandwidthLicense {
+func (t *ReplaceSiteBwLicense_Sites_ReplaceSiteBwLicense_License) GetMspMdrBandwidthLicense() *ReplaceSiteBwLicense_Sites_ReplaceSiteBwLicense_License_MspMdrBandwidthLicense {
 	if t == nil {
-		t = &ReplaceSiteBwLicense_Site_ReplaceSiteBwLicense_License{}
+		t = &ReplaceSiteBwLicense_Sites_ReplaceSiteBwLicense_License{}
 	}
 	return &t.MspMdrBandwidthLicense
 }
-func (t *ReplaceSiteBwLicense_Site_ReplaceSiteBwLicense_License) GetMspMdrUsersLicense() *ReplaceSiteBwLicense_Site_ReplaceSiteBwLicense_License_MspMdrUsersLicense {
+func (t *ReplaceSiteBwLicense_Sites_ReplaceSiteBwLicense_License) GetMspMdrUsersLicense() *ReplaceSiteBwLicense_Sites_ReplaceSiteBwLicense_License_MspMdrUsersLicense {
 	if t == nil {
-		t = &ReplaceSiteBwLicense_Site_ReplaceSiteBwLicense_License{}
+		t = &ReplaceSiteBwLicense_Sites_ReplaceSiteBwLicense_License{}
 	}
 	return &t.MspMdrUsersLicense
 }
-func (t *ReplaceSiteBwLicense_Site_ReplaceSiteBwLicense_License) GetMspTpBandwidthLicense() *ReplaceSiteBwLicense_Site_ReplaceSiteBwLicense_License_MspTpBandwidthLicense {
+func (t *ReplaceSiteBwLicense_Sites_ReplaceSiteBwLicense_License) GetMspTpBandwidthLicense() *ReplaceSiteBwLicense_Sites_ReplaceSiteBwLicense_License_MspTpBandwidthLicense {
 	if t == nil {
-		t = &ReplaceSiteBwLicense_Site_ReplaceSiteBwLicense_License{}
+		t = &ReplaceSiteBwLicense_Sites_ReplaceSiteBwLicense_License{}
 	}
 	return &t.MspTpBandwidthLicense
 }
-func (t *ReplaceSiteBwLicense_Site_ReplaceSiteBwLicense_License) GetMspTpUsersLicense() *ReplaceSiteBwLicense_Site_ReplaceSiteBwLicense_License_MspTpUsersLicense {
+func (t *ReplaceSiteBwLicense_Sites_ReplaceSiteBwLicense_License) GetMspTpUsersLicense() *ReplaceSiteBwLicense_Sites_ReplaceSiteBwLicense_License_MspTpUsersLicense {
 	if t == nil {
-		t = &ReplaceSiteBwLicense_Site_ReplaceSiteBwLicense_License{}
+		t = &ReplaceSiteBwLicense_Sites_ReplaceSiteBwLicense_License{}
 	}
 	return &t.MspTpUsersLicense
 }
-func (t *ReplaceSiteBwLicense_Site_ReplaceSiteBwLicense_License) GetMspXOpsBandwidthLicense() *ReplaceSiteBwLicense_Site_ReplaceSiteBwLicense_License_MspXOpsBandwidthLicense {
+func (t *ReplaceSiteBwLicense_Sites_ReplaceSiteBwLicense_License) GetMspXOpsBandwidthLicense() *ReplaceSiteBwLicense_Sites_ReplaceSiteBwLicense_License_MspXOpsBandwidthLicense {
 	if t == nil {
-		t = &ReplaceSiteBwLicense_Site_ReplaceSiteBwLicense_License{}
+		t = &ReplaceSiteBwLicense_Sites_ReplaceSiteBwLicense_License{}
 	}
 	return &t.MspXOpsBandwidthLicense
 }
-func (t *ReplaceSiteBwLicense_Site_ReplaceSiteBwLicense_License) GetMspXOpsUsersLicense() *ReplaceSiteBwLicense_Site_ReplaceSiteBwLicense_License_MspXOpsUsersLicense {
+func (t *ReplaceSiteBwLicense_Sites_ReplaceSiteBwLicense_License) GetMspXOpsUsersLicense() *ReplaceSiteBwLicense_Sites_ReplaceSiteBwLicense_License_MspXOpsUsersLicense {
 	if t == nil {
-		t = &ReplaceSiteBwLicense_Site_ReplaceSiteBwLicense_License{}
+		t = &ReplaceSiteBwLicense_Sites_ReplaceSiteBwLicense_License{}
 	}
 	return &t.MspXOpsUsersLicense
 }
-func (t *ReplaceSiteBwLicense_Site_ReplaceSiteBwLicense_License) GetPooledBandwidthLicense() *ReplaceSiteBwLicense_Site_ReplaceSiteBwLicense_License_PooledBandwidthLicense {
+func (t *ReplaceSiteBwLicense_Sites_ReplaceSiteBwLicense_License) GetPooledBandwidthLicense() *ReplaceSiteBwLicense_Sites_ReplaceSiteBwLicense_License_PooledBandwidthLicense {
 	if t == nil {
-		t = &ReplaceSiteBwLicense_Site_ReplaceSiteBwLicense_License{}
+		t = &ReplaceSiteBwLicense_Sites_ReplaceSiteBwLicense_License{}
 	}
 	return &t.PooledBandwidthLicense
 }
-func (t *ReplaceSiteBwLicense_Site_ReplaceSiteBwLicense_License) GetPublicIpsLicense() *ReplaceSiteBwLicense_Site_ReplaceSiteBwLicense_License_PublicIpsLicense {
+func (t *ReplaceSiteBwLicense_Sites_ReplaceSiteBwLicense_License) GetPublicIpsLicense() *ReplaceSiteBwLicense_Sites_ReplaceSiteBwLicense_License_PublicIpsLicense {
 	if t == nil {
-		t = &ReplaceSiteBwLicense_Site_ReplaceSiteBwLicense_License{}
+		t = &ReplaceSiteBwLicense_Sites_ReplaceSiteBwLicense_License{}
 	}
 	return &t.PublicIpsLicense
 }
-func (t *ReplaceSiteBwLicense_Site_ReplaceSiteBwLicense_License) GetSaasSecurityAPILicense() *ReplaceSiteBwLicense_Site_ReplaceSiteBwLicense_License_SaasSecurityAPILicense {
+func (t *ReplaceSiteBwLicense_Sites_ReplaceSiteBwLicense_License) GetSaasSecurityAPILicense() *ReplaceSiteBwLicense_Sites_ReplaceSiteBwLicense_License_SaasSecurityAPILicense {
 	if t == nil {
-		t = &ReplaceSiteBwLicense_Site_ReplaceSiteBwLicense_License{}
+		t = &ReplaceSiteBwLicense_Sites_ReplaceSiteBwLicense_License{}
 	}
 	return &t.SaasSecurityAPILicense
 }
-func (t *ReplaceSiteBwLicense_Site_ReplaceSiteBwLicense_License) GetSiteLicense() *ReplaceSiteBwLicense_Site_ReplaceSiteBwLicense_License_SiteLicense {
+func (t *ReplaceSiteBwLicense_Sites_ReplaceSiteBwLicense_License) GetSiteLicense() *ReplaceSiteBwLicense_Sites_ReplaceSiteBwLicense_License_SiteLicense {
 	if t == nil {
-		t = &ReplaceSiteBwLicense_Site_ReplaceSiteBwLicense_License{}
+		t = &ReplaceSiteBwLicense_Sites_ReplaceSiteBwLicense_License{}
 	}
 	return &t.SiteLicense
 }
-func (t *ReplaceSiteBwLicense_Site_ReplaceSiteBwLicense_License) GetXdrProLicense() *ReplaceSiteBwLicense_Site_ReplaceSiteBwLicense_License_XdrProLicense {
+func (t *ReplaceSiteBwLicense_Sites_ReplaceSiteBwLicense_License) GetXdrProLicense() *ReplaceSiteBwLicense_Sites_ReplaceSiteBwLicense_License_XdrProLicense {
 	if t == nil {
-		t = &ReplaceSiteBwLicense_Site_ReplaceSiteBwLicense_License{}
+		t = &ReplaceSiteBwLicense_Sites_ReplaceSiteBwLicense_License{}
 	}
 	return &t.XdrProLicense
 }
-func (t *ReplaceSiteBwLicense_Site_ReplaceSiteBwLicense_License) GetZtnaUsersLicense() *ReplaceSiteBwLicense_Site_ReplaceSiteBwLicense_License_ZtnaUsersLicense {
+func (t *ReplaceSiteBwLicense_Sites_ReplaceSiteBwLicense_License) GetZtnaUsersLicense() *ReplaceSiteBwLicense_Sites_ReplaceSiteBwLicense_License_ZtnaUsersLicense {
 	if t == nil {
-		t = &ReplaceSiteBwLicense_Site_ReplaceSiteBwLicense_License{}
+		t = &ReplaceSiteBwLicense_Sites_ReplaceSiteBwLicense_License{}
 	}
 	return &t.ZtnaUsersLicense
 }
-func (t *ReplaceSiteBwLicense_Site_ReplaceSiteBwLicense_License) GetDescription() *string {
+func (t *ReplaceSiteBwLicense_Sites_ReplaceSiteBwLicense_License) GetDescription() *string {
 	if t == nil {
-		t = &ReplaceSiteBwLicense_Site_ReplaceSiteBwLicense_License{}
+		t = &ReplaceSiteBwLicense_Sites_ReplaceSiteBwLicense_License{}
 	}
 	return t.Description
 }
-func (t *ReplaceSiteBwLicense_Site_ReplaceSiteBwLicense_License) GetExpirationDate() string {
+func (t *ReplaceSiteBwLicense_Sites_ReplaceSiteBwLicense_License) GetExpirationDate() string {
 	if t == nil {
-		t = &ReplaceSiteBwLicense_Site_ReplaceSiteBwLicense_License{}
+		t = &ReplaceSiteBwLicense_Sites_ReplaceSiteBwLicense_License{}
 	}
 	return t.ExpirationDate
 }
-func (t *ReplaceSiteBwLicense_Site_ReplaceSiteBwLicense_License) GetID() *string {
+func (t *ReplaceSiteBwLicense_Sites_ReplaceSiteBwLicense_License) GetID() *string {
 	if t == nil {
-		t = &ReplaceSiteBwLicense_Site_ReplaceSiteBwLicense_License{}
+		t = &ReplaceSiteBwLicense_Sites_ReplaceSiteBwLicense_License{}
 	}
 	return t.ID
 }
-func (t *ReplaceSiteBwLicense_Site_ReplaceSiteBwLicense_License) GetLastUpdated() *string {
+func (t *ReplaceSiteBwLicense_Sites_ReplaceSiteBwLicense_License) GetLastUpdated() *string {
 	if t == nil {
-		t = &ReplaceSiteBwLicense_Site_ReplaceSiteBwLicense_License{}
+		t = &ReplaceSiteBwLicense_Sites_ReplaceSiteBwLicense_License{}
 	}
 	return t.LastUpdated
 }
-func (t *ReplaceSiteBwLicense_Site_ReplaceSiteBwLicense_License) GetPlan() *cato_models.LicensePlan {
+func (t *ReplaceSiteBwLicense_Sites_ReplaceSiteBwLicense_License) GetPlan() *cato_models.LicensePlan {
 	if t == nil {
-		t = &ReplaceSiteBwLicense_Site_ReplaceSiteBwLicense_License{}
+		t = &ReplaceSiteBwLicense_Sites_ReplaceSiteBwLicense_License{}
 	}
 	return &t.Plan
 }
-func (t *ReplaceSiteBwLicense_Site_ReplaceSiteBwLicense_License) GetSku() *cato_models.LicenseSku {
+func (t *ReplaceSiteBwLicense_Sites_ReplaceSiteBwLicense_License) GetSku() *cato_models.LicenseSku {
 	if t == nil {
-		t = &ReplaceSiteBwLicense_Site_ReplaceSiteBwLicense_License{}
+		t = &ReplaceSiteBwLicense_Sites_ReplaceSiteBwLicense_License{}
 	}
 	return &t.Sku
 }
-func (t *ReplaceSiteBwLicense_Site_ReplaceSiteBwLicense_License) GetStartDate() *string {
+func (t *ReplaceSiteBwLicense_Sites_ReplaceSiteBwLicense_License) GetStartDate() *string {
 	if t == nil {
-		t = &ReplaceSiteBwLicense_Site_ReplaceSiteBwLicense_License{}
+		t = &ReplaceSiteBwLicense_Sites_ReplaceSiteBwLicense_License{}
 	}
 	return t.StartDate
 }
-func (t *ReplaceSiteBwLicense_Site_ReplaceSiteBwLicense_License) GetStatus() *cato_models.LicenseStatus {
+func (t *ReplaceSiteBwLicense_Sites_ReplaceSiteBwLicense_License) GetStatus() *cato_models.LicenseStatus {
 	if t == nil {
-		t = &ReplaceSiteBwLicense_Site_ReplaceSiteBwLicense_License{}
+		t = &ReplaceSiteBwLicense_Sites_ReplaceSiteBwLicense_License{}
 	}
 	return &t.Status
 }
 
-type ReplaceSiteBwLicense_Site_ReplaceSiteBwLicense struct {
-	License ReplaceSiteBwLicense_Site_ReplaceSiteBwLicense_License "json:\"license\" graphql:\"license\""
+type ReplaceSiteBwLicense_Sites_ReplaceSiteBwLicense struct {
+	License ReplaceSiteBwLicense_Sites_ReplaceSiteBwLicense_License "json:\"license\" graphql:\"license\""
 }
 
-func (t *ReplaceSiteBwLicense_Site_ReplaceSiteBwLicense) GetLicense() *ReplaceSiteBwLicense_Site_ReplaceSiteBwLicense_License {
+func (t *ReplaceSiteBwLicense_Sites_ReplaceSiteBwLicense) GetLicense() *ReplaceSiteBwLicense_Sites_ReplaceSiteBwLicense_License {
 	if t == nil {
-		t = &ReplaceSiteBwLicense_Site_ReplaceSiteBwLicense{}
+		t = &ReplaceSiteBwLicense_Sites_ReplaceSiteBwLicense{}
 	}
 	return &t.License
 }
 
-type ReplaceSiteBwLicense_Site struct {
-	ReplaceSiteBwLicense *ReplaceSiteBwLicense_Site_ReplaceSiteBwLicense "json:\"replaceSiteBwLicense,omitempty\" graphql:\"replaceSiteBwLicense\""
+type ReplaceSiteBwLicense_Sites struct {
+	ReplaceSiteBwLicense *ReplaceSiteBwLicense_Sites_ReplaceSiteBwLicense "json:\"replaceSiteBwLicense,omitempty\" graphql:\"replaceSiteBwLicense\""
 }
 
-func (t *ReplaceSiteBwLicense_Site) GetReplaceSiteBwLicense() *ReplaceSiteBwLicense_Site_ReplaceSiteBwLicense {
+func (t *ReplaceSiteBwLicense_Sites) GetReplaceSiteBwLicense() *ReplaceSiteBwLicense_Sites_ReplaceSiteBwLicense {
 	if t == nil {
-		t = &ReplaceSiteBwLicense_Site{}
+		t = &ReplaceSiteBwLicense_Sites{}
 	}
 	return t.ReplaceSiteBwLicense
 }
@@ -252389,751 +252389,751 @@ func (t *SiteUpdateSiteBackhauling_Site) GetUpdateSiteBackhauling() *SiteUpdateS
 	return t.UpdateSiteBackhauling
 }
 
-type UpdateSiteBwLicense_Site_UpdateSiteBwLicense_License_DataLakeLicense struct {
+type UpdateSiteBwLicense_Sites_UpdateSiteBwLicense_License_DataLakeLicense struct {
 	DpaVersion      cato_models.DpaVersion "json:\"dpaVersion\" graphql:\"dpaVersion\""
 	RetentionPeriod *int64                 "json:\"retentionPeriod,omitempty\" graphql:\"retentionPeriod\""
 	Total           int64                  "json:\"total\" graphql:\"total\""
 }
 
-func (t *UpdateSiteBwLicense_Site_UpdateSiteBwLicense_License_DataLakeLicense) GetDpaVersion() *cato_models.DpaVersion {
+func (t *UpdateSiteBwLicense_Sites_UpdateSiteBwLicense_License_DataLakeLicense) GetDpaVersion() *cato_models.DpaVersion {
 	if t == nil {
-		t = &UpdateSiteBwLicense_Site_UpdateSiteBwLicense_License_DataLakeLicense{}
+		t = &UpdateSiteBwLicense_Sites_UpdateSiteBwLicense_License_DataLakeLicense{}
 	}
 	return &t.DpaVersion
 }
-func (t *UpdateSiteBwLicense_Site_UpdateSiteBwLicense_License_DataLakeLicense) GetRetentionPeriod() *int64 {
+func (t *UpdateSiteBwLicense_Sites_UpdateSiteBwLicense_License_DataLakeLicense) GetRetentionPeriod() *int64 {
 	if t == nil {
-		t = &UpdateSiteBwLicense_Site_UpdateSiteBwLicense_License_DataLakeLicense{}
+		t = &UpdateSiteBwLicense_Sites_UpdateSiteBwLicense_License_DataLakeLicense{}
 	}
 	return t.RetentionPeriod
 }
-func (t *UpdateSiteBwLicense_Site_UpdateSiteBwLicense_License_DataLakeLicense) GetTotal() int64 {
+func (t *UpdateSiteBwLicense_Sites_UpdateSiteBwLicense_License_DataLakeLicense) GetTotal() int64 {
 	if t == nil {
-		t = &UpdateSiteBwLicense_Site_UpdateSiteBwLicense_License_DataLakeLicense{}
+		t = &UpdateSiteBwLicense_Sites_UpdateSiteBwLicense_License_DataLakeLicense{}
 	}
 	return t.Total
 }
 
-type UpdateSiteBwLicense_Site_UpdateSiteBwLicense_License_PublicIpsLicense struct {
+type UpdateSiteBwLicense_Sites_UpdateSiteBwLicense_License_PublicIpsLicense struct {
 	Total int64 "json:\"total\" graphql:\"total\""
 }
 
-func (t *UpdateSiteBwLicense_Site_UpdateSiteBwLicense_License_PublicIpsLicense) GetTotal() int64 {
+func (t *UpdateSiteBwLicense_Sites_UpdateSiteBwLicense_License_PublicIpsLicense) GetTotal() int64 {
 	if t == nil {
-		t = &UpdateSiteBwLicense_Site_UpdateSiteBwLicense_License_PublicIpsLicense{}
+		t = &UpdateSiteBwLicense_Sites_UpdateSiteBwLicense_License_PublicIpsLicense{}
 	}
 	return t.Total
 }
 
-type UpdateSiteBwLicense_Site_UpdateSiteBwLicense_License_SiteLicense_Site struct {
+type UpdateSiteBwLicense_Sites_UpdateSiteBwLicense_License_SiteLicense_Site struct {
 	ID   string "json:\"id\" graphql:\"id\""
 	Name string "json:\"name\" graphql:\"name\""
 }
 
-func (t *UpdateSiteBwLicense_Site_UpdateSiteBwLicense_License_SiteLicense_Site) GetID() string {
+func (t *UpdateSiteBwLicense_Sites_UpdateSiteBwLicense_License_SiteLicense_Site) GetID() string {
 	if t == nil {
-		t = &UpdateSiteBwLicense_Site_UpdateSiteBwLicense_License_SiteLicense_Site{}
+		t = &UpdateSiteBwLicense_Sites_UpdateSiteBwLicense_License_SiteLicense_Site{}
 	}
 	return t.ID
 }
-func (t *UpdateSiteBwLicense_Site_UpdateSiteBwLicense_License_SiteLicense_Site) GetName() string {
+func (t *UpdateSiteBwLicense_Sites_UpdateSiteBwLicense_License_SiteLicense_Site) GetName() string {
 	if t == nil {
-		t = &UpdateSiteBwLicense_Site_UpdateSiteBwLicense_License_SiteLicense_Site{}
+		t = &UpdateSiteBwLicense_Sites_UpdateSiteBwLicense_License_SiteLicense_Site{}
 	}
 	return t.Name
 }
 
-type UpdateSiteBwLicense_Site_UpdateSiteBwLicense_License_SiteLicense struct {
-	SiteLicenseGroup cato_models.SiteLicenseGroup                                           "json:\"siteLicenseGroup\" graphql:\"siteLicenseGroup\""
-	Regionality      *cato_models.Regionality                                               "json:\"regionality,omitempty\" graphql:\"regionality\""
-	SiteLicenseType  cato_models.SiteLicenseType                                            "json:\"siteLicenseType\" graphql:\"siteLicenseType\""
-	Total            int64                                                                  "json:\"total\" graphql:\"total\""
-	Site             *UpdateSiteBwLicense_Site_UpdateSiteBwLicense_License_SiteLicense_Site "json:\"site,omitempty\" graphql:\"site\""
+type UpdateSiteBwLicense_Sites_UpdateSiteBwLicense_License_SiteLicense struct {
+	SiteLicenseGroup cato_models.SiteLicenseGroup                                            "json:\"siteLicenseGroup\" graphql:\"siteLicenseGroup\""
+	Regionality      *cato_models.Regionality                                                "json:\"regionality,omitempty\" graphql:\"regionality\""
+	SiteLicenseType  cato_models.SiteLicenseType                                             "json:\"siteLicenseType\" graphql:\"siteLicenseType\""
+	Total            int64                                                                   "json:\"total\" graphql:\"total\""
+	Site             *UpdateSiteBwLicense_Sites_UpdateSiteBwLicense_License_SiteLicense_Site "json:\"site,omitempty\" graphql:\"site\""
 }
 
-func (t *UpdateSiteBwLicense_Site_UpdateSiteBwLicense_License_SiteLicense) GetSiteLicenseGroup() *cato_models.SiteLicenseGroup {
+func (t *UpdateSiteBwLicense_Sites_UpdateSiteBwLicense_License_SiteLicense) GetSiteLicenseGroup() *cato_models.SiteLicenseGroup {
 	if t == nil {
-		t = &UpdateSiteBwLicense_Site_UpdateSiteBwLicense_License_SiteLicense{}
+		t = &UpdateSiteBwLicense_Sites_UpdateSiteBwLicense_License_SiteLicense{}
 	}
 	return &t.SiteLicenseGroup
 }
-func (t *UpdateSiteBwLicense_Site_UpdateSiteBwLicense_License_SiteLicense) GetRegionality() *cato_models.Regionality {
+func (t *UpdateSiteBwLicense_Sites_UpdateSiteBwLicense_License_SiteLicense) GetRegionality() *cato_models.Regionality {
 	if t == nil {
-		t = &UpdateSiteBwLicense_Site_UpdateSiteBwLicense_License_SiteLicense{}
+		t = &UpdateSiteBwLicense_Sites_UpdateSiteBwLicense_License_SiteLicense{}
 	}
 	return t.Regionality
 }
-func (t *UpdateSiteBwLicense_Site_UpdateSiteBwLicense_License_SiteLicense) GetSiteLicenseType() *cato_models.SiteLicenseType {
+func (t *UpdateSiteBwLicense_Sites_UpdateSiteBwLicense_License_SiteLicense) GetSiteLicenseType() *cato_models.SiteLicenseType {
 	if t == nil {
-		t = &UpdateSiteBwLicense_Site_UpdateSiteBwLicense_License_SiteLicense{}
+		t = &UpdateSiteBwLicense_Sites_UpdateSiteBwLicense_License_SiteLicense{}
 	}
 	return &t.SiteLicenseType
 }
-func (t *UpdateSiteBwLicense_Site_UpdateSiteBwLicense_License_SiteLicense) GetTotal() int64 {
+func (t *UpdateSiteBwLicense_Sites_UpdateSiteBwLicense_License_SiteLicense) GetTotal() int64 {
 	if t == nil {
-		t = &UpdateSiteBwLicense_Site_UpdateSiteBwLicense_License_SiteLicense{}
+		t = &UpdateSiteBwLicense_Sites_UpdateSiteBwLicense_License_SiteLicense{}
 	}
 	return t.Total
 }
-func (t *UpdateSiteBwLicense_Site_UpdateSiteBwLicense_License_SiteLicense) GetSite() *UpdateSiteBwLicense_Site_UpdateSiteBwLicense_License_SiteLicense_Site {
+func (t *UpdateSiteBwLicense_Sites_UpdateSiteBwLicense_License_SiteLicense) GetSite() *UpdateSiteBwLicense_Sites_UpdateSiteBwLicense_License_SiteLicense_Site {
 	if t == nil {
-		t = &UpdateSiteBwLicense_Site_UpdateSiteBwLicense_License_SiteLicense{}
+		t = &UpdateSiteBwLicense_Sites_UpdateSiteBwLicense_License_SiteLicense{}
 	}
 	return t.Site
 }
 
-type UpdateSiteBwLicense_Site_UpdateSiteBwLicense_License_PooledBandwidthLicense_Sites_SitePooledBandwidthLicenseSite struct {
+type UpdateSiteBwLicense_Sites_UpdateSiteBwLicense_License_PooledBandwidthLicense_Sites_SitePooledBandwidthLicenseSite struct {
 	ID   string "json:\"id\" graphql:\"id\""
 	Name string "json:\"name\" graphql:\"name\""
 }
 
-func (t *UpdateSiteBwLicense_Site_UpdateSiteBwLicense_License_PooledBandwidthLicense_Sites_SitePooledBandwidthLicenseSite) GetID() string {
+func (t *UpdateSiteBwLicense_Sites_UpdateSiteBwLicense_License_PooledBandwidthLicense_Sites_SitePooledBandwidthLicenseSite) GetID() string {
 	if t == nil {
-		t = &UpdateSiteBwLicense_Site_UpdateSiteBwLicense_License_PooledBandwidthLicense_Sites_SitePooledBandwidthLicenseSite{}
+		t = &UpdateSiteBwLicense_Sites_UpdateSiteBwLicense_License_PooledBandwidthLicense_Sites_SitePooledBandwidthLicenseSite{}
 	}
 	return t.ID
 }
-func (t *UpdateSiteBwLicense_Site_UpdateSiteBwLicense_License_PooledBandwidthLicense_Sites_SitePooledBandwidthLicenseSite) GetName() string {
+func (t *UpdateSiteBwLicense_Sites_UpdateSiteBwLicense_License_PooledBandwidthLicense_Sites_SitePooledBandwidthLicenseSite) GetName() string {
 	if t == nil {
-		t = &UpdateSiteBwLicense_Site_UpdateSiteBwLicense_License_PooledBandwidthLicense_Sites_SitePooledBandwidthLicenseSite{}
+		t = &UpdateSiteBwLicense_Sites_UpdateSiteBwLicense_License_PooledBandwidthLicense_Sites_SitePooledBandwidthLicenseSite{}
 	}
 	return t.Name
 }
 
-type UpdateSiteBwLicense_Site_UpdateSiteBwLicense_License_PooledBandwidthLicense_Sites struct {
-	AllocatedBandwidth             int64                                                                                                            "json:\"allocatedBandwidth\" graphql:\"allocatedBandwidth\""
-	SitePooledBandwidthLicenseSite UpdateSiteBwLicense_Site_UpdateSiteBwLicense_License_PooledBandwidthLicense_Sites_SitePooledBandwidthLicenseSite "json:\"sitePooledBandwidthLicenseSite\" graphql:\"sitePooledBandwidthLicenseSite\""
+type UpdateSiteBwLicense_Sites_UpdateSiteBwLicense_License_PooledBandwidthLicense_Sites struct {
+	AllocatedBandwidth             int64                                                                                                             "json:\"allocatedBandwidth\" graphql:\"allocatedBandwidth\""
+	SitePooledBandwidthLicenseSite UpdateSiteBwLicense_Sites_UpdateSiteBwLicense_License_PooledBandwidthLicense_Sites_SitePooledBandwidthLicenseSite "json:\"sitePooledBandwidthLicenseSite\" graphql:\"sitePooledBandwidthLicenseSite\""
 }
 
-func (t *UpdateSiteBwLicense_Site_UpdateSiteBwLicense_License_PooledBandwidthLicense_Sites) GetAllocatedBandwidth() int64 {
+func (t *UpdateSiteBwLicense_Sites_UpdateSiteBwLicense_License_PooledBandwidthLicense_Sites) GetAllocatedBandwidth() int64 {
 	if t == nil {
-		t = &UpdateSiteBwLicense_Site_UpdateSiteBwLicense_License_PooledBandwidthLicense_Sites{}
+		t = &UpdateSiteBwLicense_Sites_UpdateSiteBwLicense_License_PooledBandwidthLicense_Sites{}
 	}
 	return t.AllocatedBandwidth
 }
-func (t *UpdateSiteBwLicense_Site_UpdateSiteBwLicense_License_PooledBandwidthLicense_Sites) GetSitePooledBandwidthLicenseSite() *UpdateSiteBwLicense_Site_UpdateSiteBwLicense_License_PooledBandwidthLicense_Sites_SitePooledBandwidthLicenseSite {
+func (t *UpdateSiteBwLicense_Sites_UpdateSiteBwLicense_License_PooledBandwidthLicense_Sites) GetSitePooledBandwidthLicenseSite() *UpdateSiteBwLicense_Sites_UpdateSiteBwLicense_License_PooledBandwidthLicense_Sites_SitePooledBandwidthLicenseSite {
 	if t == nil {
-		t = &UpdateSiteBwLicense_Site_UpdateSiteBwLicense_License_PooledBandwidthLicense_Sites{}
+		t = &UpdateSiteBwLicense_Sites_UpdateSiteBwLicense_License_PooledBandwidthLicense_Sites{}
 	}
 	return &t.SitePooledBandwidthLicenseSite
 }
 
-type UpdateSiteBwLicense_Site_UpdateSiteBwLicense_License_PooledBandwidthLicense_Accounts_AccountPartnerPooledBandwidthLicenseAccount struct {
+type UpdateSiteBwLicense_Sites_UpdateSiteBwLicense_License_PooledBandwidthLicense_Accounts_AccountPartnerPooledBandwidthLicenseAccount struct {
 	ID   string "json:\"id\" graphql:\"id\""
 	Name string "json:\"name\" graphql:\"name\""
 }
 
-func (t *UpdateSiteBwLicense_Site_UpdateSiteBwLicense_License_PooledBandwidthLicense_Accounts_AccountPartnerPooledBandwidthLicenseAccount) GetID() string {
+func (t *UpdateSiteBwLicense_Sites_UpdateSiteBwLicense_License_PooledBandwidthLicense_Accounts_AccountPartnerPooledBandwidthLicenseAccount) GetID() string {
 	if t == nil {
-		t = &UpdateSiteBwLicense_Site_UpdateSiteBwLicense_License_PooledBandwidthLicense_Accounts_AccountPartnerPooledBandwidthLicenseAccount{}
+		t = &UpdateSiteBwLicense_Sites_UpdateSiteBwLicense_License_PooledBandwidthLicense_Accounts_AccountPartnerPooledBandwidthLicenseAccount{}
 	}
 	return t.ID
 }
-func (t *UpdateSiteBwLicense_Site_UpdateSiteBwLicense_License_PooledBandwidthLicense_Accounts_AccountPartnerPooledBandwidthLicenseAccount) GetName() string {
+func (t *UpdateSiteBwLicense_Sites_UpdateSiteBwLicense_License_PooledBandwidthLicense_Accounts_AccountPartnerPooledBandwidthLicenseAccount) GetName() string {
 	if t == nil {
-		t = &UpdateSiteBwLicense_Site_UpdateSiteBwLicense_License_PooledBandwidthLicense_Accounts_AccountPartnerPooledBandwidthLicenseAccount{}
+		t = &UpdateSiteBwLicense_Sites_UpdateSiteBwLicense_License_PooledBandwidthLicense_Accounts_AccountPartnerPooledBandwidthLicenseAccount{}
 	}
 	return t.Name
 }
 
-type UpdateSiteBwLicense_Site_UpdateSiteBwLicense_License_PooledBandwidthLicense_Accounts struct {
-	AccountPartnerPooledBandwidthLicenseAccount UpdateSiteBwLicense_Site_UpdateSiteBwLicense_License_PooledBandwidthLicense_Accounts_AccountPartnerPooledBandwidthLicenseAccount "json:\"accountPartnerPooledBandwidthLicenseAccount\" graphql:\"accountPartnerPooledBandwidthLicenseAccount\""
-	AllocatedBandwidth                          int64                                                                                                                            "json:\"allocatedBandwidth\" graphql:\"allocatedBandwidth\""
+type UpdateSiteBwLicense_Sites_UpdateSiteBwLicense_License_PooledBandwidthLicense_Accounts struct {
+	AccountPartnerPooledBandwidthLicenseAccount UpdateSiteBwLicense_Sites_UpdateSiteBwLicense_License_PooledBandwidthLicense_Accounts_AccountPartnerPooledBandwidthLicenseAccount "json:\"accountPartnerPooledBandwidthLicenseAccount\" graphql:\"accountPartnerPooledBandwidthLicenseAccount\""
+	AllocatedBandwidth                          int64                                                                                                                             "json:\"allocatedBandwidth\" graphql:\"allocatedBandwidth\""
 }
 
-func (t *UpdateSiteBwLicense_Site_UpdateSiteBwLicense_License_PooledBandwidthLicense_Accounts) GetAccountPartnerPooledBandwidthLicenseAccount() *UpdateSiteBwLicense_Site_UpdateSiteBwLicense_License_PooledBandwidthLicense_Accounts_AccountPartnerPooledBandwidthLicenseAccount {
+func (t *UpdateSiteBwLicense_Sites_UpdateSiteBwLicense_License_PooledBandwidthLicense_Accounts) GetAccountPartnerPooledBandwidthLicenseAccount() *UpdateSiteBwLicense_Sites_UpdateSiteBwLicense_License_PooledBandwidthLicense_Accounts_AccountPartnerPooledBandwidthLicenseAccount {
 	if t == nil {
-		t = &UpdateSiteBwLicense_Site_UpdateSiteBwLicense_License_PooledBandwidthLicense_Accounts{}
+		t = &UpdateSiteBwLicense_Sites_UpdateSiteBwLicense_License_PooledBandwidthLicense_Accounts{}
 	}
 	return &t.AccountPartnerPooledBandwidthLicenseAccount
 }
-func (t *UpdateSiteBwLicense_Site_UpdateSiteBwLicense_License_PooledBandwidthLicense_Accounts) GetAllocatedBandwidth() int64 {
+func (t *UpdateSiteBwLicense_Sites_UpdateSiteBwLicense_License_PooledBandwidthLicense_Accounts) GetAllocatedBandwidth() int64 {
 	if t == nil {
-		t = &UpdateSiteBwLicense_Site_UpdateSiteBwLicense_License_PooledBandwidthLicense_Accounts{}
+		t = &UpdateSiteBwLicense_Sites_UpdateSiteBwLicense_License_PooledBandwidthLicense_Accounts{}
 	}
 	return t.AllocatedBandwidth
 }
 
-type UpdateSiteBwLicense_Site_UpdateSiteBwLicense_License_PooledBandwidthLicense struct {
-	SiteLicenseGroup   cato_models.SiteLicenseGroup                                                            "json:\"siteLicenseGroup\" graphql:\"siteLicenseGroup\""
-	SiteLicenseType    cato_models.SiteLicenseType                                                             "json:\"siteLicenseType\" graphql:\"siteLicenseType\""
-	Total              int64                                                                                   "json:\"total\" graphql:\"total\""
-	AllocatedBandwidth int64                                                                                   "json:\"allocatedBandwidth\" graphql:\"allocatedBandwidth\""
-	Sites              []*UpdateSiteBwLicense_Site_UpdateSiteBwLicense_License_PooledBandwidthLicense_Sites    "json:\"sites\" graphql:\"sites\""
-	Accounts           []*UpdateSiteBwLicense_Site_UpdateSiteBwLicense_License_PooledBandwidthLicense_Accounts "json:\"accounts\" graphql:\"accounts\""
+type UpdateSiteBwLicense_Sites_UpdateSiteBwLicense_License_PooledBandwidthLicense struct {
+	SiteLicenseGroup   cato_models.SiteLicenseGroup                                                             "json:\"siteLicenseGroup\" graphql:\"siteLicenseGroup\""
+	SiteLicenseType    cato_models.SiteLicenseType                                                              "json:\"siteLicenseType\" graphql:\"siteLicenseType\""
+	Total              int64                                                                                    "json:\"total\" graphql:\"total\""
+	AllocatedBandwidth int64                                                                                    "json:\"allocatedBandwidth\" graphql:\"allocatedBandwidth\""
+	Sites              []*UpdateSiteBwLicense_Sites_UpdateSiteBwLicense_License_PooledBandwidthLicense_Sites    "json:\"sites\" graphql:\"sites\""
+	Accounts           []*UpdateSiteBwLicense_Sites_UpdateSiteBwLicense_License_PooledBandwidthLicense_Accounts "json:\"accounts\" graphql:\"accounts\""
 }
 
-func (t *UpdateSiteBwLicense_Site_UpdateSiteBwLicense_License_PooledBandwidthLicense) GetSiteLicenseGroup() *cato_models.SiteLicenseGroup {
+func (t *UpdateSiteBwLicense_Sites_UpdateSiteBwLicense_License_PooledBandwidthLicense) GetSiteLicenseGroup() *cato_models.SiteLicenseGroup {
 	if t == nil {
-		t = &UpdateSiteBwLicense_Site_UpdateSiteBwLicense_License_PooledBandwidthLicense{}
+		t = &UpdateSiteBwLicense_Sites_UpdateSiteBwLicense_License_PooledBandwidthLicense{}
 	}
 	return &t.SiteLicenseGroup
 }
-func (t *UpdateSiteBwLicense_Site_UpdateSiteBwLicense_License_PooledBandwidthLicense) GetSiteLicenseType() *cato_models.SiteLicenseType {
+func (t *UpdateSiteBwLicense_Sites_UpdateSiteBwLicense_License_PooledBandwidthLicense) GetSiteLicenseType() *cato_models.SiteLicenseType {
 	if t == nil {
-		t = &UpdateSiteBwLicense_Site_UpdateSiteBwLicense_License_PooledBandwidthLicense{}
+		t = &UpdateSiteBwLicense_Sites_UpdateSiteBwLicense_License_PooledBandwidthLicense{}
 	}
 	return &t.SiteLicenseType
 }
-func (t *UpdateSiteBwLicense_Site_UpdateSiteBwLicense_License_PooledBandwidthLicense) GetTotal() int64 {
+func (t *UpdateSiteBwLicense_Sites_UpdateSiteBwLicense_License_PooledBandwidthLicense) GetTotal() int64 {
 	if t == nil {
-		t = &UpdateSiteBwLicense_Site_UpdateSiteBwLicense_License_PooledBandwidthLicense{}
+		t = &UpdateSiteBwLicense_Sites_UpdateSiteBwLicense_License_PooledBandwidthLicense{}
 	}
 	return t.Total
 }
-func (t *UpdateSiteBwLicense_Site_UpdateSiteBwLicense_License_PooledBandwidthLicense) GetAllocatedBandwidth() int64 {
+func (t *UpdateSiteBwLicense_Sites_UpdateSiteBwLicense_License_PooledBandwidthLicense) GetAllocatedBandwidth() int64 {
 	if t == nil {
-		t = &UpdateSiteBwLicense_Site_UpdateSiteBwLicense_License_PooledBandwidthLicense{}
+		t = &UpdateSiteBwLicense_Sites_UpdateSiteBwLicense_License_PooledBandwidthLicense{}
 	}
 	return t.AllocatedBandwidth
 }
-func (t *UpdateSiteBwLicense_Site_UpdateSiteBwLicense_License_PooledBandwidthLicense) GetSites() []*UpdateSiteBwLicense_Site_UpdateSiteBwLicense_License_PooledBandwidthLicense_Sites {
+func (t *UpdateSiteBwLicense_Sites_UpdateSiteBwLicense_License_PooledBandwidthLicense) GetSites() []*UpdateSiteBwLicense_Sites_UpdateSiteBwLicense_License_PooledBandwidthLicense_Sites {
 	if t == nil {
-		t = &UpdateSiteBwLicense_Site_UpdateSiteBwLicense_License_PooledBandwidthLicense{}
+		t = &UpdateSiteBwLicense_Sites_UpdateSiteBwLicense_License_PooledBandwidthLicense{}
 	}
 	return t.Sites
 }
-func (t *UpdateSiteBwLicense_Site_UpdateSiteBwLicense_License_PooledBandwidthLicense) GetAccounts() []*UpdateSiteBwLicense_Site_UpdateSiteBwLicense_License_PooledBandwidthLicense_Accounts {
+func (t *UpdateSiteBwLicense_Sites_UpdateSiteBwLicense_License_PooledBandwidthLicense) GetAccounts() []*UpdateSiteBwLicense_Sites_UpdateSiteBwLicense_License_PooledBandwidthLicense_Accounts {
 	if t == nil {
-		t = &UpdateSiteBwLicense_Site_UpdateSiteBwLicense_License_PooledBandwidthLicense{}
+		t = &UpdateSiteBwLicense_Sites_UpdateSiteBwLicense_License_PooledBandwidthLicense{}
 	}
 	return t.Accounts
 }
 
-type UpdateSiteBwLicense_Site_UpdateSiteBwLicense_License_ZtnaUsersLicense_Accounts_AccountPartnerZtnaUsersLicenseAccount struct {
+type UpdateSiteBwLicense_Sites_UpdateSiteBwLicense_License_ZtnaUsersLicense_Accounts_AccountPartnerZtnaUsersLicenseAccount struct {
 	ID   string "json:\"id\" graphql:\"id\""
 	Name string "json:\"name\" graphql:\"name\""
 }
 
-func (t *UpdateSiteBwLicense_Site_UpdateSiteBwLicense_License_ZtnaUsersLicense_Accounts_AccountPartnerZtnaUsersLicenseAccount) GetID() string {
+func (t *UpdateSiteBwLicense_Sites_UpdateSiteBwLicense_License_ZtnaUsersLicense_Accounts_AccountPartnerZtnaUsersLicenseAccount) GetID() string {
 	if t == nil {
-		t = &UpdateSiteBwLicense_Site_UpdateSiteBwLicense_License_ZtnaUsersLicense_Accounts_AccountPartnerZtnaUsersLicenseAccount{}
+		t = &UpdateSiteBwLicense_Sites_UpdateSiteBwLicense_License_ZtnaUsersLicense_Accounts_AccountPartnerZtnaUsersLicenseAccount{}
 	}
 	return t.ID
 }
-func (t *UpdateSiteBwLicense_Site_UpdateSiteBwLicense_License_ZtnaUsersLicense_Accounts_AccountPartnerZtnaUsersLicenseAccount) GetName() string {
+func (t *UpdateSiteBwLicense_Sites_UpdateSiteBwLicense_License_ZtnaUsersLicense_Accounts_AccountPartnerZtnaUsersLicenseAccount) GetName() string {
 	if t == nil {
-		t = &UpdateSiteBwLicense_Site_UpdateSiteBwLicense_License_ZtnaUsersLicense_Accounts_AccountPartnerZtnaUsersLicenseAccount{}
+		t = &UpdateSiteBwLicense_Sites_UpdateSiteBwLicense_License_ZtnaUsersLicense_Accounts_AccountPartnerZtnaUsersLicenseAccount{}
 	}
 	return t.Name
 }
 
-type UpdateSiteBwLicense_Site_UpdateSiteBwLicense_License_ZtnaUsersLicense_Accounts struct {
-	AccountPartnerZtnaUsersLicenseAccount UpdateSiteBwLicense_Site_UpdateSiteBwLicense_License_ZtnaUsersLicense_Accounts_AccountPartnerZtnaUsersLicenseAccount "json:\"accountPartnerZtnaUsersLicenseAccount\" graphql:\"accountPartnerZtnaUsersLicenseAccount\""
-	AllocatedUsers                        int64                                                                                                                "json:\"allocatedUsers\" graphql:\"allocatedUsers\""
+type UpdateSiteBwLicense_Sites_UpdateSiteBwLicense_License_ZtnaUsersLicense_Accounts struct {
+	AccountPartnerZtnaUsersLicenseAccount UpdateSiteBwLicense_Sites_UpdateSiteBwLicense_License_ZtnaUsersLicense_Accounts_AccountPartnerZtnaUsersLicenseAccount "json:\"accountPartnerZtnaUsersLicenseAccount\" graphql:\"accountPartnerZtnaUsersLicenseAccount\""
+	AllocatedUsers                        int64                                                                                                                 "json:\"allocatedUsers\" graphql:\"allocatedUsers\""
 }
 
-func (t *UpdateSiteBwLicense_Site_UpdateSiteBwLicense_License_ZtnaUsersLicense_Accounts) GetAccountPartnerZtnaUsersLicenseAccount() *UpdateSiteBwLicense_Site_UpdateSiteBwLicense_License_ZtnaUsersLicense_Accounts_AccountPartnerZtnaUsersLicenseAccount {
+func (t *UpdateSiteBwLicense_Sites_UpdateSiteBwLicense_License_ZtnaUsersLicense_Accounts) GetAccountPartnerZtnaUsersLicenseAccount() *UpdateSiteBwLicense_Sites_UpdateSiteBwLicense_License_ZtnaUsersLicense_Accounts_AccountPartnerZtnaUsersLicenseAccount {
 	if t == nil {
-		t = &UpdateSiteBwLicense_Site_UpdateSiteBwLicense_License_ZtnaUsersLicense_Accounts{}
+		t = &UpdateSiteBwLicense_Sites_UpdateSiteBwLicense_License_ZtnaUsersLicense_Accounts{}
 	}
 	return &t.AccountPartnerZtnaUsersLicenseAccount
 }
-func (t *UpdateSiteBwLicense_Site_UpdateSiteBwLicense_License_ZtnaUsersLicense_Accounts) GetAllocatedUsers() int64 {
+func (t *UpdateSiteBwLicense_Sites_UpdateSiteBwLicense_License_ZtnaUsersLicense_Accounts) GetAllocatedUsers() int64 {
 	if t == nil {
-		t = &UpdateSiteBwLicense_Site_UpdateSiteBwLicense_License_ZtnaUsersLicense_Accounts{}
+		t = &UpdateSiteBwLicense_Sites_UpdateSiteBwLicense_License_ZtnaUsersLicense_Accounts{}
 	}
 	return t.AllocatedUsers
 }
 
-type UpdateSiteBwLicense_Site_UpdateSiteBwLicense_License_ZtnaUsersLicense struct {
-	ZtnaUsersLicenseGroup cato_models.ZtnaUsersLicenseGroup                                                 "json:\"ztnaUsersLicenseGroup\" graphql:\"ztnaUsersLicenseGroup\""
-	Accounts              []*UpdateSiteBwLicense_Site_UpdateSiteBwLicense_License_ZtnaUsersLicense_Accounts "json:\"accounts\" graphql:\"accounts\""
-	Total                 int64                                                                             "json:\"total\" graphql:\"total\""
+type UpdateSiteBwLicense_Sites_UpdateSiteBwLicense_License_ZtnaUsersLicense struct {
+	ZtnaUsersLicenseGroup cato_models.ZtnaUsersLicenseGroup                                                  "json:\"ztnaUsersLicenseGroup\" graphql:\"ztnaUsersLicenseGroup\""
+	Accounts              []*UpdateSiteBwLicense_Sites_UpdateSiteBwLicense_License_ZtnaUsersLicense_Accounts "json:\"accounts\" graphql:\"accounts\""
+	Total                 int64                                                                              "json:\"total\" graphql:\"total\""
 }
 
-func (t *UpdateSiteBwLicense_Site_UpdateSiteBwLicense_License_ZtnaUsersLicense) GetZtnaUsersLicenseGroup() *cato_models.ZtnaUsersLicenseGroup {
+func (t *UpdateSiteBwLicense_Sites_UpdateSiteBwLicense_License_ZtnaUsersLicense) GetZtnaUsersLicenseGroup() *cato_models.ZtnaUsersLicenseGroup {
 	if t == nil {
-		t = &UpdateSiteBwLicense_Site_UpdateSiteBwLicense_License_ZtnaUsersLicense{}
+		t = &UpdateSiteBwLicense_Sites_UpdateSiteBwLicense_License_ZtnaUsersLicense{}
 	}
 	return &t.ZtnaUsersLicenseGroup
 }
-func (t *UpdateSiteBwLicense_Site_UpdateSiteBwLicense_License_ZtnaUsersLicense) GetAccounts() []*UpdateSiteBwLicense_Site_UpdateSiteBwLicense_License_ZtnaUsersLicense_Accounts {
+func (t *UpdateSiteBwLicense_Sites_UpdateSiteBwLicense_License_ZtnaUsersLicense) GetAccounts() []*UpdateSiteBwLicense_Sites_UpdateSiteBwLicense_License_ZtnaUsersLicense_Accounts {
 	if t == nil {
-		t = &UpdateSiteBwLicense_Site_UpdateSiteBwLicense_License_ZtnaUsersLicense{}
+		t = &UpdateSiteBwLicense_Sites_UpdateSiteBwLicense_License_ZtnaUsersLicense{}
 	}
 	return t.Accounts
 }
-func (t *UpdateSiteBwLicense_Site_UpdateSiteBwLicense_License_ZtnaUsersLicense) GetTotal() int64 {
+func (t *UpdateSiteBwLicense_Sites_UpdateSiteBwLicense_License_ZtnaUsersLicense) GetTotal() int64 {
 	if t == nil {
-		t = &UpdateSiteBwLicense_Site_UpdateSiteBwLicense_License_ZtnaUsersLicense{}
+		t = &UpdateSiteBwLicense_Sites_UpdateSiteBwLicense_License_ZtnaUsersLicense{}
 	}
 	return t.Total
 }
 
-type UpdateSiteBwLicense_Site_UpdateSiteBwLicense_License_EndpointProtectionLicense struct {
+type UpdateSiteBwLicense_Sites_UpdateSiteBwLicense_License_EndpointProtectionLicense struct {
 	Total int64 "json:\"total\" graphql:\"total\""
 }
 
-func (t *UpdateSiteBwLicense_Site_UpdateSiteBwLicense_License_EndpointProtectionLicense) GetTotal() int64 {
+func (t *UpdateSiteBwLicense_Sites_UpdateSiteBwLicense_License_EndpointProtectionLicense) GetTotal() int64 {
 	if t == nil {
-		t = &UpdateSiteBwLicense_Site_UpdateSiteBwLicense_License_EndpointProtectionLicense{}
+		t = &UpdateSiteBwLicense_Sites_UpdateSiteBwLicense_License_EndpointProtectionLicense{}
 	}
 	return t.Total
 }
 
-type UpdateSiteBwLicense_Site_UpdateSiteBwLicense_License_IlmmLicense struct {
+type UpdateSiteBwLicense_Sites_UpdateSiteBwLicense_License_IlmmLicense struct {
 	Total int64 "json:\"total\" graphql:\"total\""
 }
 
-func (t *UpdateSiteBwLicense_Site_UpdateSiteBwLicense_License_IlmmLicense) GetTotal() int64 {
+func (t *UpdateSiteBwLicense_Sites_UpdateSiteBwLicense_License_IlmmLicense) GetTotal() int64 {
 	if t == nil {
-		t = &UpdateSiteBwLicense_Site_UpdateSiteBwLicense_License_IlmmLicense{}
+		t = &UpdateSiteBwLicense_Sites_UpdateSiteBwLicense_License_IlmmLicense{}
 	}
 	return t.Total
 }
 
-type UpdateSiteBwLicense_Site_UpdateSiteBwLicense_License_SaasSecurityAPILicense struct {
+type UpdateSiteBwLicense_Sites_UpdateSiteBwLicense_License_SaasSecurityAPILicense struct {
 	Total int64 "json:\"total\" graphql:\"total\""
 }
 
-func (t *UpdateSiteBwLicense_Site_UpdateSiteBwLicense_License_SaasSecurityAPILicense) GetTotal() int64 {
+func (t *UpdateSiteBwLicense_Sites_UpdateSiteBwLicense_License_SaasSecurityAPILicense) GetTotal() int64 {
 	if t == nil {
-		t = &UpdateSiteBwLicense_Site_UpdateSiteBwLicense_License_SaasSecurityAPILicense{}
+		t = &UpdateSiteBwLicense_Sites_UpdateSiteBwLicense_License_SaasSecurityAPILicense{}
 	}
 	return t.Total
 }
 
-type UpdateSiteBwLicense_Site_UpdateSiteBwLicense_License_XdrProLicense struct {
+type UpdateSiteBwLicense_Sites_UpdateSiteBwLicense_License_XdrProLicense struct {
 	Total int64 "json:\"total\" graphql:\"total\""
 }
 
-func (t *UpdateSiteBwLicense_Site_UpdateSiteBwLicense_License_XdrProLicense) GetTotal() int64 {
+func (t *UpdateSiteBwLicense_Sites_UpdateSiteBwLicense_License_XdrProLicense) GetTotal() int64 {
 	if t == nil {
-		t = &UpdateSiteBwLicense_Site_UpdateSiteBwLicense_License_XdrProLicense{}
+		t = &UpdateSiteBwLicense_Sites_UpdateSiteBwLicense_License_XdrProLicense{}
 	}
 	return t.Total
 }
 
-type UpdateSiteBwLicense_Site_UpdateSiteBwLicense_License_DemLicense struct {
+type UpdateSiteBwLicense_Sites_UpdateSiteBwLicense_License_DemLicense struct {
 	Total int64 "json:\"total\" graphql:\"total\""
 }
 
-func (t *UpdateSiteBwLicense_Site_UpdateSiteBwLicense_License_DemLicense) GetTotal() int64 {
+func (t *UpdateSiteBwLicense_Sites_UpdateSiteBwLicense_License_DemLicense) GetTotal() int64 {
 	if t == nil {
-		t = &UpdateSiteBwLicense_Site_UpdateSiteBwLicense_License_DemLicense{}
+		t = &UpdateSiteBwLicense_Sites_UpdateSiteBwLicense_License_DemLicense{}
 	}
 	return t.Total
 }
 
-type UpdateSiteBwLicense_Site_UpdateSiteBwLicense_License_AssetsSecurityLicense struct {
+type UpdateSiteBwLicense_Sites_UpdateSiteBwLicense_License_AssetsSecurityLicense struct {
 	Total int64 "json:\"total\" graphql:\"total\""
 }
 
-func (t *UpdateSiteBwLicense_Site_UpdateSiteBwLicense_License_AssetsSecurityLicense) GetTotal() int64 {
+func (t *UpdateSiteBwLicense_Sites_UpdateSiteBwLicense_License_AssetsSecurityLicense) GetTotal() int64 {
 	if t == nil {
-		t = &UpdateSiteBwLicense_Site_UpdateSiteBwLicense_License_AssetsSecurityLicense{}
+		t = &UpdateSiteBwLicense_Sites_UpdateSiteBwLicense_License_AssetsSecurityLicense{}
 	}
 	return t.Total
 }
 
-type UpdateSiteBwLicense_Site_UpdateSiteBwLicense_License_AISecurityUsersLicense struct {
+type UpdateSiteBwLicense_Sites_UpdateSiteBwLicense_License_AISecurityUsersLicense struct {
 	Total int64 "json:\"total\" graphql:\"total\""
 }
 
-func (t *UpdateSiteBwLicense_Site_UpdateSiteBwLicense_License_AISecurityUsersLicense) GetTotal() int64 {
+func (t *UpdateSiteBwLicense_Sites_UpdateSiteBwLicense_License_AISecurityUsersLicense) GetTotal() int64 {
 	if t == nil {
-		t = &UpdateSiteBwLicense_Site_UpdateSiteBwLicense_License_AISecurityUsersLicense{}
+		t = &UpdateSiteBwLicense_Sites_UpdateSiteBwLicense_License_AISecurityUsersLicense{}
 	}
 	return t.Total
 }
 
-type UpdateSiteBwLicense_Site_UpdateSiteBwLicense_License_AISecurityApplicationsLicense struct {
+type UpdateSiteBwLicense_Sites_UpdateSiteBwLicense_License_AISecurityApplicationsLicense struct {
 	Total int64 "json:\"total\" graphql:\"total\""
 }
 
-func (t *UpdateSiteBwLicense_Site_UpdateSiteBwLicense_License_AISecurityApplicationsLicense) GetTotal() int64 {
+func (t *UpdateSiteBwLicense_Sites_UpdateSiteBwLicense_License_AISecurityApplicationsLicense) GetTotal() int64 {
 	if t == nil {
-		t = &UpdateSiteBwLicense_Site_UpdateSiteBwLicense_License_AISecurityApplicationsLicense{}
+		t = &UpdateSiteBwLicense_Sites_UpdateSiteBwLicense_License_AISecurityApplicationsLicense{}
 	}
 	return t.Total
 }
 
-type UpdateSiteBwLicense_Site_UpdateSiteBwLicense_License_MspCasbUsersLicense struct {
+type UpdateSiteBwLicense_Sites_UpdateSiteBwLicense_License_MspCasbUsersLicense struct {
 	Total int64 "json:\"total\" graphql:\"total\""
 }
 
-func (t *UpdateSiteBwLicense_Site_UpdateSiteBwLicense_License_MspCasbUsersLicense) GetTotal() int64 {
+func (t *UpdateSiteBwLicense_Sites_UpdateSiteBwLicense_License_MspCasbUsersLicense) GetTotal() int64 {
 	if t == nil {
-		t = &UpdateSiteBwLicense_Site_UpdateSiteBwLicense_License_MspCasbUsersLicense{}
+		t = &UpdateSiteBwLicense_Sites_UpdateSiteBwLicense_License_MspCasbUsersLicense{}
 	}
 	return t.Total
 }
 
-type UpdateSiteBwLicense_Site_UpdateSiteBwLicense_License_MspCasbBandwidthLicense struct {
+type UpdateSiteBwLicense_Sites_UpdateSiteBwLicense_License_MspCasbBandwidthLicense struct {
 	Total int64 "json:\"total\" graphql:\"total\""
 }
 
-func (t *UpdateSiteBwLicense_Site_UpdateSiteBwLicense_License_MspCasbBandwidthLicense) GetTotal() int64 {
+func (t *UpdateSiteBwLicense_Sites_UpdateSiteBwLicense_License_MspCasbBandwidthLicense) GetTotal() int64 {
 	if t == nil {
-		t = &UpdateSiteBwLicense_Site_UpdateSiteBwLicense_License_MspCasbBandwidthLicense{}
+		t = &UpdateSiteBwLicense_Sites_UpdateSiteBwLicense_License_MspCasbBandwidthLicense{}
 	}
 	return t.Total
 }
 
-type UpdateSiteBwLicense_Site_UpdateSiteBwLicense_License_MspDlpUsersLicense struct {
+type UpdateSiteBwLicense_Sites_UpdateSiteBwLicense_License_MspDlpUsersLicense struct {
 	Total int64 "json:\"total\" graphql:\"total\""
 }
 
-func (t *UpdateSiteBwLicense_Site_UpdateSiteBwLicense_License_MspDlpUsersLicense) GetTotal() int64 {
+func (t *UpdateSiteBwLicense_Sites_UpdateSiteBwLicense_License_MspDlpUsersLicense) GetTotal() int64 {
 	if t == nil {
-		t = &UpdateSiteBwLicense_Site_UpdateSiteBwLicense_License_MspDlpUsersLicense{}
+		t = &UpdateSiteBwLicense_Sites_UpdateSiteBwLicense_License_MspDlpUsersLicense{}
 	}
 	return t.Total
 }
 
-type UpdateSiteBwLicense_Site_UpdateSiteBwLicense_License_MspDlpBandwidthLicense struct {
+type UpdateSiteBwLicense_Sites_UpdateSiteBwLicense_License_MspDlpBandwidthLicense struct {
 	Total int64 "json:\"total\" graphql:\"total\""
 }
 
-func (t *UpdateSiteBwLicense_Site_UpdateSiteBwLicense_License_MspDlpBandwidthLicense) GetTotal() int64 {
+func (t *UpdateSiteBwLicense_Sites_UpdateSiteBwLicense_License_MspDlpBandwidthLicense) GetTotal() int64 {
 	if t == nil {
-		t = &UpdateSiteBwLicense_Site_UpdateSiteBwLicense_License_MspDlpBandwidthLicense{}
+		t = &UpdateSiteBwLicense_Sites_UpdateSiteBwLicense_License_MspDlpBandwidthLicense{}
 	}
 	return t.Total
 }
 
-type UpdateSiteBwLicense_Site_UpdateSiteBwLicense_License_MspTpUsersLicense struct {
+type UpdateSiteBwLicense_Sites_UpdateSiteBwLicense_License_MspTpUsersLicense struct {
 	Total int64 "json:\"total\" graphql:\"total\""
 }
 
-func (t *UpdateSiteBwLicense_Site_UpdateSiteBwLicense_License_MspTpUsersLicense) GetTotal() int64 {
+func (t *UpdateSiteBwLicense_Sites_UpdateSiteBwLicense_License_MspTpUsersLicense) GetTotal() int64 {
 	if t == nil {
-		t = &UpdateSiteBwLicense_Site_UpdateSiteBwLicense_License_MspTpUsersLicense{}
+		t = &UpdateSiteBwLicense_Sites_UpdateSiteBwLicense_License_MspTpUsersLicense{}
 	}
 	return t.Total
 }
 
-type UpdateSiteBwLicense_Site_UpdateSiteBwLicense_License_MspTpBandwidthLicense struct {
+type UpdateSiteBwLicense_Sites_UpdateSiteBwLicense_License_MspTpBandwidthLicense struct {
 	Total int64 "json:\"total\" graphql:\"total\""
 }
 
-func (t *UpdateSiteBwLicense_Site_UpdateSiteBwLicense_License_MspTpBandwidthLicense) GetTotal() int64 {
+func (t *UpdateSiteBwLicense_Sites_UpdateSiteBwLicense_License_MspTpBandwidthLicense) GetTotal() int64 {
 	if t == nil {
-		t = &UpdateSiteBwLicense_Site_UpdateSiteBwLicense_License_MspTpBandwidthLicense{}
+		t = &UpdateSiteBwLicense_Sites_UpdateSiteBwLicense_License_MspTpBandwidthLicense{}
 	}
 	return t.Total
 }
 
-type UpdateSiteBwLicense_Site_UpdateSiteBwLicense_License_MspAtpUsersLicense struct {
+type UpdateSiteBwLicense_Sites_UpdateSiteBwLicense_License_MspAtpUsersLicense struct {
 	Total int64 "json:\"total\" graphql:\"total\""
 }
 
-func (t *UpdateSiteBwLicense_Site_UpdateSiteBwLicense_License_MspAtpUsersLicense) GetTotal() int64 {
+func (t *UpdateSiteBwLicense_Sites_UpdateSiteBwLicense_License_MspAtpUsersLicense) GetTotal() int64 {
 	if t == nil {
-		t = &UpdateSiteBwLicense_Site_UpdateSiteBwLicense_License_MspAtpUsersLicense{}
+		t = &UpdateSiteBwLicense_Sites_UpdateSiteBwLicense_License_MspAtpUsersLicense{}
 	}
 	return t.Total
 }
 
-type UpdateSiteBwLicense_Site_UpdateSiteBwLicense_License_MspAtpBandwidthLicense struct {
+type UpdateSiteBwLicense_Sites_UpdateSiteBwLicense_License_MspAtpBandwidthLicense struct {
 	Total int64 "json:\"total\" graphql:\"total\""
 }
 
-func (t *UpdateSiteBwLicense_Site_UpdateSiteBwLicense_License_MspAtpBandwidthLicense) GetTotal() int64 {
+func (t *UpdateSiteBwLicense_Sites_UpdateSiteBwLicense_License_MspAtpBandwidthLicense) GetTotal() int64 {
 	if t == nil {
-		t = &UpdateSiteBwLicense_Site_UpdateSiteBwLicense_License_MspAtpBandwidthLicense{}
+		t = &UpdateSiteBwLicense_Sites_UpdateSiteBwLicense_License_MspAtpBandwidthLicense{}
 	}
 	return t.Total
 }
 
-type UpdateSiteBwLicense_Site_UpdateSiteBwLicense_License_MspXOpsUsersLicense struct {
+type UpdateSiteBwLicense_Sites_UpdateSiteBwLicense_License_MspXOpsUsersLicense struct {
 	Total int64 "json:\"total\" graphql:\"total\""
 }
 
-func (t *UpdateSiteBwLicense_Site_UpdateSiteBwLicense_License_MspXOpsUsersLicense) GetTotal() int64 {
+func (t *UpdateSiteBwLicense_Sites_UpdateSiteBwLicense_License_MspXOpsUsersLicense) GetTotal() int64 {
 	if t == nil {
-		t = &UpdateSiteBwLicense_Site_UpdateSiteBwLicense_License_MspXOpsUsersLicense{}
+		t = &UpdateSiteBwLicense_Sites_UpdateSiteBwLicense_License_MspXOpsUsersLicense{}
 	}
 	return t.Total
 }
 
-type UpdateSiteBwLicense_Site_UpdateSiteBwLicense_License_MspXOpsBandwidthLicense struct {
+type UpdateSiteBwLicense_Sites_UpdateSiteBwLicense_License_MspXOpsBandwidthLicense struct {
 	Total int64 "json:\"total\" graphql:\"total\""
 }
 
-func (t *UpdateSiteBwLicense_Site_UpdateSiteBwLicense_License_MspXOpsBandwidthLicense) GetTotal() int64 {
+func (t *UpdateSiteBwLicense_Sites_UpdateSiteBwLicense_License_MspXOpsBandwidthLicense) GetTotal() int64 {
 	if t == nil {
-		t = &UpdateSiteBwLicense_Site_UpdateSiteBwLicense_License_MspXOpsBandwidthLicense{}
+		t = &UpdateSiteBwLicense_Sites_UpdateSiteBwLicense_License_MspXOpsBandwidthLicense{}
 	}
 	return t.Total
 }
 
-type UpdateSiteBwLicense_Site_UpdateSiteBwLicense_License_MspMdrUsersLicense struct {
+type UpdateSiteBwLicense_Sites_UpdateSiteBwLicense_License_MspMdrUsersLicense struct {
 	Total int64 "json:\"total\" graphql:\"total\""
 }
 
-func (t *UpdateSiteBwLicense_Site_UpdateSiteBwLicense_License_MspMdrUsersLicense) GetTotal() int64 {
+func (t *UpdateSiteBwLicense_Sites_UpdateSiteBwLicense_License_MspMdrUsersLicense) GetTotal() int64 {
 	if t == nil {
-		t = &UpdateSiteBwLicense_Site_UpdateSiteBwLicense_License_MspMdrUsersLicense{}
+		t = &UpdateSiteBwLicense_Sites_UpdateSiteBwLicense_License_MspMdrUsersLicense{}
 	}
 	return t.Total
 }
 
-type UpdateSiteBwLicense_Site_UpdateSiteBwLicense_License_MspMdrBandwidthLicense struct {
+type UpdateSiteBwLicense_Sites_UpdateSiteBwLicense_License_MspMdrBandwidthLicense struct {
 	Total int64 "json:\"total\" graphql:\"total\""
 }
 
-func (t *UpdateSiteBwLicense_Site_UpdateSiteBwLicense_License_MspMdrBandwidthLicense) GetTotal() int64 {
+func (t *UpdateSiteBwLicense_Sites_UpdateSiteBwLicense_License_MspMdrBandwidthLicense) GetTotal() int64 {
 	if t == nil {
-		t = &UpdateSiteBwLicense_Site_UpdateSiteBwLicense_License_MspMdrBandwidthLicense{}
+		t = &UpdateSiteBwLicense_Sites_UpdateSiteBwLicense_License_MspMdrBandwidthLicense{}
 	}
 	return t.Total
 }
 
-type UpdateSiteBwLicense_Site_UpdateSiteBwLicense_License struct {
-	AISecurityApplicationsLicense UpdateSiteBwLicense_Site_UpdateSiteBwLicense_License_AISecurityApplicationsLicense "graphql:\"... on AISecurityApplicationsLicense\""
-	AISecurityUsersLicense        UpdateSiteBwLicense_Site_UpdateSiteBwLicense_License_AISecurityUsersLicense        "graphql:\"... on AISecurityUsersLicense\""
-	AssetsSecurityLicense         UpdateSiteBwLicense_Site_UpdateSiteBwLicense_License_AssetsSecurityLicense         "graphql:\"... on AssetsSecurityLicense\""
-	DataLakeLicense               UpdateSiteBwLicense_Site_UpdateSiteBwLicense_License_DataLakeLicense               "graphql:\"... on DataLakeLicense\""
-	DemLicense                    UpdateSiteBwLicense_Site_UpdateSiteBwLicense_License_DemLicense                    "graphql:\"... on DemLicense\""
-	EndpointProtectionLicense     UpdateSiteBwLicense_Site_UpdateSiteBwLicense_License_EndpointProtectionLicense     "graphql:\"... on EndpointProtectionLicense\""
-	IlmmLicense                   UpdateSiteBwLicense_Site_UpdateSiteBwLicense_License_IlmmLicense                   "graphql:\"... on IlmmLicense\""
-	MspAtpBandwidthLicense        UpdateSiteBwLicense_Site_UpdateSiteBwLicense_License_MspAtpBandwidthLicense        "graphql:\"... on MspAtpBandwidthLicense\""
-	MspAtpUsersLicense            UpdateSiteBwLicense_Site_UpdateSiteBwLicense_License_MspAtpUsersLicense            "graphql:\"... on MspAtpUsersLicense\""
-	MspCasbBandwidthLicense       UpdateSiteBwLicense_Site_UpdateSiteBwLicense_License_MspCasbBandwidthLicense       "graphql:\"... on MspCasbBandwidthLicense\""
-	MspCasbUsersLicense           UpdateSiteBwLicense_Site_UpdateSiteBwLicense_License_MspCasbUsersLicense           "graphql:\"... on MspCasbUsersLicense\""
-	MspDlpBandwidthLicense        UpdateSiteBwLicense_Site_UpdateSiteBwLicense_License_MspDlpBandwidthLicense        "graphql:\"... on MspDlpBandwidthLicense\""
-	MspDlpUsersLicense            UpdateSiteBwLicense_Site_UpdateSiteBwLicense_License_MspDlpUsersLicense            "graphql:\"... on MspDlpUsersLicense\""
-	MspMdrBandwidthLicense        UpdateSiteBwLicense_Site_UpdateSiteBwLicense_License_MspMdrBandwidthLicense        "graphql:\"... on MspMdrBandwidthLicense\""
-	MspMdrUsersLicense            UpdateSiteBwLicense_Site_UpdateSiteBwLicense_License_MspMdrUsersLicense            "graphql:\"... on MspMdrUsersLicense\""
-	MspTpBandwidthLicense         UpdateSiteBwLicense_Site_UpdateSiteBwLicense_License_MspTpBandwidthLicense         "graphql:\"... on MspTpBandwidthLicense\""
-	MspTpUsersLicense             UpdateSiteBwLicense_Site_UpdateSiteBwLicense_License_MspTpUsersLicense             "graphql:\"... on MspTpUsersLicense\""
-	MspXOpsBandwidthLicense       UpdateSiteBwLicense_Site_UpdateSiteBwLicense_License_MspXOpsBandwidthLicense       "graphql:\"... on MspXOpsBandwidthLicense\""
-	MspXOpsUsersLicense           UpdateSiteBwLicense_Site_UpdateSiteBwLicense_License_MspXOpsUsersLicense           "graphql:\"... on MspXOpsUsersLicense\""
-	PooledBandwidthLicense        UpdateSiteBwLicense_Site_UpdateSiteBwLicense_License_PooledBandwidthLicense        "graphql:\"... on PooledBandwidthLicense\""
-	PublicIpsLicense              UpdateSiteBwLicense_Site_UpdateSiteBwLicense_License_PublicIpsLicense              "graphql:\"... on PublicIpsLicense\""
-	SaasSecurityAPILicense        UpdateSiteBwLicense_Site_UpdateSiteBwLicense_License_SaasSecurityAPILicense        "graphql:\"... on SaasSecurityApiLicense\""
-	SiteLicense                   UpdateSiteBwLicense_Site_UpdateSiteBwLicense_License_SiteLicense                   "graphql:\"... on SiteLicense\""
-	XdrProLicense                 UpdateSiteBwLicense_Site_UpdateSiteBwLicense_License_XdrProLicense                 "graphql:\"... on XdrProLicense\""
-	ZtnaUsersLicense              UpdateSiteBwLicense_Site_UpdateSiteBwLicense_License_ZtnaUsersLicense              "graphql:\"... on ZtnaUsersLicense\""
-	Description                   *string                                                                            "json:\"description,omitempty\" graphql:\"description\""
-	ExpirationDate                string                                                                             "json:\"expirationDate\" graphql:\"expirationDate\""
-	ID                            *string                                                                            "json:\"id,omitempty\" graphql:\"id\""
-	LastUpdated                   *string                                                                            "json:\"lastUpdated,omitempty\" graphql:\"lastUpdated\""
-	Plan                          cato_models.LicensePlan                                                            "json:\"plan\" graphql:\"plan\""
-	Sku                           cato_models.LicenseSku                                                             "json:\"sku\" graphql:\"sku\""
-	StartDate                     *string                                                                            "json:\"startDate,omitempty\" graphql:\"startDate\""
-	Status                        cato_models.LicenseStatus                                                          "json:\"status\" graphql:\"status\""
+type UpdateSiteBwLicense_Sites_UpdateSiteBwLicense_License struct {
+	AISecurityApplicationsLicense UpdateSiteBwLicense_Sites_UpdateSiteBwLicense_License_AISecurityApplicationsLicense "graphql:\"... on AISecurityApplicationsLicense\""
+	AISecurityUsersLicense        UpdateSiteBwLicense_Sites_UpdateSiteBwLicense_License_AISecurityUsersLicense        "graphql:\"... on AISecurityUsersLicense\""
+	AssetsSecurityLicense         UpdateSiteBwLicense_Sites_UpdateSiteBwLicense_License_AssetsSecurityLicense         "graphql:\"... on AssetsSecurityLicense\""
+	DataLakeLicense               UpdateSiteBwLicense_Sites_UpdateSiteBwLicense_License_DataLakeLicense               "graphql:\"... on DataLakeLicense\""
+	DemLicense                    UpdateSiteBwLicense_Sites_UpdateSiteBwLicense_License_DemLicense                    "graphql:\"... on DemLicense\""
+	EndpointProtectionLicense     UpdateSiteBwLicense_Sites_UpdateSiteBwLicense_License_EndpointProtectionLicense     "graphql:\"... on EndpointProtectionLicense\""
+	IlmmLicense                   UpdateSiteBwLicense_Sites_UpdateSiteBwLicense_License_IlmmLicense                   "graphql:\"... on IlmmLicense\""
+	MspAtpBandwidthLicense        UpdateSiteBwLicense_Sites_UpdateSiteBwLicense_License_MspAtpBandwidthLicense        "graphql:\"... on MspAtpBandwidthLicense\""
+	MspAtpUsersLicense            UpdateSiteBwLicense_Sites_UpdateSiteBwLicense_License_MspAtpUsersLicense            "graphql:\"... on MspAtpUsersLicense\""
+	MspCasbBandwidthLicense       UpdateSiteBwLicense_Sites_UpdateSiteBwLicense_License_MspCasbBandwidthLicense       "graphql:\"... on MspCasbBandwidthLicense\""
+	MspCasbUsersLicense           UpdateSiteBwLicense_Sites_UpdateSiteBwLicense_License_MspCasbUsersLicense           "graphql:\"... on MspCasbUsersLicense\""
+	MspDlpBandwidthLicense        UpdateSiteBwLicense_Sites_UpdateSiteBwLicense_License_MspDlpBandwidthLicense        "graphql:\"... on MspDlpBandwidthLicense\""
+	MspDlpUsersLicense            UpdateSiteBwLicense_Sites_UpdateSiteBwLicense_License_MspDlpUsersLicense            "graphql:\"... on MspDlpUsersLicense\""
+	MspMdrBandwidthLicense        UpdateSiteBwLicense_Sites_UpdateSiteBwLicense_License_MspMdrBandwidthLicense        "graphql:\"... on MspMdrBandwidthLicense\""
+	MspMdrUsersLicense            UpdateSiteBwLicense_Sites_UpdateSiteBwLicense_License_MspMdrUsersLicense            "graphql:\"... on MspMdrUsersLicense\""
+	MspTpBandwidthLicense         UpdateSiteBwLicense_Sites_UpdateSiteBwLicense_License_MspTpBandwidthLicense         "graphql:\"... on MspTpBandwidthLicense\""
+	MspTpUsersLicense             UpdateSiteBwLicense_Sites_UpdateSiteBwLicense_License_MspTpUsersLicense             "graphql:\"... on MspTpUsersLicense\""
+	MspXOpsBandwidthLicense       UpdateSiteBwLicense_Sites_UpdateSiteBwLicense_License_MspXOpsBandwidthLicense       "graphql:\"... on MspXOpsBandwidthLicense\""
+	MspXOpsUsersLicense           UpdateSiteBwLicense_Sites_UpdateSiteBwLicense_License_MspXOpsUsersLicense           "graphql:\"... on MspXOpsUsersLicense\""
+	PooledBandwidthLicense        UpdateSiteBwLicense_Sites_UpdateSiteBwLicense_License_PooledBandwidthLicense        "graphql:\"... on PooledBandwidthLicense\""
+	PublicIpsLicense              UpdateSiteBwLicense_Sites_UpdateSiteBwLicense_License_PublicIpsLicense              "graphql:\"... on PublicIpsLicense\""
+	SaasSecurityAPILicense        UpdateSiteBwLicense_Sites_UpdateSiteBwLicense_License_SaasSecurityAPILicense        "graphql:\"... on SaasSecurityApiLicense\""
+	SiteLicense                   UpdateSiteBwLicense_Sites_UpdateSiteBwLicense_License_SiteLicense                   "graphql:\"... on SiteLicense\""
+	XdrProLicense                 UpdateSiteBwLicense_Sites_UpdateSiteBwLicense_License_XdrProLicense                 "graphql:\"... on XdrProLicense\""
+	ZtnaUsersLicense              UpdateSiteBwLicense_Sites_UpdateSiteBwLicense_License_ZtnaUsersLicense              "graphql:\"... on ZtnaUsersLicense\""
+	Description                   *string                                                                             "json:\"description,omitempty\" graphql:\"description\""
+	ExpirationDate                string                                                                              "json:\"expirationDate\" graphql:\"expirationDate\""
+	ID                            *string                                                                             "json:\"id,omitempty\" graphql:\"id\""
+	LastUpdated                   *string                                                                             "json:\"lastUpdated,omitempty\" graphql:\"lastUpdated\""
+	Plan                          cato_models.LicensePlan                                                             "json:\"plan\" graphql:\"plan\""
+	Sku                           cato_models.LicenseSku                                                              "json:\"sku\" graphql:\"sku\""
+	StartDate                     *string                                                                             "json:\"startDate,omitempty\" graphql:\"startDate\""
+	Status                        cato_models.LicenseStatus                                                           "json:\"status\" graphql:\"status\""
 }
 
-func (t *UpdateSiteBwLicense_Site_UpdateSiteBwLicense_License) GetAISecurityApplicationsLicense() *UpdateSiteBwLicense_Site_UpdateSiteBwLicense_License_AISecurityApplicationsLicense {
+func (t *UpdateSiteBwLicense_Sites_UpdateSiteBwLicense_License) GetAISecurityApplicationsLicense() *UpdateSiteBwLicense_Sites_UpdateSiteBwLicense_License_AISecurityApplicationsLicense {
 	if t == nil {
-		t = &UpdateSiteBwLicense_Site_UpdateSiteBwLicense_License{}
+		t = &UpdateSiteBwLicense_Sites_UpdateSiteBwLicense_License{}
 	}
 	return &t.AISecurityApplicationsLicense
 }
-func (t *UpdateSiteBwLicense_Site_UpdateSiteBwLicense_License) GetAISecurityUsersLicense() *UpdateSiteBwLicense_Site_UpdateSiteBwLicense_License_AISecurityUsersLicense {
+func (t *UpdateSiteBwLicense_Sites_UpdateSiteBwLicense_License) GetAISecurityUsersLicense() *UpdateSiteBwLicense_Sites_UpdateSiteBwLicense_License_AISecurityUsersLicense {
 	if t == nil {
-		t = &UpdateSiteBwLicense_Site_UpdateSiteBwLicense_License{}
+		t = &UpdateSiteBwLicense_Sites_UpdateSiteBwLicense_License{}
 	}
 	return &t.AISecurityUsersLicense
 }
-func (t *UpdateSiteBwLicense_Site_UpdateSiteBwLicense_License) GetAssetsSecurityLicense() *UpdateSiteBwLicense_Site_UpdateSiteBwLicense_License_AssetsSecurityLicense {
+func (t *UpdateSiteBwLicense_Sites_UpdateSiteBwLicense_License) GetAssetsSecurityLicense() *UpdateSiteBwLicense_Sites_UpdateSiteBwLicense_License_AssetsSecurityLicense {
 	if t == nil {
-		t = &UpdateSiteBwLicense_Site_UpdateSiteBwLicense_License{}
+		t = &UpdateSiteBwLicense_Sites_UpdateSiteBwLicense_License{}
 	}
 	return &t.AssetsSecurityLicense
 }
-func (t *UpdateSiteBwLicense_Site_UpdateSiteBwLicense_License) GetDataLakeLicense() *UpdateSiteBwLicense_Site_UpdateSiteBwLicense_License_DataLakeLicense {
+func (t *UpdateSiteBwLicense_Sites_UpdateSiteBwLicense_License) GetDataLakeLicense() *UpdateSiteBwLicense_Sites_UpdateSiteBwLicense_License_DataLakeLicense {
 	if t == nil {
-		t = &UpdateSiteBwLicense_Site_UpdateSiteBwLicense_License{}
+		t = &UpdateSiteBwLicense_Sites_UpdateSiteBwLicense_License{}
 	}
 	return &t.DataLakeLicense
 }
-func (t *UpdateSiteBwLicense_Site_UpdateSiteBwLicense_License) GetDemLicense() *UpdateSiteBwLicense_Site_UpdateSiteBwLicense_License_DemLicense {
+func (t *UpdateSiteBwLicense_Sites_UpdateSiteBwLicense_License) GetDemLicense() *UpdateSiteBwLicense_Sites_UpdateSiteBwLicense_License_DemLicense {
 	if t == nil {
-		t = &UpdateSiteBwLicense_Site_UpdateSiteBwLicense_License{}
+		t = &UpdateSiteBwLicense_Sites_UpdateSiteBwLicense_License{}
 	}
 	return &t.DemLicense
 }
-func (t *UpdateSiteBwLicense_Site_UpdateSiteBwLicense_License) GetEndpointProtectionLicense() *UpdateSiteBwLicense_Site_UpdateSiteBwLicense_License_EndpointProtectionLicense {
+func (t *UpdateSiteBwLicense_Sites_UpdateSiteBwLicense_License) GetEndpointProtectionLicense() *UpdateSiteBwLicense_Sites_UpdateSiteBwLicense_License_EndpointProtectionLicense {
 	if t == nil {
-		t = &UpdateSiteBwLicense_Site_UpdateSiteBwLicense_License{}
+		t = &UpdateSiteBwLicense_Sites_UpdateSiteBwLicense_License{}
 	}
 	return &t.EndpointProtectionLicense
 }
-func (t *UpdateSiteBwLicense_Site_UpdateSiteBwLicense_License) GetIlmmLicense() *UpdateSiteBwLicense_Site_UpdateSiteBwLicense_License_IlmmLicense {
+func (t *UpdateSiteBwLicense_Sites_UpdateSiteBwLicense_License) GetIlmmLicense() *UpdateSiteBwLicense_Sites_UpdateSiteBwLicense_License_IlmmLicense {
 	if t == nil {
-		t = &UpdateSiteBwLicense_Site_UpdateSiteBwLicense_License{}
+		t = &UpdateSiteBwLicense_Sites_UpdateSiteBwLicense_License{}
 	}
 	return &t.IlmmLicense
 }
-func (t *UpdateSiteBwLicense_Site_UpdateSiteBwLicense_License) GetMspAtpBandwidthLicense() *UpdateSiteBwLicense_Site_UpdateSiteBwLicense_License_MspAtpBandwidthLicense {
+func (t *UpdateSiteBwLicense_Sites_UpdateSiteBwLicense_License) GetMspAtpBandwidthLicense() *UpdateSiteBwLicense_Sites_UpdateSiteBwLicense_License_MspAtpBandwidthLicense {
 	if t == nil {
-		t = &UpdateSiteBwLicense_Site_UpdateSiteBwLicense_License{}
+		t = &UpdateSiteBwLicense_Sites_UpdateSiteBwLicense_License{}
 	}
 	return &t.MspAtpBandwidthLicense
 }
-func (t *UpdateSiteBwLicense_Site_UpdateSiteBwLicense_License) GetMspAtpUsersLicense() *UpdateSiteBwLicense_Site_UpdateSiteBwLicense_License_MspAtpUsersLicense {
+func (t *UpdateSiteBwLicense_Sites_UpdateSiteBwLicense_License) GetMspAtpUsersLicense() *UpdateSiteBwLicense_Sites_UpdateSiteBwLicense_License_MspAtpUsersLicense {
 	if t == nil {
-		t = &UpdateSiteBwLicense_Site_UpdateSiteBwLicense_License{}
+		t = &UpdateSiteBwLicense_Sites_UpdateSiteBwLicense_License{}
 	}
 	return &t.MspAtpUsersLicense
 }
-func (t *UpdateSiteBwLicense_Site_UpdateSiteBwLicense_License) GetMspCasbBandwidthLicense() *UpdateSiteBwLicense_Site_UpdateSiteBwLicense_License_MspCasbBandwidthLicense {
+func (t *UpdateSiteBwLicense_Sites_UpdateSiteBwLicense_License) GetMspCasbBandwidthLicense() *UpdateSiteBwLicense_Sites_UpdateSiteBwLicense_License_MspCasbBandwidthLicense {
 	if t == nil {
-		t = &UpdateSiteBwLicense_Site_UpdateSiteBwLicense_License{}
+		t = &UpdateSiteBwLicense_Sites_UpdateSiteBwLicense_License{}
 	}
 	return &t.MspCasbBandwidthLicense
 }
-func (t *UpdateSiteBwLicense_Site_UpdateSiteBwLicense_License) GetMspCasbUsersLicense() *UpdateSiteBwLicense_Site_UpdateSiteBwLicense_License_MspCasbUsersLicense {
+func (t *UpdateSiteBwLicense_Sites_UpdateSiteBwLicense_License) GetMspCasbUsersLicense() *UpdateSiteBwLicense_Sites_UpdateSiteBwLicense_License_MspCasbUsersLicense {
 	if t == nil {
-		t = &UpdateSiteBwLicense_Site_UpdateSiteBwLicense_License{}
+		t = &UpdateSiteBwLicense_Sites_UpdateSiteBwLicense_License{}
 	}
 	return &t.MspCasbUsersLicense
 }
-func (t *UpdateSiteBwLicense_Site_UpdateSiteBwLicense_License) GetMspDlpBandwidthLicense() *UpdateSiteBwLicense_Site_UpdateSiteBwLicense_License_MspDlpBandwidthLicense {
+func (t *UpdateSiteBwLicense_Sites_UpdateSiteBwLicense_License) GetMspDlpBandwidthLicense() *UpdateSiteBwLicense_Sites_UpdateSiteBwLicense_License_MspDlpBandwidthLicense {
 	if t == nil {
-		t = &UpdateSiteBwLicense_Site_UpdateSiteBwLicense_License{}
+		t = &UpdateSiteBwLicense_Sites_UpdateSiteBwLicense_License{}
 	}
 	return &t.MspDlpBandwidthLicense
 }
-func (t *UpdateSiteBwLicense_Site_UpdateSiteBwLicense_License) GetMspDlpUsersLicense() *UpdateSiteBwLicense_Site_UpdateSiteBwLicense_License_MspDlpUsersLicense {
+func (t *UpdateSiteBwLicense_Sites_UpdateSiteBwLicense_License) GetMspDlpUsersLicense() *UpdateSiteBwLicense_Sites_UpdateSiteBwLicense_License_MspDlpUsersLicense {
 	if t == nil {
-		t = &UpdateSiteBwLicense_Site_UpdateSiteBwLicense_License{}
+		t = &UpdateSiteBwLicense_Sites_UpdateSiteBwLicense_License{}
 	}
 	return &t.MspDlpUsersLicense
 }
-func (t *UpdateSiteBwLicense_Site_UpdateSiteBwLicense_License) GetMspMdrBandwidthLicense() *UpdateSiteBwLicense_Site_UpdateSiteBwLicense_License_MspMdrBandwidthLicense {
+func (t *UpdateSiteBwLicense_Sites_UpdateSiteBwLicense_License) GetMspMdrBandwidthLicense() *UpdateSiteBwLicense_Sites_UpdateSiteBwLicense_License_MspMdrBandwidthLicense {
 	if t == nil {
-		t = &UpdateSiteBwLicense_Site_UpdateSiteBwLicense_License{}
+		t = &UpdateSiteBwLicense_Sites_UpdateSiteBwLicense_License{}
 	}
 	return &t.MspMdrBandwidthLicense
 }
-func (t *UpdateSiteBwLicense_Site_UpdateSiteBwLicense_License) GetMspMdrUsersLicense() *UpdateSiteBwLicense_Site_UpdateSiteBwLicense_License_MspMdrUsersLicense {
+func (t *UpdateSiteBwLicense_Sites_UpdateSiteBwLicense_License) GetMspMdrUsersLicense() *UpdateSiteBwLicense_Sites_UpdateSiteBwLicense_License_MspMdrUsersLicense {
 	if t == nil {
-		t = &UpdateSiteBwLicense_Site_UpdateSiteBwLicense_License{}
+		t = &UpdateSiteBwLicense_Sites_UpdateSiteBwLicense_License{}
 	}
 	return &t.MspMdrUsersLicense
 }
-func (t *UpdateSiteBwLicense_Site_UpdateSiteBwLicense_License) GetMspTpBandwidthLicense() *UpdateSiteBwLicense_Site_UpdateSiteBwLicense_License_MspTpBandwidthLicense {
+func (t *UpdateSiteBwLicense_Sites_UpdateSiteBwLicense_License) GetMspTpBandwidthLicense() *UpdateSiteBwLicense_Sites_UpdateSiteBwLicense_License_MspTpBandwidthLicense {
 	if t == nil {
-		t = &UpdateSiteBwLicense_Site_UpdateSiteBwLicense_License{}
+		t = &UpdateSiteBwLicense_Sites_UpdateSiteBwLicense_License{}
 	}
 	return &t.MspTpBandwidthLicense
 }
-func (t *UpdateSiteBwLicense_Site_UpdateSiteBwLicense_License) GetMspTpUsersLicense() *UpdateSiteBwLicense_Site_UpdateSiteBwLicense_License_MspTpUsersLicense {
+func (t *UpdateSiteBwLicense_Sites_UpdateSiteBwLicense_License) GetMspTpUsersLicense() *UpdateSiteBwLicense_Sites_UpdateSiteBwLicense_License_MspTpUsersLicense {
 	if t == nil {
-		t = &UpdateSiteBwLicense_Site_UpdateSiteBwLicense_License{}
+		t = &UpdateSiteBwLicense_Sites_UpdateSiteBwLicense_License{}
 	}
 	return &t.MspTpUsersLicense
 }
-func (t *UpdateSiteBwLicense_Site_UpdateSiteBwLicense_License) GetMspXOpsBandwidthLicense() *UpdateSiteBwLicense_Site_UpdateSiteBwLicense_License_MspXOpsBandwidthLicense {
+func (t *UpdateSiteBwLicense_Sites_UpdateSiteBwLicense_License) GetMspXOpsBandwidthLicense() *UpdateSiteBwLicense_Sites_UpdateSiteBwLicense_License_MspXOpsBandwidthLicense {
 	if t == nil {
-		t = &UpdateSiteBwLicense_Site_UpdateSiteBwLicense_License{}
+		t = &UpdateSiteBwLicense_Sites_UpdateSiteBwLicense_License{}
 	}
 	return &t.MspXOpsBandwidthLicense
 }
-func (t *UpdateSiteBwLicense_Site_UpdateSiteBwLicense_License) GetMspXOpsUsersLicense() *UpdateSiteBwLicense_Site_UpdateSiteBwLicense_License_MspXOpsUsersLicense {
+func (t *UpdateSiteBwLicense_Sites_UpdateSiteBwLicense_License) GetMspXOpsUsersLicense() *UpdateSiteBwLicense_Sites_UpdateSiteBwLicense_License_MspXOpsUsersLicense {
 	if t == nil {
-		t = &UpdateSiteBwLicense_Site_UpdateSiteBwLicense_License{}
+		t = &UpdateSiteBwLicense_Sites_UpdateSiteBwLicense_License{}
 	}
 	return &t.MspXOpsUsersLicense
 }
-func (t *UpdateSiteBwLicense_Site_UpdateSiteBwLicense_License) GetPooledBandwidthLicense() *UpdateSiteBwLicense_Site_UpdateSiteBwLicense_License_PooledBandwidthLicense {
+func (t *UpdateSiteBwLicense_Sites_UpdateSiteBwLicense_License) GetPooledBandwidthLicense() *UpdateSiteBwLicense_Sites_UpdateSiteBwLicense_License_PooledBandwidthLicense {
 	if t == nil {
-		t = &UpdateSiteBwLicense_Site_UpdateSiteBwLicense_License{}
+		t = &UpdateSiteBwLicense_Sites_UpdateSiteBwLicense_License{}
 	}
 	return &t.PooledBandwidthLicense
 }
-func (t *UpdateSiteBwLicense_Site_UpdateSiteBwLicense_License) GetPublicIpsLicense() *UpdateSiteBwLicense_Site_UpdateSiteBwLicense_License_PublicIpsLicense {
+func (t *UpdateSiteBwLicense_Sites_UpdateSiteBwLicense_License) GetPublicIpsLicense() *UpdateSiteBwLicense_Sites_UpdateSiteBwLicense_License_PublicIpsLicense {
 	if t == nil {
-		t = &UpdateSiteBwLicense_Site_UpdateSiteBwLicense_License{}
+		t = &UpdateSiteBwLicense_Sites_UpdateSiteBwLicense_License{}
 	}
 	return &t.PublicIpsLicense
 }
-func (t *UpdateSiteBwLicense_Site_UpdateSiteBwLicense_License) GetSaasSecurityAPILicense() *UpdateSiteBwLicense_Site_UpdateSiteBwLicense_License_SaasSecurityAPILicense {
+func (t *UpdateSiteBwLicense_Sites_UpdateSiteBwLicense_License) GetSaasSecurityAPILicense() *UpdateSiteBwLicense_Sites_UpdateSiteBwLicense_License_SaasSecurityAPILicense {
 	if t == nil {
-		t = &UpdateSiteBwLicense_Site_UpdateSiteBwLicense_License{}
+		t = &UpdateSiteBwLicense_Sites_UpdateSiteBwLicense_License{}
 	}
 	return &t.SaasSecurityAPILicense
 }
-func (t *UpdateSiteBwLicense_Site_UpdateSiteBwLicense_License) GetSiteLicense() *UpdateSiteBwLicense_Site_UpdateSiteBwLicense_License_SiteLicense {
+func (t *UpdateSiteBwLicense_Sites_UpdateSiteBwLicense_License) GetSiteLicense() *UpdateSiteBwLicense_Sites_UpdateSiteBwLicense_License_SiteLicense {
 	if t == nil {
-		t = &UpdateSiteBwLicense_Site_UpdateSiteBwLicense_License{}
+		t = &UpdateSiteBwLicense_Sites_UpdateSiteBwLicense_License{}
 	}
 	return &t.SiteLicense
 }
-func (t *UpdateSiteBwLicense_Site_UpdateSiteBwLicense_License) GetXdrProLicense() *UpdateSiteBwLicense_Site_UpdateSiteBwLicense_License_XdrProLicense {
+func (t *UpdateSiteBwLicense_Sites_UpdateSiteBwLicense_License) GetXdrProLicense() *UpdateSiteBwLicense_Sites_UpdateSiteBwLicense_License_XdrProLicense {
 	if t == nil {
-		t = &UpdateSiteBwLicense_Site_UpdateSiteBwLicense_License{}
+		t = &UpdateSiteBwLicense_Sites_UpdateSiteBwLicense_License{}
 	}
 	return &t.XdrProLicense
 }
-func (t *UpdateSiteBwLicense_Site_UpdateSiteBwLicense_License) GetZtnaUsersLicense() *UpdateSiteBwLicense_Site_UpdateSiteBwLicense_License_ZtnaUsersLicense {
+func (t *UpdateSiteBwLicense_Sites_UpdateSiteBwLicense_License) GetZtnaUsersLicense() *UpdateSiteBwLicense_Sites_UpdateSiteBwLicense_License_ZtnaUsersLicense {
 	if t == nil {
-		t = &UpdateSiteBwLicense_Site_UpdateSiteBwLicense_License{}
+		t = &UpdateSiteBwLicense_Sites_UpdateSiteBwLicense_License{}
 	}
 	return &t.ZtnaUsersLicense
 }
-func (t *UpdateSiteBwLicense_Site_UpdateSiteBwLicense_License) GetDescription() *string {
+func (t *UpdateSiteBwLicense_Sites_UpdateSiteBwLicense_License) GetDescription() *string {
 	if t == nil {
-		t = &UpdateSiteBwLicense_Site_UpdateSiteBwLicense_License{}
+		t = &UpdateSiteBwLicense_Sites_UpdateSiteBwLicense_License{}
 	}
 	return t.Description
 }
-func (t *UpdateSiteBwLicense_Site_UpdateSiteBwLicense_License) GetExpirationDate() string {
+func (t *UpdateSiteBwLicense_Sites_UpdateSiteBwLicense_License) GetExpirationDate() string {
 	if t == nil {
-		t = &UpdateSiteBwLicense_Site_UpdateSiteBwLicense_License{}
+		t = &UpdateSiteBwLicense_Sites_UpdateSiteBwLicense_License{}
 	}
 	return t.ExpirationDate
 }
-func (t *UpdateSiteBwLicense_Site_UpdateSiteBwLicense_License) GetID() *string {
+func (t *UpdateSiteBwLicense_Sites_UpdateSiteBwLicense_License) GetID() *string {
 	if t == nil {
-		t = &UpdateSiteBwLicense_Site_UpdateSiteBwLicense_License{}
+		t = &UpdateSiteBwLicense_Sites_UpdateSiteBwLicense_License{}
 	}
 	return t.ID
 }
-func (t *UpdateSiteBwLicense_Site_UpdateSiteBwLicense_License) GetLastUpdated() *string {
+func (t *UpdateSiteBwLicense_Sites_UpdateSiteBwLicense_License) GetLastUpdated() *string {
 	if t == nil {
-		t = &UpdateSiteBwLicense_Site_UpdateSiteBwLicense_License{}
+		t = &UpdateSiteBwLicense_Sites_UpdateSiteBwLicense_License{}
 	}
 	return t.LastUpdated
 }
-func (t *UpdateSiteBwLicense_Site_UpdateSiteBwLicense_License) GetPlan() *cato_models.LicensePlan {
+func (t *UpdateSiteBwLicense_Sites_UpdateSiteBwLicense_License) GetPlan() *cato_models.LicensePlan {
 	if t == nil {
-		t = &UpdateSiteBwLicense_Site_UpdateSiteBwLicense_License{}
+		t = &UpdateSiteBwLicense_Sites_UpdateSiteBwLicense_License{}
 	}
 	return &t.Plan
 }
-func (t *UpdateSiteBwLicense_Site_UpdateSiteBwLicense_License) GetSku() *cato_models.LicenseSku {
+func (t *UpdateSiteBwLicense_Sites_UpdateSiteBwLicense_License) GetSku() *cato_models.LicenseSku {
 	if t == nil {
-		t = &UpdateSiteBwLicense_Site_UpdateSiteBwLicense_License{}
+		t = &UpdateSiteBwLicense_Sites_UpdateSiteBwLicense_License{}
 	}
 	return &t.Sku
 }
-func (t *UpdateSiteBwLicense_Site_UpdateSiteBwLicense_License) GetStartDate() *string {
+func (t *UpdateSiteBwLicense_Sites_UpdateSiteBwLicense_License) GetStartDate() *string {
 	if t == nil {
-		t = &UpdateSiteBwLicense_Site_UpdateSiteBwLicense_License{}
+		t = &UpdateSiteBwLicense_Sites_UpdateSiteBwLicense_License{}
 	}
 	return t.StartDate
 }
-func (t *UpdateSiteBwLicense_Site_UpdateSiteBwLicense_License) GetStatus() *cato_models.LicenseStatus {
+func (t *UpdateSiteBwLicense_Sites_UpdateSiteBwLicense_License) GetStatus() *cato_models.LicenseStatus {
 	if t == nil {
-		t = &UpdateSiteBwLicense_Site_UpdateSiteBwLicense_License{}
+		t = &UpdateSiteBwLicense_Sites_UpdateSiteBwLicense_License{}
 	}
 	return &t.Status
 }
 
-type UpdateSiteBwLicense_Site_UpdateSiteBwLicense struct {
-	License UpdateSiteBwLicense_Site_UpdateSiteBwLicense_License "json:\"license\" graphql:\"license\""
+type UpdateSiteBwLicense_Sites_UpdateSiteBwLicense struct {
+	License UpdateSiteBwLicense_Sites_UpdateSiteBwLicense_License "json:\"license\" graphql:\"license\""
 }
 
-func (t *UpdateSiteBwLicense_Site_UpdateSiteBwLicense) GetLicense() *UpdateSiteBwLicense_Site_UpdateSiteBwLicense_License {
+func (t *UpdateSiteBwLicense_Sites_UpdateSiteBwLicense) GetLicense() *UpdateSiteBwLicense_Sites_UpdateSiteBwLicense_License {
 	if t == nil {
-		t = &UpdateSiteBwLicense_Site_UpdateSiteBwLicense{}
+		t = &UpdateSiteBwLicense_Sites_UpdateSiteBwLicense{}
 	}
 	return &t.License
 }
 
-type UpdateSiteBwLicense_Site struct {
-	UpdateSiteBwLicense *UpdateSiteBwLicense_Site_UpdateSiteBwLicense "json:\"updateSiteBwLicense,omitempty\" graphql:\"updateSiteBwLicense\""
+type UpdateSiteBwLicense_Sites struct {
+	UpdateSiteBwLicense *UpdateSiteBwLicense_Sites_UpdateSiteBwLicense "json:\"updateSiteBwLicense,omitempty\" graphql:\"updateSiteBwLicense\""
 }
 
-func (t *UpdateSiteBwLicense_Site) GetUpdateSiteBwLicense() *UpdateSiteBwLicense_Site_UpdateSiteBwLicense {
+func (t *UpdateSiteBwLicense_Sites) GetUpdateSiteBwLicense() *UpdateSiteBwLicense_Sites_UpdateSiteBwLicense {
 	if t == nil {
-		t = &UpdateSiteBwLicense_Site{}
+		t = &UpdateSiteBwLicense_Sites{}
 	}
 	return t.UpdateSiteBwLicense
 }
@@ -353396,14 +353396,14 @@ func (t *SiteAddStaticHost) GetSite() *SiteAddStaticHost_Site {
 }
 
 type AssignSiteBwLicense struct {
-	Site AssignSiteBwLicense_Site "json:\"site\" graphql:\"site\""
+	Sites AssignSiteBwLicense_Sites "json:\"sites\" graphql:\"sites\""
 }
 
-func (t *AssignSiteBwLicense) GetSite() *AssignSiteBwLicense_Site {
+func (t *AssignSiteBwLicense) GetSites() *AssignSiteBwLicense_Sites {
 	if t == nil {
 		t = &AssignSiteBwLicense{}
 	}
-	return &t.Site
+	return &t.Sites
 }
 
 type SiteCreateBgpPeerBulk struct {
@@ -353605,14 +353605,14 @@ func (t *SiteRemoveSite) GetSite() *SiteRemoveSite_Site {
 }
 
 type RemoveSiteBwLicense struct {
-	Site RemoveSiteBwLicense_Site "json:\"site\" graphql:\"site\""
+	Sites RemoveSiteBwLicense_Sites "json:\"sites\" graphql:\"sites\""
 }
 
-func (t *RemoveSiteBwLicense) GetSite() *RemoveSiteBwLicense_Site {
+func (t *RemoveSiteBwLicense) GetSites() *RemoveSiteBwLicense_Sites {
 	if t == nil {
 		t = &RemoveSiteBwLicense{}
 	}
-	return &t.Site
+	return &t.Sites
 }
 
 type SiteRemoveSocketAddOnCard struct {
@@ -353649,14 +353649,14 @@ func (t *SiteRemoveWifiSsid) GetSite() *SiteRemoveWifiSsid_Site {
 }
 
 type ReplaceSiteBwLicense struct {
-	Site ReplaceSiteBwLicense_Site "json:\"site\" graphql:\"site\""
+	Sites ReplaceSiteBwLicense_Sites "json:\"sites\" graphql:\"sites\""
 }
 
-func (t *ReplaceSiteBwLicense) GetSite() *ReplaceSiteBwLicense_Site {
+func (t *ReplaceSiteBwLicense) GetSites() *ReplaceSiteBwLicense_Sites {
 	if t == nil {
 		t = &ReplaceSiteBwLicense{}
 	}
-	return &t.Site
+	return &t.Sites
 }
 
 type SiteStartSiteUpgrade struct {
@@ -353814,14 +353814,14 @@ func (t *SiteUpdateSiteBackhauling) GetSite() *SiteUpdateSiteBackhauling_Site {
 }
 
 type UpdateSiteBwLicense struct {
-	Site UpdateSiteBwLicense_Site "json:\"site\" graphql:\"site\""
+	Sites UpdateSiteBwLicense_Sites "json:\"sites\" graphql:\"sites\""
 }
 
-func (t *UpdateSiteBwLicense) GetSite() *UpdateSiteBwLicense_Site {
+func (t *UpdateSiteBwLicense) GetSites() *UpdateSiteBwLicense_Sites {
 	if t == nil {
 		t = &UpdateSiteBwLicense{}
 	}
-	return &t.Site
+	return &t.Sites
 }
 
 type SiteUpdateSiteGeneralDetails struct {
@@ -403637,7 +403637,7 @@ func (c *Client) SiteAddStaticHost(ctx context.Context, siteID string, addStatic
 }
 
 const AssignSiteBwLicenseDocument = `mutation assignSiteBwLicense ($accountId: ID!, $assignSiteBwLicenseInput: AssignSiteBwLicenseInput!) {
-	site(accountId: $accountId) {
+	sites: site(accountId: $accountId) {
 		assignSiteBwLicense(input: $assignSiteBwLicenseInput) {
 			license {
 				id
@@ -404641,7 +404641,7 @@ func (c *Client) SiteRemoveSite(ctx context.Context, siteID string, accountID st
 }
 
 const RemoveSiteBwLicenseDocument = `mutation removeSiteBwLicense ($accountId: ID!, $removeSiteBwLicenseInput: RemoveSiteBwLicenseInput!) {
-	site(accountId: $accountId) {
+	sites: site(accountId: $accountId) {
 		removeSiteBwLicense(input: $removeSiteBwLicenseInput) {
 			license {
 				id
@@ -404897,7 +404897,7 @@ func (c *Client) SiteRemoveWifiSsid(ctx context.Context, accountID string, remov
 }
 
 const ReplaceSiteBwLicenseDocument = `mutation replaceSiteBwLicense ($accountId: ID!, $replaceSiteBwLicenseInput: ReplaceSiteBwLicenseInput!) {
-	site(accountId: $accountId) {
+	sites: site(accountId: $accountId) {
 		replaceSiteBwLicense(input: $replaceSiteBwLicenseInput) {
 			license {
 				id
@@ -405730,7 +405730,7 @@ func (c *Client) SiteUpdateSiteBackhauling(ctx context.Context, accountID string
 }
 
 const UpdateSiteBwLicenseDocument = `mutation updateSiteBwLicense ($accountId: ID!, $updateSiteBwLicenseInput: UpdateSiteBwLicenseInput!) {
-	site(accountId: $accountId) {
+	sites: site(accountId: $accountId) {
 		updateSiteBwLicense(input: $updateSiteBwLicenseInput) {
 			license {
 				id
@@ -411426,7 +411426,7 @@ func (c *Client) AccountManagementUpdateAccount(ctx context.Context, updateAccou
 	return &res, nil
 }
 
-const AccountMetricsDocument = `query accountMetrics ($toRate: Boolean, $types: [String!], $siteIDs: [ID!], $ids: [String!], $withMissingData5: Boolean, $perSecond6: Boolean, $userIDs: [ID!], $labels1: [TimeseriesMetricType!], $buckets1: Int, $accountID: ID, $id: ID, $timeFrame: TimeFrame!, $groupInterfaces: Boolean, $groupDevices: Boolean, $useDefaultSizeBucket: Boolean) {
+const AccountMetricsDocument = `query accountMetrics ($toRate: Boolean, $types: [String!], $withMissingData3: Boolean, $siteIDs: [ID!], $ids: [String!], $userIDs: [ID!], $perSecond7: Boolean, $labels1: [TimeseriesMetricType!], $buckets1: Int, $accountID: ID, $id: ID, $timeFrame: TimeFrame!, $groupInterfaces: Boolean, $groupDevices: Boolean, $useDefaultSizeBucket: Boolean) {
 	accountMetrics(timeFrame: $timeFrame, groupInterfaces: $groupInterfaces, groupDevices: $groupDevices, accountID: $accountID, id: $id) {
 		id
 		from
@@ -411458,7 +411458,7 @@ const AccountMetricsDocument = `query accountMetrics ($toRate: Boolean, $types: 
 				}
 				name
 				timeseries(buckets: $buckets1, labels: $labels1) {
-					data(perSecond: $perSecond6, withMissingData: $withMissingData5, useDefaultSizeBucket: $useDefaultSizeBucket)
+					data(perSecond: $perSecond7, withMissingData: $withMissingData3, useDefaultSizeBucket: $useDefaultSizeBucket)
 					label
 					dimensions {
 						label
@@ -411593,7 +411593,7 @@ const AccountMetricsDocument = `query accountMetrics ($toRate: Boolean, $types: 
 				}
 			}
 			hostCount {
-				data(perSecond: $perSecond6, withMissingData: $withMissingData5, useDefaultSizeBucket: $useDefaultSizeBucket)
+				data(perSecond: $perSecond7, withMissingData: $withMissingData3, useDefaultSizeBucket: $useDefaultSizeBucket)
 				label
 				dimensions {
 					label
@@ -411611,7 +411611,7 @@ const AccountMetricsDocument = `query accountMetrics ($toRate: Boolean, $types: 
 				info
 			}
 			flowCount {
-				data(perSecond: $perSecond6, withMissingData: $withMissingData5, useDefaultSizeBucket: $useDefaultSizeBucket)
+				data(perSecond: $perSecond7, withMissingData: $withMissingData3, useDefaultSizeBucket: $useDefaultSizeBucket)
 				label
 				dimensions {
 					label
@@ -411629,7 +411629,7 @@ const AccountMetricsDocument = `query accountMetrics ($toRate: Boolean, $types: 
 				info
 			}
 			hostLimit {
-				data(perSecond: $perSecond6, withMissingData: $withMissingData5, useDefaultSizeBucket: $useDefaultSizeBucket)
+				data(perSecond: $perSecond7, withMissingData: $withMissingData3, useDefaultSizeBucket: $useDefaultSizeBucket)
 				label
 				dimensions {
 					label
@@ -411647,7 +411647,7 @@ const AccountMetricsDocument = `query accountMetrics ($toRate: Boolean, $types: 
 				info
 			}
 			siteUpstreamThroughputMax {
-				data(perSecond: $perSecond6, withMissingData: $withMissingData5, useDefaultSizeBucket: $useDefaultSizeBucket)
+				data(perSecond: $perSecond7, withMissingData: $withMissingData3, useDefaultSizeBucket: $useDefaultSizeBucket)
 				label
 				dimensions {
 					label
@@ -411665,7 +411665,7 @@ const AccountMetricsDocument = `query accountMetrics ($toRate: Boolean, $types: 
 				info
 			}
 			siteDownstreamThroughputMax {
-				data(perSecond: $perSecond6, withMissingData: $withMissingData5, useDefaultSizeBucket: $useDefaultSizeBucket)
+				data(perSecond: $perSecond7, withMissingData: $withMissingData3, useDefaultSizeBucket: $useDefaultSizeBucket)
 				label
 				dimensions {
 					label
@@ -411710,7 +411710,7 @@ const AccountMetricsDocument = `query accountMetrics ($toRate: Boolean, $types: 
 				}
 				name
 				timeseries(buckets: $buckets1, labels: $labels1) {
-					data(perSecond: $perSecond6, withMissingData: $withMissingData5, useDefaultSizeBucket: $useDefaultSizeBucket)
+					data(perSecond: $perSecond7, withMissingData: $withMissingData3, useDefaultSizeBucket: $useDefaultSizeBucket)
 					label
 					dimensions {
 						label
@@ -411845,7 +411845,7 @@ const AccountMetricsDocument = `query accountMetrics ($toRate: Boolean, $types: 
 				}
 			}
 			hostCount {
-				data(perSecond: $perSecond6, withMissingData: $withMissingData5, useDefaultSizeBucket: $useDefaultSizeBucket)
+				data(perSecond: $perSecond7, withMissingData: $withMissingData3, useDefaultSizeBucket: $useDefaultSizeBucket)
 				label
 				dimensions {
 					label
@@ -411863,7 +411863,7 @@ const AccountMetricsDocument = `query accountMetrics ($toRate: Boolean, $types: 
 				info
 			}
 			flowCount {
-				data(perSecond: $perSecond6, withMissingData: $withMissingData5, useDefaultSizeBucket: $useDefaultSizeBucket)
+				data(perSecond: $perSecond7, withMissingData: $withMissingData3, useDefaultSizeBucket: $useDefaultSizeBucket)
 				label
 				dimensions {
 					label
@@ -411881,7 +411881,7 @@ const AccountMetricsDocument = `query accountMetrics ($toRate: Boolean, $types: 
 				info
 			}
 			hostLimit {
-				data(perSecond: $perSecond6, withMissingData: $withMissingData5, useDefaultSizeBucket: $useDefaultSizeBucket)
+				data(perSecond: $perSecond7, withMissingData: $withMissingData3, useDefaultSizeBucket: $useDefaultSizeBucket)
 				label
 				dimensions {
 					label
@@ -411899,7 +411899,7 @@ const AccountMetricsDocument = `query accountMetrics ($toRate: Boolean, $types: 
 				info
 			}
 			siteUpstreamThroughputMax {
-				data(perSecond: $perSecond6, withMissingData: $withMissingData5, useDefaultSizeBucket: $useDefaultSizeBucket)
+				data(perSecond: $perSecond7, withMissingData: $withMissingData3, useDefaultSizeBucket: $useDefaultSizeBucket)
 				label
 				dimensions {
 					label
@@ -411917,7 +411917,7 @@ const AccountMetricsDocument = `query accountMetrics ($toRate: Boolean, $types: 
 				info
 			}
 			siteDownstreamThroughputMax {
-				data(perSecond: $perSecond6, withMissingData: $withMissingData5, useDefaultSizeBucket: $useDefaultSizeBucket)
+				data(perSecond: $perSecond7, withMissingData: $withMissingData3, useDefaultSizeBucket: $useDefaultSizeBucket)
 				label
 				dimensions {
 					label
@@ -411937,7 +411937,7 @@ const AccountMetricsDocument = `query accountMetrics ($toRate: Boolean, $types: 
 			samples
 		}
 		timeseries(labels: $labels1, buckets: $buckets1) {
-			data(perSecond: $perSecond6, withMissingData: $withMissingData5, useDefaultSizeBucket: $useDefaultSizeBucket)
+			data(perSecond: $perSecond7, withMissingData: $withMissingData3, useDefaultSizeBucket: $useDefaultSizeBucket)
 			label
 			dimensions {
 				label
@@ -411958,15 +411958,15 @@ const AccountMetricsDocument = `query accountMetrics ($toRate: Boolean, $types: 
 }
 `
 
-func (c *Client) AccountMetrics(ctx context.Context, toRate *bool, types []string, siteIDs []string, ids []string, withMissingData5 *bool, perSecond6 *bool, userIDs []string, labels1 []cato_models.TimeseriesMetricType, buckets1 *int64, accountID *string, id *string, timeFrame string, groupInterfaces *bool, groupDevices *bool, useDefaultSizeBucket *bool, interceptors ...clientv2.RequestInterceptor) (*AccountMetrics, error) {
+func (c *Client) AccountMetrics(ctx context.Context, toRate *bool, types []string, withMissingData3 *bool, siteIDs []string, ids []string, userIDs []string, perSecond7 *bool, labels1 []cato_models.TimeseriesMetricType, buckets1 *int64, accountID *string, id *string, timeFrame string, groupInterfaces *bool, groupDevices *bool, useDefaultSizeBucket *bool, interceptors ...clientv2.RequestInterceptor) (*AccountMetrics, error) {
 	vars := map[string]any{
 		"toRate":               toRate,
 		"types":                types,
+		"withMissingData3":     withMissingData3,
 		"siteIDs":              siteIDs,
 		"ids":                  ids,
-		"withMissingData5":     withMissingData5,
-		"perSecond6":           perSecond6,
 		"userIDs":              userIDs,
+		"perSecond7":           perSecond7,
 		"labels1":              labels1,
 		"buckets1":             buckets1,
 		"accountID":            accountID,
