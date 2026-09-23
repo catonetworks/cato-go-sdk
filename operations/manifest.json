@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "cli_commit_sha": "45246b003ccaabe0231d8dee5b468dcbe71c948c",
+  "cli_commit_sha": "1f36eeb9a31d951bad00c7bfcb7b8795b70e9248",
   "operations": [
     {
       "key": "mutation.accountManagement.addAccount",
