@@ -494,15 +494,15 @@ type CatoClient interface {
 	AccountManagement(ctx context.Context, accountID string, interceptors ...clientv2.RequestInterceptor) (*AccountManagement, error)
 	AccountManagementRemoveAccount(ctx context.Context, accountIDToRemove string, accountID string, interceptors ...clientv2.RequestInterceptor) (*AccountManagementRemoveAccount, error)
 	AccountManagementUpdateAccount(ctx context.Context, updateAccountInput cato_models.UpdateAccountInput, accountID string, interceptors ...clientv2.RequestInterceptor) (*AccountManagementUpdateAccount, error)
-	AccountMetrics(ctx context.Context, toRate *bool, types []string, withMissingData2 *bool, perSecond3 *bool, siteIDs []string, userIDs []string, labels1 []cato_models.TimeseriesMetricType, buckets1 *int64, timeFrame string, groupInterfaces *bool, groupDevices *bool, useDefaultSizeBucket *bool, interceptors ...clientv2.RequestInterceptor) (*AccountMetrics, error)
+	AccountMetrics(ctx context.Context, toRate *bool, types []string, siteIDs []string, ids []string, withMissingData5 *bool, perSecond6 *bool, userIDs []string, labels1 []cato_models.TimeseriesMetricType, buckets1 *int64, accountID *string, id *string, timeFrame string, groupInterfaces *bool, groupDevices *bool, useDefaultSizeBucket *bool, interceptors ...clientv2.RequestInterceptor) (*AccountMetrics, error)
 	AccountRoles(ctx context.Context, accountID string, accountType *cato_models.AccountType, interceptors ...clientv2.RequestInterceptor) (*AccountRoles, error)
-	AccountSnapshot(ctx context.Context, siteIDs []string, userIDs []string, interceptors ...clientv2.RequestInterceptor) (*AccountSnapshot, error)
+	AccountSnapshot(ctx context.Context, siteIDs []string, userIDs []string, accountID *string, interceptors ...clientv2.RequestInterceptor) (*AccountSnapshot, error)
 	Admin(ctx context.Context, accountID string, adminID string, interceptors ...clientv2.RequestInterceptor) (*Admin, error)
 	Admins(ctx context.Context, accountID string, limit *int64, from *int64, search *string, sort []*cato_models.SortInput, adminIDs []string, interceptors ...clientv2.RequestInterceptor) (*Admins, error)
 	AiSecurity(ctx context.Context, accountID string, aiSecurityAppsInvocationInput cato_models.AiSecurityAppsInvocationInput, aiSecurityEndUsersSessionConversationInput cato_models.AiSecurityEndUsersSessionConversationInput, interceptors ...clientv2.RequestInterceptor) (*AiSecurity, error)
 	AppStats(ctx context.Context, limit *int64, from *int64, accountID string, timeFrame string, measures []*cato_models.Measure, dimensions []*cato_models.Dimension, filters []*cato_models.AppStatsFilter, sort []*cato_models.AppStatsSort, appStatsPostAggFilter []*cato_models.AppStatsPostAggFilter, includeEmptyDimension *bool, interceptors ...clientv2.RequestInterceptor) (*AppStats, error)
 	AppStatsTimeSeries(ctx context.Context, perSecond *bool, withMissingData *bool, buckets int64, accountID string, timeFrame string, measures []*cato_models.Measure, dimensions []*cato_models.Dimension, filters []*cato_models.AppStatsFilter, includeEmptyDimension *bool, useDefaultSizeBucket *bool, interceptors ...clientv2.RequestInterceptor) (*AppStatsTimeSeries, error)
-	AuditFeed(ctx context.Context, fieldNames []cato_models.AuditFieldName, accountIDs []string, timeFrame string, filters []*cato_models.AuditFieldFilterInput, marker *string, interceptors ...clientv2.RequestInterceptor) (*AuditFeed, error)
+	AuditFeed(ctx context.Context, fieldNames []cato_models.AuditFieldName, accountIDs []string, ids []string, timeFrame string, filters []*cato_models.AuditFieldFilterInput, marker *string, interceptors ...clientv2.RequestInterceptor) (*AuditFeed, error)
 	BusinessPlatform(ctx context.Context, accountID string, businessPlatformAccountListInput *cato_models.BusinessPlatformAccountListInput, interceptors ...clientv2.RequestInterceptor) (*BusinessPlatform, error)
 	CatalogsCatalogApplicationFqdn(ctx context.Context, accountID string, applicationRefInput cato_models.ApplicationRefInput, interceptors ...clientv2.RequestInterceptor) (*CatalogsCatalogApplicationFqdn, error)
 	CatalogsCatalogApplicationList(ctx context.Context, accountID string, catalogApplicationListInput cato_models.CatalogApplicationListInput, interceptors ...clientv2.RequestInterceptor) (*CatalogsCatalogApplicationList, error)
@@ -316069,8 +316069,9 @@ func (t *PolicySocketLanPolicy_Policy_SocketLan_Policy_Sections_Metadata) GetLoc
 }
 
 type PolicySocketLanPolicy_Policy_SocketLan_Policy_Sections_Section struct {
-	ID   string "json:\"id\" graphql:\"id\""
-	Name string "json:\"name\" graphql:\"name\""
+	ID          string  "json:\"id\" graphql:\"id\""
+	Name        string  "json:\"name\" graphql:\"name\""
+	SubPolicyID *string "json:\"subPolicyId,omitempty\" graphql:\"subPolicyId\""
 }
 
 func (t *PolicySocketLanPolicy_Policy_SocketLan_Policy_Sections_Section) GetID() string {
@@ -316084,6 +316085,12 @@ func (t *PolicySocketLanPolicy_Policy_SocketLan_Policy_Sections_Section) GetName
 		t = &PolicySocketLanPolicy_Policy_SocketLan_Policy_Sections_Section{}
 	}
 	return t.Name
+}
+func (t *PolicySocketLanPolicy_Policy_SocketLan_Policy_Sections_Section) GetSubPolicyID() *string {
+	if t == nil {
+		t = &PolicySocketLanPolicy_Policy_SocketLan_Policy_Sections_Section{}
+	}
+	return t.SubPolicyID
 }
 
 type PolicySocketLanPolicy_Policy_SocketLan_Policy_Sections struct {
@@ -411419,13 +411426,13 @@ func (c *Client) AccountManagementUpdateAccount(ctx context.Context, updateAccou
 	return &res, nil
 }
 
-const AccountMetricsDocument = `query accountMetrics ($toRate: Boolean, $types: [String!], $withMissingData2: Boolean, $perSecond3: Boolean, $siteIDs: [ID!], $userIDs: [ID!], $labels1: [TimeseriesMetricType!], $buckets1: Int, $timeFrame: TimeFrame!, $groupInterfaces: Boolean, $groupDevices: Boolean, $useDefaultSizeBucket: Boolean) {
-	accountMetrics(timeFrame: $timeFrame, groupInterfaces: $groupInterfaces, groupDevices: $groupDevices) {
+const AccountMetricsDocument = `query accountMetrics ($toRate: Boolean, $types: [String!], $siteIDs: [ID!], $ids: [String!], $withMissingData5: Boolean, $perSecond6: Boolean, $userIDs: [ID!], $labels1: [TimeseriesMetricType!], $buckets1: Int, $accountID: ID, $id: ID, $timeFrame: TimeFrame!, $groupInterfaces: Boolean, $groupDevices: Boolean, $useDefaultSizeBucket: Boolean) {
+	accountMetrics(timeFrame: $timeFrame, groupInterfaces: $groupInterfaces, groupDevices: $groupDevices, accountID: $accountID, id: $id) {
 		id
 		from
 		to
 		granularity
-		sites(siteIDs: $siteIDs) {
+		sites(siteIDs: $siteIDs, ids: $ids) {
 			id
 			interfaces {
 				metrics(toRate: $toRate) {
@@ -411451,7 +411458,7 @@ const AccountMetricsDocument = `query accountMetrics ($toRate: Boolean, $types: 
 				}
 				name
 				timeseries(buckets: $buckets1, labels: $labels1) {
-					data(perSecond: $perSecond3, withMissingData: $withMissingData2, useDefaultSizeBucket: $useDefaultSizeBucket)
+					data(perSecond: $perSecond6, withMissingData: $withMissingData5, useDefaultSizeBucket: $useDefaultSizeBucket)
 					label
 					dimensions {
 						label
@@ -411586,7 +411593,7 @@ const AccountMetricsDocument = `query accountMetrics ($toRate: Boolean, $types: 
 				}
 			}
 			hostCount {
-				data(perSecond: $perSecond3, withMissingData: $withMissingData2, useDefaultSizeBucket: $useDefaultSizeBucket)
+				data(perSecond: $perSecond6, withMissingData: $withMissingData5, useDefaultSizeBucket: $useDefaultSizeBucket)
 				label
 				dimensions {
 					label
@@ -411604,7 +411611,7 @@ const AccountMetricsDocument = `query accountMetrics ($toRate: Boolean, $types: 
 				info
 			}
 			flowCount {
-				data(perSecond: $perSecond3, withMissingData: $withMissingData2, useDefaultSizeBucket: $useDefaultSizeBucket)
+				data(perSecond: $perSecond6, withMissingData: $withMissingData5, useDefaultSizeBucket: $useDefaultSizeBucket)
 				label
 				dimensions {
 					label
@@ -411622,7 +411629,7 @@ const AccountMetricsDocument = `query accountMetrics ($toRate: Boolean, $types: 
 				info
 			}
 			hostLimit {
-				data(perSecond: $perSecond3, withMissingData: $withMissingData2, useDefaultSizeBucket: $useDefaultSizeBucket)
+				data(perSecond: $perSecond6, withMissingData: $withMissingData5, useDefaultSizeBucket: $useDefaultSizeBucket)
 				label
 				dimensions {
 					label
@@ -411640,7 +411647,7 @@ const AccountMetricsDocument = `query accountMetrics ($toRate: Boolean, $types: 
 				info
 			}
 			siteUpstreamThroughputMax {
-				data(perSecond: $perSecond3, withMissingData: $withMissingData2, useDefaultSizeBucket: $useDefaultSizeBucket)
+				data(perSecond: $perSecond6, withMissingData: $withMissingData5, useDefaultSizeBucket: $useDefaultSizeBucket)
 				label
 				dimensions {
 					label
@@ -411658,7 +411665,7 @@ const AccountMetricsDocument = `query accountMetrics ($toRate: Boolean, $types: 
 				info
 			}
 			siteDownstreamThroughputMax {
-				data(perSecond: $perSecond3, withMissingData: $withMissingData2, useDefaultSizeBucket: $useDefaultSizeBucket)
+				data(perSecond: $perSecond6, withMissingData: $withMissingData5, useDefaultSizeBucket: $useDefaultSizeBucket)
 				label
 				dimensions {
 					label
@@ -411703,7 +411710,7 @@ const AccountMetricsDocument = `query accountMetrics ($toRate: Boolean, $types: 
 				}
 				name
 				timeseries(buckets: $buckets1, labels: $labels1) {
-					data(perSecond: $perSecond3, withMissingData: $withMissingData2, useDefaultSizeBucket: $useDefaultSizeBucket)
+					data(perSecond: $perSecond6, withMissingData: $withMissingData5, useDefaultSizeBucket: $useDefaultSizeBucket)
 					label
 					dimensions {
 						label
@@ -411838,7 +411845,7 @@ const AccountMetricsDocument = `query accountMetrics ($toRate: Boolean, $types: 
 				}
 			}
 			hostCount {
-				data(perSecond: $perSecond3, withMissingData: $withMissingData2, useDefaultSizeBucket: $useDefaultSizeBucket)
+				data(perSecond: $perSecond6, withMissingData: $withMissingData5, useDefaultSizeBucket: $useDefaultSizeBucket)
 				label
 				dimensions {
 					label
@@ -411856,7 +411863,7 @@ const AccountMetricsDocument = `query accountMetrics ($toRate: Boolean, $types: 
 				info
 			}
 			flowCount {
-				data(perSecond: $perSecond3, withMissingData: $withMissingData2, useDefaultSizeBucket: $useDefaultSizeBucket)
+				data(perSecond: $perSecond6, withMissingData: $withMissingData5, useDefaultSizeBucket: $useDefaultSizeBucket)
 				label
 				dimensions {
 					label
@@ -411874,7 +411881,7 @@ const AccountMetricsDocument = `query accountMetrics ($toRate: Boolean, $types: 
 				info
 			}
 			hostLimit {
-				data(perSecond: $perSecond3, withMissingData: $withMissingData2, useDefaultSizeBucket: $useDefaultSizeBucket)
+				data(perSecond: $perSecond6, withMissingData: $withMissingData5, useDefaultSizeBucket: $useDefaultSizeBucket)
 				label
 				dimensions {
 					label
@@ -411892,7 +411899,7 @@ const AccountMetricsDocument = `query accountMetrics ($toRate: Boolean, $types: 
 				info
 			}
 			siteUpstreamThroughputMax {
-				data(perSecond: $perSecond3, withMissingData: $withMissingData2, useDefaultSizeBucket: $useDefaultSizeBucket)
+				data(perSecond: $perSecond6, withMissingData: $withMissingData5, useDefaultSizeBucket: $useDefaultSizeBucket)
 				label
 				dimensions {
 					label
@@ -411910,7 +411917,7 @@ const AccountMetricsDocument = `query accountMetrics ($toRate: Boolean, $types: 
 				info
 			}
 			siteDownstreamThroughputMax {
-				data(perSecond: $perSecond3, withMissingData: $withMissingData2, useDefaultSizeBucket: $useDefaultSizeBucket)
+				data(perSecond: $perSecond6, withMissingData: $withMissingData5, useDefaultSizeBucket: $useDefaultSizeBucket)
 				label
 				dimensions {
 					label
@@ -411930,7 +411937,7 @@ const AccountMetricsDocument = `query accountMetrics ($toRate: Boolean, $types: 
 			samples
 		}
 		timeseries(labels: $labels1, buckets: $buckets1) {
-			data(perSecond: $perSecond3, withMissingData: $withMissingData2, useDefaultSizeBucket: $useDefaultSizeBucket)
+			data(perSecond: $perSecond6, withMissingData: $withMissingData5, useDefaultSizeBucket: $useDefaultSizeBucket)
 			label
 			dimensions {
 				label
@@ -411951,16 +411958,19 @@ const AccountMetricsDocument = `query accountMetrics ($toRate: Boolean, $types: 
 }
 `
 
-func (c *Client) AccountMetrics(ctx context.Context, toRate *bool, types []string, withMissingData2 *bool, perSecond3 *bool, siteIDs []string, userIDs []string, labels1 []cato_models.TimeseriesMetricType, buckets1 *int64, timeFrame string, groupInterfaces *bool, groupDevices *bool, useDefaultSizeBucket *bool, interceptors ...clientv2.RequestInterceptor) (*AccountMetrics, error) {
+func (c *Client) AccountMetrics(ctx context.Context, toRate *bool, types []string, siteIDs []string, ids []string, withMissingData5 *bool, perSecond6 *bool, userIDs []string, labels1 []cato_models.TimeseriesMetricType, buckets1 *int64, accountID *string, id *string, timeFrame string, groupInterfaces *bool, groupDevices *bool, useDefaultSizeBucket *bool, interceptors ...clientv2.RequestInterceptor) (*AccountMetrics, error) {
 	vars := map[string]any{
 		"toRate":               toRate,
 		"types":                types,
-		"withMissingData2":     withMissingData2,
-		"perSecond3":           perSecond3,
 		"siteIDs":              siteIDs,
+		"ids":                  ids,
+		"withMissingData5":     withMissingData5,
+		"perSecond6":           perSecond6,
 		"userIDs":              userIDs,
 		"labels1":              labels1,
 		"buckets1":             buckets1,
+		"accountID":            accountID,
+		"id":                   id,
 		"timeFrame":            timeFrame,
 		"groupInterfaces":      groupInterfaces,
 		"groupDevices":         groupDevices,
@@ -412010,8 +412020,8 @@ func (c *Client) AccountRoles(ctx context.Context, accountID string, accountType
 	return &res, nil
 }
 
-const AccountSnapshotDocument = `query accountSnapshot ($siteIDs: [ID!], $userIDs: [ID!]) {
-	accountSnapshot {
+const AccountSnapshotDocument = `query accountSnapshot ($siteIDs: [ID!], $userIDs: [ID!], $accountID: ID) {
+	accountSnapshot(accountID: $accountID) {
 		id
 		sites(siteIDs: $siteIDs) {
 			id
@@ -412387,10 +412397,11 @@ const AccountSnapshotDocument = `query accountSnapshot ($siteIDs: [ID!], $userID
 }
 `
 
-func (c *Client) AccountSnapshot(ctx context.Context, siteIDs []string, userIDs []string, interceptors ...clientv2.RequestInterceptor) (*AccountSnapshot, error) {
+func (c *Client) AccountSnapshot(ctx context.Context, siteIDs []string, userIDs []string, accountID *string, interceptors ...clientv2.RequestInterceptor) (*AccountSnapshot, error) {
 	vars := map[string]any{
-		"siteIDs": siteIDs,
-		"userIDs": userIDs,
+		"siteIDs":   siteIDs,
+		"userIDs":   userIDs,
+		"accountID": accountID,
 	}
 
 	var res AccountSnapshot
@@ -412693,8 +412704,8 @@ func (c *Client) AppStatsTimeSeries(ctx context.Context, perSecond *bool, withMi
 	return &res, nil
 }
 
-const AuditFeedDocument = `query auditFeed ($fieldNames: [AuditFieldName!], $accountIDs: [ID!], $timeFrame: TimeFrame!, $filters: [AuditFieldFilterInput!], $marker: String) {
-	auditFeed(accountIDs: $accountIDs, timeFrame: $timeFrame, filters: $filters, marker: $marker) {
+const AuditFeedDocument = `query auditFeed ($fieldNames: [AuditFieldName!], $accountIDs: [ID!], $ids: [ID!], $timeFrame: TimeFrame!, $filters: [AuditFieldFilterInput!], $marker: String) {
+	auditFeed(accountIDs: $accountIDs, timeFrame: $timeFrame, filters: $filters, marker: $marker, ids: $ids) {
 		from
 		to
 		marker
@@ -412753,10 +412764,11 @@ const AuditFeedDocument = `query auditFeed ($fieldNames: [AuditFieldName!], $acc
 }
 `
 
-func (c *Client) AuditFeed(ctx context.Context, fieldNames []cato_models.AuditFieldName, accountIDs []string, timeFrame string, filters []*cato_models.AuditFieldFilterInput, marker *string, interceptors ...clientv2.RequestInterceptor) (*AuditFeed, error) {
+func (c *Client) AuditFeed(ctx context.Context, fieldNames []cato_models.AuditFieldName, accountIDs []string, ids []string, timeFrame string, filters []*cato_models.AuditFieldFilterInput, marker *string, interceptors ...clientv2.RequestInterceptor) (*AuditFeed, error) {
 	vars := map[string]any{
 		"fieldNames": fieldNames,
 		"accountIDs": accountIDs,
+		"ids":        ids,
 		"timeFrame":  timeFrame,
 		"filters":    filters,
 		"marker":     marker,
@@ -419763,6 +419775,7 @@ const PolicySocketLanPolicyDocument = `query policySocketLanPolicy ($accountId: 
 					section {
 						id
 						name
+						subPolicyId
 					}
 					properties
 				}

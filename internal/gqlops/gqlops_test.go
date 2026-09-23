@@ -71,13 +71,13 @@ func TestImportPreservesStableMappedAPIAndIsIdempotent(t *testing.T) { //nolint:
 	mustMkdirAll(t, filepath.Join(cliRoot, "queryPayloads"))
 	mustWrite(t, filepath.Join(sdkRoot, "cato_api.graphqls"), `
 		schema { query: Query }
-		type Query { existing(a: String!, z: String!, legacy: String!, added: String!): Thing! }
+		type Query { existing(a: String!, z: String!, legacy: String!, added: String!, scope: String): Thing! }
 		type Thing { name: String!, extra: String! }
 	`)
 	sourcePath := filepath.Join(sdkRoot, "sources", "query.existing.gql")
 	mustWrite(t, sourcePath, `
-		query sdkExisting($z: String!, $a: String!, $legacy: String!) {
-			existing(z: $z, a: $a, legacy: $legacy) {
+		query sdkExisting($z: String!, $a: String!, $legacy: String!, $scope: String) {
+			existing(z: $z, a: $a, legacy: $legacy, scope: $scope) {
 				stableName: name
 			}
 		}
@@ -117,12 +117,13 @@ func TestImportPreservesStableMappedAPIAndIsIdempotent(t *testing.T) { //nolint:
 	for _, variable := range operation.VariableDefinitions {
 		gotVariables = append(gotVariables, variable.Variable)
 	}
-	if !reflect.DeepEqual(gotVariables, []string{"z", "a", "legacy", "added"}) {
-		t.Fatalf("variable order = %#v; want z, a, legacy, added", gotVariables)
+	if !reflect.DeepEqual(gotVariables, []string{"z", "a", "legacy", "scope", "added"}) {
+		t.Fatalf("variable order = %#v; want z, a, legacy, scope, added", gotVariables)
 	}
 	if !strings.Contains(string(content), "stableName: name") ||
 		strings.Contains(string(content), "cliName: name") ||
-		strings.Contains(string(content), "$cliValue") {
+		strings.Contains(string(content), "$cliValue") ||
+		!strings.Contains(string(content), "scope: $scope") {
 		t.Fatalf("stable response alias was not retained:\n%s", content)
 	}
 
@@ -142,7 +143,7 @@ func TestImportPreservesStableMappedAPIAndIsIdempotent(t *testing.T) { //nolint:
 	if entry.SDKName != stableSDKName || entry.CLIName != "cliRenamed" {
 		t.Fatalf("manifest names = SDK %q, CLI %q", entry.SDKName, entry.CLIName)
 	}
-	if !reflect.DeepEqual(entry.Variables, []string{"z", "a", "legacy", "added"}) {
+	if !reflect.DeepEqual(entry.Variables, []string{"z", "a", "legacy", "scope", "added"}) {
 		t.Fatalf("manifest variables = %#v", entry.Variables)
 	}
 
@@ -297,7 +298,7 @@ func TestValidateUniqueDocuments(t *testing.T) {
 	}
 }
 
-func TestCurateKnownCLIProblems(t *testing.T) {
+func TestCurateKnownCLIProblems(t *testing.T) { //nolint:gocyclo // One table-free test keeps each targeted repair readable.
 	t.Parallel()
 
 	headers := []byte("plainHeaders\nsecretHeaders\nplainHeaders {\n  name\n  value\n}\n")
@@ -346,6 +347,30 @@ func TestCurateKnownCLIProblems(t *testing.T) {
 	if strings.Contains(string(user), "\nimportType\n") ||
 		!strings.Contains(string(user), "userImportType") {
 		t.Fatalf("retired user field curation failed:\n%s", user)
+	}
+
+	socketLAN := []byte(`
+		query policySocketLanPolicy {
+			policy {
+				socketLan {
+					policy {
+						sections {
+							section {
+								id
+								name
+							}
+						}
+					}
+				}
+			}
+		}
+	`)
+	curated, err = curateCLIContent("query.policy.socketLan.policy.txt", socketLAN)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if strings.Count(string(curated), "subPolicyId") != 1 {
+		t.Fatalf("socket LAN section owner curation failed:\n%s", curated)
 	}
 }
 

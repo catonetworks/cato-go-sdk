@@ -1,5 +1,5 @@
-query accountSnapshot ($siteIDs: [ID!], $userIDs: [ID!]) {
-	accountSnapshot {
+query accountSnapshot ($siteIDs: [ID!], $userIDs: [ID!], $accountID: ID) {
+	accountSnapshot(accountID: $accountID) {
 		id
 		sites(siteIDs: $siteIDs) {
 			id

@@ -7439,18 +7439,21 @@
       "variables": [
         "toRate",
         "types",
-        "withMissingData2",
-        "perSecond3",
         "siteIDs",
+        "ids",
+        "withMissingData5",
+        "perSecond6",
         "userIDs",
         "labels1",
         "buckets1",
+        "accountID",
+        "id",
         "timeFrame",
         "groupInterfaces",
         "groupDevices",
         "useDefaultSizeBucket"
       ],
-      "document_sha256": "e1b69cdc1cb587df6b4a90cbc7c9a8d8d4790560a7e1d5aea898521d437927f0",
+      "document_sha256": "8e835af6b2e0210d2baa59cc891e8aeb064761e134245a9e3f9e2d2718e06c1b",
       "cli_file": "queryPayloads/query.accountMetrics.txt",
       "cli_name": "accountMetrics",
       "cli_sha256": "989ff54037f1c15256c3c0053793d9fae0cad313af0bcc81d77df234e5afc1aa",
@@ -7478,9 +7481,10 @@
       "sdk_name": "accountSnapshot",
       "variables": [
         "siteIDs",
-        "userIDs"
+        "userIDs",
+        "accountID"
       ],
-      "document_sha256": "10b364e84b9fe1f2c38b74f9591c16a4da451ada22e104a6f64eefd5a114bbf7",
+      "document_sha256": "12fd88b4f1e070906926017b0243fa1dace5ad1c5eb182284235a6c6e88811df",
       "cli_file": "queryPayloads/query.accountSnapshot.txt",
       "cli_name": "accountSnapshot",
       "cli_sha256": "7042927e047bdca1c5ac1a764fc853147ac4d15bb63e30c6598a7d0ee08cb99c",
@@ -7590,11 +7594,12 @@
       "variables": [
         "fieldNames",
         "accountIDs",
+        "ids",
         "timeFrame",
         "filters",
         "marker"
       ],
-      "document_sha256": "82d8408e0ac53e9adcee7db5f9fd9c41f26a7627b6bb1310baf6adf2c12f0eae",
+      "document_sha256": "b64e682f1b4fa84ee71cd94ba6fa4b11841f573de952a3635892acac0f2469ad",
       "cli_file": "queryPayloads/query.auditFeed.txt",
       "cli_name": "auditFeed",
       "cli_sha256": "c4688ebe9cf2dbbb9e22f815222b84f275c5474c0fb84268c34c0e7994fc0113",
@@ -8532,7 +8537,7 @@
         "accountId",
         "socketLanPolicyInput"
       ],
-      "document_sha256": "79af8782698ddabc865e2ce1f6d10de40f61c320911e5f4d7c1d68b0a00b47e6",
+      "document_sha256": "38dbf2c9b629a184d0ef46410cd64abe5fdf64541888c3a6c1113ddfa5c14dbd",
       "cli_file": "queryPayloads/query.policy.socketLan.policy.txt",
       "cli_name": "policySocketLanPolicy",
       "cli_sha256": "b26a23a6d05a372e20fe96f296d4ab24fdb1144b7c099e1d52fb1631fc25bb45",

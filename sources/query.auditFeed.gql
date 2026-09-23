@@ -1,5 +1,5 @@
-query auditFeed ($fieldNames: [AuditFieldName!], $accountIDs: [ID!], $timeFrame: TimeFrame!, $filters: [AuditFieldFilterInput!], $marker: String) {
-	auditFeed(accountIDs: $accountIDs, timeFrame: $timeFrame, filters: $filters, marker: $marker) {
+query auditFeed ($fieldNames: [AuditFieldName!], $accountIDs: [ID!], $ids: [ID!], $timeFrame: TimeFrame!, $filters: [AuditFieldFilterInput!], $marker: String) {
+	auditFeed(accountIDs: $accountIDs, timeFrame: $timeFrame, filters: $filters, marker: $marker, ids: $ids) {
 		from
 		to
 		marker

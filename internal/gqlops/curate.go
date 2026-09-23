@@ -6,6 +6,9 @@ import (
 	"path/filepath"
 	"regexp"
 	"strings"
+
+	"github.com/vektah/gqlparser/v2/ast"
+	"github.com/vektah/gqlparser/v2/formatter"
 )
 
 var (
@@ -41,9 +44,49 @@ func curateCLIContent(path string, content []byte) ([]byte, error) {
 		return removeRetiredUserImportType(content, path)
 	case "query.devices.txt":
 		return removeAnonymousSelectionSets(content)
+	case "query.policy.socketLan.policy.txt":
+		return addSocketLanSectionOwner(content, path)
 	default:
 		return content, nil
 	}
+}
+
+func addSocketLanSectionOwner(content []byte, path string) ([]byte, error) {
+	query, err := parseQueryDocument(path, content)
+	if err != nil {
+		return nil, err
+	}
+
+	const sectionPath = "field:policy/field:socketLan/field:policy/field:sections/field:section"
+	matches := 0
+	changed := false
+	walkSelections(query.Operations[0].SelectionSet, nil, func(key string, field *ast.Field) {
+		if key != sectionPath {
+			return
+		}
+		matches++
+		for _, selection := range field.SelectionSet {
+			child, ok := selection.(*ast.Field)
+			if ok && child.Name == "subPolicyId" {
+				return
+			}
+		}
+		field.SelectionSet = append(field.SelectionSet, &ast.Field{
+			Alias: "subPolicyId",
+			Name:  "subPolicyId",
+		})
+		changed = true
+	})
+	if matches != 1 {
+		return nil, fmt.Errorf("known repair for %q found %d socket LAN policy sections; want 1", path, matches)
+	}
+	if !changed {
+		return content, nil
+	}
+
+	var output bytes.Buffer
+	formatter.NewFormatter(&output).FormatQueryDocument(query)
+	return output.Bytes(), nil
 }
 
 func removeRetiredUserImportType(content []byte, path string) ([]byte, error) {

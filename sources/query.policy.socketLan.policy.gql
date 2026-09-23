@@ -335,6 +335,7 @@ query policySocketLanPolicy ($accountId: ID!, $socketLanPolicyInput: SocketLanPo
 					section {
 						id
 						name
+						subPolicyId
 					}
 					properties
 				}

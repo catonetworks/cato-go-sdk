@@ -27,25 +27,104 @@ func normalizeMappedOperation(
 	if err != nil {
 		return nil, fmt.Errorf("parse existing operation: %w", err)
 	}
-	incoming, err := parseQueryDocument(path, incomingContent)
-	if err != nil {
-		return nil, fmt.Errorf("parse incoming operation: %w", err)
+
+	normalize := func(preserveRemoved bool) ([]byte, error) {
+		incoming, parseErr := parseQueryDocument(path, incomingContent)
+		if parseErr != nil {
+			return nil, fmt.Errorf("parse incoming operation: %w", parseErr)
+		}
+
+		existingOperation := existing.Operations[0]
+		incomingOperation := incoming.Operations[0]
+		incomingOperation.Name = stableName
+		if preserveRemoved {
+			preserveRemovedVariableBindings(existingOperation, incomingOperation)
+		}
+		preserveVariableBindings(existing, incoming)
+		incomingOperation.VariableDefinitions = stableVariableOrder(
+			existingOperation.VariableDefinitions,
+			incomingOperation.VariableDefinitions,
+		)
+
+		aliases := collectAliases(existingOperation.SelectionSet, nil)
+		applyAliases(incomingOperation.SelectionSet, nil, aliases)
+		applyFragmentAliases(existing, incoming)
+
+		return formatAndValidate(schema, path, incoming, stableName)
 	}
 
-	existingOperation := existing.Operations[0]
-	incomingOperation := incoming.Operations[0]
-	incomingOperation.Name = stableName
-	preserveVariableBindings(existing, incoming)
-	incomingOperation.VariableDefinitions = stableVariableOrder(
-		existingOperation.VariableDefinitions,
-		incomingOperation.VariableDefinitions,
-	)
+	content, err := normalize(true)
+	if err == nil {
+		return content, nil
+	}
+	return normalize(false)
+}
 
-	aliases := collectAliases(existingOperation.SelectionSet, nil)
-	applyAliases(incomingOperation.SelectionSet, nil, aliases)
-	applyFragmentAliases(existing, incoming)
+type fieldRecord struct {
+	field     *ast.Field
+	ambiguous bool
+}
 
-	return formatAndValidate(schema, path, incoming, stableName)
+func preserveRemovedVariableBindings(existing, incoming *ast.OperationDefinition) {
+	existingFields := collectFields(existing.SelectionSet)
+	incomingFields := collectFields(incoming.SelectionSet)
+	incomingVariables := make(map[string]struct{}, len(incoming.VariableDefinitions))
+	for _, definition := range incoming.VariableDefinitions {
+		incomingVariables[definition.Variable] = struct{}{}
+	}
+	preservedVariables := make(map[string]struct{})
+
+	for key, previous := range existingFields {
+		current, exists := incomingFields[key]
+		if !exists || previous.ambiguous || current.ambiguous {
+			continue
+		}
+		for _, argument := range previous.field.Arguments {
+			if argument.Value == nil || argument.Value.Kind != ast.Variable ||
+				current.field.Arguments.ForName(argument.Name) != nil {
+				continue
+			}
+			variable := argument.Value.Raw
+			if _, exists := incomingVariables[variable]; exists {
+				continue
+			}
+			definition := variableDefinition(existing.VariableDefinitions, variable)
+			if definition == nil {
+				continue
+			}
+			current.field.Arguments = append(current.field.Arguments, argument)
+			if _, exists := preservedVariables[variable]; !exists {
+				incoming.VariableDefinitions = append(incoming.VariableDefinitions, definition)
+				preservedVariables[variable] = struct{}{}
+			}
+		}
+	}
+}
+
+func collectFields(selections ast.SelectionSet) map[string]fieldRecord {
+	fields := make(map[string]fieldRecord)
+	walkSelections(selections, nil, func(key string, field *ast.Field) {
+		record, exists := fields[key]
+		if exists {
+			record.ambiguous = true
+			fields[key] = record
+			return
+		}
+		fields[key] = fieldRecord{field: field}
+	})
+	return fields
+}
+
+func variableDefinition(
+	definitions ast.VariableDefinitionList,
+	name string,
+) *ast.VariableDefinition {
+	for _, definition := range definitions {
+		if definition.Variable == name {
+			return definition
+		}
+	}
+	return nil
 }
 
 func preserveVariableBindings(existing, incoming *ast.QueryDocument) {
