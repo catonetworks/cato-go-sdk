@@ -1,0 +1,199 @@
+diff --git a/cato_api.graphqls b/cato_api.graphqls
+index 93feacf..f175277 100644
+--- a/cato_api.graphqls
++++ b/cato_api.graphqls
+@@ -8510,6 +8510,7 @@ type ZtnaAppConnector {
+   isRegistered: Boolean!
+   location: ZtnaAppConnectorLocation!
+   name: String!
++  pooledBandwidthAllocation: [ZtnaAppConnectorPooledBandwidthAllocation!]
+   preferredPopLocation: ZtnaAppConnectorPreferredPopLocation
+   privateAppCount: Int!
+   privateAppRef: [PrivateApplicationRef!]!
+@@ -8617,6 +8618,11 @@ type ZtnaAppConnectorMutations {
+   upgradeZtnaAppConnector(input: UpgradeZtnaAppConnectorInput!): UpgradeZtnaAppConnectorPayload! @beta
+ }
+ 
++type ZtnaAppConnectorPooledBandwidthAllocation {
++  bw: Int!
++  licenseId: ID!
++}
++
+ type ZtnaAppConnectorPreferredPopLocation {
+   automatic: Boolean!
+   preferredOnly: Boolean!
+@@ -9003,6 +9009,7 @@ input AddZtnaAppConnectorInput {
+   groupName: String!
+   location: ZtnaAppConnectorLocationInput!
+   name: String!
++  pooledBandwidthAllocation: [ZtnaAppConnectorPooledBandwidthAllocationInput!]
+   preferredPopLocation: ZtnaAppConnectorPreferredPopLocationInput! = {preferredOnly:false,automatic:true}
+   type: ZtnaAppConnectorType!
+ }
+@@ -14496,6 +14503,7 @@ input UpdateZtnaAppConnectorInput {
+   id: ID!
+   location: ZtnaAppConnectorLocationInput
+   name: String
++  pooledBandwidthAllocation: [ZtnaAppConnectorPooledBandwidthAllocationInput!]
+   preferredPopLocation: ZtnaAppConnectorPreferredPopLocationInput
+ }
+ 
+@@ -15263,6 +15271,11 @@ input ZtnaAppConnectorModelFilterInput {
+   nin: [SocketModel!]
+ }
+ 
++input ZtnaAppConnectorPooledBandwidthAllocationInput {
++  bw: Int!
++  licenseId: ID!
++}
++
+ input ZtnaAppConnectorPreferredPopLocationInput {
+   automatic: Boolean!
+   preferredOnly: Boolean!
+diff --git a/sources/mutation.ztnaAppConnector.addZtnaAppConnector.gql b/sources/mutation.ztnaAppConnector.addZtnaAppConnector.gql
+index ffa40da..a730764 100644
+--- a/sources/mutation.ztnaAppConnector.addZtnaAppConnector.gql
++++ b/sources/mutation.ztnaAppConnector.addZtnaAppConnector.gql
+@@ -20,6 +20,10 @@ mutation ztnaAppConnectorAddZtnaAppConnector ( $accountId:ID! $addZtnaAppConnect
+ 					stateCode
+ 					timezone
+ 				}
++				pooledBandwidthAllocation {
++					bw
++					licenseId
++				}
+ 				preferredPopLocation {
+ 					preferredOnly
+ 					automatic
+@@ -47,4 +51,4 @@ mutation ztnaAppConnectorAddZtnaAppConnector ( $accountId:ID! $addZtnaAppConnect
+ 			}
+ 		}
+ 	}	
+-}
+\ No newline at end of file
++}
+diff --git a/sources/mutation.ztnaAppConnector.removeZtnaAppConnector.gql b/sources/mutation.ztnaAppConnector.removeZtnaAppConnector.gql
+index 1758475..a4cb0ba 100644
+--- a/sources/mutation.ztnaAppConnector.removeZtnaAppConnector.gql
++++ b/sources/mutation.ztnaAppConnector.removeZtnaAppConnector.gql
+@@ -20,6 +20,10 @@ mutation ztnaAppConnectorRemoveZtnaAppConnector ( $accountId:ID! $removeZtnaAppC
+ 					stateCode
+ 					timezone
+ 				}
++				pooledBandwidthAllocation {
++					bw
++					licenseId
++				}
+ 				preferredPopLocation {
+ 					preferredOnly
+ 					automatic
+@@ -47,4 +51,4 @@ mutation ztnaAppConnectorRemoveZtnaAppConnector ( $accountId:ID! $removeZtnaAppC
+ 			}
+ 		}
+ 	}	
+-}
+\ No newline at end of file
++}
+diff --git a/sources/mutation.ztnaAppConnector.unassignSocketFromZtnaAppConnector.gql b/sources/mutation.ztnaAppConnector.unassignSocketFromZtnaAppConnector.gql
+index 6bafc08..c2e4735 100644
+--- a/sources/mutation.ztnaAppConnector.unassignSocketFromZtnaAppConnector.gql
++++ b/sources/mutation.ztnaAppConnector.unassignSocketFromZtnaAppConnector.gql
+@@ -20,6 +20,10 @@ mutation ztnaAppConnectorUnassignSocketFromZtnaAppConnector ( $accountId:ID! $un
+ 					stateCode
+ 					timezone
+ 				}
++				pooledBandwidthAllocation {
++					bw
++					licenseId
++				}
+ 				preferredPopLocation {
+ 					preferredOnly
+ 					automatic
+@@ -47,4 +51,4 @@ mutation ztnaAppConnectorUnassignSocketFromZtnaAppConnector ( $accountId:ID! $un
+ 			}
+ 		}
+ 	}	
+-}
+\ No newline at end of file
++}
+diff --git a/sources/mutation.ztnaAppConnector.updateZtnaAppConnector.gql b/sources/mutation.ztnaAppConnector.updateZtnaAppConnector.gql
+index 399cf6f..184e2f4 100644
+--- a/sources/mutation.ztnaAppConnector.updateZtnaAppConnector.gql
++++ b/sources/mutation.ztnaAppConnector.updateZtnaAppConnector.gql
+@@ -20,6 +20,10 @@ mutation ztnaAppConnectorUpdateZtnaAppConnector ( $accountId:ID! $updateZtnaAppC
+ 					stateCode
+ 					timezone
+ 				}
++				pooledBandwidthAllocation {
++					bw
++					licenseId
++				}
+ 				preferredPopLocation {
+ 					preferredOnly
+ 					automatic
+@@ -47,4 +51,4 @@ mutation ztnaAppConnectorUpdateZtnaAppConnector ( $accountId:ID! $updateZtnaAppC
+ 			}
+ 		}
+ 	}	
+-}
+\ No newline at end of file
++}
+diff --git a/sources/query.ztnaAppConnector.readConnector.gql b/sources/query.ztnaAppConnector.readConnector.gql
+index ca6d2d9..5dbbf6f 100644
+--- a/sources/query.ztnaAppConnector.readConnector.gql
++++ b/sources/query.ztnaAppConnector.readConnector.gql
+@@ -14,6 +14,10 @@ query appConnectorReadConnector($accountId: ID!, $ref: ZtnaAppConnectorRefInput!
+         stateCode
+         timezone
+       }
++      pooledBandwidthAllocation {
++        bw
++        licenseId
++      }
+       preferredPopLocation {
+         preferredOnly
+         automatic
+diff --git a/sources/query.ztnaAppConnector.ztnaAppConnector.gql b/sources/query.ztnaAppConnector.ztnaAppConnector.gql
+index 3ba8487..dd82580 100644
+--- a/sources/query.ztnaAppConnector.ztnaAppConnector.gql
++++ b/sources/query.ztnaAppConnector.ztnaAppConnector.gql
+@@ -19,6 +19,10 @@ query ztnaAppConnectorZtnaAppConnector ( $accountId:ID! $ztnaAppConnectorRefInpu
+ 				stateCode
+ 				timezone
+ 			}
++			pooledBandwidthAllocation {
++				bw
++				licenseId
++			}
+ 			preferredPopLocation {
+ 				preferredOnly
+ 				automatic
+@@ -45,4 +49,4 @@ query ztnaAppConnectorZtnaAppConnector ( $accountId:ID! $ztnaAppConnectorRefInpu
+ 			}
+ 		}
+ 	}	
+-}
+\ No newline at end of file
++}
+diff --git a/sources/query.ztnaAppConnector.ztnaAppConnectorList.gql b/sources/query.ztnaAppConnector.ztnaAppConnectorList.gql
+index 86eed3a..15dd0f0 100644
+--- a/sources/query.ztnaAppConnector.ztnaAppConnectorList.gql
++++ b/sources/query.ztnaAppConnector.ztnaAppConnectorList.gql
+@@ -20,6 +20,10 @@ query ztnaAppConnectorZtnaAppConnectorList ( $accountId:ID! $ztnaAppConnectorLis
+ 					stateCode
+ 					timezone
+ 				}
++				pooledBandwidthAllocation {
++					bw
++					licenseId
++				}
+ 				preferredPopLocation {
+ 					preferredOnly
+ 					automatic
+@@ -50,4 +54,4 @@ query ztnaAppConnectorZtnaAppConnectorList ( $accountId:ID! $ztnaAppConnectorLis
+ 			}
+ 		}
+ 	}	
+-}
+\ No newline at end of file
++}

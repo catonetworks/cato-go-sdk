@@ -20,6 +20,10 @@ mutation ztnaAppConnectorRemoveZtnaAppConnector ( $accountId:ID! $removeZtnaAppC
 					stateCode
 					timezone
 				}
+				pooledBandwidthAllocation {
+					bw
+					licenseId
+				}
 				preferredPopLocation {
 					preferredOnly
 					automatic

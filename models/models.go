@@ -905,12 +905,13 @@ type AddStoryCommentPayload struct {
 
 // Input for creating a new ZTNA App Connector
 type AddZtnaAppConnectorInput struct {
-	Description          *string                                    `json:"description,omitempty"`
-	GroupName            string                                     `json:"groupName"`
-	Location             *ZtnaAppConnectorLocationInput             `json:"location"`
-	Name                 string                                     `json:"name"`
-	PreferredPopLocation *ZtnaAppConnectorPreferredPopLocationInput `json:"preferredPopLocation"`
-	Type                 ZtnaAppConnectorType                       `json:"type"`
+	Description               *string                                           `json:"description,omitempty"`
+	GroupName                 string                                            `json:"groupName"`
+	Location                  *ZtnaAppConnectorLocationInput                    `json:"location"`
+	Name                      string                                            `json:"name"`
+	PooledBandwidthAllocation []*ZtnaAppConnectorPooledBandwidthAllocationInput `json:"pooledBandwidthAllocation,omitempty"`
+	PreferredPopLocation      *ZtnaAppConnectorPreferredPopLocationInput        `json:"preferredPopLocation"`
+	Type                      ZtnaAppConnectorType                              `json:"type"`
 }
 
 type AddZtnaAppConnectorPayload struct {
@@ -16702,12 +16703,13 @@ type UpdateWifiSsidPayload struct {
 }
 
 type UpdateZtnaAppConnectorInput struct {
-	Description          *string                                    `json:"description,omitempty"`
-	GroupName            *string                                    `json:"groupName,omitempty"`
-	ID                   string                                     `json:"id"`
-	Location             *ZtnaAppConnectorLocationInput             `json:"location,omitempty"`
-	Name                 *string                                    `json:"name,omitempty"`
-	PreferredPopLocation *ZtnaAppConnectorPreferredPopLocationInput `json:"preferredPopLocation,omitempty"`
+	Description               *string                                           `json:"description,omitempty"`
+	GroupName                 *string                                           `json:"groupName,omitempty"`
+	ID                        string                                            `json:"id"`
+	Location                  *ZtnaAppConnectorLocationInput                    `json:"location,omitempty"`
+	Name                      *string                                           `json:"name,omitempty"`
+	PooledBandwidthAllocation []*ZtnaAppConnectorPooledBandwidthAllocationInput `json:"pooledBandwidthAllocation,omitempty"`
+	PreferredPopLocation      *ZtnaAppConnectorPreferredPopLocationInput        `json:"preferredPopLocation,omitempty"`
 }
 
 type UpdateZtnaAppConnectorPayload struct {
@@ -18455,21 +18457,22 @@ type ZtnaAlwaysOnUpdateRuleInput struct {
 }
 
 type ZtnaAppConnector struct {
-	CreatedAt            *string                               `json:"createdAt,omitempty"`
-	Description          *string                               `json:"description,omitempty"`
-	GroupName            string                                `json:"groupName"`
-	ID                   string                                `json:"id"`
-	IsRegistered         bool                                  `json:"isRegistered"`
-	Location             *ZtnaAppConnectorLocation             `json:"location"`
-	Name                 string                                `json:"name"`
-	PreferredPopLocation *ZtnaAppConnectorPreferredPopLocation `json:"preferredPopLocation,omitempty"`
-	PrivateAppCount      int64                                 `json:"privateAppCount"`
-	PrivateAppRef        []*PrivateApplicationRef              `json:"privateAppRef"`
-	SerialNumber         *string                               `json:"serialNumber,omitempty"`
-	SocketID             *string                               `json:"socketId,omitempty"`
-	SocketInfo           *ZtnaAppConnectorSocketInfo           `json:"socketInfo,omitempty"`
-	SocketModel          *SocketModel                          `json:"socketModel,omitempty"`
-	Type                 ZtnaAppConnectorType                  `json:"type"`
+	CreatedAt                 *string                                      `json:"createdAt,omitempty"`
+	Description               *string                                      `json:"description,omitempty"`
+	GroupName                 string                                       `json:"groupName"`
+	ID                        string                                       `json:"id"`
+	IsRegistered              bool                                         `json:"isRegistered"`
+	Location                  *ZtnaAppConnectorLocation                    `json:"location"`
+	Name                      string                                       `json:"name"`
+	PooledBandwidthAllocation []*ZtnaAppConnectorPooledBandwidthAllocation `json:"pooledBandwidthAllocation,omitempty"`
+	PreferredPopLocation      *ZtnaAppConnectorPreferredPopLocation        `json:"preferredPopLocation,omitempty"`
+	PrivateAppCount           int64                                        `json:"privateAppCount"`
+	PrivateAppRef             []*PrivateApplicationRef                     `json:"privateAppRef"`
+	SerialNumber              *string                                      `json:"serialNumber,omitempty"`
+	SocketID                  *string                                      `json:"socketId,omitempty"`
+	SocketInfo                *ZtnaAppConnectorSocketInfo                  `json:"socketInfo,omitempty"`
+	SocketModel               *SocketModel                                 `json:"socketModel,omitempty"`
+	Type                      ZtnaAppConnectorType                         `json:"type"`
 }
 
 type ZtnaAppConnectorConnectivityInfo struct {
@@ -18649,6 +18652,16 @@ type ZtnaAppConnectorMutations struct {
 	UpdateZtnaAppConnector               *UpdateZtnaAppConnectorPayload               `json:"updateZtnaAppConnector"`
 	UpdateZtnaAppConnectorsConfiguration *UpdateZtnaAppConnectorsConfigurationPayload `json:"updateZtnaAppConnectorsConfiguration"`
 	UpgradeZtnaAppConnector              *UpgradeZtnaAppConnectorPayload              `json:"upgradeZtnaAppConnector"`
+}
+
+type ZtnaAppConnectorPooledBandwidthAllocation struct {
+	Bw        int64  `json:"bw"`
+	LicenseID string `json:"licenseId"`
+}
+
+type ZtnaAppConnectorPooledBandwidthAllocationInput struct {
+	Bw        int64  `json:"bw"`
+	LicenseID string `json:"licenseId"`
 }
 
 type ZtnaAppConnectorPreferredPopLocation struct {

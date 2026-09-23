@@ -8510,6 +8510,7 @@ type ZtnaAppConnector {
   isRegistered: Boolean!
   location: ZtnaAppConnectorLocation!
   name: String!
+  pooledBandwidthAllocation: [ZtnaAppConnectorPooledBandwidthAllocation!]
   preferredPopLocation: ZtnaAppConnectorPreferredPopLocation
   privateAppCount: Int!
   privateAppRef: [PrivateApplicationRef!]!
@@ -8615,6 +8616,11 @@ type ZtnaAppConnectorMutations {
   updateZtnaAppConnector(input: UpdateZtnaAppConnectorInput!): UpdateZtnaAppConnectorPayload! @beta
   updateZtnaAppConnectorsConfiguration(input: UpdateZtnaAppConnectorsConfigurationInput!): UpdateZtnaAppConnectorsConfigurationPayload! @beta
   upgradeZtnaAppConnector(input: UpgradeZtnaAppConnectorInput!): UpgradeZtnaAppConnectorPayload! @beta
+}
+
+type ZtnaAppConnectorPooledBandwidthAllocation {
+  bw: Int!
+  licenseId: ID!
 }
 
 type ZtnaAppConnectorPreferredPopLocation {
@@ -9003,6 +9009,7 @@ input AddZtnaAppConnectorInput {
   groupName: String!
   location: ZtnaAppConnectorLocationInput!
   name: String!
+  pooledBandwidthAllocation: [ZtnaAppConnectorPooledBandwidthAllocationInput!]
   preferredPopLocation: ZtnaAppConnectorPreferredPopLocationInput! = {preferredOnly:false,automatic:true}
   type: ZtnaAppConnectorType!
 }
@@ -14496,6 +14503,7 @@ input UpdateZtnaAppConnectorInput {
   id: ID!
   location: ZtnaAppConnectorLocationInput
   name: String
+  pooledBandwidthAllocation: [ZtnaAppConnectorPooledBandwidthAllocationInput!]
   preferredPopLocation: ZtnaAppConnectorPreferredPopLocationInput
 }
 
@@ -15261,6 +15269,11 @@ input ZtnaAppConnectorModelFilterInput {
   in: [SocketModel!]
   neq: SocketModel
   nin: [SocketModel!]
+}
+
+input ZtnaAppConnectorPooledBandwidthAllocationInput {
+  bw: Int!
+  licenseId: ID!
 }
 
 input ZtnaAppConnectorPreferredPopLocationInput {

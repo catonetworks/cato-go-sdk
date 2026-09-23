@@ -20,6 +20,10 @@ mutation ztnaAppConnectorUpdateZtnaAppConnector ( $accountId:ID! $updateZtnaAppC
 					stateCode
 					timezone
 				}
+				pooledBandwidthAllocation {
+					bw
+					licenseId
+				}
 				preferredPopLocation {
 					preferredOnly
 					automatic

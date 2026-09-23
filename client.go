@@ -175550,6 +175550,24 @@ func (t *ZtnaAppConnectorAddZtnaAppConnector_ZtnaAppConnector_AddZtnaAppConnecto
 	return t.Timezone
 }
 
+type ZtnaAppConnectorAddZtnaAppConnector_ZtnaAppConnector_AddZtnaAppConnector_ZtnaAppConnector_PooledBandwidthAllocation struct {
+	Bw        int64  "json:\"bw\" graphql:\"bw\""
+	LicenseID string "json:\"licenseId\" graphql:\"licenseId\""
+}
+
+func (t *ZtnaAppConnectorAddZtnaAppConnector_ZtnaAppConnector_AddZtnaAppConnector_ZtnaAppConnector_PooledBandwidthAllocation) GetBw() int64 {
+	if t == nil {
+		t = &ZtnaAppConnectorAddZtnaAppConnector_ZtnaAppConnector_AddZtnaAppConnector_ZtnaAppConnector_PooledBandwidthAllocation{}
+	}
+	return t.Bw
+}
+func (t *ZtnaAppConnectorAddZtnaAppConnector_ZtnaAppConnector_AddZtnaAppConnector_ZtnaAppConnector_PooledBandwidthAllocation) GetLicenseID() string {
+	if t == nil {
+		t = &ZtnaAppConnectorAddZtnaAppConnector_ZtnaAppConnector_AddZtnaAppConnector_ZtnaAppConnector_PooledBandwidthAllocation{}
+	}
+	return t.LicenseID
+}
+
 type ZtnaAppConnectorAddZtnaAppConnector_ZtnaAppConnector_AddZtnaAppConnector_ZtnaAppConnector_PreferredPopLocation_Primary struct {
 	ID   string "json:\"id\" graphql:\"id\""
 	Name string "json:\"name\" graphql:\"name\""
@@ -175676,21 +175694,22 @@ func (t *ZtnaAppConnectorAddZtnaAppConnector_ZtnaAppConnector_AddZtnaAppConnecto
 }
 
 type ZtnaAppConnectorAddZtnaAppConnector_ZtnaAppConnector_AddZtnaAppConnector_ZtnaAppConnector struct {
-	CreatedAt            *string                                                                                                         "json:\"createdAt,omitempty\" graphql:\"createdAt\""
-	Description          *string                                                                                                         "json:\"description,omitempty\" graphql:\"description\""
-	GroupName            string                                                                                                          "json:\"groupName\" graphql:\"groupName\""
-	ID                   string                                                                                                          "json:\"id\" graphql:\"id\""
-	IsRegistered         bool                                                                                                            "json:\"isRegistered\" graphql:\"isRegistered\""
-	Location             ZtnaAppConnectorAddZtnaAppConnector_ZtnaAppConnector_AddZtnaAppConnector_ZtnaAppConnector_Location              "json:\"location\" graphql:\"location\""
-	Name                 string                                                                                                          "json:\"name\" graphql:\"name\""
-	PreferredPopLocation *ZtnaAppConnectorAddZtnaAppConnector_ZtnaAppConnector_AddZtnaAppConnector_ZtnaAppConnector_PreferredPopLocation "json:\"preferredPopLocation,omitempty\" graphql:\"preferredPopLocation\""
-	PrivateAppCount      int64                                                                                                           "json:\"privateAppCount\" graphql:\"privateAppCount\""
-	PrivateAppRef        []*ZtnaAppConnectorAddZtnaAppConnector_ZtnaAppConnector_AddZtnaAppConnector_ZtnaAppConnector_PrivateAppRef      "json:\"privateAppRef\" graphql:\"privateAppRef\""
-	SerialNumber         *string                                                                                                         "json:\"serialNumber,omitempty\" graphql:\"serialNumber\""
-	SocketID             *string                                                                                                         "json:\"socketId,omitempty\" graphql:\"socketId\""
-	SocketInfo           *ZtnaAppConnectorAddZtnaAppConnector_ZtnaAppConnector_AddZtnaAppConnector_ZtnaAppConnector_SocketInfo           "json:\"socketInfo,omitempty\" graphql:\"socketInfo\""
-	SocketModel          *cato_models.SocketModel                                                                                        "json:\"socketModel,omitempty\" graphql:\"socketModel\""
-	Type                 cato_models.ZtnaAppConnectorType                                                                                "json:\"type\" graphql:\"type\""
+	CreatedAt                 *string                                                                                                                "json:\"createdAt,omitempty\" graphql:\"createdAt\""
+	Description               *string                                                                                                                "json:\"description,omitempty\" graphql:\"description\""
+	GroupName                 string                                                                                                                 "json:\"groupName\" graphql:\"groupName\""
+	ID                        string                                                                                                                 "json:\"id\" graphql:\"id\""
+	IsRegistered              bool                                                                                                                   "json:\"isRegistered\" graphql:\"isRegistered\""
+	Location                  ZtnaAppConnectorAddZtnaAppConnector_ZtnaAppConnector_AddZtnaAppConnector_ZtnaAppConnector_Location                     "json:\"location\" graphql:\"location\""
+	Name                      string                                                                                                                 "json:\"name\" graphql:\"name\""
+	PooledBandwidthAllocation []*ZtnaAppConnectorAddZtnaAppConnector_ZtnaAppConnector_AddZtnaAppConnector_ZtnaAppConnector_PooledBandwidthAllocation "json:\"pooledBandwidthAllocation,omitempty\" graphql:\"pooledBandwidthAllocation\""
+	PreferredPopLocation      *ZtnaAppConnectorAddZtnaAppConnector_ZtnaAppConnector_AddZtnaAppConnector_ZtnaAppConnector_PreferredPopLocation        "json:\"preferredPopLocation,omitempty\" graphql:\"preferredPopLocation\""
+	PrivateAppCount           int64                                                                                                                  "json:\"privateAppCount\" graphql:\"privateAppCount\""
+	PrivateAppRef             []*ZtnaAppConnectorAddZtnaAppConnector_ZtnaAppConnector_AddZtnaAppConnector_ZtnaAppConnector_PrivateAppRef             "json:\"privateAppRef\" graphql:\"privateAppRef\""
+	SerialNumber              *string                                                                                                                "json:\"serialNumber,omitempty\" graphql:\"serialNumber\""
+	SocketID                  *string                                                                                                                "json:\"socketId,omitempty\" graphql:\"socketId\""
+	SocketInfo                *ZtnaAppConnectorAddZtnaAppConnector_ZtnaAppConnector_AddZtnaAppConnector_ZtnaAppConnector_SocketInfo                  "json:\"socketInfo,omitempty\" graphql:\"socketInfo\""
+	SocketModel               *cato_models.SocketModel                                                                                               "json:\"socketModel,omitempty\" graphql:\"socketModel\""
+	Type                      cato_models.ZtnaAppConnectorType                                                                                       "json:\"type\" graphql:\"type\""
 }
 
 func (t *ZtnaAppConnectorAddZtnaAppConnector_ZtnaAppConnector_AddZtnaAppConnector_ZtnaAppConnector) GetCreatedAt() *string {
@@ -175734,6 +175753,12 @@ func (t *ZtnaAppConnectorAddZtnaAppConnector_ZtnaAppConnector_AddZtnaAppConnecto
 		t = &ZtnaAppConnectorAddZtnaAppConnector_ZtnaAppConnector_AddZtnaAppConnector_ZtnaAppConnector{}
 	}
 	return t.Name
+}
+func (t *ZtnaAppConnectorAddZtnaAppConnector_ZtnaAppConnector_AddZtnaAppConnector_ZtnaAppConnector) GetPooledBandwidthAllocation() []*ZtnaAppConnectorAddZtnaAppConnector_ZtnaAppConnector_AddZtnaAppConnector_ZtnaAppConnector_PooledBandwidthAllocation {
+	if t == nil {
+		t = &ZtnaAppConnectorAddZtnaAppConnector_ZtnaAppConnector_AddZtnaAppConnector_ZtnaAppConnector{}
+	}
+	return t.PooledBandwidthAllocation
 }
 func (t *ZtnaAppConnectorAddZtnaAppConnector_ZtnaAppConnector_AddZtnaAppConnector_ZtnaAppConnector) GetPreferredPopLocation() *ZtnaAppConnectorAddZtnaAppConnector_ZtnaAppConnector_AddZtnaAppConnector_ZtnaAppConnector_PreferredPopLocation {
 	if t == nil {
@@ -175965,6 +175990,24 @@ func (t *ZtnaAppConnectorRemoveZtnaAppConnector_ZtnaAppConnector_RemoveZtnaAppCo
 	return t.Timezone
 }
 
+type ZtnaAppConnectorRemoveZtnaAppConnector_ZtnaAppConnector_RemoveZtnaAppConnector_ZtnaAppConnector_PooledBandwidthAllocation struct {
+	Bw        int64  "json:\"bw\" graphql:\"bw\""
+	LicenseID string "json:\"licenseId\" graphql:\"licenseId\""
+}
+
+func (t *ZtnaAppConnectorRemoveZtnaAppConnector_ZtnaAppConnector_RemoveZtnaAppConnector_ZtnaAppConnector_PooledBandwidthAllocation) GetBw() int64 {
+	if t == nil {
+		t = &ZtnaAppConnectorRemoveZtnaAppConnector_ZtnaAppConnector_RemoveZtnaAppConnector_ZtnaAppConnector_PooledBandwidthAllocation{}
+	}
+	return t.Bw
+}
+func (t *ZtnaAppConnectorRemoveZtnaAppConnector_ZtnaAppConnector_RemoveZtnaAppConnector_ZtnaAppConnector_PooledBandwidthAllocation) GetLicenseID() string {
+	if t == nil {
+		t = &ZtnaAppConnectorRemoveZtnaAppConnector_ZtnaAppConnector_RemoveZtnaAppConnector_ZtnaAppConnector_PooledBandwidthAllocation{}
+	}
+	return t.LicenseID
+}
+
 type ZtnaAppConnectorRemoveZtnaAppConnector_ZtnaAppConnector_RemoveZtnaAppConnector_ZtnaAppConnector_PreferredPopLocation_Primary struct {
 	ID   string "json:\"id\" graphql:\"id\""
 	Name string "json:\"name\" graphql:\"name\""
@@ -176091,21 +176134,22 @@ func (t *ZtnaAppConnectorRemoveZtnaAppConnector_ZtnaAppConnector_RemoveZtnaAppCo
 }
 
 type ZtnaAppConnectorRemoveZtnaAppConnector_ZtnaAppConnector_RemoveZtnaAppConnector_ZtnaAppConnector struct {
-	CreatedAt            *string                                                                                                               "json:\"createdAt,omitempty\" graphql:\"createdAt\""
-	Description          *string                                                                                                               "json:\"description,omitempty\" graphql:\"description\""
-	GroupName            string                                                                                                                "json:\"groupName\" graphql:\"groupName\""
-	ID                   string                                                                                                                "json:\"id\" graphql:\"id\""
-	IsRegistered         bool                                                                                                                  "json:\"isRegistered\" graphql:\"isRegistered\""
-	Location             ZtnaAppConnectorRemoveZtnaAppConnector_ZtnaAppConnector_RemoveZtnaAppConnector_ZtnaAppConnector_Location              "json:\"location\" graphql:\"location\""
-	Name                 string                                                                                                                "json:\"name\" graphql:\"name\""
-	PreferredPopLocation *ZtnaAppConnectorRemoveZtnaAppConnector_ZtnaAppConnector_RemoveZtnaAppConnector_ZtnaAppConnector_PreferredPopLocation "json:\"preferredPopLocation,omitempty\" graphql:\"preferredPopLocation\""
-	PrivateAppCount      int64                                                                                                                 "json:\"privateAppCount\" graphql:\"privateAppCount\""
-	PrivateAppRef        []*ZtnaAppConnectorRemoveZtnaAppConnector_ZtnaAppConnector_RemoveZtnaAppConnector_ZtnaAppConnector_PrivateAppRef      "json:\"privateAppRef\" graphql:\"privateAppRef\""
-	SerialNumber         *string                                                                                                               "json:\"serialNumber,omitempty\" graphql:\"serialNumber\""
-	SocketID             *string                                                                                                               "json:\"socketId,omitempty\" graphql:\"socketId\""
-	SocketInfo           *ZtnaAppConnectorRemoveZtnaAppConnector_ZtnaAppConnector_RemoveZtnaAppConnector_ZtnaAppConnector_SocketInfo           "json:\"socketInfo,omitempty\" graphql:\"socketInfo\""
-	SocketModel          *cato_models.SocketModel                                                                                              "json:\"socketModel,omitempty\" graphql:\"socketModel\""
-	Type                 cato_models.ZtnaAppConnectorType                                                                                      "json:\"type\" graphql:\"type\""
+	CreatedAt                 *string                                                                                                                      "json:\"createdAt,omitempty\" graphql:\"createdAt\""
+	Description               *string                                                                                                                      "json:\"description,omitempty\" graphql:\"description\""
+	GroupName                 string                                                                                                                       "json:\"groupName\" graphql:\"groupName\""
+	ID                        string                                                                                                                       "json:\"id\" graphql:\"id\""
+	IsRegistered              bool                                                                                                                         "json:\"isRegistered\" graphql:\"isRegistered\""
+	Location                  ZtnaAppConnectorRemoveZtnaAppConnector_ZtnaAppConnector_RemoveZtnaAppConnector_ZtnaAppConnector_Location                     "json:\"location\" graphql:\"location\""
+	Name                      string                                                                                                                       "json:\"name\" graphql:\"name\""
+	PooledBandwidthAllocation []*ZtnaAppConnectorRemoveZtnaAppConnector_ZtnaAppConnector_RemoveZtnaAppConnector_ZtnaAppConnector_PooledBandwidthAllocation "json:\"pooledBandwidthAllocation,omitempty\" graphql:\"pooledBandwidthAllocation\""
+	PreferredPopLocation      *ZtnaAppConnectorRemoveZtnaAppConnector_ZtnaAppConnector_RemoveZtnaAppConnector_ZtnaAppConnector_PreferredPopLocation        "json:\"preferredPopLocation,omitempty\" graphql:\"preferredPopLocation\""
+	PrivateAppCount           int64                                                                                                                        "json:\"privateAppCount\" graphql:\"privateAppCount\""
+	PrivateAppRef             []*ZtnaAppConnectorRemoveZtnaAppConnector_ZtnaAppConnector_RemoveZtnaAppConnector_ZtnaAppConnector_PrivateAppRef             "json:\"privateAppRef\" graphql:\"privateAppRef\""
+	SerialNumber              *string                                                                                                                      "json:\"serialNumber,omitempty\" graphql:\"serialNumber\""
+	SocketID                  *string                                                                                                                      "json:\"socketId,omitempty\" graphql:\"socketId\""
+	SocketInfo                *ZtnaAppConnectorRemoveZtnaAppConnector_ZtnaAppConnector_RemoveZtnaAppConnector_ZtnaAppConnector_SocketInfo                  "json:\"socketInfo,omitempty\" graphql:\"socketInfo\""
+	SocketModel               *cato_models.SocketModel                                                                                                     "json:\"socketModel,omitempty\" graphql:\"socketModel\""
+	Type                      cato_models.ZtnaAppConnectorType                                                                                             "json:\"type\" graphql:\"type\""
 }
 
 func (t *ZtnaAppConnectorRemoveZtnaAppConnector_ZtnaAppConnector_RemoveZtnaAppConnector_ZtnaAppConnector) GetCreatedAt() *string {
@@ -176149,6 +176193,12 @@ func (t *ZtnaAppConnectorRemoveZtnaAppConnector_ZtnaAppConnector_RemoveZtnaAppCo
 		t = &ZtnaAppConnectorRemoveZtnaAppConnector_ZtnaAppConnector_RemoveZtnaAppConnector_ZtnaAppConnector{}
 	}
 	return t.Name
+}
+func (t *ZtnaAppConnectorRemoveZtnaAppConnector_ZtnaAppConnector_RemoveZtnaAppConnector_ZtnaAppConnector) GetPooledBandwidthAllocation() []*ZtnaAppConnectorRemoveZtnaAppConnector_ZtnaAppConnector_RemoveZtnaAppConnector_ZtnaAppConnector_PooledBandwidthAllocation {
+	if t == nil {
+		t = &ZtnaAppConnectorRemoveZtnaAppConnector_ZtnaAppConnector_RemoveZtnaAppConnector_ZtnaAppConnector{}
+	}
+	return t.PooledBandwidthAllocation
 }
 func (t *ZtnaAppConnectorRemoveZtnaAppConnector_ZtnaAppConnector_RemoveZtnaAppConnector_ZtnaAppConnector) GetPreferredPopLocation() *ZtnaAppConnectorRemoveZtnaAppConnector_ZtnaAppConnector_RemoveZtnaAppConnector_ZtnaAppConnector_PreferredPopLocation {
 	if t == nil {
@@ -176265,6 +176315,24 @@ func (t *ZtnaAppConnectorUnassignSocketFromZtnaAppConnector_ZtnaAppConnector_Una
 		t = &ZtnaAppConnectorUnassignSocketFromZtnaAppConnector_ZtnaAppConnector_UnassignSocketFromZtnaAppConnector_ZtnaAppConnector_Location{}
 	}
 	return t.Timezone
+}
+
+type ZtnaAppConnectorUnassignSocketFromZtnaAppConnector_ZtnaAppConnector_UnassignSocketFromZtnaAppConnector_ZtnaAppConnector_PooledBandwidthAllocation struct {
+	Bw        int64  "json:\"bw\" graphql:\"bw\""
+	LicenseID string "json:\"licenseId\" graphql:\"licenseId\""
+}
+
+func (t *ZtnaAppConnectorUnassignSocketFromZtnaAppConnector_ZtnaAppConnector_UnassignSocketFromZtnaAppConnector_ZtnaAppConnector_PooledBandwidthAllocation) GetBw() int64 {
+	if t == nil {
+		t = &ZtnaAppConnectorUnassignSocketFromZtnaAppConnector_ZtnaAppConnector_UnassignSocketFromZtnaAppConnector_ZtnaAppConnector_PooledBandwidthAllocation{}
+	}
+	return t.Bw
+}
+func (t *ZtnaAppConnectorUnassignSocketFromZtnaAppConnector_ZtnaAppConnector_UnassignSocketFromZtnaAppConnector_ZtnaAppConnector_PooledBandwidthAllocation) GetLicenseID() string {
+	if t == nil {
+		t = &ZtnaAppConnectorUnassignSocketFromZtnaAppConnector_ZtnaAppConnector_UnassignSocketFromZtnaAppConnector_ZtnaAppConnector_PooledBandwidthAllocation{}
+	}
+	return t.LicenseID
 }
 
 type ZtnaAppConnectorUnassignSocketFromZtnaAppConnector_ZtnaAppConnector_UnassignSocketFromZtnaAppConnector_ZtnaAppConnector_PreferredPopLocation_Primary struct {
@@ -176393,21 +176461,22 @@ func (t *ZtnaAppConnectorUnassignSocketFromZtnaAppConnector_ZtnaAppConnector_Una
 }
 
 type ZtnaAppConnectorUnassignSocketFromZtnaAppConnector_ZtnaAppConnector_UnassignSocketFromZtnaAppConnector_ZtnaAppConnector struct {
-	CreatedAt            *string                                                                                                                                       "json:\"createdAt,omitempty\" graphql:\"createdAt\""
-	Description          *string                                                                                                                                       "json:\"description,omitempty\" graphql:\"description\""
-	GroupName            string                                                                                                                                        "json:\"groupName\" graphql:\"groupName\""
-	ID                   string                                                                                                                                        "json:\"id\" graphql:\"id\""
-	IsRegistered         bool                                                                                                                                          "json:\"isRegistered\" graphql:\"isRegistered\""
-	Location             ZtnaAppConnectorUnassignSocketFromZtnaAppConnector_ZtnaAppConnector_UnassignSocketFromZtnaAppConnector_ZtnaAppConnector_Location              "json:\"location\" graphql:\"location\""
-	Name                 string                                                                                                                                        "json:\"name\" graphql:\"name\""
-	PreferredPopLocation *ZtnaAppConnectorUnassignSocketFromZtnaAppConnector_ZtnaAppConnector_UnassignSocketFromZtnaAppConnector_ZtnaAppConnector_PreferredPopLocation "json:\"preferredPopLocation,omitempty\" graphql:\"preferredPopLocation\""
-	PrivateAppCount      int64                                                                                                                                         "json:\"privateAppCount\" graphql:\"privateAppCount\""
-	PrivateAppRef        []*ZtnaAppConnectorUnassignSocketFromZtnaAppConnector_ZtnaAppConnector_UnassignSocketFromZtnaAppConnector_ZtnaAppConnector_PrivateAppRef      "json:\"privateAppRef\" graphql:\"privateAppRef\""
-	SerialNumber         *string                                                                                                                                       "json:\"serialNumber,omitempty\" graphql:\"serialNumber\""
-	SocketID             *string                                                                                                                                       "json:\"socketId,omitempty\" graphql:\"socketId\""
-	SocketInfo           *ZtnaAppConnectorUnassignSocketFromZtnaAppConnector_ZtnaAppConnector_UnassignSocketFromZtnaAppConnector_ZtnaAppConnector_SocketInfo           "json:\"socketInfo,omitempty\" graphql:\"socketInfo\""
-	SocketModel          *cato_models.SocketModel                                                                                                                      "json:\"socketModel,omitempty\" graphql:\"socketModel\""
-	Type                 cato_models.ZtnaAppConnectorType                                                                                                              "json:\"type\" graphql:\"type\""
+	CreatedAt                 *string                                                                                                                                              "json:\"createdAt,omitempty\" graphql:\"createdAt\""
+	Description               *string                                                                                                                                              "json:\"description,omitempty\" graphql:\"description\""
+	GroupName                 string                                                                                                                                               "json:\"groupName\" graphql:\"groupName\""
+	ID                        string                                                                                                                                               "json:\"id\" graphql:\"id\""
+	IsRegistered              bool                                                                                                                                                 "json:\"isRegistered\" graphql:\"isRegistered\""
+	Location                  ZtnaAppConnectorUnassignSocketFromZtnaAppConnector_ZtnaAppConnector_UnassignSocketFromZtnaAppConnector_ZtnaAppConnector_Location                     "json:\"location\" graphql:\"location\""
+	Name                      string                                                                                                                                               "json:\"name\" graphql:\"name\""
+	PooledBandwidthAllocation []*ZtnaAppConnectorUnassignSocketFromZtnaAppConnector_ZtnaAppConnector_UnassignSocketFromZtnaAppConnector_ZtnaAppConnector_PooledBandwidthAllocation "json:\"pooledBandwidthAllocation,omitempty\" graphql:\"pooledBandwidthAllocation\""
+	PreferredPopLocation      *ZtnaAppConnectorUnassignSocketFromZtnaAppConnector_ZtnaAppConnector_UnassignSocketFromZtnaAppConnector_ZtnaAppConnector_PreferredPopLocation        "json:\"preferredPopLocation,omitempty\" graphql:\"preferredPopLocation\""
+	PrivateAppCount           int64                                                                                                                                                "json:\"privateAppCount\" graphql:\"privateAppCount\""
+	PrivateAppRef             []*ZtnaAppConnectorUnassignSocketFromZtnaAppConnector_ZtnaAppConnector_UnassignSocketFromZtnaAppConnector_ZtnaAppConnector_PrivateAppRef             "json:\"privateAppRef\" graphql:\"privateAppRef\""
+	SerialNumber              *string                                                                                                                                              "json:\"serialNumber,omitempty\" graphql:\"serialNumber\""
+	SocketID                  *string                                                                                                                                              "json:\"socketId,omitempty\" graphql:\"socketId\""
+	SocketInfo                *ZtnaAppConnectorUnassignSocketFromZtnaAppConnector_ZtnaAppConnector_UnassignSocketFromZtnaAppConnector_ZtnaAppConnector_SocketInfo                  "json:\"socketInfo,omitempty\" graphql:\"socketInfo\""
+	SocketModel               *cato_models.SocketModel                                                                                                                             "json:\"socketModel,omitempty\" graphql:\"socketModel\""
+	Type                      cato_models.ZtnaAppConnectorType                                                                                                                     "json:\"type\" graphql:\"type\""
 }
 
 func (t *ZtnaAppConnectorUnassignSocketFromZtnaAppConnector_ZtnaAppConnector_UnassignSocketFromZtnaAppConnector_ZtnaAppConnector) GetCreatedAt() *string {
@@ -176451,6 +176520,12 @@ func (t *ZtnaAppConnectorUnassignSocketFromZtnaAppConnector_ZtnaAppConnector_Una
 		t = &ZtnaAppConnectorUnassignSocketFromZtnaAppConnector_ZtnaAppConnector_UnassignSocketFromZtnaAppConnector_ZtnaAppConnector{}
 	}
 	return t.Name
+}
+func (t *ZtnaAppConnectorUnassignSocketFromZtnaAppConnector_ZtnaAppConnector_UnassignSocketFromZtnaAppConnector_ZtnaAppConnector) GetPooledBandwidthAllocation() []*ZtnaAppConnectorUnassignSocketFromZtnaAppConnector_ZtnaAppConnector_UnassignSocketFromZtnaAppConnector_ZtnaAppConnector_PooledBandwidthAllocation {
+	if t == nil {
+		t = &ZtnaAppConnectorUnassignSocketFromZtnaAppConnector_ZtnaAppConnector_UnassignSocketFromZtnaAppConnector_ZtnaAppConnector{}
+	}
+	return t.PooledBandwidthAllocation
 }
 func (t *ZtnaAppConnectorUnassignSocketFromZtnaAppConnector_ZtnaAppConnector_UnassignSocketFromZtnaAppConnector_ZtnaAppConnector) GetPreferredPopLocation() *ZtnaAppConnectorUnassignSocketFromZtnaAppConnector_ZtnaAppConnector_UnassignSocketFromZtnaAppConnector_ZtnaAppConnector_PreferredPopLocation {
 	if t == nil {
@@ -176602,6 +176677,24 @@ func (t *ZtnaAppConnectorUpdateZtnaAppConnector_ZtnaAppConnector_UpdateZtnaAppCo
 	return t.Timezone
 }
 
+type ZtnaAppConnectorUpdateZtnaAppConnector_ZtnaAppConnector_UpdateZtnaAppConnector_ZtnaAppConnector_PooledBandwidthAllocation struct {
+	Bw        int64  "json:\"bw\" graphql:\"bw\""
+	LicenseID string "json:\"licenseId\" graphql:\"licenseId\""
+}
+
+func (t *ZtnaAppConnectorUpdateZtnaAppConnector_ZtnaAppConnector_UpdateZtnaAppConnector_ZtnaAppConnector_PooledBandwidthAllocation) GetBw() int64 {
+	if t == nil {
+		t = &ZtnaAppConnectorUpdateZtnaAppConnector_ZtnaAppConnector_UpdateZtnaAppConnector_ZtnaAppConnector_PooledBandwidthAllocation{}
+	}
+	return t.Bw
+}
+func (t *ZtnaAppConnectorUpdateZtnaAppConnector_ZtnaAppConnector_UpdateZtnaAppConnector_ZtnaAppConnector_PooledBandwidthAllocation) GetLicenseID() string {
+	if t == nil {
+		t = &ZtnaAppConnectorUpdateZtnaAppConnector_ZtnaAppConnector_UpdateZtnaAppConnector_ZtnaAppConnector_PooledBandwidthAllocation{}
+	}
+	return t.LicenseID
+}
+
 type ZtnaAppConnectorUpdateZtnaAppConnector_ZtnaAppConnector_UpdateZtnaAppConnector_ZtnaAppConnector_PreferredPopLocation_Primary struct {
 	ID   string "json:\"id\" graphql:\"id\""
 	Name string "json:\"name\" graphql:\"name\""
@@ -176728,21 +176821,22 @@ func (t *ZtnaAppConnectorUpdateZtnaAppConnector_ZtnaAppConnector_UpdateZtnaAppCo
 }
 
 type ZtnaAppConnectorUpdateZtnaAppConnector_ZtnaAppConnector_UpdateZtnaAppConnector_ZtnaAppConnector struct {
-	CreatedAt            *string                                                                                                               "json:\"createdAt,omitempty\" graphql:\"createdAt\""
-	Description          *string                                                                                                               "json:\"description,omitempty\" graphql:\"description\""
-	GroupName            string                                                                                                                "json:\"groupName\" graphql:\"groupName\""
-	ID                   string                                                                                                                "json:\"id\" graphql:\"id\""
-	IsRegistered         bool                                                                                                                  "json:\"isRegistered\" graphql:\"isRegistered\""
-	Location             ZtnaAppConnectorUpdateZtnaAppConnector_ZtnaAppConnector_UpdateZtnaAppConnector_ZtnaAppConnector_Location              "json:\"location\" graphql:\"location\""
-	Name                 string                                                                                                                "json:\"name\" graphql:\"name\""
-	PreferredPopLocation *ZtnaAppConnectorUpdateZtnaAppConnector_ZtnaAppConnector_UpdateZtnaAppConnector_ZtnaAppConnector_PreferredPopLocation "json:\"preferredPopLocation,omitempty\" graphql:\"preferredPopLocation\""
-	PrivateAppCount      int64                                                                                                                 "json:\"privateAppCount\" graphql:\"privateAppCount\""
-	PrivateAppRef        []*ZtnaAppConnectorUpdateZtnaAppConnector_ZtnaAppConnector_UpdateZtnaAppConnector_ZtnaAppConnector_PrivateAppRef      "json:\"privateAppRef\" graphql:\"privateAppRef\""
-	SerialNumber         *string                                                                                                               "json:\"serialNumber,omitempty\" graphql:\"serialNumber\""
-	SocketID             *string                                                                                                               "json:\"socketId,omitempty\" graphql:\"socketId\""
-	SocketInfo           *ZtnaAppConnectorUpdateZtnaAppConnector_ZtnaAppConnector_UpdateZtnaAppConnector_ZtnaAppConnector_SocketInfo           "json:\"socketInfo,omitempty\" graphql:\"socketInfo\""
-	SocketModel          *cato_models.SocketModel                                                                                              "json:\"socketModel,omitempty\" graphql:\"socketModel\""
-	Type                 cato_models.ZtnaAppConnectorType                                                                                      "json:\"type\" graphql:\"type\""
+	CreatedAt                 *string                                                                                                                      "json:\"createdAt,omitempty\" graphql:\"createdAt\""
+	Description               *string                                                                                                                      "json:\"description,omitempty\" graphql:\"description\""
+	GroupName                 string                                                                                                                       "json:\"groupName\" graphql:\"groupName\""
+	ID                        string                                                                                                                       "json:\"id\" graphql:\"id\""
+	IsRegistered              bool                                                                                                                         "json:\"isRegistered\" graphql:\"isRegistered\""
+	Location                  ZtnaAppConnectorUpdateZtnaAppConnector_ZtnaAppConnector_UpdateZtnaAppConnector_ZtnaAppConnector_Location                     "json:\"location\" graphql:\"location\""
+	Name                      string                                                                                                                       "json:\"name\" graphql:\"name\""
+	PooledBandwidthAllocation []*ZtnaAppConnectorUpdateZtnaAppConnector_ZtnaAppConnector_UpdateZtnaAppConnector_ZtnaAppConnector_PooledBandwidthAllocation "json:\"pooledBandwidthAllocation,omitempty\" graphql:\"pooledBandwidthAllocation\""
+	PreferredPopLocation      *ZtnaAppConnectorUpdateZtnaAppConnector_ZtnaAppConnector_UpdateZtnaAppConnector_ZtnaAppConnector_PreferredPopLocation        "json:\"preferredPopLocation,omitempty\" graphql:\"preferredPopLocation\""
+	PrivateAppCount           int64                                                                                                                        "json:\"privateAppCount\" graphql:\"privateAppCount\""
+	PrivateAppRef             []*ZtnaAppConnectorUpdateZtnaAppConnector_ZtnaAppConnector_UpdateZtnaAppConnector_ZtnaAppConnector_PrivateAppRef             "json:\"privateAppRef\" graphql:\"privateAppRef\""
+	SerialNumber              *string                                                                                                                      "json:\"serialNumber,omitempty\" graphql:\"serialNumber\""
+	SocketID                  *string                                                                                                                      "json:\"socketId,omitempty\" graphql:\"socketId\""
+	SocketInfo                *ZtnaAppConnectorUpdateZtnaAppConnector_ZtnaAppConnector_UpdateZtnaAppConnector_ZtnaAppConnector_SocketInfo                  "json:\"socketInfo,omitempty\" graphql:\"socketInfo\""
+	SocketModel               *cato_models.SocketModel                                                                                                     "json:\"socketModel,omitempty\" graphql:\"socketModel\""
+	Type                      cato_models.ZtnaAppConnectorType                                                                                             "json:\"type\" graphql:\"type\""
 }
 
 func (t *ZtnaAppConnectorUpdateZtnaAppConnector_ZtnaAppConnector_UpdateZtnaAppConnector_ZtnaAppConnector) GetCreatedAt() *string {
@@ -176786,6 +176880,12 @@ func (t *ZtnaAppConnectorUpdateZtnaAppConnector_ZtnaAppConnector_UpdateZtnaAppCo
 		t = &ZtnaAppConnectorUpdateZtnaAppConnector_ZtnaAppConnector_UpdateZtnaAppConnector_ZtnaAppConnector{}
 	}
 	return t.Name
+}
+func (t *ZtnaAppConnectorUpdateZtnaAppConnector_ZtnaAppConnector_UpdateZtnaAppConnector_ZtnaAppConnector) GetPooledBandwidthAllocation() []*ZtnaAppConnectorUpdateZtnaAppConnector_ZtnaAppConnector_UpdateZtnaAppConnector_ZtnaAppConnector_PooledBandwidthAllocation {
+	if t == nil {
+		t = &ZtnaAppConnectorUpdateZtnaAppConnector_ZtnaAppConnector_UpdateZtnaAppConnector_ZtnaAppConnector{}
+	}
+	return t.PooledBandwidthAllocation
 }
 func (t *ZtnaAppConnectorUpdateZtnaAppConnector_ZtnaAppConnector_UpdateZtnaAppConnector_ZtnaAppConnector) GetPreferredPopLocation() *ZtnaAppConnectorUpdateZtnaAppConnector_ZtnaAppConnector_UpdateZtnaAppConnector_ZtnaAppConnector_PreferredPopLocation {
 	if t == nil {
@@ -244482,6 +244582,24 @@ func (t *AppConnectorReadConnector_ZtnaAppConnector_ZtnaAppConnector_Location) G
 	return t.Timezone
 }
 
+type AppConnectorReadConnector_ZtnaAppConnector_ZtnaAppConnector_PooledBandwidthAllocation struct {
+	Bw        int64  "json:\"bw\" graphql:\"bw\""
+	LicenseID string "json:\"licenseId\" graphql:\"licenseId\""
+}
+
+func (t *AppConnectorReadConnector_ZtnaAppConnector_ZtnaAppConnector_PooledBandwidthAllocation) GetBw() int64 {
+	if t == nil {
+		t = &AppConnectorReadConnector_ZtnaAppConnector_ZtnaAppConnector_PooledBandwidthAllocation{}
+	}
+	return t.Bw
+}
+func (t *AppConnectorReadConnector_ZtnaAppConnector_ZtnaAppConnector_PooledBandwidthAllocation) GetLicenseID() string {
+	if t == nil {
+		t = &AppConnectorReadConnector_ZtnaAppConnector_ZtnaAppConnector_PooledBandwidthAllocation{}
+	}
+	return t.LicenseID
+}
+
 type AppConnectorReadConnector_ZtnaAppConnector_ZtnaAppConnector_PreferredPopLocation_Primary struct {
 	ID   string "json:\"id\" graphql:\"id\""
 	Name string "json:\"name\" graphql:\"name\""
@@ -244569,17 +244687,18 @@ func (t *AppConnectorReadConnector_ZtnaAppConnector_ZtnaAppConnector_PrivateAppR
 }
 
 type AppConnectorReadConnector_ZtnaAppConnector_ZtnaAppConnector struct {
-	Description          *string                                                                           "json:\"description,omitempty\" graphql:\"description\""
-	GroupName            string                                                                            "json:\"groupName\" graphql:\"groupName\""
-	ID                   string                                                                            "json:\"id\" graphql:\"id\""
-	Location             AppConnectorReadConnector_ZtnaAppConnector_ZtnaAppConnector_Location              "json:\"location\" graphql:\"location\""
-	Name                 string                                                                            "json:\"name\" graphql:\"name\""
-	PreferredPopLocation *AppConnectorReadConnector_ZtnaAppConnector_ZtnaAppConnector_PreferredPopLocation "json:\"preferredPopLocation,omitempty\" graphql:\"preferredPopLocation\""
-	PrivateAppRef        []*AppConnectorReadConnector_ZtnaAppConnector_ZtnaAppConnector_PrivateAppRef      "json:\"privateAppRef\" graphql:\"privateAppRef\""
-	SerialNumber         *string                                                                           "json:\"serialNumber,omitempty\" graphql:\"serialNumber\""
-	SocketID             *string                                                                           "json:\"socketId,omitempty\" graphql:\"socketId\""
-	SocketModel          *cato_models.SocketModel                                                          "json:\"socketModel,omitempty\" graphql:\"socketModel\""
-	Type                 cato_models.ZtnaAppConnectorType                                                  "json:\"type\" graphql:\"type\""
+	Description               *string                                                                                  "json:\"description,omitempty\" graphql:\"description\""
+	GroupName                 string                                                                                   "json:\"groupName\" graphql:\"groupName\""
+	ID                        string                                                                                   "json:\"id\" graphql:\"id\""
+	Location                  AppConnectorReadConnector_ZtnaAppConnector_ZtnaAppConnector_Location                     "json:\"location\" graphql:\"location\""
+	Name                      string                                                                                   "json:\"name\" graphql:\"name\""
+	PooledBandwidthAllocation []*AppConnectorReadConnector_ZtnaAppConnector_ZtnaAppConnector_PooledBandwidthAllocation "json:\"pooledBandwidthAllocation,omitempty\" graphql:\"pooledBandwidthAllocation\""
+	PreferredPopLocation      *AppConnectorReadConnector_ZtnaAppConnector_ZtnaAppConnector_PreferredPopLocation        "json:\"preferredPopLocation,omitempty\" graphql:\"preferredPopLocation\""
+	PrivateAppRef             []*AppConnectorReadConnector_ZtnaAppConnector_ZtnaAppConnector_PrivateAppRef             "json:\"privateAppRef\" graphql:\"privateAppRef\""
+	SerialNumber              *string                                                                                  "json:\"serialNumber,omitempty\" graphql:\"serialNumber\""
+	SocketID                  *string                                                                                  "json:\"socketId,omitempty\" graphql:\"socketId\""
+	SocketModel               *cato_models.SocketModel                                                                 "json:\"socketModel,omitempty\" graphql:\"socketModel\""
+	Type                      cato_models.ZtnaAppConnectorType                                                         "json:\"type\" graphql:\"type\""
 }
 
 func (t *AppConnectorReadConnector_ZtnaAppConnector_ZtnaAppConnector) GetDescription() *string {
@@ -244611,6 +244730,12 @@ func (t *AppConnectorReadConnector_ZtnaAppConnector_ZtnaAppConnector) GetName() 
 		t = &AppConnectorReadConnector_ZtnaAppConnector_ZtnaAppConnector{}
 	}
 	return t.Name
+}
+func (t *AppConnectorReadConnector_ZtnaAppConnector_ZtnaAppConnector) GetPooledBandwidthAllocation() []*AppConnectorReadConnector_ZtnaAppConnector_ZtnaAppConnector_PooledBandwidthAllocation {
+	if t == nil {
+		t = &AppConnectorReadConnector_ZtnaAppConnector_ZtnaAppConnector{}
+	}
+	return t.PooledBandwidthAllocation
 }
 func (t *AppConnectorReadConnector_ZtnaAppConnector_ZtnaAppConnector) GetPreferredPopLocation() *AppConnectorReadConnector_ZtnaAppConnector_ZtnaAppConnector_PreferredPopLocation {
 	if t == nil {
@@ -244746,6 +244871,24 @@ func (t *ZtnaAppConnectorZtnaAppConnector_ZtnaAppConnector_ZtnaAppConnector_Loca
 	return t.Timezone
 }
 
+type ZtnaAppConnectorZtnaAppConnector_ZtnaAppConnector_ZtnaAppConnector_PooledBandwidthAllocation struct {
+	Bw        int64  "json:\"bw\" graphql:\"bw\""
+	LicenseID string "json:\"licenseId\" graphql:\"licenseId\""
+}
+
+func (t *ZtnaAppConnectorZtnaAppConnector_ZtnaAppConnector_ZtnaAppConnector_PooledBandwidthAllocation) GetBw() int64 {
+	if t == nil {
+		t = &ZtnaAppConnectorZtnaAppConnector_ZtnaAppConnector_ZtnaAppConnector_PooledBandwidthAllocation{}
+	}
+	return t.Bw
+}
+func (t *ZtnaAppConnectorZtnaAppConnector_ZtnaAppConnector_ZtnaAppConnector_PooledBandwidthAllocation) GetLicenseID() string {
+	if t == nil {
+		t = &ZtnaAppConnectorZtnaAppConnector_ZtnaAppConnector_ZtnaAppConnector_PooledBandwidthAllocation{}
+	}
+	return t.LicenseID
+}
+
 type ZtnaAppConnectorZtnaAppConnector_ZtnaAppConnector_ZtnaAppConnector_PreferredPopLocation_Primary struct {
 	ID   string "json:\"id\" graphql:\"id\""
 	Name string "json:\"name\" graphql:\"name\""
@@ -244872,21 +245015,22 @@ func (t *ZtnaAppConnectorZtnaAppConnector_ZtnaAppConnector_ZtnaAppConnector_Sock
 }
 
 type ZtnaAppConnectorZtnaAppConnector_ZtnaAppConnector_ZtnaAppConnector struct {
-	CreatedAt            *string                                                                                  "json:\"createdAt,omitempty\" graphql:\"createdAt\""
-	Description          *string                                                                                  "json:\"description,omitempty\" graphql:\"description\""
-	GroupName            string                                                                                   "json:\"groupName\" graphql:\"groupName\""
-	ID                   string                                                                                   "json:\"id\" graphql:\"id\""
-	IsRegistered         bool                                                                                     "json:\"isRegistered\" graphql:\"isRegistered\""
-	Location             ZtnaAppConnectorZtnaAppConnector_ZtnaAppConnector_ZtnaAppConnector_Location              "json:\"location\" graphql:\"location\""
-	Name                 string                                                                                   "json:\"name\" graphql:\"name\""
-	PreferredPopLocation *ZtnaAppConnectorZtnaAppConnector_ZtnaAppConnector_ZtnaAppConnector_PreferredPopLocation "json:\"preferredPopLocation,omitempty\" graphql:\"preferredPopLocation\""
-	PrivateAppCount      int64                                                                                    "json:\"privateAppCount\" graphql:\"privateAppCount\""
-	PrivateAppRef        []*ZtnaAppConnectorZtnaAppConnector_ZtnaAppConnector_ZtnaAppConnector_PrivateAppRef      "json:\"privateAppRef\" graphql:\"privateAppRef\""
-	SerialNumber         *string                                                                                  "json:\"serialNumber,omitempty\" graphql:\"serialNumber\""
-	SocketID             *string                                                                                  "json:\"socketId,omitempty\" graphql:\"socketId\""
-	SocketInfo           *ZtnaAppConnectorZtnaAppConnector_ZtnaAppConnector_ZtnaAppConnector_SocketInfo           "json:\"socketInfo,omitempty\" graphql:\"socketInfo\""
-	SocketModel          *cato_models.SocketModel                                                                 "json:\"socketModel,omitempty\" graphql:\"socketModel\""
-	Type                 cato_models.ZtnaAppConnectorType                                                         "json:\"type\" graphql:\"type\""
+	CreatedAt                 *string                                                                                         "json:\"createdAt,omitempty\" graphql:\"createdAt\""
+	Description               *string                                                                                         "json:\"description,omitempty\" graphql:\"description\""
+	GroupName                 string                                                                                          "json:\"groupName\" graphql:\"groupName\""
+	ID                        string                                                                                          "json:\"id\" graphql:\"id\""
+	IsRegistered              bool                                                                                            "json:\"isRegistered\" graphql:\"isRegistered\""
+	Location                  ZtnaAppConnectorZtnaAppConnector_ZtnaAppConnector_ZtnaAppConnector_Location                     "json:\"location\" graphql:\"location\""
+	Name                      string                                                                                          "json:\"name\" graphql:\"name\""
+	PooledBandwidthAllocation []*ZtnaAppConnectorZtnaAppConnector_ZtnaAppConnector_ZtnaAppConnector_PooledBandwidthAllocation "json:\"pooledBandwidthAllocation,omitempty\" graphql:\"pooledBandwidthAllocation\""
+	PreferredPopLocation      *ZtnaAppConnectorZtnaAppConnector_ZtnaAppConnector_ZtnaAppConnector_PreferredPopLocation        "json:\"preferredPopLocation,omitempty\" graphql:\"preferredPopLocation\""
+	PrivateAppCount           int64                                                                                           "json:\"privateAppCount\" graphql:\"privateAppCount\""
+	PrivateAppRef             []*ZtnaAppConnectorZtnaAppConnector_ZtnaAppConnector_ZtnaAppConnector_PrivateAppRef             "json:\"privateAppRef\" graphql:\"privateAppRef\""
+	SerialNumber              *string                                                                                         "json:\"serialNumber,omitempty\" graphql:\"serialNumber\""
+	SocketID                  *string                                                                                         "json:\"socketId,omitempty\" graphql:\"socketId\""
+	SocketInfo                *ZtnaAppConnectorZtnaAppConnector_ZtnaAppConnector_ZtnaAppConnector_SocketInfo                  "json:\"socketInfo,omitempty\" graphql:\"socketInfo\""
+	SocketModel               *cato_models.SocketModel                                                                        "json:\"socketModel,omitempty\" graphql:\"socketModel\""
+	Type                      cato_models.ZtnaAppConnectorType                                                                "json:\"type\" graphql:\"type\""
 }
 
 func (t *ZtnaAppConnectorZtnaAppConnector_ZtnaAppConnector_ZtnaAppConnector) GetCreatedAt() *string {
@@ -244930,6 +245074,12 @@ func (t *ZtnaAppConnectorZtnaAppConnector_ZtnaAppConnector_ZtnaAppConnector) Get
 		t = &ZtnaAppConnectorZtnaAppConnector_ZtnaAppConnector_ZtnaAppConnector{}
 	}
 	return t.Name
+}
+func (t *ZtnaAppConnectorZtnaAppConnector_ZtnaAppConnector_ZtnaAppConnector) GetPooledBandwidthAllocation() []*ZtnaAppConnectorZtnaAppConnector_ZtnaAppConnector_ZtnaAppConnector_PooledBandwidthAllocation {
+	if t == nil {
+		t = &ZtnaAppConnectorZtnaAppConnector_ZtnaAppConnector_ZtnaAppConnector{}
+	}
+	return t.PooledBandwidthAllocation
 }
 func (t *ZtnaAppConnectorZtnaAppConnector_ZtnaAppConnector_ZtnaAppConnector) GetPreferredPopLocation() *ZtnaAppConnectorZtnaAppConnector_ZtnaAppConnector_ZtnaAppConnector_PreferredPopLocation {
 	if t == nil {
@@ -245077,6 +245227,24 @@ func (t *ZtnaAppConnectorZtnaAppConnectorList_ZtnaAppConnector_ZtnaAppConnectorL
 	return t.Timezone
 }
 
+type ZtnaAppConnectorZtnaAppConnectorList_ZtnaAppConnector_ZtnaAppConnectorList_ZtnaAppConnector_PooledBandwidthAllocation struct {
+	Bw        int64  "json:\"bw\" graphql:\"bw\""
+	LicenseID string "json:\"licenseId\" graphql:\"licenseId\""
+}
+
+func (t *ZtnaAppConnectorZtnaAppConnectorList_ZtnaAppConnector_ZtnaAppConnectorList_ZtnaAppConnector_PooledBandwidthAllocation) GetBw() int64 {
+	if t == nil {
+		t = &ZtnaAppConnectorZtnaAppConnectorList_ZtnaAppConnector_ZtnaAppConnectorList_ZtnaAppConnector_PooledBandwidthAllocation{}
+	}
+	return t.Bw
+}
+func (t *ZtnaAppConnectorZtnaAppConnectorList_ZtnaAppConnector_ZtnaAppConnectorList_ZtnaAppConnector_PooledBandwidthAllocation) GetLicenseID() string {
+	if t == nil {
+		t = &ZtnaAppConnectorZtnaAppConnectorList_ZtnaAppConnector_ZtnaAppConnectorList_ZtnaAppConnector_PooledBandwidthAllocation{}
+	}
+	return t.LicenseID
+}
+
 type ZtnaAppConnectorZtnaAppConnectorList_ZtnaAppConnector_ZtnaAppConnectorList_ZtnaAppConnector_PreferredPopLocation_Primary struct {
 	ID   string "json:\"id\" graphql:\"id\""
 	Name string "json:\"name\" graphql:\"name\""
@@ -245203,21 +245371,22 @@ func (t *ZtnaAppConnectorZtnaAppConnectorList_ZtnaAppConnector_ZtnaAppConnectorL
 }
 
 type ZtnaAppConnectorZtnaAppConnectorList_ZtnaAppConnector_ZtnaAppConnectorList_ZtnaAppConnector struct {
-	CreatedAt            *string                                                                                                           "json:\"createdAt,omitempty\" graphql:\"createdAt\""
-	Description          *string                                                                                                           "json:\"description,omitempty\" graphql:\"description\""
-	GroupName            string                                                                                                            "json:\"groupName\" graphql:\"groupName\""
-	ID                   string                                                                                                            "json:\"id\" graphql:\"id\""
-	IsRegistered         bool                                                                                                              "json:\"isRegistered\" graphql:\"isRegistered\""
-	Location             ZtnaAppConnectorZtnaAppConnectorList_ZtnaAppConnector_ZtnaAppConnectorList_ZtnaAppConnector_Location              "json:\"location\" graphql:\"location\""
-	Name                 string                                                                                                            "json:\"name\" graphql:\"name\""
-	PreferredPopLocation *ZtnaAppConnectorZtnaAppConnectorList_ZtnaAppConnector_ZtnaAppConnectorList_ZtnaAppConnector_PreferredPopLocation "json:\"preferredPopLocation,omitempty\" graphql:\"preferredPopLocation\""
-	PrivateAppCount      int64                                                                                                             "json:\"privateAppCount\" graphql:\"privateAppCount\""
-	PrivateAppRef        []*ZtnaAppConnectorZtnaAppConnectorList_ZtnaAppConnector_ZtnaAppConnectorList_ZtnaAppConnector_PrivateAppRef      "json:\"privateAppRef\" graphql:\"privateAppRef\""
-	SerialNumber         *string                                                                                                           "json:\"serialNumber,omitempty\" graphql:\"serialNumber\""
-	SocketID             *string                                                                                                           "json:\"socketId,omitempty\" graphql:\"socketId\""
-	SocketInfo           *ZtnaAppConnectorZtnaAppConnectorList_ZtnaAppConnector_ZtnaAppConnectorList_ZtnaAppConnector_SocketInfo           "json:\"socketInfo,omitempty\" graphql:\"socketInfo\""
-	SocketModel          *cato_models.SocketModel                                                                                          "json:\"socketModel,omitempty\" graphql:\"socketModel\""
-	Type                 cato_models.ZtnaAppConnectorType                                                                                  "json:\"type\" graphql:\"type\""
+	CreatedAt                 *string                                                                                                                  "json:\"createdAt,omitempty\" graphql:\"createdAt\""
+	Description               *string                                                                                                                  "json:\"description,omitempty\" graphql:\"description\""
+	GroupName                 string                                                                                                                   "json:\"groupName\" graphql:\"groupName\""
+	ID                        string                                                                                                                   "json:\"id\" graphql:\"id\""
+	IsRegistered              bool                                                                                                                     "json:\"isRegistered\" graphql:\"isRegistered\""
+	Location                  ZtnaAppConnectorZtnaAppConnectorList_ZtnaAppConnector_ZtnaAppConnectorList_ZtnaAppConnector_Location                     "json:\"location\" graphql:\"location\""
+	Name                      string                                                                                                                   "json:\"name\" graphql:\"name\""
+	PooledBandwidthAllocation []*ZtnaAppConnectorZtnaAppConnectorList_ZtnaAppConnector_ZtnaAppConnectorList_ZtnaAppConnector_PooledBandwidthAllocation "json:\"pooledBandwidthAllocation,omitempty\" graphql:\"pooledBandwidthAllocation\""
+	PreferredPopLocation      *ZtnaAppConnectorZtnaAppConnectorList_ZtnaAppConnector_ZtnaAppConnectorList_ZtnaAppConnector_PreferredPopLocation        "json:\"preferredPopLocation,omitempty\" graphql:\"preferredPopLocation\""
+	PrivateAppCount           int64                                                                                                                    "json:\"privateAppCount\" graphql:\"privateAppCount\""
+	PrivateAppRef             []*ZtnaAppConnectorZtnaAppConnectorList_ZtnaAppConnector_ZtnaAppConnectorList_ZtnaAppConnector_PrivateAppRef             "json:\"privateAppRef\" graphql:\"privateAppRef\""
+	SerialNumber              *string                                                                                                                  "json:\"serialNumber,omitempty\" graphql:\"serialNumber\""
+	SocketID                  *string                                                                                                                  "json:\"socketId,omitempty\" graphql:\"socketId\""
+	SocketInfo                *ZtnaAppConnectorZtnaAppConnectorList_ZtnaAppConnector_ZtnaAppConnectorList_ZtnaAppConnector_SocketInfo                  "json:\"socketInfo,omitempty\" graphql:\"socketInfo\""
+	SocketModel               *cato_models.SocketModel                                                                                                 "json:\"socketModel,omitempty\" graphql:\"socketModel\""
+	Type                      cato_models.ZtnaAppConnectorType                                                                                         "json:\"type\" graphql:\"type\""
 }
 
 func (t *ZtnaAppConnectorZtnaAppConnectorList_ZtnaAppConnector_ZtnaAppConnectorList_ZtnaAppConnector) GetCreatedAt() *string {
@@ -245261,6 +245430,12 @@ func (t *ZtnaAppConnectorZtnaAppConnectorList_ZtnaAppConnector_ZtnaAppConnectorL
 		t = &ZtnaAppConnectorZtnaAppConnectorList_ZtnaAppConnector_ZtnaAppConnectorList_ZtnaAppConnector{}
 	}
 	return t.Name
+}
+func (t *ZtnaAppConnectorZtnaAppConnectorList_ZtnaAppConnector_ZtnaAppConnectorList_ZtnaAppConnector) GetPooledBandwidthAllocation() []*ZtnaAppConnectorZtnaAppConnectorList_ZtnaAppConnector_ZtnaAppConnectorList_ZtnaAppConnector_PooledBandwidthAllocation {
+	if t == nil {
+		t = &ZtnaAppConnectorZtnaAppConnectorList_ZtnaAppConnector_ZtnaAppConnectorList_ZtnaAppConnector{}
+	}
+	return t.PooledBandwidthAllocation
 }
 func (t *ZtnaAppConnectorZtnaAppConnectorList_ZtnaAppConnector_ZtnaAppConnectorList_ZtnaAppConnector) GetPreferredPopLocation() *ZtnaAppConnectorZtnaAppConnectorList_ZtnaAppConnector_ZtnaAppConnectorList_ZtnaAppConnector_PreferredPopLocation {
 	if t == nil {
@@ -291091,6 +291266,10 @@ const ZtnaAppConnectorAddZtnaAppConnectorDocument = `mutation ztnaAppConnectorAd
 					stateCode
 					timezone
 				}
+				pooledBandwidthAllocation {
+					bw
+					licenseId
+				}
 				preferredPopLocation {
 					preferredOnly
 					automatic
@@ -291250,6 +291429,10 @@ const ZtnaAppConnectorRemoveZtnaAppConnectorDocument = `mutation ztnaAppConnecto
 					stateCode
 					timezone
 				}
+				pooledBandwidthAllocation {
+					bw
+					licenseId
+				}
 				preferredPopLocation {
 					preferredOnly
 					automatic
@@ -291319,6 +291502,10 @@ const ZtnaAppConnectorUnassignSocketFromZtnaAppConnectorDocument = `mutation ztn
 					countryName
 					stateCode
 					timezone
+				}
+				pooledBandwidthAllocation {
+					bw
+					licenseId
 				}
 				preferredPopLocation {
 					preferredOnly
@@ -291418,6 +291605,10 @@ const ZtnaAppConnectorUpdateZtnaAppConnectorDocument = `mutation ztnaAppConnecto
 					countryName
 					stateCode
 					timezone
+				}
+				pooledBandwidthAllocation {
+					bw
+					licenseId
 				}
 				preferredPopLocation {
 					preferredOnly
@@ -305319,6 +305510,10 @@ const AppConnectorReadConnectorDocument = `query appConnectorReadConnector ($acc
 				stateCode
 				timezone
 			}
+			pooledBandwidthAllocation {
+				bw
+				licenseId
+			}
 			preferredPopLocation {
 				preferredOnly
 				automatic
@@ -305409,6 +305604,10 @@ const ZtnaAppConnectorZtnaAppConnectorDocument = `query ztnaAppConnectorZtnaAppC
 				countryName
 				stateCode
 				timezone
+			}
+			pooledBandwidthAllocation {
+				bw
+				licenseId
 			}
 			preferredPopLocation {
 				preferredOnly
@@ -305508,6 +305707,10 @@ const ZtnaAppConnectorZtnaAppConnectorListDocument = `query ztnaAppConnectorZtna
 					countryName
 					stateCode
 					timezone
+				}
+				pooledBandwidthAllocation {
+					bw
+					licenseId
 				}
 				preferredPopLocation {
 					preferredOnly

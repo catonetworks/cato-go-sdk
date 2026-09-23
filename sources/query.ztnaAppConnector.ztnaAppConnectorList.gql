@@ -20,6 +20,10 @@ query ztnaAppConnectorZtnaAppConnectorList ( $accountId:ID! $ztnaAppConnectorLis
 					stateCode
 					timezone
 				}
+				pooledBandwidthAllocation {
+					bw
+					licenseId
+				}
 				preferredPopLocation {
 					preferredOnly
 					automatic

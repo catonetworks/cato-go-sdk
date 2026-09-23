@@ -20,6 +20,10 @@ mutation ztnaAppConnectorUnassignSocketFromZtnaAppConnector ( $accountId:ID! $un
 					stateCode
 					timezone
 				}
+				pooledBandwidthAllocation {
+					bw
+					licenseId
+				}
 				preferredPopLocation {
 					preferredOnly
 					automatic
