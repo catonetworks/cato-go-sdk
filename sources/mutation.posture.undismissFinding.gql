@@ -62,5 +62,5 @@ mutation postureUndismissFinding ( $accountId:ID! $postureUndismissFindingInput:
 				}
 			}
 		}
-	}
+	}	
 }

@@ -3,5 +3,5 @@ mutation postureReevaluateChecks ( $accountId:ID!) {
 		reevaluateChecks {
 			success
 		}
-	}
+	}	
 }

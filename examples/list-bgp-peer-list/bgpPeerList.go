@@ -37,7 +37,7 @@ func main() {
 		},
 	}
 
-	queryResult, err := catoClient.SiteBgpPeerList(ctx, input, accountId)
+	queryResult, err := catoClient.SiteBgpPeerList(ctx, accountId, input)
 	if err != nil {
 		fmt.Println("policy query error: ", err)
 		return

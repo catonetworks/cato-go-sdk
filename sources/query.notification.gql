@@ -36,14 +36,6 @@ query notification ( $accountId:ID! $mailingListRefInput:MailingListRefInput! $w
 				updatedBy {
 					id
 					name
-					... on AdminRef {
-						id
-						name
-					}
-					... on ApiKeyRef {
-						id
-						name
-					}
 				}
 			}
 		}
@@ -96,19 +88,13 @@ query notification ( $accountId:ID! $mailingListRefInput:MailingListRefInput! $w
 				requestMethod
 				auth {
 					authType
-					... on BearerTokenAuth {
-						authType
-					}
 					... on BasicAuth {
-						authType
 						username
 					}
 					... on CustomHeaderAuth {
-						authType
 						name
 					}
 					... on CustomHeadersAuth {
-						authType
 						plainHeaders {
 							name
 							value
@@ -116,9 +102,6 @@ query notification ( $accountId:ID! $mailingListRefInput:MailingListRefInput! $w
 						secretHeaders {
 							name
 						}
-					}
-					... on NoAuth {
-						authType
 					}
 				}
 				header {
@@ -176,19 +159,13 @@ query notification ( $accountId:ID! $mailingListRefInput:MailingListRefInput! $w
 				requestMethod
 				auth {
 					authType
-					... on BearerTokenAuth {
-						authType
-					}
 					... on BasicAuth {
-						authType
 						username
 					}
 					... on CustomHeaderAuth {
-						authType
 						name
 					}
 					... on CustomHeadersAuth {
-						authType
 						plainHeaders {
 							name
 							value
@@ -196,9 +173,6 @@ query notification ( $accountId:ID! $mailingListRefInput:MailingListRefInput! $w
 						secretHeaders {
 							name
 						}
-					}
-					... on NoAuth {
-						authType
 					}
 				}
 				header {
@@ -235,14 +209,6 @@ query notification ( $accountId:ID! $mailingListRefInput:MailingListRefInput! $w
 						updatedBy {
 							id
 							name
-							... on AdminRef {
-								id
-								name
-							}
-							... on ApiKeyRef {
-								id
-								name
-							}
 						}
 					}
 				}
@@ -255,19 +221,13 @@ query notification ( $accountId:ID! $mailingListRefInput:MailingListRefInput! $w
 						requestMethod
 						auth {
 							authType
-							... on BearerTokenAuth {
-								authType
-							}
 							... on BasicAuth {
-								authType
 								username
 							}
 							... on CustomHeaderAuth {
-								authType
 								name
 							}
 							... on CustomHeadersAuth {
-								authType
 								plainHeaders {
 									name
 									value
@@ -275,9 +235,6 @@ query notification ( $accountId:ID! $mailingListRefInput:MailingListRefInput! $w
 								secretHeaders {
 									name
 								}
-							}
-							... on NoAuth {
-								authType
 							}
 						}
 						header {

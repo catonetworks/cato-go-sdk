@@ -11,18 +11,10 @@ mutation networkConfigDnsDeleteSuffixSet ( $accountId:ID! $networkConfigDnsDelet
 						updatedBy {
 							id
 							name
-							... on AdminRef {
-								id
-								name
-							}
-							... on ApiKeyRef {
-								id
-								name
-							}
 						}
 					}
 				}
 			}
 		}
-	}
+	}	
 }
