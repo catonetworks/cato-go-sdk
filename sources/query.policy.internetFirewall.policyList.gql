@@ -1,7 +1,7 @@
-query policyInternetFirewallPolicyList ( $accountId:ID! $internetFirewallPolicyListInput:InternetFirewallPolicyListInput!) {
-	policy ( accountId:$accountId ) {
+query policyInternetFirewallPolicyList ($accountId: ID!, $internetFirewallPolicyListInput: InternetFirewallPolicyListInput!) {
+	policy(accountId: $accountId) {
 		internetFirewall {
-			policyList ( input:$internetFirewallPolicyListInput   ) {
+			policyList(input: $internetFirewallPolicyListInput) {
 				items {
 					id
 					name
@@ -18,5 +18,5 @@ query policyInternetFirewallPolicyList ( $accountId:ID! $internetFirewallPolicyL
 				}
 			}
 		}
-	}	
+	}
 }

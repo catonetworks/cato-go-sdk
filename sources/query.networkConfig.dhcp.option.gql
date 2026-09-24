@@ -1,7 +1,7 @@
-query networkConfigDhcpOption ( $accountId:ID! $networkConfigDhcpOptionRefInput:NetworkConfigDhcpOptionRefInput!) {
-	networkConfig ( accountId:$accountId ) {
+query networkConfigDhcpOption ($accountId: ID!, $networkConfigDhcpOptionRefInput: NetworkConfigDhcpOptionRefInput!) {
+	networkConfig(accountId: $accountId) {
 		dhcp {
-			option ( input:$networkConfigDhcpOptionRefInput   ) {
+			option(input: $networkConfigDhcpOptionRefInput) {
 				id
 				tag
 				value

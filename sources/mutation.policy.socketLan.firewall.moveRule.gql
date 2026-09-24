@@ -1,18 +1,29 @@
-mutation policySocketLanFirewallMoveRule ( $accountId:ID! $socketLanPolicyMutationInput:SocketLanPolicyMutationInput $policyMoveSubRuleInput:PolicyMoveSubRuleInput!) {
-	policy ( accountId:$accountId ) {
-		socketLan ( input:$socketLanPolicyMutationInput  )  {
+mutation policySocketLanFirewallMoveRule ($accountId: ID!, $socketLanPolicyMutationInput: SocketLanPolicyMutationInput, $policyMoveSubRuleInput: PolicyMoveSubRuleInput!) {
+	policy(accountId: $accountId) {
+		socketLan(input: $socketLanPolicyMutationInput) {
 			firewall {
-				moveRule ( input:$policyMoveSubRuleInput  )  {
+				moveRule(input: $policyMoveSubRuleInput) {
 					rule {
 						audit {
 							updatedTime
 							updatedBy
+						}
+						metadata {
+							lock {
+								lockingAdminEmail
+								lockingTime
+								lockingRevisionId
+							}
 						}
 						rule {
 							id
 							name
 							description
 							index
+							section {
+								id
+								name
+							}
 							enabled
 							source {
 								vlan
@@ -161,6 +172,22 @@ mutation policySocketLanFirewallMoveRule ( $accountId:ID! $socketLanPolicyMutati
 							}
 						}
 						properties
+						ruleType
+						subPolicy {
+							id
+							name
+						}
+						access {
+							action
+						}
+					}
+					revision {
+						id
+						name
+						description
+						changes
+						createdTime
+						updatedTime
 					}
 					status
 					errors {
@@ -170,5 +197,5 @@ mutation policySocketLanFirewallMoveRule ( $accountId:ID! $socketLanPolicyMutati
 				}
 			}
 		}
-	}	
+	}
 }

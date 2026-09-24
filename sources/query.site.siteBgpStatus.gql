@@ -1,6 +1,6 @@
-query siteSiteBgpStatus ( $accountId:ID! $siteBgpStatusInput:SiteBgpStatusInput!) {
-	site ( accountId:$accountId ) {
-		siteBgpStatus ( input:$siteBgpStatusInput  )  {
+query siteSiteBgpStatus ($accountId: ID!, $siteBgpStatusInput: SiteBgpStatusInput!) {
+	site(accountId: $accountId) {
+		siteBgpStatus(input: $siteBgpStatusInput) {
 			status {
 				remoteIp
 				bgpSession
@@ -20,5 +20,5 @@ query siteSiteBgpStatus ( $accountId:ID! $siteBgpStatusInput:SiteBgpStatusInput!
 			}
 			rawStatus
 		}
-	}	
+	}
 }

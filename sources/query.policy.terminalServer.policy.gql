@@ -1,7 +1,7 @@
-query policyTerminalServerPolicy ( $accountId:ID! $terminalServerPolicyInput:TerminalServerPolicyInput) {
-	policy ( accountId:$accountId ) {
+query policyTerminalServerPolicy ($accountId: ID!, $terminalServerPolicyInput: TerminalServerPolicyInput) {
+	policy(accountId: $accountId) {
 		terminalServer {
-			policy ( input:$terminalServerPolicyInput   ) {
+			policy(input: $terminalServerPolicyInput) {
 				enabled
 				rules {
 					audit {
@@ -68,5 +68,5 @@ query policyTerminalServerPolicy ( $accountId:ID! $terminalServerPolicyInput:Ter
 				}
 			}
 		}
-	}	
+	}
 }

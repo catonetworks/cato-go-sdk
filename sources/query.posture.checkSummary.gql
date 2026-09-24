@@ -1,6 +1,6 @@
-query postureCheckSummary ( $accountId:ID! $postureCheckSummaryInput:PostureCheckSummaryInput) {
-	posture ( accountId:$accountId ) {
-		checkSummary ( input:$postureCheckSummaryInput  )  {
+query postureCheckSummary ($accountId: ID!, $postureCheckSummaryInput: PostureCheckSummaryInput) {
+	posture(accountId: $accountId) {
+		checkSummary(input: $postureCheckSummaryInput) {
 			summary {
 				score
 				counts {

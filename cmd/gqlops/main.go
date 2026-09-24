@@ -44,6 +44,7 @@ func runImport(arguments []string, stdout, stderr io.Writer) error {
 
 	cliRoot := flags.String("cli-root", "../cato-cli", "path to cato-cli checkout")
 	sdkRoot := flags.String("sdk-root", ".", "path to cato-go-sdk checkout")
+	cliCommitSHA := flags.String("cli-commit-sha", "", "full cato-cli commit SHA")
 	expected := flags.Int("expected", expectedOperations, "expected canonical operation count")
 	dryRun := flags.Bool("dry-run", false, "validate and report without writing")
 	if err := flags.Parse(arguments); err != nil {
@@ -54,10 +55,11 @@ func runImport(arguments []string, stdout, stderr io.Writer) error {
 	}
 
 	result, err := gqlops.Import(gqlops.ImportConfig{
-		CLIRoot:  *cliRoot,
-		SDKRoot:  *sdkRoot,
-		Expected: *expected,
-		DryRun:   *dryRun,
+		CLIRoot:      *cliRoot,
+		SDKRoot:      *sdkRoot,
+		CLICommitSHA: *cliCommitSHA,
+		Expected:     *expected,
+		DryRun:       *dryRun,
 	})
 	if err != nil {
 		return err

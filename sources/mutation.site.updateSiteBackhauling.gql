@@ -1,6 +1,6 @@
-mutation siteUpdateSiteBackhauling ( $accountId:ID! $updateSiteBackhaulingInput:UpdateSiteBackhaulingInput!) {
-	site ( accountId:$accountId ) {
-		updateSiteBackhauling ( input:$updateSiteBackhaulingInput  )  {
+mutation siteUpdateSiteBackhauling ($accountId: ID!, $updateSiteBackhaulingInput: UpdateSiteBackhaulingInput!) {
+	site(accountId: $accountId) {
+		updateSiteBackhauling(input: $updateSiteBackhaulingInput) {
 			site {
 				id
 				name
@@ -10,5 +10,5 @@ mutation siteUpdateSiteBackhauling ( $accountId:ID! $updateSiteBackhaulingInput:
 			nextHopIP
 			preferredSocketPort
 		}
-	}	
+	}
 }

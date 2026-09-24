@@ -1,6 +1,6 @@
-mutation externalAccessResolveIncomingAccessRequest ( $accountId:ID! $resolveIncomingAccessRequestInput:ResolveIncomingAccessRequestInput!) {
-	externalAccess ( accountId:$accountId ) {
-		resolveIncomingAccessRequest ( input:$resolveIncomingAccessRequestInput  )  {
+mutation externalAccessResolveIncomingAccessRequest ($accountId: ID!, $resolveIncomingAccessRequestInput: ResolveIncomingAccessRequestInput!) {
+	externalAccess(accountId: $accountId) {
+		resolveIncomingAccessRequest(input: $resolveIncomingAccessRequestInput) {
 			request {
 				id
 				partner {
@@ -22,5 +22,5 @@ mutation externalAccessResolveIncomingAccessRequest ( $accountId:ID! $resolveInc
 				isAppliedOnAllFullyManagedAccounts
 			}
 		}
-	}	
+	}
 }

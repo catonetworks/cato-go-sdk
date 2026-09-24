@@ -1,5 +1,5 @@
-mutation postureReevaluateChecks ( $accountId:ID!) {
-	posture ( accountId:$accountId ) {
+mutation postureReevaluateChecks ($accountId: ID!) {
+	posture(accountId: $accountId) {
 		reevaluateChecks {
 			success
 		}

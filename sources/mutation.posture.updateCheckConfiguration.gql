@@ -1,6 +1,6 @@
-mutation postureUpdateCheckConfiguration ( $accountId:ID! $postureUpdateCheckConfigurationInput:PostureUpdateCheckConfigurationInput!) {
-	posture ( accountId:$accountId ) {
-		updateCheckConfiguration ( input:$postureUpdateCheckConfigurationInput  )  {
+mutation postureUpdateCheckConfiguration ($accountId: ID!, $postureUpdateCheckConfigurationInput: PostureUpdateCheckConfigurationInput!) {
+	posture(accountId: $accountId) {
+		updateCheckConfiguration(input: $postureUpdateCheckConfigurationInput) {
 			items {
 				id
 				name

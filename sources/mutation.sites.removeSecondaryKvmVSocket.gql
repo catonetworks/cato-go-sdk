@@ -1,7 +1,7 @@
-mutation sitesRemoveSecondaryKvmVSocket ( $accountId:ID! $removeSecondaryKvmVSocketInput:RemoveSecondaryKvmVSocketInput!) {
-	sites ( accountId:$accountId ) {
-		removeSecondaryKvmVSocket ( input:$removeSecondaryKvmVSocketInput  )  {
+mutation sitesRemoveSecondaryKvmVSocket ($accountId: ID!, $removeSecondaryKvmVSocketInput: RemoveSecondaryKvmVSocketInput!) {
+	sites(accountId: $accountId) {
+		removeSecondaryKvmVSocket(input: $removeSecondaryKvmVSocketInput) {
 			id
 		}
-	}	
+	}
 }

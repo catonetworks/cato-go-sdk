@@ -1,6 +1,6 @@
-mutation accountManagementDisableAccount ( $accountId:ID!) {
-	accountManagement ( accountId:$accountId ) {
-		disableAccount ( accountId:$accountId ) {
+mutation accountManagementDisableAccount ($accountId: ID!) {
+	accountManagement(accountId: $accountId) {
+		disableAccount(accountId: $accountId) {
 			accountInfo {
 				id
 				name
@@ -16,5 +16,5 @@ mutation accountManagementDisableAccount ( $accountId:ID!) {
 				status
 			}
 		}
-	}	
+	}
 }

@@ -1,6 +1,6 @@
-query postureAccountSummaryList ( $accountId:ID! $postureAccountSummaryListInput:PostureAccountSummaryListInput) {
-	posture ( accountId:$accountId ) {
-		accountSummaryList ( input:$postureAccountSummaryListInput  )  {
+query postureAccountSummaryList ($accountId: ID!, $postureAccountSummaryListInput: PostureAccountSummaryListInput) {
+	posture(accountId: $accountId) {
+		accountSummaryList(input: $postureAccountSummaryListInput) {
 			items {
 				account {
 					id

@@ -1,7 +1,7 @@
-mutation policyZtnaAlwaysOnCreatePolicyRevision ( $accountId:ID! $ztnaAlwaysOnPolicyMutationInput:ZtnaAlwaysOnPolicyMutationInput $policyCreateRevisionInput:PolicyCreateRevisionInput!) {
-	policy ( accountId:$accountId ) {
-		ztnaAlwaysOn ( input:$ztnaAlwaysOnPolicyMutationInput  )  {
-			createPolicyRevision ( input:$policyCreateRevisionInput   ) {
+mutation policyZtnaAlwaysOnCreatePolicyRevision ($accountId: ID!, $ztnaAlwaysOnPolicyMutationInput: ZtnaAlwaysOnPolicyMutationInput, $policyCreateRevisionInput: PolicyCreateRevisionInput!) {
+	policy(accountId: $accountId) {
+		ztnaAlwaysOn(input: $ztnaAlwaysOnPolicyMutationInput) {
+			createPolicyRevision(input: $policyCreateRevisionInput) {
 				policy {
 					enabled
 					rules {
@@ -90,5 +90,5 @@ mutation policyZtnaAlwaysOnCreatePolicyRevision ( $accountId:ID! $ztnaAlwaysOnPo
 				}
 			}
 		}
-	}	
+	}
 }

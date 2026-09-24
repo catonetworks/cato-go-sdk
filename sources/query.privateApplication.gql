@@ -1,6 +1,6 @@
-query privateApplication ( $accountId:ID! $privateApplicationRefInput:PrivateApplicationRefInput! $privateApplicationListInput:PrivateApplicationListInput) {
-	privateApplication ( accountId:$accountId ) {
-		privateApplication ( input:$privateApplicationRefInput  )  {
+query privateApplication ($accountId: ID!, $privateApplicationRefInput: PrivateApplicationRefInput!, $privateApplicationListInput: PrivateApplicationListInput) {
+	privateApplication(accountId: $accountId) {
+		privateApplication(input: $privateApplicationRefInput) {
 			id
 			creationTime
 			name
@@ -32,7 +32,7 @@ query privateApplication ( $accountId:ID! $privateApplicationRefInput:PrivateApp
 			}
 			connectivityStatus
 		}
-		privateApplicationList ( input:$privateApplicationListInput  )  {
+		privateApplicationList(input: $privateApplicationListInput) {
 			applications {
 				id
 				creationTime
@@ -69,5 +69,5 @@ query privateApplication ( $accountId:ID! $privateApplicationRefInput:PrivateApp
 				total
 			}
 		}
-	}	
+	}
 }

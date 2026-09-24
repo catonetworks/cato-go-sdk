@@ -1,11 +1,11 @@
-query socketPortMetricsTimeSeries ( $accountID:ID! $timeFrame:TimeFrame! $socketPortMetricsMeasure:[SocketPortMetricsMeasure] $socketPortMetricsDimension:[SocketPortMetricsDimension] $socketPortMetricsFilter:[SocketPortMetricsFilter!] $buckets:Int! $perSecond:Boolean $withMissingData:Boolean $useDefaultSizeBucket:Boolean) {
-	socketPortMetricsTimeSeries ( accountID:$accountID timeFrame:$timeFrame measures:$socketPortMetricsMeasure dimensions:$socketPortMetricsDimension filters:$socketPortMetricsFilter ) {
+query socketPortMetricsTimeSeries ($accountID: ID!, $timeFrame: TimeFrame!, $socketPortMetricsMeasure: [SocketPortMetricsMeasure], $socketPortMetricsDimension: [SocketPortMetricsDimension], $socketPortMetricsFilter: [SocketPortMetricsFilter!], $buckets: Int!, $perSecond: Boolean, $withMissingData: Boolean, $useDefaultSizeBucket: Boolean) {
+	socketPortMetricsTimeSeries(accountID: $accountID, timeFrame: $timeFrame, measures: $socketPortMetricsMeasure, dimensions: $socketPortMetricsDimension, filters: $socketPortMetricsFilter) {
 		id
 		from
 		to
 		granularity
-		timeseries ( buckets:$buckets  )  {
-			data ( perSecond:$perSecond  withMissingData:$withMissingData  useDefaultSizeBucket:$useDefaultSizeBucket   )
+		timeseries(buckets: $buckets) {
+			data(perSecond: $perSecond, withMissingData: $withMissingData, useDefaultSizeBucket: $useDefaultSizeBucket)
 			label
 			dimensions {
 				label
@@ -22,5 +22,5 @@ query socketPortMetricsTimeSeries ( $accountID:ID! $timeFrame:TimeFrame! $socket
 			units
 			info
 		}
-	}	
+	}
 }

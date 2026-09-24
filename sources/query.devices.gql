@@ -1,6 +1,6 @@
-query devices ( $accountId:ID! $deviceV2Input:DeviceV2Input $sortOrderInput:SortOrderInput $deviceAttributeCatalogInput:DeviceAttributeCatalogInput $deviceComplianceCatalogInput:DeviceComplianceCatalogInput $deviceRiskCatalogInput:DeviceRiskCatalogInput $deviceCsvExportInput:DeviceCsvExportInput $jobId:ID!) {
-	devices ( accountId:$accountId ) {
-		list ( input:$deviceV2Input  )  {
+query devices ($accountId: ID!, $deviceV2Input: DeviceV2Input, $sortOrderInput: SortOrderInput, $deviceAttributeCatalogInput: DeviceAttributeCatalogInput, $deviceComplianceCatalogInput: DeviceComplianceCatalogInput, $deviceRiskCatalogInput: DeviceRiskCatalogInput, $deviceCsvExportInput: DeviceCsvExportInput, $jobId: ID!) {
+	devices(accountId: $accountId) {
+		list(input: $deviceV2Input) {
 			device {
 				id
 				site {
@@ -127,37 +127,37 @@ query devices ( $accountId:ID! $deviceV2Input:DeviceV2Input $sortOrderInput:Sort
 			}
 		}
 		attributesCatalog {
-			category ( sort:$sortOrderInput   ) {
+			category(sort: $sortOrderInput) {
 				items
 				pageInfo {
 					total
 				}
 			}
-			type ( input:$deviceAttributeCatalogInput   ) {
+			type(input: $deviceAttributeCatalogInput) {
 				items
 				pageInfo {
 					total
 				}
 			}
-			model ( input:$deviceAttributeCatalogInput   ) {
+			model(input: $deviceAttributeCatalogInput) {
 				items
 				pageInfo {
 					total
 				}
 			}
-			manufacturer ( input:$deviceAttributeCatalogInput   ) {
+			manufacturer(input: $deviceAttributeCatalogInput) {
 				items
 				pageInfo {
 					total
 				}
 			}
-			os ( input:$deviceAttributeCatalogInput   ) {
+			os(input: $deviceAttributeCatalogInput) {
 				items
 				pageInfo {
 					total
 				}
 			}
-			compliance ( input:$deviceComplianceCatalogInput   ) {
+			compliance(input: $deviceComplianceCatalogInput) {
 				items {
 					applicationConnector {
 						id
@@ -169,7 +169,7 @@ query devices ( $accountId:ID! $deviceV2Input:DeviceV2Input $sortOrderInput:Sort
 					total
 				}
 			}
-			risk ( input:$deviceRiskCatalogInput   ) {
+			risk(input: $deviceRiskCatalogInput) {
 				items {
 					applicationConnector {
 						id
@@ -186,11 +186,11 @@ query devices ( $accountId:ID! $deviceV2Input:DeviceV2Input $sortOrderInput:Sort
 				}
 			}
 		}
-		csvExport ( input:$deviceCsvExportInput  )  {
+		csvExport(input: $deviceCsvExportInput) {
 			jobId
 			message
 		}
-		csvExportStatus ( jobId:$jobId  )  {
+		csvExportStatus(jobId: $jobId) {
 			jobId
 			status
 			progress
@@ -198,5 +198,5 @@ query devices ( $accountId:ID! $deviceV2Input:DeviceV2Input $sortOrderInput:Sort
 			downloadUrl
 			expiresAt
 		}
-	}	
+	}
 }

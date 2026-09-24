@@ -1,6 +1,6 @@
-query postureDefinitionList ( $accountId:ID! $postureDefinitionListInput:PostureDefinitionListInput) {
-	posture ( accountId:$accountId ) {
-		definitionList ( input:$postureDefinitionListInput  )  {
+query postureDefinitionList ($accountId: ID!, $postureDefinitionListInput: PostureDefinitionListInput) {
+	posture(accountId: $accountId) {
+		definitionList(input: $postureDefinitionListInput) {
 			items {
 				id
 				name

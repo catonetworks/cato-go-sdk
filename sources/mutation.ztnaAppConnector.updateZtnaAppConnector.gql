@@ -1,6 +1,6 @@
-mutation ztnaAppConnectorUpdateZtnaAppConnector ( $accountId:ID! $updateZtnaAppConnectorInput:UpdateZtnaAppConnectorInput!) {
-	ztnaAppConnector ( accountId:$accountId ) {
-		updateZtnaAppConnector ( input:$updateZtnaAppConnectorInput  )  {
+mutation ztnaAppConnectorUpdateZtnaAppConnector ($accountId: ID!, $updateZtnaAppConnectorInput: UpdateZtnaAppConnectorInput!) {
+	ztnaAppConnector(accountId: $accountId) {
+		updateZtnaAppConnector(input: $updateZtnaAppConnectorInput) {
 			ztnaAppConnector {
 				id
 				createdAt
@@ -46,5 +46,5 @@ mutation ztnaAppConnectorUpdateZtnaAppConnector ( $accountId:ID! $updateZtnaAppC
 				}
 			}
 		}
-	}	
+	}
 }

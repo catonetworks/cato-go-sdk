@@ -1,6 +1,6 @@
-mutation licensingUpdateLicenseForManagedAccount ( $accountId:ID! $updateLicenseForManagedAccountInput:UpdateLicenseForManagedAccountInput!) {
-	licensing ( accountId:$accountId ) {
-		updateLicenseForManagedAccount ( input:$updateLicenseForManagedAccountInput  )  {
+mutation licensingUpdateLicenseForManagedAccount ($accountId: ID!, $updateLicenseForManagedAccountInput: UpdateLicenseForManagedAccountInput!) {
+	licensing(accountId: $accountId) {
+		updateLicenseForManagedAccount(input: $updateLicenseForManagedAccountInput) {
 			license {
 				id
 				description
@@ -121,5 +121,5 @@ mutation licensingUpdateLicenseForManagedAccount ( $accountId:ID! $updateLicense
 				}
 			}
 		}
-	}	
+	}
 }

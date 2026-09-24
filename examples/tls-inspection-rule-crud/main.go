@@ -44,52 +44,52 @@ func main() {
 			Name:                       "Example TLS Inspection Rule",
 			Description:                "Example TLS inspection rule created via SDK",
 			Enabled:                    true,
-		Action:                     cato_models.TLSInspectActionInspect,
-		UntrustedCertificateAction: cato_models.TLSInspectUntrustedCertificateActionBlock,
-		ConnectionOrigin:           cato_models.ConnectionOriginEnumAny,
-		Source: &cato_models.TLSInspectSourceInput{
-			FloatingSubnet:    []*cato_models.FloatingSubnetRefInput{},
-			GlobalIPRange:     []*cato_models.GlobalIPRangeRefInput{},
-			Group:             []*cato_models.GroupRefInput{},
-			Host:              []*cato_models.HostRefInput{},
-			IP:                []string{},
-			IPRange:           []*cato_models.IPAddressRangeInput{},
-			NetworkInterface:  []*cato_models.NetworkInterfaceRefInput{},
-			Site:              []*cato_models.SiteRefInput{},
-			SiteNetworkSubnet: []*cato_models.SiteNetworkSubnetRefInput{},
-			Subnet:            []string{},
-			SystemGroup:       []*cato_models.SystemGroupRefInput{},
-			User:              []*cato_models.UserRefInput{},
-			UsersGroup:        []*cato_models.UsersGroupRefInput{},
-		},
-		Application: &cato_models.TLSInspectApplicationInput{
-			AppCategory:        []*cato_models.ApplicationCategoryRefInput{},
-			Application:        []*cato_models.ApplicationRefInput{},
-			Country:            []*cato_models.CountryRefInput{},
-			CustomApp:          []*cato_models.CustomApplicationRefInput{},
-			CustomCategory:     []*cato_models.CustomCategoryRefInput{},
-			CustomService:      []*cato_models.CustomServiceInput{},
-			CustomServiceIP:    []*cato_models.CustomServiceIPInput{},
-			Domain:             []string{},
-			Fqdn:               []string{},
-			GlobalIPRange:      []*cato_models.GlobalIPRangeRefInput{},
-			IP:                 []string{},
-			IPRange:            []*cato_models.IPAddressRangeInput{},
-			RemoteAsn:          []scalars.Asn32{},
-			Service:            []*cato_models.ServiceRefInput{},
-			Subnet:             []string{},
-			TLSInspectCategory: []cato_models.TLSInspectSystemCategory{},
-		},
-		Country:              []*cato_models.CountryRefInput{},
-		DevicePostureProfile: []*cato_models.DeviceProfileRefInput{},
-		Platform:             []cato_models.OperatingSystem{},
+			Action:                     cato_models.TLSInspectActionInspect,
+			UntrustedCertificateAction: cato_models.TLSInspectUntrustedCertificateActionBlock,
+			ConnectionOrigin:           cato_models.ConnectionOriginEnumAny,
+			Source: &cato_models.TLSInspectSourceInput{
+				FloatingSubnet:    []*cato_models.FloatingSubnetRefInput{},
+				GlobalIPRange:     []*cato_models.GlobalIPRangeRefInput{},
+				Group:             []*cato_models.GroupRefInput{},
+				Host:              []*cato_models.HostRefInput{},
+				IP:                []string{},
+				IPRange:           []*cato_models.IPAddressRangeInput{},
+				NetworkInterface:  []*cato_models.NetworkInterfaceRefInput{},
+				Site:              []*cato_models.SiteRefInput{},
+				SiteNetworkSubnet: []*cato_models.SiteNetworkSubnetRefInput{},
+				Subnet:            []string{},
+				SystemGroup:       []*cato_models.SystemGroupRefInput{},
+				User:              []*cato_models.UserRefInput{},
+				UsersGroup:        []*cato_models.UsersGroupRefInput{},
+			},
+			Application: &cato_models.TLSInspectApplicationInput{
+				AppCategory:        []*cato_models.ApplicationCategoryRefInput{},
+				Application:        []*cato_models.ApplicationRefInput{},
+				Country:            []*cato_models.CountryRefInput{},
+				CustomApp:          []*cato_models.CustomApplicationRefInput{},
+				CustomCategory:     []*cato_models.CustomCategoryRefInput{},
+				CustomService:      []*cato_models.CustomServiceInput{},
+				CustomServiceIP:    []*cato_models.CustomServiceIPInput{},
+				Domain:             []string{},
+				Fqdn:               []string{},
+				GlobalIPRange:      []*cato_models.GlobalIPRangeRefInput{},
+				IP:                 []string{},
+				IPRange:            []*cato_models.IPAddressRangeInput{},
+				RemoteAsn:          []scalars.Asn32{},
+				Service:            []*cato_models.ServiceRefInput{},
+				Subnet:             []string{},
+				TLSInspectCategory: []cato_models.TLSInspectSystemCategory{},
+			},
+			Country:              []*cato_models.CountryRefInput{},
+			DevicePostureProfile: []*cato_models.DeviceProfileRefInput{},
+			Platform:             []cato_models.OperatingSystem{},
 		},
 		At: &cato_models.PolicyRulePositionInput{
 			Position: &position,
 		},
 	}
 
-	result, err := catoClient.PolicyTLSInspectAddRule(ctx, tlsInspectAddRuleInput, accountId)
+	result, err := catoClient.PolicyTLSInspectAddRule(ctx, tlsInspectAddRuleInput, accountId, nil)
 	if err != nil {
 		fmt.Println("error adding TLS inspection rule: ", err)
 		os.Exit(1)
@@ -127,7 +127,7 @@ func main() {
 		fmt.Printf("Reading TLS Inspection Policy\n")
 		fmt.Printf("======================================\n")
 		// Query the TLS inspection policy to get the current state of all rules
-		policyResult, err := catoClient.Tlsinspectpolicy(ctx, accountId)
+		policyResult, err := catoClient.Tlsinspectpolicy(ctx, accountId, nil)
 		if err != nil {
 			fmt.Println("error reading TLS inspection policy: ", err)
 			os.Exit(1)
@@ -186,7 +186,7 @@ func main() {
 		}
 
 		// Perform the update
-		updateResult, err := catoClient.PolicyTLSInspectUpdateRule(ctx, tlsInspectUpdateRuleInput, accountId)
+		updateResult, err := catoClient.PolicyTLSInspectUpdateRule(ctx, tlsInspectUpdateRuleInput, accountId, nil)
 		if err != nil {
 			fmt.Println("error updating TLS inspection rule: ", err)
 			os.Exit(1)
@@ -241,7 +241,7 @@ func main() {
 		}
 
 		// Perform the delete operation
-		deleteResult, err := catoClient.PolicyTLSInspectRemoveRule(ctx, tlsInspectRemoveRuleInput, accountId)
+		deleteResult, err := catoClient.PolicyTLSInspectRemoveRule(ctx, tlsInspectRemoveRuleInput, accountId, nil)
 		if err != nil {
 			fmt.Println("error deleting TLS inspection rule: ", err)
 			os.Exit(1)
@@ -271,7 +271,7 @@ func main() {
 		// Publish the TLS inspection policy   //
 		/////////////////////////////////////////////
 
-	publishResult, err := catoClient.PolicyTLSInspectPublishPolicyRevision(ctx, accountId)
+		publishResult, err := catoClient.PolicyTLSInspectPublishPolicyRevision(ctx, accountId, nil, nil)
 		if err != nil {
 			fmt.Println("error publishing TLS inspection policy revision: ", err)
 			os.Exit(1)

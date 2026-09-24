@@ -1,6 +1,6 @@
-mutation hardwareUpdateHwShipping ( $accountId:ID! $updateHwShippingInput:UpdateHwShippingInput!) {
-	hardware ( accountId:$accountId ) {
-		updateHwShipping ( input:$updateHwShippingInput  )  {
+mutation hardwareUpdateHwShipping ($accountId: ID!, $updateHwShippingInput: UpdateHwShippingInput!) {
+	hardware(accountId: $accountId) {
+		updateHwShipping(input: $updateHwShippingInput) {
 			items {
 				id
 				account {
@@ -55,5 +55,5 @@ mutation hardwareUpdateHwShipping ( $accountId:ID! $updateHwShippingInput:Update
 				total
 			}
 		}
-	}	
+	}
 }

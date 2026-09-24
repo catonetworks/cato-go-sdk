@@ -1,6 +1,6 @@
-query siteStaticHostList ( $accountId:ID! $siteRefInput:SiteRefInput!) {
-	site ( accountId:$accountId ) {
-		staticHostList ( site:$siteRefInput  )  {
+query siteStaticHostList ($accountId: ID!, $siteRefInput: SiteRefInput!) {
+	site(accountId: $accountId) {
+		staticHostList(site: $siteRefInput) {
 			items {
 				hostId
 				name
@@ -8,5 +8,5 @@ query siteStaticHostList ( $accountId:ID! $siteRefInput:SiteRefInput!) {
 				macAddress
 			}
 		}
-	}	
+	}
 }

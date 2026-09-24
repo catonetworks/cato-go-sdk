@@ -1,7 +1,7 @@
-mutation policySplitTunnelPublishPolicyRevision ( $accountId:ID! $splitTunnelPolicyMutationInput:SplitTunnelPolicyMutationInput $policyPublishRevisionInput:PolicyPublishRevisionInput) {
-	policy ( accountId:$accountId ) {
-		splitTunnel ( input:$splitTunnelPolicyMutationInput  )  {
-			publishPolicyRevision ( input:$policyPublishRevisionInput   ) {
+mutation policySplitTunnelPublishPolicyRevision ($accountId: ID!, $splitTunnelPolicyMutationInput: SplitTunnelPolicyMutationInput, $policyPublishRevisionInput: PolicyPublishRevisionInput) {
+	policy(accountId: $accountId) {
+		splitTunnel(input: $splitTunnelPolicyMutationInput) {
+			publishPolicyRevision(input: $policyPublishRevisionInput) {
 				policy {
 					enabled
 					rules {
@@ -103,5 +103,5 @@ mutation policySplitTunnelPublishPolicyRevision ( $accountId:ID! $splitTunnelPol
 				}
 			}
 		}
-	}	
+	}
 }

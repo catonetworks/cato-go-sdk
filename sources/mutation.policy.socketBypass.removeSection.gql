@@ -1,7 +1,7 @@
-mutation policySocketBypassRemoveSection ( $accountId:ID! $socketBypassPolicyMutationInput:SocketBypassPolicyMutationInput $policyRemoveSectionInput:PolicyRemoveSectionInput!) {
-	policy ( accountId:$accountId ) {
-		socketBypass ( input:$socketBypassPolicyMutationInput  )  {
-			removeSection ( input:$policyRemoveSectionInput   ) {
+mutation policySocketBypassRemoveSection ($accountId: ID!, $socketBypassPolicyMutationInput: SocketBypassPolicyMutationInput, $policyRemoveSectionInput: PolicyRemoveSectionInput!) {
+	policy(accountId: $accountId) {
+		socketBypass(input: $socketBypassPolicyMutationInput) {
+			removeSection(input: $policyRemoveSectionInput) {
 				section {
 					audit {
 						updatedTime
@@ -35,5 +35,5 @@ mutation policySocketBypassRemoveSection ( $accountId:ID! $socketBypassPolicyMut
 				}
 			}
 		}
-	}	
+	}
 }

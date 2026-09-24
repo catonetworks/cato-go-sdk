@@ -1,6 +1,6 @@
-query siteWifiSsidList ( $accountId:ID! $wifiSsidListInput:WifiSsidListInput!) {
-	site ( accountId:$accountId ) {
-		wifiSsidList ( input:$wifiSsidListInput  )  {
+query siteWifiSsidList ($accountId: ID!, $wifiSsidListInput: WifiSsidListInput!) {
+	site(accountId: $accountId) {
+		wifiSsidList(input: $wifiSsidListInput) {
 			wifiSsid {
 				id
 				networkInterfaceId
@@ -33,5 +33,5 @@ query siteWifiSsidList ( $accountId:ID! $wifiSsidListInput:WifiSsidListInput!) {
 				total
 			}
 		}
-	}	
+	}
 }

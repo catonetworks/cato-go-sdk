@@ -1,6 +1,6 @@
-mutation popLocationMutationsUpdateBgpProfile ( $accountId:ID! $popLocationUpdateBgpProfileInput:PopLocationUpdateBgpProfileInput!) {
-	popLocationMutations ( accountId:$accountId ) {
-		updateBgpProfile ( input:$popLocationUpdateBgpProfileInput  )  {
+mutation popLocationMutationsUpdateBgpProfile ($accountId: ID!, $popLocationUpdateBgpProfileInput: PopLocationUpdateBgpProfileInput!) {
+	popLocationMutations(accountId: $accountId) {
+		updateBgpProfile(input: $popLocationUpdateBgpProfileInput) {
 			bgpProfile {
 				id
 				name
@@ -13,5 +13,5 @@ mutation popLocationMutationsUpdateBgpProfile ( $accountId:ID! $popLocationUpdat
 				lastUpdatedAt
 			}
 		}
-	}	
+	}
 }

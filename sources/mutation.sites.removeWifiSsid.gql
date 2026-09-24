@@ -1,6 +1,6 @@
-mutation sitesRemoveWifiSsid ( $accountId:ID! $removeWifiSsidInput:RemoveWifiSsidInput!) {
-	sites ( accountId:$accountId ) {
-		removeWifiSsid ( input:$removeWifiSsidInput  )  {
+mutation sitesRemoveWifiSsid ($accountId: ID!, $removeWifiSsidInput: RemoveWifiSsidInput!) {
+	sites(accountId: $accountId) {
+		removeWifiSsid(input: $removeWifiSsidInput) {
 			wifiSsid {
 				id
 				networkInterfaceId
@@ -30,5 +30,5 @@ mutation sitesRemoveWifiSsid ( $accountId:ID! $removeWifiSsidInput:RemoveWifiSsi
 				band
 			}
 		}
-	}	
+	}
 }

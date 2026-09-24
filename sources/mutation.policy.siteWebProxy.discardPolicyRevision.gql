@@ -1,7 +1,7 @@
-mutation policySiteWebProxyDiscardPolicyRevision ( $accountId:ID! $siteWebProxyPolicyMutationInput:SiteWebProxyPolicyMutationInput $policyDiscardRevisionInput:PolicyDiscardRevisionInput) {
-	policy ( accountId:$accountId ) {
-		siteWebProxy ( input:$siteWebProxyPolicyMutationInput  )  {
-			discardPolicyRevision ( input:$policyDiscardRevisionInput   ) {
+mutation policySiteWebProxyDiscardPolicyRevision ($accountId: ID!, $siteWebProxyPolicyMutationInput: SiteWebProxyPolicyMutationInput, $policyDiscardRevisionInput: PolicyDiscardRevisionInput) {
+	policy(accountId: $accountId) {
+		siteWebProxy(input: $siteWebProxyPolicyMutationInput) {
+			discardPolicyRevision(input: $policyDiscardRevisionInput) {
 				policy {
 					enabled
 					rules {

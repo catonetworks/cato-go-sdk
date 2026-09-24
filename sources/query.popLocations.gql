@@ -1,6 +1,6 @@
-query popLocations ( $accountId:ID! $popLocationFilterInput:PopLocationFilterInput $popLocationAllocatedIpInput:PopLocationAllocatedIpInput $id:ID!) {
-	popLocations ( accountId:$accountId ) {
-		popLocationList ( input:$popLocationFilterInput  )  {
+query popLocations ($accountId: ID!, $popLocationFilterInput: PopLocationFilterInput, $popLocationAllocatedIpInput: PopLocationAllocatedIpInput, $id: ID!) {
+	popLocations(accountId: $accountId) {
+		popLocationList(input: $popLocationFilterInput) {
 			items {
 				id
 				name
@@ -16,7 +16,7 @@ query popLocations ( $accountId:ID! $popLocationFilterInput:PopLocationFilterInp
 				}
 			}
 		}
-		allocatedIpList ( input:$popLocationAllocatedIpInput  )  {
+		allocatedIpList(input: $popLocationAllocatedIpInput) {
 			allocatedIp {
 				id
 				account {
@@ -37,7 +37,7 @@ query popLocations ( $accountId:ID! $popLocationFilterInput:PopLocationFilterInp
 				total
 			}
 		}
-		bgpProfile ( id:$id  )  {
+		bgpProfile(id: $id) {
 			id
 			name
 			description
@@ -61,5 +61,5 @@ query popLocations ( $accountId:ID! $popLocationFilterInput:PopLocationFilterInp
 				lastUpdatedAt
 			}
 		}
-	}	
+	}
 }

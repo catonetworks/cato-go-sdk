@@ -1,27 +1,39 @@
-mutation policyWanNetworkRemoveSection ( $policyRemoveSectionInput:PolicyRemoveSectionInput! $accountId:ID! ) {
-  policy ( accountId:$accountId  ) {
-    wanNetwork  {
-      removeSection ( input:$policyRemoveSectionInput   )  {
-        section  {
-          audit  {
-            updatedTime 
-            updatedBy 
-          }
-          section  {
-            id 
-            name 
-          }
-          properties
-        }
-
-        status 
-        errors  {
-          errorMessage
-          errorCode
-        }
-
-      }
-    }
-
-  }  
+mutation policyWanNetworkRemoveSection ($policyRemoveSectionInput: PolicyRemoveSectionInput!, $accountId: ID!, $wanNetworkPolicyMutationInput: WanNetworkPolicyMutationInput) {
+	policy(accountId: $accountId) {
+		wanNetwork(input: $wanNetworkPolicyMutationInput) {
+			removeSection(input: $policyRemoveSectionInput) {
+				section {
+					audit {
+						updatedTime
+						updatedBy
+					}
+					metadata {
+						lock {
+							lockingAdminEmail
+							lockingTime
+							lockingRevisionId
+						}
+					}
+					section {
+						id
+						name
+					}
+					properties
+				}
+				status
+				errors {
+					errorMessage
+					errorCode
+				}
+				revision {
+					id
+					name
+					description
+					changes
+					createdTime
+					updatedTime
+				}
+			}
+		}
+	}
 }

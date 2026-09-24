@@ -1,6 +1,6 @@
-mutation userCreateUser ( $accountId:ID! $createUserInput:CreateUserInput!) {
-	user ( accountId:$accountId ) {
-		createUser ( input:$createUserInput  )  {
+mutation userCreateUser ($accountId: ID!, $createUserInput: CreateUserInput!) {
+	user(accountId: $accountId) {
+		createUser(input: $createUserInput) {
 			user {
 				id
 				userId
@@ -17,7 +17,6 @@ mutation userCreateUser ( $accountId:ID! $createUserInput:CreateUserInput!) {
 				userStatus
 				creationDate
 				lastModified
-				importType
 				userImportType
 				directoryId
 				hasRemoteAccessEligibility
@@ -28,5 +27,5 @@ mutation userCreateUser ( $accountId:ID! $createUserInput:CreateUserInput!) {
 				riskScore
 			}
 		}
-	}	
+	}
 }

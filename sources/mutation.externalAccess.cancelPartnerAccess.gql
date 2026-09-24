@@ -1,6 +1,6 @@
-mutation externalAccessCancelPartnerAccess ( $accountId:ID! $cancelPartnerAccessInput:CancelPartnerAccessInput!) {
-	externalAccess ( accountId:$accountId ) {
-		cancelPartnerAccess ( input:$cancelPartnerAccessInput  )  {
+mutation externalAccessCancelPartnerAccess ($accountId: ID!, $cancelPartnerAccessInput: CancelPartnerAccessInput!) {
+	externalAccess(accountId: $accountId) {
+		cancelPartnerAccess(input: $cancelPartnerAccessInput) {
 			invitation {
 				id
 				partner {
@@ -34,5 +34,5 @@ mutation externalAccessCancelPartnerAccess ( $accountId:ID! $cancelPartnerAccess
 				isAppliedOnAllFullyManagedAccounts
 			}
 		}
-	}	
+	}
 }

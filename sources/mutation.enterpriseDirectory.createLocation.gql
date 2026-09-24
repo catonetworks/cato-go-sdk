@@ -1,6 +1,6 @@
-mutation enterpriseDirectoryCreateLocation ( $accountId:ID! $enterpriseDirectoryCreateLocationInput:EnterpriseDirectoryCreateLocationInput!) {
-	enterpriseDirectory ( accountId:$accountId ) {
-		createLocation ( input:$enterpriseDirectoryCreateLocationInput  )  {
+mutation enterpriseDirectoryCreateLocation ($accountId: ID!, $enterpriseDirectoryCreateLocationInput: EnterpriseDirectoryCreateLocationInput!) {
+	enterpriseDirectory(accountId: $accountId) {
+		createLocation(input: $enterpriseDirectoryCreateLocationInput) {
 			location {
 				id
 				account {
@@ -43,5 +43,5 @@ mutation enterpriseDirectoryCreateLocation ( $accountId:ID! $enterpriseDirectory
 				}
 			}
 		}
-	}	
+	}
 }

@@ -1,7 +1,7 @@
-mutation policyClientConnectivityUpdatePolicy ( $accountId:ID! $clientConnectivityPolicyMutationInput:ClientConnectivityPolicyMutationInput $clientConnectivityPolicyUpdateInput:ClientConnectivityPolicyUpdateInput!) {
-	policy ( accountId:$accountId ) {
-		clientConnectivity ( input:$clientConnectivityPolicyMutationInput  )  {
-			updatePolicy ( input:$clientConnectivityPolicyUpdateInput   ) {
+mutation policyClientConnectivityUpdatePolicy ($accountId: ID!, $clientConnectivityPolicyMutationInput: ClientConnectivityPolicyMutationInput, $clientConnectivityPolicyUpdateInput: ClientConnectivityPolicyUpdateInput!) {
+	policy(accountId: $accountId) {
+		clientConnectivity(input: $clientConnectivityPolicyMutationInput) {
+			updatePolicy(input: $clientConnectivityPolicyUpdateInput) {
 				policy {
 					enabled
 					rules {
@@ -95,5 +95,5 @@ mutation policyClientConnectivityUpdatePolicy ( $accountId:ID! $clientConnectivi
 				}
 			}
 		}
-	}	
+	}
 }

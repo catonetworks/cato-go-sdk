@@ -1,6 +1,6 @@
-query siteValidWifiRadioSettingsByCountry ( $accountId:ID! $validWifiRadioSettingsByCountryInput:ValidWifiRadioSettingsByCountryInput!) {
-	site ( accountId:$accountId ) {
-		validWifiRadioSettingsByCountry ( input:$validWifiRadioSettingsByCountryInput  )  {
+query siteValidWifiRadioSettingsByCountry ($accountId: ID!, $validWifiRadioSettingsByCountryInput: ValidWifiRadioSettingsByCountryInput!) {
+	site(accountId: $accountId) {
+		validWifiRadioSettingsByCountry(input: $validWifiRadioSettingsByCountryInput) {
 			band24 {
 				standards
 				channelWidths
@@ -12,5 +12,5 @@ query siteValidWifiRadioSettingsByCountry ( $accountId:ID! $validWifiRadioSettin
 				channels
 			}
 		}
-	}	
+	}
 }

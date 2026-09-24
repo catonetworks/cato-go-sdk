@@ -1,7 +1,7 @@
-query networkConfigDnsSiteSettings ( $accountId:ID! $siteRefInput:SiteRefInput!) {
-	networkConfig ( accountId:$accountId ) {
+query networkConfigDnsSiteSettings ($accountId: ID!, $siteRefInput: SiteRefInput!) {
+	networkConfig(accountId: $accountId) {
 		dns {
-			siteSettings ( site:$siteRefInput   ) {
+			siteSettings(site: $siteRefInput) {
 				siteId
 				primaryServer
 				secondaryServer

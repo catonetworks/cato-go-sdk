@@ -1,7 +1,7 @@
-mutation containerIpAddressRangeCreateFromList ( $accountId:ID! $createIpAddressRangeContainerFromListInput:CreateIpAddressRangeContainerFromListInput!) {
-	container ( accountId:$accountId ) {
+mutation containerIpAddressRangeCreateFromList ($accountId: ID!, $createIpAddressRangeContainerFromListInput: CreateIpAddressRangeContainerFromListInput!) {
+	container(accountId: $accountId) {
 		ipAddressRange {
-			createFromList ( input:$createIpAddressRangeContainerFromListInput   ) {
+			createFromList(input: $createIpAddressRangeContainerFromListInput) {
 				container {
 					id
 					name
@@ -41,5 +41,5 @@ mutation containerIpAddressRangeCreateFromList ( $accountId:ID! $createIpAddress
 				}
 			}
 		}
-	}	
+	}
 }

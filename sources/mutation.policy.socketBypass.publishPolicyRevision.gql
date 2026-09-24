@@ -1,7 +1,7 @@
-mutation policySocketBypassPublishPolicyRevision ( $accountId:ID! $socketBypassPolicyMutationInput:SocketBypassPolicyMutationInput $policyPublishRevisionInput:PolicyPublishRevisionInput) {
-	policy ( accountId:$accountId ) {
-		socketBypass ( input:$socketBypassPolicyMutationInput  )  {
-			publishPolicyRevision ( input:$policyPublishRevisionInput   ) {
+mutation policySocketBypassPublishPolicyRevision ($accountId: ID!, $socketBypassPolicyMutationInput: SocketBypassPolicyMutationInput, $policyPublishRevisionInput: PolicyPublishRevisionInput) {
+	policy(accountId: $accountId) {
+		socketBypass(input: $socketBypassPolicyMutationInput) {
+			publishPolicyRevision(input: $policyPublishRevisionInput) {
 				policy {
 					enabled
 					rules {
@@ -232,5 +232,5 @@ mutation policySocketBypassPublishPolicyRevision ( $accountId:ID! $socketBypassP
 				}
 			}
 		}
-	}	
+	}
 }

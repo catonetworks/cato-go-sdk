@@ -1,5 +1,5 @@
-query servicePrincipalAdmin ( $accountId:ID! $adminID:ID!) {
-	servicePrincipalAdmin ( accountId:$accountId adminID:$adminID ) {
+query servicePrincipalAdmin ($accountId: ID!, $adminID: ID!) {
+	servicePrincipalAdmin(accountId: $accountId, adminID: $adminID) {
 		id
 		name
 		email
@@ -33,5 +33,5 @@ query servicePrincipalAdmin ( $accountId:ID! $adminID:ID!) {
 			}
 			allowedAccounts
 		}
-	}	
+	}
 }

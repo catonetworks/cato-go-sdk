@@ -41,17 +41,17 @@ func main() {
 	fmt.Printf("Creating TLS Inspection Section\n")
 	fmt.Printf("======================================\n")
 
-	position := cato_models.PolicyRulePositionEnumLastInPolicy
+	position := cato_models.PolicySectionPositionEnumLastInPolicy
 	policyAddSectionInput := cato_models.PolicyAddSectionInput{
-		Section: &cato_models.PolicyAddSectionDataInput{
+		Section: &cato_models.PolicyAddSectionInfoInput{
 			Name: "Example TLS Inspection Section",
 		},
-		At: &cato_models.PolicyRulePositionInput{
-			Position: &position,
+		At: &cato_models.PolicySectionPositionInput{
+			Position: position,
 		},
 	}
 
-	addResult, err := catoClient.PolicyTLSInspectAddSection(ctx, policyAddSectionInput, accountId)
+	addResult, err := catoClient.PolicyTLSInspectAddSection(ctx, policyAddSectionInput, accountId, nil)
 	if err != nil {
 		fmt.Println("error adding TLS inspection section: ", err)
 		os.Exit(1)
@@ -63,8 +63,8 @@ func main() {
 	fmt.Println(string(addResultJson))
 
 	// Access specific fields
-	if addResult.Policy.TlsInspect.AddSection.Section != nil {
-		section := addResult.Policy.TlsInspect.AddSection.Section
+	if addResult.Policy.TLSInspect.AddSection.Section != nil {
+		section := addResult.Policy.TLSInspect.AddSection.Section
 		fmt.Printf("\nSection Details:\n")
 		fmt.Printf("ID: %s\n", section.Section.ID)
 		fmt.Printf("Name: %s\n", section.Section.Name)
@@ -73,9 +73,9 @@ func main() {
 	}
 
 	// Check for any errors
-	if len(addResult.Policy.TlsInspect.AddSection.Errors) > 0 {
+	if len(addResult.Policy.TLSInspect.AddSection.Errors) > 0 {
 		fmt.Printf("\nAdd Section Errors:\n")
-		for _, err := range addResult.Policy.TlsInspect.AddSection.Errors {
+		for _, err := range addResult.Policy.TLSInspect.AddSection.Errors {
 			fmt.Printf("- %s (Code: %s)\n", *err.ErrorMessage, *err.ErrorCode)
 		}
 		os.Exit(1)
@@ -85,8 +85,8 @@ func main() {
 	// Read the TLS inspection policy    //
 	//////////////////////////////////////////
 
-	if addResult.Policy.TlsInspect.AddSection.Section != nil {
-		section := addResult.Policy.TlsInspect.AddSection.Section
+	if addResult.Policy.TLSInspect.AddSection.Section != nil {
+		section := addResult.Policy.TLSInspect.AddSection.Section
 		sectionId := section.Section.ID
 		sectionName := section.Section.Name
 
@@ -95,7 +95,7 @@ func main() {
 		fmt.Printf("======================================\n")
 
 		// Query the TLS inspection policy to get the current state of all sections
-		policyResult, err := catoClient.Tlsinspectpolicy(ctx, accountId)
+		policyResult, err := catoClient.Tlsinspectpolicy(ctx, accountId, nil)
 		if err != nil {
 			fmt.Println("error reading TLS inspection policy: ", err)
 			os.Exit(1)
@@ -106,10 +106,10 @@ func main() {
 		fmt.Printf("Section Name: %s\n", sectionName)
 
 		// Display sections if available
-		if len(policyResult.Policy.TlsInspect.Policy.Sections) > 0 {
-			fmt.Printf("Total sections in policy: %d\n", len(policyResult.Policy.TlsInspect.Policy.Sections))
+		if len(policyResult.Policy.TLSInspect.Policy.Sections) > 0 {
+			fmt.Printf("Total sections in policy: %d\n", len(policyResult.Policy.TLSInspect.Policy.Sections))
 			// Look for our specific section
-			for _, sec := range policyResult.Policy.TlsInspect.Policy.Sections {
+			for _, sec := range policyResult.Policy.TLSInspect.Policy.Sections {
 				if sec.Section.ID == sectionId {
 					fmt.Printf("Found our section: %s\n", sec.Section.Name)
 					break
@@ -132,13 +132,13 @@ func main() {
 
 		policyUpdateSectionInput := cato_models.PolicyUpdateSectionInput{
 			ID: sectionId,
-			Section: &cato_models.PolicyUpdateSectionDataInput{
+			Section: &cato_models.PolicyUpdateSectionInfoInput{
 				Name: &updatedName,
 			},
 		}
 
 		// Perform the update
-		updateResult, err := catoClient.PolicyTLSInspectUpdateSection(ctx, policyUpdateSectionInput, accountId)
+		updateResult, err := catoClient.PolicyTLSInspectUpdateSection(ctx, policyUpdateSectionInput, accountId, nil)
 		if err != nil {
 			fmt.Println("error updating TLS inspection section: ", err)
 			os.Exit(1)
@@ -150,8 +150,8 @@ func main() {
 		fmt.Println(string(updateResultJson))
 
 		// Access specific fields from update result
-		if updateResult.Policy.TlsInspect.UpdateSection.Section != nil {
-			updatedSection := updateResult.Policy.TlsInspect.UpdateSection.Section
+		if updateResult.Policy.TLSInspect.UpdateSection.Section != nil {
+			updatedSection := updateResult.Policy.TLSInspect.UpdateSection.Section
 			fmt.Printf("\nUpdated Section Details:\n")
 			fmt.Printf("ID: %s\n", updatedSection.Section.ID)
 			fmt.Printf("Name: %s\n", updatedSection.Section.Name)
@@ -160,9 +160,9 @@ func main() {
 		}
 
 		// Check for any update errors
-		if len(updateResult.Policy.TlsInspect.UpdateSection.Errors) > 0 {
+		if len(updateResult.Policy.TLSInspect.UpdateSection.Errors) > 0 {
 			fmt.Printf("\nUpdate Errors:\n")
-			for _, err := range updateResult.Policy.TlsInspect.UpdateSection.Errors {
+			for _, err := range updateResult.Policy.TLSInspect.UpdateSection.Errors {
 				fmt.Printf("- %s (Code: %s)\n", *err.ErrorMessage, *err.ErrorCode)
 			}
 		} else {
@@ -185,7 +185,7 @@ func main() {
 		}
 
 		// Perform the delete operation
-		deleteResult, err := catoClient.PolicyTLSInspectRemoveSection(ctx, policyRemoveSectionInput, accountId)
+		deleteResult, err := catoClient.PolicyTLSInspectRemoveSection(ctx, policyRemoveSectionInput, accountId, nil)
 		if err != nil {
 			fmt.Println("error deleting TLS inspection section: ", err)
 			os.Exit(1)
@@ -197,12 +197,12 @@ func main() {
 		fmt.Println(string(deleteResultJson))
 
 		// Access specific fields from delete result
-		fmt.Printf("\nDeletion Status: %s\n", deleteResult.Policy.TlsInspect.RemoveSection.Status)
+		fmt.Printf("\nDeletion Status: %s\n", deleteResult.Policy.TLSInspect.RemoveSection.Status)
 
 		// Check for any delete errors
-		if len(deleteResult.Policy.TlsInspect.RemoveSection.Errors) > 0 {
+		if len(deleteResult.Policy.TLSInspect.RemoveSection.Errors) > 0 {
 			fmt.Printf("\nDelete Errors:\n")
-			for _, err := range deleteResult.Policy.TlsInspect.RemoveSection.Errors {
+			for _, err := range deleteResult.Policy.TLSInspect.RemoveSection.Errors {
 				fmt.Printf("- %s (Code: %s)\n", *err.ErrorMessage, *err.ErrorCode)
 			}
 		} else {
@@ -219,7 +219,7 @@ func main() {
 		fmt.Printf("Publishing TLS Inspection Policy\n")
 		fmt.Printf("======================================\n")
 
-		publishResult, err := catoClient.PolicyTlsInspectPublishPolicyRevision(ctx, accountId)
+		publishResult, err := catoClient.PolicyTLSInspectPublishPolicyRevision(ctx, accountId, nil, nil)
 		if err != nil {
 			fmt.Println("error publishing TLS inspection policy revision: ", err)
 			os.Exit(1)
@@ -231,12 +231,12 @@ func main() {
 		fmt.Println(string(publishResultJson))
 
 		// Access specific fields
-		fmt.Printf("\nPublish Status: %s\n", publishResult.Policy.TlsInspect.PublishPolicyRevision.Status)
+		fmt.Printf("\nPublish Status: %s\n", publishResult.Policy.TLSInspect.PublishPolicyRevision.Status)
 
 		// Check for any errors
-		if len(publishResult.Policy.TlsInspect.PublishPolicyRevision.Errors) > 0 {
+		if len(publishResult.Policy.TLSInspect.PublishPolicyRevision.Errors) > 0 {
 			fmt.Printf("\nPublish Errors:\n")
-			errorsJson, _ := json.MarshalIndent(publishResult.Policy.TlsInspect.PublishPolicyRevision.Errors, "", "  ")
+			errorsJson, _ := json.MarshalIndent(publishResult.Policy.TLSInspect.PublishPolicyRevision.Errors, "", "  ")
 			fmt.Println(string(errorsJson))
 		} else {
 			fmt.Printf("\nThe TLS inspection policy revision has been successfully published and is now live.\n")

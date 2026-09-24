@@ -1,7 +1,7 @@
-mutation networkConfigDnsCreateServerSet ( $accountId:ID! $networkConfigDnsCreateServerSetInput:NetworkConfigDnsCreateServerSetInput!) {
-	networkConfig ( accountId:$accountId ) {
+mutation networkConfigDnsCreateServerSet ($accountId: ID!, $networkConfigDnsCreateServerSetInput: NetworkConfigDnsCreateServerSetInput!) {
+	networkConfig(accountId: $accountId) {
 		dns {
-			createServerSet ( input:$networkConfigDnsCreateServerSetInput   ) {
+			createServerSet(input: $networkConfigDnsCreateServerSetInput) {
 				dnsServerSet {
 					id
 					name
@@ -11,14 +11,6 @@ mutation networkConfigDnsCreateServerSet ( $accountId:ID! $networkConfigDnsCreat
 						updatedBy {
 							id
 							name
-							... on AdminRef {
-								id
-								name
-							}
-							... on ApiKeyRef {
-								id
-								name
-							}
 						}
 					}
 				}

@@ -1,6 +1,6 @@
-query groupsGroupList ( $accountId:ID! $groupListInput:GroupListInput $groupMembersListInput:GroupMembersListInput!) {
-	groups ( accountId:$accountId ) {
-		groupList ( input:$groupListInput  )  {
+query groupsGroupList ($accountId: ID!, $groupListInput: GroupListInput, $groupMembersListInput: GroupMembersListInput!) {
+	groups(accountId: $accountId) {
+		groupList(input: $groupListInput) {
 			items {
 				id
 				name
@@ -12,7 +12,7 @@ query groupsGroupList ( $accountId:ID! $groupListInput:GroupListInput $groupMemb
 						name
 					}
 				}
-				members ( input:$groupMembersListInput  )  {
+				members(input: $groupMembersListInput) {
 					items {
 						id
 						name
@@ -32,5 +32,5 @@ query groupsGroupList ( $accountId:ID! $groupListInput:GroupListInput $groupMemb
 				total
 			}
 		}
-	}	
+	}
 }

@@ -1,16 +1,39 @@
-mutation policyApplicationControlRemoveSection(
-  $policyRemoveSectionInput: PolicyRemoveSectionInput!
-  $accountId: ID!
-) {
-  policy(accountId: $accountId) {
-    applicationControl {
-      removeSection(input: $policyRemoveSectionInput) {
-        status
-        errors {
-          errorMessage
-          errorCode
-        }
-      }
-    }
-  }
+mutation policyApplicationControlRemoveSection ($policyRemoveSectionInput: PolicyRemoveSectionInput!, $accountId: ID!, $applicationControlPolicyMutationInput: ApplicationControlPolicyMutationInput) {
+	policy(accountId: $accountId) {
+		applicationControl(input: $applicationControlPolicyMutationInput) {
+			removeSection(input: $policyRemoveSectionInput) {
+				section {
+					audit {
+						updatedTime
+						updatedBy
+					}
+					metadata {
+						lock {
+							lockingAdminEmail
+							lockingTime
+							lockingRevisionId
+						}
+					}
+					section {
+						id
+						name
+					}
+					properties
+				}
+				status
+				errors {
+					errorMessage
+					errorCode
+				}
+				revision {
+					id
+					name
+					description
+					changes
+					createdTime
+					updatedTime
+				}
+			}
+		}
+	}
 }

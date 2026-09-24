@@ -1,391 +1,364 @@
-query wanNetworkPolicy ( $accountId:ID! ) {
-	policy ( accountId:$accountId  ) {
-		wanNetwork  {
-			policy {
-				enabled 
-				rules  {
+query wanNetworkPolicy ($accountId: ID!, $wanNetworkPolicyInput: WanNetworkPolicyInput) {
+	policy(accountId: $accountId) {
+		wanNetwork {
+			policy(input: $wanNetworkPolicyInput) {
+				enabled
+				rules {
 					audit {
-						updatedTime 
-						updatedBy 
+						updatedTime
+						updatedBy
+					}
+					metadata {
+						lock {
+							lockingAdminEmail
+							lockingTime
+							lockingRevisionId
+						}
 					}
 					rule {
-						id 
-						name 
-						description 
-						index 
-						section  {
+						id
+						name
+						description
+						index
+						section {
 							id
 							name
 						}
-
-						enabled 
-						ruleType 
-						routeType 
-						source  {
+						enabled
+						ruleType
+						routeType
+						source {
 							user {
-								id 
-								name 
+								id
+								name
 							}
 							floatingSubnet {
-								id 
-								name 
+								id
+								name
 							}
 							globalIpRange {
-								id 
-								name 
+								id
+								name
 							}
 							group {
-								id 
-								name 
+								id
+								name
 							}
 							host {
-								id 
-								name 
+								id
+								name
 							}
 							ip
 							ipRangeWanNetworkRuleSource: ipRange {
-								from 
-								to 
+								from
+								to
 							}
 							networkInterface {
-								id 
-								name 
+								id
+								name
 							}
 							subnet
 							site {
-								id 
-								name 
+								id
+								name
 							}
 							siteNetworkSubnet {
-								id 
-								name 
+								id
+								name
 							}
 							systemGroup {
-								id 
-								name 
+								id
+								name
 							}
 							usersGroup {
-								id 
-								name 
+								id
+								name
 							}
 						}
-
-						destination  {
+						destination {
 							user {
-								id 
-								name 
+								id
+								name
 							}
 							floatingSubnet {
-								id 
-								name 
+								id
+								name
 							}
 							globalIpRange {
-								id 
-								name 
+								id
+								name
 							}
 							group {
-								id 
-								name 
+								id
+								name
 							}
 							host {
-								id 
-								name 
+								id
+								name
 							}
 							ip
 							ipRangeWanNetworkRuleDestination: ipRange {
-								from 
-								to 
+								from
+								to
 							}
 							networkInterface {
-								id 
-								name 
+								id
+								name
 							}
 							subnet
 							site {
-								id 
-								name 
+								id
+								name
 							}
 							siteNetworkSubnet {
-								id 
-								name 
+								id
+								name
 							}
 							systemGroup {
-								id 
-								name 
+								id
+								name
 							}
 							usersGroup {
-								id 
-								name 
+								id
+								name
 							}
 						}
-
-						application  {
+						application {
 							application {
-								id 
-								name 
+								id
+								name
 							}
 							appCategory {
-								id 
-								name 
+								id
+								name
 							}
 							customApp {
-								id 
-								name 
+								id
+								name
 							}
 							customCategory {
-								id 
-								name 
+								id
+								name
 							}
 							customServiceIp {
-								name 
-								ip 
-								ipRange  {
+								name
+								ip
+								ipRange {
 									from
 									to
 								}
-
 							}
 							customService {
-								port 
-								portRange  {
+								port
+								portRange {
 									from
 									to
 								}
-
-								protocol 
+								protocol
 							}
 							domain
 							fqdn
 							service {
-								id 
-								name 
+								id
+								name
 							}
 						}
-
-						configuration  {
+						configuration {
 							activeTcpAcceleration
 							packetLossMitigation
 							preserveSourcePort
 							primaryTransport {
-								transportType 
-								primaryInterfaceRole 
-								secondaryInterfaceRole 
+								transportType
+								primaryInterfaceRole
+								secondaryInterfaceRole
 							}
 							secondaryTransport {
-								transportType 
-								primaryInterfaceRole 
-								secondaryInterfaceRole 
+								transportType
+								primaryInterfaceRole
+								secondaryInterfaceRole
 							}
 							allocationIp {
-								id 
-								name 
+								id
+								name
 							}
 							popLocation {
-								id 
-								name 
+								id
+								name
 							}
 							backhaulingSite {
-								id 
-								name 
+								id
+								name
 							}
 						}
-
-						bandwidthPriority  {
+						bandwidthPriority {
 							id
 							name
 						}
-
-						exceptions  {
+						exceptions {
 							name
 							source {
-								user  {
+								user {
 									id
 									name
 								}
-
-								floatingSubnet  {
+								floatingSubnet {
 									id
 									name
 								}
-
-								globalIpRange  {
+								globalIpRange {
 									id
 									name
 								}
-
-								group  {
+								group {
 									id
 									name
 								}
-
-								host  {
+								host {
 									id
 									name
 								}
-
-								ip 
-								ipRange  {
+								ip
+								ipRange {
 									from
 									to
 								}
-
-								networkInterface  {
+								networkInterface {
 									id
 									name
 								}
-
-								subnet 
-								site  {
+								subnet
+								site {
 									id
 									name
 								}
-
-								siteNetworkSubnet  {
+								siteNetworkSubnet {
 									id
 									name
 								}
-
-								systemGroup  {
+								systemGroup {
 									id
 									name
 								}
-
-								usersGroup  {
+								usersGroup {
 									id
 									name
 								}
-
 							}
 							destination {
-								user  {
+								user {
 									id
 									name
 								}
-
-								floatingSubnet  {
+								floatingSubnet {
 									id
 									name
 								}
-
-								globalIpRange  {
+								globalIpRange {
 									id
 									name
 								}
-
-								group  {
+								group {
 									id
 									name
 								}
-
-								host  {
+								host {
 									id
 									name
 								}
-
-								ip 
-								ipRange  {
+								ip
+								ipRange {
 									from
 									to
 								}
-
-								networkInterface  {
+								networkInterface {
 									id
 									name
 								}
-
-								subnet 
-								site  {
+								subnet
+								site {
 									id
 									name
 								}
-
-								siteNetworkSubnet  {
+								siteNetworkSubnet {
 									id
 									name
 								}
-
-								systemGroup  {
+								systemGroup {
 									id
 									name
 								}
-
-								usersGroup  {
+								usersGroup {
 									id
 									name
 								}
-
 							}
 							application {
-								application  {
+								application {
 									id
 									name
 								}
-
-								appCategory  {
+								appCategory {
 									id
 									name
 								}
-
-								customApp  {
+								customApp {
 									id
 									name
 								}
-
-								customCategory  {
+								customCategory {
 									id
 									name
 								}
-
-								customServiceIp  {
+								customServiceIp {
 									name
 									ip
 									ipRangeCustomServiceIp: ipRange {
-										from 
-										to 
+										from
+										to
 									}
 								}
-
-								customService  {
+								customService {
 									port
 									portRangeCustomService: portRange {
-										from 
-										to 
+										from
+										to
 									}
 									protocol
 								}
-
-								domain 
-								fqdn 
-								service  {
+								domain
+								fqdn
+								service {
 									id
 									name
 								}
-
 							}
 						}
-
 					}
 					properties
 				}
-
-				sections  {
+				sections {
 					audit {
-						updatedTime 
-						updatedBy 
+						updatedTime
+						updatedBy
+					}
+					metadata {
+						lock {
+							lockingAdminEmail
+							lockingTime
+							lockingRevisionId
+						}
 					}
 					section {
-						id 
-						name 
+						id
+						name
 					}
 					properties
 				}
-
-				audit  {
+				audit {
 					publishedTime
 					publishedBy
 				}
-
-				revision  {
+				revision {
 					id
 					name
 					description
@@ -393,9 +366,7 @@ query wanNetworkPolicy ( $accountId:ID! ) {
 					createdTime
 					updatedTime
 				}
-
 			}
 		}
-
-	}	
+	}
 }

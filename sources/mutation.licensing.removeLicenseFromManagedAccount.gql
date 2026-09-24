@@ -1,6 +1,6 @@
-mutation licensingRemoveLicenseFromManagedAccount ( $accountId:ID! $removeLicenseFromManagedAccountInput:RemoveLicenseFromManagedAccountInput!) {
-	licensing ( accountId:$accountId ) {
-		removeLicenseFromManagedAccount ( input:$removeLicenseFromManagedAccountInput  )  {
+mutation licensingRemoveLicenseFromManagedAccount ($accountId: ID!, $removeLicenseFromManagedAccountInput: RemoveLicenseFromManagedAccountInput!) {
+	licensing(accountId: $accountId) {
+		removeLicenseFromManagedAccount(input: $removeLicenseFromManagedAccountInput) {
 			license {
 				id
 				description
@@ -121,5 +121,5 @@ mutation licensingRemoveLicenseFromManagedAccount ( $accountId:ID! $removeLicens
 				}
 			}
 		}
-	}	
+	}
 }

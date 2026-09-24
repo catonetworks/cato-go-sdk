@@ -1,7 +1,7 @@
-mutation containerFqdnCreateFromList ( $accountId:ID! $createFqdnContainerFromListInput:CreateFqdnContainerFromListInput!) {
-	container ( accountId:$accountId ) {
+mutation containerFqdnCreateFromList ($accountId: ID!, $createFqdnContainerFromListInput: CreateFqdnContainerFromListInput!) {
+	container(accountId: $accountId) {
 		fqdn {
-			createFromList ( input:$createFqdnContainerFromListInput   ) {
+			createFromList(input: $createFqdnContainerFromListInput) {
 				container {
 					id
 					name
@@ -41,5 +41,5 @@ mutation containerFqdnCreateFromList ( $accountId:ID! $createFqdnContainerFromLi
 				}
 			}
 		}
-	}	
+	}
 }

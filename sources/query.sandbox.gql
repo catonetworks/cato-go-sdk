@@ -1,6 +1,6 @@
-query sandbox ( $accountId:ID! $sandboxReportsInput:SandboxReportsInput!) {
-	sandbox ( accountId:$accountId ) {
-		reports ( input:$sandboxReportsInput  )  {
+query sandbox ($accountId: ID!, $sandboxReportsInput: SandboxReportsInput!) {
+	sandbox(accountId: $accountId) {
+		reports(input: $sandboxReportsInput) {
 			report {
 				fileName
 				fileHash
@@ -15,5 +15,5 @@ query sandbox ( $accountId:ID! $sandboxReportsInput:SandboxReportsInput!) {
 				total
 			}
 		}
-	}	
+	}
 }

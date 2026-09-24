@@ -1,7 +1,7 @@
-mutation licensingEnableServiceForManagedAccount ( $accountId:ID! $enableServiceForManagedAccountInput:EnableServiceForManagedAccountInput!) {
-	licensing ( accountId:$accountId ) {
-		enableServiceForManagedAccount ( input:$enableServiceForManagedAccountInput  )  {
+mutation licensingEnableServiceForManagedAccount ($accountId: ID!, $enableServiceForManagedAccountInput: EnableServiceForManagedAccountInput!) {
+	licensing(accountId: $accountId) {
+		enableServiceForManagedAccount(input: $enableServiceForManagedAccountInput) {
 			isSuccess
 		}
-	}	
+	}
 }

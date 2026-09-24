@@ -1,7 +1,7 @@
-mutation sitesRemoveSite ( $accountId:ID! $siteId:ID!) {
-	sites ( accountId:$accountId ) {
-		removeSite ( siteId:$siteId  )  {
+mutation sitesRemoveSite ($accountId: ID!, $siteId: ID!) {
+	sites(accountId: $accountId) {
+		removeSite(siteId: $siteId) {
 			siteId
 		}
-	}	
+	}
 }

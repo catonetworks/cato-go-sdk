@@ -1,6 +1,6 @@
-query siteAvailableVersionList ( $accountId:ID! $availableVersionListInput:AvailableVersionListInput!) {
-	site ( accountId:$accountId ) {
-		availableVersionList ( input:$availableVersionListInput  )  {
+query siteAvailableVersionList ($accountId: ID!, $availableVersionListInput: AvailableVersionListInput!) {
+	site(accountId: $accountId) {
+		availableVersionList(input: $availableVersionListInput) {
 			items {
 				platform
 				versions
@@ -10,5 +10,5 @@ query siteAvailableVersionList ( $accountId:ID! $availableVersionListInput:Avail
 				}
 			}
 		}
-	}	
+	}
 }
