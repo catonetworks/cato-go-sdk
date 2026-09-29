@@ -89,6 +89,10 @@ query devices ($accountId: ID!, $deviceV2Input: DeviceV2Input, $sortOrderInput: 
 				}
 				confidence
 				complianceState
+				isCrownJewel
+				crownJewelSource
+				researchReasonTypes
+				customerReasonType
 				nics {
 					macAddress
 					ip
