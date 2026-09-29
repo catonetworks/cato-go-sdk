@@ -1,20 +1,145 @@
-mutation policyAppTenantRestrictionPublishPolicyRevision($accountId: ID!) {
-  policy(accountId: $accountId) {
-    appTenantRestriction {
-      publishPolicyRevision {
-        policy {
-          enabled
-          revision {
-            id
-            name
-          }
-        }
-        status
-        errors {
-          errorMessage
-          errorCode
-        }
-      }
-    }
-  }
+mutation policyAppTenantRestrictionPublishPolicyRevision ( $accountId:ID! $appTenantRestrictionPolicyMutationInput:AppTenantRestrictionPolicyMutationInput $policyPublishRevisionInput:PolicyPublishRevisionInput) {
+	policy ( accountId:$accountId ) {
+		appTenantRestriction ( input:$appTenantRestrictionPolicyMutationInput  )  {
+			publishPolicyRevision ( input:$policyPublishRevisionInput   ) {
+				policy {
+					enabled
+					rules {
+						audit {
+							updatedTime
+							updatedBy
+						}
+						metadata {
+							lock {
+								lockingAdminEmail
+								lockingTime
+								lockingRevisionId
+							}
+						}
+						rule {
+							id
+							name
+							description
+							index
+							section {
+								id
+								name
+							}
+							enabled
+							application {
+								id
+								name
+							}
+							headers {
+								name
+								value
+							}
+							source {
+								ip
+								host {
+									id
+									name
+								}
+								site {
+									id
+									name
+								}
+								subnet
+								ipRange {
+									from
+									to
+								}
+								globalIpRange {
+									id
+									name
+								}
+								networkInterface {
+									id
+									name
+								}
+								siteNetworkSubnet {
+									id
+									name
+								}
+								floatingSubnet {
+									id
+									name
+								}
+								user {
+									id
+									name
+								}
+								usersGroup {
+									id
+									name
+								}
+								group {
+									id
+									name
+								}
+								systemGroup {
+									id
+									name
+								}
+								country {
+									id
+									name
+								}
+							}
+							schedule {
+								activeOn
+								customTimeframe {
+									from
+									to
+								}
+								customRecurring {
+									from
+									to
+									days
+								}
+							}
+							action
+							severity
+						}
+						properties
+					}
+					sections {
+						audit {
+							updatedTime
+							updatedBy
+						}
+						metadata {
+							lock {
+								lockingAdminEmail
+								lockingTime
+								lockingRevisionId
+							}
+						}
+						section {
+							id
+							name
+						}
+						properties
+					}
+					audit {
+						publishedTime
+						publishedBy
+					}
+					revision {
+						id
+						name
+						description
+						changes
+						createdTime
+						updatedTime
+					}
+				}
+				status
+				errors {
+					errorMessage
+					errorCode
+				}
+			}
+		}
+	}	
 }

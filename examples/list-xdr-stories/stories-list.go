@@ -41,9 +41,9 @@ func main() {
 	loopDone := false
 	totalCount := int64(math.MaxInt64)
 
-	queryInitialResult, err := catoClient.XdrStoriesList(ctx, xdrStoriesInput, accountId)
+	queryInitialResult, err := catoClient.XdrStories(ctx, accountId, xdrStoriesInput)
 	if err != nil {
-		fmt.Println("XdrStoriesList initial query error: ", err)
+		fmt.Println("XdrStories initial query error: ", err)
 		return
 	}
 
@@ -61,9 +61,9 @@ func main() {
 			xdrStoriesInput.Paging.From += xdrStoriesInput.Paging.Limit
 		}
 
-		queryResult, err := catoClient.XdrStoriesList(ctx, xdrStoriesInput, accountId)
+		queryResult, err := catoClient.XdrStories(ctx, accountId, xdrStoriesInput)
 		if err != nil {
-			fmt.Println("XdrStoriesList loop query error: ", err)
+			fmt.Println("XdrStories loop query error: ", err)
 			return
 		}
 

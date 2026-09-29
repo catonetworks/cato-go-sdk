@@ -11,18 +11,10 @@ mutation networkConfigDnsCreateSuffixSet ( $accountId:ID! $networkConfigDnsCreat
 						updatedBy {
 							id
 							name
-							... on AdminRef {
-								id
-								name
-							}
-							... on ApiKeyRef {
-								id
-								name
-							}
 						}
 					}
 				}
 			}
 		}
-	}
+	}	
 }

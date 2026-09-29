@@ -1,24 +1,21 @@
-mutation siteUpdateIpsecIkeV2SiteTunnels ( $siteId:ID! $updateIpsecIkeV2SiteTunnelsInput:UpdateIpsecIkeV2SiteTunnelsInput! $accountId:ID! ) {
-	site ( accountId:$accountId  ) {
+mutation siteUpdateIpsecIkeV2SiteTunnels ( $accountId:ID! $siteId:ID! $updateIpsecIkeV2SiteTunnelsInput:UpdateIpsecIkeV2SiteTunnelsInput!) {
+	site ( accountId:$accountId ) {
 		updateIpsecIkeV2SiteTunnels ( siteId:$siteId  input:$updateIpsecIkeV2SiteTunnelsInput  )  {
 			siteId
-			primaryUpdateIpsecIkeV2SiteTunnelsPayload: primary {
-				fqdn 
-				tunnels  {
-					tunnelIdUpdateIpsecIkeV2SiteTunnelPayload: tunnelId
+			primary {
+				fqdn
+				tunnels {
+					tunnelId
 					localId
 				}
-
 			}
-			secondaryUpdateIpsecIkeV2SiteTunnelsPayload: secondary {
-				fqdn 
-				tunnels  {
-					tunnelIdUpdateIpsecIkeV2SiteTunnelPayload: tunnelId
+			secondary {
+				fqdn
+				tunnels {
+					tunnelId
 					localId
 				}
-
 			}
 		}
-
 	}	
 }

@@ -1,8 +1,7 @@
-mutation siteAddStaticHost ( $siteId:ID! $addStaticHostInput:AddStaticHostInput! $accountId:ID! ) {
-	site ( accountId:$accountId  ) {
+mutation siteAddStaticHost ( $accountId:ID! $siteId:ID! $addStaticHostInput:AddStaticHostInput!) {
+	site ( accountId:$accountId ) {
 		addStaticHost ( siteId:$siteId  input:$addStaticHostInput  )  {
 			hostId
 		}
-
 	}	
 }

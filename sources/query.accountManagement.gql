@@ -1,6 +1,6 @@
-query accountManagement ( $accountId:ID! ) {
-	accountManagement ( accountId:$accountId  ) {
-		account  {
+query accountManagement ( $accountId:ID!) {
+	accountManagement ( accountId:$accountId ) {
+		account {
 			id
 			name
 			description
@@ -8,10 +8,11 @@ query accountManagement ( $accountId:ID! ) {
 			type
 			tenancy
 			audit {
-				createdBy 
-				createdTime 
+				createdBy
+				createdTime
 			}
+			plan
+			status
 		}
-
 	}	
 }

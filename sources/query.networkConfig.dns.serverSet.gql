@@ -14,5 +14,5 @@ query networkConfigDnsServerSet ( $accountId:ID! $networkConfigDnsServerSetRefIn
 				}
 			}
 		}
-	}
+	}	
 }

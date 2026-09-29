@@ -15,5 +15,5 @@ mutation networkConfigDhcpUpdateSettings ( $accountId:ID! $networkConfigDhcpUpda
 				}
 			}
 		}
-	}
+	}	
 }

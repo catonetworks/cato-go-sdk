@@ -1,4 +1,4 @@
-query siteBgpPeerListQuery ( $accountId:ID! $bgpPeerListInput:BgpPeerListInput!) {
+query siteBgpPeerList ( $accountId:ID! $bgpPeerListInput:BgpPeerListInput!) {
 	site ( accountId:$accountId ) {
 		bgpPeerList ( input:$bgpPeerListInput  )  {
 			bgpPeer {

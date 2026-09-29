@@ -7,5 +7,5 @@ query networkConfigDnsForwardingRule ( $accountId:ID! $networkConfigDnsForwardin
 				server
 			}
 		}
-	}
+	}	
 }

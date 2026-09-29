@@ -12,5 +12,5 @@ query networkConfigDhcpRelayGroupList ( $accountId:ID! $networkConfigDhcpRelayGr
 				}
 			}
 		}
-	}
+	}	
 }

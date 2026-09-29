@@ -12,5 +12,5 @@ query postureAccountSummaryList ( $accountId:ID! $postureAccountSummaryListInput
 				total
 			}
 		}
-	}
+	}	
 }

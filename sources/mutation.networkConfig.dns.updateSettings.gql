@@ -10,5 +10,5 @@ mutation networkConfigDnsUpdateSettings ( $accountId:ID! $networkConfigDnsUpdate
 				}
 			}
 		}
-	}
+	}	
 }

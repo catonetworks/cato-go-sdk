@@ -1,27 +1,39 @@
-mutation policyInternetFirewallMoveSection ( $internetFirewallPolicyMutationInput:InternetFirewallPolicyMutationInput $policyMoveSectionInput:PolicyMoveSectionInput! $accountId:ID! ) {
-	policy ( accountId:$accountId  ) {
+mutation policyInternetFirewallMoveSection ( $accountId:ID! $internetFirewallPolicyMutationInput:InternetFirewallPolicyMutationInput $policyMoveSectionInput:PolicyMoveSectionInput!) {
+	policy ( accountId:$accountId ) {
 		internetFirewall ( input:$internetFirewallPolicyMutationInput  )  {
 			moveSection ( input:$policyMoveSectionInput   ) {
-				section  {
+				section {
 					audit {
-						updatedTime 
-						updatedBy 
+						updatedTime
+						updatedBy
+					}
+					metadata {
+						lock {
+							lockingAdminEmail
+							lockingTime
+							lockingRevisionId
+						}
 					}
 					section {
-						id 
-						name 
+						id
+						name
 					}
 					properties
 				}
-
-				status 
-				errors  {
+				status
+				errors {
 					errorMessage
 					errorCode
 				}
-
+				revision {
+					id
+					name
+					description
+					changes
+					createdTime
+					updatedTime
+				}
 			}
 		}
-
 	}	
 }

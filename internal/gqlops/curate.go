@@ -29,6 +29,12 @@ func curateCLIContent(path string, content []byte) ([]byte, error) {
 		"mutation.notification.updateSubscriptionGroup.txt",
 		"query.notification.txt":
 		return addHeaderSelections(content), nil
+	case "mutation.user.createUser.txt",
+		"mutation.user.disableUser.txt",
+		"mutation.user.enableUser.txt",
+		"mutation.user.updateUser.txt",
+		"query.user.txt":
+		return removeRetiredUserImportType(content, path)
 	case "mutation.xdr.analystFeedback.txt":
 		return []byte(`mutation xdrAnalystFeedback($accountId: ID!, $analystFeedbackInput: AnalystFeedbackInput!) {
   xdr(accountId: $accountId) {
@@ -47,8 +53,40 @@ func curateCLIContent(path string, content []byte) ([]byte, error) {
 	}
 }
 
+func removeRetiredUserImportType(content []byte, path string) ([]byte, error) {
+	const retiredField = "importType"
+	lines := strings.SplitAfter(string(content), "\n")
+	output := make([]string, 0, len(lines))
+	removed := 0
+	for _, line := range lines {
+		if strings.TrimSpace(line) == retiredField {
+			removed++
+			continue
+		}
+		output = append(output, line)
+	}
+	if removed > 1 {
+		return nil, fmt.Errorf(
+			"known repair for %q removed %d %s fields; want at most 1",
+			path,
+			removed,
+			retiredField,
+		)
+	}
+	if removed == 0 {
+		return content, nil
+	}
+	return []byte(strings.Join(output, "")), nil
+}
+
 func replaceRequired(content, oldValue, newValue []byte, path string) ([]byte, error) {
-	if bytes.Count(content, oldValue) != 1 {
+	oldCount := bytes.Count(content, oldValue)
+	alreadyRepaired := bytes.Count(content, newValue) == 1 ||
+		bytes.Contains(content, []byte("disableAccount ("))
+	if oldCount == 0 && alreadyRepaired {
+		return content, nil
+	}
+	if oldCount != 1 {
 		return nil, fmt.Errorf("known repair for %q expected exactly one %q", path, oldValue)
 	}
 	return bytes.Replace(content, oldValue, newValue, 1), nil
@@ -82,7 +120,7 @@ func removeAnonymousSelectionSets(content []byte) ([]byte, error) {
 		}
 	}
 
-	if removed != devicesAnonymousSelectionSets {
+	if removed != 0 && removed != devicesAnonymousSelectionSets {
 		return nil, fmt.Errorf(
 			"devices repair removed %d anonymous selection sets; want %d",
 			removed,
