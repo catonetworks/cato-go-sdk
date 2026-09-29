@@ -42,6 +42,17 @@ func curateCLIContent(path string, content []byte) ([]byte, error) {
 		"mutation.user.updateUser.txt",
 		"query.user.txt":
 		return removeRetiredUserImportType(content, path)
+	case "mutation.xdr.analystFeedback.txt":
+		return []byte(`mutation xdrAnalystFeedback($accountId: ID!, $analystFeedbackInput: AnalystFeedbackInput!) {
+  xdr(accountId: $accountId) {
+    analystFeedback(input: $analystFeedbackInput) {
+      story {
+        id
+      }
+    }
+  }
+}
+`), nil
 	case "query.devices.txt":
 		return removeAnonymousSelectionSets(content)
 	case "query.policy.socketLan.policy.txt":
@@ -101,13 +112,16 @@ func removeRetiredUserImportType(content []byte, path string) ([]byte, error) {
 		}
 		output = append(output, line)
 	}
-	if removed != 1 {
+	if removed > 1 {
 		return nil, fmt.Errorf(
-			"known repair for %q removed %d %s fields; want 1",
+			"known repair for %q removed %d %s fields; want at most 1",
 			path,
 			removed,
 			retiredField,
 		)
+	}
+	if removed == 0 {
+		return content, nil
 	}
 	return []byte(strings.Join(output, "")), nil
 }
