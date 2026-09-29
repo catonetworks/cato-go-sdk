@@ -7010,6 +7010,12 @@ type SocketPortMetricsTimeSeries {
   to: DateTime
 }
 
+""" Reference identifying a Socket by its unique identifier or name. """
+type SocketRef implements ObjectRef {
+  id: ID!
+  name: String!
+}
+
 """ Detailed information about an available socket version. """
 type SocketVersionInfo {
   label: String
@@ -15734,6 +15740,8 @@ enum AppStatsFieldName {
   application_type
   """ Cato system category. CMA Name: Categories """
   categories
+  """ Current effective categories of the application. CMA Name: Categories Current State """
+  categories_current_state
   """ Cato system category of the application. CMA Name: Category """
   category @deprecated(reason: "use categories instead. Planned end-of-life (EoL) date: June 30, 2026.")
   """ Type of process generating this traffic. CMA Name: Client Class """

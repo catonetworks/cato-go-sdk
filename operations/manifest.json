@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "cli_commit_sha": "d98285a20c53e09e06cc87227a8fedf903f2c2bc",
+  "cli_commit_sha": "f8dfc4cbb1612d9d7c707b1474bbd61d98a81a9e",
   "operations": [
     {
       "key": "mutation.accountManagement.addAccount",
@@ -784,6 +784,21 @@
       "cli_file": "queryPayloads/mutation.licensing.removeLicenseFromManagedAccount.txt",
       "cli_name": "licensingRemoveLicenseFromManagedAccount",
       "cli_sha256": "f11b1206ad5927e2567121e116fcfb113ca9dcb738986f45f06b5b6dcbc7d8a9",
+      "status": "imported"
+    },
+    {
+      "key": "mutation.licensing.startServiceTrial",
+      "kind": "mutation",
+      "sdk_file": "sources/mutation.licensing.startServiceTrial.gql",
+      "sdk_name": "licensingStartServiceTrial",
+      "variables": [
+        "accountId",
+        "licensingStartServiceTrialInput"
+      ],
+      "document_sha256": "6ba76feae80a4c326edbbdce35bab44d608cd2966233fb75238140c52c14dbdb",
+      "cli_file": "queryPayloads/mutation.licensing.startServiceTrial.txt",
+      "cli_name": "licensingStartServiceTrial",
+      "cli_sha256": "d33fddacf7d11992c6cd0352bf275f139d4254446bed8e212413dbc22ffbe3bc",
       "status": "imported"
     },
     {
@@ -7108,7 +7123,7 @@
       "document_sha256": "6c39a945eac66b28dc6e6b9ab8d2235bd9697df24ce48d3be0e70e7552302340",
       "cli_file": "queryPayloads/mutation.user.createUser.txt",
       "cli_name": "userCreateUser",
-      "cli_sha256": "374cdd0b56eab6d725231256b801f772b7bcb1c2c3d9f6c9054dc89297972c73",
+      "cli_sha256": "4b7c3293658eaf29cce0d98732db7ca16b6b76de757354c837ce2c83dbfc440b",
       "status": "imported"
     },
     {
@@ -7138,7 +7153,7 @@
       "document_sha256": "ee4c97844ebbca21d4d43f4545365f55c96f3a52d34657ceff762c9aa68916b4",
       "cli_file": "queryPayloads/mutation.user.disableUser.txt",
       "cli_name": "userDisableUser",
-      "cli_sha256": "cca174c3fd33c8a34f218419984dd75cbc3f3b4de29983db2c43811f7fc2a6f5",
+      "cli_sha256": "9c687c7e48965710f2b86426e30d349459ccb911e28f5a5ea24817079746d245",
       "status": "imported"
     },
     {
@@ -7153,7 +7168,7 @@
       "document_sha256": "4cf18d7b509be8ce2f58bf326dc36d33d063ce80d570faab83180cc156cabca7",
       "cli_file": "queryPayloads/mutation.user.enableUser.txt",
       "cli_name": "userEnableUser",
-      "cli_sha256": "1359aadec8e80b65120180792c41fac0660c18d657d5a40f98dffac72ea74218",
+      "cli_sha256": "7849e3eee3a3e4149d35832c2eef406cdbad1a2a07201fe23bc1a8af3233a1d5",
       "status": "imported"
     },
     {
@@ -7198,7 +7213,7 @@
       "document_sha256": "1d8c53edae439e96cc51d26f254b7958f0216ac308e976f0cb928616105b9ecb",
       "cli_file": "queryPayloads/mutation.user.updateUser.txt",
       "cli_name": "userUpdateUser",
-      "cli_sha256": "f33ef2f499396842077a8460b650d6fb53e6ef273981f207163f7908ac76b333",
+      "cli_sha256": "854c446671e46610d2a184a5882ce255a1a4dbbbdc5c4b5eaa3c02f3d3cfeebe",
       "status": "imported"
     },
     {
@@ -7225,10 +7240,10 @@
         "accountId",
         "analystFeedbackInput"
       ],
-      "document_sha256": "1b0a62973033121ebe95aa037bdd08efcb348981dd056bec340c72f5f1ed4a13",
+      "document_sha256": "62cae30b59d541ee8da2774e7212252395a203baf9769f2ea7dfeaa2839a1592",
       "cli_file": "queryPayloads/mutation.xdr.analystFeedback.txt",
       "cli_name": "xdrAnalystFeedback",
-      "cli_sha256": "7f615629b62a40c298db4a96654395b73cb39b54308532a08dc5d8357f133983",
+      "cli_sha256": "5c204879b822b6b9fa252adf1f01f60b0aefe0668d18054795a8d166229e4b77",
       "status": "imported"
     },
     {
@@ -7848,10 +7863,10 @@
         "deviceCsvExportInput",
         "jobId"
       ],
-      "document_sha256": "c46b5038ac54b0a620c334216db7ed79c5d87771cfa2308faabaae18bc60fc1a",
+      "document_sha256": "6596bae007fbd0788cae5cfeeaee1ad09e32fff07d49361b6ce55140b224054e",
       "cli_file": "queryPayloads/query.devices.txt",
       "cli_name": "devices",
-      "cli_sha256": "e07738b6db4ce6c3a1c511fff56910acdaae7c1ba6d40047c48de1c254dbbedf",
+      "cli_sha256": "2c5acfeef865a30cdedba0502cfa66cd591b2a2bc90240fc0650c0ad5f0b5301",
       "status": "imported"
     },
     {
@@ -9381,7 +9396,7 @@
       "document_sha256": "eb969e67d0124d5cf0ad1b8f7a9b960456e97e594f1b47313a2b6d334a4be71d",
       "cli_file": "queryPayloads/query.user.txt",
       "cli_name": "user",
-      "cli_sha256": "e6c082b83c80496c894047861904e1eaf36c0ec7dceccd7df70d60e436987950",
+      "cli_sha256": "6364f0d7dba5c03aa94082ad353867e2d9206b37c9873e46167fac658e6907ba",
       "status": "imported"
     },
     {
@@ -9393,10 +9408,10 @@
         "storyInput",
         "accountID"
       ],
-      "document_sha256": "753c420a8091bfecc8c3d35f01ff853d0a70c20c90af3e51deb434fc2882342f",
+      "document_sha256": "23c0a1b0ada09afb7f5bdc1ea876d3bf421249ecdae924c80c1516e9afdba8bd",
       "cli_file": "queryPayloads/query.xdr.stories.txt",
       "cli_name": "xdrStories",
-      "cli_sha256": "257e1826f2001d4f66b583d59e6911849d84839a0461573a0756c0518bebe8b4",
+      "cli_sha256": "ff4fea3419a4fa311e53630399ed8fb652d18959379fcb1d8f79b4da828bd8df",
       "status": "mapped"
     },
     {
