@@ -29,6 +29,12 @@ func curateCLIContent(path string, content []byte) ([]byte, error) {
 		"mutation.notification.updateSubscriptionGroup.txt",
 		"query.notification.txt":
 		return addHeaderSelections(content), nil
+	case "mutation.user.createUser.txt",
+		"mutation.user.disableUser.txt",
+		"mutation.user.enableUser.txt",
+		"mutation.user.updateUser.txt",
+		"query.user.txt":
+		return removeRetiredUserImportType(content, path)
 	case "mutation.xdr.analystFeedback.txt":
 		return []byte(`mutation xdrAnalystFeedback($accountId: ID!, $analystFeedbackInput: AnalystFeedbackInput!) {
   xdr(accountId: $accountId) {
@@ -45,6 +51,32 @@ func curateCLIContent(path string, content []byte) ([]byte, error) {
 	default:
 		return content, nil
 	}
+}
+
+func removeRetiredUserImportType(content []byte, path string) ([]byte, error) {
+	const retiredField = "importType"
+	lines := strings.SplitAfter(string(content), "\n")
+	output := make([]string, 0, len(lines))
+	removed := 0
+	for _, line := range lines {
+		if strings.TrimSpace(line) == retiredField {
+			removed++
+			continue
+		}
+		output = append(output, line)
+	}
+	if removed > 1 {
+		return nil, fmt.Errorf(
+			"known repair for %q removed %d %s fields; want at most 1",
+			path,
+			removed,
+			retiredField,
+		)
+	}
+	if removed == 0 {
+		return content, nil
+	}
+	return []byte(strings.Join(output, "")), nil
 }
 
 func replaceRequired(content, oldValue, newValue []byte, path string) ([]byte, error) {

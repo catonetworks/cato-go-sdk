@@ -21,13 +21,15 @@ const (
 )
 
 var operationNamePattern = regexp.MustCompile(`(?m)^\s*(?:query|mutation)\s+([_A-Za-z][_0-9A-Za-z]*)`)
+var commitSHAPattern = regexp.MustCompile(`^[0-9a-f]{40}$`)
 
 // ImportConfig configures migration from cato-cli into cato-go-sdk.
 type ImportConfig struct {
-	CLIRoot  string
-	SDKRoot  string
-	Expected int
-	DryRun   bool
+	CLIRoot      string
+	CLICommitSHA string
+	SDKRoot      string
+	Expected     int
+	DryRun       bool
 }
 
 // ImportResult summarizes an operation migration.
@@ -251,7 +253,11 @@ func buildImport( //nolint:funlen // Keeping candidate collection in one pass gu
 	})
 	result.Canonical = len(records)
 
-	return &Manifest{Version: manifestVersion, Operations: records}, candidates, result, nil
+	return &Manifest{
+		Version:      manifestVersion,
+		CLICommitSHA: config.CLICommitSHA,
+		Operations:   records,
+	}, candidates, result, nil
 }
 
 func entryFromSDK(sdkDocument document) ManifestEntry {
@@ -348,6 +354,9 @@ func validateImportConfig(config ImportConfig) error {
 	}
 	if config.SDKRoot == "" {
 		return errors.New("SDK root is required")
+	}
+	if config.CLICommitSHA != "" && !commitSHAPattern.MatchString(config.CLICommitSHA) {
+		return fmt.Errorf("CLI commit SHA %q is not a full lowercase commit SHA", config.CLICommitSHA)
 	}
 	if err := confinedPath(config.CLIRoot, filepath.Join(config.CLIRoot, "queryPayloads")); err != nil {
 		return err

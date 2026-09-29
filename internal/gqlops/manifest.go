@@ -12,8 +12,9 @@ const maxManifestBytes = 8 << 20
 
 // Manifest describes every canonical GraphQL operation in the SDK.
 type Manifest struct {
-	Version    int             `json:"version"`
-	Operations []ManifestEntry `json:"operations"`
+	Version      int             `json:"version"`
+	CLICommitSHA string          `json:"cli_commit_sha,omitempty"`
+	Operations   []ManifestEntry `json:"operations"`
 }
 
 // ManifestEntry links a canonical SDK document to its former CLI source.
