@@ -2,6 +2,7 @@
 package gqlops
 
 import (
+	"bytes"
 	"os"
 	"path/filepath"
 	"reflect"
@@ -13,11 +14,14 @@ import (
 )
 
 const (
-	testOperationName = "foo"
-	testOperationKey  = "query.foo"
-	testOperationFile = "sources/query.foo.gql"
-	testCLICommitSHA  = "0123456789abcdef0123456789abcdef01234567"
-	stableSDKName     = "sdkExisting"
+	testOperationName  = "foo"
+	testOperationKey   = "query.foo"
+	testOperationFile  = "sources/query.foo.gql"
+	testCLICommitSHA   = "0123456789abcdef0123456789abcdef01234567"
+	testAddedVariable  = "added"
+	testLegacyVariable = "legacy"
+	testScopeVariable  = "scope"
+	stableSDKName      = "sdkExisting"
 )
 
 func TestImportAndCheck(t *testing.T) {
@@ -117,7 +121,7 @@ func TestImportPreservesStableMappedAPIAndIsIdempotent(t *testing.T) { //nolint:
 	for _, variable := range operation.VariableDefinitions {
 		gotVariables = append(gotVariables, variable.Variable)
 	}
-	if !reflect.DeepEqual(gotVariables, []string{"z", "a", "legacy", "scope", "added"}) {
+	if !reflect.DeepEqual(gotVariables, []string{"z", "a", testLegacyVariable, testScopeVariable, testAddedVariable}) {
 		t.Fatalf("variable order = %#v; want z, a, legacy, scope, added", gotVariables)
 	}
 	if !strings.Contains(string(content), "stableName: name") ||
@@ -143,7 +147,7 @@ func TestImportPreservesStableMappedAPIAndIsIdempotent(t *testing.T) { //nolint:
 	if entry.SDKName != stableSDKName || entry.CLIName != "cliRenamed" {
 		t.Fatalf("manifest names = SDK %q, CLI %q", entry.SDKName, entry.CLIName)
 	}
-	if !reflect.DeepEqual(entry.Variables, []string{"z", "a", "legacy", "scope", "added"}) {
+	if !reflect.DeepEqual(entry.Variables, []string{"z", "a", testLegacyVariable, testScopeVariable, testAddedVariable}) {
 		t.Fatalf("manifest variables = %#v", entry.Variables)
 	}
 
@@ -226,6 +230,29 @@ func TestNormalizeMappedOperationDoesNotRandomlyChooseAmbiguousVariableName(t *t
 		strings.Contains(string(content), "$firstValue") ||
 		strings.Contains(string(content), "$secondValue") {
 		t.Fatalf("ambiguous variable binding was renamed:\n%s", content)
+	}
+}
+
+func TestCurateCLIContentKeepsAnalystFeedbackStory(t *testing.T) {
+	t.Parallel()
+
+	content := []byte(`mutation xdrAnalystFeedback($accountId: ID!, $analystFeedbackInput: AnalystFeedbackInput!) {
+  xdr(accountId: $accountId) {
+    analystFeedback(input: $analystFeedbackInput) {
+      story {
+        id
+        accountName
+        incident { status }
+      }
+    }
+  }
+}`)
+	curated, err := curateCLIContent("mutation.xdr.analystFeedback.txt", content)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if !bytes.Equal(curated, content) {
+		t.Fatalf("analyst feedback story selections were lost:\n%s", curated)
 	}
 }
 

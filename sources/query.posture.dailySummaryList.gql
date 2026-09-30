@@ -94,6 +94,9 @@ query postureDailySummaryList ($accountId: ID!, $postureDailySummaryListInput: P
 						average
 						percentile
 					}
+					overallEffectiveAreaCriticality
+					overallEffectiveBlastRadius
+					overallEffectiveFindingsSignal
 				}
 			}
 			paging {

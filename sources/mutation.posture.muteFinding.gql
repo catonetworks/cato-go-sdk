@@ -59,6 +59,16 @@ mutation postureMuteFinding ($accountId: ID!, $postureMuteFindingInput: PostureM
 					application
 					checkType
 					securityDomain
+					scoreMetadata {
+						effectiveAreaCriticality
+						effectiveBlastRadiusClass
+						effectiveBlastRadiusValue
+						effectiveFindingsSignal
+						effectiveSeverity
+						effectiveSuggestedScore
+						effectiveSuggestedSeverity
+						scoreContributionPct
+					}
 				}
 			}
 		}

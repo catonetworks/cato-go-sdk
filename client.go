@@ -61,6 +61,7 @@ type CatoClient interface {
 	LicensingDisableServiceForManagedAccount(ctx context.Context, accountID string, disableServiceForManagedAccountInput cato_models.DisableServiceForManagedAccountInput, interceptors ...clientv2.RequestInterceptor) (*LicensingDisableServiceForManagedAccount, error)
 	LicensingEnableServiceForManagedAccount(ctx context.Context, accountID string, enableServiceForManagedAccountInput cato_models.EnableServiceForManagedAccountInput, interceptors ...clientv2.RequestInterceptor) (*LicensingEnableServiceForManagedAccount, error)
 	LicensingRemoveLicenseFromManagedAccount(ctx context.Context, accountID string, removeLicenseFromManagedAccountInput cato_models.RemoveLicenseFromManagedAccountInput, interceptors ...clientv2.RequestInterceptor) (*LicensingRemoveLicenseFromManagedAccount, error)
+	LicensingStartServiceTrial(ctx context.Context, accountID string, licensingStartServiceTrialInput cato_models.LicensingStartServiceTrialInput, interceptors ...clientv2.RequestInterceptor) (*LicensingStartServiceTrial, error)
 	LicensingUpdateCommercialLicense(ctx context.Context, accountID string, updateCommercialLicenseInput cato_models.UpdateCommercialLicenseInput, interceptors ...clientv2.RequestInterceptor) (*LicensingUpdateCommercialLicense, error)
 	LicensingUpdateLicenseForManagedAccount(ctx context.Context, accountID string, updateLicenseForManagedAccountInput cato_models.UpdateLicenseForManagedAccountInput, interceptors ...clientv2.RequestInterceptor) (*LicensingUpdateLicenseForManagedAccount, error)
 	NetworkConfigDhcpCreateOption(ctx context.Context, accountID string, networkConfigDhcpCreateOptionInput cato_models.NetworkConfigDhcpCreateOptionInput, interceptors ...clientv2.RequestInterceptor) (*NetworkConfigDhcpCreateOption, error)
@@ -11166,6 +11167,67 @@ func (t *LicensingRemoveLicenseFromManagedAccount_Licensing) GetRemoveLicenseFro
 		t = &LicensingRemoveLicenseFromManagedAccount_Licensing{}
 	}
 	return t.RemoveLicenseFromManagedAccount
+}
+
+type LicensingStartServiceTrial_Licensing_StartServiceTrial_Trial struct {
+	ExpirationDate string                    "json:\"expirationDate\" graphql:\"expirationDate\""
+	Plan           cato_models.LicensePlan   "json:\"plan\" graphql:\"plan\""
+	Service        cato_models.LicenseSku    "json:\"service\" graphql:\"service\""
+	StartDate      string                    "json:\"startDate\" graphql:\"startDate\""
+	Status         cato_models.LicenseStatus "json:\"status\" graphql:\"status\""
+}
+
+func (t *LicensingStartServiceTrial_Licensing_StartServiceTrial_Trial) GetExpirationDate() string {
+	if t == nil {
+		t = &LicensingStartServiceTrial_Licensing_StartServiceTrial_Trial{}
+	}
+	return t.ExpirationDate
+}
+func (t *LicensingStartServiceTrial_Licensing_StartServiceTrial_Trial) GetPlan() *cato_models.LicensePlan {
+	if t == nil {
+		t = &LicensingStartServiceTrial_Licensing_StartServiceTrial_Trial{}
+	}
+	return &t.Plan
+}
+func (t *LicensingStartServiceTrial_Licensing_StartServiceTrial_Trial) GetService() *cato_models.LicenseSku {
+	if t == nil {
+		t = &LicensingStartServiceTrial_Licensing_StartServiceTrial_Trial{}
+	}
+	return &t.Service
+}
+func (t *LicensingStartServiceTrial_Licensing_StartServiceTrial_Trial) GetStartDate() string {
+	if t == nil {
+		t = &LicensingStartServiceTrial_Licensing_StartServiceTrial_Trial{}
+	}
+	return t.StartDate
+}
+func (t *LicensingStartServiceTrial_Licensing_StartServiceTrial_Trial) GetStatus() *cato_models.LicenseStatus {
+	if t == nil {
+		t = &LicensingStartServiceTrial_Licensing_StartServiceTrial_Trial{}
+	}
+	return &t.Status
+}
+
+type LicensingStartServiceTrial_Licensing_StartServiceTrial struct {
+	Trial LicensingStartServiceTrial_Licensing_StartServiceTrial_Trial "json:\"trial\" graphql:\"trial\""
+}
+
+func (t *LicensingStartServiceTrial_Licensing_StartServiceTrial) GetTrial() *LicensingStartServiceTrial_Licensing_StartServiceTrial_Trial {
+	if t == nil {
+		t = &LicensingStartServiceTrial_Licensing_StartServiceTrial{}
+	}
+	return &t.Trial
+}
+
+type LicensingStartServiceTrial_Licensing struct {
+	StartServiceTrial *LicensingStartServiceTrial_Licensing_StartServiceTrial "json:\"startServiceTrial,omitempty\" graphql:\"startServiceTrial\""
+}
+
+func (t *LicensingStartServiceTrial_Licensing) GetStartServiceTrial() *LicensingStartServiceTrial_Licensing_StartServiceTrial {
+	if t == nil {
+		t = &LicensingStartServiceTrial_Licensing{}
+	}
+	return t.StartServiceTrial
 }
 
 type LicensingUpdateCommercialLicense_Licensing_UpdateCommercialLicense_License_DataLakeLicense struct {
@@ -239679,6 +239741,66 @@ func (t *PostureDismissFinding_Posture_DismissFinding_Finding_CheckDefinition_Co
 	return t.Title
 }
 
+type PostureDismissFinding_Posture_DismissFinding_Finding_CheckDefinition_ScoreMetadata struct {
+	EffectiveAreaCriticality   int64                               "json:\"effectiveAreaCriticality\" graphql:\"effectiveAreaCriticality\""
+	EffectiveBlastRadiusClass  cato_models.PostureBlastRadiusClass "json:\"effectiveBlastRadiusClass\" graphql:\"effectiveBlastRadiusClass\""
+	EffectiveBlastRadiusValue  int64                               "json:\"effectiveBlastRadiusValue\" graphql:\"effectiveBlastRadiusValue\""
+	EffectiveFindingsSignal    float64                             "json:\"effectiveFindingsSignal\" graphql:\"effectiveFindingsSignal\""
+	EffectiveSeverity          cato_models.PostureImpact           "json:\"effectiveSeverity\" graphql:\"effectiveSeverity\""
+	EffectiveSuggestedScore    float64                             "json:\"effectiveSuggestedScore\" graphql:\"effectiveSuggestedScore\""
+	EffectiveSuggestedSeverity cato_models.PostureImpact           "json:\"effectiveSuggestedSeverity\" graphql:\"effectiveSuggestedSeverity\""
+	ScoreContributionPct       float64                             "json:\"scoreContributionPct\" graphql:\"scoreContributionPct\""
+}
+
+func (t *PostureDismissFinding_Posture_DismissFinding_Finding_CheckDefinition_ScoreMetadata) GetEffectiveAreaCriticality() int64 {
+	if t == nil {
+		t = &PostureDismissFinding_Posture_DismissFinding_Finding_CheckDefinition_ScoreMetadata{}
+	}
+	return t.EffectiveAreaCriticality
+}
+func (t *PostureDismissFinding_Posture_DismissFinding_Finding_CheckDefinition_ScoreMetadata) GetEffectiveBlastRadiusClass() *cato_models.PostureBlastRadiusClass {
+	if t == nil {
+		t = &PostureDismissFinding_Posture_DismissFinding_Finding_CheckDefinition_ScoreMetadata{}
+	}
+	return &t.EffectiveBlastRadiusClass
+}
+func (t *PostureDismissFinding_Posture_DismissFinding_Finding_CheckDefinition_ScoreMetadata) GetEffectiveBlastRadiusValue() int64 {
+	if t == nil {
+		t = &PostureDismissFinding_Posture_DismissFinding_Finding_CheckDefinition_ScoreMetadata{}
+	}
+	return t.EffectiveBlastRadiusValue
+}
+func (t *PostureDismissFinding_Posture_DismissFinding_Finding_CheckDefinition_ScoreMetadata) GetEffectiveFindingsSignal() float64 {
+	if t == nil {
+		t = &PostureDismissFinding_Posture_DismissFinding_Finding_CheckDefinition_ScoreMetadata{}
+	}
+	return t.EffectiveFindingsSignal
+}
+func (t *PostureDismissFinding_Posture_DismissFinding_Finding_CheckDefinition_ScoreMetadata) GetEffectiveSeverity() *cato_models.PostureImpact {
+	if t == nil {
+		t = &PostureDismissFinding_Posture_DismissFinding_Finding_CheckDefinition_ScoreMetadata{}
+	}
+	return &t.EffectiveSeverity
+}
+func (t *PostureDismissFinding_Posture_DismissFinding_Finding_CheckDefinition_ScoreMetadata) GetEffectiveSuggestedScore() float64 {
+	if t == nil {
+		t = &PostureDismissFinding_Posture_DismissFinding_Finding_CheckDefinition_ScoreMetadata{}
+	}
+	return t.EffectiveSuggestedScore
+}
+func (t *PostureDismissFinding_Posture_DismissFinding_Finding_CheckDefinition_ScoreMetadata) GetEffectiveSuggestedSeverity() *cato_models.PostureImpact {
+	if t == nil {
+		t = &PostureDismissFinding_Posture_DismissFinding_Finding_CheckDefinition_ScoreMetadata{}
+	}
+	return &t.EffectiveSuggestedSeverity
+}
+func (t *PostureDismissFinding_Posture_DismissFinding_Finding_CheckDefinition_ScoreMetadata) GetScoreContributionPct() float64 {
+	if t == nil {
+		t = &PostureDismissFinding_Posture_DismissFinding_Finding_CheckDefinition_ScoreMetadata{}
+	}
+	return t.ScoreContributionPct
+}
+
 type PostureDismissFinding_Posture_DismissFinding_Finding_CheckDefinition struct {
 	Application          *string                                                                                    "json:\"application,omitempty\" graphql:\"application\""
 	Area                 PostureDismissFinding_Posture_DismissFinding_Finding_CheckDefinition_Area                  "json:\"area\" graphql:\"area\""
@@ -239692,6 +239814,7 @@ type PostureDismissFinding_Posture_DismissFinding_Finding_CheckDefinition struct
 	Impact               cato_models.PostureImpact                                                                  "json:\"impact\" graphql:\"impact\""
 	Name                 string                                                                                     "json:\"name\" graphql:\"name\""
 	RecommendedActions   []*PostureDismissFinding_Posture_DismissFinding_Finding_CheckDefinition_RecommendedActions "json:\"recommendedActions\" graphql:\"recommendedActions\""
+	ScoreMetadata        *PostureDismissFinding_Posture_DismissFinding_Finding_CheckDefinition_ScoreMetadata        "json:\"scoreMetadata,omitempty\" graphql:\"scoreMetadata\""
 	SecurityDomain       *string                                                                                    "json:\"securityDomain,omitempty\" graphql:\"securityDomain\""
 	SuppressedStatus     *cato_models.PostureSuppressedStatus                                                       "json:\"suppressedStatus,omitempty\" graphql:\"suppressedStatus\""
 	Tags                 []string                                                                                   "json:\"tags\" graphql:\"tags\""
@@ -239768,6 +239891,12 @@ func (t *PostureDismissFinding_Posture_DismissFinding_Finding_CheckDefinition) G
 		t = &PostureDismissFinding_Posture_DismissFinding_Finding_CheckDefinition{}
 	}
 	return t.RecommendedActions
+}
+func (t *PostureDismissFinding_Posture_DismissFinding_Finding_CheckDefinition) GetScoreMetadata() *PostureDismissFinding_Posture_DismissFinding_Finding_CheckDefinition_ScoreMetadata {
+	if t == nil {
+		t = &PostureDismissFinding_Posture_DismissFinding_Finding_CheckDefinition{}
+	}
+	return t.ScoreMetadata
 }
 func (t *PostureDismissFinding_Posture_DismissFinding_Finding_CheckDefinition) GetSecurityDomain() *string {
 	if t == nil {
@@ -240041,6 +240170,66 @@ func (t *PostureMuteCheck_Posture_MuteCheck_Check_Definition_ComplianceControls)
 	return t.Title
 }
 
+type PostureMuteCheck_Posture_MuteCheck_Check_Definition_ScoreMetadata struct {
+	EffectiveAreaCriticality   int64                               "json:\"effectiveAreaCriticality\" graphql:\"effectiveAreaCriticality\""
+	EffectiveBlastRadiusClass  cato_models.PostureBlastRadiusClass "json:\"effectiveBlastRadiusClass\" graphql:\"effectiveBlastRadiusClass\""
+	EffectiveBlastRadiusValue  int64                               "json:\"effectiveBlastRadiusValue\" graphql:\"effectiveBlastRadiusValue\""
+	EffectiveFindingsSignal    float64                             "json:\"effectiveFindingsSignal\" graphql:\"effectiveFindingsSignal\""
+	EffectiveSeverity          cato_models.PostureImpact           "json:\"effectiveSeverity\" graphql:\"effectiveSeverity\""
+	EffectiveSuggestedScore    float64                             "json:\"effectiveSuggestedScore\" graphql:\"effectiveSuggestedScore\""
+	EffectiveSuggestedSeverity cato_models.PostureImpact           "json:\"effectiveSuggestedSeverity\" graphql:\"effectiveSuggestedSeverity\""
+	ScoreContributionPct       float64                             "json:\"scoreContributionPct\" graphql:\"scoreContributionPct\""
+}
+
+func (t *PostureMuteCheck_Posture_MuteCheck_Check_Definition_ScoreMetadata) GetEffectiveAreaCriticality() int64 {
+	if t == nil {
+		t = &PostureMuteCheck_Posture_MuteCheck_Check_Definition_ScoreMetadata{}
+	}
+	return t.EffectiveAreaCriticality
+}
+func (t *PostureMuteCheck_Posture_MuteCheck_Check_Definition_ScoreMetadata) GetEffectiveBlastRadiusClass() *cato_models.PostureBlastRadiusClass {
+	if t == nil {
+		t = &PostureMuteCheck_Posture_MuteCheck_Check_Definition_ScoreMetadata{}
+	}
+	return &t.EffectiveBlastRadiusClass
+}
+func (t *PostureMuteCheck_Posture_MuteCheck_Check_Definition_ScoreMetadata) GetEffectiveBlastRadiusValue() int64 {
+	if t == nil {
+		t = &PostureMuteCheck_Posture_MuteCheck_Check_Definition_ScoreMetadata{}
+	}
+	return t.EffectiveBlastRadiusValue
+}
+func (t *PostureMuteCheck_Posture_MuteCheck_Check_Definition_ScoreMetadata) GetEffectiveFindingsSignal() float64 {
+	if t == nil {
+		t = &PostureMuteCheck_Posture_MuteCheck_Check_Definition_ScoreMetadata{}
+	}
+	return t.EffectiveFindingsSignal
+}
+func (t *PostureMuteCheck_Posture_MuteCheck_Check_Definition_ScoreMetadata) GetEffectiveSeverity() *cato_models.PostureImpact {
+	if t == nil {
+		t = &PostureMuteCheck_Posture_MuteCheck_Check_Definition_ScoreMetadata{}
+	}
+	return &t.EffectiveSeverity
+}
+func (t *PostureMuteCheck_Posture_MuteCheck_Check_Definition_ScoreMetadata) GetEffectiveSuggestedScore() float64 {
+	if t == nil {
+		t = &PostureMuteCheck_Posture_MuteCheck_Check_Definition_ScoreMetadata{}
+	}
+	return t.EffectiveSuggestedScore
+}
+func (t *PostureMuteCheck_Posture_MuteCheck_Check_Definition_ScoreMetadata) GetEffectiveSuggestedSeverity() *cato_models.PostureImpact {
+	if t == nil {
+		t = &PostureMuteCheck_Posture_MuteCheck_Check_Definition_ScoreMetadata{}
+	}
+	return &t.EffectiveSuggestedSeverity
+}
+func (t *PostureMuteCheck_Posture_MuteCheck_Check_Definition_ScoreMetadata) GetScoreContributionPct() float64 {
+	if t == nil {
+		t = &PostureMuteCheck_Posture_MuteCheck_Check_Definition_ScoreMetadata{}
+	}
+	return t.ScoreContributionPct
+}
+
 type PostureMuteCheck_Posture_MuteCheck_Check_Definition struct {
 	Application          *string                                                                   "json:\"application,omitempty\" graphql:\"application\""
 	Area                 PostureMuteCheck_Posture_MuteCheck_Check_Definition_Area                  "json:\"area\" graphql:\"area\""
@@ -240054,6 +240243,7 @@ type PostureMuteCheck_Posture_MuteCheck_Check_Definition struct {
 	Impact               cato_models.PostureImpact                                                 "json:\"impact\" graphql:\"impact\""
 	Name                 string                                                                    "json:\"name\" graphql:\"name\""
 	RecommendedActions   []*PostureMuteCheck_Posture_MuteCheck_Check_Definition_RecommendedActions "json:\"recommendedActions\" graphql:\"recommendedActions\""
+	ScoreMetadata        *PostureMuteCheck_Posture_MuteCheck_Check_Definition_ScoreMetadata        "json:\"scoreMetadata,omitempty\" graphql:\"scoreMetadata\""
 	SecurityDomain       *string                                                                   "json:\"securityDomain,omitempty\" graphql:\"securityDomain\""
 	SuppressedStatus     *cato_models.PostureSuppressedStatus                                      "json:\"suppressedStatus,omitempty\" graphql:\"suppressedStatus\""
 	Tags                 []string                                                                  "json:\"tags\" graphql:\"tags\""
@@ -240130,6 +240320,12 @@ func (t *PostureMuteCheck_Posture_MuteCheck_Check_Definition) GetRecommendedActi
 		t = &PostureMuteCheck_Posture_MuteCheck_Check_Definition{}
 	}
 	return t.RecommendedActions
+}
+func (t *PostureMuteCheck_Posture_MuteCheck_Check_Definition) GetScoreMetadata() *PostureMuteCheck_Posture_MuteCheck_Check_Definition_ScoreMetadata {
+	if t == nil {
+		t = &PostureMuteCheck_Posture_MuteCheck_Check_Definition{}
+	}
+	return t.ScoreMetadata
 }
 func (t *PostureMuteCheck_Posture_MuteCheck_Check_Definition) GetSecurityDomain() *string {
 	if t == nil {
@@ -240400,6 +240596,66 @@ func (t *PostureMuteCheck_Posture_MuteCheck_Check_Findings_CheckDefinition_Compl
 	return t.Title
 }
 
+type PostureMuteCheck_Posture_MuteCheck_Check_Findings_CheckDefinition_ScoreMetadata struct {
+	EffectiveAreaCriticality   int64                               "json:\"effectiveAreaCriticality\" graphql:\"effectiveAreaCriticality\""
+	EffectiveBlastRadiusClass  cato_models.PostureBlastRadiusClass "json:\"effectiveBlastRadiusClass\" graphql:\"effectiveBlastRadiusClass\""
+	EffectiveBlastRadiusValue  int64                               "json:\"effectiveBlastRadiusValue\" graphql:\"effectiveBlastRadiusValue\""
+	EffectiveFindingsSignal    float64                             "json:\"effectiveFindingsSignal\" graphql:\"effectiveFindingsSignal\""
+	EffectiveSeverity          cato_models.PostureImpact           "json:\"effectiveSeverity\" graphql:\"effectiveSeverity\""
+	EffectiveSuggestedScore    float64                             "json:\"effectiveSuggestedScore\" graphql:\"effectiveSuggestedScore\""
+	EffectiveSuggestedSeverity cato_models.PostureImpact           "json:\"effectiveSuggestedSeverity\" graphql:\"effectiveSuggestedSeverity\""
+	ScoreContributionPct       float64                             "json:\"scoreContributionPct\" graphql:\"scoreContributionPct\""
+}
+
+func (t *PostureMuteCheck_Posture_MuteCheck_Check_Findings_CheckDefinition_ScoreMetadata) GetEffectiveAreaCriticality() int64 {
+	if t == nil {
+		t = &PostureMuteCheck_Posture_MuteCheck_Check_Findings_CheckDefinition_ScoreMetadata{}
+	}
+	return t.EffectiveAreaCriticality
+}
+func (t *PostureMuteCheck_Posture_MuteCheck_Check_Findings_CheckDefinition_ScoreMetadata) GetEffectiveBlastRadiusClass() *cato_models.PostureBlastRadiusClass {
+	if t == nil {
+		t = &PostureMuteCheck_Posture_MuteCheck_Check_Findings_CheckDefinition_ScoreMetadata{}
+	}
+	return &t.EffectiveBlastRadiusClass
+}
+func (t *PostureMuteCheck_Posture_MuteCheck_Check_Findings_CheckDefinition_ScoreMetadata) GetEffectiveBlastRadiusValue() int64 {
+	if t == nil {
+		t = &PostureMuteCheck_Posture_MuteCheck_Check_Findings_CheckDefinition_ScoreMetadata{}
+	}
+	return t.EffectiveBlastRadiusValue
+}
+func (t *PostureMuteCheck_Posture_MuteCheck_Check_Findings_CheckDefinition_ScoreMetadata) GetEffectiveFindingsSignal() float64 {
+	if t == nil {
+		t = &PostureMuteCheck_Posture_MuteCheck_Check_Findings_CheckDefinition_ScoreMetadata{}
+	}
+	return t.EffectiveFindingsSignal
+}
+func (t *PostureMuteCheck_Posture_MuteCheck_Check_Findings_CheckDefinition_ScoreMetadata) GetEffectiveSeverity() *cato_models.PostureImpact {
+	if t == nil {
+		t = &PostureMuteCheck_Posture_MuteCheck_Check_Findings_CheckDefinition_ScoreMetadata{}
+	}
+	return &t.EffectiveSeverity
+}
+func (t *PostureMuteCheck_Posture_MuteCheck_Check_Findings_CheckDefinition_ScoreMetadata) GetEffectiveSuggestedScore() float64 {
+	if t == nil {
+		t = &PostureMuteCheck_Posture_MuteCheck_Check_Findings_CheckDefinition_ScoreMetadata{}
+	}
+	return t.EffectiveSuggestedScore
+}
+func (t *PostureMuteCheck_Posture_MuteCheck_Check_Findings_CheckDefinition_ScoreMetadata) GetEffectiveSuggestedSeverity() *cato_models.PostureImpact {
+	if t == nil {
+		t = &PostureMuteCheck_Posture_MuteCheck_Check_Findings_CheckDefinition_ScoreMetadata{}
+	}
+	return &t.EffectiveSuggestedSeverity
+}
+func (t *PostureMuteCheck_Posture_MuteCheck_Check_Findings_CheckDefinition_ScoreMetadata) GetScoreContributionPct() float64 {
+	if t == nil {
+		t = &PostureMuteCheck_Posture_MuteCheck_Check_Findings_CheckDefinition_ScoreMetadata{}
+	}
+	return t.ScoreContributionPct
+}
+
 type PostureMuteCheck_Posture_MuteCheck_Check_Findings_CheckDefinition struct {
 	Application          *string                                                                                 "json:\"application,omitempty\" graphql:\"application\""
 	Area                 PostureMuteCheck_Posture_MuteCheck_Check_Findings_CheckDefinition_Area                  "json:\"area\" graphql:\"area\""
@@ -240413,6 +240669,7 @@ type PostureMuteCheck_Posture_MuteCheck_Check_Findings_CheckDefinition struct {
 	Impact               cato_models.PostureImpact                                                               "json:\"impact\" graphql:\"impact\""
 	Name                 string                                                                                  "json:\"name\" graphql:\"name\""
 	RecommendedActions   []*PostureMuteCheck_Posture_MuteCheck_Check_Findings_CheckDefinition_RecommendedActions "json:\"recommendedActions\" graphql:\"recommendedActions\""
+	ScoreMetadata        *PostureMuteCheck_Posture_MuteCheck_Check_Findings_CheckDefinition_ScoreMetadata        "json:\"scoreMetadata,omitempty\" graphql:\"scoreMetadata\""
 	SecurityDomain       *string                                                                                 "json:\"securityDomain,omitempty\" graphql:\"securityDomain\""
 	SuppressedStatus     *cato_models.PostureSuppressedStatus                                                    "json:\"suppressedStatus,omitempty\" graphql:\"suppressedStatus\""
 	Tags                 []string                                                                                "json:\"tags\" graphql:\"tags\""
@@ -240489,6 +240746,12 @@ func (t *PostureMuteCheck_Posture_MuteCheck_Check_Findings_CheckDefinition) GetR
 		t = &PostureMuteCheck_Posture_MuteCheck_Check_Findings_CheckDefinition{}
 	}
 	return t.RecommendedActions
+}
+func (t *PostureMuteCheck_Posture_MuteCheck_Check_Findings_CheckDefinition) GetScoreMetadata() *PostureMuteCheck_Posture_MuteCheck_Check_Findings_CheckDefinition_ScoreMetadata {
+	if t == nil {
+		t = &PostureMuteCheck_Posture_MuteCheck_Check_Findings_CheckDefinition{}
+	}
+	return t.ScoreMetadata
 }
 func (t *PostureMuteCheck_Posture_MuteCheck_Check_Findings_CheckDefinition) GetSecurityDomain() *string {
 	if t == nil {
@@ -241022,6 +241285,66 @@ func (t *PostureMuteFinding_Posture_MuteFinding_Finding_CheckDefinition_Complian
 	return t.Title
 }
 
+type PostureMuteFinding_Posture_MuteFinding_Finding_CheckDefinition_ScoreMetadata struct {
+	EffectiveAreaCriticality   int64                               "json:\"effectiveAreaCriticality\" graphql:\"effectiveAreaCriticality\""
+	EffectiveBlastRadiusClass  cato_models.PostureBlastRadiusClass "json:\"effectiveBlastRadiusClass\" graphql:\"effectiveBlastRadiusClass\""
+	EffectiveBlastRadiusValue  int64                               "json:\"effectiveBlastRadiusValue\" graphql:\"effectiveBlastRadiusValue\""
+	EffectiveFindingsSignal    float64                             "json:\"effectiveFindingsSignal\" graphql:\"effectiveFindingsSignal\""
+	EffectiveSeverity          cato_models.PostureImpact           "json:\"effectiveSeverity\" graphql:\"effectiveSeverity\""
+	EffectiveSuggestedScore    float64                             "json:\"effectiveSuggestedScore\" graphql:\"effectiveSuggestedScore\""
+	EffectiveSuggestedSeverity cato_models.PostureImpact           "json:\"effectiveSuggestedSeverity\" graphql:\"effectiveSuggestedSeverity\""
+	ScoreContributionPct       float64                             "json:\"scoreContributionPct\" graphql:\"scoreContributionPct\""
+}
+
+func (t *PostureMuteFinding_Posture_MuteFinding_Finding_CheckDefinition_ScoreMetadata) GetEffectiveAreaCriticality() int64 {
+	if t == nil {
+		t = &PostureMuteFinding_Posture_MuteFinding_Finding_CheckDefinition_ScoreMetadata{}
+	}
+	return t.EffectiveAreaCriticality
+}
+func (t *PostureMuteFinding_Posture_MuteFinding_Finding_CheckDefinition_ScoreMetadata) GetEffectiveBlastRadiusClass() *cato_models.PostureBlastRadiusClass {
+	if t == nil {
+		t = &PostureMuteFinding_Posture_MuteFinding_Finding_CheckDefinition_ScoreMetadata{}
+	}
+	return &t.EffectiveBlastRadiusClass
+}
+func (t *PostureMuteFinding_Posture_MuteFinding_Finding_CheckDefinition_ScoreMetadata) GetEffectiveBlastRadiusValue() int64 {
+	if t == nil {
+		t = &PostureMuteFinding_Posture_MuteFinding_Finding_CheckDefinition_ScoreMetadata{}
+	}
+	return t.EffectiveBlastRadiusValue
+}
+func (t *PostureMuteFinding_Posture_MuteFinding_Finding_CheckDefinition_ScoreMetadata) GetEffectiveFindingsSignal() float64 {
+	if t == nil {
+		t = &PostureMuteFinding_Posture_MuteFinding_Finding_CheckDefinition_ScoreMetadata{}
+	}
+	return t.EffectiveFindingsSignal
+}
+func (t *PostureMuteFinding_Posture_MuteFinding_Finding_CheckDefinition_ScoreMetadata) GetEffectiveSeverity() *cato_models.PostureImpact {
+	if t == nil {
+		t = &PostureMuteFinding_Posture_MuteFinding_Finding_CheckDefinition_ScoreMetadata{}
+	}
+	return &t.EffectiveSeverity
+}
+func (t *PostureMuteFinding_Posture_MuteFinding_Finding_CheckDefinition_ScoreMetadata) GetEffectiveSuggestedScore() float64 {
+	if t == nil {
+		t = &PostureMuteFinding_Posture_MuteFinding_Finding_CheckDefinition_ScoreMetadata{}
+	}
+	return t.EffectiveSuggestedScore
+}
+func (t *PostureMuteFinding_Posture_MuteFinding_Finding_CheckDefinition_ScoreMetadata) GetEffectiveSuggestedSeverity() *cato_models.PostureImpact {
+	if t == nil {
+		t = &PostureMuteFinding_Posture_MuteFinding_Finding_CheckDefinition_ScoreMetadata{}
+	}
+	return &t.EffectiveSuggestedSeverity
+}
+func (t *PostureMuteFinding_Posture_MuteFinding_Finding_CheckDefinition_ScoreMetadata) GetScoreContributionPct() float64 {
+	if t == nil {
+		t = &PostureMuteFinding_Posture_MuteFinding_Finding_CheckDefinition_ScoreMetadata{}
+	}
+	return t.ScoreContributionPct
+}
+
 type PostureMuteFinding_Posture_MuteFinding_Finding_CheckDefinition struct {
 	Application          *string                                                                              "json:\"application,omitempty\" graphql:\"application\""
 	Area                 PostureMuteFinding_Posture_MuteFinding_Finding_CheckDefinition_Area                  "json:\"area\" graphql:\"area\""
@@ -241035,6 +241358,7 @@ type PostureMuteFinding_Posture_MuteFinding_Finding_CheckDefinition struct {
 	Impact               cato_models.PostureImpact                                                            "json:\"impact\" graphql:\"impact\""
 	Name                 string                                                                               "json:\"name\" graphql:\"name\""
 	RecommendedActions   []*PostureMuteFinding_Posture_MuteFinding_Finding_CheckDefinition_RecommendedActions "json:\"recommendedActions\" graphql:\"recommendedActions\""
+	ScoreMetadata        *PostureMuteFinding_Posture_MuteFinding_Finding_CheckDefinition_ScoreMetadata        "json:\"scoreMetadata,omitempty\" graphql:\"scoreMetadata\""
 	SecurityDomain       *string                                                                              "json:\"securityDomain,omitempty\" graphql:\"securityDomain\""
 	SuppressedStatus     *cato_models.PostureSuppressedStatus                                                 "json:\"suppressedStatus,omitempty\" graphql:\"suppressedStatus\""
 	Tags                 []string                                                                             "json:\"tags\" graphql:\"tags\""
@@ -241111,6 +241435,12 @@ func (t *PostureMuteFinding_Posture_MuteFinding_Finding_CheckDefinition) GetReco
 		t = &PostureMuteFinding_Posture_MuteFinding_Finding_CheckDefinition{}
 	}
 	return t.RecommendedActions
+}
+func (t *PostureMuteFinding_Posture_MuteFinding_Finding_CheckDefinition) GetScoreMetadata() *PostureMuteFinding_Posture_MuteFinding_Finding_CheckDefinition_ScoreMetadata {
+	if t == nil {
+		t = &PostureMuteFinding_Posture_MuteFinding_Finding_CheckDefinition{}
+	}
+	return t.ScoreMetadata
 }
 func (t *PostureMuteFinding_Posture_MuteFinding_Finding_CheckDefinition) GetSecurityDomain() *string {
 	if t == nil {
@@ -241449,6 +241779,66 @@ func (t *PostureUndismissFinding_Posture_UndismissFinding_Finding_CheckDefinitio
 	return t.Title
 }
 
+type PostureUndismissFinding_Posture_UndismissFinding_Finding_CheckDefinition_ScoreMetadata struct {
+	EffectiveAreaCriticality   int64                               "json:\"effectiveAreaCriticality\" graphql:\"effectiveAreaCriticality\""
+	EffectiveBlastRadiusClass  cato_models.PostureBlastRadiusClass "json:\"effectiveBlastRadiusClass\" graphql:\"effectiveBlastRadiusClass\""
+	EffectiveBlastRadiusValue  int64                               "json:\"effectiveBlastRadiusValue\" graphql:\"effectiveBlastRadiusValue\""
+	EffectiveFindingsSignal    float64                             "json:\"effectiveFindingsSignal\" graphql:\"effectiveFindingsSignal\""
+	EffectiveSeverity          cato_models.PostureImpact           "json:\"effectiveSeverity\" graphql:\"effectiveSeverity\""
+	EffectiveSuggestedScore    float64                             "json:\"effectiveSuggestedScore\" graphql:\"effectiveSuggestedScore\""
+	EffectiveSuggestedSeverity cato_models.PostureImpact           "json:\"effectiveSuggestedSeverity\" graphql:\"effectiveSuggestedSeverity\""
+	ScoreContributionPct       float64                             "json:\"scoreContributionPct\" graphql:\"scoreContributionPct\""
+}
+
+func (t *PostureUndismissFinding_Posture_UndismissFinding_Finding_CheckDefinition_ScoreMetadata) GetEffectiveAreaCriticality() int64 {
+	if t == nil {
+		t = &PostureUndismissFinding_Posture_UndismissFinding_Finding_CheckDefinition_ScoreMetadata{}
+	}
+	return t.EffectiveAreaCriticality
+}
+func (t *PostureUndismissFinding_Posture_UndismissFinding_Finding_CheckDefinition_ScoreMetadata) GetEffectiveBlastRadiusClass() *cato_models.PostureBlastRadiusClass {
+	if t == nil {
+		t = &PostureUndismissFinding_Posture_UndismissFinding_Finding_CheckDefinition_ScoreMetadata{}
+	}
+	return &t.EffectiveBlastRadiusClass
+}
+func (t *PostureUndismissFinding_Posture_UndismissFinding_Finding_CheckDefinition_ScoreMetadata) GetEffectiveBlastRadiusValue() int64 {
+	if t == nil {
+		t = &PostureUndismissFinding_Posture_UndismissFinding_Finding_CheckDefinition_ScoreMetadata{}
+	}
+	return t.EffectiveBlastRadiusValue
+}
+func (t *PostureUndismissFinding_Posture_UndismissFinding_Finding_CheckDefinition_ScoreMetadata) GetEffectiveFindingsSignal() float64 {
+	if t == nil {
+		t = &PostureUndismissFinding_Posture_UndismissFinding_Finding_CheckDefinition_ScoreMetadata{}
+	}
+	return t.EffectiveFindingsSignal
+}
+func (t *PostureUndismissFinding_Posture_UndismissFinding_Finding_CheckDefinition_ScoreMetadata) GetEffectiveSeverity() *cato_models.PostureImpact {
+	if t == nil {
+		t = &PostureUndismissFinding_Posture_UndismissFinding_Finding_CheckDefinition_ScoreMetadata{}
+	}
+	return &t.EffectiveSeverity
+}
+func (t *PostureUndismissFinding_Posture_UndismissFinding_Finding_CheckDefinition_ScoreMetadata) GetEffectiveSuggestedScore() float64 {
+	if t == nil {
+		t = &PostureUndismissFinding_Posture_UndismissFinding_Finding_CheckDefinition_ScoreMetadata{}
+	}
+	return t.EffectiveSuggestedScore
+}
+func (t *PostureUndismissFinding_Posture_UndismissFinding_Finding_CheckDefinition_ScoreMetadata) GetEffectiveSuggestedSeverity() *cato_models.PostureImpact {
+	if t == nil {
+		t = &PostureUndismissFinding_Posture_UndismissFinding_Finding_CheckDefinition_ScoreMetadata{}
+	}
+	return &t.EffectiveSuggestedSeverity
+}
+func (t *PostureUndismissFinding_Posture_UndismissFinding_Finding_CheckDefinition_ScoreMetadata) GetScoreContributionPct() float64 {
+	if t == nil {
+		t = &PostureUndismissFinding_Posture_UndismissFinding_Finding_CheckDefinition_ScoreMetadata{}
+	}
+	return t.ScoreContributionPct
+}
+
 type PostureUndismissFinding_Posture_UndismissFinding_Finding_CheckDefinition struct {
 	Application          *string                                                                                        "json:\"application,omitempty\" graphql:\"application\""
 	Area                 PostureUndismissFinding_Posture_UndismissFinding_Finding_CheckDefinition_Area                  "json:\"area\" graphql:\"area\""
@@ -241462,6 +241852,7 @@ type PostureUndismissFinding_Posture_UndismissFinding_Finding_CheckDefinition st
 	Impact               cato_models.PostureImpact                                                                      "json:\"impact\" graphql:\"impact\""
 	Name                 string                                                                                         "json:\"name\" graphql:\"name\""
 	RecommendedActions   []*PostureUndismissFinding_Posture_UndismissFinding_Finding_CheckDefinition_RecommendedActions "json:\"recommendedActions\" graphql:\"recommendedActions\""
+	ScoreMetadata        *PostureUndismissFinding_Posture_UndismissFinding_Finding_CheckDefinition_ScoreMetadata        "json:\"scoreMetadata,omitempty\" graphql:\"scoreMetadata\""
 	SecurityDomain       *string                                                                                        "json:\"securityDomain,omitempty\" graphql:\"securityDomain\""
 	SuppressedStatus     *cato_models.PostureSuppressedStatus                                                           "json:\"suppressedStatus,omitempty\" graphql:\"suppressedStatus\""
 	Tags                 []string                                                                                       "json:\"tags\" graphql:\"tags\""
@@ -241538,6 +241929,12 @@ func (t *PostureUndismissFinding_Posture_UndismissFinding_Finding_CheckDefinitio
 		t = &PostureUndismissFinding_Posture_UndismissFinding_Finding_CheckDefinition{}
 	}
 	return t.RecommendedActions
+}
+func (t *PostureUndismissFinding_Posture_UndismissFinding_Finding_CheckDefinition) GetScoreMetadata() *PostureUndismissFinding_Posture_UndismissFinding_Finding_CheckDefinition_ScoreMetadata {
+	if t == nil {
+		t = &PostureUndismissFinding_Posture_UndismissFinding_Finding_CheckDefinition{}
+	}
+	return t.ScoreMetadata
 }
 func (t *PostureUndismissFinding_Posture_UndismissFinding_Finding_CheckDefinition) GetSecurityDomain() *string {
 	if t == nil {
@@ -241811,6 +242208,66 @@ func (t *PostureUnmuteCheck_Posture_UnmuteCheck_Check_Definition_ComplianceContr
 	return t.Title
 }
 
+type PostureUnmuteCheck_Posture_UnmuteCheck_Check_Definition_ScoreMetadata struct {
+	EffectiveAreaCriticality   int64                               "json:\"effectiveAreaCriticality\" graphql:\"effectiveAreaCriticality\""
+	EffectiveBlastRadiusClass  cato_models.PostureBlastRadiusClass "json:\"effectiveBlastRadiusClass\" graphql:\"effectiveBlastRadiusClass\""
+	EffectiveBlastRadiusValue  int64                               "json:\"effectiveBlastRadiusValue\" graphql:\"effectiveBlastRadiusValue\""
+	EffectiveFindingsSignal    float64                             "json:\"effectiveFindingsSignal\" graphql:\"effectiveFindingsSignal\""
+	EffectiveSeverity          cato_models.PostureImpact           "json:\"effectiveSeverity\" graphql:\"effectiveSeverity\""
+	EffectiveSuggestedScore    float64                             "json:\"effectiveSuggestedScore\" graphql:\"effectiveSuggestedScore\""
+	EffectiveSuggestedSeverity cato_models.PostureImpact           "json:\"effectiveSuggestedSeverity\" graphql:\"effectiveSuggestedSeverity\""
+	ScoreContributionPct       float64                             "json:\"scoreContributionPct\" graphql:\"scoreContributionPct\""
+}
+
+func (t *PostureUnmuteCheck_Posture_UnmuteCheck_Check_Definition_ScoreMetadata) GetEffectiveAreaCriticality() int64 {
+	if t == nil {
+		t = &PostureUnmuteCheck_Posture_UnmuteCheck_Check_Definition_ScoreMetadata{}
+	}
+	return t.EffectiveAreaCriticality
+}
+func (t *PostureUnmuteCheck_Posture_UnmuteCheck_Check_Definition_ScoreMetadata) GetEffectiveBlastRadiusClass() *cato_models.PostureBlastRadiusClass {
+	if t == nil {
+		t = &PostureUnmuteCheck_Posture_UnmuteCheck_Check_Definition_ScoreMetadata{}
+	}
+	return &t.EffectiveBlastRadiusClass
+}
+func (t *PostureUnmuteCheck_Posture_UnmuteCheck_Check_Definition_ScoreMetadata) GetEffectiveBlastRadiusValue() int64 {
+	if t == nil {
+		t = &PostureUnmuteCheck_Posture_UnmuteCheck_Check_Definition_ScoreMetadata{}
+	}
+	return t.EffectiveBlastRadiusValue
+}
+func (t *PostureUnmuteCheck_Posture_UnmuteCheck_Check_Definition_ScoreMetadata) GetEffectiveFindingsSignal() float64 {
+	if t == nil {
+		t = &PostureUnmuteCheck_Posture_UnmuteCheck_Check_Definition_ScoreMetadata{}
+	}
+	return t.EffectiveFindingsSignal
+}
+func (t *PostureUnmuteCheck_Posture_UnmuteCheck_Check_Definition_ScoreMetadata) GetEffectiveSeverity() *cato_models.PostureImpact {
+	if t == nil {
+		t = &PostureUnmuteCheck_Posture_UnmuteCheck_Check_Definition_ScoreMetadata{}
+	}
+	return &t.EffectiveSeverity
+}
+func (t *PostureUnmuteCheck_Posture_UnmuteCheck_Check_Definition_ScoreMetadata) GetEffectiveSuggestedScore() float64 {
+	if t == nil {
+		t = &PostureUnmuteCheck_Posture_UnmuteCheck_Check_Definition_ScoreMetadata{}
+	}
+	return t.EffectiveSuggestedScore
+}
+func (t *PostureUnmuteCheck_Posture_UnmuteCheck_Check_Definition_ScoreMetadata) GetEffectiveSuggestedSeverity() *cato_models.PostureImpact {
+	if t == nil {
+		t = &PostureUnmuteCheck_Posture_UnmuteCheck_Check_Definition_ScoreMetadata{}
+	}
+	return &t.EffectiveSuggestedSeverity
+}
+func (t *PostureUnmuteCheck_Posture_UnmuteCheck_Check_Definition_ScoreMetadata) GetScoreContributionPct() float64 {
+	if t == nil {
+		t = &PostureUnmuteCheck_Posture_UnmuteCheck_Check_Definition_ScoreMetadata{}
+	}
+	return t.ScoreContributionPct
+}
+
 type PostureUnmuteCheck_Posture_UnmuteCheck_Check_Definition struct {
 	Application          *string                                                                       "json:\"application,omitempty\" graphql:\"application\""
 	Area                 PostureUnmuteCheck_Posture_UnmuteCheck_Check_Definition_Area                  "json:\"area\" graphql:\"area\""
@@ -241824,6 +242281,7 @@ type PostureUnmuteCheck_Posture_UnmuteCheck_Check_Definition struct {
 	Impact               cato_models.PostureImpact                                                     "json:\"impact\" graphql:\"impact\""
 	Name                 string                                                                        "json:\"name\" graphql:\"name\""
 	RecommendedActions   []*PostureUnmuteCheck_Posture_UnmuteCheck_Check_Definition_RecommendedActions "json:\"recommendedActions\" graphql:\"recommendedActions\""
+	ScoreMetadata        *PostureUnmuteCheck_Posture_UnmuteCheck_Check_Definition_ScoreMetadata        "json:\"scoreMetadata,omitempty\" graphql:\"scoreMetadata\""
 	SecurityDomain       *string                                                                       "json:\"securityDomain,omitempty\" graphql:\"securityDomain\""
 	SuppressedStatus     *cato_models.PostureSuppressedStatus                                          "json:\"suppressedStatus,omitempty\" graphql:\"suppressedStatus\""
 	Tags                 []string                                                                      "json:\"tags\" graphql:\"tags\""
@@ -241900,6 +242358,12 @@ func (t *PostureUnmuteCheck_Posture_UnmuteCheck_Check_Definition) GetRecommended
 		t = &PostureUnmuteCheck_Posture_UnmuteCheck_Check_Definition{}
 	}
 	return t.RecommendedActions
+}
+func (t *PostureUnmuteCheck_Posture_UnmuteCheck_Check_Definition) GetScoreMetadata() *PostureUnmuteCheck_Posture_UnmuteCheck_Check_Definition_ScoreMetadata {
+	if t == nil {
+		t = &PostureUnmuteCheck_Posture_UnmuteCheck_Check_Definition{}
+	}
+	return t.ScoreMetadata
 }
 func (t *PostureUnmuteCheck_Posture_UnmuteCheck_Check_Definition) GetSecurityDomain() *string {
 	if t == nil {
@@ -242170,6 +242634,66 @@ func (t *PostureUnmuteCheck_Posture_UnmuteCheck_Check_Findings_CheckDefinition_C
 	return t.Title
 }
 
+type PostureUnmuteCheck_Posture_UnmuteCheck_Check_Findings_CheckDefinition_ScoreMetadata struct {
+	EffectiveAreaCriticality   int64                               "json:\"effectiveAreaCriticality\" graphql:\"effectiveAreaCriticality\""
+	EffectiveBlastRadiusClass  cato_models.PostureBlastRadiusClass "json:\"effectiveBlastRadiusClass\" graphql:\"effectiveBlastRadiusClass\""
+	EffectiveBlastRadiusValue  int64                               "json:\"effectiveBlastRadiusValue\" graphql:\"effectiveBlastRadiusValue\""
+	EffectiveFindingsSignal    float64                             "json:\"effectiveFindingsSignal\" graphql:\"effectiveFindingsSignal\""
+	EffectiveSeverity          cato_models.PostureImpact           "json:\"effectiveSeverity\" graphql:\"effectiveSeverity\""
+	EffectiveSuggestedScore    float64                             "json:\"effectiveSuggestedScore\" graphql:\"effectiveSuggestedScore\""
+	EffectiveSuggestedSeverity cato_models.PostureImpact           "json:\"effectiveSuggestedSeverity\" graphql:\"effectiveSuggestedSeverity\""
+	ScoreContributionPct       float64                             "json:\"scoreContributionPct\" graphql:\"scoreContributionPct\""
+}
+
+func (t *PostureUnmuteCheck_Posture_UnmuteCheck_Check_Findings_CheckDefinition_ScoreMetadata) GetEffectiveAreaCriticality() int64 {
+	if t == nil {
+		t = &PostureUnmuteCheck_Posture_UnmuteCheck_Check_Findings_CheckDefinition_ScoreMetadata{}
+	}
+	return t.EffectiveAreaCriticality
+}
+func (t *PostureUnmuteCheck_Posture_UnmuteCheck_Check_Findings_CheckDefinition_ScoreMetadata) GetEffectiveBlastRadiusClass() *cato_models.PostureBlastRadiusClass {
+	if t == nil {
+		t = &PostureUnmuteCheck_Posture_UnmuteCheck_Check_Findings_CheckDefinition_ScoreMetadata{}
+	}
+	return &t.EffectiveBlastRadiusClass
+}
+func (t *PostureUnmuteCheck_Posture_UnmuteCheck_Check_Findings_CheckDefinition_ScoreMetadata) GetEffectiveBlastRadiusValue() int64 {
+	if t == nil {
+		t = &PostureUnmuteCheck_Posture_UnmuteCheck_Check_Findings_CheckDefinition_ScoreMetadata{}
+	}
+	return t.EffectiveBlastRadiusValue
+}
+func (t *PostureUnmuteCheck_Posture_UnmuteCheck_Check_Findings_CheckDefinition_ScoreMetadata) GetEffectiveFindingsSignal() float64 {
+	if t == nil {
+		t = &PostureUnmuteCheck_Posture_UnmuteCheck_Check_Findings_CheckDefinition_ScoreMetadata{}
+	}
+	return t.EffectiveFindingsSignal
+}
+func (t *PostureUnmuteCheck_Posture_UnmuteCheck_Check_Findings_CheckDefinition_ScoreMetadata) GetEffectiveSeverity() *cato_models.PostureImpact {
+	if t == nil {
+		t = &PostureUnmuteCheck_Posture_UnmuteCheck_Check_Findings_CheckDefinition_ScoreMetadata{}
+	}
+	return &t.EffectiveSeverity
+}
+func (t *PostureUnmuteCheck_Posture_UnmuteCheck_Check_Findings_CheckDefinition_ScoreMetadata) GetEffectiveSuggestedScore() float64 {
+	if t == nil {
+		t = &PostureUnmuteCheck_Posture_UnmuteCheck_Check_Findings_CheckDefinition_ScoreMetadata{}
+	}
+	return t.EffectiveSuggestedScore
+}
+func (t *PostureUnmuteCheck_Posture_UnmuteCheck_Check_Findings_CheckDefinition_ScoreMetadata) GetEffectiveSuggestedSeverity() *cato_models.PostureImpact {
+	if t == nil {
+		t = &PostureUnmuteCheck_Posture_UnmuteCheck_Check_Findings_CheckDefinition_ScoreMetadata{}
+	}
+	return &t.EffectiveSuggestedSeverity
+}
+func (t *PostureUnmuteCheck_Posture_UnmuteCheck_Check_Findings_CheckDefinition_ScoreMetadata) GetScoreContributionPct() float64 {
+	if t == nil {
+		t = &PostureUnmuteCheck_Posture_UnmuteCheck_Check_Findings_CheckDefinition_ScoreMetadata{}
+	}
+	return t.ScoreContributionPct
+}
+
 type PostureUnmuteCheck_Posture_UnmuteCheck_Check_Findings_CheckDefinition struct {
 	Application          *string                                                                                     "json:\"application,omitempty\" graphql:\"application\""
 	Area                 PostureUnmuteCheck_Posture_UnmuteCheck_Check_Findings_CheckDefinition_Area                  "json:\"area\" graphql:\"area\""
@@ -242183,6 +242707,7 @@ type PostureUnmuteCheck_Posture_UnmuteCheck_Check_Findings_CheckDefinition struc
 	Impact               cato_models.PostureImpact                                                                   "json:\"impact\" graphql:\"impact\""
 	Name                 string                                                                                      "json:\"name\" graphql:\"name\""
 	RecommendedActions   []*PostureUnmuteCheck_Posture_UnmuteCheck_Check_Findings_CheckDefinition_RecommendedActions "json:\"recommendedActions\" graphql:\"recommendedActions\""
+	ScoreMetadata        *PostureUnmuteCheck_Posture_UnmuteCheck_Check_Findings_CheckDefinition_ScoreMetadata        "json:\"scoreMetadata,omitempty\" graphql:\"scoreMetadata\""
 	SecurityDomain       *string                                                                                     "json:\"securityDomain,omitempty\" graphql:\"securityDomain\""
 	SuppressedStatus     *cato_models.PostureSuppressedStatus                                                        "json:\"suppressedStatus,omitempty\" graphql:\"suppressedStatus\""
 	Tags                 []string                                                                                    "json:\"tags\" graphql:\"tags\""
@@ -242259,6 +242784,12 @@ func (t *PostureUnmuteCheck_Posture_UnmuteCheck_Check_Findings_CheckDefinition) 
 		t = &PostureUnmuteCheck_Posture_UnmuteCheck_Check_Findings_CheckDefinition{}
 	}
 	return t.RecommendedActions
+}
+func (t *PostureUnmuteCheck_Posture_UnmuteCheck_Check_Findings_CheckDefinition) GetScoreMetadata() *PostureUnmuteCheck_Posture_UnmuteCheck_Check_Findings_CheckDefinition_ScoreMetadata {
+	if t == nil {
+		t = &PostureUnmuteCheck_Posture_UnmuteCheck_Check_Findings_CheckDefinition{}
+	}
+	return t.ScoreMetadata
 }
 func (t *PostureUnmuteCheck_Posture_UnmuteCheck_Check_Findings_CheckDefinition) GetSecurityDomain() *string {
 	if t == nil {
@@ -242792,6 +243323,66 @@ func (t *PostureUnmuteFinding_Posture_UnmuteFinding_Finding_CheckDefinition_Comp
 	return t.Title
 }
 
+type PostureUnmuteFinding_Posture_UnmuteFinding_Finding_CheckDefinition_ScoreMetadata struct {
+	EffectiveAreaCriticality   int64                               "json:\"effectiveAreaCriticality\" graphql:\"effectiveAreaCriticality\""
+	EffectiveBlastRadiusClass  cato_models.PostureBlastRadiusClass "json:\"effectiveBlastRadiusClass\" graphql:\"effectiveBlastRadiusClass\""
+	EffectiveBlastRadiusValue  int64                               "json:\"effectiveBlastRadiusValue\" graphql:\"effectiveBlastRadiusValue\""
+	EffectiveFindingsSignal    float64                             "json:\"effectiveFindingsSignal\" graphql:\"effectiveFindingsSignal\""
+	EffectiveSeverity          cato_models.PostureImpact           "json:\"effectiveSeverity\" graphql:\"effectiveSeverity\""
+	EffectiveSuggestedScore    float64                             "json:\"effectiveSuggestedScore\" graphql:\"effectiveSuggestedScore\""
+	EffectiveSuggestedSeverity cato_models.PostureImpact           "json:\"effectiveSuggestedSeverity\" graphql:\"effectiveSuggestedSeverity\""
+	ScoreContributionPct       float64                             "json:\"scoreContributionPct\" graphql:\"scoreContributionPct\""
+}
+
+func (t *PostureUnmuteFinding_Posture_UnmuteFinding_Finding_CheckDefinition_ScoreMetadata) GetEffectiveAreaCriticality() int64 {
+	if t == nil {
+		t = &PostureUnmuteFinding_Posture_UnmuteFinding_Finding_CheckDefinition_ScoreMetadata{}
+	}
+	return t.EffectiveAreaCriticality
+}
+func (t *PostureUnmuteFinding_Posture_UnmuteFinding_Finding_CheckDefinition_ScoreMetadata) GetEffectiveBlastRadiusClass() *cato_models.PostureBlastRadiusClass {
+	if t == nil {
+		t = &PostureUnmuteFinding_Posture_UnmuteFinding_Finding_CheckDefinition_ScoreMetadata{}
+	}
+	return &t.EffectiveBlastRadiusClass
+}
+func (t *PostureUnmuteFinding_Posture_UnmuteFinding_Finding_CheckDefinition_ScoreMetadata) GetEffectiveBlastRadiusValue() int64 {
+	if t == nil {
+		t = &PostureUnmuteFinding_Posture_UnmuteFinding_Finding_CheckDefinition_ScoreMetadata{}
+	}
+	return t.EffectiveBlastRadiusValue
+}
+func (t *PostureUnmuteFinding_Posture_UnmuteFinding_Finding_CheckDefinition_ScoreMetadata) GetEffectiveFindingsSignal() float64 {
+	if t == nil {
+		t = &PostureUnmuteFinding_Posture_UnmuteFinding_Finding_CheckDefinition_ScoreMetadata{}
+	}
+	return t.EffectiveFindingsSignal
+}
+func (t *PostureUnmuteFinding_Posture_UnmuteFinding_Finding_CheckDefinition_ScoreMetadata) GetEffectiveSeverity() *cato_models.PostureImpact {
+	if t == nil {
+		t = &PostureUnmuteFinding_Posture_UnmuteFinding_Finding_CheckDefinition_ScoreMetadata{}
+	}
+	return &t.EffectiveSeverity
+}
+func (t *PostureUnmuteFinding_Posture_UnmuteFinding_Finding_CheckDefinition_ScoreMetadata) GetEffectiveSuggestedScore() float64 {
+	if t == nil {
+		t = &PostureUnmuteFinding_Posture_UnmuteFinding_Finding_CheckDefinition_ScoreMetadata{}
+	}
+	return t.EffectiveSuggestedScore
+}
+func (t *PostureUnmuteFinding_Posture_UnmuteFinding_Finding_CheckDefinition_ScoreMetadata) GetEffectiveSuggestedSeverity() *cato_models.PostureImpact {
+	if t == nil {
+		t = &PostureUnmuteFinding_Posture_UnmuteFinding_Finding_CheckDefinition_ScoreMetadata{}
+	}
+	return &t.EffectiveSuggestedSeverity
+}
+func (t *PostureUnmuteFinding_Posture_UnmuteFinding_Finding_CheckDefinition_ScoreMetadata) GetScoreContributionPct() float64 {
+	if t == nil {
+		t = &PostureUnmuteFinding_Posture_UnmuteFinding_Finding_CheckDefinition_ScoreMetadata{}
+	}
+	return t.ScoreContributionPct
+}
+
 type PostureUnmuteFinding_Posture_UnmuteFinding_Finding_CheckDefinition struct {
 	Application          *string                                                                                  "json:\"application,omitempty\" graphql:\"application\""
 	Area                 PostureUnmuteFinding_Posture_UnmuteFinding_Finding_CheckDefinition_Area                  "json:\"area\" graphql:\"area\""
@@ -242805,6 +243396,7 @@ type PostureUnmuteFinding_Posture_UnmuteFinding_Finding_CheckDefinition struct {
 	Impact               cato_models.PostureImpact                                                                "json:\"impact\" graphql:\"impact\""
 	Name                 string                                                                                   "json:\"name\" graphql:\"name\""
 	RecommendedActions   []*PostureUnmuteFinding_Posture_UnmuteFinding_Finding_CheckDefinition_RecommendedActions "json:\"recommendedActions\" graphql:\"recommendedActions\""
+	ScoreMetadata        *PostureUnmuteFinding_Posture_UnmuteFinding_Finding_CheckDefinition_ScoreMetadata        "json:\"scoreMetadata,omitempty\" graphql:\"scoreMetadata\""
 	SecurityDomain       *string                                                                                  "json:\"securityDomain,omitempty\" graphql:\"securityDomain\""
 	SuppressedStatus     *cato_models.PostureSuppressedStatus                                                     "json:\"suppressedStatus,omitempty\" graphql:\"suppressedStatus\""
 	Tags                 []string                                                                                 "json:\"tags\" graphql:\"tags\""
@@ -242881,6 +243473,12 @@ func (t *PostureUnmuteFinding_Posture_UnmuteFinding_Finding_CheckDefinition) Get
 		t = &PostureUnmuteFinding_Posture_UnmuteFinding_Finding_CheckDefinition{}
 	}
 	return t.RecommendedActions
+}
+func (t *PostureUnmuteFinding_Posture_UnmuteFinding_Finding_CheckDefinition) GetScoreMetadata() *PostureUnmuteFinding_Posture_UnmuteFinding_Finding_CheckDefinition_ScoreMetadata {
+	if t == nil {
+		t = &PostureUnmuteFinding_Posture_UnmuteFinding_Finding_CheckDefinition{}
+	}
+	return t.ScoreMetadata
 }
 func (t *PostureUnmuteFinding_Posture_UnmuteFinding_Finding_CheckDefinition) GetSecurityDomain() *string {
 	if t == nil {
@@ -243154,6 +243752,66 @@ func (t *PostureUpdateCheckConfiguration_Posture_UpdateCheckConfiguration_Items_
 	return t.Title
 }
 
+type PostureUpdateCheckConfiguration_Posture_UpdateCheckConfiguration_Items_ScoreMetadata struct {
+	EffectiveAreaCriticality   int64                               "json:\"effectiveAreaCriticality\" graphql:\"effectiveAreaCriticality\""
+	EffectiveBlastRadiusClass  cato_models.PostureBlastRadiusClass "json:\"effectiveBlastRadiusClass\" graphql:\"effectiveBlastRadiusClass\""
+	EffectiveBlastRadiusValue  int64                               "json:\"effectiveBlastRadiusValue\" graphql:\"effectiveBlastRadiusValue\""
+	EffectiveFindingsSignal    float64                             "json:\"effectiveFindingsSignal\" graphql:\"effectiveFindingsSignal\""
+	EffectiveSeverity          cato_models.PostureImpact           "json:\"effectiveSeverity\" graphql:\"effectiveSeverity\""
+	EffectiveSuggestedScore    float64                             "json:\"effectiveSuggestedScore\" graphql:\"effectiveSuggestedScore\""
+	EffectiveSuggestedSeverity cato_models.PostureImpact           "json:\"effectiveSuggestedSeverity\" graphql:\"effectiveSuggestedSeverity\""
+	ScoreContributionPct       float64                             "json:\"scoreContributionPct\" graphql:\"scoreContributionPct\""
+}
+
+func (t *PostureUpdateCheckConfiguration_Posture_UpdateCheckConfiguration_Items_ScoreMetadata) GetEffectiveAreaCriticality() int64 {
+	if t == nil {
+		t = &PostureUpdateCheckConfiguration_Posture_UpdateCheckConfiguration_Items_ScoreMetadata{}
+	}
+	return t.EffectiveAreaCriticality
+}
+func (t *PostureUpdateCheckConfiguration_Posture_UpdateCheckConfiguration_Items_ScoreMetadata) GetEffectiveBlastRadiusClass() *cato_models.PostureBlastRadiusClass {
+	if t == nil {
+		t = &PostureUpdateCheckConfiguration_Posture_UpdateCheckConfiguration_Items_ScoreMetadata{}
+	}
+	return &t.EffectiveBlastRadiusClass
+}
+func (t *PostureUpdateCheckConfiguration_Posture_UpdateCheckConfiguration_Items_ScoreMetadata) GetEffectiveBlastRadiusValue() int64 {
+	if t == nil {
+		t = &PostureUpdateCheckConfiguration_Posture_UpdateCheckConfiguration_Items_ScoreMetadata{}
+	}
+	return t.EffectiveBlastRadiusValue
+}
+func (t *PostureUpdateCheckConfiguration_Posture_UpdateCheckConfiguration_Items_ScoreMetadata) GetEffectiveFindingsSignal() float64 {
+	if t == nil {
+		t = &PostureUpdateCheckConfiguration_Posture_UpdateCheckConfiguration_Items_ScoreMetadata{}
+	}
+	return t.EffectiveFindingsSignal
+}
+func (t *PostureUpdateCheckConfiguration_Posture_UpdateCheckConfiguration_Items_ScoreMetadata) GetEffectiveSeverity() *cato_models.PostureImpact {
+	if t == nil {
+		t = &PostureUpdateCheckConfiguration_Posture_UpdateCheckConfiguration_Items_ScoreMetadata{}
+	}
+	return &t.EffectiveSeverity
+}
+func (t *PostureUpdateCheckConfiguration_Posture_UpdateCheckConfiguration_Items_ScoreMetadata) GetEffectiveSuggestedScore() float64 {
+	if t == nil {
+		t = &PostureUpdateCheckConfiguration_Posture_UpdateCheckConfiguration_Items_ScoreMetadata{}
+	}
+	return t.EffectiveSuggestedScore
+}
+func (t *PostureUpdateCheckConfiguration_Posture_UpdateCheckConfiguration_Items_ScoreMetadata) GetEffectiveSuggestedSeverity() *cato_models.PostureImpact {
+	if t == nil {
+		t = &PostureUpdateCheckConfiguration_Posture_UpdateCheckConfiguration_Items_ScoreMetadata{}
+	}
+	return &t.EffectiveSuggestedSeverity
+}
+func (t *PostureUpdateCheckConfiguration_Posture_UpdateCheckConfiguration_Items_ScoreMetadata) GetScoreContributionPct() float64 {
+	if t == nil {
+		t = &PostureUpdateCheckConfiguration_Posture_UpdateCheckConfiguration_Items_ScoreMetadata{}
+	}
+	return t.ScoreContributionPct
+}
+
 type PostureUpdateCheckConfiguration_Posture_UpdateCheckConfiguration_Items struct {
 	Application          *string                                                                                      "json:\"application,omitempty\" graphql:\"application\""
 	Area                 PostureUpdateCheckConfiguration_Posture_UpdateCheckConfiguration_Items_Area                  "json:\"area\" graphql:\"area\""
@@ -243167,6 +243825,7 @@ type PostureUpdateCheckConfiguration_Posture_UpdateCheckConfiguration_Items stru
 	Impact               cato_models.PostureImpact                                                                    "json:\"impact\" graphql:\"impact\""
 	Name                 string                                                                                       "json:\"name\" graphql:\"name\""
 	RecommendedActions   []*PostureUpdateCheckConfiguration_Posture_UpdateCheckConfiguration_Items_RecommendedActions "json:\"recommendedActions\" graphql:\"recommendedActions\""
+	ScoreMetadata        *PostureUpdateCheckConfiguration_Posture_UpdateCheckConfiguration_Items_ScoreMetadata        "json:\"scoreMetadata,omitempty\" graphql:\"scoreMetadata\""
 	SecurityDomain       *string                                                                                      "json:\"securityDomain,omitempty\" graphql:\"securityDomain\""
 	SuppressedStatus     *cato_models.PostureSuppressedStatus                                                         "json:\"suppressedStatus,omitempty\" graphql:\"suppressedStatus\""
 	Tags                 []string                                                                                     "json:\"tags\" graphql:\"tags\""
@@ -243243,6 +243902,12 @@ func (t *PostureUpdateCheckConfiguration_Posture_UpdateCheckConfiguration_Items)
 		t = &PostureUpdateCheckConfiguration_Posture_UpdateCheckConfiguration_Items{}
 	}
 	return t.RecommendedActions
+}
+func (t *PostureUpdateCheckConfiguration_Posture_UpdateCheckConfiguration_Items) GetScoreMetadata() *PostureUpdateCheckConfiguration_Posture_UpdateCheckConfiguration_Items_ScoreMetadata {
+	if t == nil {
+		t = &PostureUpdateCheckConfiguration_Posture_UpdateCheckConfiguration_Items{}
+	}
+	return t.ScoreMetadata
 }
 func (t *PostureUpdateCheckConfiguration_Posture_UpdateCheckConfiguration_Items) GetSecurityDomain() *string {
 	if t == nil {
@@ -265188,22 +265853,40 @@ func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnalystFeedback) 
 	return t.Verdict
 }
 
-type XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_Entities_Data struct {
-	FieldName string   "json:\"fieldName\" graphql:\"fieldName\""
-	Values    []string "json:\"values\" graphql:\"values\""
+type XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_Site struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
 }
 
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_Entities_Data) GetFieldName() string {
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_Site) GetID() string {
 	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_Entities_Data{}
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_Site{}
 	}
-	return t.FieldName
+	return t.ID
 }
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_Entities_Data) GetValues() []string {
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_Site) GetName() string {
 	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_Entities_Data{}
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_Site{}
 	}
-	return t.Values
+	return t.Name
+}
+
+type XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_User struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_User) GetID() string {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_User{}
+	}
+	return t.ID
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_User) GetName() string {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_User{}
+	}
+	return t.Name
 }
 
 type XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_Entities_Ref_GroupMemberRefTyped struct {
@@ -265240,6 +265923,24 @@ func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_Entities_Ref) Get
 		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_Entities_Ref{}
 	}
 	return t.Name
+}
+
+type XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_Entities_Data struct {
+	FieldName string   "json:\"fieldName\" graphql:\"fieldName\""
+	Values    []string "json:\"values\" graphql:\"values\""
+}
+
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_Entities_Data) GetFieldName() string {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_Entities_Data{}
+	}
+	return t.FieldName
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_Entities_Data) GetValues() []string {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_Entities_Data{}
+	}
+	return t.Values
 }
 
 type XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_Entities struct {
@@ -265279,2542 +265980,6 @@ func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_Entities) GetType
 		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_Entities{}
 	}
 	return t.Type
-}
-
-type XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_Site struct {
-	ID   string "json:\"id\" graphql:\"id\""
-	Name string "json:\"name\" graphql:\"name\""
-}
-
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_Site) GetID() string {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_Site{}
-	}
-	return t.ID
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_Site) GetName() string {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_Site{}
-	}
-	return t.Name
-}
-
-type XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_User struct {
-	ID   string "json:\"id\" graphql:\"id\""
-	Name string "json:\"name\" graphql:\"name\""
-}
-
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_User) GetID() string {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_User{}
-	}
-	return t.ID
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_User) GetName() string {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_User{}
-	}
-	return t.Name
-}
-
-type XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AiOperationsIncident_SimilarStoriesData struct {
-	Indication           *string  "json:\"indication,omitempty\" graphql:\"indication\""
-	SimilarityPercentage *float64 "json:\"similarityPercentage,omitempty\" graphql:\"similarityPercentage\""
-	StoryID              *string  "json:\"storyId,omitempty\" graphql:\"storyId\""
-	ThreatClassification *string  "json:\"threatClassification,omitempty\" graphql:\"threatClassification\""
-	ThreatTypeName       *string  "json:\"threatTypeName,omitempty\" graphql:\"threatTypeName\""
-	Verdict              *string  "json:\"verdict,omitempty\" graphql:\"verdict\""
-}
-
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AiOperationsIncident_SimilarStoriesData) GetIndication() *string {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AiOperationsIncident_SimilarStoriesData{}
-	}
-	return t.Indication
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AiOperationsIncident_SimilarStoriesData) GetSimilarityPercentage() *float64 {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AiOperationsIncident_SimilarStoriesData{}
-	}
-	return t.SimilarityPercentage
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AiOperationsIncident_SimilarStoriesData) GetStoryID() *string {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AiOperationsIncident_SimilarStoriesData{}
-	}
-	return t.StoryID
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AiOperationsIncident_SimilarStoriesData) GetThreatClassification() *string {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AiOperationsIncident_SimilarStoriesData{}
-	}
-	return t.ThreatClassification
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AiOperationsIncident_SimilarStoriesData) GetThreatTypeName() *string {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AiOperationsIncident_SimilarStoriesData{}
-	}
-	return t.ThreatTypeName
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AiOperationsIncident_SimilarStoriesData) GetVerdict() *string {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AiOperationsIncident_SimilarStoriesData{}
-	}
-	return t.Verdict
-}
-
-type XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AiOperationsIncident_EventsGraphQuery_TimeSeriesEvents_Measures struct {
-	AggType   string "json:\"aggType\" graphql:\"aggType\""
-	FieldName string "json:\"fieldName\" graphql:\"fieldName\""
-	Trend     *bool  "json:\"trend,omitempty\" graphql:\"trend\""
-}
-
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AiOperationsIncident_EventsGraphQuery_TimeSeriesEvents_Measures) GetAggType() string {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AiOperationsIncident_EventsGraphQuery_TimeSeriesEvents_Measures{}
-	}
-	return t.AggType
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AiOperationsIncident_EventsGraphQuery_TimeSeriesEvents_Measures) GetFieldName() string {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AiOperationsIncident_EventsGraphQuery_TimeSeriesEvents_Measures{}
-	}
-	return t.FieldName
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AiOperationsIncident_EventsGraphQuery_TimeSeriesEvents_Measures) GetTrend() *bool {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AiOperationsIncident_EventsGraphQuery_TimeSeriesEvents_Measures{}
-	}
-	return t.Trend
-}
-
-type XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AiOperationsIncident_EventsGraphQuery_TimeSeriesEvents_Dimensions struct {
-	FieldName string "json:\"fieldName\" graphql:\"fieldName\""
-}
-
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AiOperationsIncident_EventsGraphQuery_TimeSeriesEvents_Dimensions) GetFieldName() string {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AiOperationsIncident_EventsGraphQuery_TimeSeriesEvents_Dimensions{}
-	}
-	return t.FieldName
-}
-
-type XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AiOperationsIncident_EventsGraphQuery_TimeSeriesEvents_Filters struct {
-	FieldName string   "json:\"fieldName\" graphql:\"fieldName\""
-	Operator  string   "json:\"operator\" graphql:\"operator\""
-	Values    []string "json:\"values\" graphql:\"values\""
-}
-
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AiOperationsIncident_EventsGraphQuery_TimeSeriesEvents_Filters) GetFieldName() string {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AiOperationsIncident_EventsGraphQuery_TimeSeriesEvents_Filters{}
-	}
-	return t.FieldName
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AiOperationsIncident_EventsGraphQuery_TimeSeriesEvents_Filters) GetOperator() string {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AiOperationsIncident_EventsGraphQuery_TimeSeriesEvents_Filters{}
-	}
-	return t.Operator
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AiOperationsIncident_EventsGraphQuery_TimeSeriesEvents_Filters) GetValues() []string {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AiOperationsIncident_EventsGraphQuery_TimeSeriesEvents_Filters{}
-	}
-	return t.Values
-}
-
-type XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AiOperationsIncident_EventsGraphQuery_TimeSeriesEvents struct {
-	AccountID  string                                                                                                                     "json:\"accountID\" graphql:\"accountID\""
-	Buckets    int64                                                                                                                      "json:\"buckets\" graphql:\"buckets\""
-	Dimensions []*XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AiOperationsIncident_EventsGraphQuery_TimeSeriesEvents_Dimensions "json:\"dimensions\" graphql:\"dimensions\""
-	Filters    []*XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AiOperationsIncident_EventsGraphQuery_TimeSeriesEvents_Filters    "json:\"filters\" graphql:\"filters\""
-	Measures   []*XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AiOperationsIncident_EventsGraphQuery_TimeSeriesEvents_Measures   "json:\"measures\" graphql:\"measures\""
-	TimeFrame  string                                                                                                                     "json:\"timeFrame\" graphql:\"timeFrame\""
-}
-
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AiOperationsIncident_EventsGraphQuery_TimeSeriesEvents) GetAccountID() string {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AiOperationsIncident_EventsGraphQuery_TimeSeriesEvents{}
-	}
-	return t.AccountID
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AiOperationsIncident_EventsGraphQuery_TimeSeriesEvents) GetBuckets() int64 {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AiOperationsIncident_EventsGraphQuery_TimeSeriesEvents{}
-	}
-	return t.Buckets
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AiOperationsIncident_EventsGraphQuery_TimeSeriesEvents) GetDimensions() []*XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AiOperationsIncident_EventsGraphQuery_TimeSeriesEvents_Dimensions {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AiOperationsIncident_EventsGraphQuery_TimeSeriesEvents{}
-	}
-	return t.Dimensions
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AiOperationsIncident_EventsGraphQuery_TimeSeriesEvents) GetFilters() []*XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AiOperationsIncident_EventsGraphQuery_TimeSeriesEvents_Filters {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AiOperationsIncident_EventsGraphQuery_TimeSeriesEvents{}
-	}
-	return t.Filters
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AiOperationsIncident_EventsGraphQuery_TimeSeriesEvents) GetMeasures() []*XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AiOperationsIncident_EventsGraphQuery_TimeSeriesEvents_Measures {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AiOperationsIncident_EventsGraphQuery_TimeSeriesEvents{}
-	}
-	return t.Measures
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AiOperationsIncident_EventsGraphQuery_TimeSeriesEvents) GetTimeFrame() string {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AiOperationsIncident_EventsGraphQuery_TimeSeriesEvents{}
-	}
-	return t.TimeFrame
-}
-
-type XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AiOperationsIncident_EventsGraphQuery struct {
-	TimeSeriesEvents *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AiOperationsIncident_EventsGraphQuery_TimeSeriesEvents "json:\"timeSeriesEvents,omitempty\" graphql:\"timeSeriesEvents\""
-	Type             cato_models.GraphType                                                                                         "json:\"type\" graphql:\"type\""
-}
-
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AiOperationsIncident_EventsGraphQuery) GetTimeSeriesEvents() *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AiOperationsIncident_EventsGraphQuery_TimeSeriesEvents {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AiOperationsIncident_EventsGraphQuery{}
-	}
-	return t.TimeSeriesEvents
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AiOperationsIncident_EventsGraphQuery) GetType() *cato_models.GraphType {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AiOperationsIncident_EventsGraphQuery{}
-	}
-	return &t.Type
-}
-
-type XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AiOperationsIncident_AccountOperationIncident_IncidentTimeline_AccountOperationsTimelineEvent struct {
-	ID          string                                    "json:\"id\" graphql:\"id\""
-	Created     scalars.Time                              "json:\"created\" graphql:\"created\""
-	Validated   scalars.Time                              "json:\"validated\" graphql:\"validated\""
-	Description string                                    "json:\"description\" graphql:\"description\""
-	Type        cato_models.AccountOperationsTimelineType "json:\"type\" graphql:\"type\""
-	EventIds    []string                                  "json:\"eventIds\" graphql:\"eventIds\""
-	Muted       bool                                      "json:\"muted\" graphql:\"muted\""
-}
-
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AiOperationsIncident_AccountOperationIncident_IncidentTimeline_AccountOperationsTimelineEvent) GetID() string {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AiOperationsIncident_AccountOperationIncident_IncidentTimeline_AccountOperationsTimelineEvent{}
-	}
-	return t.ID
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AiOperationsIncident_AccountOperationIncident_IncidentTimeline_AccountOperationsTimelineEvent) GetCreated() *scalars.Time {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AiOperationsIncident_AccountOperationIncident_IncidentTimeline_AccountOperationsTimelineEvent{}
-	}
-	return &t.Created
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AiOperationsIncident_AccountOperationIncident_IncidentTimeline_AccountOperationsTimelineEvent) GetValidated() *scalars.Time {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AiOperationsIncident_AccountOperationIncident_IncidentTimeline_AccountOperationsTimelineEvent{}
-	}
-	return &t.Validated
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AiOperationsIncident_AccountOperationIncident_IncidentTimeline_AccountOperationsTimelineEvent) GetDescription() string {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AiOperationsIncident_AccountOperationIncident_IncidentTimeline_AccountOperationsTimelineEvent{}
-	}
-	return t.Description
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AiOperationsIncident_AccountOperationIncident_IncidentTimeline_AccountOperationsTimelineEvent) GetType() *cato_models.AccountOperationsTimelineType {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AiOperationsIncident_AccountOperationIncident_IncidentTimeline_AccountOperationsTimelineEvent{}
-	}
-	return &t.Type
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AiOperationsIncident_AccountOperationIncident_IncidentTimeline_AccountOperationsTimelineEvent) GetEventIds() []string {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AiOperationsIncident_AccountOperationIncident_IncidentTimeline_AccountOperationsTimelineEvent{}
-	}
-	return t.EventIds
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AiOperationsIncident_AccountOperationIncident_IncidentTimeline_AccountOperationsTimelineEvent) GetMuted() bool {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AiOperationsIncident_AccountOperationIncident_IncidentTimeline_AccountOperationsTimelineEvent{}
-	}
-	return t.Muted
-}
-
-type XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AiOperationsIncident_AccountOperationIncident_IncidentTimeline struct {
-	AccountOperationsTimelineEvent XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AiOperationsIncident_AccountOperationIncident_IncidentTimeline_AccountOperationsTimelineEvent "graphql:\"... on AccountOperationsTimelineEvent\""
-	Typename                       *string                                                                                                                                             "json:\"__typename,omitempty\" graphql:\"__typename\""
-}
-
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AiOperationsIncident_AccountOperationIncident_IncidentTimeline) GetAccountOperationsTimelineEvent() *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AiOperationsIncident_AccountOperationIncident_IncidentTimeline_AccountOperationsTimelineEvent {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AiOperationsIncident_AccountOperationIncident_IncidentTimeline{}
-	}
-	return &t.AccountOperationsTimelineEvent
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AiOperationsIncident_AccountOperationIncident_IncidentTimeline) GetTypename() *string {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AiOperationsIncident_AccountOperationIncident_IncidentTimeline{}
-	}
-	return t.Typename
-}
-
-type XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AiOperationsIncident_AccountOperationIncident_Metadata struct {
-	Key   string                   "json:\"key\" graphql:\"key\""
-	Type  cato_models.MetadataType "json:\"type\" graphql:\"type\""
-	Value string                   "json:\"value\" graphql:\"value\""
-}
-
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AiOperationsIncident_AccountOperationIncident_Metadata) GetKey() string {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AiOperationsIncident_AccountOperationIncident_Metadata{}
-	}
-	return t.Key
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AiOperationsIncident_AccountOperationIncident_Metadata) GetType() *cato_models.MetadataType {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AiOperationsIncident_AccountOperationIncident_Metadata{}
-	}
-	return &t.Type
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AiOperationsIncident_AccountOperationIncident_Metadata) GetValue() string {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AiOperationsIncident_AccountOperationIncident_Metadata{}
-	}
-	return t.Value
-}
-
-type XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AiOperationsIncident_AccountOperationIncident_Playbooks struct {
-	Description string  "json:\"description\" graphql:\"description\""
-	Link        *string "json:\"link,omitempty\" graphql:\"link\""
-	Title       string  "json:\"title\" graphql:\"title\""
-}
-
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AiOperationsIncident_AccountOperationIncident_Playbooks) GetDescription() string {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AiOperationsIncident_AccountOperationIncident_Playbooks{}
-	}
-	return t.Description
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AiOperationsIncident_AccountOperationIncident_Playbooks) GetLink() *string {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AiOperationsIncident_AccountOperationIncident_Playbooks{}
-	}
-	return t.Link
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AiOperationsIncident_AccountOperationIncident_Playbooks) GetTitle() string {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AiOperationsIncident_AccountOperationIncident_Playbooks{}
-	}
-	return t.Title
-}
-
-type XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AiOperationsIncident_AccountOperationIncident struct {
-	IncidentTimeline []*XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AiOperationsIncident_AccountOperationIncident_IncidentTimeline "json:\"incidentTimeline\" graphql:\"incidentTimeline\""
-	Metadata         []*XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AiOperationsIncident_AccountOperationIncident_Metadata         "json:\"metadata\" graphql:\"metadata\""
-	Playbooks        []*XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AiOperationsIncident_AccountOperationIncident_Playbooks        "json:\"playbooks\" graphql:\"playbooks\""
-}
-
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AiOperationsIncident_AccountOperationIncident) GetIncidentTimeline() []*XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AiOperationsIncident_AccountOperationIncident_IncidentTimeline {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AiOperationsIncident_AccountOperationIncident{}
-	}
-	return t.IncidentTimeline
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AiOperationsIncident_AccountOperationIncident) GetMetadata() []*XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AiOperationsIncident_AccountOperationIncident_Metadata {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AiOperationsIncident_AccountOperationIncident{}
-	}
-	return t.Metadata
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AiOperationsIncident_AccountOperationIncident) GetPlaybooks() []*XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AiOperationsIncident_AccountOperationIncident_Playbooks {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AiOperationsIncident_AccountOperationIncident{}
-	}
-	return t.Playbooks
-}
-
-type XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AiOperationsIncident struct {
-	SimilarStoriesData       []*XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AiOperationsIncident_SimilarStoriesData     "json:\"similarStoriesData\" graphql:\"similarStoriesData\""
-	FlowLastTime             string                                                                                               "json:\"flowLastTime\" graphql:\"flowLastTime\""
-	FlowStartTime            string                                                                                               "json:\"flowStartTime\" graphql:\"flowStartTime\""
-	Ioa                      string                                                                                               "json:\"ioa\" graphql:\"ioa\""
-	RiskScore                int64                                                                                                "json:\"riskScore\" graphql:\"riskScore\""
-	Type                     *cato_models.AiOperationsIncidentTypeEnum                                                            "json:\"type,omitempty\" graphql:\"type\""
-	Occurrences              *int64                                                                                               "json:\"occurrences,omitempty\" graphql:\"occurrences\""
-	EventsGraphQuery         *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AiOperationsIncident_EventsGraphQuery         "json:\"eventsGraphQuery,omitempty\" graphql:\"eventsGraphQuery\""
-	AccountOperationIncident *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AiOperationsIncident_AccountOperationIncident "json:\"accountOperationIncident,omitempty\" graphql:\"accountOperationIncident\""
-}
-
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AiOperationsIncident) GetSimilarStoriesData() []*XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AiOperationsIncident_SimilarStoriesData {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AiOperationsIncident{}
-	}
-	return t.SimilarStoriesData
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AiOperationsIncident) GetFlowLastTime() string {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AiOperationsIncident{}
-	}
-	return t.FlowLastTime
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AiOperationsIncident) GetFlowStartTime() string {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AiOperationsIncident{}
-	}
-	return t.FlowStartTime
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AiOperationsIncident) GetIoa() string {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AiOperationsIncident{}
-	}
-	return t.Ioa
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AiOperationsIncident) GetRiskScore() int64 {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AiOperationsIncident{}
-	}
-	return t.RiskScore
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AiOperationsIncident) GetType() *cato_models.AiOperationsIncidentTypeEnum {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AiOperationsIncident{}
-	}
-	return t.Type
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AiOperationsIncident) GetOccurrences() *int64 {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AiOperationsIncident{}
-	}
-	return t.Occurrences
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AiOperationsIncident) GetEventsGraphQuery() *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AiOperationsIncident_EventsGraphQuery {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AiOperationsIncident{}
-	}
-	return t.EventsGraphQuery
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AiOperationsIncident) GetAccountOperationIncident() *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AiOperationsIncident_AccountOperationIncident {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AiOperationsIncident{}
-	}
-	return t.AccountOperationIncident
-}
-
-type XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_SimilarStoriesData struct {
-	Indication           *string  "json:\"indication,omitempty\" graphql:\"indication\""
-	SimilarityPercentage *float64 "json:\"similarityPercentage,omitempty\" graphql:\"similarityPercentage\""
-	StoryID              *string  "json:\"storyId,omitempty\" graphql:\"storyId\""
-	ThreatClassification *string  "json:\"threatClassification,omitempty\" graphql:\"threatClassification\""
-	ThreatTypeName       *string  "json:\"threatTypeName,omitempty\" graphql:\"threatTypeName\""
-	Verdict              *string  "json:\"verdict,omitempty\" graphql:\"verdict\""
-}
-
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_SimilarStoriesData) GetIndication() *string {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_SimilarStoriesData{}
-	}
-	return t.Indication
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_SimilarStoriesData) GetSimilarityPercentage() *float64 {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_SimilarStoriesData{}
-	}
-	return t.SimilarityPercentage
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_SimilarStoriesData) GetStoryID() *string {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_SimilarStoriesData{}
-	}
-	return t.StoryID
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_SimilarStoriesData) GetThreatClassification() *string {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_SimilarStoriesData{}
-	}
-	return t.ThreatClassification
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_SimilarStoriesData) GetThreatTypeName() *string {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_SimilarStoriesData{}
-	}
-	return t.ThreatTypeName
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_SimilarStoriesData) GetVerdict() *string {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_SimilarStoriesData{}
-	}
-	return t.Verdict
-}
-
-type XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_DrillDownFilter struct {
-	Name   string   "json:\"name\" graphql:\"name\""
-	Value  string   "json:\"value\" graphql:\"value\""
-	Values []string "json:\"values\" graphql:\"values\""
-}
-
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_DrillDownFilter) GetName() string {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_DrillDownFilter{}
-	}
-	return t.Name
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_DrillDownFilter) GetValue() string {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_DrillDownFilter{}
-	}
-	return t.Value
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_DrillDownFilter) GetValues() []string {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_DrillDownFilter{}
-	}
-	return t.Values
-}
-
-type XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_Extra struct {
-	Name  string "json:\"name\" graphql:\"name\""
-	Type  string "json:\"type\" graphql:\"type\""
-	Value string "json:\"value\" graphql:\"value\""
-}
-
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_Extra) GetName() string {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_Extra{}
-	}
-	return t.Name
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_Extra) GetType() string {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_Extra{}
-	}
-	return t.Type
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_Extra) GetValue() string {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_Extra{}
-	}
-	return t.Value
-}
-
-type XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_Gaussian struct {
-	Avg    *float64 "json:\"avg,omitempty\" graphql:\"avg\""
-	N      *float64 "json:\"n,omitempty\" graphql:\"n\""
-	Ss     *float64 "json:\"ss,omitempty\" graphql:\"ss\""
-	Std    *float64 "json:\"std,omitempty\" graphql:\"std\""
-	ZScore *float64 "json:\"z_score,omitempty\" graphql:\"z_score\""
-}
-
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_Gaussian) GetAvg() *float64 {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_Gaussian{}
-	}
-	return t.Avg
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_Gaussian) GetN() *float64 {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_Gaussian{}
-	}
-	return t.N
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_Gaussian) GetSs() *float64 {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_Gaussian{}
-	}
-	return t.Ss
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_Gaussian) GetStd() *float64 {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_Gaussian{}
-	}
-	return t.Std
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_Gaussian) GetZScore() *float64 {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_Gaussian{}
-	}
-	return t.ZScore
-}
-
-type XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_Metric struct {
-	Name  string  "json:\"name\" graphql:\"name\""
-	Value float64 "json:\"value\" graphql:\"value\""
-}
-
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_Metric) GetName() string {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_Metric{}
-	}
-	return t.Name
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_Metric) GetValue() float64 {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_Metric{}
-	}
-	return t.Value
-}
-
-type XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_MetricDetails struct {
-	Name  string "json:\"name\" graphql:\"name\""
-	Units string "json:\"units\" graphql:\"units\""
-}
-
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_MetricDetails) GetName() string {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_MetricDetails{}
-	}
-	return t.Name
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_MetricDetails) GetUnits() string {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_MetricDetails{}
-	}
-	return t.Units
-}
-
-type XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_Mitres struct {
-	ID   *string "json:\"id,omitempty\" graphql:\"id\""
-	Name *string "json:\"name,omitempty\" graphql:\"name\""
-}
-
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_Mitres) GetID() *string {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_Mitres{}
-	}
-	return t.ID
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_Mitres) GetName() *string {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_Mitres{}
-	}
-	return t.Name
-}
-
-type XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_TimeSeries_Key_Dimensions struct {
-	FieldName string  "json:\"fieldName\" graphql:\"fieldName\""
-	Value     *string "json:\"value,omitempty\" graphql:\"value\""
-}
-
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_TimeSeries_Key_Dimensions) GetFieldName() string {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_TimeSeries_Key_Dimensions{}
-	}
-	return t.FieldName
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_TimeSeries_Key_Dimensions) GetValue() *string {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_TimeSeries_Key_Dimensions{}
-	}
-	return t.Value
-}
-
-type XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_TimeSeries_Key struct {
-	Dimensions       []*XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_TimeSeries_Key_Dimensions "json:\"dimensions,omitempty\" graphql:\"dimensions\""
-	MeasureFieldName string                                                                                           "json:\"measureFieldName\" graphql:\"measureFieldName\""
-}
-
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_TimeSeries_Key) GetDimensions() []*XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_TimeSeries_Key_Dimensions {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_TimeSeries_Key{}
-	}
-	return t.Dimensions
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_TimeSeries_Key) GetMeasureFieldName() string {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_TimeSeries_Key{}
-	}
-	return t.MeasureFieldName
-}
-
-type XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_TimeSeries struct {
-	Data    [][]float64                                                                         "json:\"data,omitempty\" graphql:\"data\""
-	GroupBy *string                                                                             "json:\"groupBy,omitempty\" graphql:\"groupBy\""
-	Info    []string                                                                            "json:\"info,omitempty\" graphql:\"info\""
-	Key     *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_TimeSeries_Key "json:\"key,omitempty\" graphql:\"key\""
-	Label   string                                                                              "json:\"label\" graphql:\"label\""
-	Sum     *float64                                                                            "json:\"sum,omitempty\" graphql:\"sum\""
-	Units   *cato_models.UnitType                                                               "json:\"units,omitempty\" graphql:\"units\""
-}
-
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_TimeSeries) GetData() [][]float64 {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_TimeSeries{}
-	}
-	return t.Data
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_TimeSeries) GetGroupBy() *string {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_TimeSeries{}
-	}
-	return t.GroupBy
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_TimeSeries) GetInfo() []string {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_TimeSeries{}
-	}
-	return t.Info
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_TimeSeries) GetKey() *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_TimeSeries_Key {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_TimeSeries{}
-	}
-	return t.Key
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_TimeSeries) GetLabel() string {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_TimeSeries{}
-	}
-	return t.Label
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_TimeSeries) GetSum() *float64 {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_TimeSeries{}
-	}
-	return t.Sum
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_TimeSeries) GetUnits() *cato_models.UnitType {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_TimeSeries{}
-	}
-	return t.Units
-}
-
-type XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_Targets_EventData struct {
-	Action                *string                 "json:\"action,omitempty\" graphql:\"action\""
-	AppActivityType       *string                 "json:\"appActivityType,omitempty\" graphql:\"appActivityType\""
-	AppID                 *string                 "json:\"appId,omitempty\" graphql:\"appId\""
-	AppName               *string                 "json:\"appName,omitempty\" graphql:\"appName\""
-	DNSProtectionCategory *string                 "json:\"dnsProtectionCategory,omitempty\" graphql:\"dnsProtectionCategory\""
-	EventType             *string                 "json:\"eventType,omitempty\" graphql:\"eventType\""
-	FileName              *string                 "json:\"fileName,omitempty\" graphql:\"fileName\""
-	RuleID                *string                 "json:\"ruleId,omitempty\" graphql:\"ruleId\""
-	RuleName              *string                 "json:\"ruleName,omitempty\" graphql:\"ruleName\""
-	ScanResult            *cato_models.ScanResult "json:\"scanResult,omitempty\" graphql:\"scanResult\""
-	Severity              *string                 "json:\"severity,omitempty\" graphql:\"severity\""
-	SignatureID           *string                 "json:\"signatureId,omitempty\" graphql:\"signatureId\""
-	ThreatName            *string                 "json:\"threatName,omitempty\" graphql:\"threatName\""
-	ThreatType            *string                 "json:\"threatType,omitempty\" graphql:\"threatType\""
-	VirusName             *string                 "json:\"virusName,omitempty\" graphql:\"virusName\""
-}
-
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_Targets_EventData) GetAction() *string {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_Targets_EventData{}
-	}
-	return t.Action
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_Targets_EventData) GetAppActivityType() *string {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_Targets_EventData{}
-	}
-	return t.AppActivityType
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_Targets_EventData) GetAppID() *string {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_Targets_EventData{}
-	}
-	return t.AppID
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_Targets_EventData) GetAppName() *string {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_Targets_EventData{}
-	}
-	return t.AppName
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_Targets_EventData) GetDNSProtectionCategory() *string {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_Targets_EventData{}
-	}
-	return t.DNSProtectionCategory
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_Targets_EventData) GetEventType() *string {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_Targets_EventData{}
-	}
-	return t.EventType
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_Targets_EventData) GetFileName() *string {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_Targets_EventData{}
-	}
-	return t.FileName
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_Targets_EventData) GetRuleID() *string {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_Targets_EventData{}
-	}
-	return t.RuleID
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_Targets_EventData) GetRuleName() *string {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_Targets_EventData{}
-	}
-	return t.RuleName
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_Targets_EventData) GetScanResult() *cato_models.ScanResult {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_Targets_EventData{}
-	}
-	return t.ScanResult
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_Targets_EventData) GetSeverity() *string {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_Targets_EventData{}
-	}
-	return t.Severity
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_Targets_EventData) GetSignatureID() *string {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_Targets_EventData{}
-	}
-	return t.SignatureID
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_Targets_EventData) GetThreatName() *string {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_Targets_EventData{}
-	}
-	return t.ThreatName
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_Targets_EventData) GetThreatType() *string {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_Targets_EventData{}
-	}
-	return t.ThreatType
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_Targets_EventData) GetVirusName() *string {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_Targets_EventData{}
-	}
-	return t.VirusName
-}
-
-type XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_Targets struct {
-	AnalysisScore         *float64                                                                                 "json:\"analysisScore,omitempty\" graphql:\"analysisScore\""
-	Categories            *string                                                                                  "json:\"categories,omitempty\" graphql:\"categories\""
-	CatoPopularity        *int64                                                                                   "json:\"catoPopularity,omitempty\" graphql:\"catoPopularity\""
-	CountryOfRegistration *string                                                                                  "json:\"countryOfRegistration,omitempty\" graphql:\"countryOfRegistration\""
-	CreationTime          *string                                                                                  "json:\"creationTime,omitempty\" graphql:\"creationTime\""
-	Engines               *int64                                                                                   "json:\"engines,omitempty\" graphql:\"engines\""
-	EventData             []*XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_Targets_EventData "json:\"eventData\" graphql:\"eventData\""
-	InfectionSource       *bool                                                                                    "json:\"infectionSource,omitempty\" graphql:\"infectionSource\""
-	Name                  *string                                                                                  "json:\"name,omitempty\" graphql:\"name\""
-	SearchHits            *string                                                                                  "json:\"searchHits,omitempty\" graphql:\"searchHits\""
-	ThreatFeeds           *int64                                                                                   "json:\"threatFeeds,omitempty\" graphql:\"threatFeeds\""
-	ThreatReference       *string                                                                                  "json:\"threatReference,omitempty\" graphql:\"threatReference\""
-	Type                  *cato_models.TargetType                                                                  "json:\"type,omitempty\" graphql:\"type\""
-}
-
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_Targets) GetAnalysisScore() *float64 {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_Targets{}
-	}
-	return t.AnalysisScore
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_Targets) GetCategories() *string {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_Targets{}
-	}
-	return t.Categories
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_Targets) GetCatoPopularity() *int64 {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_Targets{}
-	}
-	return t.CatoPopularity
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_Targets) GetCountryOfRegistration() *string {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_Targets{}
-	}
-	return t.CountryOfRegistration
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_Targets) GetCreationTime() *string {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_Targets{}
-	}
-	return t.CreationTime
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_Targets) GetEngines() *int64 {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_Targets{}
-	}
-	return t.Engines
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_Targets) GetEventData() []*XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_Targets_EventData {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_Targets{}
-	}
-	return t.EventData
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_Targets) GetInfectionSource() *bool {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_Targets{}
-	}
-	return t.InfectionSource
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_Targets) GetName() *string {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_Targets{}
-	}
-	return t.Name
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_Targets) GetSearchHits() *string {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_Targets{}
-	}
-	return t.SearchHits
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_Targets) GetThreatFeeds() *int64 {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_Targets{}
-	}
-	return t.ThreatFeeds
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_Targets) GetThreatReference() *string {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_Targets{}
-	}
-	return t.ThreatReference
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_Targets) GetType() *cato_models.TargetType {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_Targets{}
-	}
-	return t.Type
-}
-
-type XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents struct {
-	SimilarStoriesData []*XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_SimilarStoriesData "json:\"similarStoriesData\" graphql:\"similarStoriesData\""
-	SrcSiteID          *string                                                                                   "json:\"srcSiteId,omitempty\" graphql:\"srcSiteId\""
-	Os                 *string                                                                                   "json:\"os,omitempty\" graphql:\"os\""
-	DeviceName         *string                                                                                   "json:\"deviceName,omitempty\" graphql:\"deviceName\""
-	MacAddress         *string                                                                                   "json:\"macAddress,omitempty\" graphql:\"macAddress\""
-	LogonName          *string                                                                                   "json:\"logonName,omitempty\" graphql:\"logonName\""
-	ClientClass        []string                                                                                  "json:\"clientClass\" graphql:\"clientClass\""
-	DrillDownFilter    []*XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_DrillDownFilter    "json:\"drillDownFilter,omitempty\" graphql:\"drillDownFilter\""
-	BreakdownField     *string                                                                                   "json:\"breakdownField,omitempty\" graphql:\"breakdownField\""
-	SubjectType        *string                                                                                   "json:\"subjectType,omitempty\" graphql:\"subjectType\""
-	Extra              []*XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_Extra              "json:\"extra,omitempty\" graphql:\"extra\""
-	Gaussian           *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_Gaussian             "json:\"gaussian,omitempty\" graphql:\"gaussian\""
-	Metric             *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_Metric               "json:\"metric,omitempty\" graphql:\"metric\""
-	MetricDetails      *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_MetricDetails        "json:\"metricDetails,omitempty\" graphql:\"metricDetails\""
-	Mitres             []*XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_Mitres             "json:\"mitres,omitempty\" graphql:\"mitres\""
-	Rules              []string                                                                                  "json:\"rules,omitempty\" graphql:\"rules\""
-	TimeSeries         []*XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_TimeSeries         "json:\"timeSeries,omitempty\" graphql:\"timeSeries\""
-	Targets            []*XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_Targets            "json:\"targets\" graphql:\"targets\""
-	Direction          *string                                                                                   "json:\"direction,omitempty\" graphql:\"direction\""
-}
-
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents) GetSimilarStoriesData() []*XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_SimilarStoriesData {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents{}
-	}
-	return t.SimilarStoriesData
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents) GetSrcSiteID() *string {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents{}
-	}
-	return t.SrcSiteID
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents) GetOs() *string {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents{}
-	}
-	return t.Os
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents) GetDeviceName() *string {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents{}
-	}
-	return t.DeviceName
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents) GetMacAddress() *string {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents{}
-	}
-	return t.MacAddress
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents) GetLogonName() *string {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents{}
-	}
-	return t.LogonName
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents) GetClientClass() []string {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents{}
-	}
-	return t.ClientClass
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents) GetDrillDownFilter() []*XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_DrillDownFilter {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents{}
-	}
-	return t.DrillDownFilter
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents) GetBreakdownField() *string {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents{}
-	}
-	return t.BreakdownField
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents) GetSubjectType() *string {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents{}
-	}
-	return t.SubjectType
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents) GetExtra() []*XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_Extra {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents{}
-	}
-	return t.Extra
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents) GetGaussian() *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_Gaussian {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents{}
-	}
-	return t.Gaussian
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents) GetMetric() *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_Metric {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents{}
-	}
-	return t.Metric
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents) GetMetricDetails() *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_MetricDetails {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents{}
-	}
-	return t.MetricDetails
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents) GetMitres() []*XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_Mitres {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents{}
-	}
-	return t.Mitres
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents) GetRules() []string {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents{}
-	}
-	return t.Rules
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents) GetTimeSeries() []*XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_TimeSeries {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents{}
-	}
-	return t.TimeSeries
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents) GetTargets() []*XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_Targets {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents{}
-	}
-	return t.Targets
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents) GetDirection() *string {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents{}
-	}
-	return t.Direction
-}
-
-type XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_SimilarStoriesData struct {
-	Indication           *string  "json:\"indication,omitempty\" graphql:\"indication\""
-	SimilarityPercentage *float64 "json:\"similarityPercentage,omitempty\" graphql:\"similarityPercentage\""
-	StoryID              *string  "json:\"storyId,omitempty\" graphql:\"storyId\""
-	ThreatClassification *string  "json:\"threatClassification,omitempty\" graphql:\"threatClassification\""
-	ThreatTypeName       *string  "json:\"threatTypeName,omitempty\" graphql:\"threatTypeName\""
-	Verdict              *string  "json:\"verdict,omitempty\" graphql:\"verdict\""
-}
-
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_SimilarStoriesData) GetIndication() *string {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_SimilarStoriesData{}
-	}
-	return t.Indication
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_SimilarStoriesData) GetSimilarityPercentage() *float64 {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_SimilarStoriesData{}
-	}
-	return t.SimilarityPercentage
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_SimilarStoriesData) GetStoryID() *string {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_SimilarStoriesData{}
-	}
-	return t.StoryID
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_SimilarStoriesData) GetThreatClassification() *string {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_SimilarStoriesData{}
-	}
-	return t.ThreatClassification
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_SimilarStoriesData) GetThreatTypeName() *string {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_SimilarStoriesData{}
-	}
-	return t.ThreatTypeName
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_SimilarStoriesData) GetVerdict() *string {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_SimilarStoriesData{}
-	}
-	return t.Verdict
-}
-
-type XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_DrillDownFilter struct {
-	Name   string   "json:\"name\" graphql:\"name\""
-	Value  string   "json:\"value\" graphql:\"value\""
-	Values []string "json:\"values\" graphql:\"values\""
-}
-
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_DrillDownFilter) GetName() string {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_DrillDownFilter{}
-	}
-	return t.Name
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_DrillDownFilter) GetValue() string {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_DrillDownFilter{}
-	}
-	return t.Value
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_DrillDownFilter) GetValues() []string {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_DrillDownFilter{}
-	}
-	return t.Values
-}
-
-type XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_Extra struct {
-	Name  string "json:\"name\" graphql:\"name\""
-	Type  string "json:\"type\" graphql:\"type\""
-	Value string "json:\"value\" graphql:\"value\""
-}
-
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_Extra) GetName() string {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_Extra{}
-	}
-	return t.Name
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_Extra) GetType() string {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_Extra{}
-	}
-	return t.Type
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_Extra) GetValue() string {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_Extra{}
-	}
-	return t.Value
-}
-
-type XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_Gaussian struct {
-	Avg    *float64 "json:\"avg,omitempty\" graphql:\"avg\""
-	N      *float64 "json:\"n,omitempty\" graphql:\"n\""
-	Ss     *float64 "json:\"ss,omitempty\" graphql:\"ss\""
-	Std    *float64 "json:\"std,omitempty\" graphql:\"std\""
-	ZScore *float64 "json:\"z_score,omitempty\" graphql:\"z_score\""
-}
-
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_Gaussian) GetAvg() *float64 {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_Gaussian{}
-	}
-	return t.Avg
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_Gaussian) GetN() *float64 {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_Gaussian{}
-	}
-	return t.N
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_Gaussian) GetSs() *float64 {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_Gaussian{}
-	}
-	return t.Ss
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_Gaussian) GetStd() *float64 {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_Gaussian{}
-	}
-	return t.Std
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_Gaussian) GetZScore() *float64 {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_Gaussian{}
-	}
-	return t.ZScore
-}
-
-type XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_Metric struct {
-	Name  string  "json:\"name\" graphql:\"name\""
-	Value float64 "json:\"value\" graphql:\"value\""
-}
-
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_Metric) GetName() string {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_Metric{}
-	}
-	return t.Name
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_Metric) GetValue() float64 {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_Metric{}
-	}
-	return t.Value
-}
-
-type XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_MetricDetails struct {
-	Name  string "json:\"name\" graphql:\"name\""
-	Units string "json:\"units\" graphql:\"units\""
-}
-
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_MetricDetails) GetName() string {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_MetricDetails{}
-	}
-	return t.Name
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_MetricDetails) GetUnits() string {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_MetricDetails{}
-	}
-	return t.Units
-}
-
-type XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_Mitres struct {
-	ID   *string "json:\"id,omitempty\" graphql:\"id\""
-	Name *string "json:\"name,omitempty\" graphql:\"name\""
-}
-
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_Mitres) GetID() *string {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_Mitres{}
-	}
-	return t.ID
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_Mitres) GetName() *string {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_Mitres{}
-	}
-	return t.Name
-}
-
-type XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_TimeSeries_Key_Dimensions struct {
-	FieldName string  "json:\"fieldName\" graphql:\"fieldName\""
-	Value     *string "json:\"value,omitempty\" graphql:\"value\""
-}
-
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_TimeSeries_Key_Dimensions) GetFieldName() string {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_TimeSeries_Key_Dimensions{}
-	}
-	return t.FieldName
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_TimeSeries_Key_Dimensions) GetValue() *string {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_TimeSeries_Key_Dimensions{}
-	}
-	return t.Value
-}
-
-type XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_TimeSeries_Key struct {
-	Dimensions       []*XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_TimeSeries_Key_Dimensions "json:\"dimensions,omitempty\" graphql:\"dimensions\""
-	MeasureFieldName string                                                                                          "json:\"measureFieldName\" graphql:\"measureFieldName\""
-}
-
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_TimeSeries_Key) GetDimensions() []*XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_TimeSeries_Key_Dimensions {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_TimeSeries_Key{}
-	}
-	return t.Dimensions
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_TimeSeries_Key) GetMeasureFieldName() string {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_TimeSeries_Key{}
-	}
-	return t.MeasureFieldName
-}
-
-type XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_TimeSeries struct {
-	Data    [][]float64                                                                        "json:\"data,omitempty\" graphql:\"data\""
-	GroupBy *string                                                                            "json:\"groupBy,omitempty\" graphql:\"groupBy\""
-	Info    []string                                                                           "json:\"info,omitempty\" graphql:\"info\""
-	Key     *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_TimeSeries_Key "json:\"key,omitempty\" graphql:\"key\""
-	Label   string                                                                             "json:\"label\" graphql:\"label\""
-	Sum     *float64                                                                           "json:\"sum,omitempty\" graphql:\"sum\""
-	Units   *cato_models.UnitType                                                              "json:\"units,omitempty\" graphql:\"units\""
-}
-
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_TimeSeries) GetData() [][]float64 {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_TimeSeries{}
-	}
-	return t.Data
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_TimeSeries) GetGroupBy() *string {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_TimeSeries{}
-	}
-	return t.GroupBy
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_TimeSeries) GetInfo() []string {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_TimeSeries{}
-	}
-	return t.Info
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_TimeSeries) GetKey() *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_TimeSeries_Key {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_TimeSeries{}
-	}
-	return t.Key
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_TimeSeries) GetLabel() string {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_TimeSeries{}
-	}
-	return t.Label
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_TimeSeries) GetSum() *float64 {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_TimeSeries{}
-	}
-	return t.Sum
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_TimeSeries) GetUnits() *cato_models.UnitType {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_TimeSeries{}
-	}
-	return t.Units
-}
-
-type XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_Targets_EventData struct {
-	Action                *string                 "json:\"action,omitempty\" graphql:\"action\""
-	AppActivityType       *string                 "json:\"appActivityType,omitempty\" graphql:\"appActivityType\""
-	AppID                 *string                 "json:\"appId,omitempty\" graphql:\"appId\""
-	AppName               *string                 "json:\"appName,omitempty\" graphql:\"appName\""
-	DNSProtectionCategory *string                 "json:\"dnsProtectionCategory,omitempty\" graphql:\"dnsProtectionCategory\""
-	EventType             *string                 "json:\"eventType,omitempty\" graphql:\"eventType\""
-	FileName              *string                 "json:\"fileName,omitempty\" graphql:\"fileName\""
-	RuleID                *string                 "json:\"ruleId,omitempty\" graphql:\"ruleId\""
-	RuleName              *string                 "json:\"ruleName,omitempty\" graphql:\"ruleName\""
-	ScanResult            *cato_models.ScanResult "json:\"scanResult,omitempty\" graphql:\"scanResult\""
-	Severity              *string                 "json:\"severity,omitempty\" graphql:\"severity\""
-	SignatureID           *string                 "json:\"signatureId,omitempty\" graphql:\"signatureId\""
-	ThreatName            *string                 "json:\"threatName,omitempty\" graphql:\"threatName\""
-	ThreatType            *string                 "json:\"threatType,omitempty\" graphql:\"threatType\""
-	VirusName             *string                 "json:\"virusName,omitempty\" graphql:\"virusName\""
-}
-
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_Targets_EventData) GetAction() *string {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_Targets_EventData{}
-	}
-	return t.Action
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_Targets_EventData) GetAppActivityType() *string {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_Targets_EventData{}
-	}
-	return t.AppActivityType
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_Targets_EventData) GetAppID() *string {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_Targets_EventData{}
-	}
-	return t.AppID
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_Targets_EventData) GetAppName() *string {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_Targets_EventData{}
-	}
-	return t.AppName
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_Targets_EventData) GetDNSProtectionCategory() *string {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_Targets_EventData{}
-	}
-	return t.DNSProtectionCategory
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_Targets_EventData) GetEventType() *string {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_Targets_EventData{}
-	}
-	return t.EventType
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_Targets_EventData) GetFileName() *string {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_Targets_EventData{}
-	}
-	return t.FileName
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_Targets_EventData) GetRuleID() *string {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_Targets_EventData{}
-	}
-	return t.RuleID
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_Targets_EventData) GetRuleName() *string {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_Targets_EventData{}
-	}
-	return t.RuleName
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_Targets_EventData) GetScanResult() *cato_models.ScanResult {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_Targets_EventData{}
-	}
-	return t.ScanResult
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_Targets_EventData) GetSeverity() *string {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_Targets_EventData{}
-	}
-	return t.Severity
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_Targets_EventData) GetSignatureID() *string {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_Targets_EventData{}
-	}
-	return t.SignatureID
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_Targets_EventData) GetThreatName() *string {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_Targets_EventData{}
-	}
-	return t.ThreatName
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_Targets_EventData) GetThreatType() *string {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_Targets_EventData{}
-	}
-	return t.ThreatType
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_Targets_EventData) GetVirusName() *string {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_Targets_EventData{}
-	}
-	return t.VirusName
-}
-
-type XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_Targets struct {
-	AnalysisScore         *float64                                                                                "json:\"analysisScore,omitempty\" graphql:\"analysisScore\""
-	Categories            *string                                                                                 "json:\"categories,omitempty\" graphql:\"categories\""
-	CatoPopularity        *int64                                                                                  "json:\"catoPopularity,omitempty\" graphql:\"catoPopularity\""
-	CountryOfRegistration *string                                                                                 "json:\"countryOfRegistration,omitempty\" graphql:\"countryOfRegistration\""
-	CreationTime          *string                                                                                 "json:\"creationTime,omitempty\" graphql:\"creationTime\""
-	Engines               *int64                                                                                  "json:\"engines,omitempty\" graphql:\"engines\""
-	EventData             []*XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_Targets_EventData "json:\"eventData\" graphql:\"eventData\""
-	InfectionSource       *bool                                                                                   "json:\"infectionSource,omitempty\" graphql:\"infectionSource\""
-	Name                  *string                                                                                 "json:\"name,omitempty\" graphql:\"name\""
-	SearchHits            *string                                                                                 "json:\"searchHits,omitempty\" graphql:\"searchHits\""
-	ThreatFeeds           *int64                                                                                  "json:\"threatFeeds,omitempty\" graphql:\"threatFeeds\""
-	ThreatReference       *string                                                                                 "json:\"threatReference,omitempty\" graphql:\"threatReference\""
-	Type                  *cato_models.TargetType                                                                 "json:\"type,omitempty\" graphql:\"type\""
-}
-
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_Targets) GetAnalysisScore() *float64 {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_Targets{}
-	}
-	return t.AnalysisScore
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_Targets) GetCategories() *string {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_Targets{}
-	}
-	return t.Categories
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_Targets) GetCatoPopularity() *int64 {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_Targets{}
-	}
-	return t.CatoPopularity
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_Targets) GetCountryOfRegistration() *string {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_Targets{}
-	}
-	return t.CountryOfRegistration
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_Targets) GetCreationTime() *string {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_Targets{}
-	}
-	return t.CreationTime
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_Targets) GetEngines() *int64 {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_Targets{}
-	}
-	return t.Engines
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_Targets) GetEventData() []*XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_Targets_EventData {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_Targets{}
-	}
-	return t.EventData
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_Targets) GetInfectionSource() *bool {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_Targets{}
-	}
-	return t.InfectionSource
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_Targets) GetName() *string {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_Targets{}
-	}
-	return t.Name
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_Targets) GetSearchHits() *string {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_Targets{}
-	}
-	return t.SearchHits
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_Targets) GetThreatFeeds() *int64 {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_Targets{}
-	}
-	return t.ThreatFeeds
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_Targets) GetThreatReference() *string {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_Targets{}
-	}
-	return t.ThreatReference
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_Targets) GetType() *cato_models.TargetType {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_Targets{}
-	}
-	return t.Type
-}
-
-type XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats struct {
-	SimilarStoriesData []*XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_SimilarStoriesData "json:\"similarStoriesData\" graphql:\"similarStoriesData\""
-	SrcSiteID          *string                                                                                  "json:\"srcSiteId,omitempty\" graphql:\"srcSiteId\""
-	Os                 *string                                                                                  "json:\"os,omitempty\" graphql:\"os\""
-	DeviceName         *string                                                                                  "json:\"deviceName,omitempty\" graphql:\"deviceName\""
-	MacAddress         *string                                                                                  "json:\"macAddress,omitempty\" graphql:\"macAddress\""
-	LogonName          *string                                                                                  "json:\"logonName,omitempty\" graphql:\"logonName\""
-	ClientClass        []string                                                                                 "json:\"clientClass\" graphql:\"clientClass\""
-	DrillDownFilter    []*XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_DrillDownFilter    "json:\"drillDownFilter,omitempty\" graphql:\"drillDownFilter\""
-	BreakdownField     *string                                                                                  "json:\"breakdownField,omitempty\" graphql:\"breakdownField\""
-	SubjectType        *string                                                                                  "json:\"subjectType,omitempty\" graphql:\"subjectType\""
-	Extra              []*XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_Extra              "json:\"extra,omitempty\" graphql:\"extra\""
-	Gaussian           *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_Gaussian             "json:\"gaussian,omitempty\" graphql:\"gaussian\""
-	Metric             *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_Metric               "json:\"metric,omitempty\" graphql:\"metric\""
-	MetricDetails      *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_MetricDetails        "json:\"metricDetails,omitempty\" graphql:\"metricDetails\""
-	Mitres             []*XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_Mitres             "json:\"mitres,omitempty\" graphql:\"mitres\""
-	Rules              []string                                                                                 "json:\"rules,omitempty\" graphql:\"rules\""
-	TimeSeries         []*XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_TimeSeries         "json:\"timeSeries,omitempty\" graphql:\"timeSeries\""
-	Targets            []*XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_Targets            "json:\"targets\" graphql:\"targets\""
-	Direction          *string                                                                                  "json:\"direction,omitempty\" graphql:\"direction\""
-}
-
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats) GetSimilarStoriesData() []*XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_SimilarStoriesData {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats{}
-	}
-	return t.SimilarStoriesData
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats) GetSrcSiteID() *string {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats{}
-	}
-	return t.SrcSiteID
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats) GetOs() *string {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats{}
-	}
-	return t.Os
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats) GetDeviceName() *string {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats{}
-	}
-	return t.DeviceName
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats) GetMacAddress() *string {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats{}
-	}
-	return t.MacAddress
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats) GetLogonName() *string {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats{}
-	}
-	return t.LogonName
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats) GetClientClass() []string {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats{}
-	}
-	return t.ClientClass
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats) GetDrillDownFilter() []*XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_DrillDownFilter {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats{}
-	}
-	return t.DrillDownFilter
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats) GetBreakdownField() *string {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats{}
-	}
-	return t.BreakdownField
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats) GetSubjectType() *string {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats{}
-	}
-	return t.SubjectType
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats) GetExtra() []*XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_Extra {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats{}
-	}
-	return t.Extra
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats) GetGaussian() *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_Gaussian {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats{}
-	}
-	return t.Gaussian
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats) GetMetric() *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_Metric {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats{}
-	}
-	return t.Metric
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats) GetMetricDetails() *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_MetricDetails {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats{}
-	}
-	return t.MetricDetails
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats) GetMitres() []*XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_Mitres {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats{}
-	}
-	return t.Mitres
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats) GetRules() []string {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats{}
-	}
-	return t.Rules
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats) GetTimeSeries() []*XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_TimeSeries {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats{}
-	}
-	return t.TimeSeries
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats) GetTargets() []*XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_Targets {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats{}
-	}
-	return t.Targets
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats) GetDirection() *string {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats{}
-	}
-	return t.Direction
-}
-
-type XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_SimilarStoriesData struct {
-	Indication           *string  "json:\"indication,omitempty\" graphql:\"indication\""
-	SimilarityPercentage *float64 "json:\"similarityPercentage,omitempty\" graphql:\"similarityPercentage\""
-	StoryID              *string  "json:\"storyId,omitempty\" graphql:\"storyId\""
-	ThreatClassification *string  "json:\"threatClassification,omitempty\" graphql:\"threatClassification\""
-	ThreatTypeName       *string  "json:\"threatTypeName,omitempty\" graphql:\"threatTypeName\""
-	Verdict              *string  "json:\"verdict,omitempty\" graphql:\"verdict\""
-}
-
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_SimilarStoriesData) GetIndication() *string {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_SimilarStoriesData{}
-	}
-	return t.Indication
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_SimilarStoriesData) GetSimilarityPercentage() *float64 {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_SimilarStoriesData{}
-	}
-	return t.SimilarityPercentage
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_SimilarStoriesData) GetStoryID() *string {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_SimilarStoriesData{}
-	}
-	return t.StoryID
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_SimilarStoriesData) GetThreatClassification() *string {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_SimilarStoriesData{}
-	}
-	return t.ThreatClassification
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_SimilarStoriesData) GetThreatTypeName() *string {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_SimilarStoriesData{}
-	}
-	return t.ThreatTypeName
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_SimilarStoriesData) GetVerdict() *string {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_SimilarStoriesData{}
-	}
-	return t.Verdict
-}
-
-type XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Device_OsDetails struct {
-	OsBuild   *int64  "json:\"osBuild,omitempty\" graphql:\"osBuild\""
-	OsType    string  "json:\"osType\" graphql:\"osType\""
-	OsVersion *string "json:\"osVersion,omitempty\" graphql:\"osVersion\""
-}
-
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Device_OsDetails) GetOsBuild() *int64 {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Device_OsDetails{}
-	}
-	return t.OsBuild
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Device_OsDetails) GetOsType() string {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Device_OsDetails{}
-	}
-	return t.OsType
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Device_OsDetails) GetOsVersion() *string {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Device_OsDetails{}
-	}
-	return t.OsVersion
-}
-
-type XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Device_LoggedOnUsers_MicrosoftEndpointUser struct {
-	ID            string  "json:\"id\" graphql:\"id\""
-	Name          string  "json:\"name\" graphql:\"name\""
-	UserSid       *string "json:\"userSid,omitempty\" graphql:\"userSid\""
-	AccountName   *string "json:\"accountName,omitempty\" graphql:\"accountName\""
-	DomainName    *string "json:\"domainName,omitempty\" graphql:\"domainName\""
-	PrincipalName *string "json:\"principalName,omitempty\" graphql:\"principalName\""
-}
-
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Device_LoggedOnUsers_MicrosoftEndpointUser) GetID() string {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Device_LoggedOnUsers_MicrosoftEndpointUser{}
-	}
-	return t.ID
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Device_LoggedOnUsers_MicrosoftEndpointUser) GetName() string {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Device_LoggedOnUsers_MicrosoftEndpointUser{}
-	}
-	return t.Name
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Device_LoggedOnUsers_MicrosoftEndpointUser) GetUserSid() *string {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Device_LoggedOnUsers_MicrosoftEndpointUser{}
-	}
-	return t.UserSid
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Device_LoggedOnUsers_MicrosoftEndpointUser) GetAccountName() *string {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Device_LoggedOnUsers_MicrosoftEndpointUser{}
-	}
-	return t.AccountName
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Device_LoggedOnUsers_MicrosoftEndpointUser) GetDomainName() *string {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Device_LoggedOnUsers_MicrosoftEndpointUser{}
-	}
-	return t.DomainName
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Device_LoggedOnUsers_MicrosoftEndpointUser) GetPrincipalName() *string {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Device_LoggedOnUsers_MicrosoftEndpointUser{}
-	}
-	return t.PrincipalName
-}
-
-type XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Device_LoggedOnUsers_CatoEndpointUser struct {
-	ID   string "json:\"id\" graphql:\"id\""
-	Name string "json:\"name\" graphql:\"name\""
-}
-
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Device_LoggedOnUsers_CatoEndpointUser) GetID() string {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Device_LoggedOnUsers_CatoEndpointUser{}
-	}
-	return t.ID
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Device_LoggedOnUsers_CatoEndpointUser) GetName() string {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Device_LoggedOnUsers_CatoEndpointUser{}
-	}
-	return t.Name
-}
-
-type XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Device_LoggedOnUsers struct {
-	CatoEndpointUser      XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Device_LoggedOnUsers_CatoEndpointUser      "graphql:\"... on CatoEndpointUser\""
-	MicrosoftEndpointUser XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Device_LoggedOnUsers_MicrosoftEndpointUser "graphql:\"... on MicrosoftEndpointUser\""
-	Typename              *string                                                                                                       "json:\"__typename,omitempty\" graphql:\"__typename\""
-}
-
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Device_LoggedOnUsers) GetCatoEndpointUser() *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Device_LoggedOnUsers_CatoEndpointUser {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Device_LoggedOnUsers{}
-	}
-	return &t.CatoEndpointUser
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Device_LoggedOnUsers) GetMicrosoftEndpointUser() *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Device_LoggedOnUsers_MicrosoftEndpointUser {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Device_LoggedOnUsers{}
-	}
-	return &t.MicrosoftEndpointUser
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Device_LoggedOnUsers) GetTypename() *string {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Device_LoggedOnUsers{}
-	}
-	return t.Typename
-}
-
-type XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Device struct {
-	DeviceName    *string                                                                                    "json:\"deviceName,omitempty\" graphql:\"deviceName\""
-	ExternalIP    *string                                                                                    "json:\"externalIp,omitempty\" graphql:\"externalIp\""
-	ID            string                                                                                     "json:\"id\" graphql:\"id\""
-	LocalIP       *string                                                                                    "json:\"localIp,omitempty\" graphql:\"localIp\""
-	LoggedOnUsers []*XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Device_LoggedOnUsers "json:\"loggedOnUsers\" graphql:\"loggedOnUsers\""
-	MacAddress    *string                                                                                    "json:\"macAddress,omitempty\" graphql:\"macAddress\""
-	OsDetails     *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Device_OsDetails       "json:\"osDetails,omitempty\" graphql:\"osDetails\""
-}
-
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Device) GetDeviceName() *string {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Device{}
-	}
-	return t.DeviceName
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Device) GetExternalIP() *string {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Device{}
-	}
-	return t.ExternalIP
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Device) GetID() string {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Device{}
-	}
-	return t.ID
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Device) GetLocalIP() *string {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Device{}
-	}
-	return t.LocalIP
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Device) GetLoggedOnUsers() []*XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Device_LoggedOnUsers {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Device{}
-	}
-	return t.LoggedOnUsers
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Device) GetMacAddress() *string {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Device{}
-	}
-	return t.MacAddress
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Device) GetOsDetails() *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Device_OsDetails {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Device{}
-	}
-	return t.OsDetails
-}
-
-type XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Alerts_MitreTechnique struct {
-	ID   *string "json:\"id,omitempty\" graphql:\"id\""
-	Name *string "json:\"name,omitempty\" graphql:\"name\""
-}
-
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Alerts_MitreTechnique) GetID() *string {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Alerts_MitreTechnique{}
-	}
-	return t.ID
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Alerts_MitreTechnique) GetName() *string {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Alerts_MitreTechnique{}
-	}
-	return t.Name
-}
-
-type XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Alerts_MitreSubTechnique struct {
-	ID   *string "json:\"id,omitempty\" graphql:\"id\""
-	Name *string "json:\"name,omitempty\" graphql:\"name\""
-}
-
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Alerts_MitreSubTechnique) GetID() *string {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Alerts_MitreSubTechnique{}
-	}
-	return t.ID
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Alerts_MitreSubTechnique) GetName() *string {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Alerts_MitreSubTechnique{}
-	}
-	return t.Name
-}
-
-type XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Alerts_Resources_CatoProcessResource_ImageFile struct {
-	Typename *string "json:\"__typename,omitempty\" graphql:\"__typename\""
-}
-
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Alerts_Resources_CatoProcessResource_ImageFile) GetTypename() *string {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Alerts_Resources_CatoProcessResource_ImageFile{}
-	}
-	return t.Typename
-}
-
-type XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Alerts_Resources_CatoProcessResource_UserAccount struct {
-	Typename *string "json:\"__typename,omitempty\" graphql:\"__typename\""
-}
-
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Alerts_Resources_CatoProcessResource_UserAccount) GetTypename() *string {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Alerts_Resources_CatoProcessResource_UserAccount{}
-	}
-	return t.Typename
-}
-
-type XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Alerts_Resources_CatoProcessResource struct {
-	ID                 string                                                                                                               "json:\"id\" graphql:\"id\""
-	CreatedDateTime    *string                                                                                                              "json:\"createdDateTime,omitempty\" graphql:\"createdDateTime\""
-	RemediationStatus  *cato_models.RemediationStatusEnum                                                                                   "json:\"remediationStatus,omitempty\" graphql:\"remediationStatus\""
-	ProcessID          int64                                                                                                                "json:\"processId\" graphql:\"processId\""
-	ProcessCommandLine *string                                                                                                              "json:\"processCommandLine,omitempty\" graphql:\"processCommandLine\""
-	ImageFile          *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Alerts_Resources_CatoProcessResource_ImageFile   "json:\"imageFile,omitempty\" graphql:\"imageFile\""
-	UserAccount        *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Alerts_Resources_CatoProcessResource_UserAccount "json:\"userAccount,omitempty\" graphql:\"userAccount\""
-}
-
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Alerts_Resources_CatoProcessResource) GetID() string {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Alerts_Resources_CatoProcessResource{}
-	}
-	return t.ID
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Alerts_Resources_CatoProcessResource) GetCreatedDateTime() *string {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Alerts_Resources_CatoProcessResource{}
-	}
-	return t.CreatedDateTime
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Alerts_Resources_CatoProcessResource) GetRemediationStatus() *cato_models.RemediationStatusEnum {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Alerts_Resources_CatoProcessResource{}
-	}
-	return t.RemediationStatus
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Alerts_Resources_CatoProcessResource) GetProcessID() int64 {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Alerts_Resources_CatoProcessResource{}
-	}
-	return t.ProcessID
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Alerts_Resources_CatoProcessResource) GetProcessCommandLine() *string {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Alerts_Resources_CatoProcessResource{}
-	}
-	return t.ProcessCommandLine
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Alerts_Resources_CatoProcessResource) GetImageFile() *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Alerts_Resources_CatoProcessResource_ImageFile {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Alerts_Resources_CatoProcessResource{}
-	}
-	return t.ImageFile
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Alerts_Resources_CatoProcessResource) GetUserAccount() *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Alerts_Resources_CatoProcessResource_UserAccount {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Alerts_Resources_CatoProcessResource{}
-	}
-	return t.UserAccount
-}
-
-type XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Alerts_Resources_CatoFileResource_FileDetails struct {
-	Typename *string "json:\"__typename,omitempty\" graphql:\"__typename\""
-}
-
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Alerts_Resources_CatoFileResource_FileDetails) GetTypename() *string {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Alerts_Resources_CatoFileResource_FileDetails{}
-	}
-	return t.Typename
-}
-
-type XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Alerts_Resources_CatoFileResource struct {
-	ID                string                                                                                                            "json:\"id\" graphql:\"id\""
-	CreatedDateTime   *string                                                                                                           "json:\"createdDateTime,omitempty\" graphql:\"createdDateTime\""
-	RemediationStatus *cato_models.RemediationStatusEnum                                                                                "json:\"remediationStatus,omitempty\" graphql:\"remediationStatus\""
-	FileDetails       *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Alerts_Resources_CatoFileResource_FileDetails "json:\"fileDetails,omitempty\" graphql:\"fileDetails\""
-	DetectionStatus   *cato_models.DetectionStatusEnum                                                                                  "json:\"detectionStatus,omitempty\" graphql:\"detectionStatus\""
-}
-
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Alerts_Resources_CatoFileResource) GetID() string {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Alerts_Resources_CatoFileResource{}
-	}
-	return t.ID
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Alerts_Resources_CatoFileResource) GetCreatedDateTime() *string {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Alerts_Resources_CatoFileResource{}
-	}
-	return t.CreatedDateTime
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Alerts_Resources_CatoFileResource) GetRemediationStatus() *cato_models.RemediationStatusEnum {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Alerts_Resources_CatoFileResource{}
-	}
-	return t.RemediationStatus
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Alerts_Resources_CatoFileResource) GetFileDetails() *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Alerts_Resources_CatoFileResource_FileDetails {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Alerts_Resources_CatoFileResource{}
-	}
-	return t.FileDetails
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Alerts_Resources_CatoFileResource) GetDetectionStatus() *cato_models.DetectionStatusEnum {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Alerts_Resources_CatoFileResource{}
-	}
-	return t.DetectionStatus
-}
-
-type XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Alerts_Resources struct {
-	CatoFileResource    XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Alerts_Resources_CatoFileResource    "graphql:\"... on CatoFileResource\""
-	CatoProcessResource XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Alerts_Resources_CatoProcessResource "graphql:\"... on CatoProcessResource\""
-	Typename            *string                                                                                                 "json:\"__typename,omitempty\" graphql:\"__typename\""
-}
-
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Alerts_Resources) GetCatoFileResource() *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Alerts_Resources_CatoFileResource {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Alerts_Resources{}
-	}
-	return &t.CatoFileResource
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Alerts_Resources) GetCatoProcessResource() *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Alerts_Resources_CatoProcessResource {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Alerts_Resources{}
-	}
-	return &t.CatoProcessResource
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Alerts_Resources) GetTypename() *string {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Alerts_Resources{}
-	}
-	return t.Typename
-}
-
-type XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Alerts_Activities struct {
-	ID               string "json:\"id\" graphql:\"id\""
-	ParentResourceID string "json:\"parentResourceId\" graphql:\"parentResourceId\""
-	ResourceID       string "json:\"resourceId\" graphql:\"resourceId\""
-}
-
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Alerts_Activities) GetID() string {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Alerts_Activities{}
-	}
-	return t.ID
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Alerts_Activities) GetParentResourceID() string {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Alerts_Activities{}
-	}
-	return t.ParentResourceID
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Alerts_Activities) GetResourceID() string {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Alerts_Activities{}
-	}
-	return t.ResourceID
-}
-
-type XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Alerts struct {
-	Activities                []*XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Alerts_Activities        "json:\"activities\" graphql:\"activities\""
-	CreatedDateTime           *string                                                                                        "json:\"createdDateTime,omitempty\" graphql:\"createdDateTime\""
-	Criticality               *int64                                                                                         "json:\"criticality,omitempty\" graphql:\"criticality\""
-	Description               *string                                                                                        "json:\"description,omitempty\" graphql:\"description\""
-	EndpointProtectionProfile *string                                                                                        "json:\"endpointProtectionProfile,omitempty\" graphql:\"endpointProtectionProfile\""
-	EngineType                *cato_models.CatoEndpointEngineType                                                            "json:\"engineType,omitempty\" graphql:\"engineType\""
-	ExternalIP                *string                                                                                        "json:\"externalIp,omitempty\" graphql:\"externalIp\""
-	ID                        string                                                                                         "json:\"id\" graphql:\"id\""
-	LocalIP                   *string                                                                                        "json:\"localIp,omitempty\" graphql:\"localIp\""
-	MitreSubTechnique         []*XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Alerts_MitreSubTechnique "json:\"mitreSubTechnique\" graphql:\"mitreSubTechnique\""
-	MitreTechnique            []*XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Alerts_MitreTechnique    "json:\"mitreTechnique\" graphql:\"mitreTechnique\""
-	Resources                 []*XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Alerts_Resources         "json:\"resources\" graphql:\"resources\""
-	StatusCatoEndpoint        *cato_models.RemediationStatusEnum                                                             "json:\"statusCatoEndpoint,omitempty\" graphql:\"statusCatoEndpoint\""
-	ThreatName                *string                                                                                        "json:\"threatName,omitempty\" graphql:\"threatName\""
-	Title                     *string                                                                                        "json:\"title,omitempty\" graphql:\"title\""
-}
-
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Alerts) GetActivities() []*XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Alerts_Activities {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Alerts{}
-	}
-	return t.Activities
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Alerts) GetCreatedDateTime() *string {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Alerts{}
-	}
-	return t.CreatedDateTime
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Alerts) GetCriticality() *int64 {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Alerts{}
-	}
-	return t.Criticality
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Alerts) GetDescription() *string {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Alerts{}
-	}
-	return t.Description
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Alerts) GetEndpointProtectionProfile() *string {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Alerts{}
-	}
-	return t.EndpointProtectionProfile
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Alerts) GetEngineType() *cato_models.CatoEndpointEngineType {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Alerts{}
-	}
-	return t.EngineType
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Alerts) GetExternalIP() *string {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Alerts{}
-	}
-	return t.ExternalIP
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Alerts) GetID() string {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Alerts{}
-	}
-	return t.ID
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Alerts) GetLocalIP() *string {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Alerts{}
-	}
-	return t.LocalIP
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Alerts) GetMitreSubTechnique() []*XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Alerts_MitreSubTechnique {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Alerts{}
-	}
-	return t.MitreSubTechnique
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Alerts) GetMitreTechnique() []*XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Alerts_MitreTechnique {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Alerts{}
-	}
-	return t.MitreTechnique
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Alerts) GetResources() []*XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Alerts_Resources {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Alerts{}
-	}
-	return t.Resources
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Alerts) GetStatusCatoEndpoint() *cato_models.RemediationStatusEnum {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Alerts{}
-	}
-	return t.StatusCatoEndpoint
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Alerts) GetThreatName() *string {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Alerts{}
-	}
-	return t.ThreatName
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Alerts) GetTitle() *string {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Alerts{}
-	}
-	return t.Title
-}
-
-type XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint struct {
-	SimilarStoriesData []*XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_SimilarStoriesData "json:\"similarStoriesData\" graphql:\"similarStoriesData\""
-	Device             *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Device               "json:\"device,omitempty\" graphql:\"device\""
-	Alerts             []*XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Alerts             "json:\"alerts\" graphql:\"alerts\""
-}
-
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint) GetSimilarStoriesData() []*XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_SimilarStoriesData {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint{}
-	}
-	return t.SimilarStoriesData
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint) GetDevice() *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Device {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint{}
-	}
-	return t.Device
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint) GetAlerts() []*XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Alerts {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint{}
-	}
-	return t.Alerts
-}
-
-type XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_GenericIncident_SimilarStoriesData struct {
-	Indication           *string  "json:\"indication,omitempty\" graphql:\"indication\""
-	SimilarityPercentage *float64 "json:\"similarityPercentage,omitempty\" graphql:\"similarityPercentage\""
-	StoryID              *string  "json:\"storyId,omitempty\" graphql:\"storyId\""
-	ThreatClassification *string  "json:\"threatClassification,omitempty\" graphql:\"threatClassification\""
-	ThreatTypeName       *string  "json:\"threatTypeName,omitempty\" graphql:\"threatTypeName\""
-	Verdict              *string  "json:\"verdict,omitempty\" graphql:\"verdict\""
-}
-
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_GenericIncident_SimilarStoriesData) GetIndication() *string {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_GenericIncident_SimilarStoriesData{}
-	}
-	return t.Indication
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_GenericIncident_SimilarStoriesData) GetSimilarityPercentage() *float64 {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_GenericIncident_SimilarStoriesData{}
-	}
-	return t.SimilarityPercentage
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_GenericIncident_SimilarStoriesData) GetStoryID() *string {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_GenericIncident_SimilarStoriesData{}
-	}
-	return t.StoryID
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_GenericIncident_SimilarStoriesData) GetThreatClassification() *string {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_GenericIncident_SimilarStoriesData{}
-	}
-	return t.ThreatClassification
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_GenericIncident_SimilarStoriesData) GetThreatTypeName() *string {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_GenericIncident_SimilarStoriesData{}
-	}
-	return t.ThreatTypeName
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_GenericIncident_SimilarStoriesData) GetVerdict() *string {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_GenericIncident_SimilarStoriesData{}
-	}
-	return t.Verdict
-}
-
-type XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_GenericIncident_VendorInfo struct {
-	EngineType  *string "json:\"engineType,omitempty\" graphql:\"engineType\""
-	IncidentURL *string "json:\"incidentUrl,omitempty\" graphql:\"incidentUrl\""
-	Name        *string "json:\"name,omitempty\" graphql:\"name\""
-	Product     *string "json:\"product,omitempty\" graphql:\"product\""
-	Status      *string "json:\"status,omitempty\" graphql:\"status\""
-}
-
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_GenericIncident_VendorInfo) GetEngineType() *string {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_GenericIncident_VendorInfo{}
-	}
-	return t.EngineType
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_GenericIncident_VendorInfo) GetIncidentURL() *string {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_GenericIncident_VendorInfo{}
-	}
-	return t.IncidentURL
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_GenericIncident_VendorInfo) GetName() *string {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_GenericIncident_VendorInfo{}
-	}
-	return t.Name
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_GenericIncident_VendorInfo) GetProduct() *string {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_GenericIncident_VendorInfo{}
-	}
-	return t.Product
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_GenericIncident_VendorInfo) GetStatus() *string {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_GenericIncident_VendorInfo{}
-	}
-	return t.Status
-}
-
-type XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_GenericIncident_StatusInfo struct {
-	Classification *string                       "json:\"classification,omitempty\" graphql:\"classification\""
-	IncidentStatus *string                       "json:\"incidentStatus,omitempty\" graphql:\"incidentStatus\""
-	Verdict        *cato_models.StoryVerdictEnum "json:\"verdict,omitempty\" graphql:\"verdict\""
-}
-
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_GenericIncident_StatusInfo) GetClassification() *string {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_GenericIncident_StatusInfo{}
-	}
-	return t.Classification
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_GenericIncident_StatusInfo) GetIncidentStatus() *string {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_GenericIncident_StatusInfo{}
-	}
-	return t.IncidentStatus
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_GenericIncident_StatusInfo) GetVerdict() *cato_models.StoryVerdictEnum {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_GenericIncident_StatusInfo{}
-	}
-	return t.Verdict
-}
-
-type XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_GenericIncident_Evidences_Data struct {
-	FieldName string   "json:\"fieldName\" graphql:\"fieldName\""
-	Values    []string "json:\"values\" graphql:\"values\""
-}
-
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_GenericIncident_Evidences_Data) GetFieldName() string {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_GenericIncident_Evidences_Data{}
-	}
-	return t.FieldName
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_GenericIncident_Evidences_Data) GetValues() []string {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_GenericIncident_Evidences_Data{}
-	}
-	return t.Values
-}
-
-type XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_GenericIncident_Evidences struct {
-	Data  []*XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_GenericIncident_Evidences_Data "json:\"data\" graphql:\"data\""
-	Kind  *string                                                                                 "json:\"kind,omitempty\" graphql:\"kind\""
-	Type  cato_models.GenericIncidentEvidenceType                                                 "json:\"type\" graphql:\"type\""
-	Value *string                                                                                 "json:\"value,omitempty\" graphql:\"value\""
-}
-
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_GenericIncident_Evidences) GetData() []*XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_GenericIncident_Evidences_Data {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_GenericIncident_Evidences{}
-	}
-	return t.Data
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_GenericIncident_Evidences) GetKind() *string {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_GenericIncident_Evidences{}
-	}
-	return t.Kind
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_GenericIncident_Evidences) GetType() *cato_models.GenericIncidentEvidenceType {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_GenericIncident_Evidences{}
-	}
-	return &t.Type
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_GenericIncident_Evidences) GetValue() *string {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_GenericIncident_Evidences{}
-	}
-	return t.Value
-}
-
-type XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_GenericIncident_Queries_Measures struct {
-	AggType   *string                       "json:\"aggType,omitempty\" graphql:\"aggType\""
-	FieldName *string                       "json:\"fieldName,omitempty\" graphql:\"fieldName\""
-	UnitType  *cato_models.MeasuresUnitType "json:\"unitType,omitempty\" graphql:\"unitType\""
-}
-
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_GenericIncident_Queries_Measures) GetAggType() *string {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_GenericIncident_Queries_Measures{}
-	}
-	return t.AggType
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_GenericIncident_Queries_Measures) GetFieldName() *string {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_GenericIncident_Queries_Measures{}
-	}
-	return t.FieldName
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_GenericIncident_Queries_Measures) GetUnitType() *cato_models.MeasuresUnitType {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_GenericIncident_Queries_Measures{}
-	}
-	return t.UnitType
-}
-
-type XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_GenericIncident_Queries_Filters struct {
-	Name     *string  "json:\"name,omitempty\" graphql:\"name\""
-	Operator *string  "json:\"operator,omitempty\" graphql:\"operator\""
-	Value    *string  "json:\"value,omitempty\" graphql:\"value\""
-	Values   []string "json:\"values\" graphql:\"values\""
-}
-
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_GenericIncident_Queries_Filters) GetName() *string {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_GenericIncident_Queries_Filters{}
-	}
-	return t.Name
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_GenericIncident_Queries_Filters) GetOperator() *string {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_GenericIncident_Queries_Filters{}
-	}
-	return t.Operator
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_GenericIncident_Queries_Filters) GetValue() *string {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_GenericIncident_Queries_Filters{}
-	}
-	return t.Value
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_GenericIncident_Queries_Filters) GetValues() []string {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_GenericIncident_Queries_Filters{}
-	}
-	return t.Values
-}
-
-type XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_GenericIncident_Queries struct {
-	Buckets    *int64                                                                                    "json:\"buckets,omitempty\" graphql:\"buckets\""
-	DataSource *cato_models.DataSourceEnum                                                               "json:\"dataSource,omitempty\" graphql:\"dataSource\""
-	Fields     []string                                                                                  "json:\"fields\" graphql:\"fields\""
-	Filters    []*XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_GenericIncident_Queries_Filters  "json:\"filters\" graphql:\"filters\""
-	Measures   []*XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_GenericIncident_Queries_Measures "json:\"measures\" graphql:\"measures\""
-}
-
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_GenericIncident_Queries) GetBuckets() *int64 {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_GenericIncident_Queries{}
-	}
-	return t.Buckets
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_GenericIncident_Queries) GetDataSource() *cato_models.DataSourceEnum {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_GenericIncident_Queries{}
-	}
-	return t.DataSource
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_GenericIncident_Queries) GetFields() []string {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_GenericIncident_Queries{}
-	}
-	return t.Fields
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_GenericIncident_Queries) GetFilters() []*XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_GenericIncident_Queries_Filters {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_GenericIncident_Queries{}
-	}
-	return t.Filters
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_GenericIncident_Queries) GetMeasures() []*XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_GenericIncident_Queries_Measures {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_GenericIncident_Queries{}
-	}
-	return t.Measures
-}
-
-type XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_GenericIncident_Mitres struct {
-	ID   *string "json:\"id,omitempty\" graphql:\"id\""
-	Name *string "json:\"name,omitempty\" graphql:\"name\""
-}
-
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_GenericIncident_Mitres) GetID() *string {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_GenericIncident_Mitres{}
-	}
-	return t.ID
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_GenericIncident_Mitres) GetName() *string {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_GenericIncident_Mitres{}
-	}
-	return t.Name
-}
-
-type XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_GenericIncident struct {
-	SimilarStoriesData []*XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_GenericIncident_SimilarStoriesData "json:\"similarStoriesData\" graphql:\"similarStoriesData\""
-	VendorInfo         *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_GenericIncident_VendorInfo           "json:\"vendorInfo,omitempty\" graphql:\"vendorInfo\""
-	StatusInfo         *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_GenericIncident_StatusInfo           "json:\"statusInfo,omitempty\" graphql:\"statusInfo\""
-	Evidences          []*XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_GenericIncident_Evidences          "json:\"evidences\" graphql:\"evidences\""
-	Queries            []*XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_GenericIncident_Queries            "json:\"queries\" graphql:\"queries\""
-	Mitres             []*XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_GenericIncident_Mitres             "json:\"mitres,omitempty\" graphql:\"mitres\""
-}
-
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_GenericIncident) GetSimilarStoriesData() []*XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_GenericIncident_SimilarStoriesData {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_GenericIncident{}
-	}
-	return t.SimilarStoriesData
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_GenericIncident) GetVendorInfo() *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_GenericIncident_VendorInfo {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_GenericIncident{}
-	}
-	return t.VendorInfo
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_GenericIncident) GetStatusInfo() *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_GenericIncident_StatusInfo {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_GenericIncident{}
-	}
-	return t.StatusInfo
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_GenericIncident) GetEvidences() []*XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_GenericIncident_Evidences {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_GenericIncident{}
-	}
-	return t.Evidences
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_GenericIncident) GetQueries() []*XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_GenericIncident_Queries {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_GenericIncident{}
-	}
-	return t.Queries
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_GenericIncident) GetMitres() []*XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_GenericIncident_Mitres {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_GenericIncident{}
-	}
-	return t.Mitres
 }
 
 type XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_MicrosoftEndpoint_SimilarStoriesData struct {
@@ -269084,7 +267249,7 @@ func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_MicrosoftEndpoint
 	return t.VendorStatus
 }
 
-type XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_SimilarStoriesData struct {
+type XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_SimilarStoriesData struct {
 	Indication           *string  "json:\"indication,omitempty\" graphql:\"indication\""
 	SimilarityPercentage *float64 "json:\"similarityPercentage,omitempty\" graphql:\"similarityPercentage\""
 	StoryID              *string  "json:\"storyId,omitempty\" graphql:\"storyId\""
@@ -269093,634 +267258,1233 @@ type XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_Si
 	Verdict              *string  "json:\"verdict,omitempty\" graphql:\"verdict\""
 }
 
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_SimilarStoriesData) GetIndication() *string {
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_SimilarStoriesData) GetIndication() *string {
 	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_SimilarStoriesData{}
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_SimilarStoriesData{}
 	}
 	return t.Indication
 }
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_SimilarStoriesData) GetSimilarityPercentage() *float64 {
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_SimilarStoriesData) GetSimilarityPercentage() *float64 {
 	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_SimilarStoriesData{}
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_SimilarStoriesData{}
 	}
 	return t.SimilarityPercentage
 }
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_SimilarStoriesData) GetStoryID() *string {
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_SimilarStoriesData) GetStoryID() *string {
 	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_SimilarStoriesData{}
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_SimilarStoriesData{}
 	}
 	return t.StoryID
 }
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_SimilarStoriesData) GetThreatClassification() *string {
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_SimilarStoriesData) GetThreatClassification() *string {
 	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_SimilarStoriesData{}
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_SimilarStoriesData{}
 	}
 	return t.ThreatClassification
 }
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_SimilarStoriesData) GetThreatTypeName() *string {
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_SimilarStoriesData) GetThreatTypeName() *string {
 	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_SimilarStoriesData{}
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_SimilarStoriesData{}
 	}
 	return t.ThreatTypeName
 }
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_SimilarStoriesData) GetVerdict() *string {
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_SimilarStoriesData) GetVerdict() *string {
 	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_SimilarStoriesData{}
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_SimilarStoriesData{}
 	}
 	return t.Verdict
 }
 
-type XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_NetworkIncidentTimeline_BgpConnection struct {
-	CatoAsn        *scalars.Asn16 "json:\"catoAsn,omitempty\" graphql:\"catoAsn\""
-	CatoIP         *string        "json:\"catoIp,omitempty\" graphql:\"catoIp\""
-	ConnectionName *string        "json:\"connectionName,omitempty\" graphql:\"connectionName\""
-	PeerAsn        *scalars.Asn32 "json:\"peerAsn,omitempty\" graphql:\"peerAsn\""
-	PeerIP         *string        "json:\"peerIp,omitempty\" graphql:\"peerIp\""
+type XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_DrillDownFilter struct {
+	Name   string   "json:\"name\" graphql:\"name\""
+	Value  string   "json:\"value\" graphql:\"value\""
+	Values []string "json:\"values\" graphql:\"values\""
 }
 
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_NetworkIncidentTimeline_BgpConnection) GetCatoAsn() *scalars.Asn16 {
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_DrillDownFilter) GetName() string {
 	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_NetworkIncidentTimeline_BgpConnection{}
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_DrillDownFilter{}
 	}
-	return t.CatoAsn
+	return t.Name
 }
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_NetworkIncidentTimeline_BgpConnection) GetCatoIP() *string {
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_DrillDownFilter) GetValue() string {
 	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_NetworkIncidentTimeline_BgpConnection{}
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_DrillDownFilter{}
 	}
-	return t.CatoIP
+	return t.Value
 }
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_NetworkIncidentTimeline_BgpConnection) GetConnectionName() *string {
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_DrillDownFilter) GetValues() []string {
 	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_NetworkIncidentTimeline_BgpConnection{}
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_DrillDownFilter{}
 	}
-	return t.ConnectionName
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_NetworkIncidentTimeline_BgpConnection) GetPeerAsn() *scalars.Asn32 {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_NetworkIncidentTimeline_BgpConnection{}
-	}
-	return t.PeerAsn
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_NetworkIncidentTimeline_BgpConnection) GetPeerIP() *string {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_NetworkIncidentTimeline_BgpConnection{}
-	}
-	return t.PeerIP
+	return t.Values
 }
 
-type XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_NetworkIncidentTimeline_LinkQualityIssue struct {
-	Current   *int64                                "json:\"current,omitempty\" graphql:\"current\""
-	Direction *cato_models.TrafficDirectionEnum     "json:\"direction,omitempty\" graphql:\"direction\""
-	IssueType *cato_models.LinkQualityIssueTypeEnum "json:\"issueType,omitempty\" graphql:\"issueType\""
-	Threshold *int64                                "json:\"threshold,omitempty\" graphql:\"threshold\""
+type XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_Extra struct {
+	Name  string "json:\"name\" graphql:\"name\""
+	Type  string "json:\"type\" graphql:\"type\""
+	Value string "json:\"value\" graphql:\"value\""
 }
 
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_NetworkIncidentTimeline_LinkQualityIssue) GetCurrent() *int64 {
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_Extra) GetName() string {
 	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_NetworkIncidentTimeline_LinkQualityIssue{}
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_Extra{}
 	}
-	return t.Current
+	return t.Name
 }
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_NetworkIncidentTimeline_LinkQualityIssue) GetDirection() *cato_models.TrafficDirectionEnum {
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_Extra) GetType() string {
 	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_NetworkIncidentTimeline_LinkQualityIssue{}
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_Extra{}
 	}
-	return t.Direction
+	return t.Type
 }
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_NetworkIncidentTimeline_LinkQualityIssue) GetIssueType() *cato_models.LinkQualityIssueTypeEnum {
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_Extra) GetValue() string {
 	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_NetworkIncidentTimeline_LinkQualityIssue{}
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_Extra{}
 	}
-	return t.IssueType
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_NetworkIncidentTimeline_LinkQualityIssue) GetThreshold() *int64 {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_NetworkIncidentTimeline_LinkQualityIssue{}
-	}
-	return t.Threshold
+	return t.Value
 }
 
-type XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_NetworkIncidentTimeline struct {
-	Acknowledged         *bool                                                                                                              "json:\"acknowledged,omitempty\" graphql:\"acknowledged\""
-	BgpConnection        *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_NetworkIncidentTimeline_BgpConnection    "json:\"bgpConnection,omitempty\" graphql:\"bgpConnection\""
-	Created              string                                                                                                             "json:\"created\" graphql:\"created\""
-	Description          *string                                                                                                            "json:\"description,omitempty\" graphql:\"description\""
-	DeviceConfigHaRole   *cato_models.DeviceConfigHaRoleEnum                                                                                "json:\"deviceConfigHaRole,omitempty\" graphql:\"deviceConfigHaRole\""
-	DeviceHaRoleState    *cato_models.DeviceHaRoleStateEnum                                                                                 "json:\"deviceHaRoleState,omitempty\" graphql:\"deviceHaRoleState\""
-	EventIds             []string                                                                                                           "json:\"eventIds\" graphql:\"eventIds\""
-	EventType            *cato_models.NetworkXDREventTypeEnum                                                                               "json:\"eventType,omitempty\" graphql:\"eventType\""
-	HostIP               *string                                                                                                            "json:\"hostIp,omitempty\" graphql:\"hostIp\""
-	IncidentID           *string                                                                                                            "json:\"incidentId,omitempty\" graphql:\"incidentId\""
-	Isp                  *string                                                                                                            "json:\"isp,omitempty\" graphql:\"isp\""
-	LinkConfigBandwidth  *string                                                                                                            "json:\"linkConfigBandwidth,omitempty\" graphql:\"linkConfigBandwidth\""
-	LinkConfigPrecedence *cato_models.LinkConfigPrecedenceEnum                                                                              "json:\"linkConfigPrecedence,omitempty\" graphql:\"linkConfigPrecedence\""
-	LinkID               *string                                                                                                            "json:\"linkId,omitempty\" graphql:\"linkId\""
-	LinkName             *string                                                                                                            "json:\"linkName,omitempty\" graphql:\"linkName\""
-	LinkQualityIssue     *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_NetworkIncidentTimeline_LinkQualityIssue "json:\"linkQualityIssue,omitempty\" graphql:\"linkQualityIssue\""
-	LinkStatus           *cato_models.LinkStatusEnum                                                                                        "json:\"linkStatus,omitempty\" graphql:\"linkStatus\""
-	Muted                *bool                                                                                                              "json:\"muted,omitempty\" graphql:\"muted\""
-	NetworkEventSource   *cato_models.NetworkEventSourceEnum                                                                                "json:\"networkEventSource,omitempty\" graphql:\"networkEventSource\""
-	Pop                  *string                                                                                                            "json:\"pop,omitempty\" graphql:\"pop\""
-	RuleName             *string                                                                                                            "json:\"ruleName,omitempty\" graphql:\"ruleName\""
-	SocketSerialID       *string                                                                                                            "json:\"socketSerialId,omitempty\" graphql:\"socketSerialId\""
-	TunnelResetCount     *int64                                                                                                             "json:\"tunnelResetCount,omitempty\" graphql:\"tunnelResetCount\""
-	Validated            string                                                                                                             "json:\"validated\" graphql:\"validated\""
+type XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_Gaussian struct {
+	Avg    *float64 "json:\"avg,omitempty\" graphql:\"avg\""
+	N      *float64 "json:\"n,omitempty\" graphql:\"n\""
+	Ss     *float64 "json:\"ss,omitempty\" graphql:\"ss\""
+	Std    *float64 "json:\"std,omitempty\" graphql:\"std\""
+	ZScore *float64 "json:\"z_score,omitempty\" graphql:\"z_score\""
 }
 
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_NetworkIncidentTimeline) GetAcknowledged() *bool {
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_Gaussian) GetAvg() *float64 {
 	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_NetworkIncidentTimeline{}
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_Gaussian{}
 	}
-	return t.Acknowledged
+	return t.Avg
 }
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_NetworkIncidentTimeline) GetBgpConnection() *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_NetworkIncidentTimeline_BgpConnection {
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_Gaussian) GetN() *float64 {
 	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_NetworkIncidentTimeline{}
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_Gaussian{}
 	}
-	return t.BgpConnection
+	return t.N
 }
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_NetworkIncidentTimeline) GetCreated() string {
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_Gaussian) GetSs() *float64 {
 	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_NetworkIncidentTimeline{}
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_Gaussian{}
 	}
-	return t.Created
+	return t.Ss
 }
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_NetworkIncidentTimeline) GetDescription() *string {
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_Gaussian) GetStd() *float64 {
 	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_NetworkIncidentTimeline{}
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_Gaussian{}
 	}
-	return t.Description
+	return t.Std
 }
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_NetworkIncidentTimeline) GetDeviceConfigHaRole() *cato_models.DeviceConfigHaRoleEnum {
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_Gaussian) GetZScore() *float64 {
 	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_NetworkIncidentTimeline{}
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_Gaussian{}
 	}
-	return t.DeviceConfigHaRole
+	return t.ZScore
 }
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_NetworkIncidentTimeline) GetDeviceHaRoleState() *cato_models.DeviceHaRoleStateEnum {
+
+type XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_Metric struct {
+	Name  string  "json:\"name\" graphql:\"name\""
+	Value float64 "json:\"value\" graphql:\"value\""
+}
+
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_Metric) GetName() string {
 	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_NetworkIncidentTimeline{}
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_Metric{}
 	}
-	return t.DeviceHaRoleState
+	return t.Name
 }
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_NetworkIncidentTimeline) GetEventIds() []string {
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_Metric) GetValue() float64 {
 	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_NetworkIncidentTimeline{}
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_Metric{}
 	}
-	return t.EventIds
+	return t.Value
 }
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_NetworkIncidentTimeline) GetEventType() *cato_models.NetworkXDREventTypeEnum {
+
+type XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_MetricDetails struct {
+	Name  string "json:\"name\" graphql:\"name\""
+	Units string "json:\"units\" graphql:\"units\""
+}
+
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_MetricDetails) GetName() string {
 	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_NetworkIncidentTimeline{}
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_MetricDetails{}
+	}
+	return t.Name
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_MetricDetails) GetUnits() string {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_MetricDetails{}
+	}
+	return t.Units
+}
+
+type XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_Mitres struct {
+	ID   *string "json:\"id,omitempty\" graphql:\"id\""
+	Name *string "json:\"name,omitempty\" graphql:\"name\""
+}
+
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_Mitres) GetID() *string {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_Mitres{}
+	}
+	return t.ID
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_Mitres) GetName() *string {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_Mitres{}
+	}
+	return t.Name
+}
+
+type XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_TimeSeries_Key_Dimensions struct {
+	FieldName string  "json:\"fieldName\" graphql:\"fieldName\""
+	Value     *string "json:\"value,omitempty\" graphql:\"value\""
+}
+
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_TimeSeries_Key_Dimensions) GetFieldName() string {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_TimeSeries_Key_Dimensions{}
+	}
+	return t.FieldName
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_TimeSeries_Key_Dimensions) GetValue() *string {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_TimeSeries_Key_Dimensions{}
+	}
+	return t.Value
+}
+
+type XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_TimeSeries_Key struct {
+	Dimensions       []*XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_TimeSeries_Key_Dimensions "json:\"dimensions,omitempty\" graphql:\"dimensions\""
+	MeasureFieldName string                                                                                          "json:\"measureFieldName\" graphql:\"measureFieldName\""
+}
+
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_TimeSeries_Key) GetDimensions() []*XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_TimeSeries_Key_Dimensions {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_TimeSeries_Key{}
+	}
+	return t.Dimensions
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_TimeSeries_Key) GetMeasureFieldName() string {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_TimeSeries_Key{}
+	}
+	return t.MeasureFieldName
+}
+
+type XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_TimeSeries struct {
+	Data    [][]float64                                                                        "json:\"data,omitempty\" graphql:\"data\""
+	GroupBy *string                                                                            "json:\"groupBy,omitempty\" graphql:\"groupBy\""
+	Info    []string                                                                           "json:\"info,omitempty\" graphql:\"info\""
+	Key     *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_TimeSeries_Key "json:\"key,omitempty\" graphql:\"key\""
+	Label   string                                                                             "json:\"label\" graphql:\"label\""
+	Sum     *float64                                                                           "json:\"sum,omitempty\" graphql:\"sum\""
+	Units   *cato_models.UnitType                                                              "json:\"units,omitempty\" graphql:\"units\""
+}
+
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_TimeSeries) GetData() [][]float64 {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_TimeSeries{}
+	}
+	return t.Data
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_TimeSeries) GetGroupBy() *string {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_TimeSeries{}
+	}
+	return t.GroupBy
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_TimeSeries) GetInfo() []string {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_TimeSeries{}
+	}
+	return t.Info
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_TimeSeries) GetKey() *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_TimeSeries_Key {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_TimeSeries{}
+	}
+	return t.Key
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_TimeSeries) GetLabel() string {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_TimeSeries{}
+	}
+	return t.Label
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_TimeSeries) GetSum() *float64 {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_TimeSeries{}
+	}
+	return t.Sum
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_TimeSeries) GetUnits() *cato_models.UnitType {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_TimeSeries{}
+	}
+	return t.Units
+}
+
+type XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_Targets_EventData struct {
+	Action                *string                 "json:\"action,omitempty\" graphql:\"action\""
+	AppActivityType       *string                 "json:\"appActivityType,omitempty\" graphql:\"appActivityType\""
+	AppID                 *string                 "json:\"appId,omitempty\" graphql:\"appId\""
+	AppName               *string                 "json:\"appName,omitempty\" graphql:\"appName\""
+	DNSProtectionCategory *string                 "json:\"dnsProtectionCategory,omitempty\" graphql:\"dnsProtectionCategory\""
+	EventType             *string                 "json:\"eventType,omitempty\" graphql:\"eventType\""
+	FileName              *string                 "json:\"fileName,omitempty\" graphql:\"fileName\""
+	RuleID                *string                 "json:\"ruleId,omitempty\" graphql:\"ruleId\""
+	RuleName              *string                 "json:\"ruleName,omitempty\" graphql:\"ruleName\""
+	ScanResult            *cato_models.ScanResult "json:\"scanResult,omitempty\" graphql:\"scanResult\""
+	Severity              *string                 "json:\"severity,omitempty\" graphql:\"severity\""
+	SignatureID           *string                 "json:\"signatureId,omitempty\" graphql:\"signatureId\""
+	ThreatName            *string                 "json:\"threatName,omitempty\" graphql:\"threatName\""
+	ThreatType            *string                 "json:\"threatType,omitempty\" graphql:\"threatType\""
+	VirusName             *string                 "json:\"virusName,omitempty\" graphql:\"virusName\""
+}
+
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_Targets_EventData) GetAction() *string {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_Targets_EventData{}
+	}
+	return t.Action
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_Targets_EventData) GetAppActivityType() *string {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_Targets_EventData{}
+	}
+	return t.AppActivityType
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_Targets_EventData) GetAppID() *string {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_Targets_EventData{}
+	}
+	return t.AppID
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_Targets_EventData) GetAppName() *string {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_Targets_EventData{}
+	}
+	return t.AppName
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_Targets_EventData) GetDNSProtectionCategory() *string {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_Targets_EventData{}
+	}
+	return t.DNSProtectionCategory
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_Targets_EventData) GetEventType() *string {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_Targets_EventData{}
 	}
 	return t.EventType
 }
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_NetworkIncidentTimeline) GetHostIP() *string {
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_Targets_EventData) GetFileName() *string {
 	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_NetworkIncidentTimeline{}
-	}
-	return t.HostIP
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_NetworkIncidentTimeline) GetIncidentID() *string {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_NetworkIncidentTimeline{}
-	}
-	return t.IncidentID
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_NetworkIncidentTimeline) GetIsp() *string {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_NetworkIncidentTimeline{}
-	}
-	return t.Isp
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_NetworkIncidentTimeline) GetLinkConfigBandwidth() *string {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_NetworkIncidentTimeline{}
-	}
-	return t.LinkConfigBandwidth
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_NetworkIncidentTimeline) GetLinkConfigPrecedence() *cato_models.LinkConfigPrecedenceEnum {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_NetworkIncidentTimeline{}
-	}
-	return t.LinkConfigPrecedence
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_NetworkIncidentTimeline) GetLinkID() *string {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_NetworkIncidentTimeline{}
-	}
-	return t.LinkID
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_NetworkIncidentTimeline) GetLinkName() *string {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_NetworkIncidentTimeline{}
-	}
-	return t.LinkName
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_NetworkIncidentTimeline) GetLinkQualityIssue() *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_NetworkIncidentTimeline_LinkQualityIssue {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_NetworkIncidentTimeline{}
-	}
-	return t.LinkQualityIssue
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_NetworkIncidentTimeline) GetLinkStatus() *cato_models.LinkStatusEnum {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_NetworkIncidentTimeline{}
-	}
-	return t.LinkStatus
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_NetworkIncidentTimeline) GetMuted() *bool {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_NetworkIncidentTimeline{}
-	}
-	return t.Muted
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_NetworkIncidentTimeline) GetNetworkEventSource() *cato_models.NetworkEventSourceEnum {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_NetworkIncidentTimeline{}
-	}
-	return t.NetworkEventSource
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_NetworkIncidentTimeline) GetPop() *string {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_NetworkIncidentTimeline{}
-	}
-	return t.Pop
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_NetworkIncidentTimeline) GetRuleName() *string {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_NetworkIncidentTimeline{}
-	}
-	return t.RuleName
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_NetworkIncidentTimeline) GetSocketSerialID() *string {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_NetworkIncidentTimeline{}
-	}
-	return t.SocketSerialID
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_NetworkIncidentTimeline) GetTunnelResetCount() *int64 {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_NetworkIncidentTimeline{}
-	}
-	return t.TunnelResetCount
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_NetworkIncidentTimeline) GetValidated() string {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_NetworkIncidentTimeline{}
-	}
-	return t.Validated
-}
-
-type XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_BgpConnection struct {
-	CatoAsn        *scalars.Asn16 "json:\"catoAsn,omitempty\" graphql:\"catoAsn\""
-	CatoIP         *string        "json:\"catoIp,omitempty\" graphql:\"catoIp\""
-	ConnectionName *string        "json:\"connectionName,omitempty\" graphql:\"connectionName\""
-	PeerAsn        *scalars.Asn32 "json:\"peerAsn,omitempty\" graphql:\"peerAsn\""
-	PeerIP         *string        "json:\"peerIp,omitempty\" graphql:\"peerIp\""
-}
-
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_BgpConnection) GetCatoAsn() *scalars.Asn16 {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_BgpConnection{}
-	}
-	return t.CatoAsn
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_BgpConnection) GetCatoIP() *string {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_BgpConnection{}
-	}
-	return t.CatoIP
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_BgpConnection) GetConnectionName() *string {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_BgpConnection{}
-	}
-	return t.ConnectionName
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_BgpConnection) GetPeerAsn() *scalars.Asn32 {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_BgpConnection{}
-	}
-	return t.PeerAsn
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_BgpConnection) GetPeerIP() *string {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_BgpConnection{}
-	}
-	return t.PeerIP
-}
-
-type XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_IlmmDetails_LinkDetails struct {
-	ActiveLicense    *bool                             "json:\"activeLicense,omitempty\" graphql:\"activeLicense\""
-	Comments         *string                           "json:\"comments,omitempty\" graphql:\"comments\""
-	Description      *string                           "json:\"description,omitempty\" graphql:\"description\""
-	IspLinkID        *string                           "json:\"ispLinkId,omitempty\" graphql:\"ispLinkId\""
-	LinkID           *string                           "json:\"linkId,omitempty\" graphql:\"linkId\""
-	OnboardingStatus *cato_models.IlmmOnboardingStatus "json:\"onboardingStatus,omitempty\" graphql:\"onboardingStatus\""
-}
-
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_IlmmDetails_LinkDetails) GetActiveLicense() *bool {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_IlmmDetails_LinkDetails{}
-	}
-	return t.ActiveLicense
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_IlmmDetails_LinkDetails) GetComments() *string {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_IlmmDetails_LinkDetails{}
-	}
-	return t.Comments
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_IlmmDetails_LinkDetails) GetDescription() *string {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_IlmmDetails_LinkDetails{}
-	}
-	return t.Description
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_IlmmDetails_LinkDetails) GetIspLinkID() *string {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_IlmmDetails_LinkDetails{}
-	}
-	return t.IspLinkID
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_IlmmDetails_LinkDetails) GetLinkID() *string {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_IlmmDetails_LinkDetails{}
-	}
-	return t.LinkID
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_IlmmDetails_LinkDetails) GetOnboardingStatus() *cato_models.IlmmOnboardingStatus {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_IlmmDetails_LinkDetails{}
-	}
-	return t.OnboardingStatus
-}
-
-type XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_IlmmDetails_IspDetails_LoaFile struct {
-	FileHash   *string       "json:\"fileHash,omitempty\" graphql:\"fileHash\""
-	FileName   *string       "json:\"fileName,omitempty\" graphql:\"fileName\""
-	UploadedAt *scalars.Time "json:\"uploadedAt,omitempty\" graphql:\"uploadedAt\""
-}
-
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_IlmmDetails_IspDetails_LoaFile) GetFileHash() *string {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_IlmmDetails_IspDetails_LoaFile{}
-	}
-	return t.FileHash
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_IlmmDetails_IspDetails_LoaFile) GetFileName() *string {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_IlmmDetails_IspDetails_LoaFile{}
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_Targets_EventData{}
 	}
 	return t.FileName
 }
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_IlmmDetails_IspDetails_LoaFile) GetUploadedAt() *scalars.Time {
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_Targets_EventData) GetRuleID() *string {
 	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_IlmmDetails_IspDetails_LoaFile{}
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_Targets_EventData{}
 	}
-	return t.UploadedAt
+	return t.RuleID
 }
-
-type XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_IlmmDetails_IspDetails struct {
-	CountryCode  *string                                                                                                  "json:\"countryCode,omitempty\" graphql:\"countryCode\""
-	Description  *string                                                                                                  "json:\"description,omitempty\" graphql:\"description\""
-	IspAccountID *string                                                                                                  "json:\"ispAccountId,omitempty\" graphql:\"ispAccountId\""
-	LoaFile      *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_IlmmDetails_IspDetails_LoaFile "json:\"loaFile,omitempty\" graphql:\"loaFile\""
-	Name         *string                                                                                                  "json:\"name,omitempty\" graphql:\"name\""
-	SupportEmail *string                                                                                                  "json:\"supportEmail,omitempty\" graphql:\"supportEmail\""
-	SupportPhone *string                                                                                                  "json:\"supportPhone,omitempty\" graphql:\"supportPhone\""
-}
-
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_IlmmDetails_IspDetails) GetCountryCode() *string {
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_Targets_EventData) GetRuleName() *string {
 	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_IlmmDetails_IspDetails{}
-	}
-	return t.CountryCode
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_IlmmDetails_IspDetails) GetDescription() *string {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_IlmmDetails_IspDetails{}
-	}
-	return t.Description
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_IlmmDetails_IspDetails) GetIspAccountID() *string {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_IlmmDetails_IspDetails{}
-	}
-	return t.IspAccountID
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_IlmmDetails_IspDetails) GetLoaFile() *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_IlmmDetails_IspDetails_LoaFile {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_IlmmDetails_IspDetails{}
-	}
-	return t.LoaFile
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_IlmmDetails_IspDetails) GetName() *string {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_IlmmDetails_IspDetails{}
-	}
-	return t.Name
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_IlmmDetails_IspDetails) GetSupportEmail() *string {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_IlmmDetails_IspDetails{}
-	}
-	return t.SupportEmail
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_IlmmDetails_IspDetails) GetSupportPhone() *string {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_IlmmDetails_IspDetails{}
-	}
-	return t.SupportPhone
-}
-
-type XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_IlmmDetails_Contacts struct {
-	Email *string "json:\"email,omitempty\" graphql:\"email\""
-	Name  *string "json:\"name,omitempty\" graphql:\"name\""
-	Phone *string "json:\"phone,omitempty\" graphql:\"phone\""
-}
-
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_IlmmDetails_Contacts) GetEmail() *string {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_IlmmDetails_Contacts{}
-	}
-	return t.Email
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_IlmmDetails_Contacts) GetName() *string {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_IlmmDetails_Contacts{}
-	}
-	return t.Name
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_IlmmDetails_Contacts) GetPhone() *string {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_IlmmDetails_Contacts{}
-	}
-	return t.Phone
-}
-
-type XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_IlmmDetails struct {
-	Contacts    []*XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_IlmmDetails_Contacts  "json:\"contacts,omitempty\" graphql:\"contacts\""
-	IspDetails  *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_IlmmDetails_IspDetails  "json:\"ispDetails,omitempty\" graphql:\"ispDetails\""
-	LinkDetails *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_IlmmDetails_LinkDetails "json:\"linkDetails,omitempty\" graphql:\"linkDetails\""
-}
-
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_IlmmDetails) GetContacts() []*XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_IlmmDetails_Contacts {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_IlmmDetails{}
-	}
-	return t.Contacts
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_IlmmDetails) GetIspDetails() *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_IlmmDetails_IspDetails {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_IlmmDetails{}
-	}
-	return t.IspDetails
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_IlmmDetails) GetLinkDetails() *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_IlmmDetails_LinkDetails {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_IlmmDetails{}
-	}
-	return t.LinkDetails
-}
-
-type XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident struct {
-	SimilarStoriesData      []*XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_SimilarStoriesData      "json:\"similarStoriesData\" graphql:\"similarStoriesData\""
-	NetworkIncidentTimeline []*XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_NetworkIncidentTimeline "json:\"networkIncidentTimeline\" graphql:\"networkIncidentTimeline\""
-	StoryType               string                                                                                              "json:\"storyType\" graphql:\"storyType\""
-	Occurrences             *int64                                                                                              "json:\"occurrences,omitempty\" graphql:\"occurrences\""
-	SiteConnectionType      *string                                                                                             "json:\"siteConnectionType,omitempty\" graphql:\"siteConnectionType\""
-	SiteConfigLocation      *string                                                                                             "json:\"siteConfigLocation,omitempty\" graphql:\"siteConfigLocation\""
-	Acknowledged            *bool                                                                                               "json:\"acknowledged,omitempty\" graphql:\"acknowledged\""
-	LinkID                  *string                                                                                             "json:\"linkId,omitempty\" graphql:\"linkId\""
-	LinkName                *string                                                                                             "json:\"linkName,omitempty\" graphql:\"linkName\""
-	LinkConfigPrecedence    *cato_models.LinkConfigPrecedenceEnum                                                               "json:\"linkConfigPrecedence,omitempty\" graphql:\"linkConfigPrecedence\""
-	DeviceConfigHaRole      *cato_models.DeviceConfigHaRoleEnum                                                                 "json:\"deviceConfigHaRole,omitempty\" graphql:\"deviceConfigHaRole\""
-	LicenseRegion           *string                                                                                             "json:\"licenseRegion,omitempty\" graphql:\"licenseRegion\""
-	LicenseBandwidth        *string                                                                                             "json:\"licenseBandwidth,omitempty\" graphql:\"licenseBandwidth\""
-	Pop                     *string                                                                                             "json:\"pop,omitempty\" graphql:\"pop\""
-	Isp                     *string                                                                                             "json:\"isp,omitempty\" graphql:\"isp\""
-	BgpConnection           *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_BgpConnection             "json:\"bgpConnection,omitempty\" graphql:\"bgpConnection\""
-	HostIP                  *string                                                                                             "json:\"hostIp,omitempty\" graphql:\"hostIp\""
-	RuleName                *string                                                                                             "json:\"ruleName,omitempty\" graphql:\"ruleName\""
-	IlmmDetails             *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_IlmmDetails               "json:\"ilmmDetails,omitempty\" graphql:\"ilmmDetails\""
-}
-
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident) GetSimilarStoriesData() []*XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_SimilarStoriesData {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident{}
-	}
-	return t.SimilarStoriesData
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident) GetNetworkIncidentTimeline() []*XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_NetworkIncidentTimeline {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident{}
-	}
-	return t.NetworkIncidentTimeline
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident) GetStoryType() string {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident{}
-	}
-	return t.StoryType
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident) GetOccurrences() *int64 {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident{}
-	}
-	return t.Occurrences
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident) GetSiteConnectionType() *string {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident{}
-	}
-	return t.SiteConnectionType
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident) GetSiteConfigLocation() *string {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident{}
-	}
-	return t.SiteConfigLocation
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident) GetAcknowledged() *bool {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident{}
-	}
-	return t.Acknowledged
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident) GetLinkID() *string {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident{}
-	}
-	return t.LinkID
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident) GetLinkName() *string {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident{}
-	}
-	return t.LinkName
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident) GetLinkConfigPrecedence() *cato_models.LinkConfigPrecedenceEnum {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident{}
-	}
-	return t.LinkConfigPrecedence
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident) GetDeviceConfigHaRole() *cato_models.DeviceConfigHaRoleEnum {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident{}
-	}
-	return t.DeviceConfigHaRole
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident) GetLicenseRegion() *string {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident{}
-	}
-	return t.LicenseRegion
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident) GetLicenseBandwidth() *string {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident{}
-	}
-	return t.LicenseBandwidth
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident) GetPop() *string {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident{}
-	}
-	return t.Pop
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident) GetIsp() *string {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident{}
-	}
-	return t.Isp
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident) GetBgpConnection() *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_BgpConnection {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident{}
-	}
-	return t.BgpConnection
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident) GetHostIP() *string {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident{}
-	}
-	return t.HostIP
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident) GetRuleName() *string {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident{}
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_Targets_EventData{}
 	}
 	return t.RuleName
 }
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident) GetIlmmDetails() *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_IlmmDetails {
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_Targets_EventData) GetScanResult() *cato_models.ScanResult {
 	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident{}
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_Targets_EventData{}
 	}
-	return t.IlmmDetails
+	return t.ScanResult
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_Targets_EventData) GetSeverity() *string {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_Targets_EventData{}
+	}
+	return t.Severity
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_Targets_EventData) GetSignatureID() *string {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_Targets_EventData{}
+	}
+	return t.SignatureID
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_Targets_EventData) GetThreatName() *string {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_Targets_EventData{}
+	}
+	return t.ThreatName
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_Targets_EventData) GetThreatType() *string {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_Targets_EventData{}
+	}
+	return t.ThreatType
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_Targets_EventData) GetVirusName() *string {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_Targets_EventData{}
+	}
+	return t.VirusName
+}
+
+type XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_Targets struct {
+	AnalysisScore         *float64                                                                                "json:\"analysisScore,omitempty\" graphql:\"analysisScore\""
+	Categories            *string                                                                                 "json:\"categories,omitempty\" graphql:\"categories\""
+	CatoPopularity        *int64                                                                                  "json:\"catoPopularity,omitempty\" graphql:\"catoPopularity\""
+	CountryOfRegistration *string                                                                                 "json:\"countryOfRegistration,omitempty\" graphql:\"countryOfRegistration\""
+	CreationTime          *string                                                                                 "json:\"creationTime,omitempty\" graphql:\"creationTime\""
+	Engines               *int64                                                                                  "json:\"engines,omitempty\" graphql:\"engines\""
+	EventData             []*XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_Targets_EventData "json:\"eventData\" graphql:\"eventData\""
+	InfectionSource       *bool                                                                                   "json:\"infectionSource,omitempty\" graphql:\"infectionSource\""
+	Name                  *string                                                                                 "json:\"name,omitempty\" graphql:\"name\""
+	SearchHits            *string                                                                                 "json:\"searchHits,omitempty\" graphql:\"searchHits\""
+	ThreatFeeds           *int64                                                                                  "json:\"threatFeeds,omitempty\" graphql:\"threatFeeds\""
+	ThreatReference       *string                                                                                 "json:\"threatReference,omitempty\" graphql:\"threatReference\""
+	Type                  *cato_models.TargetType                                                                 "json:\"type,omitempty\" graphql:\"type\""
+}
+
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_Targets) GetAnalysisScore() *float64 {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_Targets{}
+	}
+	return t.AnalysisScore
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_Targets) GetCategories() *string {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_Targets{}
+	}
+	return t.Categories
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_Targets) GetCatoPopularity() *int64 {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_Targets{}
+	}
+	return t.CatoPopularity
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_Targets) GetCountryOfRegistration() *string {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_Targets{}
+	}
+	return t.CountryOfRegistration
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_Targets) GetCreationTime() *string {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_Targets{}
+	}
+	return t.CreationTime
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_Targets) GetEngines() *int64 {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_Targets{}
+	}
+	return t.Engines
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_Targets) GetEventData() []*XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_Targets_EventData {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_Targets{}
+	}
+	return t.EventData
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_Targets) GetInfectionSource() *bool {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_Targets{}
+	}
+	return t.InfectionSource
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_Targets) GetName() *string {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_Targets{}
+	}
+	return t.Name
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_Targets) GetSearchHits() *string {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_Targets{}
+	}
+	return t.SearchHits
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_Targets) GetThreatFeeds() *int64 {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_Targets{}
+	}
+	return t.ThreatFeeds
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_Targets) GetThreatReference() *string {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_Targets{}
+	}
+	return t.ThreatReference
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_Targets) GetType() *cato_models.TargetType {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_Targets{}
+	}
+	return t.Type
+}
+
+type XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats struct {
+	SimilarStoriesData []*XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_SimilarStoriesData "json:\"similarStoriesData\" graphql:\"similarStoriesData\""
+	SrcSiteID          *string                                                                                  "json:\"srcSiteId,omitempty\" graphql:\"srcSiteId\""
+	Os                 *string                                                                                  "json:\"os,omitempty\" graphql:\"os\""
+	DeviceName         *string                                                                                  "json:\"deviceName,omitempty\" graphql:\"deviceName\""
+	MacAddress         *string                                                                                  "json:\"macAddress,omitempty\" graphql:\"macAddress\""
+	LogonName          *string                                                                                  "json:\"logonName,omitempty\" graphql:\"logonName\""
+	ClientClass        []string                                                                                 "json:\"clientClass\" graphql:\"clientClass\""
+	DrillDownFilter    []*XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_DrillDownFilter    "json:\"drillDownFilter,omitempty\" graphql:\"drillDownFilter\""
+	BreakdownField     *string                                                                                  "json:\"breakdownField,omitempty\" graphql:\"breakdownField\""
+	SubjectType        *string                                                                                  "json:\"subjectType,omitempty\" graphql:\"subjectType\""
+	Extra              []*XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_Extra              "json:\"extra,omitempty\" graphql:\"extra\""
+	Gaussian           *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_Gaussian             "json:\"gaussian,omitempty\" graphql:\"gaussian\""
+	Metric             *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_Metric               "json:\"metric,omitempty\" graphql:\"metric\""
+	MetricDetails      *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_MetricDetails        "json:\"metricDetails,omitempty\" graphql:\"metricDetails\""
+	Mitres             []*XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_Mitres             "json:\"mitres,omitempty\" graphql:\"mitres\""
+	Rules              []string                                                                                 "json:\"rules,omitempty\" graphql:\"rules\""
+	TimeSeries         []*XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_TimeSeries         "json:\"timeSeries,omitempty\" graphql:\"timeSeries\""
+	Targets            []*XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_Targets            "json:\"targets\" graphql:\"targets\""
+	Direction          *string                                                                                  "json:\"direction,omitempty\" graphql:\"direction\""
+}
+
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats) GetSimilarStoriesData() []*XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_SimilarStoriesData {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats{}
+	}
+	return t.SimilarStoriesData
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats) GetSrcSiteID() *string {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats{}
+	}
+	return t.SrcSiteID
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats) GetOs() *string {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats{}
+	}
+	return t.Os
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats) GetDeviceName() *string {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats{}
+	}
+	return t.DeviceName
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats) GetMacAddress() *string {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats{}
+	}
+	return t.MacAddress
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats) GetLogonName() *string {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats{}
+	}
+	return t.LogonName
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats) GetClientClass() []string {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats{}
+	}
+	return t.ClientClass
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats) GetDrillDownFilter() []*XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_DrillDownFilter {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats{}
+	}
+	return t.DrillDownFilter
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats) GetBreakdownField() *string {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats{}
+	}
+	return t.BreakdownField
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats) GetSubjectType() *string {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats{}
+	}
+	return t.SubjectType
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats) GetExtra() []*XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_Extra {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats{}
+	}
+	return t.Extra
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats) GetGaussian() *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_Gaussian {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats{}
+	}
+	return t.Gaussian
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats) GetMetric() *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_Metric {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats{}
+	}
+	return t.Metric
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats) GetMetricDetails() *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_MetricDetails {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats{}
+	}
+	return t.MetricDetails
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats) GetMitres() []*XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_Mitres {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats{}
+	}
+	return t.Mitres
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats) GetRules() []string {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats{}
+	}
+	return t.Rules
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats) GetTimeSeries() []*XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_TimeSeries {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats{}
+	}
+	return t.TimeSeries
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats) GetTargets() []*XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats_Targets {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats{}
+	}
+	return t.Targets
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats) GetDirection() *string {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyStats{}
+	}
+	return t.Direction
+}
+
+type XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_SimilarStoriesData struct {
+	Indication           *string  "json:\"indication,omitempty\" graphql:\"indication\""
+	SimilarityPercentage *float64 "json:\"similarityPercentage,omitempty\" graphql:\"similarityPercentage\""
+	StoryID              *string  "json:\"storyId,omitempty\" graphql:\"storyId\""
+	ThreatClassification *string  "json:\"threatClassification,omitempty\" graphql:\"threatClassification\""
+	ThreatTypeName       *string  "json:\"threatTypeName,omitempty\" graphql:\"threatTypeName\""
+	Verdict              *string  "json:\"verdict,omitempty\" graphql:\"verdict\""
+}
+
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_SimilarStoriesData) GetIndication() *string {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_SimilarStoriesData{}
+	}
+	return t.Indication
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_SimilarStoriesData) GetSimilarityPercentage() *float64 {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_SimilarStoriesData{}
+	}
+	return t.SimilarityPercentage
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_SimilarStoriesData) GetStoryID() *string {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_SimilarStoriesData{}
+	}
+	return t.StoryID
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_SimilarStoriesData) GetThreatClassification() *string {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_SimilarStoriesData{}
+	}
+	return t.ThreatClassification
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_SimilarStoriesData) GetThreatTypeName() *string {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_SimilarStoriesData{}
+	}
+	return t.ThreatTypeName
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_SimilarStoriesData) GetVerdict() *string {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_SimilarStoriesData{}
+	}
+	return t.Verdict
+}
+
+type XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_DrillDownFilter struct {
+	Name   string   "json:\"name\" graphql:\"name\""
+	Value  string   "json:\"value\" graphql:\"value\""
+	Values []string "json:\"values\" graphql:\"values\""
+}
+
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_DrillDownFilter) GetName() string {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_DrillDownFilter{}
+	}
+	return t.Name
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_DrillDownFilter) GetValue() string {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_DrillDownFilter{}
+	}
+	return t.Value
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_DrillDownFilter) GetValues() []string {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_DrillDownFilter{}
+	}
+	return t.Values
+}
+
+type XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_Extra struct {
+	Name  string "json:\"name\" graphql:\"name\""
+	Type  string "json:\"type\" graphql:\"type\""
+	Value string "json:\"value\" graphql:\"value\""
+}
+
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_Extra) GetName() string {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_Extra{}
+	}
+	return t.Name
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_Extra) GetType() string {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_Extra{}
+	}
+	return t.Type
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_Extra) GetValue() string {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_Extra{}
+	}
+	return t.Value
+}
+
+type XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_Gaussian struct {
+	Avg    *float64 "json:\"avg,omitempty\" graphql:\"avg\""
+	N      *float64 "json:\"n,omitempty\" graphql:\"n\""
+	Ss     *float64 "json:\"ss,omitempty\" graphql:\"ss\""
+	Std    *float64 "json:\"std,omitempty\" graphql:\"std\""
+	ZScore *float64 "json:\"z_score,omitempty\" graphql:\"z_score\""
+}
+
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_Gaussian) GetAvg() *float64 {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_Gaussian{}
+	}
+	return t.Avg
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_Gaussian) GetN() *float64 {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_Gaussian{}
+	}
+	return t.N
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_Gaussian) GetSs() *float64 {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_Gaussian{}
+	}
+	return t.Ss
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_Gaussian) GetStd() *float64 {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_Gaussian{}
+	}
+	return t.Std
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_Gaussian) GetZScore() *float64 {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_Gaussian{}
+	}
+	return t.ZScore
+}
+
+type XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_Metric struct {
+	Name  string  "json:\"name\" graphql:\"name\""
+	Value float64 "json:\"value\" graphql:\"value\""
+}
+
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_Metric) GetName() string {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_Metric{}
+	}
+	return t.Name
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_Metric) GetValue() float64 {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_Metric{}
+	}
+	return t.Value
+}
+
+type XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_MetricDetails struct {
+	Name  string "json:\"name\" graphql:\"name\""
+	Units string "json:\"units\" graphql:\"units\""
+}
+
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_MetricDetails) GetName() string {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_MetricDetails{}
+	}
+	return t.Name
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_MetricDetails) GetUnits() string {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_MetricDetails{}
+	}
+	return t.Units
+}
+
+type XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_Mitres struct {
+	ID   *string "json:\"id,omitempty\" graphql:\"id\""
+	Name *string "json:\"name,omitempty\" graphql:\"name\""
+}
+
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_Mitres) GetID() *string {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_Mitres{}
+	}
+	return t.ID
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_Mitres) GetName() *string {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_Mitres{}
+	}
+	return t.Name
+}
+
+type XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_TimeSeries_Key_Dimensions struct {
+	FieldName string  "json:\"fieldName\" graphql:\"fieldName\""
+	Value     *string "json:\"value,omitempty\" graphql:\"value\""
+}
+
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_TimeSeries_Key_Dimensions) GetFieldName() string {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_TimeSeries_Key_Dimensions{}
+	}
+	return t.FieldName
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_TimeSeries_Key_Dimensions) GetValue() *string {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_TimeSeries_Key_Dimensions{}
+	}
+	return t.Value
+}
+
+type XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_TimeSeries_Key struct {
+	Dimensions       []*XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_TimeSeries_Key_Dimensions "json:\"dimensions,omitempty\" graphql:\"dimensions\""
+	MeasureFieldName string                                                                                           "json:\"measureFieldName\" graphql:\"measureFieldName\""
+}
+
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_TimeSeries_Key) GetDimensions() []*XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_TimeSeries_Key_Dimensions {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_TimeSeries_Key{}
+	}
+	return t.Dimensions
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_TimeSeries_Key) GetMeasureFieldName() string {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_TimeSeries_Key{}
+	}
+	return t.MeasureFieldName
+}
+
+type XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_TimeSeries struct {
+	Data    [][]float64                                                                         "json:\"data,omitempty\" graphql:\"data\""
+	GroupBy *string                                                                             "json:\"groupBy,omitempty\" graphql:\"groupBy\""
+	Info    []string                                                                            "json:\"info,omitempty\" graphql:\"info\""
+	Key     *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_TimeSeries_Key "json:\"key,omitempty\" graphql:\"key\""
+	Label   string                                                                              "json:\"label\" graphql:\"label\""
+	Sum     *float64                                                                            "json:\"sum,omitempty\" graphql:\"sum\""
+	Units   *cato_models.UnitType                                                               "json:\"units,omitempty\" graphql:\"units\""
+}
+
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_TimeSeries) GetData() [][]float64 {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_TimeSeries{}
+	}
+	return t.Data
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_TimeSeries) GetGroupBy() *string {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_TimeSeries{}
+	}
+	return t.GroupBy
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_TimeSeries) GetInfo() []string {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_TimeSeries{}
+	}
+	return t.Info
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_TimeSeries) GetKey() *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_TimeSeries_Key {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_TimeSeries{}
+	}
+	return t.Key
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_TimeSeries) GetLabel() string {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_TimeSeries{}
+	}
+	return t.Label
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_TimeSeries) GetSum() *float64 {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_TimeSeries{}
+	}
+	return t.Sum
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_TimeSeries) GetUnits() *cato_models.UnitType {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_TimeSeries{}
+	}
+	return t.Units
+}
+
+type XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_Targets_EventData struct {
+	Action                *string                 "json:\"action,omitempty\" graphql:\"action\""
+	AppActivityType       *string                 "json:\"appActivityType,omitempty\" graphql:\"appActivityType\""
+	AppID                 *string                 "json:\"appId,omitempty\" graphql:\"appId\""
+	AppName               *string                 "json:\"appName,omitempty\" graphql:\"appName\""
+	DNSProtectionCategory *string                 "json:\"dnsProtectionCategory,omitempty\" graphql:\"dnsProtectionCategory\""
+	EventType             *string                 "json:\"eventType,omitempty\" graphql:\"eventType\""
+	FileName              *string                 "json:\"fileName,omitempty\" graphql:\"fileName\""
+	RuleID                *string                 "json:\"ruleId,omitempty\" graphql:\"ruleId\""
+	RuleName              *string                 "json:\"ruleName,omitempty\" graphql:\"ruleName\""
+	ScanResult            *cato_models.ScanResult "json:\"scanResult,omitempty\" graphql:\"scanResult\""
+	Severity              *string                 "json:\"severity,omitempty\" graphql:\"severity\""
+	SignatureID           *string                 "json:\"signatureId,omitempty\" graphql:\"signatureId\""
+	ThreatName            *string                 "json:\"threatName,omitempty\" graphql:\"threatName\""
+	ThreatType            *string                 "json:\"threatType,omitempty\" graphql:\"threatType\""
+	VirusName             *string                 "json:\"virusName,omitempty\" graphql:\"virusName\""
+}
+
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_Targets_EventData) GetAction() *string {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_Targets_EventData{}
+	}
+	return t.Action
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_Targets_EventData) GetAppActivityType() *string {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_Targets_EventData{}
+	}
+	return t.AppActivityType
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_Targets_EventData) GetAppID() *string {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_Targets_EventData{}
+	}
+	return t.AppID
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_Targets_EventData) GetAppName() *string {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_Targets_EventData{}
+	}
+	return t.AppName
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_Targets_EventData) GetDNSProtectionCategory() *string {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_Targets_EventData{}
+	}
+	return t.DNSProtectionCategory
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_Targets_EventData) GetEventType() *string {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_Targets_EventData{}
+	}
+	return t.EventType
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_Targets_EventData) GetFileName() *string {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_Targets_EventData{}
+	}
+	return t.FileName
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_Targets_EventData) GetRuleID() *string {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_Targets_EventData{}
+	}
+	return t.RuleID
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_Targets_EventData) GetRuleName() *string {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_Targets_EventData{}
+	}
+	return t.RuleName
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_Targets_EventData) GetScanResult() *cato_models.ScanResult {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_Targets_EventData{}
+	}
+	return t.ScanResult
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_Targets_EventData) GetSeverity() *string {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_Targets_EventData{}
+	}
+	return t.Severity
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_Targets_EventData) GetSignatureID() *string {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_Targets_EventData{}
+	}
+	return t.SignatureID
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_Targets_EventData) GetThreatName() *string {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_Targets_EventData{}
+	}
+	return t.ThreatName
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_Targets_EventData) GetThreatType() *string {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_Targets_EventData{}
+	}
+	return t.ThreatType
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_Targets_EventData) GetVirusName() *string {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_Targets_EventData{}
+	}
+	return t.VirusName
+}
+
+type XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_Targets struct {
+	AnalysisScore         *float64                                                                                 "json:\"analysisScore,omitempty\" graphql:\"analysisScore\""
+	Categories            *string                                                                                  "json:\"categories,omitempty\" graphql:\"categories\""
+	CatoPopularity        *int64                                                                                   "json:\"catoPopularity,omitempty\" graphql:\"catoPopularity\""
+	CountryOfRegistration *string                                                                                  "json:\"countryOfRegistration,omitempty\" graphql:\"countryOfRegistration\""
+	CreationTime          *string                                                                                  "json:\"creationTime,omitempty\" graphql:\"creationTime\""
+	Engines               *int64                                                                                   "json:\"engines,omitempty\" graphql:\"engines\""
+	EventData             []*XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_Targets_EventData "json:\"eventData\" graphql:\"eventData\""
+	InfectionSource       *bool                                                                                    "json:\"infectionSource,omitempty\" graphql:\"infectionSource\""
+	Name                  *string                                                                                  "json:\"name,omitempty\" graphql:\"name\""
+	SearchHits            *string                                                                                  "json:\"searchHits,omitempty\" graphql:\"searchHits\""
+	ThreatFeeds           *int64                                                                                   "json:\"threatFeeds,omitempty\" graphql:\"threatFeeds\""
+	ThreatReference       *string                                                                                  "json:\"threatReference,omitempty\" graphql:\"threatReference\""
+	Type                  *cato_models.TargetType                                                                  "json:\"type,omitempty\" graphql:\"type\""
+}
+
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_Targets) GetAnalysisScore() *float64 {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_Targets{}
+	}
+	return t.AnalysisScore
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_Targets) GetCategories() *string {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_Targets{}
+	}
+	return t.Categories
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_Targets) GetCatoPopularity() *int64 {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_Targets{}
+	}
+	return t.CatoPopularity
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_Targets) GetCountryOfRegistration() *string {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_Targets{}
+	}
+	return t.CountryOfRegistration
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_Targets) GetCreationTime() *string {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_Targets{}
+	}
+	return t.CreationTime
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_Targets) GetEngines() *int64 {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_Targets{}
+	}
+	return t.Engines
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_Targets) GetEventData() []*XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_Targets_EventData {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_Targets{}
+	}
+	return t.EventData
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_Targets) GetInfectionSource() *bool {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_Targets{}
+	}
+	return t.InfectionSource
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_Targets) GetName() *string {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_Targets{}
+	}
+	return t.Name
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_Targets) GetSearchHits() *string {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_Targets{}
+	}
+	return t.SearchHits
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_Targets) GetThreatFeeds() *int64 {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_Targets{}
+	}
+	return t.ThreatFeeds
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_Targets) GetThreatReference() *string {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_Targets{}
+	}
+	return t.ThreatReference
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_Targets) GetType() *cato_models.TargetType {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_Targets{}
+	}
+	return t.Type
+}
+
+type XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents struct {
+	SimilarStoriesData []*XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_SimilarStoriesData "json:\"similarStoriesData\" graphql:\"similarStoriesData\""
+	SrcSiteID          *string                                                                                   "json:\"srcSiteId,omitempty\" graphql:\"srcSiteId\""
+	Os                 *string                                                                                   "json:\"os,omitempty\" graphql:\"os\""
+	DeviceName         *string                                                                                   "json:\"deviceName,omitempty\" graphql:\"deviceName\""
+	MacAddress         *string                                                                                   "json:\"macAddress,omitempty\" graphql:\"macAddress\""
+	LogonName          *string                                                                                   "json:\"logonName,omitempty\" graphql:\"logonName\""
+	ClientClass        []string                                                                                  "json:\"clientClass\" graphql:\"clientClass\""
+	DrillDownFilter    []*XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_DrillDownFilter    "json:\"drillDownFilter,omitempty\" graphql:\"drillDownFilter\""
+	BreakdownField     *string                                                                                   "json:\"breakdownField,omitempty\" graphql:\"breakdownField\""
+	SubjectType        *string                                                                                   "json:\"subjectType,omitempty\" graphql:\"subjectType\""
+	Extra              []*XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_Extra              "json:\"extra,omitempty\" graphql:\"extra\""
+	Gaussian           *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_Gaussian             "json:\"gaussian,omitempty\" graphql:\"gaussian\""
+	Metric             *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_Metric               "json:\"metric,omitempty\" graphql:\"metric\""
+	MetricDetails      *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_MetricDetails        "json:\"metricDetails,omitempty\" graphql:\"metricDetails\""
+	Mitres             []*XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_Mitres             "json:\"mitres,omitempty\" graphql:\"mitres\""
+	Rules              []string                                                                                  "json:\"rules,omitempty\" graphql:\"rules\""
+	TimeSeries         []*XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_TimeSeries         "json:\"timeSeries,omitempty\" graphql:\"timeSeries\""
+	Targets            []*XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_Targets            "json:\"targets\" graphql:\"targets\""
+	Direction          *string                                                                                   "json:\"direction,omitempty\" graphql:\"direction\""
+}
+
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents) GetSimilarStoriesData() []*XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_SimilarStoriesData {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents{}
+	}
+	return t.SimilarStoriesData
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents) GetSrcSiteID() *string {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents{}
+	}
+	return t.SrcSiteID
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents) GetOs() *string {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents{}
+	}
+	return t.Os
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents) GetDeviceName() *string {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents{}
+	}
+	return t.DeviceName
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents) GetMacAddress() *string {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents{}
+	}
+	return t.MacAddress
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents) GetLogonName() *string {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents{}
+	}
+	return t.LogonName
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents) GetClientClass() []string {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents{}
+	}
+	return t.ClientClass
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents) GetDrillDownFilter() []*XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_DrillDownFilter {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents{}
+	}
+	return t.DrillDownFilter
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents) GetBreakdownField() *string {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents{}
+	}
+	return t.BreakdownField
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents) GetSubjectType() *string {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents{}
+	}
+	return t.SubjectType
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents) GetExtra() []*XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_Extra {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents{}
+	}
+	return t.Extra
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents) GetGaussian() *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_Gaussian {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents{}
+	}
+	return t.Gaussian
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents) GetMetric() *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_Metric {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents{}
+	}
+	return t.Metric
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents) GetMetricDetails() *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_MetricDetails {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents{}
+	}
+	return t.MetricDetails
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents) GetMitres() []*XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_Mitres {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents{}
+	}
+	return t.Mitres
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents) GetRules() []string {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents{}
+	}
+	return t.Rules
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents) GetTimeSeries() []*XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_TimeSeries {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents{}
+	}
+	return t.TimeSeries
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents) GetTargets() []*XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents_Targets {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents{}
+	}
+	return t.Targets
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents) GetDirection() *string {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents{}
+	}
+	return t.Direction
 }
 
 type XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_Threat_SimilarStoriesData struct {
@@ -271217,6 +269981,1907 @@ func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_ThreatPrevention)
 	return t.ThreatPreventionsEvents
 }
 
+type XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_SimilarStoriesData struct {
+	Indication           *string  "json:\"indication,omitempty\" graphql:\"indication\""
+	SimilarityPercentage *float64 "json:\"similarityPercentage,omitempty\" graphql:\"similarityPercentage\""
+	StoryID              *string  "json:\"storyId,omitempty\" graphql:\"storyId\""
+	ThreatClassification *string  "json:\"threatClassification,omitempty\" graphql:\"threatClassification\""
+	ThreatTypeName       *string  "json:\"threatTypeName,omitempty\" graphql:\"threatTypeName\""
+	Verdict              *string  "json:\"verdict,omitempty\" graphql:\"verdict\""
+}
+
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_SimilarStoriesData) GetIndication() *string {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_SimilarStoriesData{}
+	}
+	return t.Indication
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_SimilarStoriesData) GetSimilarityPercentage() *float64 {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_SimilarStoriesData{}
+	}
+	return t.SimilarityPercentage
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_SimilarStoriesData) GetStoryID() *string {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_SimilarStoriesData{}
+	}
+	return t.StoryID
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_SimilarStoriesData) GetThreatClassification() *string {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_SimilarStoriesData{}
+	}
+	return t.ThreatClassification
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_SimilarStoriesData) GetThreatTypeName() *string {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_SimilarStoriesData{}
+	}
+	return t.ThreatTypeName
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_SimilarStoriesData) GetVerdict() *string {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_SimilarStoriesData{}
+	}
+	return t.Verdict
+}
+
+type XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_NetworkIncidentTimeline_BgpConnection struct {
+	CatoAsn        *scalars.Asn16 "json:\"catoAsn,omitempty\" graphql:\"catoAsn\""
+	CatoIP         *string        "json:\"catoIp,omitempty\" graphql:\"catoIp\""
+	ConnectionName *string        "json:\"connectionName,omitempty\" graphql:\"connectionName\""
+	PeerAsn        *scalars.Asn32 "json:\"peerAsn,omitempty\" graphql:\"peerAsn\""
+	PeerIP         *string        "json:\"peerIp,omitempty\" graphql:\"peerIp\""
+}
+
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_NetworkIncidentTimeline_BgpConnection) GetCatoAsn() *scalars.Asn16 {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_NetworkIncidentTimeline_BgpConnection{}
+	}
+	return t.CatoAsn
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_NetworkIncidentTimeline_BgpConnection) GetCatoIP() *string {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_NetworkIncidentTimeline_BgpConnection{}
+	}
+	return t.CatoIP
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_NetworkIncidentTimeline_BgpConnection) GetConnectionName() *string {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_NetworkIncidentTimeline_BgpConnection{}
+	}
+	return t.ConnectionName
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_NetworkIncidentTimeline_BgpConnection) GetPeerAsn() *scalars.Asn32 {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_NetworkIncidentTimeline_BgpConnection{}
+	}
+	return t.PeerAsn
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_NetworkIncidentTimeline_BgpConnection) GetPeerIP() *string {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_NetworkIncidentTimeline_BgpConnection{}
+	}
+	return t.PeerIP
+}
+
+type XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_NetworkIncidentTimeline_LinkQualityIssue struct {
+	Current   *int64                                "json:\"current,omitempty\" graphql:\"current\""
+	Direction *cato_models.TrafficDirectionEnum     "json:\"direction,omitempty\" graphql:\"direction\""
+	IssueType *cato_models.LinkQualityIssueTypeEnum "json:\"issueType,omitempty\" graphql:\"issueType\""
+	Threshold *int64                                "json:\"threshold,omitempty\" graphql:\"threshold\""
+}
+
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_NetworkIncidentTimeline_LinkQualityIssue) GetCurrent() *int64 {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_NetworkIncidentTimeline_LinkQualityIssue{}
+	}
+	return t.Current
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_NetworkIncidentTimeline_LinkQualityIssue) GetDirection() *cato_models.TrafficDirectionEnum {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_NetworkIncidentTimeline_LinkQualityIssue{}
+	}
+	return t.Direction
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_NetworkIncidentTimeline_LinkQualityIssue) GetIssueType() *cato_models.LinkQualityIssueTypeEnum {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_NetworkIncidentTimeline_LinkQualityIssue{}
+	}
+	return t.IssueType
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_NetworkIncidentTimeline_LinkQualityIssue) GetThreshold() *int64 {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_NetworkIncidentTimeline_LinkQualityIssue{}
+	}
+	return t.Threshold
+}
+
+type XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_NetworkIncidentTimeline struct {
+	Acknowledged         *bool                                                                                                              "json:\"acknowledged,omitempty\" graphql:\"acknowledged\""
+	BgpConnection        *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_NetworkIncidentTimeline_BgpConnection    "json:\"bgpConnection,omitempty\" graphql:\"bgpConnection\""
+	Created              string                                                                                                             "json:\"created\" graphql:\"created\""
+	Description          *string                                                                                                            "json:\"description,omitempty\" graphql:\"description\""
+	DeviceConfigHaRole   *cato_models.DeviceConfigHaRoleEnum                                                                                "json:\"deviceConfigHaRole,omitempty\" graphql:\"deviceConfigHaRole\""
+	DeviceHaRoleState    *cato_models.DeviceHaRoleStateEnum                                                                                 "json:\"deviceHaRoleState,omitempty\" graphql:\"deviceHaRoleState\""
+	EventIds             []string                                                                                                           "json:\"eventIds\" graphql:\"eventIds\""
+	EventType            *cato_models.NetworkXDREventTypeEnum                                                                               "json:\"eventType,omitempty\" graphql:\"eventType\""
+	HostIP               *string                                                                                                            "json:\"hostIp,omitempty\" graphql:\"hostIp\""
+	IncidentID           *string                                                                                                            "json:\"incidentId,omitempty\" graphql:\"incidentId\""
+	Isp                  *string                                                                                                            "json:\"isp,omitempty\" graphql:\"isp\""
+	LinkConfigBandwidth  *string                                                                                                            "json:\"linkConfigBandwidth,omitempty\" graphql:\"linkConfigBandwidth\""
+	LinkConfigPrecedence *cato_models.LinkConfigPrecedenceEnum                                                                              "json:\"linkConfigPrecedence,omitempty\" graphql:\"linkConfigPrecedence\""
+	LinkID               *string                                                                                                            "json:\"linkId,omitempty\" graphql:\"linkId\""
+	LinkName             *string                                                                                                            "json:\"linkName,omitempty\" graphql:\"linkName\""
+	LinkQualityIssue     *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_NetworkIncidentTimeline_LinkQualityIssue "json:\"linkQualityIssue,omitempty\" graphql:\"linkQualityIssue\""
+	LinkStatus           *cato_models.LinkStatusEnum                                                                                        "json:\"linkStatus,omitempty\" graphql:\"linkStatus\""
+	Muted                *bool                                                                                                              "json:\"muted,omitempty\" graphql:\"muted\""
+	NetworkEventSource   *cato_models.NetworkEventSourceEnum                                                                                "json:\"networkEventSource,omitempty\" graphql:\"networkEventSource\""
+	Pop                  *string                                                                                                            "json:\"pop,omitempty\" graphql:\"pop\""
+	RuleName             *string                                                                                                            "json:\"ruleName,omitempty\" graphql:\"ruleName\""
+	SocketSerialID       *string                                                                                                            "json:\"socketSerialId,omitempty\" graphql:\"socketSerialId\""
+	TunnelResetCount     *int64                                                                                                             "json:\"tunnelResetCount,omitempty\" graphql:\"tunnelResetCount\""
+	Validated            string                                                                                                             "json:\"validated\" graphql:\"validated\""
+}
+
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_NetworkIncidentTimeline) GetAcknowledged() *bool {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_NetworkIncidentTimeline{}
+	}
+	return t.Acknowledged
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_NetworkIncidentTimeline) GetBgpConnection() *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_NetworkIncidentTimeline_BgpConnection {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_NetworkIncidentTimeline{}
+	}
+	return t.BgpConnection
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_NetworkIncidentTimeline) GetCreated() string {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_NetworkIncidentTimeline{}
+	}
+	return t.Created
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_NetworkIncidentTimeline) GetDescription() *string {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_NetworkIncidentTimeline{}
+	}
+	return t.Description
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_NetworkIncidentTimeline) GetDeviceConfigHaRole() *cato_models.DeviceConfigHaRoleEnum {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_NetworkIncidentTimeline{}
+	}
+	return t.DeviceConfigHaRole
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_NetworkIncidentTimeline) GetDeviceHaRoleState() *cato_models.DeviceHaRoleStateEnum {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_NetworkIncidentTimeline{}
+	}
+	return t.DeviceHaRoleState
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_NetworkIncidentTimeline) GetEventIds() []string {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_NetworkIncidentTimeline{}
+	}
+	return t.EventIds
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_NetworkIncidentTimeline) GetEventType() *cato_models.NetworkXDREventTypeEnum {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_NetworkIncidentTimeline{}
+	}
+	return t.EventType
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_NetworkIncidentTimeline) GetHostIP() *string {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_NetworkIncidentTimeline{}
+	}
+	return t.HostIP
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_NetworkIncidentTimeline) GetIncidentID() *string {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_NetworkIncidentTimeline{}
+	}
+	return t.IncidentID
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_NetworkIncidentTimeline) GetIsp() *string {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_NetworkIncidentTimeline{}
+	}
+	return t.Isp
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_NetworkIncidentTimeline) GetLinkConfigBandwidth() *string {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_NetworkIncidentTimeline{}
+	}
+	return t.LinkConfigBandwidth
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_NetworkIncidentTimeline) GetLinkConfigPrecedence() *cato_models.LinkConfigPrecedenceEnum {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_NetworkIncidentTimeline{}
+	}
+	return t.LinkConfigPrecedence
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_NetworkIncidentTimeline) GetLinkID() *string {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_NetworkIncidentTimeline{}
+	}
+	return t.LinkID
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_NetworkIncidentTimeline) GetLinkName() *string {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_NetworkIncidentTimeline{}
+	}
+	return t.LinkName
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_NetworkIncidentTimeline) GetLinkQualityIssue() *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_NetworkIncidentTimeline_LinkQualityIssue {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_NetworkIncidentTimeline{}
+	}
+	return t.LinkQualityIssue
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_NetworkIncidentTimeline) GetLinkStatus() *cato_models.LinkStatusEnum {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_NetworkIncidentTimeline{}
+	}
+	return t.LinkStatus
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_NetworkIncidentTimeline) GetMuted() *bool {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_NetworkIncidentTimeline{}
+	}
+	return t.Muted
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_NetworkIncidentTimeline) GetNetworkEventSource() *cato_models.NetworkEventSourceEnum {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_NetworkIncidentTimeline{}
+	}
+	return t.NetworkEventSource
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_NetworkIncidentTimeline) GetPop() *string {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_NetworkIncidentTimeline{}
+	}
+	return t.Pop
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_NetworkIncidentTimeline) GetRuleName() *string {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_NetworkIncidentTimeline{}
+	}
+	return t.RuleName
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_NetworkIncidentTimeline) GetSocketSerialID() *string {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_NetworkIncidentTimeline{}
+	}
+	return t.SocketSerialID
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_NetworkIncidentTimeline) GetTunnelResetCount() *int64 {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_NetworkIncidentTimeline{}
+	}
+	return t.TunnelResetCount
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_NetworkIncidentTimeline) GetValidated() string {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_NetworkIncidentTimeline{}
+	}
+	return t.Validated
+}
+
+type XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_BgpConnection struct {
+	CatoAsn        *scalars.Asn16 "json:\"catoAsn,omitempty\" graphql:\"catoAsn\""
+	CatoIP         *string        "json:\"catoIp,omitempty\" graphql:\"catoIp\""
+	ConnectionName *string        "json:\"connectionName,omitempty\" graphql:\"connectionName\""
+	PeerAsn        *scalars.Asn32 "json:\"peerAsn,omitempty\" graphql:\"peerAsn\""
+	PeerIP         *string        "json:\"peerIp,omitempty\" graphql:\"peerIp\""
+}
+
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_BgpConnection) GetCatoAsn() *scalars.Asn16 {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_BgpConnection{}
+	}
+	return t.CatoAsn
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_BgpConnection) GetCatoIP() *string {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_BgpConnection{}
+	}
+	return t.CatoIP
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_BgpConnection) GetConnectionName() *string {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_BgpConnection{}
+	}
+	return t.ConnectionName
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_BgpConnection) GetPeerAsn() *scalars.Asn32 {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_BgpConnection{}
+	}
+	return t.PeerAsn
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_BgpConnection) GetPeerIP() *string {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_BgpConnection{}
+	}
+	return t.PeerIP
+}
+
+type XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_IlmmDetails_LinkDetails struct {
+	ActiveLicense    *bool                             "json:\"activeLicense,omitempty\" graphql:\"activeLicense\""
+	Comments         *string                           "json:\"comments,omitempty\" graphql:\"comments\""
+	Description      *string                           "json:\"description,omitempty\" graphql:\"description\""
+	IspLinkID        *string                           "json:\"ispLinkId,omitempty\" graphql:\"ispLinkId\""
+	LinkID           *string                           "json:\"linkId,omitempty\" graphql:\"linkId\""
+	OnboardingStatus *cato_models.IlmmOnboardingStatus "json:\"onboardingStatus,omitempty\" graphql:\"onboardingStatus\""
+}
+
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_IlmmDetails_LinkDetails) GetActiveLicense() *bool {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_IlmmDetails_LinkDetails{}
+	}
+	return t.ActiveLicense
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_IlmmDetails_LinkDetails) GetComments() *string {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_IlmmDetails_LinkDetails{}
+	}
+	return t.Comments
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_IlmmDetails_LinkDetails) GetDescription() *string {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_IlmmDetails_LinkDetails{}
+	}
+	return t.Description
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_IlmmDetails_LinkDetails) GetIspLinkID() *string {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_IlmmDetails_LinkDetails{}
+	}
+	return t.IspLinkID
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_IlmmDetails_LinkDetails) GetLinkID() *string {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_IlmmDetails_LinkDetails{}
+	}
+	return t.LinkID
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_IlmmDetails_LinkDetails) GetOnboardingStatus() *cato_models.IlmmOnboardingStatus {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_IlmmDetails_LinkDetails{}
+	}
+	return t.OnboardingStatus
+}
+
+type XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_IlmmDetails_IspDetails_LoaFile struct {
+	FileHash   *string       "json:\"fileHash,omitempty\" graphql:\"fileHash\""
+	FileName   *string       "json:\"fileName,omitempty\" graphql:\"fileName\""
+	UploadedAt *scalars.Time "json:\"uploadedAt,omitempty\" graphql:\"uploadedAt\""
+}
+
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_IlmmDetails_IspDetails_LoaFile) GetFileHash() *string {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_IlmmDetails_IspDetails_LoaFile{}
+	}
+	return t.FileHash
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_IlmmDetails_IspDetails_LoaFile) GetFileName() *string {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_IlmmDetails_IspDetails_LoaFile{}
+	}
+	return t.FileName
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_IlmmDetails_IspDetails_LoaFile) GetUploadedAt() *scalars.Time {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_IlmmDetails_IspDetails_LoaFile{}
+	}
+	return t.UploadedAt
+}
+
+type XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_IlmmDetails_IspDetails struct {
+	CountryCode  *string                                                                                                  "json:\"countryCode,omitempty\" graphql:\"countryCode\""
+	Description  *string                                                                                                  "json:\"description,omitempty\" graphql:\"description\""
+	IspAccountID *string                                                                                                  "json:\"ispAccountId,omitempty\" graphql:\"ispAccountId\""
+	LoaFile      *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_IlmmDetails_IspDetails_LoaFile "json:\"loaFile,omitempty\" graphql:\"loaFile\""
+	Name         *string                                                                                                  "json:\"name,omitempty\" graphql:\"name\""
+	SupportEmail *string                                                                                                  "json:\"supportEmail,omitempty\" graphql:\"supportEmail\""
+	SupportPhone *string                                                                                                  "json:\"supportPhone,omitempty\" graphql:\"supportPhone\""
+}
+
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_IlmmDetails_IspDetails) GetCountryCode() *string {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_IlmmDetails_IspDetails{}
+	}
+	return t.CountryCode
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_IlmmDetails_IspDetails) GetDescription() *string {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_IlmmDetails_IspDetails{}
+	}
+	return t.Description
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_IlmmDetails_IspDetails) GetIspAccountID() *string {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_IlmmDetails_IspDetails{}
+	}
+	return t.IspAccountID
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_IlmmDetails_IspDetails) GetLoaFile() *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_IlmmDetails_IspDetails_LoaFile {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_IlmmDetails_IspDetails{}
+	}
+	return t.LoaFile
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_IlmmDetails_IspDetails) GetName() *string {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_IlmmDetails_IspDetails{}
+	}
+	return t.Name
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_IlmmDetails_IspDetails) GetSupportEmail() *string {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_IlmmDetails_IspDetails{}
+	}
+	return t.SupportEmail
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_IlmmDetails_IspDetails) GetSupportPhone() *string {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_IlmmDetails_IspDetails{}
+	}
+	return t.SupportPhone
+}
+
+type XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_IlmmDetails_Contacts struct {
+	Email *string "json:\"email,omitempty\" graphql:\"email\""
+	Name  *string "json:\"name,omitempty\" graphql:\"name\""
+	Phone *string "json:\"phone,omitempty\" graphql:\"phone\""
+}
+
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_IlmmDetails_Contacts) GetEmail() *string {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_IlmmDetails_Contacts{}
+	}
+	return t.Email
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_IlmmDetails_Contacts) GetName() *string {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_IlmmDetails_Contacts{}
+	}
+	return t.Name
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_IlmmDetails_Contacts) GetPhone() *string {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_IlmmDetails_Contacts{}
+	}
+	return t.Phone
+}
+
+type XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_IlmmDetails struct {
+	Contacts    []*XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_IlmmDetails_Contacts  "json:\"contacts,omitempty\" graphql:\"contacts\""
+	IspDetails  *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_IlmmDetails_IspDetails  "json:\"ispDetails,omitempty\" graphql:\"ispDetails\""
+	LinkDetails *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_IlmmDetails_LinkDetails "json:\"linkDetails,omitempty\" graphql:\"linkDetails\""
+}
+
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_IlmmDetails) GetContacts() []*XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_IlmmDetails_Contacts {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_IlmmDetails{}
+	}
+	return t.Contacts
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_IlmmDetails) GetIspDetails() *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_IlmmDetails_IspDetails {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_IlmmDetails{}
+	}
+	return t.IspDetails
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_IlmmDetails) GetLinkDetails() *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_IlmmDetails_LinkDetails {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_IlmmDetails{}
+	}
+	return t.LinkDetails
+}
+
+type XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident struct {
+	SimilarStoriesData      []*XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_SimilarStoriesData      "json:\"similarStoriesData\" graphql:\"similarStoriesData\""
+	NetworkIncidentTimeline []*XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_NetworkIncidentTimeline "json:\"networkIncidentTimeline\" graphql:\"networkIncidentTimeline\""
+	StoryType               string                                                                                              "json:\"storyType\" graphql:\"storyType\""
+	Occurrences             *int64                                                                                              "json:\"occurrences,omitempty\" graphql:\"occurrences\""
+	SiteConnectionType      *string                                                                                             "json:\"siteConnectionType,omitempty\" graphql:\"siteConnectionType\""
+	SiteConfigLocation      *string                                                                                             "json:\"siteConfigLocation,omitempty\" graphql:\"siteConfigLocation\""
+	Acknowledged            *bool                                                                                               "json:\"acknowledged,omitempty\" graphql:\"acknowledged\""
+	LinkID                  *string                                                                                             "json:\"linkId,omitempty\" graphql:\"linkId\""
+	LinkName                *string                                                                                             "json:\"linkName,omitempty\" graphql:\"linkName\""
+	LinkConfigPrecedence    *cato_models.LinkConfigPrecedenceEnum                                                               "json:\"linkConfigPrecedence,omitempty\" graphql:\"linkConfigPrecedence\""
+	DeviceConfigHaRole      *cato_models.DeviceConfigHaRoleEnum                                                                 "json:\"deviceConfigHaRole,omitempty\" graphql:\"deviceConfigHaRole\""
+	LicenseRegion           *string                                                                                             "json:\"licenseRegion,omitempty\" graphql:\"licenseRegion\""
+	LicenseBandwidth        *string                                                                                             "json:\"licenseBandwidth,omitempty\" graphql:\"licenseBandwidth\""
+	Pop                     *string                                                                                             "json:\"pop,omitempty\" graphql:\"pop\""
+	Isp                     *string                                                                                             "json:\"isp,omitempty\" graphql:\"isp\""
+	BgpConnection           *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_BgpConnection             "json:\"bgpConnection,omitempty\" graphql:\"bgpConnection\""
+	HostIP                  *string                                                                                             "json:\"hostIp,omitempty\" graphql:\"hostIp\""
+	RuleName                *string                                                                                             "json:\"ruleName,omitempty\" graphql:\"ruleName\""
+	IlmmDetails             *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_IlmmDetails               "json:\"ilmmDetails,omitempty\" graphql:\"ilmmDetails\""
+}
+
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident) GetSimilarStoriesData() []*XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_SimilarStoriesData {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident{}
+	}
+	return t.SimilarStoriesData
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident) GetNetworkIncidentTimeline() []*XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_NetworkIncidentTimeline {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident{}
+	}
+	return t.NetworkIncidentTimeline
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident) GetStoryType() string {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident{}
+	}
+	return t.StoryType
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident) GetOccurrences() *int64 {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident{}
+	}
+	return t.Occurrences
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident) GetSiteConnectionType() *string {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident{}
+	}
+	return t.SiteConnectionType
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident) GetSiteConfigLocation() *string {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident{}
+	}
+	return t.SiteConfigLocation
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident) GetAcknowledged() *bool {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident{}
+	}
+	return t.Acknowledged
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident) GetLinkID() *string {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident{}
+	}
+	return t.LinkID
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident) GetLinkName() *string {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident{}
+	}
+	return t.LinkName
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident) GetLinkConfigPrecedence() *cato_models.LinkConfigPrecedenceEnum {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident{}
+	}
+	return t.LinkConfigPrecedence
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident) GetDeviceConfigHaRole() *cato_models.DeviceConfigHaRoleEnum {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident{}
+	}
+	return t.DeviceConfigHaRole
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident) GetLicenseRegion() *string {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident{}
+	}
+	return t.LicenseRegion
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident) GetLicenseBandwidth() *string {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident{}
+	}
+	return t.LicenseBandwidth
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident) GetPop() *string {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident{}
+	}
+	return t.Pop
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident) GetIsp() *string {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident{}
+	}
+	return t.Isp
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident) GetBgpConnection() *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_BgpConnection {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident{}
+	}
+	return t.BgpConnection
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident) GetHostIP() *string {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident{}
+	}
+	return t.HostIP
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident) GetRuleName() *string {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident{}
+	}
+	return t.RuleName
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident) GetIlmmDetails() *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident_IlmmDetails {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_NetworkXDRIncident{}
+	}
+	return t.IlmmDetails
+}
+
+type XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AiOperationsIncident_SimilarStoriesData struct {
+	Indication           *string  "json:\"indication,omitempty\" graphql:\"indication\""
+	SimilarityPercentage *float64 "json:\"similarityPercentage,omitempty\" graphql:\"similarityPercentage\""
+	StoryID              *string  "json:\"storyId,omitempty\" graphql:\"storyId\""
+	ThreatClassification *string  "json:\"threatClassification,omitempty\" graphql:\"threatClassification\""
+	ThreatTypeName       *string  "json:\"threatTypeName,omitempty\" graphql:\"threatTypeName\""
+	Verdict              *string  "json:\"verdict,omitempty\" graphql:\"verdict\""
+}
+
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AiOperationsIncident_SimilarStoriesData) GetIndication() *string {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AiOperationsIncident_SimilarStoriesData{}
+	}
+	return t.Indication
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AiOperationsIncident_SimilarStoriesData) GetSimilarityPercentage() *float64 {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AiOperationsIncident_SimilarStoriesData{}
+	}
+	return t.SimilarityPercentage
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AiOperationsIncident_SimilarStoriesData) GetStoryID() *string {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AiOperationsIncident_SimilarStoriesData{}
+	}
+	return t.StoryID
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AiOperationsIncident_SimilarStoriesData) GetThreatClassification() *string {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AiOperationsIncident_SimilarStoriesData{}
+	}
+	return t.ThreatClassification
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AiOperationsIncident_SimilarStoriesData) GetThreatTypeName() *string {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AiOperationsIncident_SimilarStoriesData{}
+	}
+	return t.ThreatTypeName
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AiOperationsIncident_SimilarStoriesData) GetVerdict() *string {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AiOperationsIncident_SimilarStoriesData{}
+	}
+	return t.Verdict
+}
+
+type XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AiOperationsIncident_EventsGraphQuery_TimeSeriesEvents_Measures struct {
+	AggType   string "json:\"aggType\" graphql:\"aggType\""
+	FieldName string "json:\"fieldName\" graphql:\"fieldName\""
+	Trend     *bool  "json:\"trend,omitempty\" graphql:\"trend\""
+}
+
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AiOperationsIncident_EventsGraphQuery_TimeSeriesEvents_Measures) GetAggType() string {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AiOperationsIncident_EventsGraphQuery_TimeSeriesEvents_Measures{}
+	}
+	return t.AggType
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AiOperationsIncident_EventsGraphQuery_TimeSeriesEvents_Measures) GetFieldName() string {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AiOperationsIncident_EventsGraphQuery_TimeSeriesEvents_Measures{}
+	}
+	return t.FieldName
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AiOperationsIncident_EventsGraphQuery_TimeSeriesEvents_Measures) GetTrend() *bool {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AiOperationsIncident_EventsGraphQuery_TimeSeriesEvents_Measures{}
+	}
+	return t.Trend
+}
+
+type XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AiOperationsIncident_EventsGraphQuery_TimeSeriesEvents_Dimensions struct {
+	FieldName string "json:\"fieldName\" graphql:\"fieldName\""
+}
+
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AiOperationsIncident_EventsGraphQuery_TimeSeriesEvents_Dimensions) GetFieldName() string {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AiOperationsIncident_EventsGraphQuery_TimeSeriesEvents_Dimensions{}
+	}
+	return t.FieldName
+}
+
+type XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AiOperationsIncident_EventsGraphQuery_TimeSeriesEvents_Filters struct {
+	FieldName string   "json:\"fieldName\" graphql:\"fieldName\""
+	Operator  string   "json:\"operator\" graphql:\"operator\""
+	Values    []string "json:\"values\" graphql:\"values\""
+}
+
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AiOperationsIncident_EventsGraphQuery_TimeSeriesEvents_Filters) GetFieldName() string {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AiOperationsIncident_EventsGraphQuery_TimeSeriesEvents_Filters{}
+	}
+	return t.FieldName
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AiOperationsIncident_EventsGraphQuery_TimeSeriesEvents_Filters) GetOperator() string {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AiOperationsIncident_EventsGraphQuery_TimeSeriesEvents_Filters{}
+	}
+	return t.Operator
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AiOperationsIncident_EventsGraphQuery_TimeSeriesEvents_Filters) GetValues() []string {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AiOperationsIncident_EventsGraphQuery_TimeSeriesEvents_Filters{}
+	}
+	return t.Values
+}
+
+type XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AiOperationsIncident_EventsGraphQuery_TimeSeriesEvents struct {
+	AccountID  string                                                                                                                     "json:\"accountID\" graphql:\"accountID\""
+	Buckets    int64                                                                                                                      "json:\"buckets\" graphql:\"buckets\""
+	Dimensions []*XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AiOperationsIncident_EventsGraphQuery_TimeSeriesEvents_Dimensions "json:\"dimensions\" graphql:\"dimensions\""
+	Filters    []*XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AiOperationsIncident_EventsGraphQuery_TimeSeriesEvents_Filters    "json:\"filters\" graphql:\"filters\""
+	Measures   []*XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AiOperationsIncident_EventsGraphQuery_TimeSeriesEvents_Measures   "json:\"measures\" graphql:\"measures\""
+	TimeFrame  string                                                                                                                     "json:\"timeFrame\" graphql:\"timeFrame\""
+}
+
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AiOperationsIncident_EventsGraphQuery_TimeSeriesEvents) GetAccountID() string {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AiOperationsIncident_EventsGraphQuery_TimeSeriesEvents{}
+	}
+	return t.AccountID
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AiOperationsIncident_EventsGraphQuery_TimeSeriesEvents) GetBuckets() int64 {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AiOperationsIncident_EventsGraphQuery_TimeSeriesEvents{}
+	}
+	return t.Buckets
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AiOperationsIncident_EventsGraphQuery_TimeSeriesEvents) GetDimensions() []*XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AiOperationsIncident_EventsGraphQuery_TimeSeriesEvents_Dimensions {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AiOperationsIncident_EventsGraphQuery_TimeSeriesEvents{}
+	}
+	return t.Dimensions
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AiOperationsIncident_EventsGraphQuery_TimeSeriesEvents) GetFilters() []*XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AiOperationsIncident_EventsGraphQuery_TimeSeriesEvents_Filters {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AiOperationsIncident_EventsGraphQuery_TimeSeriesEvents{}
+	}
+	return t.Filters
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AiOperationsIncident_EventsGraphQuery_TimeSeriesEvents) GetMeasures() []*XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AiOperationsIncident_EventsGraphQuery_TimeSeriesEvents_Measures {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AiOperationsIncident_EventsGraphQuery_TimeSeriesEvents{}
+	}
+	return t.Measures
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AiOperationsIncident_EventsGraphQuery_TimeSeriesEvents) GetTimeFrame() string {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AiOperationsIncident_EventsGraphQuery_TimeSeriesEvents{}
+	}
+	return t.TimeFrame
+}
+
+type XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AiOperationsIncident_EventsGraphQuery struct {
+	TimeSeriesEvents *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AiOperationsIncident_EventsGraphQuery_TimeSeriesEvents "json:\"timeSeriesEvents,omitempty\" graphql:\"timeSeriesEvents\""
+	Type             cato_models.GraphType                                                                                         "json:\"type\" graphql:\"type\""
+}
+
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AiOperationsIncident_EventsGraphQuery) GetTimeSeriesEvents() *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AiOperationsIncident_EventsGraphQuery_TimeSeriesEvents {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AiOperationsIncident_EventsGraphQuery{}
+	}
+	return t.TimeSeriesEvents
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AiOperationsIncident_EventsGraphQuery) GetType() *cato_models.GraphType {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AiOperationsIncident_EventsGraphQuery{}
+	}
+	return &t.Type
+}
+
+type XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AiOperationsIncident_AccountOperationIncident_IncidentTimeline_AccountOperationsTimelineEvent struct {
+	ID          string                                    "json:\"id\" graphql:\"id\""
+	Created     scalars.Time                              "json:\"created\" graphql:\"created\""
+	Validated   scalars.Time                              "json:\"validated\" graphql:\"validated\""
+	Description string                                    "json:\"description\" graphql:\"description\""
+	Type        cato_models.AccountOperationsTimelineType "json:\"type\" graphql:\"type\""
+	EventIds    []string                                  "json:\"eventIds\" graphql:\"eventIds\""
+	Muted       bool                                      "json:\"muted\" graphql:\"muted\""
+}
+
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AiOperationsIncident_AccountOperationIncident_IncidentTimeline_AccountOperationsTimelineEvent) GetID() string {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AiOperationsIncident_AccountOperationIncident_IncidentTimeline_AccountOperationsTimelineEvent{}
+	}
+	return t.ID
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AiOperationsIncident_AccountOperationIncident_IncidentTimeline_AccountOperationsTimelineEvent) GetCreated() *scalars.Time {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AiOperationsIncident_AccountOperationIncident_IncidentTimeline_AccountOperationsTimelineEvent{}
+	}
+	return &t.Created
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AiOperationsIncident_AccountOperationIncident_IncidentTimeline_AccountOperationsTimelineEvent) GetValidated() *scalars.Time {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AiOperationsIncident_AccountOperationIncident_IncidentTimeline_AccountOperationsTimelineEvent{}
+	}
+	return &t.Validated
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AiOperationsIncident_AccountOperationIncident_IncidentTimeline_AccountOperationsTimelineEvent) GetDescription() string {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AiOperationsIncident_AccountOperationIncident_IncidentTimeline_AccountOperationsTimelineEvent{}
+	}
+	return t.Description
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AiOperationsIncident_AccountOperationIncident_IncidentTimeline_AccountOperationsTimelineEvent) GetType() *cato_models.AccountOperationsTimelineType {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AiOperationsIncident_AccountOperationIncident_IncidentTimeline_AccountOperationsTimelineEvent{}
+	}
+	return &t.Type
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AiOperationsIncident_AccountOperationIncident_IncidentTimeline_AccountOperationsTimelineEvent) GetEventIds() []string {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AiOperationsIncident_AccountOperationIncident_IncidentTimeline_AccountOperationsTimelineEvent{}
+	}
+	return t.EventIds
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AiOperationsIncident_AccountOperationIncident_IncidentTimeline_AccountOperationsTimelineEvent) GetMuted() bool {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AiOperationsIncident_AccountOperationIncident_IncidentTimeline_AccountOperationsTimelineEvent{}
+	}
+	return t.Muted
+}
+
+type XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AiOperationsIncident_AccountOperationIncident_IncidentTimeline struct {
+	AccountOperationsTimelineEvent XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AiOperationsIncident_AccountOperationIncident_IncidentTimeline_AccountOperationsTimelineEvent "graphql:\"... on AccountOperationsTimelineEvent\""
+	Typename                       *string                                                                                                                                             "json:\"__typename,omitempty\" graphql:\"__typename\""
+}
+
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AiOperationsIncident_AccountOperationIncident_IncidentTimeline) GetAccountOperationsTimelineEvent() *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AiOperationsIncident_AccountOperationIncident_IncidentTimeline_AccountOperationsTimelineEvent {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AiOperationsIncident_AccountOperationIncident_IncidentTimeline{}
+	}
+	return &t.AccountOperationsTimelineEvent
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AiOperationsIncident_AccountOperationIncident_IncidentTimeline) GetTypename() *string {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AiOperationsIncident_AccountOperationIncident_IncidentTimeline{}
+	}
+	return t.Typename
+}
+
+type XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AiOperationsIncident_AccountOperationIncident_Metadata struct {
+	Key   string                   "json:\"key\" graphql:\"key\""
+	Type  cato_models.MetadataType "json:\"type\" graphql:\"type\""
+	Value string                   "json:\"value\" graphql:\"value\""
+}
+
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AiOperationsIncident_AccountOperationIncident_Metadata) GetKey() string {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AiOperationsIncident_AccountOperationIncident_Metadata{}
+	}
+	return t.Key
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AiOperationsIncident_AccountOperationIncident_Metadata) GetType() *cato_models.MetadataType {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AiOperationsIncident_AccountOperationIncident_Metadata{}
+	}
+	return &t.Type
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AiOperationsIncident_AccountOperationIncident_Metadata) GetValue() string {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AiOperationsIncident_AccountOperationIncident_Metadata{}
+	}
+	return t.Value
+}
+
+type XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AiOperationsIncident_AccountOperationIncident_Playbooks struct {
+	Description string  "json:\"description\" graphql:\"description\""
+	Link        *string "json:\"link,omitempty\" graphql:\"link\""
+	Title       string  "json:\"title\" graphql:\"title\""
+}
+
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AiOperationsIncident_AccountOperationIncident_Playbooks) GetDescription() string {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AiOperationsIncident_AccountOperationIncident_Playbooks{}
+	}
+	return t.Description
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AiOperationsIncident_AccountOperationIncident_Playbooks) GetLink() *string {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AiOperationsIncident_AccountOperationIncident_Playbooks{}
+	}
+	return t.Link
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AiOperationsIncident_AccountOperationIncident_Playbooks) GetTitle() string {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AiOperationsIncident_AccountOperationIncident_Playbooks{}
+	}
+	return t.Title
+}
+
+type XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AiOperationsIncident_AccountOperationIncident struct {
+	IncidentTimeline []*XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AiOperationsIncident_AccountOperationIncident_IncidentTimeline "json:\"incidentTimeline\" graphql:\"incidentTimeline\""
+	Metadata         []*XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AiOperationsIncident_AccountOperationIncident_Metadata         "json:\"metadata\" graphql:\"metadata\""
+	Playbooks        []*XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AiOperationsIncident_AccountOperationIncident_Playbooks        "json:\"playbooks\" graphql:\"playbooks\""
+}
+
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AiOperationsIncident_AccountOperationIncident) GetIncidentTimeline() []*XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AiOperationsIncident_AccountOperationIncident_IncidentTimeline {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AiOperationsIncident_AccountOperationIncident{}
+	}
+	return t.IncidentTimeline
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AiOperationsIncident_AccountOperationIncident) GetMetadata() []*XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AiOperationsIncident_AccountOperationIncident_Metadata {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AiOperationsIncident_AccountOperationIncident{}
+	}
+	return t.Metadata
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AiOperationsIncident_AccountOperationIncident) GetPlaybooks() []*XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AiOperationsIncident_AccountOperationIncident_Playbooks {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AiOperationsIncident_AccountOperationIncident{}
+	}
+	return t.Playbooks
+}
+
+type XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AiOperationsIncident struct {
+	SimilarStoriesData       []*XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AiOperationsIncident_SimilarStoriesData     "json:\"similarStoriesData\" graphql:\"similarStoriesData\""
+	FlowLastTime             string                                                                                               "json:\"flowLastTime\" graphql:\"flowLastTime\""
+	FlowStartTime            string                                                                                               "json:\"flowStartTime\" graphql:\"flowStartTime\""
+	Ioa                      string                                                                                               "json:\"ioa\" graphql:\"ioa\""
+	RiskScore                int64                                                                                                "json:\"riskScore\" graphql:\"riskScore\""
+	Type                     *cato_models.AiOperationsIncidentTypeEnum                                                            "json:\"type,omitempty\" graphql:\"type\""
+	Occurrences              *int64                                                                                               "json:\"occurrences,omitempty\" graphql:\"occurrences\""
+	EventsGraphQuery         *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AiOperationsIncident_EventsGraphQuery         "json:\"eventsGraphQuery,omitempty\" graphql:\"eventsGraphQuery\""
+	AccountOperationIncident *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AiOperationsIncident_AccountOperationIncident "json:\"accountOperationIncident,omitempty\" graphql:\"accountOperationIncident\""
+}
+
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AiOperationsIncident) GetSimilarStoriesData() []*XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AiOperationsIncident_SimilarStoriesData {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AiOperationsIncident{}
+	}
+	return t.SimilarStoriesData
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AiOperationsIncident) GetFlowLastTime() string {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AiOperationsIncident{}
+	}
+	return t.FlowLastTime
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AiOperationsIncident) GetFlowStartTime() string {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AiOperationsIncident{}
+	}
+	return t.FlowStartTime
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AiOperationsIncident) GetIoa() string {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AiOperationsIncident{}
+	}
+	return t.Ioa
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AiOperationsIncident) GetRiskScore() int64 {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AiOperationsIncident{}
+	}
+	return t.RiskScore
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AiOperationsIncident) GetType() *cato_models.AiOperationsIncidentTypeEnum {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AiOperationsIncident{}
+	}
+	return t.Type
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AiOperationsIncident) GetOccurrences() *int64 {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AiOperationsIncident{}
+	}
+	return t.Occurrences
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AiOperationsIncident) GetEventsGraphQuery() *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AiOperationsIncident_EventsGraphQuery {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AiOperationsIncident{}
+	}
+	return t.EventsGraphQuery
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AiOperationsIncident) GetAccountOperationIncident() *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AiOperationsIncident_AccountOperationIncident {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AiOperationsIncident{}
+	}
+	return t.AccountOperationIncident
+}
+
+type XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_GenericIncident_SimilarStoriesData struct {
+	Indication           *string  "json:\"indication,omitempty\" graphql:\"indication\""
+	SimilarityPercentage *float64 "json:\"similarityPercentage,omitempty\" graphql:\"similarityPercentage\""
+	StoryID              *string  "json:\"storyId,omitempty\" graphql:\"storyId\""
+	ThreatClassification *string  "json:\"threatClassification,omitempty\" graphql:\"threatClassification\""
+	ThreatTypeName       *string  "json:\"threatTypeName,omitempty\" graphql:\"threatTypeName\""
+	Verdict              *string  "json:\"verdict,omitempty\" graphql:\"verdict\""
+}
+
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_GenericIncident_SimilarStoriesData) GetIndication() *string {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_GenericIncident_SimilarStoriesData{}
+	}
+	return t.Indication
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_GenericIncident_SimilarStoriesData) GetSimilarityPercentage() *float64 {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_GenericIncident_SimilarStoriesData{}
+	}
+	return t.SimilarityPercentage
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_GenericIncident_SimilarStoriesData) GetStoryID() *string {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_GenericIncident_SimilarStoriesData{}
+	}
+	return t.StoryID
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_GenericIncident_SimilarStoriesData) GetThreatClassification() *string {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_GenericIncident_SimilarStoriesData{}
+	}
+	return t.ThreatClassification
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_GenericIncident_SimilarStoriesData) GetThreatTypeName() *string {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_GenericIncident_SimilarStoriesData{}
+	}
+	return t.ThreatTypeName
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_GenericIncident_SimilarStoriesData) GetVerdict() *string {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_GenericIncident_SimilarStoriesData{}
+	}
+	return t.Verdict
+}
+
+type XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_GenericIncident_VendorInfo struct {
+	EngineType  *string "json:\"engineType,omitempty\" graphql:\"engineType\""
+	IncidentURL *string "json:\"incidentUrl,omitempty\" graphql:\"incidentUrl\""
+	Name        *string "json:\"name,omitempty\" graphql:\"name\""
+	Product     *string "json:\"product,omitempty\" graphql:\"product\""
+	Status      *string "json:\"status,omitempty\" graphql:\"status\""
+}
+
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_GenericIncident_VendorInfo) GetEngineType() *string {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_GenericIncident_VendorInfo{}
+	}
+	return t.EngineType
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_GenericIncident_VendorInfo) GetIncidentURL() *string {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_GenericIncident_VendorInfo{}
+	}
+	return t.IncidentURL
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_GenericIncident_VendorInfo) GetName() *string {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_GenericIncident_VendorInfo{}
+	}
+	return t.Name
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_GenericIncident_VendorInfo) GetProduct() *string {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_GenericIncident_VendorInfo{}
+	}
+	return t.Product
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_GenericIncident_VendorInfo) GetStatus() *string {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_GenericIncident_VendorInfo{}
+	}
+	return t.Status
+}
+
+type XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_GenericIncident_StatusInfo struct {
+	Classification *string                       "json:\"classification,omitempty\" graphql:\"classification\""
+	IncidentStatus *string                       "json:\"incidentStatus,omitempty\" graphql:\"incidentStatus\""
+	Verdict        *cato_models.StoryVerdictEnum "json:\"verdict,omitempty\" graphql:\"verdict\""
+}
+
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_GenericIncident_StatusInfo) GetClassification() *string {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_GenericIncident_StatusInfo{}
+	}
+	return t.Classification
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_GenericIncident_StatusInfo) GetIncidentStatus() *string {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_GenericIncident_StatusInfo{}
+	}
+	return t.IncidentStatus
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_GenericIncident_StatusInfo) GetVerdict() *cato_models.StoryVerdictEnum {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_GenericIncident_StatusInfo{}
+	}
+	return t.Verdict
+}
+
+type XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_GenericIncident_Evidences_Data struct {
+	FieldName string   "json:\"fieldName\" graphql:\"fieldName\""
+	Values    []string "json:\"values\" graphql:\"values\""
+}
+
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_GenericIncident_Evidences_Data) GetFieldName() string {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_GenericIncident_Evidences_Data{}
+	}
+	return t.FieldName
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_GenericIncident_Evidences_Data) GetValues() []string {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_GenericIncident_Evidences_Data{}
+	}
+	return t.Values
+}
+
+type XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_GenericIncident_Evidences struct {
+	Data  []*XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_GenericIncident_Evidences_Data "json:\"data\" graphql:\"data\""
+	Kind  *string                                                                                 "json:\"kind,omitempty\" graphql:\"kind\""
+	Type  cato_models.GenericIncidentEvidenceType                                                 "json:\"type\" graphql:\"type\""
+	Value *string                                                                                 "json:\"value,omitempty\" graphql:\"value\""
+}
+
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_GenericIncident_Evidences) GetData() []*XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_GenericIncident_Evidences_Data {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_GenericIncident_Evidences{}
+	}
+	return t.Data
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_GenericIncident_Evidences) GetKind() *string {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_GenericIncident_Evidences{}
+	}
+	return t.Kind
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_GenericIncident_Evidences) GetType() *cato_models.GenericIncidentEvidenceType {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_GenericIncident_Evidences{}
+	}
+	return &t.Type
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_GenericIncident_Evidences) GetValue() *string {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_GenericIncident_Evidences{}
+	}
+	return t.Value
+}
+
+type XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_GenericIncident_Queries_Measures struct {
+	AggType   *string                       "json:\"aggType,omitempty\" graphql:\"aggType\""
+	FieldName *string                       "json:\"fieldName,omitempty\" graphql:\"fieldName\""
+	UnitType  *cato_models.MeasuresUnitType "json:\"unitType,omitempty\" graphql:\"unitType\""
+}
+
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_GenericIncident_Queries_Measures) GetAggType() *string {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_GenericIncident_Queries_Measures{}
+	}
+	return t.AggType
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_GenericIncident_Queries_Measures) GetFieldName() *string {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_GenericIncident_Queries_Measures{}
+	}
+	return t.FieldName
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_GenericIncident_Queries_Measures) GetUnitType() *cato_models.MeasuresUnitType {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_GenericIncident_Queries_Measures{}
+	}
+	return t.UnitType
+}
+
+type XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_GenericIncident_Queries_Filters struct {
+	Name     *string  "json:\"name,omitempty\" graphql:\"name\""
+	Operator *string  "json:\"operator,omitempty\" graphql:\"operator\""
+	Value    *string  "json:\"value,omitempty\" graphql:\"value\""
+	Values   []string "json:\"values\" graphql:\"values\""
+}
+
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_GenericIncident_Queries_Filters) GetName() *string {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_GenericIncident_Queries_Filters{}
+	}
+	return t.Name
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_GenericIncident_Queries_Filters) GetOperator() *string {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_GenericIncident_Queries_Filters{}
+	}
+	return t.Operator
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_GenericIncident_Queries_Filters) GetValue() *string {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_GenericIncident_Queries_Filters{}
+	}
+	return t.Value
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_GenericIncident_Queries_Filters) GetValues() []string {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_GenericIncident_Queries_Filters{}
+	}
+	return t.Values
+}
+
+type XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_GenericIncident_Queries struct {
+	Buckets    *int64                                                                                    "json:\"buckets,omitempty\" graphql:\"buckets\""
+	DataSource *cato_models.DataSourceEnum                                                               "json:\"dataSource,omitempty\" graphql:\"dataSource\""
+	Fields     []string                                                                                  "json:\"fields\" graphql:\"fields\""
+	Filters    []*XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_GenericIncident_Queries_Filters  "json:\"filters\" graphql:\"filters\""
+	Measures   []*XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_GenericIncident_Queries_Measures "json:\"measures\" graphql:\"measures\""
+}
+
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_GenericIncident_Queries) GetBuckets() *int64 {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_GenericIncident_Queries{}
+	}
+	return t.Buckets
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_GenericIncident_Queries) GetDataSource() *cato_models.DataSourceEnum {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_GenericIncident_Queries{}
+	}
+	return t.DataSource
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_GenericIncident_Queries) GetFields() []string {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_GenericIncident_Queries{}
+	}
+	return t.Fields
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_GenericIncident_Queries) GetFilters() []*XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_GenericIncident_Queries_Filters {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_GenericIncident_Queries{}
+	}
+	return t.Filters
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_GenericIncident_Queries) GetMeasures() []*XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_GenericIncident_Queries_Measures {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_GenericIncident_Queries{}
+	}
+	return t.Measures
+}
+
+type XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_GenericIncident_Mitres struct {
+	ID   *string "json:\"id,omitempty\" graphql:\"id\""
+	Name *string "json:\"name,omitempty\" graphql:\"name\""
+}
+
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_GenericIncident_Mitres) GetID() *string {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_GenericIncident_Mitres{}
+	}
+	return t.ID
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_GenericIncident_Mitres) GetName() *string {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_GenericIncident_Mitres{}
+	}
+	return t.Name
+}
+
+type XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_GenericIncident struct {
+	SimilarStoriesData []*XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_GenericIncident_SimilarStoriesData "json:\"similarStoriesData\" graphql:\"similarStoriesData\""
+	VendorInfo         *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_GenericIncident_VendorInfo           "json:\"vendorInfo,omitempty\" graphql:\"vendorInfo\""
+	StatusInfo         *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_GenericIncident_StatusInfo           "json:\"statusInfo,omitempty\" graphql:\"statusInfo\""
+	Evidences          []*XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_GenericIncident_Evidences          "json:\"evidences\" graphql:\"evidences\""
+	Queries            []*XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_GenericIncident_Queries            "json:\"queries\" graphql:\"queries\""
+	Mitres             []*XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_GenericIncident_Mitres             "json:\"mitres,omitempty\" graphql:\"mitres\""
+}
+
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_GenericIncident) GetSimilarStoriesData() []*XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_GenericIncident_SimilarStoriesData {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_GenericIncident{}
+	}
+	return t.SimilarStoriesData
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_GenericIncident) GetVendorInfo() *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_GenericIncident_VendorInfo {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_GenericIncident{}
+	}
+	return t.VendorInfo
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_GenericIncident) GetStatusInfo() *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_GenericIncident_StatusInfo {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_GenericIncident{}
+	}
+	return t.StatusInfo
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_GenericIncident) GetEvidences() []*XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_GenericIncident_Evidences {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_GenericIncident{}
+	}
+	return t.Evidences
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_GenericIncident) GetQueries() []*XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_GenericIncident_Queries {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_GenericIncident{}
+	}
+	return t.Queries
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_GenericIncident) GetMitres() []*XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_GenericIncident_Mitres {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_GenericIncident{}
+	}
+	return t.Mitres
+}
+
+type XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_SimilarStoriesData struct {
+	Indication           *string  "json:\"indication,omitempty\" graphql:\"indication\""
+	SimilarityPercentage *float64 "json:\"similarityPercentage,omitempty\" graphql:\"similarityPercentage\""
+	StoryID              *string  "json:\"storyId,omitempty\" graphql:\"storyId\""
+	ThreatClassification *string  "json:\"threatClassification,omitempty\" graphql:\"threatClassification\""
+	ThreatTypeName       *string  "json:\"threatTypeName,omitempty\" graphql:\"threatTypeName\""
+	Verdict              *string  "json:\"verdict,omitempty\" graphql:\"verdict\""
+}
+
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_SimilarStoriesData) GetIndication() *string {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_SimilarStoriesData{}
+	}
+	return t.Indication
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_SimilarStoriesData) GetSimilarityPercentage() *float64 {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_SimilarStoriesData{}
+	}
+	return t.SimilarityPercentage
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_SimilarStoriesData) GetStoryID() *string {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_SimilarStoriesData{}
+	}
+	return t.StoryID
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_SimilarStoriesData) GetThreatClassification() *string {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_SimilarStoriesData{}
+	}
+	return t.ThreatClassification
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_SimilarStoriesData) GetThreatTypeName() *string {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_SimilarStoriesData{}
+	}
+	return t.ThreatTypeName
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_SimilarStoriesData) GetVerdict() *string {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_SimilarStoriesData{}
+	}
+	return t.Verdict
+}
+
+type XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Device_OsDetails struct {
+	OsBuild   *int64  "json:\"osBuild,omitempty\" graphql:\"osBuild\""
+	OsType    string  "json:\"osType\" graphql:\"osType\""
+	OsVersion *string "json:\"osVersion,omitempty\" graphql:\"osVersion\""
+}
+
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Device_OsDetails) GetOsBuild() *int64 {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Device_OsDetails{}
+	}
+	return t.OsBuild
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Device_OsDetails) GetOsType() string {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Device_OsDetails{}
+	}
+	return t.OsType
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Device_OsDetails) GetOsVersion() *string {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Device_OsDetails{}
+	}
+	return t.OsVersion
+}
+
+type XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Device_LoggedOnUsers_MicrosoftEndpointUser struct {
+	ID            string  "json:\"id\" graphql:\"id\""
+	Name          string  "json:\"name\" graphql:\"name\""
+	UserSid       *string "json:\"userSid,omitempty\" graphql:\"userSid\""
+	AccountName   *string "json:\"accountName,omitempty\" graphql:\"accountName\""
+	DomainName    *string "json:\"domainName,omitempty\" graphql:\"domainName\""
+	PrincipalName *string "json:\"principalName,omitempty\" graphql:\"principalName\""
+}
+
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Device_LoggedOnUsers_MicrosoftEndpointUser) GetID() string {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Device_LoggedOnUsers_MicrosoftEndpointUser{}
+	}
+	return t.ID
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Device_LoggedOnUsers_MicrosoftEndpointUser) GetName() string {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Device_LoggedOnUsers_MicrosoftEndpointUser{}
+	}
+	return t.Name
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Device_LoggedOnUsers_MicrosoftEndpointUser) GetUserSid() *string {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Device_LoggedOnUsers_MicrosoftEndpointUser{}
+	}
+	return t.UserSid
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Device_LoggedOnUsers_MicrosoftEndpointUser) GetAccountName() *string {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Device_LoggedOnUsers_MicrosoftEndpointUser{}
+	}
+	return t.AccountName
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Device_LoggedOnUsers_MicrosoftEndpointUser) GetDomainName() *string {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Device_LoggedOnUsers_MicrosoftEndpointUser{}
+	}
+	return t.DomainName
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Device_LoggedOnUsers_MicrosoftEndpointUser) GetPrincipalName() *string {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Device_LoggedOnUsers_MicrosoftEndpointUser{}
+	}
+	return t.PrincipalName
+}
+
+type XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Device_LoggedOnUsers_CatoEndpointUser struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Device_LoggedOnUsers_CatoEndpointUser) GetID() string {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Device_LoggedOnUsers_CatoEndpointUser{}
+	}
+	return t.ID
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Device_LoggedOnUsers_CatoEndpointUser) GetName() string {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Device_LoggedOnUsers_CatoEndpointUser{}
+	}
+	return t.Name
+}
+
+type XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Device_LoggedOnUsers struct {
+	CatoEndpointUser      XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Device_LoggedOnUsers_CatoEndpointUser      "graphql:\"... on CatoEndpointUser\""
+	MicrosoftEndpointUser XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Device_LoggedOnUsers_MicrosoftEndpointUser "graphql:\"... on MicrosoftEndpointUser\""
+	Typename              *string                                                                                                       "json:\"__typename,omitempty\" graphql:\"__typename\""
+}
+
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Device_LoggedOnUsers) GetCatoEndpointUser() *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Device_LoggedOnUsers_CatoEndpointUser {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Device_LoggedOnUsers{}
+	}
+	return &t.CatoEndpointUser
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Device_LoggedOnUsers) GetMicrosoftEndpointUser() *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Device_LoggedOnUsers_MicrosoftEndpointUser {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Device_LoggedOnUsers{}
+	}
+	return &t.MicrosoftEndpointUser
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Device_LoggedOnUsers) GetTypename() *string {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Device_LoggedOnUsers{}
+	}
+	return t.Typename
+}
+
+type XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Device struct {
+	DeviceName    *string                                                                                    "json:\"deviceName,omitempty\" graphql:\"deviceName\""
+	ExternalIP    *string                                                                                    "json:\"externalIp,omitempty\" graphql:\"externalIp\""
+	ID            string                                                                                     "json:\"id\" graphql:\"id\""
+	LocalIP       *string                                                                                    "json:\"localIp,omitempty\" graphql:\"localIp\""
+	LoggedOnUsers []*XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Device_LoggedOnUsers "json:\"loggedOnUsers\" graphql:\"loggedOnUsers\""
+	MacAddress    *string                                                                                    "json:\"macAddress,omitempty\" graphql:\"macAddress\""
+	OsDetails     *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Device_OsDetails       "json:\"osDetails,omitempty\" graphql:\"osDetails\""
+}
+
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Device) GetDeviceName() *string {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Device{}
+	}
+	return t.DeviceName
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Device) GetExternalIP() *string {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Device{}
+	}
+	return t.ExternalIP
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Device) GetID() string {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Device{}
+	}
+	return t.ID
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Device) GetLocalIP() *string {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Device{}
+	}
+	return t.LocalIP
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Device) GetLoggedOnUsers() []*XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Device_LoggedOnUsers {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Device{}
+	}
+	return t.LoggedOnUsers
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Device) GetMacAddress() *string {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Device{}
+	}
+	return t.MacAddress
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Device) GetOsDetails() *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Device_OsDetails {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Device{}
+	}
+	return t.OsDetails
+}
+
+type XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Alerts_MitreTechnique struct {
+	ID   *string "json:\"id,omitempty\" graphql:\"id\""
+	Name *string "json:\"name,omitempty\" graphql:\"name\""
+}
+
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Alerts_MitreTechnique) GetID() *string {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Alerts_MitreTechnique{}
+	}
+	return t.ID
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Alerts_MitreTechnique) GetName() *string {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Alerts_MitreTechnique{}
+	}
+	return t.Name
+}
+
+type XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Alerts_MitreSubTechnique struct {
+	ID   *string "json:\"id,omitempty\" graphql:\"id\""
+	Name *string "json:\"name,omitempty\" graphql:\"name\""
+}
+
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Alerts_MitreSubTechnique) GetID() *string {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Alerts_MitreSubTechnique{}
+	}
+	return t.ID
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Alerts_MitreSubTechnique) GetName() *string {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Alerts_MitreSubTechnique{}
+	}
+	return t.Name
+}
+
+type XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Alerts_Resources_CatoProcessResource_ImageFile struct {
+	Typename *string "json:\"__typename,omitempty\" graphql:\"__typename\""
+}
+
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Alerts_Resources_CatoProcessResource_ImageFile) GetTypename() *string {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Alerts_Resources_CatoProcessResource_ImageFile{}
+	}
+	return t.Typename
+}
+
+type XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Alerts_Resources_CatoProcessResource_UserAccount struct {
+	Typename *string "json:\"__typename,omitempty\" graphql:\"__typename\""
+}
+
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Alerts_Resources_CatoProcessResource_UserAccount) GetTypename() *string {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Alerts_Resources_CatoProcessResource_UserAccount{}
+	}
+	return t.Typename
+}
+
+type XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Alerts_Resources_CatoProcessResource struct {
+	ID                 string                                                                                                               "json:\"id\" graphql:\"id\""
+	CreatedDateTime    *string                                                                                                              "json:\"createdDateTime,omitempty\" graphql:\"createdDateTime\""
+	RemediationStatus  *cato_models.RemediationStatusEnum                                                                                   "json:\"remediationStatus,omitempty\" graphql:\"remediationStatus\""
+	ProcessID          int64                                                                                                                "json:\"processId\" graphql:\"processId\""
+	ProcessCommandLine *string                                                                                                              "json:\"processCommandLine,omitempty\" graphql:\"processCommandLine\""
+	ImageFile          *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Alerts_Resources_CatoProcessResource_ImageFile   "json:\"imageFile,omitempty\" graphql:\"imageFile\""
+	UserAccount        *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Alerts_Resources_CatoProcessResource_UserAccount "json:\"userAccount,omitempty\" graphql:\"userAccount\""
+}
+
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Alerts_Resources_CatoProcessResource) GetID() string {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Alerts_Resources_CatoProcessResource{}
+	}
+	return t.ID
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Alerts_Resources_CatoProcessResource) GetCreatedDateTime() *string {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Alerts_Resources_CatoProcessResource{}
+	}
+	return t.CreatedDateTime
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Alerts_Resources_CatoProcessResource) GetRemediationStatus() *cato_models.RemediationStatusEnum {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Alerts_Resources_CatoProcessResource{}
+	}
+	return t.RemediationStatus
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Alerts_Resources_CatoProcessResource) GetProcessID() int64 {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Alerts_Resources_CatoProcessResource{}
+	}
+	return t.ProcessID
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Alerts_Resources_CatoProcessResource) GetProcessCommandLine() *string {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Alerts_Resources_CatoProcessResource{}
+	}
+	return t.ProcessCommandLine
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Alerts_Resources_CatoProcessResource) GetImageFile() *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Alerts_Resources_CatoProcessResource_ImageFile {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Alerts_Resources_CatoProcessResource{}
+	}
+	return t.ImageFile
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Alerts_Resources_CatoProcessResource) GetUserAccount() *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Alerts_Resources_CatoProcessResource_UserAccount {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Alerts_Resources_CatoProcessResource{}
+	}
+	return t.UserAccount
+}
+
+type XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Alerts_Resources_CatoFileResource_FileDetails struct {
+	Typename *string "json:\"__typename,omitempty\" graphql:\"__typename\""
+}
+
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Alerts_Resources_CatoFileResource_FileDetails) GetTypename() *string {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Alerts_Resources_CatoFileResource_FileDetails{}
+	}
+	return t.Typename
+}
+
+type XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Alerts_Resources_CatoFileResource struct {
+	ID                string                                                                                                            "json:\"id\" graphql:\"id\""
+	CreatedDateTime   *string                                                                                                           "json:\"createdDateTime,omitempty\" graphql:\"createdDateTime\""
+	RemediationStatus *cato_models.RemediationStatusEnum                                                                                "json:\"remediationStatus,omitempty\" graphql:\"remediationStatus\""
+	FileDetails       *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Alerts_Resources_CatoFileResource_FileDetails "json:\"fileDetails,omitempty\" graphql:\"fileDetails\""
+	DetectionStatus   *cato_models.DetectionStatusEnum                                                                                  "json:\"detectionStatus,omitempty\" graphql:\"detectionStatus\""
+}
+
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Alerts_Resources_CatoFileResource) GetID() string {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Alerts_Resources_CatoFileResource{}
+	}
+	return t.ID
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Alerts_Resources_CatoFileResource) GetCreatedDateTime() *string {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Alerts_Resources_CatoFileResource{}
+	}
+	return t.CreatedDateTime
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Alerts_Resources_CatoFileResource) GetRemediationStatus() *cato_models.RemediationStatusEnum {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Alerts_Resources_CatoFileResource{}
+	}
+	return t.RemediationStatus
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Alerts_Resources_CatoFileResource) GetFileDetails() *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Alerts_Resources_CatoFileResource_FileDetails {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Alerts_Resources_CatoFileResource{}
+	}
+	return t.FileDetails
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Alerts_Resources_CatoFileResource) GetDetectionStatus() *cato_models.DetectionStatusEnum {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Alerts_Resources_CatoFileResource{}
+	}
+	return t.DetectionStatus
+}
+
+type XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Alerts_Resources struct {
+	CatoFileResource    XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Alerts_Resources_CatoFileResource    "graphql:\"... on CatoFileResource\""
+	CatoProcessResource XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Alerts_Resources_CatoProcessResource "graphql:\"... on CatoProcessResource\""
+	Typename            *string                                                                                                 "json:\"__typename,omitempty\" graphql:\"__typename\""
+}
+
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Alerts_Resources) GetCatoFileResource() *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Alerts_Resources_CatoFileResource {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Alerts_Resources{}
+	}
+	return &t.CatoFileResource
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Alerts_Resources) GetCatoProcessResource() *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Alerts_Resources_CatoProcessResource {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Alerts_Resources{}
+	}
+	return &t.CatoProcessResource
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Alerts_Resources) GetTypename() *string {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Alerts_Resources{}
+	}
+	return t.Typename
+}
+
+type XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Alerts_Activities struct {
+	ID               string "json:\"id\" graphql:\"id\""
+	ParentResourceID string "json:\"parentResourceId\" graphql:\"parentResourceId\""
+	ResourceID       string "json:\"resourceId\" graphql:\"resourceId\""
+}
+
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Alerts_Activities) GetID() string {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Alerts_Activities{}
+	}
+	return t.ID
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Alerts_Activities) GetParentResourceID() string {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Alerts_Activities{}
+	}
+	return t.ParentResourceID
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Alerts_Activities) GetResourceID() string {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Alerts_Activities{}
+	}
+	return t.ResourceID
+}
+
+type XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Alerts struct {
+	Activities                []*XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Alerts_Activities        "json:\"activities\" graphql:\"activities\""
+	CreatedDateTime           *string                                                                                        "json:\"createdDateTime,omitempty\" graphql:\"createdDateTime\""
+	Criticality               *int64                                                                                         "json:\"criticality,omitempty\" graphql:\"criticality\""
+	Description               *string                                                                                        "json:\"description,omitempty\" graphql:\"description\""
+	EndpointProtectionProfile *string                                                                                        "json:\"endpointProtectionProfile,omitempty\" graphql:\"endpointProtectionProfile\""
+	EngineType                *cato_models.CatoEndpointEngineType                                                            "json:\"engineType,omitempty\" graphql:\"engineType\""
+	ExternalIP                *string                                                                                        "json:\"externalIp,omitempty\" graphql:\"externalIp\""
+	ID                        string                                                                                         "json:\"id\" graphql:\"id\""
+	LocalIP                   *string                                                                                        "json:\"localIp,omitempty\" graphql:\"localIp\""
+	MitreSubTechnique         []*XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Alerts_MitreSubTechnique "json:\"mitreSubTechnique\" graphql:\"mitreSubTechnique\""
+	MitreTechnique            []*XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Alerts_MitreTechnique    "json:\"mitreTechnique\" graphql:\"mitreTechnique\""
+	Resources                 []*XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Alerts_Resources         "json:\"resources\" graphql:\"resources\""
+	StatusCatoEndpoint        *cato_models.RemediationStatusEnum                                                             "json:\"statusCatoEndpoint,omitempty\" graphql:\"statusCatoEndpoint\""
+	ThreatName                *string                                                                                        "json:\"threatName,omitempty\" graphql:\"threatName\""
+	Title                     *string                                                                                        "json:\"title,omitempty\" graphql:\"title\""
+}
+
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Alerts) GetActivities() []*XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Alerts_Activities {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Alerts{}
+	}
+	return t.Activities
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Alerts) GetCreatedDateTime() *string {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Alerts{}
+	}
+	return t.CreatedDateTime
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Alerts) GetCriticality() *int64 {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Alerts{}
+	}
+	return t.Criticality
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Alerts) GetDescription() *string {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Alerts{}
+	}
+	return t.Description
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Alerts) GetEndpointProtectionProfile() *string {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Alerts{}
+	}
+	return t.EndpointProtectionProfile
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Alerts) GetEngineType() *cato_models.CatoEndpointEngineType {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Alerts{}
+	}
+	return t.EngineType
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Alerts) GetExternalIP() *string {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Alerts{}
+	}
+	return t.ExternalIP
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Alerts) GetID() string {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Alerts{}
+	}
+	return t.ID
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Alerts) GetLocalIP() *string {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Alerts{}
+	}
+	return t.LocalIP
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Alerts) GetMitreSubTechnique() []*XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Alerts_MitreSubTechnique {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Alerts{}
+	}
+	return t.MitreSubTechnique
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Alerts) GetMitreTechnique() []*XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Alerts_MitreTechnique {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Alerts{}
+	}
+	return t.MitreTechnique
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Alerts) GetResources() []*XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Alerts_Resources {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Alerts{}
+	}
+	return t.Resources
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Alerts) GetStatusCatoEndpoint() *cato_models.RemediationStatusEnum {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Alerts{}
+	}
+	return t.StatusCatoEndpoint
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Alerts) GetThreatName() *string {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Alerts{}
+	}
+	return t.ThreatName
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Alerts) GetTitle() *string {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Alerts{}
+	}
+	return t.Title
+}
+
+type XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint struct {
+	SimilarStoriesData []*XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_SimilarStoriesData "json:\"similarStoriesData\" graphql:\"similarStoriesData\""
+	Device             *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Device               "json:\"device,omitempty\" graphql:\"device\""
+	Alerts             []*XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Alerts             "json:\"alerts\" graphql:\"alerts\""
+}
+
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint) GetSimilarStoriesData() []*XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_SimilarStoriesData {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint{}
+	}
+	return t.SimilarStoriesData
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint) GetDevice() *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Device {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint{}
+	}
+	return t.Device
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint) GetAlerts() []*XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint_Alerts {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_CatoEndpoint{}
+	}
+	return t.Alerts
+}
+
 type XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident struct {
 	AiOperationsIncident XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AiOperationsIncident "graphql:\"... on AiOperationsIncident\""
 	AnomalyEvents        XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident_AnomalyEvents        "graphql:\"... on AnomalyEvents\""
@@ -271480,166 +272145,6 @@ func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Incident) GetVendor() *cat
 	return t.Vendor
 }
 
-type XdrAnalystFeedback_Xdr_AnalystFeedback_Story_InvestigationDetails_LastManagedComment_Actor struct {
-	ID   string "json:\"id\" graphql:\"id\""
-	Name string "json:\"name\" graphql:\"name\""
-}
-
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_InvestigationDetails_LastManagedComment_Actor) GetID() string {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_InvestigationDetails_LastManagedComment_Actor{}
-	}
-	return t.ID
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_InvestigationDetails_LastManagedComment_Actor) GetName() string {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_InvestigationDetails_LastManagedComment_Actor{}
-	}
-	return t.Name
-}
-
-type XdrAnalystFeedback_Xdr_AnalystFeedback_Story_InvestigationDetails_LastManagedComment struct {
-	Actor     XdrAnalystFeedback_Xdr_AnalystFeedback_Story_InvestigationDetails_LastManagedComment_Actor "json:\"actor\" graphql:\"actor\""
-	Author    *string                                                                                    "json:\"author,omitempty\" graphql:\"author\""
-	CreatedAt scalars.Time                                                                               "json:\"createdAt\" graphql:\"createdAt\""
-	ID        string                                                                                     "json:\"id\" graphql:\"id\""
-	Text      string                                                                                     "json:\"text\" graphql:\"text\""
-	Type      *cato_models.CommentType                                                                   "json:\"type,omitempty\" graphql:\"type\""
-}
-
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_InvestigationDetails_LastManagedComment) GetActor() *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_InvestigationDetails_LastManagedComment_Actor {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_InvestigationDetails_LastManagedComment{}
-	}
-	return &t.Actor
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_InvestigationDetails_LastManagedComment) GetAuthor() *string {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_InvestigationDetails_LastManagedComment{}
-	}
-	return t.Author
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_InvestigationDetails_LastManagedComment) GetCreatedAt() *scalars.Time {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_InvestigationDetails_LastManagedComment{}
-	}
-	return &t.CreatedAt
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_InvestigationDetails_LastManagedComment) GetID() string {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_InvestigationDetails_LastManagedComment{}
-	}
-	return t.ID
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_InvestigationDetails_LastManagedComment) GetText() string {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_InvestigationDetails_LastManagedComment{}
-	}
-	return t.Text
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_InvestigationDetails_LastManagedComment) GetType() *cato_models.CommentType {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_InvestigationDetails_LastManagedComment{}
-	}
-	return t.Type
-}
-
-type XdrAnalystFeedback_Xdr_AnalystFeedback_Story_InvestigationDetails_LastUserComment_Actor struct {
-	ID   string "json:\"id\" graphql:\"id\""
-	Name string "json:\"name\" graphql:\"name\""
-}
-
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_InvestigationDetails_LastUserComment_Actor) GetID() string {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_InvestigationDetails_LastUserComment_Actor{}
-	}
-	return t.ID
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_InvestigationDetails_LastUserComment_Actor) GetName() string {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_InvestigationDetails_LastUserComment_Actor{}
-	}
-	return t.Name
-}
-
-type XdrAnalystFeedback_Xdr_AnalystFeedback_Story_InvestigationDetails_LastUserComment struct {
-	Actor     XdrAnalystFeedback_Xdr_AnalystFeedback_Story_InvestigationDetails_LastUserComment_Actor "json:\"actor\" graphql:\"actor\""
-	Author    *string                                                                                 "json:\"author,omitempty\" graphql:\"author\""
-	CreatedAt scalars.Time                                                                            "json:\"createdAt\" graphql:\"createdAt\""
-	ID        string                                                                                  "json:\"id\" graphql:\"id\""
-	Text      string                                                                                  "json:\"text\" graphql:\"text\""
-	Type      *cato_models.CommentType                                                                "json:\"type,omitempty\" graphql:\"type\""
-}
-
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_InvestigationDetails_LastUserComment) GetActor() *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_InvestigationDetails_LastUserComment_Actor {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_InvestigationDetails_LastUserComment{}
-	}
-	return &t.Actor
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_InvestigationDetails_LastUserComment) GetAuthor() *string {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_InvestigationDetails_LastUserComment{}
-	}
-	return t.Author
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_InvestigationDetails_LastUserComment) GetCreatedAt() *scalars.Time {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_InvestigationDetails_LastUserComment{}
-	}
-	return &t.CreatedAt
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_InvestigationDetails_LastUserComment) GetID() string {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_InvestigationDetails_LastUserComment{}
-	}
-	return t.ID
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_InvestigationDetails_LastUserComment) GetText() string {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_InvestigationDetails_LastUserComment{}
-	}
-	return t.Text
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_InvestigationDetails_LastUserComment) GetType() *cato_models.CommentType {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_InvestigationDetails_LastUserComment{}
-	}
-	return t.Type
-}
-
-type XdrAnalystFeedback_Xdr_AnalystFeedback_Story_InvestigationDetails struct {
-	InvestigationStatus      *string                                                                               "json:\"investigationStatus,omitempty\" graphql:\"investigationStatus\""
-	LastManagedComment       *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_InvestigationDetails_LastManagedComment "json:\"lastManagedComment,omitempty\" graphql:\"lastManagedComment\""
-	LastUserComment          *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_InvestigationDetails_LastUserComment    "json:\"lastUserComment,omitempty\" graphql:\"lastUserComment\""
-	ManagedServiceTicketLink *string                                                                               "json:\"managedServiceTicketLink,omitempty\" graphql:\"managedServiceTicketLink\""
-}
-
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_InvestigationDetails) GetInvestigationStatus() *string {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_InvestigationDetails{}
-	}
-	return t.InvestigationStatus
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_InvestigationDetails) GetLastManagedComment() *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_InvestigationDetails_LastManagedComment {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_InvestigationDetails{}
-	}
-	return t.LastManagedComment
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_InvestigationDetails) GetLastUserComment() *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_InvestigationDetails_LastUserComment {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_InvestigationDetails{}
-	}
-	return t.LastUserComment
-}
-func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_InvestigationDetails) GetManagedServiceTicketLink() *string {
-	if t == nil {
-		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_InvestigationDetails{}
-	}
-	return t.ManagedServiceTicketLink
-}
-
 type XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Timeline_AnalystInfo struct {
 	Email *string "json:\"email,omitempty\" graphql:\"email\""
 	Name  *string "json:\"name,omitempty\" graphql:\"name\""
@@ -271716,6 +272221,166 @@ func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Timeline) GetType() *cato_
 		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_Timeline{}
 	}
 	return &t.Type
+}
+
+type XdrAnalystFeedback_Xdr_AnalystFeedback_Story_InvestigationDetails_LastUserComment_Actor struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_InvestigationDetails_LastUserComment_Actor) GetID() string {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_InvestigationDetails_LastUserComment_Actor{}
+	}
+	return t.ID
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_InvestigationDetails_LastUserComment_Actor) GetName() string {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_InvestigationDetails_LastUserComment_Actor{}
+	}
+	return t.Name
+}
+
+type XdrAnalystFeedback_Xdr_AnalystFeedback_Story_InvestigationDetails_LastUserComment struct {
+	Actor     XdrAnalystFeedback_Xdr_AnalystFeedback_Story_InvestigationDetails_LastUserComment_Actor "json:\"actor\" graphql:\"actor\""
+	Author    *string                                                                                 "json:\"author,omitempty\" graphql:\"author\""
+	CreatedAt scalars.Time                                                                            "json:\"createdAt\" graphql:\"createdAt\""
+	ID        string                                                                                  "json:\"id\" graphql:\"id\""
+	Text      string                                                                                  "json:\"text\" graphql:\"text\""
+	Type      *cato_models.CommentType                                                                "json:\"type,omitempty\" graphql:\"type\""
+}
+
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_InvestigationDetails_LastUserComment) GetActor() *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_InvestigationDetails_LastUserComment_Actor {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_InvestigationDetails_LastUserComment{}
+	}
+	return &t.Actor
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_InvestigationDetails_LastUserComment) GetAuthor() *string {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_InvestigationDetails_LastUserComment{}
+	}
+	return t.Author
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_InvestigationDetails_LastUserComment) GetCreatedAt() *scalars.Time {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_InvestigationDetails_LastUserComment{}
+	}
+	return &t.CreatedAt
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_InvestigationDetails_LastUserComment) GetID() string {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_InvestigationDetails_LastUserComment{}
+	}
+	return t.ID
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_InvestigationDetails_LastUserComment) GetText() string {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_InvestigationDetails_LastUserComment{}
+	}
+	return t.Text
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_InvestigationDetails_LastUserComment) GetType() *cato_models.CommentType {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_InvestigationDetails_LastUserComment{}
+	}
+	return t.Type
+}
+
+type XdrAnalystFeedback_Xdr_AnalystFeedback_Story_InvestigationDetails_LastManagedComment_Actor struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_InvestigationDetails_LastManagedComment_Actor) GetID() string {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_InvestigationDetails_LastManagedComment_Actor{}
+	}
+	return t.ID
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_InvestigationDetails_LastManagedComment_Actor) GetName() string {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_InvestigationDetails_LastManagedComment_Actor{}
+	}
+	return t.Name
+}
+
+type XdrAnalystFeedback_Xdr_AnalystFeedback_Story_InvestigationDetails_LastManagedComment struct {
+	Actor     XdrAnalystFeedback_Xdr_AnalystFeedback_Story_InvestigationDetails_LastManagedComment_Actor "json:\"actor\" graphql:\"actor\""
+	Author    *string                                                                                    "json:\"author,omitempty\" graphql:\"author\""
+	CreatedAt scalars.Time                                                                               "json:\"createdAt\" graphql:\"createdAt\""
+	ID        string                                                                                     "json:\"id\" graphql:\"id\""
+	Text      string                                                                                     "json:\"text\" graphql:\"text\""
+	Type      *cato_models.CommentType                                                                   "json:\"type,omitempty\" graphql:\"type\""
+}
+
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_InvestigationDetails_LastManagedComment) GetActor() *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_InvestigationDetails_LastManagedComment_Actor {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_InvestigationDetails_LastManagedComment{}
+	}
+	return &t.Actor
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_InvestigationDetails_LastManagedComment) GetAuthor() *string {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_InvestigationDetails_LastManagedComment{}
+	}
+	return t.Author
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_InvestigationDetails_LastManagedComment) GetCreatedAt() *scalars.Time {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_InvestigationDetails_LastManagedComment{}
+	}
+	return &t.CreatedAt
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_InvestigationDetails_LastManagedComment) GetID() string {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_InvestigationDetails_LastManagedComment{}
+	}
+	return t.ID
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_InvestigationDetails_LastManagedComment) GetText() string {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_InvestigationDetails_LastManagedComment{}
+	}
+	return t.Text
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_InvestigationDetails_LastManagedComment) GetType() *cato_models.CommentType {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_InvestigationDetails_LastManagedComment{}
+	}
+	return t.Type
+}
+
+type XdrAnalystFeedback_Xdr_AnalystFeedback_Story_InvestigationDetails struct {
+	InvestigationStatus      *string                                                                               "json:\"investigationStatus,omitempty\" graphql:\"investigationStatus\""
+	LastManagedComment       *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_InvestigationDetails_LastManagedComment "json:\"lastManagedComment,omitempty\" graphql:\"lastManagedComment\""
+	LastUserComment          *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_InvestigationDetails_LastUserComment    "json:\"lastUserComment,omitempty\" graphql:\"lastUserComment\""
+	ManagedServiceTicketLink *string                                                                               "json:\"managedServiceTicketLink,omitempty\" graphql:\"managedServiceTicketLink\""
+}
+
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_InvestigationDetails) GetInvestigationStatus() *string {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_InvestigationDetails{}
+	}
+	return t.InvestigationStatus
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_InvestigationDetails) GetLastManagedComment() *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_InvestigationDetails_LastManagedComment {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_InvestigationDetails{}
+	}
+	return t.LastManagedComment
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_InvestigationDetails) GetLastUserComment() *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_InvestigationDetails_LastUserComment {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_InvestigationDetails{}
+	}
+	return t.LastUserComment
+}
+func (t *XdrAnalystFeedback_Xdr_AnalystFeedback_Story_InvestigationDetails) GetManagedServiceTicketLink() *string {
+	if t == nil {
+		t = &XdrAnalystFeedback_Xdr_AnalystFeedback_Story_InvestigationDetails{}
+	}
+	return t.ManagedServiceTicketLink
 }
 
 type XdrAnalystFeedback_Xdr_AnalystFeedback_Story struct {
@@ -272267,22 +272932,48 @@ func (t *ZtnaAppConnectorAddZtnaAppConnector_ZtnaAppConnector_AddZtnaAppConnecto
 	return t.VersionUpdateTime
 }
 
+type ZtnaAppConnectorAddZtnaAppConnector_ZtnaAppConnector_AddZtnaAppConnector_ZtnaAppConnector_PooledBandwidthAllocation struct {
+	AllocationID string "json:\"allocationId\" graphql:\"allocationId\""
+	Bw           int64  "json:\"bw\" graphql:\"bw\""
+	LicenseID    string "json:\"licenseId\" graphql:\"licenseId\""
+}
+
+func (t *ZtnaAppConnectorAddZtnaAppConnector_ZtnaAppConnector_AddZtnaAppConnector_ZtnaAppConnector_PooledBandwidthAllocation) GetAllocationID() string {
+	if t == nil {
+		t = &ZtnaAppConnectorAddZtnaAppConnector_ZtnaAppConnector_AddZtnaAppConnector_ZtnaAppConnector_PooledBandwidthAllocation{}
+	}
+	return t.AllocationID
+}
+func (t *ZtnaAppConnectorAddZtnaAppConnector_ZtnaAppConnector_AddZtnaAppConnector_ZtnaAppConnector_PooledBandwidthAllocation) GetBw() int64 {
+	if t == nil {
+		t = &ZtnaAppConnectorAddZtnaAppConnector_ZtnaAppConnector_AddZtnaAppConnector_ZtnaAppConnector_PooledBandwidthAllocation{}
+	}
+	return t.Bw
+}
+func (t *ZtnaAppConnectorAddZtnaAppConnector_ZtnaAppConnector_AddZtnaAppConnector_ZtnaAppConnector_PooledBandwidthAllocation) GetLicenseID() string {
+	if t == nil {
+		t = &ZtnaAppConnectorAddZtnaAppConnector_ZtnaAppConnector_AddZtnaAppConnector_ZtnaAppConnector_PooledBandwidthAllocation{}
+	}
+	return t.LicenseID
+}
+
 type ZtnaAppConnectorAddZtnaAppConnector_ZtnaAppConnector_AddZtnaAppConnector_ZtnaAppConnector struct {
-	CreatedAt            *string                                                                                                         "json:\"createdAt,omitempty\" graphql:\"createdAt\""
-	Description          *string                                                                                                         "json:\"description,omitempty\" graphql:\"description\""
-	GroupName            string                                                                                                          "json:\"groupName\" graphql:\"groupName\""
-	ID                   string                                                                                                          "json:\"id\" graphql:\"id\""
-	IsRegistered         bool                                                                                                            "json:\"isRegistered\" graphql:\"isRegistered\""
-	Location             ZtnaAppConnectorAddZtnaAppConnector_ZtnaAppConnector_AddZtnaAppConnector_ZtnaAppConnector_Location              "json:\"location\" graphql:\"location\""
-	Name                 string                                                                                                          "json:\"name\" graphql:\"name\""
-	PreferredPopLocation *ZtnaAppConnectorAddZtnaAppConnector_ZtnaAppConnector_AddZtnaAppConnector_ZtnaAppConnector_PreferredPopLocation "json:\"preferredPopLocation,omitempty\" graphql:\"preferredPopLocation\""
-	PrivateAppCount      int64                                                                                                           "json:\"privateAppCount\" graphql:\"privateAppCount\""
-	PrivateAppRef        []*ZtnaAppConnectorAddZtnaAppConnector_ZtnaAppConnector_AddZtnaAppConnector_ZtnaAppConnector_PrivateAppRef      "json:\"privateAppRef\" graphql:\"privateAppRef\""
-	SerialNumber         *string                                                                                                         "json:\"serialNumber,omitempty\" graphql:\"serialNumber\""
-	SocketID             *string                                                                                                         "json:\"socketId,omitempty\" graphql:\"socketId\""
-	SocketInfo           *ZtnaAppConnectorAddZtnaAppConnector_ZtnaAppConnector_AddZtnaAppConnector_ZtnaAppConnector_SocketInfo           "json:\"socketInfo,omitempty\" graphql:\"socketInfo\""
-	SocketModel          *cato_models.SocketModel                                                                                        "json:\"socketModel,omitempty\" graphql:\"socketModel\""
-	Type                 cato_models.ZtnaAppConnectorType                                                                                "json:\"type\" graphql:\"type\""
+	CreatedAt                 *string                                                                                                                "json:\"createdAt,omitempty\" graphql:\"createdAt\""
+	Description               *string                                                                                                                "json:\"description,omitempty\" graphql:\"description\""
+	GroupName                 string                                                                                                                 "json:\"groupName\" graphql:\"groupName\""
+	ID                        string                                                                                                                 "json:\"id\" graphql:\"id\""
+	IsRegistered              bool                                                                                                                   "json:\"isRegistered\" graphql:\"isRegistered\""
+	Location                  ZtnaAppConnectorAddZtnaAppConnector_ZtnaAppConnector_AddZtnaAppConnector_ZtnaAppConnector_Location                     "json:\"location\" graphql:\"location\""
+	Name                      string                                                                                                                 "json:\"name\" graphql:\"name\""
+	PooledBandwidthAllocation []*ZtnaAppConnectorAddZtnaAppConnector_ZtnaAppConnector_AddZtnaAppConnector_ZtnaAppConnector_PooledBandwidthAllocation "json:\"pooledBandwidthAllocation\" graphql:\"pooledBandwidthAllocation\""
+	PreferredPopLocation      *ZtnaAppConnectorAddZtnaAppConnector_ZtnaAppConnector_AddZtnaAppConnector_ZtnaAppConnector_PreferredPopLocation        "json:\"preferredPopLocation,omitempty\" graphql:\"preferredPopLocation\""
+	PrivateAppCount           int64                                                                                                                  "json:\"privateAppCount\" graphql:\"privateAppCount\""
+	PrivateAppRef             []*ZtnaAppConnectorAddZtnaAppConnector_ZtnaAppConnector_AddZtnaAppConnector_ZtnaAppConnector_PrivateAppRef             "json:\"privateAppRef\" graphql:\"privateAppRef\""
+	SerialNumber              *string                                                                                                                "json:\"serialNumber,omitempty\" graphql:\"serialNumber\""
+	SocketID                  *string                                                                                                                "json:\"socketId,omitempty\" graphql:\"socketId\""
+	SocketInfo                *ZtnaAppConnectorAddZtnaAppConnector_ZtnaAppConnector_AddZtnaAppConnector_ZtnaAppConnector_SocketInfo                  "json:\"socketInfo,omitempty\" graphql:\"socketInfo\""
+	SocketModel               *cato_models.SocketModel                                                                                               "json:\"socketModel,omitempty\" graphql:\"socketModel\""
+	Type                      cato_models.ZtnaAppConnectorType                                                                                       "json:\"type\" graphql:\"type\""
 }
 
 func (t *ZtnaAppConnectorAddZtnaAppConnector_ZtnaAppConnector_AddZtnaAppConnector_ZtnaAppConnector) GetCreatedAt() *string {
@@ -272326,6 +273017,12 @@ func (t *ZtnaAppConnectorAddZtnaAppConnector_ZtnaAppConnector_AddZtnaAppConnecto
 		t = &ZtnaAppConnectorAddZtnaAppConnector_ZtnaAppConnector_AddZtnaAppConnector_ZtnaAppConnector{}
 	}
 	return t.Name
+}
+func (t *ZtnaAppConnectorAddZtnaAppConnector_ZtnaAppConnector_AddZtnaAppConnector_ZtnaAppConnector) GetPooledBandwidthAllocation() []*ZtnaAppConnectorAddZtnaAppConnector_ZtnaAppConnector_AddZtnaAppConnector_ZtnaAppConnector_PooledBandwidthAllocation {
+	if t == nil {
+		t = &ZtnaAppConnectorAddZtnaAppConnector_ZtnaAppConnector_AddZtnaAppConnector_ZtnaAppConnector{}
+	}
+	return t.PooledBandwidthAllocation
 }
 func (t *ZtnaAppConnectorAddZtnaAppConnector_ZtnaAppConnector_AddZtnaAppConnector_ZtnaAppConnector) GetPreferredPopLocation() *ZtnaAppConnectorAddZtnaAppConnector_ZtnaAppConnector_AddZtnaAppConnector_ZtnaAppConnector_PreferredPopLocation {
 	if t == nil {
@@ -272376,10 +273073,42 @@ func (t *ZtnaAppConnectorAddZtnaAppConnector_ZtnaAppConnector_AddZtnaAppConnecto
 	return &t.Type
 }
 
-type ZtnaAppConnectorAddZtnaAppConnector_ZtnaAppConnector_AddZtnaAppConnector struct {
-	ZtnaAppConnector ZtnaAppConnectorAddZtnaAppConnector_ZtnaAppConnector_AddZtnaAppConnector_ZtnaAppConnector "json:\"ztnaAppConnector\" graphql:\"ztnaAppConnector\""
+type ZtnaAppConnectorAddZtnaAppConnector_ZtnaAppConnector_AddZtnaAppConnector_PooledBandwidthAllocation struct {
+	AllocationID string "json:\"allocationId\" graphql:\"allocationId\""
+	Bw           int64  "json:\"bw\" graphql:\"bw\""
+	LicenseID    string "json:\"licenseId\" graphql:\"licenseId\""
 }
 
+func (t *ZtnaAppConnectorAddZtnaAppConnector_ZtnaAppConnector_AddZtnaAppConnector_PooledBandwidthAllocation) GetAllocationID() string {
+	if t == nil {
+		t = &ZtnaAppConnectorAddZtnaAppConnector_ZtnaAppConnector_AddZtnaAppConnector_PooledBandwidthAllocation{}
+	}
+	return t.AllocationID
+}
+func (t *ZtnaAppConnectorAddZtnaAppConnector_ZtnaAppConnector_AddZtnaAppConnector_PooledBandwidthAllocation) GetBw() int64 {
+	if t == nil {
+		t = &ZtnaAppConnectorAddZtnaAppConnector_ZtnaAppConnector_AddZtnaAppConnector_PooledBandwidthAllocation{}
+	}
+	return t.Bw
+}
+func (t *ZtnaAppConnectorAddZtnaAppConnector_ZtnaAppConnector_AddZtnaAppConnector_PooledBandwidthAllocation) GetLicenseID() string {
+	if t == nil {
+		t = &ZtnaAppConnectorAddZtnaAppConnector_ZtnaAppConnector_AddZtnaAppConnector_PooledBandwidthAllocation{}
+	}
+	return t.LicenseID
+}
+
+type ZtnaAppConnectorAddZtnaAppConnector_ZtnaAppConnector_AddZtnaAppConnector struct {
+	PooledBandwidthAllocation []*ZtnaAppConnectorAddZtnaAppConnector_ZtnaAppConnector_AddZtnaAppConnector_PooledBandwidthAllocation "json:\"pooledBandwidthAllocation\" graphql:\"pooledBandwidthAllocation\""
+	ZtnaAppConnector          ZtnaAppConnectorAddZtnaAppConnector_ZtnaAppConnector_AddZtnaAppConnector_ZtnaAppConnector             "json:\"ztnaAppConnector\" graphql:\"ztnaAppConnector\""
+}
+
+func (t *ZtnaAppConnectorAddZtnaAppConnector_ZtnaAppConnector_AddZtnaAppConnector) GetPooledBandwidthAllocation() []*ZtnaAppConnectorAddZtnaAppConnector_ZtnaAppConnector_AddZtnaAppConnector_PooledBandwidthAllocation {
+	if t == nil {
+		t = &ZtnaAppConnectorAddZtnaAppConnector_ZtnaAppConnector_AddZtnaAppConnector{}
+	}
+	return t.PooledBandwidthAllocation
+}
 func (t *ZtnaAppConnectorAddZtnaAppConnector_ZtnaAppConnector_AddZtnaAppConnector) GetZtnaAppConnector() *ZtnaAppConnectorAddZtnaAppConnector_ZtnaAppConnector_AddZtnaAppConnector_ZtnaAppConnector {
 	if t == nil {
 		t = &ZtnaAppConnectorAddZtnaAppConnector_ZtnaAppConnector_AddZtnaAppConnector{}
@@ -272682,22 +273411,48 @@ func (t *ZtnaAppConnectorRemoveZtnaAppConnector_ZtnaAppConnector_RemoveZtnaAppCo
 	return t.VersionUpdateTime
 }
 
+type ZtnaAppConnectorRemoveZtnaAppConnector_ZtnaAppConnector_RemoveZtnaAppConnector_ZtnaAppConnector_PooledBandwidthAllocation struct {
+	AllocationID string "json:\"allocationId\" graphql:\"allocationId\""
+	Bw           int64  "json:\"bw\" graphql:\"bw\""
+	LicenseID    string "json:\"licenseId\" graphql:\"licenseId\""
+}
+
+func (t *ZtnaAppConnectorRemoveZtnaAppConnector_ZtnaAppConnector_RemoveZtnaAppConnector_ZtnaAppConnector_PooledBandwidthAllocation) GetAllocationID() string {
+	if t == nil {
+		t = &ZtnaAppConnectorRemoveZtnaAppConnector_ZtnaAppConnector_RemoveZtnaAppConnector_ZtnaAppConnector_PooledBandwidthAllocation{}
+	}
+	return t.AllocationID
+}
+func (t *ZtnaAppConnectorRemoveZtnaAppConnector_ZtnaAppConnector_RemoveZtnaAppConnector_ZtnaAppConnector_PooledBandwidthAllocation) GetBw() int64 {
+	if t == nil {
+		t = &ZtnaAppConnectorRemoveZtnaAppConnector_ZtnaAppConnector_RemoveZtnaAppConnector_ZtnaAppConnector_PooledBandwidthAllocation{}
+	}
+	return t.Bw
+}
+func (t *ZtnaAppConnectorRemoveZtnaAppConnector_ZtnaAppConnector_RemoveZtnaAppConnector_ZtnaAppConnector_PooledBandwidthAllocation) GetLicenseID() string {
+	if t == nil {
+		t = &ZtnaAppConnectorRemoveZtnaAppConnector_ZtnaAppConnector_RemoveZtnaAppConnector_ZtnaAppConnector_PooledBandwidthAllocation{}
+	}
+	return t.LicenseID
+}
+
 type ZtnaAppConnectorRemoveZtnaAppConnector_ZtnaAppConnector_RemoveZtnaAppConnector_ZtnaAppConnector struct {
-	CreatedAt            *string                                                                                                               "json:\"createdAt,omitempty\" graphql:\"createdAt\""
-	Description          *string                                                                                                               "json:\"description,omitempty\" graphql:\"description\""
-	GroupName            string                                                                                                                "json:\"groupName\" graphql:\"groupName\""
-	ID                   string                                                                                                                "json:\"id\" graphql:\"id\""
-	IsRegistered         bool                                                                                                                  "json:\"isRegistered\" graphql:\"isRegistered\""
-	Location             ZtnaAppConnectorRemoveZtnaAppConnector_ZtnaAppConnector_RemoveZtnaAppConnector_ZtnaAppConnector_Location              "json:\"location\" graphql:\"location\""
-	Name                 string                                                                                                                "json:\"name\" graphql:\"name\""
-	PreferredPopLocation *ZtnaAppConnectorRemoveZtnaAppConnector_ZtnaAppConnector_RemoveZtnaAppConnector_ZtnaAppConnector_PreferredPopLocation "json:\"preferredPopLocation,omitempty\" graphql:\"preferredPopLocation\""
-	PrivateAppCount      int64                                                                                                                 "json:\"privateAppCount\" graphql:\"privateAppCount\""
-	PrivateAppRef        []*ZtnaAppConnectorRemoveZtnaAppConnector_ZtnaAppConnector_RemoveZtnaAppConnector_ZtnaAppConnector_PrivateAppRef      "json:\"privateAppRef\" graphql:\"privateAppRef\""
-	SerialNumber         *string                                                                                                               "json:\"serialNumber,omitempty\" graphql:\"serialNumber\""
-	SocketID             *string                                                                                                               "json:\"socketId,omitempty\" graphql:\"socketId\""
-	SocketInfo           *ZtnaAppConnectorRemoveZtnaAppConnector_ZtnaAppConnector_RemoveZtnaAppConnector_ZtnaAppConnector_SocketInfo           "json:\"socketInfo,omitempty\" graphql:\"socketInfo\""
-	SocketModel          *cato_models.SocketModel                                                                                              "json:\"socketModel,omitempty\" graphql:\"socketModel\""
-	Type                 cato_models.ZtnaAppConnectorType                                                                                      "json:\"type\" graphql:\"type\""
+	CreatedAt                 *string                                                                                                                      "json:\"createdAt,omitempty\" graphql:\"createdAt\""
+	Description               *string                                                                                                                      "json:\"description,omitempty\" graphql:\"description\""
+	GroupName                 string                                                                                                                       "json:\"groupName\" graphql:\"groupName\""
+	ID                        string                                                                                                                       "json:\"id\" graphql:\"id\""
+	IsRegistered              bool                                                                                                                         "json:\"isRegistered\" graphql:\"isRegistered\""
+	Location                  ZtnaAppConnectorRemoveZtnaAppConnector_ZtnaAppConnector_RemoveZtnaAppConnector_ZtnaAppConnector_Location                     "json:\"location\" graphql:\"location\""
+	Name                      string                                                                                                                       "json:\"name\" graphql:\"name\""
+	PooledBandwidthAllocation []*ZtnaAppConnectorRemoveZtnaAppConnector_ZtnaAppConnector_RemoveZtnaAppConnector_ZtnaAppConnector_PooledBandwidthAllocation "json:\"pooledBandwidthAllocation\" graphql:\"pooledBandwidthAllocation\""
+	PreferredPopLocation      *ZtnaAppConnectorRemoveZtnaAppConnector_ZtnaAppConnector_RemoveZtnaAppConnector_ZtnaAppConnector_PreferredPopLocation        "json:\"preferredPopLocation,omitempty\" graphql:\"preferredPopLocation\""
+	PrivateAppCount           int64                                                                                                                        "json:\"privateAppCount\" graphql:\"privateAppCount\""
+	PrivateAppRef             []*ZtnaAppConnectorRemoveZtnaAppConnector_ZtnaAppConnector_RemoveZtnaAppConnector_ZtnaAppConnector_PrivateAppRef             "json:\"privateAppRef\" graphql:\"privateAppRef\""
+	SerialNumber              *string                                                                                                                      "json:\"serialNumber,omitempty\" graphql:\"serialNumber\""
+	SocketID                  *string                                                                                                                      "json:\"socketId,omitempty\" graphql:\"socketId\""
+	SocketInfo                *ZtnaAppConnectorRemoveZtnaAppConnector_ZtnaAppConnector_RemoveZtnaAppConnector_ZtnaAppConnector_SocketInfo                  "json:\"socketInfo,omitempty\" graphql:\"socketInfo\""
+	SocketModel               *cato_models.SocketModel                                                                                                     "json:\"socketModel,omitempty\" graphql:\"socketModel\""
+	Type                      cato_models.ZtnaAppConnectorType                                                                                             "json:\"type\" graphql:\"type\""
 }
 
 func (t *ZtnaAppConnectorRemoveZtnaAppConnector_ZtnaAppConnector_RemoveZtnaAppConnector_ZtnaAppConnector) GetCreatedAt() *string {
@@ -272741,6 +273496,12 @@ func (t *ZtnaAppConnectorRemoveZtnaAppConnector_ZtnaAppConnector_RemoveZtnaAppCo
 		t = &ZtnaAppConnectorRemoveZtnaAppConnector_ZtnaAppConnector_RemoveZtnaAppConnector_ZtnaAppConnector{}
 	}
 	return t.Name
+}
+func (t *ZtnaAppConnectorRemoveZtnaAppConnector_ZtnaAppConnector_RemoveZtnaAppConnector_ZtnaAppConnector) GetPooledBandwidthAllocation() []*ZtnaAppConnectorRemoveZtnaAppConnector_ZtnaAppConnector_RemoveZtnaAppConnector_ZtnaAppConnector_PooledBandwidthAllocation {
+	if t == nil {
+		t = &ZtnaAppConnectorRemoveZtnaAppConnector_ZtnaAppConnector_RemoveZtnaAppConnector_ZtnaAppConnector{}
+	}
+	return t.PooledBandwidthAllocation
 }
 func (t *ZtnaAppConnectorRemoveZtnaAppConnector_ZtnaAppConnector_RemoveZtnaAppConnector_ZtnaAppConnector) GetPreferredPopLocation() *ZtnaAppConnectorRemoveZtnaAppConnector_ZtnaAppConnector_RemoveZtnaAppConnector_ZtnaAppConnector_PreferredPopLocation {
 	if t == nil {
@@ -272984,22 +273745,48 @@ func (t *ZtnaAppConnectorUnassignSocketFromZtnaAppConnector_ZtnaAppConnector_Una
 	return t.VersionUpdateTime
 }
 
+type ZtnaAppConnectorUnassignSocketFromZtnaAppConnector_ZtnaAppConnector_UnassignSocketFromZtnaAppConnector_ZtnaAppConnector_PooledBandwidthAllocation struct {
+	AllocationID string "json:\"allocationId\" graphql:\"allocationId\""
+	Bw           int64  "json:\"bw\" graphql:\"bw\""
+	LicenseID    string "json:\"licenseId\" graphql:\"licenseId\""
+}
+
+func (t *ZtnaAppConnectorUnassignSocketFromZtnaAppConnector_ZtnaAppConnector_UnassignSocketFromZtnaAppConnector_ZtnaAppConnector_PooledBandwidthAllocation) GetAllocationID() string {
+	if t == nil {
+		t = &ZtnaAppConnectorUnassignSocketFromZtnaAppConnector_ZtnaAppConnector_UnassignSocketFromZtnaAppConnector_ZtnaAppConnector_PooledBandwidthAllocation{}
+	}
+	return t.AllocationID
+}
+func (t *ZtnaAppConnectorUnassignSocketFromZtnaAppConnector_ZtnaAppConnector_UnassignSocketFromZtnaAppConnector_ZtnaAppConnector_PooledBandwidthAllocation) GetBw() int64 {
+	if t == nil {
+		t = &ZtnaAppConnectorUnassignSocketFromZtnaAppConnector_ZtnaAppConnector_UnassignSocketFromZtnaAppConnector_ZtnaAppConnector_PooledBandwidthAllocation{}
+	}
+	return t.Bw
+}
+func (t *ZtnaAppConnectorUnassignSocketFromZtnaAppConnector_ZtnaAppConnector_UnassignSocketFromZtnaAppConnector_ZtnaAppConnector_PooledBandwidthAllocation) GetLicenseID() string {
+	if t == nil {
+		t = &ZtnaAppConnectorUnassignSocketFromZtnaAppConnector_ZtnaAppConnector_UnassignSocketFromZtnaAppConnector_ZtnaAppConnector_PooledBandwidthAllocation{}
+	}
+	return t.LicenseID
+}
+
 type ZtnaAppConnectorUnassignSocketFromZtnaAppConnector_ZtnaAppConnector_UnassignSocketFromZtnaAppConnector_ZtnaAppConnector struct {
-	CreatedAt            *string                                                                                                                                       "json:\"createdAt,omitempty\" graphql:\"createdAt\""
-	Description          *string                                                                                                                                       "json:\"description,omitempty\" graphql:\"description\""
-	GroupName            string                                                                                                                                        "json:\"groupName\" graphql:\"groupName\""
-	ID                   string                                                                                                                                        "json:\"id\" graphql:\"id\""
-	IsRegistered         bool                                                                                                                                          "json:\"isRegistered\" graphql:\"isRegistered\""
-	Location             ZtnaAppConnectorUnassignSocketFromZtnaAppConnector_ZtnaAppConnector_UnassignSocketFromZtnaAppConnector_ZtnaAppConnector_Location              "json:\"location\" graphql:\"location\""
-	Name                 string                                                                                                                                        "json:\"name\" graphql:\"name\""
-	PreferredPopLocation *ZtnaAppConnectorUnassignSocketFromZtnaAppConnector_ZtnaAppConnector_UnassignSocketFromZtnaAppConnector_ZtnaAppConnector_PreferredPopLocation "json:\"preferredPopLocation,omitempty\" graphql:\"preferredPopLocation\""
-	PrivateAppCount      int64                                                                                                                                         "json:\"privateAppCount\" graphql:\"privateAppCount\""
-	PrivateAppRef        []*ZtnaAppConnectorUnassignSocketFromZtnaAppConnector_ZtnaAppConnector_UnassignSocketFromZtnaAppConnector_ZtnaAppConnector_PrivateAppRef      "json:\"privateAppRef\" graphql:\"privateAppRef\""
-	SerialNumber         *string                                                                                                                                       "json:\"serialNumber,omitempty\" graphql:\"serialNumber\""
-	SocketID             *string                                                                                                                                       "json:\"socketId,omitempty\" graphql:\"socketId\""
-	SocketInfo           *ZtnaAppConnectorUnassignSocketFromZtnaAppConnector_ZtnaAppConnector_UnassignSocketFromZtnaAppConnector_ZtnaAppConnector_SocketInfo           "json:\"socketInfo,omitempty\" graphql:\"socketInfo\""
-	SocketModel          *cato_models.SocketModel                                                                                                                      "json:\"socketModel,omitempty\" graphql:\"socketModel\""
-	Type                 cato_models.ZtnaAppConnectorType                                                                                                              "json:\"type\" graphql:\"type\""
+	CreatedAt                 *string                                                                                                                                              "json:\"createdAt,omitempty\" graphql:\"createdAt\""
+	Description               *string                                                                                                                                              "json:\"description,omitempty\" graphql:\"description\""
+	GroupName                 string                                                                                                                                               "json:\"groupName\" graphql:\"groupName\""
+	ID                        string                                                                                                                                               "json:\"id\" graphql:\"id\""
+	IsRegistered              bool                                                                                                                                                 "json:\"isRegistered\" graphql:\"isRegistered\""
+	Location                  ZtnaAppConnectorUnassignSocketFromZtnaAppConnector_ZtnaAppConnector_UnassignSocketFromZtnaAppConnector_ZtnaAppConnector_Location                     "json:\"location\" graphql:\"location\""
+	Name                      string                                                                                                                                               "json:\"name\" graphql:\"name\""
+	PooledBandwidthAllocation []*ZtnaAppConnectorUnassignSocketFromZtnaAppConnector_ZtnaAppConnector_UnassignSocketFromZtnaAppConnector_ZtnaAppConnector_PooledBandwidthAllocation "json:\"pooledBandwidthAllocation\" graphql:\"pooledBandwidthAllocation\""
+	PreferredPopLocation      *ZtnaAppConnectorUnassignSocketFromZtnaAppConnector_ZtnaAppConnector_UnassignSocketFromZtnaAppConnector_ZtnaAppConnector_PreferredPopLocation        "json:\"preferredPopLocation,omitempty\" graphql:\"preferredPopLocation\""
+	PrivateAppCount           int64                                                                                                                                                "json:\"privateAppCount\" graphql:\"privateAppCount\""
+	PrivateAppRef             []*ZtnaAppConnectorUnassignSocketFromZtnaAppConnector_ZtnaAppConnector_UnassignSocketFromZtnaAppConnector_ZtnaAppConnector_PrivateAppRef             "json:\"privateAppRef\" graphql:\"privateAppRef\""
+	SerialNumber              *string                                                                                                                                              "json:\"serialNumber,omitempty\" graphql:\"serialNumber\""
+	SocketID                  *string                                                                                                                                              "json:\"socketId,omitempty\" graphql:\"socketId\""
+	SocketInfo                *ZtnaAppConnectorUnassignSocketFromZtnaAppConnector_ZtnaAppConnector_UnassignSocketFromZtnaAppConnector_ZtnaAppConnector_SocketInfo                  "json:\"socketInfo,omitempty\" graphql:\"socketInfo\""
+	SocketModel               *cato_models.SocketModel                                                                                                                             "json:\"socketModel,omitempty\" graphql:\"socketModel\""
+	Type                      cato_models.ZtnaAppConnectorType                                                                                                                     "json:\"type\" graphql:\"type\""
 }
 
 func (t *ZtnaAppConnectorUnassignSocketFromZtnaAppConnector_ZtnaAppConnector_UnassignSocketFromZtnaAppConnector_ZtnaAppConnector) GetCreatedAt() *string {
@@ -273043,6 +273830,12 @@ func (t *ZtnaAppConnectorUnassignSocketFromZtnaAppConnector_ZtnaAppConnector_Una
 		t = &ZtnaAppConnectorUnassignSocketFromZtnaAppConnector_ZtnaAppConnector_UnassignSocketFromZtnaAppConnector_ZtnaAppConnector{}
 	}
 	return t.Name
+}
+func (t *ZtnaAppConnectorUnassignSocketFromZtnaAppConnector_ZtnaAppConnector_UnassignSocketFromZtnaAppConnector_ZtnaAppConnector) GetPooledBandwidthAllocation() []*ZtnaAppConnectorUnassignSocketFromZtnaAppConnector_ZtnaAppConnector_UnassignSocketFromZtnaAppConnector_ZtnaAppConnector_PooledBandwidthAllocation {
+	if t == nil {
+		t = &ZtnaAppConnectorUnassignSocketFromZtnaAppConnector_ZtnaAppConnector_UnassignSocketFromZtnaAppConnector_ZtnaAppConnector{}
+	}
+	return t.PooledBandwidthAllocation
 }
 func (t *ZtnaAppConnectorUnassignSocketFromZtnaAppConnector_ZtnaAppConnector_UnassignSocketFromZtnaAppConnector_ZtnaAppConnector) GetPreferredPopLocation() *ZtnaAppConnectorUnassignSocketFromZtnaAppConnector_ZtnaAppConnector_UnassignSocketFromZtnaAppConnector_ZtnaAppConnector_PreferredPopLocation {
 	if t == nil {
@@ -273319,22 +274112,48 @@ func (t *ZtnaAppConnectorUpdateZtnaAppConnector_ZtnaAppConnector_UpdateZtnaAppCo
 	return t.VersionUpdateTime
 }
 
+type ZtnaAppConnectorUpdateZtnaAppConnector_ZtnaAppConnector_UpdateZtnaAppConnector_ZtnaAppConnector_PooledBandwidthAllocation struct {
+	AllocationID string "json:\"allocationId\" graphql:\"allocationId\""
+	Bw           int64  "json:\"bw\" graphql:\"bw\""
+	LicenseID    string "json:\"licenseId\" graphql:\"licenseId\""
+}
+
+func (t *ZtnaAppConnectorUpdateZtnaAppConnector_ZtnaAppConnector_UpdateZtnaAppConnector_ZtnaAppConnector_PooledBandwidthAllocation) GetAllocationID() string {
+	if t == nil {
+		t = &ZtnaAppConnectorUpdateZtnaAppConnector_ZtnaAppConnector_UpdateZtnaAppConnector_ZtnaAppConnector_PooledBandwidthAllocation{}
+	}
+	return t.AllocationID
+}
+func (t *ZtnaAppConnectorUpdateZtnaAppConnector_ZtnaAppConnector_UpdateZtnaAppConnector_ZtnaAppConnector_PooledBandwidthAllocation) GetBw() int64 {
+	if t == nil {
+		t = &ZtnaAppConnectorUpdateZtnaAppConnector_ZtnaAppConnector_UpdateZtnaAppConnector_ZtnaAppConnector_PooledBandwidthAllocation{}
+	}
+	return t.Bw
+}
+func (t *ZtnaAppConnectorUpdateZtnaAppConnector_ZtnaAppConnector_UpdateZtnaAppConnector_ZtnaAppConnector_PooledBandwidthAllocation) GetLicenseID() string {
+	if t == nil {
+		t = &ZtnaAppConnectorUpdateZtnaAppConnector_ZtnaAppConnector_UpdateZtnaAppConnector_ZtnaAppConnector_PooledBandwidthAllocation{}
+	}
+	return t.LicenseID
+}
+
 type ZtnaAppConnectorUpdateZtnaAppConnector_ZtnaAppConnector_UpdateZtnaAppConnector_ZtnaAppConnector struct {
-	CreatedAt            *string                                                                                                               "json:\"createdAt,omitempty\" graphql:\"createdAt\""
-	Description          *string                                                                                                               "json:\"description,omitempty\" graphql:\"description\""
-	GroupName            string                                                                                                                "json:\"groupName\" graphql:\"groupName\""
-	ID                   string                                                                                                                "json:\"id\" graphql:\"id\""
-	IsRegistered         bool                                                                                                                  "json:\"isRegistered\" graphql:\"isRegistered\""
-	Location             ZtnaAppConnectorUpdateZtnaAppConnector_ZtnaAppConnector_UpdateZtnaAppConnector_ZtnaAppConnector_Location              "json:\"location\" graphql:\"location\""
-	Name                 string                                                                                                                "json:\"name\" graphql:\"name\""
-	PreferredPopLocation *ZtnaAppConnectorUpdateZtnaAppConnector_ZtnaAppConnector_UpdateZtnaAppConnector_ZtnaAppConnector_PreferredPopLocation "json:\"preferredPopLocation,omitempty\" graphql:\"preferredPopLocation\""
-	PrivateAppCount      int64                                                                                                                 "json:\"privateAppCount\" graphql:\"privateAppCount\""
-	PrivateAppRef        []*ZtnaAppConnectorUpdateZtnaAppConnector_ZtnaAppConnector_UpdateZtnaAppConnector_ZtnaAppConnector_PrivateAppRef      "json:\"privateAppRef\" graphql:\"privateAppRef\""
-	SerialNumber         *string                                                                                                               "json:\"serialNumber,omitempty\" graphql:\"serialNumber\""
-	SocketID             *string                                                                                                               "json:\"socketId,omitempty\" graphql:\"socketId\""
-	SocketInfo           *ZtnaAppConnectorUpdateZtnaAppConnector_ZtnaAppConnector_UpdateZtnaAppConnector_ZtnaAppConnector_SocketInfo           "json:\"socketInfo,omitempty\" graphql:\"socketInfo\""
-	SocketModel          *cato_models.SocketModel                                                                                              "json:\"socketModel,omitempty\" graphql:\"socketModel\""
-	Type                 cato_models.ZtnaAppConnectorType                                                                                      "json:\"type\" graphql:\"type\""
+	CreatedAt                 *string                                                                                                                      "json:\"createdAt,omitempty\" graphql:\"createdAt\""
+	Description               *string                                                                                                                      "json:\"description,omitempty\" graphql:\"description\""
+	GroupName                 string                                                                                                                       "json:\"groupName\" graphql:\"groupName\""
+	ID                        string                                                                                                                       "json:\"id\" graphql:\"id\""
+	IsRegistered              bool                                                                                                                         "json:\"isRegistered\" graphql:\"isRegistered\""
+	Location                  ZtnaAppConnectorUpdateZtnaAppConnector_ZtnaAppConnector_UpdateZtnaAppConnector_ZtnaAppConnector_Location                     "json:\"location\" graphql:\"location\""
+	Name                      string                                                                                                                       "json:\"name\" graphql:\"name\""
+	PooledBandwidthAllocation []*ZtnaAppConnectorUpdateZtnaAppConnector_ZtnaAppConnector_UpdateZtnaAppConnector_ZtnaAppConnector_PooledBandwidthAllocation "json:\"pooledBandwidthAllocation\" graphql:\"pooledBandwidthAllocation\""
+	PreferredPopLocation      *ZtnaAppConnectorUpdateZtnaAppConnector_ZtnaAppConnector_UpdateZtnaAppConnector_ZtnaAppConnector_PreferredPopLocation        "json:\"preferredPopLocation,omitempty\" graphql:\"preferredPopLocation\""
+	PrivateAppCount           int64                                                                                                                        "json:\"privateAppCount\" graphql:\"privateAppCount\""
+	PrivateAppRef             []*ZtnaAppConnectorUpdateZtnaAppConnector_ZtnaAppConnector_UpdateZtnaAppConnector_ZtnaAppConnector_PrivateAppRef             "json:\"privateAppRef\" graphql:\"privateAppRef\""
+	SerialNumber              *string                                                                                                                      "json:\"serialNumber,omitempty\" graphql:\"serialNumber\""
+	SocketID                  *string                                                                                                                      "json:\"socketId,omitempty\" graphql:\"socketId\""
+	SocketInfo                *ZtnaAppConnectorUpdateZtnaAppConnector_ZtnaAppConnector_UpdateZtnaAppConnector_ZtnaAppConnector_SocketInfo                  "json:\"socketInfo,omitempty\" graphql:\"socketInfo\""
+	SocketModel               *cato_models.SocketModel                                                                                                     "json:\"socketModel,omitempty\" graphql:\"socketModel\""
+	Type                      cato_models.ZtnaAppConnectorType                                                                                             "json:\"type\" graphql:\"type\""
 }
 
 func (t *ZtnaAppConnectorUpdateZtnaAppConnector_ZtnaAppConnector_UpdateZtnaAppConnector_ZtnaAppConnector) GetCreatedAt() *string {
@@ -273378,6 +274197,12 @@ func (t *ZtnaAppConnectorUpdateZtnaAppConnector_ZtnaAppConnector_UpdateZtnaAppCo
 		t = &ZtnaAppConnectorUpdateZtnaAppConnector_ZtnaAppConnector_UpdateZtnaAppConnector_ZtnaAppConnector{}
 	}
 	return t.Name
+}
+func (t *ZtnaAppConnectorUpdateZtnaAppConnector_ZtnaAppConnector_UpdateZtnaAppConnector_ZtnaAppConnector) GetPooledBandwidthAllocation() []*ZtnaAppConnectorUpdateZtnaAppConnector_ZtnaAppConnector_UpdateZtnaAppConnector_ZtnaAppConnector_PooledBandwidthAllocation {
+	if t == nil {
+		t = &ZtnaAppConnectorUpdateZtnaAppConnector_ZtnaAppConnector_UpdateZtnaAppConnector_ZtnaAppConnector{}
+	}
+	return t.PooledBandwidthAllocation
 }
 func (t *ZtnaAppConnectorUpdateZtnaAppConnector_ZtnaAppConnector_UpdateZtnaAppConnector_ZtnaAppConnector) GetPreferredPopLocation() *ZtnaAppConnectorUpdateZtnaAppConnector_ZtnaAppConnector_UpdateZtnaAppConnector_ZtnaAppConnector_PreferredPopLocation {
 	if t == nil {
@@ -286116,28 +286941,32 @@ func (t *Devices_Devices_List_Device_Groups) GetName() *string {
 }
 
 type Devices_Devices_List_Device struct {
-	Category          *string                                        "json:\"category,omitempty\" graphql:\"category\""
-	ComplianceState   *string                                        "json:\"complianceState,omitempty\" graphql:\"complianceState\""
-	Confidence        *cato_models.DeviceConfidenceLevel             "json:\"confidence,omitempty\" graphql:\"confidence\""
-	ConnectionProfile *Devices_Devices_List_Device_ConnectionProfile "json:\"connectionProfile,omitempty\" graphql:\"connectionProfile\""
-	FirstSeen         *string                                        "json:\"firstSeen,omitempty\" graphql:\"firstSeen\""
-	Groups            []*Devices_Devices_List_Device_Groups          "json:\"groups\" graphql:\"groups\""
-	Hw                *Devices_Devices_List_Device_Hw                "json:\"hw,omitempty\" graphql:\"hw\""
-	ID                string                                         "json:\"id\" graphql:\"id\""
-	IP                *string                                        "json:\"ip,omitempty\" graphql:\"ip\""
-	IPAddress         *string                                        "json:\"ipAddress,omitempty\" graphql:\"ipAddress\""
-	IsManaged         bool                                           "json:\"isManaged\" graphql:\"isManaged\""
-	LastSeen          *string                                        "json:\"lastSeen,omitempty\" graphql:\"lastSeen\""
-	Name              *string                                        "json:\"name,omitempty\" graphql:\"name\""
-	Network           *Devices_Devices_List_Device_Network           "json:\"network,omitempty\" graphql:\"network\""
-	NetworkInfo       *Devices_Devices_List_Device_NetworkInfo       "json:\"networkInfo,omitempty\" graphql:\"networkInfo\""
-	Nic               *Devices_Devices_List_Device_Nic               "json:\"nic,omitempty\" graphql:\"nic\""
-	Nics              []*Devices_Devices_List_Device_Nics            "json:\"nics\" graphql:\"nics\""
-	OriginTypes       []cato_models.OriginType                       "json:\"originTypes\" graphql:\"originTypes\""
-	Os                *Devices_Devices_List_Device_Os                "json:\"os,omitempty\" graphql:\"os\""
-	RiskScore         *int64                                         "json:\"riskScore,omitempty\" graphql:\"riskScore\""
-	Site              *Devices_Devices_List_Device_Site              "json:\"site,omitempty\" graphql:\"site\""
-	User              *Devices_Devices_List_Device_User              "json:\"user,omitempty\" graphql:\"user\""
+	Category            *string                                        "json:\"category,omitempty\" graphql:\"category\""
+	ComplianceState     *string                                        "json:\"complianceState,omitempty\" graphql:\"complianceState\""
+	Confidence          *cato_models.DeviceConfidenceLevel             "json:\"confidence,omitempty\" graphql:\"confidence\""
+	ConnectionProfile   *Devices_Devices_List_Device_ConnectionProfile "json:\"connectionProfile,omitempty\" graphql:\"connectionProfile\""
+	CrownJewelSource    *cato_models.DeviceCrownJewelSource            "json:\"crownJewelSource,omitempty\" graphql:\"crownJewelSource\""
+	CustomerReasonType  *string                                        "json:\"customerReasonType,omitempty\" graphql:\"customerReasonType\""
+	FirstSeen           *string                                        "json:\"firstSeen,omitempty\" graphql:\"firstSeen\""
+	Groups              []*Devices_Devices_List_Device_Groups          "json:\"groups\" graphql:\"groups\""
+	Hw                  *Devices_Devices_List_Device_Hw                "json:\"hw,omitempty\" graphql:\"hw\""
+	ID                  string                                         "json:\"id\" graphql:\"id\""
+	IP                  *string                                        "json:\"ip,omitempty\" graphql:\"ip\""
+	IPAddress           *string                                        "json:\"ipAddress,omitempty\" graphql:\"ipAddress\""
+	IsCrownJewel        bool                                           "json:\"isCrownJewel\" graphql:\"isCrownJewel\""
+	IsManaged           bool                                           "json:\"isManaged\" graphql:\"isManaged\""
+	LastSeen            *string                                        "json:\"lastSeen,omitempty\" graphql:\"lastSeen\""
+	Name                *string                                        "json:\"name,omitempty\" graphql:\"name\""
+	Network             *Devices_Devices_List_Device_Network           "json:\"network,omitempty\" graphql:\"network\""
+	NetworkInfo         *Devices_Devices_List_Device_NetworkInfo       "json:\"networkInfo,omitempty\" graphql:\"networkInfo\""
+	Nic                 *Devices_Devices_List_Device_Nic               "json:\"nic,omitempty\" graphql:\"nic\""
+	Nics                []*Devices_Devices_List_Device_Nics            "json:\"nics\" graphql:\"nics\""
+	OriginTypes         []cato_models.OriginType                       "json:\"originTypes\" graphql:\"originTypes\""
+	Os                  *Devices_Devices_List_Device_Os                "json:\"os,omitempty\" graphql:\"os\""
+	ResearchReasonTypes []string                                       "json:\"researchReasonTypes\" graphql:\"researchReasonTypes\""
+	RiskScore           *int64                                         "json:\"riskScore,omitempty\" graphql:\"riskScore\""
+	Site                *Devices_Devices_List_Device_Site              "json:\"site,omitempty\" graphql:\"site\""
+	User                *Devices_Devices_List_Device_User              "json:\"user,omitempty\" graphql:\"user\""
 }
 
 func (t *Devices_Devices_List_Device) GetCategory() *string {
@@ -286163,6 +286992,18 @@ func (t *Devices_Devices_List_Device) GetConnectionProfile() *Devices_Devices_Li
 		t = &Devices_Devices_List_Device{}
 	}
 	return t.ConnectionProfile
+}
+func (t *Devices_Devices_List_Device) GetCrownJewelSource() *cato_models.DeviceCrownJewelSource {
+	if t == nil {
+		t = &Devices_Devices_List_Device{}
+	}
+	return t.CrownJewelSource
+}
+func (t *Devices_Devices_List_Device) GetCustomerReasonType() *string {
+	if t == nil {
+		t = &Devices_Devices_List_Device{}
+	}
+	return t.CustomerReasonType
 }
 func (t *Devices_Devices_List_Device) GetFirstSeen() *string {
 	if t == nil {
@@ -286199,6 +287040,12 @@ func (t *Devices_Devices_List_Device) GetIPAddress() *string {
 		t = &Devices_Devices_List_Device{}
 	}
 	return t.IPAddress
+}
+func (t *Devices_Devices_List_Device) GetIsCrownJewel() bool {
+	if t == nil {
+		t = &Devices_Devices_List_Device{}
+	}
+	return t.IsCrownJewel
 }
 func (t *Devices_Devices_List_Device) GetIsManaged() bool {
 	if t == nil {
@@ -286253,6 +287100,12 @@ func (t *Devices_Devices_List_Device) GetOs() *Devices_Devices_List_Device_Os {
 		t = &Devices_Devices_List_Device{}
 	}
 	return t.Os
+}
+func (t *Devices_Devices_List_Device) GetResearchReasonTypes() []string {
+	if t == nil {
+		t = &Devices_Devices_List_Device{}
+	}
+	return t.ResearchReasonTypes
 }
 func (t *Devices_Devices_List_Device) GetRiskScore() *int64 {
 	if t == nil {
@@ -325201,6 +326054,66 @@ func (t *PostureCheckResultList_Posture_CheckResultList_Items_Definition_Complia
 	return t.Title
 }
 
+type PostureCheckResultList_Posture_CheckResultList_Items_Definition_ScoreMetadata struct {
+	EffectiveAreaCriticality   int64                               "json:\"effectiveAreaCriticality\" graphql:\"effectiveAreaCriticality\""
+	EffectiveBlastRadiusClass  cato_models.PostureBlastRadiusClass "json:\"effectiveBlastRadiusClass\" graphql:\"effectiveBlastRadiusClass\""
+	EffectiveBlastRadiusValue  int64                               "json:\"effectiveBlastRadiusValue\" graphql:\"effectiveBlastRadiusValue\""
+	EffectiveFindingsSignal    float64                             "json:\"effectiveFindingsSignal\" graphql:\"effectiveFindingsSignal\""
+	EffectiveSeverity          cato_models.PostureImpact           "json:\"effectiveSeverity\" graphql:\"effectiveSeverity\""
+	EffectiveSuggestedScore    float64                             "json:\"effectiveSuggestedScore\" graphql:\"effectiveSuggestedScore\""
+	EffectiveSuggestedSeverity cato_models.PostureImpact           "json:\"effectiveSuggestedSeverity\" graphql:\"effectiveSuggestedSeverity\""
+	ScoreContributionPct       float64                             "json:\"scoreContributionPct\" graphql:\"scoreContributionPct\""
+}
+
+func (t *PostureCheckResultList_Posture_CheckResultList_Items_Definition_ScoreMetadata) GetEffectiveAreaCriticality() int64 {
+	if t == nil {
+		t = &PostureCheckResultList_Posture_CheckResultList_Items_Definition_ScoreMetadata{}
+	}
+	return t.EffectiveAreaCriticality
+}
+func (t *PostureCheckResultList_Posture_CheckResultList_Items_Definition_ScoreMetadata) GetEffectiveBlastRadiusClass() *cato_models.PostureBlastRadiusClass {
+	if t == nil {
+		t = &PostureCheckResultList_Posture_CheckResultList_Items_Definition_ScoreMetadata{}
+	}
+	return &t.EffectiveBlastRadiusClass
+}
+func (t *PostureCheckResultList_Posture_CheckResultList_Items_Definition_ScoreMetadata) GetEffectiveBlastRadiusValue() int64 {
+	if t == nil {
+		t = &PostureCheckResultList_Posture_CheckResultList_Items_Definition_ScoreMetadata{}
+	}
+	return t.EffectiveBlastRadiusValue
+}
+func (t *PostureCheckResultList_Posture_CheckResultList_Items_Definition_ScoreMetadata) GetEffectiveFindingsSignal() float64 {
+	if t == nil {
+		t = &PostureCheckResultList_Posture_CheckResultList_Items_Definition_ScoreMetadata{}
+	}
+	return t.EffectiveFindingsSignal
+}
+func (t *PostureCheckResultList_Posture_CheckResultList_Items_Definition_ScoreMetadata) GetEffectiveSeverity() *cato_models.PostureImpact {
+	if t == nil {
+		t = &PostureCheckResultList_Posture_CheckResultList_Items_Definition_ScoreMetadata{}
+	}
+	return &t.EffectiveSeverity
+}
+func (t *PostureCheckResultList_Posture_CheckResultList_Items_Definition_ScoreMetadata) GetEffectiveSuggestedScore() float64 {
+	if t == nil {
+		t = &PostureCheckResultList_Posture_CheckResultList_Items_Definition_ScoreMetadata{}
+	}
+	return t.EffectiveSuggestedScore
+}
+func (t *PostureCheckResultList_Posture_CheckResultList_Items_Definition_ScoreMetadata) GetEffectiveSuggestedSeverity() *cato_models.PostureImpact {
+	if t == nil {
+		t = &PostureCheckResultList_Posture_CheckResultList_Items_Definition_ScoreMetadata{}
+	}
+	return &t.EffectiveSuggestedSeverity
+}
+func (t *PostureCheckResultList_Posture_CheckResultList_Items_Definition_ScoreMetadata) GetScoreContributionPct() float64 {
+	if t == nil {
+		t = &PostureCheckResultList_Posture_CheckResultList_Items_Definition_ScoreMetadata{}
+	}
+	return t.ScoreContributionPct
+}
+
 type PostureCheckResultList_Posture_CheckResultList_Items_Definition struct {
 	Application          *string                                                                               "json:\"application,omitempty\" graphql:\"application\""
 	Area                 PostureCheckResultList_Posture_CheckResultList_Items_Definition_Area                  "json:\"area\" graphql:\"area\""
@@ -325214,6 +326127,7 @@ type PostureCheckResultList_Posture_CheckResultList_Items_Definition struct {
 	Impact               cato_models.PostureImpact                                                             "json:\"impact\" graphql:\"impact\""
 	Name                 string                                                                                "json:\"name\" graphql:\"name\""
 	RecommendedActions   []*PostureCheckResultList_Posture_CheckResultList_Items_Definition_RecommendedActions "json:\"recommendedActions\" graphql:\"recommendedActions\""
+	ScoreMetadata        *PostureCheckResultList_Posture_CheckResultList_Items_Definition_ScoreMetadata        "json:\"scoreMetadata,omitempty\" graphql:\"scoreMetadata\""
 	SecurityDomain       *string                                                                               "json:\"securityDomain,omitempty\" graphql:\"securityDomain\""
 	SuppressedStatus     *cato_models.PostureSuppressedStatus                                                  "json:\"suppressedStatus,omitempty\" graphql:\"suppressedStatus\""
 	Tags                 []string                                                                              "json:\"tags\" graphql:\"tags\""
@@ -325290,6 +326204,12 @@ func (t *PostureCheckResultList_Posture_CheckResultList_Items_Definition) GetRec
 		t = &PostureCheckResultList_Posture_CheckResultList_Items_Definition{}
 	}
 	return t.RecommendedActions
+}
+func (t *PostureCheckResultList_Posture_CheckResultList_Items_Definition) GetScoreMetadata() *PostureCheckResultList_Posture_CheckResultList_Items_Definition_ScoreMetadata {
+	if t == nil {
+		t = &PostureCheckResultList_Posture_CheckResultList_Items_Definition{}
+	}
+	return t.ScoreMetadata
 }
 func (t *PostureCheckResultList_Posture_CheckResultList_Items_Definition) GetSecurityDomain() *string {
 	if t == nil {
@@ -325560,6 +326480,66 @@ func (t *PostureCheckResultList_Posture_CheckResultList_Items_Findings_CheckDefi
 	return t.Title
 }
 
+type PostureCheckResultList_Posture_CheckResultList_Items_Findings_CheckDefinition_ScoreMetadata struct {
+	EffectiveAreaCriticality   int64                               "json:\"effectiveAreaCriticality\" graphql:\"effectiveAreaCriticality\""
+	EffectiveBlastRadiusClass  cato_models.PostureBlastRadiusClass "json:\"effectiveBlastRadiusClass\" graphql:\"effectiveBlastRadiusClass\""
+	EffectiveBlastRadiusValue  int64                               "json:\"effectiveBlastRadiusValue\" graphql:\"effectiveBlastRadiusValue\""
+	EffectiveFindingsSignal    float64                             "json:\"effectiveFindingsSignal\" graphql:\"effectiveFindingsSignal\""
+	EffectiveSeverity          cato_models.PostureImpact           "json:\"effectiveSeverity\" graphql:\"effectiveSeverity\""
+	EffectiveSuggestedScore    float64                             "json:\"effectiveSuggestedScore\" graphql:\"effectiveSuggestedScore\""
+	EffectiveSuggestedSeverity cato_models.PostureImpact           "json:\"effectiveSuggestedSeverity\" graphql:\"effectiveSuggestedSeverity\""
+	ScoreContributionPct       float64                             "json:\"scoreContributionPct\" graphql:\"scoreContributionPct\""
+}
+
+func (t *PostureCheckResultList_Posture_CheckResultList_Items_Findings_CheckDefinition_ScoreMetadata) GetEffectiveAreaCriticality() int64 {
+	if t == nil {
+		t = &PostureCheckResultList_Posture_CheckResultList_Items_Findings_CheckDefinition_ScoreMetadata{}
+	}
+	return t.EffectiveAreaCriticality
+}
+func (t *PostureCheckResultList_Posture_CheckResultList_Items_Findings_CheckDefinition_ScoreMetadata) GetEffectiveBlastRadiusClass() *cato_models.PostureBlastRadiusClass {
+	if t == nil {
+		t = &PostureCheckResultList_Posture_CheckResultList_Items_Findings_CheckDefinition_ScoreMetadata{}
+	}
+	return &t.EffectiveBlastRadiusClass
+}
+func (t *PostureCheckResultList_Posture_CheckResultList_Items_Findings_CheckDefinition_ScoreMetadata) GetEffectiveBlastRadiusValue() int64 {
+	if t == nil {
+		t = &PostureCheckResultList_Posture_CheckResultList_Items_Findings_CheckDefinition_ScoreMetadata{}
+	}
+	return t.EffectiveBlastRadiusValue
+}
+func (t *PostureCheckResultList_Posture_CheckResultList_Items_Findings_CheckDefinition_ScoreMetadata) GetEffectiveFindingsSignal() float64 {
+	if t == nil {
+		t = &PostureCheckResultList_Posture_CheckResultList_Items_Findings_CheckDefinition_ScoreMetadata{}
+	}
+	return t.EffectiveFindingsSignal
+}
+func (t *PostureCheckResultList_Posture_CheckResultList_Items_Findings_CheckDefinition_ScoreMetadata) GetEffectiveSeverity() *cato_models.PostureImpact {
+	if t == nil {
+		t = &PostureCheckResultList_Posture_CheckResultList_Items_Findings_CheckDefinition_ScoreMetadata{}
+	}
+	return &t.EffectiveSeverity
+}
+func (t *PostureCheckResultList_Posture_CheckResultList_Items_Findings_CheckDefinition_ScoreMetadata) GetEffectiveSuggestedScore() float64 {
+	if t == nil {
+		t = &PostureCheckResultList_Posture_CheckResultList_Items_Findings_CheckDefinition_ScoreMetadata{}
+	}
+	return t.EffectiveSuggestedScore
+}
+func (t *PostureCheckResultList_Posture_CheckResultList_Items_Findings_CheckDefinition_ScoreMetadata) GetEffectiveSuggestedSeverity() *cato_models.PostureImpact {
+	if t == nil {
+		t = &PostureCheckResultList_Posture_CheckResultList_Items_Findings_CheckDefinition_ScoreMetadata{}
+	}
+	return &t.EffectiveSuggestedSeverity
+}
+func (t *PostureCheckResultList_Posture_CheckResultList_Items_Findings_CheckDefinition_ScoreMetadata) GetScoreContributionPct() float64 {
+	if t == nil {
+		t = &PostureCheckResultList_Posture_CheckResultList_Items_Findings_CheckDefinition_ScoreMetadata{}
+	}
+	return t.ScoreContributionPct
+}
+
 type PostureCheckResultList_Posture_CheckResultList_Items_Findings_CheckDefinition struct {
 	Application          *string                                                                                             "json:\"application,omitempty\" graphql:\"application\""
 	Area                 PostureCheckResultList_Posture_CheckResultList_Items_Findings_CheckDefinition_Area                  "json:\"area\" graphql:\"area\""
@@ -325573,6 +326553,7 @@ type PostureCheckResultList_Posture_CheckResultList_Items_Findings_CheckDefiniti
 	Impact               cato_models.PostureImpact                                                                           "json:\"impact\" graphql:\"impact\""
 	Name                 string                                                                                              "json:\"name\" graphql:\"name\""
 	RecommendedActions   []*PostureCheckResultList_Posture_CheckResultList_Items_Findings_CheckDefinition_RecommendedActions "json:\"recommendedActions\" graphql:\"recommendedActions\""
+	ScoreMetadata        *PostureCheckResultList_Posture_CheckResultList_Items_Findings_CheckDefinition_ScoreMetadata        "json:\"scoreMetadata,omitempty\" graphql:\"scoreMetadata\""
 	SecurityDomain       *string                                                                                             "json:\"securityDomain,omitempty\" graphql:\"securityDomain\""
 	SuppressedStatus     *cato_models.PostureSuppressedStatus                                                                "json:\"suppressedStatus,omitempty\" graphql:\"suppressedStatus\""
 	Tags                 []string                                                                                            "json:\"tags\" graphql:\"tags\""
@@ -325649,6 +326630,12 @@ func (t *PostureCheckResultList_Posture_CheckResultList_Items_Findings_CheckDefi
 		t = &PostureCheckResultList_Posture_CheckResultList_Items_Findings_CheckDefinition{}
 	}
 	return t.RecommendedActions
+}
+func (t *PostureCheckResultList_Posture_CheckResultList_Items_Findings_CheckDefinition) GetScoreMetadata() *PostureCheckResultList_Posture_CheckResultList_Items_Findings_CheckDefinition_ScoreMetadata {
+	if t == nil {
+		t = &PostureCheckResultList_Posture_CheckResultList_Items_Findings_CheckDefinition{}
+	}
+	return t.ScoreMetadata
 }
 func (t *PostureCheckResultList_Posture_CheckResultList_Items_Findings_CheckDefinition) GetSecurityDomain() *string {
 	if t == nil {
@@ -326863,18 +327850,21 @@ func (t *PostureCheckSummary_Posture_CheckSummary_Summary_Comparisons) GetPercen
 }
 
 type PostureCheckSummary_Posture_CheckSummary_Summary struct {
-	ApplicationBreakdown         []*PostureCheckSummary_Posture_CheckSummary_Summary_ApplicationBreakdown         "json:\"applicationBreakdown\" graphql:\"applicationBreakdown\""
-	AreaBreakdown                []*PostureCheckSummary_Posture_CheckSummary_Summary_AreaBreakdown                "json:\"areaBreakdown\" graphql:\"areaBreakdown\""
-	CategoryBreakdown            []*PostureCheckSummary_Posture_CheckSummary_Summary_CategoryBreakdown            "json:\"categoryBreakdown\" graphql:\"categoryBreakdown\""
-	CheckTypeBreakdown           []*PostureCheckSummary_Posture_CheckSummary_Summary_CheckTypeBreakdown           "json:\"checkTypeBreakdown\" graphql:\"checkTypeBreakdown\""
-	Comparisons                  []*PostureCheckSummary_Posture_CheckSummary_Summary_Comparisons                  "json:\"comparisons\" graphql:\"comparisons\""
-	ComplianceControlBreakdown   []*PostureCheckSummary_Posture_CheckSummary_Summary_ComplianceControlBreakdown   "json:\"complianceControlBreakdown\" graphql:\"complianceControlBreakdown\""
-	ComplianceFrameworkBreakdown []*PostureCheckSummary_Posture_CheckSummary_Summary_ComplianceFrameworkBreakdown "json:\"complianceFrameworkBreakdown\" graphql:\"complianceFrameworkBreakdown\""
-	Counts                       PostureCheckSummary_Posture_CheckSummary_Summary_Counts                          "json:\"counts\" graphql:\"counts\""
-	EvaluatedAt                  string                                                                           "json:\"evaluatedAt\" graphql:\"evaluatedAt\""
-	Score                        int64                                                                            "json:\"score\" graphql:\"score\""
-	SecurityDomainBreakdown      []*PostureCheckSummary_Posture_CheckSummary_Summary_SecurityDomainBreakdown      "json:\"securityDomainBreakdown\" graphql:\"securityDomainBreakdown\""
-	SeverityBreakdown            []*PostureCheckSummary_Posture_CheckSummary_Summary_SeverityBreakdown            "json:\"severityBreakdown\" graphql:\"severityBreakdown\""
+	ApplicationBreakdown            []*PostureCheckSummary_Posture_CheckSummary_Summary_ApplicationBreakdown         "json:\"applicationBreakdown\" graphql:\"applicationBreakdown\""
+	AreaBreakdown                   []*PostureCheckSummary_Posture_CheckSummary_Summary_AreaBreakdown                "json:\"areaBreakdown\" graphql:\"areaBreakdown\""
+	CategoryBreakdown               []*PostureCheckSummary_Posture_CheckSummary_Summary_CategoryBreakdown            "json:\"categoryBreakdown\" graphql:\"categoryBreakdown\""
+	CheckTypeBreakdown              []*PostureCheckSummary_Posture_CheckSummary_Summary_CheckTypeBreakdown           "json:\"checkTypeBreakdown\" graphql:\"checkTypeBreakdown\""
+	Comparisons                     []*PostureCheckSummary_Posture_CheckSummary_Summary_Comparisons                  "json:\"comparisons\" graphql:\"comparisons\""
+	ComplianceControlBreakdown      []*PostureCheckSummary_Posture_CheckSummary_Summary_ComplianceControlBreakdown   "json:\"complianceControlBreakdown\" graphql:\"complianceControlBreakdown\""
+	ComplianceFrameworkBreakdown    []*PostureCheckSummary_Posture_CheckSummary_Summary_ComplianceFrameworkBreakdown "json:\"complianceFrameworkBreakdown\" graphql:\"complianceFrameworkBreakdown\""
+	Counts                          PostureCheckSummary_Posture_CheckSummary_Summary_Counts                          "json:\"counts\" graphql:\"counts\""
+	EvaluatedAt                     string                                                                           "json:\"evaluatedAt\" graphql:\"evaluatedAt\""
+	OverallEffectiveAreaCriticality *float64                                                                         "json:\"overallEffectiveAreaCriticality,omitempty\" graphql:\"overallEffectiveAreaCriticality\""
+	OverallEffectiveBlastRadius     *float64                                                                         "json:\"overallEffectiveBlastRadius,omitempty\" graphql:\"overallEffectiveBlastRadius\""
+	OverallEffectiveFindingsSignal  *float64                                                                         "json:\"overallEffectiveFindingsSignal,omitempty\" graphql:\"overallEffectiveFindingsSignal\""
+	Score                           int64                                                                            "json:\"score\" graphql:\"score\""
+	SecurityDomainBreakdown         []*PostureCheckSummary_Posture_CheckSummary_Summary_SecurityDomainBreakdown      "json:\"securityDomainBreakdown\" graphql:\"securityDomainBreakdown\""
+	SeverityBreakdown               []*PostureCheckSummary_Posture_CheckSummary_Summary_SeverityBreakdown            "json:\"severityBreakdown\" graphql:\"severityBreakdown\""
 }
 
 func (t *PostureCheckSummary_Posture_CheckSummary_Summary) GetApplicationBreakdown() []*PostureCheckSummary_Posture_CheckSummary_Summary_ApplicationBreakdown {
@@ -326930,6 +327920,24 @@ func (t *PostureCheckSummary_Posture_CheckSummary_Summary) GetEvaluatedAt() stri
 		t = &PostureCheckSummary_Posture_CheckSummary_Summary{}
 	}
 	return t.EvaluatedAt
+}
+func (t *PostureCheckSummary_Posture_CheckSummary_Summary) GetOverallEffectiveAreaCriticality() *float64 {
+	if t == nil {
+		t = &PostureCheckSummary_Posture_CheckSummary_Summary{}
+	}
+	return t.OverallEffectiveAreaCriticality
+}
+func (t *PostureCheckSummary_Posture_CheckSummary_Summary) GetOverallEffectiveBlastRadius() *float64 {
+	if t == nil {
+		t = &PostureCheckSummary_Posture_CheckSummary_Summary{}
+	}
+	return t.OverallEffectiveBlastRadius
+}
+func (t *PostureCheckSummary_Posture_CheckSummary_Summary) GetOverallEffectiveFindingsSignal() *float64 {
+	if t == nil {
+		t = &PostureCheckSummary_Posture_CheckSummary_Summary{}
+	}
+	return t.OverallEffectiveFindingsSignal
 }
 func (t *PostureCheckSummary_Posture_CheckSummary_Summary) GetScore() int64 {
 	if t == nil {
@@ -327523,15 +328531,18 @@ func (t *PostureDailySummaryList_Posture_DailySummaryList_Items_Summary_Comparis
 }
 
 type PostureDailySummaryList_Posture_DailySummaryList_Items_Summary struct {
-	ApplicationScores    []*PostureDailySummaryList_Posture_DailySummaryList_Items_Summary_ApplicationScores    "json:\"applicationScores\" graphql:\"applicationScores\""
-	AreaScores           []*PostureDailySummaryList_Posture_DailySummaryList_Items_Summary_AreaScores           "json:\"areaScores\" graphql:\"areaScores\""
-	CategoryScores       []*PostureDailySummaryList_Posture_DailySummaryList_Items_Summary_CategoryScores       "json:\"categoryScores\" graphql:\"categoryScores\""
-	Comparisons          []*PostureDailySummaryList_Posture_DailySummaryList_Items_Summary_Comparisons          "json:\"comparisons\" graphql:\"comparisons\""
-	DomainScores         []*PostureDailySummaryList_Posture_DailySummaryList_Items_Summary_DomainScores         "json:\"domainScores\" graphql:\"domainScores\""
-	EvaluatedAt          string                                                                                 "json:\"evaluatedAt\" graphql:\"evaluatedAt\""
-	Score                int64                                                                                  "json:\"score\" graphql:\"score\""
-	SecurityDomainScores []*PostureDailySummaryList_Posture_DailySummaryList_Items_Summary_SecurityDomainScores "json:\"securityDomainScores\" graphql:\"securityDomainScores\""
-	Stats                *PostureDailySummaryList_Posture_DailySummaryList_Items_Summary_Stats                  "json:\"stats,omitempty\" graphql:\"stats\""
+	ApplicationScores               []*PostureDailySummaryList_Posture_DailySummaryList_Items_Summary_ApplicationScores    "json:\"applicationScores\" graphql:\"applicationScores\""
+	AreaScores                      []*PostureDailySummaryList_Posture_DailySummaryList_Items_Summary_AreaScores           "json:\"areaScores\" graphql:\"areaScores\""
+	CategoryScores                  []*PostureDailySummaryList_Posture_DailySummaryList_Items_Summary_CategoryScores       "json:\"categoryScores\" graphql:\"categoryScores\""
+	Comparisons                     []*PostureDailySummaryList_Posture_DailySummaryList_Items_Summary_Comparisons          "json:\"comparisons\" graphql:\"comparisons\""
+	DomainScores                    []*PostureDailySummaryList_Posture_DailySummaryList_Items_Summary_DomainScores         "json:\"domainScores\" graphql:\"domainScores\""
+	EvaluatedAt                     string                                                                                 "json:\"evaluatedAt\" graphql:\"evaluatedAt\""
+	OverallEffectiveAreaCriticality *float64                                                                               "json:\"overallEffectiveAreaCriticality,omitempty\" graphql:\"overallEffectiveAreaCriticality\""
+	OverallEffectiveBlastRadius     *float64                                                                               "json:\"overallEffectiveBlastRadius,omitempty\" graphql:\"overallEffectiveBlastRadius\""
+	OverallEffectiveFindingsSignal  *float64                                                                               "json:\"overallEffectiveFindingsSignal,omitempty\" graphql:\"overallEffectiveFindingsSignal\""
+	Score                           int64                                                                                  "json:\"score\" graphql:\"score\""
+	SecurityDomainScores            []*PostureDailySummaryList_Posture_DailySummaryList_Items_Summary_SecurityDomainScores "json:\"securityDomainScores\" graphql:\"securityDomainScores\""
+	Stats                           *PostureDailySummaryList_Posture_DailySummaryList_Items_Summary_Stats                  "json:\"stats,omitempty\" graphql:\"stats\""
 }
 
 func (t *PostureDailySummaryList_Posture_DailySummaryList_Items_Summary) GetApplicationScores() []*PostureDailySummaryList_Posture_DailySummaryList_Items_Summary_ApplicationScores {
@@ -327569,6 +328580,24 @@ func (t *PostureDailySummaryList_Posture_DailySummaryList_Items_Summary) GetEval
 		t = &PostureDailySummaryList_Posture_DailySummaryList_Items_Summary{}
 	}
 	return t.EvaluatedAt
+}
+func (t *PostureDailySummaryList_Posture_DailySummaryList_Items_Summary) GetOverallEffectiveAreaCriticality() *float64 {
+	if t == nil {
+		t = &PostureDailySummaryList_Posture_DailySummaryList_Items_Summary{}
+	}
+	return t.OverallEffectiveAreaCriticality
+}
+func (t *PostureDailySummaryList_Posture_DailySummaryList_Items_Summary) GetOverallEffectiveBlastRadius() *float64 {
+	if t == nil {
+		t = &PostureDailySummaryList_Posture_DailySummaryList_Items_Summary{}
+	}
+	return t.OverallEffectiveBlastRadius
+}
+func (t *PostureDailySummaryList_Posture_DailySummaryList_Items_Summary) GetOverallEffectiveFindingsSignal() *float64 {
+	if t == nil {
+		t = &PostureDailySummaryList_Posture_DailySummaryList_Items_Summary{}
+	}
+	return t.OverallEffectiveFindingsSignal
 }
 func (t *PostureDailySummaryList_Posture_DailySummaryList_Items_Summary) GetScore() int64 {
 	if t == nil {
@@ -327769,6 +328798,66 @@ func (t *PostureDefinitionList_Posture_DefinitionList_Items_ComplianceControls) 
 	return t.Title
 }
 
+type PostureDefinitionList_Posture_DefinitionList_Items_ScoreMetadata struct {
+	EffectiveAreaCriticality   int64                               "json:\"effectiveAreaCriticality\" graphql:\"effectiveAreaCriticality\""
+	EffectiveBlastRadiusClass  cato_models.PostureBlastRadiusClass "json:\"effectiveBlastRadiusClass\" graphql:\"effectiveBlastRadiusClass\""
+	EffectiveBlastRadiusValue  int64                               "json:\"effectiveBlastRadiusValue\" graphql:\"effectiveBlastRadiusValue\""
+	EffectiveFindingsSignal    float64                             "json:\"effectiveFindingsSignal\" graphql:\"effectiveFindingsSignal\""
+	EffectiveSeverity          cato_models.PostureImpact           "json:\"effectiveSeverity\" graphql:\"effectiveSeverity\""
+	EffectiveSuggestedScore    float64                             "json:\"effectiveSuggestedScore\" graphql:\"effectiveSuggestedScore\""
+	EffectiveSuggestedSeverity cato_models.PostureImpact           "json:\"effectiveSuggestedSeverity\" graphql:\"effectiveSuggestedSeverity\""
+	ScoreContributionPct       float64                             "json:\"scoreContributionPct\" graphql:\"scoreContributionPct\""
+}
+
+func (t *PostureDefinitionList_Posture_DefinitionList_Items_ScoreMetadata) GetEffectiveAreaCriticality() int64 {
+	if t == nil {
+		t = &PostureDefinitionList_Posture_DefinitionList_Items_ScoreMetadata{}
+	}
+	return t.EffectiveAreaCriticality
+}
+func (t *PostureDefinitionList_Posture_DefinitionList_Items_ScoreMetadata) GetEffectiveBlastRadiusClass() *cato_models.PostureBlastRadiusClass {
+	if t == nil {
+		t = &PostureDefinitionList_Posture_DefinitionList_Items_ScoreMetadata{}
+	}
+	return &t.EffectiveBlastRadiusClass
+}
+func (t *PostureDefinitionList_Posture_DefinitionList_Items_ScoreMetadata) GetEffectiveBlastRadiusValue() int64 {
+	if t == nil {
+		t = &PostureDefinitionList_Posture_DefinitionList_Items_ScoreMetadata{}
+	}
+	return t.EffectiveBlastRadiusValue
+}
+func (t *PostureDefinitionList_Posture_DefinitionList_Items_ScoreMetadata) GetEffectiveFindingsSignal() float64 {
+	if t == nil {
+		t = &PostureDefinitionList_Posture_DefinitionList_Items_ScoreMetadata{}
+	}
+	return t.EffectiveFindingsSignal
+}
+func (t *PostureDefinitionList_Posture_DefinitionList_Items_ScoreMetadata) GetEffectiveSeverity() *cato_models.PostureImpact {
+	if t == nil {
+		t = &PostureDefinitionList_Posture_DefinitionList_Items_ScoreMetadata{}
+	}
+	return &t.EffectiveSeverity
+}
+func (t *PostureDefinitionList_Posture_DefinitionList_Items_ScoreMetadata) GetEffectiveSuggestedScore() float64 {
+	if t == nil {
+		t = &PostureDefinitionList_Posture_DefinitionList_Items_ScoreMetadata{}
+	}
+	return t.EffectiveSuggestedScore
+}
+func (t *PostureDefinitionList_Posture_DefinitionList_Items_ScoreMetadata) GetEffectiveSuggestedSeverity() *cato_models.PostureImpact {
+	if t == nil {
+		t = &PostureDefinitionList_Posture_DefinitionList_Items_ScoreMetadata{}
+	}
+	return &t.EffectiveSuggestedSeverity
+}
+func (t *PostureDefinitionList_Posture_DefinitionList_Items_ScoreMetadata) GetScoreContributionPct() float64 {
+	if t == nil {
+		t = &PostureDefinitionList_Posture_DefinitionList_Items_ScoreMetadata{}
+	}
+	return t.ScoreContributionPct
+}
+
 type PostureDefinitionList_Posture_DefinitionList_Items struct {
 	Application          *string                                                                  "json:\"application,omitempty\" graphql:\"application\""
 	Area                 PostureDefinitionList_Posture_DefinitionList_Items_Area                  "json:\"area\" graphql:\"area\""
@@ -327782,6 +328871,7 @@ type PostureDefinitionList_Posture_DefinitionList_Items struct {
 	Impact               cato_models.PostureImpact                                                "json:\"impact\" graphql:\"impact\""
 	Name                 string                                                                   "json:\"name\" graphql:\"name\""
 	RecommendedActions   []*PostureDefinitionList_Posture_DefinitionList_Items_RecommendedActions "json:\"recommendedActions\" graphql:\"recommendedActions\""
+	ScoreMetadata        *PostureDefinitionList_Posture_DefinitionList_Items_ScoreMetadata        "json:\"scoreMetadata,omitempty\" graphql:\"scoreMetadata\""
 	SecurityDomain       *string                                                                  "json:\"securityDomain,omitempty\" graphql:\"securityDomain\""
 	SuppressedStatus     *cato_models.PostureSuppressedStatus                                     "json:\"suppressedStatus,omitempty\" graphql:\"suppressedStatus\""
 	Tags                 []string                                                                 "json:\"tags\" graphql:\"tags\""
@@ -327858,6 +328948,12 @@ func (t *PostureDefinitionList_Posture_DefinitionList_Items) GetRecommendedActio
 		t = &PostureDefinitionList_Posture_DefinitionList_Items{}
 	}
 	return t.RecommendedActions
+}
+func (t *PostureDefinitionList_Posture_DefinitionList_Items) GetScoreMetadata() *PostureDefinitionList_Posture_DefinitionList_Items_ScoreMetadata {
+	if t == nil {
+		t = &PostureDefinitionList_Posture_DefinitionList_Items{}
+	}
+	return t.ScoreMetadata
 }
 func (t *PostureDefinitionList_Posture_DefinitionList_Items) GetSecurityDomain() *string {
 	if t == nil {
@@ -328083,6 +329179,66 @@ func (t *PostureFindingList_Posture_FindingList_Items_CheckDefinition_Compliance
 	return t.Title
 }
 
+type PostureFindingList_Posture_FindingList_Items_CheckDefinition_ScoreMetadata struct {
+	EffectiveAreaCriticality   int64                               "json:\"effectiveAreaCriticality\" graphql:\"effectiveAreaCriticality\""
+	EffectiveBlastRadiusClass  cato_models.PostureBlastRadiusClass "json:\"effectiveBlastRadiusClass\" graphql:\"effectiveBlastRadiusClass\""
+	EffectiveBlastRadiusValue  int64                               "json:\"effectiveBlastRadiusValue\" graphql:\"effectiveBlastRadiusValue\""
+	EffectiveFindingsSignal    float64                             "json:\"effectiveFindingsSignal\" graphql:\"effectiveFindingsSignal\""
+	EffectiveSeverity          cato_models.PostureImpact           "json:\"effectiveSeverity\" graphql:\"effectiveSeverity\""
+	EffectiveSuggestedScore    float64                             "json:\"effectiveSuggestedScore\" graphql:\"effectiveSuggestedScore\""
+	EffectiveSuggestedSeverity cato_models.PostureImpact           "json:\"effectiveSuggestedSeverity\" graphql:\"effectiveSuggestedSeverity\""
+	ScoreContributionPct       float64                             "json:\"scoreContributionPct\" graphql:\"scoreContributionPct\""
+}
+
+func (t *PostureFindingList_Posture_FindingList_Items_CheckDefinition_ScoreMetadata) GetEffectiveAreaCriticality() int64 {
+	if t == nil {
+		t = &PostureFindingList_Posture_FindingList_Items_CheckDefinition_ScoreMetadata{}
+	}
+	return t.EffectiveAreaCriticality
+}
+func (t *PostureFindingList_Posture_FindingList_Items_CheckDefinition_ScoreMetadata) GetEffectiveBlastRadiusClass() *cato_models.PostureBlastRadiusClass {
+	if t == nil {
+		t = &PostureFindingList_Posture_FindingList_Items_CheckDefinition_ScoreMetadata{}
+	}
+	return &t.EffectiveBlastRadiusClass
+}
+func (t *PostureFindingList_Posture_FindingList_Items_CheckDefinition_ScoreMetadata) GetEffectiveBlastRadiusValue() int64 {
+	if t == nil {
+		t = &PostureFindingList_Posture_FindingList_Items_CheckDefinition_ScoreMetadata{}
+	}
+	return t.EffectiveBlastRadiusValue
+}
+func (t *PostureFindingList_Posture_FindingList_Items_CheckDefinition_ScoreMetadata) GetEffectiveFindingsSignal() float64 {
+	if t == nil {
+		t = &PostureFindingList_Posture_FindingList_Items_CheckDefinition_ScoreMetadata{}
+	}
+	return t.EffectiveFindingsSignal
+}
+func (t *PostureFindingList_Posture_FindingList_Items_CheckDefinition_ScoreMetadata) GetEffectiveSeverity() *cato_models.PostureImpact {
+	if t == nil {
+		t = &PostureFindingList_Posture_FindingList_Items_CheckDefinition_ScoreMetadata{}
+	}
+	return &t.EffectiveSeverity
+}
+func (t *PostureFindingList_Posture_FindingList_Items_CheckDefinition_ScoreMetadata) GetEffectiveSuggestedScore() float64 {
+	if t == nil {
+		t = &PostureFindingList_Posture_FindingList_Items_CheckDefinition_ScoreMetadata{}
+	}
+	return t.EffectiveSuggestedScore
+}
+func (t *PostureFindingList_Posture_FindingList_Items_CheckDefinition_ScoreMetadata) GetEffectiveSuggestedSeverity() *cato_models.PostureImpact {
+	if t == nil {
+		t = &PostureFindingList_Posture_FindingList_Items_CheckDefinition_ScoreMetadata{}
+	}
+	return &t.EffectiveSuggestedSeverity
+}
+func (t *PostureFindingList_Posture_FindingList_Items_CheckDefinition_ScoreMetadata) GetScoreContributionPct() float64 {
+	if t == nil {
+		t = &PostureFindingList_Posture_FindingList_Items_CheckDefinition_ScoreMetadata{}
+	}
+	return t.ScoreContributionPct
+}
+
 type PostureFindingList_Posture_FindingList_Items_CheckDefinition struct {
 	Application          *string                                                                            "json:\"application,omitempty\" graphql:\"application\""
 	Area                 PostureFindingList_Posture_FindingList_Items_CheckDefinition_Area                  "json:\"area\" graphql:\"area\""
@@ -328096,6 +329252,7 @@ type PostureFindingList_Posture_FindingList_Items_CheckDefinition struct {
 	Impact               cato_models.PostureImpact                                                          "json:\"impact\" graphql:\"impact\""
 	Name                 string                                                                             "json:\"name\" graphql:\"name\""
 	RecommendedActions   []*PostureFindingList_Posture_FindingList_Items_CheckDefinition_RecommendedActions "json:\"recommendedActions\" graphql:\"recommendedActions\""
+	ScoreMetadata        *PostureFindingList_Posture_FindingList_Items_CheckDefinition_ScoreMetadata        "json:\"scoreMetadata,omitempty\" graphql:\"scoreMetadata\""
 	SecurityDomain       *string                                                                            "json:\"securityDomain,omitempty\" graphql:\"securityDomain\""
 	SuppressedStatus     *cato_models.PostureSuppressedStatus                                               "json:\"suppressedStatus,omitempty\" graphql:\"suppressedStatus\""
 	Tags                 []string                                                                           "json:\"tags\" graphql:\"tags\""
@@ -328172,6 +329329,12 @@ func (t *PostureFindingList_Posture_FindingList_Items_CheckDefinition) GetRecomm
 		t = &PostureFindingList_Posture_FindingList_Items_CheckDefinition{}
 	}
 	return t.RecommendedActions
+}
+func (t *PostureFindingList_Posture_FindingList_Items_CheckDefinition) GetScoreMetadata() *PostureFindingList_Posture_FindingList_Items_CheckDefinition_ScoreMetadata {
+	if t == nil {
+		t = &PostureFindingList_Posture_FindingList_Items_CheckDefinition{}
+	}
+	return t.ScoreMetadata
 }
 func (t *PostureFindingList_Posture_FindingList_Items_CheckDefinition) GetSecurityDomain() *string {
 	if t == nil {
@@ -335154,6 +336317,31 @@ func (t *User_User) GetUserList() *User_User_UserList {
 	return t.UserList
 }
 
+type Xdr_Xdr_Stories_Paging struct {
+	From  int64 "json:\"from\" graphql:\"from\""
+	Limit int64 "json:\"limit\" graphql:\"limit\""
+	Total int64 "json:\"total\" graphql:\"total\""
+}
+
+func (t *Xdr_Xdr_Stories_Paging) GetFrom() int64 {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Paging{}
+	}
+	return t.From
+}
+func (t *Xdr_Xdr_Stories_Paging) GetLimit() int64 {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Paging{}
+	}
+	return t.Limit
+}
+func (t *Xdr_Xdr_Stories_Paging) GetTotal() int64 {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Paging{}
+	}
+	return t.Total
+}
+
 type Xdr_Xdr_Stories_Items_Incident_AnalystFeedbackMergedIncident_ThreatType struct {
 	Details           *string "json:\"details,omitempty\" graphql:\"details\""
 	Name              *string "json:\"name,omitempty\" graphql:\"name\""
@@ -335218,22 +336406,40 @@ func (t *Xdr_Xdr_Stories_Items_Incident_AnalystFeedbackMergedIncident) GetVerdic
 	return t.Verdict
 }
 
-type Xdr_Xdr_Stories_Items_Incident_Entities_Data struct {
-	FieldName string   "json:\"fieldName\" graphql:\"fieldName\""
-	Values    []string "json:\"values\" graphql:\"values\""
+type Xdr_Xdr_Stories_Items_Incident_SiteMergedIncident struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
 }
 
-func (t *Xdr_Xdr_Stories_Items_Incident_Entities_Data) GetFieldName() string {
+func (t *Xdr_Xdr_Stories_Items_Incident_SiteMergedIncident) GetID() string {
 	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_Entities_Data{}
+		t = &Xdr_Xdr_Stories_Items_Incident_SiteMergedIncident{}
 	}
-	return t.FieldName
+	return t.ID
 }
-func (t *Xdr_Xdr_Stories_Items_Incident_Entities_Data) GetValues() []string {
+func (t *Xdr_Xdr_Stories_Items_Incident_SiteMergedIncident) GetName() string {
 	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_Entities_Data{}
+		t = &Xdr_Xdr_Stories_Items_Incident_SiteMergedIncident{}
 	}
-	return t.Values
+	return t.Name
+}
+
+type Xdr_Xdr_Stories_Items_Incident_UserMergedIncident struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *Xdr_Xdr_Stories_Items_Incident_UserMergedIncident) GetID() string {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_UserMergedIncident{}
+	}
+	return t.ID
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_UserMergedIncident) GetName() string {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_UserMergedIncident{}
+	}
+	return t.Name
 }
 
 type Xdr_Xdr_Stories_Items_Incident_Entities_Ref_GroupMemberRefTyped struct {
@@ -335270,6 +336476,24 @@ func (t *Xdr_Xdr_Stories_Items_Incident_Entities_Ref) GetName() string {
 		t = &Xdr_Xdr_Stories_Items_Incident_Entities_Ref{}
 	}
 	return t.Name
+}
+
+type Xdr_Xdr_Stories_Items_Incident_Entities_Data struct {
+	FieldName string   "json:\"fieldName\" graphql:\"fieldName\""
+	Values    []string "json:\"values\" graphql:\"values\""
+}
+
+func (t *Xdr_Xdr_Stories_Items_Incident_Entities_Data) GetFieldName() string {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_Entities_Data{}
+	}
+	return t.FieldName
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_Entities_Data) GetValues() []string {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_Entities_Data{}
+	}
+	return t.Values
 }
 
 type Xdr_Xdr_Stories_Items_Incident_Entities struct {
@@ -335309,2542 +336533,6 @@ func (t *Xdr_Xdr_Stories_Items_Incident_Entities) GetType() *string {
 		t = &Xdr_Xdr_Stories_Items_Incident_Entities{}
 	}
 	return t.Type
-}
-
-type Xdr_Xdr_Stories_Items_Incident_SiteMergedIncident struct {
-	ID   string "json:\"id\" graphql:\"id\""
-	Name string "json:\"name\" graphql:\"name\""
-}
-
-func (t *Xdr_Xdr_Stories_Items_Incident_SiteMergedIncident) GetID() string {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_SiteMergedIncident{}
-	}
-	return t.ID
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_SiteMergedIncident) GetName() string {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_SiteMergedIncident{}
-	}
-	return t.Name
-}
-
-type Xdr_Xdr_Stories_Items_Incident_UserMergedIncident struct {
-	ID   string "json:\"id\" graphql:\"id\""
-	Name string "json:\"name\" graphql:\"name\""
-}
-
-func (t *Xdr_Xdr_Stories_Items_Incident_UserMergedIncident) GetID() string {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_UserMergedIncident{}
-	}
-	return t.ID
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_UserMergedIncident) GetName() string {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_UserMergedIncident{}
-	}
-	return t.Name
-}
-
-type Xdr_Xdr_Stories_Items_Incident_AiOperationsIncident_SimilarStoriesData struct {
-	Indication           *string  "json:\"indication,omitempty\" graphql:\"indication\""
-	SimilarityPercentage *float64 "json:\"similarityPercentage,omitempty\" graphql:\"similarityPercentage\""
-	StoryID              *string  "json:\"storyId,omitempty\" graphql:\"storyId\""
-	ThreatClassification *string  "json:\"threatClassification,omitempty\" graphql:\"threatClassification\""
-	ThreatTypeName       *string  "json:\"threatTypeName,omitempty\" graphql:\"threatTypeName\""
-	Verdict              *string  "json:\"verdict,omitempty\" graphql:\"verdict\""
-}
-
-func (t *Xdr_Xdr_Stories_Items_Incident_AiOperationsIncident_SimilarStoriesData) GetIndication() *string {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_AiOperationsIncident_SimilarStoriesData{}
-	}
-	return t.Indication
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_AiOperationsIncident_SimilarStoriesData) GetSimilarityPercentage() *float64 {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_AiOperationsIncident_SimilarStoriesData{}
-	}
-	return t.SimilarityPercentage
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_AiOperationsIncident_SimilarStoriesData) GetStoryID() *string {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_AiOperationsIncident_SimilarStoriesData{}
-	}
-	return t.StoryID
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_AiOperationsIncident_SimilarStoriesData) GetThreatClassification() *string {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_AiOperationsIncident_SimilarStoriesData{}
-	}
-	return t.ThreatClassification
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_AiOperationsIncident_SimilarStoriesData) GetThreatTypeName() *string {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_AiOperationsIncident_SimilarStoriesData{}
-	}
-	return t.ThreatTypeName
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_AiOperationsIncident_SimilarStoriesData) GetVerdict() *string {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_AiOperationsIncident_SimilarStoriesData{}
-	}
-	return t.Verdict
-}
-
-type Xdr_Xdr_Stories_Items_Incident_AiOperationsIncident_EventsGraphQuery_TimeSeriesEvents_Measures struct {
-	AggType   string "json:\"aggType\" graphql:\"aggType\""
-	FieldName string "json:\"fieldName\" graphql:\"fieldName\""
-	Trend     *bool  "json:\"trend,omitempty\" graphql:\"trend\""
-}
-
-func (t *Xdr_Xdr_Stories_Items_Incident_AiOperationsIncident_EventsGraphQuery_TimeSeriesEvents_Measures) GetAggType() string {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_AiOperationsIncident_EventsGraphQuery_TimeSeriesEvents_Measures{}
-	}
-	return t.AggType
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_AiOperationsIncident_EventsGraphQuery_TimeSeriesEvents_Measures) GetFieldName() string {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_AiOperationsIncident_EventsGraphQuery_TimeSeriesEvents_Measures{}
-	}
-	return t.FieldName
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_AiOperationsIncident_EventsGraphQuery_TimeSeriesEvents_Measures) GetTrend() *bool {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_AiOperationsIncident_EventsGraphQuery_TimeSeriesEvents_Measures{}
-	}
-	return t.Trend
-}
-
-type Xdr_Xdr_Stories_Items_Incident_AiOperationsIncident_EventsGraphQuery_TimeSeriesEvents_Dimensions struct {
-	FieldName string "json:\"fieldName\" graphql:\"fieldName\""
-}
-
-func (t *Xdr_Xdr_Stories_Items_Incident_AiOperationsIncident_EventsGraphQuery_TimeSeriesEvents_Dimensions) GetFieldName() string {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_AiOperationsIncident_EventsGraphQuery_TimeSeriesEvents_Dimensions{}
-	}
-	return t.FieldName
-}
-
-type Xdr_Xdr_Stories_Items_Incident_AiOperationsIncident_EventsGraphQuery_TimeSeriesEvents_Filters struct {
-	FieldName string   "json:\"fieldName\" graphql:\"fieldName\""
-	Operator  string   "json:\"operator\" graphql:\"operator\""
-	Values    []string "json:\"values\" graphql:\"values\""
-}
-
-func (t *Xdr_Xdr_Stories_Items_Incident_AiOperationsIncident_EventsGraphQuery_TimeSeriesEvents_Filters) GetFieldName() string {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_AiOperationsIncident_EventsGraphQuery_TimeSeriesEvents_Filters{}
-	}
-	return t.FieldName
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_AiOperationsIncident_EventsGraphQuery_TimeSeriesEvents_Filters) GetOperator() string {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_AiOperationsIncident_EventsGraphQuery_TimeSeriesEvents_Filters{}
-	}
-	return t.Operator
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_AiOperationsIncident_EventsGraphQuery_TimeSeriesEvents_Filters) GetValues() []string {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_AiOperationsIncident_EventsGraphQuery_TimeSeriesEvents_Filters{}
-	}
-	return t.Values
-}
-
-type Xdr_Xdr_Stories_Items_Incident_AiOperationsIncident_EventsGraphQuery_TimeSeriesEvents struct {
-	AccountID  string                                                                                              "json:\"accountID\" graphql:\"accountID\""
-	Buckets    int64                                                                                               "json:\"buckets\" graphql:\"buckets\""
-	Dimensions []*Xdr_Xdr_Stories_Items_Incident_AiOperationsIncident_EventsGraphQuery_TimeSeriesEvents_Dimensions "json:\"dimensions\" graphql:\"dimensions\""
-	Filters    []*Xdr_Xdr_Stories_Items_Incident_AiOperationsIncident_EventsGraphQuery_TimeSeriesEvents_Filters    "json:\"filters\" graphql:\"filters\""
-	Measures   []*Xdr_Xdr_Stories_Items_Incident_AiOperationsIncident_EventsGraphQuery_TimeSeriesEvents_Measures   "json:\"measures\" graphql:\"measures\""
-	TimeFrame  string                                                                                              "json:\"timeFrame\" graphql:\"timeFrame\""
-}
-
-func (t *Xdr_Xdr_Stories_Items_Incident_AiOperationsIncident_EventsGraphQuery_TimeSeriesEvents) GetAccountID() string {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_AiOperationsIncident_EventsGraphQuery_TimeSeriesEvents{}
-	}
-	return t.AccountID
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_AiOperationsIncident_EventsGraphQuery_TimeSeriesEvents) GetBuckets() int64 {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_AiOperationsIncident_EventsGraphQuery_TimeSeriesEvents{}
-	}
-	return t.Buckets
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_AiOperationsIncident_EventsGraphQuery_TimeSeriesEvents) GetDimensions() []*Xdr_Xdr_Stories_Items_Incident_AiOperationsIncident_EventsGraphQuery_TimeSeriesEvents_Dimensions {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_AiOperationsIncident_EventsGraphQuery_TimeSeriesEvents{}
-	}
-	return t.Dimensions
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_AiOperationsIncident_EventsGraphQuery_TimeSeriesEvents) GetFilters() []*Xdr_Xdr_Stories_Items_Incident_AiOperationsIncident_EventsGraphQuery_TimeSeriesEvents_Filters {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_AiOperationsIncident_EventsGraphQuery_TimeSeriesEvents{}
-	}
-	return t.Filters
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_AiOperationsIncident_EventsGraphQuery_TimeSeriesEvents) GetMeasures() []*Xdr_Xdr_Stories_Items_Incident_AiOperationsIncident_EventsGraphQuery_TimeSeriesEvents_Measures {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_AiOperationsIncident_EventsGraphQuery_TimeSeriesEvents{}
-	}
-	return t.Measures
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_AiOperationsIncident_EventsGraphQuery_TimeSeriesEvents) GetTimeFrame() string {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_AiOperationsIncident_EventsGraphQuery_TimeSeriesEvents{}
-	}
-	return t.TimeFrame
-}
-
-type Xdr_Xdr_Stories_Items_Incident_AiOperationsIncident_EventsGraphQuery struct {
-	TimeSeriesEvents *Xdr_Xdr_Stories_Items_Incident_AiOperationsIncident_EventsGraphQuery_TimeSeriesEvents "json:\"timeSeriesEvents,omitempty\" graphql:\"timeSeriesEvents\""
-	Type             cato_models.GraphType                                                                  "json:\"type\" graphql:\"type\""
-}
-
-func (t *Xdr_Xdr_Stories_Items_Incident_AiOperationsIncident_EventsGraphQuery) GetTimeSeriesEvents() *Xdr_Xdr_Stories_Items_Incident_AiOperationsIncident_EventsGraphQuery_TimeSeriesEvents {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_AiOperationsIncident_EventsGraphQuery{}
-	}
-	return t.TimeSeriesEvents
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_AiOperationsIncident_EventsGraphQuery) GetType() *cato_models.GraphType {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_AiOperationsIncident_EventsGraphQuery{}
-	}
-	return &t.Type
-}
-
-type Xdr_Xdr_Stories_Items_Incident_AiOperationsIncident_AccountOperationIncident_IncidentTimeline_AccountOperationsTimelineEvent struct {
-	ID          string                                    "json:\"id\" graphql:\"id\""
-	Created     scalars.Time                              "json:\"created\" graphql:\"created\""
-	Validated   scalars.Time                              "json:\"validated\" graphql:\"validated\""
-	Description string                                    "json:\"description\" graphql:\"description\""
-	Type        cato_models.AccountOperationsTimelineType "json:\"type\" graphql:\"type\""
-	EventIds    []string                                  "json:\"eventIds\" graphql:\"eventIds\""
-	Muted       bool                                      "json:\"muted\" graphql:\"muted\""
-}
-
-func (t *Xdr_Xdr_Stories_Items_Incident_AiOperationsIncident_AccountOperationIncident_IncidentTimeline_AccountOperationsTimelineEvent) GetID() string {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_AiOperationsIncident_AccountOperationIncident_IncidentTimeline_AccountOperationsTimelineEvent{}
-	}
-	return t.ID
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_AiOperationsIncident_AccountOperationIncident_IncidentTimeline_AccountOperationsTimelineEvent) GetCreated() *scalars.Time {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_AiOperationsIncident_AccountOperationIncident_IncidentTimeline_AccountOperationsTimelineEvent{}
-	}
-	return &t.Created
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_AiOperationsIncident_AccountOperationIncident_IncidentTimeline_AccountOperationsTimelineEvent) GetValidated() *scalars.Time {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_AiOperationsIncident_AccountOperationIncident_IncidentTimeline_AccountOperationsTimelineEvent{}
-	}
-	return &t.Validated
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_AiOperationsIncident_AccountOperationIncident_IncidentTimeline_AccountOperationsTimelineEvent) GetDescription() string {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_AiOperationsIncident_AccountOperationIncident_IncidentTimeline_AccountOperationsTimelineEvent{}
-	}
-	return t.Description
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_AiOperationsIncident_AccountOperationIncident_IncidentTimeline_AccountOperationsTimelineEvent) GetType() *cato_models.AccountOperationsTimelineType {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_AiOperationsIncident_AccountOperationIncident_IncidentTimeline_AccountOperationsTimelineEvent{}
-	}
-	return &t.Type
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_AiOperationsIncident_AccountOperationIncident_IncidentTimeline_AccountOperationsTimelineEvent) GetEventIds() []string {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_AiOperationsIncident_AccountOperationIncident_IncidentTimeline_AccountOperationsTimelineEvent{}
-	}
-	return t.EventIds
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_AiOperationsIncident_AccountOperationIncident_IncidentTimeline_AccountOperationsTimelineEvent) GetMuted() bool {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_AiOperationsIncident_AccountOperationIncident_IncidentTimeline_AccountOperationsTimelineEvent{}
-	}
-	return t.Muted
-}
-
-type Xdr_Xdr_Stories_Items_Incident_AiOperationsIncident_AccountOperationIncident_IncidentTimeline struct {
-	AccountOperationsTimelineEvent Xdr_Xdr_Stories_Items_Incident_AiOperationsIncident_AccountOperationIncident_IncidentTimeline_AccountOperationsTimelineEvent "graphql:\"... on AccountOperationsTimelineEvent\""
-	Typename                       *string                                                                                                                      "json:\"__typename,omitempty\" graphql:\"__typename\""
-}
-
-func (t *Xdr_Xdr_Stories_Items_Incident_AiOperationsIncident_AccountOperationIncident_IncidentTimeline) GetAccountOperationsTimelineEvent() *Xdr_Xdr_Stories_Items_Incident_AiOperationsIncident_AccountOperationIncident_IncidentTimeline_AccountOperationsTimelineEvent {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_AiOperationsIncident_AccountOperationIncident_IncidentTimeline{}
-	}
-	return &t.AccountOperationsTimelineEvent
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_AiOperationsIncident_AccountOperationIncident_IncidentTimeline) GetTypename() *string {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_AiOperationsIncident_AccountOperationIncident_IncidentTimeline{}
-	}
-	return t.Typename
-}
-
-type Xdr_Xdr_Stories_Items_Incident_AiOperationsIncident_AccountOperationIncident_Metadata struct {
-	Key   string                   "json:\"key\" graphql:\"key\""
-	Type  cato_models.MetadataType "json:\"type\" graphql:\"type\""
-	Value string                   "json:\"value\" graphql:\"value\""
-}
-
-func (t *Xdr_Xdr_Stories_Items_Incident_AiOperationsIncident_AccountOperationIncident_Metadata) GetKey() string {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_AiOperationsIncident_AccountOperationIncident_Metadata{}
-	}
-	return t.Key
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_AiOperationsIncident_AccountOperationIncident_Metadata) GetType() *cato_models.MetadataType {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_AiOperationsIncident_AccountOperationIncident_Metadata{}
-	}
-	return &t.Type
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_AiOperationsIncident_AccountOperationIncident_Metadata) GetValue() string {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_AiOperationsIncident_AccountOperationIncident_Metadata{}
-	}
-	return t.Value
-}
-
-type Xdr_Xdr_Stories_Items_Incident_AiOperationsIncident_AccountOperationIncident_Playbooks struct {
-	Description string  "json:\"description\" graphql:\"description\""
-	Link        *string "json:\"link,omitempty\" graphql:\"link\""
-	Title       string  "json:\"title\" graphql:\"title\""
-}
-
-func (t *Xdr_Xdr_Stories_Items_Incident_AiOperationsIncident_AccountOperationIncident_Playbooks) GetDescription() string {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_AiOperationsIncident_AccountOperationIncident_Playbooks{}
-	}
-	return t.Description
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_AiOperationsIncident_AccountOperationIncident_Playbooks) GetLink() *string {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_AiOperationsIncident_AccountOperationIncident_Playbooks{}
-	}
-	return t.Link
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_AiOperationsIncident_AccountOperationIncident_Playbooks) GetTitle() string {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_AiOperationsIncident_AccountOperationIncident_Playbooks{}
-	}
-	return t.Title
-}
-
-type Xdr_Xdr_Stories_Items_Incident_AiOperationsIncident_AccountOperationIncident struct {
-	IncidentTimeline []*Xdr_Xdr_Stories_Items_Incident_AiOperationsIncident_AccountOperationIncident_IncidentTimeline "json:\"incidentTimeline\" graphql:\"incidentTimeline\""
-	Metadata         []*Xdr_Xdr_Stories_Items_Incident_AiOperationsIncident_AccountOperationIncident_Metadata         "json:\"metadata\" graphql:\"metadata\""
-	Playbooks        []*Xdr_Xdr_Stories_Items_Incident_AiOperationsIncident_AccountOperationIncident_Playbooks        "json:\"playbooks\" graphql:\"playbooks\""
-}
-
-func (t *Xdr_Xdr_Stories_Items_Incident_AiOperationsIncident_AccountOperationIncident) GetIncidentTimeline() []*Xdr_Xdr_Stories_Items_Incident_AiOperationsIncident_AccountOperationIncident_IncidentTimeline {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_AiOperationsIncident_AccountOperationIncident{}
-	}
-	return t.IncidentTimeline
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_AiOperationsIncident_AccountOperationIncident) GetMetadata() []*Xdr_Xdr_Stories_Items_Incident_AiOperationsIncident_AccountOperationIncident_Metadata {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_AiOperationsIncident_AccountOperationIncident{}
-	}
-	return t.Metadata
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_AiOperationsIncident_AccountOperationIncident) GetPlaybooks() []*Xdr_Xdr_Stories_Items_Incident_AiOperationsIncident_AccountOperationIncident_Playbooks {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_AiOperationsIncident_AccountOperationIncident{}
-	}
-	return t.Playbooks
-}
-
-type Xdr_Xdr_Stories_Items_Incident_AiOperationsIncident struct {
-	SimilarStoriesData       []*Xdr_Xdr_Stories_Items_Incident_AiOperationsIncident_SimilarStoriesData     "json:\"similarStoriesData\" graphql:\"similarStoriesData\""
-	FlowLastTime             string                                                                        "json:\"flowLastTime\" graphql:\"flowLastTime\""
-	FlowStartTime            string                                                                        "json:\"flowStartTime\" graphql:\"flowStartTime\""
-	Ioa                      string                                                                        "json:\"ioa\" graphql:\"ioa\""
-	RiskScore                int64                                                                         "json:\"riskScore\" graphql:\"riskScore\""
-	Type                     *cato_models.AiOperationsIncidentTypeEnum                                     "json:\"type,omitempty\" graphql:\"type\""
-	Occurrences              *int64                                                                        "json:\"occurrences,omitempty\" graphql:\"occurrences\""
-	EventsGraphQuery         *Xdr_Xdr_Stories_Items_Incident_AiOperationsIncident_EventsGraphQuery         "json:\"eventsGraphQuery,omitempty\" graphql:\"eventsGraphQuery\""
-	AccountOperationIncident *Xdr_Xdr_Stories_Items_Incident_AiOperationsIncident_AccountOperationIncident "json:\"accountOperationIncident,omitempty\" graphql:\"accountOperationIncident\""
-}
-
-func (t *Xdr_Xdr_Stories_Items_Incident_AiOperationsIncident) GetSimilarStoriesData() []*Xdr_Xdr_Stories_Items_Incident_AiOperationsIncident_SimilarStoriesData {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_AiOperationsIncident{}
-	}
-	return t.SimilarStoriesData
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_AiOperationsIncident) GetFlowLastTime() string {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_AiOperationsIncident{}
-	}
-	return t.FlowLastTime
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_AiOperationsIncident) GetFlowStartTime() string {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_AiOperationsIncident{}
-	}
-	return t.FlowStartTime
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_AiOperationsIncident) GetIoa() string {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_AiOperationsIncident{}
-	}
-	return t.Ioa
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_AiOperationsIncident) GetRiskScore() int64 {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_AiOperationsIncident{}
-	}
-	return t.RiskScore
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_AiOperationsIncident) GetType() *cato_models.AiOperationsIncidentTypeEnum {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_AiOperationsIncident{}
-	}
-	return t.Type
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_AiOperationsIncident) GetOccurrences() *int64 {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_AiOperationsIncident{}
-	}
-	return t.Occurrences
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_AiOperationsIncident) GetEventsGraphQuery() *Xdr_Xdr_Stories_Items_Incident_AiOperationsIncident_EventsGraphQuery {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_AiOperationsIncident{}
-	}
-	return t.EventsGraphQuery
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_AiOperationsIncident) GetAccountOperationIncident() *Xdr_Xdr_Stories_Items_Incident_AiOperationsIncident_AccountOperationIncident {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_AiOperationsIncident{}
-	}
-	return t.AccountOperationIncident
-}
-
-type Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_SimilarStoriesData struct {
-	Indication           *string  "json:\"indication,omitempty\" graphql:\"indication\""
-	SimilarityPercentage *float64 "json:\"similarityPercentage,omitempty\" graphql:\"similarityPercentage\""
-	StoryID              *string  "json:\"storyId,omitempty\" graphql:\"storyId\""
-	ThreatClassification *string  "json:\"threatClassification,omitempty\" graphql:\"threatClassification\""
-	ThreatTypeName       *string  "json:\"threatTypeName,omitempty\" graphql:\"threatTypeName\""
-	Verdict              *string  "json:\"verdict,omitempty\" graphql:\"verdict\""
-}
-
-func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_SimilarStoriesData) GetIndication() *string {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_SimilarStoriesData{}
-	}
-	return t.Indication
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_SimilarStoriesData) GetSimilarityPercentage() *float64 {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_SimilarStoriesData{}
-	}
-	return t.SimilarityPercentage
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_SimilarStoriesData) GetStoryID() *string {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_SimilarStoriesData{}
-	}
-	return t.StoryID
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_SimilarStoriesData) GetThreatClassification() *string {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_SimilarStoriesData{}
-	}
-	return t.ThreatClassification
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_SimilarStoriesData) GetThreatTypeName() *string {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_SimilarStoriesData{}
-	}
-	return t.ThreatTypeName
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_SimilarStoriesData) GetVerdict() *string {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_SimilarStoriesData{}
-	}
-	return t.Verdict
-}
-
-type Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_DrillDownFilter struct {
-	Name   string   "json:\"name\" graphql:\"name\""
-	Value  string   "json:\"value\" graphql:\"value\""
-	Values []string "json:\"values\" graphql:\"values\""
-}
-
-func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_DrillDownFilter) GetName() string {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_DrillDownFilter{}
-	}
-	return t.Name
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_DrillDownFilter) GetValue() string {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_DrillDownFilter{}
-	}
-	return t.Value
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_DrillDownFilter) GetValues() []string {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_DrillDownFilter{}
-	}
-	return t.Values
-}
-
-type Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_Extra struct {
-	Name  string "json:\"name\" graphql:\"name\""
-	Type  string "json:\"type\" graphql:\"type\""
-	Value string "json:\"value\" graphql:\"value\""
-}
-
-func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_Extra) GetName() string {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_Extra{}
-	}
-	return t.Name
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_Extra) GetType() string {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_Extra{}
-	}
-	return t.Type
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_Extra) GetValue() string {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_Extra{}
-	}
-	return t.Value
-}
-
-type Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_Gaussian struct {
-	Avg    *float64 "json:\"avg,omitempty\" graphql:\"avg\""
-	N      *float64 "json:\"n,omitempty\" graphql:\"n\""
-	Ss     *float64 "json:\"ss,omitempty\" graphql:\"ss\""
-	Std    *float64 "json:\"std,omitempty\" graphql:\"std\""
-	ZScore *float64 "json:\"z_score,omitempty\" graphql:\"z_score\""
-}
-
-func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_Gaussian) GetAvg() *float64 {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_Gaussian{}
-	}
-	return t.Avg
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_Gaussian) GetN() *float64 {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_Gaussian{}
-	}
-	return t.N
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_Gaussian) GetSs() *float64 {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_Gaussian{}
-	}
-	return t.Ss
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_Gaussian) GetStd() *float64 {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_Gaussian{}
-	}
-	return t.Std
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_Gaussian) GetZScore() *float64 {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_Gaussian{}
-	}
-	return t.ZScore
-}
-
-type Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_Metric struct {
-	Name  string  "json:\"name\" graphql:\"name\""
-	Value float64 "json:\"value\" graphql:\"value\""
-}
-
-func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_Metric) GetName() string {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_Metric{}
-	}
-	return t.Name
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_Metric) GetValue() float64 {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_Metric{}
-	}
-	return t.Value
-}
-
-type Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_MetricDetails struct {
-	Name  string "json:\"name\" graphql:\"name\""
-	Units string "json:\"units\" graphql:\"units\""
-}
-
-func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_MetricDetails) GetName() string {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_MetricDetails{}
-	}
-	return t.Name
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_MetricDetails) GetUnits() string {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_MetricDetails{}
-	}
-	return t.Units
-}
-
-type Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_Mitres struct {
-	ID   *string "json:\"id,omitempty\" graphql:\"id\""
-	Name *string "json:\"name,omitempty\" graphql:\"name\""
-}
-
-func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_Mitres) GetID() *string {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_Mitres{}
-	}
-	return t.ID
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_Mitres) GetName() *string {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_Mitres{}
-	}
-	return t.Name
-}
-
-type Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_TimeSeries_KeyIncidentTimeseries_Dimensions struct {
-	FieldName string  "json:\"fieldName\" graphql:\"fieldName\""
-	Value     *string "json:\"value,omitempty\" graphql:\"value\""
-}
-
-func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_TimeSeries_KeyIncidentTimeseries_Dimensions) GetFieldName() string {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_TimeSeries_KeyIncidentTimeseries_Dimensions{}
-	}
-	return t.FieldName
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_TimeSeries_KeyIncidentTimeseries_Dimensions) GetValue() *string {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_TimeSeries_KeyIncidentTimeseries_Dimensions{}
-	}
-	return t.Value
-}
-
-type Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_TimeSeries_KeyIncidentTimeseries struct {
-	Dimensions       []*Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_TimeSeries_KeyIncidentTimeseries_Dimensions "json:\"dimensions,omitempty\" graphql:\"dimensions\""
-	MeasureFieldName string                                                                                      "json:\"measureFieldName\" graphql:\"measureFieldName\""
-}
-
-func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_TimeSeries_KeyIncidentTimeseries) GetDimensions() []*Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_TimeSeries_KeyIncidentTimeseries_Dimensions {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_TimeSeries_KeyIncidentTimeseries{}
-	}
-	return t.Dimensions
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_TimeSeries_KeyIncidentTimeseries) GetMeasureFieldName() string {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_TimeSeries_KeyIncidentTimeseries{}
-	}
-	return t.MeasureFieldName
-}
-
-type Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_TimeSeries struct {
-	Data                    [][]float64                                                                    "json:\"data,omitempty\" graphql:\"data\""
-	GroupBy                 *string                                                                        "json:\"groupBy,omitempty\" graphql:\"groupBy\""
-	Info                    []string                                                                       "json:\"info,omitempty\" graphql:\"info\""
-	KeyIncidentTimeseries   *Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_TimeSeries_KeyIncidentTimeseries "json:\"keyIncidentTimeseries,omitempty\" graphql:\"keyIncidentTimeseries\""
-	Label                   string                                                                         "json:\"label\" graphql:\"label\""
-	Sum                     *float64                                                                       "json:\"sum,omitempty\" graphql:\"sum\""
-	UnitsIncidentTimeseries *cato_models.UnitType                                                          "json:\"unitsIncidentTimeseries,omitempty\" graphql:\"unitsIncidentTimeseries\""
-}
-
-func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_TimeSeries) GetData() [][]float64 {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_TimeSeries{}
-	}
-	return t.Data
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_TimeSeries) GetGroupBy() *string {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_TimeSeries{}
-	}
-	return t.GroupBy
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_TimeSeries) GetInfo() []string {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_TimeSeries{}
-	}
-	return t.Info
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_TimeSeries) GetKeyIncidentTimeseries() *Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_TimeSeries_KeyIncidentTimeseries {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_TimeSeries{}
-	}
-	return t.KeyIncidentTimeseries
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_TimeSeries) GetLabel() string {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_TimeSeries{}
-	}
-	return t.Label
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_TimeSeries) GetSum() *float64 {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_TimeSeries{}
-	}
-	return t.Sum
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_TimeSeries) GetUnitsIncidentTimeseries() *cato_models.UnitType {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_TimeSeries{}
-	}
-	return t.UnitsIncidentTimeseries
-}
-
-type Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_Targets_EventData struct {
-	Action                *string                 "json:\"action,omitempty\" graphql:\"action\""
-	AppActivityType       *string                 "json:\"appActivityType,omitempty\" graphql:\"appActivityType\""
-	AppID                 *string                 "json:\"appId,omitempty\" graphql:\"appId\""
-	AppName               *string                 "json:\"appName,omitempty\" graphql:\"appName\""
-	DNSProtectionCategory *string                 "json:\"dnsProtectionCategory,omitempty\" graphql:\"dnsProtectionCategory\""
-	EventType             *string                 "json:\"eventType,omitempty\" graphql:\"eventType\""
-	FileName              *string                 "json:\"fileName,omitempty\" graphql:\"fileName\""
-	RuleID                *string                 "json:\"ruleId,omitempty\" graphql:\"ruleId\""
-	RuleName              *string                 "json:\"ruleName,omitempty\" graphql:\"ruleName\""
-	ScanResult            *cato_models.ScanResult "json:\"scanResult,omitempty\" graphql:\"scanResult\""
-	Severity              *string                 "json:\"severity,omitempty\" graphql:\"severity\""
-	SignatureID           *string                 "json:\"signatureId,omitempty\" graphql:\"signatureId\""
-	ThreatName            *string                 "json:\"threatName,omitempty\" graphql:\"threatName\""
-	ThreatType            *string                 "json:\"threatType,omitempty\" graphql:\"threatType\""
-	VirusName             *string                 "json:\"virusName,omitempty\" graphql:\"virusName\""
-}
-
-func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_Targets_EventData) GetAction() *string {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_Targets_EventData{}
-	}
-	return t.Action
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_Targets_EventData) GetAppActivityType() *string {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_Targets_EventData{}
-	}
-	return t.AppActivityType
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_Targets_EventData) GetAppID() *string {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_Targets_EventData{}
-	}
-	return t.AppID
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_Targets_EventData) GetAppName() *string {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_Targets_EventData{}
-	}
-	return t.AppName
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_Targets_EventData) GetDNSProtectionCategory() *string {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_Targets_EventData{}
-	}
-	return t.DNSProtectionCategory
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_Targets_EventData) GetEventType() *string {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_Targets_EventData{}
-	}
-	return t.EventType
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_Targets_EventData) GetFileName() *string {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_Targets_EventData{}
-	}
-	return t.FileName
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_Targets_EventData) GetRuleID() *string {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_Targets_EventData{}
-	}
-	return t.RuleID
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_Targets_EventData) GetRuleName() *string {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_Targets_EventData{}
-	}
-	return t.RuleName
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_Targets_EventData) GetScanResult() *cato_models.ScanResult {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_Targets_EventData{}
-	}
-	return t.ScanResult
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_Targets_EventData) GetSeverity() *string {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_Targets_EventData{}
-	}
-	return t.Severity
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_Targets_EventData) GetSignatureID() *string {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_Targets_EventData{}
-	}
-	return t.SignatureID
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_Targets_EventData) GetThreatName() *string {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_Targets_EventData{}
-	}
-	return t.ThreatName
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_Targets_EventData) GetThreatType() *string {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_Targets_EventData{}
-	}
-	return t.ThreatType
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_Targets_EventData) GetVirusName() *string {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_Targets_EventData{}
-	}
-	return t.VirusName
-}
-
-type Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_Targets struct {
-	AnalysisScore         *float64                                                          "json:\"analysisScore,omitempty\" graphql:\"analysisScore\""
-	Categories            *string                                                           "json:\"categories,omitempty\" graphql:\"categories\""
-	CatoPopularity        *int64                                                            "json:\"catoPopularity,omitempty\" graphql:\"catoPopularity\""
-	CountryOfRegistration *string                                                           "json:\"countryOfRegistration,omitempty\" graphql:\"countryOfRegistration\""
-	CreationTime          *string                                                           "json:\"creationTime,omitempty\" graphql:\"creationTime\""
-	Engines               *int64                                                            "json:\"engines,omitempty\" graphql:\"engines\""
-	EventData             []*Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_Targets_EventData "json:\"eventData\" graphql:\"eventData\""
-	InfectionSource       *bool                                                             "json:\"infectionSource,omitempty\" graphql:\"infectionSource\""
-	Name                  *string                                                           "json:\"name,omitempty\" graphql:\"name\""
-	SearchHits            *string                                                           "json:\"searchHits,omitempty\" graphql:\"searchHits\""
-	ThreatFeeds           *int64                                                            "json:\"threatFeeds,omitempty\" graphql:\"threatFeeds\""
-	ThreatReference       *string                                                           "json:\"threatReference,omitempty\" graphql:\"threatReference\""
-	TypeIncidentTargetRep *cato_models.TargetType                                           "json:\"typeIncidentTargetRep,omitempty\" graphql:\"typeIncidentTargetRep\""
-}
-
-func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_Targets) GetAnalysisScore() *float64 {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_Targets{}
-	}
-	return t.AnalysisScore
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_Targets) GetCategories() *string {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_Targets{}
-	}
-	return t.Categories
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_Targets) GetCatoPopularity() *int64 {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_Targets{}
-	}
-	return t.CatoPopularity
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_Targets) GetCountryOfRegistration() *string {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_Targets{}
-	}
-	return t.CountryOfRegistration
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_Targets) GetCreationTime() *string {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_Targets{}
-	}
-	return t.CreationTime
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_Targets) GetEngines() *int64 {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_Targets{}
-	}
-	return t.Engines
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_Targets) GetEventData() []*Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_Targets_EventData {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_Targets{}
-	}
-	return t.EventData
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_Targets) GetInfectionSource() *bool {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_Targets{}
-	}
-	return t.InfectionSource
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_Targets) GetName() *string {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_Targets{}
-	}
-	return t.Name
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_Targets) GetSearchHits() *string {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_Targets{}
-	}
-	return t.SearchHits
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_Targets) GetThreatFeeds() *int64 {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_Targets{}
-	}
-	return t.ThreatFeeds
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_Targets) GetThreatReference() *string {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_Targets{}
-	}
-	return t.ThreatReference
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_Targets) GetTypeIncidentTargetRep() *cato_models.TargetType {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_Targets{}
-	}
-	return t.TypeIncidentTargetRep
-}
-
-type Xdr_Xdr_Stories_Items_Incident_AnomalyEvents struct {
-	SimilarStoriesData []*Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_SimilarStoriesData "json:\"similarStoriesData\" graphql:\"similarStoriesData\""
-	SrcSiteID          *string                                                            "json:\"srcSiteId,omitempty\" graphql:\"srcSiteId\""
-	Os                 *string                                                            "json:\"os,omitempty\" graphql:\"os\""
-	DeviceName         *string                                                            "json:\"deviceName,omitempty\" graphql:\"deviceName\""
-	MacAddress         *string                                                            "json:\"macAddress,omitempty\" graphql:\"macAddress\""
-	LogonName          *string                                                            "json:\"logonName,omitempty\" graphql:\"logonName\""
-	ClientClass        []string                                                           "json:\"clientClass\" graphql:\"clientClass\""
-	DrillDownFilter    []*Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_DrillDownFilter    "json:\"drillDownFilter,omitempty\" graphql:\"drillDownFilter\""
-	BreakdownField     *string                                                            "json:\"breakdownField,omitempty\" graphql:\"breakdownField\""
-	SubjectType        *string                                                            "json:\"subjectType,omitempty\" graphql:\"subjectType\""
-	Extra              []*Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_Extra              "json:\"extra,omitempty\" graphql:\"extra\""
-	Gaussian           *Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_Gaussian             "json:\"gaussian,omitempty\" graphql:\"gaussian\""
-	Metric             *Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_Metric               "json:\"metric,omitempty\" graphql:\"metric\""
-	MetricDetails      *Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_MetricDetails        "json:\"metricDetails,omitempty\" graphql:\"metricDetails\""
-	Mitres             []*Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_Mitres             "json:\"mitres,omitempty\" graphql:\"mitres\""
-	Rules              []string                                                           "json:\"rules,omitempty\" graphql:\"rules\""
-	TimeSeries         []*Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_TimeSeries         "json:\"timeSeries,omitempty\" graphql:\"timeSeries\""
-	Targets            []*Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_Targets            "json:\"targets\" graphql:\"targets\""
-	Direction          *string                                                            "json:\"direction,omitempty\" graphql:\"direction\""
-}
-
-func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyEvents) GetSimilarStoriesData() []*Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_SimilarStoriesData {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyEvents{}
-	}
-	return t.SimilarStoriesData
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyEvents) GetSrcSiteID() *string {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyEvents{}
-	}
-	return t.SrcSiteID
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyEvents) GetOs() *string {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyEvents{}
-	}
-	return t.Os
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyEvents) GetDeviceName() *string {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyEvents{}
-	}
-	return t.DeviceName
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyEvents) GetMacAddress() *string {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyEvents{}
-	}
-	return t.MacAddress
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyEvents) GetLogonName() *string {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyEvents{}
-	}
-	return t.LogonName
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyEvents) GetClientClass() []string {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyEvents{}
-	}
-	return t.ClientClass
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyEvents) GetDrillDownFilter() []*Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_DrillDownFilter {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyEvents{}
-	}
-	return t.DrillDownFilter
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyEvents) GetBreakdownField() *string {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyEvents{}
-	}
-	return t.BreakdownField
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyEvents) GetSubjectType() *string {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyEvents{}
-	}
-	return t.SubjectType
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyEvents) GetExtra() []*Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_Extra {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyEvents{}
-	}
-	return t.Extra
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyEvents) GetGaussian() *Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_Gaussian {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyEvents{}
-	}
-	return t.Gaussian
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyEvents) GetMetric() *Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_Metric {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyEvents{}
-	}
-	return t.Metric
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyEvents) GetMetricDetails() *Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_MetricDetails {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyEvents{}
-	}
-	return t.MetricDetails
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyEvents) GetMitres() []*Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_Mitres {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyEvents{}
-	}
-	return t.Mitres
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyEvents) GetRules() []string {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyEvents{}
-	}
-	return t.Rules
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyEvents) GetTimeSeries() []*Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_TimeSeries {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyEvents{}
-	}
-	return t.TimeSeries
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyEvents) GetTargets() []*Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_Targets {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyEvents{}
-	}
-	return t.Targets
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyEvents) GetDirection() *string {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyEvents{}
-	}
-	return t.Direction
-}
-
-type Xdr_Xdr_Stories_Items_Incident_AnomalyStats_SimilarStoriesData struct {
-	Indication           *string  "json:\"indication,omitempty\" graphql:\"indication\""
-	SimilarityPercentage *float64 "json:\"similarityPercentage,omitempty\" graphql:\"similarityPercentage\""
-	StoryID              *string  "json:\"storyId,omitempty\" graphql:\"storyId\""
-	ThreatClassification *string  "json:\"threatClassification,omitempty\" graphql:\"threatClassification\""
-	ThreatTypeName       *string  "json:\"threatTypeName,omitempty\" graphql:\"threatTypeName\""
-	Verdict              *string  "json:\"verdict,omitempty\" graphql:\"verdict\""
-}
-
-func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyStats_SimilarStoriesData) GetIndication() *string {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyStats_SimilarStoriesData{}
-	}
-	return t.Indication
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyStats_SimilarStoriesData) GetSimilarityPercentage() *float64 {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyStats_SimilarStoriesData{}
-	}
-	return t.SimilarityPercentage
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyStats_SimilarStoriesData) GetStoryID() *string {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyStats_SimilarStoriesData{}
-	}
-	return t.StoryID
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyStats_SimilarStoriesData) GetThreatClassification() *string {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyStats_SimilarStoriesData{}
-	}
-	return t.ThreatClassification
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyStats_SimilarStoriesData) GetThreatTypeName() *string {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyStats_SimilarStoriesData{}
-	}
-	return t.ThreatTypeName
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyStats_SimilarStoriesData) GetVerdict() *string {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyStats_SimilarStoriesData{}
-	}
-	return t.Verdict
-}
-
-type Xdr_Xdr_Stories_Items_Incident_AnomalyStats_DrillDownFilter struct {
-	Name   string   "json:\"name\" graphql:\"name\""
-	Value  string   "json:\"value\" graphql:\"value\""
-	Values []string "json:\"values\" graphql:\"values\""
-}
-
-func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyStats_DrillDownFilter) GetName() string {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyStats_DrillDownFilter{}
-	}
-	return t.Name
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyStats_DrillDownFilter) GetValue() string {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyStats_DrillDownFilter{}
-	}
-	return t.Value
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyStats_DrillDownFilter) GetValues() []string {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyStats_DrillDownFilter{}
-	}
-	return t.Values
-}
-
-type Xdr_Xdr_Stories_Items_Incident_AnomalyStats_Extra struct {
-	Name  string "json:\"name\" graphql:\"name\""
-	Type  string "json:\"type\" graphql:\"type\""
-	Value string "json:\"value\" graphql:\"value\""
-}
-
-func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyStats_Extra) GetName() string {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyStats_Extra{}
-	}
-	return t.Name
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyStats_Extra) GetType() string {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyStats_Extra{}
-	}
-	return t.Type
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyStats_Extra) GetValue() string {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyStats_Extra{}
-	}
-	return t.Value
-}
-
-type Xdr_Xdr_Stories_Items_Incident_AnomalyStats_Gaussian struct {
-	Avg    *float64 "json:\"avg,omitempty\" graphql:\"avg\""
-	N      *float64 "json:\"n,omitempty\" graphql:\"n\""
-	Ss     *float64 "json:\"ss,omitempty\" graphql:\"ss\""
-	Std    *float64 "json:\"std,omitempty\" graphql:\"std\""
-	ZScore *float64 "json:\"z_score,omitempty\" graphql:\"z_score\""
-}
-
-func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyStats_Gaussian) GetAvg() *float64 {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyStats_Gaussian{}
-	}
-	return t.Avg
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyStats_Gaussian) GetN() *float64 {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyStats_Gaussian{}
-	}
-	return t.N
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyStats_Gaussian) GetSs() *float64 {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyStats_Gaussian{}
-	}
-	return t.Ss
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyStats_Gaussian) GetStd() *float64 {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyStats_Gaussian{}
-	}
-	return t.Std
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyStats_Gaussian) GetZScore() *float64 {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyStats_Gaussian{}
-	}
-	return t.ZScore
-}
-
-type Xdr_Xdr_Stories_Items_Incident_AnomalyStats_Metric struct {
-	Name  string  "json:\"name\" graphql:\"name\""
-	Value float64 "json:\"value\" graphql:\"value\""
-}
-
-func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyStats_Metric) GetName() string {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyStats_Metric{}
-	}
-	return t.Name
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyStats_Metric) GetValue() float64 {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyStats_Metric{}
-	}
-	return t.Value
-}
-
-type Xdr_Xdr_Stories_Items_Incident_AnomalyStats_MetricDetails struct {
-	Name  string "json:\"name\" graphql:\"name\""
-	Units string "json:\"units\" graphql:\"units\""
-}
-
-func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyStats_MetricDetails) GetName() string {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyStats_MetricDetails{}
-	}
-	return t.Name
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyStats_MetricDetails) GetUnits() string {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyStats_MetricDetails{}
-	}
-	return t.Units
-}
-
-type Xdr_Xdr_Stories_Items_Incident_AnomalyStats_Mitres struct {
-	ID   *string "json:\"id,omitempty\" graphql:\"id\""
-	Name *string "json:\"name,omitempty\" graphql:\"name\""
-}
-
-func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyStats_Mitres) GetID() *string {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyStats_Mitres{}
-	}
-	return t.ID
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyStats_Mitres) GetName() *string {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyStats_Mitres{}
-	}
-	return t.Name
-}
-
-type Xdr_Xdr_Stories_Items_Incident_AnomalyStats_TimeSeries_KeyIncidentTimeseries_Dimensions struct {
-	FieldName string  "json:\"fieldName\" graphql:\"fieldName\""
-	Value     *string "json:\"value,omitempty\" graphql:\"value\""
-}
-
-func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyStats_TimeSeries_KeyIncidentTimeseries_Dimensions) GetFieldName() string {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyStats_TimeSeries_KeyIncidentTimeseries_Dimensions{}
-	}
-	return t.FieldName
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyStats_TimeSeries_KeyIncidentTimeseries_Dimensions) GetValue() *string {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyStats_TimeSeries_KeyIncidentTimeseries_Dimensions{}
-	}
-	return t.Value
-}
-
-type Xdr_Xdr_Stories_Items_Incident_AnomalyStats_TimeSeries_KeyIncidentTimeseries struct {
-	Dimensions       []*Xdr_Xdr_Stories_Items_Incident_AnomalyStats_TimeSeries_KeyIncidentTimeseries_Dimensions "json:\"dimensions,omitempty\" graphql:\"dimensions\""
-	MeasureFieldName string                                                                                     "json:\"measureFieldName\" graphql:\"measureFieldName\""
-}
-
-func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyStats_TimeSeries_KeyIncidentTimeseries) GetDimensions() []*Xdr_Xdr_Stories_Items_Incident_AnomalyStats_TimeSeries_KeyIncidentTimeseries_Dimensions {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyStats_TimeSeries_KeyIncidentTimeseries{}
-	}
-	return t.Dimensions
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyStats_TimeSeries_KeyIncidentTimeseries) GetMeasureFieldName() string {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyStats_TimeSeries_KeyIncidentTimeseries{}
-	}
-	return t.MeasureFieldName
-}
-
-type Xdr_Xdr_Stories_Items_Incident_AnomalyStats_TimeSeries struct {
-	Data                    [][]float64                                                                   "json:\"data,omitempty\" graphql:\"data\""
-	GroupBy                 *string                                                                       "json:\"groupBy,omitempty\" graphql:\"groupBy\""
-	Info                    []string                                                                      "json:\"info,omitempty\" graphql:\"info\""
-	KeyIncidentTimeseries   *Xdr_Xdr_Stories_Items_Incident_AnomalyStats_TimeSeries_KeyIncidentTimeseries "json:\"keyIncidentTimeseries,omitempty\" graphql:\"keyIncidentTimeseries\""
-	Label                   string                                                                        "json:\"label\" graphql:\"label\""
-	Sum                     *float64                                                                      "json:\"sum,omitempty\" graphql:\"sum\""
-	UnitsIncidentTimeseries *cato_models.UnitType                                                         "json:\"unitsIncidentTimeseries,omitempty\" graphql:\"unitsIncidentTimeseries\""
-}
-
-func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyStats_TimeSeries) GetData() [][]float64 {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyStats_TimeSeries{}
-	}
-	return t.Data
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyStats_TimeSeries) GetGroupBy() *string {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyStats_TimeSeries{}
-	}
-	return t.GroupBy
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyStats_TimeSeries) GetInfo() []string {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyStats_TimeSeries{}
-	}
-	return t.Info
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyStats_TimeSeries) GetKeyIncidentTimeseries() *Xdr_Xdr_Stories_Items_Incident_AnomalyStats_TimeSeries_KeyIncidentTimeseries {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyStats_TimeSeries{}
-	}
-	return t.KeyIncidentTimeseries
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyStats_TimeSeries) GetLabel() string {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyStats_TimeSeries{}
-	}
-	return t.Label
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyStats_TimeSeries) GetSum() *float64 {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyStats_TimeSeries{}
-	}
-	return t.Sum
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyStats_TimeSeries) GetUnitsIncidentTimeseries() *cato_models.UnitType {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyStats_TimeSeries{}
-	}
-	return t.UnitsIncidentTimeseries
-}
-
-type Xdr_Xdr_Stories_Items_Incident_AnomalyStats_Targets_EventData struct {
-	Action                *string                 "json:\"action,omitempty\" graphql:\"action\""
-	AppActivityType       *string                 "json:\"appActivityType,omitempty\" graphql:\"appActivityType\""
-	AppID                 *string                 "json:\"appId,omitempty\" graphql:\"appId\""
-	AppName               *string                 "json:\"appName,omitempty\" graphql:\"appName\""
-	DNSProtectionCategory *string                 "json:\"dnsProtectionCategory,omitempty\" graphql:\"dnsProtectionCategory\""
-	EventType             *string                 "json:\"eventType,omitempty\" graphql:\"eventType\""
-	FileName              *string                 "json:\"fileName,omitempty\" graphql:\"fileName\""
-	RuleID                *string                 "json:\"ruleId,omitempty\" graphql:\"ruleId\""
-	RuleName              *string                 "json:\"ruleName,omitempty\" graphql:\"ruleName\""
-	ScanResult            *cato_models.ScanResult "json:\"scanResult,omitempty\" graphql:\"scanResult\""
-	Severity              *string                 "json:\"severity,omitempty\" graphql:\"severity\""
-	SignatureID           *string                 "json:\"signatureId,omitempty\" graphql:\"signatureId\""
-	ThreatName            *string                 "json:\"threatName,omitempty\" graphql:\"threatName\""
-	ThreatType            *string                 "json:\"threatType,omitempty\" graphql:\"threatType\""
-	VirusName             *string                 "json:\"virusName,omitempty\" graphql:\"virusName\""
-}
-
-func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyStats_Targets_EventData) GetAction() *string {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyStats_Targets_EventData{}
-	}
-	return t.Action
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyStats_Targets_EventData) GetAppActivityType() *string {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyStats_Targets_EventData{}
-	}
-	return t.AppActivityType
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyStats_Targets_EventData) GetAppID() *string {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyStats_Targets_EventData{}
-	}
-	return t.AppID
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyStats_Targets_EventData) GetAppName() *string {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyStats_Targets_EventData{}
-	}
-	return t.AppName
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyStats_Targets_EventData) GetDNSProtectionCategory() *string {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyStats_Targets_EventData{}
-	}
-	return t.DNSProtectionCategory
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyStats_Targets_EventData) GetEventType() *string {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyStats_Targets_EventData{}
-	}
-	return t.EventType
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyStats_Targets_EventData) GetFileName() *string {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyStats_Targets_EventData{}
-	}
-	return t.FileName
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyStats_Targets_EventData) GetRuleID() *string {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyStats_Targets_EventData{}
-	}
-	return t.RuleID
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyStats_Targets_EventData) GetRuleName() *string {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyStats_Targets_EventData{}
-	}
-	return t.RuleName
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyStats_Targets_EventData) GetScanResult() *cato_models.ScanResult {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyStats_Targets_EventData{}
-	}
-	return t.ScanResult
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyStats_Targets_EventData) GetSeverity() *string {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyStats_Targets_EventData{}
-	}
-	return t.Severity
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyStats_Targets_EventData) GetSignatureID() *string {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyStats_Targets_EventData{}
-	}
-	return t.SignatureID
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyStats_Targets_EventData) GetThreatName() *string {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyStats_Targets_EventData{}
-	}
-	return t.ThreatName
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyStats_Targets_EventData) GetThreatType() *string {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyStats_Targets_EventData{}
-	}
-	return t.ThreatType
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyStats_Targets_EventData) GetVirusName() *string {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyStats_Targets_EventData{}
-	}
-	return t.VirusName
-}
-
-type Xdr_Xdr_Stories_Items_Incident_AnomalyStats_Targets struct {
-	AnalysisScore         *float64                                                         "json:\"analysisScore,omitempty\" graphql:\"analysisScore\""
-	Categories            *string                                                          "json:\"categories,omitempty\" graphql:\"categories\""
-	CatoPopularity        *int64                                                           "json:\"catoPopularity,omitempty\" graphql:\"catoPopularity\""
-	CountryOfRegistration *string                                                          "json:\"countryOfRegistration,omitempty\" graphql:\"countryOfRegistration\""
-	CreationTime          *string                                                          "json:\"creationTime,omitempty\" graphql:\"creationTime\""
-	Engines               *int64                                                           "json:\"engines,omitempty\" graphql:\"engines\""
-	EventData             []*Xdr_Xdr_Stories_Items_Incident_AnomalyStats_Targets_EventData "json:\"eventData\" graphql:\"eventData\""
-	InfectionSource       *bool                                                            "json:\"infectionSource,omitempty\" graphql:\"infectionSource\""
-	Name                  *string                                                          "json:\"name,omitempty\" graphql:\"name\""
-	SearchHits            *string                                                          "json:\"searchHits,omitempty\" graphql:\"searchHits\""
-	ThreatFeeds           *int64                                                           "json:\"threatFeeds,omitempty\" graphql:\"threatFeeds\""
-	ThreatReference       *string                                                          "json:\"threatReference,omitempty\" graphql:\"threatReference\""
-	TypeIncidentTargetRep *cato_models.TargetType                                          "json:\"typeIncidentTargetRep,omitempty\" graphql:\"typeIncidentTargetRep\""
-}
-
-func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyStats_Targets) GetAnalysisScore() *float64 {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyStats_Targets{}
-	}
-	return t.AnalysisScore
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyStats_Targets) GetCategories() *string {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyStats_Targets{}
-	}
-	return t.Categories
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyStats_Targets) GetCatoPopularity() *int64 {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyStats_Targets{}
-	}
-	return t.CatoPopularity
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyStats_Targets) GetCountryOfRegistration() *string {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyStats_Targets{}
-	}
-	return t.CountryOfRegistration
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyStats_Targets) GetCreationTime() *string {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyStats_Targets{}
-	}
-	return t.CreationTime
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyStats_Targets) GetEngines() *int64 {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyStats_Targets{}
-	}
-	return t.Engines
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyStats_Targets) GetEventData() []*Xdr_Xdr_Stories_Items_Incident_AnomalyStats_Targets_EventData {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyStats_Targets{}
-	}
-	return t.EventData
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyStats_Targets) GetInfectionSource() *bool {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyStats_Targets{}
-	}
-	return t.InfectionSource
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyStats_Targets) GetName() *string {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyStats_Targets{}
-	}
-	return t.Name
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyStats_Targets) GetSearchHits() *string {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyStats_Targets{}
-	}
-	return t.SearchHits
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyStats_Targets) GetThreatFeeds() *int64 {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyStats_Targets{}
-	}
-	return t.ThreatFeeds
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyStats_Targets) GetThreatReference() *string {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyStats_Targets{}
-	}
-	return t.ThreatReference
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyStats_Targets) GetTypeIncidentTargetRep() *cato_models.TargetType {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyStats_Targets{}
-	}
-	return t.TypeIncidentTargetRep
-}
-
-type Xdr_Xdr_Stories_Items_Incident_AnomalyStats struct {
-	SimilarStoriesData []*Xdr_Xdr_Stories_Items_Incident_AnomalyStats_SimilarStoriesData "json:\"similarStoriesData\" graphql:\"similarStoriesData\""
-	SrcSiteID          *string                                                           "json:\"srcSiteId,omitempty\" graphql:\"srcSiteId\""
-	Os                 *string                                                           "json:\"os,omitempty\" graphql:\"os\""
-	DeviceName         *string                                                           "json:\"deviceName,omitempty\" graphql:\"deviceName\""
-	MacAddress         *string                                                           "json:\"macAddress,omitempty\" graphql:\"macAddress\""
-	LogonName          *string                                                           "json:\"logonName,omitempty\" graphql:\"logonName\""
-	ClientClass        []string                                                          "json:\"clientClass\" graphql:\"clientClass\""
-	DrillDownFilter    []*Xdr_Xdr_Stories_Items_Incident_AnomalyStats_DrillDownFilter    "json:\"drillDownFilter,omitempty\" graphql:\"drillDownFilter\""
-	BreakdownField     *string                                                           "json:\"breakdownField,omitempty\" graphql:\"breakdownField\""
-	SubjectType        *string                                                           "json:\"subjectType,omitempty\" graphql:\"subjectType\""
-	Extra              []*Xdr_Xdr_Stories_Items_Incident_AnomalyStats_Extra              "json:\"extra,omitempty\" graphql:\"extra\""
-	Gaussian           *Xdr_Xdr_Stories_Items_Incident_AnomalyStats_Gaussian             "json:\"gaussian,omitempty\" graphql:\"gaussian\""
-	Metric             *Xdr_Xdr_Stories_Items_Incident_AnomalyStats_Metric               "json:\"metric,omitempty\" graphql:\"metric\""
-	MetricDetails      *Xdr_Xdr_Stories_Items_Incident_AnomalyStats_MetricDetails        "json:\"metricDetails,omitempty\" graphql:\"metricDetails\""
-	Mitres             []*Xdr_Xdr_Stories_Items_Incident_AnomalyStats_Mitres             "json:\"mitres,omitempty\" graphql:\"mitres\""
-	Rules              []string                                                          "json:\"rules,omitempty\" graphql:\"rules\""
-	TimeSeries         []*Xdr_Xdr_Stories_Items_Incident_AnomalyStats_TimeSeries         "json:\"timeSeries,omitempty\" graphql:\"timeSeries\""
-	Targets            []*Xdr_Xdr_Stories_Items_Incident_AnomalyStats_Targets            "json:\"targets\" graphql:\"targets\""
-	Direction          *string                                                           "json:\"direction,omitempty\" graphql:\"direction\""
-}
-
-func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyStats) GetSimilarStoriesData() []*Xdr_Xdr_Stories_Items_Incident_AnomalyStats_SimilarStoriesData {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyStats{}
-	}
-	return t.SimilarStoriesData
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyStats) GetSrcSiteID() *string {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyStats{}
-	}
-	return t.SrcSiteID
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyStats) GetOs() *string {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyStats{}
-	}
-	return t.Os
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyStats) GetDeviceName() *string {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyStats{}
-	}
-	return t.DeviceName
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyStats) GetMacAddress() *string {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyStats{}
-	}
-	return t.MacAddress
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyStats) GetLogonName() *string {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyStats{}
-	}
-	return t.LogonName
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyStats) GetClientClass() []string {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyStats{}
-	}
-	return t.ClientClass
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyStats) GetDrillDownFilter() []*Xdr_Xdr_Stories_Items_Incident_AnomalyStats_DrillDownFilter {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyStats{}
-	}
-	return t.DrillDownFilter
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyStats) GetBreakdownField() *string {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyStats{}
-	}
-	return t.BreakdownField
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyStats) GetSubjectType() *string {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyStats{}
-	}
-	return t.SubjectType
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyStats) GetExtra() []*Xdr_Xdr_Stories_Items_Incident_AnomalyStats_Extra {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyStats{}
-	}
-	return t.Extra
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyStats) GetGaussian() *Xdr_Xdr_Stories_Items_Incident_AnomalyStats_Gaussian {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyStats{}
-	}
-	return t.Gaussian
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyStats) GetMetric() *Xdr_Xdr_Stories_Items_Incident_AnomalyStats_Metric {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyStats{}
-	}
-	return t.Metric
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyStats) GetMetricDetails() *Xdr_Xdr_Stories_Items_Incident_AnomalyStats_MetricDetails {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyStats{}
-	}
-	return t.MetricDetails
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyStats) GetMitres() []*Xdr_Xdr_Stories_Items_Incident_AnomalyStats_Mitres {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyStats{}
-	}
-	return t.Mitres
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyStats) GetRules() []string {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyStats{}
-	}
-	return t.Rules
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyStats) GetTimeSeries() []*Xdr_Xdr_Stories_Items_Incident_AnomalyStats_TimeSeries {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyStats{}
-	}
-	return t.TimeSeries
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyStats) GetTargets() []*Xdr_Xdr_Stories_Items_Incident_AnomalyStats_Targets {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyStats{}
-	}
-	return t.Targets
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyStats) GetDirection() *string {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyStats{}
-	}
-	return t.Direction
-}
-
-type Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_SimilarStoriesData struct {
-	Indication           *string  "json:\"indication,omitempty\" graphql:\"indication\""
-	SimilarityPercentage *float64 "json:\"similarityPercentage,omitempty\" graphql:\"similarityPercentage\""
-	StoryID              *string  "json:\"storyId,omitempty\" graphql:\"storyId\""
-	ThreatClassification *string  "json:\"threatClassification,omitempty\" graphql:\"threatClassification\""
-	ThreatTypeName       *string  "json:\"threatTypeName,omitempty\" graphql:\"threatTypeName\""
-	Verdict              *string  "json:\"verdict,omitempty\" graphql:\"verdict\""
-}
-
-func (t *Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_SimilarStoriesData) GetIndication() *string {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_SimilarStoriesData{}
-	}
-	return t.Indication
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_SimilarStoriesData) GetSimilarityPercentage() *float64 {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_SimilarStoriesData{}
-	}
-	return t.SimilarityPercentage
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_SimilarStoriesData) GetStoryID() *string {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_SimilarStoriesData{}
-	}
-	return t.StoryID
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_SimilarStoriesData) GetThreatClassification() *string {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_SimilarStoriesData{}
-	}
-	return t.ThreatClassification
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_SimilarStoriesData) GetThreatTypeName() *string {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_SimilarStoriesData{}
-	}
-	return t.ThreatTypeName
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_SimilarStoriesData) GetVerdict() *string {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_SimilarStoriesData{}
-	}
-	return t.Verdict
-}
-
-type Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Device_OsDetailsCatoEndpointDeviceDetails struct {
-	OsBuild   *int64  "json:\"osBuild,omitempty\" graphql:\"osBuild\""
-	OsType    string  "json:\"osType\" graphql:\"osType\""
-	OsVersion *string "json:\"osVersion,omitempty\" graphql:\"osVersion\""
-}
-
-func (t *Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Device_OsDetailsCatoEndpointDeviceDetails) GetOsBuild() *int64 {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Device_OsDetailsCatoEndpointDeviceDetails{}
-	}
-	return t.OsBuild
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Device_OsDetailsCatoEndpointDeviceDetails) GetOsType() string {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Device_OsDetailsCatoEndpointDeviceDetails{}
-	}
-	return t.OsType
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Device_OsDetailsCatoEndpointDeviceDetails) GetOsVersion() *string {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Device_OsDetailsCatoEndpointDeviceDetails{}
-	}
-	return t.OsVersion
-}
-
-type Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Device_LoggedOnUsersCatoEndpointDeviceDetails_MicrosoftEndpointUser struct {
-	ID            string  "json:\"id\" graphql:\"id\""
-	Name          string  "json:\"name\" graphql:\"name\""
-	UserSid       *string "json:\"userSid,omitempty\" graphql:\"userSid\""
-	AccountName   *string "json:\"accountName,omitempty\" graphql:\"accountName\""
-	DomainName    *string "json:\"domainName,omitempty\" graphql:\"domainName\""
-	PrincipalName *string "json:\"principalName,omitempty\" graphql:\"principalName\""
-}
-
-func (t *Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Device_LoggedOnUsersCatoEndpointDeviceDetails_MicrosoftEndpointUser) GetID() string {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Device_LoggedOnUsersCatoEndpointDeviceDetails_MicrosoftEndpointUser{}
-	}
-	return t.ID
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Device_LoggedOnUsersCatoEndpointDeviceDetails_MicrosoftEndpointUser) GetName() string {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Device_LoggedOnUsersCatoEndpointDeviceDetails_MicrosoftEndpointUser{}
-	}
-	return t.Name
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Device_LoggedOnUsersCatoEndpointDeviceDetails_MicrosoftEndpointUser) GetUserSid() *string {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Device_LoggedOnUsersCatoEndpointDeviceDetails_MicrosoftEndpointUser{}
-	}
-	return t.UserSid
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Device_LoggedOnUsersCatoEndpointDeviceDetails_MicrosoftEndpointUser) GetAccountName() *string {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Device_LoggedOnUsersCatoEndpointDeviceDetails_MicrosoftEndpointUser{}
-	}
-	return t.AccountName
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Device_LoggedOnUsersCatoEndpointDeviceDetails_MicrosoftEndpointUser) GetDomainName() *string {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Device_LoggedOnUsersCatoEndpointDeviceDetails_MicrosoftEndpointUser{}
-	}
-	return t.DomainName
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Device_LoggedOnUsersCatoEndpointDeviceDetails_MicrosoftEndpointUser) GetPrincipalName() *string {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Device_LoggedOnUsersCatoEndpointDeviceDetails_MicrosoftEndpointUser{}
-	}
-	return t.PrincipalName
-}
-
-type Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Device_LoggedOnUsersCatoEndpointDeviceDetails_CatoEndpointUser struct {
-	ID   string "json:\"id\" graphql:\"id\""
-	Name string "json:\"name\" graphql:\"name\""
-}
-
-func (t *Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Device_LoggedOnUsersCatoEndpointDeviceDetails_CatoEndpointUser) GetID() string {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Device_LoggedOnUsersCatoEndpointDeviceDetails_CatoEndpointUser{}
-	}
-	return t.ID
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Device_LoggedOnUsersCatoEndpointDeviceDetails_CatoEndpointUser) GetName() string {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Device_LoggedOnUsersCatoEndpointDeviceDetails_CatoEndpointUser{}
-	}
-	return t.Name
-}
-
-type Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Device_LoggedOnUsersCatoEndpointDeviceDetails struct {
-	CatoEndpointUser      Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Device_LoggedOnUsersCatoEndpointDeviceDetails_CatoEndpointUser      "graphql:\"... on CatoEndpointUser\""
-	MicrosoftEndpointUser Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Device_LoggedOnUsersCatoEndpointDeviceDetails_MicrosoftEndpointUser "graphql:\"... on MicrosoftEndpointUser\""
-	Typename              *string                                                                                                         "json:\"__typename,omitempty\" graphql:\"__typename\""
-}
-
-func (t *Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Device_LoggedOnUsersCatoEndpointDeviceDetails) GetCatoEndpointUser() *Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Device_LoggedOnUsersCatoEndpointDeviceDetails_CatoEndpointUser {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Device_LoggedOnUsersCatoEndpointDeviceDetails{}
-	}
-	return &t.CatoEndpointUser
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Device_LoggedOnUsersCatoEndpointDeviceDetails) GetMicrosoftEndpointUser() *Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Device_LoggedOnUsersCatoEndpointDeviceDetails_MicrosoftEndpointUser {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Device_LoggedOnUsersCatoEndpointDeviceDetails{}
-	}
-	return &t.MicrosoftEndpointUser
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Device_LoggedOnUsersCatoEndpointDeviceDetails) GetTypename() *string {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Device_LoggedOnUsersCatoEndpointDeviceDetails{}
-	}
-	return t.Typename
-}
-
-type Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Device struct {
-	DeviceName                             *string                                                                                      "json:\"deviceName,omitempty\" graphql:\"deviceName\""
-	ExternalIP                             *string                                                                                      "json:\"externalIp,omitempty\" graphql:\"externalIp\""
-	ID                                     string                                                                                       "json:\"id\" graphql:\"id\""
-	LocalIP                                *string                                                                                      "json:\"localIp,omitempty\" graphql:\"localIp\""
-	LoggedOnUsersCatoEndpointDeviceDetails []*Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Device_LoggedOnUsersCatoEndpointDeviceDetails "json:\"loggedOnUsersCatoEndpointDeviceDetails\" graphql:\"loggedOnUsersCatoEndpointDeviceDetails\""
-	MacAddress                             *string                                                                                      "json:\"macAddress,omitempty\" graphql:\"macAddress\""
-	OsDetailsCatoEndpointDeviceDetails     *Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Device_OsDetailsCatoEndpointDeviceDetails       "json:\"osDetailsCatoEndpointDeviceDetails,omitempty\" graphql:\"osDetailsCatoEndpointDeviceDetails\""
-}
-
-func (t *Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Device) GetDeviceName() *string {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Device{}
-	}
-	return t.DeviceName
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Device) GetExternalIP() *string {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Device{}
-	}
-	return t.ExternalIP
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Device) GetID() string {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Device{}
-	}
-	return t.ID
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Device) GetLocalIP() *string {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Device{}
-	}
-	return t.LocalIP
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Device) GetLoggedOnUsersCatoEndpointDeviceDetails() []*Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Device_LoggedOnUsersCatoEndpointDeviceDetails {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Device{}
-	}
-	return t.LoggedOnUsersCatoEndpointDeviceDetails
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Device) GetMacAddress() *string {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Device{}
-	}
-	return t.MacAddress
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Device) GetOsDetailsCatoEndpointDeviceDetails() *Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Device_OsDetailsCatoEndpointDeviceDetails {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Device{}
-	}
-	return t.OsDetailsCatoEndpointDeviceDetails
-}
-
-type Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Alerts_MitreTechnique struct {
-	ID   *string "json:\"id,omitempty\" graphql:\"id\""
-	Name *string "json:\"name,omitempty\" graphql:\"name\""
-}
-
-func (t *Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Alerts_MitreTechnique) GetID() *string {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Alerts_MitreTechnique{}
-	}
-	return t.ID
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Alerts_MitreTechnique) GetName() *string {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Alerts_MitreTechnique{}
-	}
-	return t.Name
-}
-
-type Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Alerts_MitreSubTechnique struct {
-	ID   *string "json:\"id,omitempty\" graphql:\"id\""
-	Name *string "json:\"name,omitempty\" graphql:\"name\""
-}
-
-func (t *Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Alerts_MitreSubTechnique) GetID() *string {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Alerts_MitreSubTechnique{}
-	}
-	return t.ID
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Alerts_MitreSubTechnique) GetName() *string {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Alerts_MitreSubTechnique{}
-	}
-	return t.Name
-}
-
-type Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Alerts_Resources_CatoProcessResource_ImageFile struct {
-	Typename *string "json:\"__typename,omitempty\" graphql:\"__typename\""
-}
-
-func (t *Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Alerts_Resources_CatoProcessResource_ImageFile) GetTypename() *string {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Alerts_Resources_CatoProcessResource_ImageFile{}
-	}
-	return t.Typename
-}
-
-type Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Alerts_Resources_CatoProcessResource_UserAccount struct {
-	Typename *string "json:\"__typename,omitempty\" graphql:\"__typename\""
-}
-
-func (t *Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Alerts_Resources_CatoProcessResource_UserAccount) GetTypename() *string {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Alerts_Resources_CatoProcessResource_UserAccount{}
-	}
-	return t.Typename
-}
-
-type Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Alerts_Resources_CatoProcessResource struct {
-	ID                 string                                                                                        "json:\"id\" graphql:\"id\""
-	CreatedDateTime    *string                                                                                       "json:\"createdDateTime,omitempty\" graphql:\"createdDateTime\""
-	RemediationStatus  *cato_models.RemediationStatusEnum                                                            "json:\"remediationStatus,omitempty\" graphql:\"remediationStatus\""
-	ProcessID          int64                                                                                         "json:\"processId\" graphql:\"processId\""
-	ProcessCommandLine *string                                                                                       "json:\"processCommandLine,omitempty\" graphql:\"processCommandLine\""
-	ImageFile          *Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Alerts_Resources_CatoProcessResource_ImageFile   "json:\"imageFile,omitempty\" graphql:\"imageFile\""
-	UserAccount        *Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Alerts_Resources_CatoProcessResource_UserAccount "json:\"userAccount,omitempty\" graphql:\"userAccount\""
-}
-
-func (t *Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Alerts_Resources_CatoProcessResource) GetID() string {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Alerts_Resources_CatoProcessResource{}
-	}
-	return t.ID
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Alerts_Resources_CatoProcessResource) GetCreatedDateTime() *string {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Alerts_Resources_CatoProcessResource{}
-	}
-	return t.CreatedDateTime
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Alerts_Resources_CatoProcessResource) GetRemediationStatus() *cato_models.RemediationStatusEnum {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Alerts_Resources_CatoProcessResource{}
-	}
-	return t.RemediationStatus
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Alerts_Resources_CatoProcessResource) GetProcessID() int64 {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Alerts_Resources_CatoProcessResource{}
-	}
-	return t.ProcessID
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Alerts_Resources_CatoProcessResource) GetProcessCommandLine() *string {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Alerts_Resources_CatoProcessResource{}
-	}
-	return t.ProcessCommandLine
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Alerts_Resources_CatoProcessResource) GetImageFile() *Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Alerts_Resources_CatoProcessResource_ImageFile {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Alerts_Resources_CatoProcessResource{}
-	}
-	return t.ImageFile
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Alerts_Resources_CatoProcessResource) GetUserAccount() *Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Alerts_Resources_CatoProcessResource_UserAccount {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Alerts_Resources_CatoProcessResource{}
-	}
-	return t.UserAccount
-}
-
-type Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Alerts_Resources_CatoFileResource_FileDetails struct {
-	Typename *string "json:\"__typename,omitempty\" graphql:\"__typename\""
-}
-
-func (t *Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Alerts_Resources_CatoFileResource_FileDetails) GetTypename() *string {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Alerts_Resources_CatoFileResource_FileDetails{}
-	}
-	return t.Typename
-}
-
-type Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Alerts_Resources_CatoFileResource struct {
-	ID                string                                                                                     "json:\"id\" graphql:\"id\""
-	CreatedDateTime   *string                                                                                    "json:\"createdDateTime,omitempty\" graphql:\"createdDateTime\""
-	RemediationStatus *cato_models.RemediationStatusEnum                                                         "json:\"remediationStatus,omitempty\" graphql:\"remediationStatus\""
-	FileDetails       *Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Alerts_Resources_CatoFileResource_FileDetails "json:\"fileDetails,omitempty\" graphql:\"fileDetails\""
-	DetectionStatus   *cato_models.DetectionStatusEnum                                                           "json:\"detectionStatus,omitempty\" graphql:\"detectionStatus\""
-}
-
-func (t *Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Alerts_Resources_CatoFileResource) GetID() string {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Alerts_Resources_CatoFileResource{}
-	}
-	return t.ID
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Alerts_Resources_CatoFileResource) GetCreatedDateTime() *string {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Alerts_Resources_CatoFileResource{}
-	}
-	return t.CreatedDateTime
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Alerts_Resources_CatoFileResource) GetRemediationStatus() *cato_models.RemediationStatusEnum {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Alerts_Resources_CatoFileResource{}
-	}
-	return t.RemediationStatus
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Alerts_Resources_CatoFileResource) GetFileDetails() *Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Alerts_Resources_CatoFileResource_FileDetails {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Alerts_Resources_CatoFileResource{}
-	}
-	return t.FileDetails
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Alerts_Resources_CatoFileResource) GetDetectionStatus() *cato_models.DetectionStatusEnum {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Alerts_Resources_CatoFileResource{}
-	}
-	return t.DetectionStatus
-}
-
-type Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Alerts_Resources struct {
-	CatoFileResource    Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Alerts_Resources_CatoFileResource    "graphql:\"... on CatoFileResource\""
-	CatoProcessResource Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Alerts_Resources_CatoProcessResource "graphql:\"... on CatoProcessResource\""
-	Typename            *string                                                                          "json:\"__typename,omitempty\" graphql:\"__typename\""
-}
-
-func (t *Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Alerts_Resources) GetCatoFileResource() *Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Alerts_Resources_CatoFileResource {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Alerts_Resources{}
-	}
-	return &t.CatoFileResource
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Alerts_Resources) GetCatoProcessResource() *Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Alerts_Resources_CatoProcessResource {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Alerts_Resources{}
-	}
-	return &t.CatoProcessResource
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Alerts_Resources) GetTypename() *string {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Alerts_Resources{}
-	}
-	return t.Typename
-}
-
-type Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Alerts_Activities struct {
-	ID               string "json:\"id\" graphql:\"id\""
-	ParentResourceID string "json:\"parentResourceId\" graphql:\"parentResourceId\""
-	ResourceID       string "json:\"resourceId\" graphql:\"resourceId\""
-}
-
-func (t *Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Alerts_Activities) GetID() string {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Alerts_Activities{}
-	}
-	return t.ID
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Alerts_Activities) GetParentResourceID() string {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Alerts_Activities{}
-	}
-	return t.ParentResourceID
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Alerts_Activities) GetResourceID() string {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Alerts_Activities{}
-	}
-	return t.ResourceID
-}
-
-type Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Alerts struct {
-	Activities                  []*Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Alerts_Activities        "json:\"activities\" graphql:\"activities\""
-	CreatedDateTime             *string                                                                 "json:\"createdDateTime,omitempty\" graphql:\"createdDateTime\""
-	Criticality                 *int64                                                                  "json:\"criticality,omitempty\" graphql:\"criticality\""
-	Description                 *string                                                                 "json:\"description,omitempty\" graphql:\"description\""
-	EndpointProtectionProfile   *string                                                                 "json:\"endpointProtectionProfile,omitempty\" graphql:\"endpointProtectionProfile\""
-	EngineTypeCatoEndpointAlert *cato_models.CatoEndpointEngineType                                     "json:\"engineTypeCatoEndpointAlert,omitempty\" graphql:\"engineTypeCatoEndpointAlert\""
-	ExternalIP                  *string                                                                 "json:\"externalIp,omitempty\" graphql:\"externalIp\""
-	ID                          string                                                                  "json:\"id\" graphql:\"id\""
-	LocalIP                     *string                                                                 "json:\"localIp,omitempty\" graphql:\"localIp\""
-	MitreSubTechnique           []*Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Alerts_MitreSubTechnique "json:\"mitreSubTechnique\" graphql:\"mitreSubTechnique\""
-	MitreTechnique              []*Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Alerts_MitreTechnique    "json:\"mitreTechnique\" graphql:\"mitreTechnique\""
-	Resources                   []*Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Alerts_Resources         "json:\"resources\" graphql:\"resources\""
-	StatusCatoEndpointAlert     *cato_models.RemediationStatusEnum                                      "json:\"statusCatoEndpointAlert,omitempty\" graphql:\"statusCatoEndpointAlert\""
-	ThreatName                  *string                                                                 "json:\"threatName,omitempty\" graphql:\"threatName\""
-	Title                       *string                                                                 "json:\"title,omitempty\" graphql:\"title\""
-}
-
-func (t *Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Alerts) GetActivities() []*Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Alerts_Activities {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Alerts{}
-	}
-	return t.Activities
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Alerts) GetCreatedDateTime() *string {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Alerts{}
-	}
-	return t.CreatedDateTime
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Alerts) GetCriticality() *int64 {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Alerts{}
-	}
-	return t.Criticality
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Alerts) GetDescription() *string {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Alerts{}
-	}
-	return t.Description
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Alerts) GetEndpointProtectionProfile() *string {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Alerts{}
-	}
-	return t.EndpointProtectionProfile
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Alerts) GetEngineTypeCatoEndpointAlert() *cato_models.CatoEndpointEngineType {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Alerts{}
-	}
-	return t.EngineTypeCatoEndpointAlert
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Alerts) GetExternalIP() *string {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Alerts{}
-	}
-	return t.ExternalIP
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Alerts) GetID() string {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Alerts{}
-	}
-	return t.ID
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Alerts) GetLocalIP() *string {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Alerts{}
-	}
-	return t.LocalIP
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Alerts) GetMitreSubTechnique() []*Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Alerts_MitreSubTechnique {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Alerts{}
-	}
-	return t.MitreSubTechnique
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Alerts) GetMitreTechnique() []*Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Alerts_MitreTechnique {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Alerts{}
-	}
-	return t.MitreTechnique
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Alerts) GetResources() []*Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Alerts_Resources {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Alerts{}
-	}
-	return t.Resources
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Alerts) GetStatusCatoEndpointAlert() *cato_models.RemediationStatusEnum {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Alerts{}
-	}
-	return t.StatusCatoEndpointAlert
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Alerts) GetThreatName() *string {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Alerts{}
-	}
-	return t.ThreatName
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Alerts) GetTitle() *string {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Alerts{}
-	}
-	return t.Title
-}
-
-type Xdr_Xdr_Stories_Items_Incident_CatoEndpoint struct {
-	SimilarStoriesData []*Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_SimilarStoriesData "json:\"similarStoriesData\" graphql:\"similarStoriesData\""
-	Device             *Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Device               "json:\"device,omitempty\" graphql:\"device\""
-	Alerts             []*Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Alerts             "json:\"alerts\" graphql:\"alerts\""
-}
-
-func (t *Xdr_Xdr_Stories_Items_Incident_CatoEndpoint) GetSimilarStoriesData() []*Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_SimilarStoriesData {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_CatoEndpoint{}
-	}
-	return t.SimilarStoriesData
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_CatoEndpoint) GetDevice() *Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Device {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_CatoEndpoint{}
-	}
-	return t.Device
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_CatoEndpoint) GetAlerts() []*Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Alerts {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_CatoEndpoint{}
-	}
-	return t.Alerts
-}
-
-type Xdr_Xdr_Stories_Items_Incident_GenericIncident_SimilarStoriesData struct {
-	Indication           *string  "json:\"indication,omitempty\" graphql:\"indication\""
-	SimilarityPercentage *float64 "json:\"similarityPercentage,omitempty\" graphql:\"similarityPercentage\""
-	StoryID              *string  "json:\"storyId,omitempty\" graphql:\"storyId\""
-	ThreatClassification *string  "json:\"threatClassification,omitempty\" graphql:\"threatClassification\""
-	ThreatTypeName       *string  "json:\"threatTypeName,omitempty\" graphql:\"threatTypeName\""
-	Verdict              *string  "json:\"verdict,omitempty\" graphql:\"verdict\""
-}
-
-func (t *Xdr_Xdr_Stories_Items_Incident_GenericIncident_SimilarStoriesData) GetIndication() *string {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_GenericIncident_SimilarStoriesData{}
-	}
-	return t.Indication
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_GenericIncident_SimilarStoriesData) GetSimilarityPercentage() *float64 {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_GenericIncident_SimilarStoriesData{}
-	}
-	return t.SimilarityPercentage
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_GenericIncident_SimilarStoriesData) GetStoryID() *string {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_GenericIncident_SimilarStoriesData{}
-	}
-	return t.StoryID
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_GenericIncident_SimilarStoriesData) GetThreatClassification() *string {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_GenericIncident_SimilarStoriesData{}
-	}
-	return t.ThreatClassification
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_GenericIncident_SimilarStoriesData) GetThreatTypeName() *string {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_GenericIncident_SimilarStoriesData{}
-	}
-	return t.ThreatTypeName
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_GenericIncident_SimilarStoriesData) GetVerdict() *string {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_GenericIncident_SimilarStoriesData{}
-	}
-	return t.Verdict
-}
-
-type Xdr_Xdr_Stories_Items_Incident_GenericIncident_VendorInfo struct {
-	EngineType  *string "json:\"engineType,omitempty\" graphql:\"engineType\""
-	IncidentURL *string "json:\"incidentUrl,omitempty\" graphql:\"incidentUrl\""
-	Name        *string "json:\"name,omitempty\" graphql:\"name\""
-	Product     *string "json:\"product,omitempty\" graphql:\"product\""
-	Status      *string "json:\"status,omitempty\" graphql:\"status\""
-}
-
-func (t *Xdr_Xdr_Stories_Items_Incident_GenericIncident_VendorInfo) GetEngineType() *string {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_GenericIncident_VendorInfo{}
-	}
-	return t.EngineType
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_GenericIncident_VendorInfo) GetIncidentURL() *string {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_GenericIncident_VendorInfo{}
-	}
-	return t.IncidentURL
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_GenericIncident_VendorInfo) GetName() *string {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_GenericIncident_VendorInfo{}
-	}
-	return t.Name
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_GenericIncident_VendorInfo) GetProduct() *string {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_GenericIncident_VendorInfo{}
-	}
-	return t.Product
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_GenericIncident_VendorInfo) GetStatus() *string {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_GenericIncident_VendorInfo{}
-	}
-	return t.Status
-}
-
-type Xdr_Xdr_Stories_Items_Incident_GenericIncident_StatusInfo struct {
-	Classification *string                       "json:\"classification,omitempty\" graphql:\"classification\""
-	IncidentStatus *string                       "json:\"incidentStatus,omitempty\" graphql:\"incidentStatus\""
-	Verdict        *cato_models.StoryVerdictEnum "json:\"verdict,omitempty\" graphql:\"verdict\""
-}
-
-func (t *Xdr_Xdr_Stories_Items_Incident_GenericIncident_StatusInfo) GetClassification() *string {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_GenericIncident_StatusInfo{}
-	}
-	return t.Classification
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_GenericIncident_StatusInfo) GetIncidentStatus() *string {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_GenericIncident_StatusInfo{}
-	}
-	return t.IncidentStatus
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_GenericIncident_StatusInfo) GetVerdict() *cato_models.StoryVerdictEnum {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_GenericIncident_StatusInfo{}
-	}
-	return t.Verdict
-}
-
-type Xdr_Xdr_Stories_Items_Incident_GenericIncident_Evidences_Data struct {
-	FieldName string   "json:\"fieldName\" graphql:\"fieldName\""
-	Values    []string "json:\"values\" graphql:\"values\""
-}
-
-func (t *Xdr_Xdr_Stories_Items_Incident_GenericIncident_Evidences_Data) GetFieldName() string {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_GenericIncident_Evidences_Data{}
-	}
-	return t.FieldName
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_GenericIncident_Evidences_Data) GetValues() []string {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_GenericIncident_Evidences_Data{}
-	}
-	return t.Values
-}
-
-type Xdr_Xdr_Stories_Items_Incident_GenericIncident_Evidences struct {
-	Data  []*Xdr_Xdr_Stories_Items_Incident_GenericIncident_Evidences_Data "json:\"data\" graphql:\"data\""
-	Kind  *string                                                          "json:\"kind,omitempty\" graphql:\"kind\""
-	Type  cato_models.GenericIncidentEvidenceType                          "json:\"type\" graphql:\"type\""
-	Value *string                                                          "json:\"value,omitempty\" graphql:\"value\""
-}
-
-func (t *Xdr_Xdr_Stories_Items_Incident_GenericIncident_Evidences) GetData() []*Xdr_Xdr_Stories_Items_Incident_GenericIncident_Evidences_Data {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_GenericIncident_Evidences{}
-	}
-	return t.Data
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_GenericIncident_Evidences) GetKind() *string {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_GenericIncident_Evidences{}
-	}
-	return t.Kind
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_GenericIncident_Evidences) GetType() *cato_models.GenericIncidentEvidenceType {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_GenericIncident_Evidences{}
-	}
-	return &t.Type
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_GenericIncident_Evidences) GetValue() *string {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_GenericIncident_Evidences{}
-	}
-	return t.Value
-}
-
-type Xdr_Xdr_Stories_Items_Incident_GenericIncident_Queries_Measures struct {
-	AggType   *string                       "json:\"aggType,omitempty\" graphql:\"aggType\""
-	FieldName *string                       "json:\"fieldName,omitempty\" graphql:\"fieldName\""
-	UnitType  *cato_models.MeasuresUnitType "json:\"unitType,omitempty\" graphql:\"unitType\""
-}
-
-func (t *Xdr_Xdr_Stories_Items_Incident_GenericIncident_Queries_Measures) GetAggType() *string {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_GenericIncident_Queries_Measures{}
-	}
-	return t.AggType
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_GenericIncident_Queries_Measures) GetFieldName() *string {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_GenericIncident_Queries_Measures{}
-	}
-	return t.FieldName
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_GenericIncident_Queries_Measures) GetUnitType() *cato_models.MeasuresUnitType {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_GenericIncident_Queries_Measures{}
-	}
-	return t.UnitType
-}
-
-type Xdr_Xdr_Stories_Items_Incident_GenericIncident_Queries_Filters struct {
-	Name     *string  "json:\"name,omitempty\" graphql:\"name\""
-	Operator *string  "json:\"operator,omitempty\" graphql:\"operator\""
-	Value    *string  "json:\"value,omitempty\" graphql:\"value\""
-	Values   []string "json:\"values\" graphql:\"values\""
-}
-
-func (t *Xdr_Xdr_Stories_Items_Incident_GenericIncident_Queries_Filters) GetName() *string {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_GenericIncident_Queries_Filters{}
-	}
-	return t.Name
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_GenericIncident_Queries_Filters) GetOperator() *string {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_GenericIncident_Queries_Filters{}
-	}
-	return t.Operator
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_GenericIncident_Queries_Filters) GetValue() *string {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_GenericIncident_Queries_Filters{}
-	}
-	return t.Value
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_GenericIncident_Queries_Filters) GetValues() []string {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_GenericIncident_Queries_Filters{}
-	}
-	return t.Values
-}
-
-type Xdr_Xdr_Stories_Items_Incident_GenericIncident_Queries struct {
-	Buckets    *int64                                                             "json:\"buckets,omitempty\" graphql:\"buckets\""
-	DataSource *cato_models.DataSourceEnum                                        "json:\"dataSource,omitempty\" graphql:\"dataSource\""
-	Fields     []string                                                           "json:\"fields\" graphql:\"fields\""
-	Filters    []*Xdr_Xdr_Stories_Items_Incident_GenericIncident_Queries_Filters  "json:\"filters\" graphql:\"filters\""
-	Measures   []*Xdr_Xdr_Stories_Items_Incident_GenericIncident_Queries_Measures "json:\"measures\" graphql:\"measures\""
-}
-
-func (t *Xdr_Xdr_Stories_Items_Incident_GenericIncident_Queries) GetBuckets() *int64 {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_GenericIncident_Queries{}
-	}
-	return t.Buckets
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_GenericIncident_Queries) GetDataSource() *cato_models.DataSourceEnum {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_GenericIncident_Queries{}
-	}
-	return t.DataSource
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_GenericIncident_Queries) GetFields() []string {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_GenericIncident_Queries{}
-	}
-	return t.Fields
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_GenericIncident_Queries) GetFilters() []*Xdr_Xdr_Stories_Items_Incident_GenericIncident_Queries_Filters {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_GenericIncident_Queries{}
-	}
-	return t.Filters
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_GenericIncident_Queries) GetMeasures() []*Xdr_Xdr_Stories_Items_Incident_GenericIncident_Queries_Measures {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_GenericIncident_Queries{}
-	}
-	return t.Measures
-}
-
-type Xdr_Xdr_Stories_Items_Incident_GenericIncident_Mitres struct {
-	ID   *string "json:\"id,omitempty\" graphql:\"id\""
-	Name *string "json:\"name,omitempty\" graphql:\"name\""
-}
-
-func (t *Xdr_Xdr_Stories_Items_Incident_GenericIncident_Mitres) GetID() *string {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_GenericIncident_Mitres{}
-	}
-	return t.ID
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_GenericIncident_Mitres) GetName() *string {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_GenericIncident_Mitres{}
-	}
-	return t.Name
-}
-
-type Xdr_Xdr_Stories_Items_Incident_GenericIncident struct {
-	SimilarStoriesData []*Xdr_Xdr_Stories_Items_Incident_GenericIncident_SimilarStoriesData "json:\"similarStoriesData\" graphql:\"similarStoriesData\""
-	VendorInfo         *Xdr_Xdr_Stories_Items_Incident_GenericIncident_VendorInfo           "json:\"vendorInfo,omitempty\" graphql:\"vendorInfo\""
-	StatusInfo         *Xdr_Xdr_Stories_Items_Incident_GenericIncident_StatusInfo           "json:\"statusInfo,omitempty\" graphql:\"statusInfo\""
-	Evidences          []*Xdr_Xdr_Stories_Items_Incident_GenericIncident_Evidences          "json:\"evidences\" graphql:\"evidences\""
-	Queries            []*Xdr_Xdr_Stories_Items_Incident_GenericIncident_Queries            "json:\"queries\" graphql:\"queries\""
-	Mitres             []*Xdr_Xdr_Stories_Items_Incident_GenericIncident_Mitres             "json:\"mitres,omitempty\" graphql:\"mitres\""
-}
-
-func (t *Xdr_Xdr_Stories_Items_Incident_GenericIncident) GetSimilarStoriesData() []*Xdr_Xdr_Stories_Items_Incident_GenericIncident_SimilarStoriesData {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_GenericIncident{}
-	}
-	return t.SimilarStoriesData
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_GenericIncident) GetVendorInfo() *Xdr_Xdr_Stories_Items_Incident_GenericIncident_VendorInfo {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_GenericIncident{}
-	}
-	return t.VendorInfo
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_GenericIncident) GetStatusInfo() *Xdr_Xdr_Stories_Items_Incident_GenericIncident_StatusInfo {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_GenericIncident{}
-	}
-	return t.StatusInfo
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_GenericIncident) GetEvidences() []*Xdr_Xdr_Stories_Items_Incident_GenericIncident_Evidences {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_GenericIncident{}
-	}
-	return t.Evidences
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_GenericIncident) GetQueries() []*Xdr_Xdr_Stories_Items_Incident_GenericIncident_Queries {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_GenericIncident{}
-	}
-	return t.Queries
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_GenericIncident) GetMitres() []*Xdr_Xdr_Stories_Items_Incident_GenericIncident_Mitres {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_GenericIncident{}
-	}
-	return t.Mitres
 }
 
 type Xdr_Xdr_Stories_Items_Incident_MicrosoftEndpoint_SimilarStoriesData struct {
@@ -339114,7 +337802,7 @@ func (t *Xdr_Xdr_Stories_Items_Incident_MicrosoftEndpoint) GetVendorStatus() *ca
 	return t.VendorStatus
 }
 
-type Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_SimilarStoriesData struct {
+type Xdr_Xdr_Stories_Items_Incident_AnomalyStats_SimilarStoriesData struct {
 	Indication           *string  "json:\"indication,omitempty\" graphql:\"indication\""
 	SimilarityPercentage *float64 "json:\"similarityPercentage,omitempty\" graphql:\"similarityPercentage\""
 	StoryID              *string  "json:\"storyId,omitempty\" graphql:\"storyId\""
@@ -339123,634 +337811,1233 @@ type Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_SimilarStoriesData struct
 	Verdict              *string  "json:\"verdict,omitempty\" graphql:\"verdict\""
 }
 
-func (t *Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_SimilarStoriesData) GetIndication() *string {
+func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyStats_SimilarStoriesData) GetIndication() *string {
 	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_SimilarStoriesData{}
+		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyStats_SimilarStoriesData{}
 	}
 	return t.Indication
 }
-func (t *Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_SimilarStoriesData) GetSimilarityPercentage() *float64 {
+func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyStats_SimilarStoriesData) GetSimilarityPercentage() *float64 {
 	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_SimilarStoriesData{}
+		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyStats_SimilarStoriesData{}
 	}
 	return t.SimilarityPercentage
 }
-func (t *Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_SimilarStoriesData) GetStoryID() *string {
+func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyStats_SimilarStoriesData) GetStoryID() *string {
 	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_SimilarStoriesData{}
+		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyStats_SimilarStoriesData{}
 	}
 	return t.StoryID
 }
-func (t *Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_SimilarStoriesData) GetThreatClassification() *string {
+func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyStats_SimilarStoriesData) GetThreatClassification() *string {
 	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_SimilarStoriesData{}
+		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyStats_SimilarStoriesData{}
 	}
 	return t.ThreatClassification
 }
-func (t *Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_SimilarStoriesData) GetThreatTypeName() *string {
+func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyStats_SimilarStoriesData) GetThreatTypeName() *string {
 	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_SimilarStoriesData{}
+		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyStats_SimilarStoriesData{}
 	}
 	return t.ThreatTypeName
 }
-func (t *Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_SimilarStoriesData) GetVerdict() *string {
+func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyStats_SimilarStoriesData) GetVerdict() *string {
 	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_SimilarStoriesData{}
+		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyStats_SimilarStoriesData{}
 	}
 	return t.Verdict
 }
 
-type Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_NetworkIncidentTimeline_BgpConnectionNetworkTimelineEvent struct {
-	CatoAsn        *scalars.Asn16 "json:\"catoAsn,omitempty\" graphql:\"catoAsn\""
-	CatoIP         *string        "json:\"catoIp,omitempty\" graphql:\"catoIp\""
-	ConnectionName *string        "json:\"connectionName,omitempty\" graphql:\"connectionName\""
-	PeerAsn        *scalars.Asn32 "json:\"peerAsn,omitempty\" graphql:\"peerAsn\""
-	PeerIP         *string        "json:\"peerIp,omitempty\" graphql:\"peerIp\""
+type Xdr_Xdr_Stories_Items_Incident_AnomalyStats_DrillDownFilter struct {
+	Name   string   "json:\"name\" graphql:\"name\""
+	Value  string   "json:\"value\" graphql:\"value\""
+	Values []string "json:\"values\" graphql:\"values\""
 }
 
-func (t *Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_NetworkIncidentTimeline_BgpConnectionNetworkTimelineEvent) GetCatoAsn() *scalars.Asn16 {
+func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyStats_DrillDownFilter) GetName() string {
 	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_NetworkIncidentTimeline_BgpConnectionNetworkTimelineEvent{}
+		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyStats_DrillDownFilter{}
 	}
-	return t.CatoAsn
+	return t.Name
 }
-func (t *Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_NetworkIncidentTimeline_BgpConnectionNetworkTimelineEvent) GetCatoIP() *string {
+func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyStats_DrillDownFilter) GetValue() string {
 	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_NetworkIncidentTimeline_BgpConnectionNetworkTimelineEvent{}
+		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyStats_DrillDownFilter{}
 	}
-	return t.CatoIP
+	return t.Value
 }
-func (t *Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_NetworkIncidentTimeline_BgpConnectionNetworkTimelineEvent) GetConnectionName() *string {
+func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyStats_DrillDownFilter) GetValues() []string {
 	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_NetworkIncidentTimeline_BgpConnectionNetworkTimelineEvent{}
+		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyStats_DrillDownFilter{}
 	}
-	return t.ConnectionName
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_NetworkIncidentTimeline_BgpConnectionNetworkTimelineEvent) GetPeerAsn() *scalars.Asn32 {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_NetworkIncidentTimeline_BgpConnectionNetworkTimelineEvent{}
-	}
-	return t.PeerAsn
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_NetworkIncidentTimeline_BgpConnectionNetworkTimelineEvent) GetPeerIP() *string {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_NetworkIncidentTimeline_BgpConnectionNetworkTimelineEvent{}
-	}
-	return t.PeerIP
+	return t.Values
 }
 
-type Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_NetworkIncidentTimeline_LinkQualityIssueNetworkTimelineEvent struct {
-	Current   *int64                                "json:\"current,omitempty\" graphql:\"current\""
-	Direction *cato_models.TrafficDirectionEnum     "json:\"direction,omitempty\" graphql:\"direction\""
-	IssueType *cato_models.LinkQualityIssueTypeEnum "json:\"issueType,omitempty\" graphql:\"issueType\""
-	Threshold *int64                                "json:\"threshold,omitempty\" graphql:\"threshold\""
+type Xdr_Xdr_Stories_Items_Incident_AnomalyStats_Extra struct {
+	Name  string "json:\"name\" graphql:\"name\""
+	Type  string "json:\"type\" graphql:\"type\""
+	Value string "json:\"value\" graphql:\"value\""
 }
 
-func (t *Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_NetworkIncidentTimeline_LinkQualityIssueNetworkTimelineEvent) GetCurrent() *int64 {
+func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyStats_Extra) GetName() string {
 	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_NetworkIncidentTimeline_LinkQualityIssueNetworkTimelineEvent{}
+		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyStats_Extra{}
 	}
-	return t.Current
+	return t.Name
 }
-func (t *Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_NetworkIncidentTimeline_LinkQualityIssueNetworkTimelineEvent) GetDirection() *cato_models.TrafficDirectionEnum {
+func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyStats_Extra) GetType() string {
 	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_NetworkIncidentTimeline_LinkQualityIssueNetworkTimelineEvent{}
+		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyStats_Extra{}
 	}
-	return t.Direction
+	return t.Type
 }
-func (t *Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_NetworkIncidentTimeline_LinkQualityIssueNetworkTimelineEvent) GetIssueType() *cato_models.LinkQualityIssueTypeEnum {
+func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyStats_Extra) GetValue() string {
 	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_NetworkIncidentTimeline_LinkQualityIssueNetworkTimelineEvent{}
+		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyStats_Extra{}
 	}
-	return t.IssueType
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_NetworkIncidentTimeline_LinkQualityIssueNetworkTimelineEvent) GetThreshold() *int64 {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_NetworkIncidentTimeline_LinkQualityIssueNetworkTimelineEvent{}
-	}
-	return t.Threshold
+	return t.Value
 }
 
-type Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_NetworkIncidentTimeline struct {
-	Acknowledged                             *bool                                                                                                           "json:\"acknowledged,omitempty\" graphql:\"acknowledged\""
-	BgpConnectionNetworkTimelineEvent        *Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_NetworkIncidentTimeline_BgpConnectionNetworkTimelineEvent    "json:\"bgpConnectionNetworkTimelineEvent,omitempty\" graphql:\"bgpConnectionNetworkTimelineEvent\""
-	Created                                  string                                                                                                          "json:\"created\" graphql:\"created\""
-	Description                              *string                                                                                                         "json:\"description,omitempty\" graphql:\"description\""
-	DeviceConfigHaRoleNetworkTimelineEvent   *cato_models.DeviceConfigHaRoleEnum                                                                             "json:\"deviceConfigHaRoleNetworkTimelineEvent,omitempty\" graphql:\"deviceConfigHaRoleNetworkTimelineEvent\""
-	DeviceHaRoleStateNetworkTimelineEvent    *cato_models.DeviceHaRoleStateEnum                                                                              "json:\"deviceHaRoleStateNetworkTimelineEvent,omitempty\" graphql:\"deviceHaRoleStateNetworkTimelineEvent\""
-	EventIds                                 []string                                                                                                        "json:\"eventIds\" graphql:\"eventIds\""
-	EventTypeNetworkTimelineEvent            *cato_models.NetworkXDREventTypeEnum                                                                            "json:\"eventTypeNetworkTimelineEvent,omitempty\" graphql:\"eventTypeNetworkTimelineEvent\""
-	HostIP                                   *string                                                                                                         "json:\"hostIp,omitempty\" graphql:\"hostIp\""
-	IncidentID                               *string                                                                                                         "json:\"incidentId,omitempty\" graphql:\"incidentId\""
-	Isp                                      *string                                                                                                         "json:\"isp,omitempty\" graphql:\"isp\""
-	LinkConfigBandwidth                      *string                                                                                                         "json:\"linkConfigBandwidth,omitempty\" graphql:\"linkConfigBandwidth\""
-	LinkConfigPrecedenceNetworkTimelineEvent *cato_models.LinkConfigPrecedenceEnum                                                                           "json:\"linkConfigPrecedenceNetworkTimelineEvent,omitempty\" graphql:\"linkConfigPrecedenceNetworkTimelineEvent\""
-	LinkID                                   *string                                                                                                         "json:\"linkId,omitempty\" graphql:\"linkId\""
-	LinkName                                 *string                                                                                                         "json:\"linkName,omitempty\" graphql:\"linkName\""
-	LinkQualityIssueNetworkTimelineEvent     *Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_NetworkIncidentTimeline_LinkQualityIssueNetworkTimelineEvent "json:\"linkQualityIssueNetworkTimelineEvent,omitempty\" graphql:\"linkQualityIssueNetworkTimelineEvent\""
-	LinkStatusNetworkTimelineEvent           *cato_models.LinkStatusEnum                                                                                     "json:\"linkStatusNetworkTimelineEvent,omitempty\" graphql:\"linkStatusNetworkTimelineEvent\""
-	Muted                                    *bool                                                                                                           "json:\"muted,omitempty\" graphql:\"muted\""
-	NetworkEventSourceNetworkTimelineEvent   *cato_models.NetworkEventSourceEnum                                                                             "json:\"networkEventSourceNetworkTimelineEvent,omitempty\" graphql:\"networkEventSourceNetworkTimelineEvent\""
-	Pop                                      *string                                                                                                         "json:\"pop,omitempty\" graphql:\"pop\""
-	RuleName                                 *string                                                                                                         "json:\"ruleName,omitempty\" graphql:\"ruleName\""
-	SocketSerialID                           *string                                                                                                         "json:\"socketSerialId,omitempty\" graphql:\"socketSerialId\""
-	TunnelResetCount                         *int64                                                                                                          "json:\"tunnelResetCount,omitempty\" graphql:\"tunnelResetCount\""
-	Validated                                string                                                                                                          "json:\"validated\" graphql:\"validated\""
+type Xdr_Xdr_Stories_Items_Incident_AnomalyStats_Gaussian struct {
+	Avg    *float64 "json:\"avg,omitempty\" graphql:\"avg\""
+	N      *float64 "json:\"n,omitempty\" graphql:\"n\""
+	Ss     *float64 "json:\"ss,omitempty\" graphql:\"ss\""
+	Std    *float64 "json:\"std,omitempty\" graphql:\"std\""
+	ZScore *float64 "json:\"z_score,omitempty\" graphql:\"z_score\""
 }
 
-func (t *Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_NetworkIncidentTimeline) GetAcknowledged() *bool {
+func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyStats_Gaussian) GetAvg() *float64 {
 	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_NetworkIncidentTimeline{}
+		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyStats_Gaussian{}
 	}
-	return t.Acknowledged
+	return t.Avg
 }
-func (t *Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_NetworkIncidentTimeline) GetBgpConnectionNetworkTimelineEvent() *Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_NetworkIncidentTimeline_BgpConnectionNetworkTimelineEvent {
+func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyStats_Gaussian) GetN() *float64 {
 	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_NetworkIncidentTimeline{}
+		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyStats_Gaussian{}
 	}
-	return t.BgpConnectionNetworkTimelineEvent
+	return t.N
 }
-func (t *Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_NetworkIncidentTimeline) GetCreated() string {
+func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyStats_Gaussian) GetSs() *float64 {
 	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_NetworkIncidentTimeline{}
+		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyStats_Gaussian{}
 	}
-	return t.Created
+	return t.Ss
 }
-func (t *Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_NetworkIncidentTimeline) GetDescription() *string {
+func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyStats_Gaussian) GetStd() *float64 {
 	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_NetworkIncidentTimeline{}
+		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyStats_Gaussian{}
 	}
-	return t.Description
+	return t.Std
 }
-func (t *Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_NetworkIncidentTimeline) GetDeviceConfigHaRoleNetworkTimelineEvent() *cato_models.DeviceConfigHaRoleEnum {
+func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyStats_Gaussian) GetZScore() *float64 {
 	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_NetworkIncidentTimeline{}
+		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyStats_Gaussian{}
 	}
-	return t.DeviceConfigHaRoleNetworkTimelineEvent
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_NetworkIncidentTimeline) GetDeviceHaRoleStateNetworkTimelineEvent() *cato_models.DeviceHaRoleStateEnum {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_NetworkIncidentTimeline{}
-	}
-	return t.DeviceHaRoleStateNetworkTimelineEvent
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_NetworkIncidentTimeline) GetEventIds() []string {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_NetworkIncidentTimeline{}
-	}
-	return t.EventIds
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_NetworkIncidentTimeline) GetEventTypeNetworkTimelineEvent() *cato_models.NetworkXDREventTypeEnum {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_NetworkIncidentTimeline{}
-	}
-	return t.EventTypeNetworkTimelineEvent
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_NetworkIncidentTimeline) GetHostIP() *string {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_NetworkIncidentTimeline{}
-	}
-	return t.HostIP
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_NetworkIncidentTimeline) GetIncidentID() *string {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_NetworkIncidentTimeline{}
-	}
-	return t.IncidentID
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_NetworkIncidentTimeline) GetIsp() *string {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_NetworkIncidentTimeline{}
-	}
-	return t.Isp
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_NetworkIncidentTimeline) GetLinkConfigBandwidth() *string {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_NetworkIncidentTimeline{}
-	}
-	return t.LinkConfigBandwidth
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_NetworkIncidentTimeline) GetLinkConfigPrecedenceNetworkTimelineEvent() *cato_models.LinkConfigPrecedenceEnum {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_NetworkIncidentTimeline{}
-	}
-	return t.LinkConfigPrecedenceNetworkTimelineEvent
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_NetworkIncidentTimeline) GetLinkID() *string {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_NetworkIncidentTimeline{}
-	}
-	return t.LinkID
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_NetworkIncidentTimeline) GetLinkName() *string {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_NetworkIncidentTimeline{}
-	}
-	return t.LinkName
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_NetworkIncidentTimeline) GetLinkQualityIssueNetworkTimelineEvent() *Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_NetworkIncidentTimeline_LinkQualityIssueNetworkTimelineEvent {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_NetworkIncidentTimeline{}
-	}
-	return t.LinkQualityIssueNetworkTimelineEvent
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_NetworkIncidentTimeline) GetLinkStatusNetworkTimelineEvent() *cato_models.LinkStatusEnum {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_NetworkIncidentTimeline{}
-	}
-	return t.LinkStatusNetworkTimelineEvent
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_NetworkIncidentTimeline) GetMuted() *bool {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_NetworkIncidentTimeline{}
-	}
-	return t.Muted
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_NetworkIncidentTimeline) GetNetworkEventSourceNetworkTimelineEvent() *cato_models.NetworkEventSourceEnum {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_NetworkIncidentTimeline{}
-	}
-	return t.NetworkEventSourceNetworkTimelineEvent
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_NetworkIncidentTimeline) GetPop() *string {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_NetworkIncidentTimeline{}
-	}
-	return t.Pop
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_NetworkIncidentTimeline) GetRuleName() *string {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_NetworkIncidentTimeline{}
-	}
-	return t.RuleName
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_NetworkIncidentTimeline) GetSocketSerialID() *string {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_NetworkIncidentTimeline{}
-	}
-	return t.SocketSerialID
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_NetworkIncidentTimeline) GetTunnelResetCount() *int64 {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_NetworkIncidentTimeline{}
-	}
-	return t.TunnelResetCount
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_NetworkIncidentTimeline) GetValidated() string {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_NetworkIncidentTimeline{}
-	}
-	return t.Validated
+	return t.ZScore
 }
 
-type Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_BgpConnection struct {
-	CatoAsn        *scalars.Asn16 "json:\"catoAsn,omitempty\" graphql:\"catoAsn\""
-	CatoIP         *string        "json:\"catoIp,omitempty\" graphql:\"catoIp\""
-	ConnectionName *string        "json:\"connectionName,omitempty\" graphql:\"connectionName\""
-	PeerAsn        *scalars.Asn32 "json:\"peerAsn,omitempty\" graphql:\"peerAsn\""
-	PeerIP         *string        "json:\"peerIp,omitempty\" graphql:\"peerIp\""
+type Xdr_Xdr_Stories_Items_Incident_AnomalyStats_Metric struct {
+	Name  string  "json:\"name\" graphql:\"name\""
+	Value float64 "json:\"value\" graphql:\"value\""
 }
 
-func (t *Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_BgpConnection) GetCatoAsn() *scalars.Asn16 {
+func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyStats_Metric) GetName() string {
 	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_BgpConnection{}
+		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyStats_Metric{}
 	}
-	return t.CatoAsn
+	return t.Name
 }
-func (t *Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_BgpConnection) GetCatoIP() *string {
+func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyStats_Metric) GetValue() float64 {
 	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_BgpConnection{}
+		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyStats_Metric{}
 	}
-	return t.CatoIP
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_BgpConnection) GetConnectionName() *string {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_BgpConnection{}
-	}
-	return t.ConnectionName
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_BgpConnection) GetPeerAsn() *scalars.Asn32 {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_BgpConnection{}
-	}
-	return t.PeerAsn
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_BgpConnection) GetPeerIP() *string {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_BgpConnection{}
-	}
-	return t.PeerIP
+	return t.Value
 }
 
-type Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_IlmmDetails_LinkDetailsIlmmDetails struct {
-	ActiveLicense    *bool                             "json:\"activeLicense,omitempty\" graphql:\"activeLicense\""
-	Comments         *string                           "json:\"comments,omitempty\" graphql:\"comments\""
-	Description      *string                           "json:\"description,omitempty\" graphql:\"description\""
-	IspLinkID        *string                           "json:\"ispLinkId,omitempty\" graphql:\"ispLinkId\""
-	LinkID           *string                           "json:\"linkId,omitempty\" graphql:\"linkId\""
-	OnboardingStatus *cato_models.IlmmOnboardingStatus "json:\"onboardingStatus,omitempty\" graphql:\"onboardingStatus\""
+type Xdr_Xdr_Stories_Items_Incident_AnomalyStats_MetricDetails struct {
+	Name  string "json:\"name\" graphql:\"name\""
+	Units string "json:\"units\" graphql:\"units\""
 }
 
-func (t *Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_IlmmDetails_LinkDetailsIlmmDetails) GetActiveLicense() *bool {
+func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyStats_MetricDetails) GetName() string {
 	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_IlmmDetails_LinkDetailsIlmmDetails{}
+		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyStats_MetricDetails{}
 	}
-	return t.ActiveLicense
+	return t.Name
 }
-func (t *Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_IlmmDetails_LinkDetailsIlmmDetails) GetComments() *string {
+func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyStats_MetricDetails) GetUnits() string {
 	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_IlmmDetails_LinkDetailsIlmmDetails{}
+		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyStats_MetricDetails{}
 	}
-	return t.Comments
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_IlmmDetails_LinkDetailsIlmmDetails) GetDescription() *string {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_IlmmDetails_LinkDetailsIlmmDetails{}
-	}
-	return t.Description
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_IlmmDetails_LinkDetailsIlmmDetails) GetIspLinkID() *string {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_IlmmDetails_LinkDetailsIlmmDetails{}
-	}
-	return t.IspLinkID
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_IlmmDetails_LinkDetailsIlmmDetails) GetLinkID() *string {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_IlmmDetails_LinkDetailsIlmmDetails{}
-	}
-	return t.LinkID
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_IlmmDetails_LinkDetailsIlmmDetails) GetOnboardingStatus() *cato_models.IlmmOnboardingStatus {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_IlmmDetails_LinkDetailsIlmmDetails{}
-	}
-	return t.OnboardingStatus
+	return t.Units
 }
 
-type Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_IlmmDetails_IspDetailsIlmmDetails_LoaFile struct {
-	FileHash   *string       "json:\"fileHash,omitempty\" graphql:\"fileHash\""
-	FileName   *string       "json:\"fileName,omitempty\" graphql:\"fileName\""
-	UploadedAt *scalars.Time "json:\"uploadedAt,omitempty\" graphql:\"uploadedAt\""
+type Xdr_Xdr_Stories_Items_Incident_AnomalyStats_Mitres struct {
+	ID   *string "json:\"id,omitempty\" graphql:\"id\""
+	Name *string "json:\"name,omitempty\" graphql:\"name\""
 }
 
-func (t *Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_IlmmDetails_IspDetailsIlmmDetails_LoaFile) GetFileHash() *string {
+func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyStats_Mitres) GetID() *string {
 	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_IlmmDetails_IspDetailsIlmmDetails_LoaFile{}
+		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyStats_Mitres{}
 	}
-	return t.FileHash
+	return t.ID
 }
-func (t *Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_IlmmDetails_IspDetailsIlmmDetails_LoaFile) GetFileName() *string {
+func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyStats_Mitres) GetName() *string {
 	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_IlmmDetails_IspDetailsIlmmDetails_LoaFile{}
+		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyStats_Mitres{}
+	}
+	return t.Name
+}
+
+type Xdr_Xdr_Stories_Items_Incident_AnomalyStats_TimeSeries_KeyIncidentTimeseries_Dimensions struct {
+	FieldName string  "json:\"fieldName\" graphql:\"fieldName\""
+	Value     *string "json:\"value,omitempty\" graphql:\"value\""
+}
+
+func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyStats_TimeSeries_KeyIncidentTimeseries_Dimensions) GetFieldName() string {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyStats_TimeSeries_KeyIncidentTimeseries_Dimensions{}
+	}
+	return t.FieldName
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyStats_TimeSeries_KeyIncidentTimeseries_Dimensions) GetValue() *string {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyStats_TimeSeries_KeyIncidentTimeseries_Dimensions{}
+	}
+	return t.Value
+}
+
+type Xdr_Xdr_Stories_Items_Incident_AnomalyStats_TimeSeries_KeyIncidentTimeseries struct {
+	Dimensions       []*Xdr_Xdr_Stories_Items_Incident_AnomalyStats_TimeSeries_KeyIncidentTimeseries_Dimensions "json:\"dimensions,omitempty\" graphql:\"dimensions\""
+	MeasureFieldName string                                                                                     "json:\"measureFieldName\" graphql:\"measureFieldName\""
+}
+
+func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyStats_TimeSeries_KeyIncidentTimeseries) GetDimensions() []*Xdr_Xdr_Stories_Items_Incident_AnomalyStats_TimeSeries_KeyIncidentTimeseries_Dimensions {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyStats_TimeSeries_KeyIncidentTimeseries{}
+	}
+	return t.Dimensions
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyStats_TimeSeries_KeyIncidentTimeseries) GetMeasureFieldName() string {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyStats_TimeSeries_KeyIncidentTimeseries{}
+	}
+	return t.MeasureFieldName
+}
+
+type Xdr_Xdr_Stories_Items_Incident_AnomalyStats_TimeSeries struct {
+	Data                    [][]float64                                                                   "json:\"data,omitempty\" graphql:\"data\""
+	GroupBy                 *string                                                                       "json:\"groupBy,omitempty\" graphql:\"groupBy\""
+	Info                    []string                                                                      "json:\"info,omitempty\" graphql:\"info\""
+	KeyIncidentTimeseries   *Xdr_Xdr_Stories_Items_Incident_AnomalyStats_TimeSeries_KeyIncidentTimeseries "json:\"keyIncidentTimeseries,omitempty\" graphql:\"keyIncidentTimeseries\""
+	Label                   string                                                                        "json:\"label\" graphql:\"label\""
+	Sum                     *float64                                                                      "json:\"sum,omitempty\" graphql:\"sum\""
+	UnitsIncidentTimeseries *cato_models.UnitType                                                         "json:\"unitsIncidentTimeseries,omitempty\" graphql:\"unitsIncidentTimeseries\""
+}
+
+func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyStats_TimeSeries) GetData() [][]float64 {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyStats_TimeSeries{}
+	}
+	return t.Data
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyStats_TimeSeries) GetGroupBy() *string {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyStats_TimeSeries{}
+	}
+	return t.GroupBy
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyStats_TimeSeries) GetInfo() []string {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyStats_TimeSeries{}
+	}
+	return t.Info
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyStats_TimeSeries) GetKeyIncidentTimeseries() *Xdr_Xdr_Stories_Items_Incident_AnomalyStats_TimeSeries_KeyIncidentTimeseries {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyStats_TimeSeries{}
+	}
+	return t.KeyIncidentTimeseries
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyStats_TimeSeries) GetLabel() string {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyStats_TimeSeries{}
+	}
+	return t.Label
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyStats_TimeSeries) GetSum() *float64 {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyStats_TimeSeries{}
+	}
+	return t.Sum
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyStats_TimeSeries) GetUnitsIncidentTimeseries() *cato_models.UnitType {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyStats_TimeSeries{}
+	}
+	return t.UnitsIncidentTimeseries
+}
+
+type Xdr_Xdr_Stories_Items_Incident_AnomalyStats_Targets_EventData struct {
+	Action                *string                 "json:\"action,omitempty\" graphql:\"action\""
+	AppActivityType       *string                 "json:\"appActivityType,omitempty\" graphql:\"appActivityType\""
+	AppID                 *string                 "json:\"appId,omitempty\" graphql:\"appId\""
+	AppName               *string                 "json:\"appName,omitempty\" graphql:\"appName\""
+	DNSProtectionCategory *string                 "json:\"dnsProtectionCategory,omitempty\" graphql:\"dnsProtectionCategory\""
+	EventType             *string                 "json:\"eventType,omitempty\" graphql:\"eventType\""
+	FileName              *string                 "json:\"fileName,omitempty\" graphql:\"fileName\""
+	RuleID                *string                 "json:\"ruleId,omitempty\" graphql:\"ruleId\""
+	RuleName              *string                 "json:\"ruleName,omitempty\" graphql:\"ruleName\""
+	ScanResult            *cato_models.ScanResult "json:\"scanResult,omitempty\" graphql:\"scanResult\""
+	Severity              *string                 "json:\"severity,omitempty\" graphql:\"severity\""
+	SignatureID           *string                 "json:\"signatureId,omitempty\" graphql:\"signatureId\""
+	ThreatName            *string                 "json:\"threatName,omitempty\" graphql:\"threatName\""
+	ThreatType            *string                 "json:\"threatType,omitempty\" graphql:\"threatType\""
+	VirusName             *string                 "json:\"virusName,omitempty\" graphql:\"virusName\""
+}
+
+func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyStats_Targets_EventData) GetAction() *string {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyStats_Targets_EventData{}
+	}
+	return t.Action
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyStats_Targets_EventData) GetAppActivityType() *string {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyStats_Targets_EventData{}
+	}
+	return t.AppActivityType
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyStats_Targets_EventData) GetAppID() *string {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyStats_Targets_EventData{}
+	}
+	return t.AppID
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyStats_Targets_EventData) GetAppName() *string {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyStats_Targets_EventData{}
+	}
+	return t.AppName
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyStats_Targets_EventData) GetDNSProtectionCategory() *string {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyStats_Targets_EventData{}
+	}
+	return t.DNSProtectionCategory
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyStats_Targets_EventData) GetEventType() *string {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyStats_Targets_EventData{}
+	}
+	return t.EventType
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyStats_Targets_EventData) GetFileName() *string {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyStats_Targets_EventData{}
 	}
 	return t.FileName
 }
-func (t *Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_IlmmDetails_IspDetailsIlmmDetails_LoaFile) GetUploadedAt() *scalars.Time {
+func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyStats_Targets_EventData) GetRuleID() *string {
 	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_IlmmDetails_IspDetailsIlmmDetails_LoaFile{}
+		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyStats_Targets_EventData{}
 	}
-	return t.UploadedAt
+	return t.RuleID
 }
-
-type Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_IlmmDetails_IspDetailsIlmmDetails struct {
-	CountryCode  *string                                                                                      "json:\"countryCode,omitempty\" graphql:\"countryCode\""
-	Description  *string                                                                                      "json:\"description,omitempty\" graphql:\"description\""
-	IspAccountID *string                                                                                      "json:\"ispAccountId,omitempty\" graphql:\"ispAccountId\""
-	LoaFile      *Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_IlmmDetails_IspDetailsIlmmDetails_LoaFile "json:\"loaFile,omitempty\" graphql:\"loaFile\""
-	Name         *string                                                                                      "json:\"name,omitempty\" graphql:\"name\""
-	SupportEmail *string                                                                                      "json:\"supportEmail,omitempty\" graphql:\"supportEmail\""
-	SupportPhone *string                                                                                      "json:\"supportPhone,omitempty\" graphql:\"supportPhone\""
-}
-
-func (t *Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_IlmmDetails_IspDetailsIlmmDetails) GetCountryCode() *string {
+func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyStats_Targets_EventData) GetRuleName() *string {
 	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_IlmmDetails_IspDetailsIlmmDetails{}
-	}
-	return t.CountryCode
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_IlmmDetails_IspDetailsIlmmDetails) GetDescription() *string {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_IlmmDetails_IspDetailsIlmmDetails{}
-	}
-	return t.Description
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_IlmmDetails_IspDetailsIlmmDetails) GetIspAccountID() *string {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_IlmmDetails_IspDetailsIlmmDetails{}
-	}
-	return t.IspAccountID
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_IlmmDetails_IspDetailsIlmmDetails) GetLoaFile() *Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_IlmmDetails_IspDetailsIlmmDetails_LoaFile {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_IlmmDetails_IspDetailsIlmmDetails{}
-	}
-	return t.LoaFile
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_IlmmDetails_IspDetailsIlmmDetails) GetName() *string {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_IlmmDetails_IspDetailsIlmmDetails{}
-	}
-	return t.Name
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_IlmmDetails_IspDetailsIlmmDetails) GetSupportEmail() *string {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_IlmmDetails_IspDetailsIlmmDetails{}
-	}
-	return t.SupportEmail
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_IlmmDetails_IspDetailsIlmmDetails) GetSupportPhone() *string {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_IlmmDetails_IspDetailsIlmmDetails{}
-	}
-	return t.SupportPhone
-}
-
-type Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_IlmmDetails_Contacts struct {
-	Email *string "json:\"email,omitempty\" graphql:\"email\""
-	Name  *string "json:\"name,omitempty\" graphql:\"name\""
-	Phone *string "json:\"phone,omitempty\" graphql:\"phone\""
-}
-
-func (t *Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_IlmmDetails_Contacts) GetEmail() *string {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_IlmmDetails_Contacts{}
-	}
-	return t.Email
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_IlmmDetails_Contacts) GetName() *string {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_IlmmDetails_Contacts{}
-	}
-	return t.Name
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_IlmmDetails_Contacts) GetPhone() *string {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_IlmmDetails_Contacts{}
-	}
-	return t.Phone
-}
-
-type Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_IlmmDetails struct {
-	Contacts               []*Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_IlmmDetails_Contacts             "json:\"contacts,omitempty\" graphql:\"contacts\""
-	IspDetailsIlmmDetails  *Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_IlmmDetails_IspDetailsIlmmDetails  "json:\"ispDetailsIlmmDetails,omitempty\" graphql:\"ispDetailsIlmmDetails\""
-	LinkDetailsIlmmDetails *Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_IlmmDetails_LinkDetailsIlmmDetails "json:\"linkDetailsIlmmDetails,omitempty\" graphql:\"linkDetailsIlmmDetails\""
-}
-
-func (t *Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_IlmmDetails) GetContacts() []*Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_IlmmDetails_Contacts {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_IlmmDetails{}
-	}
-	return t.Contacts
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_IlmmDetails) GetIspDetailsIlmmDetails() *Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_IlmmDetails_IspDetailsIlmmDetails {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_IlmmDetails{}
-	}
-	return t.IspDetailsIlmmDetails
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_IlmmDetails) GetLinkDetailsIlmmDetails() *Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_IlmmDetails_LinkDetailsIlmmDetails {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_IlmmDetails{}
-	}
-	return t.LinkDetailsIlmmDetails
-}
-
-type Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident struct {
-	SimilarStoriesData      []*Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_SimilarStoriesData      "json:\"similarStoriesData\" graphql:\"similarStoriesData\""
-	NetworkIncidentTimeline []*Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_NetworkIncidentTimeline "json:\"networkIncidentTimeline\" graphql:\"networkIncidentTimeline\""
-	StoryType               string                                                                       "json:\"storyType\" graphql:\"storyType\""
-	Occurrences             *int64                                                                       "json:\"occurrences,omitempty\" graphql:\"occurrences\""
-	SiteConnectionType      *string                                                                      "json:\"siteConnectionType,omitempty\" graphql:\"siteConnectionType\""
-	SiteConfigLocation      *string                                                                      "json:\"siteConfigLocation,omitempty\" graphql:\"siteConfigLocation\""
-	Acknowledged            *bool                                                                        "json:\"acknowledged,omitempty\" graphql:\"acknowledged\""
-	LinkID                  *string                                                                      "json:\"linkId,omitempty\" graphql:\"linkId\""
-	LinkName                *string                                                                      "json:\"linkName,omitempty\" graphql:\"linkName\""
-	LinkConfigPrecedence    *cato_models.LinkConfigPrecedenceEnum                                        "json:\"linkConfigPrecedence,omitempty\" graphql:\"linkConfigPrecedence\""
-	DeviceConfigHaRole      *cato_models.DeviceConfigHaRoleEnum                                          "json:\"deviceConfigHaRole,omitempty\" graphql:\"deviceConfigHaRole\""
-	LicenseRegion           *string                                                                      "json:\"licenseRegion,omitempty\" graphql:\"licenseRegion\""
-	LicenseBandwidth        *string                                                                      "json:\"licenseBandwidth,omitempty\" graphql:\"licenseBandwidth\""
-	Pop                     *string                                                                      "json:\"pop,omitempty\" graphql:\"pop\""
-	Isp                     *string                                                                      "json:\"isp,omitempty\" graphql:\"isp\""
-	BgpConnection           *Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_BgpConnection             "json:\"bgpConnection,omitempty\" graphql:\"bgpConnection\""
-	HostIP                  *string                                                                      "json:\"hostIp,omitempty\" graphql:\"hostIp\""
-	RuleName                *string                                                                      "json:\"ruleName,omitempty\" graphql:\"ruleName\""
-	IlmmDetails             *Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_IlmmDetails               "json:\"ilmmDetails,omitempty\" graphql:\"ilmmDetails\""
-}
-
-func (t *Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident) GetSimilarStoriesData() []*Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_SimilarStoriesData {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident{}
-	}
-	return t.SimilarStoriesData
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident) GetNetworkIncidentTimeline() []*Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_NetworkIncidentTimeline {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident{}
-	}
-	return t.NetworkIncidentTimeline
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident) GetStoryType() string {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident{}
-	}
-	return t.StoryType
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident) GetOccurrences() *int64 {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident{}
-	}
-	return t.Occurrences
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident) GetSiteConnectionType() *string {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident{}
-	}
-	return t.SiteConnectionType
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident) GetSiteConfigLocation() *string {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident{}
-	}
-	return t.SiteConfigLocation
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident) GetAcknowledged() *bool {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident{}
-	}
-	return t.Acknowledged
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident) GetLinkID() *string {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident{}
-	}
-	return t.LinkID
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident) GetLinkName() *string {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident{}
-	}
-	return t.LinkName
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident) GetLinkConfigPrecedence() *cato_models.LinkConfigPrecedenceEnum {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident{}
-	}
-	return t.LinkConfigPrecedence
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident) GetDeviceConfigHaRole() *cato_models.DeviceConfigHaRoleEnum {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident{}
-	}
-	return t.DeviceConfigHaRole
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident) GetLicenseRegion() *string {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident{}
-	}
-	return t.LicenseRegion
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident) GetLicenseBandwidth() *string {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident{}
-	}
-	return t.LicenseBandwidth
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident) GetPop() *string {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident{}
-	}
-	return t.Pop
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident) GetIsp() *string {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident{}
-	}
-	return t.Isp
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident) GetBgpConnection() *Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_BgpConnection {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident{}
-	}
-	return t.BgpConnection
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident) GetHostIP() *string {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident{}
-	}
-	return t.HostIP
-}
-func (t *Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident) GetRuleName() *string {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident{}
+		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyStats_Targets_EventData{}
 	}
 	return t.RuleName
 }
-func (t *Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident) GetIlmmDetails() *Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_IlmmDetails {
+func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyStats_Targets_EventData) GetScanResult() *cato_models.ScanResult {
 	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident{}
+		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyStats_Targets_EventData{}
 	}
-	return t.IlmmDetails
+	return t.ScanResult
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyStats_Targets_EventData) GetSeverity() *string {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyStats_Targets_EventData{}
+	}
+	return t.Severity
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyStats_Targets_EventData) GetSignatureID() *string {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyStats_Targets_EventData{}
+	}
+	return t.SignatureID
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyStats_Targets_EventData) GetThreatName() *string {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyStats_Targets_EventData{}
+	}
+	return t.ThreatName
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyStats_Targets_EventData) GetThreatType() *string {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyStats_Targets_EventData{}
+	}
+	return t.ThreatType
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyStats_Targets_EventData) GetVirusName() *string {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyStats_Targets_EventData{}
+	}
+	return t.VirusName
+}
+
+type Xdr_Xdr_Stories_Items_Incident_AnomalyStats_Targets struct {
+	AnalysisScore         *float64                                                         "json:\"analysisScore,omitempty\" graphql:\"analysisScore\""
+	Categories            *string                                                          "json:\"categories,omitempty\" graphql:\"categories\""
+	CatoPopularity        *int64                                                           "json:\"catoPopularity,omitempty\" graphql:\"catoPopularity\""
+	CountryOfRegistration *string                                                          "json:\"countryOfRegistration,omitempty\" graphql:\"countryOfRegistration\""
+	CreationTime          *string                                                          "json:\"creationTime,omitempty\" graphql:\"creationTime\""
+	Engines               *int64                                                           "json:\"engines,omitempty\" graphql:\"engines\""
+	EventData             []*Xdr_Xdr_Stories_Items_Incident_AnomalyStats_Targets_EventData "json:\"eventData\" graphql:\"eventData\""
+	InfectionSource       *bool                                                            "json:\"infectionSource,omitempty\" graphql:\"infectionSource\""
+	Name                  *string                                                          "json:\"name,omitempty\" graphql:\"name\""
+	SearchHits            *string                                                          "json:\"searchHits,omitempty\" graphql:\"searchHits\""
+	ThreatFeeds           *int64                                                           "json:\"threatFeeds,omitempty\" graphql:\"threatFeeds\""
+	ThreatReference       *string                                                          "json:\"threatReference,omitempty\" graphql:\"threatReference\""
+	TypeIncidentTargetRep *cato_models.TargetType                                          "json:\"typeIncidentTargetRep,omitempty\" graphql:\"typeIncidentTargetRep\""
+}
+
+func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyStats_Targets) GetAnalysisScore() *float64 {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyStats_Targets{}
+	}
+	return t.AnalysisScore
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyStats_Targets) GetCategories() *string {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyStats_Targets{}
+	}
+	return t.Categories
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyStats_Targets) GetCatoPopularity() *int64 {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyStats_Targets{}
+	}
+	return t.CatoPopularity
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyStats_Targets) GetCountryOfRegistration() *string {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyStats_Targets{}
+	}
+	return t.CountryOfRegistration
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyStats_Targets) GetCreationTime() *string {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyStats_Targets{}
+	}
+	return t.CreationTime
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyStats_Targets) GetEngines() *int64 {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyStats_Targets{}
+	}
+	return t.Engines
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyStats_Targets) GetEventData() []*Xdr_Xdr_Stories_Items_Incident_AnomalyStats_Targets_EventData {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyStats_Targets{}
+	}
+	return t.EventData
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyStats_Targets) GetInfectionSource() *bool {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyStats_Targets{}
+	}
+	return t.InfectionSource
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyStats_Targets) GetName() *string {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyStats_Targets{}
+	}
+	return t.Name
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyStats_Targets) GetSearchHits() *string {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyStats_Targets{}
+	}
+	return t.SearchHits
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyStats_Targets) GetThreatFeeds() *int64 {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyStats_Targets{}
+	}
+	return t.ThreatFeeds
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyStats_Targets) GetThreatReference() *string {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyStats_Targets{}
+	}
+	return t.ThreatReference
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyStats_Targets) GetTypeIncidentTargetRep() *cato_models.TargetType {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyStats_Targets{}
+	}
+	return t.TypeIncidentTargetRep
+}
+
+type Xdr_Xdr_Stories_Items_Incident_AnomalyStats struct {
+	SimilarStoriesData []*Xdr_Xdr_Stories_Items_Incident_AnomalyStats_SimilarStoriesData "json:\"similarStoriesData\" graphql:\"similarStoriesData\""
+	SrcSiteID          *string                                                           "json:\"srcSiteId,omitempty\" graphql:\"srcSiteId\""
+	Os                 *string                                                           "json:\"os,omitempty\" graphql:\"os\""
+	DeviceName         *string                                                           "json:\"deviceName,omitempty\" graphql:\"deviceName\""
+	MacAddress         *string                                                           "json:\"macAddress,omitempty\" graphql:\"macAddress\""
+	LogonName          *string                                                           "json:\"logonName,omitempty\" graphql:\"logonName\""
+	ClientClass        []string                                                          "json:\"clientClass\" graphql:\"clientClass\""
+	DrillDownFilter    []*Xdr_Xdr_Stories_Items_Incident_AnomalyStats_DrillDownFilter    "json:\"drillDownFilter,omitempty\" graphql:\"drillDownFilter\""
+	BreakdownField     *string                                                           "json:\"breakdownField,omitempty\" graphql:\"breakdownField\""
+	SubjectType        *string                                                           "json:\"subjectType,omitempty\" graphql:\"subjectType\""
+	Extra              []*Xdr_Xdr_Stories_Items_Incident_AnomalyStats_Extra              "json:\"extra,omitempty\" graphql:\"extra\""
+	Gaussian           *Xdr_Xdr_Stories_Items_Incident_AnomalyStats_Gaussian             "json:\"gaussian,omitempty\" graphql:\"gaussian\""
+	Metric             *Xdr_Xdr_Stories_Items_Incident_AnomalyStats_Metric               "json:\"metric,omitempty\" graphql:\"metric\""
+	MetricDetails      *Xdr_Xdr_Stories_Items_Incident_AnomalyStats_MetricDetails        "json:\"metricDetails,omitempty\" graphql:\"metricDetails\""
+	Mitres             []*Xdr_Xdr_Stories_Items_Incident_AnomalyStats_Mitres             "json:\"mitres,omitempty\" graphql:\"mitres\""
+	Rules              []string                                                          "json:\"rules,omitempty\" graphql:\"rules\""
+	TimeSeries         []*Xdr_Xdr_Stories_Items_Incident_AnomalyStats_TimeSeries         "json:\"timeSeries,omitempty\" graphql:\"timeSeries\""
+	Targets            []*Xdr_Xdr_Stories_Items_Incident_AnomalyStats_Targets            "json:\"targets\" graphql:\"targets\""
+	Direction          *string                                                           "json:\"direction,omitempty\" graphql:\"direction\""
+}
+
+func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyStats) GetSimilarStoriesData() []*Xdr_Xdr_Stories_Items_Incident_AnomalyStats_SimilarStoriesData {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyStats{}
+	}
+	return t.SimilarStoriesData
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyStats) GetSrcSiteID() *string {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyStats{}
+	}
+	return t.SrcSiteID
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyStats) GetOs() *string {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyStats{}
+	}
+	return t.Os
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyStats) GetDeviceName() *string {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyStats{}
+	}
+	return t.DeviceName
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyStats) GetMacAddress() *string {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyStats{}
+	}
+	return t.MacAddress
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyStats) GetLogonName() *string {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyStats{}
+	}
+	return t.LogonName
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyStats) GetClientClass() []string {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyStats{}
+	}
+	return t.ClientClass
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyStats) GetDrillDownFilter() []*Xdr_Xdr_Stories_Items_Incident_AnomalyStats_DrillDownFilter {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyStats{}
+	}
+	return t.DrillDownFilter
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyStats) GetBreakdownField() *string {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyStats{}
+	}
+	return t.BreakdownField
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyStats) GetSubjectType() *string {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyStats{}
+	}
+	return t.SubjectType
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyStats) GetExtra() []*Xdr_Xdr_Stories_Items_Incident_AnomalyStats_Extra {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyStats{}
+	}
+	return t.Extra
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyStats) GetGaussian() *Xdr_Xdr_Stories_Items_Incident_AnomalyStats_Gaussian {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyStats{}
+	}
+	return t.Gaussian
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyStats) GetMetric() *Xdr_Xdr_Stories_Items_Incident_AnomalyStats_Metric {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyStats{}
+	}
+	return t.Metric
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyStats) GetMetricDetails() *Xdr_Xdr_Stories_Items_Incident_AnomalyStats_MetricDetails {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyStats{}
+	}
+	return t.MetricDetails
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyStats) GetMitres() []*Xdr_Xdr_Stories_Items_Incident_AnomalyStats_Mitres {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyStats{}
+	}
+	return t.Mitres
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyStats) GetRules() []string {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyStats{}
+	}
+	return t.Rules
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyStats) GetTimeSeries() []*Xdr_Xdr_Stories_Items_Incident_AnomalyStats_TimeSeries {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyStats{}
+	}
+	return t.TimeSeries
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyStats) GetTargets() []*Xdr_Xdr_Stories_Items_Incident_AnomalyStats_Targets {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyStats{}
+	}
+	return t.Targets
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyStats) GetDirection() *string {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyStats{}
+	}
+	return t.Direction
+}
+
+type Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_SimilarStoriesData struct {
+	Indication           *string  "json:\"indication,omitempty\" graphql:\"indication\""
+	SimilarityPercentage *float64 "json:\"similarityPercentage,omitempty\" graphql:\"similarityPercentage\""
+	StoryID              *string  "json:\"storyId,omitempty\" graphql:\"storyId\""
+	ThreatClassification *string  "json:\"threatClassification,omitempty\" graphql:\"threatClassification\""
+	ThreatTypeName       *string  "json:\"threatTypeName,omitempty\" graphql:\"threatTypeName\""
+	Verdict              *string  "json:\"verdict,omitempty\" graphql:\"verdict\""
+}
+
+func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_SimilarStoriesData) GetIndication() *string {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_SimilarStoriesData{}
+	}
+	return t.Indication
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_SimilarStoriesData) GetSimilarityPercentage() *float64 {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_SimilarStoriesData{}
+	}
+	return t.SimilarityPercentage
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_SimilarStoriesData) GetStoryID() *string {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_SimilarStoriesData{}
+	}
+	return t.StoryID
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_SimilarStoriesData) GetThreatClassification() *string {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_SimilarStoriesData{}
+	}
+	return t.ThreatClassification
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_SimilarStoriesData) GetThreatTypeName() *string {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_SimilarStoriesData{}
+	}
+	return t.ThreatTypeName
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_SimilarStoriesData) GetVerdict() *string {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_SimilarStoriesData{}
+	}
+	return t.Verdict
+}
+
+type Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_DrillDownFilter struct {
+	Name   string   "json:\"name\" graphql:\"name\""
+	Value  string   "json:\"value\" graphql:\"value\""
+	Values []string "json:\"values\" graphql:\"values\""
+}
+
+func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_DrillDownFilter) GetName() string {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_DrillDownFilter{}
+	}
+	return t.Name
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_DrillDownFilter) GetValue() string {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_DrillDownFilter{}
+	}
+	return t.Value
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_DrillDownFilter) GetValues() []string {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_DrillDownFilter{}
+	}
+	return t.Values
+}
+
+type Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_Extra struct {
+	Name  string "json:\"name\" graphql:\"name\""
+	Type  string "json:\"type\" graphql:\"type\""
+	Value string "json:\"value\" graphql:\"value\""
+}
+
+func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_Extra) GetName() string {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_Extra{}
+	}
+	return t.Name
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_Extra) GetType() string {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_Extra{}
+	}
+	return t.Type
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_Extra) GetValue() string {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_Extra{}
+	}
+	return t.Value
+}
+
+type Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_Gaussian struct {
+	Avg    *float64 "json:\"avg,omitempty\" graphql:\"avg\""
+	N      *float64 "json:\"n,omitempty\" graphql:\"n\""
+	Ss     *float64 "json:\"ss,omitempty\" graphql:\"ss\""
+	Std    *float64 "json:\"std,omitempty\" graphql:\"std\""
+	ZScore *float64 "json:\"z_score,omitempty\" graphql:\"z_score\""
+}
+
+func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_Gaussian) GetAvg() *float64 {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_Gaussian{}
+	}
+	return t.Avg
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_Gaussian) GetN() *float64 {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_Gaussian{}
+	}
+	return t.N
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_Gaussian) GetSs() *float64 {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_Gaussian{}
+	}
+	return t.Ss
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_Gaussian) GetStd() *float64 {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_Gaussian{}
+	}
+	return t.Std
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_Gaussian) GetZScore() *float64 {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_Gaussian{}
+	}
+	return t.ZScore
+}
+
+type Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_Metric struct {
+	Name  string  "json:\"name\" graphql:\"name\""
+	Value float64 "json:\"value\" graphql:\"value\""
+}
+
+func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_Metric) GetName() string {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_Metric{}
+	}
+	return t.Name
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_Metric) GetValue() float64 {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_Metric{}
+	}
+	return t.Value
+}
+
+type Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_MetricDetails struct {
+	Name  string "json:\"name\" graphql:\"name\""
+	Units string "json:\"units\" graphql:\"units\""
+}
+
+func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_MetricDetails) GetName() string {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_MetricDetails{}
+	}
+	return t.Name
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_MetricDetails) GetUnits() string {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_MetricDetails{}
+	}
+	return t.Units
+}
+
+type Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_Mitres struct {
+	ID   *string "json:\"id,omitempty\" graphql:\"id\""
+	Name *string "json:\"name,omitempty\" graphql:\"name\""
+}
+
+func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_Mitres) GetID() *string {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_Mitres{}
+	}
+	return t.ID
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_Mitres) GetName() *string {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_Mitres{}
+	}
+	return t.Name
+}
+
+type Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_TimeSeries_KeyIncidentTimeseries_Dimensions struct {
+	FieldName string  "json:\"fieldName\" graphql:\"fieldName\""
+	Value     *string "json:\"value,omitempty\" graphql:\"value\""
+}
+
+func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_TimeSeries_KeyIncidentTimeseries_Dimensions) GetFieldName() string {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_TimeSeries_KeyIncidentTimeseries_Dimensions{}
+	}
+	return t.FieldName
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_TimeSeries_KeyIncidentTimeseries_Dimensions) GetValue() *string {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_TimeSeries_KeyIncidentTimeseries_Dimensions{}
+	}
+	return t.Value
+}
+
+type Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_TimeSeries_KeyIncidentTimeseries struct {
+	Dimensions       []*Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_TimeSeries_KeyIncidentTimeseries_Dimensions "json:\"dimensions,omitempty\" graphql:\"dimensions\""
+	MeasureFieldName string                                                                                      "json:\"measureFieldName\" graphql:\"measureFieldName\""
+}
+
+func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_TimeSeries_KeyIncidentTimeseries) GetDimensions() []*Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_TimeSeries_KeyIncidentTimeseries_Dimensions {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_TimeSeries_KeyIncidentTimeseries{}
+	}
+	return t.Dimensions
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_TimeSeries_KeyIncidentTimeseries) GetMeasureFieldName() string {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_TimeSeries_KeyIncidentTimeseries{}
+	}
+	return t.MeasureFieldName
+}
+
+type Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_TimeSeries struct {
+	Data                    [][]float64                                                                    "json:\"data,omitempty\" graphql:\"data\""
+	GroupBy                 *string                                                                        "json:\"groupBy,omitempty\" graphql:\"groupBy\""
+	Info                    []string                                                                       "json:\"info,omitempty\" graphql:\"info\""
+	KeyIncidentTimeseries   *Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_TimeSeries_KeyIncidentTimeseries "json:\"keyIncidentTimeseries,omitempty\" graphql:\"keyIncidentTimeseries\""
+	Label                   string                                                                         "json:\"label\" graphql:\"label\""
+	Sum                     *float64                                                                       "json:\"sum,omitempty\" graphql:\"sum\""
+	UnitsIncidentTimeseries *cato_models.UnitType                                                          "json:\"unitsIncidentTimeseries,omitempty\" graphql:\"unitsIncidentTimeseries\""
+}
+
+func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_TimeSeries) GetData() [][]float64 {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_TimeSeries{}
+	}
+	return t.Data
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_TimeSeries) GetGroupBy() *string {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_TimeSeries{}
+	}
+	return t.GroupBy
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_TimeSeries) GetInfo() []string {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_TimeSeries{}
+	}
+	return t.Info
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_TimeSeries) GetKeyIncidentTimeseries() *Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_TimeSeries_KeyIncidentTimeseries {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_TimeSeries{}
+	}
+	return t.KeyIncidentTimeseries
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_TimeSeries) GetLabel() string {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_TimeSeries{}
+	}
+	return t.Label
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_TimeSeries) GetSum() *float64 {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_TimeSeries{}
+	}
+	return t.Sum
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_TimeSeries) GetUnitsIncidentTimeseries() *cato_models.UnitType {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_TimeSeries{}
+	}
+	return t.UnitsIncidentTimeseries
+}
+
+type Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_Targets_EventData struct {
+	Action                *string                 "json:\"action,omitempty\" graphql:\"action\""
+	AppActivityType       *string                 "json:\"appActivityType,omitempty\" graphql:\"appActivityType\""
+	AppID                 *string                 "json:\"appId,omitempty\" graphql:\"appId\""
+	AppName               *string                 "json:\"appName,omitempty\" graphql:\"appName\""
+	DNSProtectionCategory *string                 "json:\"dnsProtectionCategory,omitempty\" graphql:\"dnsProtectionCategory\""
+	EventType             *string                 "json:\"eventType,omitempty\" graphql:\"eventType\""
+	FileName              *string                 "json:\"fileName,omitempty\" graphql:\"fileName\""
+	RuleID                *string                 "json:\"ruleId,omitempty\" graphql:\"ruleId\""
+	RuleName              *string                 "json:\"ruleName,omitempty\" graphql:\"ruleName\""
+	ScanResult            *cato_models.ScanResult "json:\"scanResult,omitempty\" graphql:\"scanResult\""
+	Severity              *string                 "json:\"severity,omitempty\" graphql:\"severity\""
+	SignatureID           *string                 "json:\"signatureId,omitempty\" graphql:\"signatureId\""
+	ThreatName            *string                 "json:\"threatName,omitempty\" graphql:\"threatName\""
+	ThreatType            *string                 "json:\"threatType,omitempty\" graphql:\"threatType\""
+	VirusName             *string                 "json:\"virusName,omitempty\" graphql:\"virusName\""
+}
+
+func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_Targets_EventData) GetAction() *string {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_Targets_EventData{}
+	}
+	return t.Action
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_Targets_EventData) GetAppActivityType() *string {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_Targets_EventData{}
+	}
+	return t.AppActivityType
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_Targets_EventData) GetAppID() *string {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_Targets_EventData{}
+	}
+	return t.AppID
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_Targets_EventData) GetAppName() *string {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_Targets_EventData{}
+	}
+	return t.AppName
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_Targets_EventData) GetDNSProtectionCategory() *string {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_Targets_EventData{}
+	}
+	return t.DNSProtectionCategory
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_Targets_EventData) GetEventType() *string {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_Targets_EventData{}
+	}
+	return t.EventType
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_Targets_EventData) GetFileName() *string {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_Targets_EventData{}
+	}
+	return t.FileName
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_Targets_EventData) GetRuleID() *string {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_Targets_EventData{}
+	}
+	return t.RuleID
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_Targets_EventData) GetRuleName() *string {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_Targets_EventData{}
+	}
+	return t.RuleName
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_Targets_EventData) GetScanResult() *cato_models.ScanResult {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_Targets_EventData{}
+	}
+	return t.ScanResult
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_Targets_EventData) GetSeverity() *string {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_Targets_EventData{}
+	}
+	return t.Severity
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_Targets_EventData) GetSignatureID() *string {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_Targets_EventData{}
+	}
+	return t.SignatureID
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_Targets_EventData) GetThreatName() *string {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_Targets_EventData{}
+	}
+	return t.ThreatName
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_Targets_EventData) GetThreatType() *string {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_Targets_EventData{}
+	}
+	return t.ThreatType
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_Targets_EventData) GetVirusName() *string {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_Targets_EventData{}
+	}
+	return t.VirusName
+}
+
+type Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_Targets struct {
+	AnalysisScore         *float64                                                          "json:\"analysisScore,omitempty\" graphql:\"analysisScore\""
+	Categories            *string                                                           "json:\"categories,omitempty\" graphql:\"categories\""
+	CatoPopularity        *int64                                                            "json:\"catoPopularity,omitempty\" graphql:\"catoPopularity\""
+	CountryOfRegistration *string                                                           "json:\"countryOfRegistration,omitempty\" graphql:\"countryOfRegistration\""
+	CreationTime          *string                                                           "json:\"creationTime,omitempty\" graphql:\"creationTime\""
+	Engines               *int64                                                            "json:\"engines,omitempty\" graphql:\"engines\""
+	EventData             []*Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_Targets_EventData "json:\"eventData\" graphql:\"eventData\""
+	InfectionSource       *bool                                                             "json:\"infectionSource,omitempty\" graphql:\"infectionSource\""
+	Name                  *string                                                           "json:\"name,omitempty\" graphql:\"name\""
+	SearchHits            *string                                                           "json:\"searchHits,omitempty\" graphql:\"searchHits\""
+	ThreatFeeds           *int64                                                            "json:\"threatFeeds,omitempty\" graphql:\"threatFeeds\""
+	ThreatReference       *string                                                           "json:\"threatReference,omitempty\" graphql:\"threatReference\""
+	TypeIncidentTargetRep *cato_models.TargetType                                           "json:\"typeIncidentTargetRep,omitempty\" graphql:\"typeIncidentTargetRep\""
+}
+
+func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_Targets) GetAnalysisScore() *float64 {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_Targets{}
+	}
+	return t.AnalysisScore
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_Targets) GetCategories() *string {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_Targets{}
+	}
+	return t.Categories
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_Targets) GetCatoPopularity() *int64 {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_Targets{}
+	}
+	return t.CatoPopularity
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_Targets) GetCountryOfRegistration() *string {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_Targets{}
+	}
+	return t.CountryOfRegistration
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_Targets) GetCreationTime() *string {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_Targets{}
+	}
+	return t.CreationTime
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_Targets) GetEngines() *int64 {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_Targets{}
+	}
+	return t.Engines
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_Targets) GetEventData() []*Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_Targets_EventData {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_Targets{}
+	}
+	return t.EventData
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_Targets) GetInfectionSource() *bool {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_Targets{}
+	}
+	return t.InfectionSource
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_Targets) GetName() *string {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_Targets{}
+	}
+	return t.Name
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_Targets) GetSearchHits() *string {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_Targets{}
+	}
+	return t.SearchHits
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_Targets) GetThreatFeeds() *int64 {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_Targets{}
+	}
+	return t.ThreatFeeds
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_Targets) GetThreatReference() *string {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_Targets{}
+	}
+	return t.ThreatReference
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_Targets) GetTypeIncidentTargetRep() *cato_models.TargetType {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_Targets{}
+	}
+	return t.TypeIncidentTargetRep
+}
+
+type Xdr_Xdr_Stories_Items_Incident_AnomalyEvents struct {
+	SimilarStoriesData []*Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_SimilarStoriesData "json:\"similarStoriesData\" graphql:\"similarStoriesData\""
+	SrcSiteID          *string                                                            "json:\"srcSiteId,omitempty\" graphql:\"srcSiteId\""
+	Os                 *string                                                            "json:\"os,omitempty\" graphql:\"os\""
+	DeviceName         *string                                                            "json:\"deviceName,omitempty\" graphql:\"deviceName\""
+	MacAddress         *string                                                            "json:\"macAddress,omitempty\" graphql:\"macAddress\""
+	LogonName          *string                                                            "json:\"logonName,omitempty\" graphql:\"logonName\""
+	ClientClass        []string                                                           "json:\"clientClass\" graphql:\"clientClass\""
+	DrillDownFilter    []*Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_DrillDownFilter    "json:\"drillDownFilter,omitempty\" graphql:\"drillDownFilter\""
+	BreakdownField     *string                                                            "json:\"breakdownField,omitempty\" graphql:\"breakdownField\""
+	SubjectType        *string                                                            "json:\"subjectType,omitempty\" graphql:\"subjectType\""
+	Extra              []*Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_Extra              "json:\"extra,omitempty\" graphql:\"extra\""
+	Gaussian           *Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_Gaussian             "json:\"gaussian,omitempty\" graphql:\"gaussian\""
+	Metric             *Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_Metric               "json:\"metric,omitempty\" graphql:\"metric\""
+	MetricDetails      *Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_MetricDetails        "json:\"metricDetails,omitempty\" graphql:\"metricDetails\""
+	Mitres             []*Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_Mitres             "json:\"mitres,omitempty\" graphql:\"mitres\""
+	Rules              []string                                                           "json:\"rules,omitempty\" graphql:\"rules\""
+	TimeSeries         []*Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_TimeSeries         "json:\"timeSeries,omitempty\" graphql:\"timeSeries\""
+	Targets            []*Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_Targets            "json:\"targets\" graphql:\"targets\""
+	Direction          *string                                                            "json:\"direction,omitempty\" graphql:\"direction\""
+}
+
+func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyEvents) GetSimilarStoriesData() []*Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_SimilarStoriesData {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyEvents{}
+	}
+	return t.SimilarStoriesData
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyEvents) GetSrcSiteID() *string {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyEvents{}
+	}
+	return t.SrcSiteID
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyEvents) GetOs() *string {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyEvents{}
+	}
+	return t.Os
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyEvents) GetDeviceName() *string {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyEvents{}
+	}
+	return t.DeviceName
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyEvents) GetMacAddress() *string {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyEvents{}
+	}
+	return t.MacAddress
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyEvents) GetLogonName() *string {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyEvents{}
+	}
+	return t.LogonName
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyEvents) GetClientClass() []string {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyEvents{}
+	}
+	return t.ClientClass
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyEvents) GetDrillDownFilter() []*Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_DrillDownFilter {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyEvents{}
+	}
+	return t.DrillDownFilter
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyEvents) GetBreakdownField() *string {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyEvents{}
+	}
+	return t.BreakdownField
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyEvents) GetSubjectType() *string {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyEvents{}
+	}
+	return t.SubjectType
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyEvents) GetExtra() []*Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_Extra {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyEvents{}
+	}
+	return t.Extra
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyEvents) GetGaussian() *Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_Gaussian {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyEvents{}
+	}
+	return t.Gaussian
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyEvents) GetMetric() *Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_Metric {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyEvents{}
+	}
+	return t.Metric
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyEvents) GetMetricDetails() *Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_MetricDetails {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyEvents{}
+	}
+	return t.MetricDetails
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyEvents) GetMitres() []*Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_Mitres {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyEvents{}
+	}
+	return t.Mitres
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyEvents) GetRules() []string {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyEvents{}
+	}
+	return t.Rules
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyEvents) GetTimeSeries() []*Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_TimeSeries {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyEvents{}
+	}
+	return t.TimeSeries
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyEvents) GetTargets() []*Xdr_Xdr_Stories_Items_Incident_AnomalyEvents_Targets {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyEvents{}
+	}
+	return t.Targets
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_AnomalyEvents) GetDirection() *string {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_AnomalyEvents{}
+	}
+	return t.Direction
 }
 
 type Xdr_Xdr_Stories_Items_Incident_Threat_SimilarStoriesData struct {
@@ -341247,6 +340534,1907 @@ func (t *Xdr_Xdr_Stories_Items_Incident_ThreatPrevention) GetThreatPreventionsEv
 	return t.ThreatPreventionsEvents
 }
 
+type Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_SimilarStoriesData struct {
+	Indication           *string  "json:\"indication,omitempty\" graphql:\"indication\""
+	SimilarityPercentage *float64 "json:\"similarityPercentage,omitempty\" graphql:\"similarityPercentage\""
+	StoryID              *string  "json:\"storyId,omitempty\" graphql:\"storyId\""
+	ThreatClassification *string  "json:\"threatClassification,omitempty\" graphql:\"threatClassification\""
+	ThreatTypeName       *string  "json:\"threatTypeName,omitempty\" graphql:\"threatTypeName\""
+	Verdict              *string  "json:\"verdict,omitempty\" graphql:\"verdict\""
+}
+
+func (t *Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_SimilarStoriesData) GetIndication() *string {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_SimilarStoriesData{}
+	}
+	return t.Indication
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_SimilarStoriesData) GetSimilarityPercentage() *float64 {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_SimilarStoriesData{}
+	}
+	return t.SimilarityPercentage
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_SimilarStoriesData) GetStoryID() *string {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_SimilarStoriesData{}
+	}
+	return t.StoryID
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_SimilarStoriesData) GetThreatClassification() *string {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_SimilarStoriesData{}
+	}
+	return t.ThreatClassification
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_SimilarStoriesData) GetThreatTypeName() *string {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_SimilarStoriesData{}
+	}
+	return t.ThreatTypeName
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_SimilarStoriesData) GetVerdict() *string {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_SimilarStoriesData{}
+	}
+	return t.Verdict
+}
+
+type Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_NetworkIncidentTimeline_BgpConnectionNetworkTimelineEvent struct {
+	CatoAsn        *scalars.Asn16 "json:\"catoAsn,omitempty\" graphql:\"catoAsn\""
+	CatoIP         *string        "json:\"catoIp,omitempty\" graphql:\"catoIp\""
+	ConnectionName *string        "json:\"connectionName,omitempty\" graphql:\"connectionName\""
+	PeerAsn        *scalars.Asn32 "json:\"peerAsn,omitempty\" graphql:\"peerAsn\""
+	PeerIP         *string        "json:\"peerIp,omitempty\" graphql:\"peerIp\""
+}
+
+func (t *Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_NetworkIncidentTimeline_BgpConnectionNetworkTimelineEvent) GetCatoAsn() *scalars.Asn16 {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_NetworkIncidentTimeline_BgpConnectionNetworkTimelineEvent{}
+	}
+	return t.CatoAsn
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_NetworkIncidentTimeline_BgpConnectionNetworkTimelineEvent) GetCatoIP() *string {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_NetworkIncidentTimeline_BgpConnectionNetworkTimelineEvent{}
+	}
+	return t.CatoIP
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_NetworkIncidentTimeline_BgpConnectionNetworkTimelineEvent) GetConnectionName() *string {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_NetworkIncidentTimeline_BgpConnectionNetworkTimelineEvent{}
+	}
+	return t.ConnectionName
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_NetworkIncidentTimeline_BgpConnectionNetworkTimelineEvent) GetPeerAsn() *scalars.Asn32 {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_NetworkIncidentTimeline_BgpConnectionNetworkTimelineEvent{}
+	}
+	return t.PeerAsn
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_NetworkIncidentTimeline_BgpConnectionNetworkTimelineEvent) GetPeerIP() *string {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_NetworkIncidentTimeline_BgpConnectionNetworkTimelineEvent{}
+	}
+	return t.PeerIP
+}
+
+type Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_NetworkIncidentTimeline_LinkQualityIssueNetworkTimelineEvent struct {
+	Current   *int64                                "json:\"current,omitempty\" graphql:\"current\""
+	Direction *cato_models.TrafficDirectionEnum     "json:\"direction,omitempty\" graphql:\"direction\""
+	IssueType *cato_models.LinkQualityIssueTypeEnum "json:\"issueType,omitempty\" graphql:\"issueType\""
+	Threshold *int64                                "json:\"threshold,omitempty\" graphql:\"threshold\""
+}
+
+func (t *Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_NetworkIncidentTimeline_LinkQualityIssueNetworkTimelineEvent) GetCurrent() *int64 {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_NetworkIncidentTimeline_LinkQualityIssueNetworkTimelineEvent{}
+	}
+	return t.Current
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_NetworkIncidentTimeline_LinkQualityIssueNetworkTimelineEvent) GetDirection() *cato_models.TrafficDirectionEnum {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_NetworkIncidentTimeline_LinkQualityIssueNetworkTimelineEvent{}
+	}
+	return t.Direction
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_NetworkIncidentTimeline_LinkQualityIssueNetworkTimelineEvent) GetIssueType() *cato_models.LinkQualityIssueTypeEnum {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_NetworkIncidentTimeline_LinkQualityIssueNetworkTimelineEvent{}
+	}
+	return t.IssueType
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_NetworkIncidentTimeline_LinkQualityIssueNetworkTimelineEvent) GetThreshold() *int64 {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_NetworkIncidentTimeline_LinkQualityIssueNetworkTimelineEvent{}
+	}
+	return t.Threshold
+}
+
+type Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_NetworkIncidentTimeline struct {
+	Acknowledged                             *bool                                                                                                           "json:\"acknowledged,omitempty\" graphql:\"acknowledged\""
+	BgpConnectionNetworkTimelineEvent        *Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_NetworkIncidentTimeline_BgpConnectionNetworkTimelineEvent    "json:\"bgpConnectionNetworkTimelineEvent,omitempty\" graphql:\"bgpConnectionNetworkTimelineEvent\""
+	Created                                  string                                                                                                          "json:\"created\" graphql:\"created\""
+	Description                              *string                                                                                                         "json:\"description,omitempty\" graphql:\"description\""
+	DeviceConfigHaRoleNetworkTimelineEvent   *cato_models.DeviceConfigHaRoleEnum                                                                             "json:\"deviceConfigHaRoleNetworkTimelineEvent,omitempty\" graphql:\"deviceConfigHaRoleNetworkTimelineEvent\""
+	DeviceHaRoleStateNetworkTimelineEvent    *cato_models.DeviceHaRoleStateEnum                                                                              "json:\"deviceHaRoleStateNetworkTimelineEvent,omitempty\" graphql:\"deviceHaRoleStateNetworkTimelineEvent\""
+	EventIds                                 []string                                                                                                        "json:\"eventIds\" graphql:\"eventIds\""
+	EventTypeNetworkTimelineEvent            *cato_models.NetworkXDREventTypeEnum                                                                            "json:\"eventTypeNetworkTimelineEvent,omitempty\" graphql:\"eventTypeNetworkTimelineEvent\""
+	HostIP                                   *string                                                                                                         "json:\"hostIp,omitempty\" graphql:\"hostIp\""
+	IncidentID                               *string                                                                                                         "json:\"incidentId,omitempty\" graphql:\"incidentId\""
+	Isp                                      *string                                                                                                         "json:\"isp,omitempty\" graphql:\"isp\""
+	LinkConfigBandwidth                      *string                                                                                                         "json:\"linkConfigBandwidth,omitempty\" graphql:\"linkConfigBandwidth\""
+	LinkConfigPrecedenceNetworkTimelineEvent *cato_models.LinkConfigPrecedenceEnum                                                                           "json:\"linkConfigPrecedenceNetworkTimelineEvent,omitempty\" graphql:\"linkConfigPrecedenceNetworkTimelineEvent\""
+	LinkID                                   *string                                                                                                         "json:\"linkId,omitempty\" graphql:\"linkId\""
+	LinkName                                 *string                                                                                                         "json:\"linkName,omitempty\" graphql:\"linkName\""
+	LinkQualityIssueNetworkTimelineEvent     *Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_NetworkIncidentTimeline_LinkQualityIssueNetworkTimelineEvent "json:\"linkQualityIssueNetworkTimelineEvent,omitempty\" graphql:\"linkQualityIssueNetworkTimelineEvent\""
+	LinkStatusNetworkTimelineEvent           *cato_models.LinkStatusEnum                                                                                     "json:\"linkStatusNetworkTimelineEvent,omitempty\" graphql:\"linkStatusNetworkTimelineEvent\""
+	Muted                                    *bool                                                                                                           "json:\"muted,omitempty\" graphql:\"muted\""
+	NetworkEventSourceNetworkTimelineEvent   *cato_models.NetworkEventSourceEnum                                                                             "json:\"networkEventSourceNetworkTimelineEvent,omitempty\" graphql:\"networkEventSourceNetworkTimelineEvent\""
+	Pop                                      *string                                                                                                         "json:\"pop,omitempty\" graphql:\"pop\""
+	RuleName                                 *string                                                                                                         "json:\"ruleName,omitempty\" graphql:\"ruleName\""
+	SocketSerialID                           *string                                                                                                         "json:\"socketSerialId,omitempty\" graphql:\"socketSerialId\""
+	TunnelResetCount                         *int64                                                                                                          "json:\"tunnelResetCount,omitempty\" graphql:\"tunnelResetCount\""
+	Validated                                string                                                                                                          "json:\"validated\" graphql:\"validated\""
+}
+
+func (t *Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_NetworkIncidentTimeline) GetAcknowledged() *bool {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_NetworkIncidentTimeline{}
+	}
+	return t.Acknowledged
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_NetworkIncidentTimeline) GetBgpConnectionNetworkTimelineEvent() *Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_NetworkIncidentTimeline_BgpConnectionNetworkTimelineEvent {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_NetworkIncidentTimeline{}
+	}
+	return t.BgpConnectionNetworkTimelineEvent
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_NetworkIncidentTimeline) GetCreated() string {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_NetworkIncidentTimeline{}
+	}
+	return t.Created
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_NetworkIncidentTimeline) GetDescription() *string {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_NetworkIncidentTimeline{}
+	}
+	return t.Description
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_NetworkIncidentTimeline) GetDeviceConfigHaRoleNetworkTimelineEvent() *cato_models.DeviceConfigHaRoleEnum {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_NetworkIncidentTimeline{}
+	}
+	return t.DeviceConfigHaRoleNetworkTimelineEvent
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_NetworkIncidentTimeline) GetDeviceHaRoleStateNetworkTimelineEvent() *cato_models.DeviceHaRoleStateEnum {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_NetworkIncidentTimeline{}
+	}
+	return t.DeviceHaRoleStateNetworkTimelineEvent
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_NetworkIncidentTimeline) GetEventIds() []string {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_NetworkIncidentTimeline{}
+	}
+	return t.EventIds
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_NetworkIncidentTimeline) GetEventTypeNetworkTimelineEvent() *cato_models.NetworkXDREventTypeEnum {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_NetworkIncidentTimeline{}
+	}
+	return t.EventTypeNetworkTimelineEvent
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_NetworkIncidentTimeline) GetHostIP() *string {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_NetworkIncidentTimeline{}
+	}
+	return t.HostIP
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_NetworkIncidentTimeline) GetIncidentID() *string {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_NetworkIncidentTimeline{}
+	}
+	return t.IncidentID
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_NetworkIncidentTimeline) GetIsp() *string {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_NetworkIncidentTimeline{}
+	}
+	return t.Isp
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_NetworkIncidentTimeline) GetLinkConfigBandwidth() *string {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_NetworkIncidentTimeline{}
+	}
+	return t.LinkConfigBandwidth
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_NetworkIncidentTimeline) GetLinkConfigPrecedenceNetworkTimelineEvent() *cato_models.LinkConfigPrecedenceEnum {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_NetworkIncidentTimeline{}
+	}
+	return t.LinkConfigPrecedenceNetworkTimelineEvent
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_NetworkIncidentTimeline) GetLinkID() *string {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_NetworkIncidentTimeline{}
+	}
+	return t.LinkID
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_NetworkIncidentTimeline) GetLinkName() *string {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_NetworkIncidentTimeline{}
+	}
+	return t.LinkName
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_NetworkIncidentTimeline) GetLinkQualityIssueNetworkTimelineEvent() *Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_NetworkIncidentTimeline_LinkQualityIssueNetworkTimelineEvent {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_NetworkIncidentTimeline{}
+	}
+	return t.LinkQualityIssueNetworkTimelineEvent
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_NetworkIncidentTimeline) GetLinkStatusNetworkTimelineEvent() *cato_models.LinkStatusEnum {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_NetworkIncidentTimeline{}
+	}
+	return t.LinkStatusNetworkTimelineEvent
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_NetworkIncidentTimeline) GetMuted() *bool {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_NetworkIncidentTimeline{}
+	}
+	return t.Muted
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_NetworkIncidentTimeline) GetNetworkEventSourceNetworkTimelineEvent() *cato_models.NetworkEventSourceEnum {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_NetworkIncidentTimeline{}
+	}
+	return t.NetworkEventSourceNetworkTimelineEvent
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_NetworkIncidentTimeline) GetPop() *string {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_NetworkIncidentTimeline{}
+	}
+	return t.Pop
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_NetworkIncidentTimeline) GetRuleName() *string {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_NetworkIncidentTimeline{}
+	}
+	return t.RuleName
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_NetworkIncidentTimeline) GetSocketSerialID() *string {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_NetworkIncidentTimeline{}
+	}
+	return t.SocketSerialID
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_NetworkIncidentTimeline) GetTunnelResetCount() *int64 {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_NetworkIncidentTimeline{}
+	}
+	return t.TunnelResetCount
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_NetworkIncidentTimeline) GetValidated() string {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_NetworkIncidentTimeline{}
+	}
+	return t.Validated
+}
+
+type Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_BgpConnection struct {
+	CatoAsn        *scalars.Asn16 "json:\"catoAsn,omitempty\" graphql:\"catoAsn\""
+	CatoIP         *string        "json:\"catoIp,omitempty\" graphql:\"catoIp\""
+	ConnectionName *string        "json:\"connectionName,omitempty\" graphql:\"connectionName\""
+	PeerAsn        *scalars.Asn32 "json:\"peerAsn,omitempty\" graphql:\"peerAsn\""
+	PeerIP         *string        "json:\"peerIp,omitempty\" graphql:\"peerIp\""
+}
+
+func (t *Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_BgpConnection) GetCatoAsn() *scalars.Asn16 {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_BgpConnection{}
+	}
+	return t.CatoAsn
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_BgpConnection) GetCatoIP() *string {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_BgpConnection{}
+	}
+	return t.CatoIP
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_BgpConnection) GetConnectionName() *string {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_BgpConnection{}
+	}
+	return t.ConnectionName
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_BgpConnection) GetPeerAsn() *scalars.Asn32 {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_BgpConnection{}
+	}
+	return t.PeerAsn
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_BgpConnection) GetPeerIP() *string {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_BgpConnection{}
+	}
+	return t.PeerIP
+}
+
+type Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_IlmmDetails_LinkDetailsIlmmDetails struct {
+	ActiveLicense    *bool                             "json:\"activeLicense,omitempty\" graphql:\"activeLicense\""
+	Comments         *string                           "json:\"comments,omitempty\" graphql:\"comments\""
+	Description      *string                           "json:\"description,omitempty\" graphql:\"description\""
+	IspLinkID        *string                           "json:\"ispLinkId,omitempty\" graphql:\"ispLinkId\""
+	LinkID           *string                           "json:\"linkId,omitempty\" graphql:\"linkId\""
+	OnboardingStatus *cato_models.IlmmOnboardingStatus "json:\"onboardingStatus,omitempty\" graphql:\"onboardingStatus\""
+}
+
+func (t *Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_IlmmDetails_LinkDetailsIlmmDetails) GetActiveLicense() *bool {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_IlmmDetails_LinkDetailsIlmmDetails{}
+	}
+	return t.ActiveLicense
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_IlmmDetails_LinkDetailsIlmmDetails) GetComments() *string {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_IlmmDetails_LinkDetailsIlmmDetails{}
+	}
+	return t.Comments
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_IlmmDetails_LinkDetailsIlmmDetails) GetDescription() *string {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_IlmmDetails_LinkDetailsIlmmDetails{}
+	}
+	return t.Description
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_IlmmDetails_LinkDetailsIlmmDetails) GetIspLinkID() *string {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_IlmmDetails_LinkDetailsIlmmDetails{}
+	}
+	return t.IspLinkID
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_IlmmDetails_LinkDetailsIlmmDetails) GetLinkID() *string {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_IlmmDetails_LinkDetailsIlmmDetails{}
+	}
+	return t.LinkID
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_IlmmDetails_LinkDetailsIlmmDetails) GetOnboardingStatus() *cato_models.IlmmOnboardingStatus {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_IlmmDetails_LinkDetailsIlmmDetails{}
+	}
+	return t.OnboardingStatus
+}
+
+type Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_IlmmDetails_IspDetailsIlmmDetails_LoaFile struct {
+	FileHash   *string       "json:\"fileHash,omitempty\" graphql:\"fileHash\""
+	FileName   *string       "json:\"fileName,omitempty\" graphql:\"fileName\""
+	UploadedAt *scalars.Time "json:\"uploadedAt,omitempty\" graphql:\"uploadedAt\""
+}
+
+func (t *Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_IlmmDetails_IspDetailsIlmmDetails_LoaFile) GetFileHash() *string {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_IlmmDetails_IspDetailsIlmmDetails_LoaFile{}
+	}
+	return t.FileHash
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_IlmmDetails_IspDetailsIlmmDetails_LoaFile) GetFileName() *string {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_IlmmDetails_IspDetailsIlmmDetails_LoaFile{}
+	}
+	return t.FileName
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_IlmmDetails_IspDetailsIlmmDetails_LoaFile) GetUploadedAt() *scalars.Time {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_IlmmDetails_IspDetailsIlmmDetails_LoaFile{}
+	}
+	return t.UploadedAt
+}
+
+type Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_IlmmDetails_IspDetailsIlmmDetails struct {
+	CountryCode  *string                                                                                      "json:\"countryCode,omitempty\" graphql:\"countryCode\""
+	Description  *string                                                                                      "json:\"description,omitempty\" graphql:\"description\""
+	IspAccountID *string                                                                                      "json:\"ispAccountId,omitempty\" graphql:\"ispAccountId\""
+	LoaFile      *Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_IlmmDetails_IspDetailsIlmmDetails_LoaFile "json:\"loaFile,omitempty\" graphql:\"loaFile\""
+	Name         *string                                                                                      "json:\"name,omitempty\" graphql:\"name\""
+	SupportEmail *string                                                                                      "json:\"supportEmail,omitempty\" graphql:\"supportEmail\""
+	SupportPhone *string                                                                                      "json:\"supportPhone,omitempty\" graphql:\"supportPhone\""
+}
+
+func (t *Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_IlmmDetails_IspDetailsIlmmDetails) GetCountryCode() *string {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_IlmmDetails_IspDetailsIlmmDetails{}
+	}
+	return t.CountryCode
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_IlmmDetails_IspDetailsIlmmDetails) GetDescription() *string {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_IlmmDetails_IspDetailsIlmmDetails{}
+	}
+	return t.Description
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_IlmmDetails_IspDetailsIlmmDetails) GetIspAccountID() *string {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_IlmmDetails_IspDetailsIlmmDetails{}
+	}
+	return t.IspAccountID
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_IlmmDetails_IspDetailsIlmmDetails) GetLoaFile() *Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_IlmmDetails_IspDetailsIlmmDetails_LoaFile {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_IlmmDetails_IspDetailsIlmmDetails{}
+	}
+	return t.LoaFile
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_IlmmDetails_IspDetailsIlmmDetails) GetName() *string {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_IlmmDetails_IspDetailsIlmmDetails{}
+	}
+	return t.Name
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_IlmmDetails_IspDetailsIlmmDetails) GetSupportEmail() *string {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_IlmmDetails_IspDetailsIlmmDetails{}
+	}
+	return t.SupportEmail
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_IlmmDetails_IspDetailsIlmmDetails) GetSupportPhone() *string {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_IlmmDetails_IspDetailsIlmmDetails{}
+	}
+	return t.SupportPhone
+}
+
+type Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_IlmmDetails_Contacts struct {
+	Email *string "json:\"email,omitempty\" graphql:\"email\""
+	Name  *string "json:\"name,omitempty\" graphql:\"name\""
+	Phone *string "json:\"phone,omitempty\" graphql:\"phone\""
+}
+
+func (t *Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_IlmmDetails_Contacts) GetEmail() *string {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_IlmmDetails_Contacts{}
+	}
+	return t.Email
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_IlmmDetails_Contacts) GetName() *string {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_IlmmDetails_Contacts{}
+	}
+	return t.Name
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_IlmmDetails_Contacts) GetPhone() *string {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_IlmmDetails_Contacts{}
+	}
+	return t.Phone
+}
+
+type Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_IlmmDetails struct {
+	Contacts               []*Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_IlmmDetails_Contacts             "json:\"contacts,omitempty\" graphql:\"contacts\""
+	IspDetailsIlmmDetails  *Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_IlmmDetails_IspDetailsIlmmDetails  "json:\"ispDetailsIlmmDetails,omitempty\" graphql:\"ispDetailsIlmmDetails\""
+	LinkDetailsIlmmDetails *Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_IlmmDetails_LinkDetailsIlmmDetails "json:\"linkDetailsIlmmDetails,omitempty\" graphql:\"linkDetailsIlmmDetails\""
+}
+
+func (t *Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_IlmmDetails) GetContacts() []*Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_IlmmDetails_Contacts {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_IlmmDetails{}
+	}
+	return t.Contacts
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_IlmmDetails) GetIspDetailsIlmmDetails() *Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_IlmmDetails_IspDetailsIlmmDetails {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_IlmmDetails{}
+	}
+	return t.IspDetailsIlmmDetails
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_IlmmDetails) GetLinkDetailsIlmmDetails() *Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_IlmmDetails_LinkDetailsIlmmDetails {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_IlmmDetails{}
+	}
+	return t.LinkDetailsIlmmDetails
+}
+
+type Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident struct {
+	SimilarStoriesData      []*Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_SimilarStoriesData      "json:\"similarStoriesData\" graphql:\"similarStoriesData\""
+	NetworkIncidentTimeline []*Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_NetworkIncidentTimeline "json:\"networkIncidentTimeline\" graphql:\"networkIncidentTimeline\""
+	StoryType               string                                                                       "json:\"storyType\" graphql:\"storyType\""
+	Occurrences             *int64                                                                       "json:\"occurrences,omitempty\" graphql:\"occurrences\""
+	SiteConnectionType      *string                                                                      "json:\"siteConnectionType,omitempty\" graphql:\"siteConnectionType\""
+	SiteConfigLocation      *string                                                                      "json:\"siteConfigLocation,omitempty\" graphql:\"siteConfigLocation\""
+	Acknowledged            *bool                                                                        "json:\"acknowledged,omitempty\" graphql:\"acknowledged\""
+	LinkID                  *string                                                                      "json:\"linkId,omitempty\" graphql:\"linkId\""
+	LinkName                *string                                                                      "json:\"linkName,omitempty\" graphql:\"linkName\""
+	LinkConfigPrecedence    *cato_models.LinkConfigPrecedenceEnum                                        "json:\"linkConfigPrecedence,omitempty\" graphql:\"linkConfigPrecedence\""
+	DeviceConfigHaRole      *cato_models.DeviceConfigHaRoleEnum                                          "json:\"deviceConfigHaRole,omitempty\" graphql:\"deviceConfigHaRole\""
+	LicenseRegion           *string                                                                      "json:\"licenseRegion,omitempty\" graphql:\"licenseRegion\""
+	LicenseBandwidth        *string                                                                      "json:\"licenseBandwidth,omitempty\" graphql:\"licenseBandwidth\""
+	Pop                     *string                                                                      "json:\"pop,omitempty\" graphql:\"pop\""
+	Isp                     *string                                                                      "json:\"isp,omitempty\" graphql:\"isp\""
+	BgpConnection           *Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_BgpConnection             "json:\"bgpConnection,omitempty\" graphql:\"bgpConnection\""
+	HostIP                  *string                                                                      "json:\"hostIp,omitempty\" graphql:\"hostIp\""
+	RuleName                *string                                                                      "json:\"ruleName,omitempty\" graphql:\"ruleName\""
+	IlmmDetails             *Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_IlmmDetails               "json:\"ilmmDetails,omitempty\" graphql:\"ilmmDetails\""
+}
+
+func (t *Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident) GetSimilarStoriesData() []*Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_SimilarStoriesData {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident{}
+	}
+	return t.SimilarStoriesData
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident) GetNetworkIncidentTimeline() []*Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_NetworkIncidentTimeline {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident{}
+	}
+	return t.NetworkIncidentTimeline
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident) GetStoryType() string {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident{}
+	}
+	return t.StoryType
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident) GetOccurrences() *int64 {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident{}
+	}
+	return t.Occurrences
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident) GetSiteConnectionType() *string {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident{}
+	}
+	return t.SiteConnectionType
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident) GetSiteConfigLocation() *string {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident{}
+	}
+	return t.SiteConfigLocation
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident) GetAcknowledged() *bool {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident{}
+	}
+	return t.Acknowledged
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident) GetLinkID() *string {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident{}
+	}
+	return t.LinkID
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident) GetLinkName() *string {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident{}
+	}
+	return t.LinkName
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident) GetLinkConfigPrecedence() *cato_models.LinkConfigPrecedenceEnum {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident{}
+	}
+	return t.LinkConfigPrecedence
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident) GetDeviceConfigHaRole() *cato_models.DeviceConfigHaRoleEnum {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident{}
+	}
+	return t.DeviceConfigHaRole
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident) GetLicenseRegion() *string {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident{}
+	}
+	return t.LicenseRegion
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident) GetLicenseBandwidth() *string {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident{}
+	}
+	return t.LicenseBandwidth
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident) GetPop() *string {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident{}
+	}
+	return t.Pop
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident) GetIsp() *string {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident{}
+	}
+	return t.Isp
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident) GetBgpConnection() *Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_BgpConnection {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident{}
+	}
+	return t.BgpConnection
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident) GetHostIP() *string {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident{}
+	}
+	return t.HostIP
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident) GetRuleName() *string {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident{}
+	}
+	return t.RuleName
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident) GetIlmmDetails() *Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident_IlmmDetails {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_NetworkXDRIncident{}
+	}
+	return t.IlmmDetails
+}
+
+type Xdr_Xdr_Stories_Items_Incident_AiOperationsIncident_SimilarStoriesData struct {
+	Indication           *string  "json:\"indication,omitempty\" graphql:\"indication\""
+	SimilarityPercentage *float64 "json:\"similarityPercentage,omitempty\" graphql:\"similarityPercentage\""
+	StoryID              *string  "json:\"storyId,omitempty\" graphql:\"storyId\""
+	ThreatClassification *string  "json:\"threatClassification,omitempty\" graphql:\"threatClassification\""
+	ThreatTypeName       *string  "json:\"threatTypeName,omitempty\" graphql:\"threatTypeName\""
+	Verdict              *string  "json:\"verdict,omitempty\" graphql:\"verdict\""
+}
+
+func (t *Xdr_Xdr_Stories_Items_Incident_AiOperationsIncident_SimilarStoriesData) GetIndication() *string {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_AiOperationsIncident_SimilarStoriesData{}
+	}
+	return t.Indication
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_AiOperationsIncident_SimilarStoriesData) GetSimilarityPercentage() *float64 {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_AiOperationsIncident_SimilarStoriesData{}
+	}
+	return t.SimilarityPercentage
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_AiOperationsIncident_SimilarStoriesData) GetStoryID() *string {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_AiOperationsIncident_SimilarStoriesData{}
+	}
+	return t.StoryID
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_AiOperationsIncident_SimilarStoriesData) GetThreatClassification() *string {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_AiOperationsIncident_SimilarStoriesData{}
+	}
+	return t.ThreatClassification
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_AiOperationsIncident_SimilarStoriesData) GetThreatTypeName() *string {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_AiOperationsIncident_SimilarStoriesData{}
+	}
+	return t.ThreatTypeName
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_AiOperationsIncident_SimilarStoriesData) GetVerdict() *string {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_AiOperationsIncident_SimilarStoriesData{}
+	}
+	return t.Verdict
+}
+
+type Xdr_Xdr_Stories_Items_Incident_AiOperationsIncident_EventsGraphQuery_TimeSeriesEvents_Measures struct {
+	AggType   string "json:\"aggType\" graphql:\"aggType\""
+	FieldName string "json:\"fieldName\" graphql:\"fieldName\""
+	Trend     *bool  "json:\"trend,omitempty\" graphql:\"trend\""
+}
+
+func (t *Xdr_Xdr_Stories_Items_Incident_AiOperationsIncident_EventsGraphQuery_TimeSeriesEvents_Measures) GetAggType() string {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_AiOperationsIncident_EventsGraphQuery_TimeSeriesEvents_Measures{}
+	}
+	return t.AggType
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_AiOperationsIncident_EventsGraphQuery_TimeSeriesEvents_Measures) GetFieldName() string {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_AiOperationsIncident_EventsGraphQuery_TimeSeriesEvents_Measures{}
+	}
+	return t.FieldName
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_AiOperationsIncident_EventsGraphQuery_TimeSeriesEvents_Measures) GetTrend() *bool {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_AiOperationsIncident_EventsGraphQuery_TimeSeriesEvents_Measures{}
+	}
+	return t.Trend
+}
+
+type Xdr_Xdr_Stories_Items_Incident_AiOperationsIncident_EventsGraphQuery_TimeSeriesEvents_Dimensions struct {
+	FieldName string "json:\"fieldName\" graphql:\"fieldName\""
+}
+
+func (t *Xdr_Xdr_Stories_Items_Incident_AiOperationsIncident_EventsGraphQuery_TimeSeriesEvents_Dimensions) GetFieldName() string {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_AiOperationsIncident_EventsGraphQuery_TimeSeriesEvents_Dimensions{}
+	}
+	return t.FieldName
+}
+
+type Xdr_Xdr_Stories_Items_Incident_AiOperationsIncident_EventsGraphQuery_TimeSeriesEvents_Filters struct {
+	FieldName string   "json:\"fieldName\" graphql:\"fieldName\""
+	Operator  string   "json:\"operator\" graphql:\"operator\""
+	Values    []string "json:\"values\" graphql:\"values\""
+}
+
+func (t *Xdr_Xdr_Stories_Items_Incident_AiOperationsIncident_EventsGraphQuery_TimeSeriesEvents_Filters) GetFieldName() string {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_AiOperationsIncident_EventsGraphQuery_TimeSeriesEvents_Filters{}
+	}
+	return t.FieldName
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_AiOperationsIncident_EventsGraphQuery_TimeSeriesEvents_Filters) GetOperator() string {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_AiOperationsIncident_EventsGraphQuery_TimeSeriesEvents_Filters{}
+	}
+	return t.Operator
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_AiOperationsIncident_EventsGraphQuery_TimeSeriesEvents_Filters) GetValues() []string {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_AiOperationsIncident_EventsGraphQuery_TimeSeriesEvents_Filters{}
+	}
+	return t.Values
+}
+
+type Xdr_Xdr_Stories_Items_Incident_AiOperationsIncident_EventsGraphQuery_TimeSeriesEvents struct {
+	AccountID  string                                                                                              "json:\"accountID\" graphql:\"accountID\""
+	Buckets    int64                                                                                               "json:\"buckets\" graphql:\"buckets\""
+	Dimensions []*Xdr_Xdr_Stories_Items_Incident_AiOperationsIncident_EventsGraphQuery_TimeSeriesEvents_Dimensions "json:\"dimensions\" graphql:\"dimensions\""
+	Filters    []*Xdr_Xdr_Stories_Items_Incident_AiOperationsIncident_EventsGraphQuery_TimeSeriesEvents_Filters    "json:\"filters\" graphql:\"filters\""
+	Measures   []*Xdr_Xdr_Stories_Items_Incident_AiOperationsIncident_EventsGraphQuery_TimeSeriesEvents_Measures   "json:\"measures\" graphql:\"measures\""
+	TimeFrame  string                                                                                              "json:\"timeFrame\" graphql:\"timeFrame\""
+}
+
+func (t *Xdr_Xdr_Stories_Items_Incident_AiOperationsIncident_EventsGraphQuery_TimeSeriesEvents) GetAccountID() string {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_AiOperationsIncident_EventsGraphQuery_TimeSeriesEvents{}
+	}
+	return t.AccountID
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_AiOperationsIncident_EventsGraphQuery_TimeSeriesEvents) GetBuckets() int64 {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_AiOperationsIncident_EventsGraphQuery_TimeSeriesEvents{}
+	}
+	return t.Buckets
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_AiOperationsIncident_EventsGraphQuery_TimeSeriesEvents) GetDimensions() []*Xdr_Xdr_Stories_Items_Incident_AiOperationsIncident_EventsGraphQuery_TimeSeriesEvents_Dimensions {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_AiOperationsIncident_EventsGraphQuery_TimeSeriesEvents{}
+	}
+	return t.Dimensions
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_AiOperationsIncident_EventsGraphQuery_TimeSeriesEvents) GetFilters() []*Xdr_Xdr_Stories_Items_Incident_AiOperationsIncident_EventsGraphQuery_TimeSeriesEvents_Filters {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_AiOperationsIncident_EventsGraphQuery_TimeSeriesEvents{}
+	}
+	return t.Filters
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_AiOperationsIncident_EventsGraphQuery_TimeSeriesEvents) GetMeasures() []*Xdr_Xdr_Stories_Items_Incident_AiOperationsIncident_EventsGraphQuery_TimeSeriesEvents_Measures {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_AiOperationsIncident_EventsGraphQuery_TimeSeriesEvents{}
+	}
+	return t.Measures
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_AiOperationsIncident_EventsGraphQuery_TimeSeriesEvents) GetTimeFrame() string {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_AiOperationsIncident_EventsGraphQuery_TimeSeriesEvents{}
+	}
+	return t.TimeFrame
+}
+
+type Xdr_Xdr_Stories_Items_Incident_AiOperationsIncident_EventsGraphQuery struct {
+	TimeSeriesEvents *Xdr_Xdr_Stories_Items_Incident_AiOperationsIncident_EventsGraphQuery_TimeSeriesEvents "json:\"timeSeriesEvents,omitempty\" graphql:\"timeSeriesEvents\""
+	Type             cato_models.GraphType                                                                  "json:\"type\" graphql:\"type\""
+}
+
+func (t *Xdr_Xdr_Stories_Items_Incident_AiOperationsIncident_EventsGraphQuery) GetTimeSeriesEvents() *Xdr_Xdr_Stories_Items_Incident_AiOperationsIncident_EventsGraphQuery_TimeSeriesEvents {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_AiOperationsIncident_EventsGraphQuery{}
+	}
+	return t.TimeSeriesEvents
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_AiOperationsIncident_EventsGraphQuery) GetType() *cato_models.GraphType {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_AiOperationsIncident_EventsGraphQuery{}
+	}
+	return &t.Type
+}
+
+type Xdr_Xdr_Stories_Items_Incident_AiOperationsIncident_AccountOperationIncident_IncidentTimeline_AccountOperationsTimelineEvent struct {
+	ID          string                                    "json:\"id\" graphql:\"id\""
+	Created     scalars.Time                              "json:\"created\" graphql:\"created\""
+	Validated   scalars.Time                              "json:\"validated\" graphql:\"validated\""
+	Description string                                    "json:\"description\" graphql:\"description\""
+	Type        cato_models.AccountOperationsTimelineType "json:\"type\" graphql:\"type\""
+	EventIds    []string                                  "json:\"eventIds\" graphql:\"eventIds\""
+	Muted       bool                                      "json:\"muted\" graphql:\"muted\""
+}
+
+func (t *Xdr_Xdr_Stories_Items_Incident_AiOperationsIncident_AccountOperationIncident_IncidentTimeline_AccountOperationsTimelineEvent) GetID() string {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_AiOperationsIncident_AccountOperationIncident_IncidentTimeline_AccountOperationsTimelineEvent{}
+	}
+	return t.ID
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_AiOperationsIncident_AccountOperationIncident_IncidentTimeline_AccountOperationsTimelineEvent) GetCreated() *scalars.Time {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_AiOperationsIncident_AccountOperationIncident_IncidentTimeline_AccountOperationsTimelineEvent{}
+	}
+	return &t.Created
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_AiOperationsIncident_AccountOperationIncident_IncidentTimeline_AccountOperationsTimelineEvent) GetValidated() *scalars.Time {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_AiOperationsIncident_AccountOperationIncident_IncidentTimeline_AccountOperationsTimelineEvent{}
+	}
+	return &t.Validated
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_AiOperationsIncident_AccountOperationIncident_IncidentTimeline_AccountOperationsTimelineEvent) GetDescription() string {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_AiOperationsIncident_AccountOperationIncident_IncidentTimeline_AccountOperationsTimelineEvent{}
+	}
+	return t.Description
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_AiOperationsIncident_AccountOperationIncident_IncidentTimeline_AccountOperationsTimelineEvent) GetType() *cato_models.AccountOperationsTimelineType {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_AiOperationsIncident_AccountOperationIncident_IncidentTimeline_AccountOperationsTimelineEvent{}
+	}
+	return &t.Type
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_AiOperationsIncident_AccountOperationIncident_IncidentTimeline_AccountOperationsTimelineEvent) GetEventIds() []string {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_AiOperationsIncident_AccountOperationIncident_IncidentTimeline_AccountOperationsTimelineEvent{}
+	}
+	return t.EventIds
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_AiOperationsIncident_AccountOperationIncident_IncidentTimeline_AccountOperationsTimelineEvent) GetMuted() bool {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_AiOperationsIncident_AccountOperationIncident_IncidentTimeline_AccountOperationsTimelineEvent{}
+	}
+	return t.Muted
+}
+
+type Xdr_Xdr_Stories_Items_Incident_AiOperationsIncident_AccountOperationIncident_IncidentTimeline struct {
+	AccountOperationsTimelineEvent Xdr_Xdr_Stories_Items_Incident_AiOperationsIncident_AccountOperationIncident_IncidentTimeline_AccountOperationsTimelineEvent "graphql:\"... on AccountOperationsTimelineEvent\""
+	Typename                       *string                                                                                                                      "json:\"__typename,omitempty\" graphql:\"__typename\""
+}
+
+func (t *Xdr_Xdr_Stories_Items_Incident_AiOperationsIncident_AccountOperationIncident_IncidentTimeline) GetAccountOperationsTimelineEvent() *Xdr_Xdr_Stories_Items_Incident_AiOperationsIncident_AccountOperationIncident_IncidentTimeline_AccountOperationsTimelineEvent {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_AiOperationsIncident_AccountOperationIncident_IncidentTimeline{}
+	}
+	return &t.AccountOperationsTimelineEvent
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_AiOperationsIncident_AccountOperationIncident_IncidentTimeline) GetTypename() *string {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_AiOperationsIncident_AccountOperationIncident_IncidentTimeline{}
+	}
+	return t.Typename
+}
+
+type Xdr_Xdr_Stories_Items_Incident_AiOperationsIncident_AccountOperationIncident_Metadata struct {
+	Key   string                   "json:\"key\" graphql:\"key\""
+	Type  cato_models.MetadataType "json:\"type\" graphql:\"type\""
+	Value string                   "json:\"value\" graphql:\"value\""
+}
+
+func (t *Xdr_Xdr_Stories_Items_Incident_AiOperationsIncident_AccountOperationIncident_Metadata) GetKey() string {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_AiOperationsIncident_AccountOperationIncident_Metadata{}
+	}
+	return t.Key
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_AiOperationsIncident_AccountOperationIncident_Metadata) GetType() *cato_models.MetadataType {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_AiOperationsIncident_AccountOperationIncident_Metadata{}
+	}
+	return &t.Type
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_AiOperationsIncident_AccountOperationIncident_Metadata) GetValue() string {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_AiOperationsIncident_AccountOperationIncident_Metadata{}
+	}
+	return t.Value
+}
+
+type Xdr_Xdr_Stories_Items_Incident_AiOperationsIncident_AccountOperationIncident_Playbooks struct {
+	Description string  "json:\"description\" graphql:\"description\""
+	Link        *string "json:\"link,omitempty\" graphql:\"link\""
+	Title       string  "json:\"title\" graphql:\"title\""
+}
+
+func (t *Xdr_Xdr_Stories_Items_Incident_AiOperationsIncident_AccountOperationIncident_Playbooks) GetDescription() string {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_AiOperationsIncident_AccountOperationIncident_Playbooks{}
+	}
+	return t.Description
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_AiOperationsIncident_AccountOperationIncident_Playbooks) GetLink() *string {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_AiOperationsIncident_AccountOperationIncident_Playbooks{}
+	}
+	return t.Link
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_AiOperationsIncident_AccountOperationIncident_Playbooks) GetTitle() string {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_AiOperationsIncident_AccountOperationIncident_Playbooks{}
+	}
+	return t.Title
+}
+
+type Xdr_Xdr_Stories_Items_Incident_AiOperationsIncident_AccountOperationIncident struct {
+	IncidentTimeline []*Xdr_Xdr_Stories_Items_Incident_AiOperationsIncident_AccountOperationIncident_IncidentTimeline "json:\"incidentTimeline\" graphql:\"incidentTimeline\""
+	Metadata         []*Xdr_Xdr_Stories_Items_Incident_AiOperationsIncident_AccountOperationIncident_Metadata         "json:\"metadata\" graphql:\"metadata\""
+	Playbooks        []*Xdr_Xdr_Stories_Items_Incident_AiOperationsIncident_AccountOperationIncident_Playbooks        "json:\"playbooks\" graphql:\"playbooks\""
+}
+
+func (t *Xdr_Xdr_Stories_Items_Incident_AiOperationsIncident_AccountOperationIncident) GetIncidentTimeline() []*Xdr_Xdr_Stories_Items_Incident_AiOperationsIncident_AccountOperationIncident_IncidentTimeline {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_AiOperationsIncident_AccountOperationIncident{}
+	}
+	return t.IncidentTimeline
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_AiOperationsIncident_AccountOperationIncident) GetMetadata() []*Xdr_Xdr_Stories_Items_Incident_AiOperationsIncident_AccountOperationIncident_Metadata {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_AiOperationsIncident_AccountOperationIncident{}
+	}
+	return t.Metadata
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_AiOperationsIncident_AccountOperationIncident) GetPlaybooks() []*Xdr_Xdr_Stories_Items_Incident_AiOperationsIncident_AccountOperationIncident_Playbooks {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_AiOperationsIncident_AccountOperationIncident{}
+	}
+	return t.Playbooks
+}
+
+type Xdr_Xdr_Stories_Items_Incident_AiOperationsIncident struct {
+	SimilarStoriesData       []*Xdr_Xdr_Stories_Items_Incident_AiOperationsIncident_SimilarStoriesData     "json:\"similarStoriesData\" graphql:\"similarStoriesData\""
+	FlowLastTime             string                                                                        "json:\"flowLastTime\" graphql:\"flowLastTime\""
+	FlowStartTime            string                                                                        "json:\"flowStartTime\" graphql:\"flowStartTime\""
+	Ioa                      string                                                                        "json:\"ioa\" graphql:\"ioa\""
+	RiskScore                int64                                                                         "json:\"riskScore\" graphql:\"riskScore\""
+	Type                     *cato_models.AiOperationsIncidentTypeEnum                                     "json:\"type,omitempty\" graphql:\"type\""
+	Occurrences              *int64                                                                        "json:\"occurrences,omitempty\" graphql:\"occurrences\""
+	EventsGraphQuery         *Xdr_Xdr_Stories_Items_Incident_AiOperationsIncident_EventsGraphQuery         "json:\"eventsGraphQuery,omitempty\" graphql:\"eventsGraphQuery\""
+	AccountOperationIncident *Xdr_Xdr_Stories_Items_Incident_AiOperationsIncident_AccountOperationIncident "json:\"accountOperationIncident,omitempty\" graphql:\"accountOperationIncident\""
+}
+
+func (t *Xdr_Xdr_Stories_Items_Incident_AiOperationsIncident) GetSimilarStoriesData() []*Xdr_Xdr_Stories_Items_Incident_AiOperationsIncident_SimilarStoriesData {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_AiOperationsIncident{}
+	}
+	return t.SimilarStoriesData
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_AiOperationsIncident) GetFlowLastTime() string {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_AiOperationsIncident{}
+	}
+	return t.FlowLastTime
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_AiOperationsIncident) GetFlowStartTime() string {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_AiOperationsIncident{}
+	}
+	return t.FlowStartTime
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_AiOperationsIncident) GetIoa() string {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_AiOperationsIncident{}
+	}
+	return t.Ioa
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_AiOperationsIncident) GetRiskScore() int64 {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_AiOperationsIncident{}
+	}
+	return t.RiskScore
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_AiOperationsIncident) GetType() *cato_models.AiOperationsIncidentTypeEnum {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_AiOperationsIncident{}
+	}
+	return t.Type
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_AiOperationsIncident) GetOccurrences() *int64 {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_AiOperationsIncident{}
+	}
+	return t.Occurrences
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_AiOperationsIncident) GetEventsGraphQuery() *Xdr_Xdr_Stories_Items_Incident_AiOperationsIncident_EventsGraphQuery {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_AiOperationsIncident{}
+	}
+	return t.EventsGraphQuery
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_AiOperationsIncident) GetAccountOperationIncident() *Xdr_Xdr_Stories_Items_Incident_AiOperationsIncident_AccountOperationIncident {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_AiOperationsIncident{}
+	}
+	return t.AccountOperationIncident
+}
+
+type Xdr_Xdr_Stories_Items_Incident_GenericIncident_SimilarStoriesData struct {
+	Indication           *string  "json:\"indication,omitempty\" graphql:\"indication\""
+	SimilarityPercentage *float64 "json:\"similarityPercentage,omitempty\" graphql:\"similarityPercentage\""
+	StoryID              *string  "json:\"storyId,omitempty\" graphql:\"storyId\""
+	ThreatClassification *string  "json:\"threatClassification,omitempty\" graphql:\"threatClassification\""
+	ThreatTypeName       *string  "json:\"threatTypeName,omitempty\" graphql:\"threatTypeName\""
+	Verdict              *string  "json:\"verdict,omitempty\" graphql:\"verdict\""
+}
+
+func (t *Xdr_Xdr_Stories_Items_Incident_GenericIncident_SimilarStoriesData) GetIndication() *string {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_GenericIncident_SimilarStoriesData{}
+	}
+	return t.Indication
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_GenericIncident_SimilarStoriesData) GetSimilarityPercentage() *float64 {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_GenericIncident_SimilarStoriesData{}
+	}
+	return t.SimilarityPercentage
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_GenericIncident_SimilarStoriesData) GetStoryID() *string {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_GenericIncident_SimilarStoriesData{}
+	}
+	return t.StoryID
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_GenericIncident_SimilarStoriesData) GetThreatClassification() *string {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_GenericIncident_SimilarStoriesData{}
+	}
+	return t.ThreatClassification
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_GenericIncident_SimilarStoriesData) GetThreatTypeName() *string {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_GenericIncident_SimilarStoriesData{}
+	}
+	return t.ThreatTypeName
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_GenericIncident_SimilarStoriesData) GetVerdict() *string {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_GenericIncident_SimilarStoriesData{}
+	}
+	return t.Verdict
+}
+
+type Xdr_Xdr_Stories_Items_Incident_GenericIncident_VendorInfo struct {
+	EngineType  *string "json:\"engineType,omitempty\" graphql:\"engineType\""
+	IncidentURL *string "json:\"incidentUrl,omitempty\" graphql:\"incidentUrl\""
+	Name        *string "json:\"name,omitempty\" graphql:\"name\""
+	Product     *string "json:\"product,omitempty\" graphql:\"product\""
+	Status      *string "json:\"status,omitempty\" graphql:\"status\""
+}
+
+func (t *Xdr_Xdr_Stories_Items_Incident_GenericIncident_VendorInfo) GetEngineType() *string {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_GenericIncident_VendorInfo{}
+	}
+	return t.EngineType
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_GenericIncident_VendorInfo) GetIncidentURL() *string {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_GenericIncident_VendorInfo{}
+	}
+	return t.IncidentURL
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_GenericIncident_VendorInfo) GetName() *string {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_GenericIncident_VendorInfo{}
+	}
+	return t.Name
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_GenericIncident_VendorInfo) GetProduct() *string {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_GenericIncident_VendorInfo{}
+	}
+	return t.Product
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_GenericIncident_VendorInfo) GetStatus() *string {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_GenericIncident_VendorInfo{}
+	}
+	return t.Status
+}
+
+type Xdr_Xdr_Stories_Items_Incident_GenericIncident_StatusInfo struct {
+	Classification *string                       "json:\"classification,omitempty\" graphql:\"classification\""
+	IncidentStatus *string                       "json:\"incidentStatus,omitempty\" graphql:\"incidentStatus\""
+	Verdict        *cato_models.StoryVerdictEnum "json:\"verdict,omitempty\" graphql:\"verdict\""
+}
+
+func (t *Xdr_Xdr_Stories_Items_Incident_GenericIncident_StatusInfo) GetClassification() *string {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_GenericIncident_StatusInfo{}
+	}
+	return t.Classification
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_GenericIncident_StatusInfo) GetIncidentStatus() *string {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_GenericIncident_StatusInfo{}
+	}
+	return t.IncidentStatus
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_GenericIncident_StatusInfo) GetVerdict() *cato_models.StoryVerdictEnum {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_GenericIncident_StatusInfo{}
+	}
+	return t.Verdict
+}
+
+type Xdr_Xdr_Stories_Items_Incident_GenericIncident_Evidences_Data struct {
+	FieldName string   "json:\"fieldName\" graphql:\"fieldName\""
+	Values    []string "json:\"values\" graphql:\"values\""
+}
+
+func (t *Xdr_Xdr_Stories_Items_Incident_GenericIncident_Evidences_Data) GetFieldName() string {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_GenericIncident_Evidences_Data{}
+	}
+	return t.FieldName
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_GenericIncident_Evidences_Data) GetValues() []string {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_GenericIncident_Evidences_Data{}
+	}
+	return t.Values
+}
+
+type Xdr_Xdr_Stories_Items_Incident_GenericIncident_Evidences struct {
+	Data  []*Xdr_Xdr_Stories_Items_Incident_GenericIncident_Evidences_Data "json:\"data\" graphql:\"data\""
+	Kind  *string                                                          "json:\"kind,omitempty\" graphql:\"kind\""
+	Type  cato_models.GenericIncidentEvidenceType                          "json:\"type\" graphql:\"type\""
+	Value *string                                                          "json:\"value,omitempty\" graphql:\"value\""
+}
+
+func (t *Xdr_Xdr_Stories_Items_Incident_GenericIncident_Evidences) GetData() []*Xdr_Xdr_Stories_Items_Incident_GenericIncident_Evidences_Data {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_GenericIncident_Evidences{}
+	}
+	return t.Data
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_GenericIncident_Evidences) GetKind() *string {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_GenericIncident_Evidences{}
+	}
+	return t.Kind
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_GenericIncident_Evidences) GetType() *cato_models.GenericIncidentEvidenceType {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_GenericIncident_Evidences{}
+	}
+	return &t.Type
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_GenericIncident_Evidences) GetValue() *string {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_GenericIncident_Evidences{}
+	}
+	return t.Value
+}
+
+type Xdr_Xdr_Stories_Items_Incident_GenericIncident_Queries_Measures struct {
+	AggType   *string                       "json:\"aggType,omitempty\" graphql:\"aggType\""
+	FieldName *string                       "json:\"fieldName,omitempty\" graphql:\"fieldName\""
+	UnitType  *cato_models.MeasuresUnitType "json:\"unitType,omitempty\" graphql:\"unitType\""
+}
+
+func (t *Xdr_Xdr_Stories_Items_Incident_GenericIncident_Queries_Measures) GetAggType() *string {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_GenericIncident_Queries_Measures{}
+	}
+	return t.AggType
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_GenericIncident_Queries_Measures) GetFieldName() *string {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_GenericIncident_Queries_Measures{}
+	}
+	return t.FieldName
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_GenericIncident_Queries_Measures) GetUnitType() *cato_models.MeasuresUnitType {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_GenericIncident_Queries_Measures{}
+	}
+	return t.UnitType
+}
+
+type Xdr_Xdr_Stories_Items_Incident_GenericIncident_Queries_Filters struct {
+	Name     *string  "json:\"name,omitempty\" graphql:\"name\""
+	Operator *string  "json:\"operator,omitempty\" graphql:\"operator\""
+	Value    *string  "json:\"value,omitempty\" graphql:\"value\""
+	Values   []string "json:\"values\" graphql:\"values\""
+}
+
+func (t *Xdr_Xdr_Stories_Items_Incident_GenericIncident_Queries_Filters) GetName() *string {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_GenericIncident_Queries_Filters{}
+	}
+	return t.Name
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_GenericIncident_Queries_Filters) GetOperator() *string {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_GenericIncident_Queries_Filters{}
+	}
+	return t.Operator
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_GenericIncident_Queries_Filters) GetValue() *string {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_GenericIncident_Queries_Filters{}
+	}
+	return t.Value
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_GenericIncident_Queries_Filters) GetValues() []string {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_GenericIncident_Queries_Filters{}
+	}
+	return t.Values
+}
+
+type Xdr_Xdr_Stories_Items_Incident_GenericIncident_Queries struct {
+	Buckets    *int64                                                             "json:\"buckets,omitempty\" graphql:\"buckets\""
+	DataSource *cato_models.DataSourceEnum                                        "json:\"dataSource,omitempty\" graphql:\"dataSource\""
+	Fields     []string                                                           "json:\"fields\" graphql:\"fields\""
+	Filters    []*Xdr_Xdr_Stories_Items_Incident_GenericIncident_Queries_Filters  "json:\"filters\" graphql:\"filters\""
+	Measures   []*Xdr_Xdr_Stories_Items_Incident_GenericIncident_Queries_Measures "json:\"measures\" graphql:\"measures\""
+}
+
+func (t *Xdr_Xdr_Stories_Items_Incident_GenericIncident_Queries) GetBuckets() *int64 {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_GenericIncident_Queries{}
+	}
+	return t.Buckets
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_GenericIncident_Queries) GetDataSource() *cato_models.DataSourceEnum {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_GenericIncident_Queries{}
+	}
+	return t.DataSource
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_GenericIncident_Queries) GetFields() []string {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_GenericIncident_Queries{}
+	}
+	return t.Fields
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_GenericIncident_Queries) GetFilters() []*Xdr_Xdr_Stories_Items_Incident_GenericIncident_Queries_Filters {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_GenericIncident_Queries{}
+	}
+	return t.Filters
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_GenericIncident_Queries) GetMeasures() []*Xdr_Xdr_Stories_Items_Incident_GenericIncident_Queries_Measures {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_GenericIncident_Queries{}
+	}
+	return t.Measures
+}
+
+type Xdr_Xdr_Stories_Items_Incident_GenericIncident_Mitres struct {
+	ID   *string "json:\"id,omitempty\" graphql:\"id\""
+	Name *string "json:\"name,omitempty\" graphql:\"name\""
+}
+
+func (t *Xdr_Xdr_Stories_Items_Incident_GenericIncident_Mitres) GetID() *string {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_GenericIncident_Mitres{}
+	}
+	return t.ID
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_GenericIncident_Mitres) GetName() *string {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_GenericIncident_Mitres{}
+	}
+	return t.Name
+}
+
+type Xdr_Xdr_Stories_Items_Incident_GenericIncident struct {
+	SimilarStoriesData []*Xdr_Xdr_Stories_Items_Incident_GenericIncident_SimilarStoriesData "json:\"similarStoriesData\" graphql:\"similarStoriesData\""
+	VendorInfo         *Xdr_Xdr_Stories_Items_Incident_GenericIncident_VendorInfo           "json:\"vendorInfo,omitempty\" graphql:\"vendorInfo\""
+	StatusInfo         *Xdr_Xdr_Stories_Items_Incident_GenericIncident_StatusInfo           "json:\"statusInfo,omitempty\" graphql:\"statusInfo\""
+	Evidences          []*Xdr_Xdr_Stories_Items_Incident_GenericIncident_Evidences          "json:\"evidences\" graphql:\"evidences\""
+	Queries            []*Xdr_Xdr_Stories_Items_Incident_GenericIncident_Queries            "json:\"queries\" graphql:\"queries\""
+	Mitres             []*Xdr_Xdr_Stories_Items_Incident_GenericIncident_Mitres             "json:\"mitres,omitempty\" graphql:\"mitres\""
+}
+
+func (t *Xdr_Xdr_Stories_Items_Incident_GenericIncident) GetSimilarStoriesData() []*Xdr_Xdr_Stories_Items_Incident_GenericIncident_SimilarStoriesData {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_GenericIncident{}
+	}
+	return t.SimilarStoriesData
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_GenericIncident) GetVendorInfo() *Xdr_Xdr_Stories_Items_Incident_GenericIncident_VendorInfo {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_GenericIncident{}
+	}
+	return t.VendorInfo
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_GenericIncident) GetStatusInfo() *Xdr_Xdr_Stories_Items_Incident_GenericIncident_StatusInfo {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_GenericIncident{}
+	}
+	return t.StatusInfo
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_GenericIncident) GetEvidences() []*Xdr_Xdr_Stories_Items_Incident_GenericIncident_Evidences {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_GenericIncident{}
+	}
+	return t.Evidences
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_GenericIncident) GetQueries() []*Xdr_Xdr_Stories_Items_Incident_GenericIncident_Queries {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_GenericIncident{}
+	}
+	return t.Queries
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_GenericIncident) GetMitres() []*Xdr_Xdr_Stories_Items_Incident_GenericIncident_Mitres {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_GenericIncident{}
+	}
+	return t.Mitres
+}
+
+type Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_SimilarStoriesData struct {
+	Indication           *string  "json:\"indication,omitempty\" graphql:\"indication\""
+	SimilarityPercentage *float64 "json:\"similarityPercentage,omitempty\" graphql:\"similarityPercentage\""
+	StoryID              *string  "json:\"storyId,omitempty\" graphql:\"storyId\""
+	ThreatClassification *string  "json:\"threatClassification,omitempty\" graphql:\"threatClassification\""
+	ThreatTypeName       *string  "json:\"threatTypeName,omitempty\" graphql:\"threatTypeName\""
+	Verdict              *string  "json:\"verdict,omitempty\" graphql:\"verdict\""
+}
+
+func (t *Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_SimilarStoriesData) GetIndication() *string {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_SimilarStoriesData{}
+	}
+	return t.Indication
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_SimilarStoriesData) GetSimilarityPercentage() *float64 {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_SimilarStoriesData{}
+	}
+	return t.SimilarityPercentage
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_SimilarStoriesData) GetStoryID() *string {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_SimilarStoriesData{}
+	}
+	return t.StoryID
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_SimilarStoriesData) GetThreatClassification() *string {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_SimilarStoriesData{}
+	}
+	return t.ThreatClassification
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_SimilarStoriesData) GetThreatTypeName() *string {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_SimilarStoriesData{}
+	}
+	return t.ThreatTypeName
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_SimilarStoriesData) GetVerdict() *string {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_SimilarStoriesData{}
+	}
+	return t.Verdict
+}
+
+type Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Device_OsDetailsCatoEndpointDeviceDetails struct {
+	OsBuild   *int64  "json:\"osBuild,omitempty\" graphql:\"osBuild\""
+	OsType    string  "json:\"osType\" graphql:\"osType\""
+	OsVersion *string "json:\"osVersion,omitempty\" graphql:\"osVersion\""
+}
+
+func (t *Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Device_OsDetailsCatoEndpointDeviceDetails) GetOsBuild() *int64 {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Device_OsDetailsCatoEndpointDeviceDetails{}
+	}
+	return t.OsBuild
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Device_OsDetailsCatoEndpointDeviceDetails) GetOsType() string {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Device_OsDetailsCatoEndpointDeviceDetails{}
+	}
+	return t.OsType
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Device_OsDetailsCatoEndpointDeviceDetails) GetOsVersion() *string {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Device_OsDetailsCatoEndpointDeviceDetails{}
+	}
+	return t.OsVersion
+}
+
+type Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Device_LoggedOnUsersCatoEndpointDeviceDetails_MicrosoftEndpointUser struct {
+	ID            string  "json:\"id\" graphql:\"id\""
+	Name          string  "json:\"name\" graphql:\"name\""
+	UserSid       *string "json:\"userSid,omitempty\" graphql:\"userSid\""
+	AccountName   *string "json:\"accountName,omitempty\" graphql:\"accountName\""
+	DomainName    *string "json:\"domainName,omitempty\" graphql:\"domainName\""
+	PrincipalName *string "json:\"principalName,omitempty\" graphql:\"principalName\""
+}
+
+func (t *Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Device_LoggedOnUsersCatoEndpointDeviceDetails_MicrosoftEndpointUser) GetID() string {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Device_LoggedOnUsersCatoEndpointDeviceDetails_MicrosoftEndpointUser{}
+	}
+	return t.ID
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Device_LoggedOnUsersCatoEndpointDeviceDetails_MicrosoftEndpointUser) GetName() string {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Device_LoggedOnUsersCatoEndpointDeviceDetails_MicrosoftEndpointUser{}
+	}
+	return t.Name
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Device_LoggedOnUsersCatoEndpointDeviceDetails_MicrosoftEndpointUser) GetUserSid() *string {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Device_LoggedOnUsersCatoEndpointDeviceDetails_MicrosoftEndpointUser{}
+	}
+	return t.UserSid
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Device_LoggedOnUsersCatoEndpointDeviceDetails_MicrosoftEndpointUser) GetAccountName() *string {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Device_LoggedOnUsersCatoEndpointDeviceDetails_MicrosoftEndpointUser{}
+	}
+	return t.AccountName
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Device_LoggedOnUsersCatoEndpointDeviceDetails_MicrosoftEndpointUser) GetDomainName() *string {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Device_LoggedOnUsersCatoEndpointDeviceDetails_MicrosoftEndpointUser{}
+	}
+	return t.DomainName
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Device_LoggedOnUsersCatoEndpointDeviceDetails_MicrosoftEndpointUser) GetPrincipalName() *string {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Device_LoggedOnUsersCatoEndpointDeviceDetails_MicrosoftEndpointUser{}
+	}
+	return t.PrincipalName
+}
+
+type Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Device_LoggedOnUsersCatoEndpointDeviceDetails_CatoEndpointUser struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Device_LoggedOnUsersCatoEndpointDeviceDetails_CatoEndpointUser) GetID() string {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Device_LoggedOnUsersCatoEndpointDeviceDetails_CatoEndpointUser{}
+	}
+	return t.ID
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Device_LoggedOnUsersCatoEndpointDeviceDetails_CatoEndpointUser) GetName() string {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Device_LoggedOnUsersCatoEndpointDeviceDetails_CatoEndpointUser{}
+	}
+	return t.Name
+}
+
+type Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Device_LoggedOnUsersCatoEndpointDeviceDetails struct {
+	CatoEndpointUser      Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Device_LoggedOnUsersCatoEndpointDeviceDetails_CatoEndpointUser      "graphql:\"... on CatoEndpointUser\""
+	MicrosoftEndpointUser Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Device_LoggedOnUsersCatoEndpointDeviceDetails_MicrosoftEndpointUser "graphql:\"... on MicrosoftEndpointUser\""
+	Typename              *string                                                                                                         "json:\"__typename,omitempty\" graphql:\"__typename\""
+}
+
+func (t *Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Device_LoggedOnUsersCatoEndpointDeviceDetails) GetCatoEndpointUser() *Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Device_LoggedOnUsersCatoEndpointDeviceDetails_CatoEndpointUser {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Device_LoggedOnUsersCatoEndpointDeviceDetails{}
+	}
+	return &t.CatoEndpointUser
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Device_LoggedOnUsersCatoEndpointDeviceDetails) GetMicrosoftEndpointUser() *Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Device_LoggedOnUsersCatoEndpointDeviceDetails_MicrosoftEndpointUser {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Device_LoggedOnUsersCatoEndpointDeviceDetails{}
+	}
+	return &t.MicrosoftEndpointUser
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Device_LoggedOnUsersCatoEndpointDeviceDetails) GetTypename() *string {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Device_LoggedOnUsersCatoEndpointDeviceDetails{}
+	}
+	return t.Typename
+}
+
+type Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Device struct {
+	DeviceName                             *string                                                                                      "json:\"deviceName,omitempty\" graphql:\"deviceName\""
+	ExternalIP                             *string                                                                                      "json:\"externalIp,omitempty\" graphql:\"externalIp\""
+	ID                                     string                                                                                       "json:\"id\" graphql:\"id\""
+	LocalIP                                *string                                                                                      "json:\"localIp,omitempty\" graphql:\"localIp\""
+	LoggedOnUsersCatoEndpointDeviceDetails []*Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Device_LoggedOnUsersCatoEndpointDeviceDetails "json:\"loggedOnUsersCatoEndpointDeviceDetails\" graphql:\"loggedOnUsersCatoEndpointDeviceDetails\""
+	MacAddress                             *string                                                                                      "json:\"macAddress,omitempty\" graphql:\"macAddress\""
+	OsDetailsCatoEndpointDeviceDetails     *Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Device_OsDetailsCatoEndpointDeviceDetails       "json:\"osDetailsCatoEndpointDeviceDetails,omitempty\" graphql:\"osDetailsCatoEndpointDeviceDetails\""
+}
+
+func (t *Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Device) GetDeviceName() *string {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Device{}
+	}
+	return t.DeviceName
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Device) GetExternalIP() *string {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Device{}
+	}
+	return t.ExternalIP
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Device) GetID() string {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Device{}
+	}
+	return t.ID
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Device) GetLocalIP() *string {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Device{}
+	}
+	return t.LocalIP
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Device) GetLoggedOnUsersCatoEndpointDeviceDetails() []*Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Device_LoggedOnUsersCatoEndpointDeviceDetails {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Device{}
+	}
+	return t.LoggedOnUsersCatoEndpointDeviceDetails
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Device) GetMacAddress() *string {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Device{}
+	}
+	return t.MacAddress
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Device) GetOsDetailsCatoEndpointDeviceDetails() *Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Device_OsDetailsCatoEndpointDeviceDetails {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Device{}
+	}
+	return t.OsDetailsCatoEndpointDeviceDetails
+}
+
+type Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Alerts_MitreTechnique struct {
+	ID   *string "json:\"id,omitempty\" graphql:\"id\""
+	Name *string "json:\"name,omitempty\" graphql:\"name\""
+}
+
+func (t *Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Alerts_MitreTechnique) GetID() *string {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Alerts_MitreTechnique{}
+	}
+	return t.ID
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Alerts_MitreTechnique) GetName() *string {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Alerts_MitreTechnique{}
+	}
+	return t.Name
+}
+
+type Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Alerts_MitreSubTechnique struct {
+	ID   *string "json:\"id,omitempty\" graphql:\"id\""
+	Name *string "json:\"name,omitempty\" graphql:\"name\""
+}
+
+func (t *Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Alerts_MitreSubTechnique) GetID() *string {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Alerts_MitreSubTechnique{}
+	}
+	return t.ID
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Alerts_MitreSubTechnique) GetName() *string {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Alerts_MitreSubTechnique{}
+	}
+	return t.Name
+}
+
+type Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Alerts_Resources_CatoProcessResource_ImageFile struct {
+	Typename *string "json:\"__typename,omitempty\" graphql:\"__typename\""
+}
+
+func (t *Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Alerts_Resources_CatoProcessResource_ImageFile) GetTypename() *string {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Alerts_Resources_CatoProcessResource_ImageFile{}
+	}
+	return t.Typename
+}
+
+type Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Alerts_Resources_CatoProcessResource_UserAccount struct {
+	Typename *string "json:\"__typename,omitempty\" graphql:\"__typename\""
+}
+
+func (t *Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Alerts_Resources_CatoProcessResource_UserAccount) GetTypename() *string {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Alerts_Resources_CatoProcessResource_UserAccount{}
+	}
+	return t.Typename
+}
+
+type Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Alerts_Resources_CatoProcessResource struct {
+	ID                 string                                                                                        "json:\"id\" graphql:\"id\""
+	CreatedDateTime    *string                                                                                       "json:\"createdDateTime,omitempty\" graphql:\"createdDateTime\""
+	RemediationStatus  *cato_models.RemediationStatusEnum                                                            "json:\"remediationStatus,omitempty\" graphql:\"remediationStatus\""
+	ProcessID          int64                                                                                         "json:\"processId\" graphql:\"processId\""
+	ProcessCommandLine *string                                                                                       "json:\"processCommandLine,omitempty\" graphql:\"processCommandLine\""
+	ImageFile          *Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Alerts_Resources_CatoProcessResource_ImageFile   "json:\"imageFile,omitempty\" graphql:\"imageFile\""
+	UserAccount        *Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Alerts_Resources_CatoProcessResource_UserAccount "json:\"userAccount,omitempty\" graphql:\"userAccount\""
+}
+
+func (t *Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Alerts_Resources_CatoProcessResource) GetID() string {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Alerts_Resources_CatoProcessResource{}
+	}
+	return t.ID
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Alerts_Resources_CatoProcessResource) GetCreatedDateTime() *string {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Alerts_Resources_CatoProcessResource{}
+	}
+	return t.CreatedDateTime
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Alerts_Resources_CatoProcessResource) GetRemediationStatus() *cato_models.RemediationStatusEnum {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Alerts_Resources_CatoProcessResource{}
+	}
+	return t.RemediationStatus
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Alerts_Resources_CatoProcessResource) GetProcessID() int64 {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Alerts_Resources_CatoProcessResource{}
+	}
+	return t.ProcessID
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Alerts_Resources_CatoProcessResource) GetProcessCommandLine() *string {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Alerts_Resources_CatoProcessResource{}
+	}
+	return t.ProcessCommandLine
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Alerts_Resources_CatoProcessResource) GetImageFile() *Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Alerts_Resources_CatoProcessResource_ImageFile {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Alerts_Resources_CatoProcessResource{}
+	}
+	return t.ImageFile
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Alerts_Resources_CatoProcessResource) GetUserAccount() *Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Alerts_Resources_CatoProcessResource_UserAccount {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Alerts_Resources_CatoProcessResource{}
+	}
+	return t.UserAccount
+}
+
+type Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Alerts_Resources_CatoFileResource_FileDetails struct {
+	Typename *string "json:\"__typename,omitempty\" graphql:\"__typename\""
+}
+
+func (t *Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Alerts_Resources_CatoFileResource_FileDetails) GetTypename() *string {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Alerts_Resources_CatoFileResource_FileDetails{}
+	}
+	return t.Typename
+}
+
+type Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Alerts_Resources_CatoFileResource struct {
+	ID                string                                                                                     "json:\"id\" graphql:\"id\""
+	CreatedDateTime   *string                                                                                    "json:\"createdDateTime,omitempty\" graphql:\"createdDateTime\""
+	RemediationStatus *cato_models.RemediationStatusEnum                                                         "json:\"remediationStatus,omitempty\" graphql:\"remediationStatus\""
+	FileDetails       *Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Alerts_Resources_CatoFileResource_FileDetails "json:\"fileDetails,omitempty\" graphql:\"fileDetails\""
+	DetectionStatus   *cato_models.DetectionStatusEnum                                                           "json:\"detectionStatus,omitempty\" graphql:\"detectionStatus\""
+}
+
+func (t *Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Alerts_Resources_CatoFileResource) GetID() string {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Alerts_Resources_CatoFileResource{}
+	}
+	return t.ID
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Alerts_Resources_CatoFileResource) GetCreatedDateTime() *string {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Alerts_Resources_CatoFileResource{}
+	}
+	return t.CreatedDateTime
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Alerts_Resources_CatoFileResource) GetRemediationStatus() *cato_models.RemediationStatusEnum {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Alerts_Resources_CatoFileResource{}
+	}
+	return t.RemediationStatus
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Alerts_Resources_CatoFileResource) GetFileDetails() *Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Alerts_Resources_CatoFileResource_FileDetails {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Alerts_Resources_CatoFileResource{}
+	}
+	return t.FileDetails
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Alerts_Resources_CatoFileResource) GetDetectionStatus() *cato_models.DetectionStatusEnum {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Alerts_Resources_CatoFileResource{}
+	}
+	return t.DetectionStatus
+}
+
+type Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Alerts_Resources struct {
+	CatoFileResource    Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Alerts_Resources_CatoFileResource    "graphql:\"... on CatoFileResource\""
+	CatoProcessResource Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Alerts_Resources_CatoProcessResource "graphql:\"... on CatoProcessResource\""
+	Typename            *string                                                                          "json:\"__typename,omitempty\" graphql:\"__typename\""
+}
+
+func (t *Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Alerts_Resources) GetCatoFileResource() *Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Alerts_Resources_CatoFileResource {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Alerts_Resources{}
+	}
+	return &t.CatoFileResource
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Alerts_Resources) GetCatoProcessResource() *Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Alerts_Resources_CatoProcessResource {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Alerts_Resources{}
+	}
+	return &t.CatoProcessResource
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Alerts_Resources) GetTypename() *string {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Alerts_Resources{}
+	}
+	return t.Typename
+}
+
+type Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Alerts_Activities struct {
+	ID               string "json:\"id\" graphql:\"id\""
+	ParentResourceID string "json:\"parentResourceId\" graphql:\"parentResourceId\""
+	ResourceID       string "json:\"resourceId\" graphql:\"resourceId\""
+}
+
+func (t *Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Alerts_Activities) GetID() string {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Alerts_Activities{}
+	}
+	return t.ID
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Alerts_Activities) GetParentResourceID() string {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Alerts_Activities{}
+	}
+	return t.ParentResourceID
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Alerts_Activities) GetResourceID() string {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Alerts_Activities{}
+	}
+	return t.ResourceID
+}
+
+type Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Alerts struct {
+	Activities                  []*Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Alerts_Activities        "json:\"activities\" graphql:\"activities\""
+	CreatedDateTime             *string                                                                 "json:\"createdDateTime,omitempty\" graphql:\"createdDateTime\""
+	Criticality                 *int64                                                                  "json:\"criticality,omitempty\" graphql:\"criticality\""
+	Description                 *string                                                                 "json:\"description,omitempty\" graphql:\"description\""
+	EndpointProtectionProfile   *string                                                                 "json:\"endpointProtectionProfile,omitempty\" graphql:\"endpointProtectionProfile\""
+	EngineTypeCatoEndpointAlert *cato_models.CatoEndpointEngineType                                     "json:\"engineTypeCatoEndpointAlert,omitempty\" graphql:\"engineTypeCatoEndpointAlert\""
+	ExternalIP                  *string                                                                 "json:\"externalIp,omitempty\" graphql:\"externalIp\""
+	ID                          string                                                                  "json:\"id\" graphql:\"id\""
+	LocalIP                     *string                                                                 "json:\"localIp,omitempty\" graphql:\"localIp\""
+	MitreSubTechnique           []*Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Alerts_MitreSubTechnique "json:\"mitreSubTechnique\" graphql:\"mitreSubTechnique\""
+	MitreTechnique              []*Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Alerts_MitreTechnique    "json:\"mitreTechnique\" graphql:\"mitreTechnique\""
+	Resources                   []*Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Alerts_Resources         "json:\"resources\" graphql:\"resources\""
+	StatusCatoEndpointAlert     *cato_models.RemediationStatusEnum                                      "json:\"statusCatoEndpointAlert,omitempty\" graphql:\"statusCatoEndpointAlert\""
+	ThreatName                  *string                                                                 "json:\"threatName,omitempty\" graphql:\"threatName\""
+	Title                       *string                                                                 "json:\"title,omitempty\" graphql:\"title\""
+}
+
+func (t *Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Alerts) GetActivities() []*Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Alerts_Activities {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Alerts{}
+	}
+	return t.Activities
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Alerts) GetCreatedDateTime() *string {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Alerts{}
+	}
+	return t.CreatedDateTime
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Alerts) GetCriticality() *int64 {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Alerts{}
+	}
+	return t.Criticality
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Alerts) GetDescription() *string {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Alerts{}
+	}
+	return t.Description
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Alerts) GetEndpointProtectionProfile() *string {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Alerts{}
+	}
+	return t.EndpointProtectionProfile
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Alerts) GetEngineTypeCatoEndpointAlert() *cato_models.CatoEndpointEngineType {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Alerts{}
+	}
+	return t.EngineTypeCatoEndpointAlert
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Alerts) GetExternalIP() *string {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Alerts{}
+	}
+	return t.ExternalIP
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Alerts) GetID() string {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Alerts{}
+	}
+	return t.ID
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Alerts) GetLocalIP() *string {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Alerts{}
+	}
+	return t.LocalIP
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Alerts) GetMitreSubTechnique() []*Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Alerts_MitreSubTechnique {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Alerts{}
+	}
+	return t.MitreSubTechnique
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Alerts) GetMitreTechnique() []*Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Alerts_MitreTechnique {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Alerts{}
+	}
+	return t.MitreTechnique
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Alerts) GetResources() []*Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Alerts_Resources {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Alerts{}
+	}
+	return t.Resources
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Alerts) GetStatusCatoEndpointAlert() *cato_models.RemediationStatusEnum {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Alerts{}
+	}
+	return t.StatusCatoEndpointAlert
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Alerts) GetThreatName() *string {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Alerts{}
+	}
+	return t.ThreatName
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Alerts) GetTitle() *string {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Alerts{}
+	}
+	return t.Title
+}
+
+type Xdr_Xdr_Stories_Items_Incident_CatoEndpoint struct {
+	SimilarStoriesData []*Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_SimilarStoriesData "json:\"similarStoriesData\" graphql:\"similarStoriesData\""
+	Device             *Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Device               "json:\"device,omitempty\" graphql:\"device\""
+	Alerts             []*Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Alerts             "json:\"alerts\" graphql:\"alerts\""
+}
+
+func (t *Xdr_Xdr_Stories_Items_Incident_CatoEndpoint) GetSimilarStoriesData() []*Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_SimilarStoriesData {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_CatoEndpoint{}
+	}
+	return t.SimilarStoriesData
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_CatoEndpoint) GetDevice() *Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Device {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_CatoEndpoint{}
+	}
+	return t.Device
+}
+func (t *Xdr_Xdr_Stories_Items_Incident_CatoEndpoint) GetAlerts() []*Xdr_Xdr_Stories_Items_Incident_CatoEndpoint_Alerts {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_Incident_CatoEndpoint{}
+	}
+	return t.Alerts
+}
+
 type Xdr_Xdr_Stories_Items_Incident struct {
 	AiOperationsIncident           Xdr_Xdr_Stories_Items_Incident_AiOperationsIncident           "graphql:\"... on AiOperationsIncident\""
 	AnomalyEvents                  Xdr_Xdr_Stories_Items_Incident_AnomalyEvents                  "graphql:\"... on AnomalyEvents\""
@@ -341510,166 +342698,6 @@ func (t *Xdr_Xdr_Stories_Items_Incident) GetVendorMergedIncident() *cato_models.
 	return t.VendorMergedIncident
 }
 
-type Xdr_Xdr_Stories_Items_InvestigationDetails_LastManagedComment_Actor struct {
-	ID   string "json:\"id\" graphql:\"id\""
-	Name string "json:\"name\" graphql:\"name\""
-}
-
-func (t *Xdr_Xdr_Stories_Items_InvestigationDetails_LastManagedComment_Actor) GetID() string {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_InvestigationDetails_LastManagedComment_Actor{}
-	}
-	return t.ID
-}
-func (t *Xdr_Xdr_Stories_Items_InvestigationDetails_LastManagedComment_Actor) GetName() string {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_InvestigationDetails_LastManagedComment_Actor{}
-	}
-	return t.Name
-}
-
-type Xdr_Xdr_Stories_Items_InvestigationDetails_LastManagedComment struct {
-	Actor     Xdr_Xdr_Stories_Items_InvestigationDetails_LastManagedComment_Actor "json:\"actor\" graphql:\"actor\""
-	Author    *string                                                             "json:\"author,omitempty\" graphql:\"author\""
-	CreatedAt scalars.Time                                                        "json:\"createdAt\" graphql:\"createdAt\""
-	ID        string                                                              "json:\"id\" graphql:\"id\""
-	Text      string                                                              "json:\"text\" graphql:\"text\""
-	Type      *cato_models.CommentType                                            "json:\"type,omitempty\" graphql:\"type\""
-}
-
-func (t *Xdr_Xdr_Stories_Items_InvestigationDetails_LastManagedComment) GetActor() *Xdr_Xdr_Stories_Items_InvestigationDetails_LastManagedComment_Actor {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_InvestigationDetails_LastManagedComment{}
-	}
-	return &t.Actor
-}
-func (t *Xdr_Xdr_Stories_Items_InvestigationDetails_LastManagedComment) GetAuthor() *string {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_InvestigationDetails_LastManagedComment{}
-	}
-	return t.Author
-}
-func (t *Xdr_Xdr_Stories_Items_InvestigationDetails_LastManagedComment) GetCreatedAt() *scalars.Time {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_InvestigationDetails_LastManagedComment{}
-	}
-	return &t.CreatedAt
-}
-func (t *Xdr_Xdr_Stories_Items_InvestigationDetails_LastManagedComment) GetID() string {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_InvestigationDetails_LastManagedComment{}
-	}
-	return t.ID
-}
-func (t *Xdr_Xdr_Stories_Items_InvestigationDetails_LastManagedComment) GetText() string {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_InvestigationDetails_LastManagedComment{}
-	}
-	return t.Text
-}
-func (t *Xdr_Xdr_Stories_Items_InvestigationDetails_LastManagedComment) GetType() *cato_models.CommentType {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_InvestigationDetails_LastManagedComment{}
-	}
-	return t.Type
-}
-
-type Xdr_Xdr_Stories_Items_InvestigationDetails_LastUserComment_Actor struct {
-	ID   string "json:\"id\" graphql:\"id\""
-	Name string "json:\"name\" graphql:\"name\""
-}
-
-func (t *Xdr_Xdr_Stories_Items_InvestigationDetails_LastUserComment_Actor) GetID() string {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_InvestigationDetails_LastUserComment_Actor{}
-	}
-	return t.ID
-}
-func (t *Xdr_Xdr_Stories_Items_InvestigationDetails_LastUserComment_Actor) GetName() string {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_InvestigationDetails_LastUserComment_Actor{}
-	}
-	return t.Name
-}
-
-type Xdr_Xdr_Stories_Items_InvestigationDetails_LastUserComment struct {
-	Actor     Xdr_Xdr_Stories_Items_InvestigationDetails_LastUserComment_Actor "json:\"actor\" graphql:\"actor\""
-	Author    *string                                                          "json:\"author,omitempty\" graphql:\"author\""
-	CreatedAt scalars.Time                                                     "json:\"createdAt\" graphql:\"createdAt\""
-	ID        string                                                           "json:\"id\" graphql:\"id\""
-	Text      string                                                           "json:\"text\" graphql:\"text\""
-	Type      *cato_models.CommentType                                         "json:\"type,omitempty\" graphql:\"type\""
-}
-
-func (t *Xdr_Xdr_Stories_Items_InvestigationDetails_LastUserComment) GetActor() *Xdr_Xdr_Stories_Items_InvestigationDetails_LastUserComment_Actor {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_InvestigationDetails_LastUserComment{}
-	}
-	return &t.Actor
-}
-func (t *Xdr_Xdr_Stories_Items_InvestigationDetails_LastUserComment) GetAuthor() *string {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_InvestigationDetails_LastUserComment{}
-	}
-	return t.Author
-}
-func (t *Xdr_Xdr_Stories_Items_InvestigationDetails_LastUserComment) GetCreatedAt() *scalars.Time {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_InvestigationDetails_LastUserComment{}
-	}
-	return &t.CreatedAt
-}
-func (t *Xdr_Xdr_Stories_Items_InvestigationDetails_LastUserComment) GetID() string {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_InvestigationDetails_LastUserComment{}
-	}
-	return t.ID
-}
-func (t *Xdr_Xdr_Stories_Items_InvestigationDetails_LastUserComment) GetText() string {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_InvestigationDetails_LastUserComment{}
-	}
-	return t.Text
-}
-func (t *Xdr_Xdr_Stories_Items_InvestigationDetails_LastUserComment) GetType() *cato_models.CommentType {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_InvestigationDetails_LastUserComment{}
-	}
-	return t.Type
-}
-
-type Xdr_Xdr_Stories_Items_InvestigationDetails struct {
-	InvestigationStatus      *string                                                        "json:\"investigationStatus,omitempty\" graphql:\"investigationStatus\""
-	LastManagedComment       *Xdr_Xdr_Stories_Items_InvestigationDetails_LastManagedComment "json:\"lastManagedComment,omitempty\" graphql:\"lastManagedComment\""
-	LastUserComment          *Xdr_Xdr_Stories_Items_InvestigationDetails_LastUserComment    "json:\"lastUserComment,omitempty\" graphql:\"lastUserComment\""
-	ManagedServiceTicketLink *string                                                        "json:\"managedServiceTicketLink,omitempty\" graphql:\"managedServiceTicketLink\""
-}
-
-func (t *Xdr_Xdr_Stories_Items_InvestigationDetails) GetInvestigationStatus() *string {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_InvestigationDetails{}
-	}
-	return t.InvestigationStatus
-}
-func (t *Xdr_Xdr_Stories_Items_InvestigationDetails) GetLastManagedComment() *Xdr_Xdr_Stories_Items_InvestigationDetails_LastManagedComment {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_InvestigationDetails{}
-	}
-	return t.LastManagedComment
-}
-func (t *Xdr_Xdr_Stories_Items_InvestigationDetails) GetLastUserComment() *Xdr_Xdr_Stories_Items_InvestigationDetails_LastUserComment {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_InvestigationDetails{}
-	}
-	return t.LastUserComment
-}
-func (t *Xdr_Xdr_Stories_Items_InvestigationDetails) GetManagedServiceTicketLink() *string {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Items_InvestigationDetails{}
-	}
-	return t.ManagedServiceTicketLink
-}
-
 type Xdr_Xdr_Stories_Items_Timeline_AnalystInfoTimelineItem struct {
 	Email *string "json:\"email,omitempty\" graphql:\"email\""
 	Name  *string "json:\"name,omitempty\" graphql:\"name\""
@@ -341746,6 +342774,166 @@ func (t *Xdr_Xdr_Stories_Items_Timeline) GetType() *cato_models.TimelineTypeEnum
 		t = &Xdr_Xdr_Stories_Items_Timeline{}
 	}
 	return &t.Type
+}
+
+type Xdr_Xdr_Stories_Items_InvestigationDetails_LastUserComment_Actor struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *Xdr_Xdr_Stories_Items_InvestigationDetails_LastUserComment_Actor) GetID() string {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_InvestigationDetails_LastUserComment_Actor{}
+	}
+	return t.ID
+}
+func (t *Xdr_Xdr_Stories_Items_InvestigationDetails_LastUserComment_Actor) GetName() string {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_InvestigationDetails_LastUserComment_Actor{}
+	}
+	return t.Name
+}
+
+type Xdr_Xdr_Stories_Items_InvestigationDetails_LastUserComment struct {
+	Actor     Xdr_Xdr_Stories_Items_InvestigationDetails_LastUserComment_Actor "json:\"actor\" graphql:\"actor\""
+	Author    *string                                                          "json:\"author,omitempty\" graphql:\"author\""
+	CreatedAt scalars.Time                                                     "json:\"createdAt\" graphql:\"createdAt\""
+	ID        string                                                           "json:\"id\" graphql:\"id\""
+	Text      string                                                           "json:\"text\" graphql:\"text\""
+	Type      *cato_models.CommentType                                         "json:\"type,omitempty\" graphql:\"type\""
+}
+
+func (t *Xdr_Xdr_Stories_Items_InvestigationDetails_LastUserComment) GetActor() *Xdr_Xdr_Stories_Items_InvestigationDetails_LastUserComment_Actor {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_InvestigationDetails_LastUserComment{}
+	}
+	return &t.Actor
+}
+func (t *Xdr_Xdr_Stories_Items_InvestigationDetails_LastUserComment) GetAuthor() *string {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_InvestigationDetails_LastUserComment{}
+	}
+	return t.Author
+}
+func (t *Xdr_Xdr_Stories_Items_InvestigationDetails_LastUserComment) GetCreatedAt() *scalars.Time {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_InvestigationDetails_LastUserComment{}
+	}
+	return &t.CreatedAt
+}
+func (t *Xdr_Xdr_Stories_Items_InvestigationDetails_LastUserComment) GetID() string {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_InvestigationDetails_LastUserComment{}
+	}
+	return t.ID
+}
+func (t *Xdr_Xdr_Stories_Items_InvestigationDetails_LastUserComment) GetText() string {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_InvestigationDetails_LastUserComment{}
+	}
+	return t.Text
+}
+func (t *Xdr_Xdr_Stories_Items_InvestigationDetails_LastUserComment) GetType() *cato_models.CommentType {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_InvestigationDetails_LastUserComment{}
+	}
+	return t.Type
+}
+
+type Xdr_Xdr_Stories_Items_InvestigationDetails_LastManagedComment_Actor struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *Xdr_Xdr_Stories_Items_InvestigationDetails_LastManagedComment_Actor) GetID() string {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_InvestigationDetails_LastManagedComment_Actor{}
+	}
+	return t.ID
+}
+func (t *Xdr_Xdr_Stories_Items_InvestigationDetails_LastManagedComment_Actor) GetName() string {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_InvestigationDetails_LastManagedComment_Actor{}
+	}
+	return t.Name
+}
+
+type Xdr_Xdr_Stories_Items_InvestigationDetails_LastManagedComment struct {
+	Actor     Xdr_Xdr_Stories_Items_InvestigationDetails_LastManagedComment_Actor "json:\"actor\" graphql:\"actor\""
+	Author    *string                                                             "json:\"author,omitempty\" graphql:\"author\""
+	CreatedAt scalars.Time                                                        "json:\"createdAt\" graphql:\"createdAt\""
+	ID        string                                                              "json:\"id\" graphql:\"id\""
+	Text      string                                                              "json:\"text\" graphql:\"text\""
+	Type      *cato_models.CommentType                                            "json:\"type,omitempty\" graphql:\"type\""
+}
+
+func (t *Xdr_Xdr_Stories_Items_InvestigationDetails_LastManagedComment) GetActor() *Xdr_Xdr_Stories_Items_InvestigationDetails_LastManagedComment_Actor {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_InvestigationDetails_LastManagedComment{}
+	}
+	return &t.Actor
+}
+func (t *Xdr_Xdr_Stories_Items_InvestigationDetails_LastManagedComment) GetAuthor() *string {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_InvestigationDetails_LastManagedComment{}
+	}
+	return t.Author
+}
+func (t *Xdr_Xdr_Stories_Items_InvestigationDetails_LastManagedComment) GetCreatedAt() *scalars.Time {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_InvestigationDetails_LastManagedComment{}
+	}
+	return &t.CreatedAt
+}
+func (t *Xdr_Xdr_Stories_Items_InvestigationDetails_LastManagedComment) GetID() string {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_InvestigationDetails_LastManagedComment{}
+	}
+	return t.ID
+}
+func (t *Xdr_Xdr_Stories_Items_InvestigationDetails_LastManagedComment) GetText() string {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_InvestigationDetails_LastManagedComment{}
+	}
+	return t.Text
+}
+func (t *Xdr_Xdr_Stories_Items_InvestigationDetails_LastManagedComment) GetType() *cato_models.CommentType {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_InvestigationDetails_LastManagedComment{}
+	}
+	return t.Type
+}
+
+type Xdr_Xdr_Stories_Items_InvestigationDetails struct {
+	InvestigationStatus      *string                                                        "json:\"investigationStatus,omitempty\" graphql:\"investigationStatus\""
+	LastManagedComment       *Xdr_Xdr_Stories_Items_InvestigationDetails_LastManagedComment "json:\"lastManagedComment,omitempty\" graphql:\"lastManagedComment\""
+	LastUserComment          *Xdr_Xdr_Stories_Items_InvestigationDetails_LastUserComment    "json:\"lastUserComment,omitempty\" graphql:\"lastUserComment\""
+	ManagedServiceTicketLink *string                                                        "json:\"managedServiceTicketLink,omitempty\" graphql:\"managedServiceTicketLink\""
+}
+
+func (t *Xdr_Xdr_Stories_Items_InvestigationDetails) GetInvestigationStatus() *string {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_InvestigationDetails{}
+	}
+	return t.InvestigationStatus
+}
+func (t *Xdr_Xdr_Stories_Items_InvestigationDetails) GetLastManagedComment() *Xdr_Xdr_Stories_Items_InvestigationDetails_LastManagedComment {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_InvestigationDetails{}
+	}
+	return t.LastManagedComment
+}
+func (t *Xdr_Xdr_Stories_Items_InvestigationDetails) GetLastUserComment() *Xdr_Xdr_Stories_Items_InvestigationDetails_LastUserComment {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_InvestigationDetails{}
+	}
+	return t.LastUserComment
+}
+func (t *Xdr_Xdr_Stories_Items_InvestigationDetails) GetManagedServiceTicketLink() *string {
+	if t == nil {
+		t = &Xdr_Xdr_Stories_Items_InvestigationDetails{}
+	}
+	return t.ManagedServiceTicketLink
 }
 
 type Xdr_Xdr_Stories_Items struct {
@@ -341834,31 +343022,6 @@ func (t *Xdr_Xdr_Stories_Items) GetUpdatedAt() string {
 		t = &Xdr_Xdr_Stories_Items{}
 	}
 	return t.UpdatedAt
-}
-
-type Xdr_Xdr_Stories_Paging struct {
-	From  int64 "json:\"from\" graphql:\"from\""
-	Limit int64 "json:\"limit\" graphql:\"limit\""
-	Total int64 "json:\"total\" graphql:\"total\""
-}
-
-func (t *Xdr_Xdr_Stories_Paging) GetFrom() int64 {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Paging{}
-	}
-	return t.From
-}
-func (t *Xdr_Xdr_Stories_Paging) GetLimit() int64 {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Paging{}
-	}
-	return t.Limit
-}
-func (t *Xdr_Xdr_Stories_Paging) GetTotal() int64 {
-	if t == nil {
-		t = &Xdr_Xdr_Stories_Paging{}
-	}
-	return t.Total
 }
 
 type Xdr_Xdr_Stories struct {
@@ -349120,22 +350283,48 @@ func (t *ZtnaAppConnectorZtnaAppConnector_ZtnaAppConnector_ZtnaAppConnector_Sock
 	return t.VersionUpdateTime
 }
 
+type ZtnaAppConnectorZtnaAppConnector_ZtnaAppConnector_ZtnaAppConnector_PooledBandwidthAllocation struct {
+	AllocationID string "json:\"allocationId\" graphql:\"allocationId\""
+	Bw           int64  "json:\"bw\" graphql:\"bw\""
+	LicenseID    string "json:\"licenseId\" graphql:\"licenseId\""
+}
+
+func (t *ZtnaAppConnectorZtnaAppConnector_ZtnaAppConnector_ZtnaAppConnector_PooledBandwidthAllocation) GetAllocationID() string {
+	if t == nil {
+		t = &ZtnaAppConnectorZtnaAppConnector_ZtnaAppConnector_ZtnaAppConnector_PooledBandwidthAllocation{}
+	}
+	return t.AllocationID
+}
+func (t *ZtnaAppConnectorZtnaAppConnector_ZtnaAppConnector_ZtnaAppConnector_PooledBandwidthAllocation) GetBw() int64 {
+	if t == nil {
+		t = &ZtnaAppConnectorZtnaAppConnector_ZtnaAppConnector_ZtnaAppConnector_PooledBandwidthAllocation{}
+	}
+	return t.Bw
+}
+func (t *ZtnaAppConnectorZtnaAppConnector_ZtnaAppConnector_ZtnaAppConnector_PooledBandwidthAllocation) GetLicenseID() string {
+	if t == nil {
+		t = &ZtnaAppConnectorZtnaAppConnector_ZtnaAppConnector_ZtnaAppConnector_PooledBandwidthAllocation{}
+	}
+	return t.LicenseID
+}
+
 type ZtnaAppConnectorZtnaAppConnector_ZtnaAppConnector_ZtnaAppConnector struct {
-	CreatedAt            *string                                                                                  "json:\"createdAt,omitempty\" graphql:\"createdAt\""
-	Description          *string                                                                                  "json:\"description,omitempty\" graphql:\"description\""
-	GroupName            string                                                                                   "json:\"groupName\" graphql:\"groupName\""
-	ID                   string                                                                                   "json:\"id\" graphql:\"id\""
-	IsRegistered         bool                                                                                     "json:\"isRegistered\" graphql:\"isRegistered\""
-	Location             ZtnaAppConnectorZtnaAppConnector_ZtnaAppConnector_ZtnaAppConnector_Location              "json:\"location\" graphql:\"location\""
-	Name                 string                                                                                   "json:\"name\" graphql:\"name\""
-	PreferredPopLocation *ZtnaAppConnectorZtnaAppConnector_ZtnaAppConnector_ZtnaAppConnector_PreferredPopLocation "json:\"preferredPopLocation,omitempty\" graphql:\"preferredPopLocation\""
-	PrivateAppCount      int64                                                                                    "json:\"privateAppCount\" graphql:\"privateAppCount\""
-	PrivateAppRef        []*ZtnaAppConnectorZtnaAppConnector_ZtnaAppConnector_ZtnaAppConnector_PrivateAppRef      "json:\"privateAppRef\" graphql:\"privateAppRef\""
-	SerialNumber         *string                                                                                  "json:\"serialNumber,omitempty\" graphql:\"serialNumber\""
-	SocketID             *string                                                                                  "json:\"socketId,omitempty\" graphql:\"socketId\""
-	SocketInfo           *ZtnaAppConnectorZtnaAppConnector_ZtnaAppConnector_ZtnaAppConnector_SocketInfo           "json:\"socketInfo,omitempty\" graphql:\"socketInfo\""
-	SocketModel          *cato_models.SocketModel                                                                 "json:\"socketModel,omitempty\" graphql:\"socketModel\""
-	Type                 cato_models.ZtnaAppConnectorType                                                         "json:\"type\" graphql:\"type\""
+	CreatedAt                 *string                                                                                         "json:\"createdAt,omitempty\" graphql:\"createdAt\""
+	Description               *string                                                                                         "json:\"description,omitempty\" graphql:\"description\""
+	GroupName                 string                                                                                          "json:\"groupName\" graphql:\"groupName\""
+	ID                        string                                                                                          "json:\"id\" graphql:\"id\""
+	IsRegistered              bool                                                                                            "json:\"isRegistered\" graphql:\"isRegistered\""
+	Location                  ZtnaAppConnectorZtnaAppConnector_ZtnaAppConnector_ZtnaAppConnector_Location                     "json:\"location\" graphql:\"location\""
+	Name                      string                                                                                          "json:\"name\" graphql:\"name\""
+	PooledBandwidthAllocation []*ZtnaAppConnectorZtnaAppConnector_ZtnaAppConnector_ZtnaAppConnector_PooledBandwidthAllocation "json:\"pooledBandwidthAllocation\" graphql:\"pooledBandwidthAllocation\""
+	PreferredPopLocation      *ZtnaAppConnectorZtnaAppConnector_ZtnaAppConnector_ZtnaAppConnector_PreferredPopLocation        "json:\"preferredPopLocation,omitempty\" graphql:\"preferredPopLocation\""
+	PrivateAppCount           int64                                                                                           "json:\"privateAppCount\" graphql:\"privateAppCount\""
+	PrivateAppRef             []*ZtnaAppConnectorZtnaAppConnector_ZtnaAppConnector_ZtnaAppConnector_PrivateAppRef             "json:\"privateAppRef\" graphql:\"privateAppRef\""
+	SerialNumber              *string                                                                                         "json:\"serialNumber,omitempty\" graphql:\"serialNumber\""
+	SocketID                  *string                                                                                         "json:\"socketId,omitempty\" graphql:\"socketId\""
+	SocketInfo                *ZtnaAppConnectorZtnaAppConnector_ZtnaAppConnector_ZtnaAppConnector_SocketInfo                  "json:\"socketInfo,omitempty\" graphql:\"socketInfo\""
+	SocketModel               *cato_models.SocketModel                                                                        "json:\"socketModel,omitempty\" graphql:\"socketModel\""
+	Type                      cato_models.ZtnaAppConnectorType                                                                "json:\"type\" graphql:\"type\""
 }
 
 func (t *ZtnaAppConnectorZtnaAppConnector_ZtnaAppConnector_ZtnaAppConnector) GetCreatedAt() *string {
@@ -349179,6 +350368,12 @@ func (t *ZtnaAppConnectorZtnaAppConnector_ZtnaAppConnector_ZtnaAppConnector) Get
 		t = &ZtnaAppConnectorZtnaAppConnector_ZtnaAppConnector_ZtnaAppConnector{}
 	}
 	return t.Name
+}
+func (t *ZtnaAppConnectorZtnaAppConnector_ZtnaAppConnector_ZtnaAppConnector) GetPooledBandwidthAllocation() []*ZtnaAppConnectorZtnaAppConnector_ZtnaAppConnector_ZtnaAppConnector_PooledBandwidthAllocation {
+	if t == nil {
+		t = &ZtnaAppConnectorZtnaAppConnector_ZtnaAppConnector_ZtnaAppConnector{}
+	}
+	return t.PooledBandwidthAllocation
 }
 func (t *ZtnaAppConnectorZtnaAppConnector_ZtnaAppConnector_ZtnaAppConnector) GetPreferredPopLocation() *ZtnaAppConnectorZtnaAppConnector_ZtnaAppConnector_ZtnaAppConnector_PreferredPopLocation {
 	if t == nil {
@@ -349451,22 +350646,48 @@ func (t *ZtnaAppConnectorZtnaAppConnectorList_ZtnaAppConnector_ZtnaAppConnectorL
 	return t.VersionUpdateTime
 }
 
+type ZtnaAppConnectorZtnaAppConnectorList_ZtnaAppConnector_ZtnaAppConnectorList_ZtnaAppConnector_PooledBandwidthAllocation struct {
+	AllocationID string "json:\"allocationId\" graphql:\"allocationId\""
+	Bw           int64  "json:\"bw\" graphql:\"bw\""
+	LicenseID    string "json:\"licenseId\" graphql:\"licenseId\""
+}
+
+func (t *ZtnaAppConnectorZtnaAppConnectorList_ZtnaAppConnector_ZtnaAppConnectorList_ZtnaAppConnector_PooledBandwidthAllocation) GetAllocationID() string {
+	if t == nil {
+		t = &ZtnaAppConnectorZtnaAppConnectorList_ZtnaAppConnector_ZtnaAppConnectorList_ZtnaAppConnector_PooledBandwidthAllocation{}
+	}
+	return t.AllocationID
+}
+func (t *ZtnaAppConnectorZtnaAppConnectorList_ZtnaAppConnector_ZtnaAppConnectorList_ZtnaAppConnector_PooledBandwidthAllocation) GetBw() int64 {
+	if t == nil {
+		t = &ZtnaAppConnectorZtnaAppConnectorList_ZtnaAppConnector_ZtnaAppConnectorList_ZtnaAppConnector_PooledBandwidthAllocation{}
+	}
+	return t.Bw
+}
+func (t *ZtnaAppConnectorZtnaAppConnectorList_ZtnaAppConnector_ZtnaAppConnectorList_ZtnaAppConnector_PooledBandwidthAllocation) GetLicenseID() string {
+	if t == nil {
+		t = &ZtnaAppConnectorZtnaAppConnectorList_ZtnaAppConnector_ZtnaAppConnectorList_ZtnaAppConnector_PooledBandwidthAllocation{}
+	}
+	return t.LicenseID
+}
+
 type ZtnaAppConnectorZtnaAppConnectorList_ZtnaAppConnector_ZtnaAppConnectorList_ZtnaAppConnector struct {
-	CreatedAt            *string                                                                                                           "json:\"createdAt,omitempty\" graphql:\"createdAt\""
-	Description          *string                                                                                                           "json:\"description,omitempty\" graphql:\"description\""
-	GroupName            string                                                                                                            "json:\"groupName\" graphql:\"groupName\""
-	ID                   string                                                                                                            "json:\"id\" graphql:\"id\""
-	IsRegistered         bool                                                                                                              "json:\"isRegistered\" graphql:\"isRegistered\""
-	Location             ZtnaAppConnectorZtnaAppConnectorList_ZtnaAppConnector_ZtnaAppConnectorList_ZtnaAppConnector_Location              "json:\"location\" graphql:\"location\""
-	Name                 string                                                                                                            "json:\"name\" graphql:\"name\""
-	PreferredPopLocation *ZtnaAppConnectorZtnaAppConnectorList_ZtnaAppConnector_ZtnaAppConnectorList_ZtnaAppConnector_PreferredPopLocation "json:\"preferredPopLocation,omitempty\" graphql:\"preferredPopLocation\""
-	PrivateAppCount      int64                                                                                                             "json:\"privateAppCount\" graphql:\"privateAppCount\""
-	PrivateAppRef        []*ZtnaAppConnectorZtnaAppConnectorList_ZtnaAppConnector_ZtnaAppConnectorList_ZtnaAppConnector_PrivateAppRef      "json:\"privateAppRef\" graphql:\"privateAppRef\""
-	SerialNumber         *string                                                                                                           "json:\"serialNumber,omitempty\" graphql:\"serialNumber\""
-	SocketID             *string                                                                                                           "json:\"socketId,omitempty\" graphql:\"socketId\""
-	SocketInfo           *ZtnaAppConnectorZtnaAppConnectorList_ZtnaAppConnector_ZtnaAppConnectorList_ZtnaAppConnector_SocketInfo           "json:\"socketInfo,omitempty\" graphql:\"socketInfo\""
-	SocketModel          *cato_models.SocketModel                                                                                          "json:\"socketModel,omitempty\" graphql:\"socketModel\""
-	Type                 cato_models.ZtnaAppConnectorType                                                                                  "json:\"type\" graphql:\"type\""
+	CreatedAt                 *string                                                                                                                  "json:\"createdAt,omitempty\" graphql:\"createdAt\""
+	Description               *string                                                                                                                  "json:\"description,omitempty\" graphql:\"description\""
+	GroupName                 string                                                                                                                   "json:\"groupName\" graphql:\"groupName\""
+	ID                        string                                                                                                                   "json:\"id\" graphql:\"id\""
+	IsRegistered              bool                                                                                                                     "json:\"isRegistered\" graphql:\"isRegistered\""
+	Location                  ZtnaAppConnectorZtnaAppConnectorList_ZtnaAppConnector_ZtnaAppConnectorList_ZtnaAppConnector_Location                     "json:\"location\" graphql:\"location\""
+	Name                      string                                                                                                                   "json:\"name\" graphql:\"name\""
+	PooledBandwidthAllocation []*ZtnaAppConnectorZtnaAppConnectorList_ZtnaAppConnector_ZtnaAppConnectorList_ZtnaAppConnector_PooledBandwidthAllocation "json:\"pooledBandwidthAllocation\" graphql:\"pooledBandwidthAllocation\""
+	PreferredPopLocation      *ZtnaAppConnectorZtnaAppConnectorList_ZtnaAppConnector_ZtnaAppConnectorList_ZtnaAppConnector_PreferredPopLocation        "json:\"preferredPopLocation,omitempty\" graphql:\"preferredPopLocation\""
+	PrivateAppCount           int64                                                                                                                    "json:\"privateAppCount\" graphql:\"privateAppCount\""
+	PrivateAppRef             []*ZtnaAppConnectorZtnaAppConnectorList_ZtnaAppConnector_ZtnaAppConnectorList_ZtnaAppConnector_PrivateAppRef             "json:\"privateAppRef\" graphql:\"privateAppRef\""
+	SerialNumber              *string                                                                                                                  "json:\"serialNumber,omitempty\" graphql:\"serialNumber\""
+	SocketID                  *string                                                                                                                  "json:\"socketId,omitempty\" graphql:\"socketId\""
+	SocketInfo                *ZtnaAppConnectorZtnaAppConnectorList_ZtnaAppConnector_ZtnaAppConnectorList_ZtnaAppConnector_SocketInfo                  "json:\"socketInfo,omitempty\" graphql:\"socketInfo\""
+	SocketModel               *cato_models.SocketModel                                                                                                 "json:\"socketModel,omitempty\" graphql:\"socketModel\""
+	Type                      cato_models.ZtnaAppConnectorType                                                                                         "json:\"type\" graphql:\"type\""
 }
 
 func (t *ZtnaAppConnectorZtnaAppConnectorList_ZtnaAppConnector_ZtnaAppConnectorList_ZtnaAppConnector) GetCreatedAt() *string {
@@ -349510,6 +350731,12 @@ func (t *ZtnaAppConnectorZtnaAppConnectorList_ZtnaAppConnector_ZtnaAppConnectorL
 		t = &ZtnaAppConnectorZtnaAppConnectorList_ZtnaAppConnector_ZtnaAppConnectorList_ZtnaAppConnector{}
 	}
 	return t.Name
+}
+func (t *ZtnaAppConnectorZtnaAppConnectorList_ZtnaAppConnector_ZtnaAppConnectorList_ZtnaAppConnector) GetPooledBandwidthAllocation() []*ZtnaAppConnectorZtnaAppConnectorList_ZtnaAppConnector_ZtnaAppConnectorList_ZtnaAppConnector_PooledBandwidthAllocation {
+	if t == nil {
+		t = &ZtnaAppConnectorZtnaAppConnectorList_ZtnaAppConnector_ZtnaAppConnectorList_ZtnaAppConnector{}
+	}
+	return t.PooledBandwidthAllocation
 }
 func (t *ZtnaAppConnectorZtnaAppConnectorList_ZtnaAppConnector_ZtnaAppConnectorList_ZtnaAppConnector) GetPreferredPopLocation() *ZtnaAppConnectorZtnaAppConnectorList_ZtnaAppConnector_ZtnaAppConnectorList_ZtnaAppConnector_PreferredPopLocation {
 	if t == nil {
@@ -350135,6 +351362,17 @@ type LicensingRemoveLicenseFromManagedAccount struct {
 func (t *LicensingRemoveLicenseFromManagedAccount) GetLicensing() *LicensingRemoveLicenseFromManagedAccount_Licensing {
 	if t == nil {
 		t = &LicensingRemoveLicenseFromManagedAccount{}
+	}
+	return t.Licensing
+}
+
+type LicensingStartServiceTrial struct {
+	Licensing *LicensingStartServiceTrial_Licensing "json:\"licensing,omitempty\" graphql:\"licensing\""
+}
+
+func (t *LicensingStartServiceTrial) GetLicensing() *LicensingStartServiceTrial_Licensing {
+	if t == nil {
+		t = &LicensingStartServiceTrial{}
 	}
 	return t.Licensing
 }
@@ -359169,6 +360407,39 @@ func (c *Client) LicensingRemoveLicenseFromManagedAccount(ctx context.Context, a
 
 	var res LicensingRemoveLicenseFromManagedAccount
 	if err := c.Client.Post(ctx, "licensingRemoveLicenseFromManagedAccount", LicensingRemoveLicenseFromManagedAccountDocument, &res, vars, interceptors...); err != nil {
+		if c.Client.ParseDataWhenErrors {
+			return &res, err
+		}
+
+		return nil, err
+	}
+
+	return &res, nil
+}
+
+const LicensingStartServiceTrialDocument = `mutation licensingStartServiceTrial ($accountId: ID!, $licensingStartServiceTrialInput: LicensingStartServiceTrialInput!) {
+	licensing(accountId: $accountId) {
+		startServiceTrial(input: $licensingStartServiceTrialInput) {
+			trial {
+				expirationDate
+				plan
+				service
+				startDate
+				status
+			}
+		}
+	}
+}
+`
+
+func (c *Client) LicensingStartServiceTrial(ctx context.Context, accountID string, licensingStartServiceTrialInput cato_models.LicensingStartServiceTrialInput, interceptors ...clientv2.RequestInterceptor) (*LicensingStartServiceTrial, error) {
+	vars := map[string]any{
+		"accountId":                       accountID,
+		"licensingStartServiceTrialInput": licensingStartServiceTrialInput,
+	}
+
+	var res LicensingStartServiceTrial
+	if err := c.Client.Post(ctx, "licensingStartServiceTrial", LicensingStartServiceTrialDocument, &res, vars, interceptors...); err != nil {
 		if c.Client.ParseDataWhenErrors {
 			return &res, err
 		}
@@ -402188,6 +403459,16 @@ const PostureDismissFindingDocument = `mutation postureDismissFinding ($accountI
 					application
 					checkType
 					securityDomain
+					scoreMetadata {
+						effectiveAreaCriticality
+						effectiveBlastRadiusClass
+						effectiveBlastRadiusValue
+						effectiveFindingsSignal
+						effectiveSeverity
+						effectiveSuggestedScore
+						effectiveSuggestedSeverity
+						scoreContributionPct
+					}
 				}
 			}
 		}
@@ -402253,6 +403534,16 @@ const PostureMuteCheckDocument = `mutation postureMuteCheck ($accountId: ID!, $p
 					application
 					checkType
 					securityDomain
+					scoreMetadata {
+						effectiveAreaCriticality
+						effectiveBlastRadiusClass
+						effectiveBlastRadiusValue
+						effectiveFindingsSignal
+						effectiveSeverity
+						effectiveSuggestedScore
+						effectiveSuggestedSeverity
+						scoreContributionPct
+					}
 				}
 				result {
 					id
@@ -402326,6 +403617,16 @@ const PostureMuteCheckDocument = `mutation postureMuteCheck ($accountId: ID!, $p
 						application
 						checkType
 						securityDomain
+						scoreMetadata {
+							effectiveAreaCriticality
+							effectiveBlastRadiusClass
+							effectiveBlastRadiusValue
+							effectiveFindingsSignal
+							effectiveSeverity
+							effectiveSuggestedScore
+							effectiveSuggestedSeverity
+							scoreContributionPct
+						}
 					}
 				}
 				findingsCount {
@@ -402443,6 +403744,16 @@ const PostureMuteFindingDocument = `mutation postureMuteFinding ($accountId: ID!
 					application
 					checkType
 					securityDomain
+					scoreMetadata {
+						effectiveAreaCriticality
+						effectiveBlastRadiusClass
+						effectiveBlastRadiusValue
+						effectiveFindingsSignal
+						effectiveSeverity
+						effectiveSuggestedScore
+						effectiveSuggestedSeverity
+						scoreContributionPct
+					}
 				}
 			}
 		}
@@ -402555,6 +403866,16 @@ const PostureUndismissFindingDocument = `mutation postureUndismissFinding ($acco
 					application
 					checkType
 					securityDomain
+					scoreMetadata {
+						effectiveAreaCriticality
+						effectiveBlastRadiusClass
+						effectiveBlastRadiusValue
+						effectiveFindingsSignal
+						effectiveSeverity
+						effectiveSuggestedScore
+						effectiveSuggestedSeverity
+						scoreContributionPct
+					}
 				}
 			}
 		}
@@ -402620,6 +403941,16 @@ const PostureUnmuteCheckDocument = `mutation postureUnmuteCheck ($accountId: ID!
 					application
 					checkType
 					securityDomain
+					scoreMetadata {
+						effectiveAreaCriticality
+						effectiveBlastRadiusClass
+						effectiveBlastRadiusValue
+						effectiveFindingsSignal
+						effectiveSeverity
+						effectiveSuggestedScore
+						effectiveSuggestedSeverity
+						scoreContributionPct
+					}
 				}
 				result {
 					id
@@ -402693,6 +404024,16 @@ const PostureUnmuteCheckDocument = `mutation postureUnmuteCheck ($accountId: ID!
 						application
 						checkType
 						securityDomain
+						scoreMetadata {
+							effectiveAreaCriticality
+							effectiveBlastRadiusClass
+							effectiveBlastRadiusValue
+							effectiveFindingsSignal
+							effectiveSeverity
+							effectiveSuggestedScore
+							effectiveSuggestedSeverity
+							scoreContributionPct
+						}
 					}
 				}
 				findingsCount {
@@ -402810,6 +404151,16 @@ const PostureUnmuteFindingDocument = `mutation postureUnmuteFinding ($accountId:
 					application
 					checkType
 					securityDomain
+					scoreMetadata {
+						effectiveAreaCriticality
+						effectiveBlastRadiusClass
+						effectiveBlastRadiusValue
+						effectiveFindingsSignal
+						effectiveSeverity
+						effectiveSuggestedScore
+						effectiveSuggestedSeverity
+						scoreContributionPct
+					}
 				}
 			}
 		}
@@ -402874,6 +404225,16 @@ const PostureUpdateCheckConfigurationDocument = `mutation postureUpdateCheckConf
 				application
 				checkType
 				securityDomain
+				scoreMetadata {
+					effectiveAreaCriticality
+					effectiveBlastRadiusClass
+					effectiveBlastRadiusValue
+					effectiveFindingsSignal
+					effectiveSeverity
+					effectiveSuggestedScore
+					effectiveSuggestedSeverity
+					scoreContributionPct
+				}
 			}
 		}
 	}
@@ -409658,35 +411019,59 @@ const XdrAnalystFeedbackDocument = `mutation xdrAnalystFeedback ($accountId: ID!
 	xdr(accountId: $accountId) {
 		analystFeedback(input: $analystFeedbackInput) {
 			story {
-				accountId
-				accountName
-				analystEmail
-				analystName
-				createdAt
 				id
+				accountId
+				analystName
+				analystEmail
+				accountName
+				updatedAt
+				createdAt
+				playbook
+				summary
 				incident {
+					id
+					firstSignal
+					lastSignal
+					engineType
+					vendor
+					producer
+					producerType
+					producerName
+					connectionType
+					indication
+					queryName
+					criticality
+					source
+					ticket
+					status
+					research
+					siteName
+					storyDuration
+					description
+					sourceIp
 					analystFeedback {
-						additionalInfo
+						verdict
 						severity
-						threatClassification
 						threatType {
-							details
 							name
 							recommendedAction
+							details
 						}
-						verdict
+						threatClassification
+						additionalInfo
 					}
+					site {
+						id
+						name
+					}
+					user {
+						id
+						name
+					}
+					predictedVerdict
+					predictedThreatType
 					categories
-					connectionType
-					criticality
-					description
-					engineType
 					entities {
-						data {
-							fieldName
-							values
-						}
-						kind
 						ref {
 							id
 							name
@@ -409694,426 +411079,15 @@ const XdrAnalystFeedbackDocument = `mutation xdrAnalystFeedback ($accountId: ID!
 								type
 							}
 						}
+						type
 						role
-						type
+						kind
+						data {
+							fieldName
+							values
+						}
 					}
-					firstSignal
-					id
-					indication
-					lastSignal
 					muted
-					predictedThreatType
-					predictedVerdict
-					producer
-					producerName
-					producerType
-					queryName
-					research
-					site {
-						id
-						name
-					}
-					siteName
-					source
-					sourceIp
-					status
-					storyDuration
-					ticket
-					user {
-						id
-						name
-					}
-					vendor
-					... on AiOperationsIncident {
-						similarStoriesData {
-							storyId
-							threatTypeName
-							verdict
-							threatClassification
-							similarityPercentage
-							indication
-						}
-						flowLastTime
-						flowStartTime
-						ioa
-						riskScore
-						type
-						occurrences
-						eventsGraphQuery {
-							type
-							timeSeriesEvents {
-								accountID
-								timeFrame
-								measures {
-									aggType
-									fieldName
-									trend
-								}
-								dimensions {
-									fieldName
-								}
-								filters {
-									fieldName
-									operator
-									values
-								}
-								buckets
-							}
-						}
-						accountOperationIncident {
-							incidentTimeline {
-								__typename
-								... on AccountOperationsTimelineEvent {
-									id
-									created
-									validated
-									description
-									type
-									eventIds
-									muted
-								}
-							}
-							metadata {
-								type
-								key
-								value
-							}
-							playbooks {
-								title
-								description
-								link
-							}
-						}
-					}
-					... on AnomalyEvents {
-						similarStoriesData {
-							storyId
-							threatTypeName
-							verdict
-							threatClassification
-							similarityPercentage
-							indication
-						}
-						srcSiteId
-						os
-						deviceName
-						macAddress
-						logonName
-						clientClass
-						drillDownFilter {
-							name
-							value
-							values
-						}
-						breakdownField
-						subjectType
-						extra {
-							name
-							type
-							value
-						}
-						gaussian {
-							std
-							ss
-							z_score
-							avg
-							n
-						}
-						metric {
-							name
-							value
-						}
-						metricDetails {
-							name
-							units
-						}
-						mitres {
-							id
-							name
-						}
-						rules
-						timeSeries {
-							data
-							groupBy
-							label
-							sum
-							units
-							info
-							key {
-								measureFieldName
-								dimensions {
-									fieldName
-									value
-								}
-							}
-						}
-						targets {
-							type
-							name
-							analysisScore
-							infectionSource
-							threatReference
-							catoPopularity
-							threatFeeds
-							creationTime
-							categories
-							countryOfRegistration
-							searchHits
-							engines
-							eventData {
-								signatureId
-								eventType
-								threatType
-								threatName
-								severity
-								action
-								ruleId
-								ruleName
-								virusName
-								scanResult
-								appId
-								appName
-								appActivityType
-								fileName
-								dnsProtectionCategory
-							}
-						}
-						direction
-					}
-					... on AnomalyStats {
-						similarStoriesData {
-							storyId
-							threatTypeName
-							verdict
-							threatClassification
-							similarityPercentage
-							indication
-						}
-						srcSiteId
-						os
-						deviceName
-						macAddress
-						logonName
-						clientClass
-						drillDownFilter {
-							name
-							value
-							values
-						}
-						breakdownField
-						subjectType
-						extra {
-							name
-							type
-							value
-						}
-						gaussian {
-							std
-							ss
-							z_score
-							avg
-							n
-						}
-						metric {
-							name
-							value
-						}
-						metricDetails {
-							name
-							units
-						}
-						mitres {
-							id
-							name
-						}
-						rules
-						timeSeries {
-							data
-							groupBy
-							label
-							sum
-							units
-							info
-							key {
-								measureFieldName
-								dimensions {
-									fieldName
-									value
-								}
-							}
-						}
-						targets {
-							type
-							name
-							analysisScore
-							infectionSource
-							threatReference
-							catoPopularity
-							threatFeeds
-							creationTime
-							categories
-							countryOfRegistration
-							searchHits
-							engines
-							eventData {
-								signatureId
-								eventType
-								threatType
-								threatName
-								severity
-								action
-								ruleId
-								ruleName
-								virusName
-								scanResult
-								appId
-								appName
-								appActivityType
-								fileName
-								dnsProtectionCategory
-							}
-						}
-						direction
-					}
-					... on CatoEndpoint {
-						similarStoriesData {
-							storyId
-							threatTypeName
-							verdict
-							threatClassification
-							similarityPercentage
-							indication
-						}
-						device {
-							id
-							deviceName
-							osDetails {
-								osType
-								osBuild
-								osVersion
-							}
-							loggedOnUsers {
-								__typename
-								... on MicrosoftEndpointUser {
-									id
-									name
-									userSid
-									accountName
-									domainName
-									principalName
-								}
-								... on CatoEndpointUser {
-									id
-									name
-								}
-							}
-							macAddress
-							externalIp
-							localIp
-						}
-						alerts {
-							id
-							title
-							description
-							threatName
-							mitreTechnique {
-								id
-								name
-							}
-							mitreSubTechnique {
-								id
-								name
-							}
-							createdDateTime
-							resources {
-								__typename
-								... on CatoProcessResource {
-									id
-									createdDateTime
-									remediationStatus
-									processId
-									processCommandLine
-									imageFile {
-										__typename
-									}
-									userAccount {
-										__typename
-									}
-								}
-								... on CatoFileResource {
-									id
-									createdDateTime
-									remediationStatus
-									fileDetails {
-										__typename
-									}
-									detectionStatus
-								}
-							}
-							activities {
-								id
-								resourceId
-								parentResourceId
-							}
-							criticality
-							engineType
-							statusCatoEndpoint: status
-							endpointProtectionProfile
-							externalIp
-							localIp
-						}
-					}
-					... on GenericIncident {
-						similarStoriesData {
-							storyId
-							threatTypeName
-							verdict
-							threatClassification
-							similarityPercentage
-							indication
-						}
-						vendorInfo {
-							name
-							product
-							status
-							engineType
-							incidentUrl
-						}
-						statusInfo {
-							verdict
-							classification
-							incidentStatus
-						}
-						evidences {
-							type
-							value
-							kind
-							data {
-								fieldName
-								values
-							}
-						}
-						queries {
-							dataSource
-							measures {
-								fieldName
-								aggType
-								unitType
-							}
-							filters {
-								name
-								operator
-								value
-								values
-							}
-							fields
-							buckets
-						}
-						mitres {
-							id
-							name
-						}
-					}
 					... on MicrosoftEndpoint {
 						similarStoriesData {
 							storyId
@@ -410308,7 +411282,7 @@ const XdrAnalystFeedbackDocument = `mutation xdrAnalystFeedback ($accountId: ID!
 						url
 						vendorStatus
 					}
-					... on NetworkXDRIncident {
+					... on AnomalyStats {
 						similarStoriesData {
 							storyId
 							threatTypeName
@@ -410317,93 +411291,186 @@ const XdrAnalystFeedbackDocument = `mutation xdrAnalystFeedback ($accountId: ID!
 							similarityPercentage
 							indication
 						}
-						networkIncidentTimeline {
-							created
-							validated
-							description
-							eventType
-							incidentId
-							networkEventSource
-							eventIds
-							acknowledged
-							linkId
-							linkName
-							linkConfigPrecedence
-							linkStatus
-							linkConfigBandwidth
-							deviceConfigHaRole
-							deviceHaRoleState
-							socketSerialId
-							pop
-							isp
-							bgpConnection {
-								connectionName
-								peerIp
-								peerAsn
-								catoIp
-								catoAsn
-							}
-							linkQualityIssue {
-								issueType
-								direction
-								current
-								threshold
-							}
-							hostIp
-							ruleName
-							tunnelResetCount
-							muted
+						srcSiteId
+						os
+						deviceName
+						macAddress
+						logonName
+						clientClass
+						drillDownFilter {
+							name
+							value
+							values
 						}
-						storyType
-						occurrences
-						siteConnectionType
-						siteConfigLocation
-						acknowledged
-						linkId
-						linkName
-						linkConfigPrecedence
-						deviceConfigHaRole
-						licenseRegion
-						licenseBandwidth
-						pop
-						isp
-						bgpConnection {
-							connectionName
-							peerIp
-							peerAsn
-							catoIp
-							catoAsn
+						breakdownField
+						subjectType
+						extra {
+							name
+							type
+							value
 						}
-						hostIp
-						ruleName
-						ilmmDetails {
-							linkDetails {
-								linkId
-								description
-								ispLinkId
-								comments
-								onboardingStatus
-								activeLicense
-							}
-							ispDetails {
-								name
-								ispAccountId
-								supportEmail
-								supportPhone
-								description
-								countryCode
-								loaFile {
-									fileName
-									fileHash
-									uploadedAt
+						gaussian {
+							std
+							ss
+							z_score
+							avg
+							n
+						}
+						metric {
+							name
+							value
+						}
+						metricDetails {
+							name
+							units
+						}
+						mitres {
+							id
+							name
+						}
+						rules
+						timeSeries {
+							data
+							groupBy
+							label
+							sum
+							units
+							info
+							key {
+								measureFieldName
+								dimensions {
+									fieldName
+									value
 								}
 							}
-							contacts {
-								name
-								phone
-								email
+						}
+						targets {
+							type
+							name
+							analysisScore
+							infectionSource
+							threatReference
+							catoPopularity
+							threatFeeds
+							creationTime
+							categories
+							countryOfRegistration
+							searchHits
+							engines
+							eventData {
+								signatureId
+								eventType
+								threatType
+								threatName
+								severity
+								action
+								ruleId
+								ruleName
+								virusName
+								scanResult
+								appId
+								appName
+								appActivityType
+								fileName
+								dnsProtectionCategory
 							}
 						}
+						direction
+					}
+					... on AnomalyEvents {
+						similarStoriesData {
+							storyId
+							threatTypeName
+							verdict
+							threatClassification
+							similarityPercentage
+							indication
+						}
+						srcSiteId
+						os
+						deviceName
+						macAddress
+						logonName
+						clientClass
+						drillDownFilter {
+							name
+							value
+							values
+						}
+						breakdownField
+						subjectType
+						extra {
+							name
+							type
+							value
+						}
+						gaussian {
+							std
+							ss
+							z_score
+							avg
+							n
+						}
+						metric {
+							name
+							value
+						}
+						metricDetails {
+							name
+							units
+						}
+						mitres {
+							id
+							name
+						}
+						rules
+						timeSeries {
+							data
+							groupBy
+							label
+							sum
+							units
+							info
+							key {
+								measureFieldName
+								dimensions {
+									fieldName
+									value
+								}
+							}
+						}
+						targets {
+							type
+							name
+							analysisScore
+							infectionSource
+							threatReference
+							catoPopularity
+							threatFeeds
+							creationTime
+							categories
+							countryOfRegistration
+							searchHits
+							engines
+							eventData {
+								signatureId
+								eventType
+								threatType
+								threatName
+								severity
+								action
+								ruleId
+								ruleName
+								virusName
+								scanResult
+								appId
+								appName
+								appActivityType
+								fileName
+								dnsProtectionCategory
+							}
+						}
+						direction
 					}
 					... on Threat {
 						similarStoriesData {
@@ -410629,49 +411696,343 @@ const XdrAnalystFeedbackDocument = `mutation xdrAnalystFeedback ($accountId: ID!
 							httpResponseCode
 						}
 					}
+					... on NetworkXDRIncident {
+						similarStoriesData {
+							storyId
+							threatTypeName
+							verdict
+							threatClassification
+							similarityPercentage
+							indication
+						}
+						networkIncidentTimeline {
+							created
+							validated
+							description
+							eventType
+							incidentId
+							networkEventSource
+							eventIds
+							acknowledged
+							linkId
+							linkName
+							linkConfigPrecedence
+							linkStatus
+							linkConfigBandwidth
+							deviceConfigHaRole
+							deviceHaRoleState
+							socketSerialId
+							pop
+							isp
+							bgpConnection {
+								connectionName
+								peerIp
+								peerAsn
+								catoIp
+								catoAsn
+							}
+							linkQualityIssue {
+								issueType
+								direction
+								current
+								threshold
+							}
+							hostIp
+							ruleName
+							tunnelResetCount
+							muted
+						}
+						storyType
+						occurrences
+						siteConnectionType
+						siteConfigLocation
+						acknowledged
+						linkId
+						linkName
+						linkConfigPrecedence
+						deviceConfigHaRole
+						licenseRegion
+						licenseBandwidth
+						pop
+						isp
+						bgpConnection {
+							connectionName
+							peerIp
+							peerAsn
+							catoIp
+							catoAsn
+						}
+						hostIp
+						ruleName
+						ilmmDetails {
+							linkDetails {
+								linkId
+								description
+								ispLinkId
+								comments
+								onboardingStatus
+								activeLicense
+							}
+							ispDetails {
+								name
+								ispAccountId
+								supportEmail
+								supportPhone
+								description
+								countryCode
+								loaFile {
+									fileName
+									fileHash
+									uploadedAt
+								}
+							}
+							contacts {
+								name
+								phone
+								email
+							}
+						}
+					}
+					... on AiOperationsIncident {
+						similarStoriesData {
+							storyId
+							threatTypeName
+							verdict
+							threatClassification
+							similarityPercentage
+							indication
+						}
+						flowLastTime
+						flowStartTime
+						ioa
+						riskScore
+						type
+						occurrences
+						eventsGraphQuery {
+							type
+							timeSeriesEvents {
+								accountID
+								timeFrame
+								measures {
+									aggType
+									fieldName
+									trend
+								}
+								dimensions {
+									fieldName
+								}
+								filters {
+									fieldName
+									operator
+									values
+								}
+								buckets
+							}
+						}
+						accountOperationIncident {
+							incidentTimeline {
+								__typename
+								... on AccountOperationsTimelineEvent {
+									id
+									created
+									validated
+									description
+									type
+									eventIds
+									muted
+								}
+							}
+							metadata {
+								type
+								key
+								value
+							}
+							playbooks {
+								title
+								description
+								link
+							}
+						}
+					}
+					... on GenericIncident {
+						similarStoriesData {
+							storyId
+							threatTypeName
+							verdict
+							threatClassification
+							similarityPercentage
+							indication
+						}
+						vendorInfo {
+							name
+							product
+							status
+							engineType
+							incidentUrl
+						}
+						statusInfo {
+							verdict
+							classification
+							incidentStatus
+						}
+						evidences {
+							type
+							value
+							kind
+							data {
+								fieldName
+								values
+							}
+						}
+						queries {
+							dataSource
+							measures {
+								fieldName
+								aggType
+								unitType
+							}
+							filters {
+								name
+								operator
+								value
+								values
+							}
+							fields
+							buckets
+						}
+						mitres {
+							id
+							name
+						}
+					}
+					... on CatoEndpoint {
+						similarStoriesData {
+							storyId
+							threatTypeName
+							verdict
+							threatClassification
+							similarityPercentage
+							indication
+						}
+						device {
+							id
+							deviceName
+							osDetails {
+								osType
+								osBuild
+								osVersion
+							}
+							loggedOnUsers {
+								__typename
+								... on MicrosoftEndpointUser {
+									id
+									name
+									userSid
+									accountName
+									domainName
+									principalName
+								}
+								... on CatoEndpointUser {
+									id
+									name
+								}
+							}
+							macAddress
+							externalIp
+							localIp
+						}
+						alerts {
+							id
+							title
+							description
+							threatName
+							mitreTechnique {
+								id
+								name
+							}
+							mitreSubTechnique {
+								id
+								name
+							}
+							createdDateTime
+							resources {
+								__typename
+								... on CatoProcessResource {
+									id
+									createdDateTime
+									remediationStatus
+									processId
+									processCommandLine
+									imageFile {
+										__typename
+									}
+									userAccount {
+										__typename
+									}
+								}
+								... on CatoFileResource {
+									id
+									createdDateTime
+									remediationStatus
+									fileDetails {
+										__typename
+									}
+									detectionStatus
+								}
+							}
+							activities {
+								id
+								resourceId
+								parentResourceId
+							}
+							criticality
+							engineType
+							statusCatoEndpoint: status
+							endpointProtectionProfile
+							externalIp
+							localIp
+						}
+					}
+				}
+				timeline {
+					createdAt
+					description
+					context
+					type
+					descriptions
+					category
+					additionalInfo
+					analystInfo {
+						name
+						email
+					}
 				}
 				investigationDetails {
 					investigationStatus
-					lastManagedComment {
-						actor {
-							id
-							name
-						}
-						author
-						createdAt
-						id
-						text
-						type
-					}
-					lastUserComment {
-						actor {
-							id
-							name
-						}
-						author
-						createdAt
-						id
-						text
-						type
-					}
 					managedServiceTicketLink
-				}
-				playbook
-				summary
-				timeline {
-					additionalInfo
-					analystInfo {
-						email
-						name
+					lastUserComment {
+						id
+						createdAt
+						text
+						actor {
+							id
+							name
+						}
+						type
+						author
 					}
-					category
-					context
-					createdAt
-					description
-					descriptions
-					type
+					lastManagedComment {
+						id
+						createdAt
+						text
+						actor {
+							id
+							name
+						}
+						type
+						author
+					}
 				}
-				updatedAt
 			}
 		}
 	}
@@ -410831,6 +412192,16 @@ const ZtnaAppConnectorAddZtnaAppConnectorDocument = `mutation ztnaAppConnectorAd
 					rollbackEligibleUntil
 					upgradesPaused
 				}
+				pooledBandwidthAllocation {
+					allocationId
+					bw
+					licenseId
+				}
+			}
+			pooledBandwidthAllocation {
+				allocationId
+				bw
+				licenseId
 			}
 		}
 	}
@@ -410990,6 +412361,11 @@ const ZtnaAppConnectorRemoveZtnaAppConnectorDocument = `mutation ztnaAppConnecto
 					rollbackEligibleUntil
 					upgradesPaused
 				}
+				pooledBandwidthAllocation {
+					allocationId
+					bw
+					licenseId
+				}
 			}
 		}
 	}
@@ -411059,6 +412435,11 @@ const ZtnaAppConnectorUnassignSocketFromZtnaAppConnectorDocument = `mutation ztn
 					versionUpdateTime
 					rollbackEligibleUntil
 					upgradesPaused
+				}
+				pooledBandwidthAllocation {
+					allocationId
+					bw
+					licenseId
 				}
 			}
 		}
@@ -411158,6 +412539,11 @@ const ZtnaAppConnectorUpdateZtnaAppConnectorDocument = `mutation ztnaAppConnecto
 					versionUpdateTime
 					rollbackEligibleUntil
 					upgradesPaused
+				}
+				pooledBandwidthAllocation {
+					allocationId
+					bw
+					licenseId
 				}
 			}
 		}
@@ -413933,6 +415319,10 @@ const DevicesDocument = `query devices ($accountId: ID!, $deviceV2Input: DeviceV
 					id
 					name
 				}
+				crownJewelSource
+				customerReasonType
+				isCrownJewel
+				researchReasonTypes
 			}
 			paging {
 				total
@@ -421520,6 +422910,16 @@ const PostureCheckResultListDocument = `query postureCheckResultList ($accountId
 					application
 					checkType
 					securityDomain
+					scoreMetadata {
+						effectiveAreaCriticality
+						effectiveBlastRadiusClass
+						effectiveBlastRadiusValue
+						effectiveFindingsSignal
+						effectiveSeverity
+						effectiveSuggestedScore
+						effectiveSuggestedSeverity
+						scoreContributionPct
+					}
 				}
 				result {
 					id
@@ -421593,6 +422993,16 @@ const PostureCheckResultListDocument = `query postureCheckResultList ($accountId
 						application
 						checkType
 						securityDomain
+						scoreMetadata {
+							effectiveAreaCriticality
+							effectiveBlastRadiusClass
+							effectiveBlastRadiusValue
+							effectiveFindingsSignal
+							effectiveSeverity
+							effectiveSuggestedScore
+							effectiveSuggestedSeverity
+							scoreContributionPct
+						}
 					}
 				}
 				findingsCount {
@@ -421796,6 +423206,9 @@ const PostureCheckSummaryDocument = `query postureCheckSummary ($accountId: ID!,
 					average
 					percentile
 				}
+				overallEffectiveAreaCriticality
+				overallEffectiveBlastRadius
+				overallEffectiveFindingsSignal
 			}
 		}
 	}
@@ -421945,6 +423358,9 @@ const PostureDailySummaryListDocument = `query postureDailySummaryList ($account
 						average
 						percentile
 					}
+					overallEffectiveAreaCriticality
+					overallEffectiveBlastRadius
+					overallEffectiveFindingsSignal
 				}
 			}
 			paging {
@@ -422012,6 +423428,16 @@ const PostureDefinitionListDocument = `query postureDefinitionList ($accountId: 
 				application
 				checkType
 				securityDomain
+				scoreMetadata {
+					effectiveAreaCriticality
+					effectiveBlastRadiusClass
+					effectiveBlastRadiusValue
+					effectiveFindingsSignal
+					effectiveSeverity
+					effectiveSuggestedScore
+					effectiveSuggestedSeverity
+					scoreContributionPct
+				}
 			}
 			paging {
 				total
@@ -422100,6 +423526,16 @@ const PostureFindingListDocument = `query postureFindingList ($accountId: ID!, $
 					application
 					checkType
 					securityDomain
+					scoreMetadata {
+						effectiveAreaCriticality
+						effectiveBlastRadiusClass
+						effectiveBlastRadiusValue
+						effectiveFindingsSignal
+						effectiveSeverity
+						effectiveSuggestedScore
+						effectiveSuggestedSeverity
+						scoreContributionPct
+					}
 				}
 			}
 			paging {
@@ -424100,36 +425536,65 @@ func (c *Client) User(ctx context.Context, accountID string, userListInput cato_
 const XdrDocument = `query xdr ($storyInput: StoryInput!, $accountID: ID!) {
 	xdr(accountID: $accountID) {
 		stories(input: $storyInput) {
+			paging {
+				from
+				limit
+				total
+			}
 			items {
-				accountId
-				accountName
-				analystEmail
-				analystName
-				createdAt
 				id
+				accountId
+				analystName
+				analystEmail
+				accountName
+				updatedAt
+				createdAt
+				playbook
+				summary
 				incident {
+					id
+					firstSignal
+					lastSignal
+					engineTypeMergedIncident: engineType
+					vendorMergedIncident: vendor
+					producer
+					producerType
+					producerName
+					connectionTypeMergedIncident: connectionType
+					indication
+					queryName
+					criticality
+					source
+					ticket
+					statusMergedIncident: status
+					research
+					siteName
+					storyDuration
+					description
+					sourceIp
 					analystFeedbackMergedIncident: analystFeedback {
-						additionalInfo
+						verdict
 						severity
-						threatClassification
 						threatType {
-							details
 							name
 							recommendedAction
+							details
 						}
-						verdict
+						threatClassification
+						additionalInfo
 					}
+					siteMergedIncident: site {
+						id
+						name
+					}
+					userMergedIncident: user {
+						id
+						name
+					}
+					predictedVerdictMergedIncident: predictedVerdict
+					predictedThreatType
 					categories
-					connectionTypeMergedIncident: connectionType
-					criticality
-					description
-					engineTypeMergedIncident: engineType
 					entities {
-						data {
-							fieldName
-							values
-						}
-						kind
 						ref {
 							id
 							name
@@ -424137,426 +425602,15 @@ const XdrDocument = `query xdr ($storyInput: StoryInput!, $accountID: ID!) {
 								type
 							}
 						}
+						type
 						role
-						type
+						kind
+						data {
+							fieldName
+							values
+						}
 					}
-					firstSignal
-					id
-					indication
-					lastSignal
 					muted
-					predictedThreatType
-					predictedVerdictMergedIncident: predictedVerdict
-					producer
-					producerName
-					producerType
-					queryName
-					research
-					siteMergedIncident: site {
-						id
-						name
-					}
-					siteName
-					source
-					sourceIp
-					statusMergedIncident: status
-					storyDuration
-					ticket
-					userMergedIncident: user {
-						id
-						name
-					}
-					vendorMergedIncident: vendor
-					... on AiOperationsIncident {
-						similarStoriesData {
-							storyId
-							threatTypeName
-							verdict
-							threatClassification
-							similarityPercentage
-							indication
-						}
-						flowLastTime
-						flowStartTime
-						ioa
-						riskScore
-						type
-						occurrences
-						eventsGraphQuery {
-							type
-							timeSeriesEvents {
-								accountID
-								timeFrame
-								measures {
-									aggType
-									fieldName
-									trend
-								}
-								dimensions {
-									fieldName
-								}
-								filters {
-									fieldName
-									operator
-									values
-								}
-								buckets
-							}
-						}
-						accountOperationIncident {
-							incidentTimeline {
-								__typename
-								... on AccountOperationsTimelineEvent {
-									id
-									created
-									validated
-									description
-									type
-									eventIds
-									muted
-								}
-							}
-							metadata {
-								type
-								key
-								value
-							}
-							playbooks {
-								title
-								description
-								link
-							}
-						}
-					}
-					... on AnomalyEvents {
-						similarStoriesData {
-							storyId
-							threatTypeName
-							verdict
-							threatClassification
-							similarityPercentage
-							indication
-						}
-						srcSiteId
-						os
-						deviceName
-						macAddress
-						logonName
-						clientClass
-						drillDownFilter {
-							name
-							value
-							values
-						}
-						breakdownField
-						subjectType
-						extra {
-							name
-							type
-							value
-						}
-						gaussian {
-							std
-							ss
-							z_score
-							avg
-							n
-						}
-						metric {
-							name
-							value
-						}
-						metricDetails {
-							name
-							units
-						}
-						mitres {
-							id
-							name
-						}
-						rules
-						timeSeries {
-							data
-							groupBy
-							label
-							sum
-							unitsIncidentTimeseries: units
-							info
-							keyIncidentTimeseries: key {
-								measureFieldName
-								dimensions {
-									fieldName
-									value
-								}
-							}
-						}
-						targets {
-							typeIncidentTargetRep: type
-							name
-							analysisScore
-							infectionSource
-							threatReference
-							catoPopularity
-							threatFeeds
-							creationTime
-							categories
-							countryOfRegistration
-							searchHits
-							engines
-							eventData {
-								signatureId
-								eventType
-								threatType
-								threatName
-								severity
-								action
-								ruleId
-								ruleName
-								virusName
-								scanResult
-								appId
-								appName
-								appActivityType
-								fileName
-								dnsProtectionCategory
-							}
-						}
-						direction
-					}
-					... on AnomalyStats {
-						similarStoriesData {
-							storyId
-							threatTypeName
-							verdict
-							threatClassification
-							similarityPercentage
-							indication
-						}
-						srcSiteId
-						os
-						deviceName
-						macAddress
-						logonName
-						clientClass
-						drillDownFilter {
-							name
-							value
-							values
-						}
-						breakdownField
-						subjectType
-						extra {
-							name
-							type
-							value
-						}
-						gaussian {
-							std
-							ss
-							z_score
-							avg
-							n
-						}
-						metric {
-							name
-							value
-						}
-						metricDetails {
-							name
-							units
-						}
-						mitres {
-							id
-							name
-						}
-						rules
-						timeSeries {
-							data
-							groupBy
-							label
-							sum
-							unitsIncidentTimeseries: units
-							info
-							keyIncidentTimeseries: key {
-								measureFieldName
-								dimensions {
-									fieldName
-									value
-								}
-							}
-						}
-						targets {
-							typeIncidentTargetRep: type
-							name
-							analysisScore
-							infectionSource
-							threatReference
-							catoPopularity
-							threatFeeds
-							creationTime
-							categories
-							countryOfRegistration
-							searchHits
-							engines
-							eventData {
-								signatureId
-								eventType
-								threatType
-								threatName
-								severity
-								action
-								ruleId
-								ruleName
-								virusName
-								scanResult
-								appId
-								appName
-								appActivityType
-								fileName
-								dnsProtectionCategory
-							}
-						}
-						direction
-					}
-					... on CatoEndpoint {
-						similarStoriesData {
-							storyId
-							threatTypeName
-							verdict
-							threatClassification
-							similarityPercentage
-							indication
-						}
-						device {
-							id
-							deviceName
-							osDetailsCatoEndpointDeviceDetails: osDetails {
-								osType
-								osBuild
-								osVersion
-							}
-							loggedOnUsersCatoEndpointDeviceDetails: loggedOnUsers {
-								__typename
-								... on MicrosoftEndpointUser {
-									id
-									name
-									userSid
-									accountName
-									domainName
-									principalName
-								}
-								... on CatoEndpointUser {
-									id
-									name
-								}
-							}
-							macAddress
-							externalIp
-							localIp
-						}
-						alerts {
-							id
-							title
-							description
-							threatName
-							mitreTechnique {
-								id
-								name
-							}
-							mitreSubTechnique {
-								id
-								name
-							}
-							createdDateTime
-							resources {
-								__typename
-								... on CatoProcessResource {
-									id
-									createdDateTime
-									remediationStatus
-									processId
-									processCommandLine
-									imageFile {
-										__typename
-									}
-									userAccount {
-										__typename
-									}
-								}
-								... on CatoFileResource {
-									id
-									createdDateTime
-									remediationStatus
-									fileDetails {
-										__typename
-									}
-									detectionStatus
-								}
-							}
-							activities {
-								id
-								resourceId
-								parentResourceId
-							}
-							criticality
-							engineTypeCatoEndpointAlert: engineType
-							statusCatoEndpointAlert: status
-							endpointProtectionProfile
-							externalIp
-							localIp
-						}
-					}
-					... on GenericIncident {
-						similarStoriesData {
-							storyId
-							threatTypeName
-							verdict
-							threatClassification
-							similarityPercentage
-							indication
-						}
-						vendorInfo {
-							name
-							product
-							status
-							engineType
-							incidentUrl
-						}
-						statusInfo {
-							verdict
-							classification
-							incidentStatus
-						}
-						evidences {
-							type
-							value
-							kind
-							data {
-								fieldName
-								values
-							}
-						}
-						queries {
-							dataSource
-							measures {
-								fieldName
-								aggType
-								unitType
-							}
-							filters {
-								name
-								operator
-								value
-								values
-							}
-							fields
-							buckets
-						}
-						mitres {
-							id
-							name
-						}
-					}
 					... on MicrosoftEndpoint {
 						similarStoriesData {
 							storyId
@@ -424751,7 +425805,7 @@ const XdrDocument = `query xdr ($storyInput: StoryInput!, $accountID: ID!) {
 						url
 						vendorStatus
 					}
-					... on NetworkXDRIncident {
+					... on AnomalyStats {
 						similarStoriesData {
 							storyId
 							threatTypeName
@@ -424760,93 +425814,186 @@ const XdrDocument = `query xdr ($storyInput: StoryInput!, $accountID: ID!) {
 							similarityPercentage
 							indication
 						}
-						networkIncidentTimeline {
-							created
-							validated
-							description
-							eventTypeNetworkTimelineEvent: eventType
-							incidentId
-							networkEventSourceNetworkTimelineEvent: networkEventSource
-							eventIds
-							acknowledged
-							linkId
-							linkName
-							linkConfigPrecedenceNetworkTimelineEvent: linkConfigPrecedence
-							linkStatusNetworkTimelineEvent: linkStatus
-							linkConfigBandwidth
-							deviceConfigHaRoleNetworkTimelineEvent: deviceConfigHaRole
-							deviceHaRoleStateNetworkTimelineEvent: deviceHaRoleState
-							socketSerialId
-							pop
-							isp
-							bgpConnectionNetworkTimelineEvent: bgpConnection {
-								connectionName
-								peerIp
-								peerAsn
-								catoIp
-								catoAsn
-							}
-							linkQualityIssueNetworkTimelineEvent: linkQualityIssue {
-								issueType
-								direction
-								current
-								threshold
-							}
-							hostIp
-							ruleName
-							tunnelResetCount
-							muted
+						srcSiteId
+						os
+						deviceName
+						macAddress
+						logonName
+						clientClass
+						drillDownFilter {
+							name
+							value
+							values
 						}
-						storyType
-						occurrences
-						siteConnectionType
-						siteConfigLocation
-						acknowledged
-						linkId
-						linkName
-						linkConfigPrecedence
-						deviceConfigHaRole
-						licenseRegion
-						licenseBandwidth
-						pop
-						isp
-						bgpConnection {
-							connectionName
-							peerIp
-							peerAsn
-							catoIp
-							catoAsn
+						breakdownField
+						subjectType
+						extra {
+							name
+							type
+							value
 						}
-						hostIp
-						ruleName
-						ilmmDetails {
-							linkDetailsIlmmDetails: linkDetails {
-								linkId
-								description
-								ispLinkId
-								comments
-								onboardingStatus
-								activeLicense
-							}
-							ispDetailsIlmmDetails: ispDetails {
-								name
-								ispAccountId
-								supportEmail
-								supportPhone
-								description
-								countryCode
-								loaFile {
-									fileName
-									fileHash
-									uploadedAt
+						gaussian {
+							std
+							ss
+							z_score
+							avg
+							n
+						}
+						metric {
+							name
+							value
+						}
+						metricDetails {
+							name
+							units
+						}
+						mitres {
+							id
+							name
+						}
+						rules
+						timeSeries {
+							data
+							groupBy
+							label
+							sum
+							unitsIncidentTimeseries: units
+							info
+							keyIncidentTimeseries: key {
+								measureFieldName
+								dimensions {
+									fieldName
+									value
 								}
 							}
-							contacts {
-								name
-								phone
-								email
+						}
+						targets {
+							typeIncidentTargetRep: type
+							name
+							analysisScore
+							infectionSource
+							threatReference
+							catoPopularity
+							threatFeeds
+							creationTime
+							categories
+							countryOfRegistration
+							searchHits
+							engines
+							eventData {
+								signatureId
+								eventType
+								threatType
+								threatName
+								severity
+								action
+								ruleId
+								ruleName
+								virusName
+								scanResult
+								appId
+								appName
+								appActivityType
+								fileName
+								dnsProtectionCategory
 							}
 						}
+						direction
+					}
+					... on AnomalyEvents {
+						similarStoriesData {
+							storyId
+							threatTypeName
+							verdict
+							threatClassification
+							similarityPercentage
+							indication
+						}
+						srcSiteId
+						os
+						deviceName
+						macAddress
+						logonName
+						clientClass
+						drillDownFilter {
+							name
+							value
+							values
+						}
+						breakdownField
+						subjectType
+						extra {
+							name
+							type
+							value
+						}
+						gaussian {
+							std
+							ss
+							z_score
+							avg
+							n
+						}
+						metric {
+							name
+							value
+						}
+						metricDetails {
+							name
+							units
+						}
+						mitres {
+							id
+							name
+						}
+						rules
+						timeSeries {
+							data
+							groupBy
+							label
+							sum
+							unitsIncidentTimeseries: units
+							info
+							keyIncidentTimeseries: key {
+								measureFieldName
+								dimensions {
+									fieldName
+									value
+								}
+							}
+						}
+						targets {
+							typeIncidentTargetRep: type
+							name
+							analysisScore
+							infectionSource
+							threatReference
+							catoPopularity
+							threatFeeds
+							creationTime
+							categories
+							countryOfRegistration
+							searchHits
+							engines
+							eventData {
+								signatureId
+								eventType
+								threatType
+								threatName
+								severity
+								action
+								ruleId
+								ruleName
+								virusName
+								scanResult
+								appId
+								appName
+								appActivityType
+								fileName
+								dnsProtectionCategory
+							}
+						}
+						direction
 					}
 					... on Threat {
 						similarStoriesData {
@@ -425072,54 +426219,343 @@ const XdrDocument = `query xdr ($storyInput: StoryInput!, $accountID: ID!) {
 							httpResponseCode
 						}
 					}
+					... on NetworkXDRIncident {
+						similarStoriesData {
+							storyId
+							threatTypeName
+							verdict
+							threatClassification
+							similarityPercentage
+							indication
+						}
+						networkIncidentTimeline {
+							created
+							validated
+							description
+							eventTypeNetworkTimelineEvent: eventType
+							incidentId
+							networkEventSourceNetworkTimelineEvent: networkEventSource
+							eventIds
+							acknowledged
+							linkId
+							linkName
+							linkConfigPrecedenceNetworkTimelineEvent: linkConfigPrecedence
+							linkStatusNetworkTimelineEvent: linkStatus
+							linkConfigBandwidth
+							deviceConfigHaRoleNetworkTimelineEvent: deviceConfigHaRole
+							deviceHaRoleStateNetworkTimelineEvent: deviceHaRoleState
+							socketSerialId
+							pop
+							isp
+							bgpConnectionNetworkTimelineEvent: bgpConnection {
+								connectionName
+								peerIp
+								peerAsn
+								catoIp
+								catoAsn
+							}
+							linkQualityIssueNetworkTimelineEvent: linkQualityIssue {
+								issueType
+								direction
+								current
+								threshold
+							}
+							hostIp
+							ruleName
+							tunnelResetCount
+							muted
+						}
+						storyType
+						occurrences
+						siteConnectionType
+						siteConfigLocation
+						acknowledged
+						linkId
+						linkName
+						linkConfigPrecedence
+						deviceConfigHaRole
+						licenseRegion
+						licenseBandwidth
+						pop
+						isp
+						bgpConnection {
+							connectionName
+							peerIp
+							peerAsn
+							catoIp
+							catoAsn
+						}
+						hostIp
+						ruleName
+						ilmmDetails {
+							linkDetailsIlmmDetails: linkDetails {
+								linkId
+								description
+								ispLinkId
+								comments
+								onboardingStatus
+								activeLicense
+							}
+							ispDetailsIlmmDetails: ispDetails {
+								name
+								ispAccountId
+								supportEmail
+								supportPhone
+								description
+								countryCode
+								loaFile {
+									fileName
+									fileHash
+									uploadedAt
+								}
+							}
+							contacts {
+								name
+								phone
+								email
+							}
+						}
+					}
+					... on AiOperationsIncident {
+						similarStoriesData {
+							storyId
+							threatTypeName
+							verdict
+							threatClassification
+							similarityPercentage
+							indication
+						}
+						flowLastTime
+						flowStartTime
+						ioa
+						riskScore
+						type
+						occurrences
+						eventsGraphQuery {
+							type
+							timeSeriesEvents {
+								accountID
+								timeFrame
+								measures {
+									aggType
+									fieldName
+									trend
+								}
+								dimensions {
+									fieldName
+								}
+								filters {
+									fieldName
+									operator
+									values
+								}
+								buckets
+							}
+						}
+						accountOperationIncident {
+							incidentTimeline {
+								__typename
+								... on AccountOperationsTimelineEvent {
+									id
+									created
+									validated
+									description
+									type
+									eventIds
+									muted
+								}
+							}
+							metadata {
+								type
+								key
+								value
+							}
+							playbooks {
+								title
+								description
+								link
+							}
+						}
+					}
+					... on GenericIncident {
+						similarStoriesData {
+							storyId
+							threatTypeName
+							verdict
+							threatClassification
+							similarityPercentage
+							indication
+						}
+						vendorInfo {
+							name
+							product
+							status
+							engineType
+							incidentUrl
+						}
+						statusInfo {
+							verdict
+							classification
+							incidentStatus
+						}
+						evidences {
+							type
+							value
+							kind
+							data {
+								fieldName
+								values
+							}
+						}
+						queries {
+							dataSource
+							measures {
+								fieldName
+								aggType
+								unitType
+							}
+							filters {
+								name
+								operator
+								value
+								values
+							}
+							fields
+							buckets
+						}
+						mitres {
+							id
+							name
+						}
+					}
+					... on CatoEndpoint {
+						similarStoriesData {
+							storyId
+							threatTypeName
+							verdict
+							threatClassification
+							similarityPercentage
+							indication
+						}
+						device {
+							id
+							deviceName
+							osDetailsCatoEndpointDeviceDetails: osDetails {
+								osType
+								osBuild
+								osVersion
+							}
+							loggedOnUsersCatoEndpointDeviceDetails: loggedOnUsers {
+								__typename
+								... on MicrosoftEndpointUser {
+									id
+									name
+									userSid
+									accountName
+									domainName
+									principalName
+								}
+								... on CatoEndpointUser {
+									id
+									name
+								}
+							}
+							macAddress
+							externalIp
+							localIp
+						}
+						alerts {
+							id
+							title
+							description
+							threatName
+							mitreTechnique {
+								id
+								name
+							}
+							mitreSubTechnique {
+								id
+								name
+							}
+							createdDateTime
+							resources {
+								__typename
+								... on CatoProcessResource {
+									id
+									createdDateTime
+									remediationStatus
+									processId
+									processCommandLine
+									imageFile {
+										__typename
+									}
+									userAccount {
+										__typename
+									}
+								}
+								... on CatoFileResource {
+									id
+									createdDateTime
+									remediationStatus
+									fileDetails {
+										__typename
+									}
+									detectionStatus
+								}
+							}
+							activities {
+								id
+								resourceId
+								parentResourceId
+							}
+							criticality
+							engineTypeCatoEndpointAlert: engineType
+							statusCatoEndpointAlert: status
+							endpointProtectionProfile
+							externalIp
+							localIp
+						}
+					}
+				}
+				timeline {
+					createdAt
+					description
+					context
+					type
+					descriptions
+					categoryTimelineItem: category
+					additionalInfo
+					analystInfoTimelineItem: analystInfo {
+						name
+						email
+					}
 				}
 				investigationDetails {
 					investigationStatus
-					lastManagedComment {
-						actor {
-							id
-							name
-						}
-						author
-						createdAt
-						id
-						text
-						type
-					}
-					lastUserComment {
-						actor {
-							id
-							name
-						}
-						author
-						createdAt
-						id
-						text
-						type
-					}
 					managedServiceTicketLink
-				}
-				playbook
-				summary
-				timeline {
-					additionalInfo
-					analystInfoTimelineItem: analystInfo {
-						email
-						name
+					lastUserComment {
+						id
+						createdAt
+						text
+						actor {
+							id
+							name
+						}
+						type
+						author
 					}
-					categoryTimelineItem: category
-					context
-					createdAt
-					description
-					descriptions
-					type
+					lastManagedComment {
+						id
+						createdAt
+						text
+						actor {
+							id
+							name
+						}
+						type
+						author
+					}
 				}
-				updatedAt
-			}
-			paging {
-				from
-				limit
-				total
 			}
 		}
 	}
@@ -426333,6 +427769,11 @@ const ZtnaAppConnectorZtnaAppConnectorDocument = `query ztnaAppConnectorZtnaAppC
 				rollbackEligibleUntil
 				upgradesPaused
 			}
+			pooledBandwidthAllocation {
+				allocationId
+				bw
+				licenseId
+			}
 		}
 	}
 }
@@ -426432,6 +427873,11 @@ const ZtnaAppConnectorZtnaAppConnectorListDocument = `query ztnaAppConnectorZtna
 					rollbackEligibleUntil
 					upgradesPaused
 				}
+				pooledBandwidthAllocation {
+					allocationId
+					bw
+					licenseId
+				}
 			}
 			pageInfo {
 				total
@@ -426509,6 +427955,7 @@ var DocumentOperationNames = map[string]string{
 	LicensingDisableServiceForManagedAccountDocument:             "licensingDisableServiceForManagedAccount",
 	LicensingEnableServiceForManagedAccountDocument:              "licensingEnableServiceForManagedAccount",
 	LicensingRemoveLicenseFromManagedAccountDocument:             "licensingRemoveLicenseFromManagedAccount",
+	LicensingStartServiceTrialDocument:                           "licensingStartServiceTrial",
 	LicensingUpdateCommercialLicenseDocument:                     "licensingUpdateCommercialLicense",
 	LicensingUpdateLicenseForManagedAccountDocument:              "licensingUpdateLicenseForManagedAccount",
 	NetworkConfigDhcpCreateOptionDocument:                        "networkConfigDhcpCreateOption",

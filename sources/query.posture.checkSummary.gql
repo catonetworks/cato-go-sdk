@@ -142,6 +142,9 @@ query postureCheckSummary ($accountId: ID!, $postureCheckSummaryInput: PostureCh
 					average
 					percentile
 				}
+				overallEffectiveAreaCriticality
+				overallEffectiveBlastRadius
+				overallEffectiveFindingsSignal
 			}
 		}
 	}

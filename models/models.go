@@ -905,16 +905,18 @@ type AddStoryCommentPayload struct {
 
 // Input for creating a new ZTNA App Connector
 type AddZtnaAppConnectorInput struct {
-	Description          *string                                    `json:"description,omitempty"`
-	GroupName            string                                     `json:"groupName"`
-	Location             *ZtnaAppConnectorLocationInput             `json:"location"`
-	Name                 string                                     `json:"name"`
-	PreferredPopLocation *ZtnaAppConnectorPreferredPopLocationInput `json:"preferredPopLocation"`
-	Type                 ZtnaAppConnectorType                       `json:"type"`
+	Description               *string                                           `json:"description,omitempty"`
+	GroupName                 string                                            `json:"groupName"`
+	Location                  *ZtnaAppConnectorLocationInput                    `json:"location"`
+	Name                      string                                            `json:"name"`
+	PooledBandwidthAllocation []*ZtnaAppConnectorPooledBandwidthAllocationInput `json:"pooledBandwidthAllocation,omitempty"`
+	PreferredPopLocation      *ZtnaAppConnectorPreferredPopLocationInput        `json:"preferredPopLocation"`
+	Type                      ZtnaAppConnectorType                              `json:"type"`
 }
 
 type AddZtnaAppConnectorPayload struct {
-	ZtnaAppConnector *ZtnaAppConnector `json:"ztnaAppConnector"`
+	PooledBandwidthAllocation []*ZtnaAppConnectorPooledBandwidthAllocation `json:"pooledBandwidthAllocation"`
+	ZtnaAppConnector          *ZtnaAppConnector                            `json:"ztnaAppConnector"`
 }
 
 // Input for creating ZTNA App Connectors configuration.
@@ -10808,6 +10810,7 @@ type PostureCheckDefinition struct {
 	Impact               PostureImpact               `json:"impact"`
 	Name                 string                      `json:"name"`
 	RecommendedActions   []*PostureRecommendedAction `json:"recommendedActions"`
+	ScoreMetadata        *PostureCheckScoreMetadata  `json:"scoreMetadata,omitempty"`
 	SecurityDomain       *string                     `json:"securityDomain,omitempty"`
 	SuppressedStatus     *PostureSuppressedStatus    `json:"suppressedStatus,omitempty"`
 	Tags                 []string                    `json:"tags"`
@@ -10936,21 +10939,36 @@ type PostureCheckResultSortInput struct {
 	SuppressedStatus    *SortOrderInput `json:"suppressedStatus,omitempty"`
 }
 
+// Resolved scoring inputs and contribution for a Posture Check under the score-revamp policy.
+type PostureCheckScoreMetadata struct {
+	EffectiveAreaCriticality   int64                   `json:"effectiveAreaCriticality"`
+	EffectiveBlastRadiusClass  PostureBlastRadiusClass `json:"effectiveBlastRadiusClass"`
+	EffectiveBlastRadiusValue  int64                   `json:"effectiveBlastRadiusValue"`
+	EffectiveFindingsSignal    float64                 `json:"effectiveFindingsSignal"`
+	EffectiveSeverity          PostureImpact           `json:"effectiveSeverity"`
+	EffectiveSuggestedScore    float64                 `json:"effectiveSuggestedScore"`
+	EffectiveSuggestedSeverity PostureImpact           `json:"effectiveSuggestedSeverity"`
+	ScoreContributionPct       float64                 `json:"scoreContributionPct"`
+}
+
 // Aggregated summary of Posture Check results across multiple breakdown dimensions,
 // including score and state counts.
 type PostureCheckSummary struct {
-	ApplicationBreakdown         []*PostureCheckSummaryBreakdown                    `json:"applicationBreakdown"`
-	AreaBreakdown                []*PostureCheckSummaryAreaBreakdown                `json:"areaBreakdown"`
-	CategoryBreakdown            []*PostureCheckSummaryBreakdown                    `json:"categoryBreakdown"`
-	CheckTypeBreakdown           []*PostureCheckSummaryBreakdown                    `json:"checkTypeBreakdown"`
-	Comparisons                  []*PostureAccountComparison                        `json:"comparisons"`
-	ComplianceControlBreakdown   []*PostureCheckSummaryBreakdown                    `json:"complianceControlBreakdown"`
-	ComplianceFrameworkBreakdown []*PostureCheckSummaryComplianceFrameworkBreakdown `json:"complianceFrameworkBreakdown"`
-	Counts                       *PostureCheckCountsPerState                        `json:"counts"`
-	EvaluatedAt                  string                                             `json:"evaluatedAt"`
-	Score                        int64                                              `json:"score"`
-	SecurityDomainBreakdown      []*PostureCheckSummaryBreakdown                    `json:"securityDomainBreakdown"`
-	SeverityBreakdown            []*PostureCheckSummaryBreakdown                    `json:"severityBreakdown"`
+	ApplicationBreakdown            []*PostureCheckSummaryBreakdown                    `json:"applicationBreakdown"`
+	AreaBreakdown                   []*PostureCheckSummaryAreaBreakdown                `json:"areaBreakdown"`
+	CategoryBreakdown               []*PostureCheckSummaryBreakdown                    `json:"categoryBreakdown"`
+	CheckTypeBreakdown              []*PostureCheckSummaryBreakdown                    `json:"checkTypeBreakdown"`
+	Comparisons                     []*PostureAccountComparison                        `json:"comparisons"`
+	ComplianceControlBreakdown      []*PostureCheckSummaryBreakdown                    `json:"complianceControlBreakdown"`
+	ComplianceFrameworkBreakdown    []*PostureCheckSummaryComplianceFrameworkBreakdown `json:"complianceFrameworkBreakdown"`
+	Counts                          *PostureCheckCountsPerState                        `json:"counts"`
+	EvaluatedAt                     string                                             `json:"evaluatedAt"`
+	OverallEffectiveAreaCriticality *float64                                           `json:"overallEffectiveAreaCriticality,omitempty"`
+	OverallEffectiveBlastRadius     *float64                                           `json:"overallEffectiveBlastRadius,omitempty"`
+	OverallEffectiveFindingsSignal  *float64                                           `json:"overallEffectiveFindingsSignal,omitempty"`
+	Score                           int64                                              `json:"score"`
+	SecurityDomainBreakdown         []*PostureCheckSummaryBreakdown                    `json:"securityDomainBreakdown"`
+	SeverityBreakdown               []*PostureCheckSummaryBreakdown                    `json:"severityBreakdown"`
 }
 
 // Score and state-count summary for an area and its categories.
@@ -11323,15 +11341,18 @@ type PostureStatsDetails struct {
 // Aggregated Posture summary for the account, including the Account Score
 // and per-dimension breakdowns.
 type PostureSummary struct {
-	ApplicationScores    []*PostureApplicationScore    `json:"applicationScores"`
-	AreaScores           []*PostureAreaScore           `json:"areaScores"`
-	CategoryScores       []*PostureCategoryScore       `json:"categoryScores"`
-	Comparisons          []*PostureAccountComparison   `json:"comparisons"`
-	DomainScores         []*PostureDomainScore         `json:"domainScores"`
-	EvaluatedAt          string                        `json:"evaluatedAt"`
-	Score                int64                         `json:"score"`
-	SecurityDomainScores []*PostureSecurityDomainScore `json:"securityDomainScores"`
-	Stats                *PostureStats                 `json:"stats,omitempty"`
+	ApplicationScores               []*PostureApplicationScore    `json:"applicationScores"`
+	AreaScores                      []*PostureAreaScore           `json:"areaScores"`
+	CategoryScores                  []*PostureCategoryScore       `json:"categoryScores"`
+	Comparisons                     []*PostureAccountComparison   `json:"comparisons"`
+	DomainScores                    []*PostureDomainScore         `json:"domainScores"`
+	EvaluatedAt                     string                        `json:"evaluatedAt"`
+	OverallEffectiveAreaCriticality *float64                      `json:"overallEffectiveAreaCriticality,omitempty"`
+	OverallEffectiveBlastRadius     *float64                      `json:"overallEffectiveBlastRadius,omitempty"`
+	OverallEffectiveFindingsSignal  *float64                      `json:"overallEffectiveFindingsSignal,omitempty"`
+	Score                           int64                         `json:"score"`
+	SecurityDomainScores            []*PostureSecurityDomainScore `json:"securityDomainScores"`
+	Stats                           *PostureStats                 `json:"stats,omitempty"`
 }
 
 // Comparison operators for filtering checks by enabled or disabled status.
@@ -14650,6 +14671,16 @@ type SocketPortMetricsTimeSeries struct {
 	To          *string       `json:"to,omitempty"`
 }
 
+// Reference identifying a Socket by its unique identifier or name.
+type SocketRef struct {
+	ID   string `json:"id"`
+	Name string `json:"name"`
+}
+
+func (SocketRef) IsObjectRef()         {}
+func (this SocketRef) GetID() string   { return this.ID }
+func (this SocketRef) GetName() string { return this.Name }
+
 // Detailed information about an available socket version.
 type SocketVersionInfo struct {
 	Label   *string `json:"label,omitempty"`
@@ -15203,6 +15234,7 @@ type TerminalServerAddRuleInput struct {
 	Rule *TerminalServerAddRuleDataInput `json:"rule"`
 }
 
+// Also known as Shared Hosts. Manages shared/terminal server hosts under User Awareness so traffic from a shared host IP can be attributed per user. In CMA this is under Access > User Awareness > Shared Hosts.
 type TerminalServerPolicy struct {
 	Audit    *PolicyAudit                 `json:"audit,omitempty"`
 	Enabled  bool                         `json:"enabled"`
@@ -18530,21 +18562,22 @@ type ZtnaAlwaysOnUpdateRuleInput struct {
 }
 
 type ZtnaAppConnector struct {
-	CreatedAt            *string                               `json:"createdAt,omitempty"`
-	Description          *string                               `json:"description,omitempty"`
-	GroupName            string                                `json:"groupName"`
-	ID                   string                                `json:"id"`
-	IsRegistered         bool                                  `json:"isRegistered"`
-	Location             *ZtnaAppConnectorLocation             `json:"location"`
-	Name                 string                                `json:"name"`
-	PreferredPopLocation *ZtnaAppConnectorPreferredPopLocation `json:"preferredPopLocation,omitempty"`
-	PrivateAppCount      int64                                 `json:"privateAppCount"`
-	PrivateAppRef        []*PrivateApplicationRef              `json:"privateAppRef"`
-	SerialNumber         *string                               `json:"serialNumber,omitempty"`
-	SocketID             *string                               `json:"socketId,omitempty"`
-	SocketInfo           *ZtnaAppConnectorSocketInfo           `json:"socketInfo,omitempty"`
-	SocketModel          *SocketModel                          `json:"socketModel,omitempty"`
-	Type                 ZtnaAppConnectorType                  `json:"type"`
+	CreatedAt                 *string                                      `json:"createdAt,omitempty"`
+	Description               *string                                      `json:"description,omitempty"`
+	GroupName                 string                                       `json:"groupName"`
+	ID                        string                                       `json:"id"`
+	IsRegistered              bool                                         `json:"isRegistered"`
+	Location                  *ZtnaAppConnectorLocation                    `json:"location"`
+	Name                      string                                       `json:"name"`
+	PooledBandwidthAllocation []*ZtnaAppConnectorPooledBandwidthAllocation `json:"pooledBandwidthAllocation"`
+	PreferredPopLocation      *ZtnaAppConnectorPreferredPopLocation        `json:"preferredPopLocation,omitempty"`
+	PrivateAppCount           int64                                        `json:"privateAppCount"`
+	PrivateAppRef             []*PrivateApplicationRef                     `json:"privateAppRef"`
+	SerialNumber              *string                                      `json:"serialNumber,omitempty"`
+	SocketID                  *string                                      `json:"socketId,omitempty"`
+	SocketInfo                *ZtnaAppConnectorSocketInfo                  `json:"socketInfo,omitempty"`
+	SocketModel               *SocketModel                                 `json:"socketModel,omitempty"`
+	Type                      ZtnaAppConnectorType                         `json:"type"`
 }
 
 type ZtnaAppConnectorConnectivityInfo struct {
@@ -18724,6 +18757,19 @@ type ZtnaAppConnectorMutations struct {
 	UpdateZtnaAppConnector               *UpdateZtnaAppConnectorPayload               `json:"updateZtnaAppConnector"`
 	UpdateZtnaAppConnectorsConfiguration *UpdateZtnaAppConnectorsConfigurationPayload `json:"updateZtnaAppConnectorsConfiguration"`
 	UpgradeZtnaAppConnector              *UpgradeZtnaAppConnectorPayload              `json:"upgradeZtnaAppConnector"`
+}
+
+// A pooled-bandwidth-license allocation persisted for an App Connector, as returned by the allocation authority.
+type ZtnaAppConnectorPooledBandwidthAllocation struct {
+	AllocationID string `json:"allocationId"`
+	Bw           int64  `json:"bw"`
+	LicenseID    string `json:"licenseId"`
+}
+
+// A single pooled-bandwidth-license allocation requested for an App Connector.
+type ZtnaAppConnectorPooledBandwidthAllocationInput struct {
+	Bw        int64  `json:"bw"`
+	LicenseID string `json:"licenseId"`
 }
 
 type ZtnaAppConnectorPreferredPopLocation struct {
@@ -20205,6 +20251,8 @@ const (
 	AppStatsFieldNameApplicationType AppStatsFieldName = "application_type"
 	//  Cato system category. CMA Name: Categories
 	AppStatsFieldNameCategories AppStatsFieldName = "categories"
+	//  Current effective categories of the application. CMA Name: Categories Current State
+	AppStatsFieldNameCategoriesCurrentState AppStatsFieldName = "categories_current_state"
 	//  Cato system category of the application. CMA Name: Category
 	AppStatsFieldNameCategory AppStatsFieldName = "category"
 	//  Type of process generating this traffic. CMA Name: Client Class
@@ -20425,6 +20473,7 @@ var AllAppStatsFieldName = []AppStatsFieldName{
 	AppStatsFieldNameApplicationRiskScoreCurrentState,
 	AppStatsFieldNameApplicationType,
 	AppStatsFieldNameCategories,
+	AppStatsFieldNameCategoriesCurrentState,
 	AppStatsFieldNameCategory,
 	AppStatsFieldNameClientClass,
 	AppStatsFieldNameClientVersion,
@@ -20529,7 +20578,7 @@ var AllAppStatsFieldName = []AppStatsFieldName{
 
 func (e AppStatsFieldName) IsValid() bool {
 	switch e {
-	case AppStatsFieldNameIspName, AppStatsFieldNameAccountID, AppStatsFieldNameAccountName, AppStatsFieldNameAction, AppStatsFieldNameAdName, AppStatsFieldNameAiProxyRuleName, AppStatsFieldNameApp, AppStatsFieldNameApplication, AppStatsFieldNameApplicationDescription, AppStatsFieldNameApplicationID, AppStatsFieldNameApplicationName, AppStatsFieldNameApplicationRiskLevel, AppStatsFieldNameApplicationRiskLevelCurrentState, AppStatsFieldNameApplicationRiskScore, AppStatsFieldNameApplicationRiskScoreCurrentState, AppStatsFieldNameApplicationType, AppStatsFieldNameCategories, AppStatsFieldNameCategory, AppStatsFieldNameClientClass, AppStatsFieldNameClientVersion, AppStatsFieldNameConfiguredHostName, AppStatsFieldNameConnectionOrigin, AppStatsFieldNameDepartment, AppStatsFieldNameDescription, AppStatsFieldNameDestCountry, AppStatsFieldNameDestDomain, AppStatsFieldNameDestEndpointType, AppStatsFieldNameDestIP, AppStatsFieldNameDestIsSiteOrVpn, AppStatsFieldNameDestPort, AppStatsFieldNameDestSite, AppStatsFieldNameDestSiteID, AppStatsFieldNameDestSiteName, AppStatsFieldNameDeviceCategories, AppStatsFieldNameDeviceComplianceState, AppStatsFieldNameDeviceID, AppStatsFieldNameDeviceManufacturer, AppStatsFieldNameDeviceModel, AppStatsFieldNameDeviceName, AppStatsFieldNameDeviceOsType, AppStatsFieldNameDevicePostureProfile, AppStatsFieldNameDeviceType, AppStatsFieldNameDiscoveredApp, AppStatsFieldNameDomain, AppStatsFieldNameDownstream, AppStatsFieldNameDuration, AppStatsFieldNameEgressPopName, AppStatsFieldNameEgressSiteName, AppStatsFieldNameExperienceScoreLevel, AppStatsFieldNameFlowBytesDownstream, AppStatsFieldNameFlowBytesTotal, AppStatsFieldNameFlowBytesUpstream, AppStatsFieldNameFlowID, AppStatsFieldNameFlowPacketsDownstream, AppStatsFieldNameFlowPacketsTotal, AppStatsFieldNameFlowPacketsUpstream, AppStatsFieldNameFlowStartTime, AppStatsFieldNameFlowsCreated, AppStatsFieldNameFullPathURL, AppStatsFieldNameHostIP, AppStatsFieldNameHostMac, AppStatsFieldNameHqLocation, AppStatsFieldNameHTTPErrorRate, AppStatsFieldNameHTTPLatency, AppStatsFieldNameHTTPRequestMethod, AppStatsFieldNameIP, AppStatsFieldNameIPProtocol, AppStatsFieldNameIsCloudApp, AppStatsFieldNameIsFlowTerminated, AppStatsFieldNameIsSanctionedApp, AppStatsFieldNameIsSanctionedAppCurrentState, AppStatsFieldNameJobTitle, AppStatsFieldNameNetworkRule, AppStatsFieldNameNewApp, AppStatsFieldNameOsVersion, AppStatsFieldNamePacketsDownstream, AppStatsFieldNamePacketsTotal, AppStatsFieldNamePacketsUpstream, AppStatsFieldNamePopName, AppStatsFieldNameQosPriority, AppStatsFieldNameRiskLevel, AppStatsFieldNameRiskScore, AppStatsFieldNameSanctioned, AppStatsFieldNameSiteCountry, AppStatsFieldNameSiteState, AppStatsFieldNameSocketInterface, AppStatsFieldNameSrcCountry, AppStatsFieldNameSrcCountryCode, AppStatsFieldNameSrcEndpointType, AppStatsFieldNameSrcIP, AppStatsFieldNameSrcIsSiteOrVpn, AppStatsFieldNameSrcIspIP, AppStatsFieldNameSrcPort, AppStatsFieldNameSrcSiteCountryCode, AppStatsFieldNameSrcSiteID, AppStatsFieldNameSrcSiteName, AppStatsFieldNameSrcSiteState, AppStatsFieldNameSubnet, AppStatsFieldNameSubnetName, AppStatsFieldNameTCPAcceleration, AppStatsFieldNameTCPLatency, AppStatsFieldNameTimeStr, AppStatsFieldNameTld, AppStatsFieldNameTLSInspection, AppStatsFieldNameTLSLatency, AppStatsFieldNameTLSRuleName, AppStatsFieldNameTraffic, AppStatsFieldNameTrafficDirection, AppStatsFieldNameTranslatedClientIP, AppStatsFieldNameTranslatedServerIP, AppStatsFieldNameTtfb, AppStatsFieldNameUpstream, AppStatsFieldNameUserAwarenessMethod, AppStatsFieldNameUserID, AppStatsFieldNameUserName, AppStatsFieldNameVpnUserEmail, AppStatsFieldNameVpnUserID:
+	case AppStatsFieldNameIspName, AppStatsFieldNameAccountID, AppStatsFieldNameAccountName, AppStatsFieldNameAction, AppStatsFieldNameAdName, AppStatsFieldNameAiProxyRuleName, AppStatsFieldNameApp, AppStatsFieldNameApplication, AppStatsFieldNameApplicationDescription, AppStatsFieldNameApplicationID, AppStatsFieldNameApplicationName, AppStatsFieldNameApplicationRiskLevel, AppStatsFieldNameApplicationRiskLevelCurrentState, AppStatsFieldNameApplicationRiskScore, AppStatsFieldNameApplicationRiskScoreCurrentState, AppStatsFieldNameApplicationType, AppStatsFieldNameCategories, AppStatsFieldNameCategoriesCurrentState, AppStatsFieldNameCategory, AppStatsFieldNameClientClass, AppStatsFieldNameClientVersion, AppStatsFieldNameConfiguredHostName, AppStatsFieldNameConnectionOrigin, AppStatsFieldNameDepartment, AppStatsFieldNameDescription, AppStatsFieldNameDestCountry, AppStatsFieldNameDestDomain, AppStatsFieldNameDestEndpointType, AppStatsFieldNameDestIP, AppStatsFieldNameDestIsSiteOrVpn, AppStatsFieldNameDestPort, AppStatsFieldNameDestSite, AppStatsFieldNameDestSiteID, AppStatsFieldNameDestSiteName, AppStatsFieldNameDeviceCategories, AppStatsFieldNameDeviceComplianceState, AppStatsFieldNameDeviceID, AppStatsFieldNameDeviceManufacturer, AppStatsFieldNameDeviceModel, AppStatsFieldNameDeviceName, AppStatsFieldNameDeviceOsType, AppStatsFieldNameDevicePostureProfile, AppStatsFieldNameDeviceType, AppStatsFieldNameDiscoveredApp, AppStatsFieldNameDomain, AppStatsFieldNameDownstream, AppStatsFieldNameDuration, AppStatsFieldNameEgressPopName, AppStatsFieldNameEgressSiteName, AppStatsFieldNameExperienceScoreLevel, AppStatsFieldNameFlowBytesDownstream, AppStatsFieldNameFlowBytesTotal, AppStatsFieldNameFlowBytesUpstream, AppStatsFieldNameFlowID, AppStatsFieldNameFlowPacketsDownstream, AppStatsFieldNameFlowPacketsTotal, AppStatsFieldNameFlowPacketsUpstream, AppStatsFieldNameFlowStartTime, AppStatsFieldNameFlowsCreated, AppStatsFieldNameFullPathURL, AppStatsFieldNameHostIP, AppStatsFieldNameHostMac, AppStatsFieldNameHqLocation, AppStatsFieldNameHTTPErrorRate, AppStatsFieldNameHTTPLatency, AppStatsFieldNameHTTPRequestMethod, AppStatsFieldNameIP, AppStatsFieldNameIPProtocol, AppStatsFieldNameIsCloudApp, AppStatsFieldNameIsFlowTerminated, AppStatsFieldNameIsSanctionedApp, AppStatsFieldNameIsSanctionedAppCurrentState, AppStatsFieldNameJobTitle, AppStatsFieldNameNetworkRule, AppStatsFieldNameNewApp, AppStatsFieldNameOsVersion, AppStatsFieldNamePacketsDownstream, AppStatsFieldNamePacketsTotal, AppStatsFieldNamePacketsUpstream, AppStatsFieldNamePopName, AppStatsFieldNameQosPriority, AppStatsFieldNameRiskLevel, AppStatsFieldNameRiskScore, AppStatsFieldNameSanctioned, AppStatsFieldNameSiteCountry, AppStatsFieldNameSiteState, AppStatsFieldNameSocketInterface, AppStatsFieldNameSrcCountry, AppStatsFieldNameSrcCountryCode, AppStatsFieldNameSrcEndpointType, AppStatsFieldNameSrcIP, AppStatsFieldNameSrcIsSiteOrVpn, AppStatsFieldNameSrcIspIP, AppStatsFieldNameSrcPort, AppStatsFieldNameSrcSiteCountryCode, AppStatsFieldNameSrcSiteID, AppStatsFieldNameSrcSiteName, AppStatsFieldNameSrcSiteState, AppStatsFieldNameSubnet, AppStatsFieldNameSubnetName, AppStatsFieldNameTCPAcceleration, AppStatsFieldNameTCPLatency, AppStatsFieldNameTimeStr, AppStatsFieldNameTld, AppStatsFieldNameTLSInspection, AppStatsFieldNameTLSLatency, AppStatsFieldNameTLSRuleName, AppStatsFieldNameTraffic, AppStatsFieldNameTrafficDirection, AppStatsFieldNameTranslatedClientIP, AppStatsFieldNameTranslatedServerIP, AppStatsFieldNameTtfb, AppStatsFieldNameUpstream, AppStatsFieldNameUserAwarenessMethod, AppStatsFieldNameUserID, AppStatsFieldNameUserName, AppStatsFieldNameVpnUserEmail, AppStatsFieldNameVpnUserID:
 		return true
 	}
 	return false
@@ -29467,6 +29516,82 @@ func (e PopLocationByoipSubnetState) MarshalJSON() ([]byte, error) {
 	return buf.Bytes(), nil
 }
 
+// Scope of a Posture Check's potential blast radius.
+type PostureBlastRadiusClass string
+
+const (
+	//  Affects the entire account.
+	PostureBlastRadiusClassAccountWide PostureBlastRadiusClass = "ACCOUNT_WIDE"
+	//  Affects all SaaS users.
+	PostureBlastRadiusClassAllSaasUsers PostureBlastRadiusClass = "ALL_SAAS_USERS"
+	//  Uses a numeric blast-radius override.
+	PostureBlastRadiusClassCustom PostureBlastRadiusClass = "CUSTOM"
+	//  Affects dormant identities.
+	PostureBlastRadiusClassDormantIdentities PostureBlastRadiusClass = "DORMANT_IDENTITIES"
+	//  Represents a general hygiene concern.
+	PostureBlastRadiusClassGeneralHygiene PostureBlastRadiusClass = "GENERAL_HYGIENE"
+	//  Affects organizational data.
+	PostureBlastRadiusClassOrganizationalData PostureBlastRadiusClass = "ORGANIZATIONAL_DATA"
+	//  Depends on a specific rule.
+	PostureBlastRadiusClassRuleDependent PostureBlastRadiusClass = "RULE_DEPENDENT"
+	//  Affects one application or resource.
+	PostureBlastRadiusClassSingleAppOrResource PostureBlastRadiusClass = "SINGLE_APP_OR_RESOURCE"
+	//  Has no mapped blast-radius class.
+	PostureBlastRadiusClassUnmapped PostureBlastRadiusClass = "UNMAPPED"
+)
+
+var AllPostureBlastRadiusClass = []PostureBlastRadiusClass{
+	PostureBlastRadiusClassAccountWide,
+	PostureBlastRadiusClassAllSaasUsers,
+	PostureBlastRadiusClassCustom,
+	PostureBlastRadiusClassDormantIdentities,
+	PostureBlastRadiusClassGeneralHygiene,
+	PostureBlastRadiusClassOrganizationalData,
+	PostureBlastRadiusClassRuleDependent,
+	PostureBlastRadiusClassSingleAppOrResource,
+	PostureBlastRadiusClassUnmapped,
+}
+
+func (e PostureBlastRadiusClass) IsValid() bool {
+	switch e {
+	case PostureBlastRadiusClassAccountWide, PostureBlastRadiusClassAllSaasUsers, PostureBlastRadiusClassCustom, PostureBlastRadiusClassDormantIdentities, PostureBlastRadiusClassGeneralHygiene, PostureBlastRadiusClassOrganizationalData, PostureBlastRadiusClassRuleDependent, PostureBlastRadiusClassSingleAppOrResource, PostureBlastRadiusClassUnmapped:
+		return true
+	}
+	return false
+}
+
+func (e PostureBlastRadiusClass) String() string {
+	return string(e)
+}
+
+func (e *PostureBlastRadiusClass) UnmarshalGQL(v any) error {
+	str, ok := v.(string)
+	if !ok {
+		return fmt.Errorf("enums must be strings")
+	}
+
+	*e = PostureBlastRadiusClass(str)
+	return nil
+}
+
+func (e PostureBlastRadiusClass) MarshalGQL(w io.Writer) {
+	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+func (e *PostureBlastRadiusClass) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e PostureBlastRadiusClass) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
+}
+
 // Kinds of actors that can trigger Posture Check events.
 type PostureCheckEventActorType string
 
@@ -32040,6 +32165,10 @@ const (
 	SocketInterfaceIDEnumUsb2  SocketInterfaceIDEnum = "USB2"
 	SocketInterfaceIDEnumWan1  SocketInterfaceIDEnum = "WAN1"
 	SocketInterfaceIDEnumWan2  SocketInterfaceIDEnum = "WAN2"
+	SocketInterfaceIDEnumWbr1  SocketInterfaceIDEnum = "WBR1"
+	SocketInterfaceIDEnumWbr2  SocketInterfaceIDEnum = "WBR2"
+	SocketInterfaceIDEnumWbr3  SocketInterfaceIDEnum = "WBR3"
+	SocketInterfaceIDEnumWbr4  SocketInterfaceIDEnum = "WBR4"
 	SocketInterfaceIDEnumWlan  SocketInterfaceIDEnum = "WLAN"
 )
 
@@ -32063,12 +32192,16 @@ var AllSocketInterfaceIDEnum = []SocketInterfaceIDEnum{
 	SocketInterfaceIDEnumUsb2,
 	SocketInterfaceIDEnumWan1,
 	SocketInterfaceIDEnumWan2,
+	SocketInterfaceIDEnumWbr1,
+	SocketInterfaceIDEnumWbr2,
+	SocketInterfaceIDEnumWbr3,
+	SocketInterfaceIDEnumWbr4,
 	SocketInterfaceIDEnumWlan,
 }
 
 func (e SocketInterfaceIDEnum) IsValid() bool {
 	switch e {
-	case SocketInterfaceIDEnumInt1, SocketInterfaceIDEnumInt10, SocketInterfaceIDEnumInt11, SocketInterfaceIDEnumInt12, SocketInterfaceIDEnumInt2, SocketInterfaceIDEnumInt3, SocketInterfaceIDEnumInt4, SocketInterfaceIDEnumInt5, SocketInterfaceIDEnumInt6, SocketInterfaceIDEnumInt7, SocketInterfaceIDEnumInt8, SocketInterfaceIDEnumInt9, SocketInterfaceIDEnumLan1, SocketInterfaceIDEnumLan2, SocketInterfaceIDEnumLte, SocketInterfaceIDEnumUsb1, SocketInterfaceIDEnumUsb2, SocketInterfaceIDEnumWan1, SocketInterfaceIDEnumWan2, SocketInterfaceIDEnumWlan:
+	case SocketInterfaceIDEnumInt1, SocketInterfaceIDEnumInt10, SocketInterfaceIDEnumInt11, SocketInterfaceIDEnumInt12, SocketInterfaceIDEnumInt2, SocketInterfaceIDEnumInt3, SocketInterfaceIDEnumInt4, SocketInterfaceIDEnumInt5, SocketInterfaceIDEnumInt6, SocketInterfaceIDEnumInt7, SocketInterfaceIDEnumInt8, SocketInterfaceIDEnumInt9, SocketInterfaceIDEnumLan1, SocketInterfaceIDEnumLan2, SocketInterfaceIDEnumLte, SocketInterfaceIDEnumUsb1, SocketInterfaceIDEnumUsb2, SocketInterfaceIDEnumWan1, SocketInterfaceIDEnumWan2, SocketInterfaceIDEnumWbr1, SocketInterfaceIDEnumWbr2, SocketInterfaceIDEnumWbr3, SocketInterfaceIDEnumWbr4, SocketInterfaceIDEnumWlan:
 		return true
 	}
 	return false

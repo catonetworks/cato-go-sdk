@@ -317,6 +317,7 @@ type AddStoryCommentPayload {
 }
 
 type AddZtnaAppConnectorPayload {
+  pooledBandwidthAllocation: [ZtnaAppConnectorPooledBandwidthAllocation!]!
   ztnaAppConnector: ZtnaAppConnector!
 }
 
@@ -5227,6 +5228,7 @@ type PostureCheckDefinition {
   impact: PostureImpact!
   name: String!
   recommendedActions: [PostureRecommendedAction!]!
+  scoreMetadata: PostureCheckScoreMetadata
   securityDomain: String
   suppressedStatus: PostureSuppressedStatus
   tags: [String!]!
@@ -5301,6 +5303,18 @@ type PostureCheckResultListPayload {
   paging: PageInfo!
 }
 
+""" Resolved scoring inputs and contribution for a Posture Check under the score-revamp policy. """
+type PostureCheckScoreMetadata {
+  effectiveAreaCriticality: Int!
+  effectiveBlastRadiusClass: PostureBlastRadiusClass!
+  effectiveBlastRadiusValue: Int!
+  effectiveFindingsSignal: Float!
+  effectiveSeverity: PostureImpact!
+  effectiveSuggestedScore: Float!
+  effectiveSuggestedSeverity: PostureImpact!
+  scoreContributionPct: Float!
+}
+
 """
 Aggregated summary of Posture Check results across multiple breakdown dimensions,
 including score and state counts.
@@ -5315,6 +5329,9 @@ type PostureCheckSummary {
   complianceFrameworkBreakdown: [PostureCheckSummaryComplianceFrameworkBreakdown!]!
   counts: PostureCheckCountsPerState!
   evaluatedAt: DateTime!
+  overallEffectiveAreaCriticality: Float
+  overallEffectiveBlastRadius: Float
+  overallEffectiveFindingsSignal: Float
   score: Int!
   securityDomainBreakdown: [PostureCheckSummaryBreakdown!]!
   severityBreakdown: [PostureCheckSummaryBreakdown!]!
@@ -5576,6 +5593,9 @@ type PostureSummary {
   comparisons: [PostureAccountComparison!]!
   domainScores: [PostureDomainScore!]!
   evaluatedAt: DateTime!
+  overallEffectiveAreaCriticality: Float
+  overallEffectiveBlastRadius: Float
+  overallEffectiveFindingsSignal: Float
   score: Int!
   securityDomainScores: [PostureSecurityDomainScore!]!
   stats: PostureStats
@@ -7010,6 +7030,12 @@ type SocketPortMetricsTimeSeries {
   to: DateTime
 }
 
+""" Reference identifying a Socket by its unique identifier or name. """
+type SocketRef implements ObjectRef {
+  id: ID!
+  name: String!
+}
+
 """ Detailed information about an available socket version. """
 type SocketVersionInfo {
   label: String
@@ -7221,6 +7247,7 @@ type SystemGroupRef implements ObjectRef {
   name: String!
 }
 
+""" Also known as Shared Hosts. Manages shared/terminal server hosts under User Awareness so traffic from a shared host IP can be attributed per user. In CMA this is under Access > User Awareness > Shared Hosts. """
 type TerminalServerPolicy implements IPolicy {
   audit: PolicyAudit
   enabled: Boolean!
@@ -8553,6 +8580,7 @@ type ZtnaAppConnector {
   isRegistered: Boolean!
   location: ZtnaAppConnectorLocation!
   name: String!
+  pooledBandwidthAllocation: [ZtnaAppConnectorPooledBandwidthAllocation!]!
   preferredPopLocation: ZtnaAppConnectorPreferredPopLocation
   privateAppCount: Int!
   privateAppRef: [PrivateApplicationRef!]!
@@ -8658,6 +8686,13 @@ type ZtnaAppConnectorMutations {
   updateZtnaAppConnector(input: UpdateZtnaAppConnectorInput!): UpdateZtnaAppConnectorPayload! @beta
   updateZtnaAppConnectorsConfiguration(input: UpdateZtnaAppConnectorsConfigurationInput!): UpdateZtnaAppConnectorsConfigurationPayload! @beta
   upgradeZtnaAppConnector(input: UpgradeZtnaAppConnectorInput!): UpgradeZtnaAppConnectorPayload! @beta
+}
+
+""" A pooled-bandwidth-license allocation persisted for an App Connector, as returned by the allocation authority. """
+type ZtnaAppConnectorPooledBandwidthAllocation {
+  allocationId: ID!
+  bw: Int!
+  licenseId: ID!
 }
 
 type ZtnaAppConnectorPreferredPopLocation {
@@ -9046,6 +9081,7 @@ input AddZtnaAppConnectorInput {
   groupName: String!
   location: ZtnaAppConnectorLocationInput!
   name: String!
+  pooledBandwidthAllocation: [ZtnaAppConnectorPooledBandwidthAllocationInput!]
   preferredPopLocation: ZtnaAppConnectorPreferredPopLocationInput! = {preferredOnly:false,automatic:true}
   type: ZtnaAppConnectorType!
 }
@@ -15338,6 +15374,12 @@ input ZtnaAppConnectorModelFilterInput {
   nin: [SocketModel!]
 }
 
+""" A single pooled-bandwidth-license allocation requested for an App Connector. """
+input ZtnaAppConnectorPooledBandwidthAllocationInput {
+  bw: Int!
+  licenseId: ID!
+}
+
 input ZtnaAppConnectorPreferredPopLocationInput {
   automatic: Boolean!
   preferredOnly: Boolean!
@@ -15734,6 +15776,8 @@ enum AppStatsFieldName {
   application_type
   """ Cato system category. CMA Name: Categories """
   categories
+  """ Current effective categories of the application. CMA Name: Categories Current State """
+  categories_current_state
   """ Cato system category of the application. CMA Name: Category """
   category @deprecated(reason: "use categories instead. Planned end-of-life (EoL) date: June 30, 2026.")
   """ Type of process generating this traffic. CMA Name: Client Class """
@@ -18186,6 +18230,28 @@ enum PopLocationByoipSubnetState {
   WITHDRAW
 }
 
+""" Scope of a Posture Check's potential blast radius. """
+enum PostureBlastRadiusClass {
+  """ Affects the entire account. """
+  ACCOUNT_WIDE
+  """ Affects all SaaS users. """
+  ALL_SAAS_USERS
+  """ Uses a numeric blast-radius override. """
+  CUSTOM
+  """ Affects dormant identities. """
+  DORMANT_IDENTITIES
+  """ Represents a general hygiene concern. """
+  GENERAL_HYGIENE
+  """ Affects organizational data. """
+  ORGANIZATIONAL_DATA
+  """ Depends on a specific rule. """
+  RULE_DEPENDENT
+  """ Affects one application or resource. """
+  SINGLE_APP_OR_RESOURCE
+  """ Has no mapped blast-radius class. """
+  UNMAPPED
+}
+
 """ Kinds of actors that can trigger Posture Check events. """
 enum PostureCheckEventActorType {
   """ The system generated the event. """
@@ -18683,6 +18749,10 @@ enum SocketInterfaceIDEnum {
   USB2
   WAN1
   WAN2
+  WBR1
+  WBR2
+  WBR3
+  WBR4
   WLAN
 }
 

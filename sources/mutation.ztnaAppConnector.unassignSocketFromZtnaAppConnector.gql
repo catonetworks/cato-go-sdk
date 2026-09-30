@@ -44,6 +44,11 @@ mutation ztnaAppConnectorUnassignSocketFromZtnaAppConnector ($accountId: ID!, $u
 					rollbackEligibleUntil
 					upgradesPaused
 				}
+				pooledBandwidthAllocation {
+					allocationId
+					bw
+					licenseId
+				}
 			}
 		}
 	}

@@ -42,17 +42,6 @@ func curateCLIContent(path string, content []byte) ([]byte, error) {
 		"mutation.user.updateUser.txt",
 		"query.user.txt":
 		return removeRetiredUserImportType(content, path)
-	case "mutation.xdr.analystFeedback.txt":
-		return []byte(`mutation xdrAnalystFeedback($accountId: ID!, $analystFeedbackInput: AnalystFeedbackInput!) {
-  xdr(accountId: $accountId) {
-    analystFeedback(input: $analystFeedbackInput) {
-      story {
-        id
-      }
-    }
-  }
-}
-`), nil
 	case "query.devices.txt":
 		return removeAnonymousSelectionSets(content)
 	case "query.policy.socketLan.policy.txt":
@@ -69,6 +58,7 @@ func addSocketLanSectionOwner(content []byte, path string) ([]byte, error) {
 	}
 
 	const sectionPath = "field:policy/field:socketLan/field:policy/field:sections/field:section"
+	const sectionOwnerField = "subPolicyId"
 	matches := 0
 	changed := false
 	walkSelections(query.Operations[0].SelectionSet, nil, func(key string, field *ast.Field) {
@@ -78,13 +68,13 @@ func addSocketLanSectionOwner(content []byte, path string) ([]byte, error) {
 		matches++
 		for _, selection := range field.SelectionSet {
 			child, ok := selection.(*ast.Field)
-			if ok && child.Name == "subPolicyId" {
+			if ok && child.Name == sectionOwnerField {
 				return
 			}
 		}
 		field.SelectionSet = append(field.SelectionSet, &ast.Field{
-			Alias: "subPolicyId",
-			Name:  "subPolicyId",
+			Alias: sectionOwnerField,
+			Name:  sectionOwnerField,
 		})
 		changed = true
 	})

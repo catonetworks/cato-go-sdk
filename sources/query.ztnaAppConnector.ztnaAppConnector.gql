@@ -43,6 +43,11 @@ query ztnaAppConnectorZtnaAppConnector ($accountId: ID!, $ztnaAppConnectorRefInp
 				rollbackEligibleUntil
 				upgradesPaused
 			}
+			pooledBandwidthAllocation {
+				allocationId
+				bw
+				licenseId
+			}
 		}
 	}
 }
