@@ -1,7 +1,7 @@
-mutation siteUpdateHa ( $accountId:ID! $siteId:ID! $updateHaInput:UpdateHaInput!) {
-	site ( accountId:$accountId ) {
-		updateHa ( siteId:$siteId  input:$updateHaInput  )  {
+mutation siteUpdateHa ($accountId: ID!, $siteId: ID!, $updateHaInput: UpdateHaInput!) {
+	site(accountId: $accountId) {
+		updateHa(siteId: $siteId, input: $updateHaInput) {
 			siteId
 		}
-	}	
+	}
 }

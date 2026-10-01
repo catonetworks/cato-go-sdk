@@ -1,6 +1,6 @@
-query siteValidWifiRadioSettings ( $accountId:ID! $validWifiRadioSettingsInput:ValidWifiRadioSettingsInput!) {
-	site ( accountId:$accountId ) {
-		validWifiRadioSettings ( input:$validWifiRadioSettingsInput  )  {
+query siteValidWifiRadioSettings ($accountId: ID!, $validWifiRadioSettingsInput: ValidWifiRadioSettingsInput!) {
+	site(accountId: $accountId) {
+		validWifiRadioSettings(input: $validWifiRadioSettingsInput) {
 			band24 {
 				standards
 				channelWidths
@@ -12,5 +12,5 @@ query siteValidWifiRadioSettings ( $accountId:ID! $validWifiRadioSettingsInput:V
 				channels
 			}
 		}
-	}	
+	}
 }

@@ -1,6 +1,6 @@
-query siteRetrieveUsedVlanIDs ( $accountId:ID! $retrieveUsedVlanIDsInput:RetrieveUsedVlanIDsInput!) {
-	site ( accountId:$accountId ) {
-		retrieveUsedVlanIDs ( input:$retrieveUsedVlanIDsInput  )  {
+query siteRetrieveUsedVlanIDs ($accountId: ID!, $retrieveUsedVlanIDsInput: RetrieveUsedVlanIDsInput!) {
+	site(accountId: $accountId) {
+		retrieveUsedVlanIDs(input: $retrieveUsedVlanIDsInput) {
 			reservedDot1QVlans {
 				vlan
 				accountId
@@ -19,5 +19,5 @@ query siteRetrieveUsedVlanIDs ( $accountId:ID! $retrieveUsedVlanIDsInput:Retriev
 				to
 			}
 		}
-	}	
+	}
 }

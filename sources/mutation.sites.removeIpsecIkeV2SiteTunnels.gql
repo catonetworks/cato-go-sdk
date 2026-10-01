@@ -1,6 +1,6 @@
-mutation sitesRemoveIpsecIkeV2SiteTunnels ( $accountId:ID! $siteId:ID! $removeIpsecIkeV2SiteTunnelsInput:RemoveIpsecIkeV2SiteTunnelsInput!) {
-	sites ( accountId:$accountId ) {
-		removeIpsecIkeV2SiteTunnels ( siteId:$siteId  input:$removeIpsecIkeV2SiteTunnelsInput  )  {
+mutation sitesRemoveIpsecIkeV2SiteTunnels ($accountId: ID!, $siteId: ID!, $removeIpsecIkeV2SiteTunnelsInput: RemoveIpsecIkeV2SiteTunnelsInput!) {
+	sites(accountId: $accountId) {
+		removeIpsecIkeV2SiteTunnels(siteId: $siteId, input: $removeIpsecIkeV2SiteTunnelsInput) {
 			siteId
 			primary {
 				fqdn
@@ -17,5 +17,5 @@ mutation sitesRemoveIpsecIkeV2SiteTunnels ( $accountId:ID! $siteId:ID! $removeIp
 				}
 			}
 		}
-	}	
+	}
 }

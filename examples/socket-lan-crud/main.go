@@ -129,7 +129,7 @@ func main() {
 
 	debugPrint("AddRule Request - socketLanAddRuleInput", socketLanAddRuleInput)
 
-	result, err := catoClient.PolicySocketLanAddRule(ctx, socketLanAddRuleInput, accountId)
+	result, err := catoClient.PolicySocketLanAddRule(ctx, socketLanAddRuleInput, accountId, nil)
 	if err != nil {
 		fmt.Println("error adding Socket LAN rule: ", err)
 		os.Exit(1)
@@ -240,7 +240,7 @@ func main() {
 
 		debugPrint("MoveRule Request - policyMoveRuleInput", policyMoveRuleInput)
 
-		moveResult, err := catoClient.PolicySocketLanMoveRule(ctx, policyMoveRuleInput, accountId)
+		moveResult, err := catoClient.PolicySocketLanMoveRule(ctx, policyMoveRuleInput, accountId, nil)
 		if err != nil {
 			fmt.Println("error moving Socket LAN rule: ", err)
 			os.Exit(1)

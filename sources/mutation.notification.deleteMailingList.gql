@@ -1,6 +1,6 @@
-mutation notificationDeleteMailingList ( $accountId:ID! $mailingListRefInput:MailingListRefInput!) {
-	notification ( accountId:$accountId ) {
-		deleteMailingList ( input:$mailingListRefInput  )  {
+mutation notificationDeleteMailingList ($accountId: ID!, $mailingListRefInput: MailingListRefInput!) {
+	notification(accountId: $accountId) {
+		deleteMailingList(input: $mailingListRefInput) {
 			mailingList {
 				id
 				name
@@ -19,5 +19,5 @@ mutation notificationDeleteMailingList ( $accountId:ID! $mailingListRefInput:Mai
 				}
 			}
 		}
-	}	
+	}
 }

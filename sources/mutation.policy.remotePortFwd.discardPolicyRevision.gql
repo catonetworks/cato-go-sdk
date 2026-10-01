@@ -1,7 +1,7 @@
-mutation policyRemotePortFwdDiscardPolicyRevision ( $accountId:ID! $remotePortFwdPolicyMutationInput:RemotePortFwdPolicyMutationInput $policyDiscardRevisionInput:PolicyDiscardRevisionInput) {
-	policy ( accountId:$accountId ) {
-		remotePortFwd ( input:$remotePortFwdPolicyMutationInput  )  {
-			discardPolicyRevision ( input:$policyDiscardRevisionInput   ) {
+mutation policyRemotePortFwdDiscardPolicyRevision ($accountId: ID!, $remotePortFwdPolicyMutationInput: RemotePortFwdPolicyMutationInput, $policyDiscardRevisionInput: PolicyDiscardRevisionInput) {
+	policy(accountId: $accountId) {
+		remotePortFwd(input: $remotePortFwdPolicyMutationInput) {
+			discardPolicyRevision(input: $policyDiscardRevisionInput) {
 				policy {
 					enabled
 					rules {
@@ -110,5 +110,5 @@ mutation policyRemotePortFwdDiscardPolicyRevision ( $accountId:ID! $remotePortFw
 				}
 			}
 		}
-	}	
+	}
 }

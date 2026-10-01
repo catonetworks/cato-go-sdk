@@ -1,7 +1,7 @@
-mutation containerIpAddressRangeUpdateFromURL ( $accountId:ID! $updateIpAddressRangeContainerFromUrlInput:UpdateIpAddressRangeContainerFromUrlInput!) {
-	container ( accountId:$accountId ) {
+mutation containerIpAddressRangeUpdateFromURL ($accountId: ID!, $updateIpAddressRangeContainerFromUrlInput: UpdateIpAddressRangeContainerFromUrlInput!) {
+	container(accountId: $accountId) {
 		ipAddressRange {
-			updateFromURL ( input:$updateIpAddressRangeContainerFromUrlInput   ) {
+			updateFromURL(input: $updateIpAddressRangeContainerFromUrlInput) {
 				container {
 					id
 					name
@@ -41,5 +41,5 @@ mutation containerIpAddressRangeUpdateFromURL ( $accountId:ID! $updateIpAddressR
 				}
 			}
 		}
-	}	
+	}
 }

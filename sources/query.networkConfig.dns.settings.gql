@@ -1,5 +1,5 @@
-query networkConfigDnsSettings ( $accountId:ID!) {
-	networkConfig ( accountId:$accountId ) {
+query networkConfigDnsSettings ($accountId: ID!) {
+	networkConfig(accountId: $accountId) {
 		dns {
 			settings {
 				primaryServer

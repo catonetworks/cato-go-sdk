@@ -4,7 +4,11 @@ import (
 	"errors"
 	"fmt"
 	"path/filepath"
+	"regexp"
+	"slices"
 )
+
+var commitSHAPattern = regexp.MustCompile(`^[0-9a-f]{40}$`)
 
 // CheckConfig configures canonical SDK operation validation.
 type CheckConfig struct {
@@ -44,6 +48,9 @@ func Check(config CheckConfig) error {
 			len(manifest.Operations),
 			len(documents),
 		)
+	}
+	if manifest.Version >= manifestVersion && !commitSHAPattern.MatchString(manifest.CLICommitSHA) {
+		return fmt.Errorf("manifest CLI commit SHA %q is not a full commit SHA", manifest.CLICommitSHA)
 	}
 
 	return compareManifest(config.SDKRoot, manifest, documents)
@@ -90,6 +97,9 @@ func compareManifest(sdkRoot string, manifest *Manifest, documents []document) e
 		}
 		if entry.SDKName != current.name {
 			validationErrors = append(validationErrors, fmt.Errorf("%s name is %q; want %q", entry.SDKFile, entry.SDKName, current.name))
+		}
+		if manifest.Version >= manifestVersion && !slices.Equal(entry.Variables, current.variables) {
+			validationErrors = append(validationErrors, fmt.Errorf("%s variable order does not match manifest", entry.SDKFile))
 		}
 		if entry.DocumentSHA256 != current.hash {
 			validationErrors = append(validationErrors, fmt.Errorf("%s content hash does not match manifest", entry.SDKFile))

@@ -1,7 +1,7 @@
-query policyClientConnectivityPolicy ( $accountId:ID! $clientConnectivityPolicyInput:ClientConnectivityPolicyInput) {
-	policy ( accountId:$accountId ) {
+query policyClientConnectivityPolicy ($accountId: ID!, $clientConnectivityPolicyInput: ClientConnectivityPolicyInput) {
+	policy(accountId: $accountId) {
 		clientConnectivity {
-			policy ( input:$clientConnectivityPolicyInput   ) {
+			policy(input: $clientConnectivityPolicyInput) {
 				enabled
 				rules {
 					audit {
@@ -88,5 +88,5 @@ query policyClientConnectivityPolicy ( $accountId:ID! $clientConnectivityPolicyI
 				}
 			}
 		}
-	}	
+	}
 }

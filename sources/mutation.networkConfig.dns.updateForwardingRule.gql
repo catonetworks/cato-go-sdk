@@ -1,7 +1,7 @@
-mutation networkConfigDnsUpdateForwardingRule ( $accountId:ID! $networkConfigDnsUpdateForwardingRuleInput:NetworkConfigDnsUpdateForwardingRuleInput!) {
-	networkConfig ( accountId:$accountId ) {
+mutation networkConfigDnsUpdateForwardingRule ($accountId: ID!, $networkConfigDnsUpdateForwardingRuleInput: NetworkConfigDnsUpdateForwardingRuleInput!) {
+	networkConfig(accountId: $accountId) {
 		dns {
-			updateForwardingRule ( input:$networkConfigDnsUpdateForwardingRuleInput   ) {
+			updateForwardingRule(input: $networkConfigDnsUpdateForwardingRuleInput) {
 				forwardingRule {
 					id
 					domain

@@ -1,6 +1,6 @@
-query postureCheckResultList ( $accountId:ID! $postureCheckResultListInput:PostureCheckResultListInput!) {
-	posture ( accountId:$accountId ) {
-		checkResultList ( input:$postureCheckResultListInput  )  {
+query postureCheckResultList ($accountId: ID!, $postureCheckResultListInput: PostureCheckResultListInput!) {
+	posture(accountId: $accountId) {
+		checkResultList(input: $postureCheckResultListInput) {
 			items {
 				definition {
 					id
@@ -38,6 +38,16 @@ query postureCheckResultList ( $accountId:ID! $postureCheckResultListInput:Postu
 					application
 					checkType
 					securityDomain
+					scoreMetadata {
+						effectiveAreaCriticality
+						effectiveBlastRadiusClass
+						effectiveBlastRadiusValue
+						effectiveFindingsSignal
+						effectiveSeverity
+						effectiveSuggestedScore
+						effectiveSuggestedSeverity
+						scoreContributionPct
+					}
 				}
 				result {
 					id
@@ -111,6 +121,16 @@ query postureCheckResultList ( $accountId:ID! $postureCheckResultListInput:Postu
 						application
 						checkType
 						securityDomain
+						scoreMetadata {
+							effectiveAreaCriticality
+							effectiveBlastRadiusClass
+							effectiveBlastRadiusValue
+							effectiveFindingsSignal
+							effectiveSeverity
+							effectiveSuggestedScore
+							effectiveSuggestedSeverity
+							scoreContributionPct
+						}
 					}
 				}
 				findingsCount {

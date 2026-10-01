@@ -1,7 +1,7 @@
-mutation policyClientConnectivityMoveSection ( $accountId:ID! $clientConnectivityPolicyMutationInput:ClientConnectivityPolicyMutationInput $policyMoveSectionInput:PolicyMoveSectionInput!) {
-	policy ( accountId:$accountId ) {
-		clientConnectivity ( input:$clientConnectivityPolicyMutationInput  )  {
-			moveSection ( input:$policyMoveSectionInput   ) {
+mutation policyClientConnectivityMoveSection ($accountId: ID!, $clientConnectivityPolicyMutationInput: ClientConnectivityPolicyMutationInput, $policyMoveSectionInput: PolicyMoveSectionInput!) {
+	policy(accountId: $accountId) {
+		clientConnectivity(input: $clientConnectivityPolicyMutationInput) {
+			moveSection(input: $policyMoveSectionInput) {
 				section {
 					audit {
 						updatedTime
@@ -35,5 +35,5 @@ mutation policyClientConnectivityMoveSection ( $accountId:ID! $clientConnectivit
 				}
 			}
 		}
-	}	
+	}
 }

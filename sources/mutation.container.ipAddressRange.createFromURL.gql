@@ -1,7 +1,7 @@
-mutation containerIpAddressRangeCreateFromURL ( $accountId:ID! $createIpAddressRangeContainerFromUrlInput:CreateIpAddressRangeContainerFromUrlInput!) {
-	container ( accountId:$accountId ) {
+mutation containerIpAddressRangeCreateFromURL ($accountId: ID!, $createIpAddressRangeContainerFromUrlInput: CreateIpAddressRangeContainerFromUrlInput!) {
+	container(accountId: $accountId) {
 		ipAddressRange {
-			createFromURL ( input:$createIpAddressRangeContainerFromUrlInput   ) {
+			createFromURL(input: $createIpAddressRangeContainerFromUrlInput) {
 				container {
 					id
 					name
@@ -41,5 +41,5 @@ mutation containerIpAddressRangeCreateFromURL ( $accountId:ID! $createIpAddressR
 				}
 			}
 		}
-	}	
+	}
 }

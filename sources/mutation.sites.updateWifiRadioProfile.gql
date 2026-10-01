@@ -1,6 +1,6 @@
-mutation sitesUpdateWifiRadioProfile ( $accountId:ID! $updateWifiRadioProfileInput:UpdateWifiRadioProfileInput!) {
-	sites ( accountId:$accountId ) {
-		updateWifiRadioProfile ( input:$updateWifiRadioProfileInput  )  {
+mutation sitesUpdateWifiRadioProfile ($accountId: ID!, $updateWifiRadioProfileInput: UpdateWifiRadioProfileInput!) {
+	sites(accountId: $accountId) {
+		updateWifiRadioProfile(input: $updateWifiRadioProfileInput) {
 			wifiRadioProfile {
 				id
 				site {
@@ -23,5 +23,5 @@ mutation sitesUpdateWifiRadioProfile ( $accountId:ID! $updateWifiRadioProfileInp
 				}
 			}
 		}
-	}	
+	}
 }

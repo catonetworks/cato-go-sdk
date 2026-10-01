@@ -1,18 +1,29 @@
-mutation policySocketLanFirewallRemoveRule ( $accountId:ID! $socketLanPolicyMutationInput:SocketLanPolicyMutationInput $socketLanFirewallRemoveRuleInput:SocketLanFirewallRemoveRuleInput!) {
-	policy ( accountId:$accountId ) {
-		socketLan ( input:$socketLanPolicyMutationInput  )  {
+mutation policySocketLanFirewallRemoveRule ($accountId: ID!, $socketLanPolicyMutationInput: SocketLanPolicyMutationInput, $socketLanFirewallRemoveRuleInput: SocketLanFirewallRemoveRuleInput!) {
+	policy(accountId: $accountId) {
+		socketLan(input: $socketLanPolicyMutationInput) {
 			firewall {
-				removeRule ( input:$socketLanFirewallRemoveRuleInput  )  {
+				removeRule(input: $socketLanFirewallRemoveRuleInput) {
 					rule {
 						audit {
 							updatedTime
 							updatedBy
+						}
+						metadata {
+							lock {
+								lockingAdminEmail
+								lockingTime
+								lockingRevisionId
+							}
 						}
 						rule {
 							id
 							name
 							description
 							index
+							section {
+								id
+								name
+							}
 							enabled
 							source {
 								vlan
@@ -161,6 +172,22 @@ mutation policySocketLanFirewallRemoveRule ( $accountId:ID! $socketLanPolicyMuta
 							}
 						}
 						properties
+						ruleType
+						subPolicy {
+							id
+							name
+						}
+						access {
+							action
+						}
+					}
+					revision {
+						id
+						name
+						description
+						changes
+						createdTime
+						updatedTime
 					}
 					status
 					errors {
@@ -170,5 +197,5 @@ mutation policySocketLanFirewallRemoveRule ( $accountId:ID! $socketLanPolicyMuta
 				}
 			}
 		}
-	}	
+	}
 }

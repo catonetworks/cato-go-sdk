@@ -1,112 +1,114 @@
-mutation policyRemotePortFwdPublishPolicyRevision ( $accountId:ID! ) {
-  policy ( accountId:$accountId  ) {
-    remotePortFwd  {
-      publishPolicyRevision  {
-        policy  {
-          enabled
-          rules  {
-            audit  {
-              updatedTime
-              updatedBy
-            }
-
-            rule  {
-              id
-              name
-              description
-              index
-              section  {
-                id 
-                name 
-              }
-              enabled
-              forwardIcmp
-              externalIp  {
-                id 
-                name 
-              }
-              externalPortRange  {
-                from 
-                to 
-              }
-              internalIp
-              internalPortRange  {
-                from 
-                to 
-              }
-              remoteIPs  {
-                ip 
-                ipRange  {
-                  from
-                  to
-                }
-
-                subnet 
-                globalIpRange  {
-                  id
-                  name
-                }
-
-              }
-              restrictionType
-              tracking  {
-                enabled 
-                frequency 
-                subscriptionGroup  {
-                  id
-                  name
-                }
-
-                webhook  {
-                  id
-                  name
-                }
-
-                mailingList  {
-                  id
-                  name
-                }
-
-              }
-            }
-
-            properties 
-          }
-          sections  {
-            audit  {
-              updatedTime
-              updatedBy
-            }
-
-            section  {
-              id
-              name
-            }
-
-            properties 
-          }
-          auditRemotePortFwdPolicy: audit  {
-            publishedTime 
-            publishedBy 
-          }
-          revisionRemotePortFwdPolicy: revision  {
-            id 
-            name 
-            description 
-            changes 
-            createdTime 
-            updatedTime 
-          }
-        }
-
-        status 
-        errors  {
-          errorMessage
-          errorCode
-        }
-
-      }
-    }
-
-  }  
+mutation policyRemotePortFwdPublishPolicyRevision ($accountId: ID!, $policyPublishRevisionInput: PolicyPublishRevisionInput, $remotePortFwdPolicyMutationInput: RemotePortFwdPolicyMutationInput) {
+	policy(accountId: $accountId) {
+		remotePortFwd(input: $remotePortFwdPolicyMutationInput) {
+			publishPolicyRevision(input: $policyPublishRevisionInput) {
+				policy {
+					enabled
+					rules {
+						audit {
+							updatedTime
+							updatedBy
+						}
+						metadata {
+							lock {
+								lockingAdminEmail
+								lockingTime
+								lockingRevisionId
+							}
+						}
+						rule {
+							id
+							name
+							description
+							index
+							section {
+								id
+								name
+							}
+							enabled
+							forwardIcmp
+							externalIp {
+								id
+								name
+							}
+							externalPortRange {
+								from
+								to
+							}
+							internalIp
+							internalPortRange {
+								from
+								to
+							}
+							remoteIPs {
+								ip
+								ipRange {
+									from
+									to
+								}
+								subnet
+								globalIpRange {
+									id
+									name
+								}
+							}
+							restrictionType
+							tracking {
+								enabled
+								frequency
+								subscriptionGroup {
+									id
+									name
+								}
+								webhook {
+									id
+									name
+								}
+								mailingList {
+									id
+									name
+								}
+							}
+						}
+						properties
+					}
+					sections {
+						audit {
+							updatedTime
+							updatedBy
+						}
+						metadata {
+							lock {
+								lockingAdminEmail
+								lockingTime
+								lockingRevisionId
+							}
+						}
+						section {
+							id
+							name
+						}
+						properties
+					}
+					auditRemotePortFwdPolicy: audit {
+						publishedTime
+						publishedBy
+					}
+					revisionRemotePortFwdPolicy: revision {
+						id
+						name
+						description
+						changes
+						createdTime
+						updatedTime
+					}
+				}
+				status
+				errors {
+					errorMessage
+					errorCode
+				}
+			}
+		}
+	}
 }

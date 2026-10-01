@@ -1,7 +1,7 @@
-mutation containerFqdnUpdateFromURL ( $accountId:ID! $updateFqdnContainerFromUrlInput:UpdateFqdnContainerFromUrlInput!) {
-	container ( accountId:$accountId ) {
+mutation containerFqdnUpdateFromURL ($accountId: ID!, $updateFqdnContainerFromUrlInput: UpdateFqdnContainerFromUrlInput!) {
+	container(accountId: $accountId) {
 		fqdn {
-			updateFromURL ( input:$updateFqdnContainerFromUrlInput   ) {
+			updateFromURL(input: $updateFqdnContainerFromUrlInput) {
 				container {
 					id
 					name
@@ -41,5 +41,5 @@ mutation containerFqdnUpdateFromURL ( $accountId:ID! $updateFqdnContainerFromUrl
 				}
 			}
 		}
-	}	
+	}
 }

@@ -1,7 +1,7 @@
-query networkConfigDnsServerSetList ( $accountId:ID! $networkConfigDnsServerSetListInput:NetworkConfigDnsServerSetListInput!) {
-	networkConfig ( accountId:$accountId ) {
+query networkConfigDnsServerSetList ($accountId: ID!, $networkConfigDnsServerSetListInput: NetworkConfigDnsServerSetListInput!) {
+	networkConfig(accountId: $accountId) {
 		dns {
-			serverSetList ( input:$networkConfigDnsServerSetListInput   ) {
+			serverSetList(input: $networkConfigDnsServerSetListInput) {
 				items {
 					id
 					name
@@ -11,14 +11,6 @@ query networkConfigDnsServerSetList ( $accountId:ID! $networkConfigDnsServerSetL
 						updatedBy {
 							id
 							name
-							... on AdminRef {
-								id
-								name
-							}
-							... on ApiKeyRef {
-								id
-								name
-							}
 						}
 					}
 				}

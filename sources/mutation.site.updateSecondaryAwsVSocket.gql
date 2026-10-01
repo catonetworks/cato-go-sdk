@@ -1,6 +1,6 @@
-mutation siteUpdateSecondaryAwsVSocket ( $accountId:ID! $updateSecondaryAwsVSocketInput:UpdateSecondaryAwsVSocketInput!) {
-	site ( accountId:$accountId ) {
-		updateSecondaryAwsVSocket ( input:$updateSecondaryAwsVSocketInput  )  {
+mutation siteUpdateSecondaryAwsVSocket ($accountId: ID!, $updateSecondaryAwsVSocketInput: UpdateSecondaryAwsVSocketInput!) {
+	site(accountId: $accountId) {
+		updateSecondaryAwsVSocket(input: $updateSecondaryAwsVSocketInput) {
 			secondaryAwsVSocket {
 				site {
 					id
@@ -12,5 +12,5 @@ mutation siteUpdateSecondaryAwsVSocket ( $accountId:ID! $updateSecondaryAwsVSock
 				routeTableId
 			}
 		}
-	}	
+	}
 }

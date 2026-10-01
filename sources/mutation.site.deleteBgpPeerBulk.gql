@@ -1,6 +1,6 @@
-mutation siteDeleteBgpPeerBulk ( $accountId:ID! $deleteBgpPeerBulkInput:DeleteBgpPeerBulkInput!) {
-	site ( accountId:$accountId ) {
-		deleteBgpPeerBulk ( input:$deleteBgpPeerBulkInput  )  {
+mutation siteDeleteBgpPeerBulk ($accountId: ID!, $deleteBgpPeerBulkInput: DeleteBgpPeerBulkInput!) {
+	site(accountId: $accountId) {
+		deleteBgpPeerBulk(input: $deleteBgpPeerBulkInput) {
 			bgpPeer {
 				site {
 					id
@@ -80,5 +80,5 @@ mutation siteDeleteBgpPeerBulk ( $accountId:ID! $deleteBgpPeerBulkInput:DeleteBg
 				}
 			}
 		}
-	}	
+	}
 }

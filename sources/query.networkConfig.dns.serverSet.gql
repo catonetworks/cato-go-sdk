@@ -1,7 +1,7 @@
-query networkConfigDnsServerSet ( $accountId:ID! $networkConfigDnsServerSetRefInput:NetworkConfigDnsServerSetRefInput!) {
-	networkConfig ( accountId:$accountId ) {
+query networkConfigDnsServerSet ($accountId: ID!, $networkConfigDnsServerSetRefInput: NetworkConfigDnsServerSetRefInput!) {
+	networkConfig(accountId: $accountId) {
 		dns {
-			serverSet ( input:$networkConfigDnsServerSetRefInput   ) {
+			serverSet(input: $networkConfigDnsServerSetRefInput) {
 				id
 				name
 				server

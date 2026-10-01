@@ -1,23 +1,26 @@
-query networkRange($accountID: ID!, $networkRangeID: ID!) {
-  site(accountId: $accountID) {
-    networkRange(networkRangeId: $networkRangeID) {
-      azureFloatingIp
-      dhcpSettings {
-        dhcpType
-        ipRange
-        relayGroupId
-        dhcpMicrosegmentation
-      }
-      gateway
-      internetOnly
-      localIp
-      mdnsReflector
-      name
-      networkRangeId
-      rangeType
-      subnet
-      translatedSubnet
-      vlan
-    }
-  }
+query networkRange ($accountID: ID!, $networkRangeID: ID!) {
+	site(accountId: $accountID) {
+		networkRange(networkRangeId: $networkRangeID) {
+			networkRangeId
+			name
+			rangeType
+			subnet
+			translatedSubnet
+			localIp
+			gateway
+			vlan
+			azureFloatingIp
+			gcpLoadBalancerIp
+			primaryManagementIp
+			secondaryManagementIp
+			dhcpSettings {
+				dhcpType
+				ipRange
+				relayGroupId
+				dhcpMicrosegmentation
+			}
+			mdnsReflector
+			internetOnly
+		}
+	}
 }

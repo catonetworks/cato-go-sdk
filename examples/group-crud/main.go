@@ -78,7 +78,7 @@ func main() {
 		},
 	}
 
-	createResult, err := catoClient.GroupsCreateGroup(ctx, createGroupInput, accountId)
+	createResult, err := catoClient.GroupsCreateGroup(ctx, createGroupInput, accountId, cato_models.GroupMembersListInput{})
 	if err != nil {
 		fmt.Println("error creating group: ", err)
 		os.Exit(1)
@@ -191,7 +191,7 @@ func main() {
 		},
 	}
 
-	updateAddResult, err := catoClient.GroupsUpdateGroup(ctx, updateGroupInputAdd, accountId)
+	updateAddResult, err := catoClient.GroupsUpdateGroup(ctx, updateGroupInputAdd, accountId, cato_models.GroupMembersListInput{})
 	if err != nil {
 		fmt.Println("error updating group adding members: ", err)
 		os.Exit(1)
@@ -243,7 +243,7 @@ func main() {
 		},
 	}
 
-	updateRemoveResult, err := catoClient.GroupsUpdateGroup(ctx, updateGroupInputRemove, accountId)
+	updateRemoveResult, err := catoClient.GroupsUpdateGroup(ctx, updateGroupInputRemove, accountId, cato_models.GroupMembersListInput{})
 	if err != nil {
 		fmt.Println("error updating group removing members: ", err)
 		os.Exit(1)
@@ -264,7 +264,7 @@ func main() {
 		Input: groupID,
 	}
 
-	deleteResult, err := catoClient.GroupsDeleteGroup(ctx, deleteGroupInput, accountId)
+	deleteResult, err := catoClient.GroupsDeleteGroup(ctx, deleteGroupInput, accountId, cato_models.GroupMembersListInput{})
 	if err != nil {
 		fmt.Println("error deleting group: ", err)
 		os.Exit(1)

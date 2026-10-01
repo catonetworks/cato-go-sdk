@@ -1,7 +1,7 @@
-query aiSecurity ( $accountId:ID! $aiSecurityAppsInvocationInput:AiSecurityAppsInvocationInput! $aiSecurityEndUsersSessionConversationInput:AiSecurityEndUsersSessionConversationInput!) {
-	aiSecurity ( accountId:$accountId ) {
+query aiSecurity ($accountId: ID!, $aiSecurityAppsInvocationInput: AiSecurityAppsInvocationInput!, $aiSecurityEndUsersSessionConversationInput: AiSecurityEndUsersSessionConversationInput!) {
+	aiSecurity(accountId: $accountId) {
 		apps {
-			invocation ( input:$aiSecurityAppsInvocationInput   ) {
+			invocation(input: $aiSecurityAppsInvocationInput) {
 				id
 				sessionId
 				timestamp
@@ -22,10 +22,10 @@ query aiSecurity ( $accountId:ID! $aiSecurityAppsInvocationInput:AiSecurityAppsI
 			}
 		}
 		endUsers {
-			sessionConversation ( input:$aiSecurityEndUsersSessionConversationInput   ) {
+			sessionConversation(input: $aiSecurityEndUsersSessionConversationInput) {
 				userPrompt
 				llmResponse
 			}
 		}
-	}	
+	}
 }

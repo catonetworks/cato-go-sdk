@@ -1,6 +1,6 @@
-query siteValidateWifiRadioProfile ( $accountId:ID! $validateWifiRadioProfileInput:ValidateWifiRadioProfileInput!) {
-	site ( accountId:$accountId ) {
-		validateWifiRadioProfile ( input:$validateWifiRadioProfileInput  )  {
+query siteValidateWifiRadioProfile ($accountId: ID!, $validateWifiRadioProfileInput: ValidateWifiRadioProfileInput!) {
+	site(accountId: $accountId) {
+		validateWifiRadioProfile(input: $validateWifiRadioProfileInput) {
 			result {
 				band24 {
 					isValid
@@ -12,5 +12,5 @@ query siteValidateWifiRadioProfile ( $accountId:ID! $validateWifiRadioProfileInp
 				}
 			}
 		}
-	}	
+	}
 }

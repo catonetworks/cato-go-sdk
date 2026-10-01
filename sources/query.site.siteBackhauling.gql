@@ -1,6 +1,6 @@
-query siteSiteBackhauling ( $accountId:ID! $siteRefInput:SiteRefInput!) {
-	site ( accountId:$accountId ) {
-		siteBackhauling ( site:$siteRefInput  )  {
+query siteSiteBackhauling ($accountId: ID!, $siteRefInput: SiteRefInput!) {
+	site(accountId: $accountId) {
+		siteBackhauling(site: $siteRefInput) {
 			site {
 				id
 				name
@@ -10,5 +10,5 @@ query siteSiteBackhauling ( $accountId:ID! $siteRefInput:SiteRefInput!) {
 			nextHopIP
 			preferredSocketPort
 		}
-	}	
+	}
 }

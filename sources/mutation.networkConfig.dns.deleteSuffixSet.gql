@@ -1,7 +1,7 @@
-mutation networkConfigDnsDeleteSuffixSet ( $accountId:ID! $networkConfigDnsDeleteSuffixSetInput:NetworkConfigDnsDeleteSuffixSetInput!) {
-	networkConfig ( accountId:$accountId ) {
+mutation networkConfigDnsDeleteSuffixSet ($accountId: ID!, $networkConfigDnsDeleteSuffixSetInput: NetworkConfigDnsDeleteSuffixSetInput!) {
+	networkConfig(accountId: $accountId) {
 		dns {
-			deleteSuffixSet ( input:$networkConfigDnsDeleteSuffixSetInput   ) {
+			deleteSuffixSet(input: $networkConfigDnsDeleteSuffixSetInput) {
 				dnsSuffixSet {
 					id
 					name
@@ -11,14 +11,6 @@ mutation networkConfigDnsDeleteSuffixSet ( $accountId:ID! $networkConfigDnsDelet
 						updatedBy {
 							id
 							name
-							... on AdminRef {
-								id
-								name
-							}
-							... on ApiKeyRef {
-								id
-								name
-							}
 						}
 					}
 				}

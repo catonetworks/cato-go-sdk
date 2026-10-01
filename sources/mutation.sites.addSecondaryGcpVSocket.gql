@@ -1,6 +1,6 @@
-mutation sitesAddSecondaryGcpVSocket ( $accountId:ID! $addSecondaryGcpVSocketInput:AddSecondaryGcpVSocketInput!) {
-	sites ( accountId:$accountId ) {
-		addSecondaryGcpVSocket ( input:$addSecondaryGcpVSocketInput  )  {
+mutation sitesAddSecondaryGcpVSocket ($accountId: ID!, $addSecondaryGcpVSocketInput: AddSecondaryGcpVSocketInput!) {
+	sites(accountId: $accountId) {
+		addSecondaryGcpVSocket(input: $addSecondaryGcpVSocketInput) {
 			socketInfo {
 				site {
 					id
@@ -11,5 +11,5 @@ mutation sitesAddSecondaryGcpVSocket ( $accountId:ID! $addSecondaryGcpVSocketInp
 				loadBalancerIp
 			}
 		}
-	}	
+	}
 }

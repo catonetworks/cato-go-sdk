@@ -1,7 +1,7 @@
-mutation networkConfigDhcpCreateOption ( $accountId:ID! $networkConfigDhcpCreateOptionInput:NetworkConfigDhcpCreateOptionInput!) {
-	networkConfig ( accountId:$accountId ) {
+mutation networkConfigDhcpCreateOption ($accountId: ID!, $networkConfigDhcpCreateOptionInput: NetworkConfigDhcpCreateOptionInput!) {
+	networkConfig(accountId: $accountId) {
 		dhcp {
-			createOption ( input:$networkConfigDhcpCreateOptionInput   ) {
+			createOption(input: $networkConfigDhcpCreateOptionInput) {
 				option {
 					id
 					tag

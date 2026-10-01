@@ -1,7 +1,7 @@
-query policySocketLanPolicyList ( $accountId:ID! $socketLanPolicyListInput:SocketLanPolicyListInput!) {
-	policy ( accountId:$accountId ) {
+query policySocketLanPolicyList ($accountId: ID!, $socketLanPolicyListInput: SocketLanPolicyListInput!) {
+	policy(accountId: $accountId) {
 		socketLan {
-			policyList ( input:$socketLanPolicyListInput   ) {
+			policyList(input: $socketLanPolicyListInput) {
 				items {
 					id
 					name
@@ -18,5 +18,5 @@ query policySocketLanPolicyList ( $accountId:ID! $socketLanPolicyListInput:Socke
 				}
 			}
 		}
-	}	
+	}
 }

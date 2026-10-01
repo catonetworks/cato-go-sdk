@@ -54,7 +54,7 @@ func main() {
 	domainList := []string{"slashdot.org"}
 	fqdnList := []string{"www.slashdot.org"}
 
-	remoteAsnList := []scalars.Asn16{}
+	remoteAsnList := []scalars.Asn32{}
 
 	effectiveFrom := "2025-08-09T00:00:00Z"
 	expiresAt := "2026-12-31T23:57:59Z"
@@ -142,7 +142,7 @@ func main() {
 		},
 	}
 
-	policyChange, err := catoClient.PolicyInternetFirewallAddRule(ctx, inputRule, accountId)
+	policyChange, err := catoClient.PolicyInternetFirewallAddRule(ctx, inputRule, accountId, nil)
 
 	if err != nil {
 		fmt.Println("error: ", err)
@@ -150,7 +150,7 @@ func main() {
 	}
 
 	publishDataIfEnabled := &cato_models.PolicyPublishRevisionInput{}
-	_, err = catoClient.PolicyInternetFirewallPublishPolicyRevision(ctx, &cato_models.InternetFirewallPolicyMutationInput{}, publishDataIfEnabled, accountId)
+	_, err = catoClient.PolicyInternetFirewallPublishPolicyRevision(ctx, nil, publishDataIfEnabled, accountId)
 	if err != nil {
 		fmt.Println("policy publish query error: ", err)
 		return

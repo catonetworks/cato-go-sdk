@@ -1,6 +1,6 @@
-mutation customAppDataUpdateCustomApplication ( $accountId:ID! $updateCustomApplicationInput:UpdateCustomApplicationInput!) {
-	customAppData ( accountId:$accountId ) {
-		updateCustomApplication ( input:$updateCustomApplicationInput  )  {
+mutation customAppDataUpdateCustomApplication ($accountId: ID!, $updateCustomApplicationInput: UpdateCustomApplicationInput!) {
+	customAppData(accountId: $accountId) {
+		updateCustomApplication(input: $updateCustomApplicationInput) {
 			customApplication {
 				id
 				name
@@ -31,5 +31,5 @@ mutation customAppDataUpdateCustomApplication ( $accountId:ID! $updateCustomAppl
 				}
 			}
 		}
-	}	
+	}
 }

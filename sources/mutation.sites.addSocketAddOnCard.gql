@@ -1,10 +1,10 @@
-mutation sitesAddSocketAddOnCard ( $accountId:ID! $addSocketAddOnCardInput:AddSocketAddOnCardInput!) {
-	sites ( accountId:$accountId ) {
-		addSocketAddOnCard ( input:$addSocketAddOnCardInput  )  {
+mutation sitesAddSocketAddOnCard ($accountId: ID!, $addSocketAddOnCardInput: AddSocketAddOnCardInput!) {
+	sites(accountId: $accountId) {
+		addSocketAddOnCard(input: $addSocketAddOnCardInput) {
 			addOns {
 				expansionSlotNumber
 				type
 			}
 		}
-	}	
+	}
 }

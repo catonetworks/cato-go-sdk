@@ -1,7 +1,7 @@
-mutation policySiteWebProxyAddSection ( $accountId:ID! $siteWebProxyPolicyMutationInput:SiteWebProxyPolicyMutationInput $policyAddSectionInput:PolicyAddSectionInput!) {
-	policy ( accountId:$accountId ) {
-		siteWebProxy ( input:$siteWebProxyPolicyMutationInput  )  {
-			addSection ( input:$policyAddSectionInput   ) {
+mutation policySiteWebProxyAddSection ($accountId: ID!, $siteWebProxyPolicyMutationInput: SiteWebProxyPolicyMutationInput, $policyAddSectionInput: PolicyAddSectionInput!) {
+	policy(accountId: $accountId) {
+		siteWebProxy(input: $siteWebProxyPolicyMutationInput) {
+			addSection(input: $policyAddSectionInput) {
 				section {
 					audit {
 						updatedTime

@@ -1,6 +1,6 @@
-query postureFindingList ( $accountId:ID! $postureFindingListInput:PostureFindingListInput!) {
-	posture ( accountId:$accountId ) {
-		findingList ( input:$postureFindingListInput  )  {
+query postureFindingList ($accountId: ID!, $postureFindingListInput: PostureFindingListInput!) {
+	posture(accountId: $accountId) {
+		findingList(input: $postureFindingListInput) {
 			items {
 				id
 				externalId
@@ -59,6 +59,16 @@ query postureFindingList ( $accountId:ID! $postureFindingListInput:PostureFindin
 					application
 					checkType
 					securityDomain
+					scoreMetadata {
+						effectiveAreaCriticality
+						effectiveBlastRadiusClass
+						effectiveBlastRadiusValue
+						effectiveFindingsSignal
+						effectiveSeverity
+						effectiveSuggestedScore
+						effectiveSuggestedSeverity
+						scoreContributionPct
+					}
 				}
 			}
 			paging {

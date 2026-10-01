@@ -14,6 +14,17 @@ description: >-
 
 Run steps in order. Stop and report if any step fails.
 
+### 0. Pin the CLI operation producer
+
+Use a clean `cato-cli` checkout at the exact reviewed 40-character PR commit
+SHA. Never import from a mutable branch name.
+
+```bash
+export CLI_ROOT=/path/to/cato-cli
+export CLI_COMMIT_SHA=<40-character-commit-sha>
+test "$(git -C "$CLI_ROOT" rev-parse --verify HEAD^{commit})" = "$CLI_COMMIT_SHA"
+```
+
 ### 1. Fetch & normalize schema
 
 ```bash
@@ -71,13 +82,15 @@ make apply-patches
 ### 3. Validate operations
 
 ```bash
+make operations-import CLI_ROOT="$CLI_ROOT" CLI_COMMIT_SHA="$CLI_COMMIT_SHA"
 make operations-check
 ```
 
 Every `sources/*.gql` document must validate against the updated schema. The
 operation manifest, semantic keys, operation names, generated Go identifiers,
-and content hashes must also remain consistent. Fix operation documents or
-update the manifest through `make operations-import`; never bypass this check.
+ordered variables, exact CLI commit, and content hashes must also remain
+consistent. Fix operation documents or update the manifest through
+`make operations-import`; never bypass this check.
 
 ### 4. Run codegen
 

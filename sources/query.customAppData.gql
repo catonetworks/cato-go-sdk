@@ -1,6 +1,6 @@
-query customAppData ( $accountId:ID! $customApplicationRefInput:CustomApplicationRefInput! $customApplicationListInput:CustomApplicationListInput!) {
-	customAppData ( accountId:$accountId ) {
-		customApplication ( input:$customApplicationRefInput  )  {
+query customAppData ($accountId: ID!, $customApplicationRefInput: CustomApplicationRefInput!, $customApplicationListInput: CustomApplicationListInput!) {
+	customAppData(accountId: $accountId) {
+		customApplication(input: $customApplicationRefInput) {
 			id
 			name
 			description
@@ -29,7 +29,7 @@ query customAppData ( $accountId:ID! $customApplicationRefInput:CustomApplicatio
 				}
 			}
 		}
-		customApplicationList ( input:$customApplicationListInput  )  {
+		customApplicationList(input: $customApplicationListInput) {
 			items {
 				id
 				name
@@ -63,5 +63,5 @@ query customAppData ( $accountId:ID! $customApplicationRefInput:CustomApplicatio
 				total
 			}
 		}
-	}	
+	}
 }

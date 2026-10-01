@@ -1,6 +1,6 @@
-query externalAccess ( $accountId:ID! $partnerAccessRequestListInput:PartnerAccessRequestListInput $incomingAccessRequestListInput:IncomingAccessRequestListInput) {
-	externalAccess ( accountId:$accountId ) {
-		partnerAccessRequestList ( input:$partnerAccessRequestListInput  )  {
+query externalAccess ($accountId: ID!, $partnerAccessRequestListInput: PartnerAccessRequestListInput, $incomingAccessRequestListInput: IncomingAccessRequestListInput) {
+	externalAccess(accountId: $accountId) {
+		partnerAccessRequestList(input: $partnerAccessRequestListInput) {
 			items {
 				id
 				partner {
@@ -37,7 +37,7 @@ query externalAccess ( $accountId:ID! $partnerAccessRequestListInput:PartnerAcce
 				total
 			}
 		}
-		incomingAccessRequestList ( input:$incomingAccessRequestListInput  )  {
+		incomingAccessRequestList(input: $incomingAccessRequestListInput) {
 			items {
 				id
 				partner {
@@ -62,5 +62,5 @@ query externalAccess ( $accountId:ID! $partnerAccessRequestListInput:PartnerAcce
 				total
 			}
 		}
-	}	
+	}
 }

@@ -118,7 +118,7 @@ func main() {
 		},
 	}
 
-	policyChange, err := catoClient.PolicyWanFirewallAddRule(ctx, inputRule, accountId)
+	policyChange, err := catoClient.PolicyWanFirewallAddRule(ctx, inputRule, accountId, nil)
 
 	if err != nil {
 		fmt.Println("error: ", err)
@@ -126,7 +126,7 @@ func main() {
 	}
 
 	publishDataIfEnabled := &cato_models.PolicyPublishRevisionInput{}
-	_, err = catoClient.PolicyInternetFirewallPublishPolicyRevision(ctx, &cato_models.InternetFirewallPolicyMutationInput{}, publishDataIfEnabled, accountId)
+	_, err = catoClient.PolicyWanFirewallPublishPolicyRevision(ctx, publishDataIfEnabled, accountId, nil)
 	if err != nil {
 		fmt.Println("policy publish query error: ", err)
 		return

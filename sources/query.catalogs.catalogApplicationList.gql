@@ -1,6 +1,6 @@
-query catalogsCatalogApplicationList ( $accountId:ID! $catalogApplicationListInput:CatalogApplicationListInput!) {
-	catalogs ( accountId:$accountId ) {
-		catalogApplicationList ( input:$catalogApplicationListInput  )  {
+query catalogsCatalogApplicationList ($accountId: ID!, $catalogApplicationListInput: CatalogApplicationListInput!) {
+	catalogs(accountId: $accountId) {
+		catalogApplicationList(input: $catalogApplicationListInput) {
 			application {
 				id
 				name
@@ -83,6 +83,10 @@ query catalogsCatalogApplicationList ( $accountId:ID! $catalogApplicationListInp
 				region
 				city
 				risk
+				defaultCategory {
+					id
+					name
+				}
 				numOfEmployees
 				capability
 				activity {
@@ -136,10 +140,13 @@ query catalogsCatalogApplicationList ( $accountId:ID! $catalogApplicationListInp
 					name
 				}
 				fqdn
+				staticIpRange
+				dynamicIpSource
+				asn
 			}
 			pageInfo {
 				total
 			}
 		}
-	}	
+	}
 }

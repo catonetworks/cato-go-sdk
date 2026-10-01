@@ -1,6 +1,6 @@
-mutation sitesStartSiteUpgrade ( $accountId:ID! $startSiteUpgradeInput:StartSiteUpgradeInput!) {
-	sites ( accountId:$accountId ) {
-		startSiteUpgrade ( input:$startSiteUpgradeInput  )  {
+mutation sitesStartSiteUpgrade ($accountId: ID!, $startSiteUpgradeInput: StartSiteUpgradeInput!) {
+	sites(accountId: $accountId) {
+		startSiteUpgrade(input: $startSiteUpgradeInput) {
 			results {
 				site {
 					id
@@ -10,5 +10,5 @@ mutation sitesStartSiteUpgrade ( $accountId:ID! $startSiteUpgradeInput:StartSite
 				scheduledAt
 			}
 		}
-	}	
+	}
 }

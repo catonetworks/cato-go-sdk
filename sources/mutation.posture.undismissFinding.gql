@@ -1,6 +1,6 @@
-mutation postureUndismissFinding ( $accountId:ID! $postureUndismissFindingInput:PostureUndismissFindingInput!) {
-	posture ( accountId:$accountId ) {
-		undismissFinding ( input:$postureUndismissFindingInput  )  {
+mutation postureUndismissFinding ($accountId: ID!, $postureUndismissFindingInput: PostureUndismissFindingInput!) {
+	posture(accountId: $accountId) {
+		undismissFinding(input: $postureUndismissFindingInput) {
 			finding {
 				id
 				externalId
@@ -59,6 +59,16 @@ mutation postureUndismissFinding ( $accountId:ID! $postureUndismissFindingInput:
 					application
 					checkType
 					securityDomain
+					scoreMetadata {
+						effectiveAreaCriticality
+						effectiveBlastRadiusClass
+						effectiveBlastRadiusValue
+						effectiveFindingsSignal
+						effectiveSeverity
+						effectiveSuggestedScore
+						effectiveSuggestedSeverity
+						scoreContributionPct
+					}
 				}
 			}
 		}

@@ -1,5 +1,5 @@
-query postureComplianceFrameworkList ( $accountId:ID!) {
-	posture ( accountId:$accountId ) {
+query postureComplianceFrameworkList ($accountId: ID!) {
+	posture(accountId: $accountId) {
 		complianceFrameworkList {
 			items
 			paging {

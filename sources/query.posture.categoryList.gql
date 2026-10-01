@@ -1,6 +1,6 @@
-query postureCategoryList ( $accountId:ID! $postureCategoryListInput:PostureCategoryListInput) {
-	posture ( accountId:$accountId ) {
-		categoryList ( input:$postureCategoryListInput  )  {
+query postureCategoryList ($accountId: ID!, $postureCategoryListInput: PostureCategoryListInput) {
+	posture(accountId: $accountId) {
+		categoryList(input: $postureCategoryListInput) {
 			items {
 				id
 				name

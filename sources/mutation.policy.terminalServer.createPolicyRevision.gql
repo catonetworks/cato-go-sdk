@@ -1,7 +1,7 @@
-mutation policyTerminalServerCreatePolicyRevision ( $accountId:ID! $terminalServerPolicyMutationInput:TerminalServerPolicyMutationInput $policyCreateRevisionInput:PolicyCreateRevisionInput!) {
-	policy ( accountId:$accountId ) {
-		terminalServer ( input:$terminalServerPolicyMutationInput  )  {
-			createPolicyRevision ( input:$policyCreateRevisionInput   ) {
+mutation policyTerminalServerCreatePolicyRevision ($accountId: ID!, $terminalServerPolicyMutationInput: TerminalServerPolicyMutationInput, $policyCreateRevisionInput: PolicyCreateRevisionInput!) {
+	policy(accountId: $accountId) {
+		terminalServer(input: $terminalServerPolicyMutationInput) {
+			createPolicyRevision(input: $policyCreateRevisionInput) {
 				policy {
 					enabled
 					rules {
@@ -75,5 +75,5 @@ mutation policyTerminalServerCreatePolicyRevision ( $accountId:ID! $terminalServ
 				}
 			}
 		}
-	}	
+	}
 }

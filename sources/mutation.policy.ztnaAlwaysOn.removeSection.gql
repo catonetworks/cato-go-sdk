@@ -1,7 +1,7 @@
-mutation policyZtnaAlwaysOnRemoveSection ( $accountId:ID! $ztnaAlwaysOnPolicyMutationInput:ZtnaAlwaysOnPolicyMutationInput $policyRemoveSectionInput:PolicyRemoveSectionInput!) {
-	policy ( accountId:$accountId ) {
-		ztnaAlwaysOn ( input:$ztnaAlwaysOnPolicyMutationInput  )  {
-			removeSection ( input:$policyRemoveSectionInput   ) {
+mutation policyZtnaAlwaysOnRemoveSection ($accountId: ID!, $ztnaAlwaysOnPolicyMutationInput: ZtnaAlwaysOnPolicyMutationInput, $policyRemoveSectionInput: PolicyRemoveSectionInput!) {
+	policy(accountId: $accountId) {
+		ztnaAlwaysOn(input: $ztnaAlwaysOnPolicyMutationInput) {
+			removeSection(input: $policyRemoveSectionInput) {
 				section {
 					audit {
 						updatedTime
@@ -35,5 +35,5 @@ mutation policyZtnaAlwaysOnRemoveSection ( $accountId:ID! $ztnaAlwaysOnPolicyMut
 				}
 			}
 		}
-	}	
+	}
 }

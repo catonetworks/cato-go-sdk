@@ -1,13 +1,13 @@
-query object ( $accountId:ID! $globalIpRangeRefInput:GlobalIpRangeRefInput! $globalIpRangeListInput:GlobalIpRangeListInput) {
-	object ( accountId:$accountId ) {
-		globalIpRange ( input:$globalIpRangeRefInput  )  {
+query object ($accountId: ID!, $globalIpRangeRefInput: GlobalIpRangeRefInput!, $globalIpRangeListInput: GlobalIpRangeListInput) {
+	object(accountId: $accountId) {
+		globalIpRange(input: $globalIpRangeRefInput) {
 			id
 			name
 			description
 			ipRange
 			subnet
 		}
-		globalIpRangeList ( input:$globalIpRangeListInput  )  {
+		globalIpRangeList(input: $globalIpRangeListInput) {
 			items {
 				id
 				name
@@ -17,5 +17,5 @@ query object ( $accountId:ID! $globalIpRangeRefInput:GlobalIpRangeRefInput! $glo
 			}
 			total
 		}
-	}	
+	}
 }

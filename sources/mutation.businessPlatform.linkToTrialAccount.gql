@@ -1,8 +1,9 @@
-mutation businessPlatformLinkToTrialAccount ( $accountId:ID! $businessPlatformLinkToTrialAccountInput:BusinessPlatformLinkToTrialAccountInput!) {
-	businessPlatform ( accountId:$accountId ) {
-		linkToTrialAccount ( input:$businessPlatformLinkToTrialAccountInput  )  {
+mutation businessPlatformLinkToTrialAccount ($accountId: ID!, $businessPlatformLinkToTrialAccountInput: BusinessPlatformLinkToTrialAccountInput!) {
+	businessPlatform(accountId: $accountId) {
+		linkToTrialAccount(input: $businessPlatformLinkToTrialAccountInput) {
 			account {
 				id
+				externalId
 				externalName
 				account {
 					id
@@ -30,5 +31,5 @@ mutation businessPlatformLinkToTrialAccount ( $accountId:ID! $businessPlatformLi
 				cmaCreatedAt
 			}
 		}
-	}	
+	}
 }

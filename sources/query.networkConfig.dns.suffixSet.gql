@@ -1,7 +1,7 @@
-query networkConfigDnsSuffixSet ( $accountId:ID! $networkConfigDnsSuffixSetRefInput:NetworkConfigDnsSuffixSetRefInput!) {
-	networkConfig ( accountId:$accountId ) {
+query networkConfigDnsSuffixSet ($accountId: ID!, $networkConfigDnsSuffixSetRefInput: NetworkConfigDnsSuffixSetRefInput!) {
+	networkConfig(accountId: $accountId) {
 		dns {
-			suffixSet ( input:$networkConfigDnsSuffixSetRefInput   ) {
+			suffixSet(input: $networkConfigDnsSuffixSetRefInput) {
 				id
 				name
 				suffix

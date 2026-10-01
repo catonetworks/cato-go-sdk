@@ -1,6 +1,6 @@
-mutation externalAccessAddPartnerAccessRequest ( $accountId:ID! $addPartnerAccessRequestInput:AddPartnerAccessRequestInput!) {
-	externalAccess ( accountId:$accountId ) {
-		addPartnerAccessRequest ( input:$addPartnerAccessRequestInput  )  {
+mutation externalAccessAddPartnerAccessRequest ($accountId: ID!, $addPartnerAccessRequestInput: AddPartnerAccessRequestInput!) {
+	externalAccess(accountId: $accountId) {
+		addPartnerAccessRequest(input: $addPartnerAccessRequestInput) {
 			invitation {
 				id
 				partner {
@@ -34,5 +34,5 @@ mutation externalAccessAddPartnerAccessRequest ( $accountId:ID! $addPartnerAcces
 				isAppliedOnAllFullyManagedAccounts
 			}
 		}
-	}	
+	}
 }

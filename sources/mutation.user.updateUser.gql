@@ -1,6 +1,6 @@
-mutation userUpdateUser ( $accountId:ID! $updateUserInput:UpdateUserInput!) {
-	user ( accountId:$accountId ) {
-		updateUser ( input:$updateUserInput  )  {
+mutation userUpdateUser ($accountId: ID!, $updateUserInput: UpdateUserInput!) {
+	user(accountId: $accountId) {
+		updateUser(input: $updateUserInput) {
 			user {
 				id
 				userId
@@ -17,7 +17,6 @@ mutation userUpdateUser ( $accountId:ID! $updateUserInput:UpdateUserInput!) {
 				userStatus
 				creationDate
 				lastModified
-				importType
 				userImportType
 				directoryId
 				hasRemoteAccessEligibility
@@ -28,5 +27,5 @@ mutation userUpdateUser ( $accountId:ID! $updateUserInput:UpdateUserInput!) {
 				riskScore
 			}
 		}
-	}	
+	}
 }

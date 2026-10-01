@@ -1,6 +1,6 @@
-mutation userEnableUser ( $accountId:ID! $enableUserInput:EnableUserInput!) {
-	user ( accountId:$accountId ) {
-		enableUser ( input:$enableUserInput  )  {
+mutation userEnableUser ($accountId: ID!, $enableUserInput: EnableUserInput!) {
+	user(accountId: $accountId) {
+		enableUser(input: $enableUserInput) {
 			users {
 				id
 				userId
@@ -17,7 +17,6 @@ mutation userEnableUser ( $accountId:ID! $enableUserInput:EnableUserInput!) {
 				userStatus
 				creationDate
 				lastModified
-				importType
 				userImportType
 				directoryId
 				hasRemoteAccessEligibility
@@ -28,5 +27,5 @@ mutation userEnableUser ( $accountId:ID! $enableUserInput:EnableUserInput!) {
 				riskScore
 			}
 		}
-	}	
+	}
 }

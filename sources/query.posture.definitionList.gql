@@ -1,6 +1,6 @@
-query postureDefinitionList ( $accountId:ID! $postureDefinitionListInput:PostureDefinitionListInput) {
-	posture ( accountId:$accountId ) {
-		definitionList ( input:$postureDefinitionListInput  )  {
+query postureDefinitionList ($accountId: ID!, $postureDefinitionListInput: PostureDefinitionListInput) {
+	posture(accountId: $accountId) {
+		definitionList(input: $postureDefinitionListInput) {
 			items {
 				id
 				name
@@ -37,6 +37,16 @@ query postureDefinitionList ( $accountId:ID! $postureDefinitionListInput:Posture
 				application
 				checkType
 				securityDomain
+				scoreMetadata {
+					effectiveAreaCriticality
+					effectiveBlastRadiusClass
+					effectiveBlastRadiusValue
+					effectiveFindingsSignal
+					effectiveSeverity
+					effectiveSuggestedScore
+					effectiveSuggestedSeverity
+					scoreContributionPct
+				}
 			}
 			paging {
 				total

@@ -1,7 +1,7 @@
-mutation containerIpAddressRangeRemoveValues ( $accountId:ID! $ipAddressRangeContainerRemoveValuesInput:IpAddressRangeContainerRemoveValuesInput!) {
-	container ( accountId:$accountId ) {
+mutation containerIpAddressRangeRemoveValues ($accountId: ID!, $ipAddressRangeContainerRemoveValuesInput: IpAddressRangeContainerRemoveValuesInput!) {
+	container(accountId: $accountId) {
 		ipAddressRange {
-			removeValues ( input:$ipAddressRangeContainerRemoveValuesInput   ) {
+			removeValues(input: $ipAddressRangeContainerRemoveValuesInput) {
 				container {
 					id
 					name
@@ -41,5 +41,5 @@ mutation containerIpAddressRangeRemoveValues ( $accountId:ID! $ipAddressRangeCon
 				}
 			}
 		}
-	}	
+	}
 }

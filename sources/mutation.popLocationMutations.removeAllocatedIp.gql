@@ -1,6 +1,6 @@
-mutation popLocationMutationsRemoveAllocatedIp ( $accountId:ID! $popLocationRemoveAllocatedIpInput:PopLocationRemoveAllocatedIpInput!) {
-	popLocationMutations ( accountId:$accountId ) {
-		removeAllocatedIp ( input:$popLocationRemoveAllocatedIpInput  )  {
+mutation popLocationMutationsRemoveAllocatedIp ($accountId: ID!, $popLocationRemoveAllocatedIpInput: PopLocationRemoveAllocatedIpInput!) {
+	popLocationMutations(accountId: $accountId) {
+		removeAllocatedIp(input: $popLocationRemoveAllocatedIpInput) {
 			allocatedIp {
 				id
 				account {
@@ -18,5 +18,5 @@ mutation popLocationMutationsRemoveAllocatedIp ( $accountId:ID! $popLocationRemo
 				state
 			}
 		}
-	}	
+	}
 }

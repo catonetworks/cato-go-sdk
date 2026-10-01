@@ -1,7 +1,7 @@
-mutation networkConfigDhcpUpdateOption ( $accountId:ID! $networkConfigDhcpUpdateOptionInput:NetworkConfigDhcpUpdateOptionInput!) {
-	networkConfig ( accountId:$accountId ) {
+mutation networkConfigDhcpUpdateOption ($accountId: ID!, $networkConfigDhcpUpdateOptionInput: NetworkConfigDhcpUpdateOptionInput!) {
+	networkConfig(accountId: $accountId) {
 		dhcp {
-			updateOption ( input:$networkConfigDhcpUpdateOptionInput   ) {
+			updateOption(input: $networkConfigDhcpUpdateOptionInput) {
 				option {
 					id
 					tag

@@ -1,6 +1,6 @@
-mutation siteRemoveSecondaryAzureVSocket ( $accountId:ID! $socketId:ID!) {
-	site ( accountId:$accountId ) {
-		removeSecondaryAzureVSocket ( socketId:$socketId  )  {
+mutation siteRemoveSecondaryAzureVSocket ($accountId: ID!, $socketId: ID!) {
+	site(accountId: $accountId) {
+		removeSecondaryAzureVSocket(socketId: $socketId) {
 			secondaryAzureVSocket {
 				site {
 					id
@@ -11,5 +11,5 @@ mutation siteRemoveSecondaryAzureVSocket ( $accountId:ID! $socketId:ID!) {
 				floatingIp
 			}
 		}
-	}	
+	}
 }

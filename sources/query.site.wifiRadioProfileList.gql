@@ -1,6 +1,6 @@
-query siteWifiRadioProfileList ( $accountId:ID! $wifiRadioProfileListInput:WifiRadioProfileListInput!) {
-	site ( accountId:$accountId ) {
-		wifiRadioProfileList ( input:$wifiRadioProfileListInput  )  {
+query siteWifiRadioProfileList ($accountId: ID!, $wifiRadioProfileListInput: WifiRadioProfileListInput!) {
+	site(accountId: $accountId) {
+		wifiRadioProfileList(input: $wifiRadioProfileListInput) {
 			wifiRadioProfiles {
 				id
 				site {
@@ -26,5 +26,5 @@ query siteWifiRadioProfileList ( $accountId:ID! $wifiRadioProfileListInput:WifiR
 				total
 			}
 		}
-	}	
+	}
 }

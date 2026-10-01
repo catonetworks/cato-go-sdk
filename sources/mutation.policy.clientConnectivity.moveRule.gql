@@ -1,7 +1,7 @@
-mutation policyClientConnectivityMoveRule ( $accountId:ID! $clientConnectivityPolicyMutationInput:ClientConnectivityPolicyMutationInput $policyMoveRuleInput:PolicyMoveRuleInput!) {
-	policy ( accountId:$accountId ) {
-		clientConnectivity ( input:$clientConnectivityPolicyMutationInput  )  {
-			moveRule ( input:$policyMoveRuleInput   ) {
+mutation policyClientConnectivityMoveRule ($accountId: ID!, $clientConnectivityPolicyMutationInput: ClientConnectivityPolicyMutationInput, $policyMoveRuleInput: PolicyMoveRuleInput!) {
+	policy(accountId: $accountId) {
+		clientConnectivity(input: $clientConnectivityPolicyMutationInput) {
+			moveRule(input: $policyMoveRuleInput) {
 				rule {
 					audit {
 						updatedTime
@@ -70,5 +70,5 @@ mutation policyClientConnectivityMoveRule ( $accountId:ID! $clientConnectivityPo
 				}
 			}
 		}
-	}	
+	}
 }

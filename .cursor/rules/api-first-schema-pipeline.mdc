@@ -1,0 +1,30 @@
+---
+description: Preserve SDK compatibility in the API-first schema pipeline
+alwaysApply: true
+---
+
+# API-First SDK Contract
+
+Consume CLI operations only from an exact reviewed CLI commit SHA.
+
+- Verify the CLI checkout matches `CLI_COMMIT_SHA`; reject branches, short SHAs, and mismatches.
+- Match existing operations by semantic key.
+- For matched operations, preserve SDK operation name, compatible variable names and declaration order, and existing response aliases.
+- Append genuinely new variables deterministically. Accept reviewed signature changes required by new variables or selections.
+- Keep SDK-only documents and handwritten helpers such as `SiteBgpStatus`.
+- Reserve handwritten and historical Go identifiers. Resolve new collisions with stable names; never delete old API merely because generated code collides.
+- Validate normalized documents against the current SDK schema before writing or generating.
+- Record semantic mapping, ordered variables, source hashes, stable SDK name, and CLI commit SHA in `operations/manifest.json`.
+
+## Regeneration and Compatibility
+
+- Regenerate through `scripts/schema_update_ci.sh` or equivalent full flow: schema, patches, operation import, `sources/*.gql`, `client.go`, and `models/models.go`.
+- Require idempotent operation sync and deterministic code generation.
+- Build all packages under `examples/`; root `go test ./...` intentionally ignores them.
+- Produce an exported API diff against SDK `main`.
+- Compile/test provider `main` against the candidate SDK and localize genuine fallout downstream.
+
+## Required Checks
+
+- Run operation checks, `make generate-check`, `go test ./...`, `go build ./...`, focused lint, vulnerability scan, and every example build.
+- Keep CLI dependency explicit in the PR. Do not merge or tag before its exact CLI commit reaches `main`.

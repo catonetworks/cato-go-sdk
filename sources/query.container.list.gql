@@ -1,6 +1,6 @@
-query containerList ( $accountId:ID! $containerSearchInput:ContainerSearchInput!) {
-	container ( accountId:$accountId ) {
-		list ( input:$containerSearchInput  )  {
+query containerList ($accountId: ID!, $containerSearchInput: ContainerSearchInput!) {
+	container(accountId: $accountId) {
+		list(input: $containerSearchInput) {
 			containers {
 				id
 				name
@@ -39,5 +39,5 @@ query containerList ( $accountId:ID! $containerSearchInput:ContainerSearchInput!
 				}
 			}
 		}
-	}	
+	}
 }

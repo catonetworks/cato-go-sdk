@@ -1,7 +1,7 @@
-query networkConfigDhcpRelayGroup ( $accountId:ID! $networkConfigDhcpRelayGroupRefInput:NetworkConfigDhcpRelayGroupRefInput!) {
-	networkConfig ( accountId:$accountId ) {
+query networkConfigDhcpRelayGroup ($accountId: ID!, $networkConfigDhcpRelayGroupRefInput: NetworkConfigDhcpRelayGroupRefInput!) {
+	networkConfig(accountId: $accountId) {
 		dhcp {
-			relayGroup ( input:$networkConfigDhcpRelayGroupRefInput   ) {
+			relayGroup(input: $networkConfigDhcpRelayGroupRefInput) {
 				id
 				name
 				server

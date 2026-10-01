@@ -1,26 +1,27 @@
-query accountSnapshot ( $siteIDs:[ID!] $userIDs:[ID!] $accountID:ID ) {
-	accountSnapshot ( accountID:$accountID  ) {
-		id 
-		sites ( siteIDs:$siteIDs  )  {
+query accountSnapshot ($siteIDs: [ID!], $userIDs: [ID!], $accountID: ID) {
+	accountSnapshot(accountID: $accountID) {
+		id
+		sites(siteIDs: $siteIDs) {
 			id
+			protoId
 			connectivityStatusSiteSnapshot: connectivityStatus
 			haStatusSiteSnapshot: haStatus {
-				readiness 
-				wanConnectivity 
-				keepalive 
-				socketVersion 
+				readiness
+				wanConnectivity
+				keepalive
+				socketVersion
 			}
 			operationalStatusSiteSnapshot: operationalStatus
 			lastConnected
 			connectedSince
 			popName
 			devices {
-				id 
-				name 
-				identifier 
-				connected 
-				haRole 
-				interfaces  {
+				id
+				name
+				identifier
+				connected
+				haRole
+				interfaces {
 					connected
 					id
 					name
@@ -33,51 +34,52 @@ query accountSnapshot ( $siteIDs:[ID!] $userIDs:[ID!] $accountID:ID ) {
 					tunnelUptime
 					tunnelRemoteIP
 					tunnelRemoteIPInfoInterfaceSnapshot: tunnelRemoteIPInfo {
-						ip 
-						countryCode 
-						countryName 
-						city 
-						state 
-						provider 
-						latitude 
-						longitude 
+						ip
+						countryCode
+						countryName
+						city
+						state
+						provider
+						latitude
+						longitude
 					}
 					type
 					infoInterfaceSnapshot: info {
-						id 
-						name 
-						upstreamBandwidth 
-						downstreamBandwidth 
-						upstreamBandwidthMbpsPrecision 
-						downstreamBandwidthMbpsPrecision 
-						destType 
+						id
+						name
+						upstreamBandwidth
+						downstreamBandwidth
+						upstreamBandwidthMbpsPrecision
+						downstreamBandwidthMbpsPrecision
+						destType
+						wanRole
 					}
 					cellularInterfaceInfoInterfaceSnapshot: cellularInterfaceInfo {
-						networkType 
-						simSlotId 
-						modemStatus 
-						isModemConnected 
-						iccid 
-						imei 
-						operatorName 
-						isModemSuspended 
-						apn 
-						apnSelectionMethod 
-						signalStrength 
-						isRoamingAllowed 
-						simNumber 
-						disconnectionReason 
-						isSimSlot1Detected 
-						isSimSlot2Detected 
+						networkType
+						simSlotId
+						modemStatus
+						isModemConnected
+						iccid
+						imei
+						operatorName
+						isModemSuspended
+						apn
+						apnSelectionMethod
+						signalStrength
+						isRoamingAllowed
+						simNumber
+						disconnectionReason
+						isSimSlot1Detected
+						isSimSlot2Detected
 					}
+					bgpState
 				}
-
-				lastConnected 
-				lastDuration 
-				connectedSince 
-				lastPopID 
-				lastPopName 
-				recentConnections  {
+				lastConnected
+				lastDuration
+				connectedSince
+				lastPopID
+				lastPopName
+				recentConnections {
 					duration
 					interfaceName
 					deviceName
@@ -85,20 +87,19 @@ query accountSnapshot ( $siteIDs:[ID!] $userIDs:[ID!] $accountID:ID ) {
 					popName
 					remoteIP
 					remoteIPInfoRecentConnection: remoteIPInfo {
-						ip 
-						countryCode 
-						countryName 
-						city 
-						state 
-						provider 
-						latitude 
-						longitude 
+						ip
+						countryCode
+						countryName
+						city
+						state
+						provider
+						latitude
+						longitude
 					}
 				}
-
-				type 
-				deviceUptime 
-				socketInfo  {
+				type
+				deviceUptime
+				socketInfo {
 					id
 					serial
 					isPrimary
@@ -106,8 +107,7 @@ query accountSnapshot ( $siteIDs:[ID!] $userIDs:[ID!] $accountID:ID ) {
 					version
 					versionUpdateTime
 				}
-
-				interfacesLinkState  {
+				interfacesLinkState {
 					id
 					up
 					mediaIn
@@ -117,30 +117,29 @@ query accountSnapshot ( $siteIDs:[ID!] $userIDs:[ID!] $accountID:ID ) {
 					hasInternet
 					hasTunnel
 				}
-
-				osType 
-				osVersion 
-				version 
-				versionNumber 
-				releaseGroup 
-				mfaExpirationTime 
-				mfaCreationTime 
-				internalIP 
+				osType
+				osVersion
+				version
+				versionNumber
+				releaseGroup
+				mfaExpirationTime
+				mfaCreationTime
+				internalIP
 			}
 			infoSiteSnapshot: info {
-				name 
-				type 
-				description 
-				countryCode 
-				region 
-				countryName 
-				countryStateName 
-				cityName 
-				address 
-				isHA 
-				connType 
-				creationTime 
-				interfaces  {
+				name
+				type
+				description
+				countryCode
+				region
+				countryName
+				countryStateName
+				cityName
+				address
+				isHA
+				connType
+				creationTime
+				interfaces {
 					id
 					name
 					upstreamBandwidth
@@ -148,9 +147,9 @@ query accountSnapshot ( $siteIDs:[ID!] $userIDs:[ID!] $accountID:ID ) {
 					upstreamBandwidthMbpsPrecision
 					downstreamBandwidthMbpsPrecision
 					destType
+					wanRole
 				}
-
-				sockets  {
+				sockets {
 					id
 					serial
 					isPrimary
@@ -158,20 +157,54 @@ query accountSnapshot ( $siteIDs:[ID!] $userIDs:[ID!] $accountID:ID ) {
 					version
 					versionUpdateTime
 				}
-
-				ipsec  {
+				ipsec {
 					isPrimary
 					catoIP
 					remoteIP
 					ikeVersion
+					tunnelConfig {
+						tunnelId
+						tunnelRemoteIdentifier
+						localId
+					}
 				}
-
 			}
 			hostCount
 			altWanStatus
+			degradedStatus {
+				isDegraded
+				degradedDetails {
+					reason
+					args {
+						__typename
+						... on DegradedStatusSocketVersionsArgs {
+							primaryVersion
+							secondaryVersion
+						}
+						... on DegradedStatusBasicDataArgs {
+							deviceName
+							lastConnectedDate
+						}
+						... on DegradedStatusSocketArgs {
+							deviceName
+							portID
+							portName
+							lastConnectedDate
+						}
+						... on DegradedStatusLastConnectedArgs {
+							lastConnectedDate
+						}
+						... on DegradedStatusMultiTunnelArgs {
+							deviceName
+							tunnelID
+							tunnelName
+							lastConnectedDate
+						}
+					}
+				}
+			}
 		}
-
-		users ( userIDs:$userIDs  )  {
+		users(userIDs: $userIDs) {
 			id
 			connectivityStatusUserSnapshot: connectivityStatus
 			operationalStatusUserSnapshot: operationalStatus
@@ -185,25 +218,25 @@ query accountSnapshot ( $siteIDs:[ID!] $userIDs:[ID!] $accountID:ID ) {
 			popName
 			remoteIP
 			remoteIPInfoUserSnapshot: remoteIPInfo {
-				ip 
-				countryCode 
-				countryName 
-				city 
-				state 
-				provider 
-				latitude 
-				longitude 
+				ip
+				countryCode
+				countryName
+				city
+				state
+				provider
+				latitude
+				longitude
 			}
 			internalIP
 			osType
 			osVersion
 			devices {
-				id 
-				name 
-				identifier 
-				connected 
-				haRole 
-				interfaces  {
+				id
+				name
+				identifier
+				connected
+				haRole
+				interfaces {
 					connected
 					id
 					name
@@ -216,51 +249,52 @@ query accountSnapshot ( $siteIDs:[ID!] $userIDs:[ID!] $accountID:ID ) {
 					tunnelUptime
 					tunnelRemoteIP
 					tunnelRemoteIPInfoInterfaceSnapshot: tunnelRemoteIPInfo {
-						ip 
-						countryCode 
-						countryName 
-						city 
-						state 
-						provider 
-						latitude 
-						longitude 
+						ip
+						countryCode
+						countryName
+						city
+						state
+						provider
+						latitude
+						longitude
 					}
 					type
 					infoInterfaceSnapshot: info {
-						id 
-						name 
-						upstreamBandwidth 
-						downstreamBandwidth 
-						upstreamBandwidthMbpsPrecision 
-						downstreamBandwidthMbpsPrecision 
-						destType 
+						id
+						name
+						upstreamBandwidth
+						downstreamBandwidth
+						upstreamBandwidthMbpsPrecision
+						downstreamBandwidthMbpsPrecision
+						destType
+						wanRole
 					}
 					cellularInterfaceInfoInterfaceSnapshot: cellularInterfaceInfo {
-						networkType 
-						simSlotId 
-						modemStatus 
-						isModemConnected 
-						iccid 
-						imei 
-						operatorName 
-						isModemSuspended 
-						apn 
-						apnSelectionMethod 
-						signalStrength 
-						isRoamingAllowed 
-						simNumber 
-						disconnectionReason 
-						isSimSlot1Detected 
-						isSimSlot2Detected 
+						networkType
+						simSlotId
+						modemStatus
+						isModemConnected
+						iccid
+						imei
+						operatorName
+						isModemSuspended
+						apn
+						apnSelectionMethod
+						signalStrength
+						isRoamingAllowed
+						simNumber
+						disconnectionReason
+						isSimSlot1Detected
+						isSimSlot2Detected
 					}
+					bgpState
 				}
-
-				lastConnected 
-				lastDuration 
-				connectedSince 
-				lastPopID 
-				lastPopName 
-				recentConnections  {
+				lastConnected
+				lastDuration
+				connectedSince
+				lastPopID
+				lastPopName
+				recentConnections {
 					duration
 					interfaceName
 					deviceName
@@ -268,20 +302,19 @@ query accountSnapshot ( $siteIDs:[ID!] $userIDs:[ID!] $accountID:ID ) {
 					popName
 					remoteIP
 					remoteIPInfoRecentConnection: remoteIPInfo {
-						ip 
-						countryCode 
-						countryName 
-						city 
-						state 
-						provider 
-						latitude 
-						longitude 
+						ip
+						countryCode
+						countryName
+						city
+						state
+						provider
+						latitude
+						longitude
 					}
 				}
-
-				type 
-				deviceUptime 
-				socketInfo  {
+				type
+				deviceUptime
+				socketInfo {
 					id
 					serial
 					isPrimary
@@ -289,8 +322,7 @@ query accountSnapshot ( $siteIDs:[ID!] $userIDs:[ID!] $accountID:ID ) {
 					version
 					versionUpdateTime
 				}
-
-				interfacesLinkState  {
+				interfacesLinkState {
 					id
 					up
 					mediaIn
@@ -300,34 +332,33 @@ query accountSnapshot ( $siteIDs:[ID!] $userIDs:[ID!] $accountID:ID ) {
 					hasInternet
 					hasTunnel
 				}
-
-				osType 
-				osVersion 
-				version 
-				versionNumber 
-				releaseGroup 
-				mfaExpirationTime 
-				mfaCreationTime 
-				internalIP 
+				osType
+				osVersion
+				version
+				versionNumber
+				releaseGroup
+				mfaExpirationTime
+				mfaCreationTime
+				internalIP
 			}
 			connectedInOffice
 			infoUserSnapshot: info {
-				name 
-				status 
-				email 
-				creationTime 
-				phoneNumber 
-				origin 
-				authMethod 
+				name
+				status
+				email
+				creationTime
+				phoneNumber
+				origin
+				authMethod
 			}
 			recentConnections {
-				duration 
-				interfaceName 
-				deviceName 
-				lastConnected 
-				popName 
-				remoteIP 
-				remoteIPInfo  {
+				duration
+				interfaceName
+				deviceName
+				lastConnected
+				popName
+				remoteIP
+				remoteIPInfo {
 					ip
 					countryCode
 					countryName
@@ -337,10 +368,8 @@ query accountSnapshot ( $siteIDs:[ID!] $userIDs:[ID!] $accountID:ID ) {
 					latitude
 					longitude
 				}
-
 			}
 		}
-
-		timestamp 
-	}	
+		timestamp
+	}
 }

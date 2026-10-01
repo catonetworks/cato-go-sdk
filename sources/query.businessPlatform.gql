@@ -1,8 +1,9 @@
-query businessPlatform ( $accountId:ID! $businessPlatformAccountListInput:BusinessPlatformAccountListInput) {
-	businessPlatform ( accountId:$accountId ) {
-		accountList ( input:$businessPlatformAccountListInput  )  {
+query businessPlatform ($accountId: ID!, $businessPlatformAccountListInput: BusinessPlatformAccountListInput) {
+	businessPlatform(accountId: $accountId) {
+		accountList(input: $businessPlatformAccountListInput) {
 			items {
 				id
+				externalId
 				externalName
 				account {
 					id
@@ -42,5 +43,5 @@ query businessPlatform ( $accountId:ID! $businessPlatformAccountListInput:Busine
 		settings {
 			approvalEnabled
 		}
-	}	
+	}
 }

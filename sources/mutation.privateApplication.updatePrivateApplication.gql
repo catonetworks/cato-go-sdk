@@ -1,6 +1,6 @@
-mutation privateApplicationUpdatePrivateApplication ( $accountId:ID! $updatePrivateApplicationInput:UpdatePrivateApplicationInput!) {
-	privateApplication ( accountId:$accountId ) {
-		updatePrivateApplication ( input:$updatePrivateApplicationInput  )  {
+mutation privateApplicationUpdatePrivateApplication ($accountId: ID!, $updatePrivateApplicationInput: UpdatePrivateApplicationInput!) {
+	privateApplication(accountId: $accountId) {
+		updatePrivateApplication(input: $updatePrivateApplicationInput) {
 			application {
 				id
 				creationTime
@@ -34,5 +34,5 @@ mutation privateApplicationUpdatePrivateApplication ( $accountId:ID! $updatePriv
 				connectivityStatus
 			}
 		}
-	}	
+	}
 }

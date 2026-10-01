@@ -1,6 +1,6 @@
-query ztnaAppConnectorZtnaAppConnectorList ( $accountId:ID! $ztnaAppConnectorListInput:ZtnaAppConnectorListInput!) {
-	ztnaAppConnector ( accountId:$accountId ) {
-		ztnaAppConnectorList ( input:$ztnaAppConnectorListInput  )  {
+query ztnaAppConnectorZtnaAppConnectorList ($accountId: ID!, $ztnaAppConnectorListInput: ZtnaAppConnectorListInput!) {
+	ztnaAppConnector(accountId: $accountId) {
+		ztnaAppConnectorList(input: $ztnaAppConnectorListInput) {
 			ztnaAppConnector {
 				id
 				createdAt
@@ -44,10 +44,15 @@ query ztnaAppConnectorZtnaAppConnectorList ( $accountId:ID! $ztnaAppConnectorLis
 					rollbackEligibleUntil
 					upgradesPaused
 				}
+				pooledBandwidthAllocation {
+					allocationId
+					bw
+					licenseId
+				}
 			}
 			pageInfo {
 				total
 			}
 		}
-	}	
+	}
 }

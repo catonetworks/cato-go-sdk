@@ -1,6 +1,6 @@
-mutation postureMuteFinding ( $accountId:ID! $postureMuteFindingInput:PostureMuteFindingInput!) {
-	posture ( accountId:$accountId ) {
-		muteFinding ( input:$postureMuteFindingInput  )  {
+mutation postureMuteFinding ($accountId: ID!, $postureMuteFindingInput: PostureMuteFindingInput!) {
+	posture(accountId: $accountId) {
+		muteFinding(input: $postureMuteFindingInput) {
 			finding {
 				id
 				externalId
@@ -59,6 +59,16 @@ mutation postureMuteFinding ( $accountId:ID! $postureMuteFindingInput:PostureMut
 					application
 					checkType
 					securityDomain
+					scoreMetadata {
+						effectiveAreaCriticality
+						effectiveBlastRadiusClass
+						effectiveBlastRadiusValue
+						effectiveFindingsSignal
+						effectiveSeverity
+						effectiveSuggestedScore
+						effectiveSuggestedSeverity
+						scoreContributionPct
+					}
 				}
 			}
 		}

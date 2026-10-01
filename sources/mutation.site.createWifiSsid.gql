@@ -1,6 +1,6 @@
-mutation siteCreateWifiSsid ( $accountId:ID! $createWifiSsidInput:CreateWifiSsidInput!) {
-	site ( accountId:$accountId ) {
-		createWifiSsid ( input:$createWifiSsidInput  )  {
+mutation siteCreateWifiSsid ($accountId: ID!, $createWifiSsidInput: CreateWifiSsidInput!) {
+	site(accountId: $accountId) {
+		createWifiSsid(input: $createWifiSsidInput) {
 			wifiSsid {
 				id
 				networkInterfaceId
@@ -30,5 +30,5 @@ mutation siteCreateWifiSsid ( $accountId:ID! $createWifiSsidInput:CreateWifiSsid
 				band
 			}
 		}
-	}	
+	}
 }

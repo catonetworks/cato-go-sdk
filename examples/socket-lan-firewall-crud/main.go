@@ -116,7 +116,7 @@ func main() {
 
 	debugPrint("AddSection Request", addSectionInput)
 
-	sectionResult, err := catoClient.PolicySocketLanAddSection(ctx, addSectionInput, accountId)
+	sectionResult, err := catoClient.PolicySocketLanAddSection(ctx, addSectionInput, accountId, nil)
 	if err != nil {
 		fmt.Println("error adding section: ", err)
 		os.Exit(1)
@@ -197,7 +197,7 @@ func main() {
 
 	debugPrint("AddRule Request - socketLanAddRuleInput (Minimal Parent)", socketLanAddRuleInput)
 
-	parentResult, err := catoClient.PolicySocketLanAddRule(ctx, socketLanAddRuleInput, accountId)
+	parentResult, err := catoClient.PolicySocketLanAddRule(ctx, socketLanAddRuleInput, accountId, nil)
 	if err != nil {
 		fmt.Println("error adding parent Socket LAN rule: ", err)
 		os.Exit(1)

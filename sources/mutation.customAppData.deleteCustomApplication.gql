@@ -1,6 +1,6 @@
-mutation customAppDataDeleteCustomApplication ( $accountId:ID! $deleteCustomApplicationInput:DeleteCustomApplicationInput!) {
-	customAppData ( accountId:$accountId ) {
-		deleteCustomApplication ( input:$deleteCustomApplicationInput  )  {
+mutation customAppDataDeleteCustomApplication ($accountId: ID!, $deleteCustomApplicationInput: DeleteCustomApplicationInput!) {
+	customAppData(accountId: $accountId) {
+		deleteCustomApplication(input: $deleteCustomApplicationInput) {
 			customApplication {
 				id
 				name
@@ -31,5 +31,5 @@ mutation customAppDataDeleteCustomApplication ( $accountId:ID! $deleteCustomAppl
 				}
 			}
 		}
-	}	
+	}
 }

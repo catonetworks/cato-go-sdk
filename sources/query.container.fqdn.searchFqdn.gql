@@ -1,7 +1,7 @@
-query containerFqdnSearchFqdn ( $accountId:ID! $fqdnContainerSearchFqdnInput:FqdnContainerSearchFqdnInput!) {
-	container ( accountId:$accountId ) {
+query containerFqdnSearchFqdn ($accountId: ID!, $fqdnContainerSearchFqdnInput: FqdnContainerSearchFqdnInput!) {
+	container(accountId: $accountId) {
 		fqdn {
-			searchFqdn ( input:$fqdnContainerSearchFqdnInput   ) {
+			searchFqdn(input: $fqdnContainerSearchFqdnInput) {
 				containers {
 					id
 					name
@@ -41,5 +41,5 @@ query containerFqdnSearchFqdn ( $accountId:ID! $fqdnContainerSearchFqdnInput:Fqd
 				}
 			}
 		}
-	}	
+	}
 }

@@ -1,6 +1,6 @@
-query hardware ( $accountId:ID! $hardwareSearchInput:HardwareSearchInput) {
-	hardware ( accountId:$accountId ) {
-		hardware ( input:$hardwareSearchInput  )  {
+query hardware ($accountId: ID!, $hardwareSearchInput: HardwareSearchInput) {
+	hardware(accountId: $accountId) {
+		hardware(input: $hardwareSearchInput) {
 			items {
 				id
 				account {
@@ -61,5 +61,5 @@ query hardware ( $accountId:ID! $hardwareSearchInput:HardwareSearchInput) {
 			IN_TRANSIT
 			DELIVERED
 		}
-	}	
+	}
 }

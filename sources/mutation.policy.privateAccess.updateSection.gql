@@ -1,7 +1,7 @@
-mutation policyPrivateAccessUpdateSection ( $accountId:ID! $privateAccessPolicyMutationInput:PrivateAccessPolicyMutationInput $policyUpdateSectionInput:PolicyUpdateSectionInput!) {
-	policy ( accountId:$accountId ) {
-		privateAccess ( input:$privateAccessPolicyMutationInput  )  {
-			updateSection ( input:$policyUpdateSectionInput   ) {
+mutation policyPrivateAccessUpdateSection ($accountId: ID!, $privateAccessPolicyMutationInput: PrivateAccessPolicyMutationInput, $policyUpdateSectionInput: PolicyUpdateSectionInput!) {
+	policy(accountId: $accountId) {
+		privateAccess(input: $privateAccessPolicyMutationInput) {
+			updateSection(input: $policyUpdateSectionInput) {
 				section {
 					audit {
 						updatedTime
@@ -35,5 +35,5 @@ mutation policyPrivateAccessUpdateSection ( $accountId:ID! $privateAccessPolicyM
 				}
 			}
 		}
-	}	
+	}
 }

@@ -1,7 +1,7 @@
-mutation networkConfigDhcpDeleteOption ( $accountId:ID! $networkConfigDhcpDeleteOptionInput:NetworkConfigDhcpDeleteOptionInput!) {
-	networkConfig ( accountId:$accountId ) {
+mutation networkConfigDhcpDeleteOption ($accountId: ID!, $networkConfigDhcpDeleteOptionInput: NetworkConfigDhcpDeleteOptionInput!) {
+	networkConfig(accountId: $accountId) {
 		dhcp {
-			deleteOption ( input:$networkConfigDhcpDeleteOptionInput   ) {
+			deleteOption(input: $networkConfigDhcpDeleteOptionInput) {
 				option {
 					id
 					tag

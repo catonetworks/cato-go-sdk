@@ -1,7 +1,7 @@
-query containerIpAddressRangeSearchIpAddressRange ( $accountId:ID! $ipAddressRangeContainerSearchIpAddressRangeInput:IpAddressRangeContainerSearchIpAddressRangeInput!) {
-	container ( accountId:$accountId ) {
+query containerIpAddressRangeSearchIpAddressRange ($accountId: ID!, $ipAddressRangeContainerSearchIpAddressRangeInput: IpAddressRangeContainerSearchIpAddressRangeInput!) {
+	container(accountId: $accountId) {
 		ipAddressRange {
-			searchIpAddressRange ( input:$ipAddressRangeContainerSearchIpAddressRangeInput   ) {
+			searchIpAddressRange(input: $ipAddressRangeContainerSearchIpAddressRangeInput) {
 				containers {
 					id
 					name
@@ -41,5 +41,5 @@ query containerIpAddressRangeSearchIpAddressRange ( $accountId:ID! $ipAddressRan
 				}
 			}
 		}
-	}	
+	}
 }

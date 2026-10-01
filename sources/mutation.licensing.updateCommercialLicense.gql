@@ -1,6 +1,6 @@
-mutation licensingUpdateCommercialLicense ( $accountId:ID! $updateCommercialLicenseInput:UpdateCommercialLicenseInput!) {
-	licensing ( accountId:$accountId ) {
-		updateCommercialLicense ( input:$updateCommercialLicenseInput  )  {
+mutation licensingUpdateCommercialLicense ($accountId: ID!, $updateCommercialLicenseInput: UpdateCommercialLicenseInput!) {
+	licensing(accountId: $accountId) {
+		updateCommercialLicense(input: $updateCommercialLicenseInput) {
 			license {
 				id
 				description
@@ -121,5 +121,5 @@ mutation licensingUpdateCommercialLicense ( $accountId:ID! $updateCommercialLice
 				}
 			}
 		}
-	}	
+	}
 }

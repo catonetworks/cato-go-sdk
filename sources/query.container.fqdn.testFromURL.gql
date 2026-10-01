@@ -1,12 +1,12 @@
-query containerFqdnTestFromURL ( $accountId:ID! $testContainerFromUrlInput:TestContainerFromUrlInput!) {
-	container ( accountId:$accountId ) {
+query containerFqdnTestFromURL ($accountId: ID!, $testContainerFromUrlInput: TestContainerFromUrlInput!) {
+	container(accountId: $accountId) {
 		fqdn {
-			testFromURL ( input:$testContainerFromUrlInput   ) {
+			testFromURL(input: $testContainerFromUrlInput) {
 				sizeValid
 				topValid
 				sizeInvalid
 				topInvalid
 			}
 		}
-	}	
+	}
 }

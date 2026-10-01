@@ -7,26 +7,31 @@ import (
 	"path/filepath"
 )
 
-const manifestVersion = 1
+const (
+	legacyManifestVersion = 1
+	manifestVersion       = 2
+)
 const maxManifestBytes = 8 << 20
 
 // Manifest describes every canonical GraphQL operation in the SDK.
 type Manifest struct {
-	Version    int             `json:"version"`
-	Operations []ManifestEntry `json:"operations"`
+	Version      int             `json:"version"`
+	CLICommitSHA string          `json:"cli_commit_sha,omitempty"`
+	Operations   []ManifestEntry `json:"operations"`
 }
 
 // ManifestEntry links a canonical SDK document to its former CLI source.
 type ManifestEntry struct {
-	Key            string `json:"key"`
-	Kind           string `json:"kind"`
-	SDKFile        string `json:"sdk_file"`
-	SDKName        string `json:"sdk_name"`
-	DocumentSHA256 string `json:"document_sha256"`
-	CLIFile        string `json:"cli_file,omitempty"`
-	CLIName        string `json:"cli_name,omitempty"`
-	CLISHA256      string `json:"cli_sha256,omitempty"`
-	Status         string `json:"status"`
+	Key            string   `json:"key"`
+	Kind           string   `json:"kind"`
+	SDKFile        string   `json:"sdk_file"`
+	SDKName        string   `json:"sdk_name"`
+	Variables      []string `json:"variables,omitempty"`
+	DocumentSHA256 string   `json:"document_sha256"`
+	CLIFile        string   `json:"cli_file,omitempty"`
+	CLIName        string   `json:"cli_name,omitempty"`
+	CLISHA256      string   `json:"cli_sha256,omitempty"`
+	Status         string   `json:"status"`
 }
 
 func loadManifest(path string) (*Manifest, error) {
@@ -39,8 +44,12 @@ func loadManifest(path string) (*Manifest, error) {
 	if err := json.Unmarshal(data, &manifest); err != nil {
 		return nil, fmt.Errorf("decode manifest %q: %w", path, err)
 	}
-	if manifest.Version != manifestVersion {
-		return nil, fmt.Errorf("manifest %q has version %d; want %d", path, manifest.Version, manifestVersion)
+	if manifest.Version != legacyManifestVersion && manifest.Version != manifestVersion {
+		return nil, fmt.Errorf(
+			"manifest %q has unsupported version %d",
+			path,
+			manifest.Version,
+		)
 	}
 
 	return &manifest, nil

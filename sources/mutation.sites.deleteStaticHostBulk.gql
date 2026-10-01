@@ -1,6 +1,6 @@
-mutation sitesDeleteStaticHostBulk ( $accountId:ID! $deleteStaticHostBulkInput:DeleteStaticHostBulkInput!) {
-	sites ( accountId:$accountId ) {
-		deleteStaticHostBulk ( input:$deleteStaticHostBulkInput  )  {
+mutation sitesDeleteStaticHostBulk ($accountId: ID!, $deleteStaticHostBulkInput: DeleteStaticHostBulkInput!) {
+	sites(accountId: $accountId) {
+		deleteStaticHostBulk(input: $deleteStaticHostBulkInput) {
 			host {
 				hostId
 				name
@@ -8,5 +8,5 @@ mutation sitesDeleteStaticHostBulk ( $accountId:ID! $deleteStaticHostBulkInput:D
 				macAddress
 			}
 		}
-	}	
+	}
 }

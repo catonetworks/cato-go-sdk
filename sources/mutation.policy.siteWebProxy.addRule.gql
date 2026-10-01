@@ -1,7 +1,7 @@
-mutation policySiteWebProxyAddRule ( $accountId:ID! $siteWebProxyPolicyMutationInput:SiteWebProxyPolicyMutationInput $siteWebProxyAddRuleInput:SiteWebProxyAddRuleInput!) {
-	policy ( accountId:$accountId ) {
-		siteWebProxy ( input:$siteWebProxyPolicyMutationInput  )  {
-			addRule ( input:$siteWebProxyAddRuleInput   ) {
+mutation policySiteWebProxyAddRule ($accountId: ID!, $siteWebProxyPolicyMutationInput: SiteWebProxyPolicyMutationInput, $siteWebProxyAddRuleInput: SiteWebProxyAddRuleInput!) {
+	policy(accountId: $accountId) {
+		siteWebProxy(input: $siteWebProxyPolicyMutationInput) {
+			addRule(input: $siteWebProxyAddRuleInput) {
 				rule {
 					audit {
 						updatedTime

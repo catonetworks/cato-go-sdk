@@ -1,6 +1,6 @@
-query siteSecondaryAwsVSocket ( $accountId:ID! $socketId:ID!) {
-	site ( accountId:$accountId ) {
-		secondaryAwsVSocket ( socketId:$socketId  )  {
+query siteSecondaryAwsVSocket ($accountId: ID!, $socketId: ID!) {
+	site(accountId: $accountId) {
+		secondaryAwsVSocket(socketId: $socketId) {
 			site {
 				id
 				name
@@ -10,5 +10,5 @@ query siteSecondaryAwsVSocket ( $accountId:ID! $socketId:ID!) {
 			subnet
 			routeTableId
 		}
-	}	
+	}
 }

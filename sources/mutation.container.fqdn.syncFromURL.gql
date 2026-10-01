@@ -1,7 +1,7 @@
-mutation containerFqdnSyncFromURL ( $accountId:ID! $syncFqdnContainerFromUrlInput:SyncFqdnContainerFromUrlInput!) {
-	container ( accountId:$accountId ) {
+mutation containerFqdnSyncFromURL ($accountId: ID!, $syncFqdnContainerFromUrlInput: SyncFqdnContainerFromUrlInput!) {
+	container(accountId: $accountId) {
 		fqdn {
-			syncFromURL ( input:$syncFqdnContainerFromUrlInput   ) {
+			syncFromURL(input: $syncFqdnContainerFromUrlInput) {
 				container {
 					id
 					name
@@ -41,5 +41,5 @@ mutation containerFqdnSyncFromURL ( $accountId:ID! $syncFqdnContainerFromUrlInpu
 				}
 			}
 		}
-	}	
+	}
 }

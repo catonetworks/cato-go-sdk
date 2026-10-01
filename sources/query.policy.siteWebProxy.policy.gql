@@ -1,7 +1,7 @@
-query policySiteWebProxyPolicy ( $accountId:ID! $siteWebProxyPolicyInput:SiteWebProxyPolicyInput) {
-	policy ( accountId:$accountId ) {
+query policySiteWebProxyPolicy ($accountId: ID!, $siteWebProxyPolicyInput: SiteWebProxyPolicyInput) {
+	policy(accountId: $accountId) {
 		siteWebProxy {
-			policy ( input:$siteWebProxyPolicyInput   ) {
+			policy(input: $siteWebProxyPolicyInput) {
 				enabled
 				rules {
 					audit {

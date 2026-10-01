@@ -1,6 +1,6 @@
-query catalogsContentTypeGroupList ( $accountId:ID! $catalogApplicationContentTypeGroupListInput:CatalogApplicationContentTypeGroupListInput!) {
-	catalogs ( accountId:$accountId ) {
-		contentTypeGroupList ( input:$catalogApplicationContentTypeGroupListInput  )  {
+query catalogsContentTypeGroupList ($accountId: ID!, $catalogApplicationContentTypeGroupListInput: CatalogApplicationContentTypeGroupListInput!) {
+	catalogs(accountId: $accountId) {
+		contentTypeGroupList(input: $catalogApplicationContentTypeGroupListInput) {
 			contentTypeGroup {
 				id
 				name
@@ -13,5 +13,5 @@ query catalogsContentTypeGroupList ( $accountId:ID! $catalogApplicationContentTy
 				total
 			}
 		}
-	}	
+	}
 }

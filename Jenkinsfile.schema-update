@@ -30,8 +30,13 @@ pipeline {
         )
         string(
             name: 'CLI_REF',
-            defaultValue: 'main',
-            description: 'cato-cli branch or ref whose generated queries and mutations are imported.'
+            defaultValue: '',
+            description: 'Exact 40-character cato-cli commit SHA whose generated operations are imported.'
+        )
+        string(
+            name: 'CLI_PR_URL',
+            defaultValue: '',
+            description: 'Source cato-cli pull request URL recorded as an SDK PR dependency.'
         )
         string(
             name: 'SLACK_CHANNEL',
@@ -71,11 +76,24 @@ pipeline {
 
         stage('Checkout CLI operations') {
             steps {
-                dir('cato-cli') {
-                    git(
-                        url: 'https://github.com/catonetworks/cato-cli.git',
-                        branch: params.CLI_REF
-                    )
+                script {
+                    if (!(params.CLI_REF ==~ /^[0-9a-f]{40}$/)) {
+                        error('CLI_REF must be an exact 40-character cato-cli commit SHA.')
+                    }
+                    dir('cato-cli') {
+                        checkout([
+                            $class: 'GitSCM',
+                            branches: [[name: params.CLI_REF]],
+                            userRemoteConfigs: [[url: 'https://github.com/catonetworks/cato-cli.git']]
+                        ])
+                        env.CLI_COMMIT_SHA = sh(
+                            script: 'git rev-parse --verify HEAD^{commit}',
+                            returnStdout: true
+                        ).trim()
+                    }
+                    if (env.CLI_COMMIT_SHA != params.CLI_REF) {
+                        error("Checked out CLI commit ${env.CLI_COMMIT_SHA}; expected ${params.CLI_REF}.")
+                    }
                 }
             }
         }
@@ -87,6 +105,7 @@ pipeline {
                         "SCHEMA_CURL_URL=${params.SCHEMA_CURL_URL}",
                         "ALLOW_CUSTOM_SCHEMA_URL=${params.ALLOW_CUSTOM_SCHEMA_URL}",
                         "CLI_ROOT=${pwd()}/cato-cli",
+                        "CLI_COMMIT_SHA=${env.CLI_COMMIT_SHA}",
                         'SCHEMA_PATCH_MANUAL_WORK_FILE=schema-patch-manual-work-needed.txt'
                     ]) {
                         sh 'bash scripts/schema_update_ci.sh'
@@ -170,15 +189,20 @@ EOF
             steps {
                 script {
                     def prTitle = 'Update generated SDK schema'
-                    def prBody = '''## Summary
+                    def cliDependency = params.CLI_PR_URL ?: 'manual run (no CLI PR URL supplied)'
+                    def prBody = """## Summary
 - Refreshes cato_api.graphqls from the upstream Cato schema endpoint.
 - Applies and validates schema patches, deleting patch files that upstream now includes.
-- Imports generated queries and mutations from the matching cato-cli schema branch.
+- Imports generated queries and mutations from cato-cli commit `${env.CLI_COMMIT_SHA}`.
 - Regenerates the Go SDK client/models and verifies `go build ./...`.
+
+## Dependency
+- cato-cli PR: ${cliDependency}
+- Do not merge or tag this SDK change until commit `${env.CLI_COMMIT_SHA}` is merged to cato-cli `main`.
 
 ## Test plan
 - `bash scripts/schema_update_ci.sh`
-'''
+"""
                     writeFile(
                         file: 'pr_payload.json',
                         text: JsonOutput.toJson([

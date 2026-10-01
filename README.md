@@ -187,10 +187,14 @@ make operations-import CLI_ROOT=../cato-cli
 ```
 
 The importer parses and validates every CLI operation against
-`cato_api.graphqls`. A matching CLI operation replaces the existing SDK source
-when it has the same semantic path or operation name. New documents are
-installed only after the complete candidate set validates.
-`operations/manifest.json` records the mapping and source hashes.
+`cato_api.graphqls`. Operations match by semantic path. For matches, the
+importer preserves the stable SDK operation name, existing variable order, and
+response aliases while accepting validated selection changes. New variables
+are appended deterministically. New documents receive a non-colliding stable
+name when their CLI name conflicts with an SDK-only operation or handwritten
+helper. Files are installed only after the complete candidate set validates.
+`operations/manifest.json` records the exact CLI commit SHA, mapping, ordered
+variables, and source hashes.
 
 To import CLI operations and regenerate and verify the SDK in one step:
 
@@ -202,10 +206,11 @@ Operation-count checks are opt-in. `operations-sync` discovers the current
 count from the CLI; pin one explicitly with `EXPECTED_OPERATIONS=<count>` when
 needed.
 
-The schema-update CI job checks out the CLI ref that triggered it, sets
-`CLI_ROOT`, and runs this same sync script before generating the SDK. This keeps
-new CLI queries and mutations validated, imported, and represented in the
-operation manifest.
+The schema-update CI job accepts only the exact 40-character CLI PR commit SHA,
+checks out and verifies that commit, sets `CLI_ROOT` and `CLI_COMMIT_SHA`, and
+runs this same sync script before generating the SDK. If the CLI PR advances,
+rerun from its new commit. The generated SDK PR records the CLI PR and commit
+dependency and must not merge or tag before that commit reaches CLI `main`.
 
 Before generation, validate operation names, semantic keys, schema
 compatibility, file paths, and manifest coverage:
