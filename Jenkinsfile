@@ -145,7 +145,8 @@ pipeline {
   "TestAccInternetFw_Timeframe": "ENG-184310 - policy.internetFirewall.addRule - Invalid DateTime format in customTimeframePolicySchedule",
   "TestAccInternetFw_UserID":    "ENG-183543 - TF Bug: Terraform - Update policy by name",
   "TestAccSocketSite_Location":  "ENG-171068 Unable to remove the state code by Site location API",
-  "TestAccLicense":              "does not work on trial accounts"
+  "TestAccLicense":              "does not work on trial accounts",
+  "TestAccLfSubPolicy":          "does not work on staging"
 }'''
                 TFACC_TEST_VARS = '''{
   "global_ip_ranges": [
