@@ -500,7 +500,7 @@ type CatoClient interface {
 	AccountSnapshot(ctx context.Context, siteIDs []string, userIDs []string, accountID *string, interceptors ...clientv2.RequestInterceptor) (*AccountSnapshot, error)
 	Admin(ctx context.Context, accountID string, adminID string, interceptors ...clientv2.RequestInterceptor) (*Admin, error)
 	Admins(ctx context.Context, accountID string, limit *int64, from *int64, search *string, sort []*cato_models.SortInput, adminIDs []string, interceptors ...clientv2.RequestInterceptor) (*Admins, error)
-	AiSecurity(ctx context.Context, accountID string, aiSecurityAppsInvocationInput cato_models.AiSecurityAppsInvocationInput, aiSecurityEndUsersSessionConversationInput cato_models.AiSecurityEndUsersSessionConversationInput, interceptors ...clientv2.RequestInterceptor) (*AiSecurity, error)
+	AiSecurity(ctx context.Context, accountID string, aiSecurityAppsInvocationInput cato_models.AiSecurityAppsInvocationInput, aiSecurityEndUsersSessionConversationInput cato_models.AiSecurityEndUsersSessionConversationInput, aiSecurityAgentsEventInput cato_models.AiSecurityAgentsEventInput, aiSecurityAgentsSessionInput cato_models.AiSecurityAgentsSessionInput, interceptors ...clientv2.RequestInterceptor) (*AiSecurity, error)
 	AppStats(ctx context.Context, limit *int64, from *int64, accountID string, timeFrame string, measures []*cato_models.Measure, dimensions []*cato_models.Dimension, filters []*cato_models.AppStatsFilter, sort []*cato_models.AppStatsSort, appStatsPostAggFilter []*cato_models.AppStatsPostAggFilter, includeEmptyDimension *bool, interceptors ...clientv2.RequestInterceptor) (*AppStats, error)
 	AppStatsTimeSeries(ctx context.Context, perSecond *bool, withMissingData *bool, buckets int64, accountID string, timeFrame string, measures []*cato_models.Measure, dimensions []*cato_models.Dimension, filters []*cato_models.AppStatsFilter, includeEmptyDimension *bool, useDefaultSizeBucket *bool, interceptors ...clientv2.RequestInterceptor) (*AppStatsTimeSeries, error)
 	AuditFeed(ctx context.Context, fieldNames []cato_models.AuditFieldName, accountIDs []string, ids []string, timeFrame string, filters []*cato_models.AuditFieldFilterInput, marker *string, interceptors ...clientv2.RequestInterceptor) (*AuditFeed, error)
@@ -112797,6 +112797,7 @@ func (t *PolicySiteWebProxyAddRule_Policy_SiteWebProxy_AddRule_Rule_Rule_Authent
 }
 
 type PolicySiteWebProxyAddRule_Policy_SiteWebProxy_AddRule_Rule_Rule struct {
+	AllowedDestinationProtocol  *cato_models.SiteWebProxyAllowedDestinationProtocol                                  "json:\"allowedDestinationProtocol,omitempty\" graphql:\"allowedDestinationProtocol\""
 	AssociatedSite              []*PolicySiteWebProxyAddRule_Policy_SiteWebProxy_AddRule_Rule_Rule_AssociatedSite    "json:\"associatedSite\" graphql:\"associatedSite\""
 	AuthenticationConfig        PolicySiteWebProxyAddRule_Policy_SiteWebProxy_AddRule_Rule_Rule_AuthenticationConfig "json:\"authenticationConfig\" graphql:\"authenticationConfig\""
 	Description                 string                                                                               "json:\"description\" graphql:\"description\""
@@ -112811,6 +112812,12 @@ type PolicySiteWebProxyAddRule_Policy_SiteWebProxy_AddRule_Rule_Rule struct {
 	WebProxyTraffic             []*PolicySiteWebProxyAddRule_Policy_SiteWebProxy_AddRule_Rule_Rule_WebProxyTraffic   "json:\"webProxyTraffic\" graphql:\"webProxyTraffic\""
 }
 
+func (t *PolicySiteWebProxyAddRule_Policy_SiteWebProxy_AddRule_Rule_Rule) GetAllowedDestinationProtocol() *cato_models.SiteWebProxyAllowedDestinationProtocol {
+	if t == nil {
+		t = &PolicySiteWebProxyAddRule_Policy_SiteWebProxy_AddRule_Rule_Rule{}
+	}
+	return t.AllowedDestinationProtocol
+}
 func (t *PolicySiteWebProxyAddRule_Policy_SiteWebProxy_AddRule_Rule_Rule) GetAssociatedSite() []*PolicySiteWebProxyAddRule_Policy_SiteWebProxy_AddRule_Rule_Rule_AssociatedSite {
 	if t == nil {
 		t = &PolicySiteWebProxyAddRule_Policy_SiteWebProxy_AddRule_Rule_Rule{}
@@ -113747,6 +113754,7 @@ func (t *PolicySiteWebProxyCreatePolicyRevision_Policy_SiteWebProxy_CreatePolicy
 }
 
 type PolicySiteWebProxyCreatePolicyRevision_Policy_SiteWebProxy_CreatePolicyRevision_Policy_Rules_Rule struct {
+	AllowedDestinationProtocol  *cato_models.SiteWebProxyAllowedDestinationProtocol                                                                    "json:\"allowedDestinationProtocol,omitempty\" graphql:\"allowedDestinationProtocol\""
 	AssociatedSite              []*PolicySiteWebProxyCreatePolicyRevision_Policy_SiteWebProxy_CreatePolicyRevision_Policy_Rules_Rule_AssociatedSite    "json:\"associatedSite\" graphql:\"associatedSite\""
 	AuthenticationConfig        PolicySiteWebProxyCreatePolicyRevision_Policy_SiteWebProxy_CreatePolicyRevision_Policy_Rules_Rule_AuthenticationConfig "json:\"authenticationConfig\" graphql:\"authenticationConfig\""
 	Description                 string                                                                                                                 "json:\"description\" graphql:\"description\""
@@ -113761,6 +113769,12 @@ type PolicySiteWebProxyCreatePolicyRevision_Policy_SiteWebProxy_CreatePolicyRevi
 	WebProxyTraffic             []*PolicySiteWebProxyCreatePolicyRevision_Policy_SiteWebProxy_CreatePolicyRevision_Policy_Rules_Rule_WebProxyTraffic   "json:\"webProxyTraffic\" graphql:\"webProxyTraffic\""
 }
 
+func (t *PolicySiteWebProxyCreatePolicyRevision_Policy_SiteWebProxy_CreatePolicyRevision_Policy_Rules_Rule) GetAllowedDestinationProtocol() *cato_models.SiteWebProxyAllowedDestinationProtocol {
+	if t == nil {
+		t = &PolicySiteWebProxyCreatePolicyRevision_Policy_SiteWebProxy_CreatePolicyRevision_Policy_Rules_Rule{}
+	}
+	return t.AllowedDestinationProtocol
+}
 func (t *PolicySiteWebProxyCreatePolicyRevision_Policy_SiteWebProxy_CreatePolicyRevision_Policy_Rules_Rule) GetAssociatedSite() []*PolicySiteWebProxyCreatePolicyRevision_Policy_SiteWebProxy_CreatePolicyRevision_Policy_Rules_Rule_AssociatedSite {
 	if t == nil {
 		t = &PolicySiteWebProxyCreatePolicyRevision_Policy_SiteWebProxy_CreatePolicyRevision_Policy_Rules_Rule{}
@@ -114629,6 +114643,7 @@ func (t *PolicySiteWebProxyDiscardPolicyRevision_Policy_SiteWebProxy_DiscardPoli
 }
 
 type PolicySiteWebProxyDiscardPolicyRevision_Policy_SiteWebProxy_DiscardPolicyRevision_Policy_Rules_Rule struct {
+	AllowedDestinationProtocol  *cato_models.SiteWebProxyAllowedDestinationProtocol                                                                      "json:\"allowedDestinationProtocol,omitempty\" graphql:\"allowedDestinationProtocol\""
 	AssociatedSite              []*PolicySiteWebProxyDiscardPolicyRevision_Policy_SiteWebProxy_DiscardPolicyRevision_Policy_Rules_Rule_AssociatedSite    "json:\"associatedSite\" graphql:\"associatedSite\""
 	AuthenticationConfig        PolicySiteWebProxyDiscardPolicyRevision_Policy_SiteWebProxy_DiscardPolicyRevision_Policy_Rules_Rule_AuthenticationConfig "json:\"authenticationConfig\" graphql:\"authenticationConfig\""
 	Description                 string                                                                                                                   "json:\"description\" graphql:\"description\""
@@ -114643,6 +114658,12 @@ type PolicySiteWebProxyDiscardPolicyRevision_Policy_SiteWebProxy_DiscardPolicyRe
 	WebProxyTraffic             []*PolicySiteWebProxyDiscardPolicyRevision_Policy_SiteWebProxy_DiscardPolicyRevision_Policy_Rules_Rule_WebProxyTraffic   "json:\"webProxyTraffic\" graphql:\"webProxyTraffic\""
 }
 
+func (t *PolicySiteWebProxyDiscardPolicyRevision_Policy_SiteWebProxy_DiscardPolicyRevision_Policy_Rules_Rule) GetAllowedDestinationProtocol() *cato_models.SiteWebProxyAllowedDestinationProtocol {
+	if t == nil {
+		t = &PolicySiteWebProxyDiscardPolicyRevision_Policy_SiteWebProxy_DiscardPolicyRevision_Policy_Rules_Rule{}
+	}
+	return t.AllowedDestinationProtocol
+}
 func (t *PolicySiteWebProxyDiscardPolicyRevision_Policy_SiteWebProxy_DiscardPolicyRevision_Policy_Rules_Rule) GetAssociatedSite() []*PolicySiteWebProxyDiscardPolicyRevision_Policy_SiteWebProxy_DiscardPolicyRevision_Policy_Rules_Rule_AssociatedSite {
 	if t == nil {
 		t = &PolicySiteWebProxyDiscardPolicyRevision_Policy_SiteWebProxy_DiscardPolicyRevision_Policy_Rules_Rule{}
@@ -115518,6 +115539,7 @@ func (t *PolicySiteWebProxyMoveRule_Policy_SiteWebProxy_MoveRule_Rule_Rule_Authe
 }
 
 type PolicySiteWebProxyMoveRule_Policy_SiteWebProxy_MoveRule_Rule_Rule struct {
+	AllowedDestinationProtocol  *cato_models.SiteWebProxyAllowedDestinationProtocol                                    "json:\"allowedDestinationProtocol,omitempty\" graphql:\"allowedDestinationProtocol\""
 	AssociatedSite              []*PolicySiteWebProxyMoveRule_Policy_SiteWebProxy_MoveRule_Rule_Rule_AssociatedSite    "json:\"associatedSite\" graphql:\"associatedSite\""
 	AuthenticationConfig        PolicySiteWebProxyMoveRule_Policy_SiteWebProxy_MoveRule_Rule_Rule_AuthenticationConfig "json:\"authenticationConfig\" graphql:\"authenticationConfig\""
 	Description                 string                                                                                 "json:\"description\" graphql:\"description\""
@@ -115532,6 +115554,12 @@ type PolicySiteWebProxyMoveRule_Policy_SiteWebProxy_MoveRule_Rule_Rule struct {
 	WebProxyTraffic             []*PolicySiteWebProxyMoveRule_Policy_SiteWebProxy_MoveRule_Rule_Rule_WebProxyTraffic   "json:\"webProxyTraffic\" graphql:\"webProxyTraffic\""
 }
 
+func (t *PolicySiteWebProxyMoveRule_Policy_SiteWebProxy_MoveRule_Rule_Rule) GetAllowedDestinationProtocol() *cato_models.SiteWebProxyAllowedDestinationProtocol {
+	if t == nil {
+		t = &PolicySiteWebProxyMoveRule_Policy_SiteWebProxy_MoveRule_Rule_Rule{}
+	}
+	return t.AllowedDestinationProtocol
+}
 func (t *PolicySiteWebProxyMoveRule_Policy_SiteWebProxy_MoveRule_Rule_Rule) GetAssociatedSite() []*PolicySiteWebProxyMoveRule_Policy_SiteWebProxy_MoveRule_Rule_Rule_AssociatedSite {
 	if t == nil {
 		t = &PolicySiteWebProxyMoveRule_Policy_SiteWebProxy_MoveRule_Rule_Rule{}
@@ -116468,6 +116496,7 @@ func (t *PolicySiteWebProxyPublishPolicyRevision_Policy_SiteWebProxy_PublishPoli
 }
 
 type PolicySiteWebProxyPublishPolicyRevision_Policy_SiteWebProxy_PublishPolicyRevision_Policy_Rules_Rule struct {
+	AllowedDestinationProtocol  *cato_models.SiteWebProxyAllowedDestinationProtocol                                                                      "json:\"allowedDestinationProtocol,omitempty\" graphql:\"allowedDestinationProtocol\""
 	AssociatedSite              []*PolicySiteWebProxyPublishPolicyRevision_Policy_SiteWebProxy_PublishPolicyRevision_Policy_Rules_Rule_AssociatedSite    "json:\"associatedSite\" graphql:\"associatedSite\""
 	AuthenticationConfig        PolicySiteWebProxyPublishPolicyRevision_Policy_SiteWebProxy_PublishPolicyRevision_Policy_Rules_Rule_AuthenticationConfig "json:\"authenticationConfig\" graphql:\"authenticationConfig\""
 	Description                 string                                                                                                                   "json:\"description\" graphql:\"description\""
@@ -116482,6 +116511,12 @@ type PolicySiteWebProxyPublishPolicyRevision_Policy_SiteWebProxy_PublishPolicyRe
 	WebProxyTraffic             []*PolicySiteWebProxyPublishPolicyRevision_Policy_SiteWebProxy_PublishPolicyRevision_Policy_Rules_Rule_WebProxyTraffic   "json:\"webProxyTraffic\" graphql:\"webProxyTraffic\""
 }
 
+func (t *PolicySiteWebProxyPublishPolicyRevision_Policy_SiteWebProxy_PublishPolicyRevision_Policy_Rules_Rule) GetAllowedDestinationProtocol() *cato_models.SiteWebProxyAllowedDestinationProtocol {
+	if t == nil {
+		t = &PolicySiteWebProxyPublishPolicyRevision_Policy_SiteWebProxy_PublishPolicyRevision_Policy_Rules_Rule{}
+	}
+	return t.AllowedDestinationProtocol
+}
 func (t *PolicySiteWebProxyPublishPolicyRevision_Policy_SiteWebProxy_PublishPolicyRevision_Policy_Rules_Rule) GetAssociatedSite() []*PolicySiteWebProxyPublishPolicyRevision_Policy_SiteWebProxy_PublishPolicyRevision_Policy_Rules_Rule_AssociatedSite {
 	if t == nil {
 		t = &PolicySiteWebProxyPublishPolicyRevision_Policy_SiteWebProxy_PublishPolicyRevision_Policy_Rules_Rule{}
@@ -117357,6 +117392,7 @@ func (t *PolicySiteWebProxyRemoveRule_Policy_SiteWebProxy_RemoveRule_Rule_Rule_A
 }
 
 type PolicySiteWebProxyRemoveRule_Policy_SiteWebProxy_RemoveRule_Rule_Rule struct {
+	AllowedDestinationProtocol  *cato_models.SiteWebProxyAllowedDestinationProtocol                                        "json:\"allowedDestinationProtocol,omitempty\" graphql:\"allowedDestinationProtocol\""
 	AssociatedSite              []*PolicySiteWebProxyRemoveRule_Policy_SiteWebProxy_RemoveRule_Rule_Rule_AssociatedSite    "json:\"associatedSite\" graphql:\"associatedSite\""
 	AuthenticationConfig        PolicySiteWebProxyRemoveRule_Policy_SiteWebProxy_RemoveRule_Rule_Rule_AuthenticationConfig "json:\"authenticationConfig\" graphql:\"authenticationConfig\""
 	Description                 string                                                                                     "json:\"description\" graphql:\"description\""
@@ -117371,6 +117407,12 @@ type PolicySiteWebProxyRemoveRule_Policy_SiteWebProxy_RemoveRule_Rule_Rule struc
 	WebProxyTraffic             []*PolicySiteWebProxyRemoveRule_Policy_SiteWebProxy_RemoveRule_Rule_Rule_WebProxyTraffic   "json:\"webProxyTraffic\" graphql:\"webProxyTraffic\""
 }
 
+func (t *PolicySiteWebProxyRemoveRule_Policy_SiteWebProxy_RemoveRule_Rule_Rule) GetAllowedDestinationProtocol() *cato_models.SiteWebProxyAllowedDestinationProtocol {
+	if t == nil {
+		t = &PolicySiteWebProxyRemoveRule_Policy_SiteWebProxy_RemoveRule_Rule_Rule{}
+	}
+	return t.AllowedDestinationProtocol
+}
 func (t *PolicySiteWebProxyRemoveRule_Policy_SiteWebProxy_RemoveRule_Rule_Rule) GetAssociatedSite() []*PolicySiteWebProxyRemoveRule_Policy_SiteWebProxy_RemoveRule_Rule_Rule_AssociatedSite {
 	if t == nil {
 		t = &PolicySiteWebProxyRemoveRule_Policy_SiteWebProxy_RemoveRule_Rule_Rule{}
@@ -118307,6 +118349,7 @@ func (t *PolicySiteWebProxyUpdatePolicy_Policy_SiteWebProxy_UpdatePolicy_Policy_
 }
 
 type PolicySiteWebProxyUpdatePolicy_Policy_SiteWebProxy_UpdatePolicy_Policy_Rules_Rule struct {
+	AllowedDestinationProtocol  *cato_models.SiteWebProxyAllowedDestinationProtocol                                                    "json:\"allowedDestinationProtocol,omitempty\" graphql:\"allowedDestinationProtocol\""
 	AssociatedSite              []*PolicySiteWebProxyUpdatePolicy_Policy_SiteWebProxy_UpdatePolicy_Policy_Rules_Rule_AssociatedSite    "json:\"associatedSite\" graphql:\"associatedSite\""
 	AuthenticationConfig        PolicySiteWebProxyUpdatePolicy_Policy_SiteWebProxy_UpdatePolicy_Policy_Rules_Rule_AuthenticationConfig "json:\"authenticationConfig\" graphql:\"authenticationConfig\""
 	Description                 string                                                                                                 "json:\"description\" graphql:\"description\""
@@ -118321,6 +118364,12 @@ type PolicySiteWebProxyUpdatePolicy_Policy_SiteWebProxy_UpdatePolicy_Policy_Rule
 	WebProxyTraffic             []*PolicySiteWebProxyUpdatePolicy_Policy_SiteWebProxy_UpdatePolicy_Policy_Rules_Rule_WebProxyTraffic   "json:\"webProxyTraffic\" graphql:\"webProxyTraffic\""
 }
 
+func (t *PolicySiteWebProxyUpdatePolicy_Policy_SiteWebProxy_UpdatePolicy_Policy_Rules_Rule) GetAllowedDestinationProtocol() *cato_models.SiteWebProxyAllowedDestinationProtocol {
+	if t == nil {
+		t = &PolicySiteWebProxyUpdatePolicy_Policy_SiteWebProxy_UpdatePolicy_Policy_Rules_Rule{}
+	}
+	return t.AllowedDestinationProtocol
+}
 func (t *PolicySiteWebProxyUpdatePolicy_Policy_SiteWebProxy_UpdatePolicy_Policy_Rules_Rule) GetAssociatedSite() []*PolicySiteWebProxyUpdatePolicy_Policy_SiteWebProxy_UpdatePolicy_Policy_Rules_Rule_AssociatedSite {
 	if t == nil {
 		t = &PolicySiteWebProxyUpdatePolicy_Policy_SiteWebProxy_UpdatePolicy_Policy_Rules_Rule{}
@@ -119196,6 +119245,7 @@ func (t *PolicySiteWebProxyUpdateRule_Policy_SiteWebProxy_UpdateRule_Rule_Rule_A
 }
 
 type PolicySiteWebProxyUpdateRule_Policy_SiteWebProxy_UpdateRule_Rule_Rule struct {
+	AllowedDestinationProtocol  *cato_models.SiteWebProxyAllowedDestinationProtocol                                        "json:\"allowedDestinationProtocol,omitempty\" graphql:\"allowedDestinationProtocol\""
 	AssociatedSite              []*PolicySiteWebProxyUpdateRule_Policy_SiteWebProxy_UpdateRule_Rule_Rule_AssociatedSite    "json:\"associatedSite\" graphql:\"associatedSite\""
 	AuthenticationConfig        PolicySiteWebProxyUpdateRule_Policy_SiteWebProxy_UpdateRule_Rule_Rule_AuthenticationConfig "json:\"authenticationConfig\" graphql:\"authenticationConfig\""
 	Description                 string                                                                                     "json:\"description\" graphql:\"description\""
@@ -119210,6 +119260,12 @@ type PolicySiteWebProxyUpdateRule_Policy_SiteWebProxy_UpdateRule_Rule_Rule struc
 	WebProxyTraffic             []*PolicySiteWebProxyUpdateRule_Policy_SiteWebProxy_UpdateRule_Rule_Rule_WebProxyTraffic   "json:\"webProxyTraffic\" graphql:\"webProxyTraffic\""
 }
 
+func (t *PolicySiteWebProxyUpdateRule_Policy_SiteWebProxy_UpdateRule_Rule_Rule) GetAllowedDestinationProtocol() *cato_models.SiteWebProxyAllowedDestinationProtocol {
+	if t == nil {
+		t = &PolicySiteWebProxyUpdateRule_Policy_SiteWebProxy_UpdateRule_Rule_Rule{}
+	}
+	return t.AllowedDestinationProtocol
+}
 func (t *PolicySiteWebProxyUpdateRule_Policy_SiteWebProxy_UpdateRule_Rule_Rule) GetAssociatedSite() []*PolicySiteWebProxyUpdateRule_Policy_SiteWebProxy_UpdateRule_Rule_Rule_AssociatedSite {
 	if t == nil {
 		t = &PolicySiteWebProxyUpdateRule_Policy_SiteWebProxy_UpdateRule_Rule_Rule{}
@@ -281483,11 +281539,129 @@ func (t *AiSecurity_AiSecurity_EndUsers) GetSessionConversation() *AiSecurity_Ai
 	return t.SessionConversation
 }
 
+type AiSecurity_AiSecurity_Agents_Session_Items struct {
+	AppActivityType string  "json:\"appActivityType\" graphql:\"appActivityType\""
+	Content         *string "json:\"content,omitempty\" graphql:\"content\""
+	InteractionID   string  "json:\"interactionId\" graphql:\"interactionId\""
+	Time            string  "json:\"time\" graphql:\"time\""
+}
+
+func (t *AiSecurity_AiSecurity_Agents_Session_Items) GetAppActivityType() string {
+	if t == nil {
+		t = &AiSecurity_AiSecurity_Agents_Session_Items{}
+	}
+	return t.AppActivityType
+}
+func (t *AiSecurity_AiSecurity_Agents_Session_Items) GetContent() *string {
+	if t == nil {
+		t = &AiSecurity_AiSecurity_Agents_Session_Items{}
+	}
+	return t.Content
+}
+func (t *AiSecurity_AiSecurity_Agents_Session_Items) GetInteractionID() string {
+	if t == nil {
+		t = &AiSecurity_AiSecurity_Agents_Session_Items{}
+	}
+	return t.InteractionID
+}
+func (t *AiSecurity_AiSecurity_Agents_Session_Items) GetTime() string {
+	if t == nil {
+		t = &AiSecurity_AiSecurity_Agents_Session_Items{}
+	}
+	return t.Time
+}
+
+type AiSecurity_AiSecurity_Agents_Session_Paging struct {
+	Total int64 "json:\"total\" graphql:\"total\""
+}
+
+func (t *AiSecurity_AiSecurity_Agents_Session_Paging) GetTotal() int64 {
+	if t == nil {
+		t = &AiSecurity_AiSecurity_Agents_Session_Paging{}
+	}
+	return t.Total
+}
+
+type AiSecurity_AiSecurity_Agents_Session struct {
+	Items  []*AiSecurity_AiSecurity_Agents_Session_Items "json:\"items\" graphql:\"items\""
+	Paging AiSecurity_AiSecurity_Agents_Session_Paging   "json:\"paging\" graphql:\"paging\""
+}
+
+func (t *AiSecurity_AiSecurity_Agents_Session) GetItems() []*AiSecurity_AiSecurity_Agents_Session_Items {
+	if t == nil {
+		t = &AiSecurity_AiSecurity_Agents_Session{}
+	}
+	return t.Items
+}
+func (t *AiSecurity_AiSecurity_Agents_Session) GetPaging() *AiSecurity_AiSecurity_Agents_Session_Paging {
+	if t == nil {
+		t = &AiSecurity_AiSecurity_Agents_Session{}
+	}
+	return &t.Paging
+}
+
+type AiSecurity_AiSecurity_Agents_Event struct {
+	AppActivityType string  "json:\"appActivityType\" graphql:\"appActivityType\""
+	Content         *string "json:\"content,omitempty\" graphql:\"content\""
+	InteractionID   string  "json:\"interactionId\" graphql:\"interactionId\""
+	Time            string  "json:\"time\" graphql:\"time\""
+}
+
+func (t *AiSecurity_AiSecurity_Agents_Event) GetAppActivityType() string {
+	if t == nil {
+		t = &AiSecurity_AiSecurity_Agents_Event{}
+	}
+	return t.AppActivityType
+}
+func (t *AiSecurity_AiSecurity_Agents_Event) GetContent() *string {
+	if t == nil {
+		t = &AiSecurity_AiSecurity_Agents_Event{}
+	}
+	return t.Content
+}
+func (t *AiSecurity_AiSecurity_Agents_Event) GetInteractionID() string {
+	if t == nil {
+		t = &AiSecurity_AiSecurity_Agents_Event{}
+	}
+	return t.InteractionID
+}
+func (t *AiSecurity_AiSecurity_Agents_Event) GetTime() string {
+	if t == nil {
+		t = &AiSecurity_AiSecurity_Agents_Event{}
+	}
+	return t.Time
+}
+
+type AiSecurity_AiSecurity_Agents struct {
+	Event   *AiSecurity_AiSecurity_Agents_Event   "json:\"event,omitempty\" graphql:\"event\""
+	Session *AiSecurity_AiSecurity_Agents_Session "json:\"session,omitempty\" graphql:\"session\""
+}
+
+func (t *AiSecurity_AiSecurity_Agents) GetEvent() *AiSecurity_AiSecurity_Agents_Event {
+	if t == nil {
+		t = &AiSecurity_AiSecurity_Agents{}
+	}
+	return t.Event
+}
+func (t *AiSecurity_AiSecurity_Agents) GetSession() *AiSecurity_AiSecurity_Agents_Session {
+	if t == nil {
+		t = &AiSecurity_AiSecurity_Agents{}
+	}
+	return t.Session
+}
+
 type AiSecurity_AiSecurity struct {
+	Agents   *AiSecurity_AiSecurity_Agents   "json:\"agents,omitempty\" graphql:\"agents\""
 	Apps     *AiSecurity_AiSecurity_Apps     "json:\"apps,omitempty\" graphql:\"apps\""
 	EndUsers *AiSecurity_AiSecurity_EndUsers "json:\"endUsers,omitempty\" graphql:\"endUsers\""
 }
 
+func (t *AiSecurity_AiSecurity) GetAgents() *AiSecurity_AiSecurity_Agents {
+	if t == nil {
+		t = &AiSecurity_AiSecurity{}
+	}
+	return t.Agents
+}
 func (t *AiSecurity_AiSecurity) GetApps() *AiSecurity_AiSecurity_Apps {
 	if t == nil {
 		t = &AiSecurity_AiSecurity{}
@@ -281541,12 +281715,13 @@ func (t *AppStats_AppStats_Records) GetTrends() map[string]any {
 }
 
 type AppStats_AppStats struct {
-	From    *string                      "json:\"from,omitempty\" graphql:\"from\""
-	ID      *string                      "json:\"id,omitempty\" graphql:\"id\""
-	Records []*AppStats_AppStats_Records "json:\"records,omitempty\" graphql:\"records\""
-	To      *string                      "json:\"to,omitempty\" graphql:\"to\""
-	Total   *int64                       "json:\"total,omitempty\" graphql:\"total\""
-	Totals  map[string]any               "json:\"totals,omitempty\" graphql:\"totals\""
+	From       *string                      "json:\"from,omitempty\" graphql:\"from\""
+	ID         *string                      "json:\"id,omitempty\" graphql:\"id\""
+	Records    []*AppStats_AppStats_Records "json:\"records,omitempty\" graphql:\"records\""
+	To         *string                      "json:\"to,omitempty\" graphql:\"to\""
+	Total      *int64                       "json:\"total,omitempty\" graphql:\"total\""
+	TotalCount *int64                       "json:\"totalCount,omitempty\" graphql:\"totalCount\""
+	Totals     map[string]any               "json:\"totals,omitempty\" graphql:\"totals\""
 }
 
 func (t *AppStats_AppStats) GetFrom() *string {
@@ -281578,6 +281753,12 @@ func (t *AppStats_AppStats) GetTotal() *int64 {
 		t = &AppStats_AppStats{}
 	}
 	return t.Total
+}
+func (t *AppStats_AppStats) GetTotalCount() *int64 {
+	if t == nil {
+		t = &AppStats_AppStats{}
+	}
+	return t.TotalCount
 }
 func (t *AppStats_AppStats) GetTotals() map[string]any {
 	if t == nil {
@@ -282334,8 +282515,59 @@ func (t *BusinessPlatform_BusinessPlatform_Settings) GetApprovalEnabled() bool {
 	return t.ApprovalEnabled
 }
 
+type BusinessPlatform_BusinessPlatform_AccountOverview_Items struct {
+	Arr                *float64   "json:\"arr,omitempty\" graphql:\"arr\""
+	CmaAccountID       *string    "json:\"cmaAccountId,omitempty\" graphql:\"cmaAccountId\""
+	ID                 string     "json:\"id\" graphql:\"id\""
+	Name               string     "json:\"name\" graphql:\"name\""
+	ServiceRenewalDate *time.Time "json:\"serviceRenewalDate,omitempty\" graphql:\"serviceRenewalDate\""
+}
+
+func (t *BusinessPlatform_BusinessPlatform_AccountOverview_Items) GetArr() *float64 {
+	if t == nil {
+		t = &BusinessPlatform_BusinessPlatform_AccountOverview_Items{}
+	}
+	return t.Arr
+}
+func (t *BusinessPlatform_BusinessPlatform_AccountOverview_Items) GetCmaAccountID() *string {
+	if t == nil {
+		t = &BusinessPlatform_BusinessPlatform_AccountOverview_Items{}
+	}
+	return t.CmaAccountID
+}
+func (t *BusinessPlatform_BusinessPlatform_AccountOverview_Items) GetID() string {
+	if t == nil {
+		t = &BusinessPlatform_BusinessPlatform_AccountOverview_Items{}
+	}
+	return t.ID
+}
+func (t *BusinessPlatform_BusinessPlatform_AccountOverview_Items) GetName() string {
+	if t == nil {
+		t = &BusinessPlatform_BusinessPlatform_AccountOverview_Items{}
+	}
+	return t.Name
+}
+func (t *BusinessPlatform_BusinessPlatform_AccountOverview_Items) GetServiceRenewalDate() *time.Time {
+	if t == nil {
+		t = &BusinessPlatform_BusinessPlatform_AccountOverview_Items{}
+	}
+	return t.ServiceRenewalDate
+}
+
+type BusinessPlatform_BusinessPlatform_AccountOverview struct {
+	Items []*BusinessPlatform_BusinessPlatform_AccountOverview_Items "json:\"items\" graphql:\"items\""
+}
+
+func (t *BusinessPlatform_BusinessPlatform_AccountOverview) GetItems() []*BusinessPlatform_BusinessPlatform_AccountOverview_Items {
+	if t == nil {
+		t = &BusinessPlatform_BusinessPlatform_AccountOverview{}
+	}
+	return t.Items
+}
+
 type BusinessPlatform_BusinessPlatform struct {
 	AccountList        *BusinessPlatform_BusinessPlatform_AccountList        "json:\"accountList,omitempty\" graphql:\"accountList\""
+	AccountOverview    *BusinessPlatform_BusinessPlatform_AccountOverview    "json:\"accountOverview,omitempty\" graphql:\"accountOverview\""
 	CountAccountByPlan *BusinessPlatform_BusinessPlatform_CountAccountByPlan "json:\"countAccountByPlan,omitempty\" graphql:\"countAccountByPlan\""
 	Settings           *BusinessPlatform_BusinessPlatform_Settings           "json:\"settings,omitempty\" graphql:\"settings\""
 }
@@ -282345,6 +282577,12 @@ func (t *BusinessPlatform_BusinessPlatform) GetAccountList() *BusinessPlatform_B
 		t = &BusinessPlatform_BusinessPlatform{}
 	}
 	return t.AccountList
+}
+func (t *BusinessPlatform_BusinessPlatform) GetAccountOverview() *BusinessPlatform_BusinessPlatform_AccountOverview {
+	if t == nil {
+		t = &BusinessPlatform_BusinessPlatform{}
+	}
+	return t.AccountOverview
 }
 func (t *BusinessPlatform_BusinessPlatform) GetCountAccountByPlan() *BusinessPlatform_BusinessPlatform_CountAccountByPlan {
 	if t == nil {
@@ -288008,12 +288246,13 @@ func (t *Events_Events_Records) GetTrends() map[string]any {
 }
 
 type Events_Events struct {
-	From    *string                  "json:\"from,omitempty\" graphql:\"from\""
-	ID      *string                  "json:\"id,omitempty\" graphql:\"id\""
-	Records []*Events_Events_Records "json:\"records,omitempty\" graphql:\"records\""
-	To      *string                  "json:\"to,omitempty\" graphql:\"to\""
-	Total   *int64                   "json:\"total,omitempty\" graphql:\"total\""
-	Totals  map[string]any           "json:\"totals,omitempty\" graphql:\"totals\""
+	From       *string                  "json:\"from,omitempty\" graphql:\"from\""
+	ID         *string                  "json:\"id,omitempty\" graphql:\"id\""
+	Records    []*Events_Events_Records "json:\"records,omitempty\" graphql:\"records\""
+	To         *string                  "json:\"to,omitempty\" graphql:\"to\""
+	Total      *int64                   "json:\"total,omitempty\" graphql:\"total\""
+	TotalCount *int64                   "json:\"totalCount,omitempty\" graphql:\"totalCount\""
+	Totals     map[string]any           "json:\"totals,omitempty\" graphql:\"totals\""
 }
 
 func (t *Events_Events) GetFrom() *string {
@@ -288045,6 +288284,12 @@ func (t *Events_Events) GetTotal() *int64 {
 		t = &Events_Events{}
 	}
 	return t.Total
+}
+func (t *Events_Events) GetTotalCount() *int64 {
+	if t == nil {
+		t = &Events_Events{}
+	}
+	return t.TotalCount
 }
 func (t *Events_Events) GetTotals() map[string]any {
 	if t == nil {
@@ -313157,6 +313402,7 @@ func (t *PolicySiteWebProxyPolicy_Policy_SiteWebProxy_Policy_Rules_Rule_Authenti
 }
 
 type PolicySiteWebProxyPolicy_Policy_SiteWebProxy_Policy_Rules_Rule struct {
+	AllowedDestinationProtocol  *cato_models.SiteWebProxyAllowedDestinationProtocol                                 "json:\"allowedDestinationProtocol,omitempty\" graphql:\"allowedDestinationProtocol\""
 	AssociatedSite              []*PolicySiteWebProxyPolicy_Policy_SiteWebProxy_Policy_Rules_Rule_AssociatedSite    "json:\"associatedSite\" graphql:\"associatedSite\""
 	AuthenticationConfig        PolicySiteWebProxyPolicy_Policy_SiteWebProxy_Policy_Rules_Rule_AuthenticationConfig "json:\"authenticationConfig\" graphql:\"authenticationConfig\""
 	Description                 string                                                                              "json:\"description\" graphql:\"description\""
@@ -313171,6 +313417,12 @@ type PolicySiteWebProxyPolicy_Policy_SiteWebProxy_Policy_Rules_Rule struct {
 	WebProxyTraffic             []*PolicySiteWebProxyPolicy_Policy_SiteWebProxy_Policy_Rules_Rule_WebProxyTraffic   "json:\"webProxyTraffic\" graphql:\"webProxyTraffic\""
 }
 
+func (t *PolicySiteWebProxyPolicy_Policy_SiteWebProxy_Policy_Rules_Rule) GetAllowedDestinationProtocol() *cato_models.SiteWebProxyAllowedDestinationProtocol {
+	if t == nil {
+		t = &PolicySiteWebProxyPolicy_Policy_SiteWebProxy_Policy_Rules_Rule{}
+	}
+	return t.AllowedDestinationProtocol
+}
 func (t *PolicySiteWebProxyPolicy_Policy_SiteWebProxy_Policy_Rules_Rule) GetAssociatedSite() []*PolicySiteWebProxyPolicy_Policy_SiteWebProxy_Policy_Rules_Rule_AssociatedSite {
 	if t == nil {
 		t = &PolicySiteWebProxyPolicy_Policy_SiteWebProxy_Policy_Rules_Rule{}
@@ -335863,12 +336115,13 @@ func (t *SocketPortMetrics_SocketPortMetrics_Records) GetTrends() map[string]any
 }
 
 type SocketPortMetrics_SocketPortMetrics struct {
-	From    *string                                        "json:\"from,omitempty\" graphql:\"from\""
-	ID      *string                                        "json:\"id,omitempty\" graphql:\"id\""
-	Records []*SocketPortMetrics_SocketPortMetrics_Records "json:\"records,omitempty\" graphql:\"records\""
-	To      *string                                        "json:\"to,omitempty\" graphql:\"to\""
-	Total   *int64                                         "json:\"total,omitempty\" graphql:\"total\""
-	Totals  map[string]any                                 "json:\"totals,omitempty\" graphql:\"totals\""
+	From       *string                                        "json:\"from,omitempty\" graphql:\"from\""
+	ID         *string                                        "json:\"id,omitempty\" graphql:\"id\""
+	Records    []*SocketPortMetrics_SocketPortMetrics_Records "json:\"records,omitempty\" graphql:\"records\""
+	To         *string                                        "json:\"to,omitempty\" graphql:\"to\""
+	Total      *int64                                         "json:\"total,omitempty\" graphql:\"total\""
+	TotalCount *int64                                         "json:\"totalCount,omitempty\" graphql:\"totalCount\""
+	Totals     map[string]any                                 "json:\"totals,omitempty\" graphql:\"totals\""
 }
 
 func (t *SocketPortMetrics_SocketPortMetrics) GetFrom() *string {
@@ -335900,6 +336153,12 @@ func (t *SocketPortMetrics_SocketPortMetrics) GetTotal() *int64 {
 		t = &SocketPortMetrics_SocketPortMetrics{}
 	}
 	return t.Total
+}
+func (t *SocketPortMetrics_SocketPortMetrics) GetTotalCount() *int64 {
+	if t == nil {
+		t = &SocketPortMetrics_SocketPortMetrics{}
+	}
+	return t.TotalCount
 }
 func (t *SocketPortMetrics_SocketPortMetrics) GetTotals() map[string]any {
 	if t == nil {
@@ -360421,11 +360680,11 @@ const LicensingStartServiceTrialDocument = `mutation licensingStartServiceTrial 
 	licensing(accountId: $accountId) {
 		startServiceTrial(input: $licensingStartServiceTrialInput) {
 			trial {
-				expirationDate
-				plan
 				service
-				startDate
+				plan
 				status
+				startDate
+				expirationDate
 			}
 		}
 	}
@@ -380021,6 +380280,7 @@ const PolicySiteWebProxyAddRuleDocument = `mutation policySiteWebProxyAddRule ($
 						}
 						fqdn
 						port
+						allowedDestinationProtocol
 						associatedSite {
 							id
 							name
@@ -380223,6 +380483,7 @@ const PolicySiteWebProxyCreatePolicyRevisionDocument = `mutation policySiteWebPr
 							}
 							fqdn
 							port
+							allowedDestinationProtocol
 							associatedSite {
 								id
 								name
@@ -380388,6 +380649,7 @@ const PolicySiteWebProxyDiscardPolicyRevisionDocument = `mutation policySiteWebP
 							}
 							fqdn
 							port
+							allowedDestinationProtocol
 							associatedSite {
 								id
 								name
@@ -380552,6 +380814,7 @@ const PolicySiteWebProxyMoveRuleDocument = `mutation policySiteWebProxyMoveRule 
 						}
 						fqdn
 						port
+						allowedDestinationProtocol
 						associatedSite {
 							id
 							name
@@ -380754,6 +381017,7 @@ const PolicySiteWebProxyPublishPolicyRevisionDocument = `mutation policySiteWebP
 							}
 							fqdn
 							port
+							allowedDestinationProtocol
 							associatedSite {
 								id
 								name
@@ -380918,6 +381182,7 @@ const PolicySiteWebProxyRemoveRuleDocument = `mutation policySiteWebProxyRemoveR
 						}
 						fqdn
 						port
+						allowedDestinationProtocol
 						associatedSite {
 							id
 							name
@@ -381120,6 +381385,7 @@ const PolicySiteWebProxyUpdatePolicyDocument = `mutation policySiteWebProxyUpdat
 							}
 							fqdn
 							port
+							allowedDestinationProtocol
 							associatedSite {
 								id
 								name
@@ -381284,6 +381550,7 @@ const PolicySiteWebProxyUpdateRuleDocument = `mutation policySiteWebProxyUpdateR
 						}
 						fqdn
 						port
+						allowedDestinationProtocol
 						associatedSite {
 							id
 							name
@@ -403461,12 +403728,12 @@ const PostureDismissFindingDocument = `mutation postureDismissFinding ($accountI
 					securityDomain
 					scoreMetadata {
 						effectiveAreaCriticality
-						effectiveBlastRadiusClass
 						effectiveBlastRadiusValue
+						effectiveBlastRadiusClass
 						effectiveFindingsSignal
-						effectiveSeverity
 						effectiveSuggestedScore
 						effectiveSuggestedSeverity
+						effectiveSeverity
 						scoreContributionPct
 					}
 				}
@@ -403536,12 +403803,12 @@ const PostureMuteCheckDocument = `mutation postureMuteCheck ($accountId: ID!, $p
 					securityDomain
 					scoreMetadata {
 						effectiveAreaCriticality
-						effectiveBlastRadiusClass
 						effectiveBlastRadiusValue
+						effectiveBlastRadiusClass
 						effectiveFindingsSignal
-						effectiveSeverity
 						effectiveSuggestedScore
 						effectiveSuggestedSeverity
+						effectiveSeverity
 						scoreContributionPct
 					}
 				}
@@ -403619,12 +403886,12 @@ const PostureMuteCheckDocument = `mutation postureMuteCheck ($accountId: ID!, $p
 						securityDomain
 						scoreMetadata {
 							effectiveAreaCriticality
-							effectiveBlastRadiusClass
 							effectiveBlastRadiusValue
+							effectiveBlastRadiusClass
 							effectiveFindingsSignal
-							effectiveSeverity
 							effectiveSuggestedScore
 							effectiveSuggestedSeverity
+							effectiveSeverity
 							scoreContributionPct
 						}
 					}
@@ -403746,12 +404013,12 @@ const PostureMuteFindingDocument = `mutation postureMuteFinding ($accountId: ID!
 					securityDomain
 					scoreMetadata {
 						effectiveAreaCriticality
-						effectiveBlastRadiusClass
 						effectiveBlastRadiusValue
+						effectiveBlastRadiusClass
 						effectiveFindingsSignal
-						effectiveSeverity
 						effectiveSuggestedScore
 						effectiveSuggestedSeverity
+						effectiveSeverity
 						scoreContributionPct
 					}
 				}
@@ -403868,12 +404135,12 @@ const PostureUndismissFindingDocument = `mutation postureUndismissFinding ($acco
 					securityDomain
 					scoreMetadata {
 						effectiveAreaCriticality
-						effectiveBlastRadiusClass
 						effectiveBlastRadiusValue
+						effectiveBlastRadiusClass
 						effectiveFindingsSignal
-						effectiveSeverity
 						effectiveSuggestedScore
 						effectiveSuggestedSeverity
+						effectiveSeverity
 						scoreContributionPct
 					}
 				}
@@ -403943,12 +404210,12 @@ const PostureUnmuteCheckDocument = `mutation postureUnmuteCheck ($accountId: ID!
 					securityDomain
 					scoreMetadata {
 						effectiveAreaCriticality
-						effectiveBlastRadiusClass
 						effectiveBlastRadiusValue
+						effectiveBlastRadiusClass
 						effectiveFindingsSignal
-						effectiveSeverity
 						effectiveSuggestedScore
 						effectiveSuggestedSeverity
+						effectiveSeverity
 						scoreContributionPct
 					}
 				}
@@ -404026,12 +404293,12 @@ const PostureUnmuteCheckDocument = `mutation postureUnmuteCheck ($accountId: ID!
 						securityDomain
 						scoreMetadata {
 							effectiveAreaCriticality
-							effectiveBlastRadiusClass
 							effectiveBlastRadiusValue
+							effectiveBlastRadiusClass
 							effectiveFindingsSignal
-							effectiveSeverity
 							effectiveSuggestedScore
 							effectiveSuggestedSeverity
+							effectiveSeverity
 							scoreContributionPct
 						}
 					}
@@ -404153,12 +404420,12 @@ const PostureUnmuteFindingDocument = `mutation postureUnmuteFinding ($accountId:
 					securityDomain
 					scoreMetadata {
 						effectiveAreaCriticality
-						effectiveBlastRadiusClass
 						effectiveBlastRadiusValue
+						effectiveBlastRadiusClass
 						effectiveFindingsSignal
-						effectiveSeverity
 						effectiveSuggestedScore
 						effectiveSuggestedSeverity
+						effectiveSeverity
 						scoreContributionPct
 					}
 				}
@@ -404227,12 +404494,12 @@ const PostureUpdateCheckConfigurationDocument = `mutation postureUpdateCheckConf
 				securityDomain
 				scoreMetadata {
 					effectiveAreaCriticality
-					effectiveBlastRadiusClass
 					effectiveBlastRadiusValue
+					effectiveBlastRadiusClass
 					effectiveFindingsSignal
-					effectiveSeverity
 					effectiveSuggestedScore
 					effectiveSuggestedSeverity
+					effectiveSeverity
 					scoreContributionPct
 				}
 			}
@@ -412194,14 +412461,14 @@ const ZtnaAppConnectorAddZtnaAppConnectorDocument = `mutation ztnaAppConnectorAd
 				}
 				pooledBandwidthAllocation {
 					allocationId
-					bw
 					licenseId
+					bw
 				}
 			}
 			pooledBandwidthAllocation {
 				allocationId
-				bw
 				licenseId
+				bw
 			}
 		}
 	}
@@ -412363,8 +412630,8 @@ const ZtnaAppConnectorRemoveZtnaAppConnectorDocument = `mutation ztnaAppConnecto
 				}
 				pooledBandwidthAllocation {
 					allocationId
-					bw
 					licenseId
+					bw
 				}
 			}
 		}
@@ -412438,8 +412705,8 @@ const ZtnaAppConnectorUnassignSocketFromZtnaAppConnectorDocument = `mutation ztn
 				}
 				pooledBandwidthAllocation {
 					allocationId
-					bw
 					licenseId
+					bw
 				}
 			}
 		}
@@ -412542,8 +412809,8 @@ const ZtnaAppConnectorUpdateZtnaAppConnectorDocument = `mutation ztnaAppConnecto
 				}
 				pooledBandwidthAllocation {
 					allocationId
-					bw
 					licenseId
+					bw
 				}
 			}
 		}
@@ -413940,7 +414207,7 @@ func (c *Client) Admins(ctx context.Context, accountID string, limit *int64, fro
 	return &res, nil
 }
 
-const AiSecurityDocument = `query aiSecurity ($accountId: ID!, $aiSecurityAppsInvocationInput: AiSecurityAppsInvocationInput!, $aiSecurityEndUsersSessionConversationInput: AiSecurityEndUsersSessionConversationInput!) {
+const AiSecurityDocument = `query aiSecurity ($accountId: ID!, $aiSecurityAppsInvocationInput: AiSecurityAppsInvocationInput!, $aiSecurityEndUsersSessionConversationInput: AiSecurityEndUsersSessionConversationInput!, $aiSecurityAgentsEventInput: AiSecurityAgentsEventInput!, $aiSecurityAgentsSessionInput: AiSecurityAgentsSessionInput!) {
 	aiSecurity(accountId: $accountId) {
 		apps {
 			invocation(input: $aiSecurityAppsInvocationInput) {
@@ -413969,15 +414236,36 @@ const AiSecurityDocument = `query aiSecurity ($accountId: ID!, $aiSecurityAppsIn
 				llmResponse
 			}
 		}
+		agents {
+			session(input: $aiSecurityAgentsSessionInput) {
+				items {
+					interactionId
+					appActivityType
+					time
+					content
+				}
+				paging {
+					total
+				}
+			}
+			event(input: $aiSecurityAgentsEventInput) {
+				interactionId
+				appActivityType
+				time
+				content
+			}
+		}
 	}
 }
 `
 
-func (c *Client) AiSecurity(ctx context.Context, accountID string, aiSecurityAppsInvocationInput cato_models.AiSecurityAppsInvocationInput, aiSecurityEndUsersSessionConversationInput cato_models.AiSecurityEndUsersSessionConversationInput, interceptors ...clientv2.RequestInterceptor) (*AiSecurity, error) {
+func (c *Client) AiSecurity(ctx context.Context, accountID string, aiSecurityAppsInvocationInput cato_models.AiSecurityAppsInvocationInput, aiSecurityEndUsersSessionConversationInput cato_models.AiSecurityEndUsersSessionConversationInput, aiSecurityAgentsEventInput cato_models.AiSecurityAgentsEventInput, aiSecurityAgentsSessionInput cato_models.AiSecurityAgentsSessionInput, interceptors ...clientv2.RequestInterceptor) (*AiSecurity, error) {
 	vars := map[string]any{
 		"accountId":                                  accountID,
 		"aiSecurityAppsInvocationInput":              aiSecurityAppsInvocationInput,
 		"aiSecurityEndUsersSessionConversationInput": aiSecurityEndUsersSessionConversationInput,
+		"aiSecurityAgentsEventInput":                 aiSecurityAgentsEventInput,
+		"aiSecurityAgentsSessionInput":               aiSecurityAgentsSessionInput,
 	}
 
 	var res AiSecurity
@@ -413998,6 +414286,7 @@ const AppStatsDocument = `query appStats ($limit: Int, $from: Int, $accountID: I
 		from
 		to
 		total
+		totalCount
 		totals
 		records(limit: $limit, from: $from) {
 			fieldsUnitTypes
@@ -414216,6 +414505,15 @@ const BusinessPlatformDocument = `query businessPlatform ($accountId: ID!, $busi
 		}
 		settings {
 			approvalEnabled
+		}
+		accountOverview {
+			items {
+				id
+				name
+				arr
+				serviceRenewalDate
+				cmaAccountId
+			}
 		}
 	}
 }
@@ -415287,6 +415585,10 @@ const DevicesDocument = `query devices ($accountId: ID!, $deviceV2Input: DeviceV
 				}
 				confidence
 				complianceState
+				isCrownJewel
+				crownJewelSource
+				researchReasonTypes
+				customerReasonType
 				nics {
 					macAddress
 					ip
@@ -415319,10 +415621,6 @@ const DevicesDocument = `query devices ($accountId: ID!, $deviceV2Input: DeviceV
 					id
 					name
 				}
-				crownJewelSource
-				customerReasonType
-				isCrownJewel
-				researchReasonTypes
 			}
 			paging {
 				total
@@ -415546,6 +415844,7 @@ const EventsDocument = `query events ($limit: Int, $from: Int, $accountID: ID!, 
 		from
 		to
 		total
+		totalCount
 		totals
 		records(limit: $limit, from: $from) {
 			fieldsUnitTypes
@@ -420510,6 +420809,7 @@ const PolicySiteWebProxyPolicyDocument = `query policySiteWebProxyPolicy ($accou
 						}
 						fqdn
 						port
+						allowedDestinationProtocol
 						associatedSite {
 							id
 							name
@@ -422912,12 +423212,12 @@ const PostureCheckResultListDocument = `query postureCheckResultList ($accountId
 					securityDomain
 					scoreMetadata {
 						effectiveAreaCriticality
-						effectiveBlastRadiusClass
 						effectiveBlastRadiusValue
+						effectiveBlastRadiusClass
 						effectiveFindingsSignal
-						effectiveSeverity
 						effectiveSuggestedScore
 						effectiveSuggestedSeverity
+						effectiveSeverity
 						scoreContributionPct
 					}
 				}
@@ -422995,12 +423295,12 @@ const PostureCheckResultListDocument = `query postureCheckResultList ($accountId
 						securityDomain
 						scoreMetadata {
 							effectiveAreaCriticality
-							effectiveBlastRadiusClass
 							effectiveBlastRadiusValue
+							effectiveBlastRadiusClass
 							effectiveFindingsSignal
-							effectiveSeverity
 							effectiveSuggestedScore
 							effectiveSuggestedSeverity
+							effectiveSeverity
 							scoreContributionPct
 						}
 					}
@@ -423430,12 +423730,12 @@ const PostureDefinitionListDocument = `query postureDefinitionList ($accountId: 
 				securityDomain
 				scoreMetadata {
 					effectiveAreaCriticality
-					effectiveBlastRadiusClass
 					effectiveBlastRadiusValue
+					effectiveBlastRadiusClass
 					effectiveFindingsSignal
-					effectiveSeverity
 					effectiveSuggestedScore
 					effectiveSuggestedSeverity
+					effectiveSeverity
 					scoreContributionPct
 				}
 			}
@@ -423528,12 +423828,12 @@ const PostureFindingListDocument = `query postureFindingList ($accountId: ID!, $
 					securityDomain
 					scoreMetadata {
 						effectiveAreaCriticality
-						effectiveBlastRadiusClass
 						effectiveBlastRadiusValue
+						effectiveBlastRadiusClass
 						effectiveFindingsSignal
-						effectiveSeverity
 						effectiveSuggestedScore
 						effectiveSuggestedSeverity
+						effectiveSeverity
 						scoreContributionPct
 					}
 				}
@@ -425357,6 +425657,7 @@ const SocketPortMetricsDocument = `query socketPortMetrics ($accountID: ID!, $ti
 		from
 		to
 		total
+		totalCount
 		totals
 		records(limit: $limit, from: $from) {
 			fieldsUnitTypes
@@ -427771,8 +428072,8 @@ const ZtnaAppConnectorZtnaAppConnectorDocument = `query ztnaAppConnectorZtnaAppC
 			}
 			pooledBandwidthAllocation {
 				allocationId
-				bw
 				licenseId
+				bw
 			}
 		}
 	}
@@ -427875,8 +428176,8 @@ const ZtnaAppConnectorZtnaAppConnectorListDocument = `query ztnaAppConnectorZtna
 				}
 				pooledBandwidthAllocation {
 					allocationId
-					bw
 					licenseId
+					bw
 				}
 			}
 			pageInfo {

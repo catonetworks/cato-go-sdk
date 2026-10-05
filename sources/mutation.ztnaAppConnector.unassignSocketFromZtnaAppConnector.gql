@@ -46,8 +46,8 @@ mutation ztnaAppConnectorUnassignSocketFromZtnaAppConnector ($accountId: ID!, $u
 				}
 				pooledBandwidthAllocation {
 					allocationId
-					bw
 					licenseId
+					bw
 				}
 			}
 		}

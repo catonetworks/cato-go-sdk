@@ -1137,6 +1137,38 @@ type AiOperationsPlaybook struct {
 	Title       string  `json:"title"`
 }
 
+// The sensitive content of a single agent event.
+type AiSecurityAgentsEvent struct {
+	AppActivityType string  `json:"appActivityType"`
+	Content         *string `json:"content,omitempty"`
+	InteractionID   string  `json:"interactionId"`
+	Time            string  `json:"time"`
+}
+
+// Input for fetching a single agent event's PSI.
+type AiSecurityAgentsEventInput struct {
+	InteractionID string `json:"interactionId"`
+	SessionID     string `json:"sessionId"`
+}
+
+// Root of the Agents query namespace.
+type AiSecurityAgentsQueries struct {
+	Event   *AiSecurityAgentsEvent          `json:"event,omitempty"`
+	Session *AiSecurityAgentsSessionPayload `json:"session,omitempty"`
+}
+
+// Input for fetching an agent session's PSI.
+type AiSecurityAgentsSessionInput struct {
+	Paging    *PagingInput `json:"paging"`
+	SessionID string       `json:"sessionId"`
+}
+
+// A page of an agent session's PSI.
+type AiSecurityAgentsSessionPayload struct {
+	Items  []*AiSecurityAgentsEvent `json:"items"`
+	Paging *PageInfo                `json:"paging"`
+}
+
 // Reference to an AI security guard.
 type AiSecurityAppsGuardRef struct {
 	ID   string `json:"id"`
@@ -1249,6 +1281,7 @@ func (this AiSecurityHomegrownAppRef) GetName() string { return this.Name }
 
 // Root of the AI Security query namespace for an account.
 type AiSecurityQueries struct {
+	Agents   *AiSecurityAgentsQueries   `json:"agents,omitempty"`
 	Apps     *AiSecurityAppsQueries     `json:"apps,omitempty"`
 	EndUsers *AiSecurityEndUsersQueries `json:"endUsers,omitempty"`
 }
@@ -1731,12 +1764,13 @@ func (this APIKeyRef) GetName() string { return this.Name }
 func (APIKeyRef) IsObjectRef() {}
 
 type AppStats struct {
-	From    *string           `json:"from,omitempty"`
-	ID      *string           `json:"id,omitempty"`
-	Records []*AppStatsRecord `json:"records,omitempty"`
-	To      *string           `json:"to,omitempty"`
-	Total   *int64            `json:"total,omitempty"`
-	Totals  map[string]any    `json:"totals,omitempty"`
+	From       *string           `json:"from,omitempty"`
+	ID         *string           `json:"id,omitempty"`
+	Records    []*AppStatsRecord `json:"records,omitempty"`
+	To         *string           `json:"to,omitempty"`
+	Total      *int64            `json:"total,omitempty"`
+	TotalCount *int64            `json:"totalCount,omitempty"`
+	Totals     map[string]any    `json:"totals,omitempty"`
 }
 
 type AppStatsField struct {
@@ -3238,6 +3272,20 @@ type BusinessPlatformAccountListPayload struct {
 	Paging *PageInfo                  `json:"paging"`
 }
 
+// Customer account summary from Salesforce.
+type BusinessPlatformAccountOverview struct {
+	Arr                *float64   `json:"arr,omitempty"`
+	CmaAccountID       *string    `json:"cmaAccountId,omitempty"`
+	ID                 string     `json:"id"`
+	Name               string     `json:"name"`
+	ServiceRenewalDate *time.Time `json:"serviceRenewalDate,omitempty"`
+}
+
+// Salesforce customer accounts managed by a Business Platform partner.
+type BusinessPlatformAccountOverviewPayload struct {
+	Items []*BusinessPlatformAccountOverview `json:"items"`
+}
+
 // Filter by Business Platform account plan.
 type BusinessPlatformAccountPlanFilterInput struct {
 	Eq *BusinessPlatformAccountPlan  `json:"eq,omitempty"`
@@ -3303,9 +3351,10 @@ type BusinessPlatformPlanCountPayload struct {
 
 // Business Platform Queries
 type BusinessPlatformQueries struct {
-	AccountList        *BusinessPlatformAccountListPayload `json:"accountList,omitempty"`
-	CountAccountByPlan *BusinessPlatformPlanCountPayload   `json:"countAccountByPlan,omitempty"`
-	Settings           *BusinessPlatformSettings           `json:"settings,omitempty"`
+	AccountList        *BusinessPlatformAccountListPayload     `json:"accountList,omitempty"`
+	AccountOverview    *BusinessPlatformAccountOverviewPayload `json:"accountOverview,omitempty"`
+	CountAccountByPlan *BusinessPlatformPlanCountPayload       `json:"countAccountByPlan,omitempty"`
+	Settings           *BusinessPlatformSettings               `json:"settings,omitempty"`
 }
 
 // Business Platform settings for an account.
@@ -3518,6 +3567,7 @@ type CatalogApplicationFilterInput struct {
 	AiRisk         []*CatalogApplicationAiRiskFilterInput     `json:"aiRisk,omitempty"`
 	Capability     []*CatalogApplicationCapabilityFilterInput `json:"capability,omitempty"`
 	Category       []*CatalogApplicationCategoryFilterInput   `json:"category,omitempty"`
+	FqdnOrIP       *CatalogApplicationFqdnOrIPFilterInput     `json:"fqdnOrIp,omitempty"`
 	FreeText       *FreeTextFilterInput                       `json:"freeText,omitempty"`
 	ID             []*IDFilterInput                           `json:"id,omitempty"`
 	Name           []*StringFilterInput                       `json:"name,omitempty"`
@@ -3527,6 +3577,11 @@ type CatalogApplicationFilterInput struct {
 	Risk           []*IntFilterInput                          `json:"risk,omitempty"`
 	TenantActivity []*BooleanFilterInput                      `json:"tenantActivity,omitempty"`
 	Type           []*CatalogApplicationTypeFilterInput       `json:"type,omitempty"`
+}
+
+// Filters applications by ownership of one complete domain name or IP address.
+type CatalogApplicationFqdnOrIPFilterInput struct {
+	Eq *string `json:"eq,omitempty"`
 }
 
 type CatalogApplicationIdentityAccessManagementAttributes struct {
@@ -5880,12 +5935,13 @@ type EventRecord struct {
 }
 
 type Events struct {
-	From    *string         `json:"from,omitempty"`
-	ID      *string         `json:"id,omitempty"`
-	Records []*EventsRecord `json:"records,omitempty"`
-	To      *string         `json:"to,omitempty"`
-	Total   *int64          `json:"total,omitempty"`
-	Totals  map[string]any  `json:"totals,omitempty"`
+	From       *string         `json:"from,omitempty"`
+	ID         *string         `json:"id,omitempty"`
+	Records    []*EventsRecord `json:"records,omitempty"`
+	To         *string         `json:"to,omitempty"`
+	Total      *int64          `json:"total,omitempty"`
+	TotalCount *int64          `json:"totalCount,omitempty"`
+	Totals     map[string]any  `json:"totals,omitempty"`
 }
 
 type EventsDimension struct {
@@ -12933,14 +12989,15 @@ type SiteUpgradeScheduleInput struct {
 }
 
 type SiteWebProxyAddRuleDataInput struct {
-	AssociatedSite              []*SiteRefInput                        `json:"associatedSite"`
-	AuthenticationConfig        *SiteWebProxyAuthenticationConfigInput `json:"authenticationConfig"`
-	Description                 string                                 `json:"description"`
-	Enabled                     bool                                   `json:"enabled"`
-	Fqdn                        string                                 `json:"fqdn"`
-	Name                        string                                 `json:"name"`
-	Port                        scalars.Port                           `json:"port"`
-	ShouldAssociateWithAllSites bool                                   `json:"shouldAssociateWithAllSites"`
+	AllowedDestinationProtocol  *SiteWebProxyAllowedDestinationProtocol `json:"allowedDestinationProtocol,omitempty"`
+	AssociatedSite              []*SiteRefInput                         `json:"associatedSite"`
+	AuthenticationConfig        *SiteWebProxyAuthenticationConfigInput  `json:"authenticationConfig"`
+	Description                 string                                  `json:"description"`
+	Enabled                     bool                                    `json:"enabled"`
+	Fqdn                        string                                  `json:"fqdn"`
+	Name                        string                                  `json:"name"`
+	Port                        scalars.Port                            `json:"port"`
+	ShouldAssociateWithAllSites bool                                    `json:"shouldAssociateWithAllSites"`
 }
 
 type SiteWebProxyAddRuleInput struct {
@@ -13096,18 +13153,19 @@ type SiteWebProxyRemoveRuleInput struct {
 }
 
 type SiteWebProxyRule struct {
-	AssociatedSite              []*SiteRef                        `json:"associatedSite"`
-	AuthenticationConfig        *SiteWebProxyAuthenticationConfig `json:"authenticationConfig"`
-	Description                 string                            `json:"description"`
-	Enabled                     bool                              `json:"enabled"`
-	Fqdn                        string                            `json:"fqdn"`
-	ID                          string                            `json:"id"`
-	Index                       int64                             `json:"index"`
-	Name                        string                            `json:"name"`
-	Port                        scalars.Port                      `json:"port"`
-	Section                     *PolicySectionInfo                `json:"section"`
-	ShouldAssociateWithAllSites bool                              `json:"shouldAssociateWithAllSites"`
-	WebProxyTraffic             []*SiteWebProxyTrafficRulePayload `json:"webProxyTraffic"`
+	AllowedDestinationProtocol  *SiteWebProxyAllowedDestinationProtocol `json:"allowedDestinationProtocol,omitempty"`
+	AssociatedSite              []*SiteRef                              `json:"associatedSite"`
+	AuthenticationConfig        *SiteWebProxyAuthenticationConfig       `json:"authenticationConfig"`
+	Description                 string                                  `json:"description"`
+	Enabled                     bool                                    `json:"enabled"`
+	Fqdn                        string                                  `json:"fqdn"`
+	ID                          string                                  `json:"id"`
+	Index                       int64                                   `json:"index"`
+	Name                        string                                  `json:"name"`
+	Port                        scalars.Port                            `json:"port"`
+	Section                     *PolicySectionInfo                      `json:"section"`
+	ShouldAssociateWithAllSites bool                                    `json:"shouldAssociateWithAllSites"`
+	WebProxyTraffic             []*SiteWebProxyTrafficRulePayload       `json:"webProxyTraffic"`
 }
 
 func (SiteWebProxyRule) IsIPolicyRule()                      {}
@@ -13300,6 +13358,7 @@ type SiteWebProxyTrafficUpdateRuleInput struct {
 }
 
 type SiteWebProxyUpdateRuleDataInput struct {
+	AllowedDestinationProtocol  *SiteWebProxyAllowedDestinationProtocol      `json:"allowedDestinationProtocol,omitempty"`
 	AssociatedSite              []*SiteRefInput                              `json:"associatedSite,omitempty"`
 	AuthenticationConfig        *SiteWebProxyAuthenticationConfigUpdateInput `json:"authenticationConfig,omitempty"`
 	Description                 *string                                      `json:"description,omitempty"`
@@ -14614,12 +14673,13 @@ type SocketModelFilterInput struct {
 }
 
 type SocketPortMetrics struct {
-	From    *string                    `json:"from,omitempty"`
-	ID      *string                    `json:"id,omitempty"`
-	Records []*SocketPortMetricsRecord `json:"records,omitempty"`
-	To      *string                    `json:"to,omitempty"`
-	Total   *int64                     `json:"total,omitempty"`
-	Totals  map[string]any             `json:"totals,omitempty"`
+	From       *string                    `json:"from,omitempty"`
+	ID         *string                    `json:"id,omitempty"`
+	Records    []*SocketPortMetricsRecord `json:"records,omitempty"`
+	To         *string                    `json:"to,omitempty"`
+	Total      *int64                     `json:"total,omitempty"`
+	TotalCount *int64                     `json:"totalCount,omitempty"`
+	Totals     map[string]any             `json:"totals,omitempty"`
 }
 
 type SocketPortMetricsDimension struct {
@@ -31832,6 +31892,61 @@ func (e *SiteWebProxyAction) UnmarshalJSON(b []byte) error {
 }
 
 func (e SiteWebProxyAction) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
+}
+
+// The protocol allowed for destinations when routing traffic through the web proxy.
+type SiteWebProxyAllowedDestinationProtocol string
+
+const (
+	SiteWebProxyAllowedDestinationProtocolBoth  SiteWebProxyAllowedDestinationProtocol = "BOTH"
+	SiteWebProxyAllowedDestinationProtocolHTTP  SiteWebProxyAllowedDestinationProtocol = "HTTP"
+	SiteWebProxyAllowedDestinationProtocolHTTPS SiteWebProxyAllowedDestinationProtocol = "HTTPS"
+)
+
+var AllSiteWebProxyAllowedDestinationProtocol = []SiteWebProxyAllowedDestinationProtocol{
+	SiteWebProxyAllowedDestinationProtocolBoth,
+	SiteWebProxyAllowedDestinationProtocolHTTP,
+	SiteWebProxyAllowedDestinationProtocolHTTPS,
+}
+
+func (e SiteWebProxyAllowedDestinationProtocol) IsValid() bool {
+	switch e {
+	case SiteWebProxyAllowedDestinationProtocolBoth, SiteWebProxyAllowedDestinationProtocolHTTP, SiteWebProxyAllowedDestinationProtocolHTTPS:
+		return true
+	}
+	return false
+}
+
+func (e SiteWebProxyAllowedDestinationProtocol) String() string {
+	return string(e)
+}
+
+func (e *SiteWebProxyAllowedDestinationProtocol) UnmarshalGQL(v any) error {
+	str, ok := v.(string)
+	if !ok {
+		return fmt.Errorf("enums must be strings")
+	}
+
+	*e = SiteWebProxyAllowedDestinationProtocol(str)
+	return nil
+}
+
+func (e SiteWebProxyAllowedDestinationProtocol) MarshalGQL(w io.Writer) {
+	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+func (e *SiteWebProxyAllowedDestinationProtocol) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e SiteWebProxyAllowedDestinationProtocol) MarshalJSON() ([]byte, error) {
 	var buf bytes.Buffer
 	e.MarshalGQL(&buf)
 	return buf.Bytes(), nil

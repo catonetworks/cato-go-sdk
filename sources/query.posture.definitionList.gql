@@ -39,12 +39,12 @@ query postureDefinitionList ($accountId: ID!, $postureDefinitionListInput: Postu
 				securityDomain
 				scoreMetadata {
 					effectiveAreaCriticality
-					effectiveBlastRadiusClass
 					effectiveBlastRadiusValue
+					effectiveBlastRadiusClass
 					effectiveFindingsSignal
-					effectiveSeverity
 					effectiveSuggestedScore
 					effectiveSuggestedSeverity
+					effectiveSeverity
 					scoreContributionPct
 				}
 			}

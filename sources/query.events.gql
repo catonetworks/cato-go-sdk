@@ -4,6 +4,7 @@ query events ($limit: Int, $from: Int, $accountID: ID!, $timeFrame: TimeFrame!, 
 		from
 		to
 		total
+		totalCount
 		totals
 		records(limit: $limit, from: $from) {
 			fieldsUnitTypes

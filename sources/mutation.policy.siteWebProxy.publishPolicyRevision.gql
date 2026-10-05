@@ -87,6 +87,7 @@ mutation policySiteWebProxyPublishPolicyRevision ($accountId: ID!, $siteWebProxy
 							}
 							fqdn
 							port
+							allowedDestinationProtocol
 							associatedSite {
 								id
 								name

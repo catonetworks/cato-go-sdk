@@ -45,8 +45,8 @@ query ztnaAppConnectorZtnaAppConnector ($accountId: ID!, $ztnaAppConnectorRefInp
 			}
 			pooledBandwidthAllocation {
 				allocationId
-				bw
 				licenseId
+				bw
 			}
 		}
 	}

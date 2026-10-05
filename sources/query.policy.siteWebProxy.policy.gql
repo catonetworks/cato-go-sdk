@@ -86,6 +86,7 @@ query policySiteWebProxyPolicy ($accountId: ID!, $siteWebProxyPolicyInput: SiteW
 						}
 						fqdn
 						port
+						allowedDestinationProtocol
 						associatedSite {
 							id
 							name
