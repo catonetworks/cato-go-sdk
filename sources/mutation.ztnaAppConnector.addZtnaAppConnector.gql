@@ -46,14 +46,14 @@ mutation ztnaAppConnectorAddZtnaAppConnector ($accountId: ID!, $addZtnaAppConnec
 				}
 				pooledBandwidthAllocation {
 					allocationId
-					bw
 					licenseId
+					bw
 				}
 			}
 			pooledBandwidthAllocation {
 				allocationId
-				bw
 				licenseId
+				bw
 			}
 		}
 	}

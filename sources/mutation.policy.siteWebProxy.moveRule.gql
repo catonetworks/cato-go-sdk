@@ -86,6 +86,7 @@ mutation policySiteWebProxyMoveRule ($accountId: ID!, $siteWebProxyPolicyMutatio
 						}
 						fqdn
 						port
+						allowedDestinationProtocol
 						associatedSite {
 							id
 							name

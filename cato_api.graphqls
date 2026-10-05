@@ -443,6 +443,26 @@ type AiOperationsPlaybook {
   title: String!
 }
 
+""" The sensitive content of a single agent event. """
+type AiSecurityAgentsEvent {
+  appActivityType: String!
+  content: String
+  interactionId: ID!
+  time: DateTime!
+}
+
+""" Root of the Agents query namespace. """
+type AiSecurityAgentsQueries {
+  event(input: AiSecurityAgentsEventInput!): AiSecurityAgentsEvent @beta
+  session(input: AiSecurityAgentsSessionInput!): AiSecurityAgentsSessionPayload @beta
+}
+
+""" A page of an agent session's PSI. """
+type AiSecurityAgentsSessionPayload {
+  items: [AiSecurityAgentsEvent!]!
+  paging: PageInfo!
+}
+
 """ Reference to an AI security guard. """
 type AiSecurityAppsGuardRef implements ObjectRef {
   id: ID!
@@ -529,6 +549,7 @@ type AiSecurityHomegrownAppRef implements ObjectRef {
 
 """ Root of the AI Security query namespace for an account. """
 type AiSecurityQueries {
+  agents: AiSecurityAgentsQueries
   apps: AiSecurityAppsQueries
   endUsers: AiSecurityEndUsersQueries
 }
@@ -739,7 +760,8 @@ type AppStats {
   id: ID
   records(limit: Int, from: Int): [AppStatsRecord!]
   to: DateTime
-  total: Int
+  total: Int @deprecated(reason: "use totalCount instead")
+  totalCount: Int
   totals: Map
 }
 
@@ -1369,6 +1391,20 @@ type BusinessPlatformAccountListPayload {
   paging: PageInfo!
 }
 
+""" Customer account summary from Salesforce. """
+type BusinessPlatformAccountOverview {
+  arr: Float
+  cmaAccountId: ID
+  id: ID!
+  name: String!
+  serviceRenewalDate: Date
+}
+
+""" Salesforce customer accounts managed by a Business Platform partner. """
+type BusinessPlatformAccountOverviewPayload {
+  items: [BusinessPlatformAccountOverview!]!
+}
+
 """ Response payload for creating a trial account. """
 type BusinessPlatformCreateTrialAccountPayload {
   account: BusinessPlatformAccount!
@@ -1400,6 +1436,7 @@ type BusinessPlatformPlanCountPayload {
 """ Business Platform Queries """
 type BusinessPlatformQueries {
   accountList(input: BusinessPlatformAccountListInput): BusinessPlatformAccountListPayload @beta
+  accountOverview: BusinessPlatformAccountOverviewPayload @beta
   countAccountByPlan: BusinessPlatformPlanCountPayload @beta
   settings: BusinessPlatformSettings @beta
 }
@@ -2607,7 +2644,8 @@ type Events {
   id: ID
   records(limit: Int, from: Int): [EventsRecord!]
   to: DateTime
-  total: Int
+  total: Int @deprecated(reason: "use totalCount instead")
+  totalCount: Int
   totals: Map
 }
 
@@ -6482,6 +6520,7 @@ type SiteWebProxyPolicyQueries {
 }
 
 type SiteWebProxyRule implements IPolicyRule {
+  allowedDestinationProtocol: SiteWebProxyAllowedDestinationProtocol
   associatedSite: [SiteRef!]!
   authenticationConfig: SiteWebProxyAuthenticationConfig!
   description: String!
@@ -7005,7 +7044,8 @@ type SocketPortMetrics {
   id: ID
   records(limit: Int, from: Int): [SocketPortMetricsRecord!]
   to: DateTime
-  total: Int
+  total: Int @deprecated(reason: "use totalCount instead")
+  totalCount: Int
   totals: Map
 }
 
@@ -7919,7 +7959,7 @@ type UserMutations {
   disableUser(input: DisableUserInput!): DisableUserPayload @ga
   enableUser(input: EnableUserInput!): EnableUserPayload @ga
   revokeUserSession(input: RevokeUserSessionInput!): RevokeUserSessionPayload @beta
-  updateDynamicUserGroupsConfiguration(input: UpdateDynamicUserGroupsConfigurationInput!): UpdateDynamicUserGroupsConfigurationPayload @rollout @beta
+  updateDynamicUserGroupsConfiguration(input: UpdateDynamicUserGroupsConfigurationInput!): UpdateDynamicUserGroupsConfigurationPayload @beta
   updateUser(input: UpdateUserInput!): UpdateUserPayload @beta
 }
 
@@ -7936,7 +7976,7 @@ type UserNotificationTemplateRef implements ObjectRef {
 }
 
 type UserQueries {
-  dynamicUserGroupsConfiguration: DynamicUserGroupsConfigurationPayload @rollout @beta
+  dynamicUserGroupsConfiguration: DynamicUserGroupsConfigurationPayload @beta
   userList(input: UserListInput!): UserListPayload @ga
 }
 
@@ -9108,6 +9148,18 @@ input AdvancedStringFilterInput {
   regex: String
 }
 
+""" Input for fetching a single agent event's PSI. """
+input AiSecurityAgentsEventInput {
+  interactionId: ID!
+  sessionId: ID!
+}
+
+""" Input for fetching an agent session's PSI. """
+input AiSecurityAgentsSessionInput {
+  paging: PagingInput! = {limit:100,from:0}
+  sessionId: ID!
+}
+
 input AiSecurityAppsInvocationInput {
   id: ID!
 }
@@ -9939,6 +9991,7 @@ input CatalogApplicationFilterInput {
   aiRisk: [CatalogApplicationAiRiskFilterInput!]
   capability: [CatalogApplicationCapabilityFilterInput!]
   category: [CatalogApplicationCategoryFilterInput!]
+  fqdnOrIp: CatalogApplicationFqdnOrIpFilterInput
   freeText: FreeTextFilterInput
   id: [IdFilterInput!]
   name: [StringFilterInput!]
@@ -9948,6 +10001,11 @@ input CatalogApplicationFilterInput {
   risk: [IntFilterInput!]
   tenantActivity: [BooleanFilterInput!]
   type: [CatalogApplicationTypeFilterInput!]
+}
+
+""" Filters applications by ownership of one complete domain name or IP address. """
+input CatalogApplicationFqdnOrIpFilterInput {
+  eq: IPAddressOrFqdn
 }
 
 input CatalogApplicationListInput {
@@ -12886,6 +12944,7 @@ input SiteUpgradeScheduleInput {
 }
 
 input SiteWebProxyAddRuleDataInput {
+  allowedDestinationProtocol: SiteWebProxyAllowedDestinationProtocol = BOTH
   associatedSite: [SiteRefInput!]! = []
   authenticationConfig: SiteWebProxyAuthenticationConfigInput! = {kerberosConfig:{isEnabled:false}}
   description: String! = ""
@@ -13012,6 +13071,7 @@ input SiteWebProxyTrafficUpdateRuleInput {
 }
 
 input SiteWebProxyUpdateRuleDataInput {
+  allowedDestinationProtocol: SiteWebProxyAllowedDestinationProtocol
   associatedSite: [SiteRefInput!]
   authenticationConfig: SiteWebProxyAuthenticationConfigUpdateInput
   description: String
@@ -18674,6 +18734,13 @@ enum SiteWebProxyAction {
   AUTHENTICATE
   """ Specifies that the web proxy should block the traffic. """
   BLOCK
+}
+
+""" The protocol allowed for destinations when routing traffic through the web proxy. """
+enum SiteWebProxyAllowedDestinationProtocol {
+  BOTH
+  HTTP
+  HTTPS
 }
 
 """ Authentication method used by the web proxy. """

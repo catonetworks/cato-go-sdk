@@ -4,6 +4,7 @@ query socketPortMetrics ($accountID: ID!, $timeFrame: TimeFrame!, $socketPortMet
 		from
 		to
 		total
+		totalCount
 		totals
 		records(limit: $limit, from: $from) {
 			fieldsUnitTypes
