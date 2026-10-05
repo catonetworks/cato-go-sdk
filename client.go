@@ -481,10 +481,12 @@ type CatoClient interface {
 	XdrDeleteStoryComment(ctx context.Context, accountID string, deleteStoryCommentInput cato_models.DeleteStoryCommentInput, interceptors ...clientv2.RequestInterceptor) (*XdrDeleteStoryComment, error)
 	XdrUpdateInvestigationDetails(ctx context.Context, accountID string, updateInvestigationDetailsInput cato_models.UpdateInvestigationDetailsInput, interceptors ...clientv2.RequestInterceptor) (*XdrUpdateInvestigationDetails, error)
 	ZtnaAppConnectorAddZtnaAppConnector(ctx context.Context, accountID string, addZtnaAppConnectorInput cato_models.AddZtnaAppConnectorInput, interceptors ...clientv2.RequestInterceptor) (*ZtnaAppConnectorAddZtnaAppConnector, error)
+	ZtnaAppConnectorAddZtnaAppConnectorBwLicense(ctx context.Context, accountID string, addZtnaAppConnectorBwLicenseInput cato_models.AddZtnaAppConnectorBwLicenseInput, interceptors ...clientv2.RequestInterceptor) (*ZtnaAppConnectorAddZtnaAppConnectorBwLicense, error)
 	ZtnaAppConnectorAddZtnaAppConnectorsConfiguration(ctx context.Context, accountID string, addZtnaAppConnectorsConfigurationInput cato_models.AddZtnaAppConnectorsConfigurationInput, interceptors ...clientv2.RequestInterceptor) (*ZtnaAppConnectorAddZtnaAppConnectorsConfiguration, error)
 	AppConnectorCreateConnector(ctx context.Context, accountID string, newConnector cato_models.AddZtnaAppConnectorInput, interceptors ...clientv2.RequestInterceptor) (*AppConnectorCreateConnector, error)
 	AppConnectorDeleteConnector(ctx context.Context, accountID string, connectorRef cato_models.RemoveZtnaAppConnectorInput, interceptors ...clientv2.RequestInterceptor) (*AppConnectorDeleteConnector, error)
 	ZtnaAppConnectorRemoveZtnaAppConnector(ctx context.Context, accountID string, removeZtnaAppConnectorInput cato_models.RemoveZtnaAppConnectorInput, interceptors ...clientv2.RequestInterceptor) (*ZtnaAppConnectorRemoveZtnaAppConnector, error)
+	ZtnaAppConnectorRemoveZtnaAppConnectorBwLicense(ctx context.Context, accountID string, removeZtnaAppConnectorBwLicenseInput cato_models.RemoveZtnaAppConnectorBwLicenseInput, interceptors ...clientv2.RequestInterceptor) (*ZtnaAppConnectorRemoveZtnaAppConnectorBwLicense, error)
 	ZtnaAppConnectorUnassignSocketFromZtnaAppConnector(ctx context.Context, accountID string, unassignSocketFromZtnaAppConnectorInput cato_models.UnassignSocketFromZtnaAppConnectorInput, interceptors ...clientv2.RequestInterceptor) (*ZtnaAppConnectorUnassignSocketFromZtnaAppConnector, error)
 	AppConnectorUpdateConnector(ctx context.Context, accountID string, updateConnector cato_models.UpdateZtnaAppConnectorInput, interceptors ...clientv2.RequestInterceptor) (*AppConnectorUpdateConnector, error)
 	ZtnaAppConnectorUpdateZtnaAppConnector(ctx context.Context, accountID string, updateZtnaAppConnectorInput cato_models.UpdateZtnaAppConnectorInput, interceptors ...clientv2.RequestInterceptor) (*ZtnaAppConnectorUpdateZtnaAppConnector, error)
@@ -273183,6 +273185,53 @@ func (t *ZtnaAppConnectorAddZtnaAppConnector_ZtnaAppConnector) GetAddZtnaAppConn
 	return &t.AddZtnaAppConnector
 }
 
+type ZtnaAppConnectorAddZtnaAppConnectorBwLicense_ZtnaAppConnector_AddZtnaAppConnectorBwLicense_PooledBandwidthAllocation struct {
+	AllocationID string "json:\"allocationId\" graphql:\"allocationId\""
+	Bw           int64  "json:\"bw\" graphql:\"bw\""
+	LicenseID    string "json:\"licenseId\" graphql:\"licenseId\""
+}
+
+func (t *ZtnaAppConnectorAddZtnaAppConnectorBwLicense_ZtnaAppConnector_AddZtnaAppConnectorBwLicense_PooledBandwidthAllocation) GetAllocationID() string {
+	if t == nil {
+		t = &ZtnaAppConnectorAddZtnaAppConnectorBwLicense_ZtnaAppConnector_AddZtnaAppConnectorBwLicense_PooledBandwidthAllocation{}
+	}
+	return t.AllocationID
+}
+func (t *ZtnaAppConnectorAddZtnaAppConnectorBwLicense_ZtnaAppConnector_AddZtnaAppConnectorBwLicense_PooledBandwidthAllocation) GetBw() int64 {
+	if t == nil {
+		t = &ZtnaAppConnectorAddZtnaAppConnectorBwLicense_ZtnaAppConnector_AddZtnaAppConnectorBwLicense_PooledBandwidthAllocation{}
+	}
+	return t.Bw
+}
+func (t *ZtnaAppConnectorAddZtnaAppConnectorBwLicense_ZtnaAppConnector_AddZtnaAppConnectorBwLicense_PooledBandwidthAllocation) GetLicenseID() string {
+	if t == nil {
+		t = &ZtnaAppConnectorAddZtnaAppConnectorBwLicense_ZtnaAppConnector_AddZtnaAppConnectorBwLicense_PooledBandwidthAllocation{}
+	}
+	return t.LicenseID
+}
+
+type ZtnaAppConnectorAddZtnaAppConnectorBwLicense_ZtnaAppConnector_AddZtnaAppConnectorBwLicense struct {
+	PooledBandwidthAllocation ZtnaAppConnectorAddZtnaAppConnectorBwLicense_ZtnaAppConnector_AddZtnaAppConnectorBwLicense_PooledBandwidthAllocation "json:\"pooledBandwidthAllocation\" graphql:\"pooledBandwidthAllocation\""
+}
+
+func (t *ZtnaAppConnectorAddZtnaAppConnectorBwLicense_ZtnaAppConnector_AddZtnaAppConnectorBwLicense) GetPooledBandwidthAllocation() *ZtnaAppConnectorAddZtnaAppConnectorBwLicense_ZtnaAppConnector_AddZtnaAppConnectorBwLicense_PooledBandwidthAllocation {
+	if t == nil {
+		t = &ZtnaAppConnectorAddZtnaAppConnectorBwLicense_ZtnaAppConnector_AddZtnaAppConnectorBwLicense{}
+	}
+	return &t.PooledBandwidthAllocation
+}
+
+type ZtnaAppConnectorAddZtnaAppConnectorBwLicense_ZtnaAppConnector struct {
+	AddZtnaAppConnectorBwLicense *ZtnaAppConnectorAddZtnaAppConnectorBwLicense_ZtnaAppConnector_AddZtnaAppConnectorBwLicense "json:\"addZtnaAppConnectorBwLicense,omitempty\" graphql:\"addZtnaAppConnectorBwLicense\""
+}
+
+func (t *ZtnaAppConnectorAddZtnaAppConnectorBwLicense_ZtnaAppConnector) GetAddZtnaAppConnectorBwLicense() *ZtnaAppConnectorAddZtnaAppConnectorBwLicense_ZtnaAppConnector_AddZtnaAppConnectorBwLicense {
+	if t == nil {
+		t = &ZtnaAppConnectorAddZtnaAppConnectorBwLicense_ZtnaAppConnector{}
+	}
+	return t.AddZtnaAppConnectorBwLicense
+}
+
 type ZtnaAppConnectorAddZtnaAppConnectorsConfiguration_ZtnaAppConnector_AddZtnaAppConnectorsConfiguration_ZtnaAppConnectorsConfiguration struct {
 	AppConnectorManagementRange *string "json:\"appConnectorManagementRange,omitempty\" graphql:\"appConnectorManagementRange\""
 	PrivateAppsServiceRange     *string "json:\"privateAppsServiceRange,omitempty\" graphql:\"privateAppsServiceRange\""
@@ -273628,6 +273677,53 @@ func (t *ZtnaAppConnectorRemoveZtnaAppConnector_ZtnaAppConnector) GetRemoveZtnaA
 		t = &ZtnaAppConnectorRemoveZtnaAppConnector_ZtnaAppConnector{}
 	}
 	return &t.RemoveZtnaAppConnector
+}
+
+type ZtnaAppConnectorRemoveZtnaAppConnectorBwLicense_ZtnaAppConnector_RemoveZtnaAppConnectorBwLicense_PooledBandwidthAllocation struct {
+	AllocationID string "json:\"allocationId\" graphql:\"allocationId\""
+	Bw           int64  "json:\"bw\" graphql:\"bw\""
+	LicenseID    string "json:\"licenseId\" graphql:\"licenseId\""
+}
+
+func (t *ZtnaAppConnectorRemoveZtnaAppConnectorBwLicense_ZtnaAppConnector_RemoveZtnaAppConnectorBwLicense_PooledBandwidthAllocation) GetAllocationID() string {
+	if t == nil {
+		t = &ZtnaAppConnectorRemoveZtnaAppConnectorBwLicense_ZtnaAppConnector_RemoveZtnaAppConnectorBwLicense_PooledBandwidthAllocation{}
+	}
+	return t.AllocationID
+}
+func (t *ZtnaAppConnectorRemoveZtnaAppConnectorBwLicense_ZtnaAppConnector_RemoveZtnaAppConnectorBwLicense_PooledBandwidthAllocation) GetBw() int64 {
+	if t == nil {
+		t = &ZtnaAppConnectorRemoveZtnaAppConnectorBwLicense_ZtnaAppConnector_RemoveZtnaAppConnectorBwLicense_PooledBandwidthAllocation{}
+	}
+	return t.Bw
+}
+func (t *ZtnaAppConnectorRemoveZtnaAppConnectorBwLicense_ZtnaAppConnector_RemoveZtnaAppConnectorBwLicense_PooledBandwidthAllocation) GetLicenseID() string {
+	if t == nil {
+		t = &ZtnaAppConnectorRemoveZtnaAppConnectorBwLicense_ZtnaAppConnector_RemoveZtnaAppConnectorBwLicense_PooledBandwidthAllocation{}
+	}
+	return t.LicenseID
+}
+
+type ZtnaAppConnectorRemoveZtnaAppConnectorBwLicense_ZtnaAppConnector_RemoveZtnaAppConnectorBwLicense struct {
+	PooledBandwidthAllocation ZtnaAppConnectorRemoveZtnaAppConnectorBwLicense_ZtnaAppConnector_RemoveZtnaAppConnectorBwLicense_PooledBandwidthAllocation "json:\"pooledBandwidthAllocation\" graphql:\"pooledBandwidthAllocation\""
+}
+
+func (t *ZtnaAppConnectorRemoveZtnaAppConnectorBwLicense_ZtnaAppConnector_RemoveZtnaAppConnectorBwLicense) GetPooledBandwidthAllocation() *ZtnaAppConnectorRemoveZtnaAppConnectorBwLicense_ZtnaAppConnector_RemoveZtnaAppConnectorBwLicense_PooledBandwidthAllocation {
+	if t == nil {
+		t = &ZtnaAppConnectorRemoveZtnaAppConnectorBwLicense_ZtnaAppConnector_RemoveZtnaAppConnectorBwLicense{}
+	}
+	return &t.PooledBandwidthAllocation
+}
+
+type ZtnaAppConnectorRemoveZtnaAppConnectorBwLicense_ZtnaAppConnector struct {
+	RemoveZtnaAppConnectorBwLicense *ZtnaAppConnectorRemoveZtnaAppConnectorBwLicense_ZtnaAppConnector_RemoveZtnaAppConnectorBwLicense "json:\"removeZtnaAppConnectorBwLicense,omitempty\" graphql:\"removeZtnaAppConnectorBwLicense\""
+}
+
+func (t *ZtnaAppConnectorRemoveZtnaAppConnectorBwLicense_ZtnaAppConnector) GetRemoveZtnaAppConnectorBwLicense() *ZtnaAppConnectorRemoveZtnaAppConnectorBwLicense_ZtnaAppConnector_RemoveZtnaAppConnectorBwLicense {
+	if t == nil {
+		t = &ZtnaAppConnectorRemoveZtnaAppConnectorBwLicense_ZtnaAppConnector{}
+	}
+	return t.RemoveZtnaAppConnectorBwLicense
 }
 
 type ZtnaAppConnectorUnassignSocketFromZtnaAppConnector_ZtnaAppConnector_UnassignSocketFromZtnaAppConnector_ZtnaAppConnector_Location struct {
@@ -350153,6 +350249,31 @@ func (t *AppConnectorReadConnector_ZtnaAppConnector_ZtnaAppConnector_Location) G
 	return t.Timezone
 }
 
+type AppConnectorReadConnector_ZtnaAppConnector_ZtnaAppConnector_PooledBandwidthAllocation struct {
+	AllocationID string "json:\"allocationId\" graphql:\"allocationId\""
+	Bw           int64  "json:\"bw\" graphql:\"bw\""
+	LicenseID    string "json:\"licenseId\" graphql:\"licenseId\""
+}
+
+func (t *AppConnectorReadConnector_ZtnaAppConnector_ZtnaAppConnector_PooledBandwidthAllocation) GetAllocationID() string {
+	if t == nil {
+		t = &AppConnectorReadConnector_ZtnaAppConnector_ZtnaAppConnector_PooledBandwidthAllocation{}
+	}
+	return t.AllocationID
+}
+func (t *AppConnectorReadConnector_ZtnaAppConnector_ZtnaAppConnector_PooledBandwidthAllocation) GetBw() int64 {
+	if t == nil {
+		t = &AppConnectorReadConnector_ZtnaAppConnector_ZtnaAppConnector_PooledBandwidthAllocation{}
+	}
+	return t.Bw
+}
+func (t *AppConnectorReadConnector_ZtnaAppConnector_ZtnaAppConnector_PooledBandwidthAllocation) GetLicenseID() string {
+	if t == nil {
+		t = &AppConnectorReadConnector_ZtnaAppConnector_ZtnaAppConnector_PooledBandwidthAllocation{}
+	}
+	return t.LicenseID
+}
+
 type AppConnectorReadConnector_ZtnaAppConnector_ZtnaAppConnector_PreferredPopLocation_Primary struct {
 	ID   string "json:\"id\" graphql:\"id\""
 	Name string "json:\"name\" graphql:\"name\""
@@ -350240,17 +350361,18 @@ func (t *AppConnectorReadConnector_ZtnaAppConnector_ZtnaAppConnector_PrivateAppR
 }
 
 type AppConnectorReadConnector_ZtnaAppConnector_ZtnaAppConnector struct {
-	Description          *string                                                                           "json:\"description,omitempty\" graphql:\"description\""
-	GroupName            string                                                                            "json:\"groupName\" graphql:\"groupName\""
-	ID                   string                                                                            "json:\"id\" graphql:\"id\""
-	Location             AppConnectorReadConnector_ZtnaAppConnector_ZtnaAppConnector_Location              "json:\"location\" graphql:\"location\""
-	Name                 string                                                                            "json:\"name\" graphql:\"name\""
-	PreferredPopLocation *AppConnectorReadConnector_ZtnaAppConnector_ZtnaAppConnector_PreferredPopLocation "json:\"preferredPopLocation,omitempty\" graphql:\"preferredPopLocation\""
-	PrivateAppRef        []*AppConnectorReadConnector_ZtnaAppConnector_ZtnaAppConnector_PrivateAppRef      "json:\"privateAppRef\" graphql:\"privateAppRef\""
-	SerialNumber         *string                                                                           "json:\"serialNumber,omitempty\" graphql:\"serialNumber\""
-	SocketID             *string                                                                           "json:\"socketId,omitempty\" graphql:\"socketId\""
-	SocketModel          *cato_models.SocketModel                                                          "json:\"socketModel,omitempty\" graphql:\"socketModel\""
-	Type                 cato_models.ZtnaAppConnectorType                                                  "json:\"type\" graphql:\"type\""
+	Description               *string                                                                                  "json:\"description,omitempty\" graphql:\"description\""
+	GroupName                 string                                                                                   "json:\"groupName\" graphql:\"groupName\""
+	ID                        string                                                                                   "json:\"id\" graphql:\"id\""
+	Location                  AppConnectorReadConnector_ZtnaAppConnector_ZtnaAppConnector_Location                     "json:\"location\" graphql:\"location\""
+	Name                      string                                                                                   "json:\"name\" graphql:\"name\""
+	PooledBandwidthAllocation []*AppConnectorReadConnector_ZtnaAppConnector_ZtnaAppConnector_PooledBandwidthAllocation "json:\"pooledBandwidthAllocation\" graphql:\"pooledBandwidthAllocation\""
+	PreferredPopLocation      *AppConnectorReadConnector_ZtnaAppConnector_ZtnaAppConnector_PreferredPopLocation        "json:\"preferredPopLocation,omitempty\" graphql:\"preferredPopLocation\""
+	PrivateAppRef             []*AppConnectorReadConnector_ZtnaAppConnector_ZtnaAppConnector_PrivateAppRef             "json:\"privateAppRef\" graphql:\"privateAppRef\""
+	SerialNumber              *string                                                                                  "json:\"serialNumber,omitempty\" graphql:\"serialNumber\""
+	SocketID                  *string                                                                                  "json:\"socketId,omitempty\" graphql:\"socketId\""
+	SocketModel               *cato_models.SocketModel                                                                 "json:\"socketModel,omitempty\" graphql:\"socketModel\""
+	Type                      cato_models.ZtnaAppConnectorType                                                         "json:\"type\" graphql:\"type\""
 }
 
 func (t *AppConnectorReadConnector_ZtnaAppConnector_ZtnaAppConnector) GetDescription() *string {
@@ -350282,6 +350404,12 @@ func (t *AppConnectorReadConnector_ZtnaAppConnector_ZtnaAppConnector) GetName() 
 		t = &AppConnectorReadConnector_ZtnaAppConnector_ZtnaAppConnector{}
 	}
 	return t.Name
+}
+func (t *AppConnectorReadConnector_ZtnaAppConnector_ZtnaAppConnector) GetPooledBandwidthAllocation() []*AppConnectorReadConnector_ZtnaAppConnector_ZtnaAppConnector_PooledBandwidthAllocation {
+	if t == nil {
+		t = &AppConnectorReadConnector_ZtnaAppConnector_ZtnaAppConnector{}
+	}
+	return t.PooledBandwidthAllocation
 }
 func (t *AppConnectorReadConnector_ZtnaAppConnector_ZtnaAppConnector) GetPreferredPopLocation() *AppConnectorReadConnector_ZtnaAppConnector_ZtnaAppConnector_PreferredPopLocation {
 	if t == nil {
@@ -356245,6 +356373,17 @@ func (t *ZtnaAppConnectorAddZtnaAppConnector) GetZtnaAppConnector() *ZtnaAppConn
 	return t.ZtnaAppConnector
 }
 
+type ZtnaAppConnectorAddZtnaAppConnectorBwLicense struct {
+	ZtnaAppConnector *ZtnaAppConnectorAddZtnaAppConnectorBwLicense_ZtnaAppConnector "json:\"ztnaAppConnector,omitempty\" graphql:\"ztnaAppConnector\""
+}
+
+func (t *ZtnaAppConnectorAddZtnaAppConnectorBwLicense) GetZtnaAppConnector() *ZtnaAppConnectorAddZtnaAppConnectorBwLicense_ZtnaAppConnector {
+	if t == nil {
+		t = &ZtnaAppConnectorAddZtnaAppConnectorBwLicense{}
+	}
+	return t.ZtnaAppConnector
+}
+
 type ZtnaAppConnectorAddZtnaAppConnectorsConfiguration struct {
 	ZtnaAppConnector *ZtnaAppConnectorAddZtnaAppConnectorsConfiguration_ZtnaAppConnector "json:\"ztnaAppConnector,omitempty\" graphql:\"ztnaAppConnector\""
 }
@@ -356285,6 +356424,17 @@ type ZtnaAppConnectorRemoveZtnaAppConnector struct {
 func (t *ZtnaAppConnectorRemoveZtnaAppConnector) GetZtnaAppConnector() *ZtnaAppConnectorRemoveZtnaAppConnector_ZtnaAppConnector {
 	if t == nil {
 		t = &ZtnaAppConnectorRemoveZtnaAppConnector{}
+	}
+	return t.ZtnaAppConnector
+}
+
+type ZtnaAppConnectorRemoveZtnaAppConnectorBwLicense struct {
+	ZtnaAppConnector *ZtnaAppConnectorRemoveZtnaAppConnectorBwLicense_ZtnaAppConnector "json:\"ztnaAppConnector,omitempty\" graphql:\"ztnaAppConnector\""
+}
+
+func (t *ZtnaAppConnectorRemoveZtnaAppConnectorBwLicense) GetZtnaAppConnector() *ZtnaAppConnectorRemoveZtnaAppConnectorBwLicense_ZtnaAppConnector {
+	if t == nil {
+		t = &ZtnaAppConnectorRemoveZtnaAppConnectorBwLicense{}
 	}
 	return t.ZtnaAppConnector
 }
@@ -412493,6 +412643,37 @@ func (c *Client) ZtnaAppConnectorAddZtnaAppConnector(ctx context.Context, accoun
 	return &res, nil
 }
 
+const ZtnaAppConnectorAddZtnaAppConnectorBwLicenseDocument = `mutation ztnaAppConnectorAddZtnaAppConnectorBwLicense ($accountId: ID!, $addZtnaAppConnectorBwLicenseInput: AddZtnaAppConnectorBwLicenseInput!) {
+	ztnaAppConnector(accountId: $accountId) {
+		addZtnaAppConnectorBwLicense(input: $addZtnaAppConnectorBwLicenseInput) {
+			pooledBandwidthAllocation {
+				allocationId
+				licenseId
+				bw
+			}
+		}
+	}
+}
+`
+
+func (c *Client) ZtnaAppConnectorAddZtnaAppConnectorBwLicense(ctx context.Context, accountID string, addZtnaAppConnectorBwLicenseInput cato_models.AddZtnaAppConnectorBwLicenseInput, interceptors ...clientv2.RequestInterceptor) (*ZtnaAppConnectorAddZtnaAppConnectorBwLicense, error) {
+	vars := map[string]any{
+		"accountId":                         accountID,
+		"addZtnaAppConnectorBwLicenseInput": addZtnaAppConnectorBwLicenseInput,
+	}
+
+	var res ZtnaAppConnectorAddZtnaAppConnectorBwLicense
+	if err := c.Client.Post(ctx, "ztnaAppConnectorAddZtnaAppConnectorBwLicense", ZtnaAppConnectorAddZtnaAppConnectorBwLicenseDocument, &res, vars, interceptors...); err != nil {
+		if c.Client.ParseDataWhenErrors {
+			return &res, err
+		}
+
+		return nil, err
+	}
+
+	return &res, nil
+}
+
 const ZtnaAppConnectorAddZtnaAppConnectorsConfigurationDocument = `mutation ztnaAppConnectorAddZtnaAppConnectorsConfiguration ($accountId: ID!, $addZtnaAppConnectorsConfigurationInput: AddZtnaAppConnectorsConfigurationInput!) {
 	ztnaAppConnector(accountId: $accountId) {
 		addZtnaAppConnectorsConfiguration(input: $addZtnaAppConnectorsConfigurationInput) {
@@ -412647,6 +412828,37 @@ func (c *Client) ZtnaAppConnectorRemoveZtnaAppConnector(ctx context.Context, acc
 
 	var res ZtnaAppConnectorRemoveZtnaAppConnector
 	if err := c.Client.Post(ctx, "ztnaAppConnectorRemoveZtnaAppConnector", ZtnaAppConnectorRemoveZtnaAppConnectorDocument, &res, vars, interceptors...); err != nil {
+		if c.Client.ParseDataWhenErrors {
+			return &res, err
+		}
+
+		return nil, err
+	}
+
+	return &res, nil
+}
+
+const ZtnaAppConnectorRemoveZtnaAppConnectorBwLicenseDocument = `mutation ztnaAppConnectorRemoveZtnaAppConnectorBwLicense ($accountId: ID!, $removeZtnaAppConnectorBwLicenseInput: RemoveZtnaAppConnectorBwLicenseInput!) {
+	ztnaAppConnector(accountId: $accountId) {
+		removeZtnaAppConnectorBwLicense(input: $removeZtnaAppConnectorBwLicenseInput) {
+			pooledBandwidthAllocation {
+				allocationId
+				licenseId
+				bw
+			}
+		}
+	}
+}
+`
+
+func (c *Client) ZtnaAppConnectorRemoveZtnaAppConnectorBwLicense(ctx context.Context, accountID string, removeZtnaAppConnectorBwLicenseInput cato_models.RemoveZtnaAppConnectorBwLicenseInput, interceptors ...clientv2.RequestInterceptor) (*ZtnaAppConnectorRemoveZtnaAppConnectorBwLicense, error) {
+	vars := map[string]any{
+		"accountId":                            accountID,
+		"removeZtnaAppConnectorBwLicenseInput": removeZtnaAppConnectorBwLicenseInput,
+	}
+
+	var res ZtnaAppConnectorRemoveZtnaAppConnectorBwLicense
+	if err := c.Client.Post(ctx, "ztnaAppConnectorRemoveZtnaAppConnectorBwLicense", ZtnaAppConnectorRemoveZtnaAppConnectorBwLicenseDocument, &res, vars, interceptors...); err != nil {
 		if c.Client.ParseDataWhenErrors {
 			return &res, err
 		}
@@ -427955,6 +428167,11 @@ const AppConnectorReadConnectorDocument = `query appConnectorReadConnector ($acc
 				stateCode
 				timezone
 			}
+			pooledBandwidthAllocation {
+				allocationId
+				bw
+				licenseId
+			}
 			preferredPopLocation {
 				preferredOnly
 				automatic
@@ -428676,10 +428893,12 @@ var DocumentOperationNames = map[string]string{
 	XdrDeleteStoryCommentDocument:                                "xdrDeleteStoryComment",
 	XdrUpdateInvestigationDetailsDocument:                        "xdrUpdateInvestigationDetails",
 	ZtnaAppConnectorAddZtnaAppConnectorDocument:                  "ztnaAppConnectorAddZtnaAppConnector",
+	ZtnaAppConnectorAddZtnaAppConnectorBwLicenseDocument:         "ztnaAppConnectorAddZtnaAppConnectorBwLicense",
 	ZtnaAppConnectorAddZtnaAppConnectorsConfigurationDocument:    "ztnaAppConnectorAddZtnaAppConnectorsConfiguration",
 	AppConnectorCreateConnectorDocument:                          "appConnectorCreateConnector",
 	AppConnectorDeleteConnectorDocument:                          "appConnectorDeleteConnector",
 	ZtnaAppConnectorRemoveZtnaAppConnectorDocument:               "ztnaAppConnectorRemoveZtnaAppConnector",
+	ZtnaAppConnectorRemoveZtnaAppConnectorBwLicenseDocument:      "ztnaAppConnectorRemoveZtnaAppConnectorBwLicense",
 	ZtnaAppConnectorUnassignSocketFromZtnaAppConnectorDocument:   "ztnaAppConnectorUnassignSocketFromZtnaAppConnector",
 	AppConnectorUpdateConnectorDocument:                          "appConnectorUpdateConnector",
 	ZtnaAppConnectorUpdateZtnaAppConnectorDocument:               "ztnaAppConnectorUpdateZtnaAppConnector",

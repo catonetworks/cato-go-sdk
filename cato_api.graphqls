@@ -316,6 +316,10 @@ type AddStoryCommentPayload {
   comment: StoryComment!
 }
 
+type AddZtnaAppConnectorBwLicensePayload {
+  pooledBandwidthAllocation: ZtnaAppConnectorPooledBandwidthAllocation!
+}
+
 type AddZtnaAppConnectorPayload {
   pooledBandwidthAllocation: [ZtnaAppConnectorPooledBandwidthAllocation!]!
   ztnaAppConnector: ZtnaAppConnector!
@@ -6026,6 +6030,10 @@ type RemoveWifiSsidPayload {
   wifiSsid: WifiSsid!
 }
 
+type RemoveZtnaAppConnectorBwLicensePayload {
+  pooledBandwidthAllocation: ZtnaAppConnectorPooledBandwidthAllocation!
+}
+
 type RemoveZtnaAppConnectorPayload {
   ztnaAppConnector: ZtnaAppConnector!
 }
@@ -8719,8 +8727,10 @@ type ZtnaAppConnectorLocationSnapshot {
 
 type ZtnaAppConnectorMutations {
   addZtnaAppConnector(input: AddZtnaAppConnectorInput!): AddZtnaAppConnectorPayload! @beta
+  addZtnaAppConnectorBwLicense(input: AddZtnaAppConnectorBwLicenseInput!): AddZtnaAppConnectorBwLicensePayload
   addZtnaAppConnectorsConfiguration(input: AddZtnaAppConnectorsConfigurationInput!): AddZtnaAppConnectorsConfigurationPayload! @beta
   removeZtnaAppConnector(input: RemoveZtnaAppConnectorInput!): RemoveZtnaAppConnectorPayload! @beta
+  removeZtnaAppConnectorBwLicense(input: RemoveZtnaAppConnectorBwLicenseInput!): RemoveZtnaAppConnectorBwLicensePayload
   removeZtnaAppConnectorsConfiguration: RemoveZtnaAppConnectorsConfigurationPayload! @beta
   unassignSocketFromZtnaAppConnector(input: UnassignSocketFromZtnaAppConnectorInput!): UnassignSocketFromZtnaAppConnectorPayload! @beta
   updateZtnaAppConnector(input: UpdateZtnaAppConnectorInput!): UpdateZtnaAppConnectorPayload! @beta
@@ -9113,6 +9123,12 @@ input AddStoryCommentInput {
   storyId: ID!
   text: String!
   type: CommentType = USER
+}
+
+input AddZtnaAppConnectorBwLicenseInput {
+  bw: Int!
+  licenseId: ID!
+  ztnaAppConnector: ZtnaAppConnectorRefInput!
 }
 
 """ Input for creating a new ZTNA App Connector """
@@ -12737,6 +12753,10 @@ input RemoveSocketAddOnCardInput {
 
 input RemoveWifiSsidInput {
   wifiSsid: WifiSsidRefInput!
+}
+
+input RemoveZtnaAppConnectorBwLicenseInput {
+  allocationId: ID!
 }
 
 input RemoveZtnaAppConnectorInput {

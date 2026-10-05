@@ -903,6 +903,16 @@ type AddStoryCommentPayload struct {
 	Comment *StoryComment `json:"comment"`
 }
 
+type AddZtnaAppConnectorBwLicenseInput struct {
+	Bw               int64                     `json:"bw"`
+	LicenseID        string                    `json:"licenseId"`
+	ZtnaAppConnector *ZtnaAppConnectorRefInput `json:"ztnaAppConnector"`
+}
+
+type AddZtnaAppConnectorBwLicensePayload struct {
+	PooledBandwidthAllocation *ZtnaAppConnectorPooledBandwidthAllocation `json:"pooledBandwidthAllocation"`
+}
+
 // Input for creating a new ZTNA App Connector
 type AddZtnaAppConnectorInput struct {
 	Description               *string                                           `json:"description,omitempty"`
@@ -12293,6 +12303,14 @@ type RemoveWifiSsidPayload struct {
 	WifiSsid *WifiSsid `json:"wifiSsid"`
 }
 
+type RemoveZtnaAppConnectorBwLicenseInput struct {
+	AllocationID string `json:"allocationId"`
+}
+
+type RemoveZtnaAppConnectorBwLicensePayload struct {
+	PooledBandwidthAllocation *ZtnaAppConnectorPooledBandwidthAllocation `json:"pooledBandwidthAllocation"`
+}
+
 type RemoveZtnaAppConnectorInput struct {
 	ZtnaAppConnector *ZtnaAppConnectorRefInput `json:"ztnaAppConnector"`
 }
@@ -18810,8 +18828,10 @@ type ZtnaAppConnectorModelFilterInput struct {
 
 type ZtnaAppConnectorMutations struct {
 	AddZtnaAppConnector                  *AddZtnaAppConnectorPayload                  `json:"addZtnaAppConnector"`
+	AddZtnaAppConnectorBwLicense         *AddZtnaAppConnectorBwLicensePayload         `json:"addZtnaAppConnectorBwLicense,omitempty"`
 	AddZtnaAppConnectorsConfiguration    *AddZtnaAppConnectorsConfigurationPayload    `json:"addZtnaAppConnectorsConfiguration"`
 	RemoveZtnaAppConnector               *RemoveZtnaAppConnectorPayload               `json:"removeZtnaAppConnector"`
+	RemoveZtnaAppConnectorBwLicense      *RemoveZtnaAppConnectorBwLicensePayload      `json:"removeZtnaAppConnectorBwLicense,omitempty"`
 	RemoveZtnaAppConnectorsConfiguration *RemoveZtnaAppConnectorsConfigurationPayload `json:"removeZtnaAppConnectorsConfiguration"`
 	UnassignSocketFromZtnaAppConnector   *UnassignSocketFromZtnaAppConnectorPayload   `json:"unassignSocketFromZtnaAppConnector"`
 	UpdateZtnaAppConnector               *UpdateZtnaAppConnectorPayload               `json:"updateZtnaAppConnector"`

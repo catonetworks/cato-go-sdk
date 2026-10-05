@@ -1,0 +1,11 @@
+mutation ztnaAppConnectorAddZtnaAppConnectorBwLicense ($accountId: ID!, $addZtnaAppConnectorBwLicenseInput: AddZtnaAppConnectorBwLicenseInput!) {
+	ztnaAppConnector(accountId: $accountId) {
+		addZtnaAppConnectorBwLicense(input: $addZtnaAppConnectorBwLicenseInput) {
+			pooledBandwidthAllocation {
+				allocationId
+				licenseId
+				bw
+			}
+		}
+	}
+}
