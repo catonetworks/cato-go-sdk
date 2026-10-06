@@ -343,6 +343,9 @@ type CatoClient interface {
 	PrivateApplicationCreatePrivateApplication(ctx context.Context, accountID string, createPrivateApplicationInput cato_models.CreatePrivateApplicationInput, interceptors ...clientv2.RequestInterceptor) (*PrivateApplicationCreatePrivateApplication, error)
 	PrivateApplicationDeletePrivateApplication(ctx context.Context, accountID string, deletePrivateApplicationInput cato_models.DeletePrivateApplicationInput, interceptors ...clientv2.RequestInterceptor) (*PrivateApplicationDeletePrivateApplication, error)
 	PrivateApplicationUpdatePrivateApplication(ctx context.Context, accountID string, updatePrivateApplicationInput cato_models.UpdatePrivateApplicationInput, interceptors ...clientv2.RequestInterceptor) (*PrivateApplicationUpdatePrivateApplication, error)
+	RbacRoleManagementCreateRole(ctx context.Context, accountID string, input cato_models.RoleManagementCreateRoleInput, interceptors ...clientv2.RequestInterceptor) (*RbacRoleManagementCreateRole, error)
+	RbacRoleManagementDeleteRole(ctx context.Context, accountID string, input cato_models.RoleManagementDeleteRoleInput, interceptors ...clientv2.RequestInterceptor) (*RbacRoleManagementDeleteRole, error)
+	RbacRoleManagementUpdateRole(ctx context.Context, accountID string, input cato_models.RoleManagementUpdateRoleInput, interceptors ...clientv2.RequestInterceptor) (*RbacRoleManagementUpdateRole, error)
 	SandboxDeleteReport(ctx context.Context, accountID string, deleteReportInput cato_models.DeleteReportInput, interceptors ...clientv2.RequestInterceptor) (*SandboxDeleteReport, error)
 	SandboxUploadFile(ctx context.Context, accountID string, uploadFileInput cato_models.UploadFileInput, interceptors ...clientv2.RequestInterceptor) (*SandboxUploadFile, error)
 	SiteAddBgpPeer(ctx context.Context, addBgpPeerInput cato_models.AddBgpPeerInput, accountID string, interceptors ...clientv2.RequestInterceptor) (*SiteAddBgpPeer, error)
@@ -585,6 +588,9 @@ type CatoClient interface {
 	PostureFindingSummary(ctx context.Context, accountID string, postureFindingSummaryInput *cato_models.PostureFindingSummaryInput, interceptors ...clientv2.RequestInterceptor) (*PostureFindingSummary, error)
 	PrivateAppReadPrivateApp(ctx context.Context, accountID string, input cato_models.PrivateApplicationRefInput, interceptors ...clientv2.RequestInterceptor) (*PrivateAppReadPrivateApp, error)
 	PrivateApplication(ctx context.Context, accountID string, privateApplicationRefInput cato_models.PrivateApplicationRefInput, privateApplicationListInput *cato_models.PrivateApplicationListInput, interceptors ...clientv2.RequestInterceptor) (*PrivateApplication, error)
+	RbacRoleManagementPermissionCatalog(ctx context.Context, accountID string, interceptors ...clientv2.RequestInterceptor) (*RbacRoleManagementPermissionCatalog, error)
+	RbacRoleManagementRole(ctx context.Context, accountID string, id string, interceptors ...clientv2.RequestInterceptor) (*RbacRoleManagementRole, error)
+	RbacRoleManagementRoleList(ctx context.Context, accountID string, input cato_models.RoleManagementRoleListInput, interceptors ...clientv2.RequestInterceptor) (*RbacRoleManagementRoleList, error)
 	Sandbox(ctx context.Context, accountID string, sandboxReportsInput cato_models.SandboxReportsInput, interceptors ...clientv2.RequestInterceptor) (*Sandbox, error)
 	ServicePrincipalAdmin(ctx context.Context, accountID string, adminID string, interceptors ...clientv2.RequestInterceptor) (*ServicePrincipalAdmin, error)
 	SiteAvailableVersionList(ctx context.Context, accountID string, availableVersionListInput cato_models.AvailableVersionListInput, interceptors ...clientv2.RequestInterceptor) (*SiteAvailableVersionList, error)
@@ -244564,6 +244570,247 @@ func (t *PrivateApplicationUpdatePrivateApplication_PrivateApplication) GetUpdat
 	return t.UpdatePrivateApplication
 }
 
+type RbacRoleManagementCreateRole_Rbac_RoleManagement_CreateRole_Role_Permission struct {
+	Action   cato_models.RBACAction "json:\"action\" graphql:\"action\""
+	Resource string                 "json:\"resource\" graphql:\"resource\""
+}
+
+func (t *RbacRoleManagementCreateRole_Rbac_RoleManagement_CreateRole_Role_Permission) GetAction() *cato_models.RBACAction {
+	if t == nil {
+		t = &RbacRoleManagementCreateRole_Rbac_RoleManagement_CreateRole_Role_Permission{}
+	}
+	return &t.Action
+}
+func (t *RbacRoleManagementCreateRole_Rbac_RoleManagement_CreateRole_Role_Permission) GetResource() string {
+	if t == nil {
+		t = &RbacRoleManagementCreateRole_Rbac_RoleManagement_CreateRole_Role_Permission{}
+	}
+	return t.Resource
+}
+
+type RbacRoleManagementCreateRole_Rbac_RoleManagement_CreateRole_Role struct {
+	AccountType            cato_models.RoleManagementAccountType                                          "json:\"accountType\" graphql:\"accountType\""
+	Description            *string                                                                        "json:\"description,omitempty\" graphql:\"description\""
+	ID                     string                                                                         "json:\"id\" graphql:\"id\""
+	IsUsedOnExternalAccess bool                                                                           "json:\"isUsedOnExternalAccess\" graphql:\"isUsedOnExternalAccess\""
+	Name                   string                                                                         "json:\"name\" graphql:\"name\""
+	Permission             []*RbacRoleManagementCreateRole_Rbac_RoleManagement_CreateRole_Role_Permission "json:\"permission\" graphql:\"permission\""
+	Predefined             bool                                                                           "json:\"predefined\" graphql:\"predefined\""
+}
+
+func (t *RbacRoleManagementCreateRole_Rbac_RoleManagement_CreateRole_Role) GetAccountType() *cato_models.RoleManagementAccountType {
+	if t == nil {
+		t = &RbacRoleManagementCreateRole_Rbac_RoleManagement_CreateRole_Role{}
+	}
+	return &t.AccountType
+}
+func (t *RbacRoleManagementCreateRole_Rbac_RoleManagement_CreateRole_Role) GetDescription() *string {
+	if t == nil {
+		t = &RbacRoleManagementCreateRole_Rbac_RoleManagement_CreateRole_Role{}
+	}
+	return t.Description
+}
+func (t *RbacRoleManagementCreateRole_Rbac_RoleManagement_CreateRole_Role) GetID() string {
+	if t == nil {
+		t = &RbacRoleManagementCreateRole_Rbac_RoleManagement_CreateRole_Role{}
+	}
+	return t.ID
+}
+func (t *RbacRoleManagementCreateRole_Rbac_RoleManagement_CreateRole_Role) GetIsUsedOnExternalAccess() bool {
+	if t == nil {
+		t = &RbacRoleManagementCreateRole_Rbac_RoleManagement_CreateRole_Role{}
+	}
+	return t.IsUsedOnExternalAccess
+}
+func (t *RbacRoleManagementCreateRole_Rbac_RoleManagement_CreateRole_Role) GetName() string {
+	if t == nil {
+		t = &RbacRoleManagementCreateRole_Rbac_RoleManagement_CreateRole_Role{}
+	}
+	return t.Name
+}
+func (t *RbacRoleManagementCreateRole_Rbac_RoleManagement_CreateRole_Role) GetPermission() []*RbacRoleManagementCreateRole_Rbac_RoleManagement_CreateRole_Role_Permission {
+	if t == nil {
+		t = &RbacRoleManagementCreateRole_Rbac_RoleManagement_CreateRole_Role{}
+	}
+	return t.Permission
+}
+func (t *RbacRoleManagementCreateRole_Rbac_RoleManagement_CreateRole_Role) GetPredefined() bool {
+	if t == nil {
+		t = &RbacRoleManagementCreateRole_Rbac_RoleManagement_CreateRole_Role{}
+	}
+	return t.Predefined
+}
+
+type RbacRoleManagementCreateRole_Rbac_RoleManagement_CreateRole struct {
+	Role RbacRoleManagementCreateRole_Rbac_RoleManagement_CreateRole_Role "json:\"role\" graphql:\"role\""
+}
+
+func (t *RbacRoleManagementCreateRole_Rbac_RoleManagement_CreateRole) GetRole() *RbacRoleManagementCreateRole_Rbac_RoleManagement_CreateRole_Role {
+	if t == nil {
+		t = &RbacRoleManagementCreateRole_Rbac_RoleManagement_CreateRole{}
+	}
+	return &t.Role
+}
+
+type RbacRoleManagementCreateRole_Rbac_RoleManagement struct {
+	CreateRole *RbacRoleManagementCreateRole_Rbac_RoleManagement_CreateRole "json:\"createRole,omitempty\" graphql:\"createRole\""
+}
+
+func (t *RbacRoleManagementCreateRole_Rbac_RoleManagement) GetCreateRole() *RbacRoleManagementCreateRole_Rbac_RoleManagement_CreateRole {
+	if t == nil {
+		t = &RbacRoleManagementCreateRole_Rbac_RoleManagement{}
+	}
+	return t.CreateRole
+}
+
+type RbacRoleManagementCreateRole_Rbac struct {
+	RoleManagement RbacRoleManagementCreateRole_Rbac_RoleManagement "json:\"roleManagement\" graphql:\"roleManagement\""
+}
+
+func (t *RbacRoleManagementCreateRole_Rbac) GetRoleManagement() *RbacRoleManagementCreateRole_Rbac_RoleManagement {
+	if t == nil {
+		t = &RbacRoleManagementCreateRole_Rbac{}
+	}
+	return &t.RoleManagement
+}
+
+type RbacRoleManagementDeleteRole_Rbac_RoleManagement_DeleteRole struct {
+	ID string "json:\"id\" graphql:\"id\""
+}
+
+func (t *RbacRoleManagementDeleteRole_Rbac_RoleManagement_DeleteRole) GetID() string {
+	if t == nil {
+		t = &RbacRoleManagementDeleteRole_Rbac_RoleManagement_DeleteRole{}
+	}
+	return t.ID
+}
+
+type RbacRoleManagementDeleteRole_Rbac_RoleManagement struct {
+	DeleteRole *RbacRoleManagementDeleteRole_Rbac_RoleManagement_DeleteRole "json:\"deleteRole,omitempty\" graphql:\"deleteRole\""
+}
+
+func (t *RbacRoleManagementDeleteRole_Rbac_RoleManagement) GetDeleteRole() *RbacRoleManagementDeleteRole_Rbac_RoleManagement_DeleteRole {
+	if t == nil {
+		t = &RbacRoleManagementDeleteRole_Rbac_RoleManagement{}
+	}
+	return t.DeleteRole
+}
+
+type RbacRoleManagementDeleteRole_Rbac struct {
+	RoleManagement RbacRoleManagementDeleteRole_Rbac_RoleManagement "json:\"roleManagement\" graphql:\"roleManagement\""
+}
+
+func (t *RbacRoleManagementDeleteRole_Rbac) GetRoleManagement() *RbacRoleManagementDeleteRole_Rbac_RoleManagement {
+	if t == nil {
+		t = &RbacRoleManagementDeleteRole_Rbac{}
+	}
+	return &t.RoleManagement
+}
+
+type RbacRoleManagementUpdateRole_Rbac_RoleManagement_UpdateRole_Role_Permission struct {
+	Action   cato_models.RBACAction "json:\"action\" graphql:\"action\""
+	Resource string                 "json:\"resource\" graphql:\"resource\""
+}
+
+func (t *RbacRoleManagementUpdateRole_Rbac_RoleManagement_UpdateRole_Role_Permission) GetAction() *cato_models.RBACAction {
+	if t == nil {
+		t = &RbacRoleManagementUpdateRole_Rbac_RoleManagement_UpdateRole_Role_Permission{}
+	}
+	return &t.Action
+}
+func (t *RbacRoleManagementUpdateRole_Rbac_RoleManagement_UpdateRole_Role_Permission) GetResource() string {
+	if t == nil {
+		t = &RbacRoleManagementUpdateRole_Rbac_RoleManagement_UpdateRole_Role_Permission{}
+	}
+	return t.Resource
+}
+
+type RbacRoleManagementUpdateRole_Rbac_RoleManagement_UpdateRole_Role struct {
+	AccountType            cato_models.RoleManagementAccountType                                          "json:\"accountType\" graphql:\"accountType\""
+	Description            *string                                                                        "json:\"description,omitempty\" graphql:\"description\""
+	ID                     string                                                                         "json:\"id\" graphql:\"id\""
+	IsUsedOnExternalAccess bool                                                                           "json:\"isUsedOnExternalAccess\" graphql:\"isUsedOnExternalAccess\""
+	Name                   string                                                                         "json:\"name\" graphql:\"name\""
+	Permission             []*RbacRoleManagementUpdateRole_Rbac_RoleManagement_UpdateRole_Role_Permission "json:\"permission\" graphql:\"permission\""
+	Predefined             bool                                                                           "json:\"predefined\" graphql:\"predefined\""
+}
+
+func (t *RbacRoleManagementUpdateRole_Rbac_RoleManagement_UpdateRole_Role) GetAccountType() *cato_models.RoleManagementAccountType {
+	if t == nil {
+		t = &RbacRoleManagementUpdateRole_Rbac_RoleManagement_UpdateRole_Role{}
+	}
+	return &t.AccountType
+}
+func (t *RbacRoleManagementUpdateRole_Rbac_RoleManagement_UpdateRole_Role) GetDescription() *string {
+	if t == nil {
+		t = &RbacRoleManagementUpdateRole_Rbac_RoleManagement_UpdateRole_Role{}
+	}
+	return t.Description
+}
+func (t *RbacRoleManagementUpdateRole_Rbac_RoleManagement_UpdateRole_Role) GetID() string {
+	if t == nil {
+		t = &RbacRoleManagementUpdateRole_Rbac_RoleManagement_UpdateRole_Role{}
+	}
+	return t.ID
+}
+func (t *RbacRoleManagementUpdateRole_Rbac_RoleManagement_UpdateRole_Role) GetIsUsedOnExternalAccess() bool {
+	if t == nil {
+		t = &RbacRoleManagementUpdateRole_Rbac_RoleManagement_UpdateRole_Role{}
+	}
+	return t.IsUsedOnExternalAccess
+}
+func (t *RbacRoleManagementUpdateRole_Rbac_RoleManagement_UpdateRole_Role) GetName() string {
+	if t == nil {
+		t = &RbacRoleManagementUpdateRole_Rbac_RoleManagement_UpdateRole_Role{}
+	}
+	return t.Name
+}
+func (t *RbacRoleManagementUpdateRole_Rbac_RoleManagement_UpdateRole_Role) GetPermission() []*RbacRoleManagementUpdateRole_Rbac_RoleManagement_UpdateRole_Role_Permission {
+	if t == nil {
+		t = &RbacRoleManagementUpdateRole_Rbac_RoleManagement_UpdateRole_Role{}
+	}
+	return t.Permission
+}
+func (t *RbacRoleManagementUpdateRole_Rbac_RoleManagement_UpdateRole_Role) GetPredefined() bool {
+	if t == nil {
+		t = &RbacRoleManagementUpdateRole_Rbac_RoleManagement_UpdateRole_Role{}
+	}
+	return t.Predefined
+}
+
+type RbacRoleManagementUpdateRole_Rbac_RoleManagement_UpdateRole struct {
+	Role RbacRoleManagementUpdateRole_Rbac_RoleManagement_UpdateRole_Role "json:\"role\" graphql:\"role\""
+}
+
+func (t *RbacRoleManagementUpdateRole_Rbac_RoleManagement_UpdateRole) GetRole() *RbacRoleManagementUpdateRole_Rbac_RoleManagement_UpdateRole_Role {
+	if t == nil {
+		t = &RbacRoleManagementUpdateRole_Rbac_RoleManagement_UpdateRole{}
+	}
+	return &t.Role
+}
+
+type RbacRoleManagementUpdateRole_Rbac_RoleManagement struct {
+	UpdateRole *RbacRoleManagementUpdateRole_Rbac_RoleManagement_UpdateRole "json:\"updateRole,omitempty\" graphql:\"updateRole\""
+}
+
+func (t *RbacRoleManagementUpdateRole_Rbac_RoleManagement) GetUpdateRole() *RbacRoleManagementUpdateRole_Rbac_RoleManagement_UpdateRole {
+	if t == nil {
+		t = &RbacRoleManagementUpdateRole_Rbac_RoleManagement{}
+	}
+	return t.UpdateRole
+}
+
+type RbacRoleManagementUpdateRole_Rbac struct {
+	RoleManagement RbacRoleManagementUpdateRole_Rbac_RoleManagement "json:\"roleManagement\" graphql:\"roleManagement\""
+}
+
+func (t *RbacRoleManagementUpdateRole_Rbac) GetRoleManagement() *RbacRoleManagementUpdateRole_Rbac_RoleManagement {
+	if t == nil {
+		t = &RbacRoleManagementUpdateRole_Rbac{}
+	}
+	return &t.RoleManagement
+}
+
 type SandboxDeleteReport_Sandbox_DeleteReport struct {
 	FileHash string "json:\"fileHash\" graphql:\"fileHash\""
 }
@@ -330958,6 +331205,272 @@ func (t *PrivateApplication_PrivateApplication) GetPrivateApplicationList() *Pri
 	return t.PrivateApplicationList
 }
 
+type RbacRoleManagementPermissionCatalog_Rbac_RoleManagement_PermissionCatalog_Resource struct {
+	Resource        string                                  "json:\"resource\" graphql:\"resource\""
+	SupportedAction []cato_models.RoleManagementGrantAction "json:\"supportedAction\" graphql:\"supportedAction\""
+}
+
+func (t *RbacRoleManagementPermissionCatalog_Rbac_RoleManagement_PermissionCatalog_Resource) GetResource() string {
+	if t == nil {
+		t = &RbacRoleManagementPermissionCatalog_Rbac_RoleManagement_PermissionCatalog_Resource{}
+	}
+	return t.Resource
+}
+func (t *RbacRoleManagementPermissionCatalog_Rbac_RoleManagement_PermissionCatalog_Resource) GetSupportedAction() []cato_models.RoleManagementGrantAction {
+	if t == nil {
+		t = &RbacRoleManagementPermissionCatalog_Rbac_RoleManagement_PermissionCatalog_Resource{}
+	}
+	return t.SupportedAction
+}
+
+type RbacRoleManagementPermissionCatalog_Rbac_RoleManagement_PermissionCatalog struct {
+	Resource []*RbacRoleManagementPermissionCatalog_Rbac_RoleManagement_PermissionCatalog_Resource "json:\"resource\" graphql:\"resource\""
+}
+
+func (t *RbacRoleManagementPermissionCatalog_Rbac_RoleManagement_PermissionCatalog) GetResource() []*RbacRoleManagementPermissionCatalog_Rbac_RoleManagement_PermissionCatalog_Resource {
+	if t == nil {
+		t = &RbacRoleManagementPermissionCatalog_Rbac_RoleManagement_PermissionCatalog{}
+	}
+	return t.Resource
+}
+
+type RbacRoleManagementPermissionCatalog_Rbac_RoleManagement struct {
+	PermissionCatalog *RbacRoleManagementPermissionCatalog_Rbac_RoleManagement_PermissionCatalog "json:\"permissionCatalog,omitempty\" graphql:\"permissionCatalog\""
+}
+
+func (t *RbacRoleManagementPermissionCatalog_Rbac_RoleManagement) GetPermissionCatalog() *RbacRoleManagementPermissionCatalog_Rbac_RoleManagement_PermissionCatalog {
+	if t == nil {
+		t = &RbacRoleManagementPermissionCatalog_Rbac_RoleManagement{}
+	}
+	return t.PermissionCatalog
+}
+
+type RbacRoleManagementPermissionCatalog_Rbac struct {
+	RoleManagement RbacRoleManagementPermissionCatalog_Rbac_RoleManagement "json:\"roleManagement\" graphql:\"roleManagement\""
+}
+
+func (t *RbacRoleManagementPermissionCatalog_Rbac) GetRoleManagement() *RbacRoleManagementPermissionCatalog_Rbac_RoleManagement {
+	if t == nil {
+		t = &RbacRoleManagementPermissionCatalog_Rbac{}
+	}
+	return &t.RoleManagement
+}
+
+type RbacRoleManagementRole_Rbac_RoleManagement_Role_Permission struct {
+	Action   cato_models.RBACAction "json:\"action\" graphql:\"action\""
+	Resource string                 "json:\"resource\" graphql:\"resource\""
+}
+
+func (t *RbacRoleManagementRole_Rbac_RoleManagement_Role_Permission) GetAction() *cato_models.RBACAction {
+	if t == nil {
+		t = &RbacRoleManagementRole_Rbac_RoleManagement_Role_Permission{}
+	}
+	return &t.Action
+}
+func (t *RbacRoleManagementRole_Rbac_RoleManagement_Role_Permission) GetResource() string {
+	if t == nil {
+		t = &RbacRoleManagementRole_Rbac_RoleManagement_Role_Permission{}
+	}
+	return t.Resource
+}
+
+type RbacRoleManagementRole_Rbac_RoleManagement_Role struct {
+	AccountType            cato_models.RoleManagementAccountType                         "json:\"accountType\" graphql:\"accountType\""
+	Description            *string                                                       "json:\"description,omitempty\" graphql:\"description\""
+	ID                     string                                                        "json:\"id\" graphql:\"id\""
+	IsUsedOnExternalAccess bool                                                          "json:\"isUsedOnExternalAccess\" graphql:\"isUsedOnExternalAccess\""
+	Name                   string                                                        "json:\"name\" graphql:\"name\""
+	Permission             []*RbacRoleManagementRole_Rbac_RoleManagement_Role_Permission "json:\"permission\" graphql:\"permission\""
+	Predefined             bool                                                          "json:\"predefined\" graphql:\"predefined\""
+}
+
+func (t *RbacRoleManagementRole_Rbac_RoleManagement_Role) GetAccountType() *cato_models.RoleManagementAccountType {
+	if t == nil {
+		t = &RbacRoleManagementRole_Rbac_RoleManagement_Role{}
+	}
+	return &t.AccountType
+}
+func (t *RbacRoleManagementRole_Rbac_RoleManagement_Role) GetDescription() *string {
+	if t == nil {
+		t = &RbacRoleManagementRole_Rbac_RoleManagement_Role{}
+	}
+	return t.Description
+}
+func (t *RbacRoleManagementRole_Rbac_RoleManagement_Role) GetID() string {
+	if t == nil {
+		t = &RbacRoleManagementRole_Rbac_RoleManagement_Role{}
+	}
+	return t.ID
+}
+func (t *RbacRoleManagementRole_Rbac_RoleManagement_Role) GetIsUsedOnExternalAccess() bool {
+	if t == nil {
+		t = &RbacRoleManagementRole_Rbac_RoleManagement_Role{}
+	}
+	return t.IsUsedOnExternalAccess
+}
+func (t *RbacRoleManagementRole_Rbac_RoleManagement_Role) GetName() string {
+	if t == nil {
+		t = &RbacRoleManagementRole_Rbac_RoleManagement_Role{}
+	}
+	return t.Name
+}
+func (t *RbacRoleManagementRole_Rbac_RoleManagement_Role) GetPermission() []*RbacRoleManagementRole_Rbac_RoleManagement_Role_Permission {
+	if t == nil {
+		t = &RbacRoleManagementRole_Rbac_RoleManagement_Role{}
+	}
+	return t.Permission
+}
+func (t *RbacRoleManagementRole_Rbac_RoleManagement_Role) GetPredefined() bool {
+	if t == nil {
+		t = &RbacRoleManagementRole_Rbac_RoleManagement_Role{}
+	}
+	return t.Predefined
+}
+
+type RbacRoleManagementRole_Rbac_RoleManagement struct {
+	Role *RbacRoleManagementRole_Rbac_RoleManagement_Role "json:\"role,omitempty\" graphql:\"role\""
+}
+
+func (t *RbacRoleManagementRole_Rbac_RoleManagement) GetRole() *RbacRoleManagementRole_Rbac_RoleManagement_Role {
+	if t == nil {
+		t = &RbacRoleManagementRole_Rbac_RoleManagement{}
+	}
+	return t.Role
+}
+
+type RbacRoleManagementRole_Rbac struct {
+	RoleManagement RbacRoleManagementRole_Rbac_RoleManagement "json:\"roleManagement\" graphql:\"roleManagement\""
+}
+
+func (t *RbacRoleManagementRole_Rbac) GetRoleManagement() *RbacRoleManagementRole_Rbac_RoleManagement {
+	if t == nil {
+		t = &RbacRoleManagementRole_Rbac{}
+	}
+	return &t.RoleManagement
+}
+
+type RbacRoleManagementRoleList_Rbac_RoleManagement_RoleList_Items_Permission struct {
+	Action   cato_models.RBACAction "json:\"action\" graphql:\"action\""
+	Resource string                 "json:\"resource\" graphql:\"resource\""
+}
+
+func (t *RbacRoleManagementRoleList_Rbac_RoleManagement_RoleList_Items_Permission) GetAction() *cato_models.RBACAction {
+	if t == nil {
+		t = &RbacRoleManagementRoleList_Rbac_RoleManagement_RoleList_Items_Permission{}
+	}
+	return &t.Action
+}
+func (t *RbacRoleManagementRoleList_Rbac_RoleManagement_RoleList_Items_Permission) GetResource() string {
+	if t == nil {
+		t = &RbacRoleManagementRoleList_Rbac_RoleManagement_RoleList_Items_Permission{}
+	}
+	return t.Resource
+}
+
+type RbacRoleManagementRoleList_Rbac_RoleManagement_RoleList_Items struct {
+	AccountType            cato_models.RoleManagementAccountType                                       "json:\"accountType\" graphql:\"accountType\""
+	Description            *string                                                                     "json:\"description,omitempty\" graphql:\"description\""
+	ID                     string                                                                      "json:\"id\" graphql:\"id\""
+	IsUsedOnExternalAccess bool                                                                        "json:\"isUsedOnExternalAccess\" graphql:\"isUsedOnExternalAccess\""
+	Name                   string                                                                      "json:\"name\" graphql:\"name\""
+	Permission             []*RbacRoleManagementRoleList_Rbac_RoleManagement_RoleList_Items_Permission "json:\"permission\" graphql:\"permission\""
+	Predefined             bool                                                                        "json:\"predefined\" graphql:\"predefined\""
+}
+
+func (t *RbacRoleManagementRoleList_Rbac_RoleManagement_RoleList_Items) GetAccountType() *cato_models.RoleManagementAccountType {
+	if t == nil {
+		t = &RbacRoleManagementRoleList_Rbac_RoleManagement_RoleList_Items{}
+	}
+	return &t.AccountType
+}
+func (t *RbacRoleManagementRoleList_Rbac_RoleManagement_RoleList_Items) GetDescription() *string {
+	if t == nil {
+		t = &RbacRoleManagementRoleList_Rbac_RoleManagement_RoleList_Items{}
+	}
+	return t.Description
+}
+func (t *RbacRoleManagementRoleList_Rbac_RoleManagement_RoleList_Items) GetID() string {
+	if t == nil {
+		t = &RbacRoleManagementRoleList_Rbac_RoleManagement_RoleList_Items{}
+	}
+	return t.ID
+}
+func (t *RbacRoleManagementRoleList_Rbac_RoleManagement_RoleList_Items) GetIsUsedOnExternalAccess() bool {
+	if t == nil {
+		t = &RbacRoleManagementRoleList_Rbac_RoleManagement_RoleList_Items{}
+	}
+	return t.IsUsedOnExternalAccess
+}
+func (t *RbacRoleManagementRoleList_Rbac_RoleManagement_RoleList_Items) GetName() string {
+	if t == nil {
+		t = &RbacRoleManagementRoleList_Rbac_RoleManagement_RoleList_Items{}
+	}
+	return t.Name
+}
+func (t *RbacRoleManagementRoleList_Rbac_RoleManagement_RoleList_Items) GetPermission() []*RbacRoleManagementRoleList_Rbac_RoleManagement_RoleList_Items_Permission {
+	if t == nil {
+		t = &RbacRoleManagementRoleList_Rbac_RoleManagement_RoleList_Items{}
+	}
+	return t.Permission
+}
+func (t *RbacRoleManagementRoleList_Rbac_RoleManagement_RoleList_Items) GetPredefined() bool {
+	if t == nil {
+		t = &RbacRoleManagementRoleList_Rbac_RoleManagement_RoleList_Items{}
+	}
+	return t.Predefined
+}
+
+type RbacRoleManagementRoleList_Rbac_RoleManagement_RoleList_Paging struct {
+	Total int64 "json:\"total\" graphql:\"total\""
+}
+
+func (t *RbacRoleManagementRoleList_Rbac_RoleManagement_RoleList_Paging) GetTotal() int64 {
+	if t == nil {
+		t = &RbacRoleManagementRoleList_Rbac_RoleManagement_RoleList_Paging{}
+	}
+	return t.Total
+}
+
+type RbacRoleManagementRoleList_Rbac_RoleManagement_RoleList struct {
+	Items  []*RbacRoleManagementRoleList_Rbac_RoleManagement_RoleList_Items "json:\"items\" graphql:\"items\""
+	Paging RbacRoleManagementRoleList_Rbac_RoleManagement_RoleList_Paging   "json:\"paging\" graphql:\"paging\""
+}
+
+func (t *RbacRoleManagementRoleList_Rbac_RoleManagement_RoleList) GetItems() []*RbacRoleManagementRoleList_Rbac_RoleManagement_RoleList_Items {
+	if t == nil {
+		t = &RbacRoleManagementRoleList_Rbac_RoleManagement_RoleList{}
+	}
+	return t.Items
+}
+func (t *RbacRoleManagementRoleList_Rbac_RoleManagement_RoleList) GetPaging() *RbacRoleManagementRoleList_Rbac_RoleManagement_RoleList_Paging {
+	if t == nil {
+		t = &RbacRoleManagementRoleList_Rbac_RoleManagement_RoleList{}
+	}
+	return &t.Paging
+}
+
+type RbacRoleManagementRoleList_Rbac_RoleManagement struct {
+	RoleList *RbacRoleManagementRoleList_Rbac_RoleManagement_RoleList "json:\"roleList,omitempty\" graphql:\"roleList\""
+}
+
+func (t *RbacRoleManagementRoleList_Rbac_RoleManagement) GetRoleList() *RbacRoleManagementRoleList_Rbac_RoleManagement_RoleList {
+	if t == nil {
+		t = &RbacRoleManagementRoleList_Rbac_RoleManagement{}
+	}
+	return t.RoleList
+}
+
+type RbacRoleManagementRoleList_Rbac struct {
+	RoleManagement RbacRoleManagementRoleList_Rbac_RoleManagement "json:\"roleManagement\" graphql:\"roleManagement\""
+}
+
+func (t *RbacRoleManagementRoleList_Rbac) GetRoleManagement() *RbacRoleManagementRoleList_Rbac_RoleManagement {
+	if t == nil {
+		t = &RbacRoleManagementRoleList_Rbac{}
+	}
+	return &t.RoleManagement
+}
+
 type Sandbox_Sandbox_Reports_Report struct {
 	CreationDate   string                            "json:\"creationDate\" graphql:\"creationDate\""
 	DownloadURL    *string                           "json:\"downloadUrl,omitempty\" graphql:\"downloadUrl\""
@@ -354727,6 +355240,39 @@ func (t *PrivateApplicationUpdatePrivateApplication) GetPrivateApplication() *Pr
 	return t.PrivateApplication
 }
 
+type RbacRoleManagementCreateRole struct {
+	Rbac RbacRoleManagementCreateRole_Rbac "json:\"rbac\" graphql:\"rbac\""
+}
+
+func (t *RbacRoleManagementCreateRole) GetRbac() *RbacRoleManagementCreateRole_Rbac {
+	if t == nil {
+		t = &RbacRoleManagementCreateRole{}
+	}
+	return &t.Rbac
+}
+
+type RbacRoleManagementDeleteRole struct {
+	Rbac RbacRoleManagementDeleteRole_Rbac "json:\"rbac\" graphql:\"rbac\""
+}
+
+func (t *RbacRoleManagementDeleteRole) GetRbac() *RbacRoleManagementDeleteRole_Rbac {
+	if t == nil {
+		t = &RbacRoleManagementDeleteRole{}
+	}
+	return &t.Rbac
+}
+
+type RbacRoleManagementUpdateRole struct {
+	Rbac RbacRoleManagementUpdateRole_Rbac "json:\"rbac\" graphql:\"rbac\""
+}
+
+func (t *RbacRoleManagementUpdateRole) GetRbac() *RbacRoleManagementUpdateRole_Rbac {
+	if t == nil {
+		t = &RbacRoleManagementUpdateRole{}
+	}
+	return &t.Rbac
+}
+
 type SandboxDeleteReport struct {
 	Sandbox *SandboxDeleteReport_Sandbox "json:\"sandbox,omitempty\" graphql:\"sandbox\""
 }
@@ -357387,6 +357933,39 @@ func (t *PrivateApplication) GetPrivateApplication() *PrivateApplication_Private
 		t = &PrivateApplication{}
 	}
 	return t.PrivateApplication
+}
+
+type RbacRoleManagementPermissionCatalog struct {
+	Rbac RbacRoleManagementPermissionCatalog_Rbac "json:\"rbac\" graphql:\"rbac\""
+}
+
+func (t *RbacRoleManagementPermissionCatalog) GetRbac() *RbacRoleManagementPermissionCatalog_Rbac {
+	if t == nil {
+		t = &RbacRoleManagementPermissionCatalog{}
+	}
+	return &t.Rbac
+}
+
+type RbacRoleManagementRole struct {
+	Rbac RbacRoleManagementRole_Rbac "json:\"rbac\" graphql:\"rbac\""
+}
+
+func (t *RbacRoleManagementRole) GetRbac() *RbacRoleManagementRole_Rbac {
+	if t == nil {
+		t = &RbacRoleManagementRole{}
+	}
+	return &t.Rbac
+}
+
+type RbacRoleManagementRoleList struct {
+	Rbac RbacRoleManagementRoleList_Rbac "json:\"rbac\" graphql:\"rbac\""
+}
+
+func (t *RbacRoleManagementRoleList) GetRbac() *RbacRoleManagementRoleList_Rbac {
+	if t == nil {
+		t = &RbacRoleManagementRoleList{}
+	}
+	return &t.Rbac
 }
 
 type Sandbox struct {
@@ -404754,6 +405333,115 @@ func (c *Client) PrivateApplicationUpdatePrivateApplication(ctx context.Context,
 	return &res, nil
 }
 
+const RbacRoleManagementCreateRoleDocument = `mutation rbacRoleManagementCreateRole ($accountId: ID!, $input: RoleManagementCreateRoleInput!) {
+	rbac(accountId: $accountId) {
+		roleManagement {
+			createRole(input: $input) {
+				role {
+					id
+					name
+					description
+					predefined
+					isUsedOnExternalAccess
+					accountType
+					permission {
+						resource
+						action
+					}
+				}
+			}
+		}
+	}
+}
+`
+
+func (c *Client) RbacRoleManagementCreateRole(ctx context.Context, accountID string, input cato_models.RoleManagementCreateRoleInput, interceptors ...clientv2.RequestInterceptor) (*RbacRoleManagementCreateRole, error) {
+	vars := map[string]any{
+		"accountId": accountID,
+		"input":     input,
+	}
+
+	var res RbacRoleManagementCreateRole
+	if err := c.Client.Post(ctx, "rbacRoleManagementCreateRole", RbacRoleManagementCreateRoleDocument, &res, vars, interceptors...); err != nil {
+		if c.Client.ParseDataWhenErrors {
+			return &res, err
+		}
+
+		return nil, err
+	}
+
+	return &res, nil
+}
+
+const RbacRoleManagementDeleteRoleDocument = `mutation rbacRoleManagementDeleteRole ($accountId: ID!, $input: RoleManagementDeleteRoleInput!) {
+	rbac(accountId: $accountId) {
+		roleManagement {
+			deleteRole(input: $input) {
+				id
+			}
+		}
+	}
+}
+`
+
+func (c *Client) RbacRoleManagementDeleteRole(ctx context.Context, accountID string, input cato_models.RoleManagementDeleteRoleInput, interceptors ...clientv2.RequestInterceptor) (*RbacRoleManagementDeleteRole, error) {
+	vars := map[string]any{
+		"accountId": accountID,
+		"input":     input,
+	}
+
+	var res RbacRoleManagementDeleteRole
+	if err := c.Client.Post(ctx, "rbacRoleManagementDeleteRole", RbacRoleManagementDeleteRoleDocument, &res, vars, interceptors...); err != nil {
+		if c.Client.ParseDataWhenErrors {
+			return &res, err
+		}
+
+		return nil, err
+	}
+
+	return &res, nil
+}
+
+const RbacRoleManagementUpdateRoleDocument = `mutation rbacRoleManagementUpdateRole ($accountId: ID!, $input: RoleManagementUpdateRoleInput!) {
+	rbac(accountId: $accountId) {
+		roleManagement {
+			updateRole(input: $input) {
+				role {
+					id
+					name
+					description
+					predefined
+					isUsedOnExternalAccess
+					accountType
+					permission {
+						resource
+						action
+					}
+				}
+			}
+		}
+	}
+}
+`
+
+func (c *Client) RbacRoleManagementUpdateRole(ctx context.Context, accountID string, input cato_models.RoleManagementUpdateRoleInput, interceptors ...clientv2.RequestInterceptor) (*RbacRoleManagementUpdateRole, error) {
+	vars := map[string]any{
+		"accountId": accountID,
+		"input":     input,
+	}
+
+	var res RbacRoleManagementUpdateRole
+	if err := c.Client.Post(ctx, "rbacRoleManagementUpdateRole", RbacRoleManagementUpdateRoleDocument, &res, vars, interceptors...); err != nil {
+		if c.Client.ParseDataWhenErrors {
+			return &res, err
+		}
+
+		return nil, err
+	}
+
+	return &res, nil
+}
+
 const SandboxDeleteReportDocument = `mutation sandboxDeleteReport ($accountId: ID!, $deleteReportInput: DeleteReportInput!) {
 	sandbox(accountId: $accountId) {
 		deleteReport(input: $deleteReportInput) {
@@ -424122,6 +424810,118 @@ func (c *Client) PrivateApplication(ctx context.Context, accountID string, priva
 	return &res, nil
 }
 
+const RbacRoleManagementPermissionCatalogDocument = `query rbacRoleManagementPermissionCatalog ($accountId: ID!) {
+	rbac(accountId: $accountId) {
+		roleManagement {
+			permissionCatalog {
+				resource {
+					resource
+					supportedAction
+				}
+			}
+		}
+	}
+}
+`
+
+func (c *Client) RbacRoleManagementPermissionCatalog(ctx context.Context, accountID string, interceptors ...clientv2.RequestInterceptor) (*RbacRoleManagementPermissionCatalog, error) {
+	vars := map[string]any{
+		"accountId": accountID,
+	}
+
+	var res RbacRoleManagementPermissionCatalog
+	if err := c.Client.Post(ctx, "rbacRoleManagementPermissionCatalog", RbacRoleManagementPermissionCatalogDocument, &res, vars, interceptors...); err != nil {
+		if c.Client.ParseDataWhenErrors {
+			return &res, err
+		}
+
+		return nil, err
+	}
+
+	return &res, nil
+}
+
+const RbacRoleManagementRoleDocument = `query rbacRoleManagementRole ($accountId: ID!, $id: ID!) {
+	rbac(accountId: $accountId) {
+		roleManagement {
+			role(id: $id) {
+				id
+				name
+				description
+				predefined
+				isUsedOnExternalAccess
+				accountType
+				permission {
+					resource
+					action
+				}
+			}
+		}
+	}
+}
+`
+
+func (c *Client) RbacRoleManagementRole(ctx context.Context, accountID string, id string, interceptors ...clientv2.RequestInterceptor) (*RbacRoleManagementRole, error) {
+	vars := map[string]any{
+		"accountId": accountID,
+		"id":        id,
+	}
+
+	var res RbacRoleManagementRole
+	if err := c.Client.Post(ctx, "rbacRoleManagementRole", RbacRoleManagementRoleDocument, &res, vars, interceptors...); err != nil {
+		if c.Client.ParseDataWhenErrors {
+			return &res, err
+		}
+
+		return nil, err
+	}
+
+	return &res, nil
+}
+
+const RbacRoleManagementRoleListDocument = `query rbacRoleManagementRoleList ($accountId: ID!, $input: RoleManagementRoleListInput!) {
+	rbac(accountId: $accountId) {
+		roleManagement {
+			roleList(input: $input) {
+				items {
+					id
+					name
+					description
+					predefined
+					isUsedOnExternalAccess
+					accountType
+					permission {
+						resource
+						action
+					}
+				}
+				paging {
+					total
+				}
+			}
+		}
+	}
+}
+`
+
+func (c *Client) RbacRoleManagementRoleList(ctx context.Context, accountID string, input cato_models.RoleManagementRoleListInput, interceptors ...clientv2.RequestInterceptor) (*RbacRoleManagementRoleList, error) {
+	vars := map[string]any{
+		"accountId": accountID,
+		"input":     input,
+	}
+
+	var res RbacRoleManagementRoleList
+	if err := c.Client.Post(ctx, "rbacRoleManagementRoleList", RbacRoleManagementRoleListDocument, &res, vars, interceptors...); err != nil {
+		if c.Client.ParseDataWhenErrors {
+			return &res, err
+		}
+
+		return nil, err
+	}
+
+	return &res, nil
+}
+
 const SandboxDocument = `query sandbox ($accountId: ID!, $sandboxReportsInput: SandboxReportsInput!) {
 	sandbox(accountId: $accountId) {
 		reports(input: $sandboxReportsInput) {
@@ -428538,6 +429338,9 @@ var DocumentOperationNames = map[string]string{
 	PrivateApplicationCreatePrivateApplicationDocument:           "privateApplicationCreatePrivateApplication",
 	PrivateApplicationDeletePrivateApplicationDocument:           "privateApplicationDeletePrivateApplication",
 	PrivateApplicationUpdatePrivateApplicationDocument:           "privateApplicationUpdatePrivateApplication",
+	RbacRoleManagementCreateRoleDocument:                         "rbacRoleManagementCreateRole",
+	RbacRoleManagementDeleteRoleDocument:                         "rbacRoleManagementDeleteRole",
+	RbacRoleManagementUpdateRoleDocument:                         "rbacRoleManagementUpdateRole",
 	SandboxDeleteReportDocument:                                  "sandboxDeleteReport",
 	SandboxUploadFileDocument:                                    "sandboxUploadFile",
 	SiteAddBgpPeerDocument:                                       "siteAddBgpPeer",
@@ -428780,6 +429583,9 @@ var DocumentOperationNames = map[string]string{
 	PostureFindingSummaryDocument:                                "postureFindingSummary",
 	PrivateAppReadPrivateAppDocument:                             "privateAppReadPrivateApp",
 	PrivateApplicationDocument:                                   "privateApplication",
+	RbacRoleManagementPermissionCatalogDocument:                  "rbacRoleManagementPermissionCatalog",
+	RbacRoleManagementRoleDocument:                               "rbacRoleManagementRole",
+	RbacRoleManagementRoleListDocument:                           "rbacRoleManagementRoleList",
 	SandboxDocument:                                              "sandbox",
 	ServicePrincipalAdminDocument:                                "servicePrincipalAdmin",
 	SiteAvailableVersionListDocument:                             "siteAvailableVersionList",

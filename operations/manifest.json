@@ -9500,6 +9500,77 @@
       "cli_name": "ztnaAppConnectorZtnaAppConnectorList",
       "cli_sha256": "9bbeca109776883d212c35a430077d690481dbc0c48a4b555f4b920acc749ce4",
       "status": "imported"
+    },
+    {
+      "key": "mutation.rbac.roleManagement.createRole",
+      "kind": "mutation",
+      "sdk_file": "sources/mutation.rbac.roleManagement.createRole.gql",
+      "sdk_name": "rbacRoleManagementCreateRole",
+      "variables": [
+        "accountId",
+        "input"
+      ],
+      "document_sha256": "3c9ba65e4af316c0db04cb1c998e7169c91521cd4d2793196f828ab71cf0ecae",
+      "status": "sdk_only"
+    },
+    {
+      "key": "mutation.rbac.roleManagement.deleteRole",
+      "kind": "mutation",
+      "sdk_file": "sources/mutation.rbac.roleManagement.deleteRole.gql",
+      "sdk_name": "rbacRoleManagementDeleteRole",
+      "variables": [
+        "accountId",
+        "input"
+      ],
+      "document_sha256": "35b4c7cd3438945fb04b467f65ae4867da9f5319f6770818432e868f66087487",
+      "status": "sdk_only"
+    },
+    {
+      "key": "mutation.rbac.roleManagement.updateRole",
+      "kind": "mutation",
+      "sdk_file": "sources/mutation.rbac.roleManagement.updateRole.gql",
+      "sdk_name": "rbacRoleManagementUpdateRole",
+      "variables": [
+        "accountId",
+        "input"
+      ],
+      "document_sha256": "ac98ffdbb189c27542fd6a2558ed4afee53eb350acac1525e5940d8b34949986",
+      "status": "sdk_only"
+    },
+    {
+      "key": "query.rbac.roleManagement.permissionCatalog",
+      "kind": "query",
+      "sdk_file": "sources/query.rbac.roleManagement.permissionCatalog.gql",
+      "sdk_name": "rbacRoleManagementPermissionCatalog",
+      "variables": [
+        "accountId"
+      ],
+      "document_sha256": "43fa0e05b91f5e939e0d0f26333e70f556b48c5e91af871e8ce58561cd5568ca",
+      "status": "sdk_only"
+    },
+    {
+      "key": "query.rbac.roleManagement.role",
+      "kind": "query",
+      "sdk_file": "sources/query.rbac.roleManagement.role.gql",
+      "sdk_name": "rbacRoleManagementRole",
+      "variables": [
+        "accountId",
+        "id"
+      ],
+      "document_sha256": "a79ad2feff8c323049dbddbbd4e8ecf78d2cc8fd4662493c719a6c144648e515",
+      "status": "sdk_only"
+    },
+    {
+      "key": "query.rbac.roleManagement.roleList",
+      "kind": "query",
+      "sdk_file": "sources/query.rbac.roleManagement.roleList.gql",
+      "sdk_name": "rbacRoleManagementRoleList",
+      "variables": [
+        "accountId",
+        "input"
+      ],
+      "document_sha256": "6fe053ab88c903ec159c1590b6fa27eaa5e1ccc31bc2367da814225cece436de",
+      "status": "sdk_only"
     }
   ]
 }

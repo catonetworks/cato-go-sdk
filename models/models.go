@@ -11880,6 +11880,14 @@ type QueryParameter struct {
 	Values   []string `json:"values"`
 }
 
+type RBACMutations struct {
+	RoleManagement *RoleManagementMutations `json:"roleManagement"`
+}
+
+type RBACQueries struct {
+	RoleManagement *RoleManagementQueries `json:"roleManagement"`
+}
+
 type RBACRole struct {
 	Description  *string `json:"description,omitempty"`
 	ID           string  `json:"id"`
@@ -12404,6 +12412,155 @@ type RiskScoreFilterInput struct {
 	In  []RiskScore `json:"in,omitempty"`
 	Neq *RiskScore  `json:"neq,omitempty"`
 	Nin []RiskScore `json:"nin,omitempty"`
+}
+
+// A resource and the actions it supports.
+type RoleManagementCatalogResource struct {
+	// Legacy resource identifier.
+	Resource string `json:"resource"`
+	// Actions supported by the resource.
+	SupportedAction []RoleManagementGrantAction `json:"supportedAction"`
+}
+
+// Create-role input.
+type RoleManagementCreateRoleInput struct {
+	// Human-readable role name.
+	Name string `json:"name"`
+	// Optional role description.
+	Description *string `json:"description,omitempty"`
+	// Permissions granted by the role.
+	Permission []*RoleManagementPermissionInput `json:"permission"`
+}
+
+// Create-role result.
+type RoleManagementCreateRolePayload struct {
+	// Created role.
+	Role *RoleManagementRole `json:"role"`
+}
+
+// Delete-role input.
+type RoleManagementDeleteRoleInput struct {
+	// Role identifier.
+	ID string `json:"id"`
+}
+
+// Delete-role result.
+type RoleManagementDeleteRolePayload struct {
+	// Deleted role identifier.
+	ID string `json:"id"`
+}
+
+type RoleManagementMutations struct {
+	// Create a new account-local custom role from an explicit set of permissions.
+	CreateRole *RoleManagementCreateRolePayload `json:"createRole,omitempty"`
+	// Fully replace an existing account-local custom role.
+	UpdateRole *RoleManagementUpdateRolePayload `json:"updateRole,omitempty"`
+	// Delete an account-local custom role by its identifier.
+	DeleteRole *RoleManagementDeleteRolePayload `json:"deleteRole,omitempty"`
+}
+
+// An action granted on one resource.
+type RoleManagementPermission struct {
+	// Legacy resource identifier.
+	Resource string `json:"resource"`
+	// Granted action.
+	Action RBACAction `json:"action"`
+}
+
+// Resources and actions available when defining a custom role.
+type RoleManagementPermissionCatalog struct {
+	// Available resources.
+	Resource []*RoleManagementCatalogResource `json:"resource"`
+}
+
+// Permission input.
+type RoleManagementPermissionInput struct {
+	// Resource from the permission catalog.
+	Resource string `json:"resource"`
+	// Action to grant.
+	Action RoleManagementGrantAction `json:"action"`
+}
+
+type RoleManagementQueries struct {
+	// The resources visible to the account that can be granted in a custom role,
+	// together with their supported actions.
+	PermissionCatalog *RoleManagementPermissionCatalog `json:"permissionCatalog,omitempty"`
+	// Fetch a single role by its stable identifier. Returns null when no role with
+	// that id exists in the account's scope.
+	Role *RoleManagementRole `json:"role,omitempty"`
+	// List the predefined roles and account-owned custom roles available to the account.
+	RoleList *RoleManagementRoleListPayload `json:"roleList,omitempty"`
+}
+
+// A named set of permissions. Predefined roles are shared and immutable; custom
+// roles belong to one account.
+type RoleManagementRole struct {
+	// Stable identifier.
+	ID string `json:"id"`
+	// Human-readable role name.
+	Name string `json:"name"`
+	// Optional role description.
+	Description *string `json:"description,omitempty"`
+	// Whether the role is predefined and immutable.
+	Predefined bool `json:"predefined"`
+	// Whether external access currently uses the role.
+	IsUsedOnExternalAccess bool `json:"isUsedOnExternalAccess"`
+	// The account type the role applies to.
+	AccountType RoleManagementAccountType `json:"accountType"`
+	// Permissions granted by the role.
+	Permission []*RoleManagementPermission `json:"permission"`
+}
+
+// Role-list filters.
+type RoleManagementRoleFilterInput struct {
+	// Filter by role identifier.
+	ID *IDFilterInput `json:"id,omitempty"`
+	// Filter by role name.
+	Name *StringFilterInput `json:"name,omitempty"`
+	// Filter by predefined status.
+	Predefined *BooleanFilterInput `json:"predefined,omitempty"`
+}
+
+// Role-list filter, sort, and paging input.
+type RoleManagementRoleListInput struct {
+	// Filter criteria.
+	Filter *RoleManagementRoleFilterInput `json:"filter,omitempty"`
+	// Sort criteria.
+	Sort *RoleManagementRoleSortInput `json:"sort"`
+	// Offset paging criteria.
+	Paging *PagingInput `json:"paging"`
+}
+
+// Role-list result.
+type RoleManagementRoleListPayload struct {
+	// Matching roles.
+	Items []*RoleManagementRole `json:"items"`
+	// Pagination information.
+	Paging *PageInfo `json:"paging"`
+}
+
+// Role-list sorting.
+type RoleManagementRoleSortInput struct {
+	// Sort by role name.
+	Name *SortOrderInput `json:"name,omitempty"`
+}
+
+// Full-replacement update input.
+type RoleManagementUpdateRoleInput struct {
+	// Role identifier.
+	ID string `json:"id"`
+	// Human-readable role name.
+	Name string `json:"name"`
+	// Optional role description.
+	Description *string `json:"description,omitempty"`
+	// Complete replacement permission set.
+	Permission []*RoleManagementPermissionInput `json:"permission"`
+}
+
+// Update-role result.
+type RoleManagementUpdateRolePayload struct {
+	// Updated role.
+	Role *RoleManagementRole `json:"role"`
 }
 
 // SaaS Security API service license details
@@ -31084,6 +31241,122 @@ func (e *RiskScoreOperator) UnmarshalJSON(b []byte) error {
 }
 
 func (e RiskScoreOperator) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
+}
+
+// Account type applicable to a role.
+type RoleManagementAccountType string
+
+const (
+	// Direct customer account.
+	RoleManagementAccountTypeRegular RoleManagementAccountType = "REGULAR"
+	// Reseller or partner account.
+	RoleManagementAccountTypeReseller RoleManagementAccountType = "RESELLER"
+	// System account.
+	RoleManagementAccountTypeSystem RoleManagementAccountType = "SYSTEM"
+	// All account types.
+	RoleManagementAccountTypeAll RoleManagementAccountType = "ALL"
+)
+
+var AllRoleManagementAccountType = []RoleManagementAccountType{
+	RoleManagementAccountTypeRegular,
+	RoleManagementAccountTypeReseller,
+	RoleManagementAccountTypeSystem,
+	RoleManagementAccountTypeAll,
+}
+
+func (e RoleManagementAccountType) IsValid() bool {
+	switch e {
+	case RoleManagementAccountTypeRegular, RoleManagementAccountTypeReseller, RoleManagementAccountTypeSystem, RoleManagementAccountTypeAll:
+		return true
+	}
+	return false
+}
+
+func (e RoleManagementAccountType) String() string {
+	return string(e)
+}
+
+func (e *RoleManagementAccountType) UnmarshalGQL(v any) error {
+	str, ok := v.(string)
+	if !ok {
+		return fmt.Errorf("enums must be strings")
+	}
+
+	*e = RoleManagementAccountType(str)
+	return nil
+}
+
+func (e RoleManagementAccountType) MarshalGQL(w io.Writer) {
+	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+func (e *RoleManagementAccountType) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e RoleManagementAccountType) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
+}
+
+// Action grantable through role management.
+type RoleManagementGrantAction string
+
+const (
+	// Read-only access.
+	RoleManagementGrantActionView RoleManagementGrantAction = "VIEW"
+	// Read and edit access.
+	RoleManagementGrantActionEdit RoleManagementGrantAction = "EDIT"
+)
+
+var AllRoleManagementGrantAction = []RoleManagementGrantAction{
+	RoleManagementGrantActionView,
+	RoleManagementGrantActionEdit,
+}
+
+func (e RoleManagementGrantAction) IsValid() bool {
+	switch e {
+	case RoleManagementGrantActionView, RoleManagementGrantActionEdit:
+		return true
+	}
+	return false
+}
+
+func (e RoleManagementGrantAction) String() string {
+	return string(e)
+}
+
+func (e *RoleManagementGrantAction) UnmarshalGQL(v any) error {
+	str, ok := v.(string)
+	if !ok {
+		return fmt.Errorf("enums must be strings")
+	}
+
+	*e = RoleManagementGrantAction(str)
+	return nil
+}
+
+func (e RoleManagementGrantAction) MarshalGQL(w io.Writer) {
+	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+func (e *RoleManagementGrantAction) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e RoleManagementGrantAction) MarshalJSON() ([]byte, error) {
 	var buf bytes.Buffer
 	e.MarshalGQL(&buf)
 	return buf.Bytes(), nil
