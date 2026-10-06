@@ -66,7 +66,11 @@ func TestRoleManagementOperations(t *testing.T) {
 					payload = `{"resource":[{"resource":"Sites","supportedAction":["VIEW","EDIT"]}]}`
 				}
 				w.Header().Set("Content-Type", "application/json")
-				_, _ = w.Write([]byte(`{"data":{"rbac":{"roleManagement":{"` + leaf + `":` + payload + `}}}}`))
+				marker := ""
+				if leaf == "role" {
+					marker = `"__typename":"RoleManagementQueries",`
+				}
+				_, _ = w.Write([]byte(`{"data":{"rbac":{"roleManagement":{` + marker + `"` + leaf + `":` + payload + `}}}}`))
 			}))
 			defer srv.Close()
 			client := NewClient(srv.Client(), srv.URL, nil)
@@ -111,7 +115,7 @@ func TestRoleManagementOperations(t *testing.T) {
 }
 
 func TestRoleManagementNullablePayloadAndGraphQLError(t *testing.T) {
-	for _, body := range []string{`{"data":{"rbac":{"roleManagement":{"role":null}}}}`, `{"errors":[{"message":"Forbidden"}],"data":null}`} {
+	for _, body := range []string{`{"data":{"rbac":{"roleManagement":{"__typename":"RoleManagementQueries","role":null}}}}`, `{"errors":[{"message":"Forbidden"}],"data":null}`} {
 		t.Run(body, func(t *testing.T) {
 			srv := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, _ *http.Request) {
 				w.Header().Set("Content-Type", "application/json")

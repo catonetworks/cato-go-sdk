@@ -331328,9 +331328,16 @@ func (t *RbacRoleManagementRole_Rbac_RoleManagement_Role) GetPredefined() bool {
 }
 
 type RbacRoleManagementRole_Rbac_RoleManagement struct {
-	Role *RbacRoleManagementRole_Rbac_RoleManagement_Role "json:\"role,omitempty\" graphql:\"role\""
+	Typename *string                                          "json:\"__typename,omitempty\" graphql:\"__typename\""
+	Role     *RbacRoleManagementRole_Rbac_RoleManagement_Role "json:\"role,omitempty\" graphql:\"role\""
 }
 
+func (t *RbacRoleManagementRole_Rbac_RoleManagement) GetTypename() *string {
+	if t == nil {
+		t = &RbacRoleManagementRole_Rbac_RoleManagement{}
+	}
+	return t.Typename
+}
 func (t *RbacRoleManagementRole_Rbac_RoleManagement) GetRole() *RbacRoleManagementRole_Rbac_RoleManagement_Role {
 	if t == nil {
 		t = &RbacRoleManagementRole_Rbac_RoleManagement{}
@@ -424844,6 +424851,7 @@ func (c *Client) RbacRoleManagementPermissionCatalog(ctx context.Context, accoun
 const RbacRoleManagementRoleDocument = `query rbacRoleManagementRole ($accountId: ID!, $id: ID!) {
 	rbac(accountId: $accountId) {
 		roleManagement {
+			__typename
 			role(id: $id) {
 				id
 				name

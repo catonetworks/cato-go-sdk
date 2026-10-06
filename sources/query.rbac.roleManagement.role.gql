@@ -1,6 +1,7 @@
 query rbacRoleManagementRole($accountId: ID!, $id: ID!) {
   rbac(accountId: $accountId) {
     roleManagement {
+      __typename
       role(id: $id) { id name description predefined isUsedOnExternalAccess accountType permission { resource action } }
     }
   }
