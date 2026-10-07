@@ -1,0 +1,207 @@
+--- a/cato_api.graphqls
++++ b/cato_api.graphqls
+@@ -19839,3 +19839,204 @@
+ 
+ union Value = DateValue | Entity | StringValue
+ 
++
++# IAM role-management contract: server-services PR #14622, 7b7aa460daf6c56131a8e00ceec834d0fef307ed.
++extend type Query { rbac(accountId: ID!): RBACQueries! }
++extend type Mutation { rbac(accountId: ID!): RBACMutations! }
++type RBACQueries { roleManagement: RoleManagementQueries! }
++type RBACMutations { roleManagement: RoleManagementMutations! }
++
++type RoleManagementQueries {
++    """
++    The resources visible to the account that can be granted in a custom role,
++    together with their supported actions.
++    """
++    permissionCatalog: RoleManagementPermissionCatalog
++
++
++    """
++    Fetch a single role by its stable identifier. Returns null when no role with
++    that id exists in the account's scope.
++    """
++    role(id: ID!): RoleManagementRole
++
++
++    """
++    List the predefined roles and account-owned custom roles available to the account.
++    """
++    roleList(input: RoleManagementRoleListInput! = {}): RoleManagementRoleListPayload
++
++
++}
++
++type RoleManagementMutations {
++    """
++    Create a new account-local custom role from an explicit set of permissions.
++    """
++    createRole(input: RoleManagementCreateRoleInput!): RoleManagementCreateRolePayload
++
++
++    """
++    Fully replace an existing account-local custom role.
++    """
++    updateRole(input: RoleManagementUpdateRoleInput!): RoleManagementUpdateRolePayload
++
++
++    """
++    Delete an account-local custom role by its identifier.
++    """
++    deleteRole(input: RoleManagementDeleteRoleInput!): RoleManagementDeleteRolePayload
++
++
++}
++
++"""
++A named set of permissions. Predefined roles are shared and immutable; custom
++roles belong to one account.
++"""
++type RoleManagementRole {
++    """Stable identifier."""
++    id: ID!
++    """Human-readable role name."""
++    name: String!
++    """Optional role description."""
++    description: String
++    """Whether the role is predefined and immutable."""
++    predefined: Boolean!
++    """Whether external access currently uses the role."""
++    isUsedOnExternalAccess: Boolean!
++    """The account type the role applies to."""
++    accountType: RoleManagementAccountType!
++    """Permissions granted by the role."""
++    permission: [RoleManagementPermission!]!
++}
++
++"""An action granted on one resource."""
++type RoleManagementPermission {
++    """Legacy resource identifier."""
++    resource: String!
++    """Granted action."""
++    action: RBACAction!
++}
++
++"""Resources and actions available when defining a custom role."""
++type RoleManagementPermissionCatalog {
++    """Available resources."""
++    resource: [RoleManagementCatalogResource!]!
++}
++
++"""A resource and the actions it supports."""
++type RoleManagementCatalogResource {
++    """Legacy resource identifier."""
++    resource: String!
++    """Actions supported by the resource."""
++    supportedAction: [RoleManagementGrantAction!]!
++}
++
++"""Role-list result."""
++type RoleManagementRoleListPayload {
++    """Matching roles."""
++    items: [RoleManagementRole!]!
++    """Pagination information."""
++    paging: PageInfo!
++}
++
++"""Role-list filter, sort, and paging input."""
++input RoleManagementRoleListInput {
++    """Filter criteria."""
++    filter: RoleManagementRoleFilterInput
++    """Sort criteria."""
++    sort: RoleManagementRoleSortInput! = { name: { direction: ASC } }
++    """Offset paging criteria."""
++    paging: PagingInput! = { limit: 100 }
++}
++
++"""Role-list filters."""
++input RoleManagementRoleFilterInput {
++    """Filter by role identifier."""
++    id: IdFilterInput
++    """Filter by role name."""
++    name: StringFilterInput
++    """Filter by predefined status."""
++    predefined: BooleanFilterInput
++}
++
++"""Role-list sorting."""
++input RoleManagementRoleSortInput {
++    """Sort by role name."""
++    name: SortOrderInput
++}
++
++"""Create-role input."""
++input RoleManagementCreateRoleInput {
++    """Human-readable role name."""
++    name: String!
++    """Optional role description."""
++    description: String
++    """Permissions granted by the role."""
++    permission: [RoleManagementPermissionInput!]!
++}
++
++"""Full-replacement update input."""
++input RoleManagementUpdateRoleInput {
++    """Role identifier."""
++    id: ID!
++    """Human-readable role name."""
++    name: String!
++    """Optional role description."""
++    description: String
++    """Complete replacement permission set."""
++    permission: [RoleManagementPermissionInput!]!
++}
++
++"""Delete-role input."""
++input RoleManagementDeleteRoleInput {
++    """Role identifier."""
++    id: ID!
++}
++
++"""Permission input."""
++input RoleManagementPermissionInput {
++    """Resource from the permission catalog."""
++    resource: String!
++    """Action to grant."""
++    action: RoleManagementGrantAction!
++}
++
++"""Create-role result."""
++type RoleManagementCreateRolePayload {
++    """Created role."""
++    role: RoleManagementRole!
++}
++
++"""Update-role result."""
++type RoleManagementUpdateRolePayload {
++    """Updated role."""
++    role: RoleManagementRole!
++}
++
++"""Delete-role result."""
++type RoleManagementDeleteRolePayload {
++    """Deleted role identifier."""
++    id: ID!
++}
++
++"""Account type applicable to a role."""
++enum RoleManagementAccountType {
++    """Direct customer account."""
++    REGULAR
++    """Reseller or partner account."""
++    RESELLER
++    """System account."""
++    SYSTEM
++    """All account types."""
++    ALL
++}
++
++"""Action grantable through role management."""
++enum RoleManagementGrantAction {
++    """Read-only access."""
++    VIEW
++    """Read and edit access."""
++    EDIT
++}

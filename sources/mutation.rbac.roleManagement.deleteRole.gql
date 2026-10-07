@@ -1,0 +1,7 @@
+mutation rbacRoleManagementDeleteRole($accountId: ID!, $input: RoleManagementDeleteRoleInput!) {
+  rbac(accountId: $accountId) {
+    roleManagement {
+      deleteRole(input: $input) { id }
+    }
+  }
+}
