@@ -71,6 +71,7 @@ mutation siteDeleteBgpPeerBulk ($accountId: ID!, $deleteBgpPeerBulkInput: Delete
 					transmitInterval
 					receiveInterval
 					multiplier
+					multiHop
 				}
 				tracking {
 					id

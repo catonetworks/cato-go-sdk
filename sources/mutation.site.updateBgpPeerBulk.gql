@@ -71,6 +71,7 @@ mutation siteUpdateBgpPeerBulk ($accountId: ID!, $updateBgpPeerBulkInput: Update
 					transmitInterval
 					receiveInterval
 					multiplier
+					multiHop
 				}
 				tracking {
 					id

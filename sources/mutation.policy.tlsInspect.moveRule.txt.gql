@@ -82,6 +82,7 @@ mutation policyTlsInspectMoveRule ($policyMoveRuleInput: PolicyMoveRuleInput!, $
 							name
 						}
 						connectionOrigin
+						connectionsOriginList
 						application {
 							application {
 								id

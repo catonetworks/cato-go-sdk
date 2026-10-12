@@ -84,6 +84,7 @@ mutation policyTlsInspectCreatePolicyRevision ($policyCreateRevisionInput: Polic
 								name
 							}
 							connectionOrigin
+							connectionsOriginList
 							application {
 								application {
 									id

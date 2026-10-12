@@ -200,6 +200,18 @@ type CatoClient interface {
 	PolicyRemotePortFwdUpdatePolicy(ctx context.Context, accountID string, remotePortFwdPolicyMutationInput *cato_models.RemotePortFwdPolicyMutationInput, remotePortFwdPolicyUpdateInput cato_models.RemotePortFwdPolicyUpdateInput, interceptors ...clientv2.RequestInterceptor) (*PolicyRemotePortFwdUpdatePolicy, error)
 	PolicyRemotePortFwdUpdateRule(ctx context.Context, remotePortFwdUpdateRuleInput cato_models.RemotePortFwdUpdateRuleInput, accountID string, remotePortFwdPolicyMutationInput *cato_models.RemotePortFwdPolicyMutationInput, interceptors ...clientv2.RequestInterceptor) (*PolicyRemotePortFwdUpdateRule, error)
 	PolicyRemotePortFwdUpdateSection(ctx context.Context, policyUpdateSectionInput cato_models.PolicyUpdateSectionInput, accountID string, remotePortFwdPolicyMutationInput *cato_models.RemotePortFwdPolicyMutationInput, interceptors ...clientv2.RequestInterceptor) (*PolicyRemotePortFwdUpdateSection, error)
+	PolicySdpStaticIPAllocationAddRule(ctx context.Context, accountID string, sdpStaticIPAllocationAddRuleInput cato_models.SdpStaticIPAllocationAddRuleInput, sdpStaticIPAllocationPolicyMutationInput *cato_models.SdpStaticIPAllocationPolicyMutationInput, interceptors ...clientv2.RequestInterceptor) (*PolicySdpStaticIPAllocationAddRule, error)
+	PolicySdpStaticIPAllocationAddSection(ctx context.Context, accountID string, policyAddSectionInput cato_models.PolicyAddSectionInput, sdpStaticIPAllocationPolicyMutationInput *cato_models.SdpStaticIPAllocationPolicyMutationInput, interceptors ...clientv2.RequestInterceptor) (*PolicySdpStaticIPAllocationAddSection, error)
+	PolicySdpStaticIPAllocationCreatePolicyRevision(ctx context.Context, accountID string, policyCreateRevisionInput cato_models.PolicyCreateRevisionInput, sdpStaticIPAllocationPolicyMutationInput *cato_models.SdpStaticIPAllocationPolicyMutationInput, interceptors ...clientv2.RequestInterceptor) (*PolicySdpStaticIPAllocationCreatePolicyRevision, error)
+	PolicySdpStaticIPAllocationDiscardPolicyRevision(ctx context.Context, accountID string, policyDiscardRevisionInput *cato_models.PolicyDiscardRevisionInput, sdpStaticIPAllocationPolicyMutationInput *cato_models.SdpStaticIPAllocationPolicyMutationInput, interceptors ...clientv2.RequestInterceptor) (*PolicySdpStaticIPAllocationDiscardPolicyRevision, error)
+	PolicySdpStaticIPAllocationMoveRule(ctx context.Context, accountID string, policyMoveRuleInput cato_models.PolicyMoveRuleInput, sdpStaticIPAllocationPolicyMutationInput *cato_models.SdpStaticIPAllocationPolicyMutationInput, interceptors ...clientv2.RequestInterceptor) (*PolicySdpStaticIPAllocationMoveRule, error)
+	PolicySdpStaticIPAllocationMoveSection(ctx context.Context, accountID string, policyMoveSectionInput cato_models.PolicyMoveSectionInput, sdpStaticIPAllocationPolicyMutationInput *cato_models.SdpStaticIPAllocationPolicyMutationInput, interceptors ...clientv2.RequestInterceptor) (*PolicySdpStaticIPAllocationMoveSection, error)
+	PolicySdpStaticIPAllocationPublishPolicyRevision(ctx context.Context, accountID string, policyPublishRevisionInput *cato_models.PolicyPublishRevisionInput, sdpStaticIPAllocationPolicyMutationInput *cato_models.SdpStaticIPAllocationPolicyMutationInput, interceptors ...clientv2.RequestInterceptor) (*PolicySdpStaticIPAllocationPublishPolicyRevision, error)
+	PolicySdpStaticIPAllocationRemoveRule(ctx context.Context, accountID string, sdpStaticIPAllocationPolicyMutationInput *cato_models.SdpStaticIPAllocationPolicyMutationInput, sdpStaticIPAllocationRemoveRuleInput cato_models.SdpStaticIPAllocationRemoveRuleInput, interceptors ...clientv2.RequestInterceptor) (*PolicySdpStaticIPAllocationRemoveRule, error)
+	PolicySdpStaticIPAllocationRemoveSection(ctx context.Context, accountID string, policyRemoveSectionInput cato_models.PolicyRemoveSectionInput, sdpStaticIPAllocationPolicyMutationInput *cato_models.SdpStaticIPAllocationPolicyMutationInput, interceptors ...clientv2.RequestInterceptor) (*PolicySdpStaticIPAllocationRemoveSection, error)
+	PolicySdpStaticIPAllocationUpdatePolicy(ctx context.Context, accountID string, sdpStaticIPAllocationPolicyMutationInput *cato_models.SdpStaticIPAllocationPolicyMutationInput, sdpStaticIPAllocationPolicyUpdateInput cato_models.SdpStaticIPAllocationPolicyUpdateInput, interceptors ...clientv2.RequestInterceptor) (*PolicySdpStaticIPAllocationUpdatePolicy, error)
+	PolicySdpStaticIPAllocationUpdateRule(ctx context.Context, accountID string, sdpStaticIPAllocationPolicyMutationInput *cato_models.SdpStaticIPAllocationPolicyMutationInput, sdpStaticIPAllocationUpdateRuleInput cato_models.SdpStaticIPAllocationUpdateRuleInput, interceptors ...clientv2.RequestInterceptor) (*PolicySdpStaticIPAllocationUpdateRule, error)
+	PolicySdpStaticIPAllocationUpdateSection(ctx context.Context, accountID string, policyUpdateSectionInput cato_models.PolicyUpdateSectionInput, sdpStaticIPAllocationPolicyMutationInput *cato_models.SdpStaticIPAllocationPolicyMutationInput, interceptors ...clientv2.RequestInterceptor) (*PolicySdpStaticIPAllocationUpdateSection, error)
 	PolicySiteWebProxyAddRule(ctx context.Context, accountID string, siteWebProxyPolicyMutationInput *cato_models.SiteWebProxyPolicyMutationInput, siteWebProxyAddRuleInput cato_models.SiteWebProxyAddRuleInput, interceptors ...clientv2.RequestInterceptor) (*PolicySiteWebProxyAddRule, error)
 	PolicySiteWebProxyAddSection(ctx context.Context, accountID string, siteWebProxyPolicyMutationInput *cato_models.SiteWebProxyPolicyMutationInput, policyAddSectionInput cato_models.PolicyAddSectionInput, interceptors ...clientv2.RequestInterceptor) (*PolicySiteWebProxyAddSection, error)
 	PolicySiteWebProxyCreatePolicyRevision(ctx context.Context, accountID string, siteWebProxyPolicyMutationInput *cato_models.SiteWebProxyPolicyMutationInput, policyCreateRevisionInput cato_models.PolicyCreateRevisionInput, interceptors ...clientv2.RequestInterceptor) (*PolicySiteWebProxyCreatePolicyRevision, error)
@@ -562,6 +574,7 @@ type CatoClient interface {
 	PolicyReadPrivateAccessPolicy(ctx context.Context, accountID string, privateAccessPolicyInput *cato_models.PrivateAccessPolicyInput, interceptors ...clientv2.RequestInterceptor) (*PolicyReadPrivateAccessPolicy, error)
 	PolicyRemotePortFwd(ctx context.Context, accountID string, interceptors ...clientv2.RequestInterceptor) (*PolicyRemotePortFwd, error)
 	RemotePortFwdPolicy(ctx context.Context, accountID string, remotePortFwdPolicyInput *cato_models.RemotePortFwdPolicyInput, interceptors ...clientv2.RequestInterceptor) (*RemotePortFwdPolicy, error)
+	PolicySdpStaticIPAllocationPolicy(ctx context.Context, accountID string, sdpStaticIPAllocationPolicyInput *cato_models.SdpStaticIPAllocationPolicyInput, interceptors ...clientv2.RequestInterceptor) (*PolicySdpStaticIPAllocationPolicy, error)
 	PolicySiteWebProxyPolicy(ctx context.Context, accountID string, siteWebProxyPolicyInput *cato_models.SiteWebProxyPolicyInput, interceptors ...clientv2.RequestInterceptor) (*PolicySiteWebProxyPolicy, error)
 	PolicySocketBypassPolicy(ctx context.Context, accountID string, socketBypassPolicyInput *cato_models.SocketBypassPolicyInput, interceptors ...clientv2.RequestInterceptor) (*PolicySocketBypassPolicy, error)
 	PolicySocketLanPolicy(ctx context.Context, accountID string, socketLanPolicyInput *cato_models.SocketLanPolicyInput, interceptors ...clientv2.RequestInterceptor) (*PolicySocketLanPolicy, error)
@@ -112299,6 +112312,3998 @@ func (t *PolicyRemotePortFwdUpdateSection_Policy) GetRemotePortFwd() *PolicyRemo
 	return t.RemotePortFwd
 }
 
+type PolicySdpStaticIpAllocationAddRule_Policy_SdpStaticIPAllocation_AddRule_Rule_Audit struct {
+	UpdatedBy   string "json:\"updatedBy\" graphql:\"updatedBy\""
+	UpdatedTime string "json:\"updatedTime\" graphql:\"updatedTime\""
+}
+
+func (t *PolicySdpStaticIpAllocationAddRule_Policy_SdpStaticIPAllocation_AddRule_Rule_Audit) GetUpdatedBy() string {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationAddRule_Policy_SdpStaticIPAllocation_AddRule_Rule_Audit{}
+	}
+	return t.UpdatedBy
+}
+func (t *PolicySdpStaticIpAllocationAddRule_Policy_SdpStaticIPAllocation_AddRule_Rule_Audit) GetUpdatedTime() string {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationAddRule_Policy_SdpStaticIPAllocation_AddRule_Rule_Audit{}
+	}
+	return t.UpdatedTime
+}
+
+type PolicySdpStaticIpAllocationAddRule_Policy_SdpStaticIPAllocation_AddRule_Rule_Metadata_Lock struct {
+	LockingAdminEmail string "json:\"lockingAdminEmail\" graphql:\"lockingAdminEmail\""
+	LockingRevisionID string "json:\"lockingRevisionId\" graphql:\"lockingRevisionId\""
+	LockingTime       string "json:\"lockingTime\" graphql:\"lockingTime\""
+}
+
+func (t *PolicySdpStaticIpAllocationAddRule_Policy_SdpStaticIPAllocation_AddRule_Rule_Metadata_Lock) GetLockingAdminEmail() string {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationAddRule_Policy_SdpStaticIPAllocation_AddRule_Rule_Metadata_Lock{}
+	}
+	return t.LockingAdminEmail
+}
+func (t *PolicySdpStaticIpAllocationAddRule_Policy_SdpStaticIPAllocation_AddRule_Rule_Metadata_Lock) GetLockingRevisionID() string {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationAddRule_Policy_SdpStaticIPAllocation_AddRule_Rule_Metadata_Lock{}
+	}
+	return t.LockingRevisionID
+}
+func (t *PolicySdpStaticIpAllocationAddRule_Policy_SdpStaticIPAllocation_AddRule_Rule_Metadata_Lock) GetLockingTime() string {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationAddRule_Policy_SdpStaticIPAllocation_AddRule_Rule_Metadata_Lock{}
+	}
+	return t.LockingTime
+}
+
+type PolicySdpStaticIpAllocationAddRule_Policy_SdpStaticIPAllocation_AddRule_Rule_Metadata struct {
+	Lock *PolicySdpStaticIpAllocationAddRule_Policy_SdpStaticIPAllocation_AddRule_Rule_Metadata_Lock "json:\"lock,omitempty\" graphql:\"lock\""
+}
+
+func (t *PolicySdpStaticIpAllocationAddRule_Policy_SdpStaticIPAllocation_AddRule_Rule_Metadata) GetLock() *PolicySdpStaticIpAllocationAddRule_Policy_SdpStaticIPAllocation_AddRule_Rule_Metadata_Lock {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationAddRule_Policy_SdpStaticIPAllocation_AddRule_Rule_Metadata{}
+	}
+	return t.Lock
+}
+
+type PolicySdpStaticIpAllocationAddRule_Policy_SdpStaticIPAllocation_AddRule_Rule_Rule_Section struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicySdpStaticIpAllocationAddRule_Policy_SdpStaticIPAllocation_AddRule_Rule_Rule_Section) GetID() string {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationAddRule_Policy_SdpStaticIPAllocation_AddRule_Rule_Rule_Section{}
+	}
+	return t.ID
+}
+func (t *PolicySdpStaticIpAllocationAddRule_Policy_SdpStaticIPAllocation_AddRule_Rule_Rule_Section) GetName() string {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationAddRule_Policy_SdpStaticIPAllocation_AddRule_Rule_Rule_Section{}
+	}
+	return t.Name
+}
+
+type PolicySdpStaticIpAllocationAddRule_Policy_SdpStaticIPAllocation_AddRule_Rule_Rule_Source_User struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicySdpStaticIpAllocationAddRule_Policy_SdpStaticIPAllocation_AddRule_Rule_Rule_Source_User) GetID() string {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationAddRule_Policy_SdpStaticIPAllocation_AddRule_Rule_Rule_Source_User{}
+	}
+	return t.ID
+}
+func (t *PolicySdpStaticIpAllocationAddRule_Policy_SdpStaticIPAllocation_AddRule_Rule_Rule_Source_User) GetName() string {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationAddRule_Policy_SdpStaticIPAllocation_AddRule_Rule_Rule_Source_User{}
+	}
+	return t.Name
+}
+
+type PolicySdpStaticIpAllocationAddRule_Policy_SdpStaticIPAllocation_AddRule_Rule_Rule_Source struct {
+	User *PolicySdpStaticIpAllocationAddRule_Policy_SdpStaticIPAllocation_AddRule_Rule_Rule_Source_User "json:\"user,omitempty\" graphql:\"user\""
+}
+
+func (t *PolicySdpStaticIpAllocationAddRule_Policy_SdpStaticIPAllocation_AddRule_Rule_Rule_Source) GetUser() *PolicySdpStaticIpAllocationAddRule_Policy_SdpStaticIPAllocation_AddRule_Rule_Rule_Source_User {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationAddRule_Policy_SdpStaticIPAllocation_AddRule_Rule_Rule_Source{}
+	}
+	return t.User
+}
+
+type PolicySdpStaticIpAllocationAddRule_Policy_SdpStaticIPAllocation_AddRule_Rule_Rule struct {
+	Description string                                                                                    "json:\"description\" graphql:\"description\""
+	Enabled     bool                                                                                      "json:\"enabled\" graphql:\"enabled\""
+	ID          string                                                                                    "json:\"id\" graphql:\"id\""
+	Index       int64                                                                                     "json:\"index\" graphql:\"index\""
+	IP          string                                                                                    "json:\"ip\" graphql:\"ip\""
+	Name        string                                                                                    "json:\"name\" graphql:\"name\""
+	Section     PolicySdpStaticIpAllocationAddRule_Policy_SdpStaticIPAllocation_AddRule_Rule_Rule_Section "json:\"section\" graphql:\"section\""
+	Source      PolicySdpStaticIpAllocationAddRule_Policy_SdpStaticIPAllocation_AddRule_Rule_Rule_Source  "json:\"source\" graphql:\"source\""
+}
+
+func (t *PolicySdpStaticIpAllocationAddRule_Policy_SdpStaticIPAllocation_AddRule_Rule_Rule) GetDescription() string {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationAddRule_Policy_SdpStaticIPAllocation_AddRule_Rule_Rule{}
+	}
+	return t.Description
+}
+func (t *PolicySdpStaticIpAllocationAddRule_Policy_SdpStaticIPAllocation_AddRule_Rule_Rule) GetEnabled() bool {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationAddRule_Policy_SdpStaticIPAllocation_AddRule_Rule_Rule{}
+	}
+	return t.Enabled
+}
+func (t *PolicySdpStaticIpAllocationAddRule_Policy_SdpStaticIPAllocation_AddRule_Rule_Rule) GetID() string {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationAddRule_Policy_SdpStaticIPAllocation_AddRule_Rule_Rule{}
+	}
+	return t.ID
+}
+func (t *PolicySdpStaticIpAllocationAddRule_Policy_SdpStaticIPAllocation_AddRule_Rule_Rule) GetIndex() int64 {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationAddRule_Policy_SdpStaticIPAllocation_AddRule_Rule_Rule{}
+	}
+	return t.Index
+}
+func (t *PolicySdpStaticIpAllocationAddRule_Policy_SdpStaticIPAllocation_AddRule_Rule_Rule) GetIP() string {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationAddRule_Policy_SdpStaticIPAllocation_AddRule_Rule_Rule{}
+	}
+	return t.IP
+}
+func (t *PolicySdpStaticIpAllocationAddRule_Policy_SdpStaticIPAllocation_AddRule_Rule_Rule) GetName() string {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationAddRule_Policy_SdpStaticIPAllocation_AddRule_Rule_Rule{}
+	}
+	return t.Name
+}
+func (t *PolicySdpStaticIpAllocationAddRule_Policy_SdpStaticIPAllocation_AddRule_Rule_Rule) GetSection() *PolicySdpStaticIpAllocationAddRule_Policy_SdpStaticIPAllocation_AddRule_Rule_Rule_Section {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationAddRule_Policy_SdpStaticIPAllocation_AddRule_Rule_Rule{}
+	}
+	return &t.Section
+}
+func (t *PolicySdpStaticIpAllocationAddRule_Policy_SdpStaticIPAllocation_AddRule_Rule_Rule) GetSource() *PolicySdpStaticIpAllocationAddRule_Policy_SdpStaticIPAllocation_AddRule_Rule_Rule_Source {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationAddRule_Policy_SdpStaticIPAllocation_AddRule_Rule_Rule{}
+	}
+	return &t.Source
+}
+
+type PolicySdpStaticIpAllocationAddRule_Policy_SdpStaticIPAllocation_AddRule_Rule struct {
+	Audit      PolicySdpStaticIpAllocationAddRule_Policy_SdpStaticIPAllocation_AddRule_Rule_Audit     "json:\"audit\" graphql:\"audit\""
+	Metadata   *PolicySdpStaticIpAllocationAddRule_Policy_SdpStaticIPAllocation_AddRule_Rule_Metadata "json:\"metadata,omitempty\" graphql:\"metadata\""
+	Properties []cato_models.PolicyElementPropertiesEnum                                              "json:\"properties\" graphql:\"properties\""
+	Rule       PolicySdpStaticIpAllocationAddRule_Policy_SdpStaticIPAllocation_AddRule_Rule_Rule      "json:\"rule\" graphql:\"rule\""
+}
+
+func (t *PolicySdpStaticIpAllocationAddRule_Policy_SdpStaticIPAllocation_AddRule_Rule) GetAudit() *PolicySdpStaticIpAllocationAddRule_Policy_SdpStaticIPAllocation_AddRule_Rule_Audit {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationAddRule_Policy_SdpStaticIPAllocation_AddRule_Rule{}
+	}
+	return &t.Audit
+}
+func (t *PolicySdpStaticIpAllocationAddRule_Policy_SdpStaticIPAllocation_AddRule_Rule) GetMetadata() *PolicySdpStaticIpAllocationAddRule_Policy_SdpStaticIPAllocation_AddRule_Rule_Metadata {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationAddRule_Policy_SdpStaticIPAllocation_AddRule_Rule{}
+	}
+	return t.Metadata
+}
+func (t *PolicySdpStaticIpAllocationAddRule_Policy_SdpStaticIPAllocation_AddRule_Rule) GetProperties() []cato_models.PolicyElementPropertiesEnum {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationAddRule_Policy_SdpStaticIPAllocation_AddRule_Rule{}
+	}
+	return t.Properties
+}
+func (t *PolicySdpStaticIpAllocationAddRule_Policy_SdpStaticIPAllocation_AddRule_Rule) GetRule() *PolicySdpStaticIpAllocationAddRule_Policy_SdpStaticIPAllocation_AddRule_Rule_Rule {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationAddRule_Policy_SdpStaticIPAllocation_AddRule_Rule{}
+	}
+	return &t.Rule
+}
+
+type PolicySdpStaticIpAllocationAddRule_Policy_SdpStaticIPAllocation_AddRule_Revision struct {
+	Changes     int64  "json:\"changes\" graphql:\"changes\""
+	CreatedTime string "json:\"createdTime\" graphql:\"createdTime\""
+	Description string "json:\"description\" graphql:\"description\""
+	ID          string "json:\"id\" graphql:\"id\""
+	Name        string "json:\"name\" graphql:\"name\""
+	UpdatedTime string "json:\"updatedTime\" graphql:\"updatedTime\""
+}
+
+func (t *PolicySdpStaticIpAllocationAddRule_Policy_SdpStaticIPAllocation_AddRule_Revision) GetChanges() int64 {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationAddRule_Policy_SdpStaticIPAllocation_AddRule_Revision{}
+	}
+	return t.Changes
+}
+func (t *PolicySdpStaticIpAllocationAddRule_Policy_SdpStaticIPAllocation_AddRule_Revision) GetCreatedTime() string {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationAddRule_Policy_SdpStaticIPAllocation_AddRule_Revision{}
+	}
+	return t.CreatedTime
+}
+func (t *PolicySdpStaticIpAllocationAddRule_Policy_SdpStaticIPAllocation_AddRule_Revision) GetDescription() string {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationAddRule_Policy_SdpStaticIPAllocation_AddRule_Revision{}
+	}
+	return t.Description
+}
+func (t *PolicySdpStaticIpAllocationAddRule_Policy_SdpStaticIPAllocation_AddRule_Revision) GetID() string {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationAddRule_Policy_SdpStaticIPAllocation_AddRule_Revision{}
+	}
+	return t.ID
+}
+func (t *PolicySdpStaticIpAllocationAddRule_Policy_SdpStaticIPAllocation_AddRule_Revision) GetName() string {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationAddRule_Policy_SdpStaticIPAllocation_AddRule_Revision{}
+	}
+	return t.Name
+}
+func (t *PolicySdpStaticIpAllocationAddRule_Policy_SdpStaticIPAllocation_AddRule_Revision) GetUpdatedTime() string {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationAddRule_Policy_SdpStaticIPAllocation_AddRule_Revision{}
+	}
+	return t.UpdatedTime
+}
+
+type PolicySdpStaticIpAllocationAddRule_Policy_SdpStaticIPAllocation_AddRule_Errors struct {
+	ErrorCode    *string "json:\"errorCode,omitempty\" graphql:\"errorCode\""
+	ErrorMessage *string "json:\"errorMessage,omitempty\" graphql:\"errorMessage\""
+}
+
+func (t *PolicySdpStaticIpAllocationAddRule_Policy_SdpStaticIPAllocation_AddRule_Errors) GetErrorCode() *string {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationAddRule_Policy_SdpStaticIPAllocation_AddRule_Errors{}
+	}
+	return t.ErrorCode
+}
+func (t *PolicySdpStaticIpAllocationAddRule_Policy_SdpStaticIPAllocation_AddRule_Errors) GetErrorMessage() *string {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationAddRule_Policy_SdpStaticIPAllocation_AddRule_Errors{}
+	}
+	return t.ErrorMessage
+}
+
+type PolicySdpStaticIpAllocationAddRule_Policy_SdpStaticIPAllocation_AddRule struct {
+	Errors   []*PolicySdpStaticIpAllocationAddRule_Policy_SdpStaticIPAllocation_AddRule_Errors "json:\"errors\" graphql:\"errors\""
+	Revision *PolicySdpStaticIpAllocationAddRule_Policy_SdpStaticIPAllocation_AddRule_Revision "json:\"revision,omitempty\" graphql:\"revision\""
+	Rule     *PolicySdpStaticIpAllocationAddRule_Policy_SdpStaticIPAllocation_AddRule_Rule     "json:\"rule,omitempty\" graphql:\"rule\""
+	Status   cato_models.PolicyMutationStatus                                                  "json:\"status\" graphql:\"status\""
+}
+
+func (t *PolicySdpStaticIpAllocationAddRule_Policy_SdpStaticIPAllocation_AddRule) GetErrors() []*PolicySdpStaticIpAllocationAddRule_Policy_SdpStaticIPAllocation_AddRule_Errors {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationAddRule_Policy_SdpStaticIPAllocation_AddRule{}
+	}
+	return t.Errors
+}
+func (t *PolicySdpStaticIpAllocationAddRule_Policy_SdpStaticIPAllocation_AddRule) GetRevision() *PolicySdpStaticIpAllocationAddRule_Policy_SdpStaticIPAllocation_AddRule_Revision {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationAddRule_Policy_SdpStaticIPAllocation_AddRule{}
+	}
+	return t.Revision
+}
+func (t *PolicySdpStaticIpAllocationAddRule_Policy_SdpStaticIPAllocation_AddRule) GetRule() *PolicySdpStaticIpAllocationAddRule_Policy_SdpStaticIPAllocation_AddRule_Rule {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationAddRule_Policy_SdpStaticIPAllocation_AddRule{}
+	}
+	return t.Rule
+}
+func (t *PolicySdpStaticIpAllocationAddRule_Policy_SdpStaticIPAllocation_AddRule) GetStatus() *cato_models.PolicyMutationStatus {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationAddRule_Policy_SdpStaticIPAllocation_AddRule{}
+	}
+	return &t.Status
+}
+
+type PolicySdpStaticIpAllocationAddRule_Policy_SdpStaticIPAllocation struct {
+	AddRule PolicySdpStaticIpAllocationAddRule_Policy_SdpStaticIPAllocation_AddRule "json:\"addRule\" graphql:\"addRule\""
+}
+
+func (t *PolicySdpStaticIpAllocationAddRule_Policy_SdpStaticIPAllocation) GetAddRule() *PolicySdpStaticIpAllocationAddRule_Policy_SdpStaticIPAllocation_AddRule {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationAddRule_Policy_SdpStaticIPAllocation{}
+	}
+	return &t.AddRule
+}
+
+type PolicySdpStaticIpAllocationAddRule_Policy struct {
+	SdpStaticIPAllocation *PolicySdpStaticIpAllocationAddRule_Policy_SdpStaticIPAllocation "json:\"sdpStaticIpAllocation,omitempty\" graphql:\"sdpStaticIpAllocation\""
+}
+
+func (t *PolicySdpStaticIpAllocationAddRule_Policy) GetSdpStaticIPAllocation() *PolicySdpStaticIpAllocationAddRule_Policy_SdpStaticIPAllocation {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationAddRule_Policy{}
+	}
+	return t.SdpStaticIPAllocation
+}
+
+type PolicySdpStaticIpAllocationAddSection_Policy_SdpStaticIPAllocation_AddSection_Section_Audit struct {
+	UpdatedBy   string "json:\"updatedBy\" graphql:\"updatedBy\""
+	UpdatedTime string "json:\"updatedTime\" graphql:\"updatedTime\""
+}
+
+func (t *PolicySdpStaticIpAllocationAddSection_Policy_SdpStaticIPAllocation_AddSection_Section_Audit) GetUpdatedBy() string {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationAddSection_Policy_SdpStaticIPAllocation_AddSection_Section_Audit{}
+	}
+	return t.UpdatedBy
+}
+func (t *PolicySdpStaticIpAllocationAddSection_Policy_SdpStaticIPAllocation_AddSection_Section_Audit) GetUpdatedTime() string {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationAddSection_Policy_SdpStaticIPAllocation_AddSection_Section_Audit{}
+	}
+	return t.UpdatedTime
+}
+
+type PolicySdpStaticIpAllocationAddSection_Policy_SdpStaticIPAllocation_AddSection_Section_Metadata_Lock struct {
+	LockingAdminEmail string "json:\"lockingAdminEmail\" graphql:\"lockingAdminEmail\""
+	LockingRevisionID string "json:\"lockingRevisionId\" graphql:\"lockingRevisionId\""
+	LockingTime       string "json:\"lockingTime\" graphql:\"lockingTime\""
+}
+
+func (t *PolicySdpStaticIpAllocationAddSection_Policy_SdpStaticIPAllocation_AddSection_Section_Metadata_Lock) GetLockingAdminEmail() string {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationAddSection_Policy_SdpStaticIPAllocation_AddSection_Section_Metadata_Lock{}
+	}
+	return t.LockingAdminEmail
+}
+func (t *PolicySdpStaticIpAllocationAddSection_Policy_SdpStaticIPAllocation_AddSection_Section_Metadata_Lock) GetLockingRevisionID() string {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationAddSection_Policy_SdpStaticIPAllocation_AddSection_Section_Metadata_Lock{}
+	}
+	return t.LockingRevisionID
+}
+func (t *PolicySdpStaticIpAllocationAddSection_Policy_SdpStaticIPAllocation_AddSection_Section_Metadata_Lock) GetLockingTime() string {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationAddSection_Policy_SdpStaticIPAllocation_AddSection_Section_Metadata_Lock{}
+	}
+	return t.LockingTime
+}
+
+type PolicySdpStaticIpAllocationAddSection_Policy_SdpStaticIPAllocation_AddSection_Section_Metadata struct {
+	Lock *PolicySdpStaticIpAllocationAddSection_Policy_SdpStaticIPAllocation_AddSection_Section_Metadata_Lock "json:\"lock,omitempty\" graphql:\"lock\""
+}
+
+func (t *PolicySdpStaticIpAllocationAddSection_Policy_SdpStaticIPAllocation_AddSection_Section_Metadata) GetLock() *PolicySdpStaticIpAllocationAddSection_Policy_SdpStaticIPAllocation_AddSection_Section_Metadata_Lock {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationAddSection_Policy_SdpStaticIPAllocation_AddSection_Section_Metadata{}
+	}
+	return t.Lock
+}
+
+type PolicySdpStaticIpAllocationAddSection_Policy_SdpStaticIPAllocation_AddSection_Section_Section struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicySdpStaticIpAllocationAddSection_Policy_SdpStaticIPAllocation_AddSection_Section_Section) GetID() string {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationAddSection_Policy_SdpStaticIPAllocation_AddSection_Section_Section{}
+	}
+	return t.ID
+}
+func (t *PolicySdpStaticIpAllocationAddSection_Policy_SdpStaticIPAllocation_AddSection_Section_Section) GetName() string {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationAddSection_Policy_SdpStaticIPAllocation_AddSection_Section_Section{}
+	}
+	return t.Name
+}
+
+type PolicySdpStaticIpAllocationAddSection_Policy_SdpStaticIPAllocation_AddSection_Section struct {
+	Audit      PolicySdpStaticIpAllocationAddSection_Policy_SdpStaticIPAllocation_AddSection_Section_Audit     "json:\"audit\" graphql:\"audit\""
+	Metadata   *PolicySdpStaticIpAllocationAddSection_Policy_SdpStaticIPAllocation_AddSection_Section_Metadata "json:\"metadata,omitempty\" graphql:\"metadata\""
+	Properties []cato_models.PolicyElementPropertiesEnum                                                       "json:\"properties\" graphql:\"properties\""
+	Section    PolicySdpStaticIpAllocationAddSection_Policy_SdpStaticIPAllocation_AddSection_Section_Section   "json:\"section\" graphql:\"section\""
+}
+
+func (t *PolicySdpStaticIpAllocationAddSection_Policy_SdpStaticIPAllocation_AddSection_Section) GetAudit() *PolicySdpStaticIpAllocationAddSection_Policy_SdpStaticIPAllocation_AddSection_Section_Audit {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationAddSection_Policy_SdpStaticIPAllocation_AddSection_Section{}
+	}
+	return &t.Audit
+}
+func (t *PolicySdpStaticIpAllocationAddSection_Policy_SdpStaticIPAllocation_AddSection_Section) GetMetadata() *PolicySdpStaticIpAllocationAddSection_Policy_SdpStaticIPAllocation_AddSection_Section_Metadata {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationAddSection_Policy_SdpStaticIPAllocation_AddSection_Section{}
+	}
+	return t.Metadata
+}
+func (t *PolicySdpStaticIpAllocationAddSection_Policy_SdpStaticIPAllocation_AddSection_Section) GetProperties() []cato_models.PolicyElementPropertiesEnum {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationAddSection_Policy_SdpStaticIPAllocation_AddSection_Section{}
+	}
+	return t.Properties
+}
+func (t *PolicySdpStaticIpAllocationAddSection_Policy_SdpStaticIPAllocation_AddSection_Section) GetSection() *PolicySdpStaticIpAllocationAddSection_Policy_SdpStaticIPAllocation_AddSection_Section_Section {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationAddSection_Policy_SdpStaticIPAllocation_AddSection_Section{}
+	}
+	return &t.Section
+}
+
+type PolicySdpStaticIpAllocationAddSection_Policy_SdpStaticIPAllocation_AddSection_Errors struct {
+	ErrorCode    *string "json:\"errorCode,omitempty\" graphql:\"errorCode\""
+	ErrorMessage *string "json:\"errorMessage,omitempty\" graphql:\"errorMessage\""
+}
+
+func (t *PolicySdpStaticIpAllocationAddSection_Policy_SdpStaticIPAllocation_AddSection_Errors) GetErrorCode() *string {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationAddSection_Policy_SdpStaticIPAllocation_AddSection_Errors{}
+	}
+	return t.ErrorCode
+}
+func (t *PolicySdpStaticIpAllocationAddSection_Policy_SdpStaticIPAllocation_AddSection_Errors) GetErrorMessage() *string {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationAddSection_Policy_SdpStaticIPAllocation_AddSection_Errors{}
+	}
+	return t.ErrorMessage
+}
+
+type PolicySdpStaticIpAllocationAddSection_Policy_SdpStaticIPAllocation_AddSection_Revision struct {
+	Changes     int64  "json:\"changes\" graphql:\"changes\""
+	CreatedTime string "json:\"createdTime\" graphql:\"createdTime\""
+	Description string "json:\"description\" graphql:\"description\""
+	ID          string "json:\"id\" graphql:\"id\""
+	Name        string "json:\"name\" graphql:\"name\""
+	UpdatedTime string "json:\"updatedTime\" graphql:\"updatedTime\""
+}
+
+func (t *PolicySdpStaticIpAllocationAddSection_Policy_SdpStaticIPAllocation_AddSection_Revision) GetChanges() int64 {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationAddSection_Policy_SdpStaticIPAllocation_AddSection_Revision{}
+	}
+	return t.Changes
+}
+func (t *PolicySdpStaticIpAllocationAddSection_Policy_SdpStaticIPAllocation_AddSection_Revision) GetCreatedTime() string {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationAddSection_Policy_SdpStaticIPAllocation_AddSection_Revision{}
+	}
+	return t.CreatedTime
+}
+func (t *PolicySdpStaticIpAllocationAddSection_Policy_SdpStaticIPAllocation_AddSection_Revision) GetDescription() string {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationAddSection_Policy_SdpStaticIPAllocation_AddSection_Revision{}
+	}
+	return t.Description
+}
+func (t *PolicySdpStaticIpAllocationAddSection_Policy_SdpStaticIPAllocation_AddSection_Revision) GetID() string {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationAddSection_Policy_SdpStaticIPAllocation_AddSection_Revision{}
+	}
+	return t.ID
+}
+func (t *PolicySdpStaticIpAllocationAddSection_Policy_SdpStaticIPAllocation_AddSection_Revision) GetName() string {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationAddSection_Policy_SdpStaticIPAllocation_AddSection_Revision{}
+	}
+	return t.Name
+}
+func (t *PolicySdpStaticIpAllocationAddSection_Policy_SdpStaticIPAllocation_AddSection_Revision) GetUpdatedTime() string {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationAddSection_Policy_SdpStaticIPAllocation_AddSection_Revision{}
+	}
+	return t.UpdatedTime
+}
+
+type PolicySdpStaticIpAllocationAddSection_Policy_SdpStaticIPAllocation_AddSection struct {
+	Errors   []*PolicySdpStaticIpAllocationAddSection_Policy_SdpStaticIPAllocation_AddSection_Errors "json:\"errors\" graphql:\"errors\""
+	Revision *PolicySdpStaticIpAllocationAddSection_Policy_SdpStaticIPAllocation_AddSection_Revision "json:\"revision,omitempty\" graphql:\"revision\""
+	Section  *PolicySdpStaticIpAllocationAddSection_Policy_SdpStaticIPAllocation_AddSection_Section  "json:\"section,omitempty\" graphql:\"section\""
+	Status   cato_models.PolicyMutationStatus                                                        "json:\"status\" graphql:\"status\""
+}
+
+func (t *PolicySdpStaticIpAllocationAddSection_Policy_SdpStaticIPAllocation_AddSection) GetErrors() []*PolicySdpStaticIpAllocationAddSection_Policy_SdpStaticIPAllocation_AddSection_Errors {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationAddSection_Policy_SdpStaticIPAllocation_AddSection{}
+	}
+	return t.Errors
+}
+func (t *PolicySdpStaticIpAllocationAddSection_Policy_SdpStaticIPAllocation_AddSection) GetRevision() *PolicySdpStaticIpAllocationAddSection_Policy_SdpStaticIPAllocation_AddSection_Revision {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationAddSection_Policy_SdpStaticIPAllocation_AddSection{}
+	}
+	return t.Revision
+}
+func (t *PolicySdpStaticIpAllocationAddSection_Policy_SdpStaticIPAllocation_AddSection) GetSection() *PolicySdpStaticIpAllocationAddSection_Policy_SdpStaticIPAllocation_AddSection_Section {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationAddSection_Policy_SdpStaticIPAllocation_AddSection{}
+	}
+	return t.Section
+}
+func (t *PolicySdpStaticIpAllocationAddSection_Policy_SdpStaticIPAllocation_AddSection) GetStatus() *cato_models.PolicyMutationStatus {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationAddSection_Policy_SdpStaticIPAllocation_AddSection{}
+	}
+	return &t.Status
+}
+
+type PolicySdpStaticIpAllocationAddSection_Policy_SdpStaticIPAllocation struct {
+	AddSection PolicySdpStaticIpAllocationAddSection_Policy_SdpStaticIPAllocation_AddSection "json:\"addSection\" graphql:\"addSection\""
+}
+
+func (t *PolicySdpStaticIpAllocationAddSection_Policy_SdpStaticIPAllocation) GetAddSection() *PolicySdpStaticIpAllocationAddSection_Policy_SdpStaticIPAllocation_AddSection {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationAddSection_Policy_SdpStaticIPAllocation{}
+	}
+	return &t.AddSection
+}
+
+type PolicySdpStaticIpAllocationAddSection_Policy struct {
+	SdpStaticIPAllocation *PolicySdpStaticIpAllocationAddSection_Policy_SdpStaticIPAllocation "json:\"sdpStaticIpAllocation,omitempty\" graphql:\"sdpStaticIpAllocation\""
+}
+
+func (t *PolicySdpStaticIpAllocationAddSection_Policy) GetSdpStaticIPAllocation() *PolicySdpStaticIpAllocationAddSection_Policy_SdpStaticIPAllocation {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationAddSection_Policy{}
+	}
+	return t.SdpStaticIPAllocation
+}
+
+type PolicySdpStaticIpAllocationCreatePolicyRevision_Policy_SdpStaticIPAllocation_CreatePolicyRevision_Policy_Rules_Audit struct {
+	UpdatedBy   string "json:\"updatedBy\" graphql:\"updatedBy\""
+	UpdatedTime string "json:\"updatedTime\" graphql:\"updatedTime\""
+}
+
+func (t *PolicySdpStaticIpAllocationCreatePolicyRevision_Policy_SdpStaticIPAllocation_CreatePolicyRevision_Policy_Rules_Audit) GetUpdatedBy() string {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationCreatePolicyRevision_Policy_SdpStaticIPAllocation_CreatePolicyRevision_Policy_Rules_Audit{}
+	}
+	return t.UpdatedBy
+}
+func (t *PolicySdpStaticIpAllocationCreatePolicyRevision_Policy_SdpStaticIPAllocation_CreatePolicyRevision_Policy_Rules_Audit) GetUpdatedTime() string {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationCreatePolicyRevision_Policy_SdpStaticIPAllocation_CreatePolicyRevision_Policy_Rules_Audit{}
+	}
+	return t.UpdatedTime
+}
+
+type PolicySdpStaticIpAllocationCreatePolicyRevision_Policy_SdpStaticIPAllocation_CreatePolicyRevision_Policy_Rules_Metadata_Lock struct {
+	LockingAdminEmail string "json:\"lockingAdminEmail\" graphql:\"lockingAdminEmail\""
+	LockingRevisionID string "json:\"lockingRevisionId\" graphql:\"lockingRevisionId\""
+	LockingTime       string "json:\"lockingTime\" graphql:\"lockingTime\""
+}
+
+func (t *PolicySdpStaticIpAllocationCreatePolicyRevision_Policy_SdpStaticIPAllocation_CreatePolicyRevision_Policy_Rules_Metadata_Lock) GetLockingAdminEmail() string {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationCreatePolicyRevision_Policy_SdpStaticIPAllocation_CreatePolicyRevision_Policy_Rules_Metadata_Lock{}
+	}
+	return t.LockingAdminEmail
+}
+func (t *PolicySdpStaticIpAllocationCreatePolicyRevision_Policy_SdpStaticIPAllocation_CreatePolicyRevision_Policy_Rules_Metadata_Lock) GetLockingRevisionID() string {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationCreatePolicyRevision_Policy_SdpStaticIPAllocation_CreatePolicyRevision_Policy_Rules_Metadata_Lock{}
+	}
+	return t.LockingRevisionID
+}
+func (t *PolicySdpStaticIpAllocationCreatePolicyRevision_Policy_SdpStaticIPAllocation_CreatePolicyRevision_Policy_Rules_Metadata_Lock) GetLockingTime() string {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationCreatePolicyRevision_Policy_SdpStaticIPAllocation_CreatePolicyRevision_Policy_Rules_Metadata_Lock{}
+	}
+	return t.LockingTime
+}
+
+type PolicySdpStaticIpAllocationCreatePolicyRevision_Policy_SdpStaticIPAllocation_CreatePolicyRevision_Policy_Rules_Metadata struct {
+	Lock *PolicySdpStaticIpAllocationCreatePolicyRevision_Policy_SdpStaticIPAllocation_CreatePolicyRevision_Policy_Rules_Metadata_Lock "json:\"lock,omitempty\" graphql:\"lock\""
+}
+
+func (t *PolicySdpStaticIpAllocationCreatePolicyRevision_Policy_SdpStaticIPAllocation_CreatePolicyRevision_Policy_Rules_Metadata) GetLock() *PolicySdpStaticIpAllocationCreatePolicyRevision_Policy_SdpStaticIPAllocation_CreatePolicyRevision_Policy_Rules_Metadata_Lock {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationCreatePolicyRevision_Policy_SdpStaticIPAllocation_CreatePolicyRevision_Policy_Rules_Metadata{}
+	}
+	return t.Lock
+}
+
+type PolicySdpStaticIpAllocationCreatePolicyRevision_Policy_SdpStaticIPAllocation_CreatePolicyRevision_Policy_Rules_Rule_Section struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicySdpStaticIpAllocationCreatePolicyRevision_Policy_SdpStaticIPAllocation_CreatePolicyRevision_Policy_Rules_Rule_Section) GetID() string {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationCreatePolicyRevision_Policy_SdpStaticIPAllocation_CreatePolicyRevision_Policy_Rules_Rule_Section{}
+	}
+	return t.ID
+}
+func (t *PolicySdpStaticIpAllocationCreatePolicyRevision_Policy_SdpStaticIPAllocation_CreatePolicyRevision_Policy_Rules_Rule_Section) GetName() string {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationCreatePolicyRevision_Policy_SdpStaticIPAllocation_CreatePolicyRevision_Policy_Rules_Rule_Section{}
+	}
+	return t.Name
+}
+
+type PolicySdpStaticIpAllocationCreatePolicyRevision_Policy_SdpStaticIPAllocation_CreatePolicyRevision_Policy_Rules_Rule_Source_User struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicySdpStaticIpAllocationCreatePolicyRevision_Policy_SdpStaticIPAllocation_CreatePolicyRevision_Policy_Rules_Rule_Source_User) GetID() string {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationCreatePolicyRevision_Policy_SdpStaticIPAllocation_CreatePolicyRevision_Policy_Rules_Rule_Source_User{}
+	}
+	return t.ID
+}
+func (t *PolicySdpStaticIpAllocationCreatePolicyRevision_Policy_SdpStaticIPAllocation_CreatePolicyRevision_Policy_Rules_Rule_Source_User) GetName() string {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationCreatePolicyRevision_Policy_SdpStaticIPAllocation_CreatePolicyRevision_Policy_Rules_Rule_Source_User{}
+	}
+	return t.Name
+}
+
+type PolicySdpStaticIpAllocationCreatePolicyRevision_Policy_SdpStaticIPAllocation_CreatePolicyRevision_Policy_Rules_Rule_Source struct {
+	User *PolicySdpStaticIpAllocationCreatePolicyRevision_Policy_SdpStaticIPAllocation_CreatePolicyRevision_Policy_Rules_Rule_Source_User "json:\"user,omitempty\" graphql:\"user\""
+}
+
+func (t *PolicySdpStaticIpAllocationCreatePolicyRevision_Policy_SdpStaticIPAllocation_CreatePolicyRevision_Policy_Rules_Rule_Source) GetUser() *PolicySdpStaticIpAllocationCreatePolicyRevision_Policy_SdpStaticIPAllocation_CreatePolicyRevision_Policy_Rules_Rule_Source_User {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationCreatePolicyRevision_Policy_SdpStaticIPAllocation_CreatePolicyRevision_Policy_Rules_Rule_Source{}
+	}
+	return t.User
+}
+
+type PolicySdpStaticIpAllocationCreatePolicyRevision_Policy_SdpStaticIPAllocation_CreatePolicyRevision_Policy_Rules_Rule struct {
+	Description string                                                                                                                      "json:\"description\" graphql:\"description\""
+	Enabled     bool                                                                                                                        "json:\"enabled\" graphql:\"enabled\""
+	ID          string                                                                                                                      "json:\"id\" graphql:\"id\""
+	Index       int64                                                                                                                       "json:\"index\" graphql:\"index\""
+	IP          string                                                                                                                      "json:\"ip\" graphql:\"ip\""
+	Name        string                                                                                                                      "json:\"name\" graphql:\"name\""
+	Section     PolicySdpStaticIpAllocationCreatePolicyRevision_Policy_SdpStaticIPAllocation_CreatePolicyRevision_Policy_Rules_Rule_Section "json:\"section\" graphql:\"section\""
+	Source      PolicySdpStaticIpAllocationCreatePolicyRevision_Policy_SdpStaticIPAllocation_CreatePolicyRevision_Policy_Rules_Rule_Source  "json:\"source\" graphql:\"source\""
+}
+
+func (t *PolicySdpStaticIpAllocationCreatePolicyRevision_Policy_SdpStaticIPAllocation_CreatePolicyRevision_Policy_Rules_Rule) GetDescription() string {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationCreatePolicyRevision_Policy_SdpStaticIPAllocation_CreatePolicyRevision_Policy_Rules_Rule{}
+	}
+	return t.Description
+}
+func (t *PolicySdpStaticIpAllocationCreatePolicyRevision_Policy_SdpStaticIPAllocation_CreatePolicyRevision_Policy_Rules_Rule) GetEnabled() bool {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationCreatePolicyRevision_Policy_SdpStaticIPAllocation_CreatePolicyRevision_Policy_Rules_Rule{}
+	}
+	return t.Enabled
+}
+func (t *PolicySdpStaticIpAllocationCreatePolicyRevision_Policy_SdpStaticIPAllocation_CreatePolicyRevision_Policy_Rules_Rule) GetID() string {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationCreatePolicyRevision_Policy_SdpStaticIPAllocation_CreatePolicyRevision_Policy_Rules_Rule{}
+	}
+	return t.ID
+}
+func (t *PolicySdpStaticIpAllocationCreatePolicyRevision_Policy_SdpStaticIPAllocation_CreatePolicyRevision_Policy_Rules_Rule) GetIndex() int64 {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationCreatePolicyRevision_Policy_SdpStaticIPAllocation_CreatePolicyRevision_Policy_Rules_Rule{}
+	}
+	return t.Index
+}
+func (t *PolicySdpStaticIpAllocationCreatePolicyRevision_Policy_SdpStaticIPAllocation_CreatePolicyRevision_Policy_Rules_Rule) GetIP() string {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationCreatePolicyRevision_Policy_SdpStaticIPAllocation_CreatePolicyRevision_Policy_Rules_Rule{}
+	}
+	return t.IP
+}
+func (t *PolicySdpStaticIpAllocationCreatePolicyRevision_Policy_SdpStaticIPAllocation_CreatePolicyRevision_Policy_Rules_Rule) GetName() string {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationCreatePolicyRevision_Policy_SdpStaticIPAllocation_CreatePolicyRevision_Policy_Rules_Rule{}
+	}
+	return t.Name
+}
+func (t *PolicySdpStaticIpAllocationCreatePolicyRevision_Policy_SdpStaticIPAllocation_CreatePolicyRevision_Policy_Rules_Rule) GetSection() *PolicySdpStaticIpAllocationCreatePolicyRevision_Policy_SdpStaticIPAllocation_CreatePolicyRevision_Policy_Rules_Rule_Section {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationCreatePolicyRevision_Policy_SdpStaticIPAllocation_CreatePolicyRevision_Policy_Rules_Rule{}
+	}
+	return &t.Section
+}
+func (t *PolicySdpStaticIpAllocationCreatePolicyRevision_Policy_SdpStaticIPAllocation_CreatePolicyRevision_Policy_Rules_Rule) GetSource() *PolicySdpStaticIpAllocationCreatePolicyRevision_Policy_SdpStaticIPAllocation_CreatePolicyRevision_Policy_Rules_Rule_Source {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationCreatePolicyRevision_Policy_SdpStaticIPAllocation_CreatePolicyRevision_Policy_Rules_Rule{}
+	}
+	return &t.Source
+}
+
+type PolicySdpStaticIpAllocationCreatePolicyRevision_Policy_SdpStaticIPAllocation_CreatePolicyRevision_Policy_Rules struct {
+	Audit      PolicySdpStaticIpAllocationCreatePolicyRevision_Policy_SdpStaticIPAllocation_CreatePolicyRevision_Policy_Rules_Audit     "json:\"audit\" graphql:\"audit\""
+	Metadata   *PolicySdpStaticIpAllocationCreatePolicyRevision_Policy_SdpStaticIPAllocation_CreatePolicyRevision_Policy_Rules_Metadata "json:\"metadata,omitempty\" graphql:\"metadata\""
+	Properties []cato_models.PolicyElementPropertiesEnum                                                                                "json:\"properties\" graphql:\"properties\""
+	Rule       PolicySdpStaticIpAllocationCreatePolicyRevision_Policy_SdpStaticIPAllocation_CreatePolicyRevision_Policy_Rules_Rule      "json:\"rule\" graphql:\"rule\""
+}
+
+func (t *PolicySdpStaticIpAllocationCreatePolicyRevision_Policy_SdpStaticIPAllocation_CreatePolicyRevision_Policy_Rules) GetAudit() *PolicySdpStaticIpAllocationCreatePolicyRevision_Policy_SdpStaticIPAllocation_CreatePolicyRevision_Policy_Rules_Audit {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationCreatePolicyRevision_Policy_SdpStaticIPAllocation_CreatePolicyRevision_Policy_Rules{}
+	}
+	return &t.Audit
+}
+func (t *PolicySdpStaticIpAllocationCreatePolicyRevision_Policy_SdpStaticIPAllocation_CreatePolicyRevision_Policy_Rules) GetMetadata() *PolicySdpStaticIpAllocationCreatePolicyRevision_Policy_SdpStaticIPAllocation_CreatePolicyRevision_Policy_Rules_Metadata {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationCreatePolicyRevision_Policy_SdpStaticIPAllocation_CreatePolicyRevision_Policy_Rules{}
+	}
+	return t.Metadata
+}
+func (t *PolicySdpStaticIpAllocationCreatePolicyRevision_Policy_SdpStaticIPAllocation_CreatePolicyRevision_Policy_Rules) GetProperties() []cato_models.PolicyElementPropertiesEnum {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationCreatePolicyRevision_Policy_SdpStaticIPAllocation_CreatePolicyRevision_Policy_Rules{}
+	}
+	return t.Properties
+}
+func (t *PolicySdpStaticIpAllocationCreatePolicyRevision_Policy_SdpStaticIPAllocation_CreatePolicyRevision_Policy_Rules) GetRule() *PolicySdpStaticIpAllocationCreatePolicyRevision_Policy_SdpStaticIPAllocation_CreatePolicyRevision_Policy_Rules_Rule {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationCreatePolicyRevision_Policy_SdpStaticIPAllocation_CreatePolicyRevision_Policy_Rules{}
+	}
+	return &t.Rule
+}
+
+type PolicySdpStaticIpAllocationCreatePolicyRevision_Policy_SdpStaticIPAllocation_CreatePolicyRevision_Policy_Sections_Audit struct {
+	UpdatedBy   string "json:\"updatedBy\" graphql:\"updatedBy\""
+	UpdatedTime string "json:\"updatedTime\" graphql:\"updatedTime\""
+}
+
+func (t *PolicySdpStaticIpAllocationCreatePolicyRevision_Policy_SdpStaticIPAllocation_CreatePolicyRevision_Policy_Sections_Audit) GetUpdatedBy() string {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationCreatePolicyRevision_Policy_SdpStaticIPAllocation_CreatePolicyRevision_Policy_Sections_Audit{}
+	}
+	return t.UpdatedBy
+}
+func (t *PolicySdpStaticIpAllocationCreatePolicyRevision_Policy_SdpStaticIPAllocation_CreatePolicyRevision_Policy_Sections_Audit) GetUpdatedTime() string {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationCreatePolicyRevision_Policy_SdpStaticIPAllocation_CreatePolicyRevision_Policy_Sections_Audit{}
+	}
+	return t.UpdatedTime
+}
+
+type PolicySdpStaticIpAllocationCreatePolicyRevision_Policy_SdpStaticIPAllocation_CreatePolicyRevision_Policy_Sections_Metadata_Lock struct {
+	LockingAdminEmail string "json:\"lockingAdminEmail\" graphql:\"lockingAdminEmail\""
+	LockingRevisionID string "json:\"lockingRevisionId\" graphql:\"lockingRevisionId\""
+	LockingTime       string "json:\"lockingTime\" graphql:\"lockingTime\""
+}
+
+func (t *PolicySdpStaticIpAllocationCreatePolicyRevision_Policy_SdpStaticIPAllocation_CreatePolicyRevision_Policy_Sections_Metadata_Lock) GetLockingAdminEmail() string {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationCreatePolicyRevision_Policy_SdpStaticIPAllocation_CreatePolicyRevision_Policy_Sections_Metadata_Lock{}
+	}
+	return t.LockingAdminEmail
+}
+func (t *PolicySdpStaticIpAllocationCreatePolicyRevision_Policy_SdpStaticIPAllocation_CreatePolicyRevision_Policy_Sections_Metadata_Lock) GetLockingRevisionID() string {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationCreatePolicyRevision_Policy_SdpStaticIPAllocation_CreatePolicyRevision_Policy_Sections_Metadata_Lock{}
+	}
+	return t.LockingRevisionID
+}
+func (t *PolicySdpStaticIpAllocationCreatePolicyRevision_Policy_SdpStaticIPAllocation_CreatePolicyRevision_Policy_Sections_Metadata_Lock) GetLockingTime() string {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationCreatePolicyRevision_Policy_SdpStaticIPAllocation_CreatePolicyRevision_Policy_Sections_Metadata_Lock{}
+	}
+	return t.LockingTime
+}
+
+type PolicySdpStaticIpAllocationCreatePolicyRevision_Policy_SdpStaticIPAllocation_CreatePolicyRevision_Policy_Sections_Metadata struct {
+	Lock *PolicySdpStaticIpAllocationCreatePolicyRevision_Policy_SdpStaticIPAllocation_CreatePolicyRevision_Policy_Sections_Metadata_Lock "json:\"lock,omitempty\" graphql:\"lock\""
+}
+
+func (t *PolicySdpStaticIpAllocationCreatePolicyRevision_Policy_SdpStaticIPAllocation_CreatePolicyRevision_Policy_Sections_Metadata) GetLock() *PolicySdpStaticIpAllocationCreatePolicyRevision_Policy_SdpStaticIPAllocation_CreatePolicyRevision_Policy_Sections_Metadata_Lock {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationCreatePolicyRevision_Policy_SdpStaticIPAllocation_CreatePolicyRevision_Policy_Sections_Metadata{}
+	}
+	return t.Lock
+}
+
+type PolicySdpStaticIpAllocationCreatePolicyRevision_Policy_SdpStaticIPAllocation_CreatePolicyRevision_Policy_Sections_Section struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicySdpStaticIpAllocationCreatePolicyRevision_Policy_SdpStaticIPAllocation_CreatePolicyRevision_Policy_Sections_Section) GetID() string {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationCreatePolicyRevision_Policy_SdpStaticIPAllocation_CreatePolicyRevision_Policy_Sections_Section{}
+	}
+	return t.ID
+}
+func (t *PolicySdpStaticIpAllocationCreatePolicyRevision_Policy_SdpStaticIPAllocation_CreatePolicyRevision_Policy_Sections_Section) GetName() string {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationCreatePolicyRevision_Policy_SdpStaticIPAllocation_CreatePolicyRevision_Policy_Sections_Section{}
+	}
+	return t.Name
+}
+
+type PolicySdpStaticIpAllocationCreatePolicyRevision_Policy_SdpStaticIPAllocation_CreatePolicyRevision_Policy_Sections struct {
+	Audit      PolicySdpStaticIpAllocationCreatePolicyRevision_Policy_SdpStaticIPAllocation_CreatePolicyRevision_Policy_Sections_Audit     "json:\"audit\" graphql:\"audit\""
+	Metadata   *PolicySdpStaticIpAllocationCreatePolicyRevision_Policy_SdpStaticIPAllocation_CreatePolicyRevision_Policy_Sections_Metadata "json:\"metadata,omitempty\" graphql:\"metadata\""
+	Properties []cato_models.PolicyElementPropertiesEnum                                                                                   "json:\"properties\" graphql:\"properties\""
+	Section    PolicySdpStaticIpAllocationCreatePolicyRevision_Policy_SdpStaticIPAllocation_CreatePolicyRevision_Policy_Sections_Section   "json:\"section\" graphql:\"section\""
+}
+
+func (t *PolicySdpStaticIpAllocationCreatePolicyRevision_Policy_SdpStaticIPAllocation_CreatePolicyRevision_Policy_Sections) GetAudit() *PolicySdpStaticIpAllocationCreatePolicyRevision_Policy_SdpStaticIPAllocation_CreatePolicyRevision_Policy_Sections_Audit {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationCreatePolicyRevision_Policy_SdpStaticIPAllocation_CreatePolicyRevision_Policy_Sections{}
+	}
+	return &t.Audit
+}
+func (t *PolicySdpStaticIpAllocationCreatePolicyRevision_Policy_SdpStaticIPAllocation_CreatePolicyRevision_Policy_Sections) GetMetadata() *PolicySdpStaticIpAllocationCreatePolicyRevision_Policy_SdpStaticIPAllocation_CreatePolicyRevision_Policy_Sections_Metadata {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationCreatePolicyRevision_Policy_SdpStaticIPAllocation_CreatePolicyRevision_Policy_Sections{}
+	}
+	return t.Metadata
+}
+func (t *PolicySdpStaticIpAllocationCreatePolicyRevision_Policy_SdpStaticIPAllocation_CreatePolicyRevision_Policy_Sections) GetProperties() []cato_models.PolicyElementPropertiesEnum {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationCreatePolicyRevision_Policy_SdpStaticIPAllocation_CreatePolicyRevision_Policy_Sections{}
+	}
+	return t.Properties
+}
+func (t *PolicySdpStaticIpAllocationCreatePolicyRevision_Policy_SdpStaticIPAllocation_CreatePolicyRevision_Policy_Sections) GetSection() *PolicySdpStaticIpAllocationCreatePolicyRevision_Policy_SdpStaticIPAllocation_CreatePolicyRevision_Policy_Sections_Section {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationCreatePolicyRevision_Policy_SdpStaticIPAllocation_CreatePolicyRevision_Policy_Sections{}
+	}
+	return &t.Section
+}
+
+type PolicySdpStaticIpAllocationCreatePolicyRevision_Policy_SdpStaticIPAllocation_CreatePolicyRevision_Policy_Audit struct {
+	PublishedBy   string "json:\"publishedBy\" graphql:\"publishedBy\""
+	PublishedTime string "json:\"publishedTime\" graphql:\"publishedTime\""
+}
+
+func (t *PolicySdpStaticIpAllocationCreatePolicyRevision_Policy_SdpStaticIPAllocation_CreatePolicyRevision_Policy_Audit) GetPublishedBy() string {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationCreatePolicyRevision_Policy_SdpStaticIPAllocation_CreatePolicyRevision_Policy_Audit{}
+	}
+	return t.PublishedBy
+}
+func (t *PolicySdpStaticIpAllocationCreatePolicyRevision_Policy_SdpStaticIPAllocation_CreatePolicyRevision_Policy_Audit) GetPublishedTime() string {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationCreatePolicyRevision_Policy_SdpStaticIPAllocation_CreatePolicyRevision_Policy_Audit{}
+	}
+	return t.PublishedTime
+}
+
+type PolicySdpStaticIpAllocationCreatePolicyRevision_Policy_SdpStaticIPAllocation_CreatePolicyRevision_Policy_Revision struct {
+	Changes     int64  "json:\"changes\" graphql:\"changes\""
+	CreatedTime string "json:\"createdTime\" graphql:\"createdTime\""
+	Description string "json:\"description\" graphql:\"description\""
+	ID          string "json:\"id\" graphql:\"id\""
+	Name        string "json:\"name\" graphql:\"name\""
+	UpdatedTime string "json:\"updatedTime\" graphql:\"updatedTime\""
+}
+
+func (t *PolicySdpStaticIpAllocationCreatePolicyRevision_Policy_SdpStaticIPAllocation_CreatePolicyRevision_Policy_Revision) GetChanges() int64 {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationCreatePolicyRevision_Policy_SdpStaticIPAllocation_CreatePolicyRevision_Policy_Revision{}
+	}
+	return t.Changes
+}
+func (t *PolicySdpStaticIpAllocationCreatePolicyRevision_Policy_SdpStaticIPAllocation_CreatePolicyRevision_Policy_Revision) GetCreatedTime() string {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationCreatePolicyRevision_Policy_SdpStaticIPAllocation_CreatePolicyRevision_Policy_Revision{}
+	}
+	return t.CreatedTime
+}
+func (t *PolicySdpStaticIpAllocationCreatePolicyRevision_Policy_SdpStaticIPAllocation_CreatePolicyRevision_Policy_Revision) GetDescription() string {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationCreatePolicyRevision_Policy_SdpStaticIPAllocation_CreatePolicyRevision_Policy_Revision{}
+	}
+	return t.Description
+}
+func (t *PolicySdpStaticIpAllocationCreatePolicyRevision_Policy_SdpStaticIPAllocation_CreatePolicyRevision_Policy_Revision) GetID() string {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationCreatePolicyRevision_Policy_SdpStaticIPAllocation_CreatePolicyRevision_Policy_Revision{}
+	}
+	return t.ID
+}
+func (t *PolicySdpStaticIpAllocationCreatePolicyRevision_Policy_SdpStaticIPAllocation_CreatePolicyRevision_Policy_Revision) GetName() string {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationCreatePolicyRevision_Policy_SdpStaticIPAllocation_CreatePolicyRevision_Policy_Revision{}
+	}
+	return t.Name
+}
+func (t *PolicySdpStaticIpAllocationCreatePolicyRevision_Policy_SdpStaticIPAllocation_CreatePolicyRevision_Policy_Revision) GetUpdatedTime() string {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationCreatePolicyRevision_Policy_SdpStaticIPAllocation_CreatePolicyRevision_Policy_Revision{}
+	}
+	return t.UpdatedTime
+}
+
+type PolicySdpStaticIpAllocationCreatePolicyRevision_Policy_SdpStaticIPAllocation_CreatePolicyRevision_Policy struct {
+	Audit    *PolicySdpStaticIpAllocationCreatePolicyRevision_Policy_SdpStaticIPAllocation_CreatePolicyRevision_Policy_Audit      "json:\"audit,omitempty\" graphql:\"audit\""
+	Enabled  bool                                                                                                                 "json:\"enabled\" graphql:\"enabled\""
+	Revision *PolicySdpStaticIpAllocationCreatePolicyRevision_Policy_SdpStaticIPAllocation_CreatePolicyRevision_Policy_Revision   "json:\"revision,omitempty\" graphql:\"revision\""
+	Rules    []*PolicySdpStaticIpAllocationCreatePolicyRevision_Policy_SdpStaticIPAllocation_CreatePolicyRevision_Policy_Rules    "json:\"rules\" graphql:\"rules\""
+	Sections []*PolicySdpStaticIpAllocationCreatePolicyRevision_Policy_SdpStaticIPAllocation_CreatePolicyRevision_Policy_Sections "json:\"sections\" graphql:\"sections\""
+}
+
+func (t *PolicySdpStaticIpAllocationCreatePolicyRevision_Policy_SdpStaticIPAllocation_CreatePolicyRevision_Policy) GetAudit() *PolicySdpStaticIpAllocationCreatePolicyRevision_Policy_SdpStaticIPAllocation_CreatePolicyRevision_Policy_Audit {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationCreatePolicyRevision_Policy_SdpStaticIPAllocation_CreatePolicyRevision_Policy{}
+	}
+	return t.Audit
+}
+func (t *PolicySdpStaticIpAllocationCreatePolicyRevision_Policy_SdpStaticIPAllocation_CreatePolicyRevision_Policy) GetEnabled() bool {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationCreatePolicyRevision_Policy_SdpStaticIPAllocation_CreatePolicyRevision_Policy{}
+	}
+	return t.Enabled
+}
+func (t *PolicySdpStaticIpAllocationCreatePolicyRevision_Policy_SdpStaticIPAllocation_CreatePolicyRevision_Policy) GetRevision() *PolicySdpStaticIpAllocationCreatePolicyRevision_Policy_SdpStaticIPAllocation_CreatePolicyRevision_Policy_Revision {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationCreatePolicyRevision_Policy_SdpStaticIPAllocation_CreatePolicyRevision_Policy{}
+	}
+	return t.Revision
+}
+func (t *PolicySdpStaticIpAllocationCreatePolicyRevision_Policy_SdpStaticIPAllocation_CreatePolicyRevision_Policy) GetRules() []*PolicySdpStaticIpAllocationCreatePolicyRevision_Policy_SdpStaticIPAllocation_CreatePolicyRevision_Policy_Rules {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationCreatePolicyRevision_Policy_SdpStaticIPAllocation_CreatePolicyRevision_Policy{}
+	}
+	return t.Rules
+}
+func (t *PolicySdpStaticIpAllocationCreatePolicyRevision_Policy_SdpStaticIPAllocation_CreatePolicyRevision_Policy) GetSections() []*PolicySdpStaticIpAllocationCreatePolicyRevision_Policy_SdpStaticIPAllocation_CreatePolicyRevision_Policy_Sections {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationCreatePolicyRevision_Policy_SdpStaticIPAllocation_CreatePolicyRevision_Policy{}
+	}
+	return t.Sections
+}
+
+type PolicySdpStaticIpAllocationCreatePolicyRevision_Policy_SdpStaticIPAllocation_CreatePolicyRevision_Errors struct {
+	ErrorCode    *string "json:\"errorCode,omitempty\" graphql:\"errorCode\""
+	ErrorMessage *string "json:\"errorMessage,omitempty\" graphql:\"errorMessage\""
+}
+
+func (t *PolicySdpStaticIpAllocationCreatePolicyRevision_Policy_SdpStaticIPAllocation_CreatePolicyRevision_Errors) GetErrorCode() *string {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationCreatePolicyRevision_Policy_SdpStaticIPAllocation_CreatePolicyRevision_Errors{}
+	}
+	return t.ErrorCode
+}
+func (t *PolicySdpStaticIpAllocationCreatePolicyRevision_Policy_SdpStaticIPAllocation_CreatePolicyRevision_Errors) GetErrorMessage() *string {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationCreatePolicyRevision_Policy_SdpStaticIPAllocation_CreatePolicyRevision_Errors{}
+	}
+	return t.ErrorMessage
+}
+
+type PolicySdpStaticIpAllocationCreatePolicyRevision_Policy_SdpStaticIPAllocation_CreatePolicyRevision struct {
+	Errors []*PolicySdpStaticIpAllocationCreatePolicyRevision_Policy_SdpStaticIPAllocation_CreatePolicyRevision_Errors "json:\"errors\" graphql:\"errors\""
+	Policy *PolicySdpStaticIpAllocationCreatePolicyRevision_Policy_SdpStaticIPAllocation_CreatePolicyRevision_Policy   "json:\"policy,omitempty\" graphql:\"policy\""
+	Status cato_models.PolicyMutationStatus                                                                            "json:\"status\" graphql:\"status\""
+}
+
+func (t *PolicySdpStaticIpAllocationCreatePolicyRevision_Policy_SdpStaticIPAllocation_CreatePolicyRevision) GetErrors() []*PolicySdpStaticIpAllocationCreatePolicyRevision_Policy_SdpStaticIPAllocation_CreatePolicyRevision_Errors {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationCreatePolicyRevision_Policy_SdpStaticIPAllocation_CreatePolicyRevision{}
+	}
+	return t.Errors
+}
+func (t *PolicySdpStaticIpAllocationCreatePolicyRevision_Policy_SdpStaticIPAllocation_CreatePolicyRevision) GetPolicy() *PolicySdpStaticIpAllocationCreatePolicyRevision_Policy_SdpStaticIPAllocation_CreatePolicyRevision_Policy {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationCreatePolicyRevision_Policy_SdpStaticIPAllocation_CreatePolicyRevision{}
+	}
+	return t.Policy
+}
+func (t *PolicySdpStaticIpAllocationCreatePolicyRevision_Policy_SdpStaticIPAllocation_CreatePolicyRevision) GetStatus() *cato_models.PolicyMutationStatus {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationCreatePolicyRevision_Policy_SdpStaticIPAllocation_CreatePolicyRevision{}
+	}
+	return &t.Status
+}
+
+type PolicySdpStaticIpAllocationCreatePolicyRevision_Policy_SdpStaticIPAllocation struct {
+	CreatePolicyRevision PolicySdpStaticIpAllocationCreatePolicyRevision_Policy_SdpStaticIPAllocation_CreatePolicyRevision "json:\"createPolicyRevision\" graphql:\"createPolicyRevision\""
+}
+
+func (t *PolicySdpStaticIpAllocationCreatePolicyRevision_Policy_SdpStaticIPAllocation) GetCreatePolicyRevision() *PolicySdpStaticIpAllocationCreatePolicyRevision_Policy_SdpStaticIPAllocation_CreatePolicyRevision {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationCreatePolicyRevision_Policy_SdpStaticIPAllocation{}
+	}
+	return &t.CreatePolicyRevision
+}
+
+type PolicySdpStaticIpAllocationCreatePolicyRevision_Policy struct {
+	SdpStaticIPAllocation *PolicySdpStaticIpAllocationCreatePolicyRevision_Policy_SdpStaticIPAllocation "json:\"sdpStaticIpAllocation,omitempty\" graphql:\"sdpStaticIpAllocation\""
+}
+
+func (t *PolicySdpStaticIpAllocationCreatePolicyRevision_Policy) GetSdpStaticIPAllocation() *PolicySdpStaticIpAllocationCreatePolicyRevision_Policy_SdpStaticIPAllocation {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationCreatePolicyRevision_Policy{}
+	}
+	return t.SdpStaticIPAllocation
+}
+
+type PolicySdpStaticIpAllocationDiscardPolicyRevision_Policy_SdpStaticIPAllocation_DiscardPolicyRevision_Policy_Rules_Audit struct {
+	UpdatedBy   string "json:\"updatedBy\" graphql:\"updatedBy\""
+	UpdatedTime string "json:\"updatedTime\" graphql:\"updatedTime\""
+}
+
+func (t *PolicySdpStaticIpAllocationDiscardPolicyRevision_Policy_SdpStaticIPAllocation_DiscardPolicyRevision_Policy_Rules_Audit) GetUpdatedBy() string {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationDiscardPolicyRevision_Policy_SdpStaticIPAllocation_DiscardPolicyRevision_Policy_Rules_Audit{}
+	}
+	return t.UpdatedBy
+}
+func (t *PolicySdpStaticIpAllocationDiscardPolicyRevision_Policy_SdpStaticIPAllocation_DiscardPolicyRevision_Policy_Rules_Audit) GetUpdatedTime() string {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationDiscardPolicyRevision_Policy_SdpStaticIPAllocation_DiscardPolicyRevision_Policy_Rules_Audit{}
+	}
+	return t.UpdatedTime
+}
+
+type PolicySdpStaticIpAllocationDiscardPolicyRevision_Policy_SdpStaticIPAllocation_DiscardPolicyRevision_Policy_Rules_Metadata_Lock struct {
+	LockingAdminEmail string "json:\"lockingAdminEmail\" graphql:\"lockingAdminEmail\""
+	LockingRevisionID string "json:\"lockingRevisionId\" graphql:\"lockingRevisionId\""
+	LockingTime       string "json:\"lockingTime\" graphql:\"lockingTime\""
+}
+
+func (t *PolicySdpStaticIpAllocationDiscardPolicyRevision_Policy_SdpStaticIPAllocation_DiscardPolicyRevision_Policy_Rules_Metadata_Lock) GetLockingAdminEmail() string {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationDiscardPolicyRevision_Policy_SdpStaticIPAllocation_DiscardPolicyRevision_Policy_Rules_Metadata_Lock{}
+	}
+	return t.LockingAdminEmail
+}
+func (t *PolicySdpStaticIpAllocationDiscardPolicyRevision_Policy_SdpStaticIPAllocation_DiscardPolicyRevision_Policy_Rules_Metadata_Lock) GetLockingRevisionID() string {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationDiscardPolicyRevision_Policy_SdpStaticIPAllocation_DiscardPolicyRevision_Policy_Rules_Metadata_Lock{}
+	}
+	return t.LockingRevisionID
+}
+func (t *PolicySdpStaticIpAllocationDiscardPolicyRevision_Policy_SdpStaticIPAllocation_DiscardPolicyRevision_Policy_Rules_Metadata_Lock) GetLockingTime() string {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationDiscardPolicyRevision_Policy_SdpStaticIPAllocation_DiscardPolicyRevision_Policy_Rules_Metadata_Lock{}
+	}
+	return t.LockingTime
+}
+
+type PolicySdpStaticIpAllocationDiscardPolicyRevision_Policy_SdpStaticIPAllocation_DiscardPolicyRevision_Policy_Rules_Metadata struct {
+	Lock *PolicySdpStaticIpAllocationDiscardPolicyRevision_Policy_SdpStaticIPAllocation_DiscardPolicyRevision_Policy_Rules_Metadata_Lock "json:\"lock,omitempty\" graphql:\"lock\""
+}
+
+func (t *PolicySdpStaticIpAllocationDiscardPolicyRevision_Policy_SdpStaticIPAllocation_DiscardPolicyRevision_Policy_Rules_Metadata) GetLock() *PolicySdpStaticIpAllocationDiscardPolicyRevision_Policy_SdpStaticIPAllocation_DiscardPolicyRevision_Policy_Rules_Metadata_Lock {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationDiscardPolicyRevision_Policy_SdpStaticIPAllocation_DiscardPolicyRevision_Policy_Rules_Metadata{}
+	}
+	return t.Lock
+}
+
+type PolicySdpStaticIpAllocationDiscardPolicyRevision_Policy_SdpStaticIPAllocation_DiscardPolicyRevision_Policy_Rules_Rule_Section struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicySdpStaticIpAllocationDiscardPolicyRevision_Policy_SdpStaticIPAllocation_DiscardPolicyRevision_Policy_Rules_Rule_Section) GetID() string {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationDiscardPolicyRevision_Policy_SdpStaticIPAllocation_DiscardPolicyRevision_Policy_Rules_Rule_Section{}
+	}
+	return t.ID
+}
+func (t *PolicySdpStaticIpAllocationDiscardPolicyRevision_Policy_SdpStaticIPAllocation_DiscardPolicyRevision_Policy_Rules_Rule_Section) GetName() string {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationDiscardPolicyRevision_Policy_SdpStaticIPAllocation_DiscardPolicyRevision_Policy_Rules_Rule_Section{}
+	}
+	return t.Name
+}
+
+type PolicySdpStaticIpAllocationDiscardPolicyRevision_Policy_SdpStaticIPAllocation_DiscardPolicyRevision_Policy_Rules_Rule_Source_User struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicySdpStaticIpAllocationDiscardPolicyRevision_Policy_SdpStaticIPAllocation_DiscardPolicyRevision_Policy_Rules_Rule_Source_User) GetID() string {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationDiscardPolicyRevision_Policy_SdpStaticIPAllocation_DiscardPolicyRevision_Policy_Rules_Rule_Source_User{}
+	}
+	return t.ID
+}
+func (t *PolicySdpStaticIpAllocationDiscardPolicyRevision_Policy_SdpStaticIPAllocation_DiscardPolicyRevision_Policy_Rules_Rule_Source_User) GetName() string {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationDiscardPolicyRevision_Policy_SdpStaticIPAllocation_DiscardPolicyRevision_Policy_Rules_Rule_Source_User{}
+	}
+	return t.Name
+}
+
+type PolicySdpStaticIpAllocationDiscardPolicyRevision_Policy_SdpStaticIPAllocation_DiscardPolicyRevision_Policy_Rules_Rule_Source struct {
+	User *PolicySdpStaticIpAllocationDiscardPolicyRevision_Policy_SdpStaticIPAllocation_DiscardPolicyRevision_Policy_Rules_Rule_Source_User "json:\"user,omitempty\" graphql:\"user\""
+}
+
+func (t *PolicySdpStaticIpAllocationDiscardPolicyRevision_Policy_SdpStaticIPAllocation_DiscardPolicyRevision_Policy_Rules_Rule_Source) GetUser() *PolicySdpStaticIpAllocationDiscardPolicyRevision_Policy_SdpStaticIPAllocation_DiscardPolicyRevision_Policy_Rules_Rule_Source_User {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationDiscardPolicyRevision_Policy_SdpStaticIPAllocation_DiscardPolicyRevision_Policy_Rules_Rule_Source{}
+	}
+	return t.User
+}
+
+type PolicySdpStaticIpAllocationDiscardPolicyRevision_Policy_SdpStaticIPAllocation_DiscardPolicyRevision_Policy_Rules_Rule struct {
+	Description string                                                                                                                        "json:\"description\" graphql:\"description\""
+	Enabled     bool                                                                                                                          "json:\"enabled\" graphql:\"enabled\""
+	ID          string                                                                                                                        "json:\"id\" graphql:\"id\""
+	Index       int64                                                                                                                         "json:\"index\" graphql:\"index\""
+	IP          string                                                                                                                        "json:\"ip\" graphql:\"ip\""
+	Name        string                                                                                                                        "json:\"name\" graphql:\"name\""
+	Section     PolicySdpStaticIpAllocationDiscardPolicyRevision_Policy_SdpStaticIPAllocation_DiscardPolicyRevision_Policy_Rules_Rule_Section "json:\"section\" graphql:\"section\""
+	Source      PolicySdpStaticIpAllocationDiscardPolicyRevision_Policy_SdpStaticIPAllocation_DiscardPolicyRevision_Policy_Rules_Rule_Source  "json:\"source\" graphql:\"source\""
+}
+
+func (t *PolicySdpStaticIpAllocationDiscardPolicyRevision_Policy_SdpStaticIPAllocation_DiscardPolicyRevision_Policy_Rules_Rule) GetDescription() string {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationDiscardPolicyRevision_Policy_SdpStaticIPAllocation_DiscardPolicyRevision_Policy_Rules_Rule{}
+	}
+	return t.Description
+}
+func (t *PolicySdpStaticIpAllocationDiscardPolicyRevision_Policy_SdpStaticIPAllocation_DiscardPolicyRevision_Policy_Rules_Rule) GetEnabled() bool {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationDiscardPolicyRevision_Policy_SdpStaticIPAllocation_DiscardPolicyRevision_Policy_Rules_Rule{}
+	}
+	return t.Enabled
+}
+func (t *PolicySdpStaticIpAllocationDiscardPolicyRevision_Policy_SdpStaticIPAllocation_DiscardPolicyRevision_Policy_Rules_Rule) GetID() string {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationDiscardPolicyRevision_Policy_SdpStaticIPAllocation_DiscardPolicyRevision_Policy_Rules_Rule{}
+	}
+	return t.ID
+}
+func (t *PolicySdpStaticIpAllocationDiscardPolicyRevision_Policy_SdpStaticIPAllocation_DiscardPolicyRevision_Policy_Rules_Rule) GetIndex() int64 {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationDiscardPolicyRevision_Policy_SdpStaticIPAllocation_DiscardPolicyRevision_Policy_Rules_Rule{}
+	}
+	return t.Index
+}
+func (t *PolicySdpStaticIpAllocationDiscardPolicyRevision_Policy_SdpStaticIPAllocation_DiscardPolicyRevision_Policy_Rules_Rule) GetIP() string {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationDiscardPolicyRevision_Policy_SdpStaticIPAllocation_DiscardPolicyRevision_Policy_Rules_Rule{}
+	}
+	return t.IP
+}
+func (t *PolicySdpStaticIpAllocationDiscardPolicyRevision_Policy_SdpStaticIPAllocation_DiscardPolicyRevision_Policy_Rules_Rule) GetName() string {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationDiscardPolicyRevision_Policy_SdpStaticIPAllocation_DiscardPolicyRevision_Policy_Rules_Rule{}
+	}
+	return t.Name
+}
+func (t *PolicySdpStaticIpAllocationDiscardPolicyRevision_Policy_SdpStaticIPAllocation_DiscardPolicyRevision_Policy_Rules_Rule) GetSection() *PolicySdpStaticIpAllocationDiscardPolicyRevision_Policy_SdpStaticIPAllocation_DiscardPolicyRevision_Policy_Rules_Rule_Section {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationDiscardPolicyRevision_Policy_SdpStaticIPAllocation_DiscardPolicyRevision_Policy_Rules_Rule{}
+	}
+	return &t.Section
+}
+func (t *PolicySdpStaticIpAllocationDiscardPolicyRevision_Policy_SdpStaticIPAllocation_DiscardPolicyRevision_Policy_Rules_Rule) GetSource() *PolicySdpStaticIpAllocationDiscardPolicyRevision_Policy_SdpStaticIPAllocation_DiscardPolicyRevision_Policy_Rules_Rule_Source {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationDiscardPolicyRevision_Policy_SdpStaticIPAllocation_DiscardPolicyRevision_Policy_Rules_Rule{}
+	}
+	return &t.Source
+}
+
+type PolicySdpStaticIpAllocationDiscardPolicyRevision_Policy_SdpStaticIPAllocation_DiscardPolicyRevision_Policy_Rules struct {
+	Audit      PolicySdpStaticIpAllocationDiscardPolicyRevision_Policy_SdpStaticIPAllocation_DiscardPolicyRevision_Policy_Rules_Audit     "json:\"audit\" graphql:\"audit\""
+	Metadata   *PolicySdpStaticIpAllocationDiscardPolicyRevision_Policy_SdpStaticIPAllocation_DiscardPolicyRevision_Policy_Rules_Metadata "json:\"metadata,omitempty\" graphql:\"metadata\""
+	Properties []cato_models.PolicyElementPropertiesEnum                                                                                  "json:\"properties\" graphql:\"properties\""
+	Rule       PolicySdpStaticIpAllocationDiscardPolicyRevision_Policy_SdpStaticIPAllocation_DiscardPolicyRevision_Policy_Rules_Rule      "json:\"rule\" graphql:\"rule\""
+}
+
+func (t *PolicySdpStaticIpAllocationDiscardPolicyRevision_Policy_SdpStaticIPAllocation_DiscardPolicyRevision_Policy_Rules) GetAudit() *PolicySdpStaticIpAllocationDiscardPolicyRevision_Policy_SdpStaticIPAllocation_DiscardPolicyRevision_Policy_Rules_Audit {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationDiscardPolicyRevision_Policy_SdpStaticIPAllocation_DiscardPolicyRevision_Policy_Rules{}
+	}
+	return &t.Audit
+}
+func (t *PolicySdpStaticIpAllocationDiscardPolicyRevision_Policy_SdpStaticIPAllocation_DiscardPolicyRevision_Policy_Rules) GetMetadata() *PolicySdpStaticIpAllocationDiscardPolicyRevision_Policy_SdpStaticIPAllocation_DiscardPolicyRevision_Policy_Rules_Metadata {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationDiscardPolicyRevision_Policy_SdpStaticIPAllocation_DiscardPolicyRevision_Policy_Rules{}
+	}
+	return t.Metadata
+}
+func (t *PolicySdpStaticIpAllocationDiscardPolicyRevision_Policy_SdpStaticIPAllocation_DiscardPolicyRevision_Policy_Rules) GetProperties() []cato_models.PolicyElementPropertiesEnum {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationDiscardPolicyRevision_Policy_SdpStaticIPAllocation_DiscardPolicyRevision_Policy_Rules{}
+	}
+	return t.Properties
+}
+func (t *PolicySdpStaticIpAllocationDiscardPolicyRevision_Policy_SdpStaticIPAllocation_DiscardPolicyRevision_Policy_Rules) GetRule() *PolicySdpStaticIpAllocationDiscardPolicyRevision_Policy_SdpStaticIPAllocation_DiscardPolicyRevision_Policy_Rules_Rule {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationDiscardPolicyRevision_Policy_SdpStaticIPAllocation_DiscardPolicyRevision_Policy_Rules{}
+	}
+	return &t.Rule
+}
+
+type PolicySdpStaticIpAllocationDiscardPolicyRevision_Policy_SdpStaticIPAllocation_DiscardPolicyRevision_Policy_Sections_Audit struct {
+	UpdatedBy   string "json:\"updatedBy\" graphql:\"updatedBy\""
+	UpdatedTime string "json:\"updatedTime\" graphql:\"updatedTime\""
+}
+
+func (t *PolicySdpStaticIpAllocationDiscardPolicyRevision_Policy_SdpStaticIPAllocation_DiscardPolicyRevision_Policy_Sections_Audit) GetUpdatedBy() string {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationDiscardPolicyRevision_Policy_SdpStaticIPAllocation_DiscardPolicyRevision_Policy_Sections_Audit{}
+	}
+	return t.UpdatedBy
+}
+func (t *PolicySdpStaticIpAllocationDiscardPolicyRevision_Policy_SdpStaticIPAllocation_DiscardPolicyRevision_Policy_Sections_Audit) GetUpdatedTime() string {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationDiscardPolicyRevision_Policy_SdpStaticIPAllocation_DiscardPolicyRevision_Policy_Sections_Audit{}
+	}
+	return t.UpdatedTime
+}
+
+type PolicySdpStaticIpAllocationDiscardPolicyRevision_Policy_SdpStaticIPAllocation_DiscardPolicyRevision_Policy_Sections_Metadata_Lock struct {
+	LockingAdminEmail string "json:\"lockingAdminEmail\" graphql:\"lockingAdminEmail\""
+	LockingRevisionID string "json:\"lockingRevisionId\" graphql:\"lockingRevisionId\""
+	LockingTime       string "json:\"lockingTime\" graphql:\"lockingTime\""
+}
+
+func (t *PolicySdpStaticIpAllocationDiscardPolicyRevision_Policy_SdpStaticIPAllocation_DiscardPolicyRevision_Policy_Sections_Metadata_Lock) GetLockingAdminEmail() string {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationDiscardPolicyRevision_Policy_SdpStaticIPAllocation_DiscardPolicyRevision_Policy_Sections_Metadata_Lock{}
+	}
+	return t.LockingAdminEmail
+}
+func (t *PolicySdpStaticIpAllocationDiscardPolicyRevision_Policy_SdpStaticIPAllocation_DiscardPolicyRevision_Policy_Sections_Metadata_Lock) GetLockingRevisionID() string {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationDiscardPolicyRevision_Policy_SdpStaticIPAllocation_DiscardPolicyRevision_Policy_Sections_Metadata_Lock{}
+	}
+	return t.LockingRevisionID
+}
+func (t *PolicySdpStaticIpAllocationDiscardPolicyRevision_Policy_SdpStaticIPAllocation_DiscardPolicyRevision_Policy_Sections_Metadata_Lock) GetLockingTime() string {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationDiscardPolicyRevision_Policy_SdpStaticIPAllocation_DiscardPolicyRevision_Policy_Sections_Metadata_Lock{}
+	}
+	return t.LockingTime
+}
+
+type PolicySdpStaticIpAllocationDiscardPolicyRevision_Policy_SdpStaticIPAllocation_DiscardPolicyRevision_Policy_Sections_Metadata struct {
+	Lock *PolicySdpStaticIpAllocationDiscardPolicyRevision_Policy_SdpStaticIPAllocation_DiscardPolicyRevision_Policy_Sections_Metadata_Lock "json:\"lock,omitempty\" graphql:\"lock\""
+}
+
+func (t *PolicySdpStaticIpAllocationDiscardPolicyRevision_Policy_SdpStaticIPAllocation_DiscardPolicyRevision_Policy_Sections_Metadata) GetLock() *PolicySdpStaticIpAllocationDiscardPolicyRevision_Policy_SdpStaticIPAllocation_DiscardPolicyRevision_Policy_Sections_Metadata_Lock {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationDiscardPolicyRevision_Policy_SdpStaticIPAllocation_DiscardPolicyRevision_Policy_Sections_Metadata{}
+	}
+	return t.Lock
+}
+
+type PolicySdpStaticIpAllocationDiscardPolicyRevision_Policy_SdpStaticIPAllocation_DiscardPolicyRevision_Policy_Sections_Section struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicySdpStaticIpAllocationDiscardPolicyRevision_Policy_SdpStaticIPAllocation_DiscardPolicyRevision_Policy_Sections_Section) GetID() string {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationDiscardPolicyRevision_Policy_SdpStaticIPAllocation_DiscardPolicyRevision_Policy_Sections_Section{}
+	}
+	return t.ID
+}
+func (t *PolicySdpStaticIpAllocationDiscardPolicyRevision_Policy_SdpStaticIPAllocation_DiscardPolicyRevision_Policy_Sections_Section) GetName() string {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationDiscardPolicyRevision_Policy_SdpStaticIPAllocation_DiscardPolicyRevision_Policy_Sections_Section{}
+	}
+	return t.Name
+}
+
+type PolicySdpStaticIpAllocationDiscardPolicyRevision_Policy_SdpStaticIPAllocation_DiscardPolicyRevision_Policy_Sections struct {
+	Audit      PolicySdpStaticIpAllocationDiscardPolicyRevision_Policy_SdpStaticIPAllocation_DiscardPolicyRevision_Policy_Sections_Audit     "json:\"audit\" graphql:\"audit\""
+	Metadata   *PolicySdpStaticIpAllocationDiscardPolicyRevision_Policy_SdpStaticIPAllocation_DiscardPolicyRevision_Policy_Sections_Metadata "json:\"metadata,omitempty\" graphql:\"metadata\""
+	Properties []cato_models.PolicyElementPropertiesEnum                                                                                     "json:\"properties\" graphql:\"properties\""
+	Section    PolicySdpStaticIpAllocationDiscardPolicyRevision_Policy_SdpStaticIPAllocation_DiscardPolicyRevision_Policy_Sections_Section   "json:\"section\" graphql:\"section\""
+}
+
+func (t *PolicySdpStaticIpAllocationDiscardPolicyRevision_Policy_SdpStaticIPAllocation_DiscardPolicyRevision_Policy_Sections) GetAudit() *PolicySdpStaticIpAllocationDiscardPolicyRevision_Policy_SdpStaticIPAllocation_DiscardPolicyRevision_Policy_Sections_Audit {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationDiscardPolicyRevision_Policy_SdpStaticIPAllocation_DiscardPolicyRevision_Policy_Sections{}
+	}
+	return &t.Audit
+}
+func (t *PolicySdpStaticIpAllocationDiscardPolicyRevision_Policy_SdpStaticIPAllocation_DiscardPolicyRevision_Policy_Sections) GetMetadata() *PolicySdpStaticIpAllocationDiscardPolicyRevision_Policy_SdpStaticIPAllocation_DiscardPolicyRevision_Policy_Sections_Metadata {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationDiscardPolicyRevision_Policy_SdpStaticIPAllocation_DiscardPolicyRevision_Policy_Sections{}
+	}
+	return t.Metadata
+}
+func (t *PolicySdpStaticIpAllocationDiscardPolicyRevision_Policy_SdpStaticIPAllocation_DiscardPolicyRevision_Policy_Sections) GetProperties() []cato_models.PolicyElementPropertiesEnum {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationDiscardPolicyRevision_Policy_SdpStaticIPAllocation_DiscardPolicyRevision_Policy_Sections{}
+	}
+	return t.Properties
+}
+func (t *PolicySdpStaticIpAllocationDiscardPolicyRevision_Policy_SdpStaticIPAllocation_DiscardPolicyRevision_Policy_Sections) GetSection() *PolicySdpStaticIpAllocationDiscardPolicyRevision_Policy_SdpStaticIPAllocation_DiscardPolicyRevision_Policy_Sections_Section {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationDiscardPolicyRevision_Policy_SdpStaticIPAllocation_DiscardPolicyRevision_Policy_Sections{}
+	}
+	return &t.Section
+}
+
+type PolicySdpStaticIpAllocationDiscardPolicyRevision_Policy_SdpStaticIPAllocation_DiscardPolicyRevision_Policy_Audit struct {
+	PublishedBy   string "json:\"publishedBy\" graphql:\"publishedBy\""
+	PublishedTime string "json:\"publishedTime\" graphql:\"publishedTime\""
+}
+
+func (t *PolicySdpStaticIpAllocationDiscardPolicyRevision_Policy_SdpStaticIPAllocation_DiscardPolicyRevision_Policy_Audit) GetPublishedBy() string {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationDiscardPolicyRevision_Policy_SdpStaticIPAllocation_DiscardPolicyRevision_Policy_Audit{}
+	}
+	return t.PublishedBy
+}
+func (t *PolicySdpStaticIpAllocationDiscardPolicyRevision_Policy_SdpStaticIPAllocation_DiscardPolicyRevision_Policy_Audit) GetPublishedTime() string {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationDiscardPolicyRevision_Policy_SdpStaticIPAllocation_DiscardPolicyRevision_Policy_Audit{}
+	}
+	return t.PublishedTime
+}
+
+type PolicySdpStaticIpAllocationDiscardPolicyRevision_Policy_SdpStaticIPAllocation_DiscardPolicyRevision_Policy_Revision struct {
+	Changes     int64  "json:\"changes\" graphql:\"changes\""
+	CreatedTime string "json:\"createdTime\" graphql:\"createdTime\""
+	Description string "json:\"description\" graphql:\"description\""
+	ID          string "json:\"id\" graphql:\"id\""
+	Name        string "json:\"name\" graphql:\"name\""
+	UpdatedTime string "json:\"updatedTime\" graphql:\"updatedTime\""
+}
+
+func (t *PolicySdpStaticIpAllocationDiscardPolicyRevision_Policy_SdpStaticIPAllocation_DiscardPolicyRevision_Policy_Revision) GetChanges() int64 {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationDiscardPolicyRevision_Policy_SdpStaticIPAllocation_DiscardPolicyRevision_Policy_Revision{}
+	}
+	return t.Changes
+}
+func (t *PolicySdpStaticIpAllocationDiscardPolicyRevision_Policy_SdpStaticIPAllocation_DiscardPolicyRevision_Policy_Revision) GetCreatedTime() string {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationDiscardPolicyRevision_Policy_SdpStaticIPAllocation_DiscardPolicyRevision_Policy_Revision{}
+	}
+	return t.CreatedTime
+}
+func (t *PolicySdpStaticIpAllocationDiscardPolicyRevision_Policy_SdpStaticIPAllocation_DiscardPolicyRevision_Policy_Revision) GetDescription() string {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationDiscardPolicyRevision_Policy_SdpStaticIPAllocation_DiscardPolicyRevision_Policy_Revision{}
+	}
+	return t.Description
+}
+func (t *PolicySdpStaticIpAllocationDiscardPolicyRevision_Policy_SdpStaticIPAllocation_DiscardPolicyRevision_Policy_Revision) GetID() string {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationDiscardPolicyRevision_Policy_SdpStaticIPAllocation_DiscardPolicyRevision_Policy_Revision{}
+	}
+	return t.ID
+}
+func (t *PolicySdpStaticIpAllocationDiscardPolicyRevision_Policy_SdpStaticIPAllocation_DiscardPolicyRevision_Policy_Revision) GetName() string {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationDiscardPolicyRevision_Policy_SdpStaticIPAllocation_DiscardPolicyRevision_Policy_Revision{}
+	}
+	return t.Name
+}
+func (t *PolicySdpStaticIpAllocationDiscardPolicyRevision_Policy_SdpStaticIPAllocation_DiscardPolicyRevision_Policy_Revision) GetUpdatedTime() string {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationDiscardPolicyRevision_Policy_SdpStaticIPAllocation_DiscardPolicyRevision_Policy_Revision{}
+	}
+	return t.UpdatedTime
+}
+
+type PolicySdpStaticIpAllocationDiscardPolicyRevision_Policy_SdpStaticIPAllocation_DiscardPolicyRevision_Policy struct {
+	Audit    *PolicySdpStaticIpAllocationDiscardPolicyRevision_Policy_SdpStaticIPAllocation_DiscardPolicyRevision_Policy_Audit      "json:\"audit,omitempty\" graphql:\"audit\""
+	Enabled  bool                                                                                                                   "json:\"enabled\" graphql:\"enabled\""
+	Revision *PolicySdpStaticIpAllocationDiscardPolicyRevision_Policy_SdpStaticIPAllocation_DiscardPolicyRevision_Policy_Revision   "json:\"revision,omitempty\" graphql:\"revision\""
+	Rules    []*PolicySdpStaticIpAllocationDiscardPolicyRevision_Policy_SdpStaticIPAllocation_DiscardPolicyRevision_Policy_Rules    "json:\"rules\" graphql:\"rules\""
+	Sections []*PolicySdpStaticIpAllocationDiscardPolicyRevision_Policy_SdpStaticIPAllocation_DiscardPolicyRevision_Policy_Sections "json:\"sections\" graphql:\"sections\""
+}
+
+func (t *PolicySdpStaticIpAllocationDiscardPolicyRevision_Policy_SdpStaticIPAllocation_DiscardPolicyRevision_Policy) GetAudit() *PolicySdpStaticIpAllocationDiscardPolicyRevision_Policy_SdpStaticIPAllocation_DiscardPolicyRevision_Policy_Audit {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationDiscardPolicyRevision_Policy_SdpStaticIPAllocation_DiscardPolicyRevision_Policy{}
+	}
+	return t.Audit
+}
+func (t *PolicySdpStaticIpAllocationDiscardPolicyRevision_Policy_SdpStaticIPAllocation_DiscardPolicyRevision_Policy) GetEnabled() bool {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationDiscardPolicyRevision_Policy_SdpStaticIPAllocation_DiscardPolicyRevision_Policy{}
+	}
+	return t.Enabled
+}
+func (t *PolicySdpStaticIpAllocationDiscardPolicyRevision_Policy_SdpStaticIPAllocation_DiscardPolicyRevision_Policy) GetRevision() *PolicySdpStaticIpAllocationDiscardPolicyRevision_Policy_SdpStaticIPAllocation_DiscardPolicyRevision_Policy_Revision {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationDiscardPolicyRevision_Policy_SdpStaticIPAllocation_DiscardPolicyRevision_Policy{}
+	}
+	return t.Revision
+}
+func (t *PolicySdpStaticIpAllocationDiscardPolicyRevision_Policy_SdpStaticIPAllocation_DiscardPolicyRevision_Policy) GetRules() []*PolicySdpStaticIpAllocationDiscardPolicyRevision_Policy_SdpStaticIPAllocation_DiscardPolicyRevision_Policy_Rules {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationDiscardPolicyRevision_Policy_SdpStaticIPAllocation_DiscardPolicyRevision_Policy{}
+	}
+	return t.Rules
+}
+func (t *PolicySdpStaticIpAllocationDiscardPolicyRevision_Policy_SdpStaticIPAllocation_DiscardPolicyRevision_Policy) GetSections() []*PolicySdpStaticIpAllocationDiscardPolicyRevision_Policy_SdpStaticIPAllocation_DiscardPolicyRevision_Policy_Sections {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationDiscardPolicyRevision_Policy_SdpStaticIPAllocation_DiscardPolicyRevision_Policy{}
+	}
+	return t.Sections
+}
+
+type PolicySdpStaticIpAllocationDiscardPolicyRevision_Policy_SdpStaticIPAllocation_DiscardPolicyRevision_Errors struct {
+	ErrorCode    *string "json:\"errorCode,omitempty\" graphql:\"errorCode\""
+	ErrorMessage *string "json:\"errorMessage,omitempty\" graphql:\"errorMessage\""
+}
+
+func (t *PolicySdpStaticIpAllocationDiscardPolicyRevision_Policy_SdpStaticIPAllocation_DiscardPolicyRevision_Errors) GetErrorCode() *string {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationDiscardPolicyRevision_Policy_SdpStaticIPAllocation_DiscardPolicyRevision_Errors{}
+	}
+	return t.ErrorCode
+}
+func (t *PolicySdpStaticIpAllocationDiscardPolicyRevision_Policy_SdpStaticIPAllocation_DiscardPolicyRevision_Errors) GetErrorMessage() *string {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationDiscardPolicyRevision_Policy_SdpStaticIPAllocation_DiscardPolicyRevision_Errors{}
+	}
+	return t.ErrorMessage
+}
+
+type PolicySdpStaticIpAllocationDiscardPolicyRevision_Policy_SdpStaticIPAllocation_DiscardPolicyRevision struct {
+	Errors []*PolicySdpStaticIpAllocationDiscardPolicyRevision_Policy_SdpStaticIPAllocation_DiscardPolicyRevision_Errors "json:\"errors\" graphql:\"errors\""
+	Policy *PolicySdpStaticIpAllocationDiscardPolicyRevision_Policy_SdpStaticIPAllocation_DiscardPolicyRevision_Policy   "json:\"policy,omitempty\" graphql:\"policy\""
+	Status cato_models.PolicyMutationStatus                                                                              "json:\"status\" graphql:\"status\""
+}
+
+func (t *PolicySdpStaticIpAllocationDiscardPolicyRevision_Policy_SdpStaticIPAllocation_DiscardPolicyRevision) GetErrors() []*PolicySdpStaticIpAllocationDiscardPolicyRevision_Policy_SdpStaticIPAllocation_DiscardPolicyRevision_Errors {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationDiscardPolicyRevision_Policy_SdpStaticIPAllocation_DiscardPolicyRevision{}
+	}
+	return t.Errors
+}
+func (t *PolicySdpStaticIpAllocationDiscardPolicyRevision_Policy_SdpStaticIPAllocation_DiscardPolicyRevision) GetPolicy() *PolicySdpStaticIpAllocationDiscardPolicyRevision_Policy_SdpStaticIPAllocation_DiscardPolicyRevision_Policy {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationDiscardPolicyRevision_Policy_SdpStaticIPAllocation_DiscardPolicyRevision{}
+	}
+	return t.Policy
+}
+func (t *PolicySdpStaticIpAllocationDiscardPolicyRevision_Policy_SdpStaticIPAllocation_DiscardPolicyRevision) GetStatus() *cato_models.PolicyMutationStatus {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationDiscardPolicyRevision_Policy_SdpStaticIPAllocation_DiscardPolicyRevision{}
+	}
+	return &t.Status
+}
+
+type PolicySdpStaticIpAllocationDiscardPolicyRevision_Policy_SdpStaticIPAllocation struct {
+	DiscardPolicyRevision PolicySdpStaticIpAllocationDiscardPolicyRevision_Policy_SdpStaticIPAllocation_DiscardPolicyRevision "json:\"discardPolicyRevision\" graphql:\"discardPolicyRevision\""
+}
+
+func (t *PolicySdpStaticIpAllocationDiscardPolicyRevision_Policy_SdpStaticIPAllocation) GetDiscardPolicyRevision() *PolicySdpStaticIpAllocationDiscardPolicyRevision_Policy_SdpStaticIPAllocation_DiscardPolicyRevision {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationDiscardPolicyRevision_Policy_SdpStaticIPAllocation{}
+	}
+	return &t.DiscardPolicyRevision
+}
+
+type PolicySdpStaticIpAllocationDiscardPolicyRevision_Policy struct {
+	SdpStaticIPAllocation *PolicySdpStaticIpAllocationDiscardPolicyRevision_Policy_SdpStaticIPAllocation "json:\"sdpStaticIpAllocation,omitempty\" graphql:\"sdpStaticIpAllocation\""
+}
+
+func (t *PolicySdpStaticIpAllocationDiscardPolicyRevision_Policy) GetSdpStaticIPAllocation() *PolicySdpStaticIpAllocationDiscardPolicyRevision_Policy_SdpStaticIPAllocation {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationDiscardPolicyRevision_Policy{}
+	}
+	return t.SdpStaticIPAllocation
+}
+
+type PolicySdpStaticIpAllocationMoveRule_Policy_SdpStaticIPAllocation_MoveRule_Rule_Audit struct {
+	UpdatedBy   string "json:\"updatedBy\" graphql:\"updatedBy\""
+	UpdatedTime string "json:\"updatedTime\" graphql:\"updatedTime\""
+}
+
+func (t *PolicySdpStaticIpAllocationMoveRule_Policy_SdpStaticIPAllocation_MoveRule_Rule_Audit) GetUpdatedBy() string {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationMoveRule_Policy_SdpStaticIPAllocation_MoveRule_Rule_Audit{}
+	}
+	return t.UpdatedBy
+}
+func (t *PolicySdpStaticIpAllocationMoveRule_Policy_SdpStaticIPAllocation_MoveRule_Rule_Audit) GetUpdatedTime() string {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationMoveRule_Policy_SdpStaticIPAllocation_MoveRule_Rule_Audit{}
+	}
+	return t.UpdatedTime
+}
+
+type PolicySdpStaticIpAllocationMoveRule_Policy_SdpStaticIPAllocation_MoveRule_Rule_Metadata_Lock struct {
+	LockingAdminEmail string "json:\"lockingAdminEmail\" graphql:\"lockingAdminEmail\""
+	LockingRevisionID string "json:\"lockingRevisionId\" graphql:\"lockingRevisionId\""
+	LockingTime       string "json:\"lockingTime\" graphql:\"lockingTime\""
+}
+
+func (t *PolicySdpStaticIpAllocationMoveRule_Policy_SdpStaticIPAllocation_MoveRule_Rule_Metadata_Lock) GetLockingAdminEmail() string {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationMoveRule_Policy_SdpStaticIPAllocation_MoveRule_Rule_Metadata_Lock{}
+	}
+	return t.LockingAdminEmail
+}
+func (t *PolicySdpStaticIpAllocationMoveRule_Policy_SdpStaticIPAllocation_MoveRule_Rule_Metadata_Lock) GetLockingRevisionID() string {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationMoveRule_Policy_SdpStaticIPAllocation_MoveRule_Rule_Metadata_Lock{}
+	}
+	return t.LockingRevisionID
+}
+func (t *PolicySdpStaticIpAllocationMoveRule_Policy_SdpStaticIPAllocation_MoveRule_Rule_Metadata_Lock) GetLockingTime() string {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationMoveRule_Policy_SdpStaticIPAllocation_MoveRule_Rule_Metadata_Lock{}
+	}
+	return t.LockingTime
+}
+
+type PolicySdpStaticIpAllocationMoveRule_Policy_SdpStaticIPAllocation_MoveRule_Rule_Metadata struct {
+	Lock *PolicySdpStaticIpAllocationMoveRule_Policy_SdpStaticIPAllocation_MoveRule_Rule_Metadata_Lock "json:\"lock,omitempty\" graphql:\"lock\""
+}
+
+func (t *PolicySdpStaticIpAllocationMoveRule_Policy_SdpStaticIPAllocation_MoveRule_Rule_Metadata) GetLock() *PolicySdpStaticIpAllocationMoveRule_Policy_SdpStaticIPAllocation_MoveRule_Rule_Metadata_Lock {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationMoveRule_Policy_SdpStaticIPAllocation_MoveRule_Rule_Metadata{}
+	}
+	return t.Lock
+}
+
+type PolicySdpStaticIpAllocationMoveRule_Policy_SdpStaticIPAllocation_MoveRule_Rule_Rule_Section struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicySdpStaticIpAllocationMoveRule_Policy_SdpStaticIPAllocation_MoveRule_Rule_Rule_Section) GetID() string {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationMoveRule_Policy_SdpStaticIPAllocation_MoveRule_Rule_Rule_Section{}
+	}
+	return t.ID
+}
+func (t *PolicySdpStaticIpAllocationMoveRule_Policy_SdpStaticIPAllocation_MoveRule_Rule_Rule_Section) GetName() string {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationMoveRule_Policy_SdpStaticIPAllocation_MoveRule_Rule_Rule_Section{}
+	}
+	return t.Name
+}
+
+type PolicySdpStaticIpAllocationMoveRule_Policy_SdpStaticIPAllocation_MoveRule_Rule_Rule_Source_User struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicySdpStaticIpAllocationMoveRule_Policy_SdpStaticIPAllocation_MoveRule_Rule_Rule_Source_User) GetID() string {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationMoveRule_Policy_SdpStaticIPAllocation_MoveRule_Rule_Rule_Source_User{}
+	}
+	return t.ID
+}
+func (t *PolicySdpStaticIpAllocationMoveRule_Policy_SdpStaticIPAllocation_MoveRule_Rule_Rule_Source_User) GetName() string {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationMoveRule_Policy_SdpStaticIPAllocation_MoveRule_Rule_Rule_Source_User{}
+	}
+	return t.Name
+}
+
+type PolicySdpStaticIpAllocationMoveRule_Policy_SdpStaticIPAllocation_MoveRule_Rule_Rule_Source struct {
+	User *PolicySdpStaticIpAllocationMoveRule_Policy_SdpStaticIPAllocation_MoveRule_Rule_Rule_Source_User "json:\"user,omitempty\" graphql:\"user\""
+}
+
+func (t *PolicySdpStaticIpAllocationMoveRule_Policy_SdpStaticIPAllocation_MoveRule_Rule_Rule_Source) GetUser() *PolicySdpStaticIpAllocationMoveRule_Policy_SdpStaticIPAllocation_MoveRule_Rule_Rule_Source_User {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationMoveRule_Policy_SdpStaticIPAllocation_MoveRule_Rule_Rule_Source{}
+	}
+	return t.User
+}
+
+type PolicySdpStaticIpAllocationMoveRule_Policy_SdpStaticIPAllocation_MoveRule_Rule_Rule struct {
+	Description string                                                                                      "json:\"description\" graphql:\"description\""
+	Enabled     bool                                                                                        "json:\"enabled\" graphql:\"enabled\""
+	ID          string                                                                                      "json:\"id\" graphql:\"id\""
+	Index       int64                                                                                       "json:\"index\" graphql:\"index\""
+	IP          string                                                                                      "json:\"ip\" graphql:\"ip\""
+	Name        string                                                                                      "json:\"name\" graphql:\"name\""
+	Section     PolicySdpStaticIpAllocationMoveRule_Policy_SdpStaticIPAllocation_MoveRule_Rule_Rule_Section "json:\"section\" graphql:\"section\""
+	Source      PolicySdpStaticIpAllocationMoveRule_Policy_SdpStaticIPAllocation_MoveRule_Rule_Rule_Source  "json:\"source\" graphql:\"source\""
+}
+
+func (t *PolicySdpStaticIpAllocationMoveRule_Policy_SdpStaticIPAllocation_MoveRule_Rule_Rule) GetDescription() string {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationMoveRule_Policy_SdpStaticIPAllocation_MoveRule_Rule_Rule{}
+	}
+	return t.Description
+}
+func (t *PolicySdpStaticIpAllocationMoveRule_Policy_SdpStaticIPAllocation_MoveRule_Rule_Rule) GetEnabled() bool {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationMoveRule_Policy_SdpStaticIPAllocation_MoveRule_Rule_Rule{}
+	}
+	return t.Enabled
+}
+func (t *PolicySdpStaticIpAllocationMoveRule_Policy_SdpStaticIPAllocation_MoveRule_Rule_Rule) GetID() string {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationMoveRule_Policy_SdpStaticIPAllocation_MoveRule_Rule_Rule{}
+	}
+	return t.ID
+}
+func (t *PolicySdpStaticIpAllocationMoveRule_Policy_SdpStaticIPAllocation_MoveRule_Rule_Rule) GetIndex() int64 {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationMoveRule_Policy_SdpStaticIPAllocation_MoveRule_Rule_Rule{}
+	}
+	return t.Index
+}
+func (t *PolicySdpStaticIpAllocationMoveRule_Policy_SdpStaticIPAllocation_MoveRule_Rule_Rule) GetIP() string {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationMoveRule_Policy_SdpStaticIPAllocation_MoveRule_Rule_Rule{}
+	}
+	return t.IP
+}
+func (t *PolicySdpStaticIpAllocationMoveRule_Policy_SdpStaticIPAllocation_MoveRule_Rule_Rule) GetName() string {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationMoveRule_Policy_SdpStaticIPAllocation_MoveRule_Rule_Rule{}
+	}
+	return t.Name
+}
+func (t *PolicySdpStaticIpAllocationMoveRule_Policy_SdpStaticIPAllocation_MoveRule_Rule_Rule) GetSection() *PolicySdpStaticIpAllocationMoveRule_Policy_SdpStaticIPAllocation_MoveRule_Rule_Rule_Section {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationMoveRule_Policy_SdpStaticIPAllocation_MoveRule_Rule_Rule{}
+	}
+	return &t.Section
+}
+func (t *PolicySdpStaticIpAllocationMoveRule_Policy_SdpStaticIPAllocation_MoveRule_Rule_Rule) GetSource() *PolicySdpStaticIpAllocationMoveRule_Policy_SdpStaticIPAllocation_MoveRule_Rule_Rule_Source {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationMoveRule_Policy_SdpStaticIPAllocation_MoveRule_Rule_Rule{}
+	}
+	return &t.Source
+}
+
+type PolicySdpStaticIpAllocationMoveRule_Policy_SdpStaticIPAllocation_MoveRule_Rule struct {
+	Audit      PolicySdpStaticIpAllocationMoveRule_Policy_SdpStaticIPAllocation_MoveRule_Rule_Audit     "json:\"audit\" graphql:\"audit\""
+	Metadata   *PolicySdpStaticIpAllocationMoveRule_Policy_SdpStaticIPAllocation_MoveRule_Rule_Metadata "json:\"metadata,omitempty\" graphql:\"metadata\""
+	Properties []cato_models.PolicyElementPropertiesEnum                                                "json:\"properties\" graphql:\"properties\""
+	Rule       PolicySdpStaticIpAllocationMoveRule_Policy_SdpStaticIPAllocation_MoveRule_Rule_Rule      "json:\"rule\" graphql:\"rule\""
+}
+
+func (t *PolicySdpStaticIpAllocationMoveRule_Policy_SdpStaticIPAllocation_MoveRule_Rule) GetAudit() *PolicySdpStaticIpAllocationMoveRule_Policy_SdpStaticIPAllocation_MoveRule_Rule_Audit {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationMoveRule_Policy_SdpStaticIPAllocation_MoveRule_Rule{}
+	}
+	return &t.Audit
+}
+func (t *PolicySdpStaticIpAllocationMoveRule_Policy_SdpStaticIPAllocation_MoveRule_Rule) GetMetadata() *PolicySdpStaticIpAllocationMoveRule_Policy_SdpStaticIPAllocation_MoveRule_Rule_Metadata {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationMoveRule_Policy_SdpStaticIPAllocation_MoveRule_Rule{}
+	}
+	return t.Metadata
+}
+func (t *PolicySdpStaticIpAllocationMoveRule_Policy_SdpStaticIPAllocation_MoveRule_Rule) GetProperties() []cato_models.PolicyElementPropertiesEnum {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationMoveRule_Policy_SdpStaticIPAllocation_MoveRule_Rule{}
+	}
+	return t.Properties
+}
+func (t *PolicySdpStaticIpAllocationMoveRule_Policy_SdpStaticIPAllocation_MoveRule_Rule) GetRule() *PolicySdpStaticIpAllocationMoveRule_Policy_SdpStaticIPAllocation_MoveRule_Rule_Rule {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationMoveRule_Policy_SdpStaticIPAllocation_MoveRule_Rule{}
+	}
+	return &t.Rule
+}
+
+type PolicySdpStaticIpAllocationMoveRule_Policy_SdpStaticIPAllocation_MoveRule_Revision struct {
+	Changes     int64  "json:\"changes\" graphql:\"changes\""
+	CreatedTime string "json:\"createdTime\" graphql:\"createdTime\""
+	Description string "json:\"description\" graphql:\"description\""
+	ID          string "json:\"id\" graphql:\"id\""
+	Name        string "json:\"name\" graphql:\"name\""
+	UpdatedTime string "json:\"updatedTime\" graphql:\"updatedTime\""
+}
+
+func (t *PolicySdpStaticIpAllocationMoveRule_Policy_SdpStaticIPAllocation_MoveRule_Revision) GetChanges() int64 {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationMoveRule_Policy_SdpStaticIPAllocation_MoveRule_Revision{}
+	}
+	return t.Changes
+}
+func (t *PolicySdpStaticIpAllocationMoveRule_Policy_SdpStaticIPAllocation_MoveRule_Revision) GetCreatedTime() string {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationMoveRule_Policy_SdpStaticIPAllocation_MoveRule_Revision{}
+	}
+	return t.CreatedTime
+}
+func (t *PolicySdpStaticIpAllocationMoveRule_Policy_SdpStaticIPAllocation_MoveRule_Revision) GetDescription() string {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationMoveRule_Policy_SdpStaticIPAllocation_MoveRule_Revision{}
+	}
+	return t.Description
+}
+func (t *PolicySdpStaticIpAllocationMoveRule_Policy_SdpStaticIPAllocation_MoveRule_Revision) GetID() string {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationMoveRule_Policy_SdpStaticIPAllocation_MoveRule_Revision{}
+	}
+	return t.ID
+}
+func (t *PolicySdpStaticIpAllocationMoveRule_Policy_SdpStaticIPAllocation_MoveRule_Revision) GetName() string {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationMoveRule_Policy_SdpStaticIPAllocation_MoveRule_Revision{}
+	}
+	return t.Name
+}
+func (t *PolicySdpStaticIpAllocationMoveRule_Policy_SdpStaticIPAllocation_MoveRule_Revision) GetUpdatedTime() string {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationMoveRule_Policy_SdpStaticIPAllocation_MoveRule_Revision{}
+	}
+	return t.UpdatedTime
+}
+
+type PolicySdpStaticIpAllocationMoveRule_Policy_SdpStaticIPAllocation_MoveRule_Errors struct {
+	ErrorCode    *string "json:\"errorCode,omitempty\" graphql:\"errorCode\""
+	ErrorMessage *string "json:\"errorMessage,omitempty\" graphql:\"errorMessage\""
+}
+
+func (t *PolicySdpStaticIpAllocationMoveRule_Policy_SdpStaticIPAllocation_MoveRule_Errors) GetErrorCode() *string {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationMoveRule_Policy_SdpStaticIPAllocation_MoveRule_Errors{}
+	}
+	return t.ErrorCode
+}
+func (t *PolicySdpStaticIpAllocationMoveRule_Policy_SdpStaticIPAllocation_MoveRule_Errors) GetErrorMessage() *string {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationMoveRule_Policy_SdpStaticIPAllocation_MoveRule_Errors{}
+	}
+	return t.ErrorMessage
+}
+
+type PolicySdpStaticIpAllocationMoveRule_Policy_SdpStaticIPAllocation_MoveRule struct {
+	Errors   []*PolicySdpStaticIpAllocationMoveRule_Policy_SdpStaticIPAllocation_MoveRule_Errors "json:\"errors\" graphql:\"errors\""
+	Revision *PolicySdpStaticIpAllocationMoveRule_Policy_SdpStaticIPAllocation_MoveRule_Revision "json:\"revision,omitempty\" graphql:\"revision\""
+	Rule     *PolicySdpStaticIpAllocationMoveRule_Policy_SdpStaticIPAllocation_MoveRule_Rule     "json:\"rule,omitempty\" graphql:\"rule\""
+	Status   cato_models.PolicyMutationStatus                                                    "json:\"status\" graphql:\"status\""
+}
+
+func (t *PolicySdpStaticIpAllocationMoveRule_Policy_SdpStaticIPAllocation_MoveRule) GetErrors() []*PolicySdpStaticIpAllocationMoveRule_Policy_SdpStaticIPAllocation_MoveRule_Errors {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationMoveRule_Policy_SdpStaticIPAllocation_MoveRule{}
+	}
+	return t.Errors
+}
+func (t *PolicySdpStaticIpAllocationMoveRule_Policy_SdpStaticIPAllocation_MoveRule) GetRevision() *PolicySdpStaticIpAllocationMoveRule_Policy_SdpStaticIPAllocation_MoveRule_Revision {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationMoveRule_Policy_SdpStaticIPAllocation_MoveRule{}
+	}
+	return t.Revision
+}
+func (t *PolicySdpStaticIpAllocationMoveRule_Policy_SdpStaticIPAllocation_MoveRule) GetRule() *PolicySdpStaticIpAllocationMoveRule_Policy_SdpStaticIPAllocation_MoveRule_Rule {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationMoveRule_Policy_SdpStaticIPAllocation_MoveRule{}
+	}
+	return t.Rule
+}
+func (t *PolicySdpStaticIpAllocationMoveRule_Policy_SdpStaticIPAllocation_MoveRule) GetStatus() *cato_models.PolicyMutationStatus {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationMoveRule_Policy_SdpStaticIPAllocation_MoveRule{}
+	}
+	return &t.Status
+}
+
+type PolicySdpStaticIpAllocationMoveRule_Policy_SdpStaticIPAllocation struct {
+	MoveRule PolicySdpStaticIpAllocationMoveRule_Policy_SdpStaticIPAllocation_MoveRule "json:\"moveRule\" graphql:\"moveRule\""
+}
+
+func (t *PolicySdpStaticIpAllocationMoveRule_Policy_SdpStaticIPAllocation) GetMoveRule() *PolicySdpStaticIpAllocationMoveRule_Policy_SdpStaticIPAllocation_MoveRule {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationMoveRule_Policy_SdpStaticIPAllocation{}
+	}
+	return &t.MoveRule
+}
+
+type PolicySdpStaticIpAllocationMoveRule_Policy struct {
+	SdpStaticIPAllocation *PolicySdpStaticIpAllocationMoveRule_Policy_SdpStaticIPAllocation "json:\"sdpStaticIpAllocation,omitempty\" graphql:\"sdpStaticIpAllocation\""
+}
+
+func (t *PolicySdpStaticIpAllocationMoveRule_Policy) GetSdpStaticIPAllocation() *PolicySdpStaticIpAllocationMoveRule_Policy_SdpStaticIPAllocation {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationMoveRule_Policy{}
+	}
+	return t.SdpStaticIPAllocation
+}
+
+type PolicySdpStaticIpAllocationMoveSection_Policy_SdpStaticIPAllocation_MoveSection_Section_Audit struct {
+	UpdatedBy   string "json:\"updatedBy\" graphql:\"updatedBy\""
+	UpdatedTime string "json:\"updatedTime\" graphql:\"updatedTime\""
+}
+
+func (t *PolicySdpStaticIpAllocationMoveSection_Policy_SdpStaticIPAllocation_MoveSection_Section_Audit) GetUpdatedBy() string {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationMoveSection_Policy_SdpStaticIPAllocation_MoveSection_Section_Audit{}
+	}
+	return t.UpdatedBy
+}
+func (t *PolicySdpStaticIpAllocationMoveSection_Policy_SdpStaticIPAllocation_MoveSection_Section_Audit) GetUpdatedTime() string {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationMoveSection_Policy_SdpStaticIPAllocation_MoveSection_Section_Audit{}
+	}
+	return t.UpdatedTime
+}
+
+type PolicySdpStaticIpAllocationMoveSection_Policy_SdpStaticIPAllocation_MoveSection_Section_Metadata_Lock struct {
+	LockingAdminEmail string "json:\"lockingAdminEmail\" graphql:\"lockingAdminEmail\""
+	LockingRevisionID string "json:\"lockingRevisionId\" graphql:\"lockingRevisionId\""
+	LockingTime       string "json:\"lockingTime\" graphql:\"lockingTime\""
+}
+
+func (t *PolicySdpStaticIpAllocationMoveSection_Policy_SdpStaticIPAllocation_MoveSection_Section_Metadata_Lock) GetLockingAdminEmail() string {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationMoveSection_Policy_SdpStaticIPAllocation_MoveSection_Section_Metadata_Lock{}
+	}
+	return t.LockingAdminEmail
+}
+func (t *PolicySdpStaticIpAllocationMoveSection_Policy_SdpStaticIPAllocation_MoveSection_Section_Metadata_Lock) GetLockingRevisionID() string {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationMoveSection_Policy_SdpStaticIPAllocation_MoveSection_Section_Metadata_Lock{}
+	}
+	return t.LockingRevisionID
+}
+func (t *PolicySdpStaticIpAllocationMoveSection_Policy_SdpStaticIPAllocation_MoveSection_Section_Metadata_Lock) GetLockingTime() string {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationMoveSection_Policy_SdpStaticIPAllocation_MoveSection_Section_Metadata_Lock{}
+	}
+	return t.LockingTime
+}
+
+type PolicySdpStaticIpAllocationMoveSection_Policy_SdpStaticIPAllocation_MoveSection_Section_Metadata struct {
+	Lock *PolicySdpStaticIpAllocationMoveSection_Policy_SdpStaticIPAllocation_MoveSection_Section_Metadata_Lock "json:\"lock,omitempty\" graphql:\"lock\""
+}
+
+func (t *PolicySdpStaticIpAllocationMoveSection_Policy_SdpStaticIPAllocation_MoveSection_Section_Metadata) GetLock() *PolicySdpStaticIpAllocationMoveSection_Policy_SdpStaticIPAllocation_MoveSection_Section_Metadata_Lock {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationMoveSection_Policy_SdpStaticIPAllocation_MoveSection_Section_Metadata{}
+	}
+	return t.Lock
+}
+
+type PolicySdpStaticIpAllocationMoveSection_Policy_SdpStaticIPAllocation_MoveSection_Section_Section struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicySdpStaticIpAllocationMoveSection_Policy_SdpStaticIPAllocation_MoveSection_Section_Section) GetID() string {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationMoveSection_Policy_SdpStaticIPAllocation_MoveSection_Section_Section{}
+	}
+	return t.ID
+}
+func (t *PolicySdpStaticIpAllocationMoveSection_Policy_SdpStaticIPAllocation_MoveSection_Section_Section) GetName() string {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationMoveSection_Policy_SdpStaticIPAllocation_MoveSection_Section_Section{}
+	}
+	return t.Name
+}
+
+type PolicySdpStaticIpAllocationMoveSection_Policy_SdpStaticIPAllocation_MoveSection_Section struct {
+	Audit      PolicySdpStaticIpAllocationMoveSection_Policy_SdpStaticIPAllocation_MoveSection_Section_Audit     "json:\"audit\" graphql:\"audit\""
+	Metadata   *PolicySdpStaticIpAllocationMoveSection_Policy_SdpStaticIPAllocation_MoveSection_Section_Metadata "json:\"metadata,omitempty\" graphql:\"metadata\""
+	Properties []cato_models.PolicyElementPropertiesEnum                                                         "json:\"properties\" graphql:\"properties\""
+	Section    PolicySdpStaticIpAllocationMoveSection_Policy_SdpStaticIPAllocation_MoveSection_Section_Section   "json:\"section\" graphql:\"section\""
+}
+
+func (t *PolicySdpStaticIpAllocationMoveSection_Policy_SdpStaticIPAllocation_MoveSection_Section) GetAudit() *PolicySdpStaticIpAllocationMoveSection_Policy_SdpStaticIPAllocation_MoveSection_Section_Audit {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationMoveSection_Policy_SdpStaticIPAllocation_MoveSection_Section{}
+	}
+	return &t.Audit
+}
+func (t *PolicySdpStaticIpAllocationMoveSection_Policy_SdpStaticIPAllocation_MoveSection_Section) GetMetadata() *PolicySdpStaticIpAllocationMoveSection_Policy_SdpStaticIPAllocation_MoveSection_Section_Metadata {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationMoveSection_Policy_SdpStaticIPAllocation_MoveSection_Section{}
+	}
+	return t.Metadata
+}
+func (t *PolicySdpStaticIpAllocationMoveSection_Policy_SdpStaticIPAllocation_MoveSection_Section) GetProperties() []cato_models.PolicyElementPropertiesEnum {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationMoveSection_Policy_SdpStaticIPAllocation_MoveSection_Section{}
+	}
+	return t.Properties
+}
+func (t *PolicySdpStaticIpAllocationMoveSection_Policy_SdpStaticIPAllocation_MoveSection_Section) GetSection() *PolicySdpStaticIpAllocationMoveSection_Policy_SdpStaticIPAllocation_MoveSection_Section_Section {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationMoveSection_Policy_SdpStaticIPAllocation_MoveSection_Section{}
+	}
+	return &t.Section
+}
+
+type PolicySdpStaticIpAllocationMoveSection_Policy_SdpStaticIPAllocation_MoveSection_Errors struct {
+	ErrorCode    *string "json:\"errorCode,omitempty\" graphql:\"errorCode\""
+	ErrorMessage *string "json:\"errorMessage,omitempty\" graphql:\"errorMessage\""
+}
+
+func (t *PolicySdpStaticIpAllocationMoveSection_Policy_SdpStaticIPAllocation_MoveSection_Errors) GetErrorCode() *string {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationMoveSection_Policy_SdpStaticIPAllocation_MoveSection_Errors{}
+	}
+	return t.ErrorCode
+}
+func (t *PolicySdpStaticIpAllocationMoveSection_Policy_SdpStaticIPAllocation_MoveSection_Errors) GetErrorMessage() *string {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationMoveSection_Policy_SdpStaticIPAllocation_MoveSection_Errors{}
+	}
+	return t.ErrorMessage
+}
+
+type PolicySdpStaticIpAllocationMoveSection_Policy_SdpStaticIPAllocation_MoveSection_Revision struct {
+	Changes     int64  "json:\"changes\" graphql:\"changes\""
+	CreatedTime string "json:\"createdTime\" graphql:\"createdTime\""
+	Description string "json:\"description\" graphql:\"description\""
+	ID          string "json:\"id\" graphql:\"id\""
+	Name        string "json:\"name\" graphql:\"name\""
+	UpdatedTime string "json:\"updatedTime\" graphql:\"updatedTime\""
+}
+
+func (t *PolicySdpStaticIpAllocationMoveSection_Policy_SdpStaticIPAllocation_MoveSection_Revision) GetChanges() int64 {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationMoveSection_Policy_SdpStaticIPAllocation_MoveSection_Revision{}
+	}
+	return t.Changes
+}
+func (t *PolicySdpStaticIpAllocationMoveSection_Policy_SdpStaticIPAllocation_MoveSection_Revision) GetCreatedTime() string {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationMoveSection_Policy_SdpStaticIPAllocation_MoveSection_Revision{}
+	}
+	return t.CreatedTime
+}
+func (t *PolicySdpStaticIpAllocationMoveSection_Policy_SdpStaticIPAllocation_MoveSection_Revision) GetDescription() string {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationMoveSection_Policy_SdpStaticIPAllocation_MoveSection_Revision{}
+	}
+	return t.Description
+}
+func (t *PolicySdpStaticIpAllocationMoveSection_Policy_SdpStaticIPAllocation_MoveSection_Revision) GetID() string {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationMoveSection_Policy_SdpStaticIPAllocation_MoveSection_Revision{}
+	}
+	return t.ID
+}
+func (t *PolicySdpStaticIpAllocationMoveSection_Policy_SdpStaticIPAllocation_MoveSection_Revision) GetName() string {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationMoveSection_Policy_SdpStaticIPAllocation_MoveSection_Revision{}
+	}
+	return t.Name
+}
+func (t *PolicySdpStaticIpAllocationMoveSection_Policy_SdpStaticIPAllocation_MoveSection_Revision) GetUpdatedTime() string {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationMoveSection_Policy_SdpStaticIPAllocation_MoveSection_Revision{}
+	}
+	return t.UpdatedTime
+}
+
+type PolicySdpStaticIpAllocationMoveSection_Policy_SdpStaticIPAllocation_MoveSection struct {
+	Errors   []*PolicySdpStaticIpAllocationMoveSection_Policy_SdpStaticIPAllocation_MoveSection_Errors "json:\"errors\" graphql:\"errors\""
+	Revision *PolicySdpStaticIpAllocationMoveSection_Policy_SdpStaticIPAllocation_MoveSection_Revision "json:\"revision,omitempty\" graphql:\"revision\""
+	Section  *PolicySdpStaticIpAllocationMoveSection_Policy_SdpStaticIPAllocation_MoveSection_Section  "json:\"section,omitempty\" graphql:\"section\""
+	Status   cato_models.PolicyMutationStatus                                                          "json:\"status\" graphql:\"status\""
+}
+
+func (t *PolicySdpStaticIpAllocationMoveSection_Policy_SdpStaticIPAllocation_MoveSection) GetErrors() []*PolicySdpStaticIpAllocationMoveSection_Policy_SdpStaticIPAllocation_MoveSection_Errors {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationMoveSection_Policy_SdpStaticIPAllocation_MoveSection{}
+	}
+	return t.Errors
+}
+func (t *PolicySdpStaticIpAllocationMoveSection_Policy_SdpStaticIPAllocation_MoveSection) GetRevision() *PolicySdpStaticIpAllocationMoveSection_Policy_SdpStaticIPAllocation_MoveSection_Revision {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationMoveSection_Policy_SdpStaticIPAllocation_MoveSection{}
+	}
+	return t.Revision
+}
+func (t *PolicySdpStaticIpAllocationMoveSection_Policy_SdpStaticIPAllocation_MoveSection) GetSection() *PolicySdpStaticIpAllocationMoveSection_Policy_SdpStaticIPAllocation_MoveSection_Section {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationMoveSection_Policy_SdpStaticIPAllocation_MoveSection{}
+	}
+	return t.Section
+}
+func (t *PolicySdpStaticIpAllocationMoveSection_Policy_SdpStaticIPAllocation_MoveSection) GetStatus() *cato_models.PolicyMutationStatus {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationMoveSection_Policy_SdpStaticIPAllocation_MoveSection{}
+	}
+	return &t.Status
+}
+
+type PolicySdpStaticIpAllocationMoveSection_Policy_SdpStaticIPAllocation struct {
+	MoveSection PolicySdpStaticIpAllocationMoveSection_Policy_SdpStaticIPAllocation_MoveSection "json:\"moveSection\" graphql:\"moveSection\""
+}
+
+func (t *PolicySdpStaticIpAllocationMoveSection_Policy_SdpStaticIPAllocation) GetMoveSection() *PolicySdpStaticIpAllocationMoveSection_Policy_SdpStaticIPAllocation_MoveSection {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationMoveSection_Policy_SdpStaticIPAllocation{}
+	}
+	return &t.MoveSection
+}
+
+type PolicySdpStaticIpAllocationMoveSection_Policy struct {
+	SdpStaticIPAllocation *PolicySdpStaticIpAllocationMoveSection_Policy_SdpStaticIPAllocation "json:\"sdpStaticIpAllocation,omitempty\" graphql:\"sdpStaticIpAllocation\""
+}
+
+func (t *PolicySdpStaticIpAllocationMoveSection_Policy) GetSdpStaticIPAllocation() *PolicySdpStaticIpAllocationMoveSection_Policy_SdpStaticIPAllocation {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationMoveSection_Policy{}
+	}
+	return t.SdpStaticIPAllocation
+}
+
+type PolicySdpStaticIpAllocationPublishPolicyRevision_Policy_SdpStaticIPAllocation_PublishPolicyRevision_Policy_Rules_Audit struct {
+	UpdatedBy   string "json:\"updatedBy\" graphql:\"updatedBy\""
+	UpdatedTime string "json:\"updatedTime\" graphql:\"updatedTime\""
+}
+
+func (t *PolicySdpStaticIpAllocationPublishPolicyRevision_Policy_SdpStaticIPAllocation_PublishPolicyRevision_Policy_Rules_Audit) GetUpdatedBy() string {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationPublishPolicyRevision_Policy_SdpStaticIPAllocation_PublishPolicyRevision_Policy_Rules_Audit{}
+	}
+	return t.UpdatedBy
+}
+func (t *PolicySdpStaticIpAllocationPublishPolicyRevision_Policy_SdpStaticIPAllocation_PublishPolicyRevision_Policy_Rules_Audit) GetUpdatedTime() string {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationPublishPolicyRevision_Policy_SdpStaticIPAllocation_PublishPolicyRevision_Policy_Rules_Audit{}
+	}
+	return t.UpdatedTime
+}
+
+type PolicySdpStaticIpAllocationPublishPolicyRevision_Policy_SdpStaticIPAllocation_PublishPolicyRevision_Policy_Rules_Metadata_Lock struct {
+	LockingAdminEmail string "json:\"lockingAdminEmail\" graphql:\"lockingAdminEmail\""
+	LockingRevisionID string "json:\"lockingRevisionId\" graphql:\"lockingRevisionId\""
+	LockingTime       string "json:\"lockingTime\" graphql:\"lockingTime\""
+}
+
+func (t *PolicySdpStaticIpAllocationPublishPolicyRevision_Policy_SdpStaticIPAllocation_PublishPolicyRevision_Policy_Rules_Metadata_Lock) GetLockingAdminEmail() string {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationPublishPolicyRevision_Policy_SdpStaticIPAllocation_PublishPolicyRevision_Policy_Rules_Metadata_Lock{}
+	}
+	return t.LockingAdminEmail
+}
+func (t *PolicySdpStaticIpAllocationPublishPolicyRevision_Policy_SdpStaticIPAllocation_PublishPolicyRevision_Policy_Rules_Metadata_Lock) GetLockingRevisionID() string {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationPublishPolicyRevision_Policy_SdpStaticIPAllocation_PublishPolicyRevision_Policy_Rules_Metadata_Lock{}
+	}
+	return t.LockingRevisionID
+}
+func (t *PolicySdpStaticIpAllocationPublishPolicyRevision_Policy_SdpStaticIPAllocation_PublishPolicyRevision_Policy_Rules_Metadata_Lock) GetLockingTime() string {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationPublishPolicyRevision_Policy_SdpStaticIPAllocation_PublishPolicyRevision_Policy_Rules_Metadata_Lock{}
+	}
+	return t.LockingTime
+}
+
+type PolicySdpStaticIpAllocationPublishPolicyRevision_Policy_SdpStaticIPAllocation_PublishPolicyRevision_Policy_Rules_Metadata struct {
+	Lock *PolicySdpStaticIpAllocationPublishPolicyRevision_Policy_SdpStaticIPAllocation_PublishPolicyRevision_Policy_Rules_Metadata_Lock "json:\"lock,omitempty\" graphql:\"lock\""
+}
+
+func (t *PolicySdpStaticIpAllocationPublishPolicyRevision_Policy_SdpStaticIPAllocation_PublishPolicyRevision_Policy_Rules_Metadata) GetLock() *PolicySdpStaticIpAllocationPublishPolicyRevision_Policy_SdpStaticIPAllocation_PublishPolicyRevision_Policy_Rules_Metadata_Lock {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationPublishPolicyRevision_Policy_SdpStaticIPAllocation_PublishPolicyRevision_Policy_Rules_Metadata{}
+	}
+	return t.Lock
+}
+
+type PolicySdpStaticIpAllocationPublishPolicyRevision_Policy_SdpStaticIPAllocation_PublishPolicyRevision_Policy_Rules_Rule_Section struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicySdpStaticIpAllocationPublishPolicyRevision_Policy_SdpStaticIPAllocation_PublishPolicyRevision_Policy_Rules_Rule_Section) GetID() string {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationPublishPolicyRevision_Policy_SdpStaticIPAllocation_PublishPolicyRevision_Policy_Rules_Rule_Section{}
+	}
+	return t.ID
+}
+func (t *PolicySdpStaticIpAllocationPublishPolicyRevision_Policy_SdpStaticIPAllocation_PublishPolicyRevision_Policy_Rules_Rule_Section) GetName() string {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationPublishPolicyRevision_Policy_SdpStaticIPAllocation_PublishPolicyRevision_Policy_Rules_Rule_Section{}
+	}
+	return t.Name
+}
+
+type PolicySdpStaticIpAllocationPublishPolicyRevision_Policy_SdpStaticIPAllocation_PublishPolicyRevision_Policy_Rules_Rule_Source_User struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicySdpStaticIpAllocationPublishPolicyRevision_Policy_SdpStaticIPAllocation_PublishPolicyRevision_Policy_Rules_Rule_Source_User) GetID() string {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationPublishPolicyRevision_Policy_SdpStaticIPAllocation_PublishPolicyRevision_Policy_Rules_Rule_Source_User{}
+	}
+	return t.ID
+}
+func (t *PolicySdpStaticIpAllocationPublishPolicyRevision_Policy_SdpStaticIPAllocation_PublishPolicyRevision_Policy_Rules_Rule_Source_User) GetName() string {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationPublishPolicyRevision_Policy_SdpStaticIPAllocation_PublishPolicyRevision_Policy_Rules_Rule_Source_User{}
+	}
+	return t.Name
+}
+
+type PolicySdpStaticIpAllocationPublishPolicyRevision_Policy_SdpStaticIPAllocation_PublishPolicyRevision_Policy_Rules_Rule_Source struct {
+	User *PolicySdpStaticIpAllocationPublishPolicyRevision_Policy_SdpStaticIPAllocation_PublishPolicyRevision_Policy_Rules_Rule_Source_User "json:\"user,omitempty\" graphql:\"user\""
+}
+
+func (t *PolicySdpStaticIpAllocationPublishPolicyRevision_Policy_SdpStaticIPAllocation_PublishPolicyRevision_Policy_Rules_Rule_Source) GetUser() *PolicySdpStaticIpAllocationPublishPolicyRevision_Policy_SdpStaticIPAllocation_PublishPolicyRevision_Policy_Rules_Rule_Source_User {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationPublishPolicyRevision_Policy_SdpStaticIPAllocation_PublishPolicyRevision_Policy_Rules_Rule_Source{}
+	}
+	return t.User
+}
+
+type PolicySdpStaticIpAllocationPublishPolicyRevision_Policy_SdpStaticIPAllocation_PublishPolicyRevision_Policy_Rules_Rule struct {
+	Description string                                                                                                                        "json:\"description\" graphql:\"description\""
+	Enabled     bool                                                                                                                          "json:\"enabled\" graphql:\"enabled\""
+	ID          string                                                                                                                        "json:\"id\" graphql:\"id\""
+	Index       int64                                                                                                                         "json:\"index\" graphql:\"index\""
+	IP          string                                                                                                                        "json:\"ip\" graphql:\"ip\""
+	Name        string                                                                                                                        "json:\"name\" graphql:\"name\""
+	Section     PolicySdpStaticIpAllocationPublishPolicyRevision_Policy_SdpStaticIPAllocation_PublishPolicyRevision_Policy_Rules_Rule_Section "json:\"section\" graphql:\"section\""
+	Source      PolicySdpStaticIpAllocationPublishPolicyRevision_Policy_SdpStaticIPAllocation_PublishPolicyRevision_Policy_Rules_Rule_Source  "json:\"source\" graphql:\"source\""
+}
+
+func (t *PolicySdpStaticIpAllocationPublishPolicyRevision_Policy_SdpStaticIPAllocation_PublishPolicyRevision_Policy_Rules_Rule) GetDescription() string {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationPublishPolicyRevision_Policy_SdpStaticIPAllocation_PublishPolicyRevision_Policy_Rules_Rule{}
+	}
+	return t.Description
+}
+func (t *PolicySdpStaticIpAllocationPublishPolicyRevision_Policy_SdpStaticIPAllocation_PublishPolicyRevision_Policy_Rules_Rule) GetEnabled() bool {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationPublishPolicyRevision_Policy_SdpStaticIPAllocation_PublishPolicyRevision_Policy_Rules_Rule{}
+	}
+	return t.Enabled
+}
+func (t *PolicySdpStaticIpAllocationPublishPolicyRevision_Policy_SdpStaticIPAllocation_PublishPolicyRevision_Policy_Rules_Rule) GetID() string {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationPublishPolicyRevision_Policy_SdpStaticIPAllocation_PublishPolicyRevision_Policy_Rules_Rule{}
+	}
+	return t.ID
+}
+func (t *PolicySdpStaticIpAllocationPublishPolicyRevision_Policy_SdpStaticIPAllocation_PublishPolicyRevision_Policy_Rules_Rule) GetIndex() int64 {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationPublishPolicyRevision_Policy_SdpStaticIPAllocation_PublishPolicyRevision_Policy_Rules_Rule{}
+	}
+	return t.Index
+}
+func (t *PolicySdpStaticIpAllocationPublishPolicyRevision_Policy_SdpStaticIPAllocation_PublishPolicyRevision_Policy_Rules_Rule) GetIP() string {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationPublishPolicyRevision_Policy_SdpStaticIPAllocation_PublishPolicyRevision_Policy_Rules_Rule{}
+	}
+	return t.IP
+}
+func (t *PolicySdpStaticIpAllocationPublishPolicyRevision_Policy_SdpStaticIPAllocation_PublishPolicyRevision_Policy_Rules_Rule) GetName() string {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationPublishPolicyRevision_Policy_SdpStaticIPAllocation_PublishPolicyRevision_Policy_Rules_Rule{}
+	}
+	return t.Name
+}
+func (t *PolicySdpStaticIpAllocationPublishPolicyRevision_Policy_SdpStaticIPAllocation_PublishPolicyRevision_Policy_Rules_Rule) GetSection() *PolicySdpStaticIpAllocationPublishPolicyRevision_Policy_SdpStaticIPAllocation_PublishPolicyRevision_Policy_Rules_Rule_Section {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationPublishPolicyRevision_Policy_SdpStaticIPAllocation_PublishPolicyRevision_Policy_Rules_Rule{}
+	}
+	return &t.Section
+}
+func (t *PolicySdpStaticIpAllocationPublishPolicyRevision_Policy_SdpStaticIPAllocation_PublishPolicyRevision_Policy_Rules_Rule) GetSource() *PolicySdpStaticIpAllocationPublishPolicyRevision_Policy_SdpStaticIPAllocation_PublishPolicyRevision_Policy_Rules_Rule_Source {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationPublishPolicyRevision_Policy_SdpStaticIPAllocation_PublishPolicyRevision_Policy_Rules_Rule{}
+	}
+	return &t.Source
+}
+
+type PolicySdpStaticIpAllocationPublishPolicyRevision_Policy_SdpStaticIPAllocation_PublishPolicyRevision_Policy_Rules struct {
+	Audit      PolicySdpStaticIpAllocationPublishPolicyRevision_Policy_SdpStaticIPAllocation_PublishPolicyRevision_Policy_Rules_Audit     "json:\"audit\" graphql:\"audit\""
+	Metadata   *PolicySdpStaticIpAllocationPublishPolicyRevision_Policy_SdpStaticIPAllocation_PublishPolicyRevision_Policy_Rules_Metadata "json:\"metadata,omitempty\" graphql:\"metadata\""
+	Properties []cato_models.PolicyElementPropertiesEnum                                                                                  "json:\"properties\" graphql:\"properties\""
+	Rule       PolicySdpStaticIpAllocationPublishPolicyRevision_Policy_SdpStaticIPAllocation_PublishPolicyRevision_Policy_Rules_Rule      "json:\"rule\" graphql:\"rule\""
+}
+
+func (t *PolicySdpStaticIpAllocationPublishPolicyRevision_Policy_SdpStaticIPAllocation_PublishPolicyRevision_Policy_Rules) GetAudit() *PolicySdpStaticIpAllocationPublishPolicyRevision_Policy_SdpStaticIPAllocation_PublishPolicyRevision_Policy_Rules_Audit {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationPublishPolicyRevision_Policy_SdpStaticIPAllocation_PublishPolicyRevision_Policy_Rules{}
+	}
+	return &t.Audit
+}
+func (t *PolicySdpStaticIpAllocationPublishPolicyRevision_Policy_SdpStaticIPAllocation_PublishPolicyRevision_Policy_Rules) GetMetadata() *PolicySdpStaticIpAllocationPublishPolicyRevision_Policy_SdpStaticIPAllocation_PublishPolicyRevision_Policy_Rules_Metadata {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationPublishPolicyRevision_Policy_SdpStaticIPAllocation_PublishPolicyRevision_Policy_Rules{}
+	}
+	return t.Metadata
+}
+func (t *PolicySdpStaticIpAllocationPublishPolicyRevision_Policy_SdpStaticIPAllocation_PublishPolicyRevision_Policy_Rules) GetProperties() []cato_models.PolicyElementPropertiesEnum {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationPublishPolicyRevision_Policy_SdpStaticIPAllocation_PublishPolicyRevision_Policy_Rules{}
+	}
+	return t.Properties
+}
+func (t *PolicySdpStaticIpAllocationPublishPolicyRevision_Policy_SdpStaticIPAllocation_PublishPolicyRevision_Policy_Rules) GetRule() *PolicySdpStaticIpAllocationPublishPolicyRevision_Policy_SdpStaticIPAllocation_PublishPolicyRevision_Policy_Rules_Rule {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationPublishPolicyRevision_Policy_SdpStaticIPAllocation_PublishPolicyRevision_Policy_Rules{}
+	}
+	return &t.Rule
+}
+
+type PolicySdpStaticIpAllocationPublishPolicyRevision_Policy_SdpStaticIPAllocation_PublishPolicyRevision_Policy_Sections_Audit struct {
+	UpdatedBy   string "json:\"updatedBy\" graphql:\"updatedBy\""
+	UpdatedTime string "json:\"updatedTime\" graphql:\"updatedTime\""
+}
+
+func (t *PolicySdpStaticIpAllocationPublishPolicyRevision_Policy_SdpStaticIPAllocation_PublishPolicyRevision_Policy_Sections_Audit) GetUpdatedBy() string {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationPublishPolicyRevision_Policy_SdpStaticIPAllocation_PublishPolicyRevision_Policy_Sections_Audit{}
+	}
+	return t.UpdatedBy
+}
+func (t *PolicySdpStaticIpAllocationPublishPolicyRevision_Policy_SdpStaticIPAllocation_PublishPolicyRevision_Policy_Sections_Audit) GetUpdatedTime() string {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationPublishPolicyRevision_Policy_SdpStaticIPAllocation_PublishPolicyRevision_Policy_Sections_Audit{}
+	}
+	return t.UpdatedTime
+}
+
+type PolicySdpStaticIpAllocationPublishPolicyRevision_Policy_SdpStaticIPAllocation_PublishPolicyRevision_Policy_Sections_Metadata_Lock struct {
+	LockingAdminEmail string "json:\"lockingAdminEmail\" graphql:\"lockingAdminEmail\""
+	LockingRevisionID string "json:\"lockingRevisionId\" graphql:\"lockingRevisionId\""
+	LockingTime       string "json:\"lockingTime\" graphql:\"lockingTime\""
+}
+
+func (t *PolicySdpStaticIpAllocationPublishPolicyRevision_Policy_SdpStaticIPAllocation_PublishPolicyRevision_Policy_Sections_Metadata_Lock) GetLockingAdminEmail() string {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationPublishPolicyRevision_Policy_SdpStaticIPAllocation_PublishPolicyRevision_Policy_Sections_Metadata_Lock{}
+	}
+	return t.LockingAdminEmail
+}
+func (t *PolicySdpStaticIpAllocationPublishPolicyRevision_Policy_SdpStaticIPAllocation_PublishPolicyRevision_Policy_Sections_Metadata_Lock) GetLockingRevisionID() string {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationPublishPolicyRevision_Policy_SdpStaticIPAllocation_PublishPolicyRevision_Policy_Sections_Metadata_Lock{}
+	}
+	return t.LockingRevisionID
+}
+func (t *PolicySdpStaticIpAllocationPublishPolicyRevision_Policy_SdpStaticIPAllocation_PublishPolicyRevision_Policy_Sections_Metadata_Lock) GetLockingTime() string {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationPublishPolicyRevision_Policy_SdpStaticIPAllocation_PublishPolicyRevision_Policy_Sections_Metadata_Lock{}
+	}
+	return t.LockingTime
+}
+
+type PolicySdpStaticIpAllocationPublishPolicyRevision_Policy_SdpStaticIPAllocation_PublishPolicyRevision_Policy_Sections_Metadata struct {
+	Lock *PolicySdpStaticIpAllocationPublishPolicyRevision_Policy_SdpStaticIPAllocation_PublishPolicyRevision_Policy_Sections_Metadata_Lock "json:\"lock,omitempty\" graphql:\"lock\""
+}
+
+func (t *PolicySdpStaticIpAllocationPublishPolicyRevision_Policy_SdpStaticIPAllocation_PublishPolicyRevision_Policy_Sections_Metadata) GetLock() *PolicySdpStaticIpAllocationPublishPolicyRevision_Policy_SdpStaticIPAllocation_PublishPolicyRevision_Policy_Sections_Metadata_Lock {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationPublishPolicyRevision_Policy_SdpStaticIPAllocation_PublishPolicyRevision_Policy_Sections_Metadata{}
+	}
+	return t.Lock
+}
+
+type PolicySdpStaticIpAllocationPublishPolicyRevision_Policy_SdpStaticIPAllocation_PublishPolicyRevision_Policy_Sections_Section struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicySdpStaticIpAllocationPublishPolicyRevision_Policy_SdpStaticIPAllocation_PublishPolicyRevision_Policy_Sections_Section) GetID() string {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationPublishPolicyRevision_Policy_SdpStaticIPAllocation_PublishPolicyRevision_Policy_Sections_Section{}
+	}
+	return t.ID
+}
+func (t *PolicySdpStaticIpAllocationPublishPolicyRevision_Policy_SdpStaticIPAllocation_PublishPolicyRevision_Policy_Sections_Section) GetName() string {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationPublishPolicyRevision_Policy_SdpStaticIPAllocation_PublishPolicyRevision_Policy_Sections_Section{}
+	}
+	return t.Name
+}
+
+type PolicySdpStaticIpAllocationPublishPolicyRevision_Policy_SdpStaticIPAllocation_PublishPolicyRevision_Policy_Sections struct {
+	Audit      PolicySdpStaticIpAllocationPublishPolicyRevision_Policy_SdpStaticIPAllocation_PublishPolicyRevision_Policy_Sections_Audit     "json:\"audit\" graphql:\"audit\""
+	Metadata   *PolicySdpStaticIpAllocationPublishPolicyRevision_Policy_SdpStaticIPAllocation_PublishPolicyRevision_Policy_Sections_Metadata "json:\"metadata,omitempty\" graphql:\"metadata\""
+	Properties []cato_models.PolicyElementPropertiesEnum                                                                                     "json:\"properties\" graphql:\"properties\""
+	Section    PolicySdpStaticIpAllocationPublishPolicyRevision_Policy_SdpStaticIPAllocation_PublishPolicyRevision_Policy_Sections_Section   "json:\"section\" graphql:\"section\""
+}
+
+func (t *PolicySdpStaticIpAllocationPublishPolicyRevision_Policy_SdpStaticIPAllocation_PublishPolicyRevision_Policy_Sections) GetAudit() *PolicySdpStaticIpAllocationPublishPolicyRevision_Policy_SdpStaticIPAllocation_PublishPolicyRevision_Policy_Sections_Audit {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationPublishPolicyRevision_Policy_SdpStaticIPAllocation_PublishPolicyRevision_Policy_Sections{}
+	}
+	return &t.Audit
+}
+func (t *PolicySdpStaticIpAllocationPublishPolicyRevision_Policy_SdpStaticIPAllocation_PublishPolicyRevision_Policy_Sections) GetMetadata() *PolicySdpStaticIpAllocationPublishPolicyRevision_Policy_SdpStaticIPAllocation_PublishPolicyRevision_Policy_Sections_Metadata {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationPublishPolicyRevision_Policy_SdpStaticIPAllocation_PublishPolicyRevision_Policy_Sections{}
+	}
+	return t.Metadata
+}
+func (t *PolicySdpStaticIpAllocationPublishPolicyRevision_Policy_SdpStaticIPAllocation_PublishPolicyRevision_Policy_Sections) GetProperties() []cato_models.PolicyElementPropertiesEnum {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationPublishPolicyRevision_Policy_SdpStaticIPAllocation_PublishPolicyRevision_Policy_Sections{}
+	}
+	return t.Properties
+}
+func (t *PolicySdpStaticIpAllocationPublishPolicyRevision_Policy_SdpStaticIPAllocation_PublishPolicyRevision_Policy_Sections) GetSection() *PolicySdpStaticIpAllocationPublishPolicyRevision_Policy_SdpStaticIPAllocation_PublishPolicyRevision_Policy_Sections_Section {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationPublishPolicyRevision_Policy_SdpStaticIPAllocation_PublishPolicyRevision_Policy_Sections{}
+	}
+	return &t.Section
+}
+
+type PolicySdpStaticIpAllocationPublishPolicyRevision_Policy_SdpStaticIPAllocation_PublishPolicyRevision_Policy_Audit struct {
+	PublishedBy   string "json:\"publishedBy\" graphql:\"publishedBy\""
+	PublishedTime string "json:\"publishedTime\" graphql:\"publishedTime\""
+}
+
+func (t *PolicySdpStaticIpAllocationPublishPolicyRevision_Policy_SdpStaticIPAllocation_PublishPolicyRevision_Policy_Audit) GetPublishedBy() string {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationPublishPolicyRevision_Policy_SdpStaticIPAllocation_PublishPolicyRevision_Policy_Audit{}
+	}
+	return t.PublishedBy
+}
+func (t *PolicySdpStaticIpAllocationPublishPolicyRevision_Policy_SdpStaticIPAllocation_PublishPolicyRevision_Policy_Audit) GetPublishedTime() string {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationPublishPolicyRevision_Policy_SdpStaticIPAllocation_PublishPolicyRevision_Policy_Audit{}
+	}
+	return t.PublishedTime
+}
+
+type PolicySdpStaticIpAllocationPublishPolicyRevision_Policy_SdpStaticIPAllocation_PublishPolicyRevision_Policy_Revision struct {
+	Changes     int64  "json:\"changes\" graphql:\"changes\""
+	CreatedTime string "json:\"createdTime\" graphql:\"createdTime\""
+	Description string "json:\"description\" graphql:\"description\""
+	ID          string "json:\"id\" graphql:\"id\""
+	Name        string "json:\"name\" graphql:\"name\""
+	UpdatedTime string "json:\"updatedTime\" graphql:\"updatedTime\""
+}
+
+func (t *PolicySdpStaticIpAllocationPublishPolicyRevision_Policy_SdpStaticIPAllocation_PublishPolicyRevision_Policy_Revision) GetChanges() int64 {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationPublishPolicyRevision_Policy_SdpStaticIPAllocation_PublishPolicyRevision_Policy_Revision{}
+	}
+	return t.Changes
+}
+func (t *PolicySdpStaticIpAllocationPublishPolicyRevision_Policy_SdpStaticIPAllocation_PublishPolicyRevision_Policy_Revision) GetCreatedTime() string {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationPublishPolicyRevision_Policy_SdpStaticIPAllocation_PublishPolicyRevision_Policy_Revision{}
+	}
+	return t.CreatedTime
+}
+func (t *PolicySdpStaticIpAllocationPublishPolicyRevision_Policy_SdpStaticIPAllocation_PublishPolicyRevision_Policy_Revision) GetDescription() string {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationPublishPolicyRevision_Policy_SdpStaticIPAllocation_PublishPolicyRevision_Policy_Revision{}
+	}
+	return t.Description
+}
+func (t *PolicySdpStaticIpAllocationPublishPolicyRevision_Policy_SdpStaticIPAllocation_PublishPolicyRevision_Policy_Revision) GetID() string {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationPublishPolicyRevision_Policy_SdpStaticIPAllocation_PublishPolicyRevision_Policy_Revision{}
+	}
+	return t.ID
+}
+func (t *PolicySdpStaticIpAllocationPublishPolicyRevision_Policy_SdpStaticIPAllocation_PublishPolicyRevision_Policy_Revision) GetName() string {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationPublishPolicyRevision_Policy_SdpStaticIPAllocation_PublishPolicyRevision_Policy_Revision{}
+	}
+	return t.Name
+}
+func (t *PolicySdpStaticIpAllocationPublishPolicyRevision_Policy_SdpStaticIPAllocation_PublishPolicyRevision_Policy_Revision) GetUpdatedTime() string {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationPublishPolicyRevision_Policy_SdpStaticIPAllocation_PublishPolicyRevision_Policy_Revision{}
+	}
+	return t.UpdatedTime
+}
+
+type PolicySdpStaticIpAllocationPublishPolicyRevision_Policy_SdpStaticIPAllocation_PublishPolicyRevision_Policy struct {
+	Audit    *PolicySdpStaticIpAllocationPublishPolicyRevision_Policy_SdpStaticIPAllocation_PublishPolicyRevision_Policy_Audit      "json:\"audit,omitempty\" graphql:\"audit\""
+	Enabled  bool                                                                                                                   "json:\"enabled\" graphql:\"enabled\""
+	Revision *PolicySdpStaticIpAllocationPublishPolicyRevision_Policy_SdpStaticIPAllocation_PublishPolicyRevision_Policy_Revision   "json:\"revision,omitempty\" graphql:\"revision\""
+	Rules    []*PolicySdpStaticIpAllocationPublishPolicyRevision_Policy_SdpStaticIPAllocation_PublishPolicyRevision_Policy_Rules    "json:\"rules\" graphql:\"rules\""
+	Sections []*PolicySdpStaticIpAllocationPublishPolicyRevision_Policy_SdpStaticIPAllocation_PublishPolicyRevision_Policy_Sections "json:\"sections\" graphql:\"sections\""
+}
+
+func (t *PolicySdpStaticIpAllocationPublishPolicyRevision_Policy_SdpStaticIPAllocation_PublishPolicyRevision_Policy) GetAudit() *PolicySdpStaticIpAllocationPublishPolicyRevision_Policy_SdpStaticIPAllocation_PublishPolicyRevision_Policy_Audit {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationPublishPolicyRevision_Policy_SdpStaticIPAllocation_PublishPolicyRevision_Policy{}
+	}
+	return t.Audit
+}
+func (t *PolicySdpStaticIpAllocationPublishPolicyRevision_Policy_SdpStaticIPAllocation_PublishPolicyRevision_Policy) GetEnabled() bool {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationPublishPolicyRevision_Policy_SdpStaticIPAllocation_PublishPolicyRevision_Policy{}
+	}
+	return t.Enabled
+}
+func (t *PolicySdpStaticIpAllocationPublishPolicyRevision_Policy_SdpStaticIPAllocation_PublishPolicyRevision_Policy) GetRevision() *PolicySdpStaticIpAllocationPublishPolicyRevision_Policy_SdpStaticIPAllocation_PublishPolicyRevision_Policy_Revision {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationPublishPolicyRevision_Policy_SdpStaticIPAllocation_PublishPolicyRevision_Policy{}
+	}
+	return t.Revision
+}
+func (t *PolicySdpStaticIpAllocationPublishPolicyRevision_Policy_SdpStaticIPAllocation_PublishPolicyRevision_Policy) GetRules() []*PolicySdpStaticIpAllocationPublishPolicyRevision_Policy_SdpStaticIPAllocation_PublishPolicyRevision_Policy_Rules {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationPublishPolicyRevision_Policy_SdpStaticIPAllocation_PublishPolicyRevision_Policy{}
+	}
+	return t.Rules
+}
+func (t *PolicySdpStaticIpAllocationPublishPolicyRevision_Policy_SdpStaticIPAllocation_PublishPolicyRevision_Policy) GetSections() []*PolicySdpStaticIpAllocationPublishPolicyRevision_Policy_SdpStaticIPAllocation_PublishPolicyRevision_Policy_Sections {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationPublishPolicyRevision_Policy_SdpStaticIPAllocation_PublishPolicyRevision_Policy{}
+	}
+	return t.Sections
+}
+
+type PolicySdpStaticIpAllocationPublishPolicyRevision_Policy_SdpStaticIPAllocation_PublishPolicyRevision_Errors struct {
+	ErrorCode    *string "json:\"errorCode,omitempty\" graphql:\"errorCode\""
+	ErrorMessage *string "json:\"errorMessage,omitempty\" graphql:\"errorMessage\""
+}
+
+func (t *PolicySdpStaticIpAllocationPublishPolicyRevision_Policy_SdpStaticIPAllocation_PublishPolicyRevision_Errors) GetErrorCode() *string {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationPublishPolicyRevision_Policy_SdpStaticIPAllocation_PublishPolicyRevision_Errors{}
+	}
+	return t.ErrorCode
+}
+func (t *PolicySdpStaticIpAllocationPublishPolicyRevision_Policy_SdpStaticIPAllocation_PublishPolicyRevision_Errors) GetErrorMessage() *string {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationPublishPolicyRevision_Policy_SdpStaticIPAllocation_PublishPolicyRevision_Errors{}
+	}
+	return t.ErrorMessage
+}
+
+type PolicySdpStaticIpAllocationPublishPolicyRevision_Policy_SdpStaticIPAllocation_PublishPolicyRevision struct {
+	Errors []*PolicySdpStaticIpAllocationPublishPolicyRevision_Policy_SdpStaticIPAllocation_PublishPolicyRevision_Errors "json:\"errors\" graphql:\"errors\""
+	Policy *PolicySdpStaticIpAllocationPublishPolicyRevision_Policy_SdpStaticIPAllocation_PublishPolicyRevision_Policy   "json:\"policy,omitempty\" graphql:\"policy\""
+	Status cato_models.PolicyMutationStatus                                                                              "json:\"status\" graphql:\"status\""
+}
+
+func (t *PolicySdpStaticIpAllocationPublishPolicyRevision_Policy_SdpStaticIPAllocation_PublishPolicyRevision) GetErrors() []*PolicySdpStaticIpAllocationPublishPolicyRevision_Policy_SdpStaticIPAllocation_PublishPolicyRevision_Errors {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationPublishPolicyRevision_Policy_SdpStaticIPAllocation_PublishPolicyRevision{}
+	}
+	return t.Errors
+}
+func (t *PolicySdpStaticIpAllocationPublishPolicyRevision_Policy_SdpStaticIPAllocation_PublishPolicyRevision) GetPolicy() *PolicySdpStaticIpAllocationPublishPolicyRevision_Policy_SdpStaticIPAllocation_PublishPolicyRevision_Policy {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationPublishPolicyRevision_Policy_SdpStaticIPAllocation_PublishPolicyRevision{}
+	}
+	return t.Policy
+}
+func (t *PolicySdpStaticIpAllocationPublishPolicyRevision_Policy_SdpStaticIPAllocation_PublishPolicyRevision) GetStatus() *cato_models.PolicyMutationStatus {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationPublishPolicyRevision_Policy_SdpStaticIPAllocation_PublishPolicyRevision{}
+	}
+	return &t.Status
+}
+
+type PolicySdpStaticIpAllocationPublishPolicyRevision_Policy_SdpStaticIPAllocation struct {
+	PublishPolicyRevision PolicySdpStaticIpAllocationPublishPolicyRevision_Policy_SdpStaticIPAllocation_PublishPolicyRevision "json:\"publishPolicyRevision\" graphql:\"publishPolicyRevision\""
+}
+
+func (t *PolicySdpStaticIpAllocationPublishPolicyRevision_Policy_SdpStaticIPAllocation) GetPublishPolicyRevision() *PolicySdpStaticIpAllocationPublishPolicyRevision_Policy_SdpStaticIPAllocation_PublishPolicyRevision {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationPublishPolicyRevision_Policy_SdpStaticIPAllocation{}
+	}
+	return &t.PublishPolicyRevision
+}
+
+type PolicySdpStaticIpAllocationPublishPolicyRevision_Policy struct {
+	SdpStaticIPAllocation *PolicySdpStaticIpAllocationPublishPolicyRevision_Policy_SdpStaticIPAllocation "json:\"sdpStaticIpAllocation,omitempty\" graphql:\"sdpStaticIpAllocation\""
+}
+
+func (t *PolicySdpStaticIpAllocationPublishPolicyRevision_Policy) GetSdpStaticIPAllocation() *PolicySdpStaticIpAllocationPublishPolicyRevision_Policy_SdpStaticIPAllocation {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationPublishPolicyRevision_Policy{}
+	}
+	return t.SdpStaticIPAllocation
+}
+
+type PolicySdpStaticIpAllocationRemoveRule_Policy_SdpStaticIPAllocation_RemoveRule_Rule_Audit struct {
+	UpdatedBy   string "json:\"updatedBy\" graphql:\"updatedBy\""
+	UpdatedTime string "json:\"updatedTime\" graphql:\"updatedTime\""
+}
+
+func (t *PolicySdpStaticIpAllocationRemoveRule_Policy_SdpStaticIPAllocation_RemoveRule_Rule_Audit) GetUpdatedBy() string {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationRemoveRule_Policy_SdpStaticIPAllocation_RemoveRule_Rule_Audit{}
+	}
+	return t.UpdatedBy
+}
+func (t *PolicySdpStaticIpAllocationRemoveRule_Policy_SdpStaticIPAllocation_RemoveRule_Rule_Audit) GetUpdatedTime() string {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationRemoveRule_Policy_SdpStaticIPAllocation_RemoveRule_Rule_Audit{}
+	}
+	return t.UpdatedTime
+}
+
+type PolicySdpStaticIpAllocationRemoveRule_Policy_SdpStaticIPAllocation_RemoveRule_Rule_Metadata_Lock struct {
+	LockingAdminEmail string "json:\"lockingAdminEmail\" graphql:\"lockingAdminEmail\""
+	LockingRevisionID string "json:\"lockingRevisionId\" graphql:\"lockingRevisionId\""
+	LockingTime       string "json:\"lockingTime\" graphql:\"lockingTime\""
+}
+
+func (t *PolicySdpStaticIpAllocationRemoveRule_Policy_SdpStaticIPAllocation_RemoveRule_Rule_Metadata_Lock) GetLockingAdminEmail() string {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationRemoveRule_Policy_SdpStaticIPAllocation_RemoveRule_Rule_Metadata_Lock{}
+	}
+	return t.LockingAdminEmail
+}
+func (t *PolicySdpStaticIpAllocationRemoveRule_Policy_SdpStaticIPAllocation_RemoveRule_Rule_Metadata_Lock) GetLockingRevisionID() string {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationRemoveRule_Policy_SdpStaticIPAllocation_RemoveRule_Rule_Metadata_Lock{}
+	}
+	return t.LockingRevisionID
+}
+func (t *PolicySdpStaticIpAllocationRemoveRule_Policy_SdpStaticIPAllocation_RemoveRule_Rule_Metadata_Lock) GetLockingTime() string {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationRemoveRule_Policy_SdpStaticIPAllocation_RemoveRule_Rule_Metadata_Lock{}
+	}
+	return t.LockingTime
+}
+
+type PolicySdpStaticIpAllocationRemoveRule_Policy_SdpStaticIPAllocation_RemoveRule_Rule_Metadata struct {
+	Lock *PolicySdpStaticIpAllocationRemoveRule_Policy_SdpStaticIPAllocation_RemoveRule_Rule_Metadata_Lock "json:\"lock,omitempty\" graphql:\"lock\""
+}
+
+func (t *PolicySdpStaticIpAllocationRemoveRule_Policy_SdpStaticIPAllocation_RemoveRule_Rule_Metadata) GetLock() *PolicySdpStaticIpAllocationRemoveRule_Policy_SdpStaticIPAllocation_RemoveRule_Rule_Metadata_Lock {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationRemoveRule_Policy_SdpStaticIPAllocation_RemoveRule_Rule_Metadata{}
+	}
+	return t.Lock
+}
+
+type PolicySdpStaticIpAllocationRemoveRule_Policy_SdpStaticIPAllocation_RemoveRule_Rule_Rule_Section struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicySdpStaticIpAllocationRemoveRule_Policy_SdpStaticIPAllocation_RemoveRule_Rule_Rule_Section) GetID() string {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationRemoveRule_Policy_SdpStaticIPAllocation_RemoveRule_Rule_Rule_Section{}
+	}
+	return t.ID
+}
+func (t *PolicySdpStaticIpAllocationRemoveRule_Policy_SdpStaticIPAllocation_RemoveRule_Rule_Rule_Section) GetName() string {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationRemoveRule_Policy_SdpStaticIPAllocation_RemoveRule_Rule_Rule_Section{}
+	}
+	return t.Name
+}
+
+type PolicySdpStaticIpAllocationRemoveRule_Policy_SdpStaticIPAllocation_RemoveRule_Rule_Rule_Source_User struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicySdpStaticIpAllocationRemoveRule_Policy_SdpStaticIPAllocation_RemoveRule_Rule_Rule_Source_User) GetID() string {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationRemoveRule_Policy_SdpStaticIPAllocation_RemoveRule_Rule_Rule_Source_User{}
+	}
+	return t.ID
+}
+func (t *PolicySdpStaticIpAllocationRemoveRule_Policy_SdpStaticIPAllocation_RemoveRule_Rule_Rule_Source_User) GetName() string {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationRemoveRule_Policy_SdpStaticIPAllocation_RemoveRule_Rule_Rule_Source_User{}
+	}
+	return t.Name
+}
+
+type PolicySdpStaticIpAllocationRemoveRule_Policy_SdpStaticIPAllocation_RemoveRule_Rule_Rule_Source struct {
+	User *PolicySdpStaticIpAllocationRemoveRule_Policy_SdpStaticIPAllocation_RemoveRule_Rule_Rule_Source_User "json:\"user,omitempty\" graphql:\"user\""
+}
+
+func (t *PolicySdpStaticIpAllocationRemoveRule_Policy_SdpStaticIPAllocation_RemoveRule_Rule_Rule_Source) GetUser() *PolicySdpStaticIpAllocationRemoveRule_Policy_SdpStaticIPAllocation_RemoveRule_Rule_Rule_Source_User {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationRemoveRule_Policy_SdpStaticIPAllocation_RemoveRule_Rule_Rule_Source{}
+	}
+	return t.User
+}
+
+type PolicySdpStaticIpAllocationRemoveRule_Policy_SdpStaticIPAllocation_RemoveRule_Rule_Rule struct {
+	Description string                                                                                          "json:\"description\" graphql:\"description\""
+	Enabled     bool                                                                                            "json:\"enabled\" graphql:\"enabled\""
+	ID          string                                                                                          "json:\"id\" graphql:\"id\""
+	Index       int64                                                                                           "json:\"index\" graphql:\"index\""
+	IP          string                                                                                          "json:\"ip\" graphql:\"ip\""
+	Name        string                                                                                          "json:\"name\" graphql:\"name\""
+	Section     PolicySdpStaticIpAllocationRemoveRule_Policy_SdpStaticIPAllocation_RemoveRule_Rule_Rule_Section "json:\"section\" graphql:\"section\""
+	Source      PolicySdpStaticIpAllocationRemoveRule_Policy_SdpStaticIPAllocation_RemoveRule_Rule_Rule_Source  "json:\"source\" graphql:\"source\""
+}
+
+func (t *PolicySdpStaticIpAllocationRemoveRule_Policy_SdpStaticIPAllocation_RemoveRule_Rule_Rule) GetDescription() string {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationRemoveRule_Policy_SdpStaticIPAllocation_RemoveRule_Rule_Rule{}
+	}
+	return t.Description
+}
+func (t *PolicySdpStaticIpAllocationRemoveRule_Policy_SdpStaticIPAllocation_RemoveRule_Rule_Rule) GetEnabled() bool {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationRemoveRule_Policy_SdpStaticIPAllocation_RemoveRule_Rule_Rule{}
+	}
+	return t.Enabled
+}
+func (t *PolicySdpStaticIpAllocationRemoveRule_Policy_SdpStaticIPAllocation_RemoveRule_Rule_Rule) GetID() string {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationRemoveRule_Policy_SdpStaticIPAllocation_RemoveRule_Rule_Rule{}
+	}
+	return t.ID
+}
+func (t *PolicySdpStaticIpAllocationRemoveRule_Policy_SdpStaticIPAllocation_RemoveRule_Rule_Rule) GetIndex() int64 {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationRemoveRule_Policy_SdpStaticIPAllocation_RemoveRule_Rule_Rule{}
+	}
+	return t.Index
+}
+func (t *PolicySdpStaticIpAllocationRemoveRule_Policy_SdpStaticIPAllocation_RemoveRule_Rule_Rule) GetIP() string {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationRemoveRule_Policy_SdpStaticIPAllocation_RemoveRule_Rule_Rule{}
+	}
+	return t.IP
+}
+func (t *PolicySdpStaticIpAllocationRemoveRule_Policy_SdpStaticIPAllocation_RemoveRule_Rule_Rule) GetName() string {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationRemoveRule_Policy_SdpStaticIPAllocation_RemoveRule_Rule_Rule{}
+	}
+	return t.Name
+}
+func (t *PolicySdpStaticIpAllocationRemoveRule_Policy_SdpStaticIPAllocation_RemoveRule_Rule_Rule) GetSection() *PolicySdpStaticIpAllocationRemoveRule_Policy_SdpStaticIPAllocation_RemoveRule_Rule_Rule_Section {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationRemoveRule_Policy_SdpStaticIPAllocation_RemoveRule_Rule_Rule{}
+	}
+	return &t.Section
+}
+func (t *PolicySdpStaticIpAllocationRemoveRule_Policy_SdpStaticIPAllocation_RemoveRule_Rule_Rule) GetSource() *PolicySdpStaticIpAllocationRemoveRule_Policy_SdpStaticIPAllocation_RemoveRule_Rule_Rule_Source {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationRemoveRule_Policy_SdpStaticIPAllocation_RemoveRule_Rule_Rule{}
+	}
+	return &t.Source
+}
+
+type PolicySdpStaticIpAllocationRemoveRule_Policy_SdpStaticIPAllocation_RemoveRule_Rule struct {
+	Audit      PolicySdpStaticIpAllocationRemoveRule_Policy_SdpStaticIPAllocation_RemoveRule_Rule_Audit     "json:\"audit\" graphql:\"audit\""
+	Metadata   *PolicySdpStaticIpAllocationRemoveRule_Policy_SdpStaticIPAllocation_RemoveRule_Rule_Metadata "json:\"metadata,omitempty\" graphql:\"metadata\""
+	Properties []cato_models.PolicyElementPropertiesEnum                                                    "json:\"properties\" graphql:\"properties\""
+	Rule       PolicySdpStaticIpAllocationRemoveRule_Policy_SdpStaticIPAllocation_RemoveRule_Rule_Rule      "json:\"rule\" graphql:\"rule\""
+}
+
+func (t *PolicySdpStaticIpAllocationRemoveRule_Policy_SdpStaticIPAllocation_RemoveRule_Rule) GetAudit() *PolicySdpStaticIpAllocationRemoveRule_Policy_SdpStaticIPAllocation_RemoveRule_Rule_Audit {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationRemoveRule_Policy_SdpStaticIPAllocation_RemoveRule_Rule{}
+	}
+	return &t.Audit
+}
+func (t *PolicySdpStaticIpAllocationRemoveRule_Policy_SdpStaticIPAllocation_RemoveRule_Rule) GetMetadata() *PolicySdpStaticIpAllocationRemoveRule_Policy_SdpStaticIPAllocation_RemoveRule_Rule_Metadata {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationRemoveRule_Policy_SdpStaticIPAllocation_RemoveRule_Rule{}
+	}
+	return t.Metadata
+}
+func (t *PolicySdpStaticIpAllocationRemoveRule_Policy_SdpStaticIPAllocation_RemoveRule_Rule) GetProperties() []cato_models.PolicyElementPropertiesEnum {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationRemoveRule_Policy_SdpStaticIPAllocation_RemoveRule_Rule{}
+	}
+	return t.Properties
+}
+func (t *PolicySdpStaticIpAllocationRemoveRule_Policy_SdpStaticIPAllocation_RemoveRule_Rule) GetRule() *PolicySdpStaticIpAllocationRemoveRule_Policy_SdpStaticIPAllocation_RemoveRule_Rule_Rule {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationRemoveRule_Policy_SdpStaticIPAllocation_RemoveRule_Rule{}
+	}
+	return &t.Rule
+}
+
+type PolicySdpStaticIpAllocationRemoveRule_Policy_SdpStaticIPAllocation_RemoveRule_Revision struct {
+	Changes     int64  "json:\"changes\" graphql:\"changes\""
+	CreatedTime string "json:\"createdTime\" graphql:\"createdTime\""
+	Description string "json:\"description\" graphql:\"description\""
+	ID          string "json:\"id\" graphql:\"id\""
+	Name        string "json:\"name\" graphql:\"name\""
+	UpdatedTime string "json:\"updatedTime\" graphql:\"updatedTime\""
+}
+
+func (t *PolicySdpStaticIpAllocationRemoveRule_Policy_SdpStaticIPAllocation_RemoveRule_Revision) GetChanges() int64 {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationRemoveRule_Policy_SdpStaticIPAllocation_RemoveRule_Revision{}
+	}
+	return t.Changes
+}
+func (t *PolicySdpStaticIpAllocationRemoveRule_Policy_SdpStaticIPAllocation_RemoveRule_Revision) GetCreatedTime() string {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationRemoveRule_Policy_SdpStaticIPAllocation_RemoveRule_Revision{}
+	}
+	return t.CreatedTime
+}
+func (t *PolicySdpStaticIpAllocationRemoveRule_Policy_SdpStaticIPAllocation_RemoveRule_Revision) GetDescription() string {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationRemoveRule_Policy_SdpStaticIPAllocation_RemoveRule_Revision{}
+	}
+	return t.Description
+}
+func (t *PolicySdpStaticIpAllocationRemoveRule_Policy_SdpStaticIPAllocation_RemoveRule_Revision) GetID() string {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationRemoveRule_Policy_SdpStaticIPAllocation_RemoveRule_Revision{}
+	}
+	return t.ID
+}
+func (t *PolicySdpStaticIpAllocationRemoveRule_Policy_SdpStaticIPAllocation_RemoveRule_Revision) GetName() string {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationRemoveRule_Policy_SdpStaticIPAllocation_RemoveRule_Revision{}
+	}
+	return t.Name
+}
+func (t *PolicySdpStaticIpAllocationRemoveRule_Policy_SdpStaticIPAllocation_RemoveRule_Revision) GetUpdatedTime() string {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationRemoveRule_Policy_SdpStaticIPAllocation_RemoveRule_Revision{}
+	}
+	return t.UpdatedTime
+}
+
+type PolicySdpStaticIpAllocationRemoveRule_Policy_SdpStaticIPAllocation_RemoveRule_Errors struct {
+	ErrorCode    *string "json:\"errorCode,omitempty\" graphql:\"errorCode\""
+	ErrorMessage *string "json:\"errorMessage,omitempty\" graphql:\"errorMessage\""
+}
+
+func (t *PolicySdpStaticIpAllocationRemoveRule_Policy_SdpStaticIPAllocation_RemoveRule_Errors) GetErrorCode() *string {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationRemoveRule_Policy_SdpStaticIPAllocation_RemoveRule_Errors{}
+	}
+	return t.ErrorCode
+}
+func (t *PolicySdpStaticIpAllocationRemoveRule_Policy_SdpStaticIPAllocation_RemoveRule_Errors) GetErrorMessage() *string {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationRemoveRule_Policy_SdpStaticIPAllocation_RemoveRule_Errors{}
+	}
+	return t.ErrorMessage
+}
+
+type PolicySdpStaticIpAllocationRemoveRule_Policy_SdpStaticIPAllocation_RemoveRule struct {
+	Errors   []*PolicySdpStaticIpAllocationRemoveRule_Policy_SdpStaticIPAllocation_RemoveRule_Errors "json:\"errors\" graphql:\"errors\""
+	Revision *PolicySdpStaticIpAllocationRemoveRule_Policy_SdpStaticIPAllocation_RemoveRule_Revision "json:\"revision,omitempty\" graphql:\"revision\""
+	Rule     *PolicySdpStaticIpAllocationRemoveRule_Policy_SdpStaticIPAllocation_RemoveRule_Rule     "json:\"rule,omitempty\" graphql:\"rule\""
+	Status   cato_models.PolicyMutationStatus                                                        "json:\"status\" graphql:\"status\""
+}
+
+func (t *PolicySdpStaticIpAllocationRemoveRule_Policy_SdpStaticIPAllocation_RemoveRule) GetErrors() []*PolicySdpStaticIpAllocationRemoveRule_Policy_SdpStaticIPAllocation_RemoveRule_Errors {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationRemoveRule_Policy_SdpStaticIPAllocation_RemoveRule{}
+	}
+	return t.Errors
+}
+func (t *PolicySdpStaticIpAllocationRemoveRule_Policy_SdpStaticIPAllocation_RemoveRule) GetRevision() *PolicySdpStaticIpAllocationRemoveRule_Policy_SdpStaticIPAllocation_RemoveRule_Revision {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationRemoveRule_Policy_SdpStaticIPAllocation_RemoveRule{}
+	}
+	return t.Revision
+}
+func (t *PolicySdpStaticIpAllocationRemoveRule_Policy_SdpStaticIPAllocation_RemoveRule) GetRule() *PolicySdpStaticIpAllocationRemoveRule_Policy_SdpStaticIPAllocation_RemoveRule_Rule {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationRemoveRule_Policy_SdpStaticIPAllocation_RemoveRule{}
+	}
+	return t.Rule
+}
+func (t *PolicySdpStaticIpAllocationRemoveRule_Policy_SdpStaticIPAllocation_RemoveRule) GetStatus() *cato_models.PolicyMutationStatus {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationRemoveRule_Policy_SdpStaticIPAllocation_RemoveRule{}
+	}
+	return &t.Status
+}
+
+type PolicySdpStaticIpAllocationRemoveRule_Policy_SdpStaticIPAllocation struct {
+	RemoveRule PolicySdpStaticIpAllocationRemoveRule_Policy_SdpStaticIPAllocation_RemoveRule "json:\"removeRule\" graphql:\"removeRule\""
+}
+
+func (t *PolicySdpStaticIpAllocationRemoveRule_Policy_SdpStaticIPAllocation) GetRemoveRule() *PolicySdpStaticIpAllocationRemoveRule_Policy_SdpStaticIPAllocation_RemoveRule {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationRemoveRule_Policy_SdpStaticIPAllocation{}
+	}
+	return &t.RemoveRule
+}
+
+type PolicySdpStaticIpAllocationRemoveRule_Policy struct {
+	SdpStaticIPAllocation *PolicySdpStaticIpAllocationRemoveRule_Policy_SdpStaticIPAllocation "json:\"sdpStaticIpAllocation,omitempty\" graphql:\"sdpStaticIpAllocation\""
+}
+
+func (t *PolicySdpStaticIpAllocationRemoveRule_Policy) GetSdpStaticIPAllocation() *PolicySdpStaticIpAllocationRemoveRule_Policy_SdpStaticIPAllocation {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationRemoveRule_Policy{}
+	}
+	return t.SdpStaticIPAllocation
+}
+
+type PolicySdpStaticIpAllocationRemoveSection_Policy_SdpStaticIPAllocation_RemoveSection_Section_Audit struct {
+	UpdatedBy   string "json:\"updatedBy\" graphql:\"updatedBy\""
+	UpdatedTime string "json:\"updatedTime\" graphql:\"updatedTime\""
+}
+
+func (t *PolicySdpStaticIpAllocationRemoveSection_Policy_SdpStaticIPAllocation_RemoveSection_Section_Audit) GetUpdatedBy() string {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationRemoveSection_Policy_SdpStaticIPAllocation_RemoveSection_Section_Audit{}
+	}
+	return t.UpdatedBy
+}
+func (t *PolicySdpStaticIpAllocationRemoveSection_Policy_SdpStaticIPAllocation_RemoveSection_Section_Audit) GetUpdatedTime() string {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationRemoveSection_Policy_SdpStaticIPAllocation_RemoveSection_Section_Audit{}
+	}
+	return t.UpdatedTime
+}
+
+type PolicySdpStaticIpAllocationRemoveSection_Policy_SdpStaticIPAllocation_RemoveSection_Section_Metadata_Lock struct {
+	LockingAdminEmail string "json:\"lockingAdminEmail\" graphql:\"lockingAdminEmail\""
+	LockingRevisionID string "json:\"lockingRevisionId\" graphql:\"lockingRevisionId\""
+	LockingTime       string "json:\"lockingTime\" graphql:\"lockingTime\""
+}
+
+func (t *PolicySdpStaticIpAllocationRemoveSection_Policy_SdpStaticIPAllocation_RemoveSection_Section_Metadata_Lock) GetLockingAdminEmail() string {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationRemoveSection_Policy_SdpStaticIPAllocation_RemoveSection_Section_Metadata_Lock{}
+	}
+	return t.LockingAdminEmail
+}
+func (t *PolicySdpStaticIpAllocationRemoveSection_Policy_SdpStaticIPAllocation_RemoveSection_Section_Metadata_Lock) GetLockingRevisionID() string {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationRemoveSection_Policy_SdpStaticIPAllocation_RemoveSection_Section_Metadata_Lock{}
+	}
+	return t.LockingRevisionID
+}
+func (t *PolicySdpStaticIpAllocationRemoveSection_Policy_SdpStaticIPAllocation_RemoveSection_Section_Metadata_Lock) GetLockingTime() string {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationRemoveSection_Policy_SdpStaticIPAllocation_RemoveSection_Section_Metadata_Lock{}
+	}
+	return t.LockingTime
+}
+
+type PolicySdpStaticIpAllocationRemoveSection_Policy_SdpStaticIPAllocation_RemoveSection_Section_Metadata struct {
+	Lock *PolicySdpStaticIpAllocationRemoveSection_Policy_SdpStaticIPAllocation_RemoveSection_Section_Metadata_Lock "json:\"lock,omitempty\" graphql:\"lock\""
+}
+
+func (t *PolicySdpStaticIpAllocationRemoveSection_Policy_SdpStaticIPAllocation_RemoveSection_Section_Metadata) GetLock() *PolicySdpStaticIpAllocationRemoveSection_Policy_SdpStaticIPAllocation_RemoveSection_Section_Metadata_Lock {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationRemoveSection_Policy_SdpStaticIPAllocation_RemoveSection_Section_Metadata{}
+	}
+	return t.Lock
+}
+
+type PolicySdpStaticIpAllocationRemoveSection_Policy_SdpStaticIPAllocation_RemoveSection_Section_Section struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicySdpStaticIpAllocationRemoveSection_Policy_SdpStaticIPAllocation_RemoveSection_Section_Section) GetID() string {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationRemoveSection_Policy_SdpStaticIPAllocation_RemoveSection_Section_Section{}
+	}
+	return t.ID
+}
+func (t *PolicySdpStaticIpAllocationRemoveSection_Policy_SdpStaticIPAllocation_RemoveSection_Section_Section) GetName() string {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationRemoveSection_Policy_SdpStaticIPAllocation_RemoveSection_Section_Section{}
+	}
+	return t.Name
+}
+
+type PolicySdpStaticIpAllocationRemoveSection_Policy_SdpStaticIPAllocation_RemoveSection_Section struct {
+	Audit      PolicySdpStaticIpAllocationRemoveSection_Policy_SdpStaticIPAllocation_RemoveSection_Section_Audit     "json:\"audit\" graphql:\"audit\""
+	Metadata   *PolicySdpStaticIpAllocationRemoveSection_Policy_SdpStaticIPAllocation_RemoveSection_Section_Metadata "json:\"metadata,omitempty\" graphql:\"metadata\""
+	Properties []cato_models.PolicyElementPropertiesEnum                                                             "json:\"properties\" graphql:\"properties\""
+	Section    PolicySdpStaticIpAllocationRemoveSection_Policy_SdpStaticIPAllocation_RemoveSection_Section_Section   "json:\"section\" graphql:\"section\""
+}
+
+func (t *PolicySdpStaticIpAllocationRemoveSection_Policy_SdpStaticIPAllocation_RemoveSection_Section) GetAudit() *PolicySdpStaticIpAllocationRemoveSection_Policy_SdpStaticIPAllocation_RemoveSection_Section_Audit {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationRemoveSection_Policy_SdpStaticIPAllocation_RemoveSection_Section{}
+	}
+	return &t.Audit
+}
+func (t *PolicySdpStaticIpAllocationRemoveSection_Policy_SdpStaticIPAllocation_RemoveSection_Section) GetMetadata() *PolicySdpStaticIpAllocationRemoveSection_Policy_SdpStaticIPAllocation_RemoveSection_Section_Metadata {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationRemoveSection_Policy_SdpStaticIPAllocation_RemoveSection_Section{}
+	}
+	return t.Metadata
+}
+func (t *PolicySdpStaticIpAllocationRemoveSection_Policy_SdpStaticIPAllocation_RemoveSection_Section) GetProperties() []cato_models.PolicyElementPropertiesEnum {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationRemoveSection_Policy_SdpStaticIPAllocation_RemoveSection_Section{}
+	}
+	return t.Properties
+}
+func (t *PolicySdpStaticIpAllocationRemoveSection_Policy_SdpStaticIPAllocation_RemoveSection_Section) GetSection() *PolicySdpStaticIpAllocationRemoveSection_Policy_SdpStaticIPAllocation_RemoveSection_Section_Section {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationRemoveSection_Policy_SdpStaticIPAllocation_RemoveSection_Section{}
+	}
+	return &t.Section
+}
+
+type PolicySdpStaticIpAllocationRemoveSection_Policy_SdpStaticIPAllocation_RemoveSection_Errors struct {
+	ErrorCode    *string "json:\"errorCode,omitempty\" graphql:\"errorCode\""
+	ErrorMessage *string "json:\"errorMessage,omitempty\" graphql:\"errorMessage\""
+}
+
+func (t *PolicySdpStaticIpAllocationRemoveSection_Policy_SdpStaticIPAllocation_RemoveSection_Errors) GetErrorCode() *string {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationRemoveSection_Policy_SdpStaticIPAllocation_RemoveSection_Errors{}
+	}
+	return t.ErrorCode
+}
+func (t *PolicySdpStaticIpAllocationRemoveSection_Policy_SdpStaticIPAllocation_RemoveSection_Errors) GetErrorMessage() *string {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationRemoveSection_Policy_SdpStaticIPAllocation_RemoveSection_Errors{}
+	}
+	return t.ErrorMessage
+}
+
+type PolicySdpStaticIpAllocationRemoveSection_Policy_SdpStaticIPAllocation_RemoveSection_Revision struct {
+	Changes     int64  "json:\"changes\" graphql:\"changes\""
+	CreatedTime string "json:\"createdTime\" graphql:\"createdTime\""
+	Description string "json:\"description\" graphql:\"description\""
+	ID          string "json:\"id\" graphql:\"id\""
+	Name        string "json:\"name\" graphql:\"name\""
+	UpdatedTime string "json:\"updatedTime\" graphql:\"updatedTime\""
+}
+
+func (t *PolicySdpStaticIpAllocationRemoveSection_Policy_SdpStaticIPAllocation_RemoveSection_Revision) GetChanges() int64 {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationRemoveSection_Policy_SdpStaticIPAllocation_RemoveSection_Revision{}
+	}
+	return t.Changes
+}
+func (t *PolicySdpStaticIpAllocationRemoveSection_Policy_SdpStaticIPAllocation_RemoveSection_Revision) GetCreatedTime() string {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationRemoveSection_Policy_SdpStaticIPAllocation_RemoveSection_Revision{}
+	}
+	return t.CreatedTime
+}
+func (t *PolicySdpStaticIpAllocationRemoveSection_Policy_SdpStaticIPAllocation_RemoveSection_Revision) GetDescription() string {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationRemoveSection_Policy_SdpStaticIPAllocation_RemoveSection_Revision{}
+	}
+	return t.Description
+}
+func (t *PolicySdpStaticIpAllocationRemoveSection_Policy_SdpStaticIPAllocation_RemoveSection_Revision) GetID() string {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationRemoveSection_Policy_SdpStaticIPAllocation_RemoveSection_Revision{}
+	}
+	return t.ID
+}
+func (t *PolicySdpStaticIpAllocationRemoveSection_Policy_SdpStaticIPAllocation_RemoveSection_Revision) GetName() string {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationRemoveSection_Policy_SdpStaticIPAllocation_RemoveSection_Revision{}
+	}
+	return t.Name
+}
+func (t *PolicySdpStaticIpAllocationRemoveSection_Policy_SdpStaticIPAllocation_RemoveSection_Revision) GetUpdatedTime() string {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationRemoveSection_Policy_SdpStaticIPAllocation_RemoveSection_Revision{}
+	}
+	return t.UpdatedTime
+}
+
+type PolicySdpStaticIpAllocationRemoveSection_Policy_SdpStaticIPAllocation_RemoveSection struct {
+	Errors   []*PolicySdpStaticIpAllocationRemoveSection_Policy_SdpStaticIPAllocation_RemoveSection_Errors "json:\"errors\" graphql:\"errors\""
+	Revision *PolicySdpStaticIpAllocationRemoveSection_Policy_SdpStaticIPAllocation_RemoveSection_Revision "json:\"revision,omitempty\" graphql:\"revision\""
+	Section  *PolicySdpStaticIpAllocationRemoveSection_Policy_SdpStaticIPAllocation_RemoveSection_Section  "json:\"section,omitempty\" graphql:\"section\""
+	Status   cato_models.PolicyMutationStatus                                                              "json:\"status\" graphql:\"status\""
+}
+
+func (t *PolicySdpStaticIpAllocationRemoveSection_Policy_SdpStaticIPAllocation_RemoveSection) GetErrors() []*PolicySdpStaticIpAllocationRemoveSection_Policy_SdpStaticIPAllocation_RemoveSection_Errors {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationRemoveSection_Policy_SdpStaticIPAllocation_RemoveSection{}
+	}
+	return t.Errors
+}
+func (t *PolicySdpStaticIpAllocationRemoveSection_Policy_SdpStaticIPAllocation_RemoveSection) GetRevision() *PolicySdpStaticIpAllocationRemoveSection_Policy_SdpStaticIPAllocation_RemoveSection_Revision {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationRemoveSection_Policy_SdpStaticIPAllocation_RemoveSection{}
+	}
+	return t.Revision
+}
+func (t *PolicySdpStaticIpAllocationRemoveSection_Policy_SdpStaticIPAllocation_RemoveSection) GetSection() *PolicySdpStaticIpAllocationRemoveSection_Policy_SdpStaticIPAllocation_RemoveSection_Section {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationRemoveSection_Policy_SdpStaticIPAllocation_RemoveSection{}
+	}
+	return t.Section
+}
+func (t *PolicySdpStaticIpAllocationRemoveSection_Policy_SdpStaticIPAllocation_RemoveSection) GetStatus() *cato_models.PolicyMutationStatus {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationRemoveSection_Policy_SdpStaticIPAllocation_RemoveSection{}
+	}
+	return &t.Status
+}
+
+type PolicySdpStaticIpAllocationRemoveSection_Policy_SdpStaticIPAllocation struct {
+	RemoveSection PolicySdpStaticIpAllocationRemoveSection_Policy_SdpStaticIPAllocation_RemoveSection "json:\"removeSection\" graphql:\"removeSection\""
+}
+
+func (t *PolicySdpStaticIpAllocationRemoveSection_Policy_SdpStaticIPAllocation) GetRemoveSection() *PolicySdpStaticIpAllocationRemoveSection_Policy_SdpStaticIPAllocation_RemoveSection {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationRemoveSection_Policy_SdpStaticIPAllocation{}
+	}
+	return &t.RemoveSection
+}
+
+type PolicySdpStaticIpAllocationRemoveSection_Policy struct {
+	SdpStaticIPAllocation *PolicySdpStaticIpAllocationRemoveSection_Policy_SdpStaticIPAllocation "json:\"sdpStaticIpAllocation,omitempty\" graphql:\"sdpStaticIpAllocation\""
+}
+
+func (t *PolicySdpStaticIpAllocationRemoveSection_Policy) GetSdpStaticIPAllocation() *PolicySdpStaticIpAllocationRemoveSection_Policy_SdpStaticIPAllocation {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationRemoveSection_Policy{}
+	}
+	return t.SdpStaticIPAllocation
+}
+
+type PolicySdpStaticIpAllocationUpdatePolicy_Policy_SdpStaticIPAllocation_UpdatePolicy_Policy_Rules_Audit struct {
+	UpdatedBy   string "json:\"updatedBy\" graphql:\"updatedBy\""
+	UpdatedTime string "json:\"updatedTime\" graphql:\"updatedTime\""
+}
+
+func (t *PolicySdpStaticIpAllocationUpdatePolicy_Policy_SdpStaticIPAllocation_UpdatePolicy_Policy_Rules_Audit) GetUpdatedBy() string {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationUpdatePolicy_Policy_SdpStaticIPAllocation_UpdatePolicy_Policy_Rules_Audit{}
+	}
+	return t.UpdatedBy
+}
+func (t *PolicySdpStaticIpAllocationUpdatePolicy_Policy_SdpStaticIPAllocation_UpdatePolicy_Policy_Rules_Audit) GetUpdatedTime() string {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationUpdatePolicy_Policy_SdpStaticIPAllocation_UpdatePolicy_Policy_Rules_Audit{}
+	}
+	return t.UpdatedTime
+}
+
+type PolicySdpStaticIpAllocationUpdatePolicy_Policy_SdpStaticIPAllocation_UpdatePolicy_Policy_Rules_Metadata_Lock struct {
+	LockingAdminEmail string "json:\"lockingAdminEmail\" graphql:\"lockingAdminEmail\""
+	LockingRevisionID string "json:\"lockingRevisionId\" graphql:\"lockingRevisionId\""
+	LockingTime       string "json:\"lockingTime\" graphql:\"lockingTime\""
+}
+
+func (t *PolicySdpStaticIpAllocationUpdatePolicy_Policy_SdpStaticIPAllocation_UpdatePolicy_Policy_Rules_Metadata_Lock) GetLockingAdminEmail() string {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationUpdatePolicy_Policy_SdpStaticIPAllocation_UpdatePolicy_Policy_Rules_Metadata_Lock{}
+	}
+	return t.LockingAdminEmail
+}
+func (t *PolicySdpStaticIpAllocationUpdatePolicy_Policy_SdpStaticIPAllocation_UpdatePolicy_Policy_Rules_Metadata_Lock) GetLockingRevisionID() string {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationUpdatePolicy_Policy_SdpStaticIPAllocation_UpdatePolicy_Policy_Rules_Metadata_Lock{}
+	}
+	return t.LockingRevisionID
+}
+func (t *PolicySdpStaticIpAllocationUpdatePolicy_Policy_SdpStaticIPAllocation_UpdatePolicy_Policy_Rules_Metadata_Lock) GetLockingTime() string {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationUpdatePolicy_Policy_SdpStaticIPAllocation_UpdatePolicy_Policy_Rules_Metadata_Lock{}
+	}
+	return t.LockingTime
+}
+
+type PolicySdpStaticIpAllocationUpdatePolicy_Policy_SdpStaticIPAllocation_UpdatePolicy_Policy_Rules_Metadata struct {
+	Lock *PolicySdpStaticIpAllocationUpdatePolicy_Policy_SdpStaticIPAllocation_UpdatePolicy_Policy_Rules_Metadata_Lock "json:\"lock,omitempty\" graphql:\"lock\""
+}
+
+func (t *PolicySdpStaticIpAllocationUpdatePolicy_Policy_SdpStaticIPAllocation_UpdatePolicy_Policy_Rules_Metadata) GetLock() *PolicySdpStaticIpAllocationUpdatePolicy_Policy_SdpStaticIPAllocation_UpdatePolicy_Policy_Rules_Metadata_Lock {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationUpdatePolicy_Policy_SdpStaticIPAllocation_UpdatePolicy_Policy_Rules_Metadata{}
+	}
+	return t.Lock
+}
+
+type PolicySdpStaticIpAllocationUpdatePolicy_Policy_SdpStaticIPAllocation_UpdatePolicy_Policy_Rules_Rule_Section struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicySdpStaticIpAllocationUpdatePolicy_Policy_SdpStaticIPAllocation_UpdatePolicy_Policy_Rules_Rule_Section) GetID() string {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationUpdatePolicy_Policy_SdpStaticIPAllocation_UpdatePolicy_Policy_Rules_Rule_Section{}
+	}
+	return t.ID
+}
+func (t *PolicySdpStaticIpAllocationUpdatePolicy_Policy_SdpStaticIPAllocation_UpdatePolicy_Policy_Rules_Rule_Section) GetName() string {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationUpdatePolicy_Policy_SdpStaticIPAllocation_UpdatePolicy_Policy_Rules_Rule_Section{}
+	}
+	return t.Name
+}
+
+type PolicySdpStaticIpAllocationUpdatePolicy_Policy_SdpStaticIPAllocation_UpdatePolicy_Policy_Rules_Rule_Source_User struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicySdpStaticIpAllocationUpdatePolicy_Policy_SdpStaticIPAllocation_UpdatePolicy_Policy_Rules_Rule_Source_User) GetID() string {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationUpdatePolicy_Policy_SdpStaticIPAllocation_UpdatePolicy_Policy_Rules_Rule_Source_User{}
+	}
+	return t.ID
+}
+func (t *PolicySdpStaticIpAllocationUpdatePolicy_Policy_SdpStaticIPAllocation_UpdatePolicy_Policy_Rules_Rule_Source_User) GetName() string {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationUpdatePolicy_Policy_SdpStaticIPAllocation_UpdatePolicy_Policy_Rules_Rule_Source_User{}
+	}
+	return t.Name
+}
+
+type PolicySdpStaticIpAllocationUpdatePolicy_Policy_SdpStaticIPAllocation_UpdatePolicy_Policy_Rules_Rule_Source struct {
+	User *PolicySdpStaticIpAllocationUpdatePolicy_Policy_SdpStaticIPAllocation_UpdatePolicy_Policy_Rules_Rule_Source_User "json:\"user,omitempty\" graphql:\"user\""
+}
+
+func (t *PolicySdpStaticIpAllocationUpdatePolicy_Policy_SdpStaticIPAllocation_UpdatePolicy_Policy_Rules_Rule_Source) GetUser() *PolicySdpStaticIpAllocationUpdatePolicy_Policy_SdpStaticIPAllocation_UpdatePolicy_Policy_Rules_Rule_Source_User {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationUpdatePolicy_Policy_SdpStaticIPAllocation_UpdatePolicy_Policy_Rules_Rule_Source{}
+	}
+	return t.User
+}
+
+type PolicySdpStaticIpAllocationUpdatePolicy_Policy_SdpStaticIPAllocation_UpdatePolicy_Policy_Rules_Rule struct {
+	Description string                                                                                                      "json:\"description\" graphql:\"description\""
+	Enabled     bool                                                                                                        "json:\"enabled\" graphql:\"enabled\""
+	ID          string                                                                                                      "json:\"id\" graphql:\"id\""
+	Index       int64                                                                                                       "json:\"index\" graphql:\"index\""
+	IP          string                                                                                                      "json:\"ip\" graphql:\"ip\""
+	Name        string                                                                                                      "json:\"name\" graphql:\"name\""
+	Section     PolicySdpStaticIpAllocationUpdatePolicy_Policy_SdpStaticIPAllocation_UpdatePolicy_Policy_Rules_Rule_Section "json:\"section\" graphql:\"section\""
+	Source      PolicySdpStaticIpAllocationUpdatePolicy_Policy_SdpStaticIPAllocation_UpdatePolicy_Policy_Rules_Rule_Source  "json:\"source\" graphql:\"source\""
+}
+
+func (t *PolicySdpStaticIpAllocationUpdatePolicy_Policy_SdpStaticIPAllocation_UpdatePolicy_Policy_Rules_Rule) GetDescription() string {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationUpdatePolicy_Policy_SdpStaticIPAllocation_UpdatePolicy_Policy_Rules_Rule{}
+	}
+	return t.Description
+}
+func (t *PolicySdpStaticIpAllocationUpdatePolicy_Policy_SdpStaticIPAllocation_UpdatePolicy_Policy_Rules_Rule) GetEnabled() bool {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationUpdatePolicy_Policy_SdpStaticIPAllocation_UpdatePolicy_Policy_Rules_Rule{}
+	}
+	return t.Enabled
+}
+func (t *PolicySdpStaticIpAllocationUpdatePolicy_Policy_SdpStaticIPAllocation_UpdatePolicy_Policy_Rules_Rule) GetID() string {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationUpdatePolicy_Policy_SdpStaticIPAllocation_UpdatePolicy_Policy_Rules_Rule{}
+	}
+	return t.ID
+}
+func (t *PolicySdpStaticIpAllocationUpdatePolicy_Policy_SdpStaticIPAllocation_UpdatePolicy_Policy_Rules_Rule) GetIndex() int64 {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationUpdatePolicy_Policy_SdpStaticIPAllocation_UpdatePolicy_Policy_Rules_Rule{}
+	}
+	return t.Index
+}
+func (t *PolicySdpStaticIpAllocationUpdatePolicy_Policy_SdpStaticIPAllocation_UpdatePolicy_Policy_Rules_Rule) GetIP() string {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationUpdatePolicy_Policy_SdpStaticIPAllocation_UpdatePolicy_Policy_Rules_Rule{}
+	}
+	return t.IP
+}
+func (t *PolicySdpStaticIpAllocationUpdatePolicy_Policy_SdpStaticIPAllocation_UpdatePolicy_Policy_Rules_Rule) GetName() string {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationUpdatePolicy_Policy_SdpStaticIPAllocation_UpdatePolicy_Policy_Rules_Rule{}
+	}
+	return t.Name
+}
+func (t *PolicySdpStaticIpAllocationUpdatePolicy_Policy_SdpStaticIPAllocation_UpdatePolicy_Policy_Rules_Rule) GetSection() *PolicySdpStaticIpAllocationUpdatePolicy_Policy_SdpStaticIPAllocation_UpdatePolicy_Policy_Rules_Rule_Section {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationUpdatePolicy_Policy_SdpStaticIPAllocation_UpdatePolicy_Policy_Rules_Rule{}
+	}
+	return &t.Section
+}
+func (t *PolicySdpStaticIpAllocationUpdatePolicy_Policy_SdpStaticIPAllocation_UpdatePolicy_Policy_Rules_Rule) GetSource() *PolicySdpStaticIpAllocationUpdatePolicy_Policy_SdpStaticIPAllocation_UpdatePolicy_Policy_Rules_Rule_Source {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationUpdatePolicy_Policy_SdpStaticIPAllocation_UpdatePolicy_Policy_Rules_Rule{}
+	}
+	return &t.Source
+}
+
+type PolicySdpStaticIpAllocationUpdatePolicy_Policy_SdpStaticIPAllocation_UpdatePolicy_Policy_Rules struct {
+	Audit      PolicySdpStaticIpAllocationUpdatePolicy_Policy_SdpStaticIPAllocation_UpdatePolicy_Policy_Rules_Audit     "json:\"audit\" graphql:\"audit\""
+	Metadata   *PolicySdpStaticIpAllocationUpdatePolicy_Policy_SdpStaticIPAllocation_UpdatePolicy_Policy_Rules_Metadata "json:\"metadata,omitempty\" graphql:\"metadata\""
+	Properties []cato_models.PolicyElementPropertiesEnum                                                                "json:\"properties\" graphql:\"properties\""
+	Rule       PolicySdpStaticIpAllocationUpdatePolicy_Policy_SdpStaticIPAllocation_UpdatePolicy_Policy_Rules_Rule      "json:\"rule\" graphql:\"rule\""
+}
+
+func (t *PolicySdpStaticIpAllocationUpdatePolicy_Policy_SdpStaticIPAllocation_UpdatePolicy_Policy_Rules) GetAudit() *PolicySdpStaticIpAllocationUpdatePolicy_Policy_SdpStaticIPAllocation_UpdatePolicy_Policy_Rules_Audit {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationUpdatePolicy_Policy_SdpStaticIPAllocation_UpdatePolicy_Policy_Rules{}
+	}
+	return &t.Audit
+}
+func (t *PolicySdpStaticIpAllocationUpdatePolicy_Policy_SdpStaticIPAllocation_UpdatePolicy_Policy_Rules) GetMetadata() *PolicySdpStaticIpAllocationUpdatePolicy_Policy_SdpStaticIPAllocation_UpdatePolicy_Policy_Rules_Metadata {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationUpdatePolicy_Policy_SdpStaticIPAllocation_UpdatePolicy_Policy_Rules{}
+	}
+	return t.Metadata
+}
+func (t *PolicySdpStaticIpAllocationUpdatePolicy_Policy_SdpStaticIPAllocation_UpdatePolicy_Policy_Rules) GetProperties() []cato_models.PolicyElementPropertiesEnum {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationUpdatePolicy_Policy_SdpStaticIPAllocation_UpdatePolicy_Policy_Rules{}
+	}
+	return t.Properties
+}
+func (t *PolicySdpStaticIpAllocationUpdatePolicy_Policy_SdpStaticIPAllocation_UpdatePolicy_Policy_Rules) GetRule() *PolicySdpStaticIpAllocationUpdatePolicy_Policy_SdpStaticIPAllocation_UpdatePolicy_Policy_Rules_Rule {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationUpdatePolicy_Policy_SdpStaticIPAllocation_UpdatePolicy_Policy_Rules{}
+	}
+	return &t.Rule
+}
+
+type PolicySdpStaticIpAllocationUpdatePolicy_Policy_SdpStaticIPAllocation_UpdatePolicy_Policy_Sections_Audit struct {
+	UpdatedBy   string "json:\"updatedBy\" graphql:\"updatedBy\""
+	UpdatedTime string "json:\"updatedTime\" graphql:\"updatedTime\""
+}
+
+func (t *PolicySdpStaticIpAllocationUpdatePolicy_Policy_SdpStaticIPAllocation_UpdatePolicy_Policy_Sections_Audit) GetUpdatedBy() string {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationUpdatePolicy_Policy_SdpStaticIPAllocation_UpdatePolicy_Policy_Sections_Audit{}
+	}
+	return t.UpdatedBy
+}
+func (t *PolicySdpStaticIpAllocationUpdatePolicy_Policy_SdpStaticIPAllocation_UpdatePolicy_Policy_Sections_Audit) GetUpdatedTime() string {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationUpdatePolicy_Policy_SdpStaticIPAllocation_UpdatePolicy_Policy_Sections_Audit{}
+	}
+	return t.UpdatedTime
+}
+
+type PolicySdpStaticIpAllocationUpdatePolicy_Policy_SdpStaticIPAllocation_UpdatePolicy_Policy_Sections_Metadata_Lock struct {
+	LockingAdminEmail string "json:\"lockingAdminEmail\" graphql:\"lockingAdminEmail\""
+	LockingRevisionID string "json:\"lockingRevisionId\" graphql:\"lockingRevisionId\""
+	LockingTime       string "json:\"lockingTime\" graphql:\"lockingTime\""
+}
+
+func (t *PolicySdpStaticIpAllocationUpdatePolicy_Policy_SdpStaticIPAllocation_UpdatePolicy_Policy_Sections_Metadata_Lock) GetLockingAdminEmail() string {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationUpdatePolicy_Policy_SdpStaticIPAllocation_UpdatePolicy_Policy_Sections_Metadata_Lock{}
+	}
+	return t.LockingAdminEmail
+}
+func (t *PolicySdpStaticIpAllocationUpdatePolicy_Policy_SdpStaticIPAllocation_UpdatePolicy_Policy_Sections_Metadata_Lock) GetLockingRevisionID() string {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationUpdatePolicy_Policy_SdpStaticIPAllocation_UpdatePolicy_Policy_Sections_Metadata_Lock{}
+	}
+	return t.LockingRevisionID
+}
+func (t *PolicySdpStaticIpAllocationUpdatePolicy_Policy_SdpStaticIPAllocation_UpdatePolicy_Policy_Sections_Metadata_Lock) GetLockingTime() string {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationUpdatePolicy_Policy_SdpStaticIPAllocation_UpdatePolicy_Policy_Sections_Metadata_Lock{}
+	}
+	return t.LockingTime
+}
+
+type PolicySdpStaticIpAllocationUpdatePolicy_Policy_SdpStaticIPAllocation_UpdatePolicy_Policy_Sections_Metadata struct {
+	Lock *PolicySdpStaticIpAllocationUpdatePolicy_Policy_SdpStaticIPAllocation_UpdatePolicy_Policy_Sections_Metadata_Lock "json:\"lock,omitempty\" graphql:\"lock\""
+}
+
+func (t *PolicySdpStaticIpAllocationUpdatePolicy_Policy_SdpStaticIPAllocation_UpdatePolicy_Policy_Sections_Metadata) GetLock() *PolicySdpStaticIpAllocationUpdatePolicy_Policy_SdpStaticIPAllocation_UpdatePolicy_Policy_Sections_Metadata_Lock {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationUpdatePolicy_Policy_SdpStaticIPAllocation_UpdatePolicy_Policy_Sections_Metadata{}
+	}
+	return t.Lock
+}
+
+type PolicySdpStaticIpAllocationUpdatePolicy_Policy_SdpStaticIPAllocation_UpdatePolicy_Policy_Sections_Section struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicySdpStaticIpAllocationUpdatePolicy_Policy_SdpStaticIPAllocation_UpdatePolicy_Policy_Sections_Section) GetID() string {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationUpdatePolicy_Policy_SdpStaticIPAllocation_UpdatePolicy_Policy_Sections_Section{}
+	}
+	return t.ID
+}
+func (t *PolicySdpStaticIpAllocationUpdatePolicy_Policy_SdpStaticIPAllocation_UpdatePolicy_Policy_Sections_Section) GetName() string {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationUpdatePolicy_Policy_SdpStaticIPAllocation_UpdatePolicy_Policy_Sections_Section{}
+	}
+	return t.Name
+}
+
+type PolicySdpStaticIpAllocationUpdatePolicy_Policy_SdpStaticIPAllocation_UpdatePolicy_Policy_Sections struct {
+	Audit      PolicySdpStaticIpAllocationUpdatePolicy_Policy_SdpStaticIPAllocation_UpdatePolicy_Policy_Sections_Audit     "json:\"audit\" graphql:\"audit\""
+	Metadata   *PolicySdpStaticIpAllocationUpdatePolicy_Policy_SdpStaticIPAllocation_UpdatePolicy_Policy_Sections_Metadata "json:\"metadata,omitempty\" graphql:\"metadata\""
+	Properties []cato_models.PolicyElementPropertiesEnum                                                                   "json:\"properties\" graphql:\"properties\""
+	Section    PolicySdpStaticIpAllocationUpdatePolicy_Policy_SdpStaticIPAllocation_UpdatePolicy_Policy_Sections_Section   "json:\"section\" graphql:\"section\""
+}
+
+func (t *PolicySdpStaticIpAllocationUpdatePolicy_Policy_SdpStaticIPAllocation_UpdatePolicy_Policy_Sections) GetAudit() *PolicySdpStaticIpAllocationUpdatePolicy_Policy_SdpStaticIPAllocation_UpdatePolicy_Policy_Sections_Audit {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationUpdatePolicy_Policy_SdpStaticIPAllocation_UpdatePolicy_Policy_Sections{}
+	}
+	return &t.Audit
+}
+func (t *PolicySdpStaticIpAllocationUpdatePolicy_Policy_SdpStaticIPAllocation_UpdatePolicy_Policy_Sections) GetMetadata() *PolicySdpStaticIpAllocationUpdatePolicy_Policy_SdpStaticIPAllocation_UpdatePolicy_Policy_Sections_Metadata {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationUpdatePolicy_Policy_SdpStaticIPAllocation_UpdatePolicy_Policy_Sections{}
+	}
+	return t.Metadata
+}
+func (t *PolicySdpStaticIpAllocationUpdatePolicy_Policy_SdpStaticIPAllocation_UpdatePolicy_Policy_Sections) GetProperties() []cato_models.PolicyElementPropertiesEnum {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationUpdatePolicy_Policy_SdpStaticIPAllocation_UpdatePolicy_Policy_Sections{}
+	}
+	return t.Properties
+}
+func (t *PolicySdpStaticIpAllocationUpdatePolicy_Policy_SdpStaticIPAllocation_UpdatePolicy_Policy_Sections) GetSection() *PolicySdpStaticIpAllocationUpdatePolicy_Policy_SdpStaticIPAllocation_UpdatePolicy_Policy_Sections_Section {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationUpdatePolicy_Policy_SdpStaticIPAllocation_UpdatePolicy_Policy_Sections{}
+	}
+	return &t.Section
+}
+
+type PolicySdpStaticIpAllocationUpdatePolicy_Policy_SdpStaticIPAllocation_UpdatePolicy_Policy_Audit struct {
+	PublishedBy   string "json:\"publishedBy\" graphql:\"publishedBy\""
+	PublishedTime string "json:\"publishedTime\" graphql:\"publishedTime\""
+}
+
+func (t *PolicySdpStaticIpAllocationUpdatePolicy_Policy_SdpStaticIPAllocation_UpdatePolicy_Policy_Audit) GetPublishedBy() string {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationUpdatePolicy_Policy_SdpStaticIPAllocation_UpdatePolicy_Policy_Audit{}
+	}
+	return t.PublishedBy
+}
+func (t *PolicySdpStaticIpAllocationUpdatePolicy_Policy_SdpStaticIPAllocation_UpdatePolicy_Policy_Audit) GetPublishedTime() string {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationUpdatePolicy_Policy_SdpStaticIPAllocation_UpdatePolicy_Policy_Audit{}
+	}
+	return t.PublishedTime
+}
+
+type PolicySdpStaticIpAllocationUpdatePolicy_Policy_SdpStaticIPAllocation_UpdatePolicy_Policy_Revision struct {
+	Changes     int64  "json:\"changes\" graphql:\"changes\""
+	CreatedTime string "json:\"createdTime\" graphql:\"createdTime\""
+	Description string "json:\"description\" graphql:\"description\""
+	ID          string "json:\"id\" graphql:\"id\""
+	Name        string "json:\"name\" graphql:\"name\""
+	UpdatedTime string "json:\"updatedTime\" graphql:\"updatedTime\""
+}
+
+func (t *PolicySdpStaticIpAllocationUpdatePolicy_Policy_SdpStaticIPAllocation_UpdatePolicy_Policy_Revision) GetChanges() int64 {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationUpdatePolicy_Policy_SdpStaticIPAllocation_UpdatePolicy_Policy_Revision{}
+	}
+	return t.Changes
+}
+func (t *PolicySdpStaticIpAllocationUpdatePolicy_Policy_SdpStaticIPAllocation_UpdatePolicy_Policy_Revision) GetCreatedTime() string {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationUpdatePolicy_Policy_SdpStaticIPAllocation_UpdatePolicy_Policy_Revision{}
+	}
+	return t.CreatedTime
+}
+func (t *PolicySdpStaticIpAllocationUpdatePolicy_Policy_SdpStaticIPAllocation_UpdatePolicy_Policy_Revision) GetDescription() string {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationUpdatePolicy_Policy_SdpStaticIPAllocation_UpdatePolicy_Policy_Revision{}
+	}
+	return t.Description
+}
+func (t *PolicySdpStaticIpAllocationUpdatePolicy_Policy_SdpStaticIPAllocation_UpdatePolicy_Policy_Revision) GetID() string {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationUpdatePolicy_Policy_SdpStaticIPAllocation_UpdatePolicy_Policy_Revision{}
+	}
+	return t.ID
+}
+func (t *PolicySdpStaticIpAllocationUpdatePolicy_Policy_SdpStaticIPAllocation_UpdatePolicy_Policy_Revision) GetName() string {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationUpdatePolicy_Policy_SdpStaticIPAllocation_UpdatePolicy_Policy_Revision{}
+	}
+	return t.Name
+}
+func (t *PolicySdpStaticIpAllocationUpdatePolicy_Policy_SdpStaticIPAllocation_UpdatePolicy_Policy_Revision) GetUpdatedTime() string {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationUpdatePolicy_Policy_SdpStaticIPAllocation_UpdatePolicy_Policy_Revision{}
+	}
+	return t.UpdatedTime
+}
+
+type PolicySdpStaticIpAllocationUpdatePolicy_Policy_SdpStaticIPAllocation_UpdatePolicy_Policy struct {
+	Audit    *PolicySdpStaticIpAllocationUpdatePolicy_Policy_SdpStaticIPAllocation_UpdatePolicy_Policy_Audit      "json:\"audit,omitempty\" graphql:\"audit\""
+	Enabled  bool                                                                                                 "json:\"enabled\" graphql:\"enabled\""
+	Revision *PolicySdpStaticIpAllocationUpdatePolicy_Policy_SdpStaticIPAllocation_UpdatePolicy_Policy_Revision   "json:\"revision,omitempty\" graphql:\"revision\""
+	Rules    []*PolicySdpStaticIpAllocationUpdatePolicy_Policy_SdpStaticIPAllocation_UpdatePolicy_Policy_Rules    "json:\"rules\" graphql:\"rules\""
+	Sections []*PolicySdpStaticIpAllocationUpdatePolicy_Policy_SdpStaticIPAllocation_UpdatePolicy_Policy_Sections "json:\"sections\" graphql:\"sections\""
+}
+
+func (t *PolicySdpStaticIpAllocationUpdatePolicy_Policy_SdpStaticIPAllocation_UpdatePolicy_Policy) GetAudit() *PolicySdpStaticIpAllocationUpdatePolicy_Policy_SdpStaticIPAllocation_UpdatePolicy_Policy_Audit {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationUpdatePolicy_Policy_SdpStaticIPAllocation_UpdatePolicy_Policy{}
+	}
+	return t.Audit
+}
+func (t *PolicySdpStaticIpAllocationUpdatePolicy_Policy_SdpStaticIPAllocation_UpdatePolicy_Policy) GetEnabled() bool {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationUpdatePolicy_Policy_SdpStaticIPAllocation_UpdatePolicy_Policy{}
+	}
+	return t.Enabled
+}
+func (t *PolicySdpStaticIpAllocationUpdatePolicy_Policy_SdpStaticIPAllocation_UpdatePolicy_Policy) GetRevision() *PolicySdpStaticIpAllocationUpdatePolicy_Policy_SdpStaticIPAllocation_UpdatePolicy_Policy_Revision {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationUpdatePolicy_Policy_SdpStaticIPAllocation_UpdatePolicy_Policy{}
+	}
+	return t.Revision
+}
+func (t *PolicySdpStaticIpAllocationUpdatePolicy_Policy_SdpStaticIPAllocation_UpdatePolicy_Policy) GetRules() []*PolicySdpStaticIpAllocationUpdatePolicy_Policy_SdpStaticIPAllocation_UpdatePolicy_Policy_Rules {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationUpdatePolicy_Policy_SdpStaticIPAllocation_UpdatePolicy_Policy{}
+	}
+	return t.Rules
+}
+func (t *PolicySdpStaticIpAllocationUpdatePolicy_Policy_SdpStaticIPAllocation_UpdatePolicy_Policy) GetSections() []*PolicySdpStaticIpAllocationUpdatePolicy_Policy_SdpStaticIPAllocation_UpdatePolicy_Policy_Sections {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationUpdatePolicy_Policy_SdpStaticIPAllocation_UpdatePolicy_Policy{}
+	}
+	return t.Sections
+}
+
+type PolicySdpStaticIpAllocationUpdatePolicy_Policy_SdpStaticIPAllocation_UpdatePolicy_Errors struct {
+	ErrorCode    *string "json:\"errorCode,omitempty\" graphql:\"errorCode\""
+	ErrorMessage *string "json:\"errorMessage,omitempty\" graphql:\"errorMessage\""
+}
+
+func (t *PolicySdpStaticIpAllocationUpdatePolicy_Policy_SdpStaticIPAllocation_UpdatePolicy_Errors) GetErrorCode() *string {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationUpdatePolicy_Policy_SdpStaticIPAllocation_UpdatePolicy_Errors{}
+	}
+	return t.ErrorCode
+}
+func (t *PolicySdpStaticIpAllocationUpdatePolicy_Policy_SdpStaticIPAllocation_UpdatePolicy_Errors) GetErrorMessage() *string {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationUpdatePolicy_Policy_SdpStaticIPAllocation_UpdatePolicy_Errors{}
+	}
+	return t.ErrorMessage
+}
+
+type PolicySdpStaticIpAllocationUpdatePolicy_Policy_SdpStaticIPAllocation_UpdatePolicy struct {
+	Errors []*PolicySdpStaticIpAllocationUpdatePolicy_Policy_SdpStaticIPAllocation_UpdatePolicy_Errors "json:\"errors\" graphql:\"errors\""
+	Policy *PolicySdpStaticIpAllocationUpdatePolicy_Policy_SdpStaticIPAllocation_UpdatePolicy_Policy   "json:\"policy,omitempty\" graphql:\"policy\""
+	Status cato_models.PolicyMutationStatus                                                            "json:\"status\" graphql:\"status\""
+}
+
+func (t *PolicySdpStaticIpAllocationUpdatePolicy_Policy_SdpStaticIPAllocation_UpdatePolicy) GetErrors() []*PolicySdpStaticIpAllocationUpdatePolicy_Policy_SdpStaticIPAllocation_UpdatePolicy_Errors {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationUpdatePolicy_Policy_SdpStaticIPAllocation_UpdatePolicy{}
+	}
+	return t.Errors
+}
+func (t *PolicySdpStaticIpAllocationUpdatePolicy_Policy_SdpStaticIPAllocation_UpdatePolicy) GetPolicy() *PolicySdpStaticIpAllocationUpdatePolicy_Policy_SdpStaticIPAllocation_UpdatePolicy_Policy {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationUpdatePolicy_Policy_SdpStaticIPAllocation_UpdatePolicy{}
+	}
+	return t.Policy
+}
+func (t *PolicySdpStaticIpAllocationUpdatePolicy_Policy_SdpStaticIPAllocation_UpdatePolicy) GetStatus() *cato_models.PolicyMutationStatus {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationUpdatePolicy_Policy_SdpStaticIPAllocation_UpdatePolicy{}
+	}
+	return &t.Status
+}
+
+type PolicySdpStaticIpAllocationUpdatePolicy_Policy_SdpStaticIPAllocation struct {
+	UpdatePolicy PolicySdpStaticIpAllocationUpdatePolicy_Policy_SdpStaticIPAllocation_UpdatePolicy "json:\"updatePolicy\" graphql:\"updatePolicy\""
+}
+
+func (t *PolicySdpStaticIpAllocationUpdatePolicy_Policy_SdpStaticIPAllocation) GetUpdatePolicy() *PolicySdpStaticIpAllocationUpdatePolicy_Policy_SdpStaticIPAllocation_UpdatePolicy {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationUpdatePolicy_Policy_SdpStaticIPAllocation{}
+	}
+	return &t.UpdatePolicy
+}
+
+type PolicySdpStaticIpAllocationUpdatePolicy_Policy struct {
+	SdpStaticIPAllocation *PolicySdpStaticIpAllocationUpdatePolicy_Policy_SdpStaticIPAllocation "json:\"sdpStaticIpAllocation,omitempty\" graphql:\"sdpStaticIpAllocation\""
+}
+
+func (t *PolicySdpStaticIpAllocationUpdatePolicy_Policy) GetSdpStaticIPAllocation() *PolicySdpStaticIpAllocationUpdatePolicy_Policy_SdpStaticIPAllocation {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationUpdatePolicy_Policy{}
+	}
+	return t.SdpStaticIPAllocation
+}
+
+type PolicySdpStaticIpAllocationUpdateRule_Policy_SdpStaticIPAllocation_UpdateRule_Rule_Audit struct {
+	UpdatedBy   string "json:\"updatedBy\" graphql:\"updatedBy\""
+	UpdatedTime string "json:\"updatedTime\" graphql:\"updatedTime\""
+}
+
+func (t *PolicySdpStaticIpAllocationUpdateRule_Policy_SdpStaticIPAllocation_UpdateRule_Rule_Audit) GetUpdatedBy() string {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationUpdateRule_Policy_SdpStaticIPAllocation_UpdateRule_Rule_Audit{}
+	}
+	return t.UpdatedBy
+}
+func (t *PolicySdpStaticIpAllocationUpdateRule_Policy_SdpStaticIPAllocation_UpdateRule_Rule_Audit) GetUpdatedTime() string {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationUpdateRule_Policy_SdpStaticIPAllocation_UpdateRule_Rule_Audit{}
+	}
+	return t.UpdatedTime
+}
+
+type PolicySdpStaticIpAllocationUpdateRule_Policy_SdpStaticIPAllocation_UpdateRule_Rule_Metadata_Lock struct {
+	LockingAdminEmail string "json:\"lockingAdminEmail\" graphql:\"lockingAdminEmail\""
+	LockingRevisionID string "json:\"lockingRevisionId\" graphql:\"lockingRevisionId\""
+	LockingTime       string "json:\"lockingTime\" graphql:\"lockingTime\""
+}
+
+func (t *PolicySdpStaticIpAllocationUpdateRule_Policy_SdpStaticIPAllocation_UpdateRule_Rule_Metadata_Lock) GetLockingAdminEmail() string {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationUpdateRule_Policy_SdpStaticIPAllocation_UpdateRule_Rule_Metadata_Lock{}
+	}
+	return t.LockingAdminEmail
+}
+func (t *PolicySdpStaticIpAllocationUpdateRule_Policy_SdpStaticIPAllocation_UpdateRule_Rule_Metadata_Lock) GetLockingRevisionID() string {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationUpdateRule_Policy_SdpStaticIPAllocation_UpdateRule_Rule_Metadata_Lock{}
+	}
+	return t.LockingRevisionID
+}
+func (t *PolicySdpStaticIpAllocationUpdateRule_Policy_SdpStaticIPAllocation_UpdateRule_Rule_Metadata_Lock) GetLockingTime() string {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationUpdateRule_Policy_SdpStaticIPAllocation_UpdateRule_Rule_Metadata_Lock{}
+	}
+	return t.LockingTime
+}
+
+type PolicySdpStaticIpAllocationUpdateRule_Policy_SdpStaticIPAllocation_UpdateRule_Rule_Metadata struct {
+	Lock *PolicySdpStaticIpAllocationUpdateRule_Policy_SdpStaticIPAllocation_UpdateRule_Rule_Metadata_Lock "json:\"lock,omitempty\" graphql:\"lock\""
+}
+
+func (t *PolicySdpStaticIpAllocationUpdateRule_Policy_SdpStaticIPAllocation_UpdateRule_Rule_Metadata) GetLock() *PolicySdpStaticIpAllocationUpdateRule_Policy_SdpStaticIPAllocation_UpdateRule_Rule_Metadata_Lock {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationUpdateRule_Policy_SdpStaticIPAllocation_UpdateRule_Rule_Metadata{}
+	}
+	return t.Lock
+}
+
+type PolicySdpStaticIpAllocationUpdateRule_Policy_SdpStaticIPAllocation_UpdateRule_Rule_Rule_Section struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicySdpStaticIpAllocationUpdateRule_Policy_SdpStaticIPAllocation_UpdateRule_Rule_Rule_Section) GetID() string {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationUpdateRule_Policy_SdpStaticIPAllocation_UpdateRule_Rule_Rule_Section{}
+	}
+	return t.ID
+}
+func (t *PolicySdpStaticIpAllocationUpdateRule_Policy_SdpStaticIPAllocation_UpdateRule_Rule_Rule_Section) GetName() string {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationUpdateRule_Policy_SdpStaticIPAllocation_UpdateRule_Rule_Rule_Section{}
+	}
+	return t.Name
+}
+
+type PolicySdpStaticIpAllocationUpdateRule_Policy_SdpStaticIPAllocation_UpdateRule_Rule_Rule_Source_User struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicySdpStaticIpAllocationUpdateRule_Policy_SdpStaticIPAllocation_UpdateRule_Rule_Rule_Source_User) GetID() string {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationUpdateRule_Policy_SdpStaticIPAllocation_UpdateRule_Rule_Rule_Source_User{}
+	}
+	return t.ID
+}
+func (t *PolicySdpStaticIpAllocationUpdateRule_Policy_SdpStaticIPAllocation_UpdateRule_Rule_Rule_Source_User) GetName() string {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationUpdateRule_Policy_SdpStaticIPAllocation_UpdateRule_Rule_Rule_Source_User{}
+	}
+	return t.Name
+}
+
+type PolicySdpStaticIpAllocationUpdateRule_Policy_SdpStaticIPAllocation_UpdateRule_Rule_Rule_Source struct {
+	User *PolicySdpStaticIpAllocationUpdateRule_Policy_SdpStaticIPAllocation_UpdateRule_Rule_Rule_Source_User "json:\"user,omitempty\" graphql:\"user\""
+}
+
+func (t *PolicySdpStaticIpAllocationUpdateRule_Policy_SdpStaticIPAllocation_UpdateRule_Rule_Rule_Source) GetUser() *PolicySdpStaticIpAllocationUpdateRule_Policy_SdpStaticIPAllocation_UpdateRule_Rule_Rule_Source_User {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationUpdateRule_Policy_SdpStaticIPAllocation_UpdateRule_Rule_Rule_Source{}
+	}
+	return t.User
+}
+
+type PolicySdpStaticIpAllocationUpdateRule_Policy_SdpStaticIPAllocation_UpdateRule_Rule_Rule struct {
+	Description string                                                                                          "json:\"description\" graphql:\"description\""
+	Enabled     bool                                                                                            "json:\"enabled\" graphql:\"enabled\""
+	ID          string                                                                                          "json:\"id\" graphql:\"id\""
+	Index       int64                                                                                           "json:\"index\" graphql:\"index\""
+	IP          string                                                                                          "json:\"ip\" graphql:\"ip\""
+	Name        string                                                                                          "json:\"name\" graphql:\"name\""
+	Section     PolicySdpStaticIpAllocationUpdateRule_Policy_SdpStaticIPAllocation_UpdateRule_Rule_Rule_Section "json:\"section\" graphql:\"section\""
+	Source      PolicySdpStaticIpAllocationUpdateRule_Policy_SdpStaticIPAllocation_UpdateRule_Rule_Rule_Source  "json:\"source\" graphql:\"source\""
+}
+
+func (t *PolicySdpStaticIpAllocationUpdateRule_Policy_SdpStaticIPAllocation_UpdateRule_Rule_Rule) GetDescription() string {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationUpdateRule_Policy_SdpStaticIPAllocation_UpdateRule_Rule_Rule{}
+	}
+	return t.Description
+}
+func (t *PolicySdpStaticIpAllocationUpdateRule_Policy_SdpStaticIPAllocation_UpdateRule_Rule_Rule) GetEnabled() bool {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationUpdateRule_Policy_SdpStaticIPAllocation_UpdateRule_Rule_Rule{}
+	}
+	return t.Enabled
+}
+func (t *PolicySdpStaticIpAllocationUpdateRule_Policy_SdpStaticIPAllocation_UpdateRule_Rule_Rule) GetID() string {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationUpdateRule_Policy_SdpStaticIPAllocation_UpdateRule_Rule_Rule{}
+	}
+	return t.ID
+}
+func (t *PolicySdpStaticIpAllocationUpdateRule_Policy_SdpStaticIPAllocation_UpdateRule_Rule_Rule) GetIndex() int64 {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationUpdateRule_Policy_SdpStaticIPAllocation_UpdateRule_Rule_Rule{}
+	}
+	return t.Index
+}
+func (t *PolicySdpStaticIpAllocationUpdateRule_Policy_SdpStaticIPAllocation_UpdateRule_Rule_Rule) GetIP() string {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationUpdateRule_Policy_SdpStaticIPAllocation_UpdateRule_Rule_Rule{}
+	}
+	return t.IP
+}
+func (t *PolicySdpStaticIpAllocationUpdateRule_Policy_SdpStaticIPAllocation_UpdateRule_Rule_Rule) GetName() string {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationUpdateRule_Policy_SdpStaticIPAllocation_UpdateRule_Rule_Rule{}
+	}
+	return t.Name
+}
+func (t *PolicySdpStaticIpAllocationUpdateRule_Policy_SdpStaticIPAllocation_UpdateRule_Rule_Rule) GetSection() *PolicySdpStaticIpAllocationUpdateRule_Policy_SdpStaticIPAllocation_UpdateRule_Rule_Rule_Section {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationUpdateRule_Policy_SdpStaticIPAllocation_UpdateRule_Rule_Rule{}
+	}
+	return &t.Section
+}
+func (t *PolicySdpStaticIpAllocationUpdateRule_Policy_SdpStaticIPAllocation_UpdateRule_Rule_Rule) GetSource() *PolicySdpStaticIpAllocationUpdateRule_Policy_SdpStaticIPAllocation_UpdateRule_Rule_Rule_Source {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationUpdateRule_Policy_SdpStaticIPAllocation_UpdateRule_Rule_Rule{}
+	}
+	return &t.Source
+}
+
+type PolicySdpStaticIpAllocationUpdateRule_Policy_SdpStaticIPAllocation_UpdateRule_Rule struct {
+	Audit      PolicySdpStaticIpAllocationUpdateRule_Policy_SdpStaticIPAllocation_UpdateRule_Rule_Audit     "json:\"audit\" graphql:\"audit\""
+	Metadata   *PolicySdpStaticIpAllocationUpdateRule_Policy_SdpStaticIPAllocation_UpdateRule_Rule_Metadata "json:\"metadata,omitempty\" graphql:\"metadata\""
+	Properties []cato_models.PolicyElementPropertiesEnum                                                    "json:\"properties\" graphql:\"properties\""
+	Rule       PolicySdpStaticIpAllocationUpdateRule_Policy_SdpStaticIPAllocation_UpdateRule_Rule_Rule      "json:\"rule\" graphql:\"rule\""
+}
+
+func (t *PolicySdpStaticIpAllocationUpdateRule_Policy_SdpStaticIPAllocation_UpdateRule_Rule) GetAudit() *PolicySdpStaticIpAllocationUpdateRule_Policy_SdpStaticIPAllocation_UpdateRule_Rule_Audit {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationUpdateRule_Policy_SdpStaticIPAllocation_UpdateRule_Rule{}
+	}
+	return &t.Audit
+}
+func (t *PolicySdpStaticIpAllocationUpdateRule_Policy_SdpStaticIPAllocation_UpdateRule_Rule) GetMetadata() *PolicySdpStaticIpAllocationUpdateRule_Policy_SdpStaticIPAllocation_UpdateRule_Rule_Metadata {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationUpdateRule_Policy_SdpStaticIPAllocation_UpdateRule_Rule{}
+	}
+	return t.Metadata
+}
+func (t *PolicySdpStaticIpAllocationUpdateRule_Policy_SdpStaticIPAllocation_UpdateRule_Rule) GetProperties() []cato_models.PolicyElementPropertiesEnum {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationUpdateRule_Policy_SdpStaticIPAllocation_UpdateRule_Rule{}
+	}
+	return t.Properties
+}
+func (t *PolicySdpStaticIpAllocationUpdateRule_Policy_SdpStaticIPAllocation_UpdateRule_Rule) GetRule() *PolicySdpStaticIpAllocationUpdateRule_Policy_SdpStaticIPAllocation_UpdateRule_Rule_Rule {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationUpdateRule_Policy_SdpStaticIPAllocation_UpdateRule_Rule{}
+	}
+	return &t.Rule
+}
+
+type PolicySdpStaticIpAllocationUpdateRule_Policy_SdpStaticIPAllocation_UpdateRule_Revision struct {
+	Changes     int64  "json:\"changes\" graphql:\"changes\""
+	CreatedTime string "json:\"createdTime\" graphql:\"createdTime\""
+	Description string "json:\"description\" graphql:\"description\""
+	ID          string "json:\"id\" graphql:\"id\""
+	Name        string "json:\"name\" graphql:\"name\""
+	UpdatedTime string "json:\"updatedTime\" graphql:\"updatedTime\""
+}
+
+func (t *PolicySdpStaticIpAllocationUpdateRule_Policy_SdpStaticIPAllocation_UpdateRule_Revision) GetChanges() int64 {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationUpdateRule_Policy_SdpStaticIPAllocation_UpdateRule_Revision{}
+	}
+	return t.Changes
+}
+func (t *PolicySdpStaticIpAllocationUpdateRule_Policy_SdpStaticIPAllocation_UpdateRule_Revision) GetCreatedTime() string {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationUpdateRule_Policy_SdpStaticIPAllocation_UpdateRule_Revision{}
+	}
+	return t.CreatedTime
+}
+func (t *PolicySdpStaticIpAllocationUpdateRule_Policy_SdpStaticIPAllocation_UpdateRule_Revision) GetDescription() string {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationUpdateRule_Policy_SdpStaticIPAllocation_UpdateRule_Revision{}
+	}
+	return t.Description
+}
+func (t *PolicySdpStaticIpAllocationUpdateRule_Policy_SdpStaticIPAllocation_UpdateRule_Revision) GetID() string {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationUpdateRule_Policy_SdpStaticIPAllocation_UpdateRule_Revision{}
+	}
+	return t.ID
+}
+func (t *PolicySdpStaticIpAllocationUpdateRule_Policy_SdpStaticIPAllocation_UpdateRule_Revision) GetName() string {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationUpdateRule_Policy_SdpStaticIPAllocation_UpdateRule_Revision{}
+	}
+	return t.Name
+}
+func (t *PolicySdpStaticIpAllocationUpdateRule_Policy_SdpStaticIPAllocation_UpdateRule_Revision) GetUpdatedTime() string {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationUpdateRule_Policy_SdpStaticIPAllocation_UpdateRule_Revision{}
+	}
+	return t.UpdatedTime
+}
+
+type PolicySdpStaticIpAllocationUpdateRule_Policy_SdpStaticIPAllocation_UpdateRule_Errors struct {
+	ErrorCode    *string "json:\"errorCode,omitempty\" graphql:\"errorCode\""
+	ErrorMessage *string "json:\"errorMessage,omitempty\" graphql:\"errorMessage\""
+}
+
+func (t *PolicySdpStaticIpAllocationUpdateRule_Policy_SdpStaticIPAllocation_UpdateRule_Errors) GetErrorCode() *string {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationUpdateRule_Policy_SdpStaticIPAllocation_UpdateRule_Errors{}
+	}
+	return t.ErrorCode
+}
+func (t *PolicySdpStaticIpAllocationUpdateRule_Policy_SdpStaticIPAllocation_UpdateRule_Errors) GetErrorMessage() *string {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationUpdateRule_Policy_SdpStaticIPAllocation_UpdateRule_Errors{}
+	}
+	return t.ErrorMessage
+}
+
+type PolicySdpStaticIpAllocationUpdateRule_Policy_SdpStaticIPAllocation_UpdateRule struct {
+	Errors   []*PolicySdpStaticIpAllocationUpdateRule_Policy_SdpStaticIPAllocation_UpdateRule_Errors "json:\"errors\" graphql:\"errors\""
+	Revision *PolicySdpStaticIpAllocationUpdateRule_Policy_SdpStaticIPAllocation_UpdateRule_Revision "json:\"revision,omitempty\" graphql:\"revision\""
+	Rule     *PolicySdpStaticIpAllocationUpdateRule_Policy_SdpStaticIPAllocation_UpdateRule_Rule     "json:\"rule,omitempty\" graphql:\"rule\""
+	Status   cato_models.PolicyMutationStatus                                                        "json:\"status\" graphql:\"status\""
+}
+
+func (t *PolicySdpStaticIpAllocationUpdateRule_Policy_SdpStaticIPAllocation_UpdateRule) GetErrors() []*PolicySdpStaticIpAllocationUpdateRule_Policy_SdpStaticIPAllocation_UpdateRule_Errors {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationUpdateRule_Policy_SdpStaticIPAllocation_UpdateRule{}
+	}
+	return t.Errors
+}
+func (t *PolicySdpStaticIpAllocationUpdateRule_Policy_SdpStaticIPAllocation_UpdateRule) GetRevision() *PolicySdpStaticIpAllocationUpdateRule_Policy_SdpStaticIPAllocation_UpdateRule_Revision {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationUpdateRule_Policy_SdpStaticIPAllocation_UpdateRule{}
+	}
+	return t.Revision
+}
+func (t *PolicySdpStaticIpAllocationUpdateRule_Policy_SdpStaticIPAllocation_UpdateRule) GetRule() *PolicySdpStaticIpAllocationUpdateRule_Policy_SdpStaticIPAllocation_UpdateRule_Rule {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationUpdateRule_Policy_SdpStaticIPAllocation_UpdateRule{}
+	}
+	return t.Rule
+}
+func (t *PolicySdpStaticIpAllocationUpdateRule_Policy_SdpStaticIPAllocation_UpdateRule) GetStatus() *cato_models.PolicyMutationStatus {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationUpdateRule_Policy_SdpStaticIPAllocation_UpdateRule{}
+	}
+	return &t.Status
+}
+
+type PolicySdpStaticIpAllocationUpdateRule_Policy_SdpStaticIPAllocation struct {
+	UpdateRule PolicySdpStaticIpAllocationUpdateRule_Policy_SdpStaticIPAllocation_UpdateRule "json:\"updateRule\" graphql:\"updateRule\""
+}
+
+func (t *PolicySdpStaticIpAllocationUpdateRule_Policy_SdpStaticIPAllocation) GetUpdateRule() *PolicySdpStaticIpAllocationUpdateRule_Policy_SdpStaticIPAllocation_UpdateRule {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationUpdateRule_Policy_SdpStaticIPAllocation{}
+	}
+	return &t.UpdateRule
+}
+
+type PolicySdpStaticIpAllocationUpdateRule_Policy struct {
+	SdpStaticIPAllocation *PolicySdpStaticIpAllocationUpdateRule_Policy_SdpStaticIPAllocation "json:\"sdpStaticIpAllocation,omitempty\" graphql:\"sdpStaticIpAllocation\""
+}
+
+func (t *PolicySdpStaticIpAllocationUpdateRule_Policy) GetSdpStaticIPAllocation() *PolicySdpStaticIpAllocationUpdateRule_Policy_SdpStaticIPAllocation {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationUpdateRule_Policy{}
+	}
+	return t.SdpStaticIPAllocation
+}
+
+type PolicySdpStaticIpAllocationUpdateSection_Policy_SdpStaticIPAllocation_UpdateSection_Section_Audit struct {
+	UpdatedBy   string "json:\"updatedBy\" graphql:\"updatedBy\""
+	UpdatedTime string "json:\"updatedTime\" graphql:\"updatedTime\""
+}
+
+func (t *PolicySdpStaticIpAllocationUpdateSection_Policy_SdpStaticIPAllocation_UpdateSection_Section_Audit) GetUpdatedBy() string {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationUpdateSection_Policy_SdpStaticIPAllocation_UpdateSection_Section_Audit{}
+	}
+	return t.UpdatedBy
+}
+func (t *PolicySdpStaticIpAllocationUpdateSection_Policy_SdpStaticIPAllocation_UpdateSection_Section_Audit) GetUpdatedTime() string {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationUpdateSection_Policy_SdpStaticIPAllocation_UpdateSection_Section_Audit{}
+	}
+	return t.UpdatedTime
+}
+
+type PolicySdpStaticIpAllocationUpdateSection_Policy_SdpStaticIPAllocation_UpdateSection_Section_Metadata_Lock struct {
+	LockingAdminEmail string "json:\"lockingAdminEmail\" graphql:\"lockingAdminEmail\""
+	LockingRevisionID string "json:\"lockingRevisionId\" graphql:\"lockingRevisionId\""
+	LockingTime       string "json:\"lockingTime\" graphql:\"lockingTime\""
+}
+
+func (t *PolicySdpStaticIpAllocationUpdateSection_Policy_SdpStaticIPAllocation_UpdateSection_Section_Metadata_Lock) GetLockingAdminEmail() string {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationUpdateSection_Policy_SdpStaticIPAllocation_UpdateSection_Section_Metadata_Lock{}
+	}
+	return t.LockingAdminEmail
+}
+func (t *PolicySdpStaticIpAllocationUpdateSection_Policy_SdpStaticIPAllocation_UpdateSection_Section_Metadata_Lock) GetLockingRevisionID() string {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationUpdateSection_Policy_SdpStaticIPAllocation_UpdateSection_Section_Metadata_Lock{}
+	}
+	return t.LockingRevisionID
+}
+func (t *PolicySdpStaticIpAllocationUpdateSection_Policy_SdpStaticIPAllocation_UpdateSection_Section_Metadata_Lock) GetLockingTime() string {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationUpdateSection_Policy_SdpStaticIPAllocation_UpdateSection_Section_Metadata_Lock{}
+	}
+	return t.LockingTime
+}
+
+type PolicySdpStaticIpAllocationUpdateSection_Policy_SdpStaticIPAllocation_UpdateSection_Section_Metadata struct {
+	Lock *PolicySdpStaticIpAllocationUpdateSection_Policy_SdpStaticIPAllocation_UpdateSection_Section_Metadata_Lock "json:\"lock,omitempty\" graphql:\"lock\""
+}
+
+func (t *PolicySdpStaticIpAllocationUpdateSection_Policy_SdpStaticIPAllocation_UpdateSection_Section_Metadata) GetLock() *PolicySdpStaticIpAllocationUpdateSection_Policy_SdpStaticIPAllocation_UpdateSection_Section_Metadata_Lock {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationUpdateSection_Policy_SdpStaticIPAllocation_UpdateSection_Section_Metadata{}
+	}
+	return t.Lock
+}
+
+type PolicySdpStaticIpAllocationUpdateSection_Policy_SdpStaticIPAllocation_UpdateSection_Section_Section struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicySdpStaticIpAllocationUpdateSection_Policy_SdpStaticIPAllocation_UpdateSection_Section_Section) GetID() string {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationUpdateSection_Policy_SdpStaticIPAllocation_UpdateSection_Section_Section{}
+	}
+	return t.ID
+}
+func (t *PolicySdpStaticIpAllocationUpdateSection_Policy_SdpStaticIPAllocation_UpdateSection_Section_Section) GetName() string {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationUpdateSection_Policy_SdpStaticIPAllocation_UpdateSection_Section_Section{}
+	}
+	return t.Name
+}
+
+type PolicySdpStaticIpAllocationUpdateSection_Policy_SdpStaticIPAllocation_UpdateSection_Section struct {
+	Audit      PolicySdpStaticIpAllocationUpdateSection_Policy_SdpStaticIPAllocation_UpdateSection_Section_Audit     "json:\"audit\" graphql:\"audit\""
+	Metadata   *PolicySdpStaticIpAllocationUpdateSection_Policy_SdpStaticIPAllocation_UpdateSection_Section_Metadata "json:\"metadata,omitempty\" graphql:\"metadata\""
+	Properties []cato_models.PolicyElementPropertiesEnum                                                             "json:\"properties\" graphql:\"properties\""
+	Section    PolicySdpStaticIpAllocationUpdateSection_Policy_SdpStaticIPAllocation_UpdateSection_Section_Section   "json:\"section\" graphql:\"section\""
+}
+
+func (t *PolicySdpStaticIpAllocationUpdateSection_Policy_SdpStaticIPAllocation_UpdateSection_Section) GetAudit() *PolicySdpStaticIpAllocationUpdateSection_Policy_SdpStaticIPAllocation_UpdateSection_Section_Audit {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationUpdateSection_Policy_SdpStaticIPAllocation_UpdateSection_Section{}
+	}
+	return &t.Audit
+}
+func (t *PolicySdpStaticIpAllocationUpdateSection_Policy_SdpStaticIPAllocation_UpdateSection_Section) GetMetadata() *PolicySdpStaticIpAllocationUpdateSection_Policy_SdpStaticIPAllocation_UpdateSection_Section_Metadata {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationUpdateSection_Policy_SdpStaticIPAllocation_UpdateSection_Section{}
+	}
+	return t.Metadata
+}
+func (t *PolicySdpStaticIpAllocationUpdateSection_Policy_SdpStaticIPAllocation_UpdateSection_Section) GetProperties() []cato_models.PolicyElementPropertiesEnum {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationUpdateSection_Policy_SdpStaticIPAllocation_UpdateSection_Section{}
+	}
+	return t.Properties
+}
+func (t *PolicySdpStaticIpAllocationUpdateSection_Policy_SdpStaticIPAllocation_UpdateSection_Section) GetSection() *PolicySdpStaticIpAllocationUpdateSection_Policy_SdpStaticIPAllocation_UpdateSection_Section_Section {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationUpdateSection_Policy_SdpStaticIPAllocation_UpdateSection_Section{}
+	}
+	return &t.Section
+}
+
+type PolicySdpStaticIpAllocationUpdateSection_Policy_SdpStaticIPAllocation_UpdateSection_Errors struct {
+	ErrorCode    *string "json:\"errorCode,omitempty\" graphql:\"errorCode\""
+	ErrorMessage *string "json:\"errorMessage,omitempty\" graphql:\"errorMessage\""
+}
+
+func (t *PolicySdpStaticIpAllocationUpdateSection_Policy_SdpStaticIPAllocation_UpdateSection_Errors) GetErrorCode() *string {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationUpdateSection_Policy_SdpStaticIPAllocation_UpdateSection_Errors{}
+	}
+	return t.ErrorCode
+}
+func (t *PolicySdpStaticIpAllocationUpdateSection_Policy_SdpStaticIPAllocation_UpdateSection_Errors) GetErrorMessage() *string {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationUpdateSection_Policy_SdpStaticIPAllocation_UpdateSection_Errors{}
+	}
+	return t.ErrorMessage
+}
+
+type PolicySdpStaticIpAllocationUpdateSection_Policy_SdpStaticIPAllocation_UpdateSection_Revision struct {
+	Changes     int64  "json:\"changes\" graphql:\"changes\""
+	CreatedTime string "json:\"createdTime\" graphql:\"createdTime\""
+	Description string "json:\"description\" graphql:\"description\""
+	ID          string "json:\"id\" graphql:\"id\""
+	Name        string "json:\"name\" graphql:\"name\""
+	UpdatedTime string "json:\"updatedTime\" graphql:\"updatedTime\""
+}
+
+func (t *PolicySdpStaticIpAllocationUpdateSection_Policy_SdpStaticIPAllocation_UpdateSection_Revision) GetChanges() int64 {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationUpdateSection_Policy_SdpStaticIPAllocation_UpdateSection_Revision{}
+	}
+	return t.Changes
+}
+func (t *PolicySdpStaticIpAllocationUpdateSection_Policy_SdpStaticIPAllocation_UpdateSection_Revision) GetCreatedTime() string {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationUpdateSection_Policy_SdpStaticIPAllocation_UpdateSection_Revision{}
+	}
+	return t.CreatedTime
+}
+func (t *PolicySdpStaticIpAllocationUpdateSection_Policy_SdpStaticIPAllocation_UpdateSection_Revision) GetDescription() string {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationUpdateSection_Policy_SdpStaticIPAllocation_UpdateSection_Revision{}
+	}
+	return t.Description
+}
+func (t *PolicySdpStaticIpAllocationUpdateSection_Policy_SdpStaticIPAllocation_UpdateSection_Revision) GetID() string {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationUpdateSection_Policy_SdpStaticIPAllocation_UpdateSection_Revision{}
+	}
+	return t.ID
+}
+func (t *PolicySdpStaticIpAllocationUpdateSection_Policy_SdpStaticIPAllocation_UpdateSection_Revision) GetName() string {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationUpdateSection_Policy_SdpStaticIPAllocation_UpdateSection_Revision{}
+	}
+	return t.Name
+}
+func (t *PolicySdpStaticIpAllocationUpdateSection_Policy_SdpStaticIPAllocation_UpdateSection_Revision) GetUpdatedTime() string {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationUpdateSection_Policy_SdpStaticIPAllocation_UpdateSection_Revision{}
+	}
+	return t.UpdatedTime
+}
+
+type PolicySdpStaticIpAllocationUpdateSection_Policy_SdpStaticIPAllocation_UpdateSection struct {
+	Errors   []*PolicySdpStaticIpAllocationUpdateSection_Policy_SdpStaticIPAllocation_UpdateSection_Errors "json:\"errors\" graphql:\"errors\""
+	Revision *PolicySdpStaticIpAllocationUpdateSection_Policy_SdpStaticIPAllocation_UpdateSection_Revision "json:\"revision,omitempty\" graphql:\"revision\""
+	Section  *PolicySdpStaticIpAllocationUpdateSection_Policy_SdpStaticIPAllocation_UpdateSection_Section  "json:\"section,omitempty\" graphql:\"section\""
+	Status   cato_models.PolicyMutationStatus                                                              "json:\"status\" graphql:\"status\""
+}
+
+func (t *PolicySdpStaticIpAllocationUpdateSection_Policy_SdpStaticIPAllocation_UpdateSection) GetErrors() []*PolicySdpStaticIpAllocationUpdateSection_Policy_SdpStaticIPAllocation_UpdateSection_Errors {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationUpdateSection_Policy_SdpStaticIPAllocation_UpdateSection{}
+	}
+	return t.Errors
+}
+func (t *PolicySdpStaticIpAllocationUpdateSection_Policy_SdpStaticIPAllocation_UpdateSection) GetRevision() *PolicySdpStaticIpAllocationUpdateSection_Policy_SdpStaticIPAllocation_UpdateSection_Revision {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationUpdateSection_Policy_SdpStaticIPAllocation_UpdateSection{}
+	}
+	return t.Revision
+}
+func (t *PolicySdpStaticIpAllocationUpdateSection_Policy_SdpStaticIPAllocation_UpdateSection) GetSection() *PolicySdpStaticIpAllocationUpdateSection_Policy_SdpStaticIPAllocation_UpdateSection_Section {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationUpdateSection_Policy_SdpStaticIPAllocation_UpdateSection{}
+	}
+	return t.Section
+}
+func (t *PolicySdpStaticIpAllocationUpdateSection_Policy_SdpStaticIPAllocation_UpdateSection) GetStatus() *cato_models.PolicyMutationStatus {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationUpdateSection_Policy_SdpStaticIPAllocation_UpdateSection{}
+	}
+	return &t.Status
+}
+
+type PolicySdpStaticIpAllocationUpdateSection_Policy_SdpStaticIPAllocation struct {
+	UpdateSection PolicySdpStaticIpAllocationUpdateSection_Policy_SdpStaticIPAllocation_UpdateSection "json:\"updateSection\" graphql:\"updateSection\""
+}
+
+func (t *PolicySdpStaticIpAllocationUpdateSection_Policy_SdpStaticIPAllocation) GetUpdateSection() *PolicySdpStaticIpAllocationUpdateSection_Policy_SdpStaticIPAllocation_UpdateSection {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationUpdateSection_Policy_SdpStaticIPAllocation{}
+	}
+	return &t.UpdateSection
+}
+
+type PolicySdpStaticIpAllocationUpdateSection_Policy struct {
+	SdpStaticIPAllocation *PolicySdpStaticIpAllocationUpdateSection_Policy_SdpStaticIPAllocation "json:\"sdpStaticIpAllocation,omitempty\" graphql:\"sdpStaticIpAllocation\""
+}
+
+func (t *PolicySdpStaticIpAllocationUpdateSection_Policy) GetSdpStaticIPAllocation() *PolicySdpStaticIpAllocationUpdateSection_Policy_SdpStaticIPAllocation {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationUpdateSection_Policy{}
+	}
+	return t.SdpStaticIPAllocation
+}
+
 type PolicySiteWebProxyAddRule_Policy_SiteWebProxy_AddRule_Rule_Audit struct {
 	UpdatedBy   string "json:\"updatedBy\" graphql:\"updatedBy\""
 	UpdatedTime string "json:\"updatedTime\" graphql:\"updatedTime\""
@@ -174019,6 +178024,7 @@ type PolicyTlsInspectAddRule_Policy_TLSInspect_AddRule_Rule_Rule struct {
 	Action                     cato_models.TLSInspectAction                                                        "json:\"action\" graphql:\"action\""
 	Application                PolicyTlsInspectAddRule_Policy_TLSInspect_AddRule_Rule_Rule_Application             "json:\"application\" graphql:\"application\""
 	ConnectionOrigin           cato_models.ConnectionOriginEnum                                                    "json:\"connectionOrigin\" graphql:\"connectionOrigin\""
+	ConnectionsOriginList      []cato_models.ConnectionOriginsEnum                                                 "json:\"connectionsOriginList\" graphql:\"connectionsOriginList\""
 	Country                    []*PolicyTlsInspectAddRule_Policy_TLSInspect_AddRule_Rule_Rule_Country              "json:\"country\" graphql:\"country\""
 	Description                string                                                                              "json:\"description\" graphql:\"description\""
 	DevicePostureProfile       []*PolicyTlsInspectAddRule_Policy_TLSInspect_AddRule_Rule_Rule_DevicePostureProfile "json:\"devicePostureProfile\" graphql:\"devicePostureProfile\""
@@ -174049,6 +178055,12 @@ func (t *PolicyTlsInspectAddRule_Policy_TLSInspect_AddRule_Rule_Rule) GetConnect
 		t = &PolicyTlsInspectAddRule_Policy_TLSInspect_AddRule_Rule_Rule{}
 	}
 	return &t.ConnectionOrigin
+}
+func (t *PolicyTlsInspectAddRule_Policy_TLSInspect_AddRule_Rule_Rule) GetConnectionsOriginList() []cato_models.ConnectionOriginsEnum {
+	if t == nil {
+		t = &PolicyTlsInspectAddRule_Policy_TLSInspect_AddRule_Rule_Rule{}
+	}
+	return t.ConnectionsOriginList
 }
 func (t *PolicyTlsInspectAddRule_Policy_TLSInspect_AddRule_Rule_Rule) GetCountry() []*PolicyTlsInspectAddRule_Policy_TLSInspect_AddRule_Rule_Rule_Country {
 	if t == nil {
@@ -175240,6 +179252,7 @@ type PolicyTlsInspectCreatePolicyRevision_Policy_TLSInspect_CreatePolicyRevision
 	Action                     cato_models.TLSInspectAction                                                                                          "json:\"action\" graphql:\"action\""
 	Application                PolicyTlsInspectCreatePolicyRevision_Policy_TLSInspect_CreatePolicyRevision_Policy_Rules_Rule_Application             "json:\"application\" graphql:\"application\""
 	ConnectionOrigin           cato_models.ConnectionOriginEnum                                                                                      "json:\"connectionOrigin\" graphql:\"connectionOrigin\""
+	ConnectionsOriginList      []cato_models.ConnectionOriginsEnum                                                                                   "json:\"connectionsOriginList\" graphql:\"connectionsOriginList\""
 	Country                    []*PolicyTlsInspectCreatePolicyRevision_Policy_TLSInspect_CreatePolicyRevision_Policy_Rules_Rule_Country              "json:\"country\" graphql:\"country\""
 	Description                string                                                                                                                "json:\"description\" graphql:\"description\""
 	DevicePostureProfile       []*PolicyTlsInspectCreatePolicyRevision_Policy_TLSInspect_CreatePolicyRevision_Policy_Rules_Rule_DevicePostureProfile "json:\"devicePostureProfile\" graphql:\"devicePostureProfile\""
@@ -175270,6 +179283,12 @@ func (t *PolicyTlsInspectCreatePolicyRevision_Policy_TLSInspect_CreatePolicyRevi
 		t = &PolicyTlsInspectCreatePolicyRevision_Policy_TLSInspect_CreatePolicyRevision_Policy_Rules_Rule{}
 	}
 	return &t.ConnectionOrigin
+}
+func (t *PolicyTlsInspectCreatePolicyRevision_Policy_TLSInspect_CreatePolicyRevision_Policy_Rules_Rule) GetConnectionsOriginList() []cato_models.ConnectionOriginsEnum {
+	if t == nil {
+		t = &PolicyTlsInspectCreatePolicyRevision_Policy_TLSInspect_CreatePolicyRevision_Policy_Rules_Rule{}
+	}
+	return t.ConnectionsOriginList
 }
 func (t *PolicyTlsInspectCreatePolicyRevision_Policy_TLSInspect_CreatePolicyRevision_Policy_Rules_Rule) GetCountry() []*PolicyTlsInspectCreatePolicyRevision_Policy_TLSInspect_CreatePolicyRevision_Policy_Rules_Rule_Country {
 	if t == nil {
@@ -176418,6 +180437,7 @@ type PolicyTlsInspectDiscardPolicyRevision_Policy_TLSInspect_DiscardPolicyRevisi
 	Action                     cato_models.TLSInspectAction                                                                                            "json:\"action\" graphql:\"action\""
 	Application                PolicyTlsInspectDiscardPolicyRevision_Policy_TLSInspect_DiscardPolicyRevision_Policy_Rules_Rule_Application             "json:\"application\" graphql:\"application\""
 	ConnectionOrigin           cato_models.ConnectionOriginEnum                                                                                        "json:\"connectionOrigin\" graphql:\"connectionOrigin\""
+	ConnectionsOriginList      []cato_models.ConnectionOriginsEnum                                                                                     "json:\"connectionsOriginList\" graphql:\"connectionsOriginList\""
 	Country                    []*PolicyTlsInspectDiscardPolicyRevision_Policy_TLSInspect_DiscardPolicyRevision_Policy_Rules_Rule_Country              "json:\"country\" graphql:\"country\""
 	Description                string                                                                                                                  "json:\"description\" graphql:\"description\""
 	DevicePostureProfile       []*PolicyTlsInspectDiscardPolicyRevision_Policy_TLSInspect_DiscardPolicyRevision_Policy_Rules_Rule_DevicePostureProfile "json:\"devicePostureProfile\" graphql:\"devicePostureProfile\""
@@ -176448,6 +180468,12 @@ func (t *PolicyTlsInspectDiscardPolicyRevision_Policy_TLSInspect_DiscardPolicyRe
 		t = &PolicyTlsInspectDiscardPolicyRevision_Policy_TLSInspect_DiscardPolicyRevision_Policy_Rules_Rule{}
 	}
 	return &t.ConnectionOrigin
+}
+func (t *PolicyTlsInspectDiscardPolicyRevision_Policy_TLSInspect_DiscardPolicyRevision_Policy_Rules_Rule) GetConnectionsOriginList() []cato_models.ConnectionOriginsEnum {
+	if t == nil {
+		t = &PolicyTlsInspectDiscardPolicyRevision_Policy_TLSInspect_DiscardPolicyRevision_Policy_Rules_Rule{}
+	}
+	return t.ConnectionsOriginList
 }
 func (t *PolicyTlsInspectDiscardPolicyRevision_Policy_TLSInspect_DiscardPolicyRevision_Policy_Rules_Rule) GetCountry() []*PolicyTlsInspectDiscardPolicyRevision_Policy_TLSInspect_DiscardPolicyRevision_Policy_Rules_Rule_Country {
 	if t == nil {
@@ -177596,6 +181622,7 @@ type PolicyTlsInspectMoveRule_Policy_TLSInspect_MoveRule_Rule_Rule struct {
 	Action                     cato_models.TLSInspectAction                                                          "json:\"action\" graphql:\"action\""
 	Application                PolicyTlsInspectMoveRule_Policy_TLSInspect_MoveRule_Rule_Rule_Application             "json:\"application\" graphql:\"application\""
 	ConnectionOrigin           cato_models.ConnectionOriginEnum                                                      "json:\"connectionOrigin\" graphql:\"connectionOrigin\""
+	ConnectionsOriginList      []cato_models.ConnectionOriginsEnum                                                   "json:\"connectionsOriginList\" graphql:\"connectionsOriginList\""
 	Country                    []*PolicyTlsInspectMoveRule_Policy_TLSInspect_MoveRule_Rule_Rule_Country              "json:\"country\" graphql:\"country\""
 	Description                string                                                                                "json:\"description\" graphql:\"description\""
 	DevicePostureProfile       []*PolicyTlsInspectMoveRule_Policy_TLSInspect_MoveRule_Rule_Rule_DevicePostureProfile "json:\"devicePostureProfile\" graphql:\"devicePostureProfile\""
@@ -177626,6 +181653,12 @@ func (t *PolicyTlsInspectMoveRule_Policy_TLSInspect_MoveRule_Rule_Rule) GetConne
 		t = &PolicyTlsInspectMoveRule_Policy_TLSInspect_MoveRule_Rule_Rule{}
 	}
 	return &t.ConnectionOrigin
+}
+func (t *PolicyTlsInspectMoveRule_Policy_TLSInspect_MoveRule_Rule_Rule) GetConnectionsOriginList() []cato_models.ConnectionOriginsEnum {
+	if t == nil {
+		t = &PolicyTlsInspectMoveRule_Policy_TLSInspect_MoveRule_Rule_Rule{}
+	}
+	return t.ConnectionsOriginList
 }
 func (t *PolicyTlsInspectMoveRule_Policy_TLSInspect_MoveRule_Rule_Rule) GetCountry() []*PolicyTlsInspectMoveRule_Policy_TLSInspect_MoveRule_Rule_Rule_Country {
 	if t == nil {
@@ -178817,6 +182850,7 @@ type PolicyTlsInspectPublishPolicyRevision_Policy_TLSInspect_PublishPolicyRevisi
 	Action                     cato_models.TLSInspectAction                                                                                            "json:\"action\" graphql:\"action\""
 	Application                PolicyTlsInspectPublishPolicyRevision_Policy_TLSInspect_PublishPolicyRevision_Policy_Rules_Rule_Application             "json:\"application\" graphql:\"application\""
 	ConnectionOrigin           cato_models.ConnectionOriginEnum                                                                                        "json:\"connectionOrigin\" graphql:\"connectionOrigin\""
+	ConnectionsOriginList      []cato_models.ConnectionOriginsEnum                                                                                     "json:\"connectionsOriginList\" graphql:\"connectionsOriginList\""
 	Country                    []*PolicyTlsInspectPublishPolicyRevision_Policy_TLSInspect_PublishPolicyRevision_Policy_Rules_Rule_Country              "json:\"country\" graphql:\"country\""
 	Description                string                                                                                                                  "json:\"description\" graphql:\"description\""
 	DevicePostureProfile       []*PolicyTlsInspectPublishPolicyRevision_Policy_TLSInspect_PublishPolicyRevision_Policy_Rules_Rule_DevicePostureProfile "json:\"devicePostureProfile\" graphql:\"devicePostureProfile\""
@@ -178847,6 +182881,12 @@ func (t *PolicyTlsInspectPublishPolicyRevision_Policy_TLSInspect_PublishPolicyRe
 		t = &PolicyTlsInspectPublishPolicyRevision_Policy_TLSInspect_PublishPolicyRevision_Policy_Rules_Rule{}
 	}
 	return &t.ConnectionOrigin
+}
+func (t *PolicyTlsInspectPublishPolicyRevision_Policy_TLSInspect_PublishPolicyRevision_Policy_Rules_Rule) GetConnectionsOriginList() []cato_models.ConnectionOriginsEnum {
+	if t == nil {
+		t = &PolicyTlsInspectPublishPolicyRevision_Policy_TLSInspect_PublishPolicyRevision_Policy_Rules_Rule{}
+	}
+	return t.ConnectionsOriginList
 }
 func (t *PolicyTlsInspectPublishPolicyRevision_Policy_TLSInspect_PublishPolicyRevision_Policy_Rules_Rule) GetCountry() []*PolicyTlsInspectPublishPolicyRevision_Policy_TLSInspect_PublishPolicyRevision_Policy_Rules_Rule_Country {
 	if t == nil {
@@ -179995,6 +184035,7 @@ type PolicyTlsInspectRemoveRule_Policy_TLSInspect_RemoveRule_Rule_Rule struct {
 	Action                     cato_models.TLSInspectAction                                                              "json:\"action\" graphql:\"action\""
 	Application                PolicyTlsInspectRemoveRule_Policy_TLSInspect_RemoveRule_Rule_Rule_Application             "json:\"application\" graphql:\"application\""
 	ConnectionOrigin           cato_models.ConnectionOriginEnum                                                          "json:\"connectionOrigin\" graphql:\"connectionOrigin\""
+	ConnectionsOriginList      []cato_models.ConnectionOriginsEnum                                                       "json:\"connectionsOriginList\" graphql:\"connectionsOriginList\""
 	Country                    []*PolicyTlsInspectRemoveRule_Policy_TLSInspect_RemoveRule_Rule_Rule_Country              "json:\"country\" graphql:\"country\""
 	Description                string                                                                                    "json:\"description\" graphql:\"description\""
 	DevicePostureProfile       []*PolicyTlsInspectRemoveRule_Policy_TLSInspect_RemoveRule_Rule_Rule_DevicePostureProfile "json:\"devicePostureProfile\" graphql:\"devicePostureProfile\""
@@ -180025,6 +184066,12 @@ func (t *PolicyTlsInspectRemoveRule_Policy_TLSInspect_RemoveRule_Rule_Rule) GetC
 		t = &PolicyTlsInspectRemoveRule_Policy_TLSInspect_RemoveRule_Rule_Rule{}
 	}
 	return &t.ConnectionOrigin
+}
+func (t *PolicyTlsInspectRemoveRule_Policy_TLSInspect_RemoveRule_Rule_Rule) GetConnectionsOriginList() []cato_models.ConnectionOriginsEnum {
+	if t == nil {
+		t = &PolicyTlsInspectRemoveRule_Policy_TLSInspect_RemoveRule_Rule_Rule{}
+	}
+	return t.ConnectionsOriginList
 }
 func (t *PolicyTlsInspectRemoveRule_Policy_TLSInspect_RemoveRule_Rule_Rule) GetCountry() []*PolicyTlsInspectRemoveRule_Policy_TLSInspect_RemoveRule_Rule_Rule_Country {
 	if t == nil {
@@ -181216,6 +185263,7 @@ type PolicyTlsInspectUpdatePolicy_Policy_TLSInspect_UpdatePolicy_Policy_Rules_Ru
 	Action                     cato_models.TLSInspectAction                                                                          "json:\"action\" graphql:\"action\""
 	Application                PolicyTlsInspectUpdatePolicy_Policy_TLSInspect_UpdatePolicy_Policy_Rules_Rule_Application             "json:\"application\" graphql:\"application\""
 	ConnectionOrigin           cato_models.ConnectionOriginEnum                                                                      "json:\"connectionOrigin\" graphql:\"connectionOrigin\""
+	ConnectionsOriginList      []cato_models.ConnectionOriginsEnum                                                                   "json:\"connectionsOriginList\" graphql:\"connectionsOriginList\""
 	Country                    []*PolicyTlsInspectUpdatePolicy_Policy_TLSInspect_UpdatePolicy_Policy_Rules_Rule_Country              "json:\"country\" graphql:\"country\""
 	Description                string                                                                                                "json:\"description\" graphql:\"description\""
 	DevicePostureProfile       []*PolicyTlsInspectUpdatePolicy_Policy_TLSInspect_UpdatePolicy_Policy_Rules_Rule_DevicePostureProfile "json:\"devicePostureProfile\" graphql:\"devicePostureProfile\""
@@ -181246,6 +185294,12 @@ func (t *PolicyTlsInspectUpdatePolicy_Policy_TLSInspect_UpdatePolicy_Policy_Rule
 		t = &PolicyTlsInspectUpdatePolicy_Policy_TLSInspect_UpdatePolicy_Policy_Rules_Rule{}
 	}
 	return &t.ConnectionOrigin
+}
+func (t *PolicyTlsInspectUpdatePolicy_Policy_TLSInspect_UpdatePolicy_Policy_Rules_Rule) GetConnectionsOriginList() []cato_models.ConnectionOriginsEnum {
+	if t == nil {
+		t = &PolicyTlsInspectUpdatePolicy_Policy_TLSInspect_UpdatePolicy_Policy_Rules_Rule{}
+	}
+	return t.ConnectionsOriginList
 }
 func (t *PolicyTlsInspectUpdatePolicy_Policy_TLSInspect_UpdatePolicy_Policy_Rules_Rule) GetCountry() []*PolicyTlsInspectUpdatePolicy_Policy_TLSInspect_UpdatePolicy_Policy_Rules_Rule_Country {
 	if t == nil {
@@ -182394,6 +186448,7 @@ type PolicyTlsInspectUpdateRule_Policy_TLSInspect_UpdateRule_Rule_Rule struct {
 	Action                     cato_models.TLSInspectAction                                                              "json:\"action\" graphql:\"action\""
 	Application                PolicyTlsInspectUpdateRule_Policy_TLSInspect_UpdateRule_Rule_Rule_Application             "json:\"application\" graphql:\"application\""
 	ConnectionOrigin           cato_models.ConnectionOriginEnum                                                          "json:\"connectionOrigin\" graphql:\"connectionOrigin\""
+	ConnectionsOriginList      []cato_models.ConnectionOriginsEnum                                                       "json:\"connectionsOriginList\" graphql:\"connectionsOriginList\""
 	Country                    []*PolicyTlsInspectUpdateRule_Policy_TLSInspect_UpdateRule_Rule_Rule_Country              "json:\"country\" graphql:\"country\""
 	Description                string                                                                                    "json:\"description\" graphql:\"description\""
 	DevicePostureProfile       []*PolicyTlsInspectUpdateRule_Policy_TLSInspect_UpdateRule_Rule_Rule_DevicePostureProfile "json:\"devicePostureProfile\" graphql:\"devicePostureProfile\""
@@ -182424,6 +186479,12 @@ func (t *PolicyTlsInspectUpdateRule_Policy_TLSInspect_UpdateRule_Rule_Rule) GetC
 		t = &PolicyTlsInspectUpdateRule_Policy_TLSInspect_UpdateRule_Rule_Rule{}
 	}
 	return &t.ConnectionOrigin
+}
+func (t *PolicyTlsInspectUpdateRule_Policy_TLSInspect_UpdateRule_Rule_Rule) GetConnectionsOriginList() []cato_models.ConnectionOriginsEnum {
+	if t == nil {
+		t = &PolicyTlsInspectUpdateRule_Policy_TLSInspect_UpdateRule_Rule_Rule{}
+	}
+	return t.ConnectionsOriginList
 }
 func (t *PolicyTlsInspectUpdateRule_Policy_TLSInspect_UpdateRule_Rule_Rule) GetCountry() []*PolicyTlsInspectUpdateRule_Policy_TLSInspect_UpdateRule_Rule_Rule_Country {
 	if t == nil {
@@ -244888,11 +248949,18 @@ func (t *SiteAddBgpPeer_Site_AddBgpPeer_BgpPeer_DefaultActionExclusion) GetCommu
 }
 
 type SiteAddBgpPeer_Site_AddBgpPeer_BgpPeer_BfdSettingsBfdSettings struct {
+	MultiHop         bool  "json:\"multiHop\" graphql:\"multiHop\""
 	Multiplier       int64 "json:\"multiplier\" graphql:\"multiplier\""
 	ReceiveInterval  int64 "json:\"receiveInterval\" graphql:\"receiveInterval\""
 	TransmitInterval int64 "json:\"transmitInterval\" graphql:\"transmitInterval\""
 }
 
+func (t *SiteAddBgpPeer_Site_AddBgpPeer_BgpPeer_BfdSettingsBfdSettings) GetMultiHop() bool {
+	if t == nil {
+		t = &SiteAddBgpPeer_Site_AddBgpPeer_BgpPeer_BfdSettingsBfdSettings{}
+	}
+	return t.MultiHop
+}
 func (t *SiteAddBgpPeer_Site_AddBgpPeer_BgpPeer_BfdSettingsBfdSettings) GetMultiplier() int64 {
 	if t == nil {
 		t = &SiteAddBgpPeer_Site_AddBgpPeer_BgpPeer_BfdSettingsBfdSettings{}
@@ -246571,11 +250639,18 @@ func (t *SiteCreateBgpPeerBulk_Site_CreateBgpPeerBulk_BgpPeer_DefaultActionExclu
 }
 
 type SiteCreateBgpPeerBulk_Site_CreateBgpPeerBulk_BgpPeer_BfdSettings struct {
+	MultiHop         bool  "json:\"multiHop\" graphql:\"multiHop\""
 	Multiplier       int64 "json:\"multiplier\" graphql:\"multiplier\""
 	ReceiveInterval  int64 "json:\"receiveInterval\" graphql:\"receiveInterval\""
 	TransmitInterval int64 "json:\"transmitInterval\" graphql:\"transmitInterval\""
 }
 
+func (t *SiteCreateBgpPeerBulk_Site_CreateBgpPeerBulk_BgpPeer_BfdSettings) GetMultiHop() bool {
+	if t == nil {
+		t = &SiteCreateBgpPeerBulk_Site_CreateBgpPeerBulk_BgpPeer_BfdSettings{}
+	}
+	return t.MultiHop
+}
 func (t *SiteCreateBgpPeerBulk_Site_CreateBgpPeerBulk_BgpPeer_BfdSettings) GetMultiplier() int64 {
 	if t == nil {
 		t = &SiteCreateBgpPeerBulk_Site_CreateBgpPeerBulk_BgpPeer_BfdSettings{}
@@ -246807,11 +250882,30 @@ func (t *SiteCreateBgpPeerBulk_Site) GetCreateBgpPeerBulk() *SiteCreateBgpPeerBu
 	return t.CreateBgpPeerBulk
 }
 
+type SiteCreateNetworkRangeBulk_Site_CreateNetworkRangeBulk_NetworkRange_DhcpSettings_LeaseTimeSettings struct {
+	LeaseTime int64                            "json:\"leaseTime\" graphql:\"leaseTime\""
+	TimeUnit  cato_models.LeaseTimeMeasureUnit "json:\"timeUnit\" graphql:\"timeUnit\""
+}
+
+func (t *SiteCreateNetworkRangeBulk_Site_CreateNetworkRangeBulk_NetworkRange_DhcpSettings_LeaseTimeSettings) GetLeaseTime() int64 {
+	if t == nil {
+		t = &SiteCreateNetworkRangeBulk_Site_CreateNetworkRangeBulk_NetworkRange_DhcpSettings_LeaseTimeSettings{}
+	}
+	return t.LeaseTime
+}
+func (t *SiteCreateNetworkRangeBulk_Site_CreateNetworkRangeBulk_NetworkRange_DhcpSettings_LeaseTimeSettings) GetTimeUnit() *cato_models.LeaseTimeMeasureUnit {
+	if t == nil {
+		t = &SiteCreateNetworkRangeBulk_Site_CreateNetworkRangeBulk_NetworkRange_DhcpSettings_LeaseTimeSettings{}
+	}
+	return &t.TimeUnit
+}
+
 type SiteCreateNetworkRangeBulk_Site_CreateNetworkRangeBulk_NetworkRange_DhcpSettings struct {
-	DhcpMicrosegmentation bool                 "json:\"dhcpMicrosegmentation\" graphql:\"dhcpMicrosegmentation\""
-	DhcpType              cato_models.DhcpType "json:\"dhcpType\" graphql:\"dhcpType\""
-	IPRange               *string              "json:\"ipRange,omitempty\" graphql:\"ipRange\""
-	RelayGroupID          *string              "json:\"relayGroupId,omitempty\" graphql:\"relayGroupId\""
+	DhcpMicrosegmentation bool                                                                                                "json:\"dhcpMicrosegmentation\" graphql:\"dhcpMicrosegmentation\""
+	DhcpType              cato_models.DhcpType                                                                                "json:\"dhcpType\" graphql:\"dhcpType\""
+	IPRange               *string                                                                                             "json:\"ipRange,omitempty\" graphql:\"ipRange\""
+	LeaseTimeSettings     *SiteCreateNetworkRangeBulk_Site_CreateNetworkRangeBulk_NetworkRange_DhcpSettings_LeaseTimeSettings "json:\"leaseTimeSettings,omitempty\" graphql:\"leaseTimeSettings\""
+	RelayGroupID          *string                                                                                             "json:\"relayGroupId,omitempty\" graphql:\"relayGroupId\""
 }
 
 func (t *SiteCreateNetworkRangeBulk_Site_CreateNetworkRangeBulk_NetworkRange_DhcpSettings) GetDhcpMicrosegmentation() bool {
@@ -246831,6 +250925,12 @@ func (t *SiteCreateNetworkRangeBulk_Site_CreateNetworkRangeBulk_NetworkRange_Dhc
 		t = &SiteCreateNetworkRangeBulk_Site_CreateNetworkRangeBulk_NetworkRange_DhcpSettings{}
 	}
 	return t.IPRange
+}
+func (t *SiteCreateNetworkRangeBulk_Site_CreateNetworkRangeBulk_NetworkRange_DhcpSettings) GetLeaseTimeSettings() *SiteCreateNetworkRangeBulk_Site_CreateNetworkRangeBulk_NetworkRange_DhcpSettings_LeaseTimeSettings {
+	if t == nil {
+		t = &SiteCreateNetworkRangeBulk_Site_CreateNetworkRangeBulk_NetworkRange_DhcpSettings{}
+	}
+	return t.LeaseTimeSettings
 }
 func (t *SiteCreateNetworkRangeBulk_Site_CreateNetworkRangeBulk_NetworkRange_DhcpSettings) GetRelayGroupID() *string {
 	if t == nil {
@@ -247653,11 +251753,18 @@ func (t *SiteDeleteBgpPeerBulk_Site_DeleteBgpPeerBulk_BgpPeer_DefaultActionExclu
 }
 
 type SiteDeleteBgpPeerBulk_Site_DeleteBgpPeerBulk_BgpPeer_BfdSettings struct {
+	MultiHop         bool  "json:\"multiHop\" graphql:\"multiHop\""
 	Multiplier       int64 "json:\"multiplier\" graphql:\"multiplier\""
 	ReceiveInterval  int64 "json:\"receiveInterval\" graphql:\"receiveInterval\""
 	TransmitInterval int64 "json:\"transmitInterval\" graphql:\"transmitInterval\""
 }
 
+func (t *SiteDeleteBgpPeerBulk_Site_DeleteBgpPeerBulk_BgpPeer_BfdSettings) GetMultiHop() bool {
+	if t == nil {
+		t = &SiteDeleteBgpPeerBulk_Site_DeleteBgpPeerBulk_BgpPeer_BfdSettings{}
+	}
+	return t.MultiHop
+}
 func (t *SiteDeleteBgpPeerBulk_Site_DeleteBgpPeerBulk_BgpPeer_BfdSettings) GetMultiplier() int64 {
 	if t == nil {
 		t = &SiteDeleteBgpPeerBulk_Site_DeleteBgpPeerBulk_BgpPeer_BfdSettings{}
@@ -247889,11 +251996,30 @@ func (t *SiteDeleteBgpPeerBulk_Site) GetDeleteBgpPeerBulk() *SiteDeleteBgpPeerBu
 	return t.DeleteBgpPeerBulk
 }
 
+type SiteDeleteNetworkRangeBulk_Site_DeleteNetworkRangeBulk_NetworkRange_DhcpSettings_LeaseTimeSettings struct {
+	LeaseTime int64                            "json:\"leaseTime\" graphql:\"leaseTime\""
+	TimeUnit  cato_models.LeaseTimeMeasureUnit "json:\"timeUnit\" graphql:\"timeUnit\""
+}
+
+func (t *SiteDeleteNetworkRangeBulk_Site_DeleteNetworkRangeBulk_NetworkRange_DhcpSettings_LeaseTimeSettings) GetLeaseTime() int64 {
+	if t == nil {
+		t = &SiteDeleteNetworkRangeBulk_Site_DeleteNetworkRangeBulk_NetworkRange_DhcpSettings_LeaseTimeSettings{}
+	}
+	return t.LeaseTime
+}
+func (t *SiteDeleteNetworkRangeBulk_Site_DeleteNetworkRangeBulk_NetworkRange_DhcpSettings_LeaseTimeSettings) GetTimeUnit() *cato_models.LeaseTimeMeasureUnit {
+	if t == nil {
+		t = &SiteDeleteNetworkRangeBulk_Site_DeleteNetworkRangeBulk_NetworkRange_DhcpSettings_LeaseTimeSettings{}
+	}
+	return &t.TimeUnit
+}
+
 type SiteDeleteNetworkRangeBulk_Site_DeleteNetworkRangeBulk_NetworkRange_DhcpSettings struct {
-	DhcpMicrosegmentation bool                 "json:\"dhcpMicrosegmentation\" graphql:\"dhcpMicrosegmentation\""
-	DhcpType              cato_models.DhcpType "json:\"dhcpType\" graphql:\"dhcpType\""
-	IPRange               *string              "json:\"ipRange,omitempty\" graphql:\"ipRange\""
-	RelayGroupID          *string              "json:\"relayGroupId,omitempty\" graphql:\"relayGroupId\""
+	DhcpMicrosegmentation bool                                                                                                "json:\"dhcpMicrosegmentation\" graphql:\"dhcpMicrosegmentation\""
+	DhcpType              cato_models.DhcpType                                                                                "json:\"dhcpType\" graphql:\"dhcpType\""
+	IPRange               *string                                                                                             "json:\"ipRange,omitempty\" graphql:\"ipRange\""
+	LeaseTimeSettings     *SiteDeleteNetworkRangeBulk_Site_DeleteNetworkRangeBulk_NetworkRange_DhcpSettings_LeaseTimeSettings "json:\"leaseTimeSettings,omitempty\" graphql:\"leaseTimeSettings\""
+	RelayGroupID          *string                                                                                             "json:\"relayGroupId,omitempty\" graphql:\"relayGroupId\""
 }
 
 func (t *SiteDeleteNetworkRangeBulk_Site_DeleteNetworkRangeBulk_NetworkRange_DhcpSettings) GetDhcpMicrosegmentation() bool {
@@ -247913,6 +252039,12 @@ func (t *SiteDeleteNetworkRangeBulk_Site_DeleteNetworkRangeBulk_NetworkRange_Dhc
 		t = &SiteDeleteNetworkRangeBulk_Site_DeleteNetworkRangeBulk_NetworkRange_DhcpSettings{}
 	}
 	return t.IPRange
+}
+func (t *SiteDeleteNetworkRangeBulk_Site_DeleteNetworkRangeBulk_NetworkRange_DhcpSettings) GetLeaseTimeSettings() *SiteDeleteNetworkRangeBulk_Site_DeleteNetworkRangeBulk_NetworkRange_DhcpSettings_LeaseTimeSettings {
+	if t == nil {
+		t = &SiteDeleteNetworkRangeBulk_Site_DeleteNetworkRangeBulk_NetworkRange_DhcpSettings{}
+	}
+	return t.LeaseTimeSettings
 }
 func (t *SiteDeleteNetworkRangeBulk_Site_DeleteNetworkRangeBulk_NetworkRange_DhcpSettings) GetRelayGroupID() *string {
 	if t == nil {
@@ -248426,11 +252558,18 @@ func (t *SiteRemoveBgpPeer_Site_RemoveBgpPeer_BgpPeer_DefaultActionExclusion) Ge
 }
 
 type SiteRemoveBgpPeer_Site_RemoveBgpPeer_BgpPeer_BfdSettingsBfdSettings struct {
+	MultiHop         bool  "json:\"multiHop\" graphql:\"multiHop\""
 	Multiplier       int64 "json:\"multiplier\" graphql:\"multiplier\""
 	ReceiveInterval  int64 "json:\"receiveInterval\" graphql:\"receiveInterval\""
 	TransmitInterval int64 "json:\"transmitInterval\" graphql:\"transmitInterval\""
 }
 
+func (t *SiteRemoveBgpPeer_Site_RemoveBgpPeer_BgpPeer_BfdSettingsBfdSettings) GetMultiHop() bool {
+	if t == nil {
+		t = &SiteRemoveBgpPeer_Site_RemoveBgpPeer_BgpPeer_BfdSettingsBfdSettings{}
+	}
+	return t.MultiHop
+}
 func (t *SiteRemoveBgpPeer_Site_RemoveBgpPeer_BgpPeer_BfdSettingsBfdSettings) GetMultiplier() int64 {
 	if t == nil {
 		t = &SiteRemoveBgpPeer_Site_RemoveBgpPeer_BgpPeer_BfdSettingsBfdSettings{}
@@ -251185,11 +255324,18 @@ func (t *SiteUpdateBgpPeer_Site_UpdateBgpPeer_BgpPeer_DefaultActionExclusion) Ge
 }
 
 type SiteUpdateBgpPeer_Site_UpdateBgpPeer_BgpPeer_BfdSettingsBfdSettings struct {
+	MultiHop         bool  "json:\"multiHop\" graphql:\"multiHop\""
 	Multiplier       int64 "json:\"multiplier\" graphql:\"multiplier\""
 	ReceiveInterval  int64 "json:\"receiveInterval\" graphql:\"receiveInterval\""
 	TransmitInterval int64 "json:\"transmitInterval\" graphql:\"transmitInterval\""
 }
 
+func (t *SiteUpdateBgpPeer_Site_UpdateBgpPeer_BgpPeer_BfdSettingsBfdSettings) GetMultiHop() bool {
+	if t == nil {
+		t = &SiteUpdateBgpPeer_Site_UpdateBgpPeer_BgpPeer_BfdSettingsBfdSettings{}
+	}
+	return t.MultiHop
+}
 func (t *SiteUpdateBgpPeer_Site_UpdateBgpPeer_BgpPeer_BfdSettingsBfdSettings) GetMultiplier() int64 {
 	if t == nil {
 		t = &SiteUpdateBgpPeer_Site_UpdateBgpPeer_BgpPeer_BfdSettingsBfdSettings{}
@@ -251701,11 +255847,18 @@ func (t *SiteUpdateBgpPeerBulk_Site_UpdateBgpPeerBulk_BgpPeer_DefaultActionExclu
 }
 
 type SiteUpdateBgpPeerBulk_Site_UpdateBgpPeerBulk_BgpPeer_BfdSettings struct {
+	MultiHop         bool  "json:\"multiHop\" graphql:\"multiHop\""
 	Multiplier       int64 "json:\"multiplier\" graphql:\"multiplier\""
 	ReceiveInterval  int64 "json:\"receiveInterval\" graphql:\"receiveInterval\""
 	TransmitInterval int64 "json:\"transmitInterval\" graphql:\"transmitInterval\""
 }
 
+func (t *SiteUpdateBgpPeerBulk_Site_UpdateBgpPeerBulk_BgpPeer_BfdSettings) GetMultiHop() bool {
+	if t == nil {
+		t = &SiteUpdateBgpPeerBulk_Site_UpdateBgpPeerBulk_BgpPeer_BfdSettings{}
+	}
+	return t.MultiHop
+}
 func (t *SiteUpdateBgpPeerBulk_Site_UpdateBgpPeerBulk_BgpPeer_BfdSettings) GetMultiplier() int64 {
 	if t == nil {
 		t = &SiteUpdateBgpPeerBulk_Site_UpdateBgpPeerBulk_BgpPeer_BfdSettings{}
@@ -252217,11 +256370,18 @@ func (t *SiteUpdateBgpPeers_Site_UpdateBgpPeers_BgpPeer_DefaultActionExclusion) 
 }
 
 type SiteUpdateBgpPeers_Site_UpdateBgpPeers_BgpPeer_BfdSettings struct {
+	MultiHop         bool  "json:\"multiHop\" graphql:\"multiHop\""
 	Multiplier       int64 "json:\"multiplier\" graphql:\"multiplier\""
 	ReceiveInterval  int64 "json:\"receiveInterval\" graphql:\"receiveInterval\""
 	TransmitInterval int64 "json:\"transmitInterval\" graphql:\"transmitInterval\""
 }
 
+func (t *SiteUpdateBgpPeers_Site_UpdateBgpPeers_BgpPeer_BfdSettings) GetMultiHop() bool {
+	if t == nil {
+		t = &SiteUpdateBgpPeers_Site_UpdateBgpPeers_BgpPeer_BfdSettings{}
+	}
+	return t.MultiHop
+}
 func (t *SiteUpdateBgpPeers_Site_UpdateBgpPeers_BgpPeer_BfdSettings) GetMultiplier() int64 {
 	if t == nil {
 		t = &SiteUpdateBgpPeers_Site_UpdateBgpPeers_BgpPeer_BfdSettings{}
@@ -252656,11 +256816,30 @@ func (t *SiteUpdateNetworkRange_Site) GetUpdateNetworkRange() *SiteUpdateNetwork
 	return t.UpdateNetworkRange
 }
 
+type SiteUpdateNetworkRangeBulk_Site_UpdateNetworkRangeBulk_NetworkRange_DhcpSettings_LeaseTimeSettings struct {
+	LeaseTime int64                            "json:\"leaseTime\" graphql:\"leaseTime\""
+	TimeUnit  cato_models.LeaseTimeMeasureUnit "json:\"timeUnit\" graphql:\"timeUnit\""
+}
+
+func (t *SiteUpdateNetworkRangeBulk_Site_UpdateNetworkRangeBulk_NetworkRange_DhcpSettings_LeaseTimeSettings) GetLeaseTime() int64 {
+	if t == nil {
+		t = &SiteUpdateNetworkRangeBulk_Site_UpdateNetworkRangeBulk_NetworkRange_DhcpSettings_LeaseTimeSettings{}
+	}
+	return t.LeaseTime
+}
+func (t *SiteUpdateNetworkRangeBulk_Site_UpdateNetworkRangeBulk_NetworkRange_DhcpSettings_LeaseTimeSettings) GetTimeUnit() *cato_models.LeaseTimeMeasureUnit {
+	if t == nil {
+		t = &SiteUpdateNetworkRangeBulk_Site_UpdateNetworkRangeBulk_NetworkRange_DhcpSettings_LeaseTimeSettings{}
+	}
+	return &t.TimeUnit
+}
+
 type SiteUpdateNetworkRangeBulk_Site_UpdateNetworkRangeBulk_NetworkRange_DhcpSettings struct {
-	DhcpMicrosegmentation bool                 "json:\"dhcpMicrosegmentation\" graphql:\"dhcpMicrosegmentation\""
-	DhcpType              cato_models.DhcpType "json:\"dhcpType\" graphql:\"dhcpType\""
-	IPRange               *string              "json:\"ipRange,omitempty\" graphql:\"ipRange\""
-	RelayGroupID          *string              "json:\"relayGroupId,omitempty\" graphql:\"relayGroupId\""
+	DhcpMicrosegmentation bool                                                                                                "json:\"dhcpMicrosegmentation\" graphql:\"dhcpMicrosegmentation\""
+	DhcpType              cato_models.DhcpType                                                                                "json:\"dhcpType\" graphql:\"dhcpType\""
+	IPRange               *string                                                                                             "json:\"ipRange,omitempty\" graphql:\"ipRange\""
+	LeaseTimeSettings     *SiteUpdateNetworkRangeBulk_Site_UpdateNetworkRangeBulk_NetworkRange_DhcpSettings_LeaseTimeSettings "json:\"leaseTimeSettings,omitempty\" graphql:\"leaseTimeSettings\""
+	RelayGroupID          *string                                                                                             "json:\"relayGroupId,omitempty\" graphql:\"relayGroupId\""
 }
 
 func (t *SiteUpdateNetworkRangeBulk_Site_UpdateNetworkRangeBulk_NetworkRange_DhcpSettings) GetDhcpMicrosegmentation() bool {
@@ -252680,6 +256859,12 @@ func (t *SiteUpdateNetworkRangeBulk_Site_UpdateNetworkRangeBulk_NetworkRange_Dhc
 		t = &SiteUpdateNetworkRangeBulk_Site_UpdateNetworkRangeBulk_NetworkRange_DhcpSettings{}
 	}
 	return t.IPRange
+}
+func (t *SiteUpdateNetworkRangeBulk_Site_UpdateNetworkRangeBulk_NetworkRange_DhcpSettings) GetLeaseTimeSettings() *SiteUpdateNetworkRangeBulk_Site_UpdateNetworkRangeBulk_NetworkRange_DhcpSettings_LeaseTimeSettings {
+	if t == nil {
+		t = &SiteUpdateNetworkRangeBulk_Site_UpdateNetworkRangeBulk_NetworkRange_DhcpSettings{}
+	}
+	return t.LeaseTimeSettings
 }
 func (t *SiteUpdateNetworkRangeBulk_Site_UpdateNetworkRangeBulk_NetworkRange_DhcpSettings) GetRelayGroupID() *string {
 	if t == nil {
@@ -253881,11 +258066,30 @@ func (t *SiteUpdateSiteGeneralDetails_Site) GetUpdateSiteGeneralDetails() *SiteU
 	return t.UpdateSiteGeneralDetails
 }
 
+type SiteUpdateSiteNetworkRanges_Site_UpdateSiteNetworkRanges_NetworkRange_DhcpSettings_LeaseTimeSettings struct {
+	LeaseTime int64                            "json:\"leaseTime\" graphql:\"leaseTime\""
+	TimeUnit  cato_models.LeaseTimeMeasureUnit "json:\"timeUnit\" graphql:\"timeUnit\""
+}
+
+func (t *SiteUpdateSiteNetworkRanges_Site_UpdateSiteNetworkRanges_NetworkRange_DhcpSettings_LeaseTimeSettings) GetLeaseTime() int64 {
+	if t == nil {
+		t = &SiteUpdateSiteNetworkRanges_Site_UpdateSiteNetworkRanges_NetworkRange_DhcpSettings_LeaseTimeSettings{}
+	}
+	return t.LeaseTime
+}
+func (t *SiteUpdateSiteNetworkRanges_Site_UpdateSiteNetworkRanges_NetworkRange_DhcpSettings_LeaseTimeSettings) GetTimeUnit() *cato_models.LeaseTimeMeasureUnit {
+	if t == nil {
+		t = &SiteUpdateSiteNetworkRanges_Site_UpdateSiteNetworkRanges_NetworkRange_DhcpSettings_LeaseTimeSettings{}
+	}
+	return &t.TimeUnit
+}
+
 type SiteUpdateSiteNetworkRanges_Site_UpdateSiteNetworkRanges_NetworkRange_DhcpSettings struct {
-	DhcpMicrosegmentation bool                 "json:\"dhcpMicrosegmentation\" graphql:\"dhcpMicrosegmentation\""
-	DhcpType              cato_models.DhcpType "json:\"dhcpType\" graphql:\"dhcpType\""
-	IPRange               *string              "json:\"ipRange,omitempty\" graphql:\"ipRange\""
-	RelayGroupID          *string              "json:\"relayGroupId,omitempty\" graphql:\"relayGroupId\""
+	DhcpMicrosegmentation bool                                                                                                  "json:\"dhcpMicrosegmentation\" graphql:\"dhcpMicrosegmentation\""
+	DhcpType              cato_models.DhcpType                                                                                  "json:\"dhcpType\" graphql:\"dhcpType\""
+	IPRange               *string                                                                                               "json:\"ipRange,omitempty\" graphql:\"ipRange\""
+	LeaseTimeSettings     *SiteUpdateSiteNetworkRanges_Site_UpdateSiteNetworkRanges_NetworkRange_DhcpSettings_LeaseTimeSettings "json:\"leaseTimeSettings,omitempty\" graphql:\"leaseTimeSettings\""
+	RelayGroupID          *string                                                                                               "json:\"relayGroupId,omitempty\" graphql:\"relayGroupId\""
 }
 
 func (t *SiteUpdateSiteNetworkRanges_Site_UpdateSiteNetworkRanges_NetworkRange_DhcpSettings) GetDhcpMicrosegmentation() bool {
@@ -253905,6 +258109,12 @@ func (t *SiteUpdateSiteNetworkRanges_Site_UpdateSiteNetworkRanges_NetworkRange_D
 		t = &SiteUpdateSiteNetworkRanges_Site_UpdateSiteNetworkRanges_NetworkRange_DhcpSettings{}
 	}
 	return t.IPRange
+}
+func (t *SiteUpdateSiteNetworkRanges_Site_UpdateSiteNetworkRanges_NetworkRange_DhcpSettings) GetLeaseTimeSettings() *SiteUpdateSiteNetworkRanges_Site_UpdateSiteNetworkRanges_NetworkRange_DhcpSettings_LeaseTimeSettings {
+	if t == nil {
+		t = &SiteUpdateSiteNetworkRanges_Site_UpdateSiteNetworkRanges_NetworkRange_DhcpSettings{}
+	}
+	return t.LeaseTimeSettings
 }
 func (t *SiteUpdateSiteNetworkRanges_Site_UpdateSiteNetworkRanges_NetworkRange_DhcpSettings) GetRelayGroupID() *string {
 	if t == nil {
@@ -255057,11 +259267,18 @@ func (t *SitesAddBgpPeer_Sites_AddBgpPeer_BgpPeer_DefaultActionExclusion) GetCom
 }
 
 type SitesAddBgpPeer_Sites_AddBgpPeer_BgpPeer_BfdSettingsBfdSettings struct {
+	MultiHop         bool  "json:\"multiHop\" graphql:\"multiHop\""
 	Multiplier       int64 "json:\"multiplier\" graphql:\"multiplier\""
 	ReceiveInterval  int64 "json:\"receiveInterval\" graphql:\"receiveInterval\""
 	TransmitInterval int64 "json:\"transmitInterval\" graphql:\"transmitInterval\""
 }
 
+func (t *SitesAddBgpPeer_Sites_AddBgpPeer_BgpPeer_BfdSettingsBfdSettings) GetMultiHop() bool {
+	if t == nil {
+		t = &SitesAddBgpPeer_Sites_AddBgpPeer_BgpPeer_BfdSettingsBfdSettings{}
+	}
+	return t.MultiHop
+}
 func (t *SitesAddBgpPeer_Sites_AddBgpPeer_BgpPeer_BfdSettingsBfdSettings) GetMultiplier() int64 {
 	if t == nil {
 		t = &SitesAddBgpPeer_Sites_AddBgpPeer_BgpPeer_BfdSettingsBfdSettings{}
@@ -256740,11 +260957,18 @@ func (t *SitesCreateBgpPeerBulk_Sites_CreateBgpPeerBulk_BgpPeer_DefaultActionExc
 }
 
 type SitesCreateBgpPeerBulk_Sites_CreateBgpPeerBulk_BgpPeer_BfdSettings struct {
+	MultiHop         bool  "json:\"multiHop\" graphql:\"multiHop\""
 	Multiplier       int64 "json:\"multiplier\" graphql:\"multiplier\""
 	ReceiveInterval  int64 "json:\"receiveInterval\" graphql:\"receiveInterval\""
 	TransmitInterval int64 "json:\"transmitInterval\" graphql:\"transmitInterval\""
 }
 
+func (t *SitesCreateBgpPeerBulk_Sites_CreateBgpPeerBulk_BgpPeer_BfdSettings) GetMultiHop() bool {
+	if t == nil {
+		t = &SitesCreateBgpPeerBulk_Sites_CreateBgpPeerBulk_BgpPeer_BfdSettings{}
+	}
+	return t.MultiHop
+}
 func (t *SitesCreateBgpPeerBulk_Sites_CreateBgpPeerBulk_BgpPeer_BfdSettings) GetMultiplier() int64 {
 	if t == nil {
 		t = &SitesCreateBgpPeerBulk_Sites_CreateBgpPeerBulk_BgpPeer_BfdSettings{}
@@ -256976,11 +261200,30 @@ func (t *SitesCreateBgpPeerBulk_Sites) GetCreateBgpPeerBulk() *SitesCreateBgpPee
 	return t.CreateBgpPeerBulk
 }
 
+type SitesCreateNetworkRangeBulk_Sites_CreateNetworkRangeBulk_NetworkRange_DhcpSettings_LeaseTimeSettings struct {
+	LeaseTime int64                            "json:\"leaseTime\" graphql:\"leaseTime\""
+	TimeUnit  cato_models.LeaseTimeMeasureUnit "json:\"timeUnit\" graphql:\"timeUnit\""
+}
+
+func (t *SitesCreateNetworkRangeBulk_Sites_CreateNetworkRangeBulk_NetworkRange_DhcpSettings_LeaseTimeSettings) GetLeaseTime() int64 {
+	if t == nil {
+		t = &SitesCreateNetworkRangeBulk_Sites_CreateNetworkRangeBulk_NetworkRange_DhcpSettings_LeaseTimeSettings{}
+	}
+	return t.LeaseTime
+}
+func (t *SitesCreateNetworkRangeBulk_Sites_CreateNetworkRangeBulk_NetworkRange_DhcpSettings_LeaseTimeSettings) GetTimeUnit() *cato_models.LeaseTimeMeasureUnit {
+	if t == nil {
+		t = &SitesCreateNetworkRangeBulk_Sites_CreateNetworkRangeBulk_NetworkRange_DhcpSettings_LeaseTimeSettings{}
+	}
+	return &t.TimeUnit
+}
+
 type SitesCreateNetworkRangeBulk_Sites_CreateNetworkRangeBulk_NetworkRange_DhcpSettings struct {
-	DhcpMicrosegmentation bool                 "json:\"dhcpMicrosegmentation\" graphql:\"dhcpMicrosegmentation\""
-	DhcpType              cato_models.DhcpType "json:\"dhcpType\" graphql:\"dhcpType\""
-	IPRange               *string              "json:\"ipRange,omitempty\" graphql:\"ipRange\""
-	RelayGroupID          *string              "json:\"relayGroupId,omitempty\" graphql:\"relayGroupId\""
+	DhcpMicrosegmentation bool                                                                                                  "json:\"dhcpMicrosegmentation\" graphql:\"dhcpMicrosegmentation\""
+	DhcpType              cato_models.DhcpType                                                                                  "json:\"dhcpType\" graphql:\"dhcpType\""
+	IPRange               *string                                                                                               "json:\"ipRange,omitempty\" graphql:\"ipRange\""
+	LeaseTimeSettings     *SitesCreateNetworkRangeBulk_Sites_CreateNetworkRangeBulk_NetworkRange_DhcpSettings_LeaseTimeSettings "json:\"leaseTimeSettings,omitempty\" graphql:\"leaseTimeSettings\""
+	RelayGroupID          *string                                                                                               "json:\"relayGroupId,omitempty\" graphql:\"relayGroupId\""
 }
 
 func (t *SitesCreateNetworkRangeBulk_Sites_CreateNetworkRangeBulk_NetworkRange_DhcpSettings) GetDhcpMicrosegmentation() bool {
@@ -257000,6 +261243,12 @@ func (t *SitesCreateNetworkRangeBulk_Sites_CreateNetworkRangeBulk_NetworkRange_D
 		t = &SitesCreateNetworkRangeBulk_Sites_CreateNetworkRangeBulk_NetworkRange_DhcpSettings{}
 	}
 	return t.IPRange
+}
+func (t *SitesCreateNetworkRangeBulk_Sites_CreateNetworkRangeBulk_NetworkRange_DhcpSettings) GetLeaseTimeSettings() *SitesCreateNetworkRangeBulk_Sites_CreateNetworkRangeBulk_NetworkRange_DhcpSettings_LeaseTimeSettings {
+	if t == nil {
+		t = &SitesCreateNetworkRangeBulk_Sites_CreateNetworkRangeBulk_NetworkRange_DhcpSettings{}
+	}
+	return t.LeaseTimeSettings
 }
 func (t *SitesCreateNetworkRangeBulk_Sites_CreateNetworkRangeBulk_NetworkRange_DhcpSettings) GetRelayGroupID() *string {
 	if t == nil {
@@ -257822,11 +262071,18 @@ func (t *SitesDeleteBgpPeerBulk_Sites_DeleteBgpPeerBulk_BgpPeer_DefaultActionExc
 }
 
 type SitesDeleteBgpPeerBulk_Sites_DeleteBgpPeerBulk_BgpPeer_BfdSettings struct {
+	MultiHop         bool  "json:\"multiHop\" graphql:\"multiHop\""
 	Multiplier       int64 "json:\"multiplier\" graphql:\"multiplier\""
 	ReceiveInterval  int64 "json:\"receiveInterval\" graphql:\"receiveInterval\""
 	TransmitInterval int64 "json:\"transmitInterval\" graphql:\"transmitInterval\""
 }
 
+func (t *SitesDeleteBgpPeerBulk_Sites_DeleteBgpPeerBulk_BgpPeer_BfdSettings) GetMultiHop() bool {
+	if t == nil {
+		t = &SitesDeleteBgpPeerBulk_Sites_DeleteBgpPeerBulk_BgpPeer_BfdSettings{}
+	}
+	return t.MultiHop
+}
 func (t *SitesDeleteBgpPeerBulk_Sites_DeleteBgpPeerBulk_BgpPeer_BfdSettings) GetMultiplier() int64 {
 	if t == nil {
 		t = &SitesDeleteBgpPeerBulk_Sites_DeleteBgpPeerBulk_BgpPeer_BfdSettings{}
@@ -258058,11 +262314,30 @@ func (t *SitesDeleteBgpPeerBulk_Sites) GetDeleteBgpPeerBulk() *SitesDeleteBgpPee
 	return t.DeleteBgpPeerBulk
 }
 
+type SitesDeleteNetworkRangeBulk_Sites_DeleteNetworkRangeBulk_NetworkRange_DhcpSettings_LeaseTimeSettings struct {
+	LeaseTime int64                            "json:\"leaseTime\" graphql:\"leaseTime\""
+	TimeUnit  cato_models.LeaseTimeMeasureUnit "json:\"timeUnit\" graphql:\"timeUnit\""
+}
+
+func (t *SitesDeleteNetworkRangeBulk_Sites_DeleteNetworkRangeBulk_NetworkRange_DhcpSettings_LeaseTimeSettings) GetLeaseTime() int64 {
+	if t == nil {
+		t = &SitesDeleteNetworkRangeBulk_Sites_DeleteNetworkRangeBulk_NetworkRange_DhcpSettings_LeaseTimeSettings{}
+	}
+	return t.LeaseTime
+}
+func (t *SitesDeleteNetworkRangeBulk_Sites_DeleteNetworkRangeBulk_NetworkRange_DhcpSettings_LeaseTimeSettings) GetTimeUnit() *cato_models.LeaseTimeMeasureUnit {
+	if t == nil {
+		t = &SitesDeleteNetworkRangeBulk_Sites_DeleteNetworkRangeBulk_NetworkRange_DhcpSettings_LeaseTimeSettings{}
+	}
+	return &t.TimeUnit
+}
+
 type SitesDeleteNetworkRangeBulk_Sites_DeleteNetworkRangeBulk_NetworkRange_DhcpSettings struct {
-	DhcpMicrosegmentation bool                 "json:\"dhcpMicrosegmentation\" graphql:\"dhcpMicrosegmentation\""
-	DhcpType              cato_models.DhcpType "json:\"dhcpType\" graphql:\"dhcpType\""
-	IPRange               *string              "json:\"ipRange,omitempty\" graphql:\"ipRange\""
-	RelayGroupID          *string              "json:\"relayGroupId,omitempty\" graphql:\"relayGroupId\""
+	DhcpMicrosegmentation bool                                                                                                  "json:\"dhcpMicrosegmentation\" graphql:\"dhcpMicrosegmentation\""
+	DhcpType              cato_models.DhcpType                                                                                  "json:\"dhcpType\" graphql:\"dhcpType\""
+	IPRange               *string                                                                                               "json:\"ipRange,omitempty\" graphql:\"ipRange\""
+	LeaseTimeSettings     *SitesDeleteNetworkRangeBulk_Sites_DeleteNetworkRangeBulk_NetworkRange_DhcpSettings_LeaseTimeSettings "json:\"leaseTimeSettings,omitempty\" graphql:\"leaseTimeSettings\""
+	RelayGroupID          *string                                                                                               "json:\"relayGroupId,omitempty\" graphql:\"relayGroupId\""
 }
 
 func (t *SitesDeleteNetworkRangeBulk_Sites_DeleteNetworkRangeBulk_NetworkRange_DhcpSettings) GetDhcpMicrosegmentation() bool {
@@ -258082,6 +262357,12 @@ func (t *SitesDeleteNetworkRangeBulk_Sites_DeleteNetworkRangeBulk_NetworkRange_D
 		t = &SitesDeleteNetworkRangeBulk_Sites_DeleteNetworkRangeBulk_NetworkRange_DhcpSettings{}
 	}
 	return t.IPRange
+}
+func (t *SitesDeleteNetworkRangeBulk_Sites_DeleteNetworkRangeBulk_NetworkRange_DhcpSettings) GetLeaseTimeSettings() *SitesDeleteNetworkRangeBulk_Sites_DeleteNetworkRangeBulk_NetworkRange_DhcpSettings_LeaseTimeSettings {
+	if t == nil {
+		t = &SitesDeleteNetworkRangeBulk_Sites_DeleteNetworkRangeBulk_NetworkRange_DhcpSettings{}
+	}
+	return t.LeaseTimeSettings
 }
 func (t *SitesDeleteNetworkRangeBulk_Sites_DeleteNetworkRangeBulk_NetworkRange_DhcpSettings) GetRelayGroupID() *string {
 	if t == nil {
@@ -258595,11 +262876,18 @@ func (t *SitesRemoveBgpPeer_Sites_RemoveBgpPeer_BgpPeer_DefaultActionExclusion) 
 }
 
 type SitesRemoveBgpPeer_Sites_RemoveBgpPeer_BgpPeer_BfdSettingsBfdSettings struct {
+	MultiHop         bool  "json:\"multiHop\" graphql:\"multiHop\""
 	Multiplier       int64 "json:\"multiplier\" graphql:\"multiplier\""
 	ReceiveInterval  int64 "json:\"receiveInterval\" graphql:\"receiveInterval\""
 	TransmitInterval int64 "json:\"transmitInterval\" graphql:\"transmitInterval\""
 }
 
+func (t *SitesRemoveBgpPeer_Sites_RemoveBgpPeer_BgpPeer_BfdSettingsBfdSettings) GetMultiHop() bool {
+	if t == nil {
+		t = &SitesRemoveBgpPeer_Sites_RemoveBgpPeer_BgpPeer_BfdSettingsBfdSettings{}
+	}
+	return t.MultiHop
+}
 func (t *SitesRemoveBgpPeer_Sites_RemoveBgpPeer_BgpPeer_BfdSettingsBfdSettings) GetMultiplier() int64 {
 	if t == nil {
 		t = &SitesRemoveBgpPeer_Sites_RemoveBgpPeer_BgpPeer_BfdSettingsBfdSettings{}
@@ -261354,11 +265642,18 @@ func (t *SitesUpdateBgpPeer_Sites_UpdateBgpPeer_BgpPeer_DefaultActionExclusion) 
 }
 
 type SitesUpdateBgpPeer_Sites_UpdateBgpPeer_BgpPeer_BfdSettingsBfdSettings struct {
+	MultiHop         bool  "json:\"multiHop\" graphql:\"multiHop\""
 	Multiplier       int64 "json:\"multiplier\" graphql:\"multiplier\""
 	ReceiveInterval  int64 "json:\"receiveInterval\" graphql:\"receiveInterval\""
 	TransmitInterval int64 "json:\"transmitInterval\" graphql:\"transmitInterval\""
 }
 
+func (t *SitesUpdateBgpPeer_Sites_UpdateBgpPeer_BgpPeer_BfdSettingsBfdSettings) GetMultiHop() bool {
+	if t == nil {
+		t = &SitesUpdateBgpPeer_Sites_UpdateBgpPeer_BgpPeer_BfdSettingsBfdSettings{}
+	}
+	return t.MultiHop
+}
 func (t *SitesUpdateBgpPeer_Sites_UpdateBgpPeer_BgpPeer_BfdSettingsBfdSettings) GetMultiplier() int64 {
 	if t == nil {
 		t = &SitesUpdateBgpPeer_Sites_UpdateBgpPeer_BgpPeer_BfdSettingsBfdSettings{}
@@ -261870,11 +266165,18 @@ func (t *SitesUpdateBgpPeerBulk_Sites_UpdateBgpPeerBulk_BgpPeer_DefaultActionExc
 }
 
 type SitesUpdateBgpPeerBulk_Sites_UpdateBgpPeerBulk_BgpPeer_BfdSettings struct {
+	MultiHop         bool  "json:\"multiHop\" graphql:\"multiHop\""
 	Multiplier       int64 "json:\"multiplier\" graphql:\"multiplier\""
 	ReceiveInterval  int64 "json:\"receiveInterval\" graphql:\"receiveInterval\""
 	TransmitInterval int64 "json:\"transmitInterval\" graphql:\"transmitInterval\""
 }
 
+func (t *SitesUpdateBgpPeerBulk_Sites_UpdateBgpPeerBulk_BgpPeer_BfdSettings) GetMultiHop() bool {
+	if t == nil {
+		t = &SitesUpdateBgpPeerBulk_Sites_UpdateBgpPeerBulk_BgpPeer_BfdSettings{}
+	}
+	return t.MultiHop
+}
 func (t *SitesUpdateBgpPeerBulk_Sites_UpdateBgpPeerBulk_BgpPeer_BfdSettings) GetMultiplier() int64 {
 	if t == nil {
 		t = &SitesUpdateBgpPeerBulk_Sites_UpdateBgpPeerBulk_BgpPeer_BfdSettings{}
@@ -262386,11 +266688,18 @@ func (t *SitesUpdateBgpPeers_Sites_UpdateBgpPeers_BgpPeer_DefaultActionExclusion
 }
 
 type SitesUpdateBgpPeers_Sites_UpdateBgpPeers_BgpPeer_BfdSettings struct {
+	MultiHop         bool  "json:\"multiHop\" graphql:\"multiHop\""
 	Multiplier       int64 "json:\"multiplier\" graphql:\"multiplier\""
 	ReceiveInterval  int64 "json:\"receiveInterval\" graphql:\"receiveInterval\""
 	TransmitInterval int64 "json:\"transmitInterval\" graphql:\"transmitInterval\""
 }
 
+func (t *SitesUpdateBgpPeers_Sites_UpdateBgpPeers_BgpPeer_BfdSettings) GetMultiHop() bool {
+	if t == nil {
+		t = &SitesUpdateBgpPeers_Sites_UpdateBgpPeers_BgpPeer_BfdSettings{}
+	}
+	return t.MultiHop
+}
 func (t *SitesUpdateBgpPeers_Sites_UpdateBgpPeers_BgpPeer_BfdSettings) GetMultiplier() int64 {
 	if t == nil {
 		t = &SitesUpdateBgpPeers_Sites_UpdateBgpPeers_BgpPeer_BfdSettings{}
@@ -262825,11 +267134,30 @@ func (t *SitesUpdateNetworkRange_Sites) GetUpdateNetworkRange() *SitesUpdateNetw
 	return t.UpdateNetworkRange
 }
 
+type SitesUpdateNetworkRangeBulk_Sites_UpdateNetworkRangeBulk_NetworkRange_DhcpSettings_LeaseTimeSettings struct {
+	LeaseTime int64                            "json:\"leaseTime\" graphql:\"leaseTime\""
+	TimeUnit  cato_models.LeaseTimeMeasureUnit "json:\"timeUnit\" graphql:\"timeUnit\""
+}
+
+func (t *SitesUpdateNetworkRangeBulk_Sites_UpdateNetworkRangeBulk_NetworkRange_DhcpSettings_LeaseTimeSettings) GetLeaseTime() int64 {
+	if t == nil {
+		t = &SitesUpdateNetworkRangeBulk_Sites_UpdateNetworkRangeBulk_NetworkRange_DhcpSettings_LeaseTimeSettings{}
+	}
+	return t.LeaseTime
+}
+func (t *SitesUpdateNetworkRangeBulk_Sites_UpdateNetworkRangeBulk_NetworkRange_DhcpSettings_LeaseTimeSettings) GetTimeUnit() *cato_models.LeaseTimeMeasureUnit {
+	if t == nil {
+		t = &SitesUpdateNetworkRangeBulk_Sites_UpdateNetworkRangeBulk_NetworkRange_DhcpSettings_LeaseTimeSettings{}
+	}
+	return &t.TimeUnit
+}
+
 type SitesUpdateNetworkRangeBulk_Sites_UpdateNetworkRangeBulk_NetworkRange_DhcpSettings struct {
-	DhcpMicrosegmentation bool                 "json:\"dhcpMicrosegmentation\" graphql:\"dhcpMicrosegmentation\""
-	DhcpType              cato_models.DhcpType "json:\"dhcpType\" graphql:\"dhcpType\""
-	IPRange               *string              "json:\"ipRange,omitempty\" graphql:\"ipRange\""
-	RelayGroupID          *string              "json:\"relayGroupId,omitempty\" graphql:\"relayGroupId\""
+	DhcpMicrosegmentation bool                                                                                                  "json:\"dhcpMicrosegmentation\" graphql:\"dhcpMicrosegmentation\""
+	DhcpType              cato_models.DhcpType                                                                                  "json:\"dhcpType\" graphql:\"dhcpType\""
+	IPRange               *string                                                                                               "json:\"ipRange,omitempty\" graphql:\"ipRange\""
+	LeaseTimeSettings     *SitesUpdateNetworkRangeBulk_Sites_UpdateNetworkRangeBulk_NetworkRange_DhcpSettings_LeaseTimeSettings "json:\"leaseTimeSettings,omitempty\" graphql:\"leaseTimeSettings\""
+	RelayGroupID          *string                                                                                               "json:\"relayGroupId,omitempty\" graphql:\"relayGroupId\""
 }
 
 func (t *SitesUpdateNetworkRangeBulk_Sites_UpdateNetworkRangeBulk_NetworkRange_DhcpSettings) GetDhcpMicrosegmentation() bool {
@@ -262849,6 +267177,12 @@ func (t *SitesUpdateNetworkRangeBulk_Sites_UpdateNetworkRangeBulk_NetworkRange_D
 		t = &SitesUpdateNetworkRangeBulk_Sites_UpdateNetworkRangeBulk_NetworkRange_DhcpSettings{}
 	}
 	return t.IPRange
+}
+func (t *SitesUpdateNetworkRangeBulk_Sites_UpdateNetworkRangeBulk_NetworkRange_DhcpSettings) GetLeaseTimeSettings() *SitesUpdateNetworkRangeBulk_Sites_UpdateNetworkRangeBulk_NetworkRange_DhcpSettings_LeaseTimeSettings {
+	if t == nil {
+		t = &SitesUpdateNetworkRangeBulk_Sites_UpdateNetworkRangeBulk_NetworkRange_DhcpSettings{}
+	}
+	return t.LeaseTimeSettings
 }
 func (t *SitesUpdateNetworkRangeBulk_Sites_UpdateNetworkRangeBulk_NetworkRange_DhcpSettings) GetRelayGroupID() *string {
 	if t == nil {
@@ -264050,11 +268384,30 @@ func (t *SitesUpdateSiteGeneralDetails_Sites) GetUpdateSiteGeneralDetails() *Sit
 	return t.UpdateSiteGeneralDetails
 }
 
+type SitesUpdateSiteNetworkRanges_Sites_UpdateSiteNetworkRanges_NetworkRange_DhcpSettings_LeaseTimeSettings struct {
+	LeaseTime int64                            "json:\"leaseTime\" graphql:\"leaseTime\""
+	TimeUnit  cato_models.LeaseTimeMeasureUnit "json:\"timeUnit\" graphql:\"timeUnit\""
+}
+
+func (t *SitesUpdateSiteNetworkRanges_Sites_UpdateSiteNetworkRanges_NetworkRange_DhcpSettings_LeaseTimeSettings) GetLeaseTime() int64 {
+	if t == nil {
+		t = &SitesUpdateSiteNetworkRanges_Sites_UpdateSiteNetworkRanges_NetworkRange_DhcpSettings_LeaseTimeSettings{}
+	}
+	return t.LeaseTime
+}
+func (t *SitesUpdateSiteNetworkRanges_Sites_UpdateSiteNetworkRanges_NetworkRange_DhcpSettings_LeaseTimeSettings) GetTimeUnit() *cato_models.LeaseTimeMeasureUnit {
+	if t == nil {
+		t = &SitesUpdateSiteNetworkRanges_Sites_UpdateSiteNetworkRanges_NetworkRange_DhcpSettings_LeaseTimeSettings{}
+	}
+	return &t.TimeUnit
+}
+
 type SitesUpdateSiteNetworkRanges_Sites_UpdateSiteNetworkRanges_NetworkRange_DhcpSettings struct {
-	DhcpMicrosegmentation bool                 "json:\"dhcpMicrosegmentation\" graphql:\"dhcpMicrosegmentation\""
-	DhcpType              cato_models.DhcpType "json:\"dhcpType\" graphql:\"dhcpType\""
-	IPRange               *string              "json:\"ipRange,omitempty\" graphql:\"ipRange\""
-	RelayGroupID          *string              "json:\"relayGroupId,omitempty\" graphql:\"relayGroupId\""
+	DhcpMicrosegmentation bool                                                                                                    "json:\"dhcpMicrosegmentation\" graphql:\"dhcpMicrosegmentation\""
+	DhcpType              cato_models.DhcpType                                                                                    "json:\"dhcpType\" graphql:\"dhcpType\""
+	IPRange               *string                                                                                                 "json:\"ipRange,omitempty\" graphql:\"ipRange\""
+	LeaseTimeSettings     *SitesUpdateSiteNetworkRanges_Sites_UpdateSiteNetworkRanges_NetworkRange_DhcpSettings_LeaseTimeSettings "json:\"leaseTimeSettings,omitempty\" graphql:\"leaseTimeSettings\""
+	RelayGroupID          *string                                                                                                 "json:\"relayGroupId,omitempty\" graphql:\"relayGroupId\""
 }
 
 func (t *SitesUpdateSiteNetworkRanges_Sites_UpdateSiteNetworkRanges_NetworkRange_DhcpSettings) GetDhcpMicrosegmentation() bool {
@@ -264074,6 +268427,12 @@ func (t *SitesUpdateSiteNetworkRanges_Sites_UpdateSiteNetworkRanges_NetworkRange
 		t = &SitesUpdateSiteNetworkRanges_Sites_UpdateSiteNetworkRanges_NetworkRange_DhcpSettings{}
 	}
 	return t.IPRange
+}
+func (t *SitesUpdateSiteNetworkRanges_Sites_UpdateSiteNetworkRanges_NetworkRange_DhcpSettings) GetLeaseTimeSettings() *SitesUpdateSiteNetworkRanges_Sites_UpdateSiteNetworkRanges_NetworkRange_DhcpSettings_LeaseTimeSettings {
+	if t == nil {
+		t = &SitesUpdateSiteNetworkRanges_Sites_UpdateSiteNetworkRanges_NetworkRange_DhcpSettings{}
+	}
+	return t.LeaseTimeSettings
 }
 func (t *SitesUpdateSiteNetworkRanges_Sites_UpdateSiteNetworkRanges_NetworkRange_DhcpSettings) GetRelayGroupID() *string {
 	if t == nil {
@@ -312911,6 +317270,428 @@ func (t *RemotePortFwdPolicy_Policy) GetRemotePortFwd() *RemotePortFwdPolicy_Pol
 	return t.RemotePortFwd
 }
 
+type PolicySdpStaticIpAllocationPolicy_Policy_SdpStaticIPAllocation_Policy_Rules_Audit struct {
+	UpdatedBy   string "json:\"updatedBy\" graphql:\"updatedBy\""
+	UpdatedTime string "json:\"updatedTime\" graphql:\"updatedTime\""
+}
+
+func (t *PolicySdpStaticIpAllocationPolicy_Policy_SdpStaticIPAllocation_Policy_Rules_Audit) GetUpdatedBy() string {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationPolicy_Policy_SdpStaticIPAllocation_Policy_Rules_Audit{}
+	}
+	return t.UpdatedBy
+}
+func (t *PolicySdpStaticIpAllocationPolicy_Policy_SdpStaticIPAllocation_Policy_Rules_Audit) GetUpdatedTime() string {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationPolicy_Policy_SdpStaticIPAllocation_Policy_Rules_Audit{}
+	}
+	return t.UpdatedTime
+}
+
+type PolicySdpStaticIpAllocationPolicy_Policy_SdpStaticIPAllocation_Policy_Rules_Metadata_Lock struct {
+	LockingAdminEmail string "json:\"lockingAdminEmail\" graphql:\"lockingAdminEmail\""
+	LockingRevisionID string "json:\"lockingRevisionId\" graphql:\"lockingRevisionId\""
+	LockingTime       string "json:\"lockingTime\" graphql:\"lockingTime\""
+}
+
+func (t *PolicySdpStaticIpAllocationPolicy_Policy_SdpStaticIPAllocation_Policy_Rules_Metadata_Lock) GetLockingAdminEmail() string {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationPolicy_Policy_SdpStaticIPAllocation_Policy_Rules_Metadata_Lock{}
+	}
+	return t.LockingAdminEmail
+}
+func (t *PolicySdpStaticIpAllocationPolicy_Policy_SdpStaticIPAllocation_Policy_Rules_Metadata_Lock) GetLockingRevisionID() string {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationPolicy_Policy_SdpStaticIPAllocation_Policy_Rules_Metadata_Lock{}
+	}
+	return t.LockingRevisionID
+}
+func (t *PolicySdpStaticIpAllocationPolicy_Policy_SdpStaticIPAllocation_Policy_Rules_Metadata_Lock) GetLockingTime() string {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationPolicy_Policy_SdpStaticIPAllocation_Policy_Rules_Metadata_Lock{}
+	}
+	return t.LockingTime
+}
+
+type PolicySdpStaticIpAllocationPolicy_Policy_SdpStaticIPAllocation_Policy_Rules_Metadata struct {
+	Lock *PolicySdpStaticIpAllocationPolicy_Policy_SdpStaticIPAllocation_Policy_Rules_Metadata_Lock "json:\"lock,omitempty\" graphql:\"lock\""
+}
+
+func (t *PolicySdpStaticIpAllocationPolicy_Policy_SdpStaticIPAllocation_Policy_Rules_Metadata) GetLock() *PolicySdpStaticIpAllocationPolicy_Policy_SdpStaticIPAllocation_Policy_Rules_Metadata_Lock {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationPolicy_Policy_SdpStaticIPAllocation_Policy_Rules_Metadata{}
+	}
+	return t.Lock
+}
+
+type PolicySdpStaticIpAllocationPolicy_Policy_SdpStaticIPAllocation_Policy_Rules_Rule_Section struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicySdpStaticIpAllocationPolicy_Policy_SdpStaticIPAllocation_Policy_Rules_Rule_Section) GetID() string {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationPolicy_Policy_SdpStaticIPAllocation_Policy_Rules_Rule_Section{}
+	}
+	return t.ID
+}
+func (t *PolicySdpStaticIpAllocationPolicy_Policy_SdpStaticIPAllocation_Policy_Rules_Rule_Section) GetName() string {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationPolicy_Policy_SdpStaticIPAllocation_Policy_Rules_Rule_Section{}
+	}
+	return t.Name
+}
+
+type PolicySdpStaticIpAllocationPolicy_Policy_SdpStaticIPAllocation_Policy_Rules_Rule_Source_User struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicySdpStaticIpAllocationPolicy_Policy_SdpStaticIPAllocation_Policy_Rules_Rule_Source_User) GetID() string {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationPolicy_Policy_SdpStaticIPAllocation_Policy_Rules_Rule_Source_User{}
+	}
+	return t.ID
+}
+func (t *PolicySdpStaticIpAllocationPolicy_Policy_SdpStaticIPAllocation_Policy_Rules_Rule_Source_User) GetName() string {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationPolicy_Policy_SdpStaticIPAllocation_Policy_Rules_Rule_Source_User{}
+	}
+	return t.Name
+}
+
+type PolicySdpStaticIpAllocationPolicy_Policy_SdpStaticIPAllocation_Policy_Rules_Rule_Source struct {
+	User *PolicySdpStaticIpAllocationPolicy_Policy_SdpStaticIPAllocation_Policy_Rules_Rule_Source_User "json:\"user,omitempty\" graphql:\"user\""
+}
+
+func (t *PolicySdpStaticIpAllocationPolicy_Policy_SdpStaticIPAllocation_Policy_Rules_Rule_Source) GetUser() *PolicySdpStaticIpAllocationPolicy_Policy_SdpStaticIPAllocation_Policy_Rules_Rule_Source_User {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationPolicy_Policy_SdpStaticIPAllocation_Policy_Rules_Rule_Source{}
+	}
+	return t.User
+}
+
+type PolicySdpStaticIpAllocationPolicy_Policy_SdpStaticIPAllocation_Policy_Rules_Rule struct {
+	Description string                                                                                   "json:\"description\" graphql:\"description\""
+	Enabled     bool                                                                                     "json:\"enabled\" graphql:\"enabled\""
+	ID          string                                                                                   "json:\"id\" graphql:\"id\""
+	Index       int64                                                                                    "json:\"index\" graphql:\"index\""
+	IP          string                                                                                   "json:\"ip\" graphql:\"ip\""
+	Name        string                                                                                   "json:\"name\" graphql:\"name\""
+	Section     PolicySdpStaticIpAllocationPolicy_Policy_SdpStaticIPAllocation_Policy_Rules_Rule_Section "json:\"section\" graphql:\"section\""
+	Source      PolicySdpStaticIpAllocationPolicy_Policy_SdpStaticIPAllocation_Policy_Rules_Rule_Source  "json:\"source\" graphql:\"source\""
+}
+
+func (t *PolicySdpStaticIpAllocationPolicy_Policy_SdpStaticIPAllocation_Policy_Rules_Rule) GetDescription() string {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationPolicy_Policy_SdpStaticIPAllocation_Policy_Rules_Rule{}
+	}
+	return t.Description
+}
+func (t *PolicySdpStaticIpAllocationPolicy_Policy_SdpStaticIPAllocation_Policy_Rules_Rule) GetEnabled() bool {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationPolicy_Policy_SdpStaticIPAllocation_Policy_Rules_Rule{}
+	}
+	return t.Enabled
+}
+func (t *PolicySdpStaticIpAllocationPolicy_Policy_SdpStaticIPAllocation_Policy_Rules_Rule) GetID() string {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationPolicy_Policy_SdpStaticIPAllocation_Policy_Rules_Rule{}
+	}
+	return t.ID
+}
+func (t *PolicySdpStaticIpAllocationPolicy_Policy_SdpStaticIPAllocation_Policy_Rules_Rule) GetIndex() int64 {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationPolicy_Policy_SdpStaticIPAllocation_Policy_Rules_Rule{}
+	}
+	return t.Index
+}
+func (t *PolicySdpStaticIpAllocationPolicy_Policy_SdpStaticIPAllocation_Policy_Rules_Rule) GetIP() string {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationPolicy_Policy_SdpStaticIPAllocation_Policy_Rules_Rule{}
+	}
+	return t.IP
+}
+func (t *PolicySdpStaticIpAllocationPolicy_Policy_SdpStaticIPAllocation_Policy_Rules_Rule) GetName() string {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationPolicy_Policy_SdpStaticIPAllocation_Policy_Rules_Rule{}
+	}
+	return t.Name
+}
+func (t *PolicySdpStaticIpAllocationPolicy_Policy_SdpStaticIPAllocation_Policy_Rules_Rule) GetSection() *PolicySdpStaticIpAllocationPolicy_Policy_SdpStaticIPAllocation_Policy_Rules_Rule_Section {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationPolicy_Policy_SdpStaticIPAllocation_Policy_Rules_Rule{}
+	}
+	return &t.Section
+}
+func (t *PolicySdpStaticIpAllocationPolicy_Policy_SdpStaticIPAllocation_Policy_Rules_Rule) GetSource() *PolicySdpStaticIpAllocationPolicy_Policy_SdpStaticIPAllocation_Policy_Rules_Rule_Source {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationPolicy_Policy_SdpStaticIPAllocation_Policy_Rules_Rule{}
+	}
+	return &t.Source
+}
+
+type PolicySdpStaticIpAllocationPolicy_Policy_SdpStaticIPAllocation_Policy_Rules struct {
+	Audit      PolicySdpStaticIpAllocationPolicy_Policy_SdpStaticIPAllocation_Policy_Rules_Audit     "json:\"audit\" graphql:\"audit\""
+	Metadata   *PolicySdpStaticIpAllocationPolicy_Policy_SdpStaticIPAllocation_Policy_Rules_Metadata "json:\"metadata,omitempty\" graphql:\"metadata\""
+	Properties []cato_models.PolicyElementPropertiesEnum                                             "json:\"properties\" graphql:\"properties\""
+	Rule       PolicySdpStaticIpAllocationPolicy_Policy_SdpStaticIPAllocation_Policy_Rules_Rule      "json:\"rule\" graphql:\"rule\""
+}
+
+func (t *PolicySdpStaticIpAllocationPolicy_Policy_SdpStaticIPAllocation_Policy_Rules) GetAudit() *PolicySdpStaticIpAllocationPolicy_Policy_SdpStaticIPAllocation_Policy_Rules_Audit {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationPolicy_Policy_SdpStaticIPAllocation_Policy_Rules{}
+	}
+	return &t.Audit
+}
+func (t *PolicySdpStaticIpAllocationPolicy_Policy_SdpStaticIPAllocation_Policy_Rules) GetMetadata() *PolicySdpStaticIpAllocationPolicy_Policy_SdpStaticIPAllocation_Policy_Rules_Metadata {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationPolicy_Policy_SdpStaticIPAllocation_Policy_Rules{}
+	}
+	return t.Metadata
+}
+func (t *PolicySdpStaticIpAllocationPolicy_Policy_SdpStaticIPAllocation_Policy_Rules) GetProperties() []cato_models.PolicyElementPropertiesEnum {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationPolicy_Policy_SdpStaticIPAllocation_Policy_Rules{}
+	}
+	return t.Properties
+}
+func (t *PolicySdpStaticIpAllocationPolicy_Policy_SdpStaticIPAllocation_Policy_Rules) GetRule() *PolicySdpStaticIpAllocationPolicy_Policy_SdpStaticIPAllocation_Policy_Rules_Rule {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationPolicy_Policy_SdpStaticIPAllocation_Policy_Rules{}
+	}
+	return &t.Rule
+}
+
+type PolicySdpStaticIpAllocationPolicy_Policy_SdpStaticIPAllocation_Policy_Sections_Audit struct {
+	UpdatedBy   string "json:\"updatedBy\" graphql:\"updatedBy\""
+	UpdatedTime string "json:\"updatedTime\" graphql:\"updatedTime\""
+}
+
+func (t *PolicySdpStaticIpAllocationPolicy_Policy_SdpStaticIPAllocation_Policy_Sections_Audit) GetUpdatedBy() string {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationPolicy_Policy_SdpStaticIPAllocation_Policy_Sections_Audit{}
+	}
+	return t.UpdatedBy
+}
+func (t *PolicySdpStaticIpAllocationPolicy_Policy_SdpStaticIPAllocation_Policy_Sections_Audit) GetUpdatedTime() string {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationPolicy_Policy_SdpStaticIPAllocation_Policy_Sections_Audit{}
+	}
+	return t.UpdatedTime
+}
+
+type PolicySdpStaticIpAllocationPolicy_Policy_SdpStaticIPAllocation_Policy_Sections_Metadata_Lock struct {
+	LockingAdminEmail string "json:\"lockingAdminEmail\" graphql:\"lockingAdminEmail\""
+	LockingRevisionID string "json:\"lockingRevisionId\" graphql:\"lockingRevisionId\""
+	LockingTime       string "json:\"lockingTime\" graphql:\"lockingTime\""
+}
+
+func (t *PolicySdpStaticIpAllocationPolicy_Policy_SdpStaticIPAllocation_Policy_Sections_Metadata_Lock) GetLockingAdminEmail() string {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationPolicy_Policy_SdpStaticIPAllocation_Policy_Sections_Metadata_Lock{}
+	}
+	return t.LockingAdminEmail
+}
+func (t *PolicySdpStaticIpAllocationPolicy_Policy_SdpStaticIPAllocation_Policy_Sections_Metadata_Lock) GetLockingRevisionID() string {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationPolicy_Policy_SdpStaticIPAllocation_Policy_Sections_Metadata_Lock{}
+	}
+	return t.LockingRevisionID
+}
+func (t *PolicySdpStaticIpAllocationPolicy_Policy_SdpStaticIPAllocation_Policy_Sections_Metadata_Lock) GetLockingTime() string {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationPolicy_Policy_SdpStaticIPAllocation_Policy_Sections_Metadata_Lock{}
+	}
+	return t.LockingTime
+}
+
+type PolicySdpStaticIpAllocationPolicy_Policy_SdpStaticIPAllocation_Policy_Sections_Metadata struct {
+	Lock *PolicySdpStaticIpAllocationPolicy_Policy_SdpStaticIPAllocation_Policy_Sections_Metadata_Lock "json:\"lock,omitempty\" graphql:\"lock\""
+}
+
+func (t *PolicySdpStaticIpAllocationPolicy_Policy_SdpStaticIPAllocation_Policy_Sections_Metadata) GetLock() *PolicySdpStaticIpAllocationPolicy_Policy_SdpStaticIPAllocation_Policy_Sections_Metadata_Lock {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationPolicy_Policy_SdpStaticIPAllocation_Policy_Sections_Metadata{}
+	}
+	return t.Lock
+}
+
+type PolicySdpStaticIpAllocationPolicy_Policy_SdpStaticIPAllocation_Policy_Sections_Section struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PolicySdpStaticIpAllocationPolicy_Policy_SdpStaticIPAllocation_Policy_Sections_Section) GetID() string {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationPolicy_Policy_SdpStaticIPAllocation_Policy_Sections_Section{}
+	}
+	return t.ID
+}
+func (t *PolicySdpStaticIpAllocationPolicy_Policy_SdpStaticIPAllocation_Policy_Sections_Section) GetName() string {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationPolicy_Policy_SdpStaticIPAllocation_Policy_Sections_Section{}
+	}
+	return t.Name
+}
+
+type PolicySdpStaticIpAllocationPolicy_Policy_SdpStaticIPAllocation_Policy_Sections struct {
+	Audit      PolicySdpStaticIpAllocationPolicy_Policy_SdpStaticIPAllocation_Policy_Sections_Audit     "json:\"audit\" graphql:\"audit\""
+	Metadata   *PolicySdpStaticIpAllocationPolicy_Policy_SdpStaticIPAllocation_Policy_Sections_Metadata "json:\"metadata,omitempty\" graphql:\"metadata\""
+	Properties []cato_models.PolicyElementPropertiesEnum                                                "json:\"properties\" graphql:\"properties\""
+	Section    PolicySdpStaticIpAllocationPolicy_Policy_SdpStaticIPAllocation_Policy_Sections_Section   "json:\"section\" graphql:\"section\""
+}
+
+func (t *PolicySdpStaticIpAllocationPolicy_Policy_SdpStaticIPAllocation_Policy_Sections) GetAudit() *PolicySdpStaticIpAllocationPolicy_Policy_SdpStaticIPAllocation_Policy_Sections_Audit {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationPolicy_Policy_SdpStaticIPAllocation_Policy_Sections{}
+	}
+	return &t.Audit
+}
+func (t *PolicySdpStaticIpAllocationPolicy_Policy_SdpStaticIPAllocation_Policy_Sections) GetMetadata() *PolicySdpStaticIpAllocationPolicy_Policy_SdpStaticIPAllocation_Policy_Sections_Metadata {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationPolicy_Policy_SdpStaticIPAllocation_Policy_Sections{}
+	}
+	return t.Metadata
+}
+func (t *PolicySdpStaticIpAllocationPolicy_Policy_SdpStaticIPAllocation_Policy_Sections) GetProperties() []cato_models.PolicyElementPropertiesEnum {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationPolicy_Policy_SdpStaticIPAllocation_Policy_Sections{}
+	}
+	return t.Properties
+}
+func (t *PolicySdpStaticIpAllocationPolicy_Policy_SdpStaticIPAllocation_Policy_Sections) GetSection() *PolicySdpStaticIpAllocationPolicy_Policy_SdpStaticIPAllocation_Policy_Sections_Section {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationPolicy_Policy_SdpStaticIPAllocation_Policy_Sections{}
+	}
+	return &t.Section
+}
+
+type PolicySdpStaticIpAllocationPolicy_Policy_SdpStaticIPAllocation_Policy_Audit struct {
+	PublishedBy   string "json:\"publishedBy\" graphql:\"publishedBy\""
+	PublishedTime string "json:\"publishedTime\" graphql:\"publishedTime\""
+}
+
+func (t *PolicySdpStaticIpAllocationPolicy_Policy_SdpStaticIPAllocation_Policy_Audit) GetPublishedBy() string {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationPolicy_Policy_SdpStaticIPAllocation_Policy_Audit{}
+	}
+	return t.PublishedBy
+}
+func (t *PolicySdpStaticIpAllocationPolicy_Policy_SdpStaticIPAllocation_Policy_Audit) GetPublishedTime() string {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationPolicy_Policy_SdpStaticIPAllocation_Policy_Audit{}
+	}
+	return t.PublishedTime
+}
+
+type PolicySdpStaticIpAllocationPolicy_Policy_SdpStaticIPAllocation_Policy_Revision struct {
+	Changes     int64  "json:\"changes\" graphql:\"changes\""
+	CreatedTime string "json:\"createdTime\" graphql:\"createdTime\""
+	Description string "json:\"description\" graphql:\"description\""
+	ID          string "json:\"id\" graphql:\"id\""
+	Name        string "json:\"name\" graphql:\"name\""
+	UpdatedTime string "json:\"updatedTime\" graphql:\"updatedTime\""
+}
+
+func (t *PolicySdpStaticIpAllocationPolicy_Policy_SdpStaticIPAllocation_Policy_Revision) GetChanges() int64 {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationPolicy_Policy_SdpStaticIPAllocation_Policy_Revision{}
+	}
+	return t.Changes
+}
+func (t *PolicySdpStaticIpAllocationPolicy_Policy_SdpStaticIPAllocation_Policy_Revision) GetCreatedTime() string {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationPolicy_Policy_SdpStaticIPAllocation_Policy_Revision{}
+	}
+	return t.CreatedTime
+}
+func (t *PolicySdpStaticIpAllocationPolicy_Policy_SdpStaticIPAllocation_Policy_Revision) GetDescription() string {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationPolicy_Policy_SdpStaticIPAllocation_Policy_Revision{}
+	}
+	return t.Description
+}
+func (t *PolicySdpStaticIpAllocationPolicy_Policy_SdpStaticIPAllocation_Policy_Revision) GetID() string {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationPolicy_Policy_SdpStaticIPAllocation_Policy_Revision{}
+	}
+	return t.ID
+}
+func (t *PolicySdpStaticIpAllocationPolicy_Policy_SdpStaticIPAllocation_Policy_Revision) GetName() string {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationPolicy_Policy_SdpStaticIPAllocation_Policy_Revision{}
+	}
+	return t.Name
+}
+func (t *PolicySdpStaticIpAllocationPolicy_Policy_SdpStaticIPAllocation_Policy_Revision) GetUpdatedTime() string {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationPolicy_Policy_SdpStaticIPAllocation_Policy_Revision{}
+	}
+	return t.UpdatedTime
+}
+
+type PolicySdpStaticIpAllocationPolicy_Policy_SdpStaticIPAllocation_Policy struct {
+	Audit    *PolicySdpStaticIpAllocationPolicy_Policy_SdpStaticIPAllocation_Policy_Audit      "json:\"audit,omitempty\" graphql:\"audit\""
+	Enabled  bool                                                                              "json:\"enabled\" graphql:\"enabled\""
+	Revision *PolicySdpStaticIpAllocationPolicy_Policy_SdpStaticIPAllocation_Policy_Revision   "json:\"revision,omitempty\" graphql:\"revision\""
+	Rules    []*PolicySdpStaticIpAllocationPolicy_Policy_SdpStaticIPAllocation_Policy_Rules    "json:\"rules\" graphql:\"rules\""
+	Sections []*PolicySdpStaticIpAllocationPolicy_Policy_SdpStaticIPAllocation_Policy_Sections "json:\"sections\" graphql:\"sections\""
+}
+
+func (t *PolicySdpStaticIpAllocationPolicy_Policy_SdpStaticIPAllocation_Policy) GetAudit() *PolicySdpStaticIpAllocationPolicy_Policy_SdpStaticIPAllocation_Policy_Audit {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationPolicy_Policy_SdpStaticIPAllocation_Policy{}
+	}
+	return t.Audit
+}
+func (t *PolicySdpStaticIpAllocationPolicy_Policy_SdpStaticIPAllocation_Policy) GetEnabled() bool {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationPolicy_Policy_SdpStaticIPAllocation_Policy{}
+	}
+	return t.Enabled
+}
+func (t *PolicySdpStaticIpAllocationPolicy_Policy_SdpStaticIPAllocation_Policy) GetRevision() *PolicySdpStaticIpAllocationPolicy_Policy_SdpStaticIPAllocation_Policy_Revision {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationPolicy_Policy_SdpStaticIPAllocation_Policy{}
+	}
+	return t.Revision
+}
+func (t *PolicySdpStaticIpAllocationPolicy_Policy_SdpStaticIPAllocation_Policy) GetRules() []*PolicySdpStaticIpAllocationPolicy_Policy_SdpStaticIPAllocation_Policy_Rules {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationPolicy_Policy_SdpStaticIPAllocation_Policy{}
+	}
+	return t.Rules
+}
+func (t *PolicySdpStaticIpAllocationPolicy_Policy_SdpStaticIPAllocation_Policy) GetSections() []*PolicySdpStaticIpAllocationPolicy_Policy_SdpStaticIPAllocation_Policy_Sections {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationPolicy_Policy_SdpStaticIPAllocation_Policy{}
+	}
+	return t.Sections
+}
+
+type PolicySdpStaticIpAllocationPolicy_Policy_SdpStaticIPAllocation struct {
+	Policy PolicySdpStaticIpAllocationPolicy_Policy_SdpStaticIPAllocation_Policy "json:\"policy\" graphql:\"policy\""
+}
+
+func (t *PolicySdpStaticIpAllocationPolicy_Policy_SdpStaticIPAllocation) GetPolicy() *PolicySdpStaticIpAllocationPolicy_Policy_SdpStaticIPAllocation_Policy {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationPolicy_Policy_SdpStaticIPAllocation{}
+	}
+	return &t.Policy
+}
+
+type PolicySdpStaticIpAllocationPolicy_Policy struct {
+	SdpStaticIPAllocation *PolicySdpStaticIpAllocationPolicy_Policy_SdpStaticIPAllocation "json:\"sdpStaticIpAllocation,omitempty\" graphql:\"sdpStaticIpAllocation\""
+}
+
+func (t *PolicySdpStaticIpAllocationPolicy_Policy) GetSdpStaticIPAllocation() *PolicySdpStaticIpAllocationPolicy_Policy_SdpStaticIPAllocation {
+	if t == nil {
+		t = &PolicySdpStaticIpAllocationPolicy_Policy{}
+	}
+	return t.SdpStaticIPAllocation
+}
+
 type PolicySiteWebProxyPolicy_Policy_SiteWebProxy_Policy_Rules_Audit struct {
 	UpdatedBy   string "json:\"updatedBy\" graphql:\"updatedBy\""
 	UpdatedTime string "json:\"updatedTime\" graphql:\"updatedTime\""
@@ -319375,6 +324156,7 @@ type Tlsinspectpolicy_Policy_TLSInspect_Policy_Rules_Rule struct {
 	Action                     cato_models.TLSInspectAction                                                 "json:\"action\" graphql:\"action\""
 	Application                Tlsinspectpolicy_Policy_TLSInspect_Policy_Rules_Rule_Application             "json:\"application\" graphql:\"application\""
 	ConnectionOrigin           cato_models.ConnectionOriginEnum                                             "json:\"connectionOrigin\" graphql:\"connectionOrigin\""
+	ConnectionsOriginList      []cato_models.ConnectionOriginsEnum                                          "json:\"connectionsOriginList\" graphql:\"connectionsOriginList\""
 	Country                    []*Tlsinspectpolicy_Policy_TLSInspect_Policy_Rules_Rule_Country              "json:\"country\" graphql:\"country\""
 	Description                string                                                                       "json:\"description\" graphql:\"description\""
 	DevicePostureProfile       []*Tlsinspectpolicy_Policy_TLSInspect_Policy_Rules_Rule_DevicePostureProfile "json:\"devicePostureProfile\" graphql:\"devicePostureProfile\""
@@ -319405,6 +324187,12 @@ func (t *Tlsinspectpolicy_Policy_TLSInspect_Policy_Rules_Rule) GetConnectionOrig
 		t = &Tlsinspectpolicy_Policy_TLSInspect_Policy_Rules_Rule{}
 	}
 	return &t.ConnectionOrigin
+}
+func (t *Tlsinspectpolicy_Policy_TLSInspect_Policy_Rules_Rule) GetConnectionsOriginList() []cato_models.ConnectionOriginsEnum {
+	if t == nil {
+		t = &Tlsinspectpolicy_Policy_TLSInspect_Policy_Rules_Rule{}
+	}
+	return t.ConnectionsOriginList
 }
 func (t *Tlsinspectpolicy_Policy_TLSInspect_Policy_Rules_Rule) GetCountry() []*Tlsinspectpolicy_Policy_TLSInspect_Policy_Rules_Rule_Country {
 	if t == nil {
@@ -331620,11 +336408,18 @@ func (t *SiteBgpPeerQuery_Site_BgpPeer_DefaultActionExclusion) GetCommunityFilte
 }
 
 type SiteBgpPeerQuery_Site_BgpPeer_BfdSettings struct {
+	MultiHop         bool  "json:\"multiHop\" graphql:\"multiHop\""
 	Multiplier       int64 "json:\"multiplier\" graphql:\"multiplier\""
 	ReceiveInterval  int64 "json:\"receiveInterval\" graphql:\"receiveInterval\""
 	TransmitInterval int64 "json:\"transmitInterval\" graphql:\"transmitInterval\""
 }
 
+func (t *SiteBgpPeerQuery_Site_BgpPeer_BfdSettings) GetMultiHop() bool {
+	if t == nil {
+		t = &SiteBgpPeerQuery_Site_BgpPeer_BfdSettings{}
+	}
+	return t.MultiHop
+}
 func (t *SiteBgpPeerQuery_Site_BgpPeer_BfdSettings) GetMultiplier() int64 {
 	if t == nil {
 		t = &SiteBgpPeerQuery_Site_BgpPeer_BfdSettings{}
@@ -332125,11 +336920,18 @@ func (t *SiteBgpPeerListQuery_Site_BgpPeerList_BgpPeer_DefaultActionExclusion) G
 }
 
 type SiteBgpPeerListQuery_Site_BgpPeerList_BgpPeer_BfdSettings struct {
+	MultiHop         bool  "json:\"multiHop\" graphql:\"multiHop\""
 	Multiplier       int64 "json:\"multiplier\" graphql:\"multiplier\""
 	ReceiveInterval  int64 "json:\"receiveInterval\" graphql:\"receiveInterval\""
 	TransmitInterval int64 "json:\"transmitInterval\" graphql:\"transmitInterval\""
 }
 
+func (t *SiteBgpPeerListQuery_Site_BgpPeerList_BgpPeer_BfdSettings) GetMultiHop() bool {
+	if t == nil {
+		t = &SiteBgpPeerListQuery_Site_BgpPeerList_BgpPeer_BfdSettings{}
+	}
+	return t.MultiHop
+}
 func (t *SiteBgpPeerListQuery_Site_BgpPeerList_BgpPeer_BfdSettings) GetMultiplier() int64 {
 	if t == nil {
 		t = &SiteBgpPeerListQuery_Site_BgpPeerList_BgpPeer_BfdSettings{}
@@ -333569,11 +338371,30 @@ func (t *SiteKnownHostList_Site) GetKnownHostList() *SiteKnownHostList_Site_Know
 	return t.KnownHostList
 }
 
+type NetworkRange_Site_NetworkRange_DhcpSettings_LeaseTimeSettings struct {
+	LeaseTime int64                            "json:\"leaseTime\" graphql:\"leaseTime\""
+	TimeUnit  cato_models.LeaseTimeMeasureUnit "json:\"timeUnit\" graphql:\"timeUnit\""
+}
+
+func (t *NetworkRange_Site_NetworkRange_DhcpSettings_LeaseTimeSettings) GetLeaseTime() int64 {
+	if t == nil {
+		t = &NetworkRange_Site_NetworkRange_DhcpSettings_LeaseTimeSettings{}
+	}
+	return t.LeaseTime
+}
+func (t *NetworkRange_Site_NetworkRange_DhcpSettings_LeaseTimeSettings) GetTimeUnit() *cato_models.LeaseTimeMeasureUnit {
+	if t == nil {
+		t = &NetworkRange_Site_NetworkRange_DhcpSettings_LeaseTimeSettings{}
+	}
+	return &t.TimeUnit
+}
+
 type NetworkRange_Site_NetworkRange_DhcpSettings struct {
-	DhcpMicrosegmentation bool                 "json:\"dhcpMicrosegmentation\" graphql:\"dhcpMicrosegmentation\""
-	DhcpType              cato_models.DhcpType "json:\"dhcpType\" graphql:\"dhcpType\""
-	IPRange               *string              "json:\"ipRange,omitempty\" graphql:\"ipRange\""
-	RelayGroupID          *string              "json:\"relayGroupId,omitempty\" graphql:\"relayGroupId\""
+	DhcpMicrosegmentation bool                                                           "json:\"dhcpMicrosegmentation\" graphql:\"dhcpMicrosegmentation\""
+	DhcpType              cato_models.DhcpType                                           "json:\"dhcpType\" graphql:\"dhcpType\""
+	IPRange               *string                                                        "json:\"ipRange,omitempty\" graphql:\"ipRange\""
+	LeaseTimeSettings     *NetworkRange_Site_NetworkRange_DhcpSettings_LeaseTimeSettings "json:\"leaseTimeSettings,omitempty\" graphql:\"leaseTimeSettings\""
+	RelayGroupID          *string                                                        "json:\"relayGroupId,omitempty\" graphql:\"relayGroupId\""
 }
 
 func (t *NetworkRange_Site_NetworkRange_DhcpSettings) GetDhcpMicrosegmentation() bool {
@@ -333593,6 +338414,12 @@ func (t *NetworkRange_Site_NetworkRange_DhcpSettings) GetIPRange() *string {
 		t = &NetworkRange_Site_NetworkRange_DhcpSettings{}
 	}
 	return t.IPRange
+}
+func (t *NetworkRange_Site_NetworkRange_DhcpSettings) GetLeaseTimeSettings() *NetworkRange_Site_NetworkRange_DhcpSettings_LeaseTimeSettings {
+	if t == nil {
+		t = &NetworkRange_Site_NetworkRange_DhcpSettings{}
+	}
+	return t.LeaseTimeSettings
 }
 func (t *NetworkRange_Site_NetworkRange_DhcpSettings) GetRelayGroupID() *string {
 	if t == nil {
@@ -333721,11 +338548,30 @@ func (t *NetworkRange_Site) GetNetworkRange() *NetworkRange_Site_NetworkRange {
 	return t.NetworkRange
 }
 
+type NetworkRangeList_Site_NetworkRangeList_Items_DhcpSettings_LeaseTimeSettings struct {
+	LeaseTime int64                            "json:\"leaseTime\" graphql:\"leaseTime\""
+	TimeUnit  cato_models.LeaseTimeMeasureUnit "json:\"timeUnit\" graphql:\"timeUnit\""
+}
+
+func (t *NetworkRangeList_Site_NetworkRangeList_Items_DhcpSettings_LeaseTimeSettings) GetLeaseTime() int64 {
+	if t == nil {
+		t = &NetworkRangeList_Site_NetworkRangeList_Items_DhcpSettings_LeaseTimeSettings{}
+	}
+	return t.LeaseTime
+}
+func (t *NetworkRangeList_Site_NetworkRangeList_Items_DhcpSettings_LeaseTimeSettings) GetTimeUnit() *cato_models.LeaseTimeMeasureUnit {
+	if t == nil {
+		t = &NetworkRangeList_Site_NetworkRangeList_Items_DhcpSettings_LeaseTimeSettings{}
+	}
+	return &t.TimeUnit
+}
+
 type NetworkRangeList_Site_NetworkRangeList_Items_DhcpSettings struct {
-	DhcpMicrosegmentation bool                 "json:\"dhcpMicrosegmentation\" graphql:\"dhcpMicrosegmentation\""
-	DhcpType              cato_models.DhcpType "json:\"dhcpType\" graphql:\"dhcpType\""
-	IPRange               *string              "json:\"ipRange,omitempty\" graphql:\"ipRange\""
-	RelayGroupID          *string              "json:\"relayGroupId,omitempty\" graphql:\"relayGroupId\""
+	DhcpMicrosegmentation bool                                                                         "json:\"dhcpMicrosegmentation\" graphql:\"dhcpMicrosegmentation\""
+	DhcpType              cato_models.DhcpType                                                         "json:\"dhcpType\" graphql:\"dhcpType\""
+	IPRange               *string                                                                      "json:\"ipRange,omitempty\" graphql:\"ipRange\""
+	LeaseTimeSettings     *NetworkRangeList_Site_NetworkRangeList_Items_DhcpSettings_LeaseTimeSettings "json:\"leaseTimeSettings,omitempty\" graphql:\"leaseTimeSettings\""
+	RelayGroupID          *string                                                                      "json:\"relayGroupId,omitempty\" graphql:\"relayGroupId\""
 }
 
 func (t *NetworkRangeList_Site_NetworkRangeList_Items_DhcpSettings) GetDhcpMicrosegmentation() bool {
@@ -333745,6 +338591,12 @@ func (t *NetworkRangeList_Site_NetworkRangeList_Items_DhcpSettings) GetIPRange()
 		t = &NetworkRangeList_Site_NetworkRangeList_Items_DhcpSettings{}
 	}
 	return t.IPRange
+}
+func (t *NetworkRangeList_Site_NetworkRangeList_Items_DhcpSettings) GetLeaseTimeSettings() *NetworkRangeList_Site_NetworkRangeList_Items_DhcpSettings_LeaseTimeSettings {
+	if t == nil {
+		t = &NetworkRangeList_Site_NetworkRangeList_Items_DhcpSettings{}
+	}
+	return t.LeaseTimeSettings
 }
 func (t *NetworkRangeList_Site_NetworkRangeList_Items_DhcpSettings) GetRelayGroupID() *string {
 	if t == nil {
@@ -353154,6 +358006,138 @@ func (t *PolicyRemotePortFwdUpdateSection) GetPolicy() *PolicyRemotePortFwdUpdat
 	return &t.Policy
 }
 
+type PolicySdpStaticIPAllocationAddRule struct {
+	Policy PolicySdpStaticIpAllocationAddRule_Policy "json:\"policy\" graphql:\"policy\""
+}
+
+func (t *PolicySdpStaticIPAllocationAddRule) GetPolicy() *PolicySdpStaticIpAllocationAddRule_Policy {
+	if t == nil {
+		t = &PolicySdpStaticIPAllocationAddRule{}
+	}
+	return &t.Policy
+}
+
+type PolicySdpStaticIPAllocationAddSection struct {
+	Policy PolicySdpStaticIpAllocationAddSection_Policy "json:\"policy\" graphql:\"policy\""
+}
+
+func (t *PolicySdpStaticIPAllocationAddSection) GetPolicy() *PolicySdpStaticIpAllocationAddSection_Policy {
+	if t == nil {
+		t = &PolicySdpStaticIPAllocationAddSection{}
+	}
+	return &t.Policy
+}
+
+type PolicySdpStaticIPAllocationCreatePolicyRevision struct {
+	Policy PolicySdpStaticIpAllocationCreatePolicyRevision_Policy "json:\"policy\" graphql:\"policy\""
+}
+
+func (t *PolicySdpStaticIPAllocationCreatePolicyRevision) GetPolicy() *PolicySdpStaticIpAllocationCreatePolicyRevision_Policy {
+	if t == nil {
+		t = &PolicySdpStaticIPAllocationCreatePolicyRevision{}
+	}
+	return &t.Policy
+}
+
+type PolicySdpStaticIPAllocationDiscardPolicyRevision struct {
+	Policy PolicySdpStaticIpAllocationDiscardPolicyRevision_Policy "json:\"policy\" graphql:\"policy\""
+}
+
+func (t *PolicySdpStaticIPAllocationDiscardPolicyRevision) GetPolicy() *PolicySdpStaticIpAllocationDiscardPolicyRevision_Policy {
+	if t == nil {
+		t = &PolicySdpStaticIPAllocationDiscardPolicyRevision{}
+	}
+	return &t.Policy
+}
+
+type PolicySdpStaticIPAllocationMoveRule struct {
+	Policy PolicySdpStaticIpAllocationMoveRule_Policy "json:\"policy\" graphql:\"policy\""
+}
+
+func (t *PolicySdpStaticIPAllocationMoveRule) GetPolicy() *PolicySdpStaticIpAllocationMoveRule_Policy {
+	if t == nil {
+		t = &PolicySdpStaticIPAllocationMoveRule{}
+	}
+	return &t.Policy
+}
+
+type PolicySdpStaticIPAllocationMoveSection struct {
+	Policy PolicySdpStaticIpAllocationMoveSection_Policy "json:\"policy\" graphql:\"policy\""
+}
+
+func (t *PolicySdpStaticIPAllocationMoveSection) GetPolicy() *PolicySdpStaticIpAllocationMoveSection_Policy {
+	if t == nil {
+		t = &PolicySdpStaticIPAllocationMoveSection{}
+	}
+	return &t.Policy
+}
+
+type PolicySdpStaticIPAllocationPublishPolicyRevision struct {
+	Policy PolicySdpStaticIpAllocationPublishPolicyRevision_Policy "json:\"policy\" graphql:\"policy\""
+}
+
+func (t *PolicySdpStaticIPAllocationPublishPolicyRevision) GetPolicy() *PolicySdpStaticIpAllocationPublishPolicyRevision_Policy {
+	if t == nil {
+		t = &PolicySdpStaticIPAllocationPublishPolicyRevision{}
+	}
+	return &t.Policy
+}
+
+type PolicySdpStaticIPAllocationRemoveRule struct {
+	Policy PolicySdpStaticIpAllocationRemoveRule_Policy "json:\"policy\" graphql:\"policy\""
+}
+
+func (t *PolicySdpStaticIPAllocationRemoveRule) GetPolicy() *PolicySdpStaticIpAllocationRemoveRule_Policy {
+	if t == nil {
+		t = &PolicySdpStaticIPAllocationRemoveRule{}
+	}
+	return &t.Policy
+}
+
+type PolicySdpStaticIPAllocationRemoveSection struct {
+	Policy PolicySdpStaticIpAllocationRemoveSection_Policy "json:\"policy\" graphql:\"policy\""
+}
+
+func (t *PolicySdpStaticIPAllocationRemoveSection) GetPolicy() *PolicySdpStaticIpAllocationRemoveSection_Policy {
+	if t == nil {
+		t = &PolicySdpStaticIPAllocationRemoveSection{}
+	}
+	return &t.Policy
+}
+
+type PolicySdpStaticIPAllocationUpdatePolicy struct {
+	Policy PolicySdpStaticIpAllocationUpdatePolicy_Policy "json:\"policy\" graphql:\"policy\""
+}
+
+func (t *PolicySdpStaticIPAllocationUpdatePolicy) GetPolicy() *PolicySdpStaticIpAllocationUpdatePolicy_Policy {
+	if t == nil {
+		t = &PolicySdpStaticIPAllocationUpdatePolicy{}
+	}
+	return &t.Policy
+}
+
+type PolicySdpStaticIPAllocationUpdateRule struct {
+	Policy PolicySdpStaticIpAllocationUpdateRule_Policy "json:\"policy\" graphql:\"policy\""
+}
+
+func (t *PolicySdpStaticIPAllocationUpdateRule) GetPolicy() *PolicySdpStaticIpAllocationUpdateRule_Policy {
+	if t == nil {
+		t = &PolicySdpStaticIPAllocationUpdateRule{}
+	}
+	return &t.Policy
+}
+
+type PolicySdpStaticIPAllocationUpdateSection struct {
+	Policy PolicySdpStaticIpAllocationUpdateSection_Policy "json:\"policy\" graphql:\"policy\""
+}
+
+func (t *PolicySdpStaticIPAllocationUpdateSection) GetPolicy() *PolicySdpStaticIpAllocationUpdateSection_Policy {
+	if t == nil {
+		t = &PolicySdpStaticIPAllocationUpdateSection{}
+	}
+	return &t.Policy
+}
+
 type PolicySiteWebProxyAddRule struct {
 	Policy PolicySiteWebProxyAddRule_Policy "json:\"policy\" graphql:\"policy\""
 }
@@ -357132,6 +362116,17 @@ type RemotePortFwdPolicy struct {
 func (t *RemotePortFwdPolicy) GetPolicy() *RemotePortFwdPolicy_Policy {
 	if t == nil {
 		t = &RemotePortFwdPolicy{}
+	}
+	return &t.Policy
+}
+
+type PolicySdpStaticIPAllocationPolicy struct {
+	Policy PolicySdpStaticIpAllocationPolicy_Policy "json:\"policy\" graphql:\"policy\""
+}
+
+func (t *PolicySdpStaticIPAllocationPolicy) GetPolicy() *PolicySdpStaticIpAllocationPolicy_Policy {
+	if t == nil {
+		t = &PolicySdpStaticIPAllocationPolicy{}
 	}
 	return &t.Policy
 }
@@ -380192,6 +385187,938 @@ func (c *Client) PolicyRemotePortFwdUpdateSection(ctx context.Context, policyUpd
 	return &res, nil
 }
 
+const PolicySdpStaticIPAllocationAddRuleDocument = `mutation policySdpStaticIpAllocationAddRule ($accountId: ID!, $sdpStaticIpAllocationAddRuleInput: SdpStaticIpAllocationAddRuleInput!, $sdpStaticIpAllocationPolicyMutationInput: SdpStaticIpAllocationPolicyMutationInput) {
+	policy(accountId: $accountId) {
+		sdpStaticIpAllocation(input: $sdpStaticIpAllocationPolicyMutationInput) {
+			addRule(input: $sdpStaticIpAllocationAddRuleInput) {
+				rule {
+					audit {
+						updatedTime
+						updatedBy
+					}
+					metadata {
+						lock {
+							lockingAdminEmail
+							lockingTime
+							lockingRevisionId
+						}
+					}
+					rule {
+						id
+						name
+						description
+						index
+						section {
+							id
+							name
+						}
+						enabled
+						source {
+							user {
+								id
+								name
+							}
+						}
+						ip
+					}
+					properties
+				}
+				revision {
+					id
+					name
+					description
+					changes
+					createdTime
+					updatedTime
+				}
+				status
+				errors {
+					errorMessage
+					errorCode
+				}
+			}
+		}
+	}
+}
+`
+
+func (c *Client) PolicySdpStaticIPAllocationAddRule(ctx context.Context, accountID string, sdpStaticIPAllocationAddRuleInput cato_models.SdpStaticIPAllocationAddRuleInput, sdpStaticIPAllocationPolicyMutationInput *cato_models.SdpStaticIPAllocationPolicyMutationInput, interceptors ...clientv2.RequestInterceptor) (*PolicySdpStaticIPAllocationAddRule, error) {
+	vars := map[string]any{
+		"accountId":                                accountID,
+		"sdpStaticIpAllocationAddRuleInput":        sdpStaticIPAllocationAddRuleInput,
+		"sdpStaticIpAllocationPolicyMutationInput": sdpStaticIPAllocationPolicyMutationInput,
+	}
+
+	var res PolicySdpStaticIPAllocationAddRule
+	if err := c.Client.Post(ctx, "policySdpStaticIpAllocationAddRule", PolicySdpStaticIPAllocationAddRuleDocument, &res, vars, interceptors...); err != nil {
+		if c.Client.ParseDataWhenErrors {
+			return &res, err
+		}
+
+		return nil, err
+	}
+
+	return &res, nil
+}
+
+const PolicySdpStaticIPAllocationAddSectionDocument = `mutation policySdpStaticIpAllocationAddSection ($accountId: ID!, $policyAddSectionInput: PolicyAddSectionInput!, $sdpStaticIpAllocationPolicyMutationInput: SdpStaticIpAllocationPolicyMutationInput) {
+	policy(accountId: $accountId) {
+		sdpStaticIpAllocation(input: $sdpStaticIpAllocationPolicyMutationInput) {
+			addSection(input: $policyAddSectionInput) {
+				section {
+					audit {
+						updatedTime
+						updatedBy
+					}
+					metadata {
+						lock {
+							lockingAdminEmail
+							lockingTime
+							lockingRevisionId
+						}
+					}
+					section {
+						id
+						name
+					}
+					properties
+				}
+				status
+				errors {
+					errorMessage
+					errorCode
+				}
+				revision {
+					id
+					name
+					description
+					changes
+					createdTime
+					updatedTime
+				}
+			}
+		}
+	}
+}
+`
+
+func (c *Client) PolicySdpStaticIPAllocationAddSection(ctx context.Context, accountID string, policyAddSectionInput cato_models.PolicyAddSectionInput, sdpStaticIPAllocationPolicyMutationInput *cato_models.SdpStaticIPAllocationPolicyMutationInput, interceptors ...clientv2.RequestInterceptor) (*PolicySdpStaticIPAllocationAddSection, error) {
+	vars := map[string]any{
+		"accountId":             accountID,
+		"policyAddSectionInput": policyAddSectionInput,
+		"sdpStaticIpAllocationPolicyMutationInput": sdpStaticIPAllocationPolicyMutationInput,
+	}
+
+	var res PolicySdpStaticIPAllocationAddSection
+	if err := c.Client.Post(ctx, "policySdpStaticIpAllocationAddSection", PolicySdpStaticIPAllocationAddSectionDocument, &res, vars, interceptors...); err != nil {
+		if c.Client.ParseDataWhenErrors {
+			return &res, err
+		}
+
+		return nil, err
+	}
+
+	return &res, nil
+}
+
+const PolicySdpStaticIPAllocationCreatePolicyRevisionDocument = `mutation policySdpStaticIpAllocationCreatePolicyRevision ($accountId: ID!, $policyCreateRevisionInput: PolicyCreateRevisionInput!, $sdpStaticIpAllocationPolicyMutationInput: SdpStaticIpAllocationPolicyMutationInput) {
+	policy(accountId: $accountId) {
+		sdpStaticIpAllocation(input: $sdpStaticIpAllocationPolicyMutationInput) {
+			createPolicyRevision(input: $policyCreateRevisionInput) {
+				policy {
+					enabled
+					rules {
+						audit {
+							updatedTime
+							updatedBy
+						}
+						metadata {
+							lock {
+								lockingAdminEmail
+								lockingTime
+								lockingRevisionId
+							}
+						}
+						rule {
+							id
+							name
+							description
+							index
+							section {
+								id
+								name
+							}
+							enabled
+							source {
+								user {
+									id
+									name
+								}
+							}
+							ip
+						}
+						properties
+					}
+					sections {
+						audit {
+							updatedTime
+							updatedBy
+						}
+						metadata {
+							lock {
+								lockingAdminEmail
+								lockingTime
+								lockingRevisionId
+							}
+						}
+						section {
+							id
+							name
+						}
+						properties
+					}
+					audit {
+						publishedTime
+						publishedBy
+					}
+					revision {
+						id
+						name
+						description
+						changes
+						createdTime
+						updatedTime
+					}
+				}
+				status
+				errors {
+					errorMessage
+					errorCode
+				}
+			}
+		}
+	}
+}
+`
+
+func (c *Client) PolicySdpStaticIPAllocationCreatePolicyRevision(ctx context.Context, accountID string, policyCreateRevisionInput cato_models.PolicyCreateRevisionInput, sdpStaticIPAllocationPolicyMutationInput *cato_models.SdpStaticIPAllocationPolicyMutationInput, interceptors ...clientv2.RequestInterceptor) (*PolicySdpStaticIPAllocationCreatePolicyRevision, error) {
+	vars := map[string]any{
+		"accountId":                                accountID,
+		"policyCreateRevisionInput":                policyCreateRevisionInput,
+		"sdpStaticIpAllocationPolicyMutationInput": sdpStaticIPAllocationPolicyMutationInput,
+	}
+
+	var res PolicySdpStaticIPAllocationCreatePolicyRevision
+	if err := c.Client.Post(ctx, "policySdpStaticIpAllocationCreatePolicyRevision", PolicySdpStaticIPAllocationCreatePolicyRevisionDocument, &res, vars, interceptors...); err != nil {
+		if c.Client.ParseDataWhenErrors {
+			return &res, err
+		}
+
+		return nil, err
+	}
+
+	return &res, nil
+}
+
+const PolicySdpStaticIPAllocationDiscardPolicyRevisionDocument = `mutation policySdpStaticIpAllocationDiscardPolicyRevision ($accountId: ID!, $policyDiscardRevisionInput: PolicyDiscardRevisionInput, $sdpStaticIpAllocationPolicyMutationInput: SdpStaticIpAllocationPolicyMutationInput) {
+	policy(accountId: $accountId) {
+		sdpStaticIpAllocation(input: $sdpStaticIpAllocationPolicyMutationInput) {
+			discardPolicyRevision(input: $policyDiscardRevisionInput) {
+				policy {
+					enabled
+					rules {
+						audit {
+							updatedTime
+							updatedBy
+						}
+						metadata {
+							lock {
+								lockingAdminEmail
+								lockingTime
+								lockingRevisionId
+							}
+						}
+						rule {
+							id
+							name
+							description
+							index
+							section {
+								id
+								name
+							}
+							enabled
+							source {
+								user {
+									id
+									name
+								}
+							}
+							ip
+						}
+						properties
+					}
+					sections {
+						audit {
+							updatedTime
+							updatedBy
+						}
+						metadata {
+							lock {
+								lockingAdminEmail
+								lockingTime
+								lockingRevisionId
+							}
+						}
+						section {
+							id
+							name
+						}
+						properties
+					}
+					audit {
+						publishedTime
+						publishedBy
+					}
+					revision {
+						id
+						name
+						description
+						changes
+						createdTime
+						updatedTime
+					}
+				}
+				status
+				errors {
+					errorMessage
+					errorCode
+				}
+			}
+		}
+	}
+}
+`
+
+func (c *Client) PolicySdpStaticIPAllocationDiscardPolicyRevision(ctx context.Context, accountID string, policyDiscardRevisionInput *cato_models.PolicyDiscardRevisionInput, sdpStaticIPAllocationPolicyMutationInput *cato_models.SdpStaticIPAllocationPolicyMutationInput, interceptors ...clientv2.RequestInterceptor) (*PolicySdpStaticIPAllocationDiscardPolicyRevision, error) {
+	vars := map[string]any{
+		"accountId":                                accountID,
+		"policyDiscardRevisionInput":               policyDiscardRevisionInput,
+		"sdpStaticIpAllocationPolicyMutationInput": sdpStaticIPAllocationPolicyMutationInput,
+	}
+
+	var res PolicySdpStaticIPAllocationDiscardPolicyRevision
+	if err := c.Client.Post(ctx, "policySdpStaticIpAllocationDiscardPolicyRevision", PolicySdpStaticIPAllocationDiscardPolicyRevisionDocument, &res, vars, interceptors...); err != nil {
+		if c.Client.ParseDataWhenErrors {
+			return &res, err
+		}
+
+		return nil, err
+	}
+
+	return &res, nil
+}
+
+const PolicySdpStaticIPAllocationMoveRuleDocument = `mutation policySdpStaticIpAllocationMoveRule ($accountId: ID!, $policyMoveRuleInput: PolicyMoveRuleInput!, $sdpStaticIpAllocationPolicyMutationInput: SdpStaticIpAllocationPolicyMutationInput) {
+	policy(accountId: $accountId) {
+		sdpStaticIpAllocation(input: $sdpStaticIpAllocationPolicyMutationInput) {
+			moveRule(input: $policyMoveRuleInput) {
+				rule {
+					audit {
+						updatedTime
+						updatedBy
+					}
+					metadata {
+						lock {
+							lockingAdminEmail
+							lockingTime
+							lockingRevisionId
+						}
+					}
+					rule {
+						id
+						name
+						description
+						index
+						section {
+							id
+							name
+						}
+						enabled
+						source {
+							user {
+								id
+								name
+							}
+						}
+						ip
+					}
+					properties
+				}
+				revision {
+					id
+					name
+					description
+					changes
+					createdTime
+					updatedTime
+				}
+				status
+				errors {
+					errorMessage
+					errorCode
+				}
+			}
+		}
+	}
+}
+`
+
+func (c *Client) PolicySdpStaticIPAllocationMoveRule(ctx context.Context, accountID string, policyMoveRuleInput cato_models.PolicyMoveRuleInput, sdpStaticIPAllocationPolicyMutationInput *cato_models.SdpStaticIPAllocationPolicyMutationInput, interceptors ...clientv2.RequestInterceptor) (*PolicySdpStaticIPAllocationMoveRule, error) {
+	vars := map[string]any{
+		"accountId":           accountID,
+		"policyMoveRuleInput": policyMoveRuleInput,
+		"sdpStaticIpAllocationPolicyMutationInput": sdpStaticIPAllocationPolicyMutationInput,
+	}
+
+	var res PolicySdpStaticIPAllocationMoveRule
+	if err := c.Client.Post(ctx, "policySdpStaticIpAllocationMoveRule", PolicySdpStaticIPAllocationMoveRuleDocument, &res, vars, interceptors...); err != nil {
+		if c.Client.ParseDataWhenErrors {
+			return &res, err
+		}
+
+		return nil, err
+	}
+
+	return &res, nil
+}
+
+const PolicySdpStaticIPAllocationMoveSectionDocument = `mutation policySdpStaticIpAllocationMoveSection ($accountId: ID!, $policyMoveSectionInput: PolicyMoveSectionInput!, $sdpStaticIpAllocationPolicyMutationInput: SdpStaticIpAllocationPolicyMutationInput) {
+	policy(accountId: $accountId) {
+		sdpStaticIpAllocation(input: $sdpStaticIpAllocationPolicyMutationInput) {
+			moveSection(input: $policyMoveSectionInput) {
+				section {
+					audit {
+						updatedTime
+						updatedBy
+					}
+					metadata {
+						lock {
+							lockingAdminEmail
+							lockingTime
+							lockingRevisionId
+						}
+					}
+					section {
+						id
+						name
+					}
+					properties
+				}
+				status
+				errors {
+					errorMessage
+					errorCode
+				}
+				revision {
+					id
+					name
+					description
+					changes
+					createdTime
+					updatedTime
+				}
+			}
+		}
+	}
+}
+`
+
+func (c *Client) PolicySdpStaticIPAllocationMoveSection(ctx context.Context, accountID string, policyMoveSectionInput cato_models.PolicyMoveSectionInput, sdpStaticIPAllocationPolicyMutationInput *cato_models.SdpStaticIPAllocationPolicyMutationInput, interceptors ...clientv2.RequestInterceptor) (*PolicySdpStaticIPAllocationMoveSection, error) {
+	vars := map[string]any{
+		"accountId":              accountID,
+		"policyMoveSectionInput": policyMoveSectionInput,
+		"sdpStaticIpAllocationPolicyMutationInput": sdpStaticIPAllocationPolicyMutationInput,
+	}
+
+	var res PolicySdpStaticIPAllocationMoveSection
+	if err := c.Client.Post(ctx, "policySdpStaticIpAllocationMoveSection", PolicySdpStaticIPAllocationMoveSectionDocument, &res, vars, interceptors...); err != nil {
+		if c.Client.ParseDataWhenErrors {
+			return &res, err
+		}
+
+		return nil, err
+	}
+
+	return &res, nil
+}
+
+const PolicySdpStaticIPAllocationPublishPolicyRevisionDocument = `mutation policySdpStaticIpAllocationPublishPolicyRevision ($accountId: ID!, $policyPublishRevisionInput: PolicyPublishRevisionInput, $sdpStaticIpAllocationPolicyMutationInput: SdpStaticIpAllocationPolicyMutationInput) {
+	policy(accountId: $accountId) {
+		sdpStaticIpAllocation(input: $sdpStaticIpAllocationPolicyMutationInput) {
+			publishPolicyRevision(input: $policyPublishRevisionInput) {
+				policy {
+					enabled
+					rules {
+						audit {
+							updatedTime
+							updatedBy
+						}
+						metadata {
+							lock {
+								lockingAdminEmail
+								lockingTime
+								lockingRevisionId
+							}
+						}
+						rule {
+							id
+							name
+							description
+							index
+							section {
+								id
+								name
+							}
+							enabled
+							source {
+								user {
+									id
+									name
+								}
+							}
+							ip
+						}
+						properties
+					}
+					sections {
+						audit {
+							updatedTime
+							updatedBy
+						}
+						metadata {
+							lock {
+								lockingAdminEmail
+								lockingTime
+								lockingRevisionId
+							}
+						}
+						section {
+							id
+							name
+						}
+						properties
+					}
+					audit {
+						publishedTime
+						publishedBy
+					}
+					revision {
+						id
+						name
+						description
+						changes
+						createdTime
+						updatedTime
+					}
+				}
+				status
+				errors {
+					errorMessage
+					errorCode
+				}
+			}
+		}
+	}
+}
+`
+
+func (c *Client) PolicySdpStaticIPAllocationPublishPolicyRevision(ctx context.Context, accountID string, policyPublishRevisionInput *cato_models.PolicyPublishRevisionInput, sdpStaticIPAllocationPolicyMutationInput *cato_models.SdpStaticIPAllocationPolicyMutationInput, interceptors ...clientv2.RequestInterceptor) (*PolicySdpStaticIPAllocationPublishPolicyRevision, error) {
+	vars := map[string]any{
+		"accountId":                                accountID,
+		"policyPublishRevisionInput":               policyPublishRevisionInput,
+		"sdpStaticIpAllocationPolicyMutationInput": sdpStaticIPAllocationPolicyMutationInput,
+	}
+
+	var res PolicySdpStaticIPAllocationPublishPolicyRevision
+	if err := c.Client.Post(ctx, "policySdpStaticIpAllocationPublishPolicyRevision", PolicySdpStaticIPAllocationPublishPolicyRevisionDocument, &res, vars, interceptors...); err != nil {
+		if c.Client.ParseDataWhenErrors {
+			return &res, err
+		}
+
+		return nil, err
+	}
+
+	return &res, nil
+}
+
+const PolicySdpStaticIPAllocationRemoveRuleDocument = `mutation policySdpStaticIpAllocationRemoveRule ($accountId: ID!, $sdpStaticIpAllocationPolicyMutationInput: SdpStaticIpAllocationPolicyMutationInput, $sdpStaticIpAllocationRemoveRuleInput: SdpStaticIpAllocationRemoveRuleInput!) {
+	policy(accountId: $accountId) {
+		sdpStaticIpAllocation(input: $sdpStaticIpAllocationPolicyMutationInput) {
+			removeRule(input: $sdpStaticIpAllocationRemoveRuleInput) {
+				rule {
+					audit {
+						updatedTime
+						updatedBy
+					}
+					metadata {
+						lock {
+							lockingAdminEmail
+							lockingTime
+							lockingRevisionId
+						}
+					}
+					rule {
+						id
+						name
+						description
+						index
+						section {
+							id
+							name
+						}
+						enabled
+						source {
+							user {
+								id
+								name
+							}
+						}
+						ip
+					}
+					properties
+				}
+				revision {
+					id
+					name
+					description
+					changes
+					createdTime
+					updatedTime
+				}
+				status
+				errors {
+					errorMessage
+					errorCode
+				}
+			}
+		}
+	}
+}
+`
+
+func (c *Client) PolicySdpStaticIPAllocationRemoveRule(ctx context.Context, accountID string, sdpStaticIPAllocationPolicyMutationInput *cato_models.SdpStaticIPAllocationPolicyMutationInput, sdpStaticIPAllocationRemoveRuleInput cato_models.SdpStaticIPAllocationRemoveRuleInput, interceptors ...clientv2.RequestInterceptor) (*PolicySdpStaticIPAllocationRemoveRule, error) {
+	vars := map[string]any{
+		"accountId": accountID,
+		"sdpStaticIpAllocationPolicyMutationInput": sdpStaticIPAllocationPolicyMutationInput,
+		"sdpStaticIpAllocationRemoveRuleInput":     sdpStaticIPAllocationRemoveRuleInput,
+	}
+
+	var res PolicySdpStaticIPAllocationRemoveRule
+	if err := c.Client.Post(ctx, "policySdpStaticIpAllocationRemoveRule", PolicySdpStaticIPAllocationRemoveRuleDocument, &res, vars, interceptors...); err != nil {
+		if c.Client.ParseDataWhenErrors {
+			return &res, err
+		}
+
+		return nil, err
+	}
+
+	return &res, nil
+}
+
+const PolicySdpStaticIPAllocationRemoveSectionDocument = `mutation policySdpStaticIpAllocationRemoveSection ($accountId: ID!, $policyRemoveSectionInput: PolicyRemoveSectionInput!, $sdpStaticIpAllocationPolicyMutationInput: SdpStaticIpAllocationPolicyMutationInput) {
+	policy(accountId: $accountId) {
+		sdpStaticIpAllocation(input: $sdpStaticIpAllocationPolicyMutationInput) {
+			removeSection(input: $policyRemoveSectionInput) {
+				section {
+					audit {
+						updatedTime
+						updatedBy
+					}
+					metadata {
+						lock {
+							lockingAdminEmail
+							lockingTime
+							lockingRevisionId
+						}
+					}
+					section {
+						id
+						name
+					}
+					properties
+				}
+				status
+				errors {
+					errorMessage
+					errorCode
+				}
+				revision {
+					id
+					name
+					description
+					changes
+					createdTime
+					updatedTime
+				}
+			}
+		}
+	}
+}
+`
+
+func (c *Client) PolicySdpStaticIPAllocationRemoveSection(ctx context.Context, accountID string, policyRemoveSectionInput cato_models.PolicyRemoveSectionInput, sdpStaticIPAllocationPolicyMutationInput *cato_models.SdpStaticIPAllocationPolicyMutationInput, interceptors ...clientv2.RequestInterceptor) (*PolicySdpStaticIPAllocationRemoveSection, error) {
+	vars := map[string]any{
+		"accountId":                                accountID,
+		"policyRemoveSectionInput":                 policyRemoveSectionInput,
+		"sdpStaticIpAllocationPolicyMutationInput": sdpStaticIPAllocationPolicyMutationInput,
+	}
+
+	var res PolicySdpStaticIPAllocationRemoveSection
+	if err := c.Client.Post(ctx, "policySdpStaticIpAllocationRemoveSection", PolicySdpStaticIPAllocationRemoveSectionDocument, &res, vars, interceptors...); err != nil {
+		if c.Client.ParseDataWhenErrors {
+			return &res, err
+		}
+
+		return nil, err
+	}
+
+	return &res, nil
+}
+
+const PolicySdpStaticIPAllocationUpdatePolicyDocument = `mutation policySdpStaticIpAllocationUpdatePolicy ($accountId: ID!, $sdpStaticIpAllocationPolicyMutationInput: SdpStaticIpAllocationPolicyMutationInput, $sdpStaticIpAllocationPolicyUpdateInput: SdpStaticIpAllocationPolicyUpdateInput!) {
+	policy(accountId: $accountId) {
+		sdpStaticIpAllocation(input: $sdpStaticIpAllocationPolicyMutationInput) {
+			updatePolicy(input: $sdpStaticIpAllocationPolicyUpdateInput) {
+				policy {
+					enabled
+					rules {
+						audit {
+							updatedTime
+							updatedBy
+						}
+						metadata {
+							lock {
+								lockingAdminEmail
+								lockingTime
+								lockingRevisionId
+							}
+						}
+						rule {
+							id
+							name
+							description
+							index
+							section {
+								id
+								name
+							}
+							enabled
+							source {
+								user {
+									id
+									name
+								}
+							}
+							ip
+						}
+						properties
+					}
+					sections {
+						audit {
+							updatedTime
+							updatedBy
+						}
+						metadata {
+							lock {
+								lockingAdminEmail
+								lockingTime
+								lockingRevisionId
+							}
+						}
+						section {
+							id
+							name
+						}
+						properties
+					}
+					audit {
+						publishedTime
+						publishedBy
+					}
+					revision {
+						id
+						name
+						description
+						changes
+						createdTime
+						updatedTime
+					}
+				}
+				status
+				errors {
+					errorMessage
+					errorCode
+				}
+			}
+		}
+	}
+}
+`
+
+func (c *Client) PolicySdpStaticIPAllocationUpdatePolicy(ctx context.Context, accountID string, sdpStaticIPAllocationPolicyMutationInput *cato_models.SdpStaticIPAllocationPolicyMutationInput, sdpStaticIPAllocationPolicyUpdateInput cato_models.SdpStaticIPAllocationPolicyUpdateInput, interceptors ...clientv2.RequestInterceptor) (*PolicySdpStaticIPAllocationUpdatePolicy, error) {
+	vars := map[string]any{
+		"accountId": accountID,
+		"sdpStaticIpAllocationPolicyMutationInput": sdpStaticIPAllocationPolicyMutationInput,
+		"sdpStaticIpAllocationPolicyUpdateInput":   sdpStaticIPAllocationPolicyUpdateInput,
+	}
+
+	var res PolicySdpStaticIPAllocationUpdatePolicy
+	if err := c.Client.Post(ctx, "policySdpStaticIpAllocationUpdatePolicy", PolicySdpStaticIPAllocationUpdatePolicyDocument, &res, vars, interceptors...); err != nil {
+		if c.Client.ParseDataWhenErrors {
+			return &res, err
+		}
+
+		return nil, err
+	}
+
+	return &res, nil
+}
+
+const PolicySdpStaticIPAllocationUpdateRuleDocument = `mutation policySdpStaticIpAllocationUpdateRule ($accountId: ID!, $sdpStaticIpAllocationPolicyMutationInput: SdpStaticIpAllocationPolicyMutationInput, $sdpStaticIpAllocationUpdateRuleInput: SdpStaticIpAllocationUpdateRuleInput!) {
+	policy(accountId: $accountId) {
+		sdpStaticIpAllocation(input: $sdpStaticIpAllocationPolicyMutationInput) {
+			updateRule(input: $sdpStaticIpAllocationUpdateRuleInput) {
+				rule {
+					audit {
+						updatedTime
+						updatedBy
+					}
+					metadata {
+						lock {
+							lockingAdminEmail
+							lockingTime
+							lockingRevisionId
+						}
+					}
+					rule {
+						id
+						name
+						description
+						index
+						section {
+							id
+							name
+						}
+						enabled
+						source {
+							user {
+								id
+								name
+							}
+						}
+						ip
+					}
+					properties
+				}
+				revision {
+					id
+					name
+					description
+					changes
+					createdTime
+					updatedTime
+				}
+				status
+				errors {
+					errorMessage
+					errorCode
+				}
+			}
+		}
+	}
+}
+`
+
+func (c *Client) PolicySdpStaticIPAllocationUpdateRule(ctx context.Context, accountID string, sdpStaticIPAllocationPolicyMutationInput *cato_models.SdpStaticIPAllocationPolicyMutationInput, sdpStaticIPAllocationUpdateRuleInput cato_models.SdpStaticIPAllocationUpdateRuleInput, interceptors ...clientv2.RequestInterceptor) (*PolicySdpStaticIPAllocationUpdateRule, error) {
+	vars := map[string]any{
+		"accountId": accountID,
+		"sdpStaticIpAllocationPolicyMutationInput": sdpStaticIPAllocationPolicyMutationInput,
+		"sdpStaticIpAllocationUpdateRuleInput":     sdpStaticIPAllocationUpdateRuleInput,
+	}
+
+	var res PolicySdpStaticIPAllocationUpdateRule
+	if err := c.Client.Post(ctx, "policySdpStaticIpAllocationUpdateRule", PolicySdpStaticIPAllocationUpdateRuleDocument, &res, vars, interceptors...); err != nil {
+		if c.Client.ParseDataWhenErrors {
+			return &res, err
+		}
+
+		return nil, err
+	}
+
+	return &res, nil
+}
+
+const PolicySdpStaticIPAllocationUpdateSectionDocument = `mutation policySdpStaticIpAllocationUpdateSection ($accountId: ID!, $policyUpdateSectionInput: PolicyUpdateSectionInput!, $sdpStaticIpAllocationPolicyMutationInput: SdpStaticIpAllocationPolicyMutationInput) {
+	policy(accountId: $accountId) {
+		sdpStaticIpAllocation(input: $sdpStaticIpAllocationPolicyMutationInput) {
+			updateSection(input: $policyUpdateSectionInput) {
+				section {
+					audit {
+						updatedTime
+						updatedBy
+					}
+					metadata {
+						lock {
+							lockingAdminEmail
+							lockingTime
+							lockingRevisionId
+						}
+					}
+					section {
+						id
+						name
+					}
+					properties
+				}
+				status
+				errors {
+					errorMessage
+					errorCode
+				}
+				revision {
+					id
+					name
+					description
+					changes
+					createdTime
+					updatedTime
+				}
+			}
+		}
+	}
+}
+`
+
+func (c *Client) PolicySdpStaticIPAllocationUpdateSection(ctx context.Context, accountID string, policyUpdateSectionInput cato_models.PolicyUpdateSectionInput, sdpStaticIPAllocationPolicyMutationInput *cato_models.SdpStaticIPAllocationPolicyMutationInput, interceptors ...clientv2.RequestInterceptor) (*PolicySdpStaticIPAllocationUpdateSection, error) {
+	vars := map[string]any{
+		"accountId":                                accountID,
+		"policyUpdateSectionInput":                 policyUpdateSectionInput,
+		"sdpStaticIpAllocationPolicyMutationInput": sdpStaticIPAllocationPolicyMutationInput,
+	}
+
+	var res PolicySdpStaticIPAllocationUpdateSection
+	if err := c.Client.Post(ctx, "policySdpStaticIpAllocationUpdateSection", PolicySdpStaticIPAllocationUpdateSectionDocument, &res, vars, interceptors...); err != nil {
+		if c.Client.ParseDataWhenErrors {
+			return &res, err
+		}
+
+		return nil, err
+	}
+
+	return &res, nil
+}
+
 const PolicySiteWebProxyAddRuleDocument = `mutation policySiteWebProxyAddRule ($accountId: ID!, $siteWebProxyPolicyMutationInput: SiteWebProxyPolicyMutationInput, $siteWebProxyAddRuleInput: SiteWebProxyAddRuleInput!) {
 	policy(accountId: $accountId) {
 		siteWebProxy(input: $siteWebProxyPolicyMutationInput) {
@@ -391685,6 +397612,7 @@ const PolicyTLSInspectAddRuleDocument = `mutation policyTlsInspectAddRule ($tlsI
 							name
 						}
 						connectionOrigin
+						connectionsOriginList
 						application {
 							application {
 								id
@@ -391930,6 +397858,7 @@ const PolicyTLSInspectCreatePolicyRevisionDocument = `mutation policyTlsInspectC
 								name
 							}
 							connectionOrigin
+							connectionsOriginList
 							application {
 								application {
 									id
@@ -392142,6 +398071,7 @@ const PolicyTLSInspectDiscardPolicyRevisionDocument = `mutation policyTlsInspect
 								name
 							}
 							connectionOrigin
+							connectionsOriginList
 							application {
 								application {
 									id
@@ -392352,6 +398282,7 @@ const PolicyTLSInspectMoveRuleDocument = `mutation policyTlsInspectMoveRule ($po
 							name
 						}
 						connectionOrigin
+						connectionsOriginList
 						application {
 							application {
 								id
@@ -392597,6 +398528,7 @@ const PolicyTLSInspectPublishPolicyRevisionDocument = `mutation policyTlsInspect
 								name
 							}
 							connectionOrigin
+							connectionsOriginList
 							application {
 								application {
 									id
@@ -392807,6 +398739,7 @@ const PolicyTLSInspectRemoveRuleDocument = `mutation policyTlsInspectRemoveRule 
 							name
 						}
 						connectionOrigin
+						connectionsOriginList
 						application {
 							application {
 								id
@@ -393052,6 +398985,7 @@ const PolicyTLSInspectUpdatePolicyDocument = `mutation policyTlsInspectUpdatePol
 								name
 							}
 							connectionOrigin
+							connectionsOriginList
 							application {
 								application {
 									id
@@ -393262,6 +399196,7 @@ const PolicyTLSInspectUpdateRuleDocument = `mutation policyTlsInspectUpdateRule 
 							name
 						}
 						connectionOrigin
+						connectionsOriginList
 						application {
 							application {
 								id
@@ -404881,6 +410816,7 @@ const SiteAddBgpPeerDocument = `mutation siteAddBgpPeer ($addBgpPeerInput: AddBg
 					transmitInterval
 					receiveInterval
 					multiplier
+					multiHop
 				}
 				bgpTrackingTracking: tracking {
 					id
@@ -405482,6 +411418,7 @@ const SiteCreateBgpPeerBulkDocument = `mutation siteCreateBgpPeerBulk ($accountI
 					transmitInterval
 					receiveInterval
 					multiplier
+					multiHop
 				}
 				tracking {
 					id
@@ -405534,6 +411471,10 @@ const SiteCreateNetworkRangeBulkDocument = `mutation siteCreateNetworkRangeBulk 
 					ipRange
 					relayGroupId
 					dhcpMicrosegmentation
+					leaseTimeSettings {
+						leaseTime
+						timeUnit
+					}
 				}
 				mdnsReflector
 				internetOnly
@@ -405767,6 +411708,7 @@ const SiteDeleteBgpPeerBulkDocument = `mutation siteDeleteBgpPeerBulk ($accountI
 					transmitInterval
 					receiveInterval
 					multiplier
+					multiHop
 				}
 				tracking {
 					id
@@ -405819,6 +411761,10 @@ const SiteDeleteNetworkRangeBulkDocument = `mutation siteDeleteNetworkRangeBulk 
 					ipRange
 					relayGroupId
 					dhcpMicrosegmentation
+					leaseTimeSettings {
+						leaseTime
+						timeUnit
+					}
 				}
 				mdnsReflector
 				internetOnly
@@ -405981,6 +411927,7 @@ const SiteRemoveBgpPeerDocument = `mutation siteRemoveBgpPeer ($removeBgpPeerInp
 					transmitInterval
 					receiveInterval
 					multiplier
+					multiHop
 				}
 				bgpTrackingTracking: tracking {
 					id
@@ -406776,6 +412723,7 @@ const SiteUpdateBgpPeerDocument = `mutation siteUpdateBgpPeer ($updateBgpPeerInp
 					transmitInterval
 					receiveInterval
 					multiplier
+					multiHop
 				}
 				bgpTrackingTracking: tracking {
 					id
@@ -406880,6 +412828,7 @@ const SiteUpdateBgpPeerBulkDocument = `mutation siteUpdateBgpPeerBulk ($accountI
 					transmitInterval
 					receiveInterval
 					multiplier
+					multiHop
 				}
 				tracking {
 					id
@@ -406984,6 +412933,7 @@ const SiteUpdateBgpPeersDocument = `mutation siteUpdateBgpPeers ($accountId: ID!
 					transmitInterval
 					receiveInterval
 					multiplier
+					multiHop
 				}
 				tracking {
 					id
@@ -407190,6 +413140,10 @@ const SiteUpdateNetworkRangeBulkDocument = `mutation siteUpdateNetworkRangeBulk 
 					ipRange
 					relayGroupId
 					dhcpMicrosegmentation
+					leaseTimeSettings {
+						leaseTime
+						timeUnit
+					}
 				}
 				mdnsReflector
 				internetOnly
@@ -407551,6 +413505,10 @@ const SiteUpdateSiteNetworkRangesDocument = `mutation siteUpdateSiteNetworkRange
 					ipRange
 					relayGroupId
 					dhcpMicrosegmentation
+					leaseTimeSettings {
+						leaseTime
+						timeUnit
+					}
 				}
 				mdnsReflector
 				internetOnly
@@ -407956,6 +413914,7 @@ const SitesAddBgpPeerDocument = `mutation sitesAddBgpPeer ($addBgpPeerInput: Add
 					transmitInterval
 					receiveInterval
 					multiplier
+					multiHop
 				}
 				bgpTrackingTracking: tracking {
 					id
@@ -408557,6 +414516,7 @@ const SitesCreateBgpPeerBulkDocument = `mutation sitesCreateBgpPeerBulk ($accoun
 					transmitInterval
 					receiveInterval
 					multiplier
+					multiHop
 				}
 				tracking {
 					id
@@ -408609,6 +414569,10 @@ const SitesCreateNetworkRangeBulkDocument = `mutation sitesCreateNetworkRangeBul
 					ipRange
 					relayGroupId
 					dhcpMicrosegmentation
+					leaseTimeSettings {
+						leaseTime
+						timeUnit
+					}
 				}
 				mdnsReflector
 				internetOnly
@@ -408842,6 +414806,7 @@ const SitesDeleteBgpPeerBulkDocument = `mutation sitesDeleteBgpPeerBulk ($accoun
 					transmitInterval
 					receiveInterval
 					multiplier
+					multiHop
 				}
 				tracking {
 					id
@@ -408894,6 +414859,10 @@ const SitesDeleteNetworkRangeBulkDocument = `mutation sitesDeleteNetworkRangeBul
 					ipRange
 					relayGroupId
 					dhcpMicrosegmentation
+					leaseTimeSettings {
+						leaseTime
+						timeUnit
+					}
 				}
 				mdnsReflector
 				internetOnly
@@ -409056,6 +415025,7 @@ const SitesRemoveBgpPeerDocument = `mutation sitesRemoveBgpPeer ($removeBgpPeerI
 					transmitInterval
 					receiveInterval
 					multiplier
+					multiHop
 				}
 				bgpTrackingTracking: tracking {
 					id
@@ -409851,6 +415821,7 @@ const SitesUpdateBgpPeerDocument = `mutation sitesUpdateBgpPeer ($updateBgpPeerI
 					transmitInterval
 					receiveInterval
 					multiplier
+					multiHop
 				}
 				bgpTrackingTracking: tracking {
 					id
@@ -409955,6 +415926,7 @@ const SitesUpdateBgpPeerBulkDocument = `mutation sitesUpdateBgpPeerBulk ($accoun
 					transmitInterval
 					receiveInterval
 					multiplier
+					multiHop
 				}
 				tracking {
 					id
@@ -410059,6 +416031,7 @@ const SitesUpdateBgpPeersDocument = `mutation sitesUpdateBgpPeers ($accountId: I
 					transmitInterval
 					receiveInterval
 					multiplier
+					multiHop
 				}
 				tracking {
 					id
@@ -410265,6 +416238,10 @@ const SitesUpdateNetworkRangeBulkDocument = `mutation sitesUpdateNetworkRangeBul
 					ipRange
 					relayGroupId
 					dhcpMicrosegmentation
+					leaseTimeSettings {
+						leaseTime
+						timeUnit
+					}
 				}
 				mdnsReflector
 				internetOnly
@@ -410626,6 +416603,10 @@ const SitesUpdateSiteNetworkRangesDocument = `mutation sitesUpdateSiteNetworkRan
 					ipRange
 					relayGroupId
 					dhcpMicrosegmentation
+					leaseTimeSettings {
+						leaseTime
+						timeUnit
+					}
 				}
 				mdnsReflector
 				internetOnly
@@ -420721,6 +426702,97 @@ func (c *Client) RemotePortFwdPolicy(ctx context.Context, accountID string, remo
 	return &res, nil
 }
 
+const PolicySdpStaticIPAllocationPolicyDocument = `query policySdpStaticIpAllocationPolicy ($accountId: ID!, $sdpStaticIpAllocationPolicyInput: SdpStaticIpAllocationPolicyInput) {
+	policy(accountId: $accountId) {
+		sdpStaticIpAllocation {
+			policy(input: $sdpStaticIpAllocationPolicyInput) {
+				enabled
+				rules {
+					audit {
+						updatedTime
+						updatedBy
+					}
+					metadata {
+						lock {
+							lockingAdminEmail
+							lockingTime
+							lockingRevisionId
+						}
+					}
+					rule {
+						id
+						name
+						description
+						index
+						section {
+							id
+							name
+						}
+						enabled
+						source {
+							user {
+								id
+								name
+							}
+						}
+						ip
+					}
+					properties
+				}
+				sections {
+					audit {
+						updatedTime
+						updatedBy
+					}
+					metadata {
+						lock {
+							lockingAdminEmail
+							lockingTime
+							lockingRevisionId
+						}
+					}
+					section {
+						id
+						name
+					}
+					properties
+				}
+				audit {
+					publishedTime
+					publishedBy
+				}
+				revision {
+					id
+					name
+					description
+					changes
+					createdTime
+					updatedTime
+				}
+			}
+		}
+	}
+}
+`
+
+func (c *Client) PolicySdpStaticIPAllocationPolicy(ctx context.Context, accountID string, sdpStaticIPAllocationPolicyInput *cato_models.SdpStaticIPAllocationPolicyInput, interceptors ...clientv2.RequestInterceptor) (*PolicySdpStaticIPAllocationPolicy, error) {
+	vars := map[string]any{
+		"accountId":                        accountID,
+		"sdpStaticIpAllocationPolicyInput": sdpStaticIPAllocationPolicyInput,
+	}
+
+	var res PolicySdpStaticIPAllocationPolicy
+	if err := c.Client.Post(ctx, "policySdpStaticIpAllocationPolicy", PolicySdpStaticIPAllocationPolicyDocument, &res, vars, interceptors...); err != nil {
+		if c.Client.ParseDataWhenErrors {
+			return &res, err
+		}
+
+		return nil, err
+	}
+
+	return &res, nil
+}
+
 const PolicySiteWebProxyPolicyDocument = `query policySiteWebProxyPolicy ($accountId: ID!, $siteWebProxyPolicyInput: SiteWebProxyPolicyInput) {
 	policy(accountId: $accountId) {
 		siteWebProxy {
@@ -421860,6 +427932,7 @@ const TlsinspectpolicyDocument = `query tlsinspectpolicy ($accountId: ID!, $tlsI
 							name
 						}
 						connectionOrigin
+						connectionsOriginList
 						application {
 							application {
 								id
@@ -424324,6 +430397,7 @@ const SiteBgpPeerQueryDocument = `query siteBgpPeerQuery ($accountId: ID!, $bgpP
 				transmitInterval
 				receiveInterval
 				multiplier
+				multiHop
 			}
 			tracking {
 				id
@@ -424427,6 +430501,7 @@ const SiteBgpPeerListQueryDocument = `query siteBgpPeerListQuery ($accountId: ID
 					transmitInterval
 					receiveInterval
 					multiplier
+					multiHop
 				}
 				tracking {
 					id
@@ -424786,6 +430861,10 @@ const NetworkRangeDocument = `query networkRange ($accountID: ID!, $networkRange
 				ipRange
 				relayGroupId
 				dhcpMicrosegmentation
+				leaseTimeSettings {
+					leaseTime
+					timeUnit
+				}
 			}
 			mdnsReflector
 			internetOnly
@@ -424833,6 +430912,10 @@ const NetworkRangeListDocument = `query networkRangeList ($accountID: ID!, $inpu
 					ipRange
 					relayGroupId
 					dhcpMicrosegmentation
+					leaseTimeSettings {
+						leaseTime
+						timeUnit
+					}
 				}
 				mdnsReflector
 				internetOnly
@@ -428395,6 +434478,18 @@ var DocumentOperationNames = map[string]string{
 	PolicyRemotePortFwdUpdatePolicyDocument:                      "policyRemotePortFwdUpdatePolicy",
 	PolicyRemotePortFwdUpdateRuleDocument:                        "policyRemotePortFwdUpdateRule",
 	PolicyRemotePortFwdUpdateSectionDocument:                     "policyRemotePortFwdUpdateSection",
+	PolicySdpStaticIPAllocationAddRuleDocument:                   "policySdpStaticIpAllocationAddRule",
+	PolicySdpStaticIPAllocationAddSectionDocument:                "policySdpStaticIpAllocationAddSection",
+	PolicySdpStaticIPAllocationCreatePolicyRevisionDocument:      "policySdpStaticIpAllocationCreatePolicyRevision",
+	PolicySdpStaticIPAllocationDiscardPolicyRevisionDocument:     "policySdpStaticIpAllocationDiscardPolicyRevision",
+	PolicySdpStaticIPAllocationMoveRuleDocument:                  "policySdpStaticIpAllocationMoveRule",
+	PolicySdpStaticIPAllocationMoveSectionDocument:               "policySdpStaticIpAllocationMoveSection",
+	PolicySdpStaticIPAllocationPublishPolicyRevisionDocument:     "policySdpStaticIpAllocationPublishPolicyRevision",
+	PolicySdpStaticIPAllocationRemoveRuleDocument:                "policySdpStaticIpAllocationRemoveRule",
+	PolicySdpStaticIPAllocationRemoveSectionDocument:             "policySdpStaticIpAllocationRemoveSection",
+	PolicySdpStaticIPAllocationUpdatePolicyDocument:              "policySdpStaticIpAllocationUpdatePolicy",
+	PolicySdpStaticIPAllocationUpdateRuleDocument:                "policySdpStaticIpAllocationUpdateRule",
+	PolicySdpStaticIPAllocationUpdateSectionDocument:             "policySdpStaticIpAllocationUpdateSection",
 	PolicySiteWebProxyAddRuleDocument:                            "policySiteWebProxyAddRule",
 	PolicySiteWebProxyAddSectionDocument:                         "policySiteWebProxyAddSection",
 	PolicySiteWebProxyCreatePolicyRevisionDocument:               "policySiteWebProxyCreatePolicyRevision",
@@ -428757,6 +434852,7 @@ var DocumentOperationNames = map[string]string{
 	PolicyReadPrivateAccessPolicyDocument:                        "policyReadPrivateAccessPolicy",
 	PolicyRemotePortFwdDocument:                                  "policyRemotePortFwd",
 	RemotePortFwdPolicyDocument:                                  "remotePortFwdPolicy",
+	PolicySdpStaticIPAllocationPolicyDocument:                    "policySdpStaticIpAllocationPolicy",
 	PolicySiteWebProxyPolicyDocument:                             "policySiteWebProxyPolicy",
 	PolicySocketBypassPolicyDocument:                             "policySocketBypassPolicy",
 	PolicySocketLanPolicyDocument:                                "policySocketLanPolicy",

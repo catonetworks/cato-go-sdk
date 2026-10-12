@@ -84,6 +84,7 @@ mutation policyTlsInspectPublishPolicyRevision ($accountId: ID!, $policyPublishR
 								name
 							}
 							connectionOrigin
+							connectionsOriginList
 							application {
 								application {
 									id

@@ -71,6 +71,7 @@ mutation siteRemoveBgpPeer ($removeBgpPeerInput: RemoveBgpPeerInput!, $accountId
 					transmitInterval
 					receiveInterval
 					multiplier
+					multiHop
 				}
 				bgpTrackingTracking: tracking {
 					id

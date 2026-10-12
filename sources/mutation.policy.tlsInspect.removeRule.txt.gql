@@ -82,6 +82,7 @@ mutation policyTlsInspectRemoveRule ($tlsInspectRemoveRuleInput: TlsInspectRemov
 							name
 						}
 						connectionOrigin
+						connectionsOriginList
 						application {
 							application {
 								id

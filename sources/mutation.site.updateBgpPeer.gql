@@ -71,6 +71,7 @@ mutation siteUpdateBgpPeer ($updateBgpPeerInput: UpdateBgpPeerInput!, $accountId
 					transmitInterval
 					receiveInterval
 					multiplier
+					multiHop
 				}
 				bgpTrackingTracking: tracking {
 					id

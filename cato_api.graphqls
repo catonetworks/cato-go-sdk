@@ -1262,6 +1262,7 @@ type BearerTokenAuth implements AuthInterface {
 }
 
 type BfdSettings {
+  multiHop: Boolean!
   multiplier: Int!
   receiveInterval: Int!
   transmitInterval: Int!
@@ -2836,6 +2837,11 @@ type FqdnContainerSearchFqdnPayload {
 """ Payload of FQDN container search """
 type FqdnContainerSearchPayload {
   container: FqdnContainer!
+}
+
+type FullPolicyPolicyRef implements ObjectRef & PolicyRef {
+  id: ID!
+  name: String!
 }
 
 type Gaussian {
@@ -4881,6 +4887,7 @@ type PolicyMutations {
   internetFirewall(input: InternetFirewallPolicyMutationInput): InternetFirewallPolicyMutations @beta
   privateAccess(input: PrivateAccessPolicyMutationInput): PrivateAccessPolicyMutations @beta
   remotePortFwd(input: RemotePortFwdPolicyMutationInput): RemotePortFwdPolicyMutations @beta
+  sdpStaticIpAllocation(input: SdpStaticIpAllocationPolicyMutationInput): SdpStaticIpAllocationPolicyMutations @beta
   siteWebProxy(input: SiteWebProxyPolicyMutationInput): SiteWebProxyPolicyMutations @beta
   socketBypass(input: SocketBypassPolicyMutationInput): SocketBypassPolicyMutations @beta
   socketLan(input: SocketLanPolicyMutationInput): SocketLanPolicyMutations @beta
@@ -4902,6 +4909,7 @@ type PolicyQueries {
   internetFirewall: InternetFirewallPolicyQueries @beta
   privateAccess: PrivateAccessPolicyQueries @beta
   remotePortFwd: RemotePortFwdPolicyQueries @beta
+  sdpStaticIpAllocation: SdpStaticIpAllocationPolicyQueries @beta
   siteWebProxy: SiteWebProxyPolicyQueries @beta
   socketBypass: SocketBypassPolicyQueries @beta
   socketLan: SocketLanPolicyQueries @beta
@@ -6128,6 +6136,70 @@ type SandboxReportsPayload {
   report: [SandboxReport!]!
 }
 
+type SdpStaticIpAllocationPolicy implements IPolicy {
+  audit: PolicyAudit
+  enabled: Boolean!
+  revision: PolicyRevision
+  rules: [SdpStaticIpAllocationRulePayload!]!
+  sections: [PolicySectionPayload!]!
+}
+
+type SdpStaticIpAllocationPolicyMutationPayload implements IPolicyMutationPayload {
+  errors: [PolicyMutationError!]!
+  policy: SdpStaticIpAllocationPolicy
+  status: PolicyMutationStatus!
+}
+
+type SdpStaticIpAllocationPolicyMutations {
+  addRule(input: SdpStaticIpAllocationAddRuleInput!): SdpStaticIpAllocationRuleMutationPayload!
+  addSection(input: PolicyAddSectionInput!): PolicySectionMutationPayload!
+  createPolicyRevision(input: PolicyCreateRevisionInput!): SdpStaticIpAllocationPolicyMutationPayload!
+  discardPolicyRevision(input: PolicyDiscardRevisionInput): SdpStaticIpAllocationPolicyMutationPayload!
+  moveRule(input: PolicyMoveRuleInput!): SdpStaticIpAllocationRuleMutationPayload!
+  moveSection(input: PolicyMoveSectionInput!): PolicySectionMutationPayload!
+  publishPolicyRevision(input: PolicyPublishRevisionInput): SdpStaticIpAllocationPolicyMutationPayload!
+  removeRule(input: SdpStaticIpAllocationRemoveRuleInput!): SdpStaticIpAllocationRuleMutationPayload!
+  removeSection(input: PolicyRemoveSectionInput!): PolicySectionMutationPayload!
+  updatePolicy(input: SdpStaticIpAllocationPolicyUpdateInput!): SdpStaticIpAllocationPolicyMutationPayload!
+  updateRule(input: SdpStaticIpAllocationUpdateRuleInput!): SdpStaticIpAllocationRuleMutationPayload!
+  updateSection(input: PolicyUpdateSectionInput!): PolicySectionMutationPayload!
+}
+
+type SdpStaticIpAllocationPolicyQueries {
+  policy(input: SdpStaticIpAllocationPolicyInput): SdpStaticIpAllocationPolicy!
+  revisions: PolicyRevisionsPayload
+}
+
+type SdpStaticIpAllocationRule implements IPolicyRule {
+  description: String!
+  enabled: Boolean!
+  id: ID!
+  index: Int!
+  ip: IPAddress!
+  name: String!
+  section: PolicySectionInfo!
+  source: SdpStaticIpAllocationSource!
+}
+
+type SdpStaticIpAllocationRuleMutationPayload implements IPolicyRuleMutationPayload {
+  errors: [PolicyMutationError!]!
+  revision: PolicyRevision
+  rule: SdpStaticIpAllocationRulePayload
+  status: PolicyMutationStatus!
+}
+
+type SdpStaticIpAllocationRulePayload implements IPolicyRulePayload {
+  audit: PolicyElementAudit!
+  metadata: PolicyElementMetadata
+  properties: [PolicyElementPropertiesEnum!]!
+  rule: SdpStaticIpAllocationRule!
+}
+
+""" User that the static IP allocation rule will apply to """
+type SdpStaticIpAllocationSource {
+  user: UserRef
+}
+
 type SecondaryAwsVSocket {
   id: ID!
   ipAddress: IPAddress!
@@ -6315,7 +6387,7 @@ type SiteMutations {
   addNetworkRange(lanSocketInterfaceId: ID!, input: AddNetworkRangeInput!): AddNetworkRangePayload @ga
   addSecondaryAwsVSocket(input: AddSecondaryAwsVSocketInput!): AddSecondaryAwsVSocketPayload @beta
   addSecondaryAzureVSocket(input: AddSecondaryAzureVSocketInput!): AddSecondaryAzureVSocketPayload @beta
-  addSecondaryGcpVSocket(input: AddSecondaryGcpVSocketInput!): AddSecondaryGcpVSocketPayload @rollout @beta
+  addSecondaryGcpVSocket(input: AddSecondaryGcpVSocketInput!): AddSecondaryGcpVSocketPayload @beta
   addSecondaryKvmVSocket(input: AddSecondaryKvmVSocketInput!): AddSecondaryKvmVSocketPayload @rollout @beta
   addSocketAddOnCard(input: AddSocketAddOnCardInput!): AddSocketAddOnCardPayload @beta
   addSocketSite(input: AddSocketSiteInput!): AddSocketSitePayload @ga
@@ -6336,7 +6408,7 @@ type SiteMutations {
   removeNetworkRange(networkRangeId: ID!): RemoveNetworkRangePayload @ga
   removeSecondaryAwsVSocket(socketId: ID!): RemoveSecondaryAwsVSocketPayload @beta
   removeSecondaryAzureVSocket(socketId: ID!): RemoveSecondaryAzureVSocketPayload @beta
-  removeSecondaryGcpVSocket(input: RemoveSecondaryGcpVSocketInput!): RemoveSecondaryGcpVSocketPayload @rollout @beta
+  removeSecondaryGcpVSocket(input: RemoveSecondaryGcpVSocketInput!): RemoveSecondaryGcpVSocketPayload @beta
   removeSecondaryKvmVSocket(input: RemoveSecondaryKvmVSocketInput!): RemoveSecondaryKvmVSocketPayload @rollout @beta
   removeSite(siteId: ID!): RemoveSitePayload @ga
   removeSiteBwLicense(input: RemoveSiteBwLicenseInput!): RemoveSiteBwLicensePayload @beta
@@ -6356,7 +6428,7 @@ type SiteMutations {
   updateNetworkRangeBulk(input: UpdateNetworkRangeBulkInput!): UpdateNetworkRangeBulkPayload @beta
   updateSecondaryAwsVSocket(input: UpdateSecondaryAwsVSocketInput!): UpdateSecondaryAwsVSocketPayload @beta
   updateSecondaryAzureVSocket(input: UpdateSecondaryAzureVSocketInput!): UpdateSecondaryAzureVSocketPayload @beta
-  updateSecondaryGcpVSocket(input: UpdateSecondaryGcpVSocketInput!): UpdateSecondaryGcpVSocketPayload @rollout @beta
+  updateSecondaryGcpVSocket(input: UpdateSecondaryGcpVSocketInput!): UpdateSecondaryGcpVSocketPayload @beta
   updateSiteBackhauling(input: UpdateSiteBackhaulingInput!): UpdateSiteBackhaulingPayload @beta
   updateSiteBwLicense(input: UpdateSiteBwLicenseInput!): UpdateSiteBwLicensePayload @beta
   updateSiteGeneralDetails(siteId: ID!, input: UpdateSiteGeneralDetailsInput!): UpdateSiteGeneralDetailsPayload @ga
@@ -6396,7 +6468,7 @@ type SiteQueries {
   retrieveUsedVlanIDs(input: RetrieveUsedVlanIDsInput!): RetrieveUsedVlanIDsPayload @beta
   secondaryAwsVSocket(socketId: ID!): SecondaryAwsVSocket @beta
   secondaryAzureVSocket(socketId: ID!): SecondaryAzureVSocket @beta
-  secondaryGcpVSocket(input: SecondaryGcpVSocketInput!): SecondaryGcpVSocketPayload @rollout @beta
+  secondaryGcpVSocket(input: SecondaryGcpVSocketInput!): SecondaryGcpVSocketPayload @beta
   siteBackhauling(site: SiteRefInput!): SiteBackhaulingPayload @beta
   siteBgpStatus(input: SiteBgpStatusInput!): SiteBgpStatus @beta
   siteGeneralDetails(site: SiteRefInput!): SiteGeneralDetailsPayload @beta
@@ -7623,7 +7695,8 @@ type TlsInspectPolicyRef implements ObjectRef & PolicyRef {
 type TlsInspectRule implements IPolicyRule {
   action: TlsInspectAction!
   application: TlsInspectApplication!
-  connectionOrigin: ConnectionOriginEnum!
+  connectionOrigin: ConnectionOriginEnum! @deprecated(reason: "use connectionsOriginList instead. Planned end-of-life (EoL) date: January 31, 2027.")
+  connectionsOriginList: [ConnectionOriginsEnum!]!
   country: [CountryRef!]!
   description: String!
   devicePostureProfile: [DeviceProfileRef!]!
@@ -9789,6 +9862,7 @@ input BandwidthManagementRefInput {
 }
 
 input BfdSettingsInput {
+  multiHop: Boolean! = false
   multiplier: Int! = 5
   receiveInterval: Int! = 1000
   transmitInterval: Int! = 1000
@@ -10671,6 +10745,11 @@ input DeviceV2Input {
   filter: [DeviceV2FilterInput!]
   paging: PagingInput! = {limit:100,from:0}
   sort: DeviceSortInput! = {id:{direction:DESC,priority:1}}
+}
+
+input DhcpLeaseTimeOverrideSettings {
+  leaseTime: Int!
+  timeUnit: LeaseTimeMeasureUnit!
 }
 
 input Dimension {
@@ -11819,6 +11898,7 @@ input NetworkDhcpSettingsInput {
   dhcpMicrosegmentation: Boolean
   dhcpType: DhcpType!
   ipRange: IPRange
+  leaseTimeOverrideSettings: DhcpLeaseTimeOverrideSettings
   relayGroupId: ID
 }
 
@@ -12815,6 +12895,58 @@ input SandboxReportsInput {
 input SandboxReportsSortInput {
   fileName: SortOrderInput
   reportCreateDate: SortOrderInput
+}
+
+input SdpStaticIpAllocationAddRuleDataInput {
+  description: String! = ""
+  enabled: Boolean!
+  ip: IPAddress!
+  name: String!
+  source: SdpStaticIpAllocationSourceInput! = {}
+}
+
+input SdpStaticIpAllocationAddRuleInput {
+  at: PolicyRulePositionInput
+  rule: SdpStaticIpAllocationAddRuleDataInput!
+}
+
+input SdpStaticIpAllocationPolicyInput {
+  revision: PolicyRevisionInput
+}
+
+input SdpStaticIpAllocationPolicyMutationInput {
+  revision: PolicyMutationRevisionInput
+}
+
+input SdpStaticIpAllocationPolicyUpdateInput {
+  state: PolicyToggleState
+}
+
+input SdpStaticIpAllocationRemoveRuleInput {
+  id: ID!
+}
+
+""" User that the static IP allocation rule will apply to """
+input SdpStaticIpAllocationSourceInput {
+  user: UserRefInput
+}
+
+""" User that the static IP allocation rule will apply to """
+input SdpStaticIpAllocationSourceUpdateInput {
+  user: UserRefInput
+}
+
+input SdpStaticIpAllocationUpdateRuleDataInput {
+  description: String
+  enabled: Boolean
+  ip: IPAddress
+  name: String
+  source: SdpStaticIpAllocationSourceUpdateInput
+}
+
+input SdpStaticIpAllocationUpdateRuleInput {
+  id: ID!
+  rule: SdpStaticIpAllocationUpdateRuleDataInput!
 }
 
 input SecondaryAwsVSocketConfigInput {
@@ -13993,7 +14125,8 @@ input TimeFramePredicate {
 input TlsInspectAddRuleDataInput {
   action: TlsInspectAction! = INSPECT
   application: TlsInspectApplicationInput! = {application:[],appCategory:[],country:[],customApp:[],customCategory:[],customServiceIp:[],domain:[],fqdn:[],subnet:[],ip:[],ipRange:[],globalIpRange:[],customService:[],remoteAsn:[],service:[],tlsInspectCategory:[]}
-  connectionOrigin: ConnectionOriginEnum! = ANY
+  connectionOrigin: ConnectionOriginEnum! = ANY@deprecated(reason: "use connectionsOriginList instead. Planned end-of-life (EoL) date: January 31, 2027.")
+  connectionsOriginList: [ConnectionOriginsEnum!]! = []
   country: [CountryRefInput!]! = []
   description: String! = ""
   devicePostureProfile: [DeviceProfileRefInput!]! = []
@@ -14108,7 +14241,8 @@ input TlsInspectSourceUpdateInput {
 input TlsInspectUpdateRuleDataInput {
   action: TlsInspectAction
   application: TlsInspectApplicationUpdateInput
-  connectionOrigin: ConnectionOriginEnum
+  connectionOrigin: ConnectionOriginEnum @deprecated(reason: "use connectionsOriginList instead. Planned end-of-life (EoL) date: January 31, 2027.")
+  connectionsOriginList: [ConnectionOriginsEnum!]
   country: [CountryRefInput!]
   description: String
   devicePostureProfile: [DeviceProfileRefInput!]
@@ -17445,6 +17579,8 @@ enum EventFieldName {
   user_reference_id
   """ User risk level category. CMA Name: User Risk Level """
   user_risk_level
+  """ The user's status. CMA Name: User Status """
+  user_status
   """ The vendor that identified the incident, such as Cato or Microsoft. CMA Name: Vendor """
   vendor
   """ Shows the id of the target user involved in an activity. CMA Name: Vendor Collaborator ID """
@@ -19030,9 +19166,9 @@ enum SplitTunnelActionEnum {
   """ Route all traffic Out-of-Tunnel - Will be Deprecated by ROUTE_ONLY_SELECTED """
   INCLUDE
   OFF
-  """ Route all traffic to Cato - Not yet supported """
+  """ Route all traffic to Cato """
   ROUTE_ALL_TO_CATO_EXCEPT
-  """ Route all traffic Out-of-Tunnel - Not yet supported """
+  """ Route all traffic Out-of-Tunnel """
   ROUTE_ONLY_SELECTED
   """ User choose routing preference """
   USER_DEFINED
