@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "cli_commit_sha": "bb4eede05c897c3dd100b63196055da19321276a",
+  "cli_commit_sha": "ca604f63c4cd345c28cdc54b89cf6dabf07a0d0d",
   "operations": [
     {
       "key": "mutation.accountManagement.addAccount",
@@ -2955,6 +2955,198 @@
       "status": "mapped"
     },
     {
+      "key": "mutation.policy.sdpStaticIpAllocation.addRule",
+      "kind": "mutation",
+      "sdk_file": "sources/mutation.policy.sdpStaticIpAllocation.addRule.gql",
+      "sdk_name": "policySdpStaticIpAllocationAddRule",
+      "variables": [
+        "accountId",
+        "sdpStaticIpAllocationAddRuleInput",
+        "sdpStaticIpAllocationPolicyMutationInput"
+      ],
+      "document_sha256": "4f16b281128f75ffbb331f8ac1908f4ba9966c1ec4b65e133eee9ab5e2a4caa2",
+      "cli_file": "queryPayloads/mutation.policy.sdpStaticIpAllocation.addRule.txt",
+      "cli_name": "policySdpStaticIpAllocationAddRule",
+      "cli_sha256": "b874ebdd806e43299687a82af35ec7cd3b6376d211bd66b57bbdd169072cc0b7",
+      "status": "imported"
+    },
+    {
+      "key": "mutation.policy.sdpStaticIpAllocation.addSection",
+      "kind": "mutation",
+      "sdk_file": "sources/mutation.policy.sdpStaticIpAllocation.addSection.gql",
+      "sdk_name": "policySdpStaticIpAllocationAddSection",
+      "variables": [
+        "accountId",
+        "policyAddSectionInput",
+        "sdpStaticIpAllocationPolicyMutationInput"
+      ],
+      "document_sha256": "c8fb15a80028e3a84ef844d11458396db5270e5331b173aeec80f74a7f9327fc",
+      "cli_file": "queryPayloads/mutation.policy.sdpStaticIpAllocation.addSection.txt",
+      "cli_name": "policySdpStaticIpAllocationAddSection",
+      "cli_sha256": "3d4e4366bdee5fe2fef405713515aebc43042bbf40ebff21a0068960f9940db1",
+      "status": "imported"
+    },
+    {
+      "key": "mutation.policy.sdpStaticIpAllocation.createPolicyRevision",
+      "kind": "mutation",
+      "sdk_file": "sources/mutation.policy.sdpStaticIpAllocation.createPolicyRevision.gql",
+      "sdk_name": "policySdpStaticIpAllocationCreatePolicyRevision",
+      "variables": [
+        "accountId",
+        "policyCreateRevisionInput",
+        "sdpStaticIpAllocationPolicyMutationInput"
+      ],
+      "document_sha256": "f1435aa4612b103d20fadc01c8e30848f0280be6f65cef639237e60cd0ea7e24",
+      "cli_file": "queryPayloads/mutation.policy.sdpStaticIpAllocation.createPolicyRevision.txt",
+      "cli_name": "policySdpStaticIpAllocationCreatePolicyRevision",
+      "cli_sha256": "295c8f8bed8ab83711152d4c2fbbb56a508eefb304912e89fc7e1ad7cd6c0cb2",
+      "status": "imported"
+    },
+    {
+      "key": "mutation.policy.sdpStaticIpAllocation.discardPolicyRevision",
+      "kind": "mutation",
+      "sdk_file": "sources/mutation.policy.sdpStaticIpAllocation.discardPolicyRevision.gql",
+      "sdk_name": "policySdpStaticIpAllocationDiscardPolicyRevision",
+      "variables": [
+        "accountId",
+        "policyDiscardRevisionInput",
+        "sdpStaticIpAllocationPolicyMutationInput"
+      ],
+      "document_sha256": "586a0faa2dce8ab0d9caaf5e68454d3a9ba1b3a66b3beb910c9a2392ce6a5394",
+      "cli_file": "queryPayloads/mutation.policy.sdpStaticIpAllocation.discardPolicyRevision.txt",
+      "cli_name": "policySdpStaticIpAllocationDiscardPolicyRevision",
+      "cli_sha256": "6f8ff0eb0bd3efcfbd84800c645c6a6fded9f784cac62cd7e5381a040511fcc7",
+      "status": "imported"
+    },
+    {
+      "key": "mutation.policy.sdpStaticIpAllocation.moveRule",
+      "kind": "mutation",
+      "sdk_file": "sources/mutation.policy.sdpStaticIpAllocation.moveRule.gql",
+      "sdk_name": "policySdpStaticIpAllocationMoveRule",
+      "variables": [
+        "accountId",
+        "policyMoveRuleInput",
+        "sdpStaticIpAllocationPolicyMutationInput"
+      ],
+      "document_sha256": "15aff9b5ef955a6af5ddf973e4ce27bc975d71994e349b0276d94cdebe7edc20",
+      "cli_file": "queryPayloads/mutation.policy.sdpStaticIpAllocation.moveRule.txt",
+      "cli_name": "policySdpStaticIpAllocationMoveRule",
+      "cli_sha256": "b26b3d0610af9eab177220499d231829ff0331c6c13b2ab1c66c70d7eccff58f",
+      "status": "imported"
+    },
+    {
+      "key": "mutation.policy.sdpStaticIpAllocation.moveSection",
+      "kind": "mutation",
+      "sdk_file": "sources/mutation.policy.sdpStaticIpAllocation.moveSection.gql",
+      "sdk_name": "policySdpStaticIpAllocationMoveSection",
+      "variables": [
+        "accountId",
+        "policyMoveSectionInput",
+        "sdpStaticIpAllocationPolicyMutationInput"
+      ],
+      "document_sha256": "e432fdc86de889e6842ced7a414a434d0208cd2b5444c7bdf0c8a185a34a9500",
+      "cli_file": "queryPayloads/mutation.policy.sdpStaticIpAllocation.moveSection.txt",
+      "cli_name": "policySdpStaticIpAllocationMoveSection",
+      "cli_sha256": "88b74dc54d737650efbf6bee240e4d30224e042ed42faa0d219acfbf0ed7e0a4",
+      "status": "imported"
+    },
+    {
+      "key": "mutation.policy.sdpStaticIpAllocation.publishPolicyRevision",
+      "kind": "mutation",
+      "sdk_file": "sources/mutation.policy.sdpStaticIpAllocation.publishPolicyRevision.gql",
+      "sdk_name": "policySdpStaticIpAllocationPublishPolicyRevision",
+      "variables": [
+        "accountId",
+        "policyPublishRevisionInput",
+        "sdpStaticIpAllocationPolicyMutationInput"
+      ],
+      "document_sha256": "5fabe11c2150dd8b9e5ab5d44124433ac56892fdab50b9476c1317032c5250f0",
+      "cli_file": "queryPayloads/mutation.policy.sdpStaticIpAllocation.publishPolicyRevision.txt",
+      "cli_name": "policySdpStaticIpAllocationPublishPolicyRevision",
+      "cli_sha256": "cbf6cb71349b2dcde4f8f0b56222c7481c8d8b87d358e13b5ceea6e76e177663",
+      "status": "imported"
+    },
+    {
+      "key": "mutation.policy.sdpStaticIpAllocation.removeRule",
+      "kind": "mutation",
+      "sdk_file": "sources/mutation.policy.sdpStaticIpAllocation.removeRule.gql",
+      "sdk_name": "policySdpStaticIpAllocationRemoveRule",
+      "variables": [
+        "accountId",
+        "sdpStaticIpAllocationPolicyMutationInput",
+        "sdpStaticIpAllocationRemoveRuleInput"
+      ],
+      "document_sha256": "7350dae67472abe5e0a5b733c57994b8ee0e836f777acee04d274e5f98d70af5",
+      "cli_file": "queryPayloads/mutation.policy.sdpStaticIpAllocation.removeRule.txt",
+      "cli_name": "policySdpStaticIpAllocationRemoveRule",
+      "cli_sha256": "9961d17dc5864598d9c68eb84189fbfa6a4f12950f86db1ee62c373c0a6254e9",
+      "status": "imported"
+    },
+    {
+      "key": "mutation.policy.sdpStaticIpAllocation.removeSection",
+      "kind": "mutation",
+      "sdk_file": "sources/mutation.policy.sdpStaticIpAllocation.removeSection.gql",
+      "sdk_name": "policySdpStaticIpAllocationRemoveSection",
+      "variables": [
+        "accountId",
+        "policyRemoveSectionInput",
+        "sdpStaticIpAllocationPolicyMutationInput"
+      ],
+      "document_sha256": "535b858e5c62b48dcbd0308023331fc239293b26a0eb82791c43009ef09f929f",
+      "cli_file": "queryPayloads/mutation.policy.sdpStaticIpAllocation.removeSection.txt",
+      "cli_name": "policySdpStaticIpAllocationRemoveSection",
+      "cli_sha256": "1dde0c431db686a56a47ee66b32c0fd7a73ce94bf0c8c354588fd1b17cc961dc",
+      "status": "imported"
+    },
+    {
+      "key": "mutation.policy.sdpStaticIpAllocation.updatePolicy",
+      "kind": "mutation",
+      "sdk_file": "sources/mutation.policy.sdpStaticIpAllocation.updatePolicy.gql",
+      "sdk_name": "policySdpStaticIpAllocationUpdatePolicy",
+      "variables": [
+        "accountId",
+        "sdpStaticIpAllocationPolicyMutationInput",
+        "sdpStaticIpAllocationPolicyUpdateInput"
+      ],
+      "document_sha256": "b0bff5c32f76f610c5b2bf93d4cec946be397909a86de6215d2f5d443e9a17e0",
+      "cli_file": "queryPayloads/mutation.policy.sdpStaticIpAllocation.updatePolicy.txt",
+      "cli_name": "policySdpStaticIpAllocationUpdatePolicy",
+      "cli_sha256": "8e0d8d96ab554af4934a4c9b19e737ab1b07ca7c7bd67b859d92592ffc3683ea",
+      "status": "imported"
+    },
+    {
+      "key": "mutation.policy.sdpStaticIpAllocation.updateRule",
+      "kind": "mutation",
+      "sdk_file": "sources/mutation.policy.sdpStaticIpAllocation.updateRule.gql",
+      "sdk_name": "policySdpStaticIpAllocationUpdateRule",
+      "variables": [
+        "accountId",
+        "sdpStaticIpAllocationPolicyMutationInput",
+        "sdpStaticIpAllocationUpdateRuleInput"
+      ],
+      "document_sha256": "9f3f609b1f7987f8b739b7f4c146bb01a53a7eb260680e59f7941feef026af80",
+      "cli_file": "queryPayloads/mutation.policy.sdpStaticIpAllocation.updateRule.txt",
+      "cli_name": "policySdpStaticIpAllocationUpdateRule",
+      "cli_sha256": "de61b53d3bdefd4dabf57a8606b6f28b95b606bc2fe45de531c10f74c5540297",
+      "status": "imported"
+    },
+    {
+      "key": "mutation.policy.sdpStaticIpAllocation.updateSection",
+      "kind": "mutation",
+      "sdk_file": "sources/mutation.policy.sdpStaticIpAllocation.updateSection.gql",
+      "sdk_name": "policySdpStaticIpAllocationUpdateSection",
+      "variables": [
+        "accountId",
+        "policyUpdateSectionInput",
+        "sdpStaticIpAllocationPolicyMutationInput"
+      ],
+      "document_sha256": "b6490be4df1207ea6e93eed652073ac098ce4169f26e5a602c6354dbf14ac496",
+      "cli_file": "queryPayloads/mutation.policy.sdpStaticIpAllocation.updateSection.txt",
+      "cli_name": "policySdpStaticIpAllocationUpdateSection",
+      "cli_sha256": "2df1e965f77d46a682ff354a6d712d114e51ebe64d0704806ae6cdad55dd6c53",
+      "status": "imported"
+    },
+    {
       "key": "mutation.policy.siteWebProxy.addRule",
       "kind": "mutation",
       "sdk_file": "sources/mutation.policy.siteWebProxy.addRule.gql",
@@ -4046,10 +4238,10 @@
         "accountId",
         "tlsInspectPolicyMutationInput"
       ],
-      "document_sha256": "0af9d2edf2de9b99cc547666115c591f442a594ebb491cec3ca45744c284ad3c",
+      "document_sha256": "952172bad3f80fdd1c0f4aafe6bc206c14d02455a23139b543267eb688a45043",
       "cli_file": "queryPayloads/mutation.policy.tlsInspect.addRule.txt",
       "cli_name": "policyTlsInspectAddRule",
-      "cli_sha256": "77d6d7e4a433dd3b896d44c0c1d8c327cad4c0b4fbf3e5746096af4dd5d405a0",
+      "cli_sha256": "20d63010d96b4779460c9c56d37fd07e7ba7ce892460614741b0d292e95cf6ef",
       "status": "mapped"
     },
     {
@@ -4078,10 +4270,10 @@
         "accountId",
         "tlsInspectPolicyMutationInput"
       ],
-      "document_sha256": "6e92b09de9e513f72dd63dd427459e4b52bfd6ea7fd81930e20988184b64573d",
+      "document_sha256": "a0096bf0c208951a4776dd9928b8b52b648e4a29e9c76de4d4c186878ec29002",
       "cli_file": "queryPayloads/mutation.policy.tlsInspect.createPolicyRevision.txt",
       "cli_name": "policyTlsInspectCreatePolicyRevision",
-      "cli_sha256": "b479df2128751375c3c0fef0a16e840594177a60ff569fe8d8cf7854cd9d4475",
+      "cli_sha256": "b6977a08a61b8c63db08af9ca3696280b59d6c8e201be87f0dd4c5b210620251",
       "status": "mapped"
     },
     {
@@ -4094,10 +4286,10 @@
         "policyDiscardRevisionInput",
         "tlsInspectPolicyMutationInput"
       ],
-      "document_sha256": "b27d1b9f1c1b2ea5c4ed22373cf9c9b724b68aa1a32304d0ef48f465642bfd6d",
+      "document_sha256": "11180de2668e05df7f67caf74c2df0c0598e842e7050c52277b7380b3cffe6cb",
       "cli_file": "queryPayloads/mutation.policy.tlsInspect.discardPolicyRevision.txt",
       "cli_name": "policyTlsInspectDiscardPolicyRevision",
-      "cli_sha256": "80021a75d6bafacd952bcea4bd990fe921860caeb420c910c8825a90466dbea4",
+      "cli_sha256": "eaae07b0ea4f8dddef5c19ccf3494eb1003572b4bf2ef16320db9085ac09da69",
       "status": "mapped"
     },
     {
@@ -4110,10 +4302,10 @@
         "accountId",
         "tlsInspectPolicyMutationInput"
       ],
-      "document_sha256": "124ba3992aed1ad01b20426331527e519505ad5d6fd6a8659979bdae9e8a4d07",
+      "document_sha256": "5b010fa30f8bf54ae21d5c6d76853289cc8a166d645afd48d6522fcad2664388",
       "cli_file": "queryPayloads/mutation.policy.tlsInspect.moveRule.txt",
       "cli_name": "policyTlsInspectMoveRule",
-      "cli_sha256": "2de1042d1971eed53072b7941b22c958616de0406c5af25e0b9fbfb8ad132216",
+      "cli_sha256": "cd780259e3e385a53cffd4d0ef7440613714d088ae00f6a57883179d1639b1f0",
       "status": "mapped"
     },
     {
@@ -4142,10 +4334,10 @@
         "policyPublishRevisionInput",
         "tlsInspectPolicyMutationInput"
       ],
-      "document_sha256": "6036a6bf692d34ece0f49ab9cec886c0a062a075ce61ea80edb9ba46a78cf92f",
+      "document_sha256": "c96759cae2db4ab076a42e4e3d5ac29e01d6b4bb4ea3a5013d5870a7baf06df8",
       "cli_file": "queryPayloads/mutation.policy.tlsInspect.publishPolicyRevision.txt",
       "cli_name": "policyTlsInspectPublishPolicyRevision",
-      "cli_sha256": "c3afd0a4d7e773bbf6fd13cf87406975a6dda1ab2a6925a52da4f0099e8ab304",
+      "cli_sha256": "cb656d09fd75a246388c7618f5c7a04e5b80b947299f6d39f5741cb6ad27e031",
       "status": "mapped"
     },
     {
@@ -4158,10 +4350,10 @@
         "accountId",
         "tlsInspectPolicyMutationInput"
       ],
-      "document_sha256": "b839db499397de3b1d541659cd0f717ad0917bfa6ad53ae5a74614b620d4e943",
+      "document_sha256": "e4ef5d91042dd06f7811c72dd2aad136d855b473e6fed5c65604502814846ced",
       "cli_file": "queryPayloads/mutation.policy.tlsInspect.removeRule.txt",
       "cli_name": "policyTlsInspectRemoveRule",
-      "cli_sha256": "de1193075be87db60f59108fe34692cbc2d0152970727200f138b3946192ee88",
+      "cli_sha256": "4e9d024a4088649fee0ab3ba3153a803a2d5c4250503e68e189b05c5d2e24501",
       "status": "mapped"
     },
     {
@@ -4190,10 +4382,10 @@
         "accountId",
         "tlsInspectPolicyMutationInput"
       ],
-      "document_sha256": "92c8ac3042b232cd555d013edfea25b8a02ddf8e41b3f240cd46a4e4ab2592d0",
+      "document_sha256": "0fac0d63d1f669f24d6d3a7c93d6d26f0e161044f5ab7ae5095739ab30049ed7",
       "cli_file": "queryPayloads/mutation.policy.tlsInspect.updatePolicy.txt",
       "cli_name": "policyTlsInspectUpdatePolicy",
-      "cli_sha256": "6f3026d0fd66ad41489d1ae29c8e56699353f1cc7ab3ad6d1080837d4523b67a",
+      "cli_sha256": "f52f6edd3ca60ed31f25a380554ded4e39d00ac8aba80bece8b054ffaebe8993",
       "status": "mapped"
     },
     {
@@ -4206,10 +4398,10 @@
         "accountId",
         "tlsInspectPolicyMutationInput"
       ],
-      "document_sha256": "6600c4b9612906166c2dc3ee2ad8cb9fa9291e486af5382f05f550e496606915",
+      "document_sha256": "4158f504ef1722967f61aabf8ce3ce1664d8d8501c32f0915462e6a3bfbdfccb",
       "cli_file": "queryPayloads/mutation.policy.tlsInspect.updateRule.txt",
       "cli_name": "policyTlsInspectUpdateRule",
-      "cli_sha256": "1c0b18fca2c36632bfb4a16d4cf350c5d4b1217c52b5b3633eac94ef3201f8f0",
+      "cli_sha256": "fd519f001fe3a1e9bcfc5fd6b5c52bb503ed98bcb924137b5e652336dc70f535",
       "status": "mapped"
     },
     {
@@ -5236,10 +5428,10 @@
         "addBgpPeerInput",
         "accountId"
       ],
-      "document_sha256": "7a274f56722ea80b27b9472ddfde154ed7a9c34e820be2423bacef08717b1ea2",
+      "document_sha256": "c4f413376dfa420d0fb482a21ddb996bbe7a9ce2b4d4a57e1d5db606166e24ba",
       "cli_file": "queryPayloads/mutation.site.addBgpPeer.txt",
       "cli_name": "siteAddBgpPeer",
-      "cli_sha256": "25f9bbb9a2b31d80af4e1fc72b07e8c98bbc5d476c915b1606bc0dd57f778176",
+      "cli_sha256": "2969be00fc2d7a86dc624973ae80f54d2b3f55b922c5c3e97bb4ce876925b7b9",
       "status": "mapped"
     },
     {
@@ -5449,10 +5641,10 @@
         "accountId",
         "createBgpPeerBulkInput"
       ],
-      "document_sha256": "f9f5b573daea82262ddb746946bb2d1ccba9ce825a5d9429af113e6257ed35a8",
+      "document_sha256": "bfce775ef7757dcd1fd9358b26fa6b56e2297f06c586a28f2ed59c8cf44c42ad",
       "cli_file": "queryPayloads/mutation.site.createBgpPeerBulk.txt",
       "cli_name": "siteCreateBgpPeerBulk",
-      "cli_sha256": "51e69f20c62d13a431065aec59adae6a9af3adaa2d724fc247911f8ccdd9b613",
+      "cli_sha256": "48ebb31124cb5eadcab62dc39f3bc0bb836ff8daa9e3e25c5574e805325346d1",
       "status": "imported"
     },
     {
@@ -5464,10 +5656,10 @@
         "accountId",
         "createNetworkRangeBulkInput"
       ],
-      "document_sha256": "6e93f6bf268d5bc564e781519e9eca1f1adb2e484b90a9ee0f5dd403d8d07016",
+      "document_sha256": "08942d9156966a9ec04d5f03fe6a48db8239c26581c8e7813778d3487df20110",
       "cli_file": "queryPayloads/mutation.site.createNetworkRangeBulk.txt",
       "cli_name": "siteCreateNetworkRangeBulk",
-      "cli_sha256": "44dcf06a70be4b2870f0757c32e7df08b757c2f6df9c84e9bae189c1eb3a3360",
+      "cli_sha256": "ae3a823f00c5807f77abe6788f33416b7d1b03c862cf068fd5c2fe9792e2aa37",
       "status": "imported"
     },
     {
@@ -5524,10 +5716,10 @@
         "accountId",
         "deleteBgpPeerBulkInput"
       ],
-      "document_sha256": "a9492014b604d2dc0e892b8f562d40f52dbe43af0f71c3e96374b2ec80f710e6",
+      "document_sha256": "263a44ce2a655f2afe34021bc425366fb0804d9d7c776933fc8162e34d77a9d7",
       "cli_file": "queryPayloads/mutation.site.deleteBgpPeerBulk.txt",
       "cli_name": "siteDeleteBgpPeerBulk",
-      "cli_sha256": "0a7266894b49476af524c0d9ebc02e99e035b2b121888fbde281eaaa203f83e1",
+      "cli_sha256": "b0f24683ce6842d00c15540d90d063dc6c73a137cf7931b9547c1c52cfd4f1eb",
       "status": "imported"
     },
     {
@@ -5539,10 +5731,10 @@
         "accountId",
         "deleteNetworkRangeBulkInput"
       ],
-      "document_sha256": "1850101fd62cd7d967be2828776cfcf0d55f1a881c2ac689f5772ff138e6dd48",
+      "document_sha256": "98dced4007ad8d22e09b7aba1c14f92ebee0a01f1f0bbf2ba0e008973ccbc0d6",
       "cli_file": "queryPayloads/mutation.site.deleteNetworkRangeBulk.txt",
       "cli_name": "siteDeleteNetworkRangeBulk",
-      "cli_sha256": "f64c5298cc1f658683f94de30d9f10155d30122fc357536ad4606342fdf9c42c",
+      "cli_sha256": "856a170030cf928082831c3939e060e784a80df5b674f83b9bd21ea0b0173cf7",
       "status": "imported"
     },
     {
@@ -5584,10 +5776,10 @@
         "removeBgpPeerInput",
         "accountId"
       ],
-      "document_sha256": "58a6244c9dc7a6ba9bf23108a81fb43e8f7ad01c3f1624241b28645983247c85",
+      "document_sha256": "c9a17686a49c79de7b78d7cbbf3a3f233a31189c27ec9c87d52a9c0b17bb9c69",
       "cli_file": "queryPayloads/mutation.site.removeBgpPeer.txt",
       "cli_name": "siteRemoveBgpPeer",
-      "cli_sha256": "83f8323def258a4b3073cb8f5950cccb7ca7b312f997b217b88ea444c7a561ac",
+      "cli_sha256": "9575275567ccf419da726d1345988e26db07318dc389ff283ef70979a6e9146c",
       "status": "mapped"
     },
     {
@@ -5810,10 +6002,10 @@
         "updateBgpPeerInput",
         "accountId"
       ],
-      "document_sha256": "99a06e35c696a05f1e4f524893db096f25cd0a69a50e30f2c4e871b46b782652",
+      "document_sha256": "a9b39b209044d2dce193703a81124ab21266d49597a2ac972266ad474295d5f7",
       "cli_file": "queryPayloads/mutation.site.updateBgpPeer.txt",
       "cli_name": "siteUpdateBgpPeer",
-      "cli_sha256": "23a6b36522141d88f00a69ef2c642df194706067f5d6b1e829647cfff586dfc9",
+      "cli_sha256": "8474f775da0290aba93f0c0dff5e7534016591125aabe4587e2526c2c739b8ae",
       "status": "mapped"
     },
     {
@@ -5825,10 +6017,10 @@
         "accountId",
         "updateBgpPeerBulkInput"
       ],
-      "document_sha256": "317dad795739242365230c9bcc5f535095a783d0f3b3add75b0d75d7c051ef2f",
+      "document_sha256": "f444d5e07f807c7c00ee5e462bd862431f296acbb1f37cb5a104305674c7035b",
       "cli_file": "queryPayloads/mutation.site.updateBgpPeerBulk.txt",
       "cli_name": "siteUpdateBgpPeerBulk",
-      "cli_sha256": "69f51f9bc556e251aa63a1b9fcec53fb80eb2ca134458d1238d554fbcc0384aa",
+      "cli_sha256": "9d49f13c5fd6007ee57c89eaa4c555be6ff13650decd5ba0b146392040823c7e",
       "status": "imported"
     },
     {
@@ -5840,10 +6032,10 @@
         "accountId",
         "updateBgpPeersInput"
       ],
-      "document_sha256": "9314d0420aa1c00c04b4310b9ac1112f39465ed49596f45e215a334764865aa2",
+      "document_sha256": "046a4feed4e6a473dfde70681334de624fa6f67d69970d6797952e2fe8dbe17c",
       "cli_file": "queryPayloads/mutation.site.updateBgpPeers.txt",
       "cli_name": "siteUpdateBgpPeers",
-      "cli_sha256": "faeeb37398effcc174aa52f66c5b9af0bb5d6236d59b23322fb6bfb9b19c3505",
+      "cli_sha256": "5b17c4fc20e49aea8578f21194b4ae5f0b8c9af612e175a4a6a345d54f601a9f",
       "status": "imported"
     },
     {
@@ -5934,10 +6126,10 @@
         "accountId",
         "updateNetworkRangeBulkInput"
       ],
-      "document_sha256": "1beef6d385310358abf92c7ad519157a7a89461daeba4aa335dd99ec1683fdf0",
+      "document_sha256": "f8b2c3ed5e8e08ec0f6fe36df352d9674c5ea9a9ac4d2de668ec4b1035e6b699",
       "cli_file": "queryPayloads/mutation.site.updateNetworkRangeBulk.txt",
       "cli_name": "siteUpdateNetworkRangeBulk",
-      "cli_sha256": "06073ca407e670b44018ffb43a341efb86e70a57596a87ec5164c298e073a012",
+      "cli_sha256": "96bc144d16915cc3ce63125d23b9e77b1ee29d0e44470dbf87054e80c54d9c37",
       "status": "imported"
     },
     {
@@ -6040,10 +6232,10 @@
         "accountId",
         "updateSiteNetworkRangesInput"
       ],
-      "document_sha256": "3aae77d35f54b9d13da562b4db3f4c884cee4a1026632fa73229316771373837",
+      "document_sha256": "55849ce1d1239379937703a03a5efadb674bcf8377dd067278851ad893c064be",
       "cli_file": "queryPayloads/mutation.site.updateSiteNetworkRanges.txt",
       "cli_name": "siteUpdateSiteNetworkRanges",
-      "cli_sha256": "c108d1664795eeddf06088c473e8e4c24ebde5d1dbf01af53ccb4fd8a456a309",
+      "cli_sha256": "fc42d57f904367eb8109e4d553f75e572b1668106a9406ae4a8410eb125c1b37",
       "status": "imported"
     },
     {
@@ -6178,10 +6370,10 @@
         "addBgpPeerInput",
         "accountId"
       ],
-      "document_sha256": "692aaf09c813425a5e815341e27d326c1ee55fb05718794fd027f0bd4651b5fd",
+      "document_sha256": "226d8ec4c84f6ada2f7c30fbd816cf8bdfa94a5fed7161dce3f128a7aab9cbb7",
       "cli_file": "queryPayloads/mutation.sites.addBgpPeer.txt",
       "cli_name": "sitesAddBgpPeer",
-      "cli_sha256": "34bbee3c3b8b8743531e2b0f19ab7d1977d9b5728b517b51735cf170251ff721",
+      "cli_sha256": "9ffd86164a8cc63449b6722023a24197f289bb73a3d63d25474e18d52fb31767",
       "status": "mapped"
     },
     {
@@ -6391,10 +6583,10 @@
         "accountId",
         "createBgpPeerBulkInput"
       ],
-      "document_sha256": "e5a7d0b822fa40ce45bea4a0916bc2e4d9f6eda15f1bec659105483af91b0bc1",
+      "document_sha256": "cd5d851689a7524d75f77db5a15952763142f1eb6206d94b53c1cd32a4dce9c2",
       "cli_file": "queryPayloads/mutation.sites.createBgpPeerBulk.txt",
       "cli_name": "sitesCreateBgpPeerBulk",
-      "cli_sha256": "bc6998107f9eb3c9becea7fb8a887c54c4c63f1034e593d967f6e1e883e15209",
+      "cli_sha256": "4cfb37408017eed26f391dbfd384ff6804870728d8a784269cad86a27ace5711",
       "status": "imported"
     },
     {
@@ -6406,10 +6598,10 @@
         "accountId",
         "createNetworkRangeBulkInput"
       ],
-      "document_sha256": "f2b2db190bd805d37de630ac0e55dd77bfc8c47a3b34abdb21b1e57ee55e0e7b",
+      "document_sha256": "7451c7bbe594d7d2a1f7749572a45c0391d14d72c9cd65a51e1a13b570b38fb0",
       "cli_file": "queryPayloads/mutation.sites.createNetworkRangeBulk.txt",
       "cli_name": "sitesCreateNetworkRangeBulk",
-      "cli_sha256": "d1ece47d130b71bef0d73a03dc6256a561162c9373be30665e994a29415d4e59",
+      "cli_sha256": "b2a49ba160d64404f8607d80d94dd267d0b70e7c95938fa768a43f480d20141e",
       "status": "imported"
     },
     {
@@ -6466,10 +6658,10 @@
         "accountId",
         "deleteBgpPeerBulkInput"
       ],
-      "document_sha256": "f70b5d80d1e70a8f20d721c07ea9f4158b89c2defc0031f64bae67a1342dbf7b",
+      "document_sha256": "e0c520f463b6c8e60fdcfa68dcbda73fb5af5f4832476a28c4c80a0f57b5fce4",
       "cli_file": "queryPayloads/mutation.sites.deleteBgpPeerBulk.txt",
       "cli_name": "sitesDeleteBgpPeerBulk",
-      "cli_sha256": "0bcbfce25e0d5c77f93672dcb4f068f9cf0e7cc790b1d49640c340dac9d27f87",
+      "cli_sha256": "98ca8e10f192ff9bff11be13ab1061993e5d17d8c852e85cce32b8aa8d428f72",
       "status": "imported"
     },
     {
@@ -6481,10 +6673,10 @@
         "accountId",
         "deleteNetworkRangeBulkInput"
       ],
-      "document_sha256": "36fefcb52542bd54a363062c01f3a19a10821fdfb65dd31dc2d5f14c7bfef69f",
+      "document_sha256": "bfcc54c5ea222aef17818f2a0b1b682285ffeb3beed60712b65aeaf36c7ecf9b",
       "cli_file": "queryPayloads/mutation.sites.deleteNetworkRangeBulk.txt",
       "cli_name": "sitesDeleteNetworkRangeBulk",
-      "cli_sha256": "f339961ca8f3cb7be19219cd71b5af2d462b96fe4fb3fb0d9e3a9e07b0ca2fdc",
+      "cli_sha256": "88a242cbb6b5adf6738c5e4fcc65ef44f0087ef0e8d362e3cc4c590a29a23207",
       "status": "imported"
     },
     {
@@ -6526,10 +6718,10 @@
         "removeBgpPeerInput",
         "accountId"
       ],
-      "document_sha256": "e987b6cbefd782e997337e021b886c7d6ac111dcc4ba80343e2bb3a04d425c8d",
+      "document_sha256": "0359e81213c2a0735d586ad3dcbdb0f12472f31cae91e185851ee5573f1e1e50",
       "cli_file": "queryPayloads/mutation.sites.removeBgpPeer.txt",
       "cli_name": "sitesRemoveBgpPeer",
-      "cli_sha256": "f939952b16ccb024b7c16e9fa2f534ffdde55df1b5c9ef997463bda354ebf84f",
+      "cli_sha256": "d333552b2a138ea8e408054cf2bcd0f8f82767465a33e140fd27093436484666",
       "status": "mapped"
     },
     {
@@ -6752,10 +6944,10 @@
         "updateBgpPeerInput",
         "accountId"
       ],
-      "document_sha256": "f07389afc6c26f9d964b2955adb5ed5b4c9b7a22d559fb7891b1586eb26e0e1c",
+      "document_sha256": "b686421ecc62e67f02d82795f76a3ed72196b3cd8f2d2a6afc3654d804b7cbf2",
       "cli_file": "queryPayloads/mutation.sites.updateBgpPeer.txt",
       "cli_name": "sitesUpdateBgpPeer",
-      "cli_sha256": "06464364bb36f7414f0d34112c4d161743b158aa8ef70c25bf940d2ec575c912",
+      "cli_sha256": "e54b392cc15b22f6a27d1e7ece093024c77f2e86542af4fdd9d2fa3f891ed530",
       "status": "mapped"
     },
     {
@@ -6767,10 +6959,10 @@
         "accountId",
         "updateBgpPeerBulkInput"
       ],
-      "document_sha256": "0d06e45f9f187ec9d667032363a10b7fb69121af7faeddd146ee1faf934e988a",
+      "document_sha256": "bca6410a5b0d40892cd37bf76381203687166bcfe0e01e5e06b4f45cef447140",
       "cli_file": "queryPayloads/mutation.sites.updateBgpPeerBulk.txt",
       "cli_name": "sitesUpdateBgpPeerBulk",
-      "cli_sha256": "29a17b5f9f2283139f53c77241bb79898c9363b3a57c6868c87e8df7c016232c",
+      "cli_sha256": "74f59458761b8377137753bca8b969b9dfe2b8d5efbdf28b170b01021783bf8f",
       "status": "imported"
     },
     {
@@ -6782,10 +6974,10 @@
         "accountId",
         "updateBgpPeersInput"
       ],
-      "document_sha256": "a73b5c0517e52d39028b5f17d701b77943508e43344493dbc243ef3acc582f96",
+      "document_sha256": "fdce1931a1cfd86f217140271a7c6ef701d955eb53ef54f65ba9bba3f8e9af69",
       "cli_file": "queryPayloads/mutation.sites.updateBgpPeers.txt",
       "cli_name": "sitesUpdateBgpPeers",
-      "cli_sha256": "a0d8276ae9c9805a07e1205ce1b29041a59639c0f743b9dfb8d46c7dcb8c29f1",
+      "cli_sha256": "47d1e61f5c8bebcb4686a6df48bcc28b6e294a37f8cc471cc04ba70aae6c55a6",
       "status": "imported"
     },
     {
@@ -6876,10 +7068,10 @@
         "accountId",
         "updateNetworkRangeBulkInput"
       ],
-      "document_sha256": "1e1568b94f31861b5748cc02d1dd34dbf344a9af58f8d06e781891d83812e6c4",
+      "document_sha256": "84bbb34a4d801e08a44882ab06be41e1566144751a8d1c154f9c1593b727045c",
       "cli_file": "queryPayloads/mutation.sites.updateNetworkRangeBulk.txt",
       "cli_name": "sitesUpdateNetworkRangeBulk",
-      "cli_sha256": "ad99f246b3e7cfbad38bb8d3a78a5a44ab23354c2f1ae25537bfeaf00a591357",
+      "cli_sha256": "2b8dc3cfbd886fdf55c2a6a20a3b8ee98fd87e0f383846b1857ab03831a997f8",
       "status": "imported"
     },
     {
@@ -6982,10 +7174,10 @@
         "accountId",
         "updateSiteNetworkRangesInput"
       ],
-      "document_sha256": "5f388766946ba89ddbb27b27db91f239f368df745884c796c5ebca69edad079f",
+      "document_sha256": "87be42def3ae6fc1eb24b39089aea78745fcbbddf643f3523a657eb642313f2f",
       "cli_file": "queryPayloads/mutation.sites.updateSiteNetworkRanges.txt",
       "cli_name": "sitesUpdateSiteNetworkRanges",
-      "cli_sha256": "a243c3febcdd60c270365d58171fb390292f54c331c943b9db4b189e2bf8e558",
+      "cli_sha256": "62c1614a22665c8c0150819cf66d791f65ee29733e1cb7c62aa1ffadffc51301",
       "status": "imported"
     },
     {
@@ -8516,6 +8708,21 @@
       "status": "mapped"
     },
     {
+      "key": "query.policy.sdpStaticIpAllocation.policy",
+      "kind": "query",
+      "sdk_file": "sources/query.policy.sdpStaticIpAllocation.policy.gql",
+      "sdk_name": "policySdpStaticIpAllocationPolicy",
+      "variables": [
+        "accountId",
+        "sdpStaticIpAllocationPolicyInput"
+      ],
+      "document_sha256": "6dca711e1470baa03af333532c9dafba7f483c97fb488a8f3f9f519342116edb",
+      "cli_file": "queryPayloads/query.policy.sdpStaticIpAllocation.policy.txt",
+      "cli_name": "policySdpStaticIpAllocationPolicy",
+      "cli_sha256": "29346594ce0ead41cf0fdaa106d7db8800ef9dddf4fe795cb00b16cebb1f973a",
+      "status": "imported"
+    },
+    {
       "key": "query.policy.siteWebProxy.policy",
       "kind": "query",
       "sdk_file": "sources/query.policy.siteWebProxy.policy.gql",
@@ -8614,10 +8821,10 @@
         "accountId",
         "tlsInspectPolicyInput"
       ],
-      "document_sha256": "1fb276e4a6867410c633b87bdefa1ca655b2d4f336309001344c3740c7b55e1c",
+      "document_sha256": "b189b9b20d85badd4e41874113e46a63144fa96ecbb9feb42f8140b816b15c72",
       "cli_file": "queryPayloads/query.policy.tlsInspect.policy.txt",
       "cli_name": "policyTlsInspectPolicy",
-      "cli_sha256": "5613721558ece85e07831bff3418840d7936787e1007e3691c545c16897764f2",
+      "cli_sha256": "87a5b4aa4c9d921f17f5ebd8f3ec84c3893c9282e6773f36313638a03f6cc8c5",
       "status": "mapped"
     },
     {
@@ -8930,10 +9137,10 @@
         "accountId",
         "bgpPeerRefInput"
       ],
-      "document_sha256": "a3b71d2763a89fe1fe76b882e6c8a6fcb4ad588fe27fac483461178476c552b5",
+      "document_sha256": "154ad6fca3f26a2e53087bacc9a85ddb86ecdadad66cc00b3c3fd446ac5ad633",
       "cli_file": "queryPayloads/query.site.bgpPeer.txt",
       "cli_name": "siteBgpPeer",
-      "cli_sha256": "0a4d819b8e4ec9165c4c9771b54040f7224921434615e98a07ef291275c62d9b",
+      "cli_sha256": "3f668f51ab74a89b6067def97df440314589007a6d0d994a5fcf87af8bf6c47a",
       "status": "imported"
     },
     {
@@ -8945,10 +9152,10 @@
         "accountId",
         "bgpPeerListInput"
       ],
-      "document_sha256": "551ace4fbb15f41e6bf344a739ca613fbd23a474bec7d2d33c85b0b0d85f7855",
+      "document_sha256": "6562a18226c861b82132ea6a679543b2538b729cd4e8359c9bb531f9bb24ab77",
       "cli_file": "queryPayloads/query.site.bgpPeerList.txt",
       "cli_name": "siteBgpPeerList",
-      "cli_sha256": "c3b999ab1e4c9acf0ce75965a976de6ddd377733451e5197f54e526ba7812aaf",
+      "cli_sha256": "1dd55f4d81dbba2636c99cc43417936278045e3d96721a0ff369b66e296ee6c8",
       "status": "imported"
     },
     {
@@ -9020,10 +9227,10 @@
         "accountID",
         "networkRangeID"
       ],
-      "document_sha256": "12b489ab4df6e3551739df6d16f335255def17ee8a91bdea618c39b7cf8367dd",
+      "document_sha256": "962b538419086ebec206064de9c9851e6a9320ff315c913eb6c113ebd4701ebf",
       "cli_file": "queryPayloads/query.site.networkRange.txt",
       "cli_name": "siteNetworkRange",
-      "cli_sha256": "5fefd9878093e96b0dd4751c696a4bc65099bef811aa18a87843b24fb19ec19a",
+      "cli_sha256": "76fcd1b359b0d356410abbf835dc6a9591e0fca94faa543f3e9b414d49f6ec6e",
       "status": "mapped"
     },
     {
@@ -9035,10 +9242,10 @@
         "accountID",
         "input"
       ],
-      "document_sha256": "0b646aff8a89aeed47d8742b94912ec3bf6d891e849149029776e479a61a5dd9",
+      "document_sha256": "b4fafdca8bfc57f3deeefc425fe2d82388ac6f5467cbd055cc0bc2fe9694225f",
       "cli_file": "queryPayloads/query.site.networkRangeList.txt",
       "cli_name": "siteNetworkRangeList",
-      "cli_sha256": "d30490fbdd0db704f4dd89c1af18f8b74f378d98f5cd710a89526854a8aaa21e",
+      "cli_sha256": "1782f9175af10f6f9968e742fab38155679ae2c8030854000f7a5fc335343a8b",
       "status": "mapped"
     },
     {

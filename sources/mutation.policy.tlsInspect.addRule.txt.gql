@@ -82,6 +82,7 @@ mutation policyTlsInspectAddRule ($tlsInspectAddRuleInput: TlsInspectAddRuleInpu
 							name
 						}
 						connectionOrigin
+						connectionsOriginList
 						application {
 							application {
 								id

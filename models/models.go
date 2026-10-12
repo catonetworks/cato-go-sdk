@@ -3049,12 +3049,14 @@ func (BearerTokenAuth) IsAuthInterface()           {}
 func (this BearerTokenAuth) GetAuthType() AuthType { return this.AuthType }
 
 type BfdSettings struct {
+	MultiHop         bool  `json:"multiHop"`
 	Multiplier       int64 `json:"multiplier"`
 	ReceiveInterval  int64 `json:"receiveInterval"`
 	TransmitInterval int64 `json:"transmitInterval"`
 }
 
 type BfdSettingsInput struct {
+	MultiHop         bool  `json:"multiHop"`
 	Multiplier       int64 `json:"multiplier"`
 	ReceiveInterval  int64 `json:"receiveInterval"`
 	TransmitInterval int64 `json:"transmitInterval"`
@@ -5392,6 +5394,11 @@ type DevicesQueries struct {
 	List              *DevicesPayload                 `json:"list,omitempty"`
 }
 
+type DhcpLeaseTimeOverrideSettings struct {
+	LeaseTime int64                `json:"leaseTime"`
+	TimeUnit  LeaseTimeMeasureUnit `json:"timeUnit"`
+}
+
 type DhcpLeaseTimeSettings struct {
 	LeaseTime int64                `json:"leaseTime"`
 	TimeUnit  LeaseTimeMeasureUnit `json:"timeUnit"`
@@ -6226,6 +6233,17 @@ type FqdnContainerSearchPayload struct {
 type FreeTextFilterInput struct {
 	Search string `json:"search"`
 }
+
+type FullPolicyPolicyRef struct {
+	ID   string `json:"id"`
+	Name string `json:"name"`
+}
+
+func (FullPolicyPolicyRef) IsObjectRef()         {}
+func (this FullPolicyPolicyRef) GetID() string   { return this.ID }
+func (this FullPolicyPolicyRef) GetName() string { return this.Name }
+
+func (FullPolicyPolicyRef) IsPolicyRef() {}
 
 type Gaussian struct {
 	Avg    *float64 `json:"avg,omitempty"`
@@ -9638,10 +9656,11 @@ func (this NetworkConfigSnmpProfileRef) GetID() string   { return this.ID }
 func (this NetworkConfigSnmpProfileRef) GetName() string { return this.Name }
 
 type NetworkDhcpSettingsInput struct {
-	DhcpMicrosegmentation *bool    `json:"dhcpMicrosegmentation,omitempty"`
-	DhcpType              DhcpType `json:"dhcpType"`
-	IPRange               *string  `json:"ipRange,omitempty"`
-	RelayGroupID          *string  `json:"relayGroupId,omitempty"`
+	DhcpMicrosegmentation     *bool                          `json:"dhcpMicrosegmentation,omitempty"`
+	DhcpType                  DhcpType                       `json:"dhcpType"`
+	IPRange                   *string                        `json:"ipRange,omitempty"`
+	LeaseTimeOverrideSettings *DhcpLeaseTimeOverrideSettings `json:"leaseTimeOverrideSettings,omitempty"`
+	RelayGroupID              *string                        `json:"relayGroupId,omitempty"`
 }
 
 // A reference identifying the NetworkInterface object. ID: Unique NetworkInterface Identifier, Name: The NetworkInterface Name
@@ -10175,23 +10194,24 @@ type PolicyMutationRevisionInput struct {
 }
 
 type PolicyMutations struct {
-	AntiMalwareFileHash  *AntiMalwareFileHashPolicyMutations  `json:"antiMalwareFileHash,omitempty"`
-	AppTenantRestriction *AppTenantRestrictionPolicyMutations `json:"appTenantRestriction,omitempty"`
-	ApplicationControl   *ApplicationControlPolicyMutations   `json:"applicationControl,omitempty"`
-	ClientConnectivity   *ClientConnectivityPolicyMutations   `json:"clientConnectivity,omitempty"`
-	DynamicIPAllocation  *DynamicIPAllocationPolicyMutations  `json:"dynamicIpAllocation,omitempty"`
-	InternetFirewall     *InternetFirewallPolicyMutations     `json:"internetFirewall,omitempty"`
-	PrivateAccess        *PrivateAccessPolicyMutations        `json:"privateAccess,omitempty"`
-	RemotePortFwd        *RemotePortFwdPolicyMutations        `json:"remotePortFwd,omitempty"`
-	SiteWebProxy         *SiteWebProxyPolicyMutations         `json:"siteWebProxy,omitempty"`
-	SocketBypass         *SocketBypassPolicyMutations         `json:"socketBypass,omitempty"`
-	SocketLan            *SocketLanPolicyMutations            `json:"socketLan,omitempty"`
-	SplitTunnel          *SplitTunnelPolicyMutations          `json:"splitTunnel,omitempty"`
-	TerminalServer       *TerminalServerPolicyMutations       `json:"terminalServer,omitempty"`
-	TLSInspect           *TLSInspectPolicyMutations           `json:"tlsInspect,omitempty"`
-	WanFirewall          *WanFirewallPolicyMutations          `json:"wanFirewall,omitempty"`
-	WanNetwork           *WanNetworkPolicyMutations           `json:"wanNetwork,omitempty"`
-	ZtnaAlwaysOn         *ZtnaAlwaysOnPolicyMutations         `json:"ztnaAlwaysOn,omitempty"`
+	AntiMalwareFileHash   *AntiMalwareFileHashPolicyMutations   `json:"antiMalwareFileHash,omitempty"`
+	AppTenantRestriction  *AppTenantRestrictionPolicyMutations  `json:"appTenantRestriction,omitempty"`
+	ApplicationControl    *ApplicationControlPolicyMutations    `json:"applicationControl,omitempty"`
+	ClientConnectivity    *ClientConnectivityPolicyMutations    `json:"clientConnectivity,omitempty"`
+	DynamicIPAllocation   *DynamicIPAllocationPolicyMutations   `json:"dynamicIpAllocation,omitempty"`
+	InternetFirewall      *InternetFirewallPolicyMutations      `json:"internetFirewall,omitempty"`
+	PrivateAccess         *PrivateAccessPolicyMutations         `json:"privateAccess,omitempty"`
+	RemotePortFwd         *RemotePortFwdPolicyMutations         `json:"remotePortFwd,omitempty"`
+	SdpStaticIPAllocation *SdpStaticIPAllocationPolicyMutations `json:"sdpStaticIpAllocation,omitempty"`
+	SiteWebProxy          *SiteWebProxyPolicyMutations          `json:"siteWebProxy,omitempty"`
+	SocketBypass          *SocketBypassPolicyMutations          `json:"socketBypass,omitempty"`
+	SocketLan             *SocketLanPolicyMutations             `json:"socketLan,omitempty"`
+	SplitTunnel           *SplitTunnelPolicyMutations           `json:"splitTunnel,omitempty"`
+	TerminalServer        *TerminalServerPolicyMutations        `json:"terminalServer,omitempty"`
+	TLSInspect            *TLSInspectPolicyMutations            `json:"tlsInspect,omitempty"`
+	WanFirewall           *WanFirewallPolicyMutations           `json:"wanFirewall,omitempty"`
+	WanNetwork            *WanNetworkPolicyMutations            `json:"wanNetwork,omitempty"`
+	ZtnaAlwaysOn          *ZtnaAlwaysOnPolicyMutations          `json:"ztnaAlwaysOn,omitempty"`
 }
 
 // Published revision is the active policy
@@ -10205,23 +10225,24 @@ type PolicyPublishRevisionInput struct {
 
 // policies which configuration can be read with query APIs.
 type PolicyQueries struct {
-	AntiMalwareFileHash  *AntiMalwareFileHashPolicyQueries  `json:"antiMalwareFileHash,omitempty"`
-	AppTenantRestriction *AppTenantRestrictionPolicyQueries `json:"appTenantRestriction,omitempty"`
-	ApplicationControl   *ApplicationControlPolicyQueries   `json:"applicationControl,omitempty"`
-	ClientConnectivity   *ClientConnectivityPolicyQueries   `json:"clientConnectivity,omitempty"`
-	DynamicIPAllocation  *DynamicIPAllocationPolicyQueries  `json:"dynamicIpAllocation,omitempty"`
-	InternetFirewall     *InternetFirewallPolicyQueries     `json:"internetFirewall,omitempty"`
-	PrivateAccess        *PrivateAccessPolicyQueries        `json:"privateAccess,omitempty"`
-	RemotePortFwd        *RemotePortFwdPolicyQueries        `json:"remotePortFwd,omitempty"`
-	SiteWebProxy         *SiteWebProxyPolicyQueries         `json:"siteWebProxy,omitempty"`
-	SocketBypass         *SocketBypassPolicyQueries         `json:"socketBypass,omitempty"`
-	SocketLan            *SocketLanPolicyQueries            `json:"socketLan,omitempty"`
-	SplitTunnel          *SplitTunnelPolicyQueries          `json:"splitTunnel,omitempty"`
-	TerminalServer       *TerminalServerPolicyQueries       `json:"terminalServer,omitempty"`
-	TLSInspect           *TLSInspectPolicyQueries           `json:"tlsInspect,omitempty"`
-	WanFirewall          *WanFirewallPolicyQueries          `json:"wanFirewall,omitempty"`
-	WanNetwork           *WanNetworkPolicyQueries           `json:"wanNetwork,omitempty"`
-	ZtnaAlwaysOn         *ZtnaAlwaysOnPolicyQueries         `json:"ztnaAlwaysOn,omitempty"`
+	AntiMalwareFileHash   *AntiMalwareFileHashPolicyQueries   `json:"antiMalwareFileHash,omitempty"`
+	AppTenantRestriction  *AppTenantRestrictionPolicyQueries  `json:"appTenantRestriction,omitempty"`
+	ApplicationControl    *ApplicationControlPolicyQueries    `json:"applicationControl,omitempty"`
+	ClientConnectivity    *ClientConnectivityPolicyQueries    `json:"clientConnectivity,omitempty"`
+	DynamicIPAllocation   *DynamicIPAllocationPolicyQueries   `json:"dynamicIpAllocation,omitempty"`
+	InternetFirewall      *InternetFirewallPolicyQueries      `json:"internetFirewall,omitempty"`
+	PrivateAccess         *PrivateAccessPolicyQueries         `json:"privateAccess,omitempty"`
+	RemotePortFwd         *RemotePortFwdPolicyQueries         `json:"remotePortFwd,omitempty"`
+	SdpStaticIPAllocation *SdpStaticIPAllocationPolicyQueries `json:"sdpStaticIpAllocation,omitempty"`
+	SiteWebProxy          *SiteWebProxyPolicyQueries          `json:"siteWebProxy,omitempty"`
+	SocketBypass          *SocketBypassPolicyQueries          `json:"socketBypass,omitempty"`
+	SocketLan             *SocketLanPolicyQueries             `json:"socketLan,omitempty"`
+	SplitTunnel           *SplitTunnelPolicyQueries           `json:"splitTunnel,omitempty"`
+	TerminalServer        *TerminalServerPolicyQueries        `json:"terminalServer,omitempty"`
+	TLSInspect            *TLSInspectPolicyQueries            `json:"tlsInspect,omitempty"`
+	WanFirewall           *WanFirewallPolicyQueries           `json:"wanFirewall,omitempty"`
+	WanNetwork            *WanNetworkPolicyQueries            `json:"wanNetwork,omitempty"`
+	ZtnaAlwaysOn          *ZtnaAlwaysOnPolicyQueries          `json:"ztnaAlwaysOn,omitempty"`
 }
 
 // Input for removing a section from a policy
@@ -12493,6 +12514,201 @@ type SandboxReportsPayload struct {
 type SandboxReportsSortInput struct {
 	FileName         *SortOrderInput `json:"fileName,omitempty"`
 	ReportCreateDate *SortOrderInput `json:"reportCreateDate,omitempty"`
+}
+
+type SdpStaticIPAllocationAddRuleDataInput struct {
+	Description string                            `json:"description"`
+	Enabled     bool                              `json:"enabled"`
+	IP          string                            `json:"ip"`
+	Name        string                            `json:"name"`
+	Source      *SdpStaticIPAllocationSourceInput `json:"source"`
+}
+
+type SdpStaticIPAllocationAddRuleInput struct {
+	At   *PolicyRulePositionInput               `json:"at,omitempty"`
+	Rule *SdpStaticIPAllocationAddRuleDataInput `json:"rule"`
+}
+
+type SdpStaticIPAllocationPolicy struct {
+	Audit    *PolicyAudit                        `json:"audit,omitempty"`
+	Enabled  bool                                `json:"enabled"`
+	Revision *PolicyRevision                     `json:"revision,omitempty"`
+	Rules    []*SdpStaticIPAllocationRulePayload `json:"rules"`
+	Sections []*PolicySectionPayload             `json:"sections"`
+}
+
+func (SdpStaticIPAllocationPolicy) IsIPolicy()                        {}
+func (this SdpStaticIPAllocationPolicy) GetAudit() *PolicyAudit       { return this.Audit }
+func (this SdpStaticIPAllocationPolicy) GetEnabled() bool             { return this.Enabled }
+func (this SdpStaticIPAllocationPolicy) GetRevision() *PolicyRevision { return this.Revision }
+func (this SdpStaticIPAllocationPolicy) GetRules() []IPolicyRulePayload {
+	if this.Rules == nil {
+		return nil
+	}
+	interfaceSlice := make([]IPolicyRulePayload, 0, len(this.Rules))
+	for _, concrete := range this.Rules {
+		interfaceSlice = append(interfaceSlice, concrete)
+	}
+	return interfaceSlice
+}
+func (this SdpStaticIPAllocationPolicy) GetSections() []*PolicySectionPayload {
+	if this.Sections == nil {
+		return nil
+	}
+	interfaceSlice := make([]*PolicySectionPayload, 0, len(this.Sections))
+	for _, concrete := range this.Sections {
+		interfaceSlice = append(interfaceSlice, concrete)
+	}
+	return interfaceSlice
+}
+
+type SdpStaticIPAllocationPolicyInput struct {
+	Revision *PolicyRevisionInput `json:"revision,omitempty"`
+}
+
+type SdpStaticIPAllocationPolicyMutationInput struct {
+	Revision *PolicyMutationRevisionInput `json:"revision,omitempty"`
+}
+
+type SdpStaticIPAllocationPolicyMutationPayload struct {
+	Errors []*PolicyMutationError       `json:"errors"`
+	Policy *SdpStaticIPAllocationPolicy `json:"policy,omitempty"`
+	Status PolicyMutationStatus         `json:"status"`
+}
+
+func (SdpStaticIPAllocationPolicyMutationPayload) IsIPolicyMutationPayload() {}
+func (this SdpStaticIPAllocationPolicyMutationPayload) GetErrors() []*PolicyMutationError {
+	if this.Errors == nil {
+		return nil
+	}
+	interfaceSlice := make([]*PolicyMutationError, 0, len(this.Errors))
+	for _, concrete := range this.Errors {
+		interfaceSlice = append(interfaceSlice, concrete)
+	}
+	return interfaceSlice
+}
+func (this SdpStaticIPAllocationPolicyMutationPayload) GetPolicy() IPolicy { return *this.Policy }
+func (this SdpStaticIPAllocationPolicyMutationPayload) GetStatus() PolicyMutationStatus {
+	return this.Status
+}
+
+type SdpStaticIPAllocationPolicyMutations struct {
+	AddRule               *SdpStaticIPAllocationRuleMutationPayload   `json:"addRule"`
+	AddSection            *PolicySectionMutationPayload               `json:"addSection"`
+	CreatePolicyRevision  *SdpStaticIPAllocationPolicyMutationPayload `json:"createPolicyRevision"`
+	DiscardPolicyRevision *SdpStaticIPAllocationPolicyMutationPayload `json:"discardPolicyRevision"`
+	MoveRule              *SdpStaticIPAllocationRuleMutationPayload   `json:"moveRule"`
+	MoveSection           *PolicySectionMutationPayload               `json:"moveSection"`
+	PublishPolicyRevision *SdpStaticIPAllocationPolicyMutationPayload `json:"publishPolicyRevision"`
+	RemoveRule            *SdpStaticIPAllocationRuleMutationPayload   `json:"removeRule"`
+	RemoveSection         *PolicySectionMutationPayload               `json:"removeSection"`
+	UpdatePolicy          *SdpStaticIPAllocationPolicyMutationPayload `json:"updatePolicy"`
+	UpdateRule            *SdpStaticIPAllocationRuleMutationPayload   `json:"updateRule"`
+	UpdateSection         *PolicySectionMutationPayload               `json:"updateSection"`
+}
+
+type SdpStaticIPAllocationPolicyQueries struct {
+	Policy    *SdpStaticIPAllocationPolicy `json:"policy"`
+	Revisions *PolicyRevisionsPayload      `json:"revisions,omitempty"`
+}
+
+type SdpStaticIPAllocationPolicyUpdateInput struct {
+	State *PolicyToggleState `json:"state,omitempty"`
+}
+
+type SdpStaticIPAllocationRemoveRuleInput struct {
+	ID string `json:"id"`
+}
+
+type SdpStaticIPAllocationRule struct {
+	Description string                       `json:"description"`
+	Enabled     bool                         `json:"enabled"`
+	ID          string                       `json:"id"`
+	Index       int64                        `json:"index"`
+	IP          string                       `json:"ip"`
+	Name        string                       `json:"name"`
+	Section     *PolicySectionInfo           `json:"section"`
+	Source      *SdpStaticIPAllocationSource `json:"source"`
+}
+
+func (SdpStaticIPAllocationRule) IsIPolicyRule()                      {}
+func (this SdpStaticIPAllocationRule) GetDescription() *string        { return &this.Description }
+func (this SdpStaticIPAllocationRule) GetEnabled() bool               { return this.Enabled }
+func (this SdpStaticIPAllocationRule) GetID() string                  { return this.ID }
+func (this SdpStaticIPAllocationRule) GetIndex() int64                { return this.Index }
+func (this SdpStaticIPAllocationRule) GetName() string                { return this.Name }
+func (this SdpStaticIPAllocationRule) GetSection() *PolicySectionInfo { return this.Section }
+
+type SdpStaticIPAllocationRuleMutationPayload struct {
+	Errors   []*PolicyMutationError            `json:"errors"`
+	Revision *PolicyRevision                   `json:"revision,omitempty"`
+	Rule     *SdpStaticIPAllocationRulePayload `json:"rule,omitempty"`
+	Status   PolicyMutationStatus              `json:"status"`
+}
+
+func (SdpStaticIPAllocationRuleMutationPayload) IsIPolicyRuleMutationPayload() {}
+func (this SdpStaticIPAllocationRuleMutationPayload) GetErrors() []*PolicyMutationError {
+	if this.Errors == nil {
+		return nil
+	}
+	interfaceSlice := make([]*PolicyMutationError, 0, len(this.Errors))
+	for _, concrete := range this.Errors {
+		interfaceSlice = append(interfaceSlice, concrete)
+	}
+	return interfaceSlice
+}
+func (this SdpStaticIPAllocationRuleMutationPayload) GetRule() IPolicyRulePayload { return *this.Rule }
+func (this SdpStaticIPAllocationRuleMutationPayload) GetStatus() PolicyMutationStatus {
+	return this.Status
+}
+
+type SdpStaticIPAllocationRulePayload struct {
+	Audit      *PolicyElementAudit           `json:"audit"`
+	Metadata   *PolicyElementMetadata        `json:"metadata,omitempty"`
+	Properties []PolicyElementPropertiesEnum `json:"properties"`
+	Rule       *SdpStaticIPAllocationRule    `json:"rule"`
+}
+
+func (SdpStaticIPAllocationRulePayload) IsIPolicyRulePayload()              {}
+func (this SdpStaticIPAllocationRulePayload) GetAudit() *PolicyElementAudit { return this.Audit }
+func (this SdpStaticIPAllocationRulePayload) GetProperties() []PolicyElementPropertiesEnum {
+	if this.Properties == nil {
+		return nil
+	}
+	interfaceSlice := make([]PolicyElementPropertiesEnum, 0, len(this.Properties))
+	for _, concrete := range this.Properties {
+		interfaceSlice = append(interfaceSlice, concrete)
+	}
+	return interfaceSlice
+}
+func (this SdpStaticIPAllocationRulePayload) GetRule() IPolicyRule { return *this.Rule }
+
+// User that the static IP allocation rule will apply to
+type SdpStaticIPAllocationSource struct {
+	User *UserRef `json:"user,omitempty"`
+}
+
+// User that the static IP allocation rule will apply to
+type SdpStaticIPAllocationSourceInput struct {
+	User *UserRefInput `json:"user,omitempty"`
+}
+
+// User that the static IP allocation rule will apply to
+type SdpStaticIPAllocationSourceUpdateInput struct {
+	User *UserRefInput `json:"user,omitempty"`
+}
+
+type SdpStaticIPAllocationUpdateRuleDataInput struct {
+	Description *string                                 `json:"description,omitempty"`
+	Enabled     *bool                                   `json:"enabled,omitempty"`
+	IP          *string                                 `json:"ip,omitempty"`
+	Name        *string                                 `json:"name,omitempty"`
+	Source      *SdpStaticIPAllocationSourceUpdateInput `json:"source,omitempty"`
+}
+
+type SdpStaticIPAllocationUpdateRuleInput struct {
+	ID   string                                    `json:"id"`
+	Rule *SdpStaticIPAllocationUpdateRuleDataInput `json:"rule"`
 }
 
 type SecondaryAWSVSocket struct {
@@ -15793,6 +16009,7 @@ type TLSInspectAddRuleDataInput struct {
 	Action                     TLSInspectAction                     `json:"action"`
 	Application                *TLSInspectApplicationInput          `json:"application"`
 	ConnectionOrigin           ConnectionOriginEnum                 `json:"connectionOrigin"`
+	ConnectionsOriginList      []ConnectionOriginsEnum              `json:"connectionsOriginList"`
 	Country                    []*CountryRefInput                   `json:"country"`
 	Description                string                               `json:"description"`
 	DevicePostureProfile       []*DeviceProfileRefInput             `json:"devicePostureProfile"`
@@ -15985,6 +16202,7 @@ type TLSInspectRule struct {
 	Action                     TLSInspectAction                     `json:"action"`
 	Application                *TLSInspectApplication               `json:"application"`
 	ConnectionOrigin           ConnectionOriginEnum                 `json:"connectionOrigin"`
+	ConnectionsOriginList      []ConnectionOriginsEnum              `json:"connectionsOriginList"`
 	Country                    []*CountryRef                        `json:"country"`
 	Description                string                               `json:"description"`
 	DevicePostureProfile       []*DeviceProfileRef                  `json:"devicePostureProfile"`
@@ -16103,6 +16321,7 @@ type TLSInspectUpdateRuleDataInput struct {
 	Action                     *TLSInspectAction                     `json:"action,omitempty"`
 	Application                *TLSInspectApplicationUpdateInput     `json:"application,omitempty"`
 	ConnectionOrigin           *ConnectionOriginEnum                 `json:"connectionOrigin,omitempty"`
+	ConnectionsOriginList      []ConnectionOriginsEnum               `json:"connectionsOriginList,omitempty"`
 	Country                    []*CountryRefInput                    `json:"country,omitempty"`
 	Description                *string                               `json:"description,omitempty"`
 	DevicePostureProfile       []*DeviceProfileRefInput              `json:"devicePostureProfile,omitempty"`
@@ -25440,6 +25659,8 @@ const (
 	EventFieldNameUserReferenceID EventFieldName = "user_reference_id"
 	//  User risk level category. CMA Name: User Risk Level
 	EventFieldNameUserRiskLevel EventFieldName = "user_risk_level"
+	//  The user's status. CMA Name: User Status
+	EventFieldNameUserStatus EventFieldName = "user_status"
 	//  The vendor that identified the incident, such as Cato or Microsoft. CMA Name: Vendor
 	EventFieldNameVendor EventFieldName = "vendor"
 	//  Shows the id of the target user involved in an activity. CMA Name: Vendor Collaborator ID
@@ -25877,6 +26098,7 @@ var AllEventFieldName = []EventFieldName{
 	EventFieldNameUserOrigin,
 	EventFieldNameUserReferenceID,
 	EventFieldNameUserRiskLevel,
+	EventFieldNameUserStatus,
 	EventFieldNameVendor,
 	EventFieldNameVendorCollaboratorID,
 	EventFieldNameVendorDeviceID,
@@ -25916,7 +26138,7 @@ var AllEventFieldName = []EventFieldName{
 
 func (e EventFieldName) IsValid() bool {
 	switch e {
-	case EventFieldNameIspName, EventFieldNameAccessMethod, EventFieldNameAccessPointID, EventFieldNameAccessPointName, EventFieldNameAccountID, EventFieldNameAction, EventFieldNameActionsTaken, EventFieldNameActiveAuthBrowser, EventFieldNameActivityResourceID, EventFieldNameActorType, EventFieldNameAdName, EventFieldNameAffectedEntities, EventFieldNameAiAppRiskLevel, EventFieldNameAiProxyRuleName, EventFieldNameAiReason, EventFieldNameAlertID, EventFieldNameAlertName, EventFieldNameAlerts, EventFieldNameAlwaysOnConfiguration, EventFieldNameAnalystVerdict, EventFieldNameAntiTamperBypassDurationSec, EventFieldNameAntiTamperBypassMethod, EventFieldNameAntiTamperBypassResult, EventFieldNameAPIName, EventFieldNameAPIType, EventFieldNameAppActivity, EventFieldNameAppActivityCategory, EventFieldNameAppActivityType, EventFieldNameAppStack, EventFieldNameApplicationID, EventFieldNameApplicationName, EventFieldNameApplicationRisk, EventFieldNameApplicationType, EventFieldNameAtpFeedReasons, EventFieldNameAuditID, EventFieldNameAuthBrowserFallbackReason, EventFieldNameAuthMethod, EventFieldNameAuthenticationType, EventFieldNameBaselineAverage, EventFieldNameBaselineStd, EventFieldNameBgpCatoAsn, EventFieldNameBgpCatoIP, EventFieldNameBgpErrorCode, EventFieldNameBgpPeerAsn, EventFieldNameBgpPeerIP, EventFieldNameBgpPeerName, EventFieldNameBgpRouteCidr, EventFieldNameBgpSuberrorCode, EventFieldNameBrowserType, EventFieldNameBrowserVersion, EventFieldNameBypassDurationSec, EventFieldNameBypassMethod, EventFieldNameBypassReason, EventFieldNameCategories, EventFieldNameCatoApp, EventFieldNameChanges, EventFieldNameClassification, EventFieldNameClientCertExpires, EventFieldNameClientCertName, EventFieldNameClientClass, EventFieldNameClientConnectionMode, EventFieldNameClientIP, EventFieldNameClientKeyExchangeAlgorithm, EventFieldNameClientVersion, EventFieldNameCollaboratorName, EventFieldNameCollaboratorOrigin, EventFieldNameCollaboratorTenant, EventFieldNameCollaborators, EventFieldNameConfidenceLevel, EventFieldNameConfiguredAuthBrowser, EventFieldNameConfiguredHostName, EventFieldNameCongestionAlgorithm, EventFieldNameConnectOnBoot, EventFieldNameConnectionOrigin, EventFieldNameConnectorID, EventFieldNameConnectorName, EventFieldNameConnectorStatus, EventFieldNameConnectorType, EventFieldNameContainerName, EventFieldNameCorrelationID, EventFieldNameCPUCoreID, EventFieldNameCreatedAt, EventFieldNameCriticality, EventFieldNameCustomCategoryID, EventFieldNameCustomCategoryName, EventFieldNameDataCategories, EventFieldNameDataClassifiers, EventFieldNameDepartment, EventFieldNameDestCountry, EventFieldNameDestCountryCode, EventFieldNameDestDomain, EventFieldNameDestEndpointType, EventFieldNameDestGroupID, EventFieldNameDestGroupName, EventFieldNameDestIP, EventFieldNameDestIsSiteOrVpn, EventFieldNameDestPid, EventFieldNameDestPort, EventFieldNameDestProcessCmdline, EventFieldNameDestProcessParentPath, EventFieldNameDestProcessParentPid, EventFieldNameDestProcessPath, EventFieldNameDestSiteID, EventFieldNameDestSiteName, EventFieldNameDetectionName, EventFieldNameDetectionStage, EventFieldNameDetectors, EventFieldNameDeviceCategories, EventFieldNameDeviceCertificate, EventFieldNameDeviceComplianceState, EventFieldNameDeviceCrowdstrikeRiskScore, EventFieldNameDeviceID, EventFieldNameDeviceManufacturer, EventFieldNameDeviceModel, EventFieldNameDeviceName, EventFieldNameDeviceOsType, EventFieldNameDevicePostureProfile, EventFieldNameDeviceType, EventFieldNameDirectoryHostName, EventFieldNameDirectoryIP, EventFieldNameDirectorySyncResult, EventFieldNameDirectorySyncType, EventFieldNameDisinfectResult, EventFieldNameDisplayName, EventFieldNameDlpFailMode, EventFieldNameDlpProfiles, EventFieldNameDlpScanTypes, EventFieldNameDNSAnswer, EventFieldNameDNSProtectionCategory, EventFieldNameDNSQuery, EventFieldNameDNSRecordType, EventFieldNameDNSReplyCode, EventFieldNameDomainName, EventFieldNameDurationMs, EventFieldNameDynamicControlIds, EventFieldNameDynamicControlNames, EventFieldNameDynamicControlScope, EventFieldNameDynamicControlThreatCategories, EventFieldNameEgressPopName, EventFieldNameEgressSiteName, EventFieldNameEmailSubject, EventFieldNameEndpointID, EventFieldNameEngagementOutcomeAction, EventFieldNameEngineType, EventFieldNameEppEngineType, EventFieldNameEppProfile, EventFieldNameEventCount, EventFieldNameEventID, EventFieldNameEventMessage, EventFieldNameEventSubType, EventFieldNameEventType, EventFieldNameEvidence, EventFieldNameFailureReason, EventFieldNameFileHash, EventFieldNameFileName, EventFieldNameFileOperation, EventFieldNameFilePath, EventFieldNameFileSize, EventFieldNameFileTopic, EventFieldNameFileTopicCategory, EventFieldNameFileType, EventFieldNameFinalObjectStatus, EventFieldNameFlowID, EventFieldNameFlows, EventFieldNameFlowsCardinality, EventFieldNameFullPathURL, EventFieldNameGuardID, EventFieldNameGuardName, EventFieldNameGuardType, EventFieldNameGuestUser, EventFieldNameHarness, EventFieldNameHostIP, EventFieldNameHostMac, EventFieldNameHTTPRequestMethod, EventFieldNameHTTPResponseCode, EventFieldNameIncidentAggregation, EventFieldNameIncidentID, EventFieldNameIndication, EventFieldNameIndicator, EventFieldNameInitialObjectStatus, EventFieldNameInitiatedBy, EventFieldNameInspectionMode, EventFieldNameInteractionID, EventFieldNameInteractionIntent, EventFieldNameInteractionSubTopic, EventFieldNameInteractionTopic, EventFieldNameInternalID, EventFieldNameInvestigationTimeWindow, EventFieldNameInvocationID, EventFieldNameIPProtocol, EventFieldNameIsAcknowledged, EventFieldNameIsAdmin, EventFieldNameIsAdminActivity, EventFieldNameIsCloudApp, EventFieldNameIsCompliant, EventFieldNameIsEncrypted, EventFieldNameIsManaged, EventFieldNameIsMuted, EventFieldNameIsPublic, EventFieldNameIsSanctionedApp, EventFieldNameIsSinkhole, EventFieldNameJobTitle, EventFieldNameKeyName, EventFieldNameLabels, EventFieldNameLastModifiedAt, EventFieldNameLastSeenAt, EventFieldNameLastTurnRole, EventFieldNameLinkHealthIsCongested, EventFieldNameLinkHealthJitter, EventFieldNameLinkHealthLatency, EventFieldNameLinkHealthPktLoss, EventFieldNameLinkType, EventFieldNameLocalIP, EventFieldNameLoggedInUser, EventFieldNameLoginType, EventFieldNameMatchedCount, EventFieldNameMatchedCounts, EventFieldNameMatchedDataTypes, EventFieldNameMd5, EventFieldNameMessageID, EventFieldNameMetric, EventFieldNameMetricUnits, EventFieldNameMetricValue, EventFieldNameMitreAttackSubtechniques, EventFieldNameMitreAttackTactics, EventFieldNameMitreAttackTechniques, EventFieldNameNatError, EventFieldNameNetworkAccess, EventFieldNameNetworkRule, EventFieldNameNotificationAPIError, EventFieldNameNotificationDescription, EventFieldNameObjectID, EventFieldNameObjectModule, EventFieldNameObjectName, EventFieldNameObjectType, EventFieldNameOfficeMode, EventFieldNameOsType, EventFieldNameOsVersion, EventFieldNameOutOfBandAccess, EventFieldNameOutpostEnvironmentName, EventFieldNameOwner, EventFieldNamePacFile, EventFieldNameParentConnectorName, EventFieldNamePopName, EventFieldNamePrecedence, EventFieldNameProcessesCount, EventFieldNameProducer, EventFieldNameProjects, EventFieldNamePromptAction, EventFieldNameProviderName, EventFieldNamePublicIP, EventFieldNameQosPriority, EventFieldNameQosReportedTime, EventFieldNameQuarantineFolderPath, EventFieldNameQuarantineUUID, EventFieldNameRawData, EventFieldNameRbiProfile, EventFieldNameRecommendedActions, EventFieldNameReferenceURL, EventFieldNameRefererURL, EventFieldNameRegionName, EventFieldNameRegistrationCode, EventFieldNameRequestSize, EventFieldNameResourceID, EventFieldNameResourceName, EventFieldNameResourceType, EventFieldNameResponseSize, EventFieldNameRetentionLabel, EventFieldNameRiskLevel, EventFieldNameRole, EventFieldNameRuleExpirationTime, EventFieldNameRuleID, EventFieldNameRuleName, EventFieldNameSecondarySocketSerial, EventFieldNameSensitivityDisplayName, EventFieldNameServerIP, EventFieldNameServerKeyExchangeAlgorithm, EventFieldNameServiceName, EventFieldNameSessionID, EventFieldNameSeverity, EventFieldNameSharingScope, EventFieldNameSignInEventTypes, EventFieldNameSignalSource, EventFieldNameSignatureID, EventFieldNameSiteWebProxyID, EventFieldNameSiteWebProxyName, EventFieldNameSiteWebProxyRuleAction, EventFieldNameSiteWebProxyRuleID, EventFieldNameSiteWebProxyRuleName, EventFieldNameSocketDescription, EventFieldNameSocketInterface, EventFieldNameSocketInterfaceID, EventFieldNameSocketMacAddress, EventFieldNameSocketNewVersion, EventFieldNameSocketOldVersion, EventFieldNameSocketReset, EventFieldNameSocketRole, EventFieldNameSocketSerial, EventFieldNameSocketVersion, EventFieldNameSplitTunnelConfiguration, EventFieldNameSrcCity, EventFieldNameSrcCountry, EventFieldNameSrcCountryCode, EventFieldNameSrcEndpointType, EventFieldNameSrcIP, EventFieldNameSrcIsSiteOrVpn, EventFieldNameSrcIspIP, EventFieldNameSrcPid, EventFieldNameSrcPort, EventFieldNameSrcProcessCmdline, EventFieldNameSrcProcessParentPath, EventFieldNameSrcProcessParentPid, EventFieldNameSrcProcessPath, EventFieldNameSrcSiteConnectionType, EventFieldNameSrcSiteID, EventFieldNameSrcSiteName, EventFieldNameStaticHost, EventFieldNameStatus, EventFieldNameStoryID, EventFieldNameSubnetName, EventFieldNameSubscriptionName, EventFieldNameTargetsCardinality, EventFieldNameTCPAcceleration, EventFieldNameTenantID, EventFieldNameTenantName, EventFieldNameTenantRestrictionRuleName, EventFieldNameThreatConfidence, EventFieldNameThreatName, EventFieldNameThreatReference, EventFieldNameThreatScore, EventFieldNameThreatType, EventFieldNameThreatVerdict, EventFieldNameTicket, EventFieldNameTime, EventFieldNameTimeStr, EventFieldNameTitle, EventFieldNameTLSCertificateError, EventFieldNameTLSErrorDescription, EventFieldNameTLSErrorType, EventFieldNameTLSInspection, EventFieldNameTLSRuleName, EventFieldNameTLSVersion, EventFieldNameTotalTokens, EventFieldNameTrafficDirection, EventFieldNameTransactionSize, EventFieldNameTranslatedClientIP, EventFieldNameTranslatedServerIP, EventFieldNameTrigger, EventFieldNameTrustType, EventFieldNameTrustedNetworks, EventFieldNameTunnelIPProtocol, EventFieldNameTunnelProtocol, EventFieldNameUpgradeEndTime, EventFieldNameUpgradeInitiatedBy, EventFieldNameUpgradeStartTime, EventFieldNameURL, EventFieldNameUserAgent, EventFieldNameUserAwarenessMethod, EventFieldNameUserID, EventFieldNameUserJustification, EventFieldNameUserName, EventFieldNameUserOrigin, EventFieldNameUserReferenceID, EventFieldNameUserRiskLevel, EventFieldNameVendor, EventFieldNameVendorCollaboratorID, EventFieldNameVendorDeviceID, EventFieldNameVendorDeviceName, EventFieldNameVendorEventID, EventFieldNameVendorLocation, EventFieldNameVendorOrgID, EventFieldNameVendorPolicyDescription, EventFieldNameVendorPolicyID, EventFieldNameVendorPolicyName, EventFieldNameVendorSiteID, EventFieldNameVendorStartTime, EventFieldNameVendorUserID, EventFieldNameVendorVersion, EventFieldNameVerdictAuthor, EventFieldNameVerdictElaboration, EventFieldNameVisibleDeviceID, EventFieldNameVpnLanAccess, EventFieldNameVpnUserEmail, EventFieldNameWifiAuthenticationType, EventFieldNameWifiBssid, EventFieldNameWifiChannel, EventFieldNameWifiDescription, EventFieldNameWifiEventReasonCode, EventFieldNameWifiEventType, EventFieldNameWifiEventTypeCode, EventFieldNameWifiEventVendorName, EventFieldNameWifiProtocol, EventFieldNameWifiRadioBand, EventFieldNameWifiSecurity, EventFieldNameWifiSignalStrength, EventFieldNameWifiSsid, EventFieldNameWifiTimeSinceAssocMs, EventFieldNameWindowsDomainName, EventFieldNameXff:
+	case EventFieldNameIspName, EventFieldNameAccessMethod, EventFieldNameAccessPointID, EventFieldNameAccessPointName, EventFieldNameAccountID, EventFieldNameAction, EventFieldNameActionsTaken, EventFieldNameActiveAuthBrowser, EventFieldNameActivityResourceID, EventFieldNameActorType, EventFieldNameAdName, EventFieldNameAffectedEntities, EventFieldNameAiAppRiskLevel, EventFieldNameAiProxyRuleName, EventFieldNameAiReason, EventFieldNameAlertID, EventFieldNameAlertName, EventFieldNameAlerts, EventFieldNameAlwaysOnConfiguration, EventFieldNameAnalystVerdict, EventFieldNameAntiTamperBypassDurationSec, EventFieldNameAntiTamperBypassMethod, EventFieldNameAntiTamperBypassResult, EventFieldNameAPIName, EventFieldNameAPIType, EventFieldNameAppActivity, EventFieldNameAppActivityCategory, EventFieldNameAppActivityType, EventFieldNameAppStack, EventFieldNameApplicationID, EventFieldNameApplicationName, EventFieldNameApplicationRisk, EventFieldNameApplicationType, EventFieldNameAtpFeedReasons, EventFieldNameAuditID, EventFieldNameAuthBrowserFallbackReason, EventFieldNameAuthMethod, EventFieldNameAuthenticationType, EventFieldNameBaselineAverage, EventFieldNameBaselineStd, EventFieldNameBgpCatoAsn, EventFieldNameBgpCatoIP, EventFieldNameBgpErrorCode, EventFieldNameBgpPeerAsn, EventFieldNameBgpPeerIP, EventFieldNameBgpPeerName, EventFieldNameBgpRouteCidr, EventFieldNameBgpSuberrorCode, EventFieldNameBrowserType, EventFieldNameBrowserVersion, EventFieldNameBypassDurationSec, EventFieldNameBypassMethod, EventFieldNameBypassReason, EventFieldNameCategories, EventFieldNameCatoApp, EventFieldNameChanges, EventFieldNameClassification, EventFieldNameClientCertExpires, EventFieldNameClientCertName, EventFieldNameClientClass, EventFieldNameClientConnectionMode, EventFieldNameClientIP, EventFieldNameClientKeyExchangeAlgorithm, EventFieldNameClientVersion, EventFieldNameCollaboratorName, EventFieldNameCollaboratorOrigin, EventFieldNameCollaboratorTenant, EventFieldNameCollaborators, EventFieldNameConfidenceLevel, EventFieldNameConfiguredAuthBrowser, EventFieldNameConfiguredHostName, EventFieldNameCongestionAlgorithm, EventFieldNameConnectOnBoot, EventFieldNameConnectionOrigin, EventFieldNameConnectorID, EventFieldNameConnectorName, EventFieldNameConnectorStatus, EventFieldNameConnectorType, EventFieldNameContainerName, EventFieldNameCorrelationID, EventFieldNameCPUCoreID, EventFieldNameCreatedAt, EventFieldNameCriticality, EventFieldNameCustomCategoryID, EventFieldNameCustomCategoryName, EventFieldNameDataCategories, EventFieldNameDataClassifiers, EventFieldNameDepartment, EventFieldNameDestCountry, EventFieldNameDestCountryCode, EventFieldNameDestDomain, EventFieldNameDestEndpointType, EventFieldNameDestGroupID, EventFieldNameDestGroupName, EventFieldNameDestIP, EventFieldNameDestIsSiteOrVpn, EventFieldNameDestPid, EventFieldNameDestPort, EventFieldNameDestProcessCmdline, EventFieldNameDestProcessParentPath, EventFieldNameDestProcessParentPid, EventFieldNameDestProcessPath, EventFieldNameDestSiteID, EventFieldNameDestSiteName, EventFieldNameDetectionName, EventFieldNameDetectionStage, EventFieldNameDetectors, EventFieldNameDeviceCategories, EventFieldNameDeviceCertificate, EventFieldNameDeviceComplianceState, EventFieldNameDeviceCrowdstrikeRiskScore, EventFieldNameDeviceID, EventFieldNameDeviceManufacturer, EventFieldNameDeviceModel, EventFieldNameDeviceName, EventFieldNameDeviceOsType, EventFieldNameDevicePostureProfile, EventFieldNameDeviceType, EventFieldNameDirectoryHostName, EventFieldNameDirectoryIP, EventFieldNameDirectorySyncResult, EventFieldNameDirectorySyncType, EventFieldNameDisinfectResult, EventFieldNameDisplayName, EventFieldNameDlpFailMode, EventFieldNameDlpProfiles, EventFieldNameDlpScanTypes, EventFieldNameDNSAnswer, EventFieldNameDNSProtectionCategory, EventFieldNameDNSQuery, EventFieldNameDNSRecordType, EventFieldNameDNSReplyCode, EventFieldNameDomainName, EventFieldNameDurationMs, EventFieldNameDynamicControlIds, EventFieldNameDynamicControlNames, EventFieldNameDynamicControlScope, EventFieldNameDynamicControlThreatCategories, EventFieldNameEgressPopName, EventFieldNameEgressSiteName, EventFieldNameEmailSubject, EventFieldNameEndpointID, EventFieldNameEngagementOutcomeAction, EventFieldNameEngineType, EventFieldNameEppEngineType, EventFieldNameEppProfile, EventFieldNameEventCount, EventFieldNameEventID, EventFieldNameEventMessage, EventFieldNameEventSubType, EventFieldNameEventType, EventFieldNameEvidence, EventFieldNameFailureReason, EventFieldNameFileHash, EventFieldNameFileName, EventFieldNameFileOperation, EventFieldNameFilePath, EventFieldNameFileSize, EventFieldNameFileTopic, EventFieldNameFileTopicCategory, EventFieldNameFileType, EventFieldNameFinalObjectStatus, EventFieldNameFlowID, EventFieldNameFlows, EventFieldNameFlowsCardinality, EventFieldNameFullPathURL, EventFieldNameGuardID, EventFieldNameGuardName, EventFieldNameGuardType, EventFieldNameGuestUser, EventFieldNameHarness, EventFieldNameHostIP, EventFieldNameHostMac, EventFieldNameHTTPRequestMethod, EventFieldNameHTTPResponseCode, EventFieldNameIncidentAggregation, EventFieldNameIncidentID, EventFieldNameIndication, EventFieldNameIndicator, EventFieldNameInitialObjectStatus, EventFieldNameInitiatedBy, EventFieldNameInspectionMode, EventFieldNameInteractionID, EventFieldNameInteractionIntent, EventFieldNameInteractionSubTopic, EventFieldNameInteractionTopic, EventFieldNameInternalID, EventFieldNameInvestigationTimeWindow, EventFieldNameInvocationID, EventFieldNameIPProtocol, EventFieldNameIsAcknowledged, EventFieldNameIsAdmin, EventFieldNameIsAdminActivity, EventFieldNameIsCloudApp, EventFieldNameIsCompliant, EventFieldNameIsEncrypted, EventFieldNameIsManaged, EventFieldNameIsMuted, EventFieldNameIsPublic, EventFieldNameIsSanctionedApp, EventFieldNameIsSinkhole, EventFieldNameJobTitle, EventFieldNameKeyName, EventFieldNameLabels, EventFieldNameLastModifiedAt, EventFieldNameLastSeenAt, EventFieldNameLastTurnRole, EventFieldNameLinkHealthIsCongested, EventFieldNameLinkHealthJitter, EventFieldNameLinkHealthLatency, EventFieldNameLinkHealthPktLoss, EventFieldNameLinkType, EventFieldNameLocalIP, EventFieldNameLoggedInUser, EventFieldNameLoginType, EventFieldNameMatchedCount, EventFieldNameMatchedCounts, EventFieldNameMatchedDataTypes, EventFieldNameMd5, EventFieldNameMessageID, EventFieldNameMetric, EventFieldNameMetricUnits, EventFieldNameMetricValue, EventFieldNameMitreAttackSubtechniques, EventFieldNameMitreAttackTactics, EventFieldNameMitreAttackTechniques, EventFieldNameNatError, EventFieldNameNetworkAccess, EventFieldNameNetworkRule, EventFieldNameNotificationAPIError, EventFieldNameNotificationDescription, EventFieldNameObjectID, EventFieldNameObjectModule, EventFieldNameObjectName, EventFieldNameObjectType, EventFieldNameOfficeMode, EventFieldNameOsType, EventFieldNameOsVersion, EventFieldNameOutOfBandAccess, EventFieldNameOutpostEnvironmentName, EventFieldNameOwner, EventFieldNamePacFile, EventFieldNameParentConnectorName, EventFieldNamePopName, EventFieldNamePrecedence, EventFieldNameProcessesCount, EventFieldNameProducer, EventFieldNameProjects, EventFieldNamePromptAction, EventFieldNameProviderName, EventFieldNamePublicIP, EventFieldNameQosPriority, EventFieldNameQosReportedTime, EventFieldNameQuarantineFolderPath, EventFieldNameQuarantineUUID, EventFieldNameRawData, EventFieldNameRbiProfile, EventFieldNameRecommendedActions, EventFieldNameReferenceURL, EventFieldNameRefererURL, EventFieldNameRegionName, EventFieldNameRegistrationCode, EventFieldNameRequestSize, EventFieldNameResourceID, EventFieldNameResourceName, EventFieldNameResourceType, EventFieldNameResponseSize, EventFieldNameRetentionLabel, EventFieldNameRiskLevel, EventFieldNameRole, EventFieldNameRuleExpirationTime, EventFieldNameRuleID, EventFieldNameRuleName, EventFieldNameSecondarySocketSerial, EventFieldNameSensitivityDisplayName, EventFieldNameServerIP, EventFieldNameServerKeyExchangeAlgorithm, EventFieldNameServiceName, EventFieldNameSessionID, EventFieldNameSeverity, EventFieldNameSharingScope, EventFieldNameSignInEventTypes, EventFieldNameSignalSource, EventFieldNameSignatureID, EventFieldNameSiteWebProxyID, EventFieldNameSiteWebProxyName, EventFieldNameSiteWebProxyRuleAction, EventFieldNameSiteWebProxyRuleID, EventFieldNameSiteWebProxyRuleName, EventFieldNameSocketDescription, EventFieldNameSocketInterface, EventFieldNameSocketInterfaceID, EventFieldNameSocketMacAddress, EventFieldNameSocketNewVersion, EventFieldNameSocketOldVersion, EventFieldNameSocketReset, EventFieldNameSocketRole, EventFieldNameSocketSerial, EventFieldNameSocketVersion, EventFieldNameSplitTunnelConfiguration, EventFieldNameSrcCity, EventFieldNameSrcCountry, EventFieldNameSrcCountryCode, EventFieldNameSrcEndpointType, EventFieldNameSrcIP, EventFieldNameSrcIsSiteOrVpn, EventFieldNameSrcIspIP, EventFieldNameSrcPid, EventFieldNameSrcPort, EventFieldNameSrcProcessCmdline, EventFieldNameSrcProcessParentPath, EventFieldNameSrcProcessParentPid, EventFieldNameSrcProcessPath, EventFieldNameSrcSiteConnectionType, EventFieldNameSrcSiteID, EventFieldNameSrcSiteName, EventFieldNameStaticHost, EventFieldNameStatus, EventFieldNameStoryID, EventFieldNameSubnetName, EventFieldNameSubscriptionName, EventFieldNameTargetsCardinality, EventFieldNameTCPAcceleration, EventFieldNameTenantID, EventFieldNameTenantName, EventFieldNameTenantRestrictionRuleName, EventFieldNameThreatConfidence, EventFieldNameThreatName, EventFieldNameThreatReference, EventFieldNameThreatScore, EventFieldNameThreatType, EventFieldNameThreatVerdict, EventFieldNameTicket, EventFieldNameTime, EventFieldNameTimeStr, EventFieldNameTitle, EventFieldNameTLSCertificateError, EventFieldNameTLSErrorDescription, EventFieldNameTLSErrorType, EventFieldNameTLSInspection, EventFieldNameTLSRuleName, EventFieldNameTLSVersion, EventFieldNameTotalTokens, EventFieldNameTrafficDirection, EventFieldNameTransactionSize, EventFieldNameTranslatedClientIP, EventFieldNameTranslatedServerIP, EventFieldNameTrigger, EventFieldNameTrustType, EventFieldNameTrustedNetworks, EventFieldNameTunnelIPProtocol, EventFieldNameTunnelProtocol, EventFieldNameUpgradeEndTime, EventFieldNameUpgradeInitiatedBy, EventFieldNameUpgradeStartTime, EventFieldNameURL, EventFieldNameUserAgent, EventFieldNameUserAwarenessMethod, EventFieldNameUserID, EventFieldNameUserJustification, EventFieldNameUserName, EventFieldNameUserOrigin, EventFieldNameUserReferenceID, EventFieldNameUserRiskLevel, EventFieldNameUserStatus, EventFieldNameVendor, EventFieldNameVendorCollaboratorID, EventFieldNameVendorDeviceID, EventFieldNameVendorDeviceName, EventFieldNameVendorEventID, EventFieldNameVendorLocation, EventFieldNameVendorOrgID, EventFieldNameVendorPolicyDescription, EventFieldNameVendorPolicyID, EventFieldNameVendorPolicyName, EventFieldNameVendorSiteID, EventFieldNameVendorStartTime, EventFieldNameVendorUserID, EventFieldNameVendorVersion, EventFieldNameVerdictAuthor, EventFieldNameVerdictElaboration, EventFieldNameVisibleDeviceID, EventFieldNameVpnLanAccess, EventFieldNameVpnUserEmail, EventFieldNameWifiAuthenticationType, EventFieldNameWifiBssid, EventFieldNameWifiChannel, EventFieldNameWifiDescription, EventFieldNameWifiEventReasonCode, EventFieldNameWifiEventType, EventFieldNameWifiEventTypeCode, EventFieldNameWifiEventVendorName, EventFieldNameWifiProtocol, EventFieldNameWifiRadioBand, EventFieldNameWifiSecurity, EventFieldNameWifiSignalStrength, EventFieldNameWifiSsid, EventFieldNameWifiTimeSinceAssocMs, EventFieldNameWindowsDomainName, EventFieldNameXff:
 		return true
 	}
 	return false
@@ -33467,9 +33689,9 @@ const (
 	//  Route all traffic Out-of-Tunnel - Will be Deprecated by ROUTE_ONLY_SELECTED
 	SplitTunnelActionEnumInclude SplitTunnelActionEnum = "INCLUDE"
 	SplitTunnelActionEnumOff     SplitTunnelActionEnum = "OFF"
-	//  Route all traffic to Cato - Not yet supported
+	//  Route all traffic to Cato
 	SplitTunnelActionEnumRouteAllToCatoExcept SplitTunnelActionEnum = "ROUTE_ALL_TO_CATO_EXCEPT"
-	//  Route all traffic Out-of-Tunnel - Not yet supported
+	//  Route all traffic Out-of-Tunnel
 	SplitTunnelActionEnumRouteOnlySelected SplitTunnelActionEnum = "ROUTE_ONLY_SELECTED"
 	//  User choose routing preference
 	SplitTunnelActionEnumUserDefined SplitTunnelActionEnum = "USER_DEFINED"

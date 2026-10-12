@@ -71,6 +71,7 @@ query siteBgpPeerListQuery ($accountId: ID!, $bgpPeerListInput: BgpPeerListInput
 					transmitInterval
 					receiveInterval
 					multiplier
+					multiHop
 				}
 				tracking {
 					id

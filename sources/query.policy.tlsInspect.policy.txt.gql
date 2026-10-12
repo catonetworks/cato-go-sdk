@@ -83,6 +83,7 @@ query tlsinspectpolicy ($accountId: ID!, $tlsInspectPolicyInput: TlsInspectPolic
 							name
 						}
 						connectionOrigin
+						connectionsOriginList
 						application {
 							application {
 								id
