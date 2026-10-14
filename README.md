@@ -7,8 +7,12 @@ https://www.catonetworks.com/platform/cato-api/
 ### Installation
 
 ```bash
-go install github.com/catonetworks/cato-go-sdk
+go get github.com/catonetworks/cato-go-sdk@v1.0.0
 ```
+
+Requires Go 1.26.9 or newer. See the [1.0.0 changelog](CHANGELOG.md#100---2026-10-14)
+for release contents, breaking changes, and migration guidance. The command
+above becomes available when the `v1.0.0` tag is published.
 
 ### Client Initialization
 
@@ -148,7 +152,7 @@ Mustations are used in GraphQL to perform a change. This can include a create/up
 		},
 	}
 
-	policyChange, err := catoClient.PolicyInternetFirewallAddRule(ctx, inputRule, accountId)
+	policyChange, err := catoClient.PolicyInternetFirewallAddRule(ctx, inputRule, accountId, nil)
 
 	if err != nil {
 		fmt.Println("error: ", err)

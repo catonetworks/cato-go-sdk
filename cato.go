@@ -64,7 +64,7 @@ func New(url string, token string, accountId string, httpClient *http.Client, he
 			// set a user-agent if not set by client
 			_, exists := headers["User-Agent"]
 			if !exists {
-				req.Header.Set("User-Agent", "Cato_Go_SDK/v0")
+				req.Header.Set("User-Agent", "Cato_Go_SDK/v1.0.0")
 			}
 
 			return next(ctx, req, gqlInfo, res)

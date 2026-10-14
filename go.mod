@@ -1,6 +1,6 @@
 module github.com/catonetworks/cato-go-sdk
 
-go 1.26.6
+go 1.26.9
 
 ignore examples
 
