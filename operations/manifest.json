@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "cli_commit_sha": "ca604f63c4cd345c28cdc54b89cf6dabf07a0d0d",
+  "cli_commit_sha": "717df17303134949a6cd4cfa214f80e2e60d5c3a",
   "operations": [
     {
       "key": "mutation.accountManagement.addAccount",
@@ -7484,6 +7484,18 @@
       "status": "imported"
     },
     {
+      "key": "mutation.ztnaAppConnector.addZtnaAppConnectorBwLicense",
+      "kind": "mutation",
+      "sdk_file": "sources/mutation.ztnaAppConnector.addZtnaAppConnectorBwLicense.gql",
+      "sdk_name": "ztnaAppConnectorAddZtnaAppConnectorBwLicense",
+      "variables": [
+        "accountId",
+        "addZtnaAppConnectorBwLicenseInput"
+      ],
+      "document_sha256": "ce09790531890fea4f9ebf62cf697109425fbce0172d69d367740186ea103a92",
+      "status": "sdk_only"
+    },
+    {
       "key": "mutation.ztnaAppConnector.addZtnaAppConnectorsConfiguration",
       "kind": "mutation",
       "sdk_file": "sources/mutation.ztnaAppConnector.addZtnaAppConnectorsConfiguration.gql",
@@ -7538,6 +7550,18 @@
       "status": "imported"
     },
     {
+      "key": "mutation.ztnaAppConnector.removeZtnaAppConnectorBwLicense",
+      "kind": "mutation",
+      "sdk_file": "sources/mutation.ztnaAppConnector.removeZtnaAppConnectorBwLicense.gql",
+      "sdk_name": "ztnaAppConnectorRemoveZtnaAppConnectorBwLicense",
+      "variables": [
+        "accountId",
+        "removeZtnaAppConnectorBwLicenseInput"
+      ],
+      "document_sha256": "5a8e7a8ed691df526b2ab379f89c7ffc2e2e2e8ed17843f875b217ce31596371",
+      "status": "sdk_only"
+    },
+    {
       "key": "mutation.ztnaAppConnector.unassignSocketFromZtnaAppConnector",
       "kind": "mutation",
       "sdk_file": "sources/mutation.ztnaAppConnector.unassignSocketFromZtnaAppConnector.gql",
@@ -7578,6 +7602,18 @@
       "cli_name": "ztnaAppConnectorUpdateZtnaAppConnector",
       "cli_sha256": "7d0f851fa8d3aa8ea8e9ab42f8b5a406d193b217b163fc5c0605a099cc34bce0",
       "status": "imported"
+    },
+    {
+      "key": "mutation.ztnaAppConnector.updateZtnaAppConnectorBwLicense",
+      "kind": "mutation",
+      "sdk_file": "sources/mutation.ztnaAppConnector.updateZtnaAppConnectorBwLicense.gql",
+      "sdk_name": "ztnaAppConnectorUpdateZtnaAppConnectorBwLicense",
+      "variables": [
+        "accountId",
+        "updateZtnaAppConnectorBwLicenseInput"
+      ],
+      "document_sha256": "77a96cb89410120011487a0ef06014439002e995b19f59d454d5e6cc05f18b08",
+      "status": "sdk_only"
     },
     {
       "key": "mutation.ztnaAppConnector.updateZtnaAppConnectorsConfiguration",
@@ -9649,7 +9685,7 @@
         "accountId",
         "ref"
       ],
-      "document_sha256": "f6667beff444146e7c8181f9b8c33bcfe03b42ac3e1d8cfd5bac76c46bbae2a0",
+      "document_sha256": "ecd456a507a2b7c3695dba60ce5564e8c291cbd2d8d29cc17f9b2dd350c37cca",
       "status": "sdk_only"
     },
     {

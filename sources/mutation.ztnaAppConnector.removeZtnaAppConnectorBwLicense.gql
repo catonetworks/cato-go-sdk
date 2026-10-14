@@ -1,0 +1,11 @@
+mutation ztnaAppConnectorRemoveZtnaAppConnectorBwLicense ($accountId: ID!, $removeZtnaAppConnectorBwLicenseInput: RemoveZtnaAppConnectorBwLicenseInput!) {
+	ztnaAppConnector(accountId: $accountId) {
+		removeZtnaAppConnectorBwLicense(input: $removeZtnaAppConnectorBwLicenseInput) {
+			pooledBandwidthAllocation {
+				allocationId
+				licenseId
+				bw
+			}
+		}
+	}
+}

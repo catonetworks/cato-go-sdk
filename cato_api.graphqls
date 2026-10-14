@@ -316,6 +316,10 @@ type AddStoryCommentPayload {
   comment: StoryComment!
 }
 
+type AddZtnaAppConnectorBwLicensePayload {
+  pooledBandwidthAllocation: ZtnaAppConnectorPooledBandwidthAllocation!
+}
+
 type AddZtnaAppConnectorPayload {
   pooledBandwidthAllocation: [ZtnaAppConnectorPooledBandwidthAllocation!]!
   ztnaAppConnector: ZtnaAppConnector!
@@ -3470,8 +3474,8 @@ type InternetFirewallPolicyMutations {
   publishPolicyRevision(input: PolicyPublishRevisionInput): InternetFirewallPolicyMutationPayload!
   removeRule(input: InternetFirewallRemoveRuleInput!): InternetFirewallRuleMutationPayload!
   removeSection(input: PolicyRemoveSectionInput!): PolicySectionMutationPayload!
-  reorderPolicy(input: PolicyReorderInput!): InternetFirewallPolicyMutationPayload! @beta
   removeSubPolicy(input: InternetFirewallRemoveSubPolicyInput!): InternetFirewallRemoveSubPolicyMutationPayload!
+  reorderPolicy(input: PolicyReorderInput!): InternetFirewallPolicyMutationPayload! @beta
   updatePolicy(input: InternetFirewallPolicyUpdateInput!): InternetFirewallPolicyMutationPayload!
   updateRule(input: InternetFirewallUpdateRuleInput!): InternetFirewallRuleMutationPayload!
   updateSection(input: PolicyUpdateSectionInput!): PolicySectionMutationPayload!
@@ -6034,6 +6038,10 @@ type RemoveWifiSsidPayload {
   wifiSsid: WifiSsid!
 }
 
+type RemoveZtnaAppConnectorBwLicensePayload {
+  pooledBandwidthAllocation: ZtnaAppConnectorPooledBandwidthAllocation!
+}
+
 type RemoveZtnaAppConnectorPayload {
   ztnaAppConnector: ZtnaAppConnector!
 }
@@ -7967,6 +7975,10 @@ type UpdateWifiSsidPayload {
   wifiSsid: WifiSsid!
 }
 
+type UpdateZtnaAppConnectorBwLicensePayload {
+  pooledBandwidthAllocation: ZtnaAppConnectorPooledBandwidthAllocation!
+}
+
 type UpdateZtnaAppConnectorPayload {
   ztnaAppConnector: ZtnaAppConnector!
 }
@@ -8792,11 +8804,14 @@ type ZtnaAppConnectorLocationSnapshot {
 
 type ZtnaAppConnectorMutations {
   addZtnaAppConnector(input: AddZtnaAppConnectorInput!): AddZtnaAppConnectorPayload! @beta
+  addZtnaAppConnectorBwLicense(input: AddZtnaAppConnectorBwLicenseInput!): AddZtnaAppConnectorBwLicensePayload
   addZtnaAppConnectorsConfiguration(input: AddZtnaAppConnectorsConfigurationInput!): AddZtnaAppConnectorsConfigurationPayload! @beta
   removeZtnaAppConnector(input: RemoveZtnaAppConnectorInput!): RemoveZtnaAppConnectorPayload! @beta
+  removeZtnaAppConnectorBwLicense(input: RemoveZtnaAppConnectorBwLicenseInput!): RemoveZtnaAppConnectorBwLicensePayload
   removeZtnaAppConnectorsConfiguration: RemoveZtnaAppConnectorsConfigurationPayload! @beta
   unassignSocketFromZtnaAppConnector(input: UnassignSocketFromZtnaAppConnectorInput!): UnassignSocketFromZtnaAppConnectorPayload! @beta
   updateZtnaAppConnector(input: UpdateZtnaAppConnectorInput!): UpdateZtnaAppConnectorPayload! @beta
+  updateZtnaAppConnectorBwLicense(input: UpdateZtnaAppConnectorBwLicenseInput!): UpdateZtnaAppConnectorBwLicensePayload
   updateZtnaAppConnectorsConfiguration(input: UpdateZtnaAppConnectorsConfigurationInput!): UpdateZtnaAppConnectorsConfigurationPayload! @beta
   upgradeZtnaAppConnector(input: UpgradeZtnaAppConnectorInput!): UpgradeZtnaAppConnectorPayload! @beta
 }
@@ -9186,6 +9201,12 @@ input AddStoryCommentInput {
   storyId: ID!
   text: String!
   type: CommentType = USER
+}
+
+input AddZtnaAppConnectorBwLicenseInput {
+  bw: Int!
+  licenseId: ID!
+  ztnaAppConnector: ZtnaAppConnectorRefInput!
 }
 
 """ Input for creating a new ZTNA App Connector """
@@ -12011,43 +12032,6 @@ input PolicyElementRefInput {
   input: String!
 }
 
-"""
-Input for reordering an entire policy in a single mutation.
-All sections, rules, and sub-rules must be provided — including system elements.
-System sections and system rules must remain at their persisted positions (same array index).
-The desired order is determined by the natural (array index) order of the elements.
-"""
-input PolicyReorderInput {
-  sections: [PolicyReorderSectionInput!]!
-  subPolicyId: ID
-}
-
-"""
-Defines the desired order of a rule and its sub-rules within a section.
-Rules are reordered based on their natural position in the array.
-"""
-input PolicyReorderRuleInput {
-  ref: PolicyElementRefInput!
-  subRules: [PolicyReorderSubRuleInput!]! = []
-}
-
-"""
-Defines the desired order of a section and its rules within the policy.
-Sections are reordered based on their natural position in the array.
-"""
-input PolicyReorderSectionInput {
-  ref: PolicyElementRefInput!
-  rules: [PolicyReorderRuleInput!]!
-}
-
-"""
-Defines the desired order of sub-rules within a parent rule.
-Sub-rules are reordered based on their natural position in the array.
-"""
-input PolicyReorderSubRuleInput {
-  ref: PolicyElementRefInput!
-}
-
 input PolicyLevelEnumFilterInput {
   eq: PolicyLevelEnum
   in: [PolicyLevelEnum!]
@@ -12091,6 +12075,43 @@ input PolicyPublishRevisionInput {
 """ Input for removing a section from a policy """
 input PolicyRemoveSectionInput {
   id: ID!
+}
+
+"""
+Input for reordering an entire policy in a single mutation.
+All sections, rules, and sub-rules must be provided — including system elements.
+System sections and system rules must remain at their persisted positions (same array index).
+The desired order is determined by the natural (array index) order of the elements.
+"""
+input PolicyReorderInput {
+  sections: [PolicyReorderSectionInput!]!
+  subPolicyId: ID
+}
+
+"""
+Defines the desired order of a rule and its sub-rules within a section.
+Rules are reordered based on their natural position in the array.
+"""
+input PolicyReorderRuleInput {
+  ref: PolicyElementRefInput!
+  subRules: [PolicyReorderSubRuleInput!]! = []
+}
+
+"""
+Defines the desired order of a section and its rules within the policy.
+Sections are reordered based on their natural position in the array.
+"""
+input PolicyReorderSectionInput {
+  ref: PolicyElementRefInput!
+  rules: [PolicyReorderRuleInput!]!
+}
+
+"""
+Defines the desired order of sub-rules within a parent rule.
+Sub-rules are reordered based on their natural position in the array.
+"""
+input PolicyReorderSubRuleInput {
+  ref: PolicyElementRefInput!
 }
 
 """ Input for specifying a policy revision """
@@ -12817,6 +12838,10 @@ input RemoveSocketAddOnCardInput {
 
 input RemoveWifiSsidInput {
   wifiSsid: WifiSsidRefInput!
+}
+
+input RemoveZtnaAppConnectorBwLicenseInput {
+  allocationId: ID!
 }
 
 input RemoveZtnaAppConnectorInput {
@@ -14795,6 +14820,11 @@ input UpdateWifiSsidInput {
   subnet: NetworkSubnet
   visible: Boolean
   vlanId: Int @deprecated(reason: "No longer supported")
+}
+
+input UpdateZtnaAppConnectorBwLicenseInput {
+  allocationId: ID!
+  bw: Int!
 }
 
 input UpdateZtnaAppConnectorInput {

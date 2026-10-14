@@ -14,6 +14,11 @@ query appConnectorReadConnector($accountId: ID!, $ref: ZtnaAppConnectorRefInput!
         stateCode
         timezone
       }
+      pooledBandwidthAllocation {
+        allocationId
+        bw
+        licenseId
+      }
       preferredPopLocation {
         preferredOnly
         automatic
