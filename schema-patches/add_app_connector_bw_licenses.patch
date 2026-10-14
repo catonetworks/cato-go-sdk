@@ -1,0 +1,379 @@
+diff --git a/cato_api.graphqls b/cato_api.graphqls
+index 255862b..7d7964e 100644
+--- a/cato_api.graphqls
++++ b/cato_api.graphqls
+@@ -3474,8 +3474,8 @@ type InternetFirewallPolicyMutations {
+   publishPolicyRevision(input: PolicyPublishRevisionInput): InternetFirewallPolicyMutationPayload!
+   removeRule(input: InternetFirewallRemoveRuleInput!): InternetFirewallRuleMutationPayload!
+   removeSection(input: PolicyRemoveSectionInput!): PolicySectionMutationPayload!
+-  reorderPolicy(input: PolicyReorderInput!): InternetFirewallPolicyMutationPayload! @beta
+   removeSubPolicy(input: InternetFirewallRemoveSubPolicyInput!): InternetFirewallRemoveSubPolicyMutationPayload!
++  reorderPolicy(input: PolicyReorderInput!): InternetFirewallPolicyMutationPayload! @beta
+   updatePolicy(input: InternetFirewallPolicyUpdateInput!): InternetFirewallPolicyMutationPayload!
+   updateRule(input: InternetFirewallUpdateRuleInput!): InternetFirewallRuleMutationPayload!
+   updateSection(input: PolicyUpdateSectionInput!): PolicySectionMutationPayload!
+@@ -7975,6 +7975,10 @@ type UpdateWifiSsidPayload {
+   wifiSsid: WifiSsid!
+ }
+ 
++type UpdateZtnaAppConnectorBwLicensePayload {
++  pooledBandwidthAllocation: ZtnaAppConnectorPooledBandwidthAllocation!
++}
++
+ type UpdateZtnaAppConnectorPayload {
+   ztnaAppConnector: ZtnaAppConnector!
+ }
+@@ -8807,6 +8811,7 @@ type ZtnaAppConnectorMutations {
+   removeZtnaAppConnectorsConfiguration: RemoveZtnaAppConnectorsConfigurationPayload! @beta
+   unassignSocketFromZtnaAppConnector(input: UnassignSocketFromZtnaAppConnectorInput!): UnassignSocketFromZtnaAppConnectorPayload! @beta
+   updateZtnaAppConnector(input: UpdateZtnaAppConnectorInput!): UpdateZtnaAppConnectorPayload! @beta
++  updateZtnaAppConnectorBwLicense(input: UpdateZtnaAppConnectorBwLicenseInput!): UpdateZtnaAppConnectorBwLicensePayload
+   updateZtnaAppConnectorsConfiguration(input: UpdateZtnaAppConnectorsConfigurationInput!): UpdateZtnaAppConnectorsConfigurationPayload! @beta
+   upgradeZtnaAppConnector(input: UpgradeZtnaAppConnectorInput!): UpgradeZtnaAppConnectorPayload! @beta
+ }
+@@ -12027,43 +12032,6 @@ input PolicyElementRefInput {
+   input: String!
+ }
+ 
+-"""
+-Input for reordering an entire policy in a single mutation.
+-All sections, rules, and sub-rules must be provided — including system elements.
+-System sections and system rules must remain at their persisted positions (same array index).
+-The desired order is determined by the natural (array index) order of the elements.
+-"""
+-input PolicyReorderInput {
+-  sections: [PolicyReorderSectionInput!]!
+-  subPolicyId: ID
+-}
+-
+-"""
+-Defines the desired order of a rule and its sub-rules within a section.
+-Rules are reordered based on their natural position in the array.
+-"""
+-input PolicyReorderRuleInput {
+-  ref: PolicyElementRefInput!
+-  subRules: [PolicyReorderSubRuleInput!]! = []
+-}
+-
+-"""
+-Defines the desired order of a section and its rules within the policy.
+-Sections are reordered based on their natural position in the array.
+-"""
+-input PolicyReorderSectionInput {
+-  ref: PolicyElementRefInput!
+-  rules: [PolicyReorderRuleInput!]!
+-}
+-
+-"""
+-Defines the desired order of sub-rules within a parent rule.
+-Sub-rules are reordered based on their natural position in the array.
+-"""
+-input PolicyReorderSubRuleInput {
+-  ref: PolicyElementRefInput!
+-}
+-
+ input PolicyLevelEnumFilterInput {
+   eq: PolicyLevelEnum
+   in: [PolicyLevelEnum!]
+@@ -12109,6 +12077,43 @@ input PolicyRemoveSectionInput {
+   id: ID!
+ }
+ 
++"""
++Input for reordering an entire policy in a single mutation.
++All sections, rules, and sub-rules must be provided — including system elements.
++System sections and system rules must remain at their persisted positions (same array index).
++The desired order is determined by the natural (array index) order of the elements.
++"""
++input PolicyReorderInput {
++  sections: [PolicyReorderSectionInput!]!
++  subPolicyId: ID
++}
++
++"""
++Defines the desired order of a rule and its sub-rules within a section.
++Rules are reordered based on their natural position in the array.
++"""
++input PolicyReorderRuleInput {
++  ref: PolicyElementRefInput!
++  subRules: [PolicyReorderSubRuleInput!]! = []
++}
++
++"""
++Defines the desired order of a section and its rules within the policy.
++Sections are reordered based on their natural position in the array.
++"""
++input PolicyReorderSectionInput {
++  ref: PolicyElementRefInput!
++  rules: [PolicyReorderRuleInput!]!
++}
++
++"""
++Defines the desired order of sub-rules within a parent rule.
++Sub-rules are reordered based on their natural position in the array.
++"""
++input PolicyReorderSubRuleInput {
++  ref: PolicyElementRefInput!
++}
++
+ """ Input for specifying a policy revision """
+ input PolicyRevisionInput {
+   id: ID
+@@ -14817,6 +14822,11 @@ input UpdateWifiSsidInput {
+   vlanId: Int @deprecated(reason: "No longer supported")
+ }
+ 
++input UpdateZtnaAppConnectorBwLicenseInput {
++  allocationId: ID!
++  bw: Int!
++}
++
+ input UpdateZtnaAppConnectorInput {
+   description: String
+   groupName: String
+diff --git a/client.go b/client.go
+index ffa99a8..2fbfe79 100644
+--- a/client.go
++++ b/client.go
+@@ -502,6 +502,7 @@ type CatoClient interface {
+ 	ZtnaAppConnectorUnassignSocketFromZtnaAppConnector(ctx context.Context, accountID string, unassignSocketFromZtnaAppConnectorInput cato_models.UnassignSocketFromZtnaAppConnectorInput, interceptors ...clientv2.RequestInterceptor) (*ZtnaAppConnectorUnassignSocketFromZtnaAppConnector, error)
+ 	AppConnectorUpdateConnector(ctx context.Context, accountID string, updateConnector cato_models.UpdateZtnaAppConnectorInput, interceptors ...clientv2.RequestInterceptor) (*AppConnectorUpdateConnector, error)
+ 	ZtnaAppConnectorUpdateZtnaAppConnector(ctx context.Context, accountID string, updateZtnaAppConnectorInput cato_models.UpdateZtnaAppConnectorInput, interceptors ...clientv2.RequestInterceptor) (*ZtnaAppConnectorUpdateZtnaAppConnector, error)
++	ZtnaAppConnectorUpdateZtnaAppConnectorBwLicense(ctx context.Context, accountID string, updateZtnaAppConnectorBwLicenseInput cato_models.UpdateZtnaAppConnectorBwLicenseInput, interceptors ...clientv2.RequestInterceptor) (*ZtnaAppConnectorUpdateZtnaAppConnectorBwLicense, error)
+ 	ZtnaAppConnectorUpdateZtnaAppConnectorsConfiguration(ctx context.Context, accountID string, updateZtnaAppConnectorsConfigurationInput cato_models.UpdateZtnaAppConnectorsConfigurationInput, interceptors ...clientv2.RequestInterceptor) (*ZtnaAppConnectorUpdateZtnaAppConnectorsConfiguration, error)
+ 	ZtnaAppConnectorUpgradeZtnaAppConnector(ctx context.Context, accountID string, upgradeZtnaAppConnectorInput cato_models.UpgradeZtnaAppConnectorInput, interceptors ...clientv2.RequestInterceptor) (*ZtnaAppConnectorUpgradeZtnaAppConnector, error)
+ 	AccountBySubdomain(ctx context.Context, accountID string, subdomains []string, interceptors ...clientv2.RequestInterceptor) (*AccountBySubdomain, error)
+@@ -278786,6 +278787,53 @@ func (t *ZtnaAppConnectorUpdateZtnaAppConnector_ZtnaAppConnector) GetUpdateZtnaA
+ 	return &t.UpdateZtnaAppConnector
+ }
+ 
++type ZtnaAppConnectorUpdateZtnaAppConnectorBwLicense_ZtnaAppConnector_UpdateZtnaAppConnectorBwLicense_PooledBandwidthAllocation struct {
++	AllocationID string "json:\"allocationId\" graphql:\"allocationId\""
++	Bw           int64  "json:\"bw\" graphql:\"bw\""
++	LicenseID    string "json:\"licenseId\" graphql:\"licenseId\""
++}
++
++func (t *ZtnaAppConnectorUpdateZtnaAppConnectorBwLicense_ZtnaAppConnector_UpdateZtnaAppConnectorBwLicense_PooledBandwidthAllocation) GetAllocationID() string {
++	if t == nil {
++		t = &ZtnaAppConnectorUpdateZtnaAppConnectorBwLicense_ZtnaAppConnector_UpdateZtnaAppConnectorBwLicense_PooledBandwidthAllocation{}
++	}
++	return t.AllocationID
++}
++func (t *ZtnaAppConnectorUpdateZtnaAppConnectorBwLicense_ZtnaAppConnector_UpdateZtnaAppConnectorBwLicense_PooledBandwidthAllocation) GetBw() int64 {
++	if t == nil {
++		t = &ZtnaAppConnectorUpdateZtnaAppConnectorBwLicense_ZtnaAppConnector_UpdateZtnaAppConnectorBwLicense_PooledBandwidthAllocation{}
++	}
++	return t.Bw
++}
++func (t *ZtnaAppConnectorUpdateZtnaAppConnectorBwLicense_ZtnaAppConnector_UpdateZtnaAppConnectorBwLicense_PooledBandwidthAllocation) GetLicenseID() string {
++	if t == nil {
++		t = &ZtnaAppConnectorUpdateZtnaAppConnectorBwLicense_ZtnaAppConnector_UpdateZtnaAppConnectorBwLicense_PooledBandwidthAllocation{}
++	}
++	return t.LicenseID
++}
++
++type ZtnaAppConnectorUpdateZtnaAppConnectorBwLicense_ZtnaAppConnector_UpdateZtnaAppConnectorBwLicense struct {
++	PooledBandwidthAllocation ZtnaAppConnectorUpdateZtnaAppConnectorBwLicense_ZtnaAppConnector_UpdateZtnaAppConnectorBwLicense_PooledBandwidthAllocation "json:\"pooledBandwidthAllocation\" graphql:\"pooledBandwidthAllocation\""
++}
++
++func (t *ZtnaAppConnectorUpdateZtnaAppConnectorBwLicense_ZtnaAppConnector_UpdateZtnaAppConnectorBwLicense) GetPooledBandwidthAllocation() *ZtnaAppConnectorUpdateZtnaAppConnectorBwLicense_ZtnaAppConnector_UpdateZtnaAppConnectorBwLicense_PooledBandwidthAllocation {
++	if t == nil {
++		t = &ZtnaAppConnectorUpdateZtnaAppConnectorBwLicense_ZtnaAppConnector_UpdateZtnaAppConnectorBwLicense{}
++	}
++	return &t.PooledBandwidthAllocation
++}
++
++type ZtnaAppConnectorUpdateZtnaAppConnectorBwLicense_ZtnaAppConnector struct {
++	UpdateZtnaAppConnectorBwLicense *ZtnaAppConnectorUpdateZtnaAppConnectorBwLicense_ZtnaAppConnector_UpdateZtnaAppConnectorBwLicense "json:\"updateZtnaAppConnectorBwLicense,omitempty\" graphql:\"updateZtnaAppConnectorBwLicense\""
++}
++
++func (t *ZtnaAppConnectorUpdateZtnaAppConnectorBwLicense_ZtnaAppConnector) GetUpdateZtnaAppConnectorBwLicense() *ZtnaAppConnectorUpdateZtnaAppConnectorBwLicense_ZtnaAppConnector_UpdateZtnaAppConnectorBwLicense {
++	if t == nil {
++		t = &ZtnaAppConnectorUpdateZtnaAppConnectorBwLicense_ZtnaAppConnector{}
++	}
++	return t.UpdateZtnaAppConnectorBwLicense
++}
++
+ type ZtnaAppConnectorUpdateZtnaAppConnectorsConfiguration_ZtnaAppConnector_UpdateZtnaAppConnectorsConfiguration_ZtnaAppConnectorsConfiguration struct {
+ 	AppConnectorManagementRange *string "json:\"appConnectorManagementRange,omitempty\" graphql:\"appConnectorManagementRange\""
+ 	PrivateAppsServiceRange     *string "json:\"privateAppsServiceRange,omitempty\" graphql:\"privateAppsServiceRange\""
+@@ -361456,6 +361504,17 @@ func (t *ZtnaAppConnectorUpdateZtnaAppConnector) GetZtnaAppConnector() *ZtnaAppC
+ 	return t.ZtnaAppConnector
+ }
+ 
++type ZtnaAppConnectorUpdateZtnaAppConnectorBwLicense struct {
++	ZtnaAppConnector *ZtnaAppConnectorUpdateZtnaAppConnectorBwLicense_ZtnaAppConnector "json:\"ztnaAppConnector,omitempty\" graphql:\"ztnaAppConnector\""
++}
++
++func (t *ZtnaAppConnectorUpdateZtnaAppConnectorBwLicense) GetZtnaAppConnector() *ZtnaAppConnectorUpdateZtnaAppConnectorBwLicense_ZtnaAppConnector {
++	if t == nil {
++		t = &ZtnaAppConnectorUpdateZtnaAppConnectorBwLicense{}
++	}
++	return t.ZtnaAppConnector
++}
++
+ type ZtnaAppConnectorUpdateZtnaAppConnectorsConfiguration struct {
+ 	ZtnaAppConnector *ZtnaAppConnectorUpdateZtnaAppConnectorsConfiguration_ZtnaAppConnector "json:\"ztnaAppConnector,omitempty\" graphql:\"ztnaAppConnector\""
+ }
+@@ -419029,6 +419088,37 @@ func (c *Client) ZtnaAppConnectorUpdateZtnaAppConnector(ctx context.Context, acc
+ 	return &res, nil
+ }
+ 
++const ZtnaAppConnectorUpdateZtnaAppConnectorBwLicenseDocument = `mutation ztnaAppConnectorUpdateZtnaAppConnectorBwLicense ($accountId: ID!, $updateZtnaAppConnectorBwLicenseInput: UpdateZtnaAppConnectorBwLicenseInput!) {
++	ztnaAppConnector(accountId: $accountId) {
++		updateZtnaAppConnectorBwLicense(input: $updateZtnaAppConnectorBwLicenseInput) {
++			pooledBandwidthAllocation {
++				allocationId
++				licenseId
++				bw
++			}
++		}
++	}
++}
++`
++
++func (c *Client) ZtnaAppConnectorUpdateZtnaAppConnectorBwLicense(ctx context.Context, accountID string, updateZtnaAppConnectorBwLicenseInput cato_models.UpdateZtnaAppConnectorBwLicenseInput, interceptors ...clientv2.RequestInterceptor) (*ZtnaAppConnectorUpdateZtnaAppConnectorBwLicense, error) {
++	vars := map[string]any{
++		"accountId":                            accountID,
++		"updateZtnaAppConnectorBwLicenseInput": updateZtnaAppConnectorBwLicenseInput,
++	}
++
++	var res ZtnaAppConnectorUpdateZtnaAppConnectorBwLicense
++	if err := c.Client.Post(ctx, "ztnaAppConnectorUpdateZtnaAppConnectorBwLicense", ZtnaAppConnectorUpdateZtnaAppConnectorBwLicenseDocument, &res, vars, interceptors...); err != nil {
++		if c.Client.ParseDataWhenErrors {
++			return &res, err
++		}
++
++		return nil, err
++	}
++
++	return &res, nil
++}
++
+ const ZtnaAppConnectorUpdateZtnaAppConnectorsConfigurationDocument = `mutation ztnaAppConnectorUpdateZtnaAppConnectorsConfiguration ($accountId: ID!, $updateZtnaAppConnectorsConfigurationInput: UpdateZtnaAppConnectorsConfigurationInput!) {
+ 	ztnaAppConnector(accountId: $accountId) {
+ 		updateZtnaAppConnectorsConfiguration(input: $updateZtnaAppConnectorsConfigurationInput) {
+@@ -434997,6 +435087,7 @@ var DocumentOperationNames = map[string]string{
+ 	ZtnaAppConnectorUnassignSocketFromZtnaAppConnectorDocument:   "ztnaAppConnectorUnassignSocketFromZtnaAppConnector",
+ 	AppConnectorUpdateConnectorDocument:                          "appConnectorUpdateConnector",
+ 	ZtnaAppConnectorUpdateZtnaAppConnectorDocument:               "ztnaAppConnectorUpdateZtnaAppConnector",
++	ZtnaAppConnectorUpdateZtnaAppConnectorBwLicenseDocument:      "ztnaAppConnectorUpdateZtnaAppConnectorBwLicense",
+ 	ZtnaAppConnectorUpdateZtnaAppConnectorsConfigurationDocument: "ztnaAppConnectorUpdateZtnaAppConnectorsConfiguration",
+ 	ZtnaAppConnectorUpgradeZtnaAppConnectorDocument:              "ztnaAppConnectorUpgradeZtnaAppConnector",
+ 	AccountBySubdomainDocument:                                   "accountBySubdomain",
+diff --git a/models/models.go b/models/models.go
+index 0f4fba4..682ab62 100644
+--- a/models/models.go
++++ b/models/models.go
+@@ -7355,8 +7355,8 @@ type InternetFirewallPolicyMutations struct {
+ 	PublishPolicyRevision *InternetFirewallPolicyMutationPayload          `json:"publishPolicyRevision"`
+ 	RemoveRule            *InternetFirewallRuleMutationPayload            `json:"removeRule"`
+ 	RemoveSection         *PolicySectionMutationPayload                   `json:"removeSection"`
+-	ReorderPolicy         *InternetFirewallPolicyMutationPayload          `json:"reorderPolicy"`
+ 	RemoveSubPolicy       *InternetFirewallRemoveSubPolicyMutationPayload `json:"removeSubPolicy"`
++	ReorderPolicy         *InternetFirewallPolicyMutationPayload          `json:"reorderPolicy"`
+ 	UpdatePolicy          *InternetFirewallPolicyMutationPayload          `json:"updatePolicy"`
+ 	UpdateRule            *InternetFirewallRuleMutationPayload            `json:"updateRule"`
+ 	UpdateSection         *PolicySectionMutationPayload                   `json:"updateSection"`
+@@ -17108,6 +17108,15 @@ type UpdateWifiSsidPayload struct {
+ 	WifiSsid *WifiSsid `json:"wifiSsid"`
+ }
+ 
++type UpdateZtnaAppConnectorBwLicenseInput struct {
++	AllocationID string `json:"allocationId"`
++	Bw           int64  `json:"bw"`
++}
++
++type UpdateZtnaAppConnectorBwLicensePayload struct {
++	PooledBandwidthAllocation *ZtnaAppConnectorPooledBandwidthAllocation `json:"pooledBandwidthAllocation"`
++}
++
+ type UpdateZtnaAppConnectorInput struct {
+ 	Description          *string                                    `json:"description,omitempty"`
+ 	GroupName            *string                                    `json:"groupName,omitempty"`
+@@ -19054,6 +19063,7 @@ type ZtnaAppConnectorMutations struct {
+ 	RemoveZtnaAppConnectorsConfiguration *RemoveZtnaAppConnectorsConfigurationPayload `json:"removeZtnaAppConnectorsConfiguration"`
+ 	UnassignSocketFromZtnaAppConnector   *UnassignSocketFromZtnaAppConnectorPayload   `json:"unassignSocketFromZtnaAppConnector"`
+ 	UpdateZtnaAppConnector               *UpdateZtnaAppConnectorPayload               `json:"updateZtnaAppConnector"`
++	UpdateZtnaAppConnectorBwLicense      *UpdateZtnaAppConnectorBwLicensePayload      `json:"updateZtnaAppConnectorBwLicense,omitempty"`
+ 	UpdateZtnaAppConnectorsConfiguration *UpdateZtnaAppConnectorsConfigurationPayload `json:"updateZtnaAppConnectorsConfiguration"`
+ 	UpgradeZtnaAppConnector              *UpgradeZtnaAppConnectorPayload              `json:"upgradeZtnaAppConnector"`
+ }
+diff --git a/operations/manifest.json b/operations/manifest.json
+index 210de8f..6483a18 100644
+--- a/operations/manifest.json
++++ b/operations/manifest.json
+@@ -1,6 +1,6 @@
+ {
+   "version": 2,
+-  "cli_commit_sha": "ca604f63c4cd345c28cdc54b89cf6dabf07a0d0d",
++  "cli_commit_sha": "717df17303134949a6cd4cfa214f80e2e60d5c3a",
+   "operations": [
+     {
+       "key": "mutation.accountManagement.addAccount",
+@@ -7483,6 +7483,18 @@
+       "cli_sha256": "8508bcae0fe90529be027c45c6ca79e936a3938a2cc96cc2ac9d02c2bfe469c9",
+       "status": "imported"
+     },
++    {
++      "key": "mutation.ztnaAppConnector.addZtnaAppConnectorBwLicense",
++      "kind": "mutation",
++      "sdk_file": "sources/mutation.ztnaAppConnector.addZtnaAppConnectorBwLicense.gql",
++      "sdk_name": "ztnaAppConnectorAddZtnaAppConnectorBwLicense",
++      "variables": [
++        "accountId",
++        "addZtnaAppConnectorBwLicenseInput"
++      ],
++      "document_sha256": "ce09790531890fea4f9ebf62cf697109425fbce0172d69d367740186ea103a92",
++      "status": "sdk_only"
++    },
+     {
+       "key": "mutation.ztnaAppConnector.addZtnaAppConnectorsConfiguration",
+       "kind": "mutation",
+@@ -7537,6 +7549,18 @@
+       "cli_sha256": "8b1f5b25c604925563f30fcb361734ee0b2286ec7a999bd9037343cee033fbb2",
+       "status": "imported"
+     },
++    {
++      "key": "mutation.ztnaAppConnector.removeZtnaAppConnectorBwLicense",
++      "kind": "mutation",
++      "sdk_file": "sources/mutation.ztnaAppConnector.removeZtnaAppConnectorBwLicense.gql",
++      "sdk_name": "ztnaAppConnectorRemoveZtnaAppConnectorBwLicense",
++      "variables": [
++        "accountId",
++        "removeZtnaAppConnectorBwLicenseInput"
++      ],
++      "document_sha256": "5a8e7a8ed691df526b2ab379f89c7ffc2e2e2e8ed17843f875b217ce31596371",
++      "status": "sdk_only"
++    },
+     {
+       "key": "mutation.ztnaAppConnector.unassignSocketFromZtnaAppConnector",
+       "kind": "mutation",
+@@ -7579,6 +7603,18 @@
+       "cli_sha256": "7d0f851fa8d3aa8ea8e9ab42f8b5a406d193b217b163fc5c0605a099cc34bce0",
+       "status": "imported"
+     },
++    {
++      "key": "mutation.ztnaAppConnector.updateZtnaAppConnectorBwLicense",
++      "kind": "mutation",
++      "sdk_file": "sources/mutation.ztnaAppConnector.updateZtnaAppConnectorBwLicense.gql",
++      "sdk_name": "ztnaAppConnectorUpdateZtnaAppConnectorBwLicense",
++      "variables": [
++        "accountId",
++        "updateZtnaAppConnectorBwLicenseInput"
++      ],
++      "document_sha256": "77a96cb89410120011487a0ef06014439002e995b19f59d454d5e6cc05f18b08",
++      "status": "sdk_only"
++    },
+     {
+       "key": "mutation.ztnaAppConnector.updateZtnaAppConnectorsConfiguration",
+       "kind": "mutation",
+@@ -9649,7 +9685,7 @@
+         "accountId",
+         "ref"
+       ],
+-      "document_sha256": "f6667beff444146e7c8181f9b8c33bcfe03b42ac3e1d8cfd5bac76c46bbae2a0",
++      "document_sha256": "ecd456a507a2b7c3695dba60ce5564e8c291cbd2d8d29cc17f9b2dd350c37cca",
+       "status": "sdk_only"
+     },
+     {

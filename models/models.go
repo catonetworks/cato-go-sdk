@@ -7355,8 +7355,8 @@ type InternetFirewallPolicyMutations struct {
 	PublishPolicyRevision *InternetFirewallPolicyMutationPayload          `json:"publishPolicyRevision"`
 	RemoveRule            *InternetFirewallRuleMutationPayload            `json:"removeRule"`
 	RemoveSection         *PolicySectionMutationPayload                   `json:"removeSection"`
-	ReorderPolicy         *InternetFirewallPolicyMutationPayload          `json:"reorderPolicy"`
 	RemoveSubPolicy       *InternetFirewallRemoveSubPolicyMutationPayload `json:"removeSubPolicy"`
+	ReorderPolicy         *InternetFirewallPolicyMutationPayload          `json:"reorderPolicy"`
 	UpdatePolicy          *InternetFirewallPolicyMutationPayload          `json:"updatePolicy"`
 	UpdateRule            *InternetFirewallRuleMutationPayload            `json:"updateRule"`
 	UpdateSection         *PolicySectionMutationPayload                   `json:"updateSection"`
@@ -17108,6 +17108,15 @@ type UpdateWifiSsidPayload struct {
 	WifiSsid *WifiSsid `json:"wifiSsid"`
 }
 
+type UpdateZtnaAppConnectorBwLicenseInput struct {
+	AllocationID string `json:"allocationId"`
+	Bw           int64  `json:"bw"`
+}
+
+type UpdateZtnaAppConnectorBwLicensePayload struct {
+	PooledBandwidthAllocation *ZtnaAppConnectorPooledBandwidthAllocation `json:"pooledBandwidthAllocation"`
+}
+
 type UpdateZtnaAppConnectorInput struct {
 	Description          *string                                    `json:"description,omitempty"`
 	GroupName            *string                                    `json:"groupName,omitempty"`
@@ -19054,6 +19063,7 @@ type ZtnaAppConnectorMutations struct {
 	RemoveZtnaAppConnectorsConfiguration *RemoveZtnaAppConnectorsConfigurationPayload `json:"removeZtnaAppConnectorsConfiguration"`
 	UnassignSocketFromZtnaAppConnector   *UnassignSocketFromZtnaAppConnectorPayload   `json:"unassignSocketFromZtnaAppConnector"`
 	UpdateZtnaAppConnector               *UpdateZtnaAppConnectorPayload               `json:"updateZtnaAppConnector"`
+	UpdateZtnaAppConnectorBwLicense      *UpdateZtnaAppConnectorBwLicensePayload      `json:"updateZtnaAppConnectorBwLicense,omitempty"`
 	UpdateZtnaAppConnectorsConfiguration *UpdateZtnaAppConnectorsConfigurationPayload `json:"updateZtnaAppConnectorsConfiguration"`
 	UpgradeZtnaAppConnector              *UpgradeZtnaAppConnectorPayload              `json:"upgradeZtnaAppConnector"`
 }

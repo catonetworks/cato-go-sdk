@@ -502,6 +502,7 @@ type CatoClient interface {
 	ZtnaAppConnectorUnassignSocketFromZtnaAppConnector(ctx context.Context, accountID string, unassignSocketFromZtnaAppConnectorInput cato_models.UnassignSocketFromZtnaAppConnectorInput, interceptors ...clientv2.RequestInterceptor) (*ZtnaAppConnectorUnassignSocketFromZtnaAppConnector, error)
 	AppConnectorUpdateConnector(ctx context.Context, accountID string, updateConnector cato_models.UpdateZtnaAppConnectorInput, interceptors ...clientv2.RequestInterceptor) (*AppConnectorUpdateConnector, error)
 	ZtnaAppConnectorUpdateZtnaAppConnector(ctx context.Context, accountID string, updateZtnaAppConnectorInput cato_models.UpdateZtnaAppConnectorInput, interceptors ...clientv2.RequestInterceptor) (*ZtnaAppConnectorUpdateZtnaAppConnector, error)
+	ZtnaAppConnectorUpdateZtnaAppConnectorBwLicense(ctx context.Context, accountID string, updateZtnaAppConnectorBwLicenseInput cato_models.UpdateZtnaAppConnectorBwLicenseInput, interceptors ...clientv2.RequestInterceptor) (*ZtnaAppConnectorUpdateZtnaAppConnectorBwLicense, error)
 	ZtnaAppConnectorUpdateZtnaAppConnectorsConfiguration(ctx context.Context, accountID string, updateZtnaAppConnectorsConfigurationInput cato_models.UpdateZtnaAppConnectorsConfigurationInput, interceptors ...clientv2.RequestInterceptor) (*ZtnaAppConnectorUpdateZtnaAppConnectorsConfiguration, error)
 	ZtnaAppConnectorUpgradeZtnaAppConnector(ctx context.Context, accountID string, upgradeZtnaAppConnectorInput cato_models.UpgradeZtnaAppConnectorInput, interceptors ...clientv2.RequestInterceptor) (*ZtnaAppConnectorUpgradeZtnaAppConnector, error)
 	AccountBySubdomain(ctx context.Context, accountID string, subdomains []string, interceptors ...clientv2.RequestInterceptor) (*AccountBySubdomain, error)
@@ -278786,6 +278787,53 @@ func (t *ZtnaAppConnectorUpdateZtnaAppConnector_ZtnaAppConnector) GetUpdateZtnaA
 	return &t.UpdateZtnaAppConnector
 }
 
+type ZtnaAppConnectorUpdateZtnaAppConnectorBwLicense_ZtnaAppConnector_UpdateZtnaAppConnectorBwLicense_PooledBandwidthAllocation struct {
+	AllocationID string "json:\"allocationId\" graphql:\"allocationId\""
+	Bw           int64  "json:\"bw\" graphql:\"bw\""
+	LicenseID    string "json:\"licenseId\" graphql:\"licenseId\""
+}
+
+func (t *ZtnaAppConnectorUpdateZtnaAppConnectorBwLicense_ZtnaAppConnector_UpdateZtnaAppConnectorBwLicense_PooledBandwidthAllocation) GetAllocationID() string {
+	if t == nil {
+		t = &ZtnaAppConnectorUpdateZtnaAppConnectorBwLicense_ZtnaAppConnector_UpdateZtnaAppConnectorBwLicense_PooledBandwidthAllocation{}
+	}
+	return t.AllocationID
+}
+func (t *ZtnaAppConnectorUpdateZtnaAppConnectorBwLicense_ZtnaAppConnector_UpdateZtnaAppConnectorBwLicense_PooledBandwidthAllocation) GetBw() int64 {
+	if t == nil {
+		t = &ZtnaAppConnectorUpdateZtnaAppConnectorBwLicense_ZtnaAppConnector_UpdateZtnaAppConnectorBwLicense_PooledBandwidthAllocation{}
+	}
+	return t.Bw
+}
+func (t *ZtnaAppConnectorUpdateZtnaAppConnectorBwLicense_ZtnaAppConnector_UpdateZtnaAppConnectorBwLicense_PooledBandwidthAllocation) GetLicenseID() string {
+	if t == nil {
+		t = &ZtnaAppConnectorUpdateZtnaAppConnectorBwLicense_ZtnaAppConnector_UpdateZtnaAppConnectorBwLicense_PooledBandwidthAllocation{}
+	}
+	return t.LicenseID
+}
+
+type ZtnaAppConnectorUpdateZtnaAppConnectorBwLicense_ZtnaAppConnector_UpdateZtnaAppConnectorBwLicense struct {
+	PooledBandwidthAllocation ZtnaAppConnectorUpdateZtnaAppConnectorBwLicense_ZtnaAppConnector_UpdateZtnaAppConnectorBwLicense_PooledBandwidthAllocation "json:\"pooledBandwidthAllocation\" graphql:\"pooledBandwidthAllocation\""
+}
+
+func (t *ZtnaAppConnectorUpdateZtnaAppConnectorBwLicense_ZtnaAppConnector_UpdateZtnaAppConnectorBwLicense) GetPooledBandwidthAllocation() *ZtnaAppConnectorUpdateZtnaAppConnectorBwLicense_ZtnaAppConnector_UpdateZtnaAppConnectorBwLicense_PooledBandwidthAllocation {
+	if t == nil {
+		t = &ZtnaAppConnectorUpdateZtnaAppConnectorBwLicense_ZtnaAppConnector_UpdateZtnaAppConnectorBwLicense{}
+	}
+	return &t.PooledBandwidthAllocation
+}
+
+type ZtnaAppConnectorUpdateZtnaAppConnectorBwLicense_ZtnaAppConnector struct {
+	UpdateZtnaAppConnectorBwLicense *ZtnaAppConnectorUpdateZtnaAppConnectorBwLicense_ZtnaAppConnector_UpdateZtnaAppConnectorBwLicense "json:\"updateZtnaAppConnectorBwLicense,omitempty\" graphql:\"updateZtnaAppConnectorBwLicense\""
+}
+
+func (t *ZtnaAppConnectorUpdateZtnaAppConnectorBwLicense_ZtnaAppConnector) GetUpdateZtnaAppConnectorBwLicense() *ZtnaAppConnectorUpdateZtnaAppConnectorBwLicense_ZtnaAppConnector_UpdateZtnaAppConnectorBwLicense {
+	if t == nil {
+		t = &ZtnaAppConnectorUpdateZtnaAppConnectorBwLicense_ZtnaAppConnector{}
+	}
+	return t.UpdateZtnaAppConnectorBwLicense
+}
+
 type ZtnaAppConnectorUpdateZtnaAppConnectorsConfiguration_ZtnaAppConnector_UpdateZtnaAppConnectorsConfiguration_ZtnaAppConnectorsConfiguration struct {
 	AppConnectorManagementRange *string "json:\"appConnectorManagementRange,omitempty\" graphql:\"appConnectorManagementRange\""
 	PrivateAppsServiceRange     *string "json:\"privateAppsServiceRange,omitempty\" graphql:\"privateAppsServiceRange\""
@@ -361456,6 +361504,17 @@ func (t *ZtnaAppConnectorUpdateZtnaAppConnector) GetZtnaAppConnector() *ZtnaAppC
 	return t.ZtnaAppConnector
 }
 
+type ZtnaAppConnectorUpdateZtnaAppConnectorBwLicense struct {
+	ZtnaAppConnector *ZtnaAppConnectorUpdateZtnaAppConnectorBwLicense_ZtnaAppConnector "json:\"ztnaAppConnector,omitempty\" graphql:\"ztnaAppConnector\""
+}
+
+func (t *ZtnaAppConnectorUpdateZtnaAppConnectorBwLicense) GetZtnaAppConnector() *ZtnaAppConnectorUpdateZtnaAppConnectorBwLicense_ZtnaAppConnector {
+	if t == nil {
+		t = &ZtnaAppConnectorUpdateZtnaAppConnectorBwLicense{}
+	}
+	return t.ZtnaAppConnector
+}
+
 type ZtnaAppConnectorUpdateZtnaAppConnectorsConfiguration struct {
 	ZtnaAppConnector *ZtnaAppConnectorUpdateZtnaAppConnectorsConfiguration_ZtnaAppConnector "json:\"ztnaAppConnector,omitempty\" graphql:\"ztnaAppConnector\""
 }
@@ -419029,6 +419088,37 @@ func (c *Client) ZtnaAppConnectorUpdateZtnaAppConnector(ctx context.Context, acc
 	return &res, nil
 }
 
+const ZtnaAppConnectorUpdateZtnaAppConnectorBwLicenseDocument = `mutation ztnaAppConnectorUpdateZtnaAppConnectorBwLicense ($accountId: ID!, $updateZtnaAppConnectorBwLicenseInput: UpdateZtnaAppConnectorBwLicenseInput!) {
+	ztnaAppConnector(accountId: $accountId) {
+		updateZtnaAppConnectorBwLicense(input: $updateZtnaAppConnectorBwLicenseInput) {
+			pooledBandwidthAllocation {
+				allocationId
+				licenseId
+				bw
+			}
+		}
+	}
+}
+`
+
+func (c *Client) ZtnaAppConnectorUpdateZtnaAppConnectorBwLicense(ctx context.Context, accountID string, updateZtnaAppConnectorBwLicenseInput cato_models.UpdateZtnaAppConnectorBwLicenseInput, interceptors ...clientv2.RequestInterceptor) (*ZtnaAppConnectorUpdateZtnaAppConnectorBwLicense, error) {
+	vars := map[string]any{
+		"accountId":                            accountID,
+		"updateZtnaAppConnectorBwLicenseInput": updateZtnaAppConnectorBwLicenseInput,
+	}
+
+	var res ZtnaAppConnectorUpdateZtnaAppConnectorBwLicense
+	if err := c.Client.Post(ctx, "ztnaAppConnectorUpdateZtnaAppConnectorBwLicense", ZtnaAppConnectorUpdateZtnaAppConnectorBwLicenseDocument, &res, vars, interceptors...); err != nil {
+		if c.Client.ParseDataWhenErrors {
+			return &res, err
+		}
+
+		return nil, err
+	}
+
+	return &res, nil
+}
+
 const ZtnaAppConnectorUpdateZtnaAppConnectorsConfigurationDocument = `mutation ztnaAppConnectorUpdateZtnaAppConnectorsConfiguration ($accountId: ID!, $updateZtnaAppConnectorsConfigurationInput: UpdateZtnaAppConnectorsConfigurationInput!) {
 	ztnaAppConnector(accountId: $accountId) {
 		updateZtnaAppConnectorsConfiguration(input: $updateZtnaAppConnectorsConfigurationInput) {
@@ -434997,6 +435087,7 @@ var DocumentOperationNames = map[string]string{
 	ZtnaAppConnectorUnassignSocketFromZtnaAppConnectorDocument:   "ztnaAppConnectorUnassignSocketFromZtnaAppConnector",
 	AppConnectorUpdateConnectorDocument:                          "appConnectorUpdateConnector",
 	ZtnaAppConnectorUpdateZtnaAppConnectorDocument:               "ztnaAppConnectorUpdateZtnaAppConnector",
+	ZtnaAppConnectorUpdateZtnaAppConnectorBwLicenseDocument:      "ztnaAppConnectorUpdateZtnaAppConnectorBwLicense",
 	ZtnaAppConnectorUpdateZtnaAppConnectorsConfigurationDocument: "ztnaAppConnectorUpdateZtnaAppConnectorsConfiguration",
 	ZtnaAppConnectorUpgradeZtnaAppConnectorDocument:              "ztnaAppConnectorUpgradeZtnaAppConnector",
 	AccountBySubdomainDocument:                                   "accountBySubdomain",
