@@ -355,6 +355,7 @@ type CatoClient interface {
 	PrivateApplicationCreatePrivateApplication(ctx context.Context, accountID string, createPrivateApplicationInput cato_models.CreatePrivateApplicationInput, interceptors ...clientv2.RequestInterceptor) (*PrivateApplicationCreatePrivateApplication, error)
 	PrivateApplicationDeletePrivateApplication(ctx context.Context, accountID string, deletePrivateApplicationInput cato_models.DeletePrivateApplicationInput, interceptors ...clientv2.RequestInterceptor) (*PrivateApplicationDeletePrivateApplication, error)
 	PrivateApplicationUpdatePrivateApplication(ctx context.Context, accountID string, updatePrivateApplicationInput cato_models.UpdatePrivateApplicationInput, interceptors ...clientv2.RequestInterceptor) (*PrivateApplicationUpdatePrivateApplication, error)
+	Rbac(ctx context.Context, accountID string, roleManagementCreateRoleInput cato_models.RoleManagementCreateRoleInput, roleManagementDeleteRoleInput cato_models.RoleManagementDeleteRoleInput, roleManagementUpdateRoleInput cato_models.RoleManagementUpdateRoleInput, interceptors ...clientv2.RequestInterceptor) (*Rbac, error)
 	SandboxDeleteReport(ctx context.Context, accountID string, deleteReportInput cato_models.DeleteReportInput, interceptors ...clientv2.RequestInterceptor) (*SandboxDeleteReport, error)
 	SandboxUploadFile(ctx context.Context, accountID string, uploadFileInput cato_models.UploadFileInput, interceptors ...clientv2.RequestInterceptor) (*SandboxUploadFile, error)
 	SiteAddBgpPeer(ctx context.Context, addBgpPeerInput cato_models.AddBgpPeerInput, accountID string, interceptors ...clientv2.RequestInterceptor) (*SiteAddBgpPeer, error)
@@ -488,6 +489,7 @@ type CatoClient interface {
 	UserRevokeUserSession(ctx context.Context, accountID string, revokeUserSessionInput cato_models.RevokeUserSessionInput, interceptors ...clientv2.RequestInterceptor) (*UserRevokeUserSession, error)
 	UserUpdateDynamicUserGroupsConfiguration(ctx context.Context, accountID string, updateDynamicUserGroupsConfigurationInput cato_models.UpdateDynamicUserGroupsConfigurationInput, interceptors ...clientv2.RequestInterceptor) (*UserUpdateDynamicUserGroupsConfiguration, error)
 	UserUpdateUser(ctx context.Context, accountID string, updateUserInput cato_models.UpdateUserInput, interceptors ...clientv2.RequestInterceptor) (*UserUpdateUser, error)
+	WebProxyConfigEncryptKeytabFile(ctx context.Context, accountID string, encryptKeytabFileInput cato_models.EncryptKeytabFileInput, interceptors ...clientv2.RequestInterceptor) (*WebProxyConfigEncryptKeytabFile, error)
 	XdrAddStoryComment(ctx context.Context, accountID string, addStoryCommentInput cato_models.AddStoryCommentInput, interceptors ...clientv2.RequestInterceptor) (*XdrAddStoryComment, error)
 	XdrAnalystFeedback(ctx context.Context, accountID string, analystFeedbackInput cato_models.AnalystFeedbackInput, interceptors ...clientv2.RequestInterceptor) (*XdrAnalystFeedback, error)
 	XdrDeleteStoryComment(ctx context.Context, accountID string, deleteStoryCommentInput cato_models.DeleteStoryCommentInput, interceptors ...clientv2.RequestInterceptor) (*XdrDeleteStoryComment, error)
@@ -495,6 +497,7 @@ type CatoClient interface {
 	ZtnaAppConnectorAddZtnaAppConnector(ctx context.Context, accountID string, addZtnaAppConnectorInput cato_models.AddZtnaAppConnectorInput, interceptors ...clientv2.RequestInterceptor) (*ZtnaAppConnectorAddZtnaAppConnector, error)
 	ZtnaAppConnectorAddZtnaAppConnectorBwLicense(ctx context.Context, accountID string, addZtnaAppConnectorBwLicenseInput cato_models.AddZtnaAppConnectorBwLicenseInput, interceptors ...clientv2.RequestInterceptor) (*ZtnaAppConnectorAddZtnaAppConnectorBwLicense, error)
 	ZtnaAppConnectorAddZtnaAppConnectorsConfiguration(ctx context.Context, accountID string, addZtnaAppConnectorsConfigurationInput cato_models.AddZtnaAppConnectorsConfigurationInput, interceptors ...clientv2.RequestInterceptor) (*ZtnaAppConnectorAddZtnaAppConnectorsConfiguration, error)
+	ZtnaAppConnectorAssignSocketToZtnaAppConnector(ctx context.Context, accountID string, assignSocketToZtnaAppConnectorInput cato_models.AssignSocketToZtnaAppConnectorInput, interceptors ...clientv2.RequestInterceptor) (*ZtnaAppConnectorAssignSocketToZtnaAppConnector, error)
 	AppConnectorCreateConnector(ctx context.Context, accountID string, newConnector cato_models.AddZtnaAppConnectorInput, interceptors ...clientv2.RequestInterceptor) (*AppConnectorCreateConnector, error)
 	AppConnectorDeleteConnector(ctx context.Context, accountID string, connectorRef cato_models.RemoveZtnaAppConnectorInput, interceptors ...clientv2.RequestInterceptor) (*AppConnectorDeleteConnector, error)
 	ZtnaAppConnectorRemoveZtnaAppConnector(ctx context.Context, accountID string, removeZtnaAppConnectorInput cato_models.RemoveZtnaAppConnectorInput, interceptors ...clientv2.RequestInterceptor) (*ZtnaAppConnectorRemoveZtnaAppConnector, error)
@@ -515,6 +518,10 @@ type CatoClient interface {
 	AccountSnapshot(ctx context.Context, siteIDs []string, userIDs []string, accountID *string, interceptors ...clientv2.RequestInterceptor) (*AccountSnapshot, error)
 	Admin(ctx context.Context, accountID string, adminID string, interceptors ...clientv2.RequestInterceptor) (*Admin, error)
 	Admins(ctx context.Context, accountID string, limit *int64, from *int64, search *string, sort []*cato_models.SortInput, adminIDs []string, interceptors ...clientv2.RequestInterceptor) (*Admins, error)
+	AiSecurityAgentsEvent(ctx context.Context, accountID string, aiSecurityAgentsEventInput cato_models.AiSecurityAgentsEventInput, interceptors ...clientv2.RequestInterceptor) (*AiSecurityAgentsEvent, error)
+	AiSecurityAgentsSession(ctx context.Context, accountID string, aiSecurityAgentsSessionInput cato_models.AiSecurityAgentsSessionInput, interceptors ...clientv2.RequestInterceptor) (*AiSecurityAgentsSession, error)
+	AiSecurityAppsInvocation(ctx context.Context, accountID string, aiSecurityAppsInvocationInput cato_models.AiSecurityAppsInvocationInput, interceptors ...clientv2.RequestInterceptor) (*AiSecurityAppsInvocation, error)
+	AiSecurityEndUsersSessionConversation(ctx context.Context, accountID string, aiSecurityEndUsersSessionConversationInput cato_models.AiSecurityEndUsersSessionConversationInput, interceptors ...clientv2.RequestInterceptor) (*AiSecurityEndUsersSessionConversation, error)
 	AiSecurity(ctx context.Context, accountID string, aiSecurityAppsInvocationInput cato_models.AiSecurityAppsInvocationInput, aiSecurityEndUsersSessionConversationInput cato_models.AiSecurityEndUsersSessionConversationInput, aiSecurityAgentsEventInput cato_models.AiSecurityAgentsEventInput, aiSecurityAgentsSessionInput cato_models.AiSecurityAgentsSessionInput, interceptors ...clientv2.RequestInterceptor) (*AiSecurity, error)
 	AppStats(ctx context.Context, limit *int64, from *int64, accountID string, timeFrame string, measures []*cato_models.Measure, dimensions []*cato_models.Dimension, filters []*cato_models.AppStatsFilter, sort []*cato_models.AppStatsSort, appStatsPostAggFilter []*cato_models.AppStatsPostAggFilter, includeEmptyDimension *bool, interceptors ...clientv2.RequestInterceptor) (*AppStats, error)
 	AppStatsTimeSeries(ctx context.Context, perSecond *bool, withMissingData *bool, buckets int64, accountID string, timeFrame string, measures []*cato_models.Measure, dimensions []*cato_models.Dimension, filters []*cato_models.AppStatsFilter, includeEmptyDimension *bool, useDefaultSizeBucket *bool, interceptors ...clientv2.RequestInterceptor) (*AppStatsTimeSeries, error)
@@ -534,7 +541,11 @@ type CatoClient interface {
 	ContainerIPAddressRangeTestFromURL(ctx context.Context, accountID string, testContainerFromURLInput cato_models.TestContainerFromURLInput, interceptors ...clientv2.RequestInterceptor) (*ContainerIPAddressRangeTestFromURL, error)
 	ContainerList(ctx context.Context, accountID string, containerSearchInput cato_models.ContainerSearchInput, interceptors ...clientv2.RequestInterceptor) (*ContainerList, error)
 	CustomAppData(ctx context.Context, accountID string, customApplicationRefInput cato_models.CustomApplicationRefInput, customApplicationListInput cato_models.CustomApplicationListInput, interceptors ...clientv2.RequestInterceptor) (*CustomAppData, error)
+	DevicesAttributesCatalog(ctx context.Context, accountID string, deviceAttributeCatalogInput *cato_models.DeviceAttributeCatalogInput, deviceComplianceCatalogInput *cato_models.DeviceComplianceCatalogInput, deviceRiskCatalogInput *cato_models.DeviceRiskCatalogInput, sortOrderInput *cato_models.SortOrderInput, interceptors ...clientv2.RequestInterceptor) (*DevicesAttributesCatalog, error)
+	DevicesCSVExport(ctx context.Context, accountID string, deviceCSVExportInput *cato_models.DeviceCSVExportInput, interceptors ...clientv2.RequestInterceptor) (*DevicesCSVExport, error)
+	DevicesCSVExportStatus(ctx context.Context, accountID string, jobID string, interceptors ...clientv2.RequestInterceptor) (*DevicesCSVExportStatus, error)
 	Devices(ctx context.Context, accountID string, deviceV2Input *cato_models.DeviceV2Input, sortOrderInput *cato_models.SortOrderInput, deviceAttributeCatalogInput *cato_models.DeviceAttributeCatalogInput, deviceComplianceCatalogInput *cato_models.DeviceComplianceCatalogInput, deviceRiskCatalogInput *cato_models.DeviceRiskCatalogInput, deviceCSVExportInput *cato_models.DeviceCSVExportInput, jobID string, interceptors ...clientv2.RequestInterceptor) (*Devices, error)
+	DevicesList(ctx context.Context, accountID string, deviceV2Input *cato_models.DeviceV2Input, interceptors ...clientv2.RequestInterceptor) (*DevicesList, error)
 	EnterpriseDirectory(ctx context.Context, accountID string, enterpriseDirectoryLocationListInput *cato_models.EnterpriseDirectoryLocationListInput, interceptors ...clientv2.RequestInterceptor) (*EnterpriseDirectory, error)
 	EntityLookup(ctx context.Context, accountID string, typeArg cato_models.EntityType, limit *int64, from *int64, parent *cato_models.EntityInput, search *string, entityIDs []string, sort []*cato_models.SortInput, filters []*cato_models.LookupFilterInput, helperFields []string, interceptors ...clientv2.RequestInterceptor) (*EntityLookup, error)
 	Events(ctx context.Context, limit *int64, from *int64, accountID string, timeFrame string, measures []*cato_models.EventsMeasure, dimensions []*cato_models.EventsDimension, filters []*cato_models.EventsFilter, sort []*cato_models.EventsSort, eventsPostAggFilter []*cato_models.EventsPostAggFilter, includeEmptyDimension *bool, interceptors ...clientv2.RequestInterceptor) (*Events, error)
@@ -564,6 +575,16 @@ type CatoClient interface {
 	NetworkConfigDNSSuffixSet(ctx context.Context, accountID string, networkConfigDNSSuffixSetRefInput cato_models.NetworkConfigDNSSuffixSetRefInput, interceptors ...clientv2.RequestInterceptor) (*NetworkConfigDNSSuffixSet, error)
 	NetworkConfigDNSSuffixSetList(ctx context.Context, accountID string, networkConfigDNSSuffixSetListInput cato_models.NetworkConfigDNSSuffixSetListInput, interceptors ...clientv2.RequestInterceptor) (*NetworkConfigDNSSuffixSetList, error)
 	Notification(ctx context.Context, accountID string, mailingListRefInput cato_models.MailingListRefInput, webhookIntegrationRefInput cato_models.WebhookIntegrationRefInput, webhookTemplateRefInput cato_models.WebhookTemplateRefInput, subscriptionGroupRefInput cato_models.SubscriptionGroupRefInput, interceptors ...clientv2.RequestInterceptor) (*Notification, error)
+	NotificationIntegrationReferenceBodyTemplate(ctx context.Context, accountID string, webhookTemplateRefInput cato_models.WebhookTemplateRefInput, interceptors ...clientv2.RequestInterceptor) (*NotificationIntegrationReferenceBodyTemplate, error)
+	NotificationIntegrationReferenceBodyTemplateList(ctx context.Context, accountID string, interceptors ...clientv2.RequestInterceptor) (*NotificationIntegrationReferenceBodyTemplateList, error)
+	NotificationIntegrationWebhook(ctx context.Context, accountID string, webhookIntegrationRefInput cato_models.WebhookIntegrationRefInput, interceptors ...clientv2.RequestInterceptor) (*NotificationIntegrationWebhook, error)
+	NotificationIntegrationWebhookFields(ctx context.Context, accountID string, interceptors ...clientv2.RequestInterceptor) (*NotificationIntegrationWebhookFields, error)
+	NotificationIntegrationWebhookList(ctx context.Context, accountID string, interceptors ...clientv2.RequestInterceptor) (*NotificationIntegrationWebhookList, error)
+	NotificationMailingList(ctx context.Context, accountID string, mailingListRefInput cato_models.MailingListRefInput, interceptors ...clientv2.RequestInterceptor) (*NotificationMailingList, error)
+	NotificationMailingListList(ctx context.Context, accountID string, interceptors ...clientv2.RequestInterceptor) (*NotificationMailingListList, error)
+	NotificationSubscriptionGroup(ctx context.Context, accountID string, subscriptionGroupRefInput cato_models.SubscriptionGroupRefInput, interceptors ...clientv2.RequestInterceptor) (*NotificationSubscriptionGroup, error)
+	NotificationSubscriptionGroupList(ctx context.Context, accountID string, interceptors ...clientv2.RequestInterceptor) (*NotificationSubscriptionGroupList, error)
+	ObjectGlobalIPRange(ctx context.Context, accountID string, globalIPRangeRefInput cato_models.GlobalIPRangeRefInput, interceptors ...clientv2.RequestInterceptor) (*ObjectGlobalIPRange, error)
 	ObjectGlobalIPRangeList(ctx context.Context, accountID string, input *cato_models.GlobalIPRangeListInput, interceptors ...clientv2.RequestInterceptor) (*ObjectGlobalIPRangeList, error)
 	Object(ctx context.Context, accountID string, globalIPRangeRefInput cato_models.GlobalIPRangeRefInput, globalIPRangeListInput *cato_models.GlobalIPRangeListInput, interceptors ...clientv2.RequestInterceptor) (*Object, error)
 	PolicyAntiMalwareFileHashPolicy(ctx context.Context, accountID string, antiMalwareFileHashPolicyInput *cato_models.AntiMalwareFileHashPolicyInput, interceptors ...clientv2.RequestInterceptor) (*PolicyAntiMalwareFileHashPolicy, error)
@@ -589,7 +610,11 @@ type CatoClient interface {
 	PolicyWanFirewallPolicyList(ctx context.Context, accountID string, wanFirewallPolicyListInput cato_models.WanFirewallPolicyListInput, interceptors ...clientv2.RequestInterceptor) (*PolicyWanFirewallPolicyList, error)
 	WanNetworkPolicy(ctx context.Context, accountID string, wanNetworkPolicyInput *cato_models.WanNetworkPolicyInput, interceptors ...clientv2.RequestInterceptor) (*WanNetworkPolicy, error)
 	PolicyZtnaAlwaysOnPolicy(ctx context.Context, accountID string, ztnaAlwaysOnPolicyInput *cato_models.ZtnaAlwaysOnPolicyInput, interceptors ...clientv2.RequestInterceptor) (*PolicyZtnaAlwaysOnPolicy, error)
+	PopLocationsAllocatedIPList(ctx context.Context, accountID string, popLocationAllocatedIPInput *cato_models.PopLocationAllocatedIPInput, interceptors ...clientv2.RequestInterceptor) (*PopLocationsAllocatedIPList, error)
+	PopLocationsBgpProfile(ctx context.Context, accountID string, id string, interceptors ...clientv2.RequestInterceptor) (*PopLocationsBgpProfile, error)
+	PopLocationsBgpProfileList(ctx context.Context, accountID string, interceptors ...clientv2.RequestInterceptor) (*PopLocationsBgpProfileList, error)
 	PopLocations(ctx context.Context, accountID string, popLocationFilterInput *cato_models.PopLocationFilterInput, popLocationAllocatedIPInput *cato_models.PopLocationAllocatedIPInput, id string, interceptors ...clientv2.RequestInterceptor) (*PopLocations, error)
+	PopLocationsPopLocationList(ctx context.Context, accountID string, popLocationFilterInput *cato_models.PopLocationFilterInput, interceptors ...clientv2.RequestInterceptor) (*PopLocationsPopLocationList, error)
 	PostureAccountSummaryList(ctx context.Context, accountID string, postureAccountSummaryListInput *cato_models.PostureAccountSummaryListInput, interceptors ...clientv2.RequestInterceptor) (*PostureAccountSummaryList, error)
 	PostureCategoryList(ctx context.Context, accountID string, postureCategoryListInput *cato_models.PostureCategoryListInput, interceptors ...clientv2.RequestInterceptor) (*PostureCategoryList, error)
 	PostureCheckResultList(ctx context.Context, accountID string, postureCheckResultListInput cato_models.PostureCheckResultListInput, interceptors ...clientv2.RequestInterceptor) (*PostureCheckResultList, error)
@@ -601,6 +626,7 @@ type CatoClient interface {
 	PostureFindingSummary(ctx context.Context, accountID string, postureFindingSummaryInput *cato_models.PostureFindingSummaryInput, interceptors ...clientv2.RequestInterceptor) (*PostureFindingSummary, error)
 	PrivateAppReadPrivateApp(ctx context.Context, accountID string, input cato_models.PrivateApplicationRefInput, interceptors ...clientv2.RequestInterceptor) (*PrivateAppReadPrivateApp, error)
 	PrivateApplication(ctx context.Context, accountID string, privateApplicationRefInput cato_models.PrivateApplicationRefInput, privateApplicationListInput *cato_models.PrivateApplicationListInput, interceptors ...clientv2.RequestInterceptor) (*PrivateApplication, error)
+	QueryRbac(ctx context.Context, accountID string, id string, roleManagementRoleListInput cato_models.RoleManagementRoleListInput, interceptors ...clientv2.RequestInterceptor) (*QueryRbac, error)
 	Sandbox(ctx context.Context, accountID string, sandboxReportsInput cato_models.SandboxReportsInput, interceptors ...clientv2.RequestInterceptor) (*Sandbox, error)
 	ServicePrincipalAdmin(ctx context.Context, accountID string, adminID string, interceptors ...clientv2.RequestInterceptor) (*ServicePrincipalAdmin, error)
 	SiteAvailableVersionList(ctx context.Context, accountID string, availableVersionListInput cato_models.AvailableVersionListInput, interceptors ...clientv2.RequestInterceptor) (*SiteAvailableVersionList, error)
@@ -248628,6 +248654,203 @@ func (t *PrivateApplicationUpdatePrivateApplication_PrivateApplication) GetUpdat
 	return t.UpdatePrivateApplication
 }
 
+type Rbac_Rbac_RoleManagement_CreateRole_Role_Permission struct {
+	Action   cato_models.RBACAction "json:\"action\" graphql:\"action\""
+	Resource string                 "json:\"resource\" graphql:\"resource\""
+}
+
+func (t *Rbac_Rbac_RoleManagement_CreateRole_Role_Permission) GetAction() *cato_models.RBACAction {
+	if t == nil {
+		t = &Rbac_Rbac_RoleManagement_CreateRole_Role_Permission{}
+	}
+	return &t.Action
+}
+func (t *Rbac_Rbac_RoleManagement_CreateRole_Role_Permission) GetResource() string {
+	if t == nil {
+		t = &Rbac_Rbac_RoleManagement_CreateRole_Role_Permission{}
+	}
+	return t.Resource
+}
+
+type Rbac_Rbac_RoleManagement_CreateRole_Role struct {
+	Description            *string                                                "json:\"description,omitempty\" graphql:\"description\""
+	ID                     string                                                 "json:\"id\" graphql:\"id\""
+	IsUsedOnExternalAccess bool                                                   "json:\"isUsedOnExternalAccess\" graphql:\"isUsedOnExternalAccess\""
+	Name                   string                                                 "json:\"name\" graphql:\"name\""
+	Permission             []*Rbac_Rbac_RoleManagement_CreateRole_Role_Permission "json:\"permission\" graphql:\"permission\""
+	Predefined             bool                                                   "json:\"predefined\" graphql:\"predefined\""
+}
+
+func (t *Rbac_Rbac_RoleManagement_CreateRole_Role) GetDescription() *string {
+	if t == nil {
+		t = &Rbac_Rbac_RoleManagement_CreateRole_Role{}
+	}
+	return t.Description
+}
+func (t *Rbac_Rbac_RoleManagement_CreateRole_Role) GetID() string {
+	if t == nil {
+		t = &Rbac_Rbac_RoleManagement_CreateRole_Role{}
+	}
+	return t.ID
+}
+func (t *Rbac_Rbac_RoleManagement_CreateRole_Role) GetIsUsedOnExternalAccess() bool {
+	if t == nil {
+		t = &Rbac_Rbac_RoleManagement_CreateRole_Role{}
+	}
+	return t.IsUsedOnExternalAccess
+}
+func (t *Rbac_Rbac_RoleManagement_CreateRole_Role) GetName() string {
+	if t == nil {
+		t = &Rbac_Rbac_RoleManagement_CreateRole_Role{}
+	}
+	return t.Name
+}
+func (t *Rbac_Rbac_RoleManagement_CreateRole_Role) GetPermission() []*Rbac_Rbac_RoleManagement_CreateRole_Role_Permission {
+	if t == nil {
+		t = &Rbac_Rbac_RoleManagement_CreateRole_Role{}
+	}
+	return t.Permission
+}
+func (t *Rbac_Rbac_RoleManagement_CreateRole_Role) GetPredefined() bool {
+	if t == nil {
+		t = &Rbac_Rbac_RoleManagement_CreateRole_Role{}
+	}
+	return t.Predefined
+}
+
+type Rbac_Rbac_RoleManagement_CreateRole struct {
+	Role Rbac_Rbac_RoleManagement_CreateRole_Role "json:\"role\" graphql:\"role\""
+}
+
+func (t *Rbac_Rbac_RoleManagement_CreateRole) GetRole() *Rbac_Rbac_RoleManagement_CreateRole_Role {
+	if t == nil {
+		t = &Rbac_Rbac_RoleManagement_CreateRole{}
+	}
+	return &t.Role
+}
+
+type Rbac_Rbac_RoleManagement_UpdateRole_Role_Permission struct {
+	Action   cato_models.RBACAction "json:\"action\" graphql:\"action\""
+	Resource string                 "json:\"resource\" graphql:\"resource\""
+}
+
+func (t *Rbac_Rbac_RoleManagement_UpdateRole_Role_Permission) GetAction() *cato_models.RBACAction {
+	if t == nil {
+		t = &Rbac_Rbac_RoleManagement_UpdateRole_Role_Permission{}
+	}
+	return &t.Action
+}
+func (t *Rbac_Rbac_RoleManagement_UpdateRole_Role_Permission) GetResource() string {
+	if t == nil {
+		t = &Rbac_Rbac_RoleManagement_UpdateRole_Role_Permission{}
+	}
+	return t.Resource
+}
+
+type Rbac_Rbac_RoleManagement_UpdateRole_Role struct {
+	Description            *string                                                "json:\"description,omitempty\" graphql:\"description\""
+	ID                     string                                                 "json:\"id\" graphql:\"id\""
+	IsUsedOnExternalAccess bool                                                   "json:\"isUsedOnExternalAccess\" graphql:\"isUsedOnExternalAccess\""
+	Name                   string                                                 "json:\"name\" graphql:\"name\""
+	Permission             []*Rbac_Rbac_RoleManagement_UpdateRole_Role_Permission "json:\"permission\" graphql:\"permission\""
+	Predefined             bool                                                   "json:\"predefined\" graphql:\"predefined\""
+}
+
+func (t *Rbac_Rbac_RoleManagement_UpdateRole_Role) GetDescription() *string {
+	if t == nil {
+		t = &Rbac_Rbac_RoleManagement_UpdateRole_Role{}
+	}
+	return t.Description
+}
+func (t *Rbac_Rbac_RoleManagement_UpdateRole_Role) GetID() string {
+	if t == nil {
+		t = &Rbac_Rbac_RoleManagement_UpdateRole_Role{}
+	}
+	return t.ID
+}
+func (t *Rbac_Rbac_RoleManagement_UpdateRole_Role) GetIsUsedOnExternalAccess() bool {
+	if t == nil {
+		t = &Rbac_Rbac_RoleManagement_UpdateRole_Role{}
+	}
+	return t.IsUsedOnExternalAccess
+}
+func (t *Rbac_Rbac_RoleManagement_UpdateRole_Role) GetName() string {
+	if t == nil {
+		t = &Rbac_Rbac_RoleManagement_UpdateRole_Role{}
+	}
+	return t.Name
+}
+func (t *Rbac_Rbac_RoleManagement_UpdateRole_Role) GetPermission() []*Rbac_Rbac_RoleManagement_UpdateRole_Role_Permission {
+	if t == nil {
+		t = &Rbac_Rbac_RoleManagement_UpdateRole_Role{}
+	}
+	return t.Permission
+}
+func (t *Rbac_Rbac_RoleManagement_UpdateRole_Role) GetPredefined() bool {
+	if t == nil {
+		t = &Rbac_Rbac_RoleManagement_UpdateRole_Role{}
+	}
+	return t.Predefined
+}
+
+type Rbac_Rbac_RoleManagement_UpdateRole struct {
+	Role Rbac_Rbac_RoleManagement_UpdateRole_Role "json:\"role\" graphql:\"role\""
+}
+
+func (t *Rbac_Rbac_RoleManagement_UpdateRole) GetRole() *Rbac_Rbac_RoleManagement_UpdateRole_Role {
+	if t == nil {
+		t = &Rbac_Rbac_RoleManagement_UpdateRole{}
+	}
+	return &t.Role
+}
+
+type Rbac_Rbac_RoleManagement_DeleteRole struct {
+	ID string "json:\"id\" graphql:\"id\""
+}
+
+func (t *Rbac_Rbac_RoleManagement_DeleteRole) GetID() string {
+	if t == nil {
+		t = &Rbac_Rbac_RoleManagement_DeleteRole{}
+	}
+	return t.ID
+}
+
+type Rbac_Rbac_RoleManagement struct {
+	CreateRole *Rbac_Rbac_RoleManagement_CreateRole "json:\"createRole,omitempty\" graphql:\"createRole\""
+	DeleteRole *Rbac_Rbac_RoleManagement_DeleteRole "json:\"deleteRole,omitempty\" graphql:\"deleteRole\""
+	UpdateRole *Rbac_Rbac_RoleManagement_UpdateRole "json:\"updateRole,omitempty\" graphql:\"updateRole\""
+}
+
+func (t *Rbac_Rbac_RoleManagement) GetCreateRole() *Rbac_Rbac_RoleManagement_CreateRole {
+	if t == nil {
+		t = &Rbac_Rbac_RoleManagement{}
+	}
+	return t.CreateRole
+}
+func (t *Rbac_Rbac_RoleManagement) GetDeleteRole() *Rbac_Rbac_RoleManagement_DeleteRole {
+	if t == nil {
+		t = &Rbac_Rbac_RoleManagement{}
+	}
+	return t.DeleteRole
+}
+func (t *Rbac_Rbac_RoleManagement) GetUpdateRole() *Rbac_Rbac_RoleManagement_UpdateRole {
+	if t == nil {
+		t = &Rbac_Rbac_RoleManagement{}
+	}
+	return t.UpdateRole
+}
+
+type Rbac_Rbac struct {
+	RoleManagement Rbac_Rbac_RoleManagement "json:\"roleManagement\" graphql:\"roleManagement\""
+}
+
+func (t *Rbac_Rbac) GetRoleManagement() *Rbac_Rbac_RoleManagement {
+	if t == nil {
+		t = &Rbac_Rbac{}
+	}
+	return &t.RoleManagement
+}
+
 type SandboxDeleteReport_Sandbox_DeleteReport struct {
 	FileHash string "json:\"fileHash\" graphql:\"fileHash\""
 }
@@ -270121,6 +270344,28 @@ func (t *UserUpdateUser_User) GetUpdateUser() *UserUpdateUser_User_UpdateUser {
 	return t.UpdateUser
 }
 
+type WebProxyConfigEncryptKeytabFile_WebProxyConfig_EncryptKeytabFile struct {
+	EncryptedFile string "json:\"encryptedFile\" graphql:\"encryptedFile\""
+}
+
+func (t *WebProxyConfigEncryptKeytabFile_WebProxyConfig_EncryptKeytabFile) GetEncryptedFile() string {
+	if t == nil {
+		t = &WebProxyConfigEncryptKeytabFile_WebProxyConfig_EncryptKeytabFile{}
+	}
+	return t.EncryptedFile
+}
+
+type WebProxyConfigEncryptKeytabFile_WebProxyConfig struct {
+	EncryptKeytabFile WebProxyConfigEncryptKeytabFile_WebProxyConfig_EncryptKeytabFile "json:\"encryptKeytabFile\" graphql:\"encryptKeytabFile\""
+}
+
+func (t *WebProxyConfigEncryptKeytabFile_WebProxyConfig) GetEncryptKeytabFile() *WebProxyConfigEncryptKeytabFile_WebProxyConfig_EncryptKeytabFile {
+	if t == nil {
+		t = &WebProxyConfigEncryptKeytabFile_WebProxyConfig{}
+	}
+	return &t.EncryptKeytabFile
+}
+
 type XdrAddStoryComment_Xdr_AddStoryComment_Comment_Actor struct {
 	ID   string "json:\"id\" graphql:\"id\""
 	Name string "json:\"name\" graphql:\"name\""
@@ -277630,6 +277875,340 @@ func (t *ZtnaAppConnectorAddZtnaAppConnectorsConfiguration_ZtnaAppConnector) Get
 		t = &ZtnaAppConnectorAddZtnaAppConnectorsConfiguration_ZtnaAppConnector{}
 	}
 	return &t.AddZtnaAppConnectorsConfiguration
+}
+
+type ZtnaAppConnectorAssignSocketToZtnaAppConnector_ZtnaAppConnector_AssignSocketToZtnaAppConnector_ZtnaAppConnector_Location struct {
+	Address     *string "json:\"address,omitempty\" graphql:\"address\""
+	CityName    string  "json:\"cityName\" graphql:\"cityName\""
+	CountryCode string  "json:\"countryCode\" graphql:\"countryCode\""
+	CountryName *string "json:\"countryName,omitempty\" graphql:\"countryName\""
+	StateCode   *string "json:\"stateCode,omitempty\" graphql:\"stateCode\""
+	Timezone    string  "json:\"timezone\" graphql:\"timezone\""
+}
+
+func (t *ZtnaAppConnectorAssignSocketToZtnaAppConnector_ZtnaAppConnector_AssignSocketToZtnaAppConnector_ZtnaAppConnector_Location) GetAddress() *string {
+	if t == nil {
+		t = &ZtnaAppConnectorAssignSocketToZtnaAppConnector_ZtnaAppConnector_AssignSocketToZtnaAppConnector_ZtnaAppConnector_Location{}
+	}
+	return t.Address
+}
+func (t *ZtnaAppConnectorAssignSocketToZtnaAppConnector_ZtnaAppConnector_AssignSocketToZtnaAppConnector_ZtnaAppConnector_Location) GetCityName() string {
+	if t == nil {
+		t = &ZtnaAppConnectorAssignSocketToZtnaAppConnector_ZtnaAppConnector_AssignSocketToZtnaAppConnector_ZtnaAppConnector_Location{}
+	}
+	return t.CityName
+}
+func (t *ZtnaAppConnectorAssignSocketToZtnaAppConnector_ZtnaAppConnector_AssignSocketToZtnaAppConnector_ZtnaAppConnector_Location) GetCountryCode() string {
+	if t == nil {
+		t = &ZtnaAppConnectorAssignSocketToZtnaAppConnector_ZtnaAppConnector_AssignSocketToZtnaAppConnector_ZtnaAppConnector_Location{}
+	}
+	return t.CountryCode
+}
+func (t *ZtnaAppConnectorAssignSocketToZtnaAppConnector_ZtnaAppConnector_AssignSocketToZtnaAppConnector_ZtnaAppConnector_Location) GetCountryName() *string {
+	if t == nil {
+		t = &ZtnaAppConnectorAssignSocketToZtnaAppConnector_ZtnaAppConnector_AssignSocketToZtnaAppConnector_ZtnaAppConnector_Location{}
+	}
+	return t.CountryName
+}
+func (t *ZtnaAppConnectorAssignSocketToZtnaAppConnector_ZtnaAppConnector_AssignSocketToZtnaAppConnector_ZtnaAppConnector_Location) GetStateCode() *string {
+	if t == nil {
+		t = &ZtnaAppConnectorAssignSocketToZtnaAppConnector_ZtnaAppConnector_AssignSocketToZtnaAppConnector_ZtnaAppConnector_Location{}
+	}
+	return t.StateCode
+}
+func (t *ZtnaAppConnectorAssignSocketToZtnaAppConnector_ZtnaAppConnector_AssignSocketToZtnaAppConnector_ZtnaAppConnector_Location) GetTimezone() string {
+	if t == nil {
+		t = &ZtnaAppConnectorAssignSocketToZtnaAppConnector_ZtnaAppConnector_AssignSocketToZtnaAppConnector_ZtnaAppConnector_Location{}
+	}
+	return t.Timezone
+}
+
+type ZtnaAppConnectorAssignSocketToZtnaAppConnector_ZtnaAppConnector_AssignSocketToZtnaAppConnector_ZtnaAppConnector_PreferredPopLocation_Primary struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *ZtnaAppConnectorAssignSocketToZtnaAppConnector_ZtnaAppConnector_AssignSocketToZtnaAppConnector_ZtnaAppConnector_PreferredPopLocation_Primary) GetID() string {
+	if t == nil {
+		t = &ZtnaAppConnectorAssignSocketToZtnaAppConnector_ZtnaAppConnector_AssignSocketToZtnaAppConnector_ZtnaAppConnector_PreferredPopLocation_Primary{}
+	}
+	return t.ID
+}
+func (t *ZtnaAppConnectorAssignSocketToZtnaAppConnector_ZtnaAppConnector_AssignSocketToZtnaAppConnector_ZtnaAppConnector_PreferredPopLocation_Primary) GetName() string {
+	if t == nil {
+		t = &ZtnaAppConnectorAssignSocketToZtnaAppConnector_ZtnaAppConnector_AssignSocketToZtnaAppConnector_ZtnaAppConnector_PreferredPopLocation_Primary{}
+	}
+	return t.Name
+}
+
+type ZtnaAppConnectorAssignSocketToZtnaAppConnector_ZtnaAppConnector_AssignSocketToZtnaAppConnector_ZtnaAppConnector_PreferredPopLocation_Secondary struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *ZtnaAppConnectorAssignSocketToZtnaAppConnector_ZtnaAppConnector_AssignSocketToZtnaAppConnector_ZtnaAppConnector_PreferredPopLocation_Secondary) GetID() string {
+	if t == nil {
+		t = &ZtnaAppConnectorAssignSocketToZtnaAppConnector_ZtnaAppConnector_AssignSocketToZtnaAppConnector_ZtnaAppConnector_PreferredPopLocation_Secondary{}
+	}
+	return t.ID
+}
+func (t *ZtnaAppConnectorAssignSocketToZtnaAppConnector_ZtnaAppConnector_AssignSocketToZtnaAppConnector_ZtnaAppConnector_PreferredPopLocation_Secondary) GetName() string {
+	if t == nil {
+		t = &ZtnaAppConnectorAssignSocketToZtnaAppConnector_ZtnaAppConnector_AssignSocketToZtnaAppConnector_ZtnaAppConnector_PreferredPopLocation_Secondary{}
+	}
+	return t.Name
+}
+
+type ZtnaAppConnectorAssignSocketToZtnaAppConnector_ZtnaAppConnector_AssignSocketToZtnaAppConnector_ZtnaAppConnector_PreferredPopLocation struct {
+	Automatic     bool                                                                                                                                            "json:\"automatic\" graphql:\"automatic\""
+	PreferredOnly bool                                                                                                                                            "json:\"preferredOnly\" graphql:\"preferredOnly\""
+	Primary       *ZtnaAppConnectorAssignSocketToZtnaAppConnector_ZtnaAppConnector_AssignSocketToZtnaAppConnector_ZtnaAppConnector_PreferredPopLocation_Primary   "json:\"primary,omitempty\" graphql:\"primary\""
+	Secondary     *ZtnaAppConnectorAssignSocketToZtnaAppConnector_ZtnaAppConnector_AssignSocketToZtnaAppConnector_ZtnaAppConnector_PreferredPopLocation_Secondary "json:\"secondary,omitempty\" graphql:\"secondary\""
+}
+
+func (t *ZtnaAppConnectorAssignSocketToZtnaAppConnector_ZtnaAppConnector_AssignSocketToZtnaAppConnector_ZtnaAppConnector_PreferredPopLocation) GetAutomatic() bool {
+	if t == nil {
+		t = &ZtnaAppConnectorAssignSocketToZtnaAppConnector_ZtnaAppConnector_AssignSocketToZtnaAppConnector_ZtnaAppConnector_PreferredPopLocation{}
+	}
+	return t.Automatic
+}
+func (t *ZtnaAppConnectorAssignSocketToZtnaAppConnector_ZtnaAppConnector_AssignSocketToZtnaAppConnector_ZtnaAppConnector_PreferredPopLocation) GetPreferredOnly() bool {
+	if t == nil {
+		t = &ZtnaAppConnectorAssignSocketToZtnaAppConnector_ZtnaAppConnector_AssignSocketToZtnaAppConnector_ZtnaAppConnector_PreferredPopLocation{}
+	}
+	return t.PreferredOnly
+}
+func (t *ZtnaAppConnectorAssignSocketToZtnaAppConnector_ZtnaAppConnector_AssignSocketToZtnaAppConnector_ZtnaAppConnector_PreferredPopLocation) GetPrimary() *ZtnaAppConnectorAssignSocketToZtnaAppConnector_ZtnaAppConnector_AssignSocketToZtnaAppConnector_ZtnaAppConnector_PreferredPopLocation_Primary {
+	if t == nil {
+		t = &ZtnaAppConnectorAssignSocketToZtnaAppConnector_ZtnaAppConnector_AssignSocketToZtnaAppConnector_ZtnaAppConnector_PreferredPopLocation{}
+	}
+	return t.Primary
+}
+func (t *ZtnaAppConnectorAssignSocketToZtnaAppConnector_ZtnaAppConnector_AssignSocketToZtnaAppConnector_ZtnaAppConnector_PreferredPopLocation) GetSecondary() *ZtnaAppConnectorAssignSocketToZtnaAppConnector_ZtnaAppConnector_AssignSocketToZtnaAppConnector_ZtnaAppConnector_PreferredPopLocation_Secondary {
+	if t == nil {
+		t = &ZtnaAppConnectorAssignSocketToZtnaAppConnector_ZtnaAppConnector_AssignSocketToZtnaAppConnector_ZtnaAppConnector_PreferredPopLocation{}
+	}
+	return t.Secondary
+}
+
+type ZtnaAppConnectorAssignSocketToZtnaAppConnector_ZtnaAppConnector_AssignSocketToZtnaAppConnector_ZtnaAppConnector_PrivateAppRef struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *ZtnaAppConnectorAssignSocketToZtnaAppConnector_ZtnaAppConnector_AssignSocketToZtnaAppConnector_ZtnaAppConnector_PrivateAppRef) GetID() string {
+	if t == nil {
+		t = &ZtnaAppConnectorAssignSocketToZtnaAppConnector_ZtnaAppConnector_AssignSocketToZtnaAppConnector_ZtnaAppConnector_PrivateAppRef{}
+	}
+	return t.ID
+}
+func (t *ZtnaAppConnectorAssignSocketToZtnaAppConnector_ZtnaAppConnector_AssignSocketToZtnaAppConnector_ZtnaAppConnector_PrivateAppRef) GetName() string {
+	if t == nil {
+		t = &ZtnaAppConnectorAssignSocketToZtnaAppConnector_ZtnaAppConnector_AssignSocketToZtnaAppConnector_ZtnaAppConnector_PrivateAppRef{}
+	}
+	return t.Name
+}
+
+type ZtnaAppConnectorAssignSocketToZtnaAppConnector_ZtnaAppConnector_AssignSocketToZtnaAppConnector_ZtnaAppConnector_SocketInfo struct {
+	RollbackEligibleUntil *string "json:\"rollbackEligibleUntil,omitempty\" graphql:\"rollbackEligibleUntil\""
+	RollbackTargetVersion *string "json:\"rollbackTargetVersion,omitempty\" graphql:\"rollbackTargetVersion\""
+	UpgradesPaused        bool    "json:\"upgradesPaused\" graphql:\"upgradesPaused\""
+	Version               *string "json:\"version,omitempty\" graphql:\"version\""
+	VersionUpdateTime     *string "json:\"versionUpdateTime,omitempty\" graphql:\"versionUpdateTime\""
+}
+
+func (t *ZtnaAppConnectorAssignSocketToZtnaAppConnector_ZtnaAppConnector_AssignSocketToZtnaAppConnector_ZtnaAppConnector_SocketInfo) GetRollbackEligibleUntil() *string {
+	if t == nil {
+		t = &ZtnaAppConnectorAssignSocketToZtnaAppConnector_ZtnaAppConnector_AssignSocketToZtnaAppConnector_ZtnaAppConnector_SocketInfo{}
+	}
+	return t.RollbackEligibleUntil
+}
+func (t *ZtnaAppConnectorAssignSocketToZtnaAppConnector_ZtnaAppConnector_AssignSocketToZtnaAppConnector_ZtnaAppConnector_SocketInfo) GetRollbackTargetVersion() *string {
+	if t == nil {
+		t = &ZtnaAppConnectorAssignSocketToZtnaAppConnector_ZtnaAppConnector_AssignSocketToZtnaAppConnector_ZtnaAppConnector_SocketInfo{}
+	}
+	return t.RollbackTargetVersion
+}
+func (t *ZtnaAppConnectorAssignSocketToZtnaAppConnector_ZtnaAppConnector_AssignSocketToZtnaAppConnector_ZtnaAppConnector_SocketInfo) GetUpgradesPaused() bool {
+	if t == nil {
+		t = &ZtnaAppConnectorAssignSocketToZtnaAppConnector_ZtnaAppConnector_AssignSocketToZtnaAppConnector_ZtnaAppConnector_SocketInfo{}
+	}
+	return t.UpgradesPaused
+}
+func (t *ZtnaAppConnectorAssignSocketToZtnaAppConnector_ZtnaAppConnector_AssignSocketToZtnaAppConnector_ZtnaAppConnector_SocketInfo) GetVersion() *string {
+	if t == nil {
+		t = &ZtnaAppConnectorAssignSocketToZtnaAppConnector_ZtnaAppConnector_AssignSocketToZtnaAppConnector_ZtnaAppConnector_SocketInfo{}
+	}
+	return t.Version
+}
+func (t *ZtnaAppConnectorAssignSocketToZtnaAppConnector_ZtnaAppConnector_AssignSocketToZtnaAppConnector_ZtnaAppConnector_SocketInfo) GetVersionUpdateTime() *string {
+	if t == nil {
+		t = &ZtnaAppConnectorAssignSocketToZtnaAppConnector_ZtnaAppConnector_AssignSocketToZtnaAppConnector_ZtnaAppConnector_SocketInfo{}
+	}
+	return t.VersionUpdateTime
+}
+
+type ZtnaAppConnectorAssignSocketToZtnaAppConnector_ZtnaAppConnector_AssignSocketToZtnaAppConnector_ZtnaAppConnector_PooledBandwidthAllocation struct {
+	AllocationID string "json:\"allocationId\" graphql:\"allocationId\""
+	Bw           int64  "json:\"bw\" graphql:\"bw\""
+	LicenseID    string "json:\"licenseId\" graphql:\"licenseId\""
+}
+
+func (t *ZtnaAppConnectorAssignSocketToZtnaAppConnector_ZtnaAppConnector_AssignSocketToZtnaAppConnector_ZtnaAppConnector_PooledBandwidthAllocation) GetAllocationID() string {
+	if t == nil {
+		t = &ZtnaAppConnectorAssignSocketToZtnaAppConnector_ZtnaAppConnector_AssignSocketToZtnaAppConnector_ZtnaAppConnector_PooledBandwidthAllocation{}
+	}
+	return t.AllocationID
+}
+func (t *ZtnaAppConnectorAssignSocketToZtnaAppConnector_ZtnaAppConnector_AssignSocketToZtnaAppConnector_ZtnaAppConnector_PooledBandwidthAllocation) GetBw() int64 {
+	if t == nil {
+		t = &ZtnaAppConnectorAssignSocketToZtnaAppConnector_ZtnaAppConnector_AssignSocketToZtnaAppConnector_ZtnaAppConnector_PooledBandwidthAllocation{}
+	}
+	return t.Bw
+}
+func (t *ZtnaAppConnectorAssignSocketToZtnaAppConnector_ZtnaAppConnector_AssignSocketToZtnaAppConnector_ZtnaAppConnector_PooledBandwidthAllocation) GetLicenseID() string {
+	if t == nil {
+		t = &ZtnaAppConnectorAssignSocketToZtnaAppConnector_ZtnaAppConnector_AssignSocketToZtnaAppConnector_ZtnaAppConnector_PooledBandwidthAllocation{}
+	}
+	return t.LicenseID
+}
+
+type ZtnaAppConnectorAssignSocketToZtnaAppConnector_ZtnaAppConnector_AssignSocketToZtnaAppConnector_ZtnaAppConnector struct {
+	CreatedAt                 *string                                                                                                                                      "json:\"createdAt,omitempty\" graphql:\"createdAt\""
+	Description               *string                                                                                                                                      "json:\"description,omitempty\" graphql:\"description\""
+	GroupName                 string                                                                                                                                       "json:\"groupName\" graphql:\"groupName\""
+	ID                        string                                                                                                                                       "json:\"id\" graphql:\"id\""
+	IsRegistered              bool                                                                                                                                         "json:\"isRegistered\" graphql:\"isRegistered\""
+	Location                  ZtnaAppConnectorAssignSocketToZtnaAppConnector_ZtnaAppConnector_AssignSocketToZtnaAppConnector_ZtnaAppConnector_Location                     "json:\"location\" graphql:\"location\""
+	Name                      string                                                                                                                                       "json:\"name\" graphql:\"name\""
+	PooledBandwidthAllocation []*ZtnaAppConnectorAssignSocketToZtnaAppConnector_ZtnaAppConnector_AssignSocketToZtnaAppConnector_ZtnaAppConnector_PooledBandwidthAllocation "json:\"pooledBandwidthAllocation\" graphql:\"pooledBandwidthAllocation\""
+	PreferredPopLocation      *ZtnaAppConnectorAssignSocketToZtnaAppConnector_ZtnaAppConnector_AssignSocketToZtnaAppConnector_ZtnaAppConnector_PreferredPopLocation        "json:\"preferredPopLocation,omitempty\" graphql:\"preferredPopLocation\""
+	PrivateAppCount           int64                                                                                                                                        "json:\"privateAppCount\" graphql:\"privateAppCount\""
+	PrivateAppRef             []*ZtnaAppConnectorAssignSocketToZtnaAppConnector_ZtnaAppConnector_AssignSocketToZtnaAppConnector_ZtnaAppConnector_PrivateAppRef             "json:\"privateAppRef\" graphql:\"privateAppRef\""
+	SerialNumber              *string                                                                                                                                      "json:\"serialNumber,omitempty\" graphql:\"serialNumber\""
+	SocketID                  *string                                                                                                                                      "json:\"socketId,omitempty\" graphql:\"socketId\""
+	SocketInfo                *ZtnaAppConnectorAssignSocketToZtnaAppConnector_ZtnaAppConnector_AssignSocketToZtnaAppConnector_ZtnaAppConnector_SocketInfo                  "json:\"socketInfo,omitempty\" graphql:\"socketInfo\""
+	SocketModel               *cato_models.SocketModel                                                                                                                     "json:\"socketModel,omitempty\" graphql:\"socketModel\""
+	Type                      cato_models.ZtnaAppConnectorType                                                                                                             "json:\"type\" graphql:\"type\""
+}
+
+func (t *ZtnaAppConnectorAssignSocketToZtnaAppConnector_ZtnaAppConnector_AssignSocketToZtnaAppConnector_ZtnaAppConnector) GetCreatedAt() *string {
+	if t == nil {
+		t = &ZtnaAppConnectorAssignSocketToZtnaAppConnector_ZtnaAppConnector_AssignSocketToZtnaAppConnector_ZtnaAppConnector{}
+	}
+	return t.CreatedAt
+}
+func (t *ZtnaAppConnectorAssignSocketToZtnaAppConnector_ZtnaAppConnector_AssignSocketToZtnaAppConnector_ZtnaAppConnector) GetDescription() *string {
+	if t == nil {
+		t = &ZtnaAppConnectorAssignSocketToZtnaAppConnector_ZtnaAppConnector_AssignSocketToZtnaAppConnector_ZtnaAppConnector{}
+	}
+	return t.Description
+}
+func (t *ZtnaAppConnectorAssignSocketToZtnaAppConnector_ZtnaAppConnector_AssignSocketToZtnaAppConnector_ZtnaAppConnector) GetGroupName() string {
+	if t == nil {
+		t = &ZtnaAppConnectorAssignSocketToZtnaAppConnector_ZtnaAppConnector_AssignSocketToZtnaAppConnector_ZtnaAppConnector{}
+	}
+	return t.GroupName
+}
+func (t *ZtnaAppConnectorAssignSocketToZtnaAppConnector_ZtnaAppConnector_AssignSocketToZtnaAppConnector_ZtnaAppConnector) GetID() string {
+	if t == nil {
+		t = &ZtnaAppConnectorAssignSocketToZtnaAppConnector_ZtnaAppConnector_AssignSocketToZtnaAppConnector_ZtnaAppConnector{}
+	}
+	return t.ID
+}
+func (t *ZtnaAppConnectorAssignSocketToZtnaAppConnector_ZtnaAppConnector_AssignSocketToZtnaAppConnector_ZtnaAppConnector) GetIsRegistered() bool {
+	if t == nil {
+		t = &ZtnaAppConnectorAssignSocketToZtnaAppConnector_ZtnaAppConnector_AssignSocketToZtnaAppConnector_ZtnaAppConnector{}
+	}
+	return t.IsRegistered
+}
+func (t *ZtnaAppConnectorAssignSocketToZtnaAppConnector_ZtnaAppConnector_AssignSocketToZtnaAppConnector_ZtnaAppConnector) GetLocation() *ZtnaAppConnectorAssignSocketToZtnaAppConnector_ZtnaAppConnector_AssignSocketToZtnaAppConnector_ZtnaAppConnector_Location {
+	if t == nil {
+		t = &ZtnaAppConnectorAssignSocketToZtnaAppConnector_ZtnaAppConnector_AssignSocketToZtnaAppConnector_ZtnaAppConnector{}
+	}
+	return &t.Location
+}
+func (t *ZtnaAppConnectorAssignSocketToZtnaAppConnector_ZtnaAppConnector_AssignSocketToZtnaAppConnector_ZtnaAppConnector) GetName() string {
+	if t == nil {
+		t = &ZtnaAppConnectorAssignSocketToZtnaAppConnector_ZtnaAppConnector_AssignSocketToZtnaAppConnector_ZtnaAppConnector{}
+	}
+	return t.Name
+}
+func (t *ZtnaAppConnectorAssignSocketToZtnaAppConnector_ZtnaAppConnector_AssignSocketToZtnaAppConnector_ZtnaAppConnector) GetPooledBandwidthAllocation() []*ZtnaAppConnectorAssignSocketToZtnaAppConnector_ZtnaAppConnector_AssignSocketToZtnaAppConnector_ZtnaAppConnector_PooledBandwidthAllocation {
+	if t == nil {
+		t = &ZtnaAppConnectorAssignSocketToZtnaAppConnector_ZtnaAppConnector_AssignSocketToZtnaAppConnector_ZtnaAppConnector{}
+	}
+	return t.PooledBandwidthAllocation
+}
+func (t *ZtnaAppConnectorAssignSocketToZtnaAppConnector_ZtnaAppConnector_AssignSocketToZtnaAppConnector_ZtnaAppConnector) GetPreferredPopLocation() *ZtnaAppConnectorAssignSocketToZtnaAppConnector_ZtnaAppConnector_AssignSocketToZtnaAppConnector_ZtnaAppConnector_PreferredPopLocation {
+	if t == nil {
+		t = &ZtnaAppConnectorAssignSocketToZtnaAppConnector_ZtnaAppConnector_AssignSocketToZtnaAppConnector_ZtnaAppConnector{}
+	}
+	return t.PreferredPopLocation
+}
+func (t *ZtnaAppConnectorAssignSocketToZtnaAppConnector_ZtnaAppConnector_AssignSocketToZtnaAppConnector_ZtnaAppConnector) GetPrivateAppCount() int64 {
+	if t == nil {
+		t = &ZtnaAppConnectorAssignSocketToZtnaAppConnector_ZtnaAppConnector_AssignSocketToZtnaAppConnector_ZtnaAppConnector{}
+	}
+	return t.PrivateAppCount
+}
+func (t *ZtnaAppConnectorAssignSocketToZtnaAppConnector_ZtnaAppConnector_AssignSocketToZtnaAppConnector_ZtnaAppConnector) GetPrivateAppRef() []*ZtnaAppConnectorAssignSocketToZtnaAppConnector_ZtnaAppConnector_AssignSocketToZtnaAppConnector_ZtnaAppConnector_PrivateAppRef {
+	if t == nil {
+		t = &ZtnaAppConnectorAssignSocketToZtnaAppConnector_ZtnaAppConnector_AssignSocketToZtnaAppConnector_ZtnaAppConnector{}
+	}
+	return t.PrivateAppRef
+}
+func (t *ZtnaAppConnectorAssignSocketToZtnaAppConnector_ZtnaAppConnector_AssignSocketToZtnaAppConnector_ZtnaAppConnector) GetSerialNumber() *string {
+	if t == nil {
+		t = &ZtnaAppConnectorAssignSocketToZtnaAppConnector_ZtnaAppConnector_AssignSocketToZtnaAppConnector_ZtnaAppConnector{}
+	}
+	return t.SerialNumber
+}
+func (t *ZtnaAppConnectorAssignSocketToZtnaAppConnector_ZtnaAppConnector_AssignSocketToZtnaAppConnector_ZtnaAppConnector) GetSocketID() *string {
+	if t == nil {
+		t = &ZtnaAppConnectorAssignSocketToZtnaAppConnector_ZtnaAppConnector_AssignSocketToZtnaAppConnector_ZtnaAppConnector{}
+	}
+	return t.SocketID
+}
+func (t *ZtnaAppConnectorAssignSocketToZtnaAppConnector_ZtnaAppConnector_AssignSocketToZtnaAppConnector_ZtnaAppConnector) GetSocketInfo() *ZtnaAppConnectorAssignSocketToZtnaAppConnector_ZtnaAppConnector_AssignSocketToZtnaAppConnector_ZtnaAppConnector_SocketInfo {
+	if t == nil {
+		t = &ZtnaAppConnectorAssignSocketToZtnaAppConnector_ZtnaAppConnector_AssignSocketToZtnaAppConnector_ZtnaAppConnector{}
+	}
+	return t.SocketInfo
+}
+func (t *ZtnaAppConnectorAssignSocketToZtnaAppConnector_ZtnaAppConnector_AssignSocketToZtnaAppConnector_ZtnaAppConnector) GetSocketModel() *cato_models.SocketModel {
+	if t == nil {
+		t = &ZtnaAppConnectorAssignSocketToZtnaAppConnector_ZtnaAppConnector_AssignSocketToZtnaAppConnector_ZtnaAppConnector{}
+	}
+	return t.SocketModel
+}
+func (t *ZtnaAppConnectorAssignSocketToZtnaAppConnector_ZtnaAppConnector_AssignSocketToZtnaAppConnector_ZtnaAppConnector) GetType() *cato_models.ZtnaAppConnectorType {
+	if t == nil {
+		t = &ZtnaAppConnectorAssignSocketToZtnaAppConnector_ZtnaAppConnector_AssignSocketToZtnaAppConnector_ZtnaAppConnector{}
+	}
+	return &t.Type
+}
+
+type ZtnaAppConnectorAssignSocketToZtnaAppConnector_ZtnaAppConnector_AssignSocketToZtnaAppConnector struct {
+	ZtnaAppConnector ZtnaAppConnectorAssignSocketToZtnaAppConnector_ZtnaAppConnector_AssignSocketToZtnaAppConnector_ZtnaAppConnector "json:\"ztnaAppConnector\" graphql:\"ztnaAppConnector\""
+}
+
+func (t *ZtnaAppConnectorAssignSocketToZtnaAppConnector_ZtnaAppConnector_AssignSocketToZtnaAppConnector) GetZtnaAppConnector() *ZtnaAppConnectorAssignSocketToZtnaAppConnector_ZtnaAppConnector_AssignSocketToZtnaAppConnector_ZtnaAppConnector {
+	if t == nil {
+		t = &ZtnaAppConnectorAssignSocketToZtnaAppConnector_ZtnaAppConnector_AssignSocketToZtnaAppConnector{}
+	}
+	return &t.ZtnaAppConnector
+}
+
+type ZtnaAppConnectorAssignSocketToZtnaAppConnector_ZtnaAppConnector struct {
+	AssignSocketToZtnaAppConnector ZtnaAppConnectorAssignSocketToZtnaAppConnector_ZtnaAppConnector_AssignSocketToZtnaAppConnector "json:\"assignSocketToZtnaAppConnector\" graphql:\"assignSocketToZtnaAppConnector\""
+}
+
+func (t *ZtnaAppConnectorAssignSocketToZtnaAppConnector_ZtnaAppConnector) GetAssignSocketToZtnaAppConnector() *ZtnaAppConnectorAssignSocketToZtnaAppConnector_ZtnaAppConnector_AssignSocketToZtnaAppConnector {
+	if t == nil {
+		t = &ZtnaAppConnectorAssignSocketToZtnaAppConnector_ZtnaAppConnector{}
+	}
+	return &t.AssignSocketToZtnaAppConnector
 }
 
 type AppConnectorCreateConnector_ZtnaAppConnector_AddZtnaAppConnector_ZtnaAppConnector struct {
@@ -285891,6 +286470,316 @@ func (t *Admins_Admins) GetTotal() int64 {
 	return t.Total
 }
 
+type AiSecurityAgentsEvent_AiSecurity_Agents_Event struct {
+	AppActivityType string  "json:\"appActivityType\" graphql:\"appActivityType\""
+	Content         *string "json:\"content,omitempty\" graphql:\"content\""
+	InteractionID   string  "json:\"interactionId\" graphql:\"interactionId\""
+	Time            string  "json:\"time\" graphql:\"time\""
+}
+
+func (t *AiSecurityAgentsEvent_AiSecurity_Agents_Event) GetAppActivityType() string {
+	if t == nil {
+		t = &AiSecurityAgentsEvent_AiSecurity_Agents_Event{}
+	}
+	return t.AppActivityType
+}
+func (t *AiSecurityAgentsEvent_AiSecurity_Agents_Event) GetContent() *string {
+	if t == nil {
+		t = &AiSecurityAgentsEvent_AiSecurity_Agents_Event{}
+	}
+	return t.Content
+}
+func (t *AiSecurityAgentsEvent_AiSecurity_Agents_Event) GetInteractionID() string {
+	if t == nil {
+		t = &AiSecurityAgentsEvent_AiSecurity_Agents_Event{}
+	}
+	return t.InteractionID
+}
+func (t *AiSecurityAgentsEvent_AiSecurity_Agents_Event) GetTime() string {
+	if t == nil {
+		t = &AiSecurityAgentsEvent_AiSecurity_Agents_Event{}
+	}
+	return t.Time
+}
+
+type AiSecurityAgentsEvent_AiSecurity_Agents struct {
+	Event *AiSecurityAgentsEvent_AiSecurity_Agents_Event "json:\"event,omitempty\" graphql:\"event\""
+}
+
+func (t *AiSecurityAgentsEvent_AiSecurity_Agents) GetEvent() *AiSecurityAgentsEvent_AiSecurity_Agents_Event {
+	if t == nil {
+		t = &AiSecurityAgentsEvent_AiSecurity_Agents{}
+	}
+	return t.Event
+}
+
+type AiSecurityAgentsEvent_AiSecurity struct {
+	Agents *AiSecurityAgentsEvent_AiSecurity_Agents "json:\"agents,omitempty\" graphql:\"agents\""
+}
+
+func (t *AiSecurityAgentsEvent_AiSecurity) GetAgents() *AiSecurityAgentsEvent_AiSecurity_Agents {
+	if t == nil {
+		t = &AiSecurityAgentsEvent_AiSecurity{}
+	}
+	return t.Agents
+}
+
+type AiSecurityAgentsSession_AiSecurity_Agents_Session_Items struct {
+	AppActivityType string  "json:\"appActivityType\" graphql:\"appActivityType\""
+	Content         *string "json:\"content,omitempty\" graphql:\"content\""
+	InteractionID   string  "json:\"interactionId\" graphql:\"interactionId\""
+	Time            string  "json:\"time\" graphql:\"time\""
+}
+
+func (t *AiSecurityAgentsSession_AiSecurity_Agents_Session_Items) GetAppActivityType() string {
+	if t == nil {
+		t = &AiSecurityAgentsSession_AiSecurity_Agents_Session_Items{}
+	}
+	return t.AppActivityType
+}
+func (t *AiSecurityAgentsSession_AiSecurity_Agents_Session_Items) GetContent() *string {
+	if t == nil {
+		t = &AiSecurityAgentsSession_AiSecurity_Agents_Session_Items{}
+	}
+	return t.Content
+}
+func (t *AiSecurityAgentsSession_AiSecurity_Agents_Session_Items) GetInteractionID() string {
+	if t == nil {
+		t = &AiSecurityAgentsSession_AiSecurity_Agents_Session_Items{}
+	}
+	return t.InteractionID
+}
+func (t *AiSecurityAgentsSession_AiSecurity_Agents_Session_Items) GetTime() string {
+	if t == nil {
+		t = &AiSecurityAgentsSession_AiSecurity_Agents_Session_Items{}
+	}
+	return t.Time
+}
+
+type AiSecurityAgentsSession_AiSecurity_Agents_Session_Paging struct {
+	Total int64 "json:\"total\" graphql:\"total\""
+}
+
+func (t *AiSecurityAgentsSession_AiSecurity_Agents_Session_Paging) GetTotal() int64 {
+	if t == nil {
+		t = &AiSecurityAgentsSession_AiSecurity_Agents_Session_Paging{}
+	}
+	return t.Total
+}
+
+type AiSecurityAgentsSession_AiSecurity_Agents_Session struct {
+	Items  []*AiSecurityAgentsSession_AiSecurity_Agents_Session_Items "json:\"items\" graphql:\"items\""
+	Paging AiSecurityAgentsSession_AiSecurity_Agents_Session_Paging   "json:\"paging\" graphql:\"paging\""
+}
+
+func (t *AiSecurityAgentsSession_AiSecurity_Agents_Session) GetItems() []*AiSecurityAgentsSession_AiSecurity_Agents_Session_Items {
+	if t == nil {
+		t = &AiSecurityAgentsSession_AiSecurity_Agents_Session{}
+	}
+	return t.Items
+}
+func (t *AiSecurityAgentsSession_AiSecurity_Agents_Session) GetPaging() *AiSecurityAgentsSession_AiSecurity_Agents_Session_Paging {
+	if t == nil {
+		t = &AiSecurityAgentsSession_AiSecurity_Agents_Session{}
+	}
+	return &t.Paging
+}
+
+type AiSecurityAgentsSession_AiSecurity_Agents struct {
+	Session *AiSecurityAgentsSession_AiSecurity_Agents_Session "json:\"session,omitempty\" graphql:\"session\""
+}
+
+func (t *AiSecurityAgentsSession_AiSecurity_Agents) GetSession() *AiSecurityAgentsSession_AiSecurity_Agents_Session {
+	if t == nil {
+		t = &AiSecurityAgentsSession_AiSecurity_Agents{}
+	}
+	return t.Session
+}
+
+type AiSecurityAgentsSession_AiSecurity struct {
+	Agents *AiSecurityAgentsSession_AiSecurity_Agents "json:\"agents,omitempty\" graphql:\"agents\""
+}
+
+func (t *AiSecurityAgentsSession_AiSecurity) GetAgents() *AiSecurityAgentsSession_AiSecurity_Agents {
+	if t == nil {
+		t = &AiSecurityAgentsSession_AiSecurity{}
+	}
+	return t.Agents
+}
+
+type AiSecurityAppsInvocation_AiSecurity_Apps_Invocation_Guard struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *AiSecurityAppsInvocation_AiSecurity_Apps_Invocation_Guard) GetID() string {
+	if t == nil {
+		t = &AiSecurityAppsInvocation_AiSecurity_Apps_Invocation_Guard{}
+	}
+	return t.ID
+}
+func (t *AiSecurityAppsInvocation_AiSecurity_Apps_Invocation_Guard) GetName() string {
+	if t == nil {
+		t = &AiSecurityAppsInvocation_AiSecurity_Apps_Invocation_Guard{}
+	}
+	return t.Name
+}
+
+type AiSecurityAppsInvocation_AiSecurity_Apps_Invocation_Data_Message_Content struct {
+	Text *string "json:\"text,omitempty\" graphql:\"text\""
+}
+
+func (t *AiSecurityAppsInvocation_AiSecurity_Apps_Invocation_Data_Message_Content) GetText() *string {
+	if t == nil {
+		t = &AiSecurityAppsInvocation_AiSecurity_Apps_Invocation_Data_Message_Content{}
+	}
+	return t.Text
+}
+
+type AiSecurityAppsInvocation_AiSecurity_Apps_Invocation_Data_Message struct {
+	Content []*AiSecurityAppsInvocation_AiSecurity_Apps_Invocation_Data_Message_Content "json:\"content\" graphql:\"content\""
+	Role    string                                                                      "json:\"role\" graphql:\"role\""
+}
+
+func (t *AiSecurityAppsInvocation_AiSecurity_Apps_Invocation_Data_Message) GetContent() []*AiSecurityAppsInvocation_AiSecurity_Apps_Invocation_Data_Message_Content {
+	if t == nil {
+		t = &AiSecurityAppsInvocation_AiSecurity_Apps_Invocation_Data_Message{}
+	}
+	return t.Content
+}
+func (t *AiSecurityAppsInvocation_AiSecurity_Apps_Invocation_Data_Message) GetRole() string {
+	if t == nil {
+		t = &AiSecurityAppsInvocation_AiSecurity_Apps_Invocation_Data_Message{}
+	}
+	return t.Role
+}
+
+type AiSecurityAppsInvocation_AiSecurity_Apps_Invocation_Data struct {
+	Message []*AiSecurityAppsInvocation_AiSecurity_Apps_Invocation_Data_Message "json:\"message\" graphql:\"message\""
+}
+
+func (t *AiSecurityAppsInvocation_AiSecurity_Apps_Invocation_Data) GetMessage() []*AiSecurityAppsInvocation_AiSecurity_Apps_Invocation_Data_Message {
+	if t == nil {
+		t = &AiSecurityAppsInvocation_AiSecurity_Apps_Invocation_Data{}
+	}
+	return t.Message
+}
+
+type AiSecurityAppsInvocation_AiSecurity_Apps_Invocation struct {
+	Action     cato_models.AiSecurityAppsInvocationAction                 "json:\"action\" graphql:\"action\""
+	Data       AiSecurityAppsInvocation_AiSecurity_Apps_Invocation_Data   "json:\"data\" graphql:\"data\""
+	Guard      *AiSecurityAppsInvocation_AiSecurity_Apps_Invocation_Guard "json:\"guard,omitempty\" graphql:\"guard\""
+	ID         string                                                     "json:\"id\" graphql:\"id\""
+	SessionID  *string                                                    "json:\"sessionId,omitempty\" graphql:\"sessionId\""
+	Timestamp  string                                                     "json:\"timestamp\" graphql:\"timestamp\""
+	TokenCount int64                                                      "json:\"tokenCount\" graphql:\"tokenCount\""
+}
+
+func (t *AiSecurityAppsInvocation_AiSecurity_Apps_Invocation) GetAction() *cato_models.AiSecurityAppsInvocationAction {
+	if t == nil {
+		t = &AiSecurityAppsInvocation_AiSecurity_Apps_Invocation{}
+	}
+	return &t.Action
+}
+func (t *AiSecurityAppsInvocation_AiSecurity_Apps_Invocation) GetData() *AiSecurityAppsInvocation_AiSecurity_Apps_Invocation_Data {
+	if t == nil {
+		t = &AiSecurityAppsInvocation_AiSecurity_Apps_Invocation{}
+	}
+	return &t.Data
+}
+func (t *AiSecurityAppsInvocation_AiSecurity_Apps_Invocation) GetGuard() *AiSecurityAppsInvocation_AiSecurity_Apps_Invocation_Guard {
+	if t == nil {
+		t = &AiSecurityAppsInvocation_AiSecurity_Apps_Invocation{}
+	}
+	return t.Guard
+}
+func (t *AiSecurityAppsInvocation_AiSecurity_Apps_Invocation) GetID() string {
+	if t == nil {
+		t = &AiSecurityAppsInvocation_AiSecurity_Apps_Invocation{}
+	}
+	return t.ID
+}
+func (t *AiSecurityAppsInvocation_AiSecurity_Apps_Invocation) GetSessionID() *string {
+	if t == nil {
+		t = &AiSecurityAppsInvocation_AiSecurity_Apps_Invocation{}
+	}
+	return t.SessionID
+}
+func (t *AiSecurityAppsInvocation_AiSecurity_Apps_Invocation) GetTimestamp() string {
+	if t == nil {
+		t = &AiSecurityAppsInvocation_AiSecurity_Apps_Invocation{}
+	}
+	return t.Timestamp
+}
+func (t *AiSecurityAppsInvocation_AiSecurity_Apps_Invocation) GetTokenCount() int64 {
+	if t == nil {
+		t = &AiSecurityAppsInvocation_AiSecurity_Apps_Invocation{}
+	}
+	return t.TokenCount
+}
+
+type AiSecurityAppsInvocation_AiSecurity_Apps struct {
+	Invocation *AiSecurityAppsInvocation_AiSecurity_Apps_Invocation "json:\"invocation,omitempty\" graphql:\"invocation\""
+}
+
+func (t *AiSecurityAppsInvocation_AiSecurity_Apps) GetInvocation() *AiSecurityAppsInvocation_AiSecurity_Apps_Invocation {
+	if t == nil {
+		t = &AiSecurityAppsInvocation_AiSecurity_Apps{}
+	}
+	return t.Invocation
+}
+
+type AiSecurityAppsInvocation_AiSecurity struct {
+	Apps *AiSecurityAppsInvocation_AiSecurity_Apps "json:\"apps,omitempty\" graphql:\"apps\""
+}
+
+func (t *AiSecurityAppsInvocation_AiSecurity) GetApps() *AiSecurityAppsInvocation_AiSecurity_Apps {
+	if t == nil {
+		t = &AiSecurityAppsInvocation_AiSecurity{}
+	}
+	return t.Apps
+}
+
+type AiSecurityEndUsersSessionConversation_AiSecurity_EndUsers_SessionConversation struct {
+	LlmResponse *string "json:\"llmResponse,omitempty\" graphql:\"llmResponse\""
+	UserPrompt  string  "json:\"userPrompt\" graphql:\"userPrompt\""
+}
+
+func (t *AiSecurityEndUsersSessionConversation_AiSecurity_EndUsers_SessionConversation) GetLlmResponse() *string {
+	if t == nil {
+		t = &AiSecurityEndUsersSessionConversation_AiSecurity_EndUsers_SessionConversation{}
+	}
+	return t.LlmResponse
+}
+func (t *AiSecurityEndUsersSessionConversation_AiSecurity_EndUsers_SessionConversation) GetUserPrompt() string {
+	if t == nil {
+		t = &AiSecurityEndUsersSessionConversation_AiSecurity_EndUsers_SessionConversation{}
+	}
+	return t.UserPrompt
+}
+
+type AiSecurityEndUsersSessionConversation_AiSecurity_EndUsers struct {
+	SessionConversation *AiSecurityEndUsersSessionConversation_AiSecurity_EndUsers_SessionConversation "json:\"sessionConversation,omitempty\" graphql:\"sessionConversation\""
+}
+
+func (t *AiSecurityEndUsersSessionConversation_AiSecurity_EndUsers) GetSessionConversation() *AiSecurityEndUsersSessionConversation_AiSecurity_EndUsers_SessionConversation {
+	if t == nil {
+		t = &AiSecurityEndUsersSessionConversation_AiSecurity_EndUsers{}
+	}
+	return t.SessionConversation
+}
+
+type AiSecurityEndUsersSessionConversation_AiSecurity struct {
+	EndUsers *AiSecurityEndUsersSessionConversation_AiSecurity_EndUsers "json:\"endUsers,omitempty\" graphql:\"endUsers\""
+}
+
+func (t *AiSecurityEndUsersSessionConversation_AiSecurity) GetEndUsers() *AiSecurityEndUsersSessionConversation_AiSecurity_EndUsers {
+	if t == nil {
+		t = &AiSecurityEndUsersSessionConversation_AiSecurity{}
+	}
+	return t.EndUsers
+}
+
 type AiSecurity_AiSecurity_Apps_Invocation_Guard struct {
 	ID   string "json:\"id\" graphql:\"id\""
 	Name string "json:\"name\" graphql:\"name\""
@@ -291080,6 +291969,456 @@ func (t *CustomAppData_CustomAppData) GetCustomApplicationList() *CustomAppData_
 	return t.CustomApplicationList
 }
 
+type DevicesAttributesCatalog_Devices_AttributesCatalog_Category_PageInfo struct {
+	Total int64 "json:\"total\" graphql:\"total\""
+}
+
+func (t *DevicesAttributesCatalog_Devices_AttributesCatalog_Category_PageInfo) GetTotal() int64 {
+	if t == nil {
+		t = &DevicesAttributesCatalog_Devices_AttributesCatalog_Category_PageInfo{}
+	}
+	return t.Total
+}
+
+type DevicesAttributesCatalog_Devices_AttributesCatalog_Category struct {
+	Items    []string                                                             "json:\"items\" graphql:\"items\""
+	PageInfo DevicesAttributesCatalog_Devices_AttributesCatalog_Category_PageInfo "json:\"pageInfo\" graphql:\"pageInfo\""
+}
+
+func (t *DevicesAttributesCatalog_Devices_AttributesCatalog_Category) GetItems() []string {
+	if t == nil {
+		t = &DevicesAttributesCatalog_Devices_AttributesCatalog_Category{}
+	}
+	return t.Items
+}
+func (t *DevicesAttributesCatalog_Devices_AttributesCatalog_Category) GetPageInfo() *DevicesAttributesCatalog_Devices_AttributesCatalog_Category_PageInfo {
+	if t == nil {
+		t = &DevicesAttributesCatalog_Devices_AttributesCatalog_Category{}
+	}
+	return &t.PageInfo
+}
+
+type DevicesAttributesCatalog_Devices_AttributesCatalog_Type_PageInfo struct {
+	Total int64 "json:\"total\" graphql:\"total\""
+}
+
+func (t *DevicesAttributesCatalog_Devices_AttributesCatalog_Type_PageInfo) GetTotal() int64 {
+	if t == nil {
+		t = &DevicesAttributesCatalog_Devices_AttributesCatalog_Type_PageInfo{}
+	}
+	return t.Total
+}
+
+type DevicesAttributesCatalog_Devices_AttributesCatalog_Type struct {
+	Items    []string                                                         "json:\"items\" graphql:\"items\""
+	PageInfo DevicesAttributesCatalog_Devices_AttributesCatalog_Type_PageInfo "json:\"pageInfo\" graphql:\"pageInfo\""
+}
+
+func (t *DevicesAttributesCatalog_Devices_AttributesCatalog_Type) GetItems() []string {
+	if t == nil {
+		t = &DevicesAttributesCatalog_Devices_AttributesCatalog_Type{}
+	}
+	return t.Items
+}
+func (t *DevicesAttributesCatalog_Devices_AttributesCatalog_Type) GetPageInfo() *DevicesAttributesCatalog_Devices_AttributesCatalog_Type_PageInfo {
+	if t == nil {
+		t = &DevicesAttributesCatalog_Devices_AttributesCatalog_Type{}
+	}
+	return &t.PageInfo
+}
+
+type DevicesAttributesCatalog_Devices_AttributesCatalog_Model_PageInfo struct {
+	Total int64 "json:\"total\" graphql:\"total\""
+}
+
+func (t *DevicesAttributesCatalog_Devices_AttributesCatalog_Model_PageInfo) GetTotal() int64 {
+	if t == nil {
+		t = &DevicesAttributesCatalog_Devices_AttributesCatalog_Model_PageInfo{}
+	}
+	return t.Total
+}
+
+type DevicesAttributesCatalog_Devices_AttributesCatalog_Model struct {
+	Items    []string                                                          "json:\"items\" graphql:\"items\""
+	PageInfo DevicesAttributesCatalog_Devices_AttributesCatalog_Model_PageInfo "json:\"pageInfo\" graphql:\"pageInfo\""
+}
+
+func (t *DevicesAttributesCatalog_Devices_AttributesCatalog_Model) GetItems() []string {
+	if t == nil {
+		t = &DevicesAttributesCatalog_Devices_AttributesCatalog_Model{}
+	}
+	return t.Items
+}
+func (t *DevicesAttributesCatalog_Devices_AttributesCatalog_Model) GetPageInfo() *DevicesAttributesCatalog_Devices_AttributesCatalog_Model_PageInfo {
+	if t == nil {
+		t = &DevicesAttributesCatalog_Devices_AttributesCatalog_Model{}
+	}
+	return &t.PageInfo
+}
+
+type DevicesAttributesCatalog_Devices_AttributesCatalog_Manufacturer_PageInfo struct {
+	Total int64 "json:\"total\" graphql:\"total\""
+}
+
+func (t *DevicesAttributesCatalog_Devices_AttributesCatalog_Manufacturer_PageInfo) GetTotal() int64 {
+	if t == nil {
+		t = &DevicesAttributesCatalog_Devices_AttributesCatalog_Manufacturer_PageInfo{}
+	}
+	return t.Total
+}
+
+type DevicesAttributesCatalog_Devices_AttributesCatalog_Manufacturer struct {
+	Items    []string                                                                 "json:\"items\" graphql:\"items\""
+	PageInfo DevicesAttributesCatalog_Devices_AttributesCatalog_Manufacturer_PageInfo "json:\"pageInfo\" graphql:\"pageInfo\""
+}
+
+func (t *DevicesAttributesCatalog_Devices_AttributesCatalog_Manufacturer) GetItems() []string {
+	if t == nil {
+		t = &DevicesAttributesCatalog_Devices_AttributesCatalog_Manufacturer{}
+	}
+	return t.Items
+}
+func (t *DevicesAttributesCatalog_Devices_AttributesCatalog_Manufacturer) GetPageInfo() *DevicesAttributesCatalog_Devices_AttributesCatalog_Manufacturer_PageInfo {
+	if t == nil {
+		t = &DevicesAttributesCatalog_Devices_AttributesCatalog_Manufacturer{}
+	}
+	return &t.PageInfo
+}
+
+type DevicesAttributesCatalog_Devices_AttributesCatalog_Os_PageInfo struct {
+	Total int64 "json:\"total\" graphql:\"total\""
+}
+
+func (t *DevicesAttributesCatalog_Devices_AttributesCatalog_Os_PageInfo) GetTotal() int64 {
+	if t == nil {
+		t = &DevicesAttributesCatalog_Devices_AttributesCatalog_Os_PageInfo{}
+	}
+	return t.Total
+}
+
+type DevicesAttributesCatalog_Devices_AttributesCatalog_Os struct {
+	Items    []string                                                       "json:\"items\" graphql:\"items\""
+	PageInfo DevicesAttributesCatalog_Devices_AttributesCatalog_Os_PageInfo "json:\"pageInfo\" graphql:\"pageInfo\""
+}
+
+func (t *DevicesAttributesCatalog_Devices_AttributesCatalog_Os) GetItems() []string {
+	if t == nil {
+		t = &DevicesAttributesCatalog_Devices_AttributesCatalog_Os{}
+	}
+	return t.Items
+}
+func (t *DevicesAttributesCatalog_Devices_AttributesCatalog_Os) GetPageInfo() *DevicesAttributesCatalog_Devices_AttributesCatalog_Os_PageInfo {
+	if t == nil {
+		t = &DevicesAttributesCatalog_Devices_AttributesCatalog_Os{}
+	}
+	return &t.PageInfo
+}
+
+type DevicesAttributesCatalog_Devices_AttributesCatalog_Compliance_Items_ApplicationConnector struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *DevicesAttributesCatalog_Devices_AttributesCatalog_Compliance_Items_ApplicationConnector) GetID() string {
+	if t == nil {
+		t = &DevicesAttributesCatalog_Devices_AttributesCatalog_Compliance_Items_ApplicationConnector{}
+	}
+	return t.ID
+}
+func (t *DevicesAttributesCatalog_Devices_AttributesCatalog_Compliance_Items_ApplicationConnector) GetName() string {
+	if t == nil {
+		t = &DevicesAttributesCatalog_Devices_AttributesCatalog_Compliance_Items_ApplicationConnector{}
+	}
+	return t.Name
+}
+
+type DevicesAttributesCatalog_Devices_AttributesCatalog_Compliance_Items struct {
+	ApplicationConnector DevicesAttributesCatalog_Devices_AttributesCatalog_Compliance_Items_ApplicationConnector "json:\"applicationConnector\" graphql:\"applicationConnector\""
+	State                string                                                                                   "json:\"state\" graphql:\"state\""
+}
+
+func (t *DevicesAttributesCatalog_Devices_AttributesCatalog_Compliance_Items) GetApplicationConnector() *DevicesAttributesCatalog_Devices_AttributesCatalog_Compliance_Items_ApplicationConnector {
+	if t == nil {
+		t = &DevicesAttributesCatalog_Devices_AttributesCatalog_Compliance_Items{}
+	}
+	return &t.ApplicationConnector
+}
+func (t *DevicesAttributesCatalog_Devices_AttributesCatalog_Compliance_Items) GetState() string {
+	if t == nil {
+		t = &DevicesAttributesCatalog_Devices_AttributesCatalog_Compliance_Items{}
+	}
+	return t.State
+}
+
+type DevicesAttributesCatalog_Devices_AttributesCatalog_Compliance_PageInfo struct {
+	Total int64 "json:\"total\" graphql:\"total\""
+}
+
+func (t *DevicesAttributesCatalog_Devices_AttributesCatalog_Compliance_PageInfo) GetTotal() int64 {
+	if t == nil {
+		t = &DevicesAttributesCatalog_Devices_AttributesCatalog_Compliance_PageInfo{}
+	}
+	return t.Total
+}
+
+type DevicesAttributesCatalog_Devices_AttributesCatalog_Compliance struct {
+	Items    []*DevicesAttributesCatalog_Devices_AttributesCatalog_Compliance_Items "json:\"items\" graphql:\"items\""
+	PageInfo DevicesAttributesCatalog_Devices_AttributesCatalog_Compliance_PageInfo "json:\"pageInfo\" graphql:\"pageInfo\""
+}
+
+func (t *DevicesAttributesCatalog_Devices_AttributesCatalog_Compliance) GetItems() []*DevicesAttributesCatalog_Devices_AttributesCatalog_Compliance_Items {
+	if t == nil {
+		t = &DevicesAttributesCatalog_Devices_AttributesCatalog_Compliance{}
+	}
+	return t.Items
+}
+func (t *DevicesAttributesCatalog_Devices_AttributesCatalog_Compliance) GetPageInfo() *DevicesAttributesCatalog_Devices_AttributesCatalog_Compliance_PageInfo {
+	if t == nil {
+		t = &DevicesAttributesCatalog_Devices_AttributesCatalog_Compliance{}
+	}
+	return &t.PageInfo
+}
+
+type DevicesAttributesCatalog_Devices_AttributesCatalog_Risk_Items_ApplicationConnector struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *DevicesAttributesCatalog_Devices_AttributesCatalog_Risk_Items_ApplicationConnector) GetID() string {
+	if t == nil {
+		t = &DevicesAttributesCatalog_Devices_AttributesCatalog_Risk_Items_ApplicationConnector{}
+	}
+	return t.ID
+}
+func (t *DevicesAttributesCatalog_Devices_AttributesCatalog_Risk_Items_ApplicationConnector) GetName() string {
+	if t == nil {
+		t = &DevicesAttributesCatalog_Devices_AttributesCatalog_Risk_Items_ApplicationConnector{}
+	}
+	return t.Name
+}
+
+type DevicesAttributesCatalog_Devices_AttributesCatalog_Risk_Items_Level struct {
+	ID  string "json:\"id\" graphql:\"id\""
+	Max int64  "json:\"max\" graphql:\"max\""
+	Min int64  "json:\"min\" graphql:\"min\""
+}
+
+func (t *DevicesAttributesCatalog_Devices_AttributesCatalog_Risk_Items_Level) GetID() string {
+	if t == nil {
+		t = &DevicesAttributesCatalog_Devices_AttributesCatalog_Risk_Items_Level{}
+	}
+	return t.ID
+}
+func (t *DevicesAttributesCatalog_Devices_AttributesCatalog_Risk_Items_Level) GetMax() int64 {
+	if t == nil {
+		t = &DevicesAttributesCatalog_Devices_AttributesCatalog_Risk_Items_Level{}
+	}
+	return t.Max
+}
+func (t *DevicesAttributesCatalog_Devices_AttributesCatalog_Risk_Items_Level) GetMin() int64 {
+	if t == nil {
+		t = &DevicesAttributesCatalog_Devices_AttributesCatalog_Risk_Items_Level{}
+	}
+	return t.Min
+}
+
+type DevicesAttributesCatalog_Devices_AttributesCatalog_Risk_Items struct {
+	ApplicationConnector DevicesAttributesCatalog_Devices_AttributesCatalog_Risk_Items_ApplicationConnector "json:\"applicationConnector\" graphql:\"applicationConnector\""
+	Level                DevicesAttributesCatalog_Devices_AttributesCatalog_Risk_Items_Level                "json:\"level\" graphql:\"level\""
+}
+
+func (t *DevicesAttributesCatalog_Devices_AttributesCatalog_Risk_Items) GetApplicationConnector() *DevicesAttributesCatalog_Devices_AttributesCatalog_Risk_Items_ApplicationConnector {
+	if t == nil {
+		t = &DevicesAttributesCatalog_Devices_AttributesCatalog_Risk_Items{}
+	}
+	return &t.ApplicationConnector
+}
+func (t *DevicesAttributesCatalog_Devices_AttributesCatalog_Risk_Items) GetLevel() *DevicesAttributesCatalog_Devices_AttributesCatalog_Risk_Items_Level {
+	if t == nil {
+		t = &DevicesAttributesCatalog_Devices_AttributesCatalog_Risk_Items{}
+	}
+	return &t.Level
+}
+
+type DevicesAttributesCatalog_Devices_AttributesCatalog_Risk_PageInfo struct {
+	Total int64 "json:\"total\" graphql:\"total\""
+}
+
+func (t *DevicesAttributesCatalog_Devices_AttributesCatalog_Risk_PageInfo) GetTotal() int64 {
+	if t == nil {
+		t = &DevicesAttributesCatalog_Devices_AttributesCatalog_Risk_PageInfo{}
+	}
+	return t.Total
+}
+
+type DevicesAttributesCatalog_Devices_AttributesCatalog_Risk struct {
+	Items    []*DevicesAttributesCatalog_Devices_AttributesCatalog_Risk_Items "json:\"items\" graphql:\"items\""
+	PageInfo DevicesAttributesCatalog_Devices_AttributesCatalog_Risk_PageInfo "json:\"pageInfo\" graphql:\"pageInfo\""
+}
+
+func (t *DevicesAttributesCatalog_Devices_AttributesCatalog_Risk) GetItems() []*DevicesAttributesCatalog_Devices_AttributesCatalog_Risk_Items {
+	if t == nil {
+		t = &DevicesAttributesCatalog_Devices_AttributesCatalog_Risk{}
+	}
+	return t.Items
+}
+func (t *DevicesAttributesCatalog_Devices_AttributesCatalog_Risk) GetPageInfo() *DevicesAttributesCatalog_Devices_AttributesCatalog_Risk_PageInfo {
+	if t == nil {
+		t = &DevicesAttributesCatalog_Devices_AttributesCatalog_Risk{}
+	}
+	return &t.PageInfo
+}
+
+type DevicesAttributesCatalog_Devices_AttributesCatalog struct {
+	Category     DevicesAttributesCatalog_Devices_AttributesCatalog_Category     "json:\"category\" graphql:\"category\""
+	Compliance   DevicesAttributesCatalog_Devices_AttributesCatalog_Compliance   "json:\"compliance\" graphql:\"compliance\""
+	Manufacturer DevicesAttributesCatalog_Devices_AttributesCatalog_Manufacturer "json:\"manufacturer\" graphql:\"manufacturer\""
+	Model        DevicesAttributesCatalog_Devices_AttributesCatalog_Model        "json:\"model\" graphql:\"model\""
+	Os           DevicesAttributesCatalog_Devices_AttributesCatalog_Os           "json:\"os\" graphql:\"os\""
+	Risk         DevicesAttributesCatalog_Devices_AttributesCatalog_Risk         "json:\"risk\" graphql:\"risk\""
+	Type         DevicesAttributesCatalog_Devices_AttributesCatalog_Type         "json:\"type\" graphql:\"type\""
+}
+
+func (t *DevicesAttributesCatalog_Devices_AttributesCatalog) GetCategory() *DevicesAttributesCatalog_Devices_AttributesCatalog_Category {
+	if t == nil {
+		t = &DevicesAttributesCatalog_Devices_AttributesCatalog{}
+	}
+	return &t.Category
+}
+func (t *DevicesAttributesCatalog_Devices_AttributesCatalog) GetCompliance() *DevicesAttributesCatalog_Devices_AttributesCatalog_Compliance {
+	if t == nil {
+		t = &DevicesAttributesCatalog_Devices_AttributesCatalog{}
+	}
+	return &t.Compliance
+}
+func (t *DevicesAttributesCatalog_Devices_AttributesCatalog) GetManufacturer() *DevicesAttributesCatalog_Devices_AttributesCatalog_Manufacturer {
+	if t == nil {
+		t = &DevicesAttributesCatalog_Devices_AttributesCatalog{}
+	}
+	return &t.Manufacturer
+}
+func (t *DevicesAttributesCatalog_Devices_AttributesCatalog) GetModel() *DevicesAttributesCatalog_Devices_AttributesCatalog_Model {
+	if t == nil {
+		t = &DevicesAttributesCatalog_Devices_AttributesCatalog{}
+	}
+	return &t.Model
+}
+func (t *DevicesAttributesCatalog_Devices_AttributesCatalog) GetOs() *DevicesAttributesCatalog_Devices_AttributesCatalog_Os {
+	if t == nil {
+		t = &DevicesAttributesCatalog_Devices_AttributesCatalog{}
+	}
+	return &t.Os
+}
+func (t *DevicesAttributesCatalog_Devices_AttributesCatalog) GetRisk() *DevicesAttributesCatalog_Devices_AttributesCatalog_Risk {
+	if t == nil {
+		t = &DevicesAttributesCatalog_Devices_AttributesCatalog{}
+	}
+	return &t.Risk
+}
+func (t *DevicesAttributesCatalog_Devices_AttributesCatalog) GetType() *DevicesAttributesCatalog_Devices_AttributesCatalog_Type {
+	if t == nil {
+		t = &DevicesAttributesCatalog_Devices_AttributesCatalog{}
+	}
+	return &t.Type
+}
+
+type DevicesAttributesCatalog_Devices struct {
+	AttributesCatalog DevicesAttributesCatalog_Devices_AttributesCatalog "json:\"attributesCatalog\" graphql:\"attributesCatalog\""
+}
+
+func (t *DevicesAttributesCatalog_Devices) GetAttributesCatalog() *DevicesAttributesCatalog_Devices_AttributesCatalog {
+	if t == nil {
+		t = &DevicesAttributesCatalog_Devices{}
+	}
+	return &t.AttributesCatalog
+}
+
+type DevicesCsvExport_Devices_CSVExport struct {
+	JobID   string  "json:\"jobId\" graphql:\"jobId\""
+	Message *string "json:\"message,omitempty\" graphql:\"message\""
+}
+
+func (t *DevicesCsvExport_Devices_CSVExport) GetJobID() string {
+	if t == nil {
+		t = &DevicesCsvExport_Devices_CSVExport{}
+	}
+	return t.JobID
+}
+func (t *DevicesCsvExport_Devices_CSVExport) GetMessage() *string {
+	if t == nil {
+		t = &DevicesCsvExport_Devices_CSVExport{}
+	}
+	return t.Message
+}
+
+type DevicesCsvExport_Devices struct {
+	CSVExport DevicesCsvExport_Devices_CSVExport "json:\"csvExport\" graphql:\"csvExport\""
+}
+
+func (t *DevicesCsvExport_Devices) GetCSVExport() *DevicesCsvExport_Devices_CSVExport {
+	if t == nil {
+		t = &DevicesCsvExport_Devices{}
+	}
+	return &t.CSVExport
+}
+
+type DevicesCsvExportStatus_Devices_CSVExportStatus struct {
+	DownloadURL *string                     "json:\"downloadUrl,omitempty\" graphql:\"downloadUrl\""
+	ExpiresAt   *string                     "json:\"expiresAt,omitempty\" graphql:\"expiresAt\""
+	JobID       string                      "json:\"jobId\" graphql:\"jobId\""
+	Message     *string                     "json:\"message,omitempty\" graphql:\"message\""
+	Progress    *float64                    "json:\"progress,omitempty\" graphql:\"progress\""
+	Status      cato_models.ExportJobStatus "json:\"status\" graphql:\"status\""
+}
+
+func (t *DevicesCsvExportStatus_Devices_CSVExportStatus) GetDownloadURL() *string {
+	if t == nil {
+		t = &DevicesCsvExportStatus_Devices_CSVExportStatus{}
+	}
+	return t.DownloadURL
+}
+func (t *DevicesCsvExportStatus_Devices_CSVExportStatus) GetExpiresAt() *string {
+	if t == nil {
+		t = &DevicesCsvExportStatus_Devices_CSVExportStatus{}
+	}
+	return t.ExpiresAt
+}
+func (t *DevicesCsvExportStatus_Devices_CSVExportStatus) GetJobID() string {
+	if t == nil {
+		t = &DevicesCsvExportStatus_Devices_CSVExportStatus{}
+	}
+	return t.JobID
+}
+func (t *DevicesCsvExportStatus_Devices_CSVExportStatus) GetMessage() *string {
+	if t == nil {
+		t = &DevicesCsvExportStatus_Devices_CSVExportStatus{}
+	}
+	return t.Message
+}
+func (t *DevicesCsvExportStatus_Devices_CSVExportStatus) GetProgress() *float64 {
+	if t == nil {
+		t = &DevicesCsvExportStatus_Devices_CSVExportStatus{}
+	}
+	return t.Progress
+}
+func (t *DevicesCsvExportStatus_Devices_CSVExportStatus) GetStatus() *cato_models.ExportJobStatus {
+	if t == nil {
+		t = &DevicesCsvExportStatus_Devices_CSVExportStatus{}
+	}
+	return &t.Status
+}
+
+type DevicesCsvExportStatus_Devices struct {
+	CSVExportStatus DevicesCsvExportStatus_Devices_CSVExportStatus "json:\"csvExportStatus\" graphql:\"csvExportStatus\""
+}
+
+func (t *DevicesCsvExportStatus_Devices) GetCSVExportStatus() *DevicesCsvExportStatus_Devices_CSVExportStatus {
+	if t == nil {
+		t = &DevicesCsvExportStatus_Devices{}
+	}
+	return &t.CSVExportStatus
+}
+
 type Devices_Devices_List_Device_Site struct {
 	ID   string "json:\"id\" graphql:\"id\""
 	Name string "json:\"name\" graphql:\"name\""
@@ -292341,6 +293680,833 @@ func (t *Devices_Devices) GetCSVExportStatus() *Devices_Devices_CSVExportStatus 
 func (t *Devices_Devices) GetList() *Devices_Devices_List {
 	if t == nil {
 		t = &Devices_Devices{}
+	}
+	return t.List
+}
+
+type DevicesList_Devices_List_Device_Site struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *DevicesList_Devices_List_Device_Site) GetID() string {
+	if t == nil {
+		t = &DevicesList_Devices_List_Device_Site{}
+	}
+	return t.ID
+}
+func (t *DevicesList_Devices_List_Device_Site) GetName() string {
+	if t == nil {
+		t = &DevicesList_Devices_List_Device_Site{}
+	}
+	return t.Name
+}
+
+type DevicesList_Devices_List_Device_User struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *DevicesList_Devices_List_Device_User) GetID() string {
+	if t == nil {
+		t = &DevicesList_Devices_List_Device_User{}
+	}
+	return t.ID
+}
+func (t *DevicesList_Devices_List_Device_User) GetName() string {
+	if t == nil {
+		t = &DevicesList_Devices_List_Device_User{}
+	}
+	return t.Name
+}
+
+type DevicesList_Devices_List_Device_Nic_Site struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *DevicesList_Devices_List_Device_Nic_Site) GetID() string {
+	if t == nil {
+		t = &DevicesList_Devices_List_Device_Nic_Site{}
+	}
+	return t.ID
+}
+func (t *DevicesList_Devices_List_Device_Nic_Site) GetName() string {
+	if t == nil {
+		t = &DevicesList_Devices_List_Device_Nic_Site{}
+	}
+	return t.Name
+}
+
+type DevicesList_Devices_List_Device_Nic_Network_SiteNetworkSubnetRef struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *DevicesList_Devices_List_Device_Nic_Network_SiteNetworkSubnetRef) GetID() string {
+	if t == nil {
+		t = &DevicesList_Devices_List_Device_Nic_Network_SiteNetworkSubnetRef{}
+	}
+	return t.ID
+}
+func (t *DevicesList_Devices_List_Device_Nic_Network_SiteNetworkSubnetRef) GetName() string {
+	if t == nil {
+		t = &DevicesList_Devices_List_Device_Nic_Network_SiteNetworkSubnetRef{}
+	}
+	return t.Name
+}
+
+type DevicesList_Devices_List_Device_Nic_Network_GlobalRangeRef struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *DevicesList_Devices_List_Device_Nic_Network_GlobalRangeRef) GetID() string {
+	if t == nil {
+		t = &DevicesList_Devices_List_Device_Nic_Network_GlobalRangeRef{}
+	}
+	return t.ID
+}
+func (t *DevicesList_Devices_List_Device_Nic_Network_GlobalRangeRef) GetName() string {
+	if t == nil {
+		t = &DevicesList_Devices_List_Device_Nic_Network_GlobalRangeRef{}
+	}
+	return t.Name
+}
+
+type DevicesList_Devices_List_Device_Nic_Network_GlobalIPRangeRef struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *DevicesList_Devices_List_Device_Nic_Network_GlobalIPRangeRef) GetID() string {
+	if t == nil {
+		t = &DevicesList_Devices_List_Device_Nic_Network_GlobalIPRangeRef{}
+	}
+	return t.ID
+}
+func (t *DevicesList_Devices_List_Device_Nic_Network_GlobalIPRangeRef) GetName() string {
+	if t == nil {
+		t = &DevicesList_Devices_List_Device_Nic_Network_GlobalIPRangeRef{}
+	}
+	return t.Name
+}
+
+type DevicesList_Devices_List_Device_Nic_Network_FloatingSubnetRef struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *DevicesList_Devices_List_Device_Nic_Network_FloatingSubnetRef) GetID() string {
+	if t == nil {
+		t = &DevicesList_Devices_List_Device_Nic_Network_FloatingSubnetRef{}
+	}
+	return t.ID
+}
+func (t *DevicesList_Devices_List_Device_Nic_Network_FloatingSubnetRef) GetName() string {
+	if t == nil {
+		t = &DevicesList_Devices_List_Device_Nic_Network_FloatingSubnetRef{}
+	}
+	return t.Name
+}
+
+type DevicesList_Devices_List_Device_Nic_Network struct {
+	FloatingSubnetRef    DevicesList_Devices_List_Device_Nic_Network_FloatingSubnetRef    "graphql:\"... on FloatingSubnetRef\""
+	GlobalIPRangeRef     DevicesList_Devices_List_Device_Nic_Network_GlobalIPRangeRef     "graphql:\"... on GlobalIpRangeRef\""
+	GlobalRangeRef       DevicesList_Devices_List_Device_Nic_Network_GlobalRangeRef       "graphql:\"... on GlobalRangeRef\""
+	SiteNetworkSubnetRef DevicesList_Devices_List_Device_Nic_Network_SiteNetworkSubnetRef "graphql:\"... on SiteNetworkSubnetRef\""
+	Typename             *string                                                          "json:\"__typename,omitempty\" graphql:\"__typename\""
+}
+
+func (t *DevicesList_Devices_List_Device_Nic_Network) GetFloatingSubnetRef() *DevicesList_Devices_List_Device_Nic_Network_FloatingSubnetRef {
+	if t == nil {
+		t = &DevicesList_Devices_List_Device_Nic_Network{}
+	}
+	return &t.FloatingSubnetRef
+}
+func (t *DevicesList_Devices_List_Device_Nic_Network) GetGlobalIPRangeRef() *DevicesList_Devices_List_Device_Nic_Network_GlobalIPRangeRef {
+	if t == nil {
+		t = &DevicesList_Devices_List_Device_Nic_Network{}
+	}
+	return &t.GlobalIPRangeRef
+}
+func (t *DevicesList_Devices_List_Device_Nic_Network) GetGlobalRangeRef() *DevicesList_Devices_List_Device_Nic_Network_GlobalRangeRef {
+	if t == nil {
+		t = &DevicesList_Devices_List_Device_Nic_Network{}
+	}
+	return &t.GlobalRangeRef
+}
+func (t *DevicesList_Devices_List_Device_Nic_Network) GetSiteNetworkSubnetRef() *DevicesList_Devices_List_Device_Nic_Network_SiteNetworkSubnetRef {
+	if t == nil {
+		t = &DevicesList_Devices_List_Device_Nic_Network{}
+	}
+	return &t.SiteNetworkSubnetRef
+}
+func (t *DevicesList_Devices_List_Device_Nic_Network) GetTypename() *string {
+	if t == nil {
+		t = &DevicesList_Devices_List_Device_Nic_Network{}
+	}
+	return t.Typename
+}
+
+type DevicesList_Devices_List_Device_Nic struct {
+	IP         *string                                      "json:\"ip,omitempty\" graphql:\"ip\""
+	MacAddress *string                                      "json:\"macAddress,omitempty\" graphql:\"macAddress\""
+	Network    *DevicesList_Devices_List_Device_Nic_Network "json:\"network,omitempty\" graphql:\"network\""
+	Site       *DevicesList_Devices_List_Device_Nic_Site    "json:\"site,omitempty\" graphql:\"site\""
+	Vendor     *string                                      "json:\"vendor,omitempty\" graphql:\"vendor\""
+}
+
+func (t *DevicesList_Devices_List_Device_Nic) GetIP() *string {
+	if t == nil {
+		t = &DevicesList_Devices_List_Device_Nic{}
+	}
+	return t.IP
+}
+func (t *DevicesList_Devices_List_Device_Nic) GetMacAddress() *string {
+	if t == nil {
+		t = &DevicesList_Devices_List_Device_Nic{}
+	}
+	return t.MacAddress
+}
+func (t *DevicesList_Devices_List_Device_Nic) GetNetwork() *DevicesList_Devices_List_Device_Nic_Network {
+	if t == nil {
+		t = &DevicesList_Devices_List_Device_Nic{}
+	}
+	return t.Network
+}
+func (t *DevicesList_Devices_List_Device_Nic) GetSite() *DevicesList_Devices_List_Device_Nic_Site {
+	if t == nil {
+		t = &DevicesList_Devices_List_Device_Nic{}
+	}
+	return t.Site
+}
+func (t *DevicesList_Devices_List_Device_Nic) GetVendor() *string {
+	if t == nil {
+		t = &DevicesList_Devices_List_Device_Nic{}
+	}
+	return t.Vendor
+}
+
+type DevicesList_Devices_List_Device_Os struct {
+	Product *string "json:\"product,omitempty\" graphql:\"product\""
+	Vendor  *string "json:\"vendor,omitempty\" graphql:\"vendor\""
+	Version *string "json:\"version,omitempty\" graphql:\"version\""
+}
+
+func (t *DevicesList_Devices_List_Device_Os) GetProduct() *string {
+	if t == nil {
+		t = &DevicesList_Devices_List_Device_Os{}
+	}
+	return t.Product
+}
+func (t *DevicesList_Devices_List_Device_Os) GetVendor() *string {
+	if t == nil {
+		t = &DevicesList_Devices_List_Device_Os{}
+	}
+	return t.Vendor
+}
+func (t *DevicesList_Devices_List_Device_Os) GetVersion() *string {
+	if t == nil {
+		t = &DevicesList_Devices_List_Device_Os{}
+	}
+	return t.Version
+}
+
+type DevicesList_Devices_List_Device_Hw struct {
+	Manufacturer *string "json:\"manufacturer,omitempty\" graphql:\"manufacturer\""
+	Model        *string "json:\"model,omitempty\" graphql:\"model\""
+	Type         *string "json:\"type,omitempty\" graphql:\"type\""
+}
+
+func (t *DevicesList_Devices_List_Device_Hw) GetManufacturer() *string {
+	if t == nil {
+		t = &DevicesList_Devices_List_Device_Hw{}
+	}
+	return t.Manufacturer
+}
+func (t *DevicesList_Devices_List_Device_Hw) GetModel() *string {
+	if t == nil {
+		t = &DevicesList_Devices_List_Device_Hw{}
+	}
+	return t.Model
+}
+func (t *DevicesList_Devices_List_Device_Hw) GetType() *string {
+	if t == nil {
+		t = &DevicesList_Devices_List_Device_Hw{}
+	}
+	return t.Type
+}
+
+type DevicesList_Devices_List_Device_Network struct {
+	NetworkName *string "json:\"networkName,omitempty\" graphql:\"networkName\""
+	Subnet      *string "json:\"subnet,omitempty\" graphql:\"subnet\""
+}
+
+func (t *DevicesList_Devices_List_Device_Network) GetNetworkName() *string {
+	if t == nil {
+		t = &DevicesList_Devices_List_Device_Network{}
+	}
+	return t.NetworkName
+}
+func (t *DevicesList_Devices_List_Device_Network) GetSubnet() *string {
+	if t == nil {
+		t = &DevicesList_Devices_List_Device_Network{}
+	}
+	return t.Subnet
+}
+
+type DevicesList_Devices_List_Device_NetworkInfo_SiteNetworkSubnetRef struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *DevicesList_Devices_List_Device_NetworkInfo_SiteNetworkSubnetRef) GetID() string {
+	if t == nil {
+		t = &DevicesList_Devices_List_Device_NetworkInfo_SiteNetworkSubnetRef{}
+	}
+	return t.ID
+}
+func (t *DevicesList_Devices_List_Device_NetworkInfo_SiteNetworkSubnetRef) GetName() string {
+	if t == nil {
+		t = &DevicesList_Devices_List_Device_NetworkInfo_SiteNetworkSubnetRef{}
+	}
+	return t.Name
+}
+
+type DevicesList_Devices_List_Device_NetworkInfo_GlobalRangeRef struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *DevicesList_Devices_List_Device_NetworkInfo_GlobalRangeRef) GetID() string {
+	if t == nil {
+		t = &DevicesList_Devices_List_Device_NetworkInfo_GlobalRangeRef{}
+	}
+	return t.ID
+}
+func (t *DevicesList_Devices_List_Device_NetworkInfo_GlobalRangeRef) GetName() string {
+	if t == nil {
+		t = &DevicesList_Devices_List_Device_NetworkInfo_GlobalRangeRef{}
+	}
+	return t.Name
+}
+
+type DevicesList_Devices_List_Device_NetworkInfo_GlobalIPRangeRef struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *DevicesList_Devices_List_Device_NetworkInfo_GlobalIPRangeRef) GetID() string {
+	if t == nil {
+		t = &DevicesList_Devices_List_Device_NetworkInfo_GlobalIPRangeRef{}
+	}
+	return t.ID
+}
+func (t *DevicesList_Devices_List_Device_NetworkInfo_GlobalIPRangeRef) GetName() string {
+	if t == nil {
+		t = &DevicesList_Devices_List_Device_NetworkInfo_GlobalIPRangeRef{}
+	}
+	return t.Name
+}
+
+type DevicesList_Devices_List_Device_NetworkInfo_FloatingSubnetRef struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *DevicesList_Devices_List_Device_NetworkInfo_FloatingSubnetRef) GetID() string {
+	if t == nil {
+		t = &DevicesList_Devices_List_Device_NetworkInfo_FloatingSubnetRef{}
+	}
+	return t.ID
+}
+func (t *DevicesList_Devices_List_Device_NetworkInfo_FloatingSubnetRef) GetName() string {
+	if t == nil {
+		t = &DevicesList_Devices_List_Device_NetworkInfo_FloatingSubnetRef{}
+	}
+	return t.Name
+}
+
+type DevicesList_Devices_List_Device_NetworkInfo struct {
+	FloatingSubnetRef    DevicesList_Devices_List_Device_NetworkInfo_FloatingSubnetRef    "graphql:\"... on FloatingSubnetRef\""
+	GlobalIPRangeRef     DevicesList_Devices_List_Device_NetworkInfo_GlobalIPRangeRef     "graphql:\"... on GlobalIpRangeRef\""
+	GlobalRangeRef       DevicesList_Devices_List_Device_NetworkInfo_GlobalRangeRef       "graphql:\"... on GlobalRangeRef\""
+	SiteNetworkSubnetRef DevicesList_Devices_List_Device_NetworkInfo_SiteNetworkSubnetRef "graphql:\"... on SiteNetworkSubnetRef\""
+	Typename             *string                                                          "json:\"__typename,omitempty\" graphql:\"__typename\""
+}
+
+func (t *DevicesList_Devices_List_Device_NetworkInfo) GetFloatingSubnetRef() *DevicesList_Devices_List_Device_NetworkInfo_FloatingSubnetRef {
+	if t == nil {
+		t = &DevicesList_Devices_List_Device_NetworkInfo{}
+	}
+	return &t.FloatingSubnetRef
+}
+func (t *DevicesList_Devices_List_Device_NetworkInfo) GetGlobalIPRangeRef() *DevicesList_Devices_List_Device_NetworkInfo_GlobalIPRangeRef {
+	if t == nil {
+		t = &DevicesList_Devices_List_Device_NetworkInfo{}
+	}
+	return &t.GlobalIPRangeRef
+}
+func (t *DevicesList_Devices_List_Device_NetworkInfo) GetGlobalRangeRef() *DevicesList_Devices_List_Device_NetworkInfo_GlobalRangeRef {
+	if t == nil {
+		t = &DevicesList_Devices_List_Device_NetworkInfo{}
+	}
+	return &t.GlobalRangeRef
+}
+func (t *DevicesList_Devices_List_Device_NetworkInfo) GetSiteNetworkSubnetRef() *DevicesList_Devices_List_Device_NetworkInfo_SiteNetworkSubnetRef {
+	if t == nil {
+		t = &DevicesList_Devices_List_Device_NetworkInfo{}
+	}
+	return &t.SiteNetworkSubnetRef
+}
+func (t *DevicesList_Devices_List_Device_NetworkInfo) GetTypename() *string {
+	if t == nil {
+		t = &DevicesList_Devices_List_Device_NetworkInfo{}
+	}
+	return t.Typename
+}
+
+type DevicesList_Devices_List_Device_ConnectionProfile struct {
+	DestApps    []string "json:\"destApps\" graphql:\"destApps\""
+	DestDomains []string "json:\"destDomains\" graphql:\"destDomains\""
+	DestHosts   []string "json:\"destHosts\" graphql:\"destHosts\""
+	Directions  []string "json:\"directions\" graphql:\"directions\""
+}
+
+func (t *DevicesList_Devices_List_Device_ConnectionProfile) GetDestApps() []string {
+	if t == nil {
+		t = &DevicesList_Devices_List_Device_ConnectionProfile{}
+	}
+	return t.DestApps
+}
+func (t *DevicesList_Devices_List_Device_ConnectionProfile) GetDestDomains() []string {
+	if t == nil {
+		t = &DevicesList_Devices_List_Device_ConnectionProfile{}
+	}
+	return t.DestDomains
+}
+func (t *DevicesList_Devices_List_Device_ConnectionProfile) GetDestHosts() []string {
+	if t == nil {
+		t = &DevicesList_Devices_List_Device_ConnectionProfile{}
+	}
+	return t.DestHosts
+}
+func (t *DevicesList_Devices_List_Device_ConnectionProfile) GetDirections() []string {
+	if t == nil {
+		t = &DevicesList_Devices_List_Device_ConnectionProfile{}
+	}
+	return t.Directions
+}
+
+type DevicesList_Devices_List_Device_Nics_Site struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *DevicesList_Devices_List_Device_Nics_Site) GetID() string {
+	if t == nil {
+		t = &DevicesList_Devices_List_Device_Nics_Site{}
+	}
+	return t.ID
+}
+func (t *DevicesList_Devices_List_Device_Nics_Site) GetName() string {
+	if t == nil {
+		t = &DevicesList_Devices_List_Device_Nics_Site{}
+	}
+	return t.Name
+}
+
+type DevicesList_Devices_List_Device_Nics_Network_SiteNetworkSubnetRef struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *DevicesList_Devices_List_Device_Nics_Network_SiteNetworkSubnetRef) GetID() string {
+	if t == nil {
+		t = &DevicesList_Devices_List_Device_Nics_Network_SiteNetworkSubnetRef{}
+	}
+	return t.ID
+}
+func (t *DevicesList_Devices_List_Device_Nics_Network_SiteNetworkSubnetRef) GetName() string {
+	if t == nil {
+		t = &DevicesList_Devices_List_Device_Nics_Network_SiteNetworkSubnetRef{}
+	}
+	return t.Name
+}
+
+type DevicesList_Devices_List_Device_Nics_Network_GlobalRangeRef struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *DevicesList_Devices_List_Device_Nics_Network_GlobalRangeRef) GetID() string {
+	if t == nil {
+		t = &DevicesList_Devices_List_Device_Nics_Network_GlobalRangeRef{}
+	}
+	return t.ID
+}
+func (t *DevicesList_Devices_List_Device_Nics_Network_GlobalRangeRef) GetName() string {
+	if t == nil {
+		t = &DevicesList_Devices_List_Device_Nics_Network_GlobalRangeRef{}
+	}
+	return t.Name
+}
+
+type DevicesList_Devices_List_Device_Nics_Network_GlobalIPRangeRef struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *DevicesList_Devices_List_Device_Nics_Network_GlobalIPRangeRef) GetID() string {
+	if t == nil {
+		t = &DevicesList_Devices_List_Device_Nics_Network_GlobalIPRangeRef{}
+	}
+	return t.ID
+}
+func (t *DevicesList_Devices_List_Device_Nics_Network_GlobalIPRangeRef) GetName() string {
+	if t == nil {
+		t = &DevicesList_Devices_List_Device_Nics_Network_GlobalIPRangeRef{}
+	}
+	return t.Name
+}
+
+type DevicesList_Devices_List_Device_Nics_Network_FloatingSubnetRef struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *DevicesList_Devices_List_Device_Nics_Network_FloatingSubnetRef) GetID() string {
+	if t == nil {
+		t = &DevicesList_Devices_List_Device_Nics_Network_FloatingSubnetRef{}
+	}
+	return t.ID
+}
+func (t *DevicesList_Devices_List_Device_Nics_Network_FloatingSubnetRef) GetName() string {
+	if t == nil {
+		t = &DevicesList_Devices_List_Device_Nics_Network_FloatingSubnetRef{}
+	}
+	return t.Name
+}
+
+type DevicesList_Devices_List_Device_Nics_Network struct {
+	FloatingSubnetRef    DevicesList_Devices_List_Device_Nics_Network_FloatingSubnetRef    "graphql:\"... on FloatingSubnetRef\""
+	GlobalIPRangeRef     DevicesList_Devices_List_Device_Nics_Network_GlobalIPRangeRef     "graphql:\"... on GlobalIpRangeRef\""
+	GlobalRangeRef       DevicesList_Devices_List_Device_Nics_Network_GlobalRangeRef       "graphql:\"... on GlobalRangeRef\""
+	SiteNetworkSubnetRef DevicesList_Devices_List_Device_Nics_Network_SiteNetworkSubnetRef "graphql:\"... on SiteNetworkSubnetRef\""
+	Typename             *string                                                           "json:\"__typename,omitempty\" graphql:\"__typename\""
+}
+
+func (t *DevicesList_Devices_List_Device_Nics_Network) GetFloatingSubnetRef() *DevicesList_Devices_List_Device_Nics_Network_FloatingSubnetRef {
+	if t == nil {
+		t = &DevicesList_Devices_List_Device_Nics_Network{}
+	}
+	return &t.FloatingSubnetRef
+}
+func (t *DevicesList_Devices_List_Device_Nics_Network) GetGlobalIPRangeRef() *DevicesList_Devices_List_Device_Nics_Network_GlobalIPRangeRef {
+	if t == nil {
+		t = &DevicesList_Devices_List_Device_Nics_Network{}
+	}
+	return &t.GlobalIPRangeRef
+}
+func (t *DevicesList_Devices_List_Device_Nics_Network) GetGlobalRangeRef() *DevicesList_Devices_List_Device_Nics_Network_GlobalRangeRef {
+	if t == nil {
+		t = &DevicesList_Devices_List_Device_Nics_Network{}
+	}
+	return &t.GlobalRangeRef
+}
+func (t *DevicesList_Devices_List_Device_Nics_Network) GetSiteNetworkSubnetRef() *DevicesList_Devices_List_Device_Nics_Network_SiteNetworkSubnetRef {
+	if t == nil {
+		t = &DevicesList_Devices_List_Device_Nics_Network{}
+	}
+	return &t.SiteNetworkSubnetRef
+}
+func (t *DevicesList_Devices_List_Device_Nics_Network) GetTypename() *string {
+	if t == nil {
+		t = &DevicesList_Devices_List_Device_Nics_Network{}
+	}
+	return t.Typename
+}
+
+type DevicesList_Devices_List_Device_Nics struct {
+	IP         *string                                       "json:\"ip,omitempty\" graphql:\"ip\""
+	MacAddress *string                                       "json:\"macAddress,omitempty\" graphql:\"macAddress\""
+	Network    *DevicesList_Devices_List_Device_Nics_Network "json:\"network,omitempty\" graphql:\"network\""
+	Site       *DevicesList_Devices_List_Device_Nics_Site    "json:\"site,omitempty\" graphql:\"site\""
+	Vendor     *string                                       "json:\"vendor,omitempty\" graphql:\"vendor\""
+}
+
+func (t *DevicesList_Devices_List_Device_Nics) GetIP() *string {
+	if t == nil {
+		t = &DevicesList_Devices_List_Device_Nics{}
+	}
+	return t.IP
+}
+func (t *DevicesList_Devices_List_Device_Nics) GetMacAddress() *string {
+	if t == nil {
+		t = &DevicesList_Devices_List_Device_Nics{}
+	}
+	return t.MacAddress
+}
+func (t *DevicesList_Devices_List_Device_Nics) GetNetwork() *DevicesList_Devices_List_Device_Nics_Network {
+	if t == nil {
+		t = &DevicesList_Devices_List_Device_Nics{}
+	}
+	return t.Network
+}
+func (t *DevicesList_Devices_List_Device_Nics) GetSite() *DevicesList_Devices_List_Device_Nics_Site {
+	if t == nil {
+		t = &DevicesList_Devices_List_Device_Nics{}
+	}
+	return t.Site
+}
+func (t *DevicesList_Devices_List_Device_Nics) GetVendor() *string {
+	if t == nil {
+		t = &DevicesList_Devices_List_Device_Nics{}
+	}
+	return t.Vendor
+}
+
+type DevicesList_Devices_List_Device_Groups struct {
+	ID   string  "json:\"id\" graphql:\"id\""
+	Name *string "json:\"name,omitempty\" graphql:\"name\""
+}
+
+func (t *DevicesList_Devices_List_Device_Groups) GetID() string {
+	if t == nil {
+		t = &DevicesList_Devices_List_Device_Groups{}
+	}
+	return t.ID
+}
+func (t *DevicesList_Devices_List_Device_Groups) GetName() *string {
+	if t == nil {
+		t = &DevicesList_Devices_List_Device_Groups{}
+	}
+	return t.Name
+}
+
+type DevicesList_Devices_List_Device struct {
+	Category            *string                                            "json:\"category,omitempty\" graphql:\"category\""
+	ComplianceState     *string                                            "json:\"complianceState,omitempty\" graphql:\"complianceState\""
+	Confidence          *cato_models.DeviceConfidenceLevel                 "json:\"confidence,omitempty\" graphql:\"confidence\""
+	ConnectionProfile   *DevicesList_Devices_List_Device_ConnectionProfile "json:\"connectionProfile,omitempty\" graphql:\"connectionProfile\""
+	CrownJewelSource    *cato_models.DeviceCrownJewelSource                "json:\"crownJewelSource,omitempty\" graphql:\"crownJewelSource\""
+	CustomerReasonType  *string                                            "json:\"customerReasonType,omitempty\" graphql:\"customerReasonType\""
+	FirstSeen           *string                                            "json:\"firstSeen,omitempty\" graphql:\"firstSeen\""
+	Groups              []*DevicesList_Devices_List_Device_Groups          "json:\"groups\" graphql:\"groups\""
+	Hw                  *DevicesList_Devices_List_Device_Hw                "json:\"hw,omitempty\" graphql:\"hw\""
+	ID                  string                                             "json:\"id\" graphql:\"id\""
+	IP                  *string                                            "json:\"ip,omitempty\" graphql:\"ip\""
+	IPAddress           *string                                            "json:\"ipAddress,omitempty\" graphql:\"ipAddress\""
+	IsCrownJewel        bool                                               "json:\"isCrownJewel\" graphql:\"isCrownJewel\""
+	IsManaged           bool                                               "json:\"isManaged\" graphql:\"isManaged\""
+	LastSeen            *string                                            "json:\"lastSeen,omitempty\" graphql:\"lastSeen\""
+	Name                *string                                            "json:\"name,omitempty\" graphql:\"name\""
+	Network             *DevicesList_Devices_List_Device_Network           "json:\"network,omitempty\" graphql:\"network\""
+	NetworkInfo         *DevicesList_Devices_List_Device_NetworkInfo       "json:\"networkInfo,omitempty\" graphql:\"networkInfo\""
+	Nic                 *DevicesList_Devices_List_Device_Nic               "json:\"nic,omitempty\" graphql:\"nic\""
+	Nics                []*DevicesList_Devices_List_Device_Nics            "json:\"nics\" graphql:\"nics\""
+	OriginTypes         []cato_models.OriginType                           "json:\"originTypes\" graphql:\"originTypes\""
+	Os                  *DevicesList_Devices_List_Device_Os                "json:\"os,omitempty\" graphql:\"os\""
+	ResearchReasonTypes []string                                           "json:\"researchReasonTypes\" graphql:\"researchReasonTypes\""
+	RiskScore           *int64                                             "json:\"riskScore,omitempty\" graphql:\"riskScore\""
+	Site                *DevicesList_Devices_List_Device_Site              "json:\"site,omitempty\" graphql:\"site\""
+	User                *DevicesList_Devices_List_Device_User              "json:\"user,omitempty\" graphql:\"user\""
+}
+
+func (t *DevicesList_Devices_List_Device) GetCategory() *string {
+	if t == nil {
+		t = &DevicesList_Devices_List_Device{}
+	}
+	return t.Category
+}
+func (t *DevicesList_Devices_List_Device) GetComplianceState() *string {
+	if t == nil {
+		t = &DevicesList_Devices_List_Device{}
+	}
+	return t.ComplianceState
+}
+func (t *DevicesList_Devices_List_Device) GetConfidence() *cato_models.DeviceConfidenceLevel {
+	if t == nil {
+		t = &DevicesList_Devices_List_Device{}
+	}
+	return t.Confidence
+}
+func (t *DevicesList_Devices_List_Device) GetConnectionProfile() *DevicesList_Devices_List_Device_ConnectionProfile {
+	if t == nil {
+		t = &DevicesList_Devices_List_Device{}
+	}
+	return t.ConnectionProfile
+}
+func (t *DevicesList_Devices_List_Device) GetCrownJewelSource() *cato_models.DeviceCrownJewelSource {
+	if t == nil {
+		t = &DevicesList_Devices_List_Device{}
+	}
+	return t.CrownJewelSource
+}
+func (t *DevicesList_Devices_List_Device) GetCustomerReasonType() *string {
+	if t == nil {
+		t = &DevicesList_Devices_List_Device{}
+	}
+	return t.CustomerReasonType
+}
+func (t *DevicesList_Devices_List_Device) GetFirstSeen() *string {
+	if t == nil {
+		t = &DevicesList_Devices_List_Device{}
+	}
+	return t.FirstSeen
+}
+func (t *DevicesList_Devices_List_Device) GetGroups() []*DevicesList_Devices_List_Device_Groups {
+	if t == nil {
+		t = &DevicesList_Devices_List_Device{}
+	}
+	return t.Groups
+}
+func (t *DevicesList_Devices_List_Device) GetHw() *DevicesList_Devices_List_Device_Hw {
+	if t == nil {
+		t = &DevicesList_Devices_List_Device{}
+	}
+	return t.Hw
+}
+func (t *DevicesList_Devices_List_Device) GetID() string {
+	if t == nil {
+		t = &DevicesList_Devices_List_Device{}
+	}
+	return t.ID
+}
+func (t *DevicesList_Devices_List_Device) GetIP() *string {
+	if t == nil {
+		t = &DevicesList_Devices_List_Device{}
+	}
+	return t.IP
+}
+func (t *DevicesList_Devices_List_Device) GetIPAddress() *string {
+	if t == nil {
+		t = &DevicesList_Devices_List_Device{}
+	}
+	return t.IPAddress
+}
+func (t *DevicesList_Devices_List_Device) GetIsCrownJewel() bool {
+	if t == nil {
+		t = &DevicesList_Devices_List_Device{}
+	}
+	return t.IsCrownJewel
+}
+func (t *DevicesList_Devices_List_Device) GetIsManaged() bool {
+	if t == nil {
+		t = &DevicesList_Devices_List_Device{}
+	}
+	return t.IsManaged
+}
+func (t *DevicesList_Devices_List_Device) GetLastSeen() *string {
+	if t == nil {
+		t = &DevicesList_Devices_List_Device{}
+	}
+	return t.LastSeen
+}
+func (t *DevicesList_Devices_List_Device) GetName() *string {
+	if t == nil {
+		t = &DevicesList_Devices_List_Device{}
+	}
+	return t.Name
+}
+func (t *DevicesList_Devices_List_Device) GetNetwork() *DevicesList_Devices_List_Device_Network {
+	if t == nil {
+		t = &DevicesList_Devices_List_Device{}
+	}
+	return t.Network
+}
+func (t *DevicesList_Devices_List_Device) GetNetworkInfo() *DevicesList_Devices_List_Device_NetworkInfo {
+	if t == nil {
+		t = &DevicesList_Devices_List_Device{}
+	}
+	return t.NetworkInfo
+}
+func (t *DevicesList_Devices_List_Device) GetNic() *DevicesList_Devices_List_Device_Nic {
+	if t == nil {
+		t = &DevicesList_Devices_List_Device{}
+	}
+	return t.Nic
+}
+func (t *DevicesList_Devices_List_Device) GetNics() []*DevicesList_Devices_List_Device_Nics {
+	if t == nil {
+		t = &DevicesList_Devices_List_Device{}
+	}
+	return t.Nics
+}
+func (t *DevicesList_Devices_List_Device) GetOriginTypes() []cato_models.OriginType {
+	if t == nil {
+		t = &DevicesList_Devices_List_Device{}
+	}
+	return t.OriginTypes
+}
+func (t *DevicesList_Devices_List_Device) GetOs() *DevicesList_Devices_List_Device_Os {
+	if t == nil {
+		t = &DevicesList_Devices_List_Device{}
+	}
+	return t.Os
+}
+func (t *DevicesList_Devices_List_Device) GetResearchReasonTypes() []string {
+	if t == nil {
+		t = &DevicesList_Devices_List_Device{}
+	}
+	return t.ResearchReasonTypes
+}
+func (t *DevicesList_Devices_List_Device) GetRiskScore() *int64 {
+	if t == nil {
+		t = &DevicesList_Devices_List_Device{}
+	}
+	return t.RiskScore
+}
+func (t *DevicesList_Devices_List_Device) GetSite() *DevicesList_Devices_List_Device_Site {
+	if t == nil {
+		t = &DevicesList_Devices_List_Device{}
+	}
+	return t.Site
+}
+func (t *DevicesList_Devices_List_Device) GetUser() *DevicesList_Devices_List_Device_User {
+	if t == nil {
+		t = &DevicesList_Devices_List_Device{}
+	}
+	return t.User
+}
+
+type DevicesList_Devices_List_Paging struct {
+	Total int64 "json:\"total\" graphql:\"total\""
+}
+
+func (t *DevicesList_Devices_List_Paging) GetTotal() int64 {
+	if t == nil {
+		t = &DevicesList_Devices_List_Paging{}
+	}
+	return t.Total
+}
+
+type DevicesList_Devices_List struct {
+	Device []*DevicesList_Devices_List_Device "json:\"device\" graphql:\"device\""
+	Paging DevicesList_Devices_List_Paging    "json:\"paging\" graphql:\"paging\""
+}
+
+func (t *DevicesList_Devices_List) GetDevice() []*DevicesList_Devices_List_Device {
+	if t == nil {
+		t = &DevicesList_Devices_List{}
+	}
+	return t.Device
+}
+func (t *DevicesList_Devices_List) GetPaging() *DevicesList_Devices_List_Paging {
+	if t == nil {
+		t = &DevicesList_Devices_List{}
+	}
+	return &t.Paging
+}
+
+type DevicesList_Devices struct {
+	List *DevicesList_Devices_List "json:\"list,omitempty\" graphql:\"list\""
+}
+
+func (t *DevicesList_Devices) GetList() *DevicesList_Devices_List {
+	if t == nil {
+		t = &DevicesList_Devices{}
 	}
 	return t.List
 }
@@ -300968,11 +303134,2077 @@ func (t *Notification_Notification) GetSubscriptionGroupList() *Notification_Not
 	return &t.SubscriptionGroupList
 }
 
+type NotificationIntegrationReferenceBodyTemplate_Notification_Integration_ReferenceBodyTemplate_Auth_BasicAuth struct {
+	Username string "json:\"username\" graphql:\"username\""
+}
+
+func (t *NotificationIntegrationReferenceBodyTemplate_Notification_Integration_ReferenceBodyTemplate_Auth_BasicAuth) GetUsername() string {
+	if t == nil {
+		t = &NotificationIntegrationReferenceBodyTemplate_Notification_Integration_ReferenceBodyTemplate_Auth_BasicAuth{}
+	}
+	return t.Username
+}
+
+type NotificationIntegrationReferenceBodyTemplate_Notification_Integration_ReferenceBodyTemplate_Auth_CustomHeaderAuth struct {
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *NotificationIntegrationReferenceBodyTemplate_Notification_Integration_ReferenceBodyTemplate_Auth_CustomHeaderAuth) GetName() string {
+	if t == nil {
+		t = &NotificationIntegrationReferenceBodyTemplate_Notification_Integration_ReferenceBodyTemplate_Auth_CustomHeaderAuth{}
+	}
+	return t.Name
+}
+
+type NotificationIntegrationReferenceBodyTemplate_Notification_Integration_ReferenceBodyTemplate_Auth_CustomHeadersAuth_PlainHeaders struct {
+	Name  string "json:\"name\" graphql:\"name\""
+	Value string "json:\"value\" graphql:\"value\""
+}
+
+func (t *NotificationIntegrationReferenceBodyTemplate_Notification_Integration_ReferenceBodyTemplate_Auth_CustomHeadersAuth_PlainHeaders) GetName() string {
+	if t == nil {
+		t = &NotificationIntegrationReferenceBodyTemplate_Notification_Integration_ReferenceBodyTemplate_Auth_CustomHeadersAuth_PlainHeaders{}
+	}
+	return t.Name
+}
+func (t *NotificationIntegrationReferenceBodyTemplate_Notification_Integration_ReferenceBodyTemplate_Auth_CustomHeadersAuth_PlainHeaders) GetValue() string {
+	if t == nil {
+		t = &NotificationIntegrationReferenceBodyTemplate_Notification_Integration_ReferenceBodyTemplate_Auth_CustomHeadersAuth_PlainHeaders{}
+	}
+	return t.Value
+}
+
+type NotificationIntegrationReferenceBodyTemplate_Notification_Integration_ReferenceBodyTemplate_Auth_CustomHeadersAuth_SecretHeaders struct {
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *NotificationIntegrationReferenceBodyTemplate_Notification_Integration_ReferenceBodyTemplate_Auth_CustomHeadersAuth_SecretHeaders) GetName() string {
+	if t == nil {
+		t = &NotificationIntegrationReferenceBodyTemplate_Notification_Integration_ReferenceBodyTemplate_Auth_CustomHeadersAuth_SecretHeaders{}
+	}
+	return t.Name
+}
+
+type NotificationIntegrationReferenceBodyTemplate_Notification_Integration_ReferenceBodyTemplate_Auth_CustomHeadersAuth struct {
+	PlainHeaders  []*NotificationIntegrationReferenceBodyTemplate_Notification_Integration_ReferenceBodyTemplate_Auth_CustomHeadersAuth_PlainHeaders  "json:\"plainHeaders\" graphql:\"plainHeaders\""
+	SecretHeaders []*NotificationIntegrationReferenceBodyTemplate_Notification_Integration_ReferenceBodyTemplate_Auth_CustomHeadersAuth_SecretHeaders "json:\"secretHeaders\" graphql:\"secretHeaders\""
+}
+
+func (t *NotificationIntegrationReferenceBodyTemplate_Notification_Integration_ReferenceBodyTemplate_Auth_CustomHeadersAuth) GetPlainHeaders() []*NotificationIntegrationReferenceBodyTemplate_Notification_Integration_ReferenceBodyTemplate_Auth_CustomHeadersAuth_PlainHeaders {
+	if t == nil {
+		t = &NotificationIntegrationReferenceBodyTemplate_Notification_Integration_ReferenceBodyTemplate_Auth_CustomHeadersAuth{}
+	}
+	return t.PlainHeaders
+}
+func (t *NotificationIntegrationReferenceBodyTemplate_Notification_Integration_ReferenceBodyTemplate_Auth_CustomHeadersAuth) GetSecretHeaders() []*NotificationIntegrationReferenceBodyTemplate_Notification_Integration_ReferenceBodyTemplate_Auth_CustomHeadersAuth_SecretHeaders {
+	if t == nil {
+		t = &NotificationIntegrationReferenceBodyTemplate_Notification_Integration_ReferenceBodyTemplate_Auth_CustomHeadersAuth{}
+	}
+	return t.SecretHeaders
+}
+
+type NotificationIntegrationReferenceBodyTemplate_Notification_Integration_ReferenceBodyTemplate_Auth struct {
+	BasicAuth         NotificationIntegrationReferenceBodyTemplate_Notification_Integration_ReferenceBodyTemplate_Auth_BasicAuth         "graphql:\"... on BasicAuth\""
+	CustomHeaderAuth  NotificationIntegrationReferenceBodyTemplate_Notification_Integration_ReferenceBodyTemplate_Auth_CustomHeaderAuth  "graphql:\"... on CustomHeaderAuth\""
+	CustomHeadersAuth NotificationIntegrationReferenceBodyTemplate_Notification_Integration_ReferenceBodyTemplate_Auth_CustomHeadersAuth "graphql:\"... on CustomHeadersAuth\""
+	AuthType          cato_models.AuthType                                                                                               "json:\"authType\" graphql:\"authType\""
+}
+
+func (t *NotificationIntegrationReferenceBodyTemplate_Notification_Integration_ReferenceBodyTemplate_Auth) GetBasicAuth() *NotificationIntegrationReferenceBodyTemplate_Notification_Integration_ReferenceBodyTemplate_Auth_BasicAuth {
+	if t == nil {
+		t = &NotificationIntegrationReferenceBodyTemplate_Notification_Integration_ReferenceBodyTemplate_Auth{}
+	}
+	return &t.BasicAuth
+}
+func (t *NotificationIntegrationReferenceBodyTemplate_Notification_Integration_ReferenceBodyTemplate_Auth) GetCustomHeaderAuth() *NotificationIntegrationReferenceBodyTemplate_Notification_Integration_ReferenceBodyTemplate_Auth_CustomHeaderAuth {
+	if t == nil {
+		t = &NotificationIntegrationReferenceBodyTemplate_Notification_Integration_ReferenceBodyTemplate_Auth{}
+	}
+	return &t.CustomHeaderAuth
+}
+func (t *NotificationIntegrationReferenceBodyTemplate_Notification_Integration_ReferenceBodyTemplate_Auth) GetCustomHeadersAuth() *NotificationIntegrationReferenceBodyTemplate_Notification_Integration_ReferenceBodyTemplate_Auth_CustomHeadersAuth {
+	if t == nil {
+		t = &NotificationIntegrationReferenceBodyTemplate_Notification_Integration_ReferenceBodyTemplate_Auth{}
+	}
+	return &t.CustomHeadersAuth
+}
+func (t *NotificationIntegrationReferenceBodyTemplate_Notification_Integration_ReferenceBodyTemplate_Auth) GetAuthType() *cato_models.AuthType {
+	if t == nil {
+		t = &NotificationIntegrationReferenceBodyTemplate_Notification_Integration_ReferenceBodyTemplate_Auth{}
+	}
+	return &t.AuthType
+}
+
+type NotificationIntegrationReferenceBodyTemplate_Notification_Integration_ReferenceBodyTemplate_Header struct {
+	Name  string "json:\"name\" graphql:\"name\""
+	Value string "json:\"value\" graphql:\"value\""
+}
+
+func (t *NotificationIntegrationReferenceBodyTemplate_Notification_Integration_ReferenceBodyTemplate_Header) GetName() string {
+	if t == nil {
+		t = &NotificationIntegrationReferenceBodyTemplate_Notification_Integration_ReferenceBodyTemplate_Header{}
+	}
+	return t.Name
+}
+func (t *NotificationIntegrationReferenceBodyTemplate_Notification_Integration_ReferenceBodyTemplate_Header) GetValue() string {
+	if t == nil {
+		t = &NotificationIntegrationReferenceBodyTemplate_Notification_Integration_ReferenceBodyTemplate_Header{}
+	}
+	return t.Value
+}
+
+type NotificationIntegrationReferenceBodyTemplate_Notification_Integration_ReferenceBodyTemplate_ResponseMapping struct {
+	Key   string "json:\"key\" graphql:\"key\""
+	Value string "json:\"value\" graphql:\"value\""
+}
+
+func (t *NotificationIntegrationReferenceBodyTemplate_Notification_Integration_ReferenceBodyTemplate_ResponseMapping) GetKey() string {
+	if t == nil {
+		t = &NotificationIntegrationReferenceBodyTemplate_Notification_Integration_ReferenceBodyTemplate_ResponseMapping{}
+	}
+	return t.Key
+}
+func (t *NotificationIntegrationReferenceBodyTemplate_Notification_Integration_ReferenceBodyTemplate_ResponseMapping) GetValue() string {
+	if t == nil {
+		t = &NotificationIntegrationReferenceBodyTemplate_Notification_Integration_ReferenceBodyTemplate_ResponseMapping{}
+	}
+	return t.Value
+}
+
+type NotificationIntegrationReferenceBodyTemplate_Notification_Integration_ReferenceBodyTemplate struct {
+	Auth                *NotificationIntegrationReferenceBodyTemplate_Notification_Integration_ReferenceBodyTemplate_Auth              "json:\"auth,omitempty\" graphql:\"auth\""
+	BodyTemplate        string                                                                                                         "json:\"bodyTemplate\" graphql:\"bodyTemplate\""
+	Header              []*NotificationIntegrationReferenceBodyTemplate_Notification_Integration_ReferenceBodyTemplate_Header          "json:\"header\" graphql:\"header\""
+	ID                  string                                                                                                         "json:\"id\" graphql:\"id\""
+	Name                string                                                                                                         "json:\"name\" graphql:\"name\""
+	RequestMethod       *cato_models.WebhookRequestMethod                                                                              "json:\"requestMethod,omitempty\" graphql:\"requestMethod\""
+	ResponseMapping     []*NotificationIntegrationReferenceBodyTemplate_Notification_Integration_ReferenceBodyTemplate_ResponseMapping "json:\"responseMapping\" graphql:\"responseMapping\""
+	URL                 string                                                                                                         "json:\"url\" graphql:\"url\""
+	WebhookRelationType *cato_models.WebhookRelationType                                                                               "json:\"webhookRelationType,omitempty\" graphql:\"webhookRelationType\""
+}
+
+func (t *NotificationIntegrationReferenceBodyTemplate_Notification_Integration_ReferenceBodyTemplate) GetAuth() *NotificationIntegrationReferenceBodyTemplate_Notification_Integration_ReferenceBodyTemplate_Auth {
+	if t == nil {
+		t = &NotificationIntegrationReferenceBodyTemplate_Notification_Integration_ReferenceBodyTemplate{}
+	}
+	return t.Auth
+}
+func (t *NotificationIntegrationReferenceBodyTemplate_Notification_Integration_ReferenceBodyTemplate) GetBodyTemplate() string {
+	if t == nil {
+		t = &NotificationIntegrationReferenceBodyTemplate_Notification_Integration_ReferenceBodyTemplate{}
+	}
+	return t.BodyTemplate
+}
+func (t *NotificationIntegrationReferenceBodyTemplate_Notification_Integration_ReferenceBodyTemplate) GetHeader() []*NotificationIntegrationReferenceBodyTemplate_Notification_Integration_ReferenceBodyTemplate_Header {
+	if t == nil {
+		t = &NotificationIntegrationReferenceBodyTemplate_Notification_Integration_ReferenceBodyTemplate{}
+	}
+	return t.Header
+}
+func (t *NotificationIntegrationReferenceBodyTemplate_Notification_Integration_ReferenceBodyTemplate) GetID() string {
+	if t == nil {
+		t = &NotificationIntegrationReferenceBodyTemplate_Notification_Integration_ReferenceBodyTemplate{}
+	}
+	return t.ID
+}
+func (t *NotificationIntegrationReferenceBodyTemplate_Notification_Integration_ReferenceBodyTemplate) GetName() string {
+	if t == nil {
+		t = &NotificationIntegrationReferenceBodyTemplate_Notification_Integration_ReferenceBodyTemplate{}
+	}
+	return t.Name
+}
+func (t *NotificationIntegrationReferenceBodyTemplate_Notification_Integration_ReferenceBodyTemplate) GetRequestMethod() *cato_models.WebhookRequestMethod {
+	if t == nil {
+		t = &NotificationIntegrationReferenceBodyTemplate_Notification_Integration_ReferenceBodyTemplate{}
+	}
+	return t.RequestMethod
+}
+func (t *NotificationIntegrationReferenceBodyTemplate_Notification_Integration_ReferenceBodyTemplate) GetResponseMapping() []*NotificationIntegrationReferenceBodyTemplate_Notification_Integration_ReferenceBodyTemplate_ResponseMapping {
+	if t == nil {
+		t = &NotificationIntegrationReferenceBodyTemplate_Notification_Integration_ReferenceBodyTemplate{}
+	}
+	return t.ResponseMapping
+}
+func (t *NotificationIntegrationReferenceBodyTemplate_Notification_Integration_ReferenceBodyTemplate) GetURL() string {
+	if t == nil {
+		t = &NotificationIntegrationReferenceBodyTemplate_Notification_Integration_ReferenceBodyTemplate{}
+	}
+	return t.URL
+}
+func (t *NotificationIntegrationReferenceBodyTemplate_Notification_Integration_ReferenceBodyTemplate) GetWebhookRelationType() *cato_models.WebhookRelationType {
+	if t == nil {
+		t = &NotificationIntegrationReferenceBodyTemplate_Notification_Integration_ReferenceBodyTemplate{}
+	}
+	return t.WebhookRelationType
+}
+
+type NotificationIntegrationReferenceBodyTemplate_Notification_Integration struct {
+	ReferenceBodyTemplate *NotificationIntegrationReferenceBodyTemplate_Notification_Integration_ReferenceBodyTemplate "json:\"referenceBodyTemplate,omitempty\" graphql:\"referenceBodyTemplate\""
+}
+
+func (t *NotificationIntegrationReferenceBodyTemplate_Notification_Integration) GetReferenceBodyTemplate() *NotificationIntegrationReferenceBodyTemplate_Notification_Integration_ReferenceBodyTemplate {
+	if t == nil {
+		t = &NotificationIntegrationReferenceBodyTemplate_Notification_Integration{}
+	}
+	return t.ReferenceBodyTemplate
+}
+
+type NotificationIntegrationReferenceBodyTemplate_Notification struct {
+	Integration NotificationIntegrationReferenceBodyTemplate_Notification_Integration "json:\"integration\" graphql:\"integration\""
+}
+
+func (t *NotificationIntegrationReferenceBodyTemplate_Notification) GetIntegration() *NotificationIntegrationReferenceBodyTemplate_Notification_Integration {
+	if t == nil {
+		t = &NotificationIntegrationReferenceBodyTemplate_Notification{}
+	}
+	return &t.Integration
+}
+
+type NotificationIntegrationReferenceBodyTemplateList_Notification_Integration_ReferenceBodyTemplateList_Items_Auth_BasicAuth struct {
+	Username string "json:\"username\" graphql:\"username\""
+}
+
+func (t *NotificationIntegrationReferenceBodyTemplateList_Notification_Integration_ReferenceBodyTemplateList_Items_Auth_BasicAuth) GetUsername() string {
+	if t == nil {
+		t = &NotificationIntegrationReferenceBodyTemplateList_Notification_Integration_ReferenceBodyTemplateList_Items_Auth_BasicAuth{}
+	}
+	return t.Username
+}
+
+type NotificationIntegrationReferenceBodyTemplateList_Notification_Integration_ReferenceBodyTemplateList_Items_Auth_CustomHeaderAuth struct {
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *NotificationIntegrationReferenceBodyTemplateList_Notification_Integration_ReferenceBodyTemplateList_Items_Auth_CustomHeaderAuth) GetName() string {
+	if t == nil {
+		t = &NotificationIntegrationReferenceBodyTemplateList_Notification_Integration_ReferenceBodyTemplateList_Items_Auth_CustomHeaderAuth{}
+	}
+	return t.Name
+}
+
+type NotificationIntegrationReferenceBodyTemplateList_Notification_Integration_ReferenceBodyTemplateList_Items_Auth_CustomHeadersAuth_PlainHeaders struct {
+	Name  string "json:\"name\" graphql:\"name\""
+	Value string "json:\"value\" graphql:\"value\""
+}
+
+func (t *NotificationIntegrationReferenceBodyTemplateList_Notification_Integration_ReferenceBodyTemplateList_Items_Auth_CustomHeadersAuth_PlainHeaders) GetName() string {
+	if t == nil {
+		t = &NotificationIntegrationReferenceBodyTemplateList_Notification_Integration_ReferenceBodyTemplateList_Items_Auth_CustomHeadersAuth_PlainHeaders{}
+	}
+	return t.Name
+}
+func (t *NotificationIntegrationReferenceBodyTemplateList_Notification_Integration_ReferenceBodyTemplateList_Items_Auth_CustomHeadersAuth_PlainHeaders) GetValue() string {
+	if t == nil {
+		t = &NotificationIntegrationReferenceBodyTemplateList_Notification_Integration_ReferenceBodyTemplateList_Items_Auth_CustomHeadersAuth_PlainHeaders{}
+	}
+	return t.Value
+}
+
+type NotificationIntegrationReferenceBodyTemplateList_Notification_Integration_ReferenceBodyTemplateList_Items_Auth_CustomHeadersAuth_SecretHeaders struct {
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *NotificationIntegrationReferenceBodyTemplateList_Notification_Integration_ReferenceBodyTemplateList_Items_Auth_CustomHeadersAuth_SecretHeaders) GetName() string {
+	if t == nil {
+		t = &NotificationIntegrationReferenceBodyTemplateList_Notification_Integration_ReferenceBodyTemplateList_Items_Auth_CustomHeadersAuth_SecretHeaders{}
+	}
+	return t.Name
+}
+
+type NotificationIntegrationReferenceBodyTemplateList_Notification_Integration_ReferenceBodyTemplateList_Items_Auth_CustomHeadersAuth struct {
+	PlainHeaders  []*NotificationIntegrationReferenceBodyTemplateList_Notification_Integration_ReferenceBodyTemplateList_Items_Auth_CustomHeadersAuth_PlainHeaders  "json:\"plainHeaders\" graphql:\"plainHeaders\""
+	SecretHeaders []*NotificationIntegrationReferenceBodyTemplateList_Notification_Integration_ReferenceBodyTemplateList_Items_Auth_CustomHeadersAuth_SecretHeaders "json:\"secretHeaders\" graphql:\"secretHeaders\""
+}
+
+func (t *NotificationIntegrationReferenceBodyTemplateList_Notification_Integration_ReferenceBodyTemplateList_Items_Auth_CustomHeadersAuth) GetPlainHeaders() []*NotificationIntegrationReferenceBodyTemplateList_Notification_Integration_ReferenceBodyTemplateList_Items_Auth_CustomHeadersAuth_PlainHeaders {
+	if t == nil {
+		t = &NotificationIntegrationReferenceBodyTemplateList_Notification_Integration_ReferenceBodyTemplateList_Items_Auth_CustomHeadersAuth{}
+	}
+	return t.PlainHeaders
+}
+func (t *NotificationIntegrationReferenceBodyTemplateList_Notification_Integration_ReferenceBodyTemplateList_Items_Auth_CustomHeadersAuth) GetSecretHeaders() []*NotificationIntegrationReferenceBodyTemplateList_Notification_Integration_ReferenceBodyTemplateList_Items_Auth_CustomHeadersAuth_SecretHeaders {
+	if t == nil {
+		t = &NotificationIntegrationReferenceBodyTemplateList_Notification_Integration_ReferenceBodyTemplateList_Items_Auth_CustomHeadersAuth{}
+	}
+	return t.SecretHeaders
+}
+
+type NotificationIntegrationReferenceBodyTemplateList_Notification_Integration_ReferenceBodyTemplateList_Items_Auth struct {
+	BasicAuth         NotificationIntegrationReferenceBodyTemplateList_Notification_Integration_ReferenceBodyTemplateList_Items_Auth_BasicAuth         "graphql:\"... on BasicAuth\""
+	CustomHeaderAuth  NotificationIntegrationReferenceBodyTemplateList_Notification_Integration_ReferenceBodyTemplateList_Items_Auth_CustomHeaderAuth  "graphql:\"... on CustomHeaderAuth\""
+	CustomHeadersAuth NotificationIntegrationReferenceBodyTemplateList_Notification_Integration_ReferenceBodyTemplateList_Items_Auth_CustomHeadersAuth "graphql:\"... on CustomHeadersAuth\""
+	AuthType          cato_models.AuthType                                                                                                             "json:\"authType\" graphql:\"authType\""
+}
+
+func (t *NotificationIntegrationReferenceBodyTemplateList_Notification_Integration_ReferenceBodyTemplateList_Items_Auth) GetBasicAuth() *NotificationIntegrationReferenceBodyTemplateList_Notification_Integration_ReferenceBodyTemplateList_Items_Auth_BasicAuth {
+	if t == nil {
+		t = &NotificationIntegrationReferenceBodyTemplateList_Notification_Integration_ReferenceBodyTemplateList_Items_Auth{}
+	}
+	return &t.BasicAuth
+}
+func (t *NotificationIntegrationReferenceBodyTemplateList_Notification_Integration_ReferenceBodyTemplateList_Items_Auth) GetCustomHeaderAuth() *NotificationIntegrationReferenceBodyTemplateList_Notification_Integration_ReferenceBodyTemplateList_Items_Auth_CustomHeaderAuth {
+	if t == nil {
+		t = &NotificationIntegrationReferenceBodyTemplateList_Notification_Integration_ReferenceBodyTemplateList_Items_Auth{}
+	}
+	return &t.CustomHeaderAuth
+}
+func (t *NotificationIntegrationReferenceBodyTemplateList_Notification_Integration_ReferenceBodyTemplateList_Items_Auth) GetCustomHeadersAuth() *NotificationIntegrationReferenceBodyTemplateList_Notification_Integration_ReferenceBodyTemplateList_Items_Auth_CustomHeadersAuth {
+	if t == nil {
+		t = &NotificationIntegrationReferenceBodyTemplateList_Notification_Integration_ReferenceBodyTemplateList_Items_Auth{}
+	}
+	return &t.CustomHeadersAuth
+}
+func (t *NotificationIntegrationReferenceBodyTemplateList_Notification_Integration_ReferenceBodyTemplateList_Items_Auth) GetAuthType() *cato_models.AuthType {
+	if t == nil {
+		t = &NotificationIntegrationReferenceBodyTemplateList_Notification_Integration_ReferenceBodyTemplateList_Items_Auth{}
+	}
+	return &t.AuthType
+}
+
+type NotificationIntegrationReferenceBodyTemplateList_Notification_Integration_ReferenceBodyTemplateList_Items_Header struct {
+	Name  string "json:\"name\" graphql:\"name\""
+	Value string "json:\"value\" graphql:\"value\""
+}
+
+func (t *NotificationIntegrationReferenceBodyTemplateList_Notification_Integration_ReferenceBodyTemplateList_Items_Header) GetName() string {
+	if t == nil {
+		t = &NotificationIntegrationReferenceBodyTemplateList_Notification_Integration_ReferenceBodyTemplateList_Items_Header{}
+	}
+	return t.Name
+}
+func (t *NotificationIntegrationReferenceBodyTemplateList_Notification_Integration_ReferenceBodyTemplateList_Items_Header) GetValue() string {
+	if t == nil {
+		t = &NotificationIntegrationReferenceBodyTemplateList_Notification_Integration_ReferenceBodyTemplateList_Items_Header{}
+	}
+	return t.Value
+}
+
+type NotificationIntegrationReferenceBodyTemplateList_Notification_Integration_ReferenceBodyTemplateList_Items_ResponseMapping struct {
+	Key   string "json:\"key\" graphql:\"key\""
+	Value string "json:\"value\" graphql:\"value\""
+}
+
+func (t *NotificationIntegrationReferenceBodyTemplateList_Notification_Integration_ReferenceBodyTemplateList_Items_ResponseMapping) GetKey() string {
+	if t == nil {
+		t = &NotificationIntegrationReferenceBodyTemplateList_Notification_Integration_ReferenceBodyTemplateList_Items_ResponseMapping{}
+	}
+	return t.Key
+}
+func (t *NotificationIntegrationReferenceBodyTemplateList_Notification_Integration_ReferenceBodyTemplateList_Items_ResponseMapping) GetValue() string {
+	if t == nil {
+		t = &NotificationIntegrationReferenceBodyTemplateList_Notification_Integration_ReferenceBodyTemplateList_Items_ResponseMapping{}
+	}
+	return t.Value
+}
+
+type NotificationIntegrationReferenceBodyTemplateList_Notification_Integration_ReferenceBodyTemplateList_Items struct {
+	Auth                *NotificationIntegrationReferenceBodyTemplateList_Notification_Integration_ReferenceBodyTemplateList_Items_Auth              "json:\"auth,omitempty\" graphql:\"auth\""
+	BodyTemplate        string                                                                                                                       "json:\"bodyTemplate\" graphql:\"bodyTemplate\""
+	Header              []*NotificationIntegrationReferenceBodyTemplateList_Notification_Integration_ReferenceBodyTemplateList_Items_Header          "json:\"header\" graphql:\"header\""
+	ID                  string                                                                                                                       "json:\"id\" graphql:\"id\""
+	Name                string                                                                                                                       "json:\"name\" graphql:\"name\""
+	RequestMethod       *cato_models.WebhookRequestMethod                                                                                            "json:\"requestMethod,omitempty\" graphql:\"requestMethod\""
+	ResponseMapping     []*NotificationIntegrationReferenceBodyTemplateList_Notification_Integration_ReferenceBodyTemplateList_Items_ResponseMapping "json:\"responseMapping\" graphql:\"responseMapping\""
+	URL                 string                                                                                                                       "json:\"url\" graphql:\"url\""
+	WebhookRelationType *cato_models.WebhookRelationType                                                                                             "json:\"webhookRelationType,omitempty\" graphql:\"webhookRelationType\""
+}
+
+func (t *NotificationIntegrationReferenceBodyTemplateList_Notification_Integration_ReferenceBodyTemplateList_Items) GetAuth() *NotificationIntegrationReferenceBodyTemplateList_Notification_Integration_ReferenceBodyTemplateList_Items_Auth {
+	if t == nil {
+		t = &NotificationIntegrationReferenceBodyTemplateList_Notification_Integration_ReferenceBodyTemplateList_Items{}
+	}
+	return t.Auth
+}
+func (t *NotificationIntegrationReferenceBodyTemplateList_Notification_Integration_ReferenceBodyTemplateList_Items) GetBodyTemplate() string {
+	if t == nil {
+		t = &NotificationIntegrationReferenceBodyTemplateList_Notification_Integration_ReferenceBodyTemplateList_Items{}
+	}
+	return t.BodyTemplate
+}
+func (t *NotificationIntegrationReferenceBodyTemplateList_Notification_Integration_ReferenceBodyTemplateList_Items) GetHeader() []*NotificationIntegrationReferenceBodyTemplateList_Notification_Integration_ReferenceBodyTemplateList_Items_Header {
+	if t == nil {
+		t = &NotificationIntegrationReferenceBodyTemplateList_Notification_Integration_ReferenceBodyTemplateList_Items{}
+	}
+	return t.Header
+}
+func (t *NotificationIntegrationReferenceBodyTemplateList_Notification_Integration_ReferenceBodyTemplateList_Items) GetID() string {
+	if t == nil {
+		t = &NotificationIntegrationReferenceBodyTemplateList_Notification_Integration_ReferenceBodyTemplateList_Items{}
+	}
+	return t.ID
+}
+func (t *NotificationIntegrationReferenceBodyTemplateList_Notification_Integration_ReferenceBodyTemplateList_Items) GetName() string {
+	if t == nil {
+		t = &NotificationIntegrationReferenceBodyTemplateList_Notification_Integration_ReferenceBodyTemplateList_Items{}
+	}
+	return t.Name
+}
+func (t *NotificationIntegrationReferenceBodyTemplateList_Notification_Integration_ReferenceBodyTemplateList_Items) GetRequestMethod() *cato_models.WebhookRequestMethod {
+	if t == nil {
+		t = &NotificationIntegrationReferenceBodyTemplateList_Notification_Integration_ReferenceBodyTemplateList_Items{}
+	}
+	return t.RequestMethod
+}
+func (t *NotificationIntegrationReferenceBodyTemplateList_Notification_Integration_ReferenceBodyTemplateList_Items) GetResponseMapping() []*NotificationIntegrationReferenceBodyTemplateList_Notification_Integration_ReferenceBodyTemplateList_Items_ResponseMapping {
+	if t == nil {
+		t = &NotificationIntegrationReferenceBodyTemplateList_Notification_Integration_ReferenceBodyTemplateList_Items{}
+	}
+	return t.ResponseMapping
+}
+func (t *NotificationIntegrationReferenceBodyTemplateList_Notification_Integration_ReferenceBodyTemplateList_Items) GetURL() string {
+	if t == nil {
+		t = &NotificationIntegrationReferenceBodyTemplateList_Notification_Integration_ReferenceBodyTemplateList_Items{}
+	}
+	return t.URL
+}
+func (t *NotificationIntegrationReferenceBodyTemplateList_Notification_Integration_ReferenceBodyTemplateList_Items) GetWebhookRelationType() *cato_models.WebhookRelationType {
+	if t == nil {
+		t = &NotificationIntegrationReferenceBodyTemplateList_Notification_Integration_ReferenceBodyTemplateList_Items{}
+	}
+	return t.WebhookRelationType
+}
+
+type NotificationIntegrationReferenceBodyTemplateList_Notification_Integration_ReferenceBodyTemplateList struct {
+	Items []*NotificationIntegrationReferenceBodyTemplateList_Notification_Integration_ReferenceBodyTemplateList_Items "json:\"items\" graphql:\"items\""
+}
+
+func (t *NotificationIntegrationReferenceBodyTemplateList_Notification_Integration_ReferenceBodyTemplateList) GetItems() []*NotificationIntegrationReferenceBodyTemplateList_Notification_Integration_ReferenceBodyTemplateList_Items {
+	if t == nil {
+		t = &NotificationIntegrationReferenceBodyTemplateList_Notification_Integration_ReferenceBodyTemplateList{}
+	}
+	return t.Items
+}
+
+type NotificationIntegrationReferenceBodyTemplateList_Notification_Integration struct {
+	ReferenceBodyTemplateList NotificationIntegrationReferenceBodyTemplateList_Notification_Integration_ReferenceBodyTemplateList "json:\"referenceBodyTemplateList\" graphql:\"referenceBodyTemplateList\""
+}
+
+func (t *NotificationIntegrationReferenceBodyTemplateList_Notification_Integration) GetReferenceBodyTemplateList() *NotificationIntegrationReferenceBodyTemplateList_Notification_Integration_ReferenceBodyTemplateList {
+	if t == nil {
+		t = &NotificationIntegrationReferenceBodyTemplateList_Notification_Integration{}
+	}
+	return &t.ReferenceBodyTemplateList
+}
+
+type NotificationIntegrationReferenceBodyTemplateList_Notification struct {
+	Integration NotificationIntegrationReferenceBodyTemplateList_Notification_Integration "json:\"integration\" graphql:\"integration\""
+}
+
+func (t *NotificationIntegrationReferenceBodyTemplateList_Notification) GetIntegration() *NotificationIntegrationReferenceBodyTemplateList_Notification_Integration {
+	if t == nil {
+		t = &NotificationIntegrationReferenceBodyTemplateList_Notification{}
+	}
+	return &t.Integration
+}
+
+type NotificationIntegrationWebhook_Notification_Integration_Webhook_Auth_BasicAuth struct {
+	Username string "json:\"username\" graphql:\"username\""
+}
+
+func (t *NotificationIntegrationWebhook_Notification_Integration_Webhook_Auth_BasicAuth) GetUsername() string {
+	if t == nil {
+		t = &NotificationIntegrationWebhook_Notification_Integration_Webhook_Auth_BasicAuth{}
+	}
+	return t.Username
+}
+
+type NotificationIntegrationWebhook_Notification_Integration_Webhook_Auth_CustomHeaderAuth struct {
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *NotificationIntegrationWebhook_Notification_Integration_Webhook_Auth_CustomHeaderAuth) GetName() string {
+	if t == nil {
+		t = &NotificationIntegrationWebhook_Notification_Integration_Webhook_Auth_CustomHeaderAuth{}
+	}
+	return t.Name
+}
+
+type NotificationIntegrationWebhook_Notification_Integration_Webhook_Auth_CustomHeadersAuth_PlainHeaders struct {
+	Name  string "json:\"name\" graphql:\"name\""
+	Value string "json:\"value\" graphql:\"value\""
+}
+
+func (t *NotificationIntegrationWebhook_Notification_Integration_Webhook_Auth_CustomHeadersAuth_PlainHeaders) GetName() string {
+	if t == nil {
+		t = &NotificationIntegrationWebhook_Notification_Integration_Webhook_Auth_CustomHeadersAuth_PlainHeaders{}
+	}
+	return t.Name
+}
+func (t *NotificationIntegrationWebhook_Notification_Integration_Webhook_Auth_CustomHeadersAuth_PlainHeaders) GetValue() string {
+	if t == nil {
+		t = &NotificationIntegrationWebhook_Notification_Integration_Webhook_Auth_CustomHeadersAuth_PlainHeaders{}
+	}
+	return t.Value
+}
+
+type NotificationIntegrationWebhook_Notification_Integration_Webhook_Auth_CustomHeadersAuth_SecretHeaders struct {
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *NotificationIntegrationWebhook_Notification_Integration_Webhook_Auth_CustomHeadersAuth_SecretHeaders) GetName() string {
+	if t == nil {
+		t = &NotificationIntegrationWebhook_Notification_Integration_Webhook_Auth_CustomHeadersAuth_SecretHeaders{}
+	}
+	return t.Name
+}
+
+type NotificationIntegrationWebhook_Notification_Integration_Webhook_Auth_CustomHeadersAuth struct {
+	PlainHeaders  []*NotificationIntegrationWebhook_Notification_Integration_Webhook_Auth_CustomHeadersAuth_PlainHeaders  "json:\"plainHeaders\" graphql:\"plainHeaders\""
+	SecretHeaders []*NotificationIntegrationWebhook_Notification_Integration_Webhook_Auth_CustomHeadersAuth_SecretHeaders "json:\"secretHeaders\" graphql:\"secretHeaders\""
+}
+
+func (t *NotificationIntegrationWebhook_Notification_Integration_Webhook_Auth_CustomHeadersAuth) GetPlainHeaders() []*NotificationIntegrationWebhook_Notification_Integration_Webhook_Auth_CustomHeadersAuth_PlainHeaders {
+	if t == nil {
+		t = &NotificationIntegrationWebhook_Notification_Integration_Webhook_Auth_CustomHeadersAuth{}
+	}
+	return t.PlainHeaders
+}
+func (t *NotificationIntegrationWebhook_Notification_Integration_Webhook_Auth_CustomHeadersAuth) GetSecretHeaders() []*NotificationIntegrationWebhook_Notification_Integration_Webhook_Auth_CustomHeadersAuth_SecretHeaders {
+	if t == nil {
+		t = &NotificationIntegrationWebhook_Notification_Integration_Webhook_Auth_CustomHeadersAuth{}
+	}
+	return t.SecretHeaders
+}
+
+type NotificationIntegrationWebhook_Notification_Integration_Webhook_Auth struct {
+	BasicAuth         NotificationIntegrationWebhook_Notification_Integration_Webhook_Auth_BasicAuth         "graphql:\"... on BasicAuth\""
+	CustomHeaderAuth  NotificationIntegrationWebhook_Notification_Integration_Webhook_Auth_CustomHeaderAuth  "graphql:\"... on CustomHeaderAuth\""
+	CustomHeadersAuth NotificationIntegrationWebhook_Notification_Integration_Webhook_Auth_CustomHeadersAuth "graphql:\"... on CustomHeadersAuth\""
+	AuthType          cato_models.AuthType                                                                   "json:\"authType\" graphql:\"authType\""
+}
+
+func (t *NotificationIntegrationWebhook_Notification_Integration_Webhook_Auth) GetBasicAuth() *NotificationIntegrationWebhook_Notification_Integration_Webhook_Auth_BasicAuth {
+	if t == nil {
+		t = &NotificationIntegrationWebhook_Notification_Integration_Webhook_Auth{}
+	}
+	return &t.BasicAuth
+}
+func (t *NotificationIntegrationWebhook_Notification_Integration_Webhook_Auth) GetCustomHeaderAuth() *NotificationIntegrationWebhook_Notification_Integration_Webhook_Auth_CustomHeaderAuth {
+	if t == nil {
+		t = &NotificationIntegrationWebhook_Notification_Integration_Webhook_Auth{}
+	}
+	return &t.CustomHeaderAuth
+}
+func (t *NotificationIntegrationWebhook_Notification_Integration_Webhook_Auth) GetCustomHeadersAuth() *NotificationIntegrationWebhook_Notification_Integration_Webhook_Auth_CustomHeadersAuth {
+	if t == nil {
+		t = &NotificationIntegrationWebhook_Notification_Integration_Webhook_Auth{}
+	}
+	return &t.CustomHeadersAuth
+}
+func (t *NotificationIntegrationWebhook_Notification_Integration_Webhook_Auth) GetAuthType() *cato_models.AuthType {
+	if t == nil {
+		t = &NotificationIntegrationWebhook_Notification_Integration_Webhook_Auth{}
+	}
+	return &t.AuthType
+}
+
+type NotificationIntegrationWebhook_Notification_Integration_Webhook_Header struct {
+	Name  string "json:\"name\" graphql:\"name\""
+	Value string "json:\"value\" graphql:\"value\""
+}
+
+func (t *NotificationIntegrationWebhook_Notification_Integration_Webhook_Header) GetName() string {
+	if t == nil {
+		t = &NotificationIntegrationWebhook_Notification_Integration_Webhook_Header{}
+	}
+	return t.Name
+}
+func (t *NotificationIntegrationWebhook_Notification_Integration_Webhook_Header) GetValue() string {
+	if t == nil {
+		t = &NotificationIntegrationWebhook_Notification_Integration_Webhook_Header{}
+	}
+	return t.Value
+}
+
+type NotificationIntegrationWebhook_Notification_Integration_Webhook_ResponseMapping struct {
+	Key   string "json:\"key\" graphql:\"key\""
+	Value string "json:\"value\" graphql:\"value\""
+}
+
+func (t *NotificationIntegrationWebhook_Notification_Integration_Webhook_ResponseMapping) GetKey() string {
+	if t == nil {
+		t = &NotificationIntegrationWebhook_Notification_Integration_Webhook_ResponseMapping{}
+	}
+	return t.Key
+}
+func (t *NotificationIntegrationWebhook_Notification_Integration_Webhook_ResponseMapping) GetValue() string {
+	if t == nil {
+		t = &NotificationIntegrationWebhook_Notification_Integration_Webhook_ResponseMapping{}
+	}
+	return t.Value
+}
+
+type NotificationIntegrationWebhook_Notification_Integration_Webhook struct {
+	Auth             NotificationIntegrationWebhook_Notification_Integration_Webhook_Auth               "json:\"auth\" graphql:\"auth\""
+	Body             string                                                                             "json:\"body\" graphql:\"body\""
+	Enabled          bool                                                                               "json:\"enabled\" graphql:\"enabled\""
+	Header           []*NotificationIntegrationWebhook_Notification_Integration_Webhook_Header          "json:\"header\" graphql:\"header\""
+	ID               string                                                                             "json:\"id\" graphql:\"id\""
+	Name             string                                                                             "json:\"name\" graphql:\"name\""
+	RelatedWebhookID *string                                                                            "json:\"relatedWebhookId,omitempty\" graphql:\"relatedWebhookId\""
+	RequestMethod    cato_models.WebhookRequestMethod                                                   "json:\"requestMethod\" graphql:\"requestMethod\""
+	ResponseMapping  []*NotificationIntegrationWebhook_Notification_Integration_Webhook_ResponseMapping "json:\"responseMapping\" graphql:\"responseMapping\""
+	URL              string                                                                             "json:\"url\" graphql:\"url\""
+}
+
+func (t *NotificationIntegrationWebhook_Notification_Integration_Webhook) GetAuth() *NotificationIntegrationWebhook_Notification_Integration_Webhook_Auth {
+	if t == nil {
+		t = &NotificationIntegrationWebhook_Notification_Integration_Webhook{}
+	}
+	return &t.Auth
+}
+func (t *NotificationIntegrationWebhook_Notification_Integration_Webhook) GetBody() string {
+	if t == nil {
+		t = &NotificationIntegrationWebhook_Notification_Integration_Webhook{}
+	}
+	return t.Body
+}
+func (t *NotificationIntegrationWebhook_Notification_Integration_Webhook) GetEnabled() bool {
+	if t == nil {
+		t = &NotificationIntegrationWebhook_Notification_Integration_Webhook{}
+	}
+	return t.Enabled
+}
+func (t *NotificationIntegrationWebhook_Notification_Integration_Webhook) GetHeader() []*NotificationIntegrationWebhook_Notification_Integration_Webhook_Header {
+	if t == nil {
+		t = &NotificationIntegrationWebhook_Notification_Integration_Webhook{}
+	}
+	return t.Header
+}
+func (t *NotificationIntegrationWebhook_Notification_Integration_Webhook) GetID() string {
+	if t == nil {
+		t = &NotificationIntegrationWebhook_Notification_Integration_Webhook{}
+	}
+	return t.ID
+}
+func (t *NotificationIntegrationWebhook_Notification_Integration_Webhook) GetName() string {
+	if t == nil {
+		t = &NotificationIntegrationWebhook_Notification_Integration_Webhook{}
+	}
+	return t.Name
+}
+func (t *NotificationIntegrationWebhook_Notification_Integration_Webhook) GetRelatedWebhookID() *string {
+	if t == nil {
+		t = &NotificationIntegrationWebhook_Notification_Integration_Webhook{}
+	}
+	return t.RelatedWebhookID
+}
+func (t *NotificationIntegrationWebhook_Notification_Integration_Webhook) GetRequestMethod() *cato_models.WebhookRequestMethod {
+	if t == nil {
+		t = &NotificationIntegrationWebhook_Notification_Integration_Webhook{}
+	}
+	return &t.RequestMethod
+}
+func (t *NotificationIntegrationWebhook_Notification_Integration_Webhook) GetResponseMapping() []*NotificationIntegrationWebhook_Notification_Integration_Webhook_ResponseMapping {
+	if t == nil {
+		t = &NotificationIntegrationWebhook_Notification_Integration_Webhook{}
+	}
+	return t.ResponseMapping
+}
+func (t *NotificationIntegrationWebhook_Notification_Integration_Webhook) GetURL() string {
+	if t == nil {
+		t = &NotificationIntegrationWebhook_Notification_Integration_Webhook{}
+	}
+	return t.URL
+}
+
+type NotificationIntegrationWebhook_Notification_Integration struct {
+	Webhook *NotificationIntegrationWebhook_Notification_Integration_Webhook "json:\"webhook,omitempty\" graphql:\"webhook\""
+}
+
+func (t *NotificationIntegrationWebhook_Notification_Integration) GetWebhook() *NotificationIntegrationWebhook_Notification_Integration_Webhook {
+	if t == nil {
+		t = &NotificationIntegrationWebhook_Notification_Integration{}
+	}
+	return t.Webhook
+}
+
+type NotificationIntegrationWebhook_Notification struct {
+	Integration NotificationIntegrationWebhook_Notification_Integration "json:\"integration\" graphql:\"integration\""
+}
+
+func (t *NotificationIntegrationWebhook_Notification) GetIntegration() *NotificationIntegrationWebhook_Notification_Integration {
+	if t == nil {
+		t = &NotificationIntegrationWebhook_Notification{}
+	}
+	return &t.Integration
+}
+
+type NotificationIntegrationWebhookFields_Notification_Integration_WebhookFields struct {
+	BodyFields   []string "json:\"bodyFields\" graphql:\"bodyFields\""
+	HeaderFields []string "json:\"headerFields\" graphql:\"headerFields\""
+	URLFields    []string "json:\"urlFields\" graphql:\"urlFields\""
+}
+
+func (t *NotificationIntegrationWebhookFields_Notification_Integration_WebhookFields) GetBodyFields() []string {
+	if t == nil {
+		t = &NotificationIntegrationWebhookFields_Notification_Integration_WebhookFields{}
+	}
+	return t.BodyFields
+}
+func (t *NotificationIntegrationWebhookFields_Notification_Integration_WebhookFields) GetHeaderFields() []string {
+	if t == nil {
+		t = &NotificationIntegrationWebhookFields_Notification_Integration_WebhookFields{}
+	}
+	return t.HeaderFields
+}
+func (t *NotificationIntegrationWebhookFields_Notification_Integration_WebhookFields) GetURLFields() []string {
+	if t == nil {
+		t = &NotificationIntegrationWebhookFields_Notification_Integration_WebhookFields{}
+	}
+	return t.URLFields
+}
+
+type NotificationIntegrationWebhookFields_Notification_Integration struct {
+	WebhookFields *NotificationIntegrationWebhookFields_Notification_Integration_WebhookFields "json:\"webhookFields,omitempty\" graphql:\"webhookFields\""
+}
+
+func (t *NotificationIntegrationWebhookFields_Notification_Integration) GetWebhookFields() *NotificationIntegrationWebhookFields_Notification_Integration_WebhookFields {
+	if t == nil {
+		t = &NotificationIntegrationWebhookFields_Notification_Integration{}
+	}
+	return t.WebhookFields
+}
+
+type NotificationIntegrationWebhookFields_Notification struct {
+	Integration NotificationIntegrationWebhookFields_Notification_Integration "json:\"integration\" graphql:\"integration\""
+}
+
+func (t *NotificationIntegrationWebhookFields_Notification) GetIntegration() *NotificationIntegrationWebhookFields_Notification_Integration {
+	if t == nil {
+		t = &NotificationIntegrationWebhookFields_Notification{}
+	}
+	return &t.Integration
+}
+
+type NotificationIntegrationWebhookList_Notification_Integration_WebhookList_Items_Auth_BasicAuth struct {
+	Username string "json:\"username\" graphql:\"username\""
+}
+
+func (t *NotificationIntegrationWebhookList_Notification_Integration_WebhookList_Items_Auth_BasicAuth) GetUsername() string {
+	if t == nil {
+		t = &NotificationIntegrationWebhookList_Notification_Integration_WebhookList_Items_Auth_BasicAuth{}
+	}
+	return t.Username
+}
+
+type NotificationIntegrationWebhookList_Notification_Integration_WebhookList_Items_Auth_CustomHeaderAuth struct {
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *NotificationIntegrationWebhookList_Notification_Integration_WebhookList_Items_Auth_CustomHeaderAuth) GetName() string {
+	if t == nil {
+		t = &NotificationIntegrationWebhookList_Notification_Integration_WebhookList_Items_Auth_CustomHeaderAuth{}
+	}
+	return t.Name
+}
+
+type NotificationIntegrationWebhookList_Notification_Integration_WebhookList_Items_Auth_CustomHeadersAuth_PlainHeaders struct {
+	Name  string "json:\"name\" graphql:\"name\""
+	Value string "json:\"value\" graphql:\"value\""
+}
+
+func (t *NotificationIntegrationWebhookList_Notification_Integration_WebhookList_Items_Auth_CustomHeadersAuth_PlainHeaders) GetName() string {
+	if t == nil {
+		t = &NotificationIntegrationWebhookList_Notification_Integration_WebhookList_Items_Auth_CustomHeadersAuth_PlainHeaders{}
+	}
+	return t.Name
+}
+func (t *NotificationIntegrationWebhookList_Notification_Integration_WebhookList_Items_Auth_CustomHeadersAuth_PlainHeaders) GetValue() string {
+	if t == nil {
+		t = &NotificationIntegrationWebhookList_Notification_Integration_WebhookList_Items_Auth_CustomHeadersAuth_PlainHeaders{}
+	}
+	return t.Value
+}
+
+type NotificationIntegrationWebhookList_Notification_Integration_WebhookList_Items_Auth_CustomHeadersAuth_SecretHeaders struct {
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *NotificationIntegrationWebhookList_Notification_Integration_WebhookList_Items_Auth_CustomHeadersAuth_SecretHeaders) GetName() string {
+	if t == nil {
+		t = &NotificationIntegrationWebhookList_Notification_Integration_WebhookList_Items_Auth_CustomHeadersAuth_SecretHeaders{}
+	}
+	return t.Name
+}
+
+type NotificationIntegrationWebhookList_Notification_Integration_WebhookList_Items_Auth_CustomHeadersAuth struct {
+	PlainHeaders  []*NotificationIntegrationWebhookList_Notification_Integration_WebhookList_Items_Auth_CustomHeadersAuth_PlainHeaders  "json:\"plainHeaders\" graphql:\"plainHeaders\""
+	SecretHeaders []*NotificationIntegrationWebhookList_Notification_Integration_WebhookList_Items_Auth_CustomHeadersAuth_SecretHeaders "json:\"secretHeaders\" graphql:\"secretHeaders\""
+}
+
+func (t *NotificationIntegrationWebhookList_Notification_Integration_WebhookList_Items_Auth_CustomHeadersAuth) GetPlainHeaders() []*NotificationIntegrationWebhookList_Notification_Integration_WebhookList_Items_Auth_CustomHeadersAuth_PlainHeaders {
+	if t == nil {
+		t = &NotificationIntegrationWebhookList_Notification_Integration_WebhookList_Items_Auth_CustomHeadersAuth{}
+	}
+	return t.PlainHeaders
+}
+func (t *NotificationIntegrationWebhookList_Notification_Integration_WebhookList_Items_Auth_CustomHeadersAuth) GetSecretHeaders() []*NotificationIntegrationWebhookList_Notification_Integration_WebhookList_Items_Auth_CustomHeadersAuth_SecretHeaders {
+	if t == nil {
+		t = &NotificationIntegrationWebhookList_Notification_Integration_WebhookList_Items_Auth_CustomHeadersAuth{}
+	}
+	return t.SecretHeaders
+}
+
+type NotificationIntegrationWebhookList_Notification_Integration_WebhookList_Items_Auth struct {
+	BasicAuth         NotificationIntegrationWebhookList_Notification_Integration_WebhookList_Items_Auth_BasicAuth         "graphql:\"... on BasicAuth\""
+	CustomHeaderAuth  NotificationIntegrationWebhookList_Notification_Integration_WebhookList_Items_Auth_CustomHeaderAuth  "graphql:\"... on CustomHeaderAuth\""
+	CustomHeadersAuth NotificationIntegrationWebhookList_Notification_Integration_WebhookList_Items_Auth_CustomHeadersAuth "graphql:\"... on CustomHeadersAuth\""
+	AuthType          cato_models.AuthType                                                                                 "json:\"authType\" graphql:\"authType\""
+}
+
+func (t *NotificationIntegrationWebhookList_Notification_Integration_WebhookList_Items_Auth) GetBasicAuth() *NotificationIntegrationWebhookList_Notification_Integration_WebhookList_Items_Auth_BasicAuth {
+	if t == nil {
+		t = &NotificationIntegrationWebhookList_Notification_Integration_WebhookList_Items_Auth{}
+	}
+	return &t.BasicAuth
+}
+func (t *NotificationIntegrationWebhookList_Notification_Integration_WebhookList_Items_Auth) GetCustomHeaderAuth() *NotificationIntegrationWebhookList_Notification_Integration_WebhookList_Items_Auth_CustomHeaderAuth {
+	if t == nil {
+		t = &NotificationIntegrationWebhookList_Notification_Integration_WebhookList_Items_Auth{}
+	}
+	return &t.CustomHeaderAuth
+}
+func (t *NotificationIntegrationWebhookList_Notification_Integration_WebhookList_Items_Auth) GetCustomHeadersAuth() *NotificationIntegrationWebhookList_Notification_Integration_WebhookList_Items_Auth_CustomHeadersAuth {
+	if t == nil {
+		t = &NotificationIntegrationWebhookList_Notification_Integration_WebhookList_Items_Auth{}
+	}
+	return &t.CustomHeadersAuth
+}
+func (t *NotificationIntegrationWebhookList_Notification_Integration_WebhookList_Items_Auth) GetAuthType() *cato_models.AuthType {
+	if t == nil {
+		t = &NotificationIntegrationWebhookList_Notification_Integration_WebhookList_Items_Auth{}
+	}
+	return &t.AuthType
+}
+
+type NotificationIntegrationWebhookList_Notification_Integration_WebhookList_Items_Header struct {
+	Name  string "json:\"name\" graphql:\"name\""
+	Value string "json:\"value\" graphql:\"value\""
+}
+
+func (t *NotificationIntegrationWebhookList_Notification_Integration_WebhookList_Items_Header) GetName() string {
+	if t == nil {
+		t = &NotificationIntegrationWebhookList_Notification_Integration_WebhookList_Items_Header{}
+	}
+	return t.Name
+}
+func (t *NotificationIntegrationWebhookList_Notification_Integration_WebhookList_Items_Header) GetValue() string {
+	if t == nil {
+		t = &NotificationIntegrationWebhookList_Notification_Integration_WebhookList_Items_Header{}
+	}
+	return t.Value
+}
+
+type NotificationIntegrationWebhookList_Notification_Integration_WebhookList_Items_ResponseMapping struct {
+	Key   string "json:\"key\" graphql:\"key\""
+	Value string "json:\"value\" graphql:\"value\""
+}
+
+func (t *NotificationIntegrationWebhookList_Notification_Integration_WebhookList_Items_ResponseMapping) GetKey() string {
+	if t == nil {
+		t = &NotificationIntegrationWebhookList_Notification_Integration_WebhookList_Items_ResponseMapping{}
+	}
+	return t.Key
+}
+func (t *NotificationIntegrationWebhookList_Notification_Integration_WebhookList_Items_ResponseMapping) GetValue() string {
+	if t == nil {
+		t = &NotificationIntegrationWebhookList_Notification_Integration_WebhookList_Items_ResponseMapping{}
+	}
+	return t.Value
+}
+
+type NotificationIntegrationWebhookList_Notification_Integration_WebhookList_Items struct {
+	Auth             NotificationIntegrationWebhookList_Notification_Integration_WebhookList_Items_Auth               "json:\"auth\" graphql:\"auth\""
+	Body             string                                                                                           "json:\"body\" graphql:\"body\""
+	Enabled          bool                                                                                             "json:\"enabled\" graphql:\"enabled\""
+	Header           []*NotificationIntegrationWebhookList_Notification_Integration_WebhookList_Items_Header          "json:\"header\" graphql:\"header\""
+	ID               string                                                                                           "json:\"id\" graphql:\"id\""
+	Name             string                                                                                           "json:\"name\" graphql:\"name\""
+	RelatedWebhookID *string                                                                                          "json:\"relatedWebhookId,omitempty\" graphql:\"relatedWebhookId\""
+	RequestMethod    cato_models.WebhookRequestMethod                                                                 "json:\"requestMethod\" graphql:\"requestMethod\""
+	ResponseMapping  []*NotificationIntegrationWebhookList_Notification_Integration_WebhookList_Items_ResponseMapping "json:\"responseMapping\" graphql:\"responseMapping\""
+	URL              string                                                                                           "json:\"url\" graphql:\"url\""
+}
+
+func (t *NotificationIntegrationWebhookList_Notification_Integration_WebhookList_Items) GetAuth() *NotificationIntegrationWebhookList_Notification_Integration_WebhookList_Items_Auth {
+	if t == nil {
+		t = &NotificationIntegrationWebhookList_Notification_Integration_WebhookList_Items{}
+	}
+	return &t.Auth
+}
+func (t *NotificationIntegrationWebhookList_Notification_Integration_WebhookList_Items) GetBody() string {
+	if t == nil {
+		t = &NotificationIntegrationWebhookList_Notification_Integration_WebhookList_Items{}
+	}
+	return t.Body
+}
+func (t *NotificationIntegrationWebhookList_Notification_Integration_WebhookList_Items) GetEnabled() bool {
+	if t == nil {
+		t = &NotificationIntegrationWebhookList_Notification_Integration_WebhookList_Items{}
+	}
+	return t.Enabled
+}
+func (t *NotificationIntegrationWebhookList_Notification_Integration_WebhookList_Items) GetHeader() []*NotificationIntegrationWebhookList_Notification_Integration_WebhookList_Items_Header {
+	if t == nil {
+		t = &NotificationIntegrationWebhookList_Notification_Integration_WebhookList_Items{}
+	}
+	return t.Header
+}
+func (t *NotificationIntegrationWebhookList_Notification_Integration_WebhookList_Items) GetID() string {
+	if t == nil {
+		t = &NotificationIntegrationWebhookList_Notification_Integration_WebhookList_Items{}
+	}
+	return t.ID
+}
+func (t *NotificationIntegrationWebhookList_Notification_Integration_WebhookList_Items) GetName() string {
+	if t == nil {
+		t = &NotificationIntegrationWebhookList_Notification_Integration_WebhookList_Items{}
+	}
+	return t.Name
+}
+func (t *NotificationIntegrationWebhookList_Notification_Integration_WebhookList_Items) GetRelatedWebhookID() *string {
+	if t == nil {
+		t = &NotificationIntegrationWebhookList_Notification_Integration_WebhookList_Items{}
+	}
+	return t.RelatedWebhookID
+}
+func (t *NotificationIntegrationWebhookList_Notification_Integration_WebhookList_Items) GetRequestMethod() *cato_models.WebhookRequestMethod {
+	if t == nil {
+		t = &NotificationIntegrationWebhookList_Notification_Integration_WebhookList_Items{}
+	}
+	return &t.RequestMethod
+}
+func (t *NotificationIntegrationWebhookList_Notification_Integration_WebhookList_Items) GetResponseMapping() []*NotificationIntegrationWebhookList_Notification_Integration_WebhookList_Items_ResponseMapping {
+	if t == nil {
+		t = &NotificationIntegrationWebhookList_Notification_Integration_WebhookList_Items{}
+	}
+	return t.ResponseMapping
+}
+func (t *NotificationIntegrationWebhookList_Notification_Integration_WebhookList_Items) GetURL() string {
+	if t == nil {
+		t = &NotificationIntegrationWebhookList_Notification_Integration_WebhookList_Items{}
+	}
+	return t.URL
+}
+
+type NotificationIntegrationWebhookList_Notification_Integration_WebhookList_Paging struct {
+	Total int64 "json:\"total\" graphql:\"total\""
+}
+
+func (t *NotificationIntegrationWebhookList_Notification_Integration_WebhookList_Paging) GetTotal() int64 {
+	if t == nil {
+		t = &NotificationIntegrationWebhookList_Notification_Integration_WebhookList_Paging{}
+	}
+	return t.Total
+}
+
+type NotificationIntegrationWebhookList_Notification_Integration_WebhookList struct {
+	Items  []*NotificationIntegrationWebhookList_Notification_Integration_WebhookList_Items "json:\"items\" graphql:\"items\""
+	Paging NotificationIntegrationWebhookList_Notification_Integration_WebhookList_Paging   "json:\"paging\" graphql:\"paging\""
+}
+
+func (t *NotificationIntegrationWebhookList_Notification_Integration_WebhookList) GetItems() []*NotificationIntegrationWebhookList_Notification_Integration_WebhookList_Items {
+	if t == nil {
+		t = &NotificationIntegrationWebhookList_Notification_Integration_WebhookList{}
+	}
+	return t.Items
+}
+func (t *NotificationIntegrationWebhookList_Notification_Integration_WebhookList) GetPaging() *NotificationIntegrationWebhookList_Notification_Integration_WebhookList_Paging {
+	if t == nil {
+		t = &NotificationIntegrationWebhookList_Notification_Integration_WebhookList{}
+	}
+	return &t.Paging
+}
+
+type NotificationIntegrationWebhookList_Notification_Integration struct {
+	WebhookList NotificationIntegrationWebhookList_Notification_Integration_WebhookList "json:\"webhookList\" graphql:\"webhookList\""
+}
+
+func (t *NotificationIntegrationWebhookList_Notification_Integration) GetWebhookList() *NotificationIntegrationWebhookList_Notification_Integration_WebhookList {
+	if t == nil {
+		t = &NotificationIntegrationWebhookList_Notification_Integration{}
+	}
+	return &t.WebhookList
+}
+
+type NotificationIntegrationWebhookList_Notification struct {
+	Integration NotificationIntegrationWebhookList_Notification_Integration "json:\"integration\" graphql:\"integration\""
+}
+
+func (t *NotificationIntegrationWebhookList_Notification) GetIntegration() *NotificationIntegrationWebhookList_Notification_Integration {
+	if t == nil {
+		t = &NotificationIntegrationWebhookList_Notification{}
+	}
+	return &t.Integration
+}
+
+type NotificationMailingList_Notification_MailingList_Admin struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *NotificationMailingList_Notification_MailingList_Admin) GetID() string {
+	if t == nil {
+		t = &NotificationMailingList_Notification_MailingList_Admin{}
+	}
+	return t.ID
+}
+func (t *NotificationMailingList_Notification_MailingList_Admin) GetName() string {
+	if t == nil {
+		t = &NotificationMailingList_Notification_MailingList_Admin{}
+	}
+	return t.Name
+}
+
+type NotificationMailingList_Notification_MailingList_Audit_UpdatedBy struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *NotificationMailingList_Notification_MailingList_Audit_UpdatedBy) GetID() string {
+	if t == nil {
+		t = &NotificationMailingList_Notification_MailingList_Audit_UpdatedBy{}
+	}
+	return t.ID
+}
+func (t *NotificationMailingList_Notification_MailingList_Audit_UpdatedBy) GetName() string {
+	if t == nil {
+		t = &NotificationMailingList_Notification_MailingList_Audit_UpdatedBy{}
+	}
+	return t.Name
+}
+
+type NotificationMailingList_Notification_MailingList_Audit struct {
+	UpdatedBy   NotificationMailingList_Notification_MailingList_Audit_UpdatedBy "json:\"updatedBy\" graphql:\"updatedBy\""
+	UpdatedTime string                                                           "json:\"updatedTime\" graphql:\"updatedTime\""
+}
+
+func (t *NotificationMailingList_Notification_MailingList_Audit) GetUpdatedBy() *NotificationMailingList_Notification_MailingList_Audit_UpdatedBy {
+	if t == nil {
+		t = &NotificationMailingList_Notification_MailingList_Audit{}
+	}
+	return &t.UpdatedBy
+}
+func (t *NotificationMailingList_Notification_MailingList_Audit) GetUpdatedTime() string {
+	if t == nil {
+		t = &NotificationMailingList_Notification_MailingList_Audit{}
+	}
+	return t.UpdatedTime
+}
+
+type NotificationMailingList_Notification_MailingList struct {
+	Address []string                                                  "json:\"address\" graphql:\"address\""
+	Admin   []*NotificationMailingList_Notification_MailingList_Admin "json:\"admin\" graphql:\"admin\""
+	Audit   NotificationMailingList_Notification_MailingList_Audit    "json:\"audit\" graphql:\"audit\""
+	ID      string                                                    "json:\"id\" graphql:\"id\""
+	Name    string                                                    "json:\"name\" graphql:\"name\""
+	Type    cato_models.MailingListAddressesType                      "json:\"type\" graphql:\"type\""
+}
+
+func (t *NotificationMailingList_Notification_MailingList) GetAddress() []string {
+	if t == nil {
+		t = &NotificationMailingList_Notification_MailingList{}
+	}
+	return t.Address
+}
+func (t *NotificationMailingList_Notification_MailingList) GetAdmin() []*NotificationMailingList_Notification_MailingList_Admin {
+	if t == nil {
+		t = &NotificationMailingList_Notification_MailingList{}
+	}
+	return t.Admin
+}
+func (t *NotificationMailingList_Notification_MailingList) GetAudit() *NotificationMailingList_Notification_MailingList_Audit {
+	if t == nil {
+		t = &NotificationMailingList_Notification_MailingList{}
+	}
+	return &t.Audit
+}
+func (t *NotificationMailingList_Notification_MailingList) GetID() string {
+	if t == nil {
+		t = &NotificationMailingList_Notification_MailingList{}
+	}
+	return t.ID
+}
+func (t *NotificationMailingList_Notification_MailingList) GetName() string {
+	if t == nil {
+		t = &NotificationMailingList_Notification_MailingList{}
+	}
+	return t.Name
+}
+func (t *NotificationMailingList_Notification_MailingList) GetType() *cato_models.MailingListAddressesType {
+	if t == nil {
+		t = &NotificationMailingList_Notification_MailingList{}
+	}
+	return &t.Type
+}
+
+type NotificationMailingList_Notification struct {
+	MailingList *NotificationMailingList_Notification_MailingList "json:\"mailingList,omitempty\" graphql:\"mailingList\""
+}
+
+func (t *NotificationMailingList_Notification) GetMailingList() *NotificationMailingList_Notification_MailingList {
+	if t == nil {
+		t = &NotificationMailingList_Notification{}
+	}
+	return t.MailingList
+}
+
+type NotificationMailingListList_Notification_MailingListList_Items_Admin struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *NotificationMailingListList_Notification_MailingListList_Items_Admin) GetID() string {
+	if t == nil {
+		t = &NotificationMailingListList_Notification_MailingListList_Items_Admin{}
+	}
+	return t.ID
+}
+func (t *NotificationMailingListList_Notification_MailingListList_Items_Admin) GetName() string {
+	if t == nil {
+		t = &NotificationMailingListList_Notification_MailingListList_Items_Admin{}
+	}
+	return t.Name
+}
+
+type NotificationMailingListList_Notification_MailingListList_Items_Audit_UpdatedBy struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *NotificationMailingListList_Notification_MailingListList_Items_Audit_UpdatedBy) GetID() string {
+	if t == nil {
+		t = &NotificationMailingListList_Notification_MailingListList_Items_Audit_UpdatedBy{}
+	}
+	return t.ID
+}
+func (t *NotificationMailingListList_Notification_MailingListList_Items_Audit_UpdatedBy) GetName() string {
+	if t == nil {
+		t = &NotificationMailingListList_Notification_MailingListList_Items_Audit_UpdatedBy{}
+	}
+	return t.Name
+}
+
+type NotificationMailingListList_Notification_MailingListList_Items_Audit struct {
+	UpdatedBy   NotificationMailingListList_Notification_MailingListList_Items_Audit_UpdatedBy "json:\"updatedBy\" graphql:\"updatedBy\""
+	UpdatedTime string                                                                         "json:\"updatedTime\" graphql:\"updatedTime\""
+}
+
+func (t *NotificationMailingListList_Notification_MailingListList_Items_Audit) GetUpdatedBy() *NotificationMailingListList_Notification_MailingListList_Items_Audit_UpdatedBy {
+	if t == nil {
+		t = &NotificationMailingListList_Notification_MailingListList_Items_Audit{}
+	}
+	return &t.UpdatedBy
+}
+func (t *NotificationMailingListList_Notification_MailingListList_Items_Audit) GetUpdatedTime() string {
+	if t == nil {
+		t = &NotificationMailingListList_Notification_MailingListList_Items_Audit{}
+	}
+	return t.UpdatedTime
+}
+
+type NotificationMailingListList_Notification_MailingListList_Items struct {
+	Address []string                                                                "json:\"address\" graphql:\"address\""
+	Admin   []*NotificationMailingListList_Notification_MailingListList_Items_Admin "json:\"admin\" graphql:\"admin\""
+	Audit   NotificationMailingListList_Notification_MailingListList_Items_Audit    "json:\"audit\" graphql:\"audit\""
+	ID      string                                                                  "json:\"id\" graphql:\"id\""
+	Name    string                                                                  "json:\"name\" graphql:\"name\""
+	Type    cato_models.MailingListAddressesType                                    "json:\"type\" graphql:\"type\""
+}
+
+func (t *NotificationMailingListList_Notification_MailingListList_Items) GetAddress() []string {
+	if t == nil {
+		t = &NotificationMailingListList_Notification_MailingListList_Items{}
+	}
+	return t.Address
+}
+func (t *NotificationMailingListList_Notification_MailingListList_Items) GetAdmin() []*NotificationMailingListList_Notification_MailingListList_Items_Admin {
+	if t == nil {
+		t = &NotificationMailingListList_Notification_MailingListList_Items{}
+	}
+	return t.Admin
+}
+func (t *NotificationMailingListList_Notification_MailingListList_Items) GetAudit() *NotificationMailingListList_Notification_MailingListList_Items_Audit {
+	if t == nil {
+		t = &NotificationMailingListList_Notification_MailingListList_Items{}
+	}
+	return &t.Audit
+}
+func (t *NotificationMailingListList_Notification_MailingListList_Items) GetID() string {
+	if t == nil {
+		t = &NotificationMailingListList_Notification_MailingListList_Items{}
+	}
+	return t.ID
+}
+func (t *NotificationMailingListList_Notification_MailingListList_Items) GetName() string {
+	if t == nil {
+		t = &NotificationMailingListList_Notification_MailingListList_Items{}
+	}
+	return t.Name
+}
+func (t *NotificationMailingListList_Notification_MailingListList_Items) GetType() *cato_models.MailingListAddressesType {
+	if t == nil {
+		t = &NotificationMailingListList_Notification_MailingListList_Items{}
+	}
+	return &t.Type
+}
+
+type NotificationMailingListList_Notification_MailingListList_Paging struct {
+	Total int64 "json:\"total\" graphql:\"total\""
+}
+
+func (t *NotificationMailingListList_Notification_MailingListList_Paging) GetTotal() int64 {
+	if t == nil {
+		t = &NotificationMailingListList_Notification_MailingListList_Paging{}
+	}
+	return t.Total
+}
+
+type NotificationMailingListList_Notification_MailingListList struct {
+	Items  []*NotificationMailingListList_Notification_MailingListList_Items "json:\"items\" graphql:\"items\""
+	Paging NotificationMailingListList_Notification_MailingListList_Paging   "json:\"paging\" graphql:\"paging\""
+}
+
+func (t *NotificationMailingListList_Notification_MailingListList) GetItems() []*NotificationMailingListList_Notification_MailingListList_Items {
+	if t == nil {
+		t = &NotificationMailingListList_Notification_MailingListList{}
+	}
+	return t.Items
+}
+func (t *NotificationMailingListList_Notification_MailingListList) GetPaging() *NotificationMailingListList_Notification_MailingListList_Paging {
+	if t == nil {
+		t = &NotificationMailingListList_Notification_MailingListList{}
+	}
+	return &t.Paging
+}
+
+type NotificationMailingListList_Notification struct {
+	MailingListList NotificationMailingListList_Notification_MailingListList "json:\"mailingListList\" graphql:\"mailingListList\""
+}
+
+func (t *NotificationMailingListList_Notification) GetMailingListList() *NotificationMailingListList_Notification_MailingListList {
+	if t == nil {
+		t = &NotificationMailingListList_Notification{}
+	}
+	return &t.MailingListList
+}
+
+type NotificationSubscriptionGroup_Notification_SubscriptionGroup_MailingList_Admin struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *NotificationSubscriptionGroup_Notification_SubscriptionGroup_MailingList_Admin) GetID() string {
+	if t == nil {
+		t = &NotificationSubscriptionGroup_Notification_SubscriptionGroup_MailingList_Admin{}
+	}
+	return t.ID
+}
+func (t *NotificationSubscriptionGroup_Notification_SubscriptionGroup_MailingList_Admin) GetName() string {
+	if t == nil {
+		t = &NotificationSubscriptionGroup_Notification_SubscriptionGroup_MailingList_Admin{}
+	}
+	return t.Name
+}
+
+type NotificationSubscriptionGroup_Notification_SubscriptionGroup_MailingList_Audit_UpdatedBy struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *NotificationSubscriptionGroup_Notification_SubscriptionGroup_MailingList_Audit_UpdatedBy) GetID() string {
+	if t == nil {
+		t = &NotificationSubscriptionGroup_Notification_SubscriptionGroup_MailingList_Audit_UpdatedBy{}
+	}
+	return t.ID
+}
+func (t *NotificationSubscriptionGroup_Notification_SubscriptionGroup_MailingList_Audit_UpdatedBy) GetName() string {
+	if t == nil {
+		t = &NotificationSubscriptionGroup_Notification_SubscriptionGroup_MailingList_Audit_UpdatedBy{}
+	}
+	return t.Name
+}
+
+type NotificationSubscriptionGroup_Notification_SubscriptionGroup_MailingList_Audit struct {
+	UpdatedBy   NotificationSubscriptionGroup_Notification_SubscriptionGroup_MailingList_Audit_UpdatedBy "json:\"updatedBy\" graphql:\"updatedBy\""
+	UpdatedTime string                                                                                   "json:\"updatedTime\" graphql:\"updatedTime\""
+}
+
+func (t *NotificationSubscriptionGroup_Notification_SubscriptionGroup_MailingList_Audit) GetUpdatedBy() *NotificationSubscriptionGroup_Notification_SubscriptionGroup_MailingList_Audit_UpdatedBy {
+	if t == nil {
+		t = &NotificationSubscriptionGroup_Notification_SubscriptionGroup_MailingList_Audit{}
+	}
+	return &t.UpdatedBy
+}
+func (t *NotificationSubscriptionGroup_Notification_SubscriptionGroup_MailingList_Audit) GetUpdatedTime() string {
+	if t == nil {
+		t = &NotificationSubscriptionGroup_Notification_SubscriptionGroup_MailingList_Audit{}
+	}
+	return t.UpdatedTime
+}
+
+type NotificationSubscriptionGroup_Notification_SubscriptionGroup_MailingList struct {
+	Address []string                                                                          "json:\"address\" graphql:\"address\""
+	Admin   []*NotificationSubscriptionGroup_Notification_SubscriptionGroup_MailingList_Admin "json:\"admin\" graphql:\"admin\""
+	Audit   NotificationSubscriptionGroup_Notification_SubscriptionGroup_MailingList_Audit    "json:\"audit\" graphql:\"audit\""
+	ID      string                                                                            "json:\"id\" graphql:\"id\""
+	Name    string                                                                            "json:\"name\" graphql:\"name\""
+	Type    cato_models.MailingListAddressesType                                              "json:\"type\" graphql:\"type\""
+}
+
+func (t *NotificationSubscriptionGroup_Notification_SubscriptionGroup_MailingList) GetAddress() []string {
+	if t == nil {
+		t = &NotificationSubscriptionGroup_Notification_SubscriptionGroup_MailingList{}
+	}
+	return t.Address
+}
+func (t *NotificationSubscriptionGroup_Notification_SubscriptionGroup_MailingList) GetAdmin() []*NotificationSubscriptionGroup_Notification_SubscriptionGroup_MailingList_Admin {
+	if t == nil {
+		t = &NotificationSubscriptionGroup_Notification_SubscriptionGroup_MailingList{}
+	}
+	return t.Admin
+}
+func (t *NotificationSubscriptionGroup_Notification_SubscriptionGroup_MailingList) GetAudit() *NotificationSubscriptionGroup_Notification_SubscriptionGroup_MailingList_Audit {
+	if t == nil {
+		t = &NotificationSubscriptionGroup_Notification_SubscriptionGroup_MailingList{}
+	}
+	return &t.Audit
+}
+func (t *NotificationSubscriptionGroup_Notification_SubscriptionGroup_MailingList) GetID() string {
+	if t == nil {
+		t = &NotificationSubscriptionGroup_Notification_SubscriptionGroup_MailingList{}
+	}
+	return t.ID
+}
+func (t *NotificationSubscriptionGroup_Notification_SubscriptionGroup_MailingList) GetName() string {
+	if t == nil {
+		t = &NotificationSubscriptionGroup_Notification_SubscriptionGroup_MailingList{}
+	}
+	return t.Name
+}
+func (t *NotificationSubscriptionGroup_Notification_SubscriptionGroup_MailingList) GetType() *cato_models.MailingListAddressesType {
+	if t == nil {
+		t = &NotificationSubscriptionGroup_Notification_SubscriptionGroup_MailingList{}
+	}
+	return &t.Type
+}
+
+type NotificationSubscriptionGroup_Notification_SubscriptionGroup_Integration_WebhookList_Auth_BasicAuth struct {
+	Username string "json:\"username\" graphql:\"username\""
+}
+
+func (t *NotificationSubscriptionGroup_Notification_SubscriptionGroup_Integration_WebhookList_Auth_BasicAuth) GetUsername() string {
+	if t == nil {
+		t = &NotificationSubscriptionGroup_Notification_SubscriptionGroup_Integration_WebhookList_Auth_BasicAuth{}
+	}
+	return t.Username
+}
+
+type NotificationSubscriptionGroup_Notification_SubscriptionGroup_Integration_WebhookList_Auth_CustomHeaderAuth struct {
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *NotificationSubscriptionGroup_Notification_SubscriptionGroup_Integration_WebhookList_Auth_CustomHeaderAuth) GetName() string {
+	if t == nil {
+		t = &NotificationSubscriptionGroup_Notification_SubscriptionGroup_Integration_WebhookList_Auth_CustomHeaderAuth{}
+	}
+	return t.Name
+}
+
+type NotificationSubscriptionGroup_Notification_SubscriptionGroup_Integration_WebhookList_Auth_CustomHeadersAuth_PlainHeaders struct {
+	Name  string "json:\"name\" graphql:\"name\""
+	Value string "json:\"value\" graphql:\"value\""
+}
+
+func (t *NotificationSubscriptionGroup_Notification_SubscriptionGroup_Integration_WebhookList_Auth_CustomHeadersAuth_PlainHeaders) GetName() string {
+	if t == nil {
+		t = &NotificationSubscriptionGroup_Notification_SubscriptionGroup_Integration_WebhookList_Auth_CustomHeadersAuth_PlainHeaders{}
+	}
+	return t.Name
+}
+func (t *NotificationSubscriptionGroup_Notification_SubscriptionGroup_Integration_WebhookList_Auth_CustomHeadersAuth_PlainHeaders) GetValue() string {
+	if t == nil {
+		t = &NotificationSubscriptionGroup_Notification_SubscriptionGroup_Integration_WebhookList_Auth_CustomHeadersAuth_PlainHeaders{}
+	}
+	return t.Value
+}
+
+type NotificationSubscriptionGroup_Notification_SubscriptionGroup_Integration_WebhookList_Auth_CustomHeadersAuth_SecretHeaders struct {
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *NotificationSubscriptionGroup_Notification_SubscriptionGroup_Integration_WebhookList_Auth_CustomHeadersAuth_SecretHeaders) GetName() string {
+	if t == nil {
+		t = &NotificationSubscriptionGroup_Notification_SubscriptionGroup_Integration_WebhookList_Auth_CustomHeadersAuth_SecretHeaders{}
+	}
+	return t.Name
+}
+
+type NotificationSubscriptionGroup_Notification_SubscriptionGroup_Integration_WebhookList_Auth_CustomHeadersAuth struct {
+	PlainHeaders  []*NotificationSubscriptionGroup_Notification_SubscriptionGroup_Integration_WebhookList_Auth_CustomHeadersAuth_PlainHeaders  "json:\"plainHeaders\" graphql:\"plainHeaders\""
+	SecretHeaders []*NotificationSubscriptionGroup_Notification_SubscriptionGroup_Integration_WebhookList_Auth_CustomHeadersAuth_SecretHeaders "json:\"secretHeaders\" graphql:\"secretHeaders\""
+}
+
+func (t *NotificationSubscriptionGroup_Notification_SubscriptionGroup_Integration_WebhookList_Auth_CustomHeadersAuth) GetPlainHeaders() []*NotificationSubscriptionGroup_Notification_SubscriptionGroup_Integration_WebhookList_Auth_CustomHeadersAuth_PlainHeaders {
+	if t == nil {
+		t = &NotificationSubscriptionGroup_Notification_SubscriptionGroup_Integration_WebhookList_Auth_CustomHeadersAuth{}
+	}
+	return t.PlainHeaders
+}
+func (t *NotificationSubscriptionGroup_Notification_SubscriptionGroup_Integration_WebhookList_Auth_CustomHeadersAuth) GetSecretHeaders() []*NotificationSubscriptionGroup_Notification_SubscriptionGroup_Integration_WebhookList_Auth_CustomHeadersAuth_SecretHeaders {
+	if t == nil {
+		t = &NotificationSubscriptionGroup_Notification_SubscriptionGroup_Integration_WebhookList_Auth_CustomHeadersAuth{}
+	}
+	return t.SecretHeaders
+}
+
+type NotificationSubscriptionGroup_Notification_SubscriptionGroup_Integration_WebhookList_Auth struct {
+	BasicAuth         NotificationSubscriptionGroup_Notification_SubscriptionGroup_Integration_WebhookList_Auth_BasicAuth         "graphql:\"... on BasicAuth\""
+	CustomHeaderAuth  NotificationSubscriptionGroup_Notification_SubscriptionGroup_Integration_WebhookList_Auth_CustomHeaderAuth  "graphql:\"... on CustomHeaderAuth\""
+	CustomHeadersAuth NotificationSubscriptionGroup_Notification_SubscriptionGroup_Integration_WebhookList_Auth_CustomHeadersAuth "graphql:\"... on CustomHeadersAuth\""
+	AuthType          cato_models.AuthType                                                                                        "json:\"authType\" graphql:\"authType\""
+}
+
+func (t *NotificationSubscriptionGroup_Notification_SubscriptionGroup_Integration_WebhookList_Auth) GetBasicAuth() *NotificationSubscriptionGroup_Notification_SubscriptionGroup_Integration_WebhookList_Auth_BasicAuth {
+	if t == nil {
+		t = &NotificationSubscriptionGroup_Notification_SubscriptionGroup_Integration_WebhookList_Auth{}
+	}
+	return &t.BasicAuth
+}
+func (t *NotificationSubscriptionGroup_Notification_SubscriptionGroup_Integration_WebhookList_Auth) GetCustomHeaderAuth() *NotificationSubscriptionGroup_Notification_SubscriptionGroup_Integration_WebhookList_Auth_CustomHeaderAuth {
+	if t == nil {
+		t = &NotificationSubscriptionGroup_Notification_SubscriptionGroup_Integration_WebhookList_Auth{}
+	}
+	return &t.CustomHeaderAuth
+}
+func (t *NotificationSubscriptionGroup_Notification_SubscriptionGroup_Integration_WebhookList_Auth) GetCustomHeadersAuth() *NotificationSubscriptionGroup_Notification_SubscriptionGroup_Integration_WebhookList_Auth_CustomHeadersAuth {
+	if t == nil {
+		t = &NotificationSubscriptionGroup_Notification_SubscriptionGroup_Integration_WebhookList_Auth{}
+	}
+	return &t.CustomHeadersAuth
+}
+func (t *NotificationSubscriptionGroup_Notification_SubscriptionGroup_Integration_WebhookList_Auth) GetAuthType() *cato_models.AuthType {
+	if t == nil {
+		t = &NotificationSubscriptionGroup_Notification_SubscriptionGroup_Integration_WebhookList_Auth{}
+	}
+	return &t.AuthType
+}
+
+type NotificationSubscriptionGroup_Notification_SubscriptionGroup_Integration_WebhookList_Header struct {
+	Name  string "json:\"name\" graphql:\"name\""
+	Value string "json:\"value\" graphql:\"value\""
+}
+
+func (t *NotificationSubscriptionGroup_Notification_SubscriptionGroup_Integration_WebhookList_Header) GetName() string {
+	if t == nil {
+		t = &NotificationSubscriptionGroup_Notification_SubscriptionGroup_Integration_WebhookList_Header{}
+	}
+	return t.Name
+}
+func (t *NotificationSubscriptionGroup_Notification_SubscriptionGroup_Integration_WebhookList_Header) GetValue() string {
+	if t == nil {
+		t = &NotificationSubscriptionGroup_Notification_SubscriptionGroup_Integration_WebhookList_Header{}
+	}
+	return t.Value
+}
+
+type NotificationSubscriptionGroup_Notification_SubscriptionGroup_Integration_WebhookList_ResponseMapping struct {
+	Key   string "json:\"key\" graphql:\"key\""
+	Value string "json:\"value\" graphql:\"value\""
+}
+
+func (t *NotificationSubscriptionGroup_Notification_SubscriptionGroup_Integration_WebhookList_ResponseMapping) GetKey() string {
+	if t == nil {
+		t = &NotificationSubscriptionGroup_Notification_SubscriptionGroup_Integration_WebhookList_ResponseMapping{}
+	}
+	return t.Key
+}
+func (t *NotificationSubscriptionGroup_Notification_SubscriptionGroup_Integration_WebhookList_ResponseMapping) GetValue() string {
+	if t == nil {
+		t = &NotificationSubscriptionGroup_Notification_SubscriptionGroup_Integration_WebhookList_ResponseMapping{}
+	}
+	return t.Value
+}
+
+type NotificationSubscriptionGroup_Notification_SubscriptionGroup_Integration_WebhookList struct {
+	Auth             NotificationSubscriptionGroup_Notification_SubscriptionGroup_Integration_WebhookList_Auth               "json:\"auth\" graphql:\"auth\""
+	Body             string                                                                                                  "json:\"body\" graphql:\"body\""
+	Enabled          bool                                                                                                    "json:\"enabled\" graphql:\"enabled\""
+	Header           []*NotificationSubscriptionGroup_Notification_SubscriptionGroup_Integration_WebhookList_Header          "json:\"header\" graphql:\"header\""
+	ID               string                                                                                                  "json:\"id\" graphql:\"id\""
+	Name             string                                                                                                  "json:\"name\" graphql:\"name\""
+	RelatedWebhookID *string                                                                                                 "json:\"relatedWebhookId,omitempty\" graphql:\"relatedWebhookId\""
+	RequestMethod    cato_models.WebhookRequestMethod                                                                        "json:\"requestMethod\" graphql:\"requestMethod\""
+	ResponseMapping  []*NotificationSubscriptionGroup_Notification_SubscriptionGroup_Integration_WebhookList_ResponseMapping "json:\"responseMapping\" graphql:\"responseMapping\""
+	URL              string                                                                                                  "json:\"url\" graphql:\"url\""
+}
+
+func (t *NotificationSubscriptionGroup_Notification_SubscriptionGroup_Integration_WebhookList) GetAuth() *NotificationSubscriptionGroup_Notification_SubscriptionGroup_Integration_WebhookList_Auth {
+	if t == nil {
+		t = &NotificationSubscriptionGroup_Notification_SubscriptionGroup_Integration_WebhookList{}
+	}
+	return &t.Auth
+}
+func (t *NotificationSubscriptionGroup_Notification_SubscriptionGroup_Integration_WebhookList) GetBody() string {
+	if t == nil {
+		t = &NotificationSubscriptionGroup_Notification_SubscriptionGroup_Integration_WebhookList{}
+	}
+	return t.Body
+}
+func (t *NotificationSubscriptionGroup_Notification_SubscriptionGroup_Integration_WebhookList) GetEnabled() bool {
+	if t == nil {
+		t = &NotificationSubscriptionGroup_Notification_SubscriptionGroup_Integration_WebhookList{}
+	}
+	return t.Enabled
+}
+func (t *NotificationSubscriptionGroup_Notification_SubscriptionGroup_Integration_WebhookList) GetHeader() []*NotificationSubscriptionGroup_Notification_SubscriptionGroup_Integration_WebhookList_Header {
+	if t == nil {
+		t = &NotificationSubscriptionGroup_Notification_SubscriptionGroup_Integration_WebhookList{}
+	}
+	return t.Header
+}
+func (t *NotificationSubscriptionGroup_Notification_SubscriptionGroup_Integration_WebhookList) GetID() string {
+	if t == nil {
+		t = &NotificationSubscriptionGroup_Notification_SubscriptionGroup_Integration_WebhookList{}
+	}
+	return t.ID
+}
+func (t *NotificationSubscriptionGroup_Notification_SubscriptionGroup_Integration_WebhookList) GetName() string {
+	if t == nil {
+		t = &NotificationSubscriptionGroup_Notification_SubscriptionGroup_Integration_WebhookList{}
+	}
+	return t.Name
+}
+func (t *NotificationSubscriptionGroup_Notification_SubscriptionGroup_Integration_WebhookList) GetRelatedWebhookID() *string {
+	if t == nil {
+		t = &NotificationSubscriptionGroup_Notification_SubscriptionGroup_Integration_WebhookList{}
+	}
+	return t.RelatedWebhookID
+}
+func (t *NotificationSubscriptionGroup_Notification_SubscriptionGroup_Integration_WebhookList) GetRequestMethod() *cato_models.WebhookRequestMethod {
+	if t == nil {
+		t = &NotificationSubscriptionGroup_Notification_SubscriptionGroup_Integration_WebhookList{}
+	}
+	return &t.RequestMethod
+}
+func (t *NotificationSubscriptionGroup_Notification_SubscriptionGroup_Integration_WebhookList) GetResponseMapping() []*NotificationSubscriptionGroup_Notification_SubscriptionGroup_Integration_WebhookList_ResponseMapping {
+	if t == nil {
+		t = &NotificationSubscriptionGroup_Notification_SubscriptionGroup_Integration_WebhookList{}
+	}
+	return t.ResponseMapping
+}
+func (t *NotificationSubscriptionGroup_Notification_SubscriptionGroup_Integration_WebhookList) GetURL() string {
+	if t == nil {
+		t = &NotificationSubscriptionGroup_Notification_SubscriptionGroup_Integration_WebhookList{}
+	}
+	return t.URL
+}
+
+type NotificationSubscriptionGroup_Notification_SubscriptionGroup_Integration struct {
+	WebhookList []*NotificationSubscriptionGroup_Notification_SubscriptionGroup_Integration_WebhookList "json:\"webhookList\" graphql:\"webhookList\""
+}
+
+func (t *NotificationSubscriptionGroup_Notification_SubscriptionGroup_Integration) GetWebhookList() []*NotificationSubscriptionGroup_Notification_SubscriptionGroup_Integration_WebhookList {
+	if t == nil {
+		t = &NotificationSubscriptionGroup_Notification_SubscriptionGroup_Integration{}
+	}
+	return t.WebhookList
+}
+
+type NotificationSubscriptionGroup_Notification_SubscriptionGroup struct {
+	ID          string                                                                      "json:\"id\" graphql:\"id\""
+	Integration NotificationSubscriptionGroup_Notification_SubscriptionGroup_Integration    "json:\"integration\" graphql:\"integration\""
+	MailingList []*NotificationSubscriptionGroup_Notification_SubscriptionGroup_MailingList "json:\"mailingList\" graphql:\"mailingList\""
+	Name        string                                                                      "json:\"name\" graphql:\"name\""
+}
+
+func (t *NotificationSubscriptionGroup_Notification_SubscriptionGroup) GetID() string {
+	if t == nil {
+		t = &NotificationSubscriptionGroup_Notification_SubscriptionGroup{}
+	}
+	return t.ID
+}
+func (t *NotificationSubscriptionGroup_Notification_SubscriptionGroup) GetIntegration() *NotificationSubscriptionGroup_Notification_SubscriptionGroup_Integration {
+	if t == nil {
+		t = &NotificationSubscriptionGroup_Notification_SubscriptionGroup{}
+	}
+	return &t.Integration
+}
+func (t *NotificationSubscriptionGroup_Notification_SubscriptionGroup) GetMailingList() []*NotificationSubscriptionGroup_Notification_SubscriptionGroup_MailingList {
+	if t == nil {
+		t = &NotificationSubscriptionGroup_Notification_SubscriptionGroup{}
+	}
+	return t.MailingList
+}
+func (t *NotificationSubscriptionGroup_Notification_SubscriptionGroup) GetName() string {
+	if t == nil {
+		t = &NotificationSubscriptionGroup_Notification_SubscriptionGroup{}
+	}
+	return t.Name
+}
+
+type NotificationSubscriptionGroup_Notification struct {
+	SubscriptionGroup *NotificationSubscriptionGroup_Notification_SubscriptionGroup "json:\"subscriptionGroup,omitempty\" graphql:\"subscriptionGroup\""
+}
+
+func (t *NotificationSubscriptionGroup_Notification) GetSubscriptionGroup() *NotificationSubscriptionGroup_Notification_SubscriptionGroup {
+	if t == nil {
+		t = &NotificationSubscriptionGroup_Notification{}
+	}
+	return t.SubscriptionGroup
+}
+
+type NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_MailingList_Admin struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_MailingList_Admin) GetID() string {
+	if t == nil {
+		t = &NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_MailingList_Admin{}
+	}
+	return t.ID
+}
+func (t *NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_MailingList_Admin) GetName() string {
+	if t == nil {
+		t = &NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_MailingList_Admin{}
+	}
+	return t.Name
+}
+
+type NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_MailingList_Audit_UpdatedBy struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_MailingList_Audit_UpdatedBy) GetID() string {
+	if t == nil {
+		t = &NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_MailingList_Audit_UpdatedBy{}
+	}
+	return t.ID
+}
+func (t *NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_MailingList_Audit_UpdatedBy) GetName() string {
+	if t == nil {
+		t = &NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_MailingList_Audit_UpdatedBy{}
+	}
+	return t.Name
+}
+
+type NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_MailingList_Audit struct {
+	UpdatedBy   NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_MailingList_Audit_UpdatedBy "json:\"updatedBy\" graphql:\"updatedBy\""
+	UpdatedTime string                                                                                                 "json:\"updatedTime\" graphql:\"updatedTime\""
+}
+
+func (t *NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_MailingList_Audit) GetUpdatedBy() *NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_MailingList_Audit_UpdatedBy {
+	if t == nil {
+		t = &NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_MailingList_Audit{}
+	}
+	return &t.UpdatedBy
+}
+func (t *NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_MailingList_Audit) GetUpdatedTime() string {
+	if t == nil {
+		t = &NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_MailingList_Audit{}
+	}
+	return t.UpdatedTime
+}
+
+type NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_MailingList struct {
+	Address []string                                                                                        "json:\"address\" graphql:\"address\""
+	Admin   []*NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_MailingList_Admin "json:\"admin\" graphql:\"admin\""
+	Audit   NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_MailingList_Audit    "json:\"audit\" graphql:\"audit\""
+	ID      string                                                                                          "json:\"id\" graphql:\"id\""
+	Name    string                                                                                          "json:\"name\" graphql:\"name\""
+	Type    cato_models.MailingListAddressesType                                                            "json:\"type\" graphql:\"type\""
+}
+
+func (t *NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_MailingList) GetAddress() []string {
+	if t == nil {
+		t = &NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_MailingList{}
+	}
+	return t.Address
+}
+func (t *NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_MailingList) GetAdmin() []*NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_MailingList_Admin {
+	if t == nil {
+		t = &NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_MailingList{}
+	}
+	return t.Admin
+}
+func (t *NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_MailingList) GetAudit() *NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_MailingList_Audit {
+	if t == nil {
+		t = &NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_MailingList{}
+	}
+	return &t.Audit
+}
+func (t *NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_MailingList) GetID() string {
+	if t == nil {
+		t = &NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_MailingList{}
+	}
+	return t.ID
+}
+func (t *NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_MailingList) GetName() string {
+	if t == nil {
+		t = &NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_MailingList{}
+	}
+	return t.Name
+}
+func (t *NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_MailingList) GetType() *cato_models.MailingListAddressesType {
+	if t == nil {
+		t = &NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_MailingList{}
+	}
+	return &t.Type
+}
+
+type NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList_Auth_BasicAuth struct {
+	Username string "json:\"username\" graphql:\"username\""
+}
+
+func (t *NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList_Auth_BasicAuth) GetUsername() string {
+	if t == nil {
+		t = &NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList_Auth_BasicAuth{}
+	}
+	return t.Username
+}
+
+type NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList_Auth_CustomHeaderAuth struct {
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList_Auth_CustomHeaderAuth) GetName() string {
+	if t == nil {
+		t = &NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList_Auth_CustomHeaderAuth{}
+	}
+	return t.Name
+}
+
+type NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList_Auth_CustomHeadersAuth_PlainHeaders struct {
+	Name  string "json:\"name\" graphql:\"name\""
+	Value string "json:\"value\" graphql:\"value\""
+}
+
+func (t *NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList_Auth_CustomHeadersAuth_PlainHeaders) GetName() string {
+	if t == nil {
+		t = &NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList_Auth_CustomHeadersAuth_PlainHeaders{}
+	}
+	return t.Name
+}
+func (t *NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList_Auth_CustomHeadersAuth_PlainHeaders) GetValue() string {
+	if t == nil {
+		t = &NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList_Auth_CustomHeadersAuth_PlainHeaders{}
+	}
+	return t.Value
+}
+
+type NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList_Auth_CustomHeadersAuth_SecretHeaders struct {
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList_Auth_CustomHeadersAuth_SecretHeaders) GetName() string {
+	if t == nil {
+		t = &NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList_Auth_CustomHeadersAuth_SecretHeaders{}
+	}
+	return t.Name
+}
+
+type NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList_Auth_CustomHeadersAuth struct {
+	PlainHeaders  []*NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList_Auth_CustomHeadersAuth_PlainHeaders  "json:\"plainHeaders\" graphql:\"plainHeaders\""
+	SecretHeaders []*NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList_Auth_CustomHeadersAuth_SecretHeaders "json:\"secretHeaders\" graphql:\"secretHeaders\""
+}
+
+func (t *NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList_Auth_CustomHeadersAuth) GetPlainHeaders() []*NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList_Auth_CustomHeadersAuth_PlainHeaders {
+	if t == nil {
+		t = &NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList_Auth_CustomHeadersAuth{}
+	}
+	return t.PlainHeaders
+}
+func (t *NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList_Auth_CustomHeadersAuth) GetSecretHeaders() []*NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList_Auth_CustomHeadersAuth_SecretHeaders {
+	if t == nil {
+		t = &NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList_Auth_CustomHeadersAuth{}
+	}
+	return t.SecretHeaders
+}
+
+type NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList_Auth struct {
+	BasicAuth         NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList_Auth_BasicAuth         "graphql:\"... on BasicAuth\""
+	CustomHeaderAuth  NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList_Auth_CustomHeaderAuth  "graphql:\"... on CustomHeaderAuth\""
+	CustomHeadersAuth NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList_Auth_CustomHeadersAuth "graphql:\"... on CustomHeadersAuth\""
+	AuthType          cato_models.AuthType                                                                                                      "json:\"authType\" graphql:\"authType\""
+}
+
+func (t *NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList_Auth) GetBasicAuth() *NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList_Auth_BasicAuth {
+	if t == nil {
+		t = &NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList_Auth{}
+	}
+	return &t.BasicAuth
+}
+func (t *NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList_Auth) GetCustomHeaderAuth() *NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList_Auth_CustomHeaderAuth {
+	if t == nil {
+		t = &NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList_Auth{}
+	}
+	return &t.CustomHeaderAuth
+}
+func (t *NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList_Auth) GetCustomHeadersAuth() *NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList_Auth_CustomHeadersAuth {
+	if t == nil {
+		t = &NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList_Auth{}
+	}
+	return &t.CustomHeadersAuth
+}
+func (t *NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList_Auth) GetAuthType() *cato_models.AuthType {
+	if t == nil {
+		t = &NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList_Auth{}
+	}
+	return &t.AuthType
+}
+
+type NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList_Header struct {
+	Name  string "json:\"name\" graphql:\"name\""
+	Value string "json:\"value\" graphql:\"value\""
+}
+
+func (t *NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList_Header) GetName() string {
+	if t == nil {
+		t = &NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList_Header{}
+	}
+	return t.Name
+}
+func (t *NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList_Header) GetValue() string {
+	if t == nil {
+		t = &NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList_Header{}
+	}
+	return t.Value
+}
+
+type NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList_ResponseMapping struct {
+	Key   string "json:\"key\" graphql:\"key\""
+	Value string "json:\"value\" graphql:\"value\""
+}
+
+func (t *NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList_ResponseMapping) GetKey() string {
+	if t == nil {
+		t = &NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList_ResponseMapping{}
+	}
+	return t.Key
+}
+func (t *NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList_ResponseMapping) GetValue() string {
+	if t == nil {
+		t = &NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList_ResponseMapping{}
+	}
+	return t.Value
+}
+
+type NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList struct {
+	Auth             NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList_Auth               "json:\"auth\" graphql:\"auth\""
+	Body             string                                                                                                                "json:\"body\" graphql:\"body\""
+	Enabled          bool                                                                                                                  "json:\"enabled\" graphql:\"enabled\""
+	Header           []*NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList_Header          "json:\"header\" graphql:\"header\""
+	ID               string                                                                                                                "json:\"id\" graphql:\"id\""
+	Name             string                                                                                                                "json:\"name\" graphql:\"name\""
+	RelatedWebhookID *string                                                                                                               "json:\"relatedWebhookId,omitempty\" graphql:\"relatedWebhookId\""
+	RequestMethod    cato_models.WebhookRequestMethod                                                                                      "json:\"requestMethod\" graphql:\"requestMethod\""
+	ResponseMapping  []*NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList_ResponseMapping "json:\"responseMapping\" graphql:\"responseMapping\""
+	URL              string                                                                                                                "json:\"url\" graphql:\"url\""
+}
+
+func (t *NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList) GetAuth() *NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList_Auth {
+	if t == nil {
+		t = &NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList{}
+	}
+	return &t.Auth
+}
+func (t *NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList) GetBody() string {
+	if t == nil {
+		t = &NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList{}
+	}
+	return t.Body
+}
+func (t *NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList) GetEnabled() bool {
+	if t == nil {
+		t = &NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList{}
+	}
+	return t.Enabled
+}
+func (t *NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList) GetHeader() []*NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList_Header {
+	if t == nil {
+		t = &NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList{}
+	}
+	return t.Header
+}
+func (t *NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList) GetID() string {
+	if t == nil {
+		t = &NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList{}
+	}
+	return t.ID
+}
+func (t *NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList) GetName() string {
+	if t == nil {
+		t = &NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList{}
+	}
+	return t.Name
+}
+func (t *NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList) GetRelatedWebhookID() *string {
+	if t == nil {
+		t = &NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList{}
+	}
+	return t.RelatedWebhookID
+}
+func (t *NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList) GetRequestMethod() *cato_models.WebhookRequestMethod {
+	if t == nil {
+		t = &NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList{}
+	}
+	return &t.RequestMethod
+}
+func (t *NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList) GetResponseMapping() []*NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList_ResponseMapping {
+	if t == nil {
+		t = &NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList{}
+	}
+	return t.ResponseMapping
+}
+func (t *NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList) GetURL() string {
+	if t == nil {
+		t = &NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList{}
+	}
+	return t.URL
+}
+
+type NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration struct {
+	WebhookList []*NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList "json:\"webhookList\" graphql:\"webhookList\""
+}
+
+func (t *NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration) GetWebhookList() []*NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration_WebhookList {
+	if t == nil {
+		t = &NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration{}
+	}
+	return t.WebhookList
+}
+
+type NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items struct {
+	ID          string                                                                                    "json:\"id\" graphql:\"id\""
+	Integration NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration    "json:\"integration\" graphql:\"integration\""
+	MailingList []*NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_MailingList "json:\"mailingList\" graphql:\"mailingList\""
+	Name        string                                                                                    "json:\"name\" graphql:\"name\""
+}
+
+func (t *NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items) GetID() string {
+	if t == nil {
+		t = &NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items{}
+	}
+	return t.ID
+}
+func (t *NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items) GetIntegration() *NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_Integration {
+	if t == nil {
+		t = &NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items{}
+	}
+	return &t.Integration
+}
+func (t *NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items) GetMailingList() []*NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items_MailingList {
+	if t == nil {
+		t = &NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items{}
+	}
+	return t.MailingList
+}
+func (t *NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items) GetName() string {
+	if t == nil {
+		t = &NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items{}
+	}
+	return t.Name
+}
+
+type NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Paging struct {
+	Total int64 "json:\"total\" graphql:\"total\""
+}
+
+func (t *NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Paging) GetTotal() int64 {
+	if t == nil {
+		t = &NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Paging{}
+	}
+	return t.Total
+}
+
+type NotificationSubscriptionGroupList_Notification_SubscriptionGroupList struct {
+	Items  []*NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items "json:\"items\" graphql:\"items\""
+	Paging NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Paging   "json:\"paging\" graphql:\"paging\""
+}
+
+func (t *NotificationSubscriptionGroupList_Notification_SubscriptionGroupList) GetItems() []*NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Items {
+	if t == nil {
+		t = &NotificationSubscriptionGroupList_Notification_SubscriptionGroupList{}
+	}
+	return t.Items
+}
+func (t *NotificationSubscriptionGroupList_Notification_SubscriptionGroupList) GetPaging() *NotificationSubscriptionGroupList_Notification_SubscriptionGroupList_Paging {
+	if t == nil {
+		t = &NotificationSubscriptionGroupList_Notification_SubscriptionGroupList{}
+	}
+	return &t.Paging
+}
+
+type NotificationSubscriptionGroupList_Notification struct {
+	SubscriptionGroupList NotificationSubscriptionGroupList_Notification_SubscriptionGroupList "json:\"subscriptionGroupList\" graphql:\"subscriptionGroupList\""
+}
+
+func (t *NotificationSubscriptionGroupList_Notification) GetSubscriptionGroupList() *NotificationSubscriptionGroupList_Notification_SubscriptionGroupList {
+	if t == nil {
+		t = &NotificationSubscriptionGroupList_Notification{}
+	}
+	return &t.SubscriptionGroupList
+}
+
+type ObjectGlobalIpRange_Object_GlobalIPRange struct {
+	Description *string "json:\"description,omitempty\" graphql:\"description\""
+	ID          string  "json:\"id\" graphql:\"id\""
+	IPRange     string  "json:\"ipRange\" graphql:\"ipRange\""
+	Name        string  "json:\"name\" graphql:\"name\""
+	Subnet      *string "json:\"subnet,omitempty\" graphql:\"subnet\""
+}
+
+func (t *ObjectGlobalIpRange_Object_GlobalIPRange) GetDescription() *string {
+	if t == nil {
+		t = &ObjectGlobalIpRange_Object_GlobalIPRange{}
+	}
+	return t.Description
+}
+func (t *ObjectGlobalIpRange_Object_GlobalIPRange) GetID() string {
+	if t == nil {
+		t = &ObjectGlobalIpRange_Object_GlobalIPRange{}
+	}
+	return t.ID
+}
+func (t *ObjectGlobalIpRange_Object_GlobalIPRange) GetIPRange() string {
+	if t == nil {
+		t = &ObjectGlobalIpRange_Object_GlobalIPRange{}
+	}
+	return t.IPRange
+}
+func (t *ObjectGlobalIpRange_Object_GlobalIPRange) GetName() string {
+	if t == nil {
+		t = &ObjectGlobalIpRange_Object_GlobalIPRange{}
+	}
+	return t.Name
+}
+func (t *ObjectGlobalIpRange_Object_GlobalIPRange) GetSubnet() *string {
+	if t == nil {
+		t = &ObjectGlobalIpRange_Object_GlobalIPRange{}
+	}
+	return t.Subnet
+}
+
+type ObjectGlobalIpRange_Object struct {
+	GlobalIPRange *ObjectGlobalIpRange_Object_GlobalIPRange "json:\"globalIpRange,omitempty\" graphql:\"globalIpRange\""
+}
+
+func (t *ObjectGlobalIpRange_Object) GetGlobalIPRange() *ObjectGlobalIpRange_Object_GlobalIPRange {
+	if t == nil {
+		t = &ObjectGlobalIpRange_Object{}
+	}
+	return t.GlobalIPRange
+}
+
 type ObjectGlobalIpRangeList_Object_GlobalIPRangeList_Items struct {
 	Description *string "json:\"description,omitempty\" graphql:\"description\""
 	ID          string  "json:\"id\" graphql:\"id\""
 	IPRange     string  "json:\"ipRange\" graphql:\"ipRange\""
 	Name        string  "json:\"name\" graphql:\"name\""
+	Subnet      *string "json:\"subnet,omitempty\" graphql:\"subnet\""
 }
 
 func (t *ObjectGlobalIpRangeList_Object_GlobalIPRangeList_Items) GetDescription() *string {
@@ -300998,6 +305230,12 @@ func (t *ObjectGlobalIpRangeList_Object_GlobalIPRangeList_Items) GetName() strin
 		t = &ObjectGlobalIpRangeList_Object_GlobalIPRangeList_Items{}
 	}
 	return t.Name
+}
+func (t *ObjectGlobalIpRangeList_Object_GlobalIPRangeList_Items) GetSubnet() *string {
+	if t == nil {
+		t = &ObjectGlobalIpRangeList_Object_GlobalIPRangeList_Items{}
+	}
+	return t.Subnet
 }
 
 type ObjectGlobalIpRangeList_Object_GlobalIPRangeList struct {
@@ -330540,6 +334778,303 @@ func (t *PolicyZtnaAlwaysOnPolicy_Policy) GetZtnaAlwaysOn() *PolicyZtnaAlwaysOnP
 	return t.ZtnaAlwaysOn
 }
 
+type PopLocationsAllocatedIpList_PopLocations_AllocatedIPList_AllocatedIP_Account struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PopLocationsAllocatedIpList_PopLocations_AllocatedIPList_AllocatedIP_Account) GetID() string {
+	if t == nil {
+		t = &PopLocationsAllocatedIpList_PopLocations_AllocatedIPList_AllocatedIP_Account{}
+	}
+	return t.ID
+}
+func (t *PopLocationsAllocatedIpList_PopLocations_AllocatedIPList_AllocatedIP_Account) GetName() string {
+	if t == nil {
+		t = &PopLocationsAllocatedIpList_PopLocations_AllocatedIPList_AllocatedIP_Account{}
+	}
+	return t.Name
+}
+
+type PopLocationsAllocatedIpList_PopLocations_AllocatedIPList_AllocatedIP_PopLocation struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PopLocationsAllocatedIpList_PopLocations_AllocatedIPList_AllocatedIP_PopLocation) GetID() string {
+	if t == nil {
+		t = &PopLocationsAllocatedIpList_PopLocations_AllocatedIPList_AllocatedIP_PopLocation{}
+	}
+	return t.ID
+}
+func (t *PopLocationsAllocatedIpList_PopLocations_AllocatedIPList_AllocatedIP_PopLocation) GetName() string {
+	if t == nil {
+		t = &PopLocationsAllocatedIpList_PopLocations_AllocatedIPList_AllocatedIP_PopLocation{}
+	}
+	return t.Name
+}
+
+type PopLocationsAllocatedIpList_PopLocations_AllocatedIPList_AllocatedIP struct {
+	Account        PopLocationsAllocatedIpList_PopLocations_AllocatedIPList_AllocatedIP_Account     "json:\"account\" graphql:\"account\""
+	AllocationType cato_models.PopLocationAllocatedIPType                                           "json:\"allocationType\" graphql:\"allocationType\""
+	Description    *string                                                                          "json:\"description,omitempty\" graphql:\"description\""
+	ID             string                                                                           "json:\"id\" graphql:\"id\""
+	IP             string                                                                           "json:\"ip\" graphql:\"ip\""
+	PopLocation    PopLocationsAllocatedIpList_PopLocations_AllocatedIPList_AllocatedIP_PopLocation "json:\"popLocation\" graphql:\"popLocation\""
+	State          *cato_models.PopLocationByoipSubnetState                                         "json:\"state,omitempty\" graphql:\"state\""
+	Subnet         *string                                                                          "json:\"subnet,omitempty\" graphql:\"subnet\""
+}
+
+func (t *PopLocationsAllocatedIpList_PopLocations_AllocatedIPList_AllocatedIP) GetAccount() *PopLocationsAllocatedIpList_PopLocations_AllocatedIPList_AllocatedIP_Account {
+	if t == nil {
+		t = &PopLocationsAllocatedIpList_PopLocations_AllocatedIPList_AllocatedIP{}
+	}
+	return &t.Account
+}
+func (t *PopLocationsAllocatedIpList_PopLocations_AllocatedIPList_AllocatedIP) GetAllocationType() *cato_models.PopLocationAllocatedIPType {
+	if t == nil {
+		t = &PopLocationsAllocatedIpList_PopLocations_AllocatedIPList_AllocatedIP{}
+	}
+	return &t.AllocationType
+}
+func (t *PopLocationsAllocatedIpList_PopLocations_AllocatedIPList_AllocatedIP) GetDescription() *string {
+	if t == nil {
+		t = &PopLocationsAllocatedIpList_PopLocations_AllocatedIPList_AllocatedIP{}
+	}
+	return t.Description
+}
+func (t *PopLocationsAllocatedIpList_PopLocations_AllocatedIPList_AllocatedIP) GetID() string {
+	if t == nil {
+		t = &PopLocationsAllocatedIpList_PopLocations_AllocatedIPList_AllocatedIP{}
+	}
+	return t.ID
+}
+func (t *PopLocationsAllocatedIpList_PopLocations_AllocatedIPList_AllocatedIP) GetIP() string {
+	if t == nil {
+		t = &PopLocationsAllocatedIpList_PopLocations_AllocatedIPList_AllocatedIP{}
+	}
+	return t.IP
+}
+func (t *PopLocationsAllocatedIpList_PopLocations_AllocatedIPList_AllocatedIP) GetPopLocation() *PopLocationsAllocatedIpList_PopLocations_AllocatedIPList_AllocatedIP_PopLocation {
+	if t == nil {
+		t = &PopLocationsAllocatedIpList_PopLocations_AllocatedIPList_AllocatedIP{}
+	}
+	return &t.PopLocation
+}
+func (t *PopLocationsAllocatedIpList_PopLocations_AllocatedIPList_AllocatedIP) GetState() *cato_models.PopLocationByoipSubnetState {
+	if t == nil {
+		t = &PopLocationsAllocatedIpList_PopLocations_AllocatedIPList_AllocatedIP{}
+	}
+	return t.State
+}
+func (t *PopLocationsAllocatedIpList_PopLocations_AllocatedIPList_AllocatedIP) GetSubnet() *string {
+	if t == nil {
+		t = &PopLocationsAllocatedIpList_PopLocations_AllocatedIPList_AllocatedIP{}
+	}
+	return t.Subnet
+}
+
+type PopLocationsAllocatedIpList_PopLocations_AllocatedIPList_Paging struct {
+	Total int64 "json:\"total\" graphql:\"total\""
+}
+
+func (t *PopLocationsAllocatedIpList_PopLocations_AllocatedIPList_Paging) GetTotal() int64 {
+	if t == nil {
+		t = &PopLocationsAllocatedIpList_PopLocations_AllocatedIPList_Paging{}
+	}
+	return t.Total
+}
+
+type PopLocationsAllocatedIpList_PopLocations_AllocatedIPList struct {
+	AllocatedIP []*PopLocationsAllocatedIpList_PopLocations_AllocatedIPList_AllocatedIP "json:\"allocatedIp\" graphql:\"allocatedIp\""
+	Paging      PopLocationsAllocatedIpList_PopLocations_AllocatedIPList_Paging         "json:\"paging\" graphql:\"paging\""
+}
+
+func (t *PopLocationsAllocatedIpList_PopLocations_AllocatedIPList) GetAllocatedIP() []*PopLocationsAllocatedIpList_PopLocations_AllocatedIPList_AllocatedIP {
+	if t == nil {
+		t = &PopLocationsAllocatedIpList_PopLocations_AllocatedIPList{}
+	}
+	return t.AllocatedIP
+}
+func (t *PopLocationsAllocatedIpList_PopLocations_AllocatedIPList) GetPaging() *PopLocationsAllocatedIpList_PopLocations_AllocatedIPList_Paging {
+	if t == nil {
+		t = &PopLocationsAllocatedIpList_PopLocations_AllocatedIPList{}
+	}
+	return &t.Paging
+}
+
+type PopLocationsAllocatedIpList_PopLocations struct {
+	AllocatedIPList *PopLocationsAllocatedIpList_PopLocations_AllocatedIPList "json:\"allocatedIpList,omitempty\" graphql:\"allocatedIpList\""
+}
+
+func (t *PopLocationsAllocatedIpList_PopLocations) GetAllocatedIPList() *PopLocationsAllocatedIpList_PopLocations_AllocatedIPList {
+	if t == nil {
+		t = &PopLocationsAllocatedIpList_PopLocations{}
+	}
+	return t.AllocatedIPList
+}
+
+type PopLocationsBgpProfile_PopLocations_BgpProfile_Communities struct {
+	From scalars.Asn16 "json:\"from\" graphql:\"from\""
+	To   scalars.Asn16 "json:\"to\" graphql:\"to\""
+}
+
+func (t *PopLocationsBgpProfile_PopLocations_BgpProfile_Communities) GetFrom() *scalars.Asn16 {
+	if t == nil {
+		t = &PopLocationsBgpProfile_PopLocations_BgpProfile_Communities{}
+	}
+	return &t.From
+}
+func (t *PopLocationsBgpProfile_PopLocations_BgpProfile_Communities) GetTo() *scalars.Asn16 {
+	if t == nil {
+		t = &PopLocationsBgpProfile_PopLocations_BgpProfile_Communities{}
+	}
+	return &t.To
+}
+
+type PopLocationsBgpProfile_PopLocations_BgpProfile struct {
+	Communities   []*PopLocationsBgpProfile_PopLocations_BgpProfile_Communities "json:\"communities\" graphql:\"communities\""
+	CreatedAt     string                                                        "json:\"createdAt\" graphql:\"createdAt\""
+	Description   *string                                                       "json:\"description,omitempty\" graphql:\"description\""
+	ID            string                                                        "json:\"id\" graphql:\"id\""
+	LastUpdatedAt string                                                        "json:\"lastUpdatedAt\" graphql:\"lastUpdatedAt\""
+	Name          string                                                        "json:\"name\" graphql:\"name\""
+}
+
+func (t *PopLocationsBgpProfile_PopLocations_BgpProfile) GetCommunities() []*PopLocationsBgpProfile_PopLocations_BgpProfile_Communities {
+	if t == nil {
+		t = &PopLocationsBgpProfile_PopLocations_BgpProfile{}
+	}
+	return t.Communities
+}
+func (t *PopLocationsBgpProfile_PopLocations_BgpProfile) GetCreatedAt() string {
+	if t == nil {
+		t = &PopLocationsBgpProfile_PopLocations_BgpProfile{}
+	}
+	return t.CreatedAt
+}
+func (t *PopLocationsBgpProfile_PopLocations_BgpProfile) GetDescription() *string {
+	if t == nil {
+		t = &PopLocationsBgpProfile_PopLocations_BgpProfile{}
+	}
+	return t.Description
+}
+func (t *PopLocationsBgpProfile_PopLocations_BgpProfile) GetID() string {
+	if t == nil {
+		t = &PopLocationsBgpProfile_PopLocations_BgpProfile{}
+	}
+	return t.ID
+}
+func (t *PopLocationsBgpProfile_PopLocations_BgpProfile) GetLastUpdatedAt() string {
+	if t == nil {
+		t = &PopLocationsBgpProfile_PopLocations_BgpProfile{}
+	}
+	return t.LastUpdatedAt
+}
+func (t *PopLocationsBgpProfile_PopLocations_BgpProfile) GetName() string {
+	if t == nil {
+		t = &PopLocationsBgpProfile_PopLocations_BgpProfile{}
+	}
+	return t.Name
+}
+
+type PopLocationsBgpProfile_PopLocations struct {
+	BgpProfile *PopLocationsBgpProfile_PopLocations_BgpProfile "json:\"bgpProfile,omitempty\" graphql:\"bgpProfile\""
+}
+
+func (t *PopLocationsBgpProfile_PopLocations) GetBgpProfile() *PopLocationsBgpProfile_PopLocations_BgpProfile {
+	if t == nil {
+		t = &PopLocationsBgpProfile_PopLocations{}
+	}
+	return t.BgpProfile
+}
+
+type PopLocationsBgpProfileList_PopLocations_BgpProfileList_Items_Communities struct {
+	From scalars.Asn16 "json:\"from\" graphql:\"from\""
+	To   scalars.Asn16 "json:\"to\" graphql:\"to\""
+}
+
+func (t *PopLocationsBgpProfileList_PopLocations_BgpProfileList_Items_Communities) GetFrom() *scalars.Asn16 {
+	if t == nil {
+		t = &PopLocationsBgpProfileList_PopLocations_BgpProfileList_Items_Communities{}
+	}
+	return &t.From
+}
+func (t *PopLocationsBgpProfileList_PopLocations_BgpProfileList_Items_Communities) GetTo() *scalars.Asn16 {
+	if t == nil {
+		t = &PopLocationsBgpProfileList_PopLocations_BgpProfileList_Items_Communities{}
+	}
+	return &t.To
+}
+
+type PopLocationsBgpProfileList_PopLocations_BgpProfileList_Items struct {
+	Communities   []*PopLocationsBgpProfileList_PopLocations_BgpProfileList_Items_Communities "json:\"communities\" graphql:\"communities\""
+	CreatedAt     string                                                                      "json:\"createdAt\" graphql:\"createdAt\""
+	Description   *string                                                                     "json:\"description,omitempty\" graphql:\"description\""
+	ID            string                                                                      "json:\"id\" graphql:\"id\""
+	LastUpdatedAt string                                                                      "json:\"lastUpdatedAt\" graphql:\"lastUpdatedAt\""
+	Name          string                                                                      "json:\"name\" graphql:\"name\""
+}
+
+func (t *PopLocationsBgpProfileList_PopLocations_BgpProfileList_Items) GetCommunities() []*PopLocationsBgpProfileList_PopLocations_BgpProfileList_Items_Communities {
+	if t == nil {
+		t = &PopLocationsBgpProfileList_PopLocations_BgpProfileList_Items{}
+	}
+	return t.Communities
+}
+func (t *PopLocationsBgpProfileList_PopLocations_BgpProfileList_Items) GetCreatedAt() string {
+	if t == nil {
+		t = &PopLocationsBgpProfileList_PopLocations_BgpProfileList_Items{}
+	}
+	return t.CreatedAt
+}
+func (t *PopLocationsBgpProfileList_PopLocations_BgpProfileList_Items) GetDescription() *string {
+	if t == nil {
+		t = &PopLocationsBgpProfileList_PopLocations_BgpProfileList_Items{}
+	}
+	return t.Description
+}
+func (t *PopLocationsBgpProfileList_PopLocations_BgpProfileList_Items) GetID() string {
+	if t == nil {
+		t = &PopLocationsBgpProfileList_PopLocations_BgpProfileList_Items{}
+	}
+	return t.ID
+}
+func (t *PopLocationsBgpProfileList_PopLocations_BgpProfileList_Items) GetLastUpdatedAt() string {
+	if t == nil {
+		t = &PopLocationsBgpProfileList_PopLocations_BgpProfileList_Items{}
+	}
+	return t.LastUpdatedAt
+}
+func (t *PopLocationsBgpProfileList_PopLocations_BgpProfileList_Items) GetName() string {
+	if t == nil {
+		t = &PopLocationsBgpProfileList_PopLocations_BgpProfileList_Items{}
+	}
+	return t.Name
+}
+
+type PopLocationsBgpProfileList_PopLocations_BgpProfileList struct {
+	Items []*PopLocationsBgpProfileList_PopLocations_BgpProfileList_Items "json:\"items\" graphql:\"items\""
+}
+
+func (t *PopLocationsBgpProfileList_PopLocations_BgpProfileList) GetItems() []*PopLocationsBgpProfileList_PopLocations_BgpProfileList_Items {
+	if t == nil {
+		t = &PopLocationsBgpProfileList_PopLocations_BgpProfileList{}
+	}
+	return t.Items
+}
+
+type PopLocationsBgpProfileList_PopLocations struct {
+	BgpProfileList *PopLocationsBgpProfileList_PopLocations_BgpProfileList "json:\"bgpProfileList,omitempty\" graphql:\"bgpProfileList\""
+}
+
+func (t *PopLocationsBgpProfileList_PopLocations) GetBgpProfileList() *PopLocationsBgpProfileList_PopLocations_BgpProfileList {
+	if t == nil {
+		t = &PopLocationsBgpProfileList_PopLocations{}
+	}
+	return t.BgpProfileList
+}
+
 type PopLocations_PopLocations_PopLocationList_Items_Country struct {
 	ID   string "json:\"id\" graphql:\"id\""
 	Name string "json:\"name\" graphql:\"name\""
@@ -330925,6 +335460,110 @@ func (t *PopLocations_PopLocations) GetBgpProfileList() *PopLocations_PopLocatio
 func (t *PopLocations_PopLocations) GetPopLocationList() *PopLocations_PopLocations_PopLocationList {
 	if t == nil {
 		t = &PopLocations_PopLocations{}
+	}
+	return t.PopLocationList
+}
+
+type PopLocationsPopLocationList_PopLocations_PopLocationList_Items_Country struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *PopLocationsPopLocationList_PopLocations_PopLocationList_Items_Country) GetID() string {
+	if t == nil {
+		t = &PopLocationsPopLocationList_PopLocations_PopLocationList_Items_Country{}
+	}
+	return t.ID
+}
+func (t *PopLocationsPopLocationList_PopLocations_PopLocationList_Items_Country) GetName() string {
+	if t == nil {
+		t = &PopLocationsPopLocationList_PopLocations_PopLocationList_Items_Country{}
+	}
+	return t.Name
+}
+
+type PopLocationsPopLocationList_PopLocations_PopLocationList_Items_CloudInterconnect struct {
+	ProviderName  string                    "json:\"providerName\" graphql:\"providerName\""
+	TaggingMethod cato_models.TaggingMethod "json:\"taggingMethod\" graphql:\"taggingMethod\""
+}
+
+func (t *PopLocationsPopLocationList_PopLocations_PopLocationList_Items_CloudInterconnect) GetProviderName() string {
+	if t == nil {
+		t = &PopLocationsPopLocationList_PopLocations_PopLocationList_Items_CloudInterconnect{}
+	}
+	return t.ProviderName
+}
+func (t *PopLocationsPopLocationList_PopLocations_PopLocationList_Items_CloudInterconnect) GetTaggingMethod() *cato_models.TaggingMethod {
+	if t == nil {
+		t = &PopLocationsPopLocationList_PopLocations_PopLocationList_Items_CloudInterconnect{}
+	}
+	return &t.TaggingMethod
+}
+
+type PopLocationsPopLocationList_PopLocations_PopLocationList_Items struct {
+	CloudInterconnect []*PopLocationsPopLocationList_PopLocations_PopLocationList_Items_CloudInterconnect "json:\"cloudInterconnect\" graphql:\"cloudInterconnect\""
+	Country           PopLocationsPopLocationList_PopLocations_PopLocationList_Items_Country              "json:\"country\" graphql:\"country\""
+	DisplayName       string                                                                              "json:\"displayName\" graphql:\"displayName\""
+	ID                string                                                                              "json:\"id\" graphql:\"id\""
+	IsPrivate         bool                                                                                "json:\"isPrivate\" graphql:\"isPrivate\""
+	Name              string                                                                              "json:\"name\" graphql:\"name\""
+}
+
+func (t *PopLocationsPopLocationList_PopLocations_PopLocationList_Items) GetCloudInterconnect() []*PopLocationsPopLocationList_PopLocations_PopLocationList_Items_CloudInterconnect {
+	if t == nil {
+		t = &PopLocationsPopLocationList_PopLocations_PopLocationList_Items{}
+	}
+	return t.CloudInterconnect
+}
+func (t *PopLocationsPopLocationList_PopLocations_PopLocationList_Items) GetCountry() *PopLocationsPopLocationList_PopLocations_PopLocationList_Items_Country {
+	if t == nil {
+		t = &PopLocationsPopLocationList_PopLocations_PopLocationList_Items{}
+	}
+	return &t.Country
+}
+func (t *PopLocationsPopLocationList_PopLocations_PopLocationList_Items) GetDisplayName() string {
+	if t == nil {
+		t = &PopLocationsPopLocationList_PopLocations_PopLocationList_Items{}
+	}
+	return t.DisplayName
+}
+func (t *PopLocationsPopLocationList_PopLocations_PopLocationList_Items) GetID() string {
+	if t == nil {
+		t = &PopLocationsPopLocationList_PopLocations_PopLocationList_Items{}
+	}
+	return t.ID
+}
+func (t *PopLocationsPopLocationList_PopLocations_PopLocationList_Items) GetIsPrivate() bool {
+	if t == nil {
+		t = &PopLocationsPopLocationList_PopLocations_PopLocationList_Items{}
+	}
+	return t.IsPrivate
+}
+func (t *PopLocationsPopLocationList_PopLocations_PopLocationList_Items) GetName() string {
+	if t == nil {
+		t = &PopLocationsPopLocationList_PopLocations_PopLocationList_Items{}
+	}
+	return t.Name
+}
+
+type PopLocationsPopLocationList_PopLocations_PopLocationList struct {
+	Items []*PopLocationsPopLocationList_PopLocations_PopLocationList_Items "json:\"items\" graphql:\"items\""
+}
+
+func (t *PopLocationsPopLocationList_PopLocations_PopLocationList) GetItems() []*PopLocationsPopLocationList_PopLocations_PopLocationList_Items {
+	if t == nil {
+		t = &PopLocationsPopLocationList_PopLocations_PopLocationList{}
+	}
+	return t.Items
+}
+
+type PopLocationsPopLocationList_PopLocations struct {
+	PopLocationList *PopLocationsPopLocationList_PopLocations_PopLocationList "json:\"popLocationList,omitempty\" graphql:\"popLocationList\""
+}
+
+func (t *PopLocationsPopLocationList_PopLocations) GetPopLocationList() *PopLocationsPopLocationList_PopLocations_PopLocationList {
+	if t == nil {
+		t = &PopLocationsPopLocationList_PopLocations{}
 	}
 	return t.PopLocationList
 }
@@ -333682,51 +338321,15 @@ func (t *PostureDailySummaryList_Posture_DailySummaryList_Items_Summary_Stats) G
 	return t.SubCategories
 }
 
-type PostureDailySummaryList_Posture_DailySummaryList_Items_Summary_Comparisons struct {
-	Average         int64                             "json:\"average\" graphql:\"average\""
-	ComparisonType  cato_models.PostureComparisonType "json:\"comparisonType\" graphql:\"comparisonType\""
-	ComparisonValue *string                           "json:\"comparisonValue,omitempty\" graphql:\"comparisonValue\""
-	Percentile      int64                             "json:\"percentile\" graphql:\"percentile\""
-}
-
-func (t *PostureDailySummaryList_Posture_DailySummaryList_Items_Summary_Comparisons) GetAverage() int64 {
-	if t == nil {
-		t = &PostureDailySummaryList_Posture_DailySummaryList_Items_Summary_Comparisons{}
-	}
-	return t.Average
-}
-func (t *PostureDailySummaryList_Posture_DailySummaryList_Items_Summary_Comparisons) GetComparisonType() *cato_models.PostureComparisonType {
-	if t == nil {
-		t = &PostureDailySummaryList_Posture_DailySummaryList_Items_Summary_Comparisons{}
-	}
-	return &t.ComparisonType
-}
-func (t *PostureDailySummaryList_Posture_DailySummaryList_Items_Summary_Comparisons) GetComparisonValue() *string {
-	if t == nil {
-		t = &PostureDailySummaryList_Posture_DailySummaryList_Items_Summary_Comparisons{}
-	}
-	return t.ComparisonValue
-}
-func (t *PostureDailySummaryList_Posture_DailySummaryList_Items_Summary_Comparisons) GetPercentile() int64 {
-	if t == nil {
-		t = &PostureDailySummaryList_Posture_DailySummaryList_Items_Summary_Comparisons{}
-	}
-	return t.Percentile
-}
-
 type PostureDailySummaryList_Posture_DailySummaryList_Items_Summary struct {
-	ApplicationScores               []*PostureDailySummaryList_Posture_DailySummaryList_Items_Summary_ApplicationScores    "json:\"applicationScores\" graphql:\"applicationScores\""
-	AreaScores                      []*PostureDailySummaryList_Posture_DailySummaryList_Items_Summary_AreaScores           "json:\"areaScores\" graphql:\"areaScores\""
-	CategoryScores                  []*PostureDailySummaryList_Posture_DailySummaryList_Items_Summary_CategoryScores       "json:\"categoryScores\" graphql:\"categoryScores\""
-	Comparisons                     []*PostureDailySummaryList_Posture_DailySummaryList_Items_Summary_Comparisons          "json:\"comparisons\" graphql:\"comparisons\""
-	DomainScores                    []*PostureDailySummaryList_Posture_DailySummaryList_Items_Summary_DomainScores         "json:\"domainScores\" graphql:\"domainScores\""
-	EvaluatedAt                     string                                                                                 "json:\"evaluatedAt\" graphql:\"evaluatedAt\""
-	OverallEffectiveAreaCriticality *float64                                                                               "json:\"overallEffectiveAreaCriticality,omitempty\" graphql:\"overallEffectiveAreaCriticality\""
-	OverallEffectiveBlastRadius     *float64                                                                               "json:\"overallEffectiveBlastRadius,omitempty\" graphql:\"overallEffectiveBlastRadius\""
-	OverallEffectiveFindingsSignal  *float64                                                                               "json:\"overallEffectiveFindingsSignal,omitempty\" graphql:\"overallEffectiveFindingsSignal\""
-	Score                           int64                                                                                  "json:\"score\" graphql:\"score\""
-	SecurityDomainScores            []*PostureDailySummaryList_Posture_DailySummaryList_Items_Summary_SecurityDomainScores "json:\"securityDomainScores\" graphql:\"securityDomainScores\""
-	Stats                           *PostureDailySummaryList_Posture_DailySummaryList_Items_Summary_Stats                  "json:\"stats,omitempty\" graphql:\"stats\""
+	ApplicationScores    []*PostureDailySummaryList_Posture_DailySummaryList_Items_Summary_ApplicationScores    "json:\"applicationScores\" graphql:\"applicationScores\""
+	AreaScores           []*PostureDailySummaryList_Posture_DailySummaryList_Items_Summary_AreaScores           "json:\"areaScores\" graphql:\"areaScores\""
+	CategoryScores       []*PostureDailySummaryList_Posture_DailySummaryList_Items_Summary_CategoryScores       "json:\"categoryScores\" graphql:\"categoryScores\""
+	DomainScores         []*PostureDailySummaryList_Posture_DailySummaryList_Items_Summary_DomainScores         "json:\"domainScores\" graphql:\"domainScores\""
+	EvaluatedAt          string                                                                                 "json:\"evaluatedAt\" graphql:\"evaluatedAt\""
+	Score                int64                                                                                  "json:\"score\" graphql:\"score\""
+	SecurityDomainScores []*PostureDailySummaryList_Posture_DailySummaryList_Items_Summary_SecurityDomainScores "json:\"securityDomainScores\" graphql:\"securityDomainScores\""
+	Stats                *PostureDailySummaryList_Posture_DailySummaryList_Items_Summary_Stats                  "json:\"stats,omitempty\" graphql:\"stats\""
 }
 
 func (t *PostureDailySummaryList_Posture_DailySummaryList_Items_Summary) GetApplicationScores() []*PostureDailySummaryList_Posture_DailySummaryList_Items_Summary_ApplicationScores {
@@ -333747,12 +338350,6 @@ func (t *PostureDailySummaryList_Posture_DailySummaryList_Items_Summary) GetCate
 	}
 	return t.CategoryScores
 }
-func (t *PostureDailySummaryList_Posture_DailySummaryList_Items_Summary) GetComparisons() []*PostureDailySummaryList_Posture_DailySummaryList_Items_Summary_Comparisons {
-	if t == nil {
-		t = &PostureDailySummaryList_Posture_DailySummaryList_Items_Summary{}
-	}
-	return t.Comparisons
-}
 func (t *PostureDailySummaryList_Posture_DailySummaryList_Items_Summary) GetDomainScores() []*PostureDailySummaryList_Posture_DailySummaryList_Items_Summary_DomainScores {
 	if t == nil {
 		t = &PostureDailySummaryList_Posture_DailySummaryList_Items_Summary{}
@@ -333764,24 +338361,6 @@ func (t *PostureDailySummaryList_Posture_DailySummaryList_Items_Summary) GetEval
 		t = &PostureDailySummaryList_Posture_DailySummaryList_Items_Summary{}
 	}
 	return t.EvaluatedAt
-}
-func (t *PostureDailySummaryList_Posture_DailySummaryList_Items_Summary) GetOverallEffectiveAreaCriticality() *float64 {
-	if t == nil {
-		t = &PostureDailySummaryList_Posture_DailySummaryList_Items_Summary{}
-	}
-	return t.OverallEffectiveAreaCriticality
-}
-func (t *PostureDailySummaryList_Posture_DailySummaryList_Items_Summary) GetOverallEffectiveBlastRadius() *float64 {
-	if t == nil {
-		t = &PostureDailySummaryList_Posture_DailySummaryList_Items_Summary{}
-	}
-	return t.OverallEffectiveBlastRadius
-}
-func (t *PostureDailySummaryList_Posture_DailySummaryList_Items_Summary) GetOverallEffectiveFindingsSignal() *float64 {
-	if t == nil {
-		t = &PostureDailySummaryList_Posture_DailySummaryList_Items_Summary{}
-	}
-	return t.OverallEffectiveFindingsSignal
 }
 func (t *PostureDailySummaryList_Posture_DailySummaryList_Items_Summary) GetScore() int64 {
 	if t == nil {
@@ -335888,6 +340467,228 @@ func (t *PrivateApplication_PrivateApplication) GetPrivateApplicationList() *Pri
 		t = &PrivateApplication_PrivateApplication{}
 	}
 	return t.PrivateApplicationList
+}
+
+type QueryRbac_Rbac_RoleManagement_PermissionCatalog_Resource struct {
+	Resource        string                                  "json:\"resource\" graphql:\"resource\""
+	SupportedAction []cato_models.RoleManagementGrantAction "json:\"supportedAction\" graphql:\"supportedAction\""
+}
+
+func (t *QueryRbac_Rbac_RoleManagement_PermissionCatalog_Resource) GetResource() string {
+	if t == nil {
+		t = &QueryRbac_Rbac_RoleManagement_PermissionCatalog_Resource{}
+	}
+	return t.Resource
+}
+func (t *QueryRbac_Rbac_RoleManagement_PermissionCatalog_Resource) GetSupportedAction() []cato_models.RoleManagementGrantAction {
+	if t == nil {
+		t = &QueryRbac_Rbac_RoleManagement_PermissionCatalog_Resource{}
+	}
+	return t.SupportedAction
+}
+
+type QueryRbac_Rbac_RoleManagement_PermissionCatalog struct {
+	Resource []*QueryRbac_Rbac_RoleManagement_PermissionCatalog_Resource "json:\"resource\" graphql:\"resource\""
+}
+
+func (t *QueryRbac_Rbac_RoleManagement_PermissionCatalog) GetResource() []*QueryRbac_Rbac_RoleManagement_PermissionCatalog_Resource {
+	if t == nil {
+		t = &QueryRbac_Rbac_RoleManagement_PermissionCatalog{}
+	}
+	return t.Resource
+}
+
+type QueryRbac_Rbac_RoleManagement_Role_Permission struct {
+	Action   cato_models.RBACAction "json:\"action\" graphql:\"action\""
+	Resource string                 "json:\"resource\" graphql:\"resource\""
+}
+
+func (t *QueryRbac_Rbac_RoleManagement_Role_Permission) GetAction() *cato_models.RBACAction {
+	if t == nil {
+		t = &QueryRbac_Rbac_RoleManagement_Role_Permission{}
+	}
+	return &t.Action
+}
+func (t *QueryRbac_Rbac_RoleManagement_Role_Permission) GetResource() string {
+	if t == nil {
+		t = &QueryRbac_Rbac_RoleManagement_Role_Permission{}
+	}
+	return t.Resource
+}
+
+type QueryRbac_Rbac_RoleManagement_Role struct {
+	Description            *string                                          "json:\"description,omitempty\" graphql:\"description\""
+	ID                     string                                           "json:\"id\" graphql:\"id\""
+	IsUsedOnExternalAccess bool                                             "json:\"isUsedOnExternalAccess\" graphql:\"isUsedOnExternalAccess\""
+	Name                   string                                           "json:\"name\" graphql:\"name\""
+	Permission             []*QueryRbac_Rbac_RoleManagement_Role_Permission "json:\"permission\" graphql:\"permission\""
+	Predefined             bool                                             "json:\"predefined\" graphql:\"predefined\""
+}
+
+func (t *QueryRbac_Rbac_RoleManagement_Role) GetDescription() *string {
+	if t == nil {
+		t = &QueryRbac_Rbac_RoleManagement_Role{}
+	}
+	return t.Description
+}
+func (t *QueryRbac_Rbac_RoleManagement_Role) GetID() string {
+	if t == nil {
+		t = &QueryRbac_Rbac_RoleManagement_Role{}
+	}
+	return t.ID
+}
+func (t *QueryRbac_Rbac_RoleManagement_Role) GetIsUsedOnExternalAccess() bool {
+	if t == nil {
+		t = &QueryRbac_Rbac_RoleManagement_Role{}
+	}
+	return t.IsUsedOnExternalAccess
+}
+func (t *QueryRbac_Rbac_RoleManagement_Role) GetName() string {
+	if t == nil {
+		t = &QueryRbac_Rbac_RoleManagement_Role{}
+	}
+	return t.Name
+}
+func (t *QueryRbac_Rbac_RoleManagement_Role) GetPermission() []*QueryRbac_Rbac_RoleManagement_Role_Permission {
+	if t == nil {
+		t = &QueryRbac_Rbac_RoleManagement_Role{}
+	}
+	return t.Permission
+}
+func (t *QueryRbac_Rbac_RoleManagement_Role) GetPredefined() bool {
+	if t == nil {
+		t = &QueryRbac_Rbac_RoleManagement_Role{}
+	}
+	return t.Predefined
+}
+
+type QueryRbac_Rbac_RoleManagement_RoleList_Items_Permission struct {
+	Action   cato_models.RBACAction "json:\"action\" graphql:\"action\""
+	Resource string                 "json:\"resource\" graphql:\"resource\""
+}
+
+func (t *QueryRbac_Rbac_RoleManagement_RoleList_Items_Permission) GetAction() *cato_models.RBACAction {
+	if t == nil {
+		t = &QueryRbac_Rbac_RoleManagement_RoleList_Items_Permission{}
+	}
+	return &t.Action
+}
+func (t *QueryRbac_Rbac_RoleManagement_RoleList_Items_Permission) GetResource() string {
+	if t == nil {
+		t = &QueryRbac_Rbac_RoleManagement_RoleList_Items_Permission{}
+	}
+	return t.Resource
+}
+
+type QueryRbac_Rbac_RoleManagement_RoleList_Items struct {
+	Description            *string                                                    "json:\"description,omitempty\" graphql:\"description\""
+	ID                     string                                                     "json:\"id\" graphql:\"id\""
+	IsUsedOnExternalAccess bool                                                       "json:\"isUsedOnExternalAccess\" graphql:\"isUsedOnExternalAccess\""
+	Name                   string                                                     "json:\"name\" graphql:\"name\""
+	Permission             []*QueryRbac_Rbac_RoleManagement_RoleList_Items_Permission "json:\"permission\" graphql:\"permission\""
+	Predefined             bool                                                       "json:\"predefined\" graphql:\"predefined\""
+}
+
+func (t *QueryRbac_Rbac_RoleManagement_RoleList_Items) GetDescription() *string {
+	if t == nil {
+		t = &QueryRbac_Rbac_RoleManagement_RoleList_Items{}
+	}
+	return t.Description
+}
+func (t *QueryRbac_Rbac_RoleManagement_RoleList_Items) GetID() string {
+	if t == nil {
+		t = &QueryRbac_Rbac_RoleManagement_RoleList_Items{}
+	}
+	return t.ID
+}
+func (t *QueryRbac_Rbac_RoleManagement_RoleList_Items) GetIsUsedOnExternalAccess() bool {
+	if t == nil {
+		t = &QueryRbac_Rbac_RoleManagement_RoleList_Items{}
+	}
+	return t.IsUsedOnExternalAccess
+}
+func (t *QueryRbac_Rbac_RoleManagement_RoleList_Items) GetName() string {
+	if t == nil {
+		t = &QueryRbac_Rbac_RoleManagement_RoleList_Items{}
+	}
+	return t.Name
+}
+func (t *QueryRbac_Rbac_RoleManagement_RoleList_Items) GetPermission() []*QueryRbac_Rbac_RoleManagement_RoleList_Items_Permission {
+	if t == nil {
+		t = &QueryRbac_Rbac_RoleManagement_RoleList_Items{}
+	}
+	return t.Permission
+}
+func (t *QueryRbac_Rbac_RoleManagement_RoleList_Items) GetPredefined() bool {
+	if t == nil {
+		t = &QueryRbac_Rbac_RoleManagement_RoleList_Items{}
+	}
+	return t.Predefined
+}
+
+type QueryRbac_Rbac_RoleManagement_RoleList_Paging struct {
+	Total int64 "json:\"total\" graphql:\"total\""
+}
+
+func (t *QueryRbac_Rbac_RoleManagement_RoleList_Paging) GetTotal() int64 {
+	if t == nil {
+		t = &QueryRbac_Rbac_RoleManagement_RoleList_Paging{}
+	}
+	return t.Total
+}
+
+type QueryRbac_Rbac_RoleManagement_RoleList struct {
+	Items  []*QueryRbac_Rbac_RoleManagement_RoleList_Items "json:\"items\" graphql:\"items\""
+	Paging QueryRbac_Rbac_RoleManagement_RoleList_Paging   "json:\"paging\" graphql:\"paging\""
+}
+
+func (t *QueryRbac_Rbac_RoleManagement_RoleList) GetItems() []*QueryRbac_Rbac_RoleManagement_RoleList_Items {
+	if t == nil {
+		t = &QueryRbac_Rbac_RoleManagement_RoleList{}
+	}
+	return t.Items
+}
+func (t *QueryRbac_Rbac_RoleManagement_RoleList) GetPaging() *QueryRbac_Rbac_RoleManagement_RoleList_Paging {
+	if t == nil {
+		t = &QueryRbac_Rbac_RoleManagement_RoleList{}
+	}
+	return &t.Paging
+}
+
+type QueryRbac_Rbac_RoleManagement struct {
+	PermissionCatalog *QueryRbac_Rbac_RoleManagement_PermissionCatalog "json:\"permissionCatalog,omitempty\" graphql:\"permissionCatalog\""
+	Role              *QueryRbac_Rbac_RoleManagement_Role              "json:\"role,omitempty\" graphql:\"role\""
+	RoleList          *QueryRbac_Rbac_RoleManagement_RoleList          "json:\"roleList,omitempty\" graphql:\"roleList\""
+}
+
+func (t *QueryRbac_Rbac_RoleManagement) GetPermissionCatalog() *QueryRbac_Rbac_RoleManagement_PermissionCatalog {
+	if t == nil {
+		t = &QueryRbac_Rbac_RoleManagement{}
+	}
+	return t.PermissionCatalog
+}
+func (t *QueryRbac_Rbac_RoleManagement) GetRole() *QueryRbac_Rbac_RoleManagement_Role {
+	if t == nil {
+		t = &QueryRbac_Rbac_RoleManagement{}
+	}
+	return t.Role
+}
+func (t *QueryRbac_Rbac_RoleManagement) GetRoleList() *QueryRbac_Rbac_RoleManagement_RoleList {
+	if t == nil {
+		t = &QueryRbac_Rbac_RoleManagement{}
+	}
+	return t.RoleList
+}
+
+type QueryRbac_Rbac struct {
+	RoleManagement QueryRbac_Rbac_RoleManagement "json:\"roleManagement\" graphql:\"roleManagement\""
+}
+
+func (t *QueryRbac_Rbac) GetRoleManagement() *QueryRbac_Rbac_RoleManagement {
+	if t == nil {
+		t = &QueryRbac_Rbac{}
+	}
+	return &t.RoleManagement
 }
 
 type Sandbox_Sandbox_Reports_Report struct {
@@ -359887,6 +364688,17 @@ func (t *PrivateApplicationUpdatePrivateApplication) GetPrivateApplication() *Pr
 	return t.PrivateApplication
 }
 
+type Rbac struct {
+	Rbac Rbac_Rbac "json:\"rbac\" graphql:\"rbac\""
+}
+
+func (t *Rbac) GetRbac() *Rbac_Rbac {
+	if t == nil {
+		t = &Rbac{}
+	}
+	return &t.Rbac
+}
+
 type SandboxDeleteReport struct {
 	Sandbox *SandboxDeleteReport_Sandbox "json:\"sandbox,omitempty\" graphql:\"sandbox\""
 }
@@ -361350,6 +366162,17 @@ func (t *UserUpdateUser) GetUser() *UserUpdateUser_User {
 	return &t.User
 }
 
+type WebProxyConfigEncryptKeytabFile struct {
+	WebProxyConfig WebProxyConfigEncryptKeytabFile_WebProxyConfig "json:\"webProxyConfig\" graphql:\"webProxyConfig\""
+}
+
+func (t *WebProxyConfigEncryptKeytabFile) GetWebProxyConfig() *WebProxyConfigEncryptKeytabFile_WebProxyConfig {
+	if t == nil {
+		t = &WebProxyConfigEncryptKeytabFile{}
+	}
+	return &t.WebProxyConfig
+}
+
 type XdrAddStoryComment struct {
 	Xdr XdrAddStoryComment_Xdr "json:\"xdr\" graphql:\"xdr\""
 }
@@ -361423,6 +366246,17 @@ type ZtnaAppConnectorAddZtnaAppConnectorsConfiguration struct {
 func (t *ZtnaAppConnectorAddZtnaAppConnectorsConfiguration) GetZtnaAppConnector() *ZtnaAppConnectorAddZtnaAppConnectorsConfiguration_ZtnaAppConnector {
 	if t == nil {
 		t = &ZtnaAppConnectorAddZtnaAppConnectorsConfiguration{}
+	}
+	return t.ZtnaAppConnector
+}
+
+type ZtnaAppConnectorAssignSocketToZtnaAppConnector struct {
+	ZtnaAppConnector *ZtnaAppConnectorAssignSocketToZtnaAppConnector_ZtnaAppConnector "json:\"ztnaAppConnector,omitempty\" graphql:\"ztnaAppConnector\""
+}
+
+func (t *ZtnaAppConnectorAssignSocketToZtnaAppConnector) GetZtnaAppConnector() *ZtnaAppConnectorAssignSocketToZtnaAppConnector_ZtnaAppConnector {
+	if t == nil {
+		t = &ZtnaAppConnectorAssignSocketToZtnaAppConnector{}
 	}
 	return t.ZtnaAppConnector
 }
@@ -361647,6 +366481,50 @@ func (t *Admins) GetAdmins() *Admins_Admins {
 	return t.Admins
 }
 
+type AiSecurityAgentsEvent struct {
+	AiSecurity *AiSecurityAgentsEvent_AiSecurity "json:\"aiSecurity,omitempty\" graphql:\"aiSecurity\""
+}
+
+func (t *AiSecurityAgentsEvent) GetAiSecurity() *AiSecurityAgentsEvent_AiSecurity {
+	if t == nil {
+		t = &AiSecurityAgentsEvent{}
+	}
+	return t.AiSecurity
+}
+
+type AiSecurityAgentsSession struct {
+	AiSecurity *AiSecurityAgentsSession_AiSecurity "json:\"aiSecurity,omitempty\" graphql:\"aiSecurity\""
+}
+
+func (t *AiSecurityAgentsSession) GetAiSecurity() *AiSecurityAgentsSession_AiSecurity {
+	if t == nil {
+		t = &AiSecurityAgentsSession{}
+	}
+	return t.AiSecurity
+}
+
+type AiSecurityAppsInvocation struct {
+	AiSecurity *AiSecurityAppsInvocation_AiSecurity "json:\"aiSecurity,omitempty\" graphql:\"aiSecurity\""
+}
+
+func (t *AiSecurityAppsInvocation) GetAiSecurity() *AiSecurityAppsInvocation_AiSecurity {
+	if t == nil {
+		t = &AiSecurityAppsInvocation{}
+	}
+	return t.AiSecurity
+}
+
+type AiSecurityEndUsersSessionConversation struct {
+	AiSecurity *AiSecurityEndUsersSessionConversation_AiSecurity "json:\"aiSecurity,omitempty\" graphql:\"aiSecurity\""
+}
+
+func (t *AiSecurityEndUsersSessionConversation) GetAiSecurity() *AiSecurityEndUsersSessionConversation_AiSecurity {
+	if t == nil {
+		t = &AiSecurityEndUsersSessionConversation{}
+	}
+	return t.AiSecurity
+}
+
 type AiSecurity struct {
 	AiSecurity *AiSecurity_AiSecurity "json:\"aiSecurity,omitempty\" graphql:\"aiSecurity\""
 }
@@ -361856,6 +366734,39 @@ func (t *CustomAppData) GetCustomAppData() *CustomAppData_CustomAppData {
 	return &t.CustomAppData
 }
 
+type DevicesAttributesCatalog struct {
+	Devices DevicesAttributesCatalog_Devices "json:\"devices\" graphql:\"devices\""
+}
+
+func (t *DevicesAttributesCatalog) GetDevices() *DevicesAttributesCatalog_Devices {
+	if t == nil {
+		t = &DevicesAttributesCatalog{}
+	}
+	return &t.Devices
+}
+
+type DevicesCSVExport struct {
+	Devices DevicesCsvExport_Devices "json:\"devices\" graphql:\"devices\""
+}
+
+func (t *DevicesCSVExport) GetDevices() *DevicesCsvExport_Devices {
+	if t == nil {
+		t = &DevicesCSVExport{}
+	}
+	return &t.Devices
+}
+
+type DevicesCSVExportStatus struct {
+	Devices DevicesCsvExportStatus_Devices "json:\"devices\" graphql:\"devices\""
+}
+
+func (t *DevicesCSVExportStatus) GetDevices() *DevicesCsvExportStatus_Devices {
+	if t == nil {
+		t = &DevicesCSVExportStatus{}
+	}
+	return &t.Devices
+}
+
 type Devices struct {
 	Devices Devices_Devices "json:\"devices\" graphql:\"devices\""
 }
@@ -361863,6 +366774,17 @@ type Devices struct {
 func (t *Devices) GetDevices() *Devices_Devices {
 	if t == nil {
 		t = &Devices{}
+	}
+	return &t.Devices
+}
+
+type DevicesList struct {
+	Devices DevicesList_Devices "json:\"devices\" graphql:\"devices\""
+}
+
+func (t *DevicesList) GetDevices() *DevicesList_Devices {
+	if t == nil {
+		t = &DevicesList{}
 	}
 	return &t.Devices
 }
@@ -362186,6 +367108,116 @@ func (t *Notification) GetNotification() *Notification_Notification {
 	return t.Notification
 }
 
+type NotificationIntegrationReferenceBodyTemplate struct {
+	Notification *NotificationIntegrationReferenceBodyTemplate_Notification "json:\"notification,omitempty\" graphql:\"notification\""
+}
+
+func (t *NotificationIntegrationReferenceBodyTemplate) GetNotification() *NotificationIntegrationReferenceBodyTemplate_Notification {
+	if t == nil {
+		t = &NotificationIntegrationReferenceBodyTemplate{}
+	}
+	return t.Notification
+}
+
+type NotificationIntegrationReferenceBodyTemplateList struct {
+	Notification *NotificationIntegrationReferenceBodyTemplateList_Notification "json:\"notification,omitempty\" graphql:\"notification\""
+}
+
+func (t *NotificationIntegrationReferenceBodyTemplateList) GetNotification() *NotificationIntegrationReferenceBodyTemplateList_Notification {
+	if t == nil {
+		t = &NotificationIntegrationReferenceBodyTemplateList{}
+	}
+	return t.Notification
+}
+
+type NotificationIntegrationWebhook struct {
+	Notification *NotificationIntegrationWebhook_Notification "json:\"notification,omitempty\" graphql:\"notification\""
+}
+
+func (t *NotificationIntegrationWebhook) GetNotification() *NotificationIntegrationWebhook_Notification {
+	if t == nil {
+		t = &NotificationIntegrationWebhook{}
+	}
+	return t.Notification
+}
+
+type NotificationIntegrationWebhookFields struct {
+	Notification *NotificationIntegrationWebhookFields_Notification "json:\"notification,omitempty\" graphql:\"notification\""
+}
+
+func (t *NotificationIntegrationWebhookFields) GetNotification() *NotificationIntegrationWebhookFields_Notification {
+	if t == nil {
+		t = &NotificationIntegrationWebhookFields{}
+	}
+	return t.Notification
+}
+
+type NotificationIntegrationWebhookList struct {
+	Notification *NotificationIntegrationWebhookList_Notification "json:\"notification,omitempty\" graphql:\"notification\""
+}
+
+func (t *NotificationIntegrationWebhookList) GetNotification() *NotificationIntegrationWebhookList_Notification {
+	if t == nil {
+		t = &NotificationIntegrationWebhookList{}
+	}
+	return t.Notification
+}
+
+type NotificationMailingList struct {
+	Notification *NotificationMailingList_Notification "json:\"notification,omitempty\" graphql:\"notification\""
+}
+
+func (t *NotificationMailingList) GetNotification() *NotificationMailingList_Notification {
+	if t == nil {
+		t = &NotificationMailingList{}
+	}
+	return t.Notification
+}
+
+type NotificationMailingListList struct {
+	Notification *NotificationMailingListList_Notification "json:\"notification,omitempty\" graphql:\"notification\""
+}
+
+func (t *NotificationMailingListList) GetNotification() *NotificationMailingListList_Notification {
+	if t == nil {
+		t = &NotificationMailingListList{}
+	}
+	return t.Notification
+}
+
+type NotificationSubscriptionGroup struct {
+	Notification *NotificationSubscriptionGroup_Notification "json:\"notification,omitempty\" graphql:\"notification\""
+}
+
+func (t *NotificationSubscriptionGroup) GetNotification() *NotificationSubscriptionGroup_Notification {
+	if t == nil {
+		t = &NotificationSubscriptionGroup{}
+	}
+	return t.Notification
+}
+
+type NotificationSubscriptionGroupList struct {
+	Notification *NotificationSubscriptionGroupList_Notification "json:\"notification,omitempty\" graphql:\"notification\""
+}
+
+func (t *NotificationSubscriptionGroupList) GetNotification() *NotificationSubscriptionGroupList_Notification {
+	if t == nil {
+		t = &NotificationSubscriptionGroupList{}
+	}
+	return t.Notification
+}
+
+type ObjectGlobalIPRange struct {
+	Object *ObjectGlobalIpRange_Object "json:\"object,omitempty\" graphql:\"object\""
+}
+
+func (t *ObjectGlobalIPRange) GetObject() *ObjectGlobalIpRange_Object {
+	if t == nil {
+		t = &ObjectGlobalIPRange{}
+	}
+	return t.Object
+}
+
 type ObjectGlobalIPRangeList struct {
 	Object *ObjectGlobalIpRangeList_Object "json:\"object,omitempty\" graphql:\"object\""
 }
@@ -362461,6 +367493,39 @@ func (t *PolicyZtnaAlwaysOnPolicy) GetPolicy() *PolicyZtnaAlwaysOnPolicy_Policy 
 	return &t.Policy
 }
 
+type PopLocationsAllocatedIPList struct {
+	PopLocations *PopLocationsAllocatedIpList_PopLocations "json:\"popLocations,omitempty\" graphql:\"popLocations\""
+}
+
+func (t *PopLocationsAllocatedIPList) GetPopLocations() *PopLocationsAllocatedIpList_PopLocations {
+	if t == nil {
+		t = &PopLocationsAllocatedIPList{}
+	}
+	return t.PopLocations
+}
+
+type PopLocationsBgpProfile struct {
+	PopLocations *PopLocationsBgpProfile_PopLocations "json:\"popLocations,omitempty\" graphql:\"popLocations\""
+}
+
+func (t *PopLocationsBgpProfile) GetPopLocations() *PopLocationsBgpProfile_PopLocations {
+	if t == nil {
+		t = &PopLocationsBgpProfile{}
+	}
+	return t.PopLocations
+}
+
+type PopLocationsBgpProfileList struct {
+	PopLocations *PopLocationsBgpProfileList_PopLocations "json:\"popLocations,omitempty\" graphql:\"popLocations\""
+}
+
+func (t *PopLocationsBgpProfileList) GetPopLocations() *PopLocationsBgpProfileList_PopLocations {
+	if t == nil {
+		t = &PopLocationsBgpProfileList{}
+	}
+	return t.PopLocations
+}
+
 type PopLocations struct {
 	PopLocations *PopLocations_PopLocations "json:\"popLocations,omitempty\" graphql:\"popLocations\""
 }
@@ -362468,6 +367533,17 @@ type PopLocations struct {
 func (t *PopLocations) GetPopLocations() *PopLocations_PopLocations {
 	if t == nil {
 		t = &PopLocations{}
+	}
+	return t.PopLocations
+}
+
+type PopLocationsPopLocationList struct {
+	PopLocations *PopLocationsPopLocationList_PopLocations "json:\"popLocations,omitempty\" graphql:\"popLocations\""
+}
+
+func (t *PopLocationsPopLocationList) GetPopLocations() *PopLocationsPopLocationList_PopLocations {
+	if t == nil {
+		t = &PopLocationsPopLocationList{}
 	}
 	return t.PopLocations
 }
@@ -362591,6 +367667,17 @@ func (t *PrivateApplication) GetPrivateApplication() *PrivateApplication_Private
 		t = &PrivateApplication{}
 	}
 	return t.PrivateApplication
+}
+
+type QueryRbac struct {
+	Rbac QueryRbac_Rbac "json:\"rbac\" graphql:\"rbac\""
+}
+
+func (t *QueryRbac) GetRbac() *QueryRbac_Rbac {
+	if t == nil {
+		t = &QueryRbac{}
+	}
+	return &t.Rbac
 }
 
 type Sandbox struct {
@@ -410898,6 +415985,63 @@ func (c *Client) PrivateApplicationUpdatePrivateApplication(ctx context.Context,
 	return &res, nil
 }
 
+const RbacDocument = `mutation rbac ($accountId: ID!, $roleManagementCreateRoleInput: RoleManagementCreateRoleInput!, $roleManagementDeleteRoleInput: RoleManagementDeleteRoleInput!, $roleManagementUpdateRoleInput: RoleManagementUpdateRoleInput!) {
+	rbac(accountId: $accountId) {
+		roleManagement {
+			createRole(input: $roleManagementCreateRoleInput) {
+				role {
+					id
+					name
+					description
+					predefined
+					isUsedOnExternalAccess
+					permission {
+						resource
+						action
+					}
+				}
+			}
+			updateRole(input: $roleManagementUpdateRoleInput) {
+				role {
+					id
+					name
+					description
+					predefined
+					isUsedOnExternalAccess
+					permission {
+						resource
+						action
+					}
+				}
+			}
+			deleteRole(input: $roleManagementDeleteRoleInput) {
+				id
+			}
+		}
+	}
+}
+`
+
+func (c *Client) Rbac(ctx context.Context, accountID string, roleManagementCreateRoleInput cato_models.RoleManagementCreateRoleInput, roleManagementDeleteRoleInput cato_models.RoleManagementDeleteRoleInput, roleManagementUpdateRoleInput cato_models.RoleManagementUpdateRoleInput, interceptors ...clientv2.RequestInterceptor) (*Rbac, error) {
+	vars := map[string]any{
+		"accountId":                     accountID,
+		"roleManagementCreateRoleInput": roleManagementCreateRoleInput,
+		"roleManagementDeleteRoleInput": roleManagementDeleteRoleInput,
+		"roleManagementUpdateRoleInput": roleManagementUpdateRoleInput,
+	}
+
+	var res Rbac
+	if err := c.Client.Post(ctx, "rbac", RbacDocument, &res, vars, interceptors...); err != nil {
+		if c.Client.ParseDataWhenErrors {
+			return &res, err
+		}
+
+		return nil, err
+	}
+
+	return &res, nil
+}
+
 const SandboxDeleteReportDocument = `mutation sandboxDeleteReport ($accountId: ID!, $deleteReportInput: DeleteReportInput!) {
 	sandbox(accountId: $accountId) {
 		deleteReport(input: $deleteReportInput) {
@@ -417435,6 +422579,33 @@ func (c *Client) UserUpdateUser(ctx context.Context, accountID string, updateUse
 	return &res, nil
 }
 
+const WebProxyConfigEncryptKeytabFileDocument = `mutation webProxyConfigEncryptKeytabFile ($accountId: ID!, $encryptKeytabFileInput: EncryptKeytabFileInput!) {
+	webProxyConfig(accountId: $accountId) {
+		encryptKeytabFile(input: $encryptKeytabFileInput) {
+			encryptedFile
+		}
+	}
+}
+`
+
+func (c *Client) WebProxyConfigEncryptKeytabFile(ctx context.Context, accountID string, encryptKeytabFileInput cato_models.EncryptKeytabFileInput, interceptors ...clientv2.RequestInterceptor) (*WebProxyConfigEncryptKeytabFile, error) {
+	vars := map[string]any{
+		"accountId":              accountID,
+		"encryptKeytabFileInput": encryptKeytabFileInput,
+	}
+
+	var res WebProxyConfigEncryptKeytabFile
+	if err := c.Client.Post(ctx, "webProxyConfigEncryptKeytabFile", WebProxyConfigEncryptKeytabFileDocument, &res, vars, interceptors...); err != nil {
+		if c.Client.ParseDataWhenErrors {
+			return &res, err
+		}
+
+		return nil, err
+	}
+
+	return &res, nil
+}
+
 const XdrAddStoryCommentDocument = `mutation xdrAddStoryComment ($accountId: ID!, $addStoryCommentInput: AddStoryCommentInput!) {
 	xdr(accountId: $accountId) {
 		addStoryComment(input: $addStoryCommentInput) {
@@ -418734,6 +423905,81 @@ func (c *Client) ZtnaAppConnectorAddZtnaAppConnectorsConfiguration(ctx context.C
 
 	var res ZtnaAppConnectorAddZtnaAppConnectorsConfiguration
 	if err := c.Client.Post(ctx, "ztnaAppConnectorAddZtnaAppConnectorsConfiguration", ZtnaAppConnectorAddZtnaAppConnectorsConfigurationDocument, &res, vars, interceptors...); err != nil {
+		if c.Client.ParseDataWhenErrors {
+			return &res, err
+		}
+
+		return nil, err
+	}
+
+	return &res, nil
+}
+
+const ZtnaAppConnectorAssignSocketToZtnaAppConnectorDocument = `mutation ztnaAppConnectorAssignSocketToZtnaAppConnector ($accountId: ID!, $assignSocketToZtnaAppConnectorInput: AssignSocketToZtnaAppConnectorInput!) {
+	ztnaAppConnector(accountId: $accountId) {
+		assignSocketToZtnaAppConnector(input: $assignSocketToZtnaAppConnectorInput) {
+			ztnaAppConnector {
+				id
+				createdAt
+				name
+				description
+				serialNumber
+				socketId
+				type
+				socketModel
+				isRegistered
+				groupName
+				location {
+					address
+					cityName
+					countryCode
+					countryName
+					stateCode
+					timezone
+				}
+				preferredPopLocation {
+					preferredOnly
+					automatic
+					primary {
+						id
+						name
+					}
+					secondary {
+						id
+						name
+					}
+				}
+				privateAppCount
+				privateAppRef {
+					id
+					name
+				}
+				socketInfo {
+					version
+					rollbackTargetVersion
+					versionUpdateTime
+					rollbackEligibleUntil
+					upgradesPaused
+				}
+				pooledBandwidthAllocation {
+					allocationId
+					licenseId
+					bw
+				}
+			}
+		}
+	}
+}
+`
+
+func (c *Client) ZtnaAppConnectorAssignSocketToZtnaAppConnector(ctx context.Context, accountID string, assignSocketToZtnaAppConnectorInput cato_models.AssignSocketToZtnaAppConnectorInput, interceptors ...clientv2.RequestInterceptor) (*ZtnaAppConnectorAssignSocketToZtnaAppConnector, error) {
+	vars := map[string]any{
+		"accountId":                           accountID,
+		"assignSocketToZtnaAppConnectorInput": assignSocketToZtnaAppConnectorInput,
+	}
+
+	var res ZtnaAppConnectorAssignSocketToZtnaAppConnector
+	if err := c.Client.Post(ctx, "ztnaAppConnectorAssignSocketToZtnaAppConnector", ZtnaAppConnectorAssignSocketToZtnaAppConnectorDocument, &res, vars, interceptors...); err != nil {
 		if c.Client.ParseDataWhenErrors {
 			return &res, err
 		}
@@ -420490,6 +425736,150 @@ func (c *Client) Admins(ctx context.Context, accountID string, limit *int64, fro
 	return &res, nil
 }
 
+const AiSecurityAgentsEventDocument = `query aiSecurityAgentsEvent ($accountId: ID!, $aiSecurityAgentsEventInput: AiSecurityAgentsEventInput!) {
+	aiSecurity(accountId: $accountId) {
+		agents {
+			event(input: $aiSecurityAgentsEventInput) {
+				interactionId
+				appActivityType
+				time
+				content
+			}
+		}
+	}
+}
+`
+
+func (c *Client) AiSecurityAgentsEvent(ctx context.Context, accountID string, aiSecurityAgentsEventInput cato_models.AiSecurityAgentsEventInput, interceptors ...clientv2.RequestInterceptor) (*AiSecurityAgentsEvent, error) {
+	vars := map[string]any{
+		"accountId":                  accountID,
+		"aiSecurityAgentsEventInput": aiSecurityAgentsEventInput,
+	}
+
+	var res AiSecurityAgentsEvent
+	if err := c.Client.Post(ctx, "aiSecurityAgentsEvent", AiSecurityAgentsEventDocument, &res, vars, interceptors...); err != nil {
+		if c.Client.ParseDataWhenErrors {
+			return &res, err
+		}
+
+		return nil, err
+	}
+
+	return &res, nil
+}
+
+const AiSecurityAgentsSessionDocument = `query aiSecurityAgentsSession ($accountId: ID!, $aiSecurityAgentsSessionInput: AiSecurityAgentsSessionInput!) {
+	aiSecurity(accountId: $accountId) {
+		agents {
+			session(input: $aiSecurityAgentsSessionInput) {
+				items {
+					interactionId
+					appActivityType
+					time
+					content
+				}
+				paging {
+					total
+				}
+			}
+		}
+	}
+}
+`
+
+func (c *Client) AiSecurityAgentsSession(ctx context.Context, accountID string, aiSecurityAgentsSessionInput cato_models.AiSecurityAgentsSessionInput, interceptors ...clientv2.RequestInterceptor) (*AiSecurityAgentsSession, error) {
+	vars := map[string]any{
+		"accountId":                    accountID,
+		"aiSecurityAgentsSessionInput": aiSecurityAgentsSessionInput,
+	}
+
+	var res AiSecurityAgentsSession
+	if err := c.Client.Post(ctx, "aiSecurityAgentsSession", AiSecurityAgentsSessionDocument, &res, vars, interceptors...); err != nil {
+		if c.Client.ParseDataWhenErrors {
+			return &res, err
+		}
+
+		return nil, err
+	}
+
+	return &res, nil
+}
+
+const AiSecurityAppsInvocationDocument = `query aiSecurityAppsInvocation ($accountId: ID!, $aiSecurityAppsInvocationInput: AiSecurityAppsInvocationInput!) {
+	aiSecurity(accountId: $accountId) {
+		apps {
+			invocation(input: $aiSecurityAppsInvocationInput) {
+				id
+				sessionId
+				timestamp
+				tokenCount
+				guard {
+					id
+					name
+				}
+				action
+				data {
+					message {
+						role
+						content {
+							text
+						}
+					}
+				}
+			}
+		}
+	}
+}
+`
+
+func (c *Client) AiSecurityAppsInvocation(ctx context.Context, accountID string, aiSecurityAppsInvocationInput cato_models.AiSecurityAppsInvocationInput, interceptors ...clientv2.RequestInterceptor) (*AiSecurityAppsInvocation, error) {
+	vars := map[string]any{
+		"accountId":                     accountID,
+		"aiSecurityAppsInvocationInput": aiSecurityAppsInvocationInput,
+	}
+
+	var res AiSecurityAppsInvocation
+	if err := c.Client.Post(ctx, "aiSecurityAppsInvocation", AiSecurityAppsInvocationDocument, &res, vars, interceptors...); err != nil {
+		if c.Client.ParseDataWhenErrors {
+			return &res, err
+		}
+
+		return nil, err
+	}
+
+	return &res, nil
+}
+
+const AiSecurityEndUsersSessionConversationDocument = `query aiSecurityEndUsersSessionConversation ($accountId: ID!, $aiSecurityEndUsersSessionConversationInput: AiSecurityEndUsersSessionConversationInput!) {
+	aiSecurity(accountId: $accountId) {
+		endUsers {
+			sessionConversation(input: $aiSecurityEndUsersSessionConversationInput) {
+				userPrompt
+				llmResponse
+			}
+		}
+	}
+}
+`
+
+func (c *Client) AiSecurityEndUsersSessionConversation(ctx context.Context, accountID string, aiSecurityEndUsersSessionConversationInput cato_models.AiSecurityEndUsersSessionConversationInput, interceptors ...clientv2.RequestInterceptor) (*AiSecurityEndUsersSessionConversation, error) {
+	vars := map[string]any{
+		"accountId": accountID,
+		"aiSecurityEndUsersSessionConversationInput": aiSecurityEndUsersSessionConversationInput,
+	}
+
+	var res AiSecurityEndUsersSessionConversation
+	if err := c.Client.Post(ctx, "aiSecurityEndUsersSessionConversation", AiSecurityEndUsersSessionConversationDocument, &res, vars, interceptors...); err != nil {
+		if c.Client.ParseDataWhenErrors {
+			return &res, err
+		}
+
+		return nil, err
+	}
+
+	return &res, nil
+}
+
 const AiSecurityDocument = `query aiSecurity ($accountId: ID!, $aiSecurityAppsInvocationInput: AiSecurityAppsInvocationInput!, $aiSecurityEndUsersSessionConversationInput: AiSecurityEndUsersSessionConversationInput!, $aiSecurityAgentsEventInput: AiSecurityAgentsEventInput!, $aiSecurityAgentsSessionInput: AiSecurityAgentsSessionInput!) {
 	aiSecurity(accountId: $accountId) {
 		apps {
@@ -421777,6 +427167,153 @@ func (c *Client) CustomAppData(ctx context.Context, accountID string, customAppl
 	return &res, nil
 }
 
+const DevicesAttributesCatalogDocument = `query devicesAttributesCatalog ($accountId: ID!, $deviceAttributeCatalogInput: DeviceAttributeCatalogInput, $deviceComplianceCatalogInput: DeviceComplianceCatalogInput, $deviceRiskCatalogInput: DeviceRiskCatalogInput, $sortOrderInput: SortOrderInput) {
+	devices(accountId: $accountId) {
+		attributesCatalog {
+			category(sort: $sortOrderInput) {
+				items
+				pageInfo {
+					total
+				}
+			}
+			type(input: $deviceAttributeCatalogInput) {
+				items
+				pageInfo {
+					total
+				}
+			}
+			model(input: $deviceAttributeCatalogInput) {
+				items
+				pageInfo {
+					total
+				}
+			}
+			manufacturer(input: $deviceAttributeCatalogInput) {
+				items
+				pageInfo {
+					total
+				}
+			}
+			os(input: $deviceAttributeCatalogInput) {
+				items
+				pageInfo {
+					total
+				}
+			}
+			compliance(input: $deviceComplianceCatalogInput) {
+				items {
+					applicationConnector {
+						id
+						name
+					}
+					state
+				}
+				pageInfo {
+					total
+				}
+			}
+			risk(input: $deviceRiskCatalogInput) {
+				items {
+					applicationConnector {
+						id
+						name
+					}
+					level {
+						id
+						min
+						max
+					}
+				}
+				pageInfo {
+					total
+				}
+			}
+		}
+	}
+}
+`
+
+func (c *Client) DevicesAttributesCatalog(ctx context.Context, accountID string, deviceAttributeCatalogInput *cato_models.DeviceAttributeCatalogInput, deviceComplianceCatalogInput *cato_models.DeviceComplianceCatalogInput, deviceRiskCatalogInput *cato_models.DeviceRiskCatalogInput, sortOrderInput *cato_models.SortOrderInput, interceptors ...clientv2.RequestInterceptor) (*DevicesAttributesCatalog, error) {
+	vars := map[string]any{
+		"accountId":                    accountID,
+		"deviceAttributeCatalogInput":  deviceAttributeCatalogInput,
+		"deviceComplianceCatalogInput": deviceComplianceCatalogInput,
+		"deviceRiskCatalogInput":       deviceRiskCatalogInput,
+		"sortOrderInput":               sortOrderInput,
+	}
+
+	var res DevicesAttributesCatalog
+	if err := c.Client.Post(ctx, "devicesAttributesCatalog", DevicesAttributesCatalogDocument, &res, vars, interceptors...); err != nil {
+		if c.Client.ParseDataWhenErrors {
+			return &res, err
+		}
+
+		return nil, err
+	}
+
+	return &res, nil
+}
+
+const DevicesCSVExportDocument = `query devicesCsvExport ($accountId: ID!, $deviceCsvExportInput: DeviceCsvExportInput) {
+	devices(accountId: $accountId) {
+		csvExport(input: $deviceCsvExportInput) {
+			jobId
+			message
+		}
+	}
+}
+`
+
+func (c *Client) DevicesCSVExport(ctx context.Context, accountID string, deviceCSVExportInput *cato_models.DeviceCSVExportInput, interceptors ...clientv2.RequestInterceptor) (*DevicesCSVExport, error) {
+	vars := map[string]any{
+		"accountId":            accountID,
+		"deviceCsvExportInput": deviceCSVExportInput,
+	}
+
+	var res DevicesCSVExport
+	if err := c.Client.Post(ctx, "devicesCsvExport", DevicesCSVExportDocument, &res, vars, interceptors...); err != nil {
+		if c.Client.ParseDataWhenErrors {
+			return &res, err
+		}
+
+		return nil, err
+	}
+
+	return &res, nil
+}
+
+const DevicesCSVExportStatusDocument = `query devicesCsvExportStatus ($accountId: ID!, $jobId: ID!) {
+	devices(accountId: $accountId) {
+		csvExportStatus(jobId: $jobId) {
+			jobId
+			status
+			progress
+			message
+			downloadUrl
+			expiresAt
+		}
+	}
+}
+`
+
+func (c *Client) DevicesCSVExportStatus(ctx context.Context, accountID string, jobID string, interceptors ...clientv2.RequestInterceptor) (*DevicesCSVExportStatus, error) {
+	vars := map[string]any{
+		"accountId": accountID,
+		"jobId":     jobID,
+	}
+
+	var res DevicesCSVExportStatus
+	if err := c.Client.Post(ctx, "devicesCsvExportStatus", DevicesCSVExportStatusDocument, &res, vars, interceptors...); err != nil {
+		if c.Client.ParseDataWhenErrors {
+			return &res, err
+		}
+
+		return nil, err
+	}
+
+	return &res, nil
+}
+
 const DevicesDocument = `query devices ($accountId: ID!, $deviceV2Input: DeviceV2Input, $sortOrderInput: SortOrderInput, $deviceAttributeCatalogInput: DeviceAttributeCatalogInput, $deviceComplianceCatalogInput: DeviceComplianceCatalogInput, $deviceRiskCatalogInput: DeviceRiskCatalogInput, $deviceCsvExportInput: DeviceCsvExportInput, $jobId: ID!) {
 	devices(accountId: $accountId) {
 		list(input: $deviceV2Input) {
@@ -421999,6 +427536,160 @@ func (c *Client) Devices(ctx context.Context, accountID string, deviceV2Input *c
 
 	var res Devices
 	if err := c.Client.Post(ctx, "devices", DevicesDocument, &res, vars, interceptors...); err != nil {
+		if c.Client.ParseDataWhenErrors {
+			return &res, err
+		}
+
+		return nil, err
+	}
+
+	return &res, nil
+}
+
+const DevicesListDocument = `query devicesList ($accountId: ID!, $deviceV2Input: DeviceV2Input) {
+	devices(accountId: $accountId) {
+		list(input: $deviceV2Input) {
+			device {
+				id
+				site {
+					id
+					name
+				}
+				user {
+					id
+					name
+				}
+				name
+				firstSeen
+				lastSeen
+				ip
+				ipAddress
+				category
+				riskScore
+				nic {
+					macAddress
+					ip
+					site {
+						id
+						name
+					}
+					network {
+						__typename
+						... on SiteNetworkSubnetRef {
+							id
+							name
+						}
+						... on GlobalRangeRef {
+							id
+							name
+						}
+						... on GlobalIpRangeRef {
+							id
+							name
+						}
+						... on FloatingSubnetRef {
+							id
+							name
+						}
+					}
+					vendor
+				}
+				os {
+					product
+					vendor
+					version
+				}
+				hw {
+					type
+					model
+					manufacturer
+				}
+				originTypes
+				isManaged
+				network {
+					subnet
+					networkName
+				}
+				networkInfo {
+					__typename
+					... on SiteNetworkSubnetRef {
+						id
+						name
+					}
+					... on GlobalRangeRef {
+						id
+						name
+					}
+					... on GlobalIpRangeRef {
+						id
+						name
+					}
+					... on FloatingSubnetRef {
+						id
+						name
+					}
+				}
+				connectionProfile {
+					destApps
+					destDomains
+					destHosts
+					directions
+				}
+				confidence
+				complianceState
+				isCrownJewel
+				crownJewelSource
+				researchReasonTypes
+				customerReasonType
+				nics {
+					macAddress
+					ip
+					site {
+						id
+						name
+					}
+					network {
+						__typename
+						... on SiteNetworkSubnetRef {
+							id
+							name
+						}
+						... on GlobalRangeRef {
+							id
+							name
+						}
+						... on GlobalIpRangeRef {
+							id
+							name
+						}
+						... on FloatingSubnetRef {
+							id
+							name
+						}
+					}
+					vendor
+				}
+				groups {
+					id
+					name
+				}
+			}
+			paging {
+				total
+			}
+		}
+	}
+}
+`
+
+func (c *Client) DevicesList(ctx context.Context, accountID string, deviceV2Input *cato_models.DeviceV2Input, interceptors ...clientv2.RequestInterceptor) (*DevicesList, error) {
+	vars := map[string]any{
+		"accountId":     accountID,
+		"deviceV2Input": deviceV2Input,
+	}
+
+	var res DevicesList
+	if err := c.Client.Post(ctx, "devicesList", DevicesListDocument, &res, vars, interceptors...); err != nil {
 		if c.Client.ParseDataWhenErrors {
 			return &res, err
 		}
@@ -424076,14 +429767,577 @@ func (c *Client) Notification(ctx context.Context, accountID string, mailingList
 	return &res, nil
 }
 
+const NotificationIntegrationReferenceBodyTemplateDocument = `query notificationIntegrationReferenceBodyTemplate ($accountId: ID!, $webhookTemplateRefInput: WebhookTemplateRefInput!) {
+	notification(accountId: $accountId) {
+		integration {
+			referenceBodyTemplate(input: $webhookTemplateRefInput) {
+				id
+				name
+				bodyTemplate
+				url
+				requestMethod
+				auth {
+					authType
+					... on BasicAuth {
+						username
+					}
+					... on CustomHeaderAuth {
+						name
+					}
+					... on CustomHeadersAuth {
+						plainHeaders {
+							name
+							value
+						}
+						secretHeaders {
+							name
+						}
+					}
+				}
+				header {
+					name
+					value
+				}
+				responseMapping {
+					key
+					value
+				}
+				webhookRelationType
+			}
+		}
+	}
+}
+`
+
+func (c *Client) NotificationIntegrationReferenceBodyTemplate(ctx context.Context, accountID string, webhookTemplateRefInput cato_models.WebhookTemplateRefInput, interceptors ...clientv2.RequestInterceptor) (*NotificationIntegrationReferenceBodyTemplate, error) {
+	vars := map[string]any{
+		"accountId":               accountID,
+		"webhookTemplateRefInput": webhookTemplateRefInput,
+	}
+
+	var res NotificationIntegrationReferenceBodyTemplate
+	if err := c.Client.Post(ctx, "notificationIntegrationReferenceBodyTemplate", NotificationIntegrationReferenceBodyTemplateDocument, &res, vars, interceptors...); err != nil {
+		if c.Client.ParseDataWhenErrors {
+			return &res, err
+		}
+
+		return nil, err
+	}
+
+	return &res, nil
+}
+
+const NotificationIntegrationReferenceBodyTemplateListDocument = `query notificationIntegrationReferenceBodyTemplateList ($accountId: ID!) {
+	notification(accountId: $accountId) {
+		integration {
+			referenceBodyTemplateList {
+				items {
+					id
+					name
+					bodyTemplate
+					url
+					requestMethod
+					auth {
+						authType
+						... on BasicAuth {
+							username
+						}
+						... on CustomHeaderAuth {
+							name
+						}
+						... on CustomHeadersAuth {
+							plainHeaders {
+								name
+								value
+							}
+							secretHeaders {
+								name
+							}
+						}
+					}
+					header {
+						name
+						value
+					}
+					responseMapping {
+						key
+						value
+					}
+					webhookRelationType
+				}
+			}
+		}
+	}
+}
+`
+
+func (c *Client) NotificationIntegrationReferenceBodyTemplateList(ctx context.Context, accountID string, interceptors ...clientv2.RequestInterceptor) (*NotificationIntegrationReferenceBodyTemplateList, error) {
+	vars := map[string]any{
+		"accountId": accountID,
+	}
+
+	var res NotificationIntegrationReferenceBodyTemplateList
+	if err := c.Client.Post(ctx, "notificationIntegrationReferenceBodyTemplateList", NotificationIntegrationReferenceBodyTemplateListDocument, &res, vars, interceptors...); err != nil {
+		if c.Client.ParseDataWhenErrors {
+			return &res, err
+		}
+
+		return nil, err
+	}
+
+	return &res, nil
+}
+
+const NotificationIntegrationWebhookDocument = `query notificationIntegrationWebhook ($accountId: ID!, $webhookIntegrationRefInput: WebhookIntegrationRefInput!) {
+	notification(accountId: $accountId) {
+		integration {
+			webhook(input: $webhookIntegrationRefInput) {
+				id
+				name
+				enabled
+				url
+				requestMethod
+				auth {
+					authType
+					... on BasicAuth {
+						username
+					}
+					... on CustomHeaderAuth {
+						name
+					}
+					... on CustomHeadersAuth {
+						plainHeaders {
+							name
+							value
+						}
+						secretHeaders {
+							name
+						}
+					}
+				}
+				header {
+					name
+					value
+				}
+				body
+				responseMapping {
+					key
+					value
+				}
+				relatedWebhookId
+			}
+		}
+	}
+}
+`
+
+func (c *Client) NotificationIntegrationWebhook(ctx context.Context, accountID string, webhookIntegrationRefInput cato_models.WebhookIntegrationRefInput, interceptors ...clientv2.RequestInterceptor) (*NotificationIntegrationWebhook, error) {
+	vars := map[string]any{
+		"accountId":                  accountID,
+		"webhookIntegrationRefInput": webhookIntegrationRefInput,
+	}
+
+	var res NotificationIntegrationWebhook
+	if err := c.Client.Post(ctx, "notificationIntegrationWebhook", NotificationIntegrationWebhookDocument, &res, vars, interceptors...); err != nil {
+		if c.Client.ParseDataWhenErrors {
+			return &res, err
+		}
+
+		return nil, err
+	}
+
+	return &res, nil
+}
+
+const NotificationIntegrationWebhookFieldsDocument = `query notificationIntegrationWebhookFields ($accountId: ID!) {
+	notification(accountId: $accountId) {
+		integration {
+			webhookFields {
+				bodyFields
+				urlFields
+				headerFields
+			}
+		}
+	}
+}
+`
+
+func (c *Client) NotificationIntegrationWebhookFields(ctx context.Context, accountID string, interceptors ...clientv2.RequestInterceptor) (*NotificationIntegrationWebhookFields, error) {
+	vars := map[string]any{
+		"accountId": accountID,
+	}
+
+	var res NotificationIntegrationWebhookFields
+	if err := c.Client.Post(ctx, "notificationIntegrationWebhookFields", NotificationIntegrationWebhookFieldsDocument, &res, vars, interceptors...); err != nil {
+		if c.Client.ParseDataWhenErrors {
+			return &res, err
+		}
+
+		return nil, err
+	}
+
+	return &res, nil
+}
+
+const NotificationIntegrationWebhookListDocument = `query notificationIntegrationWebhookList ($accountId: ID!) {
+	notification(accountId: $accountId) {
+		integration {
+			webhookList {
+				items {
+					id
+					name
+					enabled
+					url
+					requestMethod
+					auth {
+						authType
+						... on BasicAuth {
+							username
+						}
+						... on CustomHeaderAuth {
+							name
+						}
+						... on CustomHeadersAuth {
+							plainHeaders {
+								name
+								value
+							}
+							secretHeaders {
+								name
+							}
+						}
+					}
+					header {
+						name
+						value
+					}
+					body
+					responseMapping {
+						key
+						value
+					}
+					relatedWebhookId
+				}
+				paging {
+					total
+				}
+			}
+		}
+	}
+}
+`
+
+func (c *Client) NotificationIntegrationWebhookList(ctx context.Context, accountID string, interceptors ...clientv2.RequestInterceptor) (*NotificationIntegrationWebhookList, error) {
+	vars := map[string]any{
+		"accountId": accountID,
+	}
+
+	var res NotificationIntegrationWebhookList
+	if err := c.Client.Post(ctx, "notificationIntegrationWebhookList", NotificationIntegrationWebhookListDocument, &res, vars, interceptors...); err != nil {
+		if c.Client.ParseDataWhenErrors {
+			return &res, err
+		}
+
+		return nil, err
+	}
+
+	return &res, nil
+}
+
+const NotificationMailingListDocument = `query notificationMailingList ($accountId: ID!, $mailingListRefInput: MailingListRefInput!) {
+	notification(accountId: $accountId) {
+		mailingList(input: $mailingListRefInput) {
+			id
+			name
+			type
+			address
+			admin {
+				id
+				name
+			}
+			audit {
+				updatedTime
+				updatedBy {
+					id
+					name
+				}
+			}
+		}
+	}
+}
+`
+
+func (c *Client) NotificationMailingList(ctx context.Context, accountID string, mailingListRefInput cato_models.MailingListRefInput, interceptors ...clientv2.RequestInterceptor) (*NotificationMailingList, error) {
+	vars := map[string]any{
+		"accountId":           accountID,
+		"mailingListRefInput": mailingListRefInput,
+	}
+
+	var res NotificationMailingList
+	if err := c.Client.Post(ctx, "notificationMailingList", NotificationMailingListDocument, &res, vars, interceptors...); err != nil {
+		if c.Client.ParseDataWhenErrors {
+			return &res, err
+		}
+
+		return nil, err
+	}
+
+	return &res, nil
+}
+
+const NotificationMailingListListDocument = `query notificationMailingListList ($accountId: ID!) {
+	notification(accountId: $accountId) {
+		mailingListList {
+			items {
+				id
+				name
+				type
+				address
+				admin {
+					id
+					name
+				}
+				audit {
+					updatedTime
+					updatedBy {
+						id
+						name
+					}
+				}
+			}
+			paging {
+				total
+			}
+		}
+	}
+}
+`
+
+func (c *Client) NotificationMailingListList(ctx context.Context, accountID string, interceptors ...clientv2.RequestInterceptor) (*NotificationMailingListList, error) {
+	vars := map[string]any{
+		"accountId": accountID,
+	}
+
+	var res NotificationMailingListList
+	if err := c.Client.Post(ctx, "notificationMailingListList", NotificationMailingListListDocument, &res, vars, interceptors...); err != nil {
+		if c.Client.ParseDataWhenErrors {
+			return &res, err
+		}
+
+		return nil, err
+	}
+
+	return &res, nil
+}
+
+const NotificationSubscriptionGroupDocument = `query notificationSubscriptionGroup ($accountId: ID!, $subscriptionGroupRefInput: SubscriptionGroupRefInput!) {
+	notification(accountId: $accountId) {
+		subscriptionGroup(input: $subscriptionGroupRefInput) {
+			id
+			name
+			mailingList {
+				id
+				name
+				type
+				address
+				admin {
+					id
+					name
+				}
+				audit {
+					updatedTime
+					updatedBy {
+						id
+						name
+					}
+				}
+			}
+			integration {
+				webhookList {
+					id
+					name
+					enabled
+					url
+					requestMethod
+					auth {
+						authType
+						... on BasicAuth {
+							username
+						}
+						... on CustomHeaderAuth {
+							name
+						}
+						... on CustomHeadersAuth {
+							plainHeaders {
+								name
+								value
+							}
+							secretHeaders {
+								name
+							}
+						}
+					}
+					header {
+						name
+						value
+					}
+					body
+					responseMapping {
+						key
+						value
+					}
+					relatedWebhookId
+				}
+			}
+		}
+	}
+}
+`
+
+func (c *Client) NotificationSubscriptionGroup(ctx context.Context, accountID string, subscriptionGroupRefInput cato_models.SubscriptionGroupRefInput, interceptors ...clientv2.RequestInterceptor) (*NotificationSubscriptionGroup, error) {
+	vars := map[string]any{
+		"accountId":                 accountID,
+		"subscriptionGroupRefInput": subscriptionGroupRefInput,
+	}
+
+	var res NotificationSubscriptionGroup
+	if err := c.Client.Post(ctx, "notificationSubscriptionGroup", NotificationSubscriptionGroupDocument, &res, vars, interceptors...); err != nil {
+		if c.Client.ParseDataWhenErrors {
+			return &res, err
+		}
+
+		return nil, err
+	}
+
+	return &res, nil
+}
+
+const NotificationSubscriptionGroupListDocument = `query notificationSubscriptionGroupList ($accountId: ID!) {
+	notification(accountId: $accountId) {
+		subscriptionGroupList {
+			items {
+				id
+				name
+				mailingList {
+					id
+					name
+					type
+					address
+					admin {
+						id
+						name
+					}
+					audit {
+						updatedTime
+						updatedBy {
+							id
+							name
+						}
+					}
+				}
+				integration {
+					webhookList {
+						id
+						name
+						enabled
+						url
+						requestMethod
+						auth {
+							authType
+							... on BasicAuth {
+								username
+							}
+							... on CustomHeaderAuth {
+								name
+							}
+							... on CustomHeadersAuth {
+								plainHeaders {
+									name
+									value
+								}
+								secretHeaders {
+									name
+								}
+							}
+						}
+						header {
+							name
+							value
+						}
+						body
+						responseMapping {
+							key
+							value
+						}
+						relatedWebhookId
+					}
+				}
+			}
+			paging {
+				total
+			}
+		}
+	}
+}
+`
+
+func (c *Client) NotificationSubscriptionGroupList(ctx context.Context, accountID string, interceptors ...clientv2.RequestInterceptor) (*NotificationSubscriptionGroupList, error) {
+	vars := map[string]any{
+		"accountId": accountID,
+	}
+
+	var res NotificationSubscriptionGroupList
+	if err := c.Client.Post(ctx, "notificationSubscriptionGroupList", NotificationSubscriptionGroupListDocument, &res, vars, interceptors...); err != nil {
+		if c.Client.ParseDataWhenErrors {
+			return &res, err
+		}
+
+		return nil, err
+	}
+
+	return &res, nil
+}
+
+const ObjectGlobalIPRangeDocument = `query objectGlobalIpRange ($accountId: ID!, $globalIpRangeRefInput: GlobalIpRangeRefInput!) {
+	object(accountId: $accountId) {
+		globalIpRange(input: $globalIpRangeRefInput) {
+			id
+			name
+			description
+			ipRange
+			subnet
+		}
+	}
+}
+`
+
+func (c *Client) ObjectGlobalIPRange(ctx context.Context, accountID string, globalIPRangeRefInput cato_models.GlobalIPRangeRefInput, interceptors ...clientv2.RequestInterceptor) (*ObjectGlobalIPRange, error) {
+	vars := map[string]any{
+		"accountId":             accountID,
+		"globalIpRangeRefInput": globalIPRangeRefInput,
+	}
+
+	var res ObjectGlobalIPRange
+	if err := c.Client.Post(ctx, "objectGlobalIpRange", ObjectGlobalIPRangeDocument, &res, vars, interceptors...); err != nil {
+		if c.Client.ParseDataWhenErrors {
+			return &res, err
+		}
+
+		return nil, err
+	}
+
+	return &res, nil
+}
+
 const ObjectGlobalIPRangeListDocument = `query objectGlobalIpRangeList ($accountID: ID!, $input: GlobalIpRangeListInput) {
 	object(accountId: $accountID) {
 		globalIpRangeList(input: $input) {
 			items {
-				description
 				id
-				ipRange
 				name
+				description
+				ipRange
+				subnet
 			}
 			total
 		}
@@ -429381,6 +435635,122 @@ func (c *Client) PolicyZtnaAlwaysOnPolicy(ctx context.Context, accountID string,
 	return &res, nil
 }
 
+const PopLocationsAllocatedIPListDocument = `query popLocationsAllocatedIpList ($accountId: ID!, $popLocationAllocatedIpInput: PopLocationAllocatedIpInput) {
+	popLocations(accountId: $accountId) {
+		allocatedIpList(input: $popLocationAllocatedIpInput) {
+			allocatedIp {
+				id
+				account {
+					id
+					name
+				}
+				ip
+				popLocation {
+					id
+					name
+				}
+				allocationType
+				description
+				subnet
+				state
+			}
+			paging {
+				total
+			}
+		}
+	}
+}
+`
+
+func (c *Client) PopLocationsAllocatedIPList(ctx context.Context, accountID string, popLocationAllocatedIPInput *cato_models.PopLocationAllocatedIPInput, interceptors ...clientv2.RequestInterceptor) (*PopLocationsAllocatedIPList, error) {
+	vars := map[string]any{
+		"accountId":                   accountID,
+		"popLocationAllocatedIpInput": popLocationAllocatedIPInput,
+	}
+
+	var res PopLocationsAllocatedIPList
+	if err := c.Client.Post(ctx, "popLocationsAllocatedIpList", PopLocationsAllocatedIPListDocument, &res, vars, interceptors...); err != nil {
+		if c.Client.ParseDataWhenErrors {
+			return &res, err
+		}
+
+		return nil, err
+	}
+
+	return &res, nil
+}
+
+const PopLocationsBgpProfileDocument = `query popLocationsBgpProfile ($accountId: ID!, $id: ID!) {
+	popLocations(accountId: $accountId) {
+		bgpProfile(id: $id) {
+			id
+			name
+			description
+			communities {
+				from
+				to
+			}
+			createdAt
+			lastUpdatedAt
+		}
+	}
+}
+`
+
+func (c *Client) PopLocationsBgpProfile(ctx context.Context, accountID string, id string, interceptors ...clientv2.RequestInterceptor) (*PopLocationsBgpProfile, error) {
+	vars := map[string]any{
+		"accountId": accountID,
+		"id":        id,
+	}
+
+	var res PopLocationsBgpProfile
+	if err := c.Client.Post(ctx, "popLocationsBgpProfile", PopLocationsBgpProfileDocument, &res, vars, interceptors...); err != nil {
+		if c.Client.ParseDataWhenErrors {
+			return &res, err
+		}
+
+		return nil, err
+	}
+
+	return &res, nil
+}
+
+const PopLocationsBgpProfileListDocument = `query popLocationsBgpProfileList ($accountId: ID!) {
+	popLocations(accountId: $accountId) {
+		bgpProfileList {
+			items {
+				id
+				name
+				description
+				communities {
+					from
+					to
+				}
+				createdAt
+				lastUpdatedAt
+			}
+		}
+	}
+}
+`
+
+func (c *Client) PopLocationsBgpProfileList(ctx context.Context, accountID string, interceptors ...clientv2.RequestInterceptor) (*PopLocationsBgpProfileList, error) {
+	vars := map[string]any{
+		"accountId": accountID,
+	}
+
+	var res PopLocationsBgpProfileList
+	if err := c.Client.Post(ctx, "popLocationsBgpProfileList", PopLocationsBgpProfileListDocument, &res, vars, interceptors...); err != nil {
+		if c.Client.ParseDataWhenErrors {
+			return &res, err
+		}
+
+		return nil, err
+	}
+
+	return &res, nil
+}
+
 const PopLocationsDocument = `query popLocations ($accountId: ID!, $popLocationFilterInput: PopLocationFilterInput, $popLocationAllocatedIpInput: PopLocationAllocatedIpInput, $id: ID!) {
 	popLocations(accountId: $accountId) {
 		popLocationList(input: $popLocationFilterInput) {
@@ -429458,6 +435828,46 @@ func (c *Client) PopLocations(ctx context.Context, accountID string, popLocation
 
 	var res PopLocations
 	if err := c.Client.Post(ctx, "popLocations", PopLocationsDocument, &res, vars, interceptors...); err != nil {
+		if c.Client.ParseDataWhenErrors {
+			return &res, err
+		}
+
+		return nil, err
+	}
+
+	return &res, nil
+}
+
+const PopLocationsPopLocationListDocument = `query popLocationsPopLocationList ($accountId: ID!, $popLocationFilterInput: PopLocationFilterInput) {
+	popLocations(accountId: $accountId) {
+		popLocationList(input: $popLocationFilterInput) {
+			items {
+				id
+				name
+				displayName
+				country {
+					id
+					name
+				}
+				isPrivate
+				cloudInterconnect {
+					taggingMethod
+					providerName
+				}
+			}
+		}
+	}
+}
+`
+
+func (c *Client) PopLocationsPopLocationList(ctx context.Context, accountID string, popLocationFilterInput *cato_models.PopLocationFilterInput, interceptors ...clientv2.RequestInterceptor) (*PopLocationsPopLocationList, error) {
+	vars := map[string]any{
+		"accountId":              accountID,
+		"popLocationFilterInput": popLocationFilterInput,
+	}
+
+	var res PopLocationsPopLocationList
+	if err := c.Client.Post(ctx, "popLocationsPopLocationList", PopLocationsPopLocationListDocument, &res, vars, interceptors...); err != nil {
 		if c.Client.ParseDataWhenErrors {
 			return &res, err
 		}
@@ -430027,15 +436437,6 @@ const PostureDailySummaryListDocument = `query postureDailySummaryList ($account
 						}
 					}
 					evaluatedAt
-					comparisons {
-						comparisonType
-						comparisonValue
-						average
-						percentile
-					}
-					overallEffectiveAreaCriticality
-					overallEffectiveBlastRadius
-					overallEffectiveFindingsSignal
 				}
 			}
 			paging {
@@ -430487,6 +436888,66 @@ func (c *Client) PrivateApplication(ctx context.Context, accountID string, priva
 
 	var res PrivateApplication
 	if err := c.Client.Post(ctx, "privateApplication", PrivateApplicationDocument, &res, vars, interceptors...); err != nil {
+		if c.Client.ParseDataWhenErrors {
+			return &res, err
+		}
+
+		return nil, err
+	}
+
+	return &res, nil
+}
+
+const QueryRbacDocument = `query queryRbac ($accountId: ID!, $id: ID!, $roleManagementRoleListInput: RoleManagementRoleListInput!) {
+	rbac(accountId: $accountId) {
+		roleManagement {
+			permissionCatalog {
+				resource {
+					resource
+					supportedAction
+				}
+			}
+			role(id: $id) {
+				id
+				name
+				description
+				predefined
+				isUsedOnExternalAccess
+				permission {
+					resource
+					action
+				}
+			}
+			roleList(input: $roleManagementRoleListInput) {
+				items {
+					id
+					name
+					description
+					predefined
+					isUsedOnExternalAccess
+					permission {
+						resource
+						action
+					}
+				}
+				paging {
+					total
+				}
+			}
+		}
+	}
+}
+`
+
+func (c *Client) QueryRbac(ctx context.Context, accountID string, id string, roleManagementRoleListInput cato_models.RoleManagementRoleListInput, interceptors ...clientv2.RequestInterceptor) (*QueryRbac, error) {
+	vars := map[string]any{
+		"accountId":                   accountID,
+		"id":                          id,
+		"roleManagementRoleListInput": roleManagementRoleListInput,
+	}
+
+	var res QueryRbac
+	if err := c.Client.Post(ctx, "queryRbac", QueryRbacDocument, &res, vars, interceptors...); err != nil {
 		if c.Client.ParseDataWhenErrors {
 			return &res, err
 		}
@@ -434597,349 +441058,350 @@ func (c *Client) ZtnaAppConnectorZtnaAppConnectorList(ctx context.Context, accou
 }
 
 var DocumentOperationNames = map[string]string{
-	AccountManagementDisableAccountDocument:                      "accountManagementDisableAccount",
-	AdminAddAdminDocument:                                        "adminAddAdmin",
-	AdminAddServicePrincipalAdminDocument:                        "adminAddServicePrincipalAdmin",
-	AdminRemoveAdminDocument:                                     "adminRemoveAdmin",
-	AdminRemoveServicePrincipalAdminDocument:                     "adminRemoveServicePrincipalAdmin",
-	AdminUpdateAdminDocument:                                     "adminUpdateAdmin",
-	AdminUpdateServicePrincipalAdminDocument:                     "adminUpdateServicePrincipalAdmin",
-	BusinessPlatformCreateTrialAccountDocument:                   "businessPlatformCreateTrialAccount",
-	BusinessPlatformLinkToTrialAccountDocument:                   "businessPlatformLinkToTrialAccount",
-	BusinessPlatformUpdateSettingsDocument:                       "businessPlatformUpdateSettings",
-	ContainerDeleteDocument:                                      "containerDelete",
-	ContainerFqdnAddValuesDocument:                               "containerFqdnAddValues",
-	ContainerFqdnCreateFromFileDocument:                          "containerFqdnCreateFromFile",
-	ContainerFqdnCreateFromListDocument:                          "containerFqdnCreateFromList",
-	ContainerFqdnCreateFromURLDocument:                           "containerFqdnCreateFromURL",
-	ContainerFqdnRemoveValuesDocument:                            "containerFqdnRemoveValues",
-	ContainerFqdnSyncFromURLDocument:                             "containerFqdnSyncFromURL",
-	ContainerFqdnUpdateFromFileDocument:                          "containerFqdnUpdateFromFile",
-	ContainerFqdnUpdateFromListDocument:                          "containerFqdnUpdateFromList",
-	ContainerFqdnUpdateFromURLDocument:                           "containerFqdnUpdateFromURL",
-	ContainerIPAddressRangeAddValuesDocument:                     "containerIpAddressRangeAddValues",
-	ContainerIPAddressRangeCreateFromFileDocument:                "containerIpAddressRangeCreateFromFile",
-	ContainerIPAddressRangeCreateFromListDocument:                "containerIpAddressRangeCreateFromList",
-	ContainerIPAddressRangeCreateFromURLDocument:                 "containerIpAddressRangeCreateFromURL",
-	ContainerIPAddressRangeRemoveValuesDocument:                  "containerIpAddressRangeRemoveValues",
-	ContainerIPAddressRangeSyncFromURLDocument:                   "containerIpAddressRangeSyncFromURL",
-	ContainerIPAddressRangeUpdateFromFileDocument:                "containerIpAddressRangeUpdateFromFile",
-	ContainerIPAddressRangeUpdateFromListDocument:                "containerIpAddressRangeUpdateFromList",
-	ContainerIPAddressRangeUpdateFromURLDocument:                 "containerIpAddressRangeUpdateFromURL",
-	CustomAppDataAddCustomApplicationDocument:                    "customAppDataAddCustomApplication",
-	CustomAppDataDeleteCustomApplicationDocument:                 "customAppDataDeleteCustomApplication",
-	CustomAppDataUpdateCustomApplicationDocument:                 "customAppDataUpdateCustomApplication",
-	EncryptKeytabFileDocument:                                    "encryptKeytabFile",
-	EnterpriseDirectoryArchiveLocationDocument:                   "enterpriseDirectoryArchiveLocation",
-	EnterpriseDirectoryCreateLocationDocument:                    "enterpriseDirectoryCreateLocation",
-	EnterpriseDirectoryRestoreLocationDocument:                   "enterpriseDirectoryRestoreLocation",
-	EnterpriseDirectoryUpdateLocationDocument:                    "enterpriseDirectoryUpdateLocation",
-	ExternalAccessAddPartnerAccessRequestDocument:                "externalAccessAddPartnerAccessRequest",
-	ExternalAccessCancelPartnerAccessDocument:                    "externalAccessCancelPartnerAccess",
-	ExternalAccessResolveIncomingAccessRequestDocument:           "externalAccessResolveIncomingAccessRequest",
-	ExternalAccessRevokePartnerAccessDocument:                    "externalAccessRevokePartnerAccess",
-	GroupsCreateGroupDocument:                                    "groupsCreateGroup",
-	GroupsDeleteGroupDocument:                                    "groupsDeleteGroup",
-	GroupsUpdateGroupDocument:                                    "groupsUpdateGroup",
-	HardwareUpdateHwShippingDocument:                             "hardwareUpdateHwShipping",
-	LicensingAddLicenseToManagedAccountDocument:                  "licensingAddLicenseToManagedAccount",
-	LicensingDisableServiceForManagedAccountDocument:             "licensingDisableServiceForManagedAccount",
-	LicensingEnableServiceForManagedAccountDocument:              "licensingEnableServiceForManagedAccount",
-	LicensingRemoveLicenseFromManagedAccountDocument:             "licensingRemoveLicenseFromManagedAccount",
-	LicensingStartServiceTrialDocument:                           "licensingStartServiceTrial",
-	LicensingUpdateCommercialLicenseDocument:                     "licensingUpdateCommercialLicense",
-	LicensingUpdateLicenseForManagedAccountDocument:              "licensingUpdateLicenseForManagedAccount",
-	NetworkConfigDhcpCreateOptionDocument:                        "networkConfigDhcpCreateOption",
-	NetworkConfigDhcpCreateRelayGroupDocument:                    "networkConfigDhcpCreateRelayGroup",
-	NetworkConfigDhcpDeleteOptionDocument:                        "networkConfigDhcpDeleteOption",
-	NetworkConfigDhcpDeleteRelayGroupDocument:                    "networkConfigDhcpDeleteRelayGroup",
-	NetworkConfigDhcpSetOptionDocument:                           "networkConfigDhcpSetOption",
-	NetworkConfigDhcpSetRelayGroupDocument:                       "networkConfigDhcpSetRelayGroup",
-	NetworkConfigDhcpUpdateOptionDocument:                        "networkConfigDhcpUpdateOption",
-	NetworkConfigDhcpUpdateRelayGroupDocument:                    "networkConfigDhcpUpdateRelayGroup",
-	NetworkConfigDhcpUpdateSettingsDocument:                      "networkConfigDhcpUpdateSettings",
-	NetworkConfigDNSCreateForwardingRuleDocument:                 "networkConfigDnsCreateForwardingRule",
-	NetworkConfigDNSCreateServerSetDocument:                      "networkConfigDnsCreateServerSet",
-	NetworkConfigDNSCreateSuffixSetDocument:                      "networkConfigDnsCreateSuffixSet",
-	NetworkConfigDNSDeleteForwardingRuleDocument:                 "networkConfigDnsDeleteForwardingRule",
-	NetworkConfigDNSDeleteServerSetDocument:                      "networkConfigDnsDeleteServerSet",
-	NetworkConfigDNSDeleteSuffixSetDocument:                      "networkConfigDnsDeleteSuffixSet",
-	NetworkConfigDNSRemoveSiteSettingsDocument:                   "networkConfigDnsRemoveSiteSettings",
-	NetworkConfigDNSSetForwardingRuleDocument:                    "networkConfigDnsSetForwardingRule",
-	NetworkConfigDNSSetServerSetDocument:                         "networkConfigDnsSetServerSet",
-	NetworkConfigDNSSetSuffixSetDocument:                         "networkConfigDnsSetSuffixSet",
-	NetworkConfigDNSUpdateForwardingRuleDocument:                 "networkConfigDnsUpdateForwardingRule",
-	NetworkConfigDNSUpdateServerSetDocument:                      "networkConfigDnsUpdateServerSet",
-	NetworkConfigDNSUpdateSettingsDocument:                       "networkConfigDnsUpdateSettings",
-	NetworkConfigDNSUpdateSiteSettingsDocument:                   "networkConfigDnsUpdateSiteSettings",
-	NetworkConfigDNSUpdateSuffixSetDocument:                      "networkConfigDnsUpdateSuffixSet",
-	NotificationCreateMailingListDocument:                        "notificationCreateMailingList",
-	NotificationCreateSubscriptionGroupDocument:                  "notificationCreateSubscriptionGroup",
-	NotificationDeleteMailingListDocument:                        "notificationDeleteMailingList",
-	NotificationDeleteSubscriptionGroupDocument:                  "notificationDeleteSubscriptionGroup",
-	NotificationUpdateMailingListDocument:                        "notificationUpdateMailingList",
-	NotificationUpdateSubscriptionGroupDocument:                  "notificationUpdateSubscriptionGroup",
-	ObjectCreateGlobalIPRangeBulkDocument:                        "objectCreateGlobalIpRangeBulk",
-	ObjectDeleteGlobalIPRangeBulkDocument:                        "objectDeleteGlobalIpRangeBulk",
-	ObjectUpdateGlobalIPRangeBulkDocument:                        "objectUpdateGlobalIpRangeBulk",
-	PolicyAntiMalwareFileHashAddRuleDocument:                     "policyAntiMalwareFileHashAddRule",
-	PolicyAntiMalwareFileHashAddSectionDocument:                  "policyAntiMalwareFileHashAddSection",
-	PolicyAntiMalwareFileHashCreatePolicyRevisionDocument:        "policyAntiMalwareFileHashCreatePolicyRevision",
-	PolicyAntiMalwareFileHashDiscardPolicyRevisionDocument:       "policyAntiMalwareFileHashDiscardPolicyRevision",
-	PolicyAntiMalwareFileHashMoveRuleDocument:                    "policyAntiMalwareFileHashMoveRule",
-	PolicyAntiMalwareFileHashMoveSectionDocument:                 "policyAntiMalwareFileHashMoveSection",
-	PolicyAntiMalwareFileHashPublishPolicyRevisionDocument:       "policyAntiMalwareFileHashPublishPolicyRevision",
-	PolicyAntiMalwareFileHashRemoveRuleDocument:                  "policyAntiMalwareFileHashRemoveRule",
-	PolicyAntiMalwareFileHashRemoveSectionDocument:               "policyAntiMalwareFileHashRemoveSection",
-	PolicyAntiMalwareFileHashUpdatePolicyDocument:                "policyAntiMalwareFileHashUpdatePolicy",
-	PolicyAntiMalwareFileHashUpdateRuleDocument:                  "policyAntiMalwareFileHashUpdateRule",
-	PolicyAntiMalwareFileHashUpdateSectionDocument:               "policyAntiMalwareFileHashUpdateSection",
-	PolicyAppTenantRestrictionAddRuleDocument:                    "policyAppTenantRestrictionAddRule",
-	PolicyAppTenantRestrictionAddSectionDocument:                 "policyAppTenantRestrictionAddSection",
-	PolicyAppTenantRestrictionCreatePolicyRevisionDocument:       "policyAppTenantRestrictionCreatePolicyRevision",
-	PolicyAppTenantRestrictionDiscardPolicyRevisionDocument:      "policyAppTenantRestrictionDiscardPolicyRevision",
-	PolicyAppTenantRestrictionMoveRuleDocument:                   "policyAppTenantRestrictionMoveRule",
-	PolicyAppTenantRestrictionMoveSectionDocument:                "policyAppTenantRestrictionMoveSection",
-	PolicyAppTenantRestrictionPublishPolicyRevisionDocument:      "policyAppTenantRestrictionPublishPolicyRevision",
-	PolicyAppTenantRestrictionRemoveRuleDocument:                 "policyAppTenantRestrictionRemoveRule",
-	PolicyAppTenantRestrictionRemoveSectionDocument:              "policyAppTenantRestrictionRemoveSection",
-	PolicyAppTenantRestrictionUpdatePolicyDocument:               "policyAppTenantRestrictionUpdatePolicy",
-	PolicyAppTenantRestrictionUpdateRuleDocument:                 "policyAppTenantRestrictionUpdateRule",
-	PolicyAppTenantRestrictionUpdateSectionDocument:              "policyAppTenantRestrictionUpdateSection",
-	PolicyApplicationControlAddRuleDocument:                      "policyApplicationControlAddRule",
-	PolicyApplicationControlAddSectionDocument:                   "policyApplicationControlAddSection",
-	PolicyApplicationControlCreatePolicyRevisionDocument:         "policyApplicationControlCreatePolicyRevision",
-	PolicyApplicationControlDiscardPolicyRevisionDocument:        "policyApplicationControlDiscardPolicyRevision",
-	PolicyApplicationControlMoveRuleDocument:                     "policyApplicationControlMoveRule",
-	PolicyApplicationControlMoveSectionDocument:                  "policyApplicationControlMoveSection",
-	PolicyApplicationControlPublishPolicyRevisionDocument:        "policyApplicationControlPublishPolicyRevision",
-	PolicyApplicationControlRemoveRuleDocument:                   "policyApplicationControlRemoveRule",
-	PolicyApplicationControlRemoveSectionDocument:                "policyApplicationControlRemoveSection",
-	PolicyApplicationControlUpdatePolicyDocument:                 "policyApplicationControlUpdatePolicy",
-	PolicyApplicationControlUpdateRuleDocument:                   "policyApplicationControlUpdateRule",
-	PolicyApplicationControlUpdateSectionDocument:                "policyApplicationControlUpdateSection",
-	PolicyClientConnectivityAddRuleDocument:                      "policyClientConnectivityAddRule",
-	PolicyClientConnectivityAddSectionDocument:                   "policyClientConnectivityAddSection",
-	PolicyClientConnectivityCreatePolicyRevisionDocument:         "policyClientConnectivityCreatePolicyRevision",
-	PolicyClientConnectivityDiscardPolicyRevisionDocument:        "policyClientConnectivityDiscardPolicyRevision",
-	PolicyClientConnectivityMoveRuleDocument:                     "policyClientConnectivityMoveRule",
-	PolicyClientConnectivityMoveSectionDocument:                  "policyClientConnectivityMoveSection",
-	PolicyClientConnectivityPublishPolicyRevisionDocument:        "policyClientConnectivityPublishPolicyRevision",
-	PolicyClientConnectivityRemoveRuleDocument:                   "policyClientConnectivityRemoveRule",
-	PolicyClientConnectivityRemoveSectionDocument:                "policyClientConnectivityRemoveSection",
-	PolicyClientConnectivityUpdatePolicyDocument:                 "policyClientConnectivityUpdatePolicy",
-	PolicyClientConnectivityUpdateRuleDocument:                   "policyClientConnectivityUpdateRule",
-	PolicyClientConnectivityUpdateSectionDocument:                "policyClientConnectivityUpdateSection",
-	PolicyInternetFirewallDiscardPolicyRevisionDocument:          "policyInternetFirewallDiscardPolicyRevision",
-	PolicyDynamicIPAllocationAddRuleDocument:                     "policyDynamicIpAllocationAddRule",
-	PolicyDynamicIPAllocationAddSectionDocument:                  "policyDynamicIpAllocationAddSection",
-	PolicyDynamicIPAllocationCreatePolicyRevisionDocument:        "policyDynamicIpAllocationCreatePolicyRevision",
-	PolicyDynamicIPAllocationDiscardPolicyRevisionDocument:       "policyDynamicIpAllocationDiscardPolicyRevision",
-	PolicyDynamicIPAllocationMoveRuleDocument:                    "policyDynamicIpAllocationMoveRule",
-	PolicyDynamicIPAllocationMoveSectionDocument:                 "policyDynamicIpAllocationMoveSection",
-	PolicyDynamicIPAllocationPublishPolicyRevisionDocument:       "policyDynamicIpAllocationPublishPolicyRevision",
-	PolicyDynamicIPAllocationRemoveRuleDocument:                  "policyDynamicIpAllocationRemoveRule",
-	PolicyDynamicIPAllocationRemoveSectionDocument:               "policyDynamicIpAllocationRemoveSection",
-	PolicyDynamicIPAllocationUpdatePolicyDocument:                "policyDynamicIpAllocationUpdatePolicy",
-	PolicyDynamicIPAllocationUpdateRuleDocument:                  "policyDynamicIpAllocationUpdateRule",
-	PolicyDynamicIPAllocationUpdateSectionDocument:               "policyDynamicIpAllocationUpdateSection",
-	PolicyInternetFirewallAddRuleDocument:                        "policyInternetFirewallAddRule",
-	PolicyInternetFirewallAddSectionDocument:                     "policyInternetFirewallAddSection",
-	PolicyInternetFirewallAddSubPolicyDocument:                   "policyInternetFirewallAddSubPolicy",
-	PolicyInternetFirewallCreatePolicyRevisionDocument:           "policyInternetFirewallCreatePolicyRevision",
-	MutationPolicyInternetFirewallDiscardPolicyRevisionDocument:  "mutationPolicyInternetFirewallDiscardPolicyRevision",
-	PolicyInternetFirewallMoveRuleDocument:                       "policyInternetFirewallMoveRule",
-	PolicyInternetFirewallMoveSectionDocument:                    "policyInternetFirewallMoveSection",
-	PolicyInternetFirewallPublishPolicyRevisionDocument:          "policyInternetFirewallPublishPolicyRevision",
-	PolicyInternetFirewallRemoveRuleDocument:                     "policyInternetFirewallRemoveRule",
-	PolicyInternetFirewallRemoveSectionDocument:                  "policyInternetFirewallRemoveSection",
-	PolicyInternetFirewallRemoveSubPolicyDocument:                "policyInternetFirewallRemoveSubPolicy",
-	PolicyInternetFirewallReorderPolicyDocument:                  "policyInternetFirewallReorderPolicy",
-	PolicyInternetFirewallUpdatePolicyDocument:                   "policyInternetFirewallUpdatePolicy",
-	PolicyInternetFirewallUpdateRuleDocument:                     "policyInternetFirewallUpdateRule",
-	PolicyInternetFirewallUpdateSectionDocument:                  "policyInternetFirewallUpdateSection",
-	PolicyPrivateAccessAddRuleDocument:                           "policyPrivateAccessAddRule",
-	PolicyPrivateAccessAddSectionDocument:                        "policyPrivateAccessAddSection",
-	PolicyPrivateAccessCreatePolicyRevisionDocument:              "policyPrivateAccessCreatePolicyRevision",
-	PolicyPrivateAccessDeleteRuleDocument:                        "policyPrivateAccessDeleteRule",
-	PolicyPrivateAccessDiscardPolicyRevisionDocument:             "policyPrivateAccessDiscardPolicyRevision",
-	PolicyPrivateAccessDiscardRevisionDocument:                   "policyPrivateAccessDiscardRevision",
-	PolicyPrivateAccessMoveRuleDocument:                          "policyPrivateAccessMoveRule",
-	PolicyPrivateAccessMoveSectionDocument:                       "policyPrivateAccessMoveSection",
-	PolicyPrivateAccessPublishPolicyRevisionDocument:             "policyPrivateAccessPublishPolicyRevision",
-	PolicyPrivateAccessPublishRevisionDocument:                   "policyPrivateAccessPublishRevision",
-	PolicyPrivateAccessRemoveRuleDocument:                        "policyPrivateAccessRemoveRule",
-	PolicyPrivateAccessRemoveSectionDocument:                     "policyPrivateAccessRemoveSection",
-	PolicyPrivateAccessUpdatePolicyDocument:                      "policyPrivateAccessUpdatePolicy",
-	PolicyPrivateAccessUpdateRuleDocument:                        "policyPrivateAccessUpdateRule",
-	PolicyPrivateAccessUpdateSectionDocument:                     "policyPrivateAccessUpdateSection",
-	PolicyRemotePortFwdAddRuleDocument:                           "policyRemotePortFwdAddRule",
-	PolicyRemotePortFwdAddSectionDocument:                        "policyRemotePortFwdAddSection",
-	PolicyRemotePortFwdCreatePolicyRevisionDocument:              "policyRemotePortFwdCreatePolicyRevision",
-	PolicyRemotePortFwdDiscardPolicyRevisionDocument:             "policyRemotePortFwdDiscardPolicyRevision",
-	PolicyRemotePortFwdMoveRuleDocument:                          "policyRemotePortFwdMoveRule",
-	PolicyRemotePortFwdMoveSectionDocument:                       "policyRemotePortFwdMoveSection",
-	PolicyRemotePortFwdPublishPolicyRevisionDocument:             "policyRemotePortFwdPublishPolicyRevision",
-	PolicyRemotePortFwdRemoveRuleDocument:                        "policyRemotePortFwdRemoveRule",
-	PolicyRemotePortFwdRemoveSectionDocument:                     "policyRemotePortFwdRemoveSection",
-	PolicyRemotePortFwdUpdatePolicyDocument:                      "policyRemotePortFwdUpdatePolicy",
-	PolicyRemotePortFwdUpdateRuleDocument:                        "policyRemotePortFwdUpdateRule",
-	PolicyRemotePortFwdUpdateSectionDocument:                     "policyRemotePortFwdUpdateSection",
-	PolicySdpStaticIPAllocationAddRuleDocument:                   "policySdpStaticIpAllocationAddRule",
-	PolicySdpStaticIPAllocationAddSectionDocument:                "policySdpStaticIpAllocationAddSection",
-	PolicySdpStaticIPAllocationCreatePolicyRevisionDocument:      "policySdpStaticIpAllocationCreatePolicyRevision",
-	PolicySdpStaticIPAllocationDiscardPolicyRevisionDocument:     "policySdpStaticIpAllocationDiscardPolicyRevision",
-	PolicySdpStaticIPAllocationMoveRuleDocument:                  "policySdpStaticIpAllocationMoveRule",
-	PolicySdpStaticIPAllocationMoveSectionDocument:               "policySdpStaticIpAllocationMoveSection",
-	PolicySdpStaticIPAllocationPublishPolicyRevisionDocument:     "policySdpStaticIpAllocationPublishPolicyRevision",
-	PolicySdpStaticIPAllocationRemoveRuleDocument:                "policySdpStaticIpAllocationRemoveRule",
-	PolicySdpStaticIPAllocationRemoveSectionDocument:             "policySdpStaticIpAllocationRemoveSection",
-	PolicySdpStaticIPAllocationUpdatePolicyDocument:              "policySdpStaticIpAllocationUpdatePolicy",
-	PolicySdpStaticIPAllocationUpdateRuleDocument:                "policySdpStaticIpAllocationUpdateRule",
-	PolicySdpStaticIPAllocationUpdateSectionDocument:             "policySdpStaticIpAllocationUpdateSection",
-	PolicySiteWebProxyAddRuleDocument:                            "policySiteWebProxyAddRule",
-	PolicySiteWebProxyAddSectionDocument:                         "policySiteWebProxyAddSection",
-	PolicySiteWebProxyCreatePolicyRevisionDocument:               "policySiteWebProxyCreatePolicyRevision",
-	PolicySiteWebProxyDiscardPolicyRevisionDocument:              "policySiteWebProxyDiscardPolicyRevision",
-	PolicySiteWebProxyMoveRuleDocument:                           "policySiteWebProxyMoveRule",
-	PolicySiteWebProxyMoveSectionDocument:                        "policySiteWebProxyMoveSection",
-	PolicySiteWebProxyPublishPolicyRevisionDocument:              "policySiteWebProxyPublishPolicyRevision",
-	PolicySiteWebProxyRemoveRuleDocument:                         "policySiteWebProxyRemoveRule",
-	PolicySiteWebProxyRemoveSectionDocument:                      "policySiteWebProxyRemoveSection",
-	PolicySiteWebProxyUpdatePolicyDocument:                       "policySiteWebProxyUpdatePolicy",
-	PolicySiteWebProxyUpdateRuleDocument:                         "policySiteWebProxyUpdateRule",
-	PolicySiteWebProxyUpdateSectionDocument:                      "policySiteWebProxyUpdateSection",
-	PolicySocketBypassAddRuleDocument:                            "policySocketBypassAddRule",
-	PolicySocketBypassAddSectionDocument:                         "policySocketBypassAddSection",
-	PolicySocketBypassCreatePolicyRevisionDocument:               "policySocketBypassCreatePolicyRevision",
-	PolicySocketBypassDiscardPolicyRevisionDocument:              "policySocketBypassDiscardPolicyRevision",
-	PolicySocketBypassMoveRuleDocument:                           "policySocketBypassMoveRule",
-	PolicySocketBypassMoveSectionDocument:                        "policySocketBypassMoveSection",
-	PolicySocketBypassPublishPolicyRevisionDocument:              "policySocketBypassPublishPolicyRevision",
-	PolicySocketBypassRemoveRuleDocument:                         "policySocketBypassRemoveRule",
-	PolicySocketBypassRemoveSectionDocument:                      "policySocketBypassRemoveSection",
-	PolicySocketBypassReorderPolicyDocument:                      "policySocketBypassReorderPolicy",
-	PolicySocketBypassUpdatePolicyDocument:                       "policySocketBypassUpdatePolicy",
-	PolicySocketBypassUpdateRuleDocument:                         "policySocketBypassUpdateRule",
-	PolicySocketBypassUpdateSectionDocument:                      "policySocketBypassUpdateSection",
-	PolicySocketLanAddRuleDocument:                               "policySocketLanAddRule",
-	PolicySocketLanAddSectionDocument:                            "policySocketLanAddSection",
-	PolicySocketLanAddSubPolicyDocument:                          "policySocketLanAddSubPolicy",
-	PolicySocketLanCreatePolicyRevisionDocument:                  "policySocketLanCreatePolicyRevision",
-	PolicySocketLanDiscardPolicyRevisionDocument:                 "policySocketLanDiscardPolicyRevision",
-	PolicySocketLanFirewallAddRuleDocument:                       "policySocketLanFirewallAddRule",
-	PolicySocketLanFirewallMoveRuleDocument:                      "policySocketLanFirewallMoveRule",
-	PolicySocketLanFirewallRemoveRuleDocument:                    "policySocketLanFirewallRemoveRule",
-	PolicySocketLanFirewallUpdateRuleDocument:                    "policySocketLanFirewallUpdateRule",
-	PolicySocketLanMoveRuleDocument:                              "policySocketLanMoveRule",
-	PolicySocketLanMoveSectionDocument:                           "policySocketLanMoveSection",
-	PolicySocketLanPublishPolicyRevisionDocument:                 "policySocketLanPublishPolicyRevision",
-	PolicySocketLanRemoveRuleDocument:                            "policySocketLanRemoveRule",
-	PolicySocketLanRemoveSectionDocument:                         "policySocketLanRemoveSection",
-	PolicySocketLanRemoveSubPolicyDocument:                       "policySocketLanRemoveSubPolicy",
-	PolicySocketLanReorderPolicyDocument:                         "policySocketLanReorderPolicy",
-	PolicySocketLanUpdatePolicyDocument:                          "policySocketLanUpdatePolicy",
-	PolicySocketLanUpdateRuleDocument:                            "policySocketLanUpdateRule",
-	PolicySocketLanUpdateSectionDocument:                         "policySocketLanUpdateSection",
-	PolicySplitTunnelAddRuleDocument:                             "policySplitTunnelAddRule",
-	PolicySplitTunnelAddSectionDocument:                          "policySplitTunnelAddSection",
-	PolicySplitTunnelCreatePolicyRevisionDocument:                "policySplitTunnelCreatePolicyRevision",
-	PolicySplitTunnelDiscardPolicyRevisionDocument:               "policySplitTunnelDiscardPolicyRevision",
-	PolicySplitTunnelMoveRuleDocument:                            "policySplitTunnelMoveRule",
-	PolicySplitTunnelMoveSectionDocument:                         "policySplitTunnelMoveSection",
-	PolicySplitTunnelPublishPolicyRevisionDocument:               "policySplitTunnelPublishPolicyRevision",
-	PolicySplitTunnelRemoveRuleDocument:                          "policySplitTunnelRemoveRule",
-	PolicySplitTunnelRemoveSectionDocument:                       "policySplitTunnelRemoveSection",
-	PolicySplitTunnelUpdatePolicyDocument:                        "policySplitTunnelUpdatePolicy",
-	PolicySplitTunnelUpdateRuleDocument:                          "policySplitTunnelUpdateRule",
-	PolicySplitTunnelUpdateSectionDocument:                       "policySplitTunnelUpdateSection",
-	PolicyTerminalServerAddRuleDocument:                          "policyTerminalServerAddRule",
-	PolicyTerminalServerAddSectionDocument:                       "policyTerminalServerAddSection",
-	PolicyTerminalServerCreatePolicyRevisionDocument:             "policyTerminalServerCreatePolicyRevision",
-	PolicyTerminalServerDiscardPolicyRevisionDocument:            "policyTerminalServerDiscardPolicyRevision",
-	PolicyTerminalServerMoveRuleDocument:                         "policyTerminalServerMoveRule",
-	PolicyTerminalServerMoveSectionDocument:                      "policyTerminalServerMoveSection",
-	PolicyTerminalServerPublishPolicyRevisionDocument:            "policyTerminalServerPublishPolicyRevision",
-	PolicyTerminalServerRemoveRuleDocument:                       "policyTerminalServerRemoveRule",
-	PolicyTerminalServerRemoveSectionDocument:                    "policyTerminalServerRemoveSection",
-	PolicyTerminalServerUpdatePolicyDocument:                     "policyTerminalServerUpdatePolicy",
-	PolicyTerminalServerUpdateRuleDocument:                       "policyTerminalServerUpdateRule",
-	PolicyTerminalServerUpdateSectionDocument:                    "policyTerminalServerUpdateSection",
-	PolicyTLSInspectAddRuleDocument:                              "policyTlsInspectAddRule",
-	PolicyTLSInspectAddSectionDocument:                           "policyTlsInspectAddSection",
-	PolicyTLSInspectCreatePolicyRevisionDocument:                 "policyTlsInspectCreatePolicyRevision",
-	PolicyTLSInspectDiscardPolicyRevisionDocument:                "policyTlsInspectDiscardPolicyRevision",
-	PolicyTLSInspectMoveRuleDocument:                             "policyTlsInspectMoveRule",
-	PolicyTLSInspectMoveSectionDocument:                          "policyTlsInspectMoveSection",
-	PolicyTLSInspectPublishPolicyRevisionDocument:                "policyTlsInspectPublishPolicyRevision",
-	PolicyTLSInspectRemoveRuleDocument:                           "policyTlsInspectRemoveRule",
-	PolicyTLSInspectRemoveSectionDocument:                        "policyTlsInspectRemoveSection",
-	PolicyTLSInspectUpdatePolicyDocument:                         "policyTlsInspectUpdatePolicy",
-	PolicyTLSInspectUpdateRuleDocument:                           "policyTlsInspectUpdateRule",
-	PolicyTLSInspectUpdateSectionDocument:                        "policyTlsInspectUpdateSection",
-	PolicyWanFirewallAddRuleDocument:                             "policyWanFirewallAddRule",
-	PolicyWanFirewallAddSectionDocument:                          "policyWanFirewallAddSection",
-	PolicyWanFirewallAddSubPolicyDocument:                        "policyWanFirewallAddSubPolicy",
-	PolicyWanFirewallCreatePolicyRevisionDocument:                "policyWanFirewallCreatePolicyRevision",
-	PolicyWanFirewallDiscardPolicyRevisionDocument:               "policyWanFirewallDiscardPolicyRevision",
-	PolicyWanFirewallMoveRuleDocument:                            "policyWanFirewallMoveRule",
-	PolicyWanFirewallMoveSectionDocument:                         "policyWanFirewallMoveSection",
-	PolicyWanFirewallPublishPolicyRevisionDocument:               "policyWanFirewallPublishPolicyRevision",
-	PolicyWanFirewallRemoveRuleDocument:                          "policyWanFirewallRemoveRule",
-	PolicyWanFirewallRemoveSectionDocument:                       "policyWanFirewallRemoveSection",
-	PolicyWanFirewallRemoveSubPolicyDocument:                     "policyWanFirewallRemoveSubPolicy",
-	PolicyWanFirewallReorderPolicyDocument:                       "policyWanFirewallReorderPolicy",
-	PolicyWanFirewallUpdatePolicyDocument:                        "policyWanFirewallUpdatePolicy",
-	PolicyWanFirewallUpdateRuleDocument:                          "policyWanFirewallUpdateRule",
-	PolicyWanFirewallUpdateSectionDocument:                       "policyWanFirewallUpdateSection",
-	PolicyWanNetworkAddRuleDocument:                              "policyWanNetworkAddRule",
-	PolicyWanNetworkAddSectionDocument:                           "policyWanNetworkAddSection",
-	PolicyWanNetworkCreatePolicyRevisionDocument:                 "policyWanNetworkCreatePolicyRevision",
-	PolicyWanNetworkDiscardPolicyRevisionDocument:                "policyWanNetworkDiscardPolicyRevision",
-	PolicyWanNetworkMoveRuleDocument:                             "policyWanNetworkMoveRule",
-	PolicyWanNetworkMoveSectionDocument:                          "policyWanNetworkMoveSection",
-	PolicyWanNetworkPublishPolicyRevisionDocument:                "policyWanNetworkPublishPolicyRevision",
-	PolicyWanNetworkRemoveRuleDocument:                           "policyWanNetworkRemoveRule",
-	PolicyWanNetworkRemoveSectionDocument:                        "policyWanNetworkRemoveSection",
-	PolicyWanNetworkReorderPolicyDocument:                        "policyWanNetworkReorderPolicy",
-	PolicyWanNetworkUpdatePolicyDocument:                         "policyWanNetworkUpdatePolicy",
-	PolicyWanNetworkUpdateRuleDocument:                           "policyWanNetworkUpdateRule",
-	PolicyWanNetworkUpdateSectionDocument:                        "policyWanNetworkUpdateSection",
-	PolicyZtnaAlwaysOnAddRuleDocument:                            "policyZtnaAlwaysOnAddRule",
-	PolicyZtnaAlwaysOnAddSectionDocument:                         "policyZtnaAlwaysOnAddSection",
-	PolicyZtnaAlwaysOnCreatePolicyRevisionDocument:               "policyZtnaAlwaysOnCreatePolicyRevision",
-	PolicyZtnaAlwaysOnDiscardPolicyRevisionDocument:              "policyZtnaAlwaysOnDiscardPolicyRevision",
-	PolicyZtnaAlwaysOnMoveRuleDocument:                           "policyZtnaAlwaysOnMoveRule",
-	PolicyZtnaAlwaysOnMoveSectionDocument:                        "policyZtnaAlwaysOnMoveSection",
-	PolicyZtnaAlwaysOnPublishPolicyRevisionDocument:              "policyZtnaAlwaysOnPublishPolicyRevision",
-	PolicyZtnaAlwaysOnRemoveRuleDocument:                         "policyZtnaAlwaysOnRemoveRule",
-	PolicyZtnaAlwaysOnRemoveSectionDocument:                      "policyZtnaAlwaysOnRemoveSection",
-	PolicyZtnaAlwaysOnUpdatePolicyDocument:                       "policyZtnaAlwaysOnUpdatePolicy",
-	PolicyZtnaAlwaysOnUpdateRuleDocument:                         "policyZtnaAlwaysOnUpdateRule",
-	PolicyZtnaAlwaysOnUpdateSectionDocument:                      "policyZtnaAlwaysOnUpdateSection",
-	PopLocationMutationsAddAllocatedIPDocument:                   "popLocationMutationsAddAllocatedIp",
-	PopLocationMutationsAddBgpProfileDocument:                    "popLocationMutationsAddBgpProfile",
-	PopLocationMutationsAllocateIPDocument:                       "popLocationMutationsAllocateIp",
-	PopLocationMutationsReleaseIPDocument:                        "popLocationMutationsReleaseIp",
-	PopLocationMutationsRemoveAllocatedIPDocument:                "popLocationMutationsRemoveAllocatedIp",
-	PopLocationMutationsRemoveBgpProfileDocument:                 "popLocationMutationsRemoveBgpProfile",
-	PopLocationMutationsUpdateAllocatedIPDescriptionDocument:     "popLocationMutationsUpdateAllocatedIpDescription",
-	PopLocationMutationsUpdateBgpProfileDocument:                 "popLocationMutationsUpdateBgpProfile",
-	PostureAddCheckCommentDocument:                               "postureAddCheckComment",
-	PostureDismissFindingDocument:                                "postureDismissFinding",
-	PostureMuteCheckDocument:                                     "postureMuteCheck",
-	PostureMuteFindingDocument:                                   "postureMuteFinding",
-	PostureReevaluateChecksDocument:                              "postureReevaluateChecks",
-	PostureUndismissFindingDocument:                              "postureUndismissFinding",
-	PostureUnmuteCheckDocument:                                   "postureUnmuteCheck",
-	PostureUnmuteFindingDocument:                                 "postureUnmuteFinding",
-	PostureUpdateCheckConfigurationDocument:                      "postureUpdateCheckConfiguration",
-	PrivateAppCreatePrivateAppDocument:                           "privateAppCreatePrivateApp",
-	PrivateAppDeletePrivateAppDocument:                           "privateAppDeletePrivateApp",
-	PrivateAppUpdatePrivateAppDocument:                           "privateAppUpdatePrivateApp",
-	PrivateApplicationCreatePrivateApplicationDocument:           "privateApplicationCreatePrivateApplication",
-	PrivateApplicationDeletePrivateApplicationDocument:           "privateApplicationDeletePrivateApplication",
-	PrivateApplicationUpdatePrivateApplicationDocument:           "privateApplicationUpdatePrivateApplication",
+	AccountManagementDisableAccountDocument:                     "accountManagementDisableAccount",
+	AdminAddAdminDocument:                                       "adminAddAdmin",
+	AdminAddServicePrincipalAdminDocument:                       "adminAddServicePrincipalAdmin",
+	AdminRemoveAdminDocument:                                    "adminRemoveAdmin",
+	AdminRemoveServicePrincipalAdminDocument:                    "adminRemoveServicePrincipalAdmin",
+	AdminUpdateAdminDocument:                                    "adminUpdateAdmin",
+	AdminUpdateServicePrincipalAdminDocument:                    "adminUpdateServicePrincipalAdmin",
+	BusinessPlatformCreateTrialAccountDocument:                  "businessPlatformCreateTrialAccount",
+	BusinessPlatformLinkToTrialAccountDocument:                  "businessPlatformLinkToTrialAccount",
+	BusinessPlatformUpdateSettingsDocument:                      "businessPlatformUpdateSettings",
+	ContainerDeleteDocument:                                     "containerDelete",
+	ContainerFqdnAddValuesDocument:                              "containerFqdnAddValues",
+	ContainerFqdnCreateFromFileDocument:                         "containerFqdnCreateFromFile",
+	ContainerFqdnCreateFromListDocument:                         "containerFqdnCreateFromList",
+	ContainerFqdnCreateFromURLDocument:                          "containerFqdnCreateFromURL",
+	ContainerFqdnRemoveValuesDocument:                           "containerFqdnRemoveValues",
+	ContainerFqdnSyncFromURLDocument:                            "containerFqdnSyncFromURL",
+	ContainerFqdnUpdateFromFileDocument:                         "containerFqdnUpdateFromFile",
+	ContainerFqdnUpdateFromListDocument:                         "containerFqdnUpdateFromList",
+	ContainerFqdnUpdateFromURLDocument:                          "containerFqdnUpdateFromURL",
+	ContainerIPAddressRangeAddValuesDocument:                    "containerIpAddressRangeAddValues",
+	ContainerIPAddressRangeCreateFromFileDocument:               "containerIpAddressRangeCreateFromFile",
+	ContainerIPAddressRangeCreateFromListDocument:               "containerIpAddressRangeCreateFromList",
+	ContainerIPAddressRangeCreateFromURLDocument:                "containerIpAddressRangeCreateFromURL",
+	ContainerIPAddressRangeRemoveValuesDocument:                 "containerIpAddressRangeRemoveValues",
+	ContainerIPAddressRangeSyncFromURLDocument:                  "containerIpAddressRangeSyncFromURL",
+	ContainerIPAddressRangeUpdateFromFileDocument:               "containerIpAddressRangeUpdateFromFile",
+	ContainerIPAddressRangeUpdateFromListDocument:               "containerIpAddressRangeUpdateFromList",
+	ContainerIPAddressRangeUpdateFromURLDocument:                "containerIpAddressRangeUpdateFromURL",
+	CustomAppDataAddCustomApplicationDocument:                   "customAppDataAddCustomApplication",
+	CustomAppDataDeleteCustomApplicationDocument:                "customAppDataDeleteCustomApplication",
+	CustomAppDataUpdateCustomApplicationDocument:                "customAppDataUpdateCustomApplication",
+	EncryptKeytabFileDocument:                                   "encryptKeytabFile",
+	EnterpriseDirectoryArchiveLocationDocument:                  "enterpriseDirectoryArchiveLocation",
+	EnterpriseDirectoryCreateLocationDocument:                   "enterpriseDirectoryCreateLocation",
+	EnterpriseDirectoryRestoreLocationDocument:                  "enterpriseDirectoryRestoreLocation",
+	EnterpriseDirectoryUpdateLocationDocument:                   "enterpriseDirectoryUpdateLocation",
+	ExternalAccessAddPartnerAccessRequestDocument:               "externalAccessAddPartnerAccessRequest",
+	ExternalAccessCancelPartnerAccessDocument:                   "externalAccessCancelPartnerAccess",
+	ExternalAccessResolveIncomingAccessRequestDocument:          "externalAccessResolveIncomingAccessRequest",
+	ExternalAccessRevokePartnerAccessDocument:                   "externalAccessRevokePartnerAccess",
+	GroupsCreateGroupDocument:                                   "groupsCreateGroup",
+	GroupsDeleteGroupDocument:                                   "groupsDeleteGroup",
+	GroupsUpdateGroupDocument:                                   "groupsUpdateGroup",
+	HardwareUpdateHwShippingDocument:                            "hardwareUpdateHwShipping",
+	LicensingAddLicenseToManagedAccountDocument:                 "licensingAddLicenseToManagedAccount",
+	LicensingDisableServiceForManagedAccountDocument:            "licensingDisableServiceForManagedAccount",
+	LicensingEnableServiceForManagedAccountDocument:             "licensingEnableServiceForManagedAccount",
+	LicensingRemoveLicenseFromManagedAccountDocument:            "licensingRemoveLicenseFromManagedAccount",
+	LicensingStartServiceTrialDocument:                          "licensingStartServiceTrial",
+	LicensingUpdateCommercialLicenseDocument:                    "licensingUpdateCommercialLicense",
+	LicensingUpdateLicenseForManagedAccountDocument:             "licensingUpdateLicenseForManagedAccount",
+	NetworkConfigDhcpCreateOptionDocument:                       "networkConfigDhcpCreateOption",
+	NetworkConfigDhcpCreateRelayGroupDocument:                   "networkConfigDhcpCreateRelayGroup",
+	NetworkConfigDhcpDeleteOptionDocument:                       "networkConfigDhcpDeleteOption",
+	NetworkConfigDhcpDeleteRelayGroupDocument:                   "networkConfigDhcpDeleteRelayGroup",
+	NetworkConfigDhcpSetOptionDocument:                          "networkConfigDhcpSetOption",
+	NetworkConfigDhcpSetRelayGroupDocument:                      "networkConfigDhcpSetRelayGroup",
+	NetworkConfigDhcpUpdateOptionDocument:                       "networkConfigDhcpUpdateOption",
+	NetworkConfigDhcpUpdateRelayGroupDocument:                   "networkConfigDhcpUpdateRelayGroup",
+	NetworkConfigDhcpUpdateSettingsDocument:                     "networkConfigDhcpUpdateSettings",
+	NetworkConfigDNSCreateForwardingRuleDocument:                "networkConfigDnsCreateForwardingRule",
+	NetworkConfigDNSCreateServerSetDocument:                     "networkConfigDnsCreateServerSet",
+	NetworkConfigDNSCreateSuffixSetDocument:                     "networkConfigDnsCreateSuffixSet",
+	NetworkConfigDNSDeleteForwardingRuleDocument:                "networkConfigDnsDeleteForwardingRule",
+	NetworkConfigDNSDeleteServerSetDocument:                     "networkConfigDnsDeleteServerSet",
+	NetworkConfigDNSDeleteSuffixSetDocument:                     "networkConfigDnsDeleteSuffixSet",
+	NetworkConfigDNSRemoveSiteSettingsDocument:                  "networkConfigDnsRemoveSiteSettings",
+	NetworkConfigDNSSetForwardingRuleDocument:                   "networkConfigDnsSetForwardingRule",
+	NetworkConfigDNSSetServerSetDocument:                        "networkConfigDnsSetServerSet",
+	NetworkConfigDNSSetSuffixSetDocument:                        "networkConfigDnsSetSuffixSet",
+	NetworkConfigDNSUpdateForwardingRuleDocument:                "networkConfigDnsUpdateForwardingRule",
+	NetworkConfigDNSUpdateServerSetDocument:                     "networkConfigDnsUpdateServerSet",
+	NetworkConfigDNSUpdateSettingsDocument:                      "networkConfigDnsUpdateSettings",
+	NetworkConfigDNSUpdateSiteSettingsDocument:                  "networkConfigDnsUpdateSiteSettings",
+	NetworkConfigDNSUpdateSuffixSetDocument:                     "networkConfigDnsUpdateSuffixSet",
+	NotificationCreateMailingListDocument:                       "notificationCreateMailingList",
+	NotificationCreateSubscriptionGroupDocument:                 "notificationCreateSubscriptionGroup",
+	NotificationDeleteMailingListDocument:                       "notificationDeleteMailingList",
+	NotificationDeleteSubscriptionGroupDocument:                 "notificationDeleteSubscriptionGroup",
+	NotificationUpdateMailingListDocument:                       "notificationUpdateMailingList",
+	NotificationUpdateSubscriptionGroupDocument:                 "notificationUpdateSubscriptionGroup",
+	ObjectCreateGlobalIPRangeBulkDocument:                       "objectCreateGlobalIpRangeBulk",
+	ObjectDeleteGlobalIPRangeBulkDocument:                       "objectDeleteGlobalIpRangeBulk",
+	ObjectUpdateGlobalIPRangeBulkDocument:                       "objectUpdateGlobalIpRangeBulk",
+	PolicyAntiMalwareFileHashAddRuleDocument:                    "policyAntiMalwareFileHashAddRule",
+	PolicyAntiMalwareFileHashAddSectionDocument:                 "policyAntiMalwareFileHashAddSection",
+	PolicyAntiMalwareFileHashCreatePolicyRevisionDocument:       "policyAntiMalwareFileHashCreatePolicyRevision",
+	PolicyAntiMalwareFileHashDiscardPolicyRevisionDocument:      "policyAntiMalwareFileHashDiscardPolicyRevision",
+	PolicyAntiMalwareFileHashMoveRuleDocument:                   "policyAntiMalwareFileHashMoveRule",
+	PolicyAntiMalwareFileHashMoveSectionDocument:                "policyAntiMalwareFileHashMoveSection",
+	PolicyAntiMalwareFileHashPublishPolicyRevisionDocument:      "policyAntiMalwareFileHashPublishPolicyRevision",
+	PolicyAntiMalwareFileHashRemoveRuleDocument:                 "policyAntiMalwareFileHashRemoveRule",
+	PolicyAntiMalwareFileHashRemoveSectionDocument:              "policyAntiMalwareFileHashRemoveSection",
+	PolicyAntiMalwareFileHashUpdatePolicyDocument:               "policyAntiMalwareFileHashUpdatePolicy",
+	PolicyAntiMalwareFileHashUpdateRuleDocument:                 "policyAntiMalwareFileHashUpdateRule",
+	PolicyAntiMalwareFileHashUpdateSectionDocument:              "policyAntiMalwareFileHashUpdateSection",
+	PolicyAppTenantRestrictionAddRuleDocument:                   "policyAppTenantRestrictionAddRule",
+	PolicyAppTenantRestrictionAddSectionDocument:                "policyAppTenantRestrictionAddSection",
+	PolicyAppTenantRestrictionCreatePolicyRevisionDocument:      "policyAppTenantRestrictionCreatePolicyRevision",
+	PolicyAppTenantRestrictionDiscardPolicyRevisionDocument:     "policyAppTenantRestrictionDiscardPolicyRevision",
+	PolicyAppTenantRestrictionMoveRuleDocument:                  "policyAppTenantRestrictionMoveRule",
+	PolicyAppTenantRestrictionMoveSectionDocument:               "policyAppTenantRestrictionMoveSection",
+	PolicyAppTenantRestrictionPublishPolicyRevisionDocument:     "policyAppTenantRestrictionPublishPolicyRevision",
+	PolicyAppTenantRestrictionRemoveRuleDocument:                "policyAppTenantRestrictionRemoveRule",
+	PolicyAppTenantRestrictionRemoveSectionDocument:             "policyAppTenantRestrictionRemoveSection",
+	PolicyAppTenantRestrictionUpdatePolicyDocument:              "policyAppTenantRestrictionUpdatePolicy",
+	PolicyAppTenantRestrictionUpdateRuleDocument:                "policyAppTenantRestrictionUpdateRule",
+	PolicyAppTenantRestrictionUpdateSectionDocument:             "policyAppTenantRestrictionUpdateSection",
+	PolicyApplicationControlAddRuleDocument:                     "policyApplicationControlAddRule",
+	PolicyApplicationControlAddSectionDocument:                  "policyApplicationControlAddSection",
+	PolicyApplicationControlCreatePolicyRevisionDocument:        "policyApplicationControlCreatePolicyRevision",
+	PolicyApplicationControlDiscardPolicyRevisionDocument:       "policyApplicationControlDiscardPolicyRevision",
+	PolicyApplicationControlMoveRuleDocument:                    "policyApplicationControlMoveRule",
+	PolicyApplicationControlMoveSectionDocument:                 "policyApplicationControlMoveSection",
+	PolicyApplicationControlPublishPolicyRevisionDocument:       "policyApplicationControlPublishPolicyRevision",
+	PolicyApplicationControlRemoveRuleDocument:                  "policyApplicationControlRemoveRule",
+	PolicyApplicationControlRemoveSectionDocument:               "policyApplicationControlRemoveSection",
+	PolicyApplicationControlUpdatePolicyDocument:                "policyApplicationControlUpdatePolicy",
+	PolicyApplicationControlUpdateRuleDocument:                  "policyApplicationControlUpdateRule",
+	PolicyApplicationControlUpdateSectionDocument:               "policyApplicationControlUpdateSection",
+	PolicyClientConnectivityAddRuleDocument:                     "policyClientConnectivityAddRule",
+	PolicyClientConnectivityAddSectionDocument:                  "policyClientConnectivityAddSection",
+	PolicyClientConnectivityCreatePolicyRevisionDocument:        "policyClientConnectivityCreatePolicyRevision",
+	PolicyClientConnectivityDiscardPolicyRevisionDocument:       "policyClientConnectivityDiscardPolicyRevision",
+	PolicyClientConnectivityMoveRuleDocument:                    "policyClientConnectivityMoveRule",
+	PolicyClientConnectivityMoveSectionDocument:                 "policyClientConnectivityMoveSection",
+	PolicyClientConnectivityPublishPolicyRevisionDocument:       "policyClientConnectivityPublishPolicyRevision",
+	PolicyClientConnectivityRemoveRuleDocument:                  "policyClientConnectivityRemoveRule",
+	PolicyClientConnectivityRemoveSectionDocument:               "policyClientConnectivityRemoveSection",
+	PolicyClientConnectivityUpdatePolicyDocument:                "policyClientConnectivityUpdatePolicy",
+	PolicyClientConnectivityUpdateRuleDocument:                  "policyClientConnectivityUpdateRule",
+	PolicyClientConnectivityUpdateSectionDocument:               "policyClientConnectivityUpdateSection",
+	PolicyInternetFirewallDiscardPolicyRevisionDocument:         "policyInternetFirewallDiscardPolicyRevision",
+	PolicyDynamicIPAllocationAddRuleDocument:                    "policyDynamicIpAllocationAddRule",
+	PolicyDynamicIPAllocationAddSectionDocument:                 "policyDynamicIpAllocationAddSection",
+	PolicyDynamicIPAllocationCreatePolicyRevisionDocument:       "policyDynamicIpAllocationCreatePolicyRevision",
+	PolicyDynamicIPAllocationDiscardPolicyRevisionDocument:      "policyDynamicIpAllocationDiscardPolicyRevision",
+	PolicyDynamicIPAllocationMoveRuleDocument:                   "policyDynamicIpAllocationMoveRule",
+	PolicyDynamicIPAllocationMoveSectionDocument:                "policyDynamicIpAllocationMoveSection",
+	PolicyDynamicIPAllocationPublishPolicyRevisionDocument:      "policyDynamicIpAllocationPublishPolicyRevision",
+	PolicyDynamicIPAllocationRemoveRuleDocument:                 "policyDynamicIpAllocationRemoveRule",
+	PolicyDynamicIPAllocationRemoveSectionDocument:              "policyDynamicIpAllocationRemoveSection",
+	PolicyDynamicIPAllocationUpdatePolicyDocument:               "policyDynamicIpAllocationUpdatePolicy",
+	PolicyDynamicIPAllocationUpdateRuleDocument:                 "policyDynamicIpAllocationUpdateRule",
+	PolicyDynamicIPAllocationUpdateSectionDocument:              "policyDynamicIpAllocationUpdateSection",
+	PolicyInternetFirewallAddRuleDocument:                       "policyInternetFirewallAddRule",
+	PolicyInternetFirewallAddSectionDocument:                    "policyInternetFirewallAddSection",
+	PolicyInternetFirewallAddSubPolicyDocument:                  "policyInternetFirewallAddSubPolicy",
+	PolicyInternetFirewallCreatePolicyRevisionDocument:          "policyInternetFirewallCreatePolicyRevision",
+	MutationPolicyInternetFirewallDiscardPolicyRevisionDocument: "mutationPolicyInternetFirewallDiscardPolicyRevision",
+	PolicyInternetFirewallMoveRuleDocument:                      "policyInternetFirewallMoveRule",
+	PolicyInternetFirewallMoveSectionDocument:                   "policyInternetFirewallMoveSection",
+	PolicyInternetFirewallPublishPolicyRevisionDocument:         "policyInternetFirewallPublishPolicyRevision",
+	PolicyInternetFirewallRemoveRuleDocument:                    "policyInternetFirewallRemoveRule",
+	PolicyInternetFirewallRemoveSectionDocument:                 "policyInternetFirewallRemoveSection",
+	PolicyInternetFirewallRemoveSubPolicyDocument:               "policyInternetFirewallRemoveSubPolicy",
+	PolicyInternetFirewallReorderPolicyDocument:                 "policyInternetFirewallReorderPolicy",
+	PolicyInternetFirewallUpdatePolicyDocument:                  "policyInternetFirewallUpdatePolicy",
+	PolicyInternetFirewallUpdateRuleDocument:                    "policyInternetFirewallUpdateRule",
+	PolicyInternetFirewallUpdateSectionDocument:                 "policyInternetFirewallUpdateSection",
+	PolicyPrivateAccessAddRuleDocument:                          "policyPrivateAccessAddRule",
+	PolicyPrivateAccessAddSectionDocument:                       "policyPrivateAccessAddSection",
+	PolicyPrivateAccessCreatePolicyRevisionDocument:             "policyPrivateAccessCreatePolicyRevision",
+	PolicyPrivateAccessDeleteRuleDocument:                       "policyPrivateAccessDeleteRule",
+	PolicyPrivateAccessDiscardPolicyRevisionDocument:            "policyPrivateAccessDiscardPolicyRevision",
+	PolicyPrivateAccessDiscardRevisionDocument:                  "policyPrivateAccessDiscardRevision",
+	PolicyPrivateAccessMoveRuleDocument:                         "policyPrivateAccessMoveRule",
+	PolicyPrivateAccessMoveSectionDocument:                      "policyPrivateAccessMoveSection",
+	PolicyPrivateAccessPublishPolicyRevisionDocument:            "policyPrivateAccessPublishPolicyRevision",
+	PolicyPrivateAccessPublishRevisionDocument:                  "policyPrivateAccessPublishRevision",
+	PolicyPrivateAccessRemoveRuleDocument:                       "policyPrivateAccessRemoveRule",
+	PolicyPrivateAccessRemoveSectionDocument:                    "policyPrivateAccessRemoveSection",
+	PolicyPrivateAccessUpdatePolicyDocument:                     "policyPrivateAccessUpdatePolicy",
+	PolicyPrivateAccessUpdateRuleDocument:                       "policyPrivateAccessUpdateRule",
+	PolicyPrivateAccessUpdateSectionDocument:                    "policyPrivateAccessUpdateSection",
+	PolicyRemotePortFwdAddRuleDocument:                          "policyRemotePortFwdAddRule",
+	PolicyRemotePortFwdAddSectionDocument:                       "policyRemotePortFwdAddSection",
+	PolicyRemotePortFwdCreatePolicyRevisionDocument:             "policyRemotePortFwdCreatePolicyRevision",
+	PolicyRemotePortFwdDiscardPolicyRevisionDocument:            "policyRemotePortFwdDiscardPolicyRevision",
+	PolicyRemotePortFwdMoveRuleDocument:                         "policyRemotePortFwdMoveRule",
+	PolicyRemotePortFwdMoveSectionDocument:                      "policyRemotePortFwdMoveSection",
+	PolicyRemotePortFwdPublishPolicyRevisionDocument:            "policyRemotePortFwdPublishPolicyRevision",
+	PolicyRemotePortFwdRemoveRuleDocument:                       "policyRemotePortFwdRemoveRule",
+	PolicyRemotePortFwdRemoveSectionDocument:                    "policyRemotePortFwdRemoveSection",
+	PolicyRemotePortFwdUpdatePolicyDocument:                     "policyRemotePortFwdUpdatePolicy",
+	PolicyRemotePortFwdUpdateRuleDocument:                       "policyRemotePortFwdUpdateRule",
+	PolicyRemotePortFwdUpdateSectionDocument:                    "policyRemotePortFwdUpdateSection",
+	PolicySdpStaticIPAllocationAddRuleDocument:                  "policySdpStaticIpAllocationAddRule",
+	PolicySdpStaticIPAllocationAddSectionDocument:               "policySdpStaticIpAllocationAddSection",
+	PolicySdpStaticIPAllocationCreatePolicyRevisionDocument:     "policySdpStaticIpAllocationCreatePolicyRevision",
+	PolicySdpStaticIPAllocationDiscardPolicyRevisionDocument:    "policySdpStaticIpAllocationDiscardPolicyRevision",
+	PolicySdpStaticIPAllocationMoveRuleDocument:                 "policySdpStaticIpAllocationMoveRule",
+	PolicySdpStaticIPAllocationMoveSectionDocument:              "policySdpStaticIpAllocationMoveSection",
+	PolicySdpStaticIPAllocationPublishPolicyRevisionDocument:    "policySdpStaticIpAllocationPublishPolicyRevision",
+	PolicySdpStaticIPAllocationRemoveRuleDocument:               "policySdpStaticIpAllocationRemoveRule",
+	PolicySdpStaticIPAllocationRemoveSectionDocument:            "policySdpStaticIpAllocationRemoveSection",
+	PolicySdpStaticIPAllocationUpdatePolicyDocument:             "policySdpStaticIpAllocationUpdatePolicy",
+	PolicySdpStaticIPAllocationUpdateRuleDocument:               "policySdpStaticIpAllocationUpdateRule",
+	PolicySdpStaticIPAllocationUpdateSectionDocument:            "policySdpStaticIpAllocationUpdateSection",
+	PolicySiteWebProxyAddRuleDocument:                           "policySiteWebProxyAddRule",
+	PolicySiteWebProxyAddSectionDocument:                        "policySiteWebProxyAddSection",
+	PolicySiteWebProxyCreatePolicyRevisionDocument:              "policySiteWebProxyCreatePolicyRevision",
+	PolicySiteWebProxyDiscardPolicyRevisionDocument:             "policySiteWebProxyDiscardPolicyRevision",
+	PolicySiteWebProxyMoveRuleDocument:                          "policySiteWebProxyMoveRule",
+	PolicySiteWebProxyMoveSectionDocument:                       "policySiteWebProxyMoveSection",
+	PolicySiteWebProxyPublishPolicyRevisionDocument:             "policySiteWebProxyPublishPolicyRevision",
+	PolicySiteWebProxyRemoveRuleDocument:                        "policySiteWebProxyRemoveRule",
+	PolicySiteWebProxyRemoveSectionDocument:                     "policySiteWebProxyRemoveSection",
+	PolicySiteWebProxyUpdatePolicyDocument:                      "policySiteWebProxyUpdatePolicy",
+	PolicySiteWebProxyUpdateRuleDocument:                        "policySiteWebProxyUpdateRule",
+	PolicySiteWebProxyUpdateSectionDocument:                     "policySiteWebProxyUpdateSection",
+	PolicySocketBypassAddRuleDocument:                           "policySocketBypassAddRule",
+	PolicySocketBypassAddSectionDocument:                        "policySocketBypassAddSection",
+	PolicySocketBypassCreatePolicyRevisionDocument:              "policySocketBypassCreatePolicyRevision",
+	PolicySocketBypassDiscardPolicyRevisionDocument:             "policySocketBypassDiscardPolicyRevision",
+	PolicySocketBypassMoveRuleDocument:                          "policySocketBypassMoveRule",
+	PolicySocketBypassMoveSectionDocument:                       "policySocketBypassMoveSection",
+	PolicySocketBypassPublishPolicyRevisionDocument:             "policySocketBypassPublishPolicyRevision",
+	PolicySocketBypassRemoveRuleDocument:                        "policySocketBypassRemoveRule",
+	PolicySocketBypassRemoveSectionDocument:                     "policySocketBypassRemoveSection",
+	PolicySocketBypassReorderPolicyDocument:                     "policySocketBypassReorderPolicy",
+	PolicySocketBypassUpdatePolicyDocument:                      "policySocketBypassUpdatePolicy",
+	PolicySocketBypassUpdateRuleDocument:                        "policySocketBypassUpdateRule",
+	PolicySocketBypassUpdateSectionDocument:                     "policySocketBypassUpdateSection",
+	PolicySocketLanAddRuleDocument:                              "policySocketLanAddRule",
+	PolicySocketLanAddSectionDocument:                           "policySocketLanAddSection",
+	PolicySocketLanAddSubPolicyDocument:                         "policySocketLanAddSubPolicy",
+	PolicySocketLanCreatePolicyRevisionDocument:                 "policySocketLanCreatePolicyRevision",
+	PolicySocketLanDiscardPolicyRevisionDocument:                "policySocketLanDiscardPolicyRevision",
+	PolicySocketLanFirewallAddRuleDocument:                      "policySocketLanFirewallAddRule",
+	PolicySocketLanFirewallMoveRuleDocument:                     "policySocketLanFirewallMoveRule",
+	PolicySocketLanFirewallRemoveRuleDocument:                   "policySocketLanFirewallRemoveRule",
+	PolicySocketLanFirewallUpdateRuleDocument:                   "policySocketLanFirewallUpdateRule",
+	PolicySocketLanMoveRuleDocument:                             "policySocketLanMoveRule",
+	PolicySocketLanMoveSectionDocument:                          "policySocketLanMoveSection",
+	PolicySocketLanPublishPolicyRevisionDocument:                "policySocketLanPublishPolicyRevision",
+	PolicySocketLanRemoveRuleDocument:                           "policySocketLanRemoveRule",
+	PolicySocketLanRemoveSectionDocument:                        "policySocketLanRemoveSection",
+	PolicySocketLanRemoveSubPolicyDocument:                      "policySocketLanRemoveSubPolicy",
+	PolicySocketLanReorderPolicyDocument:                        "policySocketLanReorderPolicy",
+	PolicySocketLanUpdatePolicyDocument:                         "policySocketLanUpdatePolicy",
+	PolicySocketLanUpdateRuleDocument:                           "policySocketLanUpdateRule",
+	PolicySocketLanUpdateSectionDocument:                        "policySocketLanUpdateSection",
+	PolicySplitTunnelAddRuleDocument:                            "policySplitTunnelAddRule",
+	PolicySplitTunnelAddSectionDocument:                         "policySplitTunnelAddSection",
+	PolicySplitTunnelCreatePolicyRevisionDocument:               "policySplitTunnelCreatePolicyRevision",
+	PolicySplitTunnelDiscardPolicyRevisionDocument:              "policySplitTunnelDiscardPolicyRevision",
+	PolicySplitTunnelMoveRuleDocument:                           "policySplitTunnelMoveRule",
+	PolicySplitTunnelMoveSectionDocument:                        "policySplitTunnelMoveSection",
+	PolicySplitTunnelPublishPolicyRevisionDocument:              "policySplitTunnelPublishPolicyRevision",
+	PolicySplitTunnelRemoveRuleDocument:                         "policySplitTunnelRemoveRule",
+	PolicySplitTunnelRemoveSectionDocument:                      "policySplitTunnelRemoveSection",
+	PolicySplitTunnelUpdatePolicyDocument:                       "policySplitTunnelUpdatePolicy",
+	PolicySplitTunnelUpdateRuleDocument:                         "policySplitTunnelUpdateRule",
+	PolicySplitTunnelUpdateSectionDocument:                      "policySplitTunnelUpdateSection",
+	PolicyTerminalServerAddRuleDocument:                         "policyTerminalServerAddRule",
+	PolicyTerminalServerAddSectionDocument:                      "policyTerminalServerAddSection",
+	PolicyTerminalServerCreatePolicyRevisionDocument:            "policyTerminalServerCreatePolicyRevision",
+	PolicyTerminalServerDiscardPolicyRevisionDocument:           "policyTerminalServerDiscardPolicyRevision",
+	PolicyTerminalServerMoveRuleDocument:                        "policyTerminalServerMoveRule",
+	PolicyTerminalServerMoveSectionDocument:                     "policyTerminalServerMoveSection",
+	PolicyTerminalServerPublishPolicyRevisionDocument:           "policyTerminalServerPublishPolicyRevision",
+	PolicyTerminalServerRemoveRuleDocument:                      "policyTerminalServerRemoveRule",
+	PolicyTerminalServerRemoveSectionDocument:                   "policyTerminalServerRemoveSection",
+	PolicyTerminalServerUpdatePolicyDocument:                    "policyTerminalServerUpdatePolicy",
+	PolicyTerminalServerUpdateRuleDocument:                      "policyTerminalServerUpdateRule",
+	PolicyTerminalServerUpdateSectionDocument:                   "policyTerminalServerUpdateSection",
+	PolicyTLSInspectAddRuleDocument:                             "policyTlsInspectAddRule",
+	PolicyTLSInspectAddSectionDocument:                          "policyTlsInspectAddSection",
+	PolicyTLSInspectCreatePolicyRevisionDocument:                "policyTlsInspectCreatePolicyRevision",
+	PolicyTLSInspectDiscardPolicyRevisionDocument:               "policyTlsInspectDiscardPolicyRevision",
+	PolicyTLSInspectMoveRuleDocument:                            "policyTlsInspectMoveRule",
+	PolicyTLSInspectMoveSectionDocument:                         "policyTlsInspectMoveSection",
+	PolicyTLSInspectPublishPolicyRevisionDocument:               "policyTlsInspectPublishPolicyRevision",
+	PolicyTLSInspectRemoveRuleDocument:                          "policyTlsInspectRemoveRule",
+	PolicyTLSInspectRemoveSectionDocument:                       "policyTlsInspectRemoveSection",
+	PolicyTLSInspectUpdatePolicyDocument:                        "policyTlsInspectUpdatePolicy",
+	PolicyTLSInspectUpdateRuleDocument:                          "policyTlsInspectUpdateRule",
+	PolicyTLSInspectUpdateSectionDocument:                       "policyTlsInspectUpdateSection",
+	PolicyWanFirewallAddRuleDocument:                            "policyWanFirewallAddRule",
+	PolicyWanFirewallAddSectionDocument:                         "policyWanFirewallAddSection",
+	PolicyWanFirewallAddSubPolicyDocument:                       "policyWanFirewallAddSubPolicy",
+	PolicyWanFirewallCreatePolicyRevisionDocument:               "policyWanFirewallCreatePolicyRevision",
+	PolicyWanFirewallDiscardPolicyRevisionDocument:              "policyWanFirewallDiscardPolicyRevision",
+	PolicyWanFirewallMoveRuleDocument:                           "policyWanFirewallMoveRule",
+	PolicyWanFirewallMoveSectionDocument:                        "policyWanFirewallMoveSection",
+	PolicyWanFirewallPublishPolicyRevisionDocument:              "policyWanFirewallPublishPolicyRevision",
+	PolicyWanFirewallRemoveRuleDocument:                         "policyWanFirewallRemoveRule",
+	PolicyWanFirewallRemoveSectionDocument:                      "policyWanFirewallRemoveSection",
+	PolicyWanFirewallRemoveSubPolicyDocument:                    "policyWanFirewallRemoveSubPolicy",
+	PolicyWanFirewallReorderPolicyDocument:                      "policyWanFirewallReorderPolicy",
+	PolicyWanFirewallUpdatePolicyDocument:                       "policyWanFirewallUpdatePolicy",
+	PolicyWanFirewallUpdateRuleDocument:                         "policyWanFirewallUpdateRule",
+	PolicyWanFirewallUpdateSectionDocument:                      "policyWanFirewallUpdateSection",
+	PolicyWanNetworkAddRuleDocument:                             "policyWanNetworkAddRule",
+	PolicyWanNetworkAddSectionDocument:                          "policyWanNetworkAddSection",
+	PolicyWanNetworkCreatePolicyRevisionDocument:                "policyWanNetworkCreatePolicyRevision",
+	PolicyWanNetworkDiscardPolicyRevisionDocument:               "policyWanNetworkDiscardPolicyRevision",
+	PolicyWanNetworkMoveRuleDocument:                            "policyWanNetworkMoveRule",
+	PolicyWanNetworkMoveSectionDocument:                         "policyWanNetworkMoveSection",
+	PolicyWanNetworkPublishPolicyRevisionDocument:               "policyWanNetworkPublishPolicyRevision",
+	PolicyWanNetworkRemoveRuleDocument:                          "policyWanNetworkRemoveRule",
+	PolicyWanNetworkRemoveSectionDocument:                       "policyWanNetworkRemoveSection",
+	PolicyWanNetworkReorderPolicyDocument:                       "policyWanNetworkReorderPolicy",
+	PolicyWanNetworkUpdatePolicyDocument:                        "policyWanNetworkUpdatePolicy",
+	PolicyWanNetworkUpdateRuleDocument:                          "policyWanNetworkUpdateRule",
+	PolicyWanNetworkUpdateSectionDocument:                       "policyWanNetworkUpdateSection",
+	PolicyZtnaAlwaysOnAddRuleDocument:                           "policyZtnaAlwaysOnAddRule",
+	PolicyZtnaAlwaysOnAddSectionDocument:                        "policyZtnaAlwaysOnAddSection",
+	PolicyZtnaAlwaysOnCreatePolicyRevisionDocument:              "policyZtnaAlwaysOnCreatePolicyRevision",
+	PolicyZtnaAlwaysOnDiscardPolicyRevisionDocument:             "policyZtnaAlwaysOnDiscardPolicyRevision",
+	PolicyZtnaAlwaysOnMoveRuleDocument:                          "policyZtnaAlwaysOnMoveRule",
+	PolicyZtnaAlwaysOnMoveSectionDocument:                       "policyZtnaAlwaysOnMoveSection",
+	PolicyZtnaAlwaysOnPublishPolicyRevisionDocument:             "policyZtnaAlwaysOnPublishPolicyRevision",
+	PolicyZtnaAlwaysOnRemoveRuleDocument:                        "policyZtnaAlwaysOnRemoveRule",
+	PolicyZtnaAlwaysOnRemoveSectionDocument:                     "policyZtnaAlwaysOnRemoveSection",
+	PolicyZtnaAlwaysOnUpdatePolicyDocument:                      "policyZtnaAlwaysOnUpdatePolicy",
+	PolicyZtnaAlwaysOnUpdateRuleDocument:                        "policyZtnaAlwaysOnUpdateRule",
+	PolicyZtnaAlwaysOnUpdateSectionDocument:                     "policyZtnaAlwaysOnUpdateSection",
+	PopLocationMutationsAddAllocatedIPDocument:                  "popLocationMutationsAddAllocatedIp",
+	PopLocationMutationsAddBgpProfileDocument:                   "popLocationMutationsAddBgpProfile",
+	PopLocationMutationsAllocateIPDocument:                      "popLocationMutationsAllocateIp",
+	PopLocationMutationsReleaseIPDocument:                       "popLocationMutationsReleaseIp",
+	PopLocationMutationsRemoveAllocatedIPDocument:               "popLocationMutationsRemoveAllocatedIp",
+	PopLocationMutationsRemoveBgpProfileDocument:                "popLocationMutationsRemoveBgpProfile",
+	PopLocationMutationsUpdateAllocatedIPDescriptionDocument:    "popLocationMutationsUpdateAllocatedIpDescription",
+	PopLocationMutationsUpdateBgpProfileDocument:                "popLocationMutationsUpdateBgpProfile",
+	PostureAddCheckCommentDocument:                              "postureAddCheckComment",
+	PostureDismissFindingDocument:                               "postureDismissFinding",
+	PostureMuteCheckDocument:                                    "postureMuteCheck",
+	PostureMuteFindingDocument:                                  "postureMuteFinding",
+	PostureReevaluateChecksDocument:                             "postureReevaluateChecks",
+	PostureUndismissFindingDocument:                             "postureUndismissFinding",
+	PostureUnmuteCheckDocument:                                  "postureUnmuteCheck",
+	PostureUnmuteFindingDocument:                                "postureUnmuteFinding",
+	PostureUpdateCheckConfigurationDocument:                     "postureUpdateCheckConfiguration",
+	PrivateAppCreatePrivateAppDocument:                          "privateAppCreatePrivateApp",
+	PrivateAppDeletePrivateAppDocument:                          "privateAppDeletePrivateApp",
+	PrivateAppUpdatePrivateAppDocument:                          "privateAppUpdatePrivateApp",
+	PrivateApplicationCreatePrivateApplicationDocument:          "privateApplicationCreatePrivateApplication",
+	PrivateApplicationDeletePrivateApplicationDocument:          "privateApplicationDeletePrivateApplication",
+	PrivateApplicationUpdatePrivateApplicationDocument:          "privateApplicationUpdatePrivateApplication",
+	RbacDocument:                                                 "rbac",
 	SandboxDeleteReportDocument:                                  "sandboxDeleteReport",
 	SandboxUploadFileDocument:                                    "sandboxUploadFile",
 	SiteAddBgpPeerDocument:                                       "siteAddBgpPeer",
@@ -435073,6 +441535,7 @@ var DocumentOperationNames = map[string]string{
 	UserRevokeUserSessionDocument:                                "userRevokeUserSession",
 	UserUpdateDynamicUserGroupsConfigurationDocument:             "userUpdateDynamicUserGroupsConfiguration",
 	UserUpdateUserDocument:                                       "userUpdateUser",
+	WebProxyConfigEncryptKeytabFileDocument:                      "webProxyConfigEncryptKeytabFile",
 	XdrAddStoryCommentDocument:                                   "xdrAddStoryComment",
 	XdrAnalystFeedbackDocument:                                   "xdrAnalystFeedback",
 	XdrDeleteStoryCommentDocument:                                "xdrDeleteStoryComment",
@@ -435080,6 +441543,7 @@ var DocumentOperationNames = map[string]string{
 	ZtnaAppConnectorAddZtnaAppConnectorDocument:                  "ztnaAppConnectorAddZtnaAppConnector",
 	ZtnaAppConnectorAddZtnaAppConnectorBwLicenseDocument:         "ztnaAppConnectorAddZtnaAppConnectorBwLicense",
 	ZtnaAppConnectorAddZtnaAppConnectorsConfigurationDocument:    "ztnaAppConnectorAddZtnaAppConnectorsConfiguration",
+	ZtnaAppConnectorAssignSocketToZtnaAppConnectorDocument:       "ztnaAppConnectorAssignSocketToZtnaAppConnector",
 	AppConnectorCreateConnectorDocument:                          "appConnectorCreateConnector",
 	AppConnectorDeleteConnectorDocument:                          "appConnectorDeleteConnector",
 	ZtnaAppConnectorRemoveZtnaAppConnectorDocument:               "ztnaAppConnectorRemoveZtnaAppConnector",
@@ -435100,6 +441564,10 @@ var DocumentOperationNames = map[string]string{
 	AccountSnapshotDocument:                                      "accountSnapshot",
 	AdminDocument:                                                "admin",
 	AdminsDocument:                                               "admins",
+	AiSecurityAgentsEventDocument:                                "aiSecurityAgentsEvent",
+	AiSecurityAgentsSessionDocument:                              "aiSecurityAgentsSession",
+	AiSecurityAppsInvocationDocument:                             "aiSecurityAppsInvocation",
+	AiSecurityEndUsersSessionConversationDocument:                "aiSecurityEndUsersSessionConversation",
 	AiSecurityDocument:                                           "aiSecurity",
 	AppStatsDocument:                                             "appStats",
 	AppStatsTimeSeriesDocument:                                   "appStatsTimeSeries",
@@ -435119,7 +441587,11 @@ var DocumentOperationNames = map[string]string{
 	ContainerIPAddressRangeTestFromURLDocument:                   "containerIpAddressRangeTestFromURL",
 	ContainerListDocument:                                        "containerList",
 	CustomAppDataDocument:                                        "customAppData",
+	DevicesAttributesCatalogDocument:                             "devicesAttributesCatalog",
+	DevicesCSVExportDocument:                                     "devicesCsvExport",
+	DevicesCSVExportStatusDocument:                               "devicesCsvExportStatus",
 	DevicesDocument:                                              "devices",
+	DevicesListDocument:                                          "devicesList",
 	EnterpriseDirectoryDocument:                                  "enterpriseDirectory",
 	EntityLookupDocument:                                         "entityLookup",
 	EventsDocument:                                               "events",
@@ -435149,6 +441621,16 @@ var DocumentOperationNames = map[string]string{
 	NetworkConfigDNSSuffixSetDocument:                            "networkConfigDnsSuffixSet",
 	NetworkConfigDNSSuffixSetListDocument:                        "networkConfigDnsSuffixSetList",
 	NotificationDocument:                                         "notification",
+	NotificationIntegrationReferenceBodyTemplateDocument:         "notificationIntegrationReferenceBodyTemplate",
+	NotificationIntegrationReferenceBodyTemplateListDocument:     "notificationIntegrationReferenceBodyTemplateList",
+	NotificationIntegrationWebhookDocument:                       "notificationIntegrationWebhook",
+	NotificationIntegrationWebhookFieldsDocument:                 "notificationIntegrationWebhookFields",
+	NotificationIntegrationWebhookListDocument:                   "notificationIntegrationWebhookList",
+	NotificationMailingListDocument:                              "notificationMailingList",
+	NotificationMailingListListDocument:                          "notificationMailingListList",
+	NotificationSubscriptionGroupDocument:                        "notificationSubscriptionGroup",
+	NotificationSubscriptionGroupListDocument:                    "notificationSubscriptionGroupList",
+	ObjectGlobalIPRangeDocument:                                  "objectGlobalIpRange",
 	ObjectGlobalIPRangeListDocument:                              "objectGlobalIpRangeList",
 	ObjectDocument:                                               "object",
 	PolicyAntiMalwareFileHashPolicyDocument:                      "policyAntiMalwareFileHashPolicy",
@@ -435174,7 +441656,11 @@ var DocumentOperationNames = map[string]string{
 	PolicyWanFirewallPolicyListDocument:                          "policyWanFirewallPolicyList",
 	WanNetworkPolicyDocument:                                     "wanNetworkPolicy",
 	PolicyZtnaAlwaysOnPolicyDocument:                             "policyZtnaAlwaysOnPolicy",
+	PopLocationsAllocatedIPListDocument:                          "popLocationsAllocatedIpList",
+	PopLocationsBgpProfileDocument:                               "popLocationsBgpProfile",
+	PopLocationsBgpProfileListDocument:                           "popLocationsBgpProfileList",
 	PopLocationsDocument:                                         "popLocations",
+	PopLocationsPopLocationListDocument:                          "popLocationsPopLocationList",
 	PostureAccountSummaryListDocument:                            "postureAccountSummaryList",
 	PostureCategoryListDocument:                                  "postureCategoryList",
 	PostureCheckResultListDocument:                               "postureCheckResultList",
@@ -435186,6 +441672,7 @@ var DocumentOperationNames = map[string]string{
 	PostureFindingSummaryDocument:                                "postureFindingSummary",
 	PrivateAppReadPrivateAppDocument:                             "privateAppReadPrivateApp",
 	PrivateApplicationDocument:                                   "privateApplication",
+	QueryRbacDocument:                                            "queryRbac",
 	SandboxDocument:                                              "sandbox",
 	ServicePrincipalAdminDocument:                                "servicePrincipalAdmin",
 	SiteAvailableVersionListDocument:                             "siteAvailableVersionList",

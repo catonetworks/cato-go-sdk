@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "cli_commit_sha": "717df17303134949a6cd4cfa214f80e2e60d5c3a",
+  "cli_commit_sha": "b059fbc9784aa094662f91d820b2a2380881343a",
   "operations": [
     {
       "key": "mutation.accountManagement.addAccount",
@@ -5390,6 +5390,23 @@
       "status": "imported"
     },
     {
+      "key": "mutation.rbac",
+      "kind": "mutation",
+      "sdk_file": "sources/mutation.rbac.gql",
+      "sdk_name": "rbac",
+      "variables": [
+        "accountId",
+        "roleManagementCreateRoleInput",
+        "roleManagementDeleteRoleInput",
+        "roleManagementUpdateRoleInput"
+      ],
+      "document_sha256": "097a4831b7854dac72ea5db978fb0ce76784fb4cb85f65a3af68fc9ef154c51c",
+      "cli_file": "queryPayloads/mutation.rbac.txt",
+      "cli_name": "rbac",
+      "cli_sha256": "2f0989db1f2d33a4dbd728c44d8489122078756a7ba529d61e2d4367a2876176",
+      "status": "imported"
+    },
+    {
       "key": "mutation.sandbox.deleteReport",
       "kind": "mutation",
       "sdk_file": "sources/mutation.sandbox.deleteReport.gql",
@@ -7409,6 +7426,21 @@
       "status": "imported"
     },
     {
+      "key": "mutation.webProxyConfig.encryptKeytabFile",
+      "kind": "mutation",
+      "sdk_file": "sources/mutation.webProxyConfig.encryptKeytabFile.gql",
+      "sdk_name": "webProxyConfigEncryptKeytabFile",
+      "variables": [
+        "accountId",
+        "encryptKeytabFileInput"
+      ],
+      "document_sha256": "092f4c8766adb9e2fcfe386fe48ab6455e67d12574dc884672a0b18914687ad6",
+      "cli_file": "queryPayloads/mutation.webProxyConfig.encryptKeytabFile.txt",
+      "cli_name": "webProxyConfigEncryptKeytabFile",
+      "cli_sha256": "5045c38be79f17e169b099b77bc2171b99680a0ec60694251a410031e9f2b69d",
+      "status": "imported"
+    },
+    {
       "key": "mutation.xdr.addStoryComment",
       "kind": "mutation",
       "sdk_file": "sources/mutation.xdr.addStoryComment.gql",
@@ -7508,6 +7540,21 @@
       "cli_file": "queryPayloads/mutation.ztnaAppConnector.addZtnaAppConnectorsConfiguration.txt",
       "cli_name": "ztnaAppConnectorAddZtnaAppConnectorsConfiguration",
       "cli_sha256": "491603b7e1fa0af0022cb973fc09a189baf13e3e8934a814d94f90ec7be062de",
+      "status": "imported"
+    },
+    {
+      "key": "mutation.ztnaAppConnector.assignSocketToZtnaAppConnector",
+      "kind": "mutation",
+      "sdk_file": "sources/mutation.ztnaAppConnector.assignSocketToZtnaAppConnector.gql",
+      "sdk_name": "ztnaAppConnectorAssignSocketToZtnaAppConnector",
+      "variables": [
+        "accountId",
+        "assignSocketToZtnaAppConnectorInput"
+      ],
+      "document_sha256": "bd392986f6af54e0837d0bca36990e225f65fb4d6a1492d925fe28d4a36ea7ae",
+      "cli_file": "queryPayloads/mutation.ztnaAppConnector.assignSocketToZtnaAppConnector.txt",
+      "cli_name": "ztnaAppConnectorAssignSocketToZtnaAppConnector",
+      "cli_sha256": "f8ce686a2b6d80dc3b07a1705045320cc5e70636705408eb763aaaa91c377d74",
       "status": "imported"
     },
     {
@@ -7780,9 +7827,66 @@
         "aiSecurityAgentsSessionInput"
       ],
       "document_sha256": "36fe357766001722949109801d8a5909b8a1f2119dd70f36be35e484bdff0047",
-      "cli_file": "queryPayloads/query.aiSecurity.txt",
-      "cli_name": "aiSecurity",
-      "cli_sha256": "7ef96942e79f698f27786c5c955c6ff9772e9cac6136ab7232c81231d5f4e5b1",
+      "status": "sdk_only"
+    },
+    {
+      "key": "query.aiSecurity.agents.event",
+      "kind": "query",
+      "sdk_file": "sources/query.aiSecurity.agents.event.gql",
+      "sdk_name": "aiSecurityAgentsEvent",
+      "variables": [
+        "accountId",
+        "aiSecurityAgentsEventInput"
+      ],
+      "document_sha256": "ec80764a3678dacf64cd6b80e050e181fcb445fe9c708016bf473acd2aae920f",
+      "cli_file": "queryPayloads/query.aiSecurity.agents.event.txt",
+      "cli_name": "aiSecurityAgentsEvent",
+      "cli_sha256": "46e7a0ab63169183aae725afe6d2ccdd4024f49ff3a1d0673032c7f301b524b1",
+      "status": "imported"
+    },
+    {
+      "key": "query.aiSecurity.agents.session",
+      "kind": "query",
+      "sdk_file": "sources/query.aiSecurity.agents.session.gql",
+      "sdk_name": "aiSecurityAgentsSession",
+      "variables": [
+        "accountId",
+        "aiSecurityAgentsSessionInput"
+      ],
+      "document_sha256": "8db5699ebbb8358603be5670bd942a147dfa699347577a0a218648574a61d81a",
+      "cli_file": "queryPayloads/query.aiSecurity.agents.session.txt",
+      "cli_name": "aiSecurityAgentsSession",
+      "cli_sha256": "489c5a6ed635db414b699ac29347bbc9071a32a24394477b6e87a80affde6747",
+      "status": "imported"
+    },
+    {
+      "key": "query.aiSecurity.apps.invocation",
+      "kind": "query",
+      "sdk_file": "sources/query.aiSecurity.apps.invocation.gql",
+      "sdk_name": "aiSecurityAppsInvocation",
+      "variables": [
+        "accountId",
+        "aiSecurityAppsInvocationInput"
+      ],
+      "document_sha256": "ed73920f647e1232c97581a5f06c272e345a9c05697cbfd8dc0b7e75073a2738",
+      "cli_file": "queryPayloads/query.aiSecurity.apps.invocation.txt",
+      "cli_name": "aiSecurityAppsInvocation",
+      "cli_sha256": "9231c6f881f63c7b01a6aff0aa522fc87a540598bc22798475944fb1b44b2d57",
+      "status": "imported"
+    },
+    {
+      "key": "query.aiSecurity.endUsers.sessionConversation",
+      "kind": "query",
+      "sdk_file": "sources/query.aiSecurity.endUsers.sessionConversation.gql",
+      "sdk_name": "aiSecurityEndUsersSessionConversation",
+      "variables": [
+        "accountId",
+        "aiSecurityEndUsersSessionConversationInput"
+      ],
+      "document_sha256": "6e7ccd059acbb0b32725324ff117909b67ee874b11a89b40a9c8c8d588a14f31",
+      "cli_file": "queryPayloads/query.aiSecurity.endUsers.sessionConversation.txt",
+      "cli_name": "aiSecurityEndUsersSessionConversation",
+      "cli_sha256": "998290edc6861b15cd3758587b14f017fff75c13ce47818a1c497f807c54f50b",
       "status": "imported"
     },
     {
@@ -8094,9 +8198,69 @@
         "jobId"
       ],
       "document_sha256": "6596bae007fbd0788cae5cfeeaee1ad09e32fff07d49361b6ce55140b224054e",
-      "cli_file": "queryPayloads/query.devices.txt",
-      "cli_name": "devices",
-      "cli_sha256": "2c5acfeef865a30cdedba0502cfa66cd591b2a2bc90240fc0650c0ad5f0b5301",
+      "status": "sdk_only"
+    },
+    {
+      "key": "query.devices.attributesCatalog",
+      "kind": "query",
+      "sdk_file": "sources/query.devices.attributesCatalog.gql",
+      "sdk_name": "devicesAttributesCatalog",
+      "variables": [
+        "accountId",
+        "deviceAttributeCatalogInput",
+        "deviceComplianceCatalogInput",
+        "deviceRiskCatalogInput",
+        "sortOrderInput"
+      ],
+      "document_sha256": "c8a7cd23fc99b4c92176af94357bffc1e4a1f868c9e3195c249702302837b6bb",
+      "cli_file": "queryPayloads/query.devices.attributesCatalog.txt",
+      "cli_name": "devicesAttributesCatalog",
+      "cli_sha256": "caad3ad4849c6f33ec688017efb1be561deae05b13144e82661b64962de8a83a",
+      "status": "imported"
+    },
+    {
+      "key": "query.devices.csvExport",
+      "kind": "query",
+      "sdk_file": "sources/query.devices.csvExport.gql",
+      "sdk_name": "devicesCsvExport",
+      "variables": [
+        "accountId",
+        "deviceCsvExportInput"
+      ],
+      "document_sha256": "f05385ef99b1dbbfa70ad0669ac44a85108b776c61b3fb3b0736fdad0f9b6614",
+      "cli_file": "queryPayloads/query.devices.csvExport.txt",
+      "cli_name": "devicesCsvExport",
+      "cli_sha256": "df3fd394b667acf4438732fd8457ec9c743a7af4f964507515cb0e22eeef36f2",
+      "status": "imported"
+    },
+    {
+      "key": "query.devices.csvExportStatus",
+      "kind": "query",
+      "sdk_file": "sources/query.devices.csvExportStatus.gql",
+      "sdk_name": "devicesCsvExportStatus",
+      "variables": [
+        "accountId",
+        "jobId"
+      ],
+      "document_sha256": "c717c4478ca09ec1fd6d5008163a64d303a564144a174b6bbc701bea61e26fac",
+      "cli_file": "queryPayloads/query.devices.csvExportStatus.txt",
+      "cli_name": "devicesCsvExportStatus",
+      "cli_sha256": "3e517da219c83e214ee326ae399c41f28734d2228f32af573e3b63147583df36",
+      "status": "imported"
+    },
+    {
+      "key": "query.devices.list",
+      "kind": "query",
+      "sdk_file": "sources/query.devices.list.gql",
+      "sdk_name": "devicesList",
+      "variables": [
+        "accountId",
+        "deviceV2Input"
+      ],
+      "document_sha256": "4d2103a920168891ae6469084c800d7e257118389346db01395ed27f09454b03",
+      "cli_file": "queryPayloads/query.devices.list.txt",
+      "cli_name": "devicesList",
+      "cli_sha256": "27fc9ad24a048518332f21f5a3489a543d76fee24715eb870deaa1d2f553c001",
       "status": "imported"
     },
     {
@@ -8551,9 +8715,136 @@
         "subscriptionGroupRefInput"
       ],
       "document_sha256": "a539dd77c4277628346e3709cbe9224f70f9799783c81885c2cbd89a60ea743f",
-      "cli_file": "queryPayloads/query.notification.txt",
-      "cli_name": "notification",
-      "cli_sha256": "9e20ed28c7ac0c0038ff0212a5af1a69d6abb5103fa52a4b023f155fa252076e",
+      "status": "sdk_only"
+    },
+    {
+      "key": "query.notification.integration.referenceBodyTemplate",
+      "kind": "query",
+      "sdk_file": "sources/query.notification.integration.referenceBodyTemplate.gql",
+      "sdk_name": "notificationIntegrationReferenceBodyTemplate",
+      "variables": [
+        "accountId",
+        "webhookTemplateRefInput"
+      ],
+      "document_sha256": "3fb9d26a0e30000616cdc4b3bd0d5306e4095705af1c696809d12ec3668b713a",
+      "cli_file": "queryPayloads/query.notification.integration.referenceBodyTemplate.txt",
+      "cli_name": "notificationIntegrationReferenceBodyTemplate",
+      "cli_sha256": "c27ea6b5a5479d41bf03c122ed5158a116e1de090ccf78db9ae41e5e03a952e1",
+      "status": "imported"
+    },
+    {
+      "key": "query.notification.integration.referenceBodyTemplateList",
+      "kind": "query",
+      "sdk_file": "sources/query.notification.integration.referenceBodyTemplateList.gql",
+      "sdk_name": "notificationIntegrationReferenceBodyTemplateList",
+      "variables": [
+        "accountId"
+      ],
+      "document_sha256": "d7fb34fa01c7a8377e4641976f253b48c33a6d3732d2f0baca1bdab9b527680c",
+      "cli_file": "queryPayloads/query.notification.integration.referenceBodyTemplateList.txt",
+      "cli_name": "notificationIntegrationReferenceBodyTemplateList",
+      "cli_sha256": "fe96c379e4b8da7d2b82a7162247e02d24c31a5148eeb76673fcf5648ddd9974",
+      "status": "imported"
+    },
+    {
+      "key": "query.notification.integration.webhook",
+      "kind": "query",
+      "sdk_file": "sources/query.notification.integration.webhook.gql",
+      "sdk_name": "notificationIntegrationWebhook",
+      "variables": [
+        "accountId",
+        "webhookIntegrationRefInput"
+      ],
+      "document_sha256": "a840317a6981e7e6b0d2503771963d288c8e7944fcbd2813c89ee7c00bbc83c0",
+      "cli_file": "queryPayloads/query.notification.integration.webhook.txt",
+      "cli_name": "notificationIntegrationWebhook",
+      "cli_sha256": "b74f6266f58ded41661f2f237102131a502f311d286e35316394068dc1353ca7",
+      "status": "imported"
+    },
+    {
+      "key": "query.notification.integration.webhookFields",
+      "kind": "query",
+      "sdk_file": "sources/query.notification.integration.webhookFields.gql",
+      "sdk_name": "notificationIntegrationWebhookFields",
+      "variables": [
+        "accountId"
+      ],
+      "document_sha256": "7578dee50d7d80de9964c87e57c3333403ff3cb1816e0d325a6de5f449e661e8",
+      "cli_file": "queryPayloads/query.notification.integration.webhookFields.txt",
+      "cli_name": "notificationIntegrationWebhookFields",
+      "cli_sha256": "a2da32dc0e998c584da82aaff16988b7a98660b1f50956ea5832d214d927b9e5",
+      "status": "imported"
+    },
+    {
+      "key": "query.notification.integration.webhookList",
+      "kind": "query",
+      "sdk_file": "sources/query.notification.integration.webhookList.gql",
+      "sdk_name": "notificationIntegrationWebhookList",
+      "variables": [
+        "accountId"
+      ],
+      "document_sha256": "9b2f4bf942c6bb7f69f8ad33068070db4017141012e1407147326342dd1b8008",
+      "cli_file": "queryPayloads/query.notification.integration.webhookList.txt",
+      "cli_name": "notificationIntegrationWebhookList",
+      "cli_sha256": "dc89556f01993f0b3fc33c34b9178d5d1a03a884a267381d236830426495883b",
+      "status": "imported"
+    },
+    {
+      "key": "query.notification.mailingList",
+      "kind": "query",
+      "sdk_file": "sources/query.notification.mailingList.gql",
+      "sdk_name": "notificationMailingList",
+      "variables": [
+        "accountId",
+        "mailingListRefInput"
+      ],
+      "document_sha256": "5e7a23b138917ac26047129b55c244eb37d580e32f41fc258656afc5cce632da",
+      "cli_file": "queryPayloads/query.notification.mailingList.txt",
+      "cli_name": "notificationMailingList",
+      "cli_sha256": "e57a2566310cca7501de7888ed83cb205bed9f834b5c63a4ae3e03262f073bdc",
+      "status": "imported"
+    },
+    {
+      "key": "query.notification.mailingListList",
+      "kind": "query",
+      "sdk_file": "sources/query.notification.mailingListList.gql",
+      "sdk_name": "notificationMailingListList",
+      "variables": [
+        "accountId"
+      ],
+      "document_sha256": "5c6823c790de3d5aee644946e3a9567a644a30f05cdfbeab71927ce2e89414ca",
+      "cli_file": "queryPayloads/query.notification.mailingListList.txt",
+      "cli_name": "notificationMailingListList",
+      "cli_sha256": "ddf16c7542bb69a3f936d4942b11244ddf3e415dd6a59583509fa3f2005f59ba",
+      "status": "imported"
+    },
+    {
+      "key": "query.notification.subscriptionGroup",
+      "kind": "query",
+      "sdk_file": "sources/query.notification.subscriptionGroup.gql",
+      "sdk_name": "notificationSubscriptionGroup",
+      "variables": [
+        "accountId",
+        "subscriptionGroupRefInput"
+      ],
+      "document_sha256": "f310740fefb5a3120082d0a39281a6cb0f0cd600ac1c131718cada18a42c46a3",
+      "cli_file": "queryPayloads/query.notification.subscriptionGroup.txt",
+      "cli_name": "notificationSubscriptionGroup",
+      "cli_sha256": "88ab8fa3e871702fa2f0e38e5529b7c2bab32a13a8f590f2c0c3ebe7d8b8f675",
+      "status": "imported"
+    },
+    {
+      "key": "query.notification.subscriptionGroupList",
+      "kind": "query",
+      "sdk_file": "sources/query.notification.subscriptionGroupList.gql",
+      "sdk_name": "notificationSubscriptionGroupList",
+      "variables": [
+        "accountId"
+      ],
+      "document_sha256": "bcf81b396321d5b4853984c139ca883606c662092707c6727c33754de5e72774",
+      "cli_file": "queryPayloads/query.notification.subscriptionGroupList.txt",
+      "cli_name": "notificationSubscriptionGroupList",
+      "cli_sha256": "5114111c8725b526b7d522f4056640b8035a542d9724e65c3142d5f17508e724",
       "status": "imported"
     },
     {
@@ -8567,9 +8858,21 @@
         "globalIpRangeListInput"
       ],
       "document_sha256": "7e299acf2dfc3628591d865ce066bf72da4b963ac333e622dfd2abade7911163",
-      "cli_file": "queryPayloads/query.object.txt",
-      "cli_name": "object",
-      "cli_sha256": "5398280eacf5cd8a6c4f755c96829f59a4a199455610fc754c4ffdc8309dfa3d",
+      "status": "sdk_only"
+    },
+    {
+      "key": "query.object.globalIpRange",
+      "kind": "query",
+      "sdk_file": "sources/query.object.globalIpRange.gql",
+      "sdk_name": "objectGlobalIpRange",
+      "variables": [
+        "accountId",
+        "globalIpRangeRefInput"
+      ],
+      "document_sha256": "6ea10d257680a7899028be5ff3dfde480bd4594a0c730cf20d51fcc2396c6010",
+      "cli_file": "queryPayloads/query.object.globalIpRange.txt",
+      "cli_name": "objectGlobalIpRange",
+      "cli_sha256": "394d1d021ac0b7d004f60ed1077930c77d8b4bfd6bdd8fdc496d0a9835a46bb7",
       "status": "imported"
     },
     {
@@ -8581,8 +8884,11 @@
         "accountID",
         "input"
       ],
-      "document_sha256": "79ffc664afd2c52cacb1d921807bb41e5196faf7be58d5890d9d9ae6d6c3b389",
-      "status": "sdk_only"
+      "document_sha256": "509bbb9bde15b8926ef8c68845e19243f02ccdf0b621255a194b868dc1513249",
+      "cli_file": "queryPayloads/query.object.globalIpRangeList.txt",
+      "cli_name": "objectGlobalIpRangeList",
+      "cli_sha256": "8c05a0cc55e367d668cb05cfd8896209f944fa4e9b7e02fcea9bd2fb7c34181b",
+      "status": "mapped"
     },
     {
       "key": "query.policy",
@@ -8935,9 +9241,65 @@
         "id"
       ],
       "document_sha256": "99bb017bf67353d43af3c1b2df13b4cef282f8d6fb5eddfafc6bc19e1d2749c2",
-      "cli_file": "queryPayloads/query.popLocations.txt",
-      "cli_name": "popLocations",
-      "cli_sha256": "d02d0c4506ea6a649697b82ecb30f960a5d9e7b231f3b8cdf16e48a925d665e2",
+      "status": "sdk_only"
+    },
+    {
+      "key": "query.popLocations.allocatedIpList",
+      "kind": "query",
+      "sdk_file": "sources/query.popLocations.allocatedIpList.gql",
+      "sdk_name": "popLocationsAllocatedIpList",
+      "variables": [
+        "accountId",
+        "popLocationAllocatedIpInput"
+      ],
+      "document_sha256": "3569505119cfc711b43e0d407dc1eb54247baf73b35e0187eb814038d9990a98",
+      "cli_file": "queryPayloads/query.popLocations.allocatedIpList.txt",
+      "cli_name": "popLocationsAllocatedIpList",
+      "cli_sha256": "ebdcb578218819cf45242059ea1ee5ef377ff29fa95229fef108a43f96aafd9b",
+      "status": "imported"
+    },
+    {
+      "key": "query.popLocations.bgpProfile",
+      "kind": "query",
+      "sdk_file": "sources/query.popLocations.bgpProfile.gql",
+      "sdk_name": "popLocationsBgpProfile",
+      "variables": [
+        "accountId",
+        "id"
+      ],
+      "document_sha256": "5c4a1c8fd2d9ac2980290a80f2a4ad72e23124c59f730ac9eba385e41aa4df67",
+      "cli_file": "queryPayloads/query.popLocations.bgpProfile.txt",
+      "cli_name": "popLocationsBgpProfile",
+      "cli_sha256": "73cff7aff1e92eaa6084066a209b86fbddc2d644854821dc175eebfe69140a9b",
+      "status": "imported"
+    },
+    {
+      "key": "query.popLocations.bgpProfileList",
+      "kind": "query",
+      "sdk_file": "sources/query.popLocations.bgpProfileList.gql",
+      "sdk_name": "popLocationsBgpProfileList",
+      "variables": [
+        "accountId"
+      ],
+      "document_sha256": "19602ba2ff7b13401c8fa8e0b609c6df42aea6b765ba950a6f27b8af6f6adb79",
+      "cli_file": "queryPayloads/query.popLocations.bgpProfileList.txt",
+      "cli_name": "popLocationsBgpProfileList",
+      "cli_sha256": "f7b8c37a1fdc217abfbcbdbf67d29f254e67e405b789c0841ea9325269d31f6d",
+      "status": "imported"
+    },
+    {
+      "key": "query.popLocations.popLocationList",
+      "kind": "query",
+      "sdk_file": "sources/query.popLocations.popLocationList.gql",
+      "sdk_name": "popLocationsPopLocationList",
+      "variables": [
+        "accountId",
+        "popLocationFilterInput"
+      ],
+      "document_sha256": "366683871806994c9d07f81dd097ef4e2da0b4746e89bfb2224bb7a56bd951ce",
+      "cli_file": "queryPayloads/query.popLocations.popLocationList.txt",
+      "cli_name": "popLocationsPopLocationList",
+      "cli_sha256": "597f801b1a0ad4b598232920d7d61fea03a2ed3776286287fbc0e69f775ff2d0",
       "status": "imported"
     },
     {
@@ -9023,10 +9385,10 @@
         "accountId",
         "postureDailySummaryListInput"
       ],
-      "document_sha256": "7503304d23481f57ed134ac33f644e09775ad3c288f1568f5bbb833cb913048a",
+      "document_sha256": "611ee387cb65992e373423727de2dfb3b58c680aefc94f0286c7c16cdfe64a54",
       "cli_file": "queryPayloads/query.posture.dailySummaryList.txt",
       "cli_name": "postureDailySummaryList",
-      "cli_sha256": "433cbcb4ba2d05c7fa25c96caac783e776cb24950ebeca6be2a63a0fbee1ce26",
+      "cli_sha256": "c3a235fa5de2971270712e4fb9b8d616c49b8d8e076ec67f0cc2557c369a9df7",
       "status": "imported"
     },
     {
@@ -9100,6 +9462,22 @@
       "cli_file": "queryPayloads/query.privateApplication.txt",
       "cli_name": "privateApplication",
       "cli_sha256": "0de09106b396556e079862ceed3d79e9024a5c6f5d7b8ea3d2651c2dba2c6c63",
+      "status": "imported"
+    },
+    {
+      "key": "query.rbac",
+      "kind": "query",
+      "sdk_file": "sources/query.rbac.gql",
+      "sdk_name": "queryRbac",
+      "variables": [
+        "accountId",
+        "id",
+        "roleManagementRoleListInput"
+      ],
+      "document_sha256": "da85c20cbd82d686de313b563aea458083370aa38018f822009f99f301a0cc65",
+      "cli_file": "queryPayloads/query.rbac.txt",
+      "cli_name": "rbac",
+      "cli_sha256": "56f4ce601d021e6c80a86506331c32fe49f533475e9a809a9d2748ddf043aa3b",
       "status": "imported"
     },
     {
