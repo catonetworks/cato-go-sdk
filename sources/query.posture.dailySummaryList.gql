@@ -88,15 +88,6 @@ query postureDailySummaryList ($accountId: ID!, $postureDailySummaryListInput: P
 						}
 					}
 					evaluatedAt
-					comparisons {
-						comparisonType
-						comparisonValue
-						average
-						percentile
-					}
-					overallEffectiveAreaCriticality
-					overallEffectiveBlastRadius
-					overallEffectiveFindingsSignal
 				}
 			}
 			paging {
