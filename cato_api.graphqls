@@ -58,6 +58,7 @@ type Query {
   popLocations(accountId: ID!): PopLocationQueries
   posture(accountId: ID!): PostureQueries!
   privateApplication(accountId: ID!): AccessPrivateApplicationQueries @rollout
+  rbac(accountId: ID!): RBACQueries!
   sandbox(accountId: ID!): SandboxQueries @rollout
   servicePrincipalAdmin(accountId: ID!, adminID: ID!): GetServicePrincipalAdminPayload @ga
   site(accountId: ID!): SiteQueries!
@@ -89,10 +90,12 @@ type Mutation {
   popLocationMutations(accountId: ID!): PopLocationMutations
   posture(accountId: ID!): PostureMutations!
   privateApplication(accountId: ID!): AccessPrivateApplicationMutations @rollout
+  rbac(accountId: ID!): RBACMutations!
   sandbox(accountId: ID!): SandboxMutations @rollout
   site(accountId: ID!): SiteMutations!
   sites(accountId: ID!): SiteMutations! @deprecated(reason: "in favor of site")
   user(accountId: ID!): UserMutations!
+  webProxyConfig(accountId: ID!): WebProxyConfigMutations!
   xdr(accountId: ID!): XdrMutations!
   ztnaAppConnector(accountId: ID!): ZtnaAppConnectorMutations @rollout
 }
@@ -465,6 +468,12 @@ type AiSecurityAgentsQueries {
 type AiSecurityAgentsSessionPayload {
   items: [AiSecurityAgentsEvent!]!
   paging: PageInfo!
+}
+
+""" Reference to an AI App Protection asset. """
+type AiSecurityAppsAssetRef implements ObjectRef {
+  id: ID!
+  name: String!
 }
 
 """ Reference to an AI security guard. """
@@ -1182,6 +1191,10 @@ type AssetsSecurityLicense implements License & QuantifiableLicense {
 
 type AssignSiteBwLicensePayload {
   license: License!
+}
+
+type AssignSocketToZtnaAppConnectorPayload {
+  ztnaAppConnector: ZtnaAppConnector!
 }
 
 """ Advanced Threat Prevention (ATP) service license details """
@@ -2544,6 +2557,7 @@ type EnableUserPayload {
   users: [User!]!
 }
 
+""" The encrypted keytab file returned for use in Site Web Proxy Kerberos configuration. """
 type EncryptKeytabFilePayload {
   encryptedFile: String!
 }
@@ -3474,8 +3488,8 @@ type InternetFirewallPolicyMutations {
   publishPolicyRevision(input: PolicyPublishRevisionInput): InternetFirewallPolicyMutationPayload!
   removeRule(input: InternetFirewallRemoveRuleInput!): InternetFirewallRuleMutationPayload!
   removeSection(input: PolicyRemoveSectionInput!): PolicySectionMutationPayload!
-  removeSubPolicy(input: InternetFirewallRemoveSubPolicyInput!): InternetFirewallRemoveSubPolicyMutationPayload!
   reorderPolicy(input: PolicyReorderInput!): InternetFirewallPolicyMutationPayload! @beta
+  removeSubPolicy(input: InternetFirewallRemoveSubPolicyInput!): InternetFirewallRemoveSubPolicyMutationPayload!
   updatePolicy(input: InternetFirewallPolicyUpdateInput!): InternetFirewallPolicyMutationPayload!
   updateRule(input: InternetFirewallUpdateRuleInput!): InternetFirewallRuleMutationPayload!
   updateSection(input: PolicyUpdateSectionInput!): PolicySectionMutationPayload!
@@ -5446,7 +5460,7 @@ type PostureComplianceFrameworkListPayload {
 """ A dated snapshot of an account's Posture summary. """
 type PostureDailySummary {
   evaluatedAt: DateTime!
-  summary: PostureSummary!
+  summary: PostureHistoricalSummary!
 }
 
 """ Response payload for the `dailySummaryList` query. """
@@ -5533,6 +5547,23 @@ type PostureFindingSummaryValueBucket {
   checkCount: Int!
   findingCount: Int!
   key: String
+}
+
+"""
+Aggregated Posture summary recorded in a historical snapshot: the Account Score with the
+per-dimension breakdowns stored for that snapshot. Unlike a live summary, breakdowns are limited
+to the dimensions kept in the score history, and only snapshots taken after a dimension started
+being recorded carry it.
+"""
+type PostureHistoricalSummary {
+  applicationScores: [PostureApplicationScore!]!
+  areaScores: [PostureAreaScore!]!
+  categoryScores: [PostureCategoryScore!]!
+  domainScores: [PostureDomainScore!]! @deprecated(reason: "use areaScores instead. Planned end-of-life (EoL) date: 03 31, 2027.")
+  evaluatedAt: DateTime!
+  score: Int!
+  securityDomainScores: [PostureSecurityDomainScore!]!
+  stats: PostureStats
 }
 
 """ An entity affected by a Posture Check result or finding. """
@@ -5630,25 +5661,6 @@ type PostureStatsDetails {
   failed: Int!
   passed: Int!
   total: Int!
-}
-
-"""
-Aggregated Posture summary for the account, including the Account Score
-and per-dimension breakdowns.
-"""
-type PostureSummary {
-  applicationScores: [PostureApplicationScore!]!
-  areaScores: [PostureAreaScore!]!
-  categoryScores: [PostureCategoryScore!]!
-  comparisons: [PostureAccountComparison!]!
-  domainScores: [PostureDomainScore!]!
-  evaluatedAt: DateTime!
-  overallEffectiveAreaCriticality: Float
-  overallEffectiveBlastRadius: Float
-  overallEffectiveFindingsSignal: Float
-  score: Int!
-  securityDomainScores: [PostureSecurityDomainScore!]!
-  stats: PostureStats
 }
 
 """ Response payload for the `undismissFinding` mutation. """
@@ -5836,6 +5848,14 @@ type QueryParameter {
   operator: String
   value: String
   values: [String!]!
+}
+
+type RBACMutations {
+  roleManagement: RoleManagementMutations! @beta
+}
+
+type RBACQueries {
+  roleManagement: RoleManagementQueries! @beta
 }
 
 type RBACRole {
@@ -6096,6 +6116,71 @@ type RevokeUserSessionPayload {
 type RiskScoreCondition {
   category: RiskScoreCategory!
   operator: RiskScoreOperator!
+}
+
+""" A resource and the actions it supports. """
+type RoleManagementCatalogResource {
+  resource: String!
+  supportedAction: [RoleManagementGrantAction!]!
+}
+
+""" Create-role result. """
+type RoleManagementCreateRolePayload {
+  role: RoleManagementRole!
+}
+
+""" Delete-role result. """
+type RoleManagementDeleteRolePayload {
+  id: ID!
+}
+
+""" Create, update, and delete custom roles. """
+type RoleManagementMutations {
+  createRole(input: RoleManagementCreateRoleInput!): RoleManagementCreateRolePayload
+  deleteRole(input: RoleManagementDeleteRoleInput!): RoleManagementDeleteRolePayload
+  updateRole(input: RoleManagementUpdateRoleInput!): RoleManagementUpdateRolePayload
+}
+
+""" A resource and action granted by a predefined or custom role. """
+type RoleManagementPermission {
+  action: RBACAction!
+  resource: String!
+}
+
+""" Resources and supported actions available for defining custom-role permissions. """
+type RoleManagementPermissionCatalog {
+  resource: [RoleManagementCatalogResource!]!
+}
+
+""" Queries for predefined roles, custom roles, and available permissions. """
+type RoleManagementQueries {
+  permissionCatalog: RoleManagementPermissionCatalog
+  role(id: ID!): RoleManagementRole
+  roleList(input: RoleManagementRoleListInput! = {sort:{name:{direction:ASC,priority:1}},paging:{limit:100,from:0}}): RoleManagementRoleListPayload
+}
+
+"""
+A named set of permissions. Predefined roles are shared and immutable; custom
+roles belong to one account.
+"""
+type RoleManagementRole {
+  description: String
+  id: ID!
+  isUsedOnExternalAccess: Boolean!
+  name: String!
+  permission: [RoleManagementPermission!]!
+  predefined: Boolean!
+}
+
+""" Role-list result. """
+type RoleManagementRoleListPayload {
+  items: [RoleManagementRole!]!
+  paging: PageInfo!
+}
+
+""" Update-role result. """
+type RoleManagementUpdateRolePayload {
+  role: RoleManagementRole!
 }
 
 """ SaaS Security API service license details """
@@ -8459,6 +8544,11 @@ type WanNetworkRuleTransport {
   transportType: WanNetworkRuleTransportType!
 }
 
+""" Mutations for preparing Site Web Proxy authentication configuration. """
+type WebProxyConfigMutations {
+  encryptKeytabFile(input: EncryptKeytabFileInput!): EncryptKeytabFilePayload! @beta
+}
+
 """
 Defines the structure of a webhook integration used to
 send notifications to third-party services.
@@ -8806,6 +8896,7 @@ type ZtnaAppConnectorMutations {
   addZtnaAppConnector(input: AddZtnaAppConnectorInput!): AddZtnaAppConnectorPayload! @beta
   addZtnaAppConnectorBwLicense(input: AddZtnaAppConnectorBwLicenseInput!): AddZtnaAppConnectorBwLicensePayload
   addZtnaAppConnectorsConfiguration(input: AddZtnaAppConnectorsConfigurationInput!): AddZtnaAppConnectorsConfigurationPayload! @beta
+  assignSocketToZtnaAppConnector(input: AssignSocketToZtnaAppConnectorInput!): AssignSocketToZtnaAppConnectorPayload! @beta
   removeZtnaAppConnector(input: RemoveZtnaAppConnectorInput!): RemoveZtnaAppConnectorPayload! @beta
   removeZtnaAppConnectorBwLicense(input: RemoveZtnaAppConnectorBwLicenseInput!): RemoveZtnaAppConnectorBwLicensePayload
   removeZtnaAppConnectorsConfiguration: RemoveZtnaAppConnectorsConfigurationPayload! @beta
@@ -9856,6 +9947,12 @@ input AssignSiteBwLicenseInput {
   site: SiteRefInput!
 }
 
+input AssignSocketToZtnaAppConnectorInput {
+  description: String! = ""
+  socketSerial: String!
+  ztnaAppConnector: ZtnaAppConnectorRefInput!
+}
+
 input AuditFieldFilterInput {
   fieldName: FieldNameInput!
   operator: ElasticOperator!
@@ -10895,6 +10992,7 @@ input EnableUserInput {
   userId: [Long!]!
 }
 
+""" Input for encrypting a Kerberos keytab file for Site Web Proxy authentication. """
 input EncryptKeytabFileInput {
   file: Upload!
 }
@@ -12032,6 +12130,43 @@ input PolicyElementRefInput {
   input: String!
 }
 
+"""
+Input for reordering an entire policy in a single mutation.
+All sections, rules, and sub-rules must be provided — including system elements.
+System sections and system rules must remain at their persisted positions (same array index).
+The desired order is determined by the natural (array index) order of the elements.
+"""
+input PolicyReorderInput {
+  sections: [PolicyReorderSectionInput!]!
+  subPolicyId: ID
+}
+
+"""
+Defines the desired order of a rule and its sub-rules within a section.
+Rules are reordered based on their natural position in the array.
+"""
+input PolicyReorderRuleInput {
+  ref: PolicyElementRefInput!
+  subRules: [PolicyReorderSubRuleInput!]! = []
+}
+
+"""
+Defines the desired order of a section and its rules within the policy.
+Sections are reordered based on their natural position in the array.
+"""
+input PolicyReorderSectionInput {
+  ref: PolicyElementRefInput!
+  rules: [PolicyReorderRuleInput!]!
+}
+
+"""
+Defines the desired order of sub-rules within a parent rule.
+Sub-rules are reordered based on their natural position in the array.
+"""
+input PolicyReorderSubRuleInput {
+  ref: PolicyElementRefInput!
+}
+
 input PolicyLevelEnumFilterInput {
   eq: PolicyLevelEnum
   in: [PolicyLevelEnum!]
@@ -12075,43 +12210,6 @@ input PolicyPublishRevisionInput {
 """ Input for removing a section from a policy """
 input PolicyRemoveSectionInput {
   id: ID!
-}
-
-"""
-Input for reordering an entire policy in a single mutation.
-All sections, rules, and sub-rules must be provided — including system elements.
-System sections and system rules must remain at their persisted positions (same array index).
-The desired order is determined by the natural (array index) order of the elements.
-"""
-input PolicyReorderInput {
-  sections: [PolicyReorderSectionInput!]!
-  subPolicyId: ID
-}
-
-"""
-Defines the desired order of a rule and its sub-rules within a section.
-Rules are reordered based on their natural position in the array.
-"""
-input PolicyReorderRuleInput {
-  ref: PolicyElementRefInput!
-  subRules: [PolicyReorderSubRuleInput!]! = []
-}
-
-"""
-Defines the desired order of a section and its rules within the policy.
-Sections are reordered based on their natural position in the array.
-"""
-input PolicyReorderSectionInput {
-  ref: PolicyElementRefInput!
-  rules: [PolicyReorderRuleInput!]!
-}
-
-"""
-Defines the desired order of sub-rules within a parent rule.
-Sub-rules are reordered based on their natural position in the array.
-"""
-input PolicyReorderSubRuleInput {
-  ref: PolicyElementRefInput!
 }
 
 """ Input for specifying a policy revision """
@@ -12895,6 +12993,51 @@ input RiskScoreFilterInput {
   in: [RiskScore!]
   neq: RiskScore
   nin: [RiskScore!]
+}
+
+""" Create-role input. """
+input RoleManagementCreateRoleInput {
+  description: String
+  name: String!
+  permission: [RoleManagementPermissionInput!]!
+}
+
+""" Delete-role input. """
+input RoleManagementDeleteRoleInput {
+  id: ID!
+}
+
+""" Permission input. """
+input RoleManagementPermissionInput {
+  action: RoleManagementGrantAction!
+  resource: String!
+}
+
+""" Role-list filters. """
+input RoleManagementRoleFilterInput {
+  id: IdFilterInput
+  name: StringFilterInput
+  predefined: BooleanFilterInput
+}
+
+""" Role-list filter, sort, and paging input. """
+input RoleManagementRoleListInput {
+  filter: RoleManagementRoleFilterInput
+  paging: PagingInput! = {limit:100,from:0}
+  sort: RoleManagementRoleSortInput! = {name:{direction:ASC,priority:1}}
+}
+
+""" Role-list sorting. """
+input RoleManagementRoleSortInput {
+  name: SortOrderInput
+}
+
+""" Replacement values for a custom role's name, description, and permissions. """
+input RoleManagementUpdateRoleInput {
+  description: String
+  id: ID!
+  name: String!
+  permission: [RoleManagementPermissionInput!]!
 }
 
 input SanctionedAppsCategoryRefInput {
@@ -15976,10 +16119,14 @@ enum AppStatsFieldName {
   action
   """ Active Directory name. CMA Name: Ad Name """
   ad_name
+  """ The estimated risk level of the AI threat. Only available for native flows data integration created in the CMA. Not available in the appstats or appstatsTimeSeries API. """
+  ai_app_risk_level
   """ AI Proxy rule name. CMA Name: AI Proxy Rule Name """
   ai_proxy_rule_name
   """ Application ID of the flow, in legacy format. CMA Name: Appid """
   app @deprecated(reason: "use application_id instead. Planned end-of-life (EoL) date: June 30, 2026.")
+  """ Related Apps. Only available for native flows data integration created in the CMA. Not available in the appstats or appstatsTimeSeries API. """
+  app_stack
   """ The application identifier. CMA Name: Application """
   application @deprecated(reason: "use application_name instead. Planned end-of-life (EoL) date: June 30, 2026.")
   """ Description of the application. CMA Name: Application Description """
@@ -16004,6 +16151,10 @@ enum AppStatsFieldName {
   categories_current_state
   """ Cato system category of the application. CMA Name: Category """
   category @deprecated(reason: "use categories instead. Planned end-of-life (EoL) date: June 30, 2026.")
+  """ Expiration date for Client certificate. Only available for native flows data integration created in the CMA. Not available in the appstats or appstatsTimeSeries API. """
+  client_cert_expires
+  """ Name of Client certificate. Only available for native flows data integration created in the CMA. Not available in the appstats or appstatsTimeSeries API. """
+  client_cert_name
   """ Type of process generating this traffic. CMA Name: Client Class """
   client_class
   """ Socket or SDP Client version. CMA Name: Client Version """
@@ -16054,6 +16205,14 @@ enum AppStatsFieldName {
   device_type
   """ Total SaaS apps discovered ever until the To in the timeframe. CMA Name: Discovered App """
   discovered_app
+  """ Resolved address for the query. Only available for native flows data integration created in the CMA. Not available in the appstats or appstatsTimeSeries API. """
+  dns_answer
+  """ Domain queried in the DNS request. Only available for native flows data integration created in the CMA. Not available in the appstats or appstatsTimeSeries API. """
+  dns_query
+  """ Type of record (ie. DNS record: A, AAAA, MX, or PTR). Only available for native flows data integration created in the CMA. Not available in the appstats or appstatsTimeSeries API. """
+  dns_record_type
+  """ The return code for the response. For details, see the Domain Name System Parameters on the Internet Assigned Numbers Authority (IANA) web site. Only available for native flows data integration created in the CMA. Not available in the appstats or appstatsTimeSeries API. """
+  dns_reply_code
   """ Domain name. CMA Name: Domain Name """
   domain @deprecated(reason: "use tld instead. Planned end-of-life (EoL) date: July 1, 2026.")
   """ Bytes sent from the destination to the host. CMA Name: Downstream """
@@ -16064,6 +16223,10 @@ enum AppStatsFieldName {
   egress_pop_name
   """ Egress Site Name for backhauling traffic. CMA Name: Egress Site """
   egress_site_name
+  """ Firewall event subtype. Only available for native flows data integration created in the CMA. Not available in the appstats or appstatsTimeSeries API. """
+  event_sub_type
+  """ Event type for AppStats firewall traffic. Only available for native flows data integration created in the CMA. Not available in the appstats or appstatsTimeSeries API. """
+  event_type
   """ Experience Score Level. CMA Name: Experience Score Level. Requires license: CATO_DEM """
   experience_score_level
   """ Total bytes sent from the destination to the host for the entire flow. Only available for native flows data integration created in the CMA. Not available in the appstats or appstatsTimeSeries API. """
@@ -16116,6 +16279,8 @@ enum AppStatsFieldName {
   network_rule
   """ new_app. CMA Name: New App """
   new_app
+  """ Host OS or tunnel device. Only available for native flows data integration created in the CMA. Not available in the appstats or appstatsTimeSeries API. """
+  os_type
   """ OS version for the device (such as 14.3.0). CMA Name: OS Version """
   os_version
   """ Packets sent from the destination to the host. CMA Name: Packets Downstream """
@@ -16126,14 +16291,24 @@ enum AppStatsFieldName {
   packets_upstream
   """ Name of PoP location. CMA Name: Pop Name """
   pop_name
+  """ Public source IP. Only available for native flows data integration created in the CMA. Not available in the appstats or appstatsTimeSeries API. """
+  public_ip
   """ QoS Priority value. CMA Name: QoS Priority """
   qos_priority
+  """ Referer URL from the HTTP request header indicating the source of the request. Only available for native flows data integration created in the CMA. Not available in the appstats or appstatsTimeSeries API. """
+  referer_url
   """ risk_level. CMA Name: Risk Level """
   risk_level @deprecated(reason: "use application_risk_level instead. Planned end-of-life (EoL) date: June 30, 2026.")
   """ The application risk score assigned by Cato. CMA Name: Risk Score """
   risk_score @deprecated(reason: "use application_risk_score instead. Planned end-of-life (EoL) date: June 30, 2026.")
+  """ Unique Cato ID for the firewall rule related to the flow. Only available for native flows data integration created in the CMA. Not available in the appstats or appstatsTimeSeries API. """
+  rule_id
+  """ Rule name. Only available for native flows data integration created in the CMA. Not available in the appstats or appstatsTimeSeries API. """
+  rule_name
   """ Is the application defined as sanctioned?. CMA Name: Sanctioned """
   sanctioned @deprecated(reason: "use is_sanctioned_app instead. Planned end-of-life (EoL) date: June 30, 2026.")
+  """ Server IP address. Only available for native flows data integration created in the CMA. Not available in the appstats or appstatsTimeSeries API. """
+  server_ip
   """ Country in which the source host is located. CMA Name: Site Country """
   site_country
   """ State in which the source host is located. CMA Name: Site State """
@@ -16192,6 +16367,8 @@ enum AppStatsFieldName {
   ttfb
   """ Bytes sent from the host to the destination. CMA Name: Upstream """
   upstream
+  """ URL associated with the event. Only available for native flows data integration created in the CMA. Not available in the appstats or appstatsTimeSeries API. """
+  url
   """ Method used to get identity with User Awareness (such as Identity Agent). CMA Name: User Awareness Method """
   user_awareness_method
   """ User ID. CMA Name: User ID """
@@ -17395,6 +17572,8 @@ enum EventFieldName {
   region_name
   """ Registration code used the first time that a SDP user authenticates (the code is partially obfuscated). CMA Name: Registration Code """
   registration_code
+  """ Checks related to this event. CMA Name: Related Checks """
+  related_checks
   """ Request packet size in bytes (ie. DNS request packet). CMA Name: Request Size """
   request_size
   """ The ID of the resource in the cloud provider. CMA Name: The ID of the resource """
@@ -18750,6 +18929,14 @@ enum RiskScoreCategory {
 enum RiskScoreOperator {
   GTE
   LTE
+}
+
+""" Action grantable through role management. """
+enum RoleManagementGrantAction {
+  """ Read and edit access. """
+  EDIT
+  """ Read-only access. """
+  VIEW
 }
 
 """ Sandbox analysis failure reason """

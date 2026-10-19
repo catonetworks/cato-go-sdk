@@ -1179,6 +1179,16 @@ type AiSecurityAgentsSessionPayload struct {
 	Paging *PageInfo                `json:"paging"`
 }
 
+// Reference to an AI App Protection asset.
+type AiSecurityAppsAssetRef struct {
+	ID   string `json:"id"`
+	Name string `json:"name"`
+}
+
+func (AiSecurityAppsAssetRef) IsObjectRef()         {}
+func (this AiSecurityAppsAssetRef) GetID() string   { return this.ID }
+func (this AiSecurityAppsAssetRef) GetName() string { return this.Name }
+
 // Reference to an AI security guard.
 type AiSecurityAppsGuardRef struct {
 	ID   string `json:"id"`
@@ -2929,6 +2939,16 @@ type AssignSiteBwLicenseInput struct {
 
 type AssignSiteBwLicensePayload struct {
 	License License `json:"license"`
+}
+
+type AssignSocketToZtnaAppConnectorInput struct {
+	Description      string                    `json:"description"`
+	SocketSerial     string                    `json:"socketSerial"`
+	ZtnaAppConnector *ZtnaAppConnectorRefInput `json:"ztnaAppConnector"`
+}
+
+type AssignSocketToZtnaAppConnectorPayload struct {
+	ZtnaAppConnector *ZtnaAppConnector `json:"ztnaAppConnector"`
 }
 
 // Advanced Threat Prevention (ATP) service license details
@@ -5790,10 +5810,12 @@ type EnableUserPayload struct {
 	Users []*User `json:"users"`
 }
 
+// Input for encrypting a Kerberos keytab file for Site Web Proxy authentication.
 type EncryptKeytabFileInput struct {
 	File graphql.Upload `json:"file"`
 }
 
+// The encrypted keytab file returned for use in Site Web Proxy Kerberos configuration.
 type EncryptKeytabFilePayload struct {
 	EncryptedFile string `json:"encryptedFile"`
 }
@@ -7355,8 +7377,8 @@ type InternetFirewallPolicyMutations struct {
 	PublishPolicyRevision *InternetFirewallPolicyMutationPayload          `json:"publishPolicyRevision"`
 	RemoveRule            *InternetFirewallRuleMutationPayload            `json:"removeRule"`
 	RemoveSection         *PolicySectionMutationPayload                   `json:"removeSection"`
-	RemoveSubPolicy       *InternetFirewallRemoveSubPolicyMutationPayload `json:"removeSubPolicy"`
 	ReorderPolicy         *InternetFirewallPolicyMutationPayload          `json:"reorderPolicy"`
+	RemoveSubPolicy       *InternetFirewallRemoveSubPolicyMutationPayload `json:"removeSubPolicy"`
 	UpdatePolicy          *InternetFirewallPolicyMutationPayload          `json:"updatePolicy"`
 	UpdateRule            *InternetFirewallRuleMutationPayload            `json:"updateRule"`
 	UpdateSection         *PolicySectionMutationPayload                   `json:"updateSection"`
@@ -11120,8 +11142,8 @@ type PostureComplianceFrameworkListPayload struct {
 
 // A dated snapshot of an account's Posture summary.
 type PostureDailySummary struct {
-	EvaluatedAt string          `json:"evaluatedAt"`
-	Summary     *PostureSummary `json:"summary"`
+	EvaluatedAt string                    `json:"evaluatedAt"`
+	Summary     *PostureHistoricalSummary `json:"summary"`
 }
 
 // Filter for the daily Posture summary list query.
@@ -11292,6 +11314,21 @@ type PostureFindingSummaryValueBucket struct {
 	Key          *string `json:"key,omitempty"`
 }
 
+// Aggregated Posture summary recorded in a historical snapshot: the Account Score with the
+// per-dimension breakdowns stored for that snapshot. Unlike a live summary, breakdowns are limited
+// to the dimensions kept in the score history, and only snapshots taken after a dimension started
+// being recorded carry it.
+type PostureHistoricalSummary struct {
+	ApplicationScores    []*PostureApplicationScore    `json:"applicationScores"`
+	AreaScores           []*PostureAreaScore           `json:"areaScores"`
+	CategoryScores       []*PostureCategoryScore       `json:"categoryScores"`
+	DomainScores         []*PostureDomainScore         `json:"domainScores"`
+	EvaluatedAt          string                        `json:"evaluatedAt"`
+	Score                int64                         `json:"score"`
+	SecurityDomainScores []*PostureSecurityDomainScore `json:"securityDomainScores"`
+	Stats                *PostureStats                 `json:"stats,omitempty"`
+}
+
 // An entity affected by a Posture Check result or finding.
 type PostureImpactedEntity struct {
 	ID   string                    `json:"id"`
@@ -11423,23 +11460,6 @@ type PostureStatsDetails struct {
 	Failed   int64 `json:"failed"`
 	Passed   int64 `json:"passed"`
 	Total    int64 `json:"total"`
-}
-
-// Aggregated Posture summary for the account, including the Account Score
-// and per-dimension breakdowns.
-type PostureSummary struct {
-	ApplicationScores               []*PostureApplicationScore    `json:"applicationScores"`
-	AreaScores                      []*PostureAreaScore           `json:"areaScores"`
-	CategoryScores                  []*PostureCategoryScore       `json:"categoryScores"`
-	Comparisons                     []*PostureAccountComparison   `json:"comparisons"`
-	DomainScores                    []*PostureDomainScore         `json:"domainScores"`
-	EvaluatedAt                     string                        `json:"evaluatedAt"`
-	OverallEffectiveAreaCriticality *float64                      `json:"overallEffectiveAreaCriticality,omitempty"`
-	OverallEffectiveBlastRadius     *float64                      `json:"overallEffectiveBlastRadius,omitempty"`
-	OverallEffectiveFindingsSignal  *float64                      `json:"overallEffectiveFindingsSignal,omitempty"`
-	Score                           int64                         `json:"score"`
-	SecurityDomainScores            []*PostureSecurityDomainScore `json:"securityDomainScores"`
-	Stats                           *PostureStats                 `json:"stats,omitempty"`
 }
 
 // Comparison operators for filtering checks by enabled or disabled status.
@@ -11909,6 +11929,14 @@ type QueryParameter struct {
 	Operator *string  `json:"operator,omitempty"`
 	Value    *string  `json:"value,omitempty"`
 	Values   []string `json:"values"`
+}
+
+type RBACMutations struct {
+	RoleManagement *RoleManagementMutations `json:"roleManagement"`
+}
+
+type RBACQueries struct {
+	RoleManagement *RoleManagementQueries `json:"roleManagement"`
 }
 
 type RBACRole struct {
@@ -12443,6 +12471,114 @@ type RiskScoreFilterInput struct {
 	In  []RiskScore `json:"in,omitempty"`
 	Neq *RiskScore  `json:"neq,omitempty"`
 	Nin []RiskScore `json:"nin,omitempty"`
+}
+
+// A resource and the actions it supports.
+type RoleManagementCatalogResource struct {
+	Resource        string                      `json:"resource"`
+	SupportedAction []RoleManagementGrantAction `json:"supportedAction"`
+}
+
+// Create-role input.
+type RoleManagementCreateRoleInput struct {
+	Description *string                          `json:"description,omitempty"`
+	Name        string                           `json:"name"`
+	Permission  []*RoleManagementPermissionInput `json:"permission"`
+}
+
+// Create-role result.
+type RoleManagementCreateRolePayload struct {
+	Role *RoleManagementRole `json:"role"`
+}
+
+// Delete-role input.
+type RoleManagementDeleteRoleInput struct {
+	ID string `json:"id"`
+}
+
+// Delete-role result.
+type RoleManagementDeleteRolePayload struct {
+	ID string `json:"id"`
+}
+
+// Create, update, and delete custom roles.
+type RoleManagementMutations struct {
+	CreateRole *RoleManagementCreateRolePayload `json:"createRole,omitempty"`
+	DeleteRole *RoleManagementDeleteRolePayload `json:"deleteRole,omitempty"`
+	UpdateRole *RoleManagementUpdateRolePayload `json:"updateRole,omitempty"`
+}
+
+// A resource and action granted by a predefined or custom role.
+type RoleManagementPermission struct {
+	Action   RBACAction `json:"action"`
+	Resource string     `json:"resource"`
+}
+
+// Resources and supported actions available for defining custom-role permissions.
+type RoleManagementPermissionCatalog struct {
+	Resource []*RoleManagementCatalogResource `json:"resource"`
+}
+
+// Permission input.
+type RoleManagementPermissionInput struct {
+	Action   RoleManagementGrantAction `json:"action"`
+	Resource string                    `json:"resource"`
+}
+
+// Queries for predefined roles, custom roles, and available permissions.
+type RoleManagementQueries struct {
+	PermissionCatalog *RoleManagementPermissionCatalog `json:"permissionCatalog,omitempty"`
+	Role              *RoleManagementRole              `json:"role,omitempty"`
+	RoleList          *RoleManagementRoleListPayload   `json:"roleList,omitempty"`
+}
+
+// A named set of permissions. Predefined roles are shared and immutable; custom
+// roles belong to one account.
+type RoleManagementRole struct {
+	Description            *string                     `json:"description,omitempty"`
+	ID                     string                      `json:"id"`
+	IsUsedOnExternalAccess bool                        `json:"isUsedOnExternalAccess"`
+	Name                   string                      `json:"name"`
+	Permission             []*RoleManagementPermission `json:"permission"`
+	Predefined             bool                        `json:"predefined"`
+}
+
+// Role-list filters.
+type RoleManagementRoleFilterInput struct {
+	ID         *IDFilterInput      `json:"id,omitempty"`
+	Name       *StringFilterInput  `json:"name,omitempty"`
+	Predefined *BooleanFilterInput `json:"predefined,omitempty"`
+}
+
+// Role-list filter, sort, and paging input.
+type RoleManagementRoleListInput struct {
+	Filter *RoleManagementRoleFilterInput `json:"filter,omitempty"`
+	Paging *PagingInput                   `json:"paging"`
+	Sort   *RoleManagementRoleSortInput   `json:"sort"`
+}
+
+// Role-list result.
+type RoleManagementRoleListPayload struct {
+	Items  []*RoleManagementRole `json:"items"`
+	Paging *PageInfo             `json:"paging"`
+}
+
+// Role-list sorting.
+type RoleManagementRoleSortInput struct {
+	Name *SortOrderInput `json:"name,omitempty"`
+}
+
+// Replacement values for a custom role's name, description, and permissions.
+type RoleManagementUpdateRoleInput struct {
+	Description *string                          `json:"description,omitempty"`
+	ID          string                           `json:"id"`
+	Name        string                           `json:"name"`
+	Permission  []*RoleManagementPermissionInput `json:"permission"`
+}
+
+// Update-role result.
+type RoleManagementUpdateRolePayload struct {
+	Role *RoleManagementRole `json:"role"`
 }
 
 // SaaS Security API service license details
@@ -18394,6 +18530,11 @@ type WanNetworkUpdateRuleInput struct {
 	Rule *WanNetworkUpdateRuleDataInput `json:"rule"`
 }
 
+// Mutations for preparing Site Web Proxy authentication configuration.
+type WebProxyConfigMutations struct {
+	EncryptKeytabFile *EncryptKeytabFilePayload `json:"encryptKeytabFile"`
+}
+
 // Defines the structure of a webhook integration used to
 // send notifications to third-party services.
 type Webhook struct {
@@ -19058,6 +19199,7 @@ type ZtnaAppConnectorMutations struct {
 	AddZtnaAppConnector                  *AddZtnaAppConnectorPayload                  `json:"addZtnaAppConnector"`
 	AddZtnaAppConnectorBwLicense         *AddZtnaAppConnectorBwLicensePayload         `json:"addZtnaAppConnectorBwLicense,omitempty"`
 	AddZtnaAppConnectorsConfiguration    *AddZtnaAppConnectorsConfigurationPayload    `json:"addZtnaAppConnectorsConfiguration"`
+	AssignSocketToZtnaAppConnector       *AssignSocketToZtnaAppConnectorPayload       `json:"assignSocketToZtnaAppConnector"`
 	RemoveZtnaAppConnector               *RemoveZtnaAppConnectorPayload               `json:"removeZtnaAppConnector"`
 	RemoveZtnaAppConnectorBwLicense      *RemoveZtnaAppConnectorBwLicensePayload      `json:"removeZtnaAppConnectorBwLicense,omitempty"`
 	RemoveZtnaAppConnectorsConfiguration *RemoveZtnaAppConnectorsConfigurationPayload `json:"removeZtnaAppConnectorsConfiguration"`
@@ -20536,10 +20678,14 @@ const (
 	AppStatsFieldNameAction AppStatsFieldName = "action"
 	//  Active Directory name. CMA Name: Ad Name
 	AppStatsFieldNameAdName AppStatsFieldName = "ad_name"
+	//  The estimated risk level of the AI threat. Only available for native flows data integration created in the CMA. Not available in the appstats or appstatsTimeSeries API.
+	AppStatsFieldNameAiAppRiskLevel AppStatsFieldName = "ai_app_risk_level"
 	//  AI Proxy rule name. CMA Name: AI Proxy Rule Name
 	AppStatsFieldNameAiProxyRuleName AppStatsFieldName = "ai_proxy_rule_name"
 	//  Application ID of the flow, in legacy format. CMA Name: Appid
 	AppStatsFieldNameApp AppStatsFieldName = "app"
+	//  Related Apps. Only available for native flows data integration created in the CMA. Not available in the appstats or appstatsTimeSeries API.
+	AppStatsFieldNameAppStack AppStatsFieldName = "app_stack"
 	//  The application identifier. CMA Name: Application
 	AppStatsFieldNameApplication AppStatsFieldName = "application"
 	//  Description of the application. CMA Name: Application Description
@@ -20564,6 +20710,10 @@ const (
 	AppStatsFieldNameCategoriesCurrentState AppStatsFieldName = "categories_current_state"
 	//  Cato system category of the application. CMA Name: Category
 	AppStatsFieldNameCategory AppStatsFieldName = "category"
+	//  Expiration date for Client certificate. Only available for native flows data integration created in the CMA. Not available in the appstats or appstatsTimeSeries API.
+	AppStatsFieldNameClientCertExpires AppStatsFieldName = "client_cert_expires"
+	//  Name of Client certificate. Only available for native flows data integration created in the CMA. Not available in the appstats or appstatsTimeSeries API.
+	AppStatsFieldNameClientCertName AppStatsFieldName = "client_cert_name"
 	//  Type of process generating this traffic. CMA Name: Client Class
 	AppStatsFieldNameClientClass AppStatsFieldName = "client_class"
 	//  Socket or SDP Client version. CMA Name: Client Version
@@ -20614,6 +20764,14 @@ const (
 	AppStatsFieldNameDeviceType AppStatsFieldName = "device_type"
 	//  Total SaaS apps discovered ever until the To in the timeframe. CMA Name: Discovered App
 	AppStatsFieldNameDiscoveredApp AppStatsFieldName = "discovered_app"
+	//  Resolved address for the query. Only available for native flows data integration created in the CMA. Not available in the appstats or appstatsTimeSeries API.
+	AppStatsFieldNameDNSAnswer AppStatsFieldName = "dns_answer"
+	//  Domain queried in the DNS request. Only available for native flows data integration created in the CMA. Not available in the appstats or appstatsTimeSeries API.
+	AppStatsFieldNameDNSQuery AppStatsFieldName = "dns_query"
+	//  Type of record (ie. DNS record: A, AAAA, MX, or PTR). Only available for native flows data integration created in the CMA. Not available in the appstats or appstatsTimeSeries API.
+	AppStatsFieldNameDNSRecordType AppStatsFieldName = "dns_record_type"
+	//  The return code for the response. For details, see the Domain Name System Parameters on the Internet Assigned Numbers Authority (IANA) web site. Only available for native flows data integration created in the CMA. Not available in the appstats or appstatsTimeSeries API.
+	AppStatsFieldNameDNSReplyCode AppStatsFieldName = "dns_reply_code"
 	//  Domain name. CMA Name: Domain Name
 	AppStatsFieldNameDomain AppStatsFieldName = "domain"
 	//  Bytes sent from the destination to the host. CMA Name: Downstream
@@ -20624,6 +20782,10 @@ const (
 	AppStatsFieldNameEgressPopName AppStatsFieldName = "egress_pop_name"
 	//  Egress Site Name for backhauling traffic. CMA Name: Egress Site
 	AppStatsFieldNameEgressSiteName AppStatsFieldName = "egress_site_name"
+	//  Firewall event subtype. Only available for native flows data integration created in the CMA. Not available in the appstats or appstatsTimeSeries API.
+	AppStatsFieldNameEventSubType AppStatsFieldName = "event_sub_type"
+	//  Event type for AppStats firewall traffic. Only available for native flows data integration created in the CMA. Not available in the appstats or appstatsTimeSeries API.
+	AppStatsFieldNameEventType AppStatsFieldName = "event_type"
 	//  Experience Score Level. CMA Name: Experience Score Level. Requires license: CATO_DEM
 	AppStatsFieldNameExperienceScoreLevel AppStatsFieldName = "experience_score_level"
 	//  Total bytes sent from the destination to the host for the entire flow. Only available for native flows data integration created in the CMA. Not available in the appstats or appstatsTimeSeries API.
@@ -20676,6 +20838,8 @@ const (
 	AppStatsFieldNameNetworkRule AppStatsFieldName = "network_rule"
 	//  new_app. CMA Name: New App
 	AppStatsFieldNameNewApp AppStatsFieldName = "new_app"
+	//  Host OS or tunnel device. Only available for native flows data integration created in the CMA. Not available in the appstats or appstatsTimeSeries API.
+	AppStatsFieldNameOsType AppStatsFieldName = "os_type"
 	//  OS version for the device (such as 14.3.0). CMA Name: OS Version
 	AppStatsFieldNameOsVersion AppStatsFieldName = "os_version"
 	//  Packets sent from the destination to the host. CMA Name: Packets Downstream
@@ -20686,14 +20850,24 @@ const (
 	AppStatsFieldNamePacketsUpstream AppStatsFieldName = "packets_upstream"
 	//  Name of PoP location. CMA Name: Pop Name
 	AppStatsFieldNamePopName AppStatsFieldName = "pop_name"
+	//  Public source IP. Only available for native flows data integration created in the CMA. Not available in the appstats or appstatsTimeSeries API.
+	AppStatsFieldNamePublicIP AppStatsFieldName = "public_ip"
 	//  QoS Priority value. CMA Name: QoS Priority
 	AppStatsFieldNameQosPriority AppStatsFieldName = "qos_priority"
+	//  Referer URL from the HTTP request header indicating the source of the request. Only available for native flows data integration created in the CMA. Not available in the appstats or appstatsTimeSeries API.
+	AppStatsFieldNameRefererURL AppStatsFieldName = "referer_url"
 	//  risk_level. CMA Name: Risk Level
 	AppStatsFieldNameRiskLevel AppStatsFieldName = "risk_level"
 	//  The application risk score assigned by Cato. CMA Name: Risk Score
 	AppStatsFieldNameRiskScore AppStatsFieldName = "risk_score"
+	//  Unique Cato ID for the firewall rule related to the flow. Only available for native flows data integration created in the CMA. Not available in the appstats or appstatsTimeSeries API.
+	AppStatsFieldNameRuleID AppStatsFieldName = "rule_id"
+	//  Rule name. Only available for native flows data integration created in the CMA. Not available in the appstats or appstatsTimeSeries API.
+	AppStatsFieldNameRuleName AppStatsFieldName = "rule_name"
 	//  Is the application defined as sanctioned?. CMA Name: Sanctioned
 	AppStatsFieldNameSanctioned AppStatsFieldName = "sanctioned"
+	//  Server IP address. Only available for native flows data integration created in the CMA. Not available in the appstats or appstatsTimeSeries API.
+	AppStatsFieldNameServerIP AppStatsFieldName = "server_ip"
 	//  Country in which the source host is located. CMA Name: Site Country
 	AppStatsFieldNameSiteCountry AppStatsFieldName = "site_country"
 	//  State in which the source host is located. CMA Name: Site State
@@ -20752,6 +20926,8 @@ const (
 	AppStatsFieldNameTtfb AppStatsFieldName = "ttfb"
 	//  Bytes sent from the host to the destination. CMA Name: Upstream
 	AppStatsFieldNameUpstream AppStatsFieldName = "upstream"
+	//  URL associated with the event. Only available for native flows data integration created in the CMA. Not available in the appstats or appstatsTimeSeries API.
+	AppStatsFieldNameURL AppStatsFieldName = "url"
 	//  Method used to get identity with User Awareness (such as Identity Agent). CMA Name: User Awareness Method
 	AppStatsFieldNameUserAwarenessMethod AppStatsFieldName = "user_awareness_method"
 	//  User ID. CMA Name: User ID
@@ -20770,8 +20946,10 @@ var AllAppStatsFieldName = []AppStatsFieldName{
 	AppStatsFieldNameAccountName,
 	AppStatsFieldNameAction,
 	AppStatsFieldNameAdName,
+	AppStatsFieldNameAiAppRiskLevel,
 	AppStatsFieldNameAiProxyRuleName,
 	AppStatsFieldNameApp,
+	AppStatsFieldNameAppStack,
 	AppStatsFieldNameApplication,
 	AppStatsFieldNameApplicationDescription,
 	AppStatsFieldNameApplicationID,
@@ -20784,6 +20962,8 @@ var AllAppStatsFieldName = []AppStatsFieldName{
 	AppStatsFieldNameCategories,
 	AppStatsFieldNameCategoriesCurrentState,
 	AppStatsFieldNameCategory,
+	AppStatsFieldNameClientCertExpires,
+	AppStatsFieldNameClientCertName,
 	AppStatsFieldNameClientClass,
 	AppStatsFieldNameClientVersion,
 	AppStatsFieldNameConfiguredHostName,
@@ -20809,11 +20989,17 @@ var AllAppStatsFieldName = []AppStatsFieldName{
 	AppStatsFieldNameDevicePostureProfile,
 	AppStatsFieldNameDeviceType,
 	AppStatsFieldNameDiscoveredApp,
+	AppStatsFieldNameDNSAnswer,
+	AppStatsFieldNameDNSQuery,
+	AppStatsFieldNameDNSRecordType,
+	AppStatsFieldNameDNSReplyCode,
 	AppStatsFieldNameDomain,
 	AppStatsFieldNameDownstream,
 	AppStatsFieldNameDuration,
 	AppStatsFieldNameEgressPopName,
 	AppStatsFieldNameEgressSiteName,
+	AppStatsFieldNameEventSubType,
+	AppStatsFieldNameEventType,
 	AppStatsFieldNameExperienceScoreLevel,
 	AppStatsFieldNameFlowBytesDownstream,
 	AppStatsFieldNameFlowBytesTotal,
@@ -20840,15 +21026,21 @@ var AllAppStatsFieldName = []AppStatsFieldName{
 	AppStatsFieldNameJobTitle,
 	AppStatsFieldNameNetworkRule,
 	AppStatsFieldNameNewApp,
+	AppStatsFieldNameOsType,
 	AppStatsFieldNameOsVersion,
 	AppStatsFieldNamePacketsDownstream,
 	AppStatsFieldNamePacketsTotal,
 	AppStatsFieldNamePacketsUpstream,
 	AppStatsFieldNamePopName,
+	AppStatsFieldNamePublicIP,
 	AppStatsFieldNameQosPriority,
+	AppStatsFieldNameRefererURL,
 	AppStatsFieldNameRiskLevel,
 	AppStatsFieldNameRiskScore,
+	AppStatsFieldNameRuleID,
+	AppStatsFieldNameRuleName,
 	AppStatsFieldNameSanctioned,
+	AppStatsFieldNameServerIP,
 	AppStatsFieldNameSiteCountry,
 	AppStatsFieldNameSiteState,
 	AppStatsFieldNameSocketInterface,
@@ -20878,6 +21070,7 @@ var AllAppStatsFieldName = []AppStatsFieldName{
 	AppStatsFieldNameTranslatedServerIP,
 	AppStatsFieldNameTtfb,
 	AppStatsFieldNameUpstream,
+	AppStatsFieldNameURL,
 	AppStatsFieldNameUserAwarenessMethod,
 	AppStatsFieldNameUserID,
 	AppStatsFieldNameUserName,
@@ -20887,7 +21080,7 @@ var AllAppStatsFieldName = []AppStatsFieldName{
 
 func (e AppStatsFieldName) IsValid() bool {
 	switch e {
-	case AppStatsFieldNameIspName, AppStatsFieldNameAccountID, AppStatsFieldNameAccountName, AppStatsFieldNameAction, AppStatsFieldNameAdName, AppStatsFieldNameAiProxyRuleName, AppStatsFieldNameApp, AppStatsFieldNameApplication, AppStatsFieldNameApplicationDescription, AppStatsFieldNameApplicationID, AppStatsFieldNameApplicationName, AppStatsFieldNameApplicationRiskLevel, AppStatsFieldNameApplicationRiskLevelCurrentState, AppStatsFieldNameApplicationRiskScore, AppStatsFieldNameApplicationRiskScoreCurrentState, AppStatsFieldNameApplicationType, AppStatsFieldNameCategories, AppStatsFieldNameCategoriesCurrentState, AppStatsFieldNameCategory, AppStatsFieldNameClientClass, AppStatsFieldNameClientVersion, AppStatsFieldNameConfiguredHostName, AppStatsFieldNameConnectionOrigin, AppStatsFieldNameDepartment, AppStatsFieldNameDescription, AppStatsFieldNameDestCountry, AppStatsFieldNameDestDomain, AppStatsFieldNameDestEndpointType, AppStatsFieldNameDestIP, AppStatsFieldNameDestIsSiteOrVpn, AppStatsFieldNameDestPort, AppStatsFieldNameDestSite, AppStatsFieldNameDestSiteID, AppStatsFieldNameDestSiteName, AppStatsFieldNameDeviceCategories, AppStatsFieldNameDeviceComplianceState, AppStatsFieldNameDeviceID, AppStatsFieldNameDeviceManufacturer, AppStatsFieldNameDeviceModel, AppStatsFieldNameDeviceName, AppStatsFieldNameDeviceOsType, AppStatsFieldNameDevicePostureProfile, AppStatsFieldNameDeviceType, AppStatsFieldNameDiscoveredApp, AppStatsFieldNameDomain, AppStatsFieldNameDownstream, AppStatsFieldNameDuration, AppStatsFieldNameEgressPopName, AppStatsFieldNameEgressSiteName, AppStatsFieldNameExperienceScoreLevel, AppStatsFieldNameFlowBytesDownstream, AppStatsFieldNameFlowBytesTotal, AppStatsFieldNameFlowBytesUpstream, AppStatsFieldNameFlowID, AppStatsFieldNameFlowPacketsDownstream, AppStatsFieldNameFlowPacketsTotal, AppStatsFieldNameFlowPacketsUpstream, AppStatsFieldNameFlowStartTime, AppStatsFieldNameFlowsCreated, AppStatsFieldNameFullPathURL, AppStatsFieldNameHostIP, AppStatsFieldNameHostMac, AppStatsFieldNameHqLocation, AppStatsFieldNameHTTPErrorRate, AppStatsFieldNameHTTPLatency, AppStatsFieldNameHTTPRequestMethod, AppStatsFieldNameIP, AppStatsFieldNameIPProtocol, AppStatsFieldNameIsCloudApp, AppStatsFieldNameIsFlowTerminated, AppStatsFieldNameIsSanctionedApp, AppStatsFieldNameIsSanctionedAppCurrentState, AppStatsFieldNameJobTitle, AppStatsFieldNameNetworkRule, AppStatsFieldNameNewApp, AppStatsFieldNameOsVersion, AppStatsFieldNamePacketsDownstream, AppStatsFieldNamePacketsTotal, AppStatsFieldNamePacketsUpstream, AppStatsFieldNamePopName, AppStatsFieldNameQosPriority, AppStatsFieldNameRiskLevel, AppStatsFieldNameRiskScore, AppStatsFieldNameSanctioned, AppStatsFieldNameSiteCountry, AppStatsFieldNameSiteState, AppStatsFieldNameSocketInterface, AppStatsFieldNameSrcCountry, AppStatsFieldNameSrcCountryCode, AppStatsFieldNameSrcEndpointType, AppStatsFieldNameSrcIP, AppStatsFieldNameSrcIsSiteOrVpn, AppStatsFieldNameSrcIspIP, AppStatsFieldNameSrcPort, AppStatsFieldNameSrcSiteCountryCode, AppStatsFieldNameSrcSiteID, AppStatsFieldNameSrcSiteName, AppStatsFieldNameSrcSiteState, AppStatsFieldNameSubnet, AppStatsFieldNameSubnetName, AppStatsFieldNameTCPAcceleration, AppStatsFieldNameTCPLatency, AppStatsFieldNameTimeStr, AppStatsFieldNameTld, AppStatsFieldNameTLSInspection, AppStatsFieldNameTLSLatency, AppStatsFieldNameTLSRuleName, AppStatsFieldNameTraffic, AppStatsFieldNameTrafficDirection, AppStatsFieldNameTranslatedClientIP, AppStatsFieldNameTranslatedServerIP, AppStatsFieldNameTtfb, AppStatsFieldNameUpstream, AppStatsFieldNameUserAwarenessMethod, AppStatsFieldNameUserID, AppStatsFieldNameUserName, AppStatsFieldNameVpnUserEmail, AppStatsFieldNameVpnUserID:
+	case AppStatsFieldNameIspName, AppStatsFieldNameAccountID, AppStatsFieldNameAccountName, AppStatsFieldNameAction, AppStatsFieldNameAdName, AppStatsFieldNameAiAppRiskLevel, AppStatsFieldNameAiProxyRuleName, AppStatsFieldNameApp, AppStatsFieldNameAppStack, AppStatsFieldNameApplication, AppStatsFieldNameApplicationDescription, AppStatsFieldNameApplicationID, AppStatsFieldNameApplicationName, AppStatsFieldNameApplicationRiskLevel, AppStatsFieldNameApplicationRiskLevelCurrentState, AppStatsFieldNameApplicationRiskScore, AppStatsFieldNameApplicationRiskScoreCurrentState, AppStatsFieldNameApplicationType, AppStatsFieldNameCategories, AppStatsFieldNameCategoriesCurrentState, AppStatsFieldNameCategory, AppStatsFieldNameClientCertExpires, AppStatsFieldNameClientCertName, AppStatsFieldNameClientClass, AppStatsFieldNameClientVersion, AppStatsFieldNameConfiguredHostName, AppStatsFieldNameConnectionOrigin, AppStatsFieldNameDepartment, AppStatsFieldNameDescription, AppStatsFieldNameDestCountry, AppStatsFieldNameDestDomain, AppStatsFieldNameDestEndpointType, AppStatsFieldNameDestIP, AppStatsFieldNameDestIsSiteOrVpn, AppStatsFieldNameDestPort, AppStatsFieldNameDestSite, AppStatsFieldNameDestSiteID, AppStatsFieldNameDestSiteName, AppStatsFieldNameDeviceCategories, AppStatsFieldNameDeviceComplianceState, AppStatsFieldNameDeviceID, AppStatsFieldNameDeviceManufacturer, AppStatsFieldNameDeviceModel, AppStatsFieldNameDeviceName, AppStatsFieldNameDeviceOsType, AppStatsFieldNameDevicePostureProfile, AppStatsFieldNameDeviceType, AppStatsFieldNameDiscoveredApp, AppStatsFieldNameDNSAnswer, AppStatsFieldNameDNSQuery, AppStatsFieldNameDNSRecordType, AppStatsFieldNameDNSReplyCode, AppStatsFieldNameDomain, AppStatsFieldNameDownstream, AppStatsFieldNameDuration, AppStatsFieldNameEgressPopName, AppStatsFieldNameEgressSiteName, AppStatsFieldNameEventSubType, AppStatsFieldNameEventType, AppStatsFieldNameExperienceScoreLevel, AppStatsFieldNameFlowBytesDownstream, AppStatsFieldNameFlowBytesTotal, AppStatsFieldNameFlowBytesUpstream, AppStatsFieldNameFlowID, AppStatsFieldNameFlowPacketsDownstream, AppStatsFieldNameFlowPacketsTotal, AppStatsFieldNameFlowPacketsUpstream, AppStatsFieldNameFlowStartTime, AppStatsFieldNameFlowsCreated, AppStatsFieldNameFullPathURL, AppStatsFieldNameHostIP, AppStatsFieldNameHostMac, AppStatsFieldNameHqLocation, AppStatsFieldNameHTTPErrorRate, AppStatsFieldNameHTTPLatency, AppStatsFieldNameHTTPRequestMethod, AppStatsFieldNameIP, AppStatsFieldNameIPProtocol, AppStatsFieldNameIsCloudApp, AppStatsFieldNameIsFlowTerminated, AppStatsFieldNameIsSanctionedApp, AppStatsFieldNameIsSanctionedAppCurrentState, AppStatsFieldNameJobTitle, AppStatsFieldNameNetworkRule, AppStatsFieldNameNewApp, AppStatsFieldNameOsType, AppStatsFieldNameOsVersion, AppStatsFieldNamePacketsDownstream, AppStatsFieldNamePacketsTotal, AppStatsFieldNamePacketsUpstream, AppStatsFieldNamePopName, AppStatsFieldNamePublicIP, AppStatsFieldNameQosPriority, AppStatsFieldNameRefererURL, AppStatsFieldNameRiskLevel, AppStatsFieldNameRiskScore, AppStatsFieldNameRuleID, AppStatsFieldNameRuleName, AppStatsFieldNameSanctioned, AppStatsFieldNameServerIP, AppStatsFieldNameSiteCountry, AppStatsFieldNameSiteState, AppStatsFieldNameSocketInterface, AppStatsFieldNameSrcCountry, AppStatsFieldNameSrcCountryCode, AppStatsFieldNameSrcEndpointType, AppStatsFieldNameSrcIP, AppStatsFieldNameSrcIsSiteOrVpn, AppStatsFieldNameSrcIspIP, AppStatsFieldNameSrcPort, AppStatsFieldNameSrcSiteCountryCode, AppStatsFieldNameSrcSiteID, AppStatsFieldNameSrcSiteName, AppStatsFieldNameSrcSiteState, AppStatsFieldNameSubnet, AppStatsFieldNameSubnetName, AppStatsFieldNameTCPAcceleration, AppStatsFieldNameTCPLatency, AppStatsFieldNameTimeStr, AppStatsFieldNameTld, AppStatsFieldNameTLSInspection, AppStatsFieldNameTLSLatency, AppStatsFieldNameTLSRuleName, AppStatsFieldNameTraffic, AppStatsFieldNameTrafficDirection, AppStatsFieldNameTranslatedClientIP, AppStatsFieldNameTranslatedServerIP, AppStatsFieldNameTtfb, AppStatsFieldNameUpstream, AppStatsFieldNameURL, AppStatsFieldNameUserAwarenessMethod, AppStatsFieldNameUserID, AppStatsFieldNameUserName, AppStatsFieldNameVpnUserEmail, AppStatsFieldNameVpnUserID:
 		return true
 	}
 	return false
@@ -25479,6 +25672,8 @@ const (
 	EventFieldNameRegionName EventFieldName = "region_name"
 	//  Registration code used the first time that a SDP user authenticates (the code is partially obfuscated). CMA Name: Registration Code
 	EventFieldNameRegistrationCode EventFieldName = "registration_code"
+	//  Checks related to this event. CMA Name: Related Checks
+	EventFieldNameRelatedChecks EventFieldName = "related_checks"
 	//  Request packet size in bytes (ie. DNS request packet). CMA Name: Request Size
 	EventFieldNameRequestSize EventFieldName = "request_size"
 	//  The ID of the resource in the cloud provider. CMA Name: The ID of the resource
@@ -26026,6 +26221,7 @@ var AllEventFieldName = []EventFieldName{
 	EventFieldNameRefererURL,
 	EventFieldNameRegionName,
 	EventFieldNameRegistrationCode,
+	EventFieldNameRelatedChecks,
 	EventFieldNameRequestSize,
 	EventFieldNameResourceID,
 	EventFieldNameResourceName,
@@ -26168,7 +26364,7 @@ var AllEventFieldName = []EventFieldName{
 
 func (e EventFieldName) IsValid() bool {
 	switch e {
-	case EventFieldNameIspName, EventFieldNameAccessMethod, EventFieldNameAccessPointID, EventFieldNameAccessPointName, EventFieldNameAccountID, EventFieldNameAction, EventFieldNameActionsTaken, EventFieldNameActiveAuthBrowser, EventFieldNameActivityResourceID, EventFieldNameActorType, EventFieldNameAdName, EventFieldNameAffectedEntities, EventFieldNameAiAppRiskLevel, EventFieldNameAiProxyRuleName, EventFieldNameAiReason, EventFieldNameAlertID, EventFieldNameAlertName, EventFieldNameAlerts, EventFieldNameAlwaysOnConfiguration, EventFieldNameAnalystVerdict, EventFieldNameAntiTamperBypassDurationSec, EventFieldNameAntiTamperBypassMethod, EventFieldNameAntiTamperBypassResult, EventFieldNameAPIName, EventFieldNameAPIType, EventFieldNameAppActivity, EventFieldNameAppActivityCategory, EventFieldNameAppActivityType, EventFieldNameAppStack, EventFieldNameApplicationID, EventFieldNameApplicationName, EventFieldNameApplicationRisk, EventFieldNameApplicationType, EventFieldNameAtpFeedReasons, EventFieldNameAuditID, EventFieldNameAuthBrowserFallbackReason, EventFieldNameAuthMethod, EventFieldNameAuthenticationType, EventFieldNameBaselineAverage, EventFieldNameBaselineStd, EventFieldNameBgpCatoAsn, EventFieldNameBgpCatoIP, EventFieldNameBgpErrorCode, EventFieldNameBgpPeerAsn, EventFieldNameBgpPeerIP, EventFieldNameBgpPeerName, EventFieldNameBgpRouteCidr, EventFieldNameBgpSuberrorCode, EventFieldNameBrowserType, EventFieldNameBrowserVersion, EventFieldNameBypassDurationSec, EventFieldNameBypassMethod, EventFieldNameBypassReason, EventFieldNameCategories, EventFieldNameCatoApp, EventFieldNameChanges, EventFieldNameClassification, EventFieldNameClientCertExpires, EventFieldNameClientCertName, EventFieldNameClientClass, EventFieldNameClientConnectionMode, EventFieldNameClientIP, EventFieldNameClientKeyExchangeAlgorithm, EventFieldNameClientVersion, EventFieldNameCollaboratorName, EventFieldNameCollaboratorOrigin, EventFieldNameCollaboratorTenant, EventFieldNameCollaborators, EventFieldNameConfidenceLevel, EventFieldNameConfiguredAuthBrowser, EventFieldNameConfiguredHostName, EventFieldNameCongestionAlgorithm, EventFieldNameConnectOnBoot, EventFieldNameConnectionOrigin, EventFieldNameConnectorID, EventFieldNameConnectorName, EventFieldNameConnectorStatus, EventFieldNameConnectorType, EventFieldNameContainerName, EventFieldNameCorrelationID, EventFieldNameCPUCoreID, EventFieldNameCreatedAt, EventFieldNameCriticality, EventFieldNameCustomCategoryID, EventFieldNameCustomCategoryName, EventFieldNameDataCategories, EventFieldNameDataClassifiers, EventFieldNameDepartment, EventFieldNameDestCountry, EventFieldNameDestCountryCode, EventFieldNameDestDomain, EventFieldNameDestEndpointType, EventFieldNameDestGroupID, EventFieldNameDestGroupName, EventFieldNameDestIP, EventFieldNameDestIsSiteOrVpn, EventFieldNameDestPid, EventFieldNameDestPort, EventFieldNameDestProcessCmdline, EventFieldNameDestProcessParentPath, EventFieldNameDestProcessParentPid, EventFieldNameDestProcessPath, EventFieldNameDestSiteID, EventFieldNameDestSiteName, EventFieldNameDetectionName, EventFieldNameDetectionStage, EventFieldNameDetectors, EventFieldNameDeviceCategories, EventFieldNameDeviceCertificate, EventFieldNameDeviceComplianceState, EventFieldNameDeviceCrowdstrikeRiskScore, EventFieldNameDeviceID, EventFieldNameDeviceManufacturer, EventFieldNameDeviceModel, EventFieldNameDeviceName, EventFieldNameDeviceOsType, EventFieldNameDevicePostureProfile, EventFieldNameDeviceType, EventFieldNameDirectoryHostName, EventFieldNameDirectoryIP, EventFieldNameDirectorySyncResult, EventFieldNameDirectorySyncType, EventFieldNameDisinfectResult, EventFieldNameDisplayName, EventFieldNameDlpFailMode, EventFieldNameDlpProfiles, EventFieldNameDlpScanTypes, EventFieldNameDNSAnswer, EventFieldNameDNSProtectionCategory, EventFieldNameDNSQuery, EventFieldNameDNSRecordType, EventFieldNameDNSReplyCode, EventFieldNameDomainName, EventFieldNameDurationMs, EventFieldNameDynamicControlIds, EventFieldNameDynamicControlNames, EventFieldNameDynamicControlScope, EventFieldNameDynamicControlThreatCategories, EventFieldNameEgressPopName, EventFieldNameEgressSiteName, EventFieldNameEmailSubject, EventFieldNameEndpointID, EventFieldNameEngagementOutcomeAction, EventFieldNameEngineType, EventFieldNameEppEngineType, EventFieldNameEppProfile, EventFieldNameEventCount, EventFieldNameEventID, EventFieldNameEventMessage, EventFieldNameEventSubType, EventFieldNameEventType, EventFieldNameEvidence, EventFieldNameFailureReason, EventFieldNameFileHash, EventFieldNameFileName, EventFieldNameFileOperation, EventFieldNameFilePath, EventFieldNameFileSize, EventFieldNameFileTopic, EventFieldNameFileTopicCategory, EventFieldNameFileType, EventFieldNameFinalObjectStatus, EventFieldNameFlowID, EventFieldNameFlows, EventFieldNameFlowsCardinality, EventFieldNameFullPathURL, EventFieldNameGuardID, EventFieldNameGuardName, EventFieldNameGuardType, EventFieldNameGuestUser, EventFieldNameHarness, EventFieldNameHostIP, EventFieldNameHostMac, EventFieldNameHTTPRequestMethod, EventFieldNameHTTPResponseCode, EventFieldNameIncidentAggregation, EventFieldNameIncidentID, EventFieldNameIndication, EventFieldNameIndicator, EventFieldNameInitialObjectStatus, EventFieldNameInitiatedBy, EventFieldNameInspectionMode, EventFieldNameInteractionID, EventFieldNameInteractionIntent, EventFieldNameInteractionSubTopic, EventFieldNameInteractionTopic, EventFieldNameInternalID, EventFieldNameInvestigationTimeWindow, EventFieldNameInvocationID, EventFieldNameIPProtocol, EventFieldNameIsAcknowledged, EventFieldNameIsAdmin, EventFieldNameIsAdminActivity, EventFieldNameIsCloudApp, EventFieldNameIsCompliant, EventFieldNameIsEncrypted, EventFieldNameIsManaged, EventFieldNameIsMuted, EventFieldNameIsPublic, EventFieldNameIsSanctionedApp, EventFieldNameIsSinkhole, EventFieldNameJobTitle, EventFieldNameKeyName, EventFieldNameLabels, EventFieldNameLastModifiedAt, EventFieldNameLastSeenAt, EventFieldNameLastTurnRole, EventFieldNameLinkHealthIsCongested, EventFieldNameLinkHealthJitter, EventFieldNameLinkHealthLatency, EventFieldNameLinkHealthPktLoss, EventFieldNameLinkType, EventFieldNameLocalIP, EventFieldNameLoggedInUser, EventFieldNameLoginType, EventFieldNameMatchedCount, EventFieldNameMatchedCounts, EventFieldNameMatchedDataTypes, EventFieldNameMd5, EventFieldNameMessageID, EventFieldNameMetric, EventFieldNameMetricUnits, EventFieldNameMetricValue, EventFieldNameMitreAttackSubtechniques, EventFieldNameMitreAttackTactics, EventFieldNameMitreAttackTechniques, EventFieldNameNatError, EventFieldNameNetworkAccess, EventFieldNameNetworkRule, EventFieldNameNotificationAPIError, EventFieldNameNotificationDescription, EventFieldNameObjectID, EventFieldNameObjectModule, EventFieldNameObjectName, EventFieldNameObjectType, EventFieldNameOfficeMode, EventFieldNameOsType, EventFieldNameOsVersion, EventFieldNameOutOfBandAccess, EventFieldNameOutpostEnvironmentName, EventFieldNameOwner, EventFieldNamePacFile, EventFieldNameParentConnectorName, EventFieldNamePopName, EventFieldNamePrecedence, EventFieldNameProcessesCount, EventFieldNameProducer, EventFieldNameProjects, EventFieldNamePromptAction, EventFieldNameProviderName, EventFieldNamePublicIP, EventFieldNameQosPriority, EventFieldNameQosReportedTime, EventFieldNameQuarantineFolderPath, EventFieldNameQuarantineUUID, EventFieldNameRawData, EventFieldNameRbiProfile, EventFieldNameRecommendedActions, EventFieldNameReferenceURL, EventFieldNameRefererURL, EventFieldNameRegionName, EventFieldNameRegistrationCode, EventFieldNameRequestSize, EventFieldNameResourceID, EventFieldNameResourceName, EventFieldNameResourceType, EventFieldNameResponseSize, EventFieldNameRetentionLabel, EventFieldNameRiskLevel, EventFieldNameRole, EventFieldNameRuleExpirationTime, EventFieldNameRuleID, EventFieldNameRuleName, EventFieldNameSecondarySocketSerial, EventFieldNameSensitivityDisplayName, EventFieldNameServerIP, EventFieldNameServerKeyExchangeAlgorithm, EventFieldNameServiceName, EventFieldNameSessionID, EventFieldNameSeverity, EventFieldNameSharingScope, EventFieldNameSignInEventTypes, EventFieldNameSignalSource, EventFieldNameSignatureID, EventFieldNameSiteWebProxyID, EventFieldNameSiteWebProxyName, EventFieldNameSiteWebProxyRuleAction, EventFieldNameSiteWebProxyRuleID, EventFieldNameSiteWebProxyRuleName, EventFieldNameSocketDescription, EventFieldNameSocketInterface, EventFieldNameSocketInterfaceID, EventFieldNameSocketMacAddress, EventFieldNameSocketNewVersion, EventFieldNameSocketOldVersion, EventFieldNameSocketReset, EventFieldNameSocketRole, EventFieldNameSocketSerial, EventFieldNameSocketVersion, EventFieldNameSplitTunnelConfiguration, EventFieldNameSrcCity, EventFieldNameSrcCountry, EventFieldNameSrcCountryCode, EventFieldNameSrcEndpointType, EventFieldNameSrcIP, EventFieldNameSrcIsSiteOrVpn, EventFieldNameSrcIspIP, EventFieldNameSrcPid, EventFieldNameSrcPort, EventFieldNameSrcProcessCmdline, EventFieldNameSrcProcessParentPath, EventFieldNameSrcProcessParentPid, EventFieldNameSrcProcessPath, EventFieldNameSrcSiteConnectionType, EventFieldNameSrcSiteID, EventFieldNameSrcSiteName, EventFieldNameStaticHost, EventFieldNameStatus, EventFieldNameStoryID, EventFieldNameSubnetName, EventFieldNameSubscriptionName, EventFieldNameTargetsCardinality, EventFieldNameTCPAcceleration, EventFieldNameTenantID, EventFieldNameTenantName, EventFieldNameTenantRestrictionRuleName, EventFieldNameThreatConfidence, EventFieldNameThreatName, EventFieldNameThreatReference, EventFieldNameThreatScore, EventFieldNameThreatType, EventFieldNameThreatVerdict, EventFieldNameTicket, EventFieldNameTime, EventFieldNameTimeStr, EventFieldNameTitle, EventFieldNameTLSCertificateError, EventFieldNameTLSErrorDescription, EventFieldNameTLSErrorType, EventFieldNameTLSInspection, EventFieldNameTLSRuleName, EventFieldNameTLSVersion, EventFieldNameTotalTokens, EventFieldNameTrafficDirection, EventFieldNameTransactionSize, EventFieldNameTranslatedClientIP, EventFieldNameTranslatedServerIP, EventFieldNameTrigger, EventFieldNameTrustType, EventFieldNameTrustedNetworks, EventFieldNameTunnelIPProtocol, EventFieldNameTunnelProtocol, EventFieldNameUpgradeEndTime, EventFieldNameUpgradeInitiatedBy, EventFieldNameUpgradeStartTime, EventFieldNameURL, EventFieldNameUserAgent, EventFieldNameUserAwarenessMethod, EventFieldNameUserID, EventFieldNameUserJustification, EventFieldNameUserName, EventFieldNameUserOrigin, EventFieldNameUserReferenceID, EventFieldNameUserRiskLevel, EventFieldNameUserStatus, EventFieldNameVendor, EventFieldNameVendorCollaboratorID, EventFieldNameVendorDeviceID, EventFieldNameVendorDeviceName, EventFieldNameVendorEventID, EventFieldNameVendorLocation, EventFieldNameVendorOrgID, EventFieldNameVendorPolicyDescription, EventFieldNameVendorPolicyID, EventFieldNameVendorPolicyName, EventFieldNameVendorSiteID, EventFieldNameVendorStartTime, EventFieldNameVendorUserID, EventFieldNameVendorVersion, EventFieldNameVerdictAuthor, EventFieldNameVerdictElaboration, EventFieldNameVisibleDeviceID, EventFieldNameVpnLanAccess, EventFieldNameVpnUserEmail, EventFieldNameWifiAuthenticationType, EventFieldNameWifiBssid, EventFieldNameWifiChannel, EventFieldNameWifiDescription, EventFieldNameWifiEventReasonCode, EventFieldNameWifiEventType, EventFieldNameWifiEventTypeCode, EventFieldNameWifiEventVendorName, EventFieldNameWifiProtocol, EventFieldNameWifiRadioBand, EventFieldNameWifiSecurity, EventFieldNameWifiSignalStrength, EventFieldNameWifiSsid, EventFieldNameWifiTimeSinceAssocMs, EventFieldNameWindowsDomainName, EventFieldNameXff:
+	case EventFieldNameIspName, EventFieldNameAccessMethod, EventFieldNameAccessPointID, EventFieldNameAccessPointName, EventFieldNameAccountID, EventFieldNameAction, EventFieldNameActionsTaken, EventFieldNameActiveAuthBrowser, EventFieldNameActivityResourceID, EventFieldNameActorType, EventFieldNameAdName, EventFieldNameAffectedEntities, EventFieldNameAiAppRiskLevel, EventFieldNameAiProxyRuleName, EventFieldNameAiReason, EventFieldNameAlertID, EventFieldNameAlertName, EventFieldNameAlerts, EventFieldNameAlwaysOnConfiguration, EventFieldNameAnalystVerdict, EventFieldNameAntiTamperBypassDurationSec, EventFieldNameAntiTamperBypassMethod, EventFieldNameAntiTamperBypassResult, EventFieldNameAPIName, EventFieldNameAPIType, EventFieldNameAppActivity, EventFieldNameAppActivityCategory, EventFieldNameAppActivityType, EventFieldNameAppStack, EventFieldNameApplicationID, EventFieldNameApplicationName, EventFieldNameApplicationRisk, EventFieldNameApplicationType, EventFieldNameAtpFeedReasons, EventFieldNameAuditID, EventFieldNameAuthBrowserFallbackReason, EventFieldNameAuthMethod, EventFieldNameAuthenticationType, EventFieldNameBaselineAverage, EventFieldNameBaselineStd, EventFieldNameBgpCatoAsn, EventFieldNameBgpCatoIP, EventFieldNameBgpErrorCode, EventFieldNameBgpPeerAsn, EventFieldNameBgpPeerIP, EventFieldNameBgpPeerName, EventFieldNameBgpRouteCidr, EventFieldNameBgpSuberrorCode, EventFieldNameBrowserType, EventFieldNameBrowserVersion, EventFieldNameBypassDurationSec, EventFieldNameBypassMethod, EventFieldNameBypassReason, EventFieldNameCategories, EventFieldNameCatoApp, EventFieldNameChanges, EventFieldNameClassification, EventFieldNameClientCertExpires, EventFieldNameClientCertName, EventFieldNameClientClass, EventFieldNameClientConnectionMode, EventFieldNameClientIP, EventFieldNameClientKeyExchangeAlgorithm, EventFieldNameClientVersion, EventFieldNameCollaboratorName, EventFieldNameCollaboratorOrigin, EventFieldNameCollaboratorTenant, EventFieldNameCollaborators, EventFieldNameConfidenceLevel, EventFieldNameConfiguredAuthBrowser, EventFieldNameConfiguredHostName, EventFieldNameCongestionAlgorithm, EventFieldNameConnectOnBoot, EventFieldNameConnectionOrigin, EventFieldNameConnectorID, EventFieldNameConnectorName, EventFieldNameConnectorStatus, EventFieldNameConnectorType, EventFieldNameContainerName, EventFieldNameCorrelationID, EventFieldNameCPUCoreID, EventFieldNameCreatedAt, EventFieldNameCriticality, EventFieldNameCustomCategoryID, EventFieldNameCustomCategoryName, EventFieldNameDataCategories, EventFieldNameDataClassifiers, EventFieldNameDepartment, EventFieldNameDestCountry, EventFieldNameDestCountryCode, EventFieldNameDestDomain, EventFieldNameDestEndpointType, EventFieldNameDestGroupID, EventFieldNameDestGroupName, EventFieldNameDestIP, EventFieldNameDestIsSiteOrVpn, EventFieldNameDestPid, EventFieldNameDestPort, EventFieldNameDestProcessCmdline, EventFieldNameDestProcessParentPath, EventFieldNameDestProcessParentPid, EventFieldNameDestProcessPath, EventFieldNameDestSiteID, EventFieldNameDestSiteName, EventFieldNameDetectionName, EventFieldNameDetectionStage, EventFieldNameDetectors, EventFieldNameDeviceCategories, EventFieldNameDeviceCertificate, EventFieldNameDeviceComplianceState, EventFieldNameDeviceCrowdstrikeRiskScore, EventFieldNameDeviceID, EventFieldNameDeviceManufacturer, EventFieldNameDeviceModel, EventFieldNameDeviceName, EventFieldNameDeviceOsType, EventFieldNameDevicePostureProfile, EventFieldNameDeviceType, EventFieldNameDirectoryHostName, EventFieldNameDirectoryIP, EventFieldNameDirectorySyncResult, EventFieldNameDirectorySyncType, EventFieldNameDisinfectResult, EventFieldNameDisplayName, EventFieldNameDlpFailMode, EventFieldNameDlpProfiles, EventFieldNameDlpScanTypes, EventFieldNameDNSAnswer, EventFieldNameDNSProtectionCategory, EventFieldNameDNSQuery, EventFieldNameDNSRecordType, EventFieldNameDNSReplyCode, EventFieldNameDomainName, EventFieldNameDurationMs, EventFieldNameDynamicControlIds, EventFieldNameDynamicControlNames, EventFieldNameDynamicControlScope, EventFieldNameDynamicControlThreatCategories, EventFieldNameEgressPopName, EventFieldNameEgressSiteName, EventFieldNameEmailSubject, EventFieldNameEndpointID, EventFieldNameEngagementOutcomeAction, EventFieldNameEngineType, EventFieldNameEppEngineType, EventFieldNameEppProfile, EventFieldNameEventCount, EventFieldNameEventID, EventFieldNameEventMessage, EventFieldNameEventSubType, EventFieldNameEventType, EventFieldNameEvidence, EventFieldNameFailureReason, EventFieldNameFileHash, EventFieldNameFileName, EventFieldNameFileOperation, EventFieldNameFilePath, EventFieldNameFileSize, EventFieldNameFileTopic, EventFieldNameFileTopicCategory, EventFieldNameFileType, EventFieldNameFinalObjectStatus, EventFieldNameFlowID, EventFieldNameFlows, EventFieldNameFlowsCardinality, EventFieldNameFullPathURL, EventFieldNameGuardID, EventFieldNameGuardName, EventFieldNameGuardType, EventFieldNameGuestUser, EventFieldNameHarness, EventFieldNameHostIP, EventFieldNameHostMac, EventFieldNameHTTPRequestMethod, EventFieldNameHTTPResponseCode, EventFieldNameIncidentAggregation, EventFieldNameIncidentID, EventFieldNameIndication, EventFieldNameIndicator, EventFieldNameInitialObjectStatus, EventFieldNameInitiatedBy, EventFieldNameInspectionMode, EventFieldNameInteractionID, EventFieldNameInteractionIntent, EventFieldNameInteractionSubTopic, EventFieldNameInteractionTopic, EventFieldNameInternalID, EventFieldNameInvestigationTimeWindow, EventFieldNameInvocationID, EventFieldNameIPProtocol, EventFieldNameIsAcknowledged, EventFieldNameIsAdmin, EventFieldNameIsAdminActivity, EventFieldNameIsCloudApp, EventFieldNameIsCompliant, EventFieldNameIsEncrypted, EventFieldNameIsManaged, EventFieldNameIsMuted, EventFieldNameIsPublic, EventFieldNameIsSanctionedApp, EventFieldNameIsSinkhole, EventFieldNameJobTitle, EventFieldNameKeyName, EventFieldNameLabels, EventFieldNameLastModifiedAt, EventFieldNameLastSeenAt, EventFieldNameLastTurnRole, EventFieldNameLinkHealthIsCongested, EventFieldNameLinkHealthJitter, EventFieldNameLinkHealthLatency, EventFieldNameLinkHealthPktLoss, EventFieldNameLinkType, EventFieldNameLocalIP, EventFieldNameLoggedInUser, EventFieldNameLoginType, EventFieldNameMatchedCount, EventFieldNameMatchedCounts, EventFieldNameMatchedDataTypes, EventFieldNameMd5, EventFieldNameMessageID, EventFieldNameMetric, EventFieldNameMetricUnits, EventFieldNameMetricValue, EventFieldNameMitreAttackSubtechniques, EventFieldNameMitreAttackTactics, EventFieldNameMitreAttackTechniques, EventFieldNameNatError, EventFieldNameNetworkAccess, EventFieldNameNetworkRule, EventFieldNameNotificationAPIError, EventFieldNameNotificationDescription, EventFieldNameObjectID, EventFieldNameObjectModule, EventFieldNameObjectName, EventFieldNameObjectType, EventFieldNameOfficeMode, EventFieldNameOsType, EventFieldNameOsVersion, EventFieldNameOutOfBandAccess, EventFieldNameOutpostEnvironmentName, EventFieldNameOwner, EventFieldNamePacFile, EventFieldNameParentConnectorName, EventFieldNamePopName, EventFieldNamePrecedence, EventFieldNameProcessesCount, EventFieldNameProducer, EventFieldNameProjects, EventFieldNamePromptAction, EventFieldNameProviderName, EventFieldNamePublicIP, EventFieldNameQosPriority, EventFieldNameQosReportedTime, EventFieldNameQuarantineFolderPath, EventFieldNameQuarantineUUID, EventFieldNameRawData, EventFieldNameRbiProfile, EventFieldNameRecommendedActions, EventFieldNameReferenceURL, EventFieldNameRefererURL, EventFieldNameRegionName, EventFieldNameRegistrationCode, EventFieldNameRelatedChecks, EventFieldNameRequestSize, EventFieldNameResourceID, EventFieldNameResourceName, EventFieldNameResourceType, EventFieldNameResponseSize, EventFieldNameRetentionLabel, EventFieldNameRiskLevel, EventFieldNameRole, EventFieldNameRuleExpirationTime, EventFieldNameRuleID, EventFieldNameRuleName, EventFieldNameSecondarySocketSerial, EventFieldNameSensitivityDisplayName, EventFieldNameServerIP, EventFieldNameServerKeyExchangeAlgorithm, EventFieldNameServiceName, EventFieldNameSessionID, EventFieldNameSeverity, EventFieldNameSharingScope, EventFieldNameSignInEventTypes, EventFieldNameSignalSource, EventFieldNameSignatureID, EventFieldNameSiteWebProxyID, EventFieldNameSiteWebProxyName, EventFieldNameSiteWebProxyRuleAction, EventFieldNameSiteWebProxyRuleID, EventFieldNameSiteWebProxyRuleName, EventFieldNameSocketDescription, EventFieldNameSocketInterface, EventFieldNameSocketInterfaceID, EventFieldNameSocketMacAddress, EventFieldNameSocketNewVersion, EventFieldNameSocketOldVersion, EventFieldNameSocketReset, EventFieldNameSocketRole, EventFieldNameSocketSerial, EventFieldNameSocketVersion, EventFieldNameSplitTunnelConfiguration, EventFieldNameSrcCity, EventFieldNameSrcCountry, EventFieldNameSrcCountryCode, EventFieldNameSrcEndpointType, EventFieldNameSrcIP, EventFieldNameSrcIsSiteOrVpn, EventFieldNameSrcIspIP, EventFieldNameSrcPid, EventFieldNameSrcPort, EventFieldNameSrcProcessCmdline, EventFieldNameSrcProcessParentPath, EventFieldNameSrcProcessParentPid, EventFieldNameSrcProcessPath, EventFieldNameSrcSiteConnectionType, EventFieldNameSrcSiteID, EventFieldNameSrcSiteName, EventFieldNameStaticHost, EventFieldNameStatus, EventFieldNameStoryID, EventFieldNameSubnetName, EventFieldNameSubscriptionName, EventFieldNameTargetsCardinality, EventFieldNameTCPAcceleration, EventFieldNameTenantID, EventFieldNameTenantName, EventFieldNameTenantRestrictionRuleName, EventFieldNameThreatConfidence, EventFieldNameThreatName, EventFieldNameThreatReference, EventFieldNameThreatScore, EventFieldNameThreatType, EventFieldNameThreatVerdict, EventFieldNameTicket, EventFieldNameTime, EventFieldNameTimeStr, EventFieldNameTitle, EventFieldNameTLSCertificateError, EventFieldNameTLSErrorDescription, EventFieldNameTLSErrorType, EventFieldNameTLSInspection, EventFieldNameTLSRuleName, EventFieldNameTLSVersion, EventFieldNameTotalTokens, EventFieldNameTrafficDirection, EventFieldNameTransactionSize, EventFieldNameTranslatedClientIP, EventFieldNameTranslatedServerIP, EventFieldNameTrigger, EventFieldNameTrustType, EventFieldNameTrustedNetworks, EventFieldNameTunnelIPProtocol, EventFieldNameTunnelProtocol, EventFieldNameUpgradeEndTime, EventFieldNameUpgradeInitiatedBy, EventFieldNameUpgradeStartTime, EventFieldNameURL, EventFieldNameUserAgent, EventFieldNameUserAwarenessMethod, EventFieldNameUserID, EventFieldNameUserJustification, EventFieldNameUserName, EventFieldNameUserOrigin, EventFieldNameUserReferenceID, EventFieldNameUserRiskLevel, EventFieldNameUserStatus, EventFieldNameVendor, EventFieldNameVendorCollaboratorID, EventFieldNameVendorDeviceID, EventFieldNameVendorDeviceName, EventFieldNameVendorEventID, EventFieldNameVendorLocation, EventFieldNameVendorOrgID, EventFieldNameVendorPolicyDescription, EventFieldNameVendorPolicyID, EventFieldNameVendorPolicyName, EventFieldNameVendorSiteID, EventFieldNameVendorStartTime, EventFieldNameVendorUserID, EventFieldNameVendorVersion, EventFieldNameVerdictAuthor, EventFieldNameVerdictElaboration, EventFieldNameVisibleDeviceID, EventFieldNameVpnLanAccess, EventFieldNameVpnUserEmail, EventFieldNameWifiAuthenticationType, EventFieldNameWifiBssid, EventFieldNameWifiChannel, EventFieldNameWifiDescription, EventFieldNameWifiEventReasonCode, EventFieldNameWifiEventType, EventFieldNameWifiEventTypeCode, EventFieldNameWifiEventVendorName, EventFieldNameWifiProtocol, EventFieldNameWifiRadioBand, EventFieldNameWifiSecurity, EventFieldNameWifiSignalStrength, EventFieldNameWifiSsid, EventFieldNameWifiTimeSinceAssocMs, EventFieldNameWindowsDomainName, EventFieldNameXff:
 		return true
 	}
 	return false
@@ -31336,6 +31532,61 @@ func (e *RiskScoreOperator) UnmarshalJSON(b []byte) error {
 }
 
 func (e RiskScoreOperator) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
+}
+
+// Action grantable through role management.
+type RoleManagementGrantAction string
+
+const (
+	//  Read and edit access.
+	RoleManagementGrantActionEdit RoleManagementGrantAction = "EDIT"
+	//  Read-only access.
+	RoleManagementGrantActionView RoleManagementGrantAction = "VIEW"
+)
+
+var AllRoleManagementGrantAction = []RoleManagementGrantAction{
+	RoleManagementGrantActionEdit,
+	RoleManagementGrantActionView,
+}
+
+func (e RoleManagementGrantAction) IsValid() bool {
+	switch e {
+	case RoleManagementGrantActionEdit, RoleManagementGrantActionView:
+		return true
+	}
+	return false
+}
+
+func (e RoleManagementGrantAction) String() string {
+	return string(e)
+}
+
+func (e *RoleManagementGrantAction) UnmarshalGQL(v any) error {
+	str, ok := v.(string)
+	if !ok {
+		return fmt.Errorf("enums must be strings")
+	}
+
+	*e = RoleManagementGrantAction(str)
+	return nil
+}
+
+func (e RoleManagementGrantAction) MarshalGQL(w io.Writer) {
+	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+func (e *RoleManagementGrantAction) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e RoleManagementGrantAction) MarshalJSON() ([]byte, error) {
 	var buf bytes.Buffer
 	e.MarshalGQL(&buf)
 	return buf.Bytes(), nil
