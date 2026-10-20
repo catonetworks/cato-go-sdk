@@ -1,13 +1,14 @@
-query objectGlobalIpRangeList($accountID: ID!, $input: GlobalIpRangeListInput) {
-  object(accountId: $accountID) {
-    globalIpRangeList(input: $input) {
-      items {
-        description
-        id
-        ipRange
-        name
-      }
-      total
-    }
-  }
+query objectGlobalIpRangeList ($accountID: ID!, $input: GlobalIpRangeListInput) {
+	object(accountId: $accountID) {
+		globalIpRangeList(input: $input) {
+			items {
+				id
+				name
+				description
+				ipRange
+				subnet
+			}
+			total
+		}
+	}
 }
