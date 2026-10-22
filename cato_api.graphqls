@@ -58,6 +58,8 @@ type Query {
   popLocations(accountId: ID!): PopLocationQueries
   posture(accountId: ID!): PostureQueries!
   privateApplication(accountId: ID!): AccessPrivateApplicationQueries @rollout
+  rateLimit: RateLimit @beta
+  rateLimitEstimate(query: String!, variables: Map, operationName: String): RateLimitEstimate @beta
   rbac(accountId: ID!): RBACQueries!
   sandbox(accountId: ID!): SandboxQueries @rollout
   servicePrincipalAdmin(accountId: ID!, adminID: ID!): GetServicePrincipalAdminPayload @ga
@@ -1440,6 +1442,22 @@ type BusinessPlatformMutations {
   updateSettings(input: BusinessPlatformUpdateSettingsInput!): BusinessPlatformUpdateSettingsPayload @beta
 }
 
+""" A Business Platform partner. """
+type BusinessPlatformPartner {
+  account: AccountRef!
+  createdAt: Date
+  createdBy: String
+  description: String
+  id: ID!
+  name: String!
+}
+
+""" Response payload for a Business Platform partner list query, ordered by the requested sort criteria. """
+type BusinessPlatformPartnerListPayload {
+  items: [BusinessPlatformPartner!]!
+  paging: PageInfo!
+}
+
 """ Count of Business Platform accounts grouped by plan. """
 type BusinessPlatformPlanCountItem {
   count: Int!
@@ -1456,6 +1474,7 @@ type BusinessPlatformQueries {
   accountList(input: BusinessPlatformAccountListInput): BusinessPlatformAccountListPayload @beta
   accountOverview: BusinessPlatformAccountOverviewPayload @beta
   countAccountByPlan: BusinessPlatformPlanCountPayload @beta
+  partnerList(input: BusinessPlatformPartnerListInput): BusinessPlatformPartnerListPayload @beta
   settings: BusinessPlatformSettings @beta
 }
 
@@ -5393,6 +5412,7 @@ type PostureCheckSummary {
   complianceFrameworkBreakdown: [PostureCheckSummaryComplianceFrameworkBreakdown!]!
   counts: PostureCheckCountsPerState!
   evaluatedAt: DateTime!
+  labelBreakdown: [PostureCheckSummaryBreakdown!]!
   overallEffectiveAreaCriticality: Float
   overallEffectiveBlastRadius: Float
   overallEffectiveFindingsSignal: Float
@@ -5865,6 +5885,17 @@ type RBACRole {
   name: String!
 }
 
+""" Rate-limit state of the calling account for the current request. """
+type RateLimit {
+  cost: Int!
+  retryAfterMs: Int!
+}
+
+""" Estimated rate-limit cost of a GraphQL operation. """
+type RateLimitEstimate {
+  cost: Int!
+}
+
 type RbacGroup {
   id: ID!
   name: String
@@ -6164,6 +6195,7 @@ A named set of permissions. Predefined roles are shared and immutable; custom
 roles belong to one account.
 """
 type RoleManagementRole {
+  applicableAccountType: [RoleManagementApplicableAccountType!]!
   description: String
   id: ID!
   isUsedOnExternalAccess: Boolean!
@@ -10070,7 +10102,7 @@ input BooleanPredicate {
 """ Input for listing Business Platform accounts. """
 input BusinessPlatformAccountListInput {
   filter: BusinessPlatformFilterInput
-  paging: PagingInput = {limit:100,from:0}
+  paging: PagingInput! = {limit:100,from:0}
   sort: BusinessPlatformSortInput = {account:{direction:ASC,priority:1}}
 }
 
@@ -10107,6 +10139,27 @@ input BusinessPlatformFilterInput {
 input BusinessPlatformLinkToTrialAccountInput {
   cmaId: ID!
   id: ID!
+}
+
+""" Filter criteria for listing Business Platform partners. """
+input BusinessPlatformPartnerFilterInput {
+  account: AccountFilter
+  freeText: FreeTextFilterInput
+}
+
+""" Input for listing Business Platform partners. """
+input BusinessPlatformPartnerListInput {
+  filter: BusinessPlatformPartnerFilterInput
+  paging: PagingInput! = {limit:100,from:0}
+  sort: BusinessPlatformPartnerSortInput = {name:{direction:ASC,priority:1}}
+}
+
+""" Sort criteria for listing Business Platform partners. """
+input BusinessPlatformPartnerSortInput {
+  account: SortOrderInput
+  createdAt: SortOrderInput
+  createdBy: SortOrderInput
+  name: SortOrderInput
 }
 
 """ Sort criteria for listing Business Platform accounts. """
@@ -16291,7 +16344,7 @@ enum AppStatsFieldName {
   packets_upstream
   """ Name of PoP location. CMA Name: Pop Name """
   pop_name
-  """ Public source IP. Only available for native flows data integration created in the CMA. Not available in the appstats or appstatsTimeSeries API. """
+  """ Public source IP. CMA Name: Public Ip """
   public_ip
   """ QoS Priority value. CMA Name: QoS Priority """
   qos_priority
@@ -18929,6 +18982,14 @@ enum RiskScoreCategory {
 enum RiskScoreOperator {
   GTE
   LTE
+}
+
+""" Destination account type on which a role can be applied. """
+enum RoleManagementApplicableAccountType {
+  """ Customer account. """
+  CUSTOMER
+  """ Partner account. """
+  PARTNER
 }
 
 """ Action grantable through role management. """

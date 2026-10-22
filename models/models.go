@@ -3294,7 +3294,7 @@ type BusinessPlatformAccount struct {
 // Input for listing Business Platform accounts.
 type BusinessPlatformAccountListInput struct {
 	Filter *BusinessPlatformFilterInput `json:"filter,omitempty"`
-	Paging *PagingInput                 `json:"paging,omitempty"`
+	Paging *PagingInput                 `json:"paging"`
 	Sort   *BusinessPlatformSortInput   `json:"sort,omitempty"`
 }
 
@@ -3370,6 +3370,43 @@ type BusinessPlatformMutations struct {
 	UpdateSettings     *BusinessPlatformUpdateSettingsPayload     `json:"updateSettings,omitempty"`
 }
 
+// A Business Platform partner.
+type BusinessPlatformPartner struct {
+	Account     *AccountRef `json:"account"`
+	CreatedAt   *time.Time  `json:"createdAt,omitempty"`
+	CreatedBy   *string     `json:"createdBy,omitempty"`
+	Description *string     `json:"description,omitempty"`
+	ID          string      `json:"id"`
+	Name        string      `json:"name"`
+}
+
+// Filter criteria for listing Business Platform partners.
+type BusinessPlatformPartnerFilterInput struct {
+	Account  *AccountFilter       `json:"account,omitempty"`
+	FreeText *FreeTextFilterInput `json:"freeText,omitempty"`
+}
+
+// Input for listing Business Platform partners.
+type BusinessPlatformPartnerListInput struct {
+	Filter *BusinessPlatformPartnerFilterInput `json:"filter,omitempty"`
+	Paging *PagingInput                        `json:"paging"`
+	Sort   *BusinessPlatformPartnerSortInput   `json:"sort,omitempty"`
+}
+
+// Response payload for a Business Platform partner list query, ordered by the requested sort criteria.
+type BusinessPlatformPartnerListPayload struct {
+	Items  []*BusinessPlatformPartner `json:"items"`
+	Paging *PageInfo                  `json:"paging"`
+}
+
+// Sort criteria for listing Business Platform partners.
+type BusinessPlatformPartnerSortInput struct {
+	Account   *SortOrderInput `json:"account,omitempty"`
+	CreatedAt *SortOrderInput `json:"createdAt,omitempty"`
+	CreatedBy *SortOrderInput `json:"createdBy,omitempty"`
+	Name      *SortOrderInput `json:"name,omitempty"`
+}
+
 // Count of Business Platform accounts grouped by plan.
 type BusinessPlatformPlanCountItem struct {
 	Count int64                       `json:"count"`
@@ -3386,6 +3423,7 @@ type BusinessPlatformQueries struct {
 	AccountList        *BusinessPlatformAccountListPayload     `json:"accountList,omitempty"`
 	AccountOverview    *BusinessPlatformAccountOverviewPayload `json:"accountOverview,omitempty"`
 	CountAccountByPlan *BusinessPlatformPlanCountPayload       `json:"countAccountByPlan,omitempty"`
+	PartnerList        *BusinessPlatformPartnerListPayload     `json:"partnerList,omitempty"`
 	Settings           *BusinessPlatformSettings               `json:"settings,omitempty"`
 }
 
@@ -11072,6 +11110,7 @@ type PostureCheckSummary struct {
 	ComplianceFrameworkBreakdown    []*PostureCheckSummaryComplianceFrameworkBreakdown `json:"complianceFrameworkBreakdown"`
 	Counts                          *PostureCheckCountsPerState                        `json:"counts"`
 	EvaluatedAt                     string                                             `json:"evaluatedAt"`
+	LabelBreakdown                  []*PostureCheckSummaryBreakdown                    `json:"labelBreakdown"`
 	OverallEffectiveAreaCriticality *float64                                           `json:"overallEffectiveAreaCriticality,omitempty"`
 	OverallEffectiveBlastRadius     *float64                                           `json:"overallEffectiveBlastRadius,omitempty"`
 	OverallEffectiveFindingsSignal  *float64                                           `json:"overallEffectiveFindingsSignal,omitempty"`
@@ -11952,6 +11991,17 @@ type RBACRoleRefInput struct {
 	Input string      `json:"input"`
 }
 
+// Rate-limit state of the calling account for the current request.
+type RateLimit struct {
+	Cost         int64 `json:"cost"`
+	RetryAfterMs int64 `json:"retryAfterMs"`
+}
+
+// Estimated rate-limit cost of a GraphQL operation.
+type RateLimitEstimate struct {
+	Cost int64 `json:"cost"`
+}
+
 type RbacGroup struct {
 	ID   string  `json:"id"`
 	Name *string `json:"name,omitempty"`
@@ -12535,12 +12585,13 @@ type RoleManagementQueries struct {
 // A named set of permissions. Predefined roles are shared and immutable; custom
 // roles belong to one account.
 type RoleManagementRole struct {
-	Description            *string                     `json:"description,omitempty"`
-	ID                     string                      `json:"id"`
-	IsUsedOnExternalAccess bool                        `json:"isUsedOnExternalAccess"`
-	Name                   string                      `json:"name"`
-	Permission             []*RoleManagementPermission `json:"permission"`
-	Predefined             bool                        `json:"predefined"`
+	ApplicableAccountType  []RoleManagementApplicableAccountType `json:"applicableAccountType"`
+	Description            *string                               `json:"description,omitempty"`
+	ID                     string                                `json:"id"`
+	IsUsedOnExternalAccess bool                                  `json:"isUsedOnExternalAccess"`
+	Name                   string                                `json:"name"`
+	Permission             []*RoleManagementPermission           `json:"permission"`
+	Predefined             bool                                  `json:"predefined"`
 }
 
 // Role-list filters.
@@ -20850,7 +20901,7 @@ const (
 	AppStatsFieldNamePacketsUpstream AppStatsFieldName = "packets_upstream"
 	//  Name of PoP location. CMA Name: Pop Name
 	AppStatsFieldNamePopName AppStatsFieldName = "pop_name"
-	//  Public source IP. Only available for native flows data integration created in the CMA. Not available in the appstats or appstatsTimeSeries API.
+	//  Public source IP. CMA Name: Public Ip
 	AppStatsFieldNamePublicIP AppStatsFieldName = "public_ip"
 	//  QoS Priority value. CMA Name: QoS Priority
 	AppStatsFieldNameQosPriority AppStatsFieldName = "qos_priority"
@@ -31532,6 +31583,61 @@ func (e *RiskScoreOperator) UnmarshalJSON(b []byte) error {
 }
 
 func (e RiskScoreOperator) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
+}
+
+// Destination account type on which a role can be applied.
+type RoleManagementApplicableAccountType string
+
+const (
+	//  Customer account.
+	RoleManagementApplicableAccountTypeCustomer RoleManagementApplicableAccountType = "CUSTOMER"
+	//  Partner account.
+	RoleManagementApplicableAccountTypePartner RoleManagementApplicableAccountType = "PARTNER"
+)
+
+var AllRoleManagementApplicableAccountType = []RoleManagementApplicableAccountType{
+	RoleManagementApplicableAccountTypeCustomer,
+	RoleManagementApplicableAccountTypePartner,
+}
+
+func (e RoleManagementApplicableAccountType) IsValid() bool {
+	switch e {
+	case RoleManagementApplicableAccountTypeCustomer, RoleManagementApplicableAccountTypePartner:
+		return true
+	}
+	return false
+}
+
+func (e RoleManagementApplicableAccountType) String() string {
+	return string(e)
+}
+
+func (e *RoleManagementApplicableAccountType) UnmarshalGQL(v any) error {
+	str, ok := v.(string)
+	if !ok {
+		return fmt.Errorf("enums must be strings")
+	}
+
+	*e = RoleManagementApplicableAccountType(str)
+	return nil
+}
+
+func (e RoleManagementApplicableAccountType) MarshalGQL(w io.Writer) {
+	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+func (e *RoleManagementApplicableAccountType) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e RoleManagementApplicableAccountType) MarshalJSON() ([]byte, error) {
 	var buf bytes.Buffer
 	e.MarshalGQL(&buf)
 	return buf.Bytes(), nil

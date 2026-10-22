@@ -528,7 +528,7 @@ type CatoClient interface {
 	AppStats(ctx context.Context, limit *int64, from *int64, accountID string, timeFrame string, measures []*cato_models.Measure, dimensions []*cato_models.Dimension, filters []*cato_models.AppStatsFilter, sort []*cato_models.AppStatsSort, appStatsPostAggFilter []*cato_models.AppStatsPostAggFilter, includeEmptyDimension *bool, interceptors ...clientv2.RequestInterceptor) (*AppStats, error)
 	AppStatsTimeSeries(ctx context.Context, perSecond *bool, withMissingData *bool, buckets int64, accountID string, timeFrame string, measures []*cato_models.Measure, dimensions []*cato_models.Dimension, filters []*cato_models.AppStatsFilter, includeEmptyDimension *bool, useDefaultSizeBucket *bool, interceptors ...clientv2.RequestInterceptor) (*AppStatsTimeSeries, error)
 	AuditFeed(ctx context.Context, fieldNames []cato_models.AuditFieldName, accountIDs []string, ids []string, timeFrame string, filters []*cato_models.AuditFieldFilterInput, marker *string, interceptors ...clientv2.RequestInterceptor) (*AuditFeed, error)
-	BusinessPlatform(ctx context.Context, accountID string, businessPlatformAccountListInput *cato_models.BusinessPlatformAccountListInput, interceptors ...clientv2.RequestInterceptor) (*BusinessPlatform, error)
+	BusinessPlatform(ctx context.Context, accountID string, businessPlatformAccountListInput *cato_models.BusinessPlatformAccountListInput, businessPlatformPartnerListInput *cato_models.BusinessPlatformPartnerListInput, interceptors ...clientv2.RequestInterceptor) (*BusinessPlatform, error)
 	CatalogsCatalogApplicationFqdn(ctx context.Context, accountID string, applicationRefInput cato_models.ApplicationRefInput, interceptors ...clientv2.RequestInterceptor) (*CatalogsCatalogApplicationFqdn, error)
 	CatalogsCatalogApplicationList(ctx context.Context, accountID string, catalogApplicationListInput cato_models.CatalogApplicationListInput, interceptors ...clientv2.RequestInterceptor) (*CatalogsCatalogApplicationList, error)
 	CatalogsContentTypeGroupList(ctx context.Context, accountID string, catalogApplicationContentTypeGroupListInput cato_models.CatalogApplicationContentTypeGroupListInput, interceptors ...clientv2.RequestInterceptor) (*CatalogsContentTypeGroupList, error)
@@ -635,6 +635,8 @@ type CatoClient interface {
 	PrivateApplication(ctx context.Context, accountID string, privateApplicationRefInput cato_models.PrivateApplicationRefInput, privateApplicationListInput *cato_models.PrivateApplicationListInput, interceptors ...clientv2.RequestInterceptor) (*PrivateApplication, error)
 	PrivateApplicationPrivateApplication(ctx context.Context, accountID string, privateApplicationRefInput cato_models.PrivateApplicationRefInput, interceptors ...clientv2.RequestInterceptor) (*PrivateApplicationPrivateApplication, error)
 	PrivateApplicationPrivateApplicationList(ctx context.Context, accountID string, privateApplicationListInput *cato_models.PrivateApplicationListInput, interceptors ...clientv2.RequestInterceptor) (*PrivateApplicationPrivateApplicationList, error)
+	RateLimit(ctx context.Context, interceptors ...clientv2.RequestInterceptor) (*RateLimit, error)
+	RateLimitEstimate(ctx context.Context, operationName *string, query string, variables map[string]any, interceptors ...clientv2.RequestInterceptor) (*RateLimitEstimate, error)
 	RbacRoleManagementPermissionCatalog(ctx context.Context, accountID string, interceptors ...clientv2.RequestInterceptor) (*RbacRoleManagementPermissionCatalog, error)
 	RbacRoleManagementRole(ctx context.Context, accountID string, id string, interceptors ...clientv2.RequestInterceptor) (*RbacRoleManagementRole, error)
 	RbacRoleManagementRoleList(ctx context.Context, accountID string, roleManagementRoleListInput cato_models.RoleManagementRoleListInput, interceptors ...clientv2.RequestInterceptor) (*RbacRoleManagementRoleList, error)
@@ -248686,6 +248688,7 @@ func (t *RbacRoleManagementCreateRole_Rbac_RoleManagement_CreateRole_Role_Permis
 }
 
 type RbacRoleManagementCreateRole_Rbac_RoleManagement_CreateRole_Role struct {
+	ApplicableAccountType  []cato_models.RoleManagementApplicableAccountType                              "json:\"applicableAccountType\" graphql:\"applicableAccountType\""
 	Description            *string                                                                        "json:\"description,omitempty\" graphql:\"description\""
 	ID                     string                                                                         "json:\"id\" graphql:\"id\""
 	IsUsedOnExternalAccess bool                                                                           "json:\"isUsedOnExternalAccess\" graphql:\"isUsedOnExternalAccess\""
@@ -248694,6 +248697,12 @@ type RbacRoleManagementCreateRole_Rbac_RoleManagement_CreateRole_Role struct {
 	Predefined             bool                                                                           "json:\"predefined\" graphql:\"predefined\""
 }
 
+func (t *RbacRoleManagementCreateRole_Rbac_RoleManagement_CreateRole_Role) GetApplicableAccountType() []cato_models.RoleManagementApplicableAccountType {
+	if t == nil {
+		t = &RbacRoleManagementCreateRole_Rbac_RoleManagement_CreateRole_Role{}
+	}
+	return t.ApplicableAccountType
+}
 func (t *RbacRoleManagementCreateRole_Rbac_RoleManagement_CreateRole_Role) GetDescription() *string {
 	if t == nil {
 		t = &RbacRoleManagementCreateRole_Rbac_RoleManagement_CreateRole_Role{}
@@ -248816,6 +248825,7 @@ func (t *RbacRoleManagementUpdateRole_Rbac_RoleManagement_UpdateRole_Role_Permis
 }
 
 type RbacRoleManagementUpdateRole_Rbac_RoleManagement_UpdateRole_Role struct {
+	ApplicableAccountType  []cato_models.RoleManagementApplicableAccountType                              "json:\"applicableAccountType\" graphql:\"applicableAccountType\""
 	Description            *string                                                                        "json:\"description,omitempty\" graphql:\"description\""
 	ID                     string                                                                         "json:\"id\" graphql:\"id\""
 	IsUsedOnExternalAccess bool                                                                           "json:\"isUsedOnExternalAccess\" graphql:\"isUsedOnExternalAccess\""
@@ -248824,6 +248834,12 @@ type RbacRoleManagementUpdateRole_Rbac_RoleManagement_UpdateRole_Role struct {
 	Predefined             bool                                                                           "json:\"predefined\" graphql:\"predefined\""
 }
 
+func (t *RbacRoleManagementUpdateRole_Rbac_RoleManagement_UpdateRole_Role) GetApplicableAccountType() []cato_models.RoleManagementApplicableAccountType {
+	if t == nil {
+		t = &RbacRoleManagementUpdateRole_Rbac_RoleManagement_UpdateRole_Role{}
+	}
+	return t.ApplicableAccountType
+}
 func (t *RbacRoleManagementUpdateRole_Rbac_RoleManagement_UpdateRole_Role) GetDescription() *string {
 	if t == nil {
 		t = &RbacRoleManagementUpdateRole_Rbac_RoleManagement_UpdateRole_Role{}
@@ -288000,10 +288016,104 @@ func (t *BusinessPlatform_BusinessPlatform_AccountOverview) GetItems() []*Busine
 	return t.Items
 }
 
+type BusinessPlatform_BusinessPlatform_PartnerList_Items_Account struct {
+	ID   string "json:\"id\" graphql:\"id\""
+	Name string "json:\"name\" graphql:\"name\""
+}
+
+func (t *BusinessPlatform_BusinessPlatform_PartnerList_Items_Account) GetID() string {
+	if t == nil {
+		t = &BusinessPlatform_BusinessPlatform_PartnerList_Items_Account{}
+	}
+	return t.ID
+}
+func (t *BusinessPlatform_BusinessPlatform_PartnerList_Items_Account) GetName() string {
+	if t == nil {
+		t = &BusinessPlatform_BusinessPlatform_PartnerList_Items_Account{}
+	}
+	return t.Name
+}
+
+type BusinessPlatform_BusinessPlatform_PartnerList_Items struct {
+	Account     BusinessPlatform_BusinessPlatform_PartnerList_Items_Account "json:\"account\" graphql:\"account\""
+	CreatedAt   *time.Time                                                  "json:\"createdAt,omitempty\" graphql:\"createdAt\""
+	CreatedBy   *string                                                     "json:\"createdBy,omitempty\" graphql:\"createdBy\""
+	Description *string                                                     "json:\"description,omitempty\" graphql:\"description\""
+	ID          string                                                      "json:\"id\" graphql:\"id\""
+	Name        string                                                      "json:\"name\" graphql:\"name\""
+}
+
+func (t *BusinessPlatform_BusinessPlatform_PartnerList_Items) GetAccount() *BusinessPlatform_BusinessPlatform_PartnerList_Items_Account {
+	if t == nil {
+		t = &BusinessPlatform_BusinessPlatform_PartnerList_Items{}
+	}
+	return &t.Account
+}
+func (t *BusinessPlatform_BusinessPlatform_PartnerList_Items) GetCreatedAt() *time.Time {
+	if t == nil {
+		t = &BusinessPlatform_BusinessPlatform_PartnerList_Items{}
+	}
+	return t.CreatedAt
+}
+func (t *BusinessPlatform_BusinessPlatform_PartnerList_Items) GetCreatedBy() *string {
+	if t == nil {
+		t = &BusinessPlatform_BusinessPlatform_PartnerList_Items{}
+	}
+	return t.CreatedBy
+}
+func (t *BusinessPlatform_BusinessPlatform_PartnerList_Items) GetDescription() *string {
+	if t == nil {
+		t = &BusinessPlatform_BusinessPlatform_PartnerList_Items{}
+	}
+	return t.Description
+}
+func (t *BusinessPlatform_BusinessPlatform_PartnerList_Items) GetID() string {
+	if t == nil {
+		t = &BusinessPlatform_BusinessPlatform_PartnerList_Items{}
+	}
+	return t.ID
+}
+func (t *BusinessPlatform_BusinessPlatform_PartnerList_Items) GetName() string {
+	if t == nil {
+		t = &BusinessPlatform_BusinessPlatform_PartnerList_Items{}
+	}
+	return t.Name
+}
+
+type BusinessPlatform_BusinessPlatform_PartnerList_Paging struct {
+	Total int64 "json:\"total\" graphql:\"total\""
+}
+
+func (t *BusinessPlatform_BusinessPlatform_PartnerList_Paging) GetTotal() int64 {
+	if t == nil {
+		t = &BusinessPlatform_BusinessPlatform_PartnerList_Paging{}
+	}
+	return t.Total
+}
+
+type BusinessPlatform_BusinessPlatform_PartnerList struct {
+	Items  []*BusinessPlatform_BusinessPlatform_PartnerList_Items "json:\"items\" graphql:\"items\""
+	Paging BusinessPlatform_BusinessPlatform_PartnerList_Paging   "json:\"paging\" graphql:\"paging\""
+}
+
+func (t *BusinessPlatform_BusinessPlatform_PartnerList) GetItems() []*BusinessPlatform_BusinessPlatform_PartnerList_Items {
+	if t == nil {
+		t = &BusinessPlatform_BusinessPlatform_PartnerList{}
+	}
+	return t.Items
+}
+func (t *BusinessPlatform_BusinessPlatform_PartnerList) GetPaging() *BusinessPlatform_BusinessPlatform_PartnerList_Paging {
+	if t == nil {
+		t = &BusinessPlatform_BusinessPlatform_PartnerList{}
+	}
+	return &t.Paging
+}
+
 type BusinessPlatform_BusinessPlatform struct {
 	AccountList        *BusinessPlatform_BusinessPlatform_AccountList        "json:\"accountList,omitempty\" graphql:\"accountList\""
 	AccountOverview    *BusinessPlatform_BusinessPlatform_AccountOverview    "json:\"accountOverview,omitempty\" graphql:\"accountOverview\""
 	CountAccountByPlan *BusinessPlatform_BusinessPlatform_CountAccountByPlan "json:\"countAccountByPlan,omitempty\" graphql:\"countAccountByPlan\""
+	PartnerList        *BusinessPlatform_BusinessPlatform_PartnerList        "json:\"partnerList,omitempty\" graphql:\"partnerList\""
 	Settings           *BusinessPlatform_BusinessPlatform_Settings           "json:\"settings,omitempty\" graphql:\"settings\""
 }
 
@@ -288024,6 +288134,12 @@ func (t *BusinessPlatform_BusinessPlatform) GetCountAccountByPlan() *BusinessPla
 		t = &BusinessPlatform_BusinessPlatform{}
 	}
 	return t.CountAccountByPlan
+}
+func (t *BusinessPlatform_BusinessPlatform) GetPartnerList() *BusinessPlatform_BusinessPlatform_PartnerList {
+	if t == nil {
+		t = &BusinessPlatform_BusinessPlatform{}
+	}
+	return t.PartnerList
 }
 func (t *BusinessPlatform_BusinessPlatform) GetSettings() *BusinessPlatform_BusinessPlatform_Settings {
 	if t == nil {
@@ -339091,6 +339207,77 @@ func (t *PostureCheckSummary_Posture_CheckSummary_Summary_SeverityBreakdown) Get
 	return t.Score
 }
 
+type PostureCheckSummary_Posture_CheckSummary_Summary_LabelBreakdown_Counts struct {
+	Disabled int64 "json:\"disabled\" graphql:\"disabled\""
+	Failed   int64 "json:\"failed\" graphql:\"failed\""
+	NewCount int64 "json:\"newCount\" graphql:\"newCount\""
+	Passed   int64 "json:\"passed\" graphql:\"passed\""
+	Total    int64 "json:\"total\" graphql:\"total\""
+}
+
+func (t *PostureCheckSummary_Posture_CheckSummary_Summary_LabelBreakdown_Counts) GetDisabled() int64 {
+	if t == nil {
+		t = &PostureCheckSummary_Posture_CheckSummary_Summary_LabelBreakdown_Counts{}
+	}
+	return t.Disabled
+}
+func (t *PostureCheckSummary_Posture_CheckSummary_Summary_LabelBreakdown_Counts) GetFailed() int64 {
+	if t == nil {
+		t = &PostureCheckSummary_Posture_CheckSummary_Summary_LabelBreakdown_Counts{}
+	}
+	return t.Failed
+}
+func (t *PostureCheckSummary_Posture_CheckSummary_Summary_LabelBreakdown_Counts) GetNewCount() int64 {
+	if t == nil {
+		t = &PostureCheckSummary_Posture_CheckSummary_Summary_LabelBreakdown_Counts{}
+	}
+	return t.NewCount
+}
+func (t *PostureCheckSummary_Posture_CheckSummary_Summary_LabelBreakdown_Counts) GetPassed() int64 {
+	if t == nil {
+		t = &PostureCheckSummary_Posture_CheckSummary_Summary_LabelBreakdown_Counts{}
+	}
+	return t.Passed
+}
+func (t *PostureCheckSummary_Posture_CheckSummary_Summary_LabelBreakdown_Counts) GetTotal() int64 {
+	if t == nil {
+		t = &PostureCheckSummary_Posture_CheckSummary_Summary_LabelBreakdown_Counts{}
+	}
+	return t.Total
+}
+
+type PostureCheckSummary_Posture_CheckSummary_Summary_LabelBreakdown struct {
+	Counts PostureCheckSummary_Posture_CheckSummary_Summary_LabelBreakdown_Counts "json:\"counts\" graphql:\"counts\""
+	Key    string                                                                 "json:\"key\" graphql:\"key\""
+	Name   *string                                                                "json:\"name,omitempty\" graphql:\"name\""
+	Score  int64                                                                  "json:\"score\" graphql:\"score\""
+}
+
+func (t *PostureCheckSummary_Posture_CheckSummary_Summary_LabelBreakdown) GetCounts() *PostureCheckSummary_Posture_CheckSummary_Summary_LabelBreakdown_Counts {
+	if t == nil {
+		t = &PostureCheckSummary_Posture_CheckSummary_Summary_LabelBreakdown{}
+	}
+	return &t.Counts
+}
+func (t *PostureCheckSummary_Posture_CheckSummary_Summary_LabelBreakdown) GetKey() string {
+	if t == nil {
+		t = &PostureCheckSummary_Posture_CheckSummary_Summary_LabelBreakdown{}
+	}
+	return t.Key
+}
+func (t *PostureCheckSummary_Posture_CheckSummary_Summary_LabelBreakdown) GetName() *string {
+	if t == nil {
+		t = &PostureCheckSummary_Posture_CheckSummary_Summary_LabelBreakdown{}
+	}
+	return t.Name
+}
+func (t *PostureCheckSummary_Posture_CheckSummary_Summary_LabelBreakdown) GetScore() int64 {
+	if t == nil {
+		t = &PostureCheckSummary_Posture_CheckSummary_Summary_LabelBreakdown{}
+	}
+	return t.Score
+}
+
 type PostureCheckSummary_Posture_CheckSummary_Summary_Comparisons struct {
 	Average         int64                             "json:\"average\" graphql:\"average\""
 	ComparisonType  cato_models.PostureComparisonType "json:\"comparisonType\" graphql:\"comparisonType\""
@@ -339133,6 +339320,7 @@ type PostureCheckSummary_Posture_CheckSummary_Summary struct {
 	ComplianceFrameworkBreakdown    []*PostureCheckSummary_Posture_CheckSummary_Summary_ComplianceFrameworkBreakdown "json:\"complianceFrameworkBreakdown\" graphql:\"complianceFrameworkBreakdown\""
 	Counts                          PostureCheckSummary_Posture_CheckSummary_Summary_Counts                          "json:\"counts\" graphql:\"counts\""
 	EvaluatedAt                     string                                                                           "json:\"evaluatedAt\" graphql:\"evaluatedAt\""
+	LabelBreakdown                  []*PostureCheckSummary_Posture_CheckSummary_Summary_LabelBreakdown               "json:\"labelBreakdown\" graphql:\"labelBreakdown\""
 	OverallEffectiveAreaCriticality *float64                                                                         "json:\"overallEffectiveAreaCriticality,omitempty\" graphql:\"overallEffectiveAreaCriticality\""
 	OverallEffectiveBlastRadius     *float64                                                                         "json:\"overallEffectiveBlastRadius,omitempty\" graphql:\"overallEffectiveBlastRadius\""
 	OverallEffectiveFindingsSignal  *float64                                                                         "json:\"overallEffectiveFindingsSignal,omitempty\" graphql:\"overallEffectiveFindingsSignal\""
@@ -339194,6 +339382,12 @@ func (t *PostureCheckSummary_Posture_CheckSummary_Summary) GetEvaluatedAt() stri
 		t = &PostureCheckSummary_Posture_CheckSummary_Summary{}
 	}
 	return t.EvaluatedAt
+}
+func (t *PostureCheckSummary_Posture_CheckSummary_Summary) GetLabelBreakdown() []*PostureCheckSummary_Posture_CheckSummary_Summary_LabelBreakdown {
+	if t == nil {
+		t = &PostureCheckSummary_Posture_CheckSummary_Summary{}
+	}
+	return t.LabelBreakdown
 }
 func (t *PostureCheckSummary_Posture_CheckSummary_Summary) GetOverallEffectiveAreaCriticality() *float64 {
 	if t == nil {
@@ -342375,6 +342569,35 @@ func (t *PrivateApplicationPrivateApplicationList_PrivateApplication) GetPrivate
 	return t.PrivateApplicationList
 }
 
+type RateLimit_RateLimit struct {
+	Cost         int64 "json:\"cost\" graphql:\"cost\""
+	RetryAfterMs int64 "json:\"retryAfterMs\" graphql:\"retryAfterMs\""
+}
+
+func (t *RateLimit_RateLimit) GetCost() int64 {
+	if t == nil {
+		t = &RateLimit_RateLimit{}
+	}
+	return t.Cost
+}
+func (t *RateLimit_RateLimit) GetRetryAfterMs() int64 {
+	if t == nil {
+		t = &RateLimit_RateLimit{}
+	}
+	return t.RetryAfterMs
+}
+
+type RateLimitEstimate_RateLimitEstimate struct {
+	Cost int64 "json:\"cost\" graphql:\"cost\""
+}
+
+func (t *RateLimitEstimate_RateLimitEstimate) GetCost() int64 {
+	if t == nil {
+		t = &RateLimitEstimate_RateLimitEstimate{}
+	}
+	return t.Cost
+}
+
 type RbacRoleManagementPermissionCatalog_Rbac_RoleManagement_PermissionCatalog_Resource struct {
 	Resource        string                                  "json:\"resource\" graphql:\"resource\""
 	SupportedAction []cato_models.RoleManagementGrantAction "json:\"supportedAction\" graphql:\"supportedAction\""
@@ -342445,6 +342668,7 @@ func (t *RbacRoleManagementRole_Rbac_RoleManagement_Role_Permission) GetResource
 }
 
 type RbacRoleManagementRole_Rbac_RoleManagement_Role struct {
+	ApplicableAccountType  []cato_models.RoleManagementApplicableAccountType             "json:\"applicableAccountType\" graphql:\"applicableAccountType\""
 	Description            *string                                                       "json:\"description,omitempty\" graphql:\"description\""
 	ID                     string                                                        "json:\"id\" graphql:\"id\""
 	IsUsedOnExternalAccess bool                                                          "json:\"isUsedOnExternalAccess\" graphql:\"isUsedOnExternalAccess\""
@@ -342453,6 +342677,12 @@ type RbacRoleManagementRole_Rbac_RoleManagement_Role struct {
 	Predefined             bool                                                          "json:\"predefined\" graphql:\"predefined\""
 }
 
+func (t *RbacRoleManagementRole_Rbac_RoleManagement_Role) GetApplicableAccountType() []cato_models.RoleManagementApplicableAccountType {
+	if t == nil {
+		t = &RbacRoleManagementRole_Rbac_RoleManagement_Role{}
+	}
+	return t.ApplicableAccountType
+}
 func (t *RbacRoleManagementRole_Rbac_RoleManagement_Role) GetDescription() *string {
 	if t == nil {
 		t = &RbacRoleManagementRole_Rbac_RoleManagement_Role{}
@@ -342531,6 +342761,7 @@ func (t *RbacRoleManagementRoleList_Rbac_RoleManagement_RoleList_Items_Permissio
 }
 
 type RbacRoleManagementRoleList_Rbac_RoleManagement_RoleList_Items struct {
+	ApplicableAccountType  []cato_models.RoleManagementApplicableAccountType                           "json:\"applicableAccountType\" graphql:\"applicableAccountType\""
 	Description            *string                                                                     "json:\"description,omitempty\" graphql:\"description\""
 	ID                     string                                                                      "json:\"id\" graphql:\"id\""
 	IsUsedOnExternalAccess bool                                                                        "json:\"isUsedOnExternalAccess\" graphql:\"isUsedOnExternalAccess\""
@@ -342539,6 +342770,12 @@ type RbacRoleManagementRoleList_Rbac_RoleManagement_RoleList_Items struct {
 	Predefined             bool                                                                        "json:\"predefined\" graphql:\"predefined\""
 }
 
+func (t *RbacRoleManagementRoleList_Rbac_RoleManagement_RoleList_Items) GetApplicableAccountType() []cato_models.RoleManagementApplicableAccountType {
+	if t == nil {
+		t = &RbacRoleManagementRoleList_Rbac_RoleManagement_RoleList_Items{}
+	}
+	return t.ApplicableAccountType
+}
 func (t *RbacRoleManagementRoleList_Rbac_RoleManagement_RoleList_Items) GetDescription() *string {
 	if t == nil {
 		t = &RbacRoleManagementRoleList_Rbac_RoleManagement_RoleList_Items{}
@@ -369937,6 +370174,28 @@ func (t *PrivateApplicationPrivateApplicationList) GetPrivateApplication() *Priv
 		t = &PrivateApplicationPrivateApplicationList{}
 	}
 	return t.PrivateApplication
+}
+
+type RateLimit struct {
+	RateLimit *RateLimit_RateLimit "json:\"rateLimit,omitempty\" graphql:\"rateLimit\""
+}
+
+func (t *RateLimit) GetRateLimit() *RateLimit_RateLimit {
+	if t == nil {
+		t = &RateLimit{}
+	}
+	return t.RateLimit
+}
+
+type RateLimitEstimate struct {
+	RateLimitEstimate *RateLimitEstimate_RateLimitEstimate "json:\"rateLimitEstimate,omitempty\" graphql:\"rateLimitEstimate\""
+}
+
+func (t *RateLimitEstimate) GetRateLimitEstimate() *RateLimitEstimate_RateLimitEstimate {
+	if t == nil {
+		t = &RateLimitEstimate{}
+	}
+	return t.RateLimitEstimate
 }
 
 type RbacRoleManagementPermissionCatalog struct {
@@ -418308,6 +418567,7 @@ const RbacRoleManagementCreateRoleDocument = `mutation rbacRoleManagementCreateR
 					name
 					description
 					predefined
+					applicableAccountType
 					isUsedOnExternalAccess
 					permission {
 						resource
@@ -418376,6 +418636,7 @@ const RbacRoleManagementUpdateRoleDocument = `mutation rbacRoleManagementUpdateR
 					name
 					description
 					predefined
+					applicableAccountType
 					isUsedOnExternalAccess
 					permission {
 						resource
@@ -428498,7 +428759,7 @@ func (c *Client) AuditFeed(ctx context.Context, fieldNames []cato_models.AuditFi
 	return &res, nil
 }
 
-const BusinessPlatformDocument = `query businessPlatform ($accountId: ID!, $businessPlatformAccountListInput: BusinessPlatformAccountListInput) {
+const BusinessPlatformDocument = `query businessPlatform ($accountId: ID!, $businessPlatformAccountListInput: BusinessPlatformAccountListInput, $businessPlatformPartnerListInput: BusinessPlatformPartnerListInput) {
 	businessPlatform(accountId: $accountId) {
 		accountList(input: $businessPlatformAccountListInput) {
 			items {
@@ -428552,14 +428813,31 @@ const BusinessPlatformDocument = `query businessPlatform ($accountId: ID!, $busi
 				cmaAccountId
 			}
 		}
+		partnerList(input: $businessPlatformPartnerListInput) {
+			items {
+				id
+				account {
+					id
+					name
+				}
+				name
+				description
+				createdBy
+				createdAt
+			}
+			paging {
+				total
+			}
+		}
 	}
 }
 `
 
-func (c *Client) BusinessPlatform(ctx context.Context, accountID string, businessPlatformAccountListInput *cato_models.BusinessPlatformAccountListInput, interceptors ...clientv2.RequestInterceptor) (*BusinessPlatform, error) {
+func (c *Client) BusinessPlatform(ctx context.Context, accountID string, businessPlatformAccountListInput *cato_models.BusinessPlatformAccountListInput, businessPlatformPartnerListInput *cato_models.BusinessPlatformPartnerListInput, interceptors ...clientv2.RequestInterceptor) (*BusinessPlatform, error) {
 	vars := map[string]any{
 		"accountId":                        accountID,
 		"businessPlatformAccountListInput": businessPlatformAccountListInput,
+		"businessPlatformPartnerListInput": businessPlatformPartnerListInput,
 	}
 
 	var res BusinessPlatform
@@ -438989,6 +439267,18 @@ const PostureCheckSummaryDocument = `query postureCheckSummary ($accountId: ID!,
 						newCount
 					}
 				}
+				labelBreakdown {
+					key
+					name
+					score
+					counts {
+						total
+						passed
+						failed
+						disabled
+						newCount
+					}
+				}
 				evaluatedAt
 				comparisons {
 					comparisonType
@@ -439720,6 +440010,55 @@ func (c *Client) PrivateApplicationPrivateApplicationList(ctx context.Context, a
 	return &res, nil
 }
 
+const RateLimitDocument = `query rateLimit {
+	rateLimit {
+		cost
+		retryAfterMs
+	}
+}
+`
+
+func (c *Client) RateLimit(ctx context.Context, interceptors ...clientv2.RequestInterceptor) (*RateLimit, error) {
+	vars := map[string]any{}
+
+	var res RateLimit
+	if err := c.Client.Post(ctx, "rateLimit", RateLimitDocument, &res, vars, interceptors...); err != nil {
+		if c.Client.ParseDataWhenErrors {
+			return &res, err
+		}
+
+		return nil, err
+	}
+
+	return &res, nil
+}
+
+const RateLimitEstimateDocument = `query rateLimitEstimate ($operationName: String, $query: String!, $variables: Map) {
+	rateLimitEstimate(query: $query, variables: $variables, operationName: $operationName) {
+		cost
+	}
+}
+`
+
+func (c *Client) RateLimitEstimate(ctx context.Context, operationName *string, query string, variables map[string]any, interceptors ...clientv2.RequestInterceptor) (*RateLimitEstimate, error) {
+	vars := map[string]any{
+		"operationName": operationName,
+		"query":         query,
+		"variables":     variables,
+	}
+
+	var res RateLimitEstimate
+	if err := c.Client.Post(ctx, "rateLimitEstimate", RateLimitEstimateDocument, &res, vars, interceptors...); err != nil {
+		if c.Client.ParseDataWhenErrors {
+			return &res, err
+		}
+
+		return nil, err
+	}
+
+	return &res, nil
+}
+
 const RbacRoleManagementPermissionCatalogDocument = `query rbacRoleManagementPermissionCatalog ($accountId: ID!) {
 	rbac(accountId: $accountId) {
 		roleManagement {
@@ -439759,6 +440098,7 @@ const RbacRoleManagementRoleDocument = `query rbacRoleManagementRole ($accountId
 				name
 				description
 				predefined
+				applicableAccountType
 				isUsedOnExternalAccess
 				permission {
 					resource
@@ -439797,6 +440137,7 @@ const RbacRoleManagementRoleListDocument = `query rbacRoleManagementRoleList ($a
 					name
 					description
 					predefined
+					applicableAccountType
 					isUsedOnExternalAccess
 					permission {
 						resource
@@ -444635,6 +444976,8 @@ var DocumentOperationNames = map[string]string{
 	PrivateApplicationDocument:                                   "privateApplication",
 	PrivateApplicationPrivateApplicationDocument:                 "privateApplicationPrivateApplication",
 	PrivateApplicationPrivateApplicationListDocument:             "privateApplicationPrivateApplicationList",
+	RateLimitDocument:                                            "rateLimit",
+	RateLimitEstimateDocument:                                    "rateLimitEstimate",
 	RbacRoleManagementPermissionCatalogDocument:                  "rbacRoleManagementPermissionCatalog",
 	RbacRoleManagementRoleDocument:                               "rbacRoleManagementRole",
 	RbacRoleManagementRoleListDocument:                           "rbacRoleManagementRoleList",

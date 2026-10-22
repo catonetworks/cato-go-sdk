@@ -7,6 +7,7 @@ mutation rbacRoleManagementUpdateRole ($accountId: ID!, $roleManagementUpdateRol
 					name
 					description
 					predefined
+					applicableAccountType
 					isUsedOnExternalAccess
 					permission {
 						resource

@@ -1,0 +1,5 @@
+query rateLimitEstimate ($operationName: String, $query: String!, $variables: Map) {
+	rateLimitEstimate(query: $query, variables: $variables, operationName: $operationName) {
+		cost
+	}
+}

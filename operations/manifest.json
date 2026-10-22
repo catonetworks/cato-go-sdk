@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "cli_commit_sha": "5e39ac27e6f2c44462fd4932d279e91b7161151b",
+  "cli_commit_sha": "7103d657c7fd2cdc0e773819ea791aaf3e64cb09",
   "operations": [
     {
       "key": "mutation.accountManagement.addAccount",
@@ -5398,10 +5398,10 @@
         "accountId",
         "roleManagementCreateRoleInput"
       ],
-      "document_sha256": "ef159fc468951453d99bb17b3bdcc13e77b6ec9cd1ab87f5d54dec7ca0c362e5",
+      "document_sha256": "af3b55e13ae19d09071f9d45491020104d4df0233c3f184bd9b410f0364a2f65",
       "cli_file": "queryPayloads/mutation.rbac.roleManagement.createRole.txt",
       "cli_name": "rbacRoleManagementCreateRole",
-      "cli_sha256": "42f8f266deafa6c1c0c6ed59565032616f071763865f06bd412c214c34ed0e5c",
+      "cli_sha256": "4b89bad60f685ab990b7b264637ef9df6d76dbd8656a52f436a93654f5f1b0e9",
       "status": "imported"
     },
     {
@@ -5428,10 +5428,10 @@
         "accountId",
         "roleManagementUpdateRoleInput"
       ],
-      "document_sha256": "2c9f5216472027c4fc6cfa05a0d7220ceffd72392a1a3ed3b1f0ce53ef6892ea",
+      "document_sha256": "9a6429a74b9b5a9944c193e537524d9444668f74177566e94cc8554817f2dcc6",
       "cli_file": "queryPayloads/mutation.rbac.roleManagement.updateRole.txt",
       "cli_name": "rbacRoleManagementUpdateRole",
-      "cli_sha256": "d661200729e2c07b2a1b1e965ffb16820879dcae0bc39a235755930e59ea97da",
+      "cli_sha256": "a032c9b8643c10f9464560826aec4bc7c02088ea2bcdce62aea42ec6267ac640",
       "status": "imported"
     },
     {
@@ -7989,12 +7989,13 @@
       "sdk_name": "businessPlatform",
       "variables": [
         "accountId",
-        "businessPlatformAccountListInput"
+        "businessPlatformAccountListInput",
+        "businessPlatformPartnerListInput"
       ],
-      "document_sha256": "131369643845c239fc56398f578c604934bc364cf7def8a3d975c13e367b1cde",
+      "document_sha256": "499bf5d2a2ac69574006d35aa7fb1cba7668aff9d03a7a372bec29968b057e17",
       "cli_file": "queryPayloads/query.businessPlatform.txt",
       "cli_name": "businessPlatform",
-      "cli_sha256": "82036c190c06591559a95f4e9090f6397e8c690382fd40135b0ea61d8e20f4b4",
+      "cli_sha256": "b6387c8aa6ffd2b0bb5a6f61ee740c96f83d44de2554e6ef60834a7e21d1edc2",
       "status": "imported"
     },
     {
@@ -9453,10 +9454,10 @@
         "accountId",
         "postureCheckSummaryInput"
       ],
-      "document_sha256": "ee6ec6922039de6709464aaab02dd9782f1ca8a4c6cd5d7df0e264cd4dfb5bec",
+      "document_sha256": "6ecf24c0006e58c7a02b8f78436d80c20b34b00d493a14ad2328597882b3c63b",
       "cli_file": "queryPayloads/query.posture.checkSummary.txt",
       "cli_name": "postureCheckSummary",
-      "cli_sha256": "92311bdac6d5e016dbad8c16c312ad5ad871c0c17e36f5bededbf810a6b20d33",
+      "cli_sha256": "3068bc52e551089fc44f9a947295f0a01e1ec59d31fd915f34d9139d108f1642",
       "status": "imported"
     },
     {
@@ -9589,6 +9590,33 @@
       "status": "imported"
     },
     {
+      "key": "query.rateLimit",
+      "kind": "query",
+      "sdk_file": "sources/query.rateLimit.gql",
+      "sdk_name": "rateLimit",
+      "document_sha256": "640a4e6538871f825edef8573dfa9f17d3769a61e47107f481cdc5209dbb0c09",
+      "cli_file": "queryPayloads/query.rateLimit.txt",
+      "cli_name": "rateLimit",
+      "cli_sha256": "433d87b3d2a7dc147c720708282fcd3b02cdb775b155cc09bb5923c51e472dc4",
+      "status": "imported"
+    },
+    {
+      "key": "query.rateLimitEstimate",
+      "kind": "query",
+      "sdk_file": "sources/query.rateLimitEstimate.gql",
+      "sdk_name": "rateLimitEstimate",
+      "variables": [
+        "operationName",
+        "query",
+        "variables"
+      ],
+      "document_sha256": "1e3ba2b561c868a5020c70b302880ac37b7a5f019a0f7c2269957393bc7da73b",
+      "cli_file": "queryPayloads/query.rateLimitEstimate.txt",
+      "cli_name": "rateLimitEstimate",
+      "cli_sha256": "8e65145e3444f7022b61be8d5ba19dbc16a9f35094a003e196cafdaad4356fa7",
+      "status": "imported"
+    },
+    {
       "key": "query.rbac.roleManagement.permissionCatalog",
       "kind": "query",
       "sdk_file": "sources/query.rbac.roleManagement.permissionCatalog.gql",
@@ -9611,10 +9639,10 @@
         "accountId",
         "id"
       ],
-      "document_sha256": "6da3ddc4fede40b36c03dec66fb56f764f101459c033e680582a1716732a7ee3",
+      "document_sha256": "efe415158ee9bbce7636d4ff9b181b59c89db59db943e803833dd1521d502f48",
       "cli_file": "queryPayloads/query.rbac.roleManagement.role.txt",
       "cli_name": "rbacRoleManagementRole",
-      "cli_sha256": "d34b4ad996d88ba1118e7ec7e84ccf9e5a2b2de46950cbac1f6c5cd9c821b910",
+      "cli_sha256": "09025b0df3f13e174afc55646f4957120ab7cef504d00dc79945963ead6d6c86",
       "status": "imported"
     },
     {
@@ -9626,10 +9654,10 @@
         "accountId",
         "roleManagementRoleListInput"
       ],
-      "document_sha256": "d9e078fcf5958c5ae4f23d9297d4133522dcca4143a9b84c972498874e4b6543",
+      "document_sha256": "b1b98182d04deeb26af84f2f67b26df0678997b4d921423a434a88f02d612112",
       "cli_file": "queryPayloads/query.rbac.roleManagement.roleList.txt",
       "cli_name": "rbacRoleManagementRoleList",
-      "cli_sha256": "11168ca63c5faa601381a488b5da2488a0704271a89f1db0b395237a58d3425a",
+      "cli_sha256": "a78b526cc0275a6452a8018444572bf968bb08dcbb5eaf37bdcd34c6a0b17288",
       "status": "imported"
     },
     {
