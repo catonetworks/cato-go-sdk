@@ -57,7 +57,7 @@ func TestAssignmentGeneratedRequests(t *testing.T) {
 					if paging.From != 2 || paging.Limit != 100 {
 						t.Error("paging changed")
 					}
-					_, _ = w.Write([]byte(`{"data":{"rbac":{"rbacAssignmentList":{"items":[],"paging":{"total":0}}}}}`))
+					_, _ = w.Write([]byte(`{"data":{"rbac":{"rbacAssignmentList":{"items":[],"paging":{"__typename":"PageInfo","total":0}}}}}`))
 				case "remove":
 					if string(input["rbacAssignmentId"]) != `"a"` {
 						t.Error("missing removal ID")

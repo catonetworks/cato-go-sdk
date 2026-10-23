@@ -641,7 +641,9 @@ type CatoClient interface {
 	RateLimit(ctx context.Context, interceptors ...clientv2.RequestInterceptor) (*RateLimit, error)
 	RateLimitEstimate(ctx context.Context, operationName *string, query string, variables map[string]any, interceptors ...clientv2.RequestInterceptor) (*RateLimitEstimate, error)
 	RbacRbacAssignmentList(ctx context.Context, accountID string, input cato_models.RBACAssignmentListInput, interceptors ...clientv2.RequestInterceptor) (*RbacRbacAssignmentList, error)
+	RbacRoleManagementListRoles(ctx context.Context, accountID string, roleManagementRoleListInput cato_models.RoleManagementRoleListInput, interceptors ...clientv2.RequestInterceptor) (*RbacRoleManagementListRoles, error)
 	RbacRoleManagementPermissionCatalog(ctx context.Context, accountID string, interceptors ...clientv2.RequestInterceptor) (*RbacRoleManagementPermissionCatalog, error)
+	RbacRoleManagementReadRole(ctx context.Context, accountID string, id string, interceptors ...clientv2.RequestInterceptor) (*RbacRoleManagementReadRole, error)
 	RbacRoleManagementRole(ctx context.Context, accountID string, id string, interceptors ...clientv2.RequestInterceptor) (*RbacRoleManagementRole, error)
 	RbacRoleManagementRoleList(ctx context.Context, accountID string, roleManagementRoleListInput cato_models.RoleManagementRoleListInput, interceptors ...clientv2.RequestInterceptor) (*RbacRoleManagementRoleList, error)
 	Sandbox(ctx context.Context, accountID string, sandboxReportsInput cato_models.SandboxReportsInput, interceptors ...clientv2.RequestInterceptor) (*Sandbox, error)
@@ -343119,9 +343121,16 @@ func (t *RbacRbacAssignmentList_Rbac_RbacAssignmentList_Items) GetUser() *RbacRb
 }
 
 type RbacRbacAssignmentList_Rbac_RbacAssignmentList_Paging struct {
-	Total int64 "json:\"total\" graphql:\"total\""
+	Typename *string "json:\"__typename,omitempty\" graphql:\"__typename\""
+	Total    int64   "json:\"total\" graphql:\"total\""
 }
 
+func (t *RbacRbacAssignmentList_Rbac_RbacAssignmentList_Paging) GetTypename() *string {
+	if t == nil {
+		t = &RbacRbacAssignmentList_Rbac_RbacAssignmentList_Paging{}
+	}
+	return t.Typename
+}
 func (t *RbacRbacAssignmentList_Rbac_RbacAssignmentList_Paging) GetTotal() int64 {
 	if t == nil {
 		t = &RbacRbacAssignmentList_Rbac_RbacAssignmentList_Paging{}
@@ -343156,6 +343165,149 @@ func (t *RbacRbacAssignmentList_Rbac) GetRbacAssignmentList() *RbacRbacAssignmen
 		t = &RbacRbacAssignmentList_Rbac{}
 	}
 	return t.RbacAssignmentList
+}
+
+type RbacRoleManagementListRoles_Rbac_RoleManagement_RoleList_Items_Permission struct {
+	Action   cato_models.RBACAction "json:\"action\" graphql:\"action\""
+	Resource string                 "json:\"resource\" graphql:\"resource\""
+}
+
+func (t *RbacRoleManagementListRoles_Rbac_RoleManagement_RoleList_Items_Permission) GetAction() *cato_models.RBACAction {
+	if t == nil {
+		t = &RbacRoleManagementListRoles_Rbac_RoleManagement_RoleList_Items_Permission{}
+	}
+	return &t.Action
+}
+func (t *RbacRoleManagementListRoles_Rbac_RoleManagement_RoleList_Items_Permission) GetResource() string {
+	if t == nil {
+		t = &RbacRoleManagementListRoles_Rbac_RoleManagement_RoleList_Items_Permission{}
+	}
+	return t.Resource
+}
+
+type RbacRoleManagementListRoles_Rbac_RoleManagement_RoleList_Items struct {
+	ApplicableAccountType  []cato_models.RoleManagementApplicableAccountType                            "json:\"applicableAccountType\" graphql:\"applicableAccountType\""
+	Description            *string                                                                      "json:\"description,omitempty\" graphql:\"description\""
+	ID                     string                                                                       "json:\"id\" graphql:\"id\""
+	IsUsedOnExternalAccess bool                                                                         "json:\"isUsedOnExternalAccess\" graphql:\"isUsedOnExternalAccess\""
+	Name                   string                                                                       "json:\"name\" graphql:\"name\""
+	Permission             []*RbacRoleManagementListRoles_Rbac_RoleManagement_RoleList_Items_Permission "json:\"permission\" graphql:\"permission\""
+	Predefined             bool                                                                         "json:\"predefined\" graphql:\"predefined\""
+}
+
+func (t *RbacRoleManagementListRoles_Rbac_RoleManagement_RoleList_Items) GetApplicableAccountType() []cato_models.RoleManagementApplicableAccountType {
+	if t == nil {
+		t = &RbacRoleManagementListRoles_Rbac_RoleManagement_RoleList_Items{}
+	}
+	return t.ApplicableAccountType
+}
+func (t *RbacRoleManagementListRoles_Rbac_RoleManagement_RoleList_Items) GetDescription() *string {
+	if t == nil {
+		t = &RbacRoleManagementListRoles_Rbac_RoleManagement_RoleList_Items{}
+	}
+	return t.Description
+}
+func (t *RbacRoleManagementListRoles_Rbac_RoleManagement_RoleList_Items) GetID() string {
+	if t == nil {
+		t = &RbacRoleManagementListRoles_Rbac_RoleManagement_RoleList_Items{}
+	}
+	return t.ID
+}
+func (t *RbacRoleManagementListRoles_Rbac_RoleManagement_RoleList_Items) GetIsUsedOnExternalAccess() bool {
+	if t == nil {
+		t = &RbacRoleManagementListRoles_Rbac_RoleManagement_RoleList_Items{}
+	}
+	return t.IsUsedOnExternalAccess
+}
+func (t *RbacRoleManagementListRoles_Rbac_RoleManagement_RoleList_Items) GetName() string {
+	if t == nil {
+		t = &RbacRoleManagementListRoles_Rbac_RoleManagement_RoleList_Items{}
+	}
+	return t.Name
+}
+func (t *RbacRoleManagementListRoles_Rbac_RoleManagement_RoleList_Items) GetPermission() []*RbacRoleManagementListRoles_Rbac_RoleManagement_RoleList_Items_Permission {
+	if t == nil {
+		t = &RbacRoleManagementListRoles_Rbac_RoleManagement_RoleList_Items{}
+	}
+	return t.Permission
+}
+func (t *RbacRoleManagementListRoles_Rbac_RoleManagement_RoleList_Items) GetPredefined() bool {
+	if t == nil {
+		t = &RbacRoleManagementListRoles_Rbac_RoleManagement_RoleList_Items{}
+	}
+	return t.Predefined
+}
+
+type RbacRoleManagementListRoles_Rbac_RoleManagement_RoleList_Paging struct {
+	Typename *string "json:\"__typename,omitempty\" graphql:\"__typename\""
+	Total    int64   "json:\"total\" graphql:\"total\""
+}
+
+func (t *RbacRoleManagementListRoles_Rbac_RoleManagement_RoleList_Paging) GetTypename() *string {
+	if t == nil {
+		t = &RbacRoleManagementListRoles_Rbac_RoleManagement_RoleList_Paging{}
+	}
+	return t.Typename
+}
+func (t *RbacRoleManagementListRoles_Rbac_RoleManagement_RoleList_Paging) GetTotal() int64 {
+	if t == nil {
+		t = &RbacRoleManagementListRoles_Rbac_RoleManagement_RoleList_Paging{}
+	}
+	return t.Total
+}
+
+type RbacRoleManagementListRoles_Rbac_RoleManagement_RoleList struct {
+	Items  []*RbacRoleManagementListRoles_Rbac_RoleManagement_RoleList_Items "json:\"items\" graphql:\"items\""
+	Paging RbacRoleManagementListRoles_Rbac_RoleManagement_RoleList_Paging   "json:\"paging\" graphql:\"paging\""
+}
+
+func (t *RbacRoleManagementListRoles_Rbac_RoleManagement_RoleList) GetItems() []*RbacRoleManagementListRoles_Rbac_RoleManagement_RoleList_Items {
+	if t == nil {
+		t = &RbacRoleManagementListRoles_Rbac_RoleManagement_RoleList{}
+	}
+	return t.Items
+}
+func (t *RbacRoleManagementListRoles_Rbac_RoleManagement_RoleList) GetPaging() *RbacRoleManagementListRoles_Rbac_RoleManagement_RoleList_Paging {
+	if t == nil {
+		t = &RbacRoleManagementListRoles_Rbac_RoleManagement_RoleList{}
+	}
+	return &t.Paging
+}
+
+type RbacRoleManagementListRoles_Rbac_RoleManagement struct {
+	Typename *string                                                   "json:\"__typename,omitempty\" graphql:\"__typename\""
+	RoleList *RbacRoleManagementListRoles_Rbac_RoleManagement_RoleList "json:\"roleList,omitempty\" graphql:\"roleList\""
+}
+
+func (t *RbacRoleManagementListRoles_Rbac_RoleManagement) GetTypename() *string {
+	if t == nil {
+		t = &RbacRoleManagementListRoles_Rbac_RoleManagement{}
+	}
+	return t.Typename
+}
+func (t *RbacRoleManagementListRoles_Rbac_RoleManagement) GetRoleList() *RbacRoleManagementListRoles_Rbac_RoleManagement_RoleList {
+	if t == nil {
+		t = &RbacRoleManagementListRoles_Rbac_RoleManagement{}
+	}
+	return t.RoleList
+}
+
+type RbacRoleManagementListRoles_Rbac struct {
+	Typename       *string                                         "json:\"__typename,omitempty\" graphql:\"__typename\""
+	RoleManagement RbacRoleManagementListRoles_Rbac_RoleManagement "json:\"roleManagement\" graphql:\"roleManagement\""
+}
+
+func (t *RbacRoleManagementListRoles_Rbac) GetTypename() *string {
+	if t == nil {
+		t = &RbacRoleManagementListRoles_Rbac{}
+	}
+	return t.Typename
+}
+func (t *RbacRoleManagementListRoles_Rbac) GetRoleManagement() *RbacRoleManagementListRoles_Rbac_RoleManagement {
+	if t == nil {
+		t = &RbacRoleManagementListRoles_Rbac{}
+	}
+	return &t.RoleManagement
 }
 
 type RbacRoleManagementPermissionCatalog_Rbac_RoleManagement_PermissionCatalog_Resource struct {
@@ -343205,6 +343357,113 @@ type RbacRoleManagementPermissionCatalog_Rbac struct {
 func (t *RbacRoleManagementPermissionCatalog_Rbac) GetRoleManagement() *RbacRoleManagementPermissionCatalog_Rbac_RoleManagement {
 	if t == nil {
 		t = &RbacRoleManagementPermissionCatalog_Rbac{}
+	}
+	return &t.RoleManagement
+}
+
+type RbacRoleManagementReadRole_Rbac_RoleManagement_Role_Permission struct {
+	Action   cato_models.RBACAction "json:\"action\" graphql:\"action\""
+	Resource string                 "json:\"resource\" graphql:\"resource\""
+}
+
+func (t *RbacRoleManagementReadRole_Rbac_RoleManagement_Role_Permission) GetAction() *cato_models.RBACAction {
+	if t == nil {
+		t = &RbacRoleManagementReadRole_Rbac_RoleManagement_Role_Permission{}
+	}
+	return &t.Action
+}
+func (t *RbacRoleManagementReadRole_Rbac_RoleManagement_Role_Permission) GetResource() string {
+	if t == nil {
+		t = &RbacRoleManagementReadRole_Rbac_RoleManagement_Role_Permission{}
+	}
+	return t.Resource
+}
+
+type RbacRoleManagementReadRole_Rbac_RoleManagement_Role struct {
+	ApplicableAccountType  []cato_models.RoleManagementApplicableAccountType                 "json:\"applicableAccountType\" graphql:\"applicableAccountType\""
+	Description            *string                                                           "json:\"description,omitempty\" graphql:\"description\""
+	ID                     string                                                            "json:\"id\" graphql:\"id\""
+	IsUsedOnExternalAccess bool                                                              "json:\"isUsedOnExternalAccess\" graphql:\"isUsedOnExternalAccess\""
+	Name                   string                                                            "json:\"name\" graphql:\"name\""
+	Permission             []*RbacRoleManagementReadRole_Rbac_RoleManagement_Role_Permission "json:\"permission\" graphql:\"permission\""
+	Predefined             bool                                                              "json:\"predefined\" graphql:\"predefined\""
+}
+
+func (t *RbacRoleManagementReadRole_Rbac_RoleManagement_Role) GetApplicableAccountType() []cato_models.RoleManagementApplicableAccountType {
+	if t == nil {
+		t = &RbacRoleManagementReadRole_Rbac_RoleManagement_Role{}
+	}
+	return t.ApplicableAccountType
+}
+func (t *RbacRoleManagementReadRole_Rbac_RoleManagement_Role) GetDescription() *string {
+	if t == nil {
+		t = &RbacRoleManagementReadRole_Rbac_RoleManagement_Role{}
+	}
+	return t.Description
+}
+func (t *RbacRoleManagementReadRole_Rbac_RoleManagement_Role) GetID() string {
+	if t == nil {
+		t = &RbacRoleManagementReadRole_Rbac_RoleManagement_Role{}
+	}
+	return t.ID
+}
+func (t *RbacRoleManagementReadRole_Rbac_RoleManagement_Role) GetIsUsedOnExternalAccess() bool {
+	if t == nil {
+		t = &RbacRoleManagementReadRole_Rbac_RoleManagement_Role{}
+	}
+	return t.IsUsedOnExternalAccess
+}
+func (t *RbacRoleManagementReadRole_Rbac_RoleManagement_Role) GetName() string {
+	if t == nil {
+		t = &RbacRoleManagementReadRole_Rbac_RoleManagement_Role{}
+	}
+	return t.Name
+}
+func (t *RbacRoleManagementReadRole_Rbac_RoleManagement_Role) GetPermission() []*RbacRoleManagementReadRole_Rbac_RoleManagement_Role_Permission {
+	if t == nil {
+		t = &RbacRoleManagementReadRole_Rbac_RoleManagement_Role{}
+	}
+	return t.Permission
+}
+func (t *RbacRoleManagementReadRole_Rbac_RoleManagement_Role) GetPredefined() bool {
+	if t == nil {
+		t = &RbacRoleManagementReadRole_Rbac_RoleManagement_Role{}
+	}
+	return t.Predefined
+}
+
+type RbacRoleManagementReadRole_Rbac_RoleManagement struct {
+	Typename *string                                              "json:\"__typename,omitempty\" graphql:\"__typename\""
+	Role     *RbacRoleManagementReadRole_Rbac_RoleManagement_Role "json:\"role,omitempty\" graphql:\"role\""
+}
+
+func (t *RbacRoleManagementReadRole_Rbac_RoleManagement) GetTypename() *string {
+	if t == nil {
+		t = &RbacRoleManagementReadRole_Rbac_RoleManagement{}
+	}
+	return t.Typename
+}
+func (t *RbacRoleManagementReadRole_Rbac_RoleManagement) GetRole() *RbacRoleManagementReadRole_Rbac_RoleManagement_Role {
+	if t == nil {
+		t = &RbacRoleManagementReadRole_Rbac_RoleManagement{}
+	}
+	return t.Role
+}
+
+type RbacRoleManagementReadRole_Rbac struct {
+	Typename       *string                                        "json:\"__typename,omitempty\" graphql:\"__typename\""
+	RoleManagement RbacRoleManagementReadRole_Rbac_RoleManagement "json:\"roleManagement\" graphql:\"roleManagement\""
+}
+
+func (t *RbacRoleManagementReadRole_Rbac) GetTypename() *string {
+	if t == nil {
+		t = &RbacRoleManagementReadRole_Rbac{}
+	}
+	return t.Typename
+}
+func (t *RbacRoleManagementReadRole_Rbac) GetRoleManagement() *RbacRoleManagementReadRole_Rbac_RoleManagement {
+	if t == nil {
+		t = &RbacRoleManagementReadRole_Rbac{}
 	}
 	return &t.RoleManagement
 }
@@ -370802,6 +371061,17 @@ func (t *RbacRbacAssignmentList) GetRbac() *RbacRbacAssignmentList_Rbac {
 	return &t.Rbac
 }
 
+type RbacRoleManagementListRoles struct {
+	Rbac RbacRoleManagementListRoles_Rbac "json:\"rbac\" graphql:\"rbac\""
+}
+
+func (t *RbacRoleManagementListRoles) GetRbac() *RbacRoleManagementListRoles_Rbac {
+	if t == nil {
+		t = &RbacRoleManagementListRoles{}
+	}
+	return &t.Rbac
+}
+
 type RbacRoleManagementPermissionCatalog struct {
 	Rbac RbacRoleManagementPermissionCatalog_Rbac "json:\"rbac\" graphql:\"rbac\""
 }
@@ -370809,6 +371079,17 @@ type RbacRoleManagementPermissionCatalog struct {
 func (t *RbacRoleManagementPermissionCatalog) GetRbac() *RbacRoleManagementPermissionCatalog_Rbac {
 	if t == nil {
 		t = &RbacRoleManagementPermissionCatalog{}
+	}
+	return &t.Rbac
+}
+
+type RbacRoleManagementReadRole struct {
+	Rbac RbacRoleManagementReadRole_Rbac "json:\"rbac\" graphql:\"rbac\""
+}
+
+func (t *RbacRoleManagementReadRole) GetRbac() *RbacRoleManagementReadRole_Rbac {
+	if t == nil {
+		t = &RbacRoleManagementReadRole{}
 	}
 	return &t.Rbac
 }
@@ -440821,6 +441102,7 @@ const RbacRbacAssignmentListDocument = `query rbacRbacAssignmentList ($accountID
 				description
 			}
 			paging {
+				__typename
 				total
 			}
 		}
@@ -440836,6 +441118,52 @@ func (c *Client) RbacRbacAssignmentList(ctx context.Context, accountID string, i
 
 	var res RbacRbacAssignmentList
 	if err := c.Client.Post(ctx, "rbacRbacAssignmentList", RbacRbacAssignmentListDocument, &res, vars, interceptors...); err != nil {
+		if c.Client.ParseDataWhenErrors {
+			return &res, err
+		}
+
+		return nil, err
+	}
+
+	return &res, nil
+}
+
+const RbacRoleManagementListRolesDocument = `query rbacRoleManagementListRoles ($accountId: ID!, $roleManagementRoleListInput: RoleManagementRoleListInput!) {
+	rbac(accountId: $accountId) {
+		__typename
+		roleManagement {
+			__typename
+			roleList(input: $roleManagementRoleListInput) {
+				items {
+					id
+					name
+					description
+					predefined
+					applicableAccountType
+					isUsedOnExternalAccess
+					permission {
+						resource
+						action
+					}
+				}
+				paging {
+					__typename
+					total
+				}
+			}
+		}
+	}
+}
+`
+
+func (c *Client) RbacRoleManagementListRoles(ctx context.Context, accountID string, roleManagementRoleListInput cato_models.RoleManagementRoleListInput, interceptors ...clientv2.RequestInterceptor) (*RbacRoleManagementListRoles, error) {
+	vars := map[string]any{
+		"accountId":                   accountID,
+		"roleManagementRoleListInput": roleManagementRoleListInput,
+	}
+
+	var res RbacRoleManagementListRoles
+	if err := c.Client.Post(ctx, "rbacRoleManagementListRoles", RbacRoleManagementListRolesDocument, &res, vars, interceptors...); err != nil {
 		if c.Client.ParseDataWhenErrors {
 			return &res, err
 		}
@@ -440867,6 +441195,46 @@ func (c *Client) RbacRoleManagementPermissionCatalog(ctx context.Context, accoun
 
 	var res RbacRoleManagementPermissionCatalog
 	if err := c.Client.Post(ctx, "rbacRoleManagementPermissionCatalog", RbacRoleManagementPermissionCatalogDocument, &res, vars, interceptors...); err != nil {
+		if c.Client.ParseDataWhenErrors {
+			return &res, err
+		}
+
+		return nil, err
+	}
+
+	return &res, nil
+}
+
+const RbacRoleManagementReadRoleDocument = `query rbacRoleManagementReadRole ($accountId: ID!, $id: ID!) {
+	rbac(accountId: $accountId) {
+		__typename
+		roleManagement {
+			__typename
+			role(id: $id) {
+				id
+				name
+				description
+				predefined
+				applicableAccountType
+				isUsedOnExternalAccess
+				permission {
+					resource
+					action
+				}
+			}
+		}
+	}
+}
+`
+
+func (c *Client) RbacRoleManagementReadRole(ctx context.Context, accountID string, id string, interceptors ...clientv2.RequestInterceptor) (*RbacRoleManagementReadRole, error) {
+	vars := map[string]any{
+		"accountId": accountID,
+		"id":        id,
+	}
+
+	var res RbacRoleManagementReadRole
+	if err := c.Client.Post(ctx, "rbacRoleManagementReadRole", RbacRoleManagementReadRoleDocument, &res, vars, interceptors...); err != nil {
 		if c.Client.ParseDataWhenErrors {
 			return &res, err
 		}
@@ -445769,7 +446137,9 @@ var DocumentOperationNames = map[string]string{
 	RateLimitDocument:                                            "rateLimit",
 	RateLimitEstimateDocument:                                    "rateLimitEstimate",
 	RbacRbacAssignmentListDocument:                               "rbacRbacAssignmentList",
+	RbacRoleManagementListRolesDocument:                          "rbacRoleManagementListRoles",
 	RbacRoleManagementPermissionCatalogDocument:                  "rbacRoleManagementPermissionCatalog",
+	RbacRoleManagementReadRoleDocument:                           "rbacRoleManagementReadRole",
 	RbacRoleManagementRoleDocument:                               "rbacRoleManagementRole",
 	RbacRoleManagementRoleListDocument:                           "rbacRoleManagementRoleList",
 	SandboxDocument:                                              "sandbox",

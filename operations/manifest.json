@@ -10373,7 +10373,31 @@
         "accountID",
         "input"
       ],
-      "document_sha256": "8255bcb3374d33fabdc5e4d3a3e1ecef9bf11043e98ffd30f7d73c36210f2c2e",
+      "document_sha256": "608b81e6aec0e54e4bb016c4768cd4f45bfbf7c4f958681db8756789b0a50704",
+      "status": "sdk_only"
+    },
+    {
+      "key": "query.rbac.roleManagement.readRole",
+      "kind": "query",
+      "sdk_file": "sources/query.rbac.roleManagement.readRole.gql",
+      "sdk_name": "rbacRoleManagementReadRole",
+      "variables": [
+        "accountId",
+        "id"
+      ],
+      "document_sha256": "c58ab14d7abd98dd345b50224b0370b07315ae877ea924af166e34e4122fc5da",
+      "status": "sdk_only"
+    },
+    {
+      "key": "query.rbac.roleManagement.listRoles",
+      "kind": "query",
+      "sdk_file": "sources/query.rbac.roleManagement.listRoles.gql",
+      "sdk_name": "rbacRoleManagementListRoles",
+      "variables": [
+        "accountId",
+        "roleManagementRoleListInput"
+      ],
+      "document_sha256": "42e6294dbc24ba763fcc4fed636e7461f63d3d04dce7438baaad00e7940bc2f7",
       "status": "sdk_only"
     }
   ]
