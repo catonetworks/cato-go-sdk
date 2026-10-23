@@ -11,7 +11,7 @@ import (
 )
 
 func TestAssignmentGeneratedRequests(t *testing.T) {
-	for _, operation := range []string{"create", "update", "list", "remove", "error"} {
+	for _, operation := range []string{"create", "update", "update_false", "list", "remove", "error"} {
 		t.Run(operation, func(t *testing.T) {
 			server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 				if r.Header.Get("x-api-key") != "fixture-key" || r.Header.Get("x-account-id") != "123" {
@@ -30,7 +30,7 @@ func TestAssignmentGeneratedRequests(t *testing.T) {
 					t.Errorf("account override lost: %q", body.Variables.Account)
 				}
 				input := body.Variables.Input
-				if _, ok := input["allowViewingUnobfuscatedData"]; ok {
+				if _, ok := input["allowViewingUnobfuscatedData"]; ok && operation != "update_false" {
 					t.Error("unset preference must be omitted")
 				}
 				w.Header().Set("Content-Type", "application/json")
@@ -40,7 +40,10 @@ func TestAssignmentGeneratedRequests(t *testing.T) {
 						t.Error("empty arrays lost")
 					}
 					_, _ = w.Write([]byte(`{"data":{"rbac":{"addRbacAssignments":{"items":[{"id":"a"}]}}}}`))
-				case "update":
+				case "update", "update_false":
+					if operation == "update_false" && string(input["allowViewingUnobfuscatedData"]) != "false" {
+						t.Error("explicit false preference must be forwarded")
+					}
 					if _, ok := input["users"]; ok {
 						t.Error("create-only users sent on update")
 					}
@@ -79,8 +82,13 @@ func TestAssignmentGeneratedRequests(t *testing.T) {
 				if err != nil || result.GetRbac().GetAddRbacAssignments().GetItems()[0].GetID() != "a" {
 					t.Fatalf("create: %v", err)
 				}
-			case "update":
-				result, err := c.RbacUpdateRbacAssignment(ctx, "456", m.UpdateRbacAssignmentInput{RbacAssignmentID: "a", Roles: []*m.RBACRoleRefInput{}, AllowedEntities: []*m.AuthorizedEntityRefInput{}, AllowAllSites: m.RBACActionNone, AllowAllUsers: m.RBACActionNone})
+			case "update", "update_false":
+				var preference *bool
+				if operation == "update_false" {
+					v := false
+					preference = &v
+				}
+				result, err := c.RbacUpdateRbacAssignment(ctx, "456", m.UpdateRbacAssignmentInput{AllowViewingUnobfuscatedData: preference, RbacAssignmentID: "a", Roles: []*m.RBACRoleRefInput{}, AllowedEntities: []*m.AuthorizedEntityRefInput{}, AllowAllSites: m.RBACActionNone, AllowAllUsers: m.RBACActionNone})
 				if err != nil || result.GetRbac().GetUpdateRbacAssignment().GetAssignment().GetID() != "a" {
 					t.Fatalf("update: %v", err)
 				}
