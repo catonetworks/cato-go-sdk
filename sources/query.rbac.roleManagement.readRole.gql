@@ -1,0 +1,20 @@
+query rbacRoleManagementReadRole ($accountId: ID!, $id: ID!) {
+	rbac(accountId: $accountId) {
+        __typename
+		roleManagement {
+            __typename
+			role(id: $id) {
+				id
+				name
+				description
+				predefined
+				applicableAccountType
+				isUsedOnExternalAccess
+				permission {
+					resource
+					action
+				}
+			}
+		}
+	}
+}
