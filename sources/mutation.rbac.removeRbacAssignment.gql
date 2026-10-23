@@ -1,0 +1,5 @@
+mutation rbacRemoveRbacAssignment($accountID: ID!, $input: RemoveRbacAssignmentInput!) {
+  rbac(accountId: $accountID) {
+    removeRbacAssignment(input: $input) { rbacAssignmentId }
+  }
+}

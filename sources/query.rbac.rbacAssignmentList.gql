@@ -1,0 +1,5 @@
+query rbacRbacAssignmentList($accountID: ID!, $input: RBACAssignmentListInput!) {
+  rbac(accountId: $accountID) {
+    rbacAssignmentList(input: $input) { items { id account { id } user { id } group { id } assignmentType roles { id } allowedEntities { id type action } allowAllSites allowAllUsers dataObfuscationStatus description } paging { total } }
+  }
+}

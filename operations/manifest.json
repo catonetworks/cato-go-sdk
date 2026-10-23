@@ -10327,6 +10327,54 @@
       "cli_name": "ztnaAppConnectorZtnaAppConnectorList",
       "cli_sha256": "9bbeca109776883d212c35a430077d690481dbc0c48a4b555f4b920acc749ce4",
       "status": "imported"
+    },
+    {
+      "key": "mutation.rbac.addRbacAssignments",
+      "kind": "mutation",
+      "sdk_file": "sources/mutation.rbac.addRbacAssignments.gql",
+      "sdk_name": "rbacAddRbacAssignments",
+      "variables": [
+        "accountID",
+        "input"
+      ],
+      "document_sha256": "3e41b105c80c5c9e91ab07af2985f4d82ea8b996dc4f9d610b7f5e3aa8dec53b",
+      "status": "sdk_only"
+    },
+    {
+      "key": "mutation.rbac.removeRbacAssignment",
+      "kind": "mutation",
+      "sdk_file": "sources/mutation.rbac.removeRbacAssignment.gql",
+      "sdk_name": "rbacRemoveRbacAssignment",
+      "variables": [
+        "accountID",
+        "input"
+      ],
+      "document_sha256": "da27808d7d4a533f14d3ffaa9e11048ffac0ca8a068c4bdac0a7433f1d04a3ca",
+      "status": "sdk_only"
+    },
+    {
+      "key": "mutation.rbac.updateRbacAssignment",
+      "kind": "mutation",
+      "sdk_file": "sources/mutation.rbac.updateRbacAssignment.gql",
+      "sdk_name": "rbacUpdateRbacAssignment",
+      "variables": [
+        "accountID",
+        "input"
+      ],
+      "document_sha256": "388c248b84c09189bbac5f2bc80b01dfc13e0a2d5b6fd1a45bd4b5f5fb1ec49e",
+      "status": "sdk_only"
+    },
+    {
+      "key": "query.rbac.rbacAssignmentList",
+      "kind": "query",
+      "sdk_file": "sources/query.rbac.rbacAssignmentList.gql",
+      "sdk_name": "rbacRbacAssignmentList",
+      "variables": [
+        "accountID",
+        "input"
+      ],
+      "document_sha256": "8255bcb3374d33fabdc5e4d3a3e1ecef9bf11043e98ffd30f7d73c36210f2c2e",
+      "status": "sdk_only"
     }
   ]
 }

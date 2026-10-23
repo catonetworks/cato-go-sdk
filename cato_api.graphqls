@@ -5871,10 +5871,14 @@ type QueryParameter {
 }
 
 type RBACMutations {
+  addRbacAssignments(input: AddRbacAssignmentsInput!): AddRbacAssignmentsPayload! @beta
+  updateRbacAssignment(input: UpdateRbacAssignmentInput!): UpdateRbacAssignmentPayload! @beta
+  removeRbacAssignment(input: RemoveRbacAssignmentInput!): RemoveRbacAssignmentPayload! @beta
   roleManagement: RoleManagementMutations! @beta
 }
 
 type RBACQueries {
+  rbacAssignmentList(input: RBACAssignmentListInput!): RBACAssignmentListPayload @beta
   roleManagement: RoleManagementQueries! @beta
 }
 
@@ -20253,3 +20257,159 @@ union DeviceNetworkRef = FloatingSubnetRef | GlobalIpRangeRef | GlobalRangeRef |
 
 union Value = DateValue | Entity | StringValue
 
+
+
+input AddRbacAssignmentsInput {
+    users: [UserRefInput]! = []
+    groups: [UsersGroupRefInput]! = []
+    roles: [RBACRoleRefInput!]!
+    allowedEntities: [AuthorizedEntityRefInput]!
+    allowAllSites: RBACAction! = NONE
+    allowAllUsers: RBACAction! = NONE
+    allowViewingUnobfuscatedData: Boolean
+    description: String
+}
+
+type AddRbacAssignmentsPayload {
+    "List of RBAC Assignments"
+    items: [RBACAssignment!]!
+    "Pagination information"
+    paging: PageInfo!
+}
+
+enum AdminDataObfuscationStatus {
+    OBFUSCATED,
+    UNOBFUSCATED,
+    DISABLED
+}
+
+type AllowedEntityType {
+    id: ID!
+    type: AuthorizedEntityType!
+    name: String
+}
+
+type AuthorizedEntity {
+    id: ID!
+    type: AuthorizedEntityType!
+    name: String
+    action: RBACAction!
+}
+
+input AuthorizedEntityRefInput {
+    type: AuthorizedEntityType!
+    ref: ObjectRefInput!
+    action: RBACAction!
+}
+
+enum AuthorizedEntityType {
+    SITE,
+    USERSGROUP,
+    GROUP,
+    SYSTEMGROUP,
+    WAN_FIREWALL_POLICY,
+    INTERNET_FIREWALL_POLICY,
+}
+
+type AuthorizedEntityV2 {
+    isEditable: Boolean!
+    entity: AllowedEntityType
+}
+
+input ObjectRefInput{
+    input: String!
+    by: ObjectRefBy! = ID # default ref by id
+}
+
+type RBACAssignment {
+    id: ID!
+    account: AccountRef!
+    user: UserRef
+    admin: AdminRef
+    group: UsersGroupRef
+    assignmentType: RBACAssignmentType!
+    roles: [RBACRole!]!
+    allowedEntities: [AuthorizedEntity!]!
+    allowedEntitiesV2: [AuthorizedEntityV2!]!
+    allowAllSites: RBACAction!
+    allowAllUsers: RBACAction!
+    dataObfuscationStatus: AdminDataObfuscationStatus!
+    description: String
+    creationDate: DateTime! # todo - remove
+    lastModifiedDate: DateTime! # todo - AuditingMetadata?
+}
+
+input RBACAssignmentFilterInput {
+    "Search filter"
+    search: StringFilterInput
+    "Creation date filter"
+    creationDate: DateTimeFilterInput
+    "Last Modified date filter"
+    lastModifiedDate: DateTimeFilterInput
+    "Type filter"
+    type: RBACAssignmentTypeFilterInput
+}
+
+input RBACAssignmentListInput {
+    "Query filter criteria"
+    filter: RBACAssignmentFilterInput
+    "Query pagination criteria"
+    paging: PagingInput! = {
+        limit: 100
+    }
+    "Query sorting criteria"
+    sort: RBACAssignmentSortInput! = {
+        lastModifiedDate: {
+            direction: ASC
+        }
+    }
+}
+
+type RBACAssignmentListPayload {
+    "List of RBAC Assignments"
+    items: [RBACAssignment!]!
+    "Pagination information"
+    paging: PageInfo!
+}
+
+input RBACAssignmentSortInput {
+    type: SortOrderInput
+    name: SortOrderInput
+    creationDate: SortOrderInput
+    lastModifiedDate: SortOrderInput
+}
+
+enum RBACAssignmentType {
+    ADMIN,
+    ADMIN_USER,
+    GROUP
+}
+
+input RBACAssignmentTypeFilterInput {
+    eq: RBACAssignmentType
+    in: [RBACAssignmentType!]
+    neq: RBACAssignmentType
+    nin: [RBACAssignmentType!]
+}
+
+input RemoveRbacAssignmentInput {
+    rbacAssignmentId: ID!
+}
+
+type RemoveRbacAssignmentPayload {
+    rbacAssignmentId: ID!
+}
+
+input UpdateRbacAssignmentInput {
+    rbacAssignmentId: ID!
+    roles: [RBACRoleRefInput!]!
+    allowedEntities: [AuthorizedEntityRefInput]!
+    allowAllSites: RBACAction! = NONE
+    allowAllUsers: RBACAction! = NONE
+    allowViewingUnobfuscatedData: Boolean
+    description: String
+}
+
+type UpdateRbacAssignmentPayload {
+    assignment: RBACAssignment!
+}

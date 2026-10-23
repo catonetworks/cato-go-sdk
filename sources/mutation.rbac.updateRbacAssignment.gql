@@ -1,0 +1,5 @@
+mutation rbacUpdateRbacAssignment($accountID: ID!, $input: UpdateRbacAssignmentInput!) {
+  rbac(accountId: $accountID) {
+    updateRbacAssignment(input: $input) { assignment { id account { id } user { id } group { id } assignmentType roles { id } allowedEntities { id type action } allowAllSites allowAllUsers dataObfuscationStatus description } }
+  }
+}

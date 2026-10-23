@@ -800,6 +800,24 @@ type AddPartnerAccessRequestPayload struct {
 	Invitation []*ExternalAccessRequest `json:"invitation"`
 }
 
+type AddRbacAssignmentsInput struct {
+	Users                        []*UserRefInput             `json:"users"`
+	Groups                       []*UsersGroupRefInput       `json:"groups"`
+	Roles                        []*RBACRoleRefInput         `json:"roles"`
+	AllowedEntities              []*AuthorizedEntityRefInput `json:"allowedEntities"`
+	AllowAllSites                RBACAction                  `json:"allowAllSites"`
+	AllowAllUsers                RBACAction                  `json:"allowAllUsers"`
+	AllowViewingUnobfuscatedData *bool                       `json:"allowViewingUnobfuscatedData,omitempty"`
+	Description                  *string                     `json:"description,omitempty"`
+}
+
+type AddRbacAssignmentsPayload struct {
+	// List of RBAC Assignments
+	Items []*RBACAssignment `json:"items"`
+	// Pagination information
+	Paging *PageInfo `json:"paging"`
+}
+
 type AddSecondaryAWSVSocketInput struct {
 	EniIPAddress string        `json:"eniIpAddress"`
 	EniIPSubnet  string        `json:"eniIpSubnet"`
@@ -1319,6 +1337,12 @@ func (this AllocatedIPRef) GetName() string { return this.Name }
 type AllocatedIPRefInput struct {
 	By    ObjectRefBy `json:"by"`
 	Input string      `json:"input"`
+}
+
+type AllowedEntityType struct {
+	ID   string               `json:"id"`
+	Type AuthorizedEntityType `json:"type"`
+	Name *string              `json:"name,omitempty"`
 }
 
 type AllowlistRuleRef struct {
@@ -3029,6 +3053,24 @@ type AuditingMetadataSortInput struct {
 type AuthenticationInfo struct {
 	AuthMethod UserAuthMethod `json:"authMethod"`
 	AuthStatus UserAuthStatus `json:"authStatus"`
+}
+
+type AuthorizedEntity struct {
+	ID     string               `json:"id"`
+	Type   AuthorizedEntityType `json:"type"`
+	Name   *string              `json:"name,omitempty"`
+	Action RBACAction           `json:"action"`
+}
+
+type AuthorizedEntityRefInput struct {
+	Type   AuthorizedEntityType `json:"type"`
+	Ref    *ObjectRefInput      `json:"ref"`
+	Action RBACAction           `json:"action"`
+}
+
+type AuthorizedEntityV2 struct {
+	IsEditable bool               `json:"isEditable"`
+	Entity     *AllowedEntityType `json:"entity,omitempty"`
 }
 
 // Input parameters for querying available versions.
@@ -9972,6 +10014,11 @@ type ObjectQueries struct {
 	GlobalIPRangeList *GlobalIPRangeListPayload `json:"globalIpRangeList,omitempty"`
 }
 
+type ObjectRefInput struct {
+	Input string      `json:"input"`
+	By    ObjectRefBy `json:"by"`
+}
+
 type OrderTypeFilterInput struct {
 	Eq *OrderType  `json:"eq,omitempty"`
 	In []OrderType `json:"in,omitempty"`
@@ -11970,12 +12017,75 @@ type QueryParameter struct {
 	Values   []string `json:"values"`
 }
 
+type RBACAssignment struct {
+	ID                    string                     `json:"id"`
+	Account               *AccountRef                `json:"account"`
+	User                  *UserRef                   `json:"user,omitempty"`
+	Admin                 *AdminRef                  `json:"admin,omitempty"`
+	Group                 *UsersGroupRef             `json:"group,omitempty"`
+	AssignmentType        RBACAssignmentType         `json:"assignmentType"`
+	Roles                 []*RBACRole                `json:"roles"`
+	AllowedEntities       []*AuthorizedEntity        `json:"allowedEntities"`
+	AllowedEntitiesV2     []*AuthorizedEntityV2      `json:"allowedEntitiesV2"`
+	AllowAllSites         RBACAction                 `json:"allowAllSites"`
+	AllowAllUsers         RBACAction                 `json:"allowAllUsers"`
+	DataObfuscationStatus AdminDataObfuscationStatus `json:"dataObfuscationStatus"`
+	Description           *string                    `json:"description,omitempty"`
+	CreationDate          string                     `json:"creationDate"`
+	LastModifiedDate      string                     `json:"lastModifiedDate"`
+}
+
+type RBACAssignmentFilterInput struct {
+	// Search filter
+	Search *StringFilterInput `json:"search,omitempty"`
+	// Creation date filter
+	CreationDate *DateTimeFilterInput `json:"creationDate,omitempty"`
+	// Last Modified date filter
+	LastModifiedDate *DateTimeFilterInput `json:"lastModifiedDate,omitempty"`
+	// Type filter
+	Type *RBACAssignmentTypeFilterInput `json:"type,omitempty"`
+}
+
+type RBACAssignmentListInput struct {
+	// Query filter criteria
+	Filter *RBACAssignmentFilterInput `json:"filter,omitempty"`
+	// Query pagination criteria
+	Paging *PagingInput `json:"paging"`
+	// Query sorting criteria
+	Sort *RBACAssignmentSortInput `json:"sort"`
+}
+
+type RBACAssignmentListPayload struct {
+	// List of RBAC Assignments
+	Items []*RBACAssignment `json:"items"`
+	// Pagination information
+	Paging *PageInfo `json:"paging"`
+}
+
+type RBACAssignmentSortInput struct {
+	Type             *SortOrderInput `json:"type,omitempty"`
+	Name             *SortOrderInput `json:"name,omitempty"`
+	CreationDate     *SortOrderInput `json:"creationDate,omitempty"`
+	LastModifiedDate *SortOrderInput `json:"lastModifiedDate,omitempty"`
+}
+
+type RBACAssignmentTypeFilterInput struct {
+	Eq  *RBACAssignmentType  `json:"eq,omitempty"`
+	In  []RBACAssignmentType `json:"in,omitempty"`
+	Neq *RBACAssignmentType  `json:"neq,omitempty"`
+	Nin []RBACAssignmentType `json:"nin,omitempty"`
+}
+
 type RBACMutations struct {
-	RoleManagement *RoleManagementMutations `json:"roleManagement"`
+	AddRbacAssignments   *AddRbacAssignmentsPayload   `json:"addRbacAssignments"`
+	UpdateRbacAssignment *UpdateRbacAssignmentPayload `json:"updateRbacAssignment"`
+	RemoveRbacAssignment *RemoveRbacAssignmentPayload `json:"removeRbacAssignment"`
+	RoleManagement       *RoleManagementMutations     `json:"roleManagement"`
 }
 
 type RBACQueries struct {
-	RoleManagement *RoleManagementQueries `json:"roleManagement"`
+	RbacAssignmentList *RBACAssignmentListPayload `json:"rbacAssignmentList,omitempty"`
+	RoleManagement     *RoleManagementQueries     `json:"roleManagement"`
 }
 
 type RBACRole struct {
@@ -12338,6 +12448,14 @@ type RemoveLicenseFromManagedAccountPayload struct {
 
 type RemoveNetworkRangePayload struct {
 	NetworkRangeID string `json:"networkRangeId"`
+}
+
+type RemoveRbacAssignmentInput struct {
+	RbacAssignmentID string `json:"rbacAssignmentId"`
+}
+
+type RemoveRbacAssignmentPayload struct {
+	RbacAssignmentID string `json:"rbacAssignmentId"`
 }
 
 type RemoveSecondaryAWSVSocketPayload struct {
@@ -16984,6 +17102,20 @@ type UpdatePrivateApplicationPayload struct {
 	Application *PrivateApplication `json:"application"`
 }
 
+type UpdateRbacAssignmentInput struct {
+	RbacAssignmentID             string                      `json:"rbacAssignmentId"`
+	Roles                        []*RBACRoleRefInput         `json:"roles"`
+	AllowedEntities              []*AuthorizedEntityRefInput `json:"allowedEntities"`
+	AllowAllSites                RBACAction                  `json:"allowAllSites"`
+	AllowAllUsers                RBACAction                  `json:"allowAllUsers"`
+	AllowViewingUnobfuscatedData *bool                       `json:"allowViewingUnobfuscatedData,omitempty"`
+	Description                  *string                     `json:"description,omitempty"`
+}
+
+type UpdateRbacAssignmentPayload struct {
+	Assignment *RBACAssignment `json:"assignment"`
+}
+
 type UpdateSecondaryAWSVSocketInput struct {
 	ID           string  `json:"id"`
 	IPAddress    *string `json:"ipAddress,omitempty"`
@@ -19965,6 +20097,60 @@ func (e AddressValidationStatus) MarshalJSON() ([]byte, error) {
 	return buf.Bytes(), nil
 }
 
+type AdminDataObfuscationStatus string
+
+const (
+	AdminDataObfuscationStatusObfuscated   AdminDataObfuscationStatus = "OBFUSCATED"
+	AdminDataObfuscationStatusUnobfuscated AdminDataObfuscationStatus = "UNOBFUSCATED"
+	AdminDataObfuscationStatusDisabled     AdminDataObfuscationStatus = "DISABLED"
+)
+
+var AllAdminDataObfuscationStatus = []AdminDataObfuscationStatus{
+	AdminDataObfuscationStatusObfuscated,
+	AdminDataObfuscationStatusUnobfuscated,
+	AdminDataObfuscationStatusDisabled,
+}
+
+func (e AdminDataObfuscationStatus) IsValid() bool {
+	switch e {
+	case AdminDataObfuscationStatusObfuscated, AdminDataObfuscationStatusUnobfuscated, AdminDataObfuscationStatusDisabled:
+		return true
+	}
+	return false
+}
+
+func (e AdminDataObfuscationStatus) String() string {
+	return string(e)
+}
+
+func (e *AdminDataObfuscationStatus) UnmarshalGQL(v any) error {
+	str, ok := v.(string)
+	if !ok {
+		return fmt.Errorf("enums must be strings")
+	}
+
+	*e = AdminDataObfuscationStatus(str)
+	return nil
+}
+
+func (e AdminDataObfuscationStatus) MarshalGQL(w io.Writer) {
+	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+func (e *AdminDataObfuscationStatus) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e AdminDataObfuscationStatus) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
+}
+
 type AdminType string
 
 const (
@@ -21940,6 +22126,66 @@ func (e *AuthType) UnmarshalJSON(b []byte) error {
 }
 
 func (e AuthType) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
+}
+
+type AuthorizedEntityType string
+
+const (
+	AuthorizedEntityTypeSite                   AuthorizedEntityType = "SITE"
+	AuthorizedEntityTypeUsersgroup             AuthorizedEntityType = "USERSGROUP"
+	AuthorizedEntityTypeGroup                  AuthorizedEntityType = "GROUP"
+	AuthorizedEntityTypeSystemgroup            AuthorizedEntityType = "SYSTEMGROUP"
+	AuthorizedEntityTypeWanFirewallPolicy      AuthorizedEntityType = "WAN_FIREWALL_POLICY"
+	AuthorizedEntityTypeInternetFirewallPolicy AuthorizedEntityType = "INTERNET_FIREWALL_POLICY"
+)
+
+var AllAuthorizedEntityType = []AuthorizedEntityType{
+	AuthorizedEntityTypeSite,
+	AuthorizedEntityTypeUsersgroup,
+	AuthorizedEntityTypeGroup,
+	AuthorizedEntityTypeSystemgroup,
+	AuthorizedEntityTypeWanFirewallPolicy,
+	AuthorizedEntityTypeInternetFirewallPolicy,
+}
+
+func (e AuthorizedEntityType) IsValid() bool {
+	switch e {
+	case AuthorizedEntityTypeSite, AuthorizedEntityTypeUsersgroup, AuthorizedEntityTypeGroup, AuthorizedEntityTypeSystemgroup, AuthorizedEntityTypeWanFirewallPolicy, AuthorizedEntityTypeInternetFirewallPolicy:
+		return true
+	}
+	return false
+}
+
+func (e AuthorizedEntityType) String() string {
+	return string(e)
+}
+
+func (e *AuthorizedEntityType) UnmarshalGQL(v any) error {
+	str, ok := v.(string)
+	if !ok {
+		return fmt.Errorf("enums must be strings")
+	}
+
+	*e = AuthorizedEntityType(str)
+	return nil
+}
+
+func (e AuthorizedEntityType) MarshalGQL(w io.Writer) {
+	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+func (e *AuthorizedEntityType) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e AuthorizedEntityType) MarshalJSON() ([]byte, error) {
 	var buf bytes.Buffer
 	e.MarshalGQL(&buf)
 	return buf.Bytes(), nil
@@ -31023,6 +31269,60 @@ func (e *RBACAction) UnmarshalJSON(b []byte) error {
 }
 
 func (e RBACAction) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
+}
+
+type RBACAssignmentType string
+
+const (
+	RBACAssignmentTypeAdmin     RBACAssignmentType = "ADMIN"
+	RBACAssignmentTypeAdminUser RBACAssignmentType = "ADMIN_USER"
+	RBACAssignmentTypeGroup     RBACAssignmentType = "GROUP"
+)
+
+var AllRBACAssignmentType = []RBACAssignmentType{
+	RBACAssignmentTypeAdmin,
+	RBACAssignmentTypeAdminUser,
+	RBACAssignmentTypeGroup,
+}
+
+func (e RBACAssignmentType) IsValid() bool {
+	switch e {
+	case RBACAssignmentTypeAdmin, RBACAssignmentTypeAdminUser, RBACAssignmentTypeGroup:
+		return true
+	}
+	return false
+}
+
+func (e RBACAssignmentType) String() string {
+	return string(e)
+}
+
+func (e *RBACAssignmentType) UnmarshalGQL(v any) error {
+	str, ok := v.(string)
+	if !ok {
+		return fmt.Errorf("enums must be strings")
+	}
+
+	*e = RBACAssignmentType(str)
+	return nil
+}
+
+func (e RBACAssignmentType) MarshalGQL(w io.Writer) {
+	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+func (e *RBACAssignmentType) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e RBACAssignmentType) MarshalJSON() ([]byte, error) {
 	var buf bytes.Buffer
 	e.MarshalGQL(&buf)
 	return buf.Bytes(), nil

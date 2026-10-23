@@ -355,9 +355,12 @@ type CatoClient interface {
 	PrivateApplicationCreatePrivateApplication(ctx context.Context, accountID string, createPrivateApplicationInput cato_models.CreatePrivateApplicationInput, interceptors ...clientv2.RequestInterceptor) (*PrivateApplicationCreatePrivateApplication, error)
 	PrivateApplicationDeletePrivateApplication(ctx context.Context, accountID string, deletePrivateApplicationInput cato_models.DeletePrivateApplicationInput, interceptors ...clientv2.RequestInterceptor) (*PrivateApplicationDeletePrivateApplication, error)
 	PrivateApplicationUpdatePrivateApplication(ctx context.Context, accountID string, updatePrivateApplicationInput cato_models.UpdatePrivateApplicationInput, interceptors ...clientv2.RequestInterceptor) (*PrivateApplicationUpdatePrivateApplication, error)
+	RbacAddRbacAssignments(ctx context.Context, accountID string, input cato_models.AddRbacAssignmentsInput, interceptors ...clientv2.RequestInterceptor) (*RbacAddRbacAssignments, error)
+	RbacRemoveRbacAssignment(ctx context.Context, accountID string, input cato_models.RemoveRbacAssignmentInput, interceptors ...clientv2.RequestInterceptor) (*RbacRemoveRbacAssignment, error)
 	RbacRoleManagementCreateRole(ctx context.Context, accountID string, roleManagementCreateRoleInput cato_models.RoleManagementCreateRoleInput, interceptors ...clientv2.RequestInterceptor) (*RbacRoleManagementCreateRole, error)
 	RbacRoleManagementDeleteRole(ctx context.Context, accountID string, roleManagementDeleteRoleInput cato_models.RoleManagementDeleteRoleInput, interceptors ...clientv2.RequestInterceptor) (*RbacRoleManagementDeleteRole, error)
 	RbacRoleManagementUpdateRole(ctx context.Context, accountID string, roleManagementUpdateRoleInput cato_models.RoleManagementUpdateRoleInput, interceptors ...clientv2.RequestInterceptor) (*RbacRoleManagementUpdateRole, error)
+	RbacUpdateRbacAssignment(ctx context.Context, accountID string, input cato_models.UpdateRbacAssignmentInput, interceptors ...clientv2.RequestInterceptor) (*RbacUpdateRbacAssignment, error)
 	SandboxDeleteReport(ctx context.Context, accountID string, deleteReportInput cato_models.DeleteReportInput, interceptors ...clientv2.RequestInterceptor) (*SandboxDeleteReport, error)
 	SandboxUploadFile(ctx context.Context, accountID string, uploadFileInput cato_models.UploadFileInput, interceptors ...clientv2.RequestInterceptor) (*SandboxUploadFile, error)
 	SiteAddBgpPeer(ctx context.Context, addBgpPeerInput cato_models.AddBgpPeerInput, accountID string, interceptors ...clientv2.RequestInterceptor) (*SiteAddBgpPeer, error)
@@ -637,6 +640,7 @@ type CatoClient interface {
 	PrivateApplicationPrivateApplicationList(ctx context.Context, accountID string, privateApplicationListInput *cato_models.PrivateApplicationListInput, interceptors ...clientv2.RequestInterceptor) (*PrivateApplicationPrivateApplicationList, error)
 	RateLimit(ctx context.Context, interceptors ...clientv2.RequestInterceptor) (*RateLimit, error)
 	RateLimitEstimate(ctx context.Context, operationName *string, query string, variables map[string]any, interceptors ...clientv2.RequestInterceptor) (*RateLimitEstimate, error)
+	RbacRbacAssignmentList(ctx context.Context, accountID string, input cato_models.RBACAssignmentListInput, interceptors ...clientv2.RequestInterceptor) (*RbacRbacAssignmentList, error)
 	RbacRoleManagementPermissionCatalog(ctx context.Context, accountID string, interceptors ...clientv2.RequestInterceptor) (*RbacRoleManagementPermissionCatalog, error)
 	RbacRoleManagementRole(ctx context.Context, accountID string, id string, interceptors ...clientv2.RequestInterceptor) (*RbacRoleManagementRole, error)
 	RbacRoleManagementRoleList(ctx context.Context, accountID string, roleManagementRoleListInput cato_models.RoleManagementRoleListInput, interceptors ...clientv2.RequestInterceptor) (*RbacRoleManagementRoleList, error)
@@ -248669,6 +248673,200 @@ func (t *PrivateApplicationUpdatePrivateApplication_PrivateApplication) GetUpdat
 	return t.UpdatePrivateApplication
 }
 
+type RbacAddRbacAssignments_Rbac_AddRbacAssignments_Items_Account struct {
+	ID string "json:\"id\" graphql:\"id\""
+}
+
+func (t *RbacAddRbacAssignments_Rbac_AddRbacAssignments_Items_Account) GetID() string {
+	if t == nil {
+		t = &RbacAddRbacAssignments_Rbac_AddRbacAssignments_Items_Account{}
+	}
+	return t.ID
+}
+
+type RbacAddRbacAssignments_Rbac_AddRbacAssignments_Items_User struct {
+	ID string "json:\"id\" graphql:\"id\""
+}
+
+func (t *RbacAddRbacAssignments_Rbac_AddRbacAssignments_Items_User) GetID() string {
+	if t == nil {
+		t = &RbacAddRbacAssignments_Rbac_AddRbacAssignments_Items_User{}
+	}
+	return t.ID
+}
+
+type RbacAddRbacAssignments_Rbac_AddRbacAssignments_Items_Group struct {
+	ID string "json:\"id\" graphql:\"id\""
+}
+
+func (t *RbacAddRbacAssignments_Rbac_AddRbacAssignments_Items_Group) GetID() string {
+	if t == nil {
+		t = &RbacAddRbacAssignments_Rbac_AddRbacAssignments_Items_Group{}
+	}
+	return t.ID
+}
+
+type RbacAddRbacAssignments_Rbac_AddRbacAssignments_Items_Roles struct {
+	ID string "json:\"id\" graphql:\"id\""
+}
+
+func (t *RbacAddRbacAssignments_Rbac_AddRbacAssignments_Items_Roles) GetID() string {
+	if t == nil {
+		t = &RbacAddRbacAssignments_Rbac_AddRbacAssignments_Items_Roles{}
+	}
+	return t.ID
+}
+
+type RbacAddRbacAssignments_Rbac_AddRbacAssignments_Items_AllowedEntities struct {
+	Action cato_models.RBACAction           "json:\"action\" graphql:\"action\""
+	ID     string                           "json:\"id\" graphql:\"id\""
+	Type   cato_models.AuthorizedEntityType "json:\"type\" graphql:\"type\""
+}
+
+func (t *RbacAddRbacAssignments_Rbac_AddRbacAssignments_Items_AllowedEntities) GetAction() *cato_models.RBACAction {
+	if t == nil {
+		t = &RbacAddRbacAssignments_Rbac_AddRbacAssignments_Items_AllowedEntities{}
+	}
+	return &t.Action
+}
+func (t *RbacAddRbacAssignments_Rbac_AddRbacAssignments_Items_AllowedEntities) GetID() string {
+	if t == nil {
+		t = &RbacAddRbacAssignments_Rbac_AddRbacAssignments_Items_AllowedEntities{}
+	}
+	return t.ID
+}
+func (t *RbacAddRbacAssignments_Rbac_AddRbacAssignments_Items_AllowedEntities) GetType() *cato_models.AuthorizedEntityType {
+	if t == nil {
+		t = &RbacAddRbacAssignments_Rbac_AddRbacAssignments_Items_AllowedEntities{}
+	}
+	return &t.Type
+}
+
+type RbacAddRbacAssignments_Rbac_AddRbacAssignments_Items struct {
+	Account               RbacAddRbacAssignments_Rbac_AddRbacAssignments_Items_Account            "json:\"account\" graphql:\"account\""
+	AllowAllSites         cato_models.RBACAction                                                  "json:\"allowAllSites\" graphql:\"allowAllSites\""
+	AllowAllUsers         cato_models.RBACAction                                                  "json:\"allowAllUsers\" graphql:\"allowAllUsers\""
+	AllowedEntities       []*RbacAddRbacAssignments_Rbac_AddRbacAssignments_Items_AllowedEntities "json:\"allowedEntities\" graphql:\"allowedEntities\""
+	AssignmentType        cato_models.RBACAssignmentType                                          "json:\"assignmentType\" graphql:\"assignmentType\""
+	DataObfuscationStatus cato_models.AdminDataObfuscationStatus                                  "json:\"dataObfuscationStatus\" graphql:\"dataObfuscationStatus\""
+	Description           *string                                                                 "json:\"description,omitempty\" graphql:\"description\""
+	Group                 *RbacAddRbacAssignments_Rbac_AddRbacAssignments_Items_Group             "json:\"group,omitempty\" graphql:\"group\""
+	ID                    string                                                                  "json:\"id\" graphql:\"id\""
+	Roles                 []*RbacAddRbacAssignments_Rbac_AddRbacAssignments_Items_Roles           "json:\"roles\" graphql:\"roles\""
+	User                  *RbacAddRbacAssignments_Rbac_AddRbacAssignments_Items_User              "json:\"user,omitempty\" graphql:\"user\""
+}
+
+func (t *RbacAddRbacAssignments_Rbac_AddRbacAssignments_Items) GetAccount() *RbacAddRbacAssignments_Rbac_AddRbacAssignments_Items_Account {
+	if t == nil {
+		t = &RbacAddRbacAssignments_Rbac_AddRbacAssignments_Items{}
+	}
+	return &t.Account
+}
+func (t *RbacAddRbacAssignments_Rbac_AddRbacAssignments_Items) GetAllowAllSites() *cato_models.RBACAction {
+	if t == nil {
+		t = &RbacAddRbacAssignments_Rbac_AddRbacAssignments_Items{}
+	}
+	return &t.AllowAllSites
+}
+func (t *RbacAddRbacAssignments_Rbac_AddRbacAssignments_Items) GetAllowAllUsers() *cato_models.RBACAction {
+	if t == nil {
+		t = &RbacAddRbacAssignments_Rbac_AddRbacAssignments_Items{}
+	}
+	return &t.AllowAllUsers
+}
+func (t *RbacAddRbacAssignments_Rbac_AddRbacAssignments_Items) GetAllowedEntities() []*RbacAddRbacAssignments_Rbac_AddRbacAssignments_Items_AllowedEntities {
+	if t == nil {
+		t = &RbacAddRbacAssignments_Rbac_AddRbacAssignments_Items{}
+	}
+	return t.AllowedEntities
+}
+func (t *RbacAddRbacAssignments_Rbac_AddRbacAssignments_Items) GetAssignmentType() *cato_models.RBACAssignmentType {
+	if t == nil {
+		t = &RbacAddRbacAssignments_Rbac_AddRbacAssignments_Items{}
+	}
+	return &t.AssignmentType
+}
+func (t *RbacAddRbacAssignments_Rbac_AddRbacAssignments_Items) GetDataObfuscationStatus() *cato_models.AdminDataObfuscationStatus {
+	if t == nil {
+		t = &RbacAddRbacAssignments_Rbac_AddRbacAssignments_Items{}
+	}
+	return &t.DataObfuscationStatus
+}
+func (t *RbacAddRbacAssignments_Rbac_AddRbacAssignments_Items) GetDescription() *string {
+	if t == nil {
+		t = &RbacAddRbacAssignments_Rbac_AddRbacAssignments_Items{}
+	}
+	return t.Description
+}
+func (t *RbacAddRbacAssignments_Rbac_AddRbacAssignments_Items) GetGroup() *RbacAddRbacAssignments_Rbac_AddRbacAssignments_Items_Group {
+	if t == nil {
+		t = &RbacAddRbacAssignments_Rbac_AddRbacAssignments_Items{}
+	}
+	return t.Group
+}
+func (t *RbacAddRbacAssignments_Rbac_AddRbacAssignments_Items) GetID() string {
+	if t == nil {
+		t = &RbacAddRbacAssignments_Rbac_AddRbacAssignments_Items{}
+	}
+	return t.ID
+}
+func (t *RbacAddRbacAssignments_Rbac_AddRbacAssignments_Items) GetRoles() []*RbacAddRbacAssignments_Rbac_AddRbacAssignments_Items_Roles {
+	if t == nil {
+		t = &RbacAddRbacAssignments_Rbac_AddRbacAssignments_Items{}
+	}
+	return t.Roles
+}
+func (t *RbacAddRbacAssignments_Rbac_AddRbacAssignments_Items) GetUser() *RbacAddRbacAssignments_Rbac_AddRbacAssignments_Items_User {
+	if t == nil {
+		t = &RbacAddRbacAssignments_Rbac_AddRbacAssignments_Items{}
+	}
+	return t.User
+}
+
+type RbacAddRbacAssignments_Rbac_AddRbacAssignments struct {
+	Items []*RbacAddRbacAssignments_Rbac_AddRbacAssignments_Items "json:\"items\" graphql:\"items\""
+}
+
+func (t *RbacAddRbacAssignments_Rbac_AddRbacAssignments) GetItems() []*RbacAddRbacAssignments_Rbac_AddRbacAssignments_Items {
+	if t == nil {
+		t = &RbacAddRbacAssignments_Rbac_AddRbacAssignments{}
+	}
+	return t.Items
+}
+
+type RbacAddRbacAssignments_Rbac struct {
+	AddRbacAssignments RbacAddRbacAssignments_Rbac_AddRbacAssignments "json:\"addRbacAssignments\" graphql:\"addRbacAssignments\""
+}
+
+func (t *RbacAddRbacAssignments_Rbac) GetAddRbacAssignments() *RbacAddRbacAssignments_Rbac_AddRbacAssignments {
+	if t == nil {
+		t = &RbacAddRbacAssignments_Rbac{}
+	}
+	return &t.AddRbacAssignments
+}
+
+type RbacRemoveRbacAssignment_Rbac_RemoveRbacAssignment struct {
+	RbacAssignmentID string "json:\"rbacAssignmentId\" graphql:\"rbacAssignmentId\""
+}
+
+func (t *RbacRemoveRbacAssignment_Rbac_RemoveRbacAssignment) GetRbacAssignmentID() string {
+	if t == nil {
+		t = &RbacRemoveRbacAssignment_Rbac_RemoveRbacAssignment{}
+	}
+	return t.RbacAssignmentID
+}
+
+type RbacRemoveRbacAssignment_Rbac struct {
+	RemoveRbacAssignment RbacRemoveRbacAssignment_Rbac_RemoveRbacAssignment "json:\"removeRbacAssignment\" graphql:\"removeRbacAssignment\""
+}
+
+func (t *RbacRemoveRbacAssignment_Rbac) GetRemoveRbacAssignment() *RbacRemoveRbacAssignment_Rbac_RemoveRbacAssignment {
+	if t == nil {
+		t = &RbacRemoveRbacAssignment_Rbac{}
+	}
+	return &t.RemoveRbacAssignment
+}
+
 type RbacRoleManagementCreateRole_Rbac_RoleManagement_CreateRole_Role_Permission struct {
 	Action   cato_models.RBACAction "json:\"action\" graphql:\"action\""
 	Resource string                 "json:\"resource\" graphql:\"resource\""
@@ -248908,6 +249106,178 @@ func (t *RbacRoleManagementUpdateRole_Rbac) GetRoleManagement() *RbacRoleManagem
 		t = &RbacRoleManagementUpdateRole_Rbac{}
 	}
 	return &t.RoleManagement
+}
+
+type RbacUpdateRbacAssignment_Rbac_UpdateRbacAssignment_Assignment_Account struct {
+	ID string "json:\"id\" graphql:\"id\""
+}
+
+func (t *RbacUpdateRbacAssignment_Rbac_UpdateRbacAssignment_Assignment_Account) GetID() string {
+	if t == nil {
+		t = &RbacUpdateRbacAssignment_Rbac_UpdateRbacAssignment_Assignment_Account{}
+	}
+	return t.ID
+}
+
+type RbacUpdateRbacAssignment_Rbac_UpdateRbacAssignment_Assignment_User struct {
+	ID string "json:\"id\" graphql:\"id\""
+}
+
+func (t *RbacUpdateRbacAssignment_Rbac_UpdateRbacAssignment_Assignment_User) GetID() string {
+	if t == nil {
+		t = &RbacUpdateRbacAssignment_Rbac_UpdateRbacAssignment_Assignment_User{}
+	}
+	return t.ID
+}
+
+type RbacUpdateRbacAssignment_Rbac_UpdateRbacAssignment_Assignment_Group struct {
+	ID string "json:\"id\" graphql:\"id\""
+}
+
+func (t *RbacUpdateRbacAssignment_Rbac_UpdateRbacAssignment_Assignment_Group) GetID() string {
+	if t == nil {
+		t = &RbacUpdateRbacAssignment_Rbac_UpdateRbacAssignment_Assignment_Group{}
+	}
+	return t.ID
+}
+
+type RbacUpdateRbacAssignment_Rbac_UpdateRbacAssignment_Assignment_Roles struct {
+	ID string "json:\"id\" graphql:\"id\""
+}
+
+func (t *RbacUpdateRbacAssignment_Rbac_UpdateRbacAssignment_Assignment_Roles) GetID() string {
+	if t == nil {
+		t = &RbacUpdateRbacAssignment_Rbac_UpdateRbacAssignment_Assignment_Roles{}
+	}
+	return t.ID
+}
+
+type RbacUpdateRbacAssignment_Rbac_UpdateRbacAssignment_Assignment_AllowedEntities struct {
+	Action cato_models.RBACAction           "json:\"action\" graphql:\"action\""
+	ID     string                           "json:\"id\" graphql:\"id\""
+	Type   cato_models.AuthorizedEntityType "json:\"type\" graphql:\"type\""
+}
+
+func (t *RbacUpdateRbacAssignment_Rbac_UpdateRbacAssignment_Assignment_AllowedEntities) GetAction() *cato_models.RBACAction {
+	if t == nil {
+		t = &RbacUpdateRbacAssignment_Rbac_UpdateRbacAssignment_Assignment_AllowedEntities{}
+	}
+	return &t.Action
+}
+func (t *RbacUpdateRbacAssignment_Rbac_UpdateRbacAssignment_Assignment_AllowedEntities) GetID() string {
+	if t == nil {
+		t = &RbacUpdateRbacAssignment_Rbac_UpdateRbacAssignment_Assignment_AllowedEntities{}
+	}
+	return t.ID
+}
+func (t *RbacUpdateRbacAssignment_Rbac_UpdateRbacAssignment_Assignment_AllowedEntities) GetType() *cato_models.AuthorizedEntityType {
+	if t == nil {
+		t = &RbacUpdateRbacAssignment_Rbac_UpdateRbacAssignment_Assignment_AllowedEntities{}
+	}
+	return &t.Type
+}
+
+type RbacUpdateRbacAssignment_Rbac_UpdateRbacAssignment_Assignment struct {
+	Account               RbacUpdateRbacAssignment_Rbac_UpdateRbacAssignment_Assignment_Account            "json:\"account\" graphql:\"account\""
+	AllowAllSites         cato_models.RBACAction                                                           "json:\"allowAllSites\" graphql:\"allowAllSites\""
+	AllowAllUsers         cato_models.RBACAction                                                           "json:\"allowAllUsers\" graphql:\"allowAllUsers\""
+	AllowedEntities       []*RbacUpdateRbacAssignment_Rbac_UpdateRbacAssignment_Assignment_AllowedEntities "json:\"allowedEntities\" graphql:\"allowedEntities\""
+	AssignmentType        cato_models.RBACAssignmentType                                                   "json:\"assignmentType\" graphql:\"assignmentType\""
+	DataObfuscationStatus cato_models.AdminDataObfuscationStatus                                           "json:\"dataObfuscationStatus\" graphql:\"dataObfuscationStatus\""
+	Description           *string                                                                          "json:\"description,omitempty\" graphql:\"description\""
+	Group                 *RbacUpdateRbacAssignment_Rbac_UpdateRbacAssignment_Assignment_Group             "json:\"group,omitempty\" graphql:\"group\""
+	ID                    string                                                                           "json:\"id\" graphql:\"id\""
+	Roles                 []*RbacUpdateRbacAssignment_Rbac_UpdateRbacAssignment_Assignment_Roles           "json:\"roles\" graphql:\"roles\""
+	User                  *RbacUpdateRbacAssignment_Rbac_UpdateRbacAssignment_Assignment_User              "json:\"user,omitempty\" graphql:\"user\""
+}
+
+func (t *RbacUpdateRbacAssignment_Rbac_UpdateRbacAssignment_Assignment) GetAccount() *RbacUpdateRbacAssignment_Rbac_UpdateRbacAssignment_Assignment_Account {
+	if t == nil {
+		t = &RbacUpdateRbacAssignment_Rbac_UpdateRbacAssignment_Assignment{}
+	}
+	return &t.Account
+}
+func (t *RbacUpdateRbacAssignment_Rbac_UpdateRbacAssignment_Assignment) GetAllowAllSites() *cato_models.RBACAction {
+	if t == nil {
+		t = &RbacUpdateRbacAssignment_Rbac_UpdateRbacAssignment_Assignment{}
+	}
+	return &t.AllowAllSites
+}
+func (t *RbacUpdateRbacAssignment_Rbac_UpdateRbacAssignment_Assignment) GetAllowAllUsers() *cato_models.RBACAction {
+	if t == nil {
+		t = &RbacUpdateRbacAssignment_Rbac_UpdateRbacAssignment_Assignment{}
+	}
+	return &t.AllowAllUsers
+}
+func (t *RbacUpdateRbacAssignment_Rbac_UpdateRbacAssignment_Assignment) GetAllowedEntities() []*RbacUpdateRbacAssignment_Rbac_UpdateRbacAssignment_Assignment_AllowedEntities {
+	if t == nil {
+		t = &RbacUpdateRbacAssignment_Rbac_UpdateRbacAssignment_Assignment{}
+	}
+	return t.AllowedEntities
+}
+func (t *RbacUpdateRbacAssignment_Rbac_UpdateRbacAssignment_Assignment) GetAssignmentType() *cato_models.RBACAssignmentType {
+	if t == nil {
+		t = &RbacUpdateRbacAssignment_Rbac_UpdateRbacAssignment_Assignment{}
+	}
+	return &t.AssignmentType
+}
+func (t *RbacUpdateRbacAssignment_Rbac_UpdateRbacAssignment_Assignment) GetDataObfuscationStatus() *cato_models.AdminDataObfuscationStatus {
+	if t == nil {
+		t = &RbacUpdateRbacAssignment_Rbac_UpdateRbacAssignment_Assignment{}
+	}
+	return &t.DataObfuscationStatus
+}
+func (t *RbacUpdateRbacAssignment_Rbac_UpdateRbacAssignment_Assignment) GetDescription() *string {
+	if t == nil {
+		t = &RbacUpdateRbacAssignment_Rbac_UpdateRbacAssignment_Assignment{}
+	}
+	return t.Description
+}
+func (t *RbacUpdateRbacAssignment_Rbac_UpdateRbacAssignment_Assignment) GetGroup() *RbacUpdateRbacAssignment_Rbac_UpdateRbacAssignment_Assignment_Group {
+	if t == nil {
+		t = &RbacUpdateRbacAssignment_Rbac_UpdateRbacAssignment_Assignment{}
+	}
+	return t.Group
+}
+func (t *RbacUpdateRbacAssignment_Rbac_UpdateRbacAssignment_Assignment) GetID() string {
+	if t == nil {
+		t = &RbacUpdateRbacAssignment_Rbac_UpdateRbacAssignment_Assignment{}
+	}
+	return t.ID
+}
+func (t *RbacUpdateRbacAssignment_Rbac_UpdateRbacAssignment_Assignment) GetRoles() []*RbacUpdateRbacAssignment_Rbac_UpdateRbacAssignment_Assignment_Roles {
+	if t == nil {
+		t = &RbacUpdateRbacAssignment_Rbac_UpdateRbacAssignment_Assignment{}
+	}
+	return t.Roles
+}
+func (t *RbacUpdateRbacAssignment_Rbac_UpdateRbacAssignment_Assignment) GetUser() *RbacUpdateRbacAssignment_Rbac_UpdateRbacAssignment_Assignment_User {
+	if t == nil {
+		t = &RbacUpdateRbacAssignment_Rbac_UpdateRbacAssignment_Assignment{}
+	}
+	return t.User
+}
+
+type RbacUpdateRbacAssignment_Rbac_UpdateRbacAssignment struct {
+	Assignment RbacUpdateRbacAssignment_Rbac_UpdateRbacAssignment_Assignment "json:\"assignment\" graphql:\"assignment\""
+}
+
+func (t *RbacUpdateRbacAssignment_Rbac_UpdateRbacAssignment) GetAssignment() *RbacUpdateRbacAssignment_Rbac_UpdateRbacAssignment_Assignment {
+	if t == nil {
+		t = &RbacUpdateRbacAssignment_Rbac_UpdateRbacAssignment{}
+	}
+	return &t.Assignment
+}
+
+type RbacUpdateRbacAssignment_Rbac struct {
+	UpdateRbacAssignment RbacUpdateRbacAssignment_Rbac_UpdateRbacAssignment "json:\"updateRbacAssignment\" graphql:\"updateRbacAssignment\""
+}
+
+func (t *RbacUpdateRbacAssignment_Rbac) GetUpdateRbacAssignment() *RbacUpdateRbacAssignment_Rbac_UpdateRbacAssignment {
+	if t == nil {
+		t = &RbacUpdateRbacAssignment_Rbac{}
+	}
+	return &t.UpdateRbacAssignment
 }
 
 type SandboxDeleteReport_Sandbox_DeleteReport struct {
@@ -342598,6 +342968,196 @@ func (t *RateLimitEstimate_RateLimitEstimate) GetCost() int64 {
 	return t.Cost
 }
 
+type RbacRbacAssignmentList_Rbac_RbacAssignmentList_Items_Account struct {
+	ID string "json:\"id\" graphql:\"id\""
+}
+
+func (t *RbacRbacAssignmentList_Rbac_RbacAssignmentList_Items_Account) GetID() string {
+	if t == nil {
+		t = &RbacRbacAssignmentList_Rbac_RbacAssignmentList_Items_Account{}
+	}
+	return t.ID
+}
+
+type RbacRbacAssignmentList_Rbac_RbacAssignmentList_Items_User struct {
+	ID string "json:\"id\" graphql:\"id\""
+}
+
+func (t *RbacRbacAssignmentList_Rbac_RbacAssignmentList_Items_User) GetID() string {
+	if t == nil {
+		t = &RbacRbacAssignmentList_Rbac_RbacAssignmentList_Items_User{}
+	}
+	return t.ID
+}
+
+type RbacRbacAssignmentList_Rbac_RbacAssignmentList_Items_Group struct {
+	ID string "json:\"id\" graphql:\"id\""
+}
+
+func (t *RbacRbacAssignmentList_Rbac_RbacAssignmentList_Items_Group) GetID() string {
+	if t == nil {
+		t = &RbacRbacAssignmentList_Rbac_RbacAssignmentList_Items_Group{}
+	}
+	return t.ID
+}
+
+type RbacRbacAssignmentList_Rbac_RbacAssignmentList_Items_Roles struct {
+	ID string "json:\"id\" graphql:\"id\""
+}
+
+func (t *RbacRbacAssignmentList_Rbac_RbacAssignmentList_Items_Roles) GetID() string {
+	if t == nil {
+		t = &RbacRbacAssignmentList_Rbac_RbacAssignmentList_Items_Roles{}
+	}
+	return t.ID
+}
+
+type RbacRbacAssignmentList_Rbac_RbacAssignmentList_Items_AllowedEntities struct {
+	Action cato_models.RBACAction           "json:\"action\" graphql:\"action\""
+	ID     string                           "json:\"id\" graphql:\"id\""
+	Type   cato_models.AuthorizedEntityType "json:\"type\" graphql:\"type\""
+}
+
+func (t *RbacRbacAssignmentList_Rbac_RbacAssignmentList_Items_AllowedEntities) GetAction() *cato_models.RBACAction {
+	if t == nil {
+		t = &RbacRbacAssignmentList_Rbac_RbacAssignmentList_Items_AllowedEntities{}
+	}
+	return &t.Action
+}
+func (t *RbacRbacAssignmentList_Rbac_RbacAssignmentList_Items_AllowedEntities) GetID() string {
+	if t == nil {
+		t = &RbacRbacAssignmentList_Rbac_RbacAssignmentList_Items_AllowedEntities{}
+	}
+	return t.ID
+}
+func (t *RbacRbacAssignmentList_Rbac_RbacAssignmentList_Items_AllowedEntities) GetType() *cato_models.AuthorizedEntityType {
+	if t == nil {
+		t = &RbacRbacAssignmentList_Rbac_RbacAssignmentList_Items_AllowedEntities{}
+	}
+	return &t.Type
+}
+
+type RbacRbacAssignmentList_Rbac_RbacAssignmentList_Items struct {
+	Account               RbacRbacAssignmentList_Rbac_RbacAssignmentList_Items_Account            "json:\"account\" graphql:\"account\""
+	AllowAllSites         cato_models.RBACAction                                                  "json:\"allowAllSites\" graphql:\"allowAllSites\""
+	AllowAllUsers         cato_models.RBACAction                                                  "json:\"allowAllUsers\" graphql:\"allowAllUsers\""
+	AllowedEntities       []*RbacRbacAssignmentList_Rbac_RbacAssignmentList_Items_AllowedEntities "json:\"allowedEntities\" graphql:\"allowedEntities\""
+	AssignmentType        cato_models.RBACAssignmentType                                          "json:\"assignmentType\" graphql:\"assignmentType\""
+	DataObfuscationStatus cato_models.AdminDataObfuscationStatus                                  "json:\"dataObfuscationStatus\" graphql:\"dataObfuscationStatus\""
+	Description           *string                                                                 "json:\"description,omitempty\" graphql:\"description\""
+	Group                 *RbacRbacAssignmentList_Rbac_RbacAssignmentList_Items_Group             "json:\"group,omitempty\" graphql:\"group\""
+	ID                    string                                                                  "json:\"id\" graphql:\"id\""
+	Roles                 []*RbacRbacAssignmentList_Rbac_RbacAssignmentList_Items_Roles           "json:\"roles\" graphql:\"roles\""
+	User                  *RbacRbacAssignmentList_Rbac_RbacAssignmentList_Items_User              "json:\"user,omitempty\" graphql:\"user\""
+}
+
+func (t *RbacRbacAssignmentList_Rbac_RbacAssignmentList_Items) GetAccount() *RbacRbacAssignmentList_Rbac_RbacAssignmentList_Items_Account {
+	if t == nil {
+		t = &RbacRbacAssignmentList_Rbac_RbacAssignmentList_Items{}
+	}
+	return &t.Account
+}
+func (t *RbacRbacAssignmentList_Rbac_RbacAssignmentList_Items) GetAllowAllSites() *cato_models.RBACAction {
+	if t == nil {
+		t = &RbacRbacAssignmentList_Rbac_RbacAssignmentList_Items{}
+	}
+	return &t.AllowAllSites
+}
+func (t *RbacRbacAssignmentList_Rbac_RbacAssignmentList_Items) GetAllowAllUsers() *cato_models.RBACAction {
+	if t == nil {
+		t = &RbacRbacAssignmentList_Rbac_RbacAssignmentList_Items{}
+	}
+	return &t.AllowAllUsers
+}
+func (t *RbacRbacAssignmentList_Rbac_RbacAssignmentList_Items) GetAllowedEntities() []*RbacRbacAssignmentList_Rbac_RbacAssignmentList_Items_AllowedEntities {
+	if t == nil {
+		t = &RbacRbacAssignmentList_Rbac_RbacAssignmentList_Items{}
+	}
+	return t.AllowedEntities
+}
+func (t *RbacRbacAssignmentList_Rbac_RbacAssignmentList_Items) GetAssignmentType() *cato_models.RBACAssignmentType {
+	if t == nil {
+		t = &RbacRbacAssignmentList_Rbac_RbacAssignmentList_Items{}
+	}
+	return &t.AssignmentType
+}
+func (t *RbacRbacAssignmentList_Rbac_RbacAssignmentList_Items) GetDataObfuscationStatus() *cato_models.AdminDataObfuscationStatus {
+	if t == nil {
+		t = &RbacRbacAssignmentList_Rbac_RbacAssignmentList_Items{}
+	}
+	return &t.DataObfuscationStatus
+}
+func (t *RbacRbacAssignmentList_Rbac_RbacAssignmentList_Items) GetDescription() *string {
+	if t == nil {
+		t = &RbacRbacAssignmentList_Rbac_RbacAssignmentList_Items{}
+	}
+	return t.Description
+}
+func (t *RbacRbacAssignmentList_Rbac_RbacAssignmentList_Items) GetGroup() *RbacRbacAssignmentList_Rbac_RbacAssignmentList_Items_Group {
+	if t == nil {
+		t = &RbacRbacAssignmentList_Rbac_RbacAssignmentList_Items{}
+	}
+	return t.Group
+}
+func (t *RbacRbacAssignmentList_Rbac_RbacAssignmentList_Items) GetID() string {
+	if t == nil {
+		t = &RbacRbacAssignmentList_Rbac_RbacAssignmentList_Items{}
+	}
+	return t.ID
+}
+func (t *RbacRbacAssignmentList_Rbac_RbacAssignmentList_Items) GetRoles() []*RbacRbacAssignmentList_Rbac_RbacAssignmentList_Items_Roles {
+	if t == nil {
+		t = &RbacRbacAssignmentList_Rbac_RbacAssignmentList_Items{}
+	}
+	return t.Roles
+}
+func (t *RbacRbacAssignmentList_Rbac_RbacAssignmentList_Items) GetUser() *RbacRbacAssignmentList_Rbac_RbacAssignmentList_Items_User {
+	if t == nil {
+		t = &RbacRbacAssignmentList_Rbac_RbacAssignmentList_Items{}
+	}
+	return t.User
+}
+
+type RbacRbacAssignmentList_Rbac_RbacAssignmentList_Paging struct {
+	Total int64 "json:\"total\" graphql:\"total\""
+}
+
+func (t *RbacRbacAssignmentList_Rbac_RbacAssignmentList_Paging) GetTotal() int64 {
+	if t == nil {
+		t = &RbacRbacAssignmentList_Rbac_RbacAssignmentList_Paging{}
+	}
+	return t.Total
+}
+
+type RbacRbacAssignmentList_Rbac_RbacAssignmentList struct {
+	Items  []*RbacRbacAssignmentList_Rbac_RbacAssignmentList_Items "json:\"items\" graphql:\"items\""
+	Paging RbacRbacAssignmentList_Rbac_RbacAssignmentList_Paging   "json:\"paging\" graphql:\"paging\""
+}
+
+func (t *RbacRbacAssignmentList_Rbac_RbacAssignmentList) GetItems() []*RbacRbacAssignmentList_Rbac_RbacAssignmentList_Items {
+	if t == nil {
+		t = &RbacRbacAssignmentList_Rbac_RbacAssignmentList{}
+	}
+	return t.Items
+}
+func (t *RbacRbacAssignmentList_Rbac_RbacAssignmentList) GetPaging() *RbacRbacAssignmentList_Rbac_RbacAssignmentList_Paging {
+	if t == nil {
+		t = &RbacRbacAssignmentList_Rbac_RbacAssignmentList{}
+	}
+	return &t.Paging
+}
+
+type RbacRbacAssignmentList_Rbac struct {
+	RbacAssignmentList *RbacRbacAssignmentList_Rbac_RbacAssignmentList "json:\"rbacAssignmentList,omitempty\" graphql:\"rbacAssignmentList\""
+}
+
+func (t *RbacRbacAssignmentList_Rbac) GetRbacAssignmentList() *RbacRbacAssignmentList_Rbac_RbacAssignmentList {
+	if t == nil {
+		t = &RbacRbacAssignmentList_Rbac{}
+	}
+	return t.RbacAssignmentList
+}
+
 type RbacRoleManagementPermissionCatalog_Rbac_RoleManagement_PermissionCatalog_Resource struct {
 	Resource        string                                  "json:\"resource\" graphql:\"resource\""
 	SupportedAction []cato_models.RoleManagementGrantAction "json:\"supportedAction\" graphql:\"supportedAction\""
@@ -367096,6 +367656,28 @@ func (t *PrivateApplicationUpdatePrivateApplication) GetPrivateApplication() *Pr
 	return t.PrivateApplication
 }
 
+type RbacAddRbacAssignments struct {
+	Rbac RbacAddRbacAssignments_Rbac "json:\"rbac\" graphql:\"rbac\""
+}
+
+func (t *RbacAddRbacAssignments) GetRbac() *RbacAddRbacAssignments_Rbac {
+	if t == nil {
+		t = &RbacAddRbacAssignments{}
+	}
+	return &t.Rbac
+}
+
+type RbacRemoveRbacAssignment struct {
+	Rbac RbacRemoveRbacAssignment_Rbac "json:\"rbac\" graphql:\"rbac\""
+}
+
+func (t *RbacRemoveRbacAssignment) GetRbac() *RbacRemoveRbacAssignment_Rbac {
+	if t == nil {
+		t = &RbacRemoveRbacAssignment{}
+	}
+	return &t.Rbac
+}
+
 type RbacRoleManagementCreateRole struct {
 	Rbac RbacRoleManagementCreateRole_Rbac "json:\"rbac\" graphql:\"rbac\""
 }
@@ -367125,6 +367707,17 @@ type RbacRoleManagementUpdateRole struct {
 func (t *RbacRoleManagementUpdateRole) GetRbac() *RbacRoleManagementUpdateRole_Rbac {
 	if t == nil {
 		t = &RbacRoleManagementUpdateRole{}
+	}
+	return &t.Rbac
+}
+
+type RbacUpdateRbacAssignment struct {
+	Rbac RbacUpdateRbacAssignment_Rbac "json:\"rbac\" graphql:\"rbac\""
+}
+
+func (t *RbacUpdateRbacAssignment) GetRbac() *RbacUpdateRbacAssignment_Rbac {
+	if t == nil {
+		t = &RbacUpdateRbacAssignment{}
 	}
 	return &t.Rbac
 }
@@ -370196,6 +370789,17 @@ func (t *RateLimitEstimate) GetRateLimitEstimate() *RateLimitEstimate_RateLimitE
 		t = &RateLimitEstimate{}
 	}
 	return t.RateLimitEstimate
+}
+
+type RbacRbacAssignmentList struct {
+	Rbac RbacRbacAssignmentList_Rbac "json:\"rbac\" graphql:\"rbac\""
+}
+
+func (t *RbacRbacAssignmentList) GetRbac() *RbacRbacAssignmentList_Rbac {
+	if t == nil {
+		t = &RbacRbacAssignmentList{}
+	}
+	return &t.Rbac
 }
 
 type RbacRoleManagementPermissionCatalog struct {
@@ -418558,6 +419162,84 @@ func (c *Client) PrivateApplicationUpdatePrivateApplication(ctx context.Context,
 	return &res, nil
 }
 
+const RbacAddRbacAssignmentsDocument = `mutation rbacAddRbacAssignments ($accountID: ID!, $input: AddRbacAssignmentsInput!) {
+	rbac(accountId: $accountID) {
+		addRbacAssignments(input: $input) {
+			items {
+				id
+				account {
+					id
+				}
+				user {
+					id
+				}
+				group {
+					id
+				}
+				assignmentType
+				roles {
+					id
+				}
+				allowedEntities {
+					id
+					type
+					action
+				}
+				allowAllSites
+				allowAllUsers
+				dataObfuscationStatus
+				description
+			}
+		}
+	}
+}
+`
+
+func (c *Client) RbacAddRbacAssignments(ctx context.Context, accountID string, input cato_models.AddRbacAssignmentsInput, interceptors ...clientv2.RequestInterceptor) (*RbacAddRbacAssignments, error) {
+	vars := map[string]any{
+		"accountID": accountID,
+		"input":     input,
+	}
+
+	var res RbacAddRbacAssignments
+	if err := c.Client.Post(ctx, "rbacAddRbacAssignments", RbacAddRbacAssignmentsDocument, &res, vars, interceptors...); err != nil {
+		if c.Client.ParseDataWhenErrors {
+			return &res, err
+		}
+
+		return nil, err
+	}
+
+	return &res, nil
+}
+
+const RbacRemoveRbacAssignmentDocument = `mutation rbacRemoveRbacAssignment ($accountID: ID!, $input: RemoveRbacAssignmentInput!) {
+	rbac(accountId: $accountID) {
+		removeRbacAssignment(input: $input) {
+			rbacAssignmentId
+		}
+	}
+}
+`
+
+func (c *Client) RbacRemoveRbacAssignment(ctx context.Context, accountID string, input cato_models.RemoveRbacAssignmentInput, interceptors ...clientv2.RequestInterceptor) (*RbacRemoveRbacAssignment, error) {
+	vars := map[string]any{
+		"accountID": accountID,
+		"input":     input,
+	}
+
+	var res RbacRemoveRbacAssignment
+	if err := c.Client.Post(ctx, "rbacRemoveRbacAssignment", RbacRemoveRbacAssignmentDocument, &res, vars, interceptors...); err != nil {
+		if c.Client.ParseDataWhenErrors {
+			return &res, err
+		}
+
+		return nil, err
+	}
+
+	return &res, nil
+}
+
 const RbacRoleManagementCreateRoleDocument = `mutation rbacRoleManagementCreateRole ($accountId: ID!, $roleManagementCreateRoleInput: RoleManagementCreateRoleInput!) {
 	rbac(accountId: $accountId) {
 		roleManagement {
@@ -418657,6 +419339,57 @@ func (c *Client) RbacRoleManagementUpdateRole(ctx context.Context, accountID str
 
 	var res RbacRoleManagementUpdateRole
 	if err := c.Client.Post(ctx, "rbacRoleManagementUpdateRole", RbacRoleManagementUpdateRoleDocument, &res, vars, interceptors...); err != nil {
+		if c.Client.ParseDataWhenErrors {
+			return &res, err
+		}
+
+		return nil, err
+	}
+
+	return &res, nil
+}
+
+const RbacUpdateRbacAssignmentDocument = `mutation rbacUpdateRbacAssignment ($accountID: ID!, $input: UpdateRbacAssignmentInput!) {
+	rbac(accountId: $accountID) {
+		updateRbacAssignment(input: $input) {
+			assignment {
+				id
+				account {
+					id
+				}
+				user {
+					id
+				}
+				group {
+					id
+				}
+				assignmentType
+				roles {
+					id
+				}
+				allowedEntities {
+					id
+					type
+					action
+				}
+				allowAllSites
+				allowAllUsers
+				dataObfuscationStatus
+				description
+			}
+		}
+	}
+}
+`
+
+func (c *Client) RbacUpdateRbacAssignment(ctx context.Context, accountID string, input cato_models.UpdateRbacAssignmentInput, interceptors ...clientv2.RequestInterceptor) (*RbacUpdateRbacAssignment, error) {
+	vars := map[string]any{
+		"accountID": accountID,
+		"input":     input,
+	}
+
+	var res RbacUpdateRbacAssignment
+	if err := c.Client.Post(ctx, "rbacUpdateRbacAssignment", RbacUpdateRbacAssignmentDocument, &res, vars, interceptors...); err != nil {
 		if c.Client.ParseDataWhenErrors {
 			return &res, err
 		}
@@ -440059,6 +440792,60 @@ func (c *Client) RateLimitEstimate(ctx context.Context, operationName *string, q
 	return &res, nil
 }
 
+const RbacRbacAssignmentListDocument = `query rbacRbacAssignmentList ($accountID: ID!, $input: RBACAssignmentListInput!) {
+	rbac(accountId: $accountID) {
+		rbacAssignmentList(input: $input) {
+			items {
+				id
+				account {
+					id
+				}
+				user {
+					id
+				}
+				group {
+					id
+				}
+				assignmentType
+				roles {
+					id
+				}
+				allowedEntities {
+					id
+					type
+					action
+				}
+				allowAllSites
+				allowAllUsers
+				dataObfuscationStatus
+				description
+			}
+			paging {
+				total
+			}
+		}
+	}
+}
+`
+
+func (c *Client) RbacRbacAssignmentList(ctx context.Context, accountID string, input cato_models.RBACAssignmentListInput, interceptors ...clientv2.RequestInterceptor) (*RbacRbacAssignmentList, error) {
+	vars := map[string]any{
+		"accountID": accountID,
+		"input":     input,
+	}
+
+	var res RbacRbacAssignmentList
+	if err := c.Client.Post(ctx, "rbacRbacAssignmentList", RbacRbacAssignmentListDocument, &res, vars, interceptors...); err != nil {
+		if c.Client.ParseDataWhenErrors {
+			return &res, err
+		}
+
+		return nil, err
+	}
+
+	return &res, nil
+}
+
 const RbacRoleManagementPermissionCatalogDocument = `query rbacRoleManagementPermissionCatalog ($accountId: ID!) {
 	rbac(accountId: $accountId) {
 		roleManagement {
@@ -444696,9 +445483,12 @@ var DocumentOperationNames = map[string]string{
 	PrivateApplicationCreatePrivateApplicationDocument:           "privateApplicationCreatePrivateApplication",
 	PrivateApplicationDeletePrivateApplicationDocument:           "privateApplicationDeletePrivateApplication",
 	PrivateApplicationUpdatePrivateApplicationDocument:           "privateApplicationUpdatePrivateApplication",
+	RbacAddRbacAssignmentsDocument:                               "rbacAddRbacAssignments",
+	RbacRemoveRbacAssignmentDocument:                             "rbacRemoveRbacAssignment",
 	RbacRoleManagementCreateRoleDocument:                         "rbacRoleManagementCreateRole",
 	RbacRoleManagementDeleteRoleDocument:                         "rbacRoleManagementDeleteRole",
 	RbacRoleManagementUpdateRoleDocument:                         "rbacRoleManagementUpdateRole",
+	RbacUpdateRbacAssignmentDocument:                             "rbacUpdateRbacAssignment",
 	SandboxDeleteReportDocument:                                  "sandboxDeleteReport",
 	SandboxUploadFileDocument:                                    "sandboxUploadFile",
 	SiteAddBgpPeerDocument:                                       "siteAddBgpPeer",
@@ -444978,6 +445768,7 @@ var DocumentOperationNames = map[string]string{
 	PrivateApplicationPrivateApplicationListDocument:             "privateApplicationPrivateApplicationList",
 	RateLimitDocument:                                            "rateLimit",
 	RateLimitEstimateDocument:                                    "rateLimitEstimate",
+	RbacRbacAssignmentListDocument:                               "rbacRbacAssignmentList",
 	RbacRoleManagementPermissionCatalogDocument:                  "rbacRoleManagementPermissionCatalog",
 	RbacRoleManagementRoleDocument:                               "rbacRoleManagementRole",
 	RbacRoleManagementRoleListDocument:                           "rbacRoleManagementRoleList",
