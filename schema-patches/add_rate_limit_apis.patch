@@ -1,0 +1,29 @@
+--- a/cato_api.graphqls
++++ b/cato_api.graphqls
+@@ -59,6 +59,8 @@
+   popLocations(accountId: ID!): PopLocationQueries
+   posture(accountId: ID!): PostureQueries!
+   privateApplication(accountId: ID!): AccessPrivateApplicationQueries @rollout
++  rateLimit: RateLimit @beta
++  rateLimitEstimate(query: String!, variables: Map, operationName: String): RateLimitEstimate @beta
+   rbac(accountId: ID!): RBACQueries!
+   sandbox(accountId: ID!): SandboxQueries @rollout
+   servicePrincipalAdmin(accountId: ID!, adminID: ID!): GetServicePrincipalAdminPayload @ga
+@@ -5922,6 +5924,17 @@
+   id: ID!
+   isPredefined: Boolean!
+   name: String!
++}
++
++""" Rate-limit state of the calling account for the current request. """
++type RateLimit {
++  cost: Int!
++  retryAfterMs: Int!
++}
++
++""" Estimated rate-limit cost of a GraphQL operation. """
++type RateLimitEstimate {
++  cost: Int!
+ }
+ 
+ type RbacGroup {

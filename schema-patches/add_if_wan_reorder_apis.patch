@@ -1,18 +1,18 @@
 --- a/cato_api.graphqls
 +++ b/cato_api.graphqls
-@@ -3392,6 +3392,7 @@
-   publishPolicyRevision(input: PolicyPublishRevisionInput): InternetFirewallPolicyMutationPayload!
-   removeRule(input: InternetFirewallRemoveRuleInput!): InternetFirewallRuleMutationPayload!
-   removeSection(input: PolicyRemoveSectionInput!): PolicySectionMutationPayload!
+@@ -3546,6 +3546,7 @@
+   removeRule(input: InternetFirewallRemoveRuleInput!): InternetFirewallRuleMutationPayload! @beta
+   removeSection(input: PolicyRemoveSectionInput!): PolicySectionMutationPayload! @beta
+   removeSubPolicy(input: InternetFirewallRemoveSubPolicyInput!): InternetFirewallRemoveSubPolicyMutationPayload! @beta
 +  reorderPolicy(input: PolicyReorderInput!): InternetFirewallPolicyMutationPayload! @beta
-   removeSubPolicy(input: InternetFirewallRemoveSubPolicyInput!): InternetFirewallRemoveSubPolicyMutationPayload!
-   updatePolicy(input: InternetFirewallPolicyUpdateInput!): InternetFirewallPolicyMutationPayload!
-   updateRule(input: InternetFirewallUpdateRuleInput!): InternetFirewallRuleMutationPayload!
-@@ -7493,6 +7494,7 @@
-   removeRule(input: WanFirewallRemoveRuleInput!): WanFirewallRuleMutationPayload!
-   removeSection(input: PolicyRemoveSectionInput!): PolicySectionMutationPayload!
-   removeSubPolicy(input: WanFirewallRemoveSubPolicyInput!): WanFirewallRemoveSubPolicyMutationPayload!
+   updatePolicy(input: InternetFirewallPolicyUpdateInput!): InternetFirewallPolicyMutationPayload! @beta
+   updateRule(input: InternetFirewallUpdateRuleInput!): InternetFirewallRuleMutationPayload! @beta
+   updateSection(input: PolicyUpdateSectionInput!): PolicySectionMutationPayload! @beta
+@@ -8384,6 +8385,7 @@
+   removeRule(input: WanFirewallRemoveRuleInput!): WanFirewallRuleMutationPayload! @beta
+   removeSection(input: PolicyRemoveSectionInput!): PolicySectionMutationPayload! @beta
+   removeSubPolicy(input: WanFirewallRemoveSubPolicyInput!): WanFirewallRemoveSubPolicyMutationPayload! @beta
 +  reorderPolicy(input: PolicyReorderInput!): WanFirewallPolicyMutationPayload! @beta
-   updatePolicy(input: WanFirewallPolicyUpdateInput!): WanFirewallPolicyMutationPayload!
-   updateRule(input: WanFirewallUpdateRuleInput!): WanFirewallRuleMutationPayload!
-   updateSection(input: PolicyUpdateSectionInput!): PolicySectionMutationPayload!
+   updatePolicy(input: WanFirewallPolicyUpdateInput!): WanFirewallPolicyMutationPayload! @beta
+   updateRule(input: WanFirewallUpdateRuleInput!): WanFirewallRuleMutationPayload! @beta
+   updateSection(input: PolicyUpdateSectionInput!): PolicySectionMutationPayload! @beta

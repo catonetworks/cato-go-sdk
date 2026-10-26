@@ -1,23 +1,21 @@
-diff --git a/cato_api.graphqls b/cato_api.graphqls
-index aaea1ca..9bc99ef 100644
 --- a/cato_api.graphqls
 +++ b/cato_api.graphqls
-@@ -5871,10 +5871,14 @@ type QueryParameter {
+@@ -5910,10 +5910,14 @@
  }
  
  type RBACMutations {
 +  addRbacAssignments(input: AddRbacAssignmentsInput!): AddRbacAssignmentsPayload! @beta
 +  updateRbacAssignment(input: UpdateRbacAssignmentInput!): UpdateRbacAssignmentPayload! @beta
 +  removeRbacAssignment(input: RemoveRbacAssignmentInput!): RemoveRbacAssignmentPayload! @beta
-   roleManagement: RoleManagementMutations! @beta
+   roleManagement: RoleManagementMutations!
  }
  
  type RBACQueries {
 +  rbacAssignmentList(input: RBACAssignmentListInput!): RBACAssignmentListPayload @beta
-   roleManagement: RoleManagementQueries! @beta
+   roleManagement: RoleManagementQueries!
  }
  
-@@ -20253,3 +20257,159 @@ union DeviceNetworkRef = FloatingSubnetRef | GlobalIpRangeRef | GlobalRangeRef |
+@@ -20386,3 +20390,159 @@
  
  union Value = DateValue | Entity | StringValue
  
